@@ -1,83 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=178.62.254.231
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.69
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793275757;
-	b=kZx22IW4AxkqyNrXhpMFbn5UeK5zUE4KMjUqAFPvmbAgF7OPKW05Q1FUNCdrSRKh6Wd2
-	 bpdJNRWHB1BXN8VYMY1iALPmKlQ2YUNBuPnaNF02lUA13a32NDaiPJjQj0+o/VsYe8xqb
-	 2p7z0TjcUd27tLd5u4OSFJr7zdGzYZxF9o8JIfqYn5h24GqMcyzg+Q1LyqcLMvi7olyKd
-	 hd8KjGIVixmK1hjRjYk+I2PSz7KulQMrNmb6AyZuM/V4Eks1HRPYXmmdsJtpjtUC5PEJp
-	 WFZNXnWovRUV3/+qyMYO4HhDjgzIv5mvdDsmh2G/oYbuHF8HIbQjNfr1lAWHNjE3A6w==
+	t=1793275869;
+	b=KN799AjVa/UoVJr9ioTF4Md64wjvQq2N18/yvhzwbgOCIUZaU8LiBHdhC20dVjrIJaKH
+	 KciNipmNdzQGFvQGLgEbACoXSvmV2BkrtnlScX0oxARdAdgKV/pOWaFoPOyB7y/kOaedE
+	 2VIm8gLE5m11ue8fEtWC5BXDEmgqtGr1Lm9KYJUfRzA9S+cOxQJR4qPD4/Fc8M5AObbTo
+	 HHRWezXEqt/uAVz8Qsc+ahk313hM+NWio9zJBYoaEoe3LhNTx8Kstv2pP+yXoigzcjKBF
+	 6QUClR/UySGEw5eOTBPRDJpkY60ZA+5TjJt749OM4DGozKGCjboxMNQ4k+1FAVndvRA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793275757;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=RocjA1LFJ8nCgW+tO2y+Fh4wXXWjfdPFo024IhF5Wq8=;
-	b=DMDKybJTkp3TKOA2SxTMYcpjmDFGNQdS0ASQGkojHhjM6iyIYgD9Okk7ioH+TLxrvdYf
-	 rduAXJ9XOTv6t2RXNO2RZj8o4o45VQijn5g1bjGVg3f2kvBjFwKRavmFIlcxZhK3F4qKO
-	 lbX1vCgnzcqA4ff3+h+mADgcD5KF2FV2JPr6r6zjWmjy+XtdGmE5jzugoKWSfIyNa1mQy
-	 1fLzhmCWJVj+KXjiSd2AyeUxE0b3GJIN6rBnOxektPx6PJZDQa9LHlnKkARo35wI5l6nl
-	 buazOnVXps52x+9sabekRoef2M6rF7hUE3yOneIIpCvvK3D3jOMNoDTJsusYj+DEG4Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793275869;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
+	 Mime-Version:References:Message-ID:Subject:From:To:Cc:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=8Jb0QjN+ngY6etMxQOZMOoIlhB+546T+PND1NORcPzA=;
+	b=HkzgQfrvbAhDhtYyjIit7kveos60rRdn+CUiseOlBaLtsVcQg8bu5nHiFSttPphdtRfX
+	 CZUh3Det53KTJq23pfvu2Gqmn5jKqVFWPGWUm5FnP/D2FngFnJ+Ypl/oZpaWGionw1SLW
+	 setZalZ8dUsaKtchjz02a/NH+d1dfPcEwJ8T63g4WTb1v9kgkfiusCLalOylWJ2ywGs69
+	 I4YWyztLZqAWlYBd3R6ivSaanzWBWwPohHAXLtvpveOcsT+YRotMm+forGSkh+yI0eUeU
+	 LrLOyztih3y+qmU05b2owqL+OrCzQhguwAHtAfxbxEst37Q2cWfJBVaL6sEsy8nYn8Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ilvokhin.com;
-	spf=pass smtp.mailfrom=ilvokhin.com;
-	dkim=pass header.d=ilvokhin.com header.i=@ilvokhin.com header.a=rsa-sha256 header.s=mail header.b=WUo05cr+;
-	arc=none smtp.remote-ip=178.62.254.231
-Received: from mail.ilvokhin.com (mail.ilvokhin.com [178.62.254.231])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--halg.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b="Jlnl/QUT";
+	arc=none smtp.remote-ip=209.85.218.69
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com [209.85.218.69])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40669606A31A;
-	Thu, 29 Oct 2026 12:09:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 40669606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ilvokhin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ilvokhin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8CCB606A31A
+	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 12:11:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A8CCB606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--halg.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=ilvokhin.com header.i=@ilvokhin.com header.a=rsa-sha256 header.s=mail header.b=WUo05cr+
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ilvokhin.com;
-	s=mail; t=1793275747;
-	bh=RocjA1LFJ8nCgW+tO2y+Fh4wXXWjfdPFo024IhF5Wq8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=WUo05cr+foO7RPlP7534YSiBgZ8CQPkwQY40XhGkYZY6+6/4j3XkS/IFDfGv+Pkoh
-	 y9zJIn2BFoMmtdWooRjNBcjjjJtArbTwyJLsxt66JLoWE/gVCnnA7sNVi3UolL8xve
-	 VDmnu4pCCOxy8JC/MQlwNqsBS6P1OvE3N85vIIf8=
-Received: from shell.ilvokhin.com (shell.ilvokhin.com [138.68.190.75])
-	(Authenticated sender: d@ilvokhin.com)
-	by mail.ilvokhin.com (Postfix) with ESMTPSA id 2E446101220;
-	Thu, 29 Oct 2026 12:09:07 +0000 (UTC)
-Date: Thu, 29 Oct 2026 12:09:03 +0000
-From: Dmitry Ilvokhin <d@ilvokhin.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>, Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@kernel.org>, Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Ryan Chen <ryan_chen@aspeedtech.com>,
-	Billy Tsai <billy_tsai@aspeedtech.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Kees Cook <kees@kernel.org>, Andy Shevchenko <andy@kernel.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-	linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org, linux-hardening@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Subject: Re: [PATCH 00/10] treewide: switch to __nonnull_args() macro
-Message-ID: <auM3XwWPnMHcPptM@shell.ilvokhin.com>
-References: <cover.1793027261.git.d@ilvokhin.com>
- <cce30180-c1c4-4b10-b681-8944057bc698@infradead.org>
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=Jlnl/QUT
+Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-c4048584447so165200166b.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 05:11:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1793275867; x=1793880667; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:from:subject
+         :message-id:references:mime-version:in-reply-to:date:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=8Jb0QjN+ngY6etMxQOZMOoIlhB+546T+PND1NORcPzA=;
+        b=Jlnl/QUTtPccNXi+ZNNtbAqFpxXTju7rbaudqoEAepuOGdczXzyFQiuTlvKV9TRJFk
+         Fp6YrBzWkmYN3bqS/G8vDFtnVhiAlhRXvYxV7V3Wg4R2R56JN4EzGTkxQscvA2DHXocH
+         xqv3pRmejhrrxLL6D1jiPl6quIY++yph2+5UyvcgdWP33jRH+zU9UlGvQGFJZw9M4vFC
+         ah2J/703hoBaTXZRxbDhVBoL5SfyHkCEuaYbCEzb9LGTWdPAX6cLywrWb24VDZrVPpED
+         i84/UyEbcaXba0ha2kGdCV6YnJ0ZZq2iJ/jvKqL+jER6wtiVUy1Jw/OVcWsxlFH9UdV/
+         cpoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793275867; x=1793880667;
+        h=content-transfer-encoding:content-type:cc:to:from:subject
+         :message-id:references:mime-version:in-reply-to:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=8Jb0QjN+ngY6etMxQOZMOoIlhB+546T+PND1NORcPzA=;
+        b=rcnQQsyY7uwM/XHja87TFK6GeCYhnxEeNfdPuhd64p1S7p+9vK2vs27/uB0wy5ZmtQ
+         qMwTWb9x/uIB2nzy5mJhqU90ZWXvqIGeElvzjo/Z92XpGzBknGynaw3oV6rilCJv43QA
+         jPxqF9L/5M06tAxNFMt5Yip3On4MTobNfcwRX9sTCNruDm0JjPddg4RfDLLln/0uV7c1
+         nniTiWCJenh6fBTLdCqPZYCaoSo0ySjhqHW+MPXYTCxt34SHjP5xrce/9YXmsPw7i9lT
+         Mbg8BCDtRjxtVY+O916gIa6jBli6A3BBtGWFotam33FOsjiYVbeDlT5ECkb2pLA4Yf32
+         cDng==
+X-Forwarded-Encrypted: i=1; AKwUvByp2xjzPTPe1WtlvmCt2YOhTjx1yf7HFQGRw47VXT4sjiep3+ZI2hslV7lzy3ybRMwzorwNRH6D4JLFZM+a@vger.kernel.org
+X-Gm-Message-State: AFq9FYKmy+wYNHiVqZvWMhq9Fbkcj8JODMsWddWi8e/VVRtAQGKA9QpN
+	wmE+PhK5sisFFqisLqX9fxSmQw4DnaGZ9txxkxDL25PxTXtrybpd6ajSZy9IOhrDgkdA18N+Bg=
+	=
+X-Received: from ejoy1.prod.google.com ([2002:a17:906:4481:b0:c49:cd3a:2b6e])
+ (user=halg job=prod-delivery.src-stubby-dispatcher) by 2002:a17:907:ecc5:b0:c49:d058:6901
+ with SMTP id a640c23a62f3a-c49d05873a3mr206311266b.38.1793275866775; Thu, 29
+ Oct 2026 05:11:06 -0700 (PDT)
+Date: Thu, 29 Oct 2026 12:11:06 +0000
+In-Reply-To: <CALCETrW9ygriu54gxiHFLEd5+hJminQo0r8Jwd63wR69Dj4W7w@mail.gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -86,52 +79,156 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cce30180-c1c4-4b10-b681-8944057bc698@infradead.org>
+Mime-Version: 1.0
+References: <20261028221705.3915340-1-halg@google.com> <CALCETrW9ygriu54gxiHFLEd5+hJminQo0r8Jwd63wR69Dj4W7w@mail.gmail.com>
+Message-ID: <auM32mOlBLu6ZUlt@google.com>
+Subject: Re: [PATCH 0/8] userns: per-namespace capability bounding set and
+ opt-in netns loopback
+From: "Hallgrimur H. Gunnarsson" <halg@google.com>
+To: Andy Lutomirski <luto@amacapital.net>
+Cc: Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, Kees Cook <kees@kernel.org>, 
+	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jan Kara <jack@suse.cz>, 
+	James Morris <jmorris@namei.org>, Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Jann Horn <jannh@google.com>, "=?utf-8?Q?G=C3=BCnther?= Noack" <gnoack@google.com>, KP Singh <kpsingh@kernel.org>, 
+	Jonathan Calmels <jcalmels@3xx0.net>, Casey Schaufler <casey@schaufler-ca.com>, 
+	linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	linux-api@vger.kernel.org, containers@lists.linux.dev, netdev@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 28, 2026 at 01:44:59PM -0700, Randy Dunlap wrote:
-> 
-> 
-> On 10/28/26 1:19 AM, Dmitry Ilvokhin wrote:
-> > Commit 22302af28d3f ("cleanup: Annotate guard constructors with
-> > nonnull") added the __nonnull_args() macro to wrap the raw compiler
-> > attribute, keeping the attribute's quirks in one place rather than
-> > open-coded at every call site.
-> > 
-> > This series replaces the remaining open-coded __attribute__((nonnull))
-> > users with __nonnull_args() to standardize nonnull attribute usage
-> > across the tree.
-> > 
-> > Each patch can be applied separately by the respective maintainers. The
-> > only dependency is kernel-doc: the string and lib/list_sort patches need
-> > patch 1 ("docs: xforms_lists: support __nonnull_args()") in the same
-> > release, otherwise strends() and list_sort() drop out of the generated
-> > documentation.
-> > 
-> > Latest Sparse release could not properly parse __nonnull_args() without
-> > arguments. Fix was proposed [1] and merged, but until updated version of
-> > Sparse will reach wide masses it might trip on __nonnull_args() without
-> > arguments.
-> > 
-> > There are few more instances of __attribute__((nonnull)) usages left in
-> > the tools subdirectory, they are perf related copied files and can
-> > (should?) be updated separately after this patchset lands.
-> > 
-> > Build-tested allmodconfig with GCC 11.5.0 and clang 22.1.8.
-> 
-> What ARCH(es)?
+On Wed, Oct 28, 2026 at 03:56:11PM -0700, Andy Lutomirski wrote:
+> On Wed, Oct 28, 2026 at 3:18=E2=80=AFPM Hallgrimur H. Gunnarsson
+> <halg@google.com> wrote:
+> >
+> > When an unprivileged process creates a new user namespace, it is grante=
+d
+> > a full set of capabilities (CAP_FULL_SET) scoped to that namespace.
+> > While these capabilities are isolated to the namespace, they allow
+> > unprivileged local users to reach deep kernel subsystems (most notably
+> > networking configuration and raw sockets via CAP_NET_ADMIN and
+> > CAP_NET_RAW) that historically assumed a trusted caller and have
+> > accounted for a large share of local privilege escalation
+> > vulnerabilities.
+> >
+> > Many workloads and sandboxes use unprivileged user namespaces strictly
+> > for basic UID/GID, mount, PID, or network isolation and never need
+> > high-risk capabilities like CAP_NET_ADMIN or CAP_NET_RAW. Likewise,
+> > system administrators often want a host-wide policy ceiling restricting
+> > which capabilities unprivileged user namespaces may acquire, without
+> > disabling unprivileged user namespaces altogether.
+> >
+> > Prior work by Jonathan Calmels [1] proposed addressing this via a sixth
+> > per-thread capability set (cap_userns) alongside a global sysctl mask.
+> > During that discussion [1, 2], feedback (e.g. from Casey Schaufler)
+> > suggested that rather than adding another per-thread capability set and
+> > prctl() interface, capability restrictions could be integrated directly
+> > into struct user_namespace and configured via clone3(). At the same
+> > time, as noted in [1], a clone3() flag alone is not sufficient for
+> > administrators who need to enforce a host-wide ceiling on unprivileged
+> > user namespaces without modifying every userspace callsite.
+> >
+> > This series combines both pieces of feedback: it embeds a capability
+> > bounding set (cap_bset) directly into struct user_namespace, reusing
+> > the existing task cap_bset, cap_permitted, and cap_effective sets on
+> > namespace entry, and provides both a system-wide sysctl ceiling for
+> > unprivileged user namespaces and a CLONE_NEWUSER_BSET flag for
+> > voluntary per-namespace restriction via clone3().
+>=20
+> Why should the task's cap masks affect this?  *Maybe* cap_bset makes
+> sense, but I'm struggling a bit to see why cap_permitted and
+> cap_effective should matter.
 
-Fair point, I should have mentioned that I run this on x86_64 and
-aarch64.
+Sorry, the phrasing here may have been misleading. Just to clarify:
+none of the creating task's capability sets (cap_bset, cap_permitted
+or cap_effective) are used to restrict the new user namespace.
 
-> 
-> Did you mean to use such an "old" version of GCC?
+When I wrote "reusing the existing task cap_bset, cap_permitted and
+cap_effective sets on namespace entry", I was contrasting this with
+the prior series from 2024 [1], which proposed adding a 6th per-thread
+capability set to struct cred.
 
-There is no grand plan behind that to be honest, I used it, because this
-is a version of GCC that comes with CentOS Stream 9 on the box I tested
-the change.
+In this series, when a task creates or enters a user namespace, we
+simply initialize its new cred->cap_{bset,permitted,effective} in
+that namespace to user_ns->cap_bset instead of CAP_FULL_SET.
 
-To be on the safe side, I checked patchset still builds on GCC 16.2.1 on
-allmodconfig x86_64.
+> Also, I think that Docker in non-userns mode restricts cap_bset, and
+> the purpose of that restriction is rather at odds with interpreting it
+> as a restriction on newly created user namespaces for purposes of
+> vulnerability mitigation.
+
+When computing the new user namespace's user_ns->cap_bset in
+create_user_ns():
+
+1. The creating task's cred->cap_bset and cred->cap_permitted are not
+   consulted at all. The base ceiling is inherited from
+   parent_ns->cap_bset (which is CAP_FULL_SET in init_user_ns), not from
+   the task's cred->cap_bset. So a non-userns Docker container that
+   drops bits from its task cap_bset does not restrict newly created
+   user namespaces.
+
+2. The creating task's cred->cap_effective never restricts the new
+   user namespace, but it is used as an additive exception to the
+   unprivileged sysctl ceiling.
+
+   The rationale is that if an admin restricts e.g. CAP_NET_ADMIN in the
+   unprivileged sysctl, an unprivileged daemon that already holds
+   effective CAP_NET_ADMIN in the parent namespace is allowed to keep
+   it when creating a new user namespace. There is no added attack
+   surface if the user already had the capability in the parent ns.
+
+> > In addition, because restricting CAP_NET_ADMIN at user namespace
+> > creation time prevents userspace from bringing up the loopback
+> > interface in new network namespaces, the series first introduces
+> > an opt-in flag to automatically enable loopback on network namespace
+> > creation:
+> >
+> > 1. Opt-in loopback activation on netns creation (Patch 1)
+> >
+> >   New network namespaces start with the loopback interface (lo) DOWN by
+> >   default, requiring CAP_NET_ADMIN over the owning user namespace to
+> >   bring it up. To block external network access while preserving
+> >   localhost networking, sandboxes commonly create an isolated network
+> >   namespace with only the loopback interface enabled.
+> >
+>=20
+> The whole unshare/clone flag situation is getting out of hand, IMO.
+> And this new thing makes logical sense but is really about reducing
+> exposure.
+>=20
+> Perhaps we should instead have a small list associated with a userns
+> (extensible in the future) of things that the ns's admin (i.e. whoever
+> has CAP_SYS_ADMIN relative to the ns) may do.  That list could
+> include:
+>=20
+> - Create loopback with sensible defaults for ipv4 and/or ipv6 (i see
+> no obvious reason to separate them)
+> - Create tun/tap interfaces in that ns (and attach them, etc)
+>=20
+> And add a very simple new API to do these things.  Actually, the
+> tun/tap could just use the normal mechanism.
+>=20
+> Thoughts?
+
+I'm not particularly attached to CLONE_NEWNET_LOOPBACK. I'd be happy
+with whatever mechanism allows bringing up loopback in a new netns
+without granting all of CAP_NET_ADMIN.
+
+The main reason I went for a creation-time flag is that it avoids
+needing a separate userspace API call after namespace creation and makes
+it simple to get working loopback for sandboxes that want to drop all
+capabilities in the new userns from the start, e.g. CLONE_NEWUSER_BSET
+with cap_bset =3D 0.
+
+That said, if maintainers prefer not to spend clone/unshare flags on
+this, I'm completely open to an alternative mechanism.
+
+Also worth noting that Patch 1 is orthogonal to the rest of the series.
+The capability bounding set changes in Patches 2-4 stand on their own
+and Patch 1 just makes restricting CAP_NET_ADMIN more practical for
+common sandboxing use cases that rely on localhost networking.
+
