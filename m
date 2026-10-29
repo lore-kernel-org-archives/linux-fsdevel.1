@@ -1,92 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793270362;
-	b=RRpm8olu1FW75Qhju1b4dvgEPuTGF8gkfX5NfoJLcikEO6kw4xLNA9D/7Kq+SwDQfc66
-	 PyCmKmlQFqzq60XQggynp6DiNQKYlFyqFtIWIc7gIkpeVGje37pPi5p5nx9OHCS2FQiph
-	 eFkabCQZsdq2dfRHYsX1TLCO30UETm/6pVdiFe7EP7xPYFcLS1YJZ9sQNhojsg6MIs6ch
-	 dBnNEjvrV/e1pVx06grSdQYdD9myK1Vs4K4q7BMMIY5Gfd4vh1x2+VVlM05I3rrga8/1g
-	 IzyzA2n3LjauO5SPwY19WxSM11/hBFWj9O2Trc/dAqwfX66CtaBd3exmIgbgCZ0ckyw==
+	t=1793270363;
+	b=OgqSSjLTKuHTUbUi2EGKEni29kchGFSeI6muQFCbmRWCk66F5eqgTTG3K3ZxFBj+V5YV
+	 RqObaIc4HFF0sZHH9fT1bKBDZtP//SWDMYc65KSa1qOKAX7bk8I77pS+IsL6xYdsQoy3Q
+	 hjcqfhVyIg/55rWMBC8OHtCpIYel7eJMh/nwIt+U5oPk0AwU6GwhOqm+p+pqU7VFatQ8U
+	 Ybx7g/pAER1aygWM3DoXsDlfy86VcCtna1gHwxCI+FS13AIv1pwptY2cx7QnZn1GqHW1Q
+	 8C+1eZA2nPpMjdGOarwf4QaxmSjaqZk2lnVWDW0XCJoufJdXCMNsPf5v4B4i4v6Jgdw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793270362;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793270363;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=cmIhezlVC3rHCXHI7CWbXYAAsMg4SBr1TxpHu1OVCHI=;
-	b=g0GSw+uDtnwzksEn7naSMYkGF9dUsPVg7v8C3ulsKX63eaoCbZ1BL6xJEB4CG6Eua1n4
-	 TVa7Fbf1rrgfnIiphK86Wo15K3YlsQb2fHXa8BXx5WnxfolZjmxUXRwP6tX1YUr70Uein
-	 Or2dVled5PWBiVlZxFdq5Lxq3jYXYXpelHiD7JZnhIs8AkM3qNhmQgbHbfY4Fig4V9wKs
-	 3lGOIzHJAYV1f3/Cbm22jhuMdkCMuVDjOKeGjI5Muc6ae9mzTZtlxDnwEE+juo9dDHY1R
-	 njdBkq4Y5L++JLUw2zsDidSrRcD34934aceA76nki1egH/uUsRv8/io+DqmtWabds+Q==
+	bh=3MlxG84R00yGGxmXTm5ZKcg9R5+P11QL2D2DJLHVQG0=;
+	b=1/sQ4oqSrfTu3pp109heRafFMYudnfV+mObl+UwqDvZXtqFFCxobvpv0Cfz8bzbUovmm
+	 cseKnzJbZ/aNDchJddJTdXoZ1KEC1rLr9PDADzvYBTrHTh3vy8X90Jrb421ikunKYRMLU
+	 HPBJxC2TkQd5Ry/vhWKb1ZGF4UntbIK3zetgCvyws/eyHYpXlXmgH/QrrzIpQWHzTPTB5
+	 SrQBcccyIyYQlR9pAWIit88+1Do171b6ILiF5DQ+WildaQFU7xAj2yOtfDnBojuzb6gWY
+	 EjwED6uM/LYt7kGJ+oBMoCAD49JZQFNpz9RGcRMXpp2m0EqcFNguqPMJIuYdBIac7Rg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=IriY8IuR;
-	arc=none smtp.remote-ip=209.85.208.48
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=OYlsBv8v;
+	arc=none smtp.remote-ip=209.85.218.50
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDEAD60A2611
-	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 10:39:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DDEAD60A2611
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A756606A334
+	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 10:39:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6A756606A334
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=IriY8IuR
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-6b486e1d02eso2694647a12.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 03:39:21 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=OYlsBv8v
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-c445c95d553so272069766b.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 03:39:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793270360; x=1793875160; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793270362; x=1793875162; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=cmIhezlVC3rHCXHI7CWbXYAAsMg4SBr1TxpHu1OVCHI=;
-        b=IriY8IuRx6AxIwVG/XkZDahlazMr4qkqK5sTgsjl+a7rVKEMQzWg5r+9v/pW3O0rXb
-         f8zDG6xlFgPlzllnuQFVmkZLo5a+180ciCIYk7o1Whr7OLbpC0oKLPLwNY2WT6YkRe6D
-         sfDTP62qVfIeY9i4I+X/H/cT7Fz0wEdY10WwlP273BhdtGW8uBRJZjEHqsPQhDXI8bW9
-         CpShWPNbWZPcQIHcYySwAihkTBbEN5Z1LIAAc1IqKzrnQIxZ3cuDuN0JC/1sGVB0Ne0S
-         YKn7UWEks9R2jYj6qONok9qOO7f0evINSd7BG7Bbopf1uP+ux89S33NGb5iLKMn1/Zu2
-         Tsgw==
+        bh=3MlxG84R00yGGxmXTm5ZKcg9R5+P11QL2D2DJLHVQG0=;
+        b=OYlsBv8vyvkJqTtf57oBzP89SQSd01RC9xptYsctoKzU/Z22VM3W7AQInaDsQ3k8Kq
+         bZ4FLR9JEI1fq0ocyKOnqAod/xgey7xsqUwRYKZ1o7S5BSUZKd0gZPODfCMqWndIpEtg
+         pbmJDmgOmoKvAFdoGAHvQhL3Ht+9rmiOETpdr4eSpMyvwAVO3JS04YUwQAkYwxqyKqfu
+         iHqMkeCMZ0qVfA53yYq8icsY3Hf1golYpNHyUJwdzMn0OKEf9mdRjC5i4AHZsCySSLGc
+         p7JuTrz+G/+3Bl76ef6zKpj/2MhcbZuPE1r8dZdFVlew89Lwd+qNUqRc5lVfzfDsgQ0z
+         eRoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793270360; x=1793875160;
+        d=1e100.net; s=20260707; t=1793270362; x=1793875162;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=cmIhezlVC3rHCXHI7CWbXYAAsMg4SBr1TxpHu1OVCHI=;
-        b=XjJLoosocdYgFk4iq9zeKo1boXRkwnlMEC8wO9wZA3f9S5lehN61InkIurmBbMPBLA
-         IECCPfzM8BoOA/4KKNqR7+a1T7oym4kAZi5E2MewkS/ReOAewHV7BLloHkWtfyneLSAD
-         DfsLPnu43jqqjqSGxIUbv8BdOmY11sdUA0Fhv8RA6wWbiDZVN6LvhPEj5GmVO4tENEcU
-         OIlX85SgmjkdH4Kz3VyTMO0U2Wea3rlCxgzOUCXZ5ZBAezJLb/zrPZbpk940HZEKAhA9
-         Jh4UZaamgZmdgeeYVpc2euCkXqwP3AV1mBllEkIPUuHnRreyKDkHXj7ARk3nvGcbIkUz
-         0IkQ==
-X-Gm-Message-State: AFq9FYLwkCbA6536dNxOGvM5uGzv10Vukihd+Jf8Ut5unQWQXvMBddB8
-	XVMgmm++xUZMUrmlGRaLvdyqKga9omQngugUg+NF1ik4ZKRaN04twTDg
-X-Gm-Gg: AYBFou3AlgMCCUXoOrz1+rzVkbiTbAsRZL2Ai1ztjlHt3+tYtWHweSKTeXtMXMaDp5R
-	FTR48gZSrDlqvpjKq2w9mFYIq1sqiGTJCmpeYQeg6hiageKY6utYAGmGYaRwT257/c6CBX8J/nY
-	25L8DX+8hPUwv5QZNqgQUMDB789ZqCdGCM1QEGSUEhp/IoHFqUHBPP9gVDvFlnKltUZHpkdGphb
-	GmwHMhZ8rrnhHEhlrLxvyxBIpidxkXg1VpDAl+X6DnPZDREhdrVMqTjO5uyfMIJxuKfY3IXyeNk
-	HyABlAFSJQHht0Loe5ucYymPKF3uJsFkDPsbANjsK4l0/jKH7pEe4KAP0837lyTPf7RneU7yCkx
-	OjhkcWgccdptjHAtvGw7b9ObvNrYn1Utzluq2I+Ul2WJf55lRmfu//quOTzKn/u+vVNCvBYDp/g
-	OpPCKwXgAeRW3roZSC9PzzoqKyFn46KFcFWAsztVfJEieTgsrgZJL6SD12RNQ3eDd0bgTkJ6CvJ
-	vo0Y6i1hPlAffaw7S5PeHThhW9WVxO4JcOobo+Jxd7IKmGOvMyKdrEf+fifVH8fj/jPDas8ByOM
-	Jx/ekFM08qH8TFdlP6VKPOHzGFWoEkNiyw3hXZgP1whsxor0Eo2L/dZzlJ6FTpErLOqHFssenrG
-	aTh0SMsKSUFNv
-X-Received: by 2002:aa7:c957:0:b0:6b4:746a:1dcf with SMTP id 4fb4d7f45d1cf-6b49cc2044fmr2623076a12.43.1793270360146;
-        Thu, 29 Oct 2026 03:39:20 -0700 (PDT)
+        bh=3MlxG84R00yGGxmXTm5ZKcg9R5+P11QL2D2DJLHVQG0=;
+        b=2y1DMMKbjQ0RowZLbsrkQAWb/qGi5RL/eHrFujExVW4ZzJGz8Tyc0eHcb8DqWEgcWT
+         tZRcwAxmhDRE/3tdWbq11aucJ9cMe3orL90TumW8AOhlYfsKkSq6IdGbOubs9fSxCRfC
+         OiaVSS7sZ4hgqAh/+a2Vx0/ZnICnhdPTvKShj2OuQjloZNlVLXbbg9TGamZUBRlrczyw
+         IWIjoserBE3SFGY3ApVoBGFDMWeiFkpSGCK0bClaE5hpq2frHzdAnLcAWYxdSouE1LoX
+         4n+eUdY9zJtN4eBn/PzifrgytzZ/wTpc+en7IW7UmucwfZXPRd7kML+Eq35FID7CD5Dr
+         bmTw==
+X-Gm-Message-State: AFq9FYIGpeHL8PC+dWejyW0rFOGXGcBIAjjA5UefnM9qCvrWxdkVM5od
+	mECTi7FjN/yNAk4CIXpLGkNsFRWikAXRC/qtAy7ZSqIHdzFV08dLqeJU
+X-Gm-Gg: AYBFou2mTCnUptj8ohAuUQH6C6R948uz3IwPzegLJ/t1K7PEbQL5FkMATTVSqnjsuuK
+	qGBpaFxdBYiMO49zsD09q3/PsLCCuBtkcP1h4SzlKc5GMifHI/4OO5O5WrsKCiCrMrxDx3YItED
+	KFsLapZBBy9Iv7bE8a24rETcQnSrEvOQRQxSRuXi79MYcrdIx02cfom+Bh/h/RcfqPV2go2a2qe
+	HNWNWOR3qWZI/wbnE0MWibd5Fav2fE4hdKNu+pQvHuNVicuAPMgZV4d6SdRkyNhhj9UEE1/Y0V/
+	gAd53tsvS4Ozi4Sbw5YJ3ScbQu4YevMbOhNn8q9SC9fgsexrtoT2KkdM06rhKSjwMXO5nXKydqh
+	UrmUL5y6bcG2JA/9pbDVsOGSVblNYEzf15RuPgM8zyJstdS7/oWo6svXmkh+E+EACRBIPx9de8j
+	5zAzIP2V5vW8eM5RIFRkcmVrqHAikE1Ym8Ql9G9M7nWrU/FF+RH1OTNghPEjWtB4I9tk0KYabmt
+	QYJZPlxNjz7bRiiziRKujYpND7FaubCiIXKuhI8dhjsR+0fhMZ/gWOPAXE8FxvJmL23YabMgm3Q
+	SzXCHZoGLL8qx8Tf2obqbLml7YgmNLEBUdBTQ2refouRszE+NEzlPRkoya5Jkws058l+0dLS/TK
+	fmfEL/gpAA9g=
+X-Received: by 2002:a17:907:d15:b0:c2e:317e:d711 with SMTP id a640c23a62f3a-c49bdf0b1a9mr401098866b.27.1793270361414;
+        Thu, 29 Oct 2026 03:39:21 -0700 (PDT)
 Received: from localhost (178-84-201-199.dynamic.upc.nl. [178.84.201.199])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b49602346esm2535097a12.7.2026.10.29.03.39.19
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c4992141068sm496431666b.60.2026.10.29.03.39.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Oct 2026 03:39:19 -0700 (PDT)
+        Thu, 29 Oct 2026 03:39:20 -0700 (PDT)
 From: Amir Goldstein <amir73il@gmail.com>
 To: Christian Brauner <brauner@kernel.org>,
 	Miklos Szeredi <miklos@szeredi.hu>
 Cc: linux-fsdevel@vger.kernel.org,
 	fuse-devel@lists.linux.dev,
-	Nirmoy Das <nirmoyd@nvidia.com>
-Subject: [PATCH 04/16] ovl: add assertions in dir cache code
-Date: Thu, 29 Oct 2026 11:39:08 +0100
-Message-ID: <20261029103913.2785828-5-amir73il@gmail.com>
+	Chris Mason <mason@kernel.org>,
+	stable@vger.kernel.org,
+	Josef Bacik <josef@toxicpanda.com>
+Subject: [PATCH 05/16] ovl: check that the parents of volatile/dirty are dirs
+Date: Thu, 29 Oct 2026 11:39:09 +0100
+Message-ID: <20261029103913.2785828-6-amir73il@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261029103913.2785828-1-amir73il@gmail.com>
 References: <20261029103913.2785828-1-amir73il@gmail.com>
@@ -101,97 +103,71 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Overlayfs may keep two different types of directory cache
-merged (refcounted) and impure (not refcounted) in the inode.
+From: Chris Mason <mason@kernel.org>
 
-They are mutually exclusive and an overlayfs directory is never
-expected to switch between merged and impure modes.
+An unprivileged user crashes the kernel by mounting overlayfs with the
+volatile option.
 
-Nevertheless it is hard to prove that races in the code are not
-possible, so add assertions to fortify the code accessing the
-directory cache to make sure it does not free the unexpected
-cache type.
+A dentry that serves as the parent of a lookup must be a directory.
+ovl_create_volatile_dirty() walks work/incompat/volatile/dirty by name,
+and ovl_lookup_or_create() returns an existing entry whatever its type.
+A file or a symlink that another task creates during the mount becomes
+the parent of the next lookup, which calls a NULL ->lookup.
 
-If an assertion fires the code may leak dir cache memory
-but it will not access freed cache memory.
+An unprivileged user mounted overlayfs with "volatile" in a user
+namespace while a second process created a symlink named work/incompat,
+and the mount task oopsed on a NULL ->lookup call.
 
-Suggested-by: Nirmoy Das <nirmoyd@nvidia.com>
-Link: https://lore.kernel.org/r/20260511062057.2365769-1-nirmoyd@nvidia.com/
+Fix this by returning -ENOTDIR from ovl_lookup_or_create() when the
+caller asked for a directory and the existing entry is a non-dir.
+
+Fixes: c86243b090bc ("ovl: provide a mount option "volatile"")
+Cc: stable@vger.kernel.org
+Signed-off-by: Chris Mason <mason@kernel.org>
+Signed-off-by: Josef Bacik <josef@toxicpanda.com>
 Signed-off-by: Amir Goldstein <amir73il@gmail.com>
 ---
- fs/overlayfs/readdir.c | 25 +++++++++++++++++++++++--
- 1 file changed, 23 insertions(+), 2 deletions(-)
+ fs/overlayfs/super.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/fs/overlayfs/readdir.c b/fs/overlayfs/readdir.c
-index ba542a1920127..b875332107d31 100644
---- a/fs/overlayfs/readdir.c
-+++ b/fs/overlayfs/readdir.c
-@@ -36,6 +36,7 @@ struct ovl_cache_entry {
- struct ovl_dir_cache {
- 	long refcount;
- 	u64 version;
-+	bool is_refcounted;
- 	struct list_head entries;
- 	struct rb_root root;
- };
-@@ -479,13 +480,31 @@ static void ovl_seek_cursor(struct ovl_dir_file *od, loff_t pos)
- 	od->cursor = p;
- }
+diff --git a/fs/overlayfs/super.c b/fs/overlayfs/super.c
+index bd0a3f9039d25..18f56d463572a 100644
+--- a/fs/overlayfs/super.c
++++ b/fs/overlayfs/super.c
+@@ -621,16 +621,21 @@ static int ovl_check_rename_whiteout(struct ovl_fs *ofs)
  
-+/*
-+ * Merged (refcounted) and impure (not refcounted) caches are never
-+ * expected to be mixed. On mismatch, detach the cache from the inode
-+ * and leak it rather than misuse it. A merged cache is still freed by
-+ * its last ovl_cache_put().
-+ */
-+static struct ovl_dir_cache *ovl_dir_cache_check(struct inode *inode,
-+						 bool is_refcounted)
-+{
-+	struct ovl_dir_cache *cache = ovl_dir_cache(inode);
-+
-+	if (cache && WARN_ON(cache->is_refcounted != is_refcounted)) {
-+		ovl_set_dir_cache(inode, NULL);
-+		return NULL;
-+	}
-+	return cache;
-+}
-+
- static struct ovl_dir_cache *ovl_cache_get(struct dentry *dentry)
+ static struct dentry *ovl_lookup_or_create(struct ovl_fs *ofs,
+ 					   struct dentry *parent,
+-					   const char *name, umode_t mode)
++					   const char *name, bool is_dir)
  {
- 	int res;
- 	struct ovl_dir_cache *cache;
- 	struct inode *inode = d_inode(dentry);
+ 	struct dentry *child;
  
--	cache = ovl_dir_cache(inode);
-+	cache = ovl_dir_cache_check(inode, true);
- 	if (cache && ovl_inode_version_get(inode) == cache->version) {
- 		WARN_ON(!cache->refcount);
- 		cache->refcount++;
-@@ -498,6 +517,7 @@ static struct ovl_dir_cache *ovl_cache_get(struct dentry *dentry)
- 		return ERR_PTR(-ENOMEM);
+ 	child = ovl_start_creating_upper(ofs, parent, &QSTR(name));
+ 	if (!IS_ERR(child)) {
+-		if (!child->d_inode)
++		if (!child->d_inode) {
+ 			child = ovl_create_real(ofs, parent, child,
+ 						&QSTR(name),
+-						OVL_CATTR(mode));
++						OVL_CATTR(is_dir ? S_IFDIR :
++								   S_IFREG));
++		} else if (is_dir && !d_can_lookup(child)) {
++			end_creating(child);
++			child = ERR_PTR(-ENOTDIR);
++		}
+ 		end_creating_keep(child);
+ 	}
+ 	dput(parent);
+@@ -652,7 +657,7 @@ static int ovl_create_volatile_dirty(struct ovl_fs *ofs)
+ 	const char *const *name = volatile_path;
  
- 	cache->refcount = 1;
-+	cache->is_refcounted = true;
- 	INIT_LIST_HEAD(&cache->entries);
- 	cache->root = RB_ROOT;
- 
-@@ -698,7 +718,7 @@ static struct ovl_dir_cache *ovl_cache_get_impure(const struct path *path)
- 	struct ovl_fs *ofs = OVL_FS(dentry->d_sb);
- 	struct ovl_dir_cache *cache;
- 
--	cache = ovl_dir_cache(inode);
-+	cache = ovl_dir_cache_check(inode, false);
- 	if (cache && ovl_inode_version_get(inode) == cache->version)
- 		return cache;
- 
-@@ -710,6 +730,7 @@ static struct ovl_dir_cache *ovl_cache_get_impure(const struct path *path)
- 	if (!cache)
- 		return ERR_PTR(-ENOMEM);
- 
-+	cache->is_refcounted = false;
- 	res = ovl_dir_read_impure(path, &cache->entries, &cache->root);
- 	if (res) {
- 		ovl_cache_free(&cache->entries);
+ 	for (ctr = ARRAY_SIZE(volatile_path); ctr; ctr--, name++) {
+-		d = ovl_lookup_or_create(ofs, d, *name, ctr > 1 ? S_IFDIR : S_IFREG);
++		d = ovl_lookup_or_create(ofs, d, *name, ctr > 1);
+ 		if (IS_ERR(d))
+ 			return PTR_ERR(d);
+ 	}
 -- 
 2.55.0
 
