@@ -1,48 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.181
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793282442;
-	b=JsOZCMHM8ijwpKda3NXRTTbapV+P4QMhGg4nc8We+XX/e+FOFyDf1aY1T41XnLRkLTc0
-	 K+BCmW/U5ZR/Ith7kxOCHOP/ZGSr0F9975crCiVpCFIcNAmMixapRNWrhrsq+GBUPDR72
-	 7K34dedDjujI3nhkXCiSV6RfA/irN9NWpt0rarStUK101fa5rcQpFFjlQbvZk0omEImeT
-	 ILBKudbcYvVrCLkRdtfpYgBjlMQZeORx/OMwzgdso80ixSLEZictYluEKBWsQ5BbcEQJp
-	 iLE1Pxm+aQoj80hIdpxtivQQ9XbCKAvKsHBZcUZd02e8yuMEa8x73JbRiIJPkO2tPsA==
+	t=1793283158;
+	b=eqIFL4grm2pfGszypqS0GWGDM3Ewf+7/e8QqS7I5gwYWkdnLNP4s55CNV6tPBgEWFBdp
+	 7YtgeqvzvdoNSuOqFEe2WWCTBfncRJ2DEc+F9kd4xZlm7HFyQmzX4dmbYE5iMpnzflafA
+	 9RoaG1CSWuEp+M7JSEfKX3sUxX17hYpx5jSeqZKhRuCyJqqxIHuFpJJxpKEmeVr0ENgcP
+	 PUX5nX8/xAyk3pVknN/l5dGYApR9Lkhfw+GpY44Z4yihpuzlj1KjNfL1wdfnREFMilSt3
+	 9r0xCYOWA+MvR7KiiJBzhpYyxRDV9cJHFnNNSgVmkRc1O0fwYEZVhNdFHVWcvdOsBig==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793282442;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=al7UmKsb96lOU+RKqFHZjOm7ylGXuict7jiv3KzJHfk=;
-	b=KDfizNSBvoKGfTxIelCSztTj2ixNz9PN/9S1oRcRk5bFqNQlghyuWVvpjldqW5wHJdD+
-	 xKmkixzXL9n9anUe7zOqthe6vjJcL4CS+bs4lml0WUQOu5PBqhHbmp6rrugRX2BKnWHyc
-	 DJvp3ygw4TK8UaDlu6KaVPfE5P9bZS0M01CKOWVDFUPbFr+fNG6qpSfnZHT9NMxsZiSuD
-	 SYbXS9gLkMpfkCjeHHmBhhajhkYdfUjc5WNkj1VYuSvRchOiuMvNoj1WiXhiJqSeLXuqE
-	 qcCJA1suy4B0FjI37sm52YvbVTSDsYnAefuCzGIHYmSSkc7EHE7nZ1/xpRPgz/8SZoQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793283158;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=7A/hGTgPYtJhS8Ny/Fs+sia52LCj5jd5ywQ/PUXMFFs=;
+	b=REPIDHlMiStEuFurhv9AEu3cIodWuaJ6q2p/Z+lcfdVyvvVqo49XafyIaKMD6aVN2Ugm
+	 e3hLJVeAd2htHnyMdDy3UhJO9cWsSolE0FmeQDQoExlgPmWaeUNVAsddxfdrWywAU/ZDW
+	 WlphlcM2TTGhc3cW931/UVyr+eGza1TeZ6is9hebQCMMvbie0jA/Gyxzfbe311Vrv6HgL
+	 2VTegXeV+bK9gusGaWdpaMk9xdCy5z3SoMmtfQZ2QCMPwJrIDqqGqGmQ85jfsoBblWMDi
+	 l0uUYuf9z814BRN3Yc/mJat77JzsW6L9PcpbnCswFVDW6hRU2kRccV5dSXmW7f56+2Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=h+uFP85g;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Xe7+SWT5;
+	arc=none smtp.remote-ip=74.125.82.181
+Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44B8A606A331;
-	Thu, 29 Oct 2026 14:00:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95BAD606A31D
+	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 14:12:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 95BAD606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=h+uFP85g
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E5441F031E1;
-	Thu, 29 Oct 2026 14:00:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793282441;
-	bh=al7UmKsb96lOU+RKqFHZjOm7ylGXuict7jiv3KzJHfk=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=h+uFP85gnikkPnQo2kSUJQ15j1EN9Vg2y14qjjt56RG1kOTTwFRKCyFkNb9mjmTFZ
-	 xLau6+D236sVgk4qN0+9GPFwKW/gGBvCWPJ7myHR1a4QhPqWBVeLMnXp2OjJzCRNZl
-	 AbSLPAUDPes/pm+wtQ6PWP122tpyYHAGFBT2BGvZFjqAbuWcAH3RpJiLBpk/OLm+QV
-	 XYQ0Kw/Vf1b4UQSRqCI0FzRxyvVeD+8K+S3Ppcbp+7UBDf1gixLkl+ugdMTCjcrlxd
-	 8613D6jBrR7yCvaMFv5SrQ0UF0zhIYMGpOunwZ4Nt0H7pZ8S8mkL6GawWzhfUmiEi6
-	 u/C8hcCDa5hBQ==
-From: Christian Brauner <brauner@kernel.org>
-Date: Thu, 29 Oct 2026 15:00:22 +0100
-Subject: [PATCH 3/3] iov_iter: fix NULL deref in iov_iter_alignment()
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Xe7+SWT5
+Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-36a2551d7b5so1022216eec.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 07:12:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793283157; x=1793887957; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=7A/hGTgPYtJhS8Ny/Fs+sia52LCj5jd5ywQ/PUXMFFs=;
+        b=Xe7+SWT5tfrlKsRrCvZzEKfxhCIwpN/yTj1CGCcO3Dhgh0MLSw9vfHqCmNTTqO+Iux
+         75J+xPdizO50EtT5cuoIddBw3horBV6ZC5ThhibSmGyHraUhvjlAl2lyQBJBQsLF/0Up
+         jYu/DDGy0gwGXdkvIkRXB+lt8vzmIDpUvBDn8nP2AQRAwGs0tOIgxcXwANMnC2bBqGZO
+         ctp/ckACdoxkKAnIQuUL9AZ6Z+Pzx4QyWvHns+K6INNrm+d0LqhP51W5YaOS8EOc2PSF
+         I2IGqs61eyhdM6RCTiMyiAZ1FAsRHU1MmWNuZkf1uZ6DnC+dYKbctZRuKw8+PYQqV9Iv
+         wErQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793283157; x=1793887957;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=7A/hGTgPYtJhS8Ny/Fs+sia52LCj5jd5ywQ/PUXMFFs=;
+        b=vUOpEVZ9kJaHw17GpxQzQvtP3HWGDoRwHFK5jXYjYkrjSH6fM0h7kVGW6vYwXdspx1
+         gnzWk4GZko00LFvuOSvEaXaZF3LWcmVInP0gfNJgNrnZrtbHRuDjF+yhxhyuJ3+ZUnDF
+         KfO6DIuV1ITlJyfHqUbePuPIHNpwiGK4sHD9nefPfoBxKtWj49ADI6SSkp6RbytLCJKR
+         JOR7SYuHDiCqOTkjaVeyq9YMlKG3vTL8/rZ74iYP+Q0rIzne8pDFfOmQwvM3fCso1084
+         3W4OQU/xDrqBbiUuU/krIWGXPvhK81rArWsy/qY9XPYwrsmyw+MEmIVWMs67CXH+EXMH
+         3iUA==
+X-Forwarded-Encrypted: i=1; AKwUvBxnsN4D0iXeycNBG9xqpEhDv5VY8AMKDBxSzz0dnYZDmJHFgkhPhWKU3JbSDirPKXREItlBjOkdthHTb0VS@vger.kernel.org
+X-Gm-Message-State: AFq9FYIcIybGZQQoo+Z31YA1PdfFDQtDmP3NoNdITIrSARfqBPqxIHVC
+	CqRggwVVrvM4o2FBL7IB3jzUd7KX6NgkeJjws1VCeHeCPSx4U08dfRLN
+X-Gm-Gg: AYBFou14z956XDiByHO0Ngx3Dcp3PogzbiB91251kuTNUm7ohYrY5R0YS93/0qRSzc0
+	NLB+gjawYHU91oEFv+WBWPWJyVlubpxFxDCYs5i9iogEgyFo7fDnsrQUkcsT75cX8Bgw1FnUdTp
+	+WVVzxXHc1E/IhZeRDgsvN3BqXvyZ+QHoSsNculA+uT3VSsx000l3ew6gtXH+5N2GzNETeTPecg
+	v6J3AFB3bg+6uPoyFlLdRXlIS9TuvhG9RZkHLeu9NeQ4lo1abYTXGZ5Eb36fMHk5oJNWRtDm3se
+	f+c/OwxUDp/J4X1yVskiPtrSDLjzhMVtpDHaVNo/DO+tUZB60j6jSVlStc1V7SV/OcSylz/rv8Q
+	AJVeXXnZER9lc8sqW8BatQEp4Oe8qZFYjbeEvE1EAKacj13EdrFtt/N/azBPu1F1asgPjOwe/fv
+	N5u7bh6zEbAfYseSnwC9tWgj7TadOwfO32ZagOyafAsOW/x8dKp7Yp8+5liNe552+NARXnvpemu
+	tKkBlK/FErMXR9Vz7mu4tLChN0V7J9l8SNGDcJmgTFcptVecd9Zx8y/sH/+v0WcfLy0gcZkcD7Y
+	RajcsID1rgsky3iBGHsQbDDqLELSOpsWnbdQdV/YUPZmAqg8NRxndw==
+X-Received: by 2002:a05:701b:424e:20b0:194:e9e5:11b0 with SMTP id a92af1059eb24-1a9496c2e85mr3835499c88.14.1793283155089;
+        Thu, 29 Oct 2026 07:12:35 -0700 (PDT)
+Received: from [127.0.1.1] (67.216.200.102.16clouds.com. [67.216.200.102])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1a75d76814bsm15197319c88.10.2026.10.29.07.12.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Oct 2026 07:12:34 -0700 (PDT)
+From: Cheng Yongkang <teel4res@gmail.com>
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>
+Cc: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] fs/splice: clamp an over-reported write_iter result
+Date: Thu, 29 Oct 2026 07:12:20 -0700
+Message-ID: <179328314072.648427.13388575162083843840@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -53,73 +96,54 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261029-work-fs-ai-fixes-v1-3-88f22792f6f7@kernel.org>
-References: <20261029-work-fs-ai-fixes-v1-0-88f22792f6f7@kernel.org>
-In-Reply-To: <20261029-work-fs-ai-fixes-v1-0-88f22792f6f7@kernel.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
- Chris Mason <mason@kernel.org>, Josef Bacik <josef@toxicpanda.com>, 
- Amir Goldstein <amir73il@gmail.com>, Jens Axboe <axboe@kernel.dk>, 
- linux-aio@kvack.org, linux-unionfs@vger.kernel.org, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>, stable@vger.kernel.org
-X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1905; i=brauner@kernel.org;
- h=from:subject:message-id; bh=nhWMVYgWOYSkyxfd0VtYD/OB1+iZmFC+UDY5uicnwYU=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQ9DqxWtf98yTladZPQmduHec6+ar20TiMw+vSiiQ80b
- sww8n+xsKOUhUGMi0FWTJHFod0kXG45T8Vmo0wNmDmsTCBDGLg4BWAi28oYGd7mL5+kcyruyV65
- U6t8mhdXavo97F+ZHuYt8cf/jfCyqkCG32ziW1nmqu8siHz2Meyjo9+DSIkglVCtu88m8y9g9/X
- TZwEA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-From: Chris Mason <mason@kernel.org>
+iter_file_splice_write() builds a bvec iterator of at most
+sd.total_len - left bytes and passes it to ->write_iter().  It then
+subtracts the returned length from sd.total_len and walks the pipe
+buffers by that length.  A ->write_iter() implementation that reports
+more bytes than the iterator held makes sd.total_len underflow and the
+dismissal loop advance pipe->tail past pipe->head, releasing a zeroed
+pipe buffer:
 
-Since commit 111a12b422a8 ("io_uring/rsrc: reject zero-length fixed
-buffer import") io_import_fixed() hands out an empty ITER_BVEC for a
-zero-length request. Its count is 0 and its bvec array is NULL.
+  Splice Exceeded! ret=7 tot=1 left=0
+  Oops: general protection fault
+  RIP: 0010:iter_file_splice_write+0xb6f/0x1170
 
-iov_iter_alignment() only checks the count for ITER_UBUF. For ITER_BVEC
-it calls iov_iter_alignment_bvec() and the do-while loop in there reads
-bvec->bv_len before it looks at the count. So it dereferences NULL.
+Commit a3de58b12ce0 ("netfs: Fix unbuffered write error handling")
+added the warning for this condition but only reports it.  Clamp the
+return value to the size of the iterator that was actually handed to
+->write_iter(), so the pipe accounting stays consistent even when a
+producer violates the iterator contract.
 
-btrfs checks the alignment of a direct read with iov_iter_alignment()
-before it looks at the count and f2fs does the same. So any user that
-can open a file on btrfs can oops the kernel with a single zero-length
-IORING_OP_READ_FIXED on an O_DIRECT file descriptor. With IOSQE_ASYNC
-the oops happens in an io-wq worker. The dead worker stays on the worker
-list and when the task that submitted the request exits io-wq writes to
-the freed task_struct of the worker. That's just fallout from the oops
-though.
-
-Empty iterators with a NULL array aren't unusual. afs, tls and tipc
-create them as well. So leave io_uring alone and make
-iov_iter_alignment() return 0 for an empty iterator of any type.
-
-Fixes: 111a12b422a8 ("io_uring/rsrc: reject zero-length fixed buffer import")
+Fixes: 8d0207652cbe ("->splice_write() via ->write_iter()")
 Cc: stable@vger.kernel.org
-Signed-off-by: Chris Mason <mason@kernel.org>
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+Assisted-by: LLM
+Signed-off-by: Cheng Yongkang <teel4res@gmail.com>
 ---
- lib/iov_iter.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ fs/splice.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/lib/iov_iter.c b/lib/iov_iter.c
-index 2072c04e99d0..56c59a2b589d 100644
---- a/lib/iov_iter.c
-+++ b/lib/iov_iter.c
-@@ -848,6 +848,10 @@ unsigned long iov_iter_alignment(const struct iov_iter *i)
- 		return 0;
- 	}
+diff --git a/fs/splice.c b/fs/splice.c
+index bc243ab..3ac1d4d 100644
+--- a/fs/splice.c
++++ b/fs/splice.c
+@@ -737,9 +737,12 @@ iter_file_splice_write(struct pipe_inode_info *pipe, struct file *out,
+ 		sd.pos = kiocb.ki_pos;
+ 		if (ret <= 0)
+ 			break;
+-		WARN_ONCE(ret > sd.total_len - left,
+-			  "Splice Exceeded! ret=%zd tot=%zu left=%zu\n",
+-			  ret, sd.total_len, left);
++		if (unlikely(ret > sd.total_len - left)) {
++			WARN_ONCE(1,
++				  "Splice Exceeded! ret=%zd tot=%zu left=%zu\n",
++				  ret, sd.total_len, left);
++			ret = sd.total_len - left;
++		}
  
-+	/* An empty iterator may have no segment array at all. */
-+	if (!i->count)
-+		return 0;
-+
- 	/* iovec and kvec have identical layouts */
- 	if (likely(iter_is_iovec(i) || iov_iter_is_kvec(i)))
- 		return iov_iter_alignment_iovec(i);
-
+ 		sd.num_spliced += ret;
+ 		sd.total_len -= ret;
 -- 
-2.53.0
+2.34.1
 
