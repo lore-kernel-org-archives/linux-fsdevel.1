@@ -1,48 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793290110;
-	b=xj1XEmzZFsnOElHKl7KJMAsigKeG2+6eR9AXv78pA1IW19EpOgKYPOxkg6zrLuV7XaHY
-	 Igh7QXy7NPI0A6Gxhetqh/hZcTAfoT2MXuyq7bRihozuFjThxQsye+1Str2Widgl4EyUb
-	 KpOva1u/bpQrGu6VzOPRNmDM8IEkKBpFpcaJOTdaYRzbUs+d740Mn1enWJ2F3rB39QR/A
-	 7TAd0vkQu+dezP1WS8JG/ECIKo4N3BJjbtwvjvx7GUQhy9fQ4pgX9TOjkcUp5cWS3omwF
-	 f3XvZUVaDPZu+kBtGQwwxFS1JXC+9Qtw0g+JlukWj1uRWDzP8q8wjtRy/vvLoBvkzBw==
+	t=1793290127;
+	b=dwvRkcS0T9IgpJjGmdbPyZT4qOLdEJT+HZWLWslsbeVpvbm4V96n2jH7Si4F9Qs17pp0
+	 K8vJBwvmOkalRAZtKj22/PZHuM/JA5T8wAsBnXspYHDDyB7DqOUJY6bWMjLKbIQM8qjJv
+	 FoCGb+AuHUbw6jS6PX022DCM9JX1Tqc6IciNmnt++Se+DL9/jfvJbAc4XrwrzX1bD9+/X
+	 nF92C8Ecae9aNPrJ9RV1sv5gkPeDyW/Fd3kSesjsILG318lfGZ9QwGJNwWrFH/dfPruPO
+	 nBPOEHZcyWaoEX6jjpAW3GCDVghUnSV2AiR64tLPqybqP0+dUiSJa3Xe/RcVWWnA+/A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793290110;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793290127;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=lOdaf0Zf7Tx/CylsO5jKdAcnuGg+xFWYSOeHAoH3mNc=;
-	b=nwY5/57TtLUQXdG9C9g+JKmF/jhpgtE6TDj9VNunehqxMVmKaGOHk6d3p2ANwOlNeNYW
-	 6Ihsa5hUKOphYQqK7LITueDP7kdGzlHr2sntkX3Fo4DYd/ZJggHqYF5+2dLtJwuel1MsZ
-	 aiVbiTbUOHPX3Hmf+AiUXn0ozgRQszvodCrfAFSZ54bcXLqEVea8nPdV+ujzkgvCpTFUs
-	 WNGV7lMndigRIsnGNMrvnoyX4i/5MOF+C+MPRufhe9mSfIzYPi/K7SdCbDt4SpU0/3DAK
-	 v7jGs7iV3KnNyQcs9hfnRJ1dvfOX+QATaozUx8tcaypT2AtY69T17wfqfkaqm0z/WGw==
+	bh=Q105NaNGzcv+ybtcMCSNLXMrrR0iIRZiTT+bqhupCBs=;
+	b=KMMmbnKuhOo4+XdO2PxAHsgZEps3qQD775K9BDFwxSp+q0yzR1fgo4jkD0RK7/6EnNen
+	 tg/GJoDvGvGtGhHYVjjO7CbUyPprbTw6/7vrNKI5mdhaSof4DnpwbDULZIPf+F42Fz5IO
+	 ouckxS3+7QFQXB2lmRwih4JqWAIT6yAlsdUtfEb263bGSg0Q2uOeSWoBXywwqstNYe/Wm
+	 VlV7QTT4KFp/1OhsTRfdHO+ZlP8BvA6yH+IvQgE1TxDdNNxsExyeiz4AmVxkv9m+BQA34
+	 8956/hw2HzYU8FHKbiBBVuVYaufeDpFooO3sqsBwTsXYr4AjYk724s77Bp0jWzDzt6Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Mkkh/6Ad";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TCR2LiHA;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5148B606A31C;
-	Thu, 29 Oct 2026 16:08:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D00E8606A330;
+	Thu, 29 Oct 2026 16:08:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Mkkh/6Ad
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AC6A1F01826;
-	Thu, 29 Oct 2026 16:08:26 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TCR2LiHA
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1300B1F01824;
+	Thu, 29 Oct 2026 16:08:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793290109;
-	bh=lOdaf0Zf7Tx/CylsO5jKdAcnuGg+xFWYSOeHAoH3mNc=;
+	s=k20260515; t=1793290126;
+	bh=Q105NaNGzcv+ybtcMCSNLXMrrR0iIRZiTT+bqhupCBs=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=Mkkh/6AdRYfvSfyjpLwbroR31lzxLlJFZEp5FSNJ/gv/Y2ksuNNMnQ7DNOpxkFJZs
-	 H83BjlVu+Ow4K2PY+bVZIdujbY8jRUosS55d6uMBxaEbOVWjifjTtQxwXpQbmotZwa
-	 ItPwCURgbjN3znNMx9+vi6oI7MD5hB4GZLh+yTtQFSA6hw9ritBvSwoFIcVGsxL74p
-	 cOIZZ7MhC3xEAHShIX+IwymVOtNP+lQy3SvX8HJZwqCK00aPdqC0gLmGjwNZyVbtAs
-	 B17SiqaVnq6QhU+0td2yT+ST7BNJyJCQAidTifAqGK7AHn3T+wC4LuwZ/CyKJandiB
-	 uBreV+q7tvzQA==
+	b=TCR2LiHAKNVrELGSJwS3IKXCzsWFwglK/uww6ZC4iUfKBx9r/0Dy9mbDzflG3e36o
+	 KLm9gSAo4F4KN843ke0MX+uwUTuEvFbhoakTJTCTSN9QiYdpjFe9wtAmqT5YUvS+J0
+	 nhFeqbmdP+p5X0ouI8DpcyMmvCHaDm1nfYnGaUyPWujIQ96i+gmOr9vcLnvPmNhQd2
+	 4xIgO7ABmFNo+MnSIsvJPdoaqzFme7N0mveGyRkAy/p4GR0XifyOPuAf3ztEZjSkpv
+	 pUrJBujxbU8IJTngm1TwEpuTnEq99+orib0UJDGk8ohtLca4T6CRs1/NLhK5lVsG+o
+	 ysaD6V+nnHhBQ==
 From: Christian Brauner <brauner@kernel.org>
-Date: Thu, 29 Oct 2026 17:07:07 +0100
-Subject: [PATCH v2 16/34] hpfs: don't set SB_RDONLY after filesystem errors
+Date: Thu, 29 Oct 2026 17:07:11 +0100
+Subject: [PATCH v2 20/34] ocfs2: don't set SB_RDONLY after filesystem
+ errors
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -54,7 +55,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261029-work-fs-sb_rdonly-v2-16-2f44f64f0b66@kernel.org>
+Message-Id: <20261029-work-fs-sb_rdonly-v2-20-2f44f64f0b66@kernel.org>
 References: <20261029-work-fs-sb_rdonly-v2-0-2f44f64f0b66@kernel.org>
 In-Reply-To: <20261029-work-fs-sb_rdonly-v2-0-2f44f64f0b66@kernel.org>
 To: linux-fsdevel@vger.kernel.org, Jan Kara <jack@suse.com>
@@ -67,119 +68,148 @@ Cc: Al Viro <viro@zeniv.linux.org.uk>, ecryptfs@vger.kernel.org,
  linux-xfs@vger.kernel.org, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4412; i=brauner@kernel.org;
- h=from:subject:message-id; bh=HjY2TpU2zaQJA3Ncvw1b4w9QnMNY6uHTIkSft5aNRTE=;
- b=kA0DAAoWkcYbwGV43KIByyZiAGrjby+jQvJKYk2QQRQ1L8q//FVvZJgprvAFPf0r1TvUIMCe+
- oh1BAAWCgAdFiEEQIc0Vx6nDHizMmkokcYbwGV43KIFAmrjby8ACgkQkcYbwGV43KJSKwD+MnJY
- PXjYZUPCVMbe+ntVEdsrAo9wqFKueXJYeySUyQkA/RQp/pST8RDbnSwtc7r5VAOV4jWHE1f9RMH
- rZe91yVII
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5309; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=gY1YomGitfi+vkVQ4dUFFU/PnA69rHgOz032eOs1i2s=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQ9ztef9vVJWNFhH5bquLdnpesOrPxyy/Dm+6OhJ7OWz
+ /YPeCRt21HKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjARo1qG/zEHWzvUyw2PyK12
+ 9DkqeuEkY8+pC/a3QhqWflrfbqF7vofhn+aldObsk5X5b/e33Yk9+CDjyoJ7d6yv8EmFHfY7qvb
+ qDAMA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-With errors=remount-ro, the hpfs default, hpfs_error() sets SB_RDONLY on
-the first error without holding s_umount. If that happens while the
-filesystem is frozen through bdev_freeze() thaw_super() sees a read-only
-superblock and leaves the s_writers rwsems locked so every writer hangs.
+With errors=remount-ro, the default, ocfs2_handle_error() sets SB_RDONLY
+without holding s_umount. If that happens while the filesystem is frozen
+through bdev_freeze() thaw_super() leaves the s_writers rwsems locked.
+Writers hang and so does umount because ocfs2_shutdown_local_alloc()
+needs sb_start_intwrite().
 
-hpfs_error() is also called from hpfs_fill_super() where nothing can
-freeze the superblock yet, so keep setting SB_RDONLY there. After that
-call sb_set_emergency_ro() instead and let the VFS refuse modifications.
-FITRIM is refused and unmark_dirty() does nothing in that state so the
-next mount reports the volume as improperly stopped. hpfs_map_dnode()
-and hpfs_lookup() treat the state like read-only so lookups behave as
-before.
+The soft read-only state doesn't stop modifications on its own. Every
+read-only mount sets it and those still need transactions for recovery,
+the local alloc and the truncate log. Everything else was stopped by the
+VFS because of SB_RDONLY. So call sb_set_emergency_ro() instead which
+keeps it that way, and keep setting SOFT_RO for the existing
+ocfs2_emergency_state() checks.
 
-A remount to read-write fails until umount and a remount to read-only
-doesn't write the spare block. Writes through file descriptors opened
-before the error fail with EROFS.
+The xattr and ACL setters get a check of their own because ecryptfs
+calls them without write access on the lower mount. It sits in the xattr
+handlers and not in ocfs2_xattr_set() because chmod and setfacl store
+the ACL through it after the new mode was already committed.
+
+Quotas aren't enabled at mount in the error state because that writes
+the quota files. ocfs2_sync_fs() doesn't flush anything anymore and a
+remount to read-only doesn't suspend quotas. Q_GETQUOTA, Q_GETNEXTQUOTA
+and Q_SYNC can still start transactions. I've left that alone.
+
+Writes through file descriptors opened before the error fail with EROFS
+and umount completes instead of hanging.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/hpfs/alloc.c |  4 ++--
- fs/hpfs/dir.c   |  3 ++-
- fs/hpfs/map.c   |  3 ++-
- fs/hpfs/super.c | 11 +++++++++--
- 4 files changed, 15 insertions(+), 6 deletions(-)
+ fs/ocfs2/acl.c   |  3 +++
+ fs/ocfs2/super.c | 18 +++++++++++++-----
+ fs/ocfs2/xattr.c |  8 ++++++++
+ 3 files changed, 24 insertions(+), 5 deletions(-)
 
-diff --git a/fs/hpfs/alloc.c b/fs/hpfs/alloc.c
-index f5150372618e..8c84126ea038 100644
---- a/fs/hpfs/alloc.c
-+++ b/fs/hpfs/alloc.c
-@@ -539,7 +539,7 @@ int hpfs_trim_fs(struct super_block *s, u64 start, u64 end, u64 minlen, unsigned
- 		return 0;
- 	if (start < sbi->sb_dirband_start + sbi->sb_dirband_size && end > sbi->sb_dirband_start) {
- 		hpfs_lock(s);
--		if (sb_rdonly(s)) {
-+		if (sb_rdonly(s) || sb_emergency_ro(s)) {
- 			err = -EROFS;
- 			goto unlock_1;
- 		}
-@@ -560,7 +560,7 @@ int hpfs_trim_fs(struct super_block *s, u64 start, u64 end, u64 minlen, unsigned
- 	end_bmp = (end + 0x3fff) >> 14;
- 	while (start_bmp < end_bmp && !err) {
- 		hpfs_lock(s);
--		if (sb_rdonly(s)) {
-+		if (sb_rdonly(s) || sb_emergency_ro(s)) {
- 			err = -EROFS;
- 			goto unlock_2;
- 		}
-diff --git a/fs/hpfs/dir.c b/fs/hpfs/dir.c
-index 3bf11202e2d3..1fd35a98a5f1 100644
---- a/fs/hpfs/dir.c
-+++ b/fs/hpfs/dir.c
-@@ -265,7 +265,8 @@ struct dentry *hpfs_lookup(struct inode *dir, struct dentry *dentry, unsigned in
- 	hpfs_result = hpfs_i(result);
- 	if (!de->directory) hpfs_result->i_parent_dir = dir->i_ino;
+diff --git a/fs/ocfs2/acl.c b/fs/ocfs2/acl.c
+index 801a2f56ad08..8fb151a55044 100644
+--- a/fs/ocfs2/acl.c
++++ b/fs/ocfs2/acl.c
+@@ -268,6 +268,9 @@ int ocfs2_iop_set_acl(const struct mnt_idmap *idmap, struct dentry *dentry,
+ 	struct ocfs2_lock_holder oh;
+ 	struct inode *inode = d_inode(dentry);
  
--	if (de->has_acl || de->has_xtd_perm) if (!sb_rdonly(dir->i_sb)) {
-+	if ((de->has_acl || de->has_xtd_perm) &&
-+	    !sb_rdonly(dir->i_sb) && !sb_emergency_ro(dir->i_sb)) {
- 		hpfs_error(result->i_sb, "ACLs or XPERM found. This is probably HPFS386. This driver doesn't support it now. Send me some info on these structures");
- 		iput(result);
- 		result = ERR_PTR(-EINVAL);
-diff --git a/fs/hpfs/map.c b/fs/hpfs/map.c
-index be73233502f8..e9af634e54fa 100644
---- a/fs/hpfs/map.c
-+++ b/fs/hpfs/map.c
-@@ -288,7 +288,8 @@ struct dnode *hpfs_map_dnode(struct super_block *s, unsigned secno,
- 					goto bail;
- 				}
- 				if (((31 + de->namelen + de->down*4 + 3) & ~3) != le16_to_cpu(de->length)) {
--					if (((31 + de->namelen + de->down*4 + 3) & ~3) < le16_to_cpu(de->length) && s->s_flags & SB_RDONLY) goto ok;
-+					if (((31 + de->namelen + de->down*4 + 3) & ~3) < le16_to_cpu(de->length) &&
-+					    (sb_rdonly(s) || sb_emergency_ro(s))) goto ok;
- 					hpfs_error(s, "namelen does not match dirent size in dnode %08x, dirent %03x, last %03x", secno, p, pp);
- 					goto bail;
- 				}
-diff --git a/fs/hpfs/super.c b/fs/hpfs/super.c
-index 8fbdbf080627..ab89e624cd51 100644
---- a/fs/hpfs/super.c
-+++ b/fs/hpfs/super.c
-@@ -44,7 +44,7 @@ static void unmark_dirty(struct super_block *s)
++	if (unlikely(ocfs2_emergency_state(OCFS2_SB(inode->i_sb))))
++		return -EROFS;
++
+ 	had_lock = ocfs2_inode_lock_tracker(inode, &bh, 1, &oh);
+ 	if (had_lock < 0)
+ 		return had_lock;
+diff --git a/fs/ocfs2/super.c b/fs/ocfs2/super.c
+index 67283244426e..6541294641da 100644
+--- a/fs/ocfs2/super.c
++++ b/fs/ocfs2/super.c
+@@ -403,6 +403,10 @@ static int ocfs2_sync_fs(struct super_block *sb, int wait)
+ 	if (ocfs2_is_hard_readonly(osb))
+ 		return -EROFS;
+ 
++	/* Nothing to flush or commit after an error. */
++	if (ocfs2_is_soft_readonly(osb))
++		return 0;
++
+ 	if (wait) {
+ 		status = ocfs2_flush_truncate_log(osb);
+ 		if (status < 0)
+@@ -647,8 +651,8 @@ static int ocfs2_reconfigure(struct fs_context *fc)
+ 
+ 	/* We're going to/from readonly mode. */
+ 	if ((bool)(fc->sb_flags & SB_RDONLY) != sb_rdonly(sb)) {
+-		/* Disable quota accounting before remounting RO */
+-		if (fc->sb_flags & SB_RDONLY) {
++		/* Disable quota accounting before remounting RO, not after an error. */
++		if ((fc->sb_flags & SB_RDONLY) && !sb_emergency_ro(sb)) {
+ 			ret = ocfs2_susp_quotas(osb, 0);
+ 			if (ret < 0)
+ 				goto out;
+@@ -1137,7 +1141,7 @@ static int ocfs2_fill_super(struct super_block *sb, struct fs_context *fc)
+ 	/* Now we can initialize quotas because we can afford to wait
+ 	 * for cluster locks recovery now. That also means that truncation
+ 	 * log recovery can happen but that waits for proper quota setup */
+-	if (!sb_rdonly(sb)) {
++	if (!sb_rdonly(sb) && !sb_emergency_ro(sb)) {
+ 		status = ocfs2_enable_quotas(osb);
+ 		if (status < 0) {
+ 			/* We have to err-out specially here because
+@@ -2519,11 +2523,15 @@ static int ocfs2_handle_error(struct super_block *sb)
+ 		rv = -EIO;
+ 	} else { /* default option */
+ 		rv = -EROFS;
+-		if (sb_rdonly(sb) && ocfs2_emergency_state(osb))
++		if (ocfs2_emergency_state(osb))
+ 			return rv;
+ 
+ 		pr_crit("OCFS2: File system is now read-only.\n");
+-		sb->s_flags |= SB_RDONLY;
++		/*
++		 * SB_RDONLY needs s_umount, see sb_set_emergency_ro(). The
++		 * soft read-only flag makes ocfs2_emergency_state() refuse.
++		 */
++		sb_set_emergency_ro(sb);
+ 		ocfs2_set_ro_flag(osb, 0);
+ 	}
+ 
+diff --git a/fs/ocfs2/xattr.c b/fs/ocfs2/xattr.c
+index b2bd06083a14..a7d0ec8cdc20 100644
+--- a/fs/ocfs2/xattr.c
++++ b/fs/ocfs2/xattr.c
+@@ -7781,6 +7781,9 @@ static int ocfs2_xattr_security_set(const struct xattr_handler *handler,
+ 				    const char *name, const void *value,
+ 				    size_t size, int flags)
  {
- 	struct buffer_head *bh;
- 	struct hpfs_spare_block *sb;
--	if (sb_rdonly(s)) return;
-+	if (sb_rdonly(s) || sb_emergency_ro(s)) return;
- 	sync_blockdev(s->s_bdev);
- 	if ((sb = hpfs_map_sector(s, 17, &bh, 0))) {
- 		sb->dirty = hpfs_sb(s)->sb_chkdsk > 1 - hpfs_sb(s)->sb_was_error;
-@@ -81,7 +81,14 @@ void hpfs_error(struct super_block *s, const char *fmt, ...)
- 			else {
- 				pr_cont("; remounting read-only\n");
- 				mark_dirty(s, 0);
--				s->s_flags |= SB_RDONLY;
-+				/*
-+				 * Before SB_BORN the mounter holds s_umount,
-+				 * later see sb_set_emergency_ro().
-+				 */
-+				if (s->s_flags & SB_BORN)
-+					sb_set_emergency_ro(s);
-+				else
-+					s->s_flags |= SB_RDONLY;
- 			}
- 		} else if (sb_rdonly(s))
- 				pr_cont("; going on - but anything won't be destroyed because it's read-only\n");
++	if (unlikely(ocfs2_emergency_state(OCFS2_SB(inode->i_sb))))
++		return -EROFS;
++
+ 	return ocfs2_xattr_set(inode, OCFS2_XATTR_INDEX_SECURITY,
+ 			       name, value, size, flags);
+ }
+@@ -7929,6 +7932,9 @@ static int ocfs2_xattr_trusted_set(const struct xattr_handler *handler,
+ 				   const char *name, const void *value,
+ 				   size_t size, int flags)
+ {
++	if (unlikely(ocfs2_emergency_state(OCFS2_SB(inode->i_sb))))
++		return -EROFS;
++
+ 	return ocfs2_xattr_set(inode, OCFS2_XATTR_INDEX_TRUSTED,
+ 			       name, value, size, flags);
+ }
+@@ -7964,6 +7970,8 @@ static int ocfs2_xattr_user_set(const struct xattr_handler *handler,
+ 
+ 	if (osb->s_mount_opt & OCFS2_MOUNT_NOUSERXATTR)
+ 		return -EOPNOTSUPP;
++	if (unlikely(ocfs2_emergency_state(osb)))
++		return -EROFS;
+ 
+ 	return ocfs2_xattr_set(inode, OCFS2_XATTR_INDEX_USER,
+ 			       name, value, size, flags);
 
 -- 
 2.53.0
