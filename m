@@ -1,100 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=209.85.218.47
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
-	t=1793271361;
-	b=A3I+LyBVDlGjIkHYhtp9MC1tHYNKCdezYjR4NBeQkX8lONt+aBBrMTHcxSsXXDqRqAbc
-	 J49+myhi2eEn+O3KbiZhP6Jg6m4FJZ1T1ktcfGoWpCCbjH0OMmJIfPmCx65pLzkYB+TFP
-	 KtO5pcz0AP3URdL2uTY07C2rr1N3nAqQuXubfnINR6cTuMjh+mGrKkHY703yF1tIOkZ+Z
-	 B3JdeOOCZQxPg0UXabj464ylxVSTxlqssowXTTdskrVtQEHl2XON2vJrGyj+yGuhsJgS4
-	 3z3Y8nOb9LNBfHjce4GK5d/XMC/ltQNx9YITxOjqwIBTAtxqDaqa6i4ylvB2sYFXMpA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793271361;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=3fGS6loIim+Swa1mX7t46+mUdJqeixhvle4YB5lLPZ4=;
-	b=SRWUobEnaqYExL7hkQNhwC53MP7AjyYfeeUt/lKsm5pve62sodd7sq7LeHmcjk6pbPz9
-	 wEKEbcQtVcl0zVbmeiQHYwPvFNkx3j3aCwqS/dggAwA8GZXgtuEg+nfpj2IFVejrF2OuV
-	 71mhHXR//ZNGQCTQvWeAq8s06kFn6I4+uHwf3JxitZki3cK4qbzgE3IOvPsmGwuQJmpa1
-	 qD2nM5HI0OGMey3aFU5TFfknUrhErlWRlztjSXPXNfRFsGq9XHTECysIWDleW1EDGN+Dh
-	 qDCNxHe6vyxf9I1xWYds/JcXC2rxNl7/0X/O3/eyDEkN6AyUg/KtcI0a3dyvbKOSnkg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=aDa6YDIn;
-	arc=fail smtp.remote-ip=209.85.218.47
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793271437;
+	b=17I1mE0bXjh3kS6n8G0xd4j6x4X9PwjtErpmg5bYoq0nai477A5y1GHofau61KPfiFKc
+	 Zt1zf8HayLVCJ+jg2kYYql8/g91mJ8pnAsUkjea6on0Ughn+hbpTqI7Mc0dZeGIpNF1vl
+	 Y+pUhgcIHriBzAYzq1TlKzPsE5Vr8OL7zngiQxklWITceQrW9Grrw00m8TIu/tG5MJ13z
+	 suoD58F8COQN2GaVdRkVOn1qxloFwnims+UqE0hjfR6L+StBTPrOTAGew0BLoFUMcs+PQ
+	 QWFFoklGOPSDVruyZ7c169+ZxoGTMV/Zid02JkBUP1MZwrtwGJhOVHMgLB6CUGOqHrg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793271437;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding:X-Spam-Flag:
+	 X-Spam-Level:X-Spamd-Result:X-Spam-Score;
+	bh=eHLr56sFD2D2TWh1Q3BE7l/mRjeL6DJWJN7ujgMW5xw=;
+	b=vdr30C0zVxlv0Z2SwEw+Bnq64gEFg5rC+kh+1NaLqijPK6HXHdIVp7xI21g9Ft+k64m+
+	 ynT4nCCPD24yJrir7VkKoUE9e3A4CiR1a0CWSMSo85EmdbzjQt0Zj/v47FdFNQ0Cdm3+0
+	 Fb2S6bDOId0NBCs+NnAmmnOfZgIqYKcRf6tCdIve7flqQ67ATw8GOdqjgwpVIRWD2rTEE
+	 KSv+Y0URhPZDYhtu469udqza8+am6A8xkWZgBPYbFRQor2JIzYxV+jVSrWaQpw48IvGT/
+	 dkQwy9qQhmSt8gP7qdDRy3Ft28x+53zw8XKTXtDA0T+pdFUFuFOKiv5PnCFQUHMJPzw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="jemv/8D2";
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=aqFHd81y;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=q1cvKuD4;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=GMehQJnw;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1A00606A31C
-	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 10:56:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E1A00606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6CCD606A31E;
+	Thu, 29 Oct 2026 10:57:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B6CCD606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=aDa6YDIn
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-c40e30c26a4so114829466b.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 03:56:00 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793271359; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Ltf6qcuSB0qacEWuBz8ObNv2AyUFYLnefewcQhy8AIREH5464pd/bp5JJdBgPiTwKn
-         3WpKBkyyki5ilA5cgZmFtdoJpAs+yIdRxdt8bNftiqmYrSGzVjz8Kzt3+TkNMyZWWDJ/
-         UPjWN/by+XC39QDbR9ViuD1sF/dWkIMc5Fb9n+ZLpwfghQEci2TMrtWEgaKmPyF1ROif
-         1cUW0Lyt2mNKIfNzuXSoayotN/an9wKnGw7dJDvbACED28Kf9kfaXHXkkJH8aXunyLx1
-         8xBoE9nypiAAXqBBmV6PhEhRdi3A57eZXVsOe/N0l6ITchRqpmlw7DvBpeW2D7gFlOfV
-         7dnA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=3fGS6loIim+Swa1mX7t46+mUdJqeixhvle4YB5lLPZ4=;
-        fh=29MKqfBs7JYDEVosPcPuF9/g0pucmj+udgzD7Kee3H0=;
-        b=Ck5DnKN6jozFpuUf3zFifzHgo+k6bir0kj9VGxqFQ545qqcsadr3oCH0X7Gnipryza
-         WWlaxRrepuN20efy9+6Vv7Vpw9ujrYPJBIp09q7RLazqH8vPnVGlxOiCl4JILid04NNK
-         gd35DY3g+1a+HGo7NeNBkesjtKf9pz5u4B6C9t8EGGmclQinrU/KhfzXU4v2dtdpdwBU
-         foJnQmHBLUpOpdFr+xXg2UOowUusV9/NBQmZ7vBDItGNhUOR2dgM7vGBWOYcgN4SHGKP
-         F8nyDTbOfYID2at0QL/6KgET0uK+aSBIumUWacChnj3VSPlznlB6pmyOkMzcg4f7mo2b
-         KeeA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793271359; x=1793876159; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=3fGS6loIim+Swa1mX7t46+mUdJqeixhvle4YB5lLPZ4=;
-        b=aDa6YDIns00zqTqrPCKgp5NqUduDBvv/bV2D9/roX28//Qm4jLBZeNEDCJBoxLxGYQ
-         3deQplSXIB4dGOBpsXUlzlSyGM8+f/V65tj2kzCO+HIFi23vUmupF/K2QwQrMt6eBNFz
-         NvwDNZJi4UCAi4M0oQHbYVPmxVudV9V1fWpgW5IneFG2GZIFBXRNTcPKxhERt80v0+j9
-         DBItCsZ5yudK5t35vTLzHsgO0WbzthAXGGQKmQPFzA3FhrDwQLCU+Gg0I/Icf18qQCSY
-         xROhsSzumYexKJtliqcMeqogE6Zs3iKhWq58DD0amHAcIztBMpIfeCsfWWEg6e+3OZXA
-         yIow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793271359; x=1793876159;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=3fGS6loIim+Swa1mX7t46+mUdJqeixhvle4YB5lLPZ4=;
-        b=rH74I/XzfD6Rg30llX0ze6Xsi3zg/WeLpBdhDPwBxpjL987A/WFSlkfhxQsS3BvIxA
-         kB+i4A7Uik76RNETazjLGvu2OdJx4ioWcamFrz4qdqHDu/tcJQRI9X+LYQBksUcwVVy/
-         JnV9Pw6nycrsWEoIv5/7blda4BYQl1maboPW+tF2Ls6uTI6imnSmvWkRXbOyH+7ztjg1
-         /aef5e4Cx/yG1mpz2WArm0jPUDNxWZR4cePKWn2eCUyu+zaez0F96D97rRhCjRjgxGKY
-         BoALh+qiH1P5yQCNiTuQoWGYiNgHEn6e3IAoQUVILX8SU/MhRbZ0rsm66f+g8W5lS6BI
-         MkJQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxJKvwzNtqc6p3ManopU2WLbrX3HYA8ZuJH0iGDPpcbJUv8/uRzihibMyOEThpoGL9D+iSm69zcuAxi8c9e@vger.kernel.org
-X-Gm-Message-State: AFq9FYK+JbPscF30hhdupnkeZQqFgyzrIhiIL1mTl84dAIoArDC+ssLL
-	3BM+ygotbQaTMj1i9GEMnCTfEkHJRyAd3jGAEXoP11OcBZEZMQxUXzvvotOChNVR18M0ZbI8i9P
-	0+6AACR7ZapxaCbrNl4PwsA1aBimj2Tc=
-X-Gm-Gg: AYBFou2qR4bHyFPIWcjcppxQcU5i1J2+dC+K2ti79Uc+gLaZKD2f8H+bB2QDp/umZ+G
-	V66AO4dyJ43n0c3xKIz/IYCLiIIN06zciWeQld5dBNBP+QAgb2935BevtoNRJisC+EQI9IffbVj
-	NnwOJtvwjqFmsB3GggEGJgZYll7Xm9sSClIMYhxbLRwqlPhsgOMs7fWUe/19JN2eOCbUrt6ZqPa
-	2C41hJemrvvN96QCnOL/HvF+Df/PTnM+041dqczlvwTz9Fiv/HYtRxPV4mUA676tTJoDr499FPV
-	sjLM5Nx4LP/pQhVUmtxBievEUuvR7Byp+KEcLNUAnjqvHJMQnbiWmqFSenHyT6sFDtXrq/gUyGQ
-	xmgo2XPdoV9XlOlMjiHwGlHz4KsFcOczTew6Nd//iuuCfK3ieAV0Q1FHdwb7b6EwW4q62Rg==
-X-Received: by 2002:a17:907:d308:b0:c2e:2275:1168 with SMTP id
- a640c23a62f3a-c49d13b7f8amr182816166b.19.1793271359214; Thu, 29 Oct 2026
- 03:55:59 -0700 (PDT)
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=jemv/8D2;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=aqFHd81y;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=q1cvKuD4;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=GMehQJnw
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 0F1A52213F;
+	Thu, 29 Oct 2026 10:57:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1793271435; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=eHLr56sFD2D2TWh1Q3BE7l/mRjeL6DJWJN7ujgMW5xw=;
+	b=jemv/8D299Zjj9ZER5bhD7DSMwR3Sz1cOmsws1LW2NYsHuHjziLl0Hy9jcuaq/qt8gZ0cn
+	uiOpfWvrgZagT93pmyQT2X+hxZRHdmYz+fios5rAZZXdLLa0yeDdWAvAFhJhPW3HwIfxAw
+	DAgtHgI+UT25n0sG7a3ePIAnHx8UgDw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1793271435;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=eHLr56sFD2D2TWh1Q3BE7l/mRjeL6DJWJN7ujgMW5xw=;
+	b=aqFHd81yjn6tarGzEZif3s0HX0wwWsUrsz+Gd3gbqZKySA2lFfY0zJDWjUHZt+Z9mf31XA
+	BEEHQL7oWRe/v8Bg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1793271434; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=eHLr56sFD2D2TWh1Q3BE7l/mRjeL6DJWJN7ujgMW5xw=;
+	b=q1cvKuD4pyYlJAe5EpZbRM5WGtXRnjEc3GQ3o4wduOZvwrdmk7gkmOqwodxAjdv3OMfnoa
+	yY0iJg3QvVSAkIlhswCR9JPJj0SKVOxK/VMZaCxfqMPb2BQp6ASTKGMnUjyTg/w5faHXzc
+	gdoe5bO6yd1dUBFaQt/K3o+vJQXl8FM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1793271434;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=eHLr56sFD2D2TWh1Q3BE7l/mRjeL6DJWJN7ujgMW5xw=;
+	b=GMehQJnwzewnI8GEKLcG3ZvC78IYSsbj7sv6+8Ld820TetOjFhPcfAXwnE8jWfYKPbxpux
+	zPjaOhYk7w0ZPnDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 81E941339F;
+	Thu, 29 Oct 2026 10:57:13 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 9HVAFYkm42qKYAAAD6G6ig
+	(envelope-from <fmancera@suse.de>); Thu, 29 Oct 2026 10:57:13 +0000
+From: Fernando Fernandez Mancera <fmancera@suse.de>
+To: coda@cs.cmu.edu
+Cc: codalist@coda.cs.cmu.edu,
+	jaharkes@cs.cmu.edu,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	Fernando Fernandez Mancera <fmancera@suse.de>
+Subject: [PATCH] coda: fix timeout sysctl width on big-endian architecture
+Date: Thu, 29 Oct 2026 11:57:01 +0100
+Message-ID: <20261029105701.3829-1-fmancera@suse.de>
+X-Mailer: git-send-email 2.51.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,70 +106,68 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261028195133.86636-1-dennylin0707@gmail.com>
-In-Reply-To: <20261028195133.86636-1-dennylin0707@gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Thu, 29 Oct 2026 11:55:47 +0100
-X-Gm-Features: AclHuK9ES-fJm4qV7qIWyYn7jHeO1ZZUKHOCjIZSlhGweuLSd8vCQZhkASRtuK0
-Message-ID: <CAOQ4uxgDk-NQ3hrHLwPkLT_6T6EvM1Mxk1aOtCsz1TYgup_FNg@mail.gmail.com>
-Subject: Re: [PATCH] ovl: reserve space for the casefolded name terminator
-To: Hungyu Lin <dennylin0707@gmail.com>
-Cc: miklos@szeredi.hu, andrealmeid@igalia.com, linux-unionfs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spamd-Result: default: False [-11.80 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.995];
+	MIME_GOOD(-0.10)[text/plain];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo];
+	FROM_HAS_DN(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_TLS_ALL(0.00)[]
+X-Spam-Score: -11.80
 
-On Wed, Oct 28, 2026 at 8:51=E2=80=AFPM Hungyu Lin <dennylin0707@gmail.com>=
- wrote:
->
-> ovl_casefold() allocates NAME_MAX bytes and passes that capacity to
-> utf8_casefold(), which also needs room for a terminating NUL. A valid
-> name whose folded form is exactly NAME_MAX bytes therefore fails to
-> fold, and ovl_fill_merge() falls back to comparing the original bytes.
->
-> For example, when two casefolded layers contain directories named with
-> 255 uppercase and lowercase ASCII letters respectively, readdir lists
-> both names even though lookup treats them as the same directory. The
-> same names merge correctly at 254 bytes.
->
-> Reserve one additional byte in both the allocation and the folding
-> capacity so that NAME_MAX-byte folded names use the canonical merge key.
->
-> Fixes: ee95c5fc86dd ("ovl: Create ovl_casefold() to support casefolded st=
-rncmp()")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
-> ---
->  fs/overlayfs/readdir.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/fs/overlayfs/readdir.c b/fs/overlayfs/readdir.c
-> index 7d6f7f6022eb..6113d690f8ad 100644
-> --- a/fs/overlayfs/readdir.c
-> +++ b/fs/overlayfs/readdir.c
-> @@ -81,13 +81,13 @@ static int ovl_casefold(struct ovl_readdir_data *rdd,=
- const char *str, int len,
->             name_is_dot_dotdot(str, len))
->                 return 0;
->
-> -       cf_name =3D kmalloc(NAME_MAX, GFP_KERNEL);
-> +       cf_name =3D kmalloc(NAME_MAX + 1, GFP_KERNEL);
->         if (!cf_name) {
->                 rdd->err =3D -ENOMEM;
->                 return -ENOMEM;
->         }
->
-> -       cf_len =3D utf8_casefold(rdd->map, &qstr, cf_name, NAME_MAX);
-> +       cf_len =3D utf8_casefold(rdd->map, &qstr, cf_name, NAME_MAX + 1);
->         if (cf_len > 0)
->                 *dst =3D cf_name;
->         else
-> --
-> 2.43.0
->
+coda_timeout is an unsigned long, but the "timeout" sysctl entry uses
+proc_dointvec() with .maxlen = sizeof(int), so the handler accesses only
+four bytes of the eight-byte variable.
 
-Queued for ovl-fixes
+On little-endian this works, since the four bytes are the low half. On
+64-bit big-endian they are the high half. The sysctl reads back 0
+instead of the default 30, and writing N sets coda_timeout to N * 2^32 +
+30 seconds, so a stuck upcall effectively never becomes interruptible.
 
-Thanks,
-Amir.
+Fix this by using proc_doulongvec_minmax() handler and adjust the
+maxlen to the right value.
+
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Signed-off-by: Fernando Fernandez Mancera <fmancera@suse.de>
+---
+Note: found this while fixing a similar issue on SMC sockets. This is
+janitorial work, I don't think CODA is used in big-endian at all.
+---
+ fs/coda/sysctl.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/fs/coda/sysctl.c b/fs/coda/sysctl.c
+index 0df46f09b6cc..73bc48460453 100644
+--- a/fs/coda/sysctl.c
++++ b/fs/coda/sysctl.c
+@@ -18,9 +18,9 @@ static const struct ctl_table coda_table[] = {
+ 	{
+ 		.procname	= "timeout",
+ 		.data		= &coda_timeout,
+-		.maxlen		= sizeof(int),
++		.maxlen		= sizeof(unsigned long),
+ 		.mode		= 0644,
+-		.proc_handler	= proc_dointvec
++		.proc_handler	= proc_doulongvec_minmax
+ 	},
+ 	{
+ 		.procname	= "hard",
+-- 
+2.56.0
+
