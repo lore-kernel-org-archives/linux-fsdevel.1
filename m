@@ -1,49 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793306119;
-	b=Z7dyLwzZRtmPrLIe5p/nyFTOisIWwUP+kMVag4/7Ug23SSnUtk/M1amZpXl++c2RPvYx
-	 JJvFtDyFcTrGM2YvnhO3JvxQRo5ocnh72iW6Ze7zr7O4vCwmyu1CYnySH5P0ikN8Tegb8
-	 L9aWeWWbZyZckOAI88eh7kFovuNyGIHlPDBk4PKcca+1zYXAmQAiKMfP9n9Xgxo/wzkmV
-	 wt2xdZh2td4tOtF7TGecTQPDPZHwwKChiAykmiwBJN3ECRbiBSf7j4WHu3yKcDqMHae8r
-	 7zXCNUOLy88bF6U1oWCWJf1tFoPhJlLjxAoRtR7Y9fLf0Ql8Tk7GC9UFaD+80wLCGdw==
+	t=1793306144;
+	b=jHl/UQE9TP8+ZtSoLo1Jo47f0SpqvL46cYLB7gfRfVUYSUgP/3LnD1xSeOmqOwRwy8QF
+	 /zXpTmJhm9gFJrYuP1ZKySjZYj2l5+XqOoBk8xeYhgM3EsR8zou/VMEub95RpSPUj+5Jn
+	 4r3Vc9MFeUJFiqFf9J2cSMJUUIkIPF472rQ42IszPP7U9dirmE+A6TGeBjtu6FQg8GlAD
+	 XnJZIjhgtr32me5c9WQfY1olbhzqvLZRouee3lgNBfpkupQIZX8JsW77TcZOVNd0Jw99J
+	 FPW+HdC7/BeSmsKjBIodGuiyTyLcnY1p0U4stV+YRmQmjUtivPzwkBmEXztdt33PjJw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793306119;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793306144;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=kFAjWqVlFrIH7aRNsfEXW0cTwDAw9D8sfuZWY6alCX0=;
-	b=YIsgluetqXDw+nU3n3fA4dcpLIoE1O14ffelW+qYWjZL1oIJ8A+RCDyt2Gnt5gWO1D+T
-	 KFShtjYQPYs5wrJs3cOWcnxNmfXUY5n5jm0XVRta+kzq5TkY8ZumDMN4Jtx/BEbYYlclG
-	 48+mqPawA5vk8h2dlNvbJTKYXMVc/KqhlMcZvVv09kjaC7cpkxuIwjQacSbomDUIOLSn2
-	 5vqjCHZYbd4RO4kYo2I+wcfhzEZo6bq+Gpr//v9wt/LbGsbTbhGP2/ngnvXFOWar5V2QM
-	 b2v4zM48qQEg9K69o379gMERl3kL0IRUaxfvwT3/WSqFeritTQ8IZxXrIVYN0J84irw==
+	bh=96TtEpSKdC/LfLy/tyx1VyuBrcl0jzn2JfhjMCHk15s=;
+	b=ud1+Kd84GLQsUnfkzQRJAEoSrtKlfc6MlfpBiVi+PUNJd0RobwEBXHMzubO7t6T7gReb
+	 yiMc/lzsvI2W8cKLybbOAMQrI/GnhRAHXmeQtMAbIRbH/F69iJInYNtXxeEj+Gh3FErfN
+	 YW2KLIXxzj7orm558SKYz8jG0LROMl/9LBBwgiGzccrIb0UkugNvo2j72N23KqXw59Lxw
+	 sBSAlApZ95jEqe3atWcn37XsDLegV7Mbnax1KcvqeD80OWFVdq3TcogrQDHgE2Tx/Xqkw
+	 UbE4ZfzpDTHyZABMe/M3qiNtJVOXxIpQnYlb/c9CrRfZAAgI71NIPLTtDWBny+ngOlw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="XzOcSZ0/";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IJ+jBZKM;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41783606A31C;
-	Thu, 29 Oct 2026 20:35:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FAFE606A31C;
+	Thu, 29 Oct 2026 20:35:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XzOcSZ0/
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26A761F01828;
-	Thu, 29 Oct 2026 20:34:58 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IJ+jBZKM
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 273E21F01826;
+	Thu, 29 Oct 2026 20:35:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793306113;
-	bh=kFAjWqVlFrIH7aRNsfEXW0cTwDAw9D8sfuZWY6alCX0=;
+	s=k20260515; t=1793306143;
+	bh=96TtEpSKdC/LfLy/tyx1VyuBrcl0jzn2JfhjMCHk15s=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=XzOcSZ0/8EjfLSpO8K/HcuZSOJbmmXQkIY53mzRn59GBRxsAtfiTFEDVrcM1yLKl3
-	 oBTrNqK7TdiI9gM7WJtE7zLxyjhZPpzV0WsUkCfYL/Zq7ZgrFgNEGdSxyxupO/nLIR
-	 Fs81prGpuyNkh4h18yqjW9N0cMlbxwMV3ALHT/84WBDoVJ05WlcrWo0o5AIcoX8Ql7
-	 0AhvnXbjkE3P/WuPhUNmmNp4c7S4pWbHzyrQPQDz0y4hQDrEGq2WCt9sVPsDVsy6e6
-	 zuX6cUOkjI5zZKKMpRFrRsGcZ9emk6B2GcItEG2PBmoGgzccnuLwaPMBL3pmdnj64+
-	 bnSOphJYGh87A==
+	b=IJ+jBZKMEaHA6DbBE07ZlAkm4HbB/m+XzRLXVZEMC1wvmXocloFyTi7T9sMwoPtAe
+	 2Nw2Kryl/u1bPc6g6JtQHUGDfxYk6K6/efXnRWJh7SVIgjRW1QCLhk1AfjBL4NsJtU
+	 ONCKT1TOxTu9I2GWiYIuklRqaKjAyXTHp6kBenM+lCB7MQcaWC5E+/F+ED/x+hYmqa
+	 5KKH19Mszf+VdsguhV9hkgZBRrhsKUI3NnfTqVEP3aEDJ3dOSWqPgoHgv7SXk9h3gW
+	 uW1rWwb8gPvo+hhFiVMcV4ZXrUi2frKbU8Pe6emWElcJ0sHugqGEAYXQW5P0REqau6
+	 VxQataoTrZ1iA==
 From: "David Hildenbrand (Arm)" <david@kernel.org>
-Date: Thu, 29 Oct 2026 21:33:02 +0100
-Subject: [PATCH v2 07/47] mm/filemap: don't lose a folio lock wakeup to a
- signal
+Date: Thu, 29 Oct 2026 21:33:04 +0100
+Subject: [PATCH v2 09/47] mm/rmap: handle device-exclusive entries in
+ folio_referenced_one()
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -54,8 +54,8 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261029-fixes_core-v2-7-a64ce7f83abb@kernel.org>
+Content-Transfer-Encoding: 8bit
+Message-Id: <20261029-fixes_core-v2-9-a64ce7f83abb@kernel.org>
 References: <20261029-fixes_core-v2-0-a64ce7f83abb@kernel.org>
 In-Reply-To: <20261029-fixes_core-v2-0-a64ce7f83abb@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -93,77 +93,102 @@ To: Andrew Morton <akpm@linux-foundation.org>,
 Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
  kexec@lists.infradead.org, linux-fsdevel@vger.kernel.org, 
  linux-arch@vger.kernel.org, linux-cxl@vger.kernel.org, 
- Josef Bacik <josef@toxicpanda.com>, stable@vger.kernel.org, 
+ stable@vger.kernel.org, Josef Bacik <josef@toxicpanda.com>, 
  "David Hildenbrand (Arm)" <david@kernel.org>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2263; i=david@kernel.org;
- h=from:subject:message-id; bh=7u0AsrX18I9QfeKreay7tXsWSgpaxn4U+CWR4qcEsEM=;
- b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLIer2291MuXbnXaLNMw/uX1tOZXcYnK+9aeVL/nlaF4h
- qdaO96jo5SFQYyDQVZMkSUo+L7By5fraqvd+Jhh5rAygQxh4OIUgIkcF2P4X16RdGbNIbGQ9tV/
- VrRe9lk932Zp6z6/K2/elLFvtlF9HcjIcMTwqNbp+EmRTVN1f3YYHTcs7L35TMld5fmhDd/PyCm
- e4gcA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3336; i=david@kernel.org;
+ h=from:subject:message-id; bh=T2JIigC0ajwmaRTR6cbJfS4ZfpBrmSia86Sk4tbihtY=;
+ b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLIer20NXFUbFcxnPK/t2pZp63Kvi37c+M3g129eobauU
+ /bS942UOkpZGMQ4GGTFFFmCgu8bvHy5rrbajY8ZZg4rE8gQBi5OAZjIqfcM/51E636ILny4PcI7
+ L7I2+YLnmfjG86nbO85PXigaOMv3qxAjQ2+10u04vzVbLgiGn54cmniPMz6OkVFV+lLdmY+b5TT
+ rGQA=
 X-Developer-Key: i=david@kernel.org; a=openpgp;
  fpr=1BD9CAAD735C4C3A460DFCCA4DDE10F700FF835A
 
-From: Josef Bacik <josef@toxicpanda.com>
+page_vma_mapped_walk() can return non-present device-exclusive entries,
+but folio_referenced_one() passes them to PTE young-bit accessors that
+require present PTEs.
 
-An exclusive waiter in folio_wait_bit_common() can leave the wait loop
-because of a fatal signal, then be woken by folio_unlock() before
-finish_wait(). If the waker did not hand over the lock, the waiter returns
--EINTR without trying to acquire it.
+We must neither call clear_flush_young_ptes_notify() nor
+folio_pte_batch() with non-present entries. For example, clearing the
+young bit on non-present PTEs can corrupt the entry: on arm64
+PTE_AF overlaps the swap type, so clearing it turns a device-exclusive
+entry into an ordinary swap entry.
 
-folio_wake_bit() stops after waking the first exclusive waiter, so this
-loses the wakeup and can leave other waiters asleep indefinitely on an
-unlocked folio.
+folio_pte_batch() will VM_WARN_ON_FOLIO.
 
-After finish_wait(), let a waiter woken without a lock handoff try once
-more to acquire the lock. If successful, return success so the caller's
-eventual unlock wakes the next waiter. Otherwise, the current lock owner
-will do so.
+Apply the same approach as the previous fixes to e.g., damon_ptep_mkold():
+treat these entries as old from the CPU's perspective and obtain their
+young state through the MMU notifier.
 
-Fix generated by an LLM and sent by Josef Bacik in private.
+Skip PTE batching and MGLRU look-around for non-present entries, and
+don't modify non-present PTEs.
 
-Fixes: 5ef64cc8987a ("mm: allow a controlled amount of unfairness in the page lock")
+Fixes: b756a3b5e7ea ("mm: device exclusive memory access")
+Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 Cc: stable@vger.kernel.org
-Signed-off-by: Josef Bacik <josef@toxicpanda.com>
-[ david: clarify and simplify comment + description ]
-Reviewed-by: Rik van Riel <riel@surriel.com>
-Acked-by: Pedro Falcato <pfalcato@suse.de>
+Reported-by: Josef Bacik <josef@toxicpanda.com>
+Reviewed-by: Harry Yoo (Meta) <harry@kernel.org>
+Reviewed-by: Barry Song <baohua@kernel.org>
+Reviewed-by: Dev Jain <dev.jain@arm.com>
 Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 ---
- mm/filemap.c | 18 +++++++++++++++---
- 1 file changed, 15 insertions(+), 3 deletions(-)
+ mm/rmap.c | 23 +++++++++++++++++++----
+ 1 file changed, 19 insertions(+), 4 deletions(-)
 
-diff --git a/mm/filemap.c b/mm/filemap.c
-index 906b013c11eb..6b5e1d866a9e 100644
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -1373,10 +1373,22 @@ static inline int folio_wait_bit_common(struct folio *folio, int bit_nr,
- 	 * return value based on that state without races.
- 	 *
- 	 * Also note that WQ_FLAG_WOKEN is sufficient for a non-exclusive
--	 * waiter, but an exclusive one requires WQ_FLAG_DONE.
-+	 * waiter, but an exclusive one must also acquire the bit.
- 	 */
--	if (behavior == EXCLUSIVE)
--		return wait->flags & WQ_FLAG_DONE ? 0 : -EINTR;
-+	if (behavior == EXCLUSIVE) {
-+		if (wait->flags & WQ_FLAG_DONE)
-+			return 0;
-+		/*
-+		 * We might have just been woken up and the waker will not
-+		 * wake up anybody else. If we ignore that now, the remaining
-+		 * waiters may not get woken up: take the bit now if it is
-+		 * still free.
-+		 */
-+		if ((wait->flags & WQ_FLAG_WOKEN) &&
-+		    !test_and_set_bit(bit_nr, folio_flags(folio, 0)))
-+			return 0;
-+		return -EINTR;
-+	}
+diff --git a/mm/rmap.c b/mm/rmap.c
+index 1131b76bbbc2..0faef46806e5 100644
+--- a/mm/rmap.c
++++ b/mm/rmap.c
+@@ -924,6 +924,7 @@ static bool folio_referenced_one(struct folio *folio,
+ 	DEFINE_FOLIO_VMA_WALK(pvmw, folio, vma, address, 0);
+ 	int ptes = 0, referenced = 0;
+ 	unsigned int nr;
++	pte_t pteval;
  
- 	return wait->flags & WQ_FLAG_WOKEN ? 0 : -EINTR;
- }
+ 	while (page_vma_mapped_walk(&pvmw)) {
+ 		address = pvmw.address;
+@@ -968,10 +969,12 @@ static bool folio_referenced_one(struct folio *folio,
+ 			return false;
+ 		}
+ 
+-		if (pvmw.pte && folio_test_large(folio)) {
++		if (pvmw.pte)
++			pteval = ptep_get(pvmw.pte);
++
++		if (pvmw.pte && pte_present(pteval) && folio_test_large(folio)) {
+ 			const unsigned long end_addr = pmd_addr_end(address, vma->vm_end);
+ 			const unsigned int max_nr = (end_addr - address) >> PAGE_SHIFT;
+-			pte_t pteval = ptep_get(pvmw.pte);
+ 
+ 			nr = folio_pte_batch(folio, pvmw.pte, pteval, max_nr);
+ 		}
+@@ -981,11 +984,23 @@ static bool folio_referenced_one(struct folio *folio,
+ 		 * are. —they could be on active/inactive lists or on MGLRU. So the
+ 		 * simplest approach is to disable this look-around optimization.
+ 		 */
+-		if (lru_gen_enabled() && !lru_gen_switching() && pvmw.pte) {
++		if (lru_gen_enabled() && !lru_gen_switching() && pvmw.pte &&
++		    pte_present(pteval)) {
+ 			if (lru_gen_look_around(&pvmw, nr))
+ 				referenced++;
+ 		} else if (pvmw.pte) {
+-			if (clear_flush_young_ptes_notify(vma, address, pvmw.pte, nr))
++			bool young = false;
++
++			/*
++			 * PFN swap PTEs, such as device-exclusive ones, that
++			 * actually map pages are "old" from a CPU perspective.
++			 * The MMU notifier takes care of any device aspects.
++			 */
++			if (pte_present(pteval))
++				young = clear_flush_young_ptes(vma, address, pvmw.pte, nr);
++			young |= mmu_notifier_clear_flush_young(vma->vm_mm, address,
++								address + nr * PAGE_SIZE);
++			if (young)
+ 				referenced++;
+ 		} else if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE)) {
+ 			if (pmdp_clear_flush_young_notify(vma, address,
 
 -- 
 2.43.0
