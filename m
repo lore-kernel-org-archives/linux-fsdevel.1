@@ -1,64 +1,61 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793275294;
-	b=qMZ84KZY+m2aHkSZyZ3KHVTF5DuecxCSV0KCZBmVemmgvOY76z1ck9t8bDl36ZGkdKdj
-	 Alv4rYb1Bf2kdaImsYMjGeneFcJym69x9UtR9FeR2HMdR1T/L7X5ygIPulPUzqAyq/w/F
-	 dXX8PNYHgYimH6wZHQurQ/wuDXC7shh2HRX9IjXxf0oLq/Ca7djbiv/J9nKj5bVq4m66s
-	 bqHX0UGq9eK8ctUI6CXKGaGjot5neqotTaTeghoYxE2GLILnZcxRwEpTUvSYtIsrp8uaF
-	 4/crUw5qeXCwuKIi4zT6kmjbsi1BiU06fYSCcEZ2sOQQAapkzj5rOSz671kSevm9wGg==
+	t=1793275375;
+	b=4wradKbAlYtuyTlhVftbPrHBKssUR/Jyi5GuNaK+CuxKA3EN+Y8NpkA5ugH3wkbfx8Xo
+	 yq3LuSYUslwhwtSLWqJtxemmgQrBN+FIB5YoVpL+a/3MEJbcPlQ5FVATvNd++V6lrXIln
+	 AUtwHqVsgKzraxIe+wowsdfONT6VPs1izPFNEh0lRdY3ORuVz+4uF8qDPagxenzHI4/NW
+	 hxqwyG8wgUdPnuyAFxWsuEGYUmfWauynajzfFtNyCcYdH/0WBONegcced+eQEYO/9Z0VG
+	 PTuc9mD+3Nc71HWQ+zN8RPYiNWYGgwUS1gfhm+d81t+HRb1HtxlkariAoavO9JlYScQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793275294;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793275375;
 	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
 	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To:X-SRS-Rewrite;
-	bh=g/MfhPFo345OEBPKf9YzTxZBUSGNafZSfrPGubFu2Qk=;
-	b=rOjssHYqDzpBAfLzHjmPGrTBGAQVv6f5ZwIG2jajKZw05yUJ8NQc+ULCH5/QAFJxHbxG
-	 TXIsD6VEQHPb5875i0VZ/HjO3mCaP2ABsjP/X7+miFCF0G3nCqErXQ3qfGedrCzC3EzWI
-	 Yq0i2oG0GYg5vzSv81BuSwaH8FmIYjT9vEVRq+fXgaD8zBOqgLb76Oe7AI1EZzjTUReSa
-	 WkF7oOwOnAFZ8i4Dhted8oVuiIBScZTSdJVZ+QlMAJNbZHW+y3ejq213RQ0qNxmeEp3ZE
-	 147vQUfKqNdlHUYAdjrA3UknUKTcVi7uUgnYz16lOKjXiT+CT0iMWF3K/Q78HABynRA==
+	 In-Reply-To:X-SRS-Rewrite;
+	bh=+yvgd/z3YW5tkast/LSe7BMSvA6NVM/2yRS3HdQVA/Q=;
+	b=uBZOkzLZXiu9l9BOxX/A0yU//wr6tT1It4fAccRO6Nd+wpDjAZ9R7JY0SVSYPf3LmpgT
+	 Xiu26U1LpnPXwcUDz+PQSHczdWRuA7dkvRYgC6XEuUL1Japfw8n2krsuQ0U3Vhv4xY7Do
+	 CvNIfUccP5EUTY9rw/YYp/nFU2uih3Gw0ej/qm5Vxofokq1XvVjHmbAPxfYnPmKN5wawo
+	 LuiEOHz4AtzXl3QLlp9voERbLEuUdmArUH4rmDRRr1bsyGu9QdHjdFmDJNp/IyAuV0l2m
+	 eIJd1FxkpFEmM5/K7R2qxB8h1fRSFFoHXjYYcglJfwU2DdTmYkHsGS0dKOD88VjlSBA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=infradead.org;
 	spf=none smtp.mailfrom=bombadil.srs.infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=flrpJOW2;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=JH5mIL7p;
 	arc=none smtp.remote-ip=198.137.202.133
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4AD5606A31A;
-	Thu, 29 Oct 2026 12:01:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B4AD5606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9B33606A323;
+	Thu, 29 Oct 2026 12:02:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C9B33606A323
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=flrpJOW2
+	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=JH5mIL7p
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Transfer-Encoding
-	:Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=g/MfhPFo345OEBPKf9YzTxZBUSGNafZSfrPGubFu2Qk=; b=flrpJOW2EYTfJAYLCxnD8ieB2V
-	esMKkeOcT65CtaYMBNT1borNZQcX28H4W8jqTtwNp7eLURlwcv4MdWNb4KpWH5BV25WA13ccPenPw
-	uC1jWywXAozRuHV8/YybyhnVwPz+M+Nd0kMyQIaMnaILgMMZ+VJzzpVJ9kpZ50BxJg23vb5UB0aN3
-	PcDhsXhYpEqBRoZV4NV6DSr4NJCPEq9LAX4MSXL539uqsX03VlIRQYeJ3FDQVslRGSxCRAnD56B4z
-	HpFa7spV04CUxJxYystgEdKhcHLrxoQzlO5r3FOwHCTKvZu3FpuArhtjuxB7mFBgw5CeSPTBpbbIi
-	xCNEYsnw==;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=+yvgd/z3YW5tkast/LSe7BMSvA6NVM/2yRS3HdQVA/Q=; b=JH5mIL7posg4WBBnTyj1o5Afhv
+	7+LRTfuRA8iaoc0XiUF7DVHPCVb/wTFG1hU4MYC4GnWEqQao010Gcwnd0yrixifhPFpDhpO+URP8z
+	RZxqWzjLHpS0cAACLfCOIXayrvjrPQShUGMkHnbWEQyAaoGafYRg/x9Ya4ey1wfssUL0W7tTK3N/d
+	hihUlitsENBzVUZQadMgtC13kp1xiilwzTdCshisWPHF4bJhRk35FNhNtAbYA2Lopah7pDThAPOHN
+	8HIVLugEtA9yh7cz0z7BBiLQ5ddQIxVgnMoWxTBjZMamzzDu4BZsAeeKTGj6CUthkvsQcuWkd+7z/
+	TNHMNINQ==;
 Received: from hch by bombadil.infradead.org with local (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xMOp1-000000096gS-1lzZ;
-	Thu, 29 Oct 2026 12:01:31 +0000
-Date: Thu, 29 Oct 2026 05:01:31 -0700
+	id 1xMOqK-000000096kH-3DWG;
+	Thu, 29 Oct 2026 12:02:52 +0000
+Date: Thu, 29 Oct 2026 05:02:52 -0700
 From: Christoph Hellwig <hch@infradead.org>
-To: Qu Wenruo <quwenruo.btrfs@gmx.com>
-Cc: Christoph Hellwig <hch@infradead.org>, Qu Wenruo <wqu@suse.com>,
-	linux-btrfs@vger.kernel.org, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	"Pankaj Raghav(Samsung)" <pankaj.raghav@linux.dev>
-Subject: Re: [PATCH v3] iomap: only follow dio alignment requirement if
- specified
-Message-ID: <auM1m0fflCf_JNw9@infradead.org>
-References: <1559d839fc32f47db7e8da8c8b2a5ea9b63afb46.1793143679.git.wqu@suse.com>
- <auIUEwEzpgilJn_z@infradead.org>
- <69074a82-05d3-4a51-b266-b74a23b39eb7@gmx.com>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Christoph Hellwig <hch@infradead.org>, Zorro Lang <zlang@kernel.org>,
+	fstests@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH RFC fstests] generic: add a test for multigrain timestamps
+Message-ID: <auM17EN-wLboV0WC@infradead.org>
+References: <20261027-mgtime-v1-1-ec68914a116e@kernel.org>
+ <auIavey7CFq_l38s@infradead.org>
+ <3a5b0778c77df7cce94bf9fce974b1bf1dfb6324.camel@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -68,35 +65,32 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <69074a82-05d3-4a51-b266-b74a23b39eb7@gmx.com>
+In-Reply-To: <3a5b0778c77df7cce94bf9fce974b1bf1dfb6324.camel@kernel.org>
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Thu, Oct 29, 2026 at 07:04:57AM +1030, Qu Wenruo wrote:
+On Wed, Oct 28, 2026 at 01:20:24PM -0400, Jeff Layton wrote:
+> On Wed, 2026-10-28 at 08:54 -0700, Christoph Hellwig wrote:
+> > On Tue, Oct 27, 2026 at 09:58:50AM -0400, Jeff Layton wrote:
+> > > Ensure that the mtime and ctime apparently change, even when there are
+> > > multiple writes in quick succession. Since this is opt-in for in-kernel
+> > > filesystems and there is no way to test for this feature in userland,
+> > > limit it to just ext4, f2fs, btrfs, tmpfs and xfs for now.
+> > > 
+> > > Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> > > ---
+> > > I'd like to start testing this to make sure it doesn't break, but it's
+> > > not universally supported on all filesystems. Is an explicit allowlist
+> > > like this the right approach?
+> > 
+> > Can we please expose the fact that multi-grain timestamp are supported
+> > from the kernel?  This seems like it would be just one bit we'd need
+> > in sttx or something similar.
 > 
-> 
-> 在 2026/10/29 01:56, Christoph Hellwig 写道:
-> > Can you please write a normal commit log for this?  I.e. explain the
-> > problem and the highlevel fix in short sentences.  No need for [] tags
-> > or xfstests output.
-> 
-> I think this is really up to personal tastes.
+> I'd been resisting that, but maybe it's a good idea. I'll see what I
+> can come up with. We can probably just add a flag to stx_attributes?
 
-To a minor point, yes.  But there's also plenty of fully objective
-reasons against this style.  One is that is inconsistent with the rest of
-the iomap commit message.  Please stick to the style of the surrounding
-code, and that includes the commit message style.
-
-The second is that this style is not good for bisecting or understanding
-the code.  It takes 2 and half pages of scrolling before getting to any
-useful information.  There is way to much information in here that
-does not help understanding the change.
-
-> I understand that too detailed commit message is slowing down the review,
-> but if someone else in the future needs to re-check this commit, I guess
-> they would prefer more details than less.
-
-Quite to the contrary.
+Yes, ever since STATX_ATTR_DAX/STATX_ATTR_WRITE_ATOMIC these don't
+seem to be tied to actual inode flags any more.
 
