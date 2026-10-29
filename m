@@ -1,47 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793267980;
-	b=DY+QIdnJyoJB02dgT4xNCZ4pKodxUoTPIHN6c7cxkUK0YFzn5iTk9qR/TQm7+/f9aSLl
-	 qGulkKSZlmLQgTlHjKmcLL+ZBXis+QGepUksN5sNKN0g/sBdzEyeAd9l/5+O/7A+ou1Oo
-	 A+hOwOHB7dYWJoOPsO0n85JsO+4reFX+iZBJ5Tco2WViCwktzMv5lKUIqP/Qn28jW7uHK
-	 QuT7m4lfGuziQMM53IX58VdcG0xZpaTM4V3JA4Q5Szlbn+TRJLyNkQNqCbOJyn8IqINyM
-	 vmUr5YSEAkG4bT17NbxZ5gFwc8BWCtBQL6vsNF4dVgjaw4p3Rngsedy/YaiXSmnFlCg==
+	t=1793268033;
+	b=BX/0LVWnMdqiyF/A0F8jPdwSsb+Y6vyt1DfJT8VTC9mzn0CqF50TGQEWJMS7PyBGZ0kq
+	 +Xq4OTQ91geOM5O2SiY3L/jHIMH+sgZfFuPsCE4wA7tXz7YqkqFjTd38ee2fVtw3ncCPI
+	 jYBOiZugNcbccK2DWyjHdsatUdft/eoEnqJAlbhEwxkG2SQso4JdtjiG5Y85eUH+b4zg6
+	 0mnfM29uQKvQrc1/qyD0v8IR5Ta634UsNmy4NtVDya6vHkcJrMPOjYEfeESS4cmBR3Azc
+	 zIuUamvsc0iQmuEYrgmuanwMsq2zLnxMwWdpfPEf/fPlHwnbxum906rA+30t26ppDhA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793267980;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:Content-Language:To:Cc:References:From:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=U99SJ7R4mLLxhW7B2LnKG47mwU6pah+xCFdx+p50og8=;
-	b=QODNXddUwnZFtr5LY+UfNMsW/abzckRdfKMwUkJYcFtZKOkhozQsmk9IhcshOS69Ju8r
-	 kkf8hZvpVf8/9Sr9dCgCFNmyY3aO+0JB/afm5Awke8h01ajznKdiBWUsIuOdPzD3+GAR1
-	 bkeHTZNSmiMEQy+T+tBYU8N01g8Wlbd0j0bw5tJFvPBz5Jwsyb6WEvZsL7e/uHK1Q/hpx
-	 Wl3V9kmWt0uQk8S4Yk8dMwH6i51maW6sO/aVe2pNKLfiofYjdxnfQBt7gLDLnxpQRDOic
-	 wUEsHnsmLV9q1tZAChNlt/IxNfRkv2AGVTHZ2HaIYZu1yhDvOlXR5Gjg2mc2yrWnDSw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793268033;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=MuAgzDOGGZNImhzWO720yvkQx63NEyn8l8tBYbjMb5U=;
+	b=Juk89Q5Q6R6BPINMAcnsp73jkncBhQPVYDWWU5e0tosg1flPbmYIRkfOcsM3uGazD11b
+	 ndz+IFquqtNJZoxipBT8USgu5VoKeHLTC9bvk1GGrxPa7CYresh1RU+syHQ1JQii2bZhr
+	 ggEcW6XCWF7ZeLKfMclKtfrK0/idEkSio3sKa4wdhA34PbQ9oWRvCl6fhq4sLs0V3lvZh
+	 twy3KjuQ+oUCUg9U81WBGBa628GPVEd1oFWYBpw7It/xtd1PnTL2Oe8+TsmJeeRH/faJl
+	 JegvsY50ZFYaWEoMYgPsmI3UlytRP+8VRF4ZUz2lv6KjW1qKirDgr+4MnbwIdOotLGA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Zix5f4Ae;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=JAywMryx;
+	arc=none smtp.remote-ip=209.85.221.51
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6069F606A329;
-	Thu, 29 Oct 2026 09:59:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD91F606A331
+	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 10:00:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BD91F606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Zix5f4Ae
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55C9E1F01825;
-	Thu, 29 Oct 2026 09:59:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793267980;
-	bh=U99SJ7R4mLLxhW7B2LnKG47mwU6pah+xCFdx+p50og8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Zix5f4AeG0b26CGKytIaRSw6ZEc3BYP6FNOflQjshf6oQ3fBYtCcKvD418n2O4idD
-	 VkC/KPqEkvzykEwu922IObYnxERDc7XkUgobdi8UU/njPjCnkOeMYsps1ZutSRPHjC
-	 NglNsTidAbDJJpEd+mFmX4esNqh/qJDQs5Iscg94kEYA9TK7o3+hcpNKOXI3l2uXHE
-	 uosyFJHk1JYglJomqxSnJlTghv5bHaGCcCFZlaG0/KesU7nluOqQeCvyb7UueHTHgb
-	 o78V8/RjkWyjJux2U3iC9Dlb0a8P9ffNnfw3DyjkFsxHxmgQ/jPHwLIp72Av380LX6
-	 yNYLu/4sTdw/A==
-Message-ID: <1fc0caa5-43b1-487f-94cf-0d1aff4c03fd@kernel.org>
-Date: Thu, 29 Oct 2026 10:59:33 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=JAywMryx
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-48e46e449e8so1145676f8f.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 03:00:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793268031; x=1793872831; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=MuAgzDOGGZNImhzWO720yvkQx63NEyn8l8tBYbjMb5U=;
+        b=JAywMryxHW1yaysWfWfVQAC0k1C8utwWeeeo1Tt788UbG8ftVXpmVToxy8Ui/PbSt4
+         pK69YqTnf+OIdIYPJN6q+/TATtv+wPb6XUkI8stly8vXz1CrpvD99gksZmgxsCBYVYqz
+         hFdsofdcvZ0c2pmoxr9P1Z9hah+VlU2mF4/rt3v7tpaUMHAMe2MZTZYJkFUr02gPdD7V
+         aQ7hZVvx3k6/irktRxITFy4AwZw3x2yeJiIDDaFrgigLPDmwFNhmysyRzGCT/BTLNr5G
+         51KTo/tUIZWi2XvnhbhrsfiiTQ4pHKR/2ywEvKJw8dyctfdL520Sdobp3wjnqgTZRaDz
+         1m+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793268031; x=1793872831;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=MuAgzDOGGZNImhzWO720yvkQx63NEyn8l8tBYbjMb5U=;
+        b=bDuy8IVfLK8U2MDxqZSkLhGQO0tfcBlZPJfHeZ+mZspf/2XQVUB2R5khB5GTYWNJK6
+         BdwI5WuR2kywUL+bZTCPHqw7144EQ1YQ9Jcem6WtCGV60NlZQbsTAQYBaTI3Gbx3FmWw
+         jvrpQLA+fHMwi1lc8uP4iaelkbzDDJ2FWvpZGyLTG9l2npObLCdOBBjOY+ut6I+gPzYk
+         q9MTVhVyYaF8TrrXdzK7GoeDR+nJZhZpLnSi9wXgL6LGSq2+PEf8/edJlKTBu3jnvH5H
+         nYlv1KyyZlYdFMXmd1jUAKzuJs+RSTRmplpQNrMPA9gIu3biBrjhNZoEdfedmMeqvHDl
+         z1FQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxRrfPonggfMLM4bH5R0mqkwmVnk6sNThzPv5RTRlmVWcyOCwdft18IhLdgN37LqSw4HdghjvQwOS22c3U/@vger.kernel.org
+X-Gm-Message-State: AFq9FYJL2w1h/CDWUhiMTBK/ZPIK5BL21+MBcmPOl/EsYu6ToK0dNcVI
+	eBrgViLwT5SanEFECCZwA0ZcX6tEBpCxu4H1IdbDqoi5mTK7NWkXaGVH
+X-Gm-Gg: AYBFou3esy/2Avbpnb76REOa7DRVXs2eVa8urw3JRtNc415LGUEBs6p9gcZNf/ZyGaZ
+	BOhqMJxkXsxJgHUXmQLKGjXyW4wXchYzW35nRla00whi+D3+GZhLkFnDLIehhAJwIhYc1PeuXGq
+	4hX4rQkTIgly4CQ4pSmOirLL/Jc7fJlGyLmmQk0YwcLAvgxcyJZuW9eJpS5h2VQUbIZfoH5rdP3
+	IblGT30GK2I6gY2mCcbbdvDiuh9zrvmyACRrUPbHVTNUC9oS/HTlmbauWjjM1EcQyg/CPnAOG/M
+	gZlUFdRhFPWLQ8NXiAJeKSB9qdGnr5CvVIGbxrfCCIiOSGSDFoJhuCVPXu7FZw4XCX/zUABfIVt
+	V7KRfbW5pa1Eo0hebx+dey7sYa35FAdxvY13cbV76jOvrimH/l42FcVl7cvbfbImu50f1+rrWxz
+	pCoav2gLg2R3PqUhoumiXRV+XVruuT87LhwsevboXRlVer/xuL8jcHBnt38V5ZzTceg1mmqgxLQ
+	7vi16oUeI0crHXUq4dZAHqmitLSHYzJ+W6k+Pr794H3U6I/aeHlTE0OjyANksXZmWbkYsJYUqfG
+	8HWwNBFG5wIdHEjTHi14b+rR8wCeCCNUL6xs6DF4Soo=
+X-Received: by 2002:a05:6000:29d7:b0:48e:6264:c373 with SMTP id ffacd0b85a97d-48e6264c7f1mr4314548f8f.14.1793268030946;
+        Thu, 29 Oct 2026 03:00:30 -0700 (PDT)
+Received: from dell-desktop ([2a02:587:4b42:1400:8199:c552:2b9e:c33])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ebc3c5bsm34025569f8f.9.2026.10.29.03.00.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Oct 2026 03:00:29 -0700 (PDT)
+From: Anastasios Papagiannis <tasos.papagiannnis@gmail.com>
+To: bpf@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	ast@kernel.org,
+	daniel@iogearbox.net,
+	andrii@kernel.org,
+	eddyz87@gmail.com,
+	memxor@gmail.com,
+	viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	jack@suse.cz,
+	tasos.papagiannnis@gmail.com
+Subject: [PATCH bpf-next 0/3] bpf: Add bpf_path_getattr()
+Date: Thu, 29 Oct 2026 11:59:49 +0200
+Message-ID: <20261029095952.44833-1-tasos.papagiannnis@gmail.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -51,118 +103,51 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] mm: page_alloc: do not give all non-blocking requests
- reserve access
-Content-Language: en-US
-To: Andrew Morton <akpm@linux-foundation.org>, Christoph Hellwig <hch@lst.de>
-Cc: Salvatore Dipietro <dipiets@amazon.it>, hannes@cmpxchg.org,
- abuehaze@amazon.com, alisaidi@amazon.com, blakgeof@amazon.com,
- brauner@kernel.org, brendan.jackman@linux.dev, david@redhat.com,
- dgc@kernel.org, dipietro.salvatore@gmail.com, djwong@kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, linux-xfs@vger.kernel.org, matt@readmodwrite.com,
- mhocko@suse.com, ritesh.list@gmail.com, rvvandan@amazon.com,
- stable@vger.kernel.org, surenb@google.com, willy@infradead.org,
- ziy@nvidia.com
-References: <arFBr22V60BMmVpl@cmpxchg.org>
- <20261027150002.318916-1-dipiets@amazon.it> <20261028144148.GA14023@lst.de>
- <20261028225517.75e13881be22461a8c94e07d@linux-foundation.org>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Autocrypt: addr=vbabka@kernel.org; keydata=
- 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
-In-Reply-To: <20261028225517.75e13881be22461a8c94e07d@linux-foundation.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 10/29/26 06:55, Andrew Morton wrote:
-> On Wed, 28 Oct 2026 15:41:48 +0100 Christoph Hellwig <hch@lst.de> wrote:
-> 
->> On Tue, Oct 27, 2026 at 03:00:02PM +0000, Salvatore Dipietro wrote:
->> > 
->> > Hi Johannes,
->> > 
->> > Vlastimil asked that v6 of my page_alloc patch [1] not go to mainline
->> > before these two patches land, so Andrew parked v6 at the tail of
->> > mm-unstable and dropped its Cc: stable until then.
->> > 
->> > Are you still planning to work on 1/2 and 2/2, and if so, do you have
->> > a rough ETA? Or would you rather post them as a separate series as
->> > they are? If anything is needed on my side to move them forward, I'm
->> > happy to help.
->> > 
->> > For what it's worth, I ran both stacked under v6 on v7.3-rc1 and saw
->> > no performance difference on my benchmark with or without them.
->> 
->> It would be really important to get some fix for this into 7.3.
->> We can still perfect it later.
-> 
-> What is "this"?  You're referring to the performance regression which
-> Salvatore's "mm/page_alloc: avoid direct reclaim and compaction for
-> costly __GFP_NORETRY allocations" addresses?
-> 
-> In
-> https://lore.kernel.org/all/9f415dc7-adad-4161-b20d-7c3173f50ff3@kernel.org/
-> vbabka indicated that Fixes: 281dd25c1a01 is needed on that patch.  The
+Userspace code can populate BPF maps using file identities obtained from
+statx(). BPF LSM programs need a way to generate those inode and device
+numbers to look up for those entries. Reading inode fields directly can
+give different values on overlayfs and misses filesystem-specific getattr
+behavior.
 
-"that patch" being Johannes's and the v2 you picked up has it
+bpf_real_data_inode() resolves the inode hosting a file's data, whose
+identity and metadata can differ from those reported by statx() on 
+overlayfs. It does not invoke the filesystem's getattr operation or
+provide mount information.
 
-> patch I'm sitting on (below) has Fixes: 5d8edfb900d5.  Please clarify.
+This series adds bpf_path_getattr() for sleepable LSM programs. It takes a
+trusted path and calls vfs_getattr_nosec() to avoiding calling back into
+security_inode_getattr().
 
-It's correct.
+The kfunc returns a 64-byte bpf_file_stat. We avoid using struct kstat
+directly as this is an internal structure and this can lead to changing
+the user API. Inode and device identity follow the filesystem's getattr
+operation, and the device number uses stat(2) encoding. Mount IDs,
+mount-root attributes and ownership translation follow statx(), including
+mount idmapping and translation into the current task's user namespace.
 
-> In
-> https://lore.kernel.org/all/c6e2c1e1-a285-406e-a2b6-c09e05df91d8@kernel.org/
-> vbabka argued that Salvatore's "mm/page_alloc: avoid direct reclaim and
-> compaction for costly __GFP_NORETRY allocations" should be a 7.4 thing.
-> 
-> So it's all clear as mud.  Can people please clarify?
-> 
-> I have hannes's series "mm: page_alloc: fix reserve access for
-> non-blocking requests, v2" in mm-hotfixes, planned for 7.4-rcX.
-> 
-> Should I move Salvatore's "mm/page_alloc: avoid direct reclaim and
-> compaction for costly __GFP_NORETRY allocations, v6" into mm-hotfixes
-> also, and restore its cc:stable?
-> 
-> My vote: "yes" - that's a pretty obnoxious perf regression.
+Selftests compare the result with statx() on tmpfs and on overlayfs before
+and after copy-up, and exercise verifier restrictions. The series also
+updates the relevant documentation.
 
-Yes please.
+Anastasios Papagiannis (3):
+  bpf: Add bpf_path_getattr()
+  docs/bpf: Document bpf_path_getattr()
+  selftests/bpf: Test bpf_path_getattr()
+
+ Documentation/bpf/fs_kfuncs.rst               |  13 ++
+ fs/bpf_fs_kfuncs.c                            | 108 +++++++++-
+ .../selftests/bpf/prog_tests/path_getattr.c   | 185 ++++++++++++++++++
+ .../selftests/bpf/progs/path_getattr.c        |  25 +++
+ .../bpf/progs/verifier_path_getattr.c         |  57 ++++++
+ 5 files changed, 387 insertions(+), 1 deletion(-)
+ create mode 100644 tools/testing/selftests/bpf/prog_tests/path_getattr.c
+ create mode 100644 tools/testing/selftests/bpf/progs/path_getattr.c
+ create mode 100644 tools/testing/selftests/bpf/progs/verifier_path_getattr.c
+
+
+base-commit: d80373a8e70d3193151232c3062abbbe367ff5ad
+-- 
+2.56.0
 
