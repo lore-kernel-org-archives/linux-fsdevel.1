@@ -1,49 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793306706;
-	b=yiSEDBXjm+ow8sz79UpvMUCd+QQaQAjilLZrNqjRZaXKufPn6Weng/ms1g9NHooN3VS7
-	 DJGt4BJeTsjtLzyRSpigrEN9v+LGMC2Bzb65Nq4cir2kqVmt+F/ajLHc6r4w731JBXByl
-	 K6xzMCgfSwF+G2AEJWTCZD5euhRsUnz0HGu2MH7Kkl50r9NIboU+5+GFjpiXBWx1W2gfU
-	 QU7Te2e24RlRNsIKpTEyPXVir+YityxtoQm39fYSkzQe85Tyuk5VMkjd1/d1I0FX3rGof
-	 613uDU6ATINSI6aZnXuwp2vpOQU5bpkfOT2iPRsr28BXGDkr8mxtfvYT2LUiyqd1yyw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793306706;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=GTbYn1B9uEaHo+IwnQISx6DSu8nadScf/DEgScNsxUY=;
-	b=Ko1e0GW4xdBuqRtt2k0706mPAkJ19cVaJYBJnyvBZhEXl/75XZrNhRnxYw7hEkCy89u+
-	 7zget1MDgtV6Qto1FpLMAZQCcyM8rwSZwtYfYcSNxjd9W8twTtjdoHDrb72zuwmULY5FO
-	 f5PxPknZDn0jClMPdjd6aB7dQVb/HmvtOzkx/WIwxEYxMARBMS0+EGHka9BJfMTWhszzL
-	 xR1xGR2feHKxFMM1dx7os6P5HDGEw+sHzOOke61Wjcoww00gaPJC73N6fHWfMwUJRb4YX
-	 tUczL8exJfwraiYnQarZLWJROGJJz1vP2dW0+RjCI2bH8d+Vh/hx3m7S7XuSSaKedJA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WhdvjoN5;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.52
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793306933;
+	b=QLNUEyr7i5bANPP23LxeeVV1z47XOALbLfRxP7lmMsv/mIOaiyCa0UeVCRZEzGermXd6
+	 TPgiMnc4Kd5uM/K1NqC2g7WWrTgk/JACBYbRBcOwcw6qbgUQBBXAfuHq2H2uKsm0WV/zq
+	 3q+ewQZtLHfVNVKASRfJ4FFIQig8rJpvhTCHAvo3QLuhX6XsMe5juM7IxqjHz9yGA8UxT
+	 RA5V/9vS2xppG/5bG5vxrI7of7vMgIfbEfKux6/yZxKoXtrk607YFp3e46KU8IrSD1XG0
+	 MwOvK7VFscuV+F0mT0pZDSFST5Eqs5rCX6gONkQwY7YbKz/irf6KtSZY6N6tIjzbnzw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793306933;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=yyGVEok3SUnsRUPDNzW62kR2XDnd9rtJfHAqIMU3cc4=;
+	b=jsK93sGN6T6N4SDb5mFY2yX7YtR4rlUeNpntXRJ9la9YGeC+79zs7TA0MbDnragh51uJ
+	 kHMqfCXWboNOLNP+mSx+jKSgntWMnEgYfbEv7MJfBI095ZmOVd+XKFKem0bPBJKQd/tu0
+	 dxBC75Lvi68Kt7GPRYlDd4NWMBE2wLyRM1Dck9MRDCZNpQUDC27M2byvR//Awuzp4cCSQ
+	 hjTL16GfQp3c4UiS3jFpB0nS4qSTAUhoTobseYmCH2Zo7iwhQ44lu+BqgWUXaU7dDuzBr
+	 YQo7aEExiHXrTcb01p3Urx26vQGwHjKL9C2dX2s1/Og/BLi73VxpXR1Kv/Ohm1VDWLQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=e6qpsRbY;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.52
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EE4060A380F;
-	Thu, 29 Oct 2026 20:45:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FDA4606A322
+	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 20:48:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3FDA4606A322
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WhdvjoN5
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CB641F01826;
-	Thu, 29 Oct 2026 20:44:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793306705;
-	bh=GTbYn1B9uEaHo+IwnQISx6DSu8nadScf/DEgScNsxUY=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=WhdvjoN5s9yBtKL7TO38yUQNFfwrtZV+RPRgO+dXzIyrW8v5zeF7U9sUJeRD31dCv
-	 tnqMt3RnlqgeqbFDBeJAps0ju8zYO89p+SoK/or2UoMdEm0hCT/TD/yDv0PCOqJ85P
-	 fNE8dHo04vvN/YtksdSHaEnUUy15/kf2CTeZdHFG47FJoXBqSAglNrRlOwaDjz8AAy
-	 wlfc60h5OWJMf1LQnsGiuPdwzn1ZbsCsvU/CR2NPTcn/RQ5ASf9KNEV4lkEIoVlIr7
-	 6AOCkbODg+/zUBE9orFJVeVfbx5hHhBwXIQMFWWkdVDDspFJ9Pj/83r9qJZySYzwBG
-	 KUEYRbyPx4IGw==
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Date: Thu, 29 Oct 2026 21:33:42 +0100
-Subject: [PATCH v2 47/47] fs/proc/task_mmu: refuse addresses beyond 32 bits
- on 32bit
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=e6qpsRbY
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-c49c32650adso12230366b.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 13:48:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793306931; cv=none;
+        d=google.com; s=arc-20260327;
+        b=oyvfr0CUNEal3PXUuRT2wKpg03caQNSEk3zkbUhjXVpoaLX1aOLoTrOfPckhxzan3s
+         GRfCxy2mB7cZWDVeQI4hI4p4u1bKPl8xPNGYaihB0pU0KvtTpvOPZqINZvvq0Wc6yY8Z
+         mXqZ/vYzJZ+RIYUb2hutbveNJphu6aFyhDhadxXrdeexc+93uLSy00LcP8y51xFeVlxf
+         /jaPCIqwJkS0oqUIGadexL73QjioDLjz2eXhoP6zWwc4bEoQqpeUpObyvUoB/6wBMxX/
+         PutxvSSdH5XQMNCVJfbj1XYIXeDCq857JW46KBQ4gkEiEswZzgp9TToc6ZD5IANysOd/
+         GHyQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=yyGVEok3SUnsRUPDNzW62kR2XDnd9rtJfHAqIMU3cc4=;
+        fh=3gWim/aFyYRQmTXXki/4vWI29ZfVjoiaaQZ7ar1fBuc=;
+        b=j3H2vsJkGGfcp2pcYy6A+Dj05O8kMTubeVBoQA2RCDacrDRFWGAhMFQ0sgAWdmOHhF
+         eZqR03K4gJ/iHRI4tZclGmXTDYLx2H9c/BsUkJAyIVQb5JGsyT4ML8n/WubTYxdV3wZS
+         kuh+lSgNZvslsnODdd+bniREY0IAhvQoPla+etIj7k+Vwgq1z5zcC81p3L7IW57qAW8F
+         /Ei1uUjR14tYWVvChfNwfYPfJSkKP3d/8m5hZ9vvP39/E98irKXOeO9A3RJpmNRPxzx5
+         6bsADG6Wzo9mnRgjVYM/njma+EwN8TpBn8M7k2sY/WtsbOEjmG3/3xh0/5cSF4tL67Dd
+         7NgA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793306931; x=1793911731; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=yyGVEok3SUnsRUPDNzW62kR2XDnd9rtJfHAqIMU3cc4=;
+        b=e6qpsRbYjFT0eIt/LKJKfufcTrvVesamgHTe/tH+aPIWH5KmPg1PVTVAgHs87VWxjb
+         hfyh3D7pOXlzG9/U+ZkrI4CbYboqDvLcTyMrHFg/fGyMjcV/0RaMmQuyURxYOj25U6h6
+         DHS25YpphlHLb5DB97Qkd1bG5c2FNb0Kn9KdXxz3WGf0Kr8Q+pzXtLru4UJ/iY+OacT+
+         6LhxXXaSNvTVN+L/kdoYQoXDDcxDT8IaiT9HClxLzSgLG5OFSN+DTjb9n6HmCuhRMwtC
+         Md7VJle2Ac1Tp2NOISJmYRj38oqujAMi2OdxGscavYh4HAll3I+q311CgoL5hiP078On
+         GOmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793306931; x=1793911731;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=yyGVEok3SUnsRUPDNzW62kR2XDnd9rtJfHAqIMU3cc4=;
+        b=IChYiPUWIptKB9aFDELfSijwdwUNWyGL+gG5oT9nRHjmEFTRp23hOhlAE4d0fhjafp
+         umBMYyD35vDrqPlhKA70mubzVGnC3nNk3P19gktzccv3cuPilrufno6xOLEmEq1w/QTQ
+         muDKUvxZx3Tdje/nuZVcA/tXBXz9gYCPCcGACMGcFBJHsSMF99dR7UdzblSWVufsEz6q
+         Tm7B7zDRV++leFLXtAVAmHHhhzXXNIpcsmWRb6GwN1xbghkHAegUlVH3hiudVD0NoqF2
+         GpD7CXeEfjvU1BnkuDZGvcPwOi6+rKGQ4bUi6DX4Hv94DecLg48h/t8W9nXOYmxJ9ej3
+         X6Sw==
+X-Forwarded-Encrypted: i=1; AKwUvBxTfz+T9uMHHoxFENF5fnbmfSNPzD1l1ABkMVk/1bhU/4nDVNvxHmGHPnw4NebZpuvyTN+s5qJXFzmeDJ3c@vger.kernel.org
+X-Gm-Message-State: AFq9FYIzgJScQz+KC78eyIO7O8mixgAa22vEfrVPV2YrfTTNNGmZNrSz
+	aOsDhBfkQkXf8bIScgtYujf6OlFg8LVWmGcWs5Q6AXehi8jD0tTW7+yjKsFJ1re92IJJgEg7ClZ
+	tIxH8e2PSkR4sorA2p2jMFsqrOf6HEbY=
+X-Gm-Gg: AYBFou3Y8J9sgkzEN7Wiz/9sm5LGPSWCaoeSNZEDK3xhhztPXKHAE2N8u2/5N1/N4Bn
+	G4DwKdTPF84uYN1rf/lp1/zrEz8yoT0SL48v9lu2BF0fFroMfqG6wc1T3YBKq5S6gdDqzyfHCzW
+	FfcMKy0S3Oz4eEIm2Ba6j+TyF0s3HzX/1HI1TLawIsP38mdbblx/8xL6xK86+wz+IAh57er6LGx
+	KAFxaKe64Va/YVE+hvynR2YEvAESVt6cJWEx2dlSm56gUwL8QemDxpf/Q/yu4InQKnRecxIsAXv
+	6J2sHQrxqENDJNr90si1rm5ubwFxOcYsm8TNyYOG8jl/DO48m9XlbOWuwmh6H35GV46jn/97lWq
+	a+H3vvIvjCHlk4PGKWUNw4ynsss3RO+tlCzN8PYm1jIEVzay1cY+0rt0Uo1weVOvPoa1GQmg=
+X-Received: by 2002:a17:907:9c06:b0:c38:ee33:2931 with SMTP id
+ a640c23a62f3a-c4ca7b5f423mr21132966b.37.1793306931390; Thu, 29 Oct 2026
+ 13:48:51 -0700 (PDT)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -53,100 +104,84 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261029-fixes_core-v2-47-a64ce7f83abb@kernel.org>
-References: <20261029-fixes_core-v2-0-a64ce7f83abb@kernel.org>
-In-Reply-To: <20261029-fixes_core-v2-0-a64ce7f83abb@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>, 
- Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
- Lorenzo Stoakes <ljs@kernel.org>, Kairui Song <kasong@tencent.com>, 
- Barry Song <baohua@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>, 
- Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
- Baoquan He <baoquan.he@linux.dev>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
- Michal Hocko <mhocko@suse.com>, Kees Cook <kees@kernel.org>, 
- Peter Zijlstra <peterz@infradead.org>, Jann Horn <jannh@google.com>, 
- Pedro Falcato <pfalcato@suse.de>, Hugh Dickins <hughd@google.com>, 
- Pasha Tatashin <pasha.tatashin@soleen.com>, 
- Pratyush Yadav <pratyush@kernel.org>, 
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
- Zi Yan <ziy@nvidia.com>, Lance Yang <lance.yang@linux.dev>, 
- Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
- Alistair Popple <apopple@nvidia.com>, Nico Pache <nico.pache@linux.dev>, 
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
- Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
- Matthew Brost <matthew.brost@intel.com>, John Hubbard <jhubbard@nvidia.com>, 
- Peter Xu <peterx@redhat.com>, Will Deacon <will@kernel.org>, 
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, 
- Nick Piggin <npiggin@gmail.com>, Oscar Salvador <osalvador@suse.de>, 
- Minchan Kim <minchan@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
- Xu Xin <xu.xin@linux.dev>, Chengming Zhou <chengming.zhou@linux.dev>, 
- Chris Li <chrisl@kernel.org>, Kemeng Shi <shikemeng@huaweicloud.com>, 
- Nhat Pham <nphamcs@gmail.com>, Youngjun Park <youngjun.park@lge.com>, 
- Gregory Price <gourry@gourry.net>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
- Rakie Kim <rakie.kim@sk.com>, Ying Huang <ying.huang@linux.alibaba.com>, 
- Jason Gunthorpe <jgg@ziepe.ca>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
- kexec@lists.infradead.org, linux-fsdevel@vger.kernel.org, 
- linux-arch@vger.kernel.org, linux-cxl@vger.kernel.org, 
- Josef Bacik <josef@toxicpanda.com>, 
- "David Hildenbrand (Arm)" <david@kernel.org>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1693; i=david@kernel.org;
- h=from:subject:message-id; bh=H23iSXQ9Zo3UCvNDkTgZhR+Jd2mqfSBMzvPG+6Su2Bs=;
- b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLIer+36dd5g2Q4ND87Jf761zFBNvRKV+lT8j+vKzflze
- YyOa+w70FHKwiDGwSArpsgSFHzf4OXLdbXVbnzMMHNYmUCGMHBxCsBEvrUyMqy5fPDlzml6Z/cX
- 79h+PNfDilFB5ZDotvsSF56fsl9+5eVERoa/IndyDIr42sM3z5yxY7reXodOs79NDjUek3fdtxO
- tdeEBAA==
-X-Developer-Key: i=david@kernel.org; a=openpgp;
- fpr=1BD9CAAD735C4C3A460DFCCA4DDE10F700FF835A
+References: <20261029174907.98721-1-dennylin0707@gmail.com>
+ <CAOQ4uxhc6a5jdwj+o_pCByYpwOC20=uHj0mi4D5n3UgrTqR7uQ@mail.gmail.com>
+ <CAGEkeHdYqS_9wipk9oy=ofo=KbNpOwccuqVEYPg0LqzCykXUrw@mail.gmail.com> <CAGEkeHctUoNiE_zWUgyL7zoKdfb1JFaMnUuV80iqnrHff03pVQ@mail.gmail.com>
+In-Reply-To: <CAGEkeHctUoNiE_zWUgyL7zoKdfb1JFaMnUuV80iqnrHff03pVQ@mail.gmail.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Thu, 29 Oct 2026 21:48:40 +0100
+X-Gm-Features: AclHuK-Givt611yWPPOpcfU_eK22SOr0dtVokP5D-0hsrLczRm81zw8Y8xkfvoY
+Message-ID: <CAOQ4uxjwSctaXOXA4o+=F5HT0zT0cbtPbxMvAhBQXLT-4gOZ3A@mail.gmail.com>
+Subject: Re: [PATCH v3] inotify13: check rename cookie pairing after adjacent moves
+To: Hungyu Lin <dennylin0707@gmail.com>
+Cc: ltp@lists.linux.it, jack@suse.cz, linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Josef Bacik <josef@toxicpanda.com>
+On Thu, Oct 29, 2026 at 9:23=E2=80=AFPM Hungyu Lin <dennylin0707@gmail.com>=
+ wrote:
+>
+> Following up on my earlier reply, I'd like to confirm that I've understoo=
+d
+> your feedback correctly before sending v4.
+>
+> Below are example outputs for the seven failure diagnostics.
+>
+> 1. Extra event
+>
+>     file: got unnecessary event 3: mask=3D0x40 wd=3D1 cookie=3D123 len=3D=
+16 name=3D"entry"
+>
+> 2. Wrong event mask
+>
+>     file: got event 1: mask=3D0x80 (expected 0x40) wd=3D2 cookie=3D123 na=
+me=3D"entry"
+>
+> 3. Wrong watch descriptor
+>
+>     file: got event 0: mask=3D0x40 wd=3D2 (expected 1) cookie=3D123 name=
+=3D"entry"
+>
+> 4. Wrong filename
+>
+>     file: got event 0: mask=3D0x40 wd=3D1 cookie=3D123 len=3D16 name=3D"o=
+ther"
+> (expected "entry")
+>
+> 5. Missing event
+>
+>     file: didn't get event 2: mask=3D0x80 wd=3D2 name=3D"entry"
+>
+> 6. Identical cookies for the two FROM events
+>
+>     file: got second FROM cookie=3D123 (expected !=3D 123), wd=3D1 mask=
+=3D0x40
+> name=3D"entry"
+>
+> 7. Mismatched cookies for the second FROM/TO pair
+>
+>     file: got TO cookie=3D125 (expected 124 from second FROM), wd=3D2
+> mask=3D0x80 name=3D"entry"
+>
+> Do these follow the pattern you meant?
 
-The addresses in struct pm_scan_arg are 64 bits wide.  The first thing
-pagemap_scan_get_args() does with them is to cast them to unsigned
-long.  On a 32-bit kernel the upper half is dropped without a word:
-PAGEMAP_SCAN of 0x100001000-0x100002000 scans, and with
-PM_SCAN_WP_MATCHING write-protects, 0x1000-0x2000, stores the result
-at the lower half of vec, and reports success.
+Yes, perfect.
 
-Return -EFAULT, as for other addresses outside of the address space.
+> In particular, would you omit any
+> of the additional event context, such as wd or cookie in the mask-mismatc=
+h
+> message?
 
-This is probably not worth CCing stable.
+I would keep the event context in 1-4 because that is the common practice
+and because in this case the INFO is not printed.
 
-Fix generated by an LLM and sent by Josef Bacik in private.
+I would omit the event context in 6,7 because it is already present
+in the INFO message and irrelevant to the error.
 
-Fixes: 52526ca7fdb9 ("fs/proc/task_mmu: implement IOCTL to get and optionally clear info about PTEs")
-Signed-off-by: Josef Bacik <josef@toxicpanda.com>
-Acked-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-Reviewed-by: Pedro Falcato <pfalcato@suse.de>
-Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
----
- fs/proc/task_mmu.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+>
+> I'd appreciate your feedback before I send v4.
 
-diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-index 7452b695fdae..762b6dbb81e4 100644
---- a/fs/proc/task_mmu.c
-+++ b/fs/proc/task_mmu.c
-@@ -3032,6 +3032,12 @@ static int pagemap_scan_get_args(struct pm_scan_arg *arg,
- 	     arg->category_anyof_mask | arg->return_mask) & ~PM_SCAN_CATEGORIES)
- 		return -EINVAL;
- 
-+	/* Don't cut 64-bit numbers down to addresses that happen to work. */
-+	if (arg->start != (unsigned long)arg->start ||
-+	    arg->end != (unsigned long)arg->end ||
-+	    arg->vec != (unsigned long)arg->vec)
-+		return -EFAULT;
-+
- 	arg->start = untagged_addr((unsigned long)arg->start);
- 	arg->end = untagged_addr((unsigned long)arg->end);
- 	arg->vec = untagged_addr((unsigned long)arg->vec);
+Good idea. I should have led with examples.
 
--- 
-2.43.0
-
+Thanks,
+Amir.
