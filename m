@@ -1,53 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=178.62.254.231
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793275450;
-	b=Wl7Kd9xc3glynQ9Z2js1baddLPAomxfsHeYXppZFOQ6LQ0k22JUExC15wYCYS9TcOKAD
-	 hWU6+wO2MLHukNawSVCbx7KlbNuzWPTq9raTziYCqklC8QH3za9MPoYP0e8+EvPZAvx8G
-	 qohfM64zbCOuN6MpZ++/DOOYAzY3yKFOMbdf2hgAbe4zTEQaD4dTzTfEFdvca6sI2e8v1
-	 ww/cRmJL25+uw/PSkNI/ZXTna51O5dSB+S93a8TJFyLMJdc/s6IOd/zT9xFKQbungywka
-	 MFtwLLqW1pCdyA4I4NR7m2ZVKH4JVHaj9elTbW6wJsPy/p3I1TexhCS5YX31+SXWE0g==
+	t=1793275757;
+	b=kZx22IW4AxkqyNrXhpMFbn5UeK5zUE4KMjUqAFPvmbAgF7OPKW05Q1FUNCdrSRKh6Wd2
+	 bpdJNRWHB1BXN8VYMY1iALPmKlQ2YUNBuPnaNF02lUA13a32NDaiPJjQj0+o/VsYe8xqb
+	 2p7z0TjcUd27tLd5u4OSFJr7zdGzYZxF9o8JIfqYn5h24GqMcyzg+Q1LyqcLMvi7olyKd
+	 hd8KjGIVixmK1hjRjYk+I2PSz7KulQMrNmb6AyZuM/V4Eks1HRPYXmmdsJtpjtUC5PEJp
+	 WFZNXnWovRUV3/+qyMYO4HhDjgzIv5mvdDsmh2G/oYbuHF8HIbQjNfr1lAWHNjE3A6w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793275450;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=xlnl9A/D3fizgFoXsRorCiZXKZmn/GF+FXZ2ULqWag8=;
-	b=5uAVOP5R9f0V5Bl8NoVDdAloRiXyut2ecLIFui/Ke4B+ube6gj4DaquQfYmtqhBfMfiQ
-	 VYPkWfYRcloC+8xYyP8/nO2QD0XpA42Qg1DgPHa3MJgmIywBzNe/3GggnlAHt4sIlk93/
-	 Jg9YwBuY12ZiLefTLVYiogMb5tl1LWfJFpXrP4NaSkcoAajXOZ/fO3ymcIU/MK4OUWf82
-	 qp8bMjdEoyltKEg9iVICb3Phhn2wLh4362sEVR91ZC28OW9G6CoTDLe/iJ7G82RfpfviV
-	 NSAZiPSxLZh1Rg9fRn3ZAHDV1xJNzeRP0KQbKinNAlHzYTmVJFKTyzyJwR/5QedA8lQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793275757;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=RocjA1LFJ8nCgW+tO2y+Fh4wXXWjfdPFo024IhF5Wq8=;
+	b=DMDKybJTkp3TKOA2SxTMYcpjmDFGNQdS0ASQGkojHhjM6iyIYgD9Okk7ioH+TLxrvdYf
+	 rduAXJ9XOTv6t2RXNO2RZj8o4o45VQijn5g1bjGVg3f2kvBjFwKRavmFIlcxZhK3F4qKO
+	 lbX1vCgnzcqA4ff3+h+mADgcD5KF2FV2JPr6r6zjWmjy+XtdGmE5jzugoKWSfIyNa1mQy
+	 1fLzhmCWJVj+KXjiSd2AyeUxE0b3GJIN6rBnOxektPx6PJZDQa9LHlnKkARo35wI5l6nl
+	 buazOnVXps52x+9sabekRoef2M6rF7hUE3yOneIIpCvvK3D3jOMNoDTJsusYj+DEG4Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=O88E+6Wy;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=ilvokhin.com;
+	spf=pass smtp.mailfrom=ilvokhin.com;
+	dkim=pass header.d=ilvokhin.com header.i=@ilvokhin.com header.a=rsa-sha256 header.s=mail header.b=WUo05cr+;
+	arc=none smtp.remote-ip=178.62.254.231
+Received: from mail.ilvokhin.com (mail.ilvokhin.com [178.62.254.231])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02E83606A31A;
-	Thu, 29 Oct 2026 12:04:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40669606A31A;
+	Thu, 29 Oct 2026 12:09:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 40669606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ilvokhin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ilvokhin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=O88E+6Wy
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47BC01F031E4;
-	Thu, 29 Oct 2026 12:04:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793275449;
-	bh=xlnl9A/D3fizgFoXsRorCiZXKZmn/GF+FXZ2ULqWag8=;
+	dkim=pass (1024-bit key, unprotected) header.d=ilvokhin.com header.i=@ilvokhin.com header.a=rsa-sha256 header.s=mail header.b=WUo05cr+
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ilvokhin.com;
+	s=mail; t=1793275747;
+	bh=RocjA1LFJ8nCgW+tO2y+Fh4wXXWjfdPFo024IhF5Wq8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=O88E+6WyIpQz4xx6tnEqL0g+RvaQPnMnKX8KRgBbxiqrIUL1H4Mhf5BEjO0wrHJ5m
-	 YMNoAtxNkKsZ1dKWWLLH37HA8DPSedkPzK7SThP4bESzzoK912qsjwOy21KLa1D1xD
-	 bTa3sKKN16AqEkSDRMRPg85fMXgimS5bhLBzaX/pKeOBvqfdxsYd+k0yhvim5UBtqU
-	 3EJHA8gYwdYPEtSqxFbsj9fE0ZE+m4PzHBw3Fiwq0mnS7Qql4x9UJ2/s6WzdpdE31+
-	 JboHEaH+PQ+jKGX6mRyzeLjQldW5fW23Zqr7YVV/wX9gAP1qMXiti9FvHb9jqT37+A
-	 L3w5iN72QE8hw==
-Date: Thu, 29 Oct 2026 13:04:05 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, linux-unionfs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, Disha Goel <disgoel@linux.ibm.com>
-Subject: Re: [PATCH] ovl: fix mount setup failing when override_creds drops
- CAP_SYS_ADMIN
-Message-ID: <20261029-laufzeit-ungelegen-gastwirtschaft-4e5eecb7a567@brauner>
-References: <20261017165125.2450059-1-amir73il@gmail.com>
+	b=WUo05cr+foO7RPlP7534YSiBgZ8CQPkwQY40XhGkYZY6+6/4j3XkS/IFDfGv+Pkoh
+	 y9zJIn2BFoMmtdWooRjNBcjjjJtArbTwyJLsxt66JLoWE/gVCnnA7sNVi3UolL8xve
+	 VDmnu4pCCOxy8JC/MQlwNqsBS6P1OvE3N85vIIf8=
+Received: from shell.ilvokhin.com (shell.ilvokhin.com [138.68.190.75])
+	(Authenticated sender: d@ilvokhin.com)
+	by mail.ilvokhin.com (Postfix) with ESMTPSA id 2E446101220;
+	Thu, 29 Oct 2026 12:09:07 +0000 (UTC)
+Date: Thu, 29 Oct 2026 12:09:03 +0000
+From: Dmitry Ilvokhin <d@ilvokhin.com>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>, Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>, Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Ryan Chen <ryan_chen@aspeedtech.com>,
+	Billy Tsai <billy_tsai@aspeedtech.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Kees Cook <kees@kernel.org>, Andy Shevchenko <andy@kernel.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+	linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org, linux-hardening@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Subject: Re: [PATCH 00/10] treewide: switch to __nonnull_args() macro
+Message-ID: <auM3XwWPnMHcPptM@shell.ilvokhin.com>
+References: <cover.1793027261.git.d@ilvokhin.com>
+ <cce30180-c1c4-4b10-b681-8944057bc698@infradead.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -57,32 +87,51 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261017165125.2450059-1-amir73il@gmail.com>
+In-Reply-To: <cce30180-c1c4-4b10-b681-8944057bc698@infradead.org>
 
-On Sat, Oct 17, 2026 at 06:51:25PM +0200, Amir Goldstein wrote:
-> When a process drops CAP_SYS_ADMIN and calls fsconfig(FSCONFIG_SET_FLAG,
-> "override_creds"), overlayfs saves those restricted credentials in
-> ofs->creator_cred. ovl_fill_super() then wraps the entire mount setup in
-> with_ovl_creds(), switching to those restricted credentials for the
-> duration.
+On Wed, Oct 28, 2026 at 01:44:59PM -0700, Randy Dunlap wrote:
 > 
-> Mount setup calls clone_private_mount(), which checks CAP_SYS_ADMIN
-> against current credentials. With restricted credentials active, this
-> check fails with -EPERM even though the task issuing
-> FSCONFIG_CMD_CREATE is fully privileged.
 > 
-> Use the mounter's real credentials only for cloning the private layer
-> mounts. Keep all other backing filesystem operations during mount setup
-> under the stashed credentials.
+> On 10/28/26 1:19 AM, Dmitry Ilvokhin wrote:
+> > Commit 22302af28d3f ("cleanup: Annotate guard constructors with
+> > nonnull") added the __nonnull_args() macro to wrap the raw compiler
+> > attribute, keeping the attribute's quirks in one place rather than
+> > open-coded at every call site.
+> > 
+> > This series replaces the remaining open-coded __attribute__((nonnull))
+> > users with __nonnull_args() to standardize nonnull attribute usage
+> > across the tree.
+> > 
+> > Each patch can be applied separately by the respective maintainers. The
+> > only dependency is kernel-doc: the string and lib/list_sort patches need
+> > patch 1 ("docs: xforms_lists: support __nonnull_args()") in the same
+> > release, otherwise strends() and list_sort() drop out of the generated
+> > documentation.
+> > 
+> > Latest Sparse release could not properly parse __nonnull_args() without
+> > arguments. Fix was proposed [1] and merged, but until updated version of
+> > Sparse will reach wide masses it might trip on __nonnull_args() without
+> > arguments.
+> > 
+> > There are few more instances of __attribute__((nonnull)) usages left in
+> > the tools subdirectory, they are perf related copied files and can
+> > (should?) be updated separately after this patchset lands.
+> > 
+> > Build-tested allmodconfig with GCC 11.5.0 and clang 22.1.8.
 > 
-> Reported-by: Disha Goel <disgoel@linux.ibm.com>
-> Closes: https://lore.kernel.org/linux-unionfs/20260924112858.51392-1-disgoel@linux.ibm.com
-> Fixes: c28f922c9dcee ("clone_private_mnt(): make sure that caller has CAP_SYS_ADMIN in the right userns")
-> Signed-off-by: Amir Goldstein <amir73il@gmail.com>
-> ---
+> What ARCH(es)?
 
-Looks good to me. I like this solution:
+Fair point, I should have mentioned that I run this on x86_64 and
+aarch64.
 
-Reviewed-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> 
+> Did you mean to use such an "old" version of GCC?
+
+There is no grand plan behind that to be honest, I used it, because this
+is a version of GCC that comes with CentOS Stream 9 on the box I tested
+the change.
+
+To be on the safe side, I checked patchset still builds on GCC 16.2.1 on
+allmodconfig x86_64.
