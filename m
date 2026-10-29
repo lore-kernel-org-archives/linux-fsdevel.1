@@ -1,97 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.181
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793308010;
-	b=2C3Awg7UgJif7cFR5C3jJAruqUBFjZlBsMYo2g1mYBlkBBJ+37ao8HKMZz7GwsSMvYl3
-	 3jFkA/0jx3QR3/GADN5lJYEuGg9PBwyWhax0TK59191TWHw7I3iG3MIpKZQABCu8cEoy9
-	 0gl4c/sIOyA1eWZwEnfk+QyPKs5cCli5UOiFAQQGO/y8X3tEntyKrl3DdhOqud5Jq5jq+
-	 XqNyX/KuyWfJ4IegHG4pzt+5kWEWZ0NXHpIcam+Qb26V0ZWSKfRkuUa48IvKVK5s35jR7
-	 LUFt/SWjhBmYrb4YqfaaQCUbHUeg0BstofgLsN5YD+Oj7zq5ysohGB8ZCHV/AKtoI6A==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793308010;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.229.8
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793308035;
+	b=BbThgSA9guLTHLkwCSmumz7F+cqmxSbOyboyucA92O3A8ttvEOW1ZquLGcPa5KCCaurF
+	 0GQ3AySOBhJ0Xva3Ad5g6bQr5gRmzF5QTIJjTnbgdMQq5EPKsG8UrPUkJ3s0z5Tlzf+yA
+	 BRzWVY51hEs4tFPxAsHWZWXQBnlmU1auoEI78IzqnXmRSCbGyEqMQD9sIIbkVE+t+FekC
+	 eim7NxjELxwt0jhQN4Bl4GY5vPFymQr+V0WQXVK8HALEYaAhcnfrCoZfYtiSOUyavOUgb
+	 BPZPyP92Wz/dcbqB7wYu24MjANVJEHyLdGktVArKbQ9qiWmawckdAny5E8BkIoyxcyw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793308035;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
-	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=RvNRAljflILBTk2xcHt7L4MtTrvHvbzoZJJKtwFYnHk=;
-	b=s4JgPAbYDi9Aa5WfoteKM/rZ78zMAEd9S/wBPNvLbrIgVg3BBBk2a6yRpte7J6Vi3HLZ
-	 f5s3AWTfyCDLfKjB0LOV/v1Kyz1YQTB51zZPKRdjJ9gCh0AQPQbAGLnEBi+xZdJZ10Vu8
-	 6E+D1fDQi0SULvHor62GpUenMr2SujVagdCkSCpkJBhbqvWgSofIKXkWw/pimKTu+3+08
-	 Q+TI1IvKzplLMF4fL3rMh1bcIydihWb2ZzPGy6BfMwoQZJK/2pyCulnPttkAa64PLLre0
-	 mcX4W4m4OdmnbPGA7gTdVh58RXtSkW+mjLNexHEjDSm/t6FHONQRWgY3oJUr8lIgw3A==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=paul-moore.com;
-	spf=pass smtp.mailfrom=paul-moore.com;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.181
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=0tz6UJO2BZhACEYM6ZFE2ekJAZW1YAXReqMb1KC2X0Y=;
+	b=FpROlov12pqPpXzKBLm6oVofDp2wTchYEmQDFw8O5FOWqkVG0n8ooNTP0RcVh1jssFXj
+	 z7c3bCdZHUUTsFbcrOnpfhIoMfv2hZ2tkmGtjEgYulaa5pI2n7LHBVaYPeIoz8LKYlg2l
+	 pKHdjmiScVpvcmNSFRQUGPWbW0O67Mzh6bqFsmuysCtYvUBEtYNdzAV3K7Rqqh0JwigN9
+	 3E4r4Jqg5waN2ghDkCc4BHmqsXIcQfoGrhPh+Jg41ocNbgaVkuP0RNpDxNTAiDhmHCGLJ
+	 bVUZr+TMFaX+zC7cSTTULd4DU3gZcvIzTptvxi+OvtLQapJkvvg83on0WdkwkyTuRJg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=feLgwf1y;
+	arc=none smtp.remote-ip=74.125.229.8
+Received: from mail-dy2-f8.google.com (mail-dy2-f8.google.com [74.125.229.8])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E8B3606A31A
-	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 21:06:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8E8B3606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-8a39e5161c1so1911882b3a.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 14:06:43 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793308003; cv=none;
-        d=google.com; s=arc-20260327;
-        b=SbpHb0+4KuiiS9vlnqGUbvOQmlHYFCmnM3bGSWy3vk4ET1T1szRufMYNJiDbN12xIE
-         DOmz6bs3imKVyVPTSctQ6/nw055Kaa+V+xbH8cUHkw3YPGsVo3CfVNOwBEBeauzSPzIF
-         iQv5Ulg5vAcHJMltjVgYJjCauCVmSWZZEzKaP8T6KpQFUINJMJgo/akyvMXF4F1JC1OT
-         8hwS7lK+9sXWQ8Bl4XcwaEOKn0AgLFJ+n7LLjp7dlHxEYcm7qVRqWoM3LWjTYYEPLxew
-         icLBIYRT6D+A6xQphZdwq+ZfNNU5+RNbeZMc6s0pX0bZoNw1sOUGgZiDDWQLqiltNA+B
-         ahNQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=RvNRAljflILBTk2xcHt7L4MtTrvHvbzoZJJKtwFYnHk=;
-        fh=SVRf1FX0pn3orfkSWevt00CjaMb3GuNecOe071Cjlss=;
-        b=O3yo1qnfKqafCde+ykIzKXzdhexPBaVc/+W2a7rl+EcfkYmhtwUib5j9knO/0b1XPZ
-         W6BijBRzUCXvGYzLn3aWsV8jDG9XUpAPON9WrAf5/TWgBxGJB2Ae3sQ5y2FnAF93wUoF
-         /MKUktIewwza80bpRFM9gcvecI+BGqspwIgd8ZZPRpn08cO6smGzzZ0hYr941IJB+AfM
-         eE8wMqeDRB1defXJHuaj+Zz/v7zhPVT1LjYxW8hicIjUabS1IZHaZ1te9AFZlmZJAR5k
-         IvQXrIOSB4yJ8tI5AuTrFbXqmQA9Dg4Re7YkO0GWhVBXYWQl0yZ/eEQQs6Mj7CrgaQ1L
-         9LjQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F693606A320
+	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 21:07:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7F693606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=feLgwf1y
+Received: by mail-dy2-f8.google.com with SMTP id 5a478bee46e88-369fd8abd71so76647eec.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 14:07:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1793308003; x=1793912803; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=RvNRAljflILBTk2xcHt7L4MtTrvHvbzoZJJKtwFYnHk=;
-        b=SUMWHyeoy05LlaPkkQo68Lctqx8jCJMBTP5h1s5JBg1inkctrhBizK7c4vICrVd4ST
-         tFgaTBblbt25voa4mPfQrBUwVI2YrctmrtYJ63fqjqiCjZArQrKO4OKXUqCQLnZIerKB
-         9+pJORukUAKGMBg8JR8BdJgf1joFHY09BQARFm1AoO9N4jDb/hxCp5cBEDF6KEs4eZLA
-         s5zDXJAWJfqzLNKMabhR+qdErWq+anDkdWSt4GGzkvx7RJRsY7B9xG6OwOuuiyrfA07o
-         SZGBXLg0jYjyyW/ttddurHjHLMVw89R1WFqxnex86aQjNutVESFg8w7ztk95DE/2a0uq
-         MykA==
+        d=gmail.com; s=20260707; t=1793308034; x=1793912834; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=0tz6UJO2BZhACEYM6ZFE2ekJAZW1YAXReqMb1KC2X0Y=;
+        b=feLgwf1yiKMf902E5IeSxB8S6E4JJNXcHz9Papz1aTb9bO0Q/MmV08rwWurPv7qGnW
+         eTceSH+f5istBgVYIaO/JuPQYIXjt52qj7SBNPOQvmIvLDBaUNI3IG8GjrVTooMFMZYe
+         FC8RQdYbhTJiyPhtZ5ci25mpAZvAevR/16o9yvHgzZbjR6TqUip87nPTmBG1okLjoFTc
+         XcHaA+OjK8Q1nHneuzjGdYqRlCSKDQRtY06FWsqbRxUsDlvit84lbsTxwOU537DBQDVz
+         TDCkwRBHnASKXUOKo+uQBDyZfWq0eXsRSeaYBxyvA/YbtlVc5gIa42MmA5GDYW6OaU0X
+         01CA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793308003; x=1793912803;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=RvNRAljflILBTk2xcHt7L4MtTrvHvbzoZJJKtwFYnHk=;
-        b=rLeejjI5QMRTqHapveJhe4DUvrzRHBV28qeAwnCFI6UkLEzmARv0DGBKDlhiHowCdU
-         TC4puTqtvBH2niwUM+o2W6VBWREmj/QP4nf+noe83NxhnqezWUMpmbZLMIKPswaBZev2
-         FntMwT7CaJZ42pxTQQnZNPtfknZ9vWwXTr1zXz/AVcj/zCDDJkXnB2IqyaX6/mLR8sWj
-         n8BElwup9zJbSvg1WJNWVb3zBbsYLAWNV2qpR6i4R1dTm+o964uT/TKPrm6X7B5hRI+B
-         /uyMD0/77nmXOz0wPvIJ061k74feGqtfSH7P6fVvCV9aP8aXtA3uFpbmp7OO0iOuNUXF
-         Wmlw==
-X-Gm-Message-State: AFq9FYIWFMewLrXbtbKQyq29c7Bprx/QuOOk4cVrc2e4sDD7eqZQ30Zm
-	EEKVFU7V1rWqFICgM6wB/s8QYdlSm69YZBdi0SRFyha9B70oh3DdfVPznnFzaxrqEykK05oTmwm
-	b9huCWnAu0FRriikyx5e4qxQzK5+FcoUPfURciP44
-X-Gm-Gg: AYBFou0OASWb6Ub6q32LHhjdiRW2SP3GgyH+n3k3TaoR1fbGGCtKBPzgeem2CY+1Kwx
-	8xt7VI5+7a7R7eqWF4CbLcBpqTbtI8DL7zAgiVaRwJpByPyvULTMHkvdhFYqbopU0ZQgr7sDchQ
-	Mm+65HHXW0rKImZNOWoIxeg/m/wgbkm9sDAltsraDsGwSTyj2+U26m3vB9/yFAroMJc6kzS3S+s
-	Re8A196DHhMZfnkg0a/kn1Vb5BnUFaFtbCtzSi/ugasiA87c2xg1+nWr+2dPr+08mpJJMg7QVIw
-	lJN2ipPNrarxVeNmg4qpGPp95J08WYwgcTNSBQgVKw/rTnTtIghBz4zTKP49cBNZ36stsW/fYBY
-	5kVUj4KkhovN6uK9ffGRs4Fkg67kF9XA1ne0zk7izsazQYiFaScWawqOxw5vqrBy0VKJrPZ/WtR
-	coKS3CqmcjPb6S2Q==
-X-Received: by 2002:a05:6a00:1491:b0:8a0:5d6f:8a9d with SMTP id
- d2e1a72fcca58-8a9bcc0e982mr298168b3a.35.1793308002978; Thu, 29 Oct 2026
- 14:06:42 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1793308034; x=1793912834;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=0tz6UJO2BZhACEYM6ZFE2ekJAZW1YAXReqMb1KC2X0Y=;
+        b=25bYhmz0Bu1DQwG8G67Qyhn62/TUn8Jvjxo8IQWHJLaBFAleAwTkXAFPNvYYc9OmW7
+         SrPlZIQw3mG/jhhMuecjWDFohzCim87FP4PqiFE4pddsmjDmSJ4QEfo09rLrS0HoOWAn
+         5Rv/Rm3nVP9y+asqMFjX5sToXmej9YLGyNppkWJOUPe5bRVHrZZtQEpP7ZkjDbuoxp//
+         Wp0h5G3lkuEBFC3CwdKs34P3ewYzdtNFJmkxe48gLk5BKjeOcZru5Ouh9wi53qz+f3Wl
+         3KN70kazDxvfzSXP9pYhXPdWf516hfoTzjfvRBe0nmt/LdFqOBAwwzzYuO6w9+muE1sc
+         mM/A==
+X-Forwarded-Encrypted: i=1; AKwUvBy5WGJLq/NvIuqtVogOj+v00QgVaCV9aL8EP6LGIDcq+y7ww7Ikun9Ddig3cO0+6YESOmzGt2p4MwoSUwWk@vger.kernel.org
+X-Gm-Message-State: AFq9FYLCGRLB+co7siiH4GLDOtWTATEfnWftu6RClfU4yCTK1N+icFKq
+	YALdJhUZnhmP5ydd8aDREbqxlS8Uzem6I5OlYJUkpTDLILyhhI2devhr
+X-Gm-Gg: AYBFou2EsXYjU4ryZLAYxXV5bsuE7S5LPCVzzAhDPNGJvtJ40Tpefb+itCqNWSZawkm
+	DJb1vdQCruCIywpcyQqDFNzMSwCcsGENzne0zqi7B+I7QvmRPepnokord+R7F3VfXXjWBkKOvps
+	r2aGL+rIwm6Sh1IFCy03pJx6ICdW0bC23roX0Bj8QvKyXcLPRog9HkC1JAS3FXilrjReFUza173
+	BLaxCymsg8yRg7RZT4nEuOPlZl4eZ32D+56KqO4OX+QFQmlv1JaEFdZWbQfxBlDXNrKYuwzj3de
+	zU4bJz61Mb4nm5sMM98LFZZetjAa4We/ad/u7c5CCUvsSyW2Z4i/bw4qNo4XM7uaUVbBAPcm6Y0
+	LDOqsc4jLUNcrvewYrSMc4zCHI6UxlZh5hOYfChAqB2JXEn0b079Bk0VjX3a4wE4RGismkgCjWl
+	HZ/12xZNikQZUms3pC2o3nkGpe3GJZ5dIQkAQL6JrwJIfjRhnMWOr9fgFn/NpA4g0Pse1487jk+
+	Q266r6NWGPYVOgW76116dDp4TTUZumhxphZS0AIP6b8iUerjbgUtFRF2j0LNEYY0fm4Y0Wwjl99
+	vZjZkGmsV4HtJvUESN93/1Y+V6UBfS6//DTeKzkLIMNIJuoWUbqaGAui
+X-Received: by 2002:a05:7022:3c04:b0:1a9:c52f:655c with SMTP id a92af1059eb24-1ac5c555f7cmr258090c88.36.1793308034303;
+        Thu, 29 Oct 2026 14:07:14 -0700 (PDT)
+Received: from localhost.localdomain ([98.148.34.5])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1ac1abcd6f1sm1089981c88.20.2026.10.29.14.07.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Oct 2026 14:07:13 -0700 (PDT)
+From: Hungyu Lin <dennylin0707@gmail.com>
+To: ltp@lists.linux.it
+Cc: amir73il@gmail.com,
+	jack@suse.cz,
+	linux-fsdevel@vger.kernel.org,
+	dennylin0707@gmail.com
+Subject: [PATCH v4] inotify13: check rename cookie pairing after adjacent moves
+Date: Thu, 29 Oct 2026 21:07:01 +0000
+Message-ID: <20261029210701.80050-1-dennylin0707@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -101,89 +96,279 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261029-work-security-namespace_free-v2-0-65591dbba7b3@kernel.org>
-In-Reply-To: <20261029-work-security-namespace_free-v2-0-65591dbba7b3@kernel.org>
-From: Paul Moore <paul@paul-moore.com>
-Date: Thu, 29 Oct 2026 17:06:30 -0400
-X-Gm-Features: AclHuK_BZX5V0V1r5inK-ll44mPJ2Gl9ZXGK3V5AGh6lbgKe2qd3dfFfw4B3CLM
-Message-ID: <CAHC9VhRwD1c1qKK4=Uc8cbMy27iF722C0DZeXy4WGtH-kOBOcQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/7] ns: fixes for the namespace LSM hooks
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
-	=?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, netdev@vger.kernel.org, 
-	Linus Torvalds <torvalds@linux-foundation.org>, stable@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Oct 29, 2026 at 12:41=E2=80=AFPM Christian Brauner <brauner@kernel.=
-org> wrote:
->
-> I tried to switch systemd-nsresourced over to the namespace_free LSM
-> hook that went in this cycle. I explicitly developed it to work nicely
-> with that. But the version that is merged is broken for that case.
->
-> The namespace_free hook is never called. security_namespace_free() bails
-> if ns->ns_security is NULL and that's only allocated if an LSM requests
-> a namespace blob. Nobody does. Landlock doesn't care as it only uses
-> namespace_init and namespace_install but a bpf program attached to
-> namespace_free never runs. And it can't work around that either. We
-> could make the bpf LSM request a blob but that would just be a way to
-> make the hook fire. So call it unconditionally like we do for
-> superblocks, files and bpf maps.
->
-> The bpf LSM also marks the arguments of namespace_init and
-> namespace_free as trusted. Curiously that patch was also dropped.
->
-> namespace_init is called before the namespace is set up and if anything
-> fails afterwards the namespace is freed without looking at its reference
-> count. namespace_free is called on the way out. There's no kfunc that
-> takes a namespace yet but once there is one a program could take a
-> reference to a namespace that's about to be freed. So add both hooks to
-> untrusted_lsm_hooks.
->
-> The namespace_init hook also always sees a namespace id of zero because
-> the id is only allocated after the hook has run. The id is the only
-> identifier of a namespace that is never recycled. So it's what a bpf LSM
-> wants to use to track a namespace from namespace_init until
-> namespace_free.
->
-> The inode number is recycled way too quickly for that. So allocate the
-> id in __ns_common_init() before the hook is called. Then ns_tree_add()
-> doesn't need to allocate ids anymore and ns_tree_add_raw() can go.
-> Landlock now logs that id instead of zero when it denies the creation of
-> a namespace.
->
-> I'd want to get the whole series into v7.4 since the hooks are new this
-> cycle. Otherwise v7.4 is the only release where namespace_init sees a
-> zero id and where Landlock logs zero for a denied namespace creation.
-> The systemd change I have for this uses the namespace_free hook whenever
-> the kernel has it. On a kernel with the hook but without the first fix
-> it would never learn about dead user namespaces.
+Queue an unpaired IN_MOVED_FROM event, followed by an IN_MOVED_FROM and
+IN_MOVED_TO pair with the same source watch descriptor and name as the
+first event. Watch only IN_MOVE so creation of the replacement entry
+does not separate the two IN_MOVED_FROM events in the queue.
 
-I'm renewing my comments from the v1 patchset (see the link Christian
-provided below) about the LSM framework changes being appropriate for
-Linux v7.5, not Linux v7.4.  It is clear that the BPF LSM use case was
-not tested prior to the merge window so BPF LSM support for these new
-LSM hooks should be deferred to Linux v7.5, allowing for proper
-testing.
+Affected kernels coalesce the second IN_MOVED_FROM into the first,
+leaving the IN_MOVED_TO cookie without a matching IN_MOVED_FROM cookie.
+Check that all three events are retained, the two moves have distinct
+cookies, and the second IN_MOVED_FROM matches the IN_MOVED_TO cookie.
+Cover both regular files and directories.
 
-Disabling the BPF LSM support for these new hooks can easily be done
-by adding them to the bpf_lsm_disabled_hooks list in the BPF LSM for
-Linux v7.4, and removed in Linux v7.5 when the LSM hooks have been
-changed in a way that is deemed suitable for all LSMs.  The
-bpf_lsm_disabled_hooks change would be substantially smaller than this
-patchset and would be fully contained within the BPF LSM.
+Suggested-by: Amir Goldstein <amir73il@gmail.com>
+Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+---
+Changes in v4:
+- Put expected values immediately after the mismatched fields, following
+  the existing per-field diagnostic format.
+- Use the existing "got unnecessary event" and "didn't get event" wording.
+- Keep event context for extra events and mask, watch descriptor and
+  filename mismatches. Omit it from the two cookie-failure messages,
+  since it is already present in TINFO, as confirmed by Amir.
 
-As a reminder, the LSM hooks and their callbacks are not part of the
-kernel's stable API and are subject to change between kernel releases.
-LSMs that wish to provide a stable API need to provide an abstraction
-between the LSM hooks/callbacks and their API; the LSM framework is
-not responsible for ensuring individual LSM API stability.
+Built with GCC 13.3.0 and checked with LTP checkpatch and sparse. On ARM64
+QEMU, the test reports 0 pass / 2 fail on the baseline kernel and 2 pass /
+0 fail with the kernel fix. Local diagnostic controls also exercise both
+cookie failures and verify the preceding TINFO and concise TFAIL output.
+The controls are kept outside this patch.
 
-> - Link to v1: https://patch.msgid.link/20261026-work-security-namespace_f=
-ree-v1-0-ffa3ebbf71bd@kernel.org
+ runtest/syscalls                              |   1 +
+ testcases/kernel/syscalls/inotify/.gitignore  |   1 +
+ testcases/kernel/syscalls/inotify/inotify13.c | 211 ++++++++++++++++++++++++++
+ 3 files changed, 213 insertions(+)
+ create mode 100644 testcases/kernel/syscalls/inotify/inotify13.c
 
---=20
-paul-moore.com
+diff --git a/runtest/syscalls b/runtest/syscalls
+index 2bdb4a9a2b4801d03d93efea686124530f5ce2d5..e578bd92d7e7ded5c0ca2f95dc87fce814d733cc 100644
+--- a/runtest/syscalls
++++ b/runtest/syscalls
+@@ -677,6 +677,7 @@ inotify09 inotify09
+ inotify10 inotify10
+ inotify11 inotify11
+ inotify12 inotify12
++inotify13 inotify13
+ 
+ fanotify01 fanotify01
+ fanotify02 fanotify02
+diff --git a/testcases/kernel/syscalls/inotify/.gitignore b/testcases/kernel/syscalls/inotify/.gitignore
+index f6e5c546ac4032766cee9f16b3689be5d0302d37..b597ea63f493b2da2a58017d3eb7b16a7b033fc5 100644
+--- a/testcases/kernel/syscalls/inotify/.gitignore
++++ b/testcases/kernel/syscalls/inotify/.gitignore
+@@ -10,3 +10,4 @@
+ /inotify10
+ /inotify11
+ /inotify12
++/inotify13
+diff --git a/testcases/kernel/syscalls/inotify/inotify13.c b/testcases/kernel/syscalls/inotify/inotify13.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..9ee660e041435d16b63097ba8e2f86515d6bac57
+--- /dev/null
++++ b/testcases/kernel/syscalls/inotify/inotify13.c
+@@ -0,0 +1,211 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * Copyright (c) 2026 Hungyu Lin <dennylin0707@gmail.com>
++ */
++
++/*\
++ * Verify that two IN_MOVED_FROM events that differ only in their rename
++ * cookie are not coalesced.
++ *
++ * inotify(7) allows coalescing only of events with identical wd, mask,
++ * cookie and name. A regression introduced in v2.6.31 dropped the cookie
++ * comparison. On affected kernels, the second IN_MOVED_FROM is coalesced
++ * into the first, leaving the following IN_MOVED_TO without a matching
++ * IN_MOVED_FROM cookie.
++ *
++ * With source/ and target/ watched for IN_MOVE, and without reading the queue:
++ *
++ * 1. Move source/entry to unwatched/ (IN_MOVED_FROM, cookie A).
++ * 2. Recreate source/entry.
++ * 3. Move source/entry to target/ (IN_MOVED_FROM and IN_MOVED_TO, cookie B).
++ *
++ * All three events must be queued, with A != B. IN_CREATE is not watched, so
++ * the two IN_MOVED_FROM events are adjacent; the queue is not read in between,
++ * because only the last unread event can be merged with a new one. Both a
++ * regular file and a directory are tested.
++ */
++
++#include "config.h"
++#include <fcntl.h>
++#include <string.h>
++#include "tst_test.h"
++#include "inotify.h"
++
++#ifdef HAVE_SYS_INOTIFY_H
++#include <sys/inotify.h>
++
++#define SOURCE "source/entry"
++#define UNWATCHED "unwatched/entry"
++#define TARGET "target/entry"
++
++struct event_t {
++	const char *name;
++	unsigned int mask;
++	int wd;
++};
++
++static struct tcase {
++	const char *type;
++	unsigned int isdir;
++} tcases[] = {
++	{ "file", 0 },
++	{ "directory", IN_ISDIR },
++};
++
++static int fd_notify = -1;
++
++static void create_entry(unsigned int isdir, const char *path)
++{
++	if (isdir)
++		SAFE_MKDIR(path, 0700);
++	else
++		SAFE_TOUCH(path, 0600, NULL);
++}
++
++static void delete_entry(unsigned int isdir, const char *path)
++{
++	if (isdir)
++		SAFE_RMDIR(path);
++	else
++		SAFE_UNLINK(path);
++}
++
++static void verify_inotify(unsigned int n)
++{
++	const char *type = tcases[n].type;
++	unsigned int isdir = tcases[n].isdir;
++	struct event_t event_set[] = {
++		{ "entry", IN_MOVED_FROM | isdir, 0 },
++		{ "entry", IN_MOVED_FROM | isdir, 0 },
++		{ "entry", IN_MOVED_TO | isdir, 0 },
++	};
++	union {
++		struct inotify_event align;
++		char data[4096];
++	} buf;
++	struct inotify_event *event;
++	const struct event_t *expected;
++	unsigned int cookies[ARRAY_SIZE(event_set)] = { 0 };
++	unsigned int count = 0, i;
++	size_t pos = 0, len;
++	int wd_source, wd_target;
++
++	fd_notify = SAFE_MYINOTIFY_INIT1(O_NONBLOCK);
++	wd_source = SAFE_MYINOTIFY_ADD_WATCH(fd_notify, "source", IN_MOVE);
++	wd_target = SAFE_MYINOTIFY_ADD_WATCH(fd_notify, "target", IN_MOVE);
++
++	event_set[0].wd = wd_source;
++	event_set[1].wd = wd_source;
++	event_set[2].wd = wd_target;
++
++	create_entry(isdir, SOURCE);
++	SAFE_RENAME(SOURCE, UNWATCHED);
++	create_entry(isdir, SOURCE);
++	SAFE_RENAME(SOURCE, TARGET);
++
++	len = SAFE_READ(SAFE_READ_ANY_EAGAIN, fd_notify, buf.data, sizeof(buf.data));
++	SAFE_CLOSE(fd_notify);
++
++	/* Reuse these paths for the next case and for -i iterations. */
++	delete_entry(isdir, UNWATCHED);
++	delete_entry(isdir, TARGET);
++
++	while (pos < len) {
++		if (len - pos < sizeof(*event))
++			tst_brk(TBROK, "%s: event %u has %zu header bytes (expected at least %zu)",
++				type, count, len - pos, sizeof(*event));
++
++		event = (struct inotify_event *)(buf.data + pos);
++		if (event->len > len - pos - sizeof(*event))
++			tst_brk(TBROK, "%s: event %u claims %u name bytes but only %zu are left in the buffer, wd=%d mask=%#x cookie=%u",
++				type, count, event->len, len - pos - sizeof(*event),
++				event->wd, event->mask, event->cookie);
++
++		if (count >= ARRAY_SIZE(event_set)) {
++			tst_res(TFAIL, "%s: got unnecessary event %u: mask=%#x wd=%d cookie=%u len=%u name=\"%.*s\"",
++				type, count, event->mask, event->wd, event->cookie,
++				event->len, (int)event->len, event->name);
++			return;
++		}
++
++		expected = &event_set[count];
++		if (event->mask != expected->mask) {
++			tst_res(TFAIL, "%s: got event %u: mask=%#x (expected %#x) wd=%d cookie=%u name=\"%.*s\"",
++				type, count, event->mask, expected->mask, event->wd,
++				event->cookie, (int)event->len, event->name);
++			return;
++		}
++
++		if (event->wd != expected->wd) {
++			tst_res(TFAIL, "%s: got event %u: mask=%#x wd=%d (expected %d) cookie=%u name=\"%.*s\"",
++				type, count, event->mask, event->wd, expected->wd,
++				event->cookie, (int)event->len, event->name);
++			return;
++		}
++
++		if (event->len < strlen(expected->name) + 1 ||
++		    strncmp(expected->name, event->name, event->len)) {
++			tst_res(TFAIL, "%s: got event %u: mask=%#x wd=%d cookie=%u len=%u name=\"%.*s\" (expected \"%s\")",
++				type, count, event->mask, event->wd, event->cookie,
++				event->len, (int)event->len, event->name,
++				expected->name);
++			return;
++		}
++
++		cookies[count] = event->cookie;
++		tst_res(TINFO, "%s: event %u: wd=%d mask=%#x cookie=%u len=%u name=\"%.*s\"",
++			type, count, event->wd, event->mask, event->cookie,
++			event->len, (int)event->len, event->name);
++		count++;
++		pos += sizeof(*event) + event->len;
++	}
++
++	for (i = count; i < ARRAY_SIZE(event_set); i++) {
++		expected = &event_set[i];
++		tst_res(TFAIL, "%s: didn't get event %u: mask=%#x wd=%d name=\"%s\"",
++			type, i, expected->mask, expected->wd, expected->name);
++	}
++
++	if (count < ARRAY_SIZE(event_set))
++		return;
++
++	if (cookies[0] == cookies[1]) {
++		tst_res(TFAIL, "%s: got second FROM cookie=%u (expected != %u)",
++			type, cookies[1], cookies[0]);
++		return;
++	}
++
++	if (cookies[1] != cookies[2]) {
++		tst_res(TFAIL, "%s: got TO cookie=%u (expected %u from second FROM)",
++			type, cookies[2], cookies[1]);
++		return;
++	}
++
++	tst_res(TPASS, "%s: FROM cookies %u and %u differ, TO cookie %u matches the second",
++		type, cookies[0], cookies[1], cookies[2]);
++}
++
++static void setup(void)
++{
++	SAFE_MKDIR("source", 0700);
++	SAFE_MKDIR("unwatched", 0700);
++	SAFE_MKDIR("target", 0700);
++}
++
++static void cleanup(void)
++{
++	if (fd_notify >= 0)
++		SAFE_CLOSE(fd_notify);
++}
++
++static struct tst_test test = {
++	.test = verify_inotify,
++	.tcnt = ARRAY_SIZE(tcases),
++	.setup = setup,
++	.cleanup = cleanup,
++	.needs_tmpdir = 1,
++};
++
++#else
++TST_TEST_TCONF("system doesn't have required inotify support");
++#endif
+-- 
+2.43.0
