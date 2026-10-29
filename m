@@ -1,49 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.229.8
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793306099;
-	b=Hxdw34NjeanG9jZvU51lnAAtmIlDGkIgdu+QduNZNetUC26vAhK5UCIecd7Gg/Y/qr3F
-	 POHc9n9fz1Q7zxB6WoJUmLvhX687GsBW+TvCV4dlPdkepUij9Xqfw147N5ruTKdIBon5Z
-	 us7G8GuTK4Md36inOj8XEjjeYRHUWDBIxiq66yq9E5axhBGe9tFm0ZNBJJ7b84Q6KFo0h
-	 +R2opptWiOp+qktm95AWD50h34YYklE1GX4THPqOUIRNSJRhMhSpwYNaJ1COy1Wu9G4Dg
-	 yh9ZWITwWWn2zRZMgNmcYtLlJe/QtO+Tc+UmG0b4cPvmO2BfwEucqtYkKcwY50nqrwQ==
+	t=1793306130;
+	b=3ExaPyC8r7qVHi5lHSPsPGID9BQkVMDXVRas/PW8V/sFLGzEZY5VMYoMT3zXE72QbukV
+	 q+0nfVXmtVuFqI9EUNZmI0+6pSwcvPAiYY4xAWK72idIA5CeFtmZva6Og+thi4QHLny5B
+	 MeCGfiz/6War5yy76VjI2VH3TGiToVor/6XMxa+YlzYxeFM8SNSy3nH9xXXm0ysiiUECb
+	 YFMSPRgHlQEWP51U6b63ILEPufECfEA7/PAg+Hq/wH8O9Gr+hsLbkzil5jPWleaPCS3jg
+	 MAtgJOz4U47h3f2107hBIQAvthMcO1Q6wkldlSnYwO2WyPnao1hy+JCuxjxAyxQeNtw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793306099;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=KxYr7Sm6OEegxhd0iVI9DwNJDZ8ymD/S/fyvDRwEbZs=;
-	b=poJOfbxtBP7looHvNDjn7V1n62S3Z0LgjVp8LorPxB+J/WsMczIdSIXjDkKJK7+/WP23
-	 hEVo+ySYdIwHGaZuTcCm5woOugZ+DdP7NxMcnPPiq1uq217kC4YhkW1+VBxIPfoj1PFZD
-	 Mf2eTi97xtkFmJ56c3mxY/Gtgm4GXUj5nx/a9BZ6jSUeFENBsZtejzZfCrNJ5X5oEbi14
-	 lIjwZX71u/jLIIOxk3XsrEU/KCpkk0JOjuk3sq2s9rhSTu0mCFOtz7Tkxn5YDpyVyGSKQ
-	 KoJywobPwsW09XZ+0J6XYGr3r2l8DkdzxCpRm8zj5YzgCJkLsZ9SsBhz8meaqoGiiSQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793306130;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=QcJgrIbiHATKK/40hSI/RITxVRqGHCvmwYIWBjFMRA4=;
+	b=S4yMJurf0H73OZU07RYHROjNDFQPc2mfXtyJLlweTIdVx4MC467f0zUDHviCmgtm9u5b
+	 7cy9G7jVduuTn1JlpD+s7f93qyMEdmz9Zy2KmbyjnGwh1UDqJa/LxItt40U/M0HZYzefo
+	 vuwK2u77aG+2QqUVwhtYYDw/Irjds0aJ5OLHpzRTAwYZnEqaEy6ixrBRwE/lDBqTEd0dl
+	 T0NFkANwmeSZgq12H+/5BkpygeDURMmR4WMZGwzh/dRvQtJMB+thmzUShrMEICnH6+aLn
+	 ZQhzVrGn58Zs1cuU8AeAd9lduRyp42qUVEkWsYv5JlsCdnPbl/M4/2yc/+FvmjhhLIQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=m8stvVUt;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=zfElnprs;
+	arc=none smtp.remote-ip=74.125.229.8
+Received: from mail-dy2-f8.google.com (mail-dy2-f8.google.com [74.125.229.8])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1040F606A32A;
-	Thu, 29 Oct 2026 20:34:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEF3960A2618
+	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 20:35:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AEF3960A2618
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=m8stvVUt
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3413D1F01826;
-	Thu, 29 Oct 2026 20:34:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793306098;
-	bh=KxYr7Sm6OEegxhd0iVI9DwNJDZ8ymD/S/fyvDRwEbZs=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=m8stvVUtaQ1zzXBZo9b4DXWtjQAwfK94PwzaJ/eyWlctn2jfEk/kIccDZT4yzRzTV
-	 xUwhkYp4JFgiEQbnWZ93UJ8mt2S+Web/7pzGe0SpkYI6oocQZiPLpHT73hP74roi3D
-	 Yr+BUk3pE/quR4/Ig1StPmT2uOE6hcTPcUKEVJ/Lv5UMx5k4G06IaFelmWSX8rEvzA
-	 ylUcnc1dGEcjLRHd7oeEGKeFW/1BtT4p1adLyRlFCZ+tJKXJz8Wd3CUiSLA5LptqrQ
-	 Lopmi7EvwC7Ts8BZAb+MLwTj6XScPpqfDLchayfM4KgiBF4iArRR7JwJRL9P4FDqwX
-	 OjQa5upyhqaBA==
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Date: Thu, 29 Oct 2026 21:33:01 +0100
-Subject: [PATCH v2 06/47] mm/filemap: read mapping->a_ops->free_folio under
- i_lock
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=zfElnprs
+Received: by mail-dy2-f8.google.com with SMTP id 5a478bee46e88-36a1e794908so16761eec.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 13:35:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793306129; x=1793910929; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=QcJgrIbiHATKK/40hSI/RITxVRqGHCvmwYIWBjFMRA4=;
+        b=zfElnprs3bd8FJhhaiq9y++DLA1RQ7UXviuuuoo6gneNaTe5X1ECba6IhjI91/y9fr
+         SI5F/bLYM6xs/u+ranyBHtEL/Y02GuyqZ1NDX5DnozaJmIKv8u0OBMtjIKq4sRLkfYqf
+         12iei9PUsCF9KpCjXoM1ATY94bdG5xBns6Zi4673UvqnJBCPZQUnkKRbQaVcecqQSPM3
+         WkDN3m8FI2Wn8+LwOdMhpeUup8rnMzTMBAe0+27yRNKgQV13RS0bSmPW1MZCFKmbSz3f
+         nNNHBiy9eus2WfiQrWNdeyu9Vy6IyRrhr79ZAGLxtD/3MtAdd5oI+YQCkPajibZNocIz
+         EwNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793306129; x=1793910929;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=QcJgrIbiHATKK/40hSI/RITxVRqGHCvmwYIWBjFMRA4=;
+        b=Op/KrHE+P8xravl/Kn35grIPa3I+4qgo8KNrulxfqXBQYCfRaCEqO4BRCwNgjjc222
+         ihAaETGFwZrR/sbTi5+BpE3d/UJxFRe//2jcfSkI4zeNBdFNNwC3tr9dC3iRbCnsmtP4
+         HuVy9zPy+pmjDhj5IpITNWFo6KMgiryeIMm6l7zjhncifIycBDoQZY2cxgl6XJbbgGsB
+         vKJmwkoIoTTKRY8Dk/HhGwlNTmAGJZiaKih7dXGcBVWvWyboNbbHxm+nH5z9b+95RloO
+         hi98ey0WIeWrMNWm9H/VAJXNPslybniwAlRgrfTGi8B75Da1r64SE0Eyn49+b5jgTaI2
+         FjFw==
+X-Forwarded-Encrypted: i=1; AKwUvByhlr3V/UVwzuE+CSVji2htxYcgVUKHlKmZkJgwpzsUpYjXGL2a4P6V7FL2miZDC1vwtr9/lRov9bRSAujs@vger.kernel.org
+X-Gm-Message-State: AFq9FYLWz4m+qeDFojMdEWzwxy8llk/V8WbBXTDwDLPmRNO2GO2U9ESb
+	7vY2KFCutuuJuyQklwv5rtMBNwoRNt2Gc3TUtrRcKw9rRUpwKJMGmBjOcR703FTzCKQ=
+X-Gm-Gg: AYBFou2VCa1XBzKDxoIfK70RnSSt0DgXS/sOtanS05+rbBW/6eMQtaFwbfLg+vbwTCh
+	9MpjzIDUe0x4nPwkbgJ/4lqxGuHE61r6+vISSGC/llF9MwJURWyqeCWV2j1zRxZ4OnvGfBV4O6z
+	tE0U3UZ+U3FdC4wPvmq2WRpAzTAIg6DEx6W61F9AsnUHtKr1peSJS90mZrp5cbV8Mqg+7e+f4JA
+	8E2iV/e1noicT+3bpHesvnJErsHS7bvzXOAR710NYs5WNQITBvTWJx+tL2ULr9skv4r2toQtKA1
+	wzTQ3Nmi1tohfkRehg+gVa/OtrjnLLr8gfJt6o5+1CbCQZtFTBjajnyrzoqL8/fZihTtMNIdlcv
+	rBcrNXJkVJrvkfpnuRBXV81Jc8q6JGpGh4ERiN450LZsjPxLoCT5I/ACOs5HlQrnAH838w34Dbc
+	gpyvWPJuHOonceSCVgp6fPjGx4FJjuNx0INoSOCMDk3lsiajEuJSqUiWFmFDPbtSmyoz+eS1rJ4
+	eOyeInDe7bQMSxX2qGoxmBq4dJ+jwDT775Gjmotxci8HNxqabAXJkThtPmmINxjl4ZqvDfWAvwO
+	XHYZd2SQKf3Gll5/eptSs3Bi8d/Sarcq19VusWU288XRLQmH00fThZBlKvdC1RJFTzQNtb8rVid
+	olw==
+X-Received: by 2002:a05:693c:41c9:20b0:36a:15ee:c20e with SMTP id 5a478bee46e88-36a42430362mr654438eec.33.1793306128640;
+        Thu, 29 Oct 2026 13:35:28 -0700 (PDT)
+Received: from localhost.localdomain ([98.148.34.5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a4294419dsm982137eec.18.2026.10.29.13.35.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Oct 2026 13:35:28 -0700 (PDT)
+From: Hungyu Lin <dennylin0707@gmail.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Hungyu Lin <dennylin0707@gmail.com>
+Subject: [PATCH] fs/ntfs3: preserve colons in symlink targets
+Date: Thu, 29 Oct 2026 20:34:57 +0000
+Message-ID: <20261029203457.59990-1-dennylin0707@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -53,165 +98,147 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261029-fixes_core-v2-6-a64ce7f83abb@kernel.org>
-References: <20261029-fixes_core-v2-0-a64ce7f83abb@kernel.org>
-In-Reply-To: <20261029-fixes_core-v2-0-a64ce7f83abb@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>, 
- Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
- Lorenzo Stoakes <ljs@kernel.org>, Kairui Song <kasong@tencent.com>, 
- Barry Song <baohua@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>, 
- Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
- Baoquan He <baoquan.he@linux.dev>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
- Michal Hocko <mhocko@suse.com>, Kees Cook <kees@kernel.org>, 
- Peter Zijlstra <peterz@infradead.org>, Jann Horn <jannh@google.com>, 
- Pedro Falcato <pfalcato@suse.de>, Hugh Dickins <hughd@google.com>, 
- Pasha Tatashin <pasha.tatashin@soleen.com>, 
- Pratyush Yadav <pratyush@kernel.org>, 
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
- Zi Yan <ziy@nvidia.com>, Lance Yang <lance.yang@linux.dev>, 
- Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
- Alistair Popple <apopple@nvidia.com>, Nico Pache <nico.pache@linux.dev>, 
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
- Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
- Matthew Brost <matthew.brost@intel.com>, John Hubbard <jhubbard@nvidia.com>, 
- Peter Xu <peterx@redhat.com>, Will Deacon <will@kernel.org>, 
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, 
- Nick Piggin <npiggin@gmail.com>, Oscar Salvador <osalvador@suse.de>, 
- Minchan Kim <minchan@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
- Xu Xin <xu.xin@linux.dev>, Chengming Zhou <chengming.zhou@linux.dev>, 
- Chris Li <chrisl@kernel.org>, Kemeng Shi <shikemeng@huaweicloud.com>, 
- Nhat Pham <nphamcs@gmail.com>, Youngjun Park <youngjun.park@lge.com>, 
- Gregory Price <gourry@gourry.net>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
- Rakie Kim <rakie.kim@sk.com>, Ying Huang <ying.huang@linux.alibaba.com>, 
- Jason Gunthorpe <jgg@ziepe.ca>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
- kexec@lists.infradead.org, linux-fsdevel@vger.kernel.org, 
- linux-arch@vger.kernel.org, linux-cxl@vger.kernel.org, 
- Josef Bacik <josef@toxicpanda.com>, stable@vger.kernel.org, 
- "David Hildenbrand (Arm)" <david@kernel.org>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3722; i=david@kernel.org;
- h=from:subject:message-id; bh=QdrOe18hQtm70tC+kr29IxB4g7ljmyzLHze5efGpjA8=;
- b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLIer22pSz/Yr2rC1Wyzv75dSO/9zxyjvv59K06tKJoq7
- jFNwXtbRykLgxgHg6yYIktQ8H2Dly/X1Va78THDzGFlAhnCwMUpABOpqmNkOBziF+Ztzcv74uOs
- M8/99SO2irj9uWaeLBJ/3eKDe2PYO0aG15ob3G0e/LRW1gmRjJv2v3bv/R1bGjMeL888u3fdBef
- zDAA=
-X-Developer-Key: i=david@kernel.org; a=openpgp;
- fpr=1BD9CAAD735C4C3A460DFCCA4DDE10F700FF835A
+Content-Transfer-Encoding: 8bit
 
-From: Josef Bacik <josef@toxicpanda.com>
+ntfs_nls_to_utf16() parses colon-delimited ADS names when the ads mount
+option is enabled. ntfs_create_reparse_buffer() also uses it to convert
+the complete symlink target, so "ln -s foo:bar link" succeeds but stores
+"foo" as the target. Following a link to a named data stream can then
+access the unnamed stream instead.
 
-memory_failure() -> ... -> filemap_remove_folio() can read mapping->a_ops
-after the inode has been freed. Once the folio is deleted from the
-pagecache it no longer pins the mapping, so after i_lock is dropped
-e.g., a concurrent final iput() can evict and free the inode before
-filemap_free_folio() looks up mapping->a_ops->free_folio.
+Add a parse_ads argument and disable parsing when converting symlink
+targets. Keep parsing enabled for the other callers to preserve their
+existing behavior.
 
-Most callers hold a reference on the inode, but not all.
-
-Documentation/filesystems/vfs.rst explicitly states that ->free_folio()
-must not assume the original address_space mapping still exists.
-
-Fix it by loading ->free_folio while i_lock is still held, similar to
-what folio_unmap_invalidate() does.
-
-Inline filemap_free_folio() into its remaining caller such that
-delete_from_page_cache_batch() also just loads the callback before
-dropping the i_lock.
-
-The bug was found by code inspection and has not been reproduced.
-
-Fix generated by an LLM and sent by Josef Bacik in private.
-
-Fixes: 59c66c5f8c4f ("mm: factor out page cache page freeing into a separate function")
+Fixes: be310476e886 ("fs/ntfs3: Add basic support for alternative data streams")
 Cc: stable@vger.kernel.org
-Signed-off-by: Josef Bacik <josef@toxicpanda.com>
-[ david: get rid of filemap_free_folio() entirely; improve patch description ]
-Reviewed-by: Rik van Riel <riel@surriel.com>
-Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
 ---
- mm/filemap.c | 29 ++++++++++++++---------------
- 1 file changed, 14 insertions(+), 15 deletions(-)
+ fs/ntfs3/dir.c     |  5 +++--
+ fs/ntfs3/fsntfs.c  |  2 +-
+ fs/ntfs3/inode.c   |  2 +-
+ fs/ntfs3/namei.c   | 10 +++++-----
+ fs/ntfs3/ntfs_fs.h |  2 +-
+ 5 files changed, 11 insertions(+), 10 deletions(-)
 
-diff --git a/mm/filemap.c b/mm/filemap.c
-index b74bc1e5015c..906b013c11eb 100644
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -227,18 +227,6 @@ void __filemap_remove_folio(struct folio *folio, void *shadow)
- 	page_cache_delete(mapping, folio, shadow);
- }
- 
--static void filemap_free_folio(const struct address_space *mapping,
--		struct folio *folio)
--{
--	void (*free_folio)(struct folio *);
--
--	free_folio = mapping->a_ops->free_folio;
--	if (free_folio)
--		free_folio(folio);
--
--	folio_put_refs(folio, folio_nr_pages(folio));
--}
--
- /**
-  * filemap_remove_folio - Remove folio from page cache.
-  * @folio: The folio.
-@@ -250,6 +238,7 @@ static void filemap_free_folio(const struct address_space *mapping,
- void filemap_remove_folio(struct folio *folio)
+diff --git a/fs/ntfs3/dir.c b/fs/ntfs3/dir.c
+index 14ca54e54578..be3c6a7fc57a 100644
+--- a/fs/ntfs3/dir.c
++++ b/fs/ntfs3/dir.c
+@@ -173,6 +173,7 @@ static int _utf8s_to_utf16s(const u8 *s, int inlen, enum utf16_endian endian,
+  * @uni:	Destination memory.
+  * @max_ulen:	Destination memory.
+  * @endian:	Endian of target UTF-16 string.
++ * @parse_ads:	Whether to parse an ADS delimiter.
+  *
+  * This function is called:
+  * - to create NTFS name
+@@ -182,7 +183,7 @@ static int _utf8s_to_utf16s(const u8 *s, int inlen, enum utf16_endian endian,
+  */
+ int ntfs_nls_to_utf16(struct ntfs_sb_info *sbi, const u8 *name, u32 name_len,
+ 		      struct cpu_str *uni, u32 max_ulen,
+-		      enum utf16_endian endian)
++		      enum utf16_endian endian, bool parse_ads)
  {
- 	struct address_space *mapping = folio->mapping;
-+	void (*free_folio)(struct folio *folio);
+ 	int ret, slen, i;
+ 	const u8 *end;
+@@ -239,7 +240,7 @@ int ntfs_nls_to_utf16(struct ntfs_sb_info *sbi, const u8 *name, u32 name_len,
  
- 	BUG_ON(!folio_test_locked(folio));
- 	spin_lock(&mapping->host->i_lock);
-@@ -258,9 +247,12 @@ void filemap_remove_folio(struct folio *folio)
- 	xa_unlock_irq(&mapping->i_pages);
- 	if (mapping_shrinkable(mapping))
- 		inode_lru_list_add(mapping->host);
-+	free_folio = mapping->a_ops->free_folio;
- 	spin_unlock(&mapping->host->i_lock);
+ 	uni->len = ret;
+ 	uni->ads_len = 0;
+-	if (ret > 0 && ads) {
++	if (ret > 0 && ads && parse_ads) {
+ 		uname = uni->name;
+ 		/* Find delimiter in range [1 : ret-2). */
+ 		for (i = 1; i + 1 < ret; i++) {
+diff --git a/fs/ntfs3/fsntfs.c b/fs/ntfs3/fsntfs.c
+index 97c04ab2763a..b06de8566a72 100644
+--- a/fs/ntfs3/fsntfs.c
++++ b/fs/ntfs3/fsntfs.c
+@@ -2668,7 +2668,7 @@ int ntfs_set_label(struct ntfs_sb_info *sbi, u8 *label, int len)
+ 		return -ENOMEM;
  
--	filemap_free_folio(mapping, folio);
-+	if (free_folio)
-+		free_folio(folio);
-+	folio_put_refs(folio, folio_nr_pages(folio));
- }
+ 	err = ntfs_nls_to_utf16(sbi, label, len, uni, (PATH_MAX - 2) / 2,
+-				UTF16_LITTLE_ENDIAN);
++				UTF16_LITTLE_ENDIAN, true);
+ 	if (err < 0)
+ 		goto out;
  
- /*
-@@ -320,6 +312,7 @@ static void page_cache_delete_batch(struct address_space *mapping,
- void delete_from_page_cache_batch(struct address_space *mapping,
- 				  struct folio_batch *fbatch)
- {
-+	void (*free_folio)(struct folio *folio);
- 	int i;
+diff --git a/fs/ntfs3/inode.c b/fs/ntfs3/inode.c
+index 5a8d362155ac..d883c4b47e83 100644
+--- a/fs/ntfs3/inode.c
++++ b/fs/ntfs3/inode.c
+@@ -1315,7 +1315,7 @@ ntfs_create_reparse_buffer(struct ntfs_sb_info *sbi, const char *symname,
+ 	/* Convert link name to UTF-16. */
+ 	err = ntfs_nls_to_utf16(sbi, symname, size,
+ 				(struct cpu_str *)(rp_name - 1), 2 * size,
+-				UTF16_LITTLE_ENDIAN);
++				UTF16_LITTLE_ENDIAN, false);
+ 	if (err < 0)
+ 		goto out;
  
- 	if (!folio_batch_count(fbatch))
-@@ -337,10 +330,16 @@ void delete_from_page_cache_batch(struct address_space *mapping,
- 	xa_unlock_irq(&mapping->i_pages);
- 	if (mapping_shrinkable(mapping))
- 		inode_lru_list_add(mapping->host);
-+	free_folio = mapping->a_ops->free_folio;
- 	spin_unlock(&mapping->host->i_lock);
+diff --git a/fs/ntfs3/namei.c b/fs/ntfs3/namei.c
+index ae88cb66fb7e..ab9da0faa104 100644
+--- a/fs/ntfs3/namei.c
++++ b/fs/ntfs3/namei.c
+@@ -45,7 +45,7 @@ int fill_name_de(struct ntfs_sb_info *sbi, void *buf, const struct qstr *name,
+ 		/* Convert input string to unicode. */
+ 		err = ntfs_nls_to_utf16(sbi, name->name, name->len,
+ 					(struct cpu_str *)&fname->name_len,
+-					NTFS_NAME_LEN, UTF16_LITTLE_ENDIAN);
++					NTFS_NAME_LEN, UTF16_LITTLE_ENDIAN, true);
+ 		if (err < 0)
+ 			return err;
+ 	}
+@@ -82,7 +82,7 @@ static struct dentry *ntfs_lookup(struct inode *dir, struct dentry *dentry,
  
--	for (i = 0; i < folio_batch_count(fbatch); i++)
--		filemap_free_folio(mapping, fbatch->folios[i]);
-+	for (i = 0; i < folio_batch_count(fbatch); i++) {
-+		struct folio *folio = fbatch->folios[i];
-+
-+		if (free_folio)
-+			free_folio(folio);
-+		folio_put_refs(folio, folio_nr_pages(folio));
-+	}
- }
+ 	err = ntfs_nls_to_utf16(ni->mi.sbi, dentry->d_name.name,
+ 				dentry->d_name.len, uni, NTFS_NAME_LEN,
+-				UTF16_HOST_ENDIAN);
++				UTF16_HOST_ENDIAN, true);
  
- int filemap_check_errors(struct address_space *mapping)
-
+ 	if (err < 0) {
+ 		kfree(uni);
+@@ -437,7 +437,7 @@ static int ntfs_d_hash(const struct dentry *dentry, struct qstr *name)
+ 	sbi = dentry->d_sb->s_fs_info;
+ 
+ 	err = ntfs_nls_to_utf16(sbi, name->name, name->len, uni, NTFS_NAME_LEN,
+-				UTF16_HOST_ENDIAN);
++				UTF16_HOST_ENDIAN, true);
+ 	if (err < 0)
+ 		goto out;
+ 
+@@ -496,7 +496,7 @@ static int ntfs_d_compare(const struct dentry *dentry, unsigned int len1,
+ 		return -ENOMEM;
+ 
+ 	ret = ntfs_nls_to_utf16(sbi, str, len1, uni1, NTFS_NAME_LEN,
+-				UTF16_HOST_ENDIAN);
++				UTF16_HOST_ENDIAN, true);
+ 	if (ret < 0)
+ 		goto out;
+ 
+@@ -509,7 +509,7 @@ static int ntfs_d_compare(const struct dentry *dentry, unsigned int len1,
+ 
+ 	ret = ntfs_nls_to_utf16(sbi, name->name, name->len,
+ 				(struct cpu_str *)uni2, NTFS_NAME_LEN,
+-				UTF16_LITTLE_ENDIAN);
++				UTF16_LITTLE_ENDIAN, true);
+ 	if (ret < 0)
+ 		goto out;
+ 
+diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
+index 689151fcf993..5475eaeb49fe 100644
+--- a/fs/ntfs3/ntfs_fs.h
++++ b/fs/ntfs3/ntfs_fs.h
+@@ -540,7 +540,7 @@ int ntfs_utf16_to_nls(struct ntfs_sb_info *sbi, const __le16 *name, u32 len,
+ 		      u8 *buf, int buf_len);
+ int ntfs_nls_to_utf16(struct ntfs_sb_info *sbi, const u8 *name, u32 name_len,
+ 		      struct cpu_str *uni, u32 max_ulen,
+-		      enum utf16_endian endian);
++		      enum utf16_endian endian, bool parse_ads);
+ struct inode *dir_search_flags(struct inode *dir, const struct cpu_str *uni,
+ 			       struct ntfs_fnd *fnd, u32 flags);
+ static inline struct inode *dir_search(struct inode *dir,
 -- 
 2.43.0
 
