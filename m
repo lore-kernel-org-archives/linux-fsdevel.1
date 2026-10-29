@@ -1,100 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.221.47
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793304533;
-	b=azrBF0ula29roRfaIhbzbNEQYEiAxw4IAjBhQXzAGbno57CyxFs/GKZUGK5hMmwhbrvw
-	 xtpqXaw8BdT2IXcRJgSt1Xb/37AC/avNfujPw/AtC5/xAZcNy3GaV9qKE7N1yd5XCC6mG
-	 yMFMfcyXkwtuqEotI60TOOYtwkrnw0BiTShUUxO+6hlEivPU2/tzZfSfetQTpEVB662KU
-	 9hF3esVdZZVH25aZfM9rAwIU9Aj8xX9jJ2QEq2PnEwVhr4L1en8+6MxBLM4rz6SFckiHJ
-	 ZhI1vkNY9/AKQVUEklRahDinQJXl/lAQ3guxxJQm1SUJodi7tQVplm8gWOjVffSFL0A==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793304533;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
-	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=a7zkNlVrzlPSpxoUpXt3vRmcwmTKMbpAgzHY1qs7+DM=;
-	b=oI2Cr+MOkdqhjsy+tr7nsjRtzOjoXJ+7KgeuIttS36CZ3MunnSG+yZk9LObIYYS05kGD
-	 91+EEK0sHHzZjAs2ZyD0cVwL26s7p4D91aCDabwnBhUFRvxWPXOqsX5o5FY44MJq8tXzw
-	 DOqSs2D6oma1kE45YBlLl0MqZvsFlzBwy1susL5IVScsZt+lKyPqk3wUK83Xk9PsTIMyL
-	 VxJWoA/Xco1z89cnjFDg5Gr87+RIOx3qRNhi6AyZ6v3NvbDe4jpclJYS+C6UQSzo7TbEU
-	 wFsn/yd+ELhjpkwTNIlqqgw0aKjh1aqMlr/SyGLzLchs45Le28bk/OWaNyau1vdQ1sA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cF5c8VtD;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.221.47
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=143.54.11.23
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793304725;
+	b=lgt//G9kaSjmQ9XWdubZKZtkixjsl+HuZHuSu7C0VEQuUCVhAdeSdHNNAtCZtdgmdfT4
+	 79klkKV/l86k9v2FwtoR/T3giuJBgAR45sVFbOiifINdfWUWIpKG7bKDPSThyuAT2gYF6
+	 6f5ndynOhys7kJZ/h+ZZwcRHlQO5YFwyCqxWYY3cYxjcDBgSX3s4p1Wgmlf2T9Ld7jtBr
+	 UfGBvTk7Hw7BWhiTFNl3vIOSQB+YksZ4tGf73wijiXzP80YkWHOO2Br5cqm7fAQqyw52G
+	 wON07SaWZCVuvPixhAnuVRbCQcZ3jU9UUgTA1dEG9Eo5Pd1bL1ZZy5MBtE2CHCximbA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793304725;
+	h=DMARC-Filter:Received:DKIM-Signature:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=v25Odk+w8zqh+xoMuADbn2dgTDEctJs52lZ7sJTHx+4=;
+	b=mpglgyNDPEcEBA6mSjYadO0irgGTIE+u0PJqLSJZeI7Ez4zaCEle9hduQzKEXdy4cuR8
+	 QdsZy3Ne3UHJRaqiwzE5LjXalnONHZ8aqZwCIvQhLdgr/P8Q4CbMtRlPPJI9Hmlx7hyTH
+	 floduDJDUBvpdfzLhL7K62nn7XaJDeZuSx9yLozqyRkS164kWJ810NlfAv3K8KIjdL0qB
+	 whJinrmi7spz9y9aVe/ewNhFG6zKTmfVTd0ljhMwEPvCAZCR1uOty8kPEWXa/sgeibJy2
+	 Ui2VXU8y3Q/1JnDHCltZpqOaWewPC7eoXOEiLR/1w9/zfLbYLZtgDqu3XnDHjohTjxw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=inf.ufrgs.br;
+	spf=pass smtp.mailfrom=inf.ufrgs.br;
+	dkim=pass header.d=inf.ufrgs.br header.i=@inf.ufrgs.br header.a=rsa-sha256 header.s=dkim2026 header.b=4gGYnZBI;
+	arc=none smtp.remote-ip=143.54.11.23
+Received: from smtp.inf.ufrgs.br (smtp.inf.ufrgs.br [143.54.11.23])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38838606A31C
-	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 20:08:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 38838606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 005A4606A31A;
+	Thu, 29 Oct 2026 20:12:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 005A4606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inf.ufrgs.br
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inf.ufrgs.br
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cF5c8VtD
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-48e6eb21a8fso6618f8f.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 13:08:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793304530; cv=none;
-        d=google.com; s=arc-20260327;
-        b=QY63WroFz8UkyLFeY9sAuISdj7hdHwXuhDt5oYQlD7UD29PCn51FPXvEhQ860tDSr5
-         FsAV9s5KYjhPloYNoD+7pONfFXMleu9Pp5JpaVZmrsJF0BhiXyRYr9UXS75Tdb6KvcTR
-         Xwqsh+elPy7ursVPAuODliGaSp5KUwTBJnxI8GvJ9X+7fo0M6f917+MP9ieZgHiC2H9N
-         jBAizt4K8apcauXA5f1bQ2f10YjMz7XUi3VK0D7yEc0QJLWVfmcAUcntV0M5KF9wqDU5
-         462wWDtSZiXcI7y2yuT/ZfduYnc2p6fN/Y9tzhN+N1kHjskrtsSp5lK8qMmCHBGtuAGV
-         kpYA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=a7zkNlVrzlPSpxoUpXt3vRmcwmTKMbpAgzHY1qs7+DM=;
-        fh=qmlEDRwNNxetyPachvEmZzk01R9LDNG81YeHwkvkhoA=;
-        b=SxVV936mdk/R5Hm0/4aUpnkNLznN1yCeB/ms05zfWlqJXvqkBFQYyYF51IvIvJWpsC
-         6WTcbYR+xUtfQTC3qs03DrihALt2hJ/voJF2CaIoaFWl1Nwp0AP2EMLSmqmwWobtdcI+
-         gdXFxW4KU3upz4ft0KSTZEjIiHE91c8vmuAe8jl7juExmj18rboPgAYEmMc1X3to7rKM
-         aVHsG8CJkuVLONJbY2sFgoo+4M3FHcKy/DDi8M4AvphypO0U5Xm7je8LxyGLk0ESoucp
-         5rdwNPB26di5IFQ1BOA8PhQAFsG7FmZq1Ugu+K7bfNKOSWk172WdlAvKYm+y0K3tmJm+
-         4vyA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793304530; x=1793909330; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=a7zkNlVrzlPSpxoUpXt3vRmcwmTKMbpAgzHY1qs7+DM=;
-        b=cF5c8VtDD9mtXXMfx73tPPZP6ZGyc7Iyom5qIfSSirBoVjl+k1aJU9TlqtCNPsvv6t
-         YUj/b2XjUvWOJEgA+rmpLJCfK19zhHTB1E2NO6z0KZh+kricy7kJQ9VZbjQpkW4sHs2H
-         GNH8iRpemMGf5zAL7uGgGkMT+qaLFijGwdUVsaYuCiPasfiKk96yNECS37KfKjR41wvN
-         zZRT7TKNKbHpIe1WqHXSoQbXF9sNULGInMaoyeU9alUXbydvm6CBahzyFHaCUh+Rfvjl
-         KIIq9oRgvQUrNMFu9mgicexxTpmFPnBWaby0bq75EL6n9D5+kcYsM2Ye5O9qfRLcDhDk
-         D9Vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793304530; x=1793909330;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=a7zkNlVrzlPSpxoUpXt3vRmcwmTKMbpAgzHY1qs7+DM=;
-        b=afa40p4fQbFQ+v4wNnoX8VUaSMVvx1vnKGMMLqeWL2zK9XRM3caxSeD8Sg+gV190J2
-         kOtBQYazi4f5uL9GGSoUo82wmIFy6vhWI5J3DSoDkxIvnDJWp+0k3sboGuDlx8jx6yTP
-         3IQOVLl2vtJTPo2r336l1KzV6iTpYxixEB29/eegcrcsbt9DZaLCBMvsW12D9e8LBUUy
-         mQkeFdyzyfYylMPMS0nvZHNtJ3FVU1HRSmEswGRphMD9W+n1Q5RAwkoLherstG6O2XCo
-         AW9L91ua8+UCEPt4GJ692ivZp9nEUyixsBxDR441EYNCESTTRJf7icw6qtzSuQKfJnTY
-         EP6w==
-X-Gm-Message-State: AFq9FYJZabDWWz2l9uvWVkNTwrbsukfOnz4SU3WOtD7TSqLFg+emWlvm
-	uDmI1eBrs6Y8PuY5vA966H3ZfM6uglYmUaAaD+UVnDe8oZRkzVcx/eIyJ7WFzfBjmAkAouekZP8
-	eV51C2Uw9765sGER5Lrn8WpbjG/KxEqA=
-X-Gm-Gg: AYBFou2JlO8tFcP9a3VDED+yCJmmA7kl3knW7dyEZilMk1o5wt4H4k3GUXN7euIqiSn
-	WIuj4AeQF2rPk07LTmP2BmFR5tI7QK5vAt4MCOkcBTVcZI5ChQNYWdlESCwqUZ7dEXOj3oRxH1G
-	3Fnzec+0CC8/K3E0gDLQq5FhHocgcZtM34yVFgx+uSJaE6o0wcJwVyvitjtrver0db3ELsL2NQo
-	rb+6QjG+q3M3fw/LNPIMgxkap/yj/nuk+eGSWBVQkZHL5E5qMGOz45e3d5t4rvmWmlZwIkw7vkB
-	J8i0u3hAehQFqPBmUWOPiVHPy3O+RW+6eu1bhcAdmYGQSD1UFhcmuqTjJBCMOhfiLJxe/Cp93kU
-	+NyEp6KDFa4wLDGRnrqThbxh+7oC+gMp8/G353lAHims8RGJadneUqw/dXPfc3SqQwQzOBRMG/B
-	QkoWua5TNKsmcv5zfobQ==
-X-Received: by 2002:a05:6000:1ac5:b0:48b:116d:56fb with SMTP id
- ffacd0b85a97d-48e6e2bbfe0mr1122858f8f.1.1793304530377; Thu, 29 Oct 2026
- 13:08:50 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=inf.ufrgs.br header.i=@inf.ufrgs.br header.a=rsa-sha256 header.s=dkim2026 header.b=4gGYnZBI
+Received: from DESKTOP-PJTTJ93.localdomain (unknown [189.6.233.4])
+	by smtp.inf.ufrgs.br (Postfix) with ESMTPSA id 4D27412021F;
+	Thu, 29 Oct 2026 17:11:49 -0300 (-03)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inf.ufrgs.br;
+	s=dkim2026; t=1793304714;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=v25Odk+w8zqh+xoMuADbn2dgTDEctJs52lZ7sJTHx+4=;
+	b=4gGYnZBInza8ErhRqp01hIijDFba+eYqAeB2uTZVThs/r4MgYUZNHG5WaqvA55QwtYnhld
+	aV6+ZjxoEWNW9eE6p7N3Wb4ajQlIpDWfywXbsDtnLQbrcA/JfbvhS7Utw271qTDXFMIeO9
+	YPzTB5N0F7xuotrNFVqQmBBYduEojP++AEscLT+KzucON4byYKp1yP/itI4b0WkjegEd6r
+	Y9aKCmguhaCcDoTl3eEpH8IvB4aF1PVsT/7+RHG+5XMVxg6jXS+n9PiyIp2rkUua7jcXMl
+	vrsHmvKa3FRaGl2brGta6pQRMXVt2bgiAm8JxKFuhRQ/8ox3GTCuO4Ge6lZ/6A==
+Date: Thu, 29 Oct 2026 17:11:46 -0300
+From: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
+To: Bryanna Marihugh <bryannamarihugh@manhattantech.edu>
+Cc: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, 
+	Andrew Morton <akpm@linux-foundation.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC] fat: use write_inode_now() on flush to avoid racing
+ the flusher
+Message-ID: <auOlUam8nXqdTZu0@DESKTOP-PJTTJ93.localdomain>
+References: <20261029-fat-flush-isync-v1-1-69c02c258d0c@manhattantech.edu>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,54 +65,113 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261029-work-iomap-ai-fixes-v1-0-7eda63bc1b13@kernel.org> <20261029-work-iomap-ai-fixes-v1-1-7eda63bc1b13@kernel.org>
-In-Reply-To: <20261029-work-iomap-ai-fixes-v1-1-7eda63bc1b13@kernel.org>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Thu, 29 Oct 2026 13:08:36 -0700
-X-Gm-Features: AclHuK_mxORIH-qEHKr1ZEzSnp2s6A1zchn0cpynNg9TXiYPbvV1ECJaStfOffg
-Message-ID: <CAJnrk1YiF=OEYQzwFpkzmBY_78+fNKgg5CafaWOa7KwGR+XN-w@mail.gmail.com>
-Subject: Re: [PATCH 1/2] iomap: don't mark unwritten parts of a folio uptodate
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, Christoph Hellwig <hch@lst.de>, Chris Mason <clm@meta.com>, 
-	Josef Bacik <josef@toxicpanda.com>, Matthew Wilcox <willy@infradead.org>, 
-	Zhang Yi <yi.zhang@huaweicloud.com>, "Darrick J. Wong" <djwong@kernel.org>, 
-	Brian Foster <bfoster@redhat.com>, linux-xfs@vger.kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261029-fat-flush-isync-v1-1-69c02c258d0c@manhattantech.edu>
 
-On Thu, Oct 29, 2026 at 3:35=E2=80=AFAM Christian Brauner <brauner@kernel.o=
-rg> wrote:
+On Thu, Oct 29, 2026 at 12:29:05PM -0500, Bryanna Marihugh wrote:
+>On cheap USB 3.0 sticks, copying a large file to one formatted FAT
+>slows down badly when the background flusher runs at the same time.
+>This only impacts performance; it does not corrupt data.
 >
-> diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-> index 907873073b03..d6e2f1ded5ca 100644
-> --- a/fs/iomap/buffered-io.c
-> +++ b/fs/iomap/buffered-io.c
-> @@ -920,6 +920,7 @@ static int __iomap_write_begin(const struct iomap_ite=
-r *iter,
->                 if (iomap_block_needs_zeroing(iter, block_start)) {
->                         if (WARN_ON_ONCE(iter->flags & IOMAP_UNSHARE))
->                                 return -EIO;
-> +                       /* uptodate once copied, see __iomap_write_end() =
-*/
->                         folio_zero_segments(folio, poff, from, to, poff +=
- plen);
->                 } else {
->                         const struct iomap *iomap =3D iomap_iter_srcmap(i=
-ter);
-> @@ -943,8 +944,8 @@ static int __iomap_write_begin(const struct iomap_ite=
-r *iter,
+>udisks mounts FAT with the flush option, so closing a written file
+>calls fat_flush_inodes(), which starts writeback of the data with
+>filemap_fdatawrite(). That does not set I_SYNC, so the flusher starts
+>at the same time, which causes lots of small requests.
 >
->                         if (iomap->flags & IOMAP_F_ZERO_TAIL)
->                                 folio_zero_segment(folio, to, poff + plen=
-);
-> +                       iomap_set_range_uptodate(folio, poff, plen);
->                 }
-> -               iomap_set_range_uptodate(folio, poff, plen);
->         } while ((block_start +=3D plen) < block_end);
+>Cheap controllers handle small writes poorly and sometimes stall for
+>seconds. I have found this to be a problem on many cheap USB 3 drives.
+>Older USB2 hardware, better drives and ones that support UASP
+>don't show this behavior.
 >
->         return 0;
+>Use write_inode_now(inode, 1) instead. It goes through
+>writeback_single_inode(), which sets I_SYNC while it writes.
+>Close now also waits for the data and the directory entry to be written.
+>
+>Benchmark copying a 3 GiB file to a USB 3 stick (PNY, 154b:00ed),
+>default writeback settings: 11.6-16.3 MB/s before, 17.6-18.0 MB/s after.
+>
+>Signed-off-by: Bryanna Marihugh <bryannamarihugh@manhattantech.edu>
+>---
+>This is a performance fix for cheap USB 3 sticks on FAT mounted with
+>flush (the udisks default). It stops close and the flusher from writing
+>the same file at the same time.
+>
+>Tested on v7.2.12 (stock and patched) and mainline c339f4010dea
+>(patched), bare metal, same stick. With the flusher kept busy
+>(dirty_background_bytes=256M, dirty_writeback_centisecs=100) cp goes
+>from 6.8-8.7 to 13.5-17.4 MB/s. With the patch one task writes the file
+>and 96-100% of data bios are 768 KiB or larger (4-16% before).
+>
+>Only measured on one usb-storage stick. UAS drives I have used did not
+>show the slowdown, but I haven't traced them.
+>
+>fsync() and sync_bdevs() can race the flusher the same way on other
+>filesystems. I kept this patch to FAT, but have numbers for exFAT, ext4
+>and btrfs if useful.
+>
+>I am a sysadmin not a C dev haven't written it much since school and so
+>did use an LLM for help reading the writeback code, analysing the block
+>traces and drafting the patch and text and who to email. I typed,
+>reviewed and tested the change myself and feel confident that I
+>understand it and can answer questions.
+>---
+> fs/fat/inode.c | 21 +++++----------------
+> 1 file changed, 5 insertions(+), 16 deletions(-)
+>
+>diff --git a/fs/fat/inode.c b/fs/fat/inode.c
+>index d85c8fbdcca4..0643244223c5 100644
+>--- a/fs/fat/inode.c
+>+++ b/fs/fat/inode.c
+>@@ -1911,28 +1911,17 @@ EXPORT_SYMBOL_GPL(fat_fill_super);
+> 
+> /*
+>  * helper function for fat_flush_inodes.  This writes both the inode
+>- * and the file data blocks, waiting for in flight data blocks before
+>- * the start of the call.  It does not wait for any io started
+>- * during the call
+>+ * and the file data blocks, waiting for in flight data blocks and
+>+ * ones it starts. write_inode_now() takes I_SYNC, so the flusher
+>+ * does not try to write at the same time.
+>  */
+> static int writeback_inode(struct inode *inode)
+> {
+>-
+>-	int ret;
+>-
+>-	/* if we used wait=1, sync_inode_metadata waits for the io for the
+>-	* inode to finish.  So wait=0 is sent down to sync_inode_metadata
+>-	* and filemap_fdatawrite is used for the data blocks
+>-	*/
+>-	ret = sync_inode_metadata(inode, 0);
+>-	if (!ret)
+>-		ret = filemap_fdatawrite(inode->i_mapping);
+>-	return ret;
+>+	return write_inode_now(inode, 1);
+> }
+> 
+> /*
+>- * write data and metadata corresponding to i1 and i2.  The io is
+>- * started but we do not wait for any of it to finish.
+>+ * write data and metadata corresponding to i1 and i2 and wait for them.
+>  *
+>  * filemap_flush is used for the block device, so if there is a dirty
+>  * page for a block already in flight, we will not wait and start the
+>
+>---
+>base-commit: c339f4010dea8b0d754f84ace70cd1b089878ef8
+>change-id: 20261029-fat-flush-isync-ae828e018ee0
+>
+>Best regards,
+>-- 
+>Bryanna Marihugh <bryannamarihugh@manhattantech.edu>
 >
 
-The fix looks good to me.
+I Agree with OGAWA.
 
-Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
+Also, since writeback_inode() will just be a call to write_inode_now(),
+couldn't this helper be removed and instead write_inode_now() be called
+directly?
+
+Thanks,
+Matheus
