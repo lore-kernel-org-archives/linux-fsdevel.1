@@ -1,65 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.205.69.214
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793308722;
-	b=PWRDzWDwhBbwXx6RjPrARWaVUIVip/HBUNYio1pIeX6AVgffJJvMvgpMxFEaTISsl8C8
-	 YmYOGJl6KG7sqUFma5Hy7lmXS4GmhY2M+7krdj+1NiMtPTI19iieIQH855c4Otq57FuU+
-	 rKn+Hd3YuS9W3OpFwHVNO1tUsumMdg54+KUZD8tXIZ+raSxHzWJgmszcmw3n8/QPrH90p
-	 6vLgXAQo+eX+3PRkMTiKkTlrm8Sw4yA+rXveRSAW8Mpqdhxbeg6/o1MeXLdC+DgjTJxvB
-	 2q+JtbFigWrZ2B3h3d5jeu99rp+ZTvVNMy/0/Cjl+v6FNzAMuuPzvkscu11nIlAZiTQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793308722;
-	h=DMARC-Filter:Received:DKIM-Signature:Date:From:To:Cc:Message-ID:
-	 Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Feedback-ID;
-	bh=I5X+ZmPO3CQba0esVboJm4mky7PH5KkFaOsJl1sLn5g=;
-	b=WuRzML90IlvmQwBGgfIDsma3TfL8jOHIseIDzShD+1UvtIRGy5JhPMc3Vzpn8ByrywJn
-	 K3KNIMyRlzcAoNRpnfCJ5HGfQD/SQeyE56F73IqoEtXk2Bd2Putr5lpolOcG3aLvI+77+
-	 5rGVjDZNa9i0MqgJ25w/g1uberOaPCa2xpcoSCZ++HmRw7auAkH+FlIvtugpyGmN3ENMp
-	 fstKjvNQ6xAEviTdHac5BN07OR2D4rJMfI7vUqw7jIY+ANE2lTKID+HW0YNMQsjwb1tOy
-	 WvNRArVUCylTNuNt9wCRECDK0/0ooL/xCvCKLw1a+1z79HN2Rh2evxdM+aN65yiCFAA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=tuta.io;
-	spf=pass smtp.mailfrom=tuta.io;
-	dkim=pass header.d=tuta.io header.i=@tuta.io header.a=rsa-sha256 header.s=s1 header.b=utQ9KhMm;
-	arc=none smtp.remote-ip=185.205.69.214
-Received: from mail.w14.tutanota.de (mail.w14.tutanota.de [185.205.69.214])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.43
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793309750;
+	b=af6ET2ssKJ5op+/UizUyAjHp41sjXb9vqvxUl0j2Cst/DXsgflTFDMyBFttIj5hCVUC8
+	 yHn5w9CCyNKdSDnLjIq4b2udcRMre/iv0H2bX1jI65V4Sx/K2zR0DV5qXZQ8jzA6Sg/mC
+	 fcae+sl3c/RoQff0YYOKe3A9avZgSccdj6v3UxkQ0GkrIoAaaZKTwRRioYD3w8kAmIrrd
+	 MzfLVNWLNVIl6acjS2PbZHh61fmoZwfBygO3o19dvjy1xkH2h+3krShxmJpbcr8Ddw9Fn
+	 TAZAHUUMZ7Re2DqbQzYgYEPfw/zDiSlSJFSbC8isyniz/xw2z7GcneFs2sEt3KJk6rw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793309750;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=AjT67sODfv8LIA3zVwUGB//ZCy/sHbwEFOtaC99aW5g=;
+	b=Rhxn/IXJnLI3RvvQvwhvEEbnPfVQA9l3X6SGfCKYPmAq/jvrxCwIpXNdkQErZAdT8hXT
+	 AzP0H8ZQ0ZaoPU9FWlXEGBWGH3fzFPEAuh7t3Au+6mTAvLM4pYCmaQJPEeGuLcELAFt+x
+	 Be46epjAao341NUPPG35qcKMnfOsa9bxnwi1gtWOJmWLJsJpnm/BxSLyTeenk44gdfvVI
+	 7daFt4f+f/60L/pq/ohM6HhGbdoYGxOZM8qG3+R8hEc83k8UbnGP9bvdgiktU/k6sxxtD
+	 tCD6zU73opSgvPIbm6dp3H8nxh0oup2YYQA/hJuwZpj6gbEMvBKGaL2PXBb0MfLcp7Q==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=Ny4Qf79m;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.43
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFAF9606A31D
-	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 21:18:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DFAF9606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuta.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuta.io
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C090F606A31C
+	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 21:35:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C090F606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=tuta.io header.i=@tuta.io header.a=rsa-sha256 header.s=s1 header.b=utQ9KhMm
-Received: from tutadb.w10.tutanota.de (w10.api.tuta.com [IPv6:fd:ac::d:10])
-	by mail.w14.tutanota.de (Postfix) with ESMTP id 558C319EEEF83
-	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 22:18:40 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1793308720;
-	s=s1; d=tuta.io;
-	h=From:From:To:To:Subject:Subject:Content-Description:Content-ID:Content-Type:Content-Type:Content-Transfer-Encoding:Content-Transfer-Encoding:Cc:Cc:Date:Date:In-Reply-To:MIME-Version:MIME-Version:Message-ID:Message-ID:Reply-To:References:Sender;
-	bh=I5X+ZmPO3CQba0esVboJm4mky7PH5KkFaOsJl1sLn5g=;
-	b=utQ9KhMmUiayjU7ShO6AXmX5GpP/0UNEEvpiSsWJQYWaqVmXR1ymstTjp4VPlWDG
-	szoBccsqPpfHzCBZBt8cR3RfuN4OEVGnBc1gAekVq4e6p4e8OVoWISfwNx3F/h2HkQN
-	NYMIvkt3n1hMQ8YCnkBsB5k6w8I0ZQiNscLpIQJ2A0CWONm1pEx8UCFa41DUkZ0EMsK
-	OLHOytO85DZLF6GqypfCDBMBPh//J8v1Rg4b+FB3fjrshYxDC1wF5KqpwieHAoGNlA1
-	jElNYjM3AMnHov5L0S6vENoAIUK8A2BzHtwMucp+e7VUO+ovL+nP1eBznUt97DPjAxM
-	Vtyec9edBg==
-Date: Thu, 29 Oct 2026 22:18:40 +0100 (CET)
-From: Edvard Conrad <edvard@tuta.io>
-To: Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"linux-unionfs@vger.kernel.org" <linux-unionfs@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Edvard Conrad <edvard@tuta.io>,
-	"stable@vger.kernel.org" <stable@vger.kernel.org>
-Message-ID: <P58Wrer--F-9@tuta.io>
-Subject: [PATCH v3] fs: let backing files inherit FMODE_NONOTIFY from the
- user file
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=Ny4Qf79m
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-c43fbcb4393so2380666b.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 14:35:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793309748; cv=none;
+        d=google.com; s=arc-20260327;
+        b=CgOXXHJvatsh3S1RJqlHPlCgNjibMkUYGBn4Nz4K8cCTLFSWzq9EUkrQY+MrAtyg1z
+         +03BF4KwZc9IbgvtQVzUp5zIRrMSOXc5XJuaxw0WfSHVgUNhTK+MLI6OCpEGqM8gPw8g
+         QXxXNjm6gKF8qb7rhv51VWWTkhknWwkY28NQ9szJwW3/+flO76w5klZ6hoJz5i2o0q12
+         PGZzj1wntORQthM7CZP/IlEASzdaT/j85Bpu6rhlpEngg2qQLbXkrH7A7BE0/rwhun+t
+         r9QZSirnIJngRtZXXhWDt0JbjH1Qcw0A/jd2OoCdtmFnINdC+qVTUt35onL/v6RnSoT8
+         1Qjw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=AjT67sODfv8LIA3zVwUGB//ZCy/sHbwEFOtaC99aW5g=;
+        fh=EawQxjZrXV8bqb4oa2YwwIznPD6Kv+m7Klul5Bk3tww=;
+        b=JSuotYeUAWJYW6jmy5tsiH8hVQrnwhcLoMVFbiFZlfWtjjQpKRX6LeP5hceyRVo0HA
+         SzfF8+GSlHU9QQcm5DCmyv2UtLGT4eToASk9waylPlBN1mrSvR4z3iZaSaeR4HjyG8va
+         dZxzhiF+fvFR8Ll3Rn6A+iItZMjKdZb60/O9bqIwcJihxosizEZAa++6iRkwYioP7Exg
+         Tp2MEWXPcIi7q31gMwsjshc/bLdVsxkKzbNzcxqU/HzOz3tyfUzgERV4lEPL7R4OuGdl
+         rgbUv3fXzz7U+OjcsmmE3174kGPcD8mYRvciUl1gLfG81mi50rm4xB9yfcwCPHzmQ4Ev
+         dKRQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1793309748; x=1793914548; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=AjT67sODfv8LIA3zVwUGB//ZCy/sHbwEFOtaC99aW5g=;
+        b=Ny4Qf79msA3Ol1Y6e8/IcUAH9yOvaHBe2q/r2VBC2ELpk56XQeNul05malBDOFT8ku
+         3iNV5LUh1WN6OSi58GJtPL1CdzJ6Gfdq1EwPPwQTHQ+fJYrr4uuUNxUlmh+B6VBLkI3H
+         ZEj0B1DaLGuydvsPOrmNnyN+V5M9uzXhIOuB8IAfuS4x7RzFZc8EHwvHkIbq2HZsSAXO
+         f8K9v16/gbB/xNpURIL1Ixe+3ZCyFOiwul7kpsyeMIznZ8WtYjV+3pMV90juEncbUJ39
+         jANFHK4YH+YJxQHzX5N4bA9Y7nUKExBRqIOMrQJ2r0F5nLrYhReYCpQZmLjrgHbgSrOi
+         AU7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793309748; x=1793914548;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=AjT67sODfv8LIA3zVwUGB//ZCy/sHbwEFOtaC99aW5g=;
+        b=w4SiAe9rR7OmkwTzRhf5enknjgBiYzL0aFZQvqV7WSTkw0g8HWIlhesH+QR+7Aoyhc
+         7vXWL/8D5wNkD6Ib8boA2ZPZOHJ/B8t30Zo4123RVrPok1SZF2eVuRLZP0LylgKrITDZ
+         /NSKlruDXhx1Q46etqB05PG3H74zszNaOClCXygn489/cM7A1VHQIfQsjrX1flf3a3gK
+         QGt4bQeDn8h6P+artm4Qt8QjMIKaBwDoME5kMbVoBj3hjh3izoSGFjProtxKfIXDOyXw
+         FZ0Qx6xzgB7uhgVGTuGBEzGBzbfrd5abmEvpqTyB0oZc0XV0Zip+43EG286+gNlizSo1
+         dJdw==
+X-Forwarded-Encrypted: i=1; AKwUvByWAtUlEsIOevR59jD5aBnVTMGFpdYCokLXoeGa0wjwCJiW0a4wUrA8YFuQDNaQizwbLQXJYQDJxQWdHv1o@vger.kernel.org
+X-Gm-Message-State: AFq9FYJUuWdT318IE/LaG2+lqr40msjAGTuielpVOsMjbrI/1jGZUvj6
+	oj18yf/zvPkT4vb35XPOTBsTPEOPQRoMdhNU82BoaV1XIBi8YbkFchW9IaUtYgNU3F4uVhZPbN0
+	ak4JBYfbneLCMDRww5+3kKNFonMadFpyQXJ/Gdh33
+X-Gm-Gg: AYBFou3lfXMrlZXenHu1oz40YC5dCI9omooxqJGK5wB5tup5o9mzigbJ+7z1n9RLGAJ
+	rpzH28H/dzNPMpsvaaoUDA2EYZbVzc5bvl2zjzaygBtaMXO5NPSQXcRS0skkudhQXmS1Yo01y2U
+	33JaQ6BVmALyoYjgcKDF2DoZDgBgMpOGiAm7DS0eDRGSUWO2y4xNKmHWpWev8Y2XagN8qcVirRH
+	nY5OnOoa0ikZARPGc/peePBLqfJpj62+nuRzadWvw6KIIQb53auXlUNdOx5piLerFEGlI8jhUdv
+	68v02/ZxES4KbfhOR36Jqlg3MmLVBF1hHp193yj0tszWYKWwfTM/RIEltdt29Ef18anBSlIL5Tw
+	ZcRT0zrNEVC7znd7oLmZW0sUczofnfWgEl20FiaXl4YVLR3iwsMTQ6XpBceU0ovrYsqPMDFk=
+X-Received: by 2002:a17:907:805:b0:c3f:a728:b437 with SMTP id
+ a640c23a62f3a-c4ca7ac07eemr32967066b.45.1793309747666; Thu, 29 Oct 2026
+ 14:35:47 -0700 (PDT)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -69,138 +104,155 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Feedback-ID: 0127f977f5e13e8051b46c6e7f57d0f95a0470d24b79d7c31d07fdf611cc427ab823e0f4692a810119c92d8768973a9281:TurnOnPrivacy!:tutamail
+References: <20261023001603.560210-8-wusamuel@google.com> <20261023001603.560210-12-wusamuel@google.com>
+ <at8dNNb4vwovNZcZ@krava> <CAG2KctpMEuK5OJSedSFshNMSwOqe1g87m2ZOKBhn=Z5iCA45Aw@mail.gmail.com>
+ <20261028140127.7bfeab46@pumpkin>
+In-Reply-To: <20261028140127.7bfeab46@pumpkin>
+From: Samuel Wu <wusamuel@google.com>
+Date: Thu, 29 Oct 2026 14:35:36 -0700
+X-Gm-Features: AclHuK84Rx0Zv6bqYRMUgm-AA1OaD1X9ao32PPa3PHwJ78sUr0bqSyZbITTizzQ
+Message-ID: <CAG2Kctra0GYjkzggB0cdMxPK-b9U9x-m+gR6E8goAYvhsNXEdA@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v2 4/6] libbpf: Resolve typeless ksyms via
+ KALLSYMS_QUERY ioctl
+To: David Laight <david.laight.linux@gmail.com>
+Cc: Jiri Olsa <olsajiri@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Ihor Solodrai <ihor.solodrai@linux.dev>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, Kumar Kartikeya Dwivedi <memxor@gmail.com>, 
+	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, Emil Tsalapatis <emil@etsalapatis.com>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, kernel-team@android.com, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-When fanotify reports a permission event, copy_event_to_user() creates
-the event fd with dentry_open_nonotify(), so that the listener's use of
-that fd does not generate further events. If the event's path is on a
-stacked filesystem, the stacked filesystem's ->open() opens the real
-file with backing_file_open(). Since commit ebe559609d78 ("fs: get rid
-of __FMODE_NONOTIFY kludge"), FMODE_NONOTIFY lives in f_mode only and
-the backing file does not inherit it: it is allocated with the default
-fsnotify mode, and fsnotify_open_perm_and_set_mode() raises FS_OPEN_PERM
-on the real path if the backing filesystem has permission event
-watchers.
+On Wed, Oct 28, 2026 at 7:01=E2=80=AFAM David Laight
+<david.laight.linux@gmail.com> wrote:
+>
+> On Tue, 27 Oct 2026 15:07:44 -0700
+> Samuel Wu <wusamuel@google.com> wrote:
+>
+> > On Mon, Oct 26, 2026 at 2:28=E2=80=AFAM Jiri Olsa <olsajiri@gmail.com> =
+wrote:
+> > >
+> > > On Thu, Oct 22, 2026 at 05:16:05PM -0700, Samuel Wu wrote:
+> > >
+> > > SNIP
+> > >
+> > > > +static int bpf_object__query_ksyms(struct bpf_object *obj)
+> > > > +{
+> > > > +     struct kallsyms_query q;
+> > > > +     struct extern_desc *ext;
+> > > > +     int err =3D 0;
+> > > > +     int fd;
+> > > > +     int i;
+> > > > +
+> > > > +     fd =3D open("/proc/kallsyms", O_RDONLY | O_CLOEXEC);
+> > > > +     if (fd < 0)
+> > > > +             return -errno;
+> > > > +
+> > > > +     for (i =3D 0; i < obj->nr_extern; i++) {
+> > > > +             ext =3D &obj->externs[i];
+> > > > +             if (ext->type !=3D EXT_KSYM || ext->ksym.type_id)
+> > > > +                     continue;
+> > > > +
+> > > > +             q =3D (struct kallsyms_query){
+> > > > +                     .size =3D sizeof(q),
+> > > > +                     .query_flags =3D KALLSYMS_QUERY_BY_SYMBOL,
+> > > > +                     .sym_name_addr =3D ptr_to_u64(ext->name),
+> > > > +             };
+> > > > +
+> > > > +                     err =3D -errno;
+> > > > +                     if (err =3D=3D -ENOENT) {
+> > > > +                             err =3D 0;
+> > > > +                             continue;
+> > > > +                     }
+> > > > +                     if (err =3D=3D -EADDRNOTAVAIL)
+> > > > +                             pr_warn("extern (ksym) '%s': resoluti=
+on is ambiguous\n",
+> > > > +                                     ext->name);
+> > > > +                     break;
+> > > > +             }
+> > > > +             ext->is_set =3D true;
+> > > > +             ext->ksym.addr =3D q.sym_addr;
+> > > > +             pr_debug("extern (ksym) '%s': resolved in kernel to 0=
+x%llx\n",
+> > > > +                      ext->name, ext->ksym.addr);
+> > > > +     }
+> > > > +     close(fd);
+> > > > +     return err;
+> > > > +}
+> > > > +
+> > > > +static int bpf_object__resolve_typeless_ksyms(struct bpf_object *o=
+bj)
+> > > >  {
+> > > > +     int err;
+> > > > +
+> > > > +     err =3D bpf_object__query_ksyms(obj);
+> > >
+> > > hi,
+> > > we could also add similar support for libbpf_available_kallsyms_parse=
+ and
+> > > probably in some other places like bpf_get_ksyms.. which makes me thi=
+nk it
+> > > could be useful to have KALLSYMS_QUERY support for multiple symbols
+> > >
+> > > thanks,
+> > > jirka
+> > >
+> >
+> > Thanks for lookiing over this Jiri!
+> >
+> > Using KALLSYMS_QUERY for libbpf_available_kallsyms_parse() would
+> > theoretically by O(m*log(n)) instead of O(n*log(m)), where m is the
+> > number of tracefs symbols, and n is lines in kallsyms, with n >> m.
+> > But AFAICT, libbpf_available_kallsyms_parse() would only be called in
+> > pre-6.5 kernels, for kernels without commit 83f74441 (ftrace: Show all
+> > functions with addresses in available_filter_functions_addrs); so this
+> > ioctl could never be called.
+>
+> Isn't that code also O(n*log(m)) ?
 
-Before that commit __FMODE_NONOTIFY travelled in f_flags, and overlayfs
-copies the user file's f_flags into the backing open
-(ovl_open_realfile()), so the backing file was exempt implicitly. Commit
-bc2473c90fca ("ovl: enable fsnotify events on underlying real files")
-relied on that when it dropped FMODE_NONOTIFY from OVL_OPEN_FLAGS.
+Yes, sorry maybe I wasn't clear before, but the current code is
+O(n*log(m)), and the ioctl approach would be better since it's m
+lookups of O(log(n)) for vmlinux symbols, where n >> m. However, this
+is a red herring because that path only runs on pre-6.5 kernels, which
+won't have this ioctl.
 
-The nested event is queued to the same group, from inside the
-listener's read(2), and can only be answered by another reader thread
-of that group. A listener holding filesystem marks on both the stacked
-and the backing filesystem therefore deadlocks as soon as all of its
-reader threads are inside such a read(2) at the same time, and every
-other task that touches a marked filesystem queues up behind it.
+> I've got a patch (I might send it after the merge window) that changes
+> one of the ftrace functions to look up every symbol by name, not just
+> when only asked to look up one.
+> It can also use the 'callback' function to detect duplicates.
+> That should be massively faster - especially with my ~18 fold improvement
+> (also waiting for the merge window to end before posting a new
+> (not much changed) version).
 
-Observed with a commercial anti-malware agent (16 reader threads) on an
-ostree/composefs host: / is an overlayfs whose data layer is the ostree
-object store on the same btrfs that holds /etc and /home, and a
-systemd-sysext overlay sits on /usr. Every on-demand scan of /usr wedged
-the whole machine until the group was killed. Stack of a blocked reader
-thread on 7.2.7:
+Excellent, I'll keep an eye out for it!
 
-  fanotify_get_response
-  fanotify_handle_event
-  send_to_group
-  fsnotify
-  __fsnotify_parent
-  do_dentry_open
-  vfs_open
-  backing_file_open
-  ovl_open_realfile [overlay]
-  ovl_open [overlay]
-  do_dentry_open
-  vfs_open
-  backing_file_open
-  ovl_open_realfile [overlay]
-  ovl_open [overlay]
-  do_dentry_open
-  vfs_open
-  dentry_open_nonotify
-  copy_event_to_user
-  fanotify_read
-  vfs_read
-  ksys_read
-
-Userspace cannot avoid this: the backing open happens while the kernel
-builds the fd, before the event is reported, and fid reporting is not
-available for permission event classes.
-
-Make a backing file inherit FMODE_NONOTIFY when the user file it is
-opened for must not generate events. This restores the pre-6.14
-behaviour for the fds that fanotify creates (and for any other
-FMODE_NONOTIFY file), while ordinary opens through a stacked filesystem
-keep generating events on the real path, as intended by bc2473c90fca.
-
-Verified with a self-contained reproducer (private tmpfs lower layers, an
-overlayfs over them, FAN_OPEN_PERM filesystem marks on the overlay and on
-one lower layer, a child opening a file through the overlay) in a qemu
-VM on this tree built with defconfig plus OVERLAY_FS, FANOTIFY and
-FANOTIFY_ACCESS_PERMISSIONS: without this patch the listener's read(2)
-never returns and the child's open is released only by the listener's
-death; with it read(2) returns, the event is answered and the open
-completes.
-
-backing_tmpfile_open() is left alone: its only caller is
-ovl_create_tmpfile(), whose user file is a regular overlayfs file.
-
-Fixes: ebe559609d78 ("fs: get rid of __FMODE_NONOTIFY kludge")
-Cc: stable@vger.kernel.org
-Reviewed-by: Amir Goldstein <amir73il@gmail.com>
-Signed-off-by: Edvard Conrad <edvard@tuta.io>
----
-v3:
-- Back to the v1 change in backing_file_open(). The init_file()
-  variant posted as v2 was larger without being more general; Amir
-  withdrew that suggestion and reviewed v1 instead.
-- Add Amir's Reviewed-by. Drop the Assisted-by and Suggested-by
-  trailers and the blank line in the trailer block, as asked.
-- Keep the subject line from v2, which is the prefix used for
-  fs/backing-file.c.
-- The reproducer posted inline with v1 is now an LTP test, under
-  review as syscalls/fanotify26:
-  https://lore.kernel.org/ltp/P50G-yE--F-9@tuta.io/
-
-v2: https://lore.kernel.org/all/P4wV1J9--F-9@tuta.io/
-v1: https://lore.kernel.org/all/P4sl5iz--F-9@tuta.io/
-
-Tool disclosure (Documentation/process/generated-content.rst): the
-stack analysis, the git-history search for the regressing commit, the
-patch text, the commit message and the reproducer were produced with
-an AI coding assistant (Anthropic Claude Code) under my direction over
-interactive sessions; I reviewed, built and tested the result. No
-static analysis tools beyond checkpatch were used.
-
- fs/backing-file.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-diff --git a/fs/backing-file.c b/fs/backing-file.c
-index 5614cb7801e..24357bf9328 100644
---- a/fs/backing-file.c
-+++ b/fs/backing-file.c
-@@ -43,6 +43,17 @@ struct file *backing_file_open(const struct file *user_file, int flags,
- 	if (IS_ERR(f))
- 		return f;
- 
-+	/*
-+	 * A user file that must not generate fsnotify events (e.g. the fd
-+	 * that fanotify creates for a permission event with
-+	 * dentry_open_nonotify()) must not generate them through its backing
-+	 * file either. Otherwise a listener watching the backing filesystem
-+	 * gets a nested permission event from its own read(2), which only
-+	 * another reader of the same group can answer.
-+	 */
-+	if (FMODE_FSNOTIFY_NONE(user_file->f_mode))
-+		file_set_fsnotify_mode(f, FMODE_NONOTIFY);
-+
- 	path_get(user_path);
- 	backing_file_set_user_path(f, user_path);
- 	error = vfs_open(real_path, f);
--- 
-2.56.0
-
+> Does look the the code could do with getting the 'symbol name table index=
+'
+> for the symbol so that it can read the entries sequentially from that
+> point onwards.
+>
+> David
+>
+> >
+> > And regarding bpf_get_ksyms(), it loads all traceable functions and
+> > needs the full syms table, so a /proc/kallsyms should fits better.
+> >
+> > I did profile a slightly different form of querying multiple symbols
+> > at once [1], but didn't see much benefit. struct kallsyms_query is
+> > extensible via size and query_flags, so we can update in the future as
+> > needed.
+> >
+> > [1]: https://lore.kernel.org/all/CAG2KctozPSev+EXSpHitM3JWfjufQaEjsPJHS=
+_1HJ1wSm7sJ1w@mail.gmail.com/
+> >
+> > [...]
+> >
+>
