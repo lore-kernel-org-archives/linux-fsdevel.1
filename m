@@ -1,99 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.231.202
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793305423;
-	b=NgVaLKqYMY6LHflaXF5sGnrWoE7H31kXJdL90QBYjA/MDyiuZovajZ1YGdao0W6c7s+f
-	 bpUN8xpd6Ot8DTw6LQHXEfvY/SWSyiUeitV/MlpVoBoJ4/jKPKjPrm/Q7d+cbVMP/PiaP
-	 TzhT7GmRN7H5aD0GVDCvgcr7N1SE1pKOWFmKg/MxdvKMakDrR0H8P2WTKT6MoRmhCnuVp
-	 Uxy93SpjTHLph9ZtgRFKQ/oolR9CWrdJDsHKgjkxWJDy32mzDAsPMZH/Hs3qdETrmQtNq
-	 l19cyObd1yoy0ZmXqp4gFey/6rTPB5p03SZ7FzmRcBx+mDAVZ/gfN+i9WQXjgYYEDdg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793305423;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.229.137
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793305540;
+	b=W5RLV6Md8IEWUPPJVxMuCslpenxPHm/jKWdWSQRUc64wEBaxRwiYwvQrPNbB/bVIQ/MO
+	 SqEL9fh0L6zIcdqwg34+QFZpFmrCDB+n4x7JnkzGrO5Iq0GU0q3biuKMyViwJcoRiIKTg
+	 H2HJxKdmLeYEM2upcSKsGYyofjMQNq9b4pFtytVSzF+/sRnmzKPc0dn4MLwGii5pf7ZqY
+	 FQEibazHJd+U2MhsRxGl97xOlrLXDzuH4k47CqoTgZ6Utg55+muiFyAGEu1ygHP3Z6P5g
+	 ZLCIaQREjWMz7L9FPaYUVBUvZntUUSZSaF4+/y8GhmBefubhIncUVcQIGyxmkaFABpA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793305540;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=auMxMOizUfXGP+mbgYzCGzEP9J6KgHvZo32jLMYibtA=;
-	b=lpKzofr42S7y//hTWiWZ5FUDsa2xS5qbajlYKqc8bGm0HEiSVFfjTZyMn6+pCkQBYRd8
-	 CD5JgHDAtoPxLKfmhDiBB2XlBQueKL6xzNscNLYVhonZmxLhLlBCefIDmNbFiMpUg1x5Y
-	 MEc4VNfVotg3cqfvy/ExCPiKd+JXWaOGwIzwBdHPh3/0a0eu037P4LOAsRlY1Ww3Ss1Cm
-	 9tQ0BgmAwBoJ+lu0sLRfZuac8+P7Gq4RAV1rgPP792dqMuESW81hKTWA1ytmMYe/PVN8p
-	 4+GkfCwbTa6ll6jyhwb+oIrt3Q2VIsBA1bnZaMTXrCBuxFkB/04fIvAToMBtMYqUmag==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=AJ2rr9yl7nzCTLgX0OQTyS4SWxqI0qu4DuqhR4MK27g=;
+	b=FrhrgBeKGdOB9Iv2Qd8xNEn5hDZd84CInsgCfUAASCTgye1PrkxV4SrEcDx6h/7mvbdK
+	 nB3k4RlESA6z1HzRX29eI2ffg7n8eoMMa623JGuDbG9jcVjH5sitHo5LzObQgCrlSjAJO
+	 YZ1zzx63LkY4ViXYoMjk619fLruVYcGArdKlWlTKw2eFj1BDqD4PlAHZi88H6O9NQOuXV
+	 /YbUue1EJnF2cQgyMRhVoDLy1NC27WnI37PBqYjh7u2FMtKcXKj6SuSXRpwp+DWLOL9Vo
+	 si22ja+NAcijm6+heRbnLxaSYSfnhoII8dTV3/oIcKowir7F/i4VPHREJmrc2qxgGkQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=mi7VvGpz;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.231.202
-Received: from mail-oi2-f10.google.com (mail-oi2-f10.google.com [74.125.231.202])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=HuJXZvMB;
+	arc=none smtp.remote-ip=74.125.229.137
+Received: from mail-dl2-f9.google.com (mail-dl2-f9.google.com [74.125.229.137])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2011C606A31C
-	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 20:23:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2011C606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56C00606A31C
+	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 20:25:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 56C00606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=mi7VvGpz
-Received: by mail-oi2-f10.google.com with SMTP id 5614622812f47-5179f3beaedso7014b6e.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 13:23:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793305422; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ayktF1KksAkgZRfktEssY0qW4xThZdUF1H1qd/Uec0sFI8lgOu62f57zpYRX3Kdeal
-         OrdEKBwYi4Ch9JAVvP2cLnQ6au2jAnDI5QQEt1MV/hGXuVhkN2VXBwu20+SPzygFVWxv
-         9JHcjYFG9qKgTpvL+KQIJqbsj/blnvvJ3pRgpquIPAw8m5HjA1mQUuOAfAVI83D7s0Ej
-         N+txTAzGncqrG617hhZygEd0kPPeefKIX1TQ+25DsyErIB3lixvDblep/foL5GhTl4Fb
-         phtlH1+6tkTa86EepGxyQwDtyY5JY+UMjc2eQ02YRg/FC6Qy5mfPu7N4ZTNIxPkgiCJp
-         CyOg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=auMxMOizUfXGP+mbgYzCGzEP9J6KgHvZo32jLMYibtA=;
-        fh=yY18tOdhYEa4RKO3+gojAwwoC2DDBxfIEQbAilK+sRg=;
-        b=p1sGN6M76MoNojbwsaIZxjxz37FKqVFMLPwFqRWnRXdIV2bs80vq7drFPJ2n5OKeNM
-         77+cO7UjEOs+nwhoOTAFJwGLeYBN1Jml/W8UPm2bNqmszfgUkAL1ekkA+Ifp0qjxqj8H
-         LoK6ZIAVts5gfyuiYvI96T3SmmMLojidZ+rIKArlpe2saH/0oIER3AgkX2VCxCgi925E
-         OQTjT9uuGJ77A+0+xu2ow/gNdiYl0TXwyckH7gyjloCEzeZqm2LFikaxpjs4W05syx5l
-         IJ1QCtGfM5HnxNk5cw1QguYyRRtZ/qWfk2rMN01f0kx//AegTkrnToFt2dC8Lxsw3ODe
-         ktRQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=HuJXZvMB
+Received: by mail-dl2-f9.google.com with SMTP id a92af1059eb24-19305bcb6d5so642609c88.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 13:25:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793305422; x=1793910222; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=auMxMOizUfXGP+mbgYzCGzEP9J6KgHvZo32jLMYibtA=;
-        b=mi7VvGpzk7YlciDfJZ6/t3OnuP69jhKHciZfFUPNKBtOKjNKa+VSTw/lG8WvqxsPzu
-         8X168iWRFaa1jVs5xbjfTxLIq3jA45KACftcb2NDQdU+EkwPpEIk3vVVD/DojfXOSSWr
-         48Wzvo3x0xP85lUhSOK8+l6He6j65YakEjGXI4B97ve9t7FjpcunOr6k0qibj82NDWX9
-         vIx11JLkfwUCcks51B7NYxYBEcINcTTa2RLpSysP0/D7bOnyER5x7W+l3u/LA9Io0vK4
-         43PY8PKY/EsJ3DyTxIsQLxh+PRP5O+ts8HnnOySCOje8ngq/I9Tcg620mY8+J19+2LkH
-         Huew==
+        d=gmail.com; s=20260707; t=1793305539; x=1793910339; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=AJ2rr9yl7nzCTLgX0OQTyS4SWxqI0qu4DuqhR4MK27g=;
+        b=HuJXZvMBZqZoZ1IJ0Au4NTWas5k2JraJEWR7azsu0LGrObUsqThdtmt+JZDaWSq4ZK
+         uc7Wg05f4u/OPDeLCtehyc1CTXTHEc3wutW/Q4C4J+fbSzkMBxxHIS+FxiUUFw2R0CeP
+         tLnGc2MDnQ2D+nOlg6AIBbve0lsUSoHb0BFl3IycI8f5oeUjoDK+4XDHqTHtNPO0LUuZ
+         J8jSConYemvnfwHycleXl7t8ktZxRyRlw5/vX34jw/tDxCtdEVgEmaGpCtk3mdCu/mE0
+         r1STlzOFry6MWpl50GFApT4Ghie5PrwQyRt7/PnamieplaiodoF/dccgy3l+XMF2US3U
+         1G0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793305422; x=1793910222;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=auMxMOizUfXGP+mbgYzCGzEP9J6KgHvZo32jLMYibtA=;
-        b=y5F0EUA3rRu1Gq8hR0a3HfKe0SUzLoKsikublsmT2FdyVAEnEcqKBI8wly3YscD///
-         acV2rz72MwKeReRebuLvhnGjYxnpcnIb2Tp/1WP1r6sIIi/Tuxq/WOBnuGkTTxv9vGkW
-         3v8/g5nXLHTiBzDWZo+KJfMFvrHVBdInLUqJoQyv23WnSbGDTE3vWP3HXd7zjyw7Mj8F
-         ovqWw3mnaQHBly0c+Gz/9sCUYIZBVP2Vpe2V8h6I0G59nV0Sc+n1LOYEi9Y9JH1IELAI
-         oNFj0SIIV/fSoocgy0OahNmtmNRpYCaGGy0CHHHcb0oUcO5Se6i9h6svbE0zgVdhNTIN
-         OkLg==
-X-Forwarded-Encrypted: i=1; AKwUvBwOjxqsbj7iV9zdZ0fuR9biJrgg0eB/d2Ra/VEXlEe12fHB6xwB+TEZznGqAGluRafFkLff8QR1Uf/vJcws@vger.kernel.org
-X-Gm-Message-State: AFq9FYIq4zsWyTHIzsWDLB6mBNmHFSTUW3Gxmc2sRdgXtB5VCRBd3Sni
-	pjj3tpg4Nqode5E5tT7m5DRrg93YJQqs00fAlZieVMqdv1pyAvWV/5yFCfuGa3n3KgVmN9jtEvU
-	H+WuvaD0o7t+q2oUm+CZZxoaChhFVF0U=
-X-Gm-Gg: AYBFou1q4fN8YY/MY4elB43wSKYODKterJID095wj9oXx48gqr9C6ON8d3mcRpIvxWz
-	fUOGtx7Kf4QOcgGCmBkOAXhDclL+iQY+gxu2dmkgrad80eaKj4FJM/rxddwVQVuuCrKGsp3IgUz
-	WNtWyUDC6BsWFHcIbYTmP6onlgtOGeKGtyNwM5liRARlB5ZFrp2dZApWJXLKVnJ6gLBcKVF8b5V
-	NL5PWjVAva+WrP62G5veRyPNOQwEvNZTlZjmzW3yIJHhDPuKaaXPge0vhFNuunTbW1tccp1nJs2
-	LmeCaf/N5FkplfPsDuSpp9NtyPP5TP07NvOYAQSugttpyTcagVLdZIFzH/41b32yPgg/0YpxtBC
-	DzDdE7E4tFA0jO0HYtHm84ijSnDi8NLn1zXBMYn37wraTgZvx69jIrI46BBkYMhL1dpigxR8=
-X-Received: by 2002:a05:6808:bc6:b0:4f5:e12:b47c with SMTP id
- 5614622812f47-5640dfec8e9mr256325b6e.48.1793305422014; Thu, 29 Oct 2026
- 13:23:42 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1793305539; x=1793910339;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=AJ2rr9yl7nzCTLgX0OQTyS4SWxqI0qu4DuqhR4MK27g=;
+        b=rjR1SmN4ngcvt7dgWz9MV9s8D9J3qDlv+gZ3HrrzpLK4bJuu/IP4mgrg/uWdrYnFPv
+         L72CPYfS6djL4moO38ghm3XDgB1fi/uKBDrzCT+T1qCNkqiUpaA6tmg8sr+2JpTHhFd+
+         IN98ocOTZ3WmAHqeHdTKrvv4ARgpqWqYHmVMs/lHKLG9/fmflgFlbJtpOYa/XtUHse/P
+         pxorsuzRpB3+OO2A7AKw6xZFz94piyLHVq70UvlH95sSpfW5i1D2Y6yohtyMRoFddtwA
+         gbK2p2+6WUN/+w50E/2OT/V+4CwZTfpIh1S5TwnOTHoB7sAIDlbO18DeQ2GDRQd6TpdH
+         UMLg==
+X-Forwarded-Encrypted: i=1; AKwUvBy2uA1o7qUU+dsoCH+BBF4S5oOPHSuHUGJFFv/7IQkvN5/2ODlSCtfQF89+xEzzwPtk4menkQYpTWTHderC@vger.kernel.org
+X-Gm-Message-State: AFq9FYJNhDmMRe3yVZGx0Uwf7zJobVG9JT2qsYu9+JfC4HClL79/0A2/
+	RQh1uKWWESGW82YBPbwJXivbja4X79ffNsa5grIeIp7RygLpmco52hzD
+X-Gm-Gg: AYBFou3FYcEISws3InZUuwl3834GBeZC1mkdFl4UrEw5p/BidueMGkSlC1ce8C5O/9b
+	FzMzFsFr2P1nUgSGizR/puhqHlVUd8I6JgB5GUa1viNilHJwNgZ7+f7AY+4DMXjLXJ32ZkGk8X0
+	mqo8cosxH/1X/EGqrf+EFjVmJL43WJm9b36m/qUK6p2pQD5AXLluJ5Yac4UA+p64NsjB01qjlGS
+	ebWARwSSr0qHQXEyv2qKUyPAdLVzNpL2I9UIdXsMF1T4Y6J3zxZq3nAIRuiN4HdlUU7PRWZeSiR
+	u3mxnfZ3VVYMDi8nUDaDZKCSMfLRKob/9peSvVpgWnlcTCI+cVo9lyHBQF+qOoMv5DOwXgM3OH7
+	fLuBR+6GvRYNZHq2ZQf28M1hka0Vl6Ea8bsOhgcPvQk17vCa0O813i/WE8vdWynKB4VtC14WCBT
+	mIKwfWQd5Np1rkxFf+8aaPBy0axcpt4lFklJ/yKhBBWrgFhu1DA/ZUkOtq6bBsbDFBe+ikHs11K
+	5yUR6/lga109itBUfhLdkjLEZxc1qxiH0I4/2/Q1bIzPuk2RsZcmpoqMtM9m5H42hHSZsO3WNZA
+	xOQ6DvHkAHWmPbDbiE0rlo+r5snwWb8QBhyJvMkDhOvrfC4vz74GXBit
+X-Received: by 2002:a05:7023:a42:b0:16a:c6f2:60c2 with SMTP id a92af1059eb24-1ac5d88c626mr122263c88.12.1793305534108;
+        Thu, 29 Oct 2026 13:25:34 -0700 (PDT)
+Received: from localhost.localdomain ([98.148.34.5])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1ac19c6b969sm916000c88.14.2026.10.29.13.25.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Oct 2026 13:25:33 -0700 (PDT)
+From: Hungyu Lin <dennylin0707@gmail.com>
+To: hirofumi@mail.parknet.co.jp
+Cc: akpm@linux-foundation.org,
+	brauner@kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	dennylin0707@gmail.com
+Subject: [PATCH v2] fat: fix parent link count when replacing a sibling directory
+Date: Thu, 29 Oct 2026 20:23:52 +0000
+Message-ID: <20261029202352.59890-1-dennylin0707@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -103,59 +97,77 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261029174907.98721-1-dennylin0707@gmail.com>
- <CAOQ4uxhc6a5jdwj+o_pCByYpwOC20=uHj0mi4D5n3UgrTqR7uQ@mail.gmail.com> <CAGEkeHdYqS_9wipk9oy=ofo=KbNpOwccuqVEYPg0LqzCykXUrw@mail.gmail.com>
-In-Reply-To: <CAGEkeHdYqS_9wipk9oy=ofo=KbNpOwccuqVEYPg0LqzCykXUrw@mail.gmail.com>
-From: Hungyu Lin <dennylin0707@gmail.com>
-Date: Thu, 29 Oct 2026 13:23:31 -0700
-X-Gm-Features: AclHuK_gqon3Y7366bnRQsz4vftvXKAtc8OKsPogIpAJ0NX-SMad2Z0IdA2jLuw
-Message-ID: <CAGEkeHctUoNiE_zWUgyL7zoKdfb1JFaMnUuV80iqnrHff03pVQ@mail.gmail.com>
-Subject: Re: [PATCH v3] inotify13: check rename cookie pairing after adjacent moves
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: ltp@lists.linux.it, jack@suse.cz, linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Following up on my earlier reply, I'd like to confirm that I've understood
-your feedback correctly before sending v4.
+vfat_rename() and do_msdos_rename() adjust parent link counts only when
+updating the dotdot entry for a move between different parents. Replacing
+an existing empty directory in the same parent also removes a
+subdirectory, but leaves the parent's link count unchanged.
 
-Below are example outputs for the seven failure diagnostics.
+For example, renaming one of two sibling directories over the other
+leaves the parent with four links instead of three. stat and ls report
+the stale count, and find -links 3 does not match the parent.
 
-1. Extra event
+Drop the parent's link count for this case after the source entry has
+been removed successfully. Leave cross-parent renames, regular files
+and the existing error paths unchanged.
 
-    file: got unnecessary event 3: mask=0x40 wd=1 cookie=123 len=16 name="entry"
+As in rmdir, check that the parent's link count is at least three before
+decrementing it. Report a filesystem error if corrupted directory entries
+have left the count too low, rather than reducing it below two.
 
-2. Wrong event mask
+Acked-by: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+---
+Changes in v2:
+- Check the parent link count before decrementing it and report low
+  counts with fat_fs_error(), matching rmdir(), as noted by Sashiko.
+- Retain Hirofumi's Acked-by from v1.
 
-    file: got event 1: mask=0x80 (expected 0x40) wd=2 cookie=123 name="entry"
+v1: https://lore.kernel.org/r/20261028211626.26103-1-dennylin0707@gmail.com
+Review: https://sashiko.dev/#/patchset/20261028211626.26103-1-dennylin0707@gmail.com
+ fs/fat/namei_msdos.c | 8 ++++++++
+ fs/fat/namei_vfat.c  | 8 ++++++++
+ 2 files changed, 16 insertions(+)
 
-3. Wrong watch descriptor
+diff --git a/fs/fat/namei_msdos.c b/fs/fat/namei_msdos.c
+index c7500c2859e0..97289c9d9261 100644
+--- a/fs/fat/namei_msdos.c
++++ b/fs/fat/namei_msdos.c
+@@ -565,6 +565,14 @@ static int do_msdos_rename(struct inode *old_dir, unsigned char *old_name,
+ 		(void)sync_inode_metadata(old_dir, 1);
+ 
+ 	if (new_inode) {
++		if (is_dir && old_dir == new_dir) {
++			if (old_dir->i_nlink >= 3)
++				drop_nlink(old_dir);
++			else
++				fat_fs_error(old_dir->i_sb,
++					     "parent dir link count too low (%u)",
++					     old_dir->i_nlink);
++		}
+ 		drop_nlink(new_inode);
+ 		if (is_dir)
+ 			drop_nlink(new_inode);
+diff --git a/fs/fat/namei_vfat.c b/fs/fat/namei_vfat.c
+index ff7652bf0410..c4d5628c05fa 100644
+--- a/fs/fat/namei_vfat.c
++++ b/fs/fat/namei_vfat.c
+@@ -1011,6 +1011,14 @@ static int vfat_rename(struct inode *old_dir, struct dentry *old_dentry,
+ 	vfat_update_dir_metadata(old_dir, &ts);
+ 
+ 	if (new_inode) {
++		if (is_dir && old_dir == new_dir) {
++			if (old_dir->i_nlink >= 3)
++				drop_nlink(old_dir);
++			else
++				fat_fs_error(old_dir->i_sb,
++					     "parent dir link count too low (%u)",
++					     old_dir->i_nlink);
++		}
+ 		drop_nlink(new_inode);
+ 		if (is_dir)
+ 			drop_nlink(new_inode);
+-- 
+2.43.0
 
-    file: got event 0: mask=0x40 wd=2 (expected 1) cookie=123 name="entry"
-
-4. Wrong filename
-
-    file: got event 0: mask=0x40 wd=1 cookie=123 len=16 name="other"
-(expected "entry")
-
-5. Missing event
-
-    file: didn't get event 2: mask=0x80 wd=2 name="entry"
-
-6. Identical cookies for the two FROM events
-
-    file: got second FROM cookie=123 (expected != 123), wd=1 mask=0x40
-name="entry"
-
-7. Mismatched cookies for the second FROM/TO pair
-
-    file: got TO cookie=125 (expected 124 from second FROM), wd=2
-mask=0x80 name="entry"
-
-Do these follow the pattern you meant? In particular, would you omit any
-of the additional event context, such as wd or cookie in the mask-mismatch
-message?
-
-I'd appreciate your feedback before I send v4.
-
-Thanks,
-Hungyu
