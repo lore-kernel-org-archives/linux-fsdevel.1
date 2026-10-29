@@ -1,111 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.229.7
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793232124;
-	b=bOlPlbO51qmfV59lQdVTLfEp/ayYcmYybQN+EOA97ESaYab+bp1/5YGe1Ph6NGYFKFka
-	 tYiNn2T9VnaDoxwiYBDXYJOEPQE8gORYIb6P49ZMSapnWlCnY56gF/NDmWML2C9tihIrx
-	 jgmTyk5w1B4Rki7so+nwK40Rtgh6ZcQ/FBc7grQXpIHCeP/nWrw/d3Pk7HqvXB96RUq82
-	 9RlA4nAH0RtCWjP9AZd2jowpy1zArIjlFjXQWE3pGUjc8ArOY8U/1zj2yqVFb+Fy5eDYU
-	 qvOj0u1QGQzHmrwjaKzxNJKnswvtBqga5EHlM1euEtHhIfU2ROc1N4fyeOnopZeQbZw==
+	t=1793234988;
+	b=AyapQO1X6WXprVVkfAj+S8VEWpZ/dBmbNVz7fYl23fqWixu+Xh4TyRd0y9s48kc5RVdO
+	 ZWRgIwsDUpbsnaMRv4BKBny11TKSeZMa9yR5GNoXREiSjSuqyAPXkDRrH34SUr9Rjve+F
+	 g8Q3OIoRGbGrajmJLhTWcJ2e8C+aYTNjv8zCQtP+8HHCRjy+kZmjiN4hpfIqtGYSQFFec
+	 3dh7Ipf5EZXpk20IyqQYlFp3NE+mFxjlVmxTMpXUNnY7iePouhO1BlBmJK+w+6GgVv9dh
+	 JD5QzjF0jUsJY8hZ9lbSPkI6UNjpefjTIuCMM9LxBtAgbaoajvy010MDpjYkPaX3rxQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793232124;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793234988;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=UtW/sYsNMYd14q833jtnLcBy0iGbA94LyKtY63+yQks=;
-	b=FYxejlVJ8zC9WL4jrSAzpqfQIGgreVzPZ7M0Ymd4wYEphZRuuAiRMMrqfOTss06HTe1E
-	 Ap2IxkXHuJAaVNhbz4Mdth+a8gCwIbtYSc3lVKbNFij/ED7ySAoL8Z6TBpqQ/vUJbOnJ0
-	 gmiDWdUtztEq6ZGrBMeavXbg5u+pYKjBQ/b+LzbDoXWRXHZ2Y/Qg3gje/qvaciELQf1+h
-	 cmIw9tfu0kL0H6RwGCIJvSiqiuG795w1qKC4jjYS68a5aCGh9lKqni2nUzWzPCRLN99L2
-	 yu3UBO1EGZBJbQi2iy3x9bqLvffYo9Ag+a7kG5/GH93pO0SvjJ7ZXmSzAuoZ85Xmhqg==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=ln037Pf3YbKMICLinA76e7sVprd2bC8Oq7bCHhU7/t4=;
+	b=3N/fbnDuFcOmGWxFffsOIEaTMwbkQUQFVK61CJZQ//tV2NQEXQVkQSW2Kl0JoquSbc0N
+	 Nrb59hh2zeF23ui7kElXgx4gAJZUoIWU/xwuVNBBq02uCbB+MHrDlmlgqlP74SQLUdT6F
+	 SLEbiDl1ti/M6w5XAXXLU7ntLoCx3TOJ+SCMsUrvGOsvh+YdOHPeScDSlaB0CuC3QQqFb
+	 WUbfn8OzkE+jibr0TrObVIGqey5Oo/UKdtdcB+yPYyLKLwHO9aALhR03BBb2eHt/S1Zfh
+	 5BRHlpPIGH6PGK5hnB/7Kg0CpoOArgBItvg4fdU54X3SCj0IxOSAk9LyUl221YGlDPA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=soleen.com;
-	spf=pass smtp.mailfrom=soleen.com;
-	dkim=pass header.d=soleen.com header.i=@soleen.com header.a=rsa-sha256 header.s=google header.b=EpKoMwgE;
-	arc=none smtp.remote-ip=209.85.221.182
-Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=oNxVS+EB;
+	arc=none smtp.remote-ip=74.125.229.7
+Received: from mail-dy2-f7.google.com (mail-dy2-f7.google.com [74.125.229.7])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E388606A31A
-	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 00:02:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7E388606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B6B0606A31A
+	for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 00:49:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5B6B0606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=soleen.com header.i=@soleen.com header.a=rsa-sha256 header.s=google header.b=EpKoMwgE
-Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-5eab93a9862so509905e0c.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 17:02:03 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=oNxVS+EB
+Received: by mail-dy2-f7.google.com with SMTP id 5a478bee46e88-36888ae05e7so485461eec.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 28 Oct 2026 17:49:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1793232122; x=1793836922; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=UtW/sYsNMYd14q833jtnLcBy0iGbA94LyKtY63+yQks=;
-        b=EpKoMwgEEoHgtRNLqOsrFbza9ayjknIjZvpEUcg2luJkviGEk3/b3r07STY/DjmLA8
-         /XkGfSisrwYjJB+E2qraZr1BMSiDgD/mg+5mg/Tbyv3Psv5T4MFMXGB11oiCZAUjJa4D
-         zeL2ENfDoV2R1H++PE0b/6NBGj4qTP2FN6s7uasK/3sY3Yoqyf4ZXjosooinUqF2Pipm
-         UquXeuIIUMX8B6YMwPoqf5sckl6UKYocL3LgFsWmqoKJ7qyRraYqUx/7MVvgXj0mYg3x
-         8fV5AvWQFSGxbCvYUTrUD5HebiEPYTH/yCjpVCK4zWTJDFsYQmsHf1SS7tyFh0xGotDs
-         OoKg==
+        d=gmail.com; s=20260707; t=1793234986; x=1793839786; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ln037Pf3YbKMICLinA76e7sVprd2bC8Oq7bCHhU7/t4=;
+        b=oNxVS+EBLQTXgN9ZgA9vhh/UjS0dd/L1o2EJbRCC6paxeQ1iJpTs7nACX0fUu5MJBB
+         CcT5+ty6Viq2+DD1q51ZxYnAWGCRTpVMo/cfWF9TMjBy7xlYAQ2xE+oqlnkh0PHiyDfu
+         UpbnY25WeXn8awtDp6O2fY8hp8vEwv+sfckLii7jjTw5sqTQdUW84iK2Posnxr3pXgMn
+         BjTJX450ZUXQVfO1JEn+MiYalrtfc6BXBEYsthV7S0QGrtP8aUgkXfi9CIvuLQwtcQkS
+         0p5Sw91IuSnqvKlawWbKVhNz9nWgvdY831aucFWtQ0/yyKG8EuzMr1xRxC817atMmMKo
+         JBxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793232122; x=1793836922;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=UtW/sYsNMYd14q833jtnLcBy0iGbA94LyKtY63+yQks=;
-        b=lKf4yqVmQ+OS2Hmum/+u8ngfKkBmUaj1gYn1HwqlHsFpl7CfuneRrJJVVXf0PLhTjU
-         lmyLLUdHo7/1gqwcKKbPHxy5S8/YnPezLmxlIzHylIIG2hS2lqR/DJ8HwGpfB1FO8Oua
-         ttwRQtQsRQmzpzcTgjuqDR4NWwtlJ0ul7FZTznIoDjVHJr07SAflXW0lFy08gFMPni6l
-         zyLxG6Ic0QLx5c6Wj1NCSINxw6EwHBaim51yA7zq8mX3/b2KBVmmQxVRm0SYzLt5Frun
-         N/hBuIOjZhEF0Gujs8CP1GT64lplOeVaR0zKMFGglmSJiDvV2Q3Wl2jPjYHGC5wWyDEc
-         h7xQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzqrKEYer42DrGVeX6uhk9ooizaj0Sw8d5+53Ff3Fu8yTdZQbB3LHB6WzpDiIcBTpRakla7g4nOMDZCiacg@vger.kernel.org
-X-Gm-Message-State: AFq9FYJlLO4QVK3s7kaAveS7tt2XRnf3ziuJTctI3gk/czSvpIHV4fkP
-	Ewi592OqI9XUYyz1zDIzcTjH4SmCrMQJOPjnk0q5UfwHK0H/0UNhNJoxyM9WCrykIxE=
-X-Gm-Gg: AYBFou3Aa5wRbe+quE9F4PoEWJjx47AZoTpudVbpmuIrT4C+0oM36ZI9BIowmzTgfwW
-	Eq1PiB/tVQxO49ZbIOSXTyQkbpO3VXSoYEC+Psf0ClKaHYDaJChO7sClkXF2nHE5KLWLlrenxXz
-	evR9x2l0TCJw81+skyFVYhl0cCLUyjktS3cgazGRLaZNbbIBkCOAerjHVPGJEAtjSfI4MCW0ovY
-	nRlOVlnBMDjzVnG81ZzFy5POqKuxNmaEXDTqqVLFhkXVzk2oVt6GesT4uCiQS8T9t5EFVksSRTj
-	iuwWrBeg0VmN49yoRzlGZkpmv0XOinm/attDGqY7nu1nqbumut4fkj/RiZCKOei5n7nv6rdevRB
-	gLr61w/x+xE3DgPn0akbGNz0lhZpBKEkITDcp79rWA9vdvAh+jh0PUphexXD8IgOw5rzz4qBUcd
-	kJu3kc103NI6fykadm9XsZVv8Hp0Na7VB+tQSHAtJWXOBiUCIyPxYT/3X0zfe4mRj+GkzxT3B/V
-	2dof/l1zBNcvCwrKEH90iik8x+Cn6goVipz3W/J0ZW/s+ZHowvT6ZbF6tk8dD/dm0FuwQZJaIKj
-	J7bgZXxyLwBW0/Um4tPFNXKYBxb/znkkn50EISUtVFHIZrxdWLHJfjX9db8kXNrt+yuzyUqOFGd
-	9hcUBEjnKhU0Pj7z5n/nsKlAceFYoZfhv
-X-Received: by 2002:a05:6122:1c03:b0:5ea:d14a:ef8f with SMTP id 71dfb90a1353d-5ec4cc14f21mr1861192e0c.4.1793232122251;
-        Wed, 28 Oct 2026 17:02:02 -0700 (PDT)
-Received: from google.com (64.167.245.35.bc.googleusercontent.com. [35.245.167.64])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5ec4f931911sm3523257e0c.10.2026.10.28.17.01.59
+        d=1e100.net; s=20260707; t=1793234986; x=1793839786;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ln037Pf3YbKMICLinA76e7sVprd2bC8Oq7bCHhU7/t4=;
+        b=W151XtJYvYg7UPLZ5AMk55zH/2dswhxMDhzQncujHltw5e+dEoiVsnOHtG9rhri36j
+         iJvSI7H50JSN9Jk5jpXFWIZq+vHmIt5//bX5fqdIYSNhGxNM8FWJxBK++CkamRNRaoQO
+         8nolKAiIMfTprC2FXwAaxiX23di2wNAjcc9z2V0rO1HtfAVVGHdOIjNnsz0hKV0Ty08X
+         YQyUH8tOa3kPq5IqwZxgdkT485p7NDg57CkGZfLJjepXAU67UTjumIR2O5BNQtQODDok
+         S+c2eG10PxD5qVm61r6GvkJ9b8MspIHr4ErucU0Y/1MQ/u42Wc0EicHkrVYMKXKshwoV
+         4dhg==
+X-Forwarded-Encrypted: i=1; AKwUvBzJgyZOFeHH4jHB7Prc/2POijRBp77YnybjU+vgBFBUvD2MZaDokr5wBSArRUDGW5VizX1EZQLZ6ne/OKYE@vger.kernel.org
+X-Gm-Message-State: AFq9FYLcF5vAVG2n76qpK612N0zBR98s0J3nuMS6A+c8V1VSQMu3s0BB
+	LNtJneIZvhf9FqHbjSA1ATN2zvRwx25rK7tC27EmSAgY9CWOWPjyqrbh
+X-Gm-Gg: AYBFou3IWb/tPRQVQa4OeS5tLmPtiLf0Qcv4J0QpeYn9fT6bUmBlGmruxSWVSh/aNfz
+	xxRK0O9XbjkeF943C9lLBOyoWjj8GzNMGDNKwDHxlzrWjoZ/R8wsO6t6cgwRy8G/9BWIopsMngN
+	4v682prnqebsPNbb+4NS3eSi0bjKGAfhVw2u86XiriPUlWfGjz7cNBD1cL9UkGG1cDEyM4tYOWV
+	N2x/mM3e2uIeN6yD95lMdDZ3Y3kICVNdiX9VwgxnJFrEw5A0DhQojChymZRyS8VrOUmbJVYCXIX
+	T5V9OPx7vk1uz4+cJNOdiwcKiy7jmt0EvmvzENadFIjSEECTebH49pi+9d2vg4e7MUqvG5A9Ghd
+	3NgZ8YOkDSkHXN465HTGQbIq/6/aNuMSPO+apmAC7UiCQrYd8y01/Sh751bTWepTBM1qfShq6hs
+	LW29gB5LSvn5mZ5BL4YYy60UxA+P9tvscpnUDL68PbBn9IzxZ5c3x9/WU8CDWYlIfHkxAw1I2hq
+	U6F8fIsfk3Op909nHhaC15ffplD3UTjK/arYxK3J0Mt1gsKAlk2dAC1IG3UTF80CY7jOWQs/toA
+	MvaQghrEVUBbdpdBR71Qy/qUWHiJG3aEdL4OUN+nj0fPvddlPzM5q7a1
+X-Received: by 2002:a05:7300:d101:b0:369:5583:bf4c with SMTP id 5a478bee46e88-36a200c8c63mr4761503eec.28.1793234986083;
+        Wed, 28 Oct 2026 17:49:46 -0700 (PDT)
+Received: from localhost.localdomain ([98.148.34.5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a2399b05dsm11195789eec.25.2026.10.28.17.49.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2026 17:02:01 -0700 (PDT)
-Date: Wed, 28 Oct 2026 20:01:59 -0400
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-To: Pratyush Yadav <pratyush@kernel.org>
-Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Hugh Dickins <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, Zi Yan <ziy@nvidia.com>, "Liam R. Howlett" <liam@infradead.org>, 
-	Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
-	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
-	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>, 
-	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
-	Alistair Popple <apopple@nvidia.com>, Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, kexec@lists.infradead.org
-Subject: Re: [PATCH 1/3] mm/memfd_luo: don't use memfd_pin_folios()
-Message-ID: <auKJXHWnNMzju7cv@google.com>
-References: <20261027173031.763213-1-pratyush@kernel.org>
- <20261027173031.763213-2-pratyush@kernel.org>
- <179321872100.1775665.6881420026761127422.b4-review@b4>
- <2vxz4ie5o2ak.fsf@kernel.org>
+        Wed, 28 Oct 2026 17:49:44 -0700 (PDT)
+From: Hungyu Lin <dennylin0707@gmail.com>
+To: jack@suse.cz
+Cc: sortie@maxsi.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	dennylin0707@gmail.com
+Subject: [PATCH] isofs: handle Rock Ridge long-form dates before 1900
+Date: Thu, 29 Oct 2026 00:49:02 +0000
+Message-ID: <20261029004902.76944-1-dennylin0707@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -115,41 +97,61 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2vxz4ie5o2ak.fsf@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On 10-29 00:04, Pratyush Yadav wrote:
-> > Nit:
-> >
-> > I would suggest adding another helper, memfd_luo_get_folio(inode, index, 
-> > &folio), that wraps:
-> >
-> > - shmem_get_folio()
-> > - The !folio_is_longterm_pinnable() migration retry loop logic
-> >
-> > I think this would make the final code a bit more manageable.
-> 
-> Sounds good, will do.
-> 
-> >
-> > Other than that the patch looks alright, feel free to add
-> > Acked-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> > Once the nit is addressed.
-> 
-> Thanks!
-> 
-> I think the MM side might take some time to gather reviews so I will
-> send this out as part of a liveupdate-only series. This patch is useful
-> on its own anyway.
+iso_date() stores the year relative to 1900 and rejects negative values.
+Rock Ridge LONG_FORM timestamps encode calendar years from 1 to 9999,
+so valid years before 1900 are returned as seconds since the Unix epoch
+equal to zero instead of their recorded dates. For example, an 1899
+timestamp on an image produced by xorriso is reported as 1970 by stat,
+and cp -p preserves that incorrect time.
 
-Sounds good. Could you also consider adding a patch to that live 
-update-only series to extend the memfd freeze from retrieve to finish()? 
-That would close another gap that does not affect us yet, but will once 
-other session fds depend on the memfd mapping.
+Use the calendar year for both timestamp formats and pass it directly
+to mktime64(). Keep the epoch fallback for year zero, while allowing
+valid long-form years before 1900. Short-form dates are unchanged.
 
-See:
-https://lore.kernel.org/r/20261022225035.377445-8-dmatlack@google.com
+Fixes: 5ea45f54c8d6 ("isofs: fix Y2038 and Y2156 issues in Rock Ridge TF entry")
+Cc: stable@vger.kernel.org
+Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+---
+ fs/isofs/util.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
+diff --git a/fs/isofs/util.c b/fs/isofs/util.c
+index 42f479da0b28..6f9a90e58a89 100644
+--- a/fs/isofs/util.c
++++ b/fs/isofs/util.c
+@@ -25,7 +25,7 @@ struct timespec64 iso_date(u8 *p, int flags)
+ 		year = (p[0] - '0') * 1000 +
+ 		       (p[1] - '0') * 100 +
+ 		       (p[2] - '0') * 10 +
+-		       (p[3] - '0') - 1900;
++		       (p[3] - '0');
+ 		month = ((p[4] - '0') * 10 + (p[5] - '0'));
+ 		day = ((p[6] - '0') * 10 + (p[7] - '0'));
+ 		hour = ((p[8] - '0') * 10 + (p[9] - '0'));
+@@ -34,7 +34,7 @@ struct timespec64 iso_date(u8 *p, int flags)
+ 		ts.tv_nsec = ((p[14] - '0') * 10 + (p[15] - '0')) * 10000000;
+ 		tz = p[16];
+ 	} else {
+-		year = p[0];
++		year = p[0] + 1900;
+ 		month = p[1];
+ 		day = p[2];
+ 		hour = p[3];
+@@ -45,10 +45,10 @@ struct timespec64 iso_date(u8 *p, int flags)
+ 		tz = flags & ISO_DATE_HIGH_SIERRA ? 0 : p[6];
+ 	}
+ 
+-	if (year < 0) {
++	if (year < 1) {
+ 		ts.tv_sec = 0;
+ 	} else {
+-		ts.tv_sec = mktime64(year+1900, month, day, hour, minute, second);
++		ts.tv_sec = mktime64(year, month, day, hour, minute, second);
+ 
+ 		/* sign extend */
+ 		if (tz & 0x80)
 -- 
-Pasha
+2.43.0
+
