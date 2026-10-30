@@ -1,54 +1,54 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793372207;
-	b=seIyCfe4a3MXej8tuC5SB3y5jOvaX+Z6xcjzzQf6/Bz4nZ2ftAHA7WHUIzrpKrv//NmZ
-	 OAPNGGFxKbULhvCNUf9zfZrV0On0sRMzoO95UwKlEsbVTnY4BsfB0Qb0WXx2fFbJ+HTDT
-	 ge0TEPKxoaz8o9OryKTNo497IuDsh/am1fQ0sqYke8rxW2X/hwNAGQr6urMEre8N+MDpc
-	 aQLDoCvzdE1YgDi+udKyYKn3XJ8EIUUyACJ0Je1jdgAvn0p93Ya8t6aRzzxELe0jjRHKh
-	 wxFEIleG0rYe0gAqzh/oVCi1JI59krAsY4K3zyOOLY9HmnUB8ZBwCovFj6/sdYAWOQQ==
+	t=1793372274;
+	b=jdtEc+lQX20lAbJDeZN5x8bNQFjfM6JbCSe16HltlCmRLjLYfkSQGJzrk79JS0KXYuF+
+	 YS4KelECqdg631X8bckLm0o1SEIM9zSLHZiSwzi42//pB6a+DHcwybpUNP9oruzc3JbK7
+	 GJoNAxLUFTIDoS4wCP9P7T+RqwfC4EGkl8T81P/8+zKlUatmgtaDSiBzksxZOpkO1LrHA
+	 W6NEiuof5Rv21sYveztz8mI5ZxfioSAjy1+hf0InQwMg+9iyDgBm1vrmllAADMjjUVlYp
+	 j/P4utFz74fzBlEH2piXMtYDLL0zAXc7jDStQgSV7XOnEXYRUUz4J4p46Ugrp6TuUBw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793372207;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer;
-	bh=+YF+v1dNguT0ji48f97fFUgP//UB342uvDZm32hXdz4=;
-	b=c4RRntDQ2cCn9caOSq7bJhwsWFGpLdMjLr52HUe2YGg8BvXFaCL6h9AyHFff4WuVp5xf
-	 CT8Yqnawm27iZP8rGfxDWavgwpjREXND88KLnQOK2o4X1jVpS6+5bP5yVwKELMRkR0G3C
-	 aoMY6pFAtFlDuN0D1vGj9t3+jZaiso3yOOy3awaPb0A4yHp36XXpTld9R5ydFZBIbH+HG
-	 5i2naWOLiCUJRDAPqL28PXAtTevKcZr5MdCET6kNIvyGJ4W5Tl//2WwGO/tfK+Szn5KrN
-	 AtCjq324XTJfWO0jeBKhvT1tAPxQvfZLB0PNUx+pCk06ySQ1WegmhwainXspGS7iRmA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793372274;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=jdzo/JB3v48SeneKPfJ1gOvJLI6gIMIp+FynceKuycM=;
+	b=GmjCuaaPc4/yMDnjInyFQ3w44RCO41Jm3IupPzjTBQEiPO8DLTMORfOeG7976n1oOB4x
+	 w1BpNGbRLK48pcSx9gykRj/YDtXn781uPzh3M6DLzJLntHBmH08/0XEXXo9cjfVicB6X9
+	 LqiPk8ix0OThF8muD7jL4n067gOo+HqJPsC59IFI3EHvEx2maVMnA91hWUJ69OLlYP8nb
+	 iA1wk4nO753GDk0IPGCjUPLWlFsNMtvj7wr9sEaA0PPtDCei+Mw3lhMV665lL3uaR3ab+
+	 QrzQQ7Wz7jyamUqK4GiVeR1KKUlEOxjfhYoGDPNWc6lQq9WxeVFIDjnMfXzv37wqIug==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="mY/Zaw59";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KDtmM5U9;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DED47606A31A;
-	Fri, 30 Oct 2026 14:56:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28B0E606A31A;
+	Fri, 30 Oct 2026 14:57:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mY/Zaw59
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69AE71F000C1;
-	Fri, 30 Oct 2026 14:56:45 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KDtmM5U9
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B83CE1F000C1;
+	Fri, 30 Oct 2026 14:57:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793372206;
-	bh=+YF+v1dNguT0ji48f97fFUgP//UB342uvDZm32hXdz4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=mY/Zaw59ABpCATRKfpNaVWpWjx+PYvx0uoFKpoRf7tuGJqg9V8mNjQzssL0Y7Aslr
-	 /7MsKJmiSxhlESmHp9NhXyokp+17Kj3s3yrTqIHdCiW5fl9mu4tWJJzybcdysO85PH
-	 u5KruxsyqXc6ictftQwlcIJK5N4YnSrsV7lW4NcqPZllS9xg+Uy0kxR4MW/5P88XlS
-	 /aiu44/7cPIr5SWJwsza4bgN3KIMfGicR5/gOYP4u8Dki0Ks7Hndqb7NvaKGShRDiD
-	 Y0Ciu2OqIJzqifHoKBh5/6UeJ7/APHO74TMZ/wuIPijLkDypXBDN9IkzyrxatrCMEJ
-	 PAZN3mp+OZp/Q==
+	s=k20260515; t=1793372273;
+	bh=jdzo/JB3v48SeneKPfJ1gOvJLI6gIMIp+FynceKuycM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=KDtmM5U9/nlLDrvkYK477BJ6l62T7j3Tq61FVrN1RPIoswoDY6osdmLedz7FG7ZNz
+	 nyKKOYYn7v0PDdl6GhDXOCSvt0PDLyL6tg6tdB2J8v8QCFzgrPkU6o9H5JEhhSLjq3
+	 qEPMg5AR1UnOY2EszabX7fOmdau0IquNp4c3/hNhhh8vu85TGAKqd/uURl1ccD47Oe
+	 lruFjzGdBGLjW9RxSgppdcv2Cd0Zo2npHfpgHJSMNhacNU/sMyqZ6QoUnx2QnBpqu1
+	 4yWH1v7l/hy8f84veiUbdKCIV3ieDDy082/rpdBxoAPQeKnIZ/wyiF/M2KTDZIhGGn
+	 7PZf9dTpmujSg==
+Date: Fri, 30 Oct 2026 15:57:49 +0100
 From: Christian Brauner <brauner@kernel.org>
-To: viro@zeniv.linux.org.uk, Daehyeon Ko <4ncienth@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, jack@suse.cz, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20261018051708.2422394-1-4ncienth@gmail.com>
-References: <20261018051708.2422394-1-4ncienth@gmail.com>
-Subject: Re: [PATCH] splice: avoid stale f_pos writeback on error
-Message-Id: <20261030-bosheit-einmieten-abkoppeln-f815d1179ab7@brauner>
-Date: Fri, 30 Oct 2026 15:56:43 +0100
+To: Edvard Conrad <edvard@tuta.io>, Amir Goldstein <amir73il@gmail.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	linux-unionfs@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH v3] fs: let backing files inherit FMODE_NONOTIFY from the
+ user file
+Message-ID: <20261030-welpen-anbinden-nullen-b2432cee1d10@brauner>
+References: <P58Wrer--F-9@tuta.io>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -58,41 +58,22 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev-ce4c1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <P58Wrer--F-9@tuta.io>
 
-On Sun, 18 Oct 2026 14:17:08 +0900, Daehyeon Ko wrote:
-> do_splice() snapshots an implicit file position before calling the splice
-> helper. Since splice does not take f_pos_lock, another operation on the
-> same open file description can update f_pos while the helper is blocked.
-> If the helper then fails, the unconditional writeback restores the stale
-> snapshot.
-> 
-> For a directory without ->splice_read, a file-to-pipe splice fails with
-> -EINVAL. A concurrent directory mutation and getdents() call can advance
-> f_pos and refresh the filesystem's revalidation cookie before that failure
-> restores only the old position. The next ext2 readdir can then trust an
-> offset inside a directory entry and copy data from the adjacent page to
-> userspace.
-> 
-> [...]
+On Thu, Oct 29, 2026 at 10:18:40PM +0100, Edvard Conrad wrote:
+> Make a backing file inherit FMODE_NONOTIFY when the user file it is
+> opened for must not generate events. This restores the pre-6.14
+> behaviour for the fds that fanotify creates (and for any other
+> FMODE_NONOTIFY file), while ordinary opens through a stacked filesystem
+> keep generating events on the real path, as intended by bc2473c90fca.
 
-Applied to the vfs.fixes branch of the vfs/vfs.git tree.
-Patches in the vfs.fixes branch should appear in linux-next soon.
+Looks good to me. I'll take this via vfs.fixes and fix up the subject to
+use the "backing-file:" prefix while applying.
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
-
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs.fixes
-
-[1/1] splice: avoid stale f_pos writeback on error
-      https://git.kernel.org/vfs/vfs/c/79b496ebe382
-
+Amir, note that the same deadlock is still there for directories.
+ovl_dir_open_realfile() goes through ovl_path_open() -> dentry_open()
+and not through backing_file_open(). So a FAN_OPEN_PERM|FAN_ONDIR
+listener that opens an overlay directory through the fd fanotify handed
+it wedges the same way. That needs to be fixed on the overlayfs side.
