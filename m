@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793359927;
-	b=XgNeU1CAOCs0o21mzf1MKeckBnlzW42IoUX3yoxneXJiCbeQN4opPHvFTohklxPB+MMk
-	 W/bUDsZCrkglp6I0Q2BJjBlQ5HTXHHt1m/C8e0bsX3E/avtE93JavW7H/rr9YvX3D4DtI
-	 Zf5nQhFFsJLW1vbVxokNMQNAoO286PeI4h6hLkgy9pSx6TLu6m27breTNYTRSCe1Vasrj
-	 uN8wvRIpV4KXTXtQrxljcf5v6IIXO51lVK/oxJixjrDz/9MKL3nPa+EM3tbcKpTWcJkyK
-	 i7g6rEp9yc1mG3AL0Kcqk1AgaCvNgXL+47JLX8dyJHkjsihAAjJwD0U6VL9/J9rtTCg==
+	t=1793359929;
+	b=DDfD021hs95O7hfdKnzNlCKpuJZAFejdDxZuHvfRtrblZC6g+t79KsXq4KJhBT69RSSE
+	 hgPB5PIdxtayT+yP5WSdYrQNuv4YO1watSDNiRq4R75lYHgdrDzDX2ObeYtOB7OT0HK0/
+	 0rqDG2jCKpyFhdgfMV1yfMdqIvISmW3QLp7BhRCMQpe33Zy3bN9lmjfSOZ6rf4VmB7xKv
+	 Z0BwwzfkrXuASqkHP+WaNwNZUUFgCjgspE21IEjzKYUtqaPMA+8Ej4KmPavL1I6Gn47hr
+	 0rqTpPtjORMcDtJni1AIDJb029TptxnDM4BngezxYOIB4OphJ7n7jRaxvyt5MG2p6gg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793359927;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793359929;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=cnrRz73SYKEZ4qoaWJL9gqpOklZcWfVKHKWX7WhjJh4=;
-	b=SuNofdQm1MHt2d4MxPQzuAdT4FRDYBVVLJtDyZoiiG59Spke6Q6Etn+GPUtHnWP01Hvh
-	 M2AFk/EQkrkCnA6/tKgyeRwzB8c2gpKpZyPROozYlbHez3WT5VWSKuUEH3RfQbsB01rDt
-	 9J1t7XHHbM+I2fQBQSmt6MHD06Rh5uo+wCvfE0dLLMZtuy4rX3ZLRPk1SzXxuFBMOkdb2
-	 brt3seKPtxrKQKBBO5tPGpIVXp1kerPBRMiFMkClnDCofSikIrcuBAB7tG3DXs7fPRkTs
-	 sVgZI93z5b8Agwid338H4STHHENqrJm/n2RqhHkv9Xkwircx8jztvQl4ti6Suu4FHpQ==
+	bh=w3FaApfnQUxZe5+ZRP29Y8HIAbXxDwnr+eEOtHj97Eo=;
+	b=RDmdlIkaPLmJLLWDqBhNAvYaoYcuBX+Q3D/kAE5cqa6tTYHfTsDsy9Dm7phbj/JBunEy
+	 4yn3BTSHyTApEGNyteZSJ118xQG1i+ICer4vEDQFcVW/NzMmol9owInpC+PpQ9yFsQAmO
+	 HYPMPWE2pPqEyVK9oNuGx6PuQAGjZmSI17hRIV9j6hF7nyTKZ5x/QCAYDS6VwraKKG6K9
+	 pecDSY6vsUG4F+nOg8VX+l5Fnw57S7eo9XkjFavu3tYy9+8RQFnm6JC1LN6BiEORc0oZc
+	 GSHXNkcP1L0ZOcSjw+fAVdgtw+wx+tG+TczDGUjX43fMx+UPiBPmLk7jHn1kVp7WDhA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="I/N8n4zJ";
-	arc=none smtp.remote-ip=209.85.221.49
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=SUplMQnD;
+	arc=none smtp.remote-ip=209.85.128.42
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92B21606A31D
-	for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 11:32:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 92B21606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29BD7606A327
+	for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 11:32:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 29BD7606A327
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=I/N8n4zJ
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-48df54150dfso280467f8f.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 04:32:07 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=SUplMQnD
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4a5b2be99a8so3400785e9.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 04:32:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793359926; x=1793964726; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793359927; x=1793964727; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=cnrRz73SYKEZ4qoaWJL9gqpOklZcWfVKHKWX7WhjJh4=;
-        b=I/N8n4zJ0pVbzD40Z94Q2ezmntxchgRlk4DXCua+1wNeZIVA04dhL8D5347VPjCzDC
-         9/ken7Rvq+kD491Mg9zZOGL5RCh5Ry/G33EV52jr3ZdDcMP/Sm2UVhH79gqawm56GS9v
-         jvECGs3fqgIWpUrSVNEJXWC1/oc9cfxGtd3FTvLYWJjinx1uF7dlzqUa4/2har6i+whg
-         1M76PaPA6ywJVXV3SkU7XoD/fqZjsfkJwMpTIJ5J+5DEUVzAW3EN2Tox6hx4IwlQcNmU
-         7pdfOGnFi2ceQJJ3E+EdR3qWd0SUivOykTNcpRsqqIwsUCn5vJCjX7f9CKQaVe7tdyqC
-         wkUA==
+        bh=w3FaApfnQUxZe5+ZRP29Y8HIAbXxDwnr+eEOtHj97Eo=;
+        b=SUplMQnDzEqeppg3hHhQFvs5OuRXjXuWed2i+5MTMjGwl/3gAaIW/U5/ZacB7PdaXd
+         03t0KHi9CkOTNWMDvutW3nQG02sB363cOcP7gCGsvkcuJcTXYqy2uv9QWNkalaA3DNzs
+         X7RGh2Iiey+zubRsGIOKz9+7wykxQnT6Jo34GgvXqz8qJQAplDexPdvRaEHnhHxLfwL3
+         ATbRa4rbbaB/XcmYCLoHodnOvo8SS3zAAJ/nJmoPSs1vYcztUjmABPCrKeben+6BFtMr
+         Gsddn6J/dR3hh32edF1RwvA6bUBAkppWDTSklMrWtLbR3pAk9D/xWvNP/iInwh27+2rq
+         zvaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793359926; x=1793964726;
+        d=1e100.net; s=20260707; t=1793359927; x=1793964727;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=cnrRz73SYKEZ4qoaWJL9gqpOklZcWfVKHKWX7WhjJh4=;
-        b=gHT2+GJA/aen16ixfKS/56V4PTM43fiDewuzy4O0yimKZrHoCiDoGSo4BCi0irR8wY
-         JuBaS+VwMmSlfiOHucXuxCeoK2R6aEaluDIM2KX4hOOnuutOVWaHpw9DEmIQcPv+yUqu
-         smmBD3XvIUp7kr6n1kb88O97qHtFdBajtLFz8W61s5kzGcywdV/phP5BftviTQSvoAI4
-         PvoOL6n5rMGpYMBlqSHq9ZUodL2zqX06rtBOh2FoaRsHj63XEgpsynuSubMyLvkrzMFi
-         s0VPxmGNFFl4DTh7pxAOkbnazoODgoSjqHxvH0Avopie7YWCp1hKhoqZPCw6FYayd/uG
-         jkWA==
-X-Forwarded-Encrypted: i=1; AKwUvBzGqFYpawL49hgxs0G2cfyDzrprzAUU6K69MHEY7JmilpykaZ9sDwEH6YVYEq4/Ris252qhRwPP1rIgYTBl@vger.kernel.org
-X-Gm-Message-State: AFq9FYJgu6PJEv9bsEQUw0WqKuBMPAlo98MXAfN455NCL3Z77PEu3iSv
-	e/V96wRKgFrZcBm8ygRGmmx+U4GkQwmUj+bjqs4euZm86/a+y2a+e1q8vsz4khRv
-X-Gm-Gg: AYBFou3gKYYvwSCv8n9ZMq7dZw9djl5S5jjwqp6ZB+xsMDcb/DiAr7ZnuZp/2GHH7ik
-	FtPQgHIg0rzesRZGhBX/EgjkSImnedw/qWJX9U0SBHFPWOMHo6FUv3UbuA41+RjF5fa9a/bM1Dl
-	hXvy1B36eSLl8lgZrSZQHu+hjAFT4jGdQH2af287ywSc+b/oD+xr+LUUSOR81fmgI3PwYZfiWbZ
-	q6whp3eKL7y42eDvpNLj1XE8uydioA0ms+ZC5kGs4W1oRx5FAdtxzOrPYUN0ymcGNu7uud7xDf6
-	EY6WYAfux3ugYDz7q/a6F85TqsymG0quwkxzH7KdyRBn4Lt9TR3naNPZs0PZ6XLyMWMU5/qSZG/
-	9JPnWYIgg9PQarFaO4q3E5VjjBresIO72PAP+YectRdFMTawhtP5XTw9KW9c8ymjXexdbIU+5Zm
-	ziz5DmFN+lblo1Qb0Q7kGnk0ozgJk5bxXoLo+RwXY797Al22UGTyqHeU3qde9t+BWHpklTEErBL
-	Asz6pNKAfF6rfS/Edyi0xqBlnczH+dRvg0jhVP2zS9afhYpohWvJRSxG5fFeLEH3WYTEr8zANuI
-	QbW+HD5ImTtxDixq4TK0iMpAHv5r8d5afYOiW0OjEsmg1xZv/tn2ZYKSIuxzGjLR9yxwitozgxn
-	lZAbfB1owqq4=
-X-Received: by 2002:a5d:4c8e:0:b0:48e:1c2:55a1 with SMTP id ffacd0b85a97d-48e6e500505mr3857722f8f.52.1793359925697;
-        Fri, 30 Oct 2026 04:32:05 -0700 (PDT)
+        bh=w3FaApfnQUxZe5+ZRP29Y8HIAbXxDwnr+eEOtHj97Eo=;
+        b=bXR9MSGWHexXC3NKW96LriqdLdgLuXyC2F39UVQfV8OWzCQxO1PAbiM/CkRJNCwHCc
+         DvSyjmf44HYCT1w/OTb/9y2ig1TiZkLZJb3TkATfEnnfw6mJeuO3V4Oywu6Hr//2xxUX
+         8eYwValNc8ud1ltt1Y3PLC7dAMobqDTSQavgPh8H5+RasboQmjy0zppHCF5TTHHBWw7V
+         j8CA5cPfK4Zb9y6ECzBFveTAN2UYei8jI5igsP97LN8Yr8cIMS3sWt8R4KdxvPufWErd
+         ga1JOrpU8sCdyxyAezKATT18G89wB4t57Qfq7MBuvBSXC0rgK/uiNr576dlq4HP3bcBp
+         QJXg==
+X-Forwarded-Encrypted: i=1; AKwUvBwYN9/3BbskaGeWq/e2lQbyGKHWAdq6BPgnVIT50ZMqqAfBPB+9ybyAla8Cm5u+Bse6pnuMVJQD+QRfBIZV@vger.kernel.org
+X-Gm-Message-State: AFq9FYJw9UAaoHJGqtqn0mah7hPPJdb9q4hH61VMOm1bXWT1QQkq0BQk
+	jqnGxb3F0sck9ucn0wpl4uqgaSgzkA945yRNxn44nmQ+zf+vgR/4C0ro
+X-Gm-Gg: AYBFou2DFm3l8pRfqiKcKAMpNUhUe2nUPN4RNhidKIMajkD9a2robHwoKg0YUctfP1F
+	7KAUwrDAhdOOj4NPc1tBxaz1Np+U4gObyDyDMbt++PHJ2e2wpBvv0G6UKJjmk0YHxDV4Njixxh6
+	GGv1988stjik45LKmSkHGN+NGoGVamSHN8qlRpRrPYRWFrmhsJ6uxe4Ne5GR++BBBkotlWySe6N
+	pb3lJlDAaAeaYtMm5pMkcQQip1MCQOWx4b1sbygTXBlEoDzB3b5iWlvZ5w6xce2Wm2PNIVsoeYp
+	vnk09YV1QQoX6ysPUoRcCEvgN+T/ZnXWpQBeZP3BpjHK37ydBPeOytQD1fa/B8tIXd8E06XSep9
+	UcsNuzyAtYSvV1/3DeIqo5HxBgTFKgOqiTDEenTkg8+9bW0sWzZY2gSmGLn2eipMJ2gV0HwIhpk
+	Pol2LQp2d8OvN5xZFIi9NhxV2iyhBLwopzxnduVzqlFJt/SHBfWOM89hfRR454Uvd+f3t8iyCSR
+	Vj4r7yNu+8TQuMypNwumKHHxCC9S/ogaEBxAMkMWWCpO4ncyb8Bt6kLuohJ1w68j5VOuPPJY7b/
+	3ss049lyd/B9rjqvFBA47ObW6GOvnZRG5JkPflYkFIKpfAyQ7XyK87Wmpl/m/E01im+F+H02Dj6
+	TPZcDQRHGxITD7WHjb6XbPVKr16ZzD3X4Lw==
+X-Received: by 2002:a05:600c:a00d:b0:4a5:e6fd:65e5 with SMTP id 5b1f17b1804b1-4ac19705d57mr40416405e9.31.1793359927376;
+        Fri, 30 Oct 2026 04:32:07 -0700 (PDT)
 Received: from localhost (178-84-201-199.dynamic.upc.nl. [178.84.201.199])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e71b8c6e9sm2708834f8f.43.2026.10.30.04.32.04
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4aa813d2640sm129004595e9.6.2026.10.30.04.32.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2026 04:32:05 -0700 (PDT)
+        Fri, 30 Oct 2026 04:32:06 -0700 (PDT)
 From: Amir Goldstein <amir73il@gmail.com>
 To: Hungyu Lin <dennylin0707@gmail.com>
 Cc: Christian Brauner <brauner@kernel.org>,
@@ -88,9 +88,9 @@ Cc: Christian Brauner <brauner@kernel.org>,
 	linux-unionfs@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH 1/3] ovl: fail the mount if the casefold flag has changed
-Date: Fri, 30 Oct 2026 12:31:59 +0100
-Message-ID: <20261030113201.2921633-2-amir73il@gmail.com>
+Subject: [PATCH 2/3] ovl: do not let chattr change the casefold flag
+Date: Fri, 30 Oct 2026 12:32:00 +0100
+Message-ID: <20261030113201.2921633-3-amir73il@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261030113201.2921633-1-amir73il@gmail.com>
 References: <20261030113201.2921633-1-amir73il@gmail.com>
@@ -107,75 +107,82 @@ Content-Transfer-Encoding: 8bit
 
 From: Chris Mason <mason@kernel.org>
 
-An unprivileged user in a user namespace can repeatedly trigger a kernel
-warning with their own overlay mounts. They do so by changing the
-casefold flag of the topmost layer's empty root, the top directory of
-that layer, after the layers are set and before the mount is created.
+chattr +F or -F on an overlay directory can make the directory, or the
+whole mount, unusable. Lookups of the directory, and lookups in it, then
+fail. From code inspection, the caller only needs to own the directory.
+The upper filesystem must support casefolding: ext4 or f2fs with the
+casefold feature, or tmpfs with the casefold option.
 
-The casefold flag of a directory makes name lookups in that directory
-case-insensitive. All layers of an overlay must agree on casefolding.
+chattr +F and -F set and clear FS_CASEFOLD_FL, the casefold flag of a
+directory. The flag enables casefolding (case-insensitive name lookup)
+for the directory. All directories of an overlay must match the casefold
+state that was recorded at mount time, and ovl_lookup_single() enforces
+this:
 
-ovl_mount_dir_check() reads the casefold flag of a layer root when
-fsconfig() sets that layer, and saves the result in ofs->casefold. The
-mount is created later, by another fsconfig() call with
-FSCONFIG_CMD_CREATE.
+- A lookup in a directory that does not match fails with -ESTALE.
+- A lookup of the directory itself fails with -EREMOTE.
 
-The casefold flag of an empty directory can be changed.
+ovl_fileattr_set() copies the directory up, which creates it in the
+upper layer if it only existed in a lower layer. It then passes
+FS_CASEFOLD_FL on to the upper filesystem. The upper filesystem accepts
+the change if the upper directory is empty, regardless of what the
+merged directory contains. The merged directory is the one that the user
+sees, with the names from the upper and the lower directories.
 
-The casefold flag of the overlay root must match ofs->casefold.
-ovl_get_root() copies the flag from the topmost layer root, as it is
-when the mount is created. On a mismatch, ovl_get_root() only does a
-WARN_ON(), and the mount continues. The check is not a WARN_ON_ONCE(),
-so each such mount warns again.
+After the change the upper directory no longer matches the mount. If the
+directory is the root of the overlay, the whole mount is affected.
 
-An unprivileged user needs CONFIG_UNICODE, and a tmpfs mounted with the
-casefold option in their namespace.
+The flag can also change without chattr +F or -F. chattr reads all flags
+of a directory, changes one and writes all of them back. For a directory
+that only exists in a lower layer, overlayfs reads the flags from the
+lower filesystem. xfs with the ascii-ci feature reports FS_CASEFOLD_FL
+on every inode, but never sets S_CASEFOLD, the inode flag that overlayfs
+compares with the mount. So its directories count as not casefolded.
+With a lower layer on such an xfs and an upper layer on ext4 with the
+casefold feature, chattr +A on a lower-only directory therefore sets
+FS_CASEFOLD_FL on the new, empty upper directory.
 
-Reproduced by changing the casefold flag of the empty upper directory
-after the layers were set and before FSCONFIG_CMD_CREATE, with tmpfs and
-ext4 layers, and as uid 1000 in a user namespace.
+Reproduced as root on tmpfs and on ext4 with chattr +F or -F on an
+overlay directory whose upper directory was empty. Afterwards lookups
+below it failed with ESTALE, and lookups of the directory itself failed
+with EREMOTE. The chattr +A case was seen once, on a kernel with an
+earlier form of this patch that still passed the caller's flag on:
+lookups of the directory failed with EREMOTE.
 
-Fix this by replacing the WARN_ON() with a check that fails the mount
-with -EINVAL.
+Fix this by returning -EOPNOTSUPP if FS_IOC_SETFLAGS, the only call that
+can change the flag, asks for a casefold flag on a directory that does
+not agree with the casefold state of the mount. This also refuses the
+chattr +A case above.
 
-Fixes: f9377faaeae0 ("ovl: Add S_CASEFOLD as part of the inode flag to be copied")
+Fixes: 083957f9614a ("ovl: support layers on case-folding capable filesystems")
 Cc: stable@vger.kernel.org
 Signed-off-by: Chris Mason <mason@kernel.org>
+[amir: check the flag against the casefold state of the mount instead of
+ reading back the flags]
 Signed-off-by: Amir Goldstein <amir73il@gmail.com>
 ---
- fs/overlayfs/super.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ fs/overlayfs/inode.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/fs/overlayfs/super.c b/fs/overlayfs/super.c
-index b452b8c5f6417..af13585709cfc 100644
---- a/fs/overlayfs/super.c
-+++ b/fs/overlayfs/super.c
-@@ -1372,7 +1372,6 @@ static struct dentry *ovl_get_root(struct super_block *sb,
- 	ovl_dentry_set_flag(OVL_E_CONNECTED, root);
- 	ovl_set_upperdata(d_inode(root));
- 	ovl_inode_init(d_inode(root), &oip, ino, fsid);
--	WARN_ON(!!IS_CASEFOLDED(d_inode(root)) != ofs->casefold);
- 	ovl_dentry_init_flags(root, upperdentry, oe, DCACHE_OP_WEAK_REVALIDATE);
- 	/* root keeps a reference of upperdentry */
- 	dget(upperdentry);
-@@ -1556,6 +1555,17 @@ static int ovl_fill_super_creds(struct fs_context *fc, struct super_block *sb)
- 	if (!sb->s_root)
- 		goto out_free_oe;
+diff --git a/fs/overlayfs/inode.c b/fs/overlayfs/inode.c
+index 7e1ac70c5d97b..e3aa0931bea9f 100644
+--- a/fs/overlayfs/inode.c
++++ b/fs/overlayfs/inode.c
+@@ -658,6 +658,14 @@ int ovl_fileattr_set(struct mnt_idmap *idmap,
+ 	unsigned int flags;
+ 	int err;
  
 +	/*
-+	 * The casefold flag of an empty layer root may have changed since the
-+	 * mount options were parsed.  The root inode owns oe by now.
++	 * Lookup refuses a directory that does not agree with the casefold
++	 * state of the mount. Only FS_IOC_SETFLAGS can ask for a change.
 +	 */
-+	if (!!IS_CASEFOLDED(d_inode(sb->s_root)) != ofs->casefold) {
-+		pr_err("casefold flag of the root directory has changed\n");
-+		dput(sb->s_root);
-+		sb->s_root = NULL;
-+		return -EINVAL;
-+	}
++	if (S_ISDIR(inode->i_mode) && fa->flags_valid &&
++	    !!(fa->flags & FS_CASEFOLD_FL) != OVL_FS(inode->i_sb)->casefold)
++		return -EOPNOTSUPP;
 +
- 	return 0;
- 
- out_free_oe:
+ 	err = ovl_copy_up(dentry);
+ 	if (!err) {
+ 		ovl_path_real(dentry, &upperpath);
 -- 
 2.55.0
 
