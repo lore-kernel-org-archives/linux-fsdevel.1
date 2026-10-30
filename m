@@ -1,91 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793375112;
-	b=eZaORSZbTJGLZqMlriSQZdKwnjjytrVlmM6dkX1LHoSH62MuUfN+vHdXccJAIPZ3ynDU
-	 yc1o39A1oOVklUVU76A8np9JVb4mphVqyiNDFhnfIGDSTg86/UhUh6aCV6hNNLg4u+tJJ
-	 RhFLmA/6KKew3lk/qaOY1YylnNB14Q22EqBA4bI5dAYeZ1/sGrnC3vq0kM6ofNq/8WhpK
-	 4J94z9sxkVZb0BVr4wsSJeI+N8Qn/ogcvMUmpwz4Yzp/9Q3d3z6CyMaGAZ4JUOQjy8JhL
-	 h4uzMVbUZnjptxxGzX/1aIIY8cuTsXEDJomANrNSiX/AipsnOyCGH9W9IVUZ9yRVjrg==
+	t=1793375424;
+	b=lMMSd4fNOJhOqFGW2OtyelOMSc6mO6HW4Xhh+J55b1jPTVHWF+bbNXtF4BtWUxlrQdsm
+	 g/PG8CN6lZAZX3WOV91AAkdvvys15cviVGMXV4nSiuaYpaWjt7Cc7EC5/bWZMBEYKjvw/
+	 cBzxa0aZnhTTeUZ9Patopvhy+36mSadZriTOj6KDKZZiKE2XO9X+Pi6hQpidEc+wWg0HI
+	 7goObSE1yliIkLbH3mvEuMeUT398Yynor/do610XBCkCpsHFD2BL6gxLfvPS2AOa7HOwa
+	 ZtmJnHUmLrTaFjMTQRt2oGNKGkxnPPWLD7V/ZD1hJBqR+V7pE6hRdDEoDuWja2kk/fQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793375112;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:Content-Transfer-Encoding;
-	bh=hLhpSxs/CI8L6fPpKCYlBQ7uDJcGOM1i7tYlKx8Tjmc=;
-	b=ilt3IrddkCxP4dOfkAeM7ZY5boUjDHvCUlYdi6U3o6K8RZLswLOrSTPxXXUBLdPk4pzj
-	 6fCTHmqX7SPvXDOYk0uioNzOj6oQvMq23yRR7Hlrfb7alNFF3LqzdjmM4IZ1Z5U9hWNBD
-	 4cokWzwa7KhlaTyVFYD2IRzXytK5rCL3YjPqgRlKaVbexqdbz2OnlAWcaWgCRJsvH3Tgv
-	 2l6H1WndJX7STM0qZ0KQop2swi2Uqo3Avd9+vFGYKc22IkNF5NIAAtfA+DJdi/ttoMy35
-	 fGNMYgRCH3luftINvR9GVLkinBUObuhb6s9cARpLVe7YznNhwR5cAfoufLc2WAysimQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793375424;
+	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=6zs7KIdtqObt3G5F3sKpbT+49YyGEZ76NLVtZ95Ea20=;
+	b=xwuF7EBf7kKRRmyWP4PeOQHynVkRZlGZ+IfW0r9gQOryRZcHbgn8taWe6XcBa+xKBsCP
+	 YfTnlF51wRcBj7n1zxjUPlMJOQ/kAwFi1ZhbOVciuuTyKBsoYFZ5HRnjyOzWFON77tzTb
+	 m0/OWd/e3GTWa6bm12sMJJrnmyIvfmkkyQa9OEwsp29Cc/Keg9eMhGlj4vYkF4JYvAqZx
+	 PeCOvongJ4TDTWilk92LOGS4UKCbQqSsWwNts4BWBneTp523705fBX07TiBMpcu8ksylm
+	 /xAARm9flRFnlCKa46iqdeDda3UWbS1UVHJv6zN9uKQQKApTaxNaeZImus3zwGVBXcg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=kJCb30Cu;
-	arc=none smtp.remote-ip=209.85.128.42
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Il8+Wfdf;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CCAA606A31F
-	for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 15:45:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8CCAA606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6472C606A31C;
+	Fri, 30 Oct 2026 15:50:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=kJCb30Cu
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4a549cd7fd2so7885445e9.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 08:45:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793375111; x=1793979911; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-disposition:content-type
-         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=hLhpSxs/CI8L6fPpKCYlBQ7uDJcGOM1i7tYlKx8Tjmc=;
-        b=kJCb30CumIs39BYjENNb8QuYW3xpPW52sdHuKI4pKjROlEqtqanFqcEhQ69xV5/ncC
-         pdosYpoWsFqljmKt9u2KPYM2dFGOyniti84h1W4rFMtIzftI4d9jAHNyoJ0qi6qUaqGM
-         0jT9fF/a3kgcbjP6Ho4iLIiYuLwJ8QHRTiaK7Fc4bnMv4JerqKKpWgJFDRjIJBhHMaGm
-         SZOYcnD9gQXkvY6Srb/3+mQMCUq44G7Y7q9iYY1nG5Qj2/hWj4nyis38a6tokg1orGGL
-         0Wd6blNXOPHTGclX+zNbtcoOH5Zwu/sz7HkIJqtrCnFMg3KC/Am8vvY7r6LTnzIhmGfH
-         W0MA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793375111; x=1793979911;
-        h=content-transfer-encoding:content-disposition:content-type
-         :mime-version:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=hLhpSxs/CI8L6fPpKCYlBQ7uDJcGOM1i7tYlKx8Tjmc=;
-        b=S4ZoIaF6UjsS+vjA/MXcAaYg4cKs2lnC9PIrMlHlBUELZ6LbbcVFomZhVwHjg8M5Z5
-         FGOhWwKvCyvBx09YBOnL+N0xAs2QDD7DY0vRu7McHW8LR9nDJ2X+y21YqOENRy4aA5z1
-         KkqyI9Kig76C+GX16btOLn6kcLyAcTkz2q7a2s0ZYjpjy0F/ZiNG056YEGPm9MBmc7qQ
-         wZhZ1tKGoJgg5VIXOmxEczsLSE1iZJUrDN4PqwIDsh/ME7Wp1FQbn/gYltC2jFfZ8Uc3
-         djpVrHuxbUMBjJgqWGb4TZ8aoOjyPLM/0oFPvmUMDYvwXwLUGWs5USjzVVNlPMPSvzY3
-         kw9w==
-X-Forwarded-Encrypted: i=1; AKwUvByGiyVUMrmBOwm8c7Ny3lr8uDfrVrcpkDg73P09o9zgADp1hREatltQjVp7dRAHIFhrQVBqpqJqLW7o+p5R@vger.kernel.org
-X-Gm-Message-State: AFq9FYKlCamOlM8k3Ft/caS0hvZ4HT/W7SUu+ILj210CXtqMXryIwi0t
-	10CbfLfAqZVwjfEJxzvsqi1Wloi1uapONB61Z4iZOcwlKKy5ylQQrhQiQPjc+ZqROw==
-X-Gm-Gg: AYBFou0moc807dd0ezK2bFmwtjTZGX+FkpS9s1UMP6hpNFGqXp6KRdUR5uumZ94H18C
-	FBVsT3pij+7PhVZFvep42rBNIZ8XLJI+xHgbps5Cpn6RZsgSsvaTdul6sAv2f/qH7dkMQDtboqi
-	CUdhRDZ9wct918DiPk8m7JVaIgElIpspwdEroJqCnPwE+weGpLwRVlZPnsnGLL4RxRNU7XPgLhr
-	U2jhTA5T36OxLiC4vf1Wt3cxH0mWNtx35T6iP0j/E2evDkvz9pTyPfPzL+sLF/+HnWkoHeyPqiP
-	fPF3gCdabk2JWPiEuwka3zrP9AZfRmfchdMwCnsoP0wcRNVFuXCjPH8b4lV5KgJeTKFu14jz86G
-	fWE1Lhqm6wAhyAYcTsVWzR2s2BF6jge3ASs+J6KDm+pfxCjj2g8GuG/fpoR8OnErmKjY6E6Itpr
-	sJ/vRTyKz29WCN+4mE9ES6utLfJdhtUE+XLNtTI5XpJHS46cCXV+1CucT9FXPKqeeZ2iPtYJeKJ
-	a4d0WFp62p7pRkCAhWNyy9En88xieo3bfjjUg1FxjZ1cR52Oq6R3UjIrVnlNce9OeZ/milGZ2nL
-	Kvq5SDUU4SSWCU63FtWsSQoEGit/YWMfaksi1YLn9hnzuWZTRHg7ZrLDx9HX
-X-Received: by 2002:a05:600c:64c9:b0:4a2:180a:3417 with SMTP id 5b1f17b1804b1-4ac14dd1debmr62418945e9.1.1793375110258;
-        Fri, 30 Oct 2026 08:45:10 -0700 (PDT)
-Received: from google.com ([2a00:79e0:288a:8:43c5:cfa4:de19:f8f0])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e71b77f06sm3901507f8f.21.2026.10.30.08.45.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2026 08:45:09 -0700 (PDT)
-Date: Fri, 30 Oct 2026 16:45:04 +0100
-From: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>
-To: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-Cc: linux-security-module@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	Tingmao Wang <m@maowtm.org>, Justin Suess <utilityemal77@gmail.com>
-Subject: landlock bug: procfs denials because inodes have unstable identity
-Message-ID: <auS7gAFy13EOp_Zt@google.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Il8+Wfdf
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B12171F000C1;
+	Fri, 30 Oct 2026 15:50:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793375424;
+	bh=6zs7KIdtqObt3G5F3sKpbT+49YyGEZ76NLVtZ95Ea20=;
+	h=From:Date:Subject:To:Cc;
+	b=Il8+WfdfaPZAgRcR1lfjO5no/kPmT1KOA9nhDrRqXG2GUPhhA7WT5QNAni65luq11
+	 F5aIvUSDBWUcEc/gM7vwlJebdqyhEwjOt88ErqE9/6SF4aRTjACQXhk8PJy5PG0hCG
+	 W901Yn/YUJhvhyx2SQ1FvdWUg2cqxFUjWTxl/Ch1VOYJyeG5Q7wsj+VstbDbfs8Cqo
+	 aeKqHtFyt2FjDW/MwmQ1mRdvh5gaUgNJHU5EZC0qHP391bhSsFkLvZHFZkfDejiTnP
+	 xo6Nfk0JF1N9TciSHmq7hHMg706Va/6Uyzm8EfNkapo5c+Ut5vC/aYUN6SuvRUyLsq
+	 tWDajir5fK+fg==
+From: Christian Brauner <brauner@kernel.org>
+Date: Fri, 30 Oct 2026 16:50:07 +0100
+Subject: [PATCH] ns: don't add init_ipc_ns and init_net without namespace
+ support
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -95,174 +53,130 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261030-work-nsfs-init_ns_tree-v1-1-7ec0adb47c54@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWMQQrCMBBFr1KydiSJ0oVXESlJOrGjMJWZWIXSu
+ 5vY5fv891ajKIRqLt1qBBdSmrmCO3QmTYHvCDRWNt763tmThc8sT2DNCsRUBtahCCKMCV1IeO4
+ zelPll2Cm7z98ve2s7/jAVFqtPWJQhCiB09SmJetxN7btB81HGOKWAAAA
+X-Change-ID: 20261030-work-nsfs-init_ns_tree-dce1ace46fe2
+To: linux-fsdevel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+ kernel test robot <yi1.lai@intel.com>, stable@vger.kernel.org, 
+ "Christian Brauner (Amutable)" <brauner@kernel.org>
+X-Mailer: b4 0.17-dev-ce4c1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4035; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=CmeNgtalbAc+JOBUPeLqNAYbAsC85B0PiD2APD63NlM=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQ92bOn9dQzRX+ZN+5sS00EXsxYGJkTt2p3i67p+QVuF
+ ozmC/R2d5SyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAExkTjcjw68ivlQvqdPyO36c
+ nfr+xxmXwo/n7tTvujW/LX668+egFUsZ/lmlKDxULRdbfPA9+/TlagV61vO4E08u7hX45VHAEuw
+ szgcA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Hello!
+When CONFIG_IPC_NS or CONFIG_NET_NS are turned off we still add the
+initial ipc and network namespace to the namespace trees. ipc_ns_init()
+calls ns_tree_add(&init_ipc_ns) whenever CONFIG_SYSVIPC is set and
+setup_net() calls ns_tree_add_raw() on init_net whenever CONFIG_NET is
+set.
 
-The Landlock LSM lets processes define policies which are attached to
-struct inode objects internally.  As a consequence, if filesystems
-forget these inodes and start using new inode objects for the same
-files or directories later on, these policies do not work as intended
-any more.
+But without CONFIG_IPC_NS and CONFIG_NET_NS these aren't namespaces
+userspace can do anything with. They don't have proc_ns_operations so
+there's no /proc/<pid>/ns/{ipc,net} for them, nsfs_fh_to_dentry()
+refuses them with -EOPNOTSUPP, and since ns->ops is NULL
+__ns_tree_add_raw() doesn't add them to the owner list of init_user_ns
+either. So they end up half registered. That's also not how we treat
+any of the other namespace types. Without CONFIG_UTS_NS, CONFIG_PID_NS,
+CONFIG_TIME_NS or CONFIG_USER_NS the initial namespace is never added
+to the tree.
 
-As it turns out, procfs has that property as well and can lose inode
-identities over time, even though it does not happen immediately.
+listns() walks the unified tree and calls is_current_namespace() for
+every namespace it finds via may_list_ns(). But is_current_namespace()
+only knows about CLONE_NEWIPC and CLONE_NEWNET if CONFIG_IPC_NS and
+CONFIG_NET_NS are set. Otherwise we end up in the default case and its
+VFS_WARN_ON_ONCE(). Any unprivileged caller can trigger that with a
+plain listns() call:
 
-In my understanding, this is not intended.  Landlock has explicit
-selftests to exercise that Landlock policies work in Procfs.
+  WARNING: CPU: 0 PID: 526 at fs/nsfs.c:508 is_current_namespace+0x12f/0x440
+  Call Trace:
+   legitimize_ns+0x25f/0x4c0
+   do_listns+0x185/0x5c0
+   __do_sys_listns+0x13b/0x300
 
-For reference, similar issues have been investigated also for hostfs
-[1] and 9p [2]:
+Instead of teaching is_current_namespace() about namespaces that can't
+be opened, only add the initial namespaces to the tree if their
+namespace type is enabled. Move the registration of init_ipc_ns into
+ipc/namespace.c which is only built with CONFIG_IPC_NS. That also fixes
+CONFIG_SYSVIPC=n, CONFIG_POSIX_MQUEUE=y, CONFIG_IPC_NS=y where
+ipc/shm.c isn't built and init_ipc_ns was never added at all. For the
+network namespace only call ns_tree_add_raw() if CONFIG_NET_NS is set.
+Without CONFIG_NET_NS cleanup_net() isn't built and init_net is never
+removed so there's nothing to balance.
 
-[1] https://lore.kernel.org/all/20230309165455.175131-2-mic@digikod.net/
-[2] https://lore.kernel.org/all/cover.1756935780.git.m@maowtm.org/
-
-
-Steps to reproduce
-==================
-
-Process A:
-
-* Enter a Landlock domain where access to /proc/sys/kernel/random
-  (and files below it) is allowed.
-* Repeatedly open and close the boot_id file from that same directory
-
-At the same time, the dentry caches get freed up.
-We can emulate this by writing to /proc/sys/vm/drop_caches from
-another (root) process:
-
-# echo 2 > /proc/sys/vm/drop_caches
-
-Observed result: Process A fails because of a Landlock refusal opening
-  the boot_id file.  When Landlock walks the path for the check, the
-  inodes have now a different identity than before and don't match, so
-  Landlock denies the operation.
-
-Expected result: Dropping the caches should not affect Landlock's
-  behaviour.
-
-At the bottom of this email, I am including the source code for a
-program that does Process A -- you can run this to reproduce, and then
-write into the drop_caches file from another process as root.
-
-
-Solution...?
-============
-
-I don't have a fix for it yet.
-
-I am open to suggestions.  Is this feasible to change in procfs?
-
-—Günther
-
-
-
-Reproducer program, for easier reproduction (don't forget to drop
-caches in parallel):
-
----landlock_uuid.c
-#define _GNU_SOURCE
-#include <err.h>
-#include <fcntl.h>
-#include <linux/landlock.h>
-#include <stddef.h>
-#include <sys/prctl.h>
-#include <sys/syscall.h>
-#include <unistd.h>
-
-static int landlock_create_ruleset(struct landlock_ruleset_attr *attr,
-				   size_t size, __u32 flags)
-{
-	return syscall(__NR_landlock_create_ruleset, attr, size, flags);
-}
-
-static int landlock_add_rule(int ruleset_fd, enum landlock_rule_type rule_type,
-			     void *rule_attr, __u32 flags)
-{
-	return syscall(__NR_landlock_add_rule, ruleset_fd, rule_type,
-		       rule_attr, flags);
-}
-
-static int landlock_restrict_self(int ruleset_fd, __u32 flags)
-{
-	return syscall(__NR_landlock_restrict_self, ruleset_fd, flags);
-}
-
-int main(void)
-{
-	struct landlock_ruleset_attr ruleset_attr = {
-		.handled_access_fs =
-			LANDLOCK_ACCESS_FS_EXECUTE |
-			LANDLOCK_ACCESS_FS_WRITE_FILE |
-			LANDLOCK_ACCESS_FS_READ_FILE |
-			LANDLOCK_ACCESS_FS_READ_DIR |
-			LANDLOCK_ACCESS_FS_REMOVE_DIR |
-			LANDLOCK_ACCESS_FS_REMOVE_FILE |
-			LANDLOCK_ACCESS_FS_MAKE_CHAR |
-			LANDLOCK_ACCESS_FS_MAKE_DIR |
-			LANDLOCK_ACCESS_FS_MAKE_REG |
-			LANDLOCK_ACCESS_FS_MAKE_SOCK |
-			LANDLOCK_ACCESS_FS_MAKE_FIFO |
-			LANDLOCK_ACCESS_FS_MAKE_BLOCK |
-			LANDLOCK_ACCESS_FS_MAKE_SYM |
-			LANDLOCK_ACCESS_FS_REFER |
-			LANDLOCK_ACCESS_FS_TRUNCATE |
-			LANDLOCK_ACCESS_FS_IOCTL_DEV |
-			LANDLOCK_ACCESS_FS_RESOLVE_UNIX,
-	};
-	/*
-	 * Backwards compatibility checks omitted for brevity.
-	 * Assuming Linux 7.3 here. :)
-	 */
-
-	int ruleset_fd = landlock_create_ruleset(&ruleset_attr,
-						 sizeof(ruleset_attr), 0);
-	if (ruleset_fd < 0)
-		err(1, "landlock_create_ruleset");
-
-	int parent_fd = open("/proc/sys/kernel/random", O_PATH | O_CLOEXEC);
-	if (parent_fd < 0)
-		err(1, "open(/proc/sys/kernel/random)");
-
-	struct landlock_path_beneath_attr path_beneath = {
-		.allowed_access = LANDLOCK_ACCESS_FS_READ_FILE,
-		.parent_fd = parent_fd,
-	};
-	if (landlock_add_rule(ruleset_fd, LANDLOCK_RULE_PATH_BENEATH,
-			      &path_beneath, 0) < 0)
-		err(1, "landlock_add_rule");
-
-	close(parent_fd);
-
-	if (prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0) < 0)
-		err(1, "prctl(PR_SET_NO_NEW_PRIVS)");
-
-	if (landlock_restrict_self(ruleset_fd, 0) < 0)
-		err(1, "landlock_restrict_self");
-
-	close(ruleset_fd);
-
-	/* Print out the boot_id file once a second. */
-	for (;;) {
-		int fd = open("/proc/sys/kernel/random/boot_id", O_RDONLY);
-		if (fd < 0)
-			err(1, "open(/proc/sys/kernel/random/boot_id)");
-
-		char buf[64];
-		ssize_t n;
-		while ((n = read(fd, buf, sizeof(buf))) > 0) {
-			if (write(STDOUT_FILENO, buf, n) < 0)
-				err(1, "write");
-		}
-		if (n < 0)
-			err(1, "read");
-
-		close(fd);
-		sleep(1);
-	}
-
-	return 0;
-}
+Fixes: 74b24a582e1f ("ipc: support ns lookup")
+Fixes: 195f7422298d ("net: support ns lookup")
+Reported-by: kernel test robot <yi1.lai@intel.com>
+Closes: https://lore.kernel.org/oe-lkp/202610260917.6248e316-lkp@intel.com
+Cc: stable@vger.kernel.org # v6.18+
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
+ ipc/namespace.c          | 7 +++++++
+ ipc/shm.c                | 2 --
+ net/core/net_namespace.c | 4 +++-
+ 3 files changed, 10 insertions(+), 3 deletions(-)
+
+diff --git a/ipc/namespace.c b/ipc/namespace.c
+index 75aa7b469348..b54d23fd83d7 100644
+--- a/ipc/namespace.c
++++ b/ipc/namespace.c
+@@ -255,3 +255,10 @@ const struct proc_ns_operations ipcns_operations = {
+ 	.install	= ipcns_install,
+ 	.owner		= ipcns_owner,
+ };
++
++static int __init ipc_ns_tree_init(void)
++{
++	ns_tree_add(&init_ipc_ns);
++	return 0;
++}
++pure_initcall(ipc_ns_tree_init);
+diff --git a/ipc/shm.c b/ipc/shm.c
+index bb1a721a3e74..cbab3d16cf70 100644
+--- a/ipc/shm.c
++++ b/ipc/shm.c
+@@ -45,7 +45,6 @@
+ #include <linux/mount.h>
+ #include <linux/ipc_namespace.h>
+ #include <linux/rhashtable.h>
+-#include <linux/nstree.h>
+ 
+ #include <linux/uaccess.h>
+ 
+@@ -149,7 +148,6 @@ void shm_exit_ns(struct ipc_namespace *ns)
+ static int __init ipc_ns_init(void)
+ {
+ 	shm_init_ns(&init_ipc_ns);
+-	ns_tree_add(&init_ipc_ns);
+ 	return 0;
+ }
+ 
+diff --git a/net/core/net_namespace.c b/net/core/net_namespace.c
+index da5f881fbd3b..52c2bd44778a 100644
+--- a/net/core/net_namespace.c
++++ b/net/core/net_namespace.c
+@@ -447,7 +447,9 @@ static __net_init int setup_net(struct net *net)
+ 	down_write(&net_rwsem);
+ 	list_add_tail_rcu(&net->list, &net_namespace_list);
+ 	up_write(&net_rwsem);
+-	ns_tree_add_raw(net);
++	/* Without CONFIG_NET_NS init_net isn't exposed as a namespace. */
++	if (IS_ENABLED(CONFIG_NET_NS))
++		ns_tree_add_raw(net);
+ out:
+ 	return error;
+ 
+
+---
+base-commit: b44341e39d856e4cc6ad8ed94ebffd440f39846c
+change-id: 20261030-work-nsfs-init_ns_tree-dce1ace46fe2
+
