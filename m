@@ -1,55 +1,54 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793372113;
-	b=q33MBMeYY27lI/R9bZ1yA3mXYnyCpoKm+Bqm7F8JoXd/IkAfoSOEzygD6jHs8fr3U/Ak
-	 EVKES0GkDbjWtpHadmUUbfmgXuAUj8PVbF4/iy5FjPJp92ofI20zTSvN+oNpVXDPBCUZ+
-	 yw/Q8mYeEfRxq5yGLI83c4lcaU1BH1qBWyQnW1/XANAL2XxktquGvnwJec2MFaHR5IyNH
-	 CbiNGvaYtyr65CUyErqoi6SJtDBuWgFM8jhc1Dy4y2VnpQGWvfHpmyx75MU/AfrVRrRLd
-	 7yC0hDJzGQTYJUBTKuNwFXvIlfL1N64ZIGMjl37twYXkU2NL46pFK0ROvDE3TNb9z6A==
+	t=1793372207;
+	b=seIyCfe4a3MXej8tuC5SB3y5jOvaX+Z6xcjzzQf6/Bz4nZ2ftAHA7WHUIzrpKrv//NmZ
+	 OAPNGGFxKbULhvCNUf9zfZrV0On0sRMzoO95UwKlEsbVTnY4BsfB0Qb0WXx2fFbJ+HTDT
+	 ge0TEPKxoaz8o9OryKTNo497IuDsh/am1fQ0sqYke8rxW2X/hwNAGQr6urMEre8N+MDpc
+	 aQLDoCvzdE1YgDi+udKyYKn3XJ8EIUUyACJ0Je1jdgAvn0p93Ya8t6aRzzxELe0jjRHKh
+	 wxFEIleG0rYe0gAqzh/oVCi1JI59krAsY4K3zyOOLY9HmnUB8ZBwCovFj6/sdYAWOQQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793372113;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793372207;
 	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
 	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 X-Mailer;
-	bh=gCS/gL1ghdsd5VLwrlo0xHatJ9rSk58jF1auEVhGOn0=;
-	b=UN8jhLH3Q03vIS8v/w17A64/IEFSYo/ib6YSIQNfBONS9g+8gYOjziGXvgp8mRWIGa8x
-	 dneV7w2t5hoEuHNjcX/QvJrHSSNxcV/zAEmKXjIR71z1/0BV98IYCWJauwxGg+UxP9L/d
-	 yxL5QoYwdAJeQa05LgFp8ZfwUSUpPwzTG9QHNBKYW4rRBao9P1/qsqpn606FVN/lvz6vX
-	 2Jctt+9LDAcShIx0GNcscYjjqzQ5wQ5o/oofoP0Qe98rlsgplZOSLtzTB9tEshkeaaa9I
-	 F9/IyJzdgR/BlQAezWHxw2f/LjQbZIIgGkRXzoW8ZYSTH9P4bozL2oVbsELqyU8pDpg==
+	bh=+YF+v1dNguT0ji48f97fFUgP//UB342uvDZm32hXdz4=;
+	b=c4RRntDQ2cCn9caOSq7bJhwsWFGpLdMjLr52HUe2YGg8BvXFaCL6h9AyHFff4WuVp5xf
+	 CT8Yqnawm27iZP8rGfxDWavgwpjREXND88KLnQOK2o4X1jVpS6+5bP5yVwKELMRkR0G3C
+	 aoMY6pFAtFlDuN0D1vGj9t3+jZaiso3yOOy3awaPb0A4yHp36XXpTld9R5ydFZBIbH+HG
+	 5i2naWOLiCUJRDAPqL28PXAtTevKcZr5MdCET6kNIvyGJ4W5Tl//2WwGO/tfK+Szn5KrN
+	 AtCjq324XTJfWO0jeBKhvT1tAPxQvfZLB0PNUx+pCk06ySQ1WegmhwainXspGS7iRmA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QuKNrflx;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="mY/Zaw59";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF84A606A31D;
-	Fri, 30 Oct 2026 14:55:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DED47606A31A;
+	Fri, 30 Oct 2026 14:56:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QuKNrflx
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 082CD1F000C1;
-	Fri, 30 Oct 2026 14:55:10 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mY/Zaw59
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69AE71F000C1;
+	Fri, 30 Oct 2026 14:56:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793372112;
-	bh=gCS/gL1ghdsd5VLwrlo0xHatJ9rSk58jF1auEVhGOn0=;
+	s=k20260515; t=1793372206;
+	bh=+YF+v1dNguT0ji48f97fFUgP//UB342uvDZm32hXdz4=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=QuKNrflxz97W76RC2SuGeC3BNLKM/9/sSx0kwSVhVSJ/tpNzF16hiKqXb/9admXFW
-	 2Is3p569Dpy6NtKgvIDf/TjKFHgMHchv7kMYfc39TaKB8UTV5xOjG4C4H/8oY8x4RT
-	 CMhzuvRu+F7013+qHTya2Nmse5W5l6AX87vAMkOPEmnhRjfP1bORUNRvhr3jtG6Dky
-	 YCdMepplAtJri5zDYU+6jSRO6C1mK2QNvaBqKc8Iew5bsuLdMQVKNpg768UmXhfbuU
-	 f6npXTXeXHr6p/paXR513uqVh3eupoJpL/NI+yYGDGhDa+qTl/Hh4tZPuAP6jntZXk
-	 SSe6wqr3FthWQ==
+	b=mY/Zaw59ABpCATRKfpNaVWpWjx+PYvx0uoFKpoRf7tuGJqg9V8mNjQzssL0Y7Aslr
+	 /7MsKJmiSxhlESmHp9NhXyokp+17Kj3s3yrTqIHdCiW5fl9mu4tWJJzybcdysO85PH
+	 u5KruxsyqXc6ictftQwlcIJK5N4YnSrsV7lW4NcqPZllS9xg+Uy0kxR4MW/5P88XlS
+	 /aiu44/7cPIr5SWJwsza4bgN3KIMfGicR5/gOYP4u8Dki0Ks7Hndqb7NvaKGShRDiD
+	 Y0Ciu2OqIJzqifHoKBh5/6UeJ7/APHO74TMZ/wuIPijLkDypXBDN9IkzyrxatrCMEJ
+	 PAZN3mp+OZp/Q==
 From: Christian Brauner <brauner@kernel.org>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Chris Mason <mason@kernel.org>, 
- Josef Bacik <josef@toxicpanda.com>, linux-unionfs@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, stable@vger.kernel.org
-In-Reply-To: <20261029180319.2852090-1-amir73il@gmail.com>
-References: <20261029180319.2852090-1-amir73il@gmail.com>
-Subject: Re: [PATCH] backing-file: always end a queued write
-Message-Id: <20261030-heilt-punkband-pochen-5055df590897@brauner>
-Date: Fri, 30 Oct 2026 15:55:09 +0100
+To: viro@zeniv.linux.org.uk, Daehyeon Ko <4ncienth@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, jack@suse.cz, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20261018051708.2422394-1-4ncienth@gmail.com>
+References: <20261018051708.2422394-1-4ncienth@gmail.com>
+Subject: Re: [PATCH] splice: avoid stale f_pos writeback on error
+Message-Id: <20261030-bosheit-einmieten-abkoppeln-f815d1179ab7@brauner>
+Date: Fri, 30 Oct 2026 15:56:43 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -63,16 +62,19 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev-ce4c1
 
-On Thu, 29 Oct 2026 19:03:19 +0100, Amir Goldstein wrote:
-> Writes to a loop device with direct I/O on an overlay file make the
-> next freeze of the upper filesystem hang for ever.
+On Sun, 18 Oct 2026 14:17:08 +0900, Daehyeon Ko wrote:
+> do_splice() snapshots an implicit file position before calling the splice
+> helper. Since splice does not take f_pos_lock, another operation on the
+> same open file description can update f_pos while the helper is blocked.
+> If the helper then fails, the unconditional writeback restores the stale
+> snapshot.
 > 
-> Every kiocb_start_write() needs a kiocb_end_write(). For a write that
-> is queued, vfs_iocb_iter_write() leaves the end to the completion, and
-> backing_aio_rw_complete() only calls kiocb_end_write() when IOCB_WRITE
-> is set in the flags copied from the submitter. In-kernel submitters
-> such as loop do not set that flag, so each queued write keeps the
-> freeze protection of the backing filesystem.
+> For a directory without ->splice_read, a file-to-pipe splice fails with
+> -EINVAL. A concurrent directory mutation and getdents() call can advance
+> f_pos and refresh the filesystem's revalidation cookie before that failure
+> restores only the old position. The next ext2 readdir can then trust an
+> offset inside a directory entry and copy data from the adjacent page to
+> userspace.
 > 
 > [...]
 
@@ -91,6 +93,6 @@ trailer updates or similar. If in doubt, please check the listed branch.
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
 branch: vfs.fixes
 
-[1/1] backing-file: always end a queued write
-      https://git.kernel.org/vfs/vfs/c/627cdcbc2a2e
+[1/1] splice: avoid stale f_pos writeback on error
+      https://git.kernel.org/vfs/vfs/c/79b496ebe382
 
