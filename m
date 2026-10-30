@@ -1,126 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.57.51
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793380571;
-	b=m1ppVbjm6dyOzxAV2zDb99/ROCFtBCTJxSxstpmyQ8KCNLMKA49VQLDKCgvW3GMiikol
-	 TYlf84BhKQuga/br1t9OQElsirpdZpblprpYsCbDSnG0yWZEJecgFZ/wcjBQ7Et0w9fjf
-	 p4rOjkN2SqB4ekGyOxp4iexI66j2lxyaNrmOq2mSsmj8NSzTTQpdYAnG8xSz2sB1gGO3A
-	 nnH0mwayo95KWmgfk80chwgdERdkhYMDAC1QHje3Lm+oQQhhrAoBAdsylWlY7QC/eQ9mp
-	 oBFbbyNZ9daC33GTl/npIteg4v9705f/FhOYaiMFA4Ft7GwlGuWfso+d/dWnNmRGgOw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793380571;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:
-	 Content-Transfer-Encoding:Content-Type:Date:Message-Id:Subject:Cc:To:
-	 From:X-Mailer:References:In-Reply-To:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=ybKVbrtZEUo4ZkUVHlywlKk6LlM+bSvFqSsT60Q6nMQ=;
-	b=POGJh4yYwnf2kFLjejFJIgp7NfLeqe2jA3DauL5NO8417gUU2kCt4UQKU8CdeILf+3va
-	 4qVujsVBPtVwrmNi1lkiqkBzoaQGdm9a+/QnLYds9wHt3mXuZ0ZKqfahkNJ6WZJQheqL/
-	 BpdfVvDPob2XgL2JctQoiAeVrbuymLBjp151s453L1IxUbWRDsDlUKYIk6wcobZ1AlOAq
-	 RoZxRKA6cpMoK+pqdRIgJLcIhdsXnRh5cDteHs/0ci4yWbOb/jHi/EkeJbZ/A1xCjVq+a
-	 /UoRGxOJCFvQ7Fh8sZYqddqxAvr64DTC4x7XlrtltgLYoe7ruW7s0lRMjupMxFJU2jQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=nvidia.com;
-	spf=fail smtp.mailfrom=nvidia.com;
-	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=qpseBjFK;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.57.51
-Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011051.outbound.protection.outlook.com [52.101.57.51])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793380837;
+	b=OahkTGit0tWJpyqMDxrtT1HYqaQILIsVudvvmdjyxtgoYL315pcMYWxtwIRPH35pFLzk
+	 BeoBwEYhUrREGLjRHI4MSaa0zphQIoLXTp9r6ySwn2Y3YFdyshB71iBp4HYsGg5NAWNcv
+	 cuxii2qsa5og3ZFC8KyOY73dI4Jo3uaqjQgGDA56kX3kI+yJ1/5gtXoZV19rRMSam/YkF
+	 mswF3spMeNv5zNbbTwY4bckDZr1QH1dj8EPjuC6ngJhwxIDRmO3tCsUsCAAzFcwTuVAlU
+	 ku5CIksJZhl9rsNvBNKsfoNQaWB05M6bvZq5uuDSm/WZAewx2SZ3HFOORLGyI9tu21w==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793380837;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:X-Developer-Signature:X-Developer-Key:
+	 Content-Transfer-Encoding;
+	bh=GbsNLN4nfmecZngIyVjXGY/OgjisXLgIAFbK+bDay40=;
+	b=Q200KLJZDS82LfAOi5axvTtz2vetebwsEwoUMf5zf//7Azm8zYwZsF5XDgS4kMWAzoKt
+	 3oZKSzWyMI7czG4RYmEtlMPcE8z8hWR/jfprn1dL2Y4OxDuRCY43gD6OED50EfTMENh0s
+	 f0xLvMYjqhnXMgT1Ay+RvsA6JqWv9I/EACsY6f3fHhCYBLI1x1T0RDhVSBCs+8QQpMXlp
+	 rrctUgZZEKGZKR1+crfkQMEFP6zSU+0erU4ULsALQY+YmqujeKb1o0Qo9QXa5IcBMnR3r
+	 2uY//sBeQHXUoRU2QugkSy3gqXgS4AKeYceEPqrdlO5juZfONY5kirVJ+Jz4S2v5/cg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ai68jmAc;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99CCF606A31A;
-	Fri, 30 Oct 2026 17:16:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 99CCF606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27F2D606A31A;
+	Fri, 30 Oct 2026 17:20:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=qpseBjFK
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dWvv4kL2pvb1+Uh/Pwjb1+OPD3Gic+0MlAP+KuvnxaIOb91VYimdOSknUfY1dm3Pxaoc+xa12jWKtXQMurMZ2ldMAMX2ViQWU+vOsNiefGxELXpXABk8oR8pdynumRgwGqj518F/kguFAsmpn0+zd6+zMz/+Kch6yAzHy+wNw3710YXQRQpS4f1d1yeMXdXFl4EhAriU2AmyN5DLRrIcKJi8S+EvC8gtdHLu1jn5bEgVADx42zaYAfYc339lZ7JouG2sGorl4Qorla/BVRV6drRbnGz4O/9WzxQf/nQtZVnpkiDeSJBKX+Sftpd1uLHDPTTQWyQAqTEVO7JmNnBm1A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ybKVbrtZEUo4ZkUVHlywlKk6LlM+bSvFqSsT60Q6nMQ=;
- b=Ee3BgvibJJ+MdLeZBMYHjqdI+hsUMaZqnPotUtJ6tVZknXaQ8AtN+1GfwUPenTKFPFDmNeneLG3/Bde+j4Gj7+K4H9DwADt24X9jzu2pFxbDsnh8MC3aoUuOSMPO+r0IUgqFagu9IOjCA2q+71FvroNAeMWexIBZsuvsQ7UiW7t07cjG5I8kV63SYRegs/DDN0sp3+Is8BMyKGisFDFcVsJTXXkm8WYmRXKQ/gZx1pAiDsovan6WUX05TZx8QTtbHjAMMY0FQM+oRURoy6BGD94kXNH4cqNAo5vqn61pyA0LpH6FEEBTRDPpeUjk7y3KfLYoShfEjbEkTxQhmwmspA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ybKVbrtZEUo4ZkUVHlywlKk6LlM+bSvFqSsT60Q6nMQ=;
- b=qpseBjFKCY7R4uz1NE4P3dnptQjJmvu5hcRGee4842hsyRB7sP7GwH/MefNc/H9+tj8wx3Z5hfko9DsZuDiB1z0AV42llnAYBez3OSZZNHf9uQMjgHEt04lhLTJ8gbgDhMRHf7ETv0a4U44ZCfkHq+Di/B8kZ0mDO/Lh0y/R+dmDmlc1oPLnNaYOWllDFj8O6ARQLq03G3t8cXciKq4grhOV4DxPkGRMx08lCJcwGpMjm5/0Fq4ef0XXSsEN8Xyt+Tb7TJRCGRjg3xv5Kiq4+BlAfm7mf/dMIVaHrDw1ST6B089tV/LgeoEhsidDrXaAlISj1jjOVxYg35wRjmOuRQ==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
- by SA3PR12MB8047.namprd12.prod.outlook.com (2603:10b6:806:31b::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.9; Fri, 30 Oct
- 2026 17:15:50 +0000
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16%6]) with mapi id 15.21.0569.009; Fri, 30 Oct 2026
- 17:15:50 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 30 Oct 2026 13:15:46 -0400
-Message-Id: <DMICCHK80H4R.3R69XK82S57AO@nvidia.com>
-Subject: Re: [PATCH v2 05/47] mm/truncate: look again if a folio left the
- mapping
-Cc: <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
- <kexec@lists.infradead.org>, <linux-fsdevel@vger.kernel.org>,
- <linux-arch@vger.kernel.org>, <linux-cxl@vger.kernel.org>,
- <stable@vger.kernel.org>, "Josef Bacik" <josef@toxicpanda.com>
-To: "David Hildenbrand (Arm)" <david@kernel.org>, "Andrew Morton"
- <akpm@linux-foundation.org>, "Johannes Weiner" <hannes@cmpxchg.org>,
- "Michal Hocko" <mhocko@kernel.org>, "Qi Zheng" <qi.zheng@linux.dev>,
- "Shakeel Butt" <shakeel.butt@linux.dev>, "Lorenzo Stoakes"
- <ljs@kernel.org>, "Kairui Song" <kasong@tencent.com>, "Barry Song"
- <baohua@kernel.org>, "Axel Rasmussen" <axelrasmussen@google.com>, "Yuanchu
- Xie" <yuanchu@google.com>, "Wei Xu" <weixugc@google.com>, "Baoquan He"
- <baoquan.he@linux.dev>, "Baolin Wang" <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <liam@infradead.org>, "Vlastimil Babka"
- <vbabka@kernel.org>, "Mike Rapoport" <rppt@kernel.org>, "Suren
- Baghdasaryan" <surenb@google.com>, "Michal Hocko" <mhocko@suse.com>, "Kees
- Cook" <kees@kernel.org>, "Peter Zijlstra" <peterz@infradead.org>, "Jann
- Horn" <jannh@google.com>, "Pedro Falcato" <pfalcato@suse.de>, "Hugh
- Dickins" <hughd@google.com>, "Pasha Tatashin" <pasha.tatashin@soleen.com>,
- "Pratyush Yadav" <pratyush@kernel.org>, "Matthew Wilcox (Oracle)"
- <willy@infradead.org>, "Jan Kara" <jack@suse.cz>, "Lance Yang"
- <lance.yang@linux.dev>, "Rik van Riel" <riel@surriel.com>, "Harry Yoo"
- <harry@kernel.org>, "Alistair Popple" <apopple@nvidia.com>, "Nico Pache"
- <nico.pache@linux.dev>, "Ryan Roberts" <ryan.roberts@arm.com>, "Dev Jain"
- <dev.jain@arm.com>, "Usama Arif" <usama.arif@linux.dev>, "Kiryl Shutsemau"
- <kas@kernel.org>, "Matthew Brost" <matthew.brost@intel.com>, "John Hubbard"
- <jhubbard@nvidia.com>, "Peter Xu" <peterx@redhat.com>, "Will Deacon"
- <will@kernel.org>, "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, "Nick
- Piggin" <npiggin@gmail.com>, "Oscar Salvador" <osalvador@suse.de>, "Minchan
- Kim" <minchan@kernel.org>, "Muchun Song" <muchun.song@linux.dev>, "Xu Xin"
- <xu.xin@linux.dev>, "Chengming Zhou" <chengming.zhou@linux.dev>, "Chris Li"
- <chrisl@kernel.org>, "Kemeng Shi" <shikemeng@huaweicloud.com>, "Nhat Pham"
- <nphamcs@gmail.com>, "Youngjun Park" <youngjun.park@lge.com>, "Gregory
- Price" <gourry@gourry.net>, "Joshua Hahn" <joshua.hahnjy@gmail.com>, "Rakie
- Kim" <rakie.kim@sk.com>, "Ying Huang" <ying.huang@linux.alibaba.com>,
- "Jason Gunthorpe" <jgg@ziepe.ca>
-From: "Zi Yan" <ziy@nvidia.com>
-X-Mailer: aerc 0.22.0
-References: <20261029-fixes_core-v2-0-a64ce7f83abb@kernel.org>
- <20261029-fixes_core-v2-5-a64ce7f83abb@kernel.org>
-In-Reply-To: <20261029-fixes_core-v2-5-a64ce7f83abb@kernel.org>
-X-ClientProxiedBy: YQBP288CA0048.CANP288.PROD.OUTLOOK.COM
- (2603:10b6:c01:9d::18) To IA0PR12MB8374.namprd12.prod.outlook.com
- (2603:10b6:208:40e::7)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ai68jmAc
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 844A81F000C1;
+	Fri, 30 Oct 2026 17:20:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793380836;
+	bh=GbsNLN4nfmecZngIyVjXGY/OgjisXLgIAFbK+bDay40=;
+	h=From:To:Cc:Subject:Date;
+	b=Ai68jmAcsGR3R4yuAmGN8na3m1UHUEfVlUVHoKW5oJOZjthoMCQoSthFsmWyG2Xc2
+	 Rzl+qINxfBSJdOvohOvTximqmIZxlZLPWBqMKN5Z7vo+lRSmEQxtIWWgfxvTXJTiWi
+	 Zw2p3abMwHM09cLRZiay5DzsXNonbBk3CXS77M/tzI7RSogcLB+TJg6YZ6oMbghYuY
+	 L3oOJhhfFMEYITywSjTrKIiUxUmz/P5fzulYGNzykiJEXgM2+GXN88qszjauR0yPHQ
+	 2smSwB5PUb9L7RRzc2Fvpb6KqqhYvKPmw/uBMcOb8NEe0qHA2BHXG/uhhNRr6y0Kmu
+	 OvnFdD3Q+Dukw==
+From: Christian Brauner <brauner@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Christian Brauner <brauner@kernel.org>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [GIT PULL for v7.4] vfs fixes
+Date: Fri, 30 Oct 2026 18:20:21 +0100
+Message-ID: <20261030-vfs-7.4-rc1.fixes-92f660b23a8a@brauner>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -130,124 +58,469 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|SA3PR12MB8047:EE_
-X-MS-Office365-Filtering-Correlation-Id: 79cefca3-0ccd-4580-8f49-08df36a97223
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|1800799024|23010399003|366016|921020|4143699003|56012099006|11063799006|261009223027099003|261026140227099003|261026121527099003|261022105027099003|261021123027099003|261028144727099003|261021121427099003|10067099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	hF+tC7yRsSx1Z+i32+U14mF8hMSFMJmFFAON7ZIQRb2FK3FDmXWwaGTUxtRBP+gPUIG6fKgBDqxqnlvWs2IbjnVmGxbzLL3pS66tbkS/lOw6+Hc6/wxyS6XiVnZoGxbOzQdDS4Q5GQuTIts2Fbg9C/ZhwAzKnkBHJhefhoHBb4illIUZ36pyqoFiaMiw6TFV27lUqQf0jVgSapBsG70keI0+yB//I+EQRJ3cukt3FYZz23aBdVrzwObLwllhsYGTFiZZzNrryjWFinVzfkWvMNr6wPaQUL3DF+mR2Tkx+T4CvWDTbwhn+Q6F0Jy9KDW5wS+rt8x+aaz634RjEwCgzuSfQ6NJ9Y8/BQ2DJOQFolqIRvUMa5Uf//EKv3aVXHEeYh7nzS2Kwf1LSapzVZ+Sl2reeFnxPkyXWnEPdG4j+CTfjBQYD2ckGukEOWonzaU8lPcQ6u1I7ep1W2xU9ofuMwqHz7E64TA9NfFM9kCrNfMWv8sgTpXLlzmNUCo9VlIwDubcrqnxbPYLTsyHAJOsqTM/3o5AhKYHqBGz5ZZd4tZuhDd93e7VkS8xY1z1wObipR+fC69eesYguCVDgzBxhOLFWIS1CU+o/S+/O8l9sKrQGmJ6DfeI78ohJKRfPUqs96M920NvGUIQN6MbqyMIyAE4bfILnprw2a6BOdCEZa+Od83FI87TuJOIRfwLqnnOyTQVfvu4rHd+8hONj+hrPA==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(23010399003)(366016)(921020)(4143699003)(56012099006)(11063799006)(261009223027099003)(261026140227099003)(261026121527099003)(261022105027099003)(261021123027099003)(261028144727099003)(261021121427099003)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?eWFjTndzY3BuM1ZEM05EWEVZcUFzeXB4aE9PNjlYWEdzRVVjMC9YS1o3MWZl?=
- =?utf-8?B?YzZPcHJaditldVJhM04wNEpzci9ESTZ2VWx4MG14d0xxb0ovL0xwa2h2SzFM?=
- =?utf-8?B?QTIvNDRUOHI5STNIU1dVZGdWZ1NPWGpRelZCaTE4MVNENDRSczBJRFc1eXRF?=
- =?utf-8?B?anFPMkNQVmtuQmpFcTB1UjVUajhuYlFHSkpyVzZvQVpIaVk3dE01YUZ4V1ds?=
- =?utf-8?B?S0FtMGlKSFc3alRPWm9GT3VWZyt2NGxXNVc3Ykl1bVcrcXp0MERNd0RlNTNl?=
- =?utf-8?B?czlIbmpsWUpWNWdqSzMzWFZvYW1VRzhnR0I5WTJEa2J0Y2hnbnI4OFY5WElW?=
- =?utf-8?B?R00xSmU0Y3VTUm45WFRQbjh3Y3pBbUJjRFh3YUhhSk1pM05wSklMWml4Um9Z?=
- =?utf-8?B?cWdIaHhQNVplSi96aEd3bWZWOS96TFNUVkhFajhmM3o4NWZRVVRGaVFiajBQ?=
- =?utf-8?B?dGZXSFU1d2NmYW5HVitpMVBtSnNUaUJpQ0REczBIYUVRSE9rVzZxNUNPTlc4?=
- =?utf-8?B?V0lDdjV4QzJIL0hTNVA2WXhxYzN0N1h1THZQZDNZdVM0UmphdURmRlNIcWlx?=
- =?utf-8?B?VFpzbHNrdnJCWU5TaG1Jc0pKTnhXQ1JZQ1FBR2JhM1RiNkxJY1ZhUDNHNUlm?=
- =?utf-8?B?VEhFSXhuMUx6U1Q1S0RUVDAzd082dHhteUpSd29TZlJ2dlFScS9zSG1wcUs1?=
- =?utf-8?B?Q0tYNVYrK21QWFM0eit3eElic05sY3BvcUFVR0hUUHpjWVkvNnRMMHBlU05Y?=
- =?utf-8?B?Z3NwMjdGYjBrc0pTZ1U1OUZ1RXFYOVpObTBVdVl6bjJZOHhFUTVNQ1ZwaVRx?=
- =?utf-8?B?ZU4xMlZuenFMQXpyWXljNTBYendFaVJrYTF2TXdKVzVSM21GMHRVY3plZ29S?=
- =?utf-8?B?Z3dKTVJlb1FNenpjaHhWWHhxRXI1TG41UHI3amk1UmFvTUNGcTNRTkNqNzI5?=
- =?utf-8?B?aDI1aHlLZHRaTENJUmZDY2xsM0ZXaXJCRk9uQnN2djM3RWVpY0QrTDZNZi9K?=
- =?utf-8?B?NmtKaGZiYVdFRm5jcnZIRjByMnZYVVBLNU13UXQwL29jUG5FZ2NoVTkwb09y?=
- =?utf-8?B?OW1PV0loUWQrWlp4TFNjZVlveGg4WExRQmk0b1gxbEtrdHZsajdjR3VZVTBl?=
- =?utf-8?B?T1VhUGhkNjBkeFg3c1hGVlFBZ2l0d05kOWVtTk1vRFZkazBPeTVMUEFnNmFt?=
- =?utf-8?B?LzJlNUYyQ1h4L3ZaaFVwSXRtbnZHTFJPL00xd2c2ZjRFbm9UaVZIN01ubzYz?=
- =?utf-8?B?UkVhZ1hUbkRwd1g0dUFKWGZ2N1V6cFVTR0FIZ011QmROMXdUK2wwQ3MwWHk3?=
- =?utf-8?B?NmJnQnd2UURKNG5reGpyeDkvaWNHR3pKbWsvQmRJbHU1UzR5K3RzbFFRMlhB?=
- =?utf-8?B?aXl6Ukk5dHlhVi9GT2kyNHJvMHlxSXZFMGtKN2FJQXlHYkRTNEt4L2Q4emNo?=
- =?utf-8?B?TVNkOEtaRzh6TnJianRqb205UHR4aklGWFhWS1Vsc00zNDBsZVRGTmk0QmdD?=
- =?utf-8?B?ZHpPRDN4VUlOSVltb21ITUdBYUpUWHNQODM2T1RLQjNuZUFRQTFHaEl0aFd5?=
- =?utf-8?B?QkUxT0VUazZBOU1kVU1Ec3lXZmNyQ2RTMEM3WVY1dXR5QzNJbUdadWxjc2RO?=
- =?utf-8?B?blpFaXBtM2xQbk5PVmhmYmdwclRwaHZpcUYrOHJQT3ZBWm5taUhFREVkZk1T?=
- =?utf-8?B?R3BOLzFOU0FpNlBPQ1kzYXJoczlXYVQ3cXcyTUQ0aDREWUV0a3pmaE9oNkZl?=
- =?utf-8?B?ZFA5YmhNNkcwTGhUNk42OFR3aDl6UDZhVmI3K1ZsTHRBa2RKTGV0RXBQZGk0?=
- =?utf-8?B?SEJ4Zm9mWGFvVGpDUkg0ZzBVSk5jY1hTMi9MTDFpZG0xYjdEcVhJZ21KMjFM?=
- =?utf-8?B?U05hNEhQbW1uWUpVR2hXLzNhSWJWdC85UGFYTzNxNWFzL200ZVRhVXFlMjJ4?=
- =?utf-8?B?WDlFU292d2g1M24xMW9sRk1OOE9oMHBKUGxyVjlPRGFVUHgrcmtwSjRZK2Zx?=
- =?utf-8?B?VU16bEFvZk02ckZKVEo3dytLSkNBekZuQWt3RDVYMXpLRkZyclRYK2hWc21D?=
- =?utf-8?B?TzJlVzhjckZ2UmdWZjF5QTBkdG9ycXBOSWsyQ2dMQnp5aXU2cTNSemp0NlAw?=
- =?utf-8?B?cUErTk40NUt6aTNYRnNkVmRwNDNSZnRqbVYrMCtwVERVMWV3REg5WjRLY0xZ?=
- =?utf-8?B?RnFIdy9zdzRIeUdEVHF3aHlXUjhFYWZtTk5PcTBSU3N5VU5ydXFHV3ZOSkR5?=
- =?utf-8?B?SFh1VTJrQVpDeS9nSk1WUjg5SHdUa2J5TzJ3TTJkWWFyNUowQktSNGR5ZElH?=
- =?utf-8?Q?v077EA3heQG3+i51gM?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 79cefca3-0ccd-4580-8f49-08df36a97223
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2026 17:15:50.4055
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: aX4zk400flKWjrO1eitTIt2cgIoUwMZ1IWQjJxTUnQhomGQP8f/wWP+rE0gaAaFs
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB8047
+X-Developer-Signature: v=1; a=openpgp-sha256; l=20441; i=brauner@kernel.org; h=from:subject:message-id; bh=Nv4CqPVU9hkel5IUyOxd1XjMaL4tjUy1BYtRbcPA4Ec=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQ9uXjD6dnsY11Tzl2xTJmgxcMdlf81uuTVmZIoqUk7o uZXvGJV6yhlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZjIKkdGhoadi+Zd+/jlRbYg 4w+hqo/hKx/unFzgMO8q210ZId3l/OyMDAdyXENX2N0rWS/mHN66dLb76br3W5aGF1n7hbUeubL 0ITsA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-On Thu Oct 29, 2026 at 4:33 PM EDT, David Hildenbrand (Arm) wrote:
-> invalidate_inode_pages2_range() skips a folio which no longer belongs to
-> the mapping by the time it has got the folio lock, on the assumption
-> that somebody else has removed it from the page cache. But the folio may
-> have been replaced, and then there is a new folio with the same data at
-> that index.
->
-> For most cases, like folio migration, that is impossible. However,
-> collapse_file() only checks the refcount of the old folios, under the
-> i_pages lock, and relies on their folio locks from there on. That works f=
-or
-> users which repeat the lookup when they find folio->mapping changed.
-> The following scenario is, however, possible:
->
->   CPU0 pwrite(O_DIRECT)               CPU1 collapse_file()
->   kiocb_invalidate_pages()
->                                       read the folio (old data), lock it
->                                       refcount check
->   the write completes                 copy to new_folio
->   kiocb_invalidate_post_direct_write()
->     find_get_entries() -> old folio
->                                       xas_store(new_folio)
->                                       folio->mapping =3D NULL
->                                       folio_unlock(folio)
->     folio_lock()
->     folio->mapping !=3D mapping
->       -> continue
->
-> In that scenario, the collapsed folio with the data from before the write
-> stays in the page cache after the write has returned.
->
-> This used to be impossible, as khugepaged only collapsed files that nobod=
-y
-> had open for writing.
->
-> Restart the lookup at that index, like shmem_undo_range() does. The same
-> problem seems to exist in truncate_inode_pages_range() as well when
-> truncate_inode_folio() fails, so handle it there as well, but slightly
-> differently: simply check once more through find_get_entries().
->
-> Fixes: 1b6444331beb ("mm/khugepaged: enable clean pagecache folio collaps=
-e for writable files")
-> Cc: stable@vger.kernel.org
-> Reported-by: Josef Bacik <josef@toxicpanda.com>
-> Reviewed-by: Rik van Riel <riel@surriel.com>
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
-> ---
->  mm/truncate.c | 13 +++++++++++--
->  1 file changed, 11 insertions(+), 2 deletions(-)
->
+Hey Linus,
 
-Reviewed-by: Zi Yan <ziy@nvidia.com>
+As is the new normal, this is larger set of fixes for this cycle. I have
+a bunch of fixes in the pipeline but no need to delay the current set
+any longer than necessary.
 
---=20
-Best Regards,
-Yan, Zi
+/* Summary */
 
+- writeback:
+
+  * Update dirtied_when instead of dirtied_time_when when a wb switch
+    puts an inode at the newest end of the target b_dirty list. The list
+    was left out of order so move_expired_inodes() could stop before
+    older inodes, and the lazytime expiration timestamp was reset.
+
+  * Clear the old wb's dirty-I/O state and bandwidth contribution when a
+    batch of inode switches leaves its dirty lists empty. An empty wb
+    stayed scheduled for periodic writeback and inflated
+    bdi->tot_write_bandwidth.
+
+  * Take wb_switch_rwsem across the inode scan of
+    cleanup_offline_cgwb(). The v7.3-rc5 fix that rotates scanned inodes
+    let a scan racing a sync()'s queue_io() move lazytime inodes past
+    the sync's cutoff, so sync() returned without persisting their
+    timestamps.
+
+  * Don't kick writeback for an IOCB_DONTCACHE write on an inode that
+    has no wb yet. With cgroup writeback an O_DIRECT RWF_DONTCACHE write
+    to a block device dereferenced NULL.
+
+- statmount/listmount/listns:
+
+  * Refuse statmount() string requests with a buffer that isn't larger
+    than struct statmount.
+
+  * Don't wrap around with a U64_MAX cursor in listmount() and listns().
+
+  * Don't end listns() at an inactive namespace.
+
+  * Only add init_ipc_ns and init_net to the namespace trees if
+    CONFIG_IPC_NS and CONFIG_NET_NS are enabled.
+
+- iomap:
+
+  * Only mark blocks uptodate in __iomap_write_begin() after reading
+    them and let __iomap_write_end() mark the zeroed blocks uptodate
+    once the copy from userspace succeeded.
+
+  * Check a chunk against max_integrity_io_size() on its own before the
+    bio size check.
+
+  * Only enforce block alignment for direct I/O into holes and
+    unwritten extents if IOMAP_DIO_FSBLOCK_ALIGNED is set.
+
+- backing-file:
+
+  * Check S_APPEND and S_IMMUTABLE on the backing inode. FUSE
+    passthrough opens the backing file with vfs_open() which skips
+    may_open(), so anyone who may open the FUSE file for writing could
+    overwrite an append-only backing file anywhere or write to an
+    immutable one. Open, mmap and writes now check the backing inode
+    the way may_open() and do_mmap() do.
+
+  * Always call kiocb_end_write() for a queued write
+
+  * Let backing files inherit FMODE_NONOTIFY from the user file. The
+    event fds fanotify creates for permission events on a stacked
+    filesystem raised FS_OPEN_PERM on the real path from inside the
+    listener's read() and deadlocked listeners with marks on both
+    layers.
+
+- pidfs:
+
+  * Look the task up before checking for exit information in
+    PIDFD_GET_INFO and start over if the task no longer owns the pid
+    once all fields have been read. A caller racing release_task() got
+    neither PIDFD_INFO_PID nor PIDFD_INFO_EXIT or ESRCH although the
+    exit information was available, and a caller racing a sub-thread's
+    exec reported that thread's tid as the pid.
+
+  * Clear the mask bits of fields that lie beyond the struct size the
+    caller passed. The uapi header promises that the mask names no such
+    field but a caller passing PIDFD_INFO_SIZE_VER0 got the coredump and
+    supported mask bits set for fields that were never written.
+
+- aio:
+
+  * Give the aio ring a ->read_folio that fails with EIO so a fault on a
+    ring whose file was truncated gets SIGBUS instead of jumping to
+    NULL.
+
+  * Check nr_events against the ring size before doubling it in
+    ioctx_alloc().
+
+- splice:
+
+  * Only write back an implicit file position in do_splice() when the
+    splice helper succeeded. splice doesn't take f_pos_lock so a failed
+    splice restored a stale snapshot over a position that a concurrent
+    getdents() had moved. On ext2 the next readdir then trusted an
+    offset inside a directory entry.
+
+  * Retry tee() when the input pipe was emptied or the output pipe
+    filled between the prep steps and link_pipe() instead of returning 0
+    while the input pipe still has writers, as splice_pipe_to_pipe()
+    does.
+
+- ucount:
+
+  * Take the reference that pins a ucounts level on the 0 -> 1
+    transition before checking the rlimit.
+
+  * Read the parent ucounts before dropping the rlimit count in
+    do_dec_rlimit_put_ucounts().
+
+- inode:
+
+  * Rotate inodes whose page cache couldn't be dropped to the tail of
+    the LRU.
+
+  * Skip inodes that another LRU walker is isolating.
+
+- setns:
+
+  * Set nsset->flags before anything in prepare_nsset() can fail so the
+    error path drops the cred prepared for CLONE_NEWUSER. A failing
+    setns() with CLONE_NEWUSER and CLONE_NEWNS leaked it together with
+    its user namespace.
+
+  * Refuse setns(CLONE_NEWNS) for a task that shares its fs_struct again
+    when more namespaces are requested.
+
+- minix:
+
+  * Restore uptodate on the pinned bitmap buffers before redirtying them
+    after a failed writeback instead of tripping the warning in
+    mark_buffer_dirty(), as ext2 and ext4 do for their superblock
+    buffers.
+
+  * Reject rmdir() of a directory with a corrupted link count with
+    EFSCORRUPTED instead of hitting the drop_nlink() warning.
+
+- userns: Keep the exec securebits and their locks when creating or
+  joining a user namespace. set_cred_user_ns() reset all securebits to
+  SECUREBITS_DEFAULT so anyone who may create a user namespace could
+  shed SECBIT_EXEC_RESTRICT_FILE and SECBIT_EXEC_DENY_INTERACTIVE with a
+  single unshare(CLONE_NEWUSER).
+
+- fs: Honor FOP_UNSIGNED_OFFSET in sys_llseek() and in the pread64(),
+  pwrite64(), preadv() and pwritev() wrappers.
+
+- proc/kcore: Advance the vmalloc retry in read_kcore_iter() by the
+  last vread_iter() copy instead of the running total.
+
+- eventpoll: Return the error when the wakeup source for EPOLLWAKEUP
+  can't be created in EPOLL_CTL_MOD instead of reporting success
+  without suspend protection.
+
+- coredump: Mark do_coredump() noinline_for_stack.
+
+- nsfs: Check the trailing bytes of a namespace file handle in bytes
+  instead of words.
+
+- netfs: Restore the per-level and per-point decoding of the debug
+  mask.
+
+- exportfs: Release the directory file get_name() opened with
+  __fput_sync(). From nfsd's kernel threads the deferred fputs arrived
+  faster than delayed_fput retired them and each pinned the directory's
+  readdir state, growing unreclaimable slab by about 90 MB per second
+  under a parallel tree walk.
+
+- fs: Call ramfs_kill_sb() for a ramfs rootfs. Since rootfs can be
+  unmounted as of v7.0 its struct ramfs_fs_info was leaked.
+
+- signal: Check the blocked mask for every entry
+  dequeue_synchronous_signal() looks at. The scan could select a blocked
+  synchronous signal and deliver it while blocked.
+
+- super: Convert the superblock device table from an rhltable to a
+  plain hashtable under a spinlock. This fixes a bug from v7.3 where
+  fs_bdev_freeze() froze a btrfs filesystem through a stale member that
+  open_ctree() had already released while the freeze was waiting for SB_BORN.
+
+- fork: Leave rcu_users at zero until copy_process() can't fail anymore.
+  bpf_task_acquire() handed out trusted references to the new task from
+  the task_alloc LSM hook and sched_ext's ops.init_task() and a failing
+  fork freed the task behind them.
+
+- xattr: Always run cap_convert_nscap() for a security.capability write.
+  A zero-length setxattr() skipped it and let an unprivileged caller
+  without CAP_SETFCAP or write permission on the file plant an empty
+  security.capability xattr that made every execve() of the binary fail
+  with EINVAL.
+
+- namei: Skip the S_ISDIR assertion in
+
+- proc: Refuse to mount on entries below /proc/<pid>/net like fd/,
+  fdinfo/ and map_files/. proc_net_d_revalidate() always fails so the
+  first lookup by anyone with search permission ran d_invalidate() on
+  the dentry and detached every mount on it, locked mounts included.
+
+- libfs: Hold one mount reference for all pins instead of one per pin.
+  The pin count is what keeps the mount alive, so the per-pin reference
+  only cost a mntget() and a mntput() through
+  mntput_no_expire_slowpath() for every debugfs, tracefs, securityfs or
+  configfs file that comes and goes.
+
+- iov_iter: Return 0 from iov_iter_alignment() for an empty iterator of
+  any type.
+
+- watch_queue: Give info_id its own storage instead of overlaying it
+  with rcu_head.
+
+- filelock: Take an active superblock reference while waiting for a
+  delegation break. After a lazy umount closing the delegation holder
+  could shut down the superblock under the waiter whose final iput()
+  then ran shmem_evict_inode() on freed state.
+
+- fs: Skip the copy_file_range() write limit checks when there is no
+  data to copy.
+
+- bpf: Allow bpf_d_path() from fentry on filp_close_sync(). Since
+  close_range() became synchronous this cycle close(), close_range()
+  and the closes on exec and exit no longer go through filp_close().
+  fexit stays rejected since the file may be gone by then.
+
+- fs_pin: Dequeue the wait entry unconditionally in pin_kill(). A
+  spuriously woken waiter kept its on-stack entry queued, took that as
+  proof that the pin was alive and used the freed acct structure when
+  umount() of the accounting file raced acct(2).
+
+- dcache: Don't fail __d_obtain_alias() for an inode without links and
+  aliases. The ESTALE check added this cycle broke open_by_handle_at()
+  and nfsd file handle decoding on NFS and FUSE where i_nlink is just
+  what the server last reported and the handle may well still be valid.
+
+- selftests/ovl: Fix the mountinfo expectations of the detached layer
+  test which has failed since it was added.
+
+/* Conflicts */
+
+Merge conflicts with mainline
+=============================
+
+No known conflicts.
+
+Merge conflicts with other trees
+================================
+
+No known conflicts.
+
+The following changes since commit 7be4bc52fd9e0e55dc9a2e0232b89427d2c4b614:
+
+  Merge tag 'driver-core-7.4-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core (2026-10-21 18:53:14 -1000)
+
+are available in the Git repository at:
+
+  git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.4-rc1.fixes
+
+for you to fetch changes up to a522dd871024a0f065bfa7638afdb929607f58fc:
+
+  fs: don't fail __d_obtain_alias() for unlinked inodes (2026-10-30 17:18:39 +0100)
+
+----------------------------------------------------------------
+vfs-7.4-rc1.fixes
+
+Please consider pulling these changes from the signed vfs-7.4-rc1.fixes tag.
+
+Thanks!
+Christian
+
+----------------------------------------------------------------
+Amir Goldstein (2):
+      selftests/ovl: fix detached layer mountinfo expectations
+      fs: don't fail __d_obtain_alias() for unlinked inodes
+
+Arnd Bergmann (1):
+      coredump: reduce stack usage in vfs_coredump
+
+Avi Weiss (1):
+      signal: skip blocked signals in dequeue_synchronous_signal()
+
+Chris Mason (3):
+      aio: fix NULL deref when a fault races ring truncation
+      iov_iter: fix NULL deref in iov_iter_alignment()
+      backing-file: always end a queued write
+
+Christian Brauner (23):
+      Merge patch series "writeback: fix timestamp and dirty-state handling in wb switches"
+      Merge patch series "fs: honor FOP_UNSIGNED_OFFSET in llseek and positional I/O"
+      selftests/filesystems: add a test for freezing a shared block device
+      super: convert to plain hashtable
+      Merge patch series "super: convert to a plain hashtable"
+      statmount: don't copy the reserved empty string past the buffer
+      selftests/filesystems: check short buffers for statmount() strings
+      listmount: don't wrap around with a U64_MAX cursor
+      selftests/filesystems: check listmount() with a U64_MAX cursor
+      listns: don't wrap around with a U64_MAX cursor
+      selftests/namespaces: check listns() with a U64_MAX cursor
+      Merge patch series "fs: fixes for statmount() short buffers and listmount()/listns() cursors"
+      iomap: don't mark unwritten parts of a folio uptodate
+      Merge patch series "iomap: fixes for short copies and integrity bio sizes"
+      userns: don't drop the exec securebits
+      selftests/exec: check that user namespaces keep the exec securebits
+      Merge patch series "userns: keep the exec securebits"
+      proc: don't let an entry below /proc/<pid>/net be a mountpoint
+      libfs: hold one mount reference for all pins
+      backing-file: enforce append-only and immutable backing inodes
+      Merge patch series "fs: fixes for aio rings, backing files and iov_iter_alignment()"
+      Merge patch series "pidfs: do not report fields that do not fit into the caller's struct"
+      ns: don't add init_ipc_ns and init_net without namespace support
+
+Chuck Lever (1):
+      exportfs: Release the get_name() directory file synchronously
+
+Daehyeon Ko (1):
+      splice: avoid stale f_pos writeback on error
+
+Dominik Maier (1):
+      xattr: always invoke cap_convert_nscap() for security.capability writes
+
+Edvard Conrad (1):
+      fs: let backing files inherit FMODE_NONOTIFY from the user file
+
+Hungyu Lin (1):
+      fs: skip copy_file_range write limits when there is no data
+
+Ihor Solodrai (1):
+      bpf: Allow bpf_d_path() from filp_close_sync()
+
+Jan Kara (1):
+      aio: avoid request count overflow in ioctx_alloc()
+
+Josef Bacik (7):
+      writeback: don't kick a missing wb for dontcache writes
+      fork: Let nobody keep a task that may not come to life
+      iomap: keep large chunks from defeating the bio cap
+      namei: don't assert S_ISDIR on a stale rcu-walk inode
+      mount: refuse setns() with a shared fs_struct again
+      nstree: don't end listns() at an inactive namespace
+      pidfs: don't let PIDFD_GET_INFO miss a reaped task
+
+Julian Sun (2):
+      writeback: reset dirtied_when when switching wbs
+      writeback: clear old wb dirty state after inode switches
+
+Karl Mehltretter (2):
+      netfs: Restore selective debug mask handling
+      fs: fix ramfs_fs_info leak when rootfs is unmounted
+
+Liz Fong-Jones (1):
+      writeback: keep cleanup_offline_cgwb()'s scan out of syncs
+
+Nguyen Ngoc Thang (1):
+      minix: reject rmdir of a directory with a corrupted link count
+
+Nickolai Zeldovich (9):
+      proc/kcore: advance the vmalloc retry by the last copy, not the total
+      nsfs: check the trailing bytes of a file handle in bytes, not words
+      nsproxy: Fix cred leak in the error path of prepare_nsset()
+      ucount: take the rlimit reference before checking the limit
+      pidfs: do not report fields that do not fit into the caller's struct
+      selftests/pidfd: test that fields beyond the struct size are not reported
+      splice: retry tee() instead of returning 0 when it races
+      ucount: read the parent ucounts before dropping the rlimit count
+      fs_pin: do not trust the pin after a spurious wakeup in pin_kill()
+
+Nikolaos Karaolidis (2):
+      fs: rotate inodes whose page cache could not be dropped
+      fs: don't lose inodes that another LRU walker is isolating
+
+Qu Wenruo (1):
+      iomap: only follow dio alignment requirement if specified
+
+Sanan Hasanov (1):
+      minix: restore uptodate on bitmap buffers before redirtying them
+
+Stian Halseth (2):
+      fs: fix llseek() result for files with unsigned offsets
+      fs: allow positional I/O on files with unsigned offsets
+
+Tianyi Chen (1):
+      eventpoll: propagate wakeup source creation failure in ep_modify()
+
+Zhao Gongyi (1):
+      filelock: keep superblock active through delegation wait
+
+Zhiyu Zhang (1):
+      watch_queue: keep info_id separate from rcu_head
+
+ Documentation/userspace-api/check_exec.rst         |   4 +
+ block/bdev.c                                       |   2 +-
+ fs/aio.c                                           |  16 +-
+ fs/backing-file.c                                  |  44 +-
+ fs/coredump.c                                      |   6 +-
+ fs/dcache.c                                        |  19 +-
+ fs/eventpoll.c                                     |  18 +-
+ fs/exportfs/expfs.c                                |   6 +-
+ fs/fs-writeback.c                                  |  18 +-
+ fs/fs_pin.c                                        |  15 +-
+ fs/inode.c                                         |  15 +-
+ fs/internal.h                                      |   1 -
+ fs/iomap/bio.c                                     |   2 +-
+ fs/iomap/buffered-io.c                             |   3 +-
+ fs/iomap/direct-io.c                               |  26 +-
+ fs/iomap/internal.h                                |   9 +
+ fs/iomap/ioend.c                                   |   3 +-
+ fs/libfs.c                                         |  12 +-
+ fs/minix/bitmap.c                                  |  26 +-
+ fs/minix/namei.c                                   |   4 +
+ fs/namei.c                                         |  10 +-
+ fs/namespace.c                                     |   9 +-
+ fs/netfs/internal.h                                |  32 +-
+ fs/nsfs.c                                          |   4 +-
+ fs/pidfs.c                                         |  51 ++-
+ fs/proc/generic.c                                  |   5 +-
+ fs/proc/kcore.c                                    |   8 +-
+ fs/read_write.c                                    |  46 +-
+ fs/splice.c                                        |  55 ++-
+ fs/super.c                                         | 332 ++++++--------
+ fs/xattr.c                                         |   2 +-
+ include/linux/filelock.h                           |  13 +-
+ include/linux/fs.h                                 |   4 +-
+ include/linux/fs/super_types.h                     |  11 +-
+ include/linux/iomap.h                              |   3 +-
+ include/linux/watch_queue.h                        |   6 +-
+ init/do_mounts.c                                   |  10 +-
+ ipc/namespace.c                                    |   7 +
+ ipc/shm.c                                          |   2 -
+ kernel/fork.c                                      |  12 +-
+ kernel/nsproxy.c                                   |   2 +-
+ kernel/nstree.c                                    |  80 ++--
+ kernel/signal.c                                    |   5 +-
+ kernel/trace/bpf_trace.c                           |  15 +-
+ kernel/ucount.c                                    |  28 +-
+ kernel/user_namespace.c                            |   5 +-
+ kernel/watch_queue.c                               |   2 +-
+ lib/iov_iter.c                                     |   4 +
+ net/core/net_namespace.c                           |   4 +-
+ tools/testing/selftests/Makefile                   |   1 +
+ tools/testing/selftests/bpf/prog_tests/d_path.c    |   7 +-
+ tools/testing/selftests/bpf/progs/test_d_path.c    |   2 +-
+ .../testing/selftests/bpf/progs/verifier_d_path.c  |  21 +
+ tools/testing/selftests/exec/check-exec.c          |  83 ++++
+ .../selftests/filesystems/freeze/.gitignore        |   2 +
+ .../testing/selftests/filesystems/freeze/Makefile  |   7 +
+ tools/testing/selftests/filesystems/freeze/config  |   4 +
+ .../selftests/filesystems/freeze/loop_util.h       |  64 +++
+ .../filesystems/freeze/shared_bdev_test.c          | 479 +++++++++++++++++++++
+ .../filesystems/overlayfs/set_layers_via_fds.c     |  18 +-
+ .../filesystems/statmount/listmount_test.c         |  11 +
+ .../filesystems/statmount/statmount_test.c         |  61 ++-
+ tools/testing/selftests/namespaces/listns_test.c   |  34 ++
+ tools/testing/selftests/pidfd/pidfd.h              |  16 +
+ tools/testing/selftests/pidfd/pidfd_info_test.c    |  48 +++
+ 65 files changed, 1462 insertions(+), 412 deletions(-)
+ create mode 100644 tools/testing/selftests/filesystems/freeze/.gitignore
+ create mode 100644 tools/testing/selftests/filesystems/freeze/Makefile
+ create mode 100644 tools/testing/selftests/filesystems/freeze/config
+ create mode 100644 tools/testing/selftests/filesystems/freeze/loop_util.h
+ create mode 100644 tools/testing/selftests/filesystems/freeze/shared_bdev_test.c
