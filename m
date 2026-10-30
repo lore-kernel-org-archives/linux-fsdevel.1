@@ -1,48 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793376928;
-	b=LtxTy/APhzMqFzEBuPGKuXkMgRh5BYk2FtKOQ35tu7s6DyhMDpsC/4oCDXvGnniVM3jj
-	 3j0ZKmXdUsEIwjaQimP3eo08VajaOOU15ZLCIgdv1oUeP2DRNVGSbfFB55LpJdUtbrfvQ
-	 LXft7uJBB8MtjKTIAxStkfq+HOWrgLpNvMbEZa5ZW0LFC1URI3js5W0cD6lssKVOmk4dQ
-	 lY6lrCAWtE8DinUyHIvcjJaPW1mGvTy3ktJrhu1VIPFwlTwY0l2GmqpeYeethoV70GbdS
-	 XdsdnqiFgIxD8SYaVrrqOdhnuIHLBOBPuOvu/PHrlHEdHWGxb2JAF81+6j5igHGWwqw==
+	t=1793377085;
+	b=E4rcz/85jlCWvPv4nWu1H9Ko3FnJCF3ZD8xbnOLjuwJJt1SPEMQjZWB7EYM2QmOfi8tc
+	 HlHFqcsM6kF+2mnxcbeX9QFYgpELsUvrwzt6a03n0hCSS+46UiyRRwHf8LNv67oKCzLOm
+	 jkAvC/U6R/5M3xunRQPuXoEFAkkwgu4fh3ffbMYvvRZF7HtMzF3xeBcb3gSeKEh+9DWSD
+	 aY69c9bRYwXpw8+B1yEMWDsxeCzzhVfPhICRL+csS8SqE/D9tA9HqQUf0sfwx9fZy3fp3
+	 wafdEnunj+GoMXq9VYSPvBiYasZgpDzuNbTI4o6eYwG4wCWd/1Hj9zXXPblD4vmrQMQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793376928;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=wjI02aEekAmmKt1UVJ6rqLVVhG81TsTdYiaIhoUVoAg=;
-	b=0Ka1icg0Jffatv9z5AfyriS0zOi+Hcuk61vTqmTzysz2evmpMG4ud71Gb6ZqK5Sux2J5
-	 x3OPrtQPw777ed/I5bYR0ijLU8hDX1pRD6FNl/dohOWeDB3/hPcf6uMg5SjdOw+YsML/q
-	 o8LnbFKz0lamfJHgCFeXgjUCJ9e/w9T11x4lEKh4DeS2BaXrDa7eZbU0aaeSnt2GdofjQ
-	 wfAhRIN1ZaG2Fug0SQ+A4WOe+W5UKMIGSIlmXHyRLTLj2AmqJi5KCbuYrpTqrgNwY0Kul
-	 XjpQopBb3/D9R67Aw7IfrXu8ysNferYY2mASoZBgUaa7vr2AuEIxlIlpu6oxb0YpA2A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793377085;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer;
+	bh=ZDNHG8v8zk9WmJP9GH0iqpZHJN79nd4ttmjK0fCFWyk=;
+	b=g+oShhIcx4+U1ExFeVr5j6GsJYo/5175aWY+N0Qql8HHioXVHRwHEe3iC84M4dfssZda
+	 obYJcr917EMqxlx8qpQK2gz6Zg5gbf8u7+NRPVn+gQRKKkC8jFP8TDYs66i/b3FVd6OOU
+	 lkvemoU/loolHnqTI8unhr/CfvAuZl5x0EOfZ/eoGX4/i64ACe/9adlGB46m0abNEI9qz
+	 DmPAq0jZQF447eAu80uooril0wVtnabXyr1Px44juFCSIu7WFcAYsP6yymM0vRlMsXjCz
+	 YohpH8YBaKYFUXPqp0Z7xwbc+qQE9YZzTh+sMbj0g4yHl9vqfhYqGu9+Lvj9pjBAPeQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PXaTnVgz;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eWb9BuFd;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 290AB606A31C;
-	Fri, 30 Oct 2026 16:15:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A3F3606A31C;
+	Fri, 30 Oct 2026 16:18:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PXaTnVgz
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E8EC1F000C1;
-	Fri, 30 Oct 2026 16:15:25 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eWb9BuFd
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85BF71F000C1;
+	Fri, 30 Oct 2026 16:18:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793376927;
-	bh=wjI02aEekAmmKt1UVJ6rqLVVhG81TsTdYiaIhoUVoAg=;
-	h=From:Date:Subject:To:Cc;
-	b=PXaTnVgzRMdJERdpMD7D/japujRQOqeuPx2pXYVYccyllUngpyIp8i4ubx71o7kgq
-	 fNlF+bl/bayR+D1kq6eUqxHV66JsPlYPiEPSQUWAX+SJDDcFDKmwzLgGquvGZQDfts
-	 hm42uogwf0B4yGdSzjqkImcsRJz9d0+NAF0rtfO85hDFVzW83x+am/D2ZPlUiO0XQd
-	 Yx13sfDqWsK5++XTcfpqdA0aEAvOmK6BqDcQDYu13Ul3G+0BHUq7htsHxWZfjE4kGy
-	 0FJW0UX784dCJXUqEQSRmYs682qWB+reeLS1g84J1MsyQVSPtWSSwKH7MEdKPRZYHr
-	 BRMa18Ebu00GQ==
+	s=k20260515; t=1793377084;
+	bh=ZDNHG8v8zk9WmJP9GH0iqpZHJN79nd4ttmjK0fCFWyk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=eWb9BuFdkxI1AoMZhA1RbZq7J/sUlQ18FiCmi5ShQw/WYHUb+y+CeSsSuuZqY26lW
+	 1/nv4TeLqKesyblsRXZpbD+xxPtpMZj5VfWLthnZjuelUmKZlEQu6WEnqvU/yEuZPG
+	 aJx/6bdO3sgrCSwaR2sTbIj1xu8miLdFRL6KAq72+SLi9OtLq3ycFHm/W1+MWoETdf
+	 BiZ2FQ8ok2GAmsmOv+By3+V63Vc88VU4ZRLqt/IvLJTXfIcpn8LAi97b1WifL7prbi
+	 9YPywOmhwxgnttRnNAMgV7KKwYeJOg7i6Zynast3R7X0DeM7v3UVU1gEpneK8Op02b
+	 N5ACo2z7m2LwA==
 From: Christian Brauner <brauner@kernel.org>
-Date: Fri, 30 Oct 2026 17:15:21 +0100
-Subject: [PATCH] aio: don't let exit_aio() return before complete() is done
+To: linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>
+Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+ kernel test robot <yi1.lai@intel.com>, stable@vger.kernel.org
+In-Reply-To: <20261030-work-nsfs-init_ns_tree-v1-1-7ec0adb47c54@kernel.org>
+References: <20261030-work-nsfs-init_ns_tree-v1-1-7ec0adb47c54@kernel.org>
+Subject: Re: [PATCH] ns: don't add init_ipc_ns and init_net without
+ namespace support
+Message-Id: <20261030-labil-bergab-besetzen-9a2b7d8d71ac@brauner>
+Date: Fri, 30 Oct 2026 17:18:01 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -54,84 +61,42 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261030-work-aio-exit_aio-v1-1-83942022a4c4@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWMUQrCMBBEr1L220jSBhWvIkWy6cauQiLZWguld
- zexf/OGebOCUGYSuDYrZJpZOMUC5tCAH118kOKhMLS6PRndafVN+aUcJ0ULT/caMJztRZuhs2i
- heO9MgZf/563fWT74JD/Vo7pAJ6Qwu+jHWs1BjruxbT8nce2/kQAAAA==
-X-Change-ID: 20261030-work-aio-exit_aio-bf74801d34b4
-To: linux-fsdevel@vger.kernel.org
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
- Benjamin LaHaise <bcrl@kvack.org>, Jeff Moyer <jmoyer@redhat.com>, 
- Jens Axboe <axboe@kernel.dk>, linux-aio@kvack.org, 
- Kyle Zeng <kylebot@openai.com>, stable@vger.kernel.org, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2316; i=brauner@kernel.org;
- h=from:subject:message-id; bh=iUUNZL+OIbGum+RlntuTW/ESOd0TNsln1fjEx6A9Xec=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQ9OTS7oPLEVsV97y8GbI+/Kekya1bbfTUekdZ3+Q8rJ
- kwuyd7Z2lHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRc0wM/zRmZxy4e2GH8PXt
- G68ls52y3vJ4ZaGLyrzEl7MfphYscGJl+Gf2/P3GeVcXpOi6MFSl9nClzTo4S5Rf0X+WpGlJyrJ
- P9mwA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-exit_aio() kills all contexts in one go and waits for them with a
-single on-stack struct ctx_rq_wait. The count starts at table->nr, each
-killed context drops one count in free_ioctx_reqs() and exit_aio()
-subtracts the empty slots afterwards. Whoever drops the last count
-either calls complete() or, if it is exit_aio(), skips the wait.
+On Fri, 30 Oct 2026 16:50:07 +0100, Christian Brauner wrote:
+> When CONFIG_IPC_NS or CONFIG_NET_NS are turned off we still add the
+> initial ipc and network namespace to the namespace trees. ipc_ns_init()
+> calls ns_tree_add(&init_ipc_ns) whenever CONFIG_SYSVIPC is set and
+> setup_net() calls ns_tree_add_raw() on init_net whenever CONFIG_NET is
+> set.
+> 
+> But without CONFIG_IPC_NS and CONFIG_NET_NS these aren't namespaces
+> userspace can do anything with. They don't have proc_ns_operations so
+> there's no /proc/<pid>/ns/{ipc,net} for them, nsfs_fh_to_dentry()
+> refuses them with -EOPNOTSUPP, and since ns->ops is NULL
+> __ns_tree_add_raw() doesn't add them to the owner list of init_user_ns
+> either. So they end up half registered. That's also not how we treat
+> any of the other namespace types. Without CONFIG_UTS_NS, CONFIG_PID_NS,
+> CONFIG_TIME_NS or CONFIG_USER_NS the initial namespace is never added
+> to the tree.
+> 
+> [...]
 
-With a full table skipped is zero and atomic_sub_and_test(0, ...) only
-tells us whether the count already hit zero. free_ioctx_reqs() runs from
-the percpu_ref RCU callback, so if exit_aio() is off the CPU long enough
-the last callback can have done its atomic_dec_and_test() but not yet
-called complete():
+Applied to the vfs.fixes branch of the vfs/vfs.git tree.
+Patches in the vfs.fixes branch should appear in linux-next soon.
 
-    free_ioctx_reqs()                    exit_aio()
-    atomic_dec_and_test() // 1 -> 0
-                                         atomic_sub_and_test(0) // true
-                                         kfree(table)
-                                         return
-    complete(&wait.comp)
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
-complete() then locks and writes a completion on a stack frame that is
-gone. So hold an extra count for exit_aio() itself. Then the last count
-is always dropped by exit_aio() after it waited, or by a callback while
-exit_aio() waits for it. An unprivileged user gets there with four
-io_setup() calls and an exit without io_destroy().
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
 
-Reported-by: Kyle Zeng <kylebot@openai.com>
-Fixes: dc48e56d7616 ("aio: fix serial draining in exit_aio()")
-Cc: stable@vger.kernel.org
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
----
- fs/aio.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
 
-diff --git a/fs/aio.c b/fs/aio.c
-index bf002a9d2ad7..8cf02878a3cc 100644
---- a/fs/aio.c
-+++ b/fs/aio.c
-@@ -961,7 +961,7 @@ void exit_aio(struct mm_struct *mm)
- 	if (!table)
- 		return;
- 
--	atomic_set(&wait.count, table->nr);
-+	atomic_set(&wait.count, table->nr + 1);
- 	init_completion(&wait.comp);
- 
- 	skipped = 0;
-@@ -985,7 +985,7 @@ void exit_aio(struct mm_struct *mm)
- 		kill_ioctx(mm, ctx, &wait);
- 	}
- 
--	if (!atomic_sub_and_test(skipped, &wait.count)) {
-+	if (!atomic_sub_and_test(skipped + 1, &wait.count)) {
- 		/* Wait until all IO for the context are done. */
- 		wait_for_completion(&wait.comp);
- 	}
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs.fixes
 
----
-base-commit: b44341e39d856e4cc6ad8ed94ebffd440f39846c
-change-id: 20261030-work-aio-exit_aio-bf74801d34b4
+[1/1] ns: don't add init_ipc_ns and init_net without namespace support
+      https://git.kernel.org/vfs/vfs/c/82f1c815aaef
 
