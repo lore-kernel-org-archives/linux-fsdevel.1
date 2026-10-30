@@ -1,49 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793375424;
-	b=lMMSd4fNOJhOqFGW2OtyelOMSc6mO6HW4Xhh+J55b1jPTVHWF+bbNXtF4BtWUxlrQdsm
-	 g/PG8CN6lZAZX3WOV91AAkdvvys15cviVGMXV4nSiuaYpaWjt7Cc7EC5/bWZMBEYKjvw/
-	 cBzxa0aZnhTTeUZ9Patopvhy+36mSadZriTOj6KDKZZiKE2XO9X+Pi6hQpidEc+wWg0HI
-	 7goObSE1yliIkLbH3mvEuMeUT398Yynor/do610XBCkCpsHFD2BL6gxLfvPS2AOa7HOwa
-	 ZtmJnHUmLrTaFjMTQRt2oGNKGkxnPPWLD7V/ZD1hJBqR+V7pE6hRdDEoDuWja2kk/fQ==
+	t=1793375762;
+	b=byJfrVORJCSOd2Uk4efvowEd0vpeoWg3YEyNr6b25TCoPnjNoxkIQAvJ6qrN+t5tUv9M
+	 nobjGzaCv+IQtntjrl++ja/uwMdk+qxLc3IWQtctss79/vDgbMZpGp2RRama+hxjIzIoC
+	 3Ch0Kjv86lkVPNCIpssaEfAlGhPUkqhIMVFBe8H82Tlez42V8vzw6T8gObrsXGY48A7KX
+	 cgVG8BzY3i7X0zLDdYVKsqcQmwIkyaY7afvKc3dXGyrSs5Vdmd+OIvvEpYgr2D1vi+pkZ
+	 DeRazjKhTQMhOvt/o66YHqqBpG/qRN7XG1elRtYIbw+Wzo3ElrHh7gScG7BMhZBbOew==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793375424;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793375762;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=6zs7KIdtqObt3G5F3sKpbT+49YyGEZ76NLVtZ95Ea20=;
-	b=xwuF7EBf7kKRRmyWP4PeOQHynVkRZlGZ+IfW0r9gQOryRZcHbgn8taWe6XcBa+xKBsCP
-	 YfTnlF51wRcBj7n1zxjUPlMJOQ/kAwFi1ZhbOVciuuTyKBsoYFZ5HRnjyOzWFON77tzTb
-	 m0/OWd/e3GTWa6bm12sMJJrnmyIvfmkkyQa9OEwsp29Cc/Keg9eMhGlj4vYkF4JYvAqZx
-	 PeCOvongJ4TDTWilk92LOGS4UKCbQqSsWwNts4BWBneTp523705fBX07TiBMpcu8ksylm
-	 /xAARm9flRFnlCKa46iqdeDda3UWbS1UVHJv6zN9uKQQKApTaxNaeZImus3zwGVBXcg==
+	bh=OLB/pPnAIIk2q96c36n8ii4RGtN4TNNruaHmv/xG850=;
+	b=pTibVex5AavmMsswUza0ava8G0mqVK/govL5/cNUzm9+cFSXsfx3uR5sPDnlZLCYvNoG
+	 o9LDw/xJ3opYksKH7EHk5azH1pIspeekC1I69gkQJ9ifp6pxql2s63T3gX3PBEHXAdIie
+	 G/Yu91wpv3EDaEoJ2C94Hv5qFvMRUpCvgFMwJpXwu60MkZpIxugUtV7jBVv0Qj1dud9FA
+	 kg8p5sM6laG8AnLTodNo8J+3CPKvYK5ZBPP6f+MR1uUfKr41Be3iP/tGq1ufUnwg9P8qt
+	 AMkI9wyouiedlvHaKw0kNwP+X3ZBkzNeS7iW0p0HeKpZvBLOHmPa1gPcvzwTJRWnT3Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Il8+Wfdf;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gu+NrYjv;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6472C606A31C;
-	Fri, 30 Oct 2026 15:50:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10C73606A31C;
+	Fri, 30 Oct 2026 15:56:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Il8+Wfdf
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B12171F000C1;
-	Fri, 30 Oct 2026 15:50:22 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gu+NrYjv
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BEB11F000C1;
+	Fri, 30 Oct 2026 15:55:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793375424;
-	bh=6zs7KIdtqObt3G5F3sKpbT+49YyGEZ76NLVtZ95Ea20=;
+	s=k20260515; t=1793375761;
+	bh=OLB/pPnAIIk2q96c36n8ii4RGtN4TNNruaHmv/xG850=;
 	h=From:Date:Subject:To:Cc;
-	b=Il8+WfdfaPZAgRcR1lfjO5no/kPmT1KOA9nhDrRqXG2GUPhhA7WT5QNAni65luq11
-	 F5aIvUSDBWUcEc/gM7vwlJebdqyhEwjOt88ErqE9/6SF4aRTjACQXhk8PJy5PG0hCG
-	 W901Yn/YUJhvhyx2SQ1FvdWUg2cqxFUjWTxl/Ch1VOYJyeG5Q7wsj+VstbDbfs8Cqo
-	 aeKqHtFyt2FjDW/MwmQ1mRdvh5gaUgNJHU5EZC0qHP391bhSsFkLvZHFZkfDejiTnP
-	 xo6Nfk0JF1N9TciSHmq7hHMg706Va/6Uyzm8EfNkapo5c+Ut5vC/aYUN6SuvRUyLsq
-	 tWDajir5fK+fg==
+	b=gu+NrYjvtx8Os15tkJhMPWl6gxwEbofxtoe1MEaaZ3FLv11miajhNLq6GOYJ2H2P8
+	 wxGCWjKgvlIkBIBYFALJM75k/eatvHsTu/1OIW0BOJsJavyye4yWrd6avw40I/CED+
+	 5Cupkwl0BIo5Do11Lhgg3R6JWchuc8M61goqzIM0lJ5sqMar6v0QYuX0RHrcQyVPTK
+	 P6sutRqrbLiOFLTtxIXJkZIkb4TZ3wuixU2ZVgcfdOcZtJBMAqBU1e0WEV3omJ1Bpu
+	 kkO6e6D3AQbRN9VBDHjzst2lXT1r5fvr5oc5G0Lq4vqY4vA7I4cZIbC4WxxDGCcL1A
+	 nIHb4CzyjNMhg==
 From: Christian Brauner <brauner@kernel.org>
-Date: Fri, 30 Oct 2026 16:50:07 +0100
-Subject: [PATCH] ns: don't add init_ipc_ns and init_net without namespace
- support
+Date: Fri, 30 Oct 2026 16:55:52 +0100
+Subject: [PATCH] fs: don't fail __d_obtain_alias() for unlinked inodes
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -55,128 +54,144 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261030-work-nsfs-init_ns_tree-v1-1-7ec0adb47c54@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWMQQrCMBBFr1KydiSJ0oVXESlJOrGjMJWZWIXSu
- 5vY5fv891ajKIRqLt1qBBdSmrmCO3QmTYHvCDRWNt763tmThc8sT2DNCsRUBtahCCKMCV1IeO4
- zelPll2Cm7z98ve2s7/jAVFqtPWJQhCiB09SmJetxN7btB81HGOKWAAAA
-X-Change-ID: 20261030-work-nsfs-init_ns_tree-dce1ace46fe2
-To: linux-fsdevel@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
- kernel test robot <yi1.lai@intel.com>, stable@vger.kernel.org, 
+Message-Id: <20261030-work-dcache-obtain_alias-v1-1-a1f7e44536d2@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWMUQ7CIBAFr9LwLYYWo8arGGN2YZFVA4at1aTp3
+ QX7OS9vZlZChUnUqZtVoYmFc6rQbzrlIqQbafaV1WCGfW+s0Z9cHto7cJF0xhE4XeHJIBqN9QG
+ PO7KHoKr+KhT4+0+fLyvLG+/kxtZrDwQhjQWSi22agmxXY1l+JeoTgpgAAAA=
+X-Change-ID: 20261030-work-dcache-obtain_alias-b03dfb84e37f
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ linux-fsdevel@vger.kernel.org, stable@vger.kernel.org, 
+ Daehyeon Ko <4ncienth@gmail.com>, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4035; i=brauner@kernel.org;
- h=from:subject:message-id; bh=CmeNgtalbAc+JOBUPeLqNAYbAsC85B0PiD2APD63NlM=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQ92bOn9dQzRX+ZN+5sS00EXsxYGJkTt2p3i67p+QVuF
- ozmC/R2d5SyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAExkTjcjw68ivlQvqdPyO36c
- nfr+xxmXwo/n7tTvujW/LX668+egFUsZ/lmlKDxULRdbfPA9+/TlagV61vO4E08u7hX45VHAEuw
- szgcA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5614; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=7CkDPptf5GKXAUEwHygW7KJbUOkaX22YmoFnT7Y0qCw=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQ92cebYJ8e+PqLxR6hUAUjLZ8piXPerC+5Hm9zxfjRm
+ s77U6dqdZSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAExk1j5GhjMVbsfcjmQz/NK+
+ 9VDwxxbZDUoWByatNhX2v31nwpSCjZ0Mv1mEVNTMGpnPL1Sr+aBdMyVMxeT702qZxNma3/u+mrR
+ u4gEA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-When CONFIG_IPC_NS or CONFIG_NET_NS are turned off we still add the
-initial ipc and network namespace to the namespace trees. ipc_ns_init()
-calls ns_tree_add(&init_ipc_ns) whenever CONFIG_SYSVIPC is set and
-setup_net() calls ns_tree_add_raw() on init_net whenever CONFIG_NET is
-set.
+From: Amir Goldstein <amir73il@gmail.com>
 
-But without CONFIG_IPC_NS and CONFIG_NET_NS these aren't namespaces
-userspace can do anything with. They don't have proc_ns_operations so
-there's no /proc/<pid>/ns/{ipc,net} for them, nsfs_fh_to_dentry()
-refuses them with -EOPNOTSUPP, and since ns->ops is NULL
-__ns_tree_add_raw() doesn't add them to the owner list of init_user_ns
-either. So they end up half registered. That's also not how we treat
-any of the other namespace types. Without CONFIG_UTS_NS, CONFIG_PID_NS,
-CONFIG_TIME_NS or CONFIG_USER_NS the initial namespace is never added
-to the tree.
+Commit 669bb5af15d4 ("fs: make sure to call fsnotify_inoderemove() only
+once when inode is dead") did two things. It made dentry_unlink_inode()
+call fsnotify_inoderemove() only once the inode has neither links nor
+aliases left. And it made __d_obtain_alias() fail with -ESTALE for an
+inode in that state so that open_by_handle_at() can't create a new alias
+after FS_DELETE_SELF has been reported and the inode marks are gone.
 
-listns() walks the unified tree and calls is_current_namespace() for
-every namespace it finds via may_list_ns(). But is_current_namespace()
-only knows about CLONE_NEWIPC and CLONE_NEWNET if CONFIG_IPC_NS and
-CONFIG_NET_NS are set. Otherwise we end up in the default case and its
-VFS_WARN_ON_ONCE(). Any unprivileged caller can trigger that with a
-plain listns() call:
+The second part is wrong for network filesystems. __d_obtain_alias()
+backs d_obtain_alias() and d_obtain_root(). Those are what the
+->fh_to_dentry() and ->get_parent() methods use to turn the inode they
+looked up into a dentry for exportfs_decode_fh_raw(), i.e., for
+open_by_handle_at() and for nfsd file handle decoding.
 
-  WARNING: CPU: 0 PID: 526 at fs/nsfs.c:508 is_current_namespace+0x12f/0x440
-  Call Trace:
-   legitimize_ns+0x25f/0x4c0
-   do_listns+0x185/0x5c0
-   __do_sys_listns+0x13b/0x300
+For a local filesystem an in-core inode without links and aliases is an
+orphan that goes away on the final iput(). For a network filesystem
+that's not true. i_nlink is just the link count the server last
+reported and whether the object is still reachable through its file
+handle is up to the server. If a file is unlinked while it is still
+open elsewhere, e.g., by another NFSv4 client or by a process on the
+server, the server keeps the object alive and its file handle stays
+valid. nfs_fh_to_dentry() fetches the attributes for such a handle,
+nfs_fhget() sets i_nlink to 0 from them, the new inode has no aliases
+yet and so __d_obtain_alias() now fails with -ESTALE. The same applies
+to fuse_get_dentry() which takes i_nlink from the fuse server.
+Filesystems that care about unlinked inodes already make that decision
+themselves in ->fh_to_dentry(), e.g., ceph's __fh_to_dentry() fetches
+the link count with CEPH_CAP_LINK_SHARED and only refuses an unlinked
+inode if it isn't open.
 
-Instead of teaching is_current_namespace() about namespaces that can't
-be opened, only add the initial namespaces to the tree if their
-namespace type is enabled. Move the registration of init_ipc_ns into
-ipc/namespace.c which is only built with CONFIG_IPC_NS. That also fixes
-CONFIG_SYSVIPC=n, CONFIG_POSIX_MQUEUE=y, CONFIG_IPC_NS=y where
-ipc/shm.c isn't built and init_ipc_ns was never added at all. For the
-network namespace only call ns_tree_add_raw() if CONFIG_NET_NS is set.
-Without CONFIG_NET_NS cleanup_net() isn't built and init_net is never
-removed so there's nothing to balance.
+Note that on a network filesystem i_nlink drops to zero through
+attribute updates when another client unlinks the file. So the inode
+might never have gone through dentry_unlink_inode() with i_nlink == 0,
+i.e., fsnotify_inoderemove() might never have been called for it and
+there's nothing for the -ESTALE to protect.
 
-Fixes: 74b24a582e1f ("ipc: support ns lookup")
-Fixes: 195f7422298d ("net: support ns lookup")
-Reported-by: kernel test robot <yi1.lai@intel.com>
-Closes: https://lore.kernel.org/oe-lkp/202610260917.6248e316-lkp@intel.com
-Cc: stable@vger.kernel.org # v6.18+
+So drop the two checks from __d_obtain_alias() again and go back to the
+unconditional alias lookup. While at it, update the comment above
+inode_notify_dead() since it no longer blocks new aliases.
+
+Amir sent this as v3 to replace 669bb5af15d4 but that commit was already
+in mainline by then. So do it as a fix on top. The resulting code is
+identical to v3.
+
+This means open_by_handle_at() can again create a new alias for an
+unlinked inode after FS_DELETE_SELF has been reported. Closing that file
+reports a second FS_DELETE_SELF and the file has none of the inode marks
+that were torn down. That's what Daehyeon's open_by_handle_at() LTP test
+checks so it is expected to fail again. This needs to be handled
+separately. A mark that is added through such a file while
+fsnotify_destroy_marks() is still running is rejected with -ENOENT since
+36ebddca56b9 ("fsnotify: prevent mark additions during connector
+teardown") so it can't end up on a detached connector.
+
+Christian Brauner <brauner@kernel.org> says:
+
+Amir's v3 replaced 669bb5af15d4 as a whole. I turned it into an
+incremental fix on top of mainline and wrote a new commit message.
+Jan's Reviewed-by was given on v3 and the resulting code is identical.
+
+Fixes: 669bb5af15d4 ("fs: make sure to call fsnotify_inoderemove() only once when inode is dead")
+Cc: stable@vger.kernel.org
+Reported-by: Daehyeon Ko <4ncienth@gmail.com>
+Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+Link: https://patch.msgid.link/CAOQ4uxg7Qt436SiKhKEJKOjtCjeB_XyTjazYF7HMyQAGGcgx2A@mail.gmail.com
+Reviewed-by: Jan Kara <jack@suse.cz>
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- ipc/namespace.c          | 7 +++++++
- ipc/shm.c                | 2 --
- net/core/net_namespace.c | 4 +++-
- 3 files changed, 10 insertions(+), 3 deletions(-)
+ fs/dcache.c | 19 +++++--------------
+ 1 file changed, 5 insertions(+), 14 deletions(-)
 
-diff --git a/ipc/namespace.c b/ipc/namespace.c
-index 75aa7b469348..b54d23fd83d7 100644
---- a/ipc/namespace.c
-+++ b/ipc/namespace.c
-@@ -255,3 +255,10 @@ const struct proc_ns_operations ipcns_operations = {
- 	.install	= ipcns_install,
- 	.owner		= ipcns_owner,
- };
-+
-+static int __init ipc_ns_tree_init(void)
-+{
-+	ns_tree_add(&init_ipc_ns);
-+	return 0;
-+}
-+pure_initcall(ipc_ns_tree_init);
-diff --git a/ipc/shm.c b/ipc/shm.c
-index bb1a721a3e74..cbab3d16cf70 100644
---- a/ipc/shm.c
-+++ b/ipc/shm.c
-@@ -45,7 +45,6 @@
- #include <linux/mount.h>
- #include <linux/ipc_namespace.h>
- #include <linux/rhashtable.h>
--#include <linux/nstree.h>
- 
- #include <linux/uaccess.h>
- 
-@@ -149,7 +148,6 @@ void shm_exit_ns(struct ipc_namespace *ns)
- static int __init ipc_ns_init(void)
- {
- 	shm_init_ns(&init_ipc_ns);
--	ns_tree_add(&init_ipc_ns);
- 	return 0;
+diff --git a/fs/dcache.c b/fs/dcache.c
+index efd9332c8407..810ac48ae753 100644
+--- a/fs/dcache.c
++++ b/fs/dcache.c
+@@ -452,10 +452,9 @@ static void dentry_free(struct dentry *dentry)
  }
  
-diff --git a/net/core/net_namespace.c b/net/core/net_namespace.c
-index da5f881fbd3b..52c2bd44778a 100644
---- a/net/core/net_namespace.c
-+++ b/net/core/net_namespace.c
-@@ -447,7 +447,9 @@ static __net_init int setup_net(struct net *net)
- 	down_write(&net_rwsem);
- 	list_add_tail_rcu(&net->list, &net_namespace_list);
- 	up_write(&net_rwsem);
--	ns_tree_add_raw(net);
-+	/* Without CONFIG_NET_NS init_net isn't exposed as a namespace. */
-+	if (IS_ENABLED(CONFIG_NET_NS))
-+		ns_tree_add_raw(net);
- out:
- 	return error;
+ /*
+- * If inode is unlinked and doesn't have any aliases (i.e., all fds pointing to
+- * it are closed), it is pretty much dead. Except that file handle lookup could
+- * still revive it which causes issues to fsnotify. So once inode reaches this
+- * state we make sure to block creating any new aliases.
++ * When inode is unlinked and doesn't have any aliases (i.e., all fds pointing
++ * to it are closed) we report FS_DELETE_SELF to fsnotify and cleanup all inode
++ * marks.
+  */
+ static bool inode_notify_dead(struct inode *inode)
+ {
+@@ -2312,12 +2311,7 @@ static struct dentry *__d_obtain_alias(struct inode *inode, bool disconnected)
+ 
+ 	sb = inode->i_sb;
+ 
+-	spin_lock(&inode->i_lock);
+-	if (!inode_notify_dead(inode))
+-		res = __d_find_any_alias(inode);	/* existing alias? */
+-	else
+-		res = ERR_PTR(-ESTALE);
+-	spin_unlock(&inode->i_lock);
++	res = d_find_any_alias(inode); /* existing alias? */
+ 	if (res)
+ 		goto out;
+ 
+@@ -2329,10 +2323,7 @@ static struct dentry *__d_obtain_alias(struct inode *inode, bool disconnected)
+ 
+ 	security_d_instantiate(new, inode);
+ 	spin_lock(&inode->i_lock);
+-	if (!inode_notify_dead(inode))
+-		res = __d_find_any_alias(inode);	/* recheck under lock */
+-	else
+-		res = ERR_PTR(-ESTALE);
++	res = __d_find_any_alias(inode); /* recheck under lock */
+ 	if (likely(!res)) { /* still no alias, attach a disconnected dentry */
+ 		unsigned add_flags = d_flags_for_inode(inode);
  
 
 ---
 base-commit: b44341e39d856e4cc6ad8ed94ebffd440f39846c
-change-id: 20261030-work-nsfs-init_ns_tree-dce1ace46fe2
+change-id: 20261030-work-dcache-obtain_alias-b03dfb84e37f
 
