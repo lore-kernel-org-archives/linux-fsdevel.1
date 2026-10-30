@@ -1,55 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793372071;
-	b=qArdmn7aR4E7Yi4TmxDh6NJheQQ1ab+JxWoTPe9+C77yQTq/VCUMwn5+gTV9wmqrtsBy
-	 cE1MEdoNAeBVR+N0QL3iVXQQXXtELm8RxRPBMURiwAyV8zMoSOKKoEprh+7VZ77n0lwhZ
-	 6BtHk0VOT4AZZbk6jO+z+cjZBP68TzN88Ks4J/qikuP885ioEBb8bgZv7LtF6mlBCylwk
-	 2De7O4LEYFz9KF2FCEEGy9AqhFNYBBdJdFCZF5AJLZGyRfZFoA+L+hpXhZLF0Fuy3EyXu
-	 DgIzN/HjayUJ6kcQfF1L9vssW3Iq2oHJg6P1XlcgjFGu83Y+Y44XYbX7tF5K2JvfxQg==
+	t=1793372113;
+	b=q33MBMeYY27lI/R9bZ1yA3mXYnyCpoKm+Bqm7F8JoXd/IkAfoSOEzygD6jHs8fr3U/Ak
+	 EVKES0GkDbjWtpHadmUUbfmgXuAUj8PVbF4/iy5FjPJp92ofI20zTSvN+oNpVXDPBCUZ+
+	 yw/Q8mYeEfRxq5yGLI83c4lcaU1BH1qBWyQnW1/XANAL2XxktquGvnwJec2MFaHR5IyNH
+	 CbiNGvaYtyr65CUyErqoi6SJtDBuWgFM8jhc1Dy4y2VnpQGWvfHpmyx75MU/AfrVRrRLd
+	 7yC0hDJzGQTYJUBTKuNwFXvIlfL1N64ZIGMjl37twYXkU2NL46pFK0ROvDE3TNb9z6A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793372071;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793372113;
 	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
 	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 X-Mailer;
-	bh=3s1rxc73Pszy84w3pPfs3G0d/mIrSkqd+Qg7Dv+AAj0=;
-	b=AhbEVNV4o+rrh3IlkkhL94FMsifWiWdYQMMk+W4DNfyMqlbBvmZQ7MamSS5X6gmxJ8sw
-	 hg2L3rtmDj3nu1sQOhNTdodF0tpDSF5B9uLn0eZh7gfQBmbQ83PuzoP36F4r68viX2A1Q
-	 upO4J6UMaGsiNnJMytjKd18tCjh7b1FrSDFQo42myxBlSgKGOr1HfwcVq7ANyFdTinLOB
-	 tu1giFfwQSTPZzuLliYpP2yQLFhXaKmoLS1Cj46DBzb0OVNLbGdsbYsuloaM0ha+8clE7
-	 /oJ7zhyMfnYEeqaB3tqiLZ247Q+XRZRZNTrzCn0JeoXzV2qq3xZvzc4eA0jXtWzLL9w==
+	bh=gCS/gL1ghdsd5VLwrlo0xHatJ9rSk58jF1auEVhGOn0=;
+	b=UN8jhLH3Q03vIS8v/w17A64/IEFSYo/ib6YSIQNfBONS9g+8gYOjziGXvgp8mRWIGa8x
+	 dneV7w2t5hoEuHNjcX/QvJrHSSNxcV/zAEmKXjIR71z1/0BV98IYCWJauwxGg+UxP9L/d
+	 yxL5QoYwdAJeQa05LgFp8ZfwUSUpPwzTG9QHNBKYW4rRBao9P1/qsqpn606FVN/lvz6vX
+	 2Jctt+9LDAcShIx0GNcscYjjqzQ5wQ5o/oofoP0Qe98rlsgplZOSLtzTB9tEshkeaaa9I
+	 F9/IyJzdgR/BlQAezWHxw2f/LjQbZIIgGkRXzoW8ZYSTH9P4bozL2oVbsELqyU8pDpg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="DV+zgiw/";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QuKNrflx;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B0B3606A32F;
-	Fri, 30 Oct 2026 14:54:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF84A606A31D;
+	Fri, 30 Oct 2026 14:55:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DV+zgiw/
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BD6A1F000C1;
-	Fri, 30 Oct 2026 14:54:29 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QuKNrflx
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 082CD1F000C1;
+	Fri, 30 Oct 2026 14:55:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793372071;
-	bh=3s1rxc73Pszy84w3pPfs3G0d/mIrSkqd+Qg7Dv+AAj0=;
+	s=k20260515; t=1793372112;
+	bh=gCS/gL1ghdsd5VLwrlo0xHatJ9rSk58jF1auEVhGOn0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=DV+zgiw/wvqeTdw340K4EG/fFhVeHzikYj1maVObe7yr2RLYKZuaCLFa8Sd/++rpR
-	 lpW6l3nmfHusjvne5xsqCUpBlX4kbMQo8B9cjgs5zCsoDnzUSPUuLEuypY7mqNdwph
-	 QUtIBXAfgQTvWW1L1gf2xW+E+AXGtrNWAGMIJr32E9auczDR4dWe+zT9MPFfxIQ/lT
-	 FLuaGHh86s333lKYoyt2HFHa4a1ovjB+27rRQAknjZkMDiwj+TFJMKu5KCgoCIMsWN
-	 0tt0kdtW32b7yn6Gj5neRpkXMwtGsFgWNGNJr6ptSGaeAZnKAqQJhif33s9A2P7ZfI
-	 76ZNi8W6CDoxA==
+	b=QuKNrflxz97W76RC2SuGeC3BNLKM/9/sSx0kwSVhVSJ/tpNzF16hiKqXb/9admXFW
+	 2Is3p569Dpy6NtKgvIDf/TjKFHgMHchv7kMYfc39TaKB8UTV5xOjG4C4H/8oY8x4RT
+	 CMhzuvRu+F7013+qHTya2Nmse5W5l6AX87vAMkOPEmnhRjfP1bORUNRvhr3jtG6Dky
+	 YCdMepplAtJri5zDYU+6jSRO6C1mK2QNvaBqKc8Iew5bsuLdMQVKNpg768UmXhfbuU
+	 f6npXTXeXHr6p/paXR513uqVh3eupoJpL/NI+yYGDGhDa+qTl/Hh4tZPuAP6jntZXk
+	 SSe6wqr3FthWQ==
 From: Christian Brauner <brauner@kernel.org>
-To: viro@zeniv.linux.org.uk, Zhao Gongyi <zhaogongyi@bytedance.com>
-Cc: jack@suse.cz, jlayton@kernel.org, cel@kernel.org, neil@brown.name, 
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20261023111250.17696-1-zhaogongyi@bytedance.com>
-References: <20261023111250.17696-1-zhaogongyi@bytedance.com>
-Subject: Re: [PATCH v2] filelock: keep superblock active through delegation
- wait
-Message-Id: <20261030-dorfbewohner-klarzukommen-eindimensional-5fad175f1b69@brauner>
-Date: Fri, 30 Oct 2026 15:54:27 +0100
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Chris Mason <mason@kernel.org>, 
+ Josef Bacik <josef@toxicpanda.com>, linux-unionfs@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, stable@vger.kernel.org
+In-Reply-To: <20261029180319.2852090-1-amir73il@gmail.com>
+References: <20261029180319.2852090-1-amir73il@gmail.com>
+Subject: Re: [PATCH] backing-file: always end a queued write
+Message-Id: <20261030-heilt-punkband-pochen-5055df590897@brauner>
+Date: Fri, 30 Oct 2026 15:55:09 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -63,16 +63,16 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev-ce4c1
 
-On Fri, 23 Oct 2026 19:12:50 +0800, Zhao Gongyi wrote:
-> A caller may drop its path after try_break_deleg() returns a delegated
-> inode but before break_deleg_wait() finishes. The extra inode reference
-> held in struct delegated_inode does not keep the superblock active.
+On Thu, 29 Oct 2026 19:03:19 +0100, Amir Goldstein wrote:
+> Writes to a loop device with direct I/O on an overlay file make the
+> next freeze of the upper filesystem hang for ever.
 > 
-> After a lazy unmount, closing the delegation holder can release the last
-> mount reference and shut down the superblock while another task waits for
-> the delegation break. The waiter's final iput() can then enter the
-> filesystem's eviction code after its superblock-private state was freed.
-> This has been observed as a KASAN use-after-free in shmem_evict_inode().
+> Every kiocb_start_write() needs a kiocb_end_write(). For a write that
+> is queued, vfs_iocb_iter_write() leaves the end to the completion, and
+> backing_aio_rw_complete() only calls kiocb_end_write() when IOCB_WRITE
+> is set in the flags copied from the submitter. In-kernel submitters
+> such as loop do not set that flag, so each queued write keeps the
+> freeze protection of the backing filesystem.
 > 
 > [...]
 
@@ -91,6 +91,6 @@ trailer updates or similar. If in doubt, please check the listed branch.
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
 branch: vfs.fixes
 
-[1/1] filelock: keep superblock active through delegation wait
-      https://git.kernel.org/vfs/vfs/c/c206cdfee6c0
+[1/1] backing-file: always end a queued write
+      https://git.kernel.org/vfs/vfs/c/627cdcbc2a2e
 
