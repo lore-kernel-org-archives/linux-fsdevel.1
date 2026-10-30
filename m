@@ -1,67 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.71.93.112
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.181
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793326899;
-	b=4EmxMs6MNppfwegZbX7t6ouZu2901m1iFBlcZ8zfQOzb/zcJGP3s5Sp/1mibhh8uhwE7
-	 xaUkimUdG7C6aDTl3/gGihvD4B03KlNIPBeW+V0U997zf8C9DIrmpHI3lCIq3HmHqlTW0
-	 jzVh5bZ9uNpOu/KBF+CehcSEUaJF75FGiSZyK9yxwzV84Qquwg/afkYObpg24fdAg1NyQ
-	 P+Xhf439elhwDHguhaX4PrnfGlHlWAr93hYe35559fDzXRtNPghhV9BDwWB2bOY0Nctee
-	 YKz7E8QbZG+aoVo0BjG68D2WJjgo1JKsMgtJ7qFZJvE9gvXHGoiwSOQeIL0zZl2y2OA==
+	t=1793329034;
+	b=3oB2zfDf1eRq5IQlwxPGcrdJij5iDWl/E95f6w4Pi8MDgu7QKNrjUeWnxokE7edD4Ch8
+	 zTKfkqO6j9YV+noHX6uldpdJ6Nhx3vQUwV/Dq1dYQFS55Nhw+7BEkEeJY3ggS4NAo5ODR
+	 sO/DBFSern/TgqsmsYX5782UjV/1QbLBGQGEen37Q1COM5rJwzc9sjJdGgBj6PgA2yC+v
+	 Wx/pLQokJJMouth0pw2oPp19ExKzUrOID78XKwK9yoA3BiA5m30/XtVm3wUpOjv/BjWFC
+	 Uq/WfIrvxqNzMLhwEuMnM5ZorzA3tLeNjW0FSz7k6RzwOt78hTvihCFwKo1179kwq1Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793326899;
-	h=DMARC-Filter:Received:Received:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
-	 X-CM-SenderInfo;
-	bh=Hemt9fONtl1n/BBCK7ytd9811xsib8uR0HnHueKsao4=;
-	b=YLyJmrOcqe4yxdSeqCTA1PGtXVxynLzsJiS/Rc2CflkdjA6Wr2L4kXDMiXTXzgVbI8KB
-	 dmwqNiYaVVGpCWEgyt7oOmMSQbE6PghhLuSUvnS05Xu+Wpru6yvjGVnBeAbDbdwTEvodU
-	 bsG7L9Wgy81ZgeMRRE2io2d5aCac6Y1+wVs6IriAQnRIZAwMqOd3tQbdjVmvhfIBHI2hR
-	 A5PKgMTr+wE9mfnH3oZRAD7UXmkf0A3CN2hpAQdzjQiyl4xtQOLnWs+lLKbMS9Ag9ZIco
-	 Db+FJwlbFu+tIcFAtOJMdzZazfF/euYdQux1wLdJrlTtMUqdrP9PNUrjmmUIh8GzqcA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793329034;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:Content-Transfer-Encoding:
+	 In-Reply-To;
+	bh=/ZdXC9RaNc34pyVI5ALRxFES86jLTzutVsfPjdP/KMA=;
+	b=4DPx5nHhm/hL202Clp/jRbMYkxC601sm9YX+aB36gtVmH7GOgowZDPs14ssz/D4I2VWF
+	 B1C8WPB+PR61EVN52weLvKp6DusuSve6dfzoTdB40P3kakN13uIGi90re+kcB19cUD00N
+	 RnWTLDWVtnONWmG0ZFwt4hM3csEb165FuBmDUDOJVw6GQ/icrlNlRhPB6tmTK3MsyBo02
+	 Tkt8WLijZe+yAI2nn2JywSwlTieeT7ZASHpbnEhQhmM+Q53Vd9GOPtLls/28PYgtjMnAH
+	 aJE2bbOAyYmaYFe0pOl+Zzl12o2zMQeQU3+G4qIqkZAcOKj2Ctklfo/hxPl5lkiA/eg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=huaweicloud.com;
-	spf=pass smtp.mailfrom=huaweicloud.com;
-	arc=none smtp.remote-ip=124.71.93.112
-Received: from dggmsgout12.his.huawei.com (dggmsgout12.his.huawei.com [124.71.93.112])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="mCvEF/B0";
+	arc=none smtp.remote-ip=209.85.210.181
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DA97606A31C;
-	Fri, 30 Oct 2026 02:21:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2DA97606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.170])
-	by dggmsgout12.his.huawei.com (SkyGuard) with ESMTP id 4jG4bK475pz1yH3;
-	Fri, 30 Oct 2026 10:21:17 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id E9E4A4056F;
-	Fri, 30 Oct 2026 10:21:33 +0800 (CST)
-Received: from huaweicloud.com (unknown [10.50.85.155])
-	by APP4 (Coremail) with UTF8SMTPSA id gCh0CgCXzewm_+NqieRyCQ--.40911S8;
-	Fri, 30 Oct 2026 10:21:33 +0800 (CST)
-From: Zhang Yi <yi.zhang@huaweicloud.com>
-To: linux-ext4@vger.kernel.org
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	tytso@mit.edu,
-	adilger.kernel@dilger.ca,
-	libaokun@linux.alibaba.com,
-	jack@suse.cz,
-	ojaswin@linux.ibm.com,
-	ritesh.list@gmail.com,
-	yi.zhang@huawei.com,
-	yi.zhang@huaweicloud.com,
-	yizhang089@gmail.com,
-	chengzhihao1@huawei.com,
-	yangerkun@huawei.com,
-	yukuai@fnnas.com
-Subject: [PATCH v2 4/4] ext4: initialize map->m_pblk in ext4_da_map_blocks()
-Date: Fri, 30 Oct 2026 10:13:38 +0800
-Message-ID: <20261030021338.1768292-5-yi.zhang@huaweicloud.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20261030021338.1768292-1-yi.zhang@huaweicloud.com>
-References: <20261030021338.1768292-1-yi.zhang@huaweicloud.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71748606A31A
+	for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 02:57:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 71748606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=mCvEF/B0
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-8a06c60065fso95916b3a.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 19:57:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793329034; x=1793933834; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=/ZdXC9RaNc34pyVI5ALRxFES86jLTzutVsfPjdP/KMA=;
+        b=mCvEF/B0x+B4fIM/iYE4URUqrgWef4VAXimGI6qerYmN+LkM2lC00w7qib/QTR9K+x
+         q8EDgBKBICHnCc3FmbAcwYG/Tr24NW0beOLrPAIAuhvf6gRTt959p2G2o0ya9TgSBY4P
+         lg8942Gku5CIXn5oyE0+a1T6rmsFcJR/zqf9T4MTsND/pXISxluBRn1bZemCja3/B9xB
+         eEB9pOr6KeAozcL+PVhrlqO4upaRtvFRBBOnTOOABAfVJ9uB6HbdnF6mDjICro3ysOHc
+         xQdeWUG1hAdFrw+eX+ckjPQrlxeE4b4fQHUjwJz/sG4pib0SoAGI8zPS9fu2RK8eZUQp
+         lEHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793329034; x=1793933834;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=/ZdXC9RaNc34pyVI5ALRxFES86jLTzutVsfPjdP/KMA=;
+        b=ZGKG+Vvj9iz0jc7ORzOvEKQj3y2dK3aqT24uYQh5yKT1LTGXvFrmLgtEye2eaM/Ja1
+         T6tZlRSLYWnEYmolsIuzQf56i0kwuS8/KXCu+6bMhrj4a4achwDVH+zIUr6RwlGuQuRk
+         IqwPxYv8k3txjMguE5irLy0RdMeYaBnCVVEoItrnY70xspFjYXJ0xiFAU4rgL6mIsoUt
+         UjKsNo1BSBSIpqiryL9YNdD9eFqYBxIfUk+ozzvKNQgWhf7LZOizp358VeGnDYh/Dd7W
+         AnXxapUDguAxS3yJxIOHp+pX5R0bdbjCwocFcl7AtbSGsprnB3ewS8ARYdWEGWqZxEG1
+         TQhw==
+X-Forwarded-Encrypted: i=1; AKwUvBz4uHG5Ayi5NpU0BxvFZAVurUMS4v2jlLZsqoRYa7Oa519qQpaYMnDd6x3hYzBna+p8wvhsZoYHdAVzyrWd@vger.kernel.org
+X-Gm-Message-State: AFq9FYIxWzxWwlnuIuUsjUJUnAu+GJvuNDB1nEjD3EicSOUdet/grgv5
+	cKRZpyC+zuQVXH83ui8OEvoP3UZisXKAW1UcJY/7QuevKUsYYJ5fUymu
+X-Gm-Gg: AYBFou3S7p5GYaZuPvXSQgkgxd8owQazC6QdY8A87CB/4EC+TDG/BXawS4XBY4JBcV/
+	xg16TqcZlwj43DW3sP+y6aBQ3uWHVfBPup3vLwxoIEaOXb4pQ98oS1sU+OPdPeSGRjESiPBThjM
+	LTHIMKuBuoxTktCcWy+9qngR+aVccKB8rJuboXI+JQLOr3cCjUdFQbZt3UcwYXOJ49GB5KbY98V
+	3jsKU5OZmDJosqaE1+zd44AyhQA53ODh43/AKIgzjj1zJY7xMHS9jGL/Fr/DjgwPBlKPqzw5g6Y
+	2ycxhFTh37WKg03gI0zM5QebuTGFRsb2SQkTd+//MPt1cqWJ0h/E+9qcVm5RuSU5ooOjXYIN6DN
+	xP3FlNavUHJ6JTn+nSdGnXoWaLCiiPQ+dbh/swQL4xwyFXGi3YUronbXj6flOTZyDJ6l72QeQTK
+	JwnqbnCV0LCoI8d/hASEAObNyqlmO8Fg3TSsjf0FAGYh+UzYjRTJK31g5oNlgHX8W3ITh/EtkZW
+	zbfFgYCMwSm/USeeM9PDxYNRAghA8LpKa5K4/GSfBlXdVYHZvGENjrYl3rd0XIpTo2A2qJBtMuB
+	51aqBRZpKmOxmRj1mCWxwWt9W0GUN3ILBacCrPY8
+X-Received: by 2002:a05:6a00:290f:b0:8a3:df84:4c14 with SMTP id d2e1a72fcca58-8a9bee525bbmr794496b3a.57.1793329033656;
+        Thu, 29 Oct 2026 19:57:13 -0700 (PDT)
+Received: from localhost ([27.122.242.71])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8a9eef95cb5sm162643b3a.9.2026.10.29.19.57.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Oct 2026 19:57:12 -0700 (PDT)
+Date: Fri, 30 Oct 2026 11:57:10 +0900
+From: Hyunchul Lee <hyc.lee@gmail.com>
+To: Shengzhuo Wei <me@cherr.cc>
+Cc: liubaolin <liubaolin12138@163.com>, Namjae Jeon <linkinjeon@kernel.org>,
+	ntfs@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] ntfs: wait for bitmap folio writeback before modifying it
+Message-ID: <auQHhmnBbntRem3o@hyunchul-PC02>
+References: <20261029-b4-ntfs-bitmap-writeback-wait-v1-1-e2ba711b2dbf@cherr.cc>
+ <374bf856-f880-4fa2-abec-c4b2a063bf57@163.com>
+ <auLlFEHMZvANXUvU@kernel>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -71,62 +100,82 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:gCh0CgCXzewm_+NqieRyCQ--.40911S8
-X-Coremail-Antispam: 1UD129KBjvJXoW7tFW3tw45GFyDXrWDKrW5Awb_yoW8Gw1fpF
-	yakF95GwsrW34j9a1fXr17JF1093WDG3y2vrWSk3WY9398GF1IqF129F43ZFW5trWxXF9Y
-	qF45CryUuay0krDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUmS14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
-	kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
-	z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F
-	4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl
-	6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x
-	IIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_
-	Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8c
-	xan2IY04v7MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCj
-	c4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4
-	CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1x
-	MIIF0xvE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r
-	1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBI
-	daVFxhVjvjDU0xZFpf9x0JUWMKtUUUUU=
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
+In-Reply-To: <auLlFEHMZvANXUvU@kernel>
 
-From: Zhang Yi <yi.zhang@huawei.com>
+Hi Shengzhuo,
 
-ext4_da_map_blocks() returns a delalloc mapping through @map without
-touching map->m_pblk at all. Callers that only set up m_lblk and m_len
-of their local struct ext4_map_blocks and leave the rest to the mapping
-helper, like ext4_iomap_map_blocks() does, end up with whatever happened
-to be on their stack, so the trace_ext4_iomap_buffered_write_begin()
-tracepoint prints an uninitialized pblk for a delalloc mapping.
+On Thu, Oct 29, 2026 at 02:17:56PM +0800, Shengzhuo Wei wrote:
+> On 2026-10-29 10:07, liubaolin wrote:
+>  
+> > Hi Shengzhuo,
+> >    Could this deadlock during MFT bitmap
+> > expansion？ntfs_mft_bitmap_extend_allocation_nolock() can recurse into MFT
+> > record allocation while holding mftbmp_ni->runlist.lock.
+> > 
+> >   With L being that lock, could we get the following interleaving?
+> > A and B are $MFT::$BITMAP folios; B is outside the cached iomap.
+> > Time flows downwards.
+> > 
+> >   Writeback                        Bitmap expansion
+> >   ---------                        ----------------
+> >   lock A
+> >   set PG_writeback(A)
+> >   map A (take/release L)
+> >   add A to wpc->wb_ctx
+> >   unlock A
+> >   [BIO still unsubmitted]
+> >                                    take L
+> >                                    extend bitmap mapping pairs
+> >                                    need another extent record
+> >                                    ntfs_mft_record_alloc()
+> >                                      mft_bitmap_alloc_free_rec()
+> >                                        lock A
+> >                                        folio_wait_writeback(A)
+> >                                    [wait for A's I/O, holding L]
+> > 
+> >   lock B
+> >   set PG_writeback(B)
+> >   ntfs_writeback_range(B)
+> >     __ntfs_write_iomap_begin()
+> >       down_write(L)
+> >       [blocked on L]
+> > 
+> >   Cannot reach iomap_add_to_ioend()
+> >   to submit A's pending BIO.        Cannot release L until
+> >                                    A's writeback completes.
+> > 
+> >    ntfs_writeback_range() obtains the next mapping before
+> > iomap_add_to_ioend() can submit the pending BIO.
+> >    Would we need to submit that BIO before taking the mapping locks?
+> > 
+> > Thanks,
+> > Baolin.
+> > 
+> 
+> Hi Baolin,
+> 
+> Thanks for the analysis. I checked the paths and agree with you.
+> 
+> Following your suggestion, I prepared a change to submit the pending
+> ioend before obtaining a new mapping in ntfs_writeback_range(), clearing
+> wpc->wb_ctx even on error to avoid resubmission. I plan to make this a
+> prerequisite for v2, retaining all six waits.
+> 
+> One concern is that submitting at mapping boundaries may reduce BIO
+> aggregation, including for ordinary file writeback. The change has
+> passed object builds, but has not been runtime- or performance-tested.
+> 
+> Does this approach look reasonable to you?
 
-This has been harmless so far, ext4_da_get_block_prep() and
-ext4_set_iomap() both ignore m_pblk for a delalloc mapping, only the new
-tracepoint dumps it.
+I think the early submit should be limited to $MFT:$BITMAP only.
 
-Initialize m_pblk along with m_flags at the beginning of
-ext4_da_map_blocks(), so that a delalloc mapping is always reported with
-pblk 0, the same way ext4_map_blocks() reports it.
+> 
+> Thanks,
+> Shengzhuo
 
-Fixes: 008f019ab559 ("ext4: add block mapping tracepoints for iomap buffered I/O path")
-Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
----
- fs/ext4/inode.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
-index 6b2f1b07f41e6..c1c46e86bba3e 100644
---- a/fs/ext4/inode.c
-+++ b/fs/ext4/inode.c
-@@ -2041,6 +2041,7 @@ static int ext4_da_map_blocks(struct inode *inode, struct ext4_map_blocks *map)
- #endif
- 
- 	map->m_flags = 0;
-+	map->m_pblk = 0;
- 	ext_debug(inode, "max_blocks %u, logical block %lu\n", map->m_len,
- 		  (unsigned long) map->m_lblk);
- 
 -- 
-2.52.0
-
+Thanks,
+Hyunchul
