@@ -1,60 +1,112 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793373020;
-	b=cv/bwdCjdb0mWPgBqa6rl1r8wqkOkf1XSiX4Iayh3dBzCobo+gp9/cBdS77dtWfO/QXz
-	 pX3o6htwzGPFgrzTxUUJqGXpCbKGc4qdIXRwofmEl5mt0+dkvc0OfnZsdoBSlcRWyzeyF
-	 wo/bQsPBYaOPwaBIIMmgPZmw+E8mW4Am+PRsKaNYxh4rmZExLlc8x7rAPgjnIBLh3v7iF
-	 CEBwXpTJfVW3Yj+Xq2i/kbFX4evrVLD/m5UI7/Nm62SnlxQ+dHlE2z2Yg5YN4+WOepL4w
-	 lJ1Uyvvb5L1yaqhJCp6PaxKa2V6j2OLQYuM3kT8GRJMjfGDtOLNPHJtMcBIpPOwmiiA==
+	t=1793373081;
+	b=25K23RlVQSjjmo8VXCXNao1Tpw5i3xAlKljQTkdmMV/xQJq4Wo9tn//jbY9qOQ/gUv4k
+	 GIKp+GNTiGZ+IIfwWxEPAcmi3xnxe8Kf113rpSDU4SXq+/G2LWGE1ySq0KY2K6U0nuLcj
+	 OOJJzVhCLKKO+Lrhoax3o5A8MZdA0UaGid3FcppAQAog7V9vgQJW8vvdEXxiVv9cMfWHt
+	 lLPIlVoj4d/Zi0ooCGY/dmT2ewxuTeLtcOVddtQ60y6uqzwPN3nz4hrYLgPGkrDcF8GWN
+	 7VQDftM6JeKOXZXIzHzEkxNt06MZ5WBGy6lHOSyD8P+0q7sGsE4rZFF3Dn/aY+tFZzA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793373020;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer;
-	bh=hzDvyFL7gN3zXscWLWZE3FRgfn52vpq2GWlamrx1ydc=;
-	b=LWhF7URsgFWNlZhrAi1lRAPdzo9pRZVzD6Wz1Or3SPUK3uHsWbK1XdGwEH/4oiopnL6g
-	 5AjgDqSb5XsCslNt1MnyhcRLt0ERman/GsRZ1gUznjWbyvjUITMr/rccIw5nlW2Lf1+Eq
-	 Dppv88yEoWO+pT+LznUDl83lWAU0+/NUzpS83AOWqOMmpxQDPeD7pYa98OxnoTifuIokT
-	 0kPEHEZTlz6IUfdUghHcLZ/TctHZJIEFntSkwhyT9mW5UP1lWMpNNKMFjFyNPWbRUbjY1
-	 oUk15Sj8wtCNORT9iq2uyVNvRTm80DcB66VaEE9DU42/5coch2V5JqGCGSm8MAlXWAA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793373081;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=SknYW3+pVsCwOENllYU3jowrrCPEotGjBjq9wVk1tW0=;
+	b=jkYYjn4/UJHZBknX4VEFqYF9o/4mPoon2aRd7EJ0PqRGSxayVCqrArq1nvdUPnGGYMtn
+	 5k3FuCTnwmWv/Xb6sj0iQeky6DeSWj+onpfPLlESPMq46x1mHtu+Ol7mUCqyIgty6GlXm
+	 C6Hd8VO7AJyhdkCfKZ529wT2i+XnpoLlWv+l/fHiJhCf94ybM1ulbbySiRMx1oUiqBLKX
+	 Xy5LhOYmQyM9jPnGYP3jPmjOpGFklF59hvryaZ0pN3HgB0pSLZSNy9eZf18mEb1wvXJSB
+	 d5DyoThuhNyd0l2hyOm6xJ93yRVslr8baXc0kVsI/IKiruV2HDZBWHHQ5Z2+D+hN8mA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZSxliBwO;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=none header.from=ziepe.ca;
+	spf=pass smtp.mailfrom=ziepe.ca;
+	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=VAnxgq+X;
+	arc=none smtp.remote-ip=209.85.219.49
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6511B606A31A;
-	Fri, 30 Oct 2026 15:10:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E397606A322
+	for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 15:11:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6E397606A322
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZSxliBwO
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BFA11F000C1;
-	Fri, 30 Oct 2026 15:10:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793373020;
-	bh=hzDvyFL7gN3zXscWLWZE3FRgfn52vpq2GWlamrx1ydc=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=ZSxliBwOJHDMKvdPR0psU8994p2F4i53l1ekOCX8rOiH3VIv45slXk3nmITOIGKer
-	 JrGVtLAqVPWTM2rVb20e7LTFjT0cr2J6amdPUCDwrfk/SQbyvZmCbiRCMVsU6IgfyB
-	 xHz5BnhcRIpC6JjJsIcmT9SZ6gMXVwOIRuCDwDY01CuqZg5Eaa00v/kEOKQvU/Sxrf
-	 moW1VBMmYc/4Mra8dGvGg6nMhY6VubTFzcouwgV1cavLFeabmfK//xmVFKixKKRwPG
-	 GnK2atVu39RCAzhUd6kh80Z7lWIIJ96hmooFRjUhFBVPHRNiU+e404PxovTrSVKgtH
-	 de+BGNcKOdVgw==
-From: Christian Brauner <brauner@kernel.org>
-To: Alexei Starovoitov <ast@kernel.org>, 
- Andrii Nakryiko <andrii@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
- Eduard Zingerman <eddyz87@gmail.com>, 
- Kumar Kartikeya Dwivedi <memxor@gmail.com>, 
- Ihor Solodrai <ihor.solodrai@linux.dev>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
- NeilBrown <neil@brown.name>, Jiri Olsa <jolsa@kernel.org>, 
- Mark Brown <broonie@kernel.org>, linux-fsdevel@vger.kernel.org, 
- bpf@vger.kernel.org, linux-kernel@vger.kernel.org, kernel-team@meta.com
-In-Reply-To: <20261021201400.5409-1-ihor.solodrai@linux.dev>
-References: <20261021201400.5409-1-ihor.solodrai@linux.dev>
-Subject: Re: [PATCH vfs v3] bpf: Allow bpf_d_path() from filp_close_sync()
-Message-Id: <20261030-probt-schule-pechschwarz-e91fad0852b8@brauner>
-Date: Fri, 30 Oct 2026 16:10:15 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=VAnxgq+X
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-91c8fef5ce2so10281056d6.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 08:11:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1793373079; x=1793977879; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=SknYW3+pVsCwOENllYU3jowrrCPEotGjBjq9wVk1tW0=;
+        b=VAnxgq+X4QCFTDu9AfTIw48AdlrmXvNeSuIaONQhqFkWoVPXZBz84mze+bQQdrgAhR
+         Yb1qIjdcTWGrZL1vyxFrdGovjWe0C1rwpn88C7tgXg3BW1x/vT+4lppONNZ8N5T4dIZF
+         A86w3AiVzzJlHYHoWjb+ZBekF/EkxgqB5kFZzSlRgpVyxvegFwpmbFlwECZi5LehdbEw
+         fPlvuM+bv9BCs3E+qbixvAbLVr2hTUtX7fpfDGGuE5hdiG5M5JPOPvHVD91ix6/f0At2
+         dnlRKLnPnupUvjaDpJdUG/mHdwTGSxDI+PfrEZRHaKDbgB1fY52C8lRrarj8WAIdi77C
+         HTkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793373079; x=1793977879;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=SknYW3+pVsCwOENllYU3jowrrCPEotGjBjq9wVk1tW0=;
+        b=IGNEkC6h0mqYeK0mAqO0kTtBkrCypPHZWHCKgzESbRgUfWSDpIt8nT2W8ryyfQBDYp
+         AqDF+XlAnOpcZyvyZxVtvjA9/CmAWm4EPNnHf3NFRz90kkPBd4IyeOzFuIlC0tz/jdWg
+         6OOX6QpIKXfJK9TMyKVJnbeJZqD9Su9oh47Q+kz3UbZcNBYleWb0Op4MaFF9AEzTqEyK
+         3Xjp2CDZMUYapX/4pk5kCvZkZbZ3VWnwy6FrLNU4ELhx83o34IDMJy8HFWL4iSQL9Lw3
+         XwwkQu8lqFGxtaMjOSf/H94VwUukX2qSlJRjh8NjYo9p9LitKhfJYEF7u/xYlsRyoj6m
+         fBng==
+X-Forwarded-Encrypted: i=1; AKwUvBzvTPQpSy79ZCbw8jklVxbTN9YFstapenViumO8bBsSPQOh8j+jRcsky+I7cSaQRIvD/jg7PBqlwXnePDkA@vger.kernel.org
+X-Gm-Message-State: AFq9FYIuBHJm/ml4AzLxbIHCI7A4OIS5YXd2jkTaKD8BFWhE/nEXxyKO
+	rjyne5e3GHuLlVLmiBvpoSPgT/YHirYqb94mkr5fFUbsuk3kmnqekKrX2Ut0W4mTdLQ=
+X-Gm-Gg: AYBFou2hN7iM+cweudtAUbdRkZVePsYcM3RmukGNFfqiXIndn/gnAebUe7gCikQmbOi
+	654tpBC8aJoiZD59CWJEMP6r8bMw6TtNaF6Un1fHzcPDlhqHvngxyGWCRziuf/e2l3vY2lQ8JDA
+	OKULn0IzKKVjTeLNoNzOk4yYi5/+rtS5BGSumECJ2zoq4Go9GiFlZ9/0kDTCFiqjhB/DYQgbmrh
+	YQf0FD9b8O1HSgZ7L3leIcCGFx4EsxSntYYhEZAqhQAJD80niXFLrY/Zrz/kQW79wYxFCbIoezP
+	dA6TKoRTuf0X1FowQpkBVALmOq6cRNHJTXqRXtBp9/hzJwJk+sowbrvjrllCfeXVqnmzf/i6keO
+	7hZD9tf+ZYsKwCH34mIhpXNceNmZ+h2FzAIY667p6a0a0skqaFtn3PWV9XyLnGMBbcy3oQktdvt
+	aU4EdOQisUP6vrKFqzdzosd+UbvMzcq1wGMaMpyzlbyoCLCcuoCR0jU+FafmY92JVCNdpyMlG6X
+	vpbyyK1ne1i28qyPplVLQiPofUIutlH4xi8ugWRggv8zbNrQg0udURpW4eODXncVf8J8MQuVXIz
+	fsNqryrut0zoZkX8NIfPT2f2z47cfFg3pomP2O+TVQz7dO3QHqzvedbKqtxwI/qpNs9xg/Hn9YK
+	riaNZJjh4XYg=
+X-Received: by 2002:a05:6214:29ec:b0:91c:5fc4:ec2f with SMTP id 6a1803df08f44-91ca4b0dc32mr40691666d6.26.1793373079235;
+        Fri, 30 Oct 2026 08:11:19 -0700 (PDT)
+Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91ca807047bsm17117606d6.39.2026.10.30.08.11.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Oct 2026 08:11:17 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1xMoGB-00000000v1Y-0kVg;
+	Fri, 30 Oct 2026 12:11:15 -0300
+Date: Fri, 30 Oct 2026 12:11:15 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Samiullah Khawaja <skhawaja@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Hugh Dickins <hughd@google.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Muchun Song <muchun.song@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	Jeff Layton <jlayton@kernel.org>, Chuck Lever <cel@kernel.org>,
+	Alexander Aring <alex.aring@gmail.com>,
+	Shuah Khan <shuah@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>,
+	Jeff Xu <jeffxu@google.com>, David Matlack <dmatlack@google.com>,
+	Pasha Tatashin <tatashin@google.com>, linux-mm@kvack.org,
+	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/2] mm/memfd: add F_SEAL_PUNCH_HOLE
+Message-ID: <20261030151115.GD3889730@ziepe.ca>
+References: <20261026220546.3114241-1-skhawaja@google.com>
+ <d4891333-43ea-4d74-9fb9-6ad8dac1a446@kernel.org>
+ <20261030121113.GB3889730@ziepe.ca>
+ <2c7aa5c1-3af3-4654-b244-1257d05c9d45@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -64,35 +116,30 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev-ce4c1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2c7aa5c1-3af3-4654-b244-1257d05c9d45@kernel.org>
 
-On Wed, 21 Oct 2026 13:13:59 -0700, Ihor Solodrai wrote:
-> The d_path selftest closes its descriptors with close_range() so that
-> its fentry program on filp_close() runs.
+On Fri, Oct 30, 2026 at 03:39:40PM +0100, David Hildenbrand (Arm) wrote:
+
+> >> I don't see a reason to make userspace (that should not shoot itself into the
+> >> foot) a kernel feature it must activate itself to not shoot itself into the foot.
+> > 
+> > The issue is live update doesn't preserve those background punched
+> > folios and now we have created an UAF attack on the kernel across
+> > kexec if you don't do something about it.
+> > 
+> > There was some notion here that with the right sealing flags we could
+> > tell if everything was 'live update compatible' and then know that
+> > these attacks are impossible.
+> Just remember that there was any hole punch and refuse to live update this instance.
 > 
-> Commit 056069eb2b66 ("fs: make close_range() synchronous") switched
-> close_range() to filp_close_sync(), so the program still attaches but
-> is never called:
+> We could likely implement "we saw hole punch on a pinned folio" as well, but I
+> don't think that's required initially.
 > 
-> [...]
+> No need for more shaky seals.
 
-Applied to the vfs.fixes branch of the vfs/vfs.git tree.
-Patches in the vfs.fixes branch should appear in linux-next soon.
+Ah, yeah that might work out. It has to be checked really late though,
+after userspace cannot change the memfd any further.
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
-
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs.fixes
-
-[1/1] bpf: Allow bpf_d_path() from filp_close_sync()
-      https://git.kernel.org/vfs/vfs/c/3a00ecc89069
-
+Jason
