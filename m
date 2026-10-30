@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793371070;
-	b=JmC3Uvt0p7OLJJlxcXqj3IdbAYFJ7VVheNR9+hLHLphAqVlUIIJ5B3O4foRSyWdDW1Pd
-	 X8D4vxQSPuEUWczA13YYm3GlGcnGqlvJSypgPgSLlQb28yV+TYPNZHTOO1dy02B4ecPMV
-	 EnNoen0p6w8U8tKlr6F5/O+R54MhgtWI6UzZB6CylZYXpwVctGu5gCPppl+ZOE1SO/fX4
-	 juMX4ZKI9uxAzRT25Dxt3nbbltG+GrBe+mOjF/3RNTLTKuz5zFQpx+6JSE+TwVQ6ptEuK
-	 /33pygE8MufqX8GhxLM+o3bjOMGnLtK1YoaJyTL0ABTQYQ4Mw1ew1qg6lQWHA7139hw==
+	t=1793371190;
+	b=tFK0z6/JgFhdKfkoN8LIX6VYgfCi3YrF85l2Et6N1SefdnxErdLZUSIzmjbNU//yyew3
+	 3lxiC+KHbD+8Ewc8zDjZnz8l9bjK660exv74aUx0UECAyRMjIx21+SOkf1aKeUSxIH4ia
+	 sB15OGF1xAlMllWIn3ewsAtPQR3V2g4XOLX7C/t2IlGam90hOJGxhhRbY6uqO8JveJURi
+	 pctyYrG+2+PjveZjUd0PN1AURhzMlB1rMn2R121GvpHAcQixfsFvCzVAX5jR/w91XceBx
+	 jSFIP/oIUplCGaMC8IiIF82Y+GmkZ7jAPN9UZM08HnycFxHWp8m+PPM+0PuYL6piYbg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793371070;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793371190;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=uOYO1vBz1WqzK+TimXJTNpBfLu8OouAosUkHyHS7j4s=;
-	b=GwH0+0VnbFL6CnwqXKR+KRNrLNs9/XyvkO/jl3bhHgkB8YMIJ3hqyC81NDL4yBkQtrWg
-	 8oNF7bE8Z1dpjGux7oY2jo0PkeP0ul7FE9GWOJ/mOrbDM37/YN4IJWO+qxK8Qm7jSCNky
-	 JxrKjr+98yMQUTlIfBOK17BMLN8OIMp1/gWo3Fq6k1brEqB4hFOatopxnFKiMP+MBTMPj
-	 qiU4B/x/UdMlNb65UEWnNFQQxFeUNfO1VGoWtzfZm/wRYBMIVVOA5t3bJuA4NPeW9SVAK
-	 57RZMpSKpRcKjsHLJjSR/imU4NQL/ZfUXqPktYW7vrMT5KNYWpr5GYyqmfR4v6qfZRg==
+	bh=oKRevRmUwUIKRTw8Grw6ZvIs0InwSJnYXmbgD1Qkg6c=;
+	b=u/xNdRB7A8lWvy1GiCo/DAOBR27p/E/kMSA/jZaZ/1Gb82j7AvXcrc6nEK/0uz2t8E3c
+	 Z7LX/ADagvkan3UuPQcvXF5q68MQK5eIeD2QAbI3c0zzQmTNMSKhJgBTdqLnztAP2JWuM
+	 3d9oFCSQPfJ+pJC9OjJwmuP1wsp0VLZEakiDqZvqIt9mWRv9KjPwACDEGgMnWaptqENLF
+	 ywKATiEBC985rNMbKZ4xzVeGb48upL+B67gNCeVI9Knn7zBRMvNR+jrXRivrmL7Mw9f1Z
+	 ZDyiLSyv9YMoy7GwzP/kMpdzkLJF1KDOwqb3AeFwTQ0nbHEAbeNy+4sH4JCtIHeu1vQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bF6R9279;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QlrsuYA6;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C177606A31C;
-	Fri, 30 Oct 2026 14:37:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1086D606A31C;
+	Fri, 30 Oct 2026 14:39:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bF6R9279
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D2651F000C1;
-	Fri, 30 Oct 2026 14:37:31 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QlrsuYA6
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B9CF1F000C1;
+	Fri, 30 Oct 2026 14:39:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793371069;
-	bh=uOYO1vBz1WqzK+TimXJTNpBfLu8OouAosUkHyHS7j4s=;
+	s=k20260515; t=1793371189;
+	bh=oKRevRmUwUIKRTw8Grw6ZvIs0InwSJnYXmbgD1Qkg6c=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=bF6R9279b9c55sZunVufqLbJNHVpGKBm16I1N1EhD57KVbpTTV97cgxt+5quNJxhU
-	 AcBv2r5idRTx7z1d4FGqoqjMWGKBamCpKhDD815Qf7MjJH/RyQMi6wtbUEjI+Fsxfq
-	 3UPWRaoTnrvjcppPpHLTtmK6MyDUEJGw7p1LycATDtjCtqj00PRuPJe0iUvWnJfNPO
-	 4g8WVSEbre0QpmAQvYNAoIamCH34o/q4qyIKgFfupjeNVbxFYvnpmk8SydELkXK1Ad
-	 sH7yssGm1jBtjQi2I9rF/OMf/8/uxLDf3DBU8L+pn4Pd+PaTpTSitw09zSvNi70Mtb
-	 +e+8QcJWIXVYg==
-Message-ID: <9af1202f-9fae-4cca-904a-0ba00d7e726d@kernel.org>
-Date: Fri, 30 Oct 2026 15:37:29 +0100
+	b=QlrsuYA6mex7jjvoZN82HmAjIvobJ74fu3R5Y8i+QFMLcTfyIePVM7xN1dyaZmXL7
+	 GjfsXTrC2E34yDNgbOosBLx8P1/GWkFdsQisfKlchJofAycGG2qTtm4EUPhnyJFIOI
+	 JBk9cXZ8V6+rN2p4bMymv58olvcDnQUINMSfh8zSONnumclsw57PNhgNGT04t0Hrcg
+	 SBCkVAQskvK73TvZvea/JgHI4FLvM28tAO5Wi0s1EsMv4sL5sTmSK5ZUfy1PvOI5x2
+	 5RpbnlG7PUdvXlVAxc7dECd1qmUxZp3CahSsHL4TIMHfFgNcTZ6cxwUXleTIORKHQk
+	 HPocaXD+1VfSw==
+Message-ID: <2c7aa5c1-3af3-4654-b244-1257d05c9d45@kernel.org>
+Date: Fri, 30 Oct 2026 15:39:40 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -52,50 +52,23 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/47] mm: various (urgent?) fixes
-To: Chris Mason <mason@kernel.org>, Muhammad Usama Anjum
- <usama.anjum@arm.com>, Andrew Morton <akpm@linux-foundation.org>,
- Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>,
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
- "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, Kairui Song <kasong@tencent.com>,
- Barry Song <baohua@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>,
- Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
- Baoquan He <baoquan.he@linux.dev>,
+Subject: Re: [PATCH 0/2] mm/memfd: add F_SEAL_PUNCH_HOLE
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Samiullah Khawaja <skhawaja@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Hugh Dickins <hughd@google.com>,
  Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Kees Cook <kees@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>, Hugh Dickins <hughd@google.com>,
- Pasha Tatashin <pasha.tatashin@soleen.com>,
- Pratyush Yadav <pratyush@kernel.org>, Matthew Wilcox <willy@infradead.org>,
- Jan Kara <jack@suse.cz>, Zi Yan <ziy@nvidia.com>,
- Lance Yang <lance.yang@linux.dev>, Rik van Riel <riel@surriel.com>,
- Harry Yoo <harry@kernel.org>, Alistair Popple <apopple@nvidia.com>,
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Usama Arif <usama.arif@linux.dev>,
- Kiryl Shutsemau <kas@kernel.org>, Matthew Brost <matthew.brost@intel.com>,
- John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>,
- Will Deacon <will@kernel.org>, "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
- Nick Piggin <npiggin@gmail.com>, Oscar Salvador <osalvador@suse.de>,
- Minchan Kim <minchan@kernel.org>, Muchun Song <muchun.song@linux.dev>,
- Xu Xin <xu.xin@linux.dev>, Chengming Zhou <chengming.zhou@linux.dev>,
- Chris Li <chrisl@kernel.org>, Kemeng Shi <shikemeng@huaweicloud.com>,
- Nhat Pham <nphamcs@gmail.com>, Youngjun Park <youngjun.park@lge.com>,
- Gregory Price <gourry@gourry.net>, Joshua Hahn <joshua.hahnjy@gmail.com>,
- Rakie Kim <rakie.kim@sk.com>, Ying Huang <ying.huang@linux.alibaba.com>,
- Jason Gunthorpe <jgg@ziepe.ca>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- kexec@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-cxl@vger.kernel.org,
- Josef Bacik <josef@toxicpanda.com>, stable@vger.kernel.org,
- Thadeu Lima de Souza Cascardo <cascardo@igalia.com>,
- Mani Tofigh <mt4022@columbia.edu>, Samiullah Khawaja <skhawaja@google.com>
-References: <20261029-fixes_core-v2-0-a64ce7f83abb@kernel.org>
- <2f23dafc-43a5-47c9-a819-e696cda6fd44@arm.com>
- <baeda061-e0d0-4be1-9aa5-8886182ca83f@kernel.org>
- <bc8c1fc5-4620-4515-8520-22ebcd0d592a@arm.com>
- <ad0d82f5-c2ad-46d0-986d-94626faac1f9@app.fastmail.com>
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ Jeff Layton <jlayton@kernel.org>, Chuck Lever <cel@kernel.org>,
+ Alexander Aring <alex.aring@gmail.com>, Shuah Khan <shuah@kernel.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, Jeff Xu <jeffxu@google.com>,
+ David Matlack <dmatlack@google.com>, Pasha Tatashin <tatashin@google.com>,
+ linux-mm@kvack.org, linux-api@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261026220546.3114241-1-skhawaja@google.com>
+ <d4891333-43ea-4d74-9fb9-6ad8dac1a446@kernel.org>
+ <20261030121113.GB3889730@ziepe.ca>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -142,48 +115,53 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <ad0d82f5-c2ad-46d0-986d-94626faac1f9@app.fastmail.com>
+In-Reply-To: <20261030121113.GB3889730@ziepe.ca>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 10/30/26 14:10, Chris Mason wrote:
-> 
-> 
-> On Fri, Oct 30, 2026, at 8:12 AM, Muhammad Usama Anjum wrote:
->> On 30/10/2026 11:35 am, David Hildenbrand (Arm) wrote:
+On 10/30/26 13:11, Jason Gunthorpe wrote:
+> On Fri, Oct 30, 2026 at 11:20:30AM +0100, David Hildenbrand (Arm) wrote:
+>> On 10/26/26 23:05, Samiullah Khawaja wrote:
+>>> This series introduces F_SEAL_PUNCH_HOLE, a new memfd seal that prevents
+>>> holes from being punched into a shmem or hugetlbfs memfd while leaving
+>>> the file fully writable.
 >>>
+>>> Background
+>>> ==========
 >>>
->>> Thanks for the results. IIUC it's schbench that shows a possible regression.
->>>
->>> I would expect that no changes here really affect performance at all (neither
->>> positively nor negatively).
->>>
->>> "mm/huge_memory: fix list corruption when deferred_split_scan() races with
->>> deferred_split_folio()" fixes locking, but I wouldn't assume that this matters
->>> at all for this benchmark.
->>>
->>> "fork: take mmap_lock before copying mm_struct" changes locking, but I also fail
->>> to see how that would affect the benchmark.
->>>
->>> Maybe some code layout changes just affect some benchmark on some machines?
->>> Because already seeing 10 improvements makes me wonder how that could possibly be.
->>>
->>> So I'll move forward with these fixes for now and see if we get more reports and
->>> could identify actual problematic commits.
+>>> Drivers such as udmabuf and iommufd (via IOMMU_IOAS_MAP_FILE) use
+>>> memfd_pin_folios() to pin the folios backing a memfd and hand them to a
+>>> device for DMA. Pinning keeps those folios allocated, but it does not
+>>> keep them in the file. If userspace later calls
+>>> fallocate(FALLOC_FL_PUNCH_HOLE) or madvise(MADV_REMOVE) on the range,
+>>> the folios are dropped from the page cache while the device continues
+>>> to use them. The pin holder is never notified, and from that point on
+>>> the device and the file silently diverge.
 >>
->> Yes, these improvements/regression might be because of code movement and how it
->> has affected the run time performance. Most importantly, these results show that
->> there isn't any drastic affect on performance. These fixes are good to go.
+>> We have the exact same situation when userspace maps anonymous folios into vfio
+>> and then desides to MADV_DONTNEED the pages. Or any other memory backend that is
+>> used for such purposes.
+>>
+>> User space must not zap/punch things that might be pinned elsewhere.
+>>
+>> That's not specific to memfd, udmabuf, iommufd or anything else.
+>>
+>> I don't see a reason to make userspace (that should not shoot itself into the
+>> foot) a kernel feature it must activate itself to not shoot itself into the foot.
 > 
-> This schbench configuration is going to be really sensitive to process placement, and it
-> should be doing all of its memory allocations up front.   I haven't done many schbench
-> runs on this type of hardware, but I'd agree this result shouldn't indicate a bigger lurking
-> regression anywhere.
+> The issue is live update doesn't preserve those background punched
+> folios and now we have created an UAF attack on the kernel across
+> kexec if you don't do something about it.
+> 
+> There was some notion here that with the right sealing flags we could
+> tell if everything was 'live update compatible' and then know that
+> these attacks are impossible.
+Just remember that there was any hole punch and refuse to live update this instance.
 
-Thanks Chris and Usama!
+We could likely implement "we saw hole punch on a pinned folio" as well, but I
+don't think that's required initially.
 
-I'll respin a v3 shortly and get it into -next tomorrow (unless something really
-odd sticks out).
+No need for more shaky seals.
 
 -- 
 Cheers,
