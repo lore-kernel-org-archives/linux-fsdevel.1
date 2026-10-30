@@ -1,100 +1,52 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.181
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793389982;
-	b=t9WhLvWWnZpbJH+7GrKz1b10JGsi0ujh0EQFJv/rORnA3klNTljHuNjgeWXSjinigj3E
-	 yheLZmab2vjIZrbSNHb2BblLkgVnQHkX8Hl3pOwkqqnwTxTKDCzwAI74qKORZBfQ4tbZq
-	 B2j8E/v/pMZQ1z+13/tIlXfF9pHtricW1bbEYZN8V4bEjEkmC3RcG2j2NsfnfhpTIrDzp
-	 2Tk773FDMVQ/EBYS969zcMLc+6LnHwpD3nIKMXS90VRRAKcdtRYdlcnjDWvRGn+iBqSH/
-	 9KjGBoVLMLDPzMYEoeTYTOfmtBdJicP7iUNUsIFVjIPuUcu3zj+n5aWTMJjsqHVC9Pg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793389982;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=M+BdM9WeGKtKZaWhqQx0TQqxdfo0Oqgz9BExV/rtU8c=;
-	b=agCwKp8MRNTftt117vtWdUbQWtnGda1p6GLMKVYIYFNqzjbWpTp7oeRE8tQVGKN3AJ43
-	 ZGb5M774g/Rd8b5dfzlDf5EqXe9Q0H7ry6T9rvfP9EFnzKJBzrrjvjVm6pdA64MiKmzIQ
-	 7cxJGsoBm1u5yjj1eeCgZL9E3Z2/0qwLkV3DZcf/xp4mUDKG3sUqUgbMg7C/FYy+2hzEX
-	 Q+hfCcZQqQXTMLSoARwilYzqnKf6cBYRS5ZO+MQT0P24SZ/NirnHeRhCSqY5ETME3Luyz
-	 4YpHjDwxPgd/VBOiXeqnnRoMXyLuZdE77cF0yEYMmwJJU3AbYDkmcA2b6VQAQdHwO4Q==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=none header.from=amacapital.net;
-	spf=pass smtp.mailfrom=amacapital.net;
-	dkim=pass header.d=amacapital-net.20260707.gappssmtp.com header.i=@amacapital-net.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b="Qe/gAcEi";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.181
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=216.40.44.11
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793391146;
+	b=vlYvEx4mWzQ+cCb1fgAkl96xjwtQbuZnatAfgMzr887Cl0vCpHSQKM+v01M3z4ce0mja
+	 UxK3bSahprkni40kksXc054pRs+CBaBCbK/RTR6f1KOZxSnAWKnIlnmdHn+SPKH2nBboT
+	 qQ5b3NkbDKtRgza2gkzTC8Ltqv/moAillxWrWv1aUEVRHiSlv4ZImJjsxg/dddpLF2Bys
+	 T1LUwZXEMReHKNsXZPkN+pLKqOYZj6JU3WlOiYYe3l7MGnjKKV6/WsPSRE3j+j9/CHTpP
+	 YqZGo8UEIQiHTGTie87hQelOE5I3CovRASosAyq7/1mDXOpauBjfg7DzzJ44hA1jagQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793391146;
+	h=DMARC-Filter:Received:Received:Date:From:To:Cc:Subject:Message-ID:
+	 X-Mailer:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Rspamd-Server:X-Rspamd-Queue-Id:X-Stat-Signature:X-Spam-Status:
+	 X-Session-Marker:X-Session-ID:DKIM-Signature:X-HE-Tag:X-HE-Meta;
+	bh=HhS9XCWw3vEpxinWiwFJvyjZm4wSdEFJIbRwscEPc4M=;
+	b=lstB9i8TwLt/LHWegntLLbVmTXf3SNpgxX6w7vT0inrwqiq4OkJ1oDKEGhHizGZVcq3X
+	 7OVn1Z6sNH3fp+ic22IpG0hAm/ERTQvB5vTVLQ+Co3MhGLHIHSY1ezeMTTAvOJqQbDh3z
+	 SyGQE+tjLfihvmHDDeMRaY1fYxlJxTSm+jO7yOFbJoKwwopOybs2i7sjLMSZi0uuFBWtH
+	 9h7844UJDblluH5dc5r8zJDioi3R9FHZj7d3/01XrZW++jwC0KDnDJlj8/Y2jCCHxxIkL
+	 Gpz6pVr9SE55ghP1VXRJtiT/kTWwZhcC41V11SDCEWg4ntz2+LHZgh1pk20sopBGOOg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=goodmis.org;
+	spf=pass smtp.mailfrom=goodmis.org;
+	dkim=pass header.d=goodmis.org header.i=@goodmis.org header.a=rsa-sha256 header.s=dkim1 header.b=H9pLVCC5;
+	arc=none smtp.remote-ip=216.40.44.11
+Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com [216.40.44.11])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70526606A31C
-	for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 19:53:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 70526606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59C4C606A31A;
+	Fri, 30 Oct 2026 20:12:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 59C4C606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=amacapital-net.20260707.gappssmtp.com header.i=@amacapital-net.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=Qe/gAcEi
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-5364648ae07so10940291cf.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 12:53:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793389980; cv=none;
-        d=google.com; s=arc-20260327;
-        b=rR6s+BXpZnOYluDPpYp/6uf3dtvsrZn1cCPy2BrLLAYo6f+zTO/Rl4duVcPqnrLUst
-         nNSZTo+bC08HAcah38z6aGtUSivE98Ji7mhYAXZQVhbKeQMwAeloAuH7hDqEGDN4QzOs
-         jqUzJZROwOQVZEAU7M6FZlkrJSoMoPf65f/UfD69CL/0lNH+KuHO/1MP8okLPEcmAkuS
-         Nd2uui0N+HdavWWnmAdjaW+jIznkiZPCcT6fQyAM1llkyA6y4oaFka3USHPpnfmOUnin
-         f4mcWHyr4dnP8rnASaDm3ePOfpDOHIwh7Hyi7zEQuGZqGqSd52a4cnfJuug4DLjFW9RM
-         8vFw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=M+BdM9WeGKtKZaWhqQx0TQqxdfo0Oqgz9BExV/rtU8c=;
-        fh=EQSGBkIgm6JTV1hsHFHL81/Pk8XX/6RkivTQGK8rV6E=;
-        b=pllerqPmV/PEKSjOOcSUy3jGttqWbBUJhPWI2bn5eUi0MEodYk9Af/cGoE75DffFsf
-         3ZjNqPZrjrJHEh863LWx5bSs35q3YRTysP4ZeJfqrkETTB9juzl4s6VB+Rqxg2zA9Qmu
-         3BYydCs0881p24U1ZI3lnAAEoHe/+7YD3wrfmXpwjzJGKPV9Y89szJ68CR0FUcRIvZ8/
-         xWdRDEYIIfzqudo0/c+7zu6bllcya+PYQy0q3ipI35Qf+rhCGqxiiFWY/f/syxJsGKop
-         tvAHNESknWARiCWFfe+SJIE0/6nN2ANtTaRw+1qy4fOi0S5Ro1puMvGQQXNKWTifRB6c
-         CEhg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20260707.gappssmtp.com; s=20260707; t=1793389980; x=1793994780; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=M+BdM9WeGKtKZaWhqQx0TQqxdfo0Oqgz9BExV/rtU8c=;
-        b=Qe/gAcEi05CmazbVFGJG6MC2y/lEV7BIPbL2moKmqBCgaUI1F0umwaCz7ccXtSM3Nm
-         E0Jlp77DRyMTuUTf82/ojtyzo+CDbCzVaywRB/kOgDeOdjojaKSMrwm8R4M1HZ+6y800
-         65mX5dfPNYKxwGQLspt8lgAAXSkzCdzoJeYHJ0CmZAlzse46eVRnPq9toAwzBv6D0msf
-         PGGRhbir0eSUeuhde/eAv8CsqKwzj8vcXXAUrqC7AsGUCmpxjaKI8BjRkdf6XLOjgJtO
-         Xl8FNOUbs7wAtPKFLtgPn6BEquVGDezxdUaLdmxEOvsiOtzr6Aw80PTpSTYzYsLicEsX
-         cD+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793389980; x=1793994780;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=M+BdM9WeGKtKZaWhqQx0TQqxdfo0Oqgz9BExV/rtU8c=;
-        b=mpBgrTZNZN29xM/Sydz2Xj3FaNtxUP8fB5YkB7oBe30qhaArCCvHUZ0J5h0QNwgZEM
-         2fr3EdMueY88Fu9PHjwfK+yFQLKGP62JROCFonvjgng79qZEJuoP18wDQJRScWcLPZYs
-         WAeJMok1eWsLXV4CyCtzVsEWq9X/yJ+/A0b/zEwR1NTEm4m0QptpAcRzuZmOO65uts7F
-         1dv65zFbFEvolm73qgDZU8gv1gFEDEO0viGSLBhFFnoHB2hT99rvtAoOLlWoswc2TGDD
-         Efv85zVZAM7qgWb+kRPzQhBXifKWPbEn659PJnZtbGBgv7OKQpgtVLxwSL6hNKYpUJrB
-         7Txg==
-X-Forwarded-Encrypted: i=1; AKwUvBzC2qfUwdl1ulZS9TGfsZzfLNvN3JxFzRmvQJ6fXOjjeHGmJ/jXHpz6ciKaiL0EM8qkx6iqszmhpni1JwiS@vger.kernel.org
-X-Gm-Message-State: AFq9FYJZ6wQdsDPU7QOiTwDcgo/BjqmmgyRiDD4QXZi+xovk7gpjR0vD
-	r0fJy9aVIXXwIDWARWjKDcDRgVqeppc7p1TQ8jfLBj2ctmzCJHNEpsH3eOS/UlvHv83d/Gw3EUi
-	6xXmD1d9ZMVRO+VFwJDzYIhOkV3++AkySuINbhKpi
-X-Gm-Gg: AYBFou21nGL7Bz+P6VCE4J7nzBIk1iKojqfECR3/Vypmeh3D4n/wqzSYi6uwoPLiSj1
-	aRu9rV9dY6vHINrluqcVogn8TUMQIieVt7eUnpaYThLbSK04cSEGJtxj9VfMRCX8szy2q/aco6m
-	oaTw4GGD1DXjMX0O9A4F+e/iiJcSaqzVIydoAXw+RQN8osVyxX0+My+OVjk6FjjBf7bKeVPtg+d
-	NpBJHkZfqVjgscqy/JZBZXm4jmJnwUVGmSzyzH9VZFMeENevqeUPffnEhJrlcBxi0oUeH09fxFE
-	NFantnZaknTZaUD3TMtzgAu6hur3XA+7T/++uUnXTrO2kGumoYOIvTZyxsMCidj0bgyBYt0k1Pv
-	n1WjYY3rJpkfRY3IOWX3EAqYoiuBYXo5uVLwR5iBdVdzqBqNxk1M5Ovc=
-X-Received: by 2002:a05:622a:34e:b0:536:43d6:2a94 with SMTP id
- d75a77b69052e-542b7145036mr51380891cf.34.1793389980143; Fri, 30 Oct 2026
- 12:53:00 -0700 (PDT)
+	dkim=pass (1024-bit key, unprotected) header.d=goodmis.org header.i=@goodmis.org header.a=rsa-sha256 header.s=dkim1 header.b=H9pLVCC5
+Received: from omf11.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay07.hostedemail.com (Postfix) with ESMTP id ADD5A1607C4;
+	Fri, 30 Oct 2026 20:12:23 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf11.hostedemail.com (Postfix) with ESMTPA id 014442002A;
+	Fri, 30 Oct 2026 20:12:21 +0000 (UTC)
+Date: Fri, 30 Oct 2026 16:12:20 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: LKML <linux-kernel@vger.kernel.org>, linux-fsdevel@vger.kernel.org
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner
+ <brauner@kernel.org>, Jan Kara <jack@suse.cz>
+Subject: How to detect inode leaks?
+Message-ID: <20261030161220.6f773b1c@gandalf.local.home>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,133 +56,157 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261026220546.3114241-1-skhawaja@google.com> <CALCETrXNEWQNPjtuHnTfVFOafeJ7APXq288Cq16Q5adDNYx9+A@mail.gmail.com>
- <auEksxfAi9lHFXmT@google.com> <CALCETrXDY2e8x2kdr-FQvFLs-Y7FwNozXGDvqqM6yvVA7QLV3g@mail.gmail.com>
- <auPKfqh_YjRU9Ui3@google.com> <CALCETrUEyfvaEGxMHo=c0ia3CDgSxg-YW0_=Z7T31Ou+pvicuQ@mail.gmail.com>
- <CALCETrVpEP=HxVqdSP_AgA=U7ignwAgjz5Vi9+Z9dZsX5DXeLw@mail.gmail.com>
- <20261030121259.GC3889730@ziepe.ca> <CALCETrW6RUgTGFuqx+cxV0c+Oq4d-P5C8AQ2ja0ESMP_8JGpxg@mail.gmail.com>
-In-Reply-To: <CALCETrW6RUgTGFuqx+cxV0c+Oq4d-P5C8AQ2ja0ESMP_8JGpxg@mail.gmail.com>
-From: Andy Lutomirski <luto@amacapital.net>
-Date: Fri, 30 Oct 2026 12:52:45 -0700
-X-Gm-Features: AclHuK9sB5PkTPxFH6Td3Meg7Fy9jFpGf4zpslN407GFn3D8So9__FrNUMzsHq0
-Message-ID: <CALCETrUGa4zE3Zx+5Dw_UYEFgMmgDYQUeCxvPKv_-u56hQ1W7A@mail.gmail.com>
-Subject: Re: [PATCH 0/2] mm/memfd: add F_SEAL_PUNCH_HOLE
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Samiullah Khawaja <skhawaja@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Hugh Dickins <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
-	Oscar Salvador <osalvador@suse.de>, Jeff Layton <jlayton@kernel.org>, Chuck Lever <cel@kernel.org>, 
-	Alexander Aring <alex.aring@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Gerd Hoffmann <kraxel@redhat.com>, Vivek Kasireddy <vivek.kasireddy@intel.com>, 
-	Jeff Xu <jeffxu@google.com>, David Matlack <dmatlack@google.com>, 
-	Pasha Tatashin <tatashin@google.com>, linux-mm@kvack.org, linux-api@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Server: rspamout07
+X-Rspamd-Queue-Id: 014442002A
+X-Stat-Signature: mkhc7yenwbz57dkww4akr15qatx3kz4h
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX18T7XKUgLdaMehf0FR+cWT44wCCiHnGDog=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=goodmis.org; h=date:from:to:cc:subject:message-id:mime-version:content-type:content-transfer-encoding; s=dkim1; bh=HhS9XCWw3vEpxinWiwFJvyjZm4wSdEFJIbRwscEPc4M=; b=H9pLVCC5irHO7xU8cJE+DRpC6Nu1nONFhSe4aDxCBzqec6veVem0kFFqc0wS3vzQfEm2jIx6WP12GnGp+zcWKIDejCLTiY/up6f+avVSp0BFnTz/2/kjLDIumT8/XcYLloJBFggCujjuUtoOuE++rXaR39+rYqBVl/tcJPwIf5w=
+X-HE-Tag: 1793391141-154602
+X-HE-Meta: U2FsdGVkX183CvujvqOrh/YRVZsGdG/D8YylkD6V2n5kFa1E+aOG6LLyQ9Hl8a/ChWIaJFJYRXRMw1wo8EIQsdTq4kv9KS8i95N6upBOARYQJXRSeHNHId8HXz3A4y5yk+z6zick8MnoEJjJbpL/QKQvhL7/X2HBdxJyMhN17hofYdbUedaBb5eqzGTYsFzLm1mWUW10EH6eIOjw1zBaulkvBnTCQ2ZI25I1ZQqDEHJZME93wlUrB7mvl0grelDO+KdHGnHuhrP3IJteN4AnDqEJui9Nuzz107n+lt7eIAVePuueAAkJesQ09aBM/Zre
 
-On Fri, Oct 30, 2026 at 7:54=E2=80=AFAM Andy Lutomirski <luto@amacapital.ne=
-t> wrote:
->
-> On Fri, Oct 30, 2026 at 5:13=E2=80=AFAM Jason Gunthorpe <jgg@ziepe.ca> wr=
-ote:
-> >
-> > On Thu, Oct 29, 2026 at 07:11:25PM -0700, Andy Lutomirski wrote:
-> >
-> > > I can't shake the feeling that the problem here isn't so much that KH=
-O
-> > > + iommofd doesn't like this but that the behavior in question is
-> > > nonsensical.
-> >
-> > It has been this way for ages, like David says if userspace shoot
-> > itself in the foot it should not be surprised by this illogical
-> > behavior..
-> >
->
-> I dunno, a couple weeks ago I tracked down a 20+-year-old bug, and now
-> it's fixed :)
->
-> > You can get the same nonsenscial thing with just mmap too, you don't
-> > even need a memfd.
->
-> I feel like there are multiple levels of footgun here.
->
-> mmap anonymous (or MAP_PRIVATE), pin the pages, munmap: okay, mmap
-> creates unnamed private memory, and munmapping is maybe like unlinking
-> a file -- if someone else is still accessing it, it's still there.  In
-> fact, you can mmap, fork, unmap, then mmap in the same location, and
-> your child process still sees the original memory.  It's not clear to
-> me that anything is wrong.
->
-> mmap anonymous, pin, MADV_DONTNEED: okay, this one is starting to be a
-> small footgun.  But at least it's pointed at *your own feet* (unless
-> you've forked, which in which case maybe it's pointed at a related
-> process' feet).  I would still argue that the kernel could notice that
-> it's false that I "DON'T NEED" the memory and fail or ignore the
-> request.  And the kernel's pages are still anonymous.
->
-> mmap a named file or memfd, pin, truncate or punch hole: who says the
-> footgun is even pointed at my own feet?  If I mmap a named file,
-> SCM_RIGHTS it to you, and you mmap it too, and then I punch a hole,
-> the rmap machinery had better invalidate your mapping along with mine
-> (and get the TLB flush right!), and it would be an unambiguous and
-> severe bug if this didn't happen correctly.  After all, what you have
-> done is to assign a *logical range* within the file an address in your
-> address space, and nothing I do should change that fact (except,
-> sadly, truncate, which can give you a SIGBUS, but your vma still
-> logically refers to the file).
->
-> So why is the kernel exempt from keeping its own mappings coherent the
-> way it keeps user mappings coherent?
->
-> What if that memfd (or tmpfs file or whatever) is shared between
-> multiple processes that don't trust each other?  One of them can cause
-> it to become incoherent from the perspective of the other one's use of
-> kernel APIs.
->
->
+Hi,
 
-I'm contemplating what would be involved in fixing this for real.
+While working on a eventfs file system to allow the event format and id
+files to be exposed as read-only for unprivileged users, I thought I had an
+error path in the fill_super() logic that didn't free the created inode.
 
-First, there's a scary code path in shmem_replace_folio.  AFAICT
-memfd_pin_folio() can race with swapout, so a pinned folio can be in
-swap cache (obviously we won't *free* the folio if we do this).    If
-we then decide to replace the folio when we swap it back in,
-shmem_replace_folio() will not notice the pin and we become incoherent
-and no one needs to hole-punch the file for this to happen.
-Fortunately I haven't spotted a reason that shmem_should_replace_folio
-would return true in a case where we care, but if someone does what
-the comment suggests and makes it start respecting cpuset or NUMA
-policy, this could easily change.
+Basically this:
 
-Other than that, I think that hole punch could be made to be fully
-safe in one of a couple of not-horribly-invasive ways:
+	inode = new_inode(sb);
+	if (!inode)
+		return -ENOMEM;
 
-Choice A: Make hole punch work like migration.  Unmap from page
-tables, do folio_ref_freeze(), and tolerate failure -- either just
-abort the hole punch operation or zero the contents instead of
-punching it out.  (And contemplate whether this could be made slightly
-more permissive by tolerating a swap entry that still has a live folio
-if the live folio has the expected number of references.)
+	inode->i_ino = 1;
+	inode->i_mode = S_IFDIR | 0555;
+	simple_inode_init_ts(inode);
+	inode->i_op = &simple_dir_inode_operations;
+	inode->i_fop = &simple_dir_operations;
+	set_nlink(inode, 2);
 
-Choice B: In addition to tracking references, mappings, and pins of a
-folio, also track a new type of reference that keeps the folio from
-dissociating with its mapping or changing its address within the
-mapping.  Most code that pins a folio would be changed to take one of
-these fancy new pins -- the main thing I'm thinking of that wouldn't
-need to is writeback or perhaps non-long-term pins that are just
-reading the contents.
+	set_default_d_op(sb, &tracefs_dentry_operations);
 
-Choice C: like B but instead of deciding per caller, treat exactly
-paths that take long term pins as also pinning the folio into the
-mapping.
+	root = d_make_root(inode);
+	if (!root)
+		return -ENOMEM;
 
-For B and C, a big open question would be how this interacts with
-truncate.  I think the idea behavior is that a mapping-pinned folio
-that's past the end of a file would remain and if the file gets
-extended then that folio would represent the portion of the file that
-it covers again.
+Although I later found that d_make_inode() does an iput() on the inode on
+failure, I wanted to know if the inode leak would be detected by kmemleak.
 
---=20
-Andy Lutomirski
-AMA Capital Management, LLC
+Thus I change the above to:
+
+	root = NULL; // d_make_root(inode);
+	if (!root)
+		return -ENOMEM;
+
+To force the leak. I booted this and ran:
+
+~# while :; do mount -t eventfs nodev /sys/kernel/events/; done
+mount: /sys/kernel/events: fsconfig() failed: Cannot allocate memory.
+       dmesg(1) may have more information after failed mount system call.
+mount: /sys/kernel/events: fsconfig() failed: Cannot allocate memory.
+       dmesg(1) may have more information after failed mount system call.
+mount: /sys/kernel/events: fsconfig() failed: Cannot allocate memory.
+       dmesg(1) may have more information after failed mount system call.
+mount: /sys/kernel/events: fsconfig() failed: Cannot allocate memory.
+       dmesg(1) may have more information after failed mount system call.
+mount: /sys/kernel/events: fsconfig() failed: Cannot allocate memory.
+       dmesg(1) may have more information after failed mount system call.
+mount: /sys/kernel/events: fsconfig() failed: Cannot allocate memory.
+       dmesg(1) may have more information after failed mount system call.
+mount: /sys/kernel/events: fsconfig() failed: Cannot allocate memory.
+       dmesg(1) may have more information after failed mount system call.
+mount: /sys/kernel/events: fsconfig() failed: Cannot allocate memory.
+       dmesg(1) may have more information after failed mount system call.
+mount: /sys/kernel/events: fsconfig() failed: Cannot allocate memory.
+       dmesg(1) may have more information after failed mount system call.
+mount: /sys/kernel/events: fsconfig() failed: Cannot allocate memory.
+       dmesg(1) may have more information after failed mount system call.
+[..]
+
+Let it go for some time and waited for kmemleak to find it.
+
+It never did.
+
+I also added a:
+
+  ~# echo 1 > /proc/sys/vm/drop_caches
+
+And that still didn't trigger anything.
+
+I did some tracing and this time I only ran the mount once.
+
+In one window I did:
+
+ ~# echo 1 > /proc/sys/vm/drop_caches
+ ~# trace-cmd record  -p function --func-stack -l alloc_inode -B graph -p function_graph -l alloc_inode -l kmem_cache_free -O funcgraph-args -O funcgraph-retval
+
+And another window I ran:
+
+ ~# mount -t eventfs nodev /sys/kernel/events/
+ ~# echo 1 > /proc/sys/vm/drop_caches
+
+Waited and stopped the recording. The report had:
+
+graph:            mount-1213  [002] ...2.  2088.465177: funcgraph_entry:      ! 456.541 us |  alloc_inode(sb=0xffff88812bf8e000); (ret=0xffff88813d489860)
+                  mount-1213  [002] ...1.  2088.465180: function:             alloc_inode
+                  mount-1213  [002] ...1.  2088.465197: kernel_stack:         <stack trace >
+=> arch_ftrace_ops_list_func (ffffffff81bdf377)
+=> ftrace_call (ffffffff816e5d85)
+=> alloc_inode (ffffffff82491559)
+=> new_inode (ffffffff82491757)
+=> eventfs_ro_fill_super (ffffffff82990f2b)
+=> get_tree_single (ffffffff824184fc)
+=> vfs_get_tree (ffffffff8240dc6b)
+=> vfs_cmd_create (ffffffff8253ac42)
+=> __do_sys_fsconfig (ffffffff8253b28e)
+=> do_syscall_64 (ffffffff8499faeb)
+=> entry_SYSCALL_64_after_hwframe (ffffffff8100012f)
+
+The ret=0xffff88813d489860 is the return value of the alloc_inode() call in
+eventfs_ro_fill_super(). I then searched all the kmem_cache_free() for that
+value and couldn't find it.
+
+I then changed the code to:
+
+	root = NULL; // d_make_root(inode);
+	if (!root) {
+		iput(inode);
+		return -ENOMEM;
+	}
+
+Booted and ran the above again. This time I had in the trace:
+
+graph:            mount-1134  [005] ...2.   799.112115: funcgraph_entry:      ! 816.295 us |  alloc_inode(sb=0xffff888140556000); (ret=0xffff8881514f4920)
+                  mount-1134  [005] ...1.   799.112117: function:             alloc_inode
+                  mount-1134  [005] ...1.   799.112133: kernel_stack:         <stack trace >
+=> arch_ftrace_ops_list_func (ffffffff81bdf377)
+=> ftrace_call (ffffffff816e5d85)
+=> alloc_inode (ffffffff82491559)
+=> new_inode (ffffffff82491757)
+=> eventfs_ro_fill_super (ffffffff82990f28)
+=> get_tree_single (ffffffff824184fc)
+=> vfs_get_tree (ffffffff8240dc6b)
+=> vfs_cmd_create (ffffffff8253ac42)
+=> __do_sys_fsconfig (ffffffff8253b28e)
+=> do_syscall_64 (ffffffff8499faeb)
+=> entry_SYSCALL_64_after_hwframe (ffffffff8100012f)
+
+But I also found:
+
+graph:      ksoftirqd/5-43    [005] ..s1.   799.131415: funcgraph_entry:      + 23.788 us  |  kmem_cache_free(s=0xffff888100dc0500, x=0xffff8881514f4920); (ret=0x0)
+
+
+Which shows that the inode was freed when I do a iput(inode) (which would
+never happen if the function exited early).
+
+This got me thinking. If for some reason any use case of alloc_inode() did
+not free it, kmemleak will not catch it. I'm guessing because the inode is
+referenced by something somewhere (where it requires the drop_caches or
+memory pressure to free it).
+
+My question is, is there any mechanism that can catch leaked inodes?
+
+-- Steve
