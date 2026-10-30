@@ -1,83 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.179
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793394614;
-	b=W1BmKbLGMqrmG9fjmgvFrAwfs0SuW16RmLsX3jUuPu9i4SArblteR6I4vYdXNnSckWCM
-	 lxbw6ytnmY5y7XYa7sp1dQ5XFbrePkuTXK0VujWpo+A4mhQBf2XKGu/X7HXUKbq4QDOak
-	 DgNvNqJIHZqaOgcf0Xh67XIAfE4Q2O3V9JnGcgDpX9Q4h8O3PZDTYokmnUEiO4v5VjSgv
-	 ycwtAMDZQcS+V3bxKd5TQyToZiQecuEnQefJzM0Qu5AOIuBstPD/c28t2+zzq0l+k/hPz
-	 qWpmIV7rJ0geoQg0pYN2Fss8cnhnT/HFLTQOMWI0wOLLaSLe/33ovU46lEDeZZEdzig==
+	t=1793394619;
+	b=peKC/TRixrbcXW3JINiClyym6rhtncgF2PoY2utTCdgYEAdjousOvAHnI2bpxkgcxE0z
+	 1AO1gjiiU1go0lnSYBYO6Tu2h5zB9qkSfwC08tDDSBAzWDdp90gJNEezvIyAN7y2TezaD
+	 AujwFYpqdZ1MegYwUhmgOIwaWnGeTGg3lkYE9M+p/572yZjw72ywKGiJNbLKW9bqmhLDE
+	 obRxgFqpThao5x8D4ccigk2MOK7+DycYK42gZU2DdgSPY2qXH0AATW18O6v/l69cUSEAL
+	 ypUeV8TSUUi60g1fzXIAoaeCdPKkZ+7fVNvmryMY12Usf0sIiTe3KwoWwLvWPwMw8bQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793394614;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793394619;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=WWFHdhsqkiSrahXyVyHuACAJn5u+mkpktpUzIjfAX54=;
-	b=VUU0SxSxnTXKo1fWCpZ+v++1U4rd/Ma1mpm5aRfwdvw//D0jf4TSgSs5YYUwa2qu/bHY
-	 OVCebxm5Su2NQ0V4fDusYM8SG2rC9skr3YT3qtNmE3tfO8/ibDOUybznH7HAjvFAdlKjU
-	 PxHLv4NJpd7C9Rii5Sd2/mckhmzsfvZqLM2KAPV6rCtCE4rMz0j5bIqsLBsMfouyt/YI9
-	 PAEIyQqQCJ+fmOozppNpNW5x0RCwnb1xYiFH5HVCpBM9DbCOMV5PqXjtRCPLZLSjRZgon
-	 1jeKLSGdATySFovWL4C9OL7c/Q0/UBPvWmxbOC9WaA+cWpdACCuHSKMvKvoIRfDxkVQ==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=NRj5hwEzENLjlsB+UAcfFJohIr0Hf4YgXfYZEvjse4o=;
+	b=fiK2jKM5J2nn8udtzpuQc173ZauDU2EN4Mj6XDcWJ2KoqhDzeQ3+AidL/ZdJSzL7XivI
+	 bbfYh9BMOVkyVAvsvPdcQBXyF2Kn2bs3J/LJ73AfMcNJrkVOOB4ZDetF7UdFDFDcc2F7+
+	 YcaOI/w+Xj/QXjWKHF3Wiq05YRxEJS+ladk7uCTVKkCIJBx+ngaUi46442ISK5J9e+N9E
+	 ZdDHh70lcFYeQX1z7VaeeMnyuaqgeaTuEVsloLXy4mXp9ykaHH6eBKbmJrerlRF1ZljIb
+	 dC68OBLB37WW9mK95qIw7l7BPGVW2tfm+ZA/AEDWfiZTNZRNpN/C4wUvMGAgtLu1TKQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=arista.com;
 	spf=pass smtp.mailfrom=arista.com;
-	dkim=pass header.d=arista.com header.i=@arista.com header.a=rsa-sha256 header.s=google header.b=ivo2T3XK;
-	arc=none smtp.remote-ip=74.125.82.54
-Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
+	dkim=pass header.d=arista.com header.i=@arista.com header.a=rsa-sha256 header.s=google header.b=Q+l1mbbi;
+	arc=none smtp.remote-ip=74.125.82.179
+Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75AEE606A31E
-	for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 21:10:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 75AEE606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDDFC60A262D
+	for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 21:10:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EDDFC60A262D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=arista.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arista.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=arista.com header.i=@arista.com header.a=rsa-sha256 header.s=google header.b=ivo2T3XK
-Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-1a8cc11ac42so1096914c88.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 14:10:13 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=arista.com header.i=@arista.com header.a=rsa-sha256 header.s=google header.b=Q+l1mbbi
+Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-3535bf8b3e0so1718971eec.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 14:10:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=arista.com; s=google; t=1793394613; x=1793999413; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=WWFHdhsqkiSrahXyVyHuACAJn5u+mkpktpUzIjfAX54=;
-        b=ivo2T3XKqnoTABezZSv1AgcxO9h6PJ7Qopg7cUS65dXJFysagwyPqQGUk8hWhqHvpK
-         71FOoOHiaTT+wsagSGZ2Psrdkzxniqz7Otz9mwCH040rLqxkpyZTi86b/Kp8dUqOOSVq
-         seujfQwMyQWx7L481DgAeN6tGyeAaoGE6gZJrCgPB17QtI+G2xshds41s36d1gEicJyo
-         XMsooceQR8/4pAi1nRLpgGi0xsdp6LvVo0dIhHhkPbVE9X4lccFrRbDx5d/x/SgkttxW
-         2+6w0zIDkSSuXAOGFD3P+iPwCda2DWqfqeOYS+cbnOyhRaYEzu1i6OARqGJxaIQdlhL7
-         /OzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793394613; x=1793999413;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=arista.com; s=google; t=1793394618; x=1793999418; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=WWFHdhsqkiSrahXyVyHuACAJn5u+mkpktpUzIjfAX54=;
-        b=g89OCfipUkGnBv/KHhzHtX2cbSqsUCW79MiWczcbquN/YGE3Yjh06tons5z37TEQ6K
-         Ymm+OO37Jj+tN0ijr/P5e6mtV+X8Xsx7Ya434rRfK4RHhct5y7CkDUQaLjoTZB/F85rR
-         Z4AB3ZOPApQREdax64JEZkrpq0tSQMBzzHaSTL1yRKIFvyP6az96dFW2gubFbW2D1UyP
-         oo0924s07XY+AXf422eM2Bj2Ui+yFzKi7ZKuRYy+PVsEwEeL0vxo/vJ4sq1WW8HxdN4Q
-         loL4ExWLnk8HIPTbO+PxjMUHgGoAKZoP4rdsFSN2zBri2aKRssSOCTT50+ek7+ChASmE
-         vaHw==
-X-Forwarded-Encrypted: i=1; AKwUvBy3HrWbWAisKM/Xm26Nh/LcusfbYPwAQr2HYu2t97NnuFpNqbBFfndNm1/T8nvsfy6zdxrz+fXul2HZhT3H@vger.kernel.org
-X-Gm-Message-State: AFq9FYKoXHSPP7ZWsKpAF0Ers5SEfjnA88m9/waTaEP1TUMInaTgVhW0
-	2DaRf5VnIzGfVvbkwHcUAHjjMe9QIiW9htSQLetXS7hG1ChWCuOoLbvEthyi3GaKug==
-X-Gm-Gg: AYBFou0s7aQZ73LIA5Z4OQl8HQ/Fv3Amz6BL1XutSCUe7L4hC76S31ELLV/ZMZrvP4M
-	OQwnhFTa+8x18enlMXfBOBoYl/1YZ1Jm9oXGso1fUbrq2I6TU36zoDP1AXj0AE7JqieduGdZXWN
-	WIB7iBHbDbHUZva29mvGL+YaeH8Z/QbIonocvYrOnEnysl8I1fIPVya8Q33eCT5lBWXQgn5Tnmy
-	YaS99fxLWtNycdf8GjLkcaAK5AEIIyPVTJ72Lc6IjZ4ChBtM5z6S8x92iYe/C848goApPgDL6wN
-	rSkXfdH7cfIeBuW5yPahxx84yGRpaQ5ftkYRFvFDFZ0FoUYnLgh657O5O19xJwgRfq1UOvF4T9S
-	UOAm/2BSAJAAkOn0OTGpmBQznV323SngU/iGLhZWzkXr/JQRVC+mlhfG+vpYxFjM4XwizHxDjw4
-	hAUX+luBefohUTVW3FPJZF7eUxrqzD1EjXYSV1Q9las3znTMO+7jmfzbEeNKIB+0qJ+YemLUvZ5
-	QYyXgocJyOMWaWqK6pMHTUuSYcz9OQnSfNInnr7pJYB8XWlc56d5TUQUq1uTTeGxEviY/aJlfP9
-	VfM3wRHm8xZSMflN78i7SPFWF6Jd8cCQNSzTrwpynxaHF90/D7yZIWhAUBpXzRv8RA6s0ZJwVeP
-	9eD9FnCRKsO3IXzRriMLCsRw=
-X-Received: by 2002:a05:701a:c907:b0:185:33ab:4d55 with SMTP id a92af1059eb24-1ac5f1810d2mr4226717c88.29.1793394600810;
-        Fri, 30 Oct 2026 14:10:00 -0700 (PDT)
+        bh=NRj5hwEzENLjlsB+UAcfFJohIr0Hf4YgXfYZEvjse4o=;
+        b=Q+l1mbbiKUvjbillm6pdJDpPjF2pQbA9OXFE3js3iBgUUgRIvYtGZk1vlSB8K/HTYA
+         JHLWZiJdKozGA+8AxwHbiJNr/oGfNBn1ferC3KPHky9ffn1z68fIGBbdcJkXju0iMcjW
+         D7U+S4awiVjIJvkF7oc3ImP0tcsgng9AgW3ZnSKa67rHNurXCk1N9rZPBacfFZaYkbNf
+         GLpXVaw0Vn7aHSe6c1RH7FMY2Y0M8a9KhDUI6N/CNshZuvHLimKPE9hD1zC08ZX9FBNm
+         tiLFtax3PWuUY+9ZwdfpCHLjjYVGmkIWm3+1+49K8AAuIDQ6MaoqvIsBm3lhULlRz9Og
+         7KMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793394618; x=1793999418;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=NRj5hwEzENLjlsB+UAcfFJohIr0Hf4YgXfYZEvjse4o=;
+        b=Ot9B+0OhLR1h+DCI7S856ndSqBrY+qz/w5bdnum/cfk8PgsiNXkRD7oW4l2AXACxxl
+         li6yVGQtAAsH3EbFx8Wc9OoBL1idf4na7qrP2Bl+9ATvA7GTJCdAzodxQ9erEw7tSqcX
+         atWNwwhQASBNBT+ADby8Fdt5xYsq/QQrt4sfbqjsePg4le2BwIYG9nLjCcjysVPDptjD
+         P2lbS6esFmnRfqfkCMv0aGUyF7XvrEVUB21UE177f5gwxPxTheIQKaqL6DLC66WZvKDu
+         gtLF4N+ZNXWhE5Km3hsLHDjW5c7Vf/rsvmB7SUsnP6WwFEyoBe2kvIcQmq+LMD03ij2n
+         4d9w==
+X-Forwarded-Encrypted: i=1; AKwUvBwB3DW44qAOl9FZM5VF3xiuKx+qoBKe7xXfajVh72oegUVGFlSdnau2Z+gJhl4EU5VzLrOczaJRagPj1AFW@vger.kernel.org
+X-Gm-Message-State: AFq9FYJ0MoVj79Dkb9GIM2Ha3gcvvAYJUhohmhHiLycuUZJHqTeC24P+
+	YzJoCPHFFzMEadnNrfoTVfs6yVG89FLITPiTQ2H3Q8a7x0gYUMTr9JuRkLO+XT4f7Q==
+X-Gm-Gg: AYBFou3PGVeVrAi6g/mzdHuJq0vzwabRuPnnR93/SYYb1+ddVd1audgZG6Zd3ROPh2d
+	NWYNM2K85BP3mIklhd6i0vcoqW+S9baAD7QSPoMnFY63Pogn5fKGfFY6KphoROaO5tvR67IesmE
+	z2ph6zTwbhOYDJt2ntaKb31WNDD89iq9NJdMakufoC38WfpNNW+toxsphHXfZuVawqxuQE4gAN6
+	pGx6ETS457CAclnquQeNF5SHbINDbrvyMQPVYqaC7cBRVCsYpjTgcAUKpA/9oXxMZozgj9gDvp2
+	SRAUJyq52IfQ0ixKmXfRQQGRUSyQrmNr7JDpHOjc0ywjXghQFQCGsn6G+PN+Fm59zptj1wMhU8K
+	0byMtONH/TLNJGwPhpqgKKX0SomLFQdL2Oo47QxOWeutZINYXqoJMrOX4bHPTQvjkB8wMLex9FF
+	nqh9R9GTHURBMSmcaUz04XU9wUN4T10kze+ADtjYckYyNmJICICcCrZDgNloEtzzuqGESz6dN/0
+	4IT0LHigkczRJhNXyyIBKHrRSffKoClnbEJpkh8T//T15nIaPSnSoEKljgGKDMR/gAMVJww4Uqn
+	l6nYQFoTmshfjqZZmGgX333dXcPZjjV1fLyYtzMqT92DiEwGjveckz8aGOTaFZumloB41eRxvOb
+	W8cJjtjEyP7N6JtqO1r+UGI4=
+X-Received: by 2002:a05:7022:2581:b0:1a8:7b58:6f1b with SMTP id a92af1059eb24-1ac5cfe587cmr5911022c88.19.1793394617878;
+        Fri, 30 Oct 2026 14:10:17 -0700 (PDT)
 Received: from dannyhu-upstreamLinux.sjc.aristanetworks.com ([74.123.28.18])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1ac1abcf67csm9471777c88.21.2026.10.30.14.09.58
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1ac1abcf67csm9471777c88.21.2026.10.30.14.10.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2026 14:10:00 -0700 (PDT)
+        Fri, 30 Oct 2026 14:10:17 -0700 (PDT)
 From: Danny Hu <dannyhu@arista.com>
 To: Alexander Viro <viro@zeniv.linux.org.uk>,
 	Christian Brauner <brauner@kernel.org>
@@ -114,10 +115,12 @@ Cc: Mimi Zohar <zohar@linux.ibm.com>,
 	linux-api@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	bug-cpio@gnu.org
-Subject: [PATCH v5 0/4] initramfs: add support for xattrs in the initial ram disk
-Date: Fri, 30 Oct 2026 14:09:39 -0700
-Message-ID: <20261030210944.2143778-1-dannyhu@arista.com>
+Subject: [PATCH v5 3/4] initramfs: read metadata from special file METADATA!!!
+Date: Fri, 30 Oct 2026 14:09:42 -0700
+Message-ID: <20261030210944.2143778-4-dannyhu@arista.com>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20261030210944.2143778-1-dannyhu@arista.com>
+References: <20261030210944.2143778-1-dannyhu@arista.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -129,128 +132,156 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch set aims at solving the following use case: appraise files from
-the initial ram disk. To do that, IMA checks the signature/hash from the
-security.ima xattr. Unfortunately, this use case cannot be implemented
-currently, as the CPIO format does not support xattrs.
+From: Roberto Sassu <roberto.sassu@huawei.com>
 
-This proposal consists in including file metadata as additional files named
-METADATA!!!, for each file added to the ram disk. The CPIO parser in the
-kernel recognizes these special files from the file name, and calls the
-appropriate parser to add metadata to the previously extracted file. It has
-been proposed to use bit 17:16 of the file mode as a way to recognize files
-with metadata, but both the kernel and the cpio tool declare the file mode
-as unsigned short.
+Instead of changing the CPIO format, metadata are parsed from regular files
+with special name 'METADATA!!!'. This file immediately follows the file
+metadata are added to.
 
-This v5 revives Roberto Sassu's v4 series posted on May 23, 2019
-(https://lkml.org/lkml/2019/5/23/415). The github issue tracking the
-revival of this patchset is here
-(https://github.com/linux-integrity/linux/issues/11).
-This revision incorporates unpublished changes
-from other contributors that can be found in
-(https://github.com/linux-integrity/linux/tree/initramfs-xattr-v1-devel-v1)
-and adapts the implementation to newer kernel interfaces. Compared with
-v4, this revision adds an IMA deadlock fix for restoring security.ima
-xattrs during initramfs unpacking, switches to a Kconfig choice for
-metadata type selection, and updates gen_initramfs.sh to pass source
-paths to gen_init_cpio for nonregular entries, allowing their xattrs to be
-read from the correct source object that will be included in the archive.
-This revision also includes various improvements to error path cleanup,
-debug output and tool documentation.
+This patch checks if the file being extracted has the special name and, if
+yes, creates a buffer with the content of that file and calls
+do_parse_metadata() to parse metadata from the buffer.
 
-The difference from v2, v3 (https://lkml.org/lkml/2019/5/9/230,
-https://lkml.org/lkml/2019/5/17/466) is that file metadata are stored in
-separate files instead of a single file. Given that files with metadata
-must immediately follow the files metadata will be added to, image
-generators have to be modified in this version.
+Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
+Reported-by: kbuild test robot <lkp@intel.com>
+Signed-off-by: Tianxing Zhang <zhangtianxing3@huawei.com>
+Reviewed-by: Jason Yan <yanaijie@huawei.com>
+Signed-off-by: Zheng Zengkai <zhengzengkai@huawei.com>
+Signed-off-by: zhoushuiqing <zhoushuiqing2@huawei.com>
+Signed-off-by: zhangguangzhi <zhangguangzhi3@huawei.com>
+Signed-off-by: Danny Hu <dannyhu@arista.com>
+---
+v5 changes:
+ - clean up metadata buffer when returning from unpack_to_rootfs()
 
-The difference from v1 (https://lkml.org/lkml/2018/11/22/1182) is that
-all files have the same name. The file metadata are added to is always the
-previous one, and the image generator in user space will make sure that
-files are in the correct sequence.
+ init/initramfs.c | 53 ++++++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 51 insertions(+), 2 deletions(-)
 
-The difference with another proposal
-(https://lore.kernel.org/patchwork/cover/888071/) is that xattrs can be
-included in an image without changing the image format. Files with metadata
-will appear as regular files. It will be task of the parser in the kernel
-to process them.
-
-This patch set extends the format of data defined in patch 9/15 of the last
-proposal. It adds header version and type, so that new formats can be
-defined and arbitrary metadata types can be processed.
-
-The changes introduced by this patch set don't cause any compatibility
-issue: kernels without the metadata parser simply extract the special files
-and don't process metadata; kernels with the metadata parser don't process
-metadata if the special files are not included in the image.
-
-From the kernel space perspective, backporting this functionality to older
-kernels should be very easy. It is sufficient to add two calls to the new
-function do_process_metadata() in do_copy(), and to check the file name in
-do_name(). From the user space perspective, unlike the previous version of
-the patch set, it is required to modify the image generators in order to
-include metadata as separate files.
-
-Changelog
-
-Changes in v5 relative to v4:
-- Rebase onto vfs.all
-- Add an IMA fix to avoid a deadlock during initramfs metadata restoration
-- Use u32 metadata record lengths and reject records smaller than their
-  header
-- Improve debug output for binary xattr data
-- Cleanup metadata buffers at the end of unpack_to_rootfs() 
-- For CONFIG_INITRAMFS_FILE_METADATA, replace the metadata string prompt
-  with a none/xattr choice
-- Fix resource cleanup and format specifiers in gen_init_cpio
-- Update gen_initramfs.sh to pass source paths to gen_init_cpio.c for
-  nonregular entries (slink, dir, nod). Modify gen_init_cpio to
-  properly collect xattrs from the source object. Without this change,
-  xattrs will not get included for slink, dir and nod.
-- Add documentation of xattr option in usage() for gen_init_cpio
-
-v3:
-- include file metadata as separate files named METADATA!!!
-- add the possibility to include in the ram disk arbitrary metadata types
-
-v2:
-- replace ksys_lsetxattr() with kern_path() and vfs_setxattr()
-  (suggested by Jann Horn)
-- replace ksys_open()/ksys_read()/ksys_close() with
-  filp_open()/kernel_read()/fput()
-  (suggested by Jann Horn)
-- use path variable instead of name_buf in do_readxattrs()
-- set last byte of str to 0 in do_readxattrs()
-- call do_readxattrs() in do_name() before replacing an existing
-  .xattr-list
-- pass pathname to do_setxattrs()
-
-v1:
-- move xattr unmarshaling to CPIO parser
-
-Danny Hu (1):
-  ima: skip algorithm availability check until initramfs unpacking is
-    finished
-
-Mimi Zohar (1):
-  initramfs: add file metadata
-
-Roberto Sassu (2):
-  initramfs: read metadata from special file METADATA!!!
-  gen_init_cpio: add support for file metadata
-
- include/linux/initramfs.h             |  19 +++
- init/initramfs.c                      | 140 ++++++++++++++++-
- security/integrity/ima/ima_appraise.c |  25 +++
- usr/Kconfig                           |  19 +++
- usr/Makefile                          |   3 +-
- usr/gen_init_cpio.c                   | 216 ++++++++++++++++++++++----
- usr/gen_initramfs.sh                  |  15 +-
- 7 files changed, 401 insertions(+), 36 deletions(-)
- create mode 100644 include/linux/initramfs.h
-
-
-base-commit: 2c3ba1f1cb416b81d617b92a24a4bcaa48d574e3
+diff --git a/init/initramfs.c b/init/initramfs.c
+index 36254dba7822..a1744cc9523c 100644
+--- a/init/initramfs.c
++++ b/init/initramfs.c
+@@ -265,8 +265,8 @@ static void __init read_into(char *buf, unsigned size, enum state next)
+ 	}
+ }
+ 
+-static __initdata char *header_buf, *symlink_buf, *name_buf;
+-static __initdata char *metadata_buf;
++static __initdata char *header_buf, *symlink_buf, *name_buf, *previous_name_buf;
++static __initdata char *metadata_buf, *metadata_buf_ptr;
+ 
+ static int __init do_start(void)
+ {
+@@ -454,6 +454,7 @@ static int __init __maybe_unused do_parse_metadata(char *pathname)
+ 
+ static __initdata struct file *wfile;
+ static __initdata loff_t wfile_pos;
++static __initdata int metadata;
+ 
+ static int __init do_name(void)
+ {
+@@ -471,6 +472,10 @@ static int __init do_name(void)
+ 	if (strcmp(collected, "TRAILER!!!") == 0) {
+ 		free_hash();
+ 		return 0;
++	} else if (strcmp(collected, METADATA_FILENAME) == 0) {
++		metadata = 1;
++	} else {
++		memcpy(previous_name_buf, collected, strlen(collected) + 1);
+ 	}
+ 	clean_path(collected, mode);
+ 	if (S_ISREG(mode)) {
+@@ -508,11 +513,47 @@ static int __init do_name(void)
+ 	return 0;
+ }
+ 
++static int __init do_process_metadata(char *buf, int len, bool last)
++{
++	int ret = 0;
++
++	if (!metadata_buf) {
++		metadata_buf_ptr = metadata_buf = kmalloc(body_len, GFP_KERNEL);
++		if (!metadata_buf_ptr) {
++			ret = -ENOMEM;
++			goto out;
++		}
++
++		metadata_len = body_len;
++	}
++
++	if (metadata_buf_ptr + len > metadata_buf + metadata_len) {
++		ret = -EINVAL;
++		goto out;
++	}
++
++	memcpy(metadata_buf_ptr, buf, len);
++	metadata_buf_ptr += len;
++
++	if (last)
++		do_parse_metadata(previous_name_buf);
++out:
++	if (ret < 0 || last) {
++		kfree(metadata_buf);
++		metadata_buf = NULL;
++		metadata = 0;
++	}
++
++	return ret;
++}
++
+ static int __init do_copy(void)
+ {
+ 	if (byte_count >= body_len) {
+ 		if (xwrite(wfile, victim, body_len, &wfile_pos) != body_len)
+ 			error("write error");
++		if (metadata)
++			do_process_metadata(victim, body_len, true);
+ 
+ 		do_utime_path(&wfile->f_path, mtime);
+ 		fput(wfile);
+@@ -524,6 +565,8 @@ static int __init do_copy(void)
+ 	} else {
+ 		if (xwrite(wfile, victim, byte_count, &wfile_pos) != byte_count)
+ 			error("write error");
++		if (metadata)
++			do_process_metadata(victim, byte_count, false);
+ 		body_len -= byte_count;
+ 		eat(byte_count);
+ 		return 1;
+@@ -539,6 +582,7 @@ static int __init do_symlink(void)
+ 		return 1;
+ 	}
+ 	collected[N_ALIGN(name_len) + body_len] = '\0';
++	memcpy(previous_name_buf, collected, strlen(collected) + 1);
+ 	clean_path(collected, 0);
+ 	init_symlink(collected + N_ALIGN(name_len), collected);
+ 	init_chown(collected, uid, gid, AT_SYMLINK_NOFOLLOW);
+@@ -614,6 +658,7 @@ char * __init unpack_to_rootfs(char *buf, unsigned long len)
+ 		char header[CPIO_HDRLEN];
+ 		char symlink[PATH_MAX + N_ALIGN(PATH_MAX) + 1];
+ 		char name[N_ALIGN(PATH_MAX)];
++		char prev_name[PATH_MAX + N_ALIGN(PATH_MAX) + 1];
+ 	} *bufs = kmalloc_obj(*bufs);
+ 
+ 	if (!bufs)
+@@ -622,6 +667,7 @@ char * __init unpack_to_rootfs(char *buf, unsigned long len)
+ 	header_buf = bufs->header;
+ 	symlink_buf = bufs->symlink;
+ 	name_buf = bufs->name;
++	previous_name_buf = bufs->prev_name;
+ 
+ 	state = Start;
+ 	this_header = 0;
+@@ -664,6 +710,9 @@ char * __init unpack_to_rootfs(char *buf, unsigned long len)
+ 	dir_utime();
+ 	/* free any hardlink state collected without optional TRAILER!!! */
+ 	free_hash();
++	kfree(metadata_buf);
++	metadata_buf = NULL;
++	metadata = 0;
+ 	kfree(bufs);
+ 	return message;
+ }
 -- 
 2.51.0
 
