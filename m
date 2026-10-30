@@ -1,95 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=210.171.160.6
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793334568;
-	b=aKy5t/Pzn3IO9TDqop5m9rZ4GID5OrZsuRIdNbp3QPs1C6KLowdqTmgGYhFrHN622AZW
-	 o8H6Sus3fn72Lj4bOAmcLaA0xfaX8uLH0i2FIGp/KHVTvoIXqoPCCxox5D6STGJZ8g5gI
-	 WJV/xkK5dCMtfxDK7bgWsbtU6d9EQt+1hbUQiLdpulXW5ms2hR1iW0vE+EYrxYuXeZCXF
-	 q+zGS67BEQnGcXM9aOYr3rbT9aLRHTpqiQ0PY8hyjYahiHL4CKMRAN7/wvGMaUDfcbB+f
-	 WKUUiK3ZJ2M9CYG7p4T5DJXEzPNbMUQmmPuU4hR0bJXk+4k4zY501v1SEUCHljcaITg==
+	t=1793334675;
+	b=K92YnL1Q3R1smylZ5KuNOfYaoYXOR/dR0kMplyQJ/hGqLkfCn11jeUzb6Sv4/oXtDy3s
+	 T6nuXNosvxbVQ1D9/CklGiKiDo+mvVqKBGiH1HuL4mL2G12zgKWZlP0GQ9vOckIeUQHp6
+	 /VAoWuacct43gxyuBh3O8vYFlES0p++aVSuTJyPGWRrFqDTmXMsvwu4mIyjRq6MlFOCTc
+	 NZFsKCdjvi2Ryaq69ZpSDSlN6B59Y5nxHC8ziTdTHZpk1Hfj8FOhIG+52LXiuX4UY2zWI
+	 UKNbQBXE6SxiRFB5J4T/4JahPDHVcpa/E/SOijtBKpApg+BLAUehRQ3XEl88zJXDjig==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793334568;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=tN9CKb1zjGPoBG8E6tp5fkfqBwx6I1Gzk/q0OBzU968=;
-	b=3vFI1SgBWl8tBWzeJ/Cm+7l2KmC4/fQc3jR4M3apFfblyRAIz4L6XzN/vdUMjBxb9ba0
-	 ftwDSGnJONL6yHcOXmrlSQPGti3YrxyZeDMEo3hxSzsnNo5YcXM3f4QYzCZsdtNU4Ff33
-	 3HXnz6lqBL7NZEeeReCwPCb+v7ocHobu3faGxlthHiNkLSZ5FsAooIaKSq9HKHveZN1oC
-	 9kCyBaKceGIkWMAayPIG/qiEygHWgYJHWXtbE2K2+lwZdz42FtLeHM3KHMtuP4zxpctGK
-	 cvxKtgg3vVghYykviEO2CMkGrTSKHEVJpv6UeC+BRaH6SFZrVfTk1Sh05Soi3KTYuYQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793334675;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:Received:
+	 Received:From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 User-Agent:MIME-Version:Content-Type;
+	bh=AyLCv3t0FodhJlTxvoBzkqHZ7t7IZvHquYdriLHYDEM=;
+	b=XeJ/rPQGFYNiyfKHiuOPf2ekVra3Yy8SU21ltRH0yiGhy8LO6S8To/Yzq4mHu/Gjhm48
+	 wDXZdfctiwncTMpWx2Gxv1dGdAsZMUBZE/l2mXVJcnsRoImpIEy4ZDNUq/oQkH96LM10d
+	 lefLHuHVZok8IThGaiUrZTVMMTunapprqTgLeQk4qVVL3CNO49yc4xEoMOGgE9rEXQ2kj
+	 L7jvJDnnN2j7fzqWrcdsn/P4MWA6/7BwnCmxw/fDNTfOHYAUsSJihD50e1HDHZNu8gSoy
+	 v1eOqZNumz5ATfLVE+9Dp1whSHmfOhFD4YxR9jlc6s3D7QX19jZvjt2UR2aQIZQHEug==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=cs.unc.edu;
-	spf=pass smtp.mailfrom=cs.unc.edu;
-	dkim=pass header.d=cs.unc.edu header.i=@cs.unc.edu header.a=rsa-sha256 header.s=google header.b=TnTHEefo;
-	arc=none smtp.remote-ip=209.85.219.48
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=mail.parknet.co.jp;
+	spf=pass smtp.mailfrom=parknet.co.jp;
+	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=rsa-sha256 header.s=20250114 header.b=Fzp0oJMR;
+	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=ed25519-sha256 header.s=20250114-ed25519 header.b=+dJucND6;
+	arc=none smtp.remote-ip=210.171.160.6
+Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F572606A31D
-	for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 04:29:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4F572606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cs.unc.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cs.unc.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 538F2606A31A;
+	Fri, 30 Oct 2026 04:31:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 538F2606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=cs.unc.edu header.i=@cs.unc.edu header.a=rsa-sha256 header.s=google header.b=TnTHEefo
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-91c60e30054so3537736d6.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 21:29:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cs.unc.edu; s=google; t=1793334567; x=1793939367; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=tN9CKb1zjGPoBG8E6tp5fkfqBwx6I1Gzk/q0OBzU968=;
-        b=TnTHEefo4JKAswq9qfZvxmUHBDF7NYxptwSPDg1uOJ7c7Q6LnDSWlzpJkmzOpEqvoO
-         RkqgWDib1q1SgBXZG0JiVOh88yk/xaHtLr6QZjk7WWXwXuqI2w9p8QW+aDJkAsKB41gD
-         oS7+Ira9D1BEG6DihyzsrY898BIV6cQ6HKSaNODThS7Vb5KN5lbMYDB2bTUwVbrD3eT7
-         0mNYPOE4u2oXgf60TjG9oHbxxOkx6aj/2lUvvnZhfgGSBS6XSbbPwnV4jnuYvToSKAWD
-         gpORyaVCA+VypH0r8EhISPYHFSrajUSnBpZjAruh/ORJBOnf77wotLwBzf4KBm+GE2/+
-         InJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793334567; x=1793939367;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=tN9CKb1zjGPoBG8E6tp5fkfqBwx6I1Gzk/q0OBzU968=;
-        b=XU+TUP9zPyqJRvm23Lr4c59saWeCTyR1hEKHt3lCOk3m4yeu2p2fS3tsbVkCVh+5C9
-         eYf4niByFE5I7WPs8t/alMAMTTNhvnCYbnIxgqV0EhaOfPbNnkl5EWnkpFoM3vWvnUvu
-         8mWs9NHVLNOjpfUHUBHk3Ychg9rKa53ehZ4F/XH1hGV2fncMX8muD3Ke3P8VNFGl1v15
-         hZx0sHpHJhFb7jibn5OV/yeKepSkkJ475RryRC3utmBfmDch8P3a7uXv9QDv4r10Gsnz
-         eIlip57LfreKDiLyW22SKuZB2x/0euCUyoURAr3VmFQX1r0Zc8vH6rpWPBvjC/UgRuQI
-         IgxQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxdSdB4e1Gg7+Gxk4h1lmxuehuAF6ZE/+RffVeJgOdl2b+ylSFZ0+wVXx/CdxJbjYXGlAxhedi6zl6FCml3@vger.kernel.org
-X-Gm-Message-State: AFq9FYKyhKCjaQhNosOykaUInvr6kqwzMQKhuf54WOdM1XqwdS5d2QTO
-	iCZT6HqYT+BqB5FANZ2bgHLx56bcyaMrgWU1hcrxWgAMV1L3xFFgySJWtgL7V2IOMA==
-X-Gm-Gg: AYBFou0cHYprUwpV7SCKhjPzDMwC3xH2PXItAy6H/j1HXmmkeu5fIkzerDM03Wu+jtc
-	AI2dYAwqVBPSZLy8YFQppHbJWkmYNozKAr+6jE4MG0JFALOiel1QCxiHyYjq0ZE7USdoJKTEbj7
-	B3jnqQZZonSa33rvRPJ+jOIUHNwVF3dxZrynhK4/zmeBoFjPvbzRMBcg6TUYFdxNOZ8zpfHL1p+
-	fkXMUHruOpkRCQD3xPZR8X3Hltz78477OB159hOnZzXwqZ6RT+ePSATXrQ80ytn42NsVRhQ5Zy9
-	fiXHpmrnWkIjlSCPVlin5NsTY2GnC7HHuoVGz2aLgNIFphUkBX+fn2RMPtfmwvx5oaqdfe+DwLJ
-	xxmTqAOw0F2pXAuQclCtCuxnw5iqtxld8e5xVMtJQWWdvamuc1NREjb+BNrXdjHHdbGKCJlNqXC
-	RCRu7GC4enOQBp7bDCXkKplec5mYRg9jarByvMNBMgp2RppY4MFUcPR111S23RdXf4l+cr3OiKU
-	xxQJMXEZbC+WF5FyYaOrjKSwXSZNu2v2r3St54GIeXqG7hKAzA75eZam8BzLY42R0R+4CMrH83K
-	ia5ya8dkee58p/KGytHAeqMbn7p01FlLU1CWDF1pap7WwU75p8fD
-X-Received: by 2002:a05:6214:524a:b0:91b:82a6:d2f2 with SMTP id 6a1803df08f44-91ca4adcf10mr14769366d6.11.1793334561851;
-        Thu, 29 Oct 2026 21:29:21 -0700 (PDT)
-Received: from cobra01.cs.unc.edu (cobra01.cs.unc.edu. [152.2.130.143])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91ca7f254a1sm5058166d6.7.2026.10.29.21.29.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Oct 2026 21:29:21 -0700 (PDT)
-From: Hengyu Liang <hengyul@cs.unc.edu>
-To: slava@dubeyko.com
-Cc: glaubitz@physik.fu-berlin.de,
-	frank.li@vivo.com,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] hfs: remove the dead grow path from hfs_file_truncate()
-Date: Fri, 30 Oct 2026 00:29:03 -0400
-Message-ID: <20261030042903.4160506-3-hengyul@cs.unc.edu>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261030042903.4160506-1-hengyul@cs.unc.edu>
-References: <20261030042903.4160506-1-hengyul@cs.unc.edu>
+	dkim=pass (2048-bit key, unprotected) header.d=parknet.co.jp header.i=@parknet.co.jp header.a=rsa-sha256 header.s=20250114 header.b=Fzp0oJMR;
+	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=ed25519-sha256 header.s=20250114-ed25519 header.b=+dJucND6
+Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
+	by mail.parknet.co.jp (Postfix) with ESMTPSA id 59EB726F7699;
+	Fri, 30 Oct 2026 13:31:12 +0900 (JST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
+	s=20250114; t=1793334672;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AyLCv3t0FodhJlTxvoBzkqHZ7t7IZvHquYdriLHYDEM=;
+	b=Fzp0oJMRtNX9VTfxDFBAdwzHAoncr1gHE7EMnUeTb5Ln3DJp07a0TrygFxGdKOCaHySknq
+	2Q4moxGStazgbLC4FdZvhAKpV736Ii1KF8SjsfmRsJE88bIpR8T+hdaSWpaHTeWKdi00x+
+	+8PyGnJxDMApcQRMPAN+3QxxFYDParaL7gXHgq2u/TITeC2584jqs+ZX1vG1G+Dxiag5G1
+	TU75++Z0wLhMN58tBRQkvmexEMQkVXxvytbKcNsu6YopKtZ2IrK/Pc8uYlgTXPdZVnbpnt
+	O/DuzSR2s0XwYIy+PeGHcsfQFz+YkF8zC8aXjCTnZsDRwYp9/EjH6YdwsGBgVg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
+	s=20250114-ed25519; t=1793334672;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AyLCv3t0FodhJlTxvoBzkqHZ7t7IZvHquYdriLHYDEM=;
+	b=+dJucND6owifUdGe1ntpj5HGiK2b82PG0SmwCaWMwRkmy+cO16Fhca2+3zL6BU7l6eE0jo
+	+JBxz3eqnXBPT6Dw==
+Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
+	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id 9A80EE000B0;
+	Fri, 30 Oct 2026 13:31:11 +0900 (JST)
+Received: by devron.myhome.or.jp (Postfix, from userid 1000)
+	id 92C7322001E2; Fri, 30 Oct 2026 13:31:11 +0900 (JST)
+From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+To: Hungyu Lin <dennylin0707@gmail.com>
+Cc: akpm@linux-foundation.org,  brauner@kernel.org,
+  linux-fsdevel@vger.kernel.org,  linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] fat: fix parent link count when replacing a sibling
+ directory
+In-Reply-To: <20261029202352.59890-1-dennylin0707@gmail.com>
+References: <20261029202352.59890-1-dennylin0707@gmail.com>
+Date: Fri, 30 Oct 2026 13:31:11 +0900
+Message-ID: <87y0bfstbk.fsf@mail.parknet.co.jp>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -99,58 +81,85 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-hfs_file_truncate() grows the file through hfs_write_begin() when
-i_size is larger than phys_size. That case no longer happens.
+Hungyu Lin <dennylin0707@gmail.com> writes:
 
-phys_size is set to i_size when the inode is read. After that, i_size
-only grows through hfs_write_begin(), which grows phys_size first, or
-through a direct write that ends within phys_size.
-"hfs: report errors when extending files with setattr" made
-hfs_inode_setattr() extend files with generic_cont_expand_simple(),
-and "hfs: fall back to buffered I/O for direct writes past phys_size"
-made direct writes past phys_size go through hfs_write_begin() too.
+> vfat_rename() and do_msdos_rename() adjust parent link counts only when
+> updating the dotdot entry for a move between different parents. Replacing
+> an existing empty directory in the same parent also removes a
+> subdirectory, but leaves the parent's link count unchanged.
+>
+> For example, renaming one of two sibling directories over the other
+> leaves the parent with four links instead of three. stat and ls report
+> the stale count, and find -links 3 does not match the parent.
+>
+> Drop the parent's link count for this case after the source entry has
+> been removed successfully. Leave cross-parent renames, regular files
+> and the existing error paths unchanged.
+>
+> As in rmdir, check that the parent's link count is at least three before
+> decrementing it. Report a filesystem error if corrupted directory entries
+> have left the count too low, rather than reducing it below two.
+>
+> Acked-by: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+> Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+> ---
+> Changes in v2:
+> - Check the parent link count before decrementing it and report low
+>   counts with fat_fs_error(), matching rmdir(), as noted by Sashiko.
+> - Retain Hirofumi's Acked-by from v1.
+>
+> v1: https://lore.kernel.org/r/20261028211626.26103-1-dennylin0707@gmail.com
+> Review: https://sashiko.dev/#/patchset/20261028211626.26103-1-dennylin0707@gmail.com
+>  fs/fat/namei_msdos.c | 8 ++++++++
+>  fs/fat/namei_vfat.c  | 8 ++++++++
+>  2 files changed, 16 insertions(+)
+>
+> diff --git a/fs/fat/namei_msdos.c b/fs/fat/namei_msdos.c
+> index c7500c2859e0..97289c9d9261 100644
+> --- a/fs/fat/namei_msdos.c
+> +++ b/fs/fat/namei_msdos.c
+> @@ -565,6 +565,14 @@ static int do_msdos_rename(struct inode *old_dir, unsigned char *old_name,
+>  		(void)sync_inode_metadata(old_dir, 1);
+>  
+>  	if (new_inode) {
+> +		if (is_dir && old_dir == new_dir) {
+> +			if (old_dir->i_nlink >= 3)
+> +				drop_nlink(old_dir);
+> +			else
+> +				fat_fs_error(old_dir->i_sb,
+> +					     "parent dir link count too low (%u)",
+> +					     old_dir->i_nlink);
+> +		}
+>  		drop_nlink(new_inode);
+>  		if (is_dir)
+>  			drop_nlink(new_inode);
+> diff --git a/fs/fat/namei_vfat.c b/fs/fat/namei_vfat.c
+> index ff7652bf0410..c4d5628c05fa 100644
+> --- a/fs/fat/namei_vfat.c
+> +++ b/fs/fat/namei_vfat.c
+> @@ -1011,6 +1011,14 @@ static int vfat_rename(struct inode *old_dir, struct dentry *old_dentry,
+>  	vfat_update_dir_metadata(old_dir, &ts);
+>  
+>  	if (new_inode) {
+> +		if (is_dir && old_dir == new_dir) {
+> +			if (old_dir->i_nlink >= 3)
+> +				drop_nlink(old_dir);
+> +			else
+> +				fat_fs_error(old_dir->i_sb,
+> +					     "parent dir link count too low (%u)",
+> +					     old_dir->i_nlink);
+> +		}
+>  		drop_nlink(new_inode);
+>  		if (is_dir)
+>  			drop_nlink(new_inode);
 
-This patch removes the grow path, and warns and returns if i_size is
-ever larger than phys_size.
+Thanks. Hm, how about move those same code to fat module
 
-Suggested-by: Viacheslav Dubeyko <slava@dubeyko.com>
-Signed-off-by: Hengyu Liang <hengyul@cs.unc.edu>
----
- fs/hfs/extent.c | 18 ++----------------
- 1 file changed, 2 insertions(+), 16 deletions(-)
+	fat_dir_drop_nlink()
+        EXPORT_SYMBOL_GPL(fat_dir_drop_nlink)
 
-diff --git a/fs/hfs/extent.c b/fs/hfs/extent.c
-index 26357086517f..8d04b7c0911e 100644
---- a/fs/hfs/extent.c
-+++ b/fs/hfs/extent.c
-@@ -491,23 +491,9 @@ void hfs_file_truncate(struct inode *inode)
- 	hfs_dbg("ino %llu, phys_size %llu -> i_size %llu\n",
- 		inode->i_ino, (long long)HFS_I(inode)->phys_size,
- 		inode->i_size);
--	if (inode->i_size > HFS_I(inode)->phys_size) {
--		struct address_space *mapping = inode->i_mapping;
--		void *fsdata = NULL;
--		struct folio *folio;
--
--		/* XXX: Can use generic_cont_expand? */
--		size = inode->i_size - 1;
--		res = hfs_write_begin(NULL, mapping, size + 1, 0, &folio,
--				&fsdata);
--		if (!res) {
--			res = generic_write_end(NULL, mapping, size + 1, 0, 0,
--					folio, fsdata);
--		}
--		if (res)
--			inode->i_size = HFS_I(inode)->phys_size;
-+	if (WARN_ON_ONCE(inode->i_size > HFS_I(inode)->phys_size))
- 		return;
--	} else if (inode->i_size == HFS_I(inode)->phys_size)
-+	if (inode->i_size == HFS_I(inode)->phys_size)
- 		return;
- 	size = inode->i_size + HFS_SB(sb)->alloc_blksz - 1;
- 	blk_cnt = size / HFS_SB(sb)->alloc_blksz;
+as such function for 3 places?
 -- 
-2.53.0
-
+OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
