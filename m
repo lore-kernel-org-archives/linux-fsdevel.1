@@ -1,48 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793376739;
-	b=smXeEIAGq29k/sifRg97YG+gly7tnpktgwee536ggqkCX9EfKxH4lIUpVSRI+QLHWZUg
-	 j/uXi/3363Xc2jX990iHe3nN0XnI9RgUjRo4An2XEmnL4CkZLhIfHuts4RggeZ19NKwGc
-	 1rVpc6csZvcmi4iOxc9Q3VxnmVTA7RoNU6aVvJyVM+CWFgDBj7FzxEVegjYjJA0p9M72V
-	 0hULHn851BrjAFiDkE+J4w7VySFkBOiqDuJgz8nvLcf6QnNnossR4JVpA6z/FqK3mS/Fx
-	 FuhWSzqpwwWjdyXbifYxHXa9GRH/QhlwmV2DEESwFWn6QnTksnR58AWM29OUiLHCT9A==
+	t=1793376741;
+	b=qqWkcMoqD86em/8ul4EU5ce3yLbsOacU9P2r1hZoZjF5ExlwRdVHperS1TiC0ADjjx7V
+	 V5XAhDVhKaZ3wa4tvMzB3ABbWkBXpMwFV6efEgwJeRK0CDin+4xth5xf2KBg8TpPzUvGg
+	 DN2N0rCyarEMdYVa4VkcDEdbBJGGp09P95yo7HHp/SRTD6yxI7X+iZKOZE+i1wNT/PxQB
+	 LvLUcWXEA8SrRVGUzgwc2ClrAujoNYIPCo9hLcSTuUyBsX/OGAycB50061ac8mqZDqSTu
+	 U7jD7V1Dy/VvpgCNZU0h71WwRmzaDgN1XVEphOOrvOY4ZHJuJLMYJ+ka9bgSFhdrBYQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793376739;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793376741;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=2QuGO1Fv/5vUqUzsrgZeOLDOg1WpAWDskuYu88kf6GY=;
-	b=nB8ZaTTK0YP0M4KoISMh+FaaOyWZDKD7nR+7WcPQXzhu5Xb4CovzNMMq6m0NRkr2RHtN
-	 EHCzUx3F6OsFQLW+gHkByAv8i+lpsPTImhtU+pKiZFe6EYBsSYHIQDI8b/Z87+MtDJ/pQ
-	 gIDah5UgSshN4lTU+CpsKCf3LMAfHhOQDF5dEjxe+IwOEzBS5c0yebTbPnWdKdJrjKnet
-	 6WaxQVYbyq+Te7pitoORmkPu4iku7wkXLyCQd6aBXmXjB5PBbojFpftyqg2utIvj8O0t9
-	 1YWGJqThMHkiCxgOZXXEmxMJUPUdPefBltIIafMdz+kotAFxmOksP2GssPeIQutf8uQ==
+	bh=q28whdxNmNB8fyAXCA0+4v4O7UXyWsUMAcihevRXn2A=;
+	b=1OAQzmhMvrK3Gl9DydSDgVAXCFhbJa9/512m8Ce57MCEL8+ozqc1pPqUAoQ1Wd2kHlkP
+	 zU0XjtpoN8E4G50vnk7B7U2Z3gMJJZ06K4UhAHPbAnWbcEGBxAvBYS/v79Z3gCcvkttq2
+	 4bXgnllJbMDV4WXh81EKX1DzPuD8OCmQfKIthK2GkLdRihAY9/KC8ytbbhKrs8meyrP5q
+	 7PH4xmVsE6ipERU2r6/lmg5/sH5nww3gsmpRpdFmmunRhgt2W+bvSNq3fPcOsjMCP7znz
+	 9y+z655Ddtk4MalAtHw+60RDnXQGYBf4Rr8Id33d/snVBPtNQe+ViYIisF/ajzcVUlQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=chkNiqes;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YQe3uzxU;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FCF9606A31D
-	for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 16:12:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1A6E606A31E
+	for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 16:12:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=chkNiqes
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 707511F00A15;
-	Fri, 30 Oct 2026 16:12:17 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YQe3uzxU
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E11D1F000C1;
+	Fri, 30 Oct 2026 16:12:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793376738;
-	bh=2QuGO1Fv/5vUqUzsrgZeOLDOg1WpAWDskuYu88kf6GY=;
+	s=k20260515; t=1793376740;
+	bh=q28whdxNmNB8fyAXCA0+4v4O7UXyWsUMAcihevRXn2A=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=chkNiqesfAfhxLd/8Tklt6MjCNk0bRWbxfww0fv08BxP8mLJAeFvmXuFvcXQyuoKt
-	 Itd2lqYujX9myFg2liJrilXS7voOFl/RxGu07ZYelA+YdQ8kkuTJ1v9RZn526i6c+X
-	 R/XsN/XMG2nQ/kokBPGAWLuaSzLCljbNgcc9de0n6tys44OD3YWAtvxeH0Vv/h/2xV
-	 6/LyB5BY5hWrjp5wrw2Q2+laQzZc5Cnb2Av4KONESOpHl81OY3oNI8t4UxU7jXcSGV
-	 sMj0O6FGDNU2N0J5nAz2C4TttM0iDyhztjPGptVSgrV1/OdGvbaF/MIdtJPPz2Rec9
-	 rad6/XUzBUDwA==
+	b=YQe3uzxUdQKUTMlmcjAw1mtMmm12nmhLzogw8/R4sk2PpmmOoCVaXs1mmUQxBnoDz
+	 IXiYA3FJsO34bHCR4QJPLSCLg+2YbLG//hQuI8lm5z3dEp6Xcjbyz2TsWoXhrSWYld
+	 BwEc9YIW6Xcvm7Qs7kV4Qobsr9WUNSCXgriJFCeUge8jsW0LmLgHJNhYmnd5n7xJDK
+	 czjbKaq/4US+W/k1sS18AaJ6pPCXdL2v57vYtw3B74q6xNQY/B1JUcOMp8FnOhXbI4
+	 DR34cW1Y//oWi5A0qeNpDyUn8nBJuGGtXGXjEfnuyAqSK4f+jS6olfC7ctfnrO12Qg
+	 fnaCCmrIfHpjA==
 From: Christian Brauner <brauner@kernel.org>
-Date: Fri, 30 Oct 2026 17:11:53 +0100
-Subject: [PATCH 1/7] proc: get the inode from the file instead of ->private
+Date: Fri, 30 Oct 2026 17:11:54 +0100
+Subject: [PATCH 2/7] proc: add helpers for files that outlive an execve()
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -54,7 +54,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261030-work-procfs-ai-fixes-v1-1-772392d3ccfd@kernel.org>
+Message-Id: <20261030-work-procfs-ai-fixes-v1-2-772392d3ccfd@kernel.org>
 References: <20261030-work-procfs-ai-fixes-v1-0-772392d3ccfd@kernel.org>
 In-Reply-To: <20261030-work-procfs-ai-fixes-v1-0-772392d3ccfd@kernel.org>
 To: Jann Horn <jannh@google.com>, linux-fsdevel@vger.kernel.org
@@ -62,85 +62,220 @@ Cc: Josef Bacik <josef@toxicpanda.com>, Chris Mason <mason@kernel.org>,
  Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2219; i=brauner@kernel.org;
- h=from:subject:message-id; bh=bwgKKUHMZ8YuKPnG2xDn02ssZl9UkRDNe07JmbuAbHA=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQ9OXiX9ehGuS13JRe/1Ohn+C9b03lhXszOmUtavS+zf
- yie8O2IXEcpC4MYF4OsmCKLQ7tJuNxynorNRpkaMHNYmUCGMHBxCsBEpvUxMmyTWO9UyMT2aPeE
- Pclped9d0x9/3r9sZfvWRNkTJb+/fihjZLh3m7l8I39b4U1zJcalcyofzTI6e8OzR7z78s1sB/u
- mQ8wA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7046; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=nrGpRH5BtVbTdIgasp4kxqXGjtgOYYQ8wlWi+k19L1Q=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQ9OXiXc4G8m//Di9ODfijnrJa157m4p2letqRwSNeWl
+ g6PTxZtHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABO5FsjwP4vhpHdaW/K85PvW
+ GxRjE+Nunt0+xXd6x0SJ2AX7WPbqnGP4n92W9phh7dFJm0y6crM/VUxTbJsqtqYnaqepndJ3W79
+ dXAA=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-The fdinfo files and the ONE() files stash their inode in the seq_file's
-->private. The seq_file points to the file anyway so get the inode from
-there and free up ->private. The following patches need it.
+Some files in /proc/<pid> check access to the task when they are opened
+but look at the task whenever they are read. Such a file keeps working
+after the task has executed a set-user-ID program and then shows the
+state of a program that its opener has no access to.
 
-No functional changes.
+Checking again with the credentials of the reader on every read would
+break readers for which nothing changed, e.g. a reader that dropped its
+privileges after it opened the file or that got the file from a more
+privileged process. And it turns a privileged reader into a confused
+deputy. An unprivileged opener hands the file to a set-user-ID program,
+e.g. as stdin, and that program reads what its opener isn't allowed to
+see.
 
+So go by the opener and only once the program has changed:
+
+- proc_exec_id_open() remembers the task's ->self_exec_id when the file
+  is opened. The permission check of the open may have seen the previous
+  program so it's repeated with exec_update_lock held.
+
+- proc_exec_id_lock() takes exec_update_lock for reading and compares.
+  If the task executed another program since, the file only keeps
+  working if its opener would be allowed to open it now. If so, the file
+  is as good as opened again and we remember the new program.
+
+The task's own threads take no lock. de_thread() waits until all threads
+but the one that calls execve() are gone before exec_update_lock is
+taken so they can't see the program change. That's /proc/self, i.e.
+nearly all users.
+
+No user yet.
+
+Suggested-by: Jann Horn <jannh@google.com>
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/proc/base.c | 4 ++--
- fs/proc/fd.c   | 7 ++++---
- 2 files changed, 6 insertions(+), 5 deletions(-)
+ fs/proc/base.c     | 137 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ fs/proc/internal.h |   8 ++++
+ 2 files changed, 145 insertions(+)
 
 diff --git a/fs/proc/base.c b/fs/proc/base.c
-index c9aebee0a338..2a9ad9e01047 100644
+index 2a9ad9e01047..600cdbfdefac 100644
 --- a/fs/proc/base.c
 +++ b/fs/proc/base.c
-@@ -781,7 +781,7 @@ static const struct inode_operations proc_def_inode_operations = {
- 
- static int proc_single_show(struct seq_file *m, void *v)
- {
--	struct inode *inode = m->private;
-+	struct inode *inode = file_inode(m->file);
- 	struct pid_namespace *ns = proc_pid_ns(inode->i_sb);
- 	struct pid *pid = proc_pid(inode);
- 	struct task_struct *task;
-@@ -799,7 +799,7 @@ static int proc_single_show(struct seq_file *m, void *v)
- 
- static int proc_single_open(struct inode *inode, struct file *filp)
- {
--	return single_open(filp, proc_single_show, inode);
-+	return single_open(filp, proc_single_show, NULL);
+@@ -2036,6 +2036,143 @@ void pid_update_inode(struct task_struct *task, struct inode *inode)
+ 	security_task_to_inode(task, inode);
  }
  
- static const struct file_operations proc_single_file_operations = {
-diff --git a/fs/proc/fd.c b/fs/proc/fd.c
-index 7214a7495380..839c984e1699 100644
---- a/fs/proc/fd.c
-+++ b/fs/proc/fd.c
-@@ -22,19 +22,20 @@
- 
- static int seq_show(struct seq_file *m, void *v)
- {
-+	struct inode *inode = file_inode(m->file);
- 	struct files_struct *files = NULL;
- 	int f_flags = 0, ret = -ENOENT;
- 	struct file *file = NULL;
- 	struct task_struct *task;
- 
--	task = get_proc_task(m->private);
++/*
++ * For files that check access when they're opened but look at the task whenever
++ * they're used. ->self_exec_id names the program: execve() bumps it under
++ * exec_update_lock and all threads share it, also the two that de_thread()
++ * swaps the pid between, so it doesn't matter which task get_proc_task()
++ * returns.
++ */
++
++/* Would the opener of @file be allowed to open it now? */
++static int proc_exec_id_permission(const struct file *file,
++				   struct task_struct *task)
++{
++	struct inode *inode = file_inode(file);
++	int mask = 0;
++
++	if (file->f_mode & FMODE_READ)
++		mask |= MAY_READ;
++	if (file->f_mode & FMODE_WRITE)
++		mask |= MAY_WRITE;
++
++	pid_update_inode(task, inode);
++	scoped_with_creds(file->f_cred)
++		return inode_permission(&nop_mnt_idmap, inode, mask);
++}
++
++/* For ->open(). ->permission() ran without exec_update_lock, so check again. */
++static u64 *proc_exec_id_open(struct inode *inode, struct file *file)
++{
++	struct task_struct *task __free(put_task) = NULL;
++	u64 *exec_id __free(kfree) = NULL;
++	int err;
++
++	exec_id = kzalloc_obj(*exec_id, GFP_KERNEL_ACCOUNT);
++	if (!exec_id)
++		return ERR_PTR(-ENOMEM);
++
++	/* The file won't find the task either, it never comes back. */
 +	task = get_proc_task(inode);
- 	if (!task)
- 		return -ENOENT;
- 
- 	task_lock(task);
- 	files = task->files;
- 	if (files) {
--		unsigned int fd = proc_fd(m->private);
-+		unsigned int fd = proc_fd(inode);
- 
- 		spin_lock(&files->file_lock);
- 		file = files_lookup_fd_locked(files, fd);
-@@ -74,7 +75,7 @@ static int seq_show(struct seq_file *m, void *v)
- 
- static int seq_fdinfo_open(struct inode *inode, struct file *file)
- {
--	return single_open(file, seq_show, inode);
-+	return single_open(file, seq_show, NULL);
- }
- 
++	if (!task)
++		return no_free_ptr(exec_id);
++
++	/* See proc_exec_id_lock(). */
++	if (same_thread_group(task, current)) {
++		*exec_id = task->self_exec_id;
++		return no_free_ptr(exec_id);
++	}
++
++	err = down_read_killable(&task->signal->exec_update_lock);
++	if (err)
++		return ERR_PTR(err);
++	*exec_id = task->self_exec_id;
++	err = proc_exec_id_permission(file, task);
++	up_read(&task->signal->exec_update_lock);
++	if (err)
++		return ERR_PTR(err);
++	return no_free_ptr(exec_id);
++}
++
++int proc_exec_id_single_open(struct inode *inode, struct file *file,
++			     int (*show)(struct seq_file *, void *))
++{
++	u64 *exec_id __free(kfree) = NULL;
++	int err;
++
++	exec_id = proc_exec_id_open(inode, file);
++	if (IS_ERR(exec_id))
++		return PTR_ERR(exec_id);
++
++	err = single_open(file, show, exec_id);
++	if (err)
++		return err;
++
++	retain_and_null_ptr(exec_id);
++	return 0;
++}
++
++int proc_exec_id_single_release(struct inode *inode, struct file *file)
++{
++	struct seq_file *m = file->private_data;
++
++	kfree(m->private);
++	return single_release(inode, file);
++}
++
++int proc_exec_id_dir_open(struct inode *inode, struct file *file)
++{
++	u64 *exec_id = proc_exec_id_open(inode, file);
++
++	if (IS_ERR(exec_id))
++		return PTR_ERR(exec_id);
++
++	file->private_data = exec_id;
++	return 0;
++}
++
++int proc_exec_id_dir_release(struct inode *inode, struct file *file)
++{
++	kfree(file->private_data);
++	return 0;
++}
++
++/*
++ * Pins the task's program until proc_exec_id_unlock(). If it changed since the
++ * open, the file only keeps working if its opener would be allowed to open it
++ * now. Whoever uses the file doesn't count. Our own threads need no lock,
++ * de_thread() waits for them before exec_update_lock is taken.
++ */
++int proc_exec_id_lock(const struct file *file, struct task_struct *task,
++		      u64 *exec_id)
++{
++	int err;
++
++	if (!same_thread_group(task, current)) {
++		err = down_read_killable(&task->signal->exec_update_lock);
++		if (err)
++			return err;
++	}
++
++	if (task->self_exec_id == READ_ONCE(*exec_id))
++		return 0;
++
++	err = proc_exec_id_permission(file, task);
++	if (err) {
++		proc_exec_id_unlock(task);
++		return err;
++	}
++
++	WRITE_ONCE(*exec_id, task->self_exec_id);
++	return 0;
++}
++
++void proc_exec_id_unlock(struct task_struct *task)
++{
++	if (!same_thread_group(task, current))
++		up_read(&task->signal->exec_update_lock);
++}
++
  /*
+  * Rewrite the inode's ownerships here because the owning task may have
+  * performed a setuid(), etc.
+diff --git a/fs/proc/internal.h b/fs/proc/internal.h
+index df873df9afc5..67d9e965162c 100644
+--- a/fs/proc/internal.h
++++ b/fs/proc/internal.h
+@@ -265,6 +265,14 @@ int proc_nochmod_setattr(const struct mnt_idmap *idmap, struct dentry *dentry,
+ extern void proc_pid_evict_inode(struct proc_inode *);
+ extern struct inode *proc_pid_make_inode(struct super_block *, struct task_struct *, umode_t);
+ extern void pid_update_inode(struct task_struct *, struct inode *);
++int proc_exec_id_single_open(struct inode *inode, struct file *file,
++			     int (*show)(struct seq_file *, void *));
++int proc_exec_id_single_release(struct inode *inode, struct file *file);
++int proc_exec_id_dir_open(struct inode *inode, struct file *file);
++int proc_exec_id_dir_release(struct inode *inode, struct file *file);
++int proc_exec_id_lock(const struct file *file, struct task_struct *task,
++		      u64 *exec_id);
++void proc_exec_id_unlock(struct task_struct *task);
+ extern int pid_delete_dentry(const struct dentry *);
+ extern int proc_pid_readdir(struct file *, struct dir_context *);
+ struct dentry *proc_pid_lookup(struct dentry *, unsigned int);
 
 -- 
 2.53.0
