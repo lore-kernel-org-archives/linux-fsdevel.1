@@ -1,99 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793359931;
-	b=dQqEue5HB5S2zT5keH+v1OWjCySBpqY/eVA+BiX6U8rtzFnaV1+8ndXyiQ6IpJNApo3i
-	 2k3KWXt45BACDnjf8Zarzip3yv3BerPP18XEedCjH+WHUUjH1aF+dzaD67AOkP4xTi2U8
-	 ekeEhu0qwsD1bpoE6So3WtcQlETlV7NBHSh44iUOd+VvCK2KDD8h/Ppa1f+CKwCFeVdWa
-	 7oGe87OLQPHyb6V0S03oxilOGojkvtFrTe60vuwVVPiRRLuKFxQlFa2X6+0AxBwss69a2
-	 4Vz26stDkGofVE45FoczFfrykMRdFCRvVwTI1Ep8gD2RNC9ofoAkMxodHk0snllFcwQ==
+	t=1793359998;
+	b=31IhI1HtwzqIVw3fk1F+RjtOxysOc0J8vTId+uBV9Z26nGZuUliC4Z2obN4W25RuCt/e
+	 qnkfq0mdpJUXP81HipxSCUIcr9LaRQJYJH7GzeDyUEcbo4ozopL4vgcPNCogKBPT4pu3x
+	 NTZB/LhznoIlB3zs7NW21lk3myEsuEAl7NW61bODBDEOetTpxCCd+WonglfY40k8RHY4p
+	 UGSzoG7AgT8kDcwY8SE5x80aqJS4ilWXc1RyTChKKqAadCDRdjJ4N8/FrzDSGENaJr2e9
+	 FlxojTlIry3ad0p9tR8iFSJRCUZje4PCTNd4VVBUG1YOuii4u7log8YhaWrhyzLe67g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793359931;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=QlRS5/CrpVvxhUZoAuXRCTXXO2Y4bwCefOuE14TzNwQ=;
-	b=FCDrIgvnkWKTv/KiGBdOxlCn+o8B4TNFVyyVPLB9iWbGo2f9hzkKJMZp9vrsmGB0U/EA
-	 qaNftTFVLaZhrlDN3ebdRl/qxWoB2XNdhIzAfB0DfxzNhYuJZqjQHNm/L6ypLaqvvqZ4C
-	 NaqPxeQv4mbNAkkaAAs4LsTJB9l+tvZn8m5laZfMltmDcPFRRVD+C87iNgXc1x8urUPnr
-	 LeXWR5Doiyapy8LA/mMaEaFwyxpwB4Ok0OvicYN2cgPq8cG8hQclT0GbmKg9CpWlfpvxq
-	 n14pp717ES2pVex1W3BxGFD2EBm7u9nnVFQjJCQNco5AtEl7zqEYNV/HfoOgfKjtYJg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793359998;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:In-Reply-To:References:
+	 Date:Message-ID:User-Agent:MIME-Version:Content-Type;
+	bh=kc1nYy3NbBrATEnmu304kSXCIcQUyPU78cqEyUeTLQk=;
+	b=g5mXRGGMT1A8Mkpuc6FJH+C91G2yTSt67HcdafLwHZwCRNQ99ES04gthdla0oIpSrTdf
+	 bbI1+aCCMkSZ4Ms9/UUPrhJIzOY+bn9WZ01gSYmlH9Y0nDjUk1hix5401xUR79S2T5fhp
+	 w5KYcH+5mVo50g98hqSjm5h9CsU1jxyTTcyRs1YZmIYJjI3DV3AqQUVWDorbZm6PchFD2
+	 4d8CPK6vA8aIU9CMYv2Zyz3kYoOKykjhcYva11Y2/4J+FOnoOdvvWYsUU5zDWXHTbcr6w
+	 LcwH5d/XvzFQMbfdaJTnrm5l1d5z0jxEeBXBTPnNMc42Jx67vjCAHfGAXqO7KAnkmSQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jribXoF9;
-	arc=none smtp.remote-ip=209.85.128.53
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BHb4rT89;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19CF3606A329
-	for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 11:32:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 19CF3606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7363A606A31D;
+	Fri, 30 Oct 2026 11:33:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jribXoF9
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a2d6cf958bso2534575e9.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 04:32:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793359929; x=1793964729; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=QlRS5/CrpVvxhUZoAuXRCTXXO2Y4bwCefOuE14TzNwQ=;
-        b=jribXoF9yhV37AHa/V9T2sD1QK7epMpsBCYEJ08aha2ZKpOGlFwYoGUHeb7NahTZOi
-         f3a278vT9o8Wmhc0UiwnYmc1Z3TA6xGnYXtsoFxl6FQY0HjwG4Ff6LJ3qrBODQxeqRJF
-         +LmJ+IYgl/eVuKDR9ZSzSd0FJIkuyRt+LMB3F+vkE+R4inpNk43UeRkRMoaadzi6O3ro
-         apTCxAqTbDlw8In2su2jdqsEVeA2Q3407MpZDX9px/I45LQH/eQiSTIVorqsMwP/T0pX
-         0ZtESf4m7VrOHppB7I6WRLtImXkfqF7RQx+rbMQa891fLE6tT0Y7gqf1gJtZfIaxPZEZ
-         f0nA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793359929; x=1793964729;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=QlRS5/CrpVvxhUZoAuXRCTXXO2Y4bwCefOuE14TzNwQ=;
-        b=OrooAmBuvx13ui3lso1P7lelvXCSgBI+93elTPzeKJPQP4rjxOJM8c4+H/iBldKKTM
-         5tFc3OX3IsvtNyQSgQnn6QvGNiPf9WMjzKtjJuLrAFk6PPusZxo/s0zM3ldKRBOoqIdl
-         3YN9d5Aw0/SxGSHOU2vfKSWATNhnzK/0Cv+dSOekgLKAUSxVlpCQWYin9u08TEvl8E9b
-         W9X4e+eqAtFUOZzFINAJDfMUVwPbGbjC36euM9DFOKSGd2xwhnBUSXaQIYb0u7W+U3CH
-         80IsSXi7v6x8fsbLhybGqwmLf2TFOzX+hhnVsqm2CuhEYz+30azUGKfMomjMis5eCU9y
-         6g2A==
-X-Forwarded-Encrypted: i=1; AKwUvBzJfW2Z+zxE1ALNBzx3G09iTdTE/wLO7zXXVY3Te9tgpdjLHfVWwXAbq6RsuSp3YB5Fj0PWFpJziWEQgOcz@vger.kernel.org
-X-Gm-Message-State: AFq9FYJGTF12CW9d3VAgloFYMlL2485cVJ9FbiNBNKhBiDiuEWh0EgJw
-	AIJV4QkqM4f899r/XJfCDsruPY4S4NQT938ymnu3k72tFXSr77NRdCM4
-X-Gm-Gg: AYBFou2d+87V5ZiQ5DaAKpmOx7FhY5bWlDiSRYFrW8ZR3DapBdXr4QTcg5zlVpN39+8
-	UJia5GqVIHqvmhrj3u+n3jw8XuOJftHyobV/yhnZoNINmKaHmo9RD1E4OYHOqqD48LptvXq8o2V
-	I3MX1i15FmypQaG3fhaWY84ULkYCGFhHMenF7sM5gVWaaKA588wamYB9MgIuJtXhj7g2TR/1pJK
-	nKhA4N5pnOvm6eRs+JGmur/GO3xA3pH1kDSK8CMb+17O+iKl96Kc0jPtrvXs8I21ZtFl5y4U+6L
-	7jLXDSltHpmjmUktP4Tc9CbCuQpE5W9kkl+r2pNnaHkd3ksw8CHUTtCcLClTwXoTvrU93q+qJnK
-	7qP4GlTX5fXUL3fI6dwBJnEj9TsrRHlwS0eCgIQJMyy+7FI9wVP+jgPNWf39fUlF/DJ0Qu9TXeK
-	2OZM/wtStqYF2KtmAVRrxaP2OiHksms87RAoporn5fIWefqWq216riIN7bPJygT5bvFhsKjjkCu
-	CDI5yHSueBdF2FHSlp1cc3QQVYLhJt+VKJ3DSRJdBn8P/MUm95rNiPGB9aOBrC0Tpl9HKI7X0L6
-	nh7PJYYQuommKCV9Hi2BAPWTlfufrnkFueSn7RxdQ7hcL85paqEKKuvujJfXrR++nCdKRmjvq8b
-	EFlBQ0Y+Mz2Rm
-X-Received: by 2002:a05:600c:470a:b0:4a1:7e77:c382 with SMTP id 5b1f17b1804b1-4ac16acfe61mr41713985e9.5.1793359929277;
-        Fri, 30 Oct 2026 04:32:09 -0700 (PDT)
-Received: from localhost (178-84-201-199.dynamic.upc.nl. [178.84.201.199])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4abf5b286a0sm45174765e9.4.2026.10.30.04.32.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2026 04:32:08 -0700 (PDT)
-From: Amir Goldstein <amir73il@gmail.com>
-To: Hungyu Lin <dennylin0707@gmail.com>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Chris Mason <mason@kernel.org>,
-	Josef Bacik <josef@toxicpanda.com>,
-	linux-unionfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH 3/3] ovl: fix whiteout creation in casefolded directories
-Date: Fri, 30 Oct 2026 12:32:01 +0100
-Message-ID: <20261030113201.2921633-4-amir73il@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261030113201.2921633-1-amir73il@gmail.com>
-References: <20261030113201.2921633-1-amir73il@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BHb4rT89
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32A5A1F000C1;
+	Fri, 30 Oct 2026 11:33:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793359998;
+	bh=kc1nYy3NbBrATEnmu304kSXCIcQUyPU78cqEyUeTLQk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=BHb4rT89dXjX/iZaObEefV3p90/w7FDU1AnmrNDjsWGet3bMCVuHxPhhh8maCSV/h
+	 zHFPhZNhQ+icw2cAAzLgVil3nTxqrp8v/shvpU7wgx9O2HOr6scmGto/DwnEx43YLR
+	 U8QuxRoob6poB0ebRlGoVLdYs4EXRG/OEIcmFg9nLjCoFcmkfPK+kLiNtyRR5jFfK/
+	 kPdRH7C4xmDmfWvUUGNc6QJpyNgV5aZiZ4d9NVAt97UVbCogRFpjqWS63JZdadrQNq
+	 Et9wov2jU3Uf8UCr6K6rvisW1XibSsetO8Dm61vUCe5/c67aIiNMH6e+Dl8WkmU+fi
+	 vUl1VbxFRwh2Q==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,  Johannes Weiner
+ <hannes@cmpxchg.org>,  Michal Hocko <mhocko@kernel.org>,  Qi Zheng
+ <qi.zheng@linux.dev>,  Shakeel Butt <shakeel.butt@linux.dev>,  Lorenzo
+ Stoakes <ljs@kernel.org>,  Kairui Song <kasong@tencent.com>,  Barry Song
+ <baohua@kernel.org>,  Axel Rasmussen <axelrasmussen@google.com>,  Yuanchu
+ Xie <yuanchu@google.com>,  Wei Xu <weixugc@google.com>,  Baoquan He
+ <baoquan.he@linux.dev>,  Baolin Wang <baolin.wang@linux.alibaba.com>,
+  "Liam R. Howlett" <liam@infradead.org>,  Vlastimil Babka
+ <vbabka@kernel.org>,  Mike Rapoport <rppt@kernel.org>,  Suren Baghdasaryan
+ <surenb@google.com>,  Michal Hocko <mhocko@suse.com>,  Kees Cook
+ <kees@kernel.org>,  Peter Zijlstra <peterz@infradead.org>,  Jann Horn
+ <jannh@google.com>,  Pedro Falcato <pfalcato@suse.de>,  Hugh Dickins
+ <hughd@google.com>,  Pasha Tatashin <pasha.tatashin@soleen.com>,  Pratyush
+ Yadav <pratyush@kernel.org>,  "Matthew Wilcox (Oracle)"
+ <willy@infradead.org>,  Jan Kara <jack@suse.cz>,  Zi Yan <ziy@nvidia.com>,
+  Lance Yang <lance.yang@linux.dev>,  Rik van Riel <riel@surriel.com>,
+  Harry Yoo <harry@kernel.org>,  Alistair Popple <apopple@nvidia.com>,
+  Nico Pache <nico.pache@linux.dev>,  Ryan Roberts <ryan.roberts@arm.com>,
+  Dev Jain <dev.jain@arm.com>,  Usama Arif <usama.arif@linux.dev>,  Kiryl
+ Shutsemau <kas@kernel.org>,  Matthew Brost <matthew.brost@intel.com>,
+  John Hubbard <jhubbard@nvidia.com>,  Peter Xu <peterx@redhat.com>,  Will
+ Deacon <will@kernel.org>,  "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+  Nick Piggin <npiggin@gmail.com>,  Oscar Salvador <osalvador@suse.de>,
+  Minchan Kim <minchan@kernel.org>,  Muchun Song <muchun.song@linux.dev>,
+  Xu Xin <xu.xin@linux.dev>,  Chengming Zhou <chengming.zhou@linux.dev>,
+  Chris Li <chrisl@kernel.org>,  Kemeng Shi <shikemeng@huaweicloud.com>,
+  Nhat Pham <nphamcs@gmail.com>,  Youngjun Park <youngjun.park@lge.com>,
+  Gregory Price <gourry@gourry.net>,  Joshua Hahn
+ <joshua.hahnjy@gmail.com>,  Rakie Kim <rakie.kim@sk.com>,  Ying Huang
+ <ying.huang@linux.alibaba.com>,  Jason Gunthorpe <jgg@ziepe.ca>,
+  linux-mm@kvack.org,  linux-kernel@vger.kernel.org,
+  kexec@lists.infradead.org,  linux-fsdevel@vger.kernel.org,
+  linux-arch@vger.kernel.org,  linux-cxl@vger.kernel.org,
+  stable@vger.kernel.org,  Chris Mason <mason@kernel.org>
+Subject: Re: [PATCH v2 03/47] mm/memfd: check for real shmem inodes before
+ accessing shmem state
+In-Reply-To: <20261029-fixes_core-v2-3-a64ce7f83abb@kernel.org> (David
+	Hildenbrand's message of "Thu, 29 Oct 2026 21:32:58 +0100")
+References: <20261029-fixes_core-v2-0-a64ce7f83abb@kernel.org>
+	<20261029-fixes_core-v2-3-a64ce7f83abb@kernel.org>
+Date: Fri, 30 Oct 2026 12:33:06 +0100
+Message-ID: <2vxzmrrvmnil.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -103,211 +93,59 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-From: Chris Mason <mason@kernel.org>
+Hi David,
 
-unlink and rmdir fail with EINVAL on an overlay with casefolded
-(case-insensitive) layers, if the name exists in a lower layer.
-Casefolded layers need CONFIG_UNICODE. Root can mount such an overlay,
-and so can an unprivileged user in a user namespace, with tmpfs layers.
+On Thu, Oct 29 2026, David Hildenbrand (Arm) wrote:
 
-Overlayfs does not change a lower layer. To remove a name that exists
-there, it hides the name with a marker file, a whiteout. It creates the
-whiteout in the work directory, a scratch directory on the upper
-filesystem, and renames it over the name in the upper directory:
+> shmem_file() only checks a file's backing mapping. That mapping can belong
+> to another file, as with a Coda file backed by a tmpfs container after
+> mmap(). It does not establish that file_inode(file) is a shmem inode.
+>
+> Seal handling and memfd preservation use this check before accessing
+> shmem inode state, so they can access an inode of the wrong type.
+>
+> Add file_inode_is_shmem() to check the inode's file operations in both
+> paths. This identifies regular shmem inodes, including those used by
+> memfds and ordinary tmpfs files, independently of wrapper file operations.
+>
+> Fixes: c49fcfcda8b5 ("mm/shmem: update file sealing comments and file checking")
+> Fixes: b3749f174d68 ("mm: memfd_luo: allow preserving memfd")
+> Cc: stable@vger.kernel.org
+> Reported-by: Chris Mason <mason@kernel.org>
+> Reviewed-by: Rik van Riel <riel@surriel.com>
+> Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 
-- ovl_whiteout() creates the whiteout with mknod, or as a hard link to
-  an earlier whiteout.
-- ovl_cleanup_and_whiteout() then prepares the rename with
-  start_renaming_two_dentries(), which returns -EINVAL if the source or
-  the target dentry is unhashed, that is, not in the dentry hash table.
+Maybe you missed my email on v1 [0], so here's another try:
 
-With casefolded directories, both dentries can be unhashed:
+Why not update shmem_file() to do this check instead? Having a
+shmem_file() that might not always return the right result on a file
+seems like a landmine.
 
-- The target. Lookup in a casefolded directory leaves a negative dentry
-  unhashed, so the rename target is unhashed if the name does not exist
-  in the upper directory.
-- The source, which is the new whiteout. tmpfs hashes a dentry when
-  mknod or link makes it positive, but ext4 does not, so on ext4 the
-  source is unhashed as well.
+For example, you missed check_memfd_seals() in udmabuf or
+memfd_pin_folios() in gup. Both want to only look at "proper" shmem
+files, and should not do any work on a Coda file with a shmem mapping.
+Plus, someone later down the line might use shmem_file() without knowing
+this subtle problem, and we probably would miss it in review.
 
-The cleanup after the failure also refuses an unhashed dentry, so on
-ext4 the whiteout is left behind in the work directory.
+For callers that only care about the mapping should then use
+shmem_mapping(). I am not sure if there are any. Perhaps that would be
+collapse_file()? But TBH I don't really understand khugepaged all that
+much. All other callers of shmem_file() seem to care about the actual
+inode.
 
-Reproduced with rm and rmdir on casefolded tmpfs and ext4 layers, also
-as uid 1000 in a user namespace.
+[0] https://lore.kernel.org/all/2vxzh5i7p5nl.fsf@kernel.org/
 
-Fix this by creating the whiteout with ovl_create_temp(), which repeats
-the lookup if the new dentry is unhashed. Prepare the rename with
-start_renaming_dentry(), which looks up the target name with the
-directories locked. The caller looked the name up without a lock, so
-return -ESTALE if the name now refers to a different inode.
+> ---
+>  include/linux/shmem_fs.h | 6 ++++++
+>  mm/memfd.c               | 8 +++++---
+>  mm/memfd_luo.c           | 2 +-
+>  mm/shmem.c               | 5 +++++
+>  4 files changed, 17 insertions(+), 4 deletions(-)
+[...]
 
-Fixes: 833d2b3a072f ("Add start_renaming_two_dentries()")
-Cc: stable@vger.kernel.org
-Signed-off-by: Chris Mason <mason@kernel.org>
-[amir: pass the name used for lookup instead of taking a name snapshot]
-Signed-off-by: Amir Goldstein <amir73il@gmail.com>
----
- fs/overlayfs/dir.c       | 46 ++++++++++++++++++++++------------------
- fs/overlayfs/overlayfs.h | 10 +--------
- fs/overlayfs/readdir.c   |  3 ++-
- fs/overlayfs/util.c      |  2 +-
- 4 files changed, 29 insertions(+), 32 deletions(-)
-
-diff --git a/fs/overlayfs/dir.c b/fs/overlayfs/dir.c
-index f716ac13badf3..c77af9a79d883 100644
---- a/fs/overlayfs/dir.c
-+++ b/fs/overlayfs/dir.c
-@@ -74,39 +74,34 @@ static struct dentry *ovl_start_creating_temp(struct ovl_fs *ofs,
- 			      &QSTR(name));
- }
- 
-+/*
-+ * The whiteout is the source of a rename, so it has to be hashed.
-+ * ovl_create_temp() takes care of that for a casefolded workdir.
-+ */
- static struct dentry *ovl_whiteout(struct ovl_fs *ofs)
- {
- 	int err;
- 	struct dentry *whiteout, *link;
- 	struct dentry *workdir = ofs->workdir;
--	struct inode *wdir = workdir->d_inode;
--	char name[OVL_TEMPNAME_SIZE];
- 
- 	guard(mutex)(&ofs->whiteout_lock);
- 
- 	if (!ofs->whiteout) {
--		whiteout = ovl_start_creating_temp(ofs, workdir, name);
-+		whiteout = ovl_create_temp(ofs, workdir, &(struct ovl_cattr) {
-+					.mode = S_IFCHR | WHITEOUT_MODE,
-+					.rdev = WHITEOUT_DEV });
- 		if (IS_ERR(whiteout))
- 			return whiteout;
--		err = ovl_do_whiteout(ofs, wdir, whiteout);
--		if (!err)
--			ofs->whiteout = dget(whiteout);
--		end_creating(whiteout);
--		if (err)
--			return ERR_PTR(err);
-+		ofs->whiteout = whiteout;
- 	}
- 
- 	if (!ofs->no_shared_whiteout) {
--		link = ovl_start_creating_temp(ofs, workdir, name);
--		if (IS_ERR(link))
-+		link = ovl_create_temp(ofs, workdir, &(struct ovl_cattr) {
-+					.hardlink = ofs->whiteout });
-+		if (!IS_ERR(link))
- 			return link;
--		err = ovl_do_link(ofs, ofs->whiteout, wdir, link);
--		if (!err)
--			whiteout = dget(link);
--		end_creating(link);
--		if (!err)
--			return whiteout;
- 
-+		err = PTR_ERR(link);
- 		if (err != -EMLINK) {
- 			pr_warn("Failed to link whiteout - disabling whiteout inode sharing(nlink=%u, err=%u)\n",
- 				ofs->whiteout->d_inode->i_nlink,
-@@ -120,9 +115,10 @@ static struct dentry *ovl_whiteout(struct ovl_fs *ofs)
- }
- 
- int ovl_cleanup_and_whiteout(struct ovl_fs *ofs, struct dentry *dir,
--			     struct dentry *dentry)
-+			     struct dentry *dentry, const struct qstr *name)
- {
- 	struct dentry *whiteout;
-+	struct qstr last = QSTR_LEN(name->name, name->len);
- 	struct renamedata rd = {};
- 	int err;
- 	int flags = 0;
-@@ -139,9 +135,17 @@ int ovl_cleanup_and_whiteout(struct ovl_fs *ofs, struct dentry *dir,
- 	rd.old_parent = ofs->workdir;
- 	rd.new_parent = dir;
- 	rd.flags = flags;
--	err = start_renaming_two_dentries(&rd, whiteout, dentry);
-+	/*
-+	 * The caller looked up @dentry by @name without a lock on @dir, and a
-+	 * casefolded directory leaves a negative dentry unhashed.  Nothing tells
-+	 * if such a dentry is still valid, so look up @name again with @dir locked.
-+	 */
-+	err = start_renaming_dentry(&rd, 0, whiteout, &last);
- 	if (!err) {
--		err = ovl_do_rename_rd(&rd);
-+		if (d_inode(rd.new_dentry) != d_inode(dentry))
-+			err = -ESTALE;
-+		else
-+			err = ovl_do_rename_rd(&rd);
- 		end_renaming(&rd);
- 	}
- 	if (err)
-@@ -847,7 +851,7 @@ static int ovl_remove_and_whiteout(struct dentry *dentry,
- 		goto out_dput_upper;
- 	}
- 
--	err = ovl_cleanup_and_whiteout(ofs, upperdir, upper);
-+	err = ovl_cleanup_and_whiteout(ofs, upperdir, upper, &dentry->d_name);
- 	if (!err)
- 		ovl_dir_modified(dentry->d_parent, true);
- 
-diff --git a/fs/overlayfs/overlayfs.h b/fs/overlayfs/overlayfs.h
-index 91cdd7e15696c..4faebb4c6825b 100644
---- a/fs/overlayfs/overlayfs.h
-+++ b/fs/overlayfs/overlayfs.h
-@@ -394,14 +394,6 @@ static inline int ovl_do_rename(struct ovl_fs *ofs, struct dentry *olddir,
- 	return ovl_do_rename_rd(&rd);
- }
- 
--static inline int ovl_do_whiteout(struct ovl_fs *ofs,
--				  struct inode *dir, struct dentry *dentry)
--{
--	int err = vfs_whiteout(ovl_upper_mnt_idmap(ofs), dir, dentry);
--	pr_debug("whiteout(%pd2) = %i\n", dentry, err);
--	return err;
--}
--
- static inline struct file *ovl_do_tmpfile(struct ovl_fs *ofs,
- 					  struct dentry *dentry, umode_t mode)
- {
-@@ -897,7 +889,7 @@ static inline void ovl_copyflags(struct inode *from, struct inode *to)
- /* dir.c */
- extern const struct inode_operations ovl_dir_inode_operations;
- int ovl_cleanup_and_whiteout(struct ovl_fs *ofs, struct dentry *dir,
--			     struct dentry *dentry);
-+			     struct dentry *dentry, const struct qstr *name);
- struct ovl_cattr {
- 	dev_t rdev;
- 	umode_t mode;
-diff --git a/fs/overlayfs/readdir.c b/fs/overlayfs/readdir.c
-index 2018e31146555..b862309eba4d1 100644
---- a/fs/overlayfs/readdir.c
-+++ b/fs/overlayfs/readdir.c
-@@ -1343,7 +1343,8 @@ int ovl_indexdir_cleanup(struct ovl_fs *ofs)
- 			 * Whiteout orphan index to block future open by
- 			 * handle after overlay nlink dropped to zero.
- 			 */
--			err = ovl_cleanup_and_whiteout(ofs, indexdir, index);
-+			err = ovl_cleanup_and_whiteout(ofs, indexdir, index,
-+						       &QSTR_LEN(p->name, p->len));
- 		} else {
- 			/* Cleanup orphan index entries */
- 			err = ovl_cleanup(ofs, indexdir, index);
-diff --git a/fs/overlayfs/util.c b/fs/overlayfs/util.c
-index b41f4788e4f06..47734eeb97b75 100644
---- a/fs/overlayfs/util.c
-+++ b/fs/overlayfs/util.c
-@@ -1118,7 +1118,7 @@ static void ovl_cleanup_index(struct dentry *dentry)
- 	} else if (ovl_index_all(dentry->d_sb)) {
- 		/* Whiteout orphan index to block future open by handle */
- 		err = ovl_cleanup_and_whiteout(OVL_FS(dentry->d_sb),
--					       indexdir, index);
-+					       indexdir, index, &name);
- 	} else {
- 		/* Cleanup orphan index entries */
- 		err = ovl_cleanup(ofs, indexdir, index);
 -- 
-2.55.0
-
+Regards,
+Pratyush Yadav
