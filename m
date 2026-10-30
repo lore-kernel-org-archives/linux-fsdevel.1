@@ -1,117 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.71.93.112
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793321856;
-	b=c3WrQvWd4iR2c/5tkAgxT/9tkncVN0z6xSW24WlhTlOHT9dspMrRI7XXCApCIHlrCUO9
-	 fYjoExFqQOtqmgSo0359wOBdqHLN+ViXBd2d2iCeanNuUZomcB7BhOtbGdGEsx1zLPAH5
-	 6nCM5zRGiukaO5Ch7jpuUIOnwTSHufIsjv8Nl1WNnqDNjbS8daxGnFe6Gfz3XRTJIxdyK
-	 JxKh43YITvcDyDurzR7XO1VF3r+vKg6hvOJk4I9Zw9mRXPOZ7Yy+d60P0L3bSbHU/X6Xn
-	 MfUqW19NJXJbvU7mfSaxii8ZJ9vfd9s7u1uZJ3GhbjbQpNgTdZ0ndI0zmDEjXLL0d0w==
+	t=1793322449;
+	b=A9QdVH51i3fj93CYCuRnk6QVcZ9Mkn8cFjw3lg+EfLP37akEKce+Ue69SNGWVGsLT61Q
+	 SvZRFMj53vlgtZaL7V8+oDPkPdU1B1TcHeeD1w0Ib5thzaCjxCOGQ26iZrgEfuQXMAd/T
+	 cYBfuFRYpidIhtBajDhdzU9CMp8JvEJJ7LO83cd4EOKHaLM+Xj8dbN9ZbddJ1QFOqu0/G
+	 GDVkhTmveNXqEW1WEhSerHhQCQw2s2/a0z3b7ugIlyT65ISzK5/cqhb3HrKPlVXWE3rzP
+	 7uvrSGs8Lwk02x1mmhnV5Dbry+ON7rZJrfhX5EWF/lJT6xbfUj6+YMh8jGyanyl/q7g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793321856;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=M6bpDqyFL1t6pXSfv5Po8tZyxphIeTUYr2/GTeN0+Ow=;
-	b=By5COuiElj8L1m0sqckkX2lnkKV+QizJTUVQNPWPVanjeSwWQt5SxUYBg6qoDb8cQqd6
-	 yoiqfYC8osTFlYcOHOZbUTVhCIO6Kc7N/TC0BtyzBN84sDoUN5OUa8T8yJA8wmTcuD3jR
-	 HurW+dX71DGTraTKZFzJY51Gr9As2251GAL2C1jOA4a8ZZJTMoVjLmZlbf5+o7+iJMdzm
-	 O75zZkApayFFiHENllBBTRFv3RVSRhbeuvjskrvcIlvHXT60qG/Btyl1461wlzTC5TERp
-	 xeQQfXXssY9imQGqtZdQXg6hZmOC4vBbL7oKM0NPdGzBo0EaRgnlTkGriXCf+gejQ6w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793322449;
+	h=DMARC-Filter:Received:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-CM-TRANSID:
+	 X-Coremail-Antispam:X-CM-SenderInfo;
+	bh=PZrFme8Z9ERkoIaIGLnSAqVdeuU7p1Vpb8U9cUCLBTg=;
+	b=YeBSsl050FlRwg39Hncpl1rMQGguN/5Ak48O4AtgTQrddDsnFovdiOzVvTi3r8FkzkgE
+	 +nrbI0j5W54f3XmwPRjhgNohvzOZh0qGsFpQU+aPqlIDK6yGJu9/I/SRCJrKp/e1/vTsn
+	 8J2eHmzsTmBmKkdBYVm3C8MaxkvD08lHfQBs06iLBRqfEKlpNyZuex8vc9JDeJe7k23th
+	 L5swiNSmvGe3++H/WbVl2M1hUJE8r41phGcnoW2C9Nu4WXg6zBLYKIP+FGaRcS72U+tCJ
+	 M1JCr1mmuloobNetHjBgxoEuoL/DqXBRsLfK+hTj2BdPCN+h67q4+PMP47twqUEL7hA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bck9LEQ0;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=huaweicloud.com;
+	spf=pass smtp.mailfrom=huaweicloud.com;
+	arc=none smtp.remote-ip=124.71.93.112
+Received: from dggmsgout12.his.huawei.com (dggmsgout12.his.huawei.com [124.71.93.112])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3E0F606A31A;
-	Fri, 30 Oct 2026 00:57:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bck9LEQ0
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5070C1F000C1;
-	Fri, 30 Oct 2026 00:57:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793321855;
-	bh=M6bpDqyFL1t6pXSfv5Po8tZyxphIeTUYr2/GTeN0+Ow=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=bck9LEQ0UPt4LikhQsWdEDa6SKxVHXgeqY8QxTgswXVFtiDdPukVSUu4n9MbVtYs5
-	 9bJB0UhYlqNoSAncXFJ2j1+NWPJNqcsDIAUWHsMxFaaWRhN5euG3twTUKMEQOkhMHq
-	 kCqRFz7lMFFHp8ifCqslKWbUlluFBnrNX2Gsx1QQZJ1my3+Qiqa83Vi4wtVn+wWcXY
-	 yr12zqlMfd4YaoyLMi/eCnYBn6ROMiu9tbRatmj2MhIT5+dvt+dbydBKyR+FVLJc9O
-	 dqXK/TupCXUvbOJG5GZZZVlCKD/5zJ1rV6kAoCfn2B0Pn4nRrmkZIvQ909w4V4Nmjy
-	 P8zEJJwppvlEQ==
-From: SJ Park <sj@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: SJ Park <sj@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Michal Hocko <mhocko@kernel.org>,
-	Qi Zheng <qi.zheng@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Kairui Song <kasong@tencent.com>,
-	Barry Song <baohua@kernel.org>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Yuanchu Xie <yuanchu@google.com>,
-	Wei Xu <weixugc@google.com>,
-	Baoquan He <baoquan.he@linux.dev>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Kees Cook <kees@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Jann Horn <jannh@google.com>,
-	Pedro Falcato <pfalcato@suse.de>,
-	Hugh Dickins <hughd@google.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Jan Kara <jack@suse.cz>,
-	Zi Yan <ziy@nvidia.com>,
-	Lance Yang <lance.yang@linux.dev>,
-	Rik van Riel <riel@surriel.com>,
-	Harry Yoo <harry@kernel.org>,
-	Alistair Popple <apopple@nvidia.com>,
-	Nico Pache <nico.pache@linux.dev>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Dev Jain <dev.jain@arm.com>,
-	Usama Arif <usama.arif@linux.dev>,
-	Kiryl Shutsemau <kas@kernel.org>,
-	Matthew Brost <matthew.brost@intel.com>,
-	John Hubbard <jhubbard@nvidia.com>,
-	Peter Xu <peterx@redhat.com>,
-	Will Deacon <will@kernel.org>,
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
-	Nick Piggin <npiggin@gmail.com>,
-	Oscar Salvador <osalvador@suse.de>,
-	Minchan Kim <minchan@kernel.org>,
-	Muchun Song <muchun.song@linux.dev>,
-	Xu Xin <xu.xin@linux.dev>,
-	Chengming Zhou <chengming.zhou@linux.dev>,
-	Chris Li <chrisl@kernel.org>,
-	Kemeng Shi <shikemeng@huaweicloud.com>,
-	Nhat Pham <nphamcs@gmail.com>,
-	Youngjun Park <youngjun.park@lge.com>,
-	Gregory Price <gourry@gourry.net>,
-	Joshua Hahn <joshua.hahnjy@gmail.com>,
-	Rakie Kim <rakie.kim@sk.com>,
-	Ying Huang <ying.huang@linux.alibaba.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	kexec@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	linux-cxl@vger.kernel.org,
-	Josef Bacik <josef@toxicpanda.com>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2 27/47] mm/mmu_gather: fix flushing ranges with 4 GiB or larger
-Date: Thu, 29 Oct 2026 17:57:25 -0700
-Message-ID: <20261030005726.155279-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261029-fixes_core-v2-27-a64ce7f83abb@kernel.org>
-References: 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DEB7606A31C;
+	Fri, 30 Oct 2026 01:07:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6DEB7606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.177])
+	by dggmsgout12.his.huawei.com (SkyGuard) with ESMTP id 4jG2xf4xphz1ygS;
+	Fri, 30 Oct 2026 09:07:02 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id E4CB840657;
+	Fri, 30 Oct 2026 09:07:18 +0800 (CST)
+Received: from [10.174.179.19] (unknown [10.174.179.19])
+	by APP4 (Coremail) with UTF8SMTPSA id gCh0CgCn5fTF7eNq3yxsCQ--.62529S3;
+	Fri, 30 Oct 2026 09:07:18 +0800 (CST)
+Message-ID: <cddab9e4-0b57-40c3-a38b-34c738254f87@huaweicloud.com>
+Date: Fri, 30 Oct 2026 09:07:16 +0800
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -121,55 +51,110 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] iomap: don't mark unwritten parts of a folio uptodate
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
+ Chris Mason <clm@meta.com>, Josef Bacik <josef@toxicpanda.com>,
+ Matthew Wilcox <willy@infradead.org>, Joanne Koong <joannelkoong@gmail.com>,
+ "Darrick J. Wong" <djwong@kernel.org>, Brian Foster <bfoster@redhat.com>,
+ linux-xfs@vger.kernel.org, stable@vger.kernel.org
+References: <20261029-work-iomap-ai-fixes-v1-0-7eda63bc1b13@kernel.org>
+ <20261029-work-iomap-ai-fixes-v1-1-7eda63bc1b13@kernel.org>
+Content-Language: en-US
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+In-Reply-To: <20261029-work-iomap-ai-fixes-v1-1-7eda63bc1b13@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:gCh0CgCn5fTF7eNq3yxsCQ--.62529S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxAF4kGF1DJw4fGr18CrWktFb_yoW5CrWkpr
+	Z8Kayjkrs7tr17Zwn7ZF9rAry0yw43Wr43CF18G3s8Z3Z0qrWxWr1vgayYvF18ZrZ7GFWF
+	qF4v9Fy5W3W5ZrDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUv2b4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6x
+	kF7I0E14v26F4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAq
+	x4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6x
+	CaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0E
+	n4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I
+	0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWU
+	tVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcV
+	CY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAF
+	wI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa
+	7IU17KsUUUUUU==
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
-On Thu, 29 Oct 2026 21:33:22 +0100 "David Hildenbrand (Arm)" <david@kernel.org> wrote:
+On 10/29/2026 6:34 PM, Christian Brauner wrote:
+> For a buffered write into a hole, an unwritten or new extent, or past
+> EOF __iomap_write_begin() zeroes the parts of the blocks outside of the
+> write and then marks the blocks uptodate. That includes the range of the
+> write itself which still holds whatever was in the folio before. It only
+> becomes valid once the copy from userspace has filled it in.
+> 
+> But the copy can come up short and __iomap_write_end() only rejects a
+> short copy if the folio isn't uptodate. If the zeroed blocks were all
+> that was missing the folio is uptodate by then, the short copy is
+> accepted, and the rest of the range is exposed to readers and can end up
+> on disk. A source buffer that ends in an unmapped page is enough:
+> 
+>         ftruncate(fd, 4096);
+>         pwrite(fd, p, 3000, 100);    /* 16 bytes at p, then PROT_NONE */
+>         pread(fd, buf, 4096, 0);
+> 
+> The write returns 16 and the read returns 2984 bytes of whatever was in
+> that page before. If other blocks of the folio aren't uptodate the short
+> copy is rejected but the zeroed blocks keep their uptodate bits and the
+> retry with the copied length leaves the same bytes behind.
+> 
+> Only mark blocks uptodate in __iomap_write_begin() after reading them.
+> __iomap_write_end() marks the zeroed blocks uptodate once the copy has
+> succeeded and rejects a short copy.
+> 
+> Willy reported this back in 2024 (cf. [1]) and Zhang Yi posted the same
+> fix (cf. [2]) but it never got merged.
+> 
 
-> From: Josef Bacik <josef@toxicpanda.com>
-> 
-> __tlb_adjust_range() takes the size of the range which has to be flushed
-> as an unsigned int. Its callers, tlb_flush_{pte,pmd,pud,p4d}_range(), get
-> and pass an unsigned long. Consequently, a range that is 4 GiB or larger
-> gets truncated, possibly to 0.
-> 
-> On arm64 with hugetlb, a 64k kernel can have 16 GiB hugetlb folios
-> mapped contiguously at the PMD level and flush them when unmapping, and a
-> 16k kernel can flush 64 GiB PUDs through tlb_unshare_pmd_ptdesc(). So
-> at least these two scenarios are affected.
-> 
-> Fix it by flushing the proper range instead of the truncated one by
-> properly using "unsigned long" for range_size.
+Ha, thanks for picking this fix back up. I had missed this patch while
+sending the iomap fixes.
 
-Makes sense to me.
-
+> [1]: https://lore.kernel.org/all/ZqsN5ouQTEc1KAzV@casper.infradead.org
+> [2]: https://lore.kernel.org/all/20240812121159.3775074-6-yi.zhang@huaweicloud.com
 > 
-> Fix generated by an LLM and sent by Josef Bacik in private.
-> 
-> Fixes: b528e4b6405b ("mm/hugetlb: add tlb_remove_hugetlb_entry for handling hugetlb pages")
-> Fixes: 8ce720d5bd91 ("mm/hugetlb: fix excessive IPI broadcasts when unsharing PMD tables using mmu_gather")
+> Fixes: 9dc55f1389f9 ("iomap: add support for sub-pagesize buffered I/O without buffer heads")
+> Reported-by: Josef Bacik <josef@toxicpanda.com>
 > Cc: stable@vger.kernel.org
-> Signed-off-by: Josef Bacik <josef@toxicpanda.com>
-> Acked-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> [ david: use two-tab indent, simplify description ]
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-It seems the convention [1] is to put the above modification note right before
-the last S-o-b: of David.  Maybe you forgot moving it after adding R-b: and
-T-b: from great reviewers?
+Looks good to me.
 
-> Reviewed-by: Qi Zheng <qi.zheng@linux.dev>
-> Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
-> Tested-by: Gregory Price (Meta) <gourry@gourry.net>
-> Reviewed-by: Dev Jain <dev.jain@arm.com>
-> Reviewed-by: Muchun Song <muchun.song@linux.dev>
-> Reviewed-by: Pedro Falcato <pfalcato@suse.de>
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+Reviewed-by: Zhang Yi <yi.zhang@huawei.com>
 
-Reviewed-by: SJ Park <sj@kernel.org>
+> ---
+>  fs/iomap/buffered-io.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
+> index 907873073b03..d6e2f1ded5ca 100644
+> --- a/fs/iomap/buffered-io.c
+> +++ b/fs/iomap/buffered-io.c
+> @@ -920,6 +920,7 @@ static int __iomap_write_begin(const struct iomap_iter *iter,
+>  		if (iomap_block_needs_zeroing(iter, block_start)) {
+>  			if (WARN_ON_ONCE(iter->flags & IOMAP_UNSHARE))
+>  				return -EIO;
+> +			/* uptodate once copied, see __iomap_write_end() */
+>  			folio_zero_segments(folio, poff, from, to, poff + plen);
+>  		} else {
+>  			const struct iomap *iomap = iomap_iter_srcmap(iter);
+> @@ -943,8 +944,8 @@ static int __iomap_write_begin(const struct iomap_iter *iter,
+>  
+>  			if (iomap->flags & IOMAP_F_ZERO_TAIL)
+>  				folio_zero_segment(folio, to, poff + plen);
+> +			iomap_set_range_uptodate(folio, poff, plen);
+>  		}
+> -		iomap_set_range_uptodate(folio, poff, plen);
+>  	} while ((block_start += plen) < block_end);
+>  
+>  	return 0;
+> 
 
-[1] https://docs.kernel.org/maintainer/modifying-patches.html
-
-
-Thanks,
-SJ
-
-[...]
