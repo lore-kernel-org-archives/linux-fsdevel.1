@@ -1,53 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.97.179.56
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793380894;
-	b=wV9+gFp3EpjiHAj/Q4Z+9q+KBOz0o8MQOB3zTW+c9cQD6wOKiLF4w5fttcmNlmzD50aX
-	 NTQ+PbPv/oXGFc0mVb5LERDDw3U6iDIzxUCgBdDjtU1eMweiTDdqnMvX4en58/n7gXTJw
-	 K6/k8eAf3BpBa3WDq0QnLtpKZihAEheE/8oJqSDZtDztczAvfPcy7WmArX4uIVD4PHdX/
-	 8fFN+xLnzBoJcCPIyRyqILCRB9syKmco6iThiM7k4pJZVOx3M55Uly2S7aGXqXWQ4zMUw
-	 r6RZV+OUus4pytKrc8WnewvuFs8Kmy8awQXPJMIu4i1KfwDBXTcXIPQtkbg4Urnrswg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793380894;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=bE6EUIX4raQQzk65tdy5knpZB7YF/98Hlcxg+NagdUo=;
-	b=1POI39FeJqzmx7dstymk+JrwIrSRe40MNyLCfphAlAAg/9UmxW72tBaJK62u9JYFe8Yg
-	 zRBpCNogU+Yv0NprLDIOYPOveZUqcyOI8eXSMwdE1+NBqhfCLGcvc0Sgj9kvioJpPO73j
-	 hIPWsVBSbFjENLN5wKx5+o02FQRdwtnRw3lxp1Wid0h3Zad/y1yrUPup0RgdMOtBSH4E0
-	 PyQvF71k+glLWQS1A0/fszScBwG+qX+OCHzyGgmdcxfsx1JbUeajijoQoS+h9AiN5LTzE
-	 keKpu7V2wDphCiHWu9UHhsznrKbHsP9XCSQBaILv6uGzJ6qxzXwp/pub1WU5WoW0C7A==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=igalia.com;
-	spf=pass smtp.mailfrom=igalia.com;
-	dkim=pass header.d=igalia.com header.i=@igalia.com header.a=rsa-sha256 header.s=20170329 header.b=IyXVInd8;
-	arc=none smtp.remote-ip=213.97.179.56
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.41
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793381457;
+	b=bEEKqW/yjFNgSbXTWFFTyWYkmDzF40h0oCvK4f+5vQSEf744zLKS93E+iVdpSp2zxbV1
+	 EKa5jfia8xf9rV/zRBbUsyipjo+fXfXpaIeV67B/pXHYebSR9OJ1KiDgH1Po0f0Nv8r3x
+	 tgjnMeuMjEWuX/YegIfBYG01uVsHBlBOm5hdp9fSF9zdSlQq1DSX+MAWdnpg/K2MNlJFl
+	 2dXN1KqFmEbQC1ONavTDxO8dw+0S6A0dr6QJNH/ECS3dV77Qo9Gjivrwl+NRRO8CPURvE
+	 Ki0nlNJIhMlm+U8TYm9LKL+Q7WkdQhPsdqOWWcIVbS6YfuoPKCnvlRT3AtfYQehPT2Q==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793381457;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=wn/GtdSN1L2m7IIrEXwUsExs/7q/hUuMinHZ8AwcUkQ=;
+	b=5Qws+agd+opVFQSZwZuUBHoepmrQQbUogzm5KypdXuGlWbGaF9QFaI+N7jvKK6hz3h0i
+	 2bWkXnEjM3pZO0I1SV/N58bHEKVHPH9ErcMcbsNqgBBNFf1kvvjTo1KVg2fq6JKnxBIaH
+	 S90w3D4aXynDFTwzfzcA6KmwWNJeX01iagwtSPzoM1PLRDXx3FB4LkAc+yzpuj/vggkHk
+	 RnrcQP22Raa3RCV1x44pJQo7XbkL5nS7AuSuykU1RVfnR5J5q+UaqUvQaJd0t79JcmRS7
+	 uP77J+GDG8pT+PxcLZq2MXw0IY+K3sn14OZg8cbsUucF6wJ/qli9xZg5I8EkmSzxrRw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YRdEiK4a;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.41
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33BBD606A31C;
-	Fri, 30 Oct 2026 17:21:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 33BBD606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A6C1606A320
+	for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 17:30:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2A6C1606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=igalia.com header.i=@igalia.com header.a=rsa-sha256 header.s=20170329 header.b=IyXVInd8
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:From:Cc:To:Subject:
-	MIME-Version:Date:Message-ID:From:Reply-To;
-	bh=bE6EUIX4raQQzk65tdy5knpZB7YF/98Hlcxg+NagdUo=; b=IyXVInd8tb12n1L/gsdU+PhHoj
-	ZERemV7GYyVGvH9d+wQaznS/3rNHY/UQKOgcut1r1DmaQbp55cvo8IkZBuzbQZHxx3cTDLA/y0+ZB
-	HsNptnnaF1NYdJNI3HL2IcrLlJvF32WB6cXQ8oAE6XXR2qG0ittnQjDxpQLQEzi47a1Vn1tVp7WNc
-	Xk8GA4JesByhLpsBAIRRhOT8mg4YbvExxZhzVUtvJ4PEaiPKtnflSUSox4uaR2ZkOnOgY7nk92TkN
-	O37XzY3WuD2lKRY3Dyb8ymXYf+MEkjvEdInK+pAOmClck/f7c3Q+hg1DL6cs5WB4hsJ8BJaKtGO+d
-	WUWsjhSw==;
-Received: from [177.172.124.63] (helo=[192.168.15.100])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1xMqIC-00FCYt-Jf; Fri, 30 Oct 2026 18:21:28 +0100
-Message-ID: <233c47ca-5d1a-4e16-b0c8-6e0bc8857751@igalia.com>
-Date: Fri, 30 Oct 2026 14:21:35 -0300
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YRdEiK4a
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-c423b145922so125733266b.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 10:30:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793381455; cv=none;
+        d=google.com; s=arc-20260327;
+        b=oy9OU0dO237bgEzT2J35VojuLqNwBTumG4DrnU+HvF3qR+IR6B9TR15v7+WLnJa7hz
+         8ERDzxqe3HQZAQlKbWFZoEvmoUQLHA5HzoVcpYVuc9IfT1Mr/xpjnTplapidFp4/Tq19
+         2XhXBNwhHlldB6L4cSuDatSSt7tYsy4lBu4cbH3M/c2t2QgchwHWHiz+BLGPKBNeMLVG
+         oXQX5ECapxjZHzPmLihl2MhIuE3ixJuRo3XyS/rO28l+t+AtbwsT/VKDti8/L+Vxd3z/
+         AE+ITxT4CkzpYtzOGHWwvdiUGsTBD1v3EQcKUVZ/5kHtvkk5ThTgWWjLwvY//SQQd98a
+         Ahpw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=wn/GtdSN1L2m7IIrEXwUsExs/7q/hUuMinHZ8AwcUkQ=;
+        fh=/2iwxPlT2ulPokLomUjfbyGoY3aipZQ7VPf4WJQej6c=;
+        b=JfyC/h+0/tsUIdt4Bu98vmsBEIfABOVGpRUQx7TlO+AWFemO5JJUK0SSaqAvByF4+j
+         E3KTQKSnthUlmYP7f+4VN+QKkTAkFhV1W3cgOuSlHW14oGEGXV1CNBYR2pI8sMwTGXtM
+         ITQA+f38vWnJpWvyBnQHbkZzygdXs/S6i5R/QbsPGNqC7xv8qJW93p0n27rnGNlFDm5l
+         RO1xH1sA+t1lvcdWt7710GACeKCiYk7K3/AyGJlHKrzHr4rTg9aFCKzACjsJgoLnxFVV
+         f8QuPuVVr8XIMxwCvULidWaW5Lq94Tk87vGdIQfVchvBxicbl4+N/5KtGJqsP9db/YOJ
+         QxXw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793381455; x=1793986255; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=wn/GtdSN1L2m7IIrEXwUsExs/7q/hUuMinHZ8AwcUkQ=;
+        b=YRdEiK4aHv0IKz+7u7fp5ep1462g/b4sOcJcYatNtC8f3nbxEgI8zbHQI4kQGPOENY
+         lHiSkxaAh/nhc7G79xqM00CeVa7s3S8n2LSmHkbq8brGiC18aBJq7VkLsTNoBvWmBJzV
+         wkI1KgqpI3WMAV6FnAKjtw/pGcgU9WNDP0afdqf0lzgbprUqT9LIgnKVPw0PIHqmUY9N
+         Zt1jfM0/DWvHrXxO/1gICi+3DPsvWqLMDtD+Hm+vuxkvAGNTX342zXWV4dhtIlo3aIoT
+         ckowu7ofPwnUFBZFPYtv7PcxS1ps34LpFFFrse+O9504n0cFt01IYJK6piM7iEXQdOfv
+         4BAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793381455; x=1793986255;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=wn/GtdSN1L2m7IIrEXwUsExs/7q/hUuMinHZ8AwcUkQ=;
+        b=mlSd82HY1fwRodrMhvGBVBmWC0o1/kky2eRNnJ+r+EM74NE8dWcqLCdi7kiBliuYyD
+         iUapInM/p51NKHYzIljm+t1fhxMVGEI1CtY5sUINnm4cC73sCvOw3/L9SLts5CMI01rm
+         /UBLIC7SpFNdB7KX97x7E/jl39rS1QP68RbJmKC55gS1KGxb8mrcbtzhpp8SN8qjnlii
+         q8DMn3s1po6578EfXGkCsQMrPFDopQliUQxa2v3/+KkP30t+sgzH5kCli8tMuGR201rq
+         LSa5ni9bJFvyYS/eQwpHcWCH2nO1QKyH7GwSdcNHEtvop41qOnmhVu0BlbEezwsvs2tl
+         8A/w==
+X-Forwarded-Encrypted: i=1; AKwUvBxujM9aONofEPWaYSvNJVEUKNip+TkiRbA6svYeGo9xhcH3XDY7tJzrOcFI3n5D5aEG7XwDA+wUCst5N5FC@vger.kernel.org
+X-Gm-Message-State: AFq9FYKT+W5kKmaRwV1iFNnhKvZQXVFEahLrY+ieaNaQB04GnMW33fP7
+	IzDobG4+QWNsBmFfv+Zts6RyViNZKvDJ04Wg/1pgkWrc7NFLZDIB+zFbf5i4qCzMmoKP5CQSeqx
+	njH39i+hhal88yTxAeytuTAbc6oDzlkM=
+X-Gm-Gg: AYBFou2teoS3wmxo7m4NyEcy6dMTPNShWXRh3CNYLIqcJ8gxo+IUqC6nFjRmvYWEiZb
+	qYa67l844ijNOJX4y7dRiw3TQZEqsyO+q8TCZ7nQfrXWunEqmYvd12cBLslk0h063RZSDmci0f1
+	eyxlPkpjV/Gn7G/cxleYNFqcNKMe2CxZE7rNnJ7roCL8LlJf6w2z5ylzrDd2W33Dz/gFYMUzo2u
+	Z80R0Pl/UtMFg+vxeZDrimlVANcJnycovabKCO3qw2lL2w+y46NDBGAdU1e8DXpAhQcqjhZRTcB
+	mzV7CAw9wtXzmg5Tu9QIXbLq3XXk6UtJ0BAxsOectOEL0xA3SQG7nWpkZkzA3+hUTryiMCxiiX/
+	4e5ZX2TxlwFybbol0cbGqPo9xkLufU3zYfrthpRlPmbfxfOSCZd1jcg61KLw0ryu1DqSp6w==
+X-Received: by 2002:a17:907:9410:b0:c34:1ed:54d9 with SMTP id
+ a640c23a62f3a-c4ca795ef4amr303423766b.4.1793381455246; Fri, 30 Oct 2026
+ 10:30:55 -0700 (PDT)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -57,70 +104,98 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ovl: reserve space for the casefolded name terminator
-To: Hungyu Lin <dennylin0707@gmail.com>, amir73il@gmail.com
-Cc: linux-unionfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org, miklos@szeredi.hu
-References: <20261028195133.86636-1-dennylin0707@gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
-In-Reply-To: <20261028195133.86636-1-dennylin0707@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20261029210701.80050-1-dennylin0707@gmail.com>
+ <CAOQ4uxho=0DZTHieLYYxDXqmSxfq0yMj6gLWUtpK-YDvVoyk+g@mail.gmail.com> <20261030170603.GA31132@pevik>
+In-Reply-To: <20261030170603.GA31132@pevik>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Fri, 30 Oct 2026 18:30:42 +0100
+X-Gm-Features: AclHuK_Hp4PUqOVNhv7EARHTCHlyz4-aNYuu1zXh6K09HqFHmjVBq4i8xeI-CkU
+Message-ID: <CAOQ4uxjsf=6Do-uNEOS9R61M8jXcmExY1jnrLNY9ex=doNn3wA@mail.gmail.com>
+Subject: Re: [LTP] [PATCH v4] inotify13: check rename cookie pairing after
+ adjacent moves
+To: Petr Vorel <pvorel@suse.cz>
+Cc: Hungyu Lin <dennylin0707@gmail.com>, linux-fsdevel@vger.kernel.org, jack@suse.cz, 
+	ltp@lists.linux.it
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Hungyu, Amir,
+On Fri, Oct 30, 2026 at 6:06=E2=80=AFPM Petr Vorel <pvorel@suse.cz> wrote:
+>
+> > On Thu, Oct 29, 2026 at 10:07=E2=80=AFPM Hungyu Lin <dennylin0707@gmail=
+.com> wrote:
+>
+> > > Queue an unpaired IN_MOVED_FROM event, followed by an IN_MOVED_FROM a=
+nd
+> > > IN_MOVED_TO pair with the same source watch descriptor and name as th=
+e
+> > > first event. Watch only IN_MOVE so creation of the replacement entry
+> > > does not separate the two IN_MOVED_FROM events in the queue.
+>
+> > > Affected kernels coalesce the second IN_MOVED_FROM into the first,
+> > > leaving the IN_MOVED_TO cookie without a matching IN_MOVED_FROM cooki=
+e.
+> > > Check that all three events are retained, the two moves have distinct
+> > > cookies, and the second IN_MOVED_FROM matches the IN_MOVED_TO cookie.
+> > > Cover both regular files and directories.
+>
+> > > Suggested-by: Amir Goldstein <amir73il@gmail.com>
+> > > Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+>
+> > Thank you for your patience with my review
+>
+> > Reviewed-by: Amir Goldstein <amir73il@gmail.com>
+>
+> Thank you!
+>
+> Reviewed-by: Petr Vorel <pvorel@suse.cz>
+>
+> I have no problem to fix very minor issues reported by agent before merge=
+,
+> but what bothers me there is no kernel fix for the failure.  If I'm not
+> mistaken, the fix in kernel [1] was reviewed [2] but not yet merged (I lo=
+oked to
+> next tree as well).
+> There are other fixes for 63c882a05416 ("inotify: reimplement inotify usi=
+ng
+> fsnotify") in stable, e.g. e422777fdd474 ("fsnotify: Fix stale object mas=
+k after
+> concurrent mark updates"), but I haven't found this one.
+>
+> Merging test helps kernel developers to test if the problem was fixed but=
+ break
+> for it for anybody who uses master for regular testing without even expla=
+ining
+> fix is WIP. But I suppose it will be processed soon because stable was in=
+ Cc,
+> right?
+>
+> We have runtest/staging, but that's for new functionality, not for tests =
+which
+> reproduce problem which was not fixed.
+>
+> @Jan @Amir is there a git kernel tree for fanotify and inotify? I found o=
+nly
+> VFS. If yes, please update MAINTAINERS file.
+>
 
-Sorry for the delay and thanks for the patch!
+FSNOTIFY: FILESYSTEM NOTIFICATION INFRASTRUCTURE
+M:      Jan Kara <jack@suse.cz>
+R:      Amir Goldstein <amir73il@gmail.com>
+L:      linux-fsdevel@vger.kernel.org
+S:      Maintained
+T:      git git://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git
+fsnotify
+F:      fs/notify/
+F:      include/linux/fsnotify*.h
 
-Em 28/10/2026 16:51, Hungyu Lin escreveu:
-> ovl_casefold() allocates NAME_MAX bytes and passes that capacity to
-> utf8_casefold(), which also needs room for a terminating NUL. A valid
-> name whose folded form is exactly NAME_MAX bytes therefore fails to
-> fold, and ovl_fill_merge() falls back to comparing the original bytes.
-> 
-> For example, when two casefolded layers contain directories named with
-> 255 uppercase and lowercase ASCII letters respectively, readdir lists
-> both names even though lookup treats them as the same directory. The
-> same names merge correctly at 254 bytes.
-> 
-> Reserve one additional byte in both the allocation and the folding
-> capacity so that NAME_MAX-byte folded names use the canonical merge key.
-> 
-> Fixes: ee95c5fc86dd ("ovl: Create ovl_casefold() to support casefolded strncmp()")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+We could probably rename/move the fanotify/inotify entries to appear as
+sub entries mimicking the VFS entries:
 
-Reviewed-by: André Almeida <andrealmeid@igalia.com>
+FILESYSTEM NOTIFICATION (fsnotify infrastructure)
+...
+FILESYSTEM NOTIFICATION [INOTIFY]
+...
+FILESYSTEM NOTIFICATION [FANOTIFY]
 
-I've tested and confirmed that files with 255 filenames will appear 
-duplicated.
-
-> ---
->   fs/overlayfs/readdir.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/fs/overlayfs/readdir.c b/fs/overlayfs/readdir.c
-> index 7d6f7f6022eb..6113d690f8ad 100644
-> --- a/fs/overlayfs/readdir.c
-> +++ b/fs/overlayfs/readdir.c
-> @@ -81,13 +81,13 @@ static int ovl_casefold(struct ovl_readdir_data *rdd, const char *str, int len,
->   	    name_is_dot_dotdot(str, len))
->   		return 0;
->   
-> -	cf_name = kmalloc(NAME_MAX, GFP_KERNEL);
-> +	cf_name = kmalloc(NAME_MAX + 1, GFP_KERNEL);
->   	if (!cf_name) {
->   		rdd->err = -ENOMEM;
->   		return -ENOMEM;
->   	}
->   
-> -	cf_len = utf8_casefold(rdd->map, &qstr, cf_name, NAME_MAX);
-> +	cf_len = utf8_casefold(rdd->map, &qstr, cf_name, NAME_MAX + 1);
-
-I wonder if the other callers for utf8_casefold() also need a fix?
-
->   	if (cf_len > 0)
->   		*dst = cf_name;
->   	else
-
+Thanks,
+Amir.
