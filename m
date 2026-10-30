@@ -1,73 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.173
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793365828;
-	b=ScSZcWhrm7bPpqh5LBLUd0zXtpnCWsusawwgJdsCKUeaxxZaRM33cXrTehABSEiZbzKJ
-	 hrrSpAYOh0O0wY1JQF3nYKVLCGSD3pSIwwjQEQ6g1E8v4KwxNrl+GLgM8XNZqxK8BRWAz
-	 S0XknnLVivU5yaFwlO9uIUXfgwt0wT1O/bflzhjzP5IjD1qQnAlS/p4YZVv/P120wQ24U
-	 kXIo3HRKW4k+uaWAPeKx6f/5ECRcgdHthaS+3rb9N2Xk13KWn0xo19QxL3HUZHH6gS+aJ
-	 ckeEiglidXvJRNvVXzAJaPzmd25XMbTDIElJYK/OfE7XIv9u00LxlD3Ztxky3Ej5oSw==
+	t=1793369142;
+	b=QwOfdHKriaZV0He0oXh5nqT3pw7ZmhAhdWNwv0oD3dG75l5pE5JoiTkDdxFMDzQCWJMq
+	 e/2cpN/63LItOmrnpgZRLWRE5xcn5l+IMuGqpeKpMYvhAFz2Emxp2Xisiwbmb+BK0UuGj
+	 HOlSyuzmw8/Pt8NhIBkmBBi0vmMDX7YmdXr82EWXyQOKnR3/BG7BggwiL+mIVnK13o8fz
+	 PeCCJILPNTNTNL8z+W3RK/NIfVqqTxu8/k++w+EwoABw+JJGTvoT5H248/HejIYK5+n41
+	 /ZGNVLCQyD/4FhYEIBrFGgIwAepoQC5rdwVkLV24kFWkrBfNtCVfDQt0Qa+ONcGfYdQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793365828;
-	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:
-	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
-	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
-	 References:Subject:Content-Type:Content-Transfer-Encoding;
-	bh=BIsmxaqlcIiqqe+DfpItRAhgOJbkWsY0ZSYuASH2dgo=;
-	b=mlledLjTA+bkvAn0/d8AaJo5Ih04+uAL5J+dtprMe97wNfKYr/72xZVWIgU+B3AMSkvK
-	 SIYd5z9Hsg5e5622RhbndFzEVHtpSnVKDSNqzXtLZwoV+Q0f5+k1dxvnjnwwmmpGmgL11
-	 4LHHoJZTTBklYrk2Cpi0mEQL7oPx7IMU9W6b78HrmbqbxidbPGRqLZEn7OChviauEfWa5
-	 ZT9oJJlB24CvrWtoC8wqjJdYzKX1T8uI6TLRvWKd9W65oYJDCsQysJeLlaTmZtZ1yBWjC
-	 MwIBvbdFOQanuk7eHylJUkIItg5wXLb5mzk7twbij7ZV/Nrl7xZ98JJSKTQ/iEbtb5w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793369142;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=cdf5a45DsUT+aVbheVkNi6IQvBcX9d5cZx42oKeutnA=;
+	b=x48AhLOszJTv+2t8SfJDZ9uucmH/iEtn7TOjAdeKQzZ55SFWhW1frlgs8aU9pyT3HHX6
+	 1F3P0EeOewFTQpKx3LGx9uze/6aKuEzBnbeaGRCk4nHQwgOa+jmca5/bwNX1abQsz9PST
+	 dgnzE593kdx4kkVsA+4lptnQgv1/W9RGykK6k1KIiWlG/mPR8HyYAzPvVhfxqx3bwMUY+
+	 wM0lU5cR4jbUnJ8w0u1Kdj4n37hmYwICO54SbcTMC9VPzvYU2+kqWrt7eCpi7/AGhOGAN
+	 i1vgFNgr/PrBmN5Qi5Cyt4fizYhXsKfmy6VTzearGPAWj/8m2XAgVF7b5PBRsJERqdQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aE+UcR4O;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=abwbTBcl;
+	arc=none smtp.remote-ip=209.85.210.173
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E60F606A31E;
-	Fri, 30 Oct 2026 13:10:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12239606A323
+	for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 14:05:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 12239606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aE+UcR4O
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BF931F000C1;
-	Fri, 30 Oct 2026 13:10:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793365827;
-	bh=BIsmxaqlcIiqqe+DfpItRAhgOJbkWsY0ZSYuASH2dgo=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=aE+UcR4OtmI1gsAuleOjFb68pLXXLXkRQbAWvngo171T2MUUuwjy+lrcz2fa900Oa
-	 4jrYfKABe2JsUQNDDMr8LHMydxA2OR4eFUP0n+okjO+fCYNkr2t0oFDX3OZbWNsHkc
-	 9FOki2qP8o1578DoVS6j4Ha2l9nKWXo/PwQLeofhbAptMNLznIZcalKf4CfY+TsEU5
-	 ko938kjuwV+SzeAc1oCkdQMWrUvfCXsLdHLlXHlbAX4d2Qvq1JA8oZU/MBsn4zu9iH
-	 /mYszUAhgaZ3QvOiktJYjo8pq2d+/cDPxcPeXZHq7P6jbizyjM3/JsXTfeJejutH0+
-	 QVqpbytwntPyg==
-Received: from stl-compute-04.internal (stl-compute-04.internal [10.204.2.64])
-	by mailfauth.stl.internal (Postfix) with ESMTP id B22B6780043;
-	Fri, 30 Oct 2026 09:10:26 -0400 (EDT)
-Received: from stl-imap-13 ([10.204.2.104])
-  by stl-compute-04.internal (MEProxy); Fri, 30 Oct 2026 09:10:26 -0400
-X-ME-Sender: <xms:QpfkaudgPlWfhG2nuX5v0oYxnFnd34OSZvAUv1UZVpB12tHv8EreXg>
-    <xme:QpfkajCgIdn2T-PjuQzu2w2WrYYDqpLVkhxKQrSCYdBa1aOg3t5bIjhv1fn84uU-X
-    gWui-BFJypI5jHtbfxKx9anlVeSzOeMnJ9FBaX8ytr50BFBoJ7ChA>
-X-ME-Proxy-Cause: dmFkZTGh/6azztQX4EjOpOWsP9cU87M/GO2aoMRhBpjxyvA9Mgxud2UfYibhs/CNwlNrxR
-    OVYhQ00dRta7xjyTz8NtYoTm7ScvixKhrCgmB14JzOz0EI/mP6fEi8NWTuMHhrcDaZeBk1
-    YaQTwyUEgXvrrCojrJE/qHFnsqVSnKBrUgjzGmjfEQsz/3lIybZUkOsNLIPE9CqfqBx7Ah
-    c24qnXX2j9fLPh5cewjKYtSEE+5zOGLldi7n9WyLyT2lALzgx/t2uBwk6YlpgQtoGaFAlv
-    yB2TdRcPZQLT6XQVgCOGmWsKCe+r6lBRqzeLlPt7JfBlWSjnTHhGNl3PrxEWFRylHy3lYf
-    kpptfFm+LkbmYdnqv7oT9qRe6teuGi7QOqfk5YudV2k5/qHerwrD5mfpc1QxohxNmdHQ67
-    yj8Rz7kBIydzzYNKrzYQKqbQXg0kSF8IHV2N8ZkxHRhLt4+XOPrRrgms7SZ9do1Qu2fOEf
-    7gKxf9P9fbZ/DgTar35vJ2bvnTZ317N7Y8UTtBnGUltw+RKrdEC4+6AQZMWYfuqSibj6JM
-    96wE3O2w5if218SI9BPq+AC04w4C8BL1PIZ2E3PLHYgJEITmt5yhSABPu0OlnexaD6/LLQ
-    jwjzjRs+epVjfmBA0tpujtP4JNG/zdq0IHpXR7m2kfDQlL4Dtjw0AhljJPGg
-X-ME-Proxy: <xmx:Qpfkat0lFMgtIn-egodGPRZg50OJO_gN8Ozpuq4JeAFHSOZDyFLdGw>
-    <xmx:QpfkakdhY6IUI_POEWnR2AytGl7qggQuuGL6GirIVsyTlrDwSSoTuA>
-    <xmx:QpfkavBC5Cv9FH0260FxTRXt_JzcSeG3bnfgZiX914OEIxY2vrWv9g>
-    <xmx:Qpfkam3RZTfgcCrKd5Jr7vSiAo8ay2X3TiHRB67g5-Wew0ciZZ1vZA>
-    <xmx:QpfkavMdLUJ1qZO3QO5a3wtqeItG9O9oeeqToDsDHFEcmk4CL7Mtt8M3>
-Feedback-ID: iccae4b50:Fastmail
-Received: by mailuser.stl.internal (Postfix, from userid 501)
-	id 59AA0F6007F; Fri, 30 Oct 2026 09:10:26 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=abwbTBcl
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-8a070755c8cso346870b3a.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 07:05:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793369141; x=1793973941; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=cdf5a45DsUT+aVbheVkNi6IQvBcX9d5cZx42oKeutnA=;
+        b=abwbTBcl8wxM617YZt9K4Ye/DNAt8cQAuQTm3YvsKlNJKXGLMU5DxxVyp8oBlB3N+T
+         V7+yKDca0Bek6cWoHxlveOD45vpwdJVYhv40HxHQEkzq8YiiaQGei71vSTTklL4XeXdl
+         1d4HOUQiqbrbJNfTg0GIKqmGfHsGczn1T7ShDCWqaqvZH3E3XaaSkpN7dWB2JUu74wF6
+         ThGXFtw68oKmh3lQzdaaGH2InTwzHnozQB+sFrYmv4WBc+T79MnXAV/12inWEfjnHox6
+         o3ltqqAVOqFzlzlI7QisBC6hJfGnb0ok9HidP9I99zAiaEJhIt8n/aZ1swf7JNUGtnU4
+         ugIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793369141; x=1793973941;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=cdf5a45DsUT+aVbheVkNi6IQvBcX9d5cZx42oKeutnA=;
+        b=2K3CXqaSLlwHB2moU8dD1LO8fYQvQL9BvxcAaHCAf+SH50pFX69OS2I5uzThoTfYvV
+         e3Bb1g8pmg5FoWthGNJFfAo3AB/1+OcMQNqrdUBWyYz2pKQxNxmPNeZGuSSfBj6IjsOn
+         i0i37jNeNcPbbNmLbsngJvtQejQIPvUhMS1A6ycnOn8RAITqDU3U0DO/G/rhXoX2WX/A
+         Dg/mpbWBfT1wX2KAF/ZaR6qtFaAJVGP3PsEbHJ8HnbR6RyMqTN4IdVNioE4cCAw9wunm
+         D/A83gKOc6FECr+iDa7fn4Z9viOnU5z+ch45ymnCedBR/rS0/2jRVeHLcJYCrJBXqiRB
+         uBFg==
+X-Gm-Message-State: AFq9FYLUf1B36n2Q7Jt/fgJMoQMeKJ3HqQgawAxoFt95j0fv0IHTpnGU
+	3aoux5M2fzZ4+GHdR77oZ3SwBEZ1e62wb/amEULtmvf9CFKqYkfB0ABT
+X-Gm-Gg: AYBFou1/mVbvT7EDUwm3oU1LqQOwugKX+8ok+C/3H4YgTy3hFiiKJMIdi4CtdWwXzsw
+	gZDQ5cqHvWM0XmLW8PZOgvy5nEyAbJqd0iLdPrapH0eaL0dDfc0OJFuYzTXX2ZkaNqBrsXLRIYt
+	uQ4izTLKusL9RFCvLYSIyGY4wjWLAYnyPgltxzASWJ9BzyaSwR5PrSBE+D+dRBu64OShAIjuKEe
+	o1NP16vP2vEGEQy3ZkwTWLLFwBDhY6+c3yPWvgFgbs37wRzUz+wOCA1EfDH1cujx7JIM7LhlPyD
+	i4eW4RP3oKsAB62fDJwfMJHAMqQplWM/HZN7OYcQz9TiVfjKw2MOuqBBhCsouVoxweIrDylm4iG
+	IfqKlahcSo6ttqJUqY+Qrgxsug1ven8GmyxBzqqjwludrHHW3lb40amzl7eYJgVlhDX2YxqYxyc
+	hNbxuvaeGhY5RbzsjfFAPGBZypQcT4Y9FPVLq5hdrRtpb43JxGmC8GokWyxH1bvrO1y6ODIoYOD
+	V4uA97BXGC83Clg3XA6Bi/WrxCnW9JryofbE/jc6A9XZUBQbocscF6f47b633oWRDPLNu7mMTca
+	PWDBUaG7qPbhubszkIlZHXmao1QvKilWEvg00SHu0YjCDzfFAiL/5MQQN/Xj626ePuo9YO6TOcP
+	OR3dCFwFc3aNFlHIXSwK05Xhf2gKw8fBTh8QuHArpNIrvcTC3BOQ3sOBiHxtuZKGTbjzOnnGYqj
+	RmeSK8l/vWK6TMD+c=
+X-Received: by 2002:a05:6a00:2e10:b0:89f:600b:610d with SMTP id d2e1a72fcca58-8a9bf3371bemr2208854b3a.31.1793369141255;
+        Fri, 30 Oct 2026 07:05:41 -0700 (PDT)
+Received: from spider.bream-herring.ts.net ([103.6.151.236])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8aad77fd956sm26043b3a.3.2026.10.30.07.05.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Oct 2026 07:05:40 -0700 (PDT)
+From: Matthias Goergens <matthias.goergens@gmail.com>
+To: Jan Kara <jack@suse.com>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	syzbot+799a0e744ac47f928024@syzkaller.appspotmail.com,
+	syzbot+43fc5ba6dcb33e3261ca@syzkaller.appspotmail.com,
+	syzkaller-bugs@googlegroups.com
+Subject: [PATCH v2 0/4] udf: fix double allocation from the unallocated space table
+Date: Fri, 30 Oct 2026 22:05:33 +0800
+Message-ID: <cover.1793349907.git.matthias.goergens@gmail.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -77,124 +97,113 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-ThreadId: Aey4jMk1dEgs
-Date: Fri, 30 Oct 2026 09:10:05 -0400
-From: "Chris Mason" <mason@kernel.org>
-To: "Muhammad Usama Anjum" <usama.anjum@arm.com>,
- "David Hildenbrand (Arm)" <david@kernel.org>,
- "Andrew Morton" <akpm@linux-foundation.org>,
- "Johannes Weiner" <hannes@cmpxchg.org>, "Michal Hocko" <mhocko@kernel.org>,
- "Qi Zheng" <qi.zheng@linux.dev>, "Shakeel Butt" <shakeel.butt@linux.dev>,
- "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, "Kairui Song" <kasong@tencent.com>,
- "Barry Song" <baohua@kernel.org>,
- "Axel Rasmussen" <axelrasmussen@google.com>,
- "Yuanchu Xie" <yuanchu@google.com>, "Wei Xu" <weixugc@google.com>,
- "Baoquan He" <baoquan.he@linux.dev>,
- "Baolin Wang" <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <liam@infradead.org>,
- "Vlastimil Babka" <vbabka@kernel.org>, "Mike Rapoport" <rppt@kernel.org>,
- "Suren Baghdasaryan" <surenb@google.com>, "Michal Hocko" <mhocko@suse.com>,
- "Kees Cook" <kees@kernel.org>, "Peter Zijlstra" <peterz@infradead.org>,
- "Jann Horn" <jannh@google.com>, "Pedro Falcato" <pfalcato@suse.de>,
- "Hugh Dickins" <hughd@google.com>,
- "Pasha Tatashin" <pasha.tatashin@soleen.com>,
- "Pratyush Yadav" <pratyush@kernel.org>,
- "Matthew Wilcox" <willy@infradead.org>, "Jan Kara" <jack@suse.cz>,
- "Zi Yan" <ziy@nvidia.com>, "Lance Yang" <lance.yang@linux.dev>,
- "Rik van Riel" <riel@surriel.com>, "Harry Yoo" <harry@kernel.org>,
- "Alistair Popple" <apopple@nvidia.com>, "Nico Pache" <nico.pache@linux.dev>,
- "Ryan Roberts" <ryan.roberts@arm.com>, "Dev Jain" <dev.jain@arm.com>,
- "Usama Arif" <usama.arif@linux.dev>, "Kiryl Shutsemau" <kas@kernel.org>,
- "Matthew Brost" <matthew.brost@intel.com>,
- "John Hubbard" <jhubbard@nvidia.com>, "Peter Xu" <peterx@redhat.com>,
- "Will Deacon" <will@kernel.org>,
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
- "Nick Piggin" <npiggin@gmail.com>, "Oscar Salvador" <osalvador@suse.de>,
- "Minchan Kim" <minchan@kernel.org>, "Muchun Song" <muchun.song@linux.dev>,
- "Xu Xin" <xu.xin@linux.dev>, "Chengming Zhou" <chengming.zhou@linux.dev>,
- "Chris Li" <chrisl@kernel.org>, "Kemeng Shi" <shikemeng@huaweicloud.com>,
- "Nhat Pham" <nphamcs@gmail.com>, "Youngjun Park" <youngjun.park@lge.com>,
- "Gregory Price" <gourry@gourry.net>, "Joshua Hahn" <joshua.hahnjy@gmail.com>,
- "Rakie Kim" <rakie.kim@sk.com>, "Ying Huang" <ying.huang@linux.alibaba.com>,
- "Jason Gunthorpe" <jgg@ziepe.ca>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- kexec@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-cxl@vger.kernel.org,
- "Josef Bacik" <josef@toxicpanda.com>, stable@vger.kernel.org,
- "Thadeu Lima de Souza Cascardo" <cascardo@igalia.com>,
- "Mani Tofigh" <mt4022@columbia.edu>,
- "Samiullah Khawaja" <skhawaja@google.com>
-Message-Id: <ad0d82f5-c2ad-46d0-986d-94626faac1f9@app.fastmail.com>
-In-Reply-To: <bc8c1fc5-4620-4515-8520-22ebcd0d592a@arm.com>
-References: <20261029-fixes_core-v2-0-a64ce7f83abb@kernel.org>
- <2f23dafc-43a5-47c9-a819-e696cda6fd44@arm.com>
- <baeda061-e0d0-4be1-9aa5-8886182ca83f@kernel.org>
- <bc8c1fc5-4620-4515-8520-22ebcd0d592a@arm.com>
-Subject: Re: [PATCH v2 00/47] mm: various (urgent?) fixes
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+
+Hi Honza,
+
+Patch 3 now fixes udf_discard_prealloc() the way you suggested, and
+udf_next_aext() is left alone.  Its Fixes: tag now names the commit that
+added the peek into eloc and elen there.  The two other users that v1
+covered through udf_next_aext(), both walks of the unallocated space
+table, are fixed directly in patch 4.  The code in patch 1 is unchanged,
+and patch 2 only rewords one code comment.  The messages now make the
+mount and stable-backport consequences explicit.
+
+A filesystem made with "mkudffs --space=unalloctable" hands out blocks
+that are still in use.
+
+Patch 1: udf_table_new_block() keeps the extent type in the length
+word, so an exhausted type-1 table extent (the type mkudffs writes)
+survives as a zero-length extent pointing at an in-use block, and the
+next allocation from it underflows into about a gigabyte of "free"
+space.  Filling a fresh 1 MiB image with empty files is enough to
+overwrite the reserve VDS and the backup anchor.  This is the double
+allocation behind the two syzbot reports linked in the patch.
+
+Patch 2 checks the table once at mount and refuses read-write access
+if it is damaged, for example by the bug in patch 1.
+
+Patches 1 and 2 should be taken together.  Patch 1 prevents the
+allocator from creating new empty extents.  Patch 2 rejects an empty
+entry left by an old kernel before it can be consumed again.  It also
+rejects extents outside the partition.  It cannot detect every possible
+overlap in a table that is already damaged.
+
+Patch 3: when a file's extent list ends in an empty allocation extent,
+udf_discard_prealloc() frees that allocation extent's block a second
+time instead of the preallocated blocks.  On a table the block is then
+handed out twice, and fsx, as run by generic/091 and generic/263,
+reads back bad data, with or without patches 1 and 2.  On a bitmap the
+preallocated blocks leak.
+
+Patch 4: udf_table_prealloc_blocks() can hand out the block of an
+empty allocation extent at the end of the table.  With patch 3 alone,
+the reproducer below patch 3 passes, but generic/091 or 263 failed in
+8 of 34 runs on the 2 October base.  udf_table_free_blocks() can
+write a partition reference it never set; that one I have not
+reproduced.
+
+One more user is left as it is: udf_fiiter_add_entry() takes the last
+extent of a directory from iter->eloc and iter->elen after inode_bmap()
+has returned 0 in udf_fiiter_init().  That goes wrong only if the
+directory's extent list ends in an empty allocation extent.  The kernel
+does not create one for a directory: udf_bread() passes
+UDF_MAP_NOPREALLOC when it allocates directory blocks.  Normal updates
+to a live directory do not shrink its extent list.
+
+On the 2 October base (4ad934e7a85e), with the whole series, one run of
+fstests -g quick per allocation type (2 GiB images made with
+--space=unalloctable or --space=unallocbitmap; KASAN, UBSAN and lockdep
+enabled) passed generic/091 and generic/263 on a table.  The remaining
+failures (generic/131, 360, 563, 634 and 777, and a hang in generic/346)
+also appeared without the series and on a bitmap, where the series
+changed no result in those runs.  The reproducers are below the --- of
+patches 1 and 3, and the runs behind patch 4 below its own.
+
+Thanks,
+Matthias
 
 
+---
+v1:
+https://lore.kernel.org/r/20261002042627.1677228-1-matthias.goergens@gmail.com/
 
-On Fri, Oct 30, 2026, at 8:12 AM, Muhammad Usama Anjum wrote:
-> On 30/10/2026 11:35 am, David Hildenbrand (Arm) wrote:
->> On 10/30/26 12:19, Muhammad Usama Anjum wrote:
->>> On 29/10/2026 8:32 pm, David Hildenbrand (Arm) wrote:
->>>> See v1 on details. TL;DR various fixes :)
->>>>
->>>> Thanks to everyone for the review! Hoping I can get some more? :)
->>>>
->>>> I am planning on picking these myself, moving them to linux-next fairly
->>>> soon through mm/core.git.
->>>>
->>>> ---
->>>> Changes in v2:
->>>> - "mm/memfd: check for real shmem inodes before accessing shmem state"
->>>>  - Call it inode_is_shmem
->>>> - "mm/truncate: look again if a folio left the mapping"
->>>>  - Different fix for truncate_inode_pages_range
->>>>  - Adjust description
->>>> - "mm/huge_memory: fix zapping migration entries for device-private THPs"
->>>>  - Move handling in zap_deposited_table
->>>> - "mm/mmu_gather: fix flushing ranges with 4 GiB or larger"
->>>>  - Adjust description"
->>>> - "mm/huge_memory: split huge PUDs when adjusting VMA boundaries"
->>>>  - Drop split_pud check
->>>> - Link to v1: https://patch.msgid.link/20261027-fixes_core-v1-0-6f74bec9a5bb@kernel.org
->>> I ran Fastpath, a Linux kernel performance benchmarking framework, on
->>> this series against mm-stable on aws-m7g.metal. (I) and (R) indicate
->>> statistically significant improvements and regressions, respectively.
->>> The results show 10 improvements and 1 regression. Other, unmarked
->>> percentage changes can be ignored as statistically insignificant. Hence:
->>>
->>> Tested-by: Muhammad Usama Anjum <usama.anjum@arm.com>
->> 
->> 
->> Thanks for the results. IIUC it's schbench that shows a possible regression.
->> 
->> I would expect that no changes here really affect performance at all (neither
->> positively nor negatively).
->> 
->> "mm/huge_memory: fix list corruption when deferred_split_scan() races with
->> deferred_split_folio()" fixes locking, but I wouldn't assume that this matters
->> at all for this benchmark.
->> 
->> "fork: take mmap_lock before copying mm_struct" changes locking, but I also fail
->> to see how that would affect the benchmark.
->> 
->> Maybe some code layout changes just affect some benchmark on some machines?
->> Because already seeing 10 improvements makes me wonder how that could possibly be.
->> 
->> So I'll move forward with these fixes for now and see if we get more reports and
->> could identify actual problematic commits.
->
-> Yes, these improvements/regression might be because of code movement and how it
-> has affected the run time performance. Most importantly, these results show that
-> there isn't any drastic affect on performance. These fixes are good to go.
+For stable: patches 2, 3 and 4 build on the int return of udf_next_aext()
+(b405c1e58b73, v6.12, also backported to 6.6.y) and apply as they are
+to 6.6.y and later.  Patches 1 and 2 should be backported together.
 
-This schbench configuration is going to be really sensitive to process placement, and it
-should be doing all of its memory allocations up front.   I haven't done many schbench
-runs on this type of hardware, but I'd agree this result shouldn't indicate a bigger lurking
-regression anywhere.
+Refreshed onto jack/linux-fs for_next as of 30 October.  The four code
+diffs are unchanged; the messages include the clarifications above.
 
--chris
+I repeated the inline fsx reproducer on this base and the whole series,
+with KASAN, UBSAN and lockdep enabled.  On a table, both fresh base
+VMs read back bad data at operation 9852; both fixed VMs completed all
+10000 operations.  On a bitmap, one fresh VM with each kernel completed
+all operations.  In one fresh-image generic/091 and generic/263 group
+per kernel, both tests read back bad data on base and both passed with
+the series.  No kernel report appeared in these runs.
+
+On the 30 September base, the unchanged patch 2 code also rejected a
+crafted looping allocation-extent chain, forced read-only fallback when
+the table location held a file entry, and let SIGKILL interrupt the walk
+when a test-only knob disabled cycle detection.  Those malformed-image
+checks were not repeated on the 30 October base.
+
+
+Matthias Goergens (4):
+  udf: don't let the extent type hide an exhausted free-space table
+    extent
+  udf: check the unallocated space table when it is loaded
+  udf: fix preallocation discarding before an empty allocation extent
+  udf: don't use eloc after the end of the unallocated space table
+
+ fs/udf/balloc.c   | 11 ++++---
+ fs/udf/super.c    | 80 ++++++++++++++++++++++++++++++++++++++++++++++-
+ fs/udf/truncate.c |  7 +++--
+ 3 files changed, 90 insertions(+), 8 deletions(-)
+
+
+base-commit: a344542d9f26d44a5ebf597220ccac84c536467e
+-- 
+2.56.0
+
