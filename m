@@ -1,48 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793375886;
-	b=Vo/U1bnrBmp+xhslUtoMn7YI2rQcptiqvK8AsREqEltun5hFSG2zNO7Nko8GqZPetsmR
-	 f4ZmPiwBTr2C20GnEPKYYHmXgqA7NIX/qfwNqCURvIiCPh8qCOeFCE2oEXQKb+rwOcBz+
-	 SArRnSNwGoojcSfQsQ/I9qcIEZUGnBBj8/0ioOtaRrt5FsOOXhpMAHRaUZSGpUU/NDckU
-	 sYU12Sh/0ws6BJc26QLVs2iPVVudgd8NXxzl7l+smjV0oIZ+FnIAyqAUYW2UjRb2CuYW5
-	 yWVdvZK0YK53ZBra/tFCDHvApPNJ3QVAcR4HZFZKylsXuhZHLmxUmX8H7kClg2MeVKQ==
+	t=1793376739;
+	b=smXeEIAGq29k/sifRg97YG+gly7tnpktgwee536ggqkCX9EfKxH4lIUpVSRI+QLHWZUg
+	 j/uXi/3363Xc2jX990iHe3nN0XnI9RgUjRo4An2XEmnL4CkZLhIfHuts4RggeZ19NKwGc
+	 1rVpc6csZvcmi4iOxc9Q3VxnmVTA7RoNU6aVvJyVM+CWFgDBj7FzxEVegjYjJA0p9M72V
+	 0hULHn851BrjAFiDkE+J4w7VySFkBOiqDuJgz8nvLcf6QnNnossR4JVpA6z/FqK3mS/Fx
+	 FuhWSzqpwwWjdyXbifYxHXa9GRH/QhlwmV2DEESwFWn6QnTksnR58AWM29OUiLHCT9A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793375886;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793376739;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:
+	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=mHmsV++4fT8TY6BSD763DBrchduEf2WvvITz9T/2Gmg=;
-	b=Z1+0n0Cazflc8dP6++mBJHNx7iWL7lQBNWx56ovDj8N6uh0KhITa5lXDAbJ+P0MhfVFh
-	 eQa6YjZzkLh7gFUddWluYInymRe0SEIUEfEgonZVx9y1R3+mxvWWEOajFuj/pf5rObGmR
-	 TJAHBjlkHHr+gh94BIPy8dWD+hkrq6p4xAjdtbKH++M7R3IgReNJqdV0j4DIHzn0rjRAX
-	 1bNB1+k6OnRDrWeBEHbsVUH8wctCsBQ/R/7QECq6twjco/TpMH73OiEEkmRuMKNTf3Quu
-	 AA4YfFCc6HazrjKwaXX7T1xPrb6SlHGQ7ZR25XgLBfca6husQ4oJ/rjteV/VISykD5Q==
+	bh=2QuGO1Fv/5vUqUzsrgZeOLDOg1WpAWDskuYu88kf6GY=;
+	b=nB8ZaTTK0YP0M4KoISMh+FaaOyWZDKD7nR+7WcPQXzhu5Xb4CovzNMMq6m0NRkr2RHtN
+	 EHCzUx3F6OsFQLW+gHkByAv8i+lpsPTImhtU+pKiZFe6EYBsSYHIQDI8b/Z87+MtDJ/pQ
+	 gIDah5UgSshN4lTU+CpsKCf3LMAfHhOQDF5dEjxe+IwOEzBS5c0yebTbPnWdKdJrjKnet
+	 6WaxQVYbyq+Te7pitoORmkPu4iku7wkXLyCQd6aBXmXjB5PBbojFpftyqg2utIvj8O0t9
+	 1YWGJqThMHkiCxgOZXXEmxMJUPUdPefBltIIafMdz+kotAFxmOksP2GssPeIQutf8uQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="BaW/8FT1";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=chkNiqes;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAC64606A31C
-	for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 15:58:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FCF9606A31D
+	for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 16:12:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BaW/8FT1
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDDA11F000C1;
-	Fri, 30 Oct 2026 15:58:03 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=chkNiqes
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 707511F00A15;
+	Fri, 30 Oct 2026 16:12:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793375885;
-	bh=mHmsV++4fT8TY6BSD763DBrchduEf2WvvITz9T/2Gmg=;
-	h=From:Date:Subject:To:Cc;
-	b=BaW/8FT1G+Ljzi0OSDrvlZp0g5iCvuBTAlQp3nxqY7nluBgrBJ7OgGNIP9bD7+Wt9
-	 grMKSE2RYZmux+yOdnntkZSjZ2U4Z+Qv2vCzOTKK9z+uvv/sdYCr72Q3lpe/2rfhqT
-	 HY9kJ7dQijlPr+ECxI2kQCHQOYOGuoHmcq8/eEx01WgHeWhbSWkewpyQs5iYOh6r+D
-	 UiM10X4aDRvnoVPrSGPbC1jVxE2IzSk/mrTZYSfs8ZX5we9w/wLjweRO5Pe8fA77Ct
-	 gExTk3twQ58j3+Tsfidy4j/Stm0wjVwaiTudLrH2VRHSPAMPGuiR5goT8J7HOwT10H
-	 pA+SLug3fKa0w==
+	s=k20260515; t=1793376738;
+	bh=2QuGO1Fv/5vUqUzsrgZeOLDOg1WpAWDskuYu88kf6GY=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=chkNiqesfAfhxLd/8Tklt6MjCNk0bRWbxfww0fv08BxP8mLJAeFvmXuFvcXQyuoKt
+	 Itd2lqYujX9myFg2liJrilXS7voOFl/RxGu07ZYelA+YdQ8kkuTJ1v9RZn526i6c+X
+	 R/XsN/XMG2nQ/kokBPGAWLuaSzLCljbNgcc9de0n6tys44OD3YWAtvxeH0Vv/h/2xV
+	 6/LyB5BY5hWrjp5wrw2Q2+laQzZc5Cnb2Av4KONESOpHl81OY3oNI8t4UxU7jXcSGV
+	 sMj0O6FGDNU2N0J5nAz2C4TttM0iDyhztjPGptVSgrV1/OdGvbaF/MIdtJPPz2Rec9
+	 rad6/XUzBUDwA==
 From: Christian Brauner <brauner@kernel.org>
-Date: Fri, 30 Oct 2026 16:58:00 +0100
-Subject: [PATCH] libfs: walk offset directories in offset order
+Date: Fri, 30 Oct 2026 17:11:53 +0100
+Subject: [PATCH 1/7] proc: get the inode from the file instead of ->private
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -54,168 +54,94 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261030-work-libfs-offset_readdir-v1-1-ed733c14229e@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWM2wrCMBAFf6Xk2ZU0lUb8FRHJZWNXJZXdWoXSf
- zexj3M4M4sSZEJRp2ZRjDMJjblAu2tUGFy+IVAsrIw2fas7DZ+RH/AknwTGlASnK6OLkRiO2sb
- OW3swvVbFfzEm+v7b58vG8vZ3DFMN1od3guDZ5TDUaU6y34x1/QFE/aNMmQAAAA==
-X-Change-ID: 20261030-work-libfs-offset_readdir-807d3b774260
-To: Chuck Lever <cel@kernel.org>, linux-fsdevel@vger.kernel.org
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
- Yongjian Sun <sunyongjian1@huawei.com>, 
- Nickolai Zeldovich <nickolai@csail.mit.edu>, 
+Message-Id: <20261030-work-procfs-ai-fixes-v1-1-772392d3ccfd@kernel.org>
+References: <20261030-work-procfs-ai-fixes-v1-0-772392d3ccfd@kernel.org>
+In-Reply-To: <20261030-work-procfs-ai-fixes-v1-0-772392d3ccfd@kernel.org>
+To: Jann Horn <jannh@google.com>, linux-fsdevel@vger.kernel.org
+Cc: Josef Bacik <josef@toxicpanda.com>, Chris Mason <mason@kernel.org>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5448; i=brauner@kernel.org;
- h=from:subject:message-id; bh=J3ecgdUicEiUB3fvdaKNniJb5Mv9bymuS96hbDVfUGw=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQ92dfZGTNxbyOrWD3TW2mvaQxO8iERIVPlFbn3f7t5v
- rTZR3NxRykLgxgXg6yYIotDu0m43HKeis1GmRowc1iZQIYwcHEKwES0LjIytIplu127HXPlYMbB
- uTsl6ziW1RY5qfDwCX6cP/H00R+2VxkZ3jcZ9cc6f1s20+XecZ7vWdVd+j9PHEhTEP/voLNxks5
- qNgA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2219; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=bwgKKUHMZ8YuKPnG2xDn02ssZl9UkRDNe07JmbuAbHA=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQ9OXiX9ehGuS13JRe/1Ohn+C9b03lhXszOmUtavS+zf
+ yie8O2IXEcpC4MYF4OsmCKLQ7tJuNxynorNRpkaMHNYmUCGMHBxCsBEpvUxMmyTWO9UyMT2aPeE
+ Pclped9d0x9/3r9sZfvWRNkTJb+/fihjZLh3m7l8I39b4U1zJcalcyofzTI6e8OzR7z78s1sB/u
+ mQ8wA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-offset_iterate_dir() walks d_children from the head and only uses the
-maple tree to map ctx->pos back to a dentry when a getdents64() call
-resumes. offset_dir_lookup() finds the entry at ctx->pos, or the one
-with the next lower offset if it is gone, and the list walk continues
-from there.
+The fdinfo files and the ONE() files stash their inode in the seq_file's
+->private. The seq_file points to the file anyway so get the inode from
+there and free up ->private. The following patches need it.
 
-That only works if list order and offset order agree and quite often
-they don't. A rename over an existing name gives the moved dentry the
-offset of the name it replaced but __d_move() puts it at the head of
-d_children. RENAME_EXCHANGE does the same to both dentries. And once
-the cyclic offset allocator wraps new entries get low offsets at the
-head of the list.
+No functional changes.
 
-So if the entry at ctx->pos is unlinked between two getdents64() calls
-we resume at the entry with the next lower offset and that one can sit
-anywhere in the list:
-
-(1) If it sits further down the list everything in between is skipped.
-    Create y, t, a, b and rename b over t. The list is now t(4) a(5)
-    y(3). Stop the listing at t and unlink t. The next call resumes at
-    y and a is never returned although nobody touched it.
-
-(2) If there is no lower entry we restart at the head and return the
-    whole directory again. Nickolai reported this for the simple case
-    of unlinking the oldest entry while a listing is about to reach it.
-    Ending the walk there instead turns this into (1): create a, b, c,
-    rename c over a, stop the listing at the renamed entry, unlink it,
-    and b is lost.
-
-Instead of the list let's walk the maple tree itself in descending
-offset order. Then ctx->pos really means that everything above it has
-been emitted and resuming at the highest offset at or below it is right
-no matter where the dentry sits in d_children. Entries created or
-renamed to a new name after the listing started get an offset above
-ctx->pos and aren't returned, same as with the list walk which never
-went back to the head. So a readdir loop that renames or creates an
-entry for each one it reads still terminates.
-
-The maple tree can't change under us as all modifications happen with
-the directory's i_rwsem held exclusive and offset_readdir() holds it
-shared.
-
-Fixes: b9b588f22a0c ("libfs: Use d_children list to iterate simple_offset directories")
-Fixes: f70681e9e606 ("libfs: Fix duplicate directory entry in offset_dir_lookup")
-Reported-by: Nickolai Zeldovich <nickolai@csail.mit.edu>
-Link: https://patch.msgid.link/20261018024549.798968-1-nickolai@csail.mit.edu
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/libfs.c | 56 ++++++++++++++++++++++----------------------------------
- 1 file changed, 22 insertions(+), 34 deletions(-)
+ fs/proc/base.c | 4 ++--
+ fs/proc/fd.c   | 7 ++++---
+ 2 files changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/fs/libfs.c b/fs/libfs.c
-index 96a6e9b1535f..8d5de5f61ffd 100644
---- a/fs/libfs.c
-+++ b/fs/libfs.c
-@@ -446,31 +446,11 @@ static loff_t offset_dir_llseek(struct file *file, loff_t offset, int whence)
- 	return vfs_setpos(file, offset, LONG_MAX);
- }
+diff --git a/fs/proc/base.c b/fs/proc/base.c
+index c9aebee0a338..2a9ad9e01047 100644
+--- a/fs/proc/base.c
++++ b/fs/proc/base.c
+@@ -781,7 +781,7 @@ static const struct inode_operations proc_def_inode_operations = {
  
--static struct dentry *find_positive_dentry(struct dentry *parent,
--					   struct dentry *dentry,
--					   bool next)
--{
--	struct dentry *found = NULL;
--
--	spin_lock(&parent->d_lock);
--	if (next)
--		dentry = d_next_sibling(dentry);
--	else if (!dentry)
--		dentry = d_first_child(parent);
--	hlist_for_each_entry_from(dentry, d_sib) {
--		if (!simple_positive(dentry))
--			continue;
--		spin_lock_nested(&dentry->d_lock, DENTRY_D_LOCK_NESTED);
--		if (simple_positive(dentry))
--			found = dget_dlock(dentry);
--		spin_unlock(&dentry->d_lock);
--		if (likely(found))
--			break;
--	}
--	spin_unlock(&parent->d_lock);
--	return found;
--}
--
-+/*
-+ * Find the entry with the highest offset at or below @offset. Entries are
-+ * emitted in descending offset order, so this is the next entry to emit
-+ * when resuming at @offset.
-+ */
- static noinline_for_stack struct dentry *
- offset_dir_lookup(struct dentry *parent, loff_t offset)
+ static int proc_single_show(struct seq_file *m, void *v)
  {
-@@ -480,14 +460,19 @@ offset_dir_lookup(struct dentry *parent, loff_t offset)
+-	struct inode *inode = m->private;
++	struct inode *inode = file_inode(m->file);
+ 	struct pid_namespace *ns = proc_pid_ns(inode->i_sb);
+ 	struct pid *pid = proc_pid(inode);
+ 	struct task_struct *task;
+@@ -799,7 +799,7 @@ static int proc_single_show(struct seq_file *m, void *v)
  
- 	MA_STATE(mas, &octx->mt, offset, offset);
- 
--	if (offset == DIR_OFFSET_FIRST)
--		found = find_positive_dentry(parent, NULL, false);
--	else {
--		rcu_read_lock();
--		child = mas_find_rev(&mas, DIR_OFFSET_MIN);
--		found = find_positive_dentry(parent, child, false);
--		rcu_read_unlock();
-+	if (offset < DIR_OFFSET_MIN)
-+		return NULL;
-+
-+	rcu_read_lock();
-+	while ((child = mas_find_rev(&mas, DIR_OFFSET_MIN))) {
-+		spin_lock(&child->d_lock);
-+		if (simple_positive(child))
-+			found = dget_dlock(child);
-+		spin_unlock(&child->d_lock);
-+		if (found)
-+			break;
- 	}
-+	rcu_read_unlock();
- 	return found;
+ static int proc_single_open(struct inode *inode, struct file *filp)
+ {
+-	return single_open(filp, proc_single_show, inode);
++	return single_open(filp, proc_single_show, NULL);
  }
  
-@@ -504,7 +489,10 @@ static void offset_iterate_dir(struct file *file, struct dir_context *ctx)
- 	struct dentry *dir = file->f_path.dentry;
- 	struct dentry *dentry;
+ static const struct file_operations proc_single_file_operations = {
+diff --git a/fs/proc/fd.c b/fs/proc/fd.c
+index 7214a7495380..839c984e1699 100644
+--- a/fs/proc/fd.c
++++ b/fs/proc/fd.c
+@@ -22,19 +22,20 @@
  
--	dentry = offset_dir_lookup(dir, ctx->pos);
-+	if (ctx->pos == DIR_OFFSET_FIRST)
-+		dentry = offset_dir_lookup(dir, DIR_OFFSET_MAX);
-+	else
-+		dentry = offset_dir_lookup(dir, ctx->pos);
- 	if (!dentry)
- 		goto out_eod;
- 	while (true) {
-@@ -514,7 +502,7 @@ static void offset_iterate_dir(struct file *file, struct dir_context *ctx)
- 		if (!offset_dir_emit(ctx, dentry))
- 			break;
+ static int seq_show(struct seq_file *m, void *v)
+ {
++	struct inode *inode = file_inode(m->file);
+ 	struct files_struct *files = NULL;
+ 	int f_flags = 0, ret = -ENOENT;
+ 	struct file *file = NULL;
+ 	struct task_struct *task;
  
--		next = find_positive_dentry(dir, dentry, true);
-+		next = offset_dir_lookup(dir, ctx->pos - 1);
- 		dput(dentry);
+-	task = get_proc_task(m->private);
++	task = get_proc_task(inode);
+ 	if (!task)
+ 		return -ENOENT;
  
- 		if (!next)
+ 	task_lock(task);
+ 	files = task->files;
+ 	if (files) {
+-		unsigned int fd = proc_fd(m->private);
++		unsigned int fd = proc_fd(inode);
+ 
+ 		spin_lock(&files->file_lock);
+ 		file = files_lookup_fd_locked(files, fd);
+@@ -74,7 +75,7 @@ static int seq_show(struct seq_file *m, void *v)
+ 
+ static int seq_fdinfo_open(struct inode *inode, struct file *file)
+ {
+-	return single_open(file, seq_show, inode);
++	return single_open(file, seq_show, NULL);
+ }
+ 
+ /*
 
----
-base-commit: b44341e39d856e4cc6ad8ed94ebffd440f39846c
-change-id: 20261030-work-libfs-offset_readdir-807d3b774260
+-- 
+2.53.0
 
