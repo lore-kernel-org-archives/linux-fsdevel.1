@@ -1,83 +1,84 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793359926;
-	b=nAzD82bhUPEpiZZjcVEpeUEnTUZ/rr9rYeXxrbk3VnDDUsLKAT83tsA8yVaQq5jIqOIm
-	 VlN6o0AZBr1ypJhkuKTWekWtAUh4iORBeq43Mx8F4//Ow1F6xm3yaf+80wqS74AFndNfZ
-	 5ntWBe5ZuUx4Mr/0zKmBQGBbjNfi8cYP5/h9Wziucz5brReZ5h7/5n2l8YrzrHxuo5XZe
-	 EI6IjwpjBzYnWgNlU7ZYnpiCpI3s3Q8GQsg06H8eD0jn5YYWCgNMILYyzbc7g+0KWKl8L
-	 cvzFdWxhgAZ2evvXT1yjXdcKioNgLXnhBshhiTEfUqIgaJOFz9cu/MFGmrsWC4EwHgA==
+	t=1793359927;
+	b=XgNeU1CAOCs0o21mzf1MKeckBnlzW42IoUX3yoxneXJiCbeQN4opPHvFTohklxPB+MMk
+	 W/bUDsZCrkglp6I0Q2BJjBlQ5HTXHHt1m/C8e0bsX3E/avtE93JavW7H/rr9YvX3D4DtI
+	 Zf5nQhFFsJLW1vbVxokNMQNAoO286PeI4h6hLkgy9pSx6TLu6m27breTNYTRSCe1Vasrj
+	 uN8wvRIpV4KXTXtQrxljcf5v6IIXO51lVK/oxJixjrDz/9MKL3nPa+EM3tbcKpTWcJkyK
+	 i7g6rEp9yc1mG3AL0Kcqk1AgaCvNgXL+47JLX8dyJHkjsihAAjJwD0U6VL9/J9rtTCg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793359926;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793359927;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=bBabPJq3TODdbBocrBAZgPnc+pz3vo4Y94D8Fs7pGQQ=;
-	b=UxZyTdUOwdDnOezoA+IYVuXRhZtFrFMI1//5o4zU0M+TuJNhLJzPdl7AKf0fVsj1W+4W
-	 ByZE0/eUgpu3fZgepHqx+RAl6TmfGZii3TKS+3nPzKxzeTpqTa5UprujZUZIPIXQXnP4K
-	 kmf1xpyRvGOPUdGrJh+1lstK/vleWKHLpBnDQx2qS+rrqP14mwSGe/GGAxgRDsjxnvrg8
-	 7Vas3rCa8R2QeT9vQYobOgdc1KX7lAHwk1HmyMVg8/X1GRITGr8prRZdGygdlQGW+aypN
-	 94yMqwhknQhV7327yBZA0MmdqYM5nR0yTEuCJfrsHwsjYkB0oyD1iBOgwAhP06TPxEg==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=cnrRz73SYKEZ4qoaWJL9gqpOklZcWfVKHKWX7WhjJh4=;
+	b=SuNofdQm1MHt2d4MxPQzuAdT4FRDYBVVLJtDyZoiiG59Spke6Q6Etn+GPUtHnWP01Hvh
+	 M2AFk/EQkrkCnA6/tKgyeRwzB8c2gpKpZyPROozYlbHez3WT5VWSKuUEH3RfQbsB01rDt
+	 9J1t7XHHbM+I2fQBQSmt6MHD06Rh5uo+wCvfE0dLLMZtuy4rX3ZLRPk1SzXxuFBMOkdb2
+	 brt3seKPtxrKQKBBO5tPGpIVXp1kerPBRMiFMkClnDCofSikIrcuBAB7tG3DXs7fPRkTs
+	 sVgZI93z5b8Agwid338H4STHHENqrJm/n2RqhHkv9Xkwircx8jztvQl4ti6Suu4FHpQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=eht8YF29;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="I/N8n4zJ";
 	arc=none smtp.remote-ip=209.85.221.49
 Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA758606A31D
-	for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 11:32:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BA758606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92B21606A31D
+	for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 11:32:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 92B21606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=eht8YF29
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-48afbd2c386so312831f8f.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 04:32:05 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=I/N8n4zJ
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-48df54150dfso280467f8f.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 04:32:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793359924; x=1793964724; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=bBabPJq3TODdbBocrBAZgPnc+pz3vo4Y94D8Fs7pGQQ=;
-        b=eht8YF29ZDQ5aiSn7neLwPfe0QqbQ0IqFaz23xAlDMXrUOyhRt9SvfmfqLNxG9Vpwt
-         1zK3pFVc+m4nU2R+VCXrQADdxrCUrnDZP8l0rK25ojasT1GgGFTZOahBpfHpOO4PZCtK
-         8XU+96icNPU3rNKu3qE4x0eyg1twT7Btt3KvfL/DXFw72CtNVlVIzVJ476SQzMLR7+Z0
-         C4I42jTsHVtElvx1tb8onWwX/1ZNMGLRfjxnbi61JH4+vy50kpyB7AAuf9Cjtx/ZChB5
-         GWr6w20p4jpKexs/2Ke1wnFRlSZLPZUbaXVwZ2TuyJy17mOKZMhRo6pAcXKUjMhow1z4
-         IYYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793359924; x=1793964724;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20260707; t=1793359926; x=1793964726; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=bBabPJq3TODdbBocrBAZgPnc+pz3vo4Y94D8Fs7pGQQ=;
-        b=H0aqkqWNMUeNprdFEqUCBEyOV8nypWm8QQp2ulpV+BISi1GxCCPqyUgO4zJ7oEdl2t
-         /TPQGycWQi4z2AYiyrtL8yRKhG4jP2QYONz/oZtHuA/Vxu8Z6Lf/Z5tl0571gPipKeoB
-         hEqlNM3i0ZlGUfaz9ZznrGybmL4mcbQy7l2isWcwFpjWD/lmMPFhh0IQpArdazQANruZ
-         Lxf30tHXPYmHA5q7nm9yss0yLTA3BUjL6pEsRCVmPRJvTnJ/VeQGW6lmF7Ig+FR8yd8n
-         vLIwsNRU7kghLgo+wNZxnAjGH0oYgiSlpZi2/N6ALQYjgya36TmVmJQqeH/81zbbl3zi
-         r/Wg==
-X-Forwarded-Encrypted: i=1; AKwUvByzR6etjmH5XLTM5nPSHsIod7hIie1YkluioALYY1r7tIHBL26nw4eYQkG67lNUs6iH84r4XFHWbOKSNokH@vger.kernel.org
-X-Gm-Message-State: AFq9FYIxpC1T7q9+RYR5rPuBB+dskTJP5JGGmppHLPAvB6HIJazfevKY
-	zz/KreOOVyTsWjxH30NDKdaQreDUORZ4IFpmtzswV9jpAFH/R/by9qHoiCGONA/v
-X-Gm-Gg: AYBFou1RkhCRGA33W/f50/n81t3/y3STBnIMyAQ8Gwb45BNJsFAI/yC2k2xnqspAmPv
-	erHZmWqTRTUjObVBeS9UAFFY84x0T4hGK524T4P5kPC1s9td/cH+V6L6FrtqE1liJKMMMBtkp7A
-	sDpqksRejZ1eGOGELch1jYRxOC0QIwwaSoiaa6VWsRe0+zKKvmPmn8NjcMxYz7Pc+2Tpn6pxBpr
-	8QR5d3+EMvGYEvbkCUtAIGHJNmrgieLeiZsOtSRpaXg9rnbyRFzeJfcSntDR+aX6/kRPqyjxKmh
-	Eigc46FpP1kWDm55uwueRJowWN1cMSsTZj/hme3vrX4ScFtiJWPZDFP/tJdgFMEU0Z1WHn7jmzW
-	vfINuRDtZQW674stREW4BqluaRaGTPw1z+CqY2619R0qEBIERxi+Rd1DpZO8zRvX7wUsHhi1/Lw
-	vpHwbxBGqQ1bmZ6hiyf+dflyMjHqhaNBj4o4V2zxPsyYA8yy+XKlzJZk/EBmWLLqJxJQHpLeRKn
-	uGUnMm4f+cBqcGFmu0uwyhQgyGq2maLpAPo8L7yGR3YRTgGzr1yVNSzgiust0PXGIUmGSIhHP6B
-	u9hO/IPp9BQEtZdCKFTmxigzMvSEjW5fd4Wt2NWOCGPFv8mVmVkvBa/rBc9JL3oU6kR5gQ+79AH
-	Hibx5+Uee4QVF
-X-Received: by 2002:a05:6000:26c8:b0:48b:677:f80d with SMTP id ffacd0b85a97d-48e6e2ff7demr4687700f8f.26.1793359923805;
-        Fri, 30 Oct 2026 04:32:03 -0700 (PDT)
+        bh=cnrRz73SYKEZ4qoaWJL9gqpOklZcWfVKHKWX7WhjJh4=;
+        b=I/N8n4zJ0pVbzD40Z94Q2ezmntxchgRlk4DXCua+1wNeZIVA04dhL8D5347VPjCzDC
+         9/ken7Rvq+kD491Mg9zZOGL5RCh5Ry/G33EV52jr3ZdDcMP/Sm2UVhH79gqawm56GS9v
+         jvECGs3fqgIWpUrSVNEJXWC1/oc9cfxGtd3FTvLYWJjinx1uF7dlzqUa4/2har6i+whg
+         1M76PaPA6ywJVXV3SkU7XoD/fqZjsfkJwMpTIJ5J+5DEUVzAW3EN2Tox6hx4IwlQcNmU
+         7pdfOGnFi2ceQJJ3E+EdR3qWd0SUivOykTNcpRsqqIwsUCn5vJCjX7f9CKQaVe7tdyqC
+         wkUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793359926; x=1793964726;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=cnrRz73SYKEZ4qoaWJL9gqpOklZcWfVKHKWX7WhjJh4=;
+        b=gHT2+GJA/aen16ixfKS/56V4PTM43fiDewuzy4O0yimKZrHoCiDoGSo4BCi0irR8wY
+         JuBaS+VwMmSlfiOHucXuxCeoK2R6aEaluDIM2KX4hOOnuutOVWaHpw9DEmIQcPv+yUqu
+         smmBD3XvIUp7kr6n1kb88O97qHtFdBajtLFz8W61s5kzGcywdV/phP5BftviTQSvoAI4
+         PvoOL6n5rMGpYMBlqSHq9ZUodL2zqX06rtBOh2FoaRsHj63XEgpsynuSubMyLvkrzMFi
+         s0VPxmGNFFl4DTh7pxAOkbnazoODgoSjqHxvH0Avopie7YWCp1hKhoqZPCw6FYayd/uG
+         jkWA==
+X-Forwarded-Encrypted: i=1; AKwUvBzGqFYpawL49hgxs0G2cfyDzrprzAUU6K69MHEY7JmilpykaZ9sDwEH6YVYEq4/Ris252qhRwPP1rIgYTBl@vger.kernel.org
+X-Gm-Message-State: AFq9FYJgu6PJEv9bsEQUw0WqKuBMPAlo98MXAfN455NCL3Z77PEu3iSv
+	e/V96wRKgFrZcBm8ygRGmmx+U4GkQwmUj+bjqs4euZm86/a+y2a+e1q8vsz4khRv
+X-Gm-Gg: AYBFou3gKYYvwSCv8n9ZMq7dZw9djl5S5jjwqp6ZB+xsMDcb/DiAr7ZnuZp/2GHH7ik
+	FtPQgHIg0rzesRZGhBX/EgjkSImnedw/qWJX9U0SBHFPWOMHo6FUv3UbuA41+RjF5fa9a/bM1Dl
+	hXvy1B36eSLl8lgZrSZQHu+hjAFT4jGdQH2af287ywSc+b/oD+xr+LUUSOR81fmgI3PwYZfiWbZ
+	q6whp3eKL7y42eDvpNLj1XE8uydioA0ms+ZC5kGs4W1oRx5FAdtxzOrPYUN0ymcGNu7uud7xDf6
+	EY6WYAfux3ugYDz7q/a6F85TqsymG0quwkxzH7KdyRBn4Lt9TR3naNPZs0PZ6XLyMWMU5/qSZG/
+	9JPnWYIgg9PQarFaO4q3E5VjjBresIO72PAP+YectRdFMTawhtP5XTw9KW9c8ymjXexdbIU+5Zm
+	ziz5DmFN+lblo1Qb0Q7kGnk0ozgJk5bxXoLo+RwXY797Al22UGTyqHeU3qde9t+BWHpklTEErBL
+	Asz6pNKAfF6rfS/Edyi0xqBlnczH+dRvg0jhVP2zS9afhYpohWvJRSxG5fFeLEH3WYTEr8zANuI
+	QbW+HD5ImTtxDixq4TK0iMpAHv5r8d5afYOiW0OjEsmg1xZv/tn2ZYKSIuxzGjLR9yxwitozgxn
+	lZAbfB1owqq4=
+X-Received: by 2002:a5d:4c8e:0:b0:48e:1c2:55a1 with SMTP id ffacd0b85a97d-48e6e500505mr3857722f8f.52.1793359925697;
+        Fri, 30 Oct 2026 04:32:05 -0700 (PDT)
 Received: from localhost (178-84-201-199.dynamic.upc.nl. [178.84.201.199])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e71ba5dc2sm2647955f8f.54.2026.10.30.04.32.02
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e71b8c6e9sm2708834f8f.43.2026.10.30.04.32.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2026 04:32:03 -0700 (PDT)
+        Fri, 30 Oct 2026 04:32:05 -0700 (PDT)
 From: Amir Goldstein <amir73il@gmail.com>
 To: Hungyu Lin <dennylin0707@gmail.com>
 Cc: Christian Brauner <brauner@kernel.org>,
@@ -85,11 +86,14 @@ Cc: Christian Brauner <brauner@kernel.org>,
 	Chris Mason <mason@kernel.org>,
 	Josef Bacik <josef@toxicpanda.com>,
 	linux-unionfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH 0/3] Overlayfs casefold fixes
-Date: Fri, 30 Oct 2026 12:31:58 +0100
-Message-ID: <20261030113201.2921633-1-amir73il@gmail.com>
+	linux-fsdevel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH 1/3] ovl: fail the mount if the casefold flag has changed
+Date: Fri, 30 Oct 2026 12:31:59 +0100
+Message-ID: <20261030113201.2921633-2-amir73il@gmail.com>
 X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20261030113201.2921633-1-amir73il@gmail.com>
+References: <20261030113201.2921633-1-amir73il@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -101,45 +105,77 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hungyu,
+From: Chris Mason <mason@kernel.org>
 
-You indicated that you are willing to review and test overlayfs casefold
-fixes.
+An unprivileged user in a user namespace can repeatedly trigger a kernel
+warning with their own overlay mounts. They do so by changing the
+casefold flag of the topmost layer's empty root, the top directory of
+that layer, after the layers are set and before the mount is created.
 
-Here are a bunch of fixes that I recived from Chris and added my edits.
+The casefold flag of a directory makes name lookups in that directory
+case-insensitive. All layers of an overlay must agree on casefolding.
 
-They pass the basic sanity tests, but I fear that given the nature of
-those reports, the test coverage for casefold overlayfs is not so good
-and possibly there are no many users, so I am reluctant to merged the
-changes without a champion to verify them.
+ovl_mount_dir_check() reads the casefold flag of a layer root when
+fsconfig() sets that layer, and saves the result in ofs->casefold. The
+mount is created later, by another fsconfig() call with
+FSCONFIG_CMD_CREATE.
 
-I am not really interested in adding test coverage for underlying change
-races, but the functional bugs that are not related to delicate timing
-deserve test coverage.
+The casefold flag of an empty directory can be changed.
 
-Please see fstest generic/783 and see if a similar test could be
-added to add test coverage.
+The casefold flag of the overlay root must match ofs->casefold.
+ovl_get_root() copies the flag from the topmost layer root, as it is
+when the mount is created. On a mismatch, ovl_get_root() only does a
+WARN_ON(), and the mount continues. The check is not a WARN_ON_ONCE(),
+so each such mount warns again.
 
-Note that it is intentionally not an overlay/ fstest, but a generic
-test which only runs on filesystems that support casefold (e.g. ext4)
-and the test itself takes care of mounting overlayfs.
+An unprivileged user needs CONFIG_UNICODE, and a tmpfs mounted with the
+casefold option in their namespace.
 
-Thanks,
-Amir.
+Reproduced by changing the casefold flag of the empty upper directory
+after the layers were set and before FSCONFIG_CMD_CREATE, with tmpfs and
+ext4 layers, and as uid 1000 in a user namespace.
 
-Chris Mason (3):
-  ovl: fail the mount if the casefold flag has changed
-  ovl: do not let chattr change the casefold flag
-  ovl: fix whiteout creation in casefolded directories
+Fix this by replacing the WARN_ON() with a check that fails the mount
+with -EINVAL.
 
- fs/overlayfs/dir.c       | 46 ++++++++++++++++++++++------------------
- fs/overlayfs/inode.c     |  8 +++++++
- fs/overlayfs/overlayfs.h | 10 +--------
- fs/overlayfs/readdir.c   |  3 ++-
- fs/overlayfs/super.c     | 12 ++++++++++-
- fs/overlayfs/util.c      |  2 +-
- 6 files changed, 48 insertions(+), 33 deletions(-)
+Fixes: f9377faaeae0 ("ovl: Add S_CASEFOLD as part of the inode flag to be copied")
+Cc: stable@vger.kernel.org
+Signed-off-by: Chris Mason <mason@kernel.org>
+Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+---
+ fs/overlayfs/super.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
+diff --git a/fs/overlayfs/super.c b/fs/overlayfs/super.c
+index b452b8c5f6417..af13585709cfc 100644
+--- a/fs/overlayfs/super.c
++++ b/fs/overlayfs/super.c
+@@ -1372,7 +1372,6 @@ static struct dentry *ovl_get_root(struct super_block *sb,
+ 	ovl_dentry_set_flag(OVL_E_CONNECTED, root);
+ 	ovl_set_upperdata(d_inode(root));
+ 	ovl_inode_init(d_inode(root), &oip, ino, fsid);
+-	WARN_ON(!!IS_CASEFOLDED(d_inode(root)) != ofs->casefold);
+ 	ovl_dentry_init_flags(root, upperdentry, oe, DCACHE_OP_WEAK_REVALIDATE);
+ 	/* root keeps a reference of upperdentry */
+ 	dget(upperdentry);
+@@ -1556,6 +1555,17 @@ static int ovl_fill_super_creds(struct fs_context *fc, struct super_block *sb)
+ 	if (!sb->s_root)
+ 		goto out_free_oe;
+ 
++	/*
++	 * The casefold flag of an empty layer root may have changed since the
++	 * mount options were parsed.  The root inode owns oe by now.
++	 */
++	if (!!IS_CASEFOLDED(d_inode(sb->s_root)) != ofs->casefold) {
++		pr_err("casefold flag of the root directory has changed\n");
++		dput(sb->s_root);
++		sb->s_root = NULL;
++		return -EINVAL;
++	}
++
+ 	return 0;
+ 
+ out_free_oe:
 -- 
 2.55.0
 
