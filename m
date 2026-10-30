@@ -1,48 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793375762;
-	b=byJfrVORJCSOd2Uk4efvowEd0vpeoWg3YEyNr6b25TCoPnjNoxkIQAvJ6qrN+t5tUv9M
-	 nobjGzaCv+IQtntjrl++ja/uwMdk+qxLc3IWQtctss79/vDgbMZpGp2RRama+hxjIzIoC
-	 3Ch0Kjv86lkVPNCIpssaEfAlGhPUkqhIMVFBe8H82Tlez42V8vzw6T8gObrsXGY48A7KX
-	 cgVG8BzY3i7X0zLDdYVKsqcQmwIkyaY7afvKc3dXGyrSs5Vdmd+OIvvEpYgr2D1vi+pkZ
-	 DeRazjKhTQMhOvt/o66YHqqBpG/qRN7XG1elRtYIbw+Wzo3ElrHh7gScG7BMhZBbOew==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793375762;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=OLB/pPnAIIk2q96c36n8ii4RGtN4TNNruaHmv/xG850=;
-	b=pTibVex5AavmMsswUza0ava8G0mqVK/govL5/cNUzm9+cFSXsfx3uR5sPDnlZLCYvNoG
-	 o9LDw/xJ3opYksKH7EHk5azH1pIspeekC1I69gkQJ9ifp6pxql2s63T3gX3PBEHXAdIie
-	 G/Yu91wpv3EDaEoJ2C94Hv5qFvMRUpCvgFMwJpXwu60MkZpIxugUtV7jBVv0Qj1dud9FA
-	 kg8p5sM6laG8AnLTodNo8J+3CPKvYK5ZBPP6f+MR1uUfKr41Be3iP/tGq1ufUnwg9P8qt
-	 AMkI9wyouiedlvHaKw0kNwP+X3ZBkzNeS7iW0p0HeKpZvBLOHmPa1gPcvzwTJRWnT3Q==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gu+NrYjv;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.46
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793375820;
+	b=Q3tYQd9w9ed2rfW8U3wVcTZX46Ur6+DN1dHPDdIvElUBo8NFLzYs08W+B+617oelpU8v
+	 prCXHVdtwZGTLu4H+EZg4608S1Ec5ce3IzQW26MSXoK+AmIF9RqgqhMCaGB2H8SghrZ87
+	 D/fMuUDMZsjfaT3o69O9U9w1ljElATc1X57e6Q27FU6ZaeZYN5yRfD01NeadFOW5CTrfR
+	 sSuITGrwRh8v8nTKv0jGqYt0T5/J2BEZ6mKSCXuBuVdz50KgVLUBy2FpxXJ4g+NQFwCtr
+	 CaDDIfgWorEGLTRa7d+5TEGphpjeYcjfurS8jiJ9D5EfnktEFZnpBBT3dFURnf06+vA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793375820;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=9sTqkrpbygkHHAn3W77D6Qgnl/U67Hb1cA44+FTHE2g=;
+	b=qmz2VWfc9nIxn8IBp2bSew8JayVtpG13q1fTzXaUNrUk3PjyXuMInnBcf0m1AjV0188/
+	 XZtnk3OWHkCCpmJZg3+T1TflkbIjdiXD3EKOGgNeGHNeLYVLDIgpn12yPcfQyV6sAvTXr
+	 +TB2NMQR7TE5ZwFCn0lVS7IXoGM6+p82YQmyacZ43Ew8a4LTpQJNVghNIIoViDDE4kapz
+	 K0lEV2luYnFETC2rhnzETWyNygd3XmfRMbqSEjuSMIndQDZltdlj7Mc6sIFMMKyp4Hzle
+	 8dMacUXAwGukK7b1J24JbMBFIurAcJzclLLqFjSkhmYQkp/nQFHLrNXSUy/FYG08lPw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=OjRKkLiG;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.46
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10C73606A31C;
-	Fri, 30 Oct 2026 15:56:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2976F606A31A
+	for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 15:56:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2976F606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gu+NrYjv
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BEB11F000C1;
-	Fri, 30 Oct 2026 15:55:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793375761;
-	bh=OLB/pPnAIIk2q96c36n8ii4RGtN4TNNruaHmv/xG850=;
-	h=From:Date:Subject:To:Cc;
-	b=gu+NrYjvtx8Os15tkJhMPWl6gxwEbofxtoe1MEaaZ3FLv11miajhNLq6GOYJ2H2P8
-	 wxGCWjKgvlIkBIBYFALJM75k/eatvHsTu/1OIW0BOJsJavyye4yWrd6avw40I/CED+
-	 5Cupkwl0BIo5Do11Lhgg3R6JWchuc8M61goqzIM0lJ5sqMar6v0QYuX0RHrcQyVPTK
-	 P6sutRqrbLiOFLTtxIXJkZIkb4TZ3wuixU2ZVgcfdOcZtJBMAqBU1e0WEV3omJ1Bpu
-	 kkO6e6D3AQbRN9VBDHjzst2lXT1r5fvr5oc5G0Lq4vqY4vA7I4cZIbC4WxxDGCcL1A
-	 nIHb4CzyjNMhg==
-From: Christian Brauner <brauner@kernel.org>
-Date: Fri, 30 Oct 2026 16:55:52 +0100
-Subject: [PATCH] fs: don't fail __d_obtain_alias() for unlinked inodes
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=OjRKkLiG
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-c247f6687dcso150305566b.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 08:56:59 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793375818; cv=none;
+        d=google.com; s=arc-20260327;
+        b=lSbavEKFD4iz75I08wklgXEzlSgL3vXWCBJwd20cHxN6sP22EBa1J9VgJMUsLeWxrv
+         TO3k28VAf6mtMYazVDPOVZWyrYqIvOUcfMILkg/vGNTH1Gb1e+0IKiO7QSdZDR/cizJa
+         2tjyWwryyf5QrXTF5B5K+lxcEEtcsHdcn5bRYeoeVIjf/l4Jh4A9KhjiSTdqSLk4so56
+         p7BuZCTWvNOMAVv6LyrfEdXbc79emidFcoX2PgCkTK7Wriq2eycPqPfSsRNJh0GWfx5D
+         mas++vOO7iCHO9eE2uvvh59BGbzqH8eO7koa60Sruk7zgJuxvPe0f3J42T2//cqZytvZ
+         HJtg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=9sTqkrpbygkHHAn3W77D6Qgnl/U67Hb1cA44+FTHE2g=;
+        fh=+8KXineQXoUyF29gQgtg19MbHYY1+ygoCEH7Fg4/kV4=;
+        b=rEFEcGJdfuwNPW3V2cgH6Z2j4nQVqJPk9Z+ESMwRwsf2bdC98KkkDUdN6LnPGgiyIo
+         Cthkbouje4+mribDWSxeIBLhBRVwLG8Z25nVhfKeY1+wqdGVZ++xM8uWgP4m0w67pbnH
+         LVXj5na0QN6W2MdIr0TXQvMr4poWELL/+PzH1S7M4beP++fRi6pYjUXReN1k5LCibz5g
+         KD1BoQX/Jq1B38FllKy4R7DyPTBopVdHn8gclKzstQvUA4yl+cvIAmP+ObiJRlKZWvs3
+         1HD4EVJ4kTPpSsLfkL+pr5Dn48xk7/FfIBw0XS6NLZD/CpNeMY+pYP1GT24rMVeGG9pU
+         soGA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793375818; x=1793980618; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=9sTqkrpbygkHHAn3W77D6Qgnl/U67Hb1cA44+FTHE2g=;
+        b=OjRKkLiGaKyHjaravi82Hmc+5/9u4uxjeazYL0gg2S8oIES19Pa9eWEhmpCQ7NGIzT
+         qiaRCa+MVFQrjlfscALM0xzpXMAIQcPusuGhEL1fZ5D/goPkNUKehujR44Ybq2iA2ws7
+         JufXDxD18MKYc1W0mjsS5cJr+OwBwk6Gwki3R7nO0gUfuoEvW8DZXclS3YLLj/q8RxUV
+         Bl3yBt0RH11OZ+BAzmY3BXdiLfYynilVgz7PnymBCcZAL5zlTL/rbimiKmYDIj8GilHY
+         dygGELV1YAyN/hxR82zX3yOSfqX+YfkoZZknanOGo6VhAQZ38/o8QXd+xk2FwvIqZ+bs
+         ml8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793375818; x=1793980618;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=9sTqkrpbygkHHAn3W77D6Qgnl/U67Hb1cA44+FTHE2g=;
+        b=rkMtLC+/BZBP1QKrB39Bwhxbb/UxY0jbyKlKkhsRY3pS49cyIm8Mpf92+LYRHd1X8j
+         /GlTvzUr0rE8E8dY0WD0WS2SbVYY+QM7n3u+g413c9W7Qb37/ojiwPzqd5WLHHJI0oR3
+         RpwyZx+D+vTsdbOZIWbLLZV+CiTIodbbv9X7WvB4AtLppnIMlmU8pFHZqoMSHm2K92bn
+         1cxK008h11ImgvSZvKYhokAxGN39yLDSoatyvCpNfG67Gqs1R2mFwQphMHIDrRfi6K+F
+         gD9exIVrWFOL+Unhvz1hRNTFW5kTRt4XOffEpYu3FCRdYdsp56TLH6s0WfDhWpUn7rPP
+         LVVA==
+X-Forwarded-Encrypted: i=1; AKwUvByNfG215YjzgCSNzuLzGV/6lKk2nqGISx9pqB+rhjXSlU15Yu0+uMe7gbZZwOPY0M/ONi8fpe/gSHE47g8b@vger.kernel.org
+X-Gm-Message-State: AFq9FYKeUOufk2hHlPXzIDZan9LejBxwU2lOpiD9QFgscuRrZ6rFYl1H
+	hQ/quc8UfKoT69ZQQk5MiGGUY0LfIYAXToVXYqVLkTNUOVq3V7bWeYR/DcTElgxktnAHliKVFeR
+	UUtnadq5q9QZaru7kAxsX/Gu68gneJ20=
+X-Gm-Gg: AYBFou3mIfoIzSybHpagUKX9oCFC/GJYJ5qjhesqQeqLRabxbP0ZLkyWsewppH4lTUO
+	KNujykj37/GoLgdgeImVaeUpiPALh975PydItYf7fWSmA0Z/2DAXxcVnfoUPuA10IGywV9xAGh1
+	N2JYg+Zb3Q0P5Wj6WMMM5Onc4TgmhV8xRzEmQqvF73XakDkHlttCsQ9oxvva1TZONZOa+LttSxs
+	ubMDA4WORN9IDMFQm1q+3dxP2jYy2kuMMURxBTKZl3iCueO7JtEYXXdESFbLL4D8DGRSV2llT8E
+	y0p2AySr+ITwhxc9Z5agCQmtCxNY1jEQ445sa2Y75CHjOaXsS9si6mfnEXjn6lOIAJhUovjNNFu
+	6O0nY1Uw947NgpS02ljOpZ9b2FAbWzKloQ/Q3FB/IRNAgMsr7aQ7CYmvlTxbAnTf5W08fIA==
+X-Received: by 2002:a17:907:2d25:b0:c41:6de7:7dde with SMTP id
+ a640c23a62f3a-c4ca7935796mr266982566b.4.1793375818484; Fri, 30 Oct 2026
+ 08:56:58 -0700 (PDT)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -52,146 +104,57 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261030-work-dcache-obtain_alias-v1-1-a1f7e44536d2@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWMUQ7CIBAFr9LwLYYWo8arGGN2YZFVA4at1aTp3
- QX7OS9vZlZChUnUqZtVoYmFc6rQbzrlIqQbafaV1WCGfW+s0Z9cHto7cJF0xhE4XeHJIBqN9QG
- PO7KHoKr+KhT4+0+fLyvLG+/kxtZrDwQhjQWSi22agmxXY1l+JeoTgpgAAAA=
-X-Change-ID: 20261030-work-dcache-obtain_alias-b03dfb84e37f
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
- linux-fsdevel@vger.kernel.org, stable@vger.kernel.org, 
- Daehyeon Ko <4ncienth@gmail.com>, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>
-X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5614; i=brauner@kernel.org;
- h=from:subject:message-id; bh=7CkDPptf5GKXAUEwHygW7KJbUOkaX22YmoFnT7Y0qCw=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQ92cebYJ8e+PqLxR6hUAUjLZ8piXPerC+5Hm9zxfjRm
- s77U6dqdZSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAExk1j5GhjMVbsfcjmQz/NK+
- 9VDwxxbZDUoWByatNhX2v31nwpSCjZ0Mv1mEVNTMGpnPL1Sr+aBdMyVMxeT702qZxNma3/u+mrR
- u4gEA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-
+References: <20261017165103.2450042-1-amir73il@gmail.com> <20261030-pluspunkt-kreis-lawinen-274971662578@brauner>
+In-Reply-To: <20261030-pluspunkt-kreis-lawinen-274971662578@brauner>
 From: Amir Goldstein <amir73il@gmail.com>
+Date: Fri, 30 Oct 2026 16:56:46 +0100
+X-Gm-Features: AclHuK8ktVjbNgP72LOLPxL3i8bsMNAmY3iRRrASzvsBRvXKm994u3R-fHL5-MY
+Message-ID: <CAOQ4uxhFFPq0tjbbZo=m2tGx=93Tat2hs5K3LJ_moW=Ca8o12g@mail.gmail.com>
+Subject: Re: [PATCH] selftests/ovl: fix detached layer mountinfo expectations
+To: Christian Brauner <brauner@kernel.org>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, linux-unionfs@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, Disha Goel <disgoel@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Commit 669bb5af15d4 ("fs: make sure to call fsnotify_inoderemove() only
-once when inode is dead") did two things. It made dentry_unlink_inode()
-call fsnotify_inoderemove() only once the inode has neither links nor
-aliases left. And it made __d_obtain_alias() fail with -ESTALE for an
-inode in that state so that open_by_handle_at() can't create a new alias
-after FS_DELETE_SELF has been reported and the inode marks are gone.
+On Fri, Oct 30, 2026 at 4:12=E2=80=AFPM Christian Brauner <brauner@kernel.o=
+rg> wrote:
+>
+> On Sat, 17 Oct 2026 18:51:03 +0200, Amir Goldstein wrote:
+> > set_layers_via_detached_mount_fds was copied from the attached-fd test
+> > and still looks for /tmp paths. Detached open_tree() layers are recorde=
+d
+> > by d_path() as upperdir=3D/upper, workdir=3D/work, and lowerdir+=3D/ an=
+d
+> > datadir+=3D/ for each cloned directory. The test has failed since it wa=
+s
+> > added.
+> >
+> >
+> > [...]
+>
+> Applied to the vfs.fixes branch of the vfs/vfs.git tree.
+> Patches in the vfs.fixes branch should appear in linux-next soon.
+>
+> Please report any outstanding bugs that were missed during review in a
+> new review to the original patch series allowing us to drop it.
+>
+> It's encouraged to provide Acked-bys and Reviewed-bys even though the
+> patch has now been applied. If possible patch trailers will be updated.
+>
+> Note that commit hashes shown below are subject to change due to rebase,
+> trailer updates or similar. If in doubt, please check the listed branch.
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+> branch: vfs.fixes
+>
+> [1/1] selftests/ovl: fix detached layer mountinfo expectations
+>       https://git.kernel.org/vfs/vfs/c/8457ca071fab
+>
 
-The second part is wrong for network filesystems. __d_obtain_alias()
-backs d_obtain_alias() and d_obtain_root(). Those are what the
-->fh_to_dentry() and ->get_parent() methods use to turn the inode they
-looked up into a dentry for exportfs_decode_fh_raw(), i.e., for
-open_by_handle_at() and for nfsd file handle decoding.
+Sorry, I forgot to say that I already took this patch to my tree.
 
-For a local filesystem an in-core inode without links and aliases is an
-orphan that goes away on the final iput(). For a network filesystem
-that's not true. i_nlink is just the link count the server last
-reported and whether the object is still reachable through its file
-handle is up to the server. If a file is unlinked while it is still
-open elsewhere, e.g., by another NFSv4 client or by a process on the
-server, the server keeps the object alive and its file handle stays
-valid. nfs_fh_to_dentry() fetches the attributes for such a handle,
-nfs_fhget() sets i_nlink to 0 from them, the new inode has no aliases
-yet and so __d_obtain_alias() now fails with -ESTALE. The same applies
-to fuse_get_dentry() which takes i_nlink from the fuse server.
-Filesystems that care about unlinked inodes already make that decision
-themselves in ->fh_to_dentry(), e.g., ceph's __fh_to_dentry() fetches
-the link count with CEPH_CAP_LINK_SHARED and only refuses an unlinked
-inode if it isn't open.
+This patch is already on ovl-fixes in linux-next of today.
 
-Note that on a network filesystem i_nlink drops to zero through
-attribute updates when another client unlinks the file. So the inode
-might never have gone through dentry_unlink_inode() with i_nlink == 0,
-i.e., fsnotify_inoderemove() might never have been called for it and
-there's nothing for the -ESTALE to protect.
-
-So drop the two checks from __d_obtain_alias() again and go back to the
-unconditional alias lookup. While at it, update the comment above
-inode_notify_dead() since it no longer blocks new aliases.
-
-Amir sent this as v3 to replace 669bb5af15d4 but that commit was already
-in mainline by then. So do it as a fix on top. The resulting code is
-identical to v3.
-
-This means open_by_handle_at() can again create a new alias for an
-unlinked inode after FS_DELETE_SELF has been reported. Closing that file
-reports a second FS_DELETE_SELF and the file has none of the inode marks
-that were torn down. That's what Daehyeon's open_by_handle_at() LTP test
-checks so it is expected to fail again. This needs to be handled
-separately. A mark that is added through such a file while
-fsnotify_destroy_marks() is still running is rejected with -ENOENT since
-36ebddca56b9 ("fsnotify: prevent mark additions during connector
-teardown") so it can't end up on a detached connector.
-
-Christian Brauner <brauner@kernel.org> says:
-
-Amir's v3 replaced 669bb5af15d4 as a whole. I turned it into an
-incremental fix on top of mainline and wrote a new commit message.
-Jan's Reviewed-by was given on v3 and the resulting code is identical.
-
-Fixes: 669bb5af15d4 ("fs: make sure to call fsnotify_inoderemove() only once when inode is dead")
-Cc: stable@vger.kernel.org
-Reported-by: Daehyeon Ko <4ncienth@gmail.com>
-Signed-off-by: Amir Goldstein <amir73il@gmail.com>
-Link: https://patch.msgid.link/CAOQ4uxg7Qt436SiKhKEJKOjtCjeB_XyTjazYF7HMyQAGGcgx2A@mail.gmail.com
-Reviewed-by: Jan Kara <jack@suse.cz>
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
----
- fs/dcache.c | 19 +++++--------------
- 1 file changed, 5 insertions(+), 14 deletions(-)
-
-diff --git a/fs/dcache.c b/fs/dcache.c
-index efd9332c8407..810ac48ae753 100644
---- a/fs/dcache.c
-+++ b/fs/dcache.c
-@@ -452,10 +452,9 @@ static void dentry_free(struct dentry *dentry)
- }
- 
- /*
-- * If inode is unlinked and doesn't have any aliases (i.e., all fds pointing to
-- * it are closed), it is pretty much dead. Except that file handle lookup could
-- * still revive it which causes issues to fsnotify. So once inode reaches this
-- * state we make sure to block creating any new aliases.
-+ * When inode is unlinked and doesn't have any aliases (i.e., all fds pointing
-+ * to it are closed) we report FS_DELETE_SELF to fsnotify and cleanup all inode
-+ * marks.
-  */
- static bool inode_notify_dead(struct inode *inode)
- {
-@@ -2312,12 +2311,7 @@ static struct dentry *__d_obtain_alias(struct inode *inode, bool disconnected)
- 
- 	sb = inode->i_sb;
- 
--	spin_lock(&inode->i_lock);
--	if (!inode_notify_dead(inode))
--		res = __d_find_any_alias(inode);	/* existing alias? */
--	else
--		res = ERR_PTR(-ESTALE);
--	spin_unlock(&inode->i_lock);
-+	res = d_find_any_alias(inode); /* existing alias? */
- 	if (res)
- 		goto out;
- 
-@@ -2329,10 +2323,7 @@ static struct dentry *__d_obtain_alias(struct inode *inode, bool disconnected)
- 
- 	security_d_instantiate(new, inode);
- 	spin_lock(&inode->i_lock);
--	if (!inode_notify_dead(inode))
--		res = __d_find_any_alias(inode);	/* recheck under lock */
--	else
--		res = ERR_PTR(-ESTALE);
-+	res = __d_find_any_alias(inode); /* recheck under lock */
- 	if (likely(!res)) { /* still no alias, attach a disconnected dentry */
- 		unsigned add_flags = d_flags_for_inode(inode);
- 
-
----
-base-commit: b44341e39d856e4cc6ad8ed94ebffd440f39846c
-change-id: 20261030-work-dcache-obtain_alias-b03dfb84e37f
-
+Thanks,
+Amir.
