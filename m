@@ -1,55 +1,54 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793373122;
-	b=JfNOSawDFEE+m38PWHz2bG0yr1LEXDOk8NUwiIaaKsg6Djjdo9R2RQ0X2zF069FWZwL3
-	 sXfJb90IrugOa8I0zZV52v6YpmVvTt5BRVntOYMyaI4i/t7x+3a8JSXwqOnxomdpTLIxQ
-	 sgt8ugNLBY8pbfgHGlNbgBou5MdX7maLvLdZkjU2HDW9God0BlL1fGEwoFR8oWqiISwpd
-	 wluFpq8y6xu6pX/7qStp+POXPMak4ua6pNnYyctI/944rtEKePT+gm8Cf07yTmI5EAwy5
-	 +gWAiLjwXcfwDgARpvV94ehFYPPh7wj/wQI8Q1MXFQvwbeHylTNL/gck8QH+Y/2eKBA==
+	t=1793373190;
+	b=E3/BUCztSr0nmugOYjI+KRqbtcEv79QvC2KO/3BAE/wd9+A71c1TrG88pDAIB+bpzK59
+	 Ge/OIowJZ69q+UPElD+C9m1os5IjMq42UyeIeI2QNUzhnqAC6GCFTV0IB3S8/6s8MEEbN
+	 7zH9cYogCgRJ4H1dQKCffaXI1i8yo6gb4CbxBvM/FPsWQvPUL6acRO5b6FfgBCvJF7qUg
+	 mK0zalHuAmzpSXGZer2yyybBD7yLpC6fR2ll6fNi1amyJIMFglUqOx3/v2FnvsHh5uxW8
+	 PZJLS94CFxaDM4WLChQ48lqEJiVOdbA/0nJDtDB0aagR00hfAkr1aZQ/xLQRN//s5MQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793373122;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793373190;
 	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
 	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 X-Mailer;
-	bh=Xz4L2PE1s4opxoGiNv7GY/X753OzSirPrx1rscu/iWc=;
-	b=3psOJO+BHcBw9nxBjEfYwIgcTywQ//t2U0qypMCR1IIMzfzcI6LAF0ts57rL0bJDsYdN
-	 Efe37VdsdYeOBP7uRtL4iFh2S0ia0reLKqvXGcwiW6PIciBX8IBEZQhXpqbgHReMGZ9Tf
-	 4ofZtJkzWJi6D6FridbVLXv0Hwflq9CuBCMKOwu+jKH7iOG0n7VSkDNYAgBvn57IBV8CC
-	 dUsj/i3qLy5ED310JQw7UF/+Gzv+cECI5+EhuG/9/9nNJMj1vyZ/T/qR2Cb8GZKtCZr1v
-	 Va2oNcZF1Ct3xrBn3D1tEVO2/Pt5MzCmRdFjUabDM7my1EpCpU4el8mWfkROEcCBiQQ==
+	bh=CM90dHwkMMK+3yO6My/rIX93xYpgwHbmTRgLKDv2bGw=;
+	b=29r/T3I/DjOl7qCTWhmKdDky5n6m8mv5thhh20Bx+67QcMygLZUFqkOl24C0VUjfwRLK
+	 6HN6QQg+ua/430a7Gc44YJovgtJNWEtLX+CFfAJaxn9Ly5q8KoC+O7Nmlf44NWN6VQXyt
+	 owzrycshg9BNeYR3H6sESd2y2gcm8j/C8f8ovVrV+cjonrB4nplDZQEem7fhfSJgPq833
+	 qGUVUrc9VXjltPZC8JGZ250yabf5pofaX25J6d8+QajQ0dDyfDFMBPTD3HZ8ovajyjw8d
+	 inHKTC7+PuGNjkdavHbeceaJ8hChqXNueq828KeFeAbCV8QOI0FkSItpyTMw1ZoQyzQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="SON/rSHJ";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=c+CvVI53;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EADF606A31A;
-	Fri, 30 Oct 2026 15:12:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4930606A31A
+	for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 15:13:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SON/rSHJ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4AB01F000C1;
-	Fri, 30 Oct 2026 15:12:00 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=c+CvVI53
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F24B1F000C1;
+	Fri, 30 Oct 2026 15:13:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793373122;
-	bh=Xz4L2PE1s4opxoGiNv7GY/X753OzSirPrx1rscu/iWc=;
+	s=k20260515; t=1793373189;
+	bh=CM90dHwkMMK+3yO6My/rIX93xYpgwHbmTRgLKDv2bGw=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=SON/rSHJdyPvjx50TQlnkSPE+R/mz/Um2l9Z7t5LI45fOwa6n7hPNeUZQt9Q9/E0o
-	 /YMWIZimi2n/Vuu4DUSFU8Fut3+f3Qlw+T/SpO9Vovb9HQQqCMHiX9sY/6N7xjmpHG
-	 3J3cjSh7Vx3bRPB8Ar/oKi3blBA7GcPIofvESURdLqVxsXl/KfH5Yqyr17EWmLZPGM
-	 583KcoChvRNHJDOF4llQukVaU5OL06YGHVMLfp6AOraaW1TIPZSVzK5UVWJrUZNA6r
-	 lw4AUrI2JQwFEdL1/21UpcbiLWoybA6CVl1C8DxVs1zXQmnczh/WxKoiHMcrk9zO1J
-	 MmKQYOJH3ScgQ==
+	b=c+CvVI537xkqLUZl2teTjXWL8sTFUb1T4cKmyXPq+nXBrsMeFRBDb6Qm/xwv/ysc4
+	 QWYnqmdRjGoVB8/lzCUMVVWmKcjIAYfB5IdfmZCWVYJYicUuXIpD3R+eNUyirLgFcw
+	 rDrSXxAQSjV/GfSiJOsnqPWMTcSRXmIPKHIgFxEO1DVuQ9H7ZhKFq0oYE9/xyTBanw
+	 fUuF6tBhs7UOs8DQkoSd20PIIbZRAq6jKKl0OX4D2Rm2Js1+7FjVbG4s7BZOeMfLrP
+	 cCFVeF38PdLZL0CYjXAUzad259h9qS13lslNS7Nm//8UXc+y21csIhUiUFTbp5HnZ9
+	 XerFzN1wBtlFQ==
 From: Christian Brauner <brauner@kernel.org>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, linux-unionfs@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, Disha Goel <disgoel@linux.ibm.com>
-In-Reply-To: <20261017165103.2450042-1-amir73il@gmail.com>
-References: <20261017165103.2450042-1-amir73il@gmail.com>
-Subject: Re: [PATCH] selftests/ovl: fix detached layer mountinfo
- expectations
-Message-Id: <20261030-pluspunkt-kreis-lawinen-274971662578@brauner>
-Date: Fri, 30 Oct 2026 16:11:59 +0100
+To: Jan Kara <jack@suse.cz>
+Cc: linux-fsdevel@vger.kernel.org, linux-aio@kvack.org, 
+ Cheng Yongkang <teel4res@gmail.com>
+In-Reply-To: <20261022112534.3513745-2-jack@suse.cz>
+References: <20261022112534.3513745-2-jack@suse.cz>
+Subject: Re: [PATCH] aio: avoid request count overflow in ioctx_alloc()
+Message-Id: <20261030-zuhauf-anmut-halme-8b5e37b28c93@brauner>
+Date: Fri, 30 Oct 2026 16:13:06 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -63,13 +62,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev-ce4c1
 
-On Sat, 17 Oct 2026 18:51:03 +0200, Amir Goldstein wrote:
-> set_layers_via_detached_mount_fds was copied from the attached-fd test
-> and still looks for /tmp paths. Detached open_tree() layers are recorded
-> by d_path() as upperdir=/upper, workdir=/work, and lowerdir+=/ and
-> datadir+=/ for each cloned directory. The test has failed since it was
-> added.
-> 
+On Thu, 22 Oct 2026 13:25:35 +0200, Jan Kara wrote:
+> ioctx_alloc() saves the 32-bit nr_events in max_reqs, then doubles
+> nr_events before checking the ring-size bound.  For
+> nr_events=0x80000001, the doubled value wraps to 2, so the ring check
+> passes and aio_setup_ring() builds a one-page/127-slot ring.  The
+> original 0x80000001 is still stored in ctx->max_reqs and charged to the
+> global aio_nr quota.
 > 
 > [...]
 
@@ -88,6 +87,6 @@ trailer updates or similar. If in doubt, please check the listed branch.
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
 branch: vfs.fixes
 
-[1/1] selftests/ovl: fix detached layer mountinfo expectations
-      https://git.kernel.org/vfs/vfs/c/8457ca071fab
+[1/1] aio: avoid request count overflow in ioctx_alloc()
+      https://git.kernel.org/vfs/vfs/c/b44341e39d85
 
