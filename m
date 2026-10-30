@@ -1,50 +1,51 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.100
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.108
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793365477;
-	b=wNnE3fpCMZHCr3KpXbGUT6Pai5yS4TxkfjF6pgU6dcCtLvoi4JQqyZTHmHRcPi8+nM+u
-	 BvaYtUu47EuElVAu1TAzcsQg+E8LWHmW6yetSbvFSd1aVnKDQK+fD9W2/k5I2MtiiI/Vy
-	 4dbH0laIyFrbQbhXfJwNWswPNYxE5nSP66u0KZtlYwZyGGZq2HntTqjCd+r3mzwowKZgy
-	 DAbnTCg10RHZkT/ru4yjOTBurmG6/DbC9TF6NN5jJiDddsQh9JK7qvDnbXaUwMCLkEMWL
-	 i0lcc6yaiDyIQb8ds83LB+DXmk4XHKvgigwGl635QqxZWal9NVm1w/I9hQSDD2Q18wA==
+	t=1793365484;
+	b=i86LfJ9Tzz9OojR+qtHlidwPyHW5l82xyyibQCBaOFKs05g8DofT2T+M/jYBQIFtnN6Y
+	 qbIPjRztqdYJLmtskcyinZaTHZzcGoGs47YQJXjZsQ0i1AQInnSAx9Yn5oC0m7X8HsJ3S
+	 ohKV5pSxmozGKvrBUvAg0u8lAFDT25AirLkAGLDfkurKaJc790K0kfapvWjFF1tKwF/Fv
+	 saJi6S5VH1oazLNGQkHRvCD2ZPSkiKMhWvRaPHyXfSiHRfV7jFVfvtJXnfJ7xoXal+oMV
+	 RNE4Q3hFsDwJUqTotC/tIaB0Gl1xaDcqT6YEkB+D8oHkBmt1hndFuvZFqum1mdEVGNw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793365477;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793365484;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
 	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=POJglWsOd0C3pzp1KN60odd/Wby87Y6g44OQ6dyI31A=;
-	b=FjMzmUSDoU43js7JJ3SiSmpzoXi1drH/I8f8dpcBbm+oGfzQtl6gG598HPg0WG+6s7TS
-	 cSKWgZQLOu+2URZ9iSwjChaF9qgn7g2usH/LVnN5T6xwX17WPvxuX2+V3JlnlfUTyKqRV
-	 /TA+yTnzQPvfBT2uX46Vx02zCSWyKqgg2Kuz4rZUvK44uEEi420kFrugqFKWUH4ehtx++
-	 F7UK9jf2QFT8efluAQvhSJVbOthIOxLBN/gMx0P6pIdNeSELkidQLP4kslhWqzPgfS0T1
-	 j2pGlXYowXFlYHBTG+CY/czSPPhlYjg3dakgou2xB75qCKYuvXQubQpmBratwFLFFYA==
+	 X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=0IWmS4WC95xy01as/JCFcIPD2W8HOZ24Kv38L9m1u+w=;
+	b=tAofAloXHsyTW3zgznjX02amDfvp2XLAVe1RsA2NzngjjW4usLuMVJsCsCUysxnTdwmY
+	 TheuFyhDuPsPku+0u+W7u7p34ST+JgHEyoY3U9TvJXHXvWYXeG6pOF5SpvK9+D5sqanfh
+	 +yjPFVvlDS9bGYKSGFfZ0WL5amSjNuyoNp0T26hkQUOIPKLkPfLfQj7F6RMOQf7hpSUVb
+	 ZDoXZv+s45RvdlxgCa5qWFcsKyY1qkL8b1q6+zXLll3Das/D1bozyCgP2zZO72RvYMLaM
+	 +bIm6QV7W9po87/7uGX+/lCJttgJ4RXH0offLixxZhLvCTbL5I/7Vtm3h4k2ykXVnoQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=CXgGqtcx;
-	arc=none smtp.remote-ip=91.218.175.100
-Received: from mta0.migadu.com (out-100.mta0.migadu.com [91.218.175.100])
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=lMNv5oNm;
+	arc=none smtp.remote-ip=91.218.175.108
+Received: from mta0.migadu.com (out-108.mta0.migadu.com [91.218.175.108])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDDF4606A31A
-	for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 13:04:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BDDF4606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B5B3606A322
+	for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 13:04:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3B5B3606A322
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=CXgGqtcx
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=lMNv5oNm
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=EpSYygeoVdwkuLHNVBx23+7itpMe9kwYUNbAO8Xzgoc=;
+DKIM-Signature: a=rsa-sha256; bh=F6CW+GlYFn9RDkv4iwwAtyN5SQkQZyzRTuwmWu/xWfE=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793365473; v=1; x=1793970273;
- b=CXgGqtcx5Q/+0uBAT52mO1bLRi21aEwEtNfbMZX4ay+STn+PGf/JxOE8KIiBi9R+d+cbHUQ/
- qvEwyXbtw8ZbIlRtzPMHQHRKANBSap7R/0edo4wadlCWIF02yvDrAEtORmlRdm5AhPLxCx0pTu0
- mC3B/YFwiodDE3OUEZ5EYUXU=
+ t=1793365481; v=1; x=1793970281;
+ b=lMNv5oNmjeSnPYhNV8khi6kkZpNj64DyBAOa2NEBopgvnRA3wpxpDddT9FGyBlmCGYox7uVc
+ EouGIxXyEVsDlE8S8g4zLrPKd3r7aGNSMbrcFHYEmDQkJWzf8xPKNTpQVfeeRwBHwvkvXa9aZdQ
+ 4eFn/Zx5+i2oEts4UTQAVvlU=
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id fac8c99ec764dbd3;
-	Fri, 30 Oct 2026 13:04:33 +0000
-X-Mizu-Trace-ID: fac8c99ec764dbd3
+Received: by smtp.migadu.com with ESMTPS id 1c8fc233732a9821;
+	Fri, 30 Oct 2026 13:04:41 +0000
+X-Mizu-Trace-ID: 1c8fc233732a9821
 X-Migadu-Flow: FLOW_OUT
 From: Tao Cui <cui.tao@linux.dev>
 To: Christian Brauner <brauner@kernel.org>
@@ -55,10 +56,12 @@ Cc: linux-fsdevel@vger.kernel.org,
 	Andrei Vagin <avagin@gmail.com>,
 	cui.tao@linux.dev,
 	Tao Cui <cuitao@kylinos.cn>
-Subject: [PATCH 0/2] nsfs: gate pid-translation ioctls behind ptrace read access
-Date: Fri, 30 Oct 2026 21:04:20 +0800
-Message-ID: <20261030130422.738277-1-cui.tao@linux.dev>
+Subject: [PATCH 1/2] nsfs: require ptrace read access for pid translation ioctls
+Date: Fri, 30 Oct 2026 21:04:21 +0800
+Message-ID: <20261030130422.738277-2-cui.tao@linux.dev>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261030130422.738277-1-cui.tao@linux.dev>
+References: <20261030130422.738277-1-cui.tao@linux.dev>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -72,51 +75,58 @@ Content-Transfer-Encoding: 8bit
 
 From: Tao Cui <cuitao@kylinos.cn>
 
-The four NS_GET_{PID,TGID}_{FROM,IN}_PIDNS ioctls on nsfs descriptors
-only check that the fd refers to a PID namespace; they never check
-whether the caller may inspect the task being looked up.  An nsfs fd
-is freely transferable (SCM_RIGHTS), so an unprivileged process that
-receives one - the way container runtimes and LXCFS hand namespace
-fds to less privileged helpers - can use these ioctls as a task
-enumeration oracle across pid namespaces, bypassing the ptrace-gated
-/proc files.  With hidepid=2 on the host, a measured run of this
-scenario resolved every live container pid (the init and its
-children) to its host pid.
+The four NS_GET_{PID,TGID}_{FROM,IN}_PIDNS ioctls translate a pid
+between the caller's pid namespace and the namespace referred to by
+the open nsfs file without checking that the caller may ptrace the
+task being looked up.  Nsfs fds travel freely over SCM_RIGHTS, so
+once such an fd reaches a process on a hidepid=2 host it can
+enumerate and resolve the pids of tasks hidepid means to hide.
 
-Patch 1 checks ptrace_may_access(PTRACE_MODE_READ_FSCREDS) on the
-looked-up task.  The errno (-EACCES) and the check itself mirror
-proc_ns_get_link()/proc_ns_readlink() (fs/proc/namespaces.c) and
-PIDFD_GET_*_NAMESPACE (fs/pidfs.c).  The legitimate holder - the task
-itself, or a privileged runtime daemon such as LXCFS - is
-unaffected.  The check is per-call on the target task, not at fd
-installation: checking at open time would authorize every current and
-future task of that namespace at once, which is exactly what must not
-be granted.
+Mirror the ptrace_may_access(task, PTRACE_MODE_READ_FSCREDS) check
+the PIDFD_GET_*_NAMESPACE ioctls have had since
+commit 5b08bd408534 ("pidfs: allow retrieval of namespace file
+descriptors"): perform the check inside the existing RCU read-side
+critical section and return -EACCES when the caller lacks ptrace
+access.  Legitimate holders such as LXCFS are unaffected.
 
-Two residual behaviours are worth stating explicitly: ESRCH is still
-returned before the permission check, so pid existence remains a
-1-bit signal - the same residual pidfs and /proc carry today; and
-with hidepid=0, translating a same-uid non-dumpable task now
-fails, aligning nsfs with ptrace-gated /proc files.
+Fixes: ca567df74a28 ("nsfs: add pid translation ioctls")
+Signed-off-by: Tao Cui <cuitao@kylinos.cn>
+---
+ fs/nsfs.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-Patch 2 adds a selftest with four checks: root translation of the
-container init (lxcfs path), full denial for an unprivileged
-receiver of the fd on all four ioctls in both translation
-directions, a root-side re-check, and same-task translation.
-Test 2 is expected to fail on trees without patch 1.
-
-Tao Cui (2):
-  nsfs: require ptrace read access for pid translation ioctls
-  selftests: namespaces: test nsfs pid-translation access gate
-
-
- fs/nsfs.c                                     |  14 +
- tools/testing/selftests/namespaces/.gitignore |   1 +
- tools/testing/selftests/namespaces/Makefile   |   1 +
- .../namespaces/nsfs_pid_translation_test.c    | 399 ++++++++++++++++++
- 4 files changed, 415 insertions(+)
- create mode 100644 tools/testing/selftests/namespaces/nsfs_pid_translation_test.c
-
+diff --git a/fs/nsfs.c b/fs/nsfs.c
+index 8179d69da038..9ff30bd876cf 100644
+--- a/fs/nsfs.c
++++ b/fs/nsfs.c
+@@ -9,6 +9,7 @@
+ #include <linux/ktime.h>
+ #include <linux/seq_file.h>
+ #include <linux/pid_namespace.h>
++#include <linux/ptrace.h>
+ #include <linux/user_namespace.h>
+ #include <linux/nsfs.h>
+ #include <linux/uaccess.h>
+@@ -268,6 +269,19 @@ static long ns_ioctl(struct file *filp, unsigned int ioctl,
+ 		if (!tsk)
+ 			return ret;
+ 
++		/*
++		 * The returned ids reveal whether @tsk is alive and which
++		 * pid it has in @pid_ns, so require the same read access
++		 * to @tsk that ptrace-gated /proc/<pid> files need. @tsk is
++		 * only pinned by RCU, but calling ptrace_may_access()
++		 * here is safe by the same pattern as validate_nsset()
++		 * (kernel/nsproxy.c); ptrace_may_access() runs under
++		 * the target's task_lock.  The PIDFD_GET_*_NAMESPACE ioctls
++		 * in fs/pidfs.c carry the same check.
++		 */
++		if (!ptrace_may_access(tsk, PTRACE_MODE_READ_FSCREDS))
++			return -EACCES;
++
+ 		switch (ioctl) {
+ 		case NS_GET_PID_FROM_PIDNS:
+ 			ret = task_pid_vnr(tsk);
 -- 
 2.43.0
 
