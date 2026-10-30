@@ -1,87 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.176
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793331905;
-	b=gDRavRCfxOBIqaUwTm/NnzCiLacRG/j4PVl+qivTpdn7jjGckNi8cjVS53EHht81SmDb
-	 6d0o6qlWUd671lRgTgrnRccwOaBKjwAWW5lbPr2SRlARaQHcXtuRsJ50LLhs2r8qzh2F8
-	 QCUlSOeXO00MeRN3PP54FOlmxV7mBcoLvO4d1hN9XGkN+0SIMZ0pMZ0p+i40arCTW5poA
-	 +dxpM8GQTVOp7kmJc05dsYfT+CpKYqiRCsIqtLTe8t+LGitoCsgD3zu4jvJbHE8yHfXWE
-	 4/5Z+Am1Z3qsedJL5bq5Apgbt3YyYv6vY+slcUQWRXAcqlOUZl/KS6YT/hMNClMrRjg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793331905;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-Id:X-B4-Tracking:To:Cc:X-Mailer;
-	bh=XtTfodCHuVaVxXQYCj+jpdhwMxAv9AL4leDlwu5qJfs=;
-	b=E98h/UplKdp0W58rQaekChsvDQgYgkW9qDgy1sxuDhkabTbNPfIbbjRBXCAmJVX+P0FM
-	 RXJbI0BBENDpUxjWqPEuUFYjTulWRcvIXBg7NcaDsa4ybcVcvvruyGLxj4yszUxZjhxTE
-	 zXg81Fi46ltbd0QqoX3xQgWfOH5RQ/5fSzokyyNTRJ+QltLChOdRGa4URNzyuqRB6l8/6
-	 OUnQzeicpiJFvFP1kdPmadqAAyr/OK5sB+yqr3ql4j7KLVB/C5E835rkkyKUXlTgT9deG
-	 Z8RowjeCgDDe6MZlCPTAiFhWAJXZHdf41Z0TEEjCaBdpirlh9YCPvwuXQ14LrXzS6oA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=PABT4ghd;
-	arc=none smtp.remote-ip=74.125.82.176
-Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793332378;
+	b=zMUaOrXKFPhd6OVOm4Ksa3dmb/qRnQOBYKDutB8920IU5BOF80cPOIOD/75Krmb9naAb
+	 x143KcBO6Ib5AuwDsogWiwAN3nClFcTHJwmrTCHxIcw0ivYiljq1TdL68RJRv6FAwCpLI
+	 4TPR38NltDvcZtFcaE816KAOaq8uLhfMHMb1B/NzQWxrB13hBp/arKh7o3bgzXAOAaFnu
+	 R0mJIniBDwnuQ2MjYo1lePLizq2y99X1zV/L8tHYlbPPe6aOhIueFT4XNlugVz1kB6M/g
+	 vXtDIm+/XWnBf4eP62VKVYY9uxRIu8a61wmeSGPyHk5MflkEDiQn+IYi6DaOMJd9aGA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793332378;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:X-B4-Tracking:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=5bagKzpGDehBxLfa97XQN1B8UzHzLG4c9sAiEfjTT94=;
+	b=aFvO2Kv7osFThmmERPnN6ygOPNlUTexk/92bECDz54u1JSX57Z67ukA/vXAuHkJ33z1Z
+	 PCgKsiffgL8UE/JX22A16l714fqzg2P0R8thOax0BSSSFlwx4gKGn/qV3qljNTGIi9pXe
+	 IPRMVRfkpRDNqSaXkFUH733BDSUqv39QxFMr7h1pcte7Owo20eUJdng/sebbk1HxnLecT
+	 AVriVLh4de8NUcAeVdM4UexjTrHpeTExdhXzs55yI/YccCpXUhfS5rSl+hktEw82f/R6Q
+	 VkiILTvhJpqvYXT/9JlEfFTcqgH697dlMohYYZqRxax9utm8NL0u5mrsYEe+VZtJlMw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DZY6Ki4Z;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA638606A31A;
+	Fri, 30 Oct 2026 03:52:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DZY6Ki4Z
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1793332377;
+	b=gOiNJwv7Og6rmhGD0HKrOYrgUOFmX6QSaopL04+Rp4IGn66j2m79ZdP11puVGIETj4uD
+	 LWX6P1Q57mkTqQ4ZwxU63SVqCeEhJGCvxn2BL64JbuEgK1KQEHfaL2UhOqwt4tCXEsdIG
+	 ta8Uk6ZQGNGoGBTHYbCbwhXHV0lkzeyC5mUiSlMO65K1bNEIk+VJG+A6idt4T7Jsv5qoy
+	 BqPR68ozH1vCvVae209NSmeUrgIVpwb2tiUsqt0JOqV6DlFe/juw3yrg711W5JHjpPfK3
+	 +V2fu3zuxOHdRgmpwo6gMPU8ZXwUng2wpJzwNjxWa6UH7b83oQXBAtAI0eQIsFk9aug==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1793332377;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:X-B4-Tracking:To:Cc:X-Mailer:X-Developer-Signature:
+	 X-Developer-Key:X-Endpoint-Received:X-Original-From:Reply-To:
+	 Content-Transfer-Encoding;
+	bh=5bagKzpGDehBxLfa97XQN1B8UzHzLG4c9sAiEfjTT94=;
+	b=ybGrV8qddiBMBv2dc1+uNBCNffHvT1kUk9IUh1CEVU81OVGRRMsG/qjTsgF1hRnQkYIn
+	 uxsVjuEk7UgGsMHoQWf2XZuv2XWXilaq6dGor1RAwD+0vw+CCmRQrAzUEfdv4WAfvLGx8
+	 OBHPQupB+uOC268CDPxbEuUa8kia1ItCP9x1uiTX+IUGtCxniIGcHwe6B3fytGCXXuR2Y
+	 Q2Oy07tOg7NYth0s2thvd2QwuI0t6M8nRlUYrGzSzhK0EiWeToetzlBqDIQrfXWMADvPI
+	 132JLkEmbMmongl0wob0T0AdeuqGAUIkElVtScQYHulCbh7i9m1YBejB/mznL4J+aAw==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66A3F606A31A
-	for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 03:45:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 66A3F606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=PABT4ghd
-Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-353804b591eso504530eec.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 20:45:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793331905; x=1793936705; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=XtTfodCHuVaVxXQYCj+jpdhwMxAv9AL4leDlwu5qJfs=;
-        b=PABT4ghdsdEaAbxcck22S9YOkFFbrVGSoysOtNnGZC6p4e7k7dwv+OQSy6q+Y7/ejd
-         svT7Y+G4XctRZwkKrKiOlnL0z6qn498DowhfqQpSx3pPIgemwYeenvzjr/UR8UYTIGvg
-         yGw7Bb+x7/rAn32XqGuhPBo6wzlnuJ7o9PYuUWBkwU2ZMuK0OdQDrWB6qdvcKI1FjZ/N
-         Trx/MBJbben51Spfts0XgjAxjitB/Y10m3JExk141IdJpppfD/C+jEyf/3kHd8pDuVkh
-         J+PWZ5Mq8iVOpn0rEzmxuDI0+MP+jCzbqF6wVYaQ4+qHk39AZGNgWE/uRzWj+ZmjGJCf
-         ehfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793331905; x=1793936705;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=XtTfodCHuVaVxXQYCj+jpdhwMxAv9AL4leDlwu5qJfs=;
-        b=1jWk6xX0ogsTsEpx2CN1WiMLmyMbTJYxNIuIFpp1m8wheJyG+nZJhTa5Pr3F/dHjwU
-         mYfV3g9eju7FF4pzV1DRSb6OZuPFi8pHepQEJg4fEkc69PgQxINWmwLOJimj3pQgHUvw
-         uJJS0boEeUq/RXJfv4hOMGw2SHrU2UndptxUAJ+poMjwiC3rkFGLpF3v3FhzxukfI+15
-         bykB1krRoXMJ6T4o30BAdqAofewgTd2SZ/GRT50EuYTnB5WQ5iIgjaZsoMkc4HD5d15A
-         Wh+8KqZITJeAR87DAa2do145+QXDmNM35aE0PGN2ldhyOm75mw3Zn/EI8ZHsqH2i3hhg
-         mX5w==
-X-Forwarded-Encrypted: i=1; AKwUvBxbjvmeBv6xWZzPK5HDxTcKAWpdW7hUMZl2zcRznLcBCNMhvSrJIMV3P1cP0REQHnGI7+F0krjKwwzw3plB@vger.kernel.org
-X-Gm-Message-State: AFq9FYLsAV7576w8UgDkqyV3b/3tH0prx49BSbomasU5Nb+66+QquNKj
-	Vn+qv7dFWTxSOOgvJWD4ZQVQVLgdGcqZegxcLJtopnqxYgXvN8srSEM0
-X-Gm-Gg: AYBFou38ErvTafixhr8zzFCk9Q7H6Nu4Ly2zof09x0cx5sig3E1QJ0udz/LIZCc10dp
-	vCh/lkEnMR09mcsKhxROObNi6aKM+asx4BjO66FQVlKvGFIOG1QP7XGFxAcais+Vers1gul9Nnm
-	iCioSUgt1EwfA5CHb9lV4tqduet2UqWWR6xn4gcE/TD9lzvkSPNfAd8v6T37v1LRnNwFwWF6Mt2
-	Eg1v49Orv0c81zQD52rWiCmmGeJBz96oMERwtx4CmCE35906N3g1Ii4uuU1QY0W3zhGTp7+rOgy
-	NEIXfqhsO7N0l2yQQ58xvq4gdCMrq/wYzUcUNulvbzIPRCy3eNngJfqaDRI2CTscrWjLWt4gCK7
-	qb2+HPGkep6DipSJ+HLmkyCuPcBgi3pHZF85NK0cfX3FYIc5lQFaugpVitwWMF5SqWoEwRLXEKk
-	DNctD6qKf6PxdpFzryDpg8mz73Ded5MEf+1fny0LAyMSGD364EtufSimUSwUfp7BKvVTYv+pVjC
-	bx7FlPfmM7BkZnnwAT1jz5TWX+NnTQqyixLe2tv5CEnJHIQtzrLf1QXCbz7810v52ivhenzVgH8
-	hUSC3r1Y9OcHj8uSDvV+8Kie
-X-Received: by 2002:a05:7300:c8c2:b0:36a:117:522a with SMTP id 5a478bee46e88-36a423bf71cmr1949263eec.22.1793331904245;
-        Thu, 29 Oct 2026 20:45:04 -0700 (PDT)
-Received: from [127.0.1.1] ([23.254.208.9])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a428af1easm2836585eec.5.2026.10.29.20.45.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Oct 2026 20:45:03 -0700 (PDT)
-From: Qiliang Yuan <odys.yuan@gmail.com>
-Date: Thu, 29 Oct 2026 23:44:57 -0400
-Subject: [PATCH] mm/shmem: remove truncated folios from the page cache in
- batches
+	by smtp.kernel.org (Postfix) with ESMTPS id 28E7C1F000C1;
+	Fri, 30 Oct 2026 03:52:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793332377;
+	bh=5bagKzpGDehBxLfa97XQN1B8UzHzLG4c9sAiEfjTT94=;
+	h=From:Date:Subject:To:Cc:Reply-To;
+	b=DZY6Ki4ZoiC/7TJ4jKqVzEvih70W2MICtGk9hryVMvWSxOv/CspVZUQ4MzMOH57DJ
+	 9lS+pXxC3mO8DDqmJVcqDYqTpcGLH5whhb6PAq73rw357IPCfc8nxcI+8EF1KEgFAz
+	 yrdpueX2cSwTbICwyAdYUz0no6nCo/OtNcZzGte+Bl4BdprTB501yATT42LethgYIQ
+	 MkIvqdUBq8qJGIus70ghpNHcA0ZovKBws3gIpp0ST1RNeHBX74rk2RS6S0Kt7IjTGA
+	 dS1Qr5RdA9KztnsQzA9LrJtEpCSU1HL2SBivl25H+svtCzWrMeStRzhKrgT/d0QrcR
+	 x6WWKKYm8w5zA==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id AACF7435F8;
+	Fri, 30 Oct 2026 03:52:56 +0000 (UTC)
+From: Daejun Park via B4 Relay <devnull+daejun7.park.samsung.com@kernel.org>
+Date: Fri, 30 Oct 2026 12:52:57 +0900
+Subject: [PATCH] mm/readahead: keep at least half of the async window when
+ aligning it
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -92,123 +84,100 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261029-bug-mm-shmem-undo-batch-v1-1-59b34212fe78@gmail.com>
-X-B4-Tracking: v=1; b=H4sIALkS5GoC/x3MQQqAIBBA0avIrBtQF4JdJVqUjjkLLbQiCO+et
- HyL/1+oVJgqjOKFQjdX3nOHGgS4uOSNkH03aKmNktriem2YEtaYKOGV/Y7rcrqInqRU3joTFEG
- vj0KBn/88za19Dg1HF2kAAAA=
+Message-Id: <20261030-mm-readahead-async-align-v1-1-109dea6851fc@samsung.com>
+X-B4-Tracking: v=1; b=H4sIAJgU5GoC/x2MQQqAIBAAvxJ7biEthPpKdNh0q4WyUIhC/HvSZ
+ WAOMwkiB+EIQ5Ug8C1RTl9E1RXYjfzKKK446EYb1egejwMDk6OtACm+3iLtsnrkrldz66wyZKD
+ kV+BFnn89Tjl/F5UzkmoAAAA=
 To: Andrew Morton <akpm@linux-foundation.org>, 
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
- Michal Hocko <mhocko@suse.com>, Hugh Dickins <hughd@google.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
  "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, Qiliang Yuan <odys.yuan@gmail.com>
+Cc: Ryan Roberts <ryan.roberts@arm.com>, linux-fsdevel@vger.kernel.org, 
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+ Daejun Park <daejun7.park@samsung.com>
 X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1793332376; l=2790;
+ i=daejun7.park@samsung.com; s=20261006; h=from:subject:message-id;
+ bh=KlGeHCvXeiq1+GF1wuBXkFRE3vYfwUDNHyzWlyHiR68=;
+ b=6sgU0Xgwqz6XOoOauwEV72LBz9kw9m5WlIYb+cqZUpHR8kgYzsAyqdlAug65ocGla5qbp/Hrj
+ bPKuxR/UQasC8l7t1DapqPOFgn9m5GwmI0sdNdV2RMIBMd8du/pBJp+
+X-Developer-Key: i=daejun7.park@samsung.com; a=ed25519;
+ pk=4yUfDqGRZTIj0Ik43z1GoMZRWCNm/rgX6uJuM9dtNIg=
+X-Endpoint-Received: by B4 Relay for daejun7.park@samsung.com/20261006 with
+ auth_id=1122
+X-Original-From: Daejun Park <daejun7.park@samsung.com>
+Reply-To: daejun7.park@samsung.com
+Content-Transfer-Encoding: 7bit
 
-truncate_inode_pages_range() takes the folios it finds out of the page
-cache with delete_from_page_cache_batch(), which takes the inode's
-i_lock and the i_pages lock once for each batch of up to
-FOLIO_BATCH_SIZE folios.
+From: Daejun Park <daejun7.park@samsung.com>
 
-shmem_undo_range() calls truncate_inode_folio() on each folio instead,
-so filemap_remove_folio() takes and drops both locks once per folio.
-Truncating, punching or freeing a tmpfs file or memfd made of small
-folios, such as a large /dev/shm segment, pays for that on every page.
+page_cache_async_ra() trims the end of each new window to a multiple of
+1 << ra->order pages. A window that starts just below such a boundary
+keeps only a few pages. With read_ahead_kb=128 and max_sectors_kb=512,
+1 MiB reads after a 4 KiB read at offset 0 hit this on about one window
+in three. They issue three times as many device reads.
 
-Clean each folio up as truncate_inode_folio() does, collect the ones to
-remove and take them out with delete_from_page_cache_batch(), which
-needs truncate_cleanup_folio() outside mm/truncate.c. Swap entries, and
-the folios kept when undoing a failed fallocate(), stay out of the
-batch. Dropping an 8 GiB file of 4K folios, median of five runs,
-averaged over two boots of each kernel, in a 32 vCPU VM:
+Halve the alignment until the trim keeps at least half of the window.
 
-                        before    after
-  ftruncate() to 0     1163 ms   913 ms
-  hole punch           1155 ms   914 ms
-  close() of a memfd   1161 ms   914 ms
-  unlink()             1162 ms   916 ms
-
-Files of PMD-sized folios take 20-25 ms with or without this change.
-
-Signed-off-by: Qiliang Yuan <odys.yuan@gmail.com>
+Fixes: 18ebe55a9236 ("mm/readahead: terminate async readahead on natural boundary")
+Signed-off-by: Daejun Park <daejun7.park@samsung.com>
 ---
-To see it, fill and remove a large /dev/shm file:
+Tested on mm-new in a QEMU guest with XFS on an emulated NVMe,
+read_ahead_kb 128 and a cold cache.
 
-  fallocate -l 8G /dev/shm/f && time rm /dev/shm/f
+- max_sectors_kb 512, median of 5 runs: reading a 512 MiB file this
+  way takes 0.247 s before and 0.180 s after. The device sees 3329 and
+  1032 reads.
+
+- Other reads with max_sectors_kb 512: without the 4 KiB read, and with
+  64 KiB reads, the times do not change. Random 4 KiB and 64 KiB reads,
+  two interleaved streams on one file, and 2 MiB reads at random
+  offsets also take the same time. They read the same amount from the
+  device, within 0.3%.
+
+With the device's transfer limit at 2 MiB:
+
+- max_sectors_kb 256: 512 KiB reads after the 4 KiB read take 0.626 s
+  before and 0.322 s after. The device sees 6147 and 2056 reads.
+
+- max_sectors_kb 1024 or 2048: 1 MiB reads are not trimmed.
+
+- max_sectors_kb 2048, 3 MiB reads: the device sees 343 instead of 271
+  reads. The time is 0.120 s instead of 0.118 s, the median of 40 runs.
+  The interquartile range is about 0.10 to 0.13 s for both. The window
+  stays at 3/4 of the maximum, off the 2 MiB boundary. mm-new reaches
+  that boundary by trimming deeply.
 ---
- mm/internal.h |  1 +
- mm/shmem.c    | 16 +++++++++++++---
- mm/truncate.c |  2 +-
- 3 files changed, 15 insertions(+), 4 deletions(-)
+ mm/readahead.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/mm/internal.h b/mm/internal.h
-index 566cbd2dce485..abe64e49a4170 100644
---- a/mm/internal.h
-+++ b/mm/internal.h
-@@ -628,6 +628,7 @@ unsigned find_lock_entries(struct address_space *mapping, pgoff_t *start,
- 		pgoff_t end, struct folio_batch *fbatch, pgoff_t *indices);
- unsigned find_get_entries(struct address_space *mapping, pgoff_t *start,
- 		pgoff_t end, struct folio_batch *fbatch, pgoff_t *indices);
-+void truncate_cleanup_folio(struct folio *folio);
- int truncate_inode_folio(struct address_space *mapping, struct folio *folio);
- bool truncate_inode_partial_folio(struct folio *folio, loff_t lstart,
- 		loff_t lend, pgoff_t *pstart, pgoff_t *pend);
-diff --git a/mm/shmem.c b/mm/shmem.c
-index af21a89abb0f6..16b6e38503bc3 100644
---- a/mm/shmem.c
-+++ b/mm/shmem.c
-@@ -1352,6 +1352,9 @@ static void shmem_undo_range(struct inode *inode, loff_t lstart, uoff_t lend,
- 	index = start;
- 	while (index < end && find_lock_entries(mapping, &index, end - 1,
- 			&fbatch, indices)) {
-+		struct folio_batch remove;
-+
-+		folio_batch_init(&remove);
- 		for (i = 0; i < folio_batch_count(&fbatch); i++) {
- 			folio = fbatch.folios[i];
- 
-@@ -1363,9 +1366,16 @@ static void shmem_undo_range(struct inode *inode, loff_t lstart, uoff_t lend,
- 				continue;
- 			}
- 
--			if (!unfalloc || !folio_test_uptodate(folio))
--				truncate_inode_folio(mapping, folio);
--			folio_unlock(folio);
-+			if (!unfalloc || !folio_test_uptodate(folio)) {
-+				truncate_cleanup_folio(folio);
-+				folio_batch_add(&remove, folio);
-+			}
-+		}
-+		delete_from_page_cache_batch(mapping, &remove);
-+		for (i = 0; i < folio_batch_count(&fbatch); i++) {
-+			folio = fbatch.folios[i];
-+			if (!xa_is_value(folio))
-+				folio_unlock(folio);
- 		}
- 		folio_batch_remove_exceptionals(&fbatch);
- 		folio_batch_release(&fbatch);
-diff --git a/mm/truncate.c b/mm/truncate.c
-index 733d2713a875a..c6bf4aa0b91e8 100644
---- a/mm/truncate.c
-+++ b/mm/truncate.c
-@@ -151,7 +151,7 @@ EXPORT_SYMBOL_GPL(folio_invalidate);
-  * its lock, b) when a concurrent invalidate_mapping_pages got there first and
-  * c) when tmpfs swizzles a page between a tmpfs inode and swapper_space.
-  */
--static void truncate_cleanup_folio(struct folio *folio)
-+void truncate_cleanup_folio(struct folio *folio)
- {
- 	if (folio_mapped(folio))
- 		unmap_mapping_folio(folio);
+diff --git a/mm/readahead.c b/mm/readahead.c
+index 6e55632902..f4da9b4606 100644
+--- a/mm/readahead.c
++++ b/mm/readahead.c
+@@ -713,6 +713,17 @@ void page_cache_async_ra(struct readahead_control *ractl,
+ 	align = 1UL << min(ra->order, ffs(max_pages) - 1);
+ 	end = ra->start + ra->size;
+ 	aligned_end = round_down(end, align);
++	/*
++	 * Keep at least half of the window when aligning its end. A
++	 * window that starts just below a large boundary would otherwise
++	 * shrink to a few pages and cap the folio order. Use a smaller
++	 * alignment instead.
++	 */
++	while (aligned_end > ra->start &&
++	       2 * (aligned_end - ra->start) < ra->size) {
++		align >>= 1;
++		aligned_end = round_down(end, align);
++	}
+ 	if (aligned_end > ra->start)
+ 		ra->size -= end - aligned_end;
+ 	ra->async_size = ra->size;
 
 ---
-base-commit: d89e1d186ec9271bf78e62771779e9fc03bf0fc3
-change-id: 20261029-bug-mm-shmem-undo-batch-de001d9c6f1e
+base-commit: 9c449f885765cf8d80b2c60b1971e774bba51a3f
+change-id: 20261029-mm-readahead-async-align-e491b3dc16a6
 
 Best regards,
 -- 
-Qiliang Yuan <odys.yuan@gmail.com>
+Daejun Park <daejun7.park@samsung.com>
+
 
