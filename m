@@ -1,102 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793382029;
-	b=ZEwBh+rMHLiMEMg2DPoCHXMjZfVP1bOL4fR9cJq2Tyc8p5+sR3ZPCwCKM3bQKeum583t
-	 yW17pLevr2DzI5EuOgH2JwOdpvqywYDkfXWtXwj+LQWBtiQiWRfS90d5uaE/I7VtEJoZP
-	 B4n/+pfXBIaThCatHJTn4YXTrxz+qIMu0MH3xQiXKCY9BsTxaQFh0rkd917R/g5VJfBLe
-	 5nrvJ4pJKFL57G2W0MpyTa0hBstlTfN64BixEk9dizAcZxDxXyZ/yENbBCICR9oOKJFw3
-	 aO6y/VM92buG7YHFZc1sju3WthFoAOiKE3YgH/Bxtk4f1UhaiLdSMFJMRDm9/uS4HIg==
+	t=1793382543;
+	b=xmAeBr5RUpRP++gIRSQjICZtUclbDeJ/J7GWPSUIBQITl90cEiz+9z6fbnRTbI195+VT
+	 13yOyQG947f7fEtn1B5PdRSVNoEsxaa8zZMO4ggN5xCx3hMR0aHtsFiL0FtC4/1jgLHYx
+	 jqPMssAq6trIaz/XM51his6lF0R9lWjDUxUGPKqCAIUs8hfXAKZEjkg3DRJS3lRsEekUT
+	 hHeUPshMVolPbqNDHlawslfVVYcbKUv5LvvCkQ6YEItUQ5LIbMdu1s1Uyqi4FG7r86fWR
+	 HB4LN/Z2Pna0iU51q18z0U077/y06OTNbZm0LuthVEC+qKrRNfWteeOejOfymU3WTjw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793382029;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=GHjT9rUZ9mZdmwhmeKnY8H1ENZyPrLJ45wFlFoMuMrE=;
-	b=MRjOA7HU/fM92NXtUFWH6vTrc4/PEWKjC9q1rhLveIMf1YJ0BE1g2IOj9sG8/Mxvnrqd
-	 3ugSFyWstZstc4pQXeMiv4Bd3Dwst8VrvJlDpNxxlUJFX9XAAKVSArgH9NwrI33U2nLnC
-	 kGu6OkzEJRXnruZ+uqWpDEB+5QeQObH2tSXF+byl3cKh20QUcK/DOpneqt3WGw467uZM7
-	 WOKlIyTvJz6Wq+5UHm4h4x0hN0bVrY7bgZEkPPGudRFqMMkGDaLehXXWPo+PPLYB4oAWL
-	 B1t/qJZNIDkijdAOKqgB52ELomWb7j+s9Ty6X7k9+TBkMFEykMFYFtG/vetamEA9X1Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793382543;
+	h=DMARC-Filter:Received:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:Reply-To:References:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To:
+	 X-Rspamd-Pre-Result:X-Rspamd-Server:X-Spamd-Result:X-Spam-Flag:
+	 X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id:X-Rspamd-Pre-Result:
+	 X-Rspamd-Action;
+	bh=9F8jAcX1oJfRlwvfFWWuBo3EfPi1437RsFLhsSQ56+w=;
+	b=B4Go+nX1ROx3DCz4jsfPLOqs6Reil26Jd3F+SASd1bYQajDUCkAIKFkfEK67VkVqs6RU
+	 Zchd5WZ84dnuPTAMux0kmdIGS5aggMmGW/9LEnGVYm95by3/0gZatLWLSGJwH4482Al0l
+	 k8S9gJb6Zded9Qk0UwosSHIv4umlrTtzphhNu8VWQYeij2gm9tncyqnmlrnRcWc7wjy3h
+	 WRf5PrdkleuVTi8Aob9X1m3azSJaE0o0PJ8Z9mPdIryyNQeRfPyw8/0jAfCcbCXkVtbWA
+	 8HFtZgWfhEVgminjANyvGvRpDFcWVLIkduOxWYt7P7w5Q30CBhe0Rq/idCmJ1O9Vw6g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=hFGIcN54;
-	arc=none smtp.remote-ip=209.85.214.177
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=none header.from=suse.cz;
+	spf=pass smtp.mailfrom=suse.cz;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D1EF606A31F
-	for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 17:40:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0D1EF606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=hFGIcN54
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2ea7f9c11e6so3275ad.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 10:40:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793382028; x=1793986828; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=GHjT9rUZ9mZdmwhmeKnY8H1ENZyPrLJ45wFlFoMuMrE=;
-        b=hFGIcN54HxCRWLwn+m1Xl4QEQDE5/cl5x+KQSXQJyEMT7wiQkby7aqDXSx488THYoh
-         f5kvplnhqeV9H0k5RQGHt7kvJo1UxJbeygdqm1NlxybFI+IKbH5B7sosuiPbjK5SSmUx
-         wfmzHB3MKh0KJszVevX1LoLIVaWH1EN5bVX41aH4OURNcHbwHQxwGDqCkdH3LymLeTv5
-         wfhlyhEtPWyaNF3C5seBSdczetIWvRQsxsEp97tep86ff1DRBcxuV80CfWJKgoaMWYjs
-         TksrH2ngp09wtcLUCyFJnya0jRB+MDR/3mR4e3RHUskJbg9rjzdXrJ5mEBF4fwPsGYs2
-         gUnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793382028; x=1793986828;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=GHjT9rUZ9mZdmwhmeKnY8H1ENZyPrLJ45wFlFoMuMrE=;
-        b=HLiUZrMlC9y3Sg/J7D+w3KkiZJvOsA0rN9p5aLkvrSkI7VYpuRMdr/hr8JhJkrmXzG
-         DRT/ctQRjQFMs6sV3hGDQWLa+fiytefBvmmLqYFcUCIirp9cAW3cwk2iW2ywYLMHY+WW
-         nfeP7BwtSZvEC9mJLM1mTz/hIszXexp+CVDeqnbF8oAbcwBwOy/UvyntDTl1UviOD5qM
-         ZbMNrBkkPRnt9dIjlIstav+vYz3+oR0D9e3Fc9yUmIcd6BmwOMmWlOyERmOrtUJtKDjq
-         CRTb+POLbuWl2LaFAgWdb2c5ltZsc279WMDoePTutMhQspqQsYk5ux0Trr9XpAQTcrrB
-         Oswg==
-X-Forwarded-Encrypted: i=1; AKwUvBxTOke8hBX9UWqC5QGGTiutzm8YDqND/o/sRw/AFx/59Pg6Bl7xh14sUKkB6oB1zPfB6nQkKLj1biEHBN0K@vger.kernel.org
-X-Gm-Message-State: AFq9FYIS/keLuds7s+nQxDsN7SzsRG5qQDeNnsdDgaZNYWVIX+jvCQ/Q
-	uqM5SQjV3LxD4d5cUm+jlxraPvXuRLw54bDAxwi+0un0d9CbNMzfOZkmIvSoBWMyVg==
-X-Gm-Gg: AYBFou0T/S1lMakf1asV+QcwDenuNa1WvJ07h3DDhpB56afs9gkOj2qlS56+PcNct24
-	UvRul6v0qVkIvIvegjEUNhnLPM8g0leq3XqD6LnMN4OpXI5RHMOwDjeDpEeRTUk1w99CtF+sGBm
-	6FcYBkEfXZ+8ojXbcqNSqrf645nRBlRFmlhwUORkrw9/3uUKqwHkSm5Fc/SQ6MEAr0EHVLjkDti
-	yenymdihMQQuY3FOhrR4XVkkR7t1fYnldXNY00+r78lNUpe2pFQKGZLH8XBEZwomMri1WFizm3l
-	cQ0dX7fhqx7zhpm8HDHrNbxoXKxTF+OYjD6OkExz/Ho1FOwzjAcuNupNpl8v6Psa/+Yea2AHlzV
-	o3giPEDrJbnoQXFg7k0p0WSqViJISqy6nTt+UMcIPe4txgYqMLAX7kV5IPDv5wRkg9P+lOjts6N
-	5RujE1V0EnfPyRCaUsWMLwK0ss1Fr50qJyDGORumtB9SEDJkoKHa4KGGcyE/a31/jxFjm12C7rq
-	vaf3naPi39U1Es7RQNeWfZfAdYpgxOGflXe+C/OqDUeM3dJnNk2PkWcGlwuTYnBz6t4V6f7FNLH
-	tSugKlzVsc/eYTEana8D6yLQPyB78XXvVsnLXRYIV6cTwyz46C5FIgeETQNNFusay2Asm6aob/M
-	mwIWG+UMW7VzvG3Z7vUTG5A==
-X-Received: by 2002:a17:902:dad1:b0:2d5:c090:3810 with SMTP id d9443c01a7336-2eb1b6c6ae5mr11320655ad.2.1793382027347;
-        Fri, 30 Oct 2026 10:40:27 -0700 (PDT)
-Received: from google.com (25.75.145.34.bc.googleusercontent.com. [34.145.75.25])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8aada9aadecsm286624b3a.48.2026.10.30.10.40.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2026 10:40:26 -0700 (PDT)
-Date: Fri, 30 Oct 2026 17:40:22 +0000
-From: Samiullah Khawaja <skhawaja@google.com>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>, 
-	Andrew Morton <akpm@linux-foundation.org>, Hugh Dickins <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Muchun Song <muchun.song@linux.dev>, 
-	Oscar Salvador <osalvador@suse.de>, Jeff Layton <jlayton@kernel.org>, Chuck Lever <cel@kernel.org>, 
-	Alexander Aring <alex.aring@gmail.com>, Shuah Khan <shuah@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>, 
-	Vivek Kasireddy <vivek.kasireddy@intel.com>, Jeff Xu <jeffxu@google.com>, David Matlack <dmatlack@google.com>, 
-	Pasha Tatashin <tatashin@google.com>, linux-mm@kvack.org, linux-api@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] mm/memfd: add F_SEAL_PUNCH_HOLE
-Message-ID: <auTR9SnDLsLVmnJ7@google.com>
-References: <20261026220546.3114241-1-skhawaja@google.com>
- <d4891333-43ea-4d74-9fb9-6ad8dac1a446@kernel.org>
- <20261030121113.GB3889730@ziepe.ca>
- <2c7aa5c1-3af3-4654-b244-1257d05c9d45@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2B66606A31D
+	for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 17:49:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B2B66606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 10A0E223B4;
+	Fri, 30 Oct 2026 17:49:01 +0000 (UTC)
+Authentication-Results: smtp-out1.suse.de;
+	none
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C637813625;
+	Fri, 30 Oct 2026 17:49:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id fymgJYzY5Go7aQAAD6G6ig
+	(envelope-from <pvorel@suse.cz>); Fri, 30 Oct 2026 17:49:00 +0000
+Date: Fri, 30 Oct 2026 18:48:55 +0100
+From: Petr Vorel <pvorel@suse.cz>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Hungyu Lin <dennylin0707@gmail.com>, linux-fsdevel@vger.kernel.org,
+	jack@suse.cz, ltp@lists.linux.it
+Subject: Re: [LTP] [PATCH v4] inotify13: check rename cookie pairing after
+ adjacent moves
+Message-ID: <20261030174855.GA53338@pevik>
+Reply-To: Petr Vorel <pvorel@suse.cz>
+References: <20261029210701.80050-1-dennylin0707@gmail.com>
+ <CAOQ4uxho=0DZTHieLYYxDXqmSxfq0yMj6gLWUtpK-YDvVoyk+g@mail.gmail.com>
+ <20261030170603.GA31132@pevik>
+ <CAOQ4uxjsf=6Do-uNEOS9R61M8jXcmExY1jnrLNY9ex=doNn3wA@mail.gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -106,72 +73,116 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <2c7aa5c1-3af3-4654-b244-1257d05c9d45@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAOQ4uxjsf=6Do-uNEOS9R61M8jXcmExY1jnrLNY9ex=doNn3wA@mail.gmail.com>
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	REPLY(-4.00)[]
+X-Spam-Flag: NO
+X-Spam-Score: -4.00
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 10A0E223B4
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Rspamd-Action: no action
 
-On Fri, Oct 30, 2026 at 03:39:40PM +0100, David Hildenbrand (Arm) wrote:
->On 10/30/26 13:11, Jason Gunthorpe wrote:
->> On Fri, Oct 30, 2026 at 11:20:30AM +0100, David Hildenbrand (Arm) wrote:
->>> On 10/26/26 23:05, Samiullah Khawaja wrote:
->>>> This series introduces F_SEAL_PUNCH_HOLE, a new memfd seal that prevents
->>>> holes from being punched into a shmem or hugetlbfs memfd while leaving
->>>> the file fully writable.
->>>>
->>>> Background
->>>> ==========
->>>>
->>>> Drivers such as udmabuf and iommufd (via IOMMU_IOAS_MAP_FILE) use
->>>> memfd_pin_folios() to pin the folios backing a memfd and hand them to a
->>>> device for DMA. Pinning keeps those folios allocated, but it does not
->>>> keep them in the file. If userspace later calls
->>>> fallocate(FALLOC_FL_PUNCH_HOLE) or madvise(MADV_REMOVE) on the range,
->>>> the folios are dropped from the page cache while the device continues
->>>> to use them. The pin holder is never notified, and from that point on
->>>> the device and the file silently diverge.
->>>
->>> We have the exact same situation when userspace maps anonymous folios into vfio
->>> and then desides to MADV_DONTNEED the pages. Or any other memory backend that is
->>> used for such purposes.
->>>
->>> User space must not zap/punch things that might be pinned elsewhere.
->>>
->>> That's not specific to memfd, udmabuf, iommufd or anything else.
->>>
->>> I don't see a reason to make userspace (that should not shoot itself into the
->>> foot) a kernel feature it must activate itself to not shoot itself into the foot.
+> On Fri, Oct 30, 2026 at 6:06 PM Petr Vorel <pvorel@suse.cz> wrote:
 
-Agreed, for normal use this is userspace's problem. The seal was meant
-for the kernel to cheaply verify at preserve time that nothing was
-punched.
+> > > On Thu, Oct 29, 2026 at 10:07 PM Hungyu Lin <dennylin0707@gmail.com> wrote:
 
->>
->> The issue is live update doesn't preserve those background punched
->> folios and now we have created an UAF attack on the kernel across
->> kexec if you don't do something about it.
->>
->> There was some notion here that with the right sealing flags we could
->> tell if everything was 'live update compatible' and then know that
->> these attacks are impossible.
->Just remember that there was any hole punch and refuse to live update this instance.
->
->We could likely implement "we saw hole punch on a pinned folio" as well, but I
->don't think that's required initially.
+> > > > Queue an unpaired IN_MOVED_FROM event, followed by an IN_MOVED_FROM and
+> > > > IN_MOVED_TO pair with the same source watch descriptor and name as the
+> > > > first event. Watch only IN_MOVE so creation of the replacement entry
+> > > > does not separate the two IN_MOVED_FROM events in the queue.
 
-If I understand correctly, you mean recording on the memfd that a hole
-punch happened, and refusing the live update if it did? That would work
-and is much cheaper than what we do today, where iommufd walks all the
-mapped pages at preserve time. For truncate, the existing F_SEAL_SHRINK
-is enough or I can record that also on the memfd. I will send patches
-for this.
+> > > > Affected kernels coalesce the second IN_MOVED_FROM into the first,
+> > > > leaving the IN_MOVED_TO cookie without a matching IN_MOVED_FROM cookie.
+> > > > Check that all three events are retained, the two moves have distinct
+> > > > cookies, and the second IN_MOVED_FROM matches the IN_MOVED_TO cookie.
+> > > > Cover both regular files and directories.
 
->
->No need for more shaky seals.
->
->-- 
->Cheers,
->
->David
+> > > > Suggested-by: Amir Goldstein <amir73il@gmail.com>
+> > > > Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
 
-Thanks for the feedback,
-Sami
+> > > Thank you for your patience with my review
+
+> > > Reviewed-by: Amir Goldstein <amir73il@gmail.com>
+
+> > Thank you!
+
+> > Reviewed-by: Petr Vorel <pvorel@suse.cz>
+
+> > I have no problem to fix very minor issues reported by agent before merge,
+> > but what bothers me there is no kernel fix for the failure.  If I'm not
+> > mistaken, the fix in kernel [1] was reviewed [2] but not yet merged (I looked to
+> > next tree as well).
+> > There are other fixes for 63c882a05416 ("inotify: reimplement inotify using
+> > fsnotify") in stable, e.g. e422777fdd474 ("fsnotify: Fix stale object mask after
+> > concurrent mark updates"), but I haven't found this one.
+
+> > Merging test helps kernel developers to test if the problem was fixed but break
+> > for it for anybody who uses master for regular testing without even explaining
+> > fix is WIP. But I suppose it will be processed soon because stable was in Cc,
+> > right?
+
+> > We have runtest/staging, but that's for new functionality, not for tests which
+> > reproduce problem which was not fixed.
+
+> > @Jan @Amir is there a git kernel tree for fanotify and inotify? I found only
+> > VFS. If yes, please update MAINTAINERS file.
+
+
+> FSNOTIFY: FILESYSTEM NOTIFICATION INFRASTRUCTURE
+> M:      Jan Kara <jack@suse.cz>
+> R:      Amir Goldstein <amir73il@gmail.com>
+> L:      linux-fsdevel@vger.kernel.org
+> S:      Maintained
+> T:      git git://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git
+> fsnotify
+> F:      fs/notify/
+> F:      include/linux/fsnotify*.h
+
+Thanks a lot for pointing this doc, I overlooked because I noticed the earlier:
+
+FANOTIFY
+M:	Jan Kara <jack@suse.cz>
+R:	Amir Goldstein <amir73il@gmail.com>
+R:	Matt Bobrowski <matt@bobrowski.net>
+L:	linux-fsdevel@vger.kernel.org
+S:	Maintained
+F:	fs/notify/fanotify/
+F:	include/linux/fanotify.h
+F:	include/uapi/linux/fanotify.h
+
+INOTIFY
+M:	Jan Kara <jack@suse.cz>
+R:	Amir Goldstein <amir73il@gmail.com>
+L:	linux-fsdevel@vger.kernel.org
+S:	Maintained
+F:	Documentation/filesystems/inotify.rst
+F:	fs/notify/inotify/
+F:	include/linux/inotify.h
+F:	include/uapi/linux/inotify.h
+
+> We could probably rename/move the fanotify/inotify entries to appear as
+> sub entries mimicking the VFS entries:
+
+> FILESYSTEM NOTIFICATION (fsnotify infrastructure)
+> ...
+> FILESYSTEM NOTIFICATION [INOTIFY]
+> ...
+> FILESYSTEM NOTIFICATION [FANOTIFY]
+
++1
+
+Kind regards,
+Petr
+
+> Thanks,
+> Amir.
