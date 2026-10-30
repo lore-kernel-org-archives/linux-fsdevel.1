@@ -1,73 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.216
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.176
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793331744;
-	b=3xTupxsKZjGRhzEbpgzf/sOpeax244df113/8Evr6Hbha/6SW/g/XnaXaZUl434TUYWt
-	 NYHSelkVaCiMogKxvlto78o5hn+jAq24cXbUfNBbOvbZnhOu5EOQo/yy/65dmKk/YlOr9
-	 BbpFedJd1yd3lx5AKtnFPcLVkdX+reIFDGZcW5vXxUsewTcT0ZNmc4oihALInAA4bPAGr
-	 S2TkPjbEI9P1aoYxrm0tl1qjshuln+hG/hXJ7l5S3YlRWjswR2a3G22iUNPyj1W4ryJmu
-	 xAnSiEr0XQo3IY+IQPJwQzhClAgZLRmSUjTPDdLOOMJrhx/5RV/2hrUMFUJG3cu4UVA==
+	t=1793331905;
+	b=gDRavRCfxOBIqaUwTm/NnzCiLacRG/j4PVl+qivTpdn7jjGckNi8cjVS53EHht81SmDb
+	 6d0o6qlWUd671lRgTgrnRccwOaBKjwAWW5lbPr2SRlARaQHcXtuRsJ50LLhs2r8qzh2F8
+	 QCUlSOeXO00MeRN3PP54FOlmxV7mBcoLvO4d1hN9XGkN+0SIMZ0pMZ0p+i40arCTW5poA
+	 +dxpM8GQTVOp7kmJc05dsYfT+CpKYqiRCsIqtLTe8t+LGitoCsgD3zu4jvJbHE8yHfXWE
+	 4/5Z+Am1Z3qsedJL5bq5Apgbt3YyYv6vY+slcUQWRXAcqlOUZl/KS6YT/hMNClMrRjg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793331744;
-	h=DMARC-Filter:dkim-signature:Received:Received:Received:Subject:To:CC:
-	 References:From:Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-Originating-IP:
-	 X-ClientProxiedBy;
-	bh=lyCCkGxsVqCH5Jxp2Gx73Ra2R6gYJ0X0+xLM8KV7Nyw=;
-	b=Cce5bxcyXsnKfxtSViQeH7U7kdjdN2GXhyL1yiznbCiwv6DP/FFzLdSkX2hNJkojpA3x
-	 u0eUahX36f7mqDBX01lioEgHjNPPzus5EDoakjoYNUxmKi2KfwNMbJEYDdsMyLgF6CVb/
-	 wgbIuSQQuFKeqO94zOLjmVI7ijk8Gxm4W8KaWQReS6vhD2xv9Ws5+8kUZIUMHLzVVgvzT
-	 d3YCzZfUeqrxToaVUeAupwLXFBaDJAKJf6FHJsK9yLNrLrgLdOYK3s6eYk5KJoWivg3cG
-	 wBa4KM35tAg1xPiqOg6cB/YOCfXF7pyeB1CQnZAonlVwiH4I+mUDbiOwIw3UJP2gOhA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793331905;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 Message-Id:X-B4-Tracking:To:Cc:X-Mailer;
+	bh=XtTfodCHuVaVxXQYCj+jpdhwMxAv9AL4leDlwu5qJfs=;
+	b=E98h/UplKdp0W58rQaekChsvDQgYgkW9qDgy1sxuDhkabTbNPfIbbjRBXCAmJVX+P0FM
+	 RXJbI0BBENDpUxjWqPEuUFYjTulWRcvIXBg7NcaDsa4ybcVcvvruyGLxj4yszUxZjhxTE
+	 zXg81Fi46ltbd0QqoX3xQgWfOH5RQ/5fSzokyyNTRJ+QltLChOdRGa4URNzyuqRB6l8/6
+	 OUnQzeicpiJFvFP1kdPmadqAAyr/OK5sB+yqr3ql4j7KLVB/C5E835rkkyKUXlTgT9deG
+	 Z8RowjeCgDDe6MZlCPTAiFhWAJXZHdf41Z0TEEjCaBdpirlh9YCPvwuXQ14LrXzS6oA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=huawei.com;
-	spf=pass smtp.mailfrom=huawei.com;
-	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=6lgTf+Ts;
-	arc=none smtp.remote-ip=113.46.200.216
-Received: from canpmsgout01.his.huawei.com (canpmsgout01.his.huawei.com [113.46.200.216])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=PABT4ghd;
+	arc=none smtp.remote-ip=74.125.82.176
+Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ECBA606A31C;
-	Fri, 30 Oct 2026 03:42:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2ECBA606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66A3F606A31A
+	for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 03:45:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 66A3F606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=6lgTf+Ts
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=lyCCkGxsVqCH5Jxp2Gx73Ra2R6gYJ0X0+xLM8KV7Nyw=;
-	b=6lgTf+Ts1V+YHSBCrEFvDEXDhiMC9GXMq3b2wsOqtZVSt4aNi9cNouzzS6JDieVJF34tbk3Eh
-	hET2+S5R51zLlg3+fDdAp58YFcw5B6/T2rmuCau0hbz720kofk1l0vMy/ktC5xSYSNUX71IMs/h
-	Me1Uuzuu58wyIDDAb/XNnkQ=
-Received: from mail.maildlp.com (unknown [172.19.162.140])
-	by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4jG6NZ0f5mz1T4G5;
-	Fri, 30 Oct 2026 11:42:06 +0800 (CST)
-Received: from whupemo200011.china.huawei.com (unknown [7.152.185.179])
-	by mail.maildlp.com (Postfix) with ESMTPS id 483B3202E6;
-	Fri, 30 Oct 2026 11:42:18 +0800 (CST)
-Received: from [10.174.178.46] (10.174.178.46) by
- whupemo200011.china.huawei.com (7.152.185.179) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Fri, 30 Oct 2026 11:42:16 +0800
-Subject: Re: [PATCH v2 28/34] ubifs: don't set SB_RDONLY after errors
-To: Christian Brauner <brauner@kernel.org>, <linux-fsdevel@vger.kernel.org>,
-	Jan Kara <jack@suse.com>
-CC: Al Viro <viro@zeniv.linux.org.uk>, <ecryptfs@vger.kernel.org>,
-	<linux-ext4@vger.kernel.org>, <jfs-discussion@lists.sourceforge.net>,
-	<linux-nilfs@vger.kernel.org>, <exfat@lists.linux.dev>, <linux-mm@kvack.org>,
-	<ntfs@lists.linux.dev>, <ocfs2-devel@lists.linux.dev>,
-	<linux-btrfs@vger.kernel.org>, <gfs2@lists.linux.dev>,
-	<linux-efi@vger.kernel.org>, <linux-mtd@lists.infradead.org>,
-	<linux-xfs@vger.kernel.org>
-References: <20261029-work-fs-sb_rdonly-v2-0-2f44f64f0b66@kernel.org>
- <20261029-work-fs-sb_rdonly-v2-28-2f44f64f0b66@kernel.org>
-From: Zhihao Cheng <chengzhihao1@huawei.com>
-Message-ID: <0d472865-6cbb-cbb5-b361-1f2bf71dd528@huawei.com>
-Date: Fri, 30 Oct 2026 11:42:15 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=PABT4ghd
+Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-353804b591eso504530eec.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 20:45:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793331905; x=1793936705; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=XtTfodCHuVaVxXQYCj+jpdhwMxAv9AL4leDlwu5qJfs=;
+        b=PABT4ghdsdEaAbxcck22S9YOkFFbrVGSoysOtNnGZC6p4e7k7dwv+OQSy6q+Y7/ejd
+         svT7Y+G4XctRZwkKrKiOlnL0z6qn498DowhfqQpSx3pPIgemwYeenvzjr/UR8UYTIGvg
+         yGw7Bb+x7/rAn32XqGuhPBo6wzlnuJ7o9PYuUWBkwU2ZMuK0OdQDrWB6qdvcKI1FjZ/N
+         Trx/MBJbben51Spfts0XgjAxjitB/Y10m3JExk141IdJpppfD/C+jEyf/3kHd8pDuVkh
+         J+PWZ5Mq8iVOpn0rEzmxuDI0+MP+jCzbqF6wVYaQ4+qHk39AZGNgWE/uRzWj+ZmjGJCf
+         ehfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793331905; x=1793936705;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=XtTfodCHuVaVxXQYCj+jpdhwMxAv9AL4leDlwu5qJfs=;
+        b=1jWk6xX0ogsTsEpx2CN1WiMLmyMbTJYxNIuIFpp1m8wheJyG+nZJhTa5Pr3F/dHjwU
+         mYfV3g9eju7FF4pzV1DRSb6OZuPFi8pHepQEJg4fEkc69PgQxINWmwLOJimj3pQgHUvw
+         uJJS0boEeUq/RXJfv4hOMGw2SHrU2UndptxUAJ+poMjwiC3rkFGLpF3v3FhzxukfI+15
+         bykB1krRoXMJ6T4o30BAdqAofewgTd2SZ/GRT50EuYTnB5WQ5iIgjaZsoMkc4HD5d15A
+         Wh+8KqZITJeAR87DAa2do145+QXDmNM35aE0PGN2ldhyOm75mw3Zn/EI8ZHsqH2i3hhg
+         mX5w==
+X-Forwarded-Encrypted: i=1; AKwUvBxbjvmeBv6xWZzPK5HDxTcKAWpdW7hUMZl2zcRznLcBCNMhvSrJIMV3P1cP0REQHnGI7+F0krjKwwzw3plB@vger.kernel.org
+X-Gm-Message-State: AFq9FYLsAV7576w8UgDkqyV3b/3tH0prx49BSbomasU5Nb+66+QquNKj
+	Vn+qv7dFWTxSOOgvJWD4ZQVQVLgdGcqZegxcLJtopnqxYgXvN8srSEM0
+X-Gm-Gg: AYBFou38ErvTafixhr8zzFCk9Q7H6Nu4Ly2zof09x0cx5sig3E1QJ0udz/LIZCc10dp
+	vCh/lkEnMR09mcsKhxROObNi6aKM+asx4BjO66FQVlKvGFIOG1QP7XGFxAcais+Vers1gul9Nnm
+	iCioSUgt1EwfA5CHb9lV4tqduet2UqWWR6xn4gcE/TD9lzvkSPNfAd8v6T37v1LRnNwFwWF6Mt2
+	Eg1v49Orv0c81zQD52rWiCmmGeJBz96oMERwtx4CmCE35906N3g1Ii4uuU1QY0W3zhGTp7+rOgy
+	NEIXfqhsO7N0l2yQQ58xvq4gdCMrq/wYzUcUNulvbzIPRCy3eNngJfqaDRI2CTscrWjLWt4gCK7
+	qb2+HPGkep6DipSJ+HLmkyCuPcBgi3pHZF85NK0cfX3FYIc5lQFaugpVitwWMF5SqWoEwRLXEKk
+	DNctD6qKf6PxdpFzryDpg8mz73Ded5MEf+1fny0LAyMSGD364EtufSimUSwUfp7BKvVTYv+pVjC
+	bx7FlPfmM7BkZnnwAT1jz5TWX+NnTQqyixLe2tv5CEnJHIQtzrLf1QXCbz7810v52ivhenzVgH8
+	hUSC3r1Y9OcHj8uSDvV+8Kie
+X-Received: by 2002:a05:7300:c8c2:b0:36a:117:522a with SMTP id 5a478bee46e88-36a423bf71cmr1949263eec.22.1793331904245;
+        Thu, 29 Oct 2026 20:45:04 -0700 (PDT)
+Received: from [127.0.1.1] ([23.254.208.9])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a428af1easm2836585eec.5.2026.10.29.20.45.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Oct 2026 20:45:03 -0700 (PDT)
+From: Qiliang Yuan <odys.yuan@gmail.com>
+Date: Thu, 29 Oct 2026 23:44:57 -0400
+Subject: [PATCH] mm/shmem: remove truncated folios from the page cache in
+ batches
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -77,106 +91,124 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-In-Reply-To: <20261029-work-fs-sb_rdonly-v2-28-2f44f64f0b66@kernel.org>
-Content-Type: text/plain; charset="gbk"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
- whupemo200011.china.huawei.com (7.152.185.179)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261029-bug-mm-shmem-undo-batch-v1-1-59b34212fe78@gmail.com>
+X-B4-Tracking: v=1; b=H4sIALkS5GoC/x3MQQqAIBBA0avIrBtQF4JdJVqUjjkLLbQiCO+et
+ HyL/1+oVJgqjOKFQjdX3nOHGgS4uOSNkH03aKmNktriem2YEtaYKOGV/Y7rcrqInqRU3joTFEG
+ vj0KBn/88za19Dg1HF2kAAAA=
+To: Andrew Morton <akpm@linux-foundation.org>, 
+ David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+ Michal Hocko <mhocko@suse.com>, Hugh Dickins <hughd@google.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, Qiliang Yuan <odys.yuan@gmail.com>
+X-Mailer: b4 0.13.0
 
-ÔÚ 2026/10/30 0:07, Christian Brauner Ð´µÀ:
-> ubifs_ro_mode() sets c->ro_error and SB_RDONLY from whatever context hit
-> the error, e.g. a failing write, and without holding s_umount. UBIFS
-> can't be frozen but that still races with everyone else changing
-> sb->s_flags. And c->ro_error alone already makes every write fail with
-> EROFS.
-> 
-> So only set SB_RDONLY while the filesystem is still being mounted and
-> call sb_set_emergency_ro() after that. The xattr setters check
-> c->ro_error as well because ecryptfs calls them without write access on
-> the lower mount and they change the inode in memory first.
-> 
-> So far a remount to read-only after an error was refused and a remount
-> to read-write went through and cleared SB_RDONLY again because
-> c->ro_mount was never set. Now going read-only works and its writes fail
-> with EROFS before any I/O, and going read-write is refused by the VFS.
-> fsync() fails with EROFS instead of taking ubifs_fsync()'s read-only
-> shortcut.
-> 
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-> ---
->   fs/ubifs/io.c    | 9 ++++++++-
->   fs/ubifs/super.c | 5 +----
->   fs/ubifs/xattr.c | 6 ++++++
->   3 files changed, 15 insertions(+), 5 deletions(-)
-> 
-> diff --git a/fs/ubifs/io.c b/fs/ubifs/io.c
-> index 6c6d68242779..7a59aa1ea5ce 100644
-> --- a/fs/ubifs/io.c
-> +++ b/fs/ubifs/io.c
-> @@ -72,7 +72,14 @@ void ubifs_ro_mode(struct ubifs_info *c, int err)
->   	if (!c->ro_error) {
->   		c->ro_error = 1;
->   		c->no_chk_data_crc = 0;
-> -		c->vfs_sb->s_flags |= SB_RDONLY;
-> +		/*
-> +		 * Before SB_BORN the mounter holds s_umount, later see
-> +		 * sb_set_emergency_ro().
-> +		 */
-> +		if (!(c->vfs_sb->s_flags & SB_BORN))
-> +			c->vfs_sb->s_flags |= SB_RDONLY;
-> +		else
-> +			sb_set_emergency_ro(c->vfs_sb);
->   		ubifs_warn(c, "switched to read-only mode, error %d", err);
->   		dump_stack();
->   	}
-> diff --git a/fs/ubifs/super.c b/fs/ubifs/super.c
-> index 38972786817e..ef39da4e780b 100644
-> --- a/fs/ubifs/super.c
-> +++ b/fs/ubifs/super.c
-> @@ -1977,10 +1977,7 @@ static int ubifs_reconfigure(struct fs_context *fc)
->   		if (err)
->   			return err;
->   	} else if (!c->ro_mount && (fc->sb_flags & SB_RDONLY)) {
-> -		if (c->ro_error) {
-> -			ubifs_msg(c, "cannot re-mount R/O due to prior errors");
-> -			return -EROFS;
-> -		}
-> +		/* After an error ubifs_remount_ro() can't write but still works. */
+truncate_inode_pages_range() takes the folios it finds out of the page
+cache with delete_from_page_cache_batch(), which takes the inode's
+i_lock and the i_pages lock once for each batch of up to
+FOLIO_BATCH_SIZE folios.
 
-Hi, Brauner
-If we remove the c->ro_error check, ubifs_remount_ro->ubifs_wbuf_sync 
-will return EROFS and trigger ubifs_ro_mode() again, I think we can 
-retain the pre-check placement to trigger more error printing.
-BTW, a remount to read-write after an error is refused too.
->   		ubifs_remount_ro(c);
->   	}
->   
-> diff --git a/fs/ubifs/xattr.c b/fs/ubifs/xattr.c
-> index 3b0e8a270f59..572f6f3e52ad 100644
-> --- a/fs/ubifs/xattr.c
-> +++ b/fs/ubifs/xattr.c
-> @@ -260,6 +260,9 @@ int ubifs_xattr_set(struct inode *host, const char *name, const void *value,
->   	if (check_lock)
->   		ubifs_assert(c, inode_is_locked(host));
->   
-> +	if (c->ro_error)
-> +		return -EROFS;
-> +
->   	if (size > UBIFS_MAX_INO_DATA)
->   		return -ERANGE;
->   
-> @@ -564,6 +567,9 @@ static int ubifs_xattr_remove(struct inode *host, const char *name)
->   
->   	ubifs_assert(c, inode_is_locked(host));
->   
-> +	if (c->ro_error)
-> +		return -EROFS;
-> +
->   	if (fname_len(&nm) > UBIFS_MAX_NLEN)
->   		return -ENAMETOOLONG;
->   
-> 
-The sb_rdonly won't affect the sync_fs_one_sb() after an error, and 
-sb_emergency_ro check in not added into sync_fs_one_sb, should we add 
-the c->ro_error check in ubifs_sync_fs() to prevent the failure 
-ubifs_wbuf_sync executing?
+shmem_undo_range() calls truncate_inode_folio() on each folio instead,
+so filemap_remove_folio() takes and drops both locks once per folio.
+Truncating, punching or freeing a tmpfs file or memfd made of small
+folios, such as a large /dev/shm segment, pays for that on every page.
+
+Clean each folio up as truncate_inode_folio() does, collect the ones to
+remove and take them out with delete_from_page_cache_batch(), which
+needs truncate_cleanup_folio() outside mm/truncate.c. Swap entries, and
+the folios kept when undoing a failed fallocate(), stay out of the
+batch. Dropping an 8 GiB file of 4K folios, median of five runs,
+averaged over two boots of each kernel, in a 32 vCPU VM:
+
+                        before    after
+  ftruncate() to 0     1163 ms   913 ms
+  hole punch           1155 ms   914 ms
+  close() of a memfd   1161 ms   914 ms
+  unlink()             1162 ms   916 ms
+
+Files of PMD-sized folios take 20-25 ms with or without this change.
+
+Signed-off-by: Qiliang Yuan <odys.yuan@gmail.com>
+---
+To see it, fill and remove a large /dev/shm file:
+
+  fallocate -l 8G /dev/shm/f && time rm /dev/shm/f
+---
+ mm/internal.h |  1 +
+ mm/shmem.c    | 16 +++++++++++++---
+ mm/truncate.c |  2 +-
+ 3 files changed, 15 insertions(+), 4 deletions(-)
+
+diff --git a/mm/internal.h b/mm/internal.h
+index 566cbd2dce485..abe64e49a4170 100644
+--- a/mm/internal.h
++++ b/mm/internal.h
+@@ -628,6 +628,7 @@ unsigned find_lock_entries(struct address_space *mapping, pgoff_t *start,
+ 		pgoff_t end, struct folio_batch *fbatch, pgoff_t *indices);
+ unsigned find_get_entries(struct address_space *mapping, pgoff_t *start,
+ 		pgoff_t end, struct folio_batch *fbatch, pgoff_t *indices);
++void truncate_cleanup_folio(struct folio *folio);
+ int truncate_inode_folio(struct address_space *mapping, struct folio *folio);
+ bool truncate_inode_partial_folio(struct folio *folio, loff_t lstart,
+ 		loff_t lend, pgoff_t *pstart, pgoff_t *pend);
+diff --git a/mm/shmem.c b/mm/shmem.c
+index af21a89abb0f6..16b6e38503bc3 100644
+--- a/mm/shmem.c
++++ b/mm/shmem.c
+@@ -1352,6 +1352,9 @@ static void shmem_undo_range(struct inode *inode, loff_t lstart, uoff_t lend,
+ 	index = start;
+ 	while (index < end && find_lock_entries(mapping, &index, end - 1,
+ 			&fbatch, indices)) {
++		struct folio_batch remove;
++
++		folio_batch_init(&remove);
+ 		for (i = 0; i < folio_batch_count(&fbatch); i++) {
+ 			folio = fbatch.folios[i];
+ 
+@@ -1363,9 +1366,16 @@ static void shmem_undo_range(struct inode *inode, loff_t lstart, uoff_t lend,
+ 				continue;
+ 			}
+ 
+-			if (!unfalloc || !folio_test_uptodate(folio))
+-				truncate_inode_folio(mapping, folio);
+-			folio_unlock(folio);
++			if (!unfalloc || !folio_test_uptodate(folio)) {
++				truncate_cleanup_folio(folio);
++				folio_batch_add(&remove, folio);
++			}
++		}
++		delete_from_page_cache_batch(mapping, &remove);
++		for (i = 0; i < folio_batch_count(&fbatch); i++) {
++			folio = fbatch.folios[i];
++			if (!xa_is_value(folio))
++				folio_unlock(folio);
+ 		}
+ 		folio_batch_remove_exceptionals(&fbatch);
+ 		folio_batch_release(&fbatch);
+diff --git a/mm/truncate.c b/mm/truncate.c
+index 733d2713a875a..c6bf4aa0b91e8 100644
+--- a/mm/truncate.c
++++ b/mm/truncate.c
+@@ -151,7 +151,7 @@ EXPORT_SYMBOL_GPL(folio_invalidate);
+  * its lock, b) when a concurrent invalidate_mapping_pages got there first and
+  * c) when tmpfs swizzles a page between a tmpfs inode and swapper_space.
+  */
+-static void truncate_cleanup_folio(struct folio *folio)
++void truncate_cleanup_folio(struct folio *folio)
+ {
+ 	if (folio_mapped(folio))
+ 		unmap_mapping_folio(folio);
+
+---
+base-commit: d89e1d186ec9271bf78e62771779e9fc03bf0fc3
+change-id: 20261029-bug-mm-shmem-undo-batch-de001d9c6f1e
+
+Best regards,
+-- 
+Qiliang Yuan <odys.yuan@gmail.com>
+
