@@ -1,49 +1,125 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=115.124.30.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.15
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793329325;
-	b=SgXHmGX+FX4gOcv3c6xsoIaVuTK8HY4AyhgfqddQKWeQU9/UAwjbql+qfoR5OZtkUYss
-	 O/7FQHdbqXgzCLe89TOn8uJfsUeerVwvwla13/fEYkO4Ojv5OftLEV9iPNls2C7+69dC2
-	 YP5ABzjMFOXBtsvZAQKz6v/4+9yaOIdBQobZnsHJ9l7HjLaOrafWpVCGG3osJQtaPGepI
-	 wkFnxOwKSmBuzhBSh9sQCdYR3VsNKfTk6S0xEkjgu+QelXm6xsBETEQ5pNzGdqdavEiEx
-	 mvqvnE8EPHZsw/oN+iy8o0+bBWkEtjCtzFi+M6jsBDzcDnGjscY2zTv5wr64DLnBdgA==
+	t=1793330678;
+	b=ULQyZDqPqTuRtTGOoz5ApRL+HWWErZle3zPCZTjB5Tj0V+sJKWOytYwMY4qC6EB9Jdnt
+	 Aq/CAhyntasDYVWvlgLcbojSAQGYjaCsWc1kD9WVRVxwyy1sIetqHpsXWwYhJuAOeR+2K
+	 M6abLlkiyajJq5qJb14ptOiA3cFNLmlm1dGGiY2ThL5+YTA4UsKfjbSRTZFpZ+UQcjBPP
+	 9NLp7NRHFzbL0WW3AOkymeoqTHszxMQkEtIaooIzikUv0m+sOX/WV4oQiQIK3YZcFGEdO
+	 g/ewANFnVnOH1NDRhbQr4nX2xaMvEyRt1YIqBWvIoLgySbuQ4dZ+CPFFPMKUtYGIjAA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793329325;
-	h=DMARC-Filter:DKIM-Signature:X-Alimail-AntiSpam:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=CHLQ7b2LcR7am1RKbZkh1e8kwZYbJ2OrwqImdsIBbbw=;
-	b=WBILiFV1rgd4C6QPWIaRsicvbBJJOQCkxGY43DnLonmpm9BOGZwqAqYd3XxlLQrcI9rQ
-	 9rrjP5oKv8hDDQUElKEbpUerwPcqR7liZ6RBqraQY+iB1OQXhmZHZls5Qn+GTHaD9fml1
-	 HGZIfhy3Xxo0+UJWoN3vNpcDAR5a4dOUGHA0kESG/FcaHDn8GObL7A21lO+il2q8O3BjT
-	 y1Hp1v0nyHNK9D4XZWRW4qYgueGFDaNKPeyH5Upg6wpkJilOY1bz9h88IVrwTceM6/q2v
-	 vCoYOtSyIdAoLOoFBepz2WnKl4io88yUmkhcKTKwI8F/ZVE96gZCKljRVm174eYOOiw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793330678;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-Id:
+	 X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=YxF7dRKdKAp6T/NOw/hryWAVYb3GZKlSovGXpa5oCY8=;
+	b=iRgcjKX32XDMflWjeQBCjVZ+LiKFlZ75nhTjlM4CZiWO5+tjU/9NhyBzCocMG85CexTm
+	 cWNlT+0eeokit67Mk2RQhA1C8R8CaCdIM/q7qeNXvVLP24Jw/cKPwO8rg/05xwLZKvJPg
+	 jvjex8jKs6NPtsdGwgxEO0qn5dGhEQDAx6/q/Bbe+/mzY0cELpZqGCsK8pU1nKHClUg6q
+	 z6AJkGDtyUPsJMBNAnt1H20ssj5VtbjV5Dbao8yISzCvsI+u3laJ0fIQOB1M7+c9Fjp+k
+	 qm0OfdeFtEbcjjNbeTjJOG5NHZ+Xd6ledEOdcErVN2olowhT6vGogkjEOYqcLnbI2iA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.alibaba.com;
-	spf=pass smtp.mailfrom=linux.alibaba.com;
-	dkim=pass header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=P3EUpEDX;
-	arc=none smtp.remote-ip=115.124.30.124
-Received: from out30-124.freemail.mail.aliyun.com (out30-124.freemail.mail.aliyun.com [115.124.30.124])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=sFWn6Osd;
+	arc=none smtp.remote-ip=91.218.175.15
+Received: from mta0.migadu.com (out-15.mta0.migadu.com [91.218.175.15])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E82A606A31A;
-	Fri, 30 Oct 2026 03:02:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3E82A606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E149F606A31D
+	for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 03:24:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E149F606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=P3EUpEDX
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1793329320; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=CHLQ7b2LcR7am1RKbZkh1e8kwZYbJ2OrwqImdsIBbbw=;
-	b=P3EUpEDXjFYc7t9vYYRCz1pheQWh2OCsVgQHajoLYY7mar314/KyFODZ1m/Bx3732YPlUX/9mgkhkxHtZvlKaP/r8tG5iUFYR6RjeVEzRHEvZlb44qO001lYjE8WqGw+itEsYWrea5uNPR7AtSB9r2wsmY6F8l5pa5OuFFW0k30=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R531e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033032089153;MF=joseph.qi@linux.alibaba.com;NM=1;PH=DS;RN=17;SR=0;TI=SMTPD_---0XDkxfAa_1793329318;
-Received: from 30.221.129.214(mailfrom:joseph.qi@linux.alibaba.com fp:SMTPD_---0XDkxfAa_1793329318 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Fri, 30 Oct 2026 11:01:59 +0800
-Message-ID: <736cc238-0af8-417b-bf3f-5e8b002badaf@linux.alibaba.com>
-Date: Fri, 30 Oct 2026 11:01:58 +0800
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=sFWn6Osd
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=K9e2xpCltZ0luCSKJ76+rRB5TbBjqG8Rs7tkxWAziAc=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1793330674; v=1; x=1793935474;
+ b=sFWn6Osd3p26eREcmcIASru+spScdxjMfW23b0Y2POx0A7cPjdRAZnOrHq+XGzSQm8O8znSL
+ GcPW+KYbC/rayHgTcZsEHJo0uyjZtTCnQEGFm/LVMX+PMJM2sOtnbK4b1ngvJXY84rWZ79OpEq2
+ myhFIaTzDDfiCZo6MKBT4eIY=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by mta10.migadu.com with ESMTPS id 13ff5ce3ac3bfaeb;
+	Fri, 30 Oct 2026 03:24:34 +0000
+X-Mizu-Trace-ID: 13ff5ce3ac3bfaeb
+X-Migadu-Flow: FLOW_OUT
+From: xu.xin@linux.dev
+To: david@kernel.org
+Cc: akpm@linux-foundation.org,
+	aneesh.kumar@kernel.org,
+	apopple@nvidia.com,
+	axelrasmussen@google.com,
+	baohua@kernel.org,
+	baolin.wang@linux.alibaba.com,
+	baoquan.he@linux.dev,
+	chengming.zhou@linux.dev,
+	chrisl@kernel.org,
+	dev.jain@arm.com,
+	gourry@gourry.net,
+	hannes@cmpxchg.org,
+	harry@kernel.org,
+	hughd@google.com,
+	jack@suse.cz,
+	jannh@google.com,
+	jgg@ziepe.ca,
+	jhubbard@nvidia.com,
+	josef@toxicpanda.com,
+	joshua.hahnjy@gmail.com,
+	kas@kernel.org,
+	kasong@tencent.com,
+	kees@kernel.org,
+	kexec@lists.infradead.org,
+	lance.yang@linux.dev,
+	liam@infradead.org,
+	linux-arch@vger.kernel.org,
+	linux-cxl@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	ljs@kernel.org,
+	matthew.brost@intel.com,
+	mhocko@kernel.org,
+	mhocko@suse.com,
+	minchan@kernel.org,
+	muchun.song@linux.dev,
+	nico.pache@linux.dev,
+	nphamcs@gmail.com,
+	npiggin@gmail.com,
+	osalvador@suse.de,
+	pasha.tatashin@soleen.com,
+	peterx@redhat.com,
+	peterz@infradead.org,
+	pfalcato@suse.de,
+	pratyush@kernel.org,
+	qi.zheng@linux.dev,
+	rakie.kim@sk.com,
+	riel@surriel.com,
+	rppt@kernel.org,
+	ryan.roberts@arm.com,
+	shakeel.butt@linux.dev,
+	shikemeng@huaweicloud.com,
+	stable@vger.kernel.org,
+	surenb@google.com,
+	usama.arif@linux.dev,
+	vbabka@kernel.org,
+	weixugc@google.com,
+	will@kernel.org,
+	willy@infradead.org,
+	xu.xin@linux.dev,
+	ying.huang@linux.alibaba.com,
+	youngjun.park@lge.com,
+	yuanchu@google.com,
+	ziy@nvidia.com
+Subject: [PATCH 38/46] mm/ksm: reset the unstable trees of all nodes
+Date: Fri, 30 Oct 2026 11:24:09 +0800
+Message-Id: <20261030032409.127393-1-xu.xin@linux.dev>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20261027-fixes_core-v1-38-6f74bec9a5bb@kernel.org>
+References: <20261027-fixes_core-v1-38-6f74bec9a5bb@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -53,55 +129,70 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 20/34] ocfs2: don't set SB_RDONLY after filesystem
- errors
-To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org,
- Jan Kara <jack@suse.com>
-Cc: Al Viro <viro@zeniv.linux.org.uk>, ecryptfs@vger.kernel.org,
- linux-ext4@vger.kernel.org, jfs-discussion@lists.sourceforge.net,
- linux-nilfs@vger.kernel.org, exfat@lists.linux.dev, linux-mm@kvack.org,
- ntfs@lists.linux.dev, ocfs2-devel@lists.linux.dev,
- linux-btrfs@vger.kernel.org, gfs2@lists.linux.dev,
- linux-efi@vger.kernel.org, linux-mtd@lists.infradead.org,
- linux-xfs@vger.kernel.org
-References: <20261029-work-fs-sb_rdonly-v2-0-2f44f64f0b66@kernel.org>
- <20261029-work-fs-sb_rdonly-v2-20-2f44f64f0b66@kernel.org>
-From: Joseph Qi <joseph.qi@linux.alibaba.com>
-In-Reply-To: <20261029-work-fs-sb_rdonly-v2-20-2f44f64f0b66@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+> 
+> Let's fix it by tracking in ksm_nr_node_ids the actual number of
+> allocated tree roots.
+> 
+> remove_all_stable_nodes() and ksm_check_stable_tree() will now scan
+> more tree roots (skipping the empty ones), which is harmless.
+> 
+> Fixes: ef53d16cded7 ("ksm: allocate roots when needed")
+> Cc: stable@vger.kernel.org
+> Reported-by: Josef Bacik <josef@toxicpanda.com>
+> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+> ---
+>  mm/ksm.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/mm/ksm.c b/mm/ksm.c
+> index dbfb8f98b1892..9c51925825cbf 100644
+> --- a/mm/ksm.c
+> +++ b/mm/ksm.c
+> @@ -475,6 +475,7 @@ static void advisor_stop_scan(void)
+>  #ifdef CONFIG_NUMA
+>  /* Zeroed when merging across nodes is not allowed */
+>  static unsigned int ksm_merge_across_nodes = 1;
+> +/* Number of allocated stable and unstable tree roots. */
+>  static int ksm_nr_node_ids = 1;
+>  #else
+>  #define ksm_merge_across_nodes	1U
+> @@ -3636,14 +3637,13 @@ static ssize_t merge_across_nodes_store(struct kobject *kobj,
+>  			else {
+>  				root_stable_tree = buf;
+>  				root_unstable_tree = buf + nr_node_ids;
+> +				ksm_nr_node_ids = nr_node_ids;
+>  				/* Stable tree is empty but not the unstable */
+>  				root_unstable_tree[0] = one_unstable_tree[0];
+>  			}
+>  		}
+> -		if (!err) {
+> +		if (!err)
+>  			ksm_merge_across_nodes = knob;
+> -			ksm_nr_node_ids = knob ? 1 : nr_node_ids;
+> -		}
+>  	}
+>  	mutex_unlock(&ksm_thread_mutex);
+>  
+> 
+> -- 
+> 2.43.0
 
+Looks correct as far as it goes, but I think it is not quite sufficient
+on its own.
 
-On 10/30/26 12:07 AM, Christian Brauner wrote:
-> With errors=remount-ro, the default, ocfs2_handle_error() sets SB_RDONLY
-> without holding s_umount. If that happens while the filesystem is frozen
-> through bdev_freeze() thaw_super() leaves the s_writers rwsems locked.
-> Writers hang and so does umount because ocfs2_shutdown_local_alloc()
-> needs sb_start_intwrite().
-> 
-> The soft read-only state doesn't stop modifications on its own. Every
-> read-only mount sets it and those still need transactions for recovery,
-> the local alloc and the truncate log. Everything else was stopped by the
-> VFS because of SB_RDONLY. So call sb_set_emergency_ro() instead which
-> keeps it that way, and keep setting SOFT_RO for the existing
-> ocfs2_emergency_state() checks.
-> 
-> The xattr and ACL setters get a check of their own because ecryptfs
-> calls them without write access on the lower mount. It sits in the xattr
-> handlers and not in ocfs2_xattr_set() because chmod and setfacl store
-> the ACL through it after the new mode was already committed.
-> 
-> Quotas aren't enabled at mount in the error state because that writes
-> the quota files. ocfs2_sync_fs() doesn't flush anything anymore and a
-> remount to read-only doesn't suspend quotas. Q_GETQUOTA, Q_GETNEXTQUOTA
-> and Q_SYNC can still start transactions. I've left that alone.
-> 
-> Writes through file descriptors opened before the error fail with EROFS
-> and umount completes instead of hanging.
-> 
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+The documentation requires that merge_across_nodes can only be changed
+when there are no KSM shared pages in the system, but
+merge_across_nodes_store() does not enforce this at the sysfs level.
 
-Looks fine.
-Reviewed-by: Joseph Qi <joseph.qi@linux.alibaba.com>
+Should we also reject writes while ksmd is merging? At minimum:
+
++	if (ksm_run & KSM_RUN_MERGE)
++		return -EBUSY;
+
+Ideally, we should also check that ksm_pages_shared is zero, since
+KSM_RUN_STOP (0) does not guarantee that all pages have been unmerged.
+
+That would make the interface match the documented sequence and close
+the remaining race window.
