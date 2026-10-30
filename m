@@ -1,56 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793376864;
-	b=g6aFqlAZlZcNVwBt/Wr+VYB4y5ciFCemsmEVtLnyHnUn42Q48xxM2EvEUaE/Tzz6m9M3
-	 XZ64078EeN17R6RxRHF0kt1HycCPB3+qxMCt81Lskw/jFjjMPU/FtkDrHRzFJWaE+zK0f
-	 kigUxZV9dMAtsUe3VGXIQYqVA28/rw3IrXTV/clNwsIyLCYxPhfiEMT0zhDrmMbONSxcF
-	 T+EfPQ6oj0Q55VNVdSc7hIgu1xpmMHgrX07EUL512Klxt4YqrrAcafFktot0O3zu8DqSa
-	 TPbaqTq4QKfBvAlyM55JAeIMizLleN5+7MLf6/+JY2mQjpcPsZz5xSvuir4nDXwxKlg==
+	t=1793376928;
+	b=LtxTy/APhzMqFzEBuPGKuXkMgRh5BYk2FtKOQ35tu7s6DyhMDpsC/4oCDXvGnniVM3jj
+	 3j0ZKmXdUsEIwjaQimP3eo08VajaOOU15ZLCIgdv1oUeP2DRNVGSbfFB55LpJdUtbrfvQ
+	 LXft7uJBB8MtjKTIAxStkfq+HOWrgLpNvMbEZa5ZW0LFC1URI3js5W0cD6lssKVOmk4dQ
+	 lY6lrCAWtE8DinUyHIvcjJaPW1mGvTy3ktJrhu1VIPFwlTwY0l2GmqpeYeethoV70GbdS
+	 XdsdnqiFgIxD8SYaVrrqOdhnuIHLBOBPuOvu/PHrlHEdHWGxb2JAF81+6j5igHGWwqw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793376864;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer;
-	bh=tFTs+PufgXSK9nOJaTZUTT4iab3r1Qk3f2agilJ2GLg=;
-	b=N/Y99H0bcevgFTgZnOD1rcV7QdMHA5g7NohAOl3zcyhSlMrPbheBgc180vO+JzovwAaM
-	 Gv1Nt5eOBIL2Y85o10aN8+WKVY+72+r3/FgRkks+Fks9hRxvBBOhrocRza62d8F1/3cDy
-	 rUBCUQtEhwPKVpp3dwQ3S3jOhGNYwrX3H1/xLuD2XdlUlvLBUx/zw4Q7TJoOxbVQTNaZy
-	 ILq5LWg/oD8njyhjz9dAelqdv7tfSRKU7wAyF/sE5UmZB0wn4d/NdjZAfbzTrBjFF0fjs
-	 S4RjHtjxQeFWkdMvWfu070CQ4V4YM0jdNy56k9HCzsU6FAnDOGlv99/5SCBNnj8fzlA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793376928;
+	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=wjI02aEekAmmKt1UVJ6rqLVVhG81TsTdYiaIhoUVoAg=;
+	b=0Ka1icg0Jffatv9z5AfyriS0zOi+Hcuk61vTqmTzysz2evmpMG4ud71Gb6ZqK5Sux2J5
+	 x3OPrtQPw777ed/I5bYR0ijLU8hDX1pRD6FNl/dohOWeDB3/hPcf6uMg5SjdOw+YsML/q
+	 o8LnbFKz0lamfJHgCFeXgjUCJ9e/w9T11x4lEKh4DeS2BaXrDa7eZbU0aaeSnt2GdofjQ
+	 wfAhRIN1ZaG2Fug0SQ+A4WOe+W5UKMIGSIlmXHyRLTLj2AmqJi5KCbuYrpTqrgNwY0Kul
+	 XjpQopBb3/D9R67Aw7IfrXu8ysNferYY2mASoZBgUaa7vr2AuEIxlIlpu6oxb0YpA2A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AlfNWylk;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PXaTnVgz;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17247606A31A;
-	Fri, 30 Oct 2026 16:14:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 290AB606A31C;
+	Fri, 30 Oct 2026 16:15:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AlfNWylk
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8868F1F000C1;
-	Fri, 30 Oct 2026 16:14:22 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PXaTnVgz
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E8EC1F000C1;
+	Fri, 30 Oct 2026 16:15:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793376863;
-	bh=tFTs+PufgXSK9nOJaTZUTT4iab3r1Qk3f2agilJ2GLg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=AlfNWylkhz76ZAI0gkWifQgQOh3qrNamrTw4sM1vybl7vlsP7l+ubEJjFjIWSuVfr
-	 HLTmc7T7jpIxWc8dcugb+S0/nceEBBtx0NmM3yuWUk0+soMuKrZTIAM7mWKnfWEp9v
-	 osokb0BrkABQEEha66jWW2JHMT69cwpkF+Nv8BP92ISUKYpR0F6ml7RdShJDmWkhLq
-	 qaukrVnB4aV+kt6fLWYvtTCXheIgyeM6+BrAPXzTyN3xtfQP3DjY2JYN0tEY4JfJKV
-	 0BU/VIr1ptcNKPB5gnnc9FfFU+b2ztE60nl1Iimrqxsfnf3WGJAh0QBvnSP5CJFpFB
-	 cRv2axtvj6h1g==
+	s=k20260515; t=1793376927;
+	bh=wjI02aEekAmmKt1UVJ6rqLVVhG81TsTdYiaIhoUVoAg=;
+	h=From:Date:Subject:To:Cc;
+	b=PXaTnVgzRMdJERdpMD7D/japujRQOqeuPx2pXYVYccyllUngpyIp8i4ubx71o7kgq
+	 fNlF+bl/bayR+D1kq6eUqxHV66JsPlYPiEPSQUWAX+SJDDcFDKmwzLgGquvGZQDfts
+	 hm42uogwf0B4yGdSzjqkImcsRJz9d0+NAF0rtfO85hDFVzW83x+am/D2ZPlUiO0XQd
+	 Yx13sfDqWsK5++XTcfpqdA0aEAvOmK6BqDcQDYu13Ul3G+0BHUq7htsHxWZfjE4kGy
+	 0FJW0UX784dCJXUqEQSRmYs682qWB+reeLS1g84J1MsyQVSPtWSSwKH7MEdKPRZYHr
+	 BRMa18Ebu00GQ==
 From: Christian Brauner <brauner@kernel.org>
-To: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Nickolai Zeldovich <nickolai@csail.mit.edu>
-Cc: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20261027015813.841821-1-nickolai@csail.mit.edu>
-References: <20261027015813.841821-1-nickolai@csail.mit.edu>
-Subject: Re: [PATCH v1] fs_pin: do not trust the pin after a spurious
- wakeup in pin_kill()
-Message-Id: <20261030-woran-waten-anflug-817705035124@brauner>
-Date: Fri, 30 Oct 2026 17:14:20 +0100
+Date: Fri, 30 Oct 2026 17:15:21 +0100
+Subject: [PATCH] aio: don't let exit_aio() return before complete() is done
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -62,39 +54,84 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20261030-work-aio-exit_aio-v1-1-83942022a4c4@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWMUQrCMBBEr1L220jSBhWvIkWy6cauQiLZWguld
+ zexf/OGebOCUGYSuDYrZJpZOMUC5tCAH118kOKhMLS6PRndafVN+aUcJ0ULT/caMJztRZuhs2i
+ heO9MgZf/563fWT74JD/Vo7pAJ6Qwu+jHWs1BjruxbT8nce2/kQAAAA==
+X-Change-ID: 20261030-work-aio-exit_aio-bf74801d34b4
+To: linux-fsdevel@vger.kernel.org
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ Benjamin LaHaise <bcrl@kvack.org>, Jeff Moyer <jmoyer@redhat.com>, 
+ Jens Axboe <axboe@kernel.dk>, linux-aio@kvack.org, 
+ Kyle Zeng <kylebot@openai.com>, stable@vger.kernel.org, 
+ "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-ce4c1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2316; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=iUUNZL+OIbGum+RlntuTW/ESOd0TNsln1fjEx6A9Xec=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQ9OTS7oPLEVsV97y8GbI+/Kekya1bbfTUekdZ3+Q8rJ
+ kwuyd7Z2lHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRc0wM/zRmZxy4e2GH8PXt
+ G68ls52y3vJ4ZaGLyrzEl7MfphYscGJl+Gf2/P3GeVcXpOi6MFSl9nClzTo4S5Rf0X+WpGlJyrJ
+ P9mwA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Mon, 26 Oct 2026 21:58:13 -0400, Nickolai Zeldovich wrote:
-> A task waiting in pin_kill() for another task's ->kill() can take
-> p->wait.lock after the pin has been freed, and can return with its
-> on-stack wait entry still on p->wait. With BSD process accounting this
-> is a use-after-free of the acct structure when umount() of the mount
-> holding the accounting file races with acct(2).
-> 
-> pin_kill() takes a still-queued entry as proof that pin_remove() has not
-> run, so p is alive. But autoremove_wake_function() dequeues only when
-> try_to_wake_up() succeeds: if the waiter was already woken spuriously,
-> pin_remove() leaves the entry queued, acct_pin_kill() frees the acct
-> with kfree_rcu(), and the grace period can end while the waiter sits
-> between schedule() and rcu_read_lock().
-> 
-> [...]
+exit_aio() kills all contexts in one go and waits for them with a
+single on-stack struct ctx_rq_wait. The count starts at table->nr, each
+killed context drops one count in free_ioctx_reqs() and exit_aio()
+subtracts the empty slots afterwards. Whoever drops the last count
+either calls complete() or, if it is exit_aio(), skips the wait.
 
-Applied to the vfs.fixes branch of the vfs/vfs.git tree.
-Patches in the vfs.fixes branch should appear in linux-next soon.
+With a full table skipped is zero and atomic_sub_and_test(0, ...) only
+tells us whether the count already hit zero. free_ioctx_reqs() runs from
+the percpu_ref RCU callback, so if exit_aio() is off the CPU long enough
+the last callback can have done its atomic_dec_and_test() but not yet
+called complete():
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+    free_ioctx_reqs()                    exit_aio()
+    atomic_dec_and_test() // 1 -> 0
+                                         atomic_sub_and_test(0) // true
+                                         kfree(table)
+                                         return
+    complete(&wait.comp)
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
+complete() then locks and writes a completion on a stack frame that is
+gone. So hold an extra count for exit_aio() itself. Then the last count
+is always dropped by exit_aio() after it waited, or by a callback while
+exit_aio() waits for it. An unprivileged user gets there with four
+io_setup() calls and an exit without io_destroy().
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
+Reported-by: Kyle Zeng <kylebot@openai.com>
+Fixes: dc48e56d7616 ("aio: fix serial draining in exit_aio()")
+Cc: stable@vger.kernel.org
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+---
+ fs/aio.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs.fixes
+diff --git a/fs/aio.c b/fs/aio.c
+index bf002a9d2ad7..8cf02878a3cc 100644
+--- a/fs/aio.c
++++ b/fs/aio.c
+@@ -961,7 +961,7 @@ void exit_aio(struct mm_struct *mm)
+ 	if (!table)
+ 		return;
+ 
+-	atomic_set(&wait.count, table->nr);
++	atomic_set(&wait.count, table->nr + 1);
+ 	init_completion(&wait.comp);
+ 
+ 	skipped = 0;
+@@ -985,7 +985,7 @@ void exit_aio(struct mm_struct *mm)
+ 		kill_ioctx(mm, ctx, &wait);
+ 	}
+ 
+-	if (!atomic_sub_and_test(skipped, &wait.count)) {
++	if (!atomic_sub_and_test(skipped + 1, &wait.count)) {
+ 		/* Wait until all IO for the context are done. */
+ 		wait_for_completion(&wait.comp);
+ 	}
 
-[1/1] fs_pin: do not trust the pin after a spurious wakeup in pin_kill()
-      https://git.kernel.org/vfs/vfs/c/f3a6dae67c9c
+---
+base-commit: b44341e39d856e4cc6ad8ed94ebffd440f39846c
+change-id: 20261030-work-aio-exit_aio-bf74801d34b4
 
