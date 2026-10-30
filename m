@@ -1,86 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=210.171.160.6
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793339565;
-	b=LZYj/z0HNHMPphpqKj0wG8n7lfK8nlcUeTQaXyYILzrQhQ7wJc88oMLptZpGvZQhvEsc
-	 EPpGRh30QDIXdbSLW0/HkPeQzr+Gm+9Yx7M1CUw4GDlCQpFt/Ezmr3o8aedGdLKWlUs+A
-	 RxBZFmTgGK9CEn7hn7jupwetLfMycrYyvU6dV94N7nBNExnfngrScmDaHmbrtAE1CAqPd
-	 gBwJp5Qy2HJIzd+9GQw5e9W1PlwWLTIzIxoHGOfIpLcIHGzVfcTx6MDmqtNZ92d60TjaW
-	 LnmgvRxU1LLRvv5duLSqJlE2s9Gz+/584c8GLxPePZS8uqQiZUFI1CJcvf7DQg1D3iw==
+	t=1793339934;
+	b=064nkzBeG2UGwT/uXeC2ffBx1jmrfNcPkBzj4BzTkw05oOJPtfS7YcPltvA3SD2alb4Q
+	 nx1VqZVzhrZc9EaMOiFD82G0lJjChhFqX2J4qEQ0vKsRWyzUb2ikADARZ5tPT3ggJtX3u
+	 RSrG6kQ3KddJztsr7Dq7NuXBRszSuLAVStHvABVZTMxoCcyIZw6qtjbyDsYbULKh4kt8v
+	 0trVJibys3sZGRBrkVgTx7IyP59rXtmJkffhGfzYsEo3rmMBas2BYlTRgBxZ8H+c9iFd4
+	 0H1qzR5c3gI0QgBw/XnepALoP89GN/OKadVQImFhbxjACPeJCME8ngGknujQ+fhlJDA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793339565;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Date:Subject:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
-	 X-B4-Tracking:To:Cc:X-Mailer;
-	bh=VbRiuv1zzZPpsXqO5zwHM0e9x6dnlvGPnhrO6rm2E7A=;
-	b=wwavlWjTogrC/RGx83UWSLD6ZgGgANb5ACaeReLQTQ6pEagjmHHbOlJEhHvem67vXcmX
-	 5bYpGvcas2rP7K1bJzjwnu11Wo5A3E1YowevSE4xH9w0qMQe0sqQAu94ZOIZf7ZwiIBny
-	 Fs11ogc25gTNmpTZ+QY1YjNLzmx6dQgdKqkGJrmoDRaH7fDiQtxJoMMBPz/m1mPHvuYqE
-	 E8qr2QVRhF1SK/QVDbRE7JU9mjOvMi0WOEioes/L1M+a2S8YUUYbPCQ8XaO7fxDSD90Xl
-	 0Ur9Dd3mbD9Q2biGoR12X802wVbFWOlEn59+CGgOjERxY50UM60xrqgQBlY34lGxzIQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793339934;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:Received:
+	 Received:From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 User-Agent:MIME-Version:Content-Type;
+	bh=cR5TwSIvOsaUE0a93ZpoPEtPBtYsoHZPcntubAImCfc=;
+	b=U4sPw7m2qQDPZ+8Ci20QMAKVh2UdMiYTf8PNNqCHTqmQa955eNJ4AnIzJ36do9McF6TO
+	 ziVNN8f91cnqySAfueTQMWavr1kCTx3XXLjRbPjJHJeFgLvpkz+dc7b7OAxyIl0kZWCxn
+	 t03MEaRdU6/wzsfjLN94y6MdEq7QRYcgOBhanV8YrvbYpdr4MVBBkTPa9CUy0StGIOk8S
+	 5prix6eUHPiIw/W4FrGLI3t3elo6qYdHHSMfi7LPAJBTnenIADzV9/e5I104OGhuUQbMJ
+	 vVy8+jng0bku1ct5JTyrdjtSFmosV/G9AK6CdEIZyW79+UcjYp+DYJnr2e+VnlRrXLw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=kL+rJ5ml;
-	arc=none smtp.remote-ip=74.125.82.42
-Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=mail.parknet.co.jp;
+	spf=pass smtp.mailfrom=parknet.co.jp;
+	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=rsa-sha256 header.s=20250114 header.b=lnVmRZvv;
+	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=ed25519-sha256 header.s=20250114-ed25519 header.b=GZDQpsZh;
+	arc=none smtp.remote-ip=210.171.160.6
+Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 439A1606A325
-	for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 05:52:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 439A1606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27706606A31A;
+	Fri, 30 Oct 2026 05:58:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 27706606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=kL+rJ5ml
-Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-185fd3a4ca3so297450c88.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 29 Oct 2026 22:52:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793339564; x=1793944364; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=VbRiuv1zzZPpsXqO5zwHM0e9x6dnlvGPnhrO6rm2E7A=;
-        b=kL+rJ5mlhDTdElNXQpMNmC+lFFdeCCCvkIJjS+DDV40iDQZXyTs3SBB2eGEOCQJOtF
-         i4Ok80Jl/dyQnnLRATG4Td3Gswm32YCiQT8xqghaBRcVa79OSoHGtQs2R39LFX/jwnL/
-         /eRKmGGBw20AnqFQjZpcJKJVmMlLF8NZCpZrgKuz/yAZJ9dEl3egS2lv0Or/2b7DKW7a
-         qXzLrrXoXBoNE9m+gfyzTCmLd4rfN5+NfgwLmiILLhjUsj+Z7v94MyQ+kpgOX99nNCHT
-         XK5KIuplK8Vg0uRrjpY/hvMdogmx0CcLjeSgG/Td/Ogx7syKS3dPouQ6FzDUyXuhj/cE
-         2ZFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793339564; x=1793944364;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=VbRiuv1zzZPpsXqO5zwHM0e9x6dnlvGPnhrO6rm2E7A=;
-        b=kGOUmd2B1sfi4M+R90bYUO0M+iSandgUFrCqXc1hSoFOK9FCn8xtH3f8FIRxMan/sU
-         j/MQlP/+HCYJ9Gizg/EeE0DcAcAB9DvgBYPSQQc6ODSpy8xnW1xS3YH+Mutd1tVkSAwU
-         /FzJ3lx8EuKXRjTHFXiayZuY19eh9wz8vaE1khAUmXyut+V2yen4a1/tKfGw3GNZyXi4
-         cvcnwW95fRgcNFZ1kFmTc7X8pQnIOG2blmjRiT3Np5/Tpq2jMFl7YnoolhOSgCPcxzym
-         M+oygSWULjGYuamZSvSsJxRK0Bw5ceWpVZG+UVcnAzAN60HRb+motEm9t1YhHth3I3+B
-         dWog==
-X-Gm-Message-State: AFq9FYK33eWqP/9G/kViqxzjvxdU9XNQNs2c6OWjWmyw8KR9b1RgTwr3
-	cqYWsb2IxJHVtrpbyPxXC29giEWzq0ISo/eONa35NzSuL07QoJoVGL9Oh6RkMzj7
-X-Gm-Gg: AYBFou0d5RpiYamfAlt7woi+4xZZM0th6K9GuHgm61rZ2m/VorhR+670Bsr5DWukIqE
-	gMJlHspyHJwr2xnmtuu4cj9P95iqmQoRW8ja2B8fdy3N1sZNAZO4/MgmVEoEt8TmHhTjoOkrqyf
-	lzaO/DJ+jLzsw9Umw6un4xMCh3Irb1PU2I+iWqINzzeAMciVCsqbYME6vn904XR3LG+S6msB9vu
-	ApgldhmWJsGIPIUgwChMbcLNiearBwijpErupaobkhn8rPkL2XM6bu6MFJJ95SJ1ZeJtvQniemh
-	s+4eTXF5p71KWg+SwQrzYuX6eivi64PRjBOze01sQ8x3MrijPTDakQKV1VcY7t44wdUTwdDCN5t
-	0WT72e+IkcpCmkLyJdzA8PhIgl0dFiqxUUY6JL9UIMk8zFqEFF6tV0ccZ5BzwQ6oP2ZhFntH6FB
-	0Oe2qQKwi3YeHWFD6eIIYQdaND4A70P9ZvpKGwIHY4Upqdg8FpEdIjEEJX+vv99wiRQZeE1mFc3
-	HBFWb1YOtY8tsGkbz+vRGcjqNWj0DDA6AGaolodFSLtf8Q+tft3zeQDfak8cqkn4nL7tr/w6L8Z
-	mn12JCcAwh96Jdg2jDrEyMp3
-X-Received: by 2002:a05:701b:2411:b0:1ac:75b9:f82c with SMTP id a92af1059eb24-1ac75b9f892mr1448025c88.34.1793339564232;
-        Thu, 29 Oct 2026 22:52:44 -0700 (PDT)
-Received: from [127.0.1.1] ([23.254.208.9])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1ac1b0a628bsm3675448c88.22.2026.10.29.22.52.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Oct 2026 22:52:43 -0700 (PDT)
-From: Qiliang Yuan <odys.yuan@gmail.com>
-Date: Fri, 30 Oct 2026 01:52:38 -0400
-Subject: [PATCH] mm/filemap: clear page cache marks once when removing a
- folio
+	dkim=pass (2048-bit key, unprotected) header.d=parknet.co.jp header.i=@parknet.co.jp header.a=rsa-sha256 header.s=20250114 header.b=lnVmRZvv;
+	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=ed25519-sha256 header.s=20250114-ed25519 header.b=GZDQpsZh
+Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
+	by mail.parknet.co.jp (Postfix) with ESMTPSA id 3AB1726F7695;
+	Fri, 30 Oct 2026 14:58:45 +0900 (JST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
+	s=20250114; t=1793339925;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cR5TwSIvOsaUE0a93ZpoPEtPBtYsoHZPcntubAImCfc=;
+	b=lnVmRZvv4VJn/rc+DFEB8SSU4f8PXGERBkO6u+vyvdA24AWI8f2iSJFH6jfTyEC1R6d9i9
+	ZwlXumn+TLsyYvqiabWgP9y4+6nDu/d02RtAvqDItCviDdjgopFF0K4+hwbXQS2z4ESuGU
+	4tMpsd8gNyh2PmxCmL1SotsPKtoouuqJRlXGf7jt9EnwY9cFcsB43Mb9q6SJW+g8kjtjpu
+	iaghdF0euf4Ymegblcr9Lnh8DBvCC2xb7m/Fo/hCeJmIN25jio/lLgxBVc3R17X8gBosz2
+	9dDAFyDSaUZWciNHRE/chww22BrGXEz5gy25Cq+1ZwCyfw++P0Bx8Qscvf3n9g==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
+	s=20250114-ed25519; t=1793339925;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cR5TwSIvOsaUE0a93ZpoPEtPBtYsoHZPcntubAImCfc=;
+	b=GZDQpsZhrrcTJfg9KBTNcJ2mJ1pyKb+Gq332nAarR7gk0iteGVsaFrqsEUUz+FoMW2EGgQ
+	M2rC1Kge07IkRhAQ==
+Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
+	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id BAD9BE00144;
+	Fri, 30 Oct 2026 14:58:44 +0900 (JST)
+Received: by devron.myhome.or.jp (Postfix, from userid 1000)
+	id B1BB122001FE; Fri, 30 Oct 2026 14:58:44 +0900 (JST)
+From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+To: Bryanna Marihugh <bryannamarihugh@manhattantech.edu>
+Cc: Andrew Morton <akpm@linux-foundation.org>,  Jan Kara <jack@suse.cz>,
+  linux-fsdevel@vger.kernel.org,  linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC] fat: use write_inode_now() on flush to avoid racing
+ the flusher
+In-Reply-To: <457c34c8-b52f-41c6-8b58-ed334b0dc483@manhattantech.edu>
+References: <20261029-fat-flush-isync-v1-1-69c02c258d0c@manhattantech.edu>
+	<878q3gth64.fsf@mail.parknet.co.jp>
+	<457c34c8-b52f-41c6-8b58-ed334b0dc483@manhattantech.edu>
+Date: Fri, 30 Oct 2026 14:58:44 +0900
+Message-ID: <87ik2jsp9n.fsf@mail.parknet.co.jp>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -90,60 +83,83 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261030-bug-mm-filemap-init-marks-once-v1-1-699835fc6690@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAKUw5GoC/x3NQQ5AMBBA0avIrE1SJCWuIhbTGkxoSYtIxN01l
- m/z/wORg3CENnsg8CVRNp9Q5BnYmfzEKEMylKrUhaoUmnNC53CUlR3tKF4OdBSWiJu3jKaprCb
- StSEDKbIHHuX+B13/vh+gfW5ecAAAAA==
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
- Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
- linux-kernel@vger.kernel.org, Qiliang Yuan <odys.yuan@gmail.com>
-X-Mailer: b4 0.13.0
+Content-Type: text/plain
 
-xas_store() clears the marks of an entry before it replaces the entry
-with NULL.
+Bryanna Marihugh <bryannamarihugh@manhattantech.edu> writes:
 
-page_cache_delete() calls xas_init_marks() after xas_store() whether it
-stored a shadow entry or NULL, so a folio removed without a shadow, as
-POSIX_FADV_DONTNEED and drop_caches do, has its marks cleared twice.
-With 4K folios that is about 6% of the time it takes to drop clean page
-cache.
+> On 10/29/26 2:56 PM, OGAWA Hirofumi wrote:
+>> Looks like this waits the I/O, and sounds like optimization only for
+>> specific drives. Well, so no slowdown for other drives by this patch?
+>
+> Thanks for the rapid reply and feedback.
+>
+> writeback_inode is called only when flush is set. My understanding is
+> that mode is for storage that could disconnect. I set write_inode_now
+> to wait as that seemed to be right for flush. Given it does change
+> behavior I should have explained that better. I can change it to 0 if
+> you want the old behavior. Because I_SYNC is still set no matter if
+> it waits or not, it should keep the kernel flusher from writing the
+> same file.
+>
+> I focused on the reduced write request size causing the stall, and
+> tested for slowdowns mostly doing a cp and looking at the times, for
+> big and small files. Everything in MB/s
+>
+> PNY 32G stick (usb-storage), copying a 3 GiB file 3x
+>
+>   before: 16.3, 13.2, 11.6
+>   after:  18.0, 18.0, 17.6
+>
+> Samsung 64G stick (usb-storage), copying a 3 GiB file 3x
+>
+>   before: 33.4, 33.5, 33.5
+>   after:  33.5, 33.5, 33.5
+>
+> PNY 250G stick (uas), copying a 4 GiB file 3x
+>
+>   before: 365, 200, 322
+>   after:  365, 255, 251
+>
+> Samsung 870 EVO in a USB-SATA adapter (uas), copying a 4 GiB file 3x
+>
+>   before: 379, 346, 346
+>   after:  376, 378, 379
+>
+> The PNY 250G numbers vary on both kernels because the stick slows
+> itself down partway through.
+>
+> For small files I saw maybe improvements on the cheap stick, with no
+> harm on the nicer Samsung stick.
+>
+> PNY 32G stick (usb-storage), copying 1000 x 1 MiB files 2x
+>
+>   before: 5.37, 5.55
+>   after:  5.64, 5.62
+>
+> Samsung 64G stick (usb-storage), copying 1000 x 1 MiB files 2x
+>
+>   before: 7.33, 7.37
+>   after:  7.35, 7.36
+>
+> PNY 250G stick (uas), copying 1000 x 1 MiB files 2x
+>
+>   before: 9.61, 9.61
+>   after:  9.28, 9.26
+>
+> 870 EVO in USB-SATA adapter (uas), copying 1000 x 1 MiB files 2x
+>
+>   before: 9.61, 9.61
+>   after:  9.59, 9.51
+>
+> There is some regression with small files on the uas drives from the
+> wait.
 
-Call xas_init_marks() only after storing a shadow entry, whose marks
-xas_store() leaves alone. Dropping 8 GiB of 4K folios, median of five
-runs, averaged over two boots of each kernel, in a 32 vCPU VM:
+Is this wait=1? The flush should just be early flush, no guarantee to
+flush completely. So I think it should be wait=0.
 
-                          before    after
-  POSIX_FADV_DONTNEED    1517 ms  1423 ms
-  drop_caches            1515 ms  1422 ms
+And the flush is assuming basically for removable media though, we can't
+choose. I think we need to check the result of such HDD/SSD.
 
-Signed-off-by: Qiliang Yuan <odys.yuan@gmail.com>
----
- mm/filemap.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/mm/filemap.c b/mm/filemap.c
-index b74bc1e5015c6..a0c959e74533e 100644
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -140,7 +140,8 @@ static void page_cache_delete(struct address_space *mapping,
- 	VM_BUG_ON_FOLIO(!folio_test_locked(folio), folio);
- 
- 	xas_store(&xas, shadow);
--	xas_init_marks(&xas);
-+	if (shadow)
-+		xas_init_marks(&xas);
- 
- 	folio->mapping = NULL;
- 	/* Leave folio->index set: truncation lookup relies upon it */
-
----
-base-commit: d89e1d186ec9271bf78e62771779e9fc03bf0fc3
-change-id: 20261030-bug-mm-filemap-init-marks-once-b83c6aa67bab
-
-Best regards,
+Thanks.
 -- 
-Qiliang Yuan <odys.yuan@gmail.com>
-
+OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
