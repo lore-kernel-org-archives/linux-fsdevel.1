@@ -1,98 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.161.49
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793436993;
-	b=ubUBxFZsQpwCpg8PZ6rteGN4NAW4oxQWuzUg595hsb5W4GoqoRlevY+b3hW5ttQaY5YX
-	 71fDnyiE+8UjDeIbKdskNS2ekASoTOh6GwKmi3eGU56J9LbrZGxNjuYS+6+16i4f8cJB/
-	 q00/bFCAhrVlYeEt0kSczDzqSgdEF4tQOjKJO7aIrNaU70ncXcuptYrELSHw7Xb+h0TCl
-	 KMFV6+YRCrFnajsgiN5ooTqe8uOrP6+xRlhTmcMOnfEjAn93nMVMkB+yua6bZ/CgGXzwf
-	 co2HpzkQCp7Jb+RhlxHoEmVkUMnE+GeK01rgYnjVNj9OnbSbVWrCIeE/9wcpI/LwaHA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793436993;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:From:Date:X-Gm-Features:Message-ID:Subject:To:
-	 Content-Type;
-	bh=gTx394sikhqmmuQLs1UOGGZh1cBtivYg1IDNeqBRTrY=;
-	b=DGlCRxc6FjVTWsvb781WEM5I8/2AmbgP0JtMCBsI2rqfL/Pr1EyuI8FHBw1RDWWJjofj
-	 VQSWs4CJ8gJU2iFEjQpBf6zY9sRgoshA0KFw9+UUROJzObvrxJ0a5bgqAwXzEsj/GOTH1
-	 86r+IeoRFb1yBnTsy2sIQEwudwLh7dCPj4yVoBDcyUtgep2BJDRxUSuswI90lPNwth/jQ
-	 ZqsV5u8lcCMuAf92a4qYxzoviecH+OYqegKo6BetSCKENvg9Vaik/9VKaYoRucF1nqVok
-	 Cr0fZ4qYTVYcrKqt4O4U88e5r3h/pqT5vkjIlTXXS1mjEdQyfjyHXF8m8g6K3xrn9oA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DeHOV9sO;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.161.49
-Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.72
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793437187;
+	b=B+p3AJzIPJPz/a5YTcJM1MF//TCLBpCA1X4yrHdyBove9SGz5LCULd3jSELe9YYibVrF
+	 SgycoGKezCEDLcivEAamAAAouoMAN7LvCeAj+nqFwMU6rkIjUg2mkGguZNpGch6cvL7uX
+	 onLa5xVr/avuI/YuS5euDf72eGLgW1swscy2baVg8FjZNHI/cW4bQ/aAUpM6RmFZFAWtz
+	 zW0XWWxLSk7oI3vmTu8AL5J56CVugtWiP1ulaYClRIzMX7KD8puDUlhuDI6bhtMYDJXzq
+	 58Wll9Pg44W954ZQw9iZgfkZVY2quaJlTl+4KQ3fRCGI8i6NUTBFisfMq/exi9RPbuQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793437187;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:MIME-Version:X-Received:Date:In-Reply-To:
+	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
+	 Subject:From:To:Cc:Content-Type;
+	bh=ZSLE5/DCeed2E3fh+d6OIsBXtvzSdC0fzCtMY5JqQv0=;
+	b=OkilKKmOpcV7BnrMukWLeOrrRDU+s5HVDLV9SjuWXPTKR7AnvAnZyeWYJBqu3cR/En1P
+	 9N+Hb0DawYxCTKoDfstrxh8n3VlIrdI6M3j8ji9VNSQ+W2a3p9dKxZFt/fS3+vrS6rrTn
+	 Kzcj7aFdA3cVcFeWOg5n2SBd7E9OKOx5eqJe6Fg9Ia0finm3e5JJNkr1YJ7odQr53Ku2r
+	 YGVKSFz9jTqipnSDQksKX6OBuQylyvqKh6SU5qdqnzx+cJCO3P0Pyk7udq5f7sHIgpiDt
+	 +yzKXYRlux/75DjJQX4lN86hIRJTnI97IvDQazUI7bQtCKIGXwxmTJjl2C7tIDOuAfQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=fail header.from=syzkaller.appspotmail.com;
+	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
+	arc=none smtp.remote-ip=209.85.160.72
+Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com [209.85.160.72])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC2EA606A31C
-	for <linux-fsdevel@vger.kernel.org>; Sat, 31 Oct 2026 08:56:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EC2EA606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DeHOV9sO
-Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-6b19e291cc6so1415982eaf.2
-        for <linux-fsdevel@vger.kernel.org>; Sat, 31 Oct 2026 01:56:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793436992; cv=none;
-        d=google.com; s=arc-20260327;
-        b=NGkTDkHVRCqbTdjhCBdbKc+2PLjqqFnAJvvtPc0/MiINbW6EOGjoD+VW3skMQX8h4S
-         +b/UISrnqw2HemDK+hetqIltKCyv0yhIABfNDINBDjKpv5EPwG97ZklJccHH/e1EfVz0
-         RFwGjBEVqg9xZDg+KfC0pD4h1osLqjZG/64ilvN4CTOUnElICTbfNpB0MGkFqcJl5Ruh
-         jxp/m0BXyue+nCBSpEGbs2d8w/Fc3G4+CY+KD4vf+eLTiAY7Mzmp0BJLX09lUHzoPrwI
-         PHfGxt8+8nRLinMIGw4PzwCSkwBxjMRhNIMfL0dbEseYTsQW7uh8UZcIRSIGMVILjTWo
-         ZTEQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=gTx394sikhqmmuQLs1UOGGZh1cBtivYg1IDNeqBRTrY=;
-        fh=pJL6PDt/X4u7OCsGc0jQeChqGmVt+NCOJcrUAG63E3E=;
-        b=T8JsiQmhn8wI8UFXVwvnYM6MX701X1+B8TcWud9t9Pnjh3E88sy5nTe/nZUWhE+BWg
-         atWZPM9llYq2TZch8CPCaJlFGeIttNB0PW49acYhKhj5GNjmFpE/L4aG70hQCtFUs34K
-         YQypXwvE/myZmfFhzEaDNC5o+MKNxtEL+aKCyjeBuRib3ngpV1DzJk5zjsl9LyUlJ13m
-         AyFIuikBR0g84OD6vNWIGAwI1FQ/E0mlu2GdSpAD7qTrwRJePlvx72vTG5akJpnrYDxh
-         kVCH8yupHxNqDh3tdIQLkKu77za0TYzZGjm1E0vyGAo/qXoZzKHpSRxivAY2xGkeypZ4
-         neSg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793436992; x=1794041792; darn=vger.kernel.org;
-        h=content-type:to:subject:message-id:date:from:mime-version:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=gTx394sikhqmmuQLs1UOGGZh1cBtivYg1IDNeqBRTrY=;
-        b=DeHOV9sOnWxQmpnlrNyp0tXMPco0LV4SJ/AXWNixEZ3xqyK83zZYxh71297jo1bXIA
-         GkyHG8oGg3id6m/ZsYERqxpqf8ZSEdEE1TKaHQmC9+c3XWdeOM9ziyOMp5L9v7nZpbBH
-         NQypkLnHRHT1s8WpLR9FU/tksxeiXUxAlgIUO7vDyn9Rbdn+1x5niceNr7kIH8TPHJNV
-         80IAux0k1j9wI4apSOAocHtICKfg0SG8DwCvfZZUUz1M5v3exnre3Zck5w15Rj6jhKWA
-         yjoRE0skUBTHiZm7iZaZ2eomX5S+Yl93ZNqXdRZp1eAmqtFvwYLjrEYyeGA7pCY7dieV
-         JpwQ==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8368A606A31D
+	for <linux-fsdevel@vger.kernel.org>; Sat, 31 Oct 2026 08:59:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8368A606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oa1-f72.google.com with SMTP id 586e51a60fabf-46a5954cdfcso1544095fac.3
+        for <linux-fsdevel@vger.kernel.org>; Sat, 31 Oct 2026 01:59:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793436992; x=1794041792;
-        h=content-type:to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=gTx394sikhqmmuQLs1UOGGZh1cBtivYg1IDNeqBRTrY=;
-        b=T93zKwtKTlFChOKpxa9vIk5l3GbAi7nrRBfjC/SePPJ2eSEdA+LHook/Xq20/5HplF
-         rVeYaMDAIEYqeyBwj1OXvmLA7F8vhyT3QP+lbFjaN16UuyILYmminXgRXYrgiAkSKzSh
-         ccPY4p7A7a26/tPPz7Qz809X0VuM2EJZc9CKc0zQuAWAA2dXbuGXeR4IpsPBLKrsf7VK
-         dHOdVkRDqq5u/KXJ2oOC27EOZiW1gR+gD87PbPyPczSLHRr1Fm3GaRDW0mqcCuxNUpWt
-         oHpIw95mGTZ9g5TUOeAGlsUKzTBEVJClPk978gD62QfJvp4i7mSa09rYUY68GAA+xilv
-         FfdA==
-X-Forwarded-Encrypted: i=1; AKwUvBxzsRgfqQSgRAcG2+JMf4AYHDjiJGB224flG9lcQXUlcFRnkoD6FfaA8d4Yc95ZvYeZQoU/Y66onxnMDh6N@vger.kernel.org
-X-Gm-Message-State: AFq9FYJEh+oQ2jpTwusQ8xQ0yoi8BOs90dXBIHBB6xMJ/1gc0Y2SNyfx
-	SSgkFQDiA+jz/cFwb3Kpmfr00smaFtTw2sEtwwL4zkkPrgQoJ19GEeyKX7W5KvVT6GITV/3CWA2
-	1jfsHhHe/nboUdHYMhBfkQht6bJvqSjrtDTtp3mQ=
-X-Gm-Gg: AYBFou2x7PSv3loG4+X3d4A9cyOBQy6Ihj5IWJWbpcPe7PHLDaSU/Xrs5P8qd35vDbJ
-	dDkC/TcSSazyNo+1YnT4fXe1GYY/y+cg16Wrxx72HryrOLDUFZnO1GH1xfMPkyGqnt9Ai+2vptz
-	jwrmUiwlUP92OylQG3dmZrBnfZaLjoJjc2pPv9co+FsdKH5n7RT+xlFWyqXgAzSl2pvREdPwBzj
-	ocRPA4B5viYpVp8dX87yfNevcNPe3i13FB0jCMOB8KuvSBJ8ztGcH4lneUSCm6krQXRvJj7ZbfV
-	i+YyxFAmXtlHbwNgTf2e1yeSIlH55nDQdEw9XsCS68alvs2VXc4Dw5sS83f9Z9QP7Bxf5u1LLFQ
-	BXWxzEEh8RCRnIA3XxIHGnCaOqPeeUV+m3mF041B/bsGdDo2xVmnJI2L+3Hgx1ltAIYC7B5dWBF
-	aLVa6vI3VTsTqFUw==
-X-Received: by 2002:a05:6820:828:b0:6d8:28f1:140e with SMTP id
- 006d021491bc7-714f290f510mr2610377eaf.24.1793436991830; Sat, 31 Oct 2026
- 01:56:31 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1793437185; x=1794041985;
+        h=content-type:cc:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=ZSLE5/DCeed2E3fh+d6OIsBXtvzSdC0fzCtMY5JqQv0=;
+        b=L7ti7qIEApXSNVKx97NEX12MUgMzh3uOYzbuOSWKeWcKOBi0nuh4zIjT2/OZll1/Tb
+         aoXUvy0hHt/4yZ3aVv3kZFmVp0I0Bf3JoaDg2Nrce9nGYqPPEWkz6K1i8wxmu2XwjIN2
+         PZhpJK+EWHsXLGBVIdK7N6H0pbwdAbp6FGXE3PetGgOdZjikPx3nNbS2EDJ86VYpEn4i
+         SoqGDZppphkA3WmH7iBuOcsUklK7wCXI/6bD3ZmWBnncaB49jFq8nD9FVKB86iOn00Nu
+         V80CMtPd86l5Wl6sewANNvTZ/yypzQ8Wco+LlBt8l/lXIe3gUcTDCnS29c6+oq1yrW+5
+         yNlw==
+X-Forwarded-Encrypted: i=1; AKwUvBzLzvoTXdnsfbcjIqrspEcAxalJC5rcKq2LN1z9d1Qy7tWC1oaWHfYQP7D4fE1L5buHPFnanaDadY6Vag5f@vger.kernel.org
+X-Gm-Message-State: AFq9FYLB5Fth/M+k839A/8GQBZ08ipFQDVJl0aV7im9ER8ujTjUkW74x
+	nwuElMU/71GdJP/zPNw2vzWuy2LG9WM2i8zqancBug/CEL+ATgpNwN4os3sns74IKNK9RSdq2ZM
+	AA44YmTVDqZV7lOqtXT5+BIeKkXQO/Hoo5I854HC+NivuTjNgG5OjO4zQHNA=
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -102,69 +58,104 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-From: David Kahurani <k.kahurani@gmail.com>
-Date: Sat, 31 Oct 2026 11:58:14 +0300
-X-Gm-Features: AclHuK9U09vFG1uxdVZyISvZBb-LYUaWKM7hNZBKSGvcoPSG7k3gSFLXT4t5Gac
-Message-ID: <CAAZOf25+GY9t4vrZQzi3UdgmeeqqXt8833sWy2C8oEZ2fztRTA@mail.gmail.com>
-Subject: cells: a container as one kernel object
-To: Jeremy Bingham <jbingham@gmail.com>, linux-fsdevel@vger.kernel.org, 
-	"andrew@amutable.com" <andrew@amutable.com>, James.Bottomley@hansenpartnership.com, 
-	"josef@toxicpanda.com" <josef@toxicpanda.com>, brauner@kernel.org
+X-Received: by 2002:a05:6808:1b2c:b0:536:611a:7fd9 with SMTP id
+ 5614622812f47-5640d927810mr3068275b6e.7.1793437185453; Sat, 31 Oct 2026
+ 01:59:45 -0700 (PDT)
+Date: Sat, 31 Oct 2026 01:59:45 -0700
+In-Reply-To: <20261030042903.4160506-1-hengyul@cs.unc.edu>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6ae5ae01.78e51036.124520.0002.GAE@google.com>
+Subject: [syzbot ci] Re: hfs: fall back to buffered I/O for direct writes past phys_size
+From: syzbot ci <syzbot+cid81af4ef4a45835b@syzkaller.appspotmail.com>
+To: frank.li@vivo.com, glaubitz@physik.fu-berlin.de, hengyul@cs.unc.edu, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	slava@dubeyko.com
+Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 
-Replying to: 1.
-https://lwn.net/ml/all/20261026-cells-rfc-v2-b41d7e0c95a3@toxicpanda.com/
+syzbot ci has tested the following series
 
-"
+[v1] hfs: fall back to buffered I/O for direct writes past phys_size
+https://lore.kernel.org/all/20261030042903.4160506-1-hengyul@cs.unc.edu
+* [PATCH 1/2] hfs: fall back to buffered I/O for direct writes past phys_size
+* [PATCH 2/2] hfs: remove the dead grow path from hfs_file_truncate()
 
---------------------
+and found the following issue:
+WARNING in hfs_file_truncate
 
-The pitch
----------
+Full report is available here:
+https://ci.syzbot.org/series/f8323fc4-a62a-40ea-9106-bff8391323a3
 
-A container isn't a thing in the kernel. It's eight kinds of namespace,
-a cgroup, a seccomp filter and a pile of conventions that the runtime
-holds together. The kernel can't name it, can't kill it in one go, and
-can't tell you what's in it. Privilege inside of it hangs off of uids
-and user namespaces, and a task can be half way between two sets of
-namespaces at any given moment, which is where a depressing number of
-our bugs come from.
+***
 
-A cell is a container as one object. A task is born in a cell and never
-leaves it, and no existing task can move into one, so there is no
-setns() and no unshare(). You build it from the outside by filling named
-slots from file descriptors you already hold, you seal it, and then you
-spawn tasks into it, at any point while it's running and not just to get
-it going. Holding the cellfd is the authority to do all of that, there
-is no uid or capability check on it, and making one takes no privilege.
-The cell lives exactly as long as somebody holds the cellfd, when the
-last one goes the cell is killed.
+WARNING in hfs_file_truncate
 
-Whatever a cell has, somebody put there. The mount tree is built from
-scratch by the builder, nothing in it hides anything, nothing propagates
-into it and the cell can't mount. The network is set up by the builder
-and the cell can't configure it. A new task starts with no mm and no
-files, so what it has is what you gave it. Say nothing about the network
-and there is none, it doesn't fall back to the host's.
+tree:      axboe
+URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/axboe/linux.git
+base:      a804c5742bff224d4cb4d25dd383554d598be32b
+arch:      amd64
+compiler:  Debian clang version 22.1.8 (1~deb13u4), Debian LLD 22.1.8
+config:    https://ci.syzbot.org/builds/734131df-1170-4dc7-a0ec-85ffb659aeec/config
+syz repro: https://ci.syzbot.org/findings/95638e3e-6c06-4f46-a68b-e468dc287d1e/syz_repro
 
-A few rules fall out of wanting the boundary to actually mean something.
-The kernel allocates the kuids for a cell out of a reserved window, the
-builder never names one, and those ids can never be stored on a
-filesystem the cell doesn't own. A uid means nothing across cells, not
-an equal one and not 0. Files impart no privilege, every task has
-no_new_privs, and set-id bits get dropped on anything a cell creates,
-chmods or opens for writing. Unix sockets carry bytes between cells and
-nothing else, no SCM_RIGHTS and no peer credentials.
+------------[ cut here ]------------
+inode->i_size > HFS_I(inode)->phys_size
+WARNING: fs/hfs/extent.c:494 at hfs_file_truncate+0x7cf/0xa50 fs/hfs/extent.c:494, CPU#1: syz.2.19/5839
+Modules linked in:
+CPU: 1 UID: 0 PID: 5839 Comm: syz.2.19 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+RIP: 0010:hfs_file_truncate+0x7cf/0xa50 fs/hfs/extent.c:494
+Code: 8b 05 ed eb db 11 48 3b 84 24 20 01 00 00 75 1f 48 8d 65 d8 5b 41 5c 41 5d 41 5e 41 5f 5d e9 88 09 33 09 cc e8 02 10 0b ff 90 <0f> 0b 90 eb 9b e8 67 00 30 09 44 89 e9 80 e1 07 80 c1 03 38 c1 0f
+RSP: 0018:ffffc900034afaa0 EFLAGS: 00010293
+RAX: ffffffff82bca45e RBX: 1ffff92000695f68 RCX: ffff88810ca50000
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000852
+RBP: ffffc900034afc08 R08: ffffc900034afb97 R09: 0000000000000000
+R10: ffffc900034afb60 R11: fffff52000695f73 R12: 0000000000000000
+R13: ffff88816b59b100 R14: dffffc0000000000 R15: 0000000000000852
+FS:  00007f4cc5ac36c0(0000) GS:ffff8882a7c97000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000560c8ef2a008 CR3: 00000001bd922000 CR4: 00000000000006f0
+Call Trace:
+ <TASK>
+ hfs_inode_setattr+0x4d0/0x730 fs/hfs/inode.c:698
+ notify_change+0xbba/0xea0 fs/attr.c:556
+ do_truncate+0x1c2/0x250 fs/open.c:68
+ do_ftruncate+0x4d4/0x580 fs/open.c:194
+ ksys_ftruncate fs/open.c:206 [inline]
+ __do_sys_ftruncate fs/open.c:211 [inline]
+ __se_sys_ftruncate fs/open.c:209 [inline]
+ __x64_sys_ftruncate+0x8f/0xe0 fs/open.c:209
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f4cc4b9f559
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f4cc5ac3028 EFLAGS: 00000246 ORIG_RAX: 000000000000004d
+RAX: ffffffffffffffda RBX: 00007f4cc4e25fa0 RCX: 00007f4cc4b9f559
+RDX: 0000000000000000 RSI: 0000000000000852 RDI: 0000000000000004
+RBP: 00007f4cc4c36b20 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f4cc4e26038 R14: 00007f4cc4e25fa0 R15: 00007ffcf07cc2c8
+ </TASK>
 
-------------
 
-"
+***
 
-Your description of a container is rather lacking. What you described
-there is not my understanding of what a container is.
+If these findings have caused you to resend the series or submit a
+separate fix, please add the following tag to your commit message:
+  Tested-by: syzbot@syzkaller.appspotmail.com
 
-A container is grouped set of system resources. It is purely virtual
-and doesn't exist as an object by itself.
+---
+This report is generated by a bot. It may contain errors.
+syzbot ci engineers can be reached at syzkaller@googlegroups.com.
 
-I'm not knowledgable enough so I will not proceed to criticize your
-design document.
+To test a fix for this bug, please reply with `#syz test`
+(on a separate line) and attach the patch to the email.
+
+Notes:
+- The patch will be applied on top of the tested series (as an
+  incremental fix).
+- To test a new version of the whole series, please send it directly
+  to syzbot@lists.linux.dev.
+- Arguments like custom git repos and branches are not supported.
