@@ -1,58 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.62.57.210
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793587239;
-	b=jedpoW/9hZkz4BFnAnxzw2v6WjG9CYX357A33yENIxqkwSjuEXSSZmpRnwdG/n2+7aX2
-	 /stk8y/7070aTVjtI8Zdwz++pUmY5Ej+d2te/srCgh9CJRws+JwgCFo8prPPZWy8+W7h7
-	 KPkUBhf0klAOJ3nJrJZWjvsfMDq/x7QM+F/CMLnipLBlStIBv+giYiyImfW1TZpXohap0
-	 KgNMOnp0xlY7SBop0KY6dG4xEUh3OSneEJe9K37hgqUDB0r2W5QJSGubkojdto1RoYDbZ
-	 iI7G7jWQEkpdNlJK+XjzDrFGZFW8GDwCmf35n/MuxxxeOMPr0Bm6HAoMJoWHuPYcwmw==
+	t=1793589018;
+	b=3gaUk+/GdfWdR5TQO25fVKAcqb1kAutOKNKp4mF+RrD+riITq7I1Rg1xw6ojmIAR4Coo
+	 HomkTNpvZ4X2PKnEqRxy6YrpZy/o/RBg/xCZbq2lrGCXNc3Ky39SHqz9jTIZyHBzvpZzk
+	 0uJRe9+7+5Jnr0xGtBy8eHjgk1tIiVzzNRO9u9VIRw+Q68kgEvVtyMvUhSbQxfc7Q1rp5
+	 E4vGMkCxEJKCPS0lucDnAc4Zbx8k7IEdMMv/WeTsYwg15cFon9/dP3jRm59s2XTQEZse5
+	 nsNKZZSfEVBRDkqhKzEelYfIBlOt9r93R9+Jt6/OBismlSeixv2wLm54OKR72AZbOCg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793587239;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-Id:
-	 In-Reply-To:References:X-Mailer:Mime-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=9MZi1hD6WqJcKS3km0Z8C+kRXVD/0KRLDA2g4HTFty0=;
-	b=TaozguMBakwJDPZ4qnc00+33D367gyLnqCXkpG2NDE0MwTykgjeGgVAITT51Ij7sxnqW
-	 NAscNWSLz8Y4mjQetrNCoSpF5diQh93taJwmqamYP6D8Xy6AC6hhgvnvRbh2Dzc/ORmt1
-	 NI+X9lGZ/n2yhit0cmyfzb5keosMfcj69tGdZZovte5oCFCXeeRHBumK4Oz9txwQDlLb/
-	 j3gjT5+a03GWOcAelUpbsaHr9rDMW/motgcIV327M77FTm/Yy9nbZ1YbPT1B2BJwDlIxA
-	 MNrLrpkhWcIZBo0v7W7Ml3tZ52b94wf4fRv0/C4jPS2hvkyTs7Ar+JJM4glXZmwcZug==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793589018;
+	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
+	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:X-OQ-MSGID:Date:
+	 Content-Type:Content-Transfer-Encoding:MIME-Version;
+	bh=iWb5wYhyScfSR++sA8B4O1T/vltG9PXR7zYJa2P/nhU=;
+	b=A2YNWxmS6Kla/wO2Xn/qguivTANFoGLY0+szibAWBPKXn5vL6Z6mRV+wTk3rlF3xBILC
+	 fiJg6N/FHh1h2wBk7lx9REQmOtN1IcpPwcP/uHyohSQV9thuJCZBqQGuz4tvHLGKSP9tI
+	 uGbvrhWrHkw5POLFYGPJyqy7iGIk2UPm8RRRDaURWJBUFZMXo08ERVpQWE1yuF6rEe2fk
+	 y9il0b1+4QRWfeht34dBq8KUzv75zhhTjgxUt2rjBK+xObxc0o/biJseVIbYDYY14xX7Y
+	 RSm0iKMj2Ng0nD4Ff3iS/kSND8SEHzvsXVnND9M1t/bc+5Sog4YlBE+7smt3s2hTLbQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=V5EY1ZP8;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=qq.com;
+	spf=pass smtp.mailfrom=qq.com;
+	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=lsp0wptZ;
+	arc=none smtp.remote-ip=162.62.57.210
+Received: from out162-62-57-210.mail.qq.com (out162-62-57-210.mail.qq.com [162.62.57.210])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9038606A324;
-	Mon,  2 Nov 2026 02:40:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71103606A324;
+	Mon,  2 Nov 2026 03:10:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 71103606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=V5EY1ZP8
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0D451F00A16;
-	Mon,  2 Nov 2026 02:40:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1793587238;
-	bh=9MZi1hD6WqJcKS3km0Z8C+kRXVD/0KRLDA2g4HTFty0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=V5EY1ZP8wlTtErpAj4wIIH2pjK5+yBnubEbEeMgLYjUfOKwx8kblJ7Z2Z4o3TYYt1
-	 9/AoT4bhgHjfeNuDZ4H1MEqk88MkqBy+TuLNOwKAyLd9GbB3LJbgLfJ/gjsRZDqjc9
-	 ah4YNs8AOkLHGA5usNB2fmwsr41n1qzW6/p2a00w=
-Date: Sun, 1 Nov 2026 18:40:37 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Muchun Song <muchun.song@linux.dev>
-Cc: joasantonio108@gmail.com, Oscar Salvador <osalvador@suse.de>, David
- Hildenbrand <david@kernel.org>, linux-mm@kvack.org, Hongbo Li
- <lihongbo22@huawei.com>, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- syzbot+91e1fc35f51774c479b2@syzkaller.appspotmail.com,
- stable@vger.kernel.org
-Subject: Re: [PATCH v3] hugetlbfs: move hugetlbfs_free_inode tracepoint to
- ->destroy_inode()
-Message-Id: <20261101184037.5398ecf4c8348462a70b3968@linux-foundation.org>
-In-Reply-To: <6FC96012-76AA-483B-BDA4-8E1C1ABB5FFE@linux.dev>
-References: <20261101-b4-hugetlbfs-trace-v3-1-051b716f490f@gmail.com>
-	<6FC96012-76AA-483B-BDA4-8E1C1ABB5FFE@linux.dev>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=lsp0wptZ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1793589004; bh=iWb5wYhyScfSR++sA8B4O1T/vltG9PXR7zYJa2P/nhU=;
+	h=From:To:Cc:Subject:Date;
+	b=lsp0wptZ2mVVWPIEjumk7K9SbYCoTJU4RKkKm0ZUbRfYup5Rd/LslwADvMuLCZkO+
+	 JeL+SsiHSC452NhxAFQPb/iByGOnpM589FHgmcTjGK+sv/lLygGoGA4JosE9I7f/pC
+	 1iRMmd0gcDjh9vwdHwjJYsS6omTBecQdLxwsiaAA=
+Received: from [172.18.4.77] ([111.31.227.58])
+	by newxmesmtplogicsvrszb43-0.qq.com (NewEsmtp) with SMTP
+	id 28316E88; Mon, 02 Nov 2026 11:10:03 +0800
+X-QQ-mid: xmsmtpt1793589003toc4k5i77
+Message-ID: <tencent_EAB5D4A0EF9A112F271AD38CA80E1FA5A807@qq.com>
+X-QQ-XMAILINFO: MRMtjO3A6C9X+HFIBTraNruENJyTFijhQnt6tSKm/E84ZvfrCwILH3QcOioBCD
+	 odLOfrsUtZLUHMzO7kDBKK8TAuyAMwINiVHrv2eHIhbnVNWDo2jUXfpQwR1tRU95bzXJW2N6o/VS
+	 IQELJqJVIXQ15Q2Vf3mhKURq68NVAv2jU6QmLNyC+KqbLOJPGnVat+7Z9olL9Fm/bQ/7fCMsCF7x
+	 ZYFKhG99LSSN5lXeLroGbVosjwW+Ib1FmCrJDIBXwYRqiLcgJGcrpcV6V0eSMWf2U24fiZms0kNY
+	 lK/7Z3t2PaqbadUqL1CZVvnYm3wM7NtpZjsJneohkLlQyAUVgo7cX1Sj5XyOnGZX+PrMW0mf1uOU
+	 am0j0F36B6k1bLMiC0O3CYFu4LipMOXuNZEA7CkX4POTImMukdVTIsBq9ywlqaUa2YbqlZp3YTtS
+	 7TZHuuf8cxFBRGH3wBcrkzR0kcsOf6s7EwcEkuU3TzfHvSdXTBO7CZZoWpigOA0+RpMEHHdOgKJz
+	 iov77dFskM7k8yVmsEPAV8sF2+AUYsHl++A2Ck3tkHkvlo3CXidr0iEPjIIlrmvHWPG+KYX7Hkxh
+	 kbq8EHfPsJ+olOsPv9nCLi9LlMebXQVKPNnQWQ1fWW4JVaLwIdzsrhV4mWZA6NzpcvnH/Qy+6kv1
+	 dI8NNlGpk4VzGwJm+qUyNEpI9qOBwasVCgtJKCUFDMWCBvS3hRV4zfssiB4tsJRTIdGKK2s7CR23
+	 UIV3hatwDzezGMKPmwRC/8MvoYzwDtVCj8A4zv0aTFjMbFvdCjsxLHSsstvkOld4yqEMx0liQpfG
+	 LtgScHQBm6PtkCwoGzj5Jyq3CI8tFwhWs3mMY3eBzs/5cZwDM6byw13fEglfEIY82wf2pDeoGRyk
+	 RuPE1kBjNiE4mJ7k5ktAnAd92SsSFYFCEfd9Ax8T0H+s2brrs0X3YVbeBSAZIjZXZi3uy2kysIUR
+	 BIoePKqN8yy5NT+kZK+/M8LSrVJOtLTikTnatZLQQ2OOgpNwFXrTCK1Dd0YZNCXK55BO4pfuooeI
+	 iv0flwJE+YYah7TMkxQE56DERNR3VTeJypX2es1wC+7qKqDayChL34LBXMHInHtr88uM9sBTWXfi
+	 pEBRQJ5/7eHcT1CZE=
+X-QQ-XMRINFO: MPJ6Tf5t3I/ylTmHUqvI8+Wpn+Gzalws3A==
+From: Guikun Yang <yangguikun19@qq.com>
+To: linux-fsdevel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
+ Jan Kara <jack@suse.cz>
+Subject: [Bug report] ufs: fs_cgsize from the superblock indexes struct
+ ufs_buffer_head.bh[8] unchecked - UBSAN out-of-bounds on the first allocation
+ after remount-rw
+X-OQ-MSGID: <c5-ufs-cgsize-ubsan-20261031@qq.com>
+Date: Sat, 31 Oct 2026 20:30:00 +0800
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -61,37 +79,83 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
 
-On Mon, 2 Nov 2026 10:24:38 +0800 Muchun Song <muchun.song@linux.dev> wrote:
+To: linux-fsdevel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, Christian Brauner, Jan Kara
+Subject: [Bug report] ufs: fs_cgsize from the superblock indexes
+ struct ufs_buffer_head.bh[8] unchecked - UBSAN out-of-bounds on the first
+ allocation after remount-rw
 
-> > static void hugetlbfs_destroy_inode(struct inode *inode)
-> > {
-> > +	/*
-> > +	 * Not in ->free_inode(): that runs from an RCU callback, when the
-> > +	 * superblock the event reads may already be freed.
-> > +	 */
-> 
-> Since the trace point name has already been changed, the comment here
-> doesn't seem to serve much purpose anymore, as there isn't any ambiguity.
-> 
-> With the comment removed:
-> 
-> Reviewed-by: Muchun Song <muchun.song@linux.dev>
+Hi,
 
-Thanks.  I've added a note-to-self to track this, but I've left the
-patch in-place as your observation doesn't invalidate ongoing testing.
+While testing on-disk field corruption in the UFS driver, we found that
+the superblock's fs_cgsize field is copied into uspi->s_cgsize without any
+range check, and is then used as a block count that indexes the fixed-size
+bh[UFS_MAXFRAG] array. A crafted value writes up to 120 pointers past the
+end of that array (UBSAN array-index-out-of-bounds), panicking the kernel
+on the first allocation after a read-write remount.
 
-I always do this!  But this doesn't appear to to be widely known :(. 
-My fault, really.
+The code, fs/ufs/super.c:
 
-My notes-to-self are mastered in
-https://git.kernel.org/pub/scm/linux/kernel/git/akpm/25-new.git/tree/pc/devel-series,
-so the overly-curious can always look up status in there.
+    uspi->s_cgsize = fs32_to_cpu(sb, usb1->fs_cgsize);   /* no validation */
 
-If a patch has a note, I won't progress it until that note has been
-cleared away.  This often involves sending annoying private emails to
-people, or fixing stuff myself.
+fs/ufs/cylinder.c:
+
+    UCPI_UBH(ucpi)->count = uspi->s_cgsize >> sb->s_blocksize_bits;
+    ...
+    UCPI_UBH(ucpi)->bh[0] = sbi->s_ucg[cgno];
+    for (i = 1; i < UCPI_UBH(ucpi)->count; i++)
+        UCPI_UBH(ucpi)->bh[i] = sb_bread(sb, UCPI_UBH(ucpi)->fragment + i);
+
+struct ufs_buffer_head.bh has UFS_MAXFRAG = UFS_BSIZE / UFS_FSIZE = 8
+entries. With ufstype=44bsd the fragment size is 512 and the block size
+set by sb_set_blocksize() is also 512, so a normal s_cgsize of 2048 gives
+count = 4. A crafted s_cgsize of 0x10000 gives count = 128, i.e. 120
+stores past bh[7], overwriting the fields that follow the array in struct
+ufs_cg_private_info.
+
+Trigger: a hand-built UFS1 image (44BSD layout; there is no mkfs.ufs on
+Linux) with fs_cgsize changed from 2048 to 0x10000, and cylinder group
+blocks whose cs_nbfree/cs_nifree are zeroed so the allocator reaches
+cg_found:
+
+    mount -o ro -t ufs -o ufstype=44bsd /dev/vda /mnt   (succeeds)
+    mount -o remount,rw /mnt
+    mkdir /mnt/d1                                      (first allocation)
+
+    UBSAN: array-index-out-of-bounds in fs/ufs/cylinder.c:50:21
+    index 8 is out of range for type 'buffer_head *[8]'
+    Call Trace:
+     __ubsan_handle_out_of_bounds
+     ufs_read_cylinder
+     ufs_load_cylinder
+     ufs_new_inode
+     ufs_mkdir
+    Kernel panic - not syncing: UBSAN: panic_on_warn set ...
+
+Reproduced 3/3 on a self-built 7.3.0 kernel (CONFIG_UFS_FS=y,
+CONFIG_UFS_FS_WRITE=y, CONFIG_UBSAN=y, CONFIG_UBSAN_BOUNDS=y) under
+QEMU/KVM. A control image with fs_cgsize = 2048 runs the same sequence
+without an out-of-bounds access (the mkdir then fails normally with
+ENOSPC). The field and the missing bound are unchanged in current
+mainline.
+
+A natural fix is to validate s_cgsize when the superblock is read:
+reject s_cgsize < s_fsize or (s_cgsize >> s_blocksize_bits) > UFS_MAXFRAG,
+which also covers the zero case. Happy to test a patch.
+
+We report this as a crafted-image robustness issue: the crash is a plain
+UBSAN out-of-bounds violation reachable from a normal ro-mount,
+remount-rw and a single mkdir.
+
+The reproducer (image with the flipped field, a clean control image,
+the run script, a guest init that mounts ro, remounts rw and mkdirs, and
+the image builder with the field offsets) is available on request.
+
+Kernel: self-built 7.3.0, CONFIG_UFS_FS=y, CONFIG_UFS_FS_WRITE=y,
+CONFIG_UBSAN=y; QEMU/KVM x86_64, 1 vCPU.
+
+Thanks,
+Guikun Yang
 
