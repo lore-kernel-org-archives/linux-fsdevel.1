@@ -1,95 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.229.0
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793485716;
-	b=vJmAgijeg9ozKJJdbF0DZKc8I3zFamhgc/cWPdWV/Qw6HwfkGXXWXayzP+bAQMQDQaNW
-	 ZwB66JHSWdxo0zdD/mjQzGM6YiGAUbCNLqtQjiPwSrHFrceDk/Dhzk9jZYGi/4T1TKOkN
-	 Ara2TsTi25kOLG4RB9fcjhmGnllObE+D6jOtmXV8xb/M4J+kMlyIGV4p2RkbdbzTx+PQl
-	 /iK2ZDwJMweRe+cdaL1UMIbXU2tspIDB3tsPlbfY72Q5O5OyAxfNcKUGpNaDinRkHcHXQ
-	 BBC20Fc5Pjg/DFkgoY9MPAKyyoyLwIE1qViRr2MOnN+qLxgUShgUM3YBEZG5jVZy64Q==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793485716;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.231.201
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793488475;
+	b=tAaqKdTQrIrK6e8z+w3OD/MuDLu675eIr1xkCEfTfhiTX+JBpUHScp54jjjqgrXdRYHu
+	 qVG+ojibxsJAkhdZjNCGifNTVSMqn9wJp1Ft+40eKRG0s9+fLTRRLlt8Lr9z/hq+Io9Ac
+	 vOZ4KbK49hKfGQlJ+b5O/keNwugbTH5UErtcUF4sv49gSsd3NP4sKg1oJBIXDXJt+k4VF
+	 9c9Z8X5Wjum/adhqwDfxTGvAoyKHOsUpsOI69bxGzMh704rRuIVwCu9NG9GGnt3a6TUYu
+	 4bOmXsSJsYn0wRNpqZGcSUpmaWlGqN42lovR+YWNLGpP1MLQ5prJ/2TudhQc294IDqQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793488475;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=m0JnkbHJkuPfCHVuDrGb2+stBd0JEX0qG9o4dkUA+8w=;
-	b=FUN9sgOhr+VzZLEfzG9a1jYe0qaxIF4zsxwz+u+4pNldsj70UrpK5Re2ZTTf0WLbhsdS
-	 FEhbcgmTRIL8Ap0luZSN9DDLHaCSjOQP2CA03QYBEIRKW5dTB/y3C7w2+GBrrdGR7Gxi5
-	 gCH3OG3GZb3hSGgFwSzPkEtxPpnj18JA8u7BpLb50mrrrsgIQtYl6OuxG9DnWu8LabIY7
-	 GTAMSG1VSHsg5OY4Oye7VoYXmSAgSuf/QcGDIg+6vgE9QPrcHDLBC3lFiWHWFI3pxuH7Z
-	 yq+z3dRoNafrhf2HwPzKJhEFDWuCaqQFQCjL5sooTQHayOjvuPoLz5K6bFB9ft7OCcw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=b5ulenXHumJtq8LULulVlEQpUa3RXUxrO4E8u+hYZGQ=;
+	b=VxlS0qwVmpwlgyEwz3eY7fqPvxB/MQPPJb8Hp8dtsXN3q9zAv9eWvLXPJwjmuLjAxveD
+	 V5fxvYXQmxrVAMfig9LXELX7JdxNVXmMPysegbpdJER4uAtJydBe1/vDP73heHpnNxpq8
+	 zyy7XY9pf/I8WkFUfZ4z4rWtaUYz09//pPT9NFIwA7naCL7GTih0+bQ/JdV+902JvQztm
+	 +ZzeSTeyPGxx5NOad39mFb6W1c+31YQx7FA9u7E3GHoYJS5pPjaFJk9OrEVS61+By5XPx
+	 HssxaRsVMX26Wj4n6qKR/9KO3LPlGM5omW7HpUSDPviDMutQmI3TnIc8dYCYENKj+Rw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dgBwhI3y;
-	arc=none smtp.remote-ip=74.125.229.0
-Received: from mail-dy2-f0.google.com (mail-dy2-f0.google.com [74.125.229.0])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Je9fUjsB;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.231.201
+Received: from mail-oi2-f9.google.com (mail-oi2-f9.google.com [74.125.231.201])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8EBF606A31E
-	for <linux-fsdevel@vger.kernel.org>; Sat, 31 Oct 2026 22:28:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C8EBF606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A28BB606A31A
+	for <linux-fsdevel@vger.kernel.org>; Sat, 31 Oct 2026 23:14:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A28BB606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dgBwhI3y
-Received: by mail-dy2-f0.google.com with SMTP id 5a478bee46e88-3117f9b9e64so152339eec.0
-        for <linux-fsdevel@vger.kernel.org>; Sat, 31 Oct 2026 15:28:35 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Je9fUjsB
+Received: by mail-oi2-f9.google.com with SMTP id 5614622812f47-4f47feb5a15so346449b6e.1
+        for <linux-fsdevel@vger.kernel.org>; Sat, 31 Oct 2026 16:14:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793488473; cv=none;
+        d=google.com; s=arc-20260327;
+        b=KNoAA5qKbVr4yKbhvzmv4bovOOWzXVFQ5fwX2Arr8ECM0o6lekxRRmNKTQgx5ED3hH
+         ujpZ3+jVVAb63ikrBibJ+WX/UfbJNedUqax/eFGmQt22eCWtFyO5gPWyZDxccPgAPBah
+         UbDfvqZEKViRkRw3hXroBf1cEDlhv/jCPHfj1GhKd4Y1Vb74IWYQf/QXk8a6d4a2imEs
+         XkkwUDXAWOyIpXreCNGdDGIxcTGoMcep+b/+mNgaNJ0QAJ9VPMyEiFStBdHkFSr56wdd
+         fx9+w0swIk5kvaXHJbxjJFhyEptbktf12yndvCNAT21hB89E9xPXVv0DbtleESO4i+c0
+         A+vA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=b5ulenXHumJtq8LULulVlEQpUa3RXUxrO4E8u+hYZGQ=;
+        fh=gLpRb2PmbkEM33EP1fI68UPlLsekrOP4dcaHnh9lOQw=;
+        b=DSY/+h9pB3heor8rT2DmBBIbYLJowht7OXlLa/mBf+7jCKea1evvme7NLsToKyzF3f
+         eKHCGE23dsm/xc04QLSuiScYXYeCfQydu5NHp1xcsmLBIV9apUJoJeMY1Y79CjDkonJH
+         EGIBpHq456DFheRxMxTJTZkBE2V1wCm/22vLkK4x0EJlapj/sP3efCNSgnzWtVyvCbDA
+         T/3rWb672QImY/whswboOjd1c/RcXBvaN2Yz8ZyWbK6WNB8mBbDHrEWEplxRfZWWa9/O
+         r+u9r0HZ2hVGLHbtICw3FTW6so/zdlo2G9FNnRi/Hj4b9r47b+F1zW8D22KEpCozKe6n
+         MHHQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793485715; x=1794090515; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=m0JnkbHJkuPfCHVuDrGb2+stBd0JEX0qG9o4dkUA+8w=;
-        b=dgBwhI3yf26UwLuKeQmvpbcyMU2C7cg/wIucp8d0W3AG3ij8p908y0P0SnXHzdgBAf
-         eDjsBGtjxZexsV9LTvsQNcgAApRVYuJSBOt70dJFXrbXMFZqIOPfv43Zf1X3q8RhkuLQ
-         JzwPEExMLvjlDU8NlwAuUPLPFlxacleKM8j0ORixD+u+elvJsoaFqYr+nqiH+OroB8Qr
-         WYl9YK4Iuf7nJthX3782Bm2aZi0Q34XRBMMXkJOVF00AdhVYzSEW52+Y8qEIIsLEXRz6
-         yoRMLZ15xJZ/m7NHWQHvrVg0XZs4Fu8csJ4PvhxrOPRcwW9uLdb/mkJYAFo84BVK8omp
-         Rtng==
+        d=gmail.com; s=20260707; t=1793488473; x=1794093273; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=b5ulenXHumJtq8LULulVlEQpUa3RXUxrO4E8u+hYZGQ=;
+        b=Je9fUjsBtQJ92yil2+q8Uc8UoBtnI/Q8bDR+y4NYLIbyD+He3PVDmjunJJdsSBgRbI
+         u10vmRGrWlrmHGniaTSoimt1PVEuRa6JiVMwGuAwrJabT3wncqvPy1NcEq7qz6Y4REDA
+         oanffB5sk0SpnYQlUTV2ebqkX/HBe0WSWqYIj6YTJe1Og3WwwvUoEQNX3Nv1FbyzE2YW
+         IN0Jiet/1lx5YHPrN15v7BSH3TOWC+1xTJaqgRGm1zb5Hr83uS36piXrrIR48jaoRLoU
+         7N3eIEcC6RqJeT4UbeojsOFHCmfW8VnOU/FNf8xGDWsRn9y4kGHdOBRZTTcwDSsA8soE
+         dl6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793485715; x=1794090515;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=m0JnkbHJkuPfCHVuDrGb2+stBd0JEX0qG9o4dkUA+8w=;
-        b=2Sm+j9NZsP4vngFgroeCSf80erUDuZFtCFPvRBFreXukGP9QmHamGKJpeJQ8ChPSD2
-         P5cTFA82dfg2kLlCG3yX5ixtqY7Aa2gjGCmrZMcy1loKxfLeiF1RmIUmKM35x6FT+X9x
-         BqVqs4SmGJoxcmMurnP4Cgg5Ik8MlyDELMuzS8SWGKL0vRweSYSfMnHccagxCmAyrr5o
-         1QND0uzCnVrtcOZRok6wXjIKew9N9NV5o3iKC86A8RcDCmPA/fgn+QV7bSAF5i3oTIkx
-         rYqDMqPM5WMFhkDqCJ8zgFNIgO90QWkWtp8bB2u5YEJmpHcbHozHWW7uGowJGSPrADLR
-         fxJQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzJ6d1SGpO0gfo+0RnEyFYB8zZ/VXLGpOELqFm/OEnNm/vXBW0hoGkwi45jBV+QVkSbFtR60IaSJdgKriFi@vger.kernel.org
-X-Gm-Message-State: AFq9FYIBoL60I0H1ZBn+ynKDc5da/e1Pr/xeU6elAhT4Vmq8wec70prI
-	xQYUmgelH5b3m9QdnqWNP1TFscuQBlZwsr4Veeo01ULSp5aGwuj97dLW
-X-Gm-Gg: AYBFou1p5mhRdRz9NNxqgmGQfPz13wHCRx4xHv1KZuSU45gnNHk3ChnkK3cRRorBJk2
-	VEdo1rOMLoectJwRxbnwaSsx+Ga6SejRChTbgWPjlvNuIZ/RhdtRsDtPBvDp2NOfXPmsKvDqFw4
-	2Wa07fcvRcfI6vNNda+z5g3UMauCoj0UvLPZNm0CuVhrOJoMbbBjasg8eh28XT/49uiYrN5K5CT
-	MFHnxgIs970wp+0kqVvwgQgRv1DAM3ThxsuaAfII/OU0OwBJIvVYLjUahuTS6SYaPISkE7LaDxC
-	yel9D0FIHoX5OFuz2x+9yPAl/km1qGid3Wey5OZEMY3AUWubtgTOs8Ta4oNVN2RhQT7o8UjPqkF
-	w2CQDRzSidmanv1QptRSeoVs/MW0QBXIepSfksMr2wN8IynN7JbJHmXh+Q+I8ej/glK88CaBcW3
-	3v4nUoBl4gdmH/1RkO/jtkIXY24ofLNlqf1/geKZEfc2ulJ5Avrs8D5QzYGGpZnWFzKeeyNboaV
-	+whG/LIjaSMyyFwOn1T+Q9x2YCaBQ8bnIOB3m2ud470W8uFxSLMwJqR99STTWQtU2myA7DvgoaX
-	Xa9zNLnkSwu38wnrEPd6Fzacce1RLxken5+RKZ5Xp9vfI0Z9QVFWt3ER
-X-Received: by 2002:a05:7022:5f0a:b0:14a:a6dc:9cbf with SMTP id a92af1059eb24-1ac599f5078mr7780009c88.4.1793485714706;
-        Sat, 31 Oct 2026 15:28:34 -0700 (PDT)
-Received: from localhost.localdomain ([98.148.34.5])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1ac1854d925sm33876066c88.7.2026.10.31.15.28.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Oct 2026 15:28:34 -0700 (PDT)
-From: Hungyu Lin <dennylin0707@gmail.com>
-To: Namjae Jeon <linkinjeon@kernel.org>
-Cc: Sungjong Seo <sj1557.seo@samsung.com>,
-	Yuezhang Mo <yuezhang.mo@sony.com>,
-	exfat@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Hungyu Lin <dennylin0707@gmail.com>
-Subject: [PATCH] exfat: preserve the 64-bit FITRIM minimum length
-Date: Sat, 31 Oct 2026 22:28:23 +0000
-Message-ID: <20261031222823.223-1-dennylin0707@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20260707; t=1793488473; x=1794093273;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=b5ulenXHumJtq8LULulVlEQpUa3RXUxrO4E8u+hYZGQ=;
+        b=Ayn3wuNalAcYvDDu0JCN2G2QXYXNb+O47Abld2wB8uiQ/XpsnPI7XNQpsO47f7bQnI
+         tIe21iTrq61vrsoQuWm7HXilsRCQSgijo4kOjdLCIxpbxz4e0W+uUqzAG5Xr/mCX+BiB
+         t0W9apzhjV6cVoOGw6yBRmtFDcNH/co0p4YjPCMsMlj5MaX2E2sbznFzjV0H/LrT/a9p
+         C2tI36f0FniHUGdsZCsid6JtVNjY4tU5w0CYkw4KE5I91AZSQT/cu9Qf5yGiOneqyEDr
+         iG9y4JWxFeiaasMkcM667pkj9K5N4nnO8/cjNiByoH5W90mxydIUvMNRrr0iHA9fA/7L
+         +jxg==
+X-Forwarded-Encrypted: i=1; AKwUvBw16nH6spC963I85b74IIGnQF3Z2qSJB7DtJVw2N6LARzs6qouGQZ8DVId18YAuRwQCDR83o+3NJQseuiTp@vger.kernel.org
+X-Gm-Message-State: AFq9FYJN/D6SlTMvhVfF2RrH6jzo+qRVozJMfOV2Bp6Tx9U57BKbXEnv
+	PT+wJ/QfEWK3CdIha7YHSiMTHCIkTYSfw53/KMLk/Fe/poju4s7XZITzEjQiPi13ihHEiyBVCcc
+	Cfi6No4NZzk+8Cq79fVVT30/R5KX53AY=
+X-Gm-Gg: AYBFou1I0002zyv2kEKYlyRhsOpueD8nbhJpHjnrtKFLct+CQArMXyaaucqiuaM91+E
+	JAzM8+76cML3ShIldji/BnWaM2s2ELWHWD0eHv1vhyZaT5AmuRow76Ia7I82mFf0Be329zicsFq
+	CmDNVq+5+4RFQAS9/yGsnOspLjjRoDcCHzO+p1pO2dvnIcLK9tIpoTUFNNNalBwP0aWFBxdls/d
+	M95qx9JNDZHGEuC1dZBHwzSJPz2qxUIo6JFmgBytbkNnSfZ1v8qFb8qDVCgK98HAN6sdBPrOBAx
+	Q/UoqjTvWjqms12ol9pMgpdsklAD3OKBlqFqINn6PwydEjI+at2i8kUIadfIhYPHVdoNtCbuUXW
+	crNwixid73CB/D1Ssi2KIUDdZz5ftEJLkxLFsW3mBmiZdOZ74eMBbWtpOS803e+kLyZ2iCMA=
+X-Received: by 2002:a05:6808:1a0e:b0:4e8:5ba:8809 with SMTP id
+ 5614622812f47-5640dd797c1mr4730009b6e.26.1793488473503; Sat, 31 Oct 2026
+ 16:14:33 -0700 (PDT)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -99,40 +103,26 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261030113201.2921633-1-amir73il@gmail.com> <CAGEkeHekpqv5ncd8tFP2v-OAy-ujTf9_RBbed3dgmTTAQrsPzA@mail.gmail.com>
+ <CAGEkeHeBcz2Atc7zz6u-Evd40+AOBtx9Ke+REthvTppxw-vpRQ@mail.gmail.com>
+In-Reply-To: <CAGEkeHeBcz2Atc7zz6u-Evd40+AOBtx9Ke+REthvTppxw-vpRQ@mail.gmail.com>
+From: Hungyu Lin <dennylin0707@gmail.com>
+Date: Sat, 31 Oct 2026 16:14:22 -0700
+X-Gm-Features: AclHuK8GCKp7TD0QAjA53u4ItOwUZP_Cmf9jolPUWqgYVOzvnXAg3-X3BtQ5-hk
+Message-ID: <CAGEkeHfrqbdHW801cjJLu0-to31SkH0Fc2K+OnnjFcsbjVDAkw@mail.gmail.com>
+Subject: Re: [PATCH 0/3] Overlayfs casefold fixes
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Chris Mason <mason@kernel.org>, Josef Bacik <josef@toxicpanda.com>, linux-unionfs@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-The FITRIM minimum length is a 64-bit value, but exfat_ioctl_fitrim()
-uses max_t(unsigned int, ...) to compare it with the discard granularity.
-This truncates the requested minimum on both 32-bit and 64-bit kernels.
+> On arm64/QEMU with ext4 and tmpfs, both tests fail on ovl-fixes
+> (1d27da7de3f7) and pass with the series applied.
 
-For example, fstrim --minimum 4GiB can trim smaller free extents because
-the minimum wraps to zero before being raised to the device granularity.
+Based on the two fstests and the fsconfig reproducer reported above:
 
-Use a u64 comparison to preserve the userspace value. exfat_trim_fs()
-already stores the minimum cluster count in a u64.
+Tested-by: Hungyu Lin <dennylin0707@gmail.com>
 
-Fixes: 654762df2ec7 ("exfat: add support ioctl and FITRIM function")
-Cc: stable@vger.kernel.org
-Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
----
- fs/exfat/file.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/fs/exfat/file.c b/fs/exfat/file.c
-index 1386149916bb..4e7a2fb30279 100644
---- a/fs/exfat/file.c
-+++ b/fs/exfat/file.c
-@@ -586,8 +586,8 @@ static int exfat_ioctl_fitrim(struct inode *inode, unsigned long arg)
- 	if (copy_from_user(&range, (struct fstrim_range __user *)arg, sizeof(range)))
- 		return -EFAULT;
- 
--	range.minlen = max_t(unsigned int, range.minlen,
--				bdev_discard_granularity(inode->i_sb->s_bdev));
-+	range.minlen = max_t(u64, range.minlen,
-+			     bdev_discard_granularity(inode->i_sb->s_bdev));
- 
- 	ret = exfat_trim_fs(inode, &range);
- 	if (ret < 0)
--- 
-2.43.0
-
+Thanks,
+Hungyu
