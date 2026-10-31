@@ -1,62 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.236
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793421196;
-	b=5mpGTL0l8d5nPJv0aMRGTzrNhVlJ+QxXbulYZ5y/UwyLEewcMQppje32wTk5k/hcjqF8
-	 zjf67F7EezTJrl2t65I9H9YWw+jluAwMLNcAaOXWZxnUE4W8cPKiTUTh+FTyNQlyYrDlG
-	 FUOLYnp8NGV/BU9Zt3yZ/nJwUs6kdk8rk9Waw8qWT193/9yb46YVKJb5s3pl3OAmdVLEH
-	 3KGjpJ7XdH/Kpf8rrRANZitY+8AIb0GoNfrPJIZ33UQSMieOayJlkMTogvBYgsktmRLWp
-	 4IRngeSbZQvQ4EG4etgigj1TWivdJ9autxVxQym84A9GqhKm04UT/pBGYyvF5P2zgvQ==
+	t=1793421256;
+	b=AGkbcOrkyJqKZUNaFktUoDQ8WlgnECjCzs88XFsxxOgF/OxljDxQJH05r4AkRYSybkDr
+	 K7u86DVvC0L8tQtpLzKkH+H00yDtdOpmqv/1oRiMFQPKcLtg8GNkFPHGpAXEPKKtGT6LB
+	 zMZJAIKVwhTKOqLZYKcEvBduv/pm56ztT9odDko2Y7BKW9ofhZ81bmLfboCSOAZG0tRpJ
+	 vBx3cl3jtvPOh8kkScng4SKLkSUAtHEpVVh2i7PdwvQ25OGK8Y5g4zLvvjlw2dvkqiEtr
+	 qDdDhZkHe2Ve+ma2mVCn60DoisryQLCaICu26s4y6aWe5speDWHtZNOhPTnYHHhmrYQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793421196;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793421256;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
 	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=tArUjAi7RyNIs44mDcDEd1/onmpGhyZQLsYyXwL8Y3g=;
-	b=BvAizNFOqgcGG88dOL+YDN5MhIta8Dl0Ysw5I4dEpM+/KMrM5+s0qURb+7MNZ6cMzIit
-	 S3q2If6cZOLHY9YEbZNmZJt4EP9+r2gIrAm7owiADIU04YiNPDKldHDbVWSKf/2HecREo
-	 jpgYZ8G+epVyd+iji1yt5mA/hCSFL3X/84AITlbum4FGUvtfbmWrpxDr0OYPXV41Nu4CT
-	 Fow2LWIwQDFPub8gvSPgl/q/UkZuoo0/aG+iDtOiHJp7BNKYL7uK8sF46HMEgzo1z5WNq
-	 +N0OXHcNVFdha+pQzI0xw5eQF0ufN7ot7FxD/mWy4AsW9AvX5up10uab0jEfPL+9ebQ==
+	 X-B4-Tracking:X-Change-ID:X-Mailer:MIME-Version:Content-Type:
+	 Content-Disposition;
+	bh=Flx6BFpBHU/1mQwNgXF0H0qYyTFKKY1odWtVjJY4UAU=;
+	b=LvbOY4M5LkxHulfD1BiieQoLoCDxViwXHG22JdIdJdK2GjtKl1TXXZfv5y7nh94pvzvV
+	 I2ZpELO2+8IMsShxaL2aamkM6sxPdCuthJj9Ap1ALY6S40JtfDzrdC6EGlz/dA+iSdY+9
+	 XWfeNMMzEBoh8IdMWkz2+1TYdXeYcNF1bJW/cZRQxbtXVq4DIvPqMZHHA9rXGcri+4Yr1
+	 zrJtFSmnuvMVS7Ji+2DYPtmgIn/aEW4oAjTDdI0VN8US5OBqNNlgtIblQG7lqLb0aMEEg
+	 dB55K1zlv4rDsOkvTkgEktQTvQ8zenn26GpkUplrRYztqz1Pqb3DlDvBrymvIoz5fXA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=Rc4KYIC9;
-	arc=none smtp.remote-ip=91.218.175.51
-Received: from mta0.migadu.com (out-51.mta0.migadu.com [91.218.175.51])
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=obcdZO7I;
+	arc=none smtp.remote-ip=95.215.58.236
+Received: from mta1.migadu.com (out-236.mta1.migadu.com [95.215.58.236])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC56E606A31C
-	for <linux-fsdevel@vger.kernel.org>; Sat, 31 Oct 2026 04:33:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CC56E606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F840606A31A
+	for <linux-fsdevel@vger.kernel.org>; Sat, 31 Oct 2026 04:34:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8F840606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=Rc4KYIC9
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=obcdZO7I
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=tArUjAi7RyNIs44mDcDEd1/onmpGhyZQLsYyXwL8Y3g=;
+DKIM-Signature: a=rsa-sha256; bh=sRRglwrZgXV0SrK/OtUomTWdFA+5PNai7nUeEM2ufrs=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793421191; v=1; x=1794025991;
- b=Rc4KYIC9owQQYp1axLtKtu6ytYWTfMvKNYNUub/cy2ph/TXFumz2vQ6CYqrK6QVcbicEDcLA
- Bh/VEkrn/qSnWAGE694BRT2khCHiB5WXWtvl2XjZmiI9yX8UO/tNsVAcADFoCV8bUBGj6P/DcC7
- koJOWoyWGGNT54l1o7TfdgqQ=
+ t=1793421248; v=1; x=1794026048;
+ b=obcdZO7INN1kPM1v5GvlYd70X42q221riOIqjegL1GE8Y3xl3zxAacC/Om/Vt4G8sfHmhE4V
+ lrkL01cLaRw/2ZGemRxFlg1/kqalN891kSFL8xTDO1sd8izjxcLdmV+CdQHPgbbOizq+5r0xXIC
+ hNBzQ8+9eLGKt+aU2Pk/L5sI=
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id ea78379c5260a3be;
-	Sat, 31 Oct 2026 04:33:09 +0000
-X-Mizu-Trace-ID: ea78379c5260a3be
+Received: by smtp.migadu.com with ESMTPS id 84ce8c3f7c47124b;
+	Sat, 31 Oct 2026 04:34:08 +0000
+X-Mizu-Trace-ID: 84ce8c3f7c47124b
 X-Migadu-Flow: FLOW_OUT
-Date: Sat, 31 Oct 2026 04:33:06 +0000
-From: Jose Fernandez <jose.fernandez@linux.dev>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+Date: Sat, 31 Oct 2026 04:33:59 +0000
+From: "Jose Fernandez (Anthropic)" <jose.fernandez@linux.dev>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
 	Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	Krystian Kaniewski <krystianmkaniewski@gmail.com>
-Subject: Re: [PATCH] mm/filemap: stop fault-around when the walk steps back
-Message-ID: <20261031-jf-mm-filemap-reply-r2-7d4c1e9ab350@linux.dev>
-References: <20261028-jf-mm-filemap-map-pages-lower-bound-v1-1-0bf126e876d4@linux.dev>
- <0a1ad7d2-ff0e-4248-8f03-2a64a9134aae@kernel.org>
+	David Hildenbrand <david@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, Krystian Kaniewski <krystianmkaniewski@gmail.com>, 
+	stable@vger.kernel.org, "Jose Fernandez (Anthropic)" <jose.fernandez@linux.dev>
+Subject: [PATCH v2] mm/filemap: stop fault-around when the walk steps back
+Message-ID: <20261031-jf-mm-filemap-map-pages-lower-bound-v2-1-21029744e589@linux.dev>
+X-B4-Tracking: v=1; b=H4sIACVu5WoC/yXNyw6CMBCF4Vchs3YSqAmpvopxMbRTHEIvaUVNC
+ O9ugcVZfJv/rFA4Cxe4Nytk/kiRGCrUpQHzojAyiq0G1aq+a5XGyaH36GRmTwn3JRq54By/nHG
+ IS7BIvbqy1aQ7c4NaSpmd/I6Xx/N0WYaJzXtPw7b9AbLiH4eHAAAA
+X-Change-ID: 20261028-jf-mm-filemap-map-pages-lower-bound-a623ed8a81c9
+X-Mailer: b4 0.15.2
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -68,18 +73,58 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0a1ad7d2-ff0e-4248-8f03-2a64a9134aae@kernel.org>
 
-On Thu, Oct 29, 2026 David Hildenbrand (Arm) wrote:
-> Only read or also write? I assume only read.
+filemap_map_pages() can dereference a PTE pointer outside the page table
+it locked. KASAN has reported this as a use-after-free read [1]. The
+same path can also write out of bounds. When the stray entry reads as
+none, the fault-around loop maps a page there with set_pte_range().
 
-Both. KASAN only reports the read, but once vmf->pte has stepped
-outside the page table the loop will also call set_pte_range() on
-that slot if it reads as pte_none(), so a stray write is possible
-too. I'll call that out in the v2 changelog.
+Its fault-around loop walks the page cache and moves vmf->pte by the
+change in index. A lower index moves it back. xas_find() can step back
+to a lower index when a multi-index entry is split during the walk.
 
-> Sounds like we want a Fixes: tag and Cc: stable? :)
+[1] fixes xas_find(), but the loop still relies on the walk never
+stepping back. Stop the fault-around when the walk steps back. ->fault()
+maps the faulting page if the loop did not.
 
-Yes, v2 will carry both.
+Link: https://lore.kernel.org/20260904121301.200049-1-krystianmkaniewski@gmail.com [1]
+Fixes: 6b24ca4a1a8d ("mm: Use multi-index entries in the page cache")
+Cc: stable@vger.kernel.org
+Signed-off-by: Jose Fernandez (Anthropic) <jose.fernandez@linux.dev>
+---
+Changes in v2:
+- Add Fixes: and Cc: stable tags, and say in the message that the loop
+  can also write out of bounds (David Hildenbrand).
+  https://patch.msgid.link/0a1ad7d2-ff0e-4248-8f03-2a64a9134aae@kernel.org
+- Link to v1: https://patch.msgid.link/20261028-jf-mm-filemap-map-pages-lower-bound-v1-1-0bf126e876d4@linux.dev
+---
+ mm/filemap.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-- Jose
+diff --git a/mm/filemap.c b/mm/filemap.c
+index b74bc1e5015c..1df776907140 100644
+--- a/mm/filemap.c
++++ b/mm/filemap.c
+@@ -3968,6 +3968,13 @@ vm_fault_t filemap_map_pages(struct vm_fault *vmf,
+ 		unsigned long end;
+ 		vm_fault_t map_ret;
+ 
++		/* A lower index could move vmf->pte out of its page table. */
++		if (unlikely(xas.xa_index < last_pgoff)) {
++			folio_unlock(folio);
++			folio_put(folio);
++			break;
++		}
++
+ 		addr += (xas.xa_index - last_pgoff) << PAGE_SHIFT;
+ 		vmf->pte += xas.xa_index - last_pgoff;
+ 		last_pgoff = xas.xa_index;
+
+---
+base-commit: 65ba8f34ec886ec72b2c07ddc8cf3d815c32869d
+change-id: 20261028-jf-mm-filemap-map-pages-lower-bound-a623ed8a81c9
+
+Best regards,
+--  
+Jose Fernandez (Anthropic) <jose.fernandez@linux.dev>
+
