@@ -1,95 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.54
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793435466;
-	b=GsZz0xptkGDcIHxC77SBtCDRX69GuyA8/hesFRrCV4+cE0l9CyPNzT7/YHpSz8FvlCq3
-	 rUlMXNGYInnqhHZrh4UidoKngHVADcIld8wfyIlOgbxAMAF7+66qVO6pb+Uwe2Yh58nBY
-	 G6Eh9rbSyqyTSozOzdJEoYdnZi9OdeIhuIIHS1Isd7jQVfYkNNVdxBk3XnK25ekK47qC/
-	 gdiWfMj2Wb40yQZEVonE1THsb94wYs65KWdzMvgW7V25kIZM0ABuDINCWKMEP2YJOt+b3
-	 WQplZIudnrx6teGJpS0rc7LDA5kgIB6D7sKpGS0wdEfka6g+muJd2laNglwUOypZxZA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793435466;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.161.49
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793436993;
+	b=ubUBxFZsQpwCpg8PZ6rteGN4NAW4oxQWuzUg595hsb5W4GoqoRlevY+b3hW5ttQaY5YX
+	 71fDnyiE+8UjDeIbKdskNS2ekASoTOh6GwKmi3eGU56J9LbrZGxNjuYS+6+16i4f8cJB/
+	 q00/bFCAhrVlYeEt0kSczDzqSgdEF4tQOjKJO7aIrNaU70ncXcuptYrELSHw7Xb+h0TCl
+	 KMFV6+YRCrFnajsgiN5ooTqe8uOrP6+xRlhTmcMOnfEjAn93nMVMkB+yua6bZ/CgGXzwf
+	 co2HpzkQCp7Jb+RhlxHoEmVkUMnE+GeK01rgYnjVNj9OnbSbVWrCIeE/9wcpI/LwaHA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793436993;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=FwNbKMHP+2A+3oMs0iBFR8sdyk4GLtkJVZshv3zylWk=;
-	b=sTKnIZV6TMkEb6tquMc2RK4QR+HEZzDkzodafSMbg88ouzoeMpzd35uMW4uVEehF8O/2
-	 0U9XeqP+QXbfx99JJh1DIhp5oXE3z4B2rWqJzdWZteJxmISNmDDfIWjGNGbsvuF7olkph
-	 5oWOmR3gLinFWV6iOA9H90x2GAXt5AoFZRNXMsDUSbYegTMUgqZl7h+zZz7UVyGcwQLYv
-	 ytB/6XtBvDJbaQ40OpmYHq71Ir0NhqcURj/Bzk/fyfSu4jRkuphM4nuREbe6Hot81oxd6
-	 ijnN5MGJVVwxQ9vu/zFVgIIN1maCQn/7eX3a9mTBI8phmj7xQaTMaH88ruad0pUTi+A==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:From:Date:X-Gm-Features:Message-ID:Subject:To:
+	 Content-Type;
+	bh=gTx394sikhqmmuQLs1UOGGZh1cBtivYg1IDNeqBRTrY=;
+	b=DGlCRxc6FjVTWsvb781WEM5I8/2AmbgP0JtMCBsI2rqfL/Pr1EyuI8FHBw1RDWWJjofj
+	 VQSWs4CJ8gJU2iFEjQpBf6zY9sRgoshA0KFw9+UUROJzObvrxJ0a5bgqAwXzEsj/GOTH1
+	 86r+IeoRFb1yBnTsy2sIQEwudwLh7dCPj4yVoBDcyUtgep2BJDRxUSuswI90lPNwth/jQ
+	 ZqsV5u8lcCMuAf92a4qYxzoviecH+OYqegKo6BetSCKENvg9Vaik/9VKaYoRucF1nqVok
+	 Cr0fZ4qYTVYcrKqt4O4U88e5r3h/pqT5vkjIlTXXS1mjEdQyfjyHXF8m8g6K3xrn9oA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=WGrQWcHP;
-	arc=none smtp.remote-ip=209.85.221.54
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DeHOV9sO;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.161.49
+Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B434A606A31A
-	for <linux-fsdevel@vger.kernel.org>; Sat, 31 Oct 2026 08:31:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B434A606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC2EA606A31C
+	for <linux-fsdevel@vger.kernel.org>; Sat, 31 Oct 2026 08:56:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EC2EA606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=WGrQWcHP
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-48e00eee27dso723811f8f.0
-        for <linux-fsdevel@vger.kernel.org>; Sat, 31 Oct 2026 01:31:05 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DeHOV9sO
+Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-6b19e291cc6so1415982eaf.2
+        for <linux-fsdevel@vger.kernel.org>; Sat, 31 Oct 2026 01:56:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793436992; cv=none;
+        d=google.com; s=arc-20260327;
+        b=NGkTDkHVRCqbTdjhCBdbKc+2PLjqqFnAJvvtPc0/MiINbW6EOGjoD+VW3skMQX8h4S
+         +b/UISrnqw2HemDK+hetqIltKCyv0yhIABfNDINBDjKpv5EPwG97ZklJccHH/e1EfVz0
+         RFwGjBEVqg9xZDg+KfC0pD4h1osLqjZG/64ilvN4CTOUnElICTbfNpB0MGkFqcJl5Ruh
+         jxp/m0BXyue+nCBSpEGbs2d8w/Fc3G4+CY+KD4vf+eLTiAY7Mzmp0BJLX09lUHzoPrwI
+         PHfGxt8+8nRLinMIGw4PzwCSkwBxjMRhNIMfL0dbEseYTsQW7uh8UZcIRSIGMVILjTWo
+         ZTEQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=gTx394sikhqmmuQLs1UOGGZh1cBtivYg1IDNeqBRTrY=;
+        fh=pJL6PDt/X4u7OCsGc0jQeChqGmVt+NCOJcrUAG63E3E=;
+        b=T8JsiQmhn8wI8UFXVwvnYM6MX701X1+B8TcWud9t9Pnjh3E88sy5nTe/nZUWhE+BWg
+         atWZPM9llYq2TZch8CPCaJlFGeIttNB0PW49acYhKhj5GNjmFpE/L4aG70hQCtFUs34K
+         YQypXwvE/myZmfFhzEaDNC5o+MKNxtEL+aKCyjeBuRib3ngpV1DzJk5zjsl9LyUlJ13m
+         AyFIuikBR0g84OD6vNWIGAwI1FQ/E0mlu2GdSpAD7qTrwRJePlvx72vTG5akJpnrYDxh
+         kVCH8yupHxNqDh3tdIQLkKu77za0TYzZGjm1E0vyGAo/qXoZzKHpSRxivAY2xGkeypZ4
+         neSg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793435464; x=1794040264; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=FwNbKMHP+2A+3oMs0iBFR8sdyk4GLtkJVZshv3zylWk=;
-        b=WGrQWcHPKjggA7hrcOG4ZeCmbvngzSZSWpCSeM2n/Xw1abuCru2ulRAuxZmiyoGwAw
-         Kvmu0ofS4AhQpnW7UysgGXJKI6vLMIXMOvhCmUT4EfxfkJGJChjyimpjl/2n0neqLw2C
-         F2q0dHrFp/ok6m94X3AOoWO/0mvLovv6jDqs0RWALAJwaj3Do7Pwp1CwLqdlGr3CJJGu
-         apKgue/bQn8bc7kWF+8HPI3RAKxV/uEZ+SgTzHULq3XLyGom/+iLE/5kznrc9rgNmZxl
-         PYRQsK9y7RlRVgWL8dgWMRuI2KAOiFEEPtc3A7HKKDiaKWu8GsJ3hNJjcpX1HyzL0MND
-         MeXg==
+        d=gmail.com; s=20260707; t=1793436992; x=1794041792; darn=vger.kernel.org;
+        h=content-type:to:subject:message-id:date:from:mime-version:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=gTx394sikhqmmuQLs1UOGGZh1cBtivYg1IDNeqBRTrY=;
+        b=DeHOV9sOnWxQmpnlrNyp0tXMPco0LV4SJ/AXWNixEZ3xqyK83zZYxh71297jo1bXIA
+         GkyHG8oGg3id6m/ZsYERqxpqf8ZSEdEE1TKaHQmC9+c3XWdeOM9ziyOMp5L9v7nZpbBH
+         NQypkLnHRHT1s8WpLR9FU/tksxeiXUxAlgIUO7vDyn9Rbdn+1x5niceNr7kIH8TPHJNV
+         80IAux0k1j9wI4apSOAocHtICKfg0SG8DwCvfZZUUz1M5v3exnre3Zck5w15Rj6jhKWA
+         yjoRE0skUBTHiZm7iZaZ2eomX5S+Yl93ZNqXdRZp1eAmqtFvwYLjrEYyeGA7pCY7dieV
+         JpwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793435464; x=1794040264;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=FwNbKMHP+2A+3oMs0iBFR8sdyk4GLtkJVZshv3zylWk=;
-        b=Zj7nWc7HAQZ8UadTnX9xbT/6/D9dA4r9wsUnJOW+iVItjASb71RH+eRUgicprEzpZ6
-         gYDZvnEruxOyJj6Xg0nvAg9dzzNTf9Xwz9Zeh7z3YRlDn5tFp+vp58h/QqbJa+opw/VI
-         vEBJAzeHvvOQ1bLXIpoZb7/dV8MryGxpYzeaklOmgM9ZQKhaquH0Z5W9bVqHo8XcnP42
-         iT/bA9U/1rKCScutQHEbFm7Qowm5+gvahLeDAblRLBHJdpKDtdCNikHtKm+VE+s1Eb/r
-         Y5ImI3rDYvIRIGv1/zC+7jLQG//RMjcKHKJECVWjUDoisP5LUPECqOF6DS/xQIK8njMe
-         n9RA==
-X-Forwarded-Encrypted: i=1; AKwUvBwGUPWQVD+9TVvpSzl08TdkSSF/FG3NcABh3eFpomUDevmPAzPbs6FuGs4bzuq/a2xUSacyboVXO2498F+U@vger.kernel.org
-X-Gm-Message-State: AFq9FYKCChYOSCGUmH3n9vKQIZsXgyr8BMW58aEomg/Z3zikU81nIb0K
-	w3Zpbi9cLEcGRUtW5i+VXJzHjQl+LxQSaMh7TBPs17R9hrGkjA1aKKmDMBd3PLVG2Qo=
-X-Gm-Gg: AYBFou2pm0cGnImldmsc9cupTuxZjOwnUUJ/3QiUA1/ONFOMdMgCVnde/PD7Bv2MrdC
-	QsVVwu+GeGl9bSBxsc63t9/UmO0SyXiv//ipnP6sppHmYwQzJ7NrMGwDGYm7MI3j/QMtHMj1Fk0
-	XpcjYHLJHna7zRuI9Kai868Czi02SZpW1xfUgatQeA/NMAmhMQkaokY2aVbCWznE+psp7Nw63fO
-	F1mBkTZs3c75sWKY4+6mRk+UexyFrI6VY0mdNiYqAWkD1vxJVs1X/lesElA7Qzl/xO4R2evzO41
-	P03BFVPW+X8SJq7eY+bA5IF+F/NYT7XGF183naaOFKuzqjFRGkitwqvf/Bp3E1/iqHQx2SfLKFy
-	I8gQ82yhccm3q5ijkeH6nt24sTyW9AopRTG1ill9a2fKhT/42Q7mlV9hzyxVSZcYnPGzIiTOOQh
-	cnUTuMYFIXZLyfZyPZkUV63X6tewLJVnf43v0h/X8O4ZOO9lVPDuwq2sk9MPM+iV7GpmXsNPemq
-	L7QcUl0e064JfCKlpOz5HYZWRHx0lBp9p1stJjN7U9Bsm8Y3Ah4ESrmA1h3XoanFTqDiSajJbH6
-	+IaMODCTCHlF2MnOkrxQGtUIYWUth1X2IPXfh7f1eXTcVAFtFuw4hOzXNjVhF05faA==
-X-Received: by 2002:a05:6000:29cf:b0:48d:cda6:4dd7 with SMTP id ffacd0b85a97d-48e6e4ffa15mr7559556f8f.44.1793435463908;
-        Sat, 31 Oct 2026 01:31:03 -0700 (PDT)
-Received: from localhost.localdomain ([2a06:c701:4773:6f00:c8d4:ec29:293e:f39])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e71b8c0b6sm7229726f8f.41.2026.10.31.01.31.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Oct 2026 01:31:03 -0700 (PDT)
-From: Avi Weiss <thnkslprpt@gmail.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>,
-	Breno Leitao <leitao@debian.org>,
-	Arjan van de Ven <arjan@linux.intel.com>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Avi Weiss <thnkslprpt@gmail.com>
-Subject: [PATCH] fs/select: reject negative timeval components in do_compat_select()
-Date: Sat, 31 Oct 2026 10:31:00 +0200
-Message-ID: <20261031083059.3245047-2-thnkslprpt@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20260707; t=1793436992; x=1794041792;
+        h=content-type:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=gTx394sikhqmmuQLs1UOGGZh1cBtivYg1IDNeqBRTrY=;
+        b=T93zKwtKTlFChOKpxa9vIk5l3GbAi7nrRBfjC/SePPJ2eSEdA+LHook/Xq20/5HplF
+         rVeYaMDAIEYqeyBwj1OXvmLA7F8vhyT3QP+lbFjaN16UuyILYmminXgRXYrgiAkSKzSh
+         ccPY4p7A7a26/tPPz7Qz809X0VuM2EJZc9CKc0zQuAWAA2dXbuGXeR4IpsPBLKrsf7VK
+         dHOdVkRDqq5u/KXJ2oOC27EOZiW1gR+gD87PbPyPczSLHRr1Fm3GaRDW0mqcCuxNUpWt
+         oHpIw95mGTZ9g5TUOeAGlsUKzTBEVJClPk978gD62QfJvp4i7mSa09rYUY68GAA+xilv
+         FfdA==
+X-Forwarded-Encrypted: i=1; AKwUvBxzsRgfqQSgRAcG2+JMf4AYHDjiJGB224flG9lcQXUlcFRnkoD6FfaA8d4Yc95ZvYeZQoU/Y66onxnMDh6N@vger.kernel.org
+X-Gm-Message-State: AFq9FYJEh+oQ2jpTwusQ8xQ0yoi8BOs90dXBIHBB6xMJ/1gc0Y2SNyfx
+	SSgkFQDiA+jz/cFwb3Kpmfr00smaFtTw2sEtwwL4zkkPrgQoJ19GEeyKX7W5KvVT6GITV/3CWA2
+	1jfsHhHe/nboUdHYMhBfkQht6bJvqSjrtDTtp3mQ=
+X-Gm-Gg: AYBFou2x7PSv3loG4+X3d4A9cyOBQy6Ihj5IWJWbpcPe7PHLDaSU/Xrs5P8qd35vDbJ
+	dDkC/TcSSazyNo+1YnT4fXe1GYY/y+cg16Wrxx72HryrOLDUFZnO1GH1xfMPkyGqnt9Ai+2vptz
+	jwrmUiwlUP92OylQG3dmZrBnfZaLjoJjc2pPv9co+FsdKH5n7RT+xlFWyqXgAzSl2pvREdPwBzj
+	ocRPA4B5viYpVp8dX87yfNevcNPe3i13FB0jCMOB8KuvSBJ8ztGcH4lneUSCm6krQXRvJj7ZbfV
+	i+YyxFAmXtlHbwNgTf2e1yeSIlH55nDQdEw9XsCS68alvs2VXc4Dw5sS83f9Z9QP7Bxf5u1LLFQ
+	BXWxzEEh8RCRnIA3XxIHGnCaOqPeeUV+m3mF041B/bsGdDo2xVmnJI2L+3Hgx1ltAIYC7B5dWBF
+	aLVa6vI3VTsTqFUw==
+X-Received: by 2002:a05:6820:828:b0:6d8:28f1:140e with SMTP id
+ 006d021491bc7-714f290f510mr2610377eaf.24.1793436991830; Sat, 31 Oct 2026
+ 01:56:31 -0700 (PDT)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -99,41 +102,69 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: David Kahurani <k.kahurani@gmail.com>
+Date: Sat, 31 Oct 2026 11:58:14 +0300
+X-Gm-Features: AclHuK9U09vFG1uxdVZyISvZBb-LYUaWKM7hNZBKSGvcoPSG7k3gSFLXT4t5Gac
+Message-ID: <CAAZOf25+GY9t4vrZQzi3UdgmeeqqXt8833sWy2C8oEZ2fztRTA@mail.gmail.com>
+Subject: cells: a container as one kernel object
+To: Jeremy Bingham <jbingham@gmail.com>, linux-fsdevel@vger.kernel.org, 
+	"andrew@amutable.com" <andrew@amutable.com>, James.Bottomley@hansenpartnership.com, 
+	"josef@toxicpanda.com" <josef@toxicpanda.com>, brauner@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-do_compat_select() normalizes old_timeval32 before validating the
-timeout. Negative seconds and microseconds can cancel each other,
-causing compat select() and old_select() to accept invalid timeouts.
+Replying to: 1.
+https://lwn.net/ml/all/20261026-cells-rfc-v2-b41d7e0c95a3@toxicpanda.com/
 
-Reject negative components before normalization (as kern_select()
-already does) - and preserve the handling of oversized positive
-tv_usec values.
+"
 
-A 32-bit syscall reproducer confirmed four incorrect results on the
-unpatched kernel. With the fix applied, all my test cases passed on
-both compat select interfaces.
+--------------------
 
-Fixes: 4d36a9e65d49 ("select: deal with math overflow from borderline valid userland data")
-Signed-off-by: Avi Weiss <thnkslprpt@gmail.com>
----
- fs/select.c | 2 ++
- 1 file changed, 2 insertions(+)
+The pitch
+---------
 
-diff --git a/fs/select.c b/fs/select.c
-index 95d76531015aa..8b6d1dd2977c6 100644
---- a/fs/select.c
-+++ b/fs/select.c
-@@ -1265,6 +1265,8 @@ static int do_compat_select(int n, compat_ulong_t __user *inp,
- 		if (copy_from_user(&tv, tvp, sizeof(tv)))
- 			return -EFAULT;
- 
-+		if (tv.tv_sec < 0 || tv.tv_usec < 0)
-+			return -EINVAL;
- 		to = &end_time;
- 		if (poll_select_set_timeout(to,
- 				tv.tv_sec + (tv.tv_usec / USEC_PER_SEC),
+A container isn't a thing in the kernel. It's eight kinds of namespace,
+a cgroup, a seccomp filter and a pile of conventions that the runtime
+holds together. The kernel can't name it, can't kill it in one go, and
+can't tell you what's in it. Privilege inside of it hangs off of uids
+and user namespaces, and a task can be half way between two sets of
+namespaces at any given moment, which is where a depressing number of
+our bugs come from.
 
-base-commit: 36aad21d50d1af3f6954bb0c988257a908202477
--- 
-2.43.0
+A cell is a container as one object. A task is born in a cell and never
+leaves it, and no existing task can move into one, so there is no
+setns() and no unshare(). You build it from the outside by filling named
+slots from file descriptors you already hold, you seal it, and then you
+spawn tasks into it, at any point while it's running and not just to get
+it going. Holding the cellfd is the authority to do all of that, there
+is no uid or capability check on it, and making one takes no privilege.
+The cell lives exactly as long as somebody holds the cellfd, when the
+last one goes the cell is killed.
 
+Whatever a cell has, somebody put there. The mount tree is built from
+scratch by the builder, nothing in it hides anything, nothing propagates
+into it and the cell can't mount. The network is set up by the builder
+and the cell can't configure it. A new task starts with no mm and no
+files, so what it has is what you gave it. Say nothing about the network
+and there is none, it doesn't fall back to the host's.
+
+A few rules fall out of wanting the boundary to actually mean something.
+The kernel allocates the kuids for a cell out of a reserved window, the
+builder never names one, and those ids can never be stored on a
+filesystem the cell doesn't own. A uid means nothing across cells, not
+an equal one and not 0. Files impart no privilege, every task has
+no_new_privs, and set-id bits get dropped on anything a cell creates,
+chmods or opens for writing. Unix sockets carry bytes between cells and
+nothing else, no SCM_RIGHTS and no peer credentials.
+
+------------
+
+"
+
+Your description of a container is rather lacking. What you described
+there is not my understanding of what a container is.
+
+A container is grouped set of system resources. It is purely virtual
+and doesn't exist as an object by itself.
+
+I'm not knowledgable enough so I will not proceed to criticize your
+design document.
