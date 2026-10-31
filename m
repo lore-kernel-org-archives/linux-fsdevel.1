@@ -1,106 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793415808;
-	b=yOAGw3XITDXPvLBdUQGOzeIf1/YVg5yJ4lJSdJHQxi0s4FSxVNjEnG0/KZgL4XOHCeVo
-	 KUuhFu+mURIJzEDVPZQZ/+dsGvDvCN9A98nH8CnjvWdW/gHgJg8/seRW+uj1F96iftDvi
-	 rwQ7Vkox/emIEXHtescztmzy4LojIrDRooNB60CMqQtGcqos5AD5xavMgyTxSdqQUeWwJ
-	 h7ry/HGancac25V7ahlxPPPG0RFeOtf/ArUBkn8dEHzdD1HEe3HH13L/+8t2k8k9oC89v
-	 7AYhmQQdwrxmCxjC3h7PlhulLiz9b8HrAg33QAuWdWD+W4I0Bm2Pg7MKPb7XvMTRxIg==
+	t=1793421196;
+	b=5mpGTL0l8d5nPJv0aMRGTzrNhVlJ+QxXbulYZ5y/UwyLEewcMQppje32wTk5k/hcjqF8
+	 zjf67F7EezTJrl2t65I9H9YWw+jluAwMLNcAaOXWZxnUE4W8cPKiTUTh+FTyNQlyYrDlG
+	 FUOLYnp8NGV/BU9Zt3yZ/nJwUs6kdk8rk9Waw8qWT193/9yb46YVKJb5s3pl3OAmdVLEH
+	 3KGjpJ7XdH/Kpf8rrRANZitY+8AIb0GoNfrPJIZ33UQSMieOayJlkMTogvBYgsktmRLWp
+	 4IRngeSbZQvQ4EG4etgigj1TWivdJ9autxVxQym84A9GqhKm04UT/pBGYyvF5P2zgvQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793415808;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:Content-Transfer-Encoding:
-	 In-Reply-To;
-	bh=CykDRQmyupGap9MJ8JD7H5K9Ycd/s3V7wlgI2ffH55o=;
-	b=12PehhlrmyfHxycvmPg681ZzITV1ELmYzIOrryR6HCzKZwwDKW06shfl5Grq0qRalfrs
-	 bCFnrXUFCJ6XwmARv89qBSqQyi/2fhHvj823sZSnbVRu76BjX7d5px0xeF/98MXjJGunv
-	 rsbWkrgyMY13AEIF2hchW/ccvNv+rUsGbF2Nf6vGci7A2czrf1Slw/xIcap4LNVEOtxps
-	 S6Rj7RtAGniS427krHoOslhsefCKZ3n2NsZ7PM4Fhw3bQBDsPCzqFeXzmRWd26U06DQwr
-	 ajkMkMQqN+OEiLLlPMO08oeR3kqXfCZcnSILPkZguiFT2cRgmB61SlLOUXY0J+mfmNg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793421196;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=tArUjAi7RyNIs44mDcDEd1/onmpGhyZQLsYyXwL8Y3g=;
+	b=BvAizNFOqgcGG88dOL+YDN5MhIta8Dl0Ysw5I4dEpM+/KMrM5+s0qURb+7MNZ6cMzIit
+	 S3q2If6cZOLHY9YEbZNmZJt4EP9+r2gIrAm7owiADIU04YiNPDKldHDbVWSKf/2HecREo
+	 jpgYZ8G+epVyd+iji1yt5mA/hCSFL3X/84AITlbum4FGUvtfbmWrpxDr0OYPXV41Nu4CT
+	 Fow2LWIwQDFPub8gvSPgl/q/UkZuoo0/aG+iDtOiHJp7BNKYL7uK8sF46HMEgzo1z5WNq
+	 +N0OXHcNVFdha+pQzI0xw5eQF0ufN7ot7FxD/mWy4AsW9AvX5up10uab0jEfPL+9ebQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=W9M2eNVq;
-	arc=none smtp.remote-ip=209.85.214.182
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=Rc4KYIC9;
+	arc=none smtp.remote-ip=91.218.175.51
+Received: from mta0.migadu.com (out-51.mta0.migadu.com [91.218.175.51])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 347CD606A31A
-	for <linux-fsdevel@vger.kernel.org>; Sat, 31 Oct 2026 03:03:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 347CD606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC56E606A31C
+	for <linux-fsdevel@vger.kernel.org>; Sat, 31 Oct 2026 04:33:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CC56E606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=W9M2eNVq
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2ea7f9c11e6so27515ad.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 20:03:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793415807; x=1794020607; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=CykDRQmyupGap9MJ8JD7H5K9Ycd/s3V7wlgI2ffH55o=;
-        b=W9M2eNVqGDvnd6v/5r9OUqnw+qzQQykMbnpeCsUIdhVBWnVu4c0e4mxbP8S+5Ch5TQ
-         UNV6HFUjENL+G4Mpexvpqm8QjQq2CPsh4xag+HJLLqLaTOE4CNcUrqHQ+XLGrmMIwWUG
-         KrNYM2VnYVSJCafdXRdBRDAtgiOhOKDOmXbeePa/ubYxpcXm9gOiFYwinyfrf9LqhJbq
-         DAKW7anXdBpummBWPaUftfsJKuq0ZW62MC/UeMEwhmaIn3FZ+bvgeXeJAj3DR2byJwfx
-         DFYneQFULA+hyoq+IHqtql3KTMhJrb+WvzFMmPqyEQODXp3x2/zaODOe9saWCjOJO2eb
-         0CDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793415807; x=1794020607;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=CykDRQmyupGap9MJ8JD7H5K9Ycd/s3V7wlgI2ffH55o=;
-        b=Q+dyEwTT+y+JoRJkWJlb/+9TdNDKf0WtzKmScK3RTCMqX/UNzY+4MKCS3iP+5AQnsR
-         dDzk46tbOGnZdpTkHQWVDstteYHUGggvZpUERw680UsIpycyXes+l8/xfZhAiYgwQYtY
-         dC09xJe7D5EXhQxxMmIoYudV19RMjqZdfxq/kZfVQ7QHLF9OWS++re1FwYX5iQuIiY6Z
-         HcFBdBS4ewrIQAYOyn0YLh/RvMEm8UlF9CdfDO04fMZbK4Vk9sayC5hT9SZtv5G6xpGJ
-         JTtES6uYeWKbd/XvQG8npsX8/PMhUc3GcFFWaO1BT5NSBJ8V2U8yAvaaNvrG3f+uvuaY
-         Q+jA==
-X-Forwarded-Encrypted: i=1; AKwUvBx87zrvx6jFhvRZnTXr9pU/l2Sx6tnvBe/sDX8CaDoDS9SqdX1oppgjhdDhil1A1zczlMzzTYbmnztVlqw8@vger.kernel.org
-X-Gm-Message-State: AFq9FYIVugbNwI3dWJf229KYcL9JtXYfLkdLZ+aMEI5SzfRziI0kmng9
-	lx/oS7NLJjH46/l/2a7Yh6OUlqNTF7ZQ3AEUk2g08X1dQ7Jt+LSR7L3UV5LWmd7pcw==
-X-Gm-Gg: AYBFou3ODYiV5Q7qZytiUW0qrrd6BrviX5irhbmUF9MHhrWIFA0SkdyPqj56O+bGtm8
-	OCw6cVjW2gkm3uHUIXh8RakZTH3X1VEYzthd4qRscgwqrgV4SP97wXJ3MAj0xyzVqt29Nceiw3d
-	3nE4dk7GsfLnDCx0Nd63hDD/vcDLyeYT8WIcPALOOLXGgReCF13uLM+nvRML8AtmhmOVKV5NRnq
-	HYXWQvQEu8YTgXPGu4MXXOEFWaPavlPg7eSAiJxoPlzt0yF67vhVCkO9Fl8DfxduqGqCzaaMrH7
-	E4NvI5ocez7s4zEyrc7/IQbcnYewJcX6+82KvbW4zG+AOSSe1Gdbm8urYfl/XzLywI17hD0NmHV
-	73tBWgMToPIIn9d46rQhF+3oiR+27XDJQT8AVP1Fos79A3Z47TJkYh4T3Qy54MNTXhObkVvHupa
-	FVqwvEHLhtWii2q2y1bI1gGHkV0SKz7fu3FbjrQksxBPKnw3ovV5yH9luWq5cg3oFM6U6TxBG0t
-	vKtKitnrb4OLutdJJVH24XNlTN/An8pSSyBX+OWQz5fRrdFk4eUV0KRARmtnZ+hW3G+G3/TK0zc
-	7plkihRg0p+4B/GQa/ZzlAqk9V8iPOp5nNttti0dj2aE6MU58BGTqGAa9176vSB6VuBE3DqGHT+
-	SL0OLG+fbHfZ1FAzrJOZHeUXhmtaOfSg5iKyLyUlEmME=
-X-Received: by 2002:a17:903:2c04:b0:2c9:b404:b55 with SMTP id d9443c01a7336-2eb1b8c1cddmr13716365ad.6.1793415806880;
-        Fri, 30 Oct 2026 20:03:26 -0700 (PDT)
-Received: from google.com (25.75.145.34.bc.googleusercontent.com. [34.145.75.25])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ae845429e6sm5927972a91.6.2026.10.30.20.03.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2026 20:03:25 -0700 (PDT)
-Date: Sat, 31 Oct 2026 03:03:21 +0000
-From: Samiullah Khawaja <skhawaja@google.com>
-To: Andy Lutomirski <luto@amacapital.net>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Andrew Morton <akpm@linux-foundation.org>, 
-	Hugh Dickins <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	Jeff Layton <jlayton@kernel.org>, Chuck Lever <cel@kernel.org>, 
-	Alexander Aring <alex.aring@gmail.com>, Shuah Khan <shuah@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>, 
-	Vivek Kasireddy <vivek.kasireddy@intel.com>, Jeff Xu <jeffxu@google.com>, David Matlack <dmatlack@google.com>, 
-	Pasha Tatashin <tatashin@google.com>, linux-mm@kvack.org, linux-api@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] mm/memfd: add F_SEAL_PUNCH_HOLE
-Message-ID: <auVRLPmbWYvMnly-@google.com>
-References: <20261026220546.3114241-1-skhawaja@google.com>
- <d4891333-43ea-4d74-9fb9-6ad8dac1a446@kernel.org>
- <20261030121113.GB3889730@ziepe.ca>
- <2c7aa5c1-3af3-4654-b244-1257d05c9d45@kernel.org>
- <auTR9SnDLsLVmnJ7@google.com>
- <CALCETrV5eqg6d9=+BQhCpRwBNe3aCQiut8vxPBs8b7PToqjaHg@mail.gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=Rc4KYIC9
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=tArUjAi7RyNIs44mDcDEd1/onmpGhyZQLsYyXwL8Y3g=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1793421191; v=1; x=1794025991;
+ b=Rc4KYIC9owQQYp1axLtKtu6ytYWTfMvKNYNUub/cy2ph/TXFumz2vQ6CYqrK6QVcbicEDcLA
+ Bh/VEkrn/qSnWAGE694BRT2khCHiB5WXWtvl2XjZmiI9yX8UO/tNsVAcADFoCV8bUBGj6P/DcC7
+ koJOWoyWGGNT54l1o7TfdgqQ=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id ea78379c5260a3be;
+	Sat, 31 Oct 2026 04:33:09 +0000
+X-Mizu-Trace-ID: ea78379c5260a3be
+X-Migadu-Flow: FLOW_OUT
+Date: Sat, 31 Oct 2026 04:33:06 +0000
+From: Jose Fernandez <jose.fernandez@linux.dev>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+	Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	Krystian Kaniewski <krystianmkaniewski@gmail.com>
+Subject: Re: [PATCH] mm/filemap: stop fault-around when the walk steps back
+Message-ID: <20261031-jf-mm-filemap-reply-r2-7d4c1e9ab350@linux.dev>
+References: <20261028-jf-mm-filemap-map-pages-lower-bound-v1-1-0bf126e876d4@linux.dev>
+ <0a1ad7d2-ff0e-4248-8f03-2a64a9134aae@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -110,111 +66,20 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CALCETrV5eqg6d9=+BQhCpRwBNe3aCQiut8vxPBs8b7PToqjaHg@mail.gmail.com>
+In-Reply-To: <0a1ad7d2-ff0e-4248-8f03-2a64a9134aae@kernel.org>
 
-On Fri, Oct 30, 2026 at 03:43:53PM -0700, Andy Lutomirski wrote:
->On Fri, Oct 30, 2026 at 10:40 AM Samiullah Khawaja <skhawaja@google.com> wrote:
->>
->> On Fri, Oct 30, 2026 at 03:39:40PM +0100, David Hildenbrand (Arm) wrote:
->> >On 10/30/26 13:11, Jason Gunthorpe wrote:
->> >> On Fri, Oct 30, 2026 at 11:20:30AM +0100, David Hildenbrand (Arm) wrote:
->> >>> On 10/26/26 23:05, Samiullah Khawaja wrote:
->> >>>> This series introduces F_SEAL_PUNCH_HOLE, a new memfd seal that prevents
->> >>>> holes from being punched into a shmem or hugetlbfs memfd while leaving
->> >>>> the file fully writable.
->> >>>>
->> >>>> Background
->> >>>> ==========
->> >>>>
->> >>>> Drivers such as udmabuf and iommufd (via IOMMU_IOAS_MAP_FILE) use
->> >>>> memfd_pin_folios() to pin the folios backing a memfd and hand them to a
->> >>>> device for DMA. Pinning keeps those folios allocated, but it does not
->> >>>> keep them in the file. If userspace later calls
->> >>>> fallocate(FALLOC_FL_PUNCH_HOLE) or madvise(MADV_REMOVE) on the range,
->> >>>> the folios are dropped from the page cache while the device continues
->> >>>> to use them. The pin holder is never notified, and from that point on
->> >>>> the device and the file silently diverge.
->> >>>
->> >>> We have the exact same situation when userspace maps anonymous folios into vfio
->> >>> and then desides to MADV_DONTNEED the pages. Or any other memory backend that is
->> >>> used for such purposes.
->> >>>
->> >>> User space must not zap/punch things that might be pinned elsewhere.
->> >>>
->> >>> That's not specific to memfd, udmabuf, iommufd or anything else.
->> >>>
->> >>> I don't see a reason to make userspace (that should not shoot itself into the
->> >>> foot) a kernel feature it must activate itself to not shoot itself into the foot.
->>
->> Agreed, for normal use this is userspace's problem. The seal was meant
->> for the kernel to cheaply verify at preserve time that nothing was
->> punched.
->>
->> >>
->> >> The issue is live update doesn't preserve those background punched
->> >> folios and now we have created an UAF attack on the kernel across
->> >> kexec if you don't do something about it.
->> >>
->> >> There was some notion here that with the right sealing flags we could
->> >> tell if everything was 'live update compatible' and then know that
->> >> these attacks are impossible.
->> >Just remember that there was any hole punch and refuse to live update this instance.
->> >
->> >We could likely implement "we saw hole punch on a pinned folio" as well, but I
->> >don't think that's required initially.
->>
->> If I understand correctly, you mean recording on the memfd that a hole
->> punch happened, and refusing the live update if it did? That would work
->> and is much cheaper than what we do today, where iommufd walks all the
->> mapped pages at preserve time. For truncate, the existing F_SEAL_SHRINK
->> is enough or I can record that also on the memfd. I will send patches
->> for this.
->
->This entire situation continues to give me the willies.  After much
->prodding and contemplating (in my own brain), I got a friendly LLM to
->report:
->
->--- begin AI output ---
->
->IOMMU_IOAS_MAP_FILE uses memfd_pin_folios(). Collapse [MADV_COLLAPSE
->or khugepaged] checks the old folio’s reference count, so a pin
->acquired before that check makes collapse fail.
->
->  The problematic interleaving is:
->
->  1. collapse_file() locks and unmaps the old folio, then passes its
->reference-count check (mm/khugepaged.c:2446).
->  2. memfd_pin_folios() (mm/gup.c:3483) obtains the old folio from the
->file’s XArray and pins it, without taking the folio lock.
->  3. Collapse copies the contents and replaces the old cache entries
->with the new huge folio. It does not repeat the reference check or
->freeze the old count.
->  4. IOAS retains the old physical pages; accesses through the file
->use the new folio.
->
->--- end AI output ---
->
->Is this correct?  I haven't personally verified it.  But this whole
+On Thu, Oct 29, 2026 David Hildenbrand (Arm) wrote:
+> Only read or also write? I assume only read.
 
-Yes, I think this is correct. memfd_pin_folios() pins the folios
-directly without taking the folio lock. Other page cache lookups lock
-the folio and recheck folio->mapping, e.g. shmem_get_folio_gfp(). Only
-memfd_pin_folios() misses it.
+Both. KASAN only reports the read, but once vmf->pte has stepped
+outside the page table the loop will also call set_pte_range() on
+that slot if it reads as pte_none(), so a stray write is possible
+too. I'll call that out in the v2 changelog.
 
-This scenario is different from punch hole or MADV_DONTNEED where the
-user decides to remove the pinned memory. Here the kernel is removing
-the pinned page without the user knowing. Collapse already checks the
-refcount to avoid this.
+> Sounds like we want a Fixes: tag and Cc: stable? :)
 
-The recent fix [1] by Chris already takes the folio lock for !uptodate
-folios. I think we can take the lock unconditionally and recheck
-folio->mapping, that should fix this. I can send a patch for this fix,
-if folks agree.
+Yes, v2 will carry both.
 
-[1] https://lore.kernel.org/all/20261029-fixes_core-v2-20-a64ce7f83abb@kernel.org/
-
-Thanks,
-Sami
+- Jose
