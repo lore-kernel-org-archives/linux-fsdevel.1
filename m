@@ -1,124 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.65
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793426349;
-	b=jGk4RZirnkzL4yCehTOfhjFP/BrpsG4ey/o5k3m+8ww+ouxHIgV5uxnu6ccam9ou0rWP
-	 +RK0yXwhc0RlmFMUMcfTUAw64GRgFw99PezStF+9f2dIyF5gYyFRq+uTdIckKl3U6l9o0
-	 uG/pklu983tPFuwhHfbGJe+zigFPEGJ05+e2EJgzP/wwvm3ngEuHJlkptg0AIrT4PlqPw
-	 3TXM4yqGgc77umN4M71tdK5steJ1+AI0zM24lOBe1xNcAw3PjHbq+aTxM0QN58q7s/gi/
-	 GyP6f+eKDSzGlH7UlzZn887f9a3FVxEXXyF6KJ7S4KBezN3yB9rgCUKRFyzbQzZqLvQ==
+	t=1793430325;
+	b=UDpF0sBPvPsv76mihersDjFgXgsl5nY9CzUL+Z4o7XpEPDtJi5LyL+AJLIlpUa6iHWhl
+	 Z4fvfiVaiiBQeMVjnEKcNay15w7/Hgel1RkVr12gaqi6OngWJq5hwcGkuOlVbXCRelcYN
+	 BmscnpK4uF2YpbuLI2wDiFPRXozNR8V0MC7KvJO2RPKoaN4/mGHH3g68GMapdj42CYB9G
+	 cyrago/3WoN2qBY57ECObbT2Ap9TMlLXHmFEw+47cBRxsDY0SaLDvDVbnwYxgpIIrS1oR
+	 n+jiICi2Qf5AgvAtxfYZtBLaVLqp5vaog2A4hPAqH4zDzL+puYyrSVKxRE/5JWJQUog==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793426349;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
+	a=rsa-sha256; c=relaxed/relaxed; t=1793430325;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=wHHnuTTmSOXbH6E8lHg0GEvp+GQz96PM/IlXLU1wjgs=;
-	b=UsX8bJrLIWQoTgkneNUI/vtECXo4IuVWvwbi57hr3dImhgrjrp5DnfvJrG88cJhS/lnM
-	 vyb53DVCXO85h74j6dnmqECucrB95EigTPgJPjsxwf8W72/AAmYEuwQ/oJhGn6lDYAw7i
-	 AOITkr8fCQrbHeYAF4y2ZnwIxo5NXL5nsmgbtklI8KJQVfC0mZvwHSF0eISXuh1LE3tO+
-	 E5HZDVXSfJzijhLiT1nnHc+Na5Nuxe63buL9DscpVqZfi1yjRSuKnfp/oLtVNOp19OXth
-	 XovqY2TGi/YSo5eVwGisF92UgRUjdZl2sIQRWF+vuwK95caUX0+T4eUTWZoV2RAA2ew==
+	bh=Iufanw/5KFAPDTTrdzVdPmEyBabAy2noz2vvQUjeASc=;
+	b=zwrCM2Rds4rPuZGTNgBd+HcH7JAJMdhl3OE+G+z3FJZqhSiEk78wmmJorkjVwDS0zIG+
+	 CR4RXKloBF7nXpOmN3vquI9t9RedMH/8LEw/jJ6Ipzrk/VDPJrn0wIcIrgKlxrlWc9dkC
+	 taxD22yTE84zuH4pOisrSf+Hn31n8gsV1bw46Ea4qdhbQeHwLvEyQ81hYO5uJr56X0WLJ
+	 JdSE7BF5M0DU6oGzhKqVLB428NXWBRnOIeXPa866S1N9hjK81v3/u0TcCwLzTdu+pNV/n
+	 5VNu6UqRl60UHssIReUtPEJJ3L3guN7i1ujoSiK82XRlcehMPNu5k0q3wo6Q159xoRw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	arc=none smtp.remote-ip=91.218.175.65
-Received: from mta0.migadu.com (out-65.mta0.migadu.com [91.218.175.65])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=FV31nvDo;
+	arc=none smtp.remote-ip=209.85.128.46
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EF94606A31E
-	for <linux-fsdevel@vger.kernel.org>; Sat, 31 Oct 2026 05:59:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2EF94606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=r3xzYw939vN9vzH8UsK6AomPfxJthDwVeWo/3xRQ2Fo=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793426343; v=1; x=1794031143;
- b=WvaC4FsDcAHQ2NQ2JuiHYy56AQRK9rpDlaBUPZSd+xgQihu0+x11PWIm4iqwRFyZyy1U2XAd
- No3BIBUDoNW7w/V5YVqDdoRSxK0L8ZNvB0OPSou2EJq8Y5jatu2VQdepv+5F4j7PiwSI/BjV5Zc
- 4e5m+WqcgzPmPI8SJmGlTm5c=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 14fc0ff97d323868;
-	Sat, 31 Oct 2026 05:59:02 +0000
-X-Mizu-Trace-ID: 14fc0ff97d323868
-X-Migadu-Flow: FLOW_OUT
-From: Lance Yang <lance.yang@linux.dev>
-To: muchun.song@linux.dev,
-	david@kernel.org,
-	kasong@tencent.com,
-	ridong.chen@linux.dev,
-	baohua@kernel.org,
-	sj@kernel.org
-Cc: hannes@cmpxchg.org,
-	mhocko@kernel.org,
-	qi.zheng@linux.dev,
-	shakeel.butt@linux.dev,
-	ljs@kernel.org,
-	axelrasmussen@google.com,
-	yuanchu@google.com,
-	weixugc@google.com,
-	baoquan.he@linux.dev,
-	baolin.wang@linux.alibaba.com,
-	liam@infradead.org,
-	vbabka@kernel.org,
-	rppt@kernel.org,
-	surenb@google.com,
-	mhocko@suse.com,
-	kees@kernel.org,
-	peterz@infradead.org,
-	jannh@google.com,
-	pfalcato@suse.de,
-	hughd@google.com,
-	pasha.tatashin@soleen.com,
-	pratyush@kernel.org,
-	willy@infradead.org,
-	jack@suse.cz,
-	ziy@nvidia.com,
-	lance.yang@linux.dev,
-	riel@surriel.com,
-	harry@kernel.org,
-	apopple@nvidia.com,
-	nico.pache@linux.dev,
-	ryan.roberts@arm.com,
-	dev.jain@arm.com,
-	usama.arif@linux.dev,
-	kas@kernel.org,
-	matthew.brost@intel.com,
-	jhubbard@nvidia.com,
-	peterx@redhat.com,
-	will@kernel.org,
-	aneesh.kumar@kernel.org,
-	npiggin@gmail.com,
-	osalvador@suse.de,
-	minchan@kernel.org,
-	xu.xin@linux.dev,
-	chengming.zhou@linux.dev,
-	chrisl@kernel.org,
-	shikemeng@huaweicloud.com,
-	nphamcs@gmail.com,
-	youngjun.park@lge.com,
-	gourry@gourry.net,
-	joshua.hahnjy@gmail.com,
-	rakie.kim@sk.com,
-	ying.huang@linux.alibaba.com,
-	jgg@ziepe.ca,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86F50606A31A
+	for <linux-fsdevel@vger.kernel.org>; Sat, 31 Oct 2026 07:05:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 86F50606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=FV31nvDo
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4a59100fa83so12384615e9.0
+        for <linux-fsdevel@vger.kernel.org>; Sat, 31 Oct 2026 00:05:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793430324; x=1794035124; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Iufanw/5KFAPDTTrdzVdPmEyBabAy2noz2vvQUjeASc=;
+        b=FV31nvDoIjKAJUOaMuSEBDeDz0AWHffKOUNNU8NqBCX6rFZ28ZcYyiCXaHNPPJ+Js+
+         Ud10cpoZ45oiBbYZHefVj9T4VJg9kmFObiLnjJ06T+5Ikdqwz2Zrd4+Aev7vBJlL45+E
+         pEdnBavwUcxwiNAnpFH4K7ZsNR0VCh3HSuBx0MTp5lLYoDMcmMg8CsXSB9ncQU5G2g1A
+         Uv/BYr1oMz6UpX/mdL90eXr83s+0m8pHdf4EC9Ifqy0JpU6JxiU2KVX1hy6vDoEx3nhN
+         6EKDX3QTWDsriGnjK0OmhsC7fXNKo4yn/Ebjk/caMvEoX+t7a6RKTrAbQwKw9YqKoUEv
+         yRbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793430324; x=1794035124;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Iufanw/5KFAPDTTrdzVdPmEyBabAy2noz2vvQUjeASc=;
+        b=Wpc4C9+uh+sif87cItE/7iWI7aS1xh8WVUwtYTe9FuqdTOlQZOTRHOkWUcM/VZ/sO0
+         9/umyf6+vHYDpuuq4ZLlBx72LWERtm1P9Q6JED1EXqat92dN99Asr56dHsELnQng8nHW
+         N9tQX64BXDd0zySLqrMCOU7Oy0ejT382CX3WD6ZYZyGxzU9V8e5CoPOXgIpnnC88Alm0
+         rNdbLvKOHAMEmbx1zkyBG5e0ewiv6oF3cSqBW39dKyzzSMZ+3S9kj9cEcCHRnaXwiyjX
+         +aeWVxAPddVyPON9+R8NaklTBNdsfjbR/SCxf/o6elkoPkvPPDaNyKY9lsq6Zc88PBFV
+         Lk0Q==
+X-Forwarded-Encrypted: i=1; AKwUvBxfQwueDV2IqIC6KiY5onpkX4E4UrG515bS9C6EJxZ+E+iRP/YPcDCmd0dIgUfYrlpLP6V/Bk6D4ATAEtr7@vger.kernel.org
+X-Gm-Message-State: AFq9FYKcOo7cNXqRa/8AGosm/yDHXAS+N2It/CIxAEIQlqsvUQ3E3hN5
+	a806weCjRTCIMsnDDo5yXk/XQpwLkKJ8WnJ/KFpu0hgOJIOz1m2LQrPh
+X-Gm-Gg: AYBFou03ZMDau1ZZqBiKZjdkf51cSBvAEaYfFjKYYAoZEZ3eA8980NyuokO9TzShqZj
+	8kuVZ65pyZ3f2ikSYhoh3illHv8fmrfV+h44AqcNzBW05jbF0ynkQ3CnNmNtMfmKWc++58BOOYJ
+	wVmlMoHV74pXjnoD2QJAK2DXONpVNTs87+658vWWqDhDS8ELkxIZGfDXVltva4hP8LaNs+P9LsQ
+	SBcZYnT0oaiLixCBtBA5TLKl1UGIFON1Mv9KWNpi4UKmJc4HoQrGHOadDXbruvZsynVaKNVoVMy
+	uB8h03RCJHVDYU6mPjnhRVIvxu5dUw5mypq8u15ycqjjG8PY+9Qpp0STC2cQmEGRSQrB5f3eEqF
+	iCM/gk7ggtWes5VODyNCFbesGv8VZJ6HGwZFHHZt+FJPc5R/eLWJ/1aimuCkx2eK7PO4Ek2DyyY
+	ObHyxvVqyGZ7slIpkGuNFgZGXveg/C9aoyTYHtlf2hYDA1vYO5ve+vT+liGKky6I21SMo6WRVW6
+	7tjcvzJ4SbYpAr/d6fDh+3MSlEOy8yyJDOubM6F0+HxWMHik2nlCGdDnfYG0SWpQ0Rqzaoou0ul
+	dJpqUm9924KVj5mNCrMaXhwPgf8iJsb9WAFz5uYpKsYi
+X-Received: by 2002:a05:600c:8b0a:b0:4a2:e0c:2b0a with SMTP id 5b1f17b1804b1-4ac1709a200mr101686865e9.16.1793430323735;
+        Sat, 31 Oct 2026 00:05:23 -0700 (PDT)
+Received: from localhost.localdomain ([2a06:c701:4773:6f00:c8d4:ec29:293e:f39])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ac09cc3e9asm46827155e9.3.2026.10.31.00.05.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 31 Oct 2026 00:05:23 -0700 (PDT)
+From: Avi Weiss <thnkslprpt@gmail.com>
+To: Matthew Wilcox <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Joanne Koong <joannelkoong@gmail.com>,
 	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	kexec@lists.infradead.org,
 	linux-fsdevel@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	linux-cxl@vger.kernel.org,
-	josef@toxicpanda.com,
-	stable@vger.kernel.org,
-	usama.anjum@arm.com
-Subject: Re: [PATCH v2 01/47] mm/mglru: don't use stack pointers when walking PUD and PMD tables
-Date: Sat, 31 Oct 2026 13:58:38 +0800
-Message-ID: <20261031055838.60138-1-lance.yang@linux.dev>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <6FACF8FF-F943-45C8-BDFD-3AFB5C060E0A@linux.dev>
-References: <6FACF8FF-F943-45C8-BDFD-3AFB5C060E0A@linux.dev>
+	linux-kernel@vger.kernel.org,
+	Avi Weiss <thnkslprpt@gmail.com>
+Subject: [PATCH] mm/page-writeback: avoid unnecessary strictlimit background wakeups
+Date: Sat, 31 Oct 2026 09:05:15 +0200
+Message-ID: <20261031070515.3042848-2-thnkslprpt@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -128,62 +99,45 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+balance_dirty_pages() includes pages under writeback in
+gdtc->wb_dirty when checking the per-wb background threshold for
+strictlimit BDIs. However, wb_over_bg_thresh() only considers
+reclaimable dirty pages when deciding whether to start more
+background writeback.
 
-On Sat, Oct 31, 2026 at 09:46:37AM +0800, Muchun Song wrote:
->
->
->> On Oct 31, 2026, at 09:41, Ridong Chen <ridong.chen@linux.dev> wrote:
->> 
->> 
->> 
->> On 10/30/2026 6:21 PM, David Hildenbrand (Arm) wrote:
->>> On 10/30/26 01:20, SJ Park wrote:
->>>> 'get_maintainer.pl --nogit --nogit-fallback' suggests adding below recipients.
->>>> But I can show there are already quite a number of recipients, so I'm just
->>>> noting here.
->>>> 
->>>> - Brian Geffon <bgeffon@google.com>
->>>> - Oleksandr Natalenko <oleksandr@natalenko.name>
->>>> - Steven Barrett <steven@liquorix.net>
->>>> - Yu Zhao <yuzhao@google.com>
->>> The CC list was so long that I limited it to people that area either a reviewer
->>> or a maintainer of code.
->>> MGLRU not having any real maintainer is a big problem; because that maintainer
->>> would know whom to CC.
->> Agreed. FWIW, I think Barry Song and Kairui Song would be good candidates
->> for the maintainer role.
->
->+1
->
->It would be great if they could take this over.
+This can repeatedly wake the background worker even when there are
+too few dirty pages to write. In a 15-second FUSE writeback test,
+background wakeup requests dropped from 2657 to 682 (74% drop),
+while writeback_start events remained nearly unchanged at 99 and 98.
 
-+1 from me too ;)
+Check wb_over_bg_thresh() before starting background writeback through
+the strictlimit condition. Leave the global background threshold
+check and the wakeup required for dirty throttling unchanged.
 
-They both have been really active on MGLRU and doing great work for quite
-a while. No doubt they'll continue to do so :D
+Fixes: 0437906841d0 ("mm: start background writeback based on per-wb threshold for strictlimit BDIs")
+Signed-off-by: Avi Weiss <thnkslprpt@gmail.com>
+---
+ mm/page-writeback.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Cheers, Lance
+diff --git a/mm/page-writeback.c b/mm/page-writeback.c
+index 499a35473e4f..cb0c58715b93 100644
+--- a/mm/page-writeback.c
++++ b/mm/page-writeback.c
+@@ -1826,7 +1826,8 @@ static int balance_dirty_pages(struct bdi_writeback *wb,
+ 
+ 		if (!writeback_in_progress(wb) &&
+ 		    (nr_dirty > gdtc->bg_thresh ||
+-		     (strictlimit && gdtc->wb_dirty > gdtc->wb_bg_thresh)))
++		     (strictlimit && gdtc->wb_dirty > gdtc->wb_bg_thresh &&
++		      wb_over_bg_thresh(wb))))
+ 			wb_start_background_writeback(wb);
+ 
+ 		/*
 
->Thanks,
->Muchun
->
->> 
->> Both of them have been contributing to MGLRU consistently and
->> substantially. Barry is currently working on improving aging and fixing
->> the swappiness-related issues, and Kairui is driving the MGLRU-FG
->> optimization work.
->> 
->> They have also been active in reviewing MGLRU patches, and their review
->> comments are usually to the point and helpful. They have been looking
->> after this code well, so I think they would be a good fit as
->> maintainers.
->> 
->> -- 
->> Best regards
->> Ridong
->> 
->
->
+base-commit: 36aad21d50d1af3f6954bb0c988257a908202477
+-- 
+2.43.0
+
