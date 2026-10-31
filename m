@@ -1,67 +1,124 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.236
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.65
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793421256;
-	b=AGkbcOrkyJqKZUNaFktUoDQ8WlgnECjCzs88XFsxxOgF/OxljDxQJH05r4AkRYSybkDr
-	 K7u86DVvC0L8tQtpLzKkH+H00yDtdOpmqv/1oRiMFQPKcLtg8GNkFPHGpAXEPKKtGT6LB
-	 zMZJAIKVwhTKOqLZYKcEvBduv/pm56ztT9odDko2Y7BKW9ofhZ81bmLfboCSOAZG0tRpJ
-	 vBx3cl3jtvPOh8kkScng4SKLkSUAtHEpVVh2i7PdwvQ25OGK8Y5g4zLvvjlw2dvkqiEtr
-	 qDdDhZkHe2Ve+ma2mVCn60DoisryQLCaICu26s4y6aWe5speDWHtZNOhPTnYHHhmrYQ==
+	t=1793426349;
+	b=jGk4RZirnkzL4yCehTOfhjFP/BrpsG4ey/o5k3m+8ww+ouxHIgV5uxnu6ccam9ou0rWP
+	 +RK0yXwhc0RlmFMUMcfTUAw64GRgFw99PezStF+9f2dIyF5gYyFRq+uTdIckKl3U6l9o0
+	 uG/pklu983tPFuwhHfbGJe+zigFPEGJ05+e2EJgzP/wwvm3ngEuHJlkptg0AIrT4PlqPw
+	 3TXM4yqGgc77umN4M71tdK5steJ1+AI0zM24lOBe1xNcAw3PjHbq+aTxM0QN58q7s/gi/
+	 GyP6f+eKDSzGlH7UlzZn887f9a3FVxEXXyF6KJ7S4KBezN3yB9rgCUKRFyzbQzZqLvQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793421256;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793426349;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
-	 X-B4-Tracking:X-Change-ID:X-Mailer:MIME-Version:Content-Type:
-	 Content-Disposition;
-	bh=Flx6BFpBHU/1mQwNgXF0H0qYyTFKKY1odWtVjJY4UAU=;
-	b=LvbOY4M5LkxHulfD1BiieQoLoCDxViwXHG22JdIdJdK2GjtKl1TXXZfv5y7nh94pvzvV
-	 I2ZpELO2+8IMsShxaL2aamkM6sxPdCuthJj9Ap1ALY6S40JtfDzrdC6EGlz/dA+iSdY+9
-	 XWfeNMMzEBoh8IdMWkz2+1TYdXeYcNF1bJW/cZRQxbtXVq4DIvPqMZHHA9rXGcri+4Yr1
-	 zrJtFSmnuvMVS7Ji+2DYPtmgIn/aEW4oAjTDdI0VN8US5OBqNNlgtIblQG7lqLb0aMEEg
-	 dB55K1zlv4rDsOkvTkgEktQTvQ8zenn26GpkUplrRYztqz1Pqb3DlDvBrymvIoz5fXA==
+	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=wHHnuTTmSOXbH6E8lHg0GEvp+GQz96PM/IlXLU1wjgs=;
+	b=UsX8bJrLIWQoTgkneNUI/vtECXo4IuVWvwbi57hr3dImhgrjrp5DnfvJrG88cJhS/lnM
+	 vyb53DVCXO85h74j6dnmqECucrB95EigTPgJPjsxwf8W72/AAmYEuwQ/oJhGn6lDYAw7i
+	 AOITkr8fCQrbHeYAF4y2ZnwIxo5NXL5nsmgbtklI8KJQVfC0mZvwHSF0eISXuh1LE3tO+
+	 E5HZDVXSfJzijhLiT1nnHc+Na5Nuxe63buL9DscpVqZfi1yjRSuKnfp/oLtVNOp19OXth
+	 XovqY2TGi/YSo5eVwGisF92UgRUjdZl2sIQRWF+vuwK95caUX0+T4eUTWZoV2RAA2ew==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=obcdZO7I;
-	arc=none smtp.remote-ip=95.215.58.236
-Received: from mta1.migadu.com (out-236.mta1.migadu.com [95.215.58.236])
+	arc=none smtp.remote-ip=91.218.175.65
+Received: from mta0.migadu.com (out-65.mta0.migadu.com [91.218.175.65])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F840606A31A
-	for <linux-fsdevel@vger.kernel.org>; Sat, 31 Oct 2026 04:34:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8F840606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EF94606A31E
+	for <linux-fsdevel@vger.kernel.org>; Sat, 31 Oct 2026 05:59:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2EF94606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=obcdZO7I
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=sRRglwrZgXV0SrK/OtUomTWdFA+5PNai7nUeEM2ufrs=;
+DKIM-Signature: a=rsa-sha256; bh=r3xzYw939vN9vzH8UsK6AomPfxJthDwVeWo/3xRQ2Fo=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793421248; v=1; x=1794026048;
- b=obcdZO7INN1kPM1v5GvlYd70X42q221riOIqjegL1GE8Y3xl3zxAacC/Om/Vt4G8sfHmhE4V
- lrkL01cLaRw/2ZGemRxFlg1/kqalN891kSFL8xTDO1sd8izjxcLdmV+CdQHPgbbOizq+5r0xXIC
- hNBzQ8+9eLGKt+aU2Pk/L5sI=
+ t=1793426343; v=1; x=1794031143;
+ b=WvaC4FsDcAHQ2NQ2JuiHYy56AQRK9rpDlaBUPZSd+xgQihu0+x11PWIm4iqwRFyZyy1U2XAd
+ No3BIBUDoNW7w/V5YVqDdoRSxK0L8ZNvB0OPSou2EJq8Y5jatu2VQdepv+5F4j7PiwSI/BjV5Zc
+ 4e5m+WqcgzPmPI8SJmGlTm5c=
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 84ce8c3f7c47124b;
-	Sat, 31 Oct 2026 04:34:08 +0000
-X-Mizu-Trace-ID: 84ce8c3f7c47124b
+Received: by smtp.migadu.com with ESMTPS id 14fc0ff97d323868;
+	Sat, 31 Oct 2026 05:59:02 +0000
+X-Mizu-Trace-ID: 14fc0ff97d323868
 X-Migadu-Flow: FLOW_OUT
-Date: Sat, 31 Oct 2026 04:33:59 +0000
-From: "Jose Fernandez (Anthropic)" <jose.fernandez@linux.dev>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, Krystian Kaniewski <krystianmkaniewski@gmail.com>, 
-	stable@vger.kernel.org, "Jose Fernandez (Anthropic)" <jose.fernandez@linux.dev>
-Subject: [PATCH v2] mm/filemap: stop fault-around when the walk steps back
-Message-ID: <20261031-jf-mm-filemap-map-pages-lower-bound-v2-1-21029744e589@linux.dev>
-X-B4-Tracking: v=1; b=H4sIACVu5WoC/yXNyw6CMBCF4Vchs3YSqAmpvopxMbRTHEIvaUVNC
- O9ugcVZfJv/rFA4Cxe4Nytk/kiRGCrUpQHzojAyiq0G1aq+a5XGyaH36GRmTwn3JRq54By/nHG
- IS7BIvbqy1aQ7c4NaSpmd/I6Xx/N0WYaJzXtPw7b9AbLiH4eHAAAA
-X-Change-ID: 20261028-jf-mm-filemap-map-pages-lower-bound-a623ed8a81c9
-X-Mailer: b4 0.15.2
+From: Lance Yang <lance.yang@linux.dev>
+To: muchun.song@linux.dev,
+	david@kernel.org,
+	kasong@tencent.com,
+	ridong.chen@linux.dev,
+	baohua@kernel.org,
+	sj@kernel.org
+Cc: hannes@cmpxchg.org,
+	mhocko@kernel.org,
+	qi.zheng@linux.dev,
+	shakeel.butt@linux.dev,
+	ljs@kernel.org,
+	axelrasmussen@google.com,
+	yuanchu@google.com,
+	weixugc@google.com,
+	baoquan.he@linux.dev,
+	baolin.wang@linux.alibaba.com,
+	liam@infradead.org,
+	vbabka@kernel.org,
+	rppt@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	kees@kernel.org,
+	peterz@infradead.org,
+	jannh@google.com,
+	pfalcato@suse.de,
+	hughd@google.com,
+	pasha.tatashin@soleen.com,
+	pratyush@kernel.org,
+	willy@infradead.org,
+	jack@suse.cz,
+	ziy@nvidia.com,
+	lance.yang@linux.dev,
+	riel@surriel.com,
+	harry@kernel.org,
+	apopple@nvidia.com,
+	nico.pache@linux.dev,
+	ryan.roberts@arm.com,
+	dev.jain@arm.com,
+	usama.arif@linux.dev,
+	kas@kernel.org,
+	matthew.brost@intel.com,
+	jhubbard@nvidia.com,
+	peterx@redhat.com,
+	will@kernel.org,
+	aneesh.kumar@kernel.org,
+	npiggin@gmail.com,
+	osalvador@suse.de,
+	minchan@kernel.org,
+	xu.xin@linux.dev,
+	chengming.zhou@linux.dev,
+	chrisl@kernel.org,
+	shikemeng@huaweicloud.com,
+	nphamcs@gmail.com,
+	youngjun.park@lge.com,
+	gourry@gourry.net,
+	joshua.hahnjy@gmail.com,
+	rakie.kim@sk.com,
+	ying.huang@linux.alibaba.com,
+	jgg@ziepe.ca,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	kexec@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-arch@vger.kernel.org,
+	linux-cxl@vger.kernel.org,
+	josef@toxicpanda.com,
+	stable@vger.kernel.org,
+	usama.anjum@arm.com
+Subject: Re: [PATCH v2 01/47] mm/mglru: don't use stack pointers when walking PUD and PMD tables
+Date: Sat, 31 Oct 2026 13:58:38 +0800
+Message-ID: <20261031055838.60138-1-lance.yang@linux.dev>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <6FACF8FF-F943-45C8-BDFD-3AFB5C060E0A@linux.dev>
+References: <6FACF8FF-F943-45C8-BDFD-3AFB5C060E0A@linux.dev>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -71,60 +128,62 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-filemap_map_pages() can dereference a PTE pointer outside the page table
-it locked. KASAN has reported this as a use-after-free read [1]. The
-same path can also write out of bounds. When the stray entry reads as
-none, the fault-around loop maps a page there with set_pte_range().
 
-Its fault-around loop walks the page cache and moves vmf->pte by the
-change in index. A lower index moves it back. xas_find() can step back
-to a lower index when a multi-index entry is split during the walk.
+On Sat, Oct 31, 2026 at 09:46:37AM +0800, Muchun Song wrote:
+>
+>
+>> On Oct 31, 2026, at 09:41, Ridong Chen <ridong.chen@linux.dev> wrote:
+>> 
+>> 
+>> 
+>> On 10/30/2026 6:21 PM, David Hildenbrand (Arm) wrote:
+>>> On 10/30/26 01:20, SJ Park wrote:
+>>>> 'get_maintainer.pl --nogit --nogit-fallback' suggests adding below recipients.
+>>>> But I can show there are already quite a number of recipients, so I'm just
+>>>> noting here.
+>>>> 
+>>>> - Brian Geffon <bgeffon@google.com>
+>>>> - Oleksandr Natalenko <oleksandr@natalenko.name>
+>>>> - Steven Barrett <steven@liquorix.net>
+>>>> - Yu Zhao <yuzhao@google.com>
+>>> The CC list was so long that I limited it to people that area either a reviewer
+>>> or a maintainer of code.
+>>> MGLRU not having any real maintainer is a big problem; because that maintainer
+>>> would know whom to CC.
+>> Agreed. FWIW, I think Barry Song and Kairui Song would be good candidates
+>> for the maintainer role.
+>
+>+1
+>
+>It would be great if they could take this over.
 
-[1] fixes xas_find(), but the loop still relies on the walk never
-stepping back. Stop the fault-around when the walk steps back. ->fault()
-maps the faulting page if the loop did not.
++1 from me too ;)
 
-Link: https://lore.kernel.org/20260904121301.200049-1-krystianmkaniewski@gmail.com [1]
-Fixes: 6b24ca4a1a8d ("mm: Use multi-index entries in the page cache")
-Cc: stable@vger.kernel.org
-Signed-off-by: Jose Fernandez (Anthropic) <jose.fernandez@linux.dev>
----
-Changes in v2:
-- Add Fixes: and Cc: stable tags, and say in the message that the loop
-  can also write out of bounds (David Hildenbrand).
-  https://patch.msgid.link/0a1ad7d2-ff0e-4248-8f03-2a64a9134aae@kernel.org
-- Link to v1: https://patch.msgid.link/20261028-jf-mm-filemap-map-pages-lower-bound-v1-1-0bf126e876d4@linux.dev
----
- mm/filemap.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+They both have been really active on MGLRU and doing great work for quite
+a while. No doubt they'll continue to do so :D
 
-diff --git a/mm/filemap.c b/mm/filemap.c
-index b74bc1e5015c..1df776907140 100644
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -3968,6 +3968,13 @@ vm_fault_t filemap_map_pages(struct vm_fault *vmf,
- 		unsigned long end;
- 		vm_fault_t map_ret;
- 
-+		/* A lower index could move vmf->pte out of its page table. */
-+		if (unlikely(xas.xa_index < last_pgoff)) {
-+			folio_unlock(folio);
-+			folio_put(folio);
-+			break;
-+		}
-+
- 		addr += (xas.xa_index - last_pgoff) << PAGE_SHIFT;
- 		vmf->pte += xas.xa_index - last_pgoff;
- 		last_pgoff = xas.xa_index;
+Cheers, Lance
 
----
-base-commit: 65ba8f34ec886ec72b2c07ddc8cf3d815c32869d
-change-id: 20261028-jf-mm-filemap-map-pages-lower-bound-a623ed8a81c9
-
-Best regards,
---  
-Jose Fernandez (Anthropic) <jose.fernandez@linux.dev>
-
+>Thanks,
+>Muchun
+>
+>> 
+>> Both of them have been contributing to MGLRU consistently and
+>> substantially. Barry is currently working on improving aging and fixing
+>> the swappiness-related issues, and Kairui is driving the MGLRU-FG
+>> optimization work.
+>> 
+>> They have also been active in reviewing MGLRU patches, and their review
+>> comments are usually to the point and helpful. They have been looking
+>> after this code well, so I think they would be a good fit as
+>> maintainers.
+>> 
+>> -- 
+>> Best regards
+>> Ridong
+>> 
+>
+>
