@@ -1,95 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.174
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793461466;
-	b=pxx9WW4B0+CjDKG2/mb7BxWfKF+Qu6fjBwGuJfDhkU+Ii4z01sSkVs3Ps0oUEvOyWeRo
-	 BF9CBXY1C7b9EUFn6ABu70pDowoSphpkwGffMyPAT6CuvbZXPvEancM27Apudhjpt1L12
-	 p4fKnWgC+9R97oMIMiSb60NtRxZxaczeg6kTq0TfkE+aLI2e7S+IvyZ8NQbtXVhitf1J7
-	 jjEx/GUKLs93uE2UhDtPJyDcBtqOBggKRSHk5qGFBdd6GgbnZQFK8mtol1D0jP8auGdC0
-	 cxW7DEidscgFQMNLAbH0GJpb1W1DlDnWflFD3lOgT4LJVKsF0U+xsh/yaqbz+kjpIEg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793461466;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=56Jp62HZwbl/bs25PK+pXtbwrUN07Joj+4AgiDDMgHU=;
-	b=gueJU+HfSEqCRLPYJTKem1/HNGmBIEMAvfF0prWqgSzelxn+bNzQSegKQBV4vUrCPbEa
-	 X/FWBlXKF4y61jIEktlOvnkPPsIC0oaC0Z0CawHygmEsuHr4nwaFeZcqt7y22FFebonCy
-	 Px3GlpIR/38E+ayc5QFByxOD4Mmpru0RZO2H1pBT0Q00Hb5y9Q4O7Zs1uWjfMu5PlskGw
-	 2v4zBIA+DdxUb9leXAdqLJ/oH2JZUKNwcLd15nWXTRt8xDaZHxKYOfGzPiYHMDY8EsYLc
-	 bDdr7Gqg2kkNMHblD6P3yXEKnm1J+h8JqD/YKqj+UEu1tu50Sb/lytAGRdobNOgQc0A==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=JlB8oX09;
-	arc=none smtp.remote-ip=209.85.221.174
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793462764;
+	b=Zo45nhNwL17MBEBs+wqCjnl+SglGVwgvdAd+3XT0hTrLFQT3r+rLNR2Q+Vjeu2+hEstA
+	 wOJu3Kaz3EAT01mU/b4G96+8OMZehV8HzzHBjT5E35Swa1dr5r+iSstxX7w9ligTQ2Mb7
+	 zE6G4yMeqNBHjG3DaPi7YQEnJV9tmLi+t2R7XlNAlfyDKuk3SoMZIuwek0cjX3HflwXCU
+	 H1Ij+5zGJxUQAbLkkiuAkChrL7aDEFfhEtDTiYA4sWfTX89waX/1Ulx43oJPU4xGVphWV
+	 HaB5c3K/RnDU043X3N4+YF1kBy0x04k73nKLT3HEkUZsrze3I3wu8K1qwFMb3yx3wWQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793462764;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:X-B4-Tracking:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=rkymqaY7xVAzdi59LAjiM9RaFMfOkE/t6iQNHmjVNAY=;
+	b=1noPrXsDLzQKuUn9tdBtx9mmv9NIT+5Km7KQzudsNdq/I7CVV5M6bV/wfTuaixBWO1P0
+	 91Ur8kWorFvLdY6ki22qlCokHtCw4kVC51TNwyavDtCNCo5QzOWiyTjLoSoXbqS5WDSqB
+	 iVFdk0G6C8dlJaurJE7tHk2ll1tFGAWoy2phMu8hbBuhgvkMrAuW/vsWl29eYyaarF7kI
+	 NLwwWvji12FTTfFEhUrXR+nUYViI6fziHs77eObmlgM6YBSsa7bftRpy13lWg3UC2XJZI
+	 eA2uMgxzjHP5EYrgP3BgjeWuZ8d1boly8wAA9+vbLlb4FWBq3r/sJoX569CGDIUszjA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f48maP2D;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 054B8606A31A;
+	Sat, 31 Oct 2026 16:06:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f48maP2D
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1793462763;
+	b=bmFu7/pzFL1Y8Rl+rCHTK3eh1TEobgsm+cerp+DY4txDqHvpixCCT90NLVq4HjLMQquQ
+	 rvUN/Z/vdeGyq872WgVCoZhj+h7V8J751OLU8SuBfBtsGP2Jd6ukXb2ANsIPn18YrNaWN
+	 V8yfdu8t/llQqLXrvaceUbWhJEPI8ZekyWevt2nwcuU4b8Gl6rSDAI2cRdahICqzrwQcv
+	 W9Behq7nhiKCsrAomEPmx/6y2uV+TsAanCAU4nmnVV4p00qwcV9pyKsw6ox3MkrOQq4BU
+	 RjPHIJjPr2E4C7Jf5kJMTd9irtBs+U5uyXST4ZUh5bx9zB4KEh5aDj04F9yk/mppWmg==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1793462763;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:X-B4-Tracking:To:Cc:X-Mailer:X-Developer-Signature:
+	 X-Developer-Key:X-Endpoint-Received:X-Original-From:Reply-To:
+	 Content-Transfer-Encoding;
+	bh=rkymqaY7xVAzdi59LAjiM9RaFMfOkE/t6iQNHmjVNAY=;
+	b=vD1lO74qNrmtqWKgDqekRFWyf4CoNkHisOZiMxLLBe0B9z51UXGYUa303rysEHMZjKkh
+	 ItRlbXjgW7popX5X7ZMV2DPAUjbHfoWyxW4quonz4LhcqUy0rlt62MSr26NNPZ5NVt/nW
+	 S4D9jOlHS1UCsryCYJrcJ7TMplINU0fC5BVkffkLjE28FNRX/8iO1HK4Wa/u/0i5v1wOO
+	 OfxfJC6vf/HHD6OYVEr+DF9HEIvdNkskVE8WLT1Srz03qBhRBAASSSXOGYV4sSbJTf21n
+	 vF1SqbfVs1doCPHLS9LI5katvWy42QLkqBy1NJt29GBUEP6R+NCMaDAE5Rj85tVbdLA==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C11B7606A31E
-	for <linux-fsdevel@vger.kernel.org>; Sat, 31 Oct 2026 15:44:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C11B7606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=JlB8oX09
-Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-5eac6c5f927so586153e0c.0
-        for <linux-fsdevel@vger.kernel.org>; Sat, 31 Oct 2026 08:44:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793461465; x=1794066265; darn=vger.kernel.org;
-        h=mime-version:content-transfer-encoding:content-type:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=56Jp62HZwbl/bs25PK+pXtbwrUN07Joj+4AgiDDMgHU=;
-        b=JlB8oX09+gQ0HkWyOkRuAVVACNCbNqN1h+iW6a9AR/dEqjdMo4CpJs8/c2wMjxEcmv
-         MVcQKdECqWy09zVNJNVw/UL9n1lOVxoHChZpXhuTB6ZDt+SUF8IvdzZpIHCGMMmsNuZL
-         hlYpdSKkXWy1qm3KlZVVkcJnPmlPvT01IJLy2jTGirQ8vpIpuhHJFJ8MpQ6i+EflmXCF
-         ME3BqoyVJbaCtHOl0fcKRIeg0dRQcez2+u2d/SYj3ZScC83t7rsGS6trFbjevxA+by3m
-         9X/NYcjXd6PGxwf8MC/yn7ntF16SjRfeE7rj6JvFUf864Rfr3N6PTQMROVum8IE08lzR
-         9bxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793461465; x=1794066265;
-        h=mime-version:content-transfer-encoding:content-type:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=56Jp62HZwbl/bs25PK+pXtbwrUN07Joj+4AgiDDMgHU=;
-        b=dg4JAdRa1y2iBu4+5CEphLNYHgESHIZOy96JdDLb0tZQS1DvV78aevahCNYgDwSfKv
-         AefQjQMyMVzYGAmxYYlfpvaPiuf3KXawwoNZCfXzPI+jg4yk6D5MT3Fx8AJQ4QCNUtHm
-         Ku5O4ORmZRfXbrGN7i6fT8fWvwkJk0MJ+JsZTMNSZhLMSwUBJl0dSeOBUwzGJnWDJ8wf
-         Z5GCOnzJsNfOX3xO/nSFFhAu3i5zMb/rbeoKfnJcFo3DUfzzcM6cgtwHWAPBqWFD1Vef
-         CIdZ878t/sVkHKTn4UjpdHbWMwhkffyet7YKUfvfa1r6mCD0Cgl5b4BwmbNnED8cFf3m
-         eMGg==
-X-Forwarded-Encrypted: i=1; AKwUvByRundD4jc/wbz9jmlrZxIae3cHwde/Wno3RFXq1yJyu0eTUTjknVq4RMK/Xu4ki0pE31tNxdC6c7/hQEHQ@vger.kernel.org
-X-Gm-Message-State: AFq9FYKPoLywdIuNFxTbqF3W/GaQfoTeIPi/mQQuXznqsifykNrv78jz
-	sPX4R5RmPdYLMfJtyCeLKFBfTpdI2Y79aiGGtSU453W4CtGi7Q6ULB85
-X-Gm-Gg: AYBFou2UDncY/2dzlFt/RWIlXXU14EoJanjkV5060/Qy1nHtdP6/A8cxhxtGZ/Rwllm
-	AcXzfuqQaX0PSQidZ4/FgTaEikmPZp35CB9HroPDjUJ1rrdduIqvJ1BdfsVM2Kg2vWaSE21FrKW
-	R63cY9tDBhrLvRdi14mptmnD0kFHr13AGm/dnLFUO0l33WfSRcRdZS8g0bWioJtXSf311+clGUY
-	6SgF3nQQSn+wiOFr137f0pe31X6SaNykzSyCeicgsr7KkHs7MAJWbKoTQ4LCapxroOq9/WU3U/f
-	r1VUUuTyI3u1h63eDXloUfEYNvR35PmVkhjj4fkAli5V7dvW5AIicr744K6KNQr0EqdZ2Yh2jou
-	7co84qijYrtvwumao6MljG9uMYwcAboWpz1XF6UXCzJlNi/wf92QSu/YL1O/XU9VkB9OS+xUK+h
-	vc7BJvzPaQ84oJ1NaVvRT4i9rK98JOiHr49Wl3oOBYJJDWO/yiONdHNyNZcyY6A6NmKPsuK2AH+
-	472JkkJNTualvkhplqF1caJ4+kMcSS0ae3NIMxSX49DTlZWRjXlyQDtB22W5k7YTb0bzAmI6PzS
-	QxC+63K8OBaIgqXgFqBcjkRELbUIYsCaPJvSTGFnyf4MJiJu552rQfhx1o2JuzmwXN/Fy2Din55
-	E8eiAzLAgIQTELvB3oVSZhuu7zvN0x3fyWvtrVatqbR0Djf+6F530dlxJ+sDS3jXkZtdy8yOplG
-	OWrMZGC7yatnhQqBQ=
-X-Received: by 2002:a05:6102:3ec5:b0:7cc:2bb7:131d with SMTP id ada2fe7eead31-7d072baa484mr2303904137.9.1793461464434;
-        Sat, 31 Oct 2026 08:44:24 -0700 (PDT)
-Received: from 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa ([2804:7f0:b101:c5e8:f804:4efd:32bc:71d3])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7d077606b7asm5730837137.8.2026.10.31.08.44.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Oct 2026 08:44:24 -0700 (PDT)
-From: Joas Antonio dos Santos <joasantonio108@gmail.com>
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Miklos Szeredi <mszeredi@redhat.com>, John Groves <john@groves.net>,
- fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] fuse: refuse FUSE_NOTIFY_STORE for DAX inodes
-Date: Sat, 31 Oct 2026 12:44:19 -0300
-Message-ID: <179346145958.61208.701521796030924197@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	by smtp.kernel.org (Postfix) with ESMTPS id ED1DF1F00A02;
+	Sat, 31 Oct 2026 16:06:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793462763;
+	bh=rkymqaY7xVAzdi59LAjiM9RaFMfOkE/t6iQNHmjVNAY=;
+	h=From:Date:Subject:To:Cc:Reply-To;
+	b=f48maP2DUE6yleQgq35vY96i4aVCMDxGF80luuZ92fT3SWEC9wQRlHhvzyvMbLRBO
+	 g8rKVu018sDoVKHUf2vvVhfWt0xNSw+dJejYiRDFhRvRUwE1Yg2GPibAbuaEeO0hAC
+	 7vm+1/QQWO/1Agct9CjeoU38sOqi6GfJf1FWeV+MliC21AXLcmZeWgBc0pYR8bXS75
+	 ACU4LekX+VMmVBrZGUWgOhv4obNBxrR9BVCn0LVEBsDaUpyAytsqmyrnSxOR3Nf1fr
+	 TckdJKXtI0lhVev0a+nlsugexYThxMQCGfZgZkb+sHHPLOpwhlXeUzr6Bi/Pg1ygsE
+	 N22JIhUsuxLHQ==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 4ED8945F27;
+	Sat, 31 Oct 2026 16:06:02 +0000 (UTC)
+From: Joas Antonio dos Santos via B4 Relay <devnull+joasantonio108.gmail.com@kernel.org>
+Date: Sat, 31 Oct 2026 16:06:02 +0000
+Subject: [PATCH] hugetlbfs: emit hugetlbfs_free_inode from
+ ->destroy_inode()
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -99,74 +83,122 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261031-b4-hugetlbfs-trace-v1-1-4ec8d02a30cc@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAOkR5moC/x3MSwqAMAwA0atI1gasrR+8irhoNGpAVNoqQvHuF
+ pdvMRPBsxP20GURHN/i5dgTVJ7BuNp9YZQpGcqirFWhFZLB9Vo4bDR7DM6OjNoo0rq1VDUEKTw
+ dz/L803543w8rE6aMZAAAAA==
+To: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+ David Hildenbrand <david@kernel.org>
+Cc: linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>, 
+ Hongbo Li <lihongbo22@huawei.com>, linux-fsdevel@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ syzbot+91e1fc35f51774c479b2@syzkaller.appspotmail.com, 
+ stable@vger.kernel.org, Joas Antonio dos Santos <joasantonio108@gmail.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1793462761; l=3980;
+ i=joasantonio108@gmail.com; s=20261031; h=from:subject:message-id;
+ bh=CimqNwtPRA6nxILdhyc+0Xn4gqEkC2G7lMQ2JLmnouo=;
+ b=yjuS2uTzQ9DedPHbuDm6WP0AuJe1WwYvU3AL0T/UCB287QqTTK/wXTcArMWRSVnwIEyUeH8rb
+ qV6kSiKFMPyCX4BeVFMi8oIBqxxY16vKLP3MQWAKCoduXNPhXggr+3X
+X-Developer-Key: i=joasantonio108@gmail.com; a=ed25519;
+ pk=ZxAznJT/FcPPdzLrDDFJQm4LLjjHVGBBqDSG3TXS23w=
+X-Endpoint-Received: by B4 Relay for joasantonio108@gmail.com/20261031 with
+ auth_id=1371
+X-Original-From: Joas Antonio dos Santos <joasantonio108@gmail.com>
+Reply-To: joasantonio108@gmail.com
+Content-Transfer-Encoding: 7bit
 
-Since commit 2fbe4586cff3 ("fuse: add support for opening dax device as
-backing"), a regular file is marked S_DAX whenever the server sets
-FUSE_ATTR_DAX in the attributes. This does not depend on any INIT flag,
-so any FUSE server can do it, including an unprivileged one.
+From: Joas Antonio dos Santos <joasantonio108@gmail.com>
 
-fuse_notify_store() does not check for this. It adds ordinary page cache
-folios to the mapping of such an inode with filemap_grab_folio(), while
-the DAX code expects that mapping to hold only DAX entries. When the
-inode is evicted, fuse_evict_inode() calls dax_break_layout_final(), and
-dax_layout_busy_page_range() hits WARN_ON_ONCE(!xa_is_value(entry)):
+hugetlbfs_free_inode() calls trace_hugetlbfs_free_inode(), and the
+hugetlbfs__inode event class records inode->i_sb->s_dev.  ->free_inode()
+runs from an RCU callback (destroy_inode() queues i_callback() with
+call_rcu()), and Documentation/filesystems/porting.rst says that this
+callback "is *NOT* ordered wrt superblock destruction; as the matter of
+fact, the superblock and all associated structures might be already
+gone".  put_super() frees the superblock with call_rcu() followed by a
+workqueue item (destroy_super_rcu() -> destroy_super_work()).  syzbot
+hit this with the event enabled:
 
-  WARNING: fs/dax.c:825 at dax_layout_busy_page_range+0x394/0x4dc
-  CPU: 0 UID: 65534 PID: 93 Comm: fusedax
-  Call trace:
-   dax_layout_busy_page_range+0x394/0x4dc (P)
-   dax_break_layout_final+0x104/0x278
-   fuse_evict_inode+0x2cc/0x57c
-   evict+0x2b4/0x748
-   iput.part.0+0x51c/0x964
-   ...
-   fuse_kill_sb_anon+0x170/0x268
-   deactivate_locked_super+0x98/0x11c
+  BUG: KASAN: slab-use-after-free in trace_event_raw_event_hugetlbfs__inode+0x45b/0x4c0 include/trace/events/hugetlbfs.h:36
+  Read of size 4 at addr ffff888038850010 by task syz-executor952/6134
+   hugetlbfs_free_inode+0x15e/0x1f0 fs/hugetlbfs/inode.c:1182
+   i_callback+0x46/0x80 fs/inode.c:317
+   rcu_do_batch kernel/rcu/tree.c:2650 [inline]
+   rcu_core+0x5f0/0x1220 kernel/rcu/tree.c:2919
+  Allocated by task 6134:
+   alloc_super fs/super.c:326 [inline]
+   sget_fc+0x1ba/0x1f60 fs/super.c:874
+   hugetlbfs_get_tree+0x1e7/0x2b0 fs/hugetlbfs/inode.c:1431
+  Freed by task 855:
+   kfree+0x22b/0x6d0 mm/slub.c:6923
+   process_one_work+0xac7/0x1b10 kernel/workqueue.c:3495
 
-With panic_on_warn set, this lets an unprivileged FUSE server panic the
-machine.
+Emit the event from hugetlbfs_destroy_inode() instead.  destroy_inode()
+calls ->destroy_inode() synchronously, before it queues the RCU
+callback, while the superblock is still alive; hugetlbfs_destroy_inode()
+already dereferences inode->i_sb there.  ->free_inode() is left with
+only the kmem_cache_free().
 
-DAX mappings do not hold page cache folios, so storing data into one has
-no use. Return -EINVAL, as is already done for files that are not
-regular. This also covers virtiofs DAX inodes.
-
-Reproduced on current mainline (arm64, CONFIG_FS_DAX=y) with a FUSE
-server running as uid 65534 in a new user and mount namespace, answering
-INIT with no flags, LOOKUP with FUSE_ATTR_DAX on a regular file, then
-sending FUSE_NOTIFY_STORE for it and unmounting. Before: the WARN above,
-and a panic with panic_on_warn=1. After: FUSE_NOTIFY_STORE fails with
-EINVAL and nothing is logged. FUSE_NOTIFY_STORE on a regular inode
-without FUSE_ATTR_DAX still works.
-
-Found by code review of the DAX backing changes and confirmed with the
-reproducer above.
-
-Fixes: 2fbe4586cff3 ("fuse: add support for opening dax device as backing")
+Fixes: 014ad7c42a69 ("hugetlbfs: use tracepoints in hugetlbfs functions.")
+Reported-by: syzbot+91e1fc35f51774c479b2@syzkaller.appspotmail.com
+Closes: https://lore.kernel.org/all/6ae27525.5451848c.f7707.0001.GAE@google.com/
+Cc: stable@vger.kernel.org
 Signed-off-by: Joas Antonio dos Santos <joasantonio108@gmail.com>
 ---
-Tool-use note: the code review that found this and the reproducer were
-prepared with help from an LLM-based assistant; I reviewed the change
-and built and ran the tests myself. Reproducer available on request.
+Resend: my mail provider blocked the original submission to the lists
+on 2026-10-29, so only the direct recipients got it. No change to the
+patch, except dropping a deprecated Assisted-by trailer.
 
- fs/fuse/notify.c | 5 +++++
- 1 file changed, 5 insertions(+)
+David asked whether the tracepoint should be renamed now that it no
+longer fires from ->free_inode(). I'd keep this patch as is, since it
+is tagged for stable and the event name is visible in tracefs
+(events/hugetlbfs/hugetlbfs_free_inode); renaming it in stable kernels
+would break existing tracing setups just to fix the use-after-free. I
+can send a follow-up for mm-unstable that renames it to
+hugetlbfs_destroy_inode, next to hugetlbfs_evict_inode, or fold the
+rename into a v2 if preferred.
 
-diff --git a/fs/fuse/notify.c b/fs/fuse/notify.c
-index 984e4945e..938440474 100644
---- a/fs/fuse/notify.c
-+++ b/fs/fuse/notify.c
-@@ -167,6 +167,11 @@ static int fuse_notify_store(struct fuse_conn *fc, unsigned int size,
- 		err = -EINVAL;
- 		goto out_iput;
- 	}
-+	/* DAX mappings do not hold page cache folios */
-+	if (IS_DAX(inode)) {
-+		err = -EINVAL;
-+		goto out_iput;
-+	}
+Tested with the syzbot C reproducer on a KASAN kernel with the event
+enabled: the use-after-free reproduced in 3 of 3 boots without the
+patch and in none of 12 runs with it, and the event is still emitted.
+
+Tool-use note: the analysis and testing were done with help from an
+LLM-based assistant; I reviewed the change and ran the tests myself.
+---
+ fs/hugetlbfs/inode.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
+index 01c4d6f44..5bd348288 100644
+--- a/fs/hugetlbfs/inode.c
++++ b/fs/hugetlbfs/inode.c
+@@ -1179,12 +1179,16 @@ static struct inode *hugetlbfs_alloc_inode(struct super_block *sb)
  
- 	mapping = inode->i_mapping;
- 	file_size = i_size_read(inode);
+ static void hugetlbfs_free_inode(struct inode *inode)
+ {
+-	trace_hugetlbfs_free_inode(inode);
+ 	kmem_cache_free(hugetlbfs_inode_cachep, HUGETLBFS_I(inode));
+ }
+ 
+ static void hugetlbfs_destroy_inode(struct inode *inode)
+ {
++	/*
++	 * Not in ->free_inode(): that runs from an RCU callback, when the
++	 * superblock the event reads may already be freed.
++	 */
++	trace_hugetlbfs_free_inode(inode);
+ 	hugetlbfs_inc_free_inodes(HUGETLBFS_SB(inode->i_sb));
+ }
+ 
+
+---
+base-commit: c339f4010dea8b0d754f84ace70cd1b089878ef8
+change-id: 20261031-b4-hugetlbfs-trace-341b338ab57b
+
+Best regards,
 -- 
-2.43.0
+Joas Antonio dos Santos <joasantonio108@gmail.com>
+
 
