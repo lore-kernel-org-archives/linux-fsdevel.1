@@ -1,66 +1,54 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793457264;
-	b=31Lm56T1EQyDCdcMjz1+SRO6FXit9lnAoRgMJSyadGuoJpgLL9wV446qpSq4UAy/sQyq
-	 k47TpQRaeerf/oCmwsUFDol5lcN/hvaZoDq/ADK+ggdz63XAhQMnvVoqqQGbhewe3Qmrq
-	 d2fdjLm08mocZWLi+H9WSPrT++rnmewThPNVEHxr5IO5z0yTRMBTIBryGMokrw17yRumD
-	 rI3ztF1aAbjt+seO9PPO7mF06yF6yOiLiBD5xm20+0Se17XZr+bmPOYg8jRW/fAw5jx1H
-	 OARpIB3e0rL2cZNu3Vr+U7Z1soMAzZ5LrtXPc/ulC6wGKIn3P3h8ui1vdlRxRG+NyDA==
+	t=1793457717;
+	b=fnOzFY3pqGacXbSEpguNwPGImeJtfp2lc69VkwVPV38QCxZRyRtZ+3bW0KElvbI95G0L
+	 lmO0veQ9ojdzJB2Fn++bFJKtQNGgQKs5wMaJHmZLxfIfKV5pgP9sjPieYFjwBOrNmX9LF
+	 tSelYTvt/dQxTeOjMdrJXDigj9HhIumNfPTZXBjvSF3nAP5qikdUB005g+7ECURzyY3Fd
+	 pAV14LXi2iAgeV5F/uho1ARxfma49UN17KRzkIckX0XU4ZoqL8IdKj/xydjRbg0eNro9s
+	 +ET4hQTZ+IH8cFE0UdAPfmChCJHaiAL8lrDt0goC3UQ1ETXm01sb2nm5ZmukzpWSDVw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793457264;
-	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To:User-Agent;
-	bh=wmUlHuqBLh5kgE9P0I7jDj71Idh4M39E1I25dVG2A0o=;
-	b=Pyq3aZLSjabLm5nFYMjzNt2lkQO8D0xv9gkO8s0xtbsO5CvR6bk+q9cCpd98OOxjQye5
-	 /hiFVQGn0hPux0tLZ/VZ9AbrjBaaxAeE4i/BPSBwwer5vSyxtJc37a9by29tKijNCYdmr
-	 sjVScjrVdw/Dw98j/vK88RS+RPW7vBlcR6cu7H5OMDQ3FeaGYjbCFu5QcQmiiQMMwDCFV
-	 nLeiqGgztzTMoLq7eCFbrJMbjC62gXPXlI3OnznEidwYnC9zy6rSn8aKldHVj1XSas64v
-	 +QTcjAwBsDvD2big0sWcXtOdIxiAUwOIJgK3bSPm1pUoo7oPLOf788lfQEJD2VZ6VNw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793457717;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=fPN8XTudxogCQhtCGNLFaz4PyF9Au0mbiHlVi5qqi5s=;
+	b=HASRXoc9p+ZAcKi8eVzqa4a/ijiDb2JmqeTGZfdDp6d0AG0TIgenevXBsuCanJnZYtx8
+	 OpU6IC0iksVNQ76k02J2XpzXLdJymmrbzhZzrMXsj4EaN8afql+gNRZXXRjC5zyzH4RWf
+	 fKKGOUSIGJlqATaWp6Vf9PZ9zaIwlCOFOViN9slhQDBDYDy+JGASSAeApx54q1MFqbAU2
+	 4gUu4wTZX6LRpbuArq+fxCGWrsShf0QUhsvDy7AE2kvBpKuuOXx00L3k9Ipphl77WI2f7
+	 5QnZ8OtVKqKgdF29T8bzZYj0d7YGaQVnUuUNavvCO1XbGIKzLpa3jwub00jMDfWpTrA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jUCsnsfW;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="gtvvXb/Q";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5471F606A31A;
-	Sat, 31 Oct 2026 14:34:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E17B8606A31F
+	for <linux-fsdevel@vger.kernel.org>; Sat, 31 Oct 2026 14:41:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jUCsnsfW
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0935A1F00919;
-	Sat, 31 Oct 2026 14:34:24 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gtvvXb/Q
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52E631F00A02;
+	Sat, 31 Oct 2026 14:41:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793457264;
-	bh=wmUlHuqBLh5kgE9P0I7jDj71Idh4M39E1I25dVG2A0o=;
+	s=k20260515; t=1793457716;
+	bh=fPN8XTudxogCQhtCGNLFaz4PyF9Au0mbiHlVi5qqi5s=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=jUCsnsfWetnqFakKIw+xGL5zpziAhBDKe1hm5Aq4qLgkVwdgC6wJy1uN0js2ptJGf
-	 rIuGVTof7ztnNfHEpMcMdFbbgmPj/cHbo09ThqHqUtLXdp60ksbu3EdJQlLADoiWDg
-	 rdgXNTK9ilG9E0pXcoduUfVKHj3Zd1Z2J6BNBKYNcCbsVMAVqv7uyGayyyyovOwnTp
-	 G5h5wyuFwBuMQa/GVZ8XJiWo+ToWf7jTKF/x7Xe2phPvpuBGmIRYJG9CyMmq3ivAen
-	 I1AKgCxqjfBnQUhCwdZoEzL5aE/2/z+w5p6PPXYTDxOddMAnFpng/9ze6MO+53pFLz
-	 W/S6DsKbk5Xvg==
-Received: by pali.im (Postfix)
-	id A0AC0809; Sat, 31 Oct 2026 15:34:20 +0100 (CET)
-Date: Sat, 31 Oct 2026 15:34:20 +0100
-From: Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: koraynilay <koray.fra@gmail.com>, David Sterba <dsterba@suse.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Chris Mason <mason@kernel.org>, Jan Kara <jack@suse.cz>,
-	"Darrick J . Wong" <djwong@kernel.org>,
-	Sean Smith <defendthedisabled@gmail.com>,
-	Andrey Albershteyn <aalbersh@kernel.org>,
-	linux-btrfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Pedro Falcato <pfalcato@suse.de>
-Subject: Re: [RFC PATCH v2 1/2] vfs: add provenance time (ptime)
-Message-ID: <20261031143420.is7g6wgdpwbo6wvz@pali>
-References: <20261028134728.294127-1-koray.fra@gmail.com>
- <20261028134728.294127-2-koray.fra@gmail.com>
- <auILs54TUcWXf3us@pedro-suse.tail5790ac.ts.net>
- <auMzpUIEmGCE_x_N@amir-ThinkPad-T480>
- <CAOQ4uxiuy0VwZj+3M-zRqQ49WTpHZpiaQ+6MZ8z8WdLjyQM_zA@mail.gmail.com>
+	b=gtvvXb/QANG8Mu7nUMUCj3QxOyVLO/1I95OYNO7AMUtDZeW3YRZ222/5OkYuulgpZ
+	 XDsetGVz9pk9gyhgCsIe+Hc8z6KzXxEmuMaTfxh+1ZVFqbjOYZN2FBrRZYMUM+0R1b
+	 +7Zh4US6Uh+Eci/mG6qrDdOm+JGLr1r0Ulz5dIScN9bgDJOYwq3w+cOjuecenMiRo7
+	 Riypa7kmzg9EYc3nxjvuXGhK/PfU0+FiZDmdXl9wpPxzyUMRms9GA+P4EqlJFzEldx
+	 1ByiZcbqpoYHXS3SJlKVg2gHtQwysUO19CeXKIYj79eFQSyolxsBAZG67ft09fx8Wn
+	 QBHOGqsZyq5/g==
+Date: Sat, 31 Oct 2026 15:41:52 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Chuck Lever <cel@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Yongjian Sun <sunyongjian1@huawei.com>, 
+	Nickolai Zeldovich <nickolai@csail.mit.edu>
+Subject: Re: [PATCH] libfs: walk offset directories in offset order
+Message-ID: <20261031-trennen-fenchel-hinspiel-8d5a5688f134@brauner>
+References: <20261030-work-libfs-offset_readdir-v1-1-ed733c14229e@kernel.org>
+ <05e33426-c60f-441f-a76c-46dcba1c1c35@slotpi15m67>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -72,65 +60,67 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAOQ4uxiuy0VwZj+3M-zRqQ49WTpHZpiaQ+6MZ8z8WdLjyQM_zA@mail.gmail.com>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <05e33426-c60f-441f-a76c-46dcba1c1c35@slotpi15m67>
 
-On Saturday 31 October 2026 15:18:05 Amir Goldstein wrote:
-> On Thu, Oct 29, 2026 at 12:53 PM Amir Goldstein <amir73il@gmail.com> wrote:
-> >
-> > On Wed, Oct 28, 2026 at 02:56:39PM +0000, Pedro Falcato wrote:
-> > > On Wed, Oct 28, 2026 at 02:47:27PM +0100, koraynilay wrote:
-> > > > Add provenance time (ptime), indicating the time when a file or
-> > > > directory was created. This is user-settable via file_setattr() and
-> > > > retrievable via statx(2) (using STATX_PTIME) or file_getattr().
-> > > >
-> > > > The semantics of when to preserve this new timestamp are the same as
-> > > > mtime, the idea being that there is a correspondence like this:
-> > > >
-> > > > ctime <-> btime
-> > > > mtime <-> ptime
-> > > >
-> > > > so every operation (copying, moving, ...) that currently preserves mtime
-> > > > should also preserve ptime.
-> > > >
-> > > > Furthermore, in order to avoid the legacy FS_IOC_FSSETXATTR accepting
-> > > > FS_XFLAG_PTIME, add an FS_FILE_ATTR_XFLAGS_MASK mask to support new
-> > > > xflags, and use it in fileattr_to_file_attr()/file_attr_to_fileattr() to
-> > > > allow ptime to be used with the file_setattr()/file_getattr() syscalls.
-> > >
-> > > Random comment, but: could this be doable with xattrs instead? I'm not sure
-> > > where I would put the xattrs code (if in userspace exclusively, or if hooking
-> > > the VFS up with this, or if doing it on the filesystem side), but it would
-> > > surely be less disruptive than modifying a bunch of filesystems one-by-one.
-> > >
-> > > This patch is quite simple, but changing btrfs, then ext4, xfs, etc is a
-> > > mess, and inevitably you can't get these timestamps until you upgrade your
-> > > filesystems.
-> > >
-> >
-> > I disagree.
-> >
-> > I think that creation time should be a first class property in
-> > filesystems that support it.
-> >
-> 
-> One of the reasons that I think this API is a good match for the Windows
-> style creation time is that it was already discussed as an API for the
-> Windows style DOS attributes [1].
-> 
-> koraynilay,
-> 
-> In your next posting, I suggest that you first demonstrate how the proposed
-> API is used to facilitate filesystems that already support a user-settable
-> creation time (smb, ntfs,vfat,exfat), before adding btrfs support.
+On Fri, Oct 30, 2026 at 12:22:19PM -0400, Chuck Lever wrote:
+> 1. Each emitted entry now costs a fresh MA_STATE and a full tree
+>    descent in offset_dir_lookup(), where the list walk was one
+>    pointer chase. Can you time an ls on a tmpfs directory with a
+>    million entries, before and after? If it is noticeable, carrying
+>    the mas across the loop is the obvious fix, though dput() and
+>    dir_emit() interleaving makes that especially fiddly.
 
-FYI, also nfs4 (the protocol itself) supports setting and changing the creation time.
-And maybe there are more filsystems which support it...
+Obviously it's noticable:
 
-I think that ufs2 on FreeBSD supports changing it via utime() syscall.
+                         base      v1        
+  getdents64 (32k buf)   146 ms    226-235 ms
+  ls -f                  0.26 s    0.34 s    
+  ls                     0.49 s    0.57 s    
 
-> Thanks,
-> Amir.
-> 
-> [1] https://lore.kernel.org/linux-fsdevel/20241227121508.nofy6bho66pc5ry5@pali/
+The fix would be to carry the mas state. If you combine this with some
+moderate batching than this would recover nearly everything but I hate
+it.
+
+We don't need the refs at all though afaict. Every entry in the tree is
+a d_make_persistent() dentry. Only unlink, rmdir and rename kill it and
+they all hold the parent's iwrsem and offset_readdir() grabs the read
+side.
+
+So we can keep one ma_state across the loop and take rcu around
+mas_find_rev() and emit straight from the dentry. That kills all of the
+really performance heavy stuff, fixes the bug, and should be faster.
+
+> 2. That's true today, but Jon Flynn's RFC from yesterday proposes
+>    create and unlink with the parent locked shared. The code is
+>    fine either way: it runs under rcu_read_lock() and takes d_lock
+>    before dget_dlock(), so the walk does not depend on i_rwsem.
+>    Should the patch description say that the RCU path is what
+>    makes the walk safe, and i_rwsem is belt-and-suspenders?
+
+I don't think so? The offset tree is set up with
+mt_init_flags(&octx->mt, MT_FLAGS_ALLOC_RANGE) and not MT_FLAGS_USE_RCU?
+
+So outside of RCU mode the maple tree modifies live nodes in place.
+A lockless reader racing a writer can see a torn node. rcu only keeps
+the dentries alive.
+
+i_rwsem has always been what makes the walk safe.
+
+I really don't think we should care about an RFC when fixing an existing
+bug. Specifically when it's rather hacky. Even if we adopated an early
+hack like that shmem would have to change for this to work as it keeps
+taking the parent exclusive for create, unlink and rename.
+
+So if tmpfs wanted that thing it would need MT_FLAGS_USE_RCU and then
+readdir needs refs again and then you get the perf regression back.
+
+So pick your poison. Future changes aren't necessarly a convincing
+argument though.
+
+> 3. Please run generic/736 on tmpfs directly and on a tmpfs export
+>    over NFS, and Nickolai's reproducer from the Link: above. I used
+>    a seek-after-closedir case as a regression test for the NFS
+>    resume case too, but my memory is hazy as to whether it actually
+>    could demonstrate proper function vs. a bug.
+
+All checks out and I wrote new tests as well. 
