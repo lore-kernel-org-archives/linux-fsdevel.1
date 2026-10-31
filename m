@@ -1,55 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.179
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793406527;
-	b=YkDFiFg03zl3rREtPPsDlvq5m5hwPgbPvxrtbHYSwR6wKZq+uAmD55n5j/vOrW3Z17+l
-	 Pw97A0VLwDFQn4Zz4BjFml6cVDkIZoznlpRHFRKuPQvt2VoxcD5L4I2VxwZ9KP4NwSnYm
-	 f1W7HxYmEthszAkNawro/sxcawiVmwrIAPkrxzrbktJudHLJlq0uIck6H8z35BOq+4KxZ
-	 TunrqnUVGMxJjG4LWmmN6LzD1C/Ucf/AvdncLsV9n4arfoCQV8HJDk+1zwXYZ77UIXvoB
-	 f0+AEnGg5DK7JkXzGs4SbDqTk8oRH3KSn2/DLqA270g1HlJC6ef8U53fXfOtYNTwi1g==
+	t=1793409817;
+	b=q0gpjPvLWuRLBAbPDWC03MHFmcohqPlSIb4Hx49vCv6uIpqu9MEWwnoWSR9ESA82EO2U
+	 bB/MhZhMtp9dV3iopoxgHMlNcIzwOMezf8fI6qHc6DVevbkIjx/pjN0qhkBx09RoErch0
+	 OMZliRavChhN9siIjT8qQnHt3C35U1GVh1kbAfSqcJdNgJENWzSY0CyKPQka9w3hefkT9
+	 AYUgDVHckRxTHQzR1+Mt0yXa0mh571PXA40he21quAbcQCxRZr/iBPpzINV0d/v3ol6IU
+	 ZVW+6fJ3Rq6/5rMmQhzOpMY9BtfQ0pAItdd2ljR3ZMRz8nwdom0cq0T9ZK/T+m/23xQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793406527;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-Id:
-	 In-Reply-To:References:X-Mailer:Mime-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=4Kgr7iIBf+e/RiJRNbVgF9y5Ui+JHkbb2EGgp3NIfYI=;
-	b=lvc5r+UIZ9s9P5xE8cFtqlqiLb+1/FgfpCT29I2nuEbPf4yFH9Z3oJo9PINT7up1/AaW
-	 TwcVdsNePbGgeJgHJ/rLWaRzz99UyEkK3IeOZ+ZUpGq2yIq47dTbnVKGFGV8OeAEP1ln6
-	 gPKX7k7etxLi97kLgNnD9Pkme+cs+7tTkQxPhvLktgUc39s2N5jhnaaImcl54B+TLaNCA
-	 7X3gfEWX9vhs7hrKlxMjf6p0MvyF1uAdCh7aubYFDCX5XdM0sbxDC8w8X54XuhnA9vLJf
-	 ctepfkrOVx52MMbaoccN/jHqJS7pAet0OvZFOfs1lmK60brnhm4HmdGkm7AY5OK/6mg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793409817;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:In-Reply-To:References:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=6nKy42afFVXtc1pmf+02i77MnNtiH68dE+UHRbcYHP4=;
+	b=Mnqz9goMVjcB7Bzb2vJO+pJFMBh3hJZ8LtALKfLCWBxX359xz3/6ubJhNoCWe/3wXfat
+	 z4/aqY/riHMHrKuBW1/fm3ZqZ8GmcCpCB8+PFD+B9noR583r2YaG6o3x0QOw69P+x2dqx
+	 CaYKXxkQ77FjV0iacTS3xH5V8kI7Dt1SIlRYLAyayy2F0HOHn6Z370Rn7fMvRtuDjxXYB
+	 sRZu1+xUgK6ksd2Y0AtlHO7oEWIYndQYl/xioTTPdf9gp1eoILwXXUHREMtE16j5KvlZQ
+	 kxhLPdv0NaddjrvcuDDZ+gnjYvTVd/Z/HDYTesXYY3q39oE+Un5lGH3DjP1We0n4gaw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=M6nCSZJy;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=d0NblGy2;
+	arc=none smtp.remote-ip=74.125.82.179
+Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73D20606A31A;
-	Sat, 31 Oct 2026 00:28:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DF5F606A31A
+	for <linux-fsdevel@vger.kernel.org>; Sat, 31 Oct 2026 01:23:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2DF5F606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=M6nCSZJy
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0D3A1F000C1;
-	Sat, 31 Oct 2026 00:28:46 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=d0NblGy2
+Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-36a0f27c9f4so2223926eec.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 30 Oct 2026 18:23:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1793406526;
-	bh=4Kgr7iIBf+e/RiJRNbVgF9y5Ui+JHkbb2EGgp3NIfYI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=M6nCSZJyXD8WdsA7wq46Z6BC0ixlmiL9huM7TP67rWisx9PKqzWRx99WCMRb4byqV
-	 gvnkKidSOqqkbDCPYyG0YbV2zTGbsmhHU7nUtYM81CJN112R2lygBILiNrke1BGE2W
-	 aRQYkskoeKXrt1hRDiTAEDVkXjeho2PN4n2PNVrQ=
-Date: Fri, 30 Oct 2026 17:28:46 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Shashank Mohan Jain <jain.sm@gmail.com>
-Cc: Jeff Layton <jlayton@kernel.org>, Jan Kara <jack@suse.cz>, NeilBrown
- <neil@brown.name>, Thomas Maarseveen <maarseveent@gmail.com>,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, Christian
- Brauner <brauner@kernel.org>
-Subject: Re: [PATCH 0/2] errseq: fix lost writeback errors in
- errseq_check_and_advance()
-Message-Id: <20261030172846.a3221ec351f24784370a819c@linux-foundation.org>
-In-Reply-To: <20260927051726.71337-1-jain.sm@gmail.com>
-References: <20260927051726.71337-1-jain.sm@gmail.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        d=gmail.com; s=20260707; t=1793409816; x=1794014616; darn=vger.kernel.org;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=6nKy42afFVXtc1pmf+02i77MnNtiH68dE+UHRbcYHP4=;
+        b=d0NblGy2IsRhO34Y7hO7u7yOI+pl2kbpMI3OrB3LQIBKfZ5bePXrUzAms7mvg//bUc
+         Vk+FpwQtD5TYY6prFAg6SYanxBQm/YJ2Xoi4pzkmb6UNA/mHfKW+sqWD8RctXoyDhIXm
+         RzUawgosSZnougVC1cQvz208uFRNITZ5gcJa5DhCIQXKAfstvOPIhKNdD3IWjZkv6vdl
+         DTYdW0otw6PH8+G6v/nFrg3pfYUViNKD9AQIHGKlzXZP9Pa9znosTHDn5jtj74EOhkeI
+         auSb0OPy6pCojvDKL3e2VfaMUaG1vSK45UV5mkLRQF6OPvlMjcXHEinDbnYLW5uUI2xV
+         JFbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793409816; x=1794014616;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=6nKy42afFVXtc1pmf+02i77MnNtiH68dE+UHRbcYHP4=;
+        b=EOjqls7yT1OlT6T8Wp1uRPdLldV3yqiM5QLp0znrtyqwncwJw2NKkQgQ7mwERk+SiJ
+         lSbYO98oT/z/IrWUhUd4eipoHH0R1NEtL0YqjGptwmVDMp09cGPHNrFkm5P/oLhSHPUy
+         Vlyn0tZgNs2Z0l5rdBQf8suLczUpvaACKNrDpmWPFqTMipQC32ipXpN2snkdijq0h2Kd
+         HXBzq9icCzD38onBkuaKRANyjyAIIGYvcFjNfc+yaSy3wBQgiPmPVFGuYKQf4168lYe0
+         A6wGZS8i5adVjZo6VVAa1yxkrs9Sw3ktlk5jzb/kEEaw892dePIIets2NKKO0DzcIxLy
+         3kqQ==
+X-Gm-Message-State: AFq9FYJdYJvXZylrkXtyq/NLR6ha+4jN1t2A+CWoJa2MMQelp08djWZn
+	rpW8TPUUTwamUsqyj2nQ3s503oyzetHowpGcma3z00EuMarpPexuoZXF
+X-Gm-Gg: AYBFou3WOuU1CKdOdoM27dT0kLh504twQscyicBRhGfFebaK3PzIa1Kv8EfZlE8l0J+
+	KxxuA0Y33xJrtU9KLO4mZLEaQCSsY4rknjXq2que9EXeB05nUtpBkMsSBoBAWRDPHBHww3jI3Mn
+	Ugpb9KxwcOOoY8i9wgB0RF4/4InwYWNJk+HbBozJDVPIW8DleBt8UIEjpRkLeSUpuG/eFJBiQDk
+	SKWnApRrK7HD+miYaKx0CtuVjqjN4lG23gnAbGCV2vNR2wXJSKuFsYcFg60ONMxXlvU/ENP0NgO
+	7sA65UEfNBmNmiODfmdfPLWZs8/Qjaox1pf+F9JJ6I8OalSsasswxQC7b5ZMOZHoV9aqI3SaOpz
+	hDHK9+Tg2OtSQaHFWuUZoNIwNLAIUGniZYnPEn7LI/Pm2UyEl8jb1Ykc3tVTVuBhCNxejYzPrgx
+	NN6UB+B/36whzMBAMEEkulE5EgEgENFQclE541fvMxoZ/0Uy/WSNcRZKlvoI1F4iFzMeHMZxp9n
+	mbsDpA/fpJY1NPjVTPAdMISQuWoYOQ61n7ZdXnjD0uqhxT6yekt6oXmLZXzsV6c+oti6eOcAZPA
+	UPxCigF2HkFqR0jyovWQNmGu3N5W2yY7tfHmbY2SF1ptq5WmWIXt+dFcMGrefQIEVDI3hBhjVeI
+	W00JR1nZsgSXKb/4+i1RoFvCvDEIg
+X-Received: by 2002:a05:693c:835c:20b0:36a:30b:5dc0 with SMTP id 5a478bee46e88-36a423c338dmr5639993eec.24.1793409815876;
+        Fri, 30 Oct 2026 18:23:35 -0700 (PDT)
+Received: from macbook-pro-de-joas.local ([2804:7f0:b101:c5e8:f804:4efd:32bc:71d3])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a42a6eabbsm11924617eec.24.2026.10.30.18.23.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Oct 2026 18:23:35 -0700 (PDT)
+From: Joas Antonio dos Santos <joasantonio108@gmail.com>
+To: Deepanshu Kartikey <kartikey406@gmail.com>, slava@dubeyko.com,
+ glaubitz@physik.fu-berlin.de, frank.li@vivo.com
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ syzbot+c0ba772a362e70937dfb@syzkaller.appspotmail.com
+Subject: Re: [PATCH v7] hfsplus: fix null-ptr-deref by creating hidden dir on
+ remount rw
+Date: Fri, 30 Oct 2026 22:23:32 -0300
+Message-ID: <179340981245.8403.4135841764755575334@gmail.com>
+In-Reply-To: <20260717135706.42918-1-kartikey406@gmail.com>
+References: <20260717135706.42918-1-kartikey406@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -58,112 +100,29 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
 
-On Sun, 27 Sep 2026 10:47:24 +0530 Shashank Mohan Jain <jain.sm@gmail.com> wrote:
+On Fri, 17 Jul 2026 19:27:06 +0530, Deepanshu Kartikey wrote:
+> hfsplus_reconfigure() does not create the hidden directory when
+> remounting from read-only to read-write, leaving sbi->hidden_dir
+> as NULL.
 
-> errseq_check_and_advance() advances the caller's cursor to the value it
-> tried to store even when its cmpxchg() failed. If errseq_set() stored a
-> different errno in the meantime, the cursor holds a value that was
-> never in the errseq_t. errseq_set() does not bump the counter while the
-> current error is unseen, so recording the first errno again recreates
-> exactly that value, and once another subscriber has marked it seen, the
-> cursor's next check returns 0. For fsync() (file->f_wb_err) and
-> syncfs() (sb->s_wb_err) this means that a writeback error recorded
-> after the previous call returned is not reported. The race is rare: it
-> needs two different errnos, an error recorded while the check runs, and
-> a second subscriber consuming the value. There is no user report; it
-> was found with a model checker.
-> 
-> Patch 1 retries with the value found when the cmpxchg() fails, so the
-> cursor is only ever advanced to a value that was stored with
-> ERRSEQ_SEEN set. Patch 2 adds a KUnit case that races errseq_set()
-> against errseq_check_and_advance() on two CPUs.
-> 
-> Two behaviour changes are visible to callers, both intended. When a
-> writer wins the race, the call now returns the newer errno (still "the
-> latest error", as documented). And when two threads race on the same
-> unserialised cursor (syncfs() does not lock f_sb_err), the loser may
-> now return 0 where both used to return the error, so each open file
-> description gets one report.
-> 
-> Dependencies: patch 1 applies to mainline (fd179f8a05be) on its own and
-> carries Cc: stable. Patch 2 extends the errseq KUnit suite from commit
-> b52f5c1605f2 ("lib/tests: add KUnit tests for errseq"), which is only
-> in mm-nonmm-unstable, so the series is based on mm-nonmm-unstable
-> (e8d6475e77a7). Patch 1 could go through mm-hotfixes and patch 2
-> through mm-nonmm-unstable.
-> 
-> The bug was found with a TLA+ model of lib/errseq.c checked with TLC.
-> The patches were prepared with Claude Code (Anthropic), model Claude
-> Opus 5.5 (claude-opus-5-5).
+I independently reproduced the syzbot null-ptr-deref and confirm the
+root cause: on a read-only mount of a volume whose on-disk "HFS+ Private
+Data" directory is absent, sbi->hidden_dir stays NULL (it is created
+only in hfsplus_fill_super() under !sb_rdonly). After a remount,rw,
+hfsplus_unlink() -> hfsplus_cat_write_inode(sbi->hidden_dir) dereferences
+the NULL inode (inode->i_sb) during rename -- the reported crash in the
+[0x28-0x2f] range.
 
-Thanks.  Let me cc:Christian.  errseq is only used by filesystems, it
-was all written by Jeff, who has approved this series.  Probably
-get_maintainer should say "send this to Christian".
+I applied v7 on c339f4010 and tested on arm64 with KASAN, using the
+crafted image from the syzbot reproducer and the equivalent sequence
+(mount -o ro -> mount -o remount,rw -> rename): without the patch this
+oopses in hfsplus_cat_write_inode; with v7 the remount,rw creates the
+hidden directory, the rename succeeds, and the KASAN splat is gone. A
+normal read-write mount + rename is unaffected.
 
-> Tested:
-> - KUnit on UML x86_64 (kunitconfig with CONFIG_ERRSEQ_KUNIT_TEST=y,
->   CONFIG_SMP=y and CONFIG_NR_CPUS=8, run with --kernel_args seccomp=on
->   --kernel_args ncpus=4). Without patch 1 the new case loses the error
->   in 21,957 to 116,003 of 2,000,000 rounds (1-6% over 8 runs,
->   depending on host load), in 44,886 with ncpus=2, and in 30,353 on
->   UML i386 with ncpus=4. With patch 1 it loses none (8 runs with 4
->   CPUs, 1 with 2 CPUs, 1 on i386). All other errseq cases pass. On a
->   single CPU the new case is skipped.
-> - A userspace replay of the unmodified lib/errseq.c, with a hook before
->   the cmpxchg() standing in for the other CPU, loses the error every
->   time.
-> - TLC: the current code violates "an error recorded after a check
->   returned is reported by the next check"; with patch 1 the property
->   holds exhaustively for 2 subscribers x 3 checks and either 1 writer
->   x 4 errors (1,364,445 distinct states) or 2 writers x 2 errors
->   (141,055,253 distinct states).
-> - W=1 builds of lib/errseq.o and lib/tests/errseq_kunit.o for UML
->   x86_64 and i386 without warnings, and checkpatch --strict.
-> 
-> Not tested: fsync() or syncfs() on a real failing device, weakly
-> ordered hardware (the model is sequentially consistent; the fix adds no
-> ordering requirement beyond cmpxchg()), and architectures other than
-> UML x86_64 and i386.
+Tested-by: Joas Antonio dos Santos <joasantonio108@gmail.com>
 
-fyi, I usually remove the testing info from the changelogs.  It's of
-course important, but it's development-time stuff.  This info will be
-terribly out of date when someone is reading these changelogs in
-mainline two years from now.
-
-I just said "Testing info is at the Link:".  So our two-years-hence
-reader can chase it down if they're particularly interested.
-
-> Shashank Mohan Jain (2):
->   errseq: don't let errseq_check_and_advance() hide later errors
->   lib/tests: errseq: add a concurrent check_and_advance test
-
-My AI review had a few nitpicks, I think they're ignorable, depends
-how enthusiastic you're feeling ;)
-
-: The lost-error case is real, and I couldn't find a functional problem
-: with the retry fix. The Fixes tag is correct and the stable Cc is
-: appropriate.
-: 
-: A few details to fix up:
-: 
-: - The cover letter's "each open file description gets one report" is
-:   too strong. Concurrent syncfs() calls sharing an unlocked f_sb_err
-:   can still both report the error. This patch doesn't serialize that
-:   cursor.
-: 
-: - A concurrent update on every failed retry shows progress elsewhere;
-:   it doesn't guarantee that this particular caller will terminate.
-:   Also, only the next setter after SEEN must increment the counter,
-:   not every later setter while the value remains unseen.
-: 
-: - In the test, breaking on the deadline skips the loop increment, so
-:   printing round - 1 undercounts the completed rounds by one.
-: 
-: The test also doesn't ensure that the two threads run on different
-: CPUs, and its five-second check is between completed rounds rather
-: than a hard timeout. Please qualify those claims.
-
+Thanks,
+Joas
