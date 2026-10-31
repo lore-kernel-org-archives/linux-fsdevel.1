@@ -1,49 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793439772;
-	b=4QKsJz4Zp0WU3LOyJVpKEl0Px8OGhfF2PLP4OZN3YAYIY7EFw3vOkoD/csLnKarOCxrH
-	 lBM239l5RscOjfdkMdge0SBXYUy7KnuetjT2ckf6Lk7xniNU3cBtsfDS/720qSnAaCz70
-	 sWvZVT6GmsNSQaE/pCPW4a4kpda9MNcpzcZ1TWiaFBHhKWnJm2bk3agsgbrcP7nNxv56G
-	 /kwkBBtsp0brk/qW/+rIKYedNzFQov0zxlK2iI501nds4i6in9cBpKDec4gy0w7b83dRN
-	 KTnYoPkKJ1q0j34cP8MPg3IrdBPsPRdBh79uz4OOEoNePBPZNuVO7mfyMyDYCyxB50g==
+	t=1793439802;
+	b=UiWCDSBMoIMEoGjyNdM/JUKhIEFw9KQSMyO0LA4dzef51bVCmCFfNYoPjlour30Bg8pM
+	 1HPqwAITsxhhjTnkFEsqWYRYeboHuigNOnq53BXeuSjPOZ8MhxnU7dzGlUg23CViP1TYY
+	 eCoLsKsDPUKcc+8xyRILO4b2H1r1QJXCiovtLy/MFkZZIemLzcCI0H4ieF84NOd0gjGSx
+	 E9TrFc0Fv+G97c12OF/h946PAR3DEAlYWNHIBDNj3sZvud10dwQVCYLKEGLHCt66amvCd
+	 eWXx2aGXqhF6Lm8OSTQ7SAwllG4wRyD/qVCKleR3Au9zUApjqwuWBkPL8xKuiSnqwqA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793439772;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793439802;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=l+l7vL6OppC3xXbuZ+6FYNU9AQPqNjHig+EtP/8oH5c=;
-	b=0y9AKssljG398wnAS/B+PqA33wcXMai1SyjP6t9fQcd0RJA/M6W9rwlaq5Cf1aQtMqlb
-	 B4CdJg3tKkVctweb3FDGhIkDi+bk2JdatoIhjzS5P+Mi80HehLPWE8lPc8zBrUHVxgMeT
-	 ALCOjCTiD+RcRsXTNWzN1wq0A8qr1yi4QjKSxyI//ssWct7e47Gj26LuM5Wk55YFFkmi+
-	 nFQSoIWiGOLluqnDByAstMwR/LHU6F/hRlEaDmEfm+NsFwEkvZ0MdLrBtu2gJy/qcxwYy
-	 I80FqdldVdA1B+vai9F9OqfwLa6Aq640xIIVmpuyp8kVUHMuch1dnWixGKn79d+LVzA==
+	bh=GgO1WtfTPr95CMg999FmZUV6ZtgV/+NdH4f6NGhd5j0=;
+	b=RvfbIYxi1j3Wu/S71VItxjsZDlkrUpXf0Kgc7OvT8aehGgKFGk8VDQLn3b1ThRl3xb4Y
+	 0PKVu7ag+sRMyxWZbA4fWKGRw3/9dnKRAAiwOGsK6vmmUUyH/7DpfjOD69gTzgAmeGsR3
+	 LTt31+Xsd7icAzLZjUlEDprSlS5ORAHKY6LVsssOzx89KoHEjHaMUaxxCeasFnJhXCcrj
+	 A/9QkFkDWddRXi/YOl2wULfHJP1sUGNOCWSMph3NM2PI9WCMMrwQ7TnKak5auLwQv/8S+
+	 K0Ql2IE2pkQs3Op4miN9RT1dEmW1Ojx6zWPfFNSRdjZkN57F0cg7FRNY3np2aTrL9gw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SlvOoo7h;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CxsFcgDy;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7C1E606A31C;
-	Sat, 31 Oct 2026 09:42:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6374E606A31A;
+	Sat, 31 Oct 2026 09:43:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SlvOoo7h
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E61F31F00A1A;
-	Sat, 31 Oct 2026 09:42:35 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CxsFcgDy
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 160C51F00919;
+	Sat, 31 Oct 2026 09:43:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793439771;
-	bh=l+l7vL6OppC3xXbuZ+6FYNU9AQPqNjHig+EtP/8oH5c=;
+	s=k20260515; t=1793439802;
+	bh=GgO1WtfTPr95CMg999FmZUV6ZtgV/+NdH4f6NGhd5j0=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=SlvOoo7h2NrGSce+EZ0r/TEXEBd2b3M+W3a5ZrbTwYZjlGRtxW/0dAR4JP4GA+76w
-	 P+f7bAuUNu1Yv1g1H7D8kFS4QD5s2CZBGegKhPNpITqlN7Ip3qbNZ4cy/WVa1ZlmjD
-	 /D2MxgtNqIQyQIzKHKj7qIVDjMAvkJf4rRPteq1rzuV+/rMCJ7D7uysNhe47S8OYi0
-	 hM/g0ow18Z8BSkDidvpS/QUBtepf7GfsSShe5dLagt+hSjgLUsSJX9zgTlj9tPN+J/
-	 0X8jIEgDjVqkM1UbZ87/UjTXIQyGyjjTepCGPRDVpmowDIpCv4zaqmYY0OHgBX6iW2
-	 qTDUniZzh/0Ww==
+	b=CxsFcgDyR62puXwpfrdBVjYlxXqi56LRd0wVMMbXZa5WFwuvsy+6B5cy3b5Iwa7MG
+	 8sBreHtjQSLv2LeLQKpzyJ9OA/zafCF1rZfSEe71N8/KoTuH72Iv5RrwCIu6BR776N
+	 rit21O2a2/iegjkgJJmtCXLN/B5tjBc0jHK5yfrE3y3//41Tqx3IWR5oe4TS+os+n6
+	 ptEh7dACU7b2BPKFq38dpUCDEsrJ22Xstg+i7L5YBJ9fCPw4qlIKnuDlvaG8jeKsdk
+	 BkK2l2ir4IGtFTyrtwd8Hn8khr+C9Zv5YUX+w0Yu3RfTm9WrN67lUNWU9CeYw8a5vf
+	 ObyYSDr/u9RcA==
 From: "David Hildenbrand (Arm)" <david@kernel.org>
-Date: Sat, 31 Oct 2026 10:39:39 +0100
-Subject: [PATCH v3 10/47] mm/huge_memory: fix list corruption when
- deferred_split_scan() races with deferred_split_folio()
+Date: Sat, 31 Oct 2026 10:39:41 +0100
+Subject: [PATCH v3 12/47] mm/huge_memory: fix livelock on device private
+ folio
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -55,7 +55,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261031-fixes_core-v3-10-d6437171ecc3@kernel.org>
+Message-Id: <20261031-fixes_core-v3-12-d6437171ecc3@kernel.org>
 References: <20261031-fixes_core-v3-0-d6437171ecc3@kernel.org>
 In-Reply-To: <20261031-fixes_core-v3-0-d6437171ecc3@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -93,105 +93,78 @@ To: Andrew Morton <akpm@linux-foundation.org>,
 Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
  kexec@lists.infradead.org, linux-fsdevel@vger.kernel.org, 
  linux-arch@vger.kernel.org, linux-cxl@vger.kernel.org, 
- stable@vger.kernel.org, Josef Bacik <josef@toxicpanda.com>, 
- Mani Tofigh <mt4022@columbia.edu>, 
+ Josef Bacik <josef@toxicpanda.com>, 
  Muhammad Usama Anjum <usama.anjum@arm.com>, 
  "David Hildenbrand (Arm)" <david@kernel.org>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3706; i=david@kernel.org;
- h=from:subject:message-id; bh=JLLChxKIypxsdt4WbVQ02kyFhDQ6FU9NlTqVcswW/5U=;
- b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLKebk8TMZnE9X4D4/OEzCXBE1Z9d/jC1rw4beqiza7Gr
- ftD/0+x6ihlYRDjYJAVU2QJCr5v8PLlutpqNz5mmDmsTCBDGLg4BWAitXmMDDuD94idilyy2OlJ
- +uw7ca5Hak9PM5FUNfP55rpY7WLg7Z0M/9NvzDOcl7v+Y92qeT0exhK3v3ycJN1/VN6Lyeh+8ln
- l97wA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2310; i=david@kernel.org;
+ h=from:subject:message-id; bh=rOFEKHXFU3ik6VWKIWSfoeHTdwlufJwdJhailtQlKpY=;
+ b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLKebk/za/NTTZLZMb9d0VIwTeN1JKe3lyNXr2ZuQ2vQL
+ Sd5S7uOUhYGMQ4GWTFFlqDg+wYvX66rrXbjY4aZw8oEMoSBi1MAJjK1geF/tMmjs8UW6zzCmsKP
+ 8PM9FLOuXFwt+GBBhUqxj81F95jVjAxT18xRsTObx+3OeGvHkv7eWddSHXf02q6afunNbalWsQ+
+ 8AA==
 X-Developer-Key: i=david@kernel.org; a=openpgp;
  fpr=1BD9CAAD735C4C3A460DFCCA4DDE10F700FF835A
 
-Since the deferred split queue became a list_lru, the isolate callback
-moves the folios it took a reference on to an on-stack list, linked
-through folio->_deferred_list, and deferred_split_scan() takes them off
-that list with list_del_init() without holding the list_lru lock.
+From: Josef Bacik <josef@toxicpanda.com>
 
-deferred_split_folio() does not know about the on-stack list. It only
-holds the list_lru lock when it looks at the same list_head, and it can
-run for such a folio: a THP is queued when it is mapped, as a candidate
-for the underused check, and is queued "again" when a part of it gets
-unmapped:
+If do_huge_pmd_device_private() cannot lock the folio, it simply returns
+to try again on the next fault.
 
-  CPU0 deferred_split_scan()          CPU1 deferred_split_folio()
-  list_del_init(&folio->_deferred_list)
-    next->prev = prev
-    prev->next = next
-    entry->next = entry
-                                      list_lru_lock_irqsave()
-                                      folio_set_partially_mapped()
-                                      __list_lru_add()
-                                        list_empty(item)  -> true
-                                        list_add_tail(item, &l->list)
-                                          item->next = &l->list
-                                          item->prev = tail
-    entry->prev = entry
+Just like we did in commit b570f37a2ce4 ("mm: Fix a hmm_range_fault()
+livelock / starvation problem"), let's wait for the softleaf entry,
+which will drop the PTL and wait until the folio was unlocked. This is
+precisely what we do in do_swap_page() with device-private folios. This
+avoids possibly livelocking.
 
-The folio now sits on the list_lru with ->prev pointing to itself. The
-next removal leaves the neighbours pointing to it, and they still do so
-after the folio has been freed. With CONFIG_DEBUG_LIST:
+Update softleaf_entry_wait_on_locked() documentation to clarify that
+device-private entries wait until the folio is unlocked.
 
-  list_del corruption. prev->next should be ffd4000000270090, but was
-  ffd4000000278090. (prev=ffd4000000270090)
+There seems to be no compelling reason to backport this to stable
+kernels unless we actually see problems there.
 
-Fix it by grabbing the lock around list_del_init() so
-deferred_split_folio() cannot race with it.
+Fix generated by an LLM and sent by Josef Bacik in private.
 
-Fixes: fafaeceb89a5 ("mm: switch deferred split shrinker to list_lru")
-Cc: stable@vger.kernel.org
-Reported-by: Josef Bacik <josef@toxicpanda.com>
-Reviewed-by: Johannes Weiner <hannes@cmpxchg.org>
-Reviewed-by: Mani Tofigh <mt4022@columbia.edu>
-Tested-by: Mani Tofigh <mt4022@columbia.edu>
+Fixes: 4964099163d0 ("mm/memory/fault: add THP fault handling for zone device private pages")
+Signed-off-by: Josef Bacik <josef@toxicpanda.com>
+[ david: simplify patch description, fixup softleaf_entry_wait_on_locked description]
+Reviewed-by: Zi Yan <ziy@nvidia.com>
 Reviewed-by: Lance Yang <lance.yang@linux.dev>
 Tested-by: Muhammad Usama Anjum <usama.anjum@arm.com>
 Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 ---
- mm/huge_memory.c | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+ mm/filemap.c     | 4 ++--
+ mm/huge_memory.c | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
+diff --git a/mm/filemap.c b/mm/filemap.c
+index b04be64a5069f..e85a4114d2ecc 100644
+--- a/mm/filemap.c
++++ b/mm/filemap.c
+@@ -1395,8 +1395,8 @@ static inline int folio_wait_bit_common(struct folio *folio, int bit_nr,
+ 
+ #ifdef CONFIG_MIGRATION
+ /**
+- * softleaf_entry_wait_on_locked - Wait for a migration entry or
+- * device_private entry to be removed.
++ * softleaf_entry_wait_on_locked - Wait for a migration entry to be removed
++ * or a device-private folio in a device-private entry to get unlocked.
+  * @entry: migration or device_private swap entry.
+  * @ptl: already locked ptl. This function will drop the lock.
+  *
 diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-index bd44d58e86845..4c0194af9016d 100644
+index 283c4bc8b927c..2b31a425c7a32 100644
 --- a/mm/huge_memory.c
 +++ b/mm/huge_memory.c
-@@ -4522,8 +4522,7 @@ int split_folio_to_list(struct folio *folio, struct list_head *list)
-  *
-  * It is unsafe to call folio_unqueue_deferred_split() until folio refcount is
-  * zero: because even when the list_lru lock is held, a non-empty
-- * _deferred_list might be in use on deferred_split_scan()'s unlocked
-- * on-stack list.
-+ * _deferred_list might be in use on deferred_split_scan()'s on-stack list.
-  *
-  * The list_lru sublist is determined by folio's memcg: it is therefore
-  * important to unqueue deferred split before changing folio memcg.
-@@ -4665,10 +4664,22 @@ static unsigned long deferred_split_scan(struct shrinker *shrink,
- 					    deferred_split_isolate, &dispose);
+@@ -1500,7 +1500,7 @@ vm_fault_t do_huge_pmd_device_private(struct vm_fault *vmf)
+ 		folio_unlock(folio);
+ 		folio_put(folio);
+ 	} else {
+-		spin_unlock(ptl);
++		softleaf_entry_wait_on_locked(entry, ptl);
+ 	}
  
- 	list_for_each_entry_safe(folio, next, &dispose, _deferred_list) {
-+		struct mem_cgroup *memcg;
-+		struct list_lru_one *lru;
- 		bool did_split = false;
- 		bool underused = false;
- 
-+		/*
-+		 * Sync with deferred_split_folio(), which can requeue the
-+		 * folio once list_empty() is true, and sets PG_partially_mapped.
-+		 */
-+		rcu_read_lock();
-+		memcg = folio_memcg(folio);
-+		lru = list_lru_lock_irq(&deferred_split_lru, folio_nid(folio),
-+					&memcg);
- 		list_del_init(&folio->_deferred_list);
-+		list_lru_unlock_irq(lru);
-+		rcu_read_unlock();
- 
- 		if (!folio_test_partially_mapped(folio)) {
- 			/*
+ 	return ret;
 
 -- 
 2.43.0
