@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793556475;
-	b=RkrRtcIwDli5Tb7OatMU4vG5dtauaClF5F4WBU/l5JiY46gKC5s2XWWpi2JyI9lRIxRR
-	 iL1j0mmNZxBAep81TlfuhEQ5kihE85XZCxTBFynkDekhvrXLR2ENBxzAtlQ53MJs4UVoF
-	 tdZA3frrc2xgZIIrOy+4wpLdSwMdVqHpXqq4D0l20VVg+mJF3jfV3SS0/We3KeLGuMa3J
-	 rT8+/kRWmHwCsJxSMFr2F8HAHqtonV0CPb1HAW83FoYTYsA1OPE3NoIyqlGXEJEfxhbOm
-	 IR7fJ8GU9bn+nH6pMCiP6N84PIQbT5DeWf91jvK1fWcF36tr9ta/zEAVDLr5WLh4XqA==
+	t=1793557139;
+	b=ait0dOPQ/Fgq9DOe8Mznny3MZLA2o6UOenm+Ui3L0b/tOi8BUt0ko2Pd8VM4wNfLNDHu
+	 j78DMu7E87MzBLazDble0QJxc20ulMTcU2eOowgWNOvNV8uKFngCHMKouYcmz4uEJ65pS
+	 vM1G/2SlNGY1yzUg1fG3Gcws1CbCvkcUD1iQAo8e5pEuIGY6+jCryVCKthuvxMEJMm74M
+	 Ur7ajqrbYz61vOrbaQfQ9uIy+AvNoYDUxH6Pc8SfPc6T9NlTM1fPo+u7HI2JQcZDXxzYy
+	 WlchmRg7exMwv66UFgmstlSxJqdTxpbnGH6+iJbiIbKuD8+dH+goM9UCbD0uK9X/zow==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793556475;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793557139;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Subject:From:To:Cc:References:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=wtVX074xn4Ax9Ym2W5G9udDOf7jc7SoXAtiT9SubY18=;
-	b=uEJbrJLU9m2w68KNEI7WL9YZVYAXRYI70pyEywBOrBAFqnh8M3cA7qWXlyHPRYSpNp80
-	 yYMCgJpitcMy1CDMsiWdjrrTUpmwhbHnqxsdDRfBz+/ZfepBqQkRkanf+sI5KfbAUIHrg
-	 LA38CIy0p+S9z3RQd550KaKc+hRqgZjZKuyIvUw+kAsWZjbkhnYt50Z3NZdDewHYhOvob
-	 ELC8MxHmt6hrp0H3SLKtT+FtYQ3pgubDQNIl5M7U+CZI4sNd9OEWwp4p8oxPAxfcPXTq2
-	 jyePAagXZbEog85Ar3tCGsQniQQOOgfNd+Ddgk7+GEqD+stBg+PVonEndqpMXlVpeRQ==
+	bh=Ufkw0mhxgeNgH2/pQ2q7PPe3Br8wC4VML0hZBdX1Pi8=;
+	b=SG/T/ksRFwv1tuQzEwl9ZCFqTwpi2ikIDp0e0x2MKvRjfBBqbasTJgZnB1UGq0X/p8I4
+	 +/HiLh+WjxZaZTgVliJbPpYkPXGGuZObp5LtjfkvfNIdJQ5BlLMxpSUQIp7AfdiY8Zhnz
+	 ADpOvNwg4sWzcVDqUQa5iMaS1NgHaxOzPUK5BoagZ35FlN5UzIV36jEbld/eP7bHagP15
+	 XTeLJq2/USYwdKrbbcQLqP41j0P+uPTB7tn/hKnIT0gKeEqDEn267VPVA+MTQV9xW95pq
+	 l8M+RN2tXkeymQN5BN01mb6M/7DXZ84Kp3gKfIfrR+5+VWC4ll3DMKIfH3dmSfemIGQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=h1TzP+oE;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=klz8DA2W;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12FF2606A324;
-	Sun,  1 Nov 2026 18:07:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44A5C606A324;
+	Sun,  1 Nov 2026 18:18:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=h1TzP+oE
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCB141F000C1;
-	Sun,  1 Nov 2026 18:07:51 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=klz8DA2W
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2ECA31F000C1;
+	Sun,  1 Nov 2026 18:18:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793556474;
-	bh=wtVX074xn4Ax9Ym2W5G9udDOf7jc7SoXAtiT9SubY18=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=h1TzP+oEyvUummX3FBrsaDg6F/T4dtjOssjippILdgLc7Pshpgl+k71VVqaBz6gjZ
-	 00qb4JZ7RpQTw0jGCW58RLWfO0T5DtrzR6+rMbQoflSGjSFxieCo+wMTb+EJjHvCi5
-	 eIQtv8k/EQhMV6LSRI7w+VcB8+BQz/JoJ0xXSate5ZZjFePTzGCy21AkAtA0p9FizX
-	 oXzFJvR08nY5j30ATR+qwIwRpHL1JHdIHYUoH6sbE1KL/lCb78SSctsV9H1wDwCQ49
-	 DOqFTmi2w9Ews2UgoYCcuMGExZtqCXiMR5A6SVQ6/GPcu92wLeFjhk3KCkrIXrwD7I
-	 lDYKLzlxbvAqA==
-Message-ID: <54617273-262f-4e17-b912-8b07113ca45c@kernel.org>
-Date: Sun, 1 Nov 2026 19:07:49 +0100
+	s=k20260515; t=1793557138;
+	bh=Ufkw0mhxgeNgH2/pQ2q7PPe3Br8wC4VML0hZBdX1Pi8=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To;
+	b=klz8DA2Wy4v8itPMM2Sk9hjHDXFe4ZdxZ7Wm3kSIbNIjgq2j0zYuwD3dHhzLIsL0e
+	 4zKr0h4je0AERM9ZjdXzQgALGxnA98fIsYFgDKnS+aeSps60tnSRzpaw2RJNLqRveY
+	 5tSqwghmdVskVhQLiTUVhkKxF+1lg2G48aFjA+jvhYGJnlq4x/ruqGjVl8SSILlFJ7
+	 t4XRAy1rUINCeozRiHO9sXtJmZuofyoT4naAPHaZaTGPifbJmkANfnGNglb+yUCEGZ
+	 AeS0wXa8ZCWPh18XTbEWZyvoDH8pgu5Y2P7HBtGjqfkG+FTJhEtIpKe5JAFxSMAIkI
+	 bF9wyBE8cQqEA==
+Message-ID: <da1dc033-9131-4b77-9443-a8cc82fd7e58@kernel.org>
+Date: Sun, 1 Nov 2026 19:18:52 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -53,6 +53,7 @@ Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] fs/proc/task_mmu: check THP exclusivity for each subpage
+From: "David Hildenbrand (Arm)" <david@kernel.org>
 To: Kelvin Zhang <zhangxp1998@gmail.com>,
  Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org
 Cc: "Liam R . Howlett" <liam@infradead.org>, Lorenzo Stoakes
@@ -61,7 +62,7 @@ Cc: "Liam R . Howlett" <liam@infradead.org>, Lorenzo Stoakes
  Kalesh Singh <kaleshsingh@google.com>, linux-kernel@vger.kernel.org,
  linux-fsdevel@vger.kernel.org, stable@vger.kernel.org
 References: <4c1b393a4b04bd94e4f1c7879ae04e1793eb0931.1793552446.git.zhangxp1998@gmail.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
+ <54617273-262f-4e17-b912-8b07113ca45c@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
  xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
@@ -107,56 +108,63 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <4c1b393a4b04bd94e4f1c7879ae04e1793eb0931.1793552446.git.zhangxp1998@gmail.com>
+In-Reply-To: <54617273-262f-4e17-b912-8b07113ca45c@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 11/1/26 18:01, Kelvin Zhang wrote:
-> A PMD-mapped THP can contain subpages with different mapcounts. For
-> example, after fork(), the child can unmap only part of the THP. The
-> parent retains its PMD mapping, while the remaining child mappings
-> are PTE mappings.
+On 11/1/26 19:07, David Hildenbrand (Arm) wrote:
+> On 11/1/26 18:01, Kelvin Zhang wrote:
+>> A PMD-mapped THP can contain subpages with different mapcounts. For
+>> example, after fork(), the child can unmap only part of the THP. The
+>> parent retains its PMD mapping, while the remaining child mappings
+>> are PTE mappings.
+>>
+>> pagemap_pmd_range_thp() passes the same initial page to
+>> __folio_page_mapped_exclusively() for every pagemap entry. With
+>> CONFIG_PAGE_MAPCOUNT=y, this applies the first subpage's exclusivity
+>> to all entries, falsely setting or clearing PM_MMAP_EXCLUSIVE for
+>> subpages with different sharing.
+>>
+>> Pass page + idx to check the subpage corresponding to each entry, as
+>> was done before converting to __folio_page_mapped_exclusively(). The
+>> index already accounts for reads starting partway through the PMD.
+>> The conservative whole-folio check without CONFIG_PAGE_MAPCOUNT is
+>> unchanged.
+>>
+>> Fixes: eb16876971ea ("fs/proc/task_mmu: remove per-page mapcount dependency for PM_MMAP_EXCLUSIVE (CONFIG_NO_PAGE_MAPCOUNT)")
+>> Cc: stable@vger.kernel.org # 6.15+
+>> Signed-off-by: Kelvin Zhang <zhangxp1998@gmail.com>
+>> ---
+>> Tested on x86-64 under QEMU/KVM with CONFIG_TRANSPARENT_HUGEPAGE=y
+>> and CONFIG_PAGE_MAPCOUNT=y, using the same test binary before and after
+>> this change. After fork(), the child unmaps the first, second, middle,
+>> or last 4 KiB subpage, while the parent retains a PMD mapping. Both
+>> bulk pagemap reads and reads starting inside the PMD are checked.
+>>
+>> Across three repetitions (12 cases), the unmodified kernel fails 24 of
+>> 84 assertions; with this change all 84 pass. Fully private and fully
+>> shared PMD controls pass before and after the fix.
+>>
 > 
-> pagemap_pmd_range_thp() passes the same initial page to
-> __folio_page_mapped_exclusively() for every pagemap entry. With
-> CONFIG_PAGE_MAPCOUNT=y, this applies the first subpage's exclusivity
-> to all entries, falsely setting or clearing PM_MMAP_EXCLUSIVE for
-> subpages with different sharing.
+> How was this found. Through an LLM or because there was actually a problem in
+> practice?
 > 
-> Pass page + idx to check the subpage corresponding to each entry, as
-> was done before converting to __folio_page_mapped_exclusively(). The
-> index already accounts for reads starting partway through the PMD.
-> The conservative whole-folio check without CONFIG_PAGE_MAPCOUNT is
-> unchanged.
+> Why do you care about this information to be reliable.
 > 
-> Fixes: eb16876971ea ("fs/proc/task_mmu: remove per-page mapcount dependency for PM_MMAP_EXCLUSIVE (CONFIG_NO_PAGE_MAPCOUNT)")
-> Cc: stable@vger.kernel.org # 6.15+
-> Signed-off-by: Kelvin Zhang <zhangxp1998@gmail.com>
-> ---
-> Tested on x86-64 under QEMU/KVM with CONFIG_TRANSPARENT_HUGEPAGE=y
-> and CONFIG_PAGE_MAPCOUNT=y, using the same test binary before and after
-> this change. After fork(), the child unmaps the first, second, middle,
-> or last 4 KiB subpage, while the parent retains a PMD mapping. Both
-> bulk pagemap reads and reads starting inside the PMD are checked.
+> If the answer is "I don't care, I don't care, an LLM reported so I blindly
+> submit a fix" we might just perform the switch to the CONFIG_NO_PAGE_MAPCOUNT
+> variant directly.
 > 
-> Across three repetitions (12 cases), the unmodified kernel fails 24 of
-> 84 assertions; with this change all 84 pass. Fully private and fully
-> shared PMD controls pass before and after the fix.
 > 
+> https://lore.kernel.org/linux-mm/20260412-mapcount-v1-4-05e8dfab52e0@kernel.org/
+Sent my mail a bit to soon: the reason is that this might be one of the
+best-case scenarios: we broke something by accident, nobody cared for various
+releases; so now we can just change it.
 
-How was this found. Through an LLM or because there was actually a problem in
-practice?
-
-Why do you care about this information to be reliable.
-
-If the answer is "I don't care, I don't care, an LLM reported so I blindly
-submit a fix" we might just perform the switch to the CONFIG_NO_PAGE_MAPCOUNT
-variant directly.
-
-
-https://lore.kernel.org/linux-mm/20260412-mapcount-v1-4-05e8dfab52e0@kernel.org/
+Thanks for the report!
 
 -- 
 Cheers,
 
 David
+
