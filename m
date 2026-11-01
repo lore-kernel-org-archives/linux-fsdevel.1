@@ -1,99 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.169
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793557630;
-	b=gRAM44Qq49JANsTwkmCvnVZ21NMmZuNlCSGnZ6e7As+bxBqcWA5aOHgbvXtaHTtmrE4/
-	 ijN7jYpKjDyYJ7hQWFiRrmLd9IY84Yr4sExY9lszXNvO9AY/Jn5tJRRqP7OTIjjiebpIi
-	 sGOWSRrFpEyL1RpBP880YJldFf2LornEaZQc2z7qZbi4Uo91eWtXF7/uvTuCASfm9RloW
-	 q+R23F9YL4PvfgeflSRm8oLYfZkRfbMJv7yMd5VlLvAs4yNu0kQBvBkt6WkbLmMxaJpyZ
-	 VrR6OUAZhKqZ8eK3OPOcewPUO6MBRa3MTIoaTCfCIBHoult1HOLfZXhVqmunRCq8IMw==
+	t=1793559607;
+	b=hK7uODu5kR4iu6fj00OVpM/ssVbcoJtDooMJ7A8GCevR+XNiWPQO76eJBXRqL0bLcZec
+	 UqUc36VOF3etiLgSTViFSt9DlCwBzQimIVaEmAdNlb8VzBYtcWgSN8VieVQYnwZHNlhOL
+	 xtMlj0TLQmikhCmwKnUZXxnOAF+ztWEc9bFige8MR2qHxo1sw/HdhdNNlWAqgkiY4715K
+	 FC/mNVetGoEP6q0WLZBBIeHfnDT9vOXBgzvOXVrzqwTfP77+0Rcvl/AWqWGkEIHSgpiSo
+	 HezAIvSuvnLSnUORpNVqbP6lY5gqnBzuG6JgLRICK/fP3miTcHsPZovNpqk3lsEByvg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793557630;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type;
-	bh=aUU1nGwWnmMrHXGJh08o6CeAPeT6DZPgaa4XD+hq+Ac=;
-	b=G5SY6QGGMst0eraUs76ITp7r8qZXM6kcGU71UKNQGF1UOeecvhOfrVbyE07o5urBWrc8
-	 w26RZlrndIZg9X8WvTYnKIshVdxgXGg/nc1MhDu7hky8IZTBcQ+TRhyRMnYEWob5epjrZ
-	 Yrv2T0wyuq/mPLfNS7na8HkHxHp0GipGV/qG50vHOh6s9pToQkxq0vdn0FkRvUvV51MCr
-	 5b0OsulFb9fM6wvx2wT86nknuMVchN7ORHCFTIvH+/A69M8+2J6iAdY9ri2oMgXDP0rKW
-	 jOiroaqG4utWqo7QwcSlQ15jJ97tbQyLw7eK/W8SGfCQTWonSbligIgxaUtijyI6I6g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793559607;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:Content-Language:To:Cc:References:From:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=MxfPYzUODAbakcjk2CC+IJxAYHeIOBK5M+06bYfQC1M=;
+	b=Q2+ASbNavLTE6V958A7N4sbHDK5bzE3c9NcOxdZF6G212bUMxHiAXCMY/APD3Kq7911E
+	 HQaxfwr3nHvdGfx2Bp9aM9Jbtji6k/QRBfWnX+xR3dsyreig82PvY7m3cPxQrnnrbN6X/
+	 w2ThXTTAM31Fr70avXqoKuGl+qjXGeFr7fkiZ2Xh34NsR/7YdVyBjk0jFCMb/2CUXGpcG
+	 Urnp1dzR2tsH4onwfzKh2vtFUG/IqMQG5PD1+8ZCzKKC8Nr+0cwS9k+5z0XBe8EbOUhSe
+	 zeDJnPkpEmMlOOX/JSHiD/XbSKGaBcEYHWS28pH6jLl+Z/jCg0ro14BXeFPsGNBX7wQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=KcWDuxn2;
-	arc=none smtp.remote-ip=74.125.82.169
-Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="huWTi/QQ";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29398606A324
-	for <linux-fsdevel@vger.kernel.org>; Sun,  1 Nov 2026 18:27:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 29398606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2E49606A326;
+	Sun,  1 Nov 2026 19:00:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=KcWDuxn2
-Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-35b2c599f43so3269588eec.0
-        for <linux-fsdevel@vger.kernel.org>; Sun, 01 Nov 2026 10:27:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793557629; x=1794162429; darn=vger.kernel.org;
-        h=content-type:mime-version:references:in-reply-to:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=aUU1nGwWnmMrHXGJh08o6CeAPeT6DZPgaa4XD+hq+Ac=;
-        b=KcWDuxn20gvoytW1+EZ8rspHSjO3VxEO3gzalycUP3w5PEi9m8V6K6OWVyoyoDkwjj
-         CQW8VletrPXp5r2QC9o0hrot1RFcr2tPpXTJePpPaaqtsZrnxBHyBQlDvSTWt3KfQuAR
-         N+iWC4pdFwvKHptSvjbbn5s6kCNfmfhFiry4J9pzcthfnxLo3ZxOga7/rzBjAV8tE6Q3
-         g1u/OqhNWWYvxejii6EsfUGtL6jVJQ23mDZ0DDxHLoD/YPt5kHU57HM9tQfRSAMOjyH6
-         EXxUSLgyIGsFNFo011UGupNZgyKb6rm2eYeC/ZOom0MmhAEL2Rlbt/MTAGijJxGVLbGf
-         KTqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793557629; x=1794162429;
-        h=content-type:mime-version:references:in-reply-to:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=aUU1nGwWnmMrHXGJh08o6CeAPeT6DZPgaa4XD+hq+Ac=;
-        b=GHfgjJSS/fERwDCiFpz7g4u54Ot/e+A2QY28K5HTqO7uA7v/EZi9jyuI2wuY004K0r
-         0rthIwpxnwSSGQtmZ71sbn4urC1I79spfSKgX0kwC24LjMth9+5UkEuUuzhOn1suVrMK
-         K961epMHAygQ8ryADbYRKqsTmLmSykRe+kHXKKUPN+VWNK7OQYI/4r8SvouZ7QvSI/8t
-         kEkt8YtoMd55x/w/tXuXCQHDLgS7LxxPGDvp0k5HeQ04aFNZYcTlZp1WlffuVs6MJXNc
-         Z6NLIhJzIIXmAic+yqny7qUsXBPKGy6vfpeRfIdy0HXytPcC2vd4xurRqlXv/av/4XTK
-         Hf9Q==
-X-Forwarded-Encrypted: i=1; AKwUvBzbLBQJDTKZbVKIHVuFwDeErQNIENDmvALQ6E6oDFTR1LtinH0zWP+aWCnx8dHVyzXHEKzdmYf7E7sAAvft@vger.kernel.org
-X-Gm-Message-State: APuU4Z/aEQoyW2gDcgA8/xrSIn+hf9u+gbTxmccaxu3jr6Hq/FA9I/tk
-	9zkxD+fm7PFHmsppWXroMP13e8J1RnXOq2VEbjjYb/FOPxGnfPut46WL
-X-Gm-Gg: AYBFou34jaX5R3am0dZyVZHDu7HHObqJ50cVKx7ovy3ZSSaAVd2wVs+wPUUWP2T8PJd
-	zcSC/GfmVzY5PIHoUzovroEzxcx2f50x+KjelgRTPBo+lVDZ+lgNsGNufwwhc3CBUVVUHUb/ejj
-	wCWymUTQw8qBzSKtgSRTiSLzrfapgayCKpKkrvKXNE+hb/fCnYDyxYOzYP9ts8Lk9g1BqEWn9SJ
-	LnTynw2dxuYaes2btRZP5j+UUs0Aq2fL2DLg0PmQoM0Ygjit2KjmQjFV6GR06DvK0/MfTabIk1d
-	5R95iFiyITHR/XjcZ5wvdTv//kBx7LX9dY6tqiDw5tiE1XOfnlmm8r208o9L9DsSqdRqMpnRAOe
-	WI3GH15KXvzXdi5pB+G69YUAmT8bJQeiXgOQBvjlDx4EoQLi4KA6hFN8+e3V7tQ0pRrB/+HwfrJ
-	EGOn1aTmHactIpAu5HwZgAB3jc8VL0SfD0CE3D/nfWdgeX5maSDLFn4i2OImRjZxOaua2n9IyLi
-	MO1+xkBBjrN8oseg4pytZ3rQB24ECOhkMIb6xQFrkLnIUE70BchruxKU61Y09EQPoJG37jeqrnI
-	HhfzJEJCNnrpRGDzTEj/FrrTPWUUgnejSdU=
-X-Received: by 2002:a05:693c:69d1:b0:358:3426:d601 with SMTP id 5a478bee46e88-36a4221b3c6mr13335197eec.2.1793557629049;
-        Sun, 01 Nov 2026 10:27:09 -0800 (PST)
-Received: from [127.0.1.1] ([2601:647:4184:b3f0:b5a0:ac44:5583:ef02])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a42952e1csm31758645eec.20.2026.11.01.10.27.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Nov 2026 10:27:08 -0800 (PST)
-From: Kelvin Zhang <zhangxp1998@gmail.com>
-To: David Hildenbrand <david@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
- "Liam R . Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>, Kalesh Singh <kaleshsingh@google.com>,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- stable@vger.kernel.org
-Subject: Re: [PATCH] fs/proc/task_mmu: check THP exclusivity for each subpage
-Date: Sun, 01 Nov 2026 10:27:03 -0800
-Message-ID:
- <179355762314.2759535.4568050479263510899.pagemap-thp-repro@gmail.com>
-In-Reply-To: <da1dc033-9131-4b77-9443-a8cc82fd7e58@kernel.org>
-References: <4c1b393a4b04bd94e4f1c7879ae04e1793eb0931.1793552446.git.zhangxp1998@gmail.com>
- <54617273-262f-4e17-b912-8b07113ca45c@kernel.org>
- <da1dc033-9131-4b77-9443-a8cc82fd7e58@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=huWTi/QQ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A52031F000C1;
+	Sun,  1 Nov 2026 19:00:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793559606;
+	bh=MxfPYzUODAbakcjk2CC+IJxAYHeIOBK5M+06bYfQC1M=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=huWTi/QQCOV96TzGPmhJM1WK3XMMqPuZWbjc1d2pJGbauI8sXQdEYFL2IduNXM24/
+	 DJesLf/kwa/UDT4mJMv4JmQtVXH9SiKITzA8rHBRmotDPy73w6am+gBhR0GsrLOZ5B
+	 CYJUxgUqi+HT4KmCQ3VfGE1+2o49dK57E++U3d1F0urQlBUD1npsaMpGNtbJsAno1I
+	 2BsOCSMhQovkaJRu8PPdMS9lpA7KQz/mLOJ5DLED5PC1UVhHAACPyq8SXETcnMJmmx
+	 iJyzpcFo8vEJKsMr+rkLFJgpPpJHi3nupUc1FGdtJSO0bwmZ332OuZwvbk8ll7KSWC
+	 8h5PYjZZBEC2Q==
+Message-ID: <9e5333d5-4f56-4308-b990-6aa048d9e907@kernel.org>
+Date: Sun, 1 Nov 2026 19:59:58 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -103,150 +51,110 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="===============5072210820627741972=="
-
---===============5072210820627741972==
-Content-Type: text/plain; charset="us-ascii"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] MAINTAINERS: add Johannes as the page allocator
+ co-maintainer
+Content-Language: en-US
+To: "David Hildenbrand (Arm)" <david@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Harry Yoo <harry@kernel.org>, Hao Li <hao.li@linux.dev>,
+ Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ Johannes Weiner <hannes@cmpxchg.org>, Suren Baghdasaryan
+ <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Brendan Jackman <brendan.jackman@linux.dev>, Zi Yan <ziy@nvidia.com>,
+ "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
+ Mike Rapoport <rppt@kernel.org>, Gregory Price <gourry@gourry.net>,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org
+References: <20261101-maint-page_alloc-update-v1-0-27e8c246b13d@kernel.org>
+ <20261101-maint-page_alloc-update-v1-1-27e8c246b13d@kernel.org>
+ <4026ed95-62c7-4680-9bee-7507330a4217@kernel.org>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Autocrypt: addr=vbabka@kernel.org; keydata=
+ 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
+In-Reply-To: <4026ed95-62c7-4680-9bee-7507330a4217@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi David,
+On 11/1/26 19:01, David Hildenbrand (Arm) wrote:
+> On 11/1/26 17:34, Vlastimil Babka (SUSE) wrote:
+>> Johannes is a long-time expert and reviewer for the page allocator and
+>> has agreed to step up to a co-maintainer role, so do that. Thanks!
+>> 
+>> Additionally, page allocator is joining the MM transition, following the
+>> MM core updates from David [1].
+>> 
+>> Patches will be collected in the mm/page_alloc git tree and integrated
+>> via the mm/linux integration tree. To signify the change from Andrew's
+>> mm tree, remove Andrew as M: - get_maintainers will continue CCing him
+>> on most patches via the catch-all MM entry. David prefers not being
+>> added for mail volume reasons.
+>> 
+>> [1] https://lore.kernel.org/all/20261030-maintainers-v1-7-97278f8a5f54@kernel.org/
+>> 
+>> Signed-off-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+>> ---
+>>  MAINTAINERS | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>> 
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index b68bc3626709..d7cfb28a9029 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -17720,15 +17720,15 @@ F:	include/uapi/linux/oom.h
+>>  F:	mm/oom_kill.c
+>>  
+>>  MEMORY MANAGEMENT - PAGE ALLOCATOR
+>> -M:	Andrew Morton <akpm@linux-foundation.org>
+>>  M:	Vlastimil Babka <vbabka@kernel.org>
+>> +M:	Johannes Weiner <hannes@cmpxchg.org>
+>>  R:	Suren Baghdasaryan <surenb@google.com>
+>>  R:	Michal Hocko <mhocko@suse.com>
+>>  R:	Brendan Jackman <brendan.jackman@linux.dev>
+>> -R:	Johannes Weiner <hannes@cmpxchg.org>
+>>  R:	Zi Yan <ziy@nvidia.com>
+>>  L:	linux-mm@kvack.org
+> 
+> Want to remove that one as well like I did?
 
-Thanks for the clarification.
+I think you meant the website and this is the mail list, so it stays.
 
-I don't have a real application depending on precise per-subpage bit 56
-values, or a production failure to report. This is a review/test-driven
-report, with LLM assistance, rather than something found through a failing
-workload. I followed it up with an actual old/new kernel comparison.
-
-So I have no workload-based objection to switching to the conservative
-whole-folio behavior you described. The attached kselftest-style reproducer
-is just to make the current CONFIG_PAGE_MAPCOUNT=y behavior reproducible,
-not to argue that exact subpage reporting must be preserved as an ABI.
-
-The test forks with a PMD-mapped anonymous THP, then has the child unmap
-one base page while the parent retains its PMD mapping. On the unpatched
-kernel, unmapping subpage 0 makes the parent's bulk pagemap read report
-all 512 subpages exclusive; unmapping subpage 1, 256 or 511 reports none
-exclusive. With the one-line fix, only the unmapped-in-child subpage is
-reported exclusive in each case. The fully private/shared controls pass
-on both kernels.
-
-Tested on x86-64 QEMU/KVM with 4KB base pages, 2MB PMD THPs and
-CONFIG_PAGE_MAPCOUNT=y, using mm-hotfixes-unstable at 64703f0fee74 and
-that same base plus this patch. Three runs of the same binary gave:
-
-  Before: 20 PASS, 8 FAIL per run
-  After:  28 PASS, 0 FAIL per run
-
-To build, save the attachment under tools/testing/selftests/mm/ and run
-from the kernel root:
-
-  cc -O2 -Wall -Wextra tools/testing/selftests/mm/pagemap_thp_exclusive.c \
-     -o /tmp/pagemap_thp_exclusive
-  /tmp/pagemap_thp_exclusive
-
-It uses the existing ../kselftest.h and skips if a 2MB PMD THP cannot be
-obtained. Its expectations are deliberately limited to the current
-CONFIG_PAGE_MAPCOUNT=y implementation, not the conservative variant.
-
-Thanks,
-Kelvin
-
---===============5072210820627741972==
-Content-Type: text/x-c
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="pagemap_thp_exclusive.c"
-MIME-Version: 1.0
-
-Ly8gU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjAKLyoKICogRGlhZ25vc3RpYyBmb3Ig
-dGhlIENPTkZJR19QQUdFX01BUENPVU5UPXkgcGFnZW1hcCBQTUQgcGF0aCwgbm90IGEgZ2VuZXJp
-YwogKiBiaXQtNTYgQUJJIHRlc3Q6IG90aGVyIGNvbmZpZ3VyYXRpb25zIG1heSByZXBvcnQgZm9s
-aW8td2lkZSBleGNsdXNpdml0eS4KICogUmVxdWlyZXMgNEtCIGJhc2UgcGFnZXMgYW5kIDJNQiBh
-bm9ueW1vdXMgUE1EIFRIUHMuCiAqCiAqIFNhdmUgdW5kZXIgdG9vbHMvdGVzdGluZy9zZWxmdGVz
-dHMvbW0vIGFuZCBidWlsZCBmcm9tIHRoZSBrZXJuZWwgcm9vdDoKICogY2MgLU8yIC1XYWxsIC1X
-ZXh0cmEgdG9vbHMvdGVzdGluZy9zZWxmdGVzdHMvbW0vcGFnZW1hcF90aHBfZXhjbHVzaXZlLmMg
-XAogKiAgICAtbyAvdG1wL3BhZ2VtYXBfdGhwX2V4Y2x1c2l2ZQogKi8KI2RlZmluZSBfR05VX1NP
-VVJDRQojaW5jbHVkZSA8ZmNudGwuaD4KI2luY2x1ZGUgPHNpZ25hbC5oPgojaW5jbHVkZSA8c3Rk
-aW50Lmg+CiNpbmNsdWRlIDxzeXMvbW1hbi5oPgojaW5jbHVkZSA8c3lzL3dhaXQuaD4KI2luY2x1
-ZGUgPHVuaXN0ZC5oPgojaW5jbHVkZSAiLi4va3NlbGZ0ZXN0LmgiCgojaWZuZGVmIE1BRFZfQ09M
-TEFQU0UKI2RlZmluZSBNQURWX0NPTExBUFNFIDI1CiNlbmRpZgojZGVmaW5lIFBBR0VfQllURVMg
-NDA5NlVMCiNkZWZpbmUgVEhQX0JZVEVTICgyVUwgKiAxMDI0ICogMTAyNCkKI2RlZmluZSBOUl9Q
-QUdFUyAoVEhQX0JZVEVTIC8gUEFHRV9CWVRFUykKI2RlZmluZSBQUkVTRU5UICgxVUxMIDw8IDYz
-KQojZGVmaW5lIEVYQ0xVU0lWRSAoMVVMTCA8PCA1NikKCnN0YXRpYyB2b2lkIHJlcXVpcmUoaW50
-IG9rLCBjb25zdCBjaGFyICp3aGF0KQp7CglpZiAoIW9rKQoJCWtzZnRfZXhpdF9mYWlsX21zZygi
-JXMgZmFpbGVkIChlcnJubz0lZClcbiIsIHdoYXQsIGVycm5vKTsKfQoKc3RhdGljIHZvaWQgbm90
-aWZ5KGludCBmZCkKewoJcmVxdWlyZSh3cml0ZShmZCwgIngiLCAxKSA9PSAxLCAicGlwZSB3cml0
-ZSIpOwp9CgpzdGF0aWMgdm9pZCBhd2FpdChpbnQgZmQpCnsKCWNoYXIgYzsKCglyZXF1aXJlKHJl
-YWQoZmQsICZjLCAxKSA9PSAxLCAicGlwZSByZWFkIik7Cn0KCnN0YXRpYyB1bnNpZ25lZCBsb25n
-IGFub25faHVnZV9ieXRlcyh2b2lkICphZGRyKQp7CglGSUxFICpmID0gZm9wZW4oIi9wcm9jL3Nl
-bGYvc21hcHMiLCAiciIpOwoJdW5zaWduZWQgbG9uZyBzdGFydCwgZW5kLCBrYiA9IDA7Cglib29s
-IHNlbGVjdGVkID0gZmFsc2U7CgljaGFyIGxpbmVbNTEyXTsKCglyZXF1aXJlKGYgIT0gTlVMTCwg
-Im9wZW4gc21hcHMiKTsKCXdoaWxlIChmZ2V0cyhsaW5lLCBzaXplb2YobGluZSksIGYpKSB7CgkJ
-aWYgKHNzY2FuZihsaW5lLCAiJWx4LSVseCIsICZzdGFydCwgJmVuZCkgPT0gMikKCQkJc2VsZWN0
-ZWQgPSAodWludHB0cl90KWFkZHIgPj0gc3RhcnQgJiYgKHVpbnRwdHJfdClhZGRyIDwgZW5kOwoJ
-CWlmIChzZWxlY3RlZCAmJiBzc2NhbmYobGluZSwgIkFub25IdWdlUGFnZXM6ICVsdSBrQiIsICZr
-YikgPT0gMSkKCQkJYnJlYWs7Cgl9CglmY2xvc2UoZik7CglyZXR1cm4ga2IgKiAxMDI0Owp9Cgov
-KiBob2xlID09IC0xOiBhbGwgc2hhcmVkOyBob2xlID09IC0yOiBhbGwgZXhjbHVzaXZlLiAqLwpz
-dGF0aWMgdm9pZCBjaGVja19idWxrKGludCBmZCwgY2hhciAqYWRkciwgaW50IGhvbGUsIGNvbnN0
-IGNoYXIgKmxhYmVsKQp7Cgl1aW50NjRfdCBlbnRyaWVzW05SX1BBR0VTXTsKCXVuc2lnbmVkIGlu
-dCBpLCB3cm9uZyA9IDAsIGV4Y2x1c2l2ZSA9IDA7CglvZmZfdCBvZmZzZXQgPSAodWludHB0cl90
-KWFkZHIgLyBQQUdFX0JZVEVTICogc2l6ZW9mKHVpbnQ2NF90KTsKCglyZXF1aXJlKHByZWFkKGZk
-LCBlbnRyaWVzLCBzaXplb2YoZW50cmllcyksIG9mZnNldCkgPT0gc2l6ZW9mKGVudHJpZXMpLAoJ
-CSJyZWFkIHBhZ2VtYXAiKTsKCWZvciAoaSA9IDA7IGkgPCBOUl9QQUdFUzsgaSsrKSB7CgkJYm9v
-bCB3YW50ID0gaG9sZSA9PSAtMiB8fCBob2xlID09IChpbnQpaTsKCgkJZXhjbHVzaXZlICs9ICEh
-KGVudHJpZXNbaV0gJiBFWENMVVNJVkUpOwoJCXdyb25nICs9ICEoZW50cmllc1tpXSAmIFBSRVNF
-TlQpIHx8CgkJCSAhIShlbnRyaWVzW2ldICYgRVhDTFVTSVZFKSAhPSB3YW50OwoJfQoJa3NmdF90
-ZXN0X3Jlc3VsdCghd3JvbmcsICIlczogaG9sZT0lZCBleGNsdXNpdmU9JXUvJWx1IHdyb25nPSV1
-XG4iLAoJCQkgbGFiZWwsIGhvbGUsIGV4Y2x1c2l2ZSwgTlJfUEFHRVMsIHdyb25nKTsKfQoKc3Rh
-dGljIHZvaWQgY2hlY2tfc2luZ2xlKGludCBmZCwgY2hhciAqYWRkciwgdW5zaWduZWQgaW50IGlu
-ZGV4LCBib29sIGV4Y2x1c2l2ZSkKewoJdWludDY0X3QgZW50cnk7CglvZmZfdCBvZmZzZXQgPSAo
-KHVpbnRwdHJfdClhZGRyIC8gUEFHRV9CWVRFUyArIGluZGV4KSAqIHNpemVvZihlbnRyeSk7CgoJ
-cmVxdWlyZShwcmVhZChmZCwgJmVudHJ5LCBzaXplb2YoZW50cnkpLCBvZmZzZXQpID09IHNpemVv
-ZihlbnRyeSksCgkJInJlYWQgc2luZ2xlIHBhZ2VtYXAgZW50cnkiKTsKCWtzZnRfdGVzdF9yZXN1
-bHQoKGVudHJ5ICYgUFJFU0VOVCkgJiYgISEoZW50cnkgJiBFWENMVVNJVkUpID09IGV4Y2x1c2l2
-ZSwKCQkJICJzaW5nbGUgcmVhZDogc3VicGFnZT0ldSBleHBlY3RlZCBleGNsdXNpdmU9JWRcbiIs
-CgkJCSBpbmRleCwgZXhjbHVzaXZlKTsKfQoKc3RhdGljIHZvaWQgcnVuX2Nhc2UodW5zaWduZWQg
-aW50IGhvbGUpCnsKCWNoYXIgKnJlc2VydmUsICphZGRyOwoJaW50IGdvWzJdLCBkb25lWzJdLCBm
-ZCwgc3RhdHVzOwoJcGlkX3QgY2hpbGQ7CgoJLyogTGVhdmUgUFJPVF9OT05FIGd1YXJkcyBvbiBi
-b3RoIHNpZGVzIHRvIHByZXZlbnQgVk1BIG1lcmdpbmcuICovCglyZXNlcnZlID0gbW1hcChOVUxM
-LCAzICogVEhQX0JZVEVTLCBQUk9UX05PTkUsCgkJICAgICAgIE1BUF9QUklWQVRFIHwgTUFQX0FO
-T05ZTU9VUywgLTEsIDApOwoJcmVxdWlyZShyZXNlcnZlICE9IE1BUF9GQUlMRUQsICJyZXNlcnZl
-IGFkZHJlc3Mgc3BhY2UiKTsKCWFkZHIgPSAoY2hhciAqKSgoKHVpbnRwdHJfdClyZXNlcnZlICsg
-VEhQX0JZVEVTKSAmIH4oVEhQX0JZVEVTIC0gMSkpOwoJcmVxdWlyZShtbWFwKGFkZHIsIFRIUF9C
-WVRFUywgUFJPVF9SRUFEIHwgUFJPVF9XUklURSwKCQkgICAgIE1BUF9QUklWQVRFIHwgTUFQX0FO
-T05ZTU9VUyB8IE1BUF9GSVhFRCwgLTEsIDApID09IGFkZHIsCgkJIm1hcCBhbm9ueW1vdXMgbWVt
-b3J5Iik7CglyZXF1aXJlKCFtYWR2aXNlKGFkZHIsIFRIUF9CWVRFUywgTUFEVl9IVUdFUEFHRSks
-ICJNQURWX0hVR0VQQUdFIik7CgltZW1zZXQoYWRkciwgMHg1YSwgVEhQX0JZVEVTKTsKCWlmIChh
-bm9uX2h1Z2VfYnl0ZXMoYWRkcikgIT0gVEhQX0JZVEVTKQoJCW1hZHZpc2UoYWRkciwgVEhQX0JZ
-VEVTLCBNQURWX0NPTExBUFNFKTsKCWlmIChhbm9uX2h1Z2VfYnl0ZXMoYWRkcikgIT0gVEhQX0JZ
-VEVTKSB7CgkJZm9yICh1bnNpZ25lZCBpbnQgaSA9IDA7IGkgPCA3OyBpKyspCgkJCWtzZnRfdGVz
-dF9yZXN1bHRfc2tpcCgiaG9sZT0ldTogbm8gMk1CIFBNRCBUSFBcbiIsIGhvbGUpOwoJCW11bm1h
-cChyZXNlcnZlLCAzICogVEhQX0JZVEVTKTsKCQlyZXR1cm47Cgl9CglmZCA9IG9wZW4oIi9wcm9j
-L3NlbGYvcGFnZW1hcCIsIE9fUkRPTkxZKTsKCXJlcXVpcmUoZmQgPj0gMCwgIm9wZW4gcGFnZW1h
-cCIpOwoJY2hlY2tfYnVsayhmZCwgYWRkciwgLTIsICJiZWZvcmUgZm9yayIpOwoJcmVxdWlyZSgh
-cGlwZShnbykgJiYgIXBpcGUoZG9uZSksICJwaXBlIik7CgljaGlsZCA9IGZvcmsoKTsKCXJlcXVp
-cmUoY2hpbGQgPj0gMCwgImZvcmsiKTsKCWlmICghY2hpbGQpIHsKCQljbG9zZShnb1sxXSk7CgkJ
-Y2xvc2UoZG9uZVswXSk7CgkJYXdhaXQoZ29bMF0pOwoJCXJlcXVpcmUoIW11bm1hcChhZGRyICsg
-aG9sZSAqIFBBR0VfQllURVMsIFBBR0VfQllURVMpLCAiY2hpbGQgbXVubWFwIik7CgkJbm90aWZ5
-KGRvbmVbMV0pOwoJCWF3YWl0KGdvWzBdKTsKCQlfZXhpdCgwKTsKCX0KCWNsb3NlKGdvWzBdKTsK
-CWNsb3NlKGRvbmVbMV0pOwoJY2hlY2tfYnVsayhmZCwgYWRkciwgLTEsICJhZnRlciBmb3JrLCBi
-ZWZvcmUgY2hpbGQgbXVubWFwIik7Cglub3RpZnkoZ29bMV0pOwoJYXdhaXQoZG9uZVswXSk7Cglr
-c2Z0X3Rlc3RfcmVzdWx0KGFub25faHVnZV9ieXRlcyhhZGRyKSA9PSBUSFBfQllURVMsCgkJCSAi
-aG9sZT0ldTogcGFyZW50IHN0aWxsIFBNRCBtYXBwZWRcbiIsIGhvbGUpOwoJY2hlY2tfYnVsayhm
-ZCwgYWRkciwgaG9sZSwgImFmdGVyIGNoaWxkIG11bm1hcCIpOwoJY2hlY2tfc2luZ2xlKGZkLCBh
-ZGRyLCBob2xlLCB0cnVlKTsKCWNoZWNrX3NpbmdsZShmZCwgYWRkciwgaG9sZSA/IDAgOiAxLCBm
-YWxzZSk7Cglub3RpZnkoZ29bMV0pOwoJcmVxdWlyZSh3YWl0cGlkKGNoaWxkLCAmc3RhdHVzLCAw
-KSA9PSBjaGlsZCAmJiBXSUZFWElURUQoc3RhdHVzKSAmJgoJCSFXRVhJVFNUQVRVUyhzdGF0dXMp
-LCAiY2hpbGQgZXhpdCIpOwoJY2hlY2tfYnVsayhmZCwgYWRkciwgLTIsICJhZnRlciBjaGlsZCBl
-eGl0Iik7CgljbG9zZShnb1sxXSk7CgljbG9zZShkb25lWzBdKTsKCWNsb3NlKGZkKTsKCXJlcXVp
-cmUoIW11bm1hcChyZXNlcnZlLCAzICogVEhQX0JZVEVTKSwgInVubWFwIHJlc2VydmF0aW9uIik7
-Cn0KCmludCBtYWluKHZvaWQpCnsKCXVuc2lnbmVkIGludCBob2xlc1tdID0geyAwLCAxLCBOUl9Q
-QUdFUyAvIDIsIE5SX1BBR0VTIC0gMSB9OwoKCWtzZnRfcHJpbnRfaGVhZGVyKCk7CglpZiAoc3lz
-Y29uZihfU0NfUEFHRVNJWkUpICE9IFBBR0VfQllURVMpCgkJa3NmdF9leGl0X3NraXAoIlRoaXMg
-cmVwcm9kdWNlciByZXF1aXJlcyA0S0IgYmFzZSBwYWdlc1xuIik7Cglrc2Z0X3ByaW50X21zZygi
-UmVxdWlyZXMgQ09ORklHX1BBR0VfTUFQQ09VTlQ9eTsgbm90IGEgZ2VuZXJpYyBBQkkgdGVzdFxu
-Iik7Cglrc2Z0X3NldF9wbGFuKDcgKiBBUlJBWV9TSVpFKGhvbGVzKSk7CglhbGFybSgzMCk7Cglm
-b3IgKHVuc2lnbmVkIGludCBpID0gMDsgaSA8IEFSUkFZX1NJWkUoaG9sZXMpOyBpKyspCgkJcnVu
-X2Nhc2UoaG9sZXNbaV0pOwoJa3NmdF9maW5pc2hlZCgpOwp9Cg==
-
---===============5072210820627741972==--
