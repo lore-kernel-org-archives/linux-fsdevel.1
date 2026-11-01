@@ -1,126 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.196.58
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793499366;
-	b=LkrY8hl6kAo9iNiuqWAcUpPNNgAVjw9YLiDi4SB1L8LouszmGVCMT8QVzC+/0NSUSfoO
-	 i6fgIaLHN/zBdbQHpvPv+RtNfq0oXLuHv0iBwO2BNWjAuVck55Fso/zy+jhkCjYWzu/Gu
-	 X9CJ9tSXZA+tD1RUzXowgbWIHXw3/wAUXbrkC/DJR8XdE0JVnDWZMV1w6Ix1jwPsmtqE+
-	 VdMOUb699nfkVGGKcRqnPdP9ghNwFypCUCp77/uaS0KMQ8vRsoNQXzVznZXHXpPIZTE3V
-	 22+se7kAsyStXE4Bpu+ouWQIy6w1/rce4Cn/TdzuGwW1c3njpZQrOV/HTZNbOmu+DFw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793499366;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:
-	 Content-Transfer-Encoding:Content-Type:Date:Message-Id:Subject:Cc:To:
-	 From:X-Mailer:References:In-Reply-To:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=PHY3op/sKzJI/D92BGtbGPemOoqlJ+m5Lb2J/nUsLbQ=;
-	b=4fha4eTnt5JHDok4Xn7gDnl5BDVLeL9PFa7Ud2Yya1DCjffAhq5emi2itXuuQlPpOWMY
-	 DEUAVnxU7bmFWeWmquQ6quoyj8U/Hgg/vahYZgOL1oS2O0bXB0+1k0ExP9Mm83s8c2FHQ
-	 JhCGbRiVJ6ZWXuadO4+ui2v+gKJzg6BENvQn6hdLm4v8pSEy+kLyiHlnR7443guE15eN1
-	 nbBRl7jdAltQKBfgUQMizqPDRJaTzowX/KPxbwksXlAJBMg48Wg9g50gFQZh3LRIbOW0+
-	 kQNfWlqiP+TTLb74EeUc8eo22NXu1uhxpbE1NGpKQx63o5ensLqT1EBH5bZH+CacEEA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=nvidia.com;
-	spf=fail smtp.mailfrom=nvidia.com;
-	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=LSMsEcAv;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.196.58
-Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013058.outbound.protection.outlook.com [40.93.196.58])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.54
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793501795;
+	b=YBReFjXOHX8emQlp18zxmAVMaTU1r1QzGFikVrlkssCWcHppiuTnrqz1EP/ttHMafpfV
+	 veLxkYAZqpKZiWhYw5SUAW9vKbBH7zNbh5KsRueeZJQqYDRUiS6KwnqdCnaBzS8nDAU1c
+	 p49eWsU4w9aIOrvQjS+lKgR4G3WLP0kOahpphvX2pVIXvVnJJrzNhARrnPHk7xubzYFl/
+	 GIEtjTBnSq8TbprhUtVZgW9VJcKNfz/NKzOjEogMBjltUSvh6ycF1NeNyNrOj0RLPNhOM
+	 uW81NBemg9MizqwbvGjRaUGZlghGHArXbWc6dnisLR06Fyp49t4uamEND6DYLLuffCg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793501795;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:Autocrypt:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=V3mO2oJ9wvsyKjU2ihhIv9+VvyGcAnmDb2trz7FBpaI=;
+	b=VX9QPZS7JN7N0ijLDsNhikDe83hRqHSi4N512KOJDwQVaZ4eDDvThguOjHRlgLX8nVtx
+	 EJKpeUywNUhauzf8mWnBI6ghbB2jrz05j72kotNbqBmzw1LgaFJecDPnAWgE3QTW20ShK
+	 HfNLm5mFvyBirMhJVcBTMEklaIxlUW/4x0S55l2smtzzcGWScyP0WsitJfppdKMDeby2L
+	 pvFZGOCTXCahKl0J0i8xeABih8vNYYkHy233yXnJXl2bu8q/YiF33MLwm20p9F/XQMSfX
+	 SSkxWsoivuWwpDSpN3sarpoqDeeIs46kswgfu3rKp1FCfqrGleEAeuTQZUoQFtKWf1A==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=suse.com;
+	spf=pass smtp.mailfrom=suse.com;
+	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=d1dbxGOQ;
+	arc=none smtp.remote-ip=209.85.128.54
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E2DD606A324;
-	Sun,  1 Nov 2026 02:16:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5E2DD606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0832606A32C
+	for <linux-fsdevel@vger.kernel.org>; Sun,  1 Nov 2026 02:56:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F0832606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=LSMsEcAv
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ACUVy+oFP/C6zQvclMvHH/CSR7HqPdSiyY8AyduaT6sfRzWQDNRvvF+2Ci1ZA1u34EJFjPoOx2A3+NPmJ+DNSVuPvCTAyfZ2A/PfQdtR/oOPcCOJ/uMSojDdjOPjIrJf/152eIv0zeYAvavWi6eE0mbziTzrRGRF6BMZqNtOYeDkSUIQIQr8c+sbZOjdgEGubGAsgibsJY/hdtPpSOzLZXzuPQbghllltJPWrejsdhyZ/hJm2wAooz2HcL7H7CdLGYs6t1YHmlITwGzAuvDGOYGLglNXfnt8QwCWvFmFH5ke2/gXt2w77wjLvZOMiifqnTQWAn7AuaIRwTecHC9QLQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PHY3op/sKzJI/D92BGtbGPemOoqlJ+m5Lb2J/nUsLbQ=;
- b=hP5+phphrKcckZeICUMUVXvncomX5mwra2a1ddfH1mrx24ZX90LdxW9YvP0O10CQjjfD8q1e8ZnZfjMqiQPwxMYkkqj9Lq6rIKhuWg9GAzQFHja1u2RjZyAn3LiADZYaimfzNWK6qDDTtyuZDPD3NS2Oa/soyxzboSmawtoql+sF6srsAq1eQ50MxoBeqWSmlSZyJjX2O6M5ods+YUCuYY8U6ZCdUXmI0X2P/ZAffD4uXx0yBavbQsjxRqKLx2mjFtr32MHq2Ubnbbxc8p+QE21Hl1z9p9YwjhbLUxMgPAZkUMxxMx7nKwRHcJ9g6/xkNqWijolks7LQ9ZKlGKICSQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PHY3op/sKzJI/D92BGtbGPemOoqlJ+m5Lb2J/nUsLbQ=;
- b=LSMsEcAv7QTgAvpQ9OITBQ51o4dYMFqxOsxqlJeEJVCfabzPvTiDF1keot75WkBxTKwEKh0s6v053nY25FjSsau0dB1pk6LJxYjJFYOaRrhV4iK6FV2Ogeuv+FPhipHMcoetRSKhqESEJNTowY2F4oeAJuAGmN82pEgAIFm6tkmak9YewZUiVjNsL0U10OpAJqSx62ILOVXXw1m/Ddw9KN1IVYDVQcXQSQr/l2GOX7WVCUMMNmjfYqWs8RpzNvghoLrUxgrqhkQQbs/4cLUT0/RPHxJNZ29rFh1AsaGToNPa4Fpg3Ka8hcWnqrP6/6p9lm6t+v8zNk4KeOykQkYO3w==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
- by LV9PR12MB9760.namprd12.prod.outlook.com (2603:10b6:408:2f0::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.11; Sun, 1 Nov
- 2026 02:16:00 +0000
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16%6]) with mapi id 15.21.0569.010; Sun, 1 Nov 2026
- 02:16:00 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 31 Oct 2026 22:15:58 -0400
-Message-Id: <DMJIGN2WK8BB.12X03XDR3OBW5@nvidia.com>
-Subject: Re: [PATCH v3 14/47] mm/huge_memory: fix zapping migration entries
- for device-private THPs
-Cc: <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
- <kexec@lists.infradead.org>, <linux-fsdevel@vger.kernel.org>,
- <linux-arch@vger.kernel.org>, <linux-cxl@vger.kernel.org>, "Chris Mason"
- <mason@kernel.org>, <stable@vger.kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>, "Andrew Morton"
- <akpm@linux-foundation.org>, "Johannes Weiner" <hannes@cmpxchg.org>,
- "Michal Hocko" <mhocko@kernel.org>, "Qi Zheng" <qi.zheng@linux.dev>,
- "Shakeel Butt" <shakeel.butt@linux.dev>, "Lorenzo Stoakes"
- <ljs@kernel.org>, "Kairui Song" <kasong@tencent.com>, "Barry Song"
- <baohua@kernel.org>, "Axel Rasmussen" <axelrasmussen@google.com>, "Yuanchu
- Xie" <yuanchu@google.com>, "Wei Xu" <weixugc@google.com>, "Baoquan He"
- <baoquan.he@linux.dev>, "Baolin Wang" <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <liam@infradead.org>, "Vlastimil Babka"
- <vbabka@kernel.org>, "Mike Rapoport" <rppt@kernel.org>, "Suren
- Baghdasaryan" <surenb@google.com>, "Michal Hocko" <mhocko@suse.com>, "Kees
- Cook" <kees@kernel.org>, "Peter Zijlstra" <peterz@infradead.org>, "Jann
- Horn" <jannh@google.com>, "Pedro Falcato" <pfalcato@suse.de>, "Hugh
- Dickins" <hughd@google.com>, "Pasha Tatashin" <pasha.tatashin@soleen.com>,
- "Pratyush Yadav" <pratyush@kernel.org>, "Matthew Wilcox (Oracle)"
- <willy@infradead.org>, "Jan Kara" <jack@suse.cz>, "Lance Yang"
- <lance.yang@linux.dev>, "Rik van Riel" <riel@surriel.com>, "Harry Yoo"
- <harry@kernel.org>, "Alistair Popple" <apopple@nvidia.com>, "Nico Pache"
- <nico.pache@linux.dev>, "Ryan Roberts" <ryan.roberts@arm.com>, "Dev Jain"
- <dev.jain@arm.com>, "Usama Arif" <usama.arif@linux.dev>, "Kiryl Shutsemau"
- <kas@kernel.org>, "Matthew Brost" <matthew.brost@intel.com>, "John Hubbard"
- <jhubbard@nvidia.com>, "Peter Xu" <peterx@redhat.com>, "Will Deacon"
- <will@kernel.org>, "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, "Nick
- Piggin" <npiggin@gmail.com>, "Oscar Salvador" <osalvador@suse.de>, "Minchan
- Kim" <minchan@kernel.org>, "Muchun Song" <muchun.song@linux.dev>, "Xu Xin"
- <xu.xin@linux.dev>, "Chengming Zhou" <chengming.zhou@linux.dev>, "Chris Li"
- <chrisl@kernel.org>, "Kemeng Shi" <shikemeng@huaweicloud.com>, "Nhat Pham"
- <nphamcs@gmail.com>, "Youngjun Park" <youngjun.park@lge.com>, "Gregory
- Price" <gourry@gourry.net>, "Joshua Hahn" <joshua.hahnjy@gmail.com>, "Rakie
- Kim" <rakie.kim@sk.com>, "Ying Huang" <ying.huang@linux.alibaba.com>,
- "Jason Gunthorpe" <jgg@ziepe.ca>
-From: "Zi Yan" <ziy@nvidia.com>
-X-Mailer: aerc 0.22.0
-References: <20261031-fixes_core-v3-0-d6437171ecc3@kernel.org>
- <20261031-fixes_core-v3-14-d6437171ecc3@kernel.org>
-In-Reply-To: <20261031-fixes_core-v3-14-d6437171ecc3@kernel.org>
-X-ClientProxiedBy: BLAPR03CA0063.namprd03.prod.outlook.com
- (2603:10b6:208:329::8) To IA0PR12MB8374.namprd12.prod.outlook.com
- (2603:10b6:208:40e::7)
+	dkim=pass (2048-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=d1dbxGOQ
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4a207b02a2cso12595985e9.1
+        for <linux-fsdevel@vger.kernel.org>; Sat, 31 Oct 2026 19:56:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1793501792; x=1794106592; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=V3mO2oJ9wvsyKjU2ihhIv9+VvyGcAnmDb2trz7FBpaI=;
+        b=d1dbxGOQENePeinCh7PuomEmARdqfoQnLYj0EU2dsmG4bDBe6mtaZDcIFxTJcwv5Qt
+         PjFnpISJsKmVeoojSUxx4CRWDiyDCa44QwL3JlPP//w7WnwLKKWNM3u4UdLMmNi3dsp8
+         hA6FJYDzw6KKrnHzVYpsX3Gv04wRbmkREt76YrZjzkg7/t7HfsECrMpjCT2tfXtOa4BX
+         841sc8J92WQ/YSQgfnnkfCmyBxxrfqLTzhfC/zR3bwYSu51judWYj9L7q+9RbcwryTaQ
+         mdSwCdSM5yH3kJRuSuleLMLhLrUmc7Fd027D7dRD2/vfY8TfIJ/FVbi2AEKc5+m2aOUM
+         LaCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793501792; x=1794106592;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=V3mO2oJ9wvsyKjU2ihhIv9+VvyGcAnmDb2trz7FBpaI=;
+        b=zxE2u0xJc3Rp5UesEYlaeTpI+beBg8RvWCivI5t6uAULyFedKIl32n7eYTrJ0juKU6
+         CzXIzHkUze3bJHN3k+z+BztQsm23KGNfcNHKxAb2aQqtv122Dpekhy5dC213rQLh63rk
+         AgH76zJhl8YxRLbhoqpJ5pvl1CPfPnN9ew+Hlr2nvemVfZPDhBrEEBS0efsXXXRs3Vfg
+         AEZKfslNjtXMcqqcmy/NcEQxP5uEJqRGRKYQo7No9wZQ7zDIi2bxF/NJclL2AOCRpEmF
+         rA9i2QjNr3bBgNa+8xjHxVKW1bBhgTMO3TkX2KfUolx4Uqs6QNdXTn/UTimjpxn+/SjB
+         MtPg==
+X-Forwarded-Encrypted: i=1; AKwUvBylKZZDFPz6kV3JzVATlGq6sHzpmbcVXHM3Hxco7/7LmPgnDnhzEy4iszIT+PE7NHG2Q+S6bpM+GBCa+LyW@vger.kernel.org
+X-Gm-Message-State: AFq9FYLPv6metW2g+THErzgCqmGVdEZYGxwnt/fct1vBoxJ0nBNWSy5F
+	I2yz9YGiY73gtcbmSPn2ACvlTiLHi/DXCn2KcCfZ+Xtb1XNM0uHQgf+12xqb8BZ1LAA=
+X-Gm-Gg: AYBFou3prZjyn+4rxT1VaPQgluHqyHN8dqQbLGtNT4F3zYEZy+zVtY/vwja16tEvD4O
+	HfS59iBz/3fWJWVSFLERTVeNDi3lsTKY93hNUJrWZq4e243c6a7dCgmLJJ5flKAkgbDlCV7BL7O
+	S0TsCT2WA3X6Kt9WnkBB3jZ6oKea7eOMkcREQIiWlbP+191HkVijyg8FDtV74FX6Tmb3bBO40ZF
+	C7TmsZg0JeCe14OnB1WMEBJTdBIqtgO5VNmLw8dsd6tOm2NIyiBiPUGc+wsKnFL2vxnY034amir
+	AZPhXtV47Sry012x1WvyNSCG0ZYHxEk34ebH3db+oXXZhSRC+uYJ3XVosT1nwQjF5IDdwcAbiG9
+	r/1xSGycThNhFnzbFMpog75OLE5y19g3ECDD2qDNktMPx8lEw/GtB0W7ZzsriwA3ozp5u9TSqYb
+	8xeHknI8vvoEtTADxaJsIjPpFs3KI4Y6pisQuFZphyhg7loXWwle1xiwvceS2veD34wCvFzxgKg
+	tMv5wuI82fFn1q4jY4oN+xOp3GbrpncgxF+xX5LHGpXbA5+22lpP5iMPOJt9Ca6jO27jRT3Ok6M
+	SsM3sMoyiwOBkdNiKDTiIw==
+X-Received: by 2002:a05:600c:4e90:b0:4a4:f48e:78fa with SMTP id 5b1f17b1804b1-4ac175669e4mr143258175e9.12.1793501792111;
+        Sat, 31 Oct 2026 19:56:32 -0700 (PDT)
+Received: from [172.16.0.229] ([159.196.52.54])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1ac194b5437sm22760079c88.13.2026.10.31.19.56.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 31 Oct 2026 19:56:31 -0700 (PDT)
+Message-ID: <c88e4e9c-6b86-4fbb-94bf-909522badf83@suse.com>
+Date: Sun, 1 Nov 2026 13:26:22 +1030
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -130,102 +92,439 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|LV9PR12MB9760:EE_
-X-MS-Office365-Filtering-Correlation-Id: 28bb9fcf-8461-4ff8-ad3c-08df37be1279
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|23010399003|1800799024|366016|6133799003|10067099003|22082099003|18002099003|921020|56012099006|11063799006|4143699003|261021121427099003|261021123027099003|261026121527099003|261022075727099003|261009223027099003;
-X-Microsoft-Antispam-Message-Info:
-	VglyTav8uaooeWz2s4fu3BqWDegcxZJOsqy6SVKPjwK4kTcF8XCzyFF/lXguG3GSXiW0QvbeTQDO+PYUHm2qzrJUfFoV5/HyHY03WfNgaWttu7pJYolBtaCONWKB816k03SPL9ZyqVJFUsiM7SmSjB/i6Ka73NwohbEfqUx2hosjS+4UUiVR58UC0mcTX41ExNXeJP3QlZljdM647IwQOnzPsaO5wKAw+TkX1AFStgf30gEYdl74qkwn69OXSvOgziXsLYi9ZriJGKzZtgay8Lmj9DHhTrYQbFEKVgYQvlbZITcmbdKKKD2goplZOjXH8+Go5IZahyJ/k4K8Z1QVFGps55UhNQyM6Em41wLrby9grdzi0XLdujQVCpgMr3okCXYvm67RIz/3HyiqumBq0JDCi5XjohLjM0kI9riHfqFNWfey+PAIy/XTAYdHCFaHKYAAy4Ue6HYF4G38yx/OvtvKGT7IhYJ2gUGr+KofD5osQq6BLLd0l3/tX72BBbF+NamNWOKXyrF1ZeL6kc3TdYVNmBaAK0UFHo0d4OezgSm69C+H13Cb9WO2/AwwqNqDZIxV2ZOIJhnAPhIXRY/YiJvA023O0qnP83hbmIwaRLbwikZHWR3K0UCPAUSp3OG162QK2KZayGWqTj++Gtuw90ag82ZYSEWB2oaSUCmJ4rh7dKOmMNKd6Of4du74MAhZFb6X+cCrCsCafhysygaz0A==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(23010399003)(1800799024)(366016)(6133799003)(10067099003)(22082099003)(18002099003)(921020)(56012099006)(11063799006)(4143699003)(261021121427099003)(261021123027099003)(261026121527099003)(261022075727099003)(261009223027099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?T2N4U09saCtKR3RqK0p1ZXpFTkdLdWpKbWRFVzFsR0QvVHhsVEVzZGtMcmNC?=
- =?utf-8?B?MEliL0c4ZmxXMlpSelZxMzBkTDNhbzExUWtOeWVpVURhUlpwUE05N0ZOUmNy?=
- =?utf-8?B?d2orbGxlaTlBMUd4YlNkL3BOQ09aK0ZiSHZlZ0VkQ1JzdUxURE1Jd1IvRHpl?=
- =?utf-8?B?dVczZ1c0aldhcjU3OHVKdnJZVDc3b3d3aTRpVmEwRjNVNXkyRGpoV1Fua2s0?=
- =?utf-8?B?aVBCbGQzMy9icGVVMEUrQnQ3dW5MYWxqN2FwdDY2aHJlajRZS2kySGNYL1FW?=
- =?utf-8?B?dGgyYTI0ajRyN1FEK04xQzBnTjFDUWdxSnpsYmhGRXM0MEZlMCs2cU9tcGgz?=
- =?utf-8?B?TURhL2NpQlRyV2RNSWlMdmE3ZVNyL3hRMkFFcHBMK0VSNlNlS3RkQlNja0Jl?=
- =?utf-8?B?VFdFY09xLzdZVlVQSDF1OVo5YnQvcG15bXBMRVlHKzNwbXNSamozeVc4SGM5?=
- =?utf-8?B?WXE1eVJXNUU4QjFid05od3p3MStnT3ZDd1RsUmtGU2kwTit3R05BcWc1Rk8r?=
- =?utf-8?B?U0hVMGEwWFRQUVRrQTFGWFNuaVF1S2tmN25NdS9xR0pZclNaNmhNS011ck9z?=
- =?utf-8?B?TXgxWlJiZzBWSTY3VGUxOE5sNVY0cHR6TFZTQVl1L3FJMFY0SzN2K012N3Az?=
- =?utf-8?B?ZzV4RzlpV05HMjNWZWt1QnZhRTdIdUMzbnZPNWpkTVlkV2V6a0E4UGJiY0k5?=
- =?utf-8?B?Unp0aVFrVjF6c2ZWSWw0WDFCUWl1MEFmNVFuSThKMjBXWG1jZlV4NXNvZ3h6?=
- =?utf-8?B?c0dKSExZVndiRWRubGNoSVhPcCs2R2hYcEZJNVFKeG1nNTBUWWZhUys5TG94?=
- =?utf-8?B?Unh1WWF1UzlwNEVpVGVMSWp0MHZDR3JoZEdCVk55S3hLRE03N0JFTmRSQXNT?=
- =?utf-8?B?UVROaHIzMW5pK3lLQlA0djM0aEliZkd4cTFROEkwdnA4QkZTUEdWRGRXRzlT?=
- =?utf-8?B?SlE5Zm1kQ21UMGdVYjBoYUFxdmVHMDBBT3BROWdBeXd3N3ltajZUR2VUUFhG?=
- =?utf-8?B?V1dqRDE3OHlvMjdDWW1kU09ydW5wSHBVeUtSWWtmY2xvT3U4MDlqSmZiL2Fn?=
- =?utf-8?B?bkRkT2lOWlpkaVdTNjFxdHFzVUhtNDV6dmIvMnoyajlwVVpSMW9QNXRvMXNE?=
- =?utf-8?B?Z0VQc3NEcGEvZzZvenB3MjlYL09uNDM3QlNEQlg2ZkxUM1RSRnJDZXpWdzla?=
- =?utf-8?B?aFV4eFhrYXdxWUFFcHlZa29oZFdPUE96TkZvODIvdHJoQ2s3UVdVbzdBSVdI?=
- =?utf-8?B?WnFzdTVLYlpRV3VvbjloOEN3REp3NzA4eW5SaDdvUGtydnBram1vUThnRmlN?=
- =?utf-8?B?SHBIa2djUVY5bjNnQU5jcFlQYWlQQStEb1IxMWg4YkN6TThsWW9FQkkrV1pl?=
- =?utf-8?B?blZ6dmc1MU5nZVNGbVh5dXh6N0h5eGRBVUlTdjYwRjlJQy9SZC94MDIrTHU2?=
- =?utf-8?B?OStsZURQNjV6clFEVEIreTlMaU5xTS8vSFB6bC9iUkxZYi9aN1dGejE3Nmd4?=
- =?utf-8?B?YndlaUk0ZGxCY1hoRXNscGQrME5ZZDJBVW4xcWVSaWZDK3laZEZsTHZsOHFv?=
- =?utf-8?B?eURCMHlCSWgyNmVIZ0NwelNMalJEQjIwK0ZkWG1xenZqelRXVHVJRVNIMWMz?=
- =?utf-8?B?bS90UTFYY0RHbDR1dldxZFBhUXhxNVN6MXdESW9KaDgyd1FRcmg1bXpOUDNx?=
- =?utf-8?B?Z3ZzN3pmWENsQnNCQmtobmV1aUtWNW8xZWJ6ZnpWeWpZakdOU2VMVDhUZ3dq?=
- =?utf-8?B?eXg0NU1ONHFSbisrYjYra0pHa3g4cVkrd2VIUkNGblZ5bVIrdkt4NjZOWXRI?=
- =?utf-8?B?NjJyYTR5c1NhQzVuWW9oWlR5Z0k0QXk3WDVQdys5Q2xaTXVJdkdZS0dDT2dK?=
- =?utf-8?B?VjBJWUFWQmVITWlCbjByaDZoUTFTR2tobFZ4UFFpUkltY3VMbGh5RzN0Wk9v?=
- =?utf-8?B?RldMTkh0c3laUXF4ejNhdldkQXRSU09qSHlQaGRBQ0ROMTh1WXJPS0tnSUZ0?=
- =?utf-8?B?QXRzZFpPNmhvbDU4U1RIRm94b094MDRPWW9WNWVTZEJ5ZHZDVkNTRVh0NHNa?=
- =?utf-8?B?N0NuN2pVajVBcTBncERBd3htTmJ2bFArTldiQVh2UEE0Ym9EMXNYOVhHa2oz?=
- =?utf-8?B?MkJmOCtyTzZuc00vRVRDMzFLdWNPUEE5N1luRXIzSU53b09lR3Jtdm92N01h?=
- =?utf-8?B?TkM4YUlmMHk5WmJ1MTdGWE0rOWxWMy8xYktTYlltMERPVWhpb3NESFRiN00y?=
- =?utf-8?B?ekFGUzlHUm90SHZCVmtUVjBVRVFkQlNIeWFROS93Mk1nejR3OHFDMUlvRnZ6?=
- =?utf-8?Q?CSPXpeN1le/36RIer8?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 28bb9fcf-8461-4ff8-ad3c-08df37be1279
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Nov 2026 02:16:00.4275
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /4uvc2pHCPDUaAdPETHu151AX2MPzlKOfPvMzE7GyT0qG2/Qq7BjRbNv2/IptPao
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV9PR12MB9760
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 23/34] btrfs: check BTRFS_FS_STATE_RO instead of
+ SB_RDONLY at runtime
+To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org,
+ Jan Kara <jack@suse.com>
+Cc: Al Viro <viro@zeniv.linux.org.uk>, ecryptfs@vger.kernel.org,
+ linux-ext4@vger.kernel.org, jfs-discussion@lists.sourceforge.net,
+ linux-nilfs@vger.kernel.org, exfat@lists.linux.dev, linux-mm@kvack.org,
+ ntfs@lists.linux.dev, ocfs2-devel@lists.linux.dev,
+ linux-btrfs@vger.kernel.org, gfs2@lists.linux.dev,
+ linux-efi@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-xfs@vger.kernel.org
+References: <20261029-work-fs-sb_rdonly-v2-0-2f44f64f0b66@kernel.org>
+ <20261029-work-fs-sb_rdonly-v2-23-2f44f64f0b66@kernel.org>
+Content-Language: en-US
+From: Qu Wenruo <wqu@suse.com>
+Autocrypt: addr=wqu@suse.com; keydata=
+ xsBNBFnVga8BCACyhFP3ExcTIuB73jDIBA/vSoYcTyysFQzPvez64TUSCv1SgXEByR7fju3o
+ 8RfaWuHCnkkea5luuTZMqfgTXrun2dqNVYDNOV6RIVrc4YuG20yhC1epnV55fJCThqij0MRL
+ 1NxPKXIlEdHvN0Kov3CtWA+R1iNN0RCeVun7rmOrrjBK573aWC5sgP7YsBOLK79H3tmUtz6b
+ 9Imuj0ZyEsa76Xg9PX9Hn2myKj1hfWGS+5og9Va4hrwQC8ipjXik6NKR5GDV+hOZkktU81G5
+ gkQtGB9jOAYRs86QG/b7PtIlbd3+pppT0gaS+wvwMs8cuNG+Pu6KO1oC4jgdseFLu7NpABEB
+ AAHNGFF1IFdlbnJ1byA8d3F1QHN1c2UuY29tPsLAlAQTAQgAPgIbAwULCQgHAgYVCAkKCwIE
+ FgIDAQIeAQIXgBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJq3ujyBQkUpLw5AAoJEMI9kfOh
+ Jf6o8OIH/0mqW+TQM4m2x3hCsnK+oB4yJH1qnGvIhFF/Lhs48wI02sGh6/4aA0hkCDfd9LHQ
+ +ci4FUepZ9y4VS01+oIExbg/8ytzGYTzLtb44jK2GBOBVSJkMiha6jp22XFt7WUkT/tvbreu
+ WWdGsaJIRQaZChy7xsMI8lqQ2WdmluZJ4LT0wD3l/l6QU1ZseMGySebdY9sVOQEOJNV7Qj92
+ /KOAFNmeZshV/qDI8Iw1RTs6TvLqCcqmlZLCmJkYSVhT1RonWRren8xIRcFEgMe004IDnt7V
+ qdQhk/nhTS9x9MBAhMRl0TTE1VKDLvVALsud3iZLrmmtYvwPApzGJk052f0m28vOwE0EWdWB
+ rwEIAKpT62HgSzL9zwGe+WIUCMB+nOEjXAfvoUPUwk+YCEDcOdfkkM5FyBoJs8TCEuPXGXBO
+ Cl5P5B8OYYnkHkGWutAVlUTV8KESOIm/KJIA7jJA+Ss9VhMjtePfgWexw+P8itFRSRrrwyUf
+ E+0WcAevblUi45LjWWZgpg3A80tHP0iToOZ5MbdYk7YFBE29cDSleskfV80ZKxFv6koQocq0
+ vXzTfHvXNDELAuH7Ms/WJcdUzmPyBf3Oq6mKBBH8J6XZc9LjjNZwNbyvsHSrV5bgmu/THX2n
+ g/3be+iqf6OggCiy3I1NSMJ5KtR0q2H2Nx2Vqb1fYPOID8McMV9Ll6rh8S8AEQEAAcLAfAQY
+ AQgAJgIbDBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJq3ukKBQkUzDspAAoJEMI9kfOhJf6o
+ SNsH/1ysUWOKmzY0rGS3ZdS61QgqMGhSWD/EJ4UiPw+xO4l4+GtX0fOAqxqsmBKqje3vyhBa
+ Z5o/1Y+gNiN+E6RBcSz4b1TAd78sQ2bvT5DWOvBjeeVxHdiuQMIn4S8xk5ZpySBw5ifjoiuL
+ 0M33UVtJOzM8yfAeL+d/Rp4leJw72SutjkLyZTG/gJIp4pJGD/kFHn24OLL0IxEcO0gOekNZ
+ os5e1R6jAJ2ILk7+MDnvU8wXHcCiVzuDhJLI1tih1uUIE50muHQJWbYuVBbdJeu8WlIDDssx
+ UOCxLylNG3gDXV5MhLubPTOpp9OiFc/XC37nvkgEcrlmlOFBv4/NJCbECpo=
+In-Reply-To: <20261029-work-fs-sb_rdonly-v2-23-2f44f64f0b66@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Sat Oct 31, 2026 at 5:39 AM EDT, David Hildenbrand (Arm) wrote:
-> From: Chris Mason <mason@kernel.org>
->
-> A PMD migration entry can refer to a device-private folio.
-> zap_huge_pmd_folio() checks the folio type instead of the entry type,
-> so it treats such a migration entry as a device-private entry.
->
-> Installing the migration entry already removed the reverse mapping and
-> dropped the mapping reference. Zapping it must not repeat those
-> operations. Concurrent MADV_DONTNEED during migration back to system
-> memory can trigger this.
->
-> Check the PMD entry type using pmd_is_device_private_entry().
->
-> Fix generated by an LLM and sent by Chris Mason in private.
->
-> Fixes: 368076f52ebe ("mm/huge_memory: add device-private THP support to P=
-MD operations")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Chris Mason <mason@kernel.org>
-> [ david: simplify description ]
-> Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+
+
+在 2026/10/30 02:37, Christian Brauner 写道:
+> Add btrfs_fs_rdonly() which tests BTRFS_FS_STATE_RO and use it instead
+> of sb_rdonly() wherever btrfs checks for a read-only filesystem at
+> runtime: the error handler, read repair, async discard, close_ctree(),
+> btrfs_inc_block_group_ro(), check_inode_item(), device replace and add,
+> cancelling a balance, the sysfs label and force_chunk_alloc stores, the
+> qgroup PERTRANS conversions and the subvolume orphan cleanup. And check
+> it next to every btrfs_root_readonly() check that guards a modification,
+> e.g. in btrfs_permission(), btrfs_setattr(), btrfs_update_time(), the
+> xattr and ACL handlers, btrfs_fileattr_set() and
+> btrfs_remap_file_range_prep().
+> 
+> BTRFS_FS_STATE_RO has always been set and cleared together with
+> SB_RDONLY. The remaining sb_rdonly() users are mount and remount paths
+> plus btrfs_is_full_ro() which only matters for rescue mounts.
+> 
+> This prepares for not setting SB_RDONLY from the error handler. Until
+> then the only difference is that ftruncate() and FICLONE through files
+> that were opened for writing before a forced remount to read-only, e.g.
+> by sysrq u, fail with EROFS now instead of modifying the filesystem.
+
+I love the idea. This reminds me exactly why for btrfs_force_shutdown(), 
+we have to manually set the fs error without marking the fs RO, to avoid 
+exactly the same problem.
+
+With that said, can you also a set_bit() call in btrfs_force_shutdown() 
+to also set that flag instead of the exsting setting fs_info->fs_error?
+
+Thanks,
+Qu
+
+> 
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 > ---
->  mm/huge_memory.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-
-Reviewed-by: Zi Yan <ziy@nvidia.com>
-
-
---=20
-Best Regards,
-Yan, Zi
+>   fs/btrfs/acl.c          |  3 ++-
+>   fs/btrfs/bio.c          |  2 +-
+>   fs/btrfs/block-group.c  |  2 +-
+>   fs/btrfs/dev-replace.c  |  2 +-
+>   fs/btrfs/discard.c      |  2 +-
+>   fs/btrfs/disk-io.c      |  4 ++--
+>   fs/btrfs/fs.h           | 10 ++++++++++
+>   fs/btrfs/inode.c        |  8 ++++----
+>   fs/btrfs/ioctl.c        |  8 ++++----
+>   fs/btrfs/messages.c     |  8 ++++----
+>   fs/btrfs/qgroup.c       |  4 ++--
+>   fs/btrfs/reflink.c      |  3 ++-
+>   fs/btrfs/sysfs.c        |  4 ++--
+>   fs/btrfs/tree-checker.c |  2 +-
+>   fs/btrfs/volumes.c      |  4 ++--
+>   fs/btrfs/xattr.c        |  8 ++++++--
+>   16 files changed, 45 insertions(+), 29 deletions(-)
+> 
+> diff --git a/fs/btrfs/acl.c b/fs/btrfs/acl.c
+> index 10a0d733bfd1..8bf11da118f7 100644
+> --- a/fs/btrfs/acl.c
+> +++ b/fs/btrfs/acl.c
+> @@ -107,8 +107,9 @@ int btrfs_set_acl(const struct mnt_idmap *idmap, struct dentry *dentry,
+>   	int ret;
+>   	struct inode *inode = d_inode(dentry);
+>   	umode_t old_mode = inode->i_mode;
+> +	struct btrfs_root *root = BTRFS_I(inode)->root;
+>   
+> -	if (btrfs_root_readonly(BTRFS_I(inode)->root))
+> +	if (btrfs_root_readonly(root) || btrfs_fs_rdonly(root->fs_info))
+>   		return -EROFS;
+>   
+>   	if (type == ACL_TYPE_ACCESS && acl) {
+> diff --git a/fs/btrfs/bio.c b/fs/btrfs/bio.c
+> index 2c6234f6182f..987f29b1ac46 100644
+> --- a/fs/btrfs/bio.c
+> +++ b/fs/btrfs/bio.c
+> @@ -924,7 +924,7 @@ int btrfs_repair_bbio_failure(struct btrfs_bio *bbio, const struct bvec_iter *or
+>   	 * The fs either mounted RO or hit critical errors, no need
+>   	 * to continue repairing.
+>   	 */
+> -	if (unlikely(sb_rdonly(fs_info->sb)))
+> +	if (unlikely(btrfs_fs_rdonly(fs_info)))
+>   		return 0;
+>   
+>   	if (btrfs_repair_one_zone(fs_info, logical))
+> diff --git a/fs/btrfs/block-group.c b/fs/btrfs/block-group.c
+> index 9a98e291769c..04c0c0b0c489 100644
+> --- a/fs/btrfs/block-group.c
+> +++ b/fs/btrfs/block-group.c
+> @@ -3138,7 +3138,7 @@ int btrfs_inc_block_group_ro(struct btrfs_block_group *cache,
+>   	 * In that case we should not start a new transaction on read-only fs.
+>   	 * Thus here we skip all chunk allocations.
+>   	 */
+> -	if (sb_rdonly(fs_info->sb)) {
+> +	if (btrfs_fs_rdonly(fs_info)) {
+>   		mutex_lock(&fs_info->ro_block_group_mutex);
+>   		ret = inc_block_group_ro(cache, false);
+>   		mutex_unlock(&fs_info->ro_block_group_mutex);
+> diff --git a/fs/btrfs/dev-replace.c b/fs/btrfs/dev-replace.c
+> index cdfe093e5c5c..943ce620a046 100644
+> --- a/fs/btrfs/dev-replace.c
+> +++ b/fs/btrfs/dev-replace.c
+> @@ -1115,7 +1115,7 @@ int btrfs_dev_replace_cancel(struct btrfs_fs_info *fs_info)
+>   	int result;
+>   	int ret;
+>   
+> -	if (sb_rdonly(fs_info->sb))
+> +	if (btrfs_fs_rdonly(fs_info))
+>   		return -EROFS;
+>   
+>   	mutex_lock(&dev_replace->lock_finishing_cancel_unmount);
+> diff --git a/fs/btrfs/discard.c b/fs/btrfs/discard.c
+> index 1c304bf473e5..e5c029813228 100644
+> --- a/fs/btrfs/discard.c
+> +++ b/fs/btrfs/discard.c
+> @@ -86,7 +86,7 @@ static bool btrfs_run_discard_work(const struct btrfs_discard_ctl *discard_ctl)
+>   						     struct btrfs_fs_info,
+>   						     discard_ctl);
+>   
+> -	return (!(fs_info->sb->s_flags & SB_RDONLY) &&
+> +	return (!btrfs_fs_rdonly(fs_info) &&
+>   		test_bit(BTRFS_FS_DISCARD_RUNNING, &fs_info->flags));
+>   }
+>   
+> diff --git a/fs/btrfs/disk-io.c b/fs/btrfs/disk-io.c
+> index c45cda4290d5..3dcacf7e4d1d 100644
+> --- a/fs/btrfs/disk-io.c
+> +++ b/fs/btrfs/disk-io.c
+> @@ -177,7 +177,7 @@ static int btrfs_repair_eb_io_failure(const struct extent_buffer *eb,
+>   	struct btrfs_bio *bbio;
+>   	int ret;
+>   
+> -	if (sb_rdonly(fs_info->sb))
+> +	if (btrfs_fs_rdonly(fs_info))
+>   		return -EROFS;
+>   
+>   	/*
+> @@ -4483,7 +4483,7 @@ void __cold close_ctree(struct btrfs_fs_info *fs_info)
+>   	/* Cancel or finish ongoing discard work */
+>   	btrfs_discard_cleanup(fs_info);
+>   
+> -	if (!sb_rdonly(fs_info->sb)) {
+> +	if (!btrfs_fs_rdonly(fs_info)) {
+>   		/*
+>   		 * The cleaner kthread is stopped, so do one final pass over
+>   		 * unused block groups.
+> diff --git a/fs/btrfs/fs.h b/fs/btrfs/fs.h
+> index 2dd167c32d61..024c3ec7d058 100644
+> --- a/fs/btrfs/fs.h
+> +++ b/fs/btrfs/fs.h
+> @@ -1194,6 +1194,16 @@ static inline int btrfs_need_cleaner_sleep(const struct btrfs_fs_info *fs_info)
+>   		btrfs_fs_closing(fs_info);
+>   }
+>   
+> +/*
+> + * Check whether the filesystem is read-only. BTRFS_FS_STATE_RO is set and
+> + * cleared together with SB_RDONLY on mount, on remount and when an error forces
+> + * the filesystem read-only. Use this instead of sb_rdonly() at runtime.
+> + */
+> +static inline bool btrfs_fs_rdonly(const struct btrfs_fs_info *fs_info)
+> +{
+> +	return test_bit(BTRFS_FS_STATE_RO, &fs_info->fs_state);
+> +}
+> +
+>   static inline void btrfs_wake_unfinished_drop(struct btrfs_fs_info *fs_info)
+>   {
+>   	clear_and_wake_up_bit(BTRFS_FS_UNFINISHED_DROPS, &fs_info->flags);
+> diff --git a/fs/btrfs/inode.c b/fs/btrfs/inode.c
+> index abaa33471456..415c5145fcbe 100644
+> --- a/fs/btrfs/inode.c
+> +++ b/fs/btrfs/inode.c
+> @@ -5433,7 +5433,7 @@ static int btrfs_setattr(const struct mnt_idmap *idmap, struct dentry *dentry,
+>   	struct btrfs_root *root = BTRFS_I(inode)->root;
+>   	int ret;
+>   
+> -	if (btrfs_root_readonly(root))
+> +	if (btrfs_root_readonly(root) || btrfs_fs_rdonly(root->fs_info))
+>   		return -EROFS;
+>   
+>   	ret = setattr_prepare(idmap, dentry, attr);
+> @@ -6058,7 +6058,7 @@ struct inode *btrfs_lookup_dentry(struct inode *dir, struct dentry *dentry)
+>   			return ERR_CAST(inode);
+>   
+>   		down_read(&fs_info->cleanup_work_sem);
+> -		if (!sb_rdonly(inode->vfs_inode.i_sb))
+> +		if (!btrfs_fs_rdonly(fs_info))
+>   			ret = btrfs_orphan_cleanup(sub_root);
+>   		up_read(&fs_info->cleanup_work_sem);
+>   		if (ret) {
+> @@ -6421,7 +6421,7 @@ static int btrfs_update_time(struct inode *inode, enum fs_update_time type,
+>   	struct btrfs_root *root = BTRFS_I(inode)->root;
+>   	int dirty;
+>   
+> -	if (btrfs_root_readonly(root))
+> +	if (btrfs_root_readonly(root) || btrfs_fs_rdonly(root->fs_info))
+>   		return -EROFS;
+>   	if (flags & IOCB_NOWAIT)
+>   		return -EAGAIN;
+> @@ -9316,7 +9316,7 @@ static int btrfs_permission(const struct mnt_idmap *idmap,
+>   
+>   	if (mask & MAY_WRITE &&
+>   	    (S_ISREG(mode) || S_ISDIR(mode) || S_ISLNK(mode))) {
+> -		if (btrfs_root_readonly(root))
+> +		if (btrfs_root_readonly(root) || btrfs_fs_rdonly(root->fs_info))
+>   			return -EROFS;
+>   		if (BTRFS_I(inode)->flags & BTRFS_INODE_READONLY)
+>   			return -EACCES;
+> diff --git a/fs/btrfs/ioctl.c b/fs/btrfs/ioctl.c
+> index f3e2afe221be..2063075906c8 100644
+> --- a/fs/btrfs/ioctl.c
+> +++ b/fs/btrfs/ioctl.c
+> @@ -291,7 +291,7 @@ int btrfs_fileattr_set(const struct mnt_idmap *idmap,
+>   	u32 inode_flags;
+>   	bool prop_set = false;
+>   
+> -	if (btrfs_root_readonly(root))
+> +	if (btrfs_root_readonly(root) || btrfs_fs_rdonly(fs_info))
+>   		return -EROFS;
+>   
+>   	if (fileattr_has_fsx(fa))
+> @@ -2453,7 +2453,7 @@ static int btrfs_ioctl_defrag(struct file *file, void __user *argp)
+>   	if (ret)
+>   		return ret;
+>   
+> -	if (btrfs_root_readonly(root)) {
+> +	if (btrfs_root_readonly(root) || btrfs_fs_rdonly(root->fs_info)) {
+>   		ret = -EROFS;
+>   		goto out;
+>   	}
+> @@ -3191,7 +3191,7 @@ static long btrfs_ioctl_dev_replace(struct btrfs_fs_info *fs_info,
+>   
+>   	switch (p->cmd) {
+>   	case BTRFS_IOCTL_DEV_REPLACE_CMD_START:
+> -		if (sb_rdonly(fs_info->sb))
+> +		if (btrfs_fs_rdonly(fs_info))
+>   			return -EROFS;
+>   		if (!btrfs_exclop_start(fs_info, BTRFS_EXCLOP_DEV_REPLACE)) {
+>   			ret = BTRFS_ERROR_DEV_EXCL_RUN_IN_PROGRESS;
+> @@ -3927,7 +3927,7 @@ static long _btrfs_ioctl_set_received_subvol(struct file *file,
+>   		goto out;
+>   	}
+>   
+> -	if (btrfs_root_readonly(root)) {
+> +	if (btrfs_root_readonly(root) || btrfs_fs_rdonly(fs_info)) {
+>   		ret = -EROFS;
+>   		goto out;
+>   	}
+> diff --git a/fs/btrfs/messages.c b/fs/btrfs/messages.c
+> index 0704be7be871..cedca4050831 100644
+> --- a/fs/btrfs/messages.c
+> +++ b/fs/btrfs/messages.c
+> @@ -132,10 +132,10 @@ void __btrfs_handle_fs_error(struct btrfs_fs_info *fs_info, const char *function
+>   #endif
+>   
+>   	/*
+> -	 * Special case: if the error is EROFS, and we're already under
+> -	 * SB_RDONLY, then it is safe here.
+> +	 * Special case: if the error is EROFS, and we're already read-only,
+> +	 * then it is safe here.
+>   	 */
+> -	if (error == -EROFS && sb_rdonly(sb))
+> +	if (error == -EROFS && btrfs_fs_rdonly(fs_info))
+>   		return;
+>   
+>   #ifdef CONFIG_PRINTK
+> @@ -168,7 +168,7 @@ void __btrfs_handle_fs_error(struct btrfs_fs_info *fs_info, const char *function
+>   	if (!(sb->s_flags & SB_BORN))
+>   		return;
+>   
+> -	if (sb_rdonly(sb))
+> +	if (btrfs_fs_rdonly(fs_info))
+>   		return;
+>   
+>   	btrfs_discard_stop(fs_info);
+> diff --git a/fs/btrfs/qgroup.c b/fs/btrfs/qgroup.c
+> index a0651fbfe778..dc96c6aca1a9 100644
+> --- a/fs/btrfs/qgroup.c
+> +++ b/fs/btrfs/qgroup.c
+> @@ -4658,7 +4658,7 @@ static void qgroup_convert_meta(struct btrfs_fs_info *fs_info, u64 ref_root,
+>   
+>   		qgroup_rsv_release(fs_info, qgroup, num_bytes,
+>   				BTRFS_QGROUP_RSV_META_PREALLOC);
+> -		if (!sb_rdonly(fs_info->sb))
+> +		if (!btrfs_fs_rdonly(fs_info))
+>   			qgroup_rsv_add(fs_info, qgroup, num_bytes,
+>   				       BTRFS_QGROUP_RSV_META_PERTRANS);
+>   
+> @@ -4688,7 +4688,7 @@ void btrfs_qgroup_convert_reserved_meta(struct btrfs_root *root, int num_bytes)
+>   				      BTRFS_QGROUP_RSV_META_PREALLOC);
+>   	trace_btrfs_qgroup_meta_convert(root, num_bytes);
+>   	qgroup_convert_meta(fs_info, btrfs_root_id(root), num_bytes);
+> -	if (!sb_rdonly(fs_info->sb))
+> +	if (!btrfs_fs_rdonly(fs_info))
+>   		add_root_meta_rsv(root, num_bytes, BTRFS_QGROUP_RSV_META_PERTRANS);
+>   }
+>   
+> diff --git a/fs/btrfs/reflink.c b/fs/btrfs/reflink.c
+> index b5d2c094941d..de9bc8ba5028 100644
+> --- a/fs/btrfs/reflink.c
+> +++ b/fs/btrfs/reflink.c
+> @@ -857,7 +857,8 @@ static int btrfs_remap_file_range_prep(struct file *file_in, loff_t pos_in,
+>   	if (!(remap_flags & REMAP_FILE_DEDUP)) {
+>   		struct btrfs_root *root_out = inode_out->root;
+>   
+> -		if (btrfs_root_readonly(root_out))
+> +		if (btrfs_root_readonly(root_out) ||
+> +		    btrfs_fs_rdonly(root_out->fs_info))
+>   			return -EROFS;
+>   
+>   		ASSERT(inode_in->vfs_inode.i_sb == inode_out->vfs_inode.i_sb);
+> diff --git a/fs/btrfs/sysfs.c b/fs/btrfs/sysfs.c
+> index 3ac1fa608d3b..c7522aafde1b 100644
+> --- a/fs/btrfs/sysfs.c
+> +++ b/fs/btrfs/sysfs.c
+> @@ -751,7 +751,7 @@ static ssize_t btrfs_force_chunk_alloc_store(struct kobject *kobj,
+>   	if (!capable(CAP_SYS_ADMIN))
+>   		return -EPERM;
+>   
+> -	if (sb_rdonly(fs_info->sb))
+> +	if (btrfs_fs_rdonly(fs_info))
+>   		return -EROFS;
+>   
+>   	ret = kstrtobool(buf, &val);
+> @@ -980,7 +980,7 @@ static ssize_t btrfs_label_store(struct kobject *kobj,
+>   	if (!fs_info)
+>   		return -EPERM;
+>   
+> -	if (sb_rdonly(fs_info->sb))
+> +	if (btrfs_fs_rdonly(fs_info))
+>   		return -EROFS;
+>   
+>   	/*
+> diff --git a/fs/btrfs/tree-checker.c b/fs/btrfs/tree-checker.c
+> index 9cd79d97b9b5..6cce0e6c759e 100644
+> --- a/fs/btrfs/tree-checker.c
+> +++ b/fs/btrfs/tree-checker.c
+> @@ -1325,7 +1325,7 @@ static int check_inode_item(struct extent_buffer *leaf,
+>   			       "unknown incompat flags detected: 0x%x", flags);
+>   		return -EUCLEAN;
+>   	}
+> -	if (unlikely(!sb_rdonly(fs_info->sb) &&
+> +	if (unlikely(!btrfs_fs_rdonly(fs_info) &&
+>   		     (ro_flags & ~BTRFS_INODE_RO_FLAG_MASK))) {
+>   		inode_item_err(leaf, slot,
+>   			"unknown ro-compat flags detected on writeable mount: 0x%x",
+> diff --git a/fs/btrfs/volumes.c b/fs/btrfs/volumes.c
+> index d3e6a9b429dd..47879cc2160d 100644
+> --- a/fs/btrfs/volumes.c
+> +++ b/fs/btrfs/volumes.c
+> @@ -2964,7 +2964,7 @@ int btrfs_init_new_device(struct btrfs_fs_info *fs_info, const char *device_path
+>   	bool seeding_dev = false;
+>   	bool locked = false;
+>   
+> -	if (sb_rdonly(sb) && !fs_devices->seeding)
+> +	if (btrfs_fs_rdonly(fs_info) && !fs_devices->seeding)
+>   		return -EROFS;
+>   
+>   	/* Forbid freezing until the device is a committed member (or unwound). */
+> @@ -5297,7 +5297,7 @@ int btrfs_cancel_balance(struct btrfs_fs_info *fs_info)
+>   	 * mount time if the mount is read-write. Otherwise it's still paused
+>   	 * and we must not allow cancelling as it deletes the item.
+>   	 */
+> -	if (sb_rdonly(fs_info->sb)) {
+> +	if (btrfs_fs_rdonly(fs_info)) {
+>   		mutex_unlock(&fs_info->balance_mutex);
+>   		return -EROFS;
+>   	}
+> diff --git a/fs/btrfs/xattr.c b/fs/btrfs/xattr.c
+> index cbee10b6b49a..c38ddee78636 100644
+> --- a/fs/btrfs/xattr.c
+> +++ b/fs/btrfs/xattr.c
+> @@ -365,7 +365,9 @@ static int btrfs_xattr_handler_set(const struct xattr_handler *handler,
+>   				   const char *name, const void *buffer,
+>   				   size_t size, int flags)
+>   {
+> -	if (btrfs_root_readonly(BTRFS_I(inode)->root))
+> +	struct btrfs_root *root = BTRFS_I(inode)->root;
+> +
+> +	if (btrfs_root_readonly(root) || btrfs_fs_rdonly(root->fs_info))
+>   		return -EROFS;
+>   
+>   	name = xattr_full_name(handler, name);
+> @@ -409,7 +411,9 @@ static int btrfs_xattr_handler_set_security(const struct xattr_handler *handler,
+>   					    const void *buffer,
+>   					    size_t size, int flags)
+>   {
+> -	if (btrfs_root_readonly(BTRFS_I(inode)->root))
+> +	struct btrfs_root *root = BTRFS_I(inode)->root;
+> +
+> +	if (btrfs_root_readonly(root) || btrfs_fs_rdonly(root->fs_info))
+>   		return -EROFS;
+>   
+>   	name = xattr_full_name(handler, name);
+> 
 
