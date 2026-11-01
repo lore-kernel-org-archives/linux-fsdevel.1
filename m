@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793556116;
-	b=gknAwcbNwLWcRo+s+XCXxIVSQmF7q/GK0T6u+wVIlrOC6ZF+SQFEXW0D/NOFV5ybwmiw
-	 ScVNI71bMX8Fhj7cLRTQ1SOK6y5/YmUN7FGs5fDJeYLzm0EUZSFeoLXChzkEdpoqHBRJb
-	 gFAMDyzvIi53NG8mZ0fWH8oEe5I9Uis8ya8PTVibg0s5CKLtGuJ6LazmcPyiiZI26SlRh
-	 Faw7vN/OTxDGXpDEsShyOUOye3GYX55ISlo/xT8A2G/n2Q5483wKkRiOCtjeV0nIyx6eN
-	 a4JjeOjj9zYNcnreciZonN/P4XrI7WWkJwpdeAzXZRzdjqs1hwdu20Aa1TTejl5Rqkw==
+	t=1793556133;
+	b=Ugrh5B+VF8ZTa6eVo9VHSBVW8fW9GCHmd1xqE88khTQqMaoWb/sQvCY4DcLDuYNNhybD
+	 rioRZCLvfktJGHzRxZ5gGtehoaSDDzavvIWVsBKlyA+4RnpyA9vvPWS3eRHeeBhNSVmCx
+	 LYOVKIwnGg70O0oUQ6822fHYathDXHknqghjXwL1Tp6rLTmWzorocXoIlPKEljGf2jj1G
+	 A18dueJPpvMW1kbE1jA6Ghfm0hHp02k4XlVTgFW/0t3XKw++bKkoAlDeVufI/3gUILSjK
+	 +mC4XKw8QGi5UCDZd23RukMXzBoK4n9AV4wQGT3vMUalgsOs2/QElMU8WUmqX0Awr2g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793556116;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793556133;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=hSYpUSP/lTMNVX0rcq81U0EC4KzXwGLDgEQG575rG1I=;
-	b=e5+YQ1n3l0C0k9E2YBf+eL5QW9jR+ogIyG+Z5l9joPZ2k2PMHkLtGfBOnGplao0tR69j
-	 dvra9Nr1R4UQoze9i/luyM3N1Mf/+KwYAV4BG1+jSSPNf5VKu0FrKAAzWPeGTfyluwk9s
-	 wxhVcOW0NcL1IoGLERIwRhLsFJt6T1ZNpRxZJ55Uqfgetqqwd+6UOk5BCgJdKddvgkTWi
-	 7PSAJf94t5pkd0islCtAwHMhbZgBHPnZf0PODoUGCMj9wkQjZjf1SPLxwVsRtiqfRF0Al
-	 0W1oVsnv4/HnA8htY56yQLHYckq0JQB9FKYz04kyGKCZa5j/vopSq33g84e5o6tSBsQ==
+	bh=3PqNiwmu6idHErTlM4aRyLM7lhRtmfiQPGaaL0E482g=;
+	b=cSmcPEnmOHUSYonIpBNAvti9oQQnWJLV+v683VKUN08/pgiUi9fQsqkrkAyApEEBzDfW
+	 GgE8FfGfpPp/WfVcLbefr7PslAedHXXlPwZy/uPp8WIqaEnADm7UAxR2nyHrF+8GdUyeI
+	 6gFrnoBDGSpfBs7VcVSaZm9Bh0xZ5PKQVfr4cBJHogxt4i6s60AHFG+5TVP3dsGk/DeZU
+	 cqrVbTvifok5Ew4q7Om+359yebBbNqdIqN59iVZQtybtShCUifgd76j+UAjg9HMqowiia
+	 zuwO61vqJDi5NlJV/VitrjQHDoa0MyUdXfvecSwqLYglf4lWS5ryzlcl+KXhi+sFzFw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=owUQsM63;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eW7Jg6QJ;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5684C606A324;
-	Sun,  1 Nov 2026 18:01:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50F5E606A324;
+	Sun,  1 Nov 2026 18:02:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=owUQsM63
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECDD31F000C1;
-	Sun,  1 Nov 2026 18:01:50 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eW7Jg6QJ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FAB01F000C1;
+	Sun,  1 Nov 2026 18:02:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793556115;
-	bh=hSYpUSP/lTMNVX0rcq81U0EC4KzXwGLDgEQG575rG1I=;
+	s=k20260515; t=1793556132;
+	bh=3PqNiwmu6idHErTlM4aRyLM7lhRtmfiQPGaaL0E482g=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=owUQsM63PbdWCRsP3UHF9PHHbIzlqpT9HHtD8UlPXGgZmQel3qdhJxG76106LTDtZ
-	 hkXiicm5ABQU0tGHg+bcFyXLLIIfuipnl1vczuuibMxlfr6tQVEf3zFKQ0M7wM8aAj
-	 WYUpBso/xH2yHTtEaoABheHEnIZzX7RwjPAyqwYjOTAYnbZtGfRUxI+o1+zeWdMGsy
-	 9nsxxhYRWlINIAY2KpD5t7LHLRc3F+nm21C2caCgCdLsUprirGKKx6gKet7J9mf6aq
-	 w4rkzZhY+NIQDz6+XIvivH4mHy60VQcnW4FLpklShRwBNK8nbObLYL1QmZq4WNX9Q/
-	 QueA/XhidKLhg==
-Message-ID: <4026ed95-62c7-4680-9bee-7507330a4217@kernel.org>
-Date: Sun, 1 Nov 2026 19:01:47 +0100
+	b=eW7Jg6QJYxgjLyolk/6DfzEGYux3I7G6ldXSplLfTtNGZELaDfTuN5I8J2EqURODN
+	 xpdN1FFl631aeqAs4oiVQb+q8AgXpdlK27CVhtweeYfZKR40sllRwmHOJUItRVxIHh
+	 zEDIYzx7J0d2WjR5x6HMW3AgB0vunQ6ghpbWLrpAs+5GKbFNW+l6fWNhQr363yoHzR
+	 /6B588wGbgrW6NOlHgre+rLVWTnNv0Bbsy2YXFFqZibH9S07UXXG2fBcQuM4Hw+nh0
+	 Nqh9spsOA/d7B+9zw7QdP2R7HtpjbXaHv6jMa3mUVMc0a/WCq8BCyBWunei2L4bJ4X
+	 P97Ey2VUelDQg==
+Message-ID: <96fbe172-0b1d-4df0-b73d-432bb5df37b4@kernel.org>
+Date: Sun, 1 Nov 2026 19:02:04 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -52,8 +52,7 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] MAINTAINERS: add Johannes as the page allocator
- co-maintainer
+Subject: Re: [PATCH 0/2] MAINTAINERS updates for page and slab allocators
 To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
  Andrew Morton <akpm@linux-foundation.org>
 Cc: Harry Yoo <harry@kernel.org>, Hao Li <hao.li@linux.dev>,
@@ -68,7 +67,6 @@ Cc: Harry Yoo <harry@kernel.org>, Hao Li <hao.li@linux.dev>,
  linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  linux-fsdevel@vger.kernel.org
 References: <20261101-maint-page_alloc-update-v1-0-27e8c246b13d@kernel.org>
- <20261101-maint-page_alloc-update-v1-1-27e8c246b13d@kernel.org>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -115,49 +113,23 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20261101-maint-page_alloc-update-v1-1-27e8c246b13d@kernel.org>
+In-Reply-To: <20261101-maint-page_alloc-update-v1-0-27e8c246b13d@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 11/1/26 17:34, Vlastimil Babka (SUSE) wrote:
-> Johannes is a long-time expert and reviewer for the page allocator and
-> has agreed to step up to a co-maintainer role, so do that. Thanks!
+> Following David's updates [1], perform similar updates for page and slab
+> allocators to indicate the MM process transition for these
+> subcomponents. Importantly, add Johannes as a page allocator
+> co-maintainer.
 > 
-> Additionally, page allocator is joining the MM transition, following the
-> MM core updates from David [1].
-> 
-> Patches will be collected in the mm/page_alloc git tree and integrated
-> via the mm/linux integration tree. To signify the change from Andrew's
-> mm tree, remove Andrew as M: - get_maintainers will continue CCing him
-> on most patches via the catch-all MM entry. David prefers not being
-> added for mail volume reasons.
-> 
-> [1] https://lore.kernel.org/all/20261030-maintainers-v1-7-97278f8a5f54@kernel.org/
+> [1] https://lore.kernel.org/all/20261030-maintainers-v1-0-97278f8a5f54@kernel.org/
 > 
 > Signed-off-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 > ---
->  MAINTAINERS | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index b68bc3626709..d7cfb28a9029 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -17720,15 +17720,15 @@ F:	include/uapi/linux/oom.h
->  F:	mm/oom_kill.c
->  
->  MEMORY MANAGEMENT - PAGE ALLOCATOR
-> -M:	Andrew Morton <akpm@linux-foundation.org>
->  M:	Vlastimil Babka <vbabka@kernel.org>
-> +M:	Johannes Weiner <hannes@cmpxchg.org>
->  R:	Suren Baghdasaryan <surenb@google.com>
->  R:	Michal Hocko <mhocko@suse.com>
->  R:	Brendan Jackman <brendan.jackman@linux.dev>
-> -R:	Johannes Weiner <hannes@cmpxchg.org>
->  R:	Zi Yan <ziy@nvidia.com>
->  L:	linux-mm@kvack.org
 
-Want to remove that one as well like I did?
+Thanks Vlastimil -- and thanks Johannes!!
+
 
 -- 
 Cheers,
