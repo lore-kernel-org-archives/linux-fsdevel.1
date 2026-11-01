@@ -1,85 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.173
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.181
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793512855;
-	b=bQHInbYKYhQoI4tT3Lsbi32ihM0mFu5WZBaL6jujfUPjOXivGtkAhUyG98EKl63/t72w
-	 bO9wPTL8IjM+U24fZNwY1nfmjArXGXURBqep9LDlqYVE3s3xuEUtI24q943BnquzZCU7N
-	 xscTG4OhWTd0QlfKVFE/NNGgmfo1JqLfL1hQY4APmB7y8ZYR6gL8lK9uUgNMHY8fx7fOl
-	 yXRGZnmi7r4GpVbMSulPRLxQf3tVBEr0eRjlvSfRXaJ6Rwyt1m5nanzAGPZl2AODo/Brr
-	 BGrkjimNXQNDJS0Wi5ylYhDA20B+RZAPXfBY2ncGQRRB9Cri/lfMHwPP7pSF36D2f8A==
+	t=1793512854;
+	b=JCLH2SJS3mFid6nLyxPe02Zckjviy99TguxGC0oD2Bf0pfbTKaDxYGneqVrcf9Dger+8
+	 DPtzxcXNxvnSqzSuXVmY7fY+USrJnwOnYEOvlJpr1/ptVgV5JkYn+jKU3SIokziJrr8wl
+	 m4lp12FNxXneTtC4UUnvEpS/hK+6ZdSLdkqg36aOdMZfQ73VfggKujQ1UwjBdJexCx9EP
+	 dBl7PVFs5xCw+iAeDDRnuk8KUBUuBGB7+3qx8OS828YuZ4ABfN26PEYZYp/OMg6XXVS8J
+	 PbN5IKFUy2/rVeXcWyKRcZi3TXMY9CQcmEoPPsct6AYa/YtHHHhei77NWrObYPJrpRQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793512855;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793512854;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=9XbbjCkjt+jTYF1M8tFy6Kzjeu9f69j9G0roS6qzDt0=;
-	b=Tlsw/YUAf48JAX+HO45zbMvhnjHDl3VqvptxpcsiNcdrk+L9uUcVF5xT/A4iUzzsGLco
-	 vKtJqcgFQkcIWtY8bsmf8uxNAJxC0seFA96MrMHZTG0IIVzBfhPv+jD1mn+c/SvFL87yG
-	 0vBBfjSZU0aeQhaadUstA0oMK2KH91kwOjlheANTQQbFh8Vv8qRkK4xdTXiTXUBO23ffm
-	 +uzXJrzqzhNTjESAN4bDgYiIhBjxFmAcpDuywuec7bCjk7M+leQeorsgdoBnivXtMduZ6
-	 UgTjr/QBL2wvIxGa+9g1J1Def5wYi/c6NOnDooBP4bS8pZqYq6blzTYA0jxRMASszvw==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=traUlZDriv7/XAv22io34n1BJf45r6o9C8uTIn9jXOA=;
+	b=WFPzz7BxZZPooN72O9Z+/K5iy+tGyNgSdag8D+r0QYSXkUF7oNoAm334lly5Smkf+epi
+	 Fy0nrWLfGHOf1FzxDRpdvsOgS6um/4Qc1h+mMd98Bv+fArpB9S1aUa7UBqGqr9XTA5iP1
+	 9ejGeyZGCUMcuZzDzaJlP16n0QX0zfgh/RdVkrP1c4YkVFdsfKHoQzv1uZ1DaxyAKBkYR
+	 dCym2sBcs0jA1ValUBJx0S8HrZjzqrikPjqMh4nqhsccZlQSsxEnSSYXGCME3UgfPnChE
+	 M+tBrUvIXTly6ERnYKISQyikX2Cc4i109IipBE/71hp2W+v9B78MGtqio/FsSu2aksQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=HOVcFYu9;
-	arc=none smtp.remote-ip=209.85.215.173
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jTDeTo2a;
+	arc=none smtp.remote-ip=209.85.210.181
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28ADC606A334
-	for <linux-fsdevel@vger.kernel.org>; Sun,  1 Nov 2026 06:00:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 28ADC606A334
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AEBE606A325
+	for <linux-fsdevel@vger.kernel.org>; Sun,  1 Nov 2026 06:00:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9AEBE606A325
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=HOVcFYu9
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-cc4c02ddd62so998005a12.0
-        for <linux-fsdevel@vger.kernel.org>; Sat, 31 Oct 2026 23:00:54 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jTDeTo2a
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-8a052aff9e9so1491342b3a.0
+        for <linux-fsdevel@vger.kernel.org>; Sat, 31 Oct 2026 23:00:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793512854; x=1794117654; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=9XbbjCkjt+jTYF1M8tFy6Kzjeu9f69j9G0roS6qzDt0=;
-        b=HOVcFYu9v9uQ0YlGCKM1UGTozAjfDMqMxgMIyLCeXQ/gug+Av53Jzjp9/+chnMcN4R
-         tV4taWfSasLhA2kcoF55AbaInWKoH2bLpWN+G7vTfiTXt/esxzG+AFLLd5rRjf123Yu5
-         yUZ53ZRAUp/3Ln819368ELxlnocxiXpX1wPgLaPk3pAP2uAupI9zaY1+QfePr9B62LUE
-         0yNo3vxzaTBfYUfB+Puz/7wu+selqJN2vml7WO5iMMjJ64/S2HctjT6jUFIUbbnoxypV
-         qDvvYgtowupBFVkQFqO/j5U00Y0286PBA+2sSeTmAr22MO513j/BHLkQgcEn77mtQId8
-         ryOA==
+        d=gmail.com; s=20260707; t=1793512853; x=1794117653; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=traUlZDriv7/XAv22io34n1BJf45r6o9C8uTIn9jXOA=;
+        b=jTDeTo2al2snGPu+wZQ0QmyKxnsxmABQ+0dAR6IzciZGy2130nmXdH+Izp9pPPv0eu
+         QpG7egulChny5OoPzO3dQopXrjcQ8Qzw+UXIluhEx/Lw6uR844EyslO5GYhFAd7FJlGY
+         zVB8lTGNkqfEKqIw2tKIDR1cvI9yeeg6bh9L49st9d1aI43V6OTJAd5oVVwgW2z0T9Rb
+         +3/31egsGu0Bupj1Xx2ub8+EFdSrQPinx9g4Y+k9u3g/eDDyJ4QzRAGZt/z8Pt6jCIH+
+         ipXk99ZglpyFsXLD1ihEPBG5RoaLWKIMmi6MgjQacjRHpYWnSXLL7KRbAy8/JVXEJ/ra
+         TgMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793512854; x=1794117654;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=9XbbjCkjt+jTYF1M8tFy6Kzjeu9f69j9G0roS6qzDt0=;
-        b=jFyRsb01FU/xQjLhXWCra0YvtHFs7FXdYfOkvBVx4leGqGfXYGEtssJ9J/QsnMmcYJ
-         Arqb0Kz3h+xNOZrQsPFF5ce8U1OgKJhYlOyKuBjCzS/lfkfq1KS2AHUjLP63SCiTmTEE
-         5jDomqcSZHi9Wwn1k9GoktsmxcPxnYBxu6QPFYzMjcIvyNv6/8gabGO9plad8WRs9JhX
-         wgeYFl/iVNbKD0zW2ObNXT3jzphoSXeDb2aZLdCN+TOUNnJX5KCIwYCyJGBlsSdYb7vd
-         0XSkbGrr2sNtf1GfQPy+S4YLym7XrQ2jrHzJ/u4XynMlv+yKD04bR9TwTWLPEzKfeML2
-         N0oQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzOSvORrJTtIpjNdUFLakLC5ISuc2/GT63XpRUatCUoq5/cng4YrxmiaKPS+JKuhTUaxOZTT6y+1cwWq2YL@vger.kernel.org
-X-Gm-Message-State: AFq9FYJtWkQL1omydrd9PiAEkt0V+LYfuHMXPEFczr/4S68Uut5RjJkU
-	C1kuMasx1GDPG65zRTVQA6ISbJoEnx7+Pb7vmwlOWDsWqJj4ldP6re2n
-X-Gm-Gg: AYBFou1+4Snb1HEmLdRAvdXVSe5uqAM2JwFZDynDAhnzj6DRKr5tT4PKOuhuu39CiqT
-	cxp2yx1Y3OYMLlyjaE2ggomLkvXcYuYzFTjT8haIchRhtBuV16IlkUhYzgWVnUImHr0PZULE3Hm
-	m4rfmG/lwB+HqYOzBylF+FWqJMn6o/IBdDiIFK9ffvwJpJknSNBdsz7grkkHBfGK4l+26TVBYvJ
-	DgIMKZC7KFJf8xkLlfjcJl90kN2vj9vPB9IbN+4tSX62ca3u+g7xCoEsQcEgbdd9n6CpwE2XBkF
-	1yudr9w33SCGVooIxWtZ8qjiMroddREdqY2ETZpRS8X8uoYdiKPp8GNWQoNeAQ51Z2DqtMk8UqD
-	o7zoNwJKlE097jpgCHzk0lSKoHC5mjd723BW+Zs0U0Rw0jnTqc6p24Gp5YNKH6M+W6kcOIESW/l
-	OL6KfbLyJhw0b7fTbgH653FNPet45GkwEk9aLzW9jXWKRjay2egKyrAZaP7pixVKvM5vgRNXJFe
-	+8u6xZiwNhEKCN9TIGmG0Yad/wwf0QqQScgwO4NoHIXsHZw8gt8RqK/1pGpbELyjsM+MlUw2Iz2
-	sJP8oWNqXV2wVgIFp6cJlbrJRShJ8riRdhaZJf9wMRizJVMvFNckrRCdYlGOLUUSNz3Deyzj8rx
-	9gbvFe8zzGmrXB9pWWB8l+WJUcx7kWZahguOz9Q5kiqlMxw43smR8Hkn7M8wuwEWZ3GbTgEIw+k
-	vV7GK0aXykjQ==
-X-Received: by 2002:a05:6a20:88aa:b0:3eb:3b69:77b1 with SMTP id adf61e73a8af0-3eb3b699998mr1689140637.46.1793512854396;
-        Sat, 31 Oct 2026 23:00:54 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1793512853; x=1794117653;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=traUlZDriv7/XAv22io34n1BJf45r6o9C8uTIn9jXOA=;
+        b=MU7Uc07RTMRxia4UM5RiqEqVxZ/iY98nM2u/oV03Q9mPM2vnuwx0elJPqvT5rEuK7p
+         OuokcFND747vy4EkFElQWIJH0QIWxW5w/rHEHnedODVf97AVS4Sgmo8NeRPGmIpi+ezB
+         m/FGJVAR6RPEnug33865Mz/BwPiot+WN86OVVua0YXsQuudxDifQ/FB88XwqG6T7hfpr
+         T6h2rc++tgJ13Mq4IgoKlDV4hi2vjTA6Fo5j4NRZpuZSMxnEq35fNEK6N+Z4jeWj/OZF
+         Qg1zcft+fqIExl+eueFGgnC6din+nBuBRUlKcHi6OpCEoWVAgc9ZX8rzFlkmuY+XcMLM
+         NmtA==
+X-Forwarded-Encrypted: i=1; AKwUvBxL4hlCxl5x0lGg+1/hTAdzX1TjOEW2DsvSPQ3xvADvfLZHTZrqCwOiXjHiUv6v8jSEM6V7hKpjQQBPC/sj@vger.kernel.org
+X-Gm-Message-State: AFq9FYKeftsBVzpE75nrWMDSHuWSwwAYegfJI3fxyMS/4o2kkeuvX6zt
+	t/rOq7wK68YdVcTxu03HMuQVHjMXBXb8RBSo6M6Yuqd+8NKfzASM22Bn
+X-Gm-Gg: AYBFou2kGSEjeWgxe78cWWwSzuj4h+GF65ePfkUZ9Wwq6DbuPGgvzQEDUtEIjFOIkMd
+	wpnEUm1zaC0PNsol85mNHIyGVNwbjKsplXikYp16+VTzZ09WYpZtd5grVGxIO/T4FY12EtnZzCr
+	+jAigZXiIkp6NB0ZsAxDNxUUtX0vFgonBHHrBcWA9+A2oYCffeCeDExNOWyOdRr4+Ab6De9FeoU
+	8RZvPmZ8M8sYWFW84SlJJrSXZ2e3Wd++vVVNbVo5YvmLsCTsLNZ2O7rjnMSTQiEiIQeIyY667ye
+	ARZzNEOF00UEN8VLQvSZ8UYnjQ3ern/4qqogeFHGQ1slYtOcqTdBCJ1st9g8+KM5ytfZHJiWgKa
+	duPquCUl8HOlgaliQuTF/xEP0z3iF3cfdloGgHKpqRk7YRnsOWFth2Ndoo9rYUEYeAqvpNmA+Rj
+	64KLN/+UBiHalb6z0NV+qAzkILSfoapD2Fawa14OPG5iMPbBSwRCvAmEJLIIuuMH+YCPLltICNE
+	mtzo3xG2VKFZySkvc9RC23lo1v1wT3zuZ+9DHL+l4GoynX6WA8OKBL0wfcnWGD3xAYIsRcY44WO
+	uBCTe7gJMzFM+rrc5vxK1jxuFnttAqqKQS4PPpalyIrgfuoj+v4nFhh/+Kj2ewotfsMMYj+SQy5
+	JupmUIz47cCPvPJyt92zwTVwZu6J0u6oZJj2eZ9L7R7Rxn91q7DYevAS9htQMbHyx8EwYuRftSs
+	c4RqBFG7jIPw==
+X-Received: by 2002:a05:6a00:3a13:b0:886:ac28:3bd0 with SMTP id d2e1a72fcca58-8a9bed5c4dfmr5042593b3a.40.1793512852697;
+        Sat, 31 Oct 2026 23:00:52 -0700 (PDT)
 Received: from localhost.localdomain ([2601:600:9201:5fb0:4dc4:c510:e576:213e])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8aad9d067cesm1062706b3a.29.2026.10.31.23.00.52
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8aad9d067cesm1062706b3a.29.2026.10.31.23.00.51
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 31 Oct 2026 23:00:53 -0700 (PDT)
+        Sat, 31 Oct 2026 23:00:52 -0700 (PDT)
 From: Siddharth Chintamaneni <sidchintamaneni@gmail.com>
 To: Alexander Viro <viro@zeniv.linux.org.uk>,
 	Christian Brauner <brauner@kernel.org>
@@ -90,12 +89,10 @@ Cc: Jan Kara <jack@suse.cz>,
 	rlmenge@gmail.com,
 	hargar@linux.microsoft.com,
 	Siddharth Chintamaneni <sidchintamaneni@gmail.com>
-Subject: [PATCH v1 1/2] fs: reject negative offsets for SEEK_DATA and SEEK_HOLE in default_llseek()
-Date: Sat, 31 Oct 2026 23:00:48 -0700
-Message-ID: <20261101060049.81441-2-sidchintamaneni@gmail.com>
+Subject: [PATCH v1 0/2] fs: fix and deduplicate whence handling in default_llseek()
+Date: Sat, 31 Oct 2026 23:00:47 -0700
+Message-ID: <20261101060049.81441-1-sidchintamaneni@gmail.com>
 X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20261101060049.81441-1-sidchintamaneni@gmail.com>
-References: <20261101060049.81441-1-sidchintamaneni@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -107,81 +104,28 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In default_llseek(), the range checks for SEEK_DATA and SEEK_HOLE compare
-the signed loff_t offset directly against inode->i_size:
+This series fixes negative offset validation for SEEK_DATA and SEEK_HOLE
+in default_llseek() and deduplicates its whence handling with
+must_set_pos().
 
-	if (offset >= inode->i_size) {
-		retval = -ENXIO;
-		goto out;
-	}
+Patch 1 updates default_llseek() to read the inode size once via
+i_size_read(inode) and compare (unsigned long long)offset >= eof for
+SEEK_DATA and SEEK_HOLE so negative offsets fail with -ENXIO instead of
+bypassing the range check.
 
-When a negative offset is supplied to SEEK_HOLE (e.g. lseek(fd, -10,
-SEEK_HOLE) on a sysctl file in /proc/sys), the signed comparison evaluates
-to false and execution proceeds to:
+Patch 2 replaces the open-coded switch (whence) block in
+default_llseek() with a call to must_set_pos().
 
-	offset = inode->i_size;
+Siddharth Chintamaneni (2):
+  fs: reject negative offsets for SEEK_DATA and SEEK_HOLE in
+    default_llseek()
+  fs: use must_set_pos() in default_llseek()
 
-This overwrites the negative offset with a non-negative value before the
-final `if (offset >= 0 || unsigned_offsets(file))` check, causing
-default_llseek() to update file->f_pos and return inode->i_size instead of
-failing with -ENXIO. Similarly, for SEEK_DATA on a file with
-FOP_UNSIGNED_OFFSET, a negative offset bypasses the range check and
-succeeds via unsigned_offsets(file).
+ fs/read_write.c | 48 ++++++++++++++----------------------------------
+ 1 file changed, 14 insertions(+), 34 deletions(-)
 
-Read the inode size once via i_size_read(inode) after acquiring the inode
-lock and compare (unsigned long long)offset >= eof for both SEEK_DATA and
-SEEK_HOLE, matching must_set_pos().
 
-Fixes: 982d816581ee ("fs: add SEEK_HOLE and SEEK_DATA flags")
-Signed-off-by: Siddharth Chintamaneni <sidchintamaneni@gmail.com>
----
- fs/read_write.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
-
-diff --git a/fs/read_write.c b/fs/read_write.c
-index 676728310899..86ce8cea10d7 100644
---- a/fs/read_write.c
-+++ b/fs/read_write.c
-@@ -333,13 +333,15 @@ loff_t default_llseek(struct file *file, loff_t offset, int whence)
- {
- 	struct inode *inode = file_inode(file);
- 	loff_t retval;
-+	loff_t eof;
- 
- 	retval = inode_lock_killable(inode);
- 	if (retval)
- 		return retval;
-+	eof = i_size_read(inode);
- 	switch (whence) {
- 		case SEEK_END:
--			offset += i_size_read(inode);
-+			offset += eof;
- 			break;
- 		case SEEK_CUR:
- 			if (offset == 0) {
-@@ -354,7 +356,7 @@ loff_t default_llseek(struct file *file, loff_t offset, int whence)
- 			 * long as offset isn't at the end of the file then the
- 			 * offset is data.
- 			 */
--			if (offset >= inode->i_size) {
-+			if ((unsigned long long)offset >= eof) {
- 				retval = -ENXIO;
- 				goto out;
- 			}
-@@ -365,11 +367,11 @@ loff_t default_llseek(struct file *file, loff_t offset, int whence)
- 			 * as long as offset isn't i_size or larger, return
- 			 * i_size.
- 			 */
--			if (offset >= inode->i_size) {
-+			if ((unsigned long long)offset >= eof) {
- 				retval = -ENXIO;
- 				goto out;
- 			}
--			offset = inode->i_size;
-+			offset = eof;
- 			break;
- 	}
- 	retval = -EINVAL;
+base-commit: 36aad21d50d1af3f6954bb0c988257a908202477
 -- 
 2.50.1 (Apple Git-155)
 
