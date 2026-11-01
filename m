@@ -1,49 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.229.8
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793530663;
-	b=wMc0HK3OvzuPd4RTHrFdRp5YucN/oN7HO0buaFHQQsMhO0IQ3LD/FDW51zsrkN49gqTm
-	 3S2BmbH2/MGRssucEwh1dY32hN4tpJfG4NU5Iz+aoN/Mc1BZJ+Hy1ccT28oFs2T3wyr//
-	 bWO382CryjbEC9dUr3aXNNRIt1yW6jM1VgijbA0ev5O/mw+A/ipVEaJIJbQDo0IbFOm5N
-	 juvV4kiUml6Zb9paM8I7fDil+tFG+jdOWMA35bEAY0P2QuxvNYAtidNvzvZijE6j5zFen
-	 HkGPNoLbx7KWvoXuRJQ28zi2gH0uLO7RN95V2MHl1l7R0a0XzVNLjNkswndow4IvJVg==
+	t=1793533116;
+	b=gJy5ug6UfF3V95ACwbESiw7yTJ19VH2A8m07Pm7mAmzAkIxO2op8RIdInbGbALDLO7hG
+	 tDNqb+fleWpX9NNq/B+DctuG/Zz0hv7tSnGY1Tf4JGl0ybzg/khnOfJGfQIOVsEInKiIB
+	 dJp9W6uOifsJ8ICW6IkqMR4HJMhqmmwAxt/rZAL4jjOQNfZSmBGSTQWr+Q/9zL3aPL1pS
+	 VJdH0aWDoAeMEJRxdsygH+z+oMWbWt/k1m8lIUbx8+JsuVkI554rgsW0vu+NovjRcsbcc
+	 ZYuEZ6BMiAK0mUzVSYgAViMJvhdseuUXMarqbi9IvgwXWQVPEzZ4/nCQZiSdehNS3zg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793530663;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=XDOS+Bm4IgloJh1ZEJcdCw53kK6A8TiEOwvnUx/Qbxc=;
-	b=B6wg3oZiM72vHs0/AQXxiBZBODBHD8zWFuwChmrGReX+b2V4+1Pipcg0Ees1EBM8rXq7
-	 9n7kwC0n9+ns7AKcL3QDIc/r4J+CuKErKDGj2QqdIVQZivG78Uxk6783lE5/U0blD+o8E
-	 yhs6Vip9ThgkYiZUzqPcydofohFTKyVPj/wKaR7gyFtiqrYUzdX/JO7s/umeaLgilQ4a/
-	 LZXhYtuJai+//TvimvRg1cupXwyNoQY5NjaD6aCaUFRCQCx6uQ0YppKcYPZSIgPT2q7j7
-	 lo1MLuufSDslg4cfrhIydXeUIt6YlC6yroThT7uMJp0iHW0A++PVz5iuhspkxllM2sA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793533116;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=Wi28ZO61b9JIXVOR3091FD6X0ybjO5St+FAJ9rvXmeI=;
+	b=3HtfdPWj34APaTrJI/W3yQRlRcgxiMoM1Oth7SD2sNSfIW26FiRfk4aHnIOEdIw9ihJ2
+	 /uuEgxHB5HR36RVlodomdkdnVS8WZKg9IZh2nSp4dB8JPuPxeUzVGxY1ybVYSPjID3NeL
+	 QjWsUl1ZpHNKvmGfUtOa5/KsjKvp+xMwRHyQkgwNuzpsVpSao4+7QTPvvHWULZxIiiVyh
+	 fk0CweeSZJWWRDbUBHtJfWOoOLE5cMQnkcCAXOJS7Gp+W9KBCJHCAuXQ/Jbcl4tCLGALy
+	 TZ23yiBzcviRbjn+l2GLncQdnRW8duNSy6X5sTrrKW+OZFTHQ7KvZ8M0lR4aknKiVvQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="MMkW0g/T";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=aAw1YES+;
+	arc=none smtp.remote-ip=74.125.229.8
+Received: from mail-dy2-f8.google.com (mail-dy2-f8.google.com [74.125.229.8])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0C7E606A331
-	for <linux-fsdevel@vger.kernel.org>; Sun,  1 Nov 2026 10:57:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62325606A325
+	for <linux-fsdevel@vger.kernel.org>; Sun,  1 Nov 2026 11:38:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 62325606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MMkW0g/T
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5E891F00A18;
-	Sun,  1 Nov 2026 10:57:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793530662;
-	bh=XDOS+Bm4IgloJh1ZEJcdCw53kK6A8TiEOwvnUx/Qbxc=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=MMkW0g/TIWw2HzpCGu030sDRgxZFi3l/2JmUpA44SpF15pdIvlxHI+yzS83UEDhbr
-	 HYFKWVx7Pb92GkXzKu/Z0RcJLaUbOonkCL62Nn2CyMovzkCYG65eVChVtjVZRCCVlD
-	 4BrDW/GAeHuilOGZSh0wNpEbA4D2047vruXt5MRrznh6k6ZIc6IoezmoZclEftxduc
-	 vCUAFbPdIItLhPbo8aWy0ncD9mcNgzyz5hEhkXK3MSC3U/AF5E2mTAg/2Igagh/PTA
-	 fGyMMi3aIrEXK7B7LgjFK7y+p/dbqpvFldaP/2H3swHYRe8NDZqg4Bz9JvoUriaQKL
-	 BExL7gYu6/zuA==
-From: Christian Brauner <brauner@kernel.org>
-Date: Sun, 01 Nov 2026 11:57:22 +0100
-Subject: [PATCH v2 3/3] libfs: end offset readdir at positions past
- DIR_OFFSET_EOD
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=aAw1YES+
+Received: by mail-dy2-f8.google.com with SMTP id 5a478bee46e88-369fd8abd71so2255586eec.1
+        for <linux-fsdevel@vger.kernel.org>; Sun, 01 Nov 2026 03:38:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793533115; x=1794137915; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Wi28ZO61b9JIXVOR3091FD6X0ybjO5St+FAJ9rvXmeI=;
+        b=aAw1YES+jNGnRe6vmpDq/uw6N/gZSOXQunDBHap+IsV87lKnZddbSruz9OKeDauD1H
+         AbMitBsJNkn6tkZTY64diqDhaYg48fy/q8PvqFSf6mrg+HVTj2drgo5yuU8gYf3t23Vk
+         uzZKqIUUBpRuzRAJRMtq5dACTSfnJbEeLodtkoRFdgEKIhxSE9sICQog693qNrqN8IxD
+         EbhKf+SOJg8WMLT6DhCGKitiHIsJJyAQXZxGfnHpYFKK3wK2oJVb//2H4ElK8eyy2Azn
+         ZTPCPxYepJMmlbljajbGuTWDiE4pCEZmAPA5hd265HbC9ddvcXEQwm3SSz6iO3UARvdR
+         YjSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793533115; x=1794137915;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Wi28ZO61b9JIXVOR3091FD6X0ybjO5St+FAJ9rvXmeI=;
+        b=GJn8bUeeS8zZOUsGYvO9uIcDllP79rpDO6pnTt4mbrfNGsy9QJYXgIMRmcVntEFNNh
+         XsBmbTjYyE95tASfm/V/0X8v1NeFSenCJLmfcIYCmTz8pIlv+ilIOzfzY5sM1YDeagoM
+         bhGxhXu3zDoQY3MBzBqdWIdyWygRvxsIzXqsOnXka+1dpvUBorPKIfEvHEUk0mR3LcaR
+         wUCnZjwoiztwrMSZAQEVRBvSuUoaB9X1lwy4xd9Q7eYZiu9zE8iTKlrsoVtsTlPEsxsy
+         WSOXU88ajdi7gXyAY822yS2P9cdj92jsYJDdwspnKRIF+cxZLnV2svhJiObv2T50oHmK
+         2Peg==
+X-Forwarded-Encrypted: i=1; AKwUvBy0kzXFtdZKDKEoRCf2aP9b9SuIMakVYJgoaaMEkJRd9cVL8oDRJ8H9AYHxTpWEx9jguXN11KFLtIJYZsHD@vger.kernel.org
+X-Gm-Message-State: AFq9FYK3ERmXNyYRYjkez33Hvdh29h32b2rq3bk7PzF254oK0zAuVCKN
+	q4JhNg4Y9bz/xJCqqAbVeWpfjcCBf4aglN7z80PurFNNskgJuZMB/n7D
+X-Gm-Gg: AYBFou310PC44nq3YEZjcnVKXQ4dn082lD9wN36KFQTYeBjEX4MMnb7Zfu6uI+xriSg
+	Ev4zJZhWhek0jkUVDsiuAPw6wK/i/e2Up0lzWTNrhkUlN80/nS1OoSzCQ+M61r3NIfv7IYhfexx
+	H7Hs/VUOvaZw9gpmCukqtVeOmVgCw5kpjsHrpJpiM4/ilHt3Yx0Kor8lJrYLGllIvc84xJ65WRH
+	Pgp5cXN+y9rNzHZeFnrEZLk7MKYjjoIjR7yXNxkPOC3n5aTZDKIEzMOnBfGaVKK4qf6ww587m3x
+	0VCV6wKPrdc/rciuCYcR+xS+I8P6mGmHgGFXYE4IdktJSz3GDk1RJEBPcVX54RASxaLD0NS7T5l
+	9OJsmJcKuu+HwGyEBvK1mKMyUNrXtnLoVvd/fD8JiSutR0C0rDD9VlbzwURwXJ7YFpkTi7MNIXr
+	dnOHcj/jP8mdp9vWmafIwmj7/lO8dnWBTKEKjAvtgNZ+RjSp6eZtBmvKZymvh7w61nHiq4eKVaJ
+	NixEjzgptbyp0l9IRGWQiS/8CbvT2XFNcSDcgPmnSFL+ZsEdw5DE0wpJsdFDg1ZwVcHlocz7fej
+	MqMA9tNf60Kr9MN+tLygv26Ufjj+50t7lRkqi4/bIKAhGZSaWtM0JMl5
+X-Received: by 2002:a05:7022:f107:b0:1ab:fe29:5081 with SMTP id a92af1059eb24-1ac5ac4ded4mr10636078c88.20.1793533115322;
+        Sun, 01 Nov 2026 03:38:35 -0800 (PST)
+Received: from localhost.localdomain ([98.148.34.5])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1aed79b3dfcsm20393851c88.12.2026.11.01.03.38.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 01 Nov 2026 03:38:34 -0800 (PST)
+From: Hungyu Lin <dennylin0707@gmail.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>,
+	Deepa Dinamani <deepa.kernel@gmail.com>,
+	Jeff Layton <jlayton@kernel.org>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Hungyu Lin <dennylin0707@gmail.com>
+Subject: [PATCH] vfs: preserve subsecond timestamps at filesystem time limits
+Date: Sun,  1 Nov 2026 11:38:15 +0000
+Message-ID: <20261101113815.52911-1-dennylin0707@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -53,55 +99,49 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261101-work-libfs-offset_readdir-v2-3-c621125b56d1@kernel.org>
-References: <20261101-work-libfs-offset_readdir-v2-0-c621125b56d1@kernel.org>
-In-Reply-To: <20261101-work-libfs-offset_readdir-v2-0-c621125b56d1@kernel.org>
-To: Chuck Lever <cel@kernel.org>, linux-fsdevel@vger.kernel.org
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>
-X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1203; i=brauner@kernel.org;
- h=from:subject:message-id; bh=UR7/mSS0/npFDIJPEjAT2lcRx3Nzk85lCT8Fgx4PlRc=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQ9l5Ztv6eYF/xuzcagO1Pf/39k9FawMu+xzB+F+qeOX
- F4TZzOad5SyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEyk4gnD/1gN7T8Lzmb9uPUn
- NMXRPHZe3Mmfuh0L37CIJi45Lui/fB3Df9foeBPfIoZHTPWndLk/cn+L09heJvxp9rdHjq7T2ie
- t5AUA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-offset_dir_llseek() takes any position up to LONG_MAX but
-offset_readdir() only skips the walk for DIR_OFFSET_EOD itself. For a
-position past it mas_find_rev() starts the walk at the highest offset
-in the directory. So an lseek() past the end makes the next
-getdents64() return the whole directory again.
+timestamp_truncate() clears tv_nsec whenever the clamped seconds equal
+either filesystem time limit. This also drops the fractional part of
+timestamps whose seconds were already within the supported range.
 
-Before commit b9b588f22a0c ("libfs: Use d_children list to iterate
-simple_offset directories") the walk went up from the position and
-found nothing past the end, and dcache_readdir() returns nothing there
-either. So only walk for positions below DIR_OFFSET_EOD.
+For example, setting a JFS mtime to 0.123456789 produces 0.000000000,
+although the filesystem can store the requested value. Utilities such
+as touch and cp -p consequently lose valid subsecond timestamps when
+preserving these endpoint values. Timestamps strictly between the
+filesystem limits are unaffected.
 
-Fixes: b9b588f22a0c ("libfs: Use d_children list to iterate simple_offset directories")
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+Only clear tv_nsec when clamping actually changes tv_sec. Continue to
+truncate in-range nanoseconds to the filesystem's timestamp granularity,
+including when the seconds equal either endpoint.
+
+Ben Hutchings suggested comparing clamped and original seconds in the
+2019 utimes review. That caller was switched to timestamp_truncate(),
+but the helper retained its endpoint equality check.
+
+Link: https://lore.kernel.org/lkml/12c095e595836a7ff7f2c7b2a32cb5544dd29b55.camel@codethink.co.uk/
+Fixes: 50e17c000c46 ("vfs: Add timestamp_truncate() api")
+Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
 ---
- fs/libfs.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ fs/inode.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/fs/libfs.c b/fs/libfs.c
-index 654f487b05c0..46e0205154e7 100644
---- a/fs/libfs.c
-+++ b/fs/libfs.c
-@@ -530,7 +530,7 @@ static int offset_readdir(struct file *file, struct dir_context *ctx)
+diff --git a/fs/inode.c b/fs/inode.c
+index 1cb6293b237a..7f8e8feec4db 100644
+--- a/fs/inode.c
++++ b/fs/inode.c
+@@ -2847,9 +2847,10 @@ struct timespec64 timestamp_truncate(struct timespec64 t, struct inode *inode)
+ {
+ 	struct super_block *sb = inode->i_sb;
+ 	unsigned int gran = sb->s_time_gran;
++	time64_t seconds = t.tv_sec;
  
- 	if (!dir_emit_dots(file, ctx))
- 		return 0;
--	if (ctx->pos != DIR_OFFSET_EOD)
-+	if (ctx->pos < DIR_OFFSET_EOD)
- 		offset_iterate_dir(file, ctx);
- 	return 0;
- }
-
+ 	t.tv_sec = clamp(t.tv_sec, sb->s_time_min, sb->s_time_max);
+-	if (unlikely(t.tv_sec == sb->s_time_max || t.tv_sec == sb->s_time_min))
++	if (unlikely(t.tv_sec != seconds))
+ 		t.tv_nsec = 0;
+ 
+ 	/* Avoid division in the common cases 1 ns and 1 s. */
 -- 
-2.53.0
+2.43.0
 
