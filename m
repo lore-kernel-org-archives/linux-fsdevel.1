@@ -1,93 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793536484;
-	b=VhsiC1rCIWOeqyoXB0ukjpwiRn4OCepZ/wUWqkdozV3cNrxZTarjSp735NFOHf9wnuQG
-	 g/meUtLlZafSfZYReKMkdByIa286/hksK0E/1XB2wObMorfEMt6wAaOlwc7xddSY8QjQf
-	 NZmGrDA2kGlbY1mwlpiZrxltOkEkZP8w/+lJP5FBylrnqqhSHwYt3OSkLy7/VCxQcRdny
-	 gTKiMSIaC8Mt72qsBap2ICR8uVTG2KuwtH0Lkze9/HXKdeBqV1BjXlpg42f/UQsopMRs7
-	 wyM0QNTsURqsh/g/ErBjHrsKWzgb1VEfYujAMS3l1jSKpZD62ciiJCMXOb9eCXw1ucw==
+	t=1793537857;
+	b=OegdIt4Gf4mEBQt2aUsSkCEtVMwdOmUcYUvAoCp8oqHWtqavwqWUXeXRAL4RUK6J9Fql
+	 aovxDAQPg+SJbywekcn4lQeHeu80mJF46z3quiEB9F3d8oNnYAi+VJWzQCCnBk5PxwMcW
+	 ALtIaaO6VFN7S0FGUkrne5vB1Chw1LDICdRsaS5g0/GKZqNOBIH09YLubeFnNTIUfh7Ak
+	 5UUZf+r88AzD/Rpsrw4ZrEMOG06Ujznzb6l/F745qVKDvXXRmRxbeZKUW8exUd8htEu+4
+	 ygFa4sEkYri0mnBHmnmVoRs/qa8g9B/+OmqkWihxDG9WQu8p0wHQjAS7BgFcNbHmMFA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793536484;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793537857;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=/D/A9T2EJRYZY/+rdAawlrNFx7uSdrcye6ffwoxRa54=;
-	b=JL5zASBiX0I+DI6I581nKyfurznvOsGwlzo1dXb84xOlFnMKUhY5rrKXwB0yNDg8Z25T
-	 Ez6tVzUtuT1XcpgRmrSy37S+DD8lK9jmGTG+GkWgZzbTfA0itDS8ogBTT7qLi2mqX3gkF
-	 YdYgHy6nvR92maHfGNF0nMLLD7Iz4dtfP0flh8Pw/ClF1xEeSBkOwG6E/sHyY+uIOqrYA
-	 oTg4HI7Zj6rgd7XfGJQb0FOUlxkOI20eMiVE62zwYYPNdXtlPfCbCNWXQlugh/mLMo+26
-	 jHviwza0dKN+VPoOdyhZOyxd/TCsO763FWqCsskZYirofKY3IYEJqZeI2HV64lCzorQ==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=CfVTzZ3V32lHVKoOGse9NLw4u5NZ8GkugNXlom4S+B0=;
+	b=F/Rr5FU2uUcwM6oVo6sFVf5PPO2JYc8++LbqVkRTDItOqiZKnjgHunYw7nR5Q4MVgDa6
+	 wJPQigtmeIhkcZIzAPJnwBhME6sAYgc3IHFczbMSGGNF/YwoOJcCbo4drn/1PNNDKPW4a
+	 x/GFRBQsq1MzULuYOJrDtCwKnb0Kla+Sj4WjGRKQ+gP9adEhkhGHQCMjxP0xubuWBja3j
+	 7AKK4w3XmoRGMoDAm0W1VhP1oEGfl9Cs6P7sj9HQOrQleKz5fa7qPQeNoO5OL5096DxW+
+	 FErPkekX4K6T/zyp8rQxCDjKBgaORB1N3DvFLaoW1K59dKSJk6QwwVw5i0tmUHqansg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ea5BdI1n;
-	arc=none smtp.remote-ip=209.85.218.48
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=wRd9PeAG;
+	arc=none smtp.remote-ip=209.85.128.54
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B7E8606A325
-	for <linux-fsdevel@vger.kernel.org>; Sun,  1 Nov 2026 12:34:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9B7E8606A325
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5A3E606A325
+	for <linux-fsdevel@vger.kernel.org>; Sun,  1 Nov 2026 12:57:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C5A3E606A325
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ea5BdI1n
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-c40e30c26a4so639879266b.0
-        for <linux-fsdevel@vger.kernel.org>; Sun, 01 Nov 2026 04:34:43 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=wRd9PeAG
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4afe2d546f9so4636895e9.3
+        for <linux-fsdevel@vger.kernel.org>; Sun, 01 Nov 2026 04:57:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793536482; x=1794141282; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=/D/A9T2EJRYZY/+rdAawlrNFx7uSdrcye6ffwoxRa54=;
-        b=ea5BdI1n3jMl3nTFIjg1OVwLozn1JI9ufbHSZXBBTwqcISfpOrOD/hWSMAK8goj+JV
-         ghJw6j73yFnthUnjFxDslLRT+4HB7LlKV30AQYBDStO7smzuBRVrv8FErRmKnTSoG+Hj
-         HGHO7IrLwKc0e5GRHgH76UfMvD0Kx9ImmbG7L6G4wlqp8coCHtDEUXPTDrPeq16C0EJk
-         B4SjJ2hc8+jSM00jQEiKvveoTypIWvKmLgpreALDqigMx4jHf5g6oCgmucBsLR6y2anN
-         cpWLspOjtXj3p1OjOQQA6moH5MO6dK1nAz8nb8lfgSH1fVyNMRdow7h2cIsuiO7KjvR6
-         4LxA==
+        d=gmail.com; s=20260707; t=1793537855; x=1794142655; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=CfVTzZ3V32lHVKoOGse9NLw4u5NZ8GkugNXlom4S+B0=;
+        b=wRd9PeAGDNu4HYaj86oZWrxlQJGYtVcvxZtho0H+ysJz9EqFEOZ7X/al3mVFYXd9+s
+         htRkAD/r51ArqUwpfazFo0BOql/cYM+74On7zFmHG7pL2vOrllzwa1P4nPklmNxQi8XX
+         9jMIR/GCnPxkjv5cFnldEJ2hdHPJ7gsnW5dIA0zcPV8VVVB2Rozhw2M97n+POZDixy8P
+         SpLgcW5pFpamxD/L9H/q3VCcJ5B43PZpUuWXCPbcYNekRuUv9MEi9JVJsc0uxIahSxTN
+         Wh8SsmWKAl5tdDAILA9j1roJFK1uksslGY9/BTsbJQztWGAzEopLQn7cHeHgtWO76VTF
+         8rMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793536482; x=1794141282;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=/D/A9T2EJRYZY/+rdAawlrNFx7uSdrcye6ffwoxRa54=;
-        b=n3Hhx31fQBCiErIhNcKLcpuw3qmgaLr5D2D2wn4kW0EF3A0j+SzoddIcDOaTo9XhkD
-         Kmw9pceDTDXzEDjkiFQmntfZbrDy4EZUN6AZaNtiLF0MD9sSy6LVBmdBXIO86TEloVwT
-         0cAPOqmFNzpQeaj5F4kxSlCRNVT7K1KLeKwViQnWlf+YzM7h2gty/JPAOQQnpmxJARyB
-         Xw96qeOx7MoVebh+w+b3lXw2ItqogKvmnQlFnhuQY8AYOla1yLHR+cM+E1y1BCTh69nz
-         gbXlOz4AnNAw8zutD4zQOZuZPTmUdmppb+VjSw03JWO5hXeoovbrrs/pEtoEJSpA+fPQ
-         Prhg==
-X-Gm-Message-State: AFq9FYJxe34C8OYzneeHIP8BPW9plsugTzH2H9/jSAfphRDwLmarPiK6
-	tbImGAGnb0kQCBGZo+H7kC2xI01y9TzsNcXBELezYu5vsF+7jIXU/elC
-X-Gm-Gg: AYBFou3IuDqWidAFAov+pjFCwnuEWU/NMtvWoFWd6R80I4wnSPsdNGQxcBQ6JCDGoOu
-	lUyvWxNugaQigM89DR4axv237fZMPg+R87qi5PMXhnnpCVBkFW4aGKbiOO86bbpxVcuY+MWBud5
-	4sfxIo5LkOybkgcVJfwAxuVWBBP9wTvruyYAApYJ4zx+teWQ37IoguX8ES4wosOHcqEskhFHHYx
-	rdZoXMsXKJX0/z+Ife808QV4F8DLnqkKrXNnSOdEqsVr8Z2RGGXJcI5wklEcr2i4qvQURue9YgE
-	jY/jkpScPF4rAfWWTw6BJ2LV1qZD6BYXaCyOhIhmHPVM9OpD8vUK/lXxI055bUECh9529EC5gNz
-	NHYKux0JXPWJpomO3t5kdngDtcMi5/NqD0WcT/tLLr3BkQNMeMMSoiiC11SRgSrMSfG5y9kz/Ay
-	Ii5lTc9seLFaP7ja/jD90W36Ol1Yj5/ubUfPgeCMrVBr1GQzdzAHGHRuZwYW8sWfsUccQ2b35oE
-	mgf4sF05UPLwpL6fjIov+BDHD0zeLTeVTb/UTEK/Qqz3oTrr9jsuUGbpetYLSfrfsgJggRJrxjm
-	wdnm8ARcgJVHETf2N8buJRlJ0lpWZEL/9WSaq5FTJkGqWnu84KHK42cPcWjoGP9wUT6vGf01YGm
-	/BeOXCCMN4LY=
-X-Received: by 2002:a17:907:3f9c:b0:c42:fc8b:6c6a with SMTP id a640c23a62f3a-c4ca7a9ef71mr660488666b.14.1793536481629;
-        Sun, 01 Nov 2026 04:34:41 -0800 (PST)
-Received: from localhost (178-84-201-199.dynamic.upc.nl. [178.84.201.199])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c4cabc18ec5sm275298666b.12.2026.11.01.04.34.40
+        d=1e100.net; s=20260707; t=1793537855; x=1794142655;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=CfVTzZ3V32lHVKoOGse9NLw4u5NZ8GkugNXlom4S+B0=;
+        b=orcrbR4hbmmW8dW/NCnr6G5EoQyJrEskp1Oh55ZWgJ+gSw/1BAixPOBP8BlWDyWcwJ
+         zSafYn1mDVsYjUclXXIEjKAolT8LtpC3bSlHcKiKnHZNKEMk+gBiMHxHFHHBqRgUuf6S
+         xYbsDjVFjXrlpXvKELvYrMG/AB8orz013d4LGpALmmKk77USsxO4gw9QmYH7BWVnlYWQ
+         ZhVvFgpmF71//YDt76HiMhVKYev1M2LlVvROFgNcaXawsvHbl9DJ3+z4OZInvh60t4PB
+         y8xWIAEnmn6Yv5xvS7NikQ6J8MSp4bj6ahnHt+1JHHVzAJVT50g94qgrXS/RBpH3HsJX
+         HlQQ==
+X-Forwarded-Encrypted: i=1; AKwUvByF8cYBuIQEia6hz+6lKGFM7eKrZQ/2qHFc7vtf5WaxDTghW392XCZsBTrbUlNrjHWsBLXjEIrgEK/2C/Sm@vger.kernel.org
+X-Gm-Message-State: AFq9FYLHncPd4wgt0g3JlN9n6rsaaLT74raCAILXmn331Mfx96qJuZbt
+	jB8CcqzeZ3RiyIuvWWuiIuobDFYqRAaWzElQ2VoErej+uvYlLrhRnoo=
+X-Gm-Gg: AYBFou2PjaDTInjZTX3qMgkaS3KRTI9y2VuR6kTF/pQmpDgH86wGNrD+IYBZt92O1nX
+	ebsDzZJzo+EbcOZa4cdOHxNqWtQO8g0n6yYHDpIP1sVG2VaBsY9rOCVLdRo/odgMUYFVfocXBW/
+	PDxPSlZqvxejOYHn5IbrdXA0iv0IdgrpMZQoRYiB/MTOYL6Z6c20HFOSLSwVu/YCZQhMTbCXSED
+	OkPMjIu+B0Z8ZsRu5GFLCU53sxZsp7cmo2R8FJy8Mundx/ZjNJtFzPFjVwvjBMZG47IdsZiyX/D
+	DBWOSwjLsKbVcydd36qJg1m/LXX+eidr5qrdkthKvyczkBTjFELqLONOl7C9g6uoiCFv0yicrNS
+	bsiqZ49xsaxY+QEEINxwRqKG+f2sH5Zz7WNJBjD6N3IR0qoYd2lRLat/ZyuHaKlQimmLDA4IHTX
+	IE1fruIQCU5GoKofefSd9idNClU3H6V941MhV3pNjCIZNzd9n//Os/Xe1dItizRyHBEaP7vXKMe
+	yTxmzaTiNrwasnLuvGzODJQSur8gssyw/4V6gqWpO9KpoxuV5lAqYjimkDNg/l3BdNvYHHFG8dy
+	TmZ4iyj4ciSk
+X-Received: by 2002:a05:600c:848c:b0:4a6:42cc:bf65 with SMTP id 5b1f17b1804b1-4ac1709b206mr183360695e9.17.1793537854992;
+        Sun, 01 Nov 2026 04:57:34 -0800 (PST)
+Received: from p183 ([46.53.134.95])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4aa80f04785sm273172295e9.4.2026.11.01.04.57.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Nov 2026 04:34:41 -0800 (PST)
-From: Amir Goldstein <amir73il@gmail.com>
-To: Christian Brauner <brauner@kernel.org>,
-	Miklos Szeredi <miklos@szeredi.hu>
-Cc: linux-fsdevel@vger.kernel.org,
-	fuse-devel@lists.linux.dev,
-	linux-unionfs@vger.kernel.org,
-	Chris Mason <mason@kernel.org>,
-	stable@vger.kernel.org
-Subject: [PATCH] backing-file: pass RWF_NOAPPEND to synchronous writes
-Date: Sun,  1 Nov 2026 13:34:40 +0100
-Message-ID: <20261101123440.3184069-1-amir73il@gmail.com>
-X-Mailer: git-send-email 2.55.0
+        Sun, 01 Nov 2026 04:57:34 -0800 (PST)
+Date: Sun, 1 Nov 2026 15:57:32 +0300
+From: Alexey Dobriyan <adobriyan@gmail.com>
+To: Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Shuah Khan <shuah@kernel.org>, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] selftests/proc: proc-empty-vm: wait for child's SIGSEGV
+ instead of sleep(1)
+Message-ID: <65faff9e-5c1b-42d1-a450-b9c66b08ba25@p183>
+References: <20261023183434.9109-1-drifabdelmalekmohamedsaid@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -97,86 +98,38 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261023183434.9109-1-drifabdelmalekmohamedsaid@gmail.com>
 
-From: Chris Mason <mason@kernel.org>
+On Fri, Oct 23, 2026 at 07:34:33PM +0100, Drif Abdelmalek Mohamed Said wrote:
+> The test had a TODO asking for a reliable way to know when the child's
+> munmap() has finished, and used sleep(1) in the meantime.
+> 
+> Unmapping the whole address space leaves the child with no code to run,
+> so it segfaults. Since it is traced, the SIGSEGV stop is reported to
+> the parent through waitpid(), which is exactly the signal the TODO
+> wanted. Wait for it there and drop the sleep and the TODO.
+> 
+> The stop is now consumed up front, so SIGKILL the child before the
+> final reap.
 
-pwritev2() with RWF_NOAPPEND ignores the offset and appends the data on
-an overlayfs or FUSE passthrough file that was opened with O_APPEND, and
-the call still returns success. The flag must make the write go to the
-given offset even though the file is in append mode. Any user who can
-write to the file is affected, with the default mount options.
+OK I recall what's going on here.
 
-overlayfs and FUSE passthrough forward the reads and writes on their
-files to a backing file on an underlying filesystem, through the helpers
-in fs/backing-file.c.
+The only thing to worry is child pid reuse but child is under ptrace
+so it should be fine.
 
-The flag works for the file that the user opened: kiocb_set_rw_flags()
-clears IOCB_APPEND in the write's kiocb. It also copies RWF_NOAPPEND
-into ki_flags, as it does with every RWF_ flag.
+Reviewed-by: Alexey Dobriyan <adobriyan@gmail.com>
 
-overlayfs and FUSE passthrough then pass the write on to the backing
-file. They opened it with the open flags of the user's file, so it is in
-append mode too.
+> +		for (;;) {
+> +			p = waitpid(pid, &wstatus, 0);
+> +			if (p == -1 && errno == EINTR)
+> +				continue;
+> +			break;
+> +		}
 
-For a synchronous write, do_backing_file_write_iter() calls
-vfs_iter_write(), which sets up a new kiocb for the backing file. That
-kiocb starts out with IOCB_APPEND set. vfs_iter_write() is only given
-the flags of the user's kiocb that are in BACKING_IOCB_MASK, and
-RWF_NOAPPEND is not one of them. So nothing clears IOCB_APPEND again,
-and the data goes to the end of the file while the call returns success.
+do/while EINTR loops are shorter:
 
-An asynchronous write reuses the flags of the user's kiocb and is not
-affected.
-
-Reproduced by calling pwritev2() with RWF_NOAPPEND at offset 0, on an
-overlayfs file and on a FUSE passthrough file opened with O_APPEND: the
-data was at the end of the file afterwards.
-
-Fix this by adding RWF_NOAPPEND to BACKING_IOCB_MASK.
-
-Fixes: 73fa7547c70b ("vfs: add RWF_NOAPPEND flag for pwritev2")
-Cc: stable@vger.kernel.org
-Signed-off-by: Chris Mason <mason@kernel.org>
-Signed-off-by: Amir Goldstein <amir73il@gmail.com>
----
-
-Christian,
-
-This is a followup to commit 19b18e01d0361 ("backing-file: enforce
-append-only and immutable backing inodes").
-
-It is NOT a security fix, but a correctness fix for both overlayfs and
-FUSE passthrough. It fixes RWF_NOAPPEND being ignored by sync writes.
-
-It had to go after "enforce append-only", otherwise sync writes could
-also overwrite append-only FUSE backing files, as async writes could.
-
-Thanks,
-Amir.
-
- fs/backing-file.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/fs/backing-file.c b/fs/backing-file.c
-index 5780f60662d07..c601b27f0fd35 100644
---- a/fs/backing-file.c
-+++ b/fs/backing-file.c
-@@ -115,8 +115,13 @@ struct backing_aio {
- 
- static struct kmem_cache *backing_aio_cachep;
- 
-+/*
-+ * RWF_NOAPPEND stays set in ki_flags.  Pass it on, because the backing file is
-+ * in append mode as well and a new kiocb for it starts with IOCB_APPEND.
-+ */
- #define BACKING_IOCB_MASK \
--	(IOCB_NOWAIT | IOCB_HIPRI | IOCB_DSYNC | IOCB_SYNC | IOCB_APPEND)
-+	(IOCB_NOWAIT | IOCB_HIPRI | IOCB_DSYNC | IOCB_SYNC | IOCB_APPEND | \
-+	 (__force int) RWF_NOAPPEND)
- 
- static rwf_t iocb_to_rw_flags(int flags)
- {
--- 
-2.55.0
-
+	do {
+		rv = f();
+	} while (rv == -1 && errno == EINTR);
