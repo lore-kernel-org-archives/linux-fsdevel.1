@@ -1,61 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=178.63.66.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793552816;
-	b=za1EZ0vbXjDl54MHKBeyIq3AQMH6l5imzPqU+IvrsErhKwOXIw1GnqV3nvu9OZcN10Jh
-	 X5QoUwhF7Pk4lqDJAY8SgfWb8t0bTCLgEwlfywll2KhFIKB+qTmjO/WlMrJeR140CXOVY
-	 Ie5bJWSS16NcYygT35PIvb5u6s5sdvCjvHG4velcjQdl7o7WM7dmJHB9+uN8FDD3gHXib
-	 rVVscIoau3A720w2Z/qSEe8G4UzVYo2yR6Ry+NpHQDOn5hQfKgQ9fFfR0hd+S2o8zYjkT
-	 fjiNFCDcZyLrEapPPzYY+j/iR3l9x1ai3ZDnn23hgE56spq+HmGyc6AqpLc66Z/ZSug==
+	t=1793552921;
+	b=HCINVr6G1X3V4yqhMgQotQOYh4vPIyatk/dmXQ0LNoHBDI9PO/rMmo4mNVihTKq5Uwcq
+	 MwfCfHxfiseXP2l6x2HXBHW/KSUSmRU4PWkw0KGWp/EZNk2yGkLWdngIH7lYXp1fmfC17
+	 8ZgnnWz/vxoTDac9CqTpDeBk5tclVG6WQNkFAAIvfaD4BAm2WCNB/jZtvb5FMzmcysS7f
+	 V8zaRC2ApUKC2C5AiexOoQRdVACqaTg64npzUKVrpZ8QbKuR0/zwoJbf1H/zpXI0x4QZ3
+	 tRodBvjY0i5dXWoyvIlfy+uMpwchLd9OqnNe9ghGcrhTx52pVasXdbUOaXk5RX+quHA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793552816;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=SSP10FG90qh8b5f5aDg1OH/wNNAY2fjTeu+XEqiARZs=;
-	b=Cjj4MlgqrfwLHw47Spm9is9Xik++QupjKcKgLaanspxkAXo+JvYpcr2M2QgzYwwEr1s1
-	 ulJ5eG7WCkEtKvELcLq4iU2fPs2Iin5txuz9W/w3iE+r8UCYj+Z35O0KAYkSU9rt4wuCl
-	 I0wpBK8X5B/m6M/MdXftG0GNcmGnqCSUKg2fgPn2t27XWw5N/IpfQiFuhe3hjxPr+zwDO
-	 71rIarXOS9bobrp204XMZeOTI7lLdcDz54NN20E3xfeHZHmDRv4gK0QwcBA55d0/R1Z1Q
-	 aYBA4i03ftvGQI5mS9kGGSjmq1sYTQQMsdvM4SoZ1M3fYedvvuydwZBsR5FulTg9AcQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793552921;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=I21QGyvLYuqiW8efrWEKXCzyX85q7lTtLZbUXjSxMZg=;
+	b=AbBKLoV7YUQQF4Pr0h0isH9k0K94fRkkXaDQ8Vi8BrDRXgY+KlOsJuj0HJHtitpbxpt7
+	 wd9nOj88enkNqoqmAwhM0Pb/WiQUBuBS9EcgcQXnBixUcr9e3WwnLZz61xT26WNXshKZc
+	 jzpoIu4kC5L+A0CYRFm2fw03EiidMxzAsEMVm1XoUk63uevDqIrE+3U+MYi3bYXWgNMbD
+	 A5kqxDIG/2LOTmMuyaMhfs/PIKN3IO81KCOoqoLAz3o2VPjtkDZQcrSKZ2bZALmAcqF8u
+	 P+HkUaq+C59WJX5JoXqb4dBdVM0721LnNr7sK2rTbBzHg3m47V5Am3zIeUCI5708ZHg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="P5T/0GiJ";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=hallyn.com;
+	spf=pass smtp.mailfrom=hallyn.com;
+	dkim=pass header.d=hallyn.com header.i=@hallyn.com header.a=rsa-sha256 header.s=mail header.b=D0F9depx;
+	arc=none smtp.remote-ip=178.63.66.53
+Received: from mail.hallyn.com (mail.hallyn.com [178.63.66.53])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6F9C606A324;
-	Sun,  1 Nov 2026 17:06:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDDBD606A324;
+	Sun,  1 Nov 2026 17:08:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DDDBD606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hallyn.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hallyn.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=P5T/0GiJ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE5411F000C1;
-	Sun,  1 Nov 2026 17:06:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793552815;
-	bh=SSP10FG90qh8b5f5aDg1OH/wNNAY2fjTeu+XEqiARZs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=P5T/0GiJ+afhGq3aagkAB3C9wrvvQlvJMSJpK3pP/ZxT3hK3GSsQv/p0H6ED/sqyl
-	 bQOA9JYjdVehpIx8dvmGqovlLihGvyV4J1DlW8atohp1X/CNfYMiPgbHpJXTEgwna+
-	 KxmMjqxC9+LqmXxxNGQZW3siu+I7ef8UslxIf4ZAS09GI9sY52zC2pgSmwYECCYJYm
-	 n/01P50O0RsiayWhTV05qjbOdDO84w9AIEGAjznwuCXnzVj3yw7SV+4zv9DwbKTS/w
-	 pUuNyZZOZpGxxSFHy5j1vZWvApPsEnx9aK3STZ6AYP9V6KcDXSmFtAYpP3Kr2q2M4D
-	 TJCROKNCDQqGQ==
-Date: Sun, 1 Nov 2026 17:06:53 +0000
-From: Harry Yoo <harry@kernel.org>
-To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Hao Li <hao.li@linux.dev>, 
-	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Brendan Jackman <brendan.jackman@linux.dev>, Zi Yan <ziy@nvidia.com>, "Liam R. Howlett" <liam@infradead.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	Mike Rapoport <rppt@kernel.org>, David Hildenbrand <david@kernel.org>, 
-	Gregory Price <gourry@gourry.net>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 2/2] MAINTAINERS: move SLAB ALLOCATOR under MEMORY
- MANAGEMENT
-Message-ID: <audw9R-_gyYkwkGJ@minisforum>
-References: <20261101-maint-page_alloc-update-v1-0-27e8c246b13d@kernel.org>
- <20261101-maint-page_alloc-update-v1-2-27e8c246b13d@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=hallyn.com header.i=@hallyn.com header.a=rsa-sha256 header.s=mail header.b=D0F9depx
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=hallyn.com; s=mail;
+	t=1793552910; bh=5+DQMvP1EuvF1C06xt4Si4q5kFFWytIZId09erO2zY4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=D0F9depxyP1choXEsj3BLO+NFgOq27OlvisF1QlY1PNNWnc7ogRn0bEN29rJhoKGM
+	 jOOl9z3hmbj8aoUJVK23QJOXi2oj19nHuluRSahgoqlbs0Y43T8lUZljgJJ6lR12JX
+	 4YBJ2Fz0f9xAqDCm8LKx4b6+DwAH/IH6CXX9Pc1FCBliOau8jiH4nnkD63i9uym/zP
+	 iElzlzfONWJYBHnacCC46WmsfSeffGVRifc/2gCg0YPYSTimDeh+UMCSxg3yz0nTIm
+	 0p/Q6rQydT5EewIWUQZFbVIBbLoYLwbsBmjHgeM5QGWbBZK0iojXYKzdLKuf/Uir9d
+	 uAPnglYflHjlw==
+Received: by mail.hallyn.com (Postfix, from userid 1001)
+	id E8010553; Sun,  1 Nov 2026 11:08:30 -0600 (CST)
+Date: Sun, 1 Nov 2026 11:08:30 -0600
+From: "Serge E. Hallyn" <serge@hallyn.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org,
+	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	Jann Horn <jannh@google.com>, stable@vger.kernel.org
+Subject: Re: [PATCH 0/2] userns: keep the exec securebits
+Message-ID: <audyDljs8nV8vA6h@hallyn.com>
+References: <20261026-work-securebits-userns-v1-0-b35473fa1a34@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -67,28 +65,53 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261101-maint-page_alloc-update-v1-2-27e8c246b13d@kernel.org>
+In-Reply-To: <20261026-work-securebits-userns-v1-0-b35473fa1a34@kernel.org>
 
-On Sun, Nov 01, 2026 at 05:34:49PM +0100, Vlastimil Babka (SUSE) wrote:
-> Following David's consolidation of several other MM subcomponents, do
-> the same for the slab allocator.
+On Mon, Oct 26, 2026 at 09:53:28PM +0100, Christian Brauner wrote:
+> The exec securebits are meant to be set and locked by a service manager
+> so that nothing below it can turn them off again. But creating a user
+> namespace resets all securebits, locks included. So anyone who may
+> create a user namespace can shed them with a single
+> unshare(CLONE_NEWUSER), and joining one with setns() does the same.
+> That's pretty much everyone.
 > 
-> Rename the section to MEMORY MANAGEMENT - SLAB ALLOCATOR and move it to
-> remain in alphabetical order.
+> systemd gains a SecureBits= setting for the service manager itself. It
+> sets and locks the exec bits for everything it starts, so interpreters
+> that support AT_EXECVE_CHECK enforce the system's execution policy for
+> their scripts. With the reset "unshare -U python3 /tmp/x.py" gets
+> around all of that.
 > 
-> Remove Andrew as M: to signify he's not the primary person for picking
-> patches in this subcomponent. get_maintainers will continue CCing him on
-> most patches via the catch-all MM entry. David prefers not being added
-> for mail volume reasons.
+> The other securebits are about how capabilities are computed and
+> resetting them in a new user namespace is fine. The exec bits grant
+> nothing. They're restrictions a task placed on itself, like
+> no_new_privs, which a user namespace doesn't drop either. So keep them
+> and their locks and keep resetting the rest.
 > 
-> Indicate the primary integration branch (slab/for-next) in the T: entry.
-> It will now be integrrated via the mm/linux integration tree.
+> I also keep the exec bits that aren't locked. fork() and execve()
+> preserve them and the task can clear them itself anyway, so dropping
+> them on unshare() would just be inconsistent.
 > 
-> Signed-off-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+> The new selftests fail on mainline and pass with the fix. I think this
+> wants to go to stable, otherwise the locks don't mean much on any kernel
+> that has these bits.
+> 
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+
+thanks, makes sense to me.
+
+Reviewed-by: Serge Hallyn <serge@hallyn.com>
+
+for both.
+
 > ---
-
-Acked-by: Harry Yoo (Meta) <harry@kernel.org>
-
--- 
-Cheers,
-Harry / Hyeonggon
+> Christian Brauner (2):
+>       userns: don't drop the exec securebits
+>       selftests/exec: check that user namespaces keep the exec securebits
+> 
+>  Documentation/userspace-api/check_exec.rst |  4 ++
+>  kernel/user_namespace.c                    |  5 +-
+>  tools/testing/selftests/exec/check-exec.c  | 83 ++++++++++++++++++++++++++++++
+>  3 files changed, 91 insertions(+), 1 deletion(-)
+> ---
+> base-commit: 21a7f44fd0765fcc5194130b28767786eba1d1e7
+> change-id: 20261026-work-securebits-userns-6070b18a9cda
