@@ -1,103 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.175
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793493223;
-	b=a6xSUalcWP469aU2IcsHMxIrEXpWWmkLbyohn1BShb+dZ6+Csfo/07NNRHj+hRxMDWeI
-	 SMK6AZEwn0aJeMHIpPuP+UsBuaLh+oPLTU2+AeezJFHjy22QQGZurLpC1NgY2HLdSx99H
-	 j9g2t4aNh58CkscKOGoUo38rwDxwSKzpP1ULBhwb7+S8sU47FkVvmnJg/ChMa0agh+avs
-	 IenjOT8roSI4hktr0MCC1Hl4RbhIJQp9hD7rKnEWyZu7tM6tCw7BqJiTeTjoW8deKQKcw
-	 O/qLaX6g93jR7HBbmlDYrdylKlDYX0/GMZiVGhFvtLHYOGSVdvksFXxSvPLut3rJupQ==
+	t=1793493545;
+	b=w9awM7vLPUTGUFMUm5D0lS8Hf7LYerzOdVm1hh8OzwGV0kyARrzu5D0Rw2yATB0nBhji
+	 l8KfaJPZ2V1NLGufoWAJlH8UBPnr70QCsAjcDfmZC25mHCXQOgj5Y9TbiYnO8/f0DFfF6
+	 SiYenRsdsoKPaRcHohAtDm6g4/XwUtF47WW5KOdro0zdbpLlNAbD4v0JlQrOMULfTBYvc
+	 e6poGCFss0eP747HP0t9WANROTsmGMhR5jyiIPUx7J+ahdOq534OC8SZMMO2WYhQfmzLM
+	 VL6PMgfbSJoYPQHEhz+G0NhrX6J2SvcElCNgkHUTTYHENGkk7ZJ+AeQDzWP2vqodRwA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793493223;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793493545;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:Autocrypt:
-	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
-	bh=/OyNuE+u9LVqbLjPn4c642Wjld5y0QKeGGJuFQ0QfKY=;
-	b=JDR7OGX6dPgGdZSQZf8oQbsbNSLKYmjZCUigjSV4ensWByPZJJsIFVpd1Mkl+GQft0PQ
-	 udKtcU4gE1n6UsvaO7nRN/atj/lwdZnb7yjdDmvym+LEbTELM32Sok1LA7wXEq2Rt6gj6
-	 JjAa/epM7d00bQawzD7Qr4mVqio8WJ6QB6saWQZWQKQfMToGFh6e7BCeelg5ifseh28ov
-	 FhlnTTkwOph0/6dZpsNUZuDJWjrIu36ohbih6B1yqcOqlWESaz9R0MuaLyH/WlJCpMqHE
-	 KvNkRgkl1IqI4zgREHYI3Qr4j3/z97i37bYgYRr2Q7+3ZRNjvM1umd0Th89Rx7G1bYw==
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Message-ID:Subject:
+	 From:To:Cc:Date:In-Reply-To:References:Autocrypt:Content-Type:
+	 Content-Transfer-Encoding:User-Agent:MIME-Version;
+	bh=pn5P7ttPR95Kyhm5wG9WHU65Xv11dOaCkmGNVaM06ik=;
+	b=jvto2lJyIgiXz3Lv7SXw/TaHlWh72Fv7hAABrtWjIZ+rusOyCB5eSP0zCyZGJYM2iF7q
+	 Vdhz0UlQxJK4q3DDVgVi1MzQeWPUurt58xcV8FFJr9TO3XTsySA3S+V7ou1sMiVofsYMb
+	 9NW9YLFYedFS0uCUYWR5/S6yw2zHqgW+TLlDsQo1/NgFldtXjIxQ+DUsCIaW4mJJLIZv7
+	 UIEiG2QXenL/Za8kUlTSIbuVbZzgdFFzqZhJmfYYb8O7acX7b1mqaX9o3kIvjg01YRjW/
+	 NW99wJFXt9OJ5okYAMCl1HcXShQVVwuugbF+XOMYLy03+DAmrACgxk0Z+EP+YrGY6oA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=dubeyko.com;
 	spf=pass smtp.mailfrom=dubeyko.com;
-	dkim=pass header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=opKOv9+L;
-	arc=none smtp.remote-ip=74.125.224.47
-Received: from mail-yx1-f47.google.com (mail-yx1-f47.google.com [74.125.224.47])
+	dkim=pass header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=d0vep8HK;
+	arc=none smtp.remote-ip=209.85.128.175
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7481606A31D
-	for <linux-fsdevel@vger.kernel.org>; Sun,  1 Nov 2026 00:33:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D7481606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00B71606A31C
+	for <linux-fsdevel@vger.kernel.org>; Sun,  1 Nov 2026 00:39:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 00B71606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=opKOv9+L
-Received: by mail-yx1-f47.google.com with SMTP id 956f58d0204a3-679334baa1fso1994583d50.2
-        for <linux-fsdevel@vger.kernel.org>; Sat, 31 Oct 2026 17:33:41 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=d0vep8HK
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-8ab3d3c5761so17932267b3.1
+        for <linux-fsdevel@vger.kernel.org>; Sat, 31 Oct 2026 17:39:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20260707.gappssmtp.com; s=20260707; t=1793493221; x=1794098021; darn=vger.kernel.org;
+        d=dubeyko-com.20260707.gappssmtp.com; s=20260707; t=1793493544; x=1794098344; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
          :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=/OyNuE+u9LVqbLjPn4c642Wjld5y0QKeGGJuFQ0QfKY=;
-        b=opKOv9+LvbvKOcsG7sEdWgW5RTy7kU6wUMYBGioVfgkQyIsS6X9+fly6DW0lh7MWmZ
-         ADiBPMwopgDRliRbwbHjbfCkdevfkCAynrIpVoBW6iiAOr3rGvXAwIGA/DSi56T0vblu
-         Gjg2U4eBG8LdQEXYLZ7qi60tOfNA0+pQ7N6ygLuxQG+lIgm88X+Emoi5nm9Pbaem/j76
-         jkuNsmvU/V6VV1vnXToctK/8CAuMJZn01/QxEtPRFnFcVBKrtW5UUxqJ+1C3DlBlxZeW
-         +ODdnrfH/Kfr0AOh7QbaNuH+k1NTTYkBG/IliHraQ9l1BkSNdeBEsxD3N5gJRd6v8Nrx
-         0egw==
+        bh=pn5P7ttPR95Kyhm5wG9WHU65Xv11dOaCkmGNVaM06ik=;
+        b=d0vep8HKObnTFnsR66HLeDGvpM8oCn4wNkX8DxHRa03Am5jzyCOWSZJ1etN1i4TQwB
+         vAmXEVbz/7pYacqJmHGiHs4FdnoIJ5qdcwlwCUHxccsJduj0Q1F2OFnz65yIakwa8rec
+         OUHffZOE+HheJ4H10jq0VeGvp2NjofhSsMssgjDF2PETojMXsvBcNNLwDr+CaZzVeuOM
+         zYpTfwHomcJZLtWHYWooQd4JDmH52wIqkZprgh6NQ4wQontan1zxpwEbZBbaK3g3OMTy
+         B8n9MtxF+Ckup/QFjyiYUxSGpI8YwKjxmporzVfYct2LEgOfNLyN3pPK32jFEw1IfCBb
+         aXeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793493221; x=1794098021;
+        d=1e100.net; s=20260707; t=1793493544; x=1794098344;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=/OyNuE+u9LVqbLjPn4c642Wjld5y0QKeGGJuFQ0QfKY=;
-        b=u7+DeEjBf+opeccBC6zPVBoypLVh+ZL0gn9w2kbj/ONMTnqOdSj4NJ6rKR/WkSyPaH
-         H5sAMJrn2SU+/cqAod1eJNS9JpdPuAn0Krihp6TAuJcJO3YHGMW3jB7Jo8C+5Jn+uPSd
-         upk5/yNyBq9iv0wzCyFXi9HeJrX4eUzC3spCM/OPnXYJvTrsPRjWSA2PnJF+UKkN5CiU
-         i3uulTtlVoLnUoTzvCWPHBHXssnbSNZMFzWJC9Xossl/sbG5eH6br2GJIIv1yhNa74CV
-         jkTCaexlIkIJJcUc8kExQNG1T2fGMaRhI8qmIrLp2/V3vwvqt60lGDIYIDnRmAt4nBLf
-         WuKQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxzreCMDKrpNC6i32G20v9jMMkhWezcki91s/4NYGKoOzIBX1W641Cw/9QIktTcveq8EHZ17UI0StC3RMJH@vger.kernel.org
-X-Gm-Message-State: APuU4Z8s+aO+ar+QkwZKO9dK6ViRI+5c/av0zg9MVtU4Qfp4/OK/w63c
-	0t02lJ601surY/re5gRreL1q465+3LEcl3FaQ+V/quNoDs8GCXZVNGqvFOVJW5dRxIw=
-X-Gm-Gg: AYBFou0BjOFXYjkJbjCAA4XCybtK8DW/H7sV4BBIizCnL1bpuKhd0EtoeBaImghfhwd
-	Z8IELybm/QPeAeFcaNiv9X2Q2AsHu8autTgEQduECllznRiDZCMPnDvIUq/+z7/OaCAGUkvgctM
-	A1iZPZv6lfCTgD2b11WpRRnQNqROSZQShwF7VQ6MN7oWkrG2bv5E4u7FLThM88cyBUYQCEmWTQM
-	1GwaMmd3xwvjvdvkOrt9fSxyBoEowU/Ym6D5sakw8wIZWRqKgEvvi0sR3NF5ExoQUA7+ITFNtlY
-	3ZfX/cA71OX6Jd0NSU+KrKRvTZ/wkSQJShEtZrpgeznoWeWw2Bv/zjFtTAdSzNjCGy/pwXdBb8M
-	HppZIriFzyqG8Ljptgyj4ZKjqkjgtRZyaVakW2XFbjj5YTnLqaGD0pKVIBUjwsz5iTS30q3sSlU
-	XON1CDBrISz7kvVUfk9IWucBE2RjLMvlXhD+ZFLsBxodekGjWhsGSglUrlu1qyagQ9hRj/4koSF
-	OgdL1UVAfgup83e0jD8aj8xS2gYGZA7Lzoe9MZ2ewhog0WZMpJ9mwKiMbTb2Zz++H8D9kS/61xf
-	ICQj68ldfSV43XnsL5/TWwcESfTuc61gdivoCCaod1HxYwJf19UpcToWKVtoZBnDtJAsO7UpctL
-	o/HEtuf4WMVhagHhqvQMKAwN6P8AuTs7UYKxCpkUnlxIzI0D263R6fCETfswQmcoX+XEuuJk80P
-	bVMu3G09IBJBKuY/uq1GM=
-X-Received: by 2002:a05:690e:140e:b0:675:3d40:3c34 with SMTP id 956f58d0204a3-67bb3041657mr1552875d50.68.1793493220725;
-        Sat, 31 Oct 2026 17:33:40 -0700 (PDT)
+        bh=pn5P7ttPR95Kyhm5wG9WHU65Xv11dOaCkmGNVaM06ik=;
+        b=L1bYAdBVcmII7rKKMuF8JEI6yGvrS0DfcuIE8KxQwaB0Tsnh+U21Tz96okC8IJMVyP
+         wW9ODPp5TuLSe7eZP7f1+wE65/QAVRtiD2Xu4s49SO2IiQEa81CL/6+m0IRSOMQK7hgg
+         g8WTyQd711WfJ/6paW/Omw9t01jdbzUB/m3xLd6sLUqxgUTgaryiHMljWi9MK091FaQD
+         k/dN1r2Oe5iYoAf4S2ayZ3GeOeeavpzB8XXMKP2O0buGBCd5TKQK30D1S41/w0feQYPa
+         l3QPLwF5RROmIdVFHCBD8tPtgcNQ9az49wE9KI1LqJf309bBd5KB8478Su7MuSpE0yLq
+         GeTA==
+X-Gm-Message-State: APuU4Z9MQZvzs/fCg3i/Dfc8wzNyyDURx8wojxsxMntOrh4yDFFRw1Wh
+	O/EcsxSawAahDGuj0T+E9j34hkUMRq3S5ca1vTf6f2bIorCzv4XltMjt/hX4TiocMPc=
+X-Gm-Gg: AYBFou28z1QlPKU6ZxjRqeyykC424jdfpLOWFcGIZ4P6LkSB+UmedKpn0JDiBShRwap
+	kff9sqlZsa+SPd9gC1BZT0Awh/zrsXUFXK4k6j1zBJ4GgkbfH+d8acSf69QzQWEpNpcz5w6VkEB
+	yXpnwMXmuqtHX7wE7VTMX2m6ctxR1PXPLopKz8P9qFe1PFPl98iSCzM41jGwRUBZS/VqkgN6E1R
+	QGBsvccAFhiRo1caXkoFsIbyC2kTRmGfOxFMgsZncUeoq6wzoGU18MY+Fb+Z54dgJgygAmyOnAN
+	q8jq241h+8LeBNo0IV0wmAyNWnLPb6d8ivQa7svqaUTJSlO5w9ybzS1NaYVgOfvuM7kgOFWi3cC
+	RQbVkn3gi/dW5GBJfGd5cJMoDznsEOP+/SYMIBBmgJPijhR7dwTI9WmVtC6jIic94bKzwJbF3ku
+	+oG060nv4MrybfGr56+/O/+T3TQPVt+3wiqm1hE+eqJdsei3Wcx5iziufa9QQr3KknbXOb6i04k
+	Z3O5clR0cuIrjZJwKgqNpystPXfCiuLSs4Dq5EGThNoGh8BU+ZQGmjlpxH4Lwm/ntYmVEee8sU9
+	NAd+GMNtCkIfkE/Ki/8NMNmr4blBEfGRpZePvbMSlIJj+xJARCyyHJhA7ZQoqnzdI7/ke/lMn+h
+	HPwZvFbsZQQ7bU+HS1QzdBNjVFTMBtdNN+fLOFSN+tnlGqVIs7lUbBt9izIhkloZFsKhNUTw43I
+	aEuLMcNqZLpf4bKmeoNSM=
+X-Received: by 2002:a05:690e:11c9:b0:677:c78b:f5c1 with SMTP id 956f58d0204a3-67ba4c80ea3mr5137552d50.4.1793493543967;
+        Sat, 31 Oct 2026 17:39:03 -0700 (PDT)
 Received: from ?IPv6:2600:1700:6476:1430:6f84:fe3e:51d2:f3cd? ([2600:1700:6476:1430:6f84:fe3e:51d2:f3cd])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b2b7198c65sm28593177b3.36.2026.10.31.17.33.37
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67baf27263csm2233760d50.4.2026.10.31.17.39.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Oct 2026 17:33:39 -0700 (PDT)
-Message-ID: <39d08fa0b0e45c61dbb4f57ccc911d1235ff9b5f.camel@dubeyko.com>
-Subject: Re: [PATCH v2 13/34] hfsplus: don't set SB_RDONLY when creating the
- attributes tree
+        Sat, 31 Oct 2026 17:39:02 -0700 (PDT)
+Message-ID: <7526dbc0d720a2d13b8a1d9cb7ac8357648ed6d4.camel@dubeyko.com>
+Subject: Re: [PATCH v7] hfsplus: fix null-ptr-deref by creating hidden dir
+ on remount rw
 From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, 
- Jan Kara <jack@suse.com>
-Cc: Al Viro <viro@zeniv.linux.org.uk>, ecryptfs@vger.kernel.org, 
-	linux-ext4@vger.kernel.org, jfs-discussion@lists.sourceforge.net, 
-	linux-nilfs@vger.kernel.org, exfat@lists.linux.dev, linux-mm@kvack.org, 
-	ntfs@lists.linux.dev, ocfs2-devel@lists.linux.dev,
- linux-btrfs@vger.kernel.org, 	gfs2@lists.linux.dev,
- linux-efi@vger.kernel.org, linux-mtd@lists.infradead.org, 
-	linux-xfs@vger.kernel.org
-Date: Sat, 31 Oct 2026 17:33:37 -0700
-In-Reply-To: <20261029-work-fs-sb_rdonly-v2-13-2f44f64f0b66@kernel.org>
-References: <20261029-work-fs-sb_rdonly-v2-0-2f44f64f0b66@kernel.org>
-	 <20261029-work-fs-sb_rdonly-v2-13-2f44f64f0b66@kernel.org>
+To: Joas Antonio dos Santos <joasantonio108@gmail.com>, Deepanshu Kartikey
+	 <kartikey406@gmail.com>, glaubitz@physik.fu-berlin.de, frank.li@vivo.com
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	syzbot+c0ba772a362e70937dfb@syzkaller.appspotmail.com
+Date: Sat, 31 Oct 2026 17:39:00 -0700
+In-Reply-To: <179340981245.8403.4135841764755575334@gmail.com>
+References: <20260717135706.42918-1-kartikey406@gmail.com>
+	 <179340981245.8403.4135841764755575334@gmail.com>
 Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
  keydata=mQINBGgaTLYBEADaJc/WqWTeunGetXyyGJ5Za7b23M/ozuDCWCp+yWUa2GqQKH40dxRIR
  zshgOmAue7t9RQJU9lxZ4ZHWbi1Hzz85+0omefEdAKFmxTO6+CYV0g/sapU0wPJws3sC2Pbda9/eJ
@@ -155,147 +149,37 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 
-On Thu, 2026-10-29 at 17:07 +0100, Christian Brauner wrote:
-> hfs_btree_open() sets SB_RDONLY when the map record of a b-tree
-> doesn't
-> mark the header node as used. That's fine while mounting. But
-> hfsplus_create_attributes_file() calls it too when the first extended
-> attribute is set on a filesystem that has no attributes file yet.
-> That
-> runs on the live filesystem without s_umount and a filesystem must
-> not
-> change SB_RDONLY behind the VFS' back.
+On Fri, 2026-10-30 at 22:23 -0300, Joas Antonio dos Santos wrote:
+> On Fri, 17 Jul 2026 19:27:06 +0530, Deepanshu Kartikey wrote:
+> > hfsplus_reconfigure() does not create the hidden directory when
+> > remounting from read-only to read-write, leaving sbi->hidden_dir
+> > as NULL.
 >=20
-> hfsplus_create_attributes_file() opens a tree it has just created
-> itself
-> with the header node marked as used, so there's nothing to check
-> there.
-> Move the check into hfsplus_fill_super() and do it for every tree it
-> opens. No functional changes.
+> I independently reproduced the syzbot null-ptr-deref and confirm the
+> root cause: on a read-only mount of a volume whose on-disk "HFS+
+> Private
+> Data" directory is absent, sbi->hidden_dir stays NULL (it is created
+> only in hfsplus_fill_super() under !sb_rdonly). After a remount,rw,
+> hfsplus_unlink() -> hfsplus_cat_write_inode(sbi->hidden_dir)
+> dereferences
+> the NULL inode (inode->i_sb) during rename -- the reported crash in
+> the
+> [0x28-0x2f] range.
 >=20
-> Suggested-by: Viacheslav Dubeyko <slava@dubeyko.com>
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-> ---
-> =C2=A0fs/hfsplus/btree.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 42 +++++++++++++=
-+++++++++++++++-----------
-> ---
-> =C2=A0fs/hfsplus/hfsplus_fs.h |=C2=A0 1 +
-> =C2=A0fs/hfsplus/super.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 5 +++++
-> =C2=A03 files changed, 34 insertions(+), 14 deletions(-)
+> I applied v7 on c339f4010 and tested on arm64 with KASAN, using the
+> crafted image from the syzbot reproducer and the equivalent sequence
+> (mount -o ro -> mount -o remount,rw -> rename): without the patch
+> this
+> oopses in hfsplus_cat_write_inode; with v7 the remount,rw creates the
+> hidden directory, the rename succeeds, and the KASAN splat is gone. A
+> normal read-write mount + rename is unaffected.
 >=20
-> diff --git a/fs/hfsplus/btree.c b/fs/hfsplus/btree.c
-> index bd4dbdbc8f98..4a67569050e3 100644
-> --- a/fs/hfsplus/btree.c
-> +++ b/fs/hfsplus/btree.c
-> @@ -270,7 +270,6 @@ struct hfs_btree *hfs_btree_open(struct
-> super_block *sb, u32 id)
-> =C2=A0	struct hfs_btree *tree;
-> =C2=A0	struct hfs_btree_header_rec *head;
-> =C2=A0	struct address_space *mapping;
-> -	struct hfs_bnode *node;
-> =C2=A0	struct inode *inode;
-> =C2=A0	struct page *page;
-> =C2=A0	unsigned int size;
-> @@ -381,19 +380,6 @@ struct hfs_btree *hfs_btree_open(struct
-> super_block *sb, u32 id)
-> =C2=A0	kunmap_local(head);
-> =C2=A0	put_page(page);
-> =C2=A0
-> -	node =3D hfs_bnode_find(tree, HFSPLUS_TREE_HEAD);
-> -	if (IS_ERR(node))
-> -		goto free_inode;
-> -
-> -	if (!hfs_bmap_test_bit(node, 0)) {
-> -		pr_warn("(%s): %s (cnid 0x%x) map record invalid or
-> bitmap corruption detected, forcing read-only.\n",
-> -				sb->s_id, hfs_btree_name(id), id);
-> -		pr_warn("Run fsck.hfsplus to repair.\n");
-> -		sb->s_flags |=3D SB_RDONLY;
-> -	}
-> -
-> -	hfs_bnode_put(node);
-> -
-> =C2=A0	return tree;
-> =C2=A0
-> =C2=A0 fail_page:
-> @@ -407,6 +393,34 @@ struct hfs_btree *hfs_btree_open(struct
-> super_block *sb, u32 id)
-> =C2=A0	return NULL;
-> =C2=A0}
-> =C2=A0
-> +/*
-> + * Check the map record of a b-tree at mount. hfs_btree_open() can't
-> do it
-> + * because hfsplus_create_attributes_file() calls it on the live
-> filesystem
-> + * where SB_RDONLY must not be set.
-> + */
-> +int hfsplus_btree_check_map(struct hfs_btree *tree)
-> +{
-> +	struct super_block *sb =3D tree->sb;
-> +	struct hfs_bnode *node;
-> +
-> +	node =3D hfs_bnode_find(tree, HFSPLUS_TREE_HEAD);
-> +	if (IS_ERR(node)) {
-> +		pr_err("failed to load %s header node\n",
-> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 hfs_btree_name(tree->cnid));
-> +		return PTR_ERR(node);
-> +	}
-> +
-> +	if (!hfs_bmap_test_bit(node, 0)) {
-> +		pr_warn("(%s): %s (cnid 0x%x) map record invalid or
-> bitmap corruption detected, forcing read-only.\n",
-> +				sb->s_id, hfs_btree_name(tree-
-> >cnid), tree->cnid);
-> +		pr_warn("Run fsck.hfsplus to repair.\n");
-> +		sb->s_flags |=3D SB_RDONLY;
-> +	}
-> +
-> +	hfs_bnode_put(node);
-> +	return 0;
-> +}
-> +
-> =C2=A0/* Release resources used by a btree */
-> =C2=A0void hfs_btree_close(struct hfs_btree *tree)
-> =C2=A0{
-> diff --git a/fs/hfsplus/hfsplus_fs.h b/fs/hfsplus/hfsplus_fs.h
-> index 6f240f87f8ff..58c780b09b6f 100644
-> --- a/fs/hfsplus/hfsplus_fs.h
-> +++ b/fs/hfsplus/hfsplus_fs.h
-> @@ -362,6 +362,7 @@ int hfsplus_block_free(struct super_block *sb,
-> u32 offset, u32 count);
-> =C2=A0u32 hfsplus_calc_btree_clump_size(u32 block_size, u32 node_size, u6=
-4
-> sectors,
-> =C2=A0				=C2=A0 int file_id);
-> =C2=A0struct hfs_btree *hfs_btree_open(struct super_block *sb, u32 id);
-> +int hfsplus_btree_check_map(struct hfs_btree *tree);
-> =C2=A0void hfs_btree_close(struct hfs_btree *tree);
-> =C2=A0int hfs_btree_write(struct hfs_btree *tree);
-> =C2=A0int hfs_bmap_reserve(struct hfs_btree *tree, u32 rsvd_nodes);
-> diff --git a/fs/hfsplus/super.c b/fs/hfsplus/super.c
-> index ff7d6b3336a6..532f23502df3 100644
-> --- a/fs/hfsplus/super.c
-> +++ b/fs/hfsplus/super.c
-> @@ -564,6 +564,11 @@ static int hfsplus_fill_super(struct super_block
-> *sb, struct fs_context *fc)
-> =C2=A0	}
-> =C2=A0	sb->s_xattr =3D hfsplus_xattr_handlers;
-> =C2=A0
-> +	if (hfsplus_btree_check_map(sbi->ext_tree) ||
-> +	=C2=A0=C2=A0=C2=A0 hfsplus_btree_check_map(sbi->cat_tree) ||
-> +	=C2=A0=C2=A0=C2=A0 (sbi->attr_tree && hfsplus_btree_check_map(sbi-
-> >attr_tree)))
-> +		goto out_close_attr_tree;
-> +
-> =C2=A0	inode =3D hfsplus_iget(sb, HFSPLUS_ALLOC_CNID);
-> =C2=A0	if (IS_ERR(inode)) {
-> =C2=A0		pr_err("failed to load allocation file\n");
+> Tested-by: Joas Antonio dos Santos <joasantonio108@gmail.com>
+>=20
 
-
-Looks good.
-
-Reviewed-by: Viacheslav Dubeyko <slava@dubeyko.com>
+I've reworked the v7 of the patch addressing my concerns and comments.
+I will apply the v8 of the patch on HFS/HFS+ tree (for-next branch)
+when 7.4-rc1 will be released.
 
 Thanks,
 Slava.
