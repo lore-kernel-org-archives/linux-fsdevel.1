@@ -1,85 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.229.9
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793538522;
-	b=gbBVxBJJDsaU4YtEW3oM8v0aLzHBQOvGge1+y1272kbMU53yZ1PJW6lYQpAkftXcQ8Cu
-	 Sz1K4RYqVaBrK817f3wYbhEIheLECTm39VwBYX7bLohBdDnpQYkVUajgmssgVkZKbs8/q
-	 4WqcUSMZKaxN5hqnZYlilOnMEwGQsudRZfBqkLOMkrz4zrlb5hdQp/rkL6Un27or46I/z
-	 dymyNg5HnW3/P66LlEVbxbexckoatdgb92q0oFF8Me6/0jyEakCYYhhpanzvC2QchSjm0
-	 Pf/dgcqAbYcErcTp+Gz6bAiJ+0iojMj9hBQzaRnmpYUVCLIl4eMbDkmUDGRtBtyyNjg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793538522;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:Date:
-	 Message-Id:To:Cc:In-Reply-To:References:X-Mailer;
-	bh=DN+73IopgojkHF5owDqrZcQJFph061u4C7fIX+4pVMM=;
-	b=gL2jN6PB4yyN5bBGn4DuQt+ZF7u1WTSpHDRgHPkFy3T+qLi2d7bu9zPFW5sEXP5h/7UO
-	 x1yqR88uFHf1Y3d2n8e0Fz/fQDZ1oSOwtBjY3eVQ2+SRzw03VJx9eEg8cVRy5Yxk0at2X
-	 /5PVby593MJfFGV3c5vG7KhlH9EegUKMgAj6rDjO/EPW5wdOWjkTtpLqlEMcYec35VHVE
-	 xfxLTEySndZkcHnY7X0cGGVA7y77QtoJdk90U9P9V3bBw6dVfKOIwfHwaJcsb2oi31oL3
-	 nHUdlfUw5SpdL4A7SEkygvCBEidKEUfNAQDspzHpnTGHPfE0XWB8fC+QF2rnm00J/sg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Ui8X5Z4V;
-	arc=none smtp.remote-ip=74.125.229.9
-Received: from mail-dy2-f9.google.com (mail-dy2-f9.google.com [74.125.229.9])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793540937;
+	b=F8bNREcWQLU36b9Odohpn0Eoc4PNGYW/BH0F7c+HkWc94LPEnzn5HtrcuYVY32JF6gmK
+	 ht2OU8wAj14jVTYNruMNM6drvBlgOBcfSbn35loP5gKZ55PMiLgel1pkRkd5cLKYLJlFj
+	 VEWZEcdaSn5pq5VhXauytIwo0EF2lJK6A2lU4R9gDp/1Miur4reevBu3CFTAxgWz8PJm3
+	 GOz3bGwi6PwmCt/aWN2FL+r5EugpLxpNwZ8lsgQ2vpJY1H0W1GUFqPutceI/JCULsOsaI
+	 NX04bEymsZw9yvNAG7+d4Vzl+IZqKojvN0raSnA+yzZwJ1Kj6B4nw6v+/e3NbEMcYaA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793540937;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:X-B4-Tracking:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=sf2fWx8SkwotfgOzFNKCbxbo9iqhQM6sIeyQ7Y70Yyo=;
+	b=axF/Cz2has4g60YR0CWjZ5RE3W2NTyeQrCP5FCa4HSHeaaOPWfCKEjOJztHbw/+lCsMa
+	 jTifu6eeOCZmRFN82XuHw7V0uoq9/GO929IiBf2xdHB0m6bgZ0oBKVCrEf+WXmAJuKXqN
+	 pMnyIMb4FV5PMzRUBkYQyWoqPtWDJTQGNadw4WxT4YvVRxRsqmFUHI49ZubicNvNtvOX7
+	 j0YlBX/uuX0SSxIkPs+zpXUIWKEzaBx45U3RrB+KVpGmbQal/c5wt0gaA0F1XmoPE/eYM
+	 VyJ8eZLuGYOrCNdVkeSV0f8g2PoJn3jO3sNgj3iB2lLT9k2Poytw0XPw5FnDbZfG+LA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JYNSQwiF;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B69B1606A324;
+	Sun,  1 Nov 2026 13:48:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JYNSQwiF
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1793540936;
+	b=T7w5Tyrc4K2ozr+FIjIIs/M0hh8V6ZxF74cBo4nIbrWyV+zCDaOeb9Xe66Vj+8EcIbaH
+	 JSMJtyJ9Tr15rozd/NsorloxK0u77LR4e7XEdQIWtmAr5UsvNXD4vczyO3crg7gkuM5Qu
+	 0bRsR93y5EKHDmy/vLgroN+DYlRtQLYR2UqNJOHvg4U1toN2z4biKqvqh9Ib71t43GqE2
+	 i2gKqIQ3v+MBP9AqO866HRYqaqOluAlBK3PYQdFRk2wfuwdGzDmzHuilGaO5P2G3wSkvH
+	 r/oUomCfY/x2vW/E3nZ7q7p+9jNlVdUHzSQj4dZ6xvDlHiiIel7Il0NC6KdS4UpvXkw==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1793540936;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:X-B4-Tracking:To:Cc:X-Mailer:X-Developer-Signature:
+	 X-Developer-Key:X-Endpoint-Received:X-Original-From:Reply-To:
+	 Content-Transfer-Encoding;
+	bh=sf2fWx8SkwotfgOzFNKCbxbo9iqhQM6sIeyQ7Y70Yyo=;
+	b=KzdZvJkw3lHyXXQ9suzwBLrH27njJ6wenmxO1B/Z4KhbFSHkCN+hD4kkWfbqrwiVDBFe
+	 OYRdchiQA8SDWwgeqhMBQ+JmhVBbLXDS11lydbJ5ybok28l5jrG+MRdv63zH8H+1K2TUa
+	 Ytka778SLzAl9oUmFmTWZf0KRjY8bcaKbpz1x8766sLyVYd/pahA62NMGHQO/UqjX9wSZ
+	 yeGY3SyJH+JaY40DJHhmOHbYPO6cNNEypt67n20yFfl+Od8AbiYs453jhU1+Q6NUtJ3uL
+	 TLE1Qtb97lW5cCvHyLfAqVAytpxIBDBcg7m0yunslUePp4A3lhehGfrSeXjQY/EBXKA==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B344E606A32F
-	for <linux-fsdevel@vger.kernel.org>; Sun,  1 Nov 2026 13:08:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B344E606A32F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Ui8X5Z4V
-Received: by mail-dy2-f9.google.com with SMTP id 5a478bee46e88-35eaf84cc66so2287074eec.0
-        for <linux-fsdevel@vger.kernel.org>; Sun, 01 Nov 2026 05:08:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793538520; x=1794143320; darn=vger.kernel.org;
-        h=references:in-reply-to:cc:to:message-id:date:from:subject
-         :content-transfer-encoding:content-type:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=DN+73IopgojkHF5owDqrZcQJFph061u4C7fIX+4pVMM=;
-        b=Ui8X5Z4Vcsi3afFDuZP4c7n6Y1u3hrIwd8imnTwYv527JuxpSlDa2Nt2iKqKLIeSx9
-         LGWnxWwerWrqDvDtxh5ZfjScTg5ojvqr/StdKLGzfm2EvegZQPV3R7c9TH/SYao6N4a+
-         9WpXfACIGBRheiQoRfuJBvD4TwwtlHxnLiV7hjAX2J8mR9vW7QdjOdnoVoTJpEuD66Pe
-         /JI1XNpXhyXZmga3BDNQB7vhuj4BNBnv4vgtl8XVuYTEN4gnHATgeCEVJMtklcj/H0ab
-         4qwHpK1idThI+nh0Usu9fTCkZFxA835HPggfOKY7B+PX643PF+tw0v4ksdU2Jp72wRJV
-         l88A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793538520; x=1794143320;
-        h=references:in-reply-to:cc:to:message-id:date:from:subject
-         :content-transfer-encoding:content-type:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=DN+73IopgojkHF5owDqrZcQJFph061u4C7fIX+4pVMM=;
-        b=JlIcphi3x4Ri+tSAG/d8SLSLWJykSNC5G23nZZhTpPCZMDZtxXx/ipJ66ooBY100mI
-         JwMSb21p3q7mPLnA2+yyz+Xtdu/gAimgWdY6c21udVVjymC1+5H7D83Fz5dS8cQjgQTP
-         i+56EUIljAMR3T/L3l7u1fCNY8HJQCDLER9ooQ+tSBzioRrpb4wvoY0hybbArNK1Pbqq
-         6h8nwsk7FGLK9NclaByw88LwT8bqv/xN4Eh7tuT4o5u23g0ShS4bbIJkpKh+WKY9vP0f
-         ukhN92BbTjVn4npDzwOConlyafJQqW6uXYjmKYu8obmz0YyX6HJ3BknhsUKMAkk0VRGf
-         3MJw==
-X-Forwarded-Encrypted: i=1; AKwUvBwsqAL3WLX8E4SccHcp2eACnICPBzOsPw2BR8AgJ2NPhwo7c6tf5uVc9MU7HyPSzUbCXImULj0CNR3BGGT3@vger.kernel.org
-X-Gm-Message-State: APuU4Z+QGajCcE96i22T7EeDr3LwIMMBqq/TIJEo6HIY7mCW4rML9dRp
-	Tde6Tq/jS4YMyuKh0yGSDGn3S4rAqyfiFGtMrPpP09a64fOtcy5mYPH7
-X-Gm-Gg: AYBFou0VVMxg6YOA4mxN2fi27ZCw49m0uyWGCfM2URmQ2nY1P/T+J0OM0C0eVbZZcLa
-	GQtBlRooMztJLyAHo0rb+Wkywk7gKnZglN/fgVxqTjc1ERiFZxAF5gxsB7898/XJPkX7j1to6Kd
-	bLHsCxyNgTjR6b1OG6Kbvw/HiD4Pk5kLGLmKz3cRr33S/QT8//8uVQGoHR39bob4jtLSh6z/ckz
-	jHZ7Pxcr5FqbHEhJawjCUS3i6H01WWQ0w0CfQ0JRWcnSE+IjJh0BMdcFK0U8ZDCsvyCa1uXRzWQ
-	2tisrH/7MSoyh21YEyGFIsLyS7yn4IrfPNhJB7nDcb9s+euDvF4Hoe9C8fEFMjqJABVwkkWc40K
-	bc67QjIETowosxdRsJIvfNTek+KLtPtbdFLAQAHqFl9qcf/66H+Gj/68VZY0P9s0jKnj17Mc3wI
-	ywEKjkbtl2OqgIaM8ImBhhEpTx4MsG60k5jTjnPFtozVg0HN9098OyXJ7jQS6GNSrON3Y7USARC
-	PR2Xwu0A3TNshOTaVc8zBdHKi4JMH0Wxa3kI6ILpxJM3VG5Kb6ZSsoBGSbpnALWA7uaMTdF4AUT
-	QpErk/j9ej8T971jH10u0ed2J8lSB1ij4gBsN5hojmj5bN7Z/UlDbxkC8kS8sfFH9oIGPfUhitN
-	7P2FJSN+PWddzygygNNILiLH25hE=
-X-Received: by 2002:a05:7301:da83:b0:366:83dd:46f3 with SMTP id 5a478bee46e88-36a423a1f05mr10839613eec.14.1793538519681;
-        Sun, 01 Nov 2026 05:08:39 -0800 (PST)
-Received: from localhost (n106-71-19-159.sun21.vic.optusnet.com.au. [106.71.19.159])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a4294419dsm25939660eec.18.2026.11.01.05.08.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Nov 2026 05:08:39 -0800 (PST)
+	by smtp.kernel.org (Postfix) with ESMTPS id B936F1F000C1;
+	Sun,  1 Nov 2026 13:48:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793540936;
+	bh=sf2fWx8SkwotfgOzFNKCbxbo9iqhQM6sIeyQ7Y70Yyo=;
+	h=From:Date:Subject:To:Cc:Reply-To;
+	b=JYNSQwiFGZz73IBHMo4DK3+cb8IZRdzBWiN79Be3d8ZytFx3Qe7HYmGZuNmKT4xTI
+	 b4vxmDyQNJRS7V3T6g2kWrsqogi6aLac0Wjee7UnYdy3SP0k9QJhn5M7hYhshotcOj
+	 SrrdAKwvRvOapBPmBdt+hQcbuM+LPlaaf6H8C5wIYvglMDw/vHC6IIC0ClC+ZzI7p8
+	 IHAF8UGehrfkXGPIbJWLBLrQO9db6KGmTIujtMFDuomZGUM0+ptHCx8uGhBt8o0GVK
+	 H/7KaQgLauMGx77Eiq1awMnWrN8azaLHdb0lP2GuXv4K1yd4HE+f/B0x6tpVX7Sikp
+	 G0UeSscAoxXJw==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 1FD6646188;
+	Sun,  1 Nov 2026 13:48:55 +0000 (UTC)
+From: Joas Antonio dos Santos via B4 Relay <devnull+joasantonio108.gmail.com@kernel.org>
+Date: Sun, 01 Nov 2026 13:48:55 +0000
+Subject: [PATCH v3] hugetlbfs: move hugetlbfs_free_inode tracepoint to
+ ->destroy_inode()
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -90,35 +84,143 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261101-b4-hugetlbfs-trace-v3-1-051b716f490f@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAEZD52oC/32NQQ6CMBBFr0Jm7ZiWViWuvIdh0ZahnQQoaZFoC
+ He3cgCX7yX//Q0yJaYM92qDRCtnjlMBdarABTN5Qu4KQy3qqxRKotUYXp6WwfYZl2QcodLSKtU
+ Ye7lZKMM5Uc/vI/psCwfOS0yf42OVP/s3t0qUqMk1naiNEs49/Gh4OLs4Qrvv+xflPZQgtAAAA
+ A==
+To: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+ David Hildenbrand <david@kernel.org>
+Cc: linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>, 
+ Hongbo Li <lihongbo22@huawei.com>, linux-fsdevel@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ syzbot+91e1fc35f51774c479b2@syzkaller.appspotmail.com, 
+ stable@vger.kernel.org, Joas Antonio dos Santos <joasantonio108@gmail.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1793540934; l=4610;
+ i=joasantonio108@gmail.com; s=20261031; h=from:subject:message-id;
+ bh=hsjYpEEpLfY06mwC5K6ZIdgYdPIvwZSlg1C/xa03vNE=;
+ b=BmXuNSntQmCrvn/OtUUWVl3EBh3PNxguI3icnBQ5TGmrSpMuwaATN0T3mCF81AKlpCxVZw1sq
+ LQgetf/RxWvDBb/SVzvpMm/Au532FAPkGM0YXtOvySgToUd5LBN8AyV
+X-Developer-Key: i=joasantonio108@gmail.com; a=ed25519;
+ pk=ZxAznJT/FcPPdzLrDDFJQm4LLjjHVGBBqDSG3TXS23w=
+X-Endpoint-Received: by B4 Relay for joasantonio108@gmail.com/20261031 with
+ auth_id=1371
+X-Original-From: Joas Antonio dos Santos <joasantonio108@gmail.com>
+Reply-To: joasantonio108@gmail.com
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH] hugetlbfs: report inode limits without a memory
- subpool
-From: Aveline Noir <jm5905938@gmail.com>
-Date: Sun, 01 Nov 2026 23:58:16 +1100
-Message-Id: <179353789680.2.16953097023348053073.b4-reply@b4>
-To: Hungyu Lin <dennylin0707@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
- David Hildenbrand <david@kernel.org>, linux-fsdevel@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>
-In-Reply-To: <20261101122653.53982-1-dennylin0707@gmail.com>
-References: <20261101122653.53982-1-dennylin0707@gmail.com>
-X-Mailer: b4 0.16.0
 
-Hi Hungyu,
+From: Joas Antonio dos Santos <joasantonio108@gmail.com>
 
-On Sun, 01 Nov 2026 12:26:53 +0000 Hungyu Lin wrote:
+hugetlbfs_free_inode() calls trace_hugetlbfs_free_inode(), and the
+hugetlbfs__inode event class records inode->i_sb->s_dev.  ->free_inode()
+runs from an RCU callback (destroy_inode() queues i_callback() with
+call_rcu()), and Documentation/filesystems/porting.rst says that this
+callback "is *NOT* ordered wrt superblock destruction; as the matter of
+fact, the superblock and all associated structures might be already
+gone".  put_super() frees the superblock with call_rcu() followed by a
+workqueue item (destroy_super_rcu() -> destroy_super_work()).  syzbot
+hit this with the event enabled:
 
-> Report the inode counters when an inode limit is configured,
-> independently of the memory subpool. Preserve the existing zero and -1
-> results for unlimited inode counts.
+  BUG: KASAN: slab-use-after-free in trace_event_raw_event_hugetlbfs__inode+0x45b/0x4c0 include/trace/events/hugetlbfs.h:36
+  Read of size 4 at addr ffff888038850010 by task syz-executor952/6134
+   hugetlbfs_free_inode+0x15e/0x1f0 fs/hugetlbfs/inode.c:1182
+   i_callback+0x46/0x80 fs/inode.c:317
+   rcu_do_batch kernel/rcu/tree.c:2650 [inline]
+   rcu_core+0x5f0/0x1220 kernel/rcu/tree.c:2919
+  Allocated by task 6134:
+   alloc_super fs/super.c:326 [inline]
+   sget_fc+0x1ba/0x1f60 fs/super.c:874
+   hugetlbfs_get_tree+0x1e7/0x2b0 fs/hugetlbfs/inode.c:1431
+  Freed by task 855:
+   kfree+0x22b/0x6d0 mm/slub.c:6923
+   process_one_work+0xac7/0x1b10 kernel/workqueue.c:3495
 
-Tested in an x86-64 QEMU/KVM guest and all checks passed.
-Inode-only counts are fixed, and unlimited counts are unchanged.
-Makes sense to me.
+Emit the event from hugetlbfs_destroy_inode() instead.  destroy_inode()
+calls ->destroy_inode() synchronously, before it queues the RCU
+callback, while the superblock is still alive; hugetlbfs_destroy_inode()
+already dereferences inode->i_sb there.  ->free_inode() is left with
+only the kmem_cache_free().
 
-Reviewed-by: Aveline Noir <jm5905938@gmail.com>
-Tested-by: Aveline Noir <jm5905938@gmail.com>
+Since the event no longer fires from ->free_inode(), rename it to
+hugetlbfs_destroy_inode so that its name matches where it is emitted,
+as suggested by David and Muchun.
 
-Thanks,
-Aveline Noir
+Found by syzbot; analysed and tested with the syzbot C reproducer on an
+arm64 KASAN kernel.
+
+Fixes: 014ad7c42a69 ("hugetlbfs: use tracepoints in hugetlbfs functions.")
+Reported-by: syzbot+91e1fc35f51774c479b2@syzkaller.appspotmail.com
+Closes: https://lore.kernel.org/all/6ae27525.5451848c.f7707.0001.GAE@google.com/
+Suggested-by: David Hildenbrand <david@kernel.org>
+Suggested-by: Muchun Song <muchun.song@linux.dev>
+Cc: stable@vger.kernel.org
+Signed-off-by: Joas Antonio dos Santos <joasantonio108@gmail.com>
+---
+Andrew, this replaces
+hugetlbfs-emit-hugetlbfs_free_inode-from-destroy_inode.patch in
+mm-hotfixes-unstable.
+
+Tested with the syzbot C reproducer (adjusted for the new event name)
+on an arm64 KASAN kernel: no splat in 3 of 3 boots, and
+hugetlbfs_destroy_inode events are recorded.
+
+Tool-use note: the analysis and testing were done with help from an
+LLM-based assistant; I reviewed the change and ran the tests myself.
+---
+Changes in v3:
+- Rename the tracepoint to hugetlbfs_destroy_inode in the same patch,
+  so its name matches where it now fires (David, Muchun).
+- v2 was the resend with the Assisted-by trailer dropped; it should
+  have been marked v2 in the subject, sorry about that.
+- Link to v2: https://lore.kernel.org/r/20261031-b4-hugetlbfs-trace-v1-1-4ec8d02a30cc@gmail.com
+---
+ fs/hugetlbfs/inode.c             | 6 +++++-
+ include/trace/events/hugetlbfs.h | 2 +-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
+index 01c4d6f44e..095b7fceee 100644
+--- a/fs/hugetlbfs/inode.c
++++ b/fs/hugetlbfs/inode.c
+@@ -1179,12 +1179,16 @@ static struct inode *hugetlbfs_alloc_inode(struct super_block *sb)
+ 
+ static void hugetlbfs_free_inode(struct inode *inode)
+ {
+-	trace_hugetlbfs_free_inode(inode);
+ 	kmem_cache_free(hugetlbfs_inode_cachep, HUGETLBFS_I(inode));
+ }
+ 
+ static void hugetlbfs_destroy_inode(struct inode *inode)
+ {
++	/*
++	 * Not in ->free_inode(): that runs from an RCU callback, when the
++	 * superblock the event reads may already be freed.
++	 */
++	trace_hugetlbfs_destroy_inode(inode);
+ 	hugetlbfs_inc_free_inodes(HUGETLBFS_SB(inode->i_sb));
+ }
+ 
+diff --git a/include/trace/events/hugetlbfs.h b/include/trace/events/hugetlbfs.h
+index 8ba72c1d4f..a7932e0db0 100644
+--- a/include/trace/events/hugetlbfs.h
++++ b/include/trace/events/hugetlbfs.h
+@@ -72,7 +72,7 @@ DEFINE_EVENT(hugetlbfs__inode, hugetlbfs_evict_inode,
+ 	TP_ARGS(inode)
+ );
+ 
+-DEFINE_EVENT(hugetlbfs__inode, hugetlbfs_free_inode,
++DEFINE_EVENT(hugetlbfs__inode, hugetlbfs_destroy_inode,
+ 
+ 	TP_PROTO(struct inode *inode),
+ 
+
+---
+base-commit: c339f4010dea8b0d754f84ace70cd1b089878ef8
+change-id: 20261031-b4-hugetlbfs-trace-341b338ab57b
+
+Best regards,
+-- 
+Joas Antonio dos Santos <joasantonio108@gmail.com>
+
+
