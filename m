@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793632026;
-	b=OxYmNt2ngxWxOL9u7tynZwg2nLhMeqx4GdKoK90nLxYNikPiPVv1u+c8xAIfqnHYJ66n
-	 0E1gH6KHdgD1Ejs74FgMIwWdJgyafgaTVwA6mD39BJ5fZnvviZTkihV018/VvWATfqL2W
-	 E6Y5BCfHeI1mFHeMbbHVKa/KqHZXZYNUXEzItFORYkRjTroHA3EygE4lNOsCbBU5wNl6v
-	 wdsZxAu2143VUi3CLKgFXu0fMJEncd9wdhhADrYNoSnw7z2jvwB7B0ZBrgD8xFJcHEYkP
-	 x3x9PqCWhU1yLKtS6eszudMJmGjminlPdIxPkfmjrzmv7HeQJtXQRx1vqoLUnkgWoPw==
+	t=1793632030;
+	b=nhlEyL1EK6I5+W2jN5cqEHiT6DTZ3HnEsm80d8L2iXCV3P4MjzhAGHokZthuHLCAW0jZ
+	 4cNaX+hPZdtUazVsCL25OohRubTw9N+1FWuLTzO3ZvGDTtXkfTzIngqNrNClkdlVQMA30
+	 yC3K4oGJecGQhT3AVmnu7YHV6UPyt2q+N8mDA9nw6jCW3Xxdt3MDwjBJmma4FhuipYBBa
+	 ItNRC9ZvBm5IbEAQkprFbDBcIJgfwps/E69EUl4EhPPycYx8VCyM9KoYd9831O+jA8Uu/
+	 kHHMRK30HJ4Ea6t/jqqyrY02C4++phydAjqmgxrywO1hzt9HBrYJP48Ebvu2eFi59xw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793632026;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793632030;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=dylFydTJD2AJSyC001lOFTgMCOP2ZnGzBFoGx74ahLY=;
-	b=0Y9Lkg2fZlpQm8SpVbqrLxnR0bX9ekTaLaJ1K4oRss5R9Yl3TK2J/ITaUodn05ZdNZpT
-	 I8Ib3BqIKQnaRshRf487kMHa4A+6FcxVw5G3cd6fnpK1BH0efPXZ92yYSJ88aOhGalJGt
-	 GRYBgtZa0BS2HbPO4PrXW7Npz3wcfVdfeMh6cq1ri3Wqaw1dELcHgWQ1S1Eitkru1E0np
-	 CnAnSC9qlgv+VGHCHZxkCV5toF15Z6aNIekMWDwmWfjmQPaQ7eKkQrAb7kT/ng6DsnFCp
-	 Kv2v4MN8m5OriyyO8KwUHXRMfHV7EsjmPmczl31RBNLzdEf/20BU05yS4s3ABFyRN9A==
+	bh=halThLpFR9MA/xSJWhg2nbRX5BJT0ocg9O7I/oZTep8=;
+	b=os0Pyzyr8eq5WeIt8McBgkbeh89PTOrcP9PpfCAQsRx21nBq366U0RDckZ8Of0O7u5s7
+	 tnczt3EIV5FPgafGHPeRn0aU2+VEB/Ads57FYAvqmcW5RErQ8o38QYN0P1xn2EUa6udOM
+	 MJ8UhgS30jLv3Zda9ysOw/QhzBCsyLTgk68KbUwtqf89rCZI2h0tN7tx/HiR/1Z2OSCph
+	 WTrSLDaZTDgUnens/5p97NibppJk2v5+OWUD+3FiVvGxhRQvkIaqGXirdFVwKDmp8uhPp
+	 wmkL/aEKtf+ACSrwYsIguXE0qn80cULNzTYsE/D33MpscOFAj8wGcwesScvjmoIVARA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=wIFPv+69;
-	arc=none smtp.remote-ip=209.85.128.44
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YLxbPHVa;
+	arc=none smtp.remote-ip=209.85.128.52
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0411B607228A
-	for <linux-fsdevel@vger.kernel.org>; Mon,  2 Nov 2026 15:07:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0411B607228A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 038C1608A342
+	for <linux-fsdevel@vger.kernel.org>; Mon,  2 Nov 2026 15:07:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 038C1608A342
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=wIFPv+69
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4a20bde60a0so24097305e9.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 02 Nov 2026 07:07:05 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YLxbPHVa
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a35a60499eso31001365e9.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 02 Nov 2026 07:07:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793632024; x=1794236824; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793632028; x=1794236828; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=dylFydTJD2AJSyC001lOFTgMCOP2ZnGzBFoGx74ahLY=;
-        b=wIFPv+694wyrg9+1XM8aOK8Wx39dCR+nB6fK+nMApN+7HUpoJctTfpVbDN4G/0e6Gf
-         Ah5qfgFWxlmfXMnQSLEI/YRxyDPVKlJm2VSdx0MUI2IzTjd6MYmWs4odw6r+1RqvJ111
-         oyjvS/JGjcAYvxtCDBjClRA54yveUkLx9JixEtSNtDW+n4MlrlTKOTULAgm7yUGXv8bO
-         XjBFEs/aMJzunIzvTdeb8KX2sTiZseANC1TpH2dObLB+5tib4H3Jdz64+38hMxYSDkSX
-         hVCkE2V0tU8fxfUcNr4jlbsmSuX0dMWkdJhcqFM5DX/xalEWo0VTvPyie618MiG85XnR
-         wWDg==
+        bh=halThLpFR9MA/xSJWhg2nbRX5BJT0ocg9O7I/oZTep8=;
+        b=YLxbPHVa5cOZpsGQyxC0GLuZjjMWkOCxx6h3WvnFgwj4gBVyLxZy5IA1n5ICpcucBl
+         rN3i7ER33XzYmzC5v8SeQrvP/BvKSTSvXM8PeCfNmX3RzziIOZcQF+3k4NbX2I++BUya
+         eaG5FlrldV01wdEfdtXMOHzfmhZ13T3wIpCT9+aEAQOxMdgKpt9pJ4d8VesuG/UH6tSt
+         5bjjSAQBvcMK70FM8wXFv59tARo8qmj2tjTBP/9fgN/G68c+ONeOoOVEHHAxKIKLe6NH
+         GNFEvjMWXcmjWU58twTKOtoqK1X66eBUJweHSNBmYXxPMdJN1IYviiAhkMOb4K0hvasb
+         PPrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793632024; x=1794236824;
+        d=1e100.net; s=20260707; t=1793632028; x=1794236828;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=dylFydTJD2AJSyC001lOFTgMCOP2ZnGzBFoGx74ahLY=;
-        b=hgm1yv3X9F5hqJDjoRe9IlYHO9FFj/1V77iMSR3eQ1+PHCE942gACDK0w/n6hARqfm
-         +otwDhTQ4UmsDj1sJw7roHhB9bhkYgRWLzAaERPxKVI2ORuB0ed6pS7Rui9w7w1JPR9K
-         A6WB8vMWeuJyY6VZ79MGZ1wEokkkRJzDTjChSy0Z4M0fSjrFgfwdkbImBvYPIBennm2H
-         Bw0bFpIRemOvQdVvVbelgLUrBoEB9j8eYgjKfVu4ATFMg0+95Ed0zg5GWWcjW2UkWntd
-         e/lIx9dnRz6booCQlWEjGF2TmIbMMQy9xcFhl0JhEV0hBoPLsqXtkv4/eGoQUv+3bWgm
-         ugnQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzWC/0k1tVUHnOZ3kXreyGS+tSsqk7/ZZF0QNJalMx+cHYap04gaw52a4GPCycqkg0BoNahLJjin1w4+hUN@vger.kernel.org
-X-Gm-Message-State: AFq9FYJVmtjcLCs4XJjzgjdiw0NAKfBHODNrBH0ipxjMc/WpT3zv49ym
-	Yl5GoDRKJFSoTdesQvnVrEg+8/zOZl9osjI3sXA87+XT7kH5KCW9PJ67
-X-Gm-Gg: AYBFou16+yhMNvE3Nzfmo1O39snjAQE8kDLZ938nj8X5ia1kXZke4c4mW6Y5DCUPQPS
-	+haV6Du/0cx39nQRzHNhXXaRieq8foKaeKmq0ZV48al2SKxp6d0Hz/Anpuj7tr4yqATYmV9jr6a
-	whz274qhq0iejLA6AU8v5iSH2990uH3/dRJTxdeIKrQwx67anyBbafUu4CZhceybpgkX279dzGL
-	f2SRbGVxTmsjIAGdBe/feUTQOua/YAwCr9ikZaZu9bX2QsFY9bYwwAN6Twh2oos8JLs55kk3Q1h
-	pY50BgtlGgG4Vb4YgDKaAupPNtGZ1eYyolJRw+zMpFEY50wJ0A/6lEXqnHwXFmx4AuiNZ3Y0Lbk
-	q/exY5aOGkwffUwYliQABrQny7GkC2K0fpOG+txSrvSevtXm6Tv485UwEE3KRnhCTavALuR617y
-	cdGb5cJJN+y/I987kHMZe2x3vQyCa0SgItRaIoZP4j7sDFjEkV2PB3KASsjVAU8PI0LmlBbZ1WQ
-	pP8Wl0HiR1m7m+6MOghDRWI2SKeDDhVUjhjqzJVUZ4skNv1VCq9B8+kG4L73gJ6eqvBjEzMaZP8
-	JLUYHIGjY7jN0bo81W+G5XetcTkMollKHgR623VhaXstyA==
-X-Received: by 2002:a05:600c:1f8d:b0:4a2:c9b:9b98 with SMTP id 5b1f17b1804b1-4ac177539f6mr227554115e9.17.1793632024294;
-        Mon, 02 Nov 2026 07:07:04 -0800 (PST)
+        bh=halThLpFR9MA/xSJWhg2nbRX5BJT0ocg9O7I/oZTep8=;
+        b=Z6ryx02ugqRW6uEN8KNSZKIYg8EBSVV1/XV1rh9YgQ7w1XVdO5d55VWsT7GBKrAWwL
+         elEr43XSwCrKXtsI/ra2VExPBDLcEjRORWMFhBSyFM8E5qM5zqW5WinX0cHR/tIBIi6u
+         CV1lCuc4uobgzj0KPzCvpBMc6YlOcnvLXASEzNm/0VSXr5Rgu19298FidjsvSiqugL3V
+         bcqYYK6Gk4EVRemG+EJwlHhx17Nxmsjg5ywVQaPv8YBUDIamOch9Q59QbbfNZXC657Gq
+         8/otG7b0ppGAROrxZOS6roT6WWAYmhuFMXGSVS3Z0iVRCutYhP2BWQIszKtEATMxmJAu
+         ohSg==
+X-Forwarded-Encrypted: i=1; AKwUvBw7clcZgSHMw8p1VhE2JIAoKKgFnddhzxXinS8ZssvoQfWSIqXsAZ456qToY7jP5Os13xgmkD8Bf8FYBP4a@vger.kernel.org
+X-Gm-Message-State: AFq9FYJY/1FOCBUliB2nlQAsGrPwpC16AF5evXNQUo4XrKihJ/kqtf3I
+	8vvKIjMjYZGA5b0Rb3Vv3/HhNEXf6AzfiIO8Ya24VQF2BL0Uaa9L9Im+
+X-Gm-Gg: AYBFou3vQg9lJjlsWIdpLdtkhwoABm6/PWiEY6y5zlXbEIocjhIq7DcL6ggTeUJt9ob
+	jLaENgEfzpRn5mtnaFcLApmPv3ekFvhomc8F4a++GL5RnH8TeMLLsrTkeaDIm31qD0wCYd2iefC
+	vBwcKP7LWkaKb1h4c4nSnq0anhvext4GLnzd1MuMRmVymRcqSdF+9xqYtW+1Xn5r25NE1GeN1Yq
+	L0GYvpX8Yc1Fc8+jbiboty3XFai6g1hORADvR8ozDdTX/DdiOq5t4agLlJZpcShDTEUVeLk8HtO
+	QgEHrbyhkf0H98YDsmbv0B4ftrlyE3dv1cV+e33oPRwcqP/mmwe03Hi1RQJ95zo4Z0G0HSPzyfP
+	Y4Kp9lheLQPpZAap+gefhdn+J0AeZunUU3asUEK7aVDdd3+WDGIsE2jivNGtqlAki0+3/K8nof8
+	35zHv7VgU9Esve3btjvu1kPm3QuLemObRIao1Ni648CQjQ3pJaoMnmPXL44d30AbF6XAXA13WrZ
+	tKIoMgb858lE2ejTwlQbp2uNTCmx1vXS7sjcz/nXqhJHqlesLYY9cdhbxcvmKCBbSFXvsI4jOU3
+	wooSmF88faoHu3mpeYZ3aoxTMsIpGme0jfEyNv3xr57+
+X-Received: by 2002:a05:600c:8b55:b0:4a2:1655:87e2 with SMTP id 5b1f17b1804b1-4ac17b2b023mr254051745e9.19.1793632028227;
+        Mon, 02 Nov 2026 07:07:08 -0800 (PST)
 Received: from localhost.localdomain ([2800:810:84a:dc6d:d32b:1515:b2a9:c74e])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4aa81b7fe80sm395629535e9.11.2026.11.02.07.07.00
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4aa81b7fe80sm395629535e9.11.2026.11.02.07.07.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2026 07:07:03 -0800 (PST)
+        Mon, 02 Nov 2026 07:07:07 -0800 (PST)
 From: =?UTF-8?q?Iv=C3=A1n=20Ezequiel=20Rodriguez?= <ivanrwcm25@gmail.com>
 To: David Howells <dhowells@redhat.com>,
 	Paulo Alcantara <pc@manguebit.org>,
@@ -88,12 +88,13 @@ Cc: Shyam Prasad N <sprasad@microsoft.com>,
 	linux-fsdevel@vger.kernel.org,
 	linux-cifs@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH netfs v2 0/2] preserve prepare_write errno across write reissue
-Date: Mon,  2 Nov 2026 12:06:53 -0300
-Message-ID: <20261102150656.207612-1-ivanrwcm25@gmail.com>
+Subject: [PATCH netfs v2 1/2] netfs: preserve prepare_write errno on reissue
+Date: Mon,  2 Nov 2026 12:06:54 -0300
+Message-ID: <20261102150656.207612-2-ivanrwcm25@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261028181229.1408342-1-ivanrwcm25@gmail.com>
+In-Reply-To: <20261102150656.207612-1-ivanrwcm25@gmail.com>
 References: <20261028181229.1408342-1-ivanrwcm25@gmail.com>
+ <20261102150656.207612-1-ivanrwcm25@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -106,50 +107,39 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-cifs (and others) may fail in prepare_write() with
-netfs_prepare_write_failed() before write_retry calls
-netfs_reissue_write().  Since 82e8885bd763, reissue clears
-subreq->error to 0 for a clean I/O retry, so a FAILED subreq is
-terminated with 0.  The collector then does mapping_set_error(0),
-which is a no-op — writeback errno is lost (not an infinite retry).
+prepare_write() may call netfs_prepare_write_failed() (FAILED + errno)
+before write_retry calls netfs_reissue_write().  Clearing subreq->error
+to 0 for a clean I/O reissue (82e8885bd763) then makes
+netfs_do_issue_write() terminate with 0.  The collector copies
+front->error into stream->error and mapping_set_error(), which ignores
+0, so writeback failure is silent.
 
-Patch 1 skips that clear when FAILED is already set.
-Patch 2 adds a KUnit stub test: FAIL unpatched, PASS patched.
+Skip clearing error when NETFS_SREQ_FAILED is already set;
+do_issue_write() already terminates FAILED subrequests.
 
-  ./tools/testing/kunit/kunit.py run --kunitconfig=fs/netfs/.kunitconfig \
-	netfs_reissue_write*
-
-Changes in v2:
-- KUnit: allocate netfs_io_request / netfs_io_subrequest with
-  kunit_kzalloc() to fix ARM allyesconfig -Wframe-larger-than=
-  (kernel test robot).
-
-No prior lore report found for this interaction; surfaces on top of
-Shyam's NEED_RETRY change.
-
-Cc: David Howells <dhowells@redhat.com>
-Cc: Paulo Alcantara <pc@manguebit.org>
+Fixes: 82e8885bd763 ("netfs: when subreq is marked for retry, do not check if it faced an error")
 Cc: Shyam Prasad N <sprasad@microsoft.com>
 Cc: Steve French <stfrench@microsoft.com>
-Cc: netfs@lists.linux.dev
-Cc: linux-fsdevel@vger.kernel.org
-Cc: linux-cifs@vger.kernel.org
+Signed-off-by: Iván Ezequiel Rodriguez <ivanrwcm25@gmail.com>
+---
+ fs/netfs/write_issue.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-
-Iván Ezequiel Rodriguez (2):
-  netfs: preserve prepare_write errno on reissue
-  netfs: add KUnit coverage for reissue prepare_write errno
-
- fs/netfs/.kunitconfig          |  3 ++
- fs/netfs/Kconfig               |  9 ++++
- fs/netfs/Makefile              |  2 +
- fs/netfs/write_collect.c       |  4 ++
- fs/netfs/write_issue.c         |  4 +-
- fs/netfs/write_reissue_kunit.c | 80 ++++++++++++++++++++++++++++++++++
- 6 files changed, 101 insertions(+), 1 deletion(-)
- create mode 100644 fs/netfs/.kunitconfig
- create mode 100644 fs/netfs/write_reissue_kunit.c
-
+diff --git a/fs/netfs/write_issue.c b/fs/netfs/write_issue.c
+index b8237e1314d8..f23364116421 100644
+--- a/fs/netfs/write_issue.c
++++ b/fs/netfs/write_issue.c
+@@ -268,7 +268,9 @@ void netfs_reissue_write(struct netfs_io_stream *stream,
+ 	iov_iter_truncate(&subreq->io_iter, size);
+ 
+ 	subreq->retry_count++;
+-	subreq->error = 0;
++	/* Keep prepare_write() errno; do_issue_write() terminates FAILED. */
++	if (!test_bit(NETFS_SREQ_FAILED, &subreq->flags))
++		subreq->error = 0;
+ 	__clear_bit(NETFS_SREQ_MADE_PROGRESS, &subreq->flags);
+ 	__set_bit(NETFS_SREQ_IN_PROGRESS, &subreq->flags);
+ 	netfs_stat(&netfs_n_wh_retry_write_subreq);
 -- 
 2.43.0
 
