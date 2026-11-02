@@ -1,54 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.228
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793634053;
-	b=eBRiCa60joCnnQxZbuYQWpiPMnVtct/WVkez36SIJgujptr4QFFJxuk713EZM9GKhl6E
-	 0oKWrxCV/UV/Me7Ih6UT3hG++kwMFI5TbI8zB6HJA06MRLlDtDKfZNvyQBDhmZFDxm5On
-	 nsINsPplJWWFrQ1pnQU5kFx+Fixt+9S57R5GSYR0TkK1kPsufG8S6x8mI9qrwConHd166
-	 jauwX8ksQNIz94YzUEaUz+ut2Zu52lyUKjAXB6eyhCJlUjkFWIYA1D0ZjNOqAY9sQnToT
-	 T4N1XE10AM3E8qUZxbXL0I7hzhQZA5tvKSqH05FNbQIMx7pn+segCtxxsz0V7Bed4Pg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793634053;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=C+xl5OHF774uZtOPJCxbupJhSCVj7T1aesHy1KgIPVQ=;
-	b=ydoUC0QnxMXoW8wPq+rs2OwSH3WOcPZZS/f0l4TnH2NElH+E2z8/nYB0ffGyEHMFvNzr
-	 AvVCSqX2Zlr0SsK89jXj9/Q533PErUXpocdtQmjOpaW7gldIY5mnM18f9Pve9+N7kP6Rh
-	 VyY48pr+lCrwYTFFwv6CeBg5wNEO3oMZnuz4gN9MWK0tUCCA3wURNmDFN1rmujHZkGdqL
-	 3L1Lhn9OAdmI1XZDDax1QTcRt/9Afyr3x3+z37pzu9j8PAxm+MYqJ6+T6aEF2xhZJXmdp
-	 Vjj3E6AL6zeqPjfWS+lupyLnY0+nEVD+apl8bq6lwDNrUxdebDfK8JroCFpRfyhpxXw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=Befe4p1s;
-	arc=none smtp.remote-ip=91.218.175.228
-Received: from mta0.migadu.com (out-228.mta0.migadu.com [91.218.175.228])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.178
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793634216;
+	b=mPp4PSoojfMGPN5DYQDmgjT4EvEQz4A4wq8wGRGwtexCWRe/50H9xl3WniuFwFXt7A64
+	 A9CoDFXv3HX4de7ZO+UhJ+qJZXix9SlTcNvJ+dkGJXAYXO9Uz2VWlmn04bjA+rMKXkOAC
+	 huyu3ySWfOXaV7Kum3n5nVvV8eYj6pc3O4dB0fPxgnzjIVCnd0GFXMuJUwOHn/HRSIZ5A
+	 uECzsPV704Q+EE0G57Q88KaXat5xB3/ZmDwEdtdI2IF/CnOwMBsowsrKr8ETLj/M+lLnN
+	 bRayRm1gzv6GsYgPha1TN2I9WPwdLWTVVQ9I04DTtZz2VbipthqQduHlqRavhBuES2A==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793634216;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=HK8ZrL+fL3c5ivUA8S9idB+tb4oTBF9gPah3Mf4G/bY=;
+	b=dtTXQ2HPhcTEwD3TdJ0ud/T68NXT27I+CSF1vQVot4NVOAEhdyNvtC/3n5HS942k28Vy
+	 jw8sjZHl/ZLkIFidfcnIrbxPpeJVTNN6nqv1EqiGU40shlaOSMO6znINd3Z2IHYDIO9NN
+	 f66KSU61k8ZUkeukOLrv+aRre2vWjHpzTfU6yaAM0am3klm2EDE3X36oIBCPBwk07zf+g
+	 cACr9kbEFEOeZBQESPjkTtwaNm5TTiuhVKG3H+nTDyFBet06pLUTAaX3WJzl1jfdfjhRI
+	 VY8pkO++fZTaUKThx0pzC7IJ3Ecnypc6OzpNmrB3H2TdL1WyLGhnvberxl+bLrmwheQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=R9j+jwxG;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.178
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B201A606B1E4
-	for <linux-fsdevel@vger.kernel.org>; Mon,  2 Nov 2026 15:40:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B201A606B1E4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C2BC606D80F
+	for <linux-fsdevel@vger.kernel.org>; Mon,  2 Nov 2026 15:43:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5C2BC606D80F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=Befe4p1s
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=2RxZ1Fiv8HmDPeSkPRWplPA67yOwGmzkE3Pmd5fIgAI=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793634049; v=1; x=1794238849;
- b=Befe4p1s1dPV5wEiiN8VWowjJohaMdYgChQo2iReBi/0naWhjWv1f/cMbznBmFtJkfGK3zaW
- sg/iS4v9W3nC582Nm2KLjQqbGjoDmAyxg9QyG2N59s/+ESRN9/yn1H2/vz34Id+oUutKCQeOXuA
- JvvTAheFKUgnF0fsy75lHPxI=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 2e5b9646824930c3;
-	Mon, 02 Nov 2026 15:40:49 +0000
-X-Mizu-Trace-ID: 2e5b9646824930c3
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <0316f664-d98c-43be-92af-13c30436727a@linux.dev>
-Date: Mon, 2 Nov 2026 23:40:40 +0800
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=R9j+jwxG
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-5383c97c8cfso434931cf.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 02 Nov 2026 07:43:35 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793634214; cv=none;
+        d=google.com; s=arc-20260327;
+        b=UVeePdf9n2mQw1va/fP9L5jBCiZEofYjCDx/Rr9l/d49ROuY+7nsqT0Dj02U3Vvfd+
+         mRh5gc1/3pq4XKbXorfoBuk0R9BNbJNUq8X2X1T5akJtxuVmkSHUyBY2Zt2U/8nbMhhg
+         a0AMUsXX3DOEY1oA5g6/0Kuv1KPipkKAGwDyHy+PDPRCWQHz+mnNpeROfF5nwOtDy6Ps
+         BEaDaZ8gIlGhbjiCG1HXzXZfw9GCuEJ8qacCs9hO66hyrET9PJgSYBsUcrGWAa6yye0n
+         32ShEN6uwd9RU/SLwV9XVZy00VMehpsrmG5CzbQMXVkMxGb8kEuPhogzlC02ZOCiPAvi
+         LMtQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=HK8ZrL+fL3c5ivUA8S9idB+tb4oTBF9gPah3Mf4G/bY=;
+        fh=FecLiExcEhdRptjX90TPwn3IzToMhthqTEdrYd01KFg=;
+        b=UWEzqNcs/8Jmrx5obOmOy4wXEoTCE8NdxZIPVqtvrVIWb6VCj3CkdDfAePGi++o0jn
+         cHkXwaHd5lR3DjRmodYxifxDThquJ82EnSJfYPI7jK9/QXUx8/kgsZt5OOQ98//J/r99
+         zGKydugrd8insukgLUz9IOFgvN+9SRerWxoZYoFtfPgjK9M5OeRv/D3+Sb0wf9xWpT0D
+         nAh/gbp/aQlFMEXx8fe14QqD1WDSoYuSO6mLrpZZpXtZtGFrPMJ327Tur9H+OdtUZPsl
+         YX8gENnkuprawiRRp8dwmUPUPj8shP42G8KqkrW+1dlXotNSJD07aXRtqA+67nJQxPgJ
+         M2nQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1793634214; x=1794239014; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=HK8ZrL+fL3c5ivUA8S9idB+tb4oTBF9gPah3Mf4G/bY=;
+        b=R9j+jwxGcRL6XdsG2JWiq2a64G7IoWEkfdsReSzCWmy68LqttG+ZpDz356XNZ0BE5G
+         TiHv/vLz6oXwQhiKyDA10leH9Asnjacp2C88iOazs9HMe6omqyd/LuvDsfvaF/LhkmXu
+         jJIh768DemfC3BPoFeTnacA5QUfKQCX0ifEEBWXCTbZfNF2R7zu/bCRQhLwYip77HQAV
+         mDvcOTT7kSHBakijnXYkRDqCPCvEsBMSLeuJNm64FWC2Z+ffwG1thHZ/9/hMWUofZP+f
+         8OLJsnD2d1bJBx8Mjf+vc0a5VwK5BDnXxWVDX9muRqCVRMiNMTcvbzjSKFEgLBhi2YIe
+         8dYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793634214; x=1794239014;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=HK8ZrL+fL3c5ivUA8S9idB+tb4oTBF9gPah3Mf4G/bY=;
+        b=Ro6mG79kMaxbkL1FHYK/8930P7WwAW5KA4MowlFqlKNpKUnR702Eod57vlM6V+ZkaJ
+         AXiGQ4vDD3/m//USLQuQ2WkvnmnWqhqdaBX23exHsXcWo7gFL2sAC6sSrSLMPvecV8ig
+         t7QntoC8hdDA42VEvUOdTzEI7boMb4BBg7/I+ybd5WC2R+rnlLd8JQLJtnHUgXasLFyN
+         WOTxRIsv6DzojHdDumiTMY1zKmq1OXX4DXrTyOaGEwz2WWgRZTQpDD7PEGK9Ytl6lC7F
+         Tq0mPYxFDphdJ2ODUKK6Nej0DxSuSox0ALeOwwWvaylccJsYYBGghtrp+S1+Rb0bHsRF
+         V8bg==
+X-Forwarded-Encrypted: i=1; AKwUvBwAKNDvtycaV3X+d+3N1QPiygk0GNkAfR7kyJRa/YJKZ6HqnpIAZjrkjvMDBDX4f0sTRBs48WDe3cOIzUWb@vger.kernel.org
+X-Gm-Message-State: APuU4Z87NhNLDpFGTG95HO+U+WkByWX3mHD1gV/2TQOTaw9Gtdv3N1q8
+	HLi6a6B1RUWLdoc79iFmCmKoLuyhx3+UGiGQSn2F1MUTXAYY8O1rScen54LWTiW1PMovycAzZaE
+	pHXKwZfSc1Hhy7uL24OYlo3DVDXBEKJgAUWPyo4TK
+X-Gm-Gg: AYBFou2s4l5azrp2qZ/7Z/AXbCdDv00SCeRC0s8kNW1+fwYlA4GT45sZXz1CSNjYZBF
+	IloZxC4+2vd/4GwF2TAiwBGo9QHA9/0qvvIgP9g0yg3ct7o9q9OPfZzi9HPcOgtRRTuqX5NiycU
+	KWOjL6F8BFVy3SfMc8Zq+KCw7pT4Ya30YK8jNhvi076xZN6Qyx7kGsXmJ5dP/JyCQscotE48TSw
+	Ntu6o49iMDBGWvIhsybML3Vhn69WY6+G5ejeRHwM3h9Lp3UJXUO4qNOFJrSvkqqrlbKM2Is5+iH
+	wkN0rQvIgY81kx2rihXseMf3wTurXSv2ScNuqktVEz6Cp5w7bCrZS8wZAiUMAxAPX3uWXz7hf6g
+	MYeFJg3fYZnqUDqz8KRkB1n7JwxPaKd1CXINx
+X-Received: by 2002:a05:622a:5148:b0:535:9aa3:5ebb with SMTP id
+ d75a77b69052e-5414de19e54mr81585421cf.8.1793634213512; Mon, 02 Nov 2026
+ 07:43:33 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -58,238 +104,275 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 00/39] sysctl: replace overloaded extra pointers with
- typed bounds and context
-To: David Laight <david.laight.linux@gmail.com>,
- Joel Granados <joel.granados@kernel.org>
-Cc: Joel Granados <joel.granados@kernel.org>, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <cover.1793204511.git.wen.yang@linux.dev>
- <20261029105837.2f8bee67@pumpkin>
-Content-Language: en-US
-From: Wen Yang <wen.yang@linux.dev>
-In-Reply-To: <20261029105837.2f8bee67@pumpkin>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20261101154503.3203036-1-surenb@google.com> <20261101110100.90796bf33ef50307a7698dca@linux-foundation.org>
+In-Reply-To: <20261101110100.90796bf33ef50307a7698dca@linux-foundation.org>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Mon, 2 Nov 2026 07:43:17 -0800
+X-Gm-Features: AclHuK9i5oa7VVhckAQGYTCIvZrhSt3SBl_wIVecLZ9aaFaoBEyuGC4XsLqeGFo
+Message-ID: <CAJuCfpGmPLBRhHa_dmyP10QzyRyvcWMYDLU0+J9t-RCLBsTaWA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/1] selftests/proc: use RSS in /proc/pid/smaps_rollup
+ tearing tests
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: david@kernel.org, ljs@kernel.org, jannh@google.com, liam@infradead.org, 
+	willy@infradead.org, paulmck@kernel.org, pfalcato@suse.de, 
+	usama.arif@linux.dev, vbabka@kernel.org, linux-fsdevel@vger.kernel.org, 
+	yi1.lai@intel.com, oe-lkp@lists.linux.dev, lkp@intel.com, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Sun, Nov 1, 2026 at 11:01=E2=80=AFAM Andrew Morton <akpm@linux-foundatio=
+n.org> wrote:
+>
+> On Sun,  1 Nov 2026 07:45:03 -0800 Suren Baghdasaryan <surenb@google.com>=
+ wrote:
+>
+> > Pss metrics can be affected by map count even if VMA tree stays unchang=
+ed,
+> > therefore tests checking VMA tree integrity can't use them. Use Rss ins=
+tead
+> > and pre-populate the VMAs so that Rss changes if a VMA gets skipped or
+> > double-counted.
+> >
+> > To ensure all test VMAs are populated with anonymous pages, remain
+> > mergeable across VMA operations, and do not have their Rss changed by
+> > memory reclaim:
+> > - Toggle PROT_EXEC instead of PROT_WRITE between adjacent test VMAs so
+> >   all test VMAs remain writable and MAP_POPULATE faults in anonymous pa=
+ges
+> >   (rather than the shared zero page, which is not accounted in Rss).
+> > - Use mprotect() instead of mmap(..., MAP_FIXED) in split_vma() and
+> >   merge_vma() so the first page of the split VMA stays resident.
+> >   mprotect(..., PROT_NONE) splits the VMA without unmapping the first p=
+age
+> >   (pte_present() remains true for PAGE_NONE PTEs), and
+> >   mprotect(..., self->mod_info->prot) merges it back. Both parts of the
+> >   split VMA retain their non-zero Rss.
+> > - Lock all present pages in the child with mlockall(MCL_CURRENT |
+> >   MCL_FUTURE | MCL_ONFAULT) so memory pressure cannot reclaim pages and
+> >   alter Rss during the test.
+> > - In remap_vma(), unlock next_addr before mremap(..., MREMAP_DONTUNMAP)
+> >   so next_addr is not split, use mmap(..., MAP_FIXED) in patch_vma() to
+> >   merge the middle VMA back into addr, and exclude smaps_rollup tests
+> >   from test_maps_tearing_from_remap since remapping moves and unmaps th=
+e
+> >   page from next_addr.
+>
+> Thanks.  This is proving tricky.
+>
+> My evolving reviewbot still isn't happy:
+>
+> : This fixes the v1 RSS issues, but two things remain.
+> :
+> : Alternating PROT_EXEC breaks with READ_IMPLIES_EXEC: both mappings
+> : become RWX and can merge. A syscall test produced two VMAs instead
+> : of 16. Could we populate everything writable, then mprotect the odd
+> : mappings read-only? That preserved all 16 VMAs and avoids zero pages.
+> :
+> : Also, MCL_ONFAULT doesn't bypass RLIMIT_MEMLOCK. If mlockall() fails,
+> : the child asserts before CHILD_READY and the parent waits until
+> : timeout. Please arrange a coordinated skip for insufficient allowance.
 
+Good point. That part of your fix looks good to me.
 
-On 10/29/26 18:58, David Laight wrote:
-> On Thu, 29 Oct 2026 00:34:39 +0800
-> wen.yang@linux.dev wrote:
-> 
->> From: Wen Yang <wen.yang@linux.dev>
->>
->> struct ctl_table describes an entry with data, maxlen and, until this
->> series, two untyped misc pointers in extra1 and extra2. Those two pointers
->> have accumulated at least seven unrelated jobs: a fixed bound, a bound read
->> through a pointer on every call, an object or namespace pointer, a small
->> integer cookie encoded into the pointer, a lock signal, NULL standing for
->> "no bound", and a value the core itself casts to unsigned int while
->> validating a u8 range. Nothing in the entry says which job applies, so
->> readers infer it from the handler, and the core gets it wrong where it
->> treats extra1 as an unsigned int.
->>
->> The numeric half of this change is the direction Eric Biederman asked for:
->>
->>    You can still save a lot more by turning .extra1 and .extra2
->>    into longs instead of keeping them as pointers and needing
->>    constants to be pointed at somewhere.
->>
->>    [...] I don't see any reason why you want shared
->>    constants for such a handful of things.  Especially when
->>    it has proven to be error prone in the past.
->>
->> min/max are plain unsigned long members, so the comparisons are ordinary
->> C and cannot be confused with a pointer. The shared const arrays that only
->> existed to give those pointers an address (sysctl_vals and
->> sysctl_long_vals) are removed as well.
->>
->> The tree already records this direction. fs/proc/proc_sysctl.c documents
->> extra1/extra2 as "extra pointers usable by the proc handler routines" and
->> carries:
->>
->>    XXX: we should eventually modify these to use long min / max [0]
->>    [0] https://lkml.kernel.org/87zgpte9o4.fsf@email.froward.int.ebiederm.org
->>
->> This series completes that TODO and removes the comment.
->>
->> priv is this series' addition: the same pair of fields also hides handler
->> context, which a numeric bound cannot express, and keeping it out of data
->> is what removes the restore-before-delegate pattern.
->>
->> The overloading is also a memory-safety hazard. The obvious alternative --
->> keep handler context in data and restore the value pointer in each handler
->> -- needs an original_data field in nine addrconf and two devinet handlers;
->> one missed restore turns a user-supplied integer into a write over a kernel
->> pointer. nf_log reaches the same problem from the other side: it replaces
->> data with a local buffer inside a single handler, so data means two things
->> within one function. This revision removes that temptation instead of
->> managing it.
->>
->> The core is not exempt. sysctl_check_table_array() reads
->> *(unsigned int *)table->extra1 to validate a u8 range. That is only correct
->> while every u8 entry happens to point extra1/extra2 at an int or unsigned
->> int; a long bound, a context pointer or an encoded integer would be read as
->> four bytes of the wrong object. No such entry exists today, so this is a
->> latent class rather than a live bug, but the invariant is untyped and
->> unchecked, and nf_log already encodes an integer into extra1.
->>
->> The refactor is the first five patches; they define the replacement
->> contract and prove it covers every entry shape the tree uses today.
->>
->>    1. min/max hold numeric bounds by value, and priv holds handler context.
->>       The range converters read min/max whenever extra1 and extra2 are
->>       clear and keep reading the pointers while they are set, so existing
->>       callers keep working while they migrate and no parallel handler API or
->>       renamed symbol is introduced. Signed handlers read the bounds as
->>       signed longs, an absent endpoint is the type limit rather than NULL so
->>       zero stays a real bound, and a run-time range is refreshed before
->>       every call. Registration rejects priv on a standard handler.
->>
->>    2. The debug test module is converted to numeric bounds as the first
->>       user.
->>
->>    3. KUnit coverage for numeric bounds and the handlers that consume them:
->>       full type ranges, one-sided and zero bounds, entries without backing
->>       storage, explicit handlers for arrays and members, and rejection of
->>       writes that would partially commit.
->>
->>    4. KUnit coverage for run-time ranges across the scalar widths and
->>       jiffies, run-time bound pointers, sibling bounds, typed context, owner
->>       derivation, bool, registration lifecycles, and simulated per-net
->>       duplication.
->>
->>    5. KUnit coverage for priv: a standard handler must ignore it,
->>       registration must reject it with a standard handler, and
->>       re-registration must keep both the value pointer and the context. The
->>       same patch moves the debug module's dynamic-value entry to the
->>       data/priv shape.
->>
->> On the CTLTBL_ENTRY_* constructors: I kept the naming and argument order you
->> suggested while reworking the series. As it turned out, no production table
->> needed them -- the converted entries read naturally as designated
->> initializers -- so I have not introduced them as a public API in this
->> version; the KUnit file keeps an equivalent constructor privately, so the
->> tests stay readable. I still think the public version is worth doing, and I
->> would be happy to send it as a follow-up once there are real users, so the
->> API and its callers can be reviewed together.
->>
->> Everything after patch 5 is migration and adds no new contract. Patches
->> 6-32 convert the remaining users and derive owners from their backing
->> storage. Patches 33-38 move handler context onto priv, one subsystem per
->> patch; each of those files is touched exactly once and goes straight from
->> the old pointer field to priv, with no intermediate data-as-context step.
->> Patch 39 removes the extra pointers and the compatibility read.
->>
->> The parport conversion illustrates a concrete problem with the overloaded
->> fields. In the base tree, registration overwrites the spintime minimum
->> pointer in vars[0].extra1 with a port pointer. The range handler can then
->> check a write against data from struct parport instead of the intended
->> minimum. Moving the port context to priv and using numeric bounds also
->> corrects this existing bug. A separate fix can address it independently;
->> this RFC does not depend on that fix.
->>
->> Entries that used a *_minmax handler with neither extra pointer relied on
->> NULL meaning "no bound". They now state their type limits explicitly to
->> preserve that behaviour when the pointer path disappears. These include
->> aio-max-nr, acpi_video_flags and nmi_wd_lpm_factor.
->>
->> Owners that can still be recovered from data are deliberately left alone:
->> ipvs, neighbour, the fragment reassembly handlers, vsock, mptcp, rds and
->> smc keep using container_of() on their backing storage. priv is only for
->> entries where no such derivation exists. Mixed placement in data and priv
->> was considered and rejected because it recreates the guessing problem this
->> series removes.
->>
->> Relative to the base tree, the final state removes all 841 extra1/extra2
->> assignments across 123 files, removes the shared sysctl_vals and
->> sysctl_long_vals arrays (21 references), and states bounds at each entry
->> (~574 new min/max initializers) instead of pointing at constants. The
->> sysctl ABI is unchanged; the parport spintime minimum is corrected as
->> described above.
->>
->> The cost is 8 bytes per ctl_table entry on 64-bit (56 -> 64) and 4 bytes on
->> 32-bit, because priv is appended; the range read path gains no indirection
->> and the migrated entries no longer dereference a bound pointer.
-> 
-> Can you remove the little-used 'priv' parameter by making the extra
-> information just follow the table entry (nested structure) and have
-> the relevant functions use container_of() to get the outer structure
-> and extra values?
-> 
+> :
+> : The patched userspace test passed all six cases on an existing
+> : x86-64 6.18.57 kernel, with a PID-namespace adjustment. That kernel
+> : predates ca5480fb53fa, so this checks selftest behavior, not the
+> : intended kernel's procfs changes. Separate syscall tests on that
+> : kernel confirmed the EXEC-merging and memlock failure cases.
 
+I'm guessing your bot was using personality() to make the tests fail.
+Again, I'm not sure we should handle such use case. Should we?
 
-Hi David, Hi Joel,
-
-I reworked the context side of the series so that priv is gone entirely;
-and the final tree has no per-entry context pointer.
-A small helper recovers the enclosing object, but it needs the slot
-index from the caller:
-
-   #define sysctl_table_container(entry, type, member, index) ({       \
-           static_assert(__same_type(*(entry),                         \
-                                     typeof_member(type, member[0])),  \
-                         "pointer type mismatch");                     \
-           (type *)((void *)(entry) - offsetof(type, member) -         \
-                    (size_t)(index) * sizeof(*(entry)));               \
-   })
-
-The reason plain container_of() is not enough is that the core keeps the
-table as a contiguous array.  For
-
-   struct addrconf_sysctl_table {
-           struct addrconf_sysctl_ctx context;
-           struct ctl_table table[];
-   };
-
-the handler receives an interior entry, and
-
-   container_of(ctl, struct addrconf_sysctl_table, table)
-       == (char *)outer + index * sizeof(struct ctl_table)
-
-for ctl == &outer->table[index].  It only returns the outer object for
-index 0.  Passing the index explicitly keeps the original registered
-entry usable:
-
-   static int addrconf_sysctl_forward(const struct ctl_table *ctl, ...)
-   {
-           struct addrconf_sysctl_table *t =
-                   sysctl_table_container(ctl, struct addrconf_sysctl_table,
-                                          table, 
-ADDRCONF_SYSCTL_FORWARDING);
-           const struct addrconf_sysctl_ctx *ctx = &t->context;
-           ...
-   }
-
-Shared handlers get one wrapper per slot; the common body does not need
-to know its position:
-
-   #define DEVINET_CONF_WRAPPER(attr)                                  \
-   static int devinet_conf_##attr(const struct ctl_table *ctl, ...)    \
-   {                                                                   \
-           struct devinet_sysctl_table *t =                            \
-                   sysctl_table_container(ctl,                         \
-                           struct devinet_sysctl_table, devinet_vars,  \
-                           IPV4_DEVCONF_##attr - 1);                   \
-           return devinet_conf_proc_common(ctl, &t->context, ...);     \
-   }
-
-Single-entry tables simply use slot 0:
-
-   struct devinet_forward_table *t =
-           sysctl_table_container(ctl, struct devinet_forward_table, 
-table, 0);
-
-
-The series is 20 commits over 134 files, with no priv at any point.  If
-you would prefer a different shape for the helper or the wrappers, I am
-happy to adjust it.
-
-
-Thanks,
-Wen
-
-> David
-> 
+>
+> I said "no, do it yourself" and it came up with the below.
+>
+>
+>
+>
+> From: Andrew Morton <akpm@linux-foundation.org>
+> Subject: selftests/proc: handle personality and memlock constraints
+> Date: Sun, 01 Nov 2026 10:55:37 -0800
+>
+> Alternating PROT_EXEC does not keep the test mappings distinct when
+> READ_IMPLIES_EXEC is set: both protection combinations become RWX and
+> adjacent mappings can merge, breaking the fixture's layout assumptions.
+>
+> Populate each mapping writable, then make odd mappings read-only.  This
+> retains anonymous pages accounted in RSS while keeping adjacent VMAs
+> distinct regardless of READ_IMPLIES_EXEC.  Restore the corresponding
+> WRITE-based protection selection in the parent.
+>
+> Restore the whole three-page destination after remapping, rather than
+> replacing only its middle page and relying on the remaining anonymous VMA=
+s
+> to merge.  The remap test no longer compares RSS.
+>
+> mlockall(MCL_CURRENT) checks the whole virtual size against the locked
+> memory allowance even with MCL_ONFAULT.  An insufficient allowance makes
+> the child exit before CHILD_READY, leaving the parent waiting until the
+> test times out.
+>
+> Pass the locking error through the existing shared state and signal
+> CHILD_READY on failure.  The parent reaps the child and releases the
+> shared state before skipping resource or permission failures.  Check this
+> status before opening the child's proc files, as it may already have
+> exited.  Unexpected locking errors remain test failures.
+>
+> Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Suren Baghdasaryan <surenb@google.com>
+> Cc: David Hildenbrand <david@kernel.org>
+> Cc: Jann Horn <jannh@google.com>
+> Cc: kernel test robot <yi1.lai@intel.com>
+> Cc: Liam R. Howlett <liam@infradead.org>
+> Cc: Lorenzo Stoakes <ljs@kernel.org>
+> Cc: Matthew Wilcox (Oracle) <willy@infradead.org>
+> Cc: Paul E. McKenney <paulmck@kernel.org>
+> Cc: Pedro Falcato <pfalcato@suse.de>
+> Cc: Usama Arif <usama.arif@linux.dev>
+> Cc: Vlastimil Babka <vbabka@kernel.org>
+> ---
+> On top of Suren's v2 "selftests/proc: use RSS in
+> /proc/pid/smaps_rollup tearing tests".
+>
+> Tested the userspace test on an existing x86-64 Linux 6.18.57 kernel,
+> using a separate PID-namespace adaptation which is not in this patch:
+> - All six cases passed normally and with READ_IMPLIES_EXEC enabled,
+>   using DURATION=3D1.
+> - All six cases skipped promptly with RLIMIT_MEMLOCK set to 64KiB or
+>   zero, exercising ENOMEM and EPERM respectively.
+> This does not validate the intended kernel's procfs changes.
+>
+>  tools/testing/selftests/proc/proc-maps-race.c |   49 +++++++++++-----
+>  1 file changed, 36 insertions(+), 13 deletions(-)
+>
+> --- a/tools/testing/selftests/proc/proc-maps-race.c~proc-maps-race-follow=
+up
+> +++ a/tools/testing/selftests/proc/proc-maps-race.c
+> @@ -174,6 +174,7 @@ typedef bool (*vma_mod_result_check_op)(
+>                                         struct line_content *restored_fir=
+st_line);
+>
+>  struct vma_modifier_info {
+> +       int mlock_error;
+>         int vma_count;
+>         void *addr;
+>         int prot;
+> @@ -696,7 +697,8 @@ static inline bool remap_vma(FIXTURE_DAT
+>
+>  static inline bool patch_vma(FIXTURE_DATA(proc_maps_race) *self)
+>  {
+> -       return mmap(self->mod_info->addr + self->page_size, self->page_si=
+ze,
+> +       /* Replace all three pieces without relying on anon_vma merging. =
+*/
+> +       return mmap(self->mod_info->addr, self->page_size * 3,
+>                     self->mod_info->prot,
+>                     MAP_PRIVATE | MAP_ANONYMOUS | MAP_FIXED, -1, 0) !=3D =
+MAP_FAILED;
+>  }
+> @@ -757,22 +759,31 @@ FIXTURE_SETUP(proc_maps_race)
+>         self->pid =3D fork();
+>         if (!self->pid) {
+>                 /* Child process modifying the address space */
+> -               int prot =3D PROT_READ | PROT_WRITE;
+>                 int i;
+>
+>                 for (i =3D 0; i < mod_info->vma_count; i++) {
+> -                       mod_info->child_mapped_addr[i] =3D mmap(NULL, sel=
+f->page_size * 3, prot,
+> +                       mod_info->child_mapped_addr[i] =3D mmap(NULL, sel=
+f->page_size * 3,
+> +                                       PROT_READ | PROT_WRITE,
+>                                         MAP_PRIVATE | MAP_ANONYMOUS | MAP=
+_POPULATE, -1, 0);
+>                         ASSERT_NE(mod_info->child_mapped_addr[i], MAP_FAI=
+LED);
+> -                       /* change protection in adjacent maps to prevent =
+merging */
+> -                       prot ^=3D PROT_EXEC;
+> +                       /*
+> +                        * Populate writable to get anonymous pages, then=
+ alternate
+> +                        * write permission even with READ_IMPLIES_EXEC e=
+nabled.
+> +                        */
+> +                       if (i % 2)
+> +                               ASSERT_EQ(mprotect(mod_info->child_mapped=
+_addr[i],
+> +                                                  self->page_size * 3, P=
+ROT_READ), 0);
+>                 }
+>                 /*
+>                  * Lock all present pages in memory so memory reclaim can=
+not
+>                  * change RSS during the test, and use MCL_ONFAULT so
+>                  * mremap() expansion does not populate new pages.
+>                  */
+> -               ASSERT_EQ(mlockall(MCL_CURRENT | MCL_FUTURE | MCL_ONFAULT=
+), 0);
+> +               if (mlockall(MCL_CURRENT | MCL_FUTURE | MCL_ONFAULT)) {
+> +                       mod_info->mlock_error =3D errno;
+> +                       signal_state(mod_info, CHILD_READY);
+> +                       _exit(0);
+> +               }
+>                 signal_state(mod_info, CHILD_READY);
+>                 wait_for_state(mod_info, PARENT_READY);
+>                 while (true) {
+> @@ -799,6 +810,21 @@ FIXTURE_SETUP(proc_maps_race)
+>                 exit(0);
+>         }
+>
+> +       /* Check setup before opening proc files: the child may have exit=
+ed. */
+> +       wait_for_state(mod_info, CHILD_READY);
+> +       if (mod_info->mlock_error) {
+> +               int error =3D mod_info->mlock_error;
+> +               int status;
+> +
+> +               ASSERT_EQ(waitpid(self->pid, &status, 0), self->pid);
+> +               pthread_cond_destroy(&mod_info->sync_cond);
+> +               pthread_mutex_destroy(&mod_info->sync_lock);
+> +               munmap(mod_info, self->shared_mem_size);
+> +               if (error =3D=3D ENOMEM || error =3D=3D EPERM || error =
+=3D=3D EAGAIN)
+> +                       SKIP(return, "Cannot lock test mappings: %s", str=
+error(error));
+> +               ASSERT_EQ(error, 0);
+> +       }
+> +
+>         switch (self->maps_file) {
+>         case MAPS:
+>                 sprintf(fname, "/proc/%d/maps", self->pid);
+> @@ -815,9 +841,6 @@ FIXTURE_SETUP(proc_maps_race)
+>         self->maps_fd =3D open(fname, O_RDONLY);
+>         ASSERT_NE(self->maps_fd, -1);
+>
+> -       /* Wait for the child to map the VMAs */
+> -       wait_for_state(mod_info, CHILD_READY);
+> -
+>         /* Read first two pages */
+>         self->page1.data =3D malloc(self->page_size);
+>         ASSERT_NE(self->page1.data, NULL);
+> @@ -842,10 +865,10 @@ FIXTURE_SETUP(proc_maps_race)
+>         for (int i =3D 0; i < mod_info->vma_count; i++) {
+>                 if (mod_info->child_mapped_addr[i] =3D=3D (void *)self->l=
+ast_line.start_addr) {
+>                         mod_info->addr =3D mod_info->child_mapped_addr[i]=
+;
+> -                       mod_info->prot =3D PROT_READ | PROT_WRITE;
+> -                       /* Odd VMAs have exec permission */
+> -                       if ((i % 2) !=3D 0)
+> -                               mod_info->prot |=3D PROT_EXEC;
+> +                       mod_info->prot =3D PROT_READ;
+> +                       /* Even VMAs have write permission. */
+> +                       if ((i % 2) =3D=3D 0)
+> +                               mod_info->prot |=3D PROT_WRITE;
+>                 } else if (mod_info->child_mapped_addr[i] =3D=3D (void *)=
+self->first_line.start_addr) {
+>                         mod_info->next_addr =3D mod_info->child_mapped_ad=
+dr[i];
+>                 }
+> _
+>
