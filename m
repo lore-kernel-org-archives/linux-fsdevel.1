@@ -1,47 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=220.197.31.4
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793601634;
-	b=2foBhd5PFCywhZe54cyKfjDCf6CRDYTuXdVk6zYDXkV15qoRutCW09IKr9//ysbeagmG
-	 mcpTaTgoq6HgsB2kr1LA+g7alghoe59OIqUSXMW1dDoviB+ZvyOgErxv/xrv9sZs/QN+K
-	 4B+YfTKW56iRIHe9Vk75L/cb58ODMh5JqKi5YA8qc0Zu56DSKr53MB+6VUic1ZPMCEWj2
-	 lzdRLlPlBckwQxqfmEFfwOnWq0028oV7wTr9Vy0UFmxukk6E385ZO++KZoM9Mxzqam977
-	 4iEbMZpEgccXQCRIz87VStkhyCsZJdYv7rF2MCDEc9XQSTN3CRLoMtClw0FkqbMpUcA==
+	t=1793602845;
+	b=prA5uKJN0un+G5kj5Ge3d/z1Iim6EhA5ufu7fKgul0a9VSduKTopUP2SzQYjivjTqAcv
+	 CyifB5V7J91zSuibLhZaBIgB6SA81mnVBYX6TS5zmHxHM/Ebia3ifHfv1CZ4tdRd3wKUA
+	 SwLLkhaQuMV1ZtwGeTjE2m7f4l7xYOXSdR6EsFbQdUa+OoWC9IC1km9TWQ6TEmX3+SQ6W
+	 7Qzf9yq/WkM1OXQMCct6SDsP396Mlt3I9fw0TlZn76GoM28hutd4ckYm6Yvkvetkat3RP
+	 zcZ0Q1qgz90EYIxsGEgdymbvKRV0tD+1dYWEbh8KY6+8prmK3qJH352VE0Kjou/O7Ig==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793601634;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=PTr3vTYHZO8//WK5iKDPZ2R6+tlg46gozzv5GKa8yng=;
-	b=vbUOSyQOBrVpm6E9fLphyBdwl0pTq9J/t8dBe6GlKPEk1Yk+7/SlL9+0d1cKgfOOX6St
-	 By+C3FbkTvV44p5YRdV5uZGj50Duqv8Y3ea1cekaJl6VjvRQSePN1dMkjgsYDkctWtu1b
-	 GGjfjTK8xr0VCmCkgHxhbL+Uc57raIyBmIXcj1eGgS1bDvKeQAHuoGlqF+Sq1AeUAyIBm
-	 +ORpRW8utYCLVLDegWyTKTXkmnNriWDJ9lbugB32dZxh2KyLZ4b42CrhBKg0ZBScBb6WV
-	 2ny2EGXxKHm2baXuA4+sJs6PcmqQ24RZuBRjZHWulveqbInKhH7r9OsNy9TxRA9J2Jw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793602845;
+	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-CM-TRANSID:
+	 X-Coremail-Antispam:X-Originating-IP:X-CM-SenderInfo;
+	bh=9FuBhOUoafYas5YMuPBrLXu56DIDcQY6sekzUrrW8do=;
+	b=A83q0YIIAXXOw4voCXZ5HcnEs+NOOD5Qu6BKmt9aE01JVhWPiREiHl7FfbadXjAP1kfD
+	 aqjj4QPT7/H1q75UFO+gOLPN0TKkNa2aEN6h5dYgdLVzRaTE7z4dTwUSwgiscm7GYJkw0
+	 v39qk0boY05WKGON8YlvsjUEVyxZOD2CQlm5FfQeVNgP0hiHk9l2L11ncz4TDFDi2HMFO
+	 miUof3NK2CNOBVer8COf1O19rUAjJ70xb/Bg0SrNc513Q2QqKZYHfneNxktTMJCBC8ErN
+	 /tstpfzNUKP3ypB7MuYspopPTJl5FRFb6iOlsXV86pEIDJxAhqAGOb0yfimYDVum/Nw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=l70qFzab;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=163.com;
+	spf=pass smtp.mailfrom=163.com;
+	arc=none smtp.remote-ip=220.197.31.4
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FF69606A324;
-	Mon,  2 Nov 2026 06:40:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=l70qFzab
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F30A1F000C1;
-	Mon,  2 Nov 2026 06:40:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793601634;
-	bh=PTr3vTYHZO8//WK5iKDPZ2R6+tlg46gozzv5GKa8yng=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=l70qFzab7Fnm3MNz4rNSkWb1PmnyKAaayewzifcEEBYaKwcea73ASJahioZNFlOtO
-	 32EdTN+XUKPJTd9RZ3utPt0JY1lsCkZaCEw5+dYhRpqq6lC+XsUtd0iQNvkM4QxAkX
-	 /+LXtMZL8MqVFi9Srb1AvYKJpQo3gsjaqDWeAGpW6F+3Mly4vdDxWZsHYFaPqctcCD
-	 M/pV/VwI9jtJL0Zo0tjzbttOX/7k1KpDLzp5NOdEp7jqncUDn8UuU8UXILwe45TuAq
-	 9FKdG0f39FWGU1SUmvtdkUA82/fQOHbAuWuIBWtWhGMD9LASKjEDYgPPq/qhiVbqsU
-	 9zR+lo9tZCHkg==
-Message-ID: <30db8554-8b79-4350-91d1-cc626abb8133@kernel.org>
-Date: Mon, 2 Nov 2026 07:40:28 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 961E1606A324;
+	Mon,  2 Nov 2026 07:00:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 961E1606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Message-ID:Date:MIME-Version:Subject:To:From:
+	Content-Type; bh=9FuBhOUoafYas5YMuPBrLXu56DIDcQY6sekzUrrW8do=;
+	b=bRRH1UEHijwHiuDMLEo4Q7aYUesjQzuIR6yYYtu6BVzNOGBvMreQPj2RMKrA7a
+	WZlrOKnTZCD5yYBvKoMTCcxaph9nLSJx3525OVTRYLi/x9opx5K4qiMUFXKvQgxt
+	3xmm5ObZyEK4LJbG65HI6kvqbkyK3afyycjc+wFpEapS0=
+Received: from [IPV6:2409:8900:1ec1:a6a9:727d:9e69:8b60:aebe] (unknown [])
+	by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id _____wD3f4UCNehq+dR4Eg--.33924S2;
+	Mon, 02 Nov 2026 15:00:21 +0800 (CST)
+Message-ID: <aa1d14cc-91eb-4101-a70e-b4ae5d1717db@163.com>
+Date: Mon, 2 Nov 2026 15:00:18 +0800
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -52,94 +52,126 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] MAINTAINERS: move SLAB ALLOCATOR under MEMORY
- MANAGEMENT
-To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: Harry Yoo <harry@kernel.org>, Hao Li <hao.li@linux.dev>,
- Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Johannes Weiner <hannes@cmpxchg.org>, Suren Baghdasaryan
- <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Brendan Jackman <brendan.jackman@linux.dev>, Zi Yan <ziy@nvidia.com>,
- "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
- Mike Rapoport <rppt@kernel.org>, Gregory Price <gourry@gourry.net>,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org
-References: <20261101-maint-page_alloc-update-v1-0-27e8c246b13d@kernel.org>
- <20261101-maint-page_alloc-update-v1-2-27e8c246b13d@kernel.org>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
+Subject: Re: [Bug report] ntfs: initialized_size from $LogFile $DATA drives an
+ unvalidated loop bound in ntfs_empty_logfile() - UBSAN shift-out-of-bounds
+ (ilog2) at rw-mount
+To: Guikun Yang <yangguikun19@qq.com>, ntfs@lists.linux.dev,
+ Namjae Jeon <linkinjeon@kernel.org>, Hyunchul Lee <hyc.lee@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+References: <tencent_5C7F8B8D303ABD994244C1F814473DA5B60A@qq.com>
 Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20261101-maint-page_alloc-update-v1-2-27e8c246b13d@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: liubaolin <liubaolin12138@163.com>
+In-Reply-To: <tencent_5C7F8B8D303ABD994244C1F814473DA5B60A@qq.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wD3f4UCNehq+dR4Eg--.33924S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxJF4fJw4kKrWDWrWUCF1fXrb_yoWrZr45pa
+	9xJrs5tr4q9ryjkwnFkw1xK34Svw1kJFWUur95Zry7Z395Grnaqr1UKrW5uayIkws5ta1v
+	yayDWws2krn5ZaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07U24iUUUUUU=
+X-CM-SenderInfo: xolxutxrol0iasrtmqqrwthudrp/xtbC6QUj7WroNQU4FgAA3+
 
-On 11/1/26 17:34, Vlastimil Babka (SUSE) wrote:
-> Following David's consolidation of several other MM subcomponents, do
-> the same for the slab allocator.
-> 
-> Rename the section to MEMORY MANAGEMENT - SLAB ALLOCATOR and move it to
-> remain in alphabetical order.
-> 
-> Remove Andrew as M: to signify he's not the primary person for picking
-> patches in this subcomponent. get_maintainers will continue CCing him on
-> most patches via the catch-all MM entry. David prefers not being added
-> for mail volume reasons.
-> 
-> Indicate the primary integration branch (slab/for-next) in the T: entry.
-> It will now be integrrated via the mm/linux integration tree.
-> 
-> Signed-off-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
-> ---
 
-Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
--- 
-Cheers,
+在 2026/10/31 20:00, Guikun Yang 写道:
+> Hi,
+> 
+> While fuzzing single-byte corruptions of NTFS metadata with an automated
+> mount harness, we found that ntfs_empty_logfile() trusts the on-disk
+> initialized_size of the LogFile's $DATA attribute as a loop bound without
+> any check against the runlist or the volume size, and a single flipped
+> byte in a read-write mount sends the kernel into a shift-out-of-bounds
+> panic inside the readahead path.
+> 
+> The code (fs/ntfs/logfile.c, ntfs_empty_logfile()):
+> 
+>      end_vcn = (log_ni->initialized_size + vol->cluster_size_mask) >>
+>            vol->cluster_size_bits;
+>      ...
+>      if (rl[1].vcn > end_vcn)
+>          len = end_vcn - rl->vcn;
+>      end = NTFS_CLU_TO_B(vol, lcn + len);
+> 
+>      page_cache_sync_readahead(sb->s_bdev->bd_mapping, ra, NULL,
+>          start >> PAGE_SHIFT, (end - start) >> PAGE_SHIFT);
+>      ...
+>      } while ((++rl)->vcn < end_vcn);
+> 
+> The inode loader does validate the on-disk trio against each other
+> (ntfs_non_resident_sizes_inconsistent(): initialized_size >= 0,
+> initialized_size <= data_size, data_size <= allocated_size,
+> allocated_size cluster-aligned). What is missing is any relation between
+> those sizes and the runlist length or the volume size: initialized_size
+> is used directly as end_vcn, and the readahead/loop bounds follow it out
+> of the volume. For comparison, ntfs_check_logfile() scans the LogFile
+> using i_size (= data_size) truncated to MaxLogFileSize, but that
+> truncation happens on a local variable only, and ntfs_empty_logfile()
+> runs afterwards on the untruncated initialized_size.
+> 
+> Trigger: one byte. In a mkntfs-created 64MB image, flip byte 0x4947 in
+> MFT record 2 (a high byte of the $DATA non-resident size fields) to
+> 0xFF and mount read-write:
+> 
+>      UBSAN: shift-out-of-bounds in ./include/linux/log2.h:57:13
+>      shift exponent 64 is too large for 64-bit type 'long unsigned int'
+>      Call Trace:
+>       ...
+>       page_cache_sync_ra.cold+0x19/0x46
+>       ntfs_empty_logfile+0x763/0xd50
+>       ntfs_fill_super+0x4085/0x71d0
+>       ...
+>      Kernel panic - not syncing: UBSAN: panic_on_warn set ...
+> 
+> Reproduced 3/3 runs on a self-built 7.3.0 kernel (CONFIG_NTFS_FS=y,
+> CONFIG_UBSAN=y) under QEMU/KVM. The function and the missing
+> runlist/volume bound are unchanged in current mainline.
+> 
+> Notes:
+> 
+> - ntfs_check_logfile() scans with i_size (= data_size, still sane), finds
+>    no restart pages, reports the LogFile as not empty; the emptying then
+>    runs anyway on the crafted initialized_size. The panic happens inside
+>    mount(), before any other syscall.
+> - A natural fix is to reject or clamp initialized_size (and the derived
+>    end_vcn) against the runlist extent or the volume size when the inode
+>    is loaded or when the emptying loop starts. Happy to test a patch.
+> - This needs a crafted image, like the rest of our NTFS corruption
+>    testing; we are reporting it because it is a kernel-crashing UBSAN
+>    violation reachable from mount, the class of bug syzkaller-style
+>    fuzzing of mount images finds and fixes routinely.
+> 
+> The reproducer bundle (image after the single-byte flip, clean control
+> image, a moderate-value variant that mounts cleanly, the flip harness,
+> guest init, and a README with field offsets and expected output) is
+> available on request.
+> 
+> Environment: QEMU/KVM x86_64, 1 vCPU, self-built 7.3.0 with
+> CONFIG_NTFS_FS=y, CONFIG_KASAN_GENERIC=y, CONFIG_UBSAN=y. The driver is
+> fs/ntfs as merged in 7.3.
+> 
+> Thanks,
+> Guikun Yang
 
-David
+Hi Guikun,
+
+    Thanks for the report.
+    I had a look at the latest ntfs-next and think this may already be 
+addressed by two commits.
+
+    8e9137915220 (“ntfs: reject non-resident attributes whose sizes 
+exceed their allocation”) adds the size checks you mentioned. With the 
+layout you described, setting byte 0x4947 to 0xff would make 
+initialized_size negative, so loading the LogFile inode should fail 
+before we get to ntfs_empty_logfile().
+    Also, 749357bd48c16 (“ntfs: mount hibernated volumes read-only 
+regardless of errors=”) makes the mount read-only if errors were 
+recorded earlier. This includes a failed LogFile check, so the case 
+where no restart pages are found should no longer proceed to emptying 
+the logfile, even with errors=continue.
+
+    Could you retest with the latest ntfs-next and see whether it still 
+happens? The current tip is 564c77536477.
+
+Thanks,
+Baolin.
+
