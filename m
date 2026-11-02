@@ -1,126 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793615955;
-	b=rM4S7nGwitNlT7WKKHAB05WtonlG4clfpH8iM1murMlWh3jw810jY0mAZ6t+ntae9bt5
-	 pTNXVyMbCkYI+VJ/rf0Qg3ZnHtfh0DkOufpkUpArnJ979l7Zfdm5bIiuVkrbvTxh/rdnu
-	 ZYDchtmAUTwtOQf0xuwvcvvr0eTQRNpZSVbJdl7Bbx3XFbZn+nNxjUsWIVMYlcdJkBWb0
-	 AOD4IMrV0exDUoNKxSNjMbVtDAOdF0GjbwSWc5Y42Oz2IP7X+b3nieKBEdUpHqdA40sjj
-	 2VxbuKEzeaxvoWNQGkdoj2tnlxsCi6EXRhEmLpQt46z9T4lwgl6gpTvzPX34xfqBdTQ==
+	t=1793616457;
+	b=O3Xi4m3lp7fveE6m3Q5kmBKTsFhoAv0/vqoyyBiT+n0pcpMSpuzAD2Oqy/brUsnjg80J
+	 F7BvnFoJRqKLsKHIDG1id7odnBytKySPjSREwDcf9yIB7hnlSXQ+EbPe3thaJgPEFqs5K
+	 JqgZ13B5c74mw38WIX7Ddkxg6htU+Tt9qLvuhE0B/6eltzZZGJ2Mr0fBtbfH3oluBFqsZ
+	 lai54UQiWTf+Q43lJjZii4EWS5nN9IECTmH3i0ScsRrUkBtXbjS/nMAPymFP2U353jOiI
+	 6A5nX3r7/9OWcDymUu3lhR4kiCCiID8kT+6XhoxO4jvfYCKRerKd+Op7ptjL2oQP0bw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793615955;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-Id:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=SXPkduc5HmvcD4JbyCflilxUkIbcOVZyKgcYfnLDPdM=;
-	b=AvDngN0HdL0eLjHLaL2DxhhP0TnN0e1c5Wv/pT7acIEB7JSicIqodHzV5rBLsHTV0Nad
-	 PrdSqBYByiNk6kOhQ2MsS/gSQcPtbVPjHxZ7NFTbxnQIJmMunvNw/oLTTPwPNdeGGGG8A
-	 xtIpi4LxKfqcJkFmdiHaBVz7TxBcPD80zpkweIYDqIhI8FYYwJNZtf5ZfAjaFgwbcEZq6
-	 ze+y5xBf2ObFnu0K1RNQike3jBM18gizN8lPk6XL3RQxwMAPQxaS4TC+f8FWKQhexLmf5
-	 cVZ4mGaEr2QXDS3xEobcU26myOA165XDYVSaLUx+pjkbZibrbd1Tw0RgNNLvfdGYAbQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793616457;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=fgtT2+a9TrTITBRXB1pk27WkIgQ+nxQrQ3NB1J1hYuM=;
+	b=N53UQrvwjFSm45HMr5FAa5CdT5wEjPGLkxyORUtYajSIVMeJqvo8iP9XkJZIj1b0YKyL
+	 gYRsNQX3LugaEqC0qxya0FT0VjJp/hpkKfelQFvnwJ3SCijzoLsd+WQYvjrFktOVTJMP/
+	 QQRV++c56f1AXhLjwYhPpO/CEGcoho3xAuZXWamI66BvuQtuDLwBafgA1qnnaOT6NQ20i
+	 2bpzSIbI5BWhw8uGldibygyr9Mt/yicBfw9iE8e0c1FZcHy1C8mVKy8/7YnZehnjYmoqT
+	 +5acWHn+tVx6WC8gJnpSEy2T0YBHWFa3pXL/JOPjQfYikg2Gisc27YNb82nsHngqKvg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=FGZfE5gA;
-	arc=none smtp.remote-ip=95.215.58.19
-Received: from mta1.migadu.com (out-19.mta1.migadu.com [95.215.58.19])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="KfoU/C5V";
+	arc=none smtp.remote-ip=209.85.128.51
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DDF0606A324
-	for <linux-fsdevel@vger.kernel.org>; Mon,  2 Nov 2026 10:39:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3DDF0606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0BD8606A33C
+	for <linux-fsdevel@vger.kernel.org>; Mon,  2 Nov 2026 10:47:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B0BD8606A33C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=FGZfE5gA
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=g/mOLxr73xiPzfSEauykXJcCVgHJm2aXb9jWqKek3jg=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793615949; v=1; x=1794220749;
- b=FGZfE5gA8VQ7g0VPOa1555KztU9pXPoVqISm2zO/1Un7sNA9Xg8LXABcmO9akC2pKhNvb03u
- OMhftDY9uI3j6PJkrZ0A56Fdq6iSFCiG0sIeHgYo/vSTyrZBiJQMOUYn719ZAIgr64WcoOMM5tx
- U0sUKS5ZEyZxxKsOJRnLmU3I=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by mta10.migadu.com with ESMTPS id 8bbf69835e69a785;
-	Mon, 02 Nov 2026 10:39:08 +0000
-X-Mizu-Trace-ID: 8bbf69835e69a785
-X-Migadu-Flow: FLOW_OUT
-From: xu.xin@linux.dev
-To: david@kernel.org
-Cc: akpm@linux-foundation.org,
-	aneesh.kumar@kernel.org,
-	apopple@nvidia.com,
-	axelrasmussen@google.com,
-	baohua@kernel.org,
-	baolin.wang@linux.alibaba.com,
-	baoquan.he@linux.dev,
-	chengming.zhou@linux.dev,
-	chrisl@kernel.org,
-	dev.jain@arm.com,
-	gourry@gourry.net,
-	hannes@cmpxchg.org,
-	harry@kernel.org,
-	hughd@google.com,
-	jack@suse.cz,
-	jannh@google.com,
-	jgg@ziepe.ca,
-	jhubbard@nvidia.com,
-	josef@toxicpanda.com,
-	joshua.hahnjy@gmail.com,
-	kas@kernel.org,
-	kasong@tencent.com,
-	kees@kernel.org,
-	kexec@lists.infradead.org,
-	lance.yang@linux.dev,
-	liam@infradead.org,
-	linux-arch@vger.kernel.org,
-	linux-cxl@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=KfoU/C5V
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a20a37703bso21837405e9.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 02 Nov 2026 02:47:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793616455; x=1794221255; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=fgtT2+a9TrTITBRXB1pk27WkIgQ+nxQrQ3NB1J1hYuM=;
+        b=KfoU/C5VTwLgglWwOGIhOu2WjOGvxbM3LY2fCfJz6lShfFpPvqzy4ezwM/iMiYgL+q
+         Tul9qsTFt++Vxvo5bj+KuUneF0k5khy7EkUtw3aga+Z2wW4RYU6YE8GJuraORD8x08S/
+         aQtEf14PxG1LdsFtNKFgAq/Lpj2k0gGfugTqfojHwT01jomsA0iz3y0RfDCao2L/qmfm
+         65mIOVntxKNAxTZzjP9b1wIthVOejEPTuUOOjULlkmuMz9/xT40F6sutVETL1s64XQqg
+         0PPGjTllaw1G2DtC88d9PLKw6sF1RjF4k0+wdB5iPssFkdXmYpzHNeklTP2rebzN2zi1
+         rHYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793616455; x=1794221255;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=fgtT2+a9TrTITBRXB1pk27WkIgQ+nxQrQ3NB1J1hYuM=;
+        b=MoLMfO/2KnN6Dg10RbNo3bn7933CkfJfHItZ/vw7zkPU96oNNjIH+W6RDWRWCZUrMM
+         OWJnTSIvofFzQCavv2CXTd2n1FDWpHwqIrrNuD91VmAv/7fWkN8EvPqLPpmUCzX+XkND
+         dshGy6ie5sAW5B2hHbkkCS8NsoSKv1z7Thf/kV3XnedjtdQWxahII9bdBeYYlnC0IstA
+         a6cFe5TgEHAUSl2nfB+OTQFUVQJL11x0hD8ZzyS4Zc/tB+xyMJp3bIQYvn7TE6YUuMpP
+         /fb7Op3mgI7jq4dFflfprjtcDAmzA9bja/9y+w7rwvkBe5rxSJdf4YeiVtjyb01RSGry
+         6r7A==
+X-Forwarded-Encrypted: i=1; AKwUvBxYCuHEF7tGcMb9Q34/mJM6Tm4aPQrBH5hgBYNdr9Ndv0qvDGlLupvc+bh8UzxN6vZWLuLHtKOxARwYKIzJ@vger.kernel.org
+X-Gm-Message-State: AFq9FYIMrG2vS1G8FO6QtnXgGj+B1GjoglxBtYOgIvpW5fHFYSsRQQD4
+	iudpMcrCJszYasTCKb0L8N9BF7F4bIXSS/4R1mAv9RY+NB2tvbE6XIE1
+X-Gm-Gg: AYBFou1z67CVI0DNgqpR5/+LQ1UE4Ict5Qlx+EKgAj8+R7+YkfnFRutjJgp6qr3lNqg
+	IswLVd9MsXMjH1m+ow5taoKa3OTxGG8YQkA4D5KUva27o3Ol6zR0Y1Avqorhr6ozRKmaj4Zh4c9
+	E+/APsjWaqi4KBpINBO/HCP5403j3KxkI3aXWTesGmid2hTf2kpXTH6pHGb210ctDuFjyRJUjka
+	8q3Pw2nnNtfAqNqs7xnln5ZU3yY8nMoKIqgq3s1HFviAEhmUE8fO6iEgxaWm79Fq04Fiwqc2foO
+	HjdK2k6bjp7FI4+L1YINvZ4QnJDGclnlo1MR4E2RziFguqYIuPWzeK+EIyOVVyUOqzcnsroTxnk
+	h3Z7OeThRYD7V9a6adzmIM+1UXMVOnAsVdyeyY+r9IvZsmIw0PqRmkcX+2wCmrzbWg/qhdDe4bv
+	KQfLqEEq63zVe6NN/1PImi4GpkV/AnlDKH3Dm9KPjzt8sC9kpvJvxlzR+NjXXSIprS7AzLagVmS
+	QU6f5gGy+8Fsh1c59z22LpCwiqve8JxI8JPQhhNnesxJiY+pUcscCHcIEKHeduXP0UFMgJXdtOA
+	HuXeVbaQBtR6+q0MyDellzz3XlfFpb/rYOs5aKYnbLsUTxV6n1ftYHAQNCPc9oth
+X-Received: by 2002:a05:600c:6992:b0:4a1:a2c0:7b73 with SMTP id 5b1f17b1804b1-4ac18992c01mr220277725e9.30.1793616454928;
+        Mon, 02 Nov 2026 02:47:34 -0800 (PST)
+Received: from dell-desktop ([2a02:587:4b42:1400:8199:c552:2b9e:c33])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4abf6c7852esm248939695e9.11.2026.11.02.02.47.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Nov 2026 02:47:34 -0800 (PST)
+From: Anastasios Papagiannis <tasos.papagiannnis@gmail.com>
+To: brauner@kernel.org
+Cc: bpf@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	ljs@kernel.org,
-	matthew.brost@intel.com,
-	mhocko@kernel.org,
-	mhocko@suse.com,
-	minchan@kernel.org,
-	muchun.song@linux.dev,
-	nico.pache@linux.dev,
-	nphamcs@gmail.com,
-	npiggin@gmail.com,
-	osalvador@suse.de,
-	pasha.tatashin@soleen.com,
-	peterx@redhat.com,
-	peterz@infradead.org,
-	pfalcato@suse.de,
-	pratyush@kernel.org,
-	qi.zheng@linux.dev,
-	rakie.kim@sk.com,
-	riel@surriel.com,
-	rppt@kernel.org,
-	ryan.roberts@arm.com,
-	shakeel.butt@linux.dev,
-	shikemeng@huaweicloud.com,
-	stable@vger.kernel.org,
-	surenb@google.com,
-	usama.anjum@arm.com,
-	usama.arif@linux.dev,
-	vbabka@kernel.org,
-	weixugc@google.com,
-	will@kernel.org,
-	willy@infradead.org,
-	xu.xin@linux.dev,
-	ying.huang@linux.alibaba.com,
-	youngjun.park@lge.com,
-	yuanchu@google.com,
-	ziy@nvidia.com
-Subject: Re: [PATCH v3 39/47] mm/ksm: reset the unstable trees of all nodes
-Date: Mon,  2 Nov 2026 18:38:39 +0800
-Message-Id: <20261102103839.225014-1-xu.xin@linux.dev>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20261031-fixes_core-v3-39-d6437171ecc3@kernel.org>
-References: <20261031-fixes_core-v3-39-d6437171ecc3@kernel.org>
+	linux-fsdevel@vger.kernel.org,
+	ast@kernel.org,
+	daniel@iogearbox.net,
+	andrii@kernel.org,
+	eddyz87@gmail.com,
+	memxor@gmail.com,
+	viro@zeniv.linux.org.uk,
+	jack@suse.cz,
+	tasos.papagiannnis@gmail.com
+Subject: [PATCH vfs-7.5.bpf v2 1/3] bpf: Add bpf_path_getattr()
+Date: Mon,  2 Nov 2026 12:46:53 +0200
+Message-ID: <20261102104655.70901-2-tasos.papagiannnis@gmail.com>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261102104655.70901-1-tasos.papagiannnis@gmail.com>
+References: <20261102104655.70901-1-tasos.papagiannnis@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -132,64 +108,82 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-> Each full scan resets ksm_nr_node_ids unstable tree roots. Enabling
-> merge_across_nodes resets this count to 1, even if per-node roots were
-> previously allocated.
-> 
-> So when toggling "merge_across_nodes" 0 -> 1 -> 0, a scan that starts
-> while the setting is 1 and continues after switching back to 0 can
-> encounter stale unstable tree roots, resulting in UAF.
-> 
-> Only root is allowed to change "merge_across_nodes", and the documented
-> sequence is: "merge_across_nodes setting can be changed only when there
-> are no ksm shared pages in the system: set run 2 to unmerge pages first,
-> then to 1 after changing merge_across_nodes, to remerge according to the
-> new setting."
-> 
-> Let's fix it by tracking in ksm_nr_node_ids the actual number of
-> allocated tree roots.
-> 
-> remove_all_stable_nodes() and ksm_check_stable_tree() will now scan
-> more tree roots (skipping the empty ones), which is harmless.
-> 
-> Fixes: ef53d16cded7 ("ksm: allocate roots when needed")
-> Cc: stable@vger.kernel.org
-> Reported-by: Josef Bacik <josef@toxicpanda.com>
-> Acked-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> Reviewed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> Tested-by: Muhammad Usama Anjum <usama.anjum@arm.com>
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
-> ---
->  mm/ksm.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/mm/ksm.c b/mm/ksm.c
-> index dbfb8f98b1892..9c51925825cbf 100644
-> --- a/mm/ksm.c
-> +++ b/mm/ksm.c
-> @@ -475,6 +475,7 @@ static void advisor_stop_scan(void)
->  #ifdef CONFIG_NUMA
->  /* Zeroed when merging across nodes is not allowed */
->  static unsigned int ksm_merge_across_nodes = 1;
-> +/* Number of allocated stable and unstable tree roots. */
->  static int ksm_nr_node_ids = 1;
->  #else
->  #define ksm_merge_across_nodes	1U
-> @@ -3636,14 +3637,13 @@ static ssize_t merge_across_nodes_store(struct kobject *kobj,
->  			else {
->  				root_stable_tree = buf;
->  				root_unstable_tree = buf + nr_node_ids;
-> +				ksm_nr_node_ids = nr_node_ids;
->  				/* Stable tree is empty but not the unstable */
->  				root_unstable_tree[0] = one_unstable_tree[0];
->  			}
->  		}
-> -		if (!err) {
-> +		if (!err)
->  			ksm_merge_across_nodes = knob;
-> -			ksm_nr_node_ids = knob ? 1 : nr_node_ids;
-> -		}
->  	}
->  	mutex_unlock(&ksm_thread_mutex);
+Direct inode reads can differ from stat() and related system calls,
+especially on overlayfs.
 
-Reviewed-by: Xu Xin <xu.xin@linux.dev>
+Add a sleepable LSM kfunc to query a trusted path and return struct kstat.
+Use vfs_getattr_nosec() to avoid calling security_inode_getattr() again.
+Limit the copy to the smaller of the buffer and the kernel structure.
+
+Signed-off-by: Anastasios Papagiannis <tasos.papagiannnis@gmail.com>
+---
+ fs/bpf_fs_kfuncs.c | 38 +++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 37 insertions(+), 1 deletion(-)
+
+diff --git a/fs/bpf_fs_kfuncs.c b/fs/bpf_fs_kfuncs.c
+index 35ccd98a4de6..97afc9659f1a 100644
+--- a/fs/bpf_fs_kfuncs.c
++++ b/fs/bpf_fs_kfuncs.c
+@@ -96,6 +96,40 @@ __bpf_kfunc int bpf_path_d_path(const struct path *path, char *buf, size_t buf__
+ 	return len;
+ }
+ 
++/**
++ * bpf_path_getattr - get the attributes of the supplied path
++ * @path: trusted path to get the attributes of
++ * @request_mask: STATX_* flags of the attributes that the caller wants
++ * @query_flags: AT_STATX_SYNC_AS_STAT, AT_STATX_FORCE_SYNC or AT_STATX_DONT_SYNC
++ * @stat__uninit: buffer to return the attributes in
++ * @stat__sz: size of the supplied buffer
++ *
++ * Ask the filesystem for the attributes of *path*. This is vfs_getattr()
++ * without the call into security_inode_getattr().
++ *
++ * This BPF kfunc may only be called from sleepable BPF LSM programs.
++ *
++ * Copies the smaller of @stat__sz and sizeof(struct kstat). Any remaining
++ * buffer bytes are left untouched. On error, the buffer is unchanged.
++ *
++ * Return: Zero on success or a negative error code.
++ */
++__bpf_kfunc int bpf_path_getattr(const struct path *path, u32 request_mask,
++				 u32 query_flags, struct kstat *stat__uninit,
++				 size_t stat__sz)
++{
++	struct kstat stat;
++	int ret;
++
++	ret = vfs_getattr_nosec(path, &stat, request_mask, query_flags);
++	if (ret)
++		return ret;
++
++	/* struct kstat in the program's vmlinux.h may have a different size. */
++	memcpy(stat__uninit, &stat, min(stat__sz, sizeof(stat)));
++	return 0;
++}
++
+ static bool match_security_bpf_prefix(const char *name__str)
+ {
+ 	return !strncmp(name__str, XATTR_NAME_BPF_LSM, XATTR_NAME_BPF_LSM_LEN);
+@@ -504,6 +538,7 @@ BTF_KFUNCS_START(bpf_fs_kfunc_set_ids)
+ BTF_ID_FLAGS(func, bpf_get_task_exe_file, KF_ACQUIRE | KF_RET_NULL)
+ BTF_ID_FLAGS(func, bpf_put_file, KF_RELEASE)
+ BTF_ID_FLAGS(func, bpf_path_d_path)
++BTF_ID_FLAGS(func, bpf_path_getattr, KF_SLEEPABLE)
+ BTF_ID_FLAGS(func, bpf_get_dentry_xattr, KF_SLEEPABLE)
+ BTF_ID_FLAGS(func, bpf_get_file_xattr, KF_SLEEPABLE)
+ BTF_ID_FLAGS(func, bpf_set_dentry_xattr, KF_SLEEPABLE)
+@@ -515,8 +550,9 @@ BTF_ID_FLAGS(func, bpf_sock_read_xattr, KF_RCU)
+ #endif
+ BTF_KFUNCS_END(bpf_fs_kfunc_set_ids)
+ 
+-/* Side-effecting kfuncs that stay exclusive to LSM programs. */
++/* Kfuncs that stay exclusive to LSM programs. */
+ BTF_SET_START(bpf_fs_kfunc_lsm_only_ids)
++BTF_ID(func, bpf_path_getattr)
+ BTF_ID(func, bpf_set_dentry_xattr)
+ BTF_ID(func, bpf_remove_dentry_xattr)
+ BTF_SET_END(bpf_fs_kfunc_lsm_only_ids)
+-- 
+2.56.0
+
