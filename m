@@ -1,71 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.228
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793633929;
-	b=3IEv5/59GwfcTgAfrYhqfNkBu7beRnl4SS3eA8JRBfAOJNS8Hib8gXvTD3fwuo5EdCY5
-	 CNKykuzQhsctC3+mHpbO4gkTTOkCTnQMBZJdHg/qNblqxSsXflcJLIlzYg03gSPTEm+UK
-	 XnEKhWfU5/cTOxUqciCLq5XlEymiq4yLzQJPNY38vKs+QTay6yPbPl1zOP6ivzWxoCrzc
-	 6ZGTQsXGS6rKWfKeU73kJ8VCnvQdAmMsZrbJTK6Ke5cYX29cxpEBC0k8R+8NOwych15jY
-	 2EMu4ff/fSH3XR7ZWrng23OLltu45o+Wt1x+mOxclH9gzgUEnibDIOLkzcoVB7BLkTw==
+	t=1793634053;
+	b=eBRiCa60joCnnQxZbuYQWpiPMnVtct/WVkez36SIJgujptr4QFFJxuk713EZM9GKhl6E
+	 0oKWrxCV/UV/Me7Ih6UT3hG++kwMFI5TbI8zB6HJA06MRLlDtDKfZNvyQBDhmZFDxm5On
+	 nsINsPplJWWFrQ1pnQU5kFx+Fixt+9S57R5GSYR0TkK1kPsufG8S6x8mI9qrwConHd166
+	 jauwX8ksQNIz94YzUEaUz+ut2Zu52lyUKjAXB6eyhCJlUjkFWIYA1D0ZjNOqAY9sQnToT
+	 T4N1XE10AM3E8qUZxbXL0I7hzhQZA5tvKSqH05FNbQIMx7pn+segCtxxsz0V7Bed4Pg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793633929;
-	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To:User-Agent;
-	bh=VJqjaO5K9E/B76JPrTD775/RWHSZm7cCk23GyJS2CyE=;
-	b=SyCgX0KNuPQDmEv3PLtEeyttaZ1AISU/7IVp02upYHxMy/c9lrNb7SOZcDPmH73AXN1/
-	 UpQ2IyDGlQShvVHyVNohQ3EvgNoHdLOnnIMzIkORwGbsGlHFDT59piyJAWeaA7q08LH9/
-	 /L9cQQvbT8WYcuuCdvrZMNKahMWhdsddeyVENcFvFlYP76EB+cUPuVxHErHpMc8t4Ee6+
-	 pXqO5SJGXWDRjQlX/pF/gafHsPQd0ay6VQrUs861vXRpU0C6EIWg66gzaw/mZ7SV71Tti
-	 DE7YQ9VHkJU/dw7klQMUaNSQWQXGJx4Shf66DBuU/6XynCf8CO7CxG4I5GgodeK+YUw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793634053;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=C+xl5OHF774uZtOPJCxbupJhSCVj7T1aesHy1KgIPVQ=;
+	b=ydoUC0QnxMXoW8wPq+rs2OwSH3WOcPZZS/f0l4TnH2NElH+E2z8/nYB0ffGyEHMFvNzr
+	 AvVCSqX2Zlr0SsK89jXj9/Q533PErUXpocdtQmjOpaW7gldIY5mnM18f9Pve9+N7kP6Rh
+	 VyY48pr+lCrwYTFFwv6CeBg5wNEO3oMZnuz4gN9MWK0tUCCA3wURNmDFN1rmujHZkGdqL
+	 3L1Lhn9OAdmI1XZDDax1QTcRt/9Afyr3x3+z37pzu9j8PAxm+MYqJ6+T6aEF2xhZJXmdp
+	 Vjj3E6AL6zeqPjfWS+lupyLnY0+nEVD+apl8bq6lwDNrUxdebDfK8JroCFpRfyhpxXw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BmkYZwb7;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=Befe4p1s;
+	arc=none smtp.remote-ip=91.218.175.228
+Received: from mta0.migadu.com (out-228.mta0.migadu.com [91.218.175.228])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E556606B1C8;
-	Mon,  2 Nov 2026 15:38:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B201A606B1E4
+	for <linux-fsdevel@vger.kernel.org>; Mon,  2 Nov 2026 15:40:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B201A606B1E4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BmkYZwb7
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BFF41F00A17;
-	Mon,  2 Nov 2026 15:38:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793633928;
-	bh=VJqjaO5K9E/B76JPrTD775/RWHSZm7cCk23GyJS2CyE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=BmkYZwb7Hs5zwPysZ5Kbl9fP9AMmO7IR2bykQ5NA7X3z6kB06OVeJj5nemJnHncK9
-	 ZPjbEB8hAlAkehkrzV7bHpiWjMzp8GBRWMtNSZVKxUvfhHwy/NXma4fb7tQIAlbwCq
-	 KLAc65lW9AYc2FnhJl7eFFm6Ez0/0/gfiQmjMba9umO8Erv9V426ETgi7Ou/5/IoWu
-	 oVcPMRJCNjLzy8fjFkuQiXZStL8cXxzNrdwawemQkMte9/6qoy3URP7oZyc5Z+90gP
-	 ANSFbWhluWAKjuPtvrcVp+jSpjnzpAO5XYzO2r1Wx7GWuuLuzwbbb6gGOMG/PaRDpV
-	 cnQCu2MUVw8jw==
-Received: by pali.im (Postfix)
-	id A2841A13; Mon,  2 Nov 2026 16:38:45 +0100 (CET)
-Date: Mon, 2 Nov 2026 16:38:45 +0100
-From: Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: koraynilay <koray.fra@gmail.com>, David Sterba <dsterba@suse.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Sungjong Seo <sj1557.seo@samsung.com>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	Chris Mason <mason@kernel.org>, Jan Kara <jack@suse.cz>,
-	Yuezhang Mo <yuezhang.mo@sony.com>, Chuck Lever <cel@kernel.org>,
-	"Darrick J . Wong" <djwong@kernel.org>,
-	Sean Smith <defendthedisabled@gmail.com>,
-	Andrey Albershteyn <aalbersh@kernel.org>,
-	Pedro Falcato <pfalcato@suse.de>, linux-btrfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	exfat@lists.linux.dev, ntfs3@lists.linux.dev,
-	linux-api@vger.kernel.org
-Subject: Re: [RFC PATCH v3 3/5] ntfs3: make crtime user-settable using ptime
-Message-ID: <20261102153845.d67wlorqcbe3c2w7@pali>
-References: <20261101015551.786044-1-koray.fra@gmail.com>
- <20261101015551.786044-4-koray.fra@gmail.com>
- <20261102142452.d6jkitgdeuquy23i@pali>
- <CAOQ4uxhQ3uhq6s+4deEJAQV5iy8QZoucojR58_dUNYrnjt_yvA@mail.gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=Befe4p1s
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=2RxZ1Fiv8HmDPeSkPRWplPA67yOwGmzkE3Pmd5fIgAI=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1793634049; v=1; x=1794238849;
+ b=Befe4p1s1dPV5wEiiN8VWowjJohaMdYgChQo2iReBi/0naWhjWv1f/cMbznBmFtJkfGK3zaW
+ sg/iS4v9W3nC582Nm2KLjQqbGjoDmAyxg9QyG2N59s/+ESRN9/yn1H2/vz34Id+oUutKCQeOXuA
+ JvvTAheFKUgnF0fsy75lHPxI=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 2e5b9646824930c3;
+	Mon, 02 Nov 2026 15:40:49 +0000
+X-Mizu-Trace-ID: 2e5b9646824930c3
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <0316f664-d98c-43be-92af-13c30436727a@linux.dev>
+Date: Mon, 2 Nov 2026 23:40:40 +0800
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -75,96 +58,238 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAOQ4uxhQ3uhq6s+4deEJAQV5iy8QZoucojR58_dUNYrnjt_yvA@mail.gmail.com>
-User-Agent: NeoMutt/20180716
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 00/39] sysctl: replace overloaded extra pointers with
+ typed bounds and context
+To: David Laight <david.laight.linux@gmail.com>,
+ Joel Granados <joel.granados@kernel.org>
+Cc: Joel Granados <joel.granados@kernel.org>, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <cover.1793204511.git.wen.yang@linux.dev>
+ <20261029105837.2f8bee67@pumpkin>
+Content-Language: en-US
+From: Wen Yang <wen.yang@linux.dev>
+In-Reply-To: <20261029105837.2f8bee67@pumpkin>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Monday 02 November 2026 16:09:41 Amir Goldstein wrote:
-> On Mon, Nov 2, 2026 at 3:24 PM Pali Rohár <pali@kernel.org> wrote:
-> >
-> > On Sunday 01 November 2026 02:55:49 koraynilay wrote:
-> > > @@ -154,6 +158,11 @@ int ntfs_fileattr_set(const struct mnt_idmap *idmap, struct dentry *dentry,
-> > >       if (flags & FS_APPEND_FL)
-> > >               new_fl |= S_APPEND;
-> > >
-> > > +     if (fa->fsx_xflags & FS_XFLAG_PTIME) {
-> > > +             ni->i_crtime.tv_sec = fa->fsx_ptime.tv_sec;
-> > > +             ni->i_crtime.tv_nsec = fa->fsx_ptime.tv_nsec;
-> > > +     }
-> > > +
-> > >       inode_set_flags(inode, new_fl, S_IMMUTABLE | S_APPEND);
-> > >
-> > >       /* Save nodump flag to return in ntfs_getattr. */
-> > > @@ -275,8 +284,9 @@ int ntfs_getattr(const struct mnt_idmap *idmap, const struct path *path,
-> > >       if (unlikely(is_bad_ni(ni)))
-> > >               return -EINVAL;
-> > >
-> > > -     stat->result_mask |= STATX_BTIME;
-> > > +     stat->result_mask |= (STATX_BTIME | STATX_PTIME);
-> > >       stat->btime = ni->i_crtime;
-> > > +     stat->ptime = ni->i_crtime;
-> >
-> > For me this patch looks dangerous. Somehow I would expect that the
-> > "btime" will never change for existing inode.
-> >
-> > But because the ptime is mapped to i_crtime and ptime is settable from
-> > userspace, with this patch it is directly possible to change btime.
-> >
-> >
-> >
-> > I was thinking more about it... Is not this just misunderstanding of how
-> > the security model around the times is working on different systems?
-> > Because on NTFS there is stored just one field which says when the file
-> > was created. There are not two fields like "time set by user and time
-> > set by system".
-> >
-> > Windows security model allows anybody with WRITE_ATTRIBUTES access to
-> > change that create time. Linux security model does not allow to change it.
-> >
-> > NTFS in this view is just a filesystem like any other (ext4, btrfs, ...).
-> > In my opinion if the ext4 or btrfs filesystem is correctly implemented
-> > on Windows systems, then Windows security model should handle it in the
-> > same way like for NTFS or exFAT. So if something grants WRITE_ATTRIBUTES
-> > access, then Windows should allow to change also btime on ext4 or btrfs.
-> >
-> >
-> >
-> > On the other hand, I understand the use case to have two creation times.
-> > One time which would never be changed and could be used for any kind of
-> > atomic / synchronization by userspace application logic (this btime).
-> > And another time for human which can be changed at any time to any value
-> > which user wants (this ptime).
-> >
-> > In any case, I would suggest that filesystem driver would not report to
-> > userspace unsupported values and would not try to invent other values
-> > and lying about them.
+
+
+On 10/29/26 18:58, David Laight wrote:
+> On Thu, 29 Oct 2026 00:34:39 +0800
+> wen.yang@linux.dev wrote:
 > 
-> But all those fs with mutable creation time already report it with STATX_BTIME
-> so what can we do about this?
-
-Well, what I wanted above to point out is that the "mutability" of
-creation time is not feature of filesystem, but in my opinion rather
-property of the security model on the running operating system.
-
-Maybe better question is: how ext4 btimes differs from the ntfs btime?
-In my opinion there is no much difference, both of them has meaning
-"time when was the file created".
-
-> If userspace requests both STATX_BTIME|STATX_PTIME in mask arg,
-> those fs could technically return only STATX_PTIME and it should not regress
-> existing programs.
+>> From: Wen Yang <wen.yang@linux.dev>
+>>
+>> struct ctl_table describes an entry with data, maxlen and, until this
+>> series, two untyped misc pointers in extra1 and extra2. Those two pointers
+>> have accumulated at least seven unrelated jobs: a fixed bound, a bound read
+>> through a pointer on every call, an object or namespace pointer, a small
+>> integer cookie encoded into the pointer, a lock signal, NULL standing for
+>> "no bound", and a value the core itself casts to unsigned int while
+>> validating a u8 range. Nothing in the entry says which job applies, so
+>> readers infer it from the handler, and the core gets it wrong where it
+>> treats extra1 as an unsigned int.
+>>
+>> The numeric half of this change is the direction Eric Biederman asked for:
+>>
+>>    You can still save a lot more by turning .extra1 and .extra2
+>>    into longs instead of keeping them as pointers and needing
+>>    constants to be pointed at somewhere.
+>>
+>>    [...] I don't see any reason why you want shared
+>>    constants for such a handful of things.  Especially when
+>>    it has proven to be error prone in the past.
+>>
+>> min/max are plain unsigned long members, so the comparisons are ordinary
+>> C and cannot be confused with a pointer. The shared const arrays that only
+>> existed to give those pointers an address (sysctl_vals and
+>> sysctl_long_vals) are removed as well.
+>>
+>> The tree already records this direction. fs/proc/proc_sysctl.c documents
+>> extra1/extra2 as "extra pointers usable by the proc handler routines" and
+>> carries:
+>>
+>>    XXX: we should eventually modify these to use long min / max [0]
+>>    [0] https://lkml.kernel.org/87zgpte9o4.fsf@email.froward.int.ebiederm.org
+>>
+>> This series completes that TODO and removes the comment.
+>>
+>> priv is this series' addition: the same pair of fields also hides handler
+>> context, which a numeric bound cannot express, and keeping it out of data
+>> is what removes the restore-before-delegate pattern.
+>>
+>> The overloading is also a memory-safety hazard. The obvious alternative --
+>> keep handler context in data and restore the value pointer in each handler
+>> -- needs an original_data field in nine addrconf and two devinet handlers;
+>> one missed restore turns a user-supplied integer into a write over a kernel
+>> pointer. nf_log reaches the same problem from the other side: it replaces
+>> data with a local buffer inside a single handler, so data means two things
+>> within one function. This revision removes that temptation instead of
+>> managing it.
+>>
+>> The core is not exempt. sysctl_check_table_array() reads
+>> *(unsigned int *)table->extra1 to validate a u8 range. That is only correct
+>> while every u8 entry happens to point extra1/extra2 at an int or unsigned
+>> int; a long bound, a context pointer or an encoded integer would be read as
+>> four bytes of the wrong object. No such entry exists today, so this is a
+>> latent class rather than a live bug, but the invariant is untyped and
+>> unchecked, and nf_log already encodes an integer into extra1.
+>>
+>> The refactor is the first five patches; they define the replacement
+>> contract and prove it covers every entry shape the tree uses today.
+>>
+>>    1. min/max hold numeric bounds by value, and priv holds handler context.
+>>       The range converters read min/max whenever extra1 and extra2 are
+>>       clear and keep reading the pointers while they are set, so existing
+>>       callers keep working while they migrate and no parallel handler API or
+>>       renamed symbol is introduced. Signed handlers read the bounds as
+>>       signed longs, an absent endpoint is the type limit rather than NULL so
+>>       zero stays a real bound, and a run-time range is refreshed before
+>>       every call. Registration rejects priv on a standard handler.
+>>
+>>    2. The debug test module is converted to numeric bounds as the first
+>>       user.
+>>
+>>    3. KUnit coverage for numeric bounds and the handlers that consume them:
+>>       full type ranges, one-sided and zero bounds, entries without backing
+>>       storage, explicit handlers for arrays and members, and rejection of
+>>       writes that would partially commit.
+>>
+>>    4. KUnit coverage for run-time ranges across the scalar widths and
+>>       jiffies, run-time bound pointers, sibling bounds, typed context, owner
+>>       derivation, bool, registration lifecycles, and simulated per-net
+>>       duplication.
+>>
+>>    5. KUnit coverage for priv: a standard handler must ignore it,
+>>       registration must reject it with a standard handler, and
+>>       re-registration must keep both the value pointer and the context. The
+>>       same patch moves the debug module's dynamic-value entry to the
+>>       data/priv shape.
+>>
+>> On the CTLTBL_ENTRY_* constructors: I kept the naming and argument order you
+>> suggested while reworking the series. As it turned out, no production table
+>> needed them -- the converted entries read naturally as designated
+>> initializers -- so I have not introduced them as a public API in this
+>> version; the KUnit file keeps an equivalent constructor privately, so the
+>> tests stay readable. I still think the public version is worth doing, and I
+>> would be happy to send it as a follow-up once there are real users, so the
+>> API and its callers can be reviewed together.
+>>
+>> Everything after patch 5 is migration and adds no new contract. Patches
+>> 6-32 convert the remaining users and derive owners from their backing
+>> storage. Patches 33-38 move handler context onto priv, one subsystem per
+>> patch; each of those files is touched exactly once and goes straight from
+>> the old pointer field to priv, with no intermediate data-as-context step.
+>> Patch 39 removes the extra pointers and the compatibility read.
+>>
+>> The parport conversion illustrates a concrete problem with the overloaded
+>> fields. In the base tree, registration overwrites the spintime minimum
+>> pointer in vars[0].extra1 with a port pointer. The range handler can then
+>> check a write against data from struct parport instead of the intended
+>> minimum. Moving the port context to priv and using numeric bounds also
+>> corrects this existing bug. A separate fix can address it independently;
+>> this RFC does not depend on that fix.
+>>
+>> Entries that used a *_minmax handler with neither extra pointer relied on
+>> NULL meaning "no bound". They now state their type limits explicitly to
+>> preserve that behaviour when the pointer path disappears. These include
+>> aio-max-nr, acpi_video_flags and nmi_wd_lpm_factor.
+>>
+>> Owners that can still be recovered from data are deliberately left alone:
+>> ipvs, neighbour, the fragment reassembly handlers, vsock, mptcp, rds and
+>> smc keep using container_of() on their backing storage. priv is only for
+>> entries where no such derivation exists. Mixed placement in data and priv
+>> was considered and rejected because it recreates the guessing problem this
+>> series removes.
+>>
+>> Relative to the base tree, the final state removes all 841 extra1/extra2
+>> assignments across 123 files, removes the shared sysctl_vals and
+>> sysctl_long_vals arrays (21 references), and states bounds at each entry
+>> (~574 new min/max initializers) instead of pointing at constants. The
+>> sysctl ABI is unchanged; the parport spintime minimum is corrected as
+>> described above.
+>>
+>> The cost is 8 bytes per ctl_table entry on 64-bit (56 -> 64) and 4 bytes on
+>> 32-bit, because priv is appended; the range read path gains no indirection
+>> and the migrated entries no longer dereference a bound pointer.
 > 
-> But this is still a bit surprising behavior is it not?
+> Can you remove the little-used 'priv' parameter by making the extra
+> information just follow the table entry (nested structure) and have
+> the relevant functions use container_of() to get the outer structure
+> and extra values?
 > 
-> Thanks,
-> Amir.
 
-I'm not sure what to do with it.
 
-If we allow to change btime of ntfs then for consistency we should also
-allow to change btime of ext4.
+Hi David, Hi Joel,
 
-Maybe another idea... define new capability which would allow to change
-btime (on any filesystem)? This would at least make the consistency.
+I reworked the context side of the series so that priv is gone entirely;
+and the final tree has no per-entry context pointer.
+A small helper recovers the enclosing object, but it needs the slot
+index from the caller:
+
+   #define sysctl_table_container(entry, type, member, index) ({       \
+           static_assert(__same_type(*(entry),                         \
+                                     typeof_member(type, member[0])),  \
+                         "pointer type mismatch");                     \
+           (type *)((void *)(entry) - offsetof(type, member) -         \
+                    (size_t)(index) * sizeof(*(entry)));               \
+   })
+
+The reason plain container_of() is not enough is that the core keeps the
+table as a contiguous array.  For
+
+   struct addrconf_sysctl_table {
+           struct addrconf_sysctl_ctx context;
+           struct ctl_table table[];
+   };
+
+the handler receives an interior entry, and
+
+   container_of(ctl, struct addrconf_sysctl_table, table)
+       == (char *)outer + index * sizeof(struct ctl_table)
+
+for ctl == &outer->table[index].  It only returns the outer object for
+index 0.  Passing the index explicitly keeps the original registered
+entry usable:
+
+   static int addrconf_sysctl_forward(const struct ctl_table *ctl, ...)
+   {
+           struct addrconf_sysctl_table *t =
+                   sysctl_table_container(ctl, struct addrconf_sysctl_table,
+                                          table, 
+ADDRCONF_SYSCTL_FORWARDING);
+           const struct addrconf_sysctl_ctx *ctx = &t->context;
+           ...
+   }
+
+Shared handlers get one wrapper per slot; the common body does not need
+to know its position:
+
+   #define DEVINET_CONF_WRAPPER(attr)                                  \
+   static int devinet_conf_##attr(const struct ctl_table *ctl, ...)    \
+   {                                                                   \
+           struct devinet_sysctl_table *t =                            \
+                   sysctl_table_container(ctl,                         \
+                           struct devinet_sysctl_table, devinet_vars,  \
+                           IPV4_DEVCONF_##attr - 1);                   \
+           return devinet_conf_proc_common(ctl, &t->context, ...);     \
+   }
+
+Single-entry tables simply use slot 0:
+
+   struct devinet_forward_table *t =
+           sysctl_table_container(ctl, struct devinet_forward_table, 
+table, 0);
+
+
+The series is 20 commits over 134 files, with no priv at any point.  If
+you would prefer a different shape for the helper or the wrappers, I am
+happy to adjust it.
+
+
+Thanks,
+Wen
+
+> David
+> 
