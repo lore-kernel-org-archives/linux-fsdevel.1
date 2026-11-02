@@ -1,45 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793610568;
-	b=VLFVQaEZVrHlgRrSWWzRHRRl/ruPDfQe4Ecjw49THdZocfbMZR07o4op4AXVBNKSQt37
-	 4kBVb/8ydRRlkpu9jOuahlKNMxrWps1MX1ze+G9rItj/O7RiGu7bhabev3+cpCjtU5GnU
-	 JOmiZRa4WC6UFxvluPdk7aheSSKxgmnqtcpzjJGwOMyVg3AFAl3D9d69x3uOqo8h3x8vQ
-	 P++Lc1lg7N3bJ5F632nHIJcPFOPJc8+QXx4fzvcDtwNuiceW53Utn3ztYP4bkFnK2ZxN5
-	 g2Dfd4vejHT+T01eoeSqh3mb00gq/2UL0rtkfqxF3aUb5wzcn9cU19Ok4bsB84p56sw==
+	t=1793610607;
+	b=LHs6Haz2NJdZywVCVG9KQghxjgcFhKwfZtWQbaKuZmFuQREBKt6lO7OxC58IP5tH8wpT
+	 HlVgsaWexkdGe6d3Pv+BhthFptyufsD7eL+/FtpZsidAeZnaJimJFSQJ8JppWGNFgBeqZ
+	 8qPEmAssl05iYIBrIkwRk5z1Yt+zPk8YTKPKz/8iFfA2bJ60vsKjZtX2ZWVd+PlCF4c++
+	 3sT+BPoxwU7oVKw8Gh9QjSwV4pbfd+3C5AKXlFFf7vqHR7PnKL64BSkhdgWm8AEgeGr7B
+	 1vyvvZdS/QlfdbWnNcEZlKumChGMRrPW2CeuCHjzxMOhfOl7NrfOSGfpAsRnGAS+vXA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793610568;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793610607;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=b/cF6WMzcjKaJKZ5oQKJkStJ8KKrbT8J01NBjCuG4xA=;
-	b=rSrozUTuYAdGSUMzZ2F9KBcahroKk+JTkXxuurM3Fc/RdkyLFB9lTtCmN6V751fxJ0GN
-	 FfihmXEU5MUvgn8Niv3j+LWn54EAamu6YoJNfZLRAcjnmFdNjfRppJ/52NZxjZAAOwa9H
-	 CZvLJh8E355PPeHTmTV6p9UQbXwdZFeOjmfqksk62wQwMLCsMTXoYWnFmFRKNHNrrtzJJ
-	 JPpIfoY9MxuEuOASmeib6OGoyC+EpBMTVng7sfDThkmJKhlR9AAAsd2uklWUq9Z9svadf
-	 Pq32vKDDZZCUpjHdjUn0ea5wGnkOfPGpniSjhfbW8YOKEdkuLDtW6CTNHGrpWOw9csg==
+	bh=wkTC+he0qPm39vRqMgtbm34FMLdGD5gTPbWYAvKJPAM=;
+	b=xw64PRhaflaZO5wHgShOv3RSv+gkCsbgtwxRInvbgO6H0KxKN7wVajWSgjXVJ/SxfXgK
+	 4NAIo5pIajN8tG8LVLMD6amZr9NSyXrJBE/ESy3V25JsdSRbQU9wEBGQu0W9cTrTYeY3H
+	 Z6/vndaDABcFQwzKe/bivW7g6Vr/aPiLSRxcLCKXl7/VS3sqy1DFQbzUBBOzkSeaorcCu
+	 vjIKnbtWqgzE4aNW5rw02nd5pN2oBgMa8sn7FaGJelX1amupNXfMCpAYRRT+kiPSvMUGY
+	 4MXsnn/AALnmTHYFMylp8Tz33OWNVvollNHpiTYCl8TwFx1foOgwYv8HvtOJKg17taA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=E7O1MaO9;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="GY/pK+HG";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25C60606A332;
-	Mon,  2 Nov 2026 09:09:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4609606A324;
+	Mon,  2 Nov 2026 09:10:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=E7O1MaO9
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BECB1F000C1;
-	Mon,  2 Nov 2026 09:09:23 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GY/pK+HG
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B703F1F000C1;
+	Mon,  2 Nov 2026 09:10:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793610567;
-	bh=b/cF6WMzcjKaJKZ5oQKJkStJ8KKrbT8J01NBjCuG4xA=;
+	s=k20260515; t=1793610606;
+	bh=wkTC+he0qPm39vRqMgtbm34FMLdGD5gTPbWYAvKJPAM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=E7O1MaO9SjuMyxTFmrgaga3GDsG+Fg7gKkAhGPXB6FQWs+hFpLzvqUX88ZE0tAYjC
-	 AXABiP5xrYUF7z9zwjGYYGloS56DzTVoFij3UTR5frb+bI5TbMrdN6HcdEO9zCEiPB
-	 +URPLLdf8JBZ8VSxGiJ3sp7Ug0JxLpGrZIyupnMGn7glvjdjgMm39ep4O9YSjfzQ7u
-	 MOUuVe1D4WA+A4pq4+svuYVsIj+/QRz/FaDwnmcLfFDltdW9CLAaDbPVHrT5NUUQ8W
-	 Rhpxp3gI6PdMDqi/cYgCnqRLxV3DJ5beHMTtvg3hrWiHYCVHNX9MetcvQ4FiHppZI0
-	 kn0+5LH/hEM7A==
-Date: Mon, 2 Nov 2026 09:09:20 +0000
+	b=GY/pK+HGdMiCW+9zjMunUpA5s2ZA8dMTkpxAtDFoh7B5X6P0YdI7nklSo+LjJPbzl
+	 cgzR+Hw9tByzBlDzALAO7FDxkavgBONB5j6/AiQteCScFaXb4xlQZKknl3qWu2jZMz
+	 tijp9HxFwwa9PdBuYVNTYwEQF8Q2o1oba1xaNRkBwnUMF7XeFadwgkxmtIq7Fyi/gI
+	 xDnoUH+A+TxbC8ibodn/RAYDXxaunq/HpN172ip3tkjkzZ72sqGg8jf/vwdkDX9jEp
+	 J93CIkHco55aOwhrzYPJ6XMZsRMDfuCDOaE2xpqjOJy+WKK27bIv7QH54EtjpXwydU
+	 pmDgZBOl+Wa4A==
+Date: Mon, 2 Nov 2026 09:09:59 +0000
 From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
 To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
 Cc: Andrew Morton <akpm@linux-foundation.org>, 
@@ -52,11 +52,11 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
 	Mike Rapoport <rppt@kernel.org>, David Hildenbrand <david@kernel.org>, 
 	Gregory Price <gourry@gourry.net>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
 	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 1/2] MAINTAINERS: add Johannes as the page allocator
- co-maintainer
-Message-ID: <auhTLSjyu-sNlQAB@gremlin>
+Subject: Re: [PATCH 2/2] MAINTAINERS: move SLAB ALLOCATOR under MEMORY
+ MANAGEMENT
+Message-ID: <auhTYEX5xCe1ApQ5@gremlin>
 References: <20261101-maint-page_alloc-update-v1-0-27e8c246b13d@kernel.org>
- <20261101-maint-page_alloc-update-v1-1-27e8c246b13d@kernel.org>
+ <20261101-maint-page_alloc-update-v1-2-27e8c246b13d@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -68,55 +68,110 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261101-maint-page_alloc-update-v1-1-27e8c246b13d@kernel.org>
+In-Reply-To: <20261101-maint-page_alloc-update-v1-2-27e8c246b13d@kernel.org>
 
-On Sun, Nov 01, 2026 at 05:34:48PM +0100, Vlastimil Babka (SUSE) wrote:
-> Johannes is a long-time expert and reviewer for the page allocator and
-> has agreed to step up to a co-maintainer role, so do that. Thanks!
+On Sun, Nov 01, 2026 at 05:34:49PM +0100, Vlastimil Babka (SUSE) wrote:
+> Following David's consolidation of several other MM subcomponents, do
+> the same for the slab allocator.
 >
-> Additionally, page allocator is joining the MM transition, following the
-> MM core updates from David [1].
+> Rename the section to MEMORY MANAGEMENT - SLAB ALLOCATOR and move it to
+> remain in alphabetical order.
 >
-> Patches will be collected in the mm/page_alloc git tree and integrated
-> via the mm/linux integration tree. To signify the change from Andrew's
-> mm tree, remove Andrew as M: - get_maintainers will continue CCing him
-> on most patches via the catch-all MM entry. David prefers not being
-> added for mail volume reasons.
+> Remove Andrew as M: to signify he's not the primary person for picking
+> patches in this subcomponent. get_maintainers will continue CCing him on
+> most patches via the catch-all MM entry. David prefers not being added
+> for mail volume reasons.
 >
-> [1] https://lore.kernel.org/all/20261030-maintainers-v1-7-97278f8a5f54@kernel.org/
+> Indicate the primary integration branch (slab/for-next) in the T: entry.
+> It will now be integrrated via the mm/linux integration tree.
 >
 > Signed-off-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 
-Well deserved, congrats Johannes!
+LGTM so:
 
 Acked-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 
 > ---
->  MAINTAINERS | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  MAINTAINERS | 59 +++++++++++++++++++++++++++++------------------------------
+>  1 file changed, 29 insertions(+), 30 deletions(-)
 >
 > diff --git a/MAINTAINERS b/MAINTAINERS
-> index b68bc3626709..d7cfb28a9029 100644
+> index d7cfb28a9029..e449ee3009ac 100644
 > --- a/MAINTAINERS
 > +++ b/MAINTAINERS
-> @@ -17720,15 +17720,15 @@ F:	include/uapi/linux/oom.h
->  F:	mm/oom_kill.c
+> @@ -17815,6 +17815,35 @@ F:	mm/shmem_quota.c
+>  F:	tools/testing/selftests/memfd/
+>  F:	tools/testing/selftests/tmpfs/
 >
->  MEMORY MANAGEMENT - PAGE ALLOCATOR
+> +MEMORY MANAGEMENT - SLAB ALLOCATOR
+> +M:	Vlastimil Babka <vbabka@kernel.org>
+> +M:	Harry Yoo <harry@kernel.org>
+> +R:	Hao Li <hao.li@linux.dev>
+> +R:	Christoph Lameter <cl@gentwo.org>
+> +R:	David Rientjes <rientjes@google.com>
+> +R:	Roman Gushchin <roman.gushchin@linux.dev>
+> +L:	linux-mm@kvack.org
+> +S:	Maintained
+> +T:	git git://git.kernel.org/pub/scm/linux/kernel/git/mm/slab.git slab/for-next
+> +F:	Documentation/ABI/testing/sysfs-kernel-slab
+> +F:	Documentation/admin-guide/mm/slab.rst
+> +F:	Documentation/mm/slab.rst
+> +F:	include/linux/mempool.h
+> +F:	include/linux/slab.h
+> +F:	include/trace/events/kmem.h
+> +F:	lib/tests/slub_kunit.c
+> +F:	mm/failslab.c
+> +F:	mm/mempool.c
+> +F:	mm/slab.h
+> +F:	mm/slab_common.c
+> +F:	mm/slub.c
+> +F:	scripts/gdb/linux/slab.py
+> +F:	tools/cgroup/memcg_slabinfo.py
+> +F:	tools/include/linux/slab.h
+> +F:	tools/lib/slab.c
+> +F:	tools/mm/slabinfo-gnuplot.sh
+> +F:	tools/mm/slabinfo.c
+> +
+>  MEMORY MANAGEMENT - SWAP
+>  M:	Andrew Morton <akpm@linux-foundation.org>
+>  M:	Chris Li <chrisl@kernel.org>
+> @@ -25809,36 +25838,6 @@ S:	Maintained
+>  F:	Documentation/devicetree/bindings/nvmem/layouts/kontron,sl28-vpd.yaml
+>  F:	drivers/nvmem/layouts/sl28vpd.c
+>
+> -SLAB ALLOCATOR
+> -M:	Vlastimil Babka <vbabka@kernel.org>
+> -M:	Harry Yoo <harry@kernel.org>
 > -M:	Andrew Morton <akpm@linux-foundation.org>
->  M:	Vlastimil Babka <vbabka@kernel.org>
-> +M:	Johannes Weiner <hannes@cmpxchg.org>
->  R:	Suren Baghdasaryan <surenb@google.com>
->  R:	Michal Hocko <mhocko@suse.com>
->  R:	Brendan Jackman <brendan.jackman@linux.dev>
-> -R:	Johannes Weiner <hannes@cmpxchg.org>
->  R:	Zi Yan <ziy@nvidia.com>
->  L:	linux-mm@kvack.org
->  S:	Maintained
-> +T:	git git://git.kernel.org/pub/scm/linux/kernel/git/mm/page_alloc.git page_alloc/for-next
->  F:	include/linux/compaction.h
->  F:	include/linux/gfp.h
->  F:	include/linux/page-isolation.h
+> -R:	Hao Li <hao.li@linux.dev>
+> -R:	Christoph Lameter <cl@gentwo.org>
+> -R:	David Rientjes <rientjes@google.com>
+> -R:	Roman Gushchin <roman.gushchin@linux.dev>
+> -L:	linux-mm@kvack.org
+> -S:	Maintained
+> -T:	git git://git.kernel.org/pub/scm/linux/kernel/git/mm/slab.git
+> -F:	Documentation/ABI/testing/sysfs-kernel-slab
+> -F:	Documentation/admin-guide/mm/slab.rst
+> -F:	Documentation/mm/slab.rst
+> -F:	include/linux/mempool.h
+> -F:	include/linux/slab.h
+> -F:	include/trace/events/kmem.h
+> -F:	lib/tests/slub_kunit.c
+> -F:	mm/failslab.c
+> -F:	mm/mempool.c
+> -F:	mm/slab.h
+> -F:	mm/slab_common.c
+> -F:	mm/slub.c
+> -F:	scripts/gdb/linux/slab.py
+> -F:	tools/cgroup/memcg_slabinfo.py
+> -F:	tools/include/linux/slab.h
+> -F:	tools/lib/slab.c
+> -F:	tools/mm/slabinfo-gnuplot.sh
+> -F:	tools/mm/slabinfo.c
+> -
+>  SLCAN CAN NETWORK DRIVER
+>  M:	Dario Binacchi <dario.binacchi@amarulasolutions.com>
+>  L:	linux-can@vger.kernel.org
 >
 > --
 > 2.56.0
