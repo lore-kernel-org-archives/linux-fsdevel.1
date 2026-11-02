@@ -1,60 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793630566;
-	b=lhc4yCWLNSmF6tRUSjeT6DxOuPnszsDSvtfstqYjs2d8xXfPSderSL9EHoxGRS7uk5sp
-	 opABPRC5lCMImzp//7evE8drJLY4mZIh2zmQYjzsIW+B0OrIkeMjskYTK+TgLiA9Bqh4p
-	 CV9got12xmiwTWFR0n9425D4wDdWzp0+BnukryLqH7YBaKK8DkDQxcHRQ8G6X35CpsWT0
-	 8u9pshwftHkGZ4bmqIBl7V8SkSeAbNEuHsxcdmDWvzLYN13r/fMA92UH9NrjFenEmzb89
-	 ErkSpbM2+5jiQCLW3Hk8oNtdyA0nh8CfilbYTaJGt6BUGakRGljHX+MnjRwO6KUFhAA==
+	t=1793630792;
+	b=VNMPIixDPC7xnx24ImagaVLICgQ1oMfx0ZSj8HfYNYyHwlLhP7YynaWIRw/rdO94DuRp
+	 kdNc+FDihW4918YH2n0gYoGk0wncFuJgHX2QOOwo3+vftnXS65KV754vX9cEiAnYODAwj
+	 OearUcAC9GlUV4otqHGu1vKc4itb+pc8eLrPZ7SuI7vlAQ1GimTfx0qsKE4s8NvqU6XHz
+	 er2aRiwxbS+Agxbv1vhK7n7EZTeyvAzIwVps/OdVkDV8+/v0+f2+0+jVUzW9srCbVRxpu
+	 b2Z26etis4y5jkPeB95vYtOjKH428ACBiTkcp2EniAvYUo2q6oPdpv6hhtraEl9WvNA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793630566;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=84a1TUwT5CfvLKlYCqTDixbPk9CE31NUcTVunVWGd+c=;
-	b=k78Q6iHdophzAQtYTyOBF+TVnh/6DdKz9jYpC98HgukXdpffaUd8yHIOXloh2U6oE4/W
-	 Iq+Oa90DaC7lDrz/q3QOz/N6m2yRzdic7yI3ppxIwACvoyyn9CYDbik5clmxKJyYunEl7
-	 Oq22t5DzMNb9ca46CbmWFzwk5u8oHVcAe+bkcje1U96y654HyvzroyiVjRmIXU+yiLcnU
-	 K64S3QjLGX0X2n+24KLusO+bre7i6eiaDfNfQPSiHH9L3KiOGmCdFlBN33ZPSoPeehHDH
-	 MSyj/OQwBb6Jr2i2QMVG0Lz3XYiZd+yb9PRSV8lAgsKO8vf8z573hKuF5lZ5wxwLPjg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793630792;
+	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
+	 X-Mailer;
+	bh=8OUC3OpgPcYXff2v4b0WbdSVZE7XWpoJGNZRHA3e5A4=;
+	b=XPllilg3r+tc0lz4rs3Ycu3pEWL6/1QcmOYKIOlLj5DZex9ihiB72LC/xdA1BJMmpyJA
+	 Daz8EDNAOTGmeBVDakNa23FHfl5xESS22cFNK2PWm/ThJJroUU9ehmPesaVO3lNRRc/db
+	 JVMjPzEAkNBjel06clXm4i9Yp8JRuiINX4brc0NgV1W3OhxWc3cRgMdKjTIr7nf+0+hFP
+	 ytBbO8MbnukO+sPX2UXWKNdCOil6IproFhGVzyrrk2NqywuiTHttTaEv4LyI77ivh3QsP
+	 3U94wMJYXB5HsfcWUl13LA9pXeB3qnHuJg1XZ6iEgk5ulQfOo+Y6NHj1DbRv1PfOZAQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=abr2fYaA;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XWvDNXOE;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5709606A5BC;
-	Mon,  2 Nov 2026 14:42:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60A07606C57C;
+	Mon,  2 Nov 2026 14:46:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=abr2fYaA
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 468741F00A17;
-	Mon,  2 Nov 2026 14:42:43 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XWvDNXOE
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5ACC31F00A1C;
+	Mon,  2 Nov 2026 14:46:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793630565;
-	bh=84a1TUwT5CfvLKlYCqTDixbPk9CE31NUcTVunVWGd+c=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=abr2fYaA+C0HHHJ+dnu2nRMbYkyKN3dOarxKCY2Uf1NfAtYNmDJgB2pPaBH4j617B
-	 ASkdb2EnZAH3ux0zJH/luPinzWop+WnUicBIHya3YrbcWYAzBOeOV8BiEhURJMSo0L
-	 JZ0alTeCoBhbduzeRrGtlvRAFx8QFN48Sb0P5K7OO/9cq2cbKUyQx+rGGbedXCddHY
-	 FrNrH/c+g0dj+o2B8DTlFSLXfrLDwirBaUqxEovCX8ng2hcppKIFrFLrxF6bUFxHEI
-	 sRjgjku4GUpPQ38S0MWVJ3dDwlafpYrocydOkAPmXSw5oLzOD8ccnvB3HAYhMOGWg3
-	 ErqpgZqG01FoQ==
-From: Andrey Albershteyn <aalbersh@kernel.org>
-To: ebiggers@kernel.org,
-	hch@lst.de,
-	Carlos Maiolino <cem@kernel.org>,
-	fsverity@lists.linux.dev,
-	linux-xfs@vger.kernel.org
-Cc: Andrey Albershteyn <aalbersh@kernel.org>,
-	linux-fsdevel@vger.kernel.org,
-	david@fromorbit.com,
-	"Darrick J. Wong" <djwong@kernel.org>
-Subject: [PATCH v18 14/15] xfs: introduce health state for corrupted fsverity metadata
-Date: Mon,  2 Nov 2026 15:41:44 +0100
-Message-ID: <20261102144147.2393369-15-aalbersh@kernel.org>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20261102144147.2393369-1-aalbersh@kernel.org>
-References: <20261102144147.2393369-1-aalbersh@kernel.org>
+	s=k20260515; t=1793630792;
+	bh=8OUC3OpgPcYXff2v4b0WbdSVZE7XWpoJGNZRHA3e5A4=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=XWvDNXOEbgzkyZSZLEEf/fLDGQTJKwF0ltSxY/EL3lo82Mkr/aDxZgyoDMPnEDdLr
+	 5p9X0oQCHCkY63MlXypffIH/FgWzMKVYCEo4i3pEbfJuBXE7iGAORsSWwgE8jxQhAy
+	 4NKKegcYQITsSSiB9ubx16WR7JIBFMAtYwmdkdE/Zzf6jzzLfZ7rDbpHNZ3omVKKWs
+	 5YTo9uoKH3WQgJg5iglu6NkXshnM4oNeVvav8v5ihPYSLjDC/W/Dnb3rFkAiPkdkb/
+	 knAVm1KzmCTPRmBb4tIwPxCsIua2TX2REoD5qySaeeWkURDqxkkuEp88D6dK5T0/43
+	 GCmlt6X8Ltfhw==
+From: Christian Brauner <brauner@kernel.org>
+Date: Mon, 02 Nov 2026 15:43:27 +0100
+Subject: [PATCH RFC 36/38] selftests/proc: check that faulting sysctl
+ accesses don't hold up removal
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -64,124 +53,323 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261102-work-procfs-bugfixes-v1-36-59422ed3e465@kernel.org>
+References: <20261102-work-procfs-bugfixes-v1-0-59422ed3e465@kernel.org>
+In-Reply-To: <20261102-work-procfs-bugfixes-v1-0-59422ed3e465@kernel.org>
+To: linux-fsdevel@vger.kernel.org
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
+ Jann Horn <jannh@google.com>, Josef Bacik <josef@toxicpanda.com>, 
+ Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
+ NeilBrown <neil@brown.name>, Eric Dumazet <edumazet@kernel.org>, 
+ Thomas Gleixner <tglx@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
+ Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
+ Greg Kroah-Hartman <gregkh@suse.de>, 
+ Joel Granados <joel.granados@kernel.org>, Kees Cook <kees@kernel.org>, 
+ Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
+ linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, 
+ linux-acpi@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
+ linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, 
+ linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org, 
+ ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
+ coreteam@netfilter.org, kexec@lists.infradead.org, 
+ linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, 
+ netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net, 
+ linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-cifs@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+ linux-hwmon@vger.kernel.org, linux-mm@kvack.org, linux-sh@vger.kernel.org, 
+ linux-usb@vger.kernel.org, samba-technical@lists.samba.org, 
+ sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, 
+ linux-doc@vger.kernel.org, linux-serial@vger.kernel.org, 
+ linux-atm-general@lists.sourceforge.net, Takashi Iwai <tiwai@suse.de>, 
+ linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
+ linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, 
+ linux-debuggers@vger.kernel.org, 
+ "Christian Brauner (Amutable)" <brauner@kernel.org>, 
+ Chuck Lever <cel@kernel.org>
+X-Mailer: b4 0.17-dev
 
-Report corrupted fsverity descriptor through health system.
+Read, write and list /proc/sys/net/ipv6/conf/<dev>/ of a tun device
+with a buffer whose first page is backed by userfaultfd and remove the
+device while the task sleeps in its copy from or to userspace:
 
-Reviewed-by: Darrick J. Wong <djwong@kernel.org>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
+- unregistering the table doesn't wait for a faulting read(), write()
+  or getdents64()
+
+- the read still gets the value that was produced before the removal
+  and the next read fails with -ENOENT
+
+- the write is copied in after the removal and fails with -ENOENT
+
+- getdents64() still lists what it looked up before the removal and
+  fails with -ENOENT afterwards
+
+The tables are unregistered under RTNL, so a regression stalls each
+test for five seconds before it fails.
+
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/xfs/libxfs/xfs_fs.h     |  1 +
- fs/xfs/libxfs/xfs_health.h |  4 +++-
- fs/xfs/xfs_fsverity.c      | 25 +++++++++++++++++++------
- fs/xfs/xfs_health.c        |  1 +
- 4 files changed, 24 insertions(+), 7 deletions(-)
+ tools/testing/selftests/proc/.gitignore            |   1 +
+ tools/testing/selftests/proc/Makefile              |   1 +
+ tools/testing/selftests/proc/config                |   3 +
+ .../selftests/proc/proc-remove-slow-sysctl.c       | 213 +++++++++++++++++++++
+ 4 files changed, 218 insertions(+)
 
-diff --git a/fs/xfs/libxfs/xfs_fs.h b/fs/xfs/libxfs/xfs_fs.h
-index c80133784419..84d62b7506a9 100644
---- a/fs/xfs/libxfs/xfs_fs.h
-+++ b/fs/xfs/libxfs/xfs_fs.h
-@@ -422,6 +422,7 @@ struct xfs_bulkstat {
- #define XFS_BS_SICK_SYMLINK	(1 << 6)  /* symbolic link remote target */
- #define XFS_BS_SICK_PARENT	(1 << 7)  /* parent pointers */
- #define XFS_BS_SICK_DIRTREE	(1 << 8)  /* directory tree structure */
-+#define XFS_BS_SICK_FSVERITY	(1 << 9)  /* fsverity metadata */
+diff --git a/tools/testing/selftests/proc/.gitignore b/tools/testing/selftests/proc/.gitignore
+index 5b5e24e39cbd..7b8133492782 100644
+--- a/tools/testing/selftests/proc/.gitignore
++++ b/tools/testing/selftests/proc/.gitignore
+@@ -21,6 +21,7 @@
+ /proc-uptime-001
+ /proc-uptime-002
+ /proc-pidns
++/proc-remove-slow-sysctl
+ /read
+ /self
+ /setns-dcache
+diff --git a/tools/testing/selftests/proc/Makefile b/tools/testing/selftests/proc/Makefile
+index dae09f333455..bce6beca7274 100644
+--- a/tools/testing/selftests/proc/Makefile
++++ b/tools/testing/selftests/proc/Makefile
+@@ -32,5 +32,6 @@ TEST_GEN_PROGS += proc-multiple-procfs
+ TEST_GEN_PROGS += proc-fsconfig-hidepid
+ TEST_GEN_PROGS += proc-sysctl-readdir-churn
+ TEST_GEN_PROGS += proc-pidns
++TEST_GEN_PROGS += proc-remove-slow-sysctl
  
- /*
-  * Project quota id helpers (previously projid was 16bit only
-diff --git a/fs/xfs/libxfs/xfs_health.h b/fs/xfs/libxfs/xfs_health.h
-index 1d45cf5789e8..932b447190da 100644
---- a/fs/xfs/libxfs/xfs_health.h
-+++ b/fs/xfs/libxfs/xfs_health.h
-@@ -104,6 +104,7 @@ struct xfs_rtgroup;
- /* Don't propagate sick status to ag health summary during inactivation */
- #define XFS_SICK_INO_FORGET	(1 << 12)
- #define XFS_SICK_INO_DIRTREE	(1 << 13)  /* directory tree structure */
-+#define XFS_SICK_INO_FSVERITY	(1 << 14)  /* fsverity metadata */
- 
- /* Primary evidence of health problems in a given group. */
- #define XFS_SICK_FS_PRIMARY	(XFS_SICK_FS_COUNTERS | \
-@@ -140,7 +141,8 @@ struct xfs_rtgroup;
- 				 XFS_SICK_INO_XATTR | \
- 				 XFS_SICK_INO_SYMLINK | \
- 				 XFS_SICK_INO_PARENT | \
--				 XFS_SICK_INO_DIRTREE)
-+				 XFS_SICK_INO_DIRTREE | \
-+				 XFS_SICK_INO_FSVERITY)
- 
- #define XFS_SICK_INO_ZAPPED	(XFS_SICK_INO_BMBTD_ZAPPED | \
- 				 XFS_SICK_INO_BMBTA_ZAPPED | \
-diff --git a/fs/xfs/xfs_fsverity.c b/fs/xfs/xfs_fsverity.c
-index 441251b36073..9b83a0735dc0 100644
---- a/fs/xfs/xfs_fsverity.c
-+++ b/fs/xfs/xfs_fsverity.c
-@@ -89,13 +89,17 @@ xfs_fsverity_get_descriptor(
- 	if (error)
- 		return error;
- 
--	if (is_empty)
-+	if (is_empty) {
-+		xfs_inode_mark_sick(XFS_I(inode), XFS_SICK_INO_FSVERITY);
- 		return -ENODATA;
+ include ../lib.mk
+diff --git a/tools/testing/selftests/proc/config b/tools/testing/selftests/proc/config
+index 68fbd2b35884..3edd3c437fe4 100644
+--- a/tools/testing/selftests/proc/config
++++ b/tools/testing/selftests/proc/config
+@@ -1 +1,4 @@
+ CONFIG_PROC_FS=y
++CONFIG_IPV6=y
++CONFIG_TUN=y
++CONFIG_USERFAULTFD=y
+diff --git a/tools/testing/selftests/proc/proc-remove-slow-sysctl.c b/tools/testing/selftests/proc/proc-remove-slow-sysctl.c
+new file mode 100644
+index 000000000000..e1b1fd19a07a
+--- /dev/null
++++ b/tools/testing/selftests/proc/proc-remove-slow-sysctl.c
+@@ -0,0 +1,213 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * A read(), write() or getdents64() of /proc/sys that faults while copying
++ * from or to userspace must not hold up unregistering the sysctl table.
++ * /proc/sys/net/ipv6/conf/<dev>/ of a tun device is unregistered under RTNL
++ * when the device's file is closed.
++ */
++#define _GNU_SOURCE
++#include <errno.h>
++#include <fcntl.h>
++#include <linux/if.h>
++#include <linux/if_tun.h>
++#include <linux/userfaultfd.h>
++#include <poll.h>
++#include <pthread.h>
++#include <sched.h>
++#include <string.h>
++#include <sys/ioctl.h>
++#include <sys/mman.h>
++#include <sys/syscall.h>
++#include <unistd.h>
++
++#include "../kselftest_harness.h"
++
++#define TUN_NAME	"procslow0"
++#define CONF_PATH	"/proc/sys/net/ipv6/conf/" TUN_NAME
++#define MTU_PATH	CONF_PATH "/mtu"
++#define BUF_PAGES	16
++#define TIMEOUT_MS	5000
++
++enum sysctl_op {
++	SYSCTL_READ,
++	SYSCTL_WRITE,
++	SYSCTL_GETDENTS,
++};
++
++struct worker {
++	enum sysctl_op op;
++	int fd;
++	char *buf;
++	size_t len;
++	ssize_t ret;
++	int err;
++};
++
++struct closer {
++	int tun;
++	int done;
++};
++
++static void *work_thread(void *arg)
++{
++	struct worker *w = arg;
++
++	switch (w->op) {
++	case SYSCTL_READ:
++		w->ret = read(w->fd, w->buf, w->len);
++		break;
++	case SYSCTL_WRITE:
++		w->ret = write(w->fd, w->buf, w->len);
++		break;
++	case SYSCTL_GETDENTS:
++		w->ret = syscall(__NR_getdents64, w->fd, w->buf, w->len);
++		break;
 +	}
- 
- 	last_block_offset =
- 		XFS_FSB_TO_B(mp, rec.br_startoff + rec.br_blockcount);
--	if (last_block_offset <= xfs_fsverity_metadata_offset(ip))
-+	if (last_block_offset <= xfs_fsverity_metadata_offset(ip)) {
-+		xfs_inode_mark_sick(XFS_I(inode), XFS_SICK_INO_FSVERITY);
- 		return -ENODATA;
-+	}
- 
- 	desc_size_pos = last_block_offset - sizeof(__be32);
- 	error = fsverity_pagecache_read(inode, (char *)&d_desc_size,
-@@ -104,20 +108,29 @@ xfs_fsverity_get_descriptor(
- 		return error;
- 
- 	desc_size = be32_to_cpu(d_desc_size);
--	if (XFS_IS_CORRUPT(mp, desc_size > FS_VERITY_MAX_DESCRIPTOR_SIZE))
-+	if (XFS_IS_CORRUPT(mp, desc_size > FS_VERITY_MAX_DESCRIPTOR_SIZE)) {
-+		xfs_inode_mark_sick(XFS_I(inode), XFS_SICK_INO_FSVERITY);
- 		return -ERANGE;
--	if (XFS_IS_CORRUPT(mp, desc_size > desc_size_pos))
++	w->err = errno;
++	return NULL;
++}
++
++static void *close_thread(void *arg)
++{
++	struct closer *c = arg;
++	ssize_t ret;
++
++	close(c->tun);
++	ret = write(c->done, "x", 1);
++	return (void *)ret;
++}
++
++FIXTURE(proc_sys_slow) {
++	int tun;
++	int uffd;
++	char *buf;
++	long psz;
++};
++
++FIXTURE_SETUP(proc_sys_slow)
++{
++	struct uffdio_api api = { .api = UFFD_API };
++	struct uffdio_register reg = {};
++	struct ifreq ifr = {};
++
++	if (unshare(CLONE_NEWNET))
++		SKIP(return, "unshare(CLONE_NEWNET): %s", strerror(errno));
++
++	self->tun = open("/dev/net/tun", O_RDWR | O_CLOEXEC);
++	if (self->tun < 0)
++		SKIP(return, "/dev/net/tun: %s", strerror(errno));
++	strncpy(ifr.ifr_name, TUN_NAME, IFNAMSIZ - 1);
++	ifr.ifr_flags = IFF_TUN | IFF_NO_PI;
++	ASSERT_EQ(ioctl(self->tun, TUNSETIFF, &ifr), 0);
++	if (access(CONF_PATH, F_OK))
++		SKIP(return, CONF_PATH ": %s", strerror(errno));
++
++	self->uffd = syscall(__NR_userfaultfd, O_CLOEXEC | O_NONBLOCK);
++	if (self->uffd < 0)
++		SKIP(return, "userfaultfd: %s", strerror(errno));
++	ASSERT_EQ(ioctl(self->uffd, UFFDIO_API, &api), 0);
++
++	/* Only the first page of the buffer goes through userfaultfd. */
++	self->psz = sysconf(_SC_PAGESIZE);
++	self->buf = mmap(NULL, BUF_PAGES * self->psz, PROT_READ | PROT_WRITE,
++			 MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
++	ASSERT_NE(self->buf, MAP_FAILED);
++	reg.range.start = (unsigned long)self->buf;
++	reg.range.len = self->psz;
++	reg.mode = UFFDIO_REGISTER_MODE_MISSING;
++	ASSERT_EQ(ioctl(self->uffd, UFFDIO_REGISTER, &reg), 0);
++}
++
++FIXTURE_TEARDOWN(proc_sys_slow)
++{
++}
++
++/*
++ * Let @w sleep in its copy from or to the first page of the buffer, then
++ * close the device. Unregistering the table must not wait for @w.
++ */
++static void stall_and_remove(struct __test_metadata *_metadata,
++			     FIXTURE_DATA(proc_sys_slow) *self,
++			     struct worker *w)
++{
++	struct closer c = { .tun = self->tun };
++	struct uffdio_zeropage zero = {};
++	struct uffd_msg msg;
++	struct pollfd pfd;
++	pthread_t wt, ct;
++	int done[2];
++
++	w->buf = self->buf;
++	ASSERT_EQ(pthread_create(&wt, NULL, work_thread, w), 0);
++
++	pfd = (struct pollfd){ .fd = self->uffd, .events = POLLIN };
++	ASSERT_EQ(poll(&pfd, 1, TIMEOUT_MS), 1);
++	ASSERT_EQ(read(self->uffd, &msg, sizeof(msg)), sizeof(msg));
++	ASSERT_EQ(msg.event, UFFD_EVENT_PAGEFAULT);
++
++	ASSERT_EQ(pipe2(done, O_CLOEXEC), 0);
++	c.done = done[1];
++	ASSERT_EQ(pthread_create(&ct, NULL, close_thread, &c), 0);
++	pfd = (struct pollfd){ .fd = done[0], .events = POLLIN };
++	EXPECT_EQ(poll(&pfd, 1, TIMEOUT_MS), 1) {
++		TH_LOG("unregistering " CONF_PATH " waited for the faulting task");
 +	}
 +
-+	if (XFS_IS_CORRUPT(mp, desc_size > desc_size_pos)) {
-+		xfs_inode_mark_sick(XFS_I(inode), XFS_SICK_INO_FSVERITY);
- 		return -ERANGE;
-+	}
- 
- 	if (!buf_size)
- 		return desc_size;
- 
--	if (XFS_IS_CORRUPT(mp, desc_size > buf_size))
-+	if (XFS_IS_CORRUPT(mp, desc_size > buf_size)) {
-+		xfs_inode_mark_sick(XFS_I(inode), XFS_SICK_INO_FSVERITY);
- 		return -ERANGE;
-+	}
- 
- 	desc_pos = round_down(desc_size_pos - desc_size, blocksize);
--	if (desc_pos < xfs_fsverity_metadata_offset(ip))
-+	if (desc_pos < xfs_fsverity_metadata_offset(ip)) {
-+		xfs_inode_mark_sick(XFS_I(inode), XFS_SICK_INO_FSVERITY);
- 		return -ERANGE;
-+	}
- 
- 	error = fsverity_pagecache_read(inode, buf, desc_size, desc_pos);
- 	if (error)
-diff --git a/fs/xfs/xfs_health.c b/fs/xfs/xfs_health.c
-index 239b843e83d4..be66760fb120 100644
---- a/fs/xfs/xfs_health.c
-+++ b/fs/xfs/xfs_health.c
-@@ -625,6 +625,7 @@ static const struct ioctl_sick_map ino_map[] = {
- 	{ XFS_SICK_INO_DIR_ZAPPED,	XFS_BS_SICK_DIR },
- 	{ XFS_SICK_INO_SYMLINK_ZAPPED,	XFS_BS_SICK_SYMLINK },
- 	{ XFS_SICK_INO_DIRTREE,	XFS_BS_SICK_DIRTREE },
-+	{ XFS_SICK_INO_FSVERITY,	XFS_BS_SICK_FSVERITY },
- };
- 
- /* Fill out bulkstat health info. */
++	zero.range.start = (unsigned long)self->buf;
++	zero.range.len = self->psz;
++	ASSERT_EQ(ioctl(self->uffd, UFFDIO_ZEROPAGE, &zero), 0);
++	ASSERT_EQ(pthread_join(wt, NULL), 0);
++	ASSERT_EQ(pthread_join(ct, NULL), 0);
++}
++
++TEST_F(proc_sys_slow, read)
++{
++	struct worker w = {
++		.op	= SYSCTL_READ,
++		.len	= BUF_PAGES * self->psz,
++	};
++
++	w.fd = open(MTU_PATH, O_RDONLY | O_CLOEXEC);
++	ASSERT_GE(w.fd, 0);
++	stall_and_remove(_metadata, self, &w);
++
++	/* The value was produced before the table went away, then nothing. */
++	EXPECT_GT(w.ret, 0);
++	EXPECT_EQ(read(w.fd, self->buf, self->psz), -1);
++	EXPECT_EQ(errno, ENOENT);
++}
++
++TEST_F(proc_sys_slow, write)
++{
++	struct worker w = {
++		.op	= SYSCTL_WRITE,
++		.len	= 5,
++	};
++
++	w.fd = open(MTU_PATH, O_WRONLY | O_CLOEXEC);
++	ASSERT_GE(w.fd, 0);
++	stall_and_remove(_metadata, self, &w);
++
++	/* The table went away while the value was copied in. */
++	EXPECT_EQ(w.ret, -1);
++	EXPECT_EQ(w.err, ENOENT);
++}
++
++TEST_F(proc_sys_slow, getdents)
++{
++	struct worker w = {
++		.op	= SYSCTL_GETDENTS,
++		.len	= BUF_PAGES * self->psz,
++	};
++
++	w.fd = open(CONF_PATH, O_RDONLY | O_DIRECTORY | O_CLOEXEC);
++	ASSERT_GE(w.fd, 0);
++	stall_and_remove(_metadata, self, &w);
++
++	/* What was looked up before the removal still arrives, then nothing. */
++	EXPECT_GT(w.ret, 0);
++	EXPECT_EQ(syscall(__NR_getdents64, w.fd, self->buf, self->psz), -1);
++	EXPECT_EQ(errno, ENOENT);
++}
++
++TEST_HARNESS_MAIN
+
 -- 
-2.54.0
+2.53.0
 
