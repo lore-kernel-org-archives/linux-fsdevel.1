@@ -1,55 +1,120 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793650322;
-	b=mC91d62GRUfboAzcr0mCMJCmdKiM8fJs9jhimTXzqdgM9K9K3Mt2WzxM2pPjEVSNQvWc
-	 dT2HA4l9y27+aggi9+2KwzmcaG50u8MWwHgmGz0tcpAAjdQ86KXXzdGktXwYg5fzqcQzp
-	 8SCVpY+q32hDPMNJCvQ/7/R+uhbooKF3SqTxH8Rqy829C+BYf4cf/yep+uBoDWORk4VLx
-	 eGiWLQ1PgzJytBfpWGettgm92r67DVjOAN/Q/HeKKBL0YtNZuvRbMJOgAm+DYQxZlSBZM
-	 0gcGFDYjTFtfFPkT5ESwMUXJz9cCJ8cFXI0aPTZNLl0Wm1yzZ09bMYaoMS2S8/nrbKQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793650322;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=BjDOfNesHUvUYdnemATt3QpEnFnBaEWBJAu+ke/IeV8=;
-	b=B5bCoxJP5X41L5TjJf3sEnGK2IdduH36mq+VK9J0Fpg7e/aAiUVJ/CUesPBF22YFFgs4
-	 Z21KKeDiSrJ+yX4YkJAo1ssdyC2GFoJ5WDNcTjresN4H98LlQ21wtspTLXxt3M05fY1ga
-	 KMXoRhDuxK3pGo3CRHAXWLTCeP0Zf7cGPnBl8PhA+pFCnIF9nFDACMS8JD3gsiIGFE7MM
-	 zc/AzDYyrGsXfezMxpgXGC5tWJ1ZCzh99o3vjIDrwdaLRv+bGmXXXC41aZ4MfaJfrh+dl
-	 zX2pY5BB8k9U2TLc0zQdVk4RKQhG33gYMNVSTUI9vGKNGguC59OdisEIl4XhfIYKp1g==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="fCxM4P/Z";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=170.10.129.124
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793652793;
+	b=dZZaOUfCYeolD7dp02QfYIQ+DIx8S2pMJuBKlNsHG8rtNQXZbqxLKoMQCKi4oqOUESPv
+	 LqUgRLcuhQ4K1CpOmGtloK8oQ8idsESsFqiT+GFAoh4lLFfwZWxn/iPpMsnZf+BD7xDKO
+	 yGjE4jH0Fia6HA679UNLuJZ6sQRkHGJBJpIpIadqro+Mhe2A+6lK1KgeD2kLEuuSzmPb8
+	 prx7Kn8UrbgUViZ6EmpLBsaeuXk3uqKZx6ckKnGM71Ey4yFGwLrWunWaY6ydC+qcUWh37
+	 Mp+RoOTidUtHDjjcIJN9GkrLjduiCEKjdlbBExU8RCTVFVrUyJjv4imr8/fnBddCtiw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793652793;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 X-Received:MIME-Version:References:In-Reply-To:From:Date:
+	 X-Gm-Features:Message-ID:Subject:To:Cc:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=117yBiLwKENKL+3PiWG/U5OMCVmGd5cgD5S+cpkVimE=;
+	b=HDDCPtVDpnnjcnfC+6JNb9LwVlUHrkevcgEyf+7RnCbp2gASX5NdkHTN5FmzQj9N803Y
+	 kWIi/xUXqg76V5y1TSCPoxsOiO9wPtiofgOzBYNnBN47Cwipd14dCJf5xWoqmLF89bBIH
+	 ABYLKbD3nFzVDYg40w6Wg/V2l5L+tuaE+UT5wHHZ6Q174bLMDI1bOPxeuR5B1RNolx8sZ
+	 Q9dRHyqfrhx1khr8HqFRtGp5hvhDNZ5tvfEJGs+ppmaa+8/Xji+b8ohU99B5J0KlQI50E
+	 2ATyXfh4AmIcyPoOYIrq238AX7oJGFfiTjewvtkdtmBLBg8h9GDRLyDfCJbBreb0P6g==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=JrjqNRqP;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=ILbC3qNV;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=170.10.129.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B08F606A331
-	for <linux-fsdevel@vger.kernel.org>; Mon,  2 Nov 2026 20:12:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DFD0606A329
+	for <linux-fsdevel@vger.kernel.org>; Mon,  2 Nov 2026 20:53:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1DFD0606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fCxM4P/Z
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F9281F00A1E
-	for <linux-fsdevel@vger.kernel.org>; Mon,  2 Nov 2026 20:12:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793650322;
-	bh=BjDOfNesHUvUYdnemATt3QpEnFnBaEWBJAu+ke/IeV8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=fCxM4P/Z77JCfIGz5fMLuOcLnuT1agPgyAWc6xu2TroXoThnXAKIo865OA4e3Atv3
-	 Xkbwhl0CojTtI2yoq5c7Ln2KnHGFmGHgwzv6SP3jZiYjGo05bpiahvSpZvouEqDM1B
-	 rvqYc/e+G6siNDWSVM6h3lJqavfaFQiVLKyFwINS1Vkb13+CyUgFRYin3AIZAZzbOD
-	 mWQknHNoyjII2fneg/H+qwzDuHAE6uAHVcoEayLt2p2bHySptfg8+s2a1IeQepo9V2
-	 sE1VX0Fqw64Kk1PPou/Tb3RUpSk/a3yHnCuZLrY9FbX08LvaQsS19YXd7j9hMua/Fd
-	 wH3o5lWXSGCVA==
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-91b52ba422cso46826596d6.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 02 Nov 2026 12:12:02 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AKwUvBySkzwhQQIuHW4MXFtbSgkyy2HFWIu3RTRsT8TNmVv5W8xxq+oXxbVamUpEZ2dzB3/kWIIsXuJl8RE5mRIB@vger.kernel.org
-X-Gm-Message-State: AFq9FYI7HsStCvgPgLKYpygVpq1et8SMY/klsY9kJA3PlFEELnl52Sdw
-	/zNcbX6ImRLUes9DOzGfNSuedVgYJyWlNDnX7Uq6NS4RVj4KVECoLePLxIoLtNXq1/jxxuQ5d6M
-	0uEC1ittTcpuxs2/a9Pw3sgEq5qMTae0=
-X-Received: by 2002:a05:620a:2614:b0:93f:baf:279e with SMTP id
- af79cd13be357-94421588032mr1947387285a.8.1793650320775; Mon, 02 Nov 2026
- 12:12:00 -0800 (PST)
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=JrjqNRqP;
+	dkim=pass (2048-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=ILbC3qNV
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1793652792;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=117yBiLwKENKL+3PiWG/U5OMCVmGd5cgD5S+cpkVimE=;
+	b=JrjqNRqP10lz+xwTaT1N5hOMraQMewbNcL6ZPtYs/6qBeMDZq5lyggz1hz5TUE2wvCqKwM
+	IXQbQRbVn/7mLpXXty1C0A86MwLFP717upzSrzHF5Nt1PiF43MqFrw00/Vf94oFs2+EMGE
+	o+EsfhfOm9/h5ijPwHR98WSryq3gxtk=
+Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
+ [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-393-vQh7ESFmNPmmHH2C9IzKgg-1; Mon, 02 Nov 2026 15:53:09 -0500
+X-MC-Unique: vQh7ESFmNPmmHH2C9IzKgg-1
+X-Mimecast-MFC-AGG-ID: vQh7ESFmNPmmHH2C9IzKgg_1793652788
+Received: by mail-lj1-f197.google.com with SMTP id 38308e7fff4ca-3ab3061668eso242311fa.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 02 Nov 2026 12:53:09 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793652788; cv=none;
+        d=google.com; s=arc-20260327;
+        b=GJ6h46TzzohcgJunPXBzNZzx82qxdbu6zDTNXws3af7HB1EJRx1vbmsbeSU/7G/G5s
+         B8fbU8Q9MPK19NBhTUf7aCOCm2GwLzOuE8FgcP7tVtHDB3V4CiZ7GZD/EwyELCIw/aul
+         jsOpxhlOOl/POKZ7so6tIAF8D46j1joimGd1sVYw7ViaJujz1kwswnXRfKWTRF5m43QJ
+         0qFJdARc4nRU0P07oWLUtU3FlCoOXFromGcuyMHW31rZkw01/Q4T4c+fMn2ikgVsrifc
+         TeAK4a37hbE4vYsYNgaxAvg5Hum1Zdygg5sZP2xOp1rhjNNKsRdfczGn2e/zZVjW8719
+         T6qA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=117yBiLwKENKL+3PiWG/U5OMCVmGd5cgD5S+cpkVimE=;
+        fh=uLRSTk+DfjT/gw4H4CCVMlhztkIphv4SW89YHHsNJVI=;
+        b=KFSgDRFOSYxTGqCh90blsxyCY8b3gyNpm9T0ErqdBkOGi5UGZC23IXeoruDnXgx8M7
+         tqOjp6sL4w+KLao776/+3jd3tP7mTZ9WNdIo1FW0rebyyxicNZrTYgOB0f6MJm4mU+4I
+         a5AMe/qjGqENZARgJ4UIz7jSIKrwJ1yYmJ/19SQPsZEffyIZuy8KUFSyfJynfoUcNj3P
+         yDQwUKGrVS547T5PcE2g+A+CU6F+Ro0u/Nwhx5/r8H9ETOvuDZUsoKPrutAtfYyc8+kp
+         bLpU35Upl5lqt7ATCyAZTm8riNwqdlbxgGC1Q7bFHECoXnARxE42y3ga/6TXBArkn2E8
+         CKYg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1793652788; x=1794257588; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=117yBiLwKENKL+3PiWG/U5OMCVmGd5cgD5S+cpkVimE=;
+        b=ILbC3qNVxcxSfLLqiEMczm2K9EWJDHjQ3jtHiRo8lvs7xOcCBk9KViZKbMYNn3rDyD
+         1nRBZKRZevJudcNGThw44x8q3rGE46+/V3Lp15cYzXfiXGQHqy3zvhO0o48B5BncA5Or
+         KbQ3kcHqkQQMolwwbUP9ub3434QutGVu8nmoCGzc2PCEhLmjOocqh+8d4XwIGdidYoBZ
+         1xLTej5dBNXaVOsg0H9ykUYcbsfyfY1xRAFquEOh1DF007rqhduAsvbJpJIrCtz2kQKk
+         jbQ0GJtS49pjk16tDcdcdHiHPoCzeSh4Rpt4Z21PkzyRrg6RuTlgqDQLYpdpsCCp4Dam
+         yDGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793652788; x=1794257588;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=117yBiLwKENKL+3PiWG/U5OMCVmGd5cgD5S+cpkVimE=;
+        b=iInNuj42ttqNLTNGg+TIDJnhxPvcYs3AjFBOAnxy5qgXFi9HzOPQtIgKxZizPAdVXf
+         PvKre37RCYEzl1NuLwlsrSE+FFOHzZHh/VPg0xOPF23yZEhrkRFuwZo5ahz2wsIQzcQi
+         JBp4F9fzINtvwQrdwfdF4bMIlsl1g8eEPZT9ZT9sRxN8hai2BV+Ai2Kf3ISFV2wzF3x9
+         OjjppwqWKRAcLoBKgAUF5mKWFPhPf6uwGNAjBx1JNMll4myJVaAyaepSytNQs9ckJjFn
+         RUNiRZfskyH46QrLdd8kl9w/uuHLGYqngQL1fB922K1ZrrwYY9fJHYQnXcQ6FnNR8llj
+         NlCA==
+X-Forwarded-Encrypted: i=1; AKwUvBxbuEIeHPRwplPRZpcBZ5oNbGli9wcv8VOjDDI3ekpXPru0KjjFjmcs0epaMIgZbUjkJREAkhL+5JP/MvF6@vger.kernel.org
+X-Gm-Message-State: APuU4Z9E3LoV3Lb2iwJGNKPsIcobzSATI3CwfAIr6rCy4TJokwnoYWR/
+	y1KH/MS4wC6lca5uqBQt9rY8W5pu1YgCcBxYogShrPtFoZ2CH0Z2Jt59I8Mi9LqWUI3ZZACW2ZE
+	6hm1IChfb+kp5fO2r9aZK0CTUCXqoGcpwwofTedNSYt48MtbF0fe7WO4HBuQ2zuaaE4eSbESx0E
+	VWcAeJM13vasL67jlXBG4ohQcrPaeMRTCC7mRzG8A8Tg==
+X-Gm-Gg: AYBFou0s0fYa761jr08eR/nZjdvcPeTVv0MLTaOG9+44ViYbfQsvlLJCfnbQckybQ0/
+	htgMJE3dtmQ2qtHGzgSib6IAJv86Zx1SxU+2whj9KyupQpTfOqW5QWswjjx6DwWEunfXqHvkP61
+	FxSEoXKBKBpmlDkNwe/nJCJnbJv5j6jxkGMv86rOvOfu8pca3Y7ymhv9uz
+X-Received: by 2002:a05:651c:a14e:b0:3ac:4b79:573b with SMTP id 38308e7fff4ca-3acb7aa83b1mr20499311fa.13.1793652788273;
+        Mon, 02 Nov 2026 12:53:08 -0800 (PST)
+X-Received: by 2002:a05:651c:a14e:b0:3ac:4b79:573b with SMTP id
+ 38308e7fff4ca-3acb7aa83b1mr20499011fa.13.1793652787872; Mon, 02 Nov 2026
+ 12:53:07 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -59,91 +124,63 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <6FACF8FF-F943-45C8-BDFD-3AFB5C060E0A@linux.dev>
- <20261031055838.60138-1-lance.yang@linux.dev> <a704d458-ad60-43bf-a0ce-3b128b218d88@kernel.org>
-In-Reply-To: <a704d458-ad60-43bf-a0ce-3b128b218d88@kernel.org>
-From: Barry Song <baohua@kernel.org>
-Date: Tue, 3 Nov 2026 04:11:47 +0800
-X-Gmail-Original-Message-ID: <CAGsJ_4wjGjDoFPz3qWHqW8WTv31AkR_zrY14ON0dLbTZNsohWQ@mail.gmail.com>
-X-Gm-Features: AclHuK_rJzE5Yay_lHuYFvz2Gw1cEWyIS737R4EkfHxGw2G6SeGPSgpipiW_eIU
-Message-ID: <CAGsJ_4wjGjDoFPz3qWHqW8WTv31AkR_zrY14ON0dLbTZNsohWQ@mail.gmail.com>
-Subject: Re: [PATCH v2 01/47] mm/mglru: don't use stack pointers when walking
- PUD and PMD tables
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Lance Yang <lance.yang@linux.dev>, muchun.song@linux.dev, kasong@tencent.com, 
-	ridong.chen@linux.dev, sj@kernel.org, hannes@cmpxchg.org, mhocko@kernel.org, 
-	qi.zheng@linux.dev, shakeel.butt@linux.dev, ljs@kernel.org, 
-	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, 
-	baoquan.he@linux.dev, baolin.wang@linux.alibaba.com, liam@infradead.org, 
-	vbabka@kernel.org, rppt@kernel.org, surenb@google.com, mhocko@suse.com, 
-	kees@kernel.org, peterz@infradead.org, jannh@google.com, pfalcato@suse.de, 
-	hughd@google.com, pasha.tatashin@soleen.com, pratyush@kernel.org, 
-	willy@infradead.org, jack@suse.cz, ziy@nvidia.com, riel@surriel.com, 
-	harry@kernel.org, apopple@nvidia.com, nico.pache@linux.dev, 
-	ryan.roberts@arm.com, dev.jain@arm.com, usama.arif@linux.dev, kas@kernel.org, 
-	matthew.brost@intel.com, jhubbard@nvidia.com, peterx@redhat.com, 
-	will@kernel.org, aneesh.kumar@kernel.org, npiggin@gmail.com, 
-	osalvador@suse.de, minchan@kernel.org, xu.xin@linux.dev, 
-	chengming.zhou@linux.dev, chrisl@kernel.org, shikemeng@huaweicloud.com, 
-	nphamcs@gmail.com, youngjun.park@lge.com, gourry@gourry.net, 
-	joshua.hahnjy@gmail.com, rakie.kim@sk.com, ying.huang@linux.alibaba.com, 
-	jgg@ziepe.ca, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	kexec@lists.infradead.org, linux-fsdevel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-cxl@vger.kernel.org, josef@toxicpanda.com, 
-	stable@vger.kernel.org, usama.anjum@arm.com
+References: <20261027223847.652884-1-irogers@google.com> <20261027223847.652884-6-irogers@google.com>
+In-Reply-To: <20261027223847.652884-6-irogers@google.com>
+From: Alexander Aring <aahringo@redhat.com>
+Date: Mon, 2 Nov 2026 15:52:55 -0500
+X-Gm-Features: AclHuK8pGzNf4aGPekLa6NQcs521xOugw8djA3E8ZMCjZ7yn89XzG5j_wIaQNFk
+Message-ID: <CAK-6q+j-MS_5St04YFU11LG_Cjf1jOuS3q33qk_iK=7TE-iuBg@mail.gmail.com>
+Subject: Re: [PATCH v2 5/9] dlm: Free dlm_ls in kobject release callback
+To: Ian Rogers <irogers@google.com>
+Cc: Kees Cook <kees@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Miguel Ojeda <ojeda@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Zhihao Cheng <chengzhihao1@huawei.com>, Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>, 
+	Sumanth Korikkar <sumanthk@linux.ibm.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, driver-core@lists.linux.dev, llvm@lists.linux.dev, 
+	linux-hardening@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-acpi@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	linux-sh@vger.kernel.org, linux-s390@vger.kernel.org, gfs2@lists.linux.dev, 
+	xen-devel@lists.xenproject.org, linux-mtd@lists.infradead.org, 
+	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, David Teigland <teigland@redhat.com>, 
+	Greg Kroah-Hartman <gregkh@suse.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Oct 31, 2026 at 5:42=E2=80=AFPM David Hildenbrand (Arm)
-<david@kernel.org> wrote:
+Hi,
+
+On Tue, Oct 27, 2026 at 6:39=E2=80=AFPM Ian Rogers <irogers@google.com> wro=
+te:
 >
-> On 10/31/26 06:58, Lance Yang wrote:
-> >
-> > On Sat, Oct 31, 2026 at 09:46:37AM +0800, Muchun Song wrote:
-> >>
-> >>
-> >>>
-> >>>
-> >>>
-> >>> Agreed. FWIW, I think Barry Song and Kairui Song would be good candid=
-ates
-> >>> for the maintainer role.
-> >>
-> >> +1
-> >>
-> >> It would be great if they could take this over.
-> >
-> > +1 from me too ;)
-> >
-> > They both have been really active on MGLRU and doing great work for qui=
-te
-> > a while. No doubt they'll continue to do so :D
+> struct dlm_ls embeds a struct kobject (ls_kobj), but dlm_ktype lacked a
+> .release callback and dlm freed the lockspace structure directly via
+> kfree(ls). With CONFIG_DEBUG_KOBJECT_RELEASE=3Dy, freeing ls before the
+> delayed kobject release runs causes a use-after-free, and unloading the
+> module while the delayed release is pending results in an instruction
+> page fault.
 >
-> Fully agreed, we really need some people familiar with this code to help
-> maintain it, and Kairu and Barry have most experience on this.
-
-Thanks to Ridong, Muchun, Lance, and David for all the
-kind words. Your encouragement is truly inspiring!
-
+> Add a completion ls_kobj_done and dlm_ls_release() to complete it when
+> the last kobject reference is dropped, waiting for it in free_lockspace()
+> before kfree(ls) and in the new_lockspace() error path before module_put(=
+).
+> Also delete the kobject via kobject_del() before stopping dlm_recoverd
+> to close the window where concurrent sysfs writes could wake the stopped
+> recovery task.
 >
-> Just a note that I also don't want to pressure into such a role (which co=
-mes
-> with responsibility).
+> Fixes: 3514faca19a6 ("kobject: remove struct kobj_type from struct kset")
+> Signed-off-by: Ian Rogers <irogers@google.com>
 
-It would be a great pleasure to work for the MGLRU
-community.
+A somewhat "big change" for just a debug functionality. Althrough I
+agree we shout call "kobject_del()" early to avoid additional sysfs
+changes during removal.
 
-Over the past few months, we've seen many active
-contributors join the MGLRU effort. It feels like MGLRU
-has never been this popular. I'm really glad to see the
-community growing.
+Acked-by: Alexander Aring <aahringo@redhat.com>
 
-I may have missed someone, but besides Kairui and me, I'd
-like to mention Baoquan, Baolin, Hui Zhu, Ridong, Kunwu,
-Maxim, T.J., Siddharth, Xiang Liu, Bingfang Guo, Shakeel,
-Zicheng, and many others.
+Thanks.
 
-It's great to see so many people contributing to MGLRU!
+- Alex
 
-Best,
-Barry
