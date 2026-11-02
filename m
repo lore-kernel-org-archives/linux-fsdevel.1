@@ -1,53 +1,125 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.75
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793593875;
-	b=PedBeR30rD9bPGcWt+SttQ/mOfS3cPRVRRnfgRiUlFCZaGnM23RpfNaDJh9U6zP6I2sE
-	 XdftvZwxOiFQ66QrkNVrt3RdnjKLFHGAW2zIqNHgHOKvxEgWdCU0n6Zipb/WUfmZeJV8v
-	 NImxYZyZZP4seWIPg3SXZU/E+9jAnbcXxnoAGYREswQlR9gLbLZjSWZUSCufGAztOeI5B
-	 bwaFB6hIkHR9VFUXzciop2XBejPxp9kX2O3bBsY2oWJJT3Uy7xqCYOaVhidQOJEYMiHpd
-	 ZD4+3oLWyJw4nqtqURrosJsdkqhp8vRoR9bOoRB1GhL5OXpYwL7LNkXypvV7m/4W2NQ==
+	t=1793594817;
+	b=gwMWQJX4T8HqB368GOAnXDPE90n77Bb7cigMyw9zejWQbz+AdOjgIVcQIWgyzpTec91c
+	 A5004KwjamUMqfQ8Il8MupCj11+Ob2/d+3LZCyngalwH7XJq3/5loChlKB6l0eqkDo/cp
+	 fTObxzpwju7yh4gjXlCoap3UqA4VDJOm1K/Qt/Fr9TdwWIsph4LwwfLHk4PYVmyvOw+Cq
+	 XtVZdv5+iItkncVCP2DV/f7ouYvqZK7Sc0RSW5O3J4shb53Sz0+4YHeSsTVdNYSoAo8Zs
+	 RCiVoN6C5WUykwxJH6lPcRFswx7tWQBmTKd+ZrVPDhIvnUiFf82Gc6t4Ytnfdd04W/A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793593875;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-Id:
-	 In-Reply-To:References:X-Mailer:Mime-Version:Content-Type:
+	a=rsa-sha256; c=relaxed/relaxed; t=1793594817;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=V3m2ZNXA+cWC29f7mK6AOHGojqkL4QaL7wZFtjfryik=;
-	b=XYyGHDagzC1Ie4gYiwRyr/GzZNoszINbvwPTzV+gZvfQ7oAf0kMniDSCoV6dvUj5xkKq
-	 d3ol7qew2Zkjebx6YPvPzHIfb+mVz/vV3jF8jh2J1TNoX3HR6OULujbAcxqRxPKB9v1pT
-	 Z784aczK4AhS3kug/v2eI3xHLTZSBhKX5di1cD+8sCQtcM3riwIjckFckVT+3gUH0Nv/0
-	 CMhTS1CVp2ItUyAOyw5VSHAM/Y4ISJX8NC7DqFSBNcU4TtnwZg0y+Ty3lz2bwTW4QXG78
-	 a0Ch1zDXyNCi/4idARpjRnTKRKf+tkYelk2dx9W04eKSwn0+iz+z/0n8Y5lxu+212gg==
+	bh=pRumD9wLinzEvAPlvHgnbog+/WM1mG1VlBridWjM71Y=;
+	b=qBWbAqHtkA+q4w/KPCuwb+m2K6w7kMvDnfdHkQ/uDBFGa0IJbeZQXoI/KMuKZy4uIerT
+	 bk/ASBwvbvSJAwBFsO5ruEMiOlc+BkPHbxutCMtCc3AhzrqaAo6mAd06fqXRyZNmR/d6m
+	 udYcBPDeRv+cmoar+993YV5BQ3M9XP2dLss3u1zdAJcHdIr4cRJrGzzunTOkjRsBd8NqJ
+	 US5pZKr+jeg1Te5zGBFsVCu6bgUFH0ggmLELBKY35wFGt/EOWbM9Bwh+BEv4dTG4Jf6sE
+	 DREYpmm9lFFz/A6vJdQoWal/KhJoQyYP0pTl1dnRltiUmSiFvQuGrjGXDxP7i3WizHw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=wH8rwnFL;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=ou5yWqPu;
+	arc=none smtp.remote-ip=91.218.175.75
+Received: from mta0.migadu.com (out-75.mta0.migadu.com [91.218.175.75])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 253AA606A326;
-	Mon,  2 Nov 2026 04:31:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AF42606A326
+	for <linux-fsdevel@vger.kernel.org>; Mon,  2 Nov 2026 04:46:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3AF42606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=wH8rwnFL
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61DE71F000C1;
-	Mon,  2 Nov 2026 04:31:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1793593874;
-	bh=V3m2ZNXA+cWC29f7mK6AOHGojqkL4QaL7wZFtjfryik=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=wH8rwnFL550O3cYb360HQ+mDxf/UbGTeI1i5ixR7DkekLgY4sBaphFzk93BlNFcEp
-	 WaGsinhxDOkFzK4NcKkDqcM8AkT4Tr87GxuU4ZmlQ64c5bvOJ06dzswmMnckQjoex0
-	 sDvWAQ5Qrl8cGA+onlFrEmZ8CXqmfA9k0l8bJoVg=
-Date: Sun, 1 Nov 2026 20:31:13 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>
-Cc: Alexey Dobriyan <adobriyan@gmail.com>, Shuah Khan <shuah@kernel.org>,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] selftests/proc: proc-empty-vm: wait for child's SIGSEGV
- instead of sleep(1)
-Message-Id: <20261101203113.74d0204f6d57deb81cdd0dc5@linux-foundation.org>
-In-Reply-To: <20261023183434.9109-1-drifabdelmalekmohamedsaid@gmail.com>
-References: <20261023183434.9109-1-drifabdelmalekmohamedsaid@gmail.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=ou5yWqPu
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=pRumD9wLinzEvAPlvHgnbog+/WM1mG1VlBridWjM71Y=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1793594814; v=1; x=1794199614;
+ b=ou5yWqPuqDPK9MoS2gwOxtV0nJaHNjRepasuddqg99TIMooIrdJvtjgGZKpTZcF/gB3K4dzf
+ F83dASp54zTsXmk8of1QtTgg8faFGLmsE3OBvH51el7fLTUHVJbVcULFotuBADSOIQMJ/xS1kDf
+ fz+DlXYolSLhCfSHBhCNDdtk=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id eb600a511e081679;
+	Mon, 02 Nov 2026 04:46:53 +0000
+X-Mizu-Trace-ID: eb600a511e081679
+X-Migadu-Flow: FLOW_OUT
+From: Lance Yang <lance.yang@linux.dev>
+To: david@kernel.org
+Cc: akpm@linux-foundation.org,
+	hannes@cmpxchg.org,
+	mhocko@kernel.org,
+	qi.zheng@linux.dev,
+	shakeel.butt@linux.dev,
+	ljs@kernel.org,
+	kasong@tencent.com,
+	baohua@kernel.org,
+	axelrasmussen@google.com,
+	yuanchu@google.com,
+	weixugc@google.com,
+	baoquan.he@linux.dev,
+	baolin.wang@linux.alibaba.com,
+	liam@infradead.org,
+	vbabka@kernel.org,
+	rppt@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	kees@kernel.org,
+	peterz@infradead.org,
+	jannh@google.com,
+	pfalcato@suse.de,
+	hughd@google.com,
+	pasha.tatashin@soleen.com,
+	pratyush@kernel.org,
+	willy@infradead.org,
+	jack@suse.cz,
+	ziy@nvidia.com,
+	lance.yang@linux.dev,
+	riel@surriel.com,
+	harry@kernel.org,
+	apopple@nvidia.com,
+	nico.pache@linux.dev,
+	ryan.roberts@arm.com,
+	dev.jain@arm.com,
+	usama.arif@linux.dev,
+	kas@kernel.org,
+	matthew.brost@intel.com,
+	jhubbard@nvidia.com,
+	peterx@redhat.com,
+	will@kernel.org,
+	aneesh.kumar@kernel.org,
+	npiggin@gmail.com,
+	osalvador@suse.de,
+	minchan@kernel.org,
+	muchun.song@linux.dev,
+	xu.xin@linux.dev,
+	chengming.zhou@linux.dev,
+	chrisl@kernel.org,
+	shikemeng@huaweicloud.com,
+	nphamcs@gmail.com,
+	youngjun.park@lge.com,
+	gourry@gourry.net,
+	joshua.hahnjy@gmail.com,
+	rakie.kim@sk.com,
+	ying.huang@linux.alibaba.com,
+	jgg@ziepe.ca,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	kexec@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-arch@vger.kernel.org,
+	linux-cxl@vger.kernel.org,
+	mason@kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v3 14/47] mm/huge_memory: fix zapping migration entries for device-private THPs
+Date: Mon,  2 Nov 2026 12:46:43 +0800
+Message-ID: <20261102044643.33636-1-lance.yang@linux.dev>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20261031-fixes_core-v3-14-d6437171ecc3@kernel.org>
+References: <20261031-fixes_core-v3-14-d6437171ecc3@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -56,28 +128,33 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, 23 Oct 2026 19:34:33 +0100 Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com> wrote:
 
-> The test had a TODO asking for a reliable way to know when the child's
-> munmap() has finished, and used sleep(1) in the meantime.
-> 
-> Unmapping the whole address space leaves the child with no code to run,
-> so it segfaults. Since it is traced, the SIGSEGV stop is reported to
-> the parent through waitpid(), which is exactly the signal the TODO
-> wanted. Wait for it there and drop the sleep and the TODO.
-> 
-> The stop is now consumed up front, so SIGKILL the child before the
-> final reap.
+On Sat, Oct 31, 2026 at 10:39:43AM +0100, David Hildenbrand (Arm) wrote:
+>From: Chris Mason <mason@kernel.org>
+>
+>A PMD migration entry can refer to a device-private folio.
+>zap_huge_pmd_folio() checks the folio type instead of the entry type,
+>so it treats such a migration entry as a device-private entry.
+>
+>Installing the migration entry already removed the reverse mapping and
+>dropped the mapping reference. Zapping it must not repeat those
+>operations. Concurrent MADV_DONTNEED during migration back to system
+>memory can trigger this.
+>
+>Check the PMD entry type using pmd_is_device_private_entry().
+>
+>Fix generated by an LLM and sent by Chris Mason in private.
+>
+>Fixes: 368076f52ebe ("mm/huge_memory: add device-private THP support to PMD operations")
+>Cc: stable@vger.kernel.org
+>Signed-off-by: Chris Mason <mason@kernel.org>
+>[ david: simplify description ]
+>Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
+>Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+>---
 
-Thanks, checks out.
-
-My review toy claims
-
-: Separately, tools/testing/selftests/ptrace/vmaccess.c has similar
-: sleep-based synchronization. A delayed child can make its attach test
-: fail spuriously, or let its vmaccess test run before the intended
-: blocked-exec state. That deserves a separate fix.
+Reviewed-by: Lance Yang <lance.yang@linux.dev>
