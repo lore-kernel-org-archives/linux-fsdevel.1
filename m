@@ -1,100 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=85.215.255.20
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793628043;
-	b=qWfYF79PApfbN9FywIdMQB+v3lbD7VkaaLnfbnCC6EiyaroUnwqUvMehGDLnCJgdwEq3
-	 AQzro2vgyr4qQlnros4ESWrApuCv+vhhcxCvmNgKUHiQLxVzWcK45bU0aSrsfmJVS6XAv
-	 7d5cfv7O4kDmDBPU0H4BA1itPrUCEAHiwuhsIoEioMvECDfwvJv99E6gfEI6wRf12JDSD
-	 Ma6huATC+1rBcl75LYXyoiLvDq8B8shSrPhGG02JjHS/YbagRNZ6FbgLw+x8dp7lG5pC2
-	 8yfQj8Bs6Ba1Wp/fNnHjLCFOXJUucRFcXWsXCk3xhWOwj3YCll3UZ9yZSGH5u/AAY0w==
+	t=1793629043;
+	b=0WE9+QUK7PDUAxjG7R3L/EN2LHbh7mKf7+ACqqb7uxZNnjbMMVk0Hse9+ZekLlPodBC0
+	 CYEnHh8nOQCim4NKN0q3hiTY5/D8l8COfZE1ns53n+mkU3WLaqajf6LvmrlteV/pWe8tr
+	 loov/PQoeX5V9DcTgiZhijllj+GV6s9kknKTfrofaVuL/EfEHyVOxQkhC5OK+w/PCFS3L
+	 ZYfleFCB9E77MiOeSY2Aqrv0FybtMhADLz/2p3GttENAKODQrIlfNeg+OG/LfdwIeqO8x
+	 C54hw6a6wHrSx+FyOgBrazQn/wtOxjjiNYf11klzbr4+tNFnmQWL5+LjPhNOn5Drtyw==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793628043;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=s5Xf4onWksy+tbgDhi+LvOuZ3PKtrfpCQRc1Tg6vJHg=;
-	b=3rwPeAbixfnI3MtmLT3iRcfcT3h3PbJ5cD6Ihw7i4Y9rpWY9La5uc/uJ+mrbri67+jfK
-	 N/jDzQv9uoikR7Bs1yOUGlQhR4lHEahp0HjROzICytZuukt8/eAVIS+jPayMkNLCZ1VaT
-	 +bXMs7gZbcrGaxr6zRQlk9pXISPOlMyeXG7eeqUicq545XToJ9C63WbmPlXA460U0eVIK
-	 gDnTCSNFG8rqP9qYXc42itoIp6yqIoDDvxqmjxKtJOhP45aagsRHT55P3XHnnjrFsoaBk
-	 BgWVDun2DlprO6O1hNqXJ5BlSwk8WplUdhwS8G5ATX9oN2o3T0heNLtcsjDeZxWMrhQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793629043;
+	h=DMARC-Filter:X-RZG-CLASS-ID:DKIM-Signature:DKIM-Signature:X-RZG-AUTH:
+	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=xkOl2aWNXWvAkal1PoWEK4rQLMeL8yYl1YycfKL8q9Q=;
+	b=cBxIbWz0pXBev3Y3aXnpAxLRCdTRGnqUk5EQE5ihS4cDDum8gyHlTu2GSKWsL188Qf6e
+	 Xy/vav6iI7KILf0c58Urbi2cWLnbK8mTO9NFubepCYuP+dJ0kwczi+1nUMVdkQV48hbmO
+	 O2YaUKgo1DueLemmSqnp7T1cwZM2jJqI4tuld0yTO8awfPVr7XxFRBcC6rmutduGMKfrC
+	 3ssdVlFLckK9yg//cFsRVs17uvU2abiUC9EOTjafquITiKCQkMelTURZ+jUv8hVeCZWY1
+	 S68Fg3kwYdm+BrohkoREVqtfR/1tf5/Gb+gOfJ1v5tRR9d3ZE9VJ9Wmw+ZTN0VhdaOQ==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=sqAIi+u2;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.43
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=pinc-software.de;
+	spf=pass smtp.mailfrom=pinc-software.de;
+	dkim=pass header.d=pinc-software.de header.i=@pinc-software.de header.a=rsa-sha256 header.s=strato-dkim-0002 header.b=kL8of8n8;
+	dkim=pass header.d=pinc-software.de header.i=@pinc-software.de header.a=ed25519-sha256 header.s=strato-dkim-0003 header.b=lVKKnYjf;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=85.215.255.20
+Received: from mo4-p00-ob.smtp.rzone.de (mo4-p00-ob.smtp.rzone.de [85.215.255.20])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BF3660A2615
-	for <linux-fsdevel@vger.kernel.org>; Mon,  2 Nov 2026 14:00:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5BF3660A2615
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6678606B5CF;
+	Mon,  2 Nov 2026 14:17:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D6678606B5CF
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pinc-software.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pinc-software.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=sqAIi+u2
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-c4203bbb1e9so488624666b.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 02 Nov 2026 06:00:43 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1793628042; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Pg88xsGeOf0u1yjspLzCC0CJK+tpc7cBlf5Y5SnbBkH4IY3vsfBBSOrUWKaIgCNtGM
-         rPA2MpXMpRkUNBAhDCs5TWVgwI/u/lmu7GjhI36cVtSgk0V0UMkgBNqvtY9bMIsxC8u2
-         CuRQgoTzJ6HH2d4ysm2YEMJKk+jvyxEXmJRlIJEe4V1vK3al9TkywlN94wwruecdOPQ8
-         iurZN+2JJRcvyQTjnrxMMpKi2rpnECO7uFwlCddiBlyIoTyDz7bZASyNdtCzIlQcGn+3
-         BLjDVXDJnckDM1rl/GoZawsN8nMHz6EdvWbYqlPBkRdmuOExpncSVbIAMthFn/f1qXjh
-         78qg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=s5Xf4onWksy+tbgDhi+LvOuZ3PKtrfpCQRc1Tg6vJHg=;
-        fh=jfVMGh4xKak7m2OxWn3eq8QkW2TCO1UmfDtaiHhAzSQ=;
-        b=FQAbuY0LuPWgiH3stVsFDQTz/F6yZ6fRqhys9Rs/k0j3rCC31mCNtsyPyMkvYocJ8j
-         tMsTgO21kz4Oze9/G52SEWsrDaWfqLCgSesms6Df/JD2W2pEcaMi8eCJlEU8nwwt13FX
-         vcleO6JYU11sH2cOCP2wQevLR9dYW+1EGemayo/Ffh9dJ8SNjmtf5bnNxXqCs8K40EN5
-         SmkNV/ClM5PwhNi6mdcYGshzquWWzKFiylF4BID7sJM0F21eU6J/FnI9w7HAepfo8LCD
-         8bClFmNkMu3v5wapVEaJAEEYf48jsYDcriMSGkKi3xb+wPLX4zCA0o/UcTdxB/YB2D5C
-         Sveg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793628042; x=1794232842; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=s5Xf4onWksy+tbgDhi+LvOuZ3PKtrfpCQRc1Tg6vJHg=;
-        b=sqAIi+u2ogK6jCFX9j76dArnOThd5X0GCkPk+9VoPxB/STC2ao3yNQSapJ/76uyvZF
-         UQeJMLj3OjZQ6jYb3yKYpQYBgapfOVjbaeH6XWMUdukR6YyyOJiZarpmEibYav80QQel
-         ARzb1zBdJX680p6g7SYIcqKej0UMKNcuV/AzvXi9sTPGi/DS+5e8TNR91gHolVHyQs08
-         0pb9QRYTbtnS9lHSmz2/j9UIRd0UCpD0n6qnEqh4x5brTozZCvk/gpLraes7Ilzx05Qt
-         g2ZPufDM/NVNfGkokXFUysAeDG9pH92EnlHodWhDjFX58izRV8iTvo18CdxRQeNzpMZ6
-         WV3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793628042; x=1794232842;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=s5Xf4onWksy+tbgDhi+LvOuZ3PKtrfpCQRc1Tg6vJHg=;
-        b=iiwgMKx/9nN/djBH4xflI4HiXzC0ZMByzTFY5TEN2IMAjjEuya/EPCqRm8bVXB8TrT
-         1VytOTQrlLh21rRrUhpJm0B7Nv3mK1aJrOri4TVPp/cBTXrXukKsZX3aevP+QuqQLEcK
-         SyhJceb6g+lBa/cB+niZI/Rh/r9+aUBcidDveaYXiLzpNAmEBtJdxrc74Dzf6Sm1zTGG
-         WWdDdRZEd4aSziV7hQUGHhaNbROCMjxFsallrq2XjUO9WrPjz1ssjsKUVAlJrRz5BIq/
-         t4eqSa08Q8G+yhqYENcNrEcCdq8VZ0GnTi7vYUhkLnvzUtqTlMQqm9KFS6t+QzTTNuxB
-         ykAQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxnGx8gLMbKS2yulbhQbzJfwETkx4aOB6WChQ/625Qhvxw6C0gy7Z/mIvyWrh/ad/E3TakonqE8kMv6TaQh@vger.kernel.org
-X-Gm-Message-State: APuU4Z+bssZSKEj1wqzTvCJH/qDuHB+3CJU6+SnXahVuUUiSiG/ZBm0b
-	7gCNiZM3/3nyhAG1F1ADnY7nGHG3HIc0pFry7Vo834TGpzcNEBB5WGKZhAARQKf1cWjJDkaAIea
-	KAZyoGbG98WdsAM8FvMshekkm4n4iq6w=
-X-Gm-Gg: AYBFou2fCBHIyv5EHbRpWX13sCk5tnr1jWzaMCCBojEiHCZUrdwPrJ2YzMwj6Du8/p7
-	8ELesOX0K7evtfpcx3xifsdWCY06+EUjT0n6ja542YNmkJsy1SwpMg6qlriaffgGfl7o/XLyzuD
-	6Bc+t8dISxQAxMIij8upvscTDEPaEBt7/GAMozyk0YBzLfHSIFeGa2JTSIXhpIGY5sTWG0VfzCw
-	GYjQKehVtvyNMjcZLgF4fwWkcgRHfjJtnGMF0TWQRyPSezN+WBD3PJuG8yfNv98gU3syPg8A8ES
-	yeJyQYuZifCeW4dDoSrxv+0m3cA9uZ4bYJxwY54OTw3LyJEzrANNxVXv3/w4uErHu71wwdhs2RZ
-	taFf3medv3zsUxLsPiiNb6txSHPtWBKEDIoiH1i1gYGaUmcFZ7qG49ajQgVbeRj0NsXRfsA==
-X-Received: by 2002:a17:906:9f87:b0:c33:9fab:5f61 with SMTP id
- a640c23a62f3a-c4ca7a80dfcmr888696766b.29.1793628041476; Mon, 02 Nov 2026
- 06:00:41 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=pinc-software.de header.i=@pinc-software.de header.a=rsa-sha256 header.s=strato-dkim-0002 header.b=kL8of8n8;
+	dkim=pass header.d=pinc-software.de header.i=@pinc-software.de header.a=ed25519-sha256 header.s=strato-dkim-0003 header.b=lVKKnYjf
+ARC-Seal: i=1; a=rsa-sha256; t=1793629034; cv=none;
+    d=strato.com; s=strato-dkim-0002;
+    b=ns+0g7L9wvXVjz3l8LRa3V9RmAF5vafZCMr+Yl4LLJDPgiaxctLNpXHgACoU4ZX8gJ
+    FnEn8VSVRqTYdXhSqrpvUBr4LxDPsQH9rRqT+LaisdldRX2iStuUHcXbIf5dWdEfw0k0
+    TIqFvBLqXI5rOhRsdVqKB3kI2oyNEZ5gzM8dKk8qbudKC1P5EhRJfIpdI6+zDYGalpfU
+    Y95Tx81EJGQ7OHYM/bw5/6i9z6N98AuJEnZYZOAmnWJAdxli2o3tyig3ulV4YRdUKVJY
+    pq1rULzvACz1GkFZnrF0fckWRjv7rE/L4W7SN7W9oB7DJXX0CiTLQkjuxugWuAXSQO74
+    3K/A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1793629034;
+    s=strato-dkim-0002; d=strato.com;
+    h=Message-ID:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
+    bh=xkOl2aWNXWvAkal1PoWEK4rQLMeL8yYl1YycfKL8q9Q=;
+    b=Yam7x8aWz0DTGwkcxyObKkbVkwmRNALFt98NWFYW35ZKovSH4GW+kYfsMhYinySzCS
+    o6JDdg25dwUmQW3NMQIGxe9O4d2EO4wGmwV9FP2h9exBPl77jndi0Fy/9Rw+A0DqXsrF
+    tuaP89MaUAcsDTAGlEeCS7PDTGtx7aEOMuyTB1MlNwBASEZ2yNDmJemNnZbdT0rSNyPU
+    JcqKCZhcftaWYCVMUuGIIIm8bxmEdzC28sdE3yT55p2no4dmdZw33gYAcFgGo0ap2OMu
+    G9Izkt6Aj5MwiKnQb/nKQfh7h5HSDsc1TKuftLmV4lTgGDw0TfFqClTfgxxaKyoci4Z6
+    gDyw==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo00
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1793629034;
+    s=strato-dkim-0002; d=pinc-software.de;
+    h=Message-ID:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
+    bh=xkOl2aWNXWvAkal1PoWEK4rQLMeL8yYl1YycfKL8q9Q=;
+    b=kL8of8n8Ri1qnV6NQZAl5hiSsadbUxpa0e4aOQ2CoqVdl1nZ5SaZouHNxHl+wokM1v
+    MGUiWibAJqXlM1WsGTbIstjFMHhO/d+s7Xq3vYEXqLFoQu1VEXS4A/RlaG1FFQUXC5ba
+    2s10oVxunaF4Ur9wjoEsZdN6N+Aw9nil4kO4VSwrLDlWZo5Nc45JWDAULOyjS1+f1dqi
+    OP06klvC+FwT3vjgozrnuSYBSaXf5oCGbnZ3aptGM4JGI83tQFAJcFpzl9mQxwqwDW01
+    0+ndZa4LZsWveq9JSfcH1DPUTOhqxEhWA6hMyvjXV78HLbYQrpZkJPGRXknb3UwCoFn2
+    +sog==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1793629034;
+    s=strato-dkim-0003; d=pinc-software.de;
+    h=Message-ID:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
+    bh=xkOl2aWNXWvAkal1PoWEK4rQLMeL8yYl1YycfKL8q9Q=;
+    b=lVKKnYjfFEzHrec+Frr79QizmPiQEcFOaBWPZ68ek6TaYarPgCyTqXxOhKoJACARY+
+    VyoRTdjY6O2HMVxTjyCw==
+X-RZG-AUTH: ":LXQBeUSIa/ZoedDIRs9YOPxY4/Y41LMYtYgA+S704E62CSg2BLG6dk+k8/0cpS1xrQjovw=="
+Received: from phoenix.fritz.box
+    by smtp.strato.de (RZmta 55.6.3 DYNA|AUTH)
+    with ESMTPSA id a2f6e42A2EHEALH
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+	(Client did not present a certificate);
+    Mon, 2 Nov 2026 15:17:14 +0100 (CET)
+From: =?UTF-8?q?Axel=20D=C3=B6rfler?= <axeld@pinc-software.de>
+To: Luis de Bethencourt <luisbg@kernel.org>,
+	Salah Triki <salah.triki@gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/2] befs: Large file support and a superblock check fix
+Date: Mon,  2 Nov 2026 15:17:11 +0100
+Message-ID: <20261102141714.306719-1-axeld@pinc-software.de>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,112 +99,51 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261101015551.786044-1-koray.fra@gmail.com> <20261101015551.786044-2-koray.fra@gmail.com>
-In-Reply-To: <20261101015551.786044-2-koray.fra@gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Mon, 2 Nov 2026 15:00:29 +0100
-X-Gm-Features: AclHuK8C6KXo0yGTK4G9AdpXOF6ch7dlD0GPHOdparCBMVqSIwGLvVGFGi1BG64
-Message-ID: <CAOQ4uxiuJ=eZu28FZAUz3rpqPKqCimPxJucOnYYuBowvD09_Cw@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 1/5] vfs: add provenance time (ptime)
-To: koraynilay <koray.fra@gmail.com>
-Cc: David Sterba <dsterba@suse.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Sungjong Seo <sj1557.seo@samsung.com>, 
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, Chris Mason <mason@kernel.org>, 
-	Jan Kara <jack@suse.cz>, Yuezhang Mo <yuezhang.mo@sony.com>, Chuck Lever <cel@kernel.org>, 
-	"Darrick J . Wong" <djwong@kernel.org>, Sean Smith <defendthedisabled@gmail.com>, 
-	Andrey Albershteyn <aalbersh@kernel.org>, Pedro Falcato <pfalcato@suse.de>, =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>, 
-	linux-btrfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, exfat@lists.linux.dev, ntfs3@lists.linux.dev, 
-	linux-api@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sun, Nov 1, 2026 at 2:57=E2=80=AFAM koraynilay <koray.fra@gmail.com> wro=
-te:
->
-> Add provenance time (ptime), indicating the time when a file or
-> directory was created. This is user-settable via file_setattr() and
-> retrievable via statx(2) (using STATX_PTIME) or file_getattr().
->
-> The semantics of when to preserve this new timestamp are the same as
-> mtime, the idea being that there is a correspondence like this:
->
-> ctime <-> btime
-> mtime <-> ptime
->
-> so every operation (copying, moving, ...) that currently preserves mtime
-> should also preserve ptime.
->
-> Furthermore, in order to avoid the legacy FS_IOC_FSSETXATTR accepting
-> FS_XFLAG_PTIME, add an FS_FILE_ATTR_XFLAGS_MASK mask to support new
-> xflags, and use it in fileattr_to_file_attr()/file_attr_to_fileattr() to
-> allow ptime to be used with the file_setattr()/file_getattr() syscalls.
->
-> [ This is a re-implementation of the initial patch[1] by Sean Smith
->   <defendthedisabled@gmail.com>, following the advice[2] from Darrick J.
->   Wong <djwong@kernel.org> of using file_setattr() instead of updating
->   utimensat() ]
->
-> [1]: https://lore.kernel.org/20260405195007.1306-2-DefendTheDisabled@gmai=
-l.com
-> [2]: https://lore.kernel.org/20260407014129.GC6192@frogsfrogsfrogs
->
-> Assisted-by: Gemini:3.8-flash-high antigravity-cli-1.4.7
-> Signed-off-by: koraynilay <koray.fra@gmail.com>
-> ---
->  fs/file_attr.c            | 33 +++++++++++++++++++++++++++++++--
->  fs/stat.c                 |  2 ++
->  include/linux/fileattr.h  |  5 +++++
->  include/linux/stat.h      |  1 +
->  include/uapi/linux/fs.h   |  8 +++++++-
->  include/uapi/linux/stat.h |  7 ++++++-
->  6 files changed, 52 insertions(+), 4 deletions(-)
->
-> diff --git a/fs/file_attr.c b/fs/file_attr.c
-> index 833e03810b24..c0645cb22bf3 100644
-> --- a/fs/file_attr.c
-> +++ b/fs/file_attr.c
-> @@ -102,7 +102,7 @@ EXPORT_SYMBOL(vfs_fileattr_get);
->  static void fileattr_to_file_attr(const struct file_kattr *fa,
->                                   struct file_attr *fattr)
->  {
-> -       __u32 mask =3D FS_XFLAGS_MASK;
-> +       __u32 mask =3D FS_FILE_ATTR_XFLAGS_MASK;
->
->         memset(fattr, 0, sizeof(struct file_attr));
->         fattr->fa_xflags =3D fa->fsx_xflags & mask;
-> @@ -110,6 +110,8 @@ static void fileattr_to_file_attr(const struct file_k=
-attr *fa,
->         fattr->fa_nextents =3D fa->fsx_nextents;
->         fattr->fa_projid =3D fa->fsx_projid;
->         fattr->fa_cowextsize =3D fa->fsx_cowextsize;
-> +       fattr->fa_ptime_sec =3D fa->fsx_ptime.tv_sec;
-> +       fattr->fa_ptime_nsec =3D fa->fsx_ptime.tv_nsec;
->  }
->
->  /**
-> @@ -141,15 +143,20 @@ EXPORT_SYMBOL(copy_fsxattr_to_user);
->  static int file_attr_to_fileattr(const struct file_attr *fattr,
->                                  struct file_kattr *fa)
->  {
-> -       __u64 mask =3D FS_XFLAGS_MASK;
-> +       __u64 mask =3D FS_FILE_ATTR_XFLAGS_MASK;
+Two small befs fixes I originally sent in 2019 [1][2], which never got
+picked up. Rebased onto v7.3 and resent as v2.
 
-That is not the correct way to extend this API.
-This fixed mask was added as a placeholder for
-"We intend to add support for more xflags to selective filesystems":
-https://lore.kernel.org/linux-fsdevel/20250329143312.1350603-2-amir73il@gma=
-il.com/
+Patch 1 lets befs serve files larger than 2GiB; the on-disk format and
+the implementation already handle 64-bit file sizes, only s_maxbytes was
+never raised from the MAX_NON_LFS default.
 
-Please see this POC patch for filesystems to publish their supported
-xflags mask:
-https://lore.kernel.org/linux-fsdevel/20250329143312.1350603-3-amir73il@gma=
-il.com/
+Patch 2 replaces a superblock consistency check that compares ag_shift
+against blocks_per_ag, and therefore emits an error message on basically
+every valid volume, with the check the BFS reference implementation
+uses. Note that a mismatch now fails the mount, like the other
+structural superblock checks do.
 
-This will allow callers of file_getattr() to know if the filesystem
-supports ptime
-without trying to set it and failing.
+In v1, patch 2 just removed the check; the corresponding v1 thread is
+"befs: Removed incorrect check" [2].
 
-Thanks,
-Amir.
+Changes since v1:
+- Patch 1: rebased; sb_set_blocksize() is now checked for failure, so
+  the assignment moved below the new error path.
+- Patch 2: replace the incorrect check with the one from the BFS
+  reference implementation instead of just removing it, limit ag_shift
+  to what a block_run can address, and explain what ag_shift and
+  blocks_per_ag actually mean.
+
+Both patches were build-tested with W=1 and CONFIG_BEFS_DEBUG=y on
+x86_64 and i386, and tested by mounting a Haiku volume: the bogus
+ag_shift error is gone, and a file larger than 2GiB can now be read
+beyond the 2GiB boundary.
+
+[1] https://lore.kernel.org/lkml/?q=s:%22befs:+Allow+file+sizes+beyond+2GiB%22
+[2] https://lore.kernel.org/lkml/?q=s:%22befs:+Removed+incorrect+check%22
+
+Axel Dörfler (2):
+  befs: Allow file sizes beyond 2GiB
+  befs: Fix allocation group consistency check
+
+ fs/befs/linuxvfs.c |  1 +
+ fs/befs/super.c    | 22 +++++++++++++++++-----
+ 2 files changed, 18 insertions(+), 5 deletions(-)
+
+
+base-commit: c03c1a14507dfaf8b856c2608f9ac216021fc222
+-- 
+2.56.0
+
