@@ -1,97 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.179
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.181
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793657611;
-	b=5sgI1aKwmwoGUjSbUs6m6MFQwJGw813ETpFtL2dM/StxrK71gIuLlhJqIZL23n0Zn40m
-	 DjP1QEqEA78/oFwLU+NalvRwww280oNtZdXZHJ6+HrF7OhdLrDh60GzE4rMAChFkvxu/m
-	 WWg0gOW7Yd68vE2u3mxdRtvc8wNe8clncOmgGY5Ge14OA6gAlT2AwT3KeP4lO+z9yOyoL
-	 8nTEsbYQFICzcoABfi76XIWSfSOwHj2WVLk50ZkaM61bgevCS2gORoujIrAd9HCvWQIqL
-	 tNNt0kh9uXDpf6Qc50mDh8bCLTWUmyela8gHRM28M0Oaf75aC+WXm1XRYtFlzqp0TEA==
+	t=1793657831;
+	b=u08jGIW4yvvXA8aUB+AusvDRgZHFTUuyRQhQlo5XO1as/DIVU3hhcbBQ8TfhL0oBAWWW
+	 7aJK3TtDhuJZKuQO9piPyZruefDW/S7IscVmK7QIGCGB/ZHEZ3ucSX9UxQALaIwSG70wL
+	 Ro72tgPr6DcDganCLZvG7+q3YEm7YN1AJnd4VPk1p6ZSVk8ZlrQmo9dYedrcolaYi7JjX
+	 3mupWDDmekUOtIo76R1QzfHeQswW4sv37QZm7HlhS3j8y3cEa9jLUZ3Jba9YgR7aINmAL
+	 3Obm4OpwDlw//AGw0zXzqTdpW4ON9XWhb7s9PQs9z0JXFkgnp/hhaSe0Jp4xu2Jy5cQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793657611;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793657831;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:Autocrypt:
 	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
-	bh=v4BmZuWiHx0Rl4kjelsiqmQf1Hb7QwnreUWudT7/uTY=;
-	b=m319xh3v9dM5vm9e+qBuD6Mw/tF22/J1gjBwGqydPEl3/IkTAM9MLxTH50RIKwvXAe28
-	 uiX3MmXgh/9lHVY40ZE30MrZJ2nFlmW/fo18eblhRTp6fpD/Y4mhsneFELYJi8gtR47ni
-	 0QKuK66PnwAoO0jDIe3ubEMsfa+QqsPpu321OMYkGRKhP6aNqX0siicIYcWmHmmRkwaNe
-	 Top2gKJqoX5aPq3Jidfq+LVHNp1pTW9p3QJaWXw2v4OKzDLHxRU+v9QKY/dA5V7f8QTmM
-	 D4ufIHAPzMFiH+X4P07rtVdY81MMJV1iiHRQ0Q0YdF5DvC+pOInnNiMHvSkAfvgEqjA==
+	bh=XtEgL/miWZ1olP8ce54kEQWLV8a3bUZ6w45Zvf1BpeQ=;
+	b=WMts4/zpsaNdobXxqyiVzSsf+VZ+gjub9SNLZWfBt2vc1hptmAgIdt2rOiCW9Mee1dYZ
+	 Xv7H+UCdtz3icZhKw8HGSFmLSDB7SHDPbaDSDyDP/EHMHZmZV4/edbmiaWaMSgJ2iPoCL
+	 1wgUn1/HSAxJQnkhggGp0Z/ckSe4qef4S6ve5FHlGRu68u3w/tUK5TNOi5/Cf5UggRd84
+	 MDKWdgmH4whVTJZVVy8bnPV5NPKEnK3789KxdM6y9GcmBH7jMsA43APV/iCstlPvnFCxx
+	 GmNAxFRj2n6aUDwMzoecoST5Wz7Qvgj2X5Z+btYP6P/Kal5MVV7h6Vklytm2BsJ5U6Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=dubeyko.com;
 	spf=pass smtp.mailfrom=dubeyko.com;
-	dkim=pass header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=Cc0cOTHc;
-	arc=none smtp.remote-ip=209.85.128.179
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+	dkim=pass header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=NdG+pad6;
+	arc=none smtp.remote-ip=209.85.128.181
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D2E2606A324
-	for <linux-fsdevel@vger.kernel.org>; Mon,  2 Nov 2026 22:13:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3D2E2606A324
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48457606A327
+	for <linux-fsdevel@vger.kernel.org>; Mon,  2 Nov 2026 22:17:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 48457606A327
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=Cc0cOTHc
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-8b0a921ee46so30510957b3.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 02 Nov 2026 14:13:29 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=NdG+pad6
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-8b118bea471so19270207b3.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 02 Nov 2026 14:17:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20260707.gappssmtp.com; s=20260707; t=1793657609; x=1794262409; darn=vger.kernel.org;
+        d=dubeyko-com.20260707.gappssmtp.com; s=20260707; t=1793657830; x=1794262630; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
          :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=v4BmZuWiHx0Rl4kjelsiqmQf1Hb7QwnreUWudT7/uTY=;
-        b=Cc0cOTHc+/eb2bci7+FGVWlQ7sSuL7reQBhV6GypDHg91AcIXSlcufAN65IKE0oPXc
-         /cUEgIR0pand+a0Z380iozt3Ikh+hCByjnqEDXV+IvBuSgSto5DCf4FMg+kl392Aa7es
-         EJHgWZ+Msc4LRZYE++9Y20RIDfdSR98WUl3a6deh2rNj5YGAcgDFnBaKhwWVtw2WyrVQ
-         N5NpnptIH/tbOkFljzc5wBLP9w9p6RpH8Tqu2g/HqGGzqPTyvV4Zy2MR+1+Mzf80PUXl
-         EuUkQH5BbKquYgeQXrSRVFdJN3O3yPHo/rUX4fntIO+QSF5jf+ytqfK08rhs/IcindTX
-         9gNQ==
+        bh=XtEgL/miWZ1olP8ce54kEQWLV8a3bUZ6w45Zvf1BpeQ=;
+        b=NdG+pad6BzfnpbF0AvbKdGy3MzplOcjK4Kc4VHsC4UFViZJ9M/affo2ysF6qlPqYo+
+         7+/XPZ2jEPS7pXzc4SpvFfwKvgdUbxXPTStELuV41bA7RjoDgR3lLgYvk6gbYPY5t5Gx
+         1Y2MDTigATKftmNP+PIF+Zds0zd9rRB/9EywpzBdEbVhCJRLZXpNjg5444SfdpYkgoj0
+         pX2KTgCQbSYNGIaLk5oRu93Jc/kbWoYHH4lQMFJ8zak4N4QzWZOZNizJStyY0xL6whkB
+         X8Z7JRYwQZ/U0ADErcDEg6A0cuW5CDi86AC7OtBJOhpTJ17jnh3m4bhkWECkox/Xsovy
+         l00g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793657609; x=1794262409;
+        d=1e100.net; s=20260707; t=1793657830; x=1794262630;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=v4BmZuWiHx0Rl4kjelsiqmQf1Hb7QwnreUWudT7/uTY=;
-        b=qTqKVZEmW1hbOhGJJBmKapFY2HbvFfVhgjcz+FdqfysJAqtFfEpoXELsMW5V++TIxt
-         hsvS99U/cKJsAyhzk3Eg5RtRjm8dobBFu7CHitb8MsncSfHv/oAqIGiv9/GgCCECZefa
-         mi/3czG8kKwdyFOIt6M4ueGYG6w0UdeezL9NyzRM55sA07QFnV3Wpr8BKqr89uCxMmL/
-         ez9ZXghAwluBljS480WspM75xj8z1590uD4vomvDJBgxypH1mHU5X88kbGWk4UU6Jd2G
-         /OtLM3/xMJ4JCvG9DIuXbh8fqnuORIBVYn8lgkYywd2BUb8v5NX5ZgVcK4W6wx3/0iBV
-         fvQg==
-X-Forwarded-Encrypted: i=1; AKwUvBzqiTGEWYhx9TPA18aO5YU5yl88V4+uRhOYrPuAonRmdqspZb9LMjYbwoBmEAb6WmvGJhVxTXjmDTvl9Xnh@vger.kernel.org
-X-Gm-Message-State: APuU4Z8b5hla9xVBn9SpXJpAm4mbRVKUY0QmYKb6q4KKnyYgEHynhUOh
-	1TEB6TdsYFiBBEGgfSua2iXfkl2bKkhfuXZCV87JIBMO809KpEh0KitMfkT6Ein4YDI=
-X-Gm-Gg: AYBFou1kP836/Os0bKPxqyK0kJ6C4dZaIa3FFgNpsyaecf2ro+C03zO+35pyvxGC/2R
-	XZ0RYaLvoNRg0i9MS5K//o7c0cGaZyp5Dap46ffWu4LPYKcxAOl+sIBF/lcP7fkZYvLraxwAC/t
-	IVkNeq3u6/g7qyLn4MkFyRzaCnWCJ5+W07W/Rg2n3LvP7xw8zQ26dLkoFmxSbmmFPuEjztUz5bO
-	RllO4ZdkCmjbPPUkRsYhxG9i1Y1uwK3FSKx15ssaMdmK+DFrEicQtP6tB1lQCCobkjxjSWkzRMc
-	koK/HcVgKoZHRP0NZ8TyasUrCve2gP26HxhKn5rJl/ggN86QNQ4I6bhuglyeU5YFCBPxpn5hLqK
-	m7TiJT2cjFE8JBq6+Xt2Dnrf+MLjtjf5wdtr1ICEyaRBM+3aVAj9ZjcpJo2xuaFb8OOzEcR/OGx
-	Dzn0NFSLsgQ5cPt4+41TrRbCtSkQHdjTG9fKLkS8ZFD8RL0oLQpIC2jLRKcp5Hh6N7xxEIYQjXl
-	7FC50IQyYVGl1+PfDFSQal6a3kBb+8mLNpYl39jvsNwXBkeVlgshptmBH6VVoASib9kYlDAIi/y
-	rVvg4e0+xifWn39UT/m/i06ROJ2kNPVUYgdRCoyVmsR9q+sZOIatkph3U+OfzzAuPVdMdMu2Btw
-	Jc7nKYvdxj7r2XcgCjvzTgmOngxEV7LfyYFTOBxzrntgJK3VUc3COayod5QQPxfoxvcPzvJ/GVb
-	fJsYFzzpDTvrKY8rGR
-X-Received: by 2002:a05:690c:a:b0:8b0:7900:1405 with SMTP id 00721157ae682-8b2b676b88dmr74523687b3.81.1793657609069;
-        Mon, 02 Nov 2026 14:13:29 -0800 (PST)
+        bh=XtEgL/miWZ1olP8ce54kEQWLV8a3bUZ6w45Zvf1BpeQ=;
+        b=w3iJYKrH0XGfDzku8wqYgFeer8aJmUIwwohpHjz4ENTwLFKpsGiukovIJlZUpfew80
+         QejC4+RdbjXq9vwmKPgbTBaoCUPxF7b2MR3zaQvX+kP4qJHMIqLtle5Hqbj7ZNcqK6v/
+         HlZDvf+TTZKxBnD2ZlfhfUEtkbEwqGekJPex4uqX2z/UcQ9obgjQDGurqxPPIoJp9KLH
+         cUtLInosxDA9TPOr/4kh4fRguYp2mXGYA/mVP0izA+O42BSAPBRkpVm1gAtrhXaOfEFB
+         eKH4IbbrwZWStJbxCn2XeGNLq5MKFMtQ8R1ZERIGIKGTomnpf9Mb31Rs6+IjiAySSjPz
+         Aiww==
+X-Forwarded-Encrypted: i=1; AKwUvBxGysmGGzpHojIaxilrmwpfmpF89uA7V0bIpPDRgllBzR3Ht6vUBw6JIdpqYC2y0h5m5vII7nMBSdnT2fOL@vger.kernel.org
+X-Gm-Message-State: APuU4Z9mCEvK3E/ydoovB+vkTAZ2iSB03uo+YhV5x3MM6yK1B9ZfOpUI
+	haKTGloi1wURpDQAEIJYyTWoGa6CREQJJkPxwaYkNzX6MdM7jR+QN42TbtfuEOmwamI=
+X-Gm-Gg: AYBFou39nmuRQOxvwrpeHPH6L+3w2aNe7F3fngh6uwF3+MCwa7buMNAoVQkQH/oX7vJ
+	wnj1E8XrZqN+FvAOOoyRoiE9qCm7BKsLJ56jtQyDqO6GOi+poDzl3JBHv4bOd4GGd5D/APWei4z
+	cMTGYhJpr/SC54xXYEcs0kXLfVl1GZbG3YGWT69WKTyf7a27ih2w3tes6MpLKCYaFUy3BMfpmp4
+	FM6+9opBJOGKKeTUNLM5POYuiqec6xkd/egkTq8cclNdvSlw0mKLeeaAsb50p7mAge6XQuXKfNT
+	h/IfaxDgpCTQeiiEHMq5uX5t20ZLlDovrYBf4hzrO03rzjteYVtmBm9Wqf9/36E/iJi3ftUnH7Q
+	351BMCdl6U8d2K6OH207TLmc4uTF8L3H0K+kEj7M7w/XrnBLtXgRrwgZCbslSCt4eMl0Kl+omkS
+	pcxWG+YXSBzzTuen0Lsn0XmNzWeBnkGu+jR/q1n2OvQsmGpoYjg9/WcmA86CUYHYsb/uFWErWxs
+	+SCOuMNeZyeMoGiPEHoLpVNGTM1s1W1CPkVqiAEks16t0HTM5A98iyln3forunrgbKX5BEiza+1
+	266rqv5K95ElZWE0NztBR1ChUFJ5Ki7oqVfFwvq6BIQPB5Wx/XKkiOhwikuSkOma7/fkHjFqWP2
+	d0ZqUNyzc23zdaReen+vrSOlXN9MDnS4sZxXVgXReQBL07Y/a0UAEr6OnhhCJpWTWWfgg1HxbeW
+	OiAc2GbAWB6yoxzgJ+
+X-Received: by 2002:a05:690c:82:b0:8ac:c329:67e6 with SMTP id 00721157ae682-8b2b66d063amr89870697b3.16.1793657830162;
+        Mon, 02 Nov 2026 14:17:10 -0800 (PST)
 Received: from ?IPv6:2600:1700:6476:1430:2f9f:a96f:bcb:6021? ([2600:1700:6476:1430:2f9f:a96f:bcb:6021])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b2b71240bcsm59820517b3.9.2026.11.02.14.13.27
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b2b714bd40sm60952257b3.16.2026.11.02.14.17.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2026 14:13:28 -0800 (PST)
-Message-ID: <fe42fc7c1a7b357d614947b844698c5a0abb78f4.camel@dubeyko.com>
-Subject: Re: [PATCH] hfsplus: fall back to buffered I/O for direct writes
- past phys_size
+        Mon, 02 Nov 2026 14:17:09 -0800 (PST)
+Message-ID: <92845c60aca5dc2209a43d309b7bb9fa66aa044e.camel@dubeyko.com>
+Subject: Re: [PATCH] hfsplus: free failed b-tree nodes in hfs_bnode_put()
 From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: Hengyu Liang <hengyul@cs.unc.edu>
-Cc: glaubitz@physik.fu-berlin.de, frank.li@vivo.com, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org
-Date: Mon, 02 Nov 2026 14:13:26 -0800
-In-Reply-To: <20261030043252.4163173-1-hengyul@cs.unc.edu>
-References: <20261030043252.4163173-1-hengyul@cs.unc.edu>
+To: Song jeonghak <thdwjdgkr123@gmail.com>, Markus Elfring
+	 <Markus.Elfring@web.de>, John Paul Adrian Glaubitz
+	 <glaubitz@physik.fu-berlin.de>, Yangtao Li <frank.li@vivo.com>, 
+	linux-fsdevel@vger.kernel.org
+Cc: LKML <linux-kernel@vger.kernel.org>, Edward Adam Davis <eadavis@qq.com>,
+  Shardul Bankar <shardul.b@mpiricsoftware.com>,
+ syzbot+98547b0428b6a6a3467c@syzkaller.appspotmail.com
+Date: Mon, 02 Nov 2026 14:17:07 -0800
+In-Reply-To: <20261101162949.147400-1-thdwjdgkr123@gmail.com>
+References: <773c7445-8d4b-4d94-a995-297ecee9c879@web.de>
+	 <20261101162949.147400-1-thdwjdgkr123@gmail.com>
 Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
  keydata=mQINBGgaTLYBEADaJc/WqWTeunGetXyyGJ5Za7b23M/ozuDCWCp+yWUa2GqQKH40dxRIR
  zshgOmAue7t9RQJU9lxZ4ZHWbi1Hzz85+0omefEdAKFmxTO6+CYV0g/sapU0wPJws3sC2Pbda9/eJ
@@ -149,113 +152,80 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 
-On Fri, 2026-10-30 at 00:32 -0400, Hengyu Liang wrote:
-> hfsplus_direct_IO() passes direct writes to blockdev_direct_IO(),
-> which
-> does not go through hfsplus_write_begin(). phys_size only grows by
-> the
-> block size when hfsplus_get_block() allocates a new block. It starts
-> at
-> i_size when the inode is read, which does not have to be block
-> aligned,
-> so after a direct write past the end of the file phys_size is smaller
-> than i_size.
+On Mon, 2026-11-02 at 01:29 +0900, Song jeonghak wrote:
+> Hi Markus,
 >=20
-> However, at the last close, hfsplus_file_truncate() sees i_size
-> larger
-> than phys_size and calls hfsplus_write_begin() at i_size, which
-> zeroes
-> the file from phys_size up to i_size. As of now, part of the data
-> that
-> a direct write has just written past the old end of the file is lost,
-> and fsck reports no error. Commit 5f63ac80aef2 ("hfsplus: fix issue
-> of
-> direct writes beyond end-of-file") avoids this only for writes that
-> start past the end of the file.
+> (Resending as plain text; my previous reply was rejected by the lists
+> because it contained an HTML part. Sorry for the duplicate.)
 >=20
-> The issue can be reproduced with:
+> > How do you think about to avoid a bit of duplicate source code?
 >=20
-> =C2=A0=C2=A0=C2=A0 truncate -s 32M hfsplus.img
-> =C2=A0=C2=A0=C2=A0 mkfs.hfsplus hfsplus.img
-> =C2=A0=C2=A0=C2=A0 mount -o loop hfsplus.img /mnt
-> =C2=A0=C2=A0=C2=A0 printf 'A%.0s' $(seq 100) > /mnt/f
-> =C2=A0=C2=A0=C2=A0 umount /mnt
-> =C2=A0=C2=A0=C2=A0 mount -o loop hfsplus.img /mnt
-> =C2=A0=C2=A0=C2=A0 xfs_io -d -c 'pwrite -S 0x42 0 1024' /mnt/f
-> =C2=A0=C2=A0=C2=A0 umount /mnt
-> =C2=A0=C2=A0=C2=A0 mount -o loop hfsplus.img /mnt
-> =C2=A0=C2=A0=C2=A0 od -An -tx1 -j 100 -N 924 /mnt/f
+> Thanks for looking at the patch. The two branches share the
+> unhash/unlock/free steps, but they handle different situations:
 >=20
-> Bytes 100 to 1023 read back as zeros instead of 0x42.
+> =C2=A0- HFS_BNODE_DELETED is only set by hfs_bnode_unlink(), when the nod=
+e
+> =C2=A0=C2=A0 is removed from the tree. Its slot becomes unused, so
+> =C2=A0=C2=A0 hfs_bnode_put() also clears its bit in the allocation map
+> =C2=A0=C2=A0 (hfs_bmap_free()) and, if HFSPLUS_VOL_UNUSED_NODE_FIX is set=
+,
+> =C2=A0=C2=A0 zeroes it (hfs_bnode_clear()).
 >=20
-> This patch will make the other direct writes that end past phys_size
-> fall back to a buffered write, as fat_direct_IO() and
-> affs_direct_IO()
-> do.
+> =C2=A0- HFS_BNODE_ERROR means the node failed to load. It is still part o=
+f
+> =C2=A0=C2=A0 the on-disk tree; only the in-memory copy is dropped. Its ma=
+p bit
+> =C2=A0=C2=A0 must stay set, otherwise the allocator could hand out a node=
+ that
+> =C2=A0=C2=A0 is still linked, and its on-disk contents should not be
+> =C2=A0=C2=A0 overwritten. In my reproduction the failing node is the head=
+er
+> =C2=A0=C2=A0 node (node 0), which must always stay allocated. From readin=
+g the
+> =C2=A0=C2=A0 code, hfs_bmap_free() would hit its BUG_ON(!node->this) for =
+it;
+> =C2=A0=C2=A0 I have not run that.
 >=20
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Hengyu Liang <hengyul@cs.unc.edu>
-> ---
-> Slava, you mentioned that you are rebuilding the HFS+ direct I/O path
-> [1]. This patch fixes the current code, also for stable, and may
-> conflict with that work.
+> I looked at how other put functions that take the lock with
+> atomic_dec_and_lock()/refcount_dec_and_lock() deal with this, and
+> both forms are used. ceph_put_snap_realm() in fs/ceph/snap.c repeats
+> the unlock in each branch, while fsnotify_put_mark() in
+> fs/notify/mark.c records the difference in a flag and does the common
+> part once. Following the second style, the two branches could become:
 >=20
-> Writes that start past EOF still expand the file first, as in
-> 5f63ac80aef2. Only the other writes that end past phys_size fall
-> back.
+> 		bool deleted =3D test_bit(HFS_BNODE_DELETED, &node-
+> >flags);
 >=20
-> Tested in KVM with KASAN: the reproducer above, and all 805 fstests
-> on
-> HFS+: 10 failures without the patch, 7 with it (generic/521, 617 and
-> 760 now pass), no new failures.
+> 		if (deleted || test_bit(HFS_BNODE_ERROR, &node-
+> >flags)) {
+> 			hfs_bnode_unhash(node);
+> 			spin_unlock(&tree->hash_lock);
+> 			if (deleted) {
+> 				if (hfs_bnode_need_zeroout(tree))
+> 					hfs_bnode_clear(node, 0,
+> tree->node_size);
+> 				hfs_bmap_free(node);
+> 			}
+> 			hfs_bnode_free(node);
+> 			return;
+> 		}
+> 		spin_unlock(&tree->hash_lock);
 >=20
-> [1]
-> https://lore.kernel.org/linux-fsdevel/161fab786f919adb384fbf22dc19f3289bf=
-5f24d.camel@dubeyko.com/
+> I am fine with either form and will use whichever the maintainers
+> prefer in v2.
 >=20
-> =C2=A0fs/hfsplus/inode.c | 9 +++++++++
-> =C2=A01 file changed, 9 insertions(+)
+> While looking into this I found a mistake in my changelog. It says a
+> failed node "has no b-tree map bit to release and no contents to zero
+> out". That is wrong: the bit is set and the contents are on disk.
+> They
+> are left alone on purpose, as described above. I will correct this in
+> v2.
 >=20
-> diff --git a/fs/hfsplus/inode.c b/fs/hfsplus/inode.c
-> index aed0866499b2..70c13dcdcd8e 100644
-> --- a/fs/hfsplus/inode.c
-> +++ b/fs/hfsplus/inode.c
-> @@ -169,6 +169,15 @@ static ssize_t hfsplus_direct_IO(struct kiocb
-> *iocb, struct iov_iter *iter)
-> =C2=A0		end_page =3D end_off >> PAGE_SHIFT;
-> =C2=A0
-> =C2=A0		invalidate_inode_pages2_range(mapping, start_page,
-> end_page);
-> +	} else if (iov_iter_rw(iter) =3D=3D WRITE &&
-> +		=C2=A0=C2=A0 end > HFSPLUS_I(inode)->phys_size) {
-> +		/*
-> +		 * blockdev_direct_IO() does not go through -
-> >write_begin(),
-> +		 * so it neither zeroes the file from phys_size up
-> to the
-> +		 * write nor keeps phys_size in step with i_size.
-> Return 0,
-> +		 * so that the write falls back to a buffered write.
-> +		 */
-> +		return 0;
-> =C2=A0	}
-> =C2=A0
-> =C2=A0	ret =3D blockdev_direct_IO(iocb, inode, iter,
-> hfsplus_get_block);
 >=20
-> base-commit: a804c5742bff224d4cb4d25dd383554d598be32b
 
-I think this modification will be wiped out by my pathset [1] because
-hfsplus_direct_IO() will be completely removed. I am going to renew my
-work on this pathset now because 7.4-rc1 has been released already. So,
-thanks a lot for the patch but I assume that this issue is already
-fixed in the patchset. If not, then let's double check it after my
-pathset has been finished.
+Somehow I cannot find the patch in my email client. Please, double
+check that you send the patch in plain text and, please, ping me if I
+don't answer on v2 of the patch.
 
 Thanks,
 Slava.
-
-[1]
-https://lore.kernel.org/linux-fsdevel/20260914233941.2966421-1-slava@dubeyk=
-o.com/
