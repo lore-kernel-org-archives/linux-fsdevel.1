@@ -1,100 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.172
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793633499;
-	b=F3nneGeGCGucbbzxel1DxhoXo8j/DjJYKWshU/nGN6Ruj3hjQPEo+DjZAasyWHzseBxT
-	 bMWc57JzuyTwP6SZQwwuV0Ai/9FFmwzCLrEACm8MEhIAkjDHtXRiXd9PNY+HJM1uGN1Vq
-	 z/t1K3ZVHBgjINf3TW3GtgBu7IeymxYzMnWi8SO7DaJW+tis2lpuMdGlILhY+LqcO3HT/
-	 lTG42ZeaIYbV2HI1AeH754YRi1gX1yIPokpP3qV64vliQHnTMT7YMmvVJrabWPX1fir7T
-	 qNhvDgsmRQ6G+8yi+DyQDeQ6wHRHXdY/879+Nd4JYfEjo0/hRkeLm9KlmiRyA+nLvRg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793633499;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=TeCP4ZpYTq9SpZp3YEhJ5WlDwv4/mZ+EDEcMFOS7pT8=;
-	b=eB60/7br1KnlE79UhTwi7OdMHIjT7/bPAIKAPW68HMGrgqPcjGwGi3Nba8JxTH3z9+L+
-	 TdcrTUHlxKAnsTmNC9TV0MpOCmW7CZ80IgSNc6xwzLWsRX9gCnCSkT7pfnwrqD9S9aqyO
-	 iUXsv0BG5tDo+Tp1NjzxEtOytNVpuI9/itue4FUphoMqEWPdjzmJcTt4BvlKlmOhdWYZK
-	 MgAbYU19YOefzjRBmG4mbg0EMgHzTwiXX6Kww3iSsNf+UnCqaLLmuOSCq2VfSBA7mj7Gy
-	 WS064i/f0yRwaakYXM76JJsTMf2yrMJycoFDOlVn/GM6UdLZ2MyTQBFbSMJIOXCPpjw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=JzE5DHuT;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.172
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793633487;
+	b=y6tB8mnD+nx74PJPjfppSgewMl/7ShPXGExXp49Hoiol2nK4g2lf72/lXrxWZg5d7EqN
+	 nNXMp51mFKq3lmkGi2HIh18/tyzXFwPWFT4tqftFt/3Mo0+zgLpDP47rbUVMvHpOgiNnj
+	 JL4MIO6fhQ9e4y7I6+ur0QTkRYQtQRPUTnFKnq9fFaqX/uSnSHkd6bSBxvMkFfwfV7gBn
+	 6kPn7UMo8eRJTt3f/CYVdZaC5BQVtux0JxWuZtrVcYU5UNCmg8PNG0MufhKJaR2ZTs/+7
+	 6Fp4HsBtw2RVVIRJr2igPAnXHKy5zyYU430wVIRKrQHxhnJrMJT1u1trbgENw/pF9Cg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793633487;
+	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=vwjxO3TYvy6WGJQYdN5saH6B1iVdIocyydf/9B8LfXQ=;
+	b=ejap+jFTxjfrt8K3cPiYH+Wdp0fj/4mDAYCxeOF28LTKrYKVUoWAskpO/S6yCjP2TiAa
+	 eLhItJU1VWukS132sRSTDD5nRsIfhQZCUlgNoCDemy0YrZU0Asp2aMih8M/4IO0dFEvJs
+	 0ACJPyIMrpxhsRLEpoD9gYEGQoe8yXdnSEyzG7GMrnK5e03K18WHYGmaGeH6MYWIJbdkm
+	 34LEzJVqv5rnmmWXtglVTIj19/rGRl/7KHY/eRKoJYy5VnPL3+TvrUfkPBbxINRjkZzMB
+	 R+AyCSJCIbgJIkPCewXFdz2rwCvvFpgfxnbD76fJ9L9rS17ZqfmBkXXq1vz3CDUNDYA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="UbE/GY/P";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E504607221F
-	for <linux-fsdevel@vger.kernel.org>; Mon,  2 Nov 2026 15:31:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7E504607221F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4F9D607228E;
+	Mon,  2 Nov 2026 15:31:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=JzE5DHuT
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-533202fe429so515861cf.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 02 Nov 2026 07:31:39 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1793633498; cv=none;
-        d=google.com; s=arc-20260327;
-        b=hb1qZGEoTUsWfCa3cwgNxTa0XswNIGSdRMNPA6gaLKn6rcfYMGjm1CWNKo3Yx6icKb
-         Yd4NQKgMySmaStqXax40npa8pBEAU+CYNaay896KVxCfbB0Ioj4mhH6XCPT8hqHqIxGi
-         0QsGWSnJToVHWFnjBht78NG/HhRPIV6Os6jqPKjhbRwtqpnhO1JhMlzEceP2pR+e05Cu
-         ++AOxJn6feBQ4VPRb//1/DjifbK+RDbY4Yu7PiOf8gcx3zxrf1FlAwB6D3S/k5HRkx/H
-         0r8LShUSyeNM4sQlwv3StMHEOUsSjBw6ULRWKm8enARvTvELYubrn5pzL/gpQ0th5vPe
-         9jbA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=TeCP4ZpYTq9SpZp3YEhJ5WlDwv4/mZ+EDEcMFOS7pT8=;
-        fh=LQ1E9Xl4L40mxsAb2hJz2NptPUmzGNK9Q3aNHruvwrk=;
-        b=MUUzYqeNTOjpP1K6qky/EkqKHVaQ5Y4q/w17usstlRgH+296rKB07jr/8XFDaRmOrH
-         vudUiNtWAB/MCQsd1t5woig2eLW7M8Wu/ZJp4WWmLhH+QN+1D6A+xdY7NyqTu6eeq/Dg
-         tPxO5JBwdcaYPbpGSuhxi/Q3dLJtiJv35gtuk0l6BePUAaIfIEjrSnc0UYfApOuuagaB
-         mVLucrglFtduL8orDefjRZB3sYb+iBBVealSuEe6Ef8F8qHxcHeVIyEGXbltp204hdwJ
-         RIZd0txAFloTAng/FVEo+D8Mf/cMBc9EXBAYhykNhPKN7Foby1lb2Mggjo/IHBResgOJ
-         DOYw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793633498; x=1794238298; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=TeCP4ZpYTq9SpZp3YEhJ5WlDwv4/mZ+EDEcMFOS7pT8=;
-        b=JzE5DHuT5aaq22JXaK1iUqMuzYfAzGdmYBwWBh6J7gvE08Qvbo6Un7yrOaupbCyHSt
-         I6fPKC+93UXcSHPPMQmZp5sbVfe8IhtZ21qujbFBGn1tVWc99641ki+KATmNiht89sSB
-         bbQXCalC7axyCIseaVwJ6r7303sSBcKDrLkrJW5EAiDkMeKMtwbI+mg1pjQFgqRI9Phz
-         VEj3wMJ+t+4YAl7qiRybJ/3KVNmqFpYf4TidS/u1HAch403zmsn2xOmwM0ZCYKxSgARi
-         ayDwMFWPfNzHSpZ592ls1cVqzjcNUSgr5lOuqwY6jOkd8D5YQDyWmgJaj3j1KhfTs9/Q
-         jguA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793633498; x=1794238298;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=TeCP4ZpYTq9SpZp3YEhJ5WlDwv4/mZ+EDEcMFOS7pT8=;
-        b=qv/S0J6U+yVkYw4AdtAFRSTwwAaATbXHXV0kVhdN4CikpcIZkIi4pNmQOvtPlZG8BE
-         W/AmWrxxv/tJgog7VBWl76r3z87+9LQiJEhHW2BgEzKMOhXDCwsUff36YQy1jOmhVJfb
-         zFCX89JSm24BVuO/xPogQ6NE9JqJTioOWSu/suCvP/CN1oIw3WLDCVNjQhY7eWcMPaFl
-         OH2AZkkCOkCiEwySUTNMy/FCUJ4FdG0kI8Zr/A7uSSPIGY/ZW/+YQ0p+TLfBQb4es9hq
-         a+Qd5nPnaryhXLhtnG/Z5cFgKMuhDu30RdlUBzT4E4vnx4HvljMPylTjlcYI31tmPCHE
-         /jAg==
-X-Forwarded-Encrypted: i=1; AKwUvBzZJyJG/wd9il+ouEsBSH5/qIqewdnW5QYnO7TjA4oMTwnllPbReGOwkpgAaGQCj6K9+TOmtXqqNI72KVvi@vger.kernel.org
-X-Gm-Message-State: APuU4Z8jPb53J8rgimE03IRS1319crRHGzQMC2Q7STkzOcac/mP81gAF
-	4MfP58fo89YG7ytXjgZtjNpdzGkXYatSAiuux7BKRJEZnP2BeFPNGeTM0l+sbDRs/yyyxYJ5arA
-	UbytEPmGYzM1FuH1ZsAvol3GbyeG65cd7pC75tiSR
-X-Gm-Gg: AYBFou3qlPANPCc/tgWsS4fvbmnkF0AMm7/U95Yw/QGQxPlKUBSHo7dLBHFHdAGVjlj
-	PGxq8cFFf8cTsWMrpWrJenl1Y/Mfl/i6mohCQ280aoIFuMv6vgMbW4weOq0UXw0yfM+iECi1GSj
-	2KXMD5YHYEhMFX8xedgHzj7BQ2vb/HU8qGrikHJyNFzLmKa/8iQZ3QotTtI5/S9a++7PhJ3mlwc
-	LkXGTnhadwlKV/OC8ATYSvKyQ3RAGN6DN78N8wDIn3V7fecBA/BIhQUoLSzwAvY4XUhUiy2fsI9
-	EIXVzCvTdQRjMjtxrlEE767lBDYToEg1GIpsrC3m95cAtLT5I7zbP1gmoMNMTwwf8fLNHD0noxL
-	YVt1zfWoyiUdK12JKkMvCv5/r2hmrPPrQmlr0D8fYRHjjh/V8MHKEShg8
-X-Received: by 2002:a05:622a:4886:b0:530:e00f:7768 with SMTP id
- d75a77b69052e-54125fa7a8dmr88444051cf.0.1793633497692; Mon, 02 Nov 2026
- 07:31:37 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UbE/GY/P
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89ABC1F00A17;
+	Mon,  2 Nov 2026 15:31:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793633486;
+	bh=vwjxO3TYvy6WGJQYdN5saH6B1iVdIocyydf/9B8LfXQ=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=UbE/GY/PYzhi2Fi7si7/s3It7tNz4DO7UQGlprH7NLzpJSufJcUt6S7sLl4ETioTn
+	 lSrxhrhtFMtQb6rZpoE6MoG5MG9eu/oVVRZmwnTVdQmH/Uc8YanZxUbAPJ3I9S4O7q
+	 z0m2i9CWxWD03GNLvtDJCEzS1ywzTD672wOGOyzXiiTxjSmYm4JDOfioeSmLQa60Ds
+	 a3wnZ+yTE9KkhVTKNfGA/bKsony/u5hTU2nvptIrn6VLRSoxE92Hyqh1vP22R1USo3
+	 fnoX0h5mvFahCSUZxRECbsbRhCqA2NVJbxVIwTQPsraXYkSxXkM4wzwb15ZC+dp27b
+	 y5/kCl5AgK1UA==
+From: Christian Brauner <brauner@kernel.org>
+Date: Mon, 02 Nov 2026 16:07:16 +0100
+Subject: [PATCH RFC 02/11] l2tp: let procfs own the seq_file of
+ /proc/net/pppol2tp
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,82 +53,113 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261101154503.3203036-1-surenb@google.com> <20261101110100.90796bf33ef50307a7698dca@linux-foundation.org>
- <auiKq8zbQTMyY2tG@pedro-suse.tail5790ac.ts.net>
-In-Reply-To: <auiKq8zbQTMyY2tG@pedro-suse.tail5790ac.ts.net>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Mon, 2 Nov 2026 07:31:24 -0800
-X-Gm-Features: AclHuK9TnI7YVwGqKzYt9UR1HPgu0Gc7xrmAN4U7UIU0R4mvvXL1rE30jKEZSis
-Message-ID: <CAJuCfpEcpYxEcje_f17bZ08ngMsDxtDUqNr9p5W+V_PRWOE6-g@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] selftests/proc: use RSS in /proc/pid/smaps_rollup
- tearing tests
-To: Pedro Falcato <pfalcato@suse.de>
-Cc: Andrew Morton <akpm@linux-foundation.org>, david@kernel.org, ljs@kernel.org, 
-	jannh@google.com, liam@infradead.org, willy@infradead.org, paulmck@kernel.org, 
-	usama.arif@linux.dev, vbabka@kernel.org, linux-fsdevel@vger.kernel.org, 
-	yi1.lai@intel.com, oe-lkp@lists.linux.dev, lkp@intel.com, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261102-work-procfs-net-v1-2-982104a4f592@kernel.org>
+References: <20261102-work-procfs-net-v1-0-982104a4f592@kernel.org>
+In-Reply-To: <20261102-work-procfs-net-v1-0-982104a4f592@kernel.org>
+To: linux-fsdevel@vger.kernel.org
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
+ Jann Horn <jannh@google.com>, Josef Bacik <josef@toxicpanda.com>, 
+ Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
+ NeilBrown <neil@brown.name>, Eric Dumazet <edumazet@kernel.org>, 
+ Thomas Gleixner <tglx@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
+ Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
+ Greg Kroah-Hartman <gregkh@suse.de>, 
+ Joel Granados <joel.granados@kernel.org>, Kees Cook <kees@kernel.org>, 
+ Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
+ linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, 
+ linux-acpi@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
+ linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, 
+ linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org, 
+ ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
+ coreteam@netfilter.org, kexec@lists.infradead.org, 
+ linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, 
+ netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net, 
+ linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-cifs@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+ linux-hwmon@vger.kernel.org, linux-mm@kvack.org, linux-sh@vger.kernel.org, 
+ linux-usb@vger.kernel.org, samba-technical@lists.samba.org, 
+ sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, 
+ linux-doc@vger.kernel.org, linux-serial@vger.kernel.org, 
+ linux-atm-general@lists.sourceforge.net, Takashi Iwai <tiwai@suse.de>, 
+ linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
+ linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, 
+ linux-debuggers@vger.kernel.org, 
+ "Christian Brauner (Amutable)" <brauner@kernel.org>, 
+ Chuck Lever <cel@kernel.org>
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1918; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=/g5R4n0Ms+FYrKqMM/T6cxyrF8YI/t11/rZZuOTaMss=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS9WG78rF41UVcn6s+kRfI/lJTvq/TI+ez8kiHKd3vOn
+ QnBrmtYO0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACYi9oyRYf/NOSUiv50MPlxP
+ STf7vX/f6RkVu0Vzktw3n+teH3BIfwcjQ6e+2UWHa43H2pdHS7s1ZT76oqVzw0iU/67rXo/gM16
+ nuAA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Mon, Nov 2, 2026 at 5:08=E2=80=AFAM Pedro Falcato <pfalcato@suse.de> wro=
-te:
->
-> On Sun, Nov 01, 2026 at 11:01:00AM -0800, Andrew Morton wrote:
-> > On Sun,  1 Nov 2026 07:45:03 -0800 Suren Baghdasaryan <surenb@google.co=
-m> wrote:
-> >
-> > > Pss metrics can be affected by map count even if VMA tree stays uncha=
-nged,
-> > > therefore tests checking VMA tree integrity can't use them. Use Rss i=
-nstead
-> > > and pre-populate the VMAs so that Rss changes if a VMA gets skipped o=
-r
-> > > double-counted.
-> > >
-> > > To ensure all test VMAs are populated with anonymous pages, remain
-> > > mergeable across VMA operations, and do not have their Rss changed by
-> > > memory reclaim:
-> > > - Toggle PROT_EXEC instead of PROT_WRITE between adjacent test VMAs s=
-o
-> > >   all test VMAs remain writable and MAP_POPULATE faults in anonymous =
-pages
-> > >   (rather than the shared zero page, which is not accounted in Rss).
-> > > - Use mprotect() instead of mmap(..., MAP_FIXED) in split_vma() and
-> > >   merge_vma() so the first page of the split VMA stays resident.
-> > >   mprotect(..., PROT_NONE) splits the VMA without unmapping the first=
- page
-> > >   (pte_present() remains true for PAGE_NONE PTEs), and
-> > >   mprotect(..., self->mod_info->prot) merges it back. Both parts of t=
-he
-> > >   split VMA retain their non-zero Rss.
-> > > - Lock all present pages in the child with mlockall(MCL_CURRENT |
-> > >   MCL_FUTURE | MCL_ONFAULT) so memory pressure cannot reclaim pages a=
-nd
-> > >   alter Rss during the test.
-> > > - In remap_vma(), unlock next_addr before mremap(..., MREMAP_DONTUNMA=
-P)
-> > >   so next_addr is not split, use mmap(..., MAP_FIXED) in patch_vma() =
-to
-> > >   merge the middle VMA back into addr, and exclude smaps_rollup tests
-> > >   from test_maps_tearing_from_remap since remapping moves and unmaps =
-the
-> > >   page from next_addr.
-> >
-> > Thanks.  This is proving tricky.
-> >
-> > My evolving reviewbot still isn't happy:
-> >
-> > : This fixes the v1 RSS issues, but two things remain.
-> > :
-> > : Alternating PROT_EXEC breaks with READ_IMPLIES_EXEC: both mappings
->
-> This is nonsense btw. Not sure we'll ever support random personality()
-> flags being set on selftests.
+Declare the seq_operations and the size of the iterator state and let
+procfs open and free the seq_file. ->proc_open() only takes the
+reference to the network namespace now and ->proc_release() drops that
+and the references the iterator holds. Reading the file then no longer
+holds up its removal.
 
-Yeah, handling different personality() cases on a selftest sounds like
-a stretch. Is this case realistic and do we need to handle it?
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+---
+ net/l2tp/l2tp_ppp.c | 20 ++++++++------------
+ 1 file changed, 8 insertions(+), 12 deletions(-)
 
->
-> --
-> Pedro
+diff --git a/net/l2tp/l2tp_ppp.c b/net/l2tp/l2tp_ppp.c
+index 4f311d473a64..499e37eb788a 100644
+--- a/net/l2tp/l2tp_ppp.c
++++ b/net/l2tp/l2tp_ppp.c
+@@ -1596,21 +1596,17 @@ static const struct seq_operations pppol2tp_seq_ops = {
+ 	.show		= pppol2tp_seq_show,
+ };
+ 
++/* procfs opened the seq_file and allocated @pd */
+ static int pppol2tp_proc_open(struct inode *inode, struct file *file)
+ {
+-	struct net *net = pde_data(inode);
+-	struct pppol2tp_seq_data *pd;
++	struct seq_file *seq = file->private_data;
++	struct pppol2tp_seq_data *pd __maybe_unused = seq->private;
++	struct net *net;
+ 
+-	net = maybe_get_net(net);
++	net = maybe_get_net(pde_data(inode));
+ 	if (!net)
+ 		return -ENXIO;
+ 
+-	pd = __seq_open_private(file, &pppol2tp_seq_ops, sizeof(*pd));
+-	if (!pd) {
+-		put_net(net);
+-		return -ENOMEM;
+-	}
+-
+ #ifdef CONFIG_NET_NS
+ 	pd->p.net = net;
+ 	netns_tracker_alloc(net, &pd->p.ns_tracker, GFP_KERNEL);
+@@ -1633,13 +1629,13 @@ static int pppol2tp_proc_release(struct inode *inode, struct file *file)
+ #else
+ 	put_net(&init_net);
+ #endif
+-	return seq_release_private(inode, file);
++	return 0;
+ }
+ 
+ static const struct proc_ops pppol2tp_proc_ops = {
++	.proc_seq_ops	= &pppol2tp_seq_ops,
++	.proc_state_size = sizeof(struct pppol2tp_seq_data),
+ 	.proc_open	= pppol2tp_proc_open,
+-	.proc_read	= seq_read,
+-	.proc_lseek	= seq_lseek,
+ 	.proc_release	= pppol2tp_proc_release,
+ };
+ 
+
+-- 
+2.53.0
+
