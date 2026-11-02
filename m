@@ -1,112 +1,109 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793656023;
-	b=lWPGYe+NaTQY2Ll928dlF+MwXvvZY1qYVkkzARi8euNjER9kqvpEZFRirkDs+4MPdd7A
-	 OojFKIKiG9Zh7K9jdTIIvMUAOqqmrFAYId6RyHB835zBTe7jt/yhsO7xQwZDCI5S/+uO8
-	 jPZSZErLvv9KdzU4Bjx7VUKzeUJKOPL1JRqp1FUwcNu5IF/n0Wm/h0qlou+Z63rKfeDcV
-	 +HBMXFRgv05W9dDvjCaEiPhpAXJnb1RPgV3XZ1cWDfKTyvf9iGqS7VkxrY/YSHdYBZAmc
-	 r/6zCrFsYPGSG4xlsHjROaTwdmz4rJflJf7blz1Rt8EoFsuMnf9dvMfnmTgMSiCD5Bg==
+	t=1793656025;
+	b=T8Fu64guxxGptJ0b7ct2i7yeghQr3JWfZz58fDag2oVYt22TlKjHDqhRSc+bLxLLw71W
+	 8JErEgEE8MdPWno/njAIbng1y0M3XgrF7CkXrgTl6PMQD1X+B0AmUPyc6XmrlX6q9rsHX
+	 xsiqKTzcUFLQfqRHVOEcYGoRAMUK5c71jEOBdJz0OEurYA92LWQjV41/Se9TYq7VDCHNK
+	 OcrlxOH2uy5tohQzdCjFr+RrgbDGJIaPq3l3avtP4mUHbJpKf0nRG9a2cSScGgTUEyLeA
+	 Xjo8IaYwQ2Q4R81AvOH2AgNY0/5bKOpRQMlgkfXsx4XtH2e5yg1QkF2XyZISJveNwWg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793656023;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793656025;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
 	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
-	bh=umkgUxq2rfgJ8NLFTrV8RBmSaYpLglNk+AEj6kYyfO8=;
-	b=mPhE65awh7Zarjh7pYM506ekiWT8OjLCSG/Yt1nQ9iS7jJecS9JscpfRrfP76pGbt8BI
-	 gGNbTk7i5zNbPkyF2Vu4jE1NXM6Yeo3TmerqwjmLR/JPXHhS2uqsisG0fHSrEgf8zsJMq
-	 oTQLSIX8KZ54aifcMYAXX1rfULSzRveF1j7iVfFSZvPuilnwWK/yJldneLTWAqS0vxibO
-	 M3GQ0ZJbizPzzGhKnxahBiQcG7Gy0RGUp/RzcR+Vgdt6DOetCtA320LHVSqWmojxDnB1q
-	 RNcQH/PdtAr1NUDGkFJzuzPggPTW+Kn2/Oyfnrq6gIcKLjDH9yY1DrZgMUfZcnR2tLw==
+	 In-Reply-To:X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:
+	 X-Spam-Flag:X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
+	bh=i5HuJ6wlzqnm5PAKxcHqNPUgyKLe7g7pH4Aq4cQgHI4=;
+	b=V0xPjcKKMi3uiEcljhGF1LbG1hUp9Jd956p62kySVDmodz58m/hIeMTvHDKLhBUPltZc
+	 e3sCCb4qFcu/K4FdjR337Dfn/9dZxDzGv85L93HqqIxMllI5t090jotjWdPXPa8hnLoQN
+	 qHy/00pDB8hzNveCuu2hAqrglQAo2LgR1xQ88u6VHiURmGLhw0Y8qBlAqBtLJRGYR6zMC
+	 nLgg+W84l5ynBFRGDMIIGnIDyKSrjC8gEZYh+cPwak6Rs9dG6eJrLBjhkuikYvZRZE0TF
+	 8GrRbQ+2g3ovsBlRAg2Rk/CYZ4xRRq0ZOSV/QPF5Jn3EsjeDo2PziCQWy6b5k6pAvcw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=suse.cz;
 	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=wlGuuBra;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=YFal0Hsu;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=wlGuuBra;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=YFal0Hsu;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=zRSZ7JVx;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=KiE4Yqhf;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=zRSZ7JVx;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=KiE4Yqhf;
 	arc=none smtp.remote-ip=195.135.223.131
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7069606D810;
-	Mon,  2 Nov 2026 21:47:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B7069606D810
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FC38606A338;
+	Mon,  2 Nov 2026 21:47:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8FC38606A338
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=wlGuuBra;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=YFal0Hsu;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=wlGuuBra;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=YFal0Hsu
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=zRSZ7JVx;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=KiE4Yqhf;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=zRSZ7JVx;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=KiE4Yqhf
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 34C491FB0B;
-	Mon,  2 Nov 2026 21:47:01 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C934E1FB28;
+	Mon,  2 Nov 2026 21:47:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793656021; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793656022; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=umkgUxq2rfgJ8NLFTrV8RBmSaYpLglNk+AEj6kYyfO8=;
-	b=wlGuuBraz5HKRr2tw/43UB5Yuv+PiOe6oD78Gy2DExn6MmnICbnFIL0hnqgIYj55NjFn/h
-	yyNAE+HMDOBWohS7eneAyQu3M3yJPh1DXvz6fU2T9cVx3MdCm0YO+JqxDaderAQlrU5YJ7
-	Rm6CzGphWaw1sRyMOTjs0kKdzvKH8lM=
+	bh=i5HuJ6wlzqnm5PAKxcHqNPUgyKLe7g7pH4Aq4cQgHI4=;
+	b=zRSZ7JVxIUt4LEZrOfepP6Efnx2ItlGJjoRUtpidWEWtyd8bxdqBtiqqxTVOKlP71MBmU4
+	02vYVL8XRrlfDdHSKQNkWRqYNZkdZVgBAGblUnQ0ynZO2FgiNE6qewR74qD3nL/CQWwdo1
+	0DiEoQcO/uitQS/uGUxM9rb0fOFPpBc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793656021;
+	s=susede2_ed25519; t=1793656022;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=umkgUxq2rfgJ8NLFTrV8RBmSaYpLglNk+AEj6kYyfO8=;
-	b=YFal0HsuhA7TGhN4xzisVTmXdG7rgPHRTH67cFJF8HNhqCyqL7LPenFhPQ38Z6J/GDyOGc
-	UXLd6y0VlguRo7Aw==
+	bh=i5HuJ6wlzqnm5PAKxcHqNPUgyKLe7g7pH4Aq4cQgHI4=;
+	b=KiE4Yqhf8IoHz+HMLLJH/edDuF8avhb6M7xdwW5mS5jIxFntZ9zhwIyNvQc+zlrdX+bmYO
+	altBuoyJMtHveOCg==
 Authentication-Results: smtp-out2.suse.de;
-	none
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=zRSZ7JVx;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=KiE4Yqhf
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793656021; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793656022; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=umkgUxq2rfgJ8NLFTrV8RBmSaYpLglNk+AEj6kYyfO8=;
-	b=wlGuuBraz5HKRr2tw/43UB5Yuv+PiOe6oD78Gy2DExn6MmnICbnFIL0hnqgIYj55NjFn/h
-	yyNAE+HMDOBWohS7eneAyQu3M3yJPh1DXvz6fU2T9cVx3MdCm0YO+JqxDaderAQlrU5YJ7
-	Rm6CzGphWaw1sRyMOTjs0kKdzvKH8lM=
+	bh=i5HuJ6wlzqnm5PAKxcHqNPUgyKLe7g7pH4Aq4cQgHI4=;
+	b=zRSZ7JVxIUt4LEZrOfepP6Efnx2ItlGJjoRUtpidWEWtyd8bxdqBtiqqxTVOKlP71MBmU4
+	02vYVL8XRrlfDdHSKQNkWRqYNZkdZVgBAGblUnQ0ynZO2FgiNE6qewR74qD3nL/CQWwdo1
+	0DiEoQcO/uitQS/uGUxM9rb0fOFPpBc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793656021;
+	s=susede2_ed25519; t=1793656022;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=umkgUxq2rfgJ8NLFTrV8RBmSaYpLglNk+AEj6kYyfO8=;
-	b=YFal0HsuhA7TGhN4xzisVTmXdG7rgPHRTH67cFJF8HNhqCyqL7LPenFhPQ38Z6J/GDyOGc
-	UXLd6y0VlguRo7Aw==
+	bh=i5HuJ6wlzqnm5PAKxcHqNPUgyKLe7g7pH4Aq4cQgHI4=;
+	b=KiE4Yqhf8IoHz+HMLLJH/edDuF8avhb6M7xdwW5mS5jIxFntZ9zhwIyNvQc+zlrdX+bmYO
+	altBuoyJMtHveOCg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 08F12134B3;
-	Mon,  2 Nov 2026 21:47:01 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A0DB0134B3;
+	Mon,  2 Nov 2026 21:47:02 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id DOPMN9QE6WqLAQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 02 Nov 2026 21:47:01 +0000
+	id uqNKIdYE6WqQAQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 02 Nov 2026 21:47:02 +0000
 Received: by quack.suse.cz (Postfix, from userid 1000)
-	id A9A36B16F; Mon, 02 Nov 2026 22:46:56 +0100 (CET)
-Date: Mon, 2 Nov 2026 22:46:56 +0100
+	id 5019DB173; Mon, 02 Nov 2026 22:47:02 +0100 (CET)
+Date: Mon, 2 Nov 2026 22:47:02 +0100
 From: Jan Kara <jack@suse.cz>
-To: Qiliang Yuan <odys.yuan@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Hugh Dickins <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	Jan Kara <jack@suse.cz>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] mm/shmem: remove truncated folios from the page cache in
- batches
-Message-ID: <dru32b7k62tbur7kmk6vv52zd6jnglnzzz4pvhlsqez6smcjip@gjuh6fud4nir>
-References: <20261029-bug-mm-shmem-undo-batch-v1-1-59b34212fe78@gmail.com>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, NeilBrown <neil@brown.name>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] statx: don't leak STATX_ATTR_CHANGE_MONOTONIC in
+ stx_attributes_mask
+Message-ID: <yxnngsz2x5zyg2wjknlsyfkrtok6yow5wieky6jl4zkitjfybw@fze3yg7b5cbg>
+References: <20261029-statx-v1-1-9600cdb896b3@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -118,108 +115,83 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261029-bug-mm-shmem-undo-batch-v1-1-59b34212fe78@gmail.com>
-X-Spamd-Result: default: False [-11.30 / 50.00];
+In-Reply-To: <20261029-statx-v1-1-9600cdb896b3@kernel.org>
+X-Spamd-Result: default: False [-13.01 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	RCVD_COUNT_THREE(0.00)[3];
-	URIBL_BLOCKED(0.00)[suse.cz:email,imap1.dmz-prg2.suse.org:helo,suse.com:email];
-	FREEMAIL_TO(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCPT_COUNT_TWELVE(0.00)[16];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.cz:email,suse.cz:dkim];
+	MISSING_XM_UA(0.00)[];
 	ARC_NA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:email,suse.cz:dkim,suse.com:email];
+	RCVD_COUNT_THREE(0.00)[3];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,imap1.dmz-prg2.suse.org:helo,suse.com:email]
-X-Spam-Score: -11.30
-X-Spam-Level: 
+	DKIM_TRACE(0.00)[suse.cz:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
 X-Spam-Flag: NO
+X-Spam-Score: -13.01
+X-Spam-Level: 
+X-Rspamd-Queue-Id: C934E1FB28
 
-On Thu 29-10-26 23:44:57, Qiliang Yuan wrote:
-> truncate_inode_pages_range() takes the folios it finds out of the page
-> cache with delete_from_page_cache_batch(), which takes the inode's
-> i_lock and the i_pages lock once for each batch of up to
-> FOLIO_BATCH_SIZE folios.
+On Thu 29-10-26 12:20:27, Jeff Layton wrote:
+> STATX_ATTR_CHANGE_MONOTONIC is kernel-internal. cp_statx() strips it
+> from stx_attributes but copies attributes_mask verbatim, so it leaks to
+> userland on filesystems that advertise it (nfs, ceph), e.g.
+> stx_attributes_mask = 0x8000000000b03000 on NFS.
 > 
-> shmem_undo_range() calls truncate_inode_folio() on each folio instead,
-> so filemap_remove_folio() takes and drops both locks once per folio.
-> Truncating, punching or freeing a tmpfs file or memfd made of small
-> folios, such as a large /dev/shm segment, pays for that on every page.
+> Mask it out of stx_attributes_mask too.
 > 
-> Clean each folio up as truncate_inode_folio() does, collect the ones to
-> remove and take them out with delete_from_page_cache_batch(), which
-> needs truncate_cleanup_folio() outside mm/truncate.c. Swap entries, and
-> the folios kept when undoing a failed fallocate(), stay out of the
-> batch. Dropping an 8 GiB file of 4K folios, median of five runs,
-> averaged over two boots of each kernel, in a 32 vCPU VM:
-> 
->                         before    after
->   ftruncate() to 0     1163 ms   913 ms
->   hole punch           1155 ms   914 ms
->   close() of a memfd   1161 ms   914 ms
->   unlink()             1162 ms   916 ms
-> 
-> Files of PMD-sized folios take 20-25 ms with or without this change.
-> 
-> Signed-off-by: Qiliang Yuan <odys.yuan@gmail.com>
-> ---
-> To see it, fill and remove a large /dev/shm file:
-> 
->   fallocate -l 8G /dev/shm/f && time rm /dev/shm/f
+> Fixes: a1175d6b1bda ("vfs: plumb i_version handling into struct kstat")
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
 
-Looks sensible. Just one nit below. Otherwise feel free to add:
+OK, feel free to add:
 
 Reviewed-by: Jan Kara <jack@suse.cz>
 
-> @@ -1352,6 +1352,9 @@ static void shmem_undo_range(struct inode *inode, loff_t lstart, uoff_t lend,
->  	index = start;
->  	while (index < end && find_lock_entries(mapping, &index, end - 1,
->  			&fbatch, indices)) {
-> +		struct folio_batch remove;
-> +
-> +		folio_batch_init(&remove);
->  		for (i = 0; i < folio_batch_count(&fbatch); i++) {
->  			folio = fbatch.folios[i];
->  
-> @@ -1363,9 +1366,16 @@ static void shmem_undo_range(struct inode *inode, loff_t lstart, uoff_t lend,
->  				continue;
->  			}
->  
-> -			if (!unfalloc || !folio_test_uptodate(folio))
-> -				truncate_inode_folio(mapping, folio);
-> -			folio_unlock(folio);
-> +			if (!unfalloc || !folio_test_uptodate(folio)) {
-> +				truncate_cleanup_folio(folio);
-> +				folio_batch_add(&remove, folio);
-> +			}
-> +		}
-> +		delete_from_page_cache_batch(mapping, &remove);
-> +		for (i = 0; i < folio_batch_count(&fbatch); i++) {
-> +			folio = fbatch.folios[i];
-> +			if (!xa_is_value(folio))
-
-You can move this loop after folio_batch_remove_exceptionals() and drop
-this condition.
-
-> +				folio_unlock(folio);
->  		}
->  		folio_batch_remove_exceptionals(&fbatch);
->  		folio_batch_release(&fbatch);
-
 								Honza
+
+> ---
+>  fs/stat.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/fs/stat.c b/fs/stat.c
+> index a2e63c6c45b7..787c13f378ff 100644
+> --- a/fs/stat.c
+> +++ b/fs/stat.c
+> @@ -719,7 +719,7 @@ cp_statx(const struct kstat *stat, struct statx __user *buffer)
+>  	tmp.stx_ino = stat->ino;
+>  	tmp.stx_size = stat->size;
+>  	tmp.stx_blocks = stat->blocks;
+> -	tmp.stx_attributes_mask = stat->attributes_mask;
+> +	tmp.stx_attributes_mask = stat->attributes_mask & ~STATX_ATTR_CHANGE_MONOTONIC;
+>  	tmp.stx_atime.tv_sec = stat->atime.tv_sec;
+>  	tmp.stx_atime.tv_nsec = stat->atime.tv_nsec;
+>  	tmp.stx_btime.tv_sec = stat->btime.tv_sec;
+> 
+> ---
+> base-commit: c339f4010dea8b0d754f84ace70cd1b089878ef8
+> change-id: 20261029-statx-3f1d8cd8d877
+> 
+> Best regards,
+> -- 
+> Jeff Layton <jlayton@kernel.org>
+> 
 -- 
 Jan Kara <jack@suse.com>
 SUSE Labs, CR
