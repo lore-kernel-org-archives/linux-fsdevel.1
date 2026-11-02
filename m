@@ -1,49 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793632992;
-	b=2BW0vnH9DsMSDfaSv1cEe51Sgnzdn/qM6+1P93uzOOBHTK288TN/mq8UgtKbnjAsqkDy
-	 u+hh7zWPOb8HWtwbxPREQgUfG73Tpb+xzUITUxTpliOGOnOsMoTYC5OeBVLjpyNU3tgSd
-	 rvw8r4HD+572F31ky0ZqD3eRktebZqMz9fL3pWWGcD3BW2s3BxeCHxqd3goNy8+OpJTC5
-	 1hch+ep+O9zsrdI816vcGUxX/G91SrEBNQTlMnfnMR0dHZAU8i/zrKJVMNdI++Z96RHXc
-	 qKY9o0DnfMe5gVCuW9nNyzpwSF2eTZ5BF2Gvr2sK/4JCjPGXUN4ATe6CdsHS56cKhAQ==
+	t=1793633032;
+	b=mUTN4CicIbGNYeD9QDzlKkc3K72N5xVKeioZ8VCSOdVfdqI6Zqc6NDHipPT+tVsWdMrp
+	 +or2n4Z3LCuXfBRHZNZuiNEuTAkWLFCEfwUnTC8wjQxhSY/fhkTCBUD2hvjdXgKrZVu8S
+	 ue7d9przlc2hhz9YmIOK91iQZLGatOMJKY/xAOteS7F8bFF71nbzNpjAj2Bpav60jI9EN
+	 Vnp1BumkqmhBjYK9tcwadBLQ42aLpxmHUzQ/rFmGFY9rAhUdx4/dQKsVHRtR+PZGOozCA
+	 Do1l5cVYx7sQyGpHwZbSqC3Z5/fBrYUqXaYEW0osNUTguTRJ8Rhw+rr4nqNjnt1YPRg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793632992;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793633032;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=cbUv3n1tBnI1k6VxTZ3ZcHd/CVUe8/cnvkVP6mlO6Yc=;
-	b=E4oKysjktgMBxrFWJp7FXGImDI2+04q3nKmr5kHyBteHoTAG4bcWsVoZH+et+WBJ75NJ
-	 ScS9ozwxeqyT2Spz6tcwjLhi9RTcUqsq6rd51oawibDXB3tiFXIRIwrqB0IKO/ua2nZcj
-	 cm9nC5G4vEqmiJ6P4KhCBUBxDR43gIfm+lm8YtdveWIjedgBKaBpoxTGGTFYrr1nKFju/
-	 sy+lXMaTU6ArReRj5900DVgm8srl+49oy3hT7nIHhHM05LumHSt5qh0O9gtvz+qeDETxT
-	 JEifKId3E9tJX8jKMWPsO9pd70ou8KcUupbfd6avJfPVVwCxqrzgzPRXmW6X24N386g==
+	bh=e6t+ZjLlcl2UBfeg6Fa8p1cvIAPOQLpJeTR6f8fh14w=;
+	b=E6t6ED801NLs3O9y8Ap3LKmdn4lD+YXvhqfn2LSPyquRryk92a+Dr79egCClzQe4KA0n
+	 hVXIpU7SiG8ZphF3ibEAUR4wm/ozvCRKCQp2YClfGpBHQrdODuQSmxsSXO78NmbceG9x+
+	 M4rlR1dRCrCQQG8OL7veV1bVX9+rg3XE8Bp5Jwgt3seEMznSgy/ftGfReibRGwaBYocmI
+	 wRsokXaBWVG46ubYcO8eN2HJ3D5FqEKIokL0O0UH+fANeC75lFdjiaay6ROKWF/ArOLl5
+	 ifA8tvgS//9goCpyK594GiZrYnbqPAhqDo3xI9NnRQ8j8l+1GxC8UAjCTNjOZLlHWvQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gtwKUokO;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Vyc0TIAk;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37D3960C51F4;
-	Mon,  2 Nov 2026 15:23:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 066196070DB9;
+	Mon,  2 Nov 2026 15:23:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gtwKUokO
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CB961F00A16;
-	Mon,  2 Nov 2026 15:22:55 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Vyc0TIAk
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31AFC1F00A17;
+	Mon,  2 Nov 2026 15:23:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793632991;
-	bh=cbUv3n1tBnI1k6VxTZ3ZcHd/CVUe8/cnvkVP6mlO6Yc=;
+	s=k20260515; t=1793633031;
+	bh=e6t+ZjLlcl2UBfeg6Fa8p1cvIAPOQLpJeTR6f8fh14w=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=gtwKUokOODP26lfp4y7mSUu6DYdG/zt2FxgYuDS+oho+JQ5cga5uqjc8YY6VgrcQs
-	 VTaytOyGE9Q36HAhmeQO/tpkWrmaem5nfcs9DoO11v1we3+YYyPqsUjQ0RtzlSJ/r7
-	 PjD7PtqydOyrhI0RMb58/TQgdn/JW1bEao0zBiP6y+8iVzXby6r+qrPSMfF1VCtR3o
-	 f+fxAzOWnAKXVVQlIcMAzpg04hv/Asv4XFoEe0YrkCVsCJLh0AlwObscrypUo3bOUD
-	 I88qZEPZKE9AXxN0jtQQ7Cv/rHCklqSSX1h/8YUYGnUDPn7pa9hj9iyObikXEB/IoK
-	 IjWpl3b9MOeCg==
+	b=Vyc0TIAkWtCaXuSIcqkzHLeKxyzrJXWfZdR7KJ6r92hFll9vSXVA6wBZRD3vYY+uB
+	 3sZVdE2NFmTbgG2ddW0Dunqa+sx427e4/M6eCyX7YNulxzXA/Y7RrUt1CRtv0WV1c1
+	 VnSdyrjZW1T7JnIrNFbHUTB5G0y2F7yNJ7aKsb2ZXNUPpTdBj7EAlKl0htLsJDFAU0
+	 GwPSMja/JtXpY9i9oMZ1zVIV10/ZlPAajmqJjQDUDjAhADIX3yaC33ZI9nceLo+jVL
+	 nntEU+f/qQxM5Cqc+RfMImzf9pBGn9CnD6PB9Mfk8jOBpiv3i5NqevVbA17WMV+SOd
+	 Cvqc70uXuktPA==
 From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 02 Nov 2026 16:07:20 +0100
-Subject: [PATCH RFC 10/27] genirq/proc: let procfs copy in the affinity
- masks
+Date: Mon, 02 Nov 2026 16:07:22 +0100
+Subject: [PATCH RFC 12/27] locking/lockdep: let procfs own the seq_file of
+ /proc/lock_stat
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -55,7 +55,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261102-work-procfs-fs-v1-10-d09a996317b3@kernel.org>
+Message-Id: <20261102-work-procfs-fs-v1-12-d09a996317b3@kernel.org>
 References: <20261102-work-procfs-fs-v1-0-d09a996317b3@kernel.org>
 In-Reply-To: <20261102-work-procfs-fs-v1-0-d09a996317b3@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -91,124 +91,105 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
  "Christian Brauner (Amutable)" <brauner@kernel.org>, 
  Chuck Lever <cel@kernel.org>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3770; i=brauner@kernel.org;
- h=from:subject:message-id; bh=WZPzG5+ElQbjbcTuZJJKbql/hLS5VpybW+Y2WsbSVy8=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS9WG6Uyh8z/eu1hrs32SIFLvZ8+rqj2fax/9rr51N3L
- TzROveFV0cpC4MYF4OsmCKLQ7tJuNxynorNRpkaMHNYmUCGMHBxCsBE5soyMtz79dy2qTFnUlGi
- 7Rv7nTPlZCfr1j9uiJscE3tp0bIdbPYM/10MrwvWc26+27EhfVkc7w0pUx3fZeee9Fxveua24pn
- WK1YA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2606; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=wBxYZkbuLq2vx9tHnE9HzeQESu+Hnu4x6fVoBaGOq2s=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS9WG4U7TXpwSSf2Lct89uWhW6YtPjWvccbVb/PU9T+v
+ vr4N3Ez/Y5SFgYxLgZZMUUWh3aTcLnlPBWbjTI1YOawMoEMYeDiFICJeLkzMrw79v+ffdeGm4Jz
+ BNPPLvqwVv2j7OqCSNWSaz/OrW1U/T6D4X/epKx5u14mSBWsvqm6pl/ZYFGsw6souyT3eiYxK2W
+ lbj4A
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Implement ->proc_write_buf() for smp_affinity, smp_affinity_list and
-default_smp_affinity so procfs copies in what is written before it pins
-the entry, and parse the masks from that copy. A list of CPUs can be
-longer than a page on large machines, so the files take as much as
-memdup_user_nul() could copy in before. Anything larger fails with
--EINVAL instead of -ENOMEM.
+Declare the seq_operations and let procfs open and free the seq_file.
+->proc_open() only takes the snapshot of the statistics now and
+->proc_release() frees it.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- kernel/irq/proc.c | 27 +++++++++++++++++----------
- 1 file changed, 17 insertions(+), 10 deletions(-)
+ kernel/locking/lockdep_proc.c | 48 +++++++++++++++++++------------------------
+ 1 file changed, 21 insertions(+), 27 deletions(-)
 
-diff --git a/kernel/irq/proc.c b/kernel/irq/proc.c
-index aa3d5544cfc1..fe683457a088 100644
---- a/kernel/irq/proc.c
-+++ b/kernel/irq/proc.c
-@@ -9,6 +9,7 @@
- #include <linux/gfp.h>
- #include <linux/proc_fs.h>
- #include <linux/seq_file.h>
-+#include <linux/slab.h>
- #include <linux/interrupt.h>
- #include <linux/kernel.h>
- #include <linux/kernel_stat.h>
-@@ -134,8 +135,11 @@ static inline int irq_select_affinity_usr(unsigned int irq)
- }
- #endif
+diff --git a/kernel/locking/lockdep_proc.c b/kernel/locking/lockdep_proc.c
+index 1916db9aa46b..9b034b5b94bd 100644
+--- a/kernel/locking/lockdep_proc.c
++++ b/kernel/locking/lockdep_proc.c
+@@ -638,40 +638,35 @@ static const struct seq_operations lockstat_ops = {
+ 	.show	= ls_show,
+ };
  
-+/* lists of CPUs can outgrow a page, take what memdup_user_nul() took */
-+#define IRQ_AFFINITY_WRITE_SIZE	(KMALLOC_MAX_SIZE - 1)
-+
- static ssize_t write_irq_affinity(int type, struct file *file,
--		const char __user *buffer, size_t count, loff_t *pos)
-+		char *buffer, size_t count, loff_t *pos)
++/* procfs opens the seq_file */
+ static int lock_stat_open(struct inode *inode, struct file *file)
  {
- 	unsigned int irq = (int)(long)pde_data(file_inode(file));
- 	cpumask_var_t new_value;
-@@ -148,9 +152,9 @@ static ssize_t write_irq_affinity(int type, struct file *file,
+-	int res;
+-	struct lock_class *class;
+ 	struct lock_stat_seq *data = vmalloc(sizeof(struct lock_stat_seq));
++	struct lock_stat_data *iter;
++	struct seq_file *m = file->private_data;
++	struct lock_class *class;
++	unsigned long idx;
+ 
+ 	if (!data)
  		return -ENOMEM;
  
- 	if (type)
--		err = cpumask_parselist_user(buffer, count, new_value);
-+		err = cpulist_parse(buffer, new_value);
- 	else
--		err = cpumask_parse_user(buffer, count, new_value);
-+		err = cpumask_parse(buffer, new_value);
- 	if (err)
- 		goto free_cpumask;
+-	res = seq_open(file, &lockstat_ops);
+-	if (!res) {
+-		struct lock_stat_data *iter = data->stats;
+-		struct seq_file *m = file->private_data;
+-		unsigned long idx;
+-
+-		iterate_lock_classes(idx, class) {
+-			if (!test_bit(idx, lock_classes_in_use))
+-				continue;
+-			iter->class = class;
+-			lock_stats(class, &iter->stats);
+-			iter++;
+-		}
+-
+-		data->iter_end = iter;
++	iter = data->stats;
++	iterate_lock_classes(idx, class) {
++		if (!test_bit(idx, lock_classes_in_use))
++			continue;
++		iter->class = class;
++		lock_stats(class, &iter->stats);
++		iter++;
++	}
  
-@@ -177,25 +181,27 @@ free_cpumask:
+-		sort(data->stats, data->iter_end - data->stats,
+-				sizeof(struct lock_stat_data),
+-				lock_stat_cmp, NULL);
++	data->iter_end = iter;
+ 
+-		m->private = data;
+-	} else
+-		vfree(data);
++	sort(data->stats, data->iter_end - data->stats,
++			sizeof(struct lock_stat_data),
++			lock_stat_cmp, NULL);
+ 
+-	return res;
++	m->private = data;
++	return 0;
  }
  
- static ssize_t irq_affinity_proc_write(struct file *file,
--		const char __user *buffer, size_t count, loff_t *pos)
-+		char *buffer, size_t count, loff_t *pos)
- {
- 	return write_irq_affinity(0, file, buffer, count, pos);
+ static ssize_t lock_stat_write(struct file *file, const char __user *buf,
+@@ -702,14 +697,13 @@ static int lock_stat_release(struct inode *inode, struct file *file)
+ 	struct seq_file *seq = file->private_data;
+ 
+ 	vfree(seq->private);
+-	return seq_release(inode, file);
++	return 0;
  }
  
- static ssize_t irq_affinity_list_proc_write(struct file *file,
--		const char __user *buffer, size_t count, loff_t *pos)
-+		char *buffer, size_t count, loff_t *pos)
- {
- 	return write_irq_affinity(1, file, buffer, count, pos);
- }
- 
- static const struct proc_ops irq_affinity_proc_ops = {
- 	.proc_show	= irq_affinity_proc_show,
--	.proc_write	= irq_affinity_proc_write,
-+	.proc_write_buf	= irq_affinity_proc_write,
-+	.proc_write_size = IRQ_AFFINITY_WRITE_SIZE,
+ static const struct proc_ops lock_stat_proc_ops = {
++	.proc_seq_ops	= &lockstat_ops,
+ 	.proc_open	= lock_stat_open,
+ 	.proc_write	= lock_stat_write,
+-	.proc_read	= seq_read,
+-	.proc_lseek	= seq_lseek,
+ 	.proc_release	= lock_stat_release,
  };
- 
- static const struct proc_ops irq_affinity_list_proc_ops = {
- 	.proc_show	= irq_affinity_list_proc_show,
--	.proc_write	= irq_affinity_list_proc_write,
-+	.proc_write_buf	= irq_affinity_list_proc_write,
-+	.proc_write_size = IRQ_AFFINITY_WRITE_SIZE,
- };
- 
- #ifdef CONFIG_GENERIC_IRQ_EFFECTIVE_AFF_MASK
-@@ -217,7 +223,7 @@ static int default_affinity_show(struct seq_file *m, void *v)
- }
- 
- static ssize_t default_affinity_write(struct file *file,
--		const char __user *buffer, size_t count, loff_t *ppos)
-+		char *buffer, size_t count, loff_t *ppos)
- {
- 	cpumask_var_t new_value;
- 	int err;
-@@ -225,7 +231,7 @@ static ssize_t default_affinity_write(struct file *file,
- 	if (!zalloc_cpumask_var(&new_value, GFP_KERNEL))
- 		return -ENOMEM;
- 
--	err = cpumask_parse_user(buffer, count, new_value);
-+	err = cpumask_parse(buffer, new_value);
- 	if (err)
- 		goto out;
- 
-@@ -249,7 +255,8 @@ out:
- 
- static const struct proc_ops default_affinity_proc_ops = {
- 	.proc_show	= default_affinity_show,
--	.proc_write	= default_affinity_write,
-+	.proc_write_buf	= default_affinity_write,
-+	.proc_write_size = IRQ_AFFINITY_WRITE_SIZE,
- };
- 
- static int irq_node_proc_show(struct seq_file *m, void *v)
+ #endif /* CONFIG_LOCK_STAT */
 
 -- 
 2.53.0
