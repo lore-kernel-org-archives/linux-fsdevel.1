@@ -1,100 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.181
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.169
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793657831;
-	b=u08jGIW4yvvXA8aUB+AusvDRgZHFTUuyRQhQlo5XO1as/DIVU3hhcbBQ8TfhL0oBAWWW
-	 7aJK3TtDhuJZKuQO9piPyZruefDW/S7IscVmK7QIGCGB/ZHEZ3ucSX9UxQALaIwSG70wL
-	 Ro72tgPr6DcDganCLZvG7+q3YEm7YN1AJnd4VPk1p6ZSVk8ZlrQmo9dYedrcolaYi7JjX
-	 3mupWDDmekUOtIo76R1QzfHeQswW4sv37QZm7HlhS3j8y3cEa9jLUZ3Jba9YgR7aINmAL
-	 3Obm4OpwDlw//AGw0zXzqTdpW4ON9XWhb7s9PQs9z0JXFkgnp/hhaSe0Jp4xu2Jy5cQ==
+	t=1793658266;
+	b=eY01NBMN9cls7KNdmwBBhQ/rVPIUmDzokCTkCq+0HHJTmd82/VS8wwRcOWfkfRBuQ4yQ
+	 F4drJ+RQ9R5ns41O7TfwfNN71iQ+dUGqo40pi+sA5nfZFfOm/OVBxqQbKoBJ+o3fzgXSt
+	 fOvWF/V7Jhzw16ORYVGDpDW57TjKIDcYduj14w8xwjN2d0qrOaLadFDoURCh25BbobmGv
+	 rqYyDYQizP0i6R8lLIj+GVx37NkY4KKVZF+gsahewkN5oB/0FfcNl8tQzgB2dWFKdOlvX
+	 nnqQjyd1GaAJ23faVemb+qFXP1pdCpy/P76/MBlVMUzGWofRX+VKsw2pCjbw5KryCAQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793657831;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793658266;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:Autocrypt:
 	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
-	bh=XtEgL/miWZ1olP8ce54kEQWLV8a3bUZ6w45Zvf1BpeQ=;
-	b=WMts4/zpsaNdobXxqyiVzSsf+VZ+gjub9SNLZWfBt2vc1hptmAgIdt2rOiCW9Mee1dYZ
-	 Xv7H+UCdtz3icZhKw8HGSFmLSDB7SHDPbaDSDyDP/EHMHZmZV4/edbmiaWaMSgJ2iPoCL
-	 1wgUn1/HSAxJQnkhggGp0Z/ckSe4qef4S6ve5FHlGRu68u3w/tUK5TNOi5/Cf5UggRd84
-	 MDKWdgmH4whVTJZVVy8bnPV5NPKEnK3789KxdM6y9GcmBH7jMsA43APV/iCstlPvnFCxx
-	 GmNAxFRj2n6aUDwMzoecoST5Wz7Qvgj2X5Z+btYP6P/Kal5MVV7h6Vklytm2BsJ5U6Q==
+	bh=UovCA83FNsPuBSnfAJd4uLUjnukL3oT2mIC2wyc1NfU=;
+	b=Q+YNA9LxivD63BkW64riRhkrdka5JKKioud9Qw+W0fY5alQqN7fbhca5abD7A40yKGSB
+	 /nZN/w2B4kwvUoDaguhRGQTrE7jJob/gCfEtzSvVNDznFxJZKPYmEw7j9VT2VPqEiajAL
+	 ydSD/+NLJm2p92ded+Xmjc96s7M5qjNc6SsNYQKxO7t0+g+YEt3gYv/ekJL9g9qXTH3F6
+	 NEisWUShTFnsWkpY/BGB9nM37EAF134oYI2jp7KeFZqPkgajYOZGTTdxvrr4Gv91Keeem
+	 RgV2o3MjIiOUDgHq+8vlFbsBEt8WDLyTT7Ox48JlUs3Ivsz9M9YmAAStYxIVVF1gGEQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=dubeyko.com;
 	spf=pass smtp.mailfrom=dubeyko.com;
-	dkim=pass header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=NdG+pad6;
-	arc=none smtp.remote-ip=209.85.128.181
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+	dkim=pass header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=Q3+J7aud;
+	arc=none smtp.remote-ip=209.85.128.169
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48457606A327
-	for <linux-fsdevel@vger.kernel.org>; Mon,  2 Nov 2026 22:17:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 48457606A327
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C519A606A326
+	for <linux-fsdevel@vger.kernel.org>; Mon,  2 Nov 2026 22:24:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C519A606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=NdG+pad6
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-8b118bea471so19270207b3.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 02 Nov 2026 14:17:11 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=Q3+J7aud
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-8b0d91601bdso894837b3.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 02 Nov 2026 14:24:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20260707.gappssmtp.com; s=20260707; t=1793657830; x=1794262630; darn=vger.kernel.org;
+        d=dubeyko-com.20260707.gappssmtp.com; s=20260707; t=1793658265; x=1794263065; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
          :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=XtEgL/miWZ1olP8ce54kEQWLV8a3bUZ6w45Zvf1BpeQ=;
-        b=NdG+pad6BzfnpbF0AvbKdGy3MzplOcjK4Kc4VHsC4UFViZJ9M/affo2ysF6qlPqYo+
-         7+/XPZ2jEPS7pXzc4SpvFfwKvgdUbxXPTStELuV41bA7RjoDgR3lLgYvk6gbYPY5t5Gx
-         1Y2MDTigATKftmNP+PIF+Zds0zd9rRB/9EywpzBdEbVhCJRLZXpNjg5444SfdpYkgoj0
-         pX2KTgCQbSYNGIaLk5oRu93Jc/kbWoYHH4lQMFJ8zak4N4QzWZOZNizJStyY0xL6whkB
-         X8Z7JRYwQZ/U0ADErcDEg6A0cuW5CDi86AC7OtBJOhpTJ17jnh3m4bhkWECkox/Xsovy
-         l00g==
+        bh=UovCA83FNsPuBSnfAJd4uLUjnukL3oT2mIC2wyc1NfU=;
+        b=Q3+J7audqHGERTCoLWp73gLhy/VhNKpid7iSdpb1t2D1mF9aigw4KjOj4TaPv+hgeB
+         1ubVS6ejmoV103JciLCg5KksBaF510SmLhkxcepRbJHz9gv7sAvwEL+LC2O+6ggCKyTo
+         uPYh7gu9bAoTdIAfpCazhuZcWb+XDQN79gA9cxDDqP0dBhtw5fc5ADlbpdkkpoo2ahoj
+         1W6/JugBLkzvQ9MsVTFvLlBtFta28rwdjOlpAlxrmafqTKvlUX9EvrYE4kmSvW2GzFLL
+         GaCDPzOUqtGuYBBML/v2kJD5KWpLF0sea2cccxvLYH1BeiupWraZlK2nhx1jE6akh5Hy
+         ipug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793657830; x=1794262630;
+        d=1e100.net; s=20260707; t=1793658265; x=1794263065;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=XtEgL/miWZ1olP8ce54kEQWLV8a3bUZ6w45Zvf1BpeQ=;
-        b=w3iJYKrH0XGfDzku8wqYgFeer8aJmUIwwohpHjz4ENTwLFKpsGiukovIJlZUpfew80
-         QejC4+RdbjXq9vwmKPgbTBaoCUPxF7b2MR3zaQvX+kP4qJHMIqLtle5Hqbj7ZNcqK6v/
-         HlZDvf+TTZKxBnD2ZlfhfUEtkbEwqGekJPex4uqX2z/UcQ9obgjQDGurqxPPIoJp9KLH
-         cUtLInosxDA9TPOr/4kh4fRguYp2mXGYA/mVP0izA+O42BSAPBRkpVm1gAtrhXaOfEFB
-         eKH4IbbrwZWStJbxCn2XeGNLq5MKFMtQ8R1ZERIGIKGTomnpf9Mb31Rs6+IjiAySSjPz
-         Aiww==
-X-Forwarded-Encrypted: i=1; AKwUvBxGysmGGzpHojIaxilrmwpfmpF89uA7V0bIpPDRgllBzR3Ht6vUBw6JIdpqYC2y0h5m5vII7nMBSdnT2fOL@vger.kernel.org
-X-Gm-Message-State: APuU4Z9mCEvK3E/ydoovB+vkTAZ2iSB03uo+YhV5x3MM6yK1B9ZfOpUI
-	haKTGloi1wURpDQAEIJYyTWoGa6CREQJJkPxwaYkNzX6MdM7jR+QN42TbtfuEOmwamI=
-X-Gm-Gg: AYBFou39nmuRQOxvwrpeHPH6L+3w2aNe7F3fngh6uwF3+MCwa7buMNAoVQkQH/oX7vJ
-	wnj1E8XrZqN+FvAOOoyRoiE9qCm7BKsLJ56jtQyDqO6GOi+poDzl3JBHv4bOd4GGd5D/APWei4z
-	cMTGYhJpr/SC54xXYEcs0kXLfVl1GZbG3YGWT69WKTyf7a27ih2w3tes6MpLKCYaFUy3BMfpmp4
-	FM6+9opBJOGKKeTUNLM5POYuiqec6xkd/egkTq8cclNdvSlw0mKLeeaAsb50p7mAge6XQuXKfNT
-	h/IfaxDgpCTQeiiEHMq5uX5t20ZLlDovrYBf4hzrO03rzjteYVtmBm9Wqf9/36E/iJi3ftUnH7Q
-	351BMCdl6U8d2K6OH207TLmc4uTF8L3H0K+kEj7M7w/XrnBLtXgRrwgZCbslSCt4eMl0Kl+omkS
-	pcxWG+YXSBzzTuen0Lsn0XmNzWeBnkGu+jR/q1n2OvQsmGpoYjg9/WcmA86CUYHYsb/uFWErWxs
-	+SCOuMNeZyeMoGiPEHoLpVNGTM1s1W1CPkVqiAEks16t0HTM5A98iyln3forunrgbKX5BEiza+1
-	266rqv5K95ElZWE0NztBR1ChUFJ5Ki7oqVfFwvq6BIQPB5Wx/XKkiOhwikuSkOma7/fkHjFqWP2
-	d0ZqUNyzc23zdaReen+vrSOlXN9MDnS4sZxXVgXReQBL07Y/a0UAEr6OnhhCJpWTWWfgg1HxbeW
-	OiAc2GbAWB6yoxzgJ+
-X-Received: by 2002:a05:690c:82:b0:8ac:c329:67e6 with SMTP id 00721157ae682-8b2b66d063amr89870697b3.16.1793657830162;
-        Mon, 02 Nov 2026 14:17:10 -0800 (PST)
+        bh=UovCA83FNsPuBSnfAJd4uLUjnukL3oT2mIC2wyc1NfU=;
+        b=uXT/L964rlRSx/38VWpEOOxpryzWVC4ZfL4dF31oLewnpi7DCoHc1Chh4EgCHMrV0s
+         ccpIrvsBNsisadWz7hRl3YuKqPUsGWXHn6Ns5sE3+6mMuxV8rt8yI4NbQ/+HOlqPPznS
+         v7LiZkM4aZmvXLMuV9GiyZ/AymbPpInm9eN+uQIfbcVGR/Q/XGX+xnyqD0Lj0+K21rdZ
+         IfMgKBBdxc+wN/KEm01rKh83f7DgXu0Tcw1e1CqWnuLD5j/VIN+HlbgTthZJXpWF37dr
+         Ekg1znlWD6xaG5nZUA0RczOS7L9TTRGEhapy8PSyYsgLydjKMA/lSinHASLX/4hKoerM
+         flJA==
+X-Forwarded-Encrypted: i=1; AKwUvByBVt5m+Jm8KUJYkSpPmc+EODpCJSt3Xb2XfcMlThI6HGCXAR5gYrWO6/+OdkDY4LKv2MPxFrs1k0Jz4c6x@vger.kernel.org
+X-Gm-Message-State: APuU4Z9kZuMkvVlls2k0E5w3kH1R7AO37drDeVa0tCbBnLMW9oB9Uh0M
+	WEQArTGW3biAlXuFh0nh4WiyrmE91dMvJnyEoGSJJ7PW0t5UuBiXw2fUUzC9kXrjfSc=
+X-Gm-Gg: AYBFou3tycMTzD3O7T1Wb4ZaBamXbKTsQa8GZZOHfHzHw995jBfbZ6fXjgqqHPBHs4X
+	84Q9ez3PMgW5M8eP3E2CPpNnUu8tE0HUcZ3YB+5sNXVT/rxagab4eekjk3BliU4+8gqxIL87HLI
+	p0ldiEClt479XCwqcE3p/eZxahqDsRB80Ypsivjo3nZ2bFnNRPBdcpVdkWrwd4ojEoC3MZVgjQn
+	bjSeELhtRpY/wdswNMG71lPCUTtdoA6L0BLR4X/kxFFgFCgfsWdvu6UQhuuiEoX1dJmacDrJTUA
+	UkMU3ZI1aLfKQF6W9ZaNnr7ucC3C0PxCUWRVCGzZAGbxDlZi7xatXUXhMArzZXJlfViLG7PElXu
+	ENzdVjKgXc1sJqay5AGVrTUn770Z9vfwDUcZey4qN2BGzMOP0W3BlztQyTyYJ8jlBH6VCoqoCow
+	Fcx1C3U1H0uLO5q9vXiscHZDinITkfI4pPPS/FwiP3BrNo3aXJts/OyQrDuV/YbdxC7Yz78F9Or
+	CUaWrTCkyGjVRf72G3ipBiDP5tDN+LezuOFwDycNH96M0lpXc7Y4rICs7vaowH1khmEvSKGjaYv
+	uAfcPj4aP4eJbUpiIRVK5M//lE+EvOd3PxjB/ceVC81+JUSAcBHmge3zSmD65K6dfgxeYSYlCzV
+	kEOrZ+sRjI3Ikg77ccoq06TPtQHuhUHrNHOO+53zDnK4SNP1Sg8qZfJHWxs+Lb1P1K20IdolF01
+	r5FxteJ1j/SmWsWUQS
+X-Received: by 2002:a05:690c:113:b0:8b1:567c:e7d3 with SMTP id 00721157ae682-8b2b66cc93amr82163457b3.7.1793658264800;
+        Mon, 02 Nov 2026 14:24:24 -0800 (PST)
 Received: from ?IPv6:2600:1700:6476:1430:2f9f:a96f:bcb:6021? ([2600:1700:6476:1430:2f9f:a96f:bcb:6021])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b2b714bd40sm60952257b3.16.2026.11.02.14.17.08
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b2b714bdafsm60869707b3.19.2026.11.02.14.24.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2026 14:17:09 -0800 (PST)
-Message-ID: <92845c60aca5dc2209a43d309b7bb9fa66aa044e.camel@dubeyko.com>
-Subject: Re: [PATCH] hfsplus: free failed b-tree nodes in hfs_bnode_put()
+        Mon, 02 Nov 2026 14:24:24 -0800 (PST)
+Message-ID: <bf9e6dd5ba33b10187d6db47b0a361e34a0d04d6.camel@dubeyko.com>
+Subject: Re: [PATCH 0/2] hfs: fall back to buffered I/O for direct writes
+ past phys_size
 From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: Song jeonghak <thdwjdgkr123@gmail.com>, Markus Elfring
-	 <Markus.Elfring@web.de>, John Paul Adrian Glaubitz
-	 <glaubitz@physik.fu-berlin.de>, Yangtao Li <frank.li@vivo.com>, 
-	linux-fsdevel@vger.kernel.org
-Cc: LKML <linux-kernel@vger.kernel.org>, Edward Adam Davis <eadavis@qq.com>,
-  Shardul Bankar <shardul.b@mpiricsoftware.com>,
- syzbot+98547b0428b6a6a3467c@syzkaller.appspotmail.com
-Date: Mon, 02 Nov 2026 14:17:07 -0800
-In-Reply-To: <20261101162949.147400-1-thdwjdgkr123@gmail.com>
-References: <773c7445-8d4b-4d94-a995-297ecee9c879@web.de>
-	 <20261101162949.147400-1-thdwjdgkr123@gmail.com>
+To: Hengyu Liang <hengyul@cs.unc.edu>
+Cc: glaubitz@physik.fu-berlin.de, frank.li@vivo.com, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Mon, 02 Nov 2026 14:24:23 -0800
+In-Reply-To: <20261030042903.4160506-1-hengyul@cs.unc.edu>
+References: <20261030042903.4160506-1-hengyul@cs.unc.edu>
 Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
  keydata=mQINBGgaTLYBEADaJc/WqWTeunGetXyyGJ5Za7b23M/ozuDCWCp+yWUa2GqQKH40dxRIR
  zshgOmAue7t9RQJU9lxZ4ZHWbi1Hzz85+0omefEdAKFmxTO6+CYV0g/sapU0wPJws3sC2Pbda9/eJ
@@ -152,80 +148,59 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 
-On Mon, 2026-11-02 at 01:29 +0900, Song jeonghak wrote:
-> Hi Markus,
+On Fri, 2026-10-30 at 00:29 -0400, Hengyu Liang wrote:
+> Hi Slava,
 >=20
-> (Resending as plain text; my previous reply was rejected by the lists
-> because it contained an HTML part. Sorry for the duplicate.)
+> As discussed in the setattr thread [1], a direct write that ends past
+> phys_size loses data at the last close, because hfs_file_truncate()
+> zeroes the file from phys_size up to i_size. Patch 1 makes such
+> writes
+> fall back to buffered I/O, as FAT does. Patch 2 is the
+> hfs_file_truncate() cleanup you suggested.
 >=20
-> > How do you think about to avoid a bit of duplicate source code?
+> The series applies on top of "hfs: report errors when extending files
+> with setattr" v2 [2], which patch 2 needs. The HFS+ fix is sent
+> separately.
 >=20
-> Thanks for looking at the patch. The two branches share the
-> unhash/unlock/free steps, but they handle different situations:
+> Tested in KVM with KASAN, all 805 fstests on HFS with that v2
+> applied:
+> 26 failures without the series, 14 with patch 1 and 15 with both, no
+> new failures. The extra one, generic/589, fails on and off on all
+> three
+> kernels with "invalid MDB drNxtCNID", the next CNID issue from the
+> CNID
+> thread.
 >=20
-> =C2=A0- HFS_BNODE_DELETED is only set by hfs_bnode_unlink(), when the nod=
-e
-> =C2=A0=C2=A0 is removed from the tree. Its slot becomes unused, so
-> =C2=A0=C2=A0 hfs_bnode_put() also clears its bit in the allocation map
-> =C2=A0=C2=A0 (hfs_bmap_free()) and, if HFSPLUS_VOL_UNUSED_NODE_FIX is set=
-,
-> =C2=A0=C2=A0 zeroes it (hfs_bnode_clear()).
+> [1]
+> https://lore.kernel.org/linux-fsdevel/161fab786f919adb384fbf22dc19f3289bf=
+5f24d.camel@dubeyko.com/
+> [2]
+> https://lore.kernel.org/linux-fsdevel/20261021145627.288953-1-hengyul@cs.=
+unc.edu/
 >=20
-> =C2=A0- HFS_BNODE_ERROR means the node failed to load. It is still part o=
-f
-> =C2=A0=C2=A0 the on-disk tree; only the in-memory copy is dropped. Its ma=
-p bit
-> =C2=A0=C2=A0 must stay set, otherwise the allocator could hand out a node=
- that
-> =C2=A0=C2=A0 is still linked, and its on-disk contents should not be
-> =C2=A0=C2=A0 overwritten. In my reproduction the failing node is the head=
-er
-> =C2=A0=C2=A0 node (node 0), which must always stay allocated. From readin=
-g the
-> =C2=A0=C2=A0 code, hfs_bmap_free() would hit its BUG_ON(!node->this) for =
-it;
-> =C2=A0=C2=A0 I have not run that.
+> Hengyu Liang (2):
+> =C2=A0 hfs: fall back to buffered I/O for direct writes past phys_size
+> =C2=A0 hfs: remove the dead grow path from hfs_file_truncate()
 >=20
-> I looked at how other put functions that take the lock with
-> atomic_dec_and_lock()/refcount_dec_and_lock() deal with this, and
-> both forms are used. ceph_put_snap_realm() in fs/ceph/snap.c repeats
-> the unlock in each branch, while fsnotify_put_mark() in
-> fs/notify/mark.c records the difference in a flag and does the common
-> part once. Following the second style, the two branches could become:
->=20
-> 		bool deleted =3D test_bit(HFS_BNODE_DELETED, &node-
-> >flags);
->=20
-> 		if (deleted || test_bit(HFS_BNODE_ERROR, &node-
-> >flags)) {
-> 			hfs_bnode_unhash(node);
-> 			spin_unlock(&tree->hash_lock);
-> 			if (deleted) {
-> 				if (hfs_bnode_need_zeroout(tree))
-> 					hfs_bnode_clear(node, 0,
-> tree->node_size);
-> 				hfs_bmap_free(node);
-> 			}
-> 			hfs_bnode_free(node);
-> 			return;
-> 		}
-> 		spin_unlock(&tree->hash_lock);
->=20
-> I am fine with either form and will use whichever the maintainers
-> prefer in v2.
->=20
-> While looking into this I found a mistake in my changelog. It says a
-> failed node "has no b-tree map bit to release and no contents to zero
-> out". That is wrong: the bit is set and the contents are on disk.
-> They
-> are left alone on purpose, as described above. I will correct this in
-> v2.
+> =C2=A0fs/hfs/extent.c | 18 ++----------------
+> =C2=A0fs/hfs/inode.c=C2=A0 | 10 ++++++++++
+> =C2=A02 files changed, 12 insertions(+), 16 deletions(-)
 >=20
 >=20
+> base-commit: a804c5742bff224d4cb4d25dd383554d598be32b
+> prerequisite-patch-id: 737ea6125c4a7fa08a4deb38cf33d27fb791a812
 
-Somehow I cannot find the patch in my email client. Please, double
-check that you send the patch in plain text and, please, ping me if I
-don't answer on v2 of the patch.
+The main plan is to rework as HFS+ as HFS code to remove the
+hfsplus_direct_IO(), hfs_direct_IO(). I am already working in HFS+ code
+[1]. If you like I can suggest to you to do the same on HFS side. But,
+unfortunately, this modification will be completely wiped out in the
+future. Would you like to take the task of reworking HFS code by
+removing hfs_direct_IO()? You can follow by HFS+ pattern (if it works).
 
 Thanks,
 Slava.
+
+[1]
+https://lore.kernel.org/linux-fsdevel/20260914233941.2966421-1-slava@dubeyk=
+o.com/
+
