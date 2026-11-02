@@ -1,104 +1,105 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.177
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.169
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793663400;
-	b=QQysk/M52d5qoOt8Z0+ybNHCe6HXvE4oTVa21QkR2pZUthjwIiGBAL3I/9dYSQyxo3dS
-	 wPU1r1I5B78Z9u7viOMEFyBdv/sVbmHfJ1UdB9CI0Ndjt8MRDEBlUSV6e0ibqeENYeCsY
-	 EPmajTJxOlerKV03bsVGo0ksbsaxkbj9Qr10thy6znmL6aYJWFFCxqdK6LJNqAf9wNGmy
-	 +fGcedx8iwL5/yMkZlSemlskX1DG5grOj8yiJ4DxhkeP2UFoM+tV7/isfmoSsJo/GQIe8
-	 9fIDw7UHQRDjwhzg7vN0jY5ToNJdWoss4tB6ZIW+zCtRVIFBMMg7AMgz/Of3liBaMhQ==
+	t=1793663948;
+	b=mZ1fBBMrqA1TOcOCR6bPC7MNNz+ek5cfa+dnWTuE93BlVGs/R6Bo4F1WA0KqkLiSGRAi
+	 9q225oolvoIihcoNzKbiLT2i0skqyBnvrmTTVfMNbhYpfyGa5/04LhAtbOqdR06fDbIzz
+	 mEkxfXH+eGnpmdzA6NKoeliS+eXkSfwDFGdxtVO+UaDYvT+LmNM2cpSGxylbDheYpov9j
+	 dhLh0XnoW7ZFVXBCk1p1xEtRgGXqqO3PnDUbGP/IZF7PMkJIPxqhTPNh6Jy/OMYacfpc0
+	 mQy16lDDnjp7rOpj2j2p7YKwBS7eEb4aPhOy6mF6ELWT9YN22NpYjLylY0+DEMee5zg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793663400;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793663948;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:Autocrypt:
 	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
-	bh=IXU9CQOa1FKGKiuXsLy+IjbxJFQKGgpmyBaeXrYbXeI=;
-	b=PPFGELB9ZYJOwitmQSMigCTk/FS+sE6lLr5lg1g3FXpxB9dMWmVQilILzlGCypHLN5sv
-	 bhpadN2SIfpP6SY2t3GMDwD0yDFrE6K1K2Bk+H0tjbbhtb4VTW+xvfjXCXaAEAGSyxbkW
-	 FN2CDET4nG0+DpsN8WkGCvXce4ZQCibJ9rWdjMcmNWosIeBDRUoPQk3Nb/EU0GCxxL/N+
-	 pWMiJ1QJZUmtXWalDzy/7HLqfDliyKBVlDjEfn1vAqo6w2NjkyPehOMSjVYVfpk/+e999
-	 bc6hJcUpqA5QqXl+NP8no5mJKrrGgQN5Yr4B8xTYpyvhWjLL2IJaoxPaqv3CF3Y6+/w==
+	bh=U8GhTlFkdp9GmP8nCC2cAmb44M/QEHf1sfzZYujU5tU=;
+	b=OCf1/UTqPWKkSBB672g7mwiIkooYnCJQ1YUZCW+JK6RMFb3QtIeLGX8J0Sdhz2cZAvfY
+	 p5P5nuEO2OqZ7QPFhHwbVDfqcu4Y1uWvLjv5fLOYtqo8UxUf66J0Mw0CwxQH++03u5xmj
+	 7EFZ7WvyqmwHlYwK8Hu0W4dbPDuJadvsWsX6CZ5agT7Bx3YRf8+EmWGbP2X3pHmDRcrmG
+	 x1Mnpd82MlAmABcvnm1jHu143y23rGuaqtJpc7Q1nxJMHm7juSQtIXbas6eiRgNsHEukm
+	 8OFjR4NG6ZwZ/Ofog0645PGcgQy28ZO4kOHNGD+kxWLTfo+jFAw5ty+MKXNvA5BMBqQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=dubeyko.com;
 	spf=pass smtp.mailfrom=dubeyko.com;
-	dkim=pass header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=hWmE6q5L;
-	arc=none smtp.remote-ip=209.85.128.177
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+	dkim=pass header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=XXm2fPl8;
+	arc=none smtp.remote-ip=209.85.128.169
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 135D1606A331
-	for <linux-fsdevel@vger.kernel.org>; Mon,  2 Nov 2026 23:49:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 135D1606A331
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4B1B606A324
+	for <linux-fsdevel@vger.kernel.org>; Mon,  2 Nov 2026 23:59:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E4B1B606A324
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=hWmE6q5L
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-8ab37e44643so24533547b3.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 02 Nov 2026 15:49:59 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=XXm2fPl8
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-8ac4806e210so30164697b3.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 02 Nov 2026 15:59:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20260707.gappssmtp.com; s=20260707; t=1793663399; x=1794268199; darn=vger.kernel.org;
+        d=dubeyko-com.20260707.gappssmtp.com; s=20260707; t=1793663947; x=1794268747; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
          :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=IXU9CQOa1FKGKiuXsLy+IjbxJFQKGgpmyBaeXrYbXeI=;
-        b=hWmE6q5LeJa+kXUPGLyJalIveKRVbt6EOgIs/OJCYvu7SCDbHy8QQ6dVhLxAHsP48z
-         opztfEnNt6RcPwsbrz09eOKA0FnOf1Dl5NwbNr5fsuXkCZuVRwW78wazMWf+zXiP6wpS
-         SibvkvnjyZ4SkDGgspCzxdgDAb8qymfkneuxwsUxEI/cdNygAbq3PFA/bMxMeZTSgxTt
-         YTo/1An18RyYRD0P8CwCBST98tcBkZXxmNCY1uPi8VJwf4UsZ8mtVJS427/nivqCcFOP
-         0b0xhOcmkHPLsE3wGDimqtRY5Ry1bJz2PJ/rh2r4VqUvSRGPft0+hnJW00TLUBK/P9wP
-         7i+Q==
+        bh=U8GhTlFkdp9GmP8nCC2cAmb44M/QEHf1sfzZYujU5tU=;
+        b=XXm2fPl8B4NTDmc4DDSxB73yibbHFf24PJV/veEA4iXity28WiraqDbYM/4ZVQHSI1
+         qSrWUMBia/OsDivZIBboc+w/eSxngg63QEEudftbQgTwejrMzfxaGHK4l6IhYuzVBCgK
+         Tylx+J4VtvdMfK5cPukm8CCpiIcYwuHaudm9d4bAqqqV2YOFJ322Pv6+NkdUc2cVyeJW
+         bGSCD6/yx0DNZqJ/wCucFhoVh1fFDBvJgz+2NUOX5KCAyRXST4kkVYVcnJLpgj2UXS0s
+         ttsNNBuRuy2wiaAToL//RJRSv4fSL1y+iaZtsZsKHkfimlOXL5rggHnfLQFqOvhKktv1
+         0adw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793663399; x=1794268199;
+        d=1e100.net; s=20260707; t=1793663947; x=1794268747;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=IXU9CQOa1FKGKiuXsLy+IjbxJFQKGgpmyBaeXrYbXeI=;
-        b=ZvF1U1/Cu0kLzvZMxmgCWaV2n1y3q5bM1yud/BkFBEZle/pnsgaE5K/CCcM5wCcWjs
-         4cs+tMi29RMu1WiE1QswJFyzjVdo+6x0oPnU4loCjxJdfiDQPw1fC8R9cI5a7UD5l1D5
-         OEOl2qTk2M4jYBNkFuzADK7Aw5Vb3+dxNMytVP+wV1ortogi0v94FXda9kb5Cq3mrF9T
-         Lnh7S2xCnWxeO2PIvU0Kbo5lGCbGL3nmbrYnJHR69pRmdBU5vzTtnuiJYbkFpwRXUaa4
-         5F3GKcAMS0b+kimUH8/VS6LeiqIjA7psl+/7xi0GBXxNf7T0VDuPGJC2NNJhZMZ+GzTi
-         E82A==
-X-Forwarded-Encrypted: i=1; AKwUvBy/O7n0VmmtUju0foy3EhNUrQ8aVHXKOgs4+w5QyiiNJVr7rM0njs3t8EOGgOmfR2L7eDUdvR8plIKCfVUj@vger.kernel.org
-X-Gm-Message-State: APuU4Z/QmaVD0E63umMJLHjhE9CR38mpakb3HF4N7YWdJmhi9+8rtlUo
-	y2vadRZqojG7pKzq2VAceMefJW98G76iOcCWY/51QnAT4F72dE+w5bSNrmLdHb5Jxrs=
-X-Gm-Gg: AYBFou2ZM7gz2jERqSqANdPVrjDFvFyST4L8tbNkC3TQDQuKND+PC4MhRdmHDiJ7ckh
-	+mkMDRyNy6bIEHHALaNu8A0PSqTEdmVNFdbRB3EPGsm2Zfwv7+7iiSx/befwLLhMQSjczIaJIem
-	tcvQLKoQSvD09xyxDgtBAuwqSHG/VVmHpCX5ZwAyOjzos3w0PiNU4AsqWHUyD19/TcemRym5BUJ
-	wgEJgWO67QuquT+iR1UTI6RQBaTNYOgEC7oOLOga+4GL5dwPsJnS/2+iZK2oYbXBwsz0MpHmrrD
-	RpS5pmnff1rDQHTUyGY5SLyLedCoEVoHVJsbntmcczHjEYcOYppNugoV48pGTt/xfvLvyQXBl/U
-	VEEPYVFOUNgJopE/WB9TNgk9QqvtUz6ux6dep82OwghB1HWdMOyeHOXHCGw3kHan3RsaB60lJvd
-	uoilijspYyLoGIKSQ/e9fv2ME1PZE9gYKlYU3R+LgEs9WtBeU7wQKdNcrsmqXsLpD+uOiZ8X0uV
-	jmyr+/swlqx+DEiyXQby8WyxTsq2U1c2Jj/jspBpziXL5zaenxcmtMXuvj75ODIt6b8HZSxBklU
-	qra6VzYWNEneQNWSgGzid8877pqzNpQktNDX0iw9LiMnld7k7gvzBg27a5HyLpHuCj+ze7ICqu4
-	0aMbhKkJPNVzh7HLs/oTy508ZummZFh63MB/QE4Cy4Z+hDYQ+zwnkJ141aCdkWvcfDSKBkcOOIZ
-	AHnkYP2GrRXhuBYQ9d+pX+J/AxrLFFP98HHI/qrg==
-X-Received: by 2002:a05:690c:6605:b0:8b0:76e5:ed0c with SMTP id 00721157ae682-8b2b66f82dbmr68974937b3.39.1793663398847;
-        Mon, 02 Nov 2026 15:49:58 -0800 (PST)
+        bh=U8GhTlFkdp9GmP8nCC2cAmb44M/QEHf1sfzZYujU5tU=;
+        b=ALmM2AnObArlAevPynIUKoGL5XzHzjevgi/hNak1wEZDQvYZw7OvV2aVkZ8J6/Gl8H
+         N98G7uHv8G8e69zPdsIdEriBql7QhBMvXZoxoodoFa8z2kup/abP42/5Be2Vdw5Baoo6
+         uotghp5y+1SXDQ1BGHtwep8ITH/NJhk/AxSjKRfyFLaJQ6VzwI19SwahFvsONcIwDmhK
+         QyqtDXw/ozzPWDLxGnwdaCFKpv39btxgLVQSvhrMh/QJs7TNmYG6QKhNo4PHz2EMHqcJ
+         oHyfbMcZBDL1RjPJKuhDMc1rsKOKHUv6gUxNWgSB7lc48tKjvg7fjoYZ6cStjB2jS9HB
+         PNcQ==
+X-Forwarded-Encrypted: i=1; AKwUvBypKcR+rIzSGyk79Co4Fy11a4y2p+YxiXOyzxuTzmecfxTXPmeDhPW0DXw2eM59t0zA3KuqLCDcGqjHijE/@vger.kernel.org
+X-Gm-Message-State: APuU4Z9MnOwy3pny293G8wHATI+fnSqAovtoLTSinsb1cVzEic9I4g/2
+	L+lVUFNtbwVc406AuiyJddZef4Q3EAXMCQ5aFQIWnhqxAs8xIRKV04w+co0qXk811ko=
+X-Gm-Gg: AYBFou1AC4TrgLDPqKLRbjlfTiD0yQhyg6scLzvS/EF26xJRue4MJfDB/2X/9OmppVx
+	ESTiUaJ8NLifvfEhcyeuOrTwH0U+PT48Hp9BTJ7M3ZOiZ5RmOLgKyAWZQhE5QGPJ4D7NG2hFsCc
+	9MTIQEh1TvjUbCGART1XxCitiJv+mrnZh7/PrkX7KPY5zrSnw2NW8z/+GN1Q/CRkRnWt+JNKMd7
+	CUru4fPlksiLhtcl4NT9WZjPYMpzUSZ/IfHQkNXXRtpH35og3rua77lPPZvkTbaoHLT1v9y+DFz
+	9kTwbNzXDgDbri0XHdxzMB9ob4kcKEB3c7YXurbo/kSBVftWzrMI6SisEB47Iqbef7Ku5EASWvm
+	m31GKVCW2cxfNiJHnSAxfrNOZLyEbEmPHij9Q5VdQEot0Zz0r4vnqXsP+qw6jCp/xayNbq2TP6R
+	9mgBghwNlpWp6EPanMPb3NTYvahsV+HbpsuSoWdxlNYDUo3/1H1O9N/bfTG422jbaxZensQlI9L
+	uDnZJVUuXuwYO7WB7texkIBnXvXmRZXN+WpXSnclqAhXxXBG/4ngff8WjW/p2SM412YljH6GCKl
+	NyYES2W6nSykFyJBpGDR5siCM05eACN27MDHZT7NIaKTtCnaPAACH6UDKknH9xrrySQs/RYqju9
+	U2TyNdd21PFRvf6ev/Qx98KKR7LWdTEccgLeNGRXBhVQZHUmfyHOW/ac5MpFVsemfWFz9JUBbhM
+	sG88gU3PmSxSReSv2sIuPL4eSd873Eeh0UhAywxg==
+X-Received: by 2002:a05:690c:6d84:b0:8b0:b0d1:fc47 with SMTP id 00721157ae682-8b2b67fb2a4mr72460237b3.60.1793663946905;
+        Mon, 02 Nov 2026 15:59:06 -0800 (PST)
 Received: from ?IPv6:2600:1700:6476:1430:2f9f:a96f:bcb:6021? ([2600:1700:6476:1430:2f9f:a96f:bcb:6021])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67baf3700b8sm6086486d50.23.2026.11.02.15.49.57
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b2b71b70fdsm60981457b3.43.2026.11.02.15.59.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2026 15:49:58 -0800 (PST)
-Message-ID: <ac84b2b863415779536a98a0d0b835e85d2976c7.camel@dubeyko.com>
+        Mon, 02 Nov 2026 15:59:06 -0800 (PST)
+Message-ID: <2c4ec08e9e0afaee01de0a7b3869b4de74172413.camel@dubeyko.com>
 Subject: Re: [PATCH] hfs: avoid reusing occupied CNIDs after deletion
 From: Viacheslav Dubeyko <slava@dubeyko.com>
 To: Hengyu Liang <hengyul@cs.unc.edu>
 Cc: glaubitz@physik.fu-berlin.de, frank.li@vivo.com, 
 	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	stable@vger.kernel.org
-Date: Mon, 02 Nov 2026 15:49:57 -0800
-In-Reply-To: <20261028035919.733823-1-hengyul@cs.unc.edu>
+Date: Mon, 02 Nov 2026 15:59:04 -0800
+In-Reply-To: <ac84b2b863415779536a98a0d0b835e85d2976c7.camel@dubeyko.com>
 References: <20261015110114.1649059-1-hengyul@cs.unc.edu>
-	 <b6f1cb66778d09015ad5862ff273edc37c44ef28.camel@dubeyko.com>
-	 <20261021153141.311425-1-hengyul@cs.unc.edu>
-	 <1797b66dee80c9553748d4a961470894c917bf5f.camel@dubeyko.com>
-	 <20261022120658.1328124-1-hengyul@cs.unc.edu>
-	 <cd6cc32dd2aae90b88b4c3d19e1fb35a5be6f4ac.camel@dubeyko.com>
-	 <20261023173259.3275078-1-hengyul@cs.unc.edu>
-	 <e2ee251e8ad47c6f1e2faf9ed1be787eccf5215c.camel@dubeyko.com>
-	 <20261028035919.733823-1-hengyul@cs.unc.edu>
+		 <b6f1cb66778d09015ad5862ff273edc37c44ef28.camel@dubeyko.com>
+		 <20261021153141.311425-1-hengyul@cs.unc.edu>
+		 <1797b66dee80c9553748d4a961470894c917bf5f.camel@dubeyko.com>
+		 <20261022120658.1328124-1-hengyul@cs.unc.edu>
+		 <cd6cc32dd2aae90b88b4c3d19e1fb35a5be6f4ac.camel@dubeyko.com>
+		 <20261023173259.3275078-1-hengyul@cs.unc.edu>
+		 <e2ee251e8ad47c6f1e2faf9ed1be787eccf5215c.camel@dubeyko.com>
+		 <20261028035919.733823-1-hengyul@cs.unc.edu>
+	 <ac84b2b863415779536a98a0d0b835e85d2976c7.camel@dubeyko.com>
 Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
  keydata=mQINBGgaTLYBEADaJc/WqWTeunGetXyyGJ5Za7b23M/ozuDCWCp+yWUa2GqQKH40dxRIR
  zshgOmAue7t9RQJU9lxZ4ZHWbi1Hzz85+0omefEdAKFmxTO6+CYV0g/sapU0wPJws3sC2Pbda9/eJ
@@ -156,122 +157,150 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 
-On Tue, 2026-10-27 at 23:59 -0400, Hengyu Liang wrote:
-> Hi Slava,
+On Mon, 2026-11-02 at 15:49 -0800, Viacheslav Dubeyko wrote:
+> On Tue, 2026-10-27 at 23:59 -0400, Hengyu Liang wrote:
+> > Hi Slava,
+> >=20
+> > On Mon, 2026-10-26 at 10:20 -0700, Viacheslav Dubeyko wrote:
+> > > I am not suggesting to change the on-disk format. All
+> > > modifications
+> > > should be in-core metadata structures only.
+> >=20
+> > Sorry, I misread that.
+> >=20
+> > > The algorithm only solution will be inefficient and it can hide
+> > > bugs,
+> > > anyway.
+> >=20
+> > The table below is about efficiency. On bugs: in both variants
+> > below,
+> > a lookup or walk error leaves next_id unchanged, so it can only
+> > stay
+> > too high, never fall onto a CNID in use. Which bugs did you have in
+> > mind?
+> >=20
+> > > I am thinking about adding to the struct hfs_bnode (b-tree node)
+> > > a
+> > > special field: u32 max_cnid. [...] What do you think? Does it
+> > > make
+> > > sense for you?
+> >=20
+> > Yes, it makes sense, and it works. I wrote a prototype (max_cnid
+> > rebuilt when a node is read, raised on insert, rescanned on remove
+> > and
+> > after a split) and compared it with the unmount walk I suggested
+> > last
+> > time. Deleting 8000 files in KVM on v7.3 (KASAN):
+> >=20
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unpatched=C2=A0 max_cnid=C2=A0 u=
+nmount walk
+> > =C2=A0=C2=A0=C2=A0 newest first=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 14 s=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 7.0 s=C2=A0=C2=A0=C2=A0=C2=A0 0.4 s
+> > =C2=A0=C2=A0=C2=A0 odd ones, then even ones
+> > =C2=A0=C2=A0=C2=A0 newest first=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 4.1 s=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 3.0 s=C2=A0=C2=A0=C2=A0=C2=A0 0.2 s
+> >=20
+> > Both are correct: no duplicate CNID in any run, including the
+> > threadless case from my last mail.
+> >=20
+> > > If you believe that this approach will not work, please, explain
+> > > your
+> > > vision of solution in details.
+> >=20
+> > The unmount walk, on a delete:
+> > (1) do nothing unless cnid =3D=3D next_id - 1 (your step (1));
+> > (2) if cnid - 1 has a thread, set next_id =3D cnid;
+> > (3) otherwise keep next_id, which is still above all CNIDs in use,
+> > and
+> > =C2=A0=C2=A0=C2=A0 set a flag.
+> > At unmount, if the flag is set, hfs_mdb_close() walks the leaf
+> > nodes
+> > once and writes max + 1 to drNxtCNID. The walk cannot run in
+> > sync_fs:
+> > hfs_new_inode() takes a CNID before the catalog records are
+> > inserted,
+> > so a walk there could miss that CNID and lower next_id onto it.
+> >=20
+> > Your max_cnid
+> > =C2=A0 Pros:
+> > =C2=A0 - next_id was exact after every delete in every run, so drNxtCNI=
+D
+> > =C2=A0=C2=A0=C2=A0 on disk is right even after a crash or remount ro.
+> > =C2=A0 - Nothing to do at unmount.
+> > =C2=A0 Cons:
+> > =C2=A0 - A delete of next_id - 1 still visits every leaf node (about
+> > 3000
+> > =C2=A0=C2=A0=C2=A0 here); the per-node max only saves parsing their rec=
+ords.
+> > =C2=A0=C2=A0=C2=A0 Checking the thread of cnid - 1 first brings the fir=
+st row to
+> > =C2=A0=C2=A0=C2=A0 0.4 s, but not the second.
 >=20
-> On Mon, 2026-10-26 at 10:20 -0700, Viacheslav Dubeyko wrote:
-> > I am not suggesting to change the on-disk format. All modifications
-> > should be in-core metadata structures only.
 >=20
-> Sorry, I misread that.
->=20
-> > The algorithm only solution will be inefficient and it can hide
-> > bugs,
-> > anyway.
->=20
-> The table below is about efficiency. On bugs: in both variants below,
-> a lookup or walk error leaves next_id unchanged, so it can only stay
-> too high, never fall onto a CNID in use. Which bugs did you have in
-> mind?
->=20
-> > I am thinking about adding to the struct hfs_bnode (b-tree node) a
-> > special field: u32 max_cnid. [...] What do you think? Does it make
-> > sense for you?
->=20
-> Yes, it makes sense, and it works. I wrote a prototype (max_cnid
-> rebuilt when a node is read, raised on insert, rescanned on remove
-> and
-> after a split) and compared it with the unmount walk I suggested last
-> time. Deleting 8000 files in KVM on v7.3 (KASAN):
->=20
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unpatched=C2=A0 max_cnid=C2=A0 unmo=
-unt walk
-> =C2=A0=C2=A0=C2=A0 newest first=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 14 s=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 7.0 s=C2=A0=C2=A0=C2=A0=C2=A0 0.4 s
-> =C2=A0=C2=A0=C2=A0 odd ones, then even ones
-> =C2=A0=C2=A0=C2=A0 newest first=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 4.1 s=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 3.0 s=C2=A0=C2=A0=C2=A0=C2=A0 0.2 s
->=20
-> Both are correct: no duplicate CNID in any run, including the
-> threadless case from my last mail.
->=20
-> > If you believe that this approach will not work, please, explain
-> > your
-> > vision of solution in details.
->=20
-> The unmount walk, on a delete:
-> (1) do nothing unless cnid =3D=3D next_id - 1 (your step (1));
-> (2) if cnid - 1 has a thread, set next_id =3D cnid;
-> (3) otherwise keep next_id, which is still above all CNIDs in use,
-> and
-> =C2=A0=C2=A0=C2=A0 set a flag.
-> At unmount, if the flag is set, hfs_mdb_close() walks the leaf nodes
-> once and writes max + 1 to drNxtCNID. The walk cannot run in sync_fs:
-> hfs_new_inode() takes a CNID before the catalog records are inserted,
-> so a walk there could miss that CNID and lower next_id onto it.
->=20
-> Your max_cnid
-> =C2=A0 Pros:
-> =C2=A0 - next_id was exact after every delete in every run, so drNxtCNID
-> =C2=A0=C2=A0=C2=A0 on disk is right even after a crash or remount ro.
-> =C2=A0 - Nothing to do at unmount.
-> =C2=A0 Cons:
-> =C2=A0 - A delete of next_id - 1 still visits every leaf node (about 3000
-> =C2=A0=C2=A0=C2=A0 here); the per-node max only saves parsing their recor=
-ds.
-> =C2=A0=C2=A0=C2=A0 Checking the thread of cnid - 1 first brings the first=
- row to
-> =C2=A0=C2=A0=C2=A0 0.4 s, but not the second.
+> I think we need to reuse the b-tree mechanics here. Let's use the
+> index
+> nodes for the search of biggest CNID. The b-tree has this exact goal
+> to
+> speed-up the search. So, we need to keep the max CNID not only in
+> leaf
+> nodes but in index nodes too. Do you follow my point?
 
-
-I think we need to reuse the b-tree mechanics here. Let's use the index
-nodes for the search of biggest CNID. The b-tree has this exact goal to
-speed-up the search. So, we need to keep the max CNID not only in leaf
-nodes but in index nodes too. Do you follow my point?
-
-> =C2=A0 - max_cnid must stay right on insert, remove, split and node read
-> =C2=A0=C2=A0=C2=A0 (hooks in bnode.c and brec.c). A missed update would l=
-et next_id
-> =C2=A0=C2=A0=C2=A0 fall onto a CNID in use.
-
-We should keep the max_cnid always valid. And b-tree operations can
-guarantee it for us.
-
->=20
-> Unmount walk
-> =C2=A0 Pros:
-> =C2=A0 - A delete never walks the catalog; the one walk at unmount costs
-> =C2=A0=C2=A0=C2=A0 17 ms here (cold cache).
-> =C2=A0 - Only catalog.c and mdb.c change, not the b-tree code.
-
-It's not about small change. It's about correct and efficient solution.
-
-> =C2=A0 Cons:
-> =C2=A0 - next_id is not lowered during a mount: after deleting all 8000
-> =C2=A0=C2=A0=C2=A0 files oldest first, the next file gets CNID 8016, not =
-16.
-> =C2=A0 - After a crash or remount ro the high value stays on disk. In my
-> =C2=A0=C2=A0=C2=A0 8000-file crash test drNxtCNID stayed at 8015 on the e=
-mpty
-> volume,
-> =C2=A0=C2=A0=C2=A0 more than 4096 above the largest CNID, and fsck.hfs -f=
-n asked for
-> =C2=A0=C2=A0=C2=A0 a minor MDB repair.
-
-We cannot leave file system in corrupted state. We should prevent it by
-any cost.
-
->=20
-> Which do you prefer? I can turn either into the next version.
-
-I prefer to elaborate an approach that will be correct solution. I
-think we need to re-use the b-tree mechanics to improve the efficiency
-and to deliver the correct solution.
+Maybe, we need to consider a Red-Black tree here?
 
 Thanks,
 Slava.
 
+>=20
+> > =C2=A0 - max_cnid must stay right on insert, remove, split and node rea=
+d
+> > =C2=A0=C2=A0=C2=A0 (hooks in bnode.c and brec.c). A missed update would=
+ let
+> > next_id
+> > =C2=A0=C2=A0=C2=A0 fall onto a CNID in use.
+>=20
+> We should keep the max_cnid always valid. And b-tree operations can
+> guarantee it for us.
+>=20
+> >=20
+> > Unmount walk
+> > =C2=A0 Pros:
+> > =C2=A0 - A delete never walks the catalog; the one walk at unmount cost=
+s
+> > =C2=A0=C2=A0=C2=A0 17 ms here (cold cache).
+> > =C2=A0 - Only catalog.c and mdb.c change, not the b-tree code.
+>=20
+> It's not about small change. It's about correct and efficient
+> solution.
+>=20
+> > =C2=A0 Cons:
+> > =C2=A0 - next_id is not lowered during a mount: after deleting all 8000
+> > =C2=A0=C2=A0=C2=A0 files oldest first, the next file gets CNID 8016, no=
+t 16.
+> > =C2=A0 - After a crash or remount ro the high value stays on disk. In m=
+y
+> > =C2=A0=C2=A0=C2=A0 8000-file crash test drNxtCNID stayed at 8015 on the=
+ empty
+> > volume,
+> > =C2=A0=C2=A0=C2=A0 more than 4096 above the largest CNID, and fsck.hfs =
+-fn asked
+> > for
+> > =C2=A0=C2=A0=C2=A0 a minor MDB repair.
+>=20
+> We cannot leave file system in corrupted state. We should prevent it
+> by
+> any cost.
+>=20
+> >=20
+> > Which do you prefer? I can turn either into the next version.
+>=20
+> I prefer to elaborate an approach that will be correct solution. I
+> think we need to re-use the b-tree mechanics to improve the
+> efficiency
+> and to deliver the correct solution.
+>=20
+> Thanks,
+> Slava.
