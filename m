@@ -1,51 +1,51 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.39
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.145
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793595486;
-	b=tmuKv0urWvWMibWVqB8wK4c0XpVyPbaySnU03HGTChL3Ub09qH/u8FCBVvsXE4s0UGMV
-	 m9NwuyGUDi5B2KerdKdEfbZ+3+8ZYa54vjN3NcdSPDGywHdjafdXlkT76iy+4W//AXUUB
-	 OFWyxW7e7c5gBVGLoo7KbaXDTLRoCd7MpfDOpzyaQLdOJUFLSmk1sPGOQj0KgiMbX4gqw
-	 1k4OpLSU0KHMmT2b+WEBJRsk/Vsc3e2l87jF1bk6Mqq8jo2H8O+BZtCGQ/r9KJqa6EV8F
-	 +n79qHPPoE7Vn4+3UwYZRb0QW3Ik22ZKmkyK6DsZhCarlP+fFdFnGNYo7kG18fvaUQA==
+	t=1793598163;
+	b=qmT+m8N+pwR7U55OnhXxD9at+ovcHTZ4Of7BQKIQRd9OC/SmUDGZaKym0tp+/sN3xOpR
+	 hKJH+hpVjJmsh5EhRdsS0znuvRtutSO9VHMICeit6t/ofTSnuBiulDBKJvAN+1LCyv+Ku
+	 ULJ2f812LoHsavVxFN31wO7Qa5VWO5pNo1PqYAyS4O867B24GkjiisiOgZu+GRuTZhaGV
+	 ZCSYIykd2h6R4uG+klB3JK3q7qfLVMJqHZZjGVja9NTtLM3ERJKXO10f40Wdil1mirgjN
+	 N7DThdjNwguSDkkCXTeVUlUlkMRvTm4A0275or8UuTE2j00XRjK4yrLsA5Li1gOhm6g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793595486;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793598163;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
 	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
 	 X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=VjEa8aUzoMl3SYNFpAhF7zUKPZ6wHLLQaYP9asa0BH0=;
-	b=E9YhF1x4F01lUeR5is0/PJFE4NH/eVJULuJNXUjcxKoYRdr7TFhVPNzZ4LblnsmDPslt
-	 zrhjBUvpmRuSgWxOdwXWUtNEvFkKVQx7GZWyrH14eaoRO1qXtrDmIMGqHkV3nuCWhj/3G
-	 kdEnNjPSPYBziqg4bfzVAoKpg0sPykFt3oQ7BwAw1AnrmmE3qpmHRFzllo0o+a5Z1YMQY
-	 6jn9/DBQU3HKCcLE+D1C/BgIgW/sDUT+GXVGxnQYZa8/GIzf0YNPcfgJ4TxsUrXExwWog
-	 Njk38qo5qzofU63cjcEhoYR87Eo4zZZZqgFTTpzwNET+b0pWT0svXttKbg4LasVbn5A==
+	bh=MiW8Mroe3U2+fZ+1bplzdhcNfTtvPuhlvwZ0rPfG9Ps=;
+	b=zfx9s6BWgFmfcntFp9vLemWAJ/lPoYr9OXKtPHNclgjriOkzrsryxCdhy9JVXY637ctj
+	 swVddmpgJKi/2U8wSxXokChBDWbQ3GFOPn+ccceS3Z5lz4RvVhm5LTBB9XBRAmAQA4uQj
+	 fAdGMX2bFCQaKexJDiAhSyr/EnOGfD6avlSJ/THlHKkM8cpzhdaCiMO7E6vDNDQB/JZCE
+	 KSYf8tWiAQ08IENKOieoZ2ym0oeSytjaSd8NyxocIKwpeM58MWlqNrMOBGNLFR03TFPf1
+	 2Il0FehwoH/8msuXrPtlSUFHHZ/3XUiUg/myiQsHLF/XmHl4qwoDM8EPqDh+Od8kZ5Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b="Hd5/4EfZ";
-	arc=none smtp.remote-ip=95.215.58.39
-Received: from mta1.migadu.com (out-39.mta1.migadu.com [95.215.58.39])
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=UuwuZrpR;
+	arc=none smtp.remote-ip=95.215.58.145
+Received: from mta1.migadu.com (out-145.mta1.migadu.com [95.215.58.145])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AE08606A32C
-	for <linux-fsdevel@vger.kernel.org>; Mon,  2 Nov 2026 04:58:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4AE08606A32C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3828A606A326
+	for <linux-fsdevel@vger.kernel.org>; Mon,  2 Nov 2026 05:42:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3828A606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=Hd5/4EfZ
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=UuwuZrpR
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=VjEa8aUzoMl3SYNFpAhF7zUKPZ6wHLLQaYP9asa0BH0=;
+DKIM-Signature: a=rsa-sha256; bh=MiW8Mroe3U2+fZ+1bplzdhcNfTtvPuhlvwZ0rPfG9Ps=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793595483; v=1; x=1794200283;
- b=Hd5/4EfZTqDJhoJQj3RsxtDVnqKy1aamG9WHQGlhuYDbiUFMRMuVUh4U5WZxWeDr/5mCNBgn
- FHjhJk19Z2BSSg+yJ71g766NnsgHdRSQLGkOUEsKwe+DVjg5v3ia4eonJn1QqSAdzJyZEe1pud3
- zdEAiA5fQmMfolu9HsRAjM9w=
+ t=1793598159; v=1; x=1794202959;
+ b=UuwuZrpRkQYutb58GVikL5ByJkdXkY5hrZ320Ad6t9zbKbpIWUeWtzUj6e7jA2gUDGMoLrrH
+ gUeLCTBMp061JCHx6Qhx3sjIJSwh8MQzoBlRonU4eD5oEI2+kpHt3ULEzO6l5PK/syFv0vJ1f4r
+ DZ12u63g6acTOpq0688ukOGg=
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 36faa33dfd74c51c;
-	Mon, 02 Nov 2026 04:58:02 +0000
-X-Mizu-Trace-ID: 36faa33dfd74c51c
+Received: by smtp.migadu.com with ESMTPS id 9704e208af575192;
+	Mon, 02 Nov 2026 05:42:37 +0000
+X-Mizu-Trace-ID: 9704e208af575192
 X-Migadu-Flow: FLOW_OUT
 From: Lance Yang <lance.yang@linux.dev>
 To: david@kernel.org
@@ -115,12 +115,12 @@ Cc: akpm@linux-foundation.org,
 	josef@toxicpanda.com,
 	stable@vger.kernel.org,
 	usama.anjum@arm.com
-Subject: Re: [PATCH v3 15/47] mm/khugepaged: always recheck the pmd in try_collapse_pte_mapped_thp()
-Date: Mon,  2 Nov 2026 12:57:53 +0800
-Message-ID: <20261102045753.34901-1-lance.yang@linux.dev>
+Subject: Re: [PATCH v3 16/47] mm/khugepaged: fix PMD table lock leak in try_collapse_pte_mapped_thp()
+Date: Mon,  2 Nov 2026 13:42:32 +0800
+Message-ID: <20261102054232.36829-1-lance.yang@linux.dev>
 X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20261031-fixes_core-v3-15-d6437171ecc3@kernel.org>
-References: <20261031-fixes_core-v3-15-d6437171ecc3@kernel.org>
+In-Reply-To: <20261031-fixes_core-v3-16-d6437171ecc3@kernel.org>
+References: <20261031-fixes_core-v3-16-d6437171ecc3@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -134,30 +134,32 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 
-On Sat, Oct 31, 2026 at 10:39:44AM +0100, David Hildenbrand (Arm) wrote:
+On Sat, Oct 31, 2026 at 10:39:45AM +0100, David Hildenbrand (Arm) wrote:
 >From: Josef Bacik <josef@toxicpanda.com>
 >
->try_collapse_pte_mapped_thp() drops the PTE lock after it has cleared the
->page table, and takes the PMD lock and the PTE lock to remove it.
+>For a private mapping with userfaultfd, try_collapse_pte_mapped_thp()
+>takes the PMD table lock before it maps the page table for the second time.
+>If that (pte_offset_map_rw_nolock) fails, because the page table vanished
+>in the meantime due to concurrent page table reclaim, it leaves through
+>the abort label, where the PMD table lock is unlocked if it differs from
+>PTE table lock.
 >
->In between, MADV_DONTNEED with CONFIG_PT_RECLAIM can reclaim the
->page table. The pmd_same() check is supposed to handle this, but it is
->only done with CONFIG_SPLIT_PTE_PTLOCKS.
+>In case the PMD table lock and the PTE table lock match, which is the
+>case without CONFIG_SPLIT_PTE_PTLOCKS after pte_offset_map_rw_nolock()
+>failed, we miss to unlock the PMD table.
 >
->Fix it by performing the check unconditionally.
+>To fix it, forget the PTE table lock when we unmap+unlock the PTE table.
 >
 >Fix generated by an LLM and sent by Josef Bacik in private.
 >
 >Fixes: 6375e95f381e ("mm: pgtable: reclaim empty PTE page in madvise(MADV_DONTNEED)")
 >Cc: stable@vger.kernel.org
 >Signed-off-by: Josef Bacik <josef@toxicpanda.com>
->[ david: adjust description ]
+>[ david: move the ptl = NULL handling; rewrite description, drop wrong comments ]
 >Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
 >Tested-by: Gregory Price (Meta) <gourry@gourry.net>
 >Tested-by: Muhammad Usama Anjum <usama.anjum@arm.com>
 >Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 >---
-
-Nothing jumped out at me, so:
 
 Reviewed-by: Lance Yang <lance.yang@linux.dev>
