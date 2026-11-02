@@ -1,70 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793629496;
-	b=olLeW8/sIErv0C0PKM1ctGYVX1kg+X9GlDSy7obpZGPqyBgQjvhXakE6JTAVAQEMQC4h
-	 OG03vvv8nGCqOADmLljTw7QIPeeafdDyktH6PHJ6HnGqRNy5JSleYB+7Scmv4WUmvdFiI
-	 yxSaxb1SlCe++YhfyF1ToSqHAr136zjOOhD+9teuq3FnSd3m+kGIHxuqDTvbo2kYBD6Mq
-	 QGOUPY+D9L4/5uMObManY+q+eh4iKt5u+aC5svKmnryXwF6tUHhPCxYLirgfANSrR0w1Y
-	 s/z9PylET88W4tz5IlGq636l0VY8CB8MZ8GSuFQpxqhCGjfga9VjsE7xld4VCH26haw==
+	t=1793629504;
+	b=NotmhhvMp2jbtpgGiSnhlvPBtymqMuEEJLyjOE7tErxLPDSM9I3q9HS4bwetEEQC8qR6
+	 ykoeiitwguoiJcSeCB2pn4/3xQGixJX5cR4AzfSDi4FeWfjaOGpfJ0qevd11cXuUacXx4
+	 YihusBTgLbaUvzj+EXfEqAPOMz12tYKe8YRv4dWsmlmQrjAepUBllVrvriFBKSWjiO3uK
+	 ZhGtO2rXzsToo/FfZ6jztyqaOVRUtqtd7KbVCYBoPxYlh6Mrq/Bq6/Z6fbipHEFw+Qxx1
+	 HBwtoIlNc0JDutWVgijRFPykOpLKoGGFpL3uPNsxfbPeJQI/YnGpgw2PltTbo0TcK/Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793629496;
-	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 User-Agent;
-	bh=h+ps2IWGI8Jg5YPC535dLnENDr9Z+hqvQ5jTtLrvQbU=;
-	b=5BWBi5ygl5Vvt4yHD9rYwa4hNCFqlxSwo5nAG6ujC/r4Cjvb8xWahaSJmWm28psPHzzV
-	 RwDt7gtN3hi+Mav4vtb1GZJqyEspVSVQejvIjKQru3s13q3MX5yApyYjqJM1Bmka78QIP
-	 vrJl1dyW4y4t5zSzxKZhkT1OEbhSBuqXDRZaC7OL+7SBmqlajiHBwgfns1Iv2EcZN3vSd
-	 ubdws+Jlnbv0/HeBF9e6lfXq2RBGFOuft0u14dsMwrremDI9whWIWWyAOI5XtxiI9BY1Q
-	 0HWnCFoO6bDtyIWXW9bk8R7BJzhGVPDwLPZEhGe2Rk+LQvzuqAFxO47EZW7Uzsuy8kQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793629504;
+	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=yb3WLcVokXU6BuV8DQIS3cnoxrtkXR+HXTNSt4lhnr4=;
+	b=LUE2zB83jR3WpBqQA+pg6oj06MgMbj6IqPbkpN7HnUkZ3Xj9lZ5W1rw9wwaMTuWWpE6j
+	 g+mS3uTefYzhBYi+WElWgNOm/MQEv/ceQ/Gfm+cQ3FVOhyS3xGZ5n1ECH4ZT4LwdPSA8V
+	 NnPMDSjI7G9gN8odr9o5gzvx7TEwdoiGotpbfL3F4ezS/GtDRB4bXuyyMJ3osMJbNvOtw
+	 MChtdOBTJG17WM3FKnKOjcph2d1RdFJj/UoDY4AcvArNjSpU7ZX9DajQ0W2B6z3iCORjY
+	 FXMu5oBu1g9utNgpvC9Xg9iPY9vxcdrIeM0ewRr15fLqNUyU72lFiZIxVqqpdxln9TA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HG2yBQeJ;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GZiOx3qz;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 156AB606A934;
-	Mon,  2 Nov 2026 14:24:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0CA56072C45;
+	Mon,  2 Nov 2026 14:25:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HG2yBQeJ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CCCB1F00A17;
-	Mon,  2 Nov 2026 14:24:55 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GZiOx3qz
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 514531F00A16;
+	Mon,  2 Nov 2026 14:24:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793629495;
-	bh=h+ps2IWGI8Jg5YPC535dLnENDr9Z+hqvQ5jTtLrvQbU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=HG2yBQeJkTai0pStmuvVGguBEoEeRXj1gntZ/xxEKbiEoKUs/4KIa/BeiVGx5/Ice
-	 RergW1Z3nJx5dXIbmBXp2QD6Ct/PguArKCm88y0ntBp2CYKJLGArVPFwgGLe8YrjMC
-	 Aa4AO5G64etC8GM2zQqRTGi4IAgIL2peJcOjgLD+pe4XUHfVe5DxVizaxQKwYGeUOz
-	 xbMk9rUtrpH8UeqzSCMP75ymuPCAi+i5jJzhlelP45TXHTgSNewkUqRLlQZ69r3eJY
-	 QqJWETkvomX6y09thVyOrS/etcACC41Ss0cCh6yz2xgyoPYDOe3Jf0Na2SDsSPWjS5
-	 FlugdEdmmcftQ==
-Received: by pali.im (Postfix)
-	id 6FDF0A13; Mon,  2 Nov 2026 15:24:52 +0100 (CET)
-Date: Mon, 2 Nov 2026 15:24:52 +0100
-From: Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
-To: koraynilay <koray.fra@gmail.com>
-Cc: David Sterba <dsterba@suse.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Sungjong Seo <sj1557.seo@samsung.com>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	Chris Mason <mason@kernel.org>, Jan Kara <jack@suse.cz>,
-	Yuezhang Mo <yuezhang.mo@sony.com>, Chuck Lever <cel@kernel.org>,
-	"Darrick J . Wong" <djwong@kernel.org>,
-	Sean Smith <defendthedisabled@gmail.com>,
-	Andrey Albershteyn <aalbersh@kernel.org>,
-	Pedro Falcato <pfalcato@suse.de>,
-	Amir Goldstein <amir73il@gmail.com>, linux-btrfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	exfat@lists.linux.dev, ntfs3@lists.linux.dev,
-	linux-api@vger.kernel.org
-Subject: Re: [RFC PATCH v3 3/5] ntfs3: make crtime user-settable using ptime
-Message-ID: <20261102142452.d6jkitgdeuquy23i@pali>
-References: <20261101015551.786044-1-koray.fra@gmail.com>
- <20261101015551.786044-4-koray.fra@gmail.com>
+	s=k20260515; t=1793629503;
+	bh=yb3WLcVokXU6BuV8DQIS3cnoxrtkXR+HXTNSt4lhnr4=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=GZiOx3qz574i7G4sq7Qj5FW+poGzHx4xdod9v+c0wQs044ndbo8YtJuzjzz+Le7ql
+	 5cTxXE9CzWg6EPV4MxszbcLp2C6ZsWzp9oeVP6uoHj7upUPwwroLqNsh41Sz3JVXM5
+	 yckoX19xo0T3oBfUMO+m7+UdClsC4AicPeSVsnbkVWlzvS64GY4fx7NtE/3cBm/jGz
+	 ZM9+DG2Es/IdFoi9n/atozhLfqSzs42elqcEif/j8WN8Ox6UI8UdLXG/RdqSvOSB81
+	 382CcANAMk/or+82KJJBXqoD4yYyV3R1x7/mjd7dPFt85mMcg0lpgdBZ0yY6v8VJOz
+	 OgF1Yl254onGQ==
+From: Christian Brauner <brauner@kernel.org>
+Date: Mon, 02 Nov 2026 15:21:29 +0100
+Subject: [PATCH RFC 14/38] um: NUL-terminate what is written to
+ /proc/exitcode
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -74,64 +53,82 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261101015551.786044-4-koray.fra@gmail.com>
-User-Agent: NeoMutt/20180716
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261102-work-procfs-bugfixes-v1-14-59422ed3e465@kernel.org>
+References: <20261102-work-procfs-bugfixes-v1-0-59422ed3e465@kernel.org>
+In-Reply-To: <20261102-work-procfs-bugfixes-v1-0-59422ed3e465@kernel.org>
+To: linux-fsdevel@vger.kernel.org
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
+ Jann Horn <jannh@google.com>, Josef Bacik <josef@toxicpanda.com>, 
+ Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
+ NeilBrown <neil@brown.name>, Eric Dumazet <edumazet@kernel.org>, 
+ Thomas Gleixner <tglx@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
+ Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
+ Greg Kroah-Hartman <gregkh@suse.de>, 
+ Joel Granados <joel.granados@kernel.org>, Kees Cook <kees@kernel.org>, 
+ Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
+ linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, 
+ linux-acpi@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
+ linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, 
+ linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org, 
+ ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
+ coreteam@netfilter.org, kexec@lists.infradead.org, 
+ linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, 
+ netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net, 
+ linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-cifs@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+ linux-hwmon@vger.kernel.org, linux-mm@kvack.org, linux-sh@vger.kernel.org, 
+ linux-usb@vger.kernel.org, samba-technical@lists.samba.org, 
+ sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, 
+ linux-doc@vger.kernel.org, linux-serial@vger.kernel.org, 
+ linux-atm-general@lists.sourceforge.net, Takashi Iwai <tiwai@suse.de>, 
+ linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
+ linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, 
+ linux-debuggers@vger.kernel.org, 
+ "Christian Brauner (Amutable)" <brauner@kernel.org>, 
+ Chuck Lever <cel@kernel.org>, stable@vger.kernel.org
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1042; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=wRElBRQ5ywf1BhvCA77KtICLks8yyr6GFoKnZLCCyMo=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS9mJOdsKVmvtvqn+l+CqJcqhVTz8/M753i1MLdtPdJz
+ RS2GwlqHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABN5E8LI8LBw7tKUPiXhmasU
+ BGdI++krPrfymz85hq3qxbk0wQO2RowMt9ZWzojz1tO+4XPUNkxeX7nqYWvpvKrUmfx7rnks+Nv
+ HBQA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Sunday 01 November 2026 02:55:49 koraynilay wrote:
-> @@ -154,6 +158,11 @@ int ntfs_fileattr_set(const struct mnt_idmap *idmap, struct dentry *dentry,
->  	if (flags & FS_APPEND_FL)
->  		new_fl |= S_APPEND;
->  
-> +	if (fa->fsx_xflags & FS_XFLAG_PTIME) {
-> +		ni->i_crtime.tv_sec = fa->fsx_ptime.tv_sec;
-> +		ni->i_crtime.tv_nsec = fa->fsx_ptime.tv_nsec;
-> +	}
-> +
->  	inode_set_flags(inode, new_fl, S_IMMUTABLE | S_APPEND);
->  
->  	/* Save nodump flag to return in ntfs_getattr. */
-> @@ -275,8 +284,9 @@ int ntfs_getattr(const struct mnt_idmap *idmap, const struct path *path,
->  	if (unlikely(is_bad_ni(ni)))
->  		return -EINVAL;
->  
-> -	stat->result_mask |= STATX_BTIME;
-> +	stat->result_mask |= (STATX_BTIME | STATX_PTIME);
->  	stat->btime = ni->i_crtime;
-> +	stat->ptime = ni->i_crtime;
+exitcode_proc_write() copies up to sizeof(buf) bytes of the write into
+buf and hands it to simple_strtol() without terminating it. So
+"echo -n 5" parses whatever the stack held after the '5', and a write of
+seven bytes or more reads past the end of buf. Terminate the copy.
 
-For me this patch looks dangerous. Somehow I would expect that the
-"btime" will never change for existing inode.
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Cc: stable@vger.kernel.org
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+---
+ arch/um/kernel/exitcode.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-But because the ptime is mapped to i_crtime and ptime is settable from
-userspace, with this patch it is directly possible to change btime.
+diff --git a/arch/um/kernel/exitcode.c b/arch/um/kernel/exitcode.c
+index 43edc2aa57e4..0230354f4812 100644
+--- a/arch/um/kernel/exitcode.c
++++ b/arch/um/kernel/exitcode.c
+@@ -43,9 +43,10 @@ static ssize_t exitcode_proc_write(struct file *file,
+ 	size_t size;
+ 	int tmp;
+ 
+-	size = min(count, sizeof(buf));
++	size = min(count, sizeof(buf) - 1);
+ 	if (copy_from_user(buf, buffer, size))
+ 		return -EFAULT;
++	buf[size] = '\0';
+ 
+ 	tmp = simple_strtol(buf, &end, 0);
+ 	if ((*end != '\0') && !isspace(*end))
 
+-- 
+2.53.0
 
-
-I was thinking more about it... Is not this just misunderstanding of how
-the security model around the times is working on different systems?
-Because on NTFS there is stored just one field which says when the file
-was created. There are not two fields like "time set by user and time
-set by system".
-
-Windows security model allows anybody with WRITE_ATTRIBUTES access to
-change that create time. Linux security model does not allow to change it.
-
-NTFS in this view is just a filesystem like any other (ext4, btrfs, ...).
-In my opinion if the ext4 or btrfs filesystem is correctly implemented
-on Windows systems, then Windows security model should handle it in the
-same way like for NTFS or exFAT. So if something grants WRITE_ATTRIBUTES
-access, then Windows should allow to change also btime on ext4 or btrfs.
-
-
-
-On the other hand, I understand the use case to have two creation times.
-One time which would never be changed and could be used for any kind of
-atomic / synchronization by userspace application logic (this btime).
-And another time for human which can be changed at any time to any value
-which user wants (this ptime).
-
-In any case, I would suggest that filesystem driver would not report to
-userspace unsupported values and would not try to invent other values
-and lying about them.
