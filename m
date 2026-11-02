@@ -1,102 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.205.69.214
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793616464;
-	b=qT0KY4lY6A8Ez7q5vynx5U7JD+OIRiq1JyWgwIXf/zY9agwx9cTmDlinCo1ZZwst9W4i
-	 E+6l3cMi2KrfHZuXYYcwziIES+a2h2DUrphARqKaXbl2yenziTR+30/O+XBpgu2qLJcOu
-	 FDBH4pr7YIRFXkrIKMOx/iqG2dQhmWMuK7n4GBEFB/92isxPb3m+kMwhJedn+D6Lf5NyR
-	 F/nlDh/10Vs7AOacOhb6e08mMl4FU1dU9U+rvQPLSF4vazUyatGBBn5A/d0jMB7sFd0ST
-	 va+GJFRVW6dJsJZWAzCYCPvCuBcnSUkV0Au3LNzaNX5ny1XdfxtjXmVpzse/ONLDhlA==
+	t=1793617056;
+	b=VmoFJuZ6lyujhAUuMqqBUzV6/zLn5WlrjAh/iIFaNQOmKN4uJwASiqA05JkSBaaZ92JZ
+	 Uh7FSh6TWzhh9AL17GI9ZlMFjMwV4ROukWUHo7bUN5CYS9ZTYmKe1pl6e87NrqVVcdyD8
+	 MIurfGdEytLcQ2MOmUnVzZwx0bIPiWg49Atwmoiq+TG9kQ7vgll0nkWFXFsskJk66aofs
+	 cgxrO2nxgQHQvZ0uFY8jVMPjViImfIGKk89ectRmDk2okWK7o2pLae04IBQGQgRwyZQKC
+	 bBLbARGJgV7qVVWEQ2zlw0UUIewRV3QTOT9Yj//IgQfkfrTX2TzaoyyU3j82L60mz6Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793616464;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=HyDSHSgspGUCXxBL33Pyf2fxt1FGBdRsUfgAbu0U2lg=;
-	b=bNoDTc9OHgdrzswXLQ05nwsRtuUCLMSY184tdkHj+8VjuWWfvXcQ8+W7F5q9+j3uyMPH
-	 2j9B4tuBMu1ZU/idDDzbzGIW3myxiPiZF+7WdpjjEjvpWzdq2rhixvQ9oBVrsOMxSYbYE
-	 6uiNzjEeSIOL3lleSMp8XpcUiX+DkFS1UZNu0VKbBe0/1FDSirTxSV/F88KKdTdH+SKy9
-	 4o6wmt0GCjA0csd0wf5u66LIewaHYTzejNSxMM0gbvmmQM43rF482qNbAIW08vYOmPgFx
-	 rEaIepvQuPplGPytrVXZ1Q4cbfKjQaorLc5nPjhHmfAnwf+qBdnaQmcHonQwttwJP6w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793617056;
+	h=DMARC-Filter:Received:DKIM-Signature:Date:From:To:Cc:Message-ID:
+	 In-Reply-To:References:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Feedback-ID;
+	bh=j+hZkYzIVJ9tilITm55Z46aHn+yx/FRnXY+i3pCcfjU=;
+	b=GuLKboitSJGWgOfEld1jdDyVMNtcU3p+FFpTnrn8BHNojzDchbvvzs3Mhq1DmPExDk1T
+	 Oi50ZcIrwPEZEbx2m4NxGE2ldsMbt1O6SnUw/BtBhcEKyOkMdNxHwth+CbWqwaZK3tieD
+	 Z+KUrC5RKUq720GCBrMnecQMWsUhPnk+JlGKpy8KwRXyxDuIZjTD5DN7WwSEL+gEj1JD/
+	 uC4EU2TvYPLhE9i54P3o7pGI66SoHgoGT6VhkHAaDMGTPFX7hvoVjBnshhLFn1YXonrQq
+	 XwzE7GFLkpTFEcnIjLmOhBH/0yMOWJMuEkA9grz/Shfy+Fkta2y3PsyQVXoKYqyiv3w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dwhHSOkC;
-	arc=none smtp.remote-ip=209.85.221.51
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=tuta.io;
+	spf=pass smtp.mailfrom=tuta.io;
+	dkim=pass header.d=tuta.io header.i=@tuta.io header.a=rsa-sha256 header.s=s1 header.b=QC1Zl+zA;
+	arc=none smtp.remote-ip=185.205.69.214
+Received: from mail.w14.tutanota.de (mail.w14.tutanota.de [185.205.69.214])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B69E60A260C
-	for <linux-fsdevel@vger.kernel.org>; Mon,  2 Nov 2026 10:47:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3B69E60A260C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 264AA60A2630
+	for <linux-fsdevel@vger.kernel.org>; Mon,  2 Nov 2026 10:57:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 264AA60A2630
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuta.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuta.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dwhHSOkC
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-48c4649b35bso2729858f8f.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 02 Nov 2026 02:47:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793616457; x=1794221257; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=HyDSHSgspGUCXxBL33Pyf2fxt1FGBdRsUfgAbu0U2lg=;
-        b=dwhHSOkCW0EVkEHrgtbCMeCdOHGQy01fUPv5J3FY36E/daOm4zYXJc2PleAINdu8Xi
-         Wdl12oOh7Ocfjrcfhv9V7UDNOWqqOcvLtO2rYrJUornb9Q5RBayX0fsvdmvvVrBU362m
-         PYnxt3rRIzf5HPJo2tGlNRx0vw1VHklNdGlnkaPIjWdt90K0KoipGzXWkBr3yhVQL1XB
-         XSjtERdM7KFIU182twmGoa3ORD2QAp9VipCnlapwBbsqOKbGW9Uf7qVOZtz/xf/xlkp+
-         q0zJYEbqonnd5ITGqxcZfZgJIBWH/lM9ni0/Ny9gftFWtImoJgWYGAwkhg8mKQ1lVw+m
-         r3dQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793616457; x=1794221257;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=HyDSHSgspGUCXxBL33Pyf2fxt1FGBdRsUfgAbu0U2lg=;
-        b=mlhWRL87Bp0suU/85ReXrqzFQMjBHxX2e0EFjdJPdB3ePX0qwCTpEJL7Ay8MD79xya
-         5EEMyrmPvA/JRY6QF9b9K+hwE7uPzgYbZOQqxT9JGaqKNlYvr/5Aijh+8MbHqBsmn6a3
-         awusB92pZjMBoAV2nDM3BWZmii6bMHM4dbz8MfvAdCZW0o2YnfIbwkAgEWqeacHXmPv0
-         kr5uuvBMZQOGcXvSwb+eZ0vw+uUrJCDl5WuGZ+9V3yHAzr91juC/AOq0pDVno2VPWNXD
-         rbQZKdXS2K5h6hsn5EaOOHre5WJS1KVqtqnny6o/kYnC6eGvlbmBm/wszifIUI6/AtEO
-         D9Hg==
-X-Forwarded-Encrypted: i=1; AKwUvBxS1kWzp7t6lZV5QPq/1xnM2Ol39UYCnzX2tZe8/iEDNCOl1d9qpX6JBLsSsXSBONRmQYca6LiBwTwWFIBm@vger.kernel.org
-X-Gm-Message-State: AFq9FYJa12sMuD8dW8SDPA/vDWrMt0pUw580HzXzY248pgxtiR8Zra7L
-	h0Rg1NT8ZyZKqa+iAnBbUqkFhpTPlJts51L/iYnPPxXoAnWbEOfQr4aF
-X-Gm-Gg: AYBFou1mb6ZBpXX1umwm6NGfvqabIw0mFWEFqSySahIS8HSNmiapK3B/2DAdAxX51RI
-	UZ71ppz+vcCMSNR4wDOIRWjqXOrBZzIluGebxoMRQL3uYu4yto9iBXKnUlaNQ6dS2KXcQrPkBOd
-	/ta4rctXSGLM+bG5NWCkVQbZEiweB9yYgVgtUd3DkfzQGyQrQYzI+wxLmh40xxyv5fStIDBWdfx
-	LEfCIIpEsqmjCIojzmzfaNc4LF5g4ChdGA9WaxYB2Lrx3jyKnFYYdcr2yFLxWFNa1mq9P+170cY
-	lNvKGcRNz2WBD6e7t43Wm2Ztpe5aYCGEO+t/2MutaKVxVoR0QoqV3dTlmfh+noMs/Ki+CKZ7FN7
-	Zn6rtHP+cRp2Oh2v3pbFpKroQMsRq5uQIqUUnEIoGzccjkz5usv5CrGWmIWyYG45FqzviZ887/w
-	7LbRkKs4QDulL09ajOo7aAew/g4gyiBA5nwU3Rvn7Kk1RvRcI0n8+F3BrkQiCeXg81DRG5N3BwQ
-	95JqH2Z6TiqgoB74vC7Ew+sp8vI51GvKlLZrJNueGRDCoOB+ZawlTRA9a/49Qde+mrVBOf0EOhx
-	8IS7R3O+s0WjPvvHAZeCASrasFH1dh4dFjCPNEwxI1A=
-X-Received: by 2002:a05:600c:848c:b0:4a1:d087:f6ab with SMTP id 5b1f17b1804b1-4ac17d19e0amr220305825e9.18.1793616457546;
-        Mon, 02 Nov 2026 02:47:37 -0800 (PST)
-Received: from dell-desktop ([2a02:587:4b42:1400:8199:c552:2b9e:c33])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4abf6c7852esm248939695e9.11.2026.11.02.02.47.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2026 02:47:36 -0800 (PST)
-From: Anastasios Papagiannis <tasos.papagiannnis@gmail.com>
-To: brauner@kernel.org
-Cc: bpf@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	ast@kernel.org,
-	daniel@iogearbox.net,
-	andrii@kernel.org,
-	eddyz87@gmail.com,
-	memxor@gmail.com,
-	viro@zeniv.linux.org.uk,
-	jack@suse.cz,
-	tasos.papagiannnis@gmail.com
-Subject: [PATCH vfs-7.5.bpf v2 2/3] docs/bpf: Document bpf_path_getattr()
-Date: Mon,  2 Nov 2026 12:46:54 +0200
-Message-ID: <20261102104655.70901-3-tasos.papagiannnis@gmail.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261102104655.70901-1-tasos.papagiannnis@gmail.com>
-References: <20261102104655.70901-1-tasos.papagiannnis@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=tuta.io header.i=@tuta.io header.a=rsa-sha256 header.s=s1 header.b=QC1Zl+zA
+Received: from tutadb.w10.tutanota.de (w10.api.tuta.com [IPv6:fd:ac::d:10])
+	by mail.w14.tutanota.de (Postfix) with ESMTP id 8DCEE1A0E92E3
+	for <linux-fsdevel@vger.kernel.org>; Mon,  2 Nov 2026 11:57:34 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1793617054;
+	s=s1; d=tuta.io;
+	h=From:From:To:To:Subject:Subject:Content-Description:Content-ID:Content-Type:Content-Type:Content-Transfer-Encoding:Content-Transfer-Encoding:Cc:Cc:Date:Date:In-Reply-To:In-Reply-To:MIME-Version:MIME-Version:Message-ID:Message-ID:Reply-To:References:References:Sender;
+	bh=j+hZkYzIVJ9tilITm55Z46aHn+yx/FRnXY+i3pCcfjU=;
+	b=QC1Zl+zAvweFYUJsfIXB+oARRLdGvi5cYOF28k6+f0iavdSy26br8e8t8Dv7vBML
+	7wxYLNwx3lj0kKYwKnuAPGpguvRnFXvSK4QmooUoukAjWHgOa9WvqZ8yXeN6AqSAeB6
+	uQj9nWMbBbr1rgiGv+D6P1YWtFxYapyqSLaaJgpW0K8epeN+xEWKMX/Ixlpp/zAQA0u
+	blNy3ccAhErFiwKOWY5aDZeMNWaAlyeY9hPprt+NYSpOtbkBqVc9IcS/wMkMvYpXO2a
+	L/kJQMl4LLu7hBvruSopBmlTcL71I5tDTL3aF9OqCZeOAThTlRuI1dVKt6umCwzvWxp
+	/FpchbbJZw==
+Date: Mon, 2 Nov 2026 11:57:34 +0100 (CET)
+From: Edvard Conrad <edvard@tuta.io>
+To: Amir Goldstein <amir73il@gmail.com>,
+	Christian Brauner <brauner@kernel.org>
+Cc: Miklos Szeredi <miklos@szeredi.hu>,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	"linux-unionfs@vger.kernel.org" <linux-unionfs@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"stable@vger.kernel.org" <stable@vger.kernel.org>,
+	Edvard Conrad <edvard@tuta.io>
+Message-ID: <P5Qu3co--N-9@tuta.io>
+In-Reply-To: <CAOQ4uxjm=cGPnug18VuhKqiMvkWwLPNLO_TE3KxO8iLZG+veYQ@mail.gmail.com>
+References: <P58Wrer--F-9@tuta.io> <20261030-welpen-anbinden-nullen-b2432cee1d10@brauner> <CAOQ4uxjm=cGPnug18VuhKqiMvkWwLPNLO_TE3KxO8iLZG+veYQ@mail.gmail.com>
+Subject: Re: [PATCH v3] fs: let backing files inherit FMODE_NONOTIFY from
+ the user file
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -106,42 +71,55 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Feedback-ID: 0127f977f5e13e8051b46c6e7f57d0f95a0470d24b79d7c31d07fdf611cc427ab823e0f4692a810119c92d8768973a9281:TurnOnPrivacy!:tutamail
 
-Describe the VFS result, output buffer, and calling requirements.
+On Fri, Oct 30, 2026 at 6:13 PM Amir Goldstein <amir73il@gmail.com> wrote:
+> Would you mind adding test cases (or variants) to fanotify26 to cover
+> this find and test the attached (sanity tested only) patch.
 
-Signed-off-by: Anastasios Papagiannis <tasos.papagiannnis@gmail.com>
----
- Documentation/bpf/fs_kfuncs.rst | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+Two things on the directory side, one settled and one not.
 
-diff --git a/Documentation/bpf/fs_kfuncs.rst b/Documentation/bpf/fs_kfuncs.rst
-index 8762c3233a3d..05cc9b657a42 100644
---- a/Documentation/bpf/fs_kfuncs.rst
-+++ b/Documentation/bpf/fs_kfuncs.rst
-@@ -13,9 +13,22 @@ BPF kfuncs can be used to get these data.
- 
-  * ``bpf_get_fsverity_digest()``
- 
-+ * ``bpf_path_getattr()``
-+
- To avoid recursions, these kfuncs follow the following rules:
- 
- 1. These kfuncs are only permitted from BPF LSM function.
- 2. These kfuncs should not call into other LSM hooks, i.e. security_*(). For
-    example, ``bpf_get_file_xattr()`` does not use ``vfs_getxattr()``, because
-    the latter calls LSM hook ``security_inode_getxattr``.
-+
-+File attributes
-+===============
-+
-+``bpf_path_getattr()`` queries filesystem attributes through
-+``vfs_getattr_nosec()`` and returns ``struct kstat``. Use a trusted hook
-+argument, such as the path in ``lsm.s/inode_getattr`` or
-+``&file->f_path`` in ``lsm.s/file_open``.
-+
-+.. kernel-doc:: fs/bpf_fs_kfuncs.c
-+   :identifiers: bpf_path_getattr
--- 
-2.56.0
+Agreed on 130fdbc3d1f99 ("ovl: pass correct flags for opening real
+directory"). Before it ovl_dir_open() passed the user file's f_flags to
+ovl_path_open(), and __FMODE_NONOTIFY travelled with them; the commit
+reasons through every O_* flag but that one is not an O_* flag. That
+fits v6.13 failing the directory case and passing the file case.
 
+The one that is not settled: with your patch, listing a merged
+directory through the event fd still deadlocks. ovl_iterate() sends a
+directory that has OVL_WHITEOUTS to ovl_iterate_merged(), and
+ovl_dir_read() opens each layer with plain ovl_path_open(), which no
+user file reaches. A listener that calls getdents64() on the fd before
+answering blocks here:
+
+  fanotify_handle_event
+  fsnotify
+  fsnotify_open_perm_and_set_mode
+  do_dentry_open
+  vfs_open
+  dentry_open
+  ovl_dir_read_merged
+  ovl_iterate
+  iterate_dir
+  __x64_sys_getdents64
+
+Two controls on the same kernel: the same merged directory without the
+listing passes, and a lower-only directory with the listing passes,
+since od->realfile is nonotify with your patch and iterate_dir() uses
+it directly. That was on 6b4b543fa18 with your patch applied (with some
+fuzz); the readdir.c paths involved are the same in today's master. I
+have it as an extra case in a local copy of fanotify26 and can post it
+once there is a fix to run it against.
+
+Incidentally, I was thinking about your ask for something more
+generic: a task-level "creating an event fd" state in fanotify would
+cover the file and directory opens in one place, and the copy-up opens
+in copy_up.c too, which also go through plain ovl_path_open() and
+which an O_RDWR group would trigger for a lower-only file (from
+reading, not tested). It would not reach the listing case above, which
+runs at getdents() time, long after the fd exists.
+
+Thanks,
+Edvard
