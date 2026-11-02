@@ -1,99 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793622878;
-	b=xU+5/PyiNNUIuhYtBZNObLG/HSRQhRfJnOUckMbJNd9EW6LpFG9sfybaTHqLbCxjWR1z
-	 Xl5cnmnOuxWh/ggef1WsN9FAS9DBEdb1ZwrKeBrYfkusAqIecmZ1ikOr26amhueYGExTT
-	 vaBoxSOoulnB9as2B1310dqYfuk/8gF1qwHluk1EIe3wMOkZtXagK94+9mjcNW/cfnBYO
-	 jT5HZ8bapHtWbiBjvF/39mtD3gonTxiLi7Hzl51cUVdJjX4MJtSUD1dp03k729hDZhNv6
-	 //qhQJiA4+w3IEhD5ge62mRlwj3EekLYek8YB7zumiVTOCqNnmfjrxauUiEgGeYBUNQ==
+	t=1793624637;
+	b=Ramxf+AiTFAE9MRhHLYYJijMhkXzWDQs62bFA+WXVz+Qy5397rvO+BfjOzbEmqezshEg
+	 QkR6y9j2wkPEPTQFPFctMK4XohPK/hHmS4VNSH42/qnleelz+G2z7WCtAgAVc8NGmu7Vo
+	 Zx6Pv6Np0JMZc6w2jOaNZJRqj/Q7bmdeYMeVwihMDqtdA8Rsnl2mUroHQTxLbTUTYW4JU
+	 +fuPeFLIbitQyxVOhsABDtO/DCQDnHx21V6GfNqcOvV+2A5itPHMUr5NEnDflkFmSPdGj
+	 R+ZacA0PoeacouBnkLui3NYbGG7I5urc6jrU5tqwphemLRU+t0Tlg3w6Vp7DLZZ0ktQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793622878;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=jXPXHbGLmRwUEbj13/FmJNOUje1/462ix0xFNYMTlBs=;
-	b=b0v8bGlrJevdvRB/rrpgg1EgVPYHdAX5xYqP0+aJ+nkNxqzOPnwFr+BkF0GGG16ncgV6
-	 nGIjloMoJnPk6EZufZ4g8AsFts4xzw1WgB6dMZVgSnawIrSB+uqHvUx5KHOG5xxWhZUpX
-	 1tS9jhR0mEXQ8PWpTRCIgpenxQnM4PlG1vOSVAb08EkqPivSRq8srhnrWoBWBJElzdgAx
-	 gikpS4kgV8lLiMPDXdESuX02RFqAz3sF3JkzQ4wS+tqd9H4XYrx8ZtG3H/vpYK2h3rXpi
-	 2GjtGZUgjscKznLMGmU6MRdYIv+mwQ4OWpXNAnQDh41bOVJHr7Q8J4nbDBQsxQ89fgA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793624637;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:X-B4-Tracking:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=gXkbMf8DM0d4yvmmrUjI+zueCqEc0hq6YJ+3++B1KPQ=;
+	b=c1g3GzJNuAHZ58e9AJFwUlsJwdjGT/T1KHRLn6rraucHmiZe6Q3mG5stgHaMr1plZ/Zn
+	 ixf3oZJDf5CuI/sBjz+wPGl3FujMLgqg62MPTxJT1qOWCU6J8LVd3xBPLqtkUgQF/nEuQ
+	 uLsg1dto3T7cV9zTZIwRtgtGQ77V0jvPtv9vcIrN/i5jjrtDqr4gGUY/qzc/hXpbvKjS/
+	 3+58l4Dg3kvSeOTWd3yYPnwQwnDK96V9DRhk2IF191EgH1D/gEeIKz/Pjx5dpsjIwTQzU
+	 wsCH5ksdpq9VJDNXuye2lEFadyYjFnlxCsJL6OmMxeZC/hT70i4OXuPvfboFXHOOBzg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=yUx6bat9;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.52
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KMTrcZLa;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8800E606A32C;
+	Mon,  2 Nov 2026 13:03:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KMTrcZLa
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1793624637;
+	b=Apk0F0l0z+Age4lGkpc5dfN+nye073H5lX7We+tbrmg8MlaIUFR6TC0CSfvrYlKMEHlE
+	 CyXTOOpR8Yt06QzTrbxPxo2l+e2rl82d5UQsTpjBfVueEpwfibIKmFkUygU1zpR1sTXST
+	 iyfDRE533PXac5O5PSCC03JYy8Xo6XvubuxN9NNKc0+EhSmf/Nqs9WscqxMOZJ1GUqWaP
+	 yzU9zcP+HDtDry0DG6lhf0oNVHITYM587tgH7urh0aHb/zoK0TviqcJIvprRcGmq6xu7a
+	 7nTfun2bnhzDVO5oGPOBq1/f2wYRfVRqz8dLl/pC5JKDJU6Hh0MU8sONR2ki9RkuLTA==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1793624637;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:X-B4-Tracking:To:Cc:X-Mailer:X-Developer-Signature:
+	 X-Developer-Key:X-Endpoint-Received:X-Original-From:Reply-To:
+	 Content-Transfer-Encoding;
+	bh=gXkbMf8DM0d4yvmmrUjI+zueCqEc0hq6YJ+3++B1KPQ=;
+	b=w11gawSgTHIpF9BnayxDICeTmn7bYnZGFONigLzMC43B9/Xq88Xyfxes0I7VAXYVYmBD
+	 gMhkGlQPApXLSJukQOJsUIUYc1lZUI0iHOlK8L/B6ei5XFpCKLrViAROCHg2vJ+Qq/0+c
+	 9w+Nu7itsuoZJ0KpTr7eysQof1p9d+NIGzb7tBFbDPn5FaokCPc9Kr4q4VoCXWFPoPHNj
+	 s1lSTBifAU9sC0IADpjeHp6pnrpY4uT5aC1xgRvlCgI46x5tBiVmHeV5+Anav9JtbH8PH
+	 Ljsniv7iESZUyEH6cqUkyds2EpKp4J5Jth02u9Jt6gKE5fcyQzXzTpfsWW3OpHxGEaA==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7726C60A2618
-	for <linux-fsdevel@vger.kernel.org>; Mon,  2 Nov 2026 12:34:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7726C60A2618
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=yUx6bat9
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-6b486e1d02eso3833164a12.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 02 Nov 2026 04:34:37 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1793622876; cv=none;
-        d=google.com; s=arc-20260327;
-        b=RG02RqhWED7L1RqkbUDaRta9GxuVb6+EIXunxqgTEcPPy8m7Jd5wMWo8RHs9Gn4RcB
-         bpLUPfw0/t/0Edo0ELNQwDXXjYDZwiNJtyU80CrKKG75zmtwnHoUI1Gk8jBjQg+wkT0c
-         +E3+E5LGG+R8Q4Lh52CPjtMKCi+5PaJXQJTdBVsfnKc37/Q45Gn04bQz8/9NlFkhZdKk
-         /20W4R5X7x1ZNyLK5PM09KLSihZQPY5oEv8h5OKbhvYZPImvgzvVkgIQW36Sanzj9y2i
-         CBNFFo7z6Mb1GhppkcCYFX5PJsZZloKBcoYCQemvN+dmI+XnrAM7eV1X12zubGpOhUXz
-         00Bg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=jXPXHbGLmRwUEbj13/FmJNOUje1/462ix0xFNYMTlBs=;
-        fh=lD9vg2tq8cSZGK6uaWzq4FSYKv1QJZ55zxN606EoN2E=;
-        b=mi5eT3W40a4rB9RxC1FP5XLe34Y6PaqMjshjL7DiCn9QmCgcEBZp5dPN1+KujFaLkc
-         4lN2FVpLJFbi0YsvkDYsdx1+m+q7zTEwMEe0uPKnhMBDm2t3nWPdsYE4oKpC7jI1QS/f
-         Xo+5ZUgeAJAYMbzYv2D2sA0UdfMgOO0i6qIXLpC6gM1SRw0j2uBVWwi+qMvBwVwyBxUK
-         CwthLC8F3Dcjyhs9lRrEZyNGQhmXgyo7hehwAvmS0i0Un0m2JmCKBtv8tkbQ+Q4ZdB17
-         aPPO3b0CHYM9lq9c7V83ckwmo2/rrJczf/sWLKzTdbem8zZ62kGsEC6Gmsiau/PCK0DZ
-         mfyQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793622876; x=1794227676; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=jXPXHbGLmRwUEbj13/FmJNOUje1/462ix0xFNYMTlBs=;
-        b=yUx6bat9dLzzpue/1IlnCNZvP/K+mJdPxIp9fJoUR/XMZOSFjO5t8FvKk5iOw+nZ6U
-         9fq0h8gxpkrJTYOiBWb96pWkprRjOv2jO+kRlM1tK2ghN8wEe9kjrAg8rqOjuxM1i4E8
-         TCYTuFFKjRJLSlnSw3SHTOudB1l4QQ1ZxsIYB3kG2CiIo4N6/4/xE3sz9q0MLDcX1dkY
-         omQnfwQNDNNs49PYCyTXYuGQmeUT/T6fXkAn2kipVvkx3+1+Ky7UvhxExhsq6DA9jAs5
-         Q6Zp74GXur6POb6+8ZGTDx/Qxw6EMgkqGvuTsjKjaMC/cyUcroPeL03OOL3lDXFgIOiQ
-         2cFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793622876; x=1794227676;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=jXPXHbGLmRwUEbj13/FmJNOUje1/462ix0xFNYMTlBs=;
-        b=l6vo8bkAQ0VcyfjJs59YMAFwUl0yEUn4Kk0/fWgxTP898bvWPnVwny4wnERJtA/v6s
-         bADBHFwhrltY9td+Gh1cHCKFKeN6qMZZ3pJ8aKf8WMyO/qILeNTk79Ia7BZFwdV2/KTj
-         +4UkMTbnV+YS+/RVx79jrBBEN0qO2+oczbNdMcbeoJuR4lWERlHyHQOamy4r5GdvhF5q
-         uPnS4qddzwQRPDHZ6gu3j1sLpBFlDolOwqzBeZZLaIGTauR7tbPMrfmEFwWSQ2WFTByp
-         OkKRMax2VHrxCCzdjhB/AZ/Wmjzuz9PxEV6A8SWu/cV5HLnYiOCR8wriR5TkRCZkGY9X
-         gpuw==
-X-Forwarded-Encrypted: i=1; AKwUvBztYKiqMJHDTw9eBvpo+VAF1eNFkkW7q+Dck2taBMFnem91HAZxgSjFAHmN6lkx83rGJ044i5wYNhuHRGXl@vger.kernel.org
-X-Gm-Message-State: APuU4Z+gJ7jIpM3mpL672UfXFtBPcSPgm1fs6SBSH9T5uqfJ6uXto4YW
-	rV83FR9j3anOonJDDIL/H+Sa5qrbXtY4OtkgF3c9jNaIn5qQlH3sleefpkghk/y2CikBD9dLExD
-	U8z8rzMFfcMF1N4UoFuOvCfxuoIrD4pA=
-X-Gm-Gg: AYBFou3VS8mU3sRb8iAn074oSWbbrc5ACLn5OJqyC/c/Cn2hPWfqk51AOJaCYqYIASF
-	a/zZJ2fWT+e0BCVybkJ1JrP9XLOgbV63CmfNOo3yE6136u3pQQlip07U2drzGwPIWV9W3EXxAnG
-	V2Ovm5miAf31GvoQ/gM0P/6uYcNbRvNbGnll97nlBotyr09hfr+h9HYmuq8dA23jetIluRRXmV1
-	wBqcFROro9XH0itQkDWk8/evEGDgCeY33b18Hs0zZ8yOuvQMDzKrB8oa/0YaHvugMdozMgPy5sK
-	W1wZ2HU2e95JNpsCrZ2AHCGezNnxMXCd2W/vJShTcF0Vp5rcdxOysfi7J4vbf+RCuNTbCiOqS8q
-	z215SSxO0HeotSjuredrWk/y4Gh1zaLcZXY2D30AT/QdpaKd4aWnsTIMBYDccu5yo0J/rlA==
-X-Received: by 2002:a05:6402:27d4:b0:6b4:7f3:a9cb with SMTP id
- 4fb4d7f45d1cf-6b4d64b21c9mr7700361a12.42.1793622875571; Mon, 02 Nov 2026
- 04:34:35 -0800 (PST)
+	by smtp.kernel.org (Postfix) with ESMTPS id 8737D1F00A16;
+	Mon,  2 Nov 2026 13:03:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793624637;
+	bh=gXkbMf8DM0d4yvmmrUjI+zueCqEc0hq6YJ+3++B1KPQ=;
+	h=From:Date:Subject:To:Cc:Reply-To;
+	b=KMTrcZLa4EeOwDolpCOhtcMcHP5jE5HJhdIPmS6cnZyPV8Milyuags4BU/g9SAWkk
+	 P8E2iZWKuSA7v26xrtPm7D8wkBSiAxGfWQBV9HMHROFr+g5ZIUU7C8lXh3PVfqJMxm
+	 lC9UIzkQ8DA5IGsSUWWUyDjncjxFLVas4xYS1w0PMJtoxWYhel15jJD9WOzyk1mkAC
+	 a4KdzQByr6WnzSXQ3xx5iauSebUUxG2kKqgZjSq2Jc6F4TKylgMC+t8vCdfJaJz9W7
+	 wqh+gvQ4BFfxcBMvUlW59DVc8fTknRTISzDCwrUQvN40xW23mKxaKyriNMAydYrcQ3
+	 040YnrD9KgGnw==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id D66F746519;
+	Mon,  2 Nov 2026 13:03:55 +0000 (UTC)
+From: Joas Antonio dos Santos via B4 Relay <devnull+joasantonio108.gmail.com@kernel.org>
+Date: Mon, 02 Nov 2026 13:03:56 +0000
+Subject: [PATCH v4] hugetlbfs: move hugetlbfs_free_inode tracepoint to
+ ->destroy_inode()
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -103,220 +83,146 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <P58Wrer--F-9@tuta.io> <20261030-welpen-anbinden-nullen-b2432cee1d10@brauner>
- <CAOQ4uxjm=cGPnug18VuhKqiMvkWwLPNLO_TE3KxO8iLZG+veYQ@mail.gmail.com> <P5Qu3co--N-9@tuta.io>
-In-Reply-To: <P5Qu3co--N-9@tuta.io>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Mon, 2 Nov 2026 13:34:22 +0100
-X-Gm-Features: AclHuK-3l0X1DZnRELP5P6NZd7vQR4-Zao9dTN5laF0U0H6VcezU-bslUhQpM0w
-Message-ID: <CAOQ4uxh67+vs0mr-Lxmwz9-N+F8m29WUNz+8qFLLDpOVYB7=vg@mail.gmail.com>
-Subject: Re: [PATCH v3] fs: let backing files inherit FMODE_NONOTIFY from the
- user file
-To: Edvard Conrad <edvard@tuta.io>
-Cc: Christian Brauner <brauner@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	"linux-unionfs@vger.kernel.org" <linux-unionfs@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"stable@vger.kernel.org" <stable@vger.kernel.org>
-Content-Type: multipart/mixed; boundary="0000000000005c4f71065f4a5edd"
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261102-b4-hugetlbfs-trace-v4-1-72371825bb5e@gmail.com>
+X-B4-Tracking: v=1; b=H4sIADuK6GoC/33Nyw7CIBCF4VdpWIuZKfSiK9/DuAA6tCS9GKhE0
+ /Tdpd3owrj8TzLfLCyQdxTYOVuYp+iCm8YU8pAx06mxJe6a1CyHvEQQyLXk3aOludc28NkrQ1x
+ I1ELUSheVZunw7sm6545eb6k7F+bJv/YfEbf1LxeRI5dk6gZyJcCYSzso1x/NNLCNi+JDIPwmR
+ CKgQF1haeUJ7Dexrusbr4LkXfcAAAA=
+To: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+ David Hildenbrand <david@kernel.org>
+Cc: linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>, 
+ Hongbo Li <lihongbo22@huawei.com>, linux-fsdevel@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ syzbot+91e1fc35f51774c479b2@syzkaller.appspotmail.com, 
+ stable@vger.kernel.org, Joas Antonio dos Santos <joasantonio108@gmail.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1793624635; l=4611;
+ i=joasantonio108@gmail.com; s=20261031; h=from:subject:message-id;
+ bh=KamqvAmHDg6o0N+fTVEMDXuwIqsclHfnbjLf5BnFAeI=;
+ b=6KI19Vg+bAxiED0JqPw6cBQwYlbwj43osrwBDrFjsM/YfY07REwyxhqBR4n5b2oqe015nw9Cy
+ T6PsmCPy7HUCpwFtBSgbCWDiiT3HPmtT6UUve/QpoSglPtcB7gNcinv
+X-Developer-Key: i=joasantonio108@gmail.com; a=ed25519;
+ pk=ZxAznJT/FcPPdzLrDDFJQm4LLjjHVGBBqDSG3TXS23w=
+X-Endpoint-Received: by B4 Relay for joasantonio108@gmail.com/20261031 with
+ auth_id=1371
+X-Original-From: Joas Antonio dos Santos <joasantonio108@gmail.com>
+Reply-To: joasantonio108@gmail.com
+Content-Transfer-Encoding: 7bit
 
---0000000000005c4f71065f4a5edd
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Joas Antonio dos Santos <joasantonio108@gmail.com>
 
-On Mon, Nov 2, 2026 at 11:58=E2=80=AFAM Edvard Conrad <edvard@tuta.io> wrot=
-e:
->
-> On Fri, Oct 30, 2026 at 6:13 PM Amir Goldstein <amir73il@gmail.com> wrote=
-:
-> > Would you mind adding test cases (or variants) to fanotify26 to cover
-> > this find and test the attached (sanity tested only) patch.
->
-> Two things on the directory side, one settled and one not.
->
-> Agreed on 130fdbc3d1f99 ("ovl: pass correct flags for opening real
-> directory"). Before it ovl_dir_open() passed the user file's f_flags to
-> ovl_path_open(), and __FMODE_NONOTIFY travelled with them; the commit
-> reasons through every O_* flag but that one is not an O_* flag. That
-> fits v6.13 failing the directory case and passing the file case.
->
-> The one that is not settled: with your patch, listing a merged
-> directory through the event fd still deadlocks. ovl_iterate() sends a
-> directory that has OVL_WHITEOUTS to ovl_iterate_merged(), and
-> ovl_dir_read() opens each layer with plain ovl_path_open(), which no
-> user file reaches. A listener that calls getdents64() on the fd before
-> answering blocks here:
->
->   fanotify_handle_event
->   fsnotify
->   fsnotify_open_perm_and_set_mode
->   do_dentry_open
->   vfs_open
->   dentry_open
->   ovl_dir_read_merged
->   ovl_iterate
->   iterate_dir
->   __x64_sys_getdents64
->
-> Two controls on the same kernel: the same merged directory without the
-> listing passes, and a lower-only directory with the listing passes,
-> since od->realfile is nonotify with your patch and iterate_dir() uses
-> it directly. That was on 6b4b543fa18 with your patch applied (with some
-> fuzz); the readdir.c paths involved are the same in today's master. I
-> have it as an extra case in a local copy of fanotify26 and can post it
-> once there is a fix to run it against.
+hugetlbfs_free_inode() calls trace_hugetlbfs_free_inode(), and the
+hugetlbfs__inode event class records inode->i_sb->s_dev.  ->free_inode()
+runs from an RCU callback (destroy_inode() queues i_callback() with
+call_rcu()), and Documentation/filesystems/porting.rst says that this
+callback "is *NOT* ordered wrt superblock destruction; as the matter of
+fact, the superblock and all associated structures might be already
+gone".  put_super() frees the superblock with call_rcu() followed by a
+workqueue item (destroy_super_rcu() -> destroy_super_work()).  syzbot
+hit this with the event enabled:
 
-Good catch!
-Please test the attached v2 patch and post the new test cases.
+  BUG: KASAN: slab-use-after-free in trace_event_raw_event_hugetlbfs__inode+0x45b/0x4c0 include/trace/events/hugetlbfs.h:36
+  Read of size 4 at addr ffff888038850010 by task syz-executor952/6134
+   hugetlbfs_free_inode+0x15e/0x1f0 fs/hugetlbfs/inode.c:1182
+   i_callback+0x46/0x80 fs/inode.c:317
+   rcu_do_batch kernel/rcu/tree.c:2650 [inline]
+   rcu_core+0x5f0/0x1220 kernel/rcu/tree.c:2919
+  Allocated by task 6134:
+   alloc_super fs/super.c:326 [inline]
+   sget_fc+0x1ba/0x1f60 fs/super.c:874
+   hugetlbfs_get_tree+0x1e7/0x2b0 fs/hugetlbfs/inode.c:1431
+  Freed by task 855:
+   kfree+0x22b/0x6d0 mm/slub.c:6923
+   process_one_work+0xac7/0x1b10 kernel/workqueue.c:3495
 
->
-> Incidentally, I was thinking about your ask for something more
-> generic: a task-level "creating an event fd" state in fanotify would
-> cover the file and directory opens in one place, and the copy-up opens
-> in copy_up.c too, which also go through plain ovl_path_open() and
-> which an O_RDWR group would trigger for a lower-only file (from
-> reading, not tested). It would not reach the listing case above, which
-> runs at getdents() time, long after the fd exists.
+Emit the event from hugetlbfs_destroy_inode() instead.  destroy_inode()
+calls ->destroy_inode() synchronously, before it queues the RCU
+callback, while the superblock is still alive; hugetlbfs_destroy_inode()
+already dereferences inode->i_sb there.  ->free_inode() is left with
+only the kmem_cache_free().
 
-Writing into fanotify provided fds already has issues with potential deadlo=
-cks,
-so I am not excited about making more changes to overlayfs to avert this.
+Since the event no longer fires from ->free_inode(), rename it to
+hugetlbfs_destroy_inode so that its name matches where it is emitted,
+as suggested by David and Muchun.
 
-Also it is the fd which is supposed to be marked NONOTIFY and not the liste=
-ner
-process because the listener process. We have thought about other models as=
- well
-but for now we need to keep it this way.
+Found by syzbot; analysed and tested with the syzbot C reproducer on an
+arm64 KASAN kernel.
 
-Thanks,
-Amir.
+Fixes: 014ad7c42a69 ("hugetlbfs: use tracepoints in hugetlbfs functions.")
+Reported-by: syzbot+91e1fc35f51774c479b2@syzkaller.appspotmail.com
+Closes: https://lore.kernel.org/all/6ae27525.5451848c.f7707.0001.GAE@google.com/
+Suggested-by: David Hildenbrand <david@kernel.org>
+Suggested-by: Muchun Song <muchun.song@linux.dev>
+Cc: stable@vger.kernel.org
+Reviewed-by: Muchun Song <muchun.song@linux.dev>
+Signed-off-by: Joas Antonio dos Santos <joasantonio108@gmail.com>
+---
+Changes in v4:
+- Drop the comment in hugetlbfs_destroy_inode(), the new event name
+  makes it clear where it fires (Muchun).
+- Add Muchun's Reviewed-by.
 
---0000000000005c4f71065f4a5edd
-Content-Type: text/x-patch; charset="US-ASCII"; 
-	name="v2-0001-ovl-inherit-FMODE_NONOTIFY-when-opening-directory.patch"
-Content-Disposition: attachment; 
-	filename="v2-0001-ovl-inherit-FMODE_NONOTIFY-when-opening-directory.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_mvz8lw070>
-X-Attachment-Id: f_mvz8lw070
+Andrew, this replaces
+hugetlbfs-move-hugetlbfs_free_inode-tracepoint-to-destroy_inode.patch in
+mm-hotfixes-unstable; the only code change from v3 is the removed
+comment.
 
-RnJvbSBhZmM4ZTYzYjMwNTRkNjVmN2IwZjJjMWFkZjg5M2FkNjI1NTE0Mzk3IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBBbWlyIEdvbGRzdGVpbiA8YW1pcjczaWxAZ21haWwuY29tPgpE
-YXRlOiBGcmksIDMwIE9jdCAyMDI2IDE4OjA3OjAyICswMTAwClN1YmplY3Q6IFtQQVRDSCB2Ml0g
-b3ZsOiBpbmhlcml0IEZNT0RFX05PTk9USUZZIHdoZW4gb3BlbmluZyBkaXJlY3RvcnkKIHJlYWxm
-aWxlcwoKV2hlbiBmYW5vdGlmeSBoYW5kcyBhIGxpc3RlbmVyIGFuIGZkIGZvciBhIHBlcm1pc3Np
-b24gZXZlbnQgb24gYW4Kb3ZlcmxheSBkaXJlY3RvcnksIG92bF9kaXJfb3Blbl9yZWFsZmlsZSgp
-IG9wZW5zIHRoZSByZWFsIGRpcmVjdG9yeSB2aWEKZGVudHJ5X29wZW4oKSwgbm90IGJhY2tpbmdf
-ZmlsZV9vcGVuKCksIHNvIHRoZSBsb3dlciBvcGVuIGNvdWxkIHN0aWxsCnJhaXNlIEZTX09QRU5f
-UEVSTSBhbmQgZGVhZGxvY2sgYSBsaXN0ZW5lciB0aGF0IGFsc28gbWFya3MgdGhlIGJhY2tpbmcK
-ZmlsZXN5c3RlbS4KCkV4cG9ydCBkZW50cnlfb3Blbl9ub25vdGlmeSgpIGFuZCBjYWxsIGl0IGZy
-b20gb3ZsX3BhdGhfb3Blbl9yZWFsZmlsZSgpCndoZW4gdGhlIG92ZXJsYXkgdXNlciBmaWxlIG11
-c3Qgbm90IGdlbmVyYXRlIGV2ZW50cy4gIE9yZGluYXJ5Cm92bF9wYXRoX29wZW4oKSBjYWxsZXJz
-IGFyZSB1bmNoYW5nZWQuCgpSZXBvcnRlZC1ieTogQ2hyaXN0aWFuIEJyYXVuZXIgKEFtdXRhYmxl
-KSA8YnJhdW5lckBrZXJuZWwub3JnPgpDbG9zZXM6IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2Fs
-bC8yMDI2MTAzMC13ZWxwZW4tYW5iaW5kZW4tbnVsbGVuLWIyNDMyY2VlMWQxMEBicmF1bmVyLwpG
-aXhlczogMTMwZmRiYzNkMWY5OSAoIm92bDogcGFzcyBjb3JyZWN0IGZsYWdzIGZvciBvcGVuaW5n
-IHJlYWwgZGlyZWN0b3J5IikKVGVzdGVkLWJ5OiBFZHZhcmQgQ29ucmFkIDxlZHZhcmRAdHV0YS5p
-bz4KTGluazogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvYWxsL1A1SW55NDEtLUYtOUB0dXRhLmlv
-LwpDYzogc3RhYmxlQHZnZXIua2VybmVsLm9yZwpTaWduZWQtb2ZmLWJ5OiBBbWlyIEdvbGRzdGVp
-biA8YW1pcjczaWxAZ21haWwuY29tPgotLS0KIGZzL29wZW4uYyAgICAgICAgICAgICAgICB8ICAx
-ICsKIGZzL292ZXJsYXlmcy9vdmVybGF5ZnMuaCB8ICA5ICsrKysrKysrLQogZnMvb3ZlcmxheWZz
-L3JlYWRkaXIuYyAgIHwgMjAgKysrKysrKysrKysrLS0tLS0tLS0KIGZzL292ZXJsYXlmcy91dGls
-LmMgICAgICB8IDExICsrKysrKysrKystCiA0IGZpbGVzIGNoYW5nZWQsIDMxIGluc2VydGlvbnMo
-KyksIDEwIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2ZzL29wZW4uYyBiL2ZzL29wZW4uYwpp
-bmRleCBlNDNmMDJmZjY0YWNiLi5iYjQ4NGIwNzM5MGFjIDEwMDY0NAotLS0gYS9mcy9vcGVuLmMK
-KysrIGIvZnMvb3Blbi5jCkBAIC0xMTcyLDYgKzExNzIsNyBAQCBzdHJ1Y3QgZmlsZSAqZGVudHJ5
-X29wZW5fbm9ub3RpZnkoY29uc3Qgc3RydWN0IHBhdGggKnBhdGgsIGludCBmbGFncywKIAl9CiAJ
-cmV0dXJuIGY7CiB9CitFWFBPUlRfU1lNQk9MX0dQTChkZW50cnlfb3Blbl9ub25vdGlmeSk7CiAK
-IC8qKgogICoga2VybmVsX2ZpbGVfb3BlbiAtIG9wZW4gYSBmaWxlIGZvciBrZXJuZWwgaW50ZXJu
-YWwgdXNlCmRpZmYgLS1naXQgYS9mcy9vdmVybGF5ZnMvb3ZlcmxheWZzLmggYi9mcy9vdmVybGF5
-ZnMvb3ZlcmxheWZzLmgKaW5kZXggZTkzODlhMTA0NTJlOC4uYjVhNjcyZThlNDc2NCAxMDA2NDQK
-LS0tIGEvZnMvb3ZlcmxheWZzL292ZXJsYXlmcy5oCisrKyBiL2ZzL292ZXJsYXlmcy9vdmVybGF5
-ZnMuaApAQCAtNTMxLDcgKzUzMSwxNCBAQCB2b2lkIG92bF9kaXJfbW9kaWZpZWQoc3RydWN0IGRl
-bnRyeSAqZGVudHJ5LCBib29sIGltcHVyaXR5KTsKIHU2NCBvdmxfaW5vZGVfdmVyc2lvbl9nZXQo
-c3RydWN0IGlub2RlICppbm9kZSk7CiBib29sIG92bF9pc193aGl0ZW91dChzdHJ1Y3QgZGVudHJ5
-ICpkZW50cnkpOwogYm9vbCBvdmxfcGF0aF9pc193aGl0ZW91dChzdHJ1Y3Qgb3ZsX2ZzICpvZnMs
-IGNvbnN0IHN0cnVjdCBwYXRoICpwYXRoKTsKLXN0cnVjdCBmaWxlICpvdmxfcGF0aF9vcGVuKGNv
-bnN0IHN0cnVjdCBwYXRoICpwYXRoLCBpbnQgZmxhZ3MpOworc3RydWN0IGZpbGUgKm92bF9wYXRo
-X29wZW5fcmVhbGZpbGUoY29uc3Qgc3RydWN0IGZpbGUgKnVzZXJfZmlsZSwKKwkJCQkgICAgY29u
-c3Qgc3RydWN0IHBhdGggKnBhdGgsIGludCBmbGFncyk7CisKK3N0YXRpYyBpbmxpbmUgc3RydWN0
-IGZpbGUgKm92bF9wYXRoX29wZW4oY29uc3Qgc3RydWN0IHBhdGggKnBhdGgsIGludCBmbGFncykK
-K3sKKwlyZXR1cm4gb3ZsX3BhdGhfb3Blbl9yZWFsZmlsZShOVUxMLCBwYXRoLCBmbGFncyk7Cit9
-CisKIGludCBvdmxfY29weV91cF9zdGFydChzdHJ1Y3QgZGVudHJ5ICpkZW50cnksIGludCBmbGFn
-cyk7CiB2b2lkIG92bF9jb3B5X3VwX2VuZChzdHJ1Y3QgZGVudHJ5ICpkZW50cnkpOwogYm9vbCBv
-dmxfYWxyZWFkeV9jb3BpZWRfdXAoc3RydWN0IGRlbnRyeSAqZGVudHJ5LCBpbnQgZmxhZ3MpOwpk
-aWZmIC0tZ2l0IGEvZnMvb3ZlcmxheWZzL3JlYWRkaXIuYyBiL2ZzL292ZXJsYXlmcy9yZWFkZGly
-LmMKaW5kZXggYjg2MjMwOWViYTRkMS4uZDUxYjI0ZTJiYmQ5YSAxMDA2NDQKLS0tIGEvZnMvb3Zl
-cmxheWZzL3JlYWRkaXIuYworKysgYi9mcy9vdmVybGF5ZnMvcmVhZGRpci5jCkBAIC00Myw2ICs0
-Myw3IEBAIHN0cnVjdCBvdmxfZGlyX2NhY2hlIHsKIAogc3RydWN0IG92bF9yZWFkZGlyX2RhdGEg
-ewogCXN0cnVjdCBkaXJfY29udGV4dCBjdHg7CisJY29uc3Qgc3RydWN0IGZpbGUgKnVzZXJfZmls
-ZTsKIAlzdHJ1Y3QgZGVudHJ5ICpkZW50cnk7CiAJYm9vbCBpc19sb3dlc3Q7CiAJc3RydWN0IHJi
-X3Jvb3QgKnJvb3Q7CkBAIC0zNzcsNyArMzc4LDggQEAgc3RhdGljIGlubGluZSBpbnQgb3ZsX2Rp
-cl9yZWFkKGNvbnN0IHN0cnVjdCBwYXRoICpyZWFscGF0aCwKIAlzdHJ1Y3QgZmlsZSAqcmVhbGZp
-bGU7CiAJaW50IGVycjsKIAotCXJlYWxmaWxlID0gb3ZsX3BhdGhfb3BlbihyZWFscGF0aCwgT19S
-RE9OTFkgfCBPX0xBUkdFRklMRSk7CisJcmVhbGZpbGUgPSBvdmxfcGF0aF9vcGVuX3JlYWxmaWxl
-KHJkZC0+dXNlcl9maWxlLCByZWFscGF0aCwKKwkJCQkJICBPX1JET05MWSB8IE9fTEFSR0VGSUxF
-KTsKIAlpZiAoSVNfRVJSKHJlYWxmaWxlKSkKIAkJcmV0dXJuIFBUUl9FUlIocmVhbGZpbGUpOwog
-CkBAIC00MjEsMTMgKzQyMywxNCBAQCBzdGF0aWMgdm9pZCBvdmxfZGlyX3Jlc2V0KHN0cnVjdCBm
-aWxlICpmaWxlKQogfQogCiBzdGF0aWMgaW50IG92bF9kaXJfcmVhZF9tZXJnZWQoc3RydWN0IGRl
-bnRyeSAqZGVudHJ5LCBzdHJ1Y3QgbGlzdF9oZWFkICpsaXN0LAotCXN0cnVjdCByYl9yb290ICpy
-b290KQorCXN0cnVjdCByYl9yb290ICpyb290LCBjb25zdCBzdHJ1Y3QgZmlsZSAqdXNlcl9maWxl
-KQogewogCWludCBlcnI7CiAJc3RydWN0IHBhdGggcmVhbHBhdGg7CiAJc3RydWN0IG92bF9yZWFk
-ZGlyX2RhdGEgcmRkID0gewogCQkuY3R4LmFjdG9yID0gb3ZsX2ZpbGxfbWVyZ2UsCiAJCS5jdHgu
-Y291bnQgPSBJTlRfTUFYLAorCQkudXNlcl9maWxlID0gdXNlcl9maWxlLAogCQkuZGVudHJ5ID0g
-ZGVudHJ5LAogCQkubGlzdCA9IGxpc3QsCiAJCS5yb290ID0gcm9vdCwKQEAgLTQ5OCw5ICs1MDEs
-MTAgQEAgc3RhdGljIHN0cnVjdCBvdmxfZGlyX2NhY2hlICpvdmxfZGlyX2NhY2hlX2NoZWNrKHN0
-cnVjdCBpbm9kZSAqaW5vZGUsCiAJcmV0dXJuIGNhY2hlOwogfQogCi1zdGF0aWMgc3RydWN0IG92
-bF9kaXJfY2FjaGUgKm92bF9jYWNoZV9nZXQoc3RydWN0IGRlbnRyeSAqZGVudHJ5KQorc3RhdGlj
-IHN0cnVjdCBvdmxfZGlyX2NhY2hlICpvdmxfZGlyX2NhY2hlX2dldChzdHJ1Y3QgZmlsZSAqZmls
-ZSkKIHsKIAlpbnQgcmVzOworCXN0cnVjdCBkZW50cnkgKmRlbnRyeSA9IGZpbGUtPmZfcGF0aC5k
-ZW50cnk7CiAJc3RydWN0IG92bF9kaXJfY2FjaGUgKmNhY2hlOwogCXN0cnVjdCBpbm9kZSAqaW5v
-ZGUgPSBkX2lub2RlKGRlbnRyeSk7CiAKQEAgLTUyMSw3ICs1MjUsNyBAQCBzdGF0aWMgc3RydWN0
-IG92bF9kaXJfY2FjaGUgKm92bF9jYWNoZV9nZXQoc3RydWN0IGRlbnRyeSAqZGVudHJ5KQogCUlO
-SVRfTElTVF9IRUFEKCZjYWNoZS0+ZW50cmllcyk7CiAJY2FjaGUtPnJvb3QgPSBSQl9ST09UOwog
-Ci0JcmVzID0gb3ZsX2Rpcl9yZWFkX21lcmdlZChkZW50cnksICZjYWNoZS0+ZW50cmllcywgJmNh
-Y2hlLT5yb290KTsKKwlyZXMgPSBvdmxfZGlyX3JlYWRfbWVyZ2VkKGRlbnRyeSwgJmNhY2hlLT5l
-bnRyaWVzLCAmY2FjaGUtPnJvb3QsIGZpbGUpOwogCWlmIChyZXMpIHsKIAkJb3ZsX2NhY2hlX2Zy
-ZWUoJmNhY2hlLT5lbnRyaWVzKTsKIAkJa2ZyZWUoY2FjaGUpOwpAQCAtODY2LDE0ICs4NzAsMTMg
-QEAgc3RhdGljIGludCBvdmxfaXRlcmF0ZV9yZWFsKHN0cnVjdCBmaWxlICpmaWxlLCBzdHJ1Y3Qg
-ZGlyX2NvbnRleHQgKmN0eCkKIHN0YXRpYyBpbnQgb3ZsX2l0ZXJhdGVfbWVyZ2VkKHN0cnVjdCBm
-aWxlICpmaWxlLCBzdHJ1Y3QgZGlyX2NvbnRleHQgKmN0eCkKIHsKIAlzdHJ1Y3Qgb3ZsX2Rpcl9m
-aWxlICpvZCA9IGZpbGUtPnByaXZhdGVfZGF0YTsKLQlzdHJ1Y3QgZGVudHJ5ICpkZW50cnkgPSBm
-aWxlLT5mX3BhdGguZGVudHJ5OwogCXN0cnVjdCBvdmxfY2FjaGVfZW50cnkgKnA7CiAJaW50IGVy
-cjsKIAogCWlmICghb2QtPmNhY2hlKSB7CiAJCXN0cnVjdCBvdmxfZGlyX2NhY2hlICpjYWNoZTsK
-IAotCQljYWNoZSA9IG92bF9jYWNoZV9nZXQoZGVudHJ5KTsKKwkJY2FjaGUgPSBvdmxfZGlyX2Nh
-Y2hlX2dldChmaWxlKTsKIAkJaWYgKElTX0VSUihjYWNoZSkpCiAJCQlyZXR1cm4gUFRSX0VSUihj
-YWNoZSk7CiAKQEAgLTk5NCw3ICs5OTcsOCBAQCBzdGF0aWMgc3RydWN0IGZpbGUgKm92bF9kaXJf
-b3Blbl9yZWFsZmlsZShjb25zdCBzdHJ1Y3QgZmlsZSAqZmlsZSwKIAkJCQkJICBjb25zdCBzdHJ1
-Y3QgcGF0aCAqcmVhbHBhdGgpCiB7CiAJd2l0aF9vdmxfY3JlZHMoZmlsZV9pbm9kZShmaWxlKS0+
-aV9zYikKLQkJcmV0dXJuIG92bF9wYXRoX29wZW4ocmVhbHBhdGgsIE9fUkRPTkxZIHwgKGZpbGUt
-PmZfZmxhZ3MgJiBPX0xBUkdFRklMRSkpOworCQlyZXR1cm4gb3ZsX3BhdGhfb3Blbl9yZWFsZmls
-ZShmaWxlLCByZWFscGF0aCwKKwkJCQkJICAgICAgT19SRE9OTFkgfCAoZmlsZS0+Zl9mbGFncyAm
-IE9fTEFSR0VGSUxFKSk7CiB9CiAKIC8qCkBAIC0xMTE5LDcgKzExMjMsNyBAQCBpbnQgb3ZsX2No
-ZWNrX2VtcHR5X2RpcihzdHJ1Y3QgZGVudHJ5ICpkZW50cnksIHN0cnVjdCBsaXN0X2hlYWQgKmxp
-c3QpCiAJc3RydWN0IHJiX3Jvb3Qgcm9vdCA9IFJCX1JPT1Q7CiAKIAl3aXRoX292bF9jcmVkcyhk
-ZW50cnktPmRfc2IpCi0JCWVyciA9IG92bF9kaXJfcmVhZF9tZXJnZWQoZGVudHJ5LCBsaXN0LCAm
-cm9vdCk7CisJCWVyciA9IG92bF9kaXJfcmVhZF9tZXJnZWQoZGVudHJ5LCBsaXN0LCAmcm9vdCwg
-TlVMTCk7CiAJaWYgKGVycikKIAkJcmV0dXJuIGVycjsKIApkaWZmIC0tZ2l0IGEvZnMvb3Zlcmxh
-eWZzL3V0aWwuYyBiL2ZzL292ZXJsYXlmcy91dGlsLmMKaW5kZXggNmMzZmRhMDQ3Zjk0Zi4uNzg4
-YzY4NzBkNjdkZiAxMDA2NDQKLS0tIGEvZnMvb3ZlcmxheWZzL3V0aWwuYworKysgYi9mcy9vdmVy
-bGF5ZnMvdXRpbC5jCkBAIC02NTQsNyArNjU0LDggQEAgYm9vbCBvdmxfcGF0aF9pc193aGl0ZW91
-dChzdHJ1Y3Qgb3ZsX2ZzICpvZnMsIGNvbnN0IHN0cnVjdCBwYXRoICpwYXRoKQogCQlvdmxfcGF0
-aF9jaGVja194d2hpdGVvdXRfeGF0dHIob2ZzLCBwYXRoKTsKIH0KIAotc3RydWN0IGZpbGUgKm92
-bF9wYXRoX29wZW4oY29uc3Qgc3RydWN0IHBhdGggKnBhdGgsIGludCBmbGFncykKK3N0cnVjdCBm
-aWxlICpvdmxfcGF0aF9vcGVuX3JlYWxmaWxlKGNvbnN0IHN0cnVjdCBmaWxlICp1c2VyX2ZpbGUs
-CisJCQkJICAgIGNvbnN0IHN0cnVjdCBwYXRoICpwYXRoLCBpbnQgZmxhZ3MpCiB7CiAJc3RydWN0
-IGlub2RlICppbm9kZSA9IGRfaW5vZGUocGF0aC0+ZGVudHJ5KTsKIAljb25zdCBzdHJ1Y3QgbW50
-X2lkbWFwICpyZWFsX2lkbWFwID0gbW50X2lkbWFwKHBhdGgtPm1udCk7CkBAIC02ODIsNiArNjgz
-LDE0IEBAIHN0cnVjdCBmaWxlICpvdmxfcGF0aF9vcGVuKGNvbnN0IHN0cnVjdCBwYXRoICpwYXRo
-LCBpbnQgZmxhZ3MpCiAJaWYgKGlub2RlX293bmVyX29yX2NhcGFibGUocmVhbF9pZG1hcCwgaW5v
-ZGUpKQogCQlmbGFncyB8PSBPX05PQVRJTUU7CiAKKwkvKgorCSAqIERpcmVjdG9yeSBvcGVucyB1
-c2UgZGVudHJ5X29wZW4oKSBoZXJlLCBub3QgYmFja2luZ19maWxlX29wZW4oKS4KKwkgKiBJbmhl
-cml0IEZNT0RFX05PTk9USUZZIGZyb20gYSBmYW5vdGlmeSBwZXJtaXNzaW9uIGZkIHNvIGEgbGlz
-dGVuZXIKKwkgKiB0aGF0IGFsc28gd2F0Y2hlcyB0aGUgcmVhbCBmaWxlc3lzdGVtIGRvZXMgbm90
-IGRlYWRsb2NrLgorCSAqLworCWlmICh1c2VyX2ZpbGUgJiYgRk1PREVfRlNOT1RJRllfTk9ORSh1
-c2VyX2ZpbGUtPmZfbW9kZSkpCisJCXJldHVybiBkZW50cnlfb3Blbl9ub25vdGlmeShwYXRoLCBm
-bGFncywgY3VycmVudF9jcmVkKCkpOworCiAJcmV0dXJuIGRlbnRyeV9vcGVuKHBhdGgsIGZsYWdz
-LCBjdXJyZW50X2NyZWQoKSk7CiB9CiAKLS0gCjIuNTUuMAoK
---0000000000005c4f71065f4a5edd--
+Changes in v3:
+- Rename the tracepoint to hugetlbfs_destroy_inode in the same patch, so
+  its name matches where it now fires (David, Muchun).
+
+Tested with the syzbot C reproducer on an arm64 KASAN kernel with the
+renamed event enabled: no splat in 3 of 3 boots, and
+hugetlbfs_destroy_inode events are recorded.
+
+Tool-use note: the analysis and testing were done with help from an
+LLM-based assistant; I reviewed the change and ran the tests myself.
+
+v3: https://lore.kernel.org/all/20261101-b4-hugetlbfs-trace-v3-1-051b716f490f@gmail.com/
+---
+ fs/hugetlbfs/inode.c             | 2 +-
+ include/trace/events/hugetlbfs.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
+index 01c4d6f44ebe..f0be8edb3517 100644
+--- a/fs/hugetlbfs/inode.c
++++ b/fs/hugetlbfs/inode.c
+@@ -1179,12 +1179,12 @@ static struct inode *hugetlbfs_alloc_inode(struct super_block *sb)
+ 
+ static void hugetlbfs_free_inode(struct inode *inode)
+ {
+-	trace_hugetlbfs_free_inode(inode);
+ 	kmem_cache_free(hugetlbfs_inode_cachep, HUGETLBFS_I(inode));
+ }
+ 
+ static void hugetlbfs_destroy_inode(struct inode *inode)
+ {
++	trace_hugetlbfs_destroy_inode(inode);
+ 	hugetlbfs_inc_free_inodes(HUGETLBFS_SB(inode->i_sb));
+ }
+ 
+diff --git a/include/trace/events/hugetlbfs.h b/include/trace/events/hugetlbfs.h
+index 8ba72c1d4f4d..a7932e0db0f8 100644
+--- a/include/trace/events/hugetlbfs.h
++++ b/include/trace/events/hugetlbfs.h
+@@ -72,7 +72,7 @@ DEFINE_EVENT(hugetlbfs__inode, hugetlbfs_evict_inode,
+ 	TP_ARGS(inode)
+ );
+ 
+-DEFINE_EVENT(hugetlbfs__inode, hugetlbfs_free_inode,
++DEFINE_EVENT(hugetlbfs__inode, hugetlbfs_destroy_inode,
+ 
+ 	TP_PROTO(struct inode *inode),
+ 
+
+---
+base-commit: c339f4010dea8b0d754f84ace70cd1b089878ef8
+change-id: 20261031-b4-hugetlbfs-trace-341b338ab57b
+
+Best regards,
+-- 
+Joas Antonio dos Santos <joasantonio108@gmail.com>
+
+
