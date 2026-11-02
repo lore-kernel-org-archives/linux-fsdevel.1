@@ -1,109 +1,106 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1793656025;
-	b=T8Fu64guxxGptJ0b7ct2i7yeghQr3JWfZz58fDag2oVYt22TlKjHDqhRSc+bLxLLw71W
-	 8JErEgEE8MdPWno/njAIbng1y0M3XgrF7CkXrgTl6PMQD1X+B0AmUPyc6XmrlX6q9rsHX
-	 xsiqKTzcUFLQfqRHVOEcYGoRAMUK5c71jEOBdJz0OEurYA92LWQjV41/Se9TYq7VDCHNK
-	 OcrlxOH2uy5tohQzdCjFr+RrgbDGJIaPq3l3avtP4mUHbJpKf0nRG9a2cSScGgTUEyLeA
-	 Xjo8IaYwQ2Q4R81AvOH2AgNY0/5bKOpRQMlgkfXsx4XtH2e5yg1QkF2XyZISJveNwWg==
+	b=oWijSuWVLiO9nF1pZsvNZJ78gCp01hY3jc6xAiCoGeHTYljyMoMiElQYFmPwjVTJex7v
+	 ljwxKEyxk5tsVa77bS1JA0FsQsjlMQ/CfoFSA4AgIsb85dVbhZyiUpZbcnLVin5fZQyan
+	 naCA8Ph1v7gMlkis7rhkAN6Tw9i6fKLKYlXPPZoLBL98c1+xjgtsbkwjVpk3F6Wo8ZQGh
+	 7lkcCSzSSadhrKmJh/8sbJLe0FfjkeUte9QA6PBm0jaZXvU2PXlAluQgsq2Vyu+sws68K
+	 KH4KzXqIw9AK7F4v9MmSVwgHKdDn85TCuCerxdLaxIkODGIUatMDmzzfw8oUAUI8/PQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1793656025;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
 	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:
-	 X-Spam-Flag:X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
-	bh=i5HuJ6wlzqnm5PAKxcHqNPUgyKLe7g7pH4Aq4cQgHI4=;
-	b=V0xPjcKKMi3uiEcljhGF1LbG1hUp9Jd956p62kySVDmodz58m/hIeMTvHDKLhBUPltZc
-	 e3sCCb4qFcu/K4FdjR337Dfn/9dZxDzGv85L93HqqIxMllI5t090jotjWdPXPa8hnLoQN
-	 qHy/00pDB8hzNveCuu2hAqrglQAo2LgR1xQ88u6VHiURmGLhw0Y8qBlAqBtLJRGYR6zMC
-	 nLgg+W84l5ynBFRGDMIIGnIDyKSrjC8gEZYh+cPwak6Rs9dG6eJrLBjhkuikYvZRZE0TF
-	 8GrRbQ+2g3ovsBlRAg2Rk/CYZ4xRRq0ZOSV/QPF5Jn3EsjeDo2PziCQWy6b5k6pAvcw==
+	 In-Reply-To:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
+	bh=eryNLBdB+9u2OMDHvVsk50PIGXu+I13jRpOSwM//8IU=;
+	b=RwoE1rudiIgUPeFMpLXGaRJZMQtIT9jxbbhonc/2pHwuKgZEedzmLmayOrJ79I+qy4xJ
+	 zfBdwnGwDkeICEba78GPKzrWLR6LxN+TZB+gKF0iQ+zuxV9sko+OSMbBpamX3foHFK5is
+	 tSsZXAh3IVro8zWUjL02wM4xq3scsbBBAi0aDO++2u/IWscLU6PrtaRPNvoiP0jE7hmr7
+	 6kgyOQFtI35wRqIT10EglK3hxWbdV3kjyReV3+DQ9fPq/tLyJQVMJ+PteaZIht39Fp2OF
+	 6jdolL6Rsq7rX152mv4w2DSZg1ZDmVWoI63gDtRyqEc849NgrO+FA8hcySGf0TTJDpg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=suse.cz;
 	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=zRSZ7JVx;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=KiE4Yqhf;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=zRSZ7JVx;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=KiE4Yqhf;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=SQeKXy+q;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=yzYijHmJ;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=2PHZxyL7;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Yp4LXDCH;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FC38606A338;
-	Mon,  2 Nov 2026 21:47:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8FC38606A338
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64976606D823;
+	Mon,  2 Nov 2026 21:47:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 64976606D823
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=zRSZ7JVx;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=KiE4Yqhf;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=zRSZ7JVx;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=KiE4Yqhf
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=SQeKXy+q;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=yzYijHmJ;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=2PHZxyL7;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Yp4LXDCH
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C934E1FB28;
-	Mon,  2 Nov 2026 21:47:02 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id DFC7021F8E;
+	Mon,  2 Nov 2026 21:47:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793656022; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793656024; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=i5HuJ6wlzqnm5PAKxcHqNPUgyKLe7g7pH4Aq4cQgHI4=;
-	b=zRSZ7JVxIUt4LEZrOfepP6Efnx2ItlGJjoRUtpidWEWtyd8bxdqBtiqqxTVOKlP71MBmU4
-	02vYVL8XRrlfDdHSKQNkWRqYNZkdZVgBAGblUnQ0ynZO2FgiNE6qewR74qD3nL/CQWwdo1
-	0DiEoQcO/uitQS/uGUxM9rb0fOFPpBc=
+	bh=eryNLBdB+9u2OMDHvVsk50PIGXu+I13jRpOSwM//8IU=;
+	b=SQeKXy+qzGsdG96mI4gh14ny/OOdlK2hTdsnLfvW2H9iAVjGuWFMrQQR+cPW1fuR+y8emf
+	z39hCC28VQfPLljw1ZxZkjdEN9351tkxhqZcWt2/08SsJZkW7UKzzooWzCYYyQ1RGOSdVS
+	UdfhFzTL5HZVaiJccs+JNoxYIH8mw7k=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793656022;
+	s=susede2_ed25519; t=1793656024;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=i5HuJ6wlzqnm5PAKxcHqNPUgyKLe7g7pH4Aq4cQgHI4=;
-	b=KiE4Yqhf8IoHz+HMLLJH/edDuF8avhb6M7xdwW5mS5jIxFntZ9zhwIyNvQc+zlrdX+bmYO
-	altBuoyJMtHveOCg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=zRSZ7JVx;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=KiE4Yqhf
+	bh=eryNLBdB+9u2OMDHvVsk50PIGXu+I13jRpOSwM//8IU=;
+	b=yzYijHmJH/Aj36OlYzbq6pb+mM4VaojS6jMRE89Pg1cN2scxo4ZRhBfxH5RUsOLnOeQqJ7
+	ii+fiyUNpQRgYDCw==
+Authentication-Results: smtp-out1.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793656022; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793656023; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=i5HuJ6wlzqnm5PAKxcHqNPUgyKLe7g7pH4Aq4cQgHI4=;
-	b=zRSZ7JVxIUt4LEZrOfepP6Efnx2ItlGJjoRUtpidWEWtyd8bxdqBtiqqxTVOKlP71MBmU4
-	02vYVL8XRrlfDdHSKQNkWRqYNZkdZVgBAGblUnQ0ynZO2FgiNE6qewR74qD3nL/CQWwdo1
-	0DiEoQcO/uitQS/uGUxM9rb0fOFPpBc=
+	bh=eryNLBdB+9u2OMDHvVsk50PIGXu+I13jRpOSwM//8IU=;
+	b=2PHZxyL7oHeWpIo2ukq9oBPB5XPYzs854BU0dn6UmvmDBomxJfVY8auLpwGCxRxOrf0JMV
+	5rCsdJ31yucilI4RMZSwG16ZDkRbGFHhgprkvZ2jSlUfdObVwgbO9UvlHmhv66DKcRX30N
+	VhcwcIJaNOE/wsrI2YJ/YAeUmEs9MdA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793656022;
+	s=susede2_ed25519; t=1793656023;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=i5HuJ6wlzqnm5PAKxcHqNPUgyKLe7g7pH4Aq4cQgHI4=;
-	b=KiE4Yqhf8IoHz+HMLLJH/edDuF8avhb6M7xdwW5mS5jIxFntZ9zhwIyNvQc+zlrdX+bmYO
-	altBuoyJMtHveOCg==
+	bh=eryNLBdB+9u2OMDHvVsk50PIGXu+I13jRpOSwM//8IU=;
+	b=Yp4LXDCHKLSJwAu/iZdkNC4p02WFmG1/giR/XUZzV80ueWF7udizasyKTB6H5EeG5/SyRX
+	5M7Oqw+fapVB3YCg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A0DB0134B3;
-	Mon,  2 Nov 2026 21:47:02 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C1ADD134B3;
+	Mon,  2 Nov 2026 21:47:03 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id uqNKIdYE6WqQAQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 02 Nov 2026 21:47:02 +0000
+	id ZFf/KNcE6WqSAQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 02 Nov 2026 21:47:03 +0000
 Received: by quack.suse.cz (Postfix, from userid 1000)
-	id 5019DB173; Mon, 02 Nov 2026 22:47:02 +0100 (CET)
-Date: Mon, 2 Nov 2026 22:47:02 +0100
+	id 6DF03B171; Mon, 02 Nov 2026 22:46:59 +0100 (CET)
+Date: Mon, 2 Nov 2026 22:46:59 +0100
 From: Jan Kara <jack@suse.cz>
 To: Jeff Layton <jlayton@kernel.org>
 Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, NeilBrown <neil@brown.name>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] statx: don't leak STATX_ATTR_CHANGE_MONOTONIC in
- stx_attributes_mask
-Message-ID: <yxnngsz2x5zyg2wjknlsyfkrtok6yow5wieky6jl4zkitjfybw@fze3yg7b5cbg>
-References: <20261029-statx-v1-1-9600cdb896b3@kernel.org>
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Christoph Hellwig <hch@lst.de>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
+Subject: Re: [PATCH] statx: add STATX_ATTR_MULTIGRAIN_TIMESTAMP
+Message-ID: <vf6shjsmysanedmphb4dpsn6nk3ka47nm5qv2pt7togoha4yrz@cckxyxmzmgtq>
+References: <20261029-mgtime-statx-v1-1-175b5afdf2fb@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -115,78 +112,93 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261029-statx-v1-1-9600cdb896b3@kernel.org>
-X-Spamd-Result: default: False [-13.01 / 50.00];
+In-Reply-To: <20261029-mgtime-statx-v1-1-175b5afdf2fb@kernel.org>
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spamd-Result: default: False [-12.80 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.cz:email,suse.cz:dkim];
-	MISSING_XM_UA(0.00)[];
 	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:email,suse.cz:dkim,suse.com:email];
-	RCVD_COUNT_THREE(0.00)[3];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -13.01
-X-Spam-Level: 
-X-Rspamd-Queue-Id: C934E1FB28
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,suse.cz:email,lst.de:email]
+X-Spam-Score: -12.80
 
-On Thu 29-10-26 12:20:27, Jeff Layton wrote:
-> STATX_ATTR_CHANGE_MONOTONIC is kernel-internal. cp_statx() strips it
-> from stx_attributes but copies attributes_mask verbatim, so it leaks to
-> userland on filesystems that advertise it (nfs, ceph), e.g.
-> stx_attributes_mask = 0x8000000000b03000 on NFS.
+On Thu 29-10-26 12:28:16, Jeff Layton wrote:
+> Userland has no way to tell whether a file's timestamps are multigrain,
+> i.e. whether successive changes after a query are guaranteed to yield
+> distinct timestamps.
 > 
-> Mask it out of stx_attributes_mask too.
+> Add STATX_ATTR_MULTIGRAIN_TIMESTAMP and set it in vfs_getattr_nosec()
+> when is_mgtime() is true (IOP_MGTIME is set from FS_MGTIME at inode
+> init). Always advertise it in attributes_mask.
 > 
-> Fixes: a1175d6b1bda ("vfs: plumb i_version handling into struct kstat")
+> Suggested-by: Christoph Hellwig <hch@lst.de>
 > Signed-off-by: Jeff Layton <jlayton@kernel.org>
 
-OK, feel free to add:
+Makes sense to me. Feel free to add:
 
 Reviewed-by: Jan Kara <jack@suse.cz>
 
 								Honza
 
 > ---
->  fs/stat.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> HCH suggested this when I posted the fstest for multigrain timestamps. I
+> think it makes sense. If this looks good, I'll plan to send a manpage
+> update for statx(2).
+> ---
+>  fs/stat.c                 | 6 +++++-
+>  include/uapi/linux/stat.h | 1 +
+>  2 files changed, 6 insertions(+), 1 deletion(-)
 > 
 > diff --git a/fs/stat.c b/fs/stat.c
-> index a2e63c6c45b7..787c13f378ff 100644
+> index a2e63c6c45b7..67b9f1784b23 100644
 > --- a/fs/stat.c
 > +++ b/fs/stat.c
-> @@ -719,7 +719,7 @@ cp_statx(const struct kstat *stat, struct statx __user *buffer)
->  	tmp.stx_ino = stat->ino;
->  	tmp.stx_size = stat->size;
->  	tmp.stx_blocks = stat->blocks;
-> -	tmp.stx_attributes_mask = stat->attributes_mask;
-> +	tmp.stx_attributes_mask = stat->attributes_mask & ~STATX_ATTR_CHANGE_MONOTONIC;
->  	tmp.stx_atime.tv_sec = stat->atime.tv_sec;
->  	tmp.stx_atime.tv_nsec = stat->atime.tv_nsec;
->  	tmp.stx_btime.tv_sec = stat->btime.tv_sec;
+> @@ -206,9 +206,13 @@ int vfs_getattr_nosec(const struct path *path, struct kstat *stat,
+>  	if (IS_VERITY(inode))
+>  		stat->attributes |= STATX_ATTR_VERITY;
+>  
+> +	if (is_mgtime(inode))
+> +		stat->attributes |= STATX_ATTR_MULTIGRAIN_TIMESTAMP;
+> +
+>  	stat->attributes_mask |= (STATX_ATTR_AUTOMOUNT |
+>  				  STATX_ATTR_DAX |
+> -				  STATX_ATTR_VERITY);
+> +				  STATX_ATTR_VERITY |
+> +				  STATX_ATTR_MULTIGRAIN_TIMESTAMP);
+>  
+>  	idmap = mnt_idmap(path->mnt);
+>  	if (inode->i_op->getattr) {
+> diff --git a/include/uapi/linux/stat.h b/include/uapi/linux/stat.h
+> index 1686861aae20..b978860590b1 100644
+> --- a/include/uapi/linux/stat.h
+> +++ b/include/uapi/linux/stat.h
+> @@ -255,6 +255,7 @@ struct statx {
+>  #define STATX_ATTR_VERITY		0x00100000 /* [I] Verity protected file */
+>  #define STATX_ATTR_DAX			0x00200000 /* File is currently in DAX state */
+>  #define STATX_ATTR_WRITE_ATOMIC		0x00400000 /* File supports atomic write operations */
+> +#define STATX_ATTR_MULTIGRAIN_TIMESTAMP	0x00800000 /* File uses multigrain timestamps */
+>  
+>  
+>  #endif /* _UAPI_LINUX_STAT_H */
 > 
 > ---
 > base-commit: c339f4010dea8b0d754f84ace70cd1b089878ef8
-> change-id: 20261029-statx-3f1d8cd8d877
+> change-id: 20261029-mgtime-statx-26a229f9c3b4
 > 
 > Best regards,
 > -- 
