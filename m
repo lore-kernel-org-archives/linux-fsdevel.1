@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793601607;
-	b=qiKorG02oDxheQaA+ETPNXMRmXASN5MVOFJDzh+c+LRu/yXKqfV6DLXyaYxDuMgcOt87
-	 XbCtm4fK7dju074K1MfpIsWUZfck5n5PcTyXLiESezPzTOVGiJEcq/A/jdgDxEM5phrKs
-	 AQ+YIMMQdhyrg2JbolQkSJROaZTxt+uSLHetw1+qyjhAQZbZNJEEy+/X1XPMxM/oE4ZP9
-	 wyMAKj4AjMqYMuyd7R0Db2NmwWhR0RsuLCuGl0DH4FkEAZrtVvyOmRfAsMRTNMn7mySIX
-	 3W4XiP2XKd00xSTTM7gj8NdZnTjFXSMaZD6AAbHyEt2mXTVmi56wkS8P2PmSsTk4rdw==
+	t=1793601634;
+	b=2foBhd5PFCywhZe54cyKfjDCf6CRDYTuXdVk6zYDXkV15qoRutCW09IKr9//ysbeagmG
+	 mcpTaTgoq6HgsB2kr1LA+g7alghoe59OIqUSXMW1dDoviB+ZvyOgErxv/xrv9sZs/QN+K
+	 4B+YfTKW56iRIHe9Vk75L/cb58ODMh5JqKi5YA8qc0Zu56DSKr53MB+6VUic1ZPMCEWj2
+	 lzdRLlPlBckwQxqfmEFfwOnWq0028oV7wTr9Vy0UFmxukk6E385ZO++KZoM9Mxzqam977
+	 4iEbMZpEgccXQCRIz87VStkhyCsZJdYv7rF2MCDEc9XQSTN3CRLoMtClw0FkqbMpUcA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793601607;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793601634;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=47fs60LXRPRVsAKKNOF0L3fpWdYry5GJUN7TOHqj7vI=;
-	b=f0qrigkFNgIW6dyqrcg6+rkg7uqiImCqwJ70bCQCNU1haUyHg8w+pi5OjEp8G81k1g6D
-	 OL/Qq857bpHGjp+7V6kT8CxKP26DqKn5yznndxaQNgBXwJHcfkIr19/w+qFCeEhRf1Fnl
-	 LjjFWgOXt5Bm//jFb5aZGuMdBsZvL1/moqk8jSZ6LReXiO/S04uQ+SNW4TpTrlzicVI2C
-	 0/BdftUdenPOg4xFLyBQivWixx9kvhV8Ll54WZjcJvuai8CkUmB4oLYDUw0qi9fglyDW5
-	 iPxCpKKbb+VEd2Ro3V8XtaooN0a6IfIwL006yZT5BTc1d1jHvwvezBIZJb6gyiaKSgg==
+	bh=PTr3vTYHZO8//WK5iKDPZ2R6+tlg46gozzv5GKa8yng=;
+	b=vbUOSyQOBrVpm6E9fLphyBdwl0pTq9J/t8dBe6GlKPEk1Yk+7/SlL9+0d1cKgfOOX6St
+	 By+C3FbkTvV44p5YRdV5uZGj50Duqv8Y3ea1cekaJl6VjvRQSePN1dMkjgsYDkctWtu1b
+	 GGjfjTK8xr0VCmCkgHxhbL+Uc57raIyBmIXcj1eGgS1bDvKeQAHuoGlqF+Sq1AeUAyIBm
+	 +ORpRW8utYCLVLDegWyTKTXkmnNriWDJ9lbugB32dZxh2KyLZ4b42CrhBKg0ZBScBb6WV
+	 2ny2EGXxKHm2baXuA4+sJs6PcmqQ24RZuBRjZHWulveqbInKhH7r9OsNy9TxRA9J2Jw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=m3G6ZBYO;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=l70qFzab;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01EA0606A326;
-	Mon,  2 Nov 2026 06:40:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FF69606A324;
+	Mon,  2 Nov 2026 06:40:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=m3G6ZBYO
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAC7D1F000C1;
-	Mon,  2 Nov 2026 06:40:02 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=l70qFzab
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F30A1F000C1;
+	Mon,  2 Nov 2026 06:40:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793601606;
-	bh=47fs60LXRPRVsAKKNOF0L3fpWdYry5GJUN7TOHqj7vI=;
+	s=k20260515; t=1793601634;
+	bh=PTr3vTYHZO8//WK5iKDPZ2R6+tlg46gozzv5GKa8yng=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=m3G6ZBYOEGTVvZpwTzcl1ib0RJRbexXPcIAyQK9UxCv2lIo3F7csLlUhVRzgHtZPA
-	 8W498j85QbU1Wtk1g/xVygGfDLx2RLFKh6o9sxAz/6OLCUA7Aftd/2xl2NX+hl9Uby
-	 tsm1Ov6nBCrdlH+Xy5hpqvInZsnD6Kts+sEHQq429PME2dJiCbBcyEjras7q0pG+ZX
-	 GBfdpQ6fmBU/jhGCXDmAo9HVRAk2Vf+wBgktbUExvp4UUqkXiBygz3yNj1aj+DZDcX
-	 jP0wjRKKRRUoJaRpzMVJ1A+vQR7P5Dxk4+S9RQeXrMIwGOeZaZkcYsZkuZUjzqxKZm
-	 vbO3hJL05Zn+A==
-Message-ID: <eb6c0b28-657b-4795-8c96-600964633946@kernel.org>
-Date: Mon, 2 Nov 2026 07:40:00 +0100
+	b=l70qFzab7Fnm3MNz4rNSkWb1PmnyKAaayewzifcEEBYaKwcea73ASJahioZNFlOtO
+	 32EdTN+XUKPJTd9RZ3utPt0JY1lsCkZaCEw5+dYhRpqq6lC+XsUtd0iQNvkM4QxAkX
+	 /+LXtMZL8MqVFi9Srb1AvYKJpQo3gsjaqDWeAGpW6F+3Mly4vdDxWZsHYFaPqctcCD
+	 M/pV/VwI9jtJL0Zo0tjzbttOX/7k1KpDLzp5NOdEp7jqncUDn8UuU8UXILwe45TuAq
+	 9FKdG0f39FWGU1SUmvtdkUA82/fQOHbAuWuIBWtWhGMD9LASKjEDYgPPq/qhiVbqsU
+	 9zR+lo9tZCHkg==
+Message-ID: <30db8554-8b79-4350-91d1-cc626abb8133@kernel.org>
+Date: Mon, 2 Nov 2026 07:40:28 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -52,8 +52,8 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] MAINTAINERS: add Johannes as the page allocator
- co-maintainer
+Subject: Re: [PATCH 2/2] MAINTAINERS: move SLAB ALLOCATOR under MEMORY
+ MANAGEMENT
 To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
  Andrew Morton <akpm@linux-foundation.org>
 Cc: Harry Yoo <harry@kernel.org>, Hao Li <hao.li@linux.dev>,
@@ -68,9 +68,7 @@ Cc: Harry Yoo <harry@kernel.org>, Hao Li <hao.li@linux.dev>,
  linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  linux-fsdevel@vger.kernel.org
 References: <20261101-maint-page_alloc-update-v1-0-27e8c246b13d@kernel.org>
- <20261101-maint-page_alloc-update-v1-1-27e8c246b13d@kernel.org>
- <4026ed95-62c7-4680-9bee-7507330a4217@kernel.org>
- <9e5333d5-4f56-4308-b990-6aa048d9e907@kernel.org>
+ <20261101-maint-page_alloc-update-v1-2-27e8c246b13d@kernel.org>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -117,56 +115,27 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <9e5333d5-4f56-4308-b990-6aa048d9e907@kernel.org>
+In-Reply-To: <20261101-maint-page_alloc-update-v1-2-27e8c246b13d@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 11/1/26 19:59, Vlastimil Babka (SUSE) wrote:
-> On 11/1/26 19:01, David Hildenbrand (Arm) wrote:
->> On 11/1/26 17:34, Vlastimil Babka (SUSE) wrote:
->>> Johannes is a long-time expert and reviewer for the page allocator and
->>> has agreed to step up to a co-maintainer role, so do that. Thanks!
->>>
->>> Additionally, page allocator is joining the MM transition, following the
->>> MM core updates from David [1].
->>>
->>> Patches will be collected in the mm/page_alloc git tree and integrated
->>> via the mm/linux integration tree. To signify the change from Andrew's
->>> mm tree, remove Andrew as M: - get_maintainers will continue CCing him
->>> on most patches via the catch-all MM entry. David prefers not being
->>> added for mail volume reasons.
->>>
->>> [1] https://lore.kernel.org/all/20261030-maintainers-v1-7-97278f8a5f54@kernel.org/
->>>
->>> Signed-off-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
->>> ---
->>>  MAINTAINERS | 4 ++--
->>>  1 file changed, 2 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/MAINTAINERS b/MAINTAINERS
->>> index b68bc3626709..d7cfb28a9029 100644
->>> --- a/MAINTAINERS
->>> +++ b/MAINTAINERS
->>> @@ -17720,15 +17720,15 @@ F:	include/uapi/linux/oom.h
->>>  F:	mm/oom_kill.c
->>>  
->>>  MEMORY MANAGEMENT - PAGE ALLOCATOR
->>> -M:	Andrew Morton <akpm@linux-foundation.org>
->>>  M:	Vlastimil Babka <vbabka@kernel.org>
->>> +M:	Johannes Weiner <hannes@cmpxchg.org>
->>>  R:	Suren Baghdasaryan <surenb@google.com>
->>>  R:	Michal Hocko <mhocko@suse.com>
->>>  R:	Brendan Jackman <brendan.jackman@linux.dev>
->>> -R:	Johannes Weiner <hannes@cmpxchg.org>
->>>  R:	Zi Yan <ziy@nvidia.com>
->>>  L:	linux-mm@kvack.org
->>
->> Want to remove that one as well like I did?
+On 11/1/26 17:34, Vlastimil Babka (SUSE) wrote:
+> Following David's consolidation of several other MM subcomponents, do
+> the same for the slab allocator.
 > 
-> I think you meant the website and this is the mail list, so it stays.
+> Rename the section to MEMORY MANAGEMENT - SLAB ALLOCATOR and move it to
+> remain in alphabetical order.
 > 
-
-Ugh, don't review patches on Sunday evening I guess. :)
+> Remove Andrew as M: to signify he's not the primary person for picking
+> patches in this subcomponent. get_maintainers will continue CCing him on
+> most patches via the catch-all MM entry. David prefers not being added
+> for mail volume reasons.
+> 
+> Indicate the primary integration branch (slab/for-next) in the T: entry.
+> It will now be integrrated via the mm/linux integration tree.
+> 
+> Signed-off-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+> ---
 
 Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
