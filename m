@@ -1,97 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793638462;
-	b=qua5UF6w8mWoKNaODEv5dAdXMQwJfL19cuyVAGlqEBzOROYN7Afe9mMU9oEAdOuj/TRh
-	 l8NpYnkjGIgNdS6HQSP3bcVENx20oIgB7OAqyHElMDeOpxVwB35V+5NbxZVb8ies5lchm
-	 Bkut/pGrJg+19t9cZ+nG3tUQkR0KR58bKvDwUCAKRfnn/zPDjhbs+WxrvfNueKiksBxW6
-	 p6ymRAR6bdOCBo6A6eV54BnIKgNaiF5QbmXMZYtq4/dEnFsyigGKeNpQd/IcSu2/YKnQx
-	 WHVQcLUYTv6WfOlyY14bwBfQ6YgOLRg2g+WLiu+sS1HT/ie5el2aWORgOehbV/zefcg==
+	t=1793638888;
+	b=OSKn2M6TSs1A5DJV1Ykd+5AHAg+LFadI3R7loY4mRhUerKc4yjTCJRkyLAKruckoCwWN
+	 9cjyKYAsG/h5/b5AcrHvJP7YIlxhf3QA3xAHFz6FZ98hmEGEdm+6o8LbBCnNvFHyL0N0A
+	 FydRfNNXrYOnMsS7/CA98GRTQCn+jtjxKe87S2cpTXEOalIHPO9EOgqgPwt++VsRiMXM1
+	 9gDHnkD73EYJkvfqMqF4T/xYr2YPOqJaDzJtOSLsGlbarDMXlMYlThESSny+rqFLTn9JN
+	 PS4TCtuB7s79R5oTig04q44gx5iMo1tvW05nwL+34HwbrS1mHjwCXhadGvJ+T8S15wA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793638462;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:X-Mailer:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=cXGpRKvTAGjhS35rMqsnLDspbuP9bTvBPAEuRyBbB1o=;
-	b=4hbm2aznaBy44ixBop+T87+bbiAZcChNO3qeaS8UfqeYv+pKmq06bBIukQUsxs8u3SMh
-	 wRmfbdumZ/aMFU8bj5bv41RXkrVfhq5petJ9nd7NSVr2XA8EGttnAofgeXi1qmETDSVAp
-	 nsoihBrwC9fREXl6UJWNbFrAlRcp2dKRg7bM9I5e1kprE/YHLJ2oldlrob14VR5S/zF0C
-	 K1uq68mKpD83hT9/9RmKTtHPkwR7sonSb01/2QbrrsRaQBkzBfcDFLcbZaLorPMAjnYbq
-	 xHG9vYrhPRaiFAFJWhNB5TuH8YBgXKndTwFWjMRVxA6qEkd3NadAWKzDu0J+XcfhoCg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793638888;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-Id:
+	 In-Reply-To:References:X-Mailer:Mime-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=+xlCuFW4BIdyvGbWkDK951R/f+P6HkIlEKcshLrzgjM=;
+	b=lpP29P+Tst94ShWcmvU1MFzM8IfiEUA9+0JAgusN9B0H6dRhzhi5dbLfYkzIESbPp4Am
+	 c2cFKPJjmKoeaW1v6/6RloPpYOpNbtHoBuMnzl1HQdIH4D+QTnwMec56cXJNiLiF/IWD8
+	 qo2qpOKjwqTizNbw4/D+KoH5NFG30F7cOLqmOzeqlIkBk0qzjT5rdrzTTRaWlsVyY5KN/
+	 0f5ER8xOLDI0RhdwVoQmp8CALoIZ982r+rQnNa04nAxoOa3Cd6u88ayOe3sAY53Onmk37
+	 tomrCzqVrAfTD/j3YSk37huETjKDbj1dPunHBJkKJEHkKccsgVKUv+IXbQsETC4qw1g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nttAKpmy;
-	arc=none smtp.remote-ip=209.85.128.54
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=e0ZE9RsX;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A53046079077
-	for <linux-fsdevel@vger.kernel.org>; Mon,  2 Nov 2026 16:54:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A53046079077
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CF0C606A5A0;
+	Mon,  2 Nov 2026 17:01:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nttAKpmy
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4a2167bd087so27287645e9.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 02 Nov 2026 08:54:21 -0800 (PST)
+	dkim=pass (1024-bit key, unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=e0ZE9RsX
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA9631F00A16;
+	Mon,  2 Nov 2026 17:01:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793638460; x=1794243260; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=cXGpRKvTAGjhS35rMqsnLDspbuP9bTvBPAEuRyBbB1o=;
-        b=nttAKpmylUtdq9jMTN/wbrVcLpFRXXlqGRnKAcR5A5N0R5njWywda5vUwbtWjv1b7W
-         59xbEJZ2JJxmymRaCR8i06GVZVXBLNiisCoOlUWv7pfttM52v6fh6SIk9AHXpIJDBJyB
-         K1v4TVQgfNPuygiU3b/InKbqYwtBsXcaPIst9yGjC2C3nIMelz+4DaN4UvJ9AbA1SpFL
-         eJWTxBmYCAj1+no02fN+QGay7pGQvw0yOXA2L3jyhVpqN1ayis1XC63DRSotXOW8ULXt
-         yhXK/sGczParDH3XfD0OECKkD2ibrRdl3oz45aoI8olmbtDcsTCeNObmHS0YVdneXQNk
-         9X8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793638460; x=1794243260;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=cXGpRKvTAGjhS35rMqsnLDspbuP9bTvBPAEuRyBbB1o=;
-        b=FBxl/ng5VNmeghYsJxyCMwvbux8DJQiiBGASI+jWMMw+ZZ9ZSEDkTHOeytXo5yBNKq
-         Ii96Giq/lp6NW4ym4MMYHCKWc/1Cib3AKPmN+kQIzt5OwCU+CEEHt0Qv3ccmEyCWZElw
-         nipOLKjldTWQxzGVP9HQ6m/xNBGUEBVq5dZEwKk5zeSik41YiO1qLxWbmyn/NTGz3K2W
-         XArJielq1YX5Bk60Q6dy2mM22HwxsT19K1yv3eAN5a2Em7kKcph+MwbxmoGwRWY4rgdE
-         YLL8aYH8xbq2ol59+CVhPxpza3CAlAHDDCHhM1REGTa9k28EdU8Cu/2VSnotsBcrUpIM
-         AGnA==
-X-Forwarded-Encrypted: i=1; AKwUvBwmnbiFR1tz7pGTIYJma6wVXtUo9pTBybirCgTP01uArjqNR8VhYNqCg+0fAIra/BXIYOcqUulydGxzb7az@vger.kernel.org
-X-Gm-Message-State: AFq9FYJ6pFEylv61royWxATVxxb9YxLJJmcMNcFqEOYoAr5Of/EfXp/W
-	MOma/uAMOrNa07FH+FEWlvpFkTMIRk18n1cyOlD7+3J69yXLc6nxBCAv
-X-Gm-Gg: AYBFou3P3q8Zv6qLxLts0mc/K7/xNI7vw/I89E2QRSqI/H1Aei+FxIc7EmSbl+yTDS8
-	4Yd5vAEmqMd/5rY2HGS1jbkhr3zYmhDMrd6Y08U79z8Yoq5mlwcHjQ7KUjH5uxdrPMZanDB0p1u
-	qGPPM1lSkjtax713cZrMpZ0T6xOpppmxvdT6FrA7sLSOdaqsdpkdH9m7mrbJ5L1TXCQCNd02oLv
-	TRaGs4zBQxs20liydFsO+29vkH6FjgN7YeF3oAXX/PqOzWPbamIVze+fZZMvNw6L1VynRO60T0q
-	CJM0AHDLLyn19km8iNQpef14+nPgF2L7gipfMA2LKe3PdkAw2dEs7UW3F6jfaw9JNEZMsvw6kkl
-	VazSrbV+Qje8hRxvGiuLv3uL5J/y7FXsgtknTBXT+mQxDUjIJhbbcmWs+OieyoXKzeaRevhnI0Q
-	3YuHETeBNIruQKLN1yQA4Ytg5j0764m7H7smCZYj98jx6MDIL8y0TH8+khJvQVqn5rIPdgy/7nA
-	I2IJR9SeBDMy5YLa0bnhZMIkWvq3CWhvR0zOIM88kzTwwPjMOeET6KrKFIKGpqYFFWoTfQzwtw/
-	pRkqrGw4en2a7uJpmvSHLpMmIK4OMwqHQPXansYftkrV0l7zRaQ5j/5acfpVfRli
-X-Received: by 2002:a05:600c:8b46:b0:4a0:4a8:d444 with SMTP id 5b1f17b1804b1-4ac18c73238mr251157985e9.33.1793638459968;
-        Mon, 02 Nov 2026 08:54:19 -0800 (PST)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e71ba2415sm21483649f8f.50.2026.11.02.08.54.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2026 08:54:19 -0800 (PST)
-Date: Mon, 2 Nov 2026 16:54:18 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: Wen Yang <wen.yang@linux.dev>
-Cc: Joel Granados <joel.granados@kernel.org>, linux-fsdevel@vger.kernel.org,
+	d=linux-foundation.org; s=korg; t=1793638887;
+	bh=+xlCuFW4BIdyvGbWkDK951R/f+P6HkIlEKcshLrzgjM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=e0ZE9RsXfTdB+4O5FQ/6CDsY3bXRZfOhxecWF8GzYYr3tpzXrvSLbj+suWLGRM1Tf
+	 rqqSZ28gGD5ZmMsKjvNiCSjp7tq3dHTO7b/7jCTA7uxRIvBZzkp73ah1th+rsG+xdt
+	 YQ1LCOTlWQ5P9SBshPhZGVl0PpLQvsx7pR4vDCCY=
+Date: Mon, 2 Nov 2026 09:01:25 -0800
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: david@kernel.org, ljs@kernel.org, jannh@google.com, liam@infradead.org,
+ willy@infradead.org, paulmck@kernel.org, pfalcato@suse.de,
+ usama.arif@linux.dev, vbabka@kernel.org, linux-fsdevel@vger.kernel.org,
+ yi1.lai@intel.com, oe-lkp@lists.linux.dev, lkp@intel.com,
  linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 00/39] sysctl: replace overloaded extra pointers
- with typed bounds and context
-Message-ID: <20261102165342.79fc1580@pumpkin>
-In-Reply-To: <0316f664-d98c-43be-92af-13c30436727a@linux.dev>
-References: <cover.1793204511.git.wen.yang@linux.dev>
-	<20261029105837.2f8bee67@pumpkin>
-	<0316f664-d98c-43be-92af-13c30436727a@linux.dev>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+Subject: Re: [PATCH v2 1/1] selftests/proc: use RSS in
+ /proc/pid/smaps_rollup tearing tests
+Message-Id: <20261102090125.58a2e80d1669c681c33ed20b@linux-foundation.org>
+In-Reply-To: <CAJuCfpGwZqGkOm25=BWAh2QgA8Y00OUmwxsDU+_qOsVsc+KHhg@mail.gmail.com>
+References: <20261101154503.3203036-1-surenb@google.com>
+	<20261101110100.90796bf33ef50307a7698dca@linux-foundation.org>
+	<CAJuCfpGmPLBRhHa_dmyP10QzyRyvcWMYDLU0+J9t-RCLBsTaWA@mail.gmail.com>
+	<20261102080103.6e3f602364747ac6adb13f5c@linux-foundation.org>
+	<CAJuCfpGmHWiu0Hmob-PgnvWAMn=CD0-xgiyGztP+P=OFrwwfTw@mail.gmail.com>
+	<CAJuCfpGwZqGkOm25=BWAh2QgA8Y00OUmwxsDU+_qOsVsc+KHhg@mail.gmail.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -100,243 +64,19 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
+Mime-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2 Nov 2026 23:40:40 +0800
-Wen Yang <wen.yang@linux.dev> wrote:
+On Mon, 2 Nov 2026 08:15:47 -0800 Suren Baghdasaryan <surenb@google.com> wrote:
 
-> On 10/29/26 18:58, David Laight wrote:
-> > On Thu, 29 Oct 2026 00:34:39 +0800
-> > wen.yang@linux.dev wrote:
-> >   
-> >> From: Wen Yang <wen.yang@linux.dev>
-> >>
-> >> struct ctl_table describes an entry with data, maxlen and, until this
-> >> series, two untyped misc pointers in extra1 and extra2. Those two pointers
-> >> have accumulated at least seven unrelated jobs: a fixed bound, a bound read
-> >> through a pointer on every call, an object or namespace pointer, a small
-> >> integer cookie encoded into the pointer, a lock signal, NULL standing for
-> >> "no bound", and a value the core itself casts to unsigned int while
-> >> validating a u8 range. Nothing in the entry says which job applies, so
-> >> readers infer it from the handler, and the core gets it wrong where it
-> >> treats extra1 as an unsigned int.
-> >>
-> >> The numeric half of this change is the direction Eric Biederman asked for:
-> >>
-> >>    You can still save a lot more by turning .extra1 and .extra2
-> >>    into longs instead of keeping them as pointers and needing
-> >>    constants to be pointed at somewhere.
-> >>
-> >>    [...] I don't see any reason why you want shared
-> >>    constants for such a handful of things.  Especially when
-> >>    it has proven to be error prone in the past.
-> >>
-> >> min/max are plain unsigned long members, so the comparisons are ordinary
-> >> C and cannot be confused with a pointer. The shared const arrays that only
-> >> existed to give those pointers an address (sysctl_vals and
-> >> sysctl_long_vals) are removed as well.
-> >>
-> >> The tree already records this direction. fs/proc/proc_sysctl.c documents
-> >> extra1/extra2 as "extra pointers usable by the proc handler routines" and
-> >> carries:
-> >>
-> >>    XXX: we should eventually modify these to use long min / max [0]
-> >>    [0] https://lkml.kernel.org/87zgpte9o4.fsf@email.froward.int.ebiederm.org
-> >>
-> >> This series completes that TODO and removes the comment.
-> >>
-> >> priv is this series' addition: the same pair of fields also hides handler
-> >> context, which a numeric bound cannot express, and keeping it out of data
-> >> is what removes the restore-before-delegate pattern.
-> >>
-> >> The overloading is also a memory-safety hazard. The obvious alternative --
-> >> keep handler context in data and restore the value pointer in each handler
-> >> -- needs an original_data field in nine addrconf and two devinet handlers;
-> >> one missed restore turns a user-supplied integer into a write over a kernel
-> >> pointer. nf_log reaches the same problem from the other side: it replaces
-> >> data with a local buffer inside a single handler, so data means two things
-> >> within one function. This revision removes that temptation instead of
-> >> managing it.
-> >>
-> >> The core is not exempt. sysctl_check_table_array() reads
-> >> *(unsigned int *)table->extra1 to validate a u8 range. That is only correct
-> >> while every u8 entry happens to point extra1/extra2 at an int or unsigned
-> >> int; a long bound, a context pointer or an encoded integer would be read as
-> >> four bytes of the wrong object. No such entry exists today, so this is a
-> >> latent class rather than a live bug, but the invariant is untyped and
-> >> unchecked, and nf_log already encodes an integer into extra1.
-> >>
-> >> The refactor is the first five patches; they define the replacement
-> >> contract and prove it covers every entry shape the tree uses today.
-> >>
-> >>    1. min/max hold numeric bounds by value, and priv holds handler context.
-> >>       The range converters read min/max whenever extra1 and extra2 are
-> >>       clear and keep reading the pointers while they are set, so existing
-> >>       callers keep working while they migrate and no parallel handler API or
-> >>       renamed symbol is introduced. Signed handlers read the bounds as
-> >>       signed longs, an absent endpoint is the type limit rather than NULL so
-> >>       zero stays a real bound, and a run-time range is refreshed before
-> >>       every call. Registration rejects priv on a standard handler.
-> >>
-> >>    2. The debug test module is converted to numeric bounds as the first
-> >>       user.
-> >>
-> >>    3. KUnit coverage for numeric bounds and the handlers that consume them:
-> >>       full type ranges, one-sided and zero bounds, entries without backing
-> >>       storage, explicit handlers for arrays and members, and rejection of
-> >>       writes that would partially commit.
-> >>
-> >>    4. KUnit coverage for run-time ranges across the scalar widths and
-> >>       jiffies, run-time bound pointers, sibling bounds, typed context, owner
-> >>       derivation, bool, registration lifecycles, and simulated per-net
-> >>       duplication.
-> >>
-> >>    5. KUnit coverage for priv: a standard handler must ignore it,
-> >>       registration must reject it with a standard handler, and
-> >>       re-registration must keep both the value pointer and the context. The
-> >>       same patch moves the debug module's dynamic-value entry to the
-> >>       data/priv shape.
-> >>
-> >> On the CTLTBL_ENTRY_* constructors: I kept the naming and argument order you
-> >> suggested while reworking the series. As it turned out, no production table
-> >> needed them -- the converted entries read naturally as designated
-> >> initializers -- so I have not introduced them as a public API in this
-> >> version; the KUnit file keeps an equivalent constructor privately, so the
-> >> tests stay readable. I still think the public version is worth doing, and I
-> >> would be happy to send it as a follow-up once there are real users, so the
-> >> API and its callers can be reviewed together.
-> >>
-> >> Everything after patch 5 is migration and adds no new contract. Patches
-> >> 6-32 convert the remaining users and derive owners from their backing
-> >> storage. Patches 33-38 move handler context onto priv, one subsystem per
-> >> patch; each of those files is touched exactly once and goes straight from
-> >> the old pointer field to priv, with no intermediate data-as-context step.
-> >> Patch 39 removes the extra pointers and the compatibility read.
-> >>
-> >> The parport conversion illustrates a concrete problem with the overloaded
-> >> fields. In the base tree, registration overwrites the spintime minimum
-> >> pointer in vars[0].extra1 with a port pointer. The range handler can then
-> >> check a write against data from struct parport instead of the intended
-> >> minimum. Moving the port context to priv and using numeric bounds also
-> >> corrects this existing bug. A separate fix can address it independently;
-> >> this RFC does not depend on that fix.
-> >>
-> >> Entries that used a *_minmax handler with neither extra pointer relied on
-> >> NULL meaning "no bound". They now state their type limits explicitly to
-> >> preserve that behaviour when the pointer path disappears. These include
-> >> aio-max-nr, acpi_video_flags and nmi_wd_lpm_factor.
-> >>
-> >> Owners that can still be recovered from data are deliberately left alone:
-> >> ipvs, neighbour, the fragment reassembly handlers, vsock, mptcp, rds and
-> >> smc keep using container_of() on their backing storage. priv is only for
-> >> entries where no such derivation exists. Mixed placement in data and priv
-> >> was considered and rejected because it recreates the guessing problem this
-> >> series removes.
-> >>
-> >> Relative to the base tree, the final state removes all 841 extra1/extra2
-> >> assignments across 123 files, removes the shared sysctl_vals and
-> >> sysctl_long_vals arrays (21 references), and states bounds at each entry
-> >> (~574 new min/max initializers) instead of pointing at constants. The
-> >> sysctl ABI is unchanged; the parport spintime minimum is corrected as
-> >> described above.
-> >>
-> >> The cost is 8 bytes per ctl_table entry on 64-bit (56 -> 64) and 4 bytes on
-> >> 32-bit, because priv is appended; the range read path gains no indirection
-> >> and the migrated entries no longer dereference a bound pointer.  
-> > 
-> > Can you remove the little-used 'priv' parameter by making the extra
-> > information just follow the table entry (nested structure) and have
-> > the relevant functions use container_of() to get the outer structure
-> > and extra values?
-> >   
+> > Ah, I see now why handling READ_IMPLIES_EXEC is needed. Then your
+> > complete fix looks fine. Perhaps we should mention this pre-ARMv6 CPU
+> > detail in the changelog of your fix to explain why READ_IMPLIES_EXEC
+> > is important here?
 > 
-> 
-> Hi David, Hi Joel,
-> 
-> I reworked the context side of the series so that priv is gone entirely;
-> and the final tree has no per-entry context pointer.
-> A small helper recovers the enclosing object, but it needs the slot
-> index from the caller:
-> 
->    #define sysctl_table_container(entry, type, member, index) ({       \
->            static_assert(__same_type(*(entry),                         \
->                                      typeof_member(type, member[0])),  \
->                          "pointer type mismatch");                     \
->            (type *)((void *)(entry) - offsetof(type, member) -         \
->                     (size_t)(index) * sizeof(*(entry)));               \
->    })
-> 
-> The reason plain container_of() is not enough is that the core keeps the
-> table as a contiguous array.  For
-> 
->    struct addrconf_sysctl_table {
->            struct addrconf_sysctl_ctx context;
->            struct ctl_table table[];
->    };
-> 
-> the handler receives an interior entry, and
-> 
->    container_of(ctl, struct addrconf_sysctl_table, table)
->        == (char *)outer + index * sizeof(struct ctl_table)
-> 
-> for ctl == &outer->table[index].  It only returns the outer object for
-> index 0.  Passing the index explicitly keeps the original registered
-> entry usable:
-> 
->    static int addrconf_sysctl_forward(const struct ctl_table *ctl, ...)
->    {
->            struct addrconf_sysctl_table *t =
->                    sysctl_table_container(ctl, struct addrconf_sysctl_table,
->                                           table, 
-> ADDRCONF_SYSCTL_FORWARDING);
->            const struct addrconf_sysctl_ctx *ctx = &t->context;
->            ...
->    }
-> 
-> Shared handlers get one wrapper per slot; the common body does not need
-> to know its position:
-> 
->    #define DEVINET_CONF_WRAPPER(attr)                                  \
->    static int devinet_conf_##attr(const struct ctl_table *ctl, ...)    \
->    {                                                                   \
->            struct devinet_sysctl_table *t =                            \
->                    sysctl_table_container(ctl,                         \
->                            struct devinet_sysctl_table, devinet_vars,  \
->                            IPV4_DEVCONF_##attr - 1);                   \
->            return devinet_conf_proc_common(ctl, &t->context, ...);     \
->    }
-> 
-> Single-entry tables simply use slot 0:
-> 
->    struct devinet_forward_table *t =
->            sysctl_table_container(ctl, struct devinet_forward_table, 
-> table, 0);
-> 
-> 
-> The series is 20 commits over 134 files, with no priv at any point.  If
-> you would prefer a different shape for the helper or the wrappers, I am
-> happy to adjust it.
+> I guess I have to ask whether you want to post your fix as a followup
+> to mine or if I should fold them into one patch and post a v3. What's
+> your preference?
 
-Certainly worth thinking about for a followup patch.
-
-A different option would be to pass the array element size when adding
-the items.
-Most code would just pass an array of 'struct ctl_table' but instead
-you could pass an array of a larger structure that started with a
-struct ctl_table.
-That should let you use container_of().
-That might even make some of these patches shorter/simpler (I just looked
-at #33 (ipv6 addresses) and it is somewhat convoluted.
-
-David
-
-> 
-> 
-> Thanks,
-> Wen
-> 
-> > David
-> >   
-
+yes, please just prepare a v3.  I don't think bot will be offended.
