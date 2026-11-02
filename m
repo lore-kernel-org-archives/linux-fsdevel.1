@@ -1,51 +1,51 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.210
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793618556;
-	b=v7QmuZEKLHEV/6BvEYp3+fhI+FbA18o7cKtQysjFRIyVYQMJCZYX1JuBf0763mZaZ1/2
-	 ccLlrh4BjN5NCDJYQscKC/QyZOvcFj5ggxznt4vUpdoTgcPmlmYjfWkshpUyKytNxVbp6
-	 IwB/KIyu6vdlPdEsHhCJNpafP/xQEkqFU+9dn4pRAa1PZEtUshp8hgkgGHaqSjTndV03f
-	 FYZZX+R/sOUpSiuHdhCVaaJD8ixKPJhdKAVFwzm5rKcGkdDcd24+g0V0rIWz2j4xxcmN3
-	 7PpcMebXXRA5I5QcgcvTldaRtfLiB2F5+soU7nt8lkz5G2fIluvam+4arhzk3cI+L9A==
+	t=1793619893;
+	b=doHGRwFpQ3m8a7uSwf8kdMO+P1MVagsZTOIRvMMaLD+7qrmaxOzlOe48WrRNhZmNNoaJ
+	 GFKcOCvXtS4xuUj56nmAbcH2EyvRfdbsbSFbPwFJbK1QUskkWz1jna89a0FU/KOVQ4QY4
+	 ZpTjiTt+dAssVD0s5Pi+b7q0bTGmPP1vWKlFxqrahywnpfV9fV4bB22/WhTlP755wfjfc
+	 HitEfeyFfU/Az7IwbTEmx9gj2OaSh6j6940amqIexU9kXJ9tQBUJ5HSygTsRcUHF8UVVE
+	 MZ5lnqDFC1F17/ZVUYnUaQkOJnHuQCS0ZpMR/QGiebIdatcYKsoElmo9qoN7/jOikXA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793618556;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793619893;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
 	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
 	 X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=rlYYUg5m282yLIStEKkIHTozLzxeQHV9wO/ECVNrg9o=;
-	b=tXrRUgctmEXvnYm8s4PeiKlJil/E9qk1+nIzvqwPe8Ok1Z3+DEVVNu5BdLPC0YHfGzSg
-	 RMk+/xVQmnVHvz1sSMYAqCwQOLfhZHE8kb1xGW18yV/g5r89lSabmdKMNyXZdUyvExpbg
-	 MBk7wF3zx9DoBqmX+jQz6Ea/dli9ynyV+NVuVyd/f16/xadX/ycpzto2jMTwLcuElSWzj
-	 cr2VAuZvC0JrbaVpmXI+iUDBNZzfYoy7/J3nwC2LzLdYsYhSvqqgz0apOYr2QeIetMUJA
-	 xyqTbb/8jSQfwdTQLxtVQ5DbXz7USIMeQJkR9G+LUFGrgwmACZmF0usVSYRNmlWiCcw==
+	bh=who8ZKKpx/jTygdDf46XygrUGTNQ5Ti9QGrea7MK2kQ=;
+	b=SFsaQ7D3w4RiLoy/XNy0sbKIdiBwZ95Sb+1wkDXU3yGXDdagqWeDNmy17pBivYikJ0Wp
+	 ihklOUmIaVqQDcq95xIT4Sn4kRgT+a+6HWfHstSoCLnFYBiaiAZLHrv/TELywf79mTyGa
+	 wYDHiU6HFHCfGsTEXy4sy+gi/WcLYQddihIcYjIDnMzLLnjii8MbA3G5FMMdazXZjSyRo
+	 3Pmrkh0OzSaFqmRV/8R+aZixfOo2/UQCwOSKpbeqj1+1XdEs15FR+T73U+wVMpSnspuO9
+	 2qgavAHbbcLmkrgM1TQ801r5s+dYKRcmynOmhDvRN3Z8mchTsQQOGXjjjNs671cFI8Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=dNl8kU2Z;
-	arc=none smtp.remote-ip=91.218.175.50
-Received: from mta0.migadu.com (out-50.mta0.migadu.com [91.218.175.50])
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=Zb1GeGbo;
+	arc=none smtp.remote-ip=91.218.175.210
+Received: from mta0.migadu.com (out-210.mta0.migadu.com [91.218.175.210])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63C6860A5BD3
-	for <linux-fsdevel@vger.kernel.org>; Mon,  2 Nov 2026 11:22:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 63C6860A5BD3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 893C0606A33E
+	for <linux-fsdevel@vger.kernel.org>; Mon,  2 Nov 2026 11:44:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 893C0606A33E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=dNl8kU2Z
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=Zb1GeGbo
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=rlYYUg5m282yLIStEKkIHTozLzxeQHV9wO/ECVNrg9o=;
+DKIM-Signature: a=rsa-sha256; bh=fgRhZQDSEmJFZyIgGkSRYKnhjZ4Z1l5m8LV8w/ZXnHw=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793618553; v=1; x=1794223353;
- b=dNl8kU2ZZnY7p+1AZb5FkPRPxnYNE0pNnRkYzfMXhsQ6nzU8z5o/GWyH69JI2jndGu8pOXov
- iCXfD2V18rj7VtN0dm54SEJgnoT8r9LSk12pObDE1JIpBZph6bgTHoxZAQEPzv45DOvyDH48795
- PK/VAB0uVps+jfwrxgnpYmZo=
+ t=1793619890; v=1; x=1794224690;
+ b=Zb1GeGbojxXveT3cZxDPn//4R8A7h+RMO72HLl435m67FVvM9SHf44yaVVp55n3SAPWWoirq
+ Hz8XE56QJlzs5IpeJmF7MvIRESwEWtyXzDq/oA5mLYy34SDIJOr+HdZ4EG3OGTtz9aHGD3cJfWY
+ yqj/TBZodxsUUHX+M5Y8plAE=
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 0a735c2090dc6b54;
-	Mon, 02 Nov 2026 11:22:32 +0000
-X-Mizu-Trace-ID: 0a735c2090dc6b54
+Received: by smtp.migadu.com with ESMTPS id 6ed161f8dd0a3c59;
+	Mon, 02 Nov 2026 11:44:49 +0000
+X-Mizu-Trace-ID: 6ed161f8dd0a3c59
 X-Migadu-Flow: FLOW_OUT
 From: Lance Yang <lance.yang@linux.dev>
 To: david@kernel.org
@@ -112,16 +112,14 @@ Cc: akpm@linux-foundation.org,
 	linux-fsdevel@vger.kernel.org,
 	linux-arch@vger.kernel.org,
 	linux-cxl@vger.kernel.org,
-	mason@kernel.org,
 	stable@vger.kernel.org,
-	skhawaja@google.com,
 	usama.anjum@arm.com
-Subject: Re: [PATCH v3 20/47] mm/gup: fix clearing folios in memfd_pin_folios()
-Date: Mon,  2 Nov 2026 19:22:27 +0800
-Message-ID: <20261102112227.62593-1-lance.yang@linux.dev>
+Subject: Re: [PATCH v3 30/47] mm/mremap: use pudp_huge_get_and_clear() when moving huge PUDs
+Date: Mon,  2 Nov 2026 19:44:42 +0800
+Message-ID: <20261102114442.65682-1-lance.yang@linux.dev>
 X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20261031-fixes_core-v3-20-d6437171ecc3@kernel.org>
-References: <20261031-fixes_core-v3-20-d6437171ecc3@kernel.org>
+In-Reply-To: <20261031-fixes_core-v3-30-d6437171ecc3@kernel.org>
+References: <20261031-fixes_core-v3-30-d6437171ecc3@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -135,33 +133,49 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 
-On Sat, Oct 31, 2026 at 10:39:49AM +0100, David Hildenbrand (Arm) wrote:
->From: Chris Mason <mason@kernel.org>
->
->memfd_pin_folios() pins folios obtained directly from the page cache
->without checking whether they are uptodate. However, shmem fallocate()
->can leave newly allocated folios uncleared and not uptodate. Callers
->such as udmabuf can then expose uninitialized memory to userspace.
+On Sat, Oct 31, 2026 at 10:39:59AM +0100, David Hildenbrand (Arm) wrote:
+>move_huge_pud() reads the old PUD and clears it in separate operations.
+>Hardware accessed or dirty updates between those operations can be lost
+>when the saved entry is installed at the new address.
 
-Right, just make sure the folios are initialized before handing them to
-callers. They shouldn't have to care whether shmem deferred the clearing ;)
+Yep. HW can still update the A/D bits while the PUD lock is held :)
 
->Clear non-uptodate folios and mark them uptodate under the folio lock
->before returning them to the caller.
+>The raw pud_clear() also bypasses page_table_check_pud_clear(), while
+>set_pud_at() accounts for the destination mapping. This leaves the
+>checker counts unbalanced for mappings tracked by page table checking.
 >
->Fix generated by an LLM and sent by Chris Mason in private.
+>To fix it, simply use pudp_huge_get_and_clear().
 >
->Fixes: 89c1905d9c14 ("mm/gup: introduce memfd_pin_folios() for pinning memfd folios")
+>Fixes: 7d846db7d0e2 ("mm/mremap: convert huge PUD move to separate helper")
 >Cc: stable@vger.kernel.org
->Signed-off-by: Chris Mason <mason@kernel.org>
->[ david: simplify description and comment ]
->Reviewed-by: Pratyush Yadav (Google) <pratyush@kernel.org>
->Reviewed-by: Samiullah Khawaja <skhawaja@google.com>
->Tested-by: Samiullah Khawaja <skhawaja@google.com>
+>Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+>Reviewed-by: Pedro Falcato <pfalcato@suse.de>
+>Reviewed-by: Dev Jain <dev.jain@arm.com>
 >Tested-by: Muhammad Usama Anjum <usama.anjum@arm.com>
 >Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 >---
-
-LGTM!
+> mm/mremap.c | 3 +--
+> 1 file changed, 1 insertion(+), 2 deletions(-)
+>
+>diff --git a/mm/mremap.c b/mm/mremap.c
+>index 0d06d7f37f19a..16e736c72d9cb 100644
+>--- a/mm/mremap.c
+>+++ b/mm/mremap.c
+>@@ -509,8 +509,7 @@ static bool move_huge_pud(struct pagetable_move_control *pmc,
+> 		spin_lock_nested(new_ptl, SINGLE_DEPTH_NESTING);
+> 
+> 	/* Clear the pud */
+>-	pud = *old_pud;
+>-	pud_clear(old_pud);
+>+	pud = pudp_huge_get_and_clear(mm, pmc->old_addr, old_pud);
 
 Reviewed-by: Lance Yang <lance.yang@linux.dev>
+
+> 
+> 	VM_BUG_ON(!pud_none(*new_pud));
+> 
+>
+>-- 
+>2.43.0
+>
+>
