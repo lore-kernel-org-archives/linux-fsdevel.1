@@ -1,96 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793629821;
-	b=WyCj2PY7R5jf7WLWZu0vjHT/dHV9BWiEDv1L5bmUlf7AtQ9/1yWKH6OZ9dT7Ru0kwKTg
-	 VusnpAjNOHlYh3l9ZLBm5Z0v1AfqR3eUnaWuElMlyksvyvufLJPduG8NlKCSyktqo1cDs
-	 7qhbMyol5vgTiBmr2+QU6N01y9GUnuHsB6O7yUDWYuND+JvTBgJ13eK2pr5M34m+HjL0W
-	 S3r/ZsG3x5tiY+e3rx6NkgdskF1HuxJWwaSwtHVqnf48tPVDpyrXBBI1Jcp+y7zQJ3GWA
-	 bVpokRYhaqT4koulNiOJ37KS+NDKbQ3iLuhVSi9he3X3/uXRLmV0LCbR2uCuxZNNTpw==
+	t=1793629815;
+	b=LswkLySDKOjjxjlJlDyXd6Bbyr1EfoxCgmbRIlW53QSqC/RIXV11FdjSSBYhBkmquR26
+	 YauQh/r4DlNMT3BE1rjbFRwkK3/6fePNoqTfg4Fg2OTmObnUv+h8BdxpFnoJ5epPLU/CT
+	 CjDwyg/CUcwiq62GfI8vNJoHiuvJx58fUtw/SeJIPFOKMg2izvogDfhqCj68YjGc/XmRF
+	 c8/UixUmXMcG2oJIETzSwpPDBrNZg/1rXR0yzRjnEymtfmtFqpPZBrbrWHEAFNcVR4+Cl
+	 B4YUdj4r2CclBU59m2t00gHJinJh/iwLbCMWhT3JLDIH6mvoX5EShu1DCifi+UQnuyg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793629821;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=mXHogYunGIIHp13OaEAp6oxEyB+S12eFq5Vq8y+h0aU=;
-	b=WrKG+d9+fZ3sR2LYmg9Bsr44n5dx6QrocskK0i78PRUVM6qXANp5vdUkLmag/DQTWavs
-	 85XdV8a759+5LeDOco6soTlLAL+bc2iDJ8nUh/+Gef4cPUprGB6rfJtWrHdg5oNJ/RLEY
-	 mLb2PAwfo3EBSZmmjkeVGmlKaXvXGVAFQa1fzPu9Z6o7kRt8nxpYiPM+A2fwoLSp8nazp
-	 gBNGBusO5RIufKCIEvLSgmiwJGzNVkiIfSYbZtG1/N6fSqJ6naniD1OlEFtHxeAhcJFFg
-	 tw1qvCLxTmRFNoeSycqCSBAq929gFIATvIZcV6H6oXDKPZ8WF5DobGzTZ3oh49nr0pw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793629815;
+	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=3411hkdZbwQNMzi0U+XOI7Na8s43TyvUoc5wijeirGE=;
+	b=KczyhRBPVwIAx2iuF8BUF/wJtj1XcK6r4LAwaev0pZfgPdJlPUE+7/bTIlqrQAagEKsu
+	 ypnzcQ7k1UiNk1oonFZMXqQFrtYSc+9EPj7U62rSp1eKsYZ/XZhlPXAFvSduPULRlCwX7
+	 wo1bULY/F6Mm9V8vuj4rcj7GfZEkwkhDvftKbzJALsdD3XVr6ren1jWvBJC/LoSmItW2l
+	 BX/W739V1l0MPTpItt1O9tb0SITEDTxtkyPIyGB5dEkS4IBC4Vt3oO/ShcvivAkrZOWTK
+	 uhblnliOejYKEieFHhz8jQtV/L2QmOYCNJgg4qulvmL4OLlcOw7B+6GMCjTbbwzQIPg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="sZXSqb/z";
-	arc=none smtp.remote-ip=209.85.128.48
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="N/zg5Ona";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EDDC6070C80
-	for <linux-fsdevel@vger.kernel.org>; Mon,  2 Nov 2026 14:30:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9EDDC6070C80
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 595C3608555D;
+	Mon,  2 Nov 2026 14:30:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=sZXSqb/z
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4a5087a5348so24918955e9.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 02 Nov 2026 06:30:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793629819; x=1794234619; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=mXHogYunGIIHp13OaEAp6oxEyB+S12eFq5Vq8y+h0aU=;
-        b=sZXSqb/zq/KtwCmum70LI7SsdTCOJhUSRW7CLlkB8I8qrCYZbZharyt10TdSEHjDIV
-         PjJuK0Waj81QyKbY8ysdoEcc79TDQvj5fdfvcANR/A75x09VJsGJznFw7RGvot/3u7i0
-         7/uWXQRnBTCruuS95FR1eTdRMRCrbdJaXE1XDEtMPArDMlOXQR/0smpsZgBw7vnGn820
-         FD8V65XulM/XcuEIn6ZLg2Cc28kTS9bWozjU0HTSJgmYeWpkKK6GZ4hE8fnvP+cUfK2o
-         wuwECoRkrktIQYbWb572tG3ieEwykqfb6bBCkJRuBZTTD7kxo6HdPXxh0Dl5BYq6fQjO
-         2Rpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793629819; x=1794234619;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=mXHogYunGIIHp13OaEAp6oxEyB+S12eFq5Vq8y+h0aU=;
-        b=Tb9INMv8ScO36O0fkKhC395wSysx2PeyLuQdqTGiWwzYZFc61LoIcKF90j0V+n3oGY
-         HQ4d88NHnFIFF2rkaFFA+JV4agZ3Xx509fBURFWng/6J3RqOp4B+0PkFW1RIu3HIZkXy
-         TQWqGS7pC7x2cxIoY/5IoSiZDLZdDrUQ1pfB8X27gHX/9GGhyBAyWcj1tCV54Ff/PhjY
-         1LWbJlNdE7Qbzxoc4UpB61Mpv4gZVwlgPdYiVVfEw/SPhe41IoJGN1FnJ8JAlaaeX6ED
-         mhso9Qs30ZxA5gpROAeBBl7g3dzgtisPvbEaOpoAJ1i1mBoSVr/KT+Cj0HHdB1A3tCJl
-         HSJA==
-X-Forwarded-Encrypted: i=1; AKwUvBxElrdGOCF9hXRc1G23PKc41Xf5nB6g20OEXPcBXNtLj2At/Aw/JCr8Q7pHOtg9qusHWOSX9dumtc0zT0rk@vger.kernel.org
-X-Gm-Message-State: AFq9FYJDeTk+mAfEbc6Ra1zh5UNdLR0rTcxMYMWtPcLN7CeQXJGjVCJ3
-	UfUs2hPG5ROvfRvE0eGOzwniCRkD9+vZUHpckad/Fg5j9iqauLrdzoCWwRxD3JbrHp+LBA==
-X-Gm-Gg: AYBFou0DCE0Zf+YAa3yZqdnyjRm+9PctRaSc/8TfYtvzMnj7yeiU4YPQ6FBJVnboQ6X
-	ctnRxi2/kxQRW30bI21OtZX1D2bDjxf0OsynQq4Q4x7H8ovv2YJc60pA1xI3eiOufvoJfrVZ739
-	vaijKgW7Ak7sf99ka9ER3pkY3eF9L0WV3D6wZV/kAnRxOLCTzq6oVs+cAGewY+ZEwHX2/EH+sdr
-	KPu8aFfdvAKYn5Qqikz3pK87igsEQpPaDyNqf6HviEMGq6KFtgpPt4xjNkg4EeleBtUtQjY1HkK
-	HWJDLg+zvrEpIals3pyzDvmtuYidiOnQqWhITjnAYYBMw8K7DBxr+icFWjVgnZv1OKdwNrmUKPT
-	Z23Imty5GhnRq0uIJdRLjwxFghA0p8okeCp5V9vLfw+dccESzORyxKojAR6DuVFRBqUi2VOMFsG
-	xmV0ezD6LdTh4RYGSZ/xgp5iTgGMlN3/yCnvaxMENx0jooLwF+gc7z79cfYy0M1q5OQuPvv+KE/
-	+/kLVA+0RiR08pts0MUlmdcscGZYEapiGnF50ST0mpBXp7vLw3ebFOYYcNv4p40FIdrM1tzP+Am
-	m10J425YueO3Jd2HXehr837GdU1b3bk71GV9qreBp2Q9g5qn5imKuX4yl8wVGciFQo4ZLQBIo58
-	0MEORe93z8NMIGm2KgSjDKH1w0YDZZEdrOJlpL5ta1NF5qJ7dMEhs6QSEjepCWneX88jjs5ip6Z
-	SjT/Fa18rr4v6jRQ1pC5sj71I+U2npH6nvg+prLld3bEf1XadKsVc=
-X-Received: by 2002:a05:600c:e555:10b0:4b2:61e5:b2f4 with SMTP id 5b1f17b1804b1-4b261e5b38bmr7366625e9.11.1793629818800;
-        Mon, 02 Nov 2026 06:30:18 -0800 (PST)
-Received: from Ubuntu (87-205-15-91.static.ip.netia.com.pl. [87.205.15.91])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4aa813d2640sm344739885e9.6.2026.11.02.06.30.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2026 06:30:18 -0800 (PST)
-From: Krystian Kaniewski <krystianmkaniewski@gmail.com>
-To: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-Cc: linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	syzbot+b0aebd03565f5774f7f8@syzkaller.appspotmail.com
-Subject: [PATCH v5] fat: make rename recovery safe after metadata write errors
-Date: Mon,  2 Nov 2026 15:30:11 +0100
-Message-ID: <20261102143013.492650-1-krystianmkaniewski@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <2ba329a1-ad8c-4b6a-8dd6-1f93c85224c0@gmail.com>
-References: <6aa82300.a211d2ce.1a5198.0295.GAE@google.com> <20260929090029.742579-1-krystianmkaniewski@gmail.com> <87ld8j4161.fsf@mail.parknet.co.jp> <1f18819d20c92960b8b2d6ccc8bc4506d346150e.1790779353.git.krystianmkaniewski@gmail.com> <87bj90m6dq.fsf@mail.parknet.co.jp> <20261014082315.190262-1-krystianmkaniewski@gmail.com> <87qzhqvloo.fsf@mail.parknet.co.jp> <55a1f016-a7a2-469f-b481-37223d695f29@gmail.com> <87cxt921rc.fsf@mail.parknet.co.jp> <f9b27432-4104-4323-8cd7-e2cda73db2f9@gmail.com> <875wz11xfg.fsf@mail.parknet.co.jp> <c820357a-a7cf-4f4b-ab23-91530a12218b@gmail.com> <878q3uhv4h.fsf@mail.parknet.co.jp> <20261019145146.539233-1-krystianmkaniewski@gmail.com> <87wlrdy8ch.fsf@mail.parknet.co.jp> <2ba329a1-ad8c-4b6a-8dd6-1f93c85224c0@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=N/zg5Ona
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 798041F00A16;
+	Mon,  2 Nov 2026 14:29:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793629814;
+	bh=3411hkdZbwQNMzi0U+XOI7Na8s43TyvUoc5wijeirGE=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=N/zg5OnaHcMDjHdzYbR6QvnFai7hOwNAnTt2NkY9jA2RApvWKfwTn6mchyUme/onF
+	 ieOMSfn7EOjxy9D5u0vGcVfX6ixkzrWuP14BEk8Dqq6sJoYrNLzk3E0OYlhnVId4pr
+	 18pXAmt3n5kLL/zuxe0A97wY4IR5i4aoPTqrBac5O7Y9xuTkc8NN4MFD1wYjeoqM6/
+	 c2p7xPOe1nl/kZjzUE3FLMYkSrfUbtJT2EygAmFEqgAW+X5RFTbYC1NWxTMeQ+fkhv
+	 Bb1GsbVLMeUTFDG1989JYHy8ooD6KHyoYwdBzXmxmZUmpttNpFOQ3+lzmxFMxqRZuZ
+	 /erP9IfNldJYw==
+From: Christian Brauner <brauner@kernel.org>
+Date: Mon, 02 Nov 2026 15:21:50 +0100
+Subject: [PATCH RFC 35/38] proc: sysctl: don't hold the tables while
+ readdir copies to userspace
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -100,204 +53,508 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261102-work-procfs-bugfixes-v1-35-59422ed3e465@kernel.org>
+References: <20261102-work-procfs-bugfixes-v1-0-59422ed3e465@kernel.org>
+In-Reply-To: <20261102-work-procfs-bugfixes-v1-0-59422ed3e465@kernel.org>
+To: linux-fsdevel@vger.kernel.org
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
+ Jann Horn <jannh@google.com>, Josef Bacik <josef@toxicpanda.com>, 
+ Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
+ NeilBrown <neil@brown.name>, Eric Dumazet <edumazet@kernel.org>, 
+ Thomas Gleixner <tglx@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
+ Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
+ Greg Kroah-Hartman <gregkh@suse.de>, 
+ Joel Granados <joel.granados@kernel.org>, Kees Cook <kees@kernel.org>, 
+ Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
+ linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, 
+ linux-acpi@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
+ linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, 
+ linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org, 
+ ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
+ coreteam@netfilter.org, kexec@lists.infradead.org, 
+ linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, 
+ netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net, 
+ linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-cifs@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+ linux-hwmon@vger.kernel.org, linux-mm@kvack.org, linux-sh@vger.kernel.org, 
+ linux-usb@vger.kernel.org, samba-technical@lists.samba.org, 
+ sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, 
+ linux-doc@vger.kernel.org, linux-serial@vger.kernel.org, 
+ linux-atm-general@lists.sourceforge.net, Takashi Iwai <tiwai@suse.de>, 
+ linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
+ linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, 
+ linux-debuggers@vger.kernel.org, 
+ "Christian Brauner (Amutable)" <brauner@kernel.org>, 
+ Chuck Lever <cel@kernel.org>, stable@vger.kernel.org
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=15345; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=awE7OtuLocwwLuG73C7KoqdSIZd97jAzgPGBLfGeaBs=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS9mJOT3hscVVlXMb28cnGS9POEl1M5Z225d2zCpfU2r
+ VExHzkWd5SyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEzkaCTDf5dUdg1T519xexnC
+ NONPiIm2inxrCY2e4v2AQUfiaOWF+YwMD1qNZt6cez3sz76H+Vwh+/ekzE3YYKvrHnRy7vT5ERO
+ +sgAA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-A failed synchronous FAT metadata write clears BH_Uptodate. Rename
-recovery can then modify and dirty the same retained buffer, which
-triggers the !buffer_uptodate warning in mark_buffer_dirty().
+proc_sys_readdir() holds the directory's table for the whole readdir
+and the table of each entry while dir_emit() copies its name to
+userspace. Unregistering a table waits until nobody uses it anymore. So
+a getdents64() whose buffer faults for as long as it wants keeps
+unregister_sysctl_table() waiting, just like a stalled read() does.
+Listing /proc/sys/net/ipv6/conf/<dev>/ that way holds up the removal of
+the device under RTNL.
 
-Check the retained buffers in the rename error paths and skip only the
-recovery step whose buffer is no longer uptodate. The other steps run as
-before, including the rollback after a failed source-entry removal,
-where only the source-entry buffer failed. VFAT keeps no slot
-information for a replaced entry. Resolve its saved position with a
-cache-only lookup before dirtying the inode, because FAT inode
-writeback would otherwise reread and retry a failed block.
+So don't take any table into use for a listing. A header counts what
+refers to its memory, the inodes made for it, and unregistering doesn't
+wait for those. readdir takes one of those references on the entry it
+is at instead, which keeps the header around and nothing else. Under
+sysctl_lock, where unregistering erases an entry, it finds the entry,
+copies its name and mode, follows a link to the entry it stands for and
+pins that. Then it looks the dentry up, creates the inode if there is
+none, which checks for itself under sysctl_lock that the table is still
+registered, and emits the entry with nothing held at all. The next
+entry is the first live one after that name, which is where a listing
+resumes between calls since "proc: sysctl: resume readdir after the
+last name it returned" anyway. kernfs_fop_readdir() and
+proc_readdir_de() work the same way, a reference on the entry and the
+lock only to find the next one.
 
-For exchange, do not rewrite the dotdot buffer whose write failed,
-restore an earlier dotdot update only while its buffer is uptodate, and
-restore both inode positions as before. A skipped step is reported as
-filesystem corruption, and the original error is returned.
+While the entry is still registered its node is still in the tree and
+the next one is right behind it, like kernfs_dir_next_pos() continues
+from the node it holds. Only once it went away, and to resume, is the
+next entry found by name. That's one trip through sysctl_lock per entry
+like before, and the link entries of /proc/sys/net no longer take two
+more. The directory isn't
+taken into use either, an entry keeps its directory registered while
+it is used and readdir looks at the directory under the lock. So the
+dots don't wait for anything, a directory that went away lists them and
+then fails with -ENOENT. A seek to an arbitrary position counts the
+entries from the start like before, one trip per entry.
 
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Reported-by: syzbot+b0aebd03565f5774f7f8@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=b0aebd03565f5774f7f8
-Signed-off-by: Krystian Kaniewski <krystianmkaniewski@gmail.com>
+Fixes: 77b14db502cb ("[PATCH] sysctl: reimplement the sysctl proc support")
+Cc: stable@vger.kernel.org
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
-Changes in v5:
-- Check buffer_uptodate() directly in the rename error paths and drop the
-  helper and the buffer lock of v4.
-- Skip only the recovery step of a buffer that is no longer uptodate and
-  keep the rest of the existing recovery, also after a failed dotdot write
-  and in exchange.
-- Keep the existing rollback after a failed source-entry removal. The reply
-  to v4 proposed stopping there, but fat_remove_entries() fails only when
-  the old_sinfo buffer write fails, so the source entry is still in place.
-  Stopping left an invalid ".." entry and shared clusters in my tests,
-  while the existing rollback leaves the filesystem clean.
-- Look up the cached VFAT target entry block from its inode position,
-  because that path has no slot information.
-- Clarify the recovery-state comments without changing behavior.
+ fs/proc/proc_sysctl.c | 307 +++++++++++++++++++++++++++-----------------------
+ 1 file changed, 166 insertions(+), 141 deletions(-)
 
-v4: https://lore.kernel.org/all/20261019145146.539233-1-krystianmkaniewski@gmail.com/
-
- fs/fat/namei_msdos.c | 18 ++++++++++++----
- fs/fat/namei_vfat.c  | 50 +++++++++++++++++++++++++++++++-------------
- 2 files changed, 49 insertions(+), 19 deletions(-)
-
-diff --git a/fs/fat/namei_msdos.c b/fs/fat/namei_msdos.c
-index d46d1a3851f25f..51d49a3ca93c14 100644
---- a/fs/fat/namei_msdos.c
-+++ b/fs/fat/namei_msdos.c
-@@ -562,14 +562,20 @@ static int do_msdos_rename(struct inode *old_dir, unsigned char *old_name,
- 	return err;
+diff --git a/fs/proc/proc_sysctl.c b/fs/proc/proc_sysctl.c
+index a1242247f492..0b7a1e487ed6 100644
+--- a/fs/proc/proc_sysctl.c
++++ b/fs/proc/proc_sysctl.c
+@@ -91,6 +91,8 @@ static void drop_sysctl_table(struct ctl_table_header *header);
+ static int sysctl_follow_link(struct ctl_table_header **phead,
+ 	const struct ctl_table **pentry);
+ static int insert_links(struct ctl_table_header *head);
++static struct ctl_table_set *lookup_header_set(struct ctl_table_root *root);
++static struct ctl_dir *xlate_dir(struct ctl_table_set *set, struct ctl_dir *dir);
+ static void put_links(struct ctl_table_header *header);
  
- error_dotdot:
--	/* data cluster is shared, serious corruption */
-+	/*
-+	 * Complete the remaining rollback. Report corruption only if a
-+	 * recovery step cannot be completed.
-+	 */
- 	corrupt = 1;
+ static void sysctl_print_dir(struct ctl_dir *dir)
+@@ -367,86 +369,97 @@ static const struct ctl_table *lookup_entry(struct ctl_table_header **phead,
+ 	return entry;
+ }
  
--	if (update_dotdot) {
-+	/* A failed sync write clears BH_Uptodate, leave that buffer alone. */
-+	if (update_dotdot && buffer_uptodate(dotdot_bh)) {
- 		fat_set_start(dotdot_de, MSDOS_I(old_dir)->i_logstart);
- 		mmb_mark_buffer_dirty(dotdot_bh,
- 				      &MSDOS_I(old_inode)->i_metadata_bhs);
- 		corrupt |= sync_dirty_buffer(dotdot_bh);
-+	} else if (update_dotdot) {
-+		corrupt = err;
+-static struct ctl_node *first_usable_entry(struct rb_node *node)
+-{
+-	struct ctl_node *ctl_node;
++/*
++ * What readdir takes along for an entry between the trips through
++ * sysctl_lock: the header pinned, which keeps its memory and nothing else,
++ * the entry, its name and mode. For a link the header and entry are the
++ * ones it stands for in the caller's set.
++ */
++struct sysctl_dirent {
++	struct ctl_table_header *head;
++	const struct ctl_table *table;
++	struct ctl_node *node;		/* the entry's node in the directory, NULL for a link */
++	ino_t ino;
++	unsigned int type;
++	umode_t mode;
++	bool skip;
++	int len;
++	char name[NAME_MAX + 1];
++};
+ 
+-	for (;node; node = rb_next(node)) {
+-		ctl_node = rb_entry(node, struct ctl_node, node);
+-		if (use_table(ctl_node->header))
+-			return ctl_node;
+-	}
+-	return NULL;
++/* A reference on the memory of @head, like an inode made for it holds. */
++static void sysctl_pin(struct ctl_table_header *head)
++{
++	lockdep_assert_held(&sysctl_lock);
++	head->count++;
+ }
+ 
+-static void first_entry(struct ctl_dir *dir,
+-	struct ctl_table_header **phead, const struct ctl_table **pentry)
++static void sysctl_unpin(struct ctl_table_header *head)
+ {
+-	struct ctl_table_header *head = NULL;
+-	const struct ctl_table *entry = NULL;
+-	struct ctl_node *ctl_node;
+-
+-	spin_lock(&sysctl_lock);
+-	ctl_node = first_usable_entry(rb_first(&dir->root));
+-	spin_unlock(&sysctl_lock);
+-	if (ctl_node) {
+-		head = ctl_node->header;
+-		entry = &head->ctl_table[ctl_node - head->node];
+-	}
+-	*phead = head;
+-	*pentry = entry;
++	lockdep_assert_held(&sysctl_lock);
++	if (!--head->count)
++		kfree_rcu(head, rcu);
+ }
+ 
+-static void next_entry(struct ctl_table_header **phead, const struct ctl_table **pentry)
++/* the first entry from @node on whose table isn't being unregistered */
++static struct ctl_node *first_live_entry(struct rb_node *node)
+ {
+-	struct ctl_table_header *head = *phead;
+-	const struct ctl_table *entry = *pentry;
+-	struct ctl_node *ctl_node = &head->node[entry - head->ctl_table];
+-
+-	spin_lock(&sysctl_lock);
+-	unuse_table(head);
++	struct ctl_node *ctl_node;
+ 
+-	ctl_node = first_usable_entry(rb_next(&ctl_node->node));
+-	spin_unlock(&sysctl_lock);
+-	head = NULL;
+-	if (ctl_node) {
+-		head = ctl_node->header;
+-		entry = &head->ctl_table[ctl_node - head->node];
++	lockdep_assert_held(&sysctl_lock);
++	for (; node; node = rb_next(node)) {
++		ctl_node = rb_entry(node, struct ctl_node, node);
++		if (!ctl_node->header->unregistering)
++			return ctl_node;
  	}
- error_inode:
- 	fat_detach(old_inode);
-@@ -577,11 +583,13 @@ static int do_msdos_rename(struct inode *old_dir, unsigned char *old_name,
- 	MSDOS_I(old_inode)->i_attrs = old_attrs;
- 	if (new_inode) {
- 		fat_attach(new_inode, new_i_pos);
--		if (corrupt) {
-+		if (corrupt && buffer_uptodate(sinfo.bh)) {
- 			mark_inode_dirty(new_inode);
- 			corrupt |= sync_inode_metadata(new_inode, 1);
-+		} else if (corrupt) {
-+			corrupt = err;
+-	*phead = head;
+-	*pentry = entry;
++	return NULL;
+ }
+ 
+ /*
+- * The first usable entry of @dir after @name, or the first one at all for a
+- * NULL @name. The entries are sorted by name, so that is where a listing
+- * resumes when entries in front of it came or went in between. -ENOENT if
+- * the directory is being unregistered.
++ * Fill @d with the entry of @dir behind the one it holds, letting go of that
++ * one, or with the first live entry after @name, or the first one at all for
++ * a NULL @name. While the entry @d holds is still registered its node is
++ * still in the tree and the next one is right behind it. Once it is gone the
++ * entries are found by name, they are sorted by it, so that is also where a
++ * listing resumes when entries in front of it came or went in between.
++ * 1 with the next entry pinned in @d, 0 at the end of the directory and
++ * -ENOENT once @dir itself is being unregistered.
++ *
++ * Everything that reads the tables happens under sysctl_lock, where an entry
++ * is erased when it is unregistered, since nothing holds the tables in use.
+  */
+-static int entry_after(struct ctl_dir *dir, const char *name, int namelen,
+-		       struct ctl_table_header **phead,
+-		       const struct ctl_table **pentry)
++static int sysctl_dir_next(struct ctl_dir *dir, struct sysctl_dirent *d,
++			   const char *name, int namelen)
+ {
+-	struct ctl_table_header *head = NULL;
+-	const struct ctl_table *entry = NULL;
+ 	struct rb_node *node, *after = NULL;
++	struct ctl_table_header *head;
++	const struct ctl_table *entry;
+ 	struct ctl_node *ctl_node;
++	bool by_name = true;
++	int ret = 0;
+ 
+ 	spin_lock(&sysctl_lock);
++	if (d->head) {
++		if (d->node && !d->head->unregistering) {
++			after = rb_next(&d->node->node);
++			by_name = false;
++		}
++		sysctl_unpin(d->head);
++		d->head = NULL;
++	}
+ 	if (unlikely(dir->header.unregistering)) {
+-		spin_unlock(&sysctl_lock);
+-		return -ENOENT;
++		ret = -ENOENT;
++		goto out;
+ 	}
+-	if (!name) {
++	if (!by_name) {
++		/* behind the entry @d held */
++	} else if (!name) {
+ 		after = rb_first(&dir->root);
+ 	} else for (node = dir->root.rb_node; node;) {
+-		const struct ctl_table *table;
+-		struct ctl_table_header *h;
+-
+ 		ctl_node = rb_entry(node, struct ctl_node, node);
+-		h = ctl_node->header;
+-		table = &h->ctl_table[ctl_node - h->node];
+-		if (namecmp(table->procname, strlen(table->procname),
++		head = ctl_node->header;
++		entry = &head->ctl_table[ctl_node - head->node];
++		if (namecmp(entry->procname, strlen(entry->procname),
+ 			    name, namelen) > 0) {
+ 			after = node;
+ 			node = node->rb_left;
+@@ -454,15 +467,56 @@ static int entry_after(struct ctl_dir *dir, const char *name, int namelen,
+ 			node = node->rb_right;
  		}
--	} else {
-+	} else if (buffer_uptodate(sinfo.bh)) {
- 		/*
- 		 * If new entry was not sharing the data cluster, it
- 		 * shouldn't be serious corruption.
-@@ -590,6 +598,8 @@ static int do_msdos_rename(struct inode *old_dir, unsigned char *old_name,
- 		if (corrupt)
- 			corrupt |= err2;
- 		sinfo.bh = NULL;
-+	} else {
-+		corrupt = err;
  	}
- 	if (corrupt < 0) {
- 		fat_fs_error(new_dir->i_sb,
-diff --git a/fs/fat/namei_vfat.c b/fs/fat/namei_vfat.c
-index da3e89c0b16ac8..31f9882f0a9ffe 100644
---- a/fs/fat/namei_vfat.c
-+++ b/fs/fat/namei_vfat.c
-@@ -1010,12 +1010,18 @@ static int vfat_rename(struct inode *old_dir, struct dentry *old_dentry,
- 	return err;
- 
- error_dotdot:
--	/* data cluster is shared, serious corruption */
-+	/*
-+	 * Complete the remaining rollback. Report corruption only if a
-+	 * recovery step cannot be completed.
-+	 */
- 	corrupt = 1;
- 
--	if (dotdot_de) {
-+	/* A failed sync write clears BH_Uptodate, leave that buffer alone. */
-+	if (dotdot_de && buffer_uptodate(dotdot_bh)) {
- 		corrupt |= vfat_update_dotdot_de(old_dir, old_inode, dotdot_bh,
- 						 dotdot_de);
-+	} else if (dotdot_de) {
-+		corrupt = err;
- 	}
- error_inode:
- 	fat_detach(old_inode);
-@@ -1023,10 +1029,27 @@ static int vfat_rename(struct inode *old_dir, struct dentry *old_dentry,
- 	if (new_inode) {
- 		fat_attach(new_inode, new_i_pos);
- 		if (corrupt) {
--			mark_inode_dirty(new_inode);
--			corrupt |= sync_inode_metadata(new_inode, 1);
-+			struct buffer_head *target_bh;
-+			sector_t blocknr;
-+			int offset;
+-	ctl_node = first_usable_entry(after);
+-	spin_unlock(&sysctl_lock);
+-	if (ctl_node) {
+-		head = ctl_node->header;
+-		entry = &head->ctl_table[ctl_node - head->node];
++	ctl_node = first_live_entry(after);
++	if (!ctl_node)
++		goto out;
++	head = ctl_node->header;
++	entry = &head->ctl_table[ctl_node - head->node];
 +
-+			/*
-+			 * A replaced entry has no slot info. Use its saved
-+			 * position for a cache-only lookup so recovery does
-+			 * not reread a failed block.
-+			 */
-+			fat_get_blknr_offset(MSDOS_SB(sb), new_i_pos,
-+					     &blocknr, &offset);
-+			target_bh = sb_find_get_block_nonatomic(sb, blocknr);
-+			if (target_bh && buffer_uptodate(target_bh)) {
-+				mark_inode_dirty(new_inode);
-+				corrupt |= sync_inode_metadata(new_inode, 1);
-+			} else {
-+				corrupt = err;
-+			}
-+			brelse(target_bh);
++	d->len = strlen(entry->procname);
++	if (d->len > NAME_MAX) {
++		ret = -ENAMETOOLONG;
++		goto out;
+ 	}
+-	*phead = head;
+-	*pentry = entry;
+-	return 0;
++	memcpy(d->name, entry->procname, d->len);
++	d->mode = entry->mode;
++	d->skip = false;
++	d->node = ctl_node;
++	if (unlikely(S_ISLNK(entry->mode))) {
++		/* the entry it stands for in the caller's set, or nothing */
++		struct ctl_table_root *root = entry->data;
++		struct ctl_table_set *set = lookup_header_set(root);
++		struct ctl_dir *xdir = xlate_dir(set, head->parent);
++		struct ctl_table_header *xhead = NULL;
++		const struct ctl_table *xentry = NULL;
++
++		if (!IS_ERR(xdir))
++			xentry = find_entry(&xhead, xdir, d->name, d->len);
++		if (!xentry || xhead->unregistering) {
++			d->skip = true;
++		} else {
++			head = xhead;
++			entry = xentry;
++		}
++		d->node = NULL;
++	}
++	sysctl_pin(head);
++	d->head = head;
++	d->table = entry;
++	ret = 1;
++out:
++	spin_unlock(&sysctl_lock);
++	return ret;
++}
++
++static void sysctl_dir_done(struct sysctl_dirent *d)
++{
++	if (!d->head)
++		return;
++	spin_lock(&sysctl_lock);
++	sysctl_unpin(d->head);
++	spin_unlock(&sysctl_lock);
++	d->head = NULL;
+ }
+ 
+ /*
+@@ -765,29 +819,29 @@ static void sysctl_cursor_set(struct file *file, const char *name, int len,
+ 	memcpy(cursor->name, name, len);
+ }
+ 
+-static bool proc_sys_fill_cache(struct file *file,
+-				struct dir_context *ctx,
+-				struct ctl_table_header *head,
+-				const struct ctl_table *table)
++/*
++ * The inode number and type of the entry @d holds, instantiating its dentry
++ * if there is none. Needs the header pinned, proc_sys_make_inode() checks
++ * for itself that the table is still registered.
++ */
++static int proc_sys_fill_dirent(struct file *file, struct sysctl_dirent *d)
+ {
+ 	struct dentry *child, *dir = file->f_path.dentry;
+ 	struct inode *inode;
+ 	struct qstr qname;
+-	ino_t ino = 0;
+-	unsigned type = DT_UNKNOWN;
+ 
+-	qname.name = table->procname;
+-	qname.len  = strlen(table->procname);
++	qname.name = d->name;
++	qname.len  = d->len;
+ 	qname.hash = full_name_hash(dir, qname.name, qname.len);
+ 
+ 	child = d_lookup(dir, &qname);
+ 	if (!child) {
+ 		child = d_alloc_parallel(dir, &qname);
+ 		if (IS_ERR(child))
+-			return false;
++			return PTR_ERR(child);
+ 		if (d_in_lookup(child)) {
+ 			struct dentry *res;
+-			inode = proc_sys_make_inode(dir->d_sb, head, table);
++			inode = proc_sys_make_inode(dir->d_sb, d->head, d->table);
+ 			res = d_splice_alias_ops(inode, child,
+ 						 &proc_sys_dentry_operations);
+ 			d_lookup_done(child);
+@@ -795,79 +849,41 @@ static bool proc_sys_fill_cache(struct file *file,
+ 				dput(child);
+ 
+ 				if (IS_ERR(res))
+-					return false;
++					return PTR_ERR(res);
+ 
+ 				child = res;
+ 			}
  		}
--	} else {
-+	} else if (buffer_uptodate(sinfo.bh)) {
- 		/*
- 		 * If new entry was not sharing the data cluster, it
- 		 * shouldn't be serious corruption.
-@@ -1035,6 +1058,8 @@ static int vfat_rename(struct inode *old_dir, struct dentry *old_dentry,
- 		if (corrupt)
- 			corrupt |= err2;
- 		sinfo.bh = NULL;
-+	} else {
-+		corrupt = err;
  	}
- 	if (corrupt < 0) {
- 		fat_fs_error(new_dir->i_sb,
-@@ -1106,13 +1131,13 @@ static int vfat_rename_exchange(struct inode *old_dir, struct dentry *old_dentry
- 		err = vfat_update_dotdot_de(new_dir, old_inode, old_dotdot_bh,
- 					    old_dotdot_de);
- 		if (err)
--			goto error_old_dotdot;
-+			goto error_dotdot;
- 	}
- 	if (new_dotdot_de) {
- 		err = vfat_update_dotdot_de(old_dir, new_inode, new_dotdot_bh,
- 					    new_dotdot_de);
- 		if (err)
--			goto error_new_dotdot;
-+			goto error_dotdot;
- 	}
- 
- 	/* if cross directory and only one is a directory, adjust nlink */
-@@ -1135,14 +1160,9 @@ static int vfat_rename_exchange(struct inode *old_dir, struct dentry *old_dentry
- 
- 	return err;
- 
--error_new_dotdot:
--	if (new_dotdot_de) {
--		corrupt |= vfat_update_dotdot_de(new_dir, new_inode,
--						 new_dotdot_bh, new_dotdot_de);
+ 	inode = d_inode(child);
+-	ino  = inode->i_ino;
+-	type = inode->i_mode >> 12;
++	d->ino = inode->i_ino;
++	d->type = inode->i_mode >> 12;
+ 	dput(child);
+-	return dir_emit(ctx, qname.name, qname.len, ino, type);
+-}
+-
+-static bool proc_sys_link_fill_cache(struct file *file,
+-				    struct dir_context *ctx,
+-				    struct ctl_table_header *head,
+-				    const struct ctl_table *table)
+-{
+-	bool ret = true;
+-
+-	head = sysctl_head_grab(head);
+-	if (IS_ERR(head))
+-		return false;
+-
+-	/* It is not an error if we can not follow the link ignore it */
+-	if (sysctl_follow_link(&head, &table))
+-		goto out;
+-
+-	ret = proc_sys_fill_cache(file, ctx, head, table);
+-out:
+-	sysctl_head_finish(head);
+-	return ret;
+-}
+-
+-static int scan(struct ctl_table_header *head, const struct ctl_table *table,
+-		unsigned long *pos, struct file *file,
+-		struct dir_context *ctx)
+-{
+-	bool res;
+-
+-	if ((*pos)++ < ctx->pos)
+-		return true;
+-
+-	if (unlikely(S_ISLNK(table->mode)))
+-		res = proc_sys_link_fill_cache(file, ctx, head, table);
+-	else
+-		res = proc_sys_fill_cache(file, ctx, head, table);
+-
+-	if (res) {
+-		ctx->pos = *pos;
+-		sysctl_cursor_set(file, table->procname, strlen(table->procname),
+-				  ctx->pos);
 -	}
 -
--error_old_dotdot:
--	if (old_dotdot_de) {
-+error_dotdot:
-+	corrupt = err;
-+	if (old_dotdot_de && buffer_uptodate(old_dotdot_bh)) {
- 		corrupt |= vfat_update_dotdot_de(old_dir, old_inode,
- 						 old_dotdot_bh, old_dotdot_de);
+-	return res;
++	return 0;
+ }
+ 
++/*
++ * Unregistering a table waits until nobody uses it anymore and a copy to
++ * userspace can take as long as userspace wants. So a listing doesn't take
++ * any table into use. It pins the memory of the entry it is at, finds the
++ * next one under sysctl_lock and emits with nothing held, like
++ * kernfs_fop_readdir() and proc_readdir_de() do. Between calls a listing
++ * resumes after the name of the last entry it emitted.
++ */
+ static int proc_sys_readdir(struct file *file, struct dir_context *ctx)
+ {
+-	struct ctl_table_header *head = grab_header(file_inode(file));
++	struct ctl_table_header *head = PROC_I(file_inode(file))->sysctl;
+ 	struct sysctl_cursor *cursor = file->private_data;
+-	struct ctl_table_header *h = NULL;
+-	const struct ctl_table *entry;
++	struct sysctl_dirent d = {};
+ 	struct ctl_dir *ctl_dir;
+-	unsigned long pos;
+-
+-	if (IS_ERR(head))
+-		return PTR_ERR(head);
++	int err;
+ 
++	if (!head)
++		head = &sysctl_table_root.default_set.dir.header;
+ 	ctl_dir = container_of(head, struct ctl_dir, header);
+ 
+ 	if (!dir_emit_dots(file, ctx))
+-		goto out;
++		return 0;
+ 
+ 	/*
+ 	 * Resume after the last entry the previous call emitted. Only a seek
+@@ -875,21 +891,30 @@ static int proc_sys_readdir(struct file *file, struct dir_context *ctx)
+ 	 * seeking to an arbitrary position always did.
+ 	 */
+ 	if (cursor && cursor->pos == ctx->pos) {
+-		entry_after(ctl_dir, cursor->name, cursor->len, &h, &entry);
+-		pos = ctx->pos;
++		err = sysctl_dir_next(ctl_dir, &d, cursor->name, cursor->len);
+ 	} else {
+-		first_entry(ctl_dir, &h, &entry);
+-		pos = 2;
++		loff_t pos = 2;
++
++		err = sysctl_dir_next(ctl_dir, &d, NULL, 0);
++		while (err > 0 && pos++ < ctx->pos)
++			err = sysctl_dir_next(ctl_dir, &d, d.name, d.len);
  	}
++	if (err < 0)
++		return err;
+ 
+-	for (; h; next_entry(&h, &entry)) {
+-		if (!scan(h, entry, &pos, file, ctx)) {
+-			sysctl_head_finish(h);
+-			break;
++	while (err > 0) {
++		if (!d.skip) {
++			err = proc_sys_fill_dirent(file, &d);
++			if (err)
++				break;
++			if (!dir_emit(ctx, d.name, d.len, d.ino, d.type))
++				break;
+ 		}
++		ctx->pos++;
++		sysctl_cursor_set(file, d.name, d.len, ctx->pos);
++		err = sysctl_dir_next(ctl_dir, &d, d.name, d.len);
+ 	}
+-out:
+-	sysctl_head_finish(head);
++	sysctl_dir_done(&d);
+ 	return 0;
+ }
+ 
 
-base-commit: 93f51579e7df248780214094418f205253383cc5
 -- 
 2.53.0
 
