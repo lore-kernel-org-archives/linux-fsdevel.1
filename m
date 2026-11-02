@@ -1,100 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.180
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793640114;
-	b=M6iRHm5Ero3N7V/8N+3eF/qtO12tLJmCLTDqveVKzP9AMchwxtWSBUaq23UyNuOUiFCB
-	 CD2VCv8xNR6lX6dVUIi6cK1LCr1G6+jIfhsZNzCqf/TXrTtjFTN5SAcFHpQzk2XSMaUfC
-	 AoRmyUCB8pHxgjxmfO7ceA47TYESkyB4eHi1etjhxkTTMbmAwYnTaDISIiPf2r52a+fLL
-	 Wc1JlH+q8SY2eVAG33QmG6xXWTyuzq4a+U032HHHjUvTjBYqLj5J+Qh5cnlGadaoMqzlm
-	 +U9Cn4P8PUQJPLLCaoHUnYMWoVHXN4JU/rGdaqaKs0lSrEOpsREjwsU4/OfPnglt5NQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793640114;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=Pufnyo/dEDOXN1GFROHvouFby0UdETgJWNBykJQU2Hc=;
-	b=o4Ih+4upkzoNeH/GEFCog3py22zBZ5z7eBr50+7APE5R2h10nNMRyWLW/sJ0KkPx9hcq
-	 ZXm8lv/bOWrJVFTyXi8Dfyv7J2yEOOd3iXWiqPEI0gQFbDUgGpn5IuWttMI7WTQs4bn2z
-	 qAsGUayT2LsbjYhqBup2vqJxutv4l4mLbtK4AJ62acBCnzxZRXIRp186VsfVYLMA+UUJA
-	 r/GFmIqcEhXDrYAodH91vulrYwO9GUeaxi6xe+JzRWuFv3wXvqoF+EXEw8DFOuIHB85KN
-	 Acfehmk9KHxHrc0fwRAg1fDsSaUZk3FVXHcZbFDZOc3cWCdiYhtqTUuyip51fPhBJzQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=KACIx996;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.180
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793640472;
+	b=DW/qnikbEaZpsFDPE/3rgTMtzxWo/NBeO0m12b71tcjRKek2BacxiTBqHduNpRWZ8Ts9
+	 8ahKab2s05mwwmxTz+pp7iytgxpdzs5fCnqj/X8NA34mVdbVph63TDRYAZDtRZVylRAlL
+	 XgGIal+XQMGpd05OcUncIwjNXuG4ZDXhIt5FlJQ0Zsb2FRFsdYt1xRif8v8AhUEOPDrhs
+	 Ed8IlzrNjyclhjeFet10sMrkx8ekk1xpLkSciy3Z0aj9Prx3HvmOmWxdOdg5atDcVbizG
+	 ru8IDkDIMSYShYipvUTqQWSS18GIWIxK22e+fq9BoMMXInjcSrEYmx/5R/yG+X4POpg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793640472;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-Id:
+	 In-Reply-To:References:X-Mailer:Mime-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=leKsCN/AW0CIMV0Z58FExykl0a+UkP/KW/e3nsnHLQM=;
+	b=rdwiLKn12cNY+JrxpyLDoD97vnpWGpmcwny4KVSTLNvhnhXBKnYEg0yXsQfOqAud+Dcf
+	 deWgoVaOKKFvFFGACy3e7DllXLYGR0MWomSBDHGwxFphlighiFgnsU1so4iSxpTKnwqb5
+	 GihGHMAIkpmFKLVwSX9LTl9+x/bsu0EgoUkw9kGHGHRFyLKyH2U/6U6/R3hOpk7TJNJDl
+	 qERgkcmHI6JJ+wUlb1MvODr0pswX5Uk8HoIriYTHCS1ZRBebUe+H8iysCLgGhv/JySVGp
+	 hkV8gdNfK50IK3/gd4eAhY39d5EJOJrLPnWV4kNLG8dEcaVlwwJm1v9VKxk8PVHCljw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=hCGUwl5E;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BBF9606CEDF
-	for <linux-fsdevel@vger.kernel.org>; Mon,  2 Nov 2026 17:21:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7BBF9606CEDF
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F063606D82E;
+	Mon,  2 Nov 2026 17:27:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=KACIx996
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-535f598d126so477631cf.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 02 Nov 2026 09:21:49 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1793640108; cv=none;
-        d=google.com; s=arc-20260327;
-        b=mejT1Nzgra9AdySP893H+FjEl9eyFeVbt0Ah6XD3jKWvHdJg22iZ6JhBo/lXhycjyO
-         wWlFlChlOJaRFG9YzLNNlFmXlZl0003TmsXEbfkKpqwTzVwuoNXfmZ4NkFmGNapKNgOi
-         37OoJO/WjS4+xXLkgxkewuETHkahNt0f9d1VqGId109oz51TeEZ94sIZhIaoLd4Mq4cp
-         UOYVQFooXJUDh3O0vdHDNmo0rFqSDXGHH2bbZQZFWwtodnGGq39fDFSFWnknl/yiiUN3
-         AcxE4IPvGBDWyH7mJEQ1XY1JnweblWvZiqx6GDxFN2thiH28GvTjnwrHidL9UuLDYU8v
-         GtyA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Pufnyo/dEDOXN1GFROHvouFby0UdETgJWNBykJQU2Hc=;
-        fh=ROs8AXNIolwEiFPVLuXAmAV+ej7Iqn5h0WBWAsKTZFI=;
-        b=AkyjTvuRQQ6MRc/Ktjx0gthqaksjVTcXzTUVb1LDoutf5nWrxF0eujOj14Ul8kwkj6
-         iew06M9zVL2+n9Ve6cDWa7p5WkKea4XlGF/dZjuCTL+QjjeAcMO13YNBl/WsjsYFSgi4
-         MHEHmpJovw5bgVZEK5BW7ASZ1DVf73Q0u/mZiY6vYgSIwH3UkHtvw5SLH1E/p4Ee57PN
-         OEtdSjh9UvsPWeMgx5K1QxDVH2Pp+m4eREkqjIhZ0eRnwtdZQ2SQBGLuuMx3ExhpcMEl
-         9d0YbMGgbaUhdLJ++NfFcD7WxclBJDu2jetMwF3jONS02YvdYaDIpvMSpzaI1p+DxVnM
-         KyYQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (1024-bit key, unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=hCGUwl5E
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D29A1F00A17;
+	Mon,  2 Nov 2026 17:27:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793640108; x=1794244908; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Pufnyo/dEDOXN1GFROHvouFby0UdETgJWNBykJQU2Hc=;
-        b=KACIx9963F7+4FOg5xffkZ8NHTpNRv1DH18778aING8dHlF7JmravQUnFuOQrCOGtA
-         ansdFCifjPZdeWuiwqOwpUhKyXG4vO8suKigpWw/jXjtxhzX5LEAREdeUKufJKQhgdQ8
-         RvF0jQh8zu2V1euX9OMU1FwyeZ3dmtUfsixesLgRkN48nBLrnw8kRmAt3oxtmhTSrMF9
-         BG5uPRpNO9wA6YT60v13yXT2UvwtdE8NxO815H3KN5tM/cEscAjd8pD+fGC1BTAHHJ9R
-         aeOnfJ4Tbog0ybixpVaiPVqofTYisoxsTrBwnwD5pXXkLuXVSvJEcpLlHhu5xuu522pf
-         l0LA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793640108; x=1794244908;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Pufnyo/dEDOXN1GFROHvouFby0UdETgJWNBykJQU2Hc=;
-        b=Br1c6AmHP8oPABkTRCNDjkM3/cyPE0SQwd1DcL6Adga69tGa6pH2bJFuoENj7pwplM
-         Xz/R6eouPhSDEA2bc9t/0MmUmdxqsbT9Z1NCOsDbGmJ+MjCdGzX9ROWjHkmA3EP4F6Ph
-         wOmYScwi3y7U6QhL+2cLJv9M0nG2d9LiuNDxJzqtO1ndFtKEuLk8RG6TBUoRNZT3nfZ0
-         9USJXo85tPy0QzRGSyjfxSGx/WkB0iAnNvKEOqPTsxz2LnSTvJTtzfgpf6sDiJBlKjij
-         wExXRgFKOFTVvvGuTXCZI5XOX9u6ed4tvWozRgoGTYTyz41cPjN7SV2SqudlVL4bGdPd
-         YJXg==
-X-Forwarded-Encrypted: i=1; AKwUvBwJ7iTe6XuNRRZ2zpRsYexQbkqtXMS0ORkYZYSANqKrXcyHYIph+x8piwXk6YuA0WiYtmsmXtlQsmicebcp@vger.kernel.org
-X-Gm-Message-State: APuU4Z8vJBa7wI7Wz/rD67erj/0jAbUoxVgIipcfJ5dw5TVpzAJ1eObX
-	KIt0s2MUrIEf8dXmT9LmCSb/m9AMELGLHuGjFv+M6SHmT8l5AAfd5NXTquymWTeG0DcW47uaQ3e
-	VRtY2rOWqsEZ6E4OpJg//35m7M89ud3l+lLLJ8RNG
-X-Gm-Gg: AYBFou14EO4tWDNyQrTiCZB4byDf8LLn2cOLhd4ZaIBmh8GEy1NURUhsfh6jV5ePdVJ
-	fKms2mSD/QLT3j0us5MxHtclLwuDhYY1xxL956uswJmW90TKmPLTeS6PuAAajpyVu5q1Cb//cle
-	1xxZcgor6vOZVN+iZoywCa44dEbm7ZRYodKJydNpxzMyOklQbNHSQiPSK/o12Zg/hESn4w7ktzS
-	XFQhMa/xuONnwP5QOn+FB/2gAdU/wfwYz58kKDw8WGKWrBXgioA8f1Kf/C9p5le6bUdo4aLnFXx
-	aGnUs8fQ3nVBEVqkXaDPEmcHDtnsxgET3nj6zaPbyLSWN2Tv7ezdL7YGjJ/xQxh/dKcybXqHIl7
-	5gsjRpxnPG6MqxyaAwH5QBIadROXva4vRLmPH
-X-Received: by 2002:a05:622a:c01:b0:536:78de:775f with SMTP id
- d75a77b69052e-5414eed1434mr90915071cf.15.1793640107803; Mon, 02 Nov 2026
- 09:21:47 -0800 (PST)
+	d=linux-foundation.org; s=korg; t=1793640471;
+	bh=leKsCN/AW0CIMV0Z58FExykl0a+UkP/KW/e3nsnHLQM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=hCGUwl5E2q8xC3fuwYjC4VbJ0KmGUnWBIucbBnmAQ1vd3ngEy7yXbM4BCpaxwfXNj
+	 IhAZLA/WXHfX9ARMw69lYseQ7Vc5+vSFUh7v+FhlXPadvqEAr2T9l+RQI1sK8KSBM6
+	 PseChT1NMSI3bz7QCXmm5cSTyDOiG6BIlu/XVPuQ=
+Date: Mon, 2 Nov 2026 09:27:50 -0800
+From: Andrew Morton <akpm@linux-foundation.org>
+To: "Jose Fernandez (Anthropic)" <jose.fernandez@linux.dev>
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara
+ <jack@suse.cz>, David Hildenbrand <david@kernel.org>,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, Krystian Kaniewski
+ <krystianmkaniewski@gmail.com>, stable@vger.kernel.org
+Subject: Re: [PATCH v2] mm/filemap: stop fault-around when the walk steps
+ back
+Message-Id: <20261102092750.e53073b2c7b872f9d70c0711@linux-foundation.org>
+In-Reply-To: <20261031-jf-mm-filemap-map-pages-lower-bound-v2-1-21029744e589@linux.dev>
+References: <20261031-jf-mm-filemap-map-pages-lower-bound-v2-1-21029744e589@linux.dev>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -103,44 +59,30 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-References: <20261101154503.3203036-1-surenb@google.com> <20261101110100.90796bf33ef50307a7698dca@linux-foundation.org>
- <CAJuCfpGmPLBRhHa_dmyP10QzyRyvcWMYDLU0+J9t-RCLBsTaWA@mail.gmail.com>
- <20261102080103.6e3f602364747ac6adb13f5c@linux-foundation.org>
- <CAJuCfpGmHWiu0Hmob-PgnvWAMn=CD0-xgiyGztP+P=OFrwwfTw@mail.gmail.com>
- <CAJuCfpGwZqGkOm25=BWAh2QgA8Y00OUmwxsDU+_qOsVsc+KHhg@mail.gmail.com> <20261102090125.58a2e80d1669c681c33ed20b@linux-foundation.org>
-In-Reply-To: <20261102090125.58a2e80d1669c681c33ed20b@linux-foundation.org>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Mon, 2 Nov 2026 09:21:35 -0800
-X-Gm-Features: AclHuK-DjqV142Ud10paqFStz21PGZUYRyNelFGZhjzHwoB2M_64kIh8h-R_AJQ
-Message-ID: <CAJuCfpGvLt+QDw+n0QnZmBqryMrX+SRZJUTqFhVNR-EXpXBRpg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] selftests/proc: use RSS in /proc/pid/smaps_rollup
- tearing tests
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: david@kernel.org, ljs@kernel.org, jannh@google.com, liam@infradead.org, 
-	willy@infradead.org, paulmck@kernel.org, pfalcato@suse.de, 
-	usama.arif@linux.dev, vbabka@kernel.org, linux-fsdevel@vger.kernel.org, 
-	yi1.lai@intel.com, oe-lkp@lists.linux.dev, lkp@intel.com, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Nov 2, 2026 at 9:01=E2=80=AFAM Andrew Morton <akpm@linux-foundation=
-.org> wrote:
->
-> On Mon, 2 Nov 2026 08:15:47 -0800 Suren Baghdasaryan <surenb@google.com> =
-wrote:
->
-> > > Ah, I see now why handling READ_IMPLIES_EXEC is needed. Then your
-> > > complete fix looks fine. Perhaps we should mention this pre-ARMv6 CPU
-> > > detail in the changelog of your fix to explain why READ_IMPLIES_EXEC
-> > > is important here?
-> >
-> > I guess I have to ask whether you want to post your fix as a followup
-> > to mine or if I should fold them into one patch and post a v3. What's
-> > your preference?
->
-> yes, please just prepare a v3.  I don't think bot will be offended.
+On Sat, 31 Oct 2026 04:33:59 +0000 "Jose Fernandez (Anthropic)" <jose.fernandez@linux.dev> wrote:
 
-Ok, I'll wait a day for others to take a look and will post v3.
-Thanks!
+> filemap_map_pages() can dereference a PTE pointer outside the page table
+> it locked. KASAN has reported this as a use-after-free read [1]. The
+> same path can also write out of bounds. When the stray entry reads as
+> none, the fault-around loop maps a page there with set_pte_range().
+> 
+> Its fault-around loop walks the page cache and moves vmf->pte by the
+> change in index. A lower index moves it back. xas_find() can step back
+> to a lower index when a multi-index entry is split during the walk.
+> 
+> [1] fixes xas_find(), but the loop still relies on the walk never
+> stepping back. Stop the fault-around when the walk steps back. ->fault()
+> maps the faulting page if the loop did not.
+
+Thanks.
+
+Can I add your tested-by to [1]?
+
+> Link: https://lore.kernel.org/20260904121301.200049-1-krystianmkaniewski@gmail.com [1]
+
+"xarray: fix index jumping backwards in xas_find()".
+
