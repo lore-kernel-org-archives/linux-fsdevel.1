@@ -1,100 +1,50 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.50
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793614486;
-	b=1D1VWXDOntjkY6jm3lBggaKtQL5qeuB7jD5t5rCYZGNRlPDVmLaGFBgPlOgZJFDVwy2p
-	 EKl/LoMo+lk4u70wlJBpu3bfOzRMlBhmsbQX+oe4IBrJvxkAXtdl9UQfUEBq0ttWnrhZ/
-	 DKXvvnIm+iOYrJVoZZvGMI5JlbAh+E9oydtlBb52L5VDuCouNH7kTnzfVWIAB7FeVDuw4
-	 v/skSOX44OKnzwwsKk8ogZu9PCC9EUpvf6O04KBktUSEduXTfybBUziqM/NysPCRUFXYj
-	 L0gp7RLmauyG5Wi+sa3DIEwvPRMzt0TdBWuC8bCe68fWjKX6aIOt1l0OQnorpfKglxw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793614486;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=P2WBPbgwnwE0hxJwu2QakJLpNv/+ofsdkSDgOQevC1s=;
-	b=s63vcDkIJ6xFVCJussvyug6VcgSLsXmLwNsNTegXk5Ov4qccE5DQXGL69JUdc1Y+2FfP
-	 6FVAwXOBoMK8oT5rXu22+ESjrPNpPE8BMdvnbH28vdE/mPCui9KBk2M/mEQeo7rW5HqP6
-	 cNeJu/+C1gjTjiB7eMIgcy4Kr6KsQke4enS2COvuQkZ1h5Z+c9GVE4ij//xaXLfuFIqGR
-	 SbKcBj9UM1UddDl9fWhHBaatyWVrJXMWjjJ6OW9BQknb4r8avIcvIJrKRNieG5ByUl3eY
-	 UMIhrO3I44DQPnv0Ir9Vq9PueENkwKfLF3lM2kZFNUBFernfPhpkWIw9PkpLUdkUU1g==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=U2T7iWII;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.50
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.167.242.64
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793614717;
+	b=VaXwsUdIamEDwYIN2oK1MCAMHYkhavoaTd0B108SzwcOKrTiU6cj4Qli9/p7IUBKmUEe
+	 L8kxtFNN6B6uoSqqTSO9Zqys+m2Q3vnSF0LEJfOQANgYX0l9yom0K5WgBXpNRwhBFJaV9
+	 P3ux5f6a6W91Bai54BYyu/ISdBNpgb9Av69+LJyfgzHt+VeqOrwBA27w6BcwhbmGuK+b0
+	 vs9N6VebpUtZ2CMWT3rUHk3sDCtW/cus+W+UeyOG59vuldtbnq5CySWwXwp/hCY1o6Ylx
+	 9cWylhjUkHG8gNCsm5QpL22oP9Um86Q1F92lsBiXWafR+mxWl3fT3VZGnQPeq94fiAQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793614717;
+	h=DMARC-Filter:Received:DKIM-Signature:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:Autocrypt:
+	 In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=lpZ90INeQYUq16dedsAH/Wgug0RqJyGvbXv/2wUWNLQ=;
+	b=0M/LY1hCe7FoUcrRxTBsLhnlPktjPsM2TyqyxdHSNL+FiqXA2i06aEsh/jTO6x1LTIHD
+	 H+tcZZ7XzXj3P8QgGIaJgi8dS09PHNqVYW1LEo8daY+FU0LadibfTcmWR3JuXd9/U5JFB
+	 jKqXTz+r+kDGAqq+hWSA/Ky4Wuqd+vAFfitYXxV3mG+DwA93oheqB0KpcAMW1USCd7cWT
+	 2HYVKx6ROUtmIFmZM5JN+wc4o6gSw1rMwP6BPK+u2hvLpLHhTChtBFb+UKnhCtm9p2Ifi
+	 5qiPeTEpi83MtAAiMF5jtWo/aRVPQC/VG0bCitbx0Kl2n23fHcRFONJ68Yw7yNl0dQA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=ideasonboard.com;
+	spf=pass smtp.mailfrom=ideasonboard.com;
+	dkim=pass header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=UHDQAMEo;
+	arc=none smtp.remote-ip=213.167.242.64
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36763606A329
-	for <linux-fsdevel@vger.kernel.org>; Mon,  2 Nov 2026 10:14:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 36763606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6932606A329;
+	Mon,  2 Nov 2026 10:18:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A6932606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=U2T7iWII
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-6ae14eecc64so3637120a12.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 02 Nov 2026 02:14:46 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1793614485; cv=none;
-        d=google.com; s=arc-20260327;
-        b=RRF99HARWxKFhnYWfvxgogqC1wOVEDatGSRPmuVckkpwvAW5kms4EOUjkcGzn+NY9u
-         NjgcTEm9spQ2b866sRn5l2M/T9CI8MBRBqqbzwp1MU6Vr62pZVjVTn0Etz3fJyoHchab
-         CWIBLs0XmQKRRMtSlce0Bdq3laFa84dJh9S+yvkkKSd4y1Ahfiev6pYyDmzX615iunMu
-         Q6PwJGYOLTmMiL13fnfnm+71PHPgyyiLiQZHU0skODBRVlZcYpbfYEdcdA0y7jSoP8Y7
-         lgt1LHnDKoNad/9nEgu1ESQbvxDX7taCCEDq7kIjxLJOcFD0H07CjgYPmaXMe09C6d3/
-         Hs2A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=P2WBPbgwnwE0hxJwu2QakJLpNv/+ofsdkSDgOQevC1s=;
-        fh=3cF15whcPEY+XtEU5L9xBEafZYTXWUU7v6UUEhizSr8=;
-        b=UPeF5HmSK18bh5V8eGPdBoO+cu6kOS/oXX7wKYZgDZ5WZgiP+8ESxVs8AHRlUW8U+Q
-         mzGoFZkd2hmBHztwkRyL5G359tF7uqhD+AFA3ylW9WSxbKtSL9cf6ulvGmQZUt3lJiYE
-         Kc4/d8S0nXnt7Xje3CQFFCCCsSVcD8MYiJRK54igU0RNV0lOtWV8TA3pF+xcT7eJhpWL
-         +mjpjIEft1xrQrGAAGhLmdyrzf/oatkU7SymL0XLqX1gRkAJM4g7ORIJUD4GxDKltWlI
-         HzP7QUO+D28BarTwnCcFmSpZ3edb5W+2ADPpz3YlPg7gV2NLJAghtftHdfxYe3Rl/i0d
-         uB5A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793614485; x=1794219285; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=P2WBPbgwnwE0hxJwu2QakJLpNv/+ofsdkSDgOQevC1s=;
-        b=U2T7iWIITfTFaEuGMxgQVVBT1fTjA45fH6eEXR+6ig0ImzJZLdhcoRk6QsJlx+/R5r
-         D/YcLnfEjxtGpl8K2pRkzb61lwbjzUQIq8C+xgOtVP8G+NR+j3x5lqsbmcDVeW3wfAbD
-         Ar23VUQCQwkIbndNXYw1ge862cDkLRiFkLSTYasMybam54iugl2DTb7zeG50jZWBEdpt
-         k843JB6oHsc/KKkPxkBFM3BclbDeznA9NPfdSMvXHrlET2r5IFomuzFRTMWRIptfTrVL
-         MyO/SVzypzsclOviJXlPXRtEFGGDNGCoaL+OesmmD5V4o1Es+CaYfmqpxMMAVro9XbSK
-         SfFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793614485; x=1794219285;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=P2WBPbgwnwE0hxJwu2QakJLpNv/+ofsdkSDgOQevC1s=;
-        b=Qn+J6/TYJFqa50r/W0mtbKF0psbwNoQZ3B8vOyrFJYun5GLkme2969x+bZ8sBzWG+R
-         MwxEowSpPq9ukKincOfqMK/bJg4/mlUPfaSFKfgPWsTYBzNarqgKQte8TzmHkxGmTSvq
-         cn5+iIjCzxNjJpPeBugqQlHFAjBQOU7Rk03kLb/3+k7y5uvQ0FbST031aadA5MH6d3Eq
-         wfKmr6y7jPw3Il7iIA4c7Jx3d9UbBrpWFbLeDtFq9SVCDl0GLG+yHCiAmtwLh6kpwpby
-         6C9WLu1Ly9CGTYxU9UzCvKPFi5Wpjcbtse8KlOFvdeE7r4w48R4+l92vl0g278OirUX5
-         e53g==
-X-Forwarded-Encrypted: i=1; AKwUvBy8YONdLBCOjhHAkkM5pSJEgjkiyod9Rh4Yr4cd/MenttnM+INzFS+lQwCUav9StvW9s3rNwghXbRLdAUav@vger.kernel.org
-X-Gm-Message-State: APuU4Z9+q/J+SNoYyjtch9vK2ZpZnB7Ln31x2HkIu+fZT+9QhjwyIxg7
-	OiaSdCxF0uJkXEhZCsLRFOLQDdRtauR5Bc349lGcQyCpXbm0pAqhmis/SbDX4ovaLFkx8whfhfK
-	GBgl63vOMHwutsVpbj1kkvp7tFqyZPW8=
-X-Gm-Gg: AYBFou1Z0TpmNliCmlE9m62M1eS2uBR4SGqUDbMbgR07rYKB3+Us9dGYfxikeRAZdOS
-	kzkG6eZJOvfwk2maD0rvtfyniHru+XZ2f4LkT8WH58Ac6AJM5rsBIOpv/ZHRTj06mXVtJ32Iv3+
-	qSZQicMVKzLCR39gHRv6eWOw97Ot2RzFErPk2SP6+MAphN5yurW6je2Vh9OGyS9VKLDuFYJ8tha
-	MH1ZY8DNbRTGqprQ/OQnVVaZLKRT4MYOkvtQxz5CJm1ltFm3/+Z/uuyRXZgJMTWuwotaO8tzGKp
-	+u+KqjqIqEpNkqouM9jbmaohuPwt/1cCBNHg6+yDL297KcimSrPxmgoSsppE5NjbYJ7rz8wYuZy
-	7gP9evfyV8WOEwJoy2s4Okh8p9xdEW/xyfH+Ekz7KAnUEgqLLB09IJ3vGXNqvPTe+mEsHfTLB4B
-	0QkAn4qXGWFQGv7Ug=
-X-Received: by 2002:a05:6402:c514:10b0:6b3:c74e:b287 with SMTP id
- 4fb4d7f45d1cf-6b4d4c70be6mr4510630a12.22.1793614484367; Mon, 02 Nov 2026
- 02:14:44 -0800 (PST)
+	dkim=pass (1024-bit key, unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=UHDQAMEo
+Received: from [192.168.1.71] (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A20FB1F36;
+	Mon,  2 Nov 2026 11:16:15 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1793614577;
+	bh=i4PQhdjKinZq1aHIBqDVNrllnVqCCI4FOFkaYs2FB1I=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=UHDQAMEoN3ahjMwFhp9xcCCmnHShIPMDla/RK7sOLKWo/l09JuTrpD/nykjM2Yy5d
+	 LZ1RvHeg8aprTN7yWXFSOFRnm5j8iOy7ZnZkCx6xgtBykkGOZNtDhc4HO3vgIxufXj
+	 NzfEOneTxWLWnx9v3f76FtEzKYWB9oZ9klfcabZ0=
+Message-ID: <80f858a2-86a1-4b04-abbd-d30463aba1dd@ideasonboard.com>
+Date: Mon, 2 Nov 2026 10:18:28 +0000
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,265 +54,189 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261029-b4-ovl-containerized-sync-v2-0-4e9f08e4a052@toxicpanda.com>
-In-Reply-To: <20261029-b4-ovl-containerized-sync-v2-0-4e9f08e4a052@toxicpanda.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Mon, 2 Nov 2026 11:14:31 +0100
-X-Gm-Features: AclHuK86uDPGXx7xF0fK6ebTfNEzv6UF6XWawl7uaROsOTyHP4pnGDzvg6eCxVY
-Message-ID: <CAOQ4uxhWy2aQV6g7VJcV+NDLPTSoGyR4Rag8uvAwN=LWnApaJA@mail.gmail.com>
-Subject: Re: [PATCH v2 00/10] ovl: only sync what was written through the overlay
-To: Josef Bacik <josef@toxicpanda.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Christian Brauner <brauner@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
-	Christoph Hellwig <hch@infradead.org>, Chris Mason <mason@kernel.org>, 
-	Chengguang Xu <cgxu519@mykernel.net>, linux-unionfs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Chengguang Xu <charliecgxu@tencent.com>
-Content-Type: multipart/mixed; boundary="00000000000034af3a065f486ad0"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 00/26] mm/fbatch: drain lru_add_drain() and _all()
+To: Hugh Dickins <hughd@google.com>, Andrew Morton <akpm@linux-foundation.org>
+Cc: Ackerley Tng <ackerleytng@google.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, Alexandre Ghiti <alex@ghiti.fr>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>, Barry Song <baohua@kernel.org>,
+ Binbin Wu <binbin.wu@linux.intel.com>, Christian Brauner
+ <brauner@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Christoph Lameter <cl@gentwo.org>, Claudio Imbrenda
+ <imbrenda@linux.ibm.com>, David Hildenbrand <david@kernel.org>,
+ JP Kobryn <jp.kobryn@linux.dev>, Jan Kara <jack@suse.cz>,
+ Jens Axboe <axboe@kernel.dk>, Johannes Weiner <hannes@cmpxchg.org>,
+ Kairui Song <ryncsn@gmail.com>, Kiryl Shutsemau <kas@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Leonardo Bras <leobras.c@gmail.com>,
+ Lorenzo Stoakes <ljs@kernel.org>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Matthew Wilcox <willy@infradead.org>,
+ Mel Gorman <mgorman@techsingularity.net>, Miaohe Lin <linmiaohe@huawei.com>,
+ Michal Hocko <mhocko@suse.com>, Minchan Kim <minchan@kernel.org>,
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ Peter Zijlstra <peterz@infradead.org>, Qi Zheng <qi.zheng@linux.dev>,
+ Rik van Riel <riel@surriel.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Suren Baghdasaryan
+ <surenb@google.com>, Vlastimil Babka <vbabka@kernel.org>,
+ Yang Shi <yang@os.amperecomputing.com>, Yu Zhao <yuzhao@google.com>,
+ Zach O'Keefe <zokeefe@google.com>, Zi Yan <ziy@nvidia.com>,
+ linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org
+References: <e28f9a94-4339-f8ac-8301-6be3c9b5b7ce@google.com>
+Content-Language: en-GB
+From: Alen Karnil <alen.karnil@ideasonboard.com>
+Autocrypt: addr=alen.karnil@ideasonboard.com; keydata=
+ xjMEafxhCxYJKwYBBAHaRw8BAQdAXswEEnvxYiHXb8Q8GsSAuaLuXqJFs3kmsMI7EWF9EuDN
+ NUFsZW4gS2FybmlsIChXb3JrIElvQikgPGFsZW4ua2FybmlsQGlkZWFzb25ib2FyZC5jb20+
+ wpkEExYKAEEWIQT0whyXpTyoVtApVAlRzoJ78NRPngUCagGrrgIbAwUJBaOagAULCQgHAgIi
+ AgYVCgkICwIEFgIDAQIeBwIXgAAKCRBRzoJ78NRPnkpDAP4kmtHsMfTtV6BC1z7GTb86BL2g
+ 9FC1EarGJDDzcafMGQEA6clsoXvRYjHPJexVebjmkI4bq1QM0X/L9Ffe0PfpdQbOOARp/GEL
+ EgorBgEEAZdVAQUBAQdAsVoGZ4IK0EgJ8HU05PQKzK15jaCi/IEA/7Cw9ZzcBmwDAQgHwn4E
+ GBYKACYWIQT0whyXpTyoVtApVAlRzoJ78NRPngUCafxhCwIbDAUJBaOagAAKCRBRzoJ78NRP
+ nqYcAP0eh3LahCDsfNa8zsiK+8QzeujWPKhc5zDcIqrDI6xufwD+Mu9e202It54rNZb8UWEy
+ V5OzTEy0JlsQfO6DYWIORwI=
+In-Reply-To: <e28f9a94-4339-f8ac-8301-6be3c9b5b7ce@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
---00000000000034af3a065f486ad0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Hugh,
 
-On Thu, Oct 29, 2026 at 2:09=E2=80=AFAM Josef Bacik <josef@toxicpanda.com> =
-wrote:
->
-> v1: https://lore.kernel.org/all/20261027-b4-ovl-containerized-sync-v1-0-8=
-02e512379a6@toxicpanda.com/
->
-> Jan, Amir suggested I ask you to look at the writeback and lazytime
-> parts again, that's patches 4 to 6 and 9.
->
-> v1->v2:
-> - Dropped the superblock flag and the ext4, xfs and btrfs patches. This
->   is all in overlayfs now and works the same on any upper file system.
+On 09/09/2026 10:39, Hugh Dickins wrote:
+> [PATCH v2 00/26] mm/fbatch: drain lru_add_drain() and _all()
+> 
+> This series was prompted by lru_add_drain_all() appearing in watchdog
+> backtraces: not to blame, but blocked on an unresponsive CPU to run
+> its workqueue. lru_add_drain_all() is a heavyweight operation, which
+> we often hope to avoid by a much lighter lru_add_drain(); but even
+> those local drains can aggravate the lruvec lock contention which
+> per-cpu fbatches are intended to ease.
+> 
+> Now let the folios on the lru_add and other per-cpu fbatches remain
+> there, isolatable, with PG_lru set and refcount unraised, just like
+> when on an actual LRU. Then many calls to lru_add_drain() and _all()
+> can be removed.
+> 
+> It's something I've wanted to do for years, tried several times, but
+> only hit on a good way to do it a few weeks ago: now it's uncomfortable
+> to watch others wrestling with the drainage, while I'm sitting on this.
+> 
+> The key idea came from the "if (!folio_test_clear_lru(folio)) continue;".
+> If we don't mind missing to take an action on rare occasions, then maybe
+> we won't mind taking an action on the wrong folio on rare occasions, so
+> long as it is a folio consenting to PG_lru rules.
+> 
+> No new locking, but relies on folio_try_get() and folio_test_clear_lru()
+> even on the lru_add fbatch; with use of bits not set in aligned pointers,
+> and some try_cmpxchg()ing.  Speculative references to folios are already
+> accepted: this adds another source of them.
+> 
+> Performance? You (and the bots) tell me. I'm considering this as a
+> cleanup, to make life easier for developers. I expect that some loads
+> will show improvement, but also expect some disappointments (perhaps
+> I go too far against lru_cache_disable()? or not far enough).
+> 
+> The timing is not good: I'm taking three weeks off today; but it's best
+> to get this out in the open early. If it's welcome in principle for 7.4,
+> but changes needed, maybe someone else can step up to shepherd it
+> through; otherwise, I can take it up again for 7.5.
+> 
+> Rebased and retested on Linus's v7.3-rc2 tree, after adding two mm.git
+> dependencies which did not get into rc2, but can be expected in rc3:
+> Shakeel's "mm/mlock: use the IRQ-safe accessor for NR_MLOCK in
+> __munlock_folio()" and Ackerley's "mm/folio: EXPORT_SYMBOL_FOR_KVM(
+> lru_cache_drain_for_folio)". Those two are now in mm-hotfixes-stable
+> (e14a34548064 and 7891fbb9512f respectively: thanks to Andrew) as of
+> mm-everything-2026-09-09-06-32, and the series applied and briefly
+> tested over 09-09's earlier mm-everything, so I'm giving a hopeful
+> but not entirely honest base-commit below.
+Can confirm it cleanly applies and runs on 7.3 
+('c03c1a14507dfaf8b856c2608f9ac216021fc222')>
+> v1 posted on 24 August had 25 patches, with 26/25 added later:
+> Link: https://lore.kernel.org/linux-mm/14a16945-529b-8bc0-ab38-3ea97e54e223@google.com/
+> 
+> 01/26 mm/fbatch: remove !CONFIG_SMP special case of folio_activate()
+>    v2: added Ack from David, R-b Vlastimil
+> 02/26 mm/fbatch: allow folios_put_refs() to skip xa_is_value() entries
+>    v2: added Ack from David, R-b Vlastimil
+> 03/26 mm/fbatch: temporarily disable lazyfree and mlock+munlock batching
+>    v2: added R-b Vlastimil
+> 04/26 mm/fbatch: lru bit set, no extra ref, while folio on per-cpu fbatch
+>    v2: added comment on Bit 1 of page->lru.next per Kiryl and Matthew
+>        READ/WRITE_ONCE smp_mb__before_atomic per 07/25 discussion with Kiryl
+>        fixed (commented out) BUG_ON in lru_add_del_folio()
+> 05/26 mm/fbatch: lru_add_del_folio()+folio_add_lru() after clear_lru()
+> 06/26 mm/fbatch: fbatch_drain_lazyfree(onstack fbatch) before ptl unlock
+> 07/26 mm/fbatch: LRU_NEXT_ACTIVATE bit to optimize folio_activate()
+>    v2: hunk in lru_add_del_folio() updated according to mods in 04/26
+> 08/26 mm/fbatch: replace mlock_new_folio() by __folio_add_lru(,mlockit)
+>    v2: updated 04/26 Bit 1 comment on folio_add_lru() to __folio_add_lru()
+> 09/26 mm/fbatch: restore mlock+munlock batching, without extra ref
+>    v2: rediffed around Shakeel's NR_MLOCK fix, fixed unknowingly in v1
+> 10/26 mm/fbatch: remove several uses of mlock_drain_local()
+> 11/26 mm/fbatch: remove migration's PAGE_WAS_MLOCKED lru_add_drain()
+>    v2: conversely, use !folio_evictable() in isolate_migratepages_block()
+> 12/26 mm/fbatch: remove percpu_pvec_drained and folios_put()
+> 13/26 mm/fbatch: no lru_add drain to collect_longterm_unpinnable_folios()
+>    v2: revert David's rc1 lru_cache_drain_for_folio() from mm/folio.c,
+>        and Ackerley's EXPORT for KVM; but keep an inline stub in swap.h
+> 14/26 mm/fbatch: no lru_add_drain() nor _all() for memfd_wait_for_pins()
+> 15/26 mm/fbatch: remove shake_folio() shake_page() from memory-failure
+>    v2: added Ack from Miaohe
+> 16/26 mm/fbatch: remove lru_cache_disable() from NUMA folio migration
+> 17/26 mm/fbatch: no lru_cache_disable() in __alloc_contig_migrate_range()
+> 18/26 mm/fbatch: remove lru_add_drain() and _all() calls from various
+> 19/26 mm/fbatch: vm/stat_refresh include lru_add_drain() on each cpu
+> 20/26 s390/fbatch: no lru_add_drain_all() in s390_wiggle_split_folio()
+> 21/26 block/fbatch: no lru_add_drain_all() in invalidate_bdev()
+> 22/26 fs/fbatch: drop_caches invalidate_bh_lrus() not lru_add_drain_all()
+> 23/26 fs,mm/fbatch: use invalidate_bh_lrus() not invalidate_bh_lrus_cpu()
+> 24/26 fs,mm/fbatch: lru_cache_disable() keep off buffer_head lrus only
+> 25/26 mm/fbatch: move lru_add_drain_all() declaration to mm/internal.h
+> 26/26 mm/fbatch: drop reference inside the loop when draining
+> 
+>   Documentation/mm/unevictable-lru.rst |   2 +-
+>   arch/s390/kernel/uv.c                |   1 -
+>   block/bdev.c                         |   1 -
+>   fs/buffer.c                          |  40 +--
+>   fs/drop_caches.c                     |   4 +-
+>   include/linux/buffer_head.h          |   8 +-
+>   include/linux/folio_batch.h          |   7 +-
+>   include/linux/huge_mm.h              |   6 +-
+>   include/linux/mm.h                   |  18 --
+>   include/linux/mm_inline.h            |  29 ++
+>   include/linux/mm_types.h             |  14 +-
+>   include/linux/swap.h                 |  23 +-
+>   mm/compaction.c                      |  27 +-
+>   mm/fadvise.c                         |  17 +-
+>   mm/folio.c                           | 436 +++++++++------------------
+>   mm/gup.c                             |   9 -
+>   mm/huge_memory.c                     |  16 +-
+>   mm/hwpoison-inject.c                 |   1 -
+>   mm/internal.h                        |  15 +-
+>   mm/khugepaged.c                      |  11 -
+>   mm/ksm.c                             |  12 -
+>   mm/madvise.c                         |   9 +-
+>   mm/memfd.c                           |   6 +-
+>   mm/memory-failure.c                  |  38 +--
+>   mm/memory.c                          |  14 +-
+>   mm/memory_hotplug.c                  |   4 +
+>   mm/mempolicy.c                       |   7 -
+>   mm/migrate.c                         |  13 +-
+>   mm/migrate_device.c                  |   9 -
+>   mm/mlock.c                           | 211 +++++++------
+>   mm/page_alloc.c                      |   3 -
+>   mm/rmap.c                            |   4 -
+>   mm/shmem.c                           |   2 -
+>   mm/truncate.c                        |  17 +-
+>   mm/vmscan.c                          |  16 +-
+>   mm/vmstat.c                          |   1 +
+>   36 files changed, 388 insertions(+), 663 deletions(-)
+> 
+> base-commit: 7891fbb9512f127826e1d5dbf380ee212bd15eb0
+> 
+> Hugh
 
-I think this is over engineering.
-
-What is our goal here?
-
-Make overlayfs behave better for the (many) containers use case.
-
-Who in their right mind uses a host filesystem which is not one of the
-big three?
-
-Most of the complexity and hackery in this patch set is because we don't wa=
-nt
-to name the best behaving filesystems for overlayfs layers.
-
-Please consider the attached patch.
-It gives the mounter full control over how overlayfs behave.
-It provides sane heuristic defaults for the filesystems that implement
-RENAME_WHITEOUT, which is another way of saying "overlayfs compliant".
-The RENAME_WHITEOUT heuristic of the default fsync=3Dauto can be disabled
-by distro/admin with the kconfig/module option fsync_auto.
-
-The heuristics do not always get it right, for example, ext4 without
-journal does
-support RENAME_WHITEOUT, but it not safe for fsync=3Drelaxed mode, but
-this is an imaginary scenario that nobody uses and there is config/module/m=
-ount
-options to force the legacy fsync=3Don mode in that case.
-
-WDYT?
-
+-- 
 Thanks,
-Amir.
+Alen Karnil
 
---00000000000034af3a065f486ad0
-Content-Type: text/x-patch; charset="US-ASCII"; 
-	name="0001-ovl-expand-fsync-mount-options.patch"
-Content-Disposition: attachment; 
-	filename="0001-ovl-expand-fsync-mount-options.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_mvz3311d0>
-X-Attachment-Id: f_mvz3311d0
-
-RnJvbSBjNDUzNjRlNmVmNDQ3ZDJkZDcxN2VlZWQ0M2EwY2UwNjllODRkZGUyIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBBbWlyIEdvbGRzdGVpbiA8YW1pcjczaWxAZ21haWwuY29tPgpE
-YXRlOiBNb24sIDIgTm92IDIwMjYgMDk6MTI6MDIgKzAxMDAKU3ViamVjdDogW1BBVENIXSBvdmw6
-IGV4cGFuZCBmc3luYyBtb3VudCBvcHRpb25zCgpUaGUgZnN5bmMgbW91bnQgb3B0aW9uIGN1cnJl
-bnRseSBhY2NlcHRzIHRocmVlIHZhbHVlczoKInZvbGF0aWxlIiwgInN0cmljdCIgYW5kICJhdXRv
-Ii4KCkFsbCBvdGhlciAiZW51bSIgbW91bnQgb3B0aW9ucyBoYXZlICJvbiIgYW5kICJvZmYiIHZh
-bHVlcyBhbmQgdGhpcyBpcwp1c2VkIGJ5IHRoZSBnZW5lcmljIF9jaGVja19vdmVybGF5X2ZlYXR1
-cmUgaGVscGVyIGluIGZzdGVzdHMgdG8gcHJvYmUKZm9yIHN1cHBvcnQgZm9yIGVuYWJsaW5nIG92
-ZXJsYXlmcyBmZWF0dXJlcy4KClRoaXMgY29tbWl0IGFkZHMgc3VwcG9ydHMgZm9yIHZhbHVlcyAi
-b24iLCAib2ZmIiBhbmQgInJlbGF4IiBhbmQgbWFrZXMKdGhlIHZhbHVlIG9mICJhdXRvIiBkZXBl
-bmQgb24gYSBrY29uZmlnL21vZHVsZSBvcHRpb24gZnN5bmNfYXV0by4KClRoZSB2YWx1ZSBvZiAi
-b2ZmIiBiZWhhdmVzIGFsbW9zdCB0aGUgc2FtZSB0aGUgInZvbGF0aWxlIiwgbm90CnBlcnNpc3Rp
-bmcgY2hhbmdlcyB0byB1cHBlciBsYXllciwgYnV0IGl0IGRvZXMgbm90IGNyZWF0ZSB0aGUgZGly
-ZWN0b3J5CiIkd29ya2Rpci93b3JrL2luY29tcGF0L3ZvbGF0aWxlIiwgd2hpY2ggcHJldmVudCBt
-b3VudCBjeWNsZSBvZiBhCnZvbGF0aWxlIG92ZXJsYXlmcy4gU29tZSB1c2VycyByZXF1ZXN0ZWQg
-dG8gb3B0LW91dCBvZiB0aGlzIHJhaWwgZ3VhcmQuCgpUaGUgbmV3IHZhbHVlICJyZWxheGVkIiBp
-cyBhIHByZXBhcmF0aW9uIGZvciBub3Qgc3luY2luZyB0aGUgZW50aXJlCnVwcGVyIGZzIG9uIHN5
-bmNmcygyKSBhbmQgdW5tb3VudCBhbmQgaW5zdGVhZCBzeW5jaW5nIG9ubHkgdGhlIHVwcGVyCmlu
-b2RlcyBtb2RpZmllZCBieSB0aGlzIG92ZXJsYXlmcy4KClRoZSB2YWx1ZSBvZiAib24iIGlzIHRo
-ZSB0cmFkaXRpb25hbCBvdmVybGF5ZnMgYmVoYXZpb3IgYW5kIGl0IGJlaGF2ZXMKdGhlIHNhbWUg
-YXMgdGhlIGN1cnJlbnQgdmFsdWUgImF1dG8iLCByZWxlYXNpbmcgdGhlIHZhbHVlIG9mICJhdXRv
-IiB0bwpkaWZmZXIgYnkgdGhlIGtjb25maWcvbW9kdWxlIG9wdGlvbiBmc3luY19hdXRvLgoKQnkg
-ZGVmYXVsdCwgd2l0aCBrY29uZmlnL21vZHVsZSBvcHRpb24gZnN5bmNfYXV0bz1ZLCB0aGUgbWVh
-bmluZyBvZiB0aGUKdmFsdWUgImF1dG8iIGlzIHRoYXQgZmlsZXN5c3RlbXMgdGhhdCBzdXBwb3J0
-IFJFTkFNRV9XSElURU9VVCBkZWZhdWx0IHRvCiJyZWxheGVkIiBhbmQgZmlsZXN5c3RlbXMgdGhh
-dCBkbyBub3Qgc3VwcG9ydCBSRU5BTUVfV0hJVEVPVVQgZGVmYXVsdCB0bwp0aGUgdHJhZGl0aW9u
-YWwgImZzeW5jPW9uIi4KClNpZ25lZC1vZmYtYnk6IEFtaXIgR29sZHN0ZWluIDxhbWlyNzNpbEBn
-bWFpbC5jb20+Ci0tLQogRG9jdW1lbnRhdGlvbi9maWxlc3lzdGVtcy9vdmVybGF5ZnMucnN0IHwg
-MzIgKysrKysrKysrKysrKysrKysrKysrLS0tLQogZnMvb3ZlcmxheWZzL0tjb25maWcgICAgICAg
-ICAgICAgICAgICAgIHwgMjEgKysrKysrKysrKysrKysrKwogZnMvb3ZlcmxheWZzL292ZXJsYXlm
-cy5oICAgICAgICAgICAgICAgIHwgMTYgKysrKysrKysrKy0tLQogZnMvb3ZlcmxheWZzL3BhcmFt
-cy5jICAgICAgICAgICAgICAgICAgIHwgMTYgKysrKysrKysrKy0tLQogZnMvb3ZlcmxheWZzL3Bh
-cmFtcy5oICAgICAgICAgICAgICAgICAgIHwgIDEgKwogZnMvb3ZlcmxheWZzL3N1cGVyLmMgICAg
-ICAgICAgICAgICAgICAgIHwgMTMgKysrKysrKy0tLQogNiBmaWxlcyBjaGFuZ2VkLCA4NSBpbnNl
-cnRpb25zKCspLCAxNCBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2Zp
-bGVzeXN0ZW1zL292ZXJsYXlmcy5yc3QgYi9Eb2N1bWVudGF0aW9uL2ZpbGVzeXN0ZW1zL292ZXJs
-YXlmcy5yc3QKaW5kZXggMTZjMzViNDkxZGFkNC4uMDkyODA2YzYyMGI2NCAxMDA2NDQKLS0tIGEv
-RG9jdW1lbnRhdGlvbi9maWxlc3lzdGVtcy9vdmVybGF5ZnMucnN0CisrKyBiL0RvY3VtZW50YXRp
-b24vZmlsZXN5c3RlbXMvb3ZlcmxheWZzLnJzdApAQCAtODI2LDI3ICs4MjYsNDkgQEAgVGhlIGZz
-eW5jIGR1cmluZyBjb3B5IHVwIG9ubHkgZ3VhcmFudGVlcyB0aGF0IGlmIGEgY29weSB1cCBpcyBv
-YnNlcnZlZAogYWZ0ZXIgYSBjcmFzaCwgdGhlIG9ic2VydmVkIGRhdGEgaXMgbm90IHplcm9lcyBv
-ciBpbnRlcm1lZGlhdGUgdmFsdWVzCiBmcm9tIHRoZSBjb3B5IHVwIHN0YWdpbmcgYXJlYS4KIAor
-VHJhZGl0aW9uYWxseSwgc3luY2ZzKDIpIGFuZCB1bm1vdW50IG9mIGFuIG92ZXJsYXkgc3luYyB0
-aGUgZW50aXJlIHVwcGVyCitmaWxlc3lzdGVtLCBpbmNsdWRpbmcgdGhlIGRpcnR5IGRhdGEgb2Yg
-b3RoZXIgb3ZlcmxheXMgdGhhdCBzaGFyZSBpdC4KK092ZXJsYXlmcyBjYW4gYmUgdG9sZCB0byBv
-bmx5IHdyaXRlIGJhY2sgdGhlIGZpbGVzIHRoYXQgd2VyZSBtb2RpZmllZAordGhyb3VnaCB0aGUg
-b3ZlcmxheSwgYW5kIHRoZW4gYXNrIHRoZSB1cHBlciBmaWxlc3lzdGVtIHRvIGNvbW1pdCBpdHMK
-K21ldGFkYXRhLgorCiBPbiB0cmFkaXRpb25hbCBsb2NhbCBmaWxlc3lzdGVtcyB3aXRoIGEgc2lu
-Z2xlIGpvdXJuYWwgKGUuZy4gZXh0NCwgeGZzKSwKIGZzeW5jIG9uIGEgZmlsZSBhbHNvIHBlcnNp
-c3RzIHRoZSBwYXJlbnQgZGlyZWN0b3J5IGNoYW5nZXMsIGJlY2F1c2UgdGhleQogYXJlIHVzdWFs
-bHkgbW9kaWZpZWQgaW4gdGhlIHNhbWUgdHJhbnNhY3Rpb24sIHNvIG1ldGFkYXRhIGR1cmFiaWxp
-dHkgZHVyaW5nCi1kYXRhIGNvcHkgdXAgZWZmZWN0aXZlbHkgY29tZXMgZm9yIGZyZWUuICBPdmVy
-bGF5ZnMgZnVydGhlciBsaW1pdHMgcmlzayBieQotZGlzYWxsb3dpbmcgbmV0d29yayBmaWxlc3lz
-dGVtcyBhcyB1cHBlciBsYXllci4KK2RhdGEgY29weSB1cCBhbmQgdGhlIHBlcnNpc3RlbmNlIG9m
-IG90aGVyIHVwcGVyIGNoYW5nZXMgc3VjaCBhcyB3aGl0ZW91dHMKK2VmZmVjdGl2ZWx5IGNvbWUg
-Zm9yIGZyZWUuCiAKIE92ZXJsYXlmcyBjYW4gYmUgdHVuZWQgdG8gcHJlZmVyIHBlcmZvcm1hbmNl
-IG9yIGR1cmFiaWxpdHkgd2hlbiBzdG9yaW5nCiB0byB0aGUgdW5kZXJseWluZyB1cHBlciBsYXll
-ci4gIFRoaXMgaXMgY29udHJvbGxlZCBieSB0aGUgImZzeW5jIiBtb3VudAogb3B0aW9uLCB3aGlj
-aCBzdXBwb3J0cyB0aGVzZSB2YWx1ZXM6CiAKLS0gImF1dG8iOiAoZGVmYXVsdCkKKy0gInZvbGF0
-aWxlIjogWypdCisgICAgUHJlZmVyIHBlcmZvcm1hbmNlIG92ZXIgZHVyYWJpbGl0eSAoc2VlIGBW
-b2xhdGlsZSBtb3VudGBfKQorLSAib2ZmIjoKKyAgICBTYW1lIGFzICJ2b2xhdGlsZSIsIGJ1dCBk
-b2VzIG5vdCBwcmV2ZW50IG1vdW50aW5nIHRoZSBvdmVybGF5IGFnYWluCisgICAgYWZ0ZXIgdW5t
-b3VudCAoc2VlIGBWb2xhdGlsZSBtb3VudGBfKQorLSAicmVsYXhlZCI6CiAgICAgQ2FsbCBmc3lu
-YygyKSBvbiB1cHBlciBmaWxlIGJlZm9yZSBjb21wbGV0aW9uIG9mIGRhdGEgY29weSB1cC4KICAg
-ICBObyBleHBsaWNpdCBmc3luYygyKSBvbiBkaXJlY3Rvcnkgb3IgbWV0YWRhdGEtb25seSBjb3B5
-IHVwLgorICAgIHN5bmNmcygyKSBhbmQgdW5tb3VudCBvbmx5IHdyaXRlIGJhY2sgdGhlIGZpbGVz
-IHRoYXQgd2VyZSBtb2RpZmllZAorICAgIHRocm91Z2ggdGhlIG92ZXJsYXkuCistICJhdXRvIjog
-KGRlZmF1bHQpCisgICAgInJlbGF4ZWQiIGlmIHRoZSB1cHBlciBmaWxlc3lzdGVtIHN1cHBvcnRz
-IFJFTkFNRV9XSElURU9VVCwKKyAgICBvdGhlcndpc2UgIm9uIi4KKy0gIm9uIjoKKyAgICBzeW5j
-ZnMoMikgc3luY3MgdGhlIGVudGlyZSB1cHBlciBmaWxlc3lzdGVtLgorICAgIENvcHkgdXAgYmVo
-YXZlcyBsaWtlICJyZWxheGVkIi4KIC0gInN0cmljdCI6CisgICAgc3luY2ZzKDIpIHN5bmNzIHRo
-ZSBlbnRpcmUgdXBwZXIgZmlsZXN5c3RlbS4KICAgICBDYWxsIGZzeW5jKDIpIG9uIHVwcGVyIGZp
-bGUgYW5kIGRpcmVjdG9yaWVzIGJlZm9yZSBjb21wbGV0aW9uIG9mIGFueQogICAgIGNvcHkgdXAu
-Ci0tICJ2b2xhdGlsZSI6IFsqXQotICAgIFByZWZlciBwZXJmb3JtYW5jZSBvdmVyIGR1cmFiaWxp
-dHkgKHNlZSBgVm9sYXRpbGUgbW91bnRgXykKIAogWypdIFRoZSBtb3VudCBvcHRpb24gInZvbGF0
-aWxlIiBpcyBhbiBhbGlhcyB0byAiZnN5bmM9dm9sYXRpbGUiLgogCitUaGUgZGVmYXVsdCBpcyAi
-ZnN5bmM9b24iIGluc3RlYWQgb2YgImZzeW5jPWF1dG8iIHdpdGggdGhlIG1vZHVsZSBvcHRpb24K
-KyJmc3luY19hdXRvPU4iIG9yIHdpdGggdGhlIGtlcm5lbCBjb25maWcgb3B0aW9uCitDT05GSUdf
-T1ZFUkxBWV9GU19GU1lOQ19BVVRPPW4uCisKIAogVm9sYXRpbGUgbW91bnQKIC0tLS0tLS0tLS0t
-LS0tCmRpZmYgLS1naXQgYS9mcy9vdmVybGF5ZnMvS2NvbmZpZyBiL2ZzL292ZXJsYXlmcy9LY29u
-ZmlnCmluZGV4IDJhYzY3ZTA0YTZmYmUuLmYxYjJmMzc4NGM3NjEgMTAwNjQ0Ci0tLSBhL2ZzL292
-ZXJsYXlmcy9LY29uZmlnCisrKyBiL2ZzL292ZXJsYXlmcy9LY29uZmlnCkBAIC0xMDgsNiArMTA4
-LDI3IEBAIGNvbmZpZyBPVkVSTEFZX0ZTX1hJTk9fQVVUTwogCiAJICBJZiB1bnN1cmUsIHNheSBO
-LgogCitjb25maWcgT1ZFUkxBWV9GU19GU1lOQ19BVVRPCisJYm9vbCAiT3ZlcmxheWZzOiBhdXRv
-IHNlbGVjdCB0aGUgZnN5bmMgbW9kZSBieSBkZWZhdWx0IgorCWRlZmF1bHQgeQorCWRlcGVuZHMg
-b24gT1ZFUkxBWV9GUworCWhlbHAKKwkgIElmIHRoaXMgY29uZmlnIG9wdGlvbiBpcyBlbmFibGVk
-IHRoZW4gb3ZlcmxheSBmaWxlc3lzdGVtcyB3aWxsIHVzZQorCSAgImZzeW5jPWF1dG8iIGJ5IGRl
-ZmF1bHQsIHdoaWNoIHNlbGVjdHMgImZzeW5jPXJlbGF4ZWQiIGlmIHRoZSB1cHBlcgorCSAgZmls
-ZXN5c3RlbSBzdXBwb3J0cyBSRU5BTUVfV0hJVEVPVVQgYW5kICJmc3luYz1vbiIgb3RoZXJ3aXNl
-LgorCSAgV2l0aCAiZnN5bmM9cmVsYXhlZCIsIHN5bmNmcygyKSBhbmQgdW5tb3VudCBvZiBhbiBv
-dmVybGF5IG9ubHkgd3JpdGUKKwkgIGJhY2sgdGhlIGZpbGVzIHRoYXQgd2VyZSBtb2RpZmllZCB0
-aHJvdWdoIHRoZSBvdmVybGF5LCBpbnN0ZWFkIG9mCisJICBzeW5jaW5nIHRoZSBlbnRpcmUgdXBw
-ZXIgZmlsZXN5c3RlbS4KKworCSAgSWYgdGhpcyBjb25maWcgb3B0aW9uIGlzIGRpc2FibGVkIHRo
-ZW4gb3ZlcmxheSBmaWxlc3lzdGVtcyB3aWxsIHVzZQorCSAgImZzeW5jPW9uIiBieSBkZWZhdWx0
-LiAgSXQgaXMgc3RpbGwgcG9zc2libGUgdG8gY2hhbmdlIHRoZSBkZWZhdWx0CisJICB3aXRoIHRo
-ZSAiZnN5bmNfYXV0byIgbW9kdWxlIG9wdGlvbiBvciBvbiBhIGZpbGVzeXN0ZW0gaW5zdGFuY2UK
-KwkgIGJhc2lzIHdpdGggdGhlICJmc3luYyIgbW91bnQgb3B0aW9uLgorCisJICBGb3IgbW9yZSBp
-bmZvcm1hdGlvbiwgc2VlIERvY3VtZW50YXRpb24vZmlsZXN5c3RlbXMvb3ZlcmxheWZzLnJzdAor
-CisJICBJZiB1bnN1cmUsIHNheSBZLgorCiBjb25maWcgT1ZFUkxBWV9GU19NRVRBQ09QWQogCWJv
-b2wgIk92ZXJsYXlmczogdHVybiBvbiBtZXRhZGF0YSBvbmx5IGNvcHkgdXAgZmVhdHVyZSBieSBk
-ZWZhdWx0IgogCWRlcGVuZHMgb24gT1ZFUkxBWV9GUwpkaWZmIC0tZ2l0IGEvZnMvb3ZlcmxheWZz
-L292ZXJsYXlmcy5oIGIvZnMvb3ZlcmxheWZzL292ZXJsYXlmcy5oCmluZGV4IGI1YTY3MmU4ZTQ3
-NjQuLmM0NTFiOTVjMmJiNGEgMTAwNjQ0Ci0tLSBhL2ZzL292ZXJsYXlmcy9vdmVybGF5ZnMuaAor
-KysgYi9mcy9vdmVybGF5ZnMvb3ZlcmxheWZzLmgKQEAgLTEwMiw4ICsxMDIsMTEgQEAgZW51bSB7
-CiB9OwogCiBlbnVtIHsKKwlPVkxfRlNZTkNfT0ZGLAogCU9WTF9GU1lOQ19WT0xBVElMRSwKKwlP
-VkxfRlNZTkNfUkVMQVhFRCwKIAlPVkxfRlNZTkNfQVVUTywKKwlPVkxfRlNZTkNfT04sCiAJT1ZM
-X0ZTWU5DX1NUUklDVCwKIH07CiAKQEAgLTY2NSw3ICs2NjgsOCBAQCBzdGF0aWMgaW5saW5lIGJv
-b2wgb3ZsX3hpbm9fd2FybihzdHJ1Y3Qgb3ZsX2ZzICpvZnMpCiAKIHN0YXRpYyBpbmxpbmUgYm9v
-bCBvdmxfc2hvdWxkX3N5bmMoc3RydWN0IG92bF9mcyAqb2ZzKQogewotCXJldHVybiBvZnMtPmNv
-bmZpZy5mc3luY19tb2RlICE9IE9WTF9GU1lOQ19WT0xBVElMRTsKKwlyZXR1cm4gb2ZzLT5jb25m
-aWcuZnN5bmNfbW9kZSAhPSBPVkxfRlNZTkNfT0ZGICYmCisJICAgICAgIG9mcy0+Y29uZmlnLmZz
-eW5jX21vZGUgIT0gT1ZMX0ZTWU5DX1ZPTEFUSUxFOwogfQogCiBzdGF0aWMgaW5saW5lIGJvb2wg
-b3ZsX3Nob3VsZF9zeW5jX21ldGFkYXRhKHN0cnVjdCBvdmxfZnMgKm9mcykKQEAgLTY3Myw5ICs2
-NzcsMTUgQEAgc3RhdGljIGlubGluZSBib29sIG92bF9zaG91bGRfc3luY19tZXRhZGF0YShzdHJ1
-Y3Qgb3ZsX2ZzICpvZnMpCiAJcmV0dXJuIG9mcy0+Y29uZmlnLmZzeW5jX21vZGUgPT0gT1ZMX0ZT
-WU5DX1NUUklDVDsKIH0KIAotc3RhdGljIGlubGluZSBib29sIG92bF9pc192b2xhdGlsZShzdHJ1
-Y3Qgb3ZsX2NvbmZpZyAqY29uZmlnKQorLyoKKyAqIFdpdGggZnN5bmM9b24gb3IgZnN5bmM9c3Ry
-aWN0LCBzeW5jZnMoMikgYW5kIHVubW91bnQgc3luYyB0aGUgZW50aXJlIHVwcGVyCisgKiBmaWxl
-c3lzdGVtLiAgT3RoZXJ3aXNlIHRoZXkgb25seSB3cml0ZSBiYWNrIHRoZSBmaWxlcyB0aGF0IHdl
-cmUgbW9kaWZpZWQKKyAqIHRocm91Z2ggdGhlIG92ZXJsYXkuCisgKi8KK3N0YXRpYyBpbmxpbmUg
-Ym9vbCBvdmxfc2hvdWxkX3N5bmNfdXBwZXJfZnMoc3RydWN0IG92bF9mcyAqb2ZzKQogewotCXJl
-dHVybiBjb25maWctPmZzeW5jX21vZGUgPT0gT1ZMX0ZTWU5DX1ZPTEFUSUxFOworCXJldHVybiBv
-ZnMtPmNvbmZpZy5mc3luY19tb2RlID09IE9WTF9GU1lOQ19PTiB8fAorCSAgICAgICBvZnMtPmNv
-bmZpZy5mc3luY19tb2RlID09IE9WTF9GU1lOQ19TVFJJQ1Q7CiB9CiAKIC8qCmRpZmYgLS1naXQg
-YS9mcy9vdmVybGF5ZnMvcGFyYW1zLmMgYi9mcy9vdmVybGF5ZnMvcGFyYW1zLmMKaW5kZXggNWEx
-NWU1NDc4YTZiOC4uOWZmMjY2YzM4Y2Q1OCAxMDA2NDQKLS0tIGEvZnMvb3ZlcmxheWZzL3BhcmFt
-cy5jCisrKyBiL2ZzL292ZXJsYXlmcy9wYXJhbXMuYwpAQCAtMjgsNiArMjgsMTEgQEAgbW9kdWxl
-X3BhcmFtX25hbWVkKHhpbm9fYXV0bywgb3ZsX3hpbm9fYXV0b19kZWYsIGJvb2wsIDA2NDQpOwog
-TU9EVUxFX1BBUk1fREVTQyh4aW5vX2F1dG8sCiAJCSAiQXV0byBlbmFibGUgeGlubyBmZWF0dXJl
-Iik7CiAKK3N0YXRpYyBib29sIG92bF9mc3luY19hdXRvX2RlZiA9IElTX0VOQUJMRUQoQ09ORklH
-X09WRVJMQVlfRlNfRlNZTkNfQVVUTyk7Cittb2R1bGVfcGFyYW1fbmFtZWQoZnN5bmNfYXV0bywg
-b3ZsX2ZzeW5jX2F1dG9fZGVmLCBib29sLCAwNjQ0KTsKK01PRFVMRV9QQVJNX0RFU0MoZnN5bmNf
-YXV0bywKKwkJICJEZWZhdWx0IHRvIGZzeW5jPWF1dG8gaW5zdGVhZCBvZiBmc3luYz1vbiIpOwor
-CiBzdGF0aWMgYm9vbCBvdmxfaW5kZXhfZGVmID0gSVNfRU5BQkxFRChDT05GSUdfT1ZFUkxBWV9G
-U19JTkRFWCk7CiBtb2R1bGVfcGFyYW1fbmFtZWQoaW5kZXgsIG92bF9pbmRleF9kZWYsIGJvb2ws
-IDA2NDQpOwogTU9EVUxFX1BBUk1fREVTQyhpbmRleCwKQEAgLTE0Miw4ICsxNDcsMTEgQEAgc3Rh
-dGljIGludCBvdmxfdmVyaXR5X21vZGVfZGVmKHZvaWQpCiB9CiAKIHN0YXRpYyBjb25zdCBzdHJ1
-Y3QgY29uc3RhbnRfdGFibGUgb3ZsX3BhcmFtZXRlcl9mc3luY1tdID0geworCXsgIm9mZiIsCU9W
-TF9GU1lOQ19PRkYgICAgICB9LAogCXsgInZvbGF0aWxlIiwJT1ZMX0ZTWU5DX1ZPTEFUSUxFIH0s
-CisJeyAicmVsYXhlZCIsCU9WTF9GU1lOQ19SRUxBWEVEICB9LAogCXsgImF1dG8iLAlPVkxfRlNZ
-TkNfQVVUTyAgICAgfSwKKwl7ICJvbiIsCQlPVkxfRlNZTkNfT04gICAgICAgfSwKIAl7ICJzdHJp
-Y3QiLAlPVkxfRlNZTkNfU1RSSUNUICAgfSwKIAl7fQogfTsKQEAgLTE1NSw3ICsxNjMsNyBAQCBz
-dGF0aWMgY29uc3QgY2hhciAqb3ZsX2ZzeW5jX21vZGUoc3RydWN0IG92bF9jb25maWcgKmNvbmZp
-ZykKIAogc3RhdGljIGludCBvdmxfZnN5bmNfbW9kZV9kZWYodm9pZCkKIHsKLQlyZXR1cm4gT1ZM
-X0ZTWU5DX0FVVE87CisJcmV0dXJuIG92bF9mc3luY19hdXRvX2RlZiA/IE9WTF9GU1lOQ19BVVRP
-IDogT1ZMX0ZTWU5DX09OOwogfQogCiBjb25zdCBzdHJ1Y3QgZnNfcGFyYW1ldGVyX3NwZWMgb3Zs
-X3BhcmFtZXRlcl9zcGVjW10gPSB7CkBAIC02ODksOSArNjk3LDExIEBAIHN0YXRpYyBpbnQgb3Zs
-X3BhcnNlX3BhcmFtKHN0cnVjdCBmc19jb250ZXh0ICpmYywgc3RydWN0IGZzX3BhcmFtZXRlciAq
-cGFyYW0pCiAJCWJyZWFrOwogCWNhc2UgT3B0X2ZzeW5jOgogCQljb25maWctPmZzeW5jX21vZGUg
-PSByZXN1bHQudWludF8zMjsKKwkJY3R4LT5zZXQuZnN5bmMgPSB0cnVlOwogCQlicmVhazsKIAlj
-YXNlIE9wdF92b2xhdGlsZToKIAkJY29uZmlnLT5mc3luY19tb2RlID0gT1ZMX0ZTWU5DX1ZPTEFU
-SUxFOworCQljdHgtPnNldC5mc3luYyA9IHRydWU7CiAJCWJyZWFrOwogCWNhc2UgT3B0X3VzZXJ4
-YXR0cjoKIAkJY29uZmlnLT51c2VyeGF0dHIgPSB0cnVlOwpAQCAtODk2LDggKzkwNiw4IEBAIGlu
-dCBvdmxfZnNfcGFyYW1zX3ZlcmlmeShjb25zdCBzdHJ1Y3Qgb3ZsX2ZzX2NvbnRleHQgKmN0eCwK
-IAkJY29uZmlnLT5pbmRleCA9IGZhbHNlOwogCX0KIAotCWlmICghY29uZmlnLT51cHBlcmRpciAm
-JiBvdmxfaXNfdm9sYXRpbGUoY29uZmlnKSkgewotCQlwcl9pbmZvKCJvcHRpb24gXCJ2b2xhdGls
-ZVwiIGlzIG1lYW5pbmdsZXNzIGluIGEgbm9uLXVwcGVyIG1vdW50LCBpZ25vcmluZyBpdC5cbiIp
-OworCWlmICghY29uZmlnLT51cHBlcmRpciAmJiBzZXQuZnN5bmMpIHsKKwkJcHJfaW5mbygib3B0
-aW9ucyBcImZzeW5jXCIgYW5kIFwidm9sYXRpbGVcIiBhcmUgbWVhbmluZ2xlc3MgaW4gYSBub24t
-dXBwZXIgbW91bnQsIGlnbm9yaW5nIHRoZW0uXG4iKTsKIAkJY29uZmlnLT5mc3luY19tb2RlID0g
-b3ZsX2ZzeW5jX21vZGVfZGVmKCk7CiAJfQogCmRpZmYgLS1naXQgYS9mcy9vdmVybGF5ZnMvcGFy
-YW1zLmggYi9mcy9vdmVybGF5ZnMvcGFyYW1zLmgKaW5kZXggZmZkNTNjZGQ4NDgyNy4uM2M4NjRi
-ODc0YWYyNSAxMDA2NDQKLS0tIGEvZnMvb3ZlcmxheWZzL3BhcmFtcy5oCisrKyBiL2ZzL292ZXJs
-YXlmcy9wYXJhbXMuaApAQCAtMTUsNiArMTUsNyBAQCBzdHJ1Y3Qgb3ZsX29wdF9zZXQgewogCWJv
-b2wgcmVkaXJlY3Q7CiAJYm9vbCBuZnNfZXhwb3J0OwogCWJvb2wgaW5kZXg7CisJYm9vbCBmc3lu
-YzsKIH07CiAKICNkZWZpbmUgT1ZMX01BWF9TVEFDSyA1MDAKZGlmZiAtLWdpdCBhL2ZzL292ZXJs
-YXlmcy9zdXBlci5jIGIvZnMvb3ZlcmxheWZzL3N1cGVyLmMKaW5kZXggOGJjOTcwNzQ4Yjk2Yi4u
-YTQ0ZjYzMzRmZWI2OSAxMDA2NDQKLS0tIGEvZnMvb3ZlcmxheWZzL3N1cGVyLmMKKysrIGIvZnMv
-b3ZlcmxheWZzL3N1cGVyLmMKQEAgLTc1NSw4ICs3NTUsMTUgQEAgc3RhdGljIGludCBvdmxfbWFr
-ZV93b3JrZGlyKHN0cnVjdCBzdXBlcl9ibG9jayAqc2IsIHN0cnVjdCBvdmxfZnMgKm9mcywKIAkJ
-Z290byBvdXQ7CiAKIAlyZW5hbWVfd2hpdGVvdXQgPSBlcnI7Ci0JaWYgKCFyZW5hbWVfd2hpdGVv
-dXQpCisJaWYgKCFyZW5hbWVfd2hpdGVvdXQpIHsKIAkJcHJfd2FybigidXBwZXIgZnMgZG9lcyBu
-b3Qgc3VwcG9ydCBSRU5BTUVfV0hJVEVPVVQuXG4iKTsKKwkJaWYgKG9mcy0+Y29uZmlnLmZzeW5j
-X21vZGUgPT0gT1ZMX0ZTWU5DX0FVVE8pCisJCQlwcl93YXJuKCIuLi5mYWxsaW5nIGJhY2sgdG8g
-ZnN5bmM9b24uXG4iKTsKKwl9CisKKwlpZiAob2ZzLT5jb25maWcuZnN5bmNfbW9kZSA9PSBPVkxf
-RlNZTkNfQVVUTykKKwkJb2ZzLT5jb25maWcuZnN5bmNfbW9kZSA9IHJlbmFtZV93aGl0ZW91dCA/
-IE9WTF9GU1lOQ19SRUxBWEVEIDoKKwkJCQkJCQkgICBPVkxfRlNZTkNfT047CiAKIAkvKgogCSAq
-IENoZWNrIGlmIHVwcGVyL3dvcmsgZnMgc3VwcG9ydHMgKHRydXN0ZWR8dXNlcikub3ZlcmxheS4q
-IHhhdHRyCkBAIC04MTAsOSArODE3LDkgQEAgc3RhdGljIGludCBvdmxfbWFrZV93b3JrZGlyKHN0
-cnVjdCBzdXBlcl9ibG9jayAqc2IsIHN0cnVjdCBvdmxfZnMgKm9mcywKIAogCS8qCiAJICogRm9y
-IHZvbGF0aWxlIG1vdW50LCBjcmVhdGUgYSBpbmNvbXBhdC92b2xhdGlsZS9kaXJ0eSBmaWxlIHRv
-IGtlZXAKLQkgKiB0cmFjayBvZiBpdC4KKwkgKiB0cmFjayBvZiBpdC4gIGZzeW5jPW9mZiBhbGxv
-d3MgbW91bnRpbmcgdGhlIG92ZXJsYXkgYWdhaW4uCiAJICovCi0JaWYgKG92bF9pc192b2xhdGls
-ZSgmb2ZzLT5jb25maWcpKSB7CisJaWYgKG9mcy0+Y29uZmlnLmZzeW5jX21vZGUgPT0gT1ZMX0ZT
-WU5DX1ZPTEFUSUxFKSB7CiAJCWVyciA9IG92bF9jcmVhdGVfdm9sYXRpbGVfZGlydHkob2ZzKTsK
-IAkJaWYgKGVyciA8IDApIHsKIAkJCXByX2VycigiRmFpbGVkIHRvIGNyZWF0ZSB2b2xhdGlsZS9k
-aXJ0eSBmaWxlLlxuIik7Ci0tIAoyLjU1LjAKCg==
---00000000000034af3a065f486ad0--
