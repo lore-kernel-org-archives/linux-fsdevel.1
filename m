@@ -1,44 +1,44 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793630560;
-	b=dKp7k7AIpx41r3F350FVmNfIu57WCcSx6rY03FO+EqY8uySg/haVEajLOTp0UdBMYyNC
-	 /szkHqDjbNB48XoZJd/gxa6YHWW0ANL5X2fiXy3NSzgxZWyQkZu6e9DBr4h4BFkHGx+Q8
-	 Jt5NuDBh44KnwdIL/6mnCfGFWe9G0cVcrADkh3ndMTr04FG6iBRAp0aqo/cVMiNswSJY9
-	 5/11725ISmhyH7k7Jb5knobWhEOKP8xJnpHKEy70xTvPSFtTBJ2eVO34t2U7hSrjtg+Uw
-	 t2bBGf+k7mLTKRR6BRi6rs0KD9GisJyJkN5VJfaxIex4my2Kr2bOe30dFrbV/Mu9koA==
+	t=1793630558;
+	b=Mlj0o/r2ACYFKd0M77IKh1a4iMQnpwZUq+FP8f+od8ePMAced2Lm0/+JVuP6n5yCrlgZ
+	 I4so0U9DwQMZoPj5h/cTwzEWe+0zLuqg40diW2xiSdPfHW7GlL3069HGcbLaIMDJAStTM
+	 nnxmlKcVHZqRBs8FetwCsa/ReABXSaGh0OYnScS6nVwt7y/tyc037RfkGynnLloFZrjYe
+	 4W+momTzdml6mLwNQMuemQ6lg+YlNYYKDutsMmLhZMtmX/XyastJPdpPyjt9VZQ24xsJ2
+	 bzQJCmcEGNkO43SJXb6bXXD3r38omCSY6ChU9xA+HmZ40E1IVsJ9jIZzIEHPV+Jzl6Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793630560;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793630558;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=2WPQVUYZvUdIxaKgiNTH7bti6DRxAsvvFMcWeztADhI=;
-	b=a/EjW0ZllZNNFD4gkiW7xzw0h9ZSBr6pRfXP0BVdxg0k190o2EPcVhPEbUBKO0bC5+JU
-	 Xzm086JbbI5CWWIEc41yfIlC21c41CIWGViMhd8HjysLSvFf4Yw/BkgFJyMMfOftrcwCf
-	 QSEuNnv/4FHYsSrtgWqQ9w7ct5Ps8AW1DqKh5JiVy5YKVfkLmxyc8zCYJKaIChpW3/rr0
-	 5vuRwQzp9oyLIj6sO9LpwS6jlYaIvMR3VZfEBPQIHThI/aqPGwPjMWgqPVAy2zZ4LQLuM
-	 MERNT44ts5fyQUszT5LaLhan6jIbpO3M8bsE/9lbbl7dIh/JDf8uFU+Cp1YUr+vrl+g==
+	bh=mhi8hKhT1wsP3ktcPguqIrg7y3lPp+S8z3kD7+SeFPI=;
+	b=v3CnaiChXpK7LvLq5cpy5QOrYZe7+o6ReJ9oDkduXcc5jmnsc/2KCJB270x+WHQH/Ujc
+	 zjsTBYT3iAzQ7+eIjn/jlF3ESRFLYpgRIyz2yinhG6yQk5lMn7qyGadD97KX+8n9mkqBZ
+	 0DHBL+eFBYLs8kaRxrg2G4wLOD/tXUF+KJM1T+e/uLgvuscwUoasZZILE2rBp9zm8HzNx
+	 91z2LSo3LD0rE5z1Xe+37XoC0bvB9qJhi26+RSRBEdiShpg8n6IKRzr0V95ECSGFV3Eig
+	 MTxSD+Oaj+c3djrxz5vrlowuyYTP6PBL074nxkTMfOLSDyIAdaToOXUz5USRjHKA/OQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NDerxYqN;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RrJIOEL3;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94E3C606A5B3;
-	Mon,  2 Nov 2026 14:42:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NDerxYqN
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F00351F00A17;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C2D4607E0E9;
 	Mon,  2 Nov 2026 14:42:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RrJIOEL3
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65FFF1F00A16;
+	Mon,  2 Nov 2026 14:42:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793630560;
-	bh=2WPQVUYZvUdIxaKgiNTH7bti6DRxAsvvFMcWeztADhI=;
+	s=k20260515; t=1793630557;
+	bh=mhi8hKhT1wsP3ktcPguqIrg7y3lPp+S8z3kD7+SeFPI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=NDerxYqNi9cwRi3J3Axa9KLDqWn9k7L/me7jEXXZX5Jmdd3MwdMJ0nZK+H/IYYlFw
-	 SU5Vp0SjZEmXZlkrexnhD1UOZuilM5BJ7kpI9FAObWunY9aBc6Mr+dzmTJFPE88THb
-	 rO+WqdP8FAk5av55HZ/W/wZWsvWDzhW47y+/4Zxq07P98NU9k+wveubI1l8Sv4bwNq
-	 GuLxNC2kNTYleRdQI4+KxQixid90Inz0MZWbM61OsuBG0DKj4/FkhE9gTnQwHwuBzV
-	 Aq44RQ/sHJuZLSxg52V7f17USLeNCQQHYob/VGLEqyfZgv+8q5TlR0MhaTECMw7oZm
-	 L8qdS0I8hYE9w==
+	b=RrJIOEL3pMDF7YTeoNxecujV7/1g7ng86AnbKA7vaJXzz5xmxD5hDUACsr96MoLZY
+	 byIEGsuZxbEknUMEhfVnRSkJ6Md8HOkN3QgCoUvNJ2XqMUJGSMoItIIn3HRTVsCPNW
+	 gGoJiYGwpBlf0pEpojYXxuiEKRJBKna/4Rp9cI5uQswBz6rieCdBZq8NIx837YZQkz
+	 a4ndu3fmQcAfPwjbzdiIyaGlQfivX7XEfbqwM9zEdqlv3JSIzowxL0P6dNef2tQHES
+	 yhgo3BNtVYCOlnYor2cHQXXwKb8VQp0+djpzUV1R/f69Eo9htObMu02Uk8YlahUg08
+	 GXNe09/04awxw==
 From: Andrey Albershteyn <aalbersh@kernel.org>
 To: ebiggers@kernel.org,
 	hch@lst.de,
@@ -48,11 +48,10 @@ To: ebiggers@kernel.org,
 Cc: Andrey Albershteyn <aalbersh@kernel.org>,
 	linux-fsdevel@vger.kernel.org,
 	david@fromorbit.com,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Andrey Albershteyn <aalbersh@redhat.com>
-Subject: [PATCH v18 12/15] xfs: advertise fs-verity being available on filesystem
-Date: Mon,  2 Nov 2026 15:41:42 +0100
-Message-ID: <20261102144147.2393369-13-aalbersh@kernel.org>
+	"Darrick J. Wong" <djwong@kernel.org>
+Subject: [PATCH v18 11/15] xfs: add fs-verity ioctls
+Date: Mon,  2 Nov 2026 15:41:41 +0100
+Message-ID: <20261102144147.2393369-12-aalbersh@kernel.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20261102144147.2393369-1-aalbersh@kernel.org>
 References: <20261102144147.2393369-1-aalbersh@kernel.org>
@@ -67,44 +66,50 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: "Darrick J. Wong" <djwong@kernel.org>
+Add fs-verity ioctls to enable, dump metadata (descriptor and Merkle
+tree pages) and obtain file's digest.
 
-Advertise that this filesystem supports fsverity.
+[djwong: remove unnecessary casting]
 
 Signed-off-by: Darrick J. Wong <djwong@kernel.org>
-Reviewed-by: Andrey Albershteyn <aalbersh@redhat.com>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
 ---
- fs/xfs/libxfs/xfs_fs.h | 1 +
- fs/xfs/libxfs/xfs_sb.c | 2 ++
- 2 files changed, 3 insertions(+)
+ fs/xfs/xfs_ioctl.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/fs/xfs/libxfs/xfs_fs.h b/fs/xfs/libxfs/xfs_fs.h
-index 185f09f327c0..c80133784419 100644
---- a/fs/xfs/libxfs/xfs_fs.h
-+++ b/fs/xfs/libxfs/xfs_fs.h
-@@ -250,6 +250,7 @@ typedef struct xfs_fsop_resblks {
- #define XFS_FSOP_GEOM_FLAGS_PARENT	(1 << 25) /* linux parent pointers */
- #define XFS_FSOP_GEOM_FLAGS_METADIR	(1 << 26) /* metadata directories */
- #define XFS_FSOP_GEOM_FLAGS_ZONED	(1 << 27) /* zoned rt device */
-+#define XFS_FSOP_GEOM_FLAGS_VERITY	(1 << 28) /* fs-verity */
+diff --git a/fs/xfs/xfs_ioctl.c b/fs/xfs/xfs_ioctl.c
+index f81b6e52ac40..37c6a2fae58c 100644
+--- a/fs/xfs/xfs_ioctl.c
++++ b/fs/xfs/xfs_ioctl.c
+@@ -49,6 +49,7 @@
  
- /*
-  * Minimum and maximum sizes need for growth checks.
-diff --git a/fs/xfs/libxfs/xfs_sb.c b/fs/xfs/libxfs/xfs_sb.c
-index 7629fc3f499f..3323b8dcc793 100644
---- a/fs/xfs/libxfs/xfs_sb.c
-+++ b/fs/xfs/libxfs/xfs_sb.c
-@@ -1546,6 +1546,8 @@ xfs_fs_geometry(
- 		geo->flags |= XFS_FSOP_GEOM_FLAGS_METADIR;
- 	if (xfs_has_zoned(mp))
- 		geo->flags |= XFS_FSOP_GEOM_FLAGS_ZONED;
-+	if (xfs_has_verity(mp))
-+		geo->flags |= XFS_FSOP_GEOM_FLAGS_VERITY;
- 	geo->rtsectsize = sbp->sb_blocksize;
- 	geo->dirblocksize = xfs_dir2_dirblock_bytes(sbp);
+ #include <linux/mount.h>
+ #include <linux/fileattr.h>
++#include <linux/fsverity.h>
  
+ /* Return 0 on success or positive error */
+ int
+@@ -1575,6 +1576,19 @@ xfs_file_ioctl(
+ 	case XFS_IOC_VERIFY_MEDIA:
+ 		return xfs_ioc_verify_media(filp, arg);
+ 
++	case FS_IOC_ENABLE_VERITY:
++		if (!xfs_has_verity(mp))
++			return -EOPNOTSUPP;
++		return fsverity_ioctl_enable(filp, arg);
++	case FS_IOC_MEASURE_VERITY:
++		if (!xfs_has_verity(mp))
++			return -EOPNOTSUPP;
++		return fsverity_ioctl_measure(filp, arg);
++	case FS_IOC_READ_VERITY_METADATA:
++		if (!xfs_has_verity(mp))
++			return -EOPNOTSUPP;
++		return fsverity_ioctl_read_metadata(filp, arg);
++
+ 	default:
+ 		return -ENOTTY;
+ 	}
 -- 
 2.54.0
 
