@@ -1,62 +1,58 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793695048;
-	b=ErPpH3T3MeSwvBYBHgjydlpGJ9T82hlBm0600sPAFiapqY4a4c51L0XtD8K2ISiTnZkO
-	 r0DdBw1es7FfwapyH5t0jsHDfRKY68dFiOhHvQOMyyOMbcY6WhDuYiQMS4siw/npml5+O
-	 Y84kNui2AB/otdBiQmj4zVAK/pvEk6KrKipTA5PuujpakZJeYuSxEE2ojUS6wZf/DGvsX
-	 6D91GHagfDYzTOXDntG02m1W7IP+n4CX2UWvlPRwHYSBCWVWBYyNAYi/HDvNu2pytuyd8
-	 iqnS736n7OUtxLEj6KQwX0pVJtwz2MY6vRcxtbDoAbo4RXF4j/0fZjuDUGouqFm4LRQ==
+	t=1793695326;
+	b=FFrvQ2wN0zs3ad+FjyLBlBNze+RAtS1zw7t/sO3SR5oB6Fw0lonT4k3/5x28FC4lrZ+1
+	 hXqDaFjlxpgICzvl7Dd93Jpg2wyFwj8L2BSQjIePXoB5nA7WIlY98B8I3hCN7pqR4oVMq
+	 W+gPKasPNlb1ZKLJ33+yG1SLFlMRoTr77kWjUL0Ye/xwxjmk4dfb/uH3XoiX4buU61iey
+	 DktdezmzHe7vn0mucunECzyt/VX0pPPErdbdVd8dZgG2feQZbxXJPrzDAcqlFxlddrMEp
+	 6LmjtVSf69In/heebjKgvAuOY/VBJ3LANdQUJu9Hn7Rcf1BU/dUweOJgAIfBkDRTvHg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793695048;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793695326;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=36ue9l0lxjyreF2KAgVZ/S2Q5NtWJdd1uqKRENrbVrc=;
-	b=D8GRgWt9i9SmQ331kqbxdLcUfNeqiEIiPVHpWQU0LWUlttRtqybKACqO2s7VtQy4tvFM
-	 SC2l8bQM6Uq7HcI143/hkjws5NiUwMe42ywfiBK1k67aJfIsVrR707Du7OEsJFfk6iU/0
-	 WxqPAIc8xxzauuQc0WUyN20q7IPRb4aklTT4RWocey4bOyugib0KBLL3qLbbuFupA7Wpo
-	 aostvQP9UAQxd6DNj2ZZniVaWItK8BGE9lMLU8qsRozJcFTnju8z/8XHvYRftg8dXyhRS
-	 SvGlYNdCLGQMqujAGi0c7QVvogDklLZ1racmBbyvB2F7dNQj15p1XjEnfzyoOgQlX/Q==
+	bh=/Mmu1SJgefq+KaAvFDsItBgRjAHi+/Cf/AJ8uC5U19o=;
+	b=TPqhH+WHQc/9w73gfgBL4/Gw0kknalL4kWx+rV4KERJ1qy1WHQ3Bo4em2MmKDO7XFwIy
+	 88rjgyysa8AQmXa44AEx8Xu/cHswLyt58odxvcy7WuEO5BMwCnN/68Me2VjoqTqLUc5tg
+	 VD120fEHrI6I5qan78nDiqYTNCQpgSY/qNFZoBUwqT+kHyqw7VDsI6il0QFwkv5NzCTuU
+	 QlDmp0yNDeCJgyxnw1i7Ox8rtCTqXHGAF+9fL7TCXZhQPnxFfid1itMvPFTmQZ4oCu72s
+	 xPiZaqNCATXX1HATAWwQIRdM3WC3Ag/GgwIDM6b1pjoEFsDvOBatdQn/jvlEKZglWeQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aUwUm4Yj;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ArRY5tYD;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE1C7606A33E;
-	Tue,  3 Nov 2026 08:37:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5DF8606D834;
+	Tue,  3 Nov 2026 08:42:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aUwUm4Yj
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C1721F01802;
-	Tue,  3 Nov 2026 08:37:21 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ArRY5tYD
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8121F1F000C1;
+	Tue,  3 Nov 2026 08:42:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793695047;
-	bh=36ue9l0lxjyreF2KAgVZ/S2Q5NtWJdd1uqKRENrbVrc=;
+	s=k20260515; t=1793695325;
+	bh=/Mmu1SJgefq+KaAvFDsItBgRjAHi+/Cf/AJ8uC5U19o=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=aUwUm4YjE8yZ8DotXKncj8C+/v6y2l2qeBxMJD7QAKiAlCAfdY8kyLGH1ztvVMvyV
-	 sdOVKjuU7ve7ffcYq0mLG5F+l8VjouhdEEMOdvnZO5hsmN4mmhxVpT2IDhB6T6hwm7
-	 GHd5lNmqj6ppo+OChkh7KYRTE0/YRrlOiqkwS+oqX2ywjeNDN+iYPB04iugqbhlHtP
-	 NiVapLY/XPLWd1zEevrTBvrSKCiyN3x8cWPqww4zT32H+TT2+Mn8oyWsYENsn5Fbc5
-	 PhHT1uLMSfC8sCf6sVMyDL0ESyBMCEi4ercOoaNw5oxRvU+hEo+pr+laB7KB9zLawD
-	 YH4mrIgI6UIew==
-Date: Tue, 3 Nov 2026 08:37:19 +0000
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Tal Zussman <tz2294@columbia.edu>
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Zi Yan <ziy@nvidia.com>, 
-	Matthew Brost <matthew.brost@intel.com>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
-	Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
-	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
-	Hugh Dickins <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 7/8] mm: remove read_cache_page_gfp()
-Message-ID: <aumdHgUtiQzkNzs6@gremlin>
-References: <20261102-page-wrappers-v1-0-e7280bdb31f6@columbia.edu>
- <20261102-page-wrappers-v1-7-e7280bdb31f6@columbia.edu>
+	b=ArRY5tYDCFtc+xAoM77X7yHuc7rwLTxS1aG8aniTRKZtQGG442iT2gAjl2m+2dnnS
+	 G+x+3k3jdG/f9V6Ry2EC6wMt93w+qL6UAFF3n4mG2B4dCloG5G4EwLnqrfLFnbkFJu
+	 TVKZ97pmWfUobd6UGBB3rVmPxEolFi8QvwwI97bWdICu7aoijfe08s48DJ+voAL4Sr
+	 Tw0HK23tCKk2+MLHCh/kPVnPF5cV8SneXBmKrRyfbWAsj4nk316I3t0Y1VXaYkys8F
+	 wkP/2Fq9Ez76IMQS8TueH6Gfef4ET86iQJ5WDrGrumAkawpwZDe14gdg0mEl2dWHO8
+	 BA07yDEdurjig==
+Date: Tue, 3 Nov 2026 09:41:58 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: linux-fsdevel@vger.kernel.org, Jan Kara <jack@suse.com>, 
+	Al Viro <viro@zeniv.linux.org.uk>, ecryptfs@vger.kernel.org, linux-ext4@vger.kernel.org, 
+	jfs-discussion@lists.sourceforge.net, linux-nilfs@vger.kernel.org, exfat@lists.linux.dev, 
+	linux-mm@kvack.org, ntfs@lists.linux.dev, ocfs2-devel@lists.linux.dev, 
+	linux-btrfs@vger.kernel.org, gfs2@lists.linux.dev, linux-efi@vger.kernel.org, 
+	linux-mtd@lists.infradead.org, linux-xfs@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH v2 33/34] xfs: allow remounting read-only after a shutdown
+Message-ID: <20261103-galgen-ehebruch-stehen-a967c14ce53e@brauner>
+References: <20261029-work-fs-sb_rdonly-v2-0-2f44f64f0b66@kernel.org>
+ <20261029-work-fs-sb_rdonly-v2-33-2f44f64f0b66@kernel.org>
+ <20261103054155.GB1559@lst.de>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -66,96 +62,17 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261102-page-wrappers-v1-7-e7280bdb31f6@columbia.edu>
+In-Reply-To: <20261103054155.GB1559@lst.de>
 
-On Mon, Nov 02, 2026 at 05:54:12PM -0500, Tal Zussman wrote:
-> There are no callers left. Point the comment on shmem_read_folio_gfp()
-> at mapping_read_folio_gfp() instead.
->
-> Signed-off-by: Tal Zussman <tz2294@columbia.edu>
+On Tue, Nov 03, 2026 at 06:41:55AM +0100, Christoph Hellwig wrote:
+> Btw, if my previous reply wasn't clear:  please add the test for this
+> to xfstests where they actually get run regularly and not the kernel
+> selftests which for file systems are basically unused.
+> 
+> Bonus points for having generic tests instead of purely file system
+> specific ones.
 
-LGTM!
-
-Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-
-> ---
->  include/linux/pagemap.h |  2 --
->  mm/filemap.c            | 23 -----------------------
->  mm/shmem.c              |  4 ++--
->  3 files changed, 2 insertions(+), 27 deletions(-)
->
-> diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
-> index a92329805acd..305c99bad689 100644
-> --- a/include/linux/pagemap.h
-> +++ b/include/linux/pagemap.h
-> @@ -962,8 +962,6 @@ struct folio *mapping_read_folio_gfp(struct address_space *, pgoff_t index,
->  		gfp_t flags);
->  struct page *read_cache_page(struct address_space *, pgoff_t index,
->  		filler_t *filler, struct file *file);
-> -extern struct page * read_cache_page_gfp(struct address_space *mapping,
-> -				pgoff_t index, gfp_t gfp_mask);
->
->  static inline struct page *read_mapping_page(struct address_space *mapping,
->  				pgoff_t index, struct file *file)
-> diff --git a/mm/filemap.c b/mm/filemap.c
-> index 1df776907140..2b724d9be94b 100644
-> --- a/mm/filemap.c
-> +++ b/mm/filemap.c
-> @@ -4258,29 +4258,6 @@ struct page *read_cache_page(struct address_space *mapping,
->  }
->  EXPORT_SYMBOL(read_cache_page);
->
-> -/**
-> - * read_cache_page_gfp - read into page cache, using specified page allocation flags.
-> - * @mapping:	the page's address_space
-> - * @index:	the page index
-> - * @gfp:	the page allocator flags to use if allocating
-> - *
-> - * This is the same as "read_mapping_page(mapping, index, NULL)", but with
-> - * any new page allocations done using the specified allocation flags.
-> - *
-> - * If the page does not get brought uptodate, return -EIO.
-> - *
-> - * The function expects mapping->invalidate_lock to be already held.
-> - *
-> - * Return: up to date page on success, ERR_PTR() on failure.
-> - */
-> -struct page *read_cache_page_gfp(struct address_space *mapping,
-> -				pgoff_t index,
-> -				gfp_t gfp)
-
-Also eliminates this very weird line-wrapping... :)
-
-> -{
-> -	return do_read_cache_page(mapping, index, NULL, NULL, gfp);
-> -}
-> -EXPORT_SYMBOL(read_cache_page_gfp);
-> -
->  /*
->   * Warn about a page cache invalidation failure during a direct I/O write.
->   */
-> diff --git a/mm/shmem.c b/mm/shmem.c
-> index de838dbb4df8..16b1cc3d8ac5 100644
-> --- a/mm/shmem.c
-> +++ b/mm/shmem.c
-> @@ -6190,9 +6190,9 @@ int shmem_zero_setup_desc(struct vm_area_desc *desc)
->   * @index:	the folio index
->   * @gfp:	the page allocator flags to use if allocating
->   *
-> - * This behaves as a tmpfs "read_cache_page_gfp(mapping, index, gfp)",
-> + * This behaves as a tmpfs "mapping_read_folio_gfp(mapping, index, gfp)",
->   * with any new page allocations done using the specified allocation flags.
-> - * But read_cache_page_gfp() uses the ->read_folio() method: which does not
-> + * But mapping_read_folio_gfp() uses the ->read_folio() method: which does not
->   * suit tmpfs, since it may have pages in swapcache, and needs to find those
->   * for itself; although drivers/gpu/drm i915 and ttm rely upon this support.
->   *
->
-> --
-> 2.39.5
->
-
---
-Cheers, Lorenzo
+I can drop the tests from this series but xfstests for this will be a
+follow-up.
