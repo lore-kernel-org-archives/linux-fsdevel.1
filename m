@@ -1,126 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.43
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793729293;
-	b=iJE/F79vPYBgAU+XaF/fHakYMsrEhAl9bYPJk8SdG+cFyYTJ26ycCYs9ddoAX06IyON3
-	 Xf7+qWVK/fNpKAMmsY66YEbFKTHp/K8etA2Zni5k+GoxirlOVkmrTHR+l6uBxiei1efDo
-	 pnQLcdLqUFPAicTKa0ceNSRkB4NSPATjVcg4wh8iBxCe2pdsj/vC1z94RHhfYFSOZzSB8
-	 TKjE5iWnVJ0byeOIQmIBtXXsQ0YJYn1QOFGJmJ0vFNqkbrm0R+VM97ILqwnLTFeKWzAvA
-	 eOOG2kInJWA2sSEOA8vJGW2dIU2tpt87xonY0YHsUL3f9+cfxFf88bUNuqTDC+jUebA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793729293;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type;
-	bh=XzdQYtOUXxk9uHo1ZAY0NXte1croEKcbZ0UJQV9jXv4=;
-	b=cGlmqP014MccYHR8Ql81yUeXXmnJCWh6x8ywcmvC6K7d+NDLeP1BZTISbMOQUG4wAr8s
-	 u9vyPzGu/+N2wHQ6Y0l6U8zxoF143sXOLVNBiJsHcIy+GctUa2w2o1skL4ZgxcbRfTPKK
-	 rTdum9UgWCBnldzYXp4F/foY9DJ8J5sWT8xxcXjcOepsdNbbF29/qMaSvf/xvj0r6JQAa
-	 woAyUVanfBpkpiR8ZiVg+bSndWyGdBwmRzFvu5l4x8fSKXv1M1L49w2EL22IGXjRatJVU
-	 nmXldOQzNui2VIJGv+oedI92QDregjFpNBYeTf3ZE3DrByytvrbfn49wbxeCOriTCYA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=OXi3MjzM;
-	arc=none smtp.remote-ip=74.125.224.43
-Received: from mail-yx1-f43.google.com (mail-yx1-f43.google.com [74.125.224.43])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793729942;
+	b=Okcz51E9fzV2s+IkVuEhCXWROEEaYnz0hPQtDt+sPAyimcF48zkTzQN1j7orRyVMb69G
+	 XiLZjZLcl4F5iAaZd7aB3xClL6qZNA+yRKu5JkY7eDDaeV9B1VcGZ1E538hOVKtGTvWdi
+	 JmZkSmi4HTNbwES4LPmtawcPGfzeRlbETMe+59M3gVE1MGcdcqRu2wU1tRY8ys2rE6zWt
+	 V6IDlfx6s7y/TAlDP4HOpwIiHvUFZY7qiI+lwIJxRi7qLTMBwqkqsbOyAXPGiMkPuVVca
+	 EDaIV1u6qZ7/kmN9O3sJHezLIh34dHu8Ok+5FNCbUst6OWJkARzh6MdovMjtdkn1tiQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793729942;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=IhcsKsF4c4Bor6ZjDZme0cgeE1Ch/I0WodiVCA7SelM=;
+	b=P4NXIHWaoRsIb1CLuIgg9Upm5vaaS6dQ60FAoWfR3QqEJXvIMW2xkKjpBmwl1VmtGcCb
+	 v77VZA+BGEn/0DuScybunu/s9qG3gpTLUYZVlpm0ju3QHUbQmmwtvXqJGgtvtoMCOB1D8
+	 B4OhrNbUY1O2KUDfqTfQYWCZwaDI7FtGizvxpOuwUyYrv2Q/iAllOVgOhCUd8J2wi9hlq
+	 /hOnh1P+V9CF843y360f9JoHO6GCDg4Kjv2RBtHb+nZPJTrGsvOAJql0S/Vix5bqJd2ye
+	 AIk+uHn1Hx4S+NZONvH9Zs+xcbcDCOIWibkaPH97sm3Tj9qxKbjRWQUe5ViKiWxaklg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ByKGCdBK;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B78E606A328;
+	Tue,  3 Nov 2026 18:19:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ByKGCdBK
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1793729942;
+	b=UxmtYHcH++KuSzSy0auBgxwHKEdqk0FWtQe9rwHW80190P3GCSRFhcmLGpQ40RUER2n0
+	 7lxPvJDzlNoft4PZS06EA5nm1pOKgxGbapqFPpuINQC64KLVKoUhrVJ6Q/ZXF3BK+lKom
+	 Pn8RRayw6K0GT7BTyPRtOkubiOfpFJcfym4H3PCSQ3SlOQEuXe8pSYWR8M8Npsh07YpP/
+	 14k8BHp5VEniDy+5fw6otkzagOka01BsGysj8gQwCWOKzbCPyz9JM0YmU5fFsP29Qcdy5
+	 AAIVwpM4dYonvTaBA2PqXP96XOR9/gKbcZ8J1fKwqjtxNnZjkCLWCt77CtiO3VWwGYw==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1793729942;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=IhcsKsF4c4Bor6ZjDZme0cgeE1Ch/I0WodiVCA7SelM=;
+	b=Dx2xB5A2CxOaBwGAWm6cIyQaaM2r5w7O8J53GP/gy7xakO2psTej83Z+e8gBfDL30OGZ
+	 ZZUJgHe/tDgKNa2o1EtNhxKbDL5e5z2sdCRhx4hV7SMCcbqN5pb+9T+3PV6DBbueGe7rH
+	 zn2ITGvuMPlPMZI2A/GrKXDvR0bPGDlVzscXRRjuSDPEs0KiQCc7s2SCKyE0iCOUqIJ1c
+	 ct6mjWAUBs+nyDNeI1kwJb61R+aUdb4HMuuQEoGRKLNF286I0TpKo3MRRcKNekZbqvQMT
+	 Sq9bzbv4YbvKpN0ggVauP09wZb55YPiYp/P0kwu+7f26o/fvCfwqEbdJTbIsjHluK+A==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F4113606A324
-	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Nov 2026 18:08:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F4113606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=OXi3MjzM
-Received: by mail-yx1-f43.google.com with SMTP id 956f58d0204a3-676804a3a22so3689394d50.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 03 Nov 2026 10:08:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793729292; x=1794334092; darn=vger.kernel.org;
-        h=content-type:mime-version:references:message-id:in-reply-to:subject
-         :cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=XzdQYtOUXxk9uHo1ZAY0NXte1croEKcbZ0UJQV9jXv4=;
-        b=OXi3MjzMySh7jSQdyjLEj5QhGBqizkgZNt0+BFbTjgfYnWeyEoPPnTikcPJrI+RwUL
-         XdzbSiTlvGCLOjnAH96UkltFPSoUbWV4/EAbK6XCPxWheBVlWSqx+/RpwZ7c0p1O0Da5
-         7fYXLUTDDsxyIV+uu5QbvR0/oVpkpexuPCQaYPSmcDIFGNlCcXgASyd9lBL4iAUAFVJS
-         aN0F+s4R4HcBxe9wm1ru9MTfbuOkgfKhUxolVukU5zKSsqPYrTHC0PIHsDFZjgV48Lu2
-         Uayh31FOzAu6iJh5pM2gMEmc91FtXFKJud/JZRtNX+PGBH+fyPHyKf6mnuMBe/Zfb0e9
-         6mSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793729292; x=1794334092;
-        h=content-type:mime-version:references:message-id:in-reply-to:subject
-         :cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=XzdQYtOUXxk9uHo1ZAY0NXte1croEKcbZ0UJQV9jXv4=;
-        b=quHivwB69AZkaN/vkrOHwHVY0HKkUBG31iQr61W9K+V7FI38lb8E9I38+FEeUx5y1D
-         C6tHfONOkYuY/1K6giFghXY3QEhlK2lPRJZ3dBD6LZvCcpTFRjg6nsInHHmR0FrpHQ6W
-         l+U2lfwDuQ6Sa04L3ZtCTVDDW/ieefB4H8fNlZ+8uhmu01cNn7tRCMHd4qnGlvX7mlA4
-         smiXqlBWjhPQ3FDs0/jevONL6QERzXHQyeibMZvG7KXOtcym8oqnOEj9SsEaMO73mRMQ
-         VWHPcd3BYu78GBObW1EvLODphR/TymPnru0bjWOQ9nanUkP8ydCwfXWVrDkQk5rhsSNn
-         5i1Q==
-X-Forwarded-Encrypted: i=1; AKwUvBzKy6EDtc3QiqeTk8OfaMzSTBmfgQ7TUjWuPgZiici5GVTicZIfitI82S6aHe9Ckwuu7IZPqt3m4HYIRIgY@vger.kernel.org
-X-Gm-Message-State: APuU4Z9Vto2rupV0sTOpRJrQeN9q0/A/2qOBXN4twM8CRW31ItNvvSMO
-	b5zbwTInFBHgu1FVA4S2MTSoyX8WiugdRfmcZ/+7WlOsJayVYm+I5fqvTHoq5GD9tw==
-X-Gm-Gg: AYBFou0Z3I2EPXH0F71CJTSxsOkq+k8uvRxN7u/NFuGpBgyo4qtSwFDCsNP9GRHTJeC
-	XwkxpjNKkSIZDid5s7i72v/QkUYUtJvCzbB7zJZj9thrcf1oQ0AzyKBL5IiUgcMTBRrtUz0d3TG
-	m8otJtJ5Fxw6RpedrtcXpIHMoDqO8BgjC8jwKRERMXTDqwJKfvLy6fYf0vYAZQHojBJ924XZ5P1
-	ywACU1TPUQFKldlcO9RP3/0s/BbxeCpBjbS5IO56AyKKY59VGkJd2WMQEDYphwb3uINjkzoLwL7
-	rtrAtT8HYr4aFmxtFGq0nBDZcNsA/98Mdl7S9z4je9ZB0oax8YdMWn+dVko+QUrCM9b4jVNUMYb
-	segbZtkAQQQ/aKSQ6BXTUVLLqOP/ElL0fqWwe14VUU5H/8SKAoyPJ8S//vVe7MOKBC+RaGbsWoX
-	IrHGxuhhLTKMgEH7OzJuDFleaUbHLMjybGWMRY17XjrftG59/OriOuLnokDcc7XOGevfKpJenGL
-	65xcLk/id6kVRVe3zwpvc2ggXU1AEEIdVDLQAExvPbCg4YN+vOqnS0r5MVsXChKUuHFZxsyuKtQ
-	z7rZZvJJLnQ7iTBz6Frvyagk99RkKRknWGsu5/Tu9hmGftNNm4E6Mj7zun0/7bwZByT+CQW5hcA
-	L+8qMudqtpUnH0jU4vS4Y6Nk=
-X-Received: by 2002:a05:690e:4141:b0:67a:8648:a87f with SMTP id 956f58d0204a3-67ba507da19mr9462809d50.79.1793729290959;
-        Tue, 03 Nov 2026 10:08:10 -0800 (PST)
-Received: from darker.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67baf3700b8sm7600510d50.23.2026.11.03.10.08.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Nov 2026 10:08:10 -0800 (PST)
-Date: Tue, 3 Nov 2026 10:07:53 -0800 (PST)
-From: Hugh Dickins <hughd@google.com>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-cc: Hugh Dickins <hughd@google.com>, Alistair Popple <apopple@nvidia.com>, 
-    Andrew Morton <akpm@linux-foundation.org>, 
-    "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, 
-    Baolin Wang <baolin.wang@linux.alibaba.com>, 
-    Baoquan He <baoquan.he@linux.dev>, Barry Song <baohua@kernel.org>, 
-    Brendan Jackman <brendan.jackman@linux.dev>, 
-    Byungchul Park <byungchul@sk.com>, 
-    Chengming Zhou <chengming.zhou@linux.dev>, Chris Li <chrisl@kernel.org>, 
-    Christoph Lameter <cl@gentwo.org>, Dave Chinner <david@fromorbit.com>, 
-    David Rientjes <rientjes@google.com>, Dennis Zhou <dennis@kernel.org>, 
-    Dev Jain <dev.jain@arm.com>, Gregory Price <gourry@gourry.net>, 
-    Hao Li <hao.li@linux.dev>, Harry Yoo <harry@kernel.org>, 
-    Jann Horn <jannh@google.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-    John Hubbard <jhubbard@nvidia.com>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
-    Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-    Kiryl Shutsemau <kas@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
-    "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-    Matthew Brost <matthew.brost@intel.com>, Miaohe Lin <linmiaohe@huawei.com>, 
-    Michal Hocko <mhocko@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-    Muchun Song <muchun.song@linux.dev>, 
-    Naoya Horiguchi <nao.horiguchi@gmail.com>, Nhat Pham <nphamcs@gmail.com>, 
-    Nick Piggin <npiggin@gmail.com>, Nico Pache <nico.pache@linux.dev>, 
-    Oscar Salvador <osalvador@suse.de>, Pedro Falcato <pfalcato@suse.de>, 
-    Peter Xu <peterx@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
-    Qi Zheng <qi.zheng@linux.dev>, Rakie Kim <rakie.kim@sk.com>, 
-    Rik van Riel <riel@surriel.com>, Roman Gushchin <roman.gushchin@linux.dev>, 
-    Ryan Roberts <ryan.roberts@arm.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
-    Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>, 
-    Uladzislau Rezki <urezki@gmail.com>, Usama Arif <usama.arif@linux.dev>, 
-    Vlastimil Babka <vbabka@kernel.org>, Will Deacon <will@kernel.org>, 
-    Xu Xin <xu.xin@linux.dev>, Ying Huang <ying.huang@linux.alibaba.com>, 
-    Youngjun Park <youngjun.park@lge.com>, Zi Yan <ziy@nvidia.com>, 
-    Jason Gunthorpe <jgg@ziepe.ca>, Manfred Spraul <manfred@colorfullife.com>, 
-    Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, 
-    linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH 2/7] MAINTAINERS: TMPFS (SHMEM FILESYSTEM) updates
-In-Reply-To: <c301fb04-1144-4ec9-a41e-3c98fb569e0b@kernel.org>
-Message-ID: <e0ab5329-db66-ed89-5d6e-b57f7fdd6753@google.com>
-References: <20261030-maintainers-v1-0-97278f8a5f54@kernel.org> <20261030-maintainers-v1-2-97278f8a5f54@kernel.org> <b04d8d01-b42d-d948-b7b8-c360f8ec6002@google.com> <c301fb04-1144-4ec9-a41e-3c98fb569e0b@kernel.org>
+	by smtp.kernel.org (Postfix) with ESMTPS id 9BE2D1F000C1;
+	Tue,  3 Nov 2026 18:19:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793729942;
+	bh=IhcsKsF4c4Bor6ZjDZme0cgeE1Ch/I0WodiVCA7SelM=;
+	h=From:Date:Subject:To:Cc:Reply-To;
+	b=ByKGCdBKMXljtwAZqJi5rrb3qtF2/R7MVUIh2EI8Osf03XSxwhHjMLu7LYcqr421l
+	 gSgowfrxS5REw+1hN9gFdsCKX6AsA6S0O9Q2IfMsSZJqeRs9B24b1lL9bHh0l/+GrQ
+	 a+/uFHPgSWMx0ESjvukwUpJcW1j9wj/8qLqpxj4h+hs6ylQin4WyBx3CM35wz7mzTH
+	 PzJK5RLKB2LjaI6fC5eSRDow/+9jRRu6P84hV7ajNv6UJQRiSl1UzrWAOE1RttYZI1
+	 ozltsMuTixIPRjEVR1OupwlERBbCiskB08Ik4gjlgose7ZFRfFARzI8hvxjUy5/7Tb
+	 PAf/2tc/oFs/g==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 0029346A51;
+	Tue,  3 Nov 2026 18:19:00 +0000 (UTC)
+From: Mani Tofigh via B4 Relay <devnull+mt4022.columbia.edu@kernel.org>
+Date: Tue, 03 Nov 2026 13:19:01 -0500
+Subject: [PATCH] eventpoll: wake the next waiter when a woken waiter is
+ killed
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -130,21 +83,105 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261103-epoll-killed-waiter-v1-1-36e08c16b8a2@columbia.edu>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMSwqDMBRG4a3IHfdCorZCt1I6SPRXbw0qiS8Q9
+ 260w29wzk4BXhDonezksUiQoY/Qj4TK1vQNWKpoSlX60lpljHFwjjtxDhWvRiZ4NrktapspPPO
+ CYjl61LLd18/37zDbH8rpWtFxnFu4jhp3AAAA
+X-Change-ID: 20261103-epoll-killed-waiter-a4b7fb30e547
+To: Christian Brauner <brauner@kernel.org>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: Jan Kara <jack@suse.cz>, David Rientjes <rientjes@google.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, linux-fsdevel@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, tz2294@columbia.edu, stable@vger.kernel.org, 
+ Mani Tofigh <mt4022@columbia.edu>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1793729940; l=2916;
+ i=mt4022@columbia.edu; s=20261026; h=from:subject:message-id;
+ bh=E8yisygosXMPs5dY2TbIReZZXoa4ZP3lxybfZT/nZno=;
+ b=aPmE12Nzr0ZXZzOHh4n1Njq5Crq6XBaG7njn8SMGIP/JOD/Z9dC6jXRYiGqBowMARDfU0qXSn
+ 0Y0LS0MWt62BJgfbMUG/9E4thuifNVP9VcCUMfJ3FCiwqBw1O9hHd/d
+X-Developer-Key: i=mt4022@columbia.edu; a=ed25519;
+ pk=gljCMQDuxyKPmd5y37CRpEJGSPXDV1MyAnHBhCgXl0I=
+X-Endpoint-Received: by B4 Relay for mt4022@columbia.edu/20261026 with
+ auth_id=1322
+X-Original-From: Mani Tofigh <mt4022@columbia.edu>
+Reply-To: mt4022@columbia.edu
+Content-Transfer-Encoding: 7bit
 
-On Tue, 3 Nov 2026, David Hildenbrand (Arm) wrote:
-> On 11/3/26 09:27, Hugh Dickins wrote:
-...
-> > "SHARED MEMORY": should ipc/shm.c be added to our list of files below,
-> > as mm/memfd.c is? (Though both can also go off to hugetlbfs instead.)
-> > Or do you prefer to regard ipc/shm.c more as a client of mm/shmem.c,
-> > rather as drivers/gpu/drm is?
-> 
-> I would consider it more of a client indeed. memfd started out as a client as
-> well, but things escalated a bit ... :)
-> 
-> I see that Andrew is assigning it its own section, is that good enough for you?
+From: Mani Tofigh <mt4022@columbia.edu>
 
-Sure, thanks.
+Processes sharing an epoll instance can sleep forever while an event is
+ready.  An event wakes only one waiter, which then wakes the next one in
+ep_done_scan() if events are still ready.  Since commit c257a340ede0
+("fs, epoll: short circuit fetching events if thread has been killed"),
+ep_send_events() returns before the scan when the waiter has a fatal
+signal.  If the woken waiter is killed before it runs, nobody wakes the
+next one:
 
-Hugh
+  Task A                     Task B                 Task C
+  epoll_wait(ep, -1)         epoll_wait(ep, -1)
+                                                    write(efd)
+                                                      /* wakes A only */
+                                                    kill(A, SIGKILL)
+  ep_send_events()
+    return -EINTR
+      /* skips ep_done_scan() */
+                             /* still asleep */
+
+B then sleeps until another file on the instance becomes ready, if ever.
+This can hit eg a pre-fork server whose worker gets OOM killed.  Commit
+7fab29e35630 ("fs/epoll: restore waking from ep_done_scan()") fixed the
+same kind of hang when the wakeup in ep_done_scan() was removed.
+
+Keep the early return so that a dying task still doesn't take events
+nobody will see, but wake the next waiter there if events are ready, as
+ep_done_scan() would have.  With the fix, B gets the event.
+
+This bug was identified and confirmed with the help of a deterministic
+hypervisor currently under development.  The C reproducer below however
+hits it within about 2s.
+
+Fixes: c257a340ede0 ("fs, epoll: short circuit fetching events if thread has been killed")
+Cc: stable@vger.kernel.org
+Signed-off-by: Mani Tofigh <mt4022@columbia.edu>
+---
+Reproducer: https://github.com/manitofigh/files/blob/main/linux-repros/epollkill.c
+---
+ fs/eventpoll.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/fs/eventpoll.c b/fs/eventpoll.c
+index 7a32c70bf2ad..b959af04772c 100644
+--- a/fs/eventpoll.c
++++ b/fs/eventpoll.c
+@@ -2144,10 +2144,17 @@ static int ep_send_events(struct eventpoll *ep,
+ 	/*
+ 	 * Always short-circuit for fatal signals to allow threads to make a
+ 	 * timely exit without the chance of finding more events available and
+-	 * fetching repeatedly.
++	 * fetching repeatedly. The wakeup that got us here may have been the
++	 * only one for the events on ->rdllist, so pass it on to the next
++	 * waiter, as ep_done_scan() would have.
+ 	 */
+-	if (fatal_signal_pending(current))
++	if (fatal_signal_pending(current)) {
++		spin_lock_irq(&ep->lock);
++		if (!list_empty(&ep->rdllist))
++			wake_up(&ep->wq);
++		spin_unlock_irq(&ep->lock);
+ 		return -EINTR;
++	}
+ 
+ 	init_poll_funcptr(&pt, NULL);
+ 
+
+---
+base-commit: a522dd871024a0f065bfa7638afdb929607f58fc
+change-id: 20261103-epoll-killed-waiter-a4b7fb30e547
+
+Best regards,
+--  
+Mani Tofigh <mt4022@columbia.edu>
+
+
