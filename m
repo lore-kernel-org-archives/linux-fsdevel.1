@@ -1,67 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.205.69.214
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793740550;
-	b=01fC4JK19bbpVfSLO375HCyzUAR+oy+CCgiG2FeQ0F756sWK2kkXHuRnmODgwy5dKj6i
-	 60UYJ6jCl4UepeSq/jZrBTOZ9mqMueQFo9dxoWW65p+wIk3ZOIIGWkHEeEkQcgQlUdFjK
-	 L43SF9BiFUL4K1SbYN1PrNOhJ2ayS0ADYHjz7VHrxCvoctBKG1lHSs+tA4uIdIQBp76F/
-	 6CspJceDqqUWyVx8Xr2SjCyg3VckpOSbBL6XbPqdFGrWQWO0wsl7GweFRLhQADS1cHBwO
-	 uk8BRLECNxmDhlOlp9pv4NXSgO2Y9+uharjll3bxjc1R/u12Qr0amwW086axMzFf2xQ==
+	t=1793740677;
+	b=Oc3fw9hSNEMBeKW/FstmxyZNDoXjlgtwcMrgkS9RQpX/a/ovQAahAWbijb64CtwfmF3x
+	 MDqdyixK58LKmrwFDE1xC6Mys7ZVKAhXSCdVJZUeNJk2aEAu7ocNthi/1ElhFMex1qkI9
+	 Dzzh7CvUBoxi8plZqi9yMGxk2r9l/biOcQwyPkic2wnRfR+hFYEFCmjU9tUP1Py9YH74P
+	 4OYejs+GFcODGspMRuHuaakmaBikG7s7foltmT6LMqSZhKh2N+Fg496k2P4YyWTm1QOD2
+	 aREb6gI5IejeuwC33sl1CAiAYMZvOudZ7KwWoluRBcDnxaWxc1lLzyGhj+r/qVwDc2A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793740550;
-	h=DMARC-Filter:Received:DKIM-Signature:Date:From:To:Cc:Message-ID:
-	 In-Reply-To:References:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Feedback-ID;
-	bh=9QvwDe2pbK2HA+wOCAGGL4tpUQfzlDWgHgHLwpHl2Ak=;
-	b=krLN7Gd57D4axPxtT6XPaANMU3ZyS/dfwXMJIDq5sTkIAtxTDqCB/19b7GIseBxR5794
-	 nEJ+O8IkvNmuU/MEnWiiePrfRqGihCr+U5tVK+QZLX0pjVTAC5E4pZv4kVBKWP4u5dFYE
-	 Oat+g2vccnO7xd9tRbfyCEWWnUZDTQL4XJ2WipCUxbkLA0Rcubq08EZUCMlYMybwPsMD7
-	 nd/LSZ/n0XYfEDzQPR5fPn6y/Tf6Dz166tePZFWKZzUya9kqZdgmrxSBa888m19Mn3Ko+
-	 Sxbdnbkyj7F2UGNAJnh9+FY4ysRYLFiQNsH0O5A+mhHnoB+GiA0ZA+0NDtoScxFFfFw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793740677;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
+	bh=6HFvT67o+TI6VMILL8krBuuNC43u0v42N0ht6ClypRA=;
+	b=FWImY2hr5yoIGcgw2cBhHxx8Zdz1nXdqaYJbM9ZueLgjwlYktbXnR19jHVN9isVg83wo
+	 JY+wMkdWBu7NI+JWA8EqFnh24Ehaq5OtHJX3KhXcR1S7aMbhHgeGUIZVq3EDXKteEQFTs
+	 y1tyD/LSVOY/MgD57M2DcV2Hq7JJLc15ST7vUl3It+bYsdNFFiqSjTQyaLaz1Tm9GoAun
+	 vTONSTVisc4n1UiVE58m9h3zU4OGMrS5HanRhu8cAL0jPO2LNqXx6OQAVgUn09ReLurfc
+	 XRCBNmEy3DDDEkwZUVxZKnE+DW8M3YLurSLiToOu7QXgB6SftcySoL4Lmn3QMh2nmHA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=tuta.io;
-	spf=pass smtp.mailfrom=tuta.io;
-	dkim=pass header.d=tuta.io header.i=@tuta.io header.a=rsa-sha256 header.s=s1 header.b=eWcphyh7;
-	arc=none smtp.remote-ip=185.205.69.214
-Received: from mail.w14.tutanota.de (mail.w14.tutanota.de [185.205.69.214])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=R6xv9O18;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE20B606A326
-	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Nov 2026 21:15:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CE20B606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuta.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuta.io
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27BF4606A32F;
+	Tue,  3 Nov 2026 21:17:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=tuta.io header.i=@tuta.io header.a=rsa-sha256 header.s=s1 header.b=eWcphyh7
-Received: from tutadb.w10.tutanota.de (w10.api.tuta.com [IPv6:fd:ac::d:10])
-	by mail.w14.tutanota.de (Postfix) with ESMTP id 2266D1A20453D
-	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Nov 2026 22:15:48 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1793740547;
-	s=s1; d=tuta.io;
-	h=From:From:To:To:Subject:Subject:Content-Description:Content-ID:Content-Type:Content-Type:Content-Transfer-Encoding:Content-Transfer-Encoding:Cc:Cc:Date:Date:In-Reply-To:In-Reply-To:MIME-Version:MIME-Version:Message-ID:Message-ID:Reply-To:References:References:Sender;
-	bh=9QvwDe2pbK2HA+wOCAGGL4tpUQfzlDWgHgHLwpHl2Ak=;
-	b=eWcphyh7WZcLHAGVZAm75BZVL0A2H2ksutEhOj4bomchIho4/mwz1C2Zyhmee3KO
-	G26rDhC1CJQTlfoqDUm9HItd19jcGmt7nGOJhnFTb8gZONSQl9O50itX8sGl8bTAUu8
-	2/mvEdi69qfTAUAGXxq5gYrHtjDk9XbcYyxfNtDiCsektUSgeiP5VjigeDS338/YaHV
-	ORt3X4z+ojuelqsO+9FO8CDsB8YlHnmZ3Xy0LzS3erIv2fEurVvu5gVEWH2zvISlbAD
-	/DAod7A+aeGNp8D1oUFqCmZgSZ3/SVtSQ8rg/bUKZBxcv4JxIjSEV/JbYE7P/7uhSe9
-	bGRuvuwDtw==
-Date: Tue, 3 Nov 2026 22:15:47 +0100 (CET)
-From: Edvard Conrad <edvard@tuta.io>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"linux-unionfs@vger.kernel.org" <linux-unionfs@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"stable@vger.kernel.org" <stable@vger.kernel.org>,
-	Edvard Conrad <edvard@tuta.io>
-Message-ID: <P5YG9Nx--N-9@tuta.io>
-In-Reply-To: <CAOQ4uxjYX+A_xRBmfj40hmAcuQXwW4JPUmhJ9bx5ymSr0QoDnw@mail.gmail.com>
-References: <P58Wrer--F-9@tuta.io> <20261030-welpen-anbinden-nullen-b2432cee1d10@brauner> <CAOQ4uxjm=cGPnug18VuhKqiMvkWwLPNLO_TE3KxO8iLZG+veYQ@mail.gmail.com> <P5Qu3co--N-9@tuta.io> <CAOQ4uxh67+vs0mr-Lxmwz9-N+F8m29WUNz+8qFLLDpOVYB7=vg@mail.gmail.com> <P5WV0VL--F-9@tuta.io> <CAOQ4uxjYX+A_xRBmfj40hmAcuQXwW4JPUmhJ9bx5ymSr0QoDnw@mail.gmail.com>
-Subject: Re: [PATCH v3] fs: let backing files inherit FMODE_NONOTIFY from
- the user file
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=R6xv9O18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84C361F000C1;
+	Tue,  3 Nov 2026 21:17:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793740676;
+	bh=6HFvT67o+TI6VMILL8krBuuNC43u0v42N0ht6ClypRA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=R6xv9O189toZnNtMOFLE7eGtRnp6nZKcRayCIILy1wQl8VBsjFzP1XLms8CplwP2l
+	 MLC1vq4UQ0Ls+BesRL7C6QcIuzlM3tSnJz6TSdc0xHnRT+d0LFrfv9hnbSXlET2MGv
+	 Mp8Fbzt9jGqeDWOYVuD5a9gZsDzoTpT1ZKPN1kn31e9M0KaBFMi6Z5UhsbCOK9kyp8
+	 uwKJHuJkzNoWtqUt1d4Dq+2NwJD8vK/yJub2UDLLqbDlblS1jajahTlMVj82lO/nvz
+	 A9M1McdlB56pXOUMRltRAppTRIc1sEuhw6hbd8vqk3tSpLxv0fxAm4PlXikeTPVhFf
+	 rAXX7h22u8yTg==
+From: Mike Snitzer <snitzer@kernel.org>
+To: Matthew Wilcox <willy@infradead.org>,
+	linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org
+Cc: Chuck Lever <cel@kernel.org>,
+	Jeff Layton <jlayton@kernel.org>,
+	linux-nfs@vger.kernel.org,
+	NeilBrown <neil@brown.name>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Dai Ngo <Dai.Ngo@oracle.com>,
+	Tom Talpey <tom@talpey.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Jens Axboe <axboe@kernel.dk>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v10 1/7] mm: move clearing the uncached flag of a found folio into a helper
+Date: Tue,  3 Nov 2026 16:17:48 -0500
+Message-ID: <20261103211754.35352-2-snitzer@kernel.org>
+X-Mailer: git-send-email 2.44.0
+In-Reply-To: <20261103211754.35352-1-snitzer@kernel.org>
+References: <20261103211754.35352-1-snitzer@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -71,15 +68,69 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Feedback-ID: 0127f977f5e13e8051b46c6e7f57d0f95a0470d24b79d7c31d07fdf611cc427ab823e0f4692a810119c92d8768973a9281:TurnOnPrivacy!:tutamail
+Content-Transfer-Encoding: 8bit
 
-On Tue, Nov 3, 2026 at 3:46 PM Amir Goldstein <amir73il@gmail.com> wrote:
-> Right, I was being sloppy.
-> Thanks for the fixes.
-> I added Co-developed-by to attribute your contributions to this fix.
+Move the code in __filemap_get_folio_mpol() that clears PG_dropbehind
+on a folio found by a cached lookup, and takes the folio off
+WB_DONTCACHE_DIRTY, into filemap_clear_dropbehind().  No functional
+change.  The next patch changes the helper.
 
-Cool!
+Signed-off-by: Mike Snitzer <snitzer@kernel.org>
+---
+ mm/filemap.c | 33 ++++++++++++++++++++-------------
+ 1 file changed, 20 insertions(+), 13 deletions(-)
 
-Signed-off-by: Edvard Conrad <edvard@tuta.io>
+diff --git a/mm/filemap.c b/mm/filemap.c
+index b74bc1e5015c6..c75f49563b74b 100644
+--- a/mm/filemap.c
++++ b/mm/filemap.c
+@@ -1945,6 +1945,24 @@ void *filemap_get_entry(struct address_space *mapping, pgoff_t index)
+ 	return folio;
+ }
+ 
++/* Clear the uncached flag of a folio that a cached lookup found. */
++static void filemap_clear_dropbehind(struct address_space *mapping,
++				     struct folio *folio)
++{
++	if (!folio_test_clear_dropbehind(folio))
++		return;
++	if (folio_test_dirty(folio) && mapping_can_writeback(mapping)) {
++		struct inode *inode = mapping->host;
++		struct bdi_writeback *wb;
++		struct wb_lock_cookie cookie = {};
++		long nr = folio_nr_pages(folio);
++
++		wb = unlocked_inode_to_wb_begin(inode, &cookie);
++		wb_stat_mod(wb, WB_DONTCACHE_DIRTY, -nr);
++		unlocked_inode_to_wb_end(inode, &cookie);
++	}
++}
++
+ /**
+  * __filemap_get_folio_mpol - Find and get a reference to a folio.
+  * @mapping: The address_space to search.
+@@ -2076,19 +2094,8 @@ struct folio *__filemap_get_folio_mpol(struct address_space *mapping,
+ 	if (!folio)
+ 		return ERR_PTR(-ENOENT);
+ 	/* not an uncached lookup, clear uncached if set */
+-	if (!(fgp_flags & FGP_DONTCACHE) && folio_test_clear_dropbehind(folio)) {
+-		if (folio_test_dirty(folio) &&
+-		    mapping_can_writeback(mapping)) {
+-			struct inode *inode = mapping->host;
+-			struct bdi_writeback *wb;
+-			struct wb_lock_cookie cookie = {};
+-			long nr = folio_nr_pages(folio);
+-
+-			wb = unlocked_inode_to_wb_begin(inode, &cookie);
+-			wb_stat_mod(wb, WB_DONTCACHE_DIRTY, -nr);
+-			unlocked_inode_to_wb_end(inode, &cookie);
+-		}
+-	}
++	if (!(fgp_flags & FGP_DONTCACHE))
++		filemap_clear_dropbehind(mapping, folio);
+ 	return folio;
+ }
+ EXPORT_SYMBOL(__filemap_get_folio_mpol);
+-- 
+2.52.0
+
