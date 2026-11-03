@@ -1,74 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.254.224.34
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.254.224.24
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793705704;
-	b=taxB2wfeQB9ZqUl6hxmfME4P1kcplIliguxQKyXXhoIRZeeB0DYqUtOws8hkREzcpik/
-	 9qQ0xkEoCWXyRhDPXTGcBoFSeRYvv++ML838spSenhP6ifgutASSDM23U6jwsyCkUXMRG
-	 pNSV9s7ms06l3zSRvnltupDVdcbFZT60YEbta9wspL3aydXAtaj92nJ7i5KDfvNkgm227
-	 EYbFaskILHBEwGRk2ux/fiF/prxB4yJeAKa5ofYtsOtGWofsch2lulPyAoNJJEPCTZppn
-	 Aq82BfTwudmYwFc2yXQunpytCbD5O37bmMT4KeOw7X57t6d4saJnyKSJHn+fBMjY45Q==
+	t=1793705707;
+	b=WDw+HrTyRGt74Xe2FINbRdJT5MzEni4IkxReEXVCl0BnrcLtsYNjyl1W5Bw7YiSPEerR
+	 JTNU2w9Ki8SpQ1P1CpKnt684I+bszbzm3lcUuSgxL80N6O4ncgjZG4Irqz0tJ+shElKYH
+	 HIl7KjNv6KWF6tjpdAZqHWy6lu2ZgZi8s5rxhR0rDQaGAKYxIq54OUzwwJ6QxfHQyCzIK
+	 y7Mj53fQhQXrMImeJ7VJNHAAwxcukqhh8TeoYaVOdeVBKjCnpUIszTIDLV3NmFeFxTNS4
+	 zgwGlVKT2+ZqN0PdUaTG30KhEeiQhxH6SQNeOwBhnAbmSC9+3akagFp3i3d3VKnudGw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793705704;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793705707;
 	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Received:Received:
 	 Received:Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:
 	 In-Reply-To:MIME-Version:Content-Transfer-Encoding:X-CMS-MailID:
 	 X-Msg-Generator:Content-Type:X-Sendblock-Type:CMS-TYPE:cpgsPolicy:
 	 X-CFilter-Loop:X-CMS-RootMailID:References;
-	bh=7kvLtEcUFWV27Al6391r2MqyY6+HAB1RORyRQo09H8E=;
-	b=Bs23XBMoOTn9h2sYazm+Cw2BgDKC0juol5WaB3O99k+f1KwMwL5JRGIXRD7C3P452/ty
-	 CTNNrIt7TJxiec/3ZM4PwKxyMLdHFJTFhJ288ILOMKa94ufr+3cNJbh38r75p5AiJZfL5
-	 AHvsFBUVivTSzFfMsZBvOprLLikmSU+bdZYw5jfrdXO6QO7SSPGZOkhZIAs9BDRRCUwCw
-	 qWo74pbmqKgQGwkyL5zdHpDis5AUrPx+9342WdGIbSPk+9/bVzDrkcrPpxK8PKxhaDJ46
-	 p7VLYLF5My6kPB11Xl93+wEMvzmoC0TRACZfeUM07I51LnRF6SV986bl5yi+dAKLODw==
+	bh=CAI1h5YO8LYTf9x/LoRpduAEOlD23JNm6Y6TXo0PMN8=;
+	b=2mYL4sYQI6NzatRNxFY/d2ds8TytboS42uTG4diFSoR5Y29qoRcHNcR1UhgUXqiU/JSS
+	 Y2xz2RqwxOM+8dWi105oFT82dZU7vWtTzJcwyLsk3/cZETymM4BEIrX3JocqIt/AAwh9W
+	 Xmo6f6FTHOU+QOKYkyhZYEIY3ZbRbEZCsMUGFDUxQFZiX+FlSpwDDLl1/Jzca2GO+bw9N
+	 azBblU8NOidpst67fL6DDDF5ou3NxKUJS7z8gfO8lXyoC65Ly895CnaidP8c9Xe/A53iu
+	 GbPqYd/fgOFxgwKxr8PJXh7wtkgTf/nJGK/wEWpzcF0VLvH6Vf/t0RTwaskjwSyzRPQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=samsung.com;
 	spf=pass smtp.mailfrom=samsung.com;
-	dkim=pass header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=vH2iL8GL;
-	arc=none smtp.remote-ip=203.254.224.34
-Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
+	dkim=pass header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=WNE8mjBZ;
+	arc=none smtp.remote-ip=203.254.224.24
+Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B708606A333
-	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Nov 2026 11:35:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4B708606A333
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72173606A329
+	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Nov 2026 11:35:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 72173606A329
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=vH2iL8GL
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20261103113501epoutp04a6f79367a66933dccd11bcaa29392f31~khdUKGCnt2180521805epoutp04D
-	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Nov 2026 11:35:01 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20261103113501epoutp04a6f79367a66933dccd11bcaa29392f31~khdUKGCnt2180521805epoutp04D
+	dkim=pass (1024-bit key, unprotected) header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=WNE8mjBZ
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20261103113459epoutp01c78a7ce14247f040039439dec932f719~khdR9kUV62758427584epoutp01I
+	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Nov 2026 11:34:59 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20261103113459epoutp01c78a7ce14247f040039439dec932f719~khdR9kUV62758427584epoutp01I
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1793705701;
-	bh=7kvLtEcUFWV27Al6391r2MqyY6+HAB1RORyRQo09H8E=;
+	s=mail20170921; t=1793705699;
+	bh=CAI1h5YO8LYTf9x/LoRpduAEOlD23JNm6Y6TXo0PMN8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=vH2iL8GL8BEd8Lo0eK9q/S68EVO0JGKWRhnyOl9VxYZlaHYFmzw2GZ/l2XC9AKrFU
-	 oL9Pxv1ZsqS1oLNpCmg3jz4Uy5bnwaSNA1IxNywTBxxEcsY15dbESbEsEkIJSLBSzu
-	 60mYPLNLU96oLbMB/Q1Oq8rd4XnxOIxWhv+aZqEE=
-Received: from epsnrtp03.localdomain (unknown [182.195.42.155]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPS id
-	20261103113500epcas5p263c45966042ac0beb222925e49a8a183~khdTguhwS2045420454epcas5p2s;
-	Tue,  3 Nov 2026 11:35:00 +0000 (GMT)
-Received: from epcas5p2.samsung.com (unknown [182.195.38.93]) by
-	epsnrtp03.localdomain (Postfix) with ESMTP id 4jJmhN1w97z3hhT3; Tue,  3 Nov
-	2026 11:35:00 +0000 (GMT)
+	b=WNE8mjBZ3JZZUBozjLcKmUzHC6gTnDqWkErehE9RooN7CjX4WNLzQQ+CapF7EIwIO
+	 XqTV9fUx5TNuOBh4QUxKySrbcBRCwv+XNeIn4BvWJX+qfkT9zJ1BLhaF91qRbpzGh5
+	 JemPQl0X/3Avak6ZM1ry9wpRP9rkkFOlwplal2JQ=
+Received: from epsnrtp04.localdomain (unknown [182.195.42.156]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPS id
+	20261103113458epcas5p483f3e741ee13e8c0486942ff7914ee74~khdRVrQgz1832818328epcas5p4L;
+	Tue,  3 Nov 2026 11:34:58 +0000 (GMT)
+Received: from epcas5p3.samsung.com (unknown [182.195.38.89]) by
+	epsnrtp04.localdomain (Postfix) with ESMTP id 4jJmhK6Scbz6B9m7; Tue,  3 Nov
+	2026 11:34:57 +0000 (GMT)
 Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
-	20261103111027epcas5p1745017df1726b954a346a78773bc203d~khH3Hvlin1605716057epcas5p1L;
-	Tue,  3 Nov 2026 11:10:27 +0000 (GMT)
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20261103111024epcas5p3ebaf05995f2105fa7c41239296ebf894~khH00Q2043164131641epcas5p3H;
+	Tue,  3 Nov 2026 11:10:24 +0000 (GMT)
 Received: from localhost.localdomain (unknown [107.99.41.245]) by
 	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20261103111024epsmtip1d2033ae8dece34f2e29cdd726027c54c~khH0xCqZI2454324543epsmtip1N;
-	Tue,  3 Nov 2026 11:10:24 +0000 (GMT)
+	20261103111022epsmtip12546f0e60f7cbd38fc9f7b2ee147567d~khHyxcGMq2962229622epsmtip1P;
+	Tue,  3 Nov 2026 11:10:22 +0000 (GMT)
 From: Anuj Gupta <anuj20.g@samsung.com>
 To: brauner@kernel.org, hch@lst.de, djwong@kernel.org, dgc@kernel.org,
 	cem@kernel.org, jack@suse.cz, axboe@kernel.dk, kbusch@kernel.org
 Cc: linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
 	gost.dev@samsung.com, Anuj Gupta <anuj20.g@samsung.com>, Kanchan Joshi
 	<joshi.k@samsung.com>
-Subject: [PATCH v7 2/8] fs: add generic write-stream management
-Date: Tue,  3 Nov 2026 16:36:34 +0530
-Message-Id: <20261103110640.1000095-3-anuj20.g@samsung.com>
+Subject: [PATCH v7 1/8] fs: add write-stream management ioctls
+Date: Tue,  3 Nov 2026 16:36:33 +0530
+Message-Id: <20261103110640.1000095-2-anuj20.g@samsung.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20261103110640.1000095-1-anuj20.g@samsung.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -81,233 +81,68 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20261103111027epcas5p1745017df1726b954a346a78773bc203d
+X-CMS-MailID: 20261103111024epcas5p3ebaf05995f2105fa7c41239296ebf894
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
 X-Sendblock-Type: REQ_APPROVE
 CMS-TYPE: 105P
 cpgsPolicy: CPGSC10-542,Y
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20261103111027epcas5p1745017df1726b954a346a78773bc203d
+X-CMS-RootMailID: 20261103111024epcas5p3ebaf05995f2105fa7c41239296ebf894
 References: <20261103110640.1000095-1-anuj20.g@samsung.com>
-	<CGME20261103111027epcas5p1745017df1726b954a346a78773bc203d@epcas5p1.samsung.com>
+	<CGME20261103111024epcas5p3ebaf05995f2105fa7c41239296ebf894@epcas5p3.samsung.com>
 
-Add a bitmap-based stream pool and anonymous fds for reserved streams.
-Helpers initialize and destroy a pool, reserve a stream as an fd, and
-resolve a stream fd back to its id.
+Add three ioctls for write stream management:
+
+  FS_IOC_WRITE_STREAM_GET_MAX  number of streams the filesystem offers
+  FS_IOC_WRITE_STREAM_ALLOC    reserve a stream, returns an fd
+  FS_IOC_WRITE_STREAM_SET      set or clear a stream on a file
+
+Write streams are a resource the kernel manages and applications ask
+for.
+
+ALLOC reserves a stream and returns a stream fd; the stream stays
+reserved as long as that fd is open. ALLOC fails once all streams are
+reserved.
+
+SET assigns the stream named by the stream_fd in struct
+fs_write_stream_set to an open file; the same stream fd can be used to
+set the stream on any number of files. SET with FS_WRITE_STREAM_SET_CLEAR
+and a stream_fd of -1 clears whatever stream the file carries.
 
 Suggested-by: Christoph Hellwig <hch@lst.de>
-Suggested-by: Darrick J. Wong <djwong@kernel.org>
 Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
 Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
 ---
- fs/Makefile                   |   2 +-
- fs/write_streams.c            | 142 ++++++++++++++++++++++++++++++++++
- include/linux/write_streams.h |  33 ++++++++
- 3 files changed, 176 insertions(+), 1 deletion(-)
- create mode 100644 fs/write_streams.c
- create mode 100644 include/linux/write_streams.h
+ include/uapi/linux/fs.h | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/fs/Makefile b/fs/Makefile
-index 16f1108b64e1..2a6d5f98cfc9 100644
---- a/fs/Makefile
-+++ b/fs/Makefile
-@@ -23,7 +23,7 @@ obj-$(CONFIG_PROC_FS)		+= proc_namespace.o
- obj-$(CONFIG_LEGACY_DIRECT_IO)	+= direct-io.o
- obj-y				+= notify/
- obj-$(CONFIG_EPOLL)		+= eventpoll.o
--obj-y				+= anon_inodes.o
-+obj-y				+= anon_inodes.o write_streams.o
- obj-$(CONFIG_SIGNALFD)		+= signalfd.o
- obj-$(CONFIG_TIMERFD)		+= timerfd.o
- obj-$(CONFIG_EVENTFD)		+= eventfd.o
-diff --git a/fs/write_streams.c b/fs/write_streams.c
-new file mode 100644
-index 000000000000..4c7ad3198bb9
---- /dev/null
-+++ b/fs/write_streams.c
-@@ -0,0 +1,142 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/* Generic write-stream fd management. */
-+#include <linux/anon_inodes.h>
-+#include <linux/bitmap.h>
-+#include <linux/err.h>
-+#include <linux/file.h>
-+#include <linux/fs.h>
-+#include <linux/mount.h>
-+#include <linux/slab.h>
-+#include <linux/write_streams.h>
-+
-+struct write_stream {
-+	struct write_stream_pool	*pool;
-+	struct vfsmount			*mnt;	/* pins the mount */
-+	u16				id;	/* 1-based slot number */
+diff --git a/include/uapi/linux/fs.h b/include/uapi/linux/fs.h
+index a46c33692aa2..4a20ceb4e742 100644
+--- a/include/uapi/linux/fs.h
++++ b/include/uapi/linux/fs.h
+@@ -345,6 +345,21 @@ struct file_attr {
+ /* Get logical block metadata capability details */
+ #define FS_IOC_GETLBMD_CAP		_IOWR(0x15, 2, struct logical_block_metadata_cap)
+ 
++struct fs_write_stream_set {
++	__s32		stream_fd;	/* IN: stream to attach, -1 to clear */
++	__u32		flags;		/* IN: FS_WRITE_STREAM_SET_* */
 +};
 +
-+static int write_stream_release(struct inode *inode, struct file *file)
-+{
-+	struct write_stream *ws = file->private_data;
++/* Clear the file's write stream. Requires stream_fd to be -1. */
++#define FS_WRITE_STREAM_SET_CLEAR	(1U << 0)
 +
-+	/* ws->mnt keeps the pool alive until the mntput() below */
-+	spin_lock(&ws->pool->lock);
-+	__clear_bit(ws->id - 1, ws->pool->streams_in_use);
-+	spin_unlock(&ws->pool->lock);
-+	mntput(ws->mnt);
-+	kfree(ws);
-+	return 0;
-+}
-+
-+static const struct file_operations write_stream_fops = {
-+	.release	= write_stream_release,
-+	.llseek		= noop_llseek,
-+};
-+
-+/**
-+ * write_stream_pool_init - size a write stream pool
-+ * @pool: pool to initialise
-+ * @nr: number of slots, may be zero, at most U16_MAX
-+ *
-+ * Return: 0, -EINVAL if @nr is too large, or -ENOMEM if the bitmap cannot be
-+ * allocated.
++/* GET_MAX returns the count through its argument; ALLOC returns a stream fd
++ * as the ioctl return value and takes none.
 + */
-+int write_stream_pool_init(struct write_stream_pool *pool, unsigned int nr)
-+{
-+	spin_lock_init(&pool->lock);
-+	pool->streams_in_use = NULL;
-+	pool->nr_streams = 0;
++#define FS_IOC_WRITE_STREAM_GET_MAX	_IOR(0x15, 3, __u32)
++#define FS_IOC_WRITE_STREAM_ALLOC	_IO(0x15, 4)
++#define FS_IOC_WRITE_STREAM_SET		_IOW(0x15, 5, struct fs_write_stream_set)
 +
-+	if (nr > U16_MAX)
-+		return -EINVAL;
-+	if (!nr)
-+		return 0;
-+
-+	pool->streams_in_use = bitmap_zalloc(nr, GFP_KERNEL);
-+	if (!pool->streams_in_use)
-+		return -ENOMEM;
-+	pool->nr_streams = nr;
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(write_stream_pool_init);
-+
-+/**
-+ * write_stream_pool_destroy - free a write stream pool
-+ * @pool: pool to release
-+ */
-+void write_stream_pool_destroy(struct write_stream_pool *pool)
-+{
-+	bitmap_free(pool->streams_in_use);
-+	pool->streams_in_use = NULL;
-+	pool->nr_streams = 0;
-+}
-+EXPORT_SYMBOL_GPL(write_stream_pool_destroy);
-+
-+/**
-+ * write_stream_alloc_fd - reserve a slot and return an fd naming it
-+ * @pool: pool to reserve from; must live as long as the mount of @file
-+ * @file: file whose mount is pinned for the life of the stream
-+ *
-+ * Return: an O_RDONLY | O_CLOEXEC fd, -EOPNOTSUPP if the pool has no slots,
-+ * or -EBUSY if they are all taken.
-+ */
-+int write_stream_alloc_fd(struct write_stream_pool *pool, struct file *file)
-+{
-+	struct write_stream *ws;
-+	unsigned int slot;
-+	int fd;
-+
-+	if (!pool->nr_streams)
-+		return -EOPNOTSUPP;
-+
-+	ws = kzalloc_obj(*ws, GFP_KERNEL);
-+	if (!ws)
-+		return -ENOMEM;
-+
-+	spin_lock(&pool->lock);
-+	slot = find_first_zero_bit(pool->streams_in_use, pool->nr_streams);
-+	if (slot >= pool->nr_streams) {
-+		spin_unlock(&pool->lock);
-+		kfree(ws);
-+		return -EBUSY;
-+	}
-+	__set_bit(slot, pool->streams_in_use);
-+	spin_unlock(&pool->lock);
-+
-+	ws->pool = pool;
-+	ws->mnt = mntget(file->f_path.mnt);
-+	ws->id = slot + 1;
-+
-+	fd = anon_inode_getfd("[write_stream]", &write_stream_fops, ws,
-+			      O_RDONLY | O_CLOEXEC);
-+	if (fd < 0) {
-+		spin_lock(&pool->lock);
-+		__clear_bit(slot, pool->streams_in_use);
-+		spin_unlock(&pool->lock);
-+		mntput(ws->mnt);
-+		kfree(ws);
-+	}
-+	return fd;
-+}
-+EXPORT_SYMBOL_GPL(write_stream_alloc_fd);
-+
-+/**
-+ * write_stream_get_id - the id a stream file names
-+ * @file: candidate stream file
-+ * @pool: pool the stream must belong to, or NULL to accept any
-+ *
-+ * Return: the 1-based id, or -EINVAL if @file is not a stream file, or is
-+ * a stream of a different pool.
-+ */
-+int write_stream_get_id(struct file *file, const struct write_stream_pool *pool)
-+{
-+	struct write_stream *ws;
-+
-+	if (file->f_op != &write_stream_fops)
-+		return -EINVAL;
-+	ws = file->private_data;
-+	if (pool && ws->pool != pool)
-+		return -EINVAL;
-+	return ws->id;
-+}
-+EXPORT_SYMBOL_GPL(write_stream_get_id);
-diff --git a/include/linux/write_streams.h b/include/linux/write_streams.h
-new file mode 100644
-index 000000000000..d27f42df5984
---- /dev/null
-+++ b/include/linux/write_streams.h
-@@ -0,0 +1,33 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef _LINUX_WRITE_STREAMS_H
-+#define _LINUX_WRITE_STREAMS_H
-+
-+#include <linux/spinlock.h>
-+#include <linux/types.h>
-+
-+struct file;
-+
-+/*
-+ * Write stream slot pool, embedded in whatever filesystem object scopes
-+ * an id space.
-+ */
-+struct write_stream_pool {
-+	unsigned int		nr_streams;
-+	unsigned long		*streams_in_use;
-+	spinlock_t		lock;
-+};
-+
-+static inline unsigned int
-+write_stream_pool_count(const struct write_stream_pool *pool)
-+{
-+	return pool->nr_streams;
-+}
-+
-+int  write_stream_pool_init(struct write_stream_pool *pool, unsigned int nr);
-+void write_stream_pool_destroy(struct write_stream_pool *pool);
-+
-+int  write_stream_alloc_fd(struct write_stream_pool *pool, struct file *file);
-+int  write_stream_get_id(struct file *file,
-+			 const struct write_stream_pool *pool);
-+
-+#endif /* _LINUX_WRITE_STREAMS_H */
+ /*
+  * Inode flags (FS_IOC_GETFLAGS / FS_IOC_SETFLAGS)
+  *
 -- 
 2.25.1
 
