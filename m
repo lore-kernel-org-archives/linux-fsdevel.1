@@ -1,84 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793717872;
-	b=EIb4R+PNjrcPybHBAbp5SqTYznGVWyWB6/GuiyzDRN3DjsdLtPmtfU75THgwIe6uz7Cw
-	 qvAneiYPPQR79+6Pyp/jif6SJSOAQRHMxVixbSDf2BWXVdBed/JXh/gz3tv7Bt9eAVQAw
-	 TLK13ErhMg/7AnUwM1R0NZoRpPGzKlHWpDmCtPQvRwx9CMlKy3Ir/PomXSCdLy7bd/fJ9
-	 mZ8v6XJiAFXBwv/rp6nM/doQQRl59S1o2XIzD4sNI67WNZ/Z2WL/vVn3oOP9wXhK3a309
-	 Is6V0+BkoKFsyiv2wj3rqw5oVW4BAQDp20um6UgO5myDrJsY8z0T9kVtIAv2rWEdw7w==
+	t=1793717874;
+	b=gQLMLgf8dJhZdVhYfSSPDalbCEwfqY+7aqZIzS0s/mYDFIGKWI6G+M9mTVSB8WK29H3k
+	 DHUqFjtPyKz/BOwpUjjSgmrdsT139g2nAVcu3vE9YYFGsC0i0Nb5DhRvDM6tVzrgPV5b/
+	 HBpXXQAZkDu4/5M6WIhKgxfhzULdjVAmXvXPo5qJjH7PGxwM+fzUfuSjOc5HmPzx3xO4R
+	 1BnPY142bZMppDr3Pgmx03NQzaAJJVxIYFR+H1x7h9vwuB5Y0j29U+lNSp/SZ6YnKywA/
+	 +0fRjeQlA7+RD43eacrNJzzj3XqeeKPhF85J1islIJ8nxRRPUdExsnk2bhCkXNd9Jkw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793717872;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793717874;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=pYV20rPrJp1IkxIFXdFHHE13njY6A8crxl8/hatCo5E=;
-	b=i8hWhAQGpt0Sf76LMNC2KbJHdEMd1Pcf/4gzQnYqlma3YKO6OWwpFCZZL9y7lWBh2c6e
-	 i7QInC19YWy/mmD3jO0swjjMLt04hw82wjjNTIvztNekvQioURp2P3nsmaGJ4aJ7izMT0
-	 v9vC5ogrbiQAnPblI2r3kZHXpDht79hdfXDIOhvu30VwGPliFy5LM3nXS0yOQMTnUK1y3
-	 GOmJ2VXk2f7OwVKwMKtPZxpNDPvVE7AxoAX4IHGegJgVvoK/ag4iBdOZuolE673uqmN2T
-	 ZfIFbDogoxJFxCIRI7z2l1j6urf3MWvkfq5MTi5Wx/kSB/kDTc7xX0ijZykm5uuCARg==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=LwdbQhqCBt1cMRRxXVL4IPYjSgGmqDJIiXLG4fZ/Ljc=;
+	b=WhzqismKKQn87/s5S+NmKWPPeV3s1c6yv25UO4n+aRw0arr92m4ecl3jJJWSiS/0ollZ
+	 iOgXvKhfv0FoC7kzW4uItMnCabj3x9giZwJqLu3Xgu4wrc4rX4F+JjHG540iXaXvKoaHE
+	 5mfnnieVVPFZN7XCYJDYWrwenSllz+YAVW39clebb3Nmd+XqFSjePaAk6IPeZBBtK7vce
+	 UIEp1JgGeq0Qq38WXQ0RHKUnbhHSmuxs/v2bKBaYW91GtJoQ6Yq2TyiadnSWD2FgP1SPe
+	 KKyakck8JlDRfp+XwfGXQAuf9D2EERW4UJf4PbN1cycm9nLRHfGLzNwDDLXCcIWbh/w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=p6WV1j5x;
-	arc=none smtp.remote-ip=209.85.218.50
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=bxlk5gZ7;
+	arc=none smtp.remote-ip=209.85.208.41
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 276AD606BA00
-	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Nov 2026 14:57:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 276AD606BA00
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BE4A606BA3F
+	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Nov 2026 14:57:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9BE4A606BA3F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=p6WV1j5x
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-c3f8d72d7ceso706969766b.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 03 Nov 2026 06:57:51 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=bxlk5gZ7
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-6a642495d81so6474780a12.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 03 Nov 2026 06:57:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793717870; x=1794322670; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=pYV20rPrJp1IkxIFXdFHHE13njY6A8crxl8/hatCo5E=;
-        b=p6WV1j5xXG874wk7PArFP5ZRw4LM9P09fLU8fWNlvZNYsq6XeAmVW+axCc7BtE334Q
-         OLYWFYNZHOeXzV42UcwdRCoa87g2vb1tbBgTpbUGK1GyzD1MzRv7By7b4ET93hkze+1X
-         hWaAArnpALLpnihpMF53D8I7MR/Gu4mzaE5FgnJp2nfTWuRwTk0O7VE2qa6vTu/WR0ep
-         kM5s/s1XbhhW4QrB6/NsxlZGJYoJdhye6EzfYDEd8hAMBHrJgLXLdMkhwSU2OPQgdpZ8
-         RG2FvIWbDQmPS2kP2Vj52O9VhjSuNSZ1mpbotFjn6Kw9g1RdCaXFrdGOjAQzwfMGqo0L
-         WA9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793717870; x=1794322670;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20260707; t=1793717872; x=1794322672; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=pYV20rPrJp1IkxIFXdFHHE13njY6A8crxl8/hatCo5E=;
-        b=B+CgQj/T+M/icSt4C37ddHsaYJlCOdOJwS5VdgLUFdxK3eJBsgVr46w6xp1iY6P5re
-         lywZKcmnILQeqqbkF7UglDNItwpiqfar4zXymGXpxjiuTnrKDVN5rGtag/5KPJySlCtv
-         ke574u/GlzgOtPfQCNKw8dghaSLWQncJP+69P53Q0YBNZ5s2lRBsUDLABsqXgdZMkKzz
-         1nak8NzzTbygcda5eHmnVSIIrOuldahv1Nua4C9Nwg4DLkk/sMNp+mzwkecXt0KX2N3i
-         A3J0zf69qGXy/tru2kKpPGqZ/MFw7feMLabKxX7ZVLBGH2zz67GXdPI/v2L4QGla/IH2
-         DkSQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxPF5g+dE6q6Mc9UFMLXjshYm1xHleJ6k6ZJImXC9iGNSxX88Q73uaEBhpIfskK0incvI//nXWWkR3+J8m9@vger.kernel.org
-X-Gm-Message-State: APuU4Z/CSRfpOF0W1bdp01jVuJ2pynU0YBg/Kyj3jcWXCmlOjsoM2KiJ
-	zTLrl29ScrnVspM2snkFTI3pqrZGITQN5elHhjRDCv5+MTg2484YSsIw
-X-Gm-Gg: AYBFou0aX959fE4EuNgMQFmr3aj0pLM7cURY7C/efGS3gATTx4F7a7K3rejtN1gfHyd
-	20iv006D4ubUkzVWO+NtHWQkun7MaHN4WsrKW6QaJ8Mvu/um6DEzQFuesEGc9OaAZgQKaQInL0K
-	Wpj+ytBcgDYF1UsKtYiTP77Uv45xB+QGx35M8zhzVD9bog7Ph93m8iAJAstz93t+EUQaz23uTKd
-	D9qcp3Dktum+2dWIc4YZlHUd1jEx4CLSfpAjeJBWae9hVZLZaQJvnqpLvw9Pwrl4aZHmpPGVoWX
-	vUtm1PjcDBuf0uuFEsouPTRa/9kpBLVITX2zUHVJ2/LfIf7oDkUUHY9rbzyk+liU3SSFd/q+jWj
-	290G++wwp4aNpculdL5yuxeQWduKfBoycWGlTUxGEtRgZ4pYC2+xB5iK1u9LwQgbEFACPhZgl+j
-	kOAABrZ7JYopZQN6nvsBqap6sbHwB48GPb6yVr7eWB+KgwWL4znbk/3eEUcv7ZOxAI0h+Idm8qd
-	IHiXgnwr8d+tInS3UOFExKbG/4qCx4p5RlliNH9Lgze/dn/Mj/m64LE4lUkpe7CFTVtCWtwaJbj
-	A+CcBeilsZ+oKdfM2aCGjZhtQ3VnpsOuX0q5b0uV6nS4dOMX0POGsI2ieiGPDiaEHlMRQ54I6JM
-	pN31TKO5Gxk1IIV3QI85d1s7RR5wcmdEU6hXrzYjH0RCG4YUECTKrBAI2iLYCqgM9tZTsVsJSrg
-	dFumfUviQAJYM2WUNIreKaG8oiOO0XLW6YVMmH3m6xha2x8YWvMg==
-X-Received: by 2002:a17:907:7f90:b0:c49:bc1f:fe2d with SMTP id a640c23a62f3a-c4ca7a858f3mr1272502166b.28.1793717870207;
-        Tue, 03 Nov 2026 06:57:50 -0800 (PST)
+        bh=LwdbQhqCBt1cMRRxXVL4IPYjSgGmqDJIiXLG4fZ/Ljc=;
+        b=bxlk5gZ7j2wDbY2FpqTSBrqzWjsbr8APFVbSWw0I+JmsrO/oaxoaV6TjN/lTWgOe+P
+         d8ChztYi6dUw9BiZ6pcRrkHzG5zXx0+NALuiUaG33WeDIziBUDN4OpnxPDIF2LXGm8SH
+         /Zyq2hQ3RfC633AYYQLLImNbeGZz4LJBNEgc/Qg+xxMsqola5g/A7zOMEkrm/sbu/qOe
+         +WVS8hhsI7uQqf82foUwbHkWatd7ppOQy1repnnNtrlj5b68Sj+GXOCdEZGKZzAt9vp3
+         jYq8XDqp5HFIf7L7S4Ne3fQjPkwvUxkR/Fh739261X7HcuOWnkxhyZE3nFv28AQejhag
+         FCwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793717872; x=1794322672;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=LwdbQhqCBt1cMRRxXVL4IPYjSgGmqDJIiXLG4fZ/Ljc=;
+        b=mJNjEEZqzk6boADt6OXXnvkLgkZJmXDElK/I4m5Wrg7f4NTm7/WVtpT3zOTHmq3Nj0
+         qSlkRg66dWzspQGFtw00kDTzss9hSym9nEh3ddkKESJFSIYbsxy0XJ18U/NCO3i2N1Ve
+         CDX37816r5e7e84AkYaGcaJJJPLUxC2taxSwy/86Al+1Xikjmkn3CnM7BRB6RuDeETOE
+         7FDNfkhPAxKvM/n4z6Z8vDf0cEStEeDLx9GzaRHPAoONZuRAVhFfrjt5eyQ6sfKra12A
+         MRMrfY1AgMxOoxO7STe86c3pUliTHXA/NMeaDQsrVoTPuMPYsCI4ZWRldg1NdGAzXqgE
+         KbPA==
+X-Forwarded-Encrypted: i=1; AKwUvBzAub98cBlHg1O/g9g3mVgcb/QjJCzzeiz0JBkbbrg/b0qnInaHVdZE60ZrFNGBsH3DmTJdJi3QJWV/WWSA@vger.kernel.org
+X-Gm-Message-State: APuU4Z+yu6eyeuQYU3FUruM2Ct0alhR7J3uh0xxeuA8RClxEvnT3GNa0
+	lh/3OVZpiPvQjAlxRo+80APfxPp0lxDhonwIfaJ/azvBNGzgWF1MjSog
+X-Gm-Gg: AYBFou1ZgNaheKS4iL9xtK151046Pj/O3wgPYQshqkH4O8xUQUqZZyLmTI09oTjYEqW
+	ReczdCawXlg1/y0+qDgUd9+V6C5bWez5MEqKKW3YkeCsNCdvcWWseE/yAym8THt/hChswGFKWdO
+	kyzrfTPELqmKqJN6+z8I5wxnuaNBsRS/IXD5FqzKLgkbz4a4HRdxnynJs6IpBLdh8z/5Tj1Kb0a
+	Uu1oUPV4ZLwa0wEuVHYD9Idhi4PGRzTMXEivoxSfO4UKjeAHbowTnDlCIt5OEvBXftxuZfE95x5
+	4eZBWMR9JQGhLv/yQWUaAp/NrVwT3uu2AmFRcOxkx33cHxGRuojw7k77/rqpInniL13AaWKXUxH
+	E6oSmpm8KiuLhPICmSMe9P7Kpcu2HaA2wWtxF8xF6fRySXF7y0G+8GpmUqZEtE0XQddZAh9D5zg
+	j1qJ+4uhp0NfbtNgNKrAi88yUIhJDGkXIzueiXL5Qpl6j6UQ/VhQZZnuW6+1rOzLoG/I9pz4947
+	ugmyPcfVgS9V9g0rBYa0haPCP7VuIv9gB49Q85bm8vpHh8t/TpRFCr2X9yh7lYd/bQ2DxnhcCug
+	eLQzTQHt0Lds3V8czbdhWKL58vi0+UoApbhZ493xncZpnJliuCS8b/D6Sjn58rkVlo8G9Qp/EZr
+	aOaxGf5vvhNwx/N4TSBMcxkGsn/NJLxQUoHVG5lKsHO+OmI/lcIy/B7E7AO/D+S35INQ2kBS50n
+	WLoNJIemboFMtgT/TNBfrABmTKQlYFWAy+0DouryHwphNQH5DDdw==
+X-Received: by 2002:a17:906:ef0b:b0:c46:b9b0:8e8f with SMTP id a640c23a62f3a-c4ca7a9d96emr1201972166b.41.1793717871769;
+        Tue, 03 Nov 2026 06:57:51 -0800 (PST)
 Received: from Ubuntu (87-205-15-91.static.ip.netia.com.pl. [87.205.15.91])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c4cebec78f3sm93656366b.23.2026.11.03.06.57.49
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c4cebec78f3sm93656366b.23.2026.11.03.06.57.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Nov 2026 06:57:49 -0800 (PST)
+        Tue, 03 Nov 2026 06:57:51 -0800 (PST)
 From: Krystian Kaniewski <krystianmkaniewski@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Tejun Heo <tj@kernel.org>,
@@ -98,10 +99,12 @@ Cc: Ian Kent <raven@themaw.net>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	syzbot+002fb7b2d0bc53bf7e75@syzkaller.appspotmail.com
-Subject: [PATCH v2 0/2] kernfs, sysfs: refuse splice on /sys/power/resume
-Date: Tue,  3 Nov 2026 15:57:41 +0100
-Message-ID: <cover.1793715774.git.krystianmkaniewski@gmail.com>
+Subject: [PATCH v2 1/2] kernfs, sysfs: refuse splice on writable files that look up paths
+Date: Tue,  3 Nov 2026 15:57:42 +0100
+Message-ID: <1efd95857d40da812ea564f1abff8d65360609a4.1793715774.git.krystianmkaniewski@gmail.com>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <cover.1793715774.git.krystianmkaniewski@gmail.com>
+References: <cover.1793715774.git.krystianmkaniewski@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -113,42 +116,44 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi Tejun, Ian,
+Some sysfs stores look up a path written by the user, for example
+/sys/power/resume through lookup_bdev(). When the path reaches an
+autofs mount, autofs writes a mount request to its daemon pipe while
+kernfs holds of->mutex. splice() enters kernfs files with a pipe mutex
+held, and writable opens of all kernfs files without mmap share one
+lockdep class for of->mutex, so lockdep sees
 
-This is a narrow replacement for the earlier kernfs serialization and
-autofs changes. It follows the suggestion to refuse splice only on files
-whose write callback can look up arbitrary paths and to give those opens
-separate lockdep classes.
+  &pipe->mutex --> &of->mutex --> &sbi->pipe_mutex --> &pipe->mutex
 
-The reported cycle is assembled from two operations. Splice into an
-ordinary writable kernfs file records pipe->mutex before of->mutex. A normal
-write to /sys/power/resume records of->mutex before the autofs pipe locks
-when resume_store() resolves a relative path.
+A splice into any of these files can add the first edge. A splice from
+the autofs daemon pipe into a file whose store looks up the path is a
+real deadlock. When the path triggers a mount request, autofs waits for
+the mutex of the pipe that the splice holds.
 
-Patch 1 adds SYSFS_LOOKUP and kernfs_ops->may_lookup. Writable opens of a
-marked file refuse both splice directions. Their of->mutex and seq_file lock
-use separate classes. Read-only opens retain splice support.
+Refuse splice on writable opens of files whose ->write() may look up
+arbitrary paths. Give both of->mutex and the seq_file lock of those
+opens separate lockdep classes. The seq_file class must also be split
+because a splice from another seq_file can put its shared class below a
+pipe mutex.
 
-The new property cannot be combined with mmap or preallocated buffers.
-Kernfs rejects those combinations for direct callers, and sysfs rejects
-SYSFS_LOOKUP together with SYSFS_PREALLOC before selecting operations.
-Binary attributes do not support SYSFS_LOOKUP and reject it at creation.
+Cache the decision in of->no_splice while the kernfs node is active.
+Both splice directions return -EINVAL before entering the file callback.
+Read-only opens retain splice support because they cannot invoke the
+path-looking store callback.
 
-Patch 2 marks /sys/power/resume. Normal reads and writes stay unchanged,
-including a write which resolves a relative path through autofs.
+Reject may_lookup together with mmap or preallocated buffers at file
+creation. Those paths place of->mutex or another shared lock around it
+in a shared class. Sysfs also rejects SYSFS_LOOKUP together with
+SYSFS_PREALLOC instead of silently discarding the lookup property.
 
-Other stores also look up paths. They remain outside this minimal series and
-can be marked in follow-up patches after the interface is accepted.
+Binary attributes have no operations table with may_lookup. Reject
+SYSFS_LOOKUP in both direct and attribute-group binary creation paths
+instead of creating a binary file without the requested protection.
 
-Tested on v7.4-rc1 in a QEMU guest with the syzbot kernel config.
-Without the series, the C and syz reproducers trigger the reported
-lockdep cycle, and a splice from the autofs daemon pipe into
-/sys/power/resume deadlocks. With the series, neither reproducer
-triggers a lockdep report although autofs receives the same requests,
-and that splice fails with EINVAL. Plain reads and writes of
-/sys/power/resume, read-only splice and splice on other sysfs and
-cgroup files work as before.
-
+Suggested-by: Tejun Heo <tj@kernel.org>
+Link: https://lore.kernel.org/r/ec0c2add83f18d7a3c726d5d219dfe42@kernel.org
+Signed-off-by: Krystian Kaniewski <krystianmkaniewski@gmail.com>
+---
 v2:
 - Replace the v1 locking changes with per-attribute splice control.
 - Preserve splice on read-only opens.
@@ -157,22 +162,287 @@ v2:
 - Reject SYSFS_LOOKUP on binary attributes.
 - Rebase onto v7.4-rc1.
 
-v1: https://lore.kernel.org/r/cover.1792577179.git.krystianmkaniewski@gmail.com
+ fs/kernfs/file.c       | 54 +++++++++++++++++++++++++++++++++++++++---
+ fs/sysfs/file.c        | 29 +++++++++++++++++++++++
+ fs/sysfs/group.c       | 12 ++++++++--
+ include/linux/kernfs.h | 10 ++++++++
+ include/linux/sysfs.h  | 22 ++++++++++++-----
+ 5 files changed, 116 insertions(+), 11 deletions(-)
 
-Krystian Kaniewski (2):
-  kernfs, sysfs: refuse splice on writable files that look up paths
-  PM: hibernate: refuse splice on /sys/power/resume
-
- fs/kernfs/file.c         | 54 +++++++++++++++++++++++++++++++++++++---
- fs/sysfs/file.c          | 29 +++++++++++++++++++++
- fs/sysfs/group.c         | 12 +++++++--
- include/linux/kernfs.h   | 10 ++++++++
- include/linux/sysfs.h    | 22 +++++++++++-----
- kernel/power/hibernate.c |  3 ++-
- 6 files changed, 118 insertions(+), 12 deletions(-)
-
-
-base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+diff --git a/fs/kernfs/file.c b/fs/kernfs/file.c
+index cca9f83fc9b5a9..926898af7b3be1 100644
+--- a/fs/kernfs/file.c
++++ b/fs/kernfs/file.c
+@@ -649,6 +649,12 @@ static int kernfs_fop_open(struct inode *inode, struct file *file)
+ 	if (!of)
+ 		goto err_out;
+ 
++	/*
++	 * Splice callbacks need this before the iter paths acquire an active
++	 * reference, so cache it while @kn is active.
++	 */
++	of->no_splice = (file->f_mode & FMODE_WRITE) && ops->may_lookup;
++
+ 	/*
+ 	 * The following is done to give a different lockdep key to
+ 	 * @of->mutex for files which implement mmap.  This is a rather
+@@ -666,11 +672,17 @@ static int kernfs_fop_open(struct inode *inode, struct file *file)
+ 	 * lookup helpers for arbitrary paths and readonly files can be read by
+ 	 * overlayfs from vfs helpers when sysfs is a lower layer of overalyfs.
+ 	 *
+-	 * All three cases look the same.  They're supposed to
++	 * Writable opens of ->may_lookup files get a fourth key.  Their
++	 * ->write() may wait for userspace through a pipe, so splice, which
++	 * takes @of->mutex under a pipe mutex, is refused for them.
++	 *
++	 * All four cases look the same.  They're supposed to
+ 	 * look that way and give @of->mutex different static lockdep keys.
+ 	 */
+ 	if (has_mmap)
+ 		mutex_init(&of->mutex);
++	else if (of->no_splice)
++		mutex_init(&of->mutex);
+ 	else if (file->f_mode & FMODE_WRITE)
+ 		mutex_init(&of->mutex);
+ 	else
+@@ -717,6 +729,16 @@ static int kernfs_fop_open(struct inode *inode, struct file *file)
+ 	of->seq_file = file->private_data;
+ 	of->seq_file->private = of;
+ 
++	/*
++	 * seq_read_iter() takes @of->mutex under the seq_file lock, whose key
++	 * is shared with seq_files that can be spliced. Separate it too.
++	 */
++	if (of->no_splice) {
++		static struct lock_class_key seq_lookup_key;
++
++		lockdep_set_class(&of->seq_file->lock, &seq_lookup_key);
++	}
++
+ 	/* seq_file clears PWRITE unconditionally, restore it if WRITE */
+ 	if (file->f_mode & FMODE_WRITE)
+ 		file->f_mode |= FMODE_PWRITE;
+@@ -889,6 +911,24 @@ static __poll_t kernfs_fop_poll(struct file *filp, poll_table *wait)
+ 	return ret;
+ }
+ 
++static ssize_t kernfs_fop_splice_read(struct file *in, loff_t *ppos,
++				      struct pipe_inode_info *pipe, size_t len,
++				      unsigned int flags)
++{
++	if (kernfs_of(in)->no_splice)
++		return -EINVAL;
++	return copy_splice_read(in, ppos, pipe, len, flags);
++}
++
++static ssize_t kernfs_fop_splice_write(struct pipe_inode_info *pipe,
++				       struct file *out, loff_t *ppos,
++				       size_t len, unsigned int flags)
++{
++	if (kernfs_of(out)->no_splice)
++		return -EINVAL;
++	return iter_file_splice_write(pipe, out, ppos, len, flags);
++}
++
+ static loff_t kernfs_fop_llseek(struct file *file, loff_t offset, int whence)
+ {
+ 	struct kernfs_open_file *of = kernfs_of(file);
+@@ -1035,8 +1075,8 @@ const struct file_operations kernfs_file_fops = {
+ 	.release	= kernfs_fop_release,
+ 	.poll		= kernfs_fop_poll,
+ 	.fsync		= noop_fsync,
+-	.splice_read	= copy_splice_read,
+-	.splice_write	= iter_file_splice_write,
++	.splice_read	= kernfs_fop_splice_read,
++	.splice_write	= kernfs_fop_splice_write,
+ };
+ 
+ /**
+@@ -1066,6 +1106,14 @@ struct kernfs_node *__kernfs_create_file(struct kernfs_node *parent,
+ 	unsigned flags;
+ 	int rc;
+ 
++	/*
++	 * ->may_lookup needs dedicated lockdep classes. ->mmap selects the
++	 * shared mmap class, while ->prealloc adds a shared mutex around
++	 * of->mutex.
++	 */
++	if (WARN_ON_ONCE(ops->may_lookup && (ops->mmap || ops->prealloc)))
++		return ERR_PTR(-EINVAL);
++
+ 	flags = KERNFS_FILE;
+ 
+ 	kn = kernfs_new_node(parent, name, (mode & S_IALLUGO) | S_IFREG,
+diff --git a/fs/sysfs/file.c b/fs/sysfs/file.c
+index cd5bb0f9fee6dd..fd1f870ca554a1 100644
+--- a/fs/sysfs/file.c
++++ b/fs/sysfs/file.c
+@@ -252,6 +252,17 @@ static const struct kernfs_ops sysfs_prealloc_kfops_rw = {
+ 	.prealloc	= true,
+ };
+ 
++static const struct kernfs_ops sysfs_lookup_kfops_wo = {
++	.write		= sysfs_kf_write,
++	.may_lookup	= true,
++};
++
++static const struct kernfs_ops sysfs_lookup_kfops_rw = {
++	.seq_show	= sysfs_kf_seq_show,
++	.write		= sysfs_kf_write,
++	.may_lookup	= true,
++};
++
+ static const struct kernfs_ops sysfs_bin_kfops_ro = {
+ 	.read		= sysfs_kf_bin_read,
+ };
+@@ -288,6 +299,11 @@ int sysfs_add_file_mode_ns(struct kernfs_node *parent,
+ 			"missing sysfs attribute operations for kobject: %s\n",
+ 			kobject_name(kobj)))
+ 		return -EINVAL;
++	/* the prealloc ops would silently drop ->may_lookup */
++	if (WARN((mode & SYSFS_PREALLOC) && (mode & SYSFS_LOOKUP),
++		 "Attribute %s: SYSFS_LOOKUP cannot be combined with SYSFS_PREALLOC\n",
++		 attr->name))
++		return -EINVAL;
+ 
+ 	if (mode & SYSFS_PREALLOC) {
+ 		if (sysfs_ops->show && sysfs_ops->store)
+@@ -296,6 +312,13 @@ int sysfs_add_file_mode_ns(struct kernfs_node *parent,
+ 			ops = &sysfs_prealloc_kfops_ro;
+ 		else if (sysfs_ops->store)
+ 			ops = &sysfs_prealloc_kfops_wo;
++	} else if (mode & SYSFS_LOOKUP) {
++		if (sysfs_ops->show && sysfs_ops->store)
++			ops = &sysfs_lookup_kfops_rw;
++		else if (sysfs_ops->show)
++			ops = &sysfs_file_kfops_ro;
++		else if (sysfs_ops->store)
++			ops = &sysfs_lookup_kfops_wo;
+ 	} else {
+ 		if (sysfs_ops->show && sysfs_ops->store)
+ 			ops = &sysfs_file_kfops_rw;
+@@ -332,6 +355,12 @@ int sysfs_add_bin_file_mode_ns(struct kernfs_node *parent,
+ 	const struct kernfs_ops *ops;
+ 	struct kernfs_node *kn;
+ 
++	/* there are no binary ops with ->may_lookup */
++	if (WARN(mode & SYSFS_LOOKUP,
++		 "Attribute %s: SYSFS_LOOKUP is not supported for binary attributes\n",
++		 attr->name))
++		return -EINVAL;
++
+ 	if (battr->mmap)
+ 		ops = &sysfs_bin_kfops_mmap;
+ 	else if (battr->read && battr->write)
+diff --git a/fs/sysfs/group.c b/fs/sysfs/group.c
+index 4e1e4f18a16692..eaaccf16158d09 100644
+--- a/fs/sysfs/group.c
++++ b/fs/sysfs/group.c
+@@ -74,11 +74,11 @@ static int create_files(struct kernfs_node *parent, struct kobject *kobj,
+ 					continue;
+ 			}
+ 
+-			WARN(mode & ~(SYSFS_PREALLOC | 0664),
++			WARN(mode & ~(SYSFS_PREALLOC | SYSFS_LOOKUP | 0664),
+ 			     "Attribute %s: Invalid permissions 0%o\n",
+ 			     (*attr)->name, mode);
+ 
+-			mode &= SYSFS_PREALLOC | 0664;
++			mode &= SYSFS_PREALLOC | SYSFS_LOOKUP | 0664;
+ 			error = sysfs_add_file_mode_ns(parent, *attr, mode, uid,
+ 						       gid, NULL);
+ 			if (unlikely(error))
+@@ -107,6 +107,14 @@ static int create_files(struct kernfs_node *parent, struct kobject *kobj,
+ 			if (grp->bin_size)
+ 				size = grp->bin_size(kobj, *bin_attr, i);
+ 
++			/* Do not let the mode mask below discard SYSFS_LOOKUP. */
++			if (WARN(mode & SYSFS_LOOKUP,
++				 "Attribute %s: SYSFS_LOOKUP is not supported for binary attributes\n",
++				 (*bin_attr)->attr.name)) {
++				error = -EINVAL;
++				break;
++			}
++
+ 			WARN(mode & ~(SYSFS_PREALLOC | 0664),
+ 			     "Attribute %s: Invalid permissions 0%o\n",
+ 			     (*bin_attr)->attr.name, mode);
+diff --git a/include/linux/kernfs.h b/include/linux/kernfs.h
+index 73786b567ccd8e..8597b2b80caf36 100644
+--- a/include/linux/kernfs.h
++++ b/include/linux/kernfs.h
+@@ -272,6 +272,7 @@ struct kernfs_open_file {
+ 	char			*prealloc_buf;
+ 
+ 	size_t			atomic_write_len;
++	bool			no_splice;
+ 	bool			mmapped:1;
+ 	bool			released:1;
+ 	const struct vm_operations_struct *vm_ops;
+@@ -320,6 +321,15 @@ struct kernfs_ops {
+ 	 * ->prealloc.  Provide ->read and ->write with ->prealloc.
+ 	 */
+ 	bool prealloc;
++	/*
++	 * "may_lookup" marks a ->write() which may look up arbitrary
++	 * paths and so wait for userspace, e.g. for an autofs daemon.
++	 * Writable opens refuse splice and get their own lockdep
++	 * classes.  File creation rejects ->mmap or ->prealloc together
++	 * with this flag because either would leave of->mutex or the lock
++	 * around it in a shared class.
++	 */
++	bool may_lookup;
+ 	ssize_t (*write)(struct kernfs_open_file *of, char *buf, size_t bytes,
+ 			 loff_t off);
+ 
+diff --git a/include/linux/sysfs.h b/include/linux/sysfs.h
+index b1a3a1e6ad09cc..c2f89899af921c 100644
+--- a/include/linux/sysfs.h
++++ b/include/linux/sysfs.h
+@@ -75,12 +75,13 @@ do {							\
+  * @is_visible:	Optional: Function to return permissions associated with an
+  *		attribute of the group. Will be called repeatedly for
+  *		each non-binary attribute in the group. Only read/write
+- *		permissions as well as SYSFS_PREALLOC are accepted. Must
+- *		return 0 if an attribute is not visible. The returned
+- *		value will replace static permissions defined in struct
+- *		attribute. Use SYSFS_GROUP_VISIBLE() when assigning this
+- *		callback to specify separate _group_visible() and
+- *		_attr_visible() handlers.
++ *		permissions as well as SYSFS_PREALLOC and SYSFS_LOOKUP
++ *		are accepted. Must return 0 if an attribute is not
++ *		visible. The returned value will replace static
++ *		permissions defined in struct attribute. Use
++ *		SYSFS_GROUP_VISIBLE() when assigning this callback to
++ *		specify separate _group_visible() and _attr_visible()
++ *		handlers.
+  * @is_bin_visible:
+  *		Optional: Function to return permissions associated with a
+  *		binary attribute of the group. Will be called repeatedly
+@@ -124,6 +125,8 @@ struct attribute_group {
+ 
+ #define SYSFS_PREALLOC		010000
+ #define SYSFS_GROUP_INVISIBLE	020000
++/* Regular ->store() may look up paths, not valid with SYSFS_PREALLOC. */
++#define SYSFS_LOOKUP		040000
+ 
+ /*
+  * DEFINE_SYSFS_GROUP_VISIBLE(name):
+@@ -251,6 +254,13 @@ struct attribute_group {
+ 	.store	= _store,						\
+ }
+ 
++#define __ATTR_LOOKUP(_name, _mode, _show, _store) {			\
++	.attr = {.name = __stringify(_name),				\
++		 .mode = SYSFS_LOOKUP | VERIFY_OCTAL_PERMISSIONS(_mode) },\
++	.show	= _show,						\
++	.store	= _store,						\
++}
++
+ #define __ATTR_RO_MODE(_name, _mode) {					\
+ 	.attr	= { .name = __stringify(_name),				\
+ 		    .mode = VERIFY_OCTAL_PERMISSIONS(_mode) },		\
 -- 
 2.53.0
+
 
