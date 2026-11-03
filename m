@@ -1,55 +1,106 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=144.76.82.148
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793711195;
-	b=0EiLEkJMEUcEO6ZWSyR26CZzj1aptMzEDq66oHDyVw5b0dx+OkpmdQJnJHwdMpMBlNFn
-	 WqaAC+BIzXUfbkIyyIbtPCxOLlovImRQDij0RTm2biAqGaigrUxJEfMloOprD8akYdoiU
-	 Apmr3C5nTQ/bsv/yP1zINj8VwrnZVxMvCtpXDGHnbsSOdBCoOQ8A5nfh1I/PNEMmUnusZ
-	 4pi7eJ/FgI4SWAiZdsKsB3MQb12nCDac1fITNGSgmYaJ6wkO8tD0oPyxMrQPS2a2+H7TO
-	 6wrwVQR6TziNW2r81m5hHZj6XJIe9I1501e8FJyogaeWBtXcdSI3JuLbUpIcNNlyceQ==
+	t=1793711240;
+	b=HMqJ0uJ/ftCF+8V8fZKEd42+sTRK3di+WJIlrXixi356vzPDWh7ktnxFm7MdXinxv54c
+	 JlitQcrEI1QHmFWv33g3awqXiM2gSRuaKfE0gQ388XU+i67auB0tgPKafKH6VwU1TgIMo
+	 4HHUCn8AFdos4iw4XWcy8uCGzIMlP1ikR9G1oq5nZcAoQMbqxYC/6xtjkFPlufQuDH1ZX
+	 PAwFAE4IAZRZ9JunZxw/thO+2tBDGpQ6XplPPwMahnT/TcrK8fpqiCuh4ihQr644Lq0ga
+	 2aPf5kPxybkD04Ykiuz/USzjT0F8USInEbmmjXXFRwWNmADc1LMh5uoJSFFfPN/PQEg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793711195;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=Sm8eBtV1xdp4zAa6YXthLgHufsLnCQQpa5HRuwqjWGo=;
-	b=FJ10m+O4Vvpy+yLm4qwBMtNHiyZEaEarp8tnvh9uumX3cGG/zX9E/2Ug4/zGKmLXdigE
-	 MFR8nbkXzh3rx6nx4Ag1EzfXsrdoJr3ZkdqWa1BMQiABD2izf1r5YTUpXgGefGFiqC35S
-	 ZZ5u8bVDkoLcfQ4wm3kBwO9/ZRLXZqpTjtA3j032vTLDpYzhyMyVgAuQHhl5hRo68NluM
-	 0Eu3IMZ8AR0Pw/pnc4JrA6z/tJsOlWQhPWd8CB6PeM1tXJmi2EUvL61kuNepFnEP2GadP
-	 Ozu00YfROlVzZuuR3Q0Y0oR9LfpTk+HhxZ/8m8T681GB0vRx0jCAqJrChNdCHu6xvYg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793711240;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
+	bh=5ei1qzUQ80RWMNSfAQVvO6ePcINruafcMN98c0m54xI=;
+	b=DBUJTmoMWpcL2uiTfjJK5ZE1ukqg5JkFY8F43EB5c7xXVIAS2nZAA8grAYbBdqYs3LJp
+	 hucWljgB9ihEAGNUc+h/ENGTeVMlWrOsZTmE/5x/pNne9xdIrkapfEnRKYEwOlV2Zj/s2
+	 Kjbv3v3Uu7ZRbPN5uZp7oQ9vEuwOzriS9eZoiYCI9dZy9kv/1sa6O+EnjjMNIBAyBgbuR
+	 11kLX9CLZhaawVmL73pIRbW6AZ68Og26CYDJPY8ukKLGbnAsf26v3QPQk+TJa3u1Y+N/n
+	 olI1CvuTYhQASwW/MTWqnJnM/EDNlzJzSPPlNspk2l1YUuhO686e9miuwsZgMtDZ4OQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=samba.org;
-	spf=pass smtp.mailfrom=samba.org;
-	dkim=pass header.d=samba.org header.i=@samba.org header.a=rsa-sha256 header.s=42 header.b=okGQ0kfZ;
-	arc=none smtp.remote-ip=144.76.82.148
-Received: from hr2.samba.org (hr2.samba.org [144.76.82.148])
-	(using TLSv1.3 with cipher TLS_CHACHA20_POLY1305_SHA256 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=none header.from=suse.cz;
+	spf=pass smtp.mailfrom=suse.cz;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=A5GcxYN9;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=VhCUM5Qk;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=A5GcxYN9;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=VhCUM5Qk;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A99D260850A8;
-	Tue,  3 Nov 2026 13:06:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A99D260850A8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=samba.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samba.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03CFF606A326;
+	Tue,  3 Nov 2026 13:07:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 03CFF606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (3072-bit key, unprotected) header.d=samba.org header.i=@samba.org header.a=rsa-sha256 header.s=42 header.b=okGQ0kfZ
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=samba.org;
-	s=42; h=From:Cc:To:Date:Message-ID;
-	bh=Sm8eBtV1xdp4zAa6YXthLgHufsLnCQQpa5HRuwqjWGo=; b=okGQ0kfZR6mrUlaKfdWRPwy7pB
-	ClSdB9O/OBJ+chZFgiv03XevWUUjIyBILk9BUbjgtnafp98eDUC+nZHUMPX1zXqI98nOMiK1EeOMS
-	7aev26NTuSPHTtDHMcno7Twne45XuisPSDFbi+7XtjE9zFug9ScfdXF9Y1HqN5CsrvCZg0TjvcD6t
-	8v3qhSoBwB/Bs+itW+B0bcubZJ//14nVFa7e9oVobwgqMwJHSaXcXpazZ6On0bV8bIXNymZxRY54b
-	O6d/MO7FSzpSzz1QdtiYsoTow/km3RpsgKNAJKuV7ng4sTIFZloFnUY+f2VYKh4i2N3iqnRabQC7M
-	fSYvocaZWFp7prHFRyVwDW0u2MnTZ95dePJ8jJM+9o8KEF01+rghnD4wjAO+gDPKTeSK3bxeVnKU0
-	oW29qF5NR3i9vjQQ/L8XynTzqALcJVJaDkz2igp2gXoB28LftmIz97iZlCYAPesr+eIkB0UpX6GMq
-	hIiLv0JdiOQfkcWn/PVT6sGo;
-Received: from [127.0.0.2] (localhost [127.0.0.1])
-	by hr2.samba.org with esmtpsa (TLS1.3:ECDHE_SECP256R1__ECDSA_SECP256R1_SHA256__CHACHA20_POLY1305:256)
-	(Exim)
-	id 1xOEDa-00000007tbJ-1uxh;
-	Tue, 03 Nov 2026 13:06:26 +0000
-Message-ID: <03f82274-2749-4529-bf98-ede7cc79ad08@samba.org>
-Date: Tue, 3 Nov 2026 14:06:25 +0100
+	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=A5GcxYN9;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=VhCUM5Qk;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=A5GcxYN9;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=VhCUM5Qk
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 2F8AE1F7BC;
+	Tue,  3 Nov 2026 13:07:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1793711238; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5ei1qzUQ80RWMNSfAQVvO6ePcINruafcMN98c0m54xI=;
+	b=A5GcxYN9wy8/ytysxXU6dUHT7ZoRHVe3p3cRnO8qcUaxSPiKJT0C/3OVXV7k7e7elXAznz
+	RQr7vAeOozgR+adf9WpqwpbJgduWYGgnOgIU040/KET2vvam8jyKKQ0vEnIZEAqMsQgNRp
+	K779yc424KKF24xydqu177Y5rWWmyK4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1793711238;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5ei1qzUQ80RWMNSfAQVvO6ePcINruafcMN98c0m54xI=;
+	b=VhCUM5Qk6BLit4qPNyGmeVsbZSTi3DcoXqRY3gIm1cHlzvhYt6QxJxsJwA5Xlr7w2xqiCf
+	RDjRc7KVrqsz72Cw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1793711238; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5ei1qzUQ80RWMNSfAQVvO6ePcINruafcMN98c0m54xI=;
+	b=A5GcxYN9wy8/ytysxXU6dUHT7ZoRHVe3p3cRnO8qcUaxSPiKJT0C/3OVXV7k7e7elXAznz
+	RQr7vAeOozgR+adf9WpqwpbJgduWYGgnOgIU040/KET2vvam8jyKKQ0vEnIZEAqMsQgNRp
+	K779yc424KKF24xydqu177Y5rWWmyK4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1793711238;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5ei1qzUQ80RWMNSfAQVvO6ePcINruafcMN98c0m54xI=;
+	b=VhCUM5Qk6BLit4qPNyGmeVsbZSTi3DcoXqRY3gIm1cHlzvhYt6QxJxsJwA5Xlr7w2xqiCf
+	RDjRc7KVrqsz72Cw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 038F31350A;
+	Tue,  3 Nov 2026 13:07:18 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id gMwGNIXc6WruKQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 03 Nov 2026 13:07:18 +0000
+Received: by quack.suse.cz (Postfix, from userid 1000)
+	id 98E39B26B; Tue, 03 Nov 2026 14:07:13 +0100 (CET)
+Date: Tue, 3 Nov 2026 14:07:13 +0100
+From: Jan Kara <jack@suse.cz>
+To: mt4022@columbia.edu
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, tz2294@columbia.edu
+Subject: Re: [PATCH] fs: annotate data race in get_nr_inodes()
+Message-ID: <mcogcmb35mvo7eiizsbp2bsqr3pstlxz4255cr2w7lcaavqx4j@d4ianauxqkfe>
+References: <20261027-kcsan-inode-v1-1-1ef0eb871f2c@columbia.edu>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -59,100 +110,88 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fs: add RWF_DIRECT for preadv2/pwritev2/io_uring to set
- IOCB_DIRECT per io
-To: Christoph Hellwig <hch@lst.de>, Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>,
- Jan Kara <jack@suse.cz>, io-uring@vger.kernel.org, linux-api@vger.kernel.org
-References: <20261012184642.558349-1-metze@samba.org>
- <20261021-kontakt-hauen-albern-9053a385d79e@brauner>
- <20261103080718.GA4109@lst.de>
-Content-Language: en-US
-From: Stefan Metzmacher <metze@samba.org>
-In-Reply-To: <20261103080718.GA4109@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261027-kcsan-inode-v1-1-1ef0eb871f2c@columbia.edu>
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spamd-Result: default: False [-12.80 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,columbia.edu:email,suse.cz:email]
+X-Spam-Score: -12.80
 
-Am 03.11.26 um 09:07 schrieb Christoph Hellwig:
-> On Wed, Oct 21, 2026 at 01:04:06PM +0200, Christian Brauner wrote:
->> On Mon, Oct 12, 2026 at 08:46:42PM +0200, Stefan Metzmacher wrote:
->>> It's useful to control this per io request instead of using O_DIRECT
->>> for the file descriptor.
->>
->> @Christoph thoughts on this?
+On Tue 27-10-26 16:08:49, Mani Tofigh via B4 Relay wrote:
+> From: Mani Tofigh <mt4022@columbia.edu>
 > 
-> Puh.  This goes right into a big discussion right now.  We've
-> traditionally said mixing buffered and direct I/O is madness, and
-> that's certainly not untrue.  On the other hand people find this
-> useful - nfsd is now making heavy use of it, and a few year ago
-> there was a paper on how the lustre backend really gained by doing
-> that.  So while some folks like Dave Chinner still get really angry
-> at the idea of mixing the modes, I feel the ship has sailed and we
-> need to make it work as good as possible.  For some cases like
-> mmap'ed I/O it will always introduce data corruption, but we'd at
-> least make sure there's nothing exploitable.  And the direct user
-> exposed flag would open lots of these exploit vectors.
-Userspace can already mix the modes on the same file today, by
-opening it twice, once with and once without O_DIRECT, or even on a
-single struct file with fcntl(F_SETFL, O_DIRECT). The patch requires
-FMODE_CAN_ODIRECT in kiocb_set_rw_flags(), the same check open() and
-fcntl() do for O_DIRECT, so it doesn't allow direct I/O on files
-that couldn't do it before.
+> get_nr_inodes() sums the per-CPU inode counts without a lock, and the
+> result is only an estimate, so it's harmless if one of them changes
+> during the sum.  Wrap the reads in data_race() to mark this.
+> 
+>   [   11.857490] BUG: KCSAN: data-race in get_nr_inodes+0x9f/0xf0
+> 
+>   [   11.857568] race at unknown origin, with read to 0xff1100002b6281e8 of 8 bytes by task 106 on cpu 1:
+>   [   11.857621]  get_nr_inodes+0x9f/0xf0
+>   [   11.857675]  get_nr_dirty_inodes+0x1d/0x110
+>   [   11.857748]  writeback_inodes_sb+0x3d/0x60
+>   ...
+> 
+>   [   11.870052] value changed: 0x00000000000000b3 -> 0x00000000000000b5
+> 
+> Found with KCSAN while fuzzing under a deterministic hypervisor that's
+> currently under development.
+> 
+> Signed-off-by: Mani Tofigh <mt4022@columbia.edu>
 
-The use case is Samba: SMB3 clients request unbuffered I/O per
-request (SMB2_READFLAG_READ_UNBUFFERED and
-SMB2_WRITEFLAG_WRITE_UNBUFFERED). Samba wants to use a strategy
-similar to NFSD_IO_DIRECT in nfsd: for reads the range is aligned
-down and up to the STATX_DIOALIGN values and read with RWF_DIRECT,
-for writes the aligned middle is written with RWF_DIRECT and the
-unaligned head and tail (if any) with RWF_DONTCACHE (or plain
-buffered I/O if the file system doesn't support it). Without
-RWF_DIRECT Samba would have to keep a second O_DIRECT file
-descriptor for every open, which only hides the mixing from the
-kernel.
+Looks good. Feel free to add:
 
-> There's also issues where file systems still check O_DIRECT for
-> behavior and not IOCB_DIRECT, and this would increase the problems
-> with that compared to the existing in-kernel only users.
-> NFS for example has quite a few O_DIRECT checks, and some of them
-> feel wrong for this.
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-Right, that's the real difference: with two opens or F_SETFL the
-O_DIRECT in file->f_flags always matches IOCB_DIRECT, with RWF_DIRECT
-it doesn't, and FMODE_CAN_ODIRECT alone doesn't tell whether a file
-system copes with that. For some file systems FMODE_CAN_ODIRECT is
-still only derived from ->direct_IO = noop_direct_IO in
-do_dentry_open(), so it just means that O_DIRECT can be opened.
-cifs.ko is an example: with cache=loose cifs_file_write_iter()
-decides by O_DIRECT, so an RWF_DIRECT write would be written
-unbuffered by netfs, but without the cache invalidation and oplock
-reset cifs does for O_DIRECT.
+								Honza
 
-So what about making it opt-in as a start, like RWF_DONTCACHE with
-FOP_DONTCACHE? A new FOP_DIRECT_PER_IO would be set by file systems
-that base their I/O decisions on IOCB_DIRECT, all others return
--EOPNOTSUPP for RWF_DIRECT. Once all file systems that set
-FMODE_CAN_ODIRECT also set FOP_DIRECT_PER_IO, the flag could be
-removed again and RWF_DIRECT would just depend on FMODE_CAN_ODIRECT.
-
-I looked at the local file systems Samba typically exports in
-v7.4-rc1: xfs, ext4, btrfs and f2fs (and also ext2, exfat, gfs2,
-nilfs2, zonefs, ntfs and ceph) decide per I/O based on
-iocb->ki_flags & IOCB_DIRECT, falling back to buffered I/O per
-request where direct I/O isn't possible (e.g. ext4 for encrypted,
-verity or inline data files, nilfs2 for writes) or failing it with
--EOPNOTSUPP (f2fs for atomic write files, ntfs for compressed or
-encrypted files). O_DIRECT in file->f_flags is only used for
-checks at open time (or the start of an f2fs atomic write), so they
-could set FOP_DIRECT_PER_IO right away.
-
-Others like cifs, nfs, 9p, overlayfs and the other backing file
-users, ntfs3, erofs, ocfs2 and fuse have O_DIRECT dependencies in
-their open or I/O paths, they just wouldn't set FOP_DIRECT_PER_IO
-for now. Fixing them is independent of RWF_DIRECT.
-
-Should I send a v2 that adds FOP_DIRECT_PER_IO and sets it for the
-file systems listed above?
-
-metze
+> ---
+>  fs/inode.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/fs/inode.c b/fs/inode.c
+> index 1cb6293b237a..ee4366264c36 100644
+> --- a/fs/inode.c
+> +++ b/fs/inode.c
+> @@ -79,7 +79,7 @@ static long get_nr_inodes(void)
+>  	int i;
+>  	long sum = 0;
+>  	for_each_possible_cpu(i)
+> -		sum += per_cpu(nr_inodes, i);
+> +		sum += data_race(per_cpu(nr_inodes, i));
+>  	return sum < 0 ? 0 : sum;
+>  }
+>  
+> 
+> ---
+> base-commit: d135ab453a7400a34930bdda1ef4bdc8acfac80e
+> change-id: 20261027-kcsan-inode-ad562064d53f
+> 
+> Best regards,
+> --  
+> Mani Tofigh <mt4022@columbia.edu>
+> 
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
