@@ -1,70 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=216.40.44.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.175
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793667587;
-	b=Te+T2qrW5xpYNnGZ2Vhf5kZf7cN4zoFklXa//W0Gio6cZsZCKMp0u6NvrZeedUpOgsHV
-	 fzrC0ymc35x5iLqVeb4WZKlw7PPj5xNVNBfSLGCddUXcZEtULwJjd3lobvwoqxrbo9PxD
-	 NV7uLXi0AbvAxggzh4dva1LS72b4yvQOHvu3b0aE7Mt1bSqGDLygQCFYC+jn2yv6yfw1M
-	 ay2SxqYU4ffaTlOls3B2rjnFr6RWo0GigzYfo8jOf0LOF6mTNIHrqLL34uw8ehJNtSM7P
-	 R/7CVd5EFpauXCNMjr/04aKvaQtelAw6Ps+WDwqO2gDAvLzh1CchbZl7RPBjiAThnNA==
+	t=1793668766;
+	b=IHqesfzenQJJi8CBYZRbbhfGgL0P0MT8DzDw8X9ZcxKWMHqWIjK4qOGP5qI7hQc/awA9
+	 IBWTaGASunM7pltxzhegv+6UKupfIangPgMlUXQkolWraO19IuKcXPRNPOYe+P78HsZ7A
+	 tkCwJ/KJhqFutqyhMTxIcifAnH3yJ9GfewnumFIL9CH9T8FbBu68w+b8dIv3lJx79Z02J
+	 B1W5oCkHrBDJ4HWNFVTkiTS2ImzqnPK4BOSUx4SH0rHFP0weVkYGd0Eq28NRJN+ldACWg
+	 YUpu/H14F28BoFVv4yrtMiWEsDMLqcZbAn4pRemxZwavgRxGmIaYXG0y9Napd3W4RtQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793667587;
-	h=DMARC-Filter:Received:Received:Received:Received:X-ME-Sender:
-	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
-	 MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type:Content-Transfer-Encoding:X-Rspamd-Queue-Id:
-	 X-Stat-Signature:X-Spam-Status:X-Rspamd-Server:X-Session-Marker:
-	 X-Session-ID:X-HE-Tag:X-HE-Meta;
-	bh=G6Rv/71RK5koHmtnnOxQb3SYVS/u069P90N9ZnE91N0=;
-	b=5SSVBbew+TcBdRZWNlGCMphBXuHpzn5la22QLXPvRVxD2/Zyzn1bO63Uko5R5ediwrXJ
-	 F/cxqBqdtYR4nNxMNja2hQE1+HbXTLaOrJHOHMVGVY8ii+haw+jAJ4su9WVBRQt5wLg5N
-	 YKKllvF8iXBDOVcubY+OTLBNC2qIDxjpl5lM0x1zQ0J1wv2WalbDlUbCfkKoMrbLzXxVg
-	 mNLuIYi9on3MaSaQ7gc0uqFjB4uJWttFXwQce0cdiMshr9dbtDeFJ/XXt/d5BlYyewDFL
-	 MQGSW2VzmB0GyZiiJNuYZb73AA0enZDL/rQQ9bQRoi8SwFYyulrITgNrFTfQ8Hf8BXA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793668766;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Content-Transfer-Encoding:Message-Id:References:To:X-Mailer;
+	bh=OzeCAPmNW+SHsrPHyP2lgHfACb376kvzXRAy4aBxIGI=;
+	b=P+QlOLn0GfGRHCtCm7eP8qiMDq7UA4fEfICzXlYmMNC8fAt7GdXWG7gGxpYprs5bG+sW
+	 6LkTY3WuLNnPZJDVlDYFD+ACGtgE9sZ2c3nc7XzijRDo75b05CmHtTP+qYUh81bW1S7pX
+	 +0jnr81GIf0p+PFneEUQsKLIEomnAz1st/QopO3QtNPi33LgpsxF82mEgutJeZS8bW/9O
+	 T/l6aL+x08B7TVyZBlaGNMjWkurDgHtjbMG3s0mEowEmY7gj+3ONy1njelNHdzXAy/bXm
+	 6K7nv0xmrkL5mkv0nmXN1m3qJfVJ6irdhciCOx76gmm1ix6qEz4Q4Y9HzsgPw6hifeQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=groves.net;
-	spf=pass smtp.mailfrom=groves.net;
-	arc=none smtp.remote-ip=216.40.44.14
-Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com [216.40.44.14])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=none header.from=dilger.ca;
+	spf=pass smtp.mailfrom=dilger.ca;
+	dkim=pass header.d=dilger-ca.20260707.gappssmtp.com header.i=@dilger-ca.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=WLyuuwnE;
+	arc=none smtp.remote-ip=209.85.214.175
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C7FC606A324;
-	Tue,  3 Nov 2026 00:59:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8C7FC606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
-Received: from omf04.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay08.hostedemail.com (Postfix) with ESMTP id 5BB8C1401C1;
-	Tue,  3 Nov 2026 00:59:39 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf04.hostedemail.com (Postfix) with ESMTPA id 6F79420024;
-	Tue,  3 Nov 2026 00:59:37 +0000 (UTC)
-Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
-	by mailfauth.phl.internal (Postfix) with ESMTP id ED3CEF40066;
-	Mon,  2 Nov 2026 19:59:36 -0500 (EST)
-Received: from phl-imap-02 ([10.202.2.81])
-  by phl-compute-09.internal (MEProxy); Mon, 02 Nov 2026 19:59:36 -0500
-X-ME-Sender: <xms:-DHpahttLsgo-O9LyRnTMyYg8OOCyrR3pmllmRf0Hq0xoUpxc8-65A>
-    <xme:-DHpalSKPczzavif0J17t-PbwkXHInKEhMsWhL6255WyOgK8Edcwgivkew44VEd51
-    n_aZvX2apjg4HaEot2YixfEXRDNTh7cFqfa_vBXg71MXgo4-KCYVV2R>
-X-ME-Proxy-Cause: dmFkZTG4ZL5up0UnMPo6b6IWOllL5Oy/VFhuJdZlan9+353xhOnGA4qXvG4k7Wquz+vOiW
-    LJnk4kJCnIgTcfnHpFSpI1rJQL8749tASHR5iZ2a0kCIBoJcM0W0LOfofsp6qtawBEF0By
-    OtljbVcCImpCgBZtGS/cgexFW/DNAncaQyrQHcw7ZQuqMvFH8Mo8L9j7Ei5Uq2k5QPQ0lG
-    G0nBf9gwdZxGPFSoTOZQ8heirm6tt4T/vi0NwC8IYqyzo8M4CpF/sfHYRAPcYRT9AiWYyB
-    bnqqTM3tqttT9xNtdZDjumisqXV9aItq2O+VPJNgxG7MjmDMtgJFncjMXP/jUIfo84vsZP
-    Sujev+lKEf1h6ZIeAmnw7/E3zBJM26AMnc7vrLeJs+EmkI8ZC01uFU4q47FRdQHUzsCIFJ
-    ayGr0+bZLowvNL4rMRF/qz2JRRjLi2cN8nKlFV2vtyXr7Jdj7Vm6aGTnM9O/A9SIAFpFQU
-    U/K1tRUIeqb1GMWF36zDadocI/88N9kEgnyYPfASVPARu4idUzIKgKWuZPv0GcQG+qs0An
-    ImOK5x1QGy0adLvz4pB0l2S921cPf6ZpMoXE6BaAglTWn+AEER3Szx0uFrol1BTgibErlj
-    33sE7NWPC3gyytLTjSTw8ef4TvlDHHJ1RRWnpCohsoXrHzo1QaNjbsi6pszQ
-X-ME-Proxy: <xmx:-DHpajQUV2WJTQZXgfypECLGJ6AcoJlARUNwPPm4PfIEC1Y4rzxaWg>
-    <xmx:-DHpanBW-Bg9tMfcv_h_tl65ko8AuR0SV65UacSvANVYkVy18iWa_w>
-    <xmx:-DHparFJ6Xn5B8w3_WppmLMpi3cQJLB3-qu9wBricBlFxRfNNX-iYA>
-    <xmx:-DHpapDUZHzuy9YULnLuxGh9SBJBW_zjpR_Xy_NJbRt0RzXxQvTgQQ>
-    <xmx:-DHparW1XKrqfvlDUZFWEdJsaCSdo-Tlqr4fQIl_KU7jkwohifDElM0l>
-Feedback-ID: i3a164872:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id C2A75700065; Mon,  2 Nov 2026 19:59:36 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C75F3606A333
+	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Nov 2026 01:19:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C75F3606A333
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dilger.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dilger.ca
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=dilger-ca.20260707.gappssmtp.com header.i=@dilger-ca.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=WLyuuwnE
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2ea7987517aso24074175ad.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 02 Nov 2026 17:19:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dilger-ca.20260707.gappssmtp.com; s=20260707; t=1793668764; x=1794273564; darn=vger.kernel.org;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:content-type:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=OzeCAPmNW+SHsrPHyP2lgHfACb376kvzXRAy4aBxIGI=;
+        b=WLyuuwnEhkbAyv28mwDIKyWMkPW+CaP9ZTshNGZcTqE1nhqBVxUmsjtyy4mQbGWbt4
+         rlNZCrwEFtGxid83cj4tDMvLM05p2Z02rPI6Us/tthLuA9ws6uylnx+0Ls8EVjIDXfzd
+         ePpjDOYPpKHWSBgnzeIo2DZuZxCNnRfcp5iDjXAijLYj3gQvO8Lwnq0kBbQZJv4+lbrf
+         HzfDUzQO+pBVTgxZp0qUPUIr/ceYzNPPL5Ug5vEKueEig1bCyp0zqaq1j+GSD0oTwg+9
+         /FFnjHTlruZ36DI3TIdFUyyWrXxPvb20pWegZcfg6zqdNBBPdZ+cMs2vAbkUyVFlhsvu
+         QTXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793668764; x=1794273564;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:content-type:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=OzeCAPmNW+SHsrPHyP2lgHfACb376kvzXRAy4aBxIGI=;
+        b=l1He60TTl1peYWfpPa6TZqlmg9c1zVWV1GIa8ptn3EF0PHL/K2Q2yKLjmiG/UkB4yL
+         C20Z3C6K+A02dh181X96vmjtdmd0Dm2txQVNw4YxauVc2Kql1MaaPxbvhcVtpX9JoZeV
+         XqNoJbwr/jthIoNJEFmV50+xdSz8noFK8I6uKhvoCpEj4mJGxwbv9D5b2b+FNKGicjpW
+         pez8lUxfWLLy+3JmvS+7LWFKWajkP1Olka3NCIl6lja2iOVqztqNn1jXivekGYOZaBuP
+         eKdFUMrgeXqnFt88OidiPX+0Bx5EfbzjbzxZ30D4ObJicpIHd1ErC/qT6qzrRczQH5zu
+         yuQA==
+X-Forwarded-Encrypted: i=1; AKwUvBx4+dRlwOEz0Pq9rBYCG5RgkrHR+6UjrcyQHhjUTY+9nUWxyPcOwlaaOMwckohcy5ZT3CuX5QOgCVmDOLgk@vger.kernel.org
+X-Gm-Message-State: APuU4Z/AfVuqXiJfZ55VN5mLGKEgHCgP/Z1dgnZDm+8nTURNTvG2QxSK
+	PLEoy1tG7ukoAqF02MFh7k/gQIthVEOaQqbPSmjd2b+cQ5TH/27HY2xjco2K/nnmwF8=
+X-Gm-Gg: AYBFou1kfqr4g1ZfgjBKUd67dOsOIZW3YJu7dsQ6I5+2j3K+yoq5gJ0ehxe28UydM8+
+	501JoLKpaQ/SjiUNb2PhsTdWf7603zpPEj73WN0leYM2CWuRILGjfhB4RUpUY6GQfteElspIcM6
+	hZSj/DGwRlShJA1a5GsiSIMzKPDlMz51FtXpiU6QooKYqIoKVdc5p2wIIWEgYYgt+SOGA0hCYL/
+	sxvaC87VV4lXCS4V4KRvLi1zNkmX7hosMJ0wa9/prpsLIxQvEN23LdND7wMcuu0vm9JNsfopd3k
+	lXAtpfBQCmJuuDezvLEmDS+IL5HvF01kLRnt6ORL8WbEc7a/M86nhZ3bkCuRCYyyWUgjBxEGCY0
+	/psyG9KcnnBrN7b3uUTOGOrm9deBMSTBCAWRsWuc35S0OaFgbofpDMLUN4UJL9HpRrL0lpmLK4e
+	aiJQKrP0GP4k+0LfxomcztpSQL2wk0Pa8PQWkP2YZQVl9/eLxddZe3/B2jU4OyNYT/Yq+U9IPeO
+	nWlrRimXNjV1bWY0z0tsEZEY/5KldUguNUGmjyQiMsl/8tTN7BF3L1M/bJTPb81OA1Hip3K/yj6
+	urkDlo1LH81Q3QWpILR2qj7ASYCCroADHJCPBaQSNQhIewIxmeCu8Sd7hqcXKwTVUKwdE6uL1AE
+	fqGcPXVmOazDIdqurTXsBpr4eyydygA==
+X-Received: by 2002:a17:90b:1188:b0:3ad:b7d1:8631 with SMTP id 98e67ed59e1d1-3ae897eb75bmr7031480a91.17.1793668764007;
+        Mon, 02 Nov 2026 17:19:24 -0800 (PST)
+Received: from smtpclient.apple (S01068c763f81ca4b.cg.shawcable.net. [24.64.171.237])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b07c71c253sm1446998a91.16.2026.11.02.17.19.22
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 02 Nov 2026 17:19:23 -0800 (PST)
+Content-Type: text/plain;
+	charset=utf-8
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -73,105 +90,179 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Date: Mon, 02 Nov 2026 18:59:16 -0600
-From: "John Groves" <john@groves.net>
-To: "Joas Antonio dos Santos" <joasantonio108@gmail.com>,
- "Miklos Szeredi" <miklos@szeredi.hu>
-Cc: "Miklos Szeredi" <mszeredi@redhat.com>,
- "fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Message-Id: <069bdfb7-2bad-47d4-ae43-d3d50a63b816@app.fastmail.com>
-In-Reply-To: <179346145958.61208.701521796030924197@gmail.com>
-References: <179346145958.61208.701521796030924197@gmail.com>
-Subject: Re: [PATCH] fuse: refuse FUSE_NOTIFY_STORE for DAX inodes
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 6F79420024
-X-Stat-Signature: jxfrrcn9qtzxrk9pqk51438wr5rmo4gp
-X-Rspamd-Server: rspamout08
-X-Session-Marker: 6A6F686E4067726F7665732E6E6574
-X-Session-ID: U2FsdGVkX1+uPrMiW9M2xl4Azk1RV1LatNDq3wjJW4w=
-X-HE-Tag: 1793667577-708489
-X-HE-Meta: U2FsdGVkX1/enDX7YLiwcBSjp9OFMJrxcBhxOcz90MsEsrBlp5pHm5UBECEjDQOOixxzTThtBc7YfznDf8VITttnWHsqlhKEz9lCz4/bcnOmorqqr0ezh+bD7G0a9HlflCsbEygTjwJB/vrQZzGSLQfAPJiXnyHszYumd3UVp3tcZRtfmh5TBTzEsH271+1UzdJdhyVvo95knKxEjYImAoobD0OTgmCc0yYIXcQ4y6vIfXmL62vUqul7C3m7gM9SSa2iqqOxQLvBRw0/oWDpx6DZt1sjpmiZAm4gv5z9MUAmr2uUNmX5KT6mgduLM6zedI4z5qtHBUbkcYfFiSgoR0lqL4VZf5+ipDVnapKBNr7GJRBvOHlh8+M1X7RVgZ9MxUOyFPtF+tYh1v+vTvXfLg==
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.700.51.1.3\))
+Subject: Re: [RFC PATCH v3 3/5] ntfs3: make crtime user-settable using ptime
+From: Andreas Dilger <adilger@dilger.ca>
+In-Reply-To: <20261102153845.d67wlorqcbe3c2w7@pali>
+Date: Mon, 2 Nov 2026 19:19:11 -0600
+Cc: Amir Goldstein <amir73il@gmail.com>,
+ koraynilay <koray.fra@gmail.com>,
+ David Sterba <dsterba@suse.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>,
+ Namjae Jeon <linkinjeon@kernel.org>,
+ Sungjong Seo <sj1557.seo@samsung.com>,
+ Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+ Chris Mason <mason@kernel.org>,
+ Jan Kara <jack@suse.cz>,
+ Yuezhang Mo <yuezhang.mo@sony.com>,
+ Chuck Lever <cel@kernel.org>,
+ "Darrick J . Wong" <djwong@kernel.org>,
+ Sean Smith <defendthedisabled@gmail.com>,
+ Andrey Albershteyn <aalbersh@kernel.org>,
+ Pedro Falcato <pfalcato@suse.de>,
+ linux-btrfs@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ exfat@lists.linux.dev,
+ ntfs3@lists.linux.dev,
+ linux-api@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <DD1A08F1-8F47-4612-A807-AEA39461AF9B@dilger.ca>
+References: <20261101015551.786044-1-koray.fra@gmail.com>
+ <20261101015551.786044-4-koray.fra@gmail.com>
+ <20261102142452.d6jkitgdeuquy23i@pali>
+ <CAOQ4uxhQ3uhq6s+4deEJAQV5iy8QZoucojR58_dUNYrnjt_yvA@mail.gmail.com>
+ <20261102153845.d67wlorqcbe3c2w7@pali>
+To: =?utf-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>
+X-Mailer: Apple Mail (2.3864.700.51.1.3)
+
+On Nov 2, 2026, at 09:38, Pali Roh=C3=A1r <pali@kernel.org> wrote:
+>=20
+> On Monday 02 November 2026 16:09:41 Amir Goldstein wrote:
+>> On Mon, Nov 2, 2026 at 3:24=E2=80=AFPM Pali Roh=C3=A1r =
+<pali@kernel.org> wrote:
+>>>=20
+>>> On Sunday 01 November 2026 02:55:49 koraynilay wrote:
+>>>> @@ -154,6 +158,11 @@ int ntfs_fileattr_set(const struct mnt_idmap =
+*idmap, struct dentry *dentry,
+>>>>      if (flags & FS_APPEND_FL)
+>>>>              new_fl |=3D S_APPEND;
+>>>>=20
+>>>> +     if (fa->fsx_xflags & FS_XFLAG_PTIME) {
+>>>> +             ni->i_crtime.tv_sec =3D fa->fsx_ptime.tv_sec;
+>>>> +             ni->i_crtime.tv_nsec =3D fa->fsx_ptime.tv_nsec;
+>>>> +     }
+>>>> +
+>>>>      inode_set_flags(inode, new_fl, S_IMMUTABLE | S_APPEND);
+>>>>=20
+>>>>      /* Save nodump flag to return in ntfs_getattr. */
+>>>> @@ -275,8 +284,9 @@ int ntfs_getattr(const struct mnt_idmap *idmap, =
+const struct path *path,
+>>>>      if (unlikely(is_bad_ni(ni)))
+>>>>              return -EINVAL;
+>>>>=20
+>>>> -     stat->result_mask |=3D STATX_BTIME;
+>>>> +     stat->result_mask |=3D (STATX_BTIME | STATX_PTIME);
+>>>>      stat->btime =3D ni->i_crtime;
+>>>> +     stat->ptime =3D ni->i_crtime;
+>>>=20
+>>> For me this patch looks dangerous. Somehow I would expect that the
+>>> "btime" will never change for existing inode.
+>>>=20
+>>> But because the ptime is mapped to i_crtime and ptime is settable =
+from
+>>> userspace, with this patch it is directly possible to change btime.
+>>>=20
+>>>=20
+>>>=20
+>>> I was thinking more about it... Is not this just misunderstanding of =
+how
+>>> the security model around the times is working on different systems?
+>>> Because on NTFS there is stored just one field which says when the =
+file
+>>> was created. There are not two fields like "time set by user and =
+time
+>>> set by system".
+>>>=20
+>>> Windows security model allows anybody with WRITE_ATTRIBUTES access =
+to
+>>> change that create time. Linux security model does not allow to =
+change it.
+>>>=20
+>>> NTFS in this view is just a filesystem like any other (ext4, btrfs, =
+...).
+>>> In my opinion if the ext4 or btrfs filesystem is correctly =
+implemented
+>>> on Windows systems, then Windows security model should handle it in =
+the
+>>> same way like for NTFS or exFAT. So if something grants =
+WRITE_ATTRIBUTES
+>>> access, then Windows should allow to change also btime on ext4 or =
+btrfs.
+>>>=20
+>>>=20
+>>>=20
+>>> On the other hand, I understand the use case to have two creation =
+times.
+>>> One time which would never be changed and could be used for any kind =
+of
+>>> atomic / synchronization by userspace application logic (this =
+btime).
+>>> And another time for human which can be changed at any time to any =
+value
+>>> which user wants (this ptime).
+>>>=20
+>>> In any case, I would suggest that filesystem driver would not report =
+to
+>>> userspace unsupported values and would not try to invent other =
+values
+>>> and lying about them.
+>>=20
+>> But all those fs with mutable creation time already report it with =
+STATX_BTIME
+>> so what can we do about this?
+>=20
+> Well, what I wanted above to point out is that the "mutability" of
+> creation time is not feature of filesystem, but in my opinion rather
+> property of the security model on the running operating system.
+>=20
+> Maybe better question is: how ext4 btimes differs from the ntfs btime?
+> In my opinion there is no much difference, both of them has meaning
+> "time when was the file created".
+>=20
+>> If userspace requests both STATX_BTIME|STATX_PTIME in mask arg,
+>> those fs could technically return only STATX_PTIME and it should not =
+regress
+>> existing programs.
+>>=20
+>> But this is still a bit surprising behavior is it not?
+>>=20
+>> Thanks,
+>> Amir.
+>=20
+> I'm not sure what to do with it.
+>=20
+> If we allow to change btime of ntfs then for consistency we should =
+also
+> allow to change btime of ext4.
+>=20
+> Maybe another idea... define new capability which would allow to =
+change
+> btime (on any filesystem)? This would at least make the consistency.
+
+I think the ext4 and xfs maintainers have repeatedly said that =
+btime/crtime
+attribute should not be modified by users.  There was a long discussion =
+on
+this from Ted as well, and the reality is that "creation" time is not =
+worth
+the bits that it is written on, since it is not preserved by any tools, =
+has
+a "vague" meaning (is it when the *file* was created, when the *content* =
+was
+created, do edits update it, is it preserved across filesystems, =
+archives,
+etc.) and adding it into the filesystem is misplaced effort.
+
+Storing it as an xattr has some reasonable chance of being preserved =
+across
+tar/cp/filesystems, and doesn't introduce a herculean effort of changing
+all of the system calls and on-disk formats for every filesystem.
+
+Cheers, Andreas
 
 
 
-On Sat, Oct 31, 2026, at 10:44 AM, Joas Antonio dos Santos wrote:
-> Since commit 2fbe4586cff3 ("fuse: add support for opening dax device as
-> backing"), a regular file is marked S_DAX whenever the server sets
-> FUSE_ATTR_DAX in the attributes. This does not depend on any INIT flag,
-> so any FUSE server can do it, including an unprivileged one.
-> 
-> fuse_notify_store() does not check for this. It adds ordinary page cache
-> folios to the mapping of such an inode with filemap_grab_folio(), while
-> the DAX code expects that mapping to hold only DAX entries. When the
-> inode is evicted, fuse_evict_inode() calls dax_break_layout_final(), and
-> dax_layout_busy_page_range() hits WARN_ON_ONCE(!xa_is_value(entry)):
-> 
->   WARNING: fs/dax.c:825 at dax_layout_busy_page_range+0x394/0x4dc
->   CPU: 0 UID: 65534 PID: 93 Comm: fusedax
->   Call trace:
->    dax_layout_busy_page_range+0x394/0x4dc (P)
->    dax_break_layout_final+0x104/0x278
->    fuse_evict_inode+0x2cc/0x57c
->    evict+0x2b4/0x748
->    iput.part.0+0x51c/0x964
->    ...
->    fuse_kill_sb_anon+0x170/0x268
->    deactivate_locked_super+0x98/0x11c
-> 
-> With panic_on_warn set, this lets an unprivileged FUSE server panic the
-> machine.
-> 
-> DAX mappings do not hold page cache folios, so storing data into one has
-> no use. Return -EINVAL, as is already done for files that are not
-> regular. This also covers virtiofs DAX inodes.
-> 
-> Reproduced on current mainline (arm64, CONFIG_FS_DAX=y) with a FUSE
-> server running as uid 65534 in a new user and mount namespace, answering
-> INIT with no flags, LOOKUP with FUSE_ATTR_DAX on a regular file, then
-> sending FUSE_NOTIFY_STORE for it and unmounting. Before: the WARN above,
-> and a panic with panic_on_warn=1. After: FUSE_NOTIFY_STORE fails with
-> EINVAL and nothing is logged. FUSE_NOTIFY_STORE on a regular inode
-> without FUSE_ATTR_DAX still works.
-> 
-> Found by code review of the DAX backing changes and confirmed with the
-> reproducer above.
-> 
-> Fixes: 2fbe4586cff3 ("fuse: add support for opening dax device as backing")
-> Signed-off-by: Joas Antonio dos Santos <joasantonio108@gmail.com>
 
-LGTM
 
-Reviewed-by: John Groves <john@groves.net>
-
-> ---
-> Tool-use note: the code review that found this and the reproducer were
-> prepared with help from an LLM-based assistant; I reviewed the change
-> and built and ran the tests myself. Reproducer available on request.
-> 
-> fs/fuse/notify.c | 5 +++++
-> 1 file changed, 5 insertions(+)
-> 
-> diff --git a/fs/fuse/notify.c b/fs/fuse/notify.c
-> index 984e4945e..938440474 100644
-> --- a/fs/fuse/notify.c
-> +++ b/fs/fuse/notify.c
-> @@ -167,6 +167,11 @@ static int fuse_notify_store(struct fuse_conn *fc, unsigned int size,
-> err = -EINVAL;
-> goto out_iput;
-> }
-> + /* DAX mappings do not hold page cache folios */
-> + if (IS_DAX(inode)) {
-> + err = -EINVAL;
-> + goto out_iput;
-> + }
->  
-> mapping = inode->i_mapping;
-> file_size = i_size_read(inode);
-> -- 
-> 2.43.0
-> 
-> 
