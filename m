@@ -1,114 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793698146;
-	b=yTqtc9z48NWv/n/dVwWu7awO7R9IlWxCQ0IS4+fq72ooc9GA9QOomyhErUcW29MtudFa
-	 BtFnxG74/T4JTtPu4nJz/gf7YC/wDTu60UrxtZEwgRSE7kDTxu6ztLG+ZUNA9mjJMexJQ
-	 AXEL3I7SoeQspfIrQF0SORjX16fxDvCYDLgB2wHJvmPZ8vwMVPVrP/nVS+nSPUCtvftF4
-	 r0euHd4pGmKUOqDJls+wH9svfOzce9KtZYhqc07F0voOQ5j6GYC1sYoiF+vtylu7W9ygU
-	 zGbymfjuaUqwSegOrFvhuY0aqUNNCqJGoP0m6FrDzw0HK9EbxGfMCBADWu1hszH09yg==
+	t=1793698667;
+	b=xG1i0PV66B0cO2MO2xYnaH1xuxfXaCmTVwk+5dmd0AwQ1euEFznDADcOlXSkDYxkcLes
+	 nWuCVa7mmQbQnWy0AdCUjqBn1sVsNVfmMUY/Gqss6sQ9Ka9Too/aIGWP3pKrYzB+NI8yV
+	 fLwl1QO7KJk3ljQf9jzA9pqhMWc21Bb2egA3bdhnALWK47LiSyAl72B2C6h+qMd55eZX3
+	 T7z5YrrKk7UatmomGb+jBthUvvMo9xXE/hLvfUqLq0YxUmsFMPNbPbSsxn93Q0jFmYJxP
+	 5ob0qqjN2g6ExVYH4znFhw/dI5f2sd9t8sdM8TUYK82W9pv1I5uCHa5vOQxkXgasi6w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793698146;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=GC4ATzK3IxZRvi3Ei+hKSqTD4en8xH1y2tp0UQprNBM=;
-	b=2PLXhq1k7j5vjP808yXYJ6sMRShwrOFDVkadz3v+XbdfMKPPzdKJ0nFn3hRYNgoVS342
-	 QV4ooC3ejxnh8r5Gbrdpxf+30zzevg/E6Ehjt0v+zc3TxhqOvzps5SIsWb+qGwzEin/nc
-	 sZht3lQ51ZgqHmDc9iPLqFGMMQE6gVzhBa9J9AM7Pe8pCE7CnpI4InbTUNWXZLBkejiYM
-	 fegqoiwfLvPNgyN66MH6hamKDMRtv6La0EbInF5dXGKhmmPcqyE55sDrcE1o/uIaRdv2m
-	 BTi6TfDmlUq6YHS7A7kWXuQVKxHRl+5+5Zg/oESdWkIf/W9B+ypa4UHK6n5ocAEB5/g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793698667;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-SRS-Rewrite;
+	bh=PTfIu5zH5+0vg5rb6e/WBy/N90ekNPWPCmFYZv88RCc=;
+	b=d1ukoyX+b8UNSG1CwbPUxBmDIBpPkgbDZbEkkC+tLO1EUHZWD1FJwetfGdX9tHL7Y89Z
+	 7jfU3DQj+zgCpuLR0979eYxd1jElgDOlOUkhwJ5Fa7mdsUdphwsKZCibnaeDz69+vAdCX
+	 xFTmf+R9/8AE06Zm1XPKM6wZ1wkiVVSI/cUGpgwA3if4JFZMCG6mxIvWZLRpwz5V3gSD3
+	 PXq7HoFtakXdELVUXjKTqddd3n2Pl6OHQPZ0VGlmCn7/ShBvBuop+0CtYz8nRBgIBkbmm
+	 zC51+pPRXn3RYVKZulNaoLRKM8VcrjkYqNXNG/rF8gcW1iuWO16aykGfKFMduo/7+rw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=z7gUoOx3;
-	arc=none smtp.remote-ip=209.85.221.44
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=infradead.org;
+	spf=none smtp.mailfrom=bombadil.srs.infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=quZkXKiW;
+	arc=none smtp.remote-ip=198.137.202.133
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C8D7606A33E
-	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Nov 2026 09:29:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5C8D7606A33E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 562F9606A32C;
+	Tue,  3 Nov 2026 09:37:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 562F9606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=z7gUoOx3
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-48df4e9d2d4so2096286f8f.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 03 Nov 2026 01:29:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793698145; x=1794302945; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=GC4ATzK3IxZRvi3Ei+hKSqTD4en8xH1y2tp0UQprNBM=;
-        b=z7gUoOx3NaMBfXF4kv1BjI+0IIZ1dFQohmKAPaBPyKi/Z+iQQEuHWo9+uJux+DJg8h
-         KMTRoHyFkNHla1d50xqcN0xmH6Vtcw0gLO0xnYWYJ4bJAAZQ8PHYF6jA6qTeyUAu2nyF
-         hlxRxjBKbcPpHWEB2J++Uz2qvDdF8Rk7Ym+G59K35qhS7+Vig4RGNpkykljPwgTqto7S
-         3fGsdFy70xobCXsdkeMLp0KZn89JXITqogVzkFZtssW1oZ6j7f5zt0xrlFa3wcqDUmU1
-         XRig6zfKTCK/pIlchXbA+h5Wh6j/wF2uUTdHtS2ExtVmzwTz49pWo+a9eS1BoKlLJwBG
-         fXpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793698145; x=1794302945;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=GC4ATzK3IxZRvi3Ei+hKSqTD4en8xH1y2tp0UQprNBM=;
-        b=kS6RLWi0fnr9s7FGpIB0lGNImqDBiRczLuGIewMU5FDLHYFH+48BlQ4Jyn4Wdny8Kf
-         n3v5DhqH6Wc3HCtq474iAE3e0BFPqoeYWB0m+Lp+pNv9qTSd8YCfqJdzV/v77ZXP8+Se
-         14wJ5pyL+yatejBPhPF7oLeM70zENQKrKS87eF31fLiepZEYCrDepCIujtQXuCmFSGot
-         OXAt54rVcV2iEx/k4LQrBoiwLG5Mn9FUYFW6Ib7DwxLmDTO3Nchjo2mtwP+MP8zhOnwt
-         ygtZnzHISB4PXOXayw/9dFiiLeZsDDRNIM4/MMxLzUh5IOgaKut/2YZNN3uEQpKMNmz3
-         I9pQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwzKwRWjP+f4zPI3fN/Qre8PzRwu55LmtsK5M47YiRfjSHg0QcsiEFqWzBjdtggCp7//WW6ZcAuA/ZKdnCy@vger.kernel.org
-X-Gm-Message-State: APuU4Z+G6m0S3Ab4az8IdjHjly8PL45/Ec5pNqRRtZ6DvSRnc91VY5iX
-	ax7EBnvYhmrA4jyOBVrTW57ONI1MrBWYFV/03o2sNbe+rQPRFLaOFtcs
-X-Gm-Gg: AYBFou0FLJuCYcG6SDr7YJRxQ6qkIqCGBR79ubO8SZDC1eAEygySVN2SjDm4Hc/R7Ta
-	y3dj7izrB49blA8dvI9VLoxK4t/qeKOyR/XvR/e93qxKYHxCzVeH1tyNoGA3rewQwlGHdkQodLm
-	DtrEjBnuAjQeqtK4jkbTTeGMv0gWYmIYugzfF+8Hvjn/MzyzMDtKUp2yFtgttH0sELk0trxRfwC
-	qMQUPHx1M4ArGyHllcshCnfTESeSi2XmVPvTJRuMumTa8pmblvq8pHj4VXc/nUMrtqApjl5wJym
-	vv96S+5Wa8cWR3udSQ8qsnVxvhyrmlTQQzdPfvi7iOCP3BgEl/n0yC/r+dO7wWYB21VWgFGIkjV
-	V6gWCV8KTh8stGj4wXpAvYpTuTYLYhEdRvkmBDHi/uy77Sisw65KT9LQat89hTt1d/Dv7/98Wxv
-	zmFkdLneErhCjcS7jlf0clZUYKl9WijdgLbYPSFr1lJ24k9s0cP/ejT/h4f5MgBFE3aKCiXmi5x
-	65t7Hpqr5RCEqqpVR5hxDIt/J6zfGfgeIB3uHxHbAD2NhxVC3cnQApfjUUVMfRtUDUbWgn9pUg3
-	2UFpv6ehf03aPVgwgv46OR3HFSHgnh0CWR9YU41G2kU8InARiwHb6pLrxa8DNkJIb/cvtqyp+u0
-	UBkpntBPUTuY=
-X-Received: by 2002:a05:6000:4014:b0:48e:5071:420 with SMTP id ffacd0b85a97d-48e6e2bc75fmr27335389f8f.2.1793698144786;
-        Tue, 03 Nov 2026 01:29:04 -0800 (PST)
-Received: from C422HJQPQG-Fractile ([150.251.170.8])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e71b727c6sm26134262f8f.16.2026.11.03.01.29.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Nov 2026 01:29:04 -0800 (PST)
-Date: Tue, 3 Nov 2026 09:29:02 +0000
-From: "Vishal Moola (Fractile)" <vishal.moola@gmail.com>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Tal Zussman <tz2294@columbia.edu>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Jan Kara <jack@suse.cz>, David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Zi Yan <ziy@nvidia.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Joshua Hahn <joshua.hahnjy@gmail.com>,
-	Byungchul Park <byungchul@sk.com>,
-	Gregory Price <gourry@gourry.net>,
-	Ying Huang <ying.huang@linux.alibaba.com>,
-	Alistair Popple <apopple@nvidia.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
-	Peter Xu <peterx@redhat.com>, Hugh Dickins <hughd@google.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/8] mm: remove newly-unused page wrapper APIs
-Message-ID: <aumpXjTMlZhV0PSh@C422HJQPQG-Fractile>
-References: <20261102-page-wrappers-v1-0-e7280bdb31f6@columbia.edu>
- <20261102175605.a0d9caee8279ffb5f6fdf15f@linux-foundation.org>
- <aumjF5peb2vyuncA@infradead.org>
+	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=quZkXKiW
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=PTfIu5zH5+0vg5rb6e/WBy/N90ekNPWPCmFYZv88RCc=; b=quZkXKiWMspYTDMUomMGh+zCME
+	BR+mKF39JIPUYqI+2YuEIipCR7bSD8U1X3ZwCb4vUINCWvTpTxf/vh7KEI2VQMdmh9OrD2r9vQGF3
+	8jC+tKCX0bFF4ltihycTXes0oGl1cTguvjqjizcQehlV6MT6aAixpQfB7vFYWWmPjOZfGNt7/NyV3
+	xKPlnSGs2ImyS9lDe8YnZC8Uca/KxzWSgk5wd9oU8J/vK/fIppiaOrELQTUjCjGXuUhsRggwtkyTz
+	wuWW69pCjBUW7qlPh8CqQx4yDby6kmWwtHX0knBWWCdkh9mvxMfseDag8lDcHbL3LXHVN9hq/efb5
+	Fv5oC2yA==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xOAxe-00000001lhC-3XfK;
+	Tue, 03 Nov 2026 09:37:46 +0000
+Date: Tue, 3 Nov 2026 01:37:46 -0800
+From: Christoph Hellwig <hch@infradead.org>
+To: Andrey Albershteyn <aalbersh@kernel.org>
+Cc: ebiggers@kernel.org, hch@lst.de, Carlos Maiolino <cem@kernel.org>,
+	fsverity@lists.linux.dev, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, david@fromorbit.com,
+	"Darrick J. Wong" <djwong@kernel.org>
+Subject: Re: [PATCH v18 05/15] xfs: handle fsverity I/O in write/read path
+Message-ID: <aumrai1iWxj97svo@infradead.org>
+References: <20261102144147.2393369-1-aalbersh@kernel.org>
+ <20261102144147.2393369-6-aalbersh@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -120,25 +68,94 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aumjF5peb2vyuncA@infradead.org>
+In-Reply-To: <20261102144147.2393369-6-aalbersh@kernel.org>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Tue, Nov 03, 2026 at 01:02:15AM -0800, Christoph Hellwig wrote:
-> On Mon, Nov 02, 2026 at 05:56:05PM -0800, Andrew Morton wrote:
-> > >  9 files changed, 8 insertions(+), 110 deletions(-)
-> > 
-> > Tal, you obviously haven't been following along ;)
-> > 
-> > 
-> > This development cycle is not the one for cleanups and new features,
-> > but this one sneaks through!
-> 
-> Given that this is purely dead code removal I'd actually vote for
-> fast tracking this into 7.3-rc.  Unused API better be removed ASAP
-> before people start using them again.
+On Mon, Nov 02, 2026 at 03:41:35PM +0100, Andrey Albershteyn wrote:
+> @@ -41,6 +41,7 @@
+>  #include "xfs_inode_util.h"
+>  #include "xfs_rtgroup.h"
+>  #include "xfs_zone_alloc.h"
+> +#include "xfs_verity.h"
 
-I agree with this sentiment.
+I think the Sashiko comment that this breaks the build until
+xfs_fsverifty.h is added is spot on.  Easiest is probably to just add
+the header in this patch already.
 
-Although given how long the folio equivalents have existed, I don't
-think it should be too much of an issue. AI is decent at catching
-this sort of usage of "legacy" apis. I'm not sure if sashiko checks
-though.
+>  	XFS_ERRORTAG_DELAY(mp, XFS_ERRTAG_WB_DELAY_MS);
+>  
+> +	if (xfs_iflags_test(ip, XFS_VERITY_CONSTRUCTION))
+> +		iomap_flags |= IOMAP_F_FSVERITY;
+> +
+>  	/*
+>  	 * COW fork blocks can overlap data fork blocks even if the blocks
+>  	 * aren't shared.  COW I/O always takes precedent, so we must always
+> @@ -265,7 +270,8 @@ xfs_map_blocks(
+>  	    isnullstartblock(imap.br_startblock))
+>  		goto allocate_blocks;
+>  
+> -	xfs_bmbt_to_iomap(ip, &wpc->iomap, &imap, 0, 0, XFS_WPC(wpc)->data_seq);
+> +	xfs_bmbt_to_iomap(ip, &wpc->iomap, &imap, 0, iomap_flags,
+> +			  XFS_WPC(wpc)->data_seq);
+
+Is there a reason to not just move the IOMAP_F_FSVERITY handling
+into xfs_bmbt_to_iomap?  It would break if single extent is shared
+between data and verity data, but we already leave a large enough hole
+that this could never happen, right?
+
+If we need to protect agaist that explicitly passing the offset might
+still be better, although it would be a bit ugly.
+
+>  	xfs_iunlock(ip, XFS_ILOCK_EXCL);
+>  
+>  	xfs_iomap_set_anon_write(ip, &wpc->iomap, offset,
+> -			XFS_FSB_TO_B(mp, count_fsb));
+> +			XFS_FSB_TO_B(mp, count_fsb), iomap_flags);
+
+Same for xfs_iomap_set_anon_write, although we already do have the
+offset here in either case.
+
+> +static int
+> +xfs_iomap_writepages(
+> +	struct xfs_inode		*ip,
+> +	struct iomap_writepage_ctx	*ctx)
+> +{
+> +	/*
+> +	 * Writeback does not work for folios past EOF, let it know that
+> +	 * I/O happens for fsverity metadata and this restriction need
+> +	 * to be skipped
+> +	 */
+> +	if (xfs_iflags_test(ip, XFS_VERITY_CONSTRUCTION))
+> +		ctx->iomap.flags |= IOMAP_F_FSVERITY;
+
+Sashiko complained about this, but I also really don't understand
+how setting ctx->iomap.flags before we even get a mapping to start
+with make much sense.  This should be set together with filling the
+iomap either way.
+
+> +#include "xfs_verity.h"
+> +#include <linux/fsverity.h>
+>  
+>  #define XFS_ALLOC_ALIGN(mp, off) \
+>  	(((off) >> mp->m_allocsize_log) << mp->m_allocsize_log)
+> @@ -883,6 +885,9 @@ xfs_direct_write_iomap_begin(
+>  	if (flags & IOMAP_ATOMIC)
+>  		iomap_flags |= IOMAP_F_ATOMIC_BIO;
+>  
+> +	if (xfs_iflags_test(ip, XFS_VERITY_CONSTRUCTION))
+> +		iomap_flags |= IOMAP_F_FSVERITY;
+> +
+>  	/*
+>  	 * COW writes may allocate delalloc space or convert unwritten COW
+>  	 * extents, so we need to make sure to take the lock exclusively here.
+> @@ -1023,7 +1028,8 @@ xfs_direct_write_iomap_begin(
+>  	trace_xfs_iomap_found(ip, offset, length - offset, XFS_COW_FORK, &cmap);
+>  	if (imap.br_startblock != HOLESTARTBLOCK) {
+>  		seq = xfs_iomap_inode_sequence(ip, 0);
+> -		error = xfs_bmbt_to_iomap(ip, srcmap, &imap, flags, 0, seq);
+> +		error = xfs_bmbt_to_iomap(ip, srcmap, &imap, flags,
+> +				iomap_flags & IOMAP_F_FSVERITY, seq);
+
+Does passing on the other iomap_flags hurt here?  Filtering out a
+specific one looks pretty odd.
+
