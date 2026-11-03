@@ -1,54 +1,59 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793723966;
-	b=LojKSHHkrk7Sd3yfu/JEpTZSw6FiyyzZ86vEtR5Lsw/lZJuJY0UkWjt4F2IrYyVZlQ/k
-	 IVfpWZZ8q2bR3ULKqiN0VKBuqQKa7x0fVRtoetlwbU9spq7BBCT0Zmix6HrYYC1tJdJGK
-	 IlB5WUZ1ZLrIBsGmnbGgv8rMR9uz81pL6BnWX0z3lThlmwnXMCtXQ7CtvB3vDKuNKhXW8
-	 t2gIbf4/D8Hat21YTUOiCbzdVuFpYARr1/OH75OMPYA1zjerjmYSnzVD5In2zk37IHzyE
-	 9t122K7pgX8fnquIogQ9W4K6OrE/Fl0TRVVMgLJVP/JCJDT6u1QlYv81jPQZXAnzZpg==
+	t=1793724862;
+	b=ijhj2dyjHfHhLmD7whGA11knX69TGCUSJ23vLIV0GRPOQN8mGf9h3OiRR0VO7HdCA0T+
+	 mB2jiFv1THqF1cX4ZktJYgxWMp4IU5eOpz23T5thRs222p0UBIgTIrwQ8Q72y2K9LXDEi
+	 0Hu3mLHGLniDhC+5K7DiKK0T6bbCJ4usOLYfzulGIALAJh9Iat8G1OMWQI8ismr/4PnYe
+	 zOiKsQp2JDUdci9XNxljx6d2R3sFv/fkbEGfcxRgL/uQ7mfVPcEupamaqfcSQcfEpTrjm
+	 KBA01ZMRbN6u0/zHM7ReMhtNIMUk9N05lXzEJKFKu4AlwyuKM6cy/1E2bqlncJUk/XA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793723966;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793724862;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=B+ddZLNMVY/L0iNuiWwG7zaT3u2ikp7F4nNGAgSTECs=;
-	b=NSgY6Yl3w/xiLKC0wsn5mY+h6MWlC9+VsiJe3EvU+0AzhJyQ48Xpg1NB4JOMtWWezGeU
-	 KUs0LXG1deKFdR2Hfzm+8AtnYlWvXAeeuN0YbX59N2uCIH+CgKWa9DOAuU/GotloHAT9M
-	 GqGeq2rk5819oU0MlIuHe3D8V81nxT5E8E36Mwb6d0u3Ac9cxDI5G96dM4iLPFHHiFaVc
-	 khTKC3YsvnulcSSJqhTgOMurqyNl8vpQ9n5Zv6k4/48V77AwutBHUVZ15tGjgS9Oit3Em
-	 pqLbtyY3DPAQOQ2Sb/qSqIb3kBoScC/1aeO3Q2pGzVk+B4c316gKFlIVvzVibGOVzCw==
+	bh=vxdw5k8JXp3VH90wFYbwMiOBBanWxY/Kd80uK9Q7CRw=;
+	b=jx0/+CPbSpaq1menVFas5V7oRtR5tGzz4FW6vLCTlcjCC4fK1OiG4p9LHxUx6ZI4jg8y
+	 zfIR3z8iegZt5SJWDz3RkrdTig/QS1UCTABLKnF60ORmh6cfDixIe9f95JpzwhpE7rZt+
+	 2vyoL8ACh9qkXkA8esf6DC8QKHdLCDVpZVQDRC/RXmdg/G0yFYfk21sc2GVVzLZd736mZ
+	 t5/5C53mWJeecDBZxryVSJLr8QnIK/xPIKkmpJPvBsv+UPyWkmrG2d2S0a57pU2jRYAE2
+	 l412WxyV5oq23+zf3JOQxu/wommDe8n+rv19WcPR0jGddcLWpP21ztb20BuEyJRHDag==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ss3+GY6r;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="cs8/miqg";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 370C6606EE9E;
-	Tue,  3 Nov 2026 16:39:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55A7B606A328;
+	Tue,  3 Nov 2026 16:54:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ss3+GY6r
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25DF51F00A1D;
-	Tue,  3 Nov 2026 16:39:25 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cs8/miqg
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20B651F000C1;
+	Tue,  3 Nov 2026 16:54:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793723965;
-	bh=B+ddZLNMVY/L0iNuiWwG7zaT3u2ikp7F4nNGAgSTECs=;
+	s=k20260515; t=1793724862;
+	bh=vxdw5k8JXp3VH90wFYbwMiOBBanWxY/Kd80uK9Q7CRw=;
 	h=From:To:Cc:Subject:Date;
-	b=Ss3+GY6rH5vn0benxmUJ4l5aSSLOWHMsQWWsZaXYESYVK9YmxlijwX3gziGauy1JQ
-	 4hMsqsIURdej2v4jJe87Wm48r2cOJ8aseTXAVMjgrU2ghGsMOMbr8nIonjjM58vkIA
-	 FzCG0j27nObIiiLa89J9a2/zpUt+tEcX4ZKa2H3gJ/PsSNDSK3tGlGzBQpHDK9vTfy
-	 r4khdGOe3mkfEyRyB8aCsq2bLy6XOcDYYx89XXgJFBgVltMYT0jRrwyVLqGVkr61XG
-	 EsWXTukVf340GwEQmzsYe8sib1jqKHP6MbCmerE899mEQwC2TxErTsvyGo2gPU9r+d
-	 OGJWKx50JG+7A==
+	b=cs8/miqg0tUcbThCODMeDQlMoZjRkfmzFPxEnBxPPSJ//H2Fp3ViLDSMDcdgw5kqh
+	 bd7mPUnMKcAKXkAYpG4tFhPcqxro1ePtMqUfqG4WZkymD7XNtZ66kgUrhaSR9IB/UJ
+	 F/SDJFRtvyNneYxXUXPo3FraL3e/8Y+wLFQomeDd9EegOBTFkNGB4oy/LXhl68mnx1
+	 aHQwPdxJutXVgv62umzbdP/6ARwu2PDXMaTB2Em0OMeltAGlYDoFwpi5MpEB5vABPV
+	 C9jzDnqoxtlRLVrgc/pKl50VivHi4U750dN1k+ZM2Vmn0NcQMwjDp0HN8IYmFtZ2AL
+	 t0tPJModPogmw==
 From: Sasha Levin <sashal@kernel.org>
 To: Christian Brauner <brauner@kernel.org>,
-	Seth Forshee <sforshee@kernel.org>
-Cc: Shuah Khan <shuah@kernel.org>,
+	Jan Kara <jack@suse.cz>
+Cc: Sasha Levin <sashal@kernel.org>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Shuah Khan <shuah@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
+	llvm@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] selftests/mount_setattr: build with a 64-bit off_t
-Date: Tue,  3 Nov 2026 11:39:23 -0500
-Message-ID: <20261103163924.641377-1-sashal@kernel.org>
+Subject: [PATCH] selftests/fs/mount-notify: fix the indentation in the fsmount test
+Date: Tue,  3 Nov 2026 11:54:14 -0500
+Message-ID: <20261103165419.687806-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -61,36 +66,50 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-With glibc on 32-bit architectures, off_t is 32 bits unless
-_FILE_OFFSET_BITS=64 is defined, so the 2 GB ftruncate() of the ext4
-image gets a negative length and the test fails:
+A few lines in the fsmount test are indented with spaces instead of a
+tab. That puts them deeper than the ASSERT_*() in front of them, which
+ends in a for loop with an empty body, so clang warns:
 
-  mount_setattr_test.c:1048:30: warning: implicit conversion from 'long long' to '__off_t' (aka 'long') changes value from 2147483648 to -2147483648 [-Wconstant-conversion]
+  mount-notify_test.c:338:18: warning: for loop has empty body [-Wempty-body]
 
-Build the test with -D_FILE_OFFSET_BITS=64.
+Indent them with tabs.
 
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
-Found with 32-bit builds of the selftests (gcc 16 and clang 21 with
--m32, with and without -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64);
-KernelCI's 32-bit arm builds show the same warnings. The changed files
-build without them now, and the x86_64 builds don't change.
+Found with clang 21; KernelCI's clang builds show the same warnings.
+Amir's pending fanotify series moves this file to filesystems/fanotify/,
+and its rename still applies on top of this.
 
- tools/testing/selftests/mount_setattr/Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../filesystems/mount-notify/mount-notify_test.c          | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/tools/testing/selftests/mount_setattr/Makefile b/tools/testing/selftests/mount_setattr/Makefile
-index 4d4f810cdf2c1..2e5b16fcdf10c 100644
---- a/tools/testing/selftests/mount_setattr/Makefile
-+++ b/tools/testing/selftests/mount_setattr/Makefile
-@@ -1,6 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0
- # Makefile for mount selftests.
--CFLAGS = -g $(KHDR_INCLUDES) -Wall -O2 -pthread
-+CFLAGS = -g $(KHDR_INCLUDES) -Wall -O2 -pthread -D_FILE_OFFSET_BITS=64
+diff --git a/tools/testing/selftests/filesystems/mount-notify/mount-notify_test.c b/tools/testing/selftests/filesystems/mount-notify/mount-notify_test.c
+index 6381af6a40e30..6c95c275b1629 100644
+--- a/tools/testing/selftests/filesystems/mount-notify/mount-notify_test.c
++++ b/tools/testing/selftests/filesystems/mount-notify/mount-notify_test.c
+@@ -337,18 +337,18 @@ TEST_F(fanotify, fsmount)
+ 	fs = fsopen("tmpfs", 0);
+ 	ASSERT_GE(fs, 0);
  
- LOCAL_HDRS += ../filesystems/wrappers.h
+-        ret = fsconfig(fs, FSCONFIG_CMD_CREATE, 0, 0, 0);
++	ret = fsconfig(fs, FSCONFIG_CMD_CREATE, 0, 0, 0);
+ 	ASSERT_EQ(ret, 0);
  
+-        mnt = fsmount(fs, 0, 0);
++	mnt = fsmount(fs, 0, 0);
+ 	ASSERT_GE(mnt, 0);
+ 
+-        close(fs);
++	close(fs);
+ 
+ 	ret = move_mount(mnt, "", AT_FDCWD, "/a", MOVE_MOUNT_F_EMPTY_PATH);
+ 	ASSERT_EQ(ret, 0);
+ 
+-        close(mnt);
++	close(mnt);
+ 
+ 	mnts[1] = expect_notify_mask(_metadata, self, FAN_MNT_ATTACH);
+ 	ASSERT_NE(mnts[0], mnts[1]);
 -- 
 2.53.0
 
