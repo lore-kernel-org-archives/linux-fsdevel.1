@@ -1,86 +1,70 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.176
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=216.40.44.14
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793666624;
-	b=eNiskFhycDQgH7ogieswOhzUpsG7YBxtfAfVaOG/gdnjKJE8dPfoH1rlxqmq5tLBVS3z
-	 CxdHjxPlU8FTrXH2YLMBrG/C2fSuZGuh7RICmFwWW2VrnYOC9IUwTMAYBpOBogHg4rbOE
-	 OoFUQiJMa9iJQmacmVrYTuxSbSvL6bJGaGcdEh3TkhAl5i/k3FVw3aiLbDayJVS9plg7F
-	 jWttXnm2OQ0uT/2BaAYJ+g46MYyY2STRCXc0GWYhXzWSDIIX3+BbUO3GdveIA7WODlUMF
-	 +riKX40FEDSdsJYkJMXjTr/SXAK5c050iPALj3a8yo3AkbYCdaaeUAKEyPuSNIpcYVA==
+	t=1793667587;
+	b=Te+T2qrW5xpYNnGZ2Vhf5kZf7cN4zoFklXa//W0Gio6cZsZCKMp0u6NvrZeedUpOgsHV
+	 fzrC0ymc35x5iLqVeb4WZKlw7PPj5xNVNBfSLGCddUXcZEtULwJjd3lobvwoqxrbo9PxD
+	 NV7uLXi0AbvAxggzh4dva1LS72b4yvQOHvu3b0aE7Mt1bSqGDLygQCFYC+jn2yv6yfw1M
+	 ay2SxqYU4ffaTlOls3B2rjnFr6RWo0GigzYfo8jOf0LOF6mTNIHrqLL34uw8ehJNtSM7P
+	 R/7CVd5EFpauXCNMjr/04aKvaQtelAw6Ps+WDwqO2gDAvLzh1CchbZl7RPBjiAThnNA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793666624;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Date:Subject:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
-	 X-B4-Tracking:To:Cc:X-Mailer;
-	bh=7z1HE/KjWOtf8sdZhPk5sTCBtLjDDSjEVH4zmusVOl0=;
-	b=X7D5ul8uWPpGu4hhpSTKebysDsqe22SIwakNhwBjhKWWQ8J1TWfk3OtwDDBSjqUluZm4
-	 5wUPcxQ21ktKyxIpY//4S3N5Hj9VI3H5c58e97OzVM9GzNaRTh3Rt+lsRqLeNZIrKZASc
-	 lM0eNJR3CPOIxiej+rpOL/wv0uwidgPK6VgQo4fVZZIb5C+Z4WghTQOT4DcRrPTr3B0fL
-	 ArzQ7Pi/aAS+S6kM+iYef2DfJpW8Dd2FVvFmw8zThzhx4i+xR2azCarJ6zQAvvx6klkho
-	 ZlEBex+nxFkHmCVSbSwvyOd8Nkoh09+ZmZPpLe8LofuOxtmEhEHeRLI4UNrH6Tq1zxg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793667587;
+	h=DMARC-Filter:Received:Received:Received:Received:X-ME-Sender:
+	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
+	 MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type:Content-Transfer-Encoding:X-Rspamd-Queue-Id:
+	 X-Stat-Signature:X-Spam-Status:X-Rspamd-Server:X-Session-Marker:
+	 X-Session-ID:X-HE-Tag:X-HE-Meta;
+	bh=G6Rv/71RK5koHmtnnOxQb3SYVS/u069P90N9ZnE91N0=;
+	b=5SSVBbew+TcBdRZWNlGCMphBXuHpzn5la22QLXPvRVxD2/Zyzn1bO63Uko5R5ediwrXJ
+	 F/cxqBqdtYR4nNxMNja2hQE1+HbXTLaOrJHOHMVGVY8ii+haw+jAJ4su9WVBRQt5wLg5N
+	 YKKllvF8iXBDOVcubY+OTLBNC2qIDxjpl5lM0x1zQ0J1wv2WalbDlUbCfkKoMrbLzXxVg
+	 mNLuIYi9on3MaSaQ7gc0uqFjB4uJWttFXwQce0cdiMshr9dbtDeFJ/XXt/d5BlYyewDFL
+	 MQGSW2VzmB0GyZiiJNuYZb73AA0enZDL/rQQ9bQRoi8SwFYyulrITgNrFTfQ8Hf8BXA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=GjC1TcGN;
-	arc=none smtp.remote-ip=74.125.82.176
-Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=none header.from=groves.net;
+	spf=pass smtp.mailfrom=groves.net;
+	arc=none smtp.remote-ip=216.40.44.14
+Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com [216.40.44.14])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AF26606A32D
-	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Nov 2026 00:43:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8AF26606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=GjC1TcGN
-Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-3535a54bed9so5415971eec.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 02 Nov 2026 16:43:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793666623; x=1794271423; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=7z1HE/KjWOtf8sdZhPk5sTCBtLjDDSjEVH4zmusVOl0=;
-        b=GjC1TcGNC9WINjV0Y0pUC86ugkq/6GBBmH0xesqh6Csl8qyNo9VnyfnlAp9FrWUrwn
-         9ts4gCQ23ErzT6CkzVt9h6TKmSANQZbHs5msDRP3yzJcX97MGPf3IA61FBBpqrL+Xyoj
-         fZDjUyEYx/wrGyjmPOEXUlvn8BBOfO0hpe85aNoPi/C+cNdPsYo/e6HUbhWt+GDxCqes
-         4q3t1TRmATOewGz+S6RGA89GC1+UyYWSF0JJcK/GPTKotjnazoOBACM1CwO//4suffN9
-         EXtQw+McGtnSl/kuagwfXgKQjiNwEpaIg/Q9iwXgUFW5ImO2B8ri5Enw3CyDsQ4TwzpZ
-         +rAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793666623; x=1794271423;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=7z1HE/KjWOtf8sdZhPk5sTCBtLjDDSjEVH4zmusVOl0=;
-        b=jYIwpDGWmB76NTa+NHMUHKClea1ABKn9vKacE3UJ6SF77ZzZ95746yNHLlfXkOU6Zn
-         chW3czBnnY2V4Ext1oOeY4OWjMoQK3b9GlBhA4GgsxuD+RTV/N2DAVkTIuBMm4SyZ3PH
-         /Nb3lS8QEU1slKVxR6ECc1Gy5zCz+4nmUkOQ3vUzfmeb7SbUh3cVZxEWgX3lfqt7jvGX
-         J384d+mPvheAGAg6LW7pIfs9XYdYt7PXjZuUfFXnzuT6Ny6/zjY2cvrk8SGcoarSUURY
-         WwIFYJeb6nmdpg7/n3P6e2RI0DOL98rpXdF9dCtUcFYtzD+WZkhQh+NCdcoyoJakgsNU
-         bHQw==
-X-Gm-Message-State: AFq9FYIlOi8h7lo0jIC2lEMTxpIUNApv2gsce+FgY55LV/g6x3KXz4Il
-	h8z3qv89EUsNpxeF97IjjY8FIPnFTGC8WZXN0r2NpkFs8CUxgpPftYJxwkdhdChvg3E=
-X-Gm-Gg: AYBFou2IDMalcANI8bWKN+0pLNmc8GvPmu49ZYO+wOK4vifrmiBuQ6tiAOYMdKdmfY/
-	nmSb8h+8UfUJT22cnr3GDGBpbTPGu+qxeSFkBirkfkWkmp8pQ5r2ZUrPJ/E0hswLAdUU43as+4D
-	meXtTK9SFPNrciMRjlEZ4PZNnK8WVWBHxIxIyzJubqMVk/mVMAlZgVx5VLVyuwPH8eN+Jg8udiD
-	MiDrrNl7mU8zMTYAj/jpge5hnHG5S2G88TM0dEHvLrStQXArFbkS8X8EiFo+ICAl8odiIlS3T1H
-	oe1E2C5yOf+lT6FHiO+v/z7oQtQ/XsAusxO6R56Odk0W2L6Y0jYNh0KreepU4DRae5w+BV6dOR4
-	G9xzGmp3evp76vbMssg+GCD4vjN2AL6dHHXXlEwwzGigwOc1QI/ma7VcGHn2R7lOzWjhoRgr98+
-	6YGOkidpaRpkUAuisja3FHxOUJhoKfn43lH67ovAgEADKXQ7Twbex0V63hbZnevUe9kO/D7XJ5A
-	lVPlAZ8C/Kb3KYngTad7SKsvxdZx6GyNYDJI7Y8Pdvl9o2y1mFxk95HEnkRqaINpwuWlOSNZz61
-	dyuehKyVXJ7YNeADiX5wPeKV
-X-Received: by 2002:a05:7300:fb02:b0:358:5bc0:4f08 with SMTP id 5a478bee46e88-36a425f611cmr15512454eec.37.1793666622592;
-        Mon, 02 Nov 2026 16:43:42 -0800 (PST)
-Received: from [127.0.1.1] ([23.254.208.9])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a428ecb61sm36846013eec.10.2026.11.02.16.43.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2026 16:43:42 -0800 (PST)
-From: Qiliang Yuan <odys.yuan@gmail.com>
-Date: Mon, 02 Nov 2026 19:43:37 -0500
-Subject: [PATCH v2] mm/filemap: clear page cache marks once when removing a
- folio
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C7FC606A324;
+	Tue,  3 Nov 2026 00:59:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8C7FC606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
+Received: from omf04.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay08.hostedemail.com (Postfix) with ESMTP id 5BB8C1401C1;
+	Tue,  3 Nov 2026 00:59:39 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf04.hostedemail.com (Postfix) with ESMTPA id 6F79420024;
+	Tue,  3 Nov 2026 00:59:37 +0000 (UTC)
+Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
+	by mailfauth.phl.internal (Postfix) with ESMTP id ED3CEF40066;
+	Mon,  2 Nov 2026 19:59:36 -0500 (EST)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-09.internal (MEProxy); Mon, 02 Nov 2026 19:59:36 -0500
+X-ME-Sender: <xms:-DHpahttLsgo-O9LyRnTMyYg8OOCyrR3pmllmRf0Hq0xoUpxc8-65A>
+    <xme:-DHpalSKPczzavif0J17t-PbwkXHInKEhMsWhL6255WyOgK8Edcwgivkew44VEd51
+    n_aZvX2apjg4HaEot2YixfEXRDNTh7cFqfa_vBXg71MXgo4-KCYVV2R>
+X-ME-Proxy-Cause: dmFkZTG4ZL5up0UnMPo6b6IWOllL5Oy/VFhuJdZlan9+353xhOnGA4qXvG4k7Wquz+vOiW
+    LJnk4kJCnIgTcfnHpFSpI1rJQL8749tASHR5iZ2a0kCIBoJcM0W0LOfofsp6qtawBEF0By
+    OtljbVcCImpCgBZtGS/cgexFW/DNAncaQyrQHcw7ZQuqMvFH8Mo8L9j7Ei5Uq2k5QPQ0lG
+    G0nBf9gwdZxGPFSoTOZQ8heirm6tt4T/vi0NwC8IYqyzo8M4CpF/sfHYRAPcYRT9AiWYyB
+    bnqqTM3tqttT9xNtdZDjumisqXV9aItq2O+VPJNgxG7MjmDMtgJFncjMXP/jUIfo84vsZP
+    Sujev+lKEf1h6ZIeAmnw7/E3zBJM26AMnc7vrLeJs+EmkI8ZC01uFU4q47FRdQHUzsCIFJ
+    ayGr0+bZLowvNL4rMRF/qz2JRRjLi2cN8nKlFV2vtyXr7Jdj7Vm6aGTnM9O/A9SIAFpFQU
+    U/K1tRUIeqb1GMWF36zDadocI/88N9kEgnyYPfASVPARu4idUzIKgKWuZPv0GcQG+qs0An
+    ImOK5x1QGy0adLvz4pB0l2S921cPf6ZpMoXE6BaAglTWn+AEER3Szx0uFrol1BTgibErlj
+    33sE7NWPC3gyytLTjSTw8ef4TvlDHHJ1RRWnpCohsoXrHzo1QaNjbsi6pszQ
+X-ME-Proxy: <xmx:-DHpajQUV2WJTQZXgfypECLGJ6AcoJlARUNwPPm4PfIEC1Y4rzxaWg>
+    <xmx:-DHpanBW-Bg9tMfcv_h_tl65ko8AuR0SV65UacSvANVYkVy18iWa_w>
+    <xmx:-DHparFJ6Xn5B8w3_WppmLMpi3cQJLB3-qu9wBricBlFxRfNNX-iYA>
+    <xmx:-DHpapDUZHzuy9YULnLuxGh9SBJBW_zjpR_Xy_NJbRt0RzXxQvTgQQ>
+    <xmx:-DHparW1XKrqfvlDUZFWEdJsaCSdo-Tlqr4fQIl_KU7jkwohifDElM0l>
+Feedback-ID: i3a164872:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id C2A75700065; Mon,  2 Nov 2026 19:59:36 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -90,70 +74,104 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Date: Mon, 02 Nov 2026 18:59:16 -0600
+From: "John Groves" <john@groves.net>
+To: "Joas Antonio dos Santos" <joasantonio108@gmail.com>,
+ "Miklos Szeredi" <miklos@szeredi.hu>
+Cc: "Miklos Szeredi" <mszeredi@redhat.com>,
+ "fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Message-Id: <069bdfb7-2bad-47d4-ae43-d3d50a63b816@app.fastmail.com>
+In-Reply-To: <179346145958.61208.701521796030924197@gmail.com>
+References: <179346145958.61208.701521796030924197@gmail.com>
+Subject: Re: [PATCH] fuse: refuse FUSE_NOTIFY_STORE for DAX inodes
+Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261102-bug-mm-filemap-init-marks-once-v2-1-985753b11173@gmail.com>
-X-B4-Tracking: v=1; b=H4sIADgu6WoC/42NQQ6CMBAAv0L27JoWYgVP/MNwaOsCG2lLWiQaw
- t+tvMDjzGFmg0SRKcGt2CDSyomDz1CeCrCj9gMhPzJDKUolRSXQvAZ0DnueyOkZ2fOCTsdnwuA
- toakrq7RWV6MN5Mgcqef3Mbh3mUdOS4if47fKn/07vUqUqJqmri69VaoR7eA0T2cbHHT7vn8Bw
- qJ4xcwAAAA=
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
- Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
- linux-kernel@vger.kernel.org, Qiliang Yuan <odys.yuan@gmail.com>
-X-Mailer: b4 0.13.0
+X-Rspamd-Queue-Id: 6F79420024
+X-Stat-Signature: jxfrrcn9qtzxrk9pqk51438wr5rmo4gp
+X-Rspamd-Server: rspamout08
+X-Session-Marker: 6A6F686E4067726F7665732E6E6574
+X-Session-ID: U2FsdGVkX1+uPrMiW9M2xl4Azk1RV1LatNDq3wjJW4w=
+X-HE-Tag: 1793667577-708489
+X-HE-Meta: U2FsdGVkX1/enDX7YLiwcBSjp9OFMJrxcBhxOcz90MsEsrBlp5pHm5UBECEjDQOOixxzTThtBc7YfznDf8VITttnWHsqlhKEz9lCz4/bcnOmorqqr0ezh+bD7G0a9HlflCsbEygTjwJB/vrQZzGSLQfAPJiXnyHszYumd3UVp3tcZRtfmh5TBTzEsH271+1UzdJdhyVvo95knKxEjYImAoobD0OTgmCc0yYIXcQ4y6vIfXmL62vUqul7C3m7gM9SSa2iqqOxQLvBRw0/oWDpx6DZt1sjpmiZAm4gv5z9MUAmr2uUNmX5KT6mgduLM6zedI4z5qtHBUbkcYfFiSgoR0lqL4VZf5+ipDVnapKBNr7GJRBvOHlh8+M1X7RVgZ9MxUOyFPtF+tYh1v+vTvXfLg==
 
-xas_store() clears the marks of an entry before it replaces the entry
-with NULL.
 
-page_cache_delete() calls xas_init_marks() after xas_store() whether it
-stored a shadow entry or NULL, so a folio removed without a shadow, as
-POSIX_FADV_DONTNEED and drop_caches do, has its marks cleared twice.
-With 4K folios that is about 6% of the time it takes to drop clean page
-cache.
 
-Call xas_init_marks() only after storing a shadow entry, whose marks
-xas_store() leaves alone. Dropping 8 GiB of 4K folios, median of five
-runs, averaged over two boots of each kernel, in a 32 vCPU VM:
+On Sat, Oct 31, 2026, at 10:44 AM, Joas Antonio dos Santos wrote:
+> Since commit 2fbe4586cff3 ("fuse: add support for opening dax device as
+> backing"), a regular file is marked S_DAX whenever the server sets
+> FUSE_ATTR_DAX in the attributes. This does not depend on any INIT flag,
+> so any FUSE server can do it, including an unprivileged one.
+> 
+> fuse_notify_store() does not check for this. It adds ordinary page cache
+> folios to the mapping of such an inode with filemap_grab_folio(), while
+> the DAX code expects that mapping to hold only DAX entries. When the
+> inode is evicted, fuse_evict_inode() calls dax_break_layout_final(), and
+> dax_layout_busy_page_range() hits WARN_ON_ONCE(!xa_is_value(entry)):
+> 
+>   WARNING: fs/dax.c:825 at dax_layout_busy_page_range+0x394/0x4dc
+>   CPU: 0 UID: 65534 PID: 93 Comm: fusedax
+>   Call trace:
+>    dax_layout_busy_page_range+0x394/0x4dc (P)
+>    dax_break_layout_final+0x104/0x278
+>    fuse_evict_inode+0x2cc/0x57c
+>    evict+0x2b4/0x748
+>    iput.part.0+0x51c/0x964
+>    ...
+>    fuse_kill_sb_anon+0x170/0x268
+>    deactivate_locked_super+0x98/0x11c
+> 
+> With panic_on_warn set, this lets an unprivileged FUSE server panic the
+> machine.
+> 
+> DAX mappings do not hold page cache folios, so storing data into one has
+> no use. Return -EINVAL, as is already done for files that are not
+> regular. This also covers virtiofs DAX inodes.
+> 
+> Reproduced on current mainline (arm64, CONFIG_FS_DAX=y) with a FUSE
+> server running as uid 65534 in a new user and mount namespace, answering
+> INIT with no flags, LOOKUP with FUSE_ATTR_DAX on a regular file, then
+> sending FUSE_NOTIFY_STORE for it and unmounting. Before: the WARN above,
+> and a panic with panic_on_warn=1. After: FUSE_NOTIFY_STORE fails with
+> EINVAL and nothing is logged. FUSE_NOTIFY_STORE on a regular inode
+> without FUSE_ATTR_DAX still works.
+> 
+> Found by code review of the DAX backing changes and confirmed with the
+> reproducer above.
+> 
+> Fixes: 2fbe4586cff3 ("fuse: add support for opening dax device as backing")
+> Signed-off-by: Joas Antonio dos Santos <joasantonio108@gmail.com>
 
-                          before    after
-  POSIX_FADV_DONTNEED    1517 ms  1423 ms
-  drop_caches            1515 ms  1422 ms
+LGTM
 
-Signed-off-by: Qiliang Yuan <odys.yuan@gmail.com>
-Reviewed-by: Jan Kara <jack@suse.cz>
----
-V1 -> V2:
-- Explain the condition in a comment (Jan Kara)
-- Add Reviewed-by from Jan
-- Rebase on v7.4-rc1
+Reviewed-by: John Groves <john@groves.net>
 
-v1: https://lore.kernel.org/r/20261030-bug-mm-filemap-init-marks-once-v1-1-699835fc6690@gmail.com
----
- mm/filemap.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/mm/filemap.c b/mm/filemap.c
-index b74bc1e5015c6..c2effedf975a2 100644
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -140,7 +140,9 @@ static void page_cache_delete(struct address_space *mapping,
- 	VM_BUG_ON_FOLIO(!folio_test_locked(folio), folio);
- 
- 	xas_store(&xas, shadow);
--	xas_init_marks(&xas);
-+	/* If xas_store() didn't clear marks, do it now */
-+	if (shadow)
-+		xas_init_marks(&xas);
- 
- 	folio->mapping = NULL;
- 	/* Leave folio->index set: truncation lookup relies upon it */
-
----
-base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
-change-id: 20261030-bug-mm-filemap-init-marks-once-b83c6aa67bab
-
-Best regards,
--- 
-Qiliang Yuan <odys.yuan@gmail.com>
-
+> ---
+> Tool-use note: the code review that found this and the reproducer were
+> prepared with help from an LLM-based assistant; I reviewed the change
+> and built and ran the tests myself. Reproducer available on request.
+> 
+> fs/fuse/notify.c | 5 +++++
+> 1 file changed, 5 insertions(+)
+> 
+> diff --git a/fs/fuse/notify.c b/fs/fuse/notify.c
+> index 984e4945e..938440474 100644
+> --- a/fs/fuse/notify.c
+> +++ b/fs/fuse/notify.c
+> @@ -167,6 +167,11 @@ static int fuse_notify_store(struct fuse_conn *fc, unsigned int size,
+> err = -EINVAL;
+> goto out_iput;
+> }
+> + /* DAX mappings do not hold page cache folios */
+> + if (IS_DAX(inode)) {
+> + err = -EINVAL;
+> + goto out_iput;
+> + }
+>  
+> mapping = inode->i_mapping;
+> file_size = i_size_read(inode);
+> -- 
+> 2.43.0
+> 
+> 
