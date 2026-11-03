@@ -1,64 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793740679;
-	b=bG7m9Z+oa+/h4g+k0jwUIzpK3VhmGXF5+ZiCwJ1pB2kV6cVvAmuW80VcahJZ6Lt0wFux
-	 c/5TmCmtph60uLovQb/TlJAijb6F/s8CDT6LAIZ4LCrLw9HViWA17HiDXwCL/DT5Rmm3U
-	 TzPWLBNzalVJTnS2zueRgiiqe++4ca+KzUHrXW41FNisE+ZxX4NNIBze99xUu498Jb4/q
-	 NGKGWEnxnySZ2v6vie+sR4btMTTa4k+b51ANmydqWkqBhfJvkJMsiBsbrtI/CPM9EPNiL
-	 J5gTIJnz1Svi8G/8UujHlHQXgR5LhCJHNmIGICLSkwdm8O8gE/Q5leP3FgcbW5dz1nQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793740679;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=1+SeaVehwt396QnIHnWRn5MKZzC9W7QYhwhH8JQg6As=;
-	b=pq4je+EJJAuId1E7y19g8jyyJ2dGaxkHQiI3EHeqOoDqm6bpQyByyRWJqD5vg5SBwxU0
-	 gXu3wuCwiKh0QQA7wtvX3DLm0CdzEkreuxAyqIfB1upG2bJuBtsIzIBupefc0qHM48xQ/
-	 tCsPUjj9v1rQvZjCu6XHAP0CRly37rRSTzxxtQymKYYO9FnrKjfC/RNYxEsZpszLMb+Wo
-	 XGEgd9Tlg3HyeKFhopTgVzeWRyOqSGeNErISozAqx0AC5n2ppiP2ooVgaMg+qNsuK9B22
-	 5/nQ9o3TfAZqQxgkiE5oslQKGiwPYjTvtp8/pETTDDBSA6ZkU94VWsMSfPzPi2Glp8A==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nsBBcQZv;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.48
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793740770;
+	b=hT5XAUvHkd/IhZSzwVbYTzLRdlKJnkJ3Ruw6HjS3pJiA5LOWH2WIw9jVY1BBOmXAjdUS
+	 evWqXSbQsEwfMge980FWdPVReVHagGoVgSfK2/b6HQLZWFuBBUyvfPFZRyK/KPcz25Siv
+	 Hsy3CgoOS9610PZ6dF6nyr5j0DE/rjbsjPyv8Q7MG1zKe1MG+Dfz1+AbzqeoVGHcARYkO
+	 +khL86sjwExUND6MEyeAWty6mLYdmlxtgcwtjSM/bnmfMQ8jdIxlEU6sPtWt9hfmOHM19
+	 c5W9UsDGa6u9lL+v/4VVVzrLafILY9n0/SCQEsQkUkQ7AENqnXLZjEL5GDHPv83rWeQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793740770;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=E5djs837Oc0mgny3OGd4HuTw/22BWE5GoWMv7ehHmb0=;
+	b=n5oQXx0Da+TQq592i0DSQswLckwdt71SSD0RsW+TMExdPT/Q02zFdRGfCdXdx1UlBCa6
+	 JkO8Vra1V7MA18aAzcSpK9npcpXuT+0h8zAxjQPs7QPSuRmvoWAJL/OF7H7KX3CjPOQbI
+	 R7DAkXXyt9EDqafqtNgPquYWT0PGjqLCXcjH++CLSoiwVlMyGly5c/qGr7KE7Wrmim+Zw
+	 YzQ5/I097CP7QLzjQ9sMmz/SIy5C/9bqKUMTn985tjNRym3BiqmBBKfdXLs2paFSnZGf/
+	 wl9R2SFN4K+jePUZKB9LZrXnt9LPaaRc1oOoYw9jjAmOE4H+i9a3lZM7Z5mojdla1jw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BYxaItvH;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.48
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99158606A329;
-	Tue,  3 Nov 2026 21:17:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89861606A326
+	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Nov 2026 21:19:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 89861606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nsBBcQZv
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 066C91F000C1;
-	Tue,  3 Nov 2026 21:17:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793740679;
-	bh=1+SeaVehwt396QnIHnWRn5MKZzC9W7QYhwhH8JQg6As=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=nsBBcQZvBukrCr6ZOO/LZhZdwZ2UeCaaLrXBy7YduO+XZ+qdB+zZcZ+70hLRx0iym
-	 LWa4m4h/8OIpWrMCwLZLT99KQSKS9bcqDa3xmfHUb8ym5/bamOIoBCQenlGGN0pZxq
-	 uzi6woLgmZBihfj+KoQpnX5OjJ8Mflm1N6HJR/Fyfwh4N1tELoKYDuTqvaJ5Hi2xy2
-	 +4MpPG5mOginkJf5dRid4rPNyc+GBAlewpMLkGEKcBjfUxRgAFakPkadlrVoqEWY6v
-	 jsTKF7k2z1FXPHA5KwiowiwUo/Ifx4GCk1Dr5HFx9rZEgnwJZXrANlh9G7aHCwWRoV
-	 UjAC280UkaWSQ==
-From: Mike Snitzer <snitzer@kernel.org>
-To: Matthew Wilcox <willy@infradead.org>,
-	linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org
-Cc: Chuck Lever <cel@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	linux-nfs@vger.kernel.org,
-	NeilBrown <neil@brown.name>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <Dai.Ngo@oracle.com>,
-	Tom Talpey <tom@talpey.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Jens Axboe <axboe@kernel.dk>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v10 3/7] mm: expose WB_DONTCACHE_DIRTY in bdi debugfs stats
-Date: Tue,  3 Nov 2026 16:17:50 -0500
-Message-ID: <20261103211754.35352-4-snitzer@kernel.org>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20261103211754.35352-1-snitzer@kernel.org>
-References: <20261103211754.35352-1-snitzer@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BYxaItvH
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-6acb9c018ffso1846574a12.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 03 Nov 2026 13:19:30 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793740769; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Yw9ZKEp1elNNExaOL4XqnH8IZTiEaIFB+U9w0Ce7ueko5uae2pJ+0zkcycxcn60DuT
+         06675jtb0XsTKQ6EEqLtmeFP/3bbH71ou/Z/kZha+vmQr75dmTwcdWh4AyB7fk+BzAf/
+         9KGIzhso8Sa83uXXOIo7NJgvXWaap8s1mEQIA4j7agocaNqoEVidYnZskzT8aUXY+xKh
+         TEZOrrPtnOzOv4OpcKLMxEfF5idv+Z6fR1+4ynhjv9o1+7xdEiE1Jpjyfm46BKgQwzw/
+         N/vZnvgSRztLqb5eWbpLE/mmScnre/T8yI3yeI8VsLuiWTou1k3FIdtZXqO5OElhnSJH
+         PTSQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=E5djs837Oc0mgny3OGd4HuTw/22BWE5GoWMv7ehHmb0=;
+        fh=L0GFMuMV3EFhmjeXOfOtNjyZQx4VuLJc60HRKU/uiK8=;
+        b=ibiBGzp+LnoU4f6XwvqLDDWlILc3fzKiO9CR9wsNFsvPF799bfrNs39R6/n2X1Fa3v
+         fXFChPyHJaMqWNWwsTDVVnFMwOnw8EGQ0T+btESKPXksgshdEScAkLDxQY0i3l7uhe5G
+         YYP25xlPUewY9XNbfooI3DYSp+agC0zzdOAIqWaA1w/wYLGAOFEocRJUx3pdApSH+muP
+         tFSDXlBXfas3pfh9NF/NalBKyC2SgflwIWLR6lfEGnE8dYmJyPgRoqDheWRH57OLPtN5
+         qrTVYtYuVpzju4Wgsy0u5cPlI00aJdesxmw75jR7mT+rMBDnnOPTTAnq1lFYJrSmY3VG
+         KfGA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793740769; x=1794345569; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=E5djs837Oc0mgny3OGd4HuTw/22BWE5GoWMv7ehHmb0=;
+        b=BYxaItvHI1gZItrW86V+E4vAwKZEiV3Jru97UJtiI4qR5NfUaldAMAoMNUpyl9x173
+         F/5KhA9CmA0FEys3/Ton+U3I9Nhhm1REyRvR/CPLUyBs3EmMHj3Fu9M5MrMu2KNW76kU
+         s0d1grVHKHvqBrCwKSaR9976nLpJRnfNLNeMroF8QIRmdIux/v3iZja/lgLcQtI6w9VD
+         GQvyTBDtM6P8vqOjLXEpj1EuZV4PSdBe6i+Wulb4OkRdwH/oAcDEKEcJ/pxOwPf6yIJO
+         /awfigc03vNy39OxYWjcazcLCEruRJjEhV/rV2B4JCUIexFY+PZDtp+TxUwOdmX0s5o7
+         WCoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793740769; x=1794345569;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=E5djs837Oc0mgny3OGd4HuTw/22BWE5GoWMv7ehHmb0=;
+        b=Dukhts93qj0Q2KD1Jz+Lzaa0R/a+P9YsgMYYpMAhkohfgUqn7D/PvW3pmYimL+kUrs
+         PXSGvY53awjvKNnjhgEqR00rGtw0LUWm+2pDo/7+fkk/SCusXwPqFUelhRdvVFdgmkgB
+         PDZHBLX+y8rtp8h/6CTx+gvD5ojTXm7OvUEuzH2uk/EFZ7PG9567tCNfH1k28Y5x3V/L
+         UBhfM8sOqDdrfuQhKR3wajlN5DrcvxLCy4YFQOwukHEe5xMHIP5Q/5l7jITtm/eovBP9
+         MZESDj53cA4A9xDC3LAEpbQCbk+H6k9QER2bm7yDi3x1Z1Jfmnt5fs9awEthyMOLrIC5
+         rI8A==
+X-Forwarded-Encrypted: i=1; AKwUvBykEBeSdLM9YESSHBSEqGGbtO1AuAGaRKoaRqYTxeDQE5rGeW7o3roY/yL9tXOqBYT0F2FgN/3CT9cq9Cse@vger.kernel.org
+X-Gm-Message-State: APuU4Z/YIXSDykHugc4eMYxsFZA/pGaAJZommhU8hWBx2JFvfE/c2zd1
+	K7ht/cQte0uG9epbmw227m8K42zVnp2SyiQbXwoeHsfaTMrlBH7vvpUxrG2xeTKpNSyV4IcFQuz
+	QiUl1gme2C60fOLCELzwxkXW19be+czk=
+X-Gm-Gg: AYBFou1YW/AOPSeTOMRQVmeEy5Lxca3QGthfo8FmxPgJwpvT47bpqJltwhN/T8R4zUT
+	oIBA0e+XOvfLdTSkwt18FG17kJDDhr7QnziQ8HXEaDFiW5+7lSWjTZHt9REo4gPxa1Oso0+tzAs
+	HfzOeWxOJn6d1xwLaWJ/hBxua8XrTzEudNqxTT6wboySXMjCdc/8q87GX5NcOxzQPSHgYaplcgJ
+	xVCDYmSae81g7+PYNfrA2ves1Mdhd1R/ofLIJlnfc5MZ/cSMwHkDWNwTE13C/OHBUsvoLgzXl3t
+	doLLFrXt+wY4RCgP3Ixf+xR19LRVLfZC6uJH154IpMpilr/+SLrPPVvgGjdhhEDMyidy0WIYDVt
+	r5RZ+GuS0QC4cJstydaThQ5v0wSGee3eJHIHLOk0aDvw0SU6sYVckWyvvWdiH7Y/0Bae9oA==
+X-Received: by 2002:a05:6402:a6c1:20b0:6b4:1eed:b9f2 with SMTP id
+ 4fb4d7f45d1cf-6b4d5255a99mr6904980a12.10.1793740768783; Tue, 03 Nov 2026
+ 13:19:28 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -68,78 +104,37 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261031095716.3030288-1-amir73il@gmail.com> <CAHk-=wiPhTLn1p0ZHx-7SMdk4_zazqDK1k7MMEn9scRfqeDgtw@mail.gmail.com>
+ <CAOQ4uxjNrdxZdZZipsqnUNq+TswCKqp+30iKRKCqh2WOQ-zKGA@mail.gmail.com>
+ <CAHk-=wiimdwWu0EVQdxGVjbVWdzNKGg0f6vZ1aR-GXxDvQa-Eg@mail.gmail.com> <CAHk-=wjz+Tg3iq_6uBqxm+egP_aRhodcz2Qu3pQaR8SQcvPt0A@mail.gmail.com>
+In-Reply-To: <CAHk-=wjz+Tg3iq_6uBqxm+egP_aRhodcz2Qu3pQaR8SQcvPt0A@mail.gmail.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Tue, 3 Nov 2026 22:19:16 +0100
+X-Gm-Features: AclHuK9tonoGwvOBReDPDncd9ly3rSzJs7SEyhXaRkacdqBh5Cb5BYpyjNlp-9w
+Message-ID: <CAOQ4uxjL9a6c=8u=eqrtkU=K1Es5ZdekAb-v16xNeD0-87Sr4g@mail.gmail.com>
+Subject: Re: Return failure from take_dentry_name_snapshot() (Was: [GIT PULL]
+ overlayfs fixes for 7.3)
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Christian Brauner <brauner@kernel.org>, 
+	linux-kernel <linux-kernel@vger.kernel.org>, 
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>, overlayfs <linux-unionfs@vger.kernel.org>, 
+	Al Viro <viro@zeniv.linux.org.uk>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The per-bdi_writeback WB_DONTCACHE_DIRTY counter drives how much the
-flusher writes back in response to an IOCB_DONTCACHE kick, but it is
-not reported anywhere, so the DONTCACHE dirty backlog can only be
-inferred from MemFree/Cached movement.
+On Tue, Nov 3, 2026 at 5:32=E2=80=AFPM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+>
+> On Sun, 1 Nov 2026 at 09:16, Linus Torvalds
+> <torvalds@linux-foundation.org> wrote:
+> >
+> > I'd like to see an ack from Al / Christian, but
+> > I think I'll also rewrite that function to use guards.
+>
+> I didn't get any acks, but I obviously did do the guard rewrite (and
+> then some: I got a bit OCD about it).
+>
+> I've committed the end result.
 
-Report it as BdiDontcacheDirty in /sys/kernel/debug/bdi/<dev>/stats
-and as WbDontcacheDirty in the per-wb stats, next to the
-Reclaimable line.  Use wb_stat_sum() rather than wb_stat() to fold in
-the per-cpu batches: the flusher targets the summed value and small
-backlogs would otherwise read as zero.
-
-Fixes: 88d6f128d06d ("mm: track DONTCACHE dirty pages per bdi_writeback")
-Reviewed-by: Jeff Layton <jlayton@kernel.org>
-Signed-off-by: Mike Snitzer <snitzer@kernel.org>
----
- mm/backing-dev.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/mm/backing-dev.c b/mm/backing-dev.c
-index fad1495d3b200..a09c21759fb9f 100644
---- a/mm/backing-dev.c
-+++ b/mm/backing-dev.c
-@@ -46,6 +46,7 @@ struct wb_stats {
- 	unsigned long nr_dirty_time;
- 	unsigned long nr_writeback;
- 	unsigned long nr_reclaimable;
-+	unsigned long nr_dontcache_dirty;
- 	unsigned long nr_dirtied;
- 	unsigned long nr_written;
- 	unsigned long dirty_thresh;
-@@ -78,6 +79,7 @@ static void collect_wb_stats(struct wb_stats *stats,
- 
- 	stats->nr_writeback += wb_stat(wb, WB_WRITEBACK);
- 	stats->nr_reclaimable += wb_stat(wb, WB_RECLAIMABLE);
-+	stats->nr_dontcache_dirty += wb_stat_sum(wb, WB_DONTCACHE_DIRTY);
- 	stats->nr_dirtied += wb_stat(wb, WB_DIRTIED);
- 	stats->nr_written += wb_stat(wb, WB_WRITTEN);
- 	stats->wb_thresh += wb_calc_thresh(wb, stats->dirty_thresh);
-@@ -125,6 +127,7 @@ static int bdi_debug_stats_show(struct seq_file *m, void *v)
- 	seq_printf(m,
- 		   "BdiWriteback:       %10lu kB\n"
- 		   "BdiReclaimable:     %10lu kB\n"
-+		   "BdiDontcacheDirty:  %10lu kB\n"
- 		   "BdiDirtyThresh:     %10lu kB\n"
- 		   "DirtyThresh:        %10lu kB\n"
- 		   "BackgroundThresh:   %10lu kB\n"
-@@ -139,6 +142,7 @@ static int bdi_debug_stats_show(struct seq_file *m, void *v)
- 		   "state:              %10lx\n",
- 		   K(stats.nr_writeback),
- 		   K(stats.nr_reclaimable),
-+		   K(stats.nr_dontcache_dirty),
- 		   K(stats.wb_thresh),
- 		   K(dirty_thresh),
- 		   K(background_thresh),
-@@ -163,6 +167,7 @@ static void wb_stats_show(struct seq_file *m, struct bdi_writeback *wb,
- 		   "WbCgIno:           %10lu\n"
- 		   "WbWriteback:       %10lu kB\n"
- 		   "WbReclaimable:     %10lu kB\n"
-+		   "WbDontcacheDirty:  %10lu kB\n"
- 		   "WbDirtyThresh:     %10lu kB\n"
- 		   "WbDirtied:         %10lu kB\n"
- 		   "WbWritten:         %10lu kB\n"
-@@ -179,6 +184,7 @@ static void wb_stats_show(struct seq_file *m, struct bdi_writeback *wb,
- #endif
- 		   K(stats->nr_writeback),
- 		   K(stats->nr_reclaimable),
-+		   K(stats->nr_dontcache_dirty),
- 		   K(stats->wb_thresh),
- 		   K(stats->nr_dirtied),
- 		   K(stats->nr_written),
--- 
-2.52.0
-
+Thanks for cleaning it up.
+Amir.
