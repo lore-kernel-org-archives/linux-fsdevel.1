@@ -1,101 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.49
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793735860;
-	b=V2N6UAH2O0ZBg7lp4KMrtkUufHAtQM1vj2wVW6WwbUYiORcob0N4Tcez0fHex2WuJ/yM
-	 Y06mceWI3QNwHxdpTav1KPqytWhiD/Su8Z5R9/lG1fBldB6VtT1+uCW0wbHj3Gdc5nTzL
-	 3t2P6Pkzc7vWoHmK5HMmTN601gMQ4GF69GATbaGIptrLfvFQrrt+pLI3xQ2+KCvc4TTT7
-	 bII1hn6p2Bk6A53XYZUfAIFzmFlRdhFuMZKNi0lmV3Y2nz3JR6+RbsAtPByP1LKYadtST
-	 gkz8ZNVJMAMnWeQ5WTVJvlLyAaJcdfzpZbIAPS9hQJ5Qr+qQ1L3HrtPoLsswxVBUa3g==
+	t=1793735933;
+	b=jhqiyjrTBe4wRMwQ3wckkvQ3mFGXMiMLRP/FO07Wp2FB6tH19ugpzKn/u6LZf5kN+JAB
+	 xmim1yUnojGNBRKCx5nW+1Ri0sPt1cBdL6gV8V9VEwAKCDowJf6b5S8cbYOomq6ap+ytK
+	 6aEAF0uuTFCWXIzL876V68Ew/sWWDMKAwVVKnqoj7U7sw3mhmjRAwbp89LtICtkLlfsbf
+	 UWMW2suplbOpyb7aRLNECszrbLYxQfbLvs6oMh6oTkva2g6DPud9Le0Jxi6JT74JCxRdD
+	 gYPeWfRi5VS09pS7Y+GeY1CBZ0tLeTTHRO+qvk0PNd1Qed01RG9RcChZ84OyroAQiMA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793735860;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793735933;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=+KvUAdd82A2FrfHcfd34zVZTNXZ/zNcTHH3fL0iHdhE=;
-	b=CK+vjRw5ufqFaPR/mNCDkhOri3E072fkkl/3D54XAYv4EdRmQnUUXSdp+L5WN+YhZAro
-	 HRPL47Z+PfsynyNEroJqsrfeOtMUq0UBLTURD7jw9KkiPbnnx8cmua0sAhUC8BFQeRGpD
-	 CBahXHyuUDI6kTn6UbTolJFwymwkN1CqAP3vk2zeDNiKAjVKp5Rc0C1qlchr/BwCADcV7
-	 uX5Z+qucrNrqnr5s+2aPW6xnM0jDdrEpAvhNgYoX8z9yJ3iom2l1xPxy8hpzw+Vu7x5WW
-	 gqdekbNlBahWm3qKGzikCgOxi93m5LVLfN+ie1yHE5tyEQDdrHAw4n/Zh85ttg89j5Q==
+	 MIME-Version:From:Date:X-Gm-Features:Message-ID:Subject:To:
+	 Content-Type;
+	bh=msC8AEF28+LoD4wR4QMW7ybuarkuRynrg91O2ZPZPW4=;
+	b=1hyYL7uyle3V4/ElEw1M4Hr51qlORb286Mq6ZPkNuIeeesso62dYoyBItGhyBmhyO2kY
+	 86UcRblOuTanByJrNUwQR2RpyX2xS5fb8Gv8tWeGwdITW9LGRm9qnlQAQtpffnxdErc8A
+	 nqXUsXFsjcoT49W5CPU0x6qmaDMVu8yGCDXTcVxa8oxP6YwABKm7jyowopqa2aEaIHNkz
+	 VQdTpYYX503mcT/dEkTTdJ23rOsX6fdF1N5Fqq5tiLUPqHxqjq5z4tlZJWyrcRR8Igp4D
+	 3SxjmrGvbKmDWUUFuC+8Hu4obY3AgaX/aHYhi0jtRxeQulzkngCSbHAKhgZW3ztRHQg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=kp77IwLk;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.50
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	dmarc=none header.from=amacapital.net;
+	spf=pass smtp.mailfrom=amacapital.net;
+	dkim=pass header.d=amacapital-net.20260707.gappssmtp.com header.i=@amacapital-net.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=OUWKSaqv;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.49
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80325606A329
-	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Nov 2026 19:57:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 80325606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F86E606A31B
+	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Nov 2026 19:58:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6F86E606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=kp77IwLk
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4a3517554f7so34673435e9.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 03 Nov 2026 11:57:40 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1793735859; cv=none;
+	dkim=pass (2048-bit key, unprotected) header.d=amacapital-net.20260707.gappssmtp.com header.i=@amacapital-net.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=OUWKSaqv
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5bcb6faf862so4310905e87.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 03 Nov 2026 11:58:52 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793735931; cv=none;
         d=google.com; s=arc-20260327;
-        b=JsE6WXYfJt0s2jEW9pxI7Fh3Y9/gbxlC568N0e0gBfCIWbq7wbrZF4KbpGddMDJSfl
-         tVhk7wet2swCCeQ/GR1e6/J+dH9zUreTx48Fv/gdOAp8iG1TwunvmVXnue7lHMq3St8I
-         J64Zi9iGeiZlyGBzHSXSkmJTk5NkwzYmQhTFGnWk5MFXjAIfSZ9WHcLziepWAVYsc/S8
-         b5HAHfQIbwGKgqzcAC9LVN2wQHOPn8P9g3UIc2CoOAzArv4WPWFgmQj7vJm8x5DVhzOe
-         6L9m68734OlAzBHBS3Z0jXlx/C4qI+kz5YhlW8u7GCQP1VpeIe1VPx+5L1vDcdK+IsN2
-         LMMQ==
+        b=Un74GYgmzl3E3QU21XnMdDTaL2YID2PReC/2NAP0iRIOO7CaZgClT/qyf9NsQGUg+U
+         xHeJPPKGzytb91Tux3m262ksbA2uq8e9gSDrOSL3H9oopxEr6pjIjuIunof/HOhdvXy0
+         xcdFuwZzE8xQbSfT9VtfZRl+A/bd3IG54TYRZ/FHgMu1+1xuxGe1y3jozcYHnsxGODm8
+         N9SFsgJsD8kSGdyDwbs0AIoSpbL0hhp2j2Ot013sw+Fl+5Tro56AkvoAwPO4X0kns7cm
+         RjjJtfdscFPdAxI4HT6S6KXoIM2HoK1ZsN687FXiWD2L592Lo/flGDV132QYrjdCW28t
+         bunQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=+KvUAdd82A2FrfHcfd34zVZTNXZ/zNcTHH3fL0iHdhE=;
-        fh=ihWZfyEVnnWba53xOTho3zXdoxDbki3nnC6Wgn178Xo=;
-        b=HfM1IUznXNliyvmCpKxAlXrWPPURrtVcjum+aPXpb7jUDBS5PO1+MvNs8ooLjpxg6V
-         1g1XngP4cqR8wrK57mA25VKbsK58qv5AJ2FzYfma8fqAyqjRyZTIg4zLdzoSPasOQf/5
-         3uTfO36hy4r3TUMpxgFe4m1LEHyhUj6gIN174DG9ifWmLzNf8QU7JyJ5TBjP6ehXL4Z5
-         aHtu/fxaAsVE8WvkwkAPfxFt8rthZEtTIQmlaRIj3nK6UJJGX+0LYSKUQJFo7PyV3WX4
-         k4gfpvWac3B+JUYHPpJnZQqhFYx0nWVZgYYa38kuNh/tfQgAFa7XCl3nreaXqkweQ8my
-         KX0g==;
+        h=to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=msC8AEF28+LoD4wR4QMW7ybuarkuRynrg91O2ZPZPW4=;
+        fh=TuFmLk3btKi+FloCsWlWakC2C6OBiiEDVWKHQeA7yz0=;
+        b=Vmt8S42XN40lLJS+6WHjeOBZTXRQ4UxmxXwTPz7jbPjSKYE+jnT8FAOHpojbQrdfcS
+         jwBfGF/faMuvDCsTIldezAj/ozgGMx84Ui55MnZCXdsAQL+Kkv+UlY6oxcmhOBbkydZh
+         W4ak+KEwqbYRHs89u35u6wRIbp597VaWYmV55qpPviO5ij93ghZkA0lTJUtrssyVCTrh
+         18wBKF8KNQfO1sLR0di1cGAf4GblDXnOvyASEl0zuul8SAL+8x6d66JufXd0vedpMKOL
+         3t51cYtKGO57mgyN7H9S6HIhCI7+c6lI0IQxC0KpC+RvfxviDN1QXKz28qxAnx9NJzJj
+         WObA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793735859; x=1794340659; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=+KvUAdd82A2FrfHcfd34zVZTNXZ/zNcTHH3fL0iHdhE=;
-        b=kp77IwLkVV1TMxlTLYbUW8B4pQGw8p2W6+pLr302qojpzyD2CWp0FN0tVCAq7pNQ1h
-         zhRB418jU+jC51gvZSL3GIflLJDJMP43hsQqlLbA86UF2feBVmmQyFYOUBGk2Vd6ZlvG
-         gJJoDmX/QP/lOE0sO/JvOwK0rS/20EwxBHQfjCARDkrc51cXCiWuuBi8tzIuD1I/CsWD
-         dhupRH+ciNA8oBDnbziJGyTZNeNus+3EDNnkCjUzsa6ym2b9Ud7zDEE4Ff20HPoOdD+m
-         AxxYWZLVaJ+sZcgk+CteJMfOIDkybvQdv50QizZbgYDsBWFXdMhRwvGIT6t1vAQLgA2u
-         5vlQ==
+        d=amacapital-net.20260707.gappssmtp.com; s=20260707; t=1793735931; x=1794340731; darn=vger.kernel.org;
+        h=content-type:to:subject:message-id:date:from:mime-version:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=msC8AEF28+LoD4wR4QMW7ybuarkuRynrg91O2ZPZPW4=;
+        b=OUWKSaqvQkmcspifGwE+EUFLnJNYnk1pd+X7y2Y3MaFNVGje4/4Zjo81naXmQymB0P
+         erAk3MBi8RbpVw7hiycXO4gs4tyh0syx3KYCD7ME14rViIO7Ta3Hni5mYE2SGGfxxGBl
+         fuxrht0kRuBtkV2SNJN8jNcHRk/Cm2Wd+f7P0R1b9a029msFihbfseZ5OZersC6LP0kB
+         qkquA08gvdbVxN5omTGAqCDYYOvyJx1bVkxMDlotZipaQwCTzf1m4UdxQiyATCquPLFX
+         dpB0MGGFQHAIcHbrVr1RjNrVbd7m6eKO7IMJz9qi0Ub7lFvBHrzdnpXjes1Uby4MQiTd
+         N7Gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793735859; x=1794340659;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20260707; t=1793735931; x=1794340731;
+        h=content-type:to:subject:message-id:date:from:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=+KvUAdd82A2FrfHcfd34zVZTNXZ/zNcTHH3fL0iHdhE=;
-        b=pBHUFhcYBdnojwCgw7ajgnc48gEkc4Jj2K7mSBEGg9VPTju6u8OfdU5OkPaSVcmPvr
-         J2AuKmdHv6W5HcC5n3uk7l/EXYN8h/gmQZp3VDZeVtnVUAU9EouhwzpYc0k+o02Q81Kg
-         Cb6qhM3EQ7ySSAicKmu4ExCGbREBohqUFDgyf4Az/0maCY5LpjSlLr1R0883Tql+Bm3A
-         rOvw/kdjzvydxkwBNhL1Yb3mwdoOKUn8o17xz56Tu4gimsqMfZM01iGPZ8KKywyteH8F
-         QmkW7ZSaUByTZzpQE/uOJbqO7nw2bxzC8GgnpqYsQF3fSCMH1Dxooe6coNxmUblJRtBC
-         ZAvQ==
-X-Forwarded-Encrypted: i=1; AKwUvBywWyfvJggtwhvXcD1P7ozvC8XxAEDvcCEZCHiO7MgqLLe43Srdg+gvNPWgvOg0DX/wyXPPyj68BkV6X4cH@vger.kernel.org
-X-Gm-Message-State: APuU4Z+Bxbe4dTneZ8P9dZfvgUSfGWgBJMny7+7Ru3laf0HUSp77H5fx
-	V5kfduENe+UKA5lRSzfqBrNepaVyAMYPOygjYTPLBlt7dDh/pWylUlMK/amT6fWZSs6aiDt4HzI
-	lGRrfMBxXsQucqV20H8lUGxLR4pXSyZo=
-X-Gm-Gg: AYBFou3y6LX3QFmF1HP+BZnA7t3RRVmJ7j3xpURAKFZj8HxwQTEvwdWe5tmOiMIGVWE
-	+n1Y6NC8ARB2+aOGco8/aMEdA7vd+YZIbN1haTxH6Us/vDt+u59Q8ll6//DZMYGU88OZ09xdrbT
-	BgKQEKE4+uhwbCAbx8kdGdnCEh+tyTrfIOv0UhAQcNHGqOkgQAJoKdcaCHQF66SAtM0lnY/6Ioo
-	xTeCv680RRmyQmlQ7R8roH68V4Itv3OYMsE112Ir3UuaC4zh6sU8kGwEXja6tHRog5ERJpj0UvD
-	buT/WgNqmP1h39QQS7LZOW5FgeM62+dSOZ1Pg/jxj1BDWRDfNg3kxAaRIMm2Re872Y4oi8ix1yR
-	DhcxS3n+i2KETbArj3QOBdi/GaxnSdbavVoYkn88P26/PF+68dypJci1Xh4x+Ln0kOiqVEQDflC
-	NcalQjdkk15USnyDkcoQ==
-X-Received: by 2002:a05:600c:8b54:b0:4a1:fa21:fd90 with SMTP id
- 5b1f17b1804b1-4ac16bc547dmr344461405e9.9.1793735858729; Tue, 03 Nov 2026
- 11:57:38 -0800 (PST)
+        bh=msC8AEF28+LoD4wR4QMW7ybuarkuRynrg91O2ZPZPW4=;
+        b=zkbsu9B41cI8ApDs5IIlM/WItMyLCZAwHmKxUapbzNvnKZM9BCC1GNodIKjo7NM7um
+         epji6Aey/zqAGC0+oYYW7JGqyTHmArvZIRcpohBMbA6UMdEyxGG4oLu7TVZaOO8bhGzw
+         9rE6N9lzuCpG9GbQxcXbGj4wixNKMhBgXNn5Lpv0y1sKFbc2QQSqX01f5PsfYykOrKfP
+         ZWOLr5/TfVDx97maptabqLzSox2Hp9p5HAb+s0okVIQ6Lxdb4N1IuxX4cgiHuu2y6Be1
+         p9jRTD9ZhtsR87dJb73MdnULcDdQbg7YKV8/F/Kj0QixTt7ePtZYsEuF99D8w290m9/7
+         m1lA==
+X-Forwarded-Encrypted: i=1; AKwUvBwLVHuEYpViJoLgS/3C4fjgllyhfa6JCD5X9R030aCwgW2NnWJeFSFsm8k8nH/UaiV5jPl8c4vSz/IEgKcX@vger.kernel.org
+X-Gm-Message-State: APuU4Z+GZVYq1mvIkBZDUCjU/EYle80eNJHUuQoILLRos13+oQu3wwuj
+	c2Th1C61W8Rp1/Yb/P1At2PrH8DSnDH5ZD+EU0Gaq2UZ2UIOwjoHNBY0Mw6qVBuBRktJh2DwtXM
+	WzJVds3C81mBMUmwN+KBPHDHvVvUTt+WNcUGJUQDYUqugd5D3JVA5yg==
+X-Gm-Gg: AYBFou0rxVYHko4SzPbUiROdtyh7uTHPA4TKHmHLm4WTKrwnFeam6OgCQRDWKwU5tyk
+	MBW3BTC/al/TDtsyhvluQ0U27jaU2fMEckDB2bSxX6CMeGiGrHOOqGigWKOWj2+DlpiJVYJ+4yy
+	e4O5uVV7waYIjCNSRgZKuG6vdxUKsnBh8nPIq3n566kZjUyAmEgU7hyCeKTUIijCvOj+5ZUVfqe
+	JgW2CHppJ7Ldu8njOEt6tEO2w66vDmcSEFk/XRs7O3S2ChsakPmJ4KAJIyT1R8dXXSVJQZolxm+
+	F+puM9zJKkj+w9B7JAAAdNidWrRiEW/JFV4wwcD2HK09f/gNdVOw9Ut8lWI1Rx4j1eYIDzdrKmJ
+	5HGwDn1pklh8VAgz4tA8KmuoYJhlGf49/ng==
+X-Received: by 2002:a05:6512:3044:b0:5bc:cb94:830b with SMTP id
+ 2adb3069b0e04-5bfd957fbc9mr4631201e87.55.1793735930576; Tue, 03 Nov 2026
+ 11:58:50 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -105,72 +101,140 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261031070515.3042848-2-thnkslprpt@gmail.com>
-In-Reply-To: <20261031070515.3042848-2-thnkslprpt@gmail.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Tue, 3 Nov 2026 11:57:25 -0800
-X-Gm-Features: AclHuK_JytKkKfU5M6CJRcikf8vCv1-AjVOSiBNPYKxP4EvAaHLb1svGn_IQLNI
-Message-ID: <CAJnrk1aJ32nWqoSLYBOhh6zhM51BMk5sCJGpZBOtNGj4A0iRUQ@mail.gmail.com>
-Subject: Re: [PATCH] mm/page-writeback: avoid unnecessary strictlimit
- background wakeups
-To: Avi Weiss <thnkslprpt@gmail.com>
-Cc: Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	fuse-devel <fuse-devel@lists.linux.dev>
+From: Andy Lutomirski <luto@amacapital.net>
+Date: Tue, 3 Nov 2026 11:58:38 -0800
+X-Gm-Features: AclHuK_bN6YrhtswWu642OC1b8BtqaJiPZLecfCpjtFSxigsPxo-YRM7r02qtCE
+Message-ID: <CALCETrWDJKr=LMzfPjwwRRuKapFKQ_OaYF6qYz-9Cs91xAXUgA@mail.gmail.com>
+Subject: Accidental mountns/tmpfs API break from 2016?
+To: "Eric W. Biederman" <ebiederm@xmission.com>, Linux FS Devel <linux-fsdevel@vger.kernel.org>, 
+	Linux API <linux-api@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sat, Oct 31, 2026 at 12:05=E2=80=AFAM Avi Weiss <thnkslprpt@gmail.com> w=
-rote:
->
-> balance_dirty_pages() includes pages under writeback in
-> gdtc->wb_dirty when checking the per-wb background threshold for
-> strictlimit BDIs. However, wb_over_bg_thresh() only considers
-> reclaimable dirty pages when deciding whether to start more
-> background writeback.
->
-> This can repeatedly wake the background worker even when there are
-> too few dirty pages to write. In a 15-second FUSE writeback test,
-> background wakeup requests dropped from 2657 to 682 (74% drop),
-> while writeback_start events remained nearly unchanged at 99 and 98.
->
-> Check wb_over_bg_thresh() before starting background writeback through
-> the strictlimit condition. Leave the global background threshold
-> check and the wakeup required for dirty throttling unchanged.
->
-> Fixes: 0437906841d0 ("mm: start background writeback based on per-wb thre=
-shold for strictlimit BDIs")
-> Signed-off-by: Avi Weiss <thnkslprpt@gmail.com>
-> ---
->  mm/page-writeback.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/mm/page-writeback.c b/mm/page-writeback.c
-> index 499a35473e4f..cb0c58715b93 100644
-> --- a/mm/page-writeback.c
-> +++ b/mm/page-writeback.c
-> @@ -1826,7 +1826,8 @@ static int balance_dirty_pages(struct bdi_writeback=
- *wb,
->
->                 if (!writeback_in_progress(wb) &&
->                     (nr_dirty > gdtc->bg_thresh ||
-> -                    (strictlimit && gdtc->wb_dirty > gdtc->wb_bg_thresh)=
-))
-> +                    (strictlimit && gdtc->wb_dirty > gdtc->wb_bg_thresh =
-&&
-> +                     wb_over_bg_thresh(wb))))
->                         wb_start_background_writeback(wb);
->
+Hi-
 
-Thanks for the fix. It looks right to me. I think an alternative way
-would be to save the wb_reclaimable value computed in
-wb_dirty_limits() in struct dirty_throttle_control and just check if
-"gdtc->wb_reclaimable > gdtc->wb_bg_thresh" which avoids the extra
-wb_over_bg_thresh() calculations (but is slightly less precise for the
-memcg case), but I don't think it matters much either way.
+I (well, an LLM following my rather explicit instructions) just wrote
+a little tool to make a tmpfs as an unprivileged user: it unshares
+userns and mountns, makes a tmpfs, fchdirs to it, and prints
+/proc/PID/cwd to stdout.  Full source below.
 
-Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
+I was a bit surprised that trying to create anything in the tmpfs did
+not work without a uid_map and gid_map.  It looks like it came from:
 
-Thanks,
-Joanne
+commit 036d523641c66bef713042894a17f4335f199e49
+Author: Eric W. Biederman <ebiederm@xmission.com>
+Date:   Fri Jul 1 12:52:06 2016 -0500
+
+    vfs: Don't create inodes with a uid or gid unknown to the vfs
+
+    It is expected that filesystems can not represent uids and gids from
+    outside of their user namespace.  Keep things simple by not even
+    trying to create filesystem nodes with non-sense uids and gids.
+
+    Acked-by: Seth Forshee <seth.forshee@canonical.com>
+    Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
+
+
+Now my tool won't actually run on a pre-2016 kernel due to use of
+fsopen, and I'm not about to say that a decade-old commit broke my ABI
+and needs to be reverted.  But I am rather curious whether this rule
+actually makes sense.  I'm not creating an idmapped mount, and I'm
+using tmpfs, which could not care less about the mapping as far as I
+know.
+
+Would it make sense to only enforce this for filesystems that care?
+
+--Andy
+
+
+#include <cerrno>
+#include <cstdio>
+#include <fcntl.h>
+#include <linux/mount.h>
+#include <sched.h>
+#include <string>
+#include <string_view>
+#include <sys/syscall.h>
+#include <system_error>
+#include <unistd.h>
+
+namespace {
+void Check(long result, const char *operation) {
+    if (result < 0)
+        throw std::system_error(errno, std::generic_category(), operation);
+}
+
+struct OwnedFd {
+    int fd;
+
+    ~OwnedFd() { close(fd); }
+};
+
+void WriteAll(int fd, std::string_view bytes) {
+    while (!bytes.empty()) {
+        auto n = write(fd, bytes.data(), bytes.size());
+        if (n < 0 && errno == EINTR)
+            continue;
+        Check(n, "write");
+        if (n == 0)
+            throw std::system_error(EIO, std::generic_category(),
+"zero-length write");
+        bytes.remove_prefix(n);
+    }
+}
+
+void WriteFile(const char *path, std::string_view bytes) {
+    OwnedFd file{open(path, O_WRONLY | O_CLOEXEC)};
+    Check(file.fd, path);
+    WriteAll(file.fd, bytes);
+}
+}
+
+int cmd_temp_shm(int argc, char **) {
+    if (argc != 1) {
+        fprintf(stderr, "Usage: lktool temp_shm\n");
+        return 1;
+    }
+
+    try {
+        auto uid = getuid();
+        auto gid = getgid();
+        Check(unshare(CLONE_NEWUSER | CLONE_NEWNS), "unshare user and
+mount namespaces");
+
+        /*
+         * The outside UID and GID need to be mapped in order for the
+outside tasks
+         * to create dentries.  This comes from commit 036d523641c6
+("vfs: Don't create
+         * inodes with a uid or gid unknown to the vfs"), which I
+think may have been
+         * a mistake.
+         */
+        WriteFile("/proc/self/setgroups", "deny\n");
+        WriteFile("/proc/self/uid_map", "0 " + std::to_string(uid) + " 1\n");
+        WriteFile("/proc/self/gid_map", "0 " + std::to_string(gid) + " 1\n");
+
+        OwnedFd context{static_cast<int>(syscall(SYS_fsopen, "tmpfs",
+FSOPEN_CLOEXEC))};
+        Check(context.fd, "fsopen tmpfs");
+        Check(syscall(SYS_fsconfig, context.fd, FSCONFIG_CMD_CREATE,
+nullptr, nullptr, 0),
+              "fsconfig create tmpfs");
+
+        OwnedFd mount{static_cast<int>(syscall(SYS_fsmount,
+context.fd, FSMOUNT_CLOEXEC, 0))};
+        Check(mount.fd, "fsmount tmpfs");
+        Check(fchdir(mount.fd), "fchdir tmpfs");
+
+        // The detached mount is kept alive by cwd and the mount descriptor.
+        // No mount is attached to the inherited filesystem hierarchy.
+        std::string path = "/proc/" + std::to_string(getpid()) + "/cwd";
+        path.push_back('\0');
+        WriteAll(STDOUT_FILENO, path);
+        for (;;)
+            pause();
+    } catch (const std::system_error &e) {
+        fprintf(stderr, "lktool temp_shm: %s\n", e.what());
+        return 1;
+    }
+}
