@@ -1,74 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793738850;
-	b=4SM92F9yarmKg5VM6u9v1HK8+pgtvTJ7mVFo9hcQspQPflEzR0b8Iafm5j59CIhiHOIe
-	 8GGL3dJ6pmQFyAU7aBVkA1kBlmC6O3BtVhB9ogWjN0F91iG8WqLADsA3A6wSK7T79dUBh
-	 YxI2cXJCqT211Vtbw6BC/5GWJZcXBicxQrkWLuOUv4NrzLMbwFNqPEV+7PMzeyav8rrLA
-	 zU0bM3cPTkJGKOZCh652Xd/HluSEuvhN64lTQ87r3+2QY3Tswf3V9VNurWuBxVJAFSW6X
-	 mqzLuOnWMqjNjXs2f7I5ov5lcVGI6Sy/uBW7Gjyq3oNCcZek45jFH+aGix23kia/EZw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793738850;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=WA4JldT6jZkiRqUOUhymd9+bMbgaai5DPTFvHOVFxkY=;
-	b=Qn5mIq53Zv5l+UvWGCZIwMdvweISPZamN04qnVrd6lC56+DYIYQooWSlDhyDSe0X+rfy
-	 0PU4dHD2lBTnmYzmdfRoGiQ+HGuujLIjQlnRnehkm0eIvogjhOcGYRXQ/3qyq5xQcX7/u
-	 EtVl7Sq8a+OFXYkd6pAHQljB2aIQ8UoK6Wcp86Rwn5We4/ItexRqg0R7EQYEt8sDRMeCB
-	 MRIeVEJLA/COh/Jle8itlIW2ViJhH2sR9Cv1wrpzgRTYS2F/X8YljuphOGuAKI7q8rSpg
-	 FE79rSje6yym9fqdUoq5Qd4ETWVnS9g0BYXVw7gPmJARfeFi3AmFVFMJlmupDiqUz2w==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MZ5aB4fV;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=209.85.214.181
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
+	t=1793739492;
+	b=wp+tq/Fc5sE2v2dHv7yXRqR6hCgtKkgKRqEiVvm+wdTeCWAPKrsPO3wzUkhHvFXLft1G
+	 g7JMTxx3Fz3XVGd4ioGf2Pb5Aoabw9kAItLnWsMIr4/ttiJzocSu7bqeBCzxpCJZN3cXi
+	 f2DdK3flPVYuvrojyANdxZCF8kxcP1gl9PkLID6OOsN5KIH+vq9+VD4EwaPbjpBCpOgqN
+	 Vp+OW9F8tCSGth+ZcvOZRzfnzCBoDkvfd/0e3DuIfnuFZYKm/QeR+IUqCnUv4nztvaZch
+	 ILqdZ1Lbq/u9OajP4j608KGaPNJgLP0wmkQ8tKZ7flv+XBjHBRGN/vMJVKDhbNTrfrA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793739492;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=xlEVARhdYpI51yqwMKIfAYo+e0yxy9kuj0dDIqLQxSg=;
+	b=H1ItKVAr3YBC5HzKFsINepfaWaF0OgrLXMKsHpYUq7/P8XS6a3h2sQKn46xnBkkcGVsh
+	 MQnYh6ssE6w+NsskIDtzU3XIyqyUrGPvOHPKFFnGy8UdkUo3xzNTfRLXzarqajziXaHpz
+	 3Py/WoG6Niti9eOtx0WJJgXTaqes+u9MnftkGXdLKWYMyhbGnmhNOP4OPO0f9qEUMAkEg
+	 ak/7lz9lX5HutdyQ807Py+SMnF81wwO+2fkN0AjvlcFLBQBLzPmmE8XSutcGsjHwuMmwd
+	 wACdZOWSmGYYEumF31mFnxCN8CAIvrelSy/grDFmPDc+WzWCuq+/Xfvf/3Jf4SVIHiQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=paul-moore.com;
+	spf=pass smtp.mailfrom=paul-moore.com;
+	dkim=pass header.d=paul-moore.com header.i=@paul-moore.com header.a=rsa-sha256 header.s=google header.b=gNjU0kU7;
+	arc=fail smtp.remote-ip=209.85.214.181
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ACCE606A332;
-	Tue,  3 Nov 2026 20:47:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 556A8606A326
+	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Nov 2026 20:58:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 556A8606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MZ5aB4fV
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 219691F0093A;
-	Tue,  3 Nov 2026 20:47:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793738850;
-	bh=WA4JldT6jZkiRqUOUhymd9+bMbgaai5DPTFvHOVFxkY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=MZ5aB4fVto6FbxRg77AGVx0jiXNVhH38K6sxyQ4CgLc3S9lJLQH7InuTEYv8lfOaf
-	 5uoad99J7Yo66MZORzU1SueYppREaWAp7DnLjMArd/bw7llqmgjA7QeRkN0TecqOjw
-	 mgPYGDAwQqwyEL4ByoiIyUJS5Ynf7UPLyKjtpGQBMTUIJCZtNDazrMWwmoLIPejkIK
-	 R4yBtwITyXNn68MPxARx6qpkmGIeYtFfjYSs2zxU7gR3nB0yXltF941REAJYSVQAZs
-	 JOShTK4Swr6Tw/lPkD7UPNQLTdL9bwzUWCtu2lgQU5SbFGQKMkCODHWkdfiTaQncQD
-	 tHuce+fkMYTgw==
-Date: Wed, 4 Nov 2026 07:47:09 +1100
-From: Dave Chinner <dgc@kernel.org>
-To: Kaitao Cheng <kaitao.cheng@linux.dev>
-Cc: gregkh@linuxfoundation.org, arve@android.com, tkjos@android.com,
-	brauner@kernel.org, cmllamas@google.com, aliceryhl@google.com,
-	nat@pixelcluster.dev, arunpravin.paneerselvam@amd.com,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
-	viro@zeniv.linux.org.uk, agruenba@redhat.com, trondmy@kernel.org,
-	anna@kernel.org, cel@kernel.org, jlayton@kernel.org, cem@kernel.org,
-	akpm@linux-foundation.org, david@fromorbit.com, david@kernel.org,
-	hughd@google.com, hannes@cmpxchg.org, yosry@kernel.org,
-	nphamcs@gmail.com, matthew.auld@intel.com, matthew.brost@intel.com,
-	thomas.hellstrom@linux.intel.com, jack@suse.cz, neil@brown.name,
-	okorniev@redhat.com, Dai.Ngo@oracle.com, tom@talpey.com,
-	qi.zheng@linux.dev, roman.gushchin@linux.dev, muchun.song@linux.dev,
-	ziy@nvidia.com, baolin.wang@linux.alibaba.com, liam@infradead.org,
-	nico.pache@linux.dev, ryan.roberts@arm.com, dev.jain@arm.com,
-	baohua@kernel.org, lance.yang@linux.dev, usama.arif@linux.dev,
-	kas@kernel.org, mhocko@kernel.org, shakeel.butt@linux.dev,
-	ljs@kernel.org, kasong@tencent.com, axelrasmussen@google.com,
-	yuanchu@google.com, weixugc@google.com, baoquan.he@linux.dev,
-	chengming.zhou@linux.dev, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
-	gfs2@lists.linux.dev, linux-nfs@vger.kernel.org,
-	linux-xfs@vger.kernel.org, linux-mm@kvack.org,
-	Kaitao Cheng <chengkaitao@kylinos.cn>
-Subject: Re: [PATCH] mm/list_lru: Account node removals in isolation helpers
-Message-ID: <aupITfr9pBKPrU20@dread>
-References: <20261103045053.59548-1-kaitao.cheng@linux.dev>
+	dkim=pass (2048-bit key, unprotected) header.d=paul-moore.com header.i=@paul-moore.com header.a=rsa-sha256 header.s=google header.b=gNjU0kU7
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2e9d1114320so36642235ad.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 03 Nov 2026 12:58:12 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793739491; cv=none;
+        d=google.com; s=arc-20260327;
+        b=hO2Lp92SSICuYUFEhW2+07JdIGKT1Xdo4eUEe3sr1XNUyY8G/t3FIsh6cvCUO/UL68
+         BY41Bjte8cMqm2PjG04WPPJOi8BmviV3gcs8mKi4QXNSaQ/IG62vSb6Xm70uk8voJnT8
+         GZLMEDJYoDJW8hqc9r82FMq0V9vXKWtlU6a8gcwkhPPioJP0hZM/al6xbjsP3Jom0xny
+         5kRimb4GPacHwrzmviFXsdIOmmW4HxmsN0vEZ3Sxe4XIiihi/UK7YwVog/07ZFWg+Dn7
+         ahssBXJotJzorbsR+FOnE0vTRJ3WYsOjxbg/sFAwAzNa/N3k1POzm3qKCqEPO9ntB6YM
+         6Hnw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=xlEVARhdYpI51yqwMKIfAYo+e0yxy9kuj0dDIqLQxSg=;
+        fh=LNrw+lc4wIgMVJiATF9uquGLcbiqd6r0C1zSsRn7ZHA=;
+        b=Wf1r1Y0M7CMRk7v7yzO22hJBfdzbvtG94JpQcZG9Ak4bSleJoFYWfCtAFfCq5l8MU1
+         M39VatMppdZIxEZKkxhNJ4kAPjsVKL3nQUEsq9SX6WWsGESmiC3gVFVTQZYVVQVb/7Kz
+         gQaTrc4BQVC1f6EgbA3ETbnUZKURfbf9hsLNkb/hYstdIAQ2XPKPPM+l3ZbfjCDLhEKF
+         7jh9ca9Aec2O+ayPg/a/ymjivj2eMbEbsyJtRzv/3D/Gi4s1BGZlALNj8xX933Vl7Mr5
+         7+veMVZxJYfhVxUZavsGnthJcdilTa/4kLxgKf0pgw+l/w6tq1MlBxFCM7/YLewYeLJb
+         RRuA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1793739491; x=1794344291; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=xlEVARhdYpI51yqwMKIfAYo+e0yxy9kuj0dDIqLQxSg=;
+        b=gNjU0kU7sM8uH5XC2H7b99i0TvtIF03FfKAOB0NH5+8azPBEMvKw0LopoHo9aDtdiz
+         VDyjVtVrUAN//DSQQ5olLEEOAjJMZhga8ZmFPcbKfD2Ft577yKe7V/QcHq6FX9oHF/yn
+         3bCew/1NgBdXPqXDNjd/pB+bgpfklJXpLzQeRdEu1INssd8arH3ktroB3iBaNXq5+ufX
+         l8KdXY9cOuOdz7Ack0IyhbVI7+narclszD/zONZH/1ebAaSxDxVSg3gNl50MRCwl0e2m
+         B4k3pyP+iT+yfzugI1Wl73+2lNHj1HV2Ub4A50Y+lzMd9mZvMR/+dyBS5pq+lnHK5qZV
+         pvWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793739491; x=1794344291;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=xlEVARhdYpI51yqwMKIfAYo+e0yxy9kuj0dDIqLQxSg=;
+        b=ykMSTrZ66GkCETcRDTGBD2k4scmJ0sdrntms2hj3wnqS7DG+4VPP9QFktmcOOpC8WG
+         mKpFA06tOUzr8MXYiT8NZ25/riOEqhhesf0R6wUlq+mgSexm7y1hOEiYIp9GJEdAXfgK
+         gu/nYJl45rryxGE7Akt+8rE4TvgiwghGpQhKYwoDwQN3ShRJ2Ehkd5vD6ZaFQIXpRqF6
+         q8Nogmczn9NwPixPaHk0pwfwO9ycKRdSe/J+sV2MqQ1hhFkt6Z5T/R8RDRqjheARyoiA
+         6y/gt2FC0aK4qdSrRCoSsC2PTnPMts53p2bDNtrMVOyJPeM0OjMv5xTS1WWpNgWzmL0i
+         j78A==
+X-Forwarded-Encrypted: i=1; AKwUvByuoy47e+DQoQne0qcTW+JJ2COoUpuR2/D38OVBJynC6W0jT0wLoQTWXvRPXZ4j9iFT74b5qlztBylVSYII@vger.kernel.org
+X-Gm-Message-State: APuU4Z8dMa/a1fgqIPw1Rf571g3v3VfCmA9TW3bSdukR5jEuHJLWgCLm
+	+cgDfJiCHS8tGzcnaXDaUq7KkmUzmlBqSzOBCxqS0uFUnxDxaUpqUw2FB+xOy0UsMjC7UVZ6Gg+
+	gUZc8tehhQt5eUKpcDJLXCMUUeiByqRwhQznBYTuV
+X-Gm-Gg: AYBFou06DJy3l+rDbUPIXtGafr/1aJiP3VWPi/huyXboRIipJENJ5Jiq/j7zr+osHn9
+	o+ywVUKRkxjhNwY4d9pyo3kQLN6K96o1cEagLdj6ggk6hZ3k97Hu2/In8li76+PsSKSiaxCsrRS
+	cNJ9a8OjBgxoy5FoRPAuk6ImZcLY1KuXAKrEHMe5RfulY/74jwE0SC7D9oSQEh9D7DcveXeqlAS
+	6R/pfBJ5mQJnPuUw00LBztJkoAvxaLz8pIL1pB+QpS2M20Pr1DqvkdOCyV4JgurXn1A0mzHbF3R
+	eBYWXljN187vosQ5m5YNx2dly0wsID6cXVk2mGRYXEBzOFpqcp+n1nD/i6jm50dor5tx6jRK7MB
+	LcAOpt0BgsOKXvFdAASASyFBnEs3lx5JepN3ykkIQM/fY2EEH9DWeLRvMVsGwnrs66tJr
+X-Received: by 2002:a17:902:ce81:b0:2e5:cb1f:898c with SMTP id
+ d9443c01a7336-2eb364ed0f9mr139787525ad.46.1793739491564; Tue, 03 Nov 2026
+ 12:58:11 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -78,84 +104,35 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261103045053.59548-1-kaitao.cheng@linux.dev>
+References: <20261019222858.1766-1-drifabdelmalekmohamedsaid@gmail.com> <CA+xk8n--qQfYro+xsGu+z7nuCrAJgwzOOyrc+iXuBeSsPOWjhw@mail.gmail.com>
+In-Reply-To: <CA+xk8n--qQfYro+xsGu+z7nuCrAJgwzOOyrc+iXuBeSsPOWjhw@mail.gmail.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Tue, 3 Nov 2026 15:57:59 -0500
+X-Gm-Features: AclHuK_j1m1BaQJmY5Z4xSDq4UylbUple31snnL4So3-rHmuEym2QzQD59EuRAE
+Message-ID: <CAHC9VhQzeCgCx9mi6pvbQKLH=P8b-o6JuxeUo0QfyebVGPdXGQ@mail.gmail.com>
+Subject: Re: [PATCH] lsm: don't call d_path() when current->fs is NULL
+To: DRIF ABDELMALEK MOHAMED SAID <drifabdelmalekmohamedsaid@gmail.com>
+Cc: jmorris@namei.org, serge@hallyn.com, viro@zeniv.linux.org.uk, 
+	brauner@kernel.org, jack@suse.cz, linux-security-module@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	syzbot+975ace299d6ba2eb1cea@syzkaller.appspotmail.com, neganhat@gmail.com, 
+	audit@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 03, 2026 at 12:50:53PM +0800, Kaitao Cheng wrote:
-> From: Kaitao Cheng <chengkaitao@kylinos.cn>
-> 
-> Successful writeback calls zswap_entry_free(), which removes the entry
-> from the LRU and decrements both the sublist and node item counts.
-> shrink_memcg_cb() then returns LRU_REMOVED_RETRY, causing the LRU walker
-> to decrement the node count again.
-> 
-> The affected call path before this change is:
-> 
->   __list_lru_walk_one()
->     shrink_memcg_cb()
->       zswap_writeback_entry()
->         zswap_entry_free()
->           zswap_lru_del()
->             list_lru_del()
->               __list_lru_del()
->                 atomic_long_dec()  /* first node count decrement */
->       return LRU_REMOVED_RETRY
->     atomic_long_dec()              /* second node count decrement */
+On Tue, Nov 3, 2026 at 3:18=E2=80=AFPM DRIF ABDELMALEK MOHAMED SAID
+<drifabdelmalekmohamedsaid@gmail.com> wrote:
+>
+> Hello,
+> Just following up on this patch to see if anyone has had a chance to
+> review it or if any changes are needed since we're at 7.4-rc1.
+> Thanks,
+> Drif Abdelmalek Mohamed Said
 
-That's a bug in the zswap code. You shouldn't be calling
-list_lru_del() from __list_lru_walk_one() context.
+[CC'ing the audit list]
 
-Walker callbacks are supposed to use list_lru_isolate() or
-list_lru_isolate_move() to remove the item from the LRU under the
-lru lock. i.e. the walk and remove are a single atomic operation,
-accounted by the walker infrastructure.
+Not yet, but it is in my queue.  Regardless, thank you for the report
+and the patch!
 
-LRU_REMOVED_RETRY is for walkers that need to do work -after- the
-item has been removed from the LRU (e.g. reclaim work that can't run
-under the lru lock). i.e. the pattern for the callback code is
-remove-unlock-reclaim-LRU_REMOVED_RETRY.
-
-What the zswap code is doing is
-unlock-reclaim-lock-remove-unlock-LRU_REMOVED_RETRY. That's
-problematic, as we can have concurrent walkers, and so it's possible
-that two shrinker invocations try to remove the same item at the
-same time....
-
-.... oh, what a nasty hack.
-
-The zswap code is doing a list_move_tail() on the LRU object to
-rotate it to the end of the LRU list before dropping the LRU lock,
-in the hope that a concurrent scanner won't trip over it. That 
-doesn't fix anything...
-
-> During the mailing list discussion, Johannes Weiner suggested making
-> users of the isolation interface responsible for maintaining the item
-> counts, rather than having the walker decrement the node count based
-> on the callback's return value.
-
-urk. How is smearing the LRU NUMA abstraction into all the isolation
-interfaces an improvement?
-
-It seems to me that that this LRU hacking is all because of this:
-
-         * 2. Usually, objects are taken off the LRU for reclaim. In
-         *    this case this isn't possible, because if reclaim fails
-         *    for whatever reason, we have no means of knowing if the
-         *    entry is alive to put it back on the LRU.
-
-And so to work around this inability of zswap to handle failure
-sanely, the LRU list the reclaim code is being abused. And now the
-abuse of the lru list code is triggering problems with the LRU
-infrastructure, the suggestion is to push internal LRU structures
-into all LRU list walkers to allow racy (and IMO broken) walker
-behaviour?
-
-I'd much prefer the zswap code get fixed than to have to modify a
-dozen other subsystems to enable zswap to work around broken reclaim
-code...
-
--Dave.
--- 
-Dave Chinner
-dgc@kernel.org
+--=20
+paul-moore.com
