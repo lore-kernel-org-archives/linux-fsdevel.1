@@ -1,45 +1,58 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793743282;
-	b=A+nlbbpxT7/y9grg2Gfk1xOl2VicU3NNJAdfFwZDvVh2bg84nhDa6xTD3ZhIdB/0FLsC
-	 oZPU9I7grvvhKT9jH10MpE9hgQLJNm7tEtIkaRLNx62lHB4UO7ihOf2+AxdIQqEBTPtr5
-	 7xuyQQUyos9jjL65gAB/fCkceDvVybN+7Nj2FIG/KLL5JuT+6xKAauAs591rY4c4WiSLU
-	 5LOkPdenQO1kFO3rBtnUCvvxeDkCesj2NWtyjg0XoNO4vptQC1FjkKwaF3rOVMjOpsy3s
-	 CB6jeoR2eqoC7IxlS7U55RyLcFlGglcx+M/01CYx7v7JBDokIKxBEcqkinv2APWiKCw==
+	t=1793743435;
+	b=N1S6OKLxWxmsSQHhXTHrnpiI8T8yDtcMpX0weOaaJd5yFb/VovpSyFLs/l6X/OFogTY+
+	 IuOJTeNRixLm9abhqFSQOwE//CCNU1Mj/zW22CwoW9CFiq9C1a4MXHpNOjwBZ03kBI8LA
+	 ggqcDvPl7RU26YdVYtk4DWN5gXH8l+oHQb9ku6svKT9kjcUazV8nVckVUer1peDWJluuK
+	 8NeYYzQ9/x80BJve/d1b1a8DVfgWcMDUL4WZcWrQ1d9TlWxvxiZUXiWUUoiCTSDvHiWSd
+	 pD192cP06SmJO5n3TwdeGuzZPjEDcygxL1tTviur3QrEi+6Kmmm/1mNTBxoUbqqTIYg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793743282;
-	h=Received:DKIM-Signature:Mime-Version:Content-Transfer-Encoding:
-	 Content-Type:Date:Message-Id:Subject:Cc:To:From:References:
-	 In-Reply-To;
-	bh=R6uA9hX7fD85rhN6sNXcNNPGP4g4K/KhTQ6rqqOfAX0=;
-	b=rwUD/tZacd8iRjT5H5CHidT5B1xGKxAx5Y0Lu7y1rh37mH74CmQVVzNR+opJgYE1tBC1
-	 Acmy1rI8xY0NE4uxYEl9gmbX5ICQEJ1PVIOKkodrbLddoHPRp+deQpr2+8lWXAk7m5W40
-	 tL0+iJ8t0p+mW/1T/PPsKZJmyaVfFPPTgwztQpekHSWX8cMzPcTrSpUdvzBZykMkSu7wb
-	 V5p7uilW2A/hk9/qBjJNJH1b2KK+NxwIOyDfyXW8x1sUlSPJLbb8kvFh6T+ilCZKf+m5B
-	 cPcUoPbnxCnS0xztf0p1nRy2YQAnE4zCvBh5Zy2+uvpt9zqqFIY3t3CL07tQyg7ESRw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793743435;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=zNY1o5gKld28qZUNYF5vx8GzLX3Du11VLZBCNqbzRCs=;
+	b=F2IzYhP+H7o861O5ME1bzXvk/gEEpRII0jpfPIULNaeaMlGxi/gHSCJ267N3sUxQlc9v
+	 ScoFqq158nKzkCrKd/jSWIXvwbdZbGqhbcUlTqeCUhC1A7FzWZZoF/ZadOqhsp1bVO7n2
+	 2f7UphDzDGXnwBwh1jMido1wx55wOcm7KkGVywpXzgKk3E8sr6XgNVu3Ldh4OUNmK76Cx
+	 NG5+3l4Cqt4yG762ExuGCqr0rNLmeO8uXdpwCBshE4lDDLPbxQJd39shs4QRoXxgDOlrO
+	 Jp6f+N+o21PX5LYEFZuDa04CC4BhBtC6TqrB7iZ5NBjhg3PYFCqKJGjgqElnYA5gPqg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AuKAd+2p;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nJpCi3XT;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC6B2606A31B;
-	Tue,  3 Nov 2026 22:01:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 223F0608363A;
+	Tue,  3 Nov 2026 22:03:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AuKAd+2p
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73E5C1F000C1;
-	Tue,  3 Nov 2026 22:01:16 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nJpCi3XT
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E87F1F000C1;
+	Tue,  3 Nov 2026 22:03:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793743281;
-	bh=R6uA9hX7fD85rhN6sNXcNNPGP4g4K/KhTQ6rqqOfAX0=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To;
-	b=AuKAd+2pAiWxmodz6a5kLrzOGag2dQXGCvIWfiU2SqiHPwjnt+DZeZOIZzwDoeFgW
-	 f5tvI82TTyJbTTJBeMupREcEqkEJOTnvm2tcg6rR6KzI977TOiUnB4XfJblBR0m8Ko
-	 3on7l/RW87okd18TkMziqprxQ9KNwBaxunuTpwN+wdELBok8svqqglFYItI7OaAie9
-	 SaIAxAjUUZc0FGMB/GEzff7Fem5FCCZW2y7K8Ha9aPGJ34HwNpxMac8F2DMTukXzX4
-	 NMMYmaBoHXuYiAJmGYwn0YL5KCqaN+IzO8Fe7/dimMO7SXev4BOPXOSMGcMZiQPmb5
-	 yEemvUz0AwJZg==
+	s=k20260515; t=1793743434;
+	bh=zNY1o5gKld28qZUNYF5vx8GzLX3Du11VLZBCNqbzRCs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=nJpCi3XTqqrS8GqmganeqaUkJpYGHb0/M+m606qwT2Wt6G38M5cT40t8l6XB1oZh6
+	 OYg/4vgeBzFUeHoypbIozT2BWZabdzEEq1nyJWtSKfVhePyZCIzeBRWRWlddGCwKbp
+	 qelWtdvuOVxLexD4tQV8gWgWFOMekZ5ODIg453T59hCOM1oy9OvyZroczILOiiPqee
+	 dTu2dZ/ighVGWYUGC4yI0sMg0oDMx2JKjgV71seTSRDlj4sRYbaRwUdQdh+Iy3vbfs
+	 qeETvU6cd8yxzoWS+HY3+rbJq8s0I8zMRvKMzxqSwZPueM6BP4ZBgwkvyuSfEixb5M
+	 g3ERbv/IomB2A==
+Date: Tue, 3 Nov 2026 14:03:53 -0800
+From: Eric Biggers <ebiggers@kernel.org>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Andrey Albershteyn <aalbersh@kernel.org>, hch@lst.de,
+	Carlos Maiolino <cem@kernel.org>, fsverity@lists.linux.dev,
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	david@fromorbit.com, "Darrick J. Wong" <djwong@kernel.org>
+Subject: Re: [PATCH v18 05/15] xfs: handle fsverity I/O in write/read path
+Message-ID: <20261103220353.GA2281@quark>
+References: <20261102144147.2393369-1-aalbersh@kernel.org>
+ <20261102144147.2393369-6-aalbersh@kernel.org>
+ <aumrai1iWxj97svo@infradead.org>
+ <aunQUzz7AV-qvys-@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
+ <aun1e6gedSrVDuRQ@infradead.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -48,60 +61,43 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 03 Nov 2026 23:01:15 +0100
-Message-Id: <DMLWX8NY1N1N.2OMQMQCIVRR18@kernel.org>
-Subject: Re: [PATCH v2 0/9] Add __must_init and require explicit
- kobj_type::release
-Cc: "Kees Cook" <kees@kernel.org>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, "Miguel Ojeda" <ojeda@kernel.org>, "Rafael J
- . Wysocki" <rafael@kernel.org>, "Nathan Chancellor" <nathan@kernel.org>,
- "Nick Desaulniers" <ndesaulniers@google.com>, "Miguel Ojeda"
- <miguel.ojeda.sandonis@gmail.com>, =?utf-8?q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, "Zhihao Cheng" <chengzhihao1@huawei.com>,
- "Zhongqiu Han" <zhongqiu.han@oss.qualcomm.com>, "Sumanth Korikkar"
- <sumanthk@linux.ibm.com>, "Bill Wendling" <morbo@google.com>, "Justin
- Stitt" <justinstitt@google.com>, <driver-core@lists.linux.dev>,
- <llvm@lists.linux.dev>, <linux-hardening@vger.kernel.org>,
- <linux-fsdevel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <linux-acpi@vger.kernel.org>, <linux-pm@vger.kernel.org>,
- <linuxppc-dev@lists.ozlabs.org>, <linux-sh@vger.kernel.org>,
- <linux-s390@vger.kernel.org>, <gfs2@lists.linux.dev>,
- <xen-devel@lists.xenproject.org>, <linux-mtd@lists.infradead.org>,
- <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-To: "Ian Rogers" <irogers@google.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20261027223847.652884-1-irogers@google.com>
-In-Reply-To: <20261027223847.652884-1-irogers@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aun1e6gedSrVDuRQ@infradead.org>
 
-On Tue Oct 27, 2026 at 11:38 PM CET, Ian Rogers wrote:
-> Clang supports the 'require_explicit_initialization' attribute on struct
-> fields to enforce that the field is explicitly initialized when an
-> aggregate object is constructed, emitting -Wuninitialized-explicit-init
-> (enabled by default) if the field is omitted.
->
-> Following discussion at the Linux Plumbers Conference [1], patch 1 adds
-> the attribute to include/linux/compiler_attributes.h as __must_init. In
-> v1 it was called __require_explicit_initialization. Kees picked up that
-> patch with a first seq_file user [2], and in that thread Greg suggested
-> the shorter __must_init spelling, which Kees and Miguel agreed to. As
-> the attribute did not land in the v7.4 merge window, Kees asked that
-> this series carry the renamed attribute. The Acked-by/Reviewed-by tags
-> on patch 1 were given for the original spelling; the rename is
-> mechanical.
+On Tue, Nov 03, 2026 at 06:53:47AM -0800, Christoph Hellwig wrote:
+> > > Sashiko complained about this, but I also really don't understand
+> > > how setting ctx->iomap.flags before we even get a mapping to start
+> > > with make much sense.  This should be set together with filling the
+> > > iomap either way.
+> > 
+> > The problem here is that when we found a dirty folio to writeback,
+> > and we know it's beyond EOF, how to find out that's it's fsverity
+> > folio. We don't have any fsverity metadata attach to an inode yet as
+> > we are in the process of creating it.
+> > 
+> > This is not a nice workaround here, but I use stale iomap.flags
+> > here. So, every next folio in that iomap has the stale flags from a
+> > previous one, which has fsverity set. This should be fine as the
+> > only folios written, at this point, are fsverity metadata.
+> > 
+> > Here I set it for the first folio in the iomap, to get it started.
+> > Otherwise, writeback will just will not continue on folios post EOF.
+> > 
+> > This could be probably done by elevating "verity in construction"
+> > into inode_state_flags *shrug*
+> 
+> Lifting the flag to the VFS feels like a good and nicer than finding
+> backways communicaton channels through iomap.  And once we have more
+> file systems supporting fsverity a common flag vs one in each
+> file system might be worth it even without that.
 
-This looks ready, and I plan to pick it up through the driver-core tree wit=
-h the
-minor commit message correction.
+I don't feel great about reserving space in 'struct inode' just for
+temporary state of the FS_IOC_ENABLE_VERITY ioctl.  However, i_state is
+currently using only 20 of its 32 available bits anyway, so it actually
+would make no difference in the size and there are still plenty of bits
+to go.  So sure, if adding I_VERITY_IN_PROGRESS makes things easier for
+now, it sounds okay to me.
 
->   powerpc/secvar: Add missing kobject release callback to secvar_ktype
->   sh: sq: Add missing kobject release callback to ktype_percpu_entry
->   xen/sys-hypervisor: Add release callback to hyp_sysfs_kobj_type
-
-Some ACKs would be appreciated. :)
-
-Thanks,
-Danilo
+- Eric
