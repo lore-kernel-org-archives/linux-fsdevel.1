@@ -1,44 +1,44 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793740681;
-	b=FczNtmaDxU6mJ/DohrhRGXM+R/xbea0O6wl3mcDNLntQyxCTfLABVZbIkfuBRDajcANf
-	 qGMnZ9VpdHRFnBbyMUioHa1bu4BVlxtFc+xZJYFDAX/hTXG77ZvDHOBXyEAAhbIOcplTu
-	 9OqLiasP+qhzvUsTVAWuOg+6x4ZKxKqW8rxpx93+cI18SP1cMThPAg9Uewqj9KF7UQX4w
-	 7cdN+yPV1oWR/diEkrNLEX1xeiUUWeZzlzj03nipDQ/JUen2TZsB3MWHmkwTMazBlCqn4
-	 CZvphc2fjl/C2vEgoWSIHqlxXCC5JNA43PMl990of312ChgtOjsps4zanHyB+HcpB6Q==
+	t=1793740676;
+	b=hyj2CGNg/EHnneBAhrwMJAx8M/1q8TriOc1CDHRDn6BrMn4bYivNiT/Cx1p7MZlPWdjQ
+	 0f30qauba+QEIw8/udDF+HE3qtxCBA2zphd5sq95hSC1LT6u3CRc6I0HuhUWz4WuIpMDm
+	 RC70D66E2hGIOqrlGgHBYCzr0jVh8k/Er7cHnvwvQxdrwvJpSo4bwR2F/r2OD6K2QuQKs
+	 +RiD90LQ0vHOtRB+dBA5p9BqfVjPCX/8Dh9++hCd4BfAkoaKfZfZKhY6eVCFyIYOytyP1
+	 d+0H432pn1dY9M0c9/hUW3VV+FgsMBfJqVbGSVW2V7BjGQFX9FrEVY2BEt0E7Y59ffA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793740681;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793740676;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=DI89KFBg08cV0NMoZcQe793KHlTmMZi7dlrFBwSyZaw=;
-	b=x4PzAF40GYmR9wgDFgpJ4Cj5ITbTzqjBZkrLcSBG70tcrHv1tX7kAdg0MLBAllYyVLri
-	 zNVbHe8iuV9O2wNhnM7YY5YWz5jrvSvPoF0g03+8dahdSaIv9f1EpKmuXnmaBWafCPLWq
-	 VyOffbHqjNwuXC/gCzF2FGaNwVkINz1pdhvG6QxYuBO5lzZGOyNMQhbIHz3oADf+UUdM8
-	 72R+LPZxo2OZfdXcOe1w83XZ6Nv0NE4el8CQ13vNoB//ORu9SDDsWOMGt43zeZj3COATD
-	 a9DxQNodjuQSPpv7cajMG3UH3YpaUnLs082IfoKuVGK9BbwCwhIZ8Ea0P5pMm3MgUFQ==
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=XeXrDOc+70voGjQbABG90HUQoTF6Ii93pHEf5zCSnPs=;
+	b=uj/7b9NOWaPUtcVKmwNrrsUw2Dl6Kv9qZxN5KGvyter0MdgUYktxlb8zd40Vo85KQzO3
+	 bC/fCvbCFcUcMLUa16KnPBOq8af/9GI5Ap0wuaPNFKrUm+O6iAXWnEmm2dfnqI2ZGkxEL
+	 gtcbFjX7co0dYaC+j6We/eNuyrwi55ODgtHScie5l300DEDapuyjJmpsy1WQDR9rMPD0e
+	 rP1sCT8FLE9gNrrIPRPEQ9AoNUmUScjYjC+DE61v6NbS1wbcXd7YC3MrvreXShCiaw1B9
+	 B2HQKkdSvNuCOCA2lEPGg1dzajB4jQvPH533uf8OWoFukQ4bach8ZZMUit7BZnj7nbw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aUSE2kt3;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XXFrdsRK;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0164606A334;
-	Tue,  3 Nov 2026 21:18:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0513E606A31B;
+	Tue,  3 Nov 2026 21:17:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aUSE2kt3
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 738351F00A1A;
-	Tue,  3 Nov 2026 21:18:00 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XXFrdsRK
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 531DE1F000C1;
+	Tue,  3 Nov 2026 21:17:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793740680;
-	bh=DI89KFBg08cV0NMoZcQe793KHlTmMZi7dlrFBwSyZaw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=aUSE2kt3f6UaFdPxcLV4ZJIDjVzGjYBMNsGVkFaf1jo9LkWqkjrz4yl4GpX3IBkTw
-	 zIG7m/fXJrWMSoMHe9SSopQykRMeM6LMaz55t+/MiJj59pPWz5CaTQEEj4XQ4bpziT
-	 F+/t8qLzhHwcFXI8UlXRZhEFGmUFPGd+rLAGri/sx+ni91puKPc3WwkuMoaG1Rrwt0
-	 RdtCnNy0Wj8Lnmw/tsSI5hd+T40vgO/UWTIKJ78LTF2A/YP0dCnbkWkLSBKJkuXv8/
-	 /5dmqlkK76mQyL7x72g9ixA1r8WLpTD3pq2tzfCeFl5gr6iwl3abwQbWHWcBz2wFSK
-	 oZOpn5JeHMc2g==
+	s=k20260515; t=1793740675;
+	bh=XeXrDOc+70voGjQbABG90HUQoTF6Ii93pHEf5zCSnPs=;
+	h=From:To:Cc:Subject:Date;
+	b=XXFrdsRKSt+h1JHwiQ58mFXZpgsRd5fjML9ABRZ3ZDvlov2nYhH+d9yRcQbYq8Mh1
+	 B0eXvnBz0TGAuvfmLFnB5ubvdu9sVxe0kL4KuIJwRSdC+Qg9BG4GrxqHmjbB7JJR1Z
+	 6fBRlJCtkMWVBGwdomZFzqj0i05MPp2t7Ubi3tgDHtEXP7fa8CdTQIbHRLTEWyzwLH
+	 iZ8iVR1XD7BkVFYgqr3boVCL6pzMKEU3PIM8UNzczi2qiJz6TdAeR3J7RPWe/jZ4DE
+	 /jTxiS5uT5fHqmtSTd3JrAzIfbkqHnPvvbcICJzm/+9uD/KM755SSvo4FU/va6W3tz
+	 raykJvyMoID3Q==
 From: Mike Snitzer <snitzer@kernel.org>
 To: Matthew Wilcox <willy@infradead.org>,
 	linux-mm@kvack.org,
@@ -53,12 +53,10 @@ Cc: Chuck Lever <cel@kernel.org>,
 	Christoph Hellwig <hch@lst.de>,
 	Jens Axboe <axboe@kernel.dk>,
 	Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v10 4/7] mm: add folio_mark_dropbehind() to mark a folio dropbehind and account it
-Date: Tue,  3 Nov 2026 16:17:51 -0500
-Message-ID: <20261103211754.35352-5-snitzer@kernel.org>
+Subject: [PATCH v10 0/7] mm, iomap, NFSD: stop uncached writes reading back shared pages
+Date: Tue,  3 Nov 2026 16:17:47 -0500
+Message-ID: <20261103211754.35352-1-snitzer@kernel.org>
 X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20261103211754.35352-1-snitzer@kernel.org>
-References: <20261103211754.35352-1-snitzer@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -70,109 +68,99 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-WB_DONTCACHE_DIRTY counts the dirty folios that are marked dropbehind.
-When a dropbehind folio is dirtied, folio_account_dirtied() adds it to
-the counter.  When the folio is cleaned, folio_clear_dirty_for_io() or
-folio_account_cleaned() subtracts it again.  This balances only if the
-folio is marked before it is dirtied, as it is for the folios that an
-RWF_DONTCACHE write creates.
+Hi,
 
-To prepare for NFSD to mark a folio dropbehind once both writes that
-share it have written their parts, handle a folio that is already dirty
-when it is marked.  folio_set_dropbehind() only sets the flag.  With it,
-the clean would subtract the folio from WB_DONTCACHE_DIRTY although it
-was never added, and the counter would go negative.
+An uncached (RWF_DONTCACHE) buffered write drops each folio it writes
+once the folio is written back.  A folio that the write covers only
+partly is shared with the neighbouring write.  If it is dropped before
+the neighbour writes its part, the neighbour reads it back from disk
+first.  32 threads writing interleaved records to one XFS file, 4 KiB
+pages, before and after 5/7:
 
-Add folio_mark_dropbehind(), the inverse of filemap_clear_dropbehind().
-With the folio locked, it sets PG_dropbehind.  Under the i_pages lock,
-it adds the folio to WB_DONTCACHE_DIRTY if both PG_dirty and the dirty
-tag are set.  A dirtier that has set PG_dirty but not yet counted the
-folio finds the flag set and counts the folio itself.
+  record  pwritev2() flags          4 KiB device       MiB/s
+  bytes                             reads per write
+                                    before   after     before  after
+  47008   RWF_DONTCACHE             0.97     0.0005    831     2281
+  47008   RWF_DONTCACHE|RWF_DSYNC   0.99     0.0005    601     1227
+  6000    RWF_DONTCACHE             0.97     0.0001    121      488
+  6000    RWF_DONTCACHE|RWF_DSYNC   0.99     0.0002     90      206
 
-The name follows folio_set_dirty() and folio_mark_dirty(): the set
-variant only sets the flag, the mark variant also accounts for it.
+The test program and script: https://lore.kernel.org/linux-nfs/atqJBS8MlYfeUU-t@kernel.org/
 
-Reviewed-by: Jeff Layton <jlayton@kernel.org>
-Signed-off-by: Mike Snitzer <snitzer@kernel.org>
----
+- 1/7 moves code into a helper, with no functional change.
+- 2/7 fixes 88d6f128d06d ("mm: track DONTCACHE dirty pages per
+  bdi_writeback"), in v7.3: WB_DONTCACHE_DIRTY could drift.
+- 3/7 reports WB_DONTCACHE_DIRTY in the bdi debugfs stats.
+- 4/7 adds folio_mark_dropbehind() for a folio that is already dirty.
+- 5/7 keeps a partly covered folio until the write that completes it.
+- 6/7 lets a writer that syncs its own write complete those folios
+  itself, after the sync.
+- 7/7 makes NFSD do that for the misaligned ends of a direct-mode WRITE.
 
-Notes:
-    Notes on questions from earlier reviews, with the code that answers each:
-    
-    - Counting rule.  The same rule as filemap_clear_dropbehind() in
-      2/7: folio_mark_dropbehind() counts the folio only when
-      folio_test_dirty() and PAGECACHE_TAG_DIRTY are both true.  The
-      test runs under the folio lock (VM_WARN_ON_ONCE_FOLIO checks it)
-      and the i_pages lock.  A stale tag on a clean folio adds no count.
-    - Double count.  A folio that has PG_dropbehind returns at the first
-      test, before it changes the count.
-    - No writeback.  A mapping without writeback gets only the flag.
-      folio_account_dirtied() does not count such a folio either
-      (mapping_can_writeback()).
-    - Known window.  As in 2/7: a stale tag together with an unlocked
-      dirtier that has set PG_dirty but not yet taken the i_pages lock
-      can make this count a folio that the dirtier then counts again.
-      Only the counter is affected.
+Merging: Chuck suggested taking the series through the mm tree.  1/7 to
+6/7 apply cleanly to each of these mm branches:
 
- include/linux/pagemap.h |  1 +
- mm/filemap.c            | 32 ++++++++++++++++++++++++++++++++
- 2 files changed, 33 insertions(+)
+  mm-unstable  0ea6dc8c4a21 ("fs/proc/task_mmu: fix lost maps entries above 2^63")
+  mm-new       74d73ffcffe0 ("riscv: mm: fix concurrency in mark_new_valid_map()")
+  mm-stable    6628e7d4c6b2 ("Linux 7.4-rc1")
 
-diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
-index 73af18a373670..3f5295d6fd73b 100644
---- a/include/linux/pagemap.h
-+++ b/include/linux/pagemap.h
-@@ -1306,6 +1306,7 @@ void end_page_writeback(struct page *page);
- void folio_end_writeback(struct folio *folio);
- void folio_end_writeback_no_dropbehind(struct folio *folio);
- void folio_end_dropbehind(struct folio *folio);
-+void folio_mark_dropbehind(struct folio *folio);
- void folio_wait_stable(struct folio *folio);
- void __folio_mark_dirty(struct folio *folio, struct address_space *, int warn);
- void folio_account_cleaned(struct folio *folio, struct bdi_writeback *wb);
-diff --git a/mm/filemap.c b/mm/filemap.c
-index 3a13289c07dc4..5134227ba3a23 100644
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -1643,6 +1643,38 @@ void folio_end_dropbehind(struct folio *folio)
- }
- EXPORT_SYMBOL_GPL(folio_end_dropbehind);
- 
-+/**
-+ * folio_mark_dropbehind - mark an existing folio dropbehind
-+ * @folio: the folio, locked by the caller
-+ *
-+ * Mark @folio so that the writeback that cleans it drops it.  If the folio
-+ * is already counted as dirty, which with the i_pages lock held means both
-+ * PG_dirty and the dirty tag are set, add it to WB_DONTCACHE_DIRTY so that
-+ * the clean that subtracts it leaves the counter balanced.
-+ */
-+void folio_mark_dropbehind(struct folio *folio)
-+{
-+	struct address_space *mapping = folio->mapping;
-+	unsigned long flags;
-+
-+	VM_WARN_ON_ONCE_FOLIO(!folio_test_locked(folio), folio);
-+
-+	if (folio_test_dropbehind(folio))
-+		return;
-+	if (!mapping || !mapping_can_writeback(mapping)) {
-+		folio_set_dropbehind(folio);
-+		return;
-+	}
-+	xa_lock_irqsave(&mapping->i_pages, flags);
-+	folio_set_dropbehind(folio);
-+	if (folio_test_dirty(folio) &&
-+	    xa_get_mark(&mapping->i_pages, folio->index, PAGECACHE_TAG_DIRTY))
-+		wb_stat_mod(inode_to_wb(mapping->host), WB_DONTCACHE_DIRTY,
-+			    folio_nr_pages(folio));
-+	xa_unlock_irqrestore(&mapping->i_pages, flags);
-+}
-+EXPORT_SYMBOL_GPL(folio_mark_dropbehind);
-+
- /**
-  * folio_end_writeback_no_dropbehind - End writeback against a folio.
-  * @folio: The folio.
+7/7 needs the NFSD direct-mode changes that are in cel/nfsd-testing.
+The whole series applies to cel/nfsd-testing at 693afd3ce9ae ("NFSD:
+Defer the PUTFH export security flavor check"), where each patch builds
+with W=1 with no warnings.  So 7/7 could follow in the nfsd tree once
+the mm part is merged.
+
+Changes since v9, from Christoph's review:
+- v9 1/6 is now two patches: 1/7 only moves the code, and 2/7 changes
+  it.
+- Every commit message is rewritten to state the problem, the fix and
+  the result, without the earlier detail.
+- The long code comments are shorter.
+- Rebased on the current cel/nfsd-testing, which now has b16607436d31
+  ("NFSD: cut a misaligned direct-mode WRITE at folio boundaries").
+- Jeff's Reviewed-by of v9 is carried on every patch but 1/7, which is
+  new, because the code changed only in comments and in the split of v9
+  1/6.
+
+The code is the same as in v9 apart from the comments, so the v9
+results hold.  Patches 2, 4, 5, 6 and 7 carry notes below the ---
+line: questions from earlier reviews, and the code that answers each.
+
+v9: https://lore.kernel.org/linux-nfs/20261024221152.6965-1-snitzer@kernel.org/
+v8: https://lore.kernel.org/linux-nfs/20261023024548.71123-1-snitzer@kernel.org/
+v7: https://lore.kernel.org/linux-nfs/20261020220346.28020-1-snitzer@kernel.org/
+v6: https://lore.kernel.org/linux-nfs/atbfEbgMU6UGkn2X@kernel.org/
+v5: https://lore.kernel.org/linux-nfs/20261019150725.1507-1-snitzer@kernel.org/
+v4: https://lore.kernel.org/linux-nfs/20261015233309.42999-1-snitzer@kernel.org/
+v3: https://lore.kernel.org/linux-nfs/20261001045502.48381-1-snitzer@kernel.org/
+v2: https://lore.kernel.org/linux-nfs/20260929231329.22018-1-snitzer@kernel.org/
+v1: https://lore.kernel.org/linux-nfs/20260929173423.16149-1-snitzer@kernel.org/
+
+Thanks,
+Mike
+
+Mike Snitzer (7):
+  mm: move clearing the uncached flag of a found folio into a helper
+  mm: take a folio off WB_DONTCACHE_DIRTY only if it was counted there
+  mm: expose WB_DONTCACHE_DIRTY in bdi debugfs stats
+  mm: add folio_mark_dropbehind() to mark a folio dropbehind and account it
+  mm, iomap: keep a partly covered page until an uncached write completes it
+  mm, iomap: let an uncached writer complete its shared pages itself
+  NFSD: drop a shared boundary page only once both WRITEs have written it
+
+ .../filesystems/nfs/nfsd-io-modes.rst         |  17 ++
+ fs/iomap/buffered-io.c                        |  30 ++-
+ fs/iomap/trace.h                              |   3 +-
+ fs/nfsd/vfs.c                                 | 106 ++++++++-
+ include/linux/fs.h                            |   5 +-
+ include/linux/iomap.h                         |   1 +
+ include/linux/pagemap.h                       |  11 +
+ mm/backing-dev.c                              |   6 +
+ mm/filemap.c                                  | 208 ++++++++++++++++--
+ 9 files changed, 356 insertions(+), 31 deletions(-)
+
+
+base-commit: 693afd3ce9ae5cddb7225ec87975e6ef1443e502
 -- 
 2.52.0
 
