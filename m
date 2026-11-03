@@ -1,58 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793716079;
-	b=wU69ITzaZXkjnObnvCblsYg3HFz5ib8rimQ+FBDVEKVYC3S65h0qUDqK/3bqf7hTRXPC
-	 gRcfEkFefpsp8+4woU+pN6x5pYZT3gLA7qlhrsh/VdPV2riXBZmKEX/PjcfoZJa629vl1
-	 x18H0aKnUcgxUFlsnVFlIkTzWZk6/RpXe875PSWeTiUnvR3pQETOqpT4CXHqM0x1CgUst
-	 LoEr2+dQypzk3DrGblH20QlBJ0fWfBpf2xlT79UD+u0TKCT1luQxnHFpk5Pf1mlNmKb6s
-	 ZrTy4L/CvHyne52a37I9iqsB+2juwKGKwNw9jzjXof5jj9v48hzti6wOLHFbZn0WQ9g==
+	t=1793716280;
+	b=SryalPIpfH7vdWLm0z+iahgLPa2IQVib4gH2VERmOOoSWuki9T2k8hkoFG34O+1C/8y4
+	 bXt/KkngayA1izv6/GAefUVz+My/1CePU08kbmTB6XeVagdqJFRLl6OjiNRIYML4s4fIO
+	 sN2ffADw1F6R8bS7BWn3fOOnuKycTyl/tJtq4yYinvNW4gfKBrA0nDrzS50bIkcVwMEDT
+	 eGpSR+9CMpV4FVNgSGJjmFWwW/RgkrZXQ8xn5GZRcgL0DVbyjYTUTcvMFSD3W/jLc1XKE
+	 SxDVQr4uODnkwqxCVSGVa4eHJvSkB6IeWjIlluUGjM0tKSvSCbiaIITm9aQ8WlzYYSA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793716079;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=dejmHhxeXbifKefac16SRC6v8LfF3VPO/ivty0pHofI=;
-	b=erZkof23WKVSyJGNY9gPus03kqbQC8CEZ8u/JEcb3Wtm7cjl11N0dBuKNITSAlnh1ohQ
-	 rYkQt8gu6K7MPfG+wALuY4rvtJZVH7xnBLxzod6iVOZKjOpKrAr8oxjy7cAyvNWmp5BHG
-	 KoujHb5nqxYah2sARzfNq1z09Eya6Il3v4SyheeL4nmnMOPUwCK1mdUU1Fq0/RVYSKkl2
-	 zJ7oTL/JYIifPicMUnfnf9FYjmAS/RFAnPNB+xGHf07Q8dWUsd1nFS1obMchGL9iT0WxQ
-	 BLIeupAPJKQh/ThzW7FW7zZ/CYBRttWK9z9xR88IeHnLD64PtoelIA8B5rDZo3gKQyg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793716280;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=3UeWveWGeakrU8+V/v3FLgdqqTFKhZIga4Ey5mDJP2o=;
+	b=FTjGX7oY+wsDAx0aIvNgCy+GLOWP8XvCyztSNiBj1En3cgIrb/cDVEtWcfK9Y+O7JNsb
+	 CrKf+XGMH2jRDGVYsXfInStfLHVwP6wOSjJCoYiElp0RjmQLhLRuY/tttK09G5ngmznxT
+	 vONHJY5ydvts+8VUdN4CD8wYOjp7qIP0rvVf9XMHyCyUj6ANcbBXwxCkDyEmR7k8ql9ji
+	 lu4rGXfDB6gd182RWhfTPA0BW3IAVffBUsoMX6hopJIg/Ql/vG5bMbwbP/7qYOV6QdAu5
+	 TIXCHN1xT75vTip8FEpoBFP/a2NJSf7mGubQSii62NnxIIGmCKOXia0GWXxLUkDocPQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nUKzUwyK;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EaTKmfir;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E143606A32C;
-	Tue,  3 Nov 2026 14:27:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEC42606D818;
+	Tue,  3 Nov 2026 14:31:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nUKzUwyK
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8CBC1F00919;
-	Tue,  3 Nov 2026 14:27:57 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EaTKmfir
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E53D1F00A17;
+	Tue,  3 Nov 2026 14:31:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793716078;
-	bh=dejmHhxeXbifKefac16SRC6v8LfF3VPO/ivty0pHofI=;
-	h=From:To:Cc:Subject:Date;
-	b=nUKzUwyK0jqNK151DC/OEVBoJAFG407hZrQ/MasVYD0biSZutqbyf+1knwKD4Yqqd
-	 GVMota9jUUK2m4BSRL5GkG75UJbVC3E/ZJHsn15Z6UdXek/7MSnBI8rL+pyEVyYtLM
-	 SImgscDKmCOEFdPG7weJ9C2SuC2w+Y7Pqs3m3yE39wtUGeHiAmM+dt+pqVid8ME/UT
-	 sWcCjssy4K94wqnkkLJ2BbvJKKLUxnnUBqurlaUyRL6OuY+xUQm6T4pHnb5nYM+WkZ
-	 nJP+CqxPHm0YZIAHpPUlbDPMOajRlPhwQ4ubFIaFmjuPspNiz5DAEAAHsfrrjYyt1H
-	 X3+k0XKREgR6g==
-From: Sasha Levin <sashal@kernel.org>
-To: Shuah Khan <shuah@kernel.org>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Aleksa Sarai <aleksa@amutable.com>,
-	John Hubbard <jhubbard@nvidia.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	llvm@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] selftests: probe for sanitizer support in fchmodat2 and openat2
-Date: Tue,  3 Nov 2026 09:27:56 -0500
-Message-ID: <20261103142756.132111-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.53.0
+	s=k20260515; t=1793716279;
+	bh=3UeWveWGeakrU8+V/v3FLgdqqTFKhZIga4Ey5mDJP2o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=EaTKmfirvx82zMrfDI5Q3O9Tff1UgW8RMbOnjHWQX2SHpBv8fKHOcklhK4/hJqZbF
+	 1Kf8On1e11aN6CE8lJpmaM2iUCh8TnME1LcEhOrROE4FsiJaHL9F3fPjgNHOmEBokW
+	 5Mq7E/zIqW22wNuhDYYfcivIO4bjzZGhuRD2sFeP+UW0FjMQ2rYAwXgdh3aPWRAHVq
+	 OpG0vVfCTRGhaT6APlAhz6y8E+/qqqnjFdDsMTQirVQ6SMhNfknBFE7cvXWDc3tW7t
+	 B5omm1nSWVnMKA4Bv0QdlVPJBKOsSScJgJoUehwazdjWbmZdjXml/+Yc3EWmh7pQ5H
+	 5rvCYz89rQOPA==
+Date: Tue, 3 Nov 2026 15:31:15 +0100
+From: Andrey Albershteyn <aalbersh@kernel.org>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: ebiggers@kernel.org, hch@lst.de, Carlos Maiolino <cem@kernel.org>, 
+	fsverity@lists.linux.dev, linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	david@fromorbit.com, "Darrick J. Wong" <djwong@kernel.org>
+Subject: Re: [PATCH v18 07/15] xfs: add XFS_BMAPI_UNWRITTEN to unmap
+ unwritten extents in __xfs_bunmapi()
+Message-ID: <aunvf0_84c4K3s8b@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
+References: <20261102144147.2393369-1-aalbersh@kernel.org>
+ <20261102144147.2393369-8-aalbersh@kernel.org>
+ <aumsPwTUaMgsccSb@infradead.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -62,104 +60,37 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aumsPwTUaMgsccSb@infradead.org>
 
-The fchmodat2 and openat2 tests are always built with -fsanitize=address
-and -fsanitize=undefined. Toolchains without the sanitizer runtimes,
-such as clang without the compiler-rt package, cannot link them and the
-tests fail to build:
+On 2026-11-03 01:41:19, Christoph Hellwig wrote:
+> On Mon, Nov 02, 2026 at 03:41:37PM +0100, Andrey Albershteyn wrote:
+> > The __xfs_bunmapi() is used to remove all extents past EOF. Add
+> > XFS_BMAPI_UNWRITTEN to remove only unwritten extents, while leaving
+> > written ones in place. This will be used in following patch to clean up
+> > unwritten extents on fsverity inodes.
+> 
+> As discussed before, we either need to fix the Sashiko complains (which
+> could get really annoying), or disallow fsverity on RT files with
+> rt extent size > 1.  And probably also add a soft assert about this
+> to __xfs_bunmapi itself to make the limitations clear.
+> 
+> Otherwise this looks good.
+> 
 
-  ld: cannot find /usr/lib/llvm-21/lib/clang/21/lib/x86_64-unknown-linux-gnu/libclang_rt.asan_static.a: No such file or directory
+Yes, I added the check in "[PATCH v18 09/15] xfs: add fs-verity
+support" [1] in xfs_fsverity_begin_enable()
 
-The same happens with USERLDFLAGS=-static, which AddressSanitizer does
-not support. KernelCI's clang builds fail this way on every
-architecture.
++	/*
++	 * fs-verity stores the Merkle tree past EOF in units of the filesystem
++	 * block size, so it cannot support realtime files whose allocation unit
++	 * (extent size) is larger than the block size.
++	 */
++	if (xfs_inode_has_bigrtalloc(ip))
++		return -EINVAL;
 
-Link an empty program with the sanitizer flags first, and only add them
-when that works. With the runtimes available the tests are built as
-before.
+1: https://lore.kernel.org/linux-xfs/20261102144147.2393369-10-aalbersh@kernel.org/
 
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
-Tested on x86_64 with gcc 16 and clang 21, building both suites with
-O=: with the runtimes installed the binaries still link ASan as before.
-With clang pointed at a resource directory without the runtimes, and
-with gcc and USERLDFLAGS=-static, the build failed before and now
-builds all five programs without the sanitizers. fchmodat2_test and the
-openat2 tests give the same results from both builds.
-
- tools/testing/selftests/fchmodat2/Makefile     | 18 +++++++++++++-----
- .../selftests/filesystems/openat2/Makefile     | 18 +++++++++++++-----
- 2 files changed, 26 insertions(+), 10 deletions(-)
-
-diff --git a/tools/testing/selftests/fchmodat2/Makefile b/tools/testing/selftests/fchmodat2/Makefile
-index 4373cea79b794..21f6b0b0cdc8f 100644
---- a/tools/testing/selftests/fchmodat2/Makefile
-+++ b/tools/testing/selftests/fchmodat2/Makefile
-@@ -1,15 +1,23 @@
- # SPDX-License-Identifier: GPL-2.0-or-later
- 
--CFLAGS += -Wall -O2 -g -fsanitize=address -fsanitize=undefined $(KHDR_INCLUDES)
-+CFLAGS += -Wall -O2 -g $(KHDR_INCLUDES)
-+
-+TEST_GEN_PROGS := fchmodat2_test
-+
-+include ../lib.mk
- 
- # gcc requires -static-libasan in order to ensure that Address Sanitizer's
- # library is the first one loaded. However, clang already statically links the
- # Address Sanitizer if -fsanitize is specified. Therefore, simply omit
- # -static-libasan for clang builds.
-+SANITIZER_CFLAGS := -fsanitize=address -fsanitize=undefined
- ifeq ($(LLVM),)
--    CFLAGS += -static-libasan
-+    SANITIZER_CFLAGS += -static-libasan
- endif
- 
--TEST_GEN_PROGS := fchmodat2_test
--
--include ../lib.mk
-+# Build without the sanitizers when the toolchain cannot link them.
-+ifeq ($(shell echo 'int main(void) { return 0; }' | $(CC) $(CFLAGS) \
-+	$(SANITIZER_CFLAGS) $(LDFLAGS) -x c - -o /dev/null >/dev/null 2>&1 && \
-+	echo y),y)
-+CFLAGS += $(SANITIZER_CFLAGS)
-+endif
-diff --git a/tools/testing/selftests/filesystems/openat2/Makefile b/tools/testing/selftests/filesystems/openat2/Makefile
-index d848aac96bded..2f712dfcbf75c 100644
---- a/tools/testing/selftests/filesystems/openat2/Makefile
-+++ b/tools/testing/selftests/filesystems/openat2/Makefile
-@@ -1,17 +1,25 @@
- # SPDX-License-Identifier: GPL-2.0-or-later
- 
- CFLAGS += $(KHDR_INCLUDES)
--CFLAGS += -Wall -O2 -g -fsanitize=address -fsanitize=undefined $(TOOLS_INCLUDES)
-+CFLAGS += -Wall -O2 -g $(TOOLS_INCLUDES)
- TEST_GEN_PROGS := openat2_test resolve_test rename_attack_test emptypath_test
- 
-+LOCAL_HDRS += helpers.h
-+
-+include ../../lib.mk
-+
- # gcc requires -static-libasan in order to ensure that Address Sanitizer's
- # library is the first one loaded. However, clang already statically links the
- # Address Sanitizer if -fsanitize is specified. Therefore, simply omit
- # -static-libasan for clang builds.
-+SANITIZER_CFLAGS := -fsanitize=address -fsanitize=undefined
- ifeq ($(LLVM),)
--    CFLAGS += -static-libasan
-+    SANITIZER_CFLAGS += -static-libasan
- endif
- 
--LOCAL_HDRS += helpers.h
--
--include ../../lib.mk
-+# Build without the sanitizers when the toolchain cannot link them.
-+ifeq ($(shell echo 'int main(void) { return 0; }' | $(CC) $(CFLAGS) \
-+	$(SANITIZER_CFLAGS) $(LDFLAGS) -x c - -o /dev/null >/dev/null 2>&1 && \
-+	echo y),y)
-+CFLAGS += $(SANITIZER_CFLAGS)
-+endif
 -- 
-2.53.0
-
+- Andrey
