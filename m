@@ -1,106 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793706515;
-	b=pHupQ5dqpDQBWhKq78Rb9CCPz6xBczlZ8sJdYi7guVsTJYlkLjdGpLyMOUq/3hUcinI3
-	 oxhxjFcGSJESWe2JkcY3V9FftN/HD7Kf4qGbiRrKNwTquQ/ohCSNIqhnMsQ0VZ85+adRU
-	 31WT7n3kCyIeLdNnFWw8OnAioPqHmVvysZRSuj22ht00hFUKhplgaej4VfiD2lYUlZWK1
-	 ZYEwE0xp+Q0FchfmKEMywVTCGRtlxxK1VVsKAIVt5UMmK7Xf1cFLcJ+IkMZuMqQgNnJMc
-	 z/VvfBv7wfCtajEaUL5fKVFg6MKN5nkFz/90T2npBA4PVFlT8aSDa3lQQoSqjWny7Vw==
+	t=1793707466;
+	b=RMSmITiyXX2gGt2aIr5NfiqcZpxagYISJ6Z3rlb+qX0YyeQfHWREV++bGzlBl8duAgFv
+	 87LyEwHtzlFHqJmYcyBLecahF41o4FqKP2vIPmDCh2la5Gv6dsm1WOKVXGrXwFlgl/26Y
+	 uDyyft6gzuKL4qTnoBrjhRp7uZ/iVuHTTC/vUavIOBxhtZXXsbXsBrb2bk0GeNW0bo8Gy
+	 rGr+6Ii5EO2KVy7OEc4zGjZXxLE4ID2LP6+SAR5JkgozlDRpKohJojgwk8WimRip9Vqqw
+	 f3PqLNNsXVsh/0nFzJC0Fl47yJtLXQGyH2zar1K6pGltqhkK4HHcqTRgsxT0sZGtMMw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793706515;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
-	bh=Mdmz3a1W+ktjLVjBOf8zM49VMCj6dhCFAkQ8H5Ze2HU=;
-	b=zvfSbgeqVoWwz75NqTIWZtGVFNAoC5cPCIWT0+K8O6lBsoPspkkldpNcAnRgUwqPUDkM
-	 +3iKbIfVAcJRyXcFzM6U2CkvFeCLD/5/H9jqeAp8a7QrdeV1j4TVFilLlB8cLSP56Oto/
-	 iyS3PAhwmw9j9iJIE8HcHj593+xnMlnXtY/EgKvMCi4ubEnsRsQ12vwxMdOB1Zif6xEgs
-	 V1MN+vx8J9sM+BmuqK6N9zYsBfNsFV1C+elqMw97D5kZvoBt+75ip0uZreQ1Pl3xRcfsU
-	 sY1x5HNRKVS6bcqj/N/x6RXKf5v5xlh6CfxQLGjOz2/dgknwjOiuaturA0+4MdFXYrw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793707466;
+	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=mEwLLdrHJrQ/NsScjy7j1X0u8odezPCl9Iof1rhDrEA=;
+	b=gv4KUPDBqHvN7Ol2ghrbb+GKUXtnizQelevbfNNeX6Z1FLYCB4QZ9i/FaB9Q3JR4uRRY
+	 MfJLMge+32FDGQ3akJ8rWJp/8msL/Q2oc02kG3BINRnPYuLxcpxZo7CJeXBTLYfpEK5jh
+	 PZ4ePYNuyClb9Ci7WR7YOL4qUPCSthwMtKB6z+Iwovqxr5YojZ+RykR0QNHBQuNT64nRL
+	 bfmtr+1fXi48fsqQMAgjMQTo5yrSpQ1VMpbHJV4a52IT38lJedKau1IDXsUCOKN4gsrSW
+	 kcVVyXP2lvC5QE3xqWWaY/ipR4Ea6gCJMUvSmTaGlFdT/FV+/U20PnvzWpN9maz8vTQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=aW5p3c0x;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=WvArbhQZ;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=pPrJHiGj;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=pBxIw67h;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=id6VUuDg;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45582606D814;
-	Tue,  3 Nov 2026 11:48:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 45582606D814
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21BB6606A327;
+	Tue,  3 Nov 2026 12:04:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=aW5p3c0x;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=WvArbhQZ;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=pPrJHiGj;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=pBxIw67h
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 0338122198;
-	Tue,  3 Nov 2026 11:48:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793706513; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Mdmz3a1W+ktjLVjBOf8zM49VMCj6dhCFAkQ8H5Ze2HU=;
-	b=aW5p3c0xMU8JtROUrNkhtFWz4HNRHAgRuvtrtZO53l0vZQrDeHy3xXrO1rsqz0jd7Apj1F
-	2R0Jqeg8z30fk8DA8YZSoVtmsVy8ec8ucrxC0534b//mryEGkBsH3QBDrgiOHkQMoWNH7A
-	KIVDgreEHCb6knZYF7gL1NWzQlDUm5M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793706513;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Mdmz3a1W+ktjLVjBOf8zM49VMCj6dhCFAkQ8H5Ze2HU=;
-	b=WvArbhQZut+w8KpX3/okohtlzkXdb9tQP1MfdCzB9pFuWwkQLWBhT3Ss4WsKjGUNlbLM6C
-	zacCBBhYXBGh9NDg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793706512; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Mdmz3a1W+ktjLVjBOf8zM49VMCj6dhCFAkQ8H5Ze2HU=;
-	b=pPrJHiGjzwz+z7puwZSlcXZosnAjDdIokgsqy1hnlG8oWcn/OBgZQsq0Z+1PXSYa0DzGvj
-	SaUgrGeTf362zOQWbnrc7y3TWIYXB7b9YpG2KG2heQYrNeOisYKoPDcy9Vl1Icqw9gWK8y
-	JLNbrcyxc2M74Myy8D1eOtgFO8PsklQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793706512;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Mdmz3a1W+ktjLVjBOf8zM49VMCj6dhCFAkQ8H5Ze2HU=;
-	b=pBxIw67h90A6YwjJRUFc6HyoiqzqqWUfWNWVQEyGRfk5PtIeDTcvm/Lb5EXfqtglXP7USn
-	VyGeULyaNYnF6DAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D003E134B8;
-	Tue,  3 Nov 2026 11:48:31 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id PXbNKg/K6WpNVwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 03 Nov 2026 11:48:31 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id 7530CB23C; Tue, 03 Nov 2026 12:48:31 +0100 (CET)
-Date: Tue, 3 Nov 2026 12:48:31 +0100
-From: Jan Kara <jack@suse.cz>
-To: Luo Qiu <luoqiu@kylinsec.com.cn>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] fs: fix typo in do_open() comment
-Message-ID: <bhvmwehlfbeejamomz7wyso2ixma4xsk2iony3ed2nkogeijax@nxw5f2rb3blo>
-References: <A977B5B944F3C7C3+20261027122647.1837472-1-luoqiu@kylinsec.com.cn>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=id6VUuDg
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EF3D1F000C1;
+	Tue,  3 Nov 2026 12:04:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793707466;
+	bh=mEwLLdrHJrQ/NsScjy7j1X0u8odezPCl9Iof1rhDrEA=;
+	h=From:Date:Subject:To:Cc;
+	b=id6VUuDgDalCc/OLTw1GurziLky+sjL2wF7xdneKV9YoF9yX/kAIILTV0z+JoaozQ
+	 JcZZjJNgkvyc4m8zPHKHweQ53unzTIItBLCw3lwTw4GjH5po9DCh036oPZd6FsAoO2
+	 /7xrDBxdor7l/H7Dn4uQjgDaeTwG2mCk/7YfDfhR1PQlBS1jwI/tR5opo6qciNW4aA
+	 mtCfus/rUQbjOTtYhzInAYeDTgJrQND73V9cg//h+9rUlAhXHMDA37jd/LBh7NfG5o
+	 xZGSl5zvLhgxPr31cwcAjxwbZYDiW0dOHMG9vJqzOjxLafmJCGgT4+jcVI+KBWg69J
+	 7gsNiUiI+T/Ag==
+From: Jeff Layton <jlayton@kernel.org>
+Date: Tue, 03 Nov 2026 07:04:00 -0500
+Subject: [PATCH v2] statx: don't leak STATX_ATTR_CHANGE_MONOTONIC in
+ stx_attributes_mask
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -110,66 +53,98 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <A977B5B944F3C7C3+20261027122647.1837472-1-luoqiu@kylinsec.com.cn>
-X-Spamd-Result: default: False [-12.80 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,kylinsec.com.cn:email,suse.cz:email,suse.com:email]
-X-Spam-Score: -12.80
-X-Spam-Level: 
-X-Spam-Flag: NO
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261103-statx-v2-1-8b09aa8118ab@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/13MQQrDIBCF4auEWdeiBox21XuULBKdJEOLFhVJC
+ d69Nssu/8fjOyBhJExw6w6IWChR8C3kpQO7TX5FRq41SC6V4NKwlKe8s34RTlunnR4GaN93xIX
+ 203mMrTdKOcTPyRbxW/+FIphgRnFu3ayNmvv7E6PH1zXEFcZa6xfJAKi/mwAAAA==
+X-Change-ID: 20261029-statx-3f1d8cd8d877
+To: Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ NeilBrown <neil@brown.name>
+Cc: Christoph Hellwig <hch@lst.de>, linux-fsdevel@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Jeff Layton <jlayton@kernel.org>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2562; i=jlayton@kernel.org;
+ h=from:subject:message-id; bh=9BiR5klPaco+RCB2Fympo8uiJ4nYJ+mvlQXm+7gDyh4=;
+ b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBq6c3DIZ5jAtscRBJejfwqqD6iOdkrBrps1cWt4
+ 1r7rOZrDGCJAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCaunNwwAKCRAADmhBGVaC
+ FYchD/0faPlpb0O4UuuYvZp8NqBCF1f+Jp09ZsIdWWPUO/ZKsMBkVQ8qUuxeEZ+aoAWn2LIcuDd
+ 0HKFMYLwFjwzceSa+gcphaUvW6ZHSufJNHHd4j33Nm1l4twMVA0wAq6HsgTEgQ8EX2a6OCgXt3u
+ 3q2A9mm01R3B7ZTZvjrwjpJM7zG4AKnZvwStT0EY+4H9zZsqh7h5J8k29jwUiyYb8FtzOJTlrsv
+ a2+B9puGXV5WGtHYDT0e6cDJrTVg3RU4fcLaKzXUPS451ak3MFzmRwyh7EVg9Rrynks6ib7g3+y
+ yByk1vScNDWnp+KR9Q0CMq3z1aitmzNS5QsaAyTOnKx8NlKmovycilFQYIWb84OjQ4CksvtMs8+
+ 5knyQalkqLnaXQjy1FTR9Z/hrns+1riukBDdele3DzhLhExChesRFB5EQgkNBn8KxgbViiEIDlb
+ UJ76Zrga3NZ7XLlTfkHxyvYdnn5IXyfE0ETLWJ+2QcTFE8J41pXfKuGiGTtSnoniMgbnNQTgI9D
+ SD3W3eNhUJ4vfGZlNZiWrUQx+RLUJRDU/+r1Bb/jKbDWMBP7H968/L/4PPdDFfgQW52iod1gIRx
+ sajDICFhyjaF+F8EtBbTer28miZZ3PMh3mm7z37bVUCYUEX4tnWyS8jp0Qc6S+q+AZz5VRhiYVp
+ oYSL3OvbcojxeLg==
+X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
+ fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
 
-On Tue 27-10-26 20:26:47, Luo Qiu wrote:
-> Fix "acess" -> "access"
-> 
-> Fixes: 161ce1e692d0 ("fs: avoid spurious dentry ref/unref cycle on open")
-> 
-> Signed-off-by: Luo Qiu <luoqiu@kylinsec.com.cn>
+STATX_ATTR_CHANGE_MONOTONIC is kernel-internal. cp_statx() strips it
+from stx_attributes but copies attributes_mask verbatim, so it leaks to
+userland on filesystems that advertise it (nfs, ceph), e.g.
+stx_attributes_mask = 0x8000000000303000 on NFS.
 
-Sure. Feel free to add:
+Add a new mask constant and apply it to both fields.
 
+Fixes: a1175d6b1bda ("vfs: plumb i_version handling into struct kstat")
 Reviewed-by: Jan Kara <jack@suse.cz>
+Signed-off-by: Jeff Layton <jlayton@kernel.org>
+---
+Changes in v2:
+- Add new STATX_ATTR_INTERNAL_MASK constant
+- Keep lines below 80 columns
+- Link to v1: https://lore.kernel.org/r/20261029-statx-v1-1-9600cdb896b3@kernel.org
+---
+ fs/stat.c            | 6 +++---
+ include/linux/stat.h | 3 +++
+ 2 files changed, 6 insertions(+), 3 deletions(-)
 
-								Honza
+diff --git a/fs/stat.c b/fs/stat.c
+index a2e63c6c45b7..34d786c1de3e 100644
+--- a/fs/stat.c
++++ b/fs/stat.c
+@@ -710,8 +710,7 @@ cp_statx(const struct kstat *stat, struct statx __user *buffer)
+ 	/* STATX_CHANGE_COOKIE is kernel-only for now */
+ 	tmp.stx_mask = stat->result_mask & ~STATX_CHANGE_COOKIE;
+ 	tmp.stx_blksize = stat->blksize;
+-	/* STATX_ATTR_CHANGE_MONOTONIC is kernel-only for now */
+-	tmp.stx_attributes = stat->attributes & ~STATX_ATTR_CHANGE_MONOTONIC;
++	tmp.stx_attributes = stat->attributes & ~STATX_ATTR_INTERNAL_MASK;
+ 	tmp.stx_nlink = stat->nlink;
+ 	tmp.stx_uid = from_kuid_munged(current_user_ns(), stat->uid);
+ 	tmp.stx_gid = from_kgid_munged(current_user_ns(), stat->gid);
+@@ -719,7 +718,8 @@ cp_statx(const struct kstat *stat, struct statx __user *buffer)
+ 	tmp.stx_ino = stat->ino;
+ 	tmp.stx_size = stat->size;
+ 	tmp.stx_blocks = stat->blocks;
+-	tmp.stx_attributes_mask = stat->attributes_mask;
++	tmp.stx_attributes_mask = stat->attributes_mask &
++				  ~STATX_ATTR_INTERNAL_MASK;
+ 	tmp.stx_atime.tv_sec = stat->atime.tv_sec;
+ 	tmp.stx_atime.tv_nsec = stat->atime.tv_nsec;
+ 	tmp.stx_btime.tv_sec = stat->btime.tv_sec;
+diff --git a/include/linux/stat.h b/include/linux/stat.h
+index 9c5709132862..4f0a4af7a067 100644
+--- a/include/linux/stat.h
++++ b/include/linux/stat.h
+@@ -69,4 +69,7 @@ struct kstat {
+ /* file attribute values */
+ #define STATX_ATTR_CHANGE_MONOTONIC	0x8000000000000000ULL /* version monotonically increases */
+ 
++/* mask of STATX_ATTR_* bits that is private to the kernel */
++#define STATX_ATTR_INTERNAL_MASK	(STATX_ATTR_CHANGE_MONOTONIC)
++
+ #endif
 
-> ---
->  fs/namei.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/fs/namei.c b/fs/namei.c
-> index 96c65940391a..9bf97d5ce37e 100644
-> --- a/fs/namei.c
-> +++ b/fs/namei.c
-> @@ -4835,7 +4835,7 @@ static int do_open(struct nameidata *nd,
->  		/*
->  		 * A dedicated reference is needed because after the call to
->  		 * vfs_open_consume() we no longer own the reference in nd->path.mnt
-> -		 * while we need to undo write acess below.
-> +		 * while we need to undo write access below.
->  		 */
->  		mnt = mntget(nd->path.mnt);
->  		do_truncate = true;
-> -- 
-> 2.56.0
-> 
+---
+base-commit: c339f4010dea8b0d754f84ace70cd1b089878ef8
+change-id: 20261029-statx-3f1d8cd8d877
+
+Best regards,
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Jeff Layton <jlayton@kernel.org>
+
