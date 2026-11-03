@@ -1,108 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=178.63.66.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793707984;
-	b=122XhjDvHyHjj3vascCRAt+LrmGGYGA7s59hy83FJOPaWnEiq/VTJ49c2uIi9x2bmDdC
-	 Q/YC/rTtopyrQxnRxf7kSYuW9tFt2rartq1U3Ka2IJX7Sj/jrTGZ0S+kglj6qnpiyclEp
-	 JNFbUoYGtwq1zXWV85CiVkg8hA/fSSepLGvyUAZKYRit5gBpb3mYCkcSDUMoKi9pGDiMD
-	 B5yxq7kpWt4tOqOpquFo64Rwxzkfs+mxoutklHhnMvgvWX1lauzOibwXbsY6S7YuNwobx
-	 ZonfpPtE6A8C54gCDSophR3FoFz71XhgoeLx3rDoJ7Ds1erZukE7KnYC0j7q95cODEw==
+	t=1793709476;
+	b=hAL7AGAfjgLRQgb5TxmeiE51rGsq68iSMRKYfoZFXl7PfVvOXXDpFIVQxbYv2XSQM1d/
+	 UQD6roX4Z5UlBTs1BWF6lkb5J/i2XSJAh80QqFmxPTuMloKZd6j/v5MVaWjMAO4zu6/7c
+	 UoO/wmFD1YVdQLmYbo7kZvWHad5Jxc8b0mB00B29c/f4m8eW37COrJqUm8M8NW8BxKcMG
+	 BZ5odE6D9b4AW/zf/JS4oLlnz6hwMA5LNZrZsQgJn0SV/qT8SX+tV5WDA3pIipxctniyg
+	 I7J7mME6JZkT2mPRSKEfzXgUTFGlrw5VPQXlc3/q86tu4RnE9e3W8ZOQEpk+nk7+Z0w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793707984;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:X-Rspamd-Action:
-	 X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
-	bh=9kwRa3DN63egfTMxuFyQnVb8zSbbi4+PrcwPMbluoIU=;
-	b=llBc34efWyGN6DjMbV119lIeklyDbh+37KGlrMc/OWVdhoHy05Zf+SQTiPi7pNiccDNJ
-	 vPKCqNX0FwYiRtF5SB8ayxIMYlcRNQm6JU2X0YMLAS61PAdmwo7gOHIwiGmzhbNE/X3RC
-	 0MVylXwyeUwTD8xazwU+Q07riVBDIliAE9kFcCCjiEpGU/8/7M+aaCUUi8aNfa8O+HUsJ
-	 7BDJrL0Z9K9qYP0bAXok+bUN+bpfLg9tznRCyfMg0vlmhl86pXZwScaLPn5rVlhVxgYby
-	 GrnxQQS1R5o4xIrbs97dCNGZcmHUdvsFZykBoBHhF17Lz39WpO1tgX9npZUIVaptr5w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793709476;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=oV7i9bIc6g6SKXJ1HJf50C8bZZAE2Takb9sNll8AaUA=;
+	b=r+1jV4wo21sclTqao1oYZSV0fzT29rCVU97bIyC6yVkrjmRttCwrfD2Q/s7G/K9hyOwu
+	 XUF6oGmcdlq0nJ/cSW6kI4fmXLfMXmmOiTR/TPBP+jQg+mQdLbk9ctomuIupIL/ozfUKD
+	 gJ0DoAXIbHWdByagEN9fm7KfuZmgZDwQs9aVe+z+f45ceBAi9ZEqu9fO1dWLYNqkANYpZ
+	 NCOj3qhPN5BzEk1dJdG079/SOUNx0hCbWF57mE/5tJMMWH9MlSAehB0aMRygj2A5el2Jo
+	 qe62uJUEdJDqqwwUcikpBN2yknk+4Dg6y3R5eC+S42msouDQy4GA8cAhWOVvaIquqyg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=nFNAv8Zi;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=GVfNg+91;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=nFNAv8Zi;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=GVfNg+91;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	dmarc=pass header.from=hallyn.com;
+	spf=(null) smtp.mailfrom=hallyn.com;
+	dkim=pass header.d=hallyn.com header.i=@hallyn.com header.a=rsa-sha256 header.s=mail header.b=vC9TDmhV;
+	arc=none smtp.remote-ip=178.63.66.53
+Received: from mail.hallyn.com (mail.hallyn.com [178.63.66.53])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71BC8606A324;
-	Tue,  3 Nov 2026 12:13:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 71BC8606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3F20606EEA0;
+	Tue,  3 Nov 2026 12:37:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C3F20606EEA0
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hallyn.com
+Authentication-Results: smtp.subspace.kernel.org; spf=tempfail smtp.mailfrom=hallyn.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=nFNAv8Zi;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=GVfNg+91;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=nFNAv8Zi;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=GVfNg+91
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 078272203B;
-	Tue,  3 Nov 2026 12:13:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793707981; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9kwRa3DN63egfTMxuFyQnVb8zSbbi4+PrcwPMbluoIU=;
-	b=nFNAv8Zioud6qE1gAeujq9KkGc4xucpVaRDNIUIWWX9XTwq8jLzW6ZtKxLoWAcp9/FD3bl
-	J8VeCiESZ1e1RlHdtITllfC+OqVoS+QeKj6qeGiWHSmy/lNc2HC7rBa8xG7cNF/x5ZPvrY
-	d8pEs39zG8EesiVqirGy/RgZxYQUmPs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793707981;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9kwRa3DN63egfTMxuFyQnVb8zSbbi4+PrcwPMbluoIU=;
-	b=GVfNg+91FeXcI/1vlZg/XLq3Gf+f6kKU3xQjda4/0h70fEplH6m/p0hhHVo865U5PYlwG2
-	phUnBMfzkA1vaIDw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=nFNAv8Zi;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=GVfNg+91
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793707981; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9kwRa3DN63egfTMxuFyQnVb8zSbbi4+PrcwPMbluoIU=;
-	b=nFNAv8Zioud6qE1gAeujq9KkGc4xucpVaRDNIUIWWX9XTwq8jLzW6ZtKxLoWAcp9/FD3bl
-	J8VeCiESZ1e1RlHdtITllfC+OqVoS+QeKj6qeGiWHSmy/lNc2HC7rBa8xG7cNF/x5ZPvrY
-	d8pEs39zG8EesiVqirGy/RgZxYQUmPs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793707981;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9kwRa3DN63egfTMxuFyQnVb8zSbbi4+PrcwPMbluoIU=;
-	b=GVfNg+91FeXcI/1vlZg/XLq3Gf+f6kKU3xQjda4/0h70fEplH6m/p0hhHVo865U5PYlwG2
-	phUnBMfzkA1vaIDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0FD15134B8;
-	Tue,  3 Nov 2026 12:13:00 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id MgVXMsvP6WqucAAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Tue, 03 Nov 2026 12:13:00 +0000
-Date: Tue, 3 Nov 2026 12:12:58 +0000
-From: Pedro Falcato <pfalcato@suse.de>
-To: "Jose Fernandez (Anthropic)" <jose.fernandez@linux.dev>
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, Krystian Kaniewski <krystianmkaniewski@gmail.com>, 
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2] mm/filemap: stop fault-around when the walk steps back
-Message-ID: <aunPI5eOUOAEUa8d@pedro-suse.tail5790ac.ts.net>
-References: <20261031-jf-mm-filemap-map-pages-lower-bound-v2-1-21029744e589@linux.dev>
+	dkim=pass (2048-bit key, unprotected) header.d=hallyn.com header.i=@hallyn.com header.a=rsa-sha256 header.s=mail header.b=vC9TDmhV
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=hallyn.com; s=mail;
+	t=1793709466; bh=srJr0W2zj7CWyIxBRugbw6W/RJOIVVmVJA2BZvprlc4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vC9TDmhVzpFPGgCSMr4165tQq6DCEFta1S319V91nRjNJWVnaElj5EAq2XW2eRHjJ
+	 gGh+I4bOHp/FtOf8Kea16ZVZiBZ+iLnPQwxED32qxh1DgFUkGIPtnmq0RepGmeQJ+l
+	 4iztOzjKyQPMal+wlEpDHPXVZPYZMmQ+r1A0YwDnpjt0prpdx8aH3DoDR5Ll8IkZdg
+	 fcB/kqvpbIl1RI+I4UahFb1R62IqF66zwswBhfdrCuY2o7ADXAPpnWNhmtnnb+e4Q6
+	 hgTFzkN5XOXy7wa91Udr49XuOtsnYjLlHZroXiYyT2j/Kp51c9u6bwkqVdqZ0o8Yn8
+	 F6wDnif+kXC3g==
+Received: by mail.hallyn.com (Postfix, from userid 1001)
+	id 326D81B96; Tue,  3 Nov 2026 06:37:46 -0600 (CST)
+Date: Tue, 3 Nov 2026 06:37:46 -0600
+From: "Serge E. Hallyn" <serge@hallyn.com>
+To: "Hallgrimur H. Gunnarsson" <halg@google.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jan Kara <jack@suse.cz>, James Morris <jmorris@namei.org>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, Jann Horn <jannh@google.com>,
+	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
+	KP Singh <kpsingh@kernel.org>, Jonathan Calmels <jcalmels@3xx0.net>,
+	Casey Schaufler <casey@schaufler-ca.com>,
+	linux-fsdevel@vger.kernel.org,
+	linux-security-module@vger.kernel.org, linux-api@vger.kernel.org,
+	containers@lists.linux.dev, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/8] userns: per-namespace capability bounding set and
+ opt-in netns loopback
+Message-ID: <aunVmg42/S2uUDWR@hallyn.com>
+References: <20261028221705.3915340-1-halg@google.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -114,60 +81,306 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261031-jf-mm-filemap-map-pages-lower-bound-v2-1-21029744e589@linux.dev>
-X-Rspamd-Queue-Id: 078272203B
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-13.51 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MISSING_XM_UA(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[infradead.org,suse.cz,linux-foundation.org,kernel.org,vger.kernel.org,kvack.org,gmail.com];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -13.51
+In-Reply-To: <20261028221705.3915340-1-halg@google.com>
 
-On Sat, Oct 31, 2026 at 04:33:59AM +0000, Jose Fernandez (Anthropic) wrote:
-> filemap_map_pages() can dereference a PTE pointer outside the page table
-> it locked. KASAN has reported this as a use-after-free read [1]. The
-> same path can also write out of bounds. When the stray entry reads as
-> none, the fault-around loop maps a page there with set_pte_range().
+On Wed, Oct 28, 2026 at 10:16:57PM +0000, Hallgrimur H. Gunnarsson wrote:
+> When an unprivileged process creates a new user namespace, it is granted
+> a full set of capabilities (CAP_FULL_SET) scoped to that namespace.
+> While these capabilities are isolated to the namespace, they allow
+> unprivileged local users to reach deep kernel subsystems (most notably
+> networking configuration and raw sockets via CAP_NET_ADMIN and
+> CAP_NET_RAW) that historically assumed a trusted caller and have
+> accounted for a large share of local privilege escalation
+> vulnerabilities.
 > 
-> Its fault-around loop walks the page cache and moves vmf->pte by the
-> change in index. A lower index moves it back. xas_find() can step back
-> to a lower index when a multi-index entry is split during the walk.
+> Many workloads and sandboxes use unprivileged user namespaces strictly
+> for basic UID/GID, mount, PID, or network isolation and never need
+> high-risk capabilities like CAP_NET_ADMIN or CAP_NET_RAW. Likewise,
+> system administrators often want a host-wide policy ceiling restricting
+> which capabilities unprivileged user namespaces may acquire, without
+> disabling unprivileged user namespaces altogether.
 > 
-> [1] fixes xas_find(), but the loop still relies on the walk never
-> stepping back. Stop the fault-around when the walk steps back. ->fault()
-> maps the faulting page if the loop did not.
+> Prior work by Jonathan Calmels [1] proposed addressing this via a sixth
+> per-thread capability set (cap_userns) alongside a global sysctl mask.
+> During that discussion [1, 2], feedback (e.g. from Casey Schaufler)
+> suggested that rather than adding another per-thread capability set and
+> prctl() interface, capability restrictions could be integrated directly
+> into struct user_namespace and configured via clone3(). At the same
+> time, as noted in [1], a clone3() flag alone is not sufficient for
+> administrators who need to enforce a host-wide ceiling on unprivileged
+> user namespaces without modifying every userspace callsite.
+> 
+> This series combines both pieces of feedback: it embeds a capability
+> bounding set (cap_bset) directly into struct user_namespace, reusing
+> the existing task cap_bset, cap_permitted, and cap_effective sets on
+> namespace entry, and provides both a system-wide sysctl ceiling for
+> unprivileged user namespaces and a CLONE_NEWUSER_BSET flag for
+> voluntary per-namespace restriction via clone3().
 
-I'm not sure I understand. xas_find() was fixed. Is there any other case where
-this loop can step backwards?
+Hi.  Thanks for sending this, and continuing to think about this problem.
 
-If not, I don't think this should be Cc: stable, and should probably be a WARN_ON().
-As it's a hardening patch and not an actual bugfix.
+A few weeks back I had a somewhat different idea for such controls.  I've
+been meaning to start a wider discussion about it, but was traveling for
+a bit.  What I wrote then:
+
+Generally, if I, or some users I support, need to use unprivileged containers
+or user namespaces, then when an 0day comes along, I can hopefully trust them
+not to exploit it.  The biggest danger comes from the fact that, right now, if
+they can use them, anyone can.  So if someone can trigger some other code running
+as user nginx or something, that can become a root vector.
+
+So what if we had a built-in feature or LSM which implemented a credential based
+whitelist, entered at firstboot?  Something like
+
+```
+# Default deny
+uid == 1000  # approved
+1005 < uid < 1010  # approved
+gid == 1005
+security_label = lxc_user_t  # Not sure how far we want to go with this
+tty # must have a session
+```
+
+Now, if you want to use user namespaces for generic sandboxes for all
+users, e.g. to confine browser activity or nginx modules, then this model
+may not fit.  Or rather, it might need a few tweaks.
+
+Kees whipped up a proof of concept BPF lsm that implemented this.  A copy
+from his email (and let's call it GPLv2 unless he wants to change it to
+something like MIT) follows:
+
+Needs:
+
+CONFIG_BPF_LSM=y
+CONFIG_DEBUG_INFO_BTF=y
+FUNCTION_TRACER=y
+DYNAMIC_FTRACE=y
 
 
--- 
-Pedro
+#!/bin/bash
+# Manage the userns allowlist policy.
+#
+#   policy.sh load                 load, attach and pin (policy still writable)
+#   policy.sh allow-uid UID        add a uid
+#   policy.sh allow-gid GID        add a gid
+#   policy.sh deny-uid  UID        remove a uid (only before "lock")
+#   policy.sh show                 dump the policy
+#   policy.sh failures             who has been denied, and how often
+#   policy.sh lock                 freeze the policy maps, one way
+#   policy.sh unload               detach and unpin everything
+#
+# bpftool takes keys and values as raw bytes in target byte order, so a u32
+# uid has to be written little-endian on x86: uid 1000 is "e8 03 00 00", not
+# "00 00 03 e8". Getting that backwards silently writes a policy for uid
+# 3892510720 instead, which is why this script exists.
+set -eu
+
+BPFFS=${BPFFS:-/sys/fs/bpf}
+DIR=$BPFFS/userns			# pinned maps (a directory)
+LINK=$BPFFS/userns_link			# pinned lsm link (a file)
+OBJ=${OBJ:-$(dirname "$0")/userns_allowlist.bpf.o}
+BPFTOOL=${BPFTOOL:-bpftool}
+
+u32_le() {	# 1000 -> "hex e8 03 00 00"
+	printf 'hex %02x %02x %02x %02x' \
+		$(( $1        & 0xff)) $(( ($1 >> 8)  & 0xff)) \
+		$(( ($1 >> 16) & 0xff)) $(( ($1 >> 24) & 0xff))
+}
+
+# bpftool prints map contents as integers when the object carries BTF and as
+# arrays of hex byte strings when it does not. Handle both.
+decode() {
+	python3 -c '
+import json, sys
+rows = json.load(sys.stdin)
+if not rows:
+    sys.exit("(empty)")
+def val(v):
+    if isinstance(v, list):
+        return int.from_bytes(bytes(int(x, 16) for x in v), "little")
+    return int(v)
+for r in sorted(rows, key=lambda r: -val(r["value"])):
+    print("uid %-8d denied %d time(s)" % (val(r["key"]), val(r["value"])))
+'
+}
+
+case ${1:-} in
+load)
+	mountpoint -q "$BPFFS" 2>/dev/null || mount -t bpf bpf "$BPFFS"
+	# bpftool creates both pin paths itself and fails if either exists, so
+	# do not mkdir them. For a single-program object the program path is a
+	# file (the pinned link); pinmaps is a directory.
+	$BPFTOOL prog load "$OBJ" "$LINK" pinmaps "$DIR" autoattach
+	# "prog load" exits 0 even when the LSM attach failed and it silently
+	# fell back to pinning the program, which leaves the policy loaded but
+	# inert. The only reliable check is that an lsm link now exists.
+	if ! $BPFTOOL link show | grep -q lsm; then
+		echo "ERROR: no lsm link: the program is loaded but NOT enforcing." >&2
+		echo "Needs CONFIG_BPF_LSM=y, CONFIG_DEBUG_INFO_BTF=y and" >&2
+		echo "CONFIG_DYNAMIC_FTRACE_WITH_DIRECT_CALLS=y (the last one" >&2
+		echo "requires CONFIG_FUNCTION_TRACER=y), plus bpf in CONFIG_LSM." >&2
+		exit 1
+	fi
+	echo "loaded and enforcing; policy maps under $DIR (not yet frozen)"
+	;;
+allow-uid)
+	$BPFTOOL map update pinned "$DIR/allowed_uids" key $(u32_le "$2") value hex 01
+	;;
+allow-gid)
+	$BPFTOOL map update pinned "$DIR/allowed_gids" key $(u32_le "$2") value hex 01
+	;;
+deny-uid)
+	$BPFTOOL map delete pinned "$DIR/allowed_uids" key $(u32_le "$2")
+	;;
+show)
+	echo "== allowed uids"; $BPFTOOL map dump pinned "$DIR/allowed_uids"
+	echo "== allowed gids"; $BPFTOOL map dump pinned "$DIR/allowed_gids"
+	;;
+failures)
+	# key is the euid that was denied, value is a count
+	$BPFTOOL -j map dump pinned "$DIR/denied_uids" | decode
+	;;
+lock)
+	# Only the policy maps. denied_uids is written by the program, and
+	# program writes bypass the frozen check, so freezing it would lock out
+	# this script without stopping anything.
+	$BPFTOOL map freeze pinned "$DIR/allowed_uids"
+	$BPFTOOL map freeze pinned "$DIR/allowed_gids"
+	echo "policy frozen; allow-uid/allow-gid/deny-uid will now fail with EPERM"
+	echo "even as root. Changing it means 'unload' and 'load' again."
+	;;
+unload)
+	rm -f "$LINK" "$DIR"/allowed_uids "$DIR"/allowed_gids "$DIR"/denied_uids
+	rmdir "$DIR" 2>/dev/null || true
+	echo "unpinned; enforcement stops when the last reference goes away"
+	;;
+*)
+	# the header comment block, however long it grows
+	awk 'NR > 1 && /^#/ { print; next } NR > 1 { exit }' "$0"
+	exit 1
+	;;
+esac
+
+# There is no "digest" command, though a frozen policy looks like it should
+# have one. The kernel will hash a frozen map and return it through
+# BPF_OBJ_GET_INFO_BY_FD in info.hash (syscall.c:5433, -EPERM unless
+# map->frozen), but only array maps implement ->map_get_hash(); for a
+# BPF_MAP_TYPE_HASH it fails with -EINVAL however frozen it is. bpftool does
+# not expose info.hash either way. Attesting to this policy would mean
+# reshaping it as arrays -- e.g. a bitmap indexed by uid -- and calling
+# BPF_OBJ_GET_INFO_BY_FD directly.
+
+exit 0
+
+
+
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * Credential allowlist for unprivileged user namespace creation.
+ *
+ * Default deny. A caller is allowed to create a user namespace if any of:
+ *   - its euid is in allowed_uids
+ *   - its egid is in allowed_gids
+ *   - any of its supplementary groups is in allowed_gids
+ *
+ * The maps are populated once (at first boot, from a config file) and then
+ * frozen with BPF_MAP_FREEZE, after which the kernel refuses further updates
+ * through the syscall interface even from root. Pin the program and the maps
+ * under bpffs so they survive the loader exiting.
+ */
+#include "vmlinux.h"
+#include <errno.h>
+#include <bpf/bpf_helpers.h>
+#include <bpf/bpf_tracing.h>
+#include <bpf/bpf_core_read.h>
+
+char _license[] SEC("license") = "GPL";
+
+/*
+ * Supplementary groups are walked with a fixed bound so the verifier can
+ * see termination. A caller in more than this many groups falls back to the
+ * euid/egid checks. Raise it, or switch to bpf_loop(), if that matters.
+ */
+#define MAX_SUPP_GROUPS 64
+
+struct {
+	__uint(type, BPF_MAP_TYPE_HASH);
+	__uint(max_entries, 1024);
+	__type(key, __u32);		/* uid */
+	__type(value, __u8);
+} allowed_uids SEC(".maps");
+
+struct {
+	__uint(type, BPF_MAP_TYPE_HASH);
+	__uint(max_entries, 1024);
+	__type(key, __u32);		/* gid */
+	__type(value, __u8);
+} allowed_gids SEC(".maps");
+
+/* Denials, so you can see what a policy would break before enforcing it. */
+struct {
+	__uint(type, BPF_MAP_TYPE_HASH);
+	__uint(max_entries, 4096);
+	__type(key, __u32);		/* uid */
+	__type(value, __u64);		/* count */
+} denied_uids SEC(".maps");
+
+static __always_inline int gid_allowed(__u32 gid)
+{
+	return bpf_map_lookup_elem(&allowed_gids, &gid) != NULL;
+}
+
+SEC("lsm/userns_create")
+int BPF_PROG(userns_allowlist, const struct cred *cred, int ret)
+{
+	struct group_info *gi;
+	__u32 uid, gid;
+	int i, ngroups;
+	__u64 init = 1, *count;
+
+	/* Someone before us already objected; do not launder their denial. */
+	if (ret)
+		return ret;
+
+	uid = BPF_CORE_READ(cred, euid.val);
+	if (bpf_map_lookup_elem(&allowed_uids, &uid))
+		return 0;
+
+	gid = BPF_CORE_READ(cred, egid.val);
+	if (gid_allowed(gid))
+		return 0;
+
+	/*
+	 * The common deployment is one group that everyone permitted is a
+	 * member of, which for most users is a supplementary group rather
+	 * than their primary one, so egid alone is not enough.
+	 */
+	gi = BPF_CORE_READ(cred, group_info);
+	if (gi) {
+		ngroups = BPF_CORE_READ(gi, ngroups);
+		if (ngroups > MAX_SUPP_GROUPS)
+			ngroups = MAX_SUPP_GROUPS;
+
+		for (i = 0; i < MAX_SUPP_GROUPS; i++) {
+			if (i >= ngroups)
+				break;
+			/*
+			 * struct group_info is __randomize_layout and gid[] is
+			 * a flexible array, so this has to go through CO-RE
+			 * rather than any assumed offset.
+			 */
+			if (bpf_core_read(&gid, sizeof(gid), &gi->gid[i].val))
+				break;
+			if (gid_allowed(gid))
+				return 0;
+		}
+	}
+
+	count = bpf_map_lookup_elem(&denied_uids, &uid);
+	if (count)
+		__sync_fetch_and_add(count, 1);
+	else
+		bpf_map_update_elem(&denied_uids, &uid, &init, BPF_NOEXIST);
+
+	return -EPERM;
+}
