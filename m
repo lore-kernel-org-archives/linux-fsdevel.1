@@ -1,45 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793694900;
-	b=1YJlzEuF2Tzh3opUEwfBGculIH852v5qeIWllELc5I6QOvSNy0wq/ppqMcdsiBuupbTu
-	 gg1/b6A09xuZYqmMWCJQaAbPCjtdR0EMbQ0Do7+nSWeCDRFG7UVbSvu9BP7sSCwpdCbQR
-	 6w5oWOH2/G7wjxhA6TweifxsSWTa/N87MB9JNzr5GlUztwh6EOfRmbd1nZRA9sc/5E3Qw
-	 L7iDr7ItSuElkFwYVW98/kvO7yoU9qUYgiROkBuxdnczkqqJwDDf5b3yNudet1kHRzuS5
-	 DxWSAJkBJQH7mXttefsRUk/16d/OPBQKs0CP1qEFcg/yYh1y9C9dLDwmmksMp3fbWBQ==
+	t=1793694932;
+	b=fQrZPfULn2j1ovImBrciH9LtmkqsY1ZsUjQVzJxMvgIe7g8i+XInBxioeExP8XnUgu0C
+	 yt5z+CY05m7E9WyvcYkoBgh9VJeelFpmevK9337RxhstsKleWR+MNcBWYSCcpV6j+OiKX
+	 5GTm2O1uXn1m72mRE+fTPVkYSrEhmw/Cj+AME1KxVgsMlg8cDSxSjrfOsRvBYHTlPWU+c
+	 J1mi0XTQWi3Sg7UrEUWf9dzgd5fBV46li/yrfzEXZbdJfEFlMMSulwbR1Eu7pwruZaAV5
+	 Rr7TgFZB4I1V+lsIc5xKeBIITYugPSdmi69xMTh/j+VM0fnonYyi8KiMHwoqlstr5VQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793694900;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793694932;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=MbkXDHo1xuZzdIbJLfCFRMeI3qreXHQVaX0Y035ar6E=;
-	b=Mh6vAQm7fC12h1vEh+7rJNS+l9sT+DEp3O48RPbGr5MboXWwqONLNmo+W4K7H5lT4ycb
-	 gi/1pM2+wUQkp4UNWAJ4KanOdXnZs7FXv7FRImHqUptS8kq6YLll5KtyogqPw/YAl3vb2
-	 kaP/Z6Y3aDWVylRgTa+rUWVO7Toa2mcewi0/cfGwe2RYETN0/8XVhtMHJcgJr2DHXrd8/
-	 mCFLAlkQQfdtwWgGnkrwuK1iry+2vhIfeLpDweaKSYcArbhpYrVJgvWyVEfoG6+nIALwQ
-	 HQ+NLwhbi26d+luHxmoTbyRyvE/YYIAJcXzTKXFURiHsd9CqSyjUDac4OqyuOgQldRA==
+	bh=WtLDQNeDogoEZy8VqwmMu80kkbHazW0uml5D/A0dqsE=;
+	b=tfHLwoPMUuMThPh1V5eC2jD/P5jK/r+qEuORz9+fRf8TbLo6ITqFzu/mlMjjsOgSrfhV
+	 jlC3KU25KeZiz7fnYqoc1z2j1tiCA5nuZ+FEorLObn5nQpvT/FNbgJZKP3w7PLDI211bt
+	 isZ2sMHo5sdMcRWfxlOeVwPwBLPuq5xwn3J74SOR5YMIS+Wmlf1Wf4BH3NgMgRQG4Vvsp
+	 NkqBZ6td6C7S/moFIP+gWGPuWEOaPxHR9QMxF97UxqiKMWTvmAf4wRayiHAKesrmIqt2Q
+	 g5TFdKUZtGFqBNWbh7oF1eUBz/QKLahdCUA5iVysbE2UBoPSPaqZsQFeJnX3WUCYc6g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="P/GKaWaZ";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gGc2rdW9;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C495606A33D;
-	Tue,  3 Nov 2026 08:34:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EEB0606D82C;
+	Tue,  3 Nov 2026 08:35:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=P/GKaWaZ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E97B01F000C1;
-	Tue,  3 Nov 2026 08:34:53 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gGc2rdW9
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0F961F00A1A;
+	Tue,  3 Nov 2026 08:35:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793694899;
-	bh=MbkXDHo1xuZzdIbJLfCFRMeI3qreXHQVaX0Y035ar6E=;
+	s=k20260515; t=1793694931;
+	bh=WtLDQNeDogoEZy8VqwmMu80kkbHazW0uml5D/A0dqsE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=P/GKaWaZ2XZPjdPtX0xj3DV82aPecbQdBJ09rmkt8WdtG6oEJWZfgDu4oU0v7TGQR
-	 DZ4+KCjo3a58PVlZecgdBRRUdjFxTh9NC3jnzhYKSezGnP4oaR5AT6EBUaVhiq/GHn
-	 DywN9Ru1M17Pcsw7VPrEkExKy8MY7Nya3VidCc5XAv4dgJje0bJPIvbAgVfEKPKQZO
-	 zKNaKOaUvNpkBGXEWrY4VlCBSpAzYfvCIGsfaPWFblJa1imMI0UWvm/UHPmSZ7ziE0
-	 sW4G1aSC6kh7MF9rTlMqwf0zxON36NECN9ONOcBW3Xf4XGLAEngsUVqN5dcP2EDQzN
-	 NFCacvWwboiRw==
-Date: Tue, 3 Nov 2026 08:34:51 +0000
+	b=gGc2rdW94xM36KoC6xgtpfh7Js0emN9AvZwCb5wnUR5DoAaUNlYav9YOq4gvBJ6rp
+	 prcXRznN3YQWdr305TuXYsR1+dOZ82olvCCYuPkiWwfwDsHHVpaU0pUAq7PT8gIlFx
+	 l/Whi1/4h/KxZAJXta8YJ25jCzLAEnzMj3lQ8cPQPS+xeRr+SRI8d3n5uc8k9Ry+Hx
+	 B3iz//U/i7JAnR5NlBhB8qNYXo6MwwUNcz4YfveejPVCf0fbbPFnKAKyowHux0mCt+
+	 gRzm5Gwj042rC3vXZbZ5xNNd094BtZOccNWhykB2bEQ0H28MjQPGgU2MkbaG0oyjpN
+	 zTiwesgLuYEfA==
+Date: Tue, 3 Nov 2026 08:35:23 +0000
 From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
 To: Tal Zussman <tz2294@columbia.edu>
 Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
@@ -53,11 +53,10 @@ Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
 	Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
 	Hugh Dickins <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
 	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/8] mm: remove attach_page_private() and
- detach_page_private()
-Message-ID: <aumcoUqORACOXqFP@gremlin>
+Subject: Re: [PATCH 5/8] mm: remove find_get_page_flags()
+Message-ID: <aumcutKJoj2EoE-J@gremlin>
 References: <20261102-page-wrappers-v1-0-e7280bdb31f6@columbia.edu>
- <20261102-page-wrappers-v1-4-e7280bdb31f6@columbia.edu>
+ <20261102-page-wrappers-v1-5-e7280bdb31f6@columbia.edu>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -69,42 +68,38 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261102-page-wrappers-v1-4-e7280bdb31f6@columbia.edu>
+In-Reply-To: <20261102-page-wrappers-v1-5-e7280bdb31f6@columbia.edu>
 
-On Mon, Nov 02, 2026 at 05:54:09PM -0500, Tal Zussman wrote:
-> There are no callers left of either wrapper. Remove them.
+On Mon, Nov 02, 2026 at 05:54:10PM -0500, Tal Zussman wrote:
+> There are no callers left. Remove it.
 >
 > Signed-off-by: Tal Zussman <tz2294@columbia.edu>
 
-LGTM!
+LGTM
 
 Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 
 > ---
->  include/linux/pagemap.h | 10 ----------
->  1 file changed, 10 deletions(-)
+>  include/linux/pagemap.h | 6 ------
+>  1 file changed, 6 deletions(-)
 >
 > diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
-> index 9adfeae2153c..37b7786350c5 100644
+> index 37b7786350c5..00e32f96b459 100644
 > --- a/include/linux/pagemap.h
 > +++ b/include/linux/pagemap.h
-> @@ -635,16 +635,6 @@ static inline void *folio_detach_private(struct folio *folio)
->  	return data;
+> @@ -846,12 +846,6 @@ static inline struct page *find_get_page(struct address_space *mapping,
+>  	return pagecache_get_page(mapping, offset, 0, 0);
 >  }
 >
-> -static inline void attach_page_private(struct page *page, void *data)
+> -static inline struct page *find_get_page_flags(struct address_space *mapping,
+> -					pgoff_t offset, fgf_t fgp_flags)
 > -{
-> -	folio_attach_private(page_folio(page), data);
+> -	return pagecache_get_page(mapping, offset, fgp_flags, 0);
 > -}
 > -
-> -static inline void *detach_page_private(struct page *page)
-> -{
-> -	return folio_detach_private(page_folio(page));
-> -}
-> -
->  #ifdef CONFIG_NUMA
->  struct folio *filemap_alloc_folio_noprof(gfp_t gfp, unsigned int order,
->  		struct mempolicy *policy);
+>  /**
+>   * find_lock_page - locate, pin and lock a pagecache page
+>   * @mapping: the address_space to search
 >
 > --
 > 2.39.5
