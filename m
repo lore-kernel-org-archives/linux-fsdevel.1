@@ -1,81 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793695539;
-	b=s4NNX8VzFgIIRvP3AysnCmu+GBHeUOEwTRdvVw4+Yy24MVuq3N/6m53J1blNggHRyE8a
-	 cVHMBhFtWtfU1VINfUUmxFYTQVpCmhlFuHtXSWnSLSaGTLDp5sSPFZ+AjkBujyb4ochVM
-	 xKzsRANbYHLFNO5S51iK5pV0HwrZZXcnsaxI8VjBc8Y8+FYD8jO7NbV9SljBi/9IUrv98
-	 06sVTye5INK2I6tfGwq9wHu3yVkZzdB9+TxnP9s5dDC43Q5pX+NrbI51Ks9O0/dx/VC2d
-	 4d7lPtBlbAdNIh5YQ/k0QWZ3eng7Mi02PEvuinZRQRUtKd2QQ/SiE10Ed7Gu4njoKEQ==
+	t=1793695561;
+	b=TuAsH+NR/FPZMam/YHGm8axgR4CJLrkZmPB8b5UJ96/tjz2BES5DuWb8a8f8xm0tULQH
+	 Pk6WRzY9PnB1KunVhf8/S9NT2+/Dx7gbCXg//Em5EvspCvkYENS1L8hRzb14gyVSB/Ccx
+	 EX56rdAjcxSIxn7TLkepCNSv5fcyZe1kjFj2Oj+wfoA2UFb+BRRbv1Au0Es2qok37xa+8
+	 IMC/HRzZEAhuFYy0SheXwCccPvTUjGlGD+olUEr/0GlRrBPrutYu6sTBGe3ekihYQcieV
+	 oxevVDIpIXqq71MIEo9IRTVkb2eLMgCcuUAsnjbjAgaZ17vZ2Oi4gSXT7C/CTH/1ViA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793695539;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=HTgGh75AKF7JtZw7sCDB/mISauV2EyQCWjbc+0T+Gms=;
-	b=jJts6FhafLC+OBw1Zeas/1+GLMzXo024wwYOazVeQmOOiubJY5uSRjBEQWA8dsmXtr2i
-	 kDTkhCHbgi9MlnmYphQfTwp1rf2+es24z5uU/fqPg4Rx2/oZ/ISUeffhuev/Fua15ALRo
-	 gsHFqwfwsl8MG7OdmIyDb1dNfmS7Xn09BKUn0BMb0UR2RAellgEkDWAz40SaYGWy8bkY1
-	 uvtTwIxF9m4ACcQlVRl8J53HaOElJXeTtS4YoLL3lEGRYWq7UJoDzj5zSvay/pUhYCbwO
-	 GAqdRsQKGrwnyUuh/XrKqy7ISesHHUmSPCtR145zeG1hc1b9VEI+E3bnQsghNrrIRig==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793695561;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=uthpy/hkvB+/WO3JI8k62Lhmq1ZdhnbKep8CtaaaC1I=;
+	b=I/UAPV8aPvUtVh9TrBPuU4Kq2zOJTViZcbfvpJjB0kB7twA0bNw8a53W5YaJMY3AyI6k
+	 AoJMOCgZnurIhmk70id9S6zSPKEUNoWhOUM+02hRAAwE+UCuC1qbao8QPEz/jMoZNH0JS
+	 YVvWVQNPTJaVz0gSXyHxIqnn0q1iBmivy+RRXvFBNB7BASVKbW3ffSLYDqiOpfSf8m/bH
+	 HtKCd1kCSgRIxwKD5PdS1BNmfafh9qCgjXP3rHJIShEVnDJfJzW/tM6iLootXJ53mL+MZ
+	 U+LtgfwT9+c0CG8iqqF8Y7GiO5eGkGvOKBB0su3dJmsUAH1IZDjXGvfRi+fzLx8g47g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=C1P+xjqX;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NRWBHAMw;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A751606A326;
-	Tue,  3 Nov 2026 08:45:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E72C7606A326;
+	Tue,  3 Nov 2026 08:46:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=C1P+xjqX
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 569511F000C1;
-	Tue,  3 Nov 2026 08:45:25 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NRWBHAMw
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C4661F000C1;
+	Tue,  3 Nov 2026 08:45:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793695539;
-	bh=HTgGh75AKF7JtZw7sCDB/mISauV2EyQCWjbc+0T+Gms=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=C1P+xjqXf/TXroGZhiYgYA0PrR6zo+kHIQkXIH4MJ9CRJ9tQyDRQC1xHaxX8NFpub
-	 vYu2U7a4xQFnToTkslUPRO2TaaA36eDdyfkYuwLOAMD3GtSxwIY3TpsG+j1NpzweDg
-	 t+8dn+tEAT80zamJNPIQ6Wk0TVVxB+hDgkf3VYDyJIz897kEkMjZK1uhSTlZYnVAhb
-	 6zqw2u6NYc8zdZ8xIJIHuhMf5OeWcwWPzngaemYDl+vS2F3WW9M/M0LubRBHngAELS
-	 WJXeyi/y0DmHjCLe8SPg1HmUXXFTKDQgTd9vkMhFw2jHKfy/huwPappK5UtknXyypP
-	 rzqNjMsl3FMLA==
-Date: Tue, 3 Nov 2026 08:45:22 +0000
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Hugh Dickins <hughd@google.com>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>, 
-	Alistair Popple <apopple@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Baoquan He <baoquan.he@linux.dev>, Barry Song <baohua@kernel.org>, 
-	Brendan Jackman <brendan.jackman@linux.dev>, Byungchul Park <byungchul@sk.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Chris Li <chrisl@kernel.org>, Christoph Lameter <cl@gentwo.org>, 
-	Dave Chinner <david@fromorbit.com>, David Rientjes <rientjes@google.com>, 
-	Dennis Zhou <dennis@kernel.org>, Dev Jain <dev.jain@arm.com>, Gregory Price <gourry@gourry.net>, 
-	Hao Li <hao.li@linux.dev>, Harry Yoo <harry@kernel.org>, Jann Horn <jannh@google.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, John Hubbard <jhubbard@nvidia.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Kairui Song <kasong@tencent.com>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Kiryl Shutsemau <kas@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, "Liam R. Howlett" <liam@infradead.org>, 
-	Matthew Brost <matthew.brost@intel.com>, Miaohe Lin <linmiaohe@huawei.com>, 
-	Michal Hocko <mhocko@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Muchun Song <muchun.song@linux.dev>, Naoya Horiguchi <nao.horiguchi@gmail.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Nick Piggin <npiggin@gmail.com>, 
-	Nico Pache <nico.pache@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	Pedro Falcato <pfalcato@suse.de>, Peter Xu <peterx@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Qi Zheng <qi.zheng@linux.dev>, Rakie Kim <rakie.kim@sk.com>, 
-	Rik van Riel <riel@surriel.com>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>, Uladzislau Rezki <urezki@gmail.com>, 
-	Usama Arif <usama.arif@linux.dev>, Vlastimil Babka <vbabka@kernel.org>, 
-	Will Deacon <will@kernel.org>, Xu Xin <xu.xin@linux.dev>, 
-	Ying Huang <ying.huang@linux.alibaba.com>, Youngjun Park <youngjun.park@lge.com>, Zi Yan <ziy@nvidia.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Manfred Spraul <manfred@colorfullife.com>, 
-	Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org
-Subject: Re: [PATCH 2/7] MAINTAINERS: TMPFS (SHMEM FILESYSTEM) updates
-Message-ID: <aume40GKpYIoqEkN@gremlin>
-References: <20261030-maintainers-v1-0-97278f8a5f54@kernel.org>
- <20261030-maintainers-v1-2-97278f8a5f54@kernel.org>
- <b04d8d01-b42d-d948-b7b8-c360f8ec6002@google.com>
+	s=k20260515; t=1793695560;
+	bh=uthpy/hkvB+/WO3JI8k62Lhmq1ZdhnbKep8CtaaaC1I=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=NRWBHAMwsb19PzRi6HMKOk5UUKd7gUz27j+h5kkmmo+BVqrta8jE2LhRWnPPEKKuo
+	 vUbwvt7PWLjvVahbmZKXoa9e4taKfUwLQIAUdzyxCsWMTfRZpaRyYbA8ErRHg4Foqn
+	 tyCLmm7Q8W5Vn5xf7mJ/F2nMZMY302o8ABOKA5agEBA+i0Q8dFMjjDAuHzZbTqQJb3
+	 ejaJAuivC8qZbvkGOAK/ojQQs49LNXMNNaThLRk3suNvTigPnY4VG0jriy+xMjefMr
+	 FRP9hYUuWI8BMwTIKM2sf7gBmt7G+WxIA70jPT0rn1egD3UMIoeHEuVWKDbig1pMzh
+	 nySi2+T6izcTQ==
+Message-ID: <3d2ab12a-741f-4b93-8f9c-e030cf9b9b90@kernel.org>
+Date: Tue, 3 Nov 2026 09:45:48 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -85,22 +51,103 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b04d8d01-b42d-d948-b7b8-c360f8ec6002@google.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/8] mm: remove newly-unused page wrapper APIs
+To: Andrew Morton <akpm@linux-foundation.org>,
+ Tal Zussman <tz2294@columbia.edu>
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>,
+ Gregory Price <gourry@gourry.net>, Ying Huang
+ <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
+ Peter Xu <peterx@redhat.com>, Hugh Dickins <hughd@google.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org
+References: <20261102-page-wrappers-v1-0-e7280bdb31f6@columbia.edu>
+ <20261102175605.a0d9caee8279ffb5f6fdf15f@linux-foundation.org>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20261102175605.a0d9caee8279ffb5f6fdf15f@linux-foundation.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Nov 03, 2026 at 12:27:22AM -0800, Hugh Dickins wrote:
-> Okay: but do keep in mind that tmpfs is a filesystem, and often the
-> FS folks make small adjustments to it, which usually go unconflictingly
-> through Christian Brauner's tree. That generally works well, so please
-> let's keep on working in that way (just once I remember holding off
-> intended MM changes to shmem.c for a release, while FS were busy there).
+On 11/3/26 02:56, Andrew Morton wrote:
+> On Mon, 02 Nov 2026 17:54:05 -0500 Tal Zussman <tz2294@columbia.edu> wrote:
+> 
+>> After some folio conversions done last cycle (namely ceph, f2fs, btrfs,
+>> fuse, and page_io.c), there are a number of newly-unused page APIs.
+>> Let's remove them and update comments as necessary.
+>>
+>> Patches 1 and 8 are taken from the ceph writeback folio series [1],
+>> along with tags.
+> 
+> Thanks.
+> 
+>>  9 files changed, 8 insertions(+), 110 deletions(-)
+> 
+> Tal, you obviously haven't been following along ;)
+> 
+> 
 
-One thing that's useful is keeping certain files in multiple sections at
-once - we do this already for some mm/fs boundary stuff and it works well.
+I would pick this up after giving it a little bit more time for review.
 
-That way you can make sure the right people are cc'd on it but not restrict
-fs's ability to do what they need also.
+> This development cycle is not the one for cleanups and new features,
+> but this one sneaks through!
 
---
-Cheers, Lorenzo
+Yeah, the focus will be on fixes. But smaller stuff like this or some other
+things we wanted to get finished for a while that are easy to handle can go in.
+
+All bigger work likely has to wait.
+
+-- 
+Cheers,
+
+David
