@@ -1,64 +1,107 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793717628;
-	b=hbfvVQ442YFshcok//kuQI8P+ZOR2JWG0hVzoB7FvuMvLueZdTVKiJlMKdO5xFh1u6Iv
-	 5Rvas9jaczOZP8xUIwfX1/W0Z1BBYYRTrOcUQjJLr2TRIeieLoxBi29TLkN+sgxpA9vMJ
-	 SPcwG3T6e74JG3kptSE9Byviq1toFuArJE5GT1T1d1OIEn8DxHwCEuNm9b6ODIdyCsESd
-	 pt3PkHITD+SrC5hBulzP+nGv4RP0gfIsgTBlKs5CITj2nCEEtulMqzVhR4ftJeaF4J4PF
-	 eOu1gcERBXgne1kcuPM0l2BVYjdm/6T8QnjjtuyXn1E4THt5tCkfx5e1LM7n3lCJ8AQ==
+	t=1793717872;
+	b=EIb4R+PNjrcPybHBAbp5SqTYznGVWyWB6/GuiyzDRN3DjsdLtPmtfU75THgwIe6uz7Cw
+	 qvAneiYPPQR79+6Pyp/jif6SJSOAQRHMxVixbSDf2BWXVdBed/JXh/gz3tv7Bt9eAVQAw
+	 TLK13ErhMg/7AnUwM1R0NZoRpPGzKlHWpDmCtPQvRwx9CMlKy3Ir/PomXSCdLy7bd/fJ9
+	 mZ8v6XJiAFXBwv/rp6nM/doQQRl59S1o2XIzD4sNI67WNZ/Z2WL/vVn3oOP9wXhK3a309
+	 Is6V0+BkoKFsyiv2wj3rqw5oVW4BAQDp20um6UgO5myDrJsY8z0T9kVtIAv2rWEdw7w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793717628;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-SRS-Rewrite;
-	bh=JjreI85OqGbxgW6CdMTI2hY2urQgS8/ZfMD6qbkwVSY=;
-	b=PA5wGkrMHqVnMg+BOF3uhaRqTpNmMxJNUh6ER8oRzK59KCB48XJK7cLaGkr3al/XRaAp
-	 K5LZO2WrFCjNvTPFooa5emjrWwAdRTv3dFpoeBEKzwxHQkC3yT06WW0Gjafeo2xz5sEMi
-	 CEHAZTjjIS0+5V7rKlt96WbI6NhlZnlvjoj876pGnCFk80CWG24C1i0XGaGjwwoffDGlA
-	 zrxSqFFChviLRz3xWjAL0mG050OewG5jqwRvGSwnIjkOsTSVYQiyZf+T4eMZTxum60o/M
-	 vLLMJcJHsX2v79RPKuBCayzInhO9WT/set4NDB7NH/v/jWYN5GfAl/2x7owx6YTO7QA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793717872;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=pYV20rPrJp1IkxIFXdFHHE13njY6A8crxl8/hatCo5E=;
+	b=i8hWhAQGpt0Sf76LMNC2KbJHdEMd1Pcf/4gzQnYqlma3YKO6OWwpFCZZL9y7lWBh2c6e
+	 i7QInC19YWy/mmD3jO0swjjMLt04hw82wjjNTIvztNekvQioURp2P3nsmaGJ4aJ7izMT0
+	 v9vC5ogrbiQAnPblI2r3kZHXpDht79hdfXDIOhvu30VwGPliFy5LM3nXS0yOQMTnUK1y3
+	 GOmJ2VXk2f7OwVKwMKtPZxpNDPvVE7AxoAX4IHGegJgVvoK/ag4iBdOZuolE673uqmN2T
+	 ZfIFbDogoxJFxCIRI7z2l1j6urf3MWvkfq5MTi5Wx/kSB/kDTc7xX0ijZykm5uuCARg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=none smtp.mailfrom=bombadil.srs.infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=ejykHRwD;
-	arc=none smtp.remote-ip=198.137.202.133
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=p6WV1j5x;
+	arc=none smtp.remote-ip=209.85.218.50
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13A04606C84E;
-	Tue,  3 Nov 2026 14:53:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 13A04606C84E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 276AD606BA00
+	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Nov 2026 14:57:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 276AD606BA00
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=ejykHRwD
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=JjreI85OqGbxgW6CdMTI2hY2urQgS8/ZfMD6qbkwVSY=; b=ejykHRwDPsXXpDNHyGhK0ZiKJV
-	LjtsvdoqHBKJ/FUhjkmhnLb3cOk1EqdLmuHyM+il4VOnwoV28kLIXc93f5fBGX8/79fn3ZWAjmzWu
-	odEJrRyuxxc4o01NsTyC3EhF2LaPdw2POe1P4adEdYStADApxu9So36mm3APfsvVNiOxqmNjhG7xc
-	7fXaH2FnIRpwZawf9SzYT4Dlo5MyybEbHfHikyIS/u37PDHcIBdDzp4mOVUdJNQjAoSgNYP5SZ/6h
-	ScYdf5qTwZuv1GM+Et5kxfb6fcAii1NA5ZuLeXLqgb99KgGl7mRIEtNIApBR5O4tJT8jbrrOczeJP
-	rSPgxhHw==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOFtT-00000002oKI-1ogY;
-	Tue, 03 Nov 2026 14:53:47 +0000
-Date: Tue, 3 Nov 2026 06:53:47 -0800
-From: Christoph Hellwig <hch@infradead.org>
-To: Andrey Albershteyn <aalbersh@kernel.org>
-Cc: Christoph Hellwig <hch@infradead.org>, ebiggers@kernel.org, hch@lst.de,
-	Carlos Maiolino <cem@kernel.org>, fsverity@lists.linux.dev,
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	david@fromorbit.com, "Darrick J. Wong" <djwong@kernel.org>
-Subject: Re: [PATCH v18 05/15] xfs: handle fsverity I/O in write/read path
-Message-ID: <aun1e6gedSrVDuRQ@infradead.org>
-References: <20261102144147.2393369-1-aalbersh@kernel.org>
- <20261102144147.2393369-6-aalbersh@kernel.org>
- <aumrai1iWxj97svo@infradead.org>
- <aunQUzz7AV-qvys-@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=p6WV1j5x
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-c3f8d72d7ceso706969766b.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 03 Nov 2026 06:57:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793717870; x=1794322670; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=pYV20rPrJp1IkxIFXdFHHE13njY6A8crxl8/hatCo5E=;
+        b=p6WV1j5xXG874wk7PArFP5ZRw4LM9P09fLU8fWNlvZNYsq6XeAmVW+axCc7BtE334Q
+         OLYWFYNZHOeXzV42UcwdRCoa87g2vb1tbBgTpbUGK1GyzD1MzRv7By7b4ET93hkze+1X
+         hWaAArnpALLpnihpMF53D8I7MR/Gu4mzaE5FgnJp2nfTWuRwTk0O7VE2qa6vTu/WR0ep
+         kM5s/s1XbhhW4QrB6/NsxlZGJYoJdhye6EzfYDEd8hAMBHrJgLXLdMkhwSU2OPQgdpZ8
+         RG2FvIWbDQmPS2kP2Vj52O9VhjSuNSZ1mpbotFjn6Kw9g1RdCaXFrdGOjAQzwfMGqo0L
+         WA9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793717870; x=1794322670;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=pYV20rPrJp1IkxIFXdFHHE13njY6A8crxl8/hatCo5E=;
+        b=B+CgQj/T+M/icSt4C37ddHsaYJlCOdOJwS5VdgLUFdxK3eJBsgVr46w6xp1iY6P5re
+         lywZKcmnILQeqqbkF7UglDNItwpiqfar4zXymGXpxjiuTnrKDVN5rGtag/5KPJySlCtv
+         ke574u/GlzgOtPfQCNKw8dghaSLWQncJP+69P53Q0YBNZ5s2lRBsUDLABsqXgdZMkKzz
+         1nak8NzzTbygcda5eHmnVSIIrOuldahv1Nua4C9Nwg4DLkk/sMNp+mzwkecXt0KX2N3i
+         A3J0zf69qGXy/tru2kKpPGqZ/MFw7feMLabKxX7ZVLBGH2zz67GXdPI/v2L4QGla/IH2
+         DkSQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxPF5g+dE6q6Mc9UFMLXjshYm1xHleJ6k6ZJImXC9iGNSxX88Q73uaEBhpIfskK0incvI//nXWWkR3+J8m9@vger.kernel.org
+X-Gm-Message-State: APuU4Z/CSRfpOF0W1bdp01jVuJ2pynU0YBg/Kyj3jcWXCmlOjsoM2KiJ
+	zTLrl29ScrnVspM2snkFTI3pqrZGITQN5elHhjRDCv5+MTg2484YSsIw
+X-Gm-Gg: AYBFou0aX959fE4EuNgMQFmr3aj0pLM7cURY7C/efGS3gATTx4F7a7K3rejtN1gfHyd
+	20iv006D4ubUkzVWO+NtHWQkun7MaHN4WsrKW6QaJ8Mvu/um6DEzQFuesEGc9OaAZgQKaQInL0K
+	Wpj+ytBcgDYF1UsKtYiTP77Uv45xB+QGx35M8zhzVD9bog7Ph93m8iAJAstz93t+EUQaz23uTKd
+	D9qcp3Dktum+2dWIc4YZlHUd1jEx4CLSfpAjeJBWae9hVZLZaQJvnqpLvw9Pwrl4aZHmpPGVoWX
+	vUtm1PjcDBuf0uuFEsouPTRa/9kpBLVITX2zUHVJ2/LfIf7oDkUUHY9rbzyk+liU3SSFd/q+jWj
+	290G++wwp4aNpculdL5yuxeQWduKfBoycWGlTUxGEtRgZ4pYC2+xB5iK1u9LwQgbEFACPhZgl+j
+	kOAABrZ7JYopZQN6nvsBqap6sbHwB48GPb6yVr7eWB+KgwWL4znbk/3eEUcv7ZOxAI0h+Idm8qd
+	IHiXgnwr8d+tInS3UOFExKbG/4qCx4p5RlliNH9Lgze/dn/Mj/m64LE4lUkpe7CFTVtCWtwaJbj
+	A+CcBeilsZ+oKdfM2aCGjZhtQ3VnpsOuX0q5b0uV6nS4dOMX0POGsI2ieiGPDiaEHlMRQ54I6JM
+	pN31TKO5Gxk1IIV3QI85d1s7RR5wcmdEU6hXrzYjH0RCG4YUECTKrBAI2iLYCqgM9tZTsVsJSrg
+	dFumfUviQAJYM2WUNIreKaG8oiOO0XLW6YVMmH3m6xha2x8YWvMg==
+X-Received: by 2002:a17:907:7f90:b0:c49:bc1f:fe2d with SMTP id a640c23a62f3a-c4ca7a858f3mr1272502166b.28.1793717870207;
+        Tue, 03 Nov 2026 06:57:50 -0800 (PST)
+Received: from Ubuntu (87-205-15-91.static.ip.netia.com.pl. [87.205.15.91])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c4cebec78f3sm93656366b.23.2026.11.03.06.57.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Nov 2026 06:57:49 -0800 (PST)
+From: Krystian Kaniewski <krystianmkaniewski@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Tejun Heo <tj@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Ian Kent <raven@themaw.net>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Johan Hovold <johan@kernel.org>,
+	Len Brown <lenb@kernel.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	driver-core@lists.linux.dev,
+	linux-pm@vger.kernel.org,
+	autofs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	syzbot+002fb7b2d0bc53bf7e75@syzkaller.appspotmail.com
+Subject: [PATCH v2 0/2] kernfs, sysfs: refuse splice on /sys/power/resume
+Date: Tue,  3 Nov 2026 15:57:41 +0100
+Message-ID: <cover.1793715774.git.krystianmkaniewski@gmail.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -68,55 +111,68 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aunQUzz7AV-qvys-@aalbersh-thinkpadx1carbongen13.rmtcz.csb>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Transfer-Encoding: 8bit
 
-[Note: a question for Eric about lifting a flag to the VFS below]
+Hi Tejun, Ian,
 
-On Tue, Nov 03, 2026 at 02:55:48PM +0100, Andrey Albershteyn wrote:
-> > Is there a reason to not just move the IOMAP_F_FSVERITY handling
-> > into xfs_bmbt_to_iomap?  It would break if single extent is shared
-> > between data and verity data, but we already leave a large enough hole
-> > that this could never happen, right?
-> 
-> I think it can be moved to xfs_bmbt_to_iomap(), but we will need an
-> offset there. The one extent case could happen if file size is
-> exactly 64k and we got continuous phys space allocation with merkle
-> tree (then the extents will be merged).
+This is a narrow replacement for the earlier kernfs serialization and
+autofs changes. It follows the suggestion to refuse splice only on files
+whose write callback can look up arbitrary paths and to give those opens
+separate lockdep classes.
 
-Or a multiple of 64k, yeah.  I though we went for an "air gap",
-but I have to admit I forgot all the details of this already.
+The reported cycle is assembled from two operations. Splice into an
+ordinary writable kernfs file records pipe->mutex before of->mutex. A normal
+write to /sys/power/resume records of->mutex before the autofs pipe locks
+when resume_store() resolves a relative path.
 
-I guess passing an offset it is then.  And maybe also add a comment
-about that while you're at it?
+Patch 1 adds SYSFS_LOOKUP and kernfs_ops->may_lookup. Writable opens of a
+marked file refuse both splice directions. Their of->mutex and seq_file lock
+use separate classes. Read-only opens retain splice support.
 
-> > Sashiko complained about this, but I also really don't understand
-> > how setting ctx->iomap.flags before we even get a mapping to start
-> > with make much sense.  This should be set together with filling the
-> > iomap either way.
-> 
-> The problem here is that when we found a dirty folio to writeback,
-> and we know it's beyond EOF, how to find out that's it's fsverity
-> folio. We don't have any fsverity metadata attach to an inode yet as
-> we are in the process of creating it.
-> 
-> This is not a nice workaround here, but I use stale iomap.flags
-> here. So, every next folio in that iomap has the stale flags from a
-> previous one, which has fsverity set. This should be fine as the
-> only folios written, at this point, are fsverity metadata.
-> 
-> Here I set it for the first folio in the iomap, to get it started.
-> Otherwise, writeback will just will not continue on folios post EOF.
-> 
-> This could be probably done by elevating "verity in construction"
-> into inode_state_flags *shrug*
+The new property cannot be combined with mmap or preallocated buffers.
+Kernfs rejects those combinations for direct callers, and sysfs rejects
+SYSFS_LOOKUP together with SYSFS_PREALLOC before selecting operations.
+Binary attributes do not support SYSFS_LOOKUP and reject it at creation.
 
-Lifting the flag to the VFS feels like a good and nicer than finding
-backways communicaton channels through iomap.  And once we have more
-file systems supporting fsverity a common flag vs one in each
-file system might be worth it even without that.
+Patch 2 marks /sys/power/resume. Normal reads and writes stay unchanged,
+including a write which resolves a relative path through autofs.
 
-Eric?
+Other stores also look up paths. They remain outside this minimal series and
+can be marked in follow-up patches after the interface is accepted.
+
+Tested on v7.4-rc1 in a QEMU guest with the syzbot kernel config.
+Without the series, the C and syz reproducers trigger the reported
+lockdep cycle, and a splice from the autofs daemon pipe into
+/sys/power/resume deadlocks. With the series, neither reproducer
+triggers a lockdep report although autofs receives the same requests,
+and that splice fails with EINVAL. Plain reads and writes of
+/sys/power/resume, read-only splice and splice on other sysfs and
+cgroup files work as before.
+
+v2:
+- Replace the v1 locking changes with per-attribute splice control.
+- Preserve splice on read-only opens.
+- Split both the open-file mutex and seq_file lock classes.
+- Reject incompatible mmap and preallocated-buffer combinations.
+- Reject SYSFS_LOOKUP on binary attributes.
+- Rebase onto v7.4-rc1.
+
+v1: https://lore.kernel.org/r/cover.1792577179.git.krystianmkaniewski@gmail.com
+
+Krystian Kaniewski (2):
+  kernfs, sysfs: refuse splice on writable files that look up paths
+  PM: hibernate: refuse splice on /sys/power/resume
+
+ fs/kernfs/file.c         | 54 +++++++++++++++++++++++++++++++++++++---
+ fs/sysfs/file.c          | 29 +++++++++++++++++++++
+ fs/sysfs/group.c         | 12 +++++++--
+ include/linux/kernfs.h   | 10 ++++++++
+ include/linux/sysfs.h    | 22 +++++++++++-----
+ kernel/power/hibernate.c |  3 ++-
+ 6 files changed, 118 insertions(+), 12 deletions(-)
+
+
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+-- 
+2.53.0
 
