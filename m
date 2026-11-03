@@ -1,45 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793694995;
-	b=EB9Tj+2Uu7N6cV6vmLmAxpv3DgoJEeT0a9Sq88JGyLwWx9rrHcMJg2ne9kVRh7H5ZRjx
-	 caafASFAKNZz/VxzcIhSRJfmHXQKVX1lyYY/RyswNwre2oOFFtXZDjJQcBi8cpaIylR2K
-	 L4LmNEawTGwIW0C6aoGwZnmL2FuFcISWA4ut1moabsxuKIoJ7/CuSzs08qCnP0PbPXQ1d
-	 cc995mFqOnyBS3Ki8/kEqIcE6z26ysePBk2AQCqNIQzuLwJ4m01U8YheSQDp6l1dYVtgE
-	 v87Lt8ifaVDCccSsvEjE9Ey3H9jOxCIJxRQwGAvGK3VmHQdiM+jLxSdfmrjcd44yMsg==
+	t=1793695048;
+	b=ErPpH3T3MeSwvBYBHgjydlpGJ9T82hlBm0600sPAFiapqY4a4c51L0XtD8K2ISiTnZkO
+	 r0DdBw1es7FfwapyH5t0jsHDfRKY68dFiOhHvQOMyyOMbcY6WhDuYiQMS4siw/npml5+O
+	 Y84kNui2AB/otdBiQmj4zVAK/pvEk6KrKipTA5PuujpakZJeYuSxEE2ojUS6wZf/DGvsX
+	 6D91GHagfDYzTOXDntG02m1W7IP+n4CX2UWvlPRwHYSBCWVWBYyNAYi/HDvNu2pytuyd8
+	 iqnS736n7OUtxLEj6KQwX0pVJtwz2MY6vRcxtbDoAbo4RXF4j/0fZjuDUGouqFm4LRQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793694995;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793695048;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=of6BOSsOI/Xiz9OzswHQFf111MtWWN9/gW/+S2R1v+c=;
-	b=Uq6cEKR+DkHNmtxFB4FRwKNFE3F1JGcc6L9HN1DEyaRw7pRAlIv1T+6wvv+9LlBpk9oV
-	 hR45BqwYURdhhkYBZsMP5zcss0U5mut6DXFCsIo2HnCCaPY08vZ6kxbCNn+o4yFDFGczf
-	 ruJnSd5lRoaKJ7ks//rPS6FFpDYyVsZ/Yrfs7Y9I+SJYbWKRBz+hRT+L4dJKtcDTwl8H8
-	 pnmiqqVOvgKKNGRZeWWaU6xoJEWakFlgi1XVyc62twDd/1K94AZYLFmzppYS3JwxEXABz
-	 YvD6SsNy9q3Fk1t7U1ngeyQ71OzMwVqpfqXchtW0A+yJ+NKubCnw2OBQmPC0d91/Miw==
+	bh=36ue9l0lxjyreF2KAgVZ/S2Q5NtWJdd1uqKRENrbVrc=;
+	b=D8GRgWt9i9SmQ331kqbxdLcUfNeqiEIiPVHpWQU0LWUlttRtqybKACqO2s7VtQy4tvFM
+	 SC2l8bQM6Uq7HcI143/hkjws5NiUwMe42ywfiBK1k67aJfIsVrR707Du7OEsJFfk6iU/0
+	 WxqPAIc8xxzauuQc0WUyN20q7IPRb4aklTT4RWocey4bOyugib0KBLL3qLbbuFupA7Wpo
+	 aostvQP9UAQxd6DNj2ZZniVaWItK8BGE9lMLU8qsRozJcFTnju8z/8XHvYRftg8dXyhRS
+	 SvGlYNdCLGQMqujAGi0c7QVvogDklLZ1racmBbyvB2F7dNQj15p1XjEnfzyoOgQlX/Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Be6YHjgh;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aUwUm4Yj;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB27D606A336;
-	Tue,  3 Nov 2026 08:36:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE1C7606A33E;
+	Tue,  3 Nov 2026 08:37:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Be6YHjgh
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35B0D1F000C1;
-	Tue,  3 Nov 2026 08:36:29 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aUwUm4Yj
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C1721F01802;
+	Tue,  3 Nov 2026 08:37:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793694994;
-	bh=of6BOSsOI/Xiz9OzswHQFf111MtWWN9/gW/+S2R1v+c=;
+	s=k20260515; t=1793695047;
+	bh=36ue9l0lxjyreF2KAgVZ/S2Q5NtWJdd1uqKRENrbVrc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Be6YHjghGzdvhgIjQNRaWKGkvThokD5XwStMhOy/X4/2WeAxQUxmXqeQqTr2q1W0s
-	 K3BhntXqko+gaOnnd+3YhoJOAsosGn55owJ3OjiuH8UkcC4Ck/XcCf7FIwTly/U7dR
-	 i/NaE/q0HOVeZUYjeDVzOt2NwpXM9EUjoexg5sVlo2MCmEyITv2+HsIcLqLIAAF6XL
-	 kUT/uozqyuUM0p8vbGhaFrQ5d1xStDKRGaxIezMfytZuhaYZ5u79yhdmntHtGX6IJg
-	 Ic9SjLSnMuIprFl3Qa702HL+f+YZ8+hQVs1LKXp9Gnh6ht9+C7hcsEO87TxBdWGJUu
-	 L5NL5J2dN3USw==
-Date: Tue, 3 Nov 2026 08:36:26 +0000
+	b=aUwUm4YjE8yZ8DotXKncj8C+/v6y2l2qeBxMJD7QAKiAlCAfdY8kyLGH1ztvVMvyV
+	 sdOVKjuU7ve7ffcYq0mLG5F+l8VjouhdEEMOdvnZO5hsmN4mmhxVpT2IDhB6T6hwm7
+	 GHd5lNmqj6ppo+OChkh7KYRTE0/YRrlOiqkwS+oqX2ywjeNDN+iYPB04iugqbhlHtP
+	 NiVapLY/XPLWd1zEevrTBvrSKCiyN3x8cWPqww4zT32H+TT2+Mn8oyWsYENsn5Fbc5
+	 PhHT1uLMSfC8sCf6sVMyDL0ESyBMCEi4ercOoaNw5oxRvU+hEo+pr+laB7KB9zLawD
+	 YH4mrIgI6UIew==
+Date: Tue, 3 Nov 2026 08:37:19 +0000
 From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
 To: Tal Zussman <tz2294@columbia.edu>
 Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
@@ -53,10 +53,10 @@ Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
 	Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
 	Hugh Dickins <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
 	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 6/8] mm: remove find_lock_page()
-Message-ID: <aumc3fnNg1PK9wXP@gremlin>
+Subject: Re: [PATCH 7/8] mm: remove read_cache_page_gfp()
+Message-ID: <aumdHgUtiQzkNzs6@gremlin>
 References: <20261102-page-wrappers-v1-0-e7280bdb31f6@columbia.edu>
- <20261102-page-wrappers-v1-6-e7280bdb31f6@columbia.edu>
+ <20261102-page-wrappers-v1-7-e7280bdb31f6@columbia.edu>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -68,15 +68,11 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261102-page-wrappers-v1-6-e7280bdb31f6@columbia.edu>
+In-Reply-To: <20261102-page-wrappers-v1-7-e7280bdb31f6@columbia.edu>
 
-On Mon, Nov 02, 2026 at 05:54:11PM -0500, Tal Zussman wrote:
-> There are no callers left. Remove it. The name still appears in a
-> sample function graph trace in Documentation/trace/ftrace.rst, which
-> is recorded output and is left as it is.
-
-Yeah that's fair enough :)
-
+On Mon, Nov 02, 2026 at 05:54:12PM -0500, Tal Zussman wrote:
+> There are no callers left. Point the comment on shmem_read_folio_gfp()
+> at mapping_read_folio_gfp() instead.
 >
 > Signed-off-by: Tal Zussman <tz2294@columbia.edu>
 
@@ -85,39 +81,77 @@ LGTM!
 Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 
 > ---
->  include/linux/pagemap.h | 19 -------------------
->  1 file changed, 19 deletions(-)
+>  include/linux/pagemap.h |  2 --
+>  mm/filemap.c            | 23 -----------------------
+>  mm/shmem.c              |  4 ++--
+>  3 files changed, 2 insertions(+), 27 deletions(-)
 >
 > diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
-> index 00e32f96b459..a92329805acd 100644
+> index a92329805acd..305c99bad689 100644
 > --- a/include/linux/pagemap.h
 > +++ b/include/linux/pagemap.h
-> @@ -846,25 +846,6 @@ static inline struct page *find_get_page(struct address_space *mapping,
->  	return pagecache_get_page(mapping, offset, 0, 0);
+> @@ -962,8 +962,6 @@ struct folio *mapping_read_folio_gfp(struct address_space *, pgoff_t index,
+>  		gfp_t flags);
+>  struct page *read_cache_page(struct address_space *, pgoff_t index,
+>  		filler_t *filler, struct file *file);
+> -extern struct page * read_cache_page_gfp(struct address_space *mapping,
+> -				pgoff_t index, gfp_t gfp_mask);
+>
+>  static inline struct page *read_mapping_page(struct address_space *mapping,
+>  				pgoff_t index, struct file *file)
+> diff --git a/mm/filemap.c b/mm/filemap.c
+> index 1df776907140..2b724d9be94b 100644
+> --- a/mm/filemap.c
+> +++ b/mm/filemap.c
+> @@ -4258,29 +4258,6 @@ struct page *read_cache_page(struct address_space *mapping,
 >  }
+>  EXPORT_SYMBOL(read_cache_page);
 >
 > -/**
-> - * find_lock_page - locate, pin and lock a pagecache page
-> - * @mapping: the address_space to search
-> - * @index: the page index
+> - * read_cache_page_gfp - read into page cache, using specified page allocation flags.
+> - * @mapping:	the page's address_space
+> - * @index:	the page index
+> - * @gfp:	the page allocator flags to use if allocating
 > - *
-> - * Looks up the page cache entry at @mapping & @index.  If there is a
-> - * page cache page, it is returned locked and with an increased
-> - * refcount.
+> - * This is the same as "read_mapping_page(mapping, index, NULL)", but with
+> - * any new page allocations done using the specified allocation flags.
 > - *
-> - * Context: May sleep.
-> - * Return: A struct page or %NULL if there is no page in the cache for this
-> - * index.
+> - * If the page does not get brought uptodate, return -EIO.
+> - *
+> - * The function expects mapping->invalidate_lock to be already held.
+> - *
+> - * Return: up to date page on success, ERR_PTR() on failure.
 > - */
-> -static inline struct page *find_lock_page(struct address_space *mapping,
-> -					pgoff_t index)
+> -struct page *read_cache_page_gfp(struct address_space *mapping,
+> -				pgoff_t index,
+> -				gfp_t gfp)
+
+Also eliminates this very weird line-wrapping... :)
+
 > -{
-> -	return pagecache_get_page(mapping, index, FGP_LOCK, 0);
+> -	return do_read_cache_page(mapping, index, NULL, NULL, gfp);
 > -}
+> -EXPORT_SYMBOL(read_cache_page_gfp);
 > -
->  /**
->   * find_or_create_page - locate or add a pagecache page
->   * @mapping: the page's address_space
+>  /*
+>   * Warn about a page cache invalidation failure during a direct I/O write.
+>   */
+> diff --git a/mm/shmem.c b/mm/shmem.c
+> index de838dbb4df8..16b1cc3d8ac5 100644
+> --- a/mm/shmem.c
+> +++ b/mm/shmem.c
+> @@ -6190,9 +6190,9 @@ int shmem_zero_setup_desc(struct vm_area_desc *desc)
+>   * @index:	the folio index
+>   * @gfp:	the page allocator flags to use if allocating
+>   *
+> - * This behaves as a tmpfs "read_cache_page_gfp(mapping, index, gfp)",
+> + * This behaves as a tmpfs "mapping_read_folio_gfp(mapping, index, gfp)",
+>   * with any new page allocations done using the specified allocation flags.
+> - * But read_cache_page_gfp() uses the ->read_folio() method: which does not
+> + * But mapping_read_folio_gfp() uses the ->read_folio() method: which does not
+>   * suit tmpfs, since it may have pages in swapcache, and needs to find those
+>   * for itself; although drivers/gpu/drm i915 and ttm rely upon this support.
+>   *
 >
 > --
 > 2.39.5
