@@ -1,112 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793704015;
-	b=nbDBsSMaIOWHifbGc4Jt3iNZqYEy5K7/VcwlkC+/+d+/aJCuV9Hx95FCPNIoC15TOtpM
-	 gpOkidSbCnQqANbO7M/IpK62khY5XNr9F7BMVl87OEi+Xb5PirMfqD2djKGnQkABWWP6U
-	 NAP8igy4jbW9/bFaGJLqW7l2R1gnkIlMx5ia6UHOZWl626a74/aAE22LZdgPFjKc9CqTZ
-	 2rGwvui7iyvwB5T+CIGfSWJ6mcSEi4nTLXU7yIMyTcJ269Xy0Y+pqCQJoaAQdEB82/VBt
-	 PhzP+drqVgGJHyr69SoIVl37Bgh5rIPkPxn0AoSJMPNnmgr0g6CNKfohl/bnVUlB6Bw==
+	t=1793704423;
+	b=jNVdA1pczoqOVAKiPn1RqrSJkp2W0RN7yGWZbwbjHNJPBkQnfByoPnkT/at8NjhV7d2B
+	 nvJGnmS+ou+znNME3n2NZn2qWlnFFA+CCBOzkDU2wxk466q0asRRFDvwtICGu5ob5Dbuy
+	 CnIOVuijM1bADkOAOr3s2ghHAT3qLZ1pdaEN196p2KX5kz+qoJy3FdKNdDdkl+utVU37A
+	 qevUuXKA5RVaYcm5p3rN0jg8Hd4Dk9YCHFFnKdqQo9wBDzcefdJ5sdJf/rJhg3ZTDzzF9
+	 uKH2eHG/e4MCn8axzSUXdy60DCZqDG1IYXnxOTVauvPvDhLK+Rqnof5SoW/pngzo4+w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793704015;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To:X-Spamd-Result:X-Spam-Score:
-	 X-Spam-Level:X-Spam-Flag;
-	bh=P+w0TJcctZwPlp6HzYj1zMH3kJnTkveWU9RaR7BZfcQ=;
-	b=naoKpmoX9TzaRvdtOFHZelkr42JrYPF2ly63fB4xCY8NnyBDByUOicBYxLdJwzc9U6rh
-	 BW7qEfNXKkhOCaWBAN0RNWE+qtFsIAtXRF/7hYFgE0PsgvSRKxoPvhH0cdW7NNXqL/D8+
-	 pDIUHZiX2Xuhon72SmklG8E1lUXKfqlOBPVNfYDzc9j9WBdnoR/BmfUqbEDRGeSwb+t7K
-	 8fZK0xH1AjyZY/NRZ4jN8448WfKr1bCQxvk816krVttp3RemMB3UlJbh6UdsHwkTJ4MgE
-	 fLL3wKacJFUKsydRu5Ho/wSs4xvNuKQKtlUv3XFOnNLNTyw71fWSOWa8LddDVt2IG4g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793704423;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:X-Mailer:
+	 References:In-Reply-To;
+	bh=aApL6RX54q6lZ7c3C3mWoQyOMn5uc2rO6KvHRJ9B9N4=;
+	b=mSVksBAZiqaF3Ny/hTVu9xRSLne71w8wwPGuiCW0NCpuEtWr63jWHWGqo4JWYfKsW+yp
+	 wCodbwwfGJ5VllhG1P+uJlRUpoKvTiXTvcOPShss4LVWZVlghbPao9DCxh00ZjrafwZ9m
+	 EWJ82YgCtE2z0/ba1a6uybbpiLpVa1Y/u8Wm9PT1QxaySuCCLlW2JpP2gq8FRT4g++fic
+	 6ThnV46bwn37GdRVeAgHjiFS2n7zH350PwqSzTUYf8s/0V0OK/BACh9umz2Y3uiiaKff6
+	 uGu5MLeNNUeWPoDWP2vxIr4XkIAW2m+r17RhSbmIpNTTjI2TQrMUJcVNV6gsfZLIk4A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=cbZHUvf+;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=bUyio6qm;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=cbZHUvf+;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=bUyio6qm;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=tpRmkYQw;
+	arc=none smtp.remote-ip=209.85.221.41
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C71260700AF;
-	Tue,  3 Nov 2026 11:06:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4C71260700AF
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6FD7606A338
+	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Nov 2026 11:13:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A6FD7606A338
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=cbZHUvf+;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=bUyio6qm;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=cbZHUvf+;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=bUyio6qm
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 8585B1FF23;
-	Tue,  3 Nov 2026 11:06:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793704013; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=P+w0TJcctZwPlp6HzYj1zMH3kJnTkveWU9RaR7BZfcQ=;
-	b=cbZHUvf+xE0V+BIxCBRhVmKhW7LM0e51Fes7twmZZx19cG5OUWR2YPDRx7MDyC8N/bqzI1
-	rzB0ECMxaEYoyYyKayjKpGRuzpK/JE20dqHWUn02CeeZ9hcs6zRQ4hzDCTVr+UFz5OV1F+
-	tLXqN4eZg5kSEQwz+NNfpXRaO7ftjRQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793704013;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=P+w0TJcctZwPlp6HzYj1zMH3kJnTkveWU9RaR7BZfcQ=;
-	b=bUyio6qmvUttdnMniugJvZ64P2w7XOfwnSZ+WWxXgg10tdd6bX3RLtSVVDoadupmwdfyAM
-	1wFYed7Gfx978RBw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793704013; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=P+w0TJcctZwPlp6HzYj1zMH3kJnTkveWU9RaR7BZfcQ=;
-	b=cbZHUvf+xE0V+BIxCBRhVmKhW7LM0e51Fes7twmZZx19cG5OUWR2YPDRx7MDyC8N/bqzI1
-	rzB0ECMxaEYoyYyKayjKpGRuzpK/JE20dqHWUn02CeeZ9hcs6zRQ4hzDCTVr+UFz5OV1F+
-	tLXqN4eZg5kSEQwz+NNfpXRaO7ftjRQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793704013;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=P+w0TJcctZwPlp6HzYj1zMH3kJnTkveWU9RaR7BZfcQ=;
-	b=bUyio6qmvUttdnMniugJvZ64P2w7XOfwnSZ+WWxXgg10tdd6bX3RLtSVVDoadupmwdfyAM
-	1wFYed7Gfx978RBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 66A5C1350A;
-	Tue,  3 Nov 2026 11:06:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id UnHwEk3A6WoRLQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 03 Nov 2026 11:06:53 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id EB96DB21D; Tue, 03 Nov 2026 12:06:52 +0100 (CET)
-Date: Tue, 3 Nov 2026 12:06:52 +0100
-From: Jan Kara <jack@suse.cz>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Hungyu Lin <dennylin0707@gmail.com>, Jan Kara <jack@suse.cz>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] inotify: do not coalesce events with different rename
- cookies
-Message-ID: <oq2wdodspuqn5ncmy4cggiwetm6tedeppamnosj2vldy3iix3b@brk3zr5ngwvc>
-References: <20261025232251.58252-1-dennylin0707@gmail.com>
- <CAOQ4uxifE0G4r=cpevTB4mzq+HhGdVsNhddzFNuH=BN9YrD6Ag@mail.gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=tpRmkYQw
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-48c4d870d54so2418372f8f.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 03 Nov 2026 03:13:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793704421; x=1794309221; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:mime-version:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=aApL6RX54q6lZ7c3C3mWoQyOMn5uc2rO6KvHRJ9B9N4=;
+        b=tpRmkYQwFppJ27NUtYosmR6LsYnLr+Wiyh6rMF6lYNSjfpXnh5Q8jwzAgXIY4mEpFO
+         PllIYdcu14Ls9Kmp+8OBaskBar+dbdSBWjtrhdkzxVAP+lCC14vkl+/CagIJ3uZFA29P
+         qRvlXRbWdHcEcZNpvQncxDYc2R2Z3He37YNGQn4KrNI8JR9Q6xr/53Wvj31TZ1cEGugH
+         s3b70ufLGfJHYowjGsb5w/bRKJwTQ7C4AI4YkjUDEPYIhGbphI9sIfhwe4v/kbybfojt
+         yE3ClQnwVr5GeYlG3rLRUlNKeykNkNj77XFyn5sOHkJHKcNz89okRIlsMxqXCap6SGix
+         KPEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793704421; x=1794309221;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=aApL6RX54q6lZ7c3C3mWoQyOMn5uc2rO6KvHRJ9B9N4=;
+        b=NXvbzovZxZztp0rdDuVAo/l15W+TRO3AJgVYPo1E9Any4ZUJBf0/FhMeBJnA4gukqC
+         9hxAjT3OaSaaDxrLxelUPQCFTGaeEIMvCiTvlfuN7p5yTcfwdbF5vm+VJZDVC+YV9ox9
+         YYwDC5shbk3f2fsUNmqusRpuK3s9Yvv0CnxDmmw3pD9hNSt/rXsGbgTNSONgxvNpC9Vk
+         2l/e2e6P0Kcf5jgn4MEbMvLc6heV6lIW1hG1H+zT5BQSkE+I3X+VL0GjnRC3BS4/S0k5
+         PHjhJ83cxNV706s0mxVJiotaJ2I5eBV7zgNcDxMDjpRIDO3SoWVzN+FZnmlIrJWr3Zjt
+         AnhA==
+X-Forwarded-Encrypted: i=1; AKwUvBzyITEP2wuhthI9hR6G1JS6AVEejKj+hPqeADg9i3kEXsOp/MUfUPuXzJgpqdsRhZO/l4y5g/bAf5GwB+tr@vger.kernel.org
+X-Gm-Message-State: APuU4Z+Stuu1/NVzKjBIc1kq8cu1OnwCv/Nk+0ChUHdgbTkJ8jWqyJuD
+	DWzgCN0Lmy+xAYIZxSeLD9/xitaiwWh7MQQ2bypL8Raw/mWAoYU5gSBT
+X-Gm-Gg: AYBFou3JzgvfOJpQ7KK24JMOtEl5kM6vc4SmEApzOZ2OzwdldDktkNLgynI2hzc7Jsg
+	UpuiAN5vc7fX1ZiISOPe69i/rWrthfyJuQWX8hzPjWYpEbZJWTwwskk5iaX7b82ObaKbbeNaVWt
+	tJ9F1bjSt3LDBJSInQQyd3nBVA0+U/YSazNkE+YZvgrqTK6hBMofJQB/rVgx3ZlHUjAjow5NK4e
+	vjgt/RlCnz8+dDJmW5sDJ+bH7TR9iuDg3c2zivwBoKyQDF4na6GjFATSfdq1aI0kN13zFJ+gEie
+	4xObPIITxgpFhHxhiicOi7wfitmU6k7spZtuva/cbPn+ud0kM9kPVoAj0PYcYxHKTZEJAU9a/Dk
+	CphyxlUMz1TKfRIZjITTdtvgcJcvmbnBPUgMOXsrf9vNTqjk5NUPIByU4MppZK5JFKueDiYZ1U7
+	W2Q9H7cllICuwpUADQfiC3Ina3k3RSTZXxTFQC/8F1eqOZ1zGSaTaWvcIxkg91Le2Zxfmxt+aNL
+	XxaSwl0ZzbChAQqi1Qygg0vjU4kVgR509xEzjGD4tP3ms+TJ6yeQF5096LlTCRsYCbY6p6wnVAC
+	JlPqVLv8aBkYYQIsRmV6b3pJLQvfOcf9F21Ky0hgOLQl6HgV
+X-Received: by 2002:a05:6000:4311:b0:48e:20ed:d5e7 with SMTP id ffacd0b85a97d-48e6e2ff167mr26601099f8f.34.1793704420858;
+        Tue, 03 Nov 2026 03:13:40 -0800 (PST)
+Received: from localhost ([130.192.98.149])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e71b8a5a7sm25639265f8f.37.2026.11.03.03.13.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Nov 2026 03:13:40 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -115,107 +86,149 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAOQ4uxifE0G4r=cpevTB4mzq+HhGdVsNhddzFNuH=BN9YrD6Ag@mail.gmail.com>
-X-Spamd-Result: default: False [-12.80 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,suse.cz,vger.kernel.org];
-	RCVD_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -12.80
-X-Spam-Level: 
-X-Spam-Flag: NO
+Mime-Version: 1.0
+Content-Type: multipart/signed;
+ boundary=e80d9f52f04d877396f5736b7426fc0b9ce68638903c33e71797700113b3;
+ micalg=pgp-sha512; protocol="application/pgp-signature"
+Date: Tue, 03 Nov 2026 12:13:37 +0100
+Message-Id: <DMLJ5DR2A4KZ.28U8XSZ0KFJTG@gmail.com>
+Cc: "David Sterba" <dsterba@suse.com>, "Alexander Viro"
+ <viro@zeniv.linux.org.uk>, "Christian Brauner" <brauner@kernel.org>,
+ "Namjae Jeon" <linkinjeon@kernel.org>, "Sungjong Seo"
+ <sj1557.seo@samsung.com>, "Konstantin Komarov"
+ <almaz.alexandrovich@paragon-software.com>, "Chris Mason"
+ <mason@kernel.org>, "Jan Kara" <jack@suse.cz>, "Yuezhang Mo"
+ <yuezhang.mo@sony.com>, "Chuck Lever" <cel@kernel.org>, "Darrick J . Wong"
+ <djwong@kernel.org>, "Sean Smith" <defendthedisabled@gmail.com>, "Andrey
+ Albershteyn" <aalbersh@kernel.org>, "Pedro Falcato" <pfalcato@suse.de>,
+ =?utf-8?q?Pali_Roh=C3=A1r?= <pali@kernel.org>,
+ <linux-btrfs@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <exfat@lists.linux.dev>,
+ <ntfs3@lists.linux.dev>, <linux-api@vger.kernel.org>
+Subject: Re: [RFC PATCH v3 1/5] vfs: add provenance time (ptime)
+From: "koraynilay" <koray.fra@gmail.com>
+To: "Amir Goldstein" <amir73il@gmail.com>, "koraynilay"
+ <koray.fra@gmail.com>
+X-Mailer: aerc 0.22.0-0-gc2f86b7abde3
+References: <20261101015551.786044-1-koray.fra@gmail.com>
+ <20261101015551.786044-2-koray.fra@gmail.com>
+ <CAOQ4uxiuJ=eZu28FZAUz3rpqPKqCimPxJucOnYYuBowvD09_Cw@mail.gmail.com>
+In-Reply-To: <CAOQ4uxiuJ=eZu28FZAUz3rpqPKqCimPxJucOnYYuBowvD09_Cw@mail.gmail.com>
 
-On Mon 26-10-26 11:32:10, Amir Goldstein wrote:
-> On Mon, Oct 26, 2026 at 1:23 AM Hungyu Lin <dennylin0707@gmail.com> wrote:
-> >
-> > inotify compares the mask, watch descriptor and name when coalescing
-> > adjacent unread events, but ignores their rename cookies. Distinct
-> > renames can therefore lose an event even with IN_ALL_EVENTS.
-> 
-> oops. Somehow I remembered that we never merge MOVE events.
-> Maybe that's even a simpler check. IDK.
-> 
-> > For example, prepare two files in an unwatched staging directory and
-> > rename each onto the same pathname in a watched destination directory
-> > before reading the events. Only the first IN_MOVED_TO event is retained,
-> > although the two renames have different cookies.
-> 
-> Thing is, the "wrong" rename TO cookie is meaningless without the FROM pair.
-> If the second source has a FROM, then the two TO won't merge.
-> Could you really reproduce this case?
+--e80d9f52f04d877396f5736b7426fc0b9ce68638903c33e71797700113b3
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-So I don't think this is something that practically matters (you have to
-really try to screw up youself to trigger this). Anyway, I think comparing
-the cookie is a sensible thing to do so I'm inclined to merge this. Any
-objections Amir?
+On Mon Nov 2, 2026 at 3:00 PM CET, Amir Goldstein wrote:
+> On Sun, Nov 1, 2026 at 2:57=E2=80=AFAM koraynilay <koray.fra@gmail.com> w=
+rote:
+>>
+>> Add provenance time (ptime), indicating the time when a file or
+>> directory was created. This is user-settable via file_setattr() and
+>> retrievable via statx(2) (using STATX_PTIME) or file_getattr().
+>>
+>> The semantics of when to preserve this new timestamp are the same as
+>> mtime, the idea being that there is a correspondence like this:
+>>
+>> ctime <-> btime
+>> mtime <-> ptime
+>>
+>> so every operation (copying, moving, ...) that currently preserves mtime
+>> should also preserve ptime.
+>>
+>> Furthermore, in order to avoid the legacy FS_IOC_FSSETXATTR accepting
+>> FS_XFLAG_PTIME, add an FS_FILE_ATTR_XFLAGS_MASK mask to support new
+>> xflags, and use it in fileattr_to_file_attr()/file_attr_to_fileattr() to
+>> allow ptime to be used with the file_setattr()/file_getattr() syscalls.
+>>
+>> [ This is a re-implementation of the initial patch[1] by Sean Smith
+>>   <defendthedisabled@gmail.com>, following the advice[2] from Darrick J.
+>>   Wong <djwong@kernel.org> of using file_setattr() instead of updating
+>>   utimensat() ]
+>>
+>> [1]: https://lore.kernel.org/20260405195007.1306-2-DefendTheDisabled@gma=
+il.com
+>> [2]: https://lore.kernel.org/20260407014129.GC6192@frogsfrogsfrogs
+>>
+>> Assisted-by: Gemini:3.8-flash-high antigravity-cli-1.4.7
+>> Signed-off-by: koraynilay <koray.fra@gmail.com>
+>> ---
+>>  fs/file_attr.c            | 33 +++++++++++++++++++++++++++++++--
+>>  fs/stat.c                 |  2 ++
+>>  include/linux/fileattr.h  |  5 +++++
+>>  include/linux/stat.h      |  1 +
+>>  include/uapi/linux/fs.h   |  8 +++++++-
+>>  include/uapi/linux/stat.h |  7 ++++++-
+>>  6 files changed, 52 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/fs/file_attr.c b/fs/file_attr.c
+>> index 833e03810b24..c0645cb22bf3 100644
+>> --- a/fs/file_attr.c
+>> +++ b/fs/file_attr.c
+>> @@ -102,7 +102,7 @@ EXPORT_SYMBOL(vfs_fileattr_get);
+>>  static void fileattr_to_file_attr(const struct file_kattr *fa,
+>>                                   struct file_attr *fattr)
+>>  {
+>> -       __u32 mask =3D FS_XFLAGS_MASK;
+>> +       __u32 mask =3D FS_FILE_ATTR_XFLAGS_MASK;
+>>
+>>         memset(fattr, 0, sizeof(struct file_attr));
+>>         fattr->fa_xflags =3D fa->fsx_xflags & mask;
+>> @@ -110,6 +110,8 @@ static void fileattr_to_file_attr(const struct file_=
+kattr *fa,
+>>         fattr->fa_nextents =3D fa->fsx_nextents;
+>>         fattr->fa_projid =3D fa->fsx_projid;
+>>         fattr->fa_cowextsize =3D fa->fsx_cowextsize;
+>> +       fattr->fa_ptime_sec =3D fa->fsx_ptime.tv_sec;
+>> +       fattr->fa_ptime_nsec =3D fa->fsx_ptime.tv_nsec;
+>>  }
+>>
+>>  /**
+>> @@ -141,15 +143,20 @@ EXPORT_SYMBOL(copy_fsxattr_to_user);
+>>  static int file_attr_to_fileattr(const struct file_attr *fattr,
+>>                                  struct file_kattr *fa)
+>>  {
+>> -       __u64 mask =3D FS_XFLAGS_MASK;
+>> +       __u64 mask =3D FS_FILE_ATTR_XFLAGS_MASK;
+>
+> That is not the correct way to extend this API.
+> This fixed mask was added as a placeholder for
+> "We intend to add support for more xflags to selective filesystems":
+> https://lore.kernel.org/linux-fsdevel/20250329143312.1350603-2-amir73il@g=
+mail.com/
+>
+> Please see this POC patch for filesystems to publish their supported
+> xflags mask:
+> https://lore.kernel.org/linux-fsdevel/20250329143312.1350603-3-amir73il@g=
+mail.com/
 
-								Honza
+Thanks, I did not think of adding a dynamic mask like that, I will look
+into it and implement it for v4.
 
-> 
-> > Similarly, coalescing
-> > distinct IN_MOVED_FROM events can discard the cookie needed to match a
-> > subsequent IN_MOVED_TO event.
-> 
-> THIS looks like a case that can be reproduced.
-> Can you provide an inotify LTP test for this case please.
-> 
-> >
-> > The original inotify implementation compared cookies before coalescing.
-> > The fsnotify conversion lost this comparison. Compare sync_cookie as well
-> > to preserve distinct rename events, while retaining coalescing for
-> > ordinary events with zero cookies.
-> >
-> > Fixes: 63c882a05416 ("inotify: reimplement inotify using fsnotify")
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
-> > ---
-> >  fs/notify/inotify/inotify_fsnotify.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/fs/notify/inotify/inotify_fsnotify.c b/fs/notify/inotify/inotify_fsnotify.c
-> > index 7c326ec2e8a8..6456d9c0e408 100644
-> > --- a/fs/notify/inotify/inotify_fsnotify.c
-> > +++ b/fs/notify/inotify/inotify_fsnotify.c
-> > @@ -40,6 +40,7 @@ static bool event_compare(struct fsnotify_event *old_fsn,
-> >                 return false;
-> >         if ((old->mask == new->mask) &&
-> >             (old->wd == new->wd) &&
-> > +           (old->sync_cookie == new->sync_cookie) &&
-> >             (old->name_len == new->name_len) &&
-> >             (!old->name_len || !strcmp(old->name, new->name)))
-> >                 return true;
-> > --
-> > 2.43.0
-> >
-> 
-> Practically, this means that MOVED events can never be merged,
-> so a slightly cheaper and simpler test would be
-> if ((old->mask == new->mask) && (old->mask & INOTIFY_MERGEABLE_EVENTS) && ...
-> 
+> This will allow callers of file_getattr() to know if the filesystem
+> supports ptime
+> without trying to set it and failing.
+
+So after adding fsx_xflags_mask to file_kattr, every filesystem would
+populate fsx_xflags_mask with all the returned (=3D=3D supported) FS_XFLAG_=
+*
+in their own specific .fileattr_get, correct?
+
+Best,
+koraynilay
+
 > Thanks,
 > Amir.
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+
+--e80d9f52f04d877396f5736b7426fc0b9ce68638903c33e71797700113b3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRJ2XvJtXGwULYEerQ0bnTtJTDoOAUCaunB4QAKCRA0bnTtJTDo
+OGlqAP9FN1O36Vljpv9qu+GHoMq4dpgT5l0jYNkHeq3xwaeLZQEAp8imIPg1c77f
+Nx6+7PN4i6jMGvOBbnpA+XfhiQmdEgs=
+=mk5d
+-----END PGP SIGNATURE-----
+
+--e80d9f52f04d877396f5736b7426fc0b9ce68638903c33e71797700113b3--
