@@ -1,86 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.228
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.139
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793673208;
-	b=04Rx+qbCo3xFXVIO+PxumlsyroZfTk46Y4XJTRc+to0cjF+bK1IdBbHbc6pv/YJ2RZ9o
-	 VVcQ7fDghm6Lrw7+COCZo2V3Vytq+a0xHmkxKwjGJzoJW2N36vhrj9DkNLpq5s3NsdDiH
-	 pTYsnYmdRZuCp0m+rb/Wt5wz+kHQIDQL3t7ry9411MUMqD5IiO7rYg2DjY5bQzyRsH0zN
-	 pzWiywoOK+ctnsRPVBk+o6JwF8kugGby7rB0wOdGM/AieGzhu9o3D/MSChb2xyQKSJSp8
-	 EW7OC4wdNasEzBQ9YPubiUiROdxDCKvsPiSZNsgBh3GswsEUAvu8PHmLCawOxBSlj+g==
+	t=1793673518;
+	b=F+745PJzIt9wHr0pV0fNr9o96E/Wqr54MZCJHt9LmhMLAA7+HwVY2ikf1A4QE12y/mJR
+	 UicH2UQbYR45WDCXwisMpOYUN2fCKMMtvYmkdioro6XAq0Og9oIRHxrrLcmYSepT6VyI+
+	 x7fdajn6gubFEqEwy7CTLTkSU7qGYeH4ePIbbL0QnMyr2uU0KNYUACzj6dW9GlUgUabuE
+	 iS5UsKKhIIZCNyvCneNiwZLCrX9f/DGGFCjlr92jT1Mb4un2xvSelEhqH6QVFbMXd4vSl
+	 Q6mhRfKU5+XjxgMp2pnCBz8Md392yJwjmbYGNgU7+Qik6TJ1cRxkQ9Ty66cKlZgDzDA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793673208;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=plPOmmg8Wbucg4dOntyZK89XdF19GIkTemSi8VnEEAM=;
-	b=AcKT9zCW3NyD1ijxKBscKke/mtCCWUcHXzZw4+tj9L1YqBoH7c1jlKRSW2cCw7ImjFXB
-	 RHy6px+g1kS/k2BPtbhcIUpuq3L16zrE0+tj8sZAcRkU3TFA5evVbWunOS6GmYXiq8xR/
-	 I6YCVRjycCPI0tpNPDtdxatVP148eBreML7xwCagtAIR+wQodogdpQUMdOyls7TQWOHZG
-	 dCpH/U/ovHOGPImbG4HGlZgB5eFyWR5Om4mW7Mhn+LP/5Dt8sZAF0lNN5DqyuM0o9egIJ
-	 tAdra8Mb567wcDgYBuOqHIGZEQ66mU1EMGuH3q5HdTvtIT2EuYAevG6XLCDVjz5S7Yg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793673518;
+	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
+	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
+	 To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=4cj5TJ+D6fIKqhd2S1uwmsKq+7z6cyNmSTBoePAtnuY=;
+	b=wjD1FgzsLBQ5nZJSfuIlIcTkWK+KRFR+8avrDez5QWsR6CiZw7PLUglC98heRLtrVl18
+	 hxZKo49v8ejN2Da1Mwa6Z1WWeC+okvUeTEpSgEc1U0cU93Z0wkmsjE8zFN8ghl9nZzhzH
+	 x0Sl++BspSE5m9LYxLgo2W9LU/RrB372zAnGZLvf1t/YAbGH/U0DC0Kn8ZcteTvC55Sjh
+	 LO7ktzkF+eQ8YtFGWSx0+4MdM1nG+wkAXLrON9tfIG3Ebr3CSjtRzufd1lYHS4v6doPYK
+	 zpi7R7kZLqozcZaacTp+VQAKGOtzuvDhmlnXOiZGDlPzc9I/zdm82XSSjIKEcRk1lBg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=BgTIjVx8;
-	arc=none smtp.remote-ip=91.218.175.228
-Received: from mta0.migadu.com (out-228.mta0.migadu.com [91.218.175.228])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B93A606A326
-	for <linux-fsdevel@vger.kernel.org>; Tue,  3 Nov 2026 02:33:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4B93A606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	dmarc=pass header.from=cmss.chinamobile.com;
+	spf=pass smtp.mailfrom=cmss.chinamobile.com;
+	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=ZiHiDcwk;
+	arc=none smtp.remote-ip=111.22.67.139
+Received: from cmccmta6.chinamobile.com (cmccmta6.chinamobile.com [111.22.67.139])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDA51606A326;
+	Tue,  3 Nov 2026 02:38:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BDA51606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=BgTIjVx8
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=QEpd6a+5vyb7YKmH2HfXuDiiboBz4CjeIOL7fouBhLE=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793673205; v=1; x=1794278005;
- b=BgTIjVx8nAsBtP3F1/GUXtMqw3pw4OJEPGpQ++uutFfQds3NbRcIfmcp3GNAGaLK7RPpjY/S
- yw/Uj5HTzpBk3eyf5tM9Jsqi8rj63sDupbOUjOGiN5/9gjgHzyT+vi9Zyr+9DoBdCp16aZJbRus
- vipK+BIW9Sgzd5Lh3Bd6yy9Q=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by mta11.migadu.com with ESMTPS id 09cae95fccecce83;
-	Tue, 03 Nov 2026 02:33:24 +0000
-X-Mizu-Trace-ID: 09cae95fccecce83
-X-Migadu-Flow: FLOW_OUT
-Date: Tue, 3 Nov 2026 10:33:19 +0800
-From: Baoquan He <baoquan.he@linux.dev>
-To: Barry Song <baohua@kernel.org>, kasong@tencent.com
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>,
-	Lance Yang <lance.yang@linux.dev>, muchun.song@linux.dev,
-	ridong.chen@linux.dev, sj@kernel.org, hannes@cmpxchg.org,
-	mhocko@kernel.org, qi.zheng@linux.dev, shakeel.butt@linux.dev,
-	ljs@kernel.org, axelrasmussen@google.com, yuanchu@google.com,
-	weixugc@google.com, baolin.wang@linux.alibaba.com,
-	liam@infradead.org, vbabka@kernel.org, rppt@kernel.org,
-	surenb@google.com, mhocko@suse.com, kees@kernel.org,
-	peterz@infradead.org, jannh@google.com, pfalcato@suse.de,
-	hughd@google.com, pasha.tatashin@soleen.com, pratyush@kernel.org,
-	willy@infradead.org, jack@suse.cz, ziy@nvidia.com, riel@surriel.com,
-	harry@kernel.org, apopple@nvidia.com, nico.pache@linux.dev,
-	ryan.roberts@arm.com, dev.jain@arm.com, usama.arif@linux.dev,
-	kas@kernel.org, matthew.brost@intel.com, jhubbard@nvidia.com,
-	peterx@redhat.com, will@kernel.org, aneesh.kumar@kernel.org,
-	npiggin@gmail.com, osalvador@suse.de, minchan@kernel.org,
-	xu.xin@linux.dev, chengming.zhou@linux.dev, chrisl@kernel.org,
-	shikemeng@huaweicloud.com, nphamcs@gmail.com, youngjun.park@lge.com,
-	gourry@gourry.net, joshua.hahnjy@gmail.com, rakie.kim@sk.com,
-	ying.huang@linux.alibaba.com, jgg@ziepe.ca, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, kexec@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-cxl@vger.kernel.org, josef@toxicpanda.com,
-	stable@vger.kernel.org, usama.anjum@arm.com
-Subject: Re: [PATCH v2 01/47] mm/mglru: don't use stack pointers when walking
- PUD and PMD tables
-Message-ID: <aulH7zeGrjIvF8Hs@fedora>
-References: <6FACF8FF-F943-45C8-BDFD-3AFB5C060E0A@linux.dev>
- <20261031055838.60138-1-lance.yang@linux.dev>
- <a704d458-ad60-43bf-a0ce-3b128b218d88@kernel.org>
- <CAGsJ_4wjGjDoFPz3qWHqW8WTv31AkR_zrY14ON0dLbTZNsohWQ@mail.gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=ZiHiDcwk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=cmss.chinamobile.com; s=default; l=0;
+	h=from:subject:message-id:to:cc:mime-version;
+	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+	b=ZiHiDcwkcvtbtSQ7p/F1cOZvdWASfC75uFFdQACvua5v/xVGNeM2bICN2WRB7QGXwSJiFd7BxFJMI
+	 NjKbnC68tX/jrSWyopASiKyBflBT8CYFKTNr+fETeiI+8ayXIQ0z6HY50WKoeKXfiHqLfr0eMP5s1Z
+	 wim7Xl/X8L//OQWs=
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
+	by rmmx-syy-dmz-app05-12005 (RichMail) with SMTP id 2ee56ae94924d64-8bf1f;
+	Tue, 03 Nov 2026 10:38:28 +0800 (CST)
+X-RM-TRANSID:2ee56ae94924d64-8bf1f
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from fedora (unknown[223.108.79.101])
+	by rmsmtp-syy-appsvr03-12003 (RichMail) with SMTP id 2ee36ae94913a16-e3604;
+	Tue, 03 Nov 2026 10:38:28 +0800 (CST)
+X-RM-TRANSID:2ee36ae94913a16-e3604
+From: Yiqing Wu <wuyiqing@cmss.chinamobile.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: gfs2@lists.linux.dev,
+	Kefeng Wang <wangkefeng.wang@huawei.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	syzbot+5e659793378ad9e06387@syzkaller.appspotmail.com
+Subject: [PATCH] iomap: allow writeback from kswapd again
+Date: Tue,  3 Nov 2026 10:38:04 +0800
+Message-ID: <20261103023804.8074-1-wuyiqing@cmss.chinamobile.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -90,68 +73,77 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGsJ_4wjGjDoFPz3qWHqW8WTv31AkR_zrY14ON0dLbTZNsohWQ@mail.gmail.com>
 
-On 11/03/26 at 04:11am, Barry Song wrote:
-> On Sat, Oct 31, 2026 at 5:42 PM David Hildenbrand (Arm)
-> <david@kernel.org> wrote:
-> >
-> > On 10/31/26 06:58, Lance Yang wrote:
-> > >
-> > > On Sat, Oct 31, 2026 at 09:46:37AM +0800, Muchun Song wrote:
-> > >>
-> > >>
-> > >>>
-> > >>>
-> > >>>
-> > >>> Agreed. FWIW, I think Barry Song and Kairui Song would be good candidates
-> > >>> for the maintainer role.
-> > >>
-> > >> +1
-> > >>
-> > >> It would be great if they could take this over.
-> > >
-> > > +1 from me too ;)
-> > >
-> > > They both have been really active on MGLRU and doing great work for quite
-> > > a while. No doubt they'll continue to do so :D
-> >
-> > Fully agreed, we really need some people familiar with this code to help
-> > maintain it, and Kairu and Barry have most experience on this.
+Commit ff59f71f1c95 ("iomap: simplify writepages reclaim guard") removed
+the PF_KSWAPD exemption from the iomap_writepages() guard on the
+assumption that kswapd can no longer reach filesystem writeback now
+that pageout() returns PAGE_ACTIVATE for non-shmem, non-anon folios.
+That assumption only covers the folio reclaim path.  kswapd can still
+reach filesystem writeback through the inode shrinkers, and syzbot
+reports exactly that on GFS2:
 
-Agree. Kairui and Barry have done so much to review and contribute
-patches to MGLRU. The nomination is well deserved.
+  WARNING: (current->flags & PF_MEMALLOC) in iomap_writepages
+  kswapd -> balance_pgdat -> shrink_node -> shrink_slab
+  -> super_cache_scan -> prune_icache_sb -> evict
+  -> gfs2_evict_inode -> evict_linked_inode -> gfs2_log_flush
+  -> gfs2_ordered_write -> filemap_fdatawrite -> do_writepages
+  -> gfs2_writepages -> iomap_writepages
 
-> 
-> Thanks to Ridong, Muchun, Lance, and David for all the
-> kind words. Your encouragement is truly inspiring!
-> 
-> >
-> > Just a note that I also don't want to pressure into such a role (which comes
-> > with responsibility).
-> 
-> It would be a great pleasure to work for the MGLRU
-> community.
-> 
-> Over the past few months, we've seen many active
-> contributors join the MGLRU effort. It feels like MGLRU
-> has never been this popular. I'm really glad to see the
-> community growing.
-> 
-> I may have missed someone, but besides Kairui and me, I'd
-> like to mention Baoquan, Baolin, Hui Zhu, Ridong, Kunwu,
-> Maxim, T.J., Siddharth, Xiang Liu, Bingfang Guo, Shakeel,
-> Zicheng, and many others.
+Under memory pressure kswapd evicts GFS2 inodes whose glock is still
+dirty, and gfs2_evict_inode() -> gfs2_log_flush() ->
+gfs2_ordered_write() then writes back the ordered data of every inode
+on sd_log_ordered.  This is long-standing, intentional behaviour: in
+the default data=ordered mode GFS2 must flush dirty data before the
+log commit that writes the metadata.  Writeback from kswapd has been
+explicitly allowed since 2010, when the guard was still in XFS:
+commit d4f7a5cbd544 ("xfs: allow writeback from kswapd"), because
+the kswapd stack usage is low and it cannot deadlock on the
+filesystem.
 
-Thanks for the recognition, Barry. MGLRU has always been on my to-do
-list, I will come back to catch up to review and post queued MGLRU
-patches after my xswap patches are posted.
+Beyond the noisy warning the new guard is actively harmful: it returns
+-EIO on every hit (WARN_ON_ONCE only limits the report), while
+gfs2_ordered_write() ignores the filemap_fdatawrite() return value, so
+the log commit proceeds with metadata even though the ordered data was
+never written, breaking the data-before-metadata ordering guarantee of
+data=ordered mode.
 
-> 
-> It's great to see so many people contributing to MGLRU!
-> 
-> Best,
-> Barry
+Restore the historical semantics of the guard using the
+current_is_kswapd() helper that replaced the PF_KSWAPD flag: warn about
+and refuse writeback from direct or memcg reclaim, but allow it from
+kswapd, as was the case from 2010 until ff59f71f1c95.
+
+Fixes: ff59f71f1c95 ("iomap: simplify writepages reclaim guard")
+Reported-by: syzbot+5e659793378ad9e06387@syzkaller.appspotmail.com
+Closes: https://syzbot.org/bug?extid=5e659793378ad9e06387
+Cc: Christian Brauner <brauner@kernel.org>
+Cc: gfs2@lists.linux.dev
+Cc: Kefeng Wang <wangkefeng.wang@huawei.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Shakeel Butt <shakeel.butt@linux.dev>
+Cc: linux-xfs@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Yiqing Wu <wuyiqing@cmss.chinamobile.com>
+---
+ fs/iomap/buffered-io.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
+index d6e2f1ded5ca..324da0f5cb29 100644
+--- a/fs/iomap/buffered-io.c
++++ b/fs/iomap/buffered-io.c
+@@ -2082,7 +2082,7 @@ iomap_writepages(struct iomap_writepage_ctx *wpc)
+ 	 * Writeback from reclaim context should never happen except in the case
+ 	 * of a VM regression so warn about it and refuse to write the data.
+ 	 */
+-	if (WARN_ON_ONCE((current->flags & PF_MEMALLOC)))
++	if (WARN_ON_ONCE((current->flags & PF_MEMALLOC) && !current_is_kswapd()))
+ 		return -EIO;
+ 
+ 	while ((folio = writeback_iter(mapping, wpc->wbc, folio, &error))) {
+-- 
+2.56.0
+
+
+
