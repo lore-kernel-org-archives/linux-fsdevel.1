@@ -1,108 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.170
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793751571;
-	b=PFgxcpMYAYDqo/rEUvjQq+8K2z0V6He9XuQOLUyG9VlEJD2T06141a4GhDpr7k78OQLW
-	 e+H877IJKvwlHFj+lp3mZ4vl7DKFAIr+mXyKNi0Sx4wR9k7tQ/Hd+e78b9ZQmGOkVMjJp
-	 +nTvxOgjvxJF7zSnTMIdq2X+qIStpM+x36xYKvUG0lEMunsJkujlK0QxBlBqCYdgInvWn
-	 tNGFLHi7XmiZmB78RzImoeKUnFlolRt53hAVBj1Fd1RBdUYegY3IzBcDaj3eeqZwbgiFF
-	 v7+a2eGwBMMieZmikcs3pIILP66OqtQz0bU8+ys9vkf8pkQG+4Tnc2ZavReDI2MzPog==
+	t=1793753392;
+	b=IBMjxGAAh9nBrgTmwUAO371YCDQJl6yNgE/fmBUduWOauxOVWW2LsZyNczoVqFBG+9p1
+	 EMmhmvvaFV8bzFMLedTPAteiKJrjbmjUr6MOnIXVsKDprm3L11T2VXpsp6bLJaAxvmUbT
+	 By714pomIzg9/RBHgONeS/kE5B8aattfWRrjDcgmfMlG4/oVcl1JWw663FqpExv5MPg3Q
+	 fJjDi0ii1CDN6ZJExdVFKaNi909eNvguN3jJtDwjwa0ahX+Sg+DjBWZJ8wsDHVuKUvgRe
+	 ds2YnSc2F24EY7TVshzFYyDu+aEkAoUQO2m3PwKqnagGxUdA/djbO3+Z+wtf5PMaliw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793751571;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793753392;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=dhpcS3Pos6bUyhlWGcG9OokPKtscuwoJw0ESCtzmpvM=;
-	b=mt5Z1mHU0KcFjteHhoIm2X6wXHMXGx1MIr7CNk26xB047NTQDzBFUchwyhfCeRm+K0L7
-	 Gw7LXFAzHDcc1VgnNeVROO75ZmiZG5CGAAxdfR0k9/N1EORDXlCyqgeA7wHTcFvnyK9T0
-	 Un3Zg6aGkYNhIA16cOxPM1SlNRKihFHWygkuAEmnFoPbvYuriowzfrVAC5EYMdYw8p90G
-	 T4ZbNB/1DCu0uev5UdvmwyVixLrLmuhlU332PoFDAVSx1REGTIoguvYAaZmTSaR6Mposy
-	 skn5KgffL/RcJceAeT1t9/aUyuGYUlNUH/hF1I9OyEkKj53PR26J8Be0tYcu4Ze21pQ==
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=/bumM81nPiENiLh9PH/Fm40C+VENRMD3A/OuAfI8Z4s=;
+	b=Za78k2LWtDamSfkET+tqR45zaBoxPIzZ8VZ0R0uATm15YeOX2T2bPUqXjjVFRoCKCKFc
+	 wwz/9X4nfw45YdU5ZNKHYwPniqXeESqwPINmUtXnwvee3CTlLchDkxT7tyYNlQeLG2HYX
+	 N2Sot6/7E//sICZhemW2MqSVShUMpXuHyMcitS8WnC0KMIlbvAYtLxvHOVy82lEhpZma1
+	 2RRnjlll36BYazGnnxM0LeUdMU4ulwOJNxD1bMT+Ll2csAKQXhTNTabILSMp9WzvAsIJP
+	 iPOg7Xs6MlLalWfqUAGfDa+xhxv+2V2ulGpyz/kOXuhC/yMehcccxQQlXwC4oh1Gkkw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Q6Nzpwyg;
-	arc=none smtp.remote-ip=209.85.221.44
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=VT+pUP2N;
+	arc=none smtp.remote-ip=209.85.210.170
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10FEB606A32F
-	for <linux-fsdevel@vger.kernel.org>; Wed,  4 Nov 2026 00:19:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 10FEB606A32F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38141606A334
+	for <linux-fsdevel@vger.kernel.org>; Wed,  4 Nov 2026 00:49:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 38141606A334
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Q6Nzpwyg
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-48df4f540ebso56792f8f.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 03 Nov 2026 16:19:30 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=VT+pUP2N
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-886e61fa30fso101056b3a.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 03 Nov 2026 16:49:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793751569; x=1794356369; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=dhpcS3Pos6bUyhlWGcG9OokPKtscuwoJw0ESCtzmpvM=;
-        b=Q6NzpwygdE433wwbbo5N2lVV1nDLaE4ey6+emdzBu6O3wovWkCqFPmJ6dfDoAoJF/b
-         5LyNOdE3QbbljfJQEI06XAAOfwb9rAsSh+UgxMGAtbC0M9YgIXbr3Hslq8ckS55H80U2
-         +jccSBX1o4TC3CnzkFJHJJx5YHTfhoH2w8fGybU0UFBUV2V/biDRg/PcJP/Ex+N5yQ0f
-         BS6vR9AA2nDBgqP7bgurufhFz4WV1aN3N8dy2DlkeWHBaZcvSmJEBgsqzw+8a87fBuzG
-         /042ZlJ5EJfTxVOtwxpazkhc13m2TajmP1OFtXEPbxdPyKQqijJISNCb1gvu1eiB8hRN
-         4sMQ==
+        d=gmail.com; s=20260707; t=1793753391; x=1794358191; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=/bumM81nPiENiLh9PH/Fm40C+VENRMD3A/OuAfI8Z4s=;
+        b=VT+pUP2NwuZcLnfpE6RBehWP9rj7p+v+tKoR/WVHOzz1v7CJgJGu6gqjY1V/YGEdmw
+         igNrVOnPTFLv9xvYK2tnZhcPD4jqAzwLjDlQ2iFsJIT0vgZOsXkUB60qRSrv68Heg2+2
+         k5XkKmMrKWtBUKDoGvgF6CjyKJx7mmzehyXgiMW8Z51NtcdDEa4LvP5GkI/GPk/JWdX0
+         E0pyc83t8pyqA1wDQ4YMhv4IP3UIHbsnnJtT4+s3TyxuI9ePzpN8dD0BzwPhXNBIUBNN
+         GS4KAdHBqzLrJ9upnMsWdUfiG2GuZuR+cDGx90+hJalABWpp8S3bPmquj5j2mZuikn7l
+         6bxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793751569; x=1794356369;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=dhpcS3Pos6bUyhlWGcG9OokPKtscuwoJw0ESCtzmpvM=;
-        b=rx96dRPA+D4c7ora9CAj9eDfkJi4r+qfeJ9AF8ESyJPbK8xniMU095yYTE4dJnTHDn
-         zqcID10oexghENf4WP0tZOw2/Jja6cF8E6TmWy6/OysXFYh1UX0VOIsT1fmtEKBbDaJY
-         SUIrWcN9QRqN+Fc0FGvAZUY7rWb5PaOqArPlhb5c0chhO/r25XEkVv4VFhkC9GrgAPUf
-         oBrr5kzYGayPLBgrOC0fao+jOhPbUIDkm5kmiwFdjt1kL0nW/nlWBjK0kMUs1vI99lkS
-         wLzoO9jbIW8nxxgAldgDMOqOwLAx9DUGqeYU+jyLGYOsXleaO3QwrQZIBISHtRRctw+l
-         6P1Q==
-X-Forwarded-Encrypted: i=1; AKwUvBz9DXWIAJnmj+PUQfHdU9SIbrLUgO5/VzaDrI+wHlqi2nazSuWPZjyfzijtxILFgDanAbrCuQ96jzQ/TyRQ@vger.kernel.org
-X-Gm-Message-State: APuU4Z8zzCeyt3nyM37lwmfQU1I3BLzfc+ogi/gnp6zU2COjDKWnvEtF
-	353ZgnnwvU78PekvHFNtgJxpcNRGSAV1DqR50aShshS254cM1kzxdORTVe2IwA==
-X-Gm-Gg: AYBFou1cFRcy1KVqtGmYx+ZRzR0FDH2SV2LwQANcWf92lE7PhA1xblM7wVsHwkBzEsM
-	yQjd9Uo2nDhqGpGeUMrcrQS1tpouR0ECDTZVuJNsq41UgiKMOGNQdQXVLGXETW4JDe1oJn5E6lO
-	mLELn/o7r1E6hLjoPnFFtAFi0/AKj9lrTJprbLehRnuQ9NVBRnZmG/Ab3AqudWoJP8makxcq/kK
-	pezwZZ9cdp0hga7ApUAJkkyqe1BEzwf+9zCecni7k79lnTf4VKlTOgb0N6jEnclY40mLhYwq4Up
-	IGSkCBMqU2fiLppFpztmyWCRgvTjDcBmNNXGzHHNpYdp3ZpqWv0oinLwa6psQ6cAHdGojEJ7M9X
-	QV4+VZqyAvUyu1qyQjYadSnIuBBBNKeaggomQx9AF5rKjRXVYjYc8QPNmKCCGvu6/dYnePsuqHP
-	G3UerE/Tl/+fbOAPOeF91FayjlFCCLB6N39uLsjD7fG8fwO1eWOR7KgzGANmDdWUNQwP2DeqZkW
-	igMMT7CKovzVbyMkfgD6FdsDyC4qxmwn9cBdqnxw47eWPgB2sMg7Q4Yu0E5KADcln/7zUdWIdgj
-	A0DEpSGpM0x2LmNVRVOxlq08Mwb7qlbo7wUBG8UekyTPg5nffSBXLLrTu2iVi7J93n1U5Qr3Z7F
-	CJnoOfMmNf5qzg5R/9nfpxK0MzC4UTSyz
-X-Received: by 2002:a05:6000:616:b0:48f:bdb6:ca0 with SMTP id ffacd0b85a97d-48fbdb60d3dmr3036265f8f.23.1793751569507;
-        Tue, 03 Nov 2026 16:19:29 -0800 (PST)
-Received: from 127.mynet ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48feda1fb0esm676676f8f.49.2026.11.03.16.19.26
+        d=1e100.net; s=20260707; t=1793753391; x=1794358191;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/bumM81nPiENiLh9PH/Fm40C+VENRMD3A/OuAfI8Z4s=;
+        b=zD7YJA26M6q6jTVDDupqZaWNPGigxR4gn/vqz67vKQ05WlAC2Exnq9QI5Dc+YFKmG2
+         WL/6FQreKNvIb9Wdp3ryLFvNb37bHaynJuwTgNQ2+16hEBpzsfcZhnOx10l4hBUfd5YF
+         nfJk7xIKha+M1UVnT2IAFloZjlzoluPsQctFwO9IVTZzsUrqU7mWvJURRoDzU/vhnycX
+         uU6uF1ijQC1uud2alV++1AvP/C0cCNUcyvIW18wNI8cFFoo1jlRG9FZkSdjFIkp4g6yi
+         I7P2AjackEZBA659CzOK79kvuJfYOJPI+MbMr7HPLf4z8j/p5nbAXumpnv7ymZW7xsrR
+         tYzA==
+X-Gm-Message-State: APuU4Z969jRVdJZ4hPtSXacPuRqXr4B/xoCfnTizDL353pTMxE1OiRzb
+	5L+2HflXvmFdGLm9rVQeKDEYabpphHojYydNzY1fifIY5AAyqpaFsOx0
+X-Gm-Gg: AYBFou1+kPNDskGk0+0eUO92NBqwhIEAzun3b6LLMwI9JFVlV5JCsxdb1VBOaeWdPuv
+	TxWSzwBqMbK6QfvU1Lr1mOnx6Ocf4cCQ+moDlGyhwzWaxzzHILP36Lll0w7bSqkH+s+zUd6YIhc
+	iCTo6fVJsKcMwep0eAclTxJ/auNrpqmKx3ShZyUXajXopQPy5R7tfH+XPGNdtBG6MgmXQ05z77l
+	0+2/cGkONd81YK5JIKqhDpDrCR4Duj00wVXWVbs91RsF+MnSNWonodTFsloDgngf1M5yOhG7GfN
+	CuNJfegREYSNZOvQjXTkpjuDqYcuerFQZiyVxmPYt/Aah1j2Z76i8uToS9ekaD+lIfyMPtHqdQT
+	W7IYCfhcG+11WL9pozNLsdukIJMFCgwvfcLxx1/VzRslRgc97y539VzpVURjJzocthIcDzuXmJm
+	gGtaMPwhC4JANAr64Y8AcMS81MrtsU1kaiNvbTRXvAwryS81xy6mrU+YXLpqqEJPaTvbcWVDOlE
+	fBBQ/WxmvpX8Hb0Eu3nfY1KHl5GhNl83VC5Sw0ZVkCAWxx/dfb6HafDcHnQW0B1e+IZ34C7YQWA
+	4S9ucbcutzY9YhB1BS3eoJhFJwhnEYO9QmR8Km4=
+X-Received: by 2002:a05:6a20:914b:b0:3e2:9470:5303 with SMTP id adf61e73a8af0-3e928953948mr11828504637.15.1793753391239;
+        Tue, 03 Nov 2026 16:49:51 -0800 (PST)
+Received: from localhost ([27.122.242.71])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cdb46440cc7sm329325a12.3.2026.11.03.16.49.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Nov 2026 16:19:27 -0800 (PST)
-From: Pavel Begunkov <asml.silence@gmail.com>
-To: linux-block@vger.kernel.org,
-	io-uring@vger.kernel.org
-Cc: Sumit Semwal <sumit.semwal@linaro.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Philipp Stanner <phasta@kernel.org>,
-	linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	Pavel Begunkov <asml.silence@gmail.com>,
-	Jens Axboe <axboe@kernel.dk>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	Nitesh Shetty <nj.shetty@samsung.com>,
-	Kanchan Joshi <joshi.k@samsung.com>,
-	Anuj Gupta <anuj20.g@samsung.com>
-Subject: [PATCH 5/5] io_uring/dma-buf: get rid of struct io_buf_dma
-Date: Wed,  4 Nov 2026 00:19:01 +0000
-Message-ID: <883cf9fcd8e46569ec237e9e36baf6e2f26db8de.1793751001.git.asml.silence@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <cover.1793751001.git.asml.silence@gmail.com>
-References: <cover.1793751001.git.asml.silence@gmail.com>
+        Tue, 03 Nov 2026 16:49:50 -0800 (PST)
+Date: Wed, 4 Nov 2026 09:49:48 +0900
+From: Hyunchul Lee <hyc.lee@gmail.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, Jan Kara <jack@suse.com>,
+	Al Viro <viro@zeniv.linux.org.uk>, ecryptfs@vger.kernel.org,
+	linux-ext4@vger.kernel.org, jfs-discussion@lists.sourceforge.net,
+	linux-nilfs@vger.kernel.org, exfat@lists.linux.dev,
+	linux-mm@kvack.org, ntfs@lists.linux.dev,
+	ocfs2-devel@lists.linux.dev, linux-btrfs@vger.kernel.org,
+	gfs2@lists.linux.dev, linux-efi@vger.kernel.org,
+	linux-mtd@lists.infradead.org, linux-xfs@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2 17/34] ntfs: don't set SB_RDONLY after filesystem
+ errors
+Message-ID: <auqBLEvcurRZfGj6@hyunchul-PC02>
+References: <20261029-work-fs-sb_rdonly-v2-0-2f44f64f0b66@kernel.org>
+ <20261029-work-fs-sb_rdonly-v2-17-2f44f64f0b66@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -112,128 +104,48 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261029-work-fs-sb_rdonly-v2-17-2f44f64f0b66@kernel.org>
 
-Now struct io_buf_dma only stores dma_buf_io_ctx, and we can use the
-latter directly.
+On Thu, Oct 29, 2026 at 05:07:08PM +0100, Christian Brauner wrote:
+> With errors=remount-ro every ntfs_error() ends up in ntfs_handle_error()
+> which sets SB_RDONLY without holding s_umount. If that happens while the
+> volume is frozen through bdev_freeze() thaw_super() sees a read-only
+> superblock and leaves the s_writers rwsems locked so every writer hangs.
+> 
+> So set NV_Errors and a new NV_EmergencyRO flag instead like ext4 does.
+> ntfs_emergency_state() returns EIO after a shutdown and EROFS after an
+> error and the write side shutdown checks use it now. fallocate,
+> ->set_acl(), FS_IOC_SETFSLABEL, FITRIM and ntfs_mft_record_free() get a
+> check as well. Errors while mounting still set SB_RDONLY, nothing can
+> freeze the superblock before SB_BORN.
+> 
+> NV_Errors already refuses a remount to read-write and since
+> commit 521978c4f444 ("ntfs: sync the volume dirty bit with the recorded
+> error state") the volume stays marked dirty once errors were recorded.
+> But the dirty bit may not be on disk yet when the error hits and
+> writeback is refused from then on. So a work item writes it right away
+> because ntfs_error() can be called with mft records locked, and umount
+> lets a pending one run first.
+> 
+> Unlinked inodes are left to chkdsk in that state. Their mft records are
+> freed with direct bios while the index and bitmap updates of the
+> deletion can't be written back anymore. And writing to an encrypted file
+> only warns now. It called ntfs_error() which let anyone put the volume
+> into the emergency state.
+> 
+> /proc/mounts keeps showing the volume read-write. Writes through file
+> descriptors opened before the error fail with EROFS.
+> 
+> Fixes: 6251f0b0de7d ("ntfs: update super block operations")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-Fixes: 62e4bf5b25d44 ("io_uring/rsrc: add dmabuf backed registered buffers")
-Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
----
- io_uring/dma-buf.c | 16 ++++------------
- io_uring/dma-buf.h | 16 ++++++----------
- 2 files changed, 10 insertions(+), 22 deletions(-)
+Looks good to me.
 
-diff --git a/io_uring/dma-buf.c b/io_uring/dma-buf.c
-index f25749f7da22..a1fc34c0c044 100644
---- a/io_uring/dma-buf.c
-+++ b/io_uring/dma-buf.c
-@@ -2,17 +2,14 @@
- 
- static inline void io_release_dmabuf(void *priv)
- {
--	struct io_buf_dma *bd = io_priv_to_dmabuf(priv);
--
--	dma_buf_io_ctx_release(bd->ctx);
--	kfree(bd);
-+	dma_buf_io_ctx_release(io_priv_to_dmabuf(priv));
- }
- 
- int __io_register_dmabuf(struct io_ring_ctx *ctx,
- 			struct io_uring_regbuf_desc *desc,
- 			struct io_mapped_ubuf *imu)
- {
--	struct io_buf_dma *bd = NULL;
-+	struct dma_buf_io_ctx *dmabuf_ctx;
- 	struct file *target_file = NULL;
- 	struct dma_buf *dmabuf = NULL;
- 	int ret;
-@@ -27,10 +24,6 @@ int __io_register_dmabuf(struct io_ring_ctx *ctx,
- 	if (desc->uaddr || desc->size)
- 		return -EINVAL;
- 
--	bd = kzalloc(sizeof(*bd), GFP_KERNEL);
--	if (!bd)
--		return -ENOMEM;
--
- 	target_file = fget(desc->target_fd);
- 	if (!target_file) {
- 		ret = -EBADF;
-@@ -47,20 +40,19 @@ int __io_register_dmabuf(struct io_ring_ctx *ctx,
- 		goto err;
- 
- 	ret = dma_buf_io_ctx_create(target_file, dmabuf, DMA_BIDIRECTIONAL,
--				    &bd->ctx);
-+				    &dmabuf_ctx);
- 	if (ret)
- 		goto err;
- 
- 	imu->len = dmabuf->size;
- 	imu->release = io_release_dmabuf;
--	imu->priv = bd;
-+	imu->priv = dmabuf_ctx;
- 	imu->flags = IO_REGBUF_F_DMABUF;
- 	imu->dir = IO_BUF_DEST | IO_BUF_SOURCE;
- 	dma_buf_put(dmabuf);
- 	fput(target_file);
- 	return 0;
- err:
--	kfree(bd);
- 	if (target_file)
- 		fput(target_file);
- 	if (dmabuf)
-diff --git a/io_uring/dma-buf.h b/io_uring/dma-buf.h
-index 9bd7c8c64397..c622347fbd76 100644
---- a/io_uring/dma-buf.h
-+++ b/io_uring/dma-buf.h
-@@ -7,16 +7,12 @@
- 
- #include "rsrc.h"
- 
--struct io_buf_dma {
--	struct dma_buf_io_ctx		*ctx;
--};
--
--static inline struct io_buf_dma *io_priv_to_dmabuf(void *data)
-+static inline struct dma_buf_io_ctx *io_priv_to_dmabuf(void *data)
- {
- 	return data;
- }
- 
--static inline struct io_buf_dma *io_buf_to_dmabuf(struct io_mapped_ubuf *imu)
-+static inline struct dma_buf_io_ctx *io_buf_to_dmabuf(struct io_mapped_ubuf *imu)
- {
- 	return io_priv_to_dmabuf(imu->priv);
- }
-@@ -40,16 +36,16 @@ static inline int io_attach_dmabuf_map(struct io_kiocb *req,
- 					unsigned issue_flags)
- {
- 	bool nowait = issue_flags & IO_URING_F_NONBLOCK;
-+	struct io_mapped_ubuf *imu;
- 	struct dma_buf_io_map *map;
--	struct io_buf_dma *bd;
- 
- 	if (!(req->flags & REQ_F_DMABUF))
- 		return 0;
- 	if (!IS_ENABLED(CONFIG_DMA_SHARED_BUFFER))
- 		return -EOPNOTSUPP;
- 
--	bd = io_buf_to_dmabuf(req->buf_node->buf);
--	map = dma_buf_io_get_map(bd->ctx, nowait);
-+	imu = req->buf_node->buf;
-+	map = dma_buf_io_get_map(io_buf_to_dmabuf(imu), nowait);
- 	if (unlikely(IS_ERR(map)))
- 		return PTR_ERR(map);
- 	req->dmabuf_map = map;
-@@ -64,7 +60,7 @@ static inline int io_import_dmabuf_map(struct io_kiocb *req,
- {
- 	if (!IS_ENABLED(CONFIG_DMA_SHARED_BUFFER))
- 		return -EOPNOTSUPP;
--	if (unlikely(!dma_buf_io_file_compatible(io_buf_to_dmabuf(imu)->ctx,
-+	if (unlikely(!dma_buf_io_file_compatible(io_buf_to_dmabuf(imu),
- 						 req->file)))
- 		return -EBADF;
- 	req->flags |= REQ_F_DMABUF;
+Reviewed-by: Hyunchul Lee <hyc.lee@gmail.com>
+
 -- 
-2.54.0
-
+Thanks,
+Hyunchul
