@@ -1,101 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.171
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793758033;
-	b=QlSVHpZ39o1AZb8hIjNmLX25JQrY1SOqJN2hRcmCfrqoRWY0UPEoxKYbUITM/BPFtfe/
-	 EldfbbGllLvBWy4d8db/lt001ZqVnBON2f8M+ihP2dYZfFYaEHkPWR25LvaULtnNFf4t/
-	 U6Pqq4YwqwcheGQjrcjawVVsznU+dTbKudCFGulFpRnXUyDKXxcsz1VI003T3ZsrH5t1j
-	 bPjdSKUrlvoUTlTP4cg7J8T7lgxcyk5E7FnjY5WwKZ7Kq/Ci/LcWnDuyWOb2Zfa6Y4/1m
-	 paZbuDHZvnW8dk0YjqLxIQ1EEMpm/IU2WJDqVnWjDsbdoyWwOyjIegXpFYQh/0g2W+w==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793758033;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.54
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793758873;
+	b=hqNLIn0jJ0iGNLgQW6v6y+SAD/2c3e94gUsawMEXKpuNTB3pjCBSAC+DvC7ttjo6MZmd
+	 Bu3xrAEDruSMknmuasmYlNrQyCNj3Z1bFF3i6fyOgzvCqVFaavoIsskDoC+dmldyyUuU4
+	 eu/uHlWnMwJPyFjEQUiEfiYR7xHY4GXRrhQLD3D48HzTVlAop+O0VPskhh/0vE5v02vgn
+	 vZf3ws4m69JiO0Deq3fNcxCOwiiDtcmLDW9x9pbTlV5G+ZBETzAKYsegcY2doAc7WnY/c
+	 EjDpWC/8S6nrw1FaiUllvdMAcdzYVT4EN9DUM01TQkbOUJrLwAp/HKFFm+PiDMXmfWQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793758873;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=FAiexPt9F2m0rkGdx3cg9FXpp1bQGTobMFGeTARij3M=;
-	b=C+EEpxOkxR0Y2eiYBOIK3CgACbGwtOz19T/mEcThtvdyiDYdMaE0fJc95eMrkCJh/ihj
-	 Bx0D0ApLOqHpUuvjh8qSU5qm6uoPab27gF6wFJeiqXKiStV8HmNczjVcKX7ic4ardgn4K
-	 53OPavJzbF3s9MZdMh84VEqAQ/npJQ8GTKiTVV9o3v0c7dJ5aRp7OuY6KzG4uGO7VxJGZ
-	 t27sET5oJT21X6E9hCxn13jVSHvG5lQMLVeK/SEp/72wF2BNlBYueF0EKn0iAn2DhTW/C
-	 5/JmYz/+JmLYX3Sgf3kcnIxlBGemvoFCMl+hW29l4ZAl/o4Z1l3RSTBe7YdeleEJjOw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=Avs61lsh;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.171
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=zZTUjENcLwaNaxc7QvvATziTGbi5drNO90koPPjECGM=;
+	b=H/rjMWdASqUXOLMwo78iD5c0MqI/3akgcCUqQ0gvCpLyV90aSlU+c7IjNEQ0yLNZemWY
+	 Ouut11bcXGW0E4KImpjMHb1WpV4csuDvczKw7TLyxwIvUvSQjIFLGAOJU2c7H6rqRtn46
+	 RiEHz28eh8yeZOCZv90vBNfouiGuDColhVOg/4eZo0Rj8HkT89eAhFv+aXbqKq5KvTgNz
+	 IlhTn3cAAzLKssp1hueZ0BZ/KfURH084LK5DDvMUM+s1BHya1LfOn6B/WRZB/7isR99qi
+	 aN9KfQZPIZlX0hpYcErAtBfNNP+4cLMq6ubx2pZFnboKHAoEngVy7CYXv0wHBpA5zQQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DJEZanc6;
+	arc=none smtp.remote-ip=74.125.82.54
+Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88C56606A31B
-	for <linux-fsdevel@vger.kernel.org>; Wed,  4 Nov 2026 02:07:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 88C56606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1775B606A328
+	for <linux-fsdevel@vger.kernel.org>; Wed,  4 Nov 2026 02:21:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1775B606A328
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=Avs61lsh
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-5383c97c8cfso80991cf.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 03 Nov 2026 18:07:12 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1793758032; cv=none;
-        d=google.com; s=arc-20260327;
-        b=cOVL8GYXrj0POY1pvkGX4daTbf6xnKAX/eT5/IomMVDd3b+r0tIee97kc49/VzvY+0
-         nzIF00KU13aQR12r8zPupJjDIBrTpjDjAxQgSusPo2VUrVJlXp7nYut/55LmIzwT4tqJ
-         4BNCtDPQNxKroA6KsUgSr2zFWPZMdsebOE0si6VGdidB8VXtltNsa+CWX432eWXe9EsV
-         pJBLfKu6Tpb8Ur6pATsjaOv+F8yLUyuP1RU4O3XPHwJQl6ElRDpz8N0ooGVuDuYlYoa+
-         mvCRIbzZuOMnq34mI9YJ1LYKwN6pP9XsUFaNH0Yh3Iig+W1h+YRo8G7sNRgXAJjw7PXP
-         zZxg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=FAiexPt9F2m0rkGdx3cg9FXpp1bQGTobMFGeTARij3M=;
-        fh=e6A2N671XBvUTnnsVDHWGSlYFvb91JO6bOg/lQfHyis=;
-        b=njKA3yx17+akLxJY4VTzG7g7kCBNhs5dXp9T2mV8jAMjRhvONDhhUDhBe9FNnBqzxb
-         doBS5WePffOj+DIDznbzRieDTMVyWI3CrEyQAI+oR+8pKmHhvD9H7XcFFYSNYl8KNaqj
-         1gdhGWfTAAjeH+45/ZiDvEO+u7JXiPIk604oF5eJxKTYzcXWGq8ipm3zq2CXowkZhoLv
-         bwDAM8ikfTKLhcyKES9wOgEq4HNqyHfs08iUDAJFL7nTtOHnGFjK+0ANJj97FHX2iyVB
-         AsPKQEPsbVY8Pk/a7zEO8ziEUl2xkrijARU2IPtve/CEa/Ax07fbX1lNJ9FS+t3Hv4ue
-         xV4Q==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DJEZanc6
+Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-1b244fb7fffso370026c88.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 03 Nov 2026 18:21:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793758032; x=1794362832; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=FAiexPt9F2m0rkGdx3cg9FXpp1bQGTobMFGeTARij3M=;
-        b=Avs61lshl+ISopFP491Bg4dT2MhyEf8EGFL9ukF6FOOtmQL84fh/pCfUMx1tupqtFv
-         52RgWZN0Dhga5IMrkWWQJCL7vYjYp/Jq5rECU+9Vimt4yqvcedFmHrvRKjqpwAcx8Par
-         ART/E0yZsj2/afiLYsrqw/ZJisDwG6rxw4uc62V61BXkSL64zNsahvhmvLpz2Vi/NOES
-         JB7O7pJMIe1LYMflv3Jaga1idg3UstxaNQ0DW+5hiMijr5bqDNEecp/3zxHHJeQEBazc
-         eCad89q320Vgdh/Hl8Zq0Yd38Xm1szZtKvw/yFNnZDUni0MFe6UeRm7TggfudP9sWVTk
-         +uIg==
+        d=gmail.com; s=20260707; t=1793758872; x=1794363672; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=zZTUjENcLwaNaxc7QvvATziTGbi5drNO90koPPjECGM=;
+        b=DJEZanc6zshUJbakA4ha6enlqCMX2HUKDZDDkOzb7dNOQo4du6cgyboLh3+DMEQiYH
+         Tt9z25oCaBB1vTfcVHxeopv/W5MMVwzY58sMZRl3rYBNFe1wucQSBWsPxzAIX6IBC+w7
+         FbwyiekbZUxayUaKyPPlXDEK2XecjysJhxzu3k/6S2KZD13RcSFSwE50qnQf9WMLVbaS
+         0UXW7MVxlOUPy9uNY0q15iwYYY+13tMoFFLAay9dl/r7S/DPBM+FFsbm3cpSAzsUMlSH
+         4zFcpYXLQqsK/DfbmDgGEUATDj4iZGNe5qlVYvoAJzS3EQ7B5YdA4FZrPg5yHKjkS+kI
+         VVdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793758032; x=1794362832;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=FAiexPt9F2m0rkGdx3cg9FXpp1bQGTobMFGeTARij3M=;
-        b=wtHlLoV9BODrzIVNzwu1bAltlx+0Pm15eJftvUpmjjC/+wtIcx4Mfex8upj35X0tGO
-         0pXhYoTPVZcEPbmfxhvTQrJfxwTD6sodP25gCIYM9wk+xrugMhQake1QA1G3KHBlEj+I
-         UHczs6t1PNlWGxjeczxx2PXZBc8vy/l9RhTTx/XnKplSiOWbi4aWud8En5KrYUtvtmy6
-         FM2Nuaxee9BrwpuKwHxRi26D5d7+NitmDM9uoZDXEralL+FJK/CxW2xqgiyVdfMBd+ME
-         sTblu1kctEkbJUlMvPoEECZdFvW1e03+6h13TedWpX+V7UpFdlWqadq1xv+YR7d30JPY
-         XWRQ==
-X-Forwarded-Encrypted: i=1; AKwUvBz5DB2c5T5Be3krijFvaPlLz7RNY5FZSAqzZOUZE7awAwUc7rYeOux/bu+wCHRyyNsnrmqrRIV2fsVzJLvf@vger.kernel.org
-X-Gm-Message-State: APuU4Z+swkWzK6yHfHrCNgRYn6rjzf8A7HztowekRY2kgf7yGEVlc26d
-	0mnYF+6t4wsMgICna00mFn2DUmeFQnm+K1TVskkff0iUSAJWTtWU6tGCQ/ZLNpoKu1gV9GYlXKg
-	QqCRQeV5bTJ8yoPqUzAzA++fSjfDReoT4Mt+7nf5L
-X-Gm-Gg: AYBFou1XhwKgeLZkx83FMIXiCvPg1l70r5xXPhbU7ITWLTHIwDmikzZkKwdj5ZATOGA
-	v+XdTJCwgaP3z58gZR/HXhfU+nJpM3bAGp4mRzfldU+J8LkwwyuIg1a70vJagbAxKU/1/tdw+0v
-	MHlJ5xOd+FGAtYz/MaHkZ24irk85jBXAFQ6iIpmSsPnhCHFDXixzu2ZMQHhQSYjWqwK5InHPbTE
-	DW838CbwSzUzl6qkGX6qxFwax0XHNK7FMEjkCJtYCibPuF1Uq68t0wA/AdmcFjDJwWrgo250Kmi
-	6UZB/8414pAj6z+o1rGOjJsTuw6uRJUy4L5bDsTGN5Oz427bsqaS2NmF/1PeOjA9TpOojm+eJ0Q
-	1CgWkQss3rBOPrCbJHmFObqI6VG9afJyLXVgwsuMcvr9uoxxjQqsr4KgadmB5KSFBqY/iQudBow
-	6sP+4ywQ6mGIKG
-X-Received: by 2002:a05:622a:4d86:b0:52f:8389:29e0 with SMTP id
- d75a77b69052e-54b227f261bmr9698371cf.0.1793758030925; Tue, 03 Nov 2026
- 18:07:10 -0800 (PST)
+        d=1e100.net; s=20260707; t=1793758872; x=1794363672;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=zZTUjENcLwaNaxc7QvvATziTGbi5drNO90koPPjECGM=;
+        b=HjBIcVVSU3FUrKzMSbJ7Yz1hWdZc5lV9fAIQcQtUX4JtKl1moWhkOC9Ku/OLT8IYrj
+         iVMapuf2QwzWAk2y41l4dLwu3XbxCBzxOgRhWiM7633eSTDdpRQQpuyXSFlQ+7Anhd+X
+         lNQck5BGgZbarb3ySRmi8vom/xe9SdWezGdhgr4XKmGywQI9J1gfyYiRpbt+r1rCYB0o
+         91PNWQWm7TOE49ZtZlGQ5UIlW1+Rl/q7YJS1zB6rwtVt+f2jLs7UuuZC3BVTO0BJAUUG
+         BsbpyYoJ6B+hSMJ4NMh8JO5c9OJsddQpLhumTeyL/4DU5MGz7UdOskncFf+j1EMNudN7
+         MyBw==
+X-Gm-Message-State: APuU4Z/vAddLn1PHFbLD1GrTs0ngTzTGXR6LXNcB7bwBbVCSUw7ErU+y
+	7qnWdC49L2Q51oMYEWbhD7VoW0QwD8XrZqyMUJjh2pHM2NF+RC1jIBsn
+X-Gm-Gg: AYBFou1vhsAmgz1qeLZnc7vcvMgGqdetmXyrBBKVfYfLWe3Oq5DR/g81nFXgn3UvM5C
+	WJk3xhxr2OwKucTPlr1/w6OTgPKcL9Np3UyijlYU+b58m+MW7lOPA/Pc2h3SqS9kuEdkLVihECR
+	9DgKSBx1Ya2kxrJeRyvccnsxZ8AYkdHfSumcPQySYGpKmQVTHyZ5CDDhuLkRfXY5n7CxqAadxC0
+	jZo+PjWE5aPDf4uqTI6ob2U+15R+X0A48J7bCSK7qzPg5vxoWh3GjCIem+zaCUuTQmMDQleX6F+
+	C65/shHbCtQvBN5Q6UDAbzU5DRDpwJreuwkS6VcLKeDTnlgh5FPWg0vWFpkvMoHgVSVmG1HbWaE
+	qSbFyrnRPo7IwFeqlGxH4WQ+EsFIM6ZpKZonXqpONoF6ZOmtomy0P2a9Lo1kLCTeHO5I4eZmy8z
+	ff0n2u00hDC/HCjod29uluQCD1Jum2204PJN9gs0KjKDYZQxYOoCIz1o88YHvq2/Qb1aU1dhbNr
+	y9hW38aYhsCFChGDoX7W0bW6yV6PDl8ZIGVdzKjh8lC48PqxPWPH0nqj1VKRDEQ/pvgYT+jNZtw
+	zlxbzlngprd/8y5sxl+SVItg/MMata3+ni11MUQtD0lxzXVPsqyOIpN6DZBMBEpoWA==
+X-Received: by 2002:a05:701b:4509:20b0:1a3:9936:d11e with SMTP id a92af1059eb24-1ac5e6007a2mr21183680c88.41.1793758872002;
+        Tue, 03 Nov 2026 18:21:12 -0800 (PST)
+Received: from localhost.localdomain ([61.255.248.240])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36ca38a54ccsm2723575eec.4.2026.11.03.18.21.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Nov 2026 18:21:11 -0800 (PST)
+From: Song jeonghak <thdwjdgkr123@gmail.com>
+To: Viacheslav Dubeyko <slava@dubeyko.com>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Yangtao Li <frank.li@vivo.com>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Mahmut Emin Kurhan <guvenlik@noroxi.com>,
+	Shardul Bankar <shardul.b@mpiricsoftware.com>,
+	Edward Adam Davis <eadavis@qq.com>,
+	Markus Elfring <Markus.Elfring@web.de>,
+	syzbot+98547b0428b6a6a3467c@syzkaller.appspotmail.com
+Subject: Re: [PATCH v2] hfsplus: free failed b-tree nodes in hfs_bnode_put()
+Date: Wed,  4 Nov 2026 11:18:42 +0900
+Message-ID: <20261104021842.18650-1-thdwjdgkr123@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <c05f958a83de97e38c2e54bb67ba3478ffd471e1.camel@dubeyko.com>
+References: <c05f958a83de97e38c2e54bb67ba3478ffd471e1.camel@dubeyko.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -105,58 +103,37 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261101154503.3203036-1-surenb@google.com> <20261101110100.90796bf33ef50307a7698dca@linux-foundation.org>
- <CAJuCfpGmPLBRhHa_dmyP10QzyRyvcWMYDLU0+J9t-RCLBsTaWA@mail.gmail.com>
- <20261102080103.6e3f602364747ac6adb13f5c@linux-foundation.org>
- <CAJuCfpGmHWiu0Hmob-PgnvWAMn=CD0-xgiyGztP+P=OFrwwfTw@mail.gmail.com>
- <CAJuCfpGwZqGkOm25=BWAh2QgA8Y00OUmwxsDU+_qOsVsc+KHhg@mail.gmail.com>
- <20261102090125.58a2e80d1669c681c33ed20b@linux-foundation.org> <CAJuCfpGvLt+QDw+n0QnZmBqryMrX+SRZJUTqFhVNR-EXpXBRpg@mail.gmail.com>
-In-Reply-To: <CAJuCfpGvLt+QDw+n0QnZmBqryMrX+SRZJUTqFhVNR-EXpXBRpg@mail.gmail.com>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Tue, 3 Nov 2026 18:06:59 -0800
-X-Gm-Features: AclHuK9a3R3Bk8Y8NTBpy7q1LcP4CVXMf0d8lIiveKtvu79UpNEuQo-0lJdArDQ
-Message-ID: <CAJuCfpHxk3nAnH7xsqGEtJFDo=ZVWKwWfmck5fSvuLmnrG647Q@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] selftests/proc: use RSS in /proc/pid/smaps_rollup
- tearing tests
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: david@kernel.org, ljs@kernel.org, jannh@google.com, liam@infradead.org, 
-	willy@infradead.org, paulmck@kernel.org, pfalcato@suse.de, 
-	usama.arif@linux.dev, vbabka@kernel.org, linux-fsdevel@vger.kernel.org, 
-	yi1.lai@intel.com, oe-lkp@lists.linux.dev, lkp@intel.com, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 2, 2026 at 9:21=E2=80=AFAM Suren Baghdasaryan <surenb@google.co=
-m> wrote:
->
-> On Mon, Nov 2, 2026 at 9:01=E2=80=AFAM Andrew Morton <akpm@linux-foundati=
-on.org> wrote:
-> >
-> > On Mon, 2 Nov 2026 08:15:47 -0800 Suren Baghdasaryan <surenb@google.com=
-> wrote:
-> >
-> > > > Ah, I see now why handling READ_IMPLIES_EXEC is needed. Then your
-> > > > complete fix looks fine. Perhaps we should mention this pre-ARMv6 C=
-PU
-> > > > detail in the changelog of your fix to explain why READ_IMPLIES_EXE=
-C
-> > > > is important here?
-> > >
-> > > I guess I have to ask whether you want to post your fix as a followup
-> > > to mine or if I should fold them into one patch and post a v3. What's
-> > > your preference?
-> >
-> > yes, please just prepare a v3.  I don't think bot will be offended.
->
-> Ok, I'll wait a day for others to take a look and will post v3.
-> Thanks!
+Hi Slava,
 
-I posted v3 at https://lore.kernel.org/all/20261104015447.363602-1-surenb@g=
-oogle.com/
+> I've accepted this patchset [1] recently with some modifications on my
+> side. I assume that it has fixed the issue already. Am I wrong?
 
-Pedro, I confirm that page migration will not change Rss even
-temporarily because pagetable changes are made under the PTE lock and
-smaps walk takes the same lock. It will see either a present PTE or a
-migration entry which it also counts in Rss (via
-smaps_account(present=3Dfalse)).
+You are right, it fixes the issue. I missed that patchset: it was not
+sent to syzbot, so it is not listed on the syzbot page, and that was
+where I looked for earlier fixes. Sorry for the noise.
+
+To be sure, I applied ed8b389cf5e1 ("hfsplus: fix B-tree node leak on
+hfs_btree_open() error path") from your for-next branch on top of
+next-20261023 and ran the syzbot C reproducer in QEMU (x86_64, kmemleak):
+
+  next-20261023:               leak reported in 1 of 1 runs
+  next-20261023 + ed8b389cf5e1: no leak in 3 of 3 runs, two of which
+                               ran with slub_debug=FZPU
+
+Please drop my patch.
+
+That commit has no Reported-by or Closes tag, so syzbot will keep this
+report open. If you can still amend it, could you add these?
+
+  Reported-by: syzbot+98547b0428b6a6a3467c@syzkaller.appspotmail.com
+  Closes: https://syzkaller.appspot.com/bug?extid=98547b0428b6a6a3467c
+
+Otherwise I can send a "#syz fix:" command once the commit is in
+linux-next.
+
+Tested-by: Song jeonghak <thdwjdgkr123@gmail.com>
+
+Regards,
+Song jeonghak
