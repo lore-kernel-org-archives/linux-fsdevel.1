@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793815977;
-	b=VVld+uQkQqIqVEa76Iy/9T8jZbHr/lSe5kQbaqSwu0GmGz9WpLsxmS4pqiRYgcpldYE+
-	 ZQ+ZZirHgVh2kLrJUBb5gTHTWeYKLF3xkufKVTQ+olfTFziTTU8n5Bf8bZpT6MJ3pdkNP
-	 uWbvhQsbUvBOqdAeD5YXR/pivyjxf0DBP9Lbx/edlfpkZp3HjfqvmNv6fZ4fZno2WktHo
-	 cSU3qguyoF7JjrYyt0RyIZ1wMSBRQWDE4f31d1PMLmP9WW9I5a8Gk2nprjP8rVzXiFkrQ
-	 jT8XxpuuP1INITrqEkxizm1OPuTMG5iY46/qmR1bx64WveJZT9btD7LBahlHEASsJmg==
+	t=1793815974;
+	b=oHhBZlPWGXi4lcF8ZWfcx/Co5507XqkIfgxOwx8PSEryexlvFvP1/KCE1y5TG+rCSffU
+	 RjoiVa7DtnHTIpI97Yh+GM6VbUZ0VGNxHzGPF+uh8MNEe39gAqft2YGeZk3micdefE9hM
+	 AY4DJzKbaTH6fvhnrIx1LDGhkbDX+HiHu2UoNdplVD0vDnUVThxrSH+hCirZfhQl/FZv4
+	 Z3qdEIX6HDr5hQuBAtaBx0maQ0w2uMkYOxSue2/CdpLY3jMeQHuGvn8RbXYII7DQWCadd
+	 XGRMlcsUsj+JYWBU7ZIF99cPhnnMOByO8w6AfYGzffQctBFH+Mxb5w+CA1FURBNb2zA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793815977;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793815974;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=7Enh3DX3qSjm2edHW5Rh2OeU55mJDNu85bt2+Ev8Rvg=;
-	b=OA2goY9wm6UEPxSv9tr/3f3In8Van5IoXl+XIuvYkqx/trQVlnl9IZYc8zYBo2xHjmfv
-	 i8O+Sd9xpOW5RI8UKmMSNEYAyPQI01OtWNODWK4hyjHpGsyJurSp35GfoIvQKl9MfTfV2
-	 qQ+XqZY8mGngo7JNppsQHbVoS0txRir2QLdhLclQ8/Ivsv5hY9+4iEJ2LxNyYumbfID5w
-	 uPQeb4ZwJH1qdojw00H1emaL4K3GcE02S3CMvVmXj5iu2kWWV9DCvQTDlXNfHsEbBGEVr
-	 hT9NR166ExaPCt/IL0KPeu246ci1KbssLzdIiOUK4Ikllgy/mXy/a8seVAlsaiFX2fA==
+	bh=+uwyiGKRiSmAxxP7JEhVVA1bBtJMZWyBv1xo2sUemYU=;
+	b=5cow6qnQGFZret4yHOYM4W2Y7mi7v3KNpKISwcaMmzjNluPES5P236aa6/nMqu8mxZSZ
+	 Hp5A101RA7A1aAa+y1xFuiDspbWWzjGheoPmfnuur21stYBOPJWsUU1gfXn5dDJjCG1mY
+	 P3/intFnsOxdUi2oidnjkn+jr/v4beKfZVmI3TtwCidCbw9CoTlgghN52Q9IxvmTk45Y4
+	 /+sflEeH6bkxUs1cDvSM86I6nXjxl9lrmRyP9m3Cgyj+eMOJS6IAdsNhc7eWbfLZfXDX5
+	 dbLoqRpolSiR9EHZcG2IoUOQWH50XYLv6iZgwJgDwl6yf0J3loWMojekA6UVw6OmIvw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Zo5TsIx7;
-	arc=none smtp.remote-ip=209.85.216.41
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=NOepbPM8;
+	arc=none smtp.remote-ip=209.85.216.44
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA2DE606B22B
-	for <linux-fsdevel@vger.kernel.org>; Wed,  4 Nov 2026 18:12:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BA2DE606B22B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 553A1606B215
+	for <linux-fsdevel@vger.kernel.org>; Wed,  4 Nov 2026 18:12:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 553A1606B215
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Zo5TsIx7
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-3acdcfa2bd3so914055a91.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 04 Nov 2026 10:12:56 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=NOepbPM8
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-3b09a65c76dso721698a91.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 04 Nov 2026 10:12:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793815976; x=1794420776; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793815973; x=1794420773; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=7Enh3DX3qSjm2edHW5Rh2OeU55mJDNu85bt2+Ev8Rvg=;
-        b=Zo5TsIx7SjIsRoKYAl3OT6TsA7pJ1csrJuN5ViIZQkQDdRKodOaOCIM8rUMOd++F20
-         T6Qm1fCys3TduXj+k6FtztFzMw7A5r67o8PJ1nHooAy3EOqW6w/7wSlcgxXi75LJAExx
-         Fh7jPubSl8qMUWpopZ3buum3/YLvSP7lIcdD2aEgp+ywl6pcPJL20Pwez/hyK2bSm89H
-         2N6iX/8G8L6FsMsLt9CrxVTgKW24wcBWmiwLfsbuAClaqR1xN2k7CLNzuU1UJD7hE/6r
-         XmpZV8/Vk4aCQaYiKsIc5p/AntbUY1UCQSbZ3g9+ZT/kmKLICUfmDmHFVdZzMNkPHq1m
-         5lMw==
+        bh=+uwyiGKRiSmAxxP7JEhVVA1bBtJMZWyBv1xo2sUemYU=;
+        b=NOepbPM8aH9xzVcDb9e2vAUfCXmUfbrXv1pCHX0jZYfqplJ69+NRuA1u3Bdv5FBI5y
+         3BrfpfU2LbfvoS0qIoiK+407efJqkuSfUh/wEhIg/+aZrXD+rnaMz0et6yYL2H6egD3A
+         vyuaF9HgCSvJdti6GJoBbMx/GwZy8fiuzTsH1A6WM3RmTxm0a34EPDQFbxnbZObnreeX
+         9gsKvRnwY8mxZA9LmTzEz+gZiyVvzrDe821sPdmKLzzT/s5GDr2ZOrGQQqpAzrVMwG7M
+         cztXSD7Xi9P0tWf1KxbF4cWfFoAernnAIMSO4lcKAOOnQUh30PJry/rJWD8HWvEshgSI
+         anIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793815976; x=1794420776;
+        d=1e100.net; s=20260707; t=1793815973; x=1794420773;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=7Enh3DX3qSjm2edHW5Rh2OeU55mJDNu85bt2+Ev8Rvg=;
-        b=HXlBOoPRUdTJxvf1VjuTXVujrHsNgoBsfFfqq9sBmsPEaHJ5Yxr5+jzyf2XIH+TWRN
-         J3e8aGtHGyAaS7DNChTdPI+OKsFRz7HJWHXJCfWV55X7sL1OigKD5t/xtJA87zwc/vQ2
-         Gp2IfHDJ7aF7itZsOIavHH0s8Vicdi+HiOsbRWVuuUZUPQgy5cFx2hFP6KINr1ck0PMV
-         I4xpjNq2eG0073e1tBAOMrbb5pco3XrUZ/6+InZpTwXtmyn5oX5FjOfKAldOoQqnpXJK
-         708JFYvvzWzeSmnJuUgWzqmdW6knpVdYo2sHyonKZ6ScNUMXIWkhzqRCHK0LI6fBmgv2
-         3dzQ==
-X-Gm-Message-State: APuU4Z+RJ/0ol5CrdPnmlWy75jGYV4V3LgCFe8WAjZrP9JLdekEPprmF
-	ejH/G+JqGZLmwCqV7a64RpdNqQ1ibSPkDBwpduhEdoHwGARac7T0hAyu3vv6OLcbjlRCig==
-X-Gm-Gg: AYBFou0c/jaSwFX9IH+aLYCh6ITQ7Oo8rBE1RqoswmFzU7Oh6JncGBPvrtNHjsKL0zJ
-	8dzP9VRlMstmw1sk7b8dt7e3yipOj+Pdb9lBgjIUGb3hjyiihp7ylMJyUbWJRR9EyZsLS6v4AY0
-	mbA18NRRg08gLTj362zOTLnorDSb5Vw/asODUgEBMco5Q76jURUWS+gUU26L1X9PPiqRDz8ALyO
-	rfxh8ZR/Kezy5tEMhB8Ad4lYuCveDIVxFEbQ/zE1IOtPK41lxKDjuEgVQwUkc7JDz3I6yDEHCcn
-	kTfuGLE80eje7T8McvfyM2D8DKaDWqtgTi9ppLIok9RWisNi9YzasrSKPpPSdT4IgLalomcr4Hp
-	BMUK7EXdO8Dv9UHWEKkerES8s83BxT0oYXeNrNtvYyNWAz+mJO06FVWqBIiEYu8Wn98WDWO1Thz
-	P4pFUb3hydmy3UyqLVkaPz87aMPnrzJp+A86Af5248YUv8UO38grx3UO27bVEWvNS4HyfDsnBcO
-	QldNcfcw7MWla+sAdRRjkZdAXp3fYGEhMo3dAvJ0Wbqe7h33CkHEoronFs0HNB/1O0GcA1eLzx2
-	TKNZWUnvMVg3eN7Ffz3QN8PC+WNZhZiPhUePT6NMKT+eQunvdQzLwO/7xqjKtMjGQQsR2DyuQOw
-	/6UqRO6YXoJcja7YyruYgG6zsQ08=
-X-Received: by 2002:a17:90b:534d:b0:3ac:ffb8:183b with SMTP id 98e67ed59e1d1-3ae898392e6mr14508147a91.51.1793815975958;
-        Wed, 04 Nov 2026 10:12:55 -0800 (PST)
+        bh=+uwyiGKRiSmAxxP7JEhVVA1bBtJMZWyBv1xo2sUemYU=;
+        b=fnx4KdvOkI1tX0Uf5QyZi62bnWXmtY8y7E82w2CjFRvyCUAZbR4dBuqZBt64N9WemZ
+         mRkoa05JCf0facl2v6fiX7Ye7L5yWPtThDvxvMnYKPbfMVbiDuRUkHCOOsIYRujfLuWZ
+         ViC3INzgNCsRjCxlU99Myk8XCNfUVDufsYEcldqfoCy+wo8MSEiEcUp+z5hfp5Pna0Ub
+         rzexHwWDMqDXaigiw1o4By9T3JWNiDPIjXqb9GQvbGL9IM86nfCXfyNy64d95Yqplm08
+         daZQXVZKsa8EWDIzmLQo0ljPIDcWxrYW4cKVBpqyjyLiqdvdgeOcFopNd8qLXe4zWFOV
+         TWxQ==
+X-Gm-Message-State: APuU4Z+EFvdYu+gDrD+vWk1Sc1MbwrtNuaFBm3lla009sE7QFwNW0PWZ
+	KwDzoJaNleviJX5Ns6TxS9ns1FJk3FjSYSw+UJCGsYP/ojA6zUbETNI6m21I4VU6
+X-Gm-Gg: AYBFou0NXdC0kRDWAu0ip/7WRvXdVsyL3sxUJCo7GtrOqoB9IFs+3EovnJn7BTpK5Vc
+	GRBDMpxGC4hNcl/qbn0bzmmrZjrKWlIbGQWXHsEtpjshAXBgRRz9DGtNntskHRgRdqSaX2XouA8
+	eyeMrJYqImek7sYckdlWbPXAA4xdlSntWRCHxc3qmkNWBI3Y8gEoZDptWrieJEcWENpVhIQ+4iw
+	ZUJhO00b5Sir63zgkTS77mRf04iakTYLL0dRR+0GniHmDpjDCh6Y9hIFmRoaqPIPph5FKCateZ/
+	jPG4GjWhec6ER1A4huN/2VQeasppXsGKK8aPktzqoAXt0vRvYwl7voUlgn17XxXguep1NZAfV4O
+	6FBgneKP+3f3oypvLvEqxTAviTI0gnau4iafCHhscqFdELMne6c7Jk8i7uJO+4yxHCLgo6AI1eV
+	gAp16YsvQAUbVDZuBREMZ1Umf2Us5MdXGC3oGI1ANUNPdpLICAoXjU3yqFOFT3pvLJjLGcpQFKh
+	pba00FrC5ryWXGESaMU17ueOLxdtocTdMmNv1ruv4bDKfMHIAyybOHqqHydAGb5FC1rkBNH6DCc
+	QlcMLrGEnH7cDUTmtpup7AZRBD9xIXHStVBpn/Au3S1efZ3XMlRuhTjpErhcQAZvU/k5IU6wrts
+	P3i43gj8aVl9oOpXH9bMCtolw6MI=
+X-Received: by 2002:a17:90b:33cb:b0:3a0:9640:803a with SMTP id 98e67ed59e1d1-3ae895a5c2fmr14528566a91.5.1793815973278;
+        Wed, 04 Nov 2026 10:12:53 -0800 (PST)
 Received: from archlinux.tail3acd4.ts.net ([69.110.143.170])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b0b31a3efasm78326a91.9.2026.11.04.10.12.54
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b0b31a3efasm78326a91.9.2026.11.04.10.12.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Nov 2026 10:12:55 -0800 (PST)
+        Wed, 04 Nov 2026 10:12:52 -0800 (PST)
 From: Vitali Lovich <vlovich@gmail.com>
 To: linux-fsdevel@vger.kernel.org,
 	linux-xfs@vger.kernel.org
@@ -86,9 +86,9 @@ Cc: brauner@kernel.org,
 	jack@suse.cz,
 	cem@kernel.org,
 	djwong@kernel.org
-Subject: [RFC PATCH 6/6] xfs: use range-based DIO draining for post-EOF zeroing
-Date: Wed,  4 Nov 2026 10:12:46 -0800
-Message-ID: <65b0070006e404009cf16bc78989f43fae20acb8.1793815542.git.vlovich@gmail.com>
+Subject: [RFC PATCH 4/6] xfs: add range-drain state and latch-based DIO admission
+Date: Wed,  4 Nov 2026 10:12:44 -0800
+Message-ID: <027a4cae2ffb75a2801e6296298533da7d57a215.1793815542.git.vlovich@gmail.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <cover.1793815542.git.vlovich@gmail.com>
 References: <cover.1793815542.git.vlovich@gmail.com>
@@ -103,335 +103,695 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Zeroing a gap before a direct write normally drains DIO with exclusive
-IOLOCK. Use range draining for block-aligned, non-atomic data-device
-writes entering write checks beyond EOF with shared IOLOCK.
+Prepare XFS for range draining with lazily allocated inode-private state,
+retained across VFS inode recycling and freed at XFS inode reclamation.
+Provide ->dio_drain_complete to resolve the state for older requests.
 
-Drop IOLOCK before obtaining the lazy drain state and its mutex, then
-reacquire through xfs_ilock_iocb_for_write() and repeat write checks.
-A drainer may need IOLOCK_EXCL during these checks; a second drainer must
-not hold shared IOLOCK while waiting for its mutex, or both would block.
-Publish the exclusion under shared IOLOCK, demoting first if required,
-and drain the pre-cutover cohort while admitting disjoint new DIO.
+Register provisionally before the final latch range snapshot for every
+direct read and write submission. Transfer the token to iomap, and obtain
+a fresh admission for simple-read fallback or write-check retries.
 
-Round the exclusion outward to the larger of the filesystem block size
-and mapping_max_folio_size() to cover every folio touched by zeroing and
-invalidation. Recheck EOF after draining because completions can advance
-it, then zero any remaining gap under MMAPLOCK_EXCL.
+Overlapping IOCB_NOWAIT requests return -EAGAIN. Blocking requests drop
+IOLOCK before waiting for a nonoverlapping snapshot and contribute no DIO
+count while asleep. Writers reacquire through
+xfs_ilock_iocb_for_write(), repeat append and limit checks, and recheck
+unaligned COW eligibility because a clone can share blocks while IOLOCK
+is dropped.
 
-Finish the exclusion before submitting the triggering write, which can
-share its final folio. Release the drain mutex on every write-check exit.
-Ineligible writes retain existing handling; allocation and drain-start
-errors propagate to the caller.
+Establish the final admission and ownership rules before enabling either
+range-drain consumer.
 
-Extend the filesystem selftest to check the post-EOF drain consumer:
-park an old registered request, observe the gap exclusion, and verify
-disjoint progress, overlapping NOWAIT rejection, and preserved data.
-
-Also hold an old extending request while preparation drains, then verify
-its completed bytes survive the post-drain EOF recheck and only the
-remaining gap is zeroed.
+Provide optional root-only debugfs gates and counters for deterministic
+filesystem selftests of request revalidation. The controls pin the selected
+file and release paused tasks on close or timeout; normal builds omit them.
 
 Signed-off-by: Vitali Lovich <vlovich@gmail.com>
 ---
- fs/xfs/xfs_file.c                             | 109 +++++++++++++++---
- .../selftests/filesystems/xfs_dio_drain.c     |  41 +++++--
- 2 files changed, 125 insertions(+), 25 deletions(-)
+ fs/xfs/Kconfig              |   9 ++
+ fs/xfs/Makefile             |   2 +
+ fs/xfs/tests/xfs_dio_test.c | 190 ++++++++++++++++++++++++++++++++++++
+ fs/xfs/xfs_dio_test.h       |  32 ++++++
+ fs/xfs/xfs_file.c           | 162 ++++++++++++++++++++++++++++--
+ fs/xfs/xfs_icache.c         |   2 +
+ fs/xfs/xfs_inode.h          |   1 +
+ fs/xfs/xfs_iops.c           |   9 ++
+ fs/xfs/xfs_reflink.c        |   2 +
+ fs/xfs/xfs_super.c          |   2 +
+ 10 files changed, 401 insertions(+), 10 deletions(-)
+ create mode 100644 fs/xfs/tests/xfs_dio_test.c
+ create mode 100644 fs/xfs/xfs_dio_test.h
 
-diff --git a/fs/xfs/xfs_file.c b/fs/xfs/xfs_file.c
-index ad83328b7350..53b3d6266e03 100644
---- a/fs/xfs/xfs_file.c
-+++ b/fs/xfs/xfs_file.c
-@@ -453,6 +453,55 @@ xfs_file_splice_read(
- 	return ret;
- }
+diff --git a/fs/xfs/Kconfig b/fs/xfs/Kconfig
+index b99da294e9a3..9d36201b5cdc 100644
+--- a/fs/xfs/Kconfig
++++ b/fs/xfs/Kconfig
+@@ -204,6 +204,15 @@ config XFS_WARN
+ 	  However, similar to XFS_DEBUG, it is only advisable to use this if you
+ 	  are debugging a particular problem.
  
-+/*
-+ * Serialize zeroing with I/O to all cache folios that can cover the old EOF
-+ * block and gap, not unrelated requests outside those folios. Clear the
-+ * exclusion before submitting this write, which can share the final folio.
-+ * Drain the finite cohort admitted before the generation cutover, including
-+ * COW end-I/O remapping. New unrelated requests can proceed under shared IOLOCK.
-+ */
-+static int
-+xfs_file_write_zero_eof_range(
-+	struct kiocb		*iocb,
-+	loff_t			isize,
-+	unsigned int		*iolock,
-+	struct inode_dio_drain	*drain)
-+{
-+	struct inode		*inode = file_inode(iocb->ki_filp);
-+	struct xfs_inode	*ip = XFS_I(inode);
-+	loff_t			granularity = max_t(loff_t, i_blocksize(inode),
-+					mapping_max_folio_size(inode->i_mapping));
-+	loff_t			start = round_down(isize, granularity);
-+	loff_t			last = (iocb->ki_pos - 1) | (granularity - 1);
-+	int			error = 0;
++config XFS_DIO_TEST
++	bool "XFS direct I/O filesystem selftest synchronization"
++	depends on XFS_FS && DEBUG_FS
++	help
++	  Enable root-only debugfs synchronization and event counters used by
++	  direct I/O selftests on a mounted XFS filesystem. Tests can pause a
++	  selected inode at explicit events; closing the control file or a
++	  ten-second timeout releases paused tasks. Say N for production kernels.
 +
-+	error = kiocb_modified(iocb);
-+	if (error)
-+		return error;
-+	if (*iolock == XFS_IOLOCK_EXCL) {
-+		xfs_ilock_demote(ip, XFS_IOLOCK_EXCL);
-+		*iolock = XFS_IOLOCK_SHARED;
+ config XFS_DEBUG
+ 	bool "XFS Debugging support"
+ 	depends on XFS_FS
+diff --git a/fs/xfs/Makefile b/fs/xfs/Makefile
+index 399a207f2d0e..2c31202b6ba1 100644
+--- a/fs/xfs/Makefile
++++ b/fs/xfs/Makefile
+@@ -110,6 +110,8 @@ xfs-y				+= xfs_aops.o \
+ 				   xfs_verify_media.o \
+ 				   xfs_xattr.o
+ 
++xfs-$(CONFIG_XFS_DIO_TEST) += tests/xfs_dio_test.o
++
+ # low-level transaction/log code
+ xfs-y				+= xfs_log.o \
+ 				   xfs_log_cil.o \
+diff --git a/fs/xfs/tests/xfs_dio_test.c b/fs/xfs/tests/xfs_dio_test.c
+new file mode 100644
+index 000000000000..5d7df903198d
+--- /dev/null
++++ b/fs/xfs/tests/xfs_dio_test.c
+@@ -0,0 +1,190 @@
++// SPDX-License-Identifier: GPL-2.0
++/* Test-only synchronization for real filesystem DIO selftests. */
++#include <linux/debugfs.h>
++#include <linux/file.h>
++#include <linux/fs.h>
++#include <linux/magic.h>
++#include <linux/module.h>
++#include <linux/mutex.h>
++#include <linux/spinlock.h>
++#include <linux/uaccess.h>
++#include <linux/wait.h>
++#include "xfs_dio_test.h"
++
++static DEFINE_MUTEX(control_lock);
++static DEFINE_SPINLOCK(state_lock);
++static DECLARE_WAIT_QUEUE_HEAD(event_wait);
++static struct inode *target;
++static struct file *target_file;
++static unsigned long generation;
++static bool opened;
++static unsigned long gates, timedout;
++static unsigned long hits[XFS_DIO_TEST_NR_EVENTS];
++static unsigned long values[XFS_DIO_TEST_NR_EVENTS];
++
++void xfs_dio_test_event(struct inode *inode, enum xfs_dio_test_event event,
++		unsigned long value)
++{
++	bool pause;
++	unsigned long current_generation;
++
++	spin_lock(&state_lock);
++	if (target != inode) {
++		spin_unlock(&state_lock);
++		return;
 +	}
-+	/* Folio invalidation is wider than zeroing, even for sub-page blocks. */
-+	error = inode_dio_drain_start(inode, drain, start, last);
-+	if (error)
-+		return error;
-+	inode_dio_drain_wait(inode, drain);
-+	spin_lock(&ip->i_flags_lock);
-+	isize = i_size_read(inode);
-+	spin_unlock(&ip->i_flags_lock);
-+	if (iocb->ki_pos > isize) {
-+		trace_xfs_zero_eof(ip, isize, iocb->ki_pos - isize);
-+		xfs_ilock(ip, XFS_MMAPLOCK_EXCL);
-+		error = iomap_zero_range(inode, isize, iocb->ki_pos - isize,
-+				NULL, &xfs_buffered_write_iomap_ops,
-+				&xfs_iomap_write_ops, NULL);
-+		xfs_iunlock(ip, XFS_MMAPLOCK_EXCL);
++	hits[event]++;
++	values[event] = value;
++	pause = gates & BIT(event);
++	current_generation = generation;
++	spin_unlock(&state_lock);
++	wake_up_all(&event_wait);
++	if (pause && !wait_event_timeout(event_wait,
++			READ_ONCE(generation) != current_generation ||
++			!(READ_ONCE(gates) & BIT(event)), 10 * HZ)) {
++		spin_lock(&state_lock);
++		if (generation == current_generation) {
++			timedout++;
++			gates = 0;
++		}
++		spin_unlock(&state_lock);
++		wake_up_all(&event_wait);
 +	}
-+	inode_dio_drain_finish(inode, drain);
++}
++
++static int dio_test_open(struct inode *inode, struct file *file)
++{
++	int error = 0;
++
++	mutex_lock(&control_lock);
++	if (opened)
++		error = -EBUSY;
++	else
++		opened = true;
++	mutex_unlock(&control_lock);
 +	return error;
 +}
 +
- /*
-  * Take care of zeroing post-EOF blocks when they might exist.
-  *
-@@ -467,20 +516,17 @@ xfs_file_write_zero_eof(
- 	unsigned int		*iolock,
- 	size_t			count,
- 	bool			*drained_dio,
--	struct xfs_zone_alloc_ctx *ac)
-+	struct xfs_zone_alloc_ctx *ac,
-+	struct inode_dio_drain	*drain)
- {
- 	struct xfs_inode	*ip = XFS_I(iocb->ki_filp->f_mapping->host);
- 	loff_t			isize;
- 	int			error;
- 
- 	/*
--	 * We need to serialise against EOF updates that occur in IO completions
--	 * here. We want to make sure that nobody is changing the size while
--	 * we do this check until we have placed an IO barrier (i.e. hold
--	 * XFS_IOLOCK_EXCL) that prevents new IO from being dispatched.  The
--	 * spinlock effectively forms a memory barrier once we have
--	 * XFS_IOLOCK_EXCL so we are guaranteed to see the latest EOF value and
--	 * hence be able to correctly determine if we need to run zeroing.
-+	 * Pair with EOF updates in DIO completion. The IOLOCK excludes truncate,
-+	 * so EOF can only move forwards. Recheck after establishing either a
-+	 * range exclusion or the exclusive IOLOCK and draining the relevant I/O.
- 	 */
- 	spin_lock(&ip->i_flags_lock);
- 	isize = i_size_read(VFS_I(ip));
-@@ -493,6 +539,9 @@ xfs_file_write_zero_eof(
- 	if (iocb->ki_flags & IOCB_NOWAIT)
- 		return -EAGAIN;
- 
-+	if (drain)
-+		return xfs_file_write_zero_eof_range(iocb, isize, iolock, drain);
++static int dio_test_release(struct inode *inode, struct file *file)
++{
++	struct file *old;
 +
- 	if (!*drained_dio) {
- 		/*
- 		 * If zeroing is needed and we are currently holding the iolock
-@@ -543,23 +592,49 @@ xfs_file_write_checks(
- 	struct xfs_zone_alloc_ctx *ac)
- {
- 	struct inode		*inode = iocb->ki_filp->f_mapping->host;
-+	struct inode_dio_drain	*drain = NULL;
- 	size_t			count = iov_iter_count(from);
- 	bool			drained_dio = false;
- 	ssize_t			error;
++	mutex_lock(&control_lock);
++	spin_lock(&state_lock);
++	old = target_file;
++	target_file = NULL;
++	target = NULL;
++	generation++;
++	gates = 0;
++	spin_unlock(&state_lock);
++	wake_up_all(&event_wait);
++	if (old)
++		fput(old);
++	opened = false;
++	mutex_unlock(&control_lock);
++	return 0;
++}
++
++static ssize_t dio_test_read(struct file *file, char __user *buf, size_t len,
++		loff_t *ppos)
++{
++	char result[512];
++	unsigned int i, nr;
++
++	spin_lock(&state_lock);
++	nr = scnprintf(result, sizeof(result), "%lu %lu\n", gates, timedout);
++	for (i = 0; i < XFS_DIO_TEST_NR_EVENTS; i++)
++		nr += scnprintf(result + nr, sizeof(result) - nr, "%lu %lu\n",
++				hits[i], values[i]);
++	spin_unlock(&state_lock);
++	return simple_read_from_buffer(buf, len, ppos, result, nr);
++}
++
++static ssize_t dio_test_write(struct file *file, const char __user *buf,
++		size_t len, loff_t *ppos)
++{
++	char command[80];
++	struct inode *inode;
++	unsigned long mask;
++	int fd, error = 0;
++
++	if (!len || len >= sizeof(command))
++		return -EINVAL;
++	if (copy_from_user(command, buf, len))
++		return -EFAULT;
++	command[len] = 0;
++	mutex_lock(&control_lock);
++	if (sysfs_streq(command, "release")) {
++		spin_lock(&state_lock);
++		gates = 0;
++		spin_unlock(&state_lock);
++		wake_up_all(&event_wait);
++		goto out;
++	}
++	if (sscanf(command, "gate %lu", &mask) == 1) {
++		if (mask >= BIT(XFS_DIO_TEST_NR_EVENTS)) {
++			error = -EINVAL;
++			goto out;
++		}
++		spin_lock(&state_lock);
++		gates = mask;
++		spin_unlock(&state_lock);
++		wake_up_all(&event_wait);
++		goto out;
++	}
++	if (sscanf(command, "release %lu", &mask) == 1) {
++		spin_lock(&state_lock);
++		gates &= ~mask;
++		spin_unlock(&state_lock);
++		wake_up_all(&event_wait);
++		goto out;
++	}
++	if (sscanf(command, "arm %d %lu", &fd, &mask) != 2 ||
++	    mask >= BIT(XFS_DIO_TEST_NR_EVENTS)) {
++		error = -EINVAL;
++		goto out;
++	}
++	{
++		CLASS(fd, f)(fd);
++
++		if (fd_empty(f)) {
++			error = -EBADF;
++			goto out;
++		}
++		inode = file_inode(fd_file(f));
++		if (inode->i_sb->s_magic != XFS_SUPER_MAGIC || !S_ISREG(inode->i_mode)) {
++			error = -EINVAL;
++			goto out;
++		}
++		spin_lock(&state_lock);
++		if (target) {
++			error = -EBUSY;
++		} else {
++			target_file = get_file(fd_file(f));
++			target = inode;
++			generation++;
++			gates = mask;
++			timedout = 0;
++			memset(hits, 0, sizeof(hits));
++			memset(values, 0, sizeof(values));
++		}
++		spin_unlock(&state_lock);
++	}
++out:
++	mutex_unlock(&control_lock);
++	return error ? error : len;
++}
++
++static const struct file_operations dio_test_fops = {
++	.owner = THIS_MODULE,
++	.open = dio_test_open,
++	.release = dio_test_release,
++	.read = dio_test_read,
++	.write = dio_test_write,
++	.llseek = default_llseek,
++};
++
++void xfs_dio_test_init(struct dentry *parent)
++{
++	debugfs_create_file("dio_test", 0600, parent, NULL, &dio_test_fops);
++}
+diff --git a/fs/xfs/xfs_dio_test.h b/fs/xfs/xfs_dio_test.h
+new file mode 100644
+index 000000000000..178b668580d8
+--- /dev/null
++++ b/fs/xfs/xfs_dio_test.h
+@@ -0,0 +1,32 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#ifndef __XFS_DIO_TEST_H__
++#define __XFS_DIO_TEST_H__
++
++struct inode;
++struct dentry;
++
++enum xfs_dio_test_event {
++	XFS_DIO_TEST_BATCH_LEADER,
++	XFS_DIO_TEST_BATCH_FOLLOWER,
++	XFS_DIO_TEST_BATCH_COLLECT,
++	XFS_DIO_TEST_BATCH_ZERO,
++	XFS_DIO_TEST_WAIT_UNLOCKED,
++	XFS_DIO_TEST_WRITE_CHECKS,
++	XFS_DIO_TEST_WRITE_ADMIT,
++	XFS_DIO_TEST_WRITE_REJECT,
++	XFS_DIO_TEST_UNALIGNED_RECHECK,
++	XFS_DIO_TEST_REMAP_ACTIVE,
++	XFS_DIO_TEST_REMAP_UPGRADE,
++	XFS_DIO_TEST_NR_EVENTS,
++};
++
++#ifdef CONFIG_XFS_DIO_TEST
++void xfs_dio_test_init(struct dentry *parent);
++void xfs_dio_test_event(struct inode *inode, enum xfs_dio_test_event event,
++		unsigned long value);
++#else
++static inline void xfs_dio_test_init(struct dentry *parent) { }
++static inline void xfs_dio_test_event(struct inode *inode,
++		enum xfs_dio_test_event event, unsigned long value) { }
++#endif
++#endif
+diff --git a/fs/xfs/xfs_file.c b/fs/xfs/xfs_file.c
+index 124a037cfa9f..e7452343671b 100644
+--- a/fs/xfs/xfs_file.c
++++ b/fs/xfs/xfs_file.c
+@@ -11,6 +11,7 @@
+ #include "xfs_trans_resv.h"
+ #include "xfs_mount.h"
+ #include "xfs_inode.h"
++#include "xfs_dio_test.h"
+ #include "xfs_trans.h"
+ #include "xfs_inode_item.h"
+ #include "xfs_bmap.h"
+@@ -38,6 +39,7 @@
+ #include <linux/mount.h>
+ #include <linux/filelock.h>
+ #include <linux/bio-integrity.h>
++#include <linux/wait_bit.h>
  
-+	/*
-+	 * Another drainer may need IOLOCK_EXCL during write checks. Do not pin
-+	 * shared IOLOCK while waiting for its drain mutex.
-+	 */
-+	if (*iolock == XFS_IOLOCK_SHARED &&
-+	    (iocb->ki_flags & IOCB_DIRECT) &&
-+	    !(iocb->ki_flags & IOCB_ATOMIC) &&
-+	    !XFS_IS_REALTIME_INODE(XFS_I(inode)) &&
-+	    IS_ALIGNED(iocb->ki_pos | count, i_blocksize(inode)) &&
-+	    iocb->ki_pos > i_size_read(inode)) {
+ static const struct vm_operations_struct xfs_file_vm_ops;
+ 
+@@ -206,6 +208,8 @@ xfs_ilock_iocb_for_write(
+ 	    xfs_iflags_test(ip, XFS_IREMAPPING)) {
+ 		xfs_iunlock(ip, *lock_mode);
+ 		*lock_mode = XFS_IOLOCK_EXCL;
++		xfs_dio_test_event(VFS_I(ip), XFS_DIO_TEST_REMAP_UPGRADE,
++				*lock_mode);
+ 		return xfs_ilock_iocb(iocb, *lock_mode);
+ 	}
+ 
+@@ -226,6 +230,80 @@ xfs_dio_read_bounce_submit_io(
+ 			iomap_ioend_flags(&iter->iomap) | IOMAP_IOEND_DIRECT);
+ }
+ 
++static bool
++xfs_dio_range_overlap(
++	struct xfs_inode	*ip,
++	loff_t			pos,
++	size_t			len)
++{
++	struct inode_dio_drain	*drain;
++	bool			overlap;
++
++	/* Acquire the initialized allocation published by inode_dio_drain_get(). */
++	drain = smp_load_acquire(&ip->i_dio_drain);
++	overlap = inode_dio_drain_overlap(VFS_I(ip), drain, pos, len);
++	return overlap;
++}
++
++/* Register provisionally before the final exclusion snapshot. */
++static bool
++xfs_dio_try_begin(
++	struct xfs_inode	*ip,
++	loff_t			pos,
++	size_t			len,
++	unsigned int		*dio_flags)
++{
++	bool			generation;
++
++	if (!inode_dio_try_begin(VFS_I(ip), &ip->i_dio_drain, pos, len,
++			&generation))
++		return false;
++	*dio_flags &= ~IOMAP_DIO_GENERATION;
++	*dio_flags |= IOMAP_DIO_ACCOUNTED;
++	if (generation)
++		*dio_flags |= IOMAP_DIO_GENERATION;
++	return true;
++}
++
++/* No request is counted while waiting for an overlapping exclusion. */
++static int
++xfs_dio_range_wait(
++	struct kiocb		*iocb,
++	size_t			len,
++	unsigned int		*iolock,
++	bool			write)
++{
++	struct inode		*inode = file_inode(iocb->ki_filp);
++	struct xfs_inode	*ip = XFS_I(inode);
++	struct inode_dio_drain	*drain;
++	int			waited = 0;
++	int			error;
++
++	while (xfs_dio_range_overlap(ip, iocb->ki_pos, len)) {
 +		if (iocb->ki_flags & IOCB_NOWAIT)
 +			return -EAGAIN;
-+		xfs_iunlock(XFS_I(inode), *iolock);
-+		drain = inode_dio_drain_get(&XFS_I(inode)->i_dio_drain);
-+		if (IS_ERR(drain)) {
-+			xfs_ilock(XFS_I(inode), *iolock);
-+			return PTR_ERR(drain);
++		/* The successful overlap check acquired this permanent allocation. */
++		drain = READ_ONCE(ip->i_dio_drain);
++		xfs_iunlock(ip, *iolock);
++		xfs_dio_test_event(inode, XFS_DIO_TEST_WAIT_UNLOCKED,
++				iocb->ki_pos);
++		wait_var_event(&inode->i_dio_count,
++			!inode_dio_drain_overlap(inode, drain, iocb->ki_pos, len));
++		/* Re-evaluate the required write lock mode after dropping IOLOCK. */
++		if (write) {
++			error = xfs_ilock_iocb_for_write(iocb, iolock);
++			if (error) {
++				*iolock = 0;
++				return error;
++			}
++		} else {
++			xfs_ilock(ip, *iolock);
 +		}
-+		mutex_lock(&drain->lock);
-+		error = xfs_ilock_iocb_for_write(iocb, iolock);
++		waited = 1;
++	}
++	return waited;
++}
++
+ static const struct iomap_dio_ops xfs_dio_read_bounce_ops = {
+ 	.submit_io	= xfs_dio_read_bounce_submit_io,
+ 	.bio_set	= &iomap_ioend_bioset,
+@@ -237,6 +315,10 @@ xfs_file_dio_read(
+ 	struct iov_iter		*to)
+ {
+ 	struct xfs_inode	*ip = XFS_I(file_inode(iocb->ki_filp));
++	unsigned int		iolock = XFS_IOLOCK_SHARED;
++	unsigned int		dio_flags = 0;
++	bool			bounce = mapping_stable_writes(iocb->ki_filp->f_mapping);
++	bool			simple = !bounce;
+ 	ssize_t			ret;
+ 
+ 	trace_xfs_file_direct_read(iocb, to);
+@@ -249,15 +331,27 @@ xfs_file_dio_read(
+ 	ret = xfs_ilock_iocb(iocb, XFS_IOLOCK_SHARED);
+ 	if (ret)
+ 		return ret;
+-	if (mapping_stable_writes(iocb->ki_filp->f_mapping)) {
++retry:
++	ret = xfs_dio_range_wait(iocb, iov_iter_count(to), &iolock, false);
++	if (ret < 0)
++		goto out_unlock;
++	if (!xfs_dio_try_begin(ip, iocb->ki_pos, iov_iter_count(to), &dio_flags))
++		goto retry;
++	if (!simple) {
+ 		ret = iomap_dio_rw(iocb, to, &xfs_read_iomap_ops,
+-				&xfs_dio_read_bounce_ops, 0, NULL, 0);
++					bounce ? &xfs_dio_read_bounce_ops : NULL,
++					dio_flags,
++					NULL, 0);
+ 	} else {
+-		ret = iomap_dio_read_simple(iocb, to, xfs_read_iomap_begin, 0);
+-		if (ret == -ENOTBLK)
+-			ret = iomap_dio_rw(iocb, to, &xfs_read_iomap_ops, NULL,
+-					0, NULL, 0);
++		ret = iomap_dio_read_simple(iocb, to, xfs_read_iomap_begin,
++				dio_flags);
++		if (ret == -ENOTBLK) {
++			/* Fallback needs a fresh admission and registration. */
++			simple = false;
++			goto retry;
++		}
+ 	}
++out_unlock:
+ 	xfs_iunlock(ip, XFS_IOLOCK_SHARED);
+ 
+ 	return ret;
+@@ -436,9 +530,10 @@ xfs_file_write_zero_eof(
+ /*
+  * Common pre-write limit and setup checks.
+  *
+- * Called with the iolock held either shared and exclusive according to
+- * @iolock, and returns with it held.  Might upgrade the iolock to exclusive
+- * if called for a direct write beyond i_size.
++ * Called with the iolock held shared or exclusive according to @iolock.
++ * Returns with it held unless reacquisition fails, in which case *@iolock
++ * is set to zero.  Might upgrade the iolock to exclusive if called for a
++ * direct write beyond i_size.
+  */
+ STATIC ssize_t
+ xfs_file_write_checks(
+@@ -453,10 +548,25 @@ xfs_file_write_checks(
+ 	ssize_t			error;
+ 
+ restart:
++	/* Normalize append position and enforce limits before range admission. */
+ 	error = generic_write_checks(iocb, from);
++	xfs_dio_test_event(inode, XFS_DIO_TEST_WRITE_CHECKS,
++			iov_iter_count(from));
+ 	if (error <= 0)
+ 		return error;
+ 
++	if (iocb->ki_flags & IOCB_DIRECT) {
++		error = xfs_dio_range_wait(iocb, iov_iter_count(from), iolock,
++				true);
++		if (error < 0)
++			return error;
 +		if (error) {
-+			*iolock = 0;
-+			goto out;
++			iov_iter_reexpand(from, count);
++			/* EOF and limits can change while IOLOCK is dropped. */
++			goto restart;
 +		}
 +	}
- restart:
- 	/* Normalize append position and enforce limits before range admission. */
- 	error = generic_write_checks(iocb, from);
- 	xfs_dio_test_event(inode, XFS_DIO_TEST_WRITE_CHECKS,
- 			iov_iter_count(from));
- 	if (error <= 0)
--		return error;
-+		goto out;
- 
- 	if (iocb->ki_flags & IOCB_DIRECT) {
- 		error = xfs_dio_range_wait(iocb, iov_iter_count(from), iolock,
- 				true);
- 		if (error < 0)
--			return error;
-+			goto out;
- 		if (error) {
- 			iov_iter_reexpand(from, count);
- 			/* EOF and limits can change while IOLOCK is dropped. */
-@@ -576,7 +651,7 @@ xfs_file_write_checks(
- 	}
- 
- 	if (error)
--		return error;
-+		goto out;
++
+ 	if (iocb->ki_flags & IOCB_NOWAIT) {
+ 		error = break_layout(inode, false);
+ 		if (error == -EWOULDBLOCK)
+@@ -735,6 +845,7 @@ xfs_file_dio_write_aligned(
+ {
+ 	unsigned int		iolock = XFS_IOLOCK_SHARED;
+ 	unsigned int		dio_flags = 0;
++	size_t			count = iov_iter_count(from);
+ 	ssize_t			ret;
  
  	/*
- 	 * For changing security info in file_remove_privs() we need i_rwsem
-@@ -588,7 +663,7 @@ xfs_file_write_checks(
- 		error = xfs_ilock_iocb(iocb, *iolock);
- 		if (error) {
- 			*iolock = 0;
--			return error;
-+			goto out;
- 		}
- 		goto restart;
+@@ -748,6 +859,7 @@ xfs_file_dio_write_aligned(
+ 	ret = xfs_ilock_iocb_for_write(iocb, &iolock);
+ 	if (ret)
+ 		return ret;
++retry_checks:
+ 	ret = xfs_file_write_checks(iocb, from, &iolock, ac);
+ 	if (ret)
+ 		goto out_unlock;
+@@ -763,10 +875,18 @@ xfs_file_dio_write_aligned(
  	}
-@@ -605,14 +680,18 @@ xfs_file_write_checks(
- 	 */
- 	if (iocb->ki_pos > i_size_read(inode)) {
- 		error = xfs_file_write_zero_eof(iocb, from, iolock, count,
--				&drained_dio, ac);
-+				&drained_dio, ac, drain);
- 		if (error == 1)
- 			goto restart;
- 		if (error)
--			return error;
-+			goto out;
- 	}
- 
--	return kiocb_modified(iocb);
-+	error = kiocb_modified(iocb);
-+out:
-+	if (drain)
-+		mutex_unlock(&drain->lock);
-+	return error;
- }
- 
- static ssize_t
-diff --git a/tools/testing/selftests/filesystems/xfs_dio_drain.c b/tools/testing/selftests/filesystems/xfs_dio_drain.c
-index f2e005f6e896..c84f298ff3e4 100644
---- a/tools/testing/selftests/filesystems/xfs_dio_drain.c
-+++ b/tools/testing/selftests/filesystems/xfs_dio_drain.c
-@@ -21,6 +21,7 @@
- #include <string.h>
- #include <sys/ioctl.h>
- #include <sys/mman.h>
-+#include <sys/stat.h>
- #include <sys/statfs.h>
- #include <sys/syscall.h>
- #include <sys/uio.h>
-@@ -122,16 +123,19 @@ static int faultfd(void *buffer, size_t length)
- }
- 
- /*
-- * Stop a real, registered DIO in GUP. A drain must wait for this old request,
-- * although its file range is disjoint from the punch or post-EOF gap.
-+ * Stop a real, registered DIO in GUP. A drain must wait for this old request.
-+ * The overwrite cases use a disjoint range; the extending case starts exactly
-+ * at EOF and must finish before the farther writer zeroes the remaining gap.
-  * Probe the exclusion before checking that newer disjoint I/O can complete.
-  */
--static int cohort_test(int fd, size_t unit, bool eof)
-+static int cohort_test(int fd, size_t unit, bool eof, bool advance_eof)
- {
--	struct request old = { .fd = fd, .length = unit, .offset = unit };
-+	struct request old = { .fd = fd, .length = unit,
-+		.offset = (advance_eof ? 8 : 1) * unit };
- 	struct request drain = { .fd = fd, .length = unit,
- 		.offset = (eof ? 10 : 4) * unit, .punch = !eof };
- 	struct uffd_msg message;
-+	struct stat st;
- 	struct uffdio_copy copy = { .len = unit };
- 	struct pollfd pollfd;
- 	struct iovec iov;
-@@ -190,13 +194,14 @@ static int cohort_test(int fd, size_t unit, bool eof)
- 	}
- 	ok = excluded && progressed && rejected_write && !atomic_load(&drain.done) &&
- 		!atomic_load(&old.done);
-+	ok &= !fstat(fd, &st) && st.st_size == 8 * (off_t)unit;
- 	if (!ok)
- 		ksft_print_msg("%s: exclusion=%d disjoint-progress=%d drain-done=%d\n",
- 			       eof ? "EOF" : "punch", excluded, progressed,
- 			       atomic_load(&drain.done));
- 	/* Resolve every missing source page and release both operations. */
--	memset(buffer, 0x5a, unit);
--	copy.src = (uintptr_t)buffer;
-+	memset(buffer + 2 * unit, advance_eof ? 0xa5 : 0x5a, unit);
-+	copy.src = (uintptr_t)(buffer + 2 * unit);
- 	copy.dst = (uintptr_t)missing;
- 	if (ioctl(uffd, UFFDIO_COPY, &copy))
- 		ksft_exit_fail_msg("UFFDIO_COPY failed: %s\n", strerror(errno));
-@@ -206,15 +211,19 @@ static int cohort_test(int fd, size_t unit, bool eof)
- 	ok &= drain.result == (eof ? (ssize_t)unit : 0);
- 	if (fsync(fd))
- 		ok = false;
-+	ok &= !fstat(fd, &st) &&
-+		st.st_size == (eof ? 11 : 8) * (off_t)unit;
- 	memset(buffer, 0xff, 12 * unit);
- 	ret = pread(fd, buffer, (eof ? 11 : 8) * unit, 0);
- 	ok &= ret == (eof ? 11 : 8) * (ssize_t)unit;
- 	for (size_t i = 0; i < (eof ? 11 : 8) * unit; i++) {
- 		unsigned char expected = 0x5a;
- 
--		if (eof ? i >= 8 * unit && i < 10 * unit :
-+		if (eof ? i >= (advance_eof ? 9 : 8) * unit && i < 10 * unit :
- 			  i >= 4 * unit && i < 5 * unit)
- 			expected = 0;
-+		if (advance_eof && i >= 8 * unit && i < 9 * unit)
-+			expected = 0xa5;
- 		if (((unsigned char *)buffer)[i] != expected) {
- 			ksft_print_msg("bad preserved data/gap at byte %zu\n", i);
- 			ok = false;
-@@ -341,9 +350,9 @@ int main(int argc, char **argv)
- 	free(path);
- 	signal(SIGALRM, timeout_handler);
- 	alarm(30);
--	ksft_set_plan(3);
--	for (int eof = 0; eof < 1; eof++) {
--		result = cohort_test(fd, unit, eof);
-+	ksft_set_plan(5);
-+	for (int eof = 0; eof < 2; eof++) {
-+		result = cohort_test(fd, unit, eof, false);
- 		if (result < 0)
- 			ksft_test_result_skip("%s drain needs kernel-fault userfaultfd support\n",
- 					      eof ? "EOF" : "punch");
-@@ -353,6 +362,18 @@ int main(int argc, char **argv)
- 			failed |= !result;
- 		}
- 	}
-+	/*
-+	 * The old cohort member extends EOF from 8 to 9 units while the farther
-+	 * writer is draining it. The preparer must reread i_size after draining:
-+	 * zeroing from its original 8-unit snapshot would destroy the 0xa5 data.
-+	 */
-+	result = cohort_test(fd, unit, true, true);
-+	if (result < 0)
-+		ksft_test_result_skip("EOF advance needs kernel-fault userfaultfd support\n");
-+	else {
-+		ksft_test_result(result, "EOF advance during drain preserves completed data\n");
-+		failed |= !result;
+ 	if (mapping_stable_writes(iocb->ki_filp->f_mapping))
+ 		dio_flags |= IOMAP_DIO_BOUNCE;
++	xfs_dio_test_event(VFS_I(ip), XFS_DIO_TEST_WRITE_ADMIT, iocb->ki_pos);
++	if (!xfs_dio_try_begin(ip, iocb->ki_pos, iov_iter_count(from), &dio_flags)) {
++		xfs_dio_test_event(VFS_I(ip), XFS_DIO_TEST_WRITE_REJECT,
++				iocb->ki_pos);
++		iov_iter_reexpand(from, count);
++		goto retry_checks;
 +	}
- 	for (int cow = 0; cow < 2; cow++) {
- 		result = mapped_source_test(fd, clonefd, unit, cow);
- 		if (result < 0)
+ 	trace_xfs_file_direct_write(iocb, from);
+ 	ret = iomap_dio_rw(iocb, from, ops, dops, dio_flags, ac, 0);
+ out_unlock:
+-	xfs_iunlock(ip, iolock);
++	if (iolock)
++		xfs_iunlock(ip, iolock);
+ 	return ret;
+ }
+ 
+@@ -827,6 +947,7 @@ xfs_file_dio_write_atomic(
+ 	if (ret)
+ 		return ret;
+ 
++retry_checks:
+ 	ret = xfs_file_write_checks(iocb, from, &iolock, NULL);
+ 	if (ret)
+ 		goto out_unlock;
+@@ -840,6 +961,10 @@ xfs_file_dio_write_atomic(
+ 	trace_xfs_file_direct_write(iocb, from);
+ 	if (mapping_stable_writes(iocb->ki_filp->f_mapping))
+ 		dio_flags |= IOMAP_DIO_BOUNCE;
++	if (!xfs_dio_try_begin(ip, iocb->ki_pos, iov_iter_count(from), &dio_flags)) {
++		iov_iter_reexpand(from, ocount);
++		goto retry_checks;
++	}
+ 	ret = iomap_dio_rw(iocb, from, dops, &xfs_dio_write_ops, dio_flags,
+ 			NULL, 0);
+ 
+@@ -917,10 +1042,22 @@ xfs_file_dio_write_unaligned(
+ 		goto out_unlock;
+ 	}
+ 
++retry_checks:
+ 	ret = xfs_file_write_checks(iocb, from, &iolock, NULL);
+ 	if (ret)
+ 		goto out_unlock;
+ 
++	if (IS_ENABLED(CONFIG_XFS_DIO_TEST))
++		xfs_dio_test_event(VFS_I(ip), XFS_DIO_TEST_UNALIGNED_RECHECK,
++				(iolock << 8) | xfs_is_cow_inode(ip));
++
++	/* The checks can drop IOLOCK, allowing a clone to share this block. */
++	if (xfs_is_cow_inode(ip)) {
++		trace_xfs_reflink_bounce_dio_write(iocb, from);
++		ret = -ENOTBLK;
++		goto out_unlock;
++	}
++
+ 	/*
+ 	 * If we are doing exclusive unaligned I/O, this must be the only I/O
+ 	 * in-flight.  Otherwise we risk data corruption due to unwritten extent
+@@ -932,6 +1069,11 @@ xfs_file_dio_write_unaligned(
+ 
+ 	if (mapping_stable_writes(iocb->ki_filp->f_mapping))
+ 		flags |= IOMAP_DIO_BOUNCE;
++	xfs_dio_test_event(VFS_I(ip), XFS_DIO_TEST_WRITE_ADMIT, iocb->ki_pos);
++	if (!xfs_dio_try_begin(ip, iocb->ki_pos, iov_iter_count(from), &flags)) {
++		iov_iter_reexpand(from, count);
++		goto retry_checks;
++	}
+ 
+ 	trace_xfs_file_direct_write(iocb, from);
+ 	ret = iomap_dio_rw(iocb, from, &xfs_direct_write_iomap_ops,
+diff --git a/fs/xfs/xfs_icache.c b/fs/xfs/xfs_icache.c
+index de8be344e987..e26df6894618 100644
+--- a/fs/xfs/xfs_icache.c
++++ b/fs/xfs/xfs_icache.c
+@@ -110,6 +110,7 @@ xfs_inode_alloc(
+ 	ip->i_mount = mp;
+ 	memset(&ip->i_imap, 0, sizeof(struct xfs_imap));
+ 	ip->i_cowfp = NULL;
++	ip->i_dio_drain = NULL;
+ 	memset(&ip->i_af, 0, sizeof(ip->i_af));
+ 	ip->i_af.if_format = XFS_DINODE_FMT_EXTENTS;
+ 	memset(&ip->i_df, 0, sizeof(ip->i_df));
+@@ -156,6 +157,7 @@ xfs_inode_free_callback(
+ 		xfs_inode_item_destroy(ip);
+ 	}
+ 
++	kfree(ip->i_dio_drain);
+ 	kmem_cache_free(xfs_inode_cache, ip);
+ }
+ 
+diff --git a/fs/xfs/xfs_inode.h b/fs/xfs/xfs_inode.h
+index 75eff68c1e39..04907a7b431f 100644
+--- a/fs/xfs/xfs_inode.h
++++ b/fs/xfs/xfs_inode.h
+@@ -41,6 +41,7 @@ typedef struct xfs_inode {
+ 	struct xfs_inode_log_item *i_itemp;	/* logging information */
+ 	struct rw_semaphore	i_lock;		/* inode lock */
+ 	atomic_t		i_pincount;	/* inode pin count */
++	struct inode_dio_drain	*i_dio_drain; /* lazily allocated DIO drain */
+ 	struct llist_node	i_gclist;	/* deferred inactivation list */
+ 
+ 	/*
+diff --git a/fs/xfs/xfs_iops.c b/fs/xfs/xfs_iops.c
+index d307ec97fac8..dec2139c0c6f 100644
+--- a/fs/xfs/xfs_iops.c
++++ b/fs/xfs/xfs_iops.c
+@@ -1278,6 +1278,14 @@ xfs_vn_tmpfile(
+ 	return finish_open_simple(file, err);
+ }
+ 
++static void
++xfs_vn_dio_drain_complete(
++	struct inode		*inode)
++{
++	/* The generation cutover orders i_dio_drain initialization before this callback. */
++	inode_dio_drain_complete(inode, READ_ONCE(XFS_I(inode)->i_dio_drain));
++}
++
+ static const struct inode_operations xfs_inode_operations = {
+ 	.get_inode_acl		= xfs_get_acl,
+ 	.set_acl		= xfs_set_acl,
+@@ -1289,6 +1297,7 @@ static const struct inode_operations xfs_inode_operations = {
+ 	.sync_lazytime		= xfs_vn_sync_lazytime,
+ 	.fileattr_get		= xfs_fileattr_get,
+ 	.fileattr_set		= xfs_fileattr_set,
++	.dio_drain_complete	= xfs_vn_dio_drain_complete,
+ };
+ 
+ static const struct inode_operations xfs_dir_inode_operations = {
+diff --git a/fs/xfs/xfs_reflink.c b/fs/xfs/xfs_reflink.c
+index 104542b10d9e..3e1b7d628477 100644
+--- a/fs/xfs/xfs_reflink.c
++++ b/fs/xfs/xfs_reflink.c
+@@ -12,6 +12,7 @@
+ #include "xfs_mount.h"
+ #include "xfs_defer.h"
+ #include "xfs_inode.h"
++#include "xfs_dio_test.h"
+ #include "xfs_trans.h"
+ #include "xfs_bmap.h"
+ #include "xfs_bmap_util.h"
+@@ -1763,6 +1764,7 @@ xfs_reflink_remap_prep(
+ 	xfs_iflags_set(src, XFS_IREMAPPING);
+ 	if (inode_in != inode_out)
+ 		xfs_ilock_demote(src, XFS_IOLOCK_EXCL | XFS_MMAPLOCK_EXCL);
++	xfs_dio_test_event(inode_in, XFS_DIO_TEST_REMAP_ACTIVE, 0);
+ 
+ 	return 0;
+ out_unlock:
+diff --git a/fs/xfs/xfs_super.c b/fs/xfs/xfs_super.c
+index 5a06132aa384..a7e84ddd145b 100644
+--- a/fs/xfs/xfs_super.c
++++ b/fs/xfs/xfs_super.c
+@@ -12,6 +12,7 @@
+ #include "xfs_sb.h"
+ #include "xfs_mount.h"
+ #include "xfs_inode.h"
++#include "xfs_dio_test.h"
+ #include "xfs_btree.h"
+ #include "xfs_bmap.h"
+ #include "xfs_alloc.h"
+@@ -2677,6 +2678,7 @@ init_xfs_fs(void)
+ 		goto out_cleanup_procfs;
+ 
+ 	xfs_debugfs = xfs_debugfs_mkdir("xfs", NULL);
++	xfs_dio_test_init(xfs_debugfs);
+ 
+ 	xfs_kset = kset_create_and_add("xfs", NULL, fs_kobj);
+ 	if (!xfs_kset) {
 -- 
 2.56.0
 
