@@ -1,73 +1,73 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793797339;
-	b=WX0qYQ6Tw37t8i3/NXSx1i20zBY2ifrXTfT0qP32XJS+4ShTyV+3U5T/Ok9zOWhEUDQM
-	 TFc0aArbb+urp8AcSi1wbeD1bVAPeNZB2rzzzkc+WtV1zBrm1fiwXcmbQiu4fSa1lF7rJ
-	 +mOd9SEWO1B7exQfyHG97ODssj72gD6qFFIu2r9Ix78zvLJuolcakZlWwZHqCW58kZel3
-	 uMiQ2qbZFK88XkvsR3eugJyn5P45J4ZMvCdxlFMnrnkx3UboPb1w6XcLOIU5vzM6Y2Av1
-	 ZJ7hhBt5sJ1yHF142lrTjb8rL/4FiX7kmEvV21Ml4Klj3ZL/Kjy83FX89vrIf6LE0oQ==
+	t=1793797346;
+	b=wBC5iFHkQzxWUv44OyoZTlu2KD1Qyb9l8SA308Le27reFn5gO/+ltp4g6yGJinBZMa0N
+	 /JBWI6FbJI2FbkUCWtjeDpxXsTws+d9etSO6hgA/y1GjdGQF2dw9h7g19czEjTLncbSn7
+	 Fpb6zvZjJDCHEdIstS/9laPGeSZfEiJa0Q8Ka7AMdP5kyvCdahH/t3UXTD1KJUDlyNDz0
+	 pabspX0P1r7fMTnMa11vHYu9WzQNUoDuV1U8OpTjFdbZLGzP2xK6QjQHJN1L/38evvY0F
+	 Uy0JMfHGtO3ohM6mn0oiKU7WMezrZjPhqUUE/H+NqHMTtfe/FJb88nPwzSU+biF0o5Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793797339;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793797346;
 	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:X-ME-Received:
 	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=MLMUyhdzk/noOyENVlDlfK94lvgbxXguMgh8R60gx84=;
-	b=bZ1YAZbDEiHBccRkUV0nDM02ULwjy+79lNN2TTH7yvzcNpyDyz9gfNFcyWOcn/jS5JM2
-	 pgH/MVE8+7HbpKnavHJSQQ20l8SjIr2j1TMTN3/9kpEBZjg9PgEB78tE/owRAmz/SkHuq
-	 NBRjdaD/llFcmBrBgUkOyqo2cFLbGW9prj5XWdnDyJFvkxwmFKe4jb/7JrvoEjLAjK692
-	 T2cYh+VBQ0JstvadeJwfpqT7tHXtHNPOicBvyyR50ug20Ej3yoH1PkCrMCBssKqSZzKVh
-	 TgQVdSc9Z5Q/4va6rDg4YtA50DzXD9UsqH5M7sWIpchY2E9w/iNuZXIl3GUlbouKwNw==
+	bh=R5z5YvwsAVG0TIHGlZc17HJ/f1VSVEW4yJDbx1J4Pa8=;
+	b=noxc0u7JnDdDo0GSOq/C6oZy3zf2aHWTSYFylhVdg+QjNUyqWqM1bcG9vcHzLo7Y5LYB
+	 qNBoEqUpum2v4B8m0C8HOhyfo+4OJZ7BsTVYUNqti3AfFl6UHuUeo6rJ6saaz04gkf4Vo
+	 DWd6WjMh0MxoXig4DRHXwVT57ZVzDCklGGk+sXmaJMuzEuxRQtT4TMI3GFaEWwuXNMNNW
+	 aPdS/MRXY+ZB9z8p/M3yv5XTHkQVlTsW0a3fBgOr3hWG9EEgcJ/05DnbNYMvUAcjwyqBQ
+	 8X8lfUokfTv0FPMAIybtIsAzfmbvD6+fFtqtzXJ5JwkhUR/D2n6VxOVVIDNrnfAEBCw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jgssHzBv;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=L9Fv5dfL;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F057606A330;
-	Wed,  4 Nov 2026 13:02:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 860FD606A334;
+	Wed,  4 Nov 2026 13:02:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jgssHzBv
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D8FB1F00A16;
-	Wed,  4 Nov 2026 13:02:16 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=L9Fv5dfL
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A6481F0093A;
+	Wed,  4 Nov 2026 13:02:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793797339;
-	bh=MLMUyhdzk/noOyENVlDlfK94lvgbxXguMgh8R60gx84=;
+	s=k20260515; t=1793797346;
+	bh=R5z5YvwsAVG0TIHGlZc17HJ/f1VSVEW4yJDbx1J4Pa8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=jgssHzBvnR/VcwVExYUL0gmaYL3T1S6TyyOjSLnqZRyPv/9zVzIvysV11Ny1z+gXm
-	 C/Z7A47qXvjlU0FywOrdDF8KlNs1RI0NZqIsdWDPI7c7oEoZAv/nYbK353BTncFOV1
-	 vHribaKWIYpf4ySj0R0N+WKDh1J4RwXnWs1zci+oNWPyc0+r7XphJV7ivZSQwRNqIt
-	 /EnunfcujQ/dWgXktimc63jzMmIhRQJhFBfwY2Cwf9lDeEAH8t4+IbQec2SQSUajeP
-	 dymOLECecLeWtmo5LbXNweGj9/CafAnYhnsdCd3jN/pmc9kBWpvK65LsBMvNFEzEsi
-	 BmoxKKv+aaVaw==
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfauth.ams.internal (Postfix) with ESMTP id 31E881980052;
-	Wed,  4 Nov 2026 08:02:11 -0500 (EST)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Wed, 04 Nov 2026 08:02:14 -0500
-X-ME-Sender: <xms:0izraupDhaEQGFDMq6Iy4t0MnGYC0Rb6eTg4xD05b7PVKLoT9I4nRQ>
-    <xme:0izrah46V7-Y8BNqivCCxwaUu5dO7bo5La9Q0hjpFwtKxLzudWEg9uaDxv755YzxU
-    uScc1pPKcbtXdFQHa_ljNzputNMDMMLOhsbRu619SVgB6z89PHASYQ>
-X-ME-Received: <xmr:0izral0CT5KMzV2Qk1bzOvpPV53W-6s_Nq-xJMPUsnVZsC2VDYpkd6GjYPU>
-X-ME-Proxy-Cause: dmFkZTGhPc1Yg5t9Q8eRQaKCLT0heVoXQqf6h4uqMuRtXQYzheOI1jp47nBw26mcWoxz9A
-    DH10HnpPYob7RxaCTf32YkHXSpJmh1hLC1IxxzXB90aJAI2wMnFT+nxhjDMKjWZ9Ablulj
-    X6EGhbUdQWvr3vCsmIbyKlTdtYm8QJi2H9b42DzXiIRq27TGzwIAKeq7xgftm17WrW++J+
-    RK/ZhBFKi/01LbyIuttpTNhw8T5nzUYT3/gbSIkELTYoQfWYa9TU1xDsUR8Sja7r663Vhq
-    dT9Vb6Q8iqTkFCbamg7ObiOCckNJsrzr7UPmHz2jvO2iFJ92ew01ZxP0mcoMzU2JutwOVF
-    8u+V40EsbW3Xm19sfo4Oy0BtGYrJ+rDGsmaV/Kus0W8Htiy2bsPuViVsmyIYkLeevGJAtH
-    h0iz39M/T+K/qBGGGeXvMu4rBFjQRHTjU1ZK8f1mUPMV1VO2wj+TLFjnw26BYULH/8FfTe
-    1w3gQ/UarqXmQmwUTIpb/JUxos5OXhxdIXVlnKTj1rWyePytEvna8Lsl0PJKZXm1hP9Ova
-    v39yitZDVVeGHjQ4cJhoaac4oo9Ja1doxwuIxCCh6Xda7rpbXU5w1HAqkhHOo9bKl43cTs
-    gLwIs1gHymXAW7aAb2PgnRy+eqAteBWCDRbNyKzAdA/aG+hdRslAIuPTncuA
-X-ME-Proxy: <xmx:0izratmrRt0eSJTMfEPusZmPdI5uXn88JaGkJv6MTbsMrBh_xQFfLQ>
-    <xmx:0izrauivoASPu0vf94NsePIXppPs14EHLUQcQpobahRMu1POT6Ppdw>
-    <xmx:0izrak1orvV1Vrf01IjcsY15Rs-MF9hR_Uq5WSU-1ZgnjMsjTnla9A>
-    <xmx:0izrarbQc4GWVyu_ITVwoxLjhwkfGFgwQGkrjCmdowAZS8y4AklCdQ>
-    <xmx:0izrahmndiq1ff-toqKwyeg82b3eR7tQ05BOIfOJ8S4eAjzj7InKQcyu>
+	b=L9Fv5dfLLTMJXYbvGiF5rbr8/tlmUKq9mAbGskCz69Fepi9o0lTAiImutY7NZIf45
+	 AW3AIIppWI7Y1Eo5HbZeD2RxnjIFfTTFdQ2qbxni4DrmF40JJUyKk9RCb/A0ipNnDU
+	 tSiB+JybC1GLtNhXeMP75glv0L4+ccGD3PD/QqrXs6yF8TlVJFvB0Fyih/PjmCMiWd
+	 fWzGlrT0iDsG6FHyb7OKql/Mc1iLPoI3eEEAOC3ly2LQ0I7AJvfTcpsI0VwiSC7eyx
+	 Kj6QiqrAHTwTIcxacFzh6zliZih3y3HAvChl5X3ZHxdQf59HxQgr88PqY9lzkqZFq9
+	 ZRQZs7NyVh8aw==
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfauth.ams.internal (Postfix) with ESMTP id 71C021980054;
+	Wed,  4 Nov 2026 08:02:17 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-03.internal (MEProxy); Wed, 04 Nov 2026 08:02:21 -0500
+X-ME-Sender: <xms:2CzranS2EpKURin0G4hnjEcA-XIYjizqdzj1L34C-iYhHgwjZFmlvA>
+    <xme:2CzrauD6sINbifwl_EL7N6fatl-EwvW6Iz2uzGPTga-A4Kh8qaMGGrCK3veFDsFZn
+    x_Q8gBrLKGaApWfCDJZHQ8Yn_8m2t6juOs9I_YQwf9nHg3HdAjeu8Y>
+X-ME-Received: <xmr:2CzravdgjL5paFZN8TGaniMogwwSa4P5ITQgOD7SHvzokZT5RkAheghLneE>
+X-ME-Proxy-Cause: dmFkZTGcnWxWNdwzviArTqwO8SleswujEAoF3G5cAnzgWuj9VIXYzVn8L/YtSSoCVpDQCx
+    AFAjkaMBKJDECegKseyQPi3BoJ2ULdzgEWHQh0kOOdV3qcZ96T5qYw8zvnYBduU6y+7gOl
+    ju1hRqdfaUd029Zpq0M1QKVfvNYpVJXA03mIXM/FVYF2n1TVZdGxcwDBil6kVRafbiJtv0
+    QuPNDwYksKVrYzT4QGS7HIxmz8ayVgiPQk5G9zoQji1nSBMTr/zV+0QH6w0a9BT4L54N+d
+    cRhB7KhKgiZgmWNJc1G8l9d+gvjQ75B75nEIsy2loqzEXGvtqjUcmfJ5UhZu2fDzNX4RZ+
+    6oR/S6KZE3B+Oj59PydT7wq4+cy2/+Do57EyU/spfCtxf/P36vf5deC7qOxvjMAtoOJNe8
+    NXXd1ZuH7iDV5jJ0bBxXLG1LqVa7P9BOmaxRW5JTT1/jF3adOCntQdSPvAU4twjqIyOJnD
+    il3SYhGq0rYp1kMyeBc99l97LZnhmPCerSKBxilv0VoIbfSZ/r0kRgqeaaq8vWQFyTKMq9
+    JqWfqAb8kO8+Eaq32Gnd9ghE13syUX2tJAxCvmgtCsp/xZfVlMEAx0mCJon0C/Z+o5ex05
+    Jd9V0ubEBlvCJwgW+XBjmEPpFPlMDPilID7ueQ2EeSfc1TgzPHQ9hBJktdzQ
+X-ME-Proxy: <xmx:2CzramtPXpgB2FliWICvrfCmxHoDBpddpqlwsiVkAgXkl_L2UGuOFA>
+    <xmx:2CzrahKBPlFz1_S-h2kDV4eQag1o75hM52YPpdAksDz-esYOivVMhQ>
+    <xmx:2Czrai8zhJ2PidkxiL8I5CBOjunxDPKYeAZuTmY9ByGh0DE_oK2frQ>
+    <xmx:2CzravA-GhBiS8ZZfrEuFcX1Wz4UiF357WeoQPRfuE8Y_xsXbdoslg>
+    <xmx:2Szrasux01fJtrJ1m7E-uwxYNXvJvpS0zmf0fC_8GnCixRdtOO5rgn5m>
 Feedback-ID: i10464835:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 4 Nov 2026 08:02:10 -0500 (EST)
+ 4 Nov 2026 08:02:16 -0500 (EST)
 From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>,
 	Linus Torvalds <torvalds@linux-foundation.org>,
@@ -116,9 +116,9 @@ Cc: "Kiryl Shutsemau (Meta)" <kas@kernel.org>,
 	linux-fsdevel@vger.kernel.org,
 	fuse-devel@lists.linux.dev,
 	kernel-team@meta.com
-Subject: [RFC PATCH v2 08/18] mm/compaction: free the migrated folios that wait for a grace period
-Date: Wed,  4 Nov 2026 13:01:04 +0000
-Message-ID: <20261104130118.2507513-9-kas@kernel.org>
+Subject: [RFC PATCH v2 09/18] mm/memory-failure: handle folios with PG_rcu_free
+Date: Wed,  4 Nov 2026 13:01:05 +0000
+Message-ID: <20261104130118.2507513-10-kas@kernel.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20261104130118.2507513-1-kas@kernel.org>
 References: <20261104130118.2507513-1-kas@kernel.org>
@@ -133,69 +133,107 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-A block that compaction has migrated every folio out of becomes free
-once those folios are back in the buddy lists.  A migrated folio that
-had PG_rcu_free comes back only after a grace period, so compaction
-finds the block still in use, migrates more blocks than it needs and
-fails more often.  defrag_mode relies on compaction making whole free
-blocks, and there it shows up as allocation stalls.
+A page whose free waits for an RCU grace period has refcount 0 and is
+neither on the LRU nor in the buddy allocator.  memory_failure() and
+soft_offline_page() cannot handle such a page: get_any_page() retries a
+few times and gives up.  Soft offline of the page fails, and a hard
+error is ignored.  If the page is part of a large folio, the folio is
+later freed with the poisoned page in it, and that page can be handed
+out again.
 
-When compaction moves past a block it migrated from and the zone has
-pages waiting, free them before it drains the per-cpu lists and checks
-whether it is done.  The drain costs an expedited grace period, so
-async compaction, which must not block, skips it.
+Free the waiting pages first when the page looks like one of them, and
+again on each retry in get_any_page(): the page can be freed while it
+retries.  memory_failure() has to do it before it sets PG_hwpoison.  The
+free of a poisoned order-0 page drops the page instead of returning it
+to the buddy allocator, so a later drain would still leave the error
+ignored.
+
+A folio with PG_rcu_free that is still in use may be copied by a reader
+that holds no reference.  When memory_failure() succeeds, its caller can
+unmap the page from the direct map under such a reader.  Wait for a
+grace period before returning success.  By then the page has left the
+page cache, or is an order-0 folio with PG_hwpoison, which a reader that
+starts after the grace period has to check.
+
+Wait at the end, not right after setting PG_hwpoison.  A large folio is
+split later, and until the new folios are in the page cache, a reader
+can still copy the poisoned page as part of the large one.
+
+Both callers hold mf_mutex and can wait for the grace period.
 
 Signed-off-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
 ---
- mm/compaction.c | 8 ++++++++
- mm/page_alloc.c | 2 +-
- mm/page_alloc.h | 1 +
- 3 files changed, 10 insertions(+), 1 deletion(-)
+ mm/memory-failure.c | 29 +++++++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
 
-diff --git a/mm/compaction.c b/mm/compaction.c
-index a049415512c6..2acb87a3446d 100644
---- a/mm/compaction.c
-+++ b/mm/compaction.c
-@@ -2760,6 +2760,14 @@ compact_zone(struct compact_control *cc, struct capture_control *capc)
- 				block_start_pfn(cc->migrate_pfn, cc->order);
+diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+index 7dde7c3c9a0c..398463b2e82d 100644
+--- a/mm/memory-failure.c
++++ b/mm/memory-failure.c
+@@ -1419,6 +1419,19 @@ static int __get_hwpoison_page(struct page *page, unsigned long flags)
+ 	return 0;
+ }
  
- 			if (last_migrated_pfn < current_block_start) {
-+				/*
-+				 * Folios migrated away from lockless readers
-+				 * are freed after a grace period.  Async
-+				 * compaction does not wait for it.
-+				 */
-+				if (cc->mode != MIGRATE_ASYNC &&
-+				    zone_rcu_free_waiting(cc->zone))
-+					rcu_free_drain();
- 				lru_add_drain_cpu_zone(cc->zone);
- 				/* No more flushing until we migrate again */
- 				last_migrated_pfn = 0;
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index eea287ab2a01..afd4343ad572 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -1457,7 +1457,7 @@ static void rcu_free_defer(struct folio *folio)
-  * callers want to allocate the pages next.  A concurrent drain holds the
-  * lock until it has freed what it took.
-  */
--static void rcu_free_drain(void)
-+void rcu_free_drain(void)
- {
- 	static DEFINE_MUTEX(lock);
- 	LIST_HEAD(list);
-diff --git a/mm/page_alloc.h b/mm/page_alloc.h
-index 764e3f43b3b9..4f5f06adbfdc 100644
---- a/mm/page_alloc.h
-+++ b/mm/page_alloc.h
-@@ -235,6 +235,7 @@ struct page *__alloc_frozen_pages_noprof(gfp_t gfp, unsigned int order, int nid,
- 	alloc_hooks(__alloc_frozen_pages_noprof(__VA_ARGS__))
- void free_frozen_pages(struct page *page, unsigned int order);
- void free_unref_folios(struct folio_batch *fbatch);
-+void rcu_free_drain(void);
- void rcu_free_sync(void);
++/* A page waiting for a grace period is not in the buddy yet: free it */
++static void mf_free_rcu_pages(struct page *p)
++{
++	if (!zone_rcu_free_waiting(page_zone(p)))
++		return;
++	if (page_count(p))
++		return;
++	if (is_free_buddy_page(p))
++		return;
++
++	rcu_free_sync();
++}
++
+ #define GET_PAGE_MAX_RETRY_NUM 3
  
- /* Whether @zone has pages waiting for a grace period */
+ static int get_any_page(struct page *p, unsigned long flags)
+@@ -1443,6 +1456,7 @@ static int get_any_page(struct page *p, unsigned long flags)
+ 	}
+ 
+ try_again:
++	mf_free_rcu_pages(p);
+ 	if (!count_increased) {
+ 		ret = __get_hwpoison_page(p, flags);
+ 		if (!ret) {
+@@ -2440,6 +2454,7 @@ int memory_failure(unsigned long pfn, int flags)
+ 	if (res != -ENOENT)
+ 		goto unlock_mutex;
+ 
++	mf_free_rcu_pages(p);
+ 	if (TestSetPageHWPoison(p)) {
+ 		res = -EHWPOISON;
+ 		if (flags & MF_ACTION_REQUIRED)
+@@ -2447,6 +2462,13 @@ int memory_failure(unsigned long pfn, int flags)
+ 		if (flags & MF_COUNT_INCREASED)
+ 			put_page(p);
+ 		action_result(pfn, MF_MSG_ALREADY_POISONED, MF_FAILED);
++		/*
++		 * The memory_failure() that set PG_hwpoison may have failed
++		 * without waiting for lockless readers, and the caller may
++		 * unmap the page once this returns 0.
++		 */
++		if (!res && folio_test_rcu_free(page_folio(p)))
++			synchronize_rcu();
+ 		goto unlock_mutex;
+ 	}
+ 
+@@ -2612,6 +2634,13 @@ int memory_failure(unsigned long pfn, int flags)
+ 
+ identify_page_state:
+ 	res = identify_page_state(pfn, p, page_flags);
++	/*
++	 * The caller may unmap the page once this returns 0.  Lockless
++	 * readers that started before the page got PG_hwpoison, or before a
++	 * split left it in a folio of its own, may still be copying it.
++	 */
++	if (!res && folio_test_rcu_free(folio))
++		synchronize_rcu();
+ 	mutex_unlock(&mf_mutex);
+ 	return res;
+ unlock_page:
 -- 
 2.54.0
 
