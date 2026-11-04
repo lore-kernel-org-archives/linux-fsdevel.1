@@ -1,100 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.175
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793828878;
-	b=ZTtfu2KsipbnhIP0qb9gjnSLdh9+RxJPl3kuUmlwE3NsSgiY17670yrpYWVHkthjnMHE
-	 DMS7M3HTrJMrHbR28r81/fBZ1XyVyQh7f7kp/ItZrQdz3cgRDPZyMWrZdI9o/crCkfVYt
-	 K3MsEO2VPAOrpmOftqKzDFepb4U44zu8qqn01JOH7fCLCtmqsWCQrQuZly2v6Vwq/ftxg
-	 zt07iu9kbDX5aGfAA3dRuSWcDcu+/TEZW0a9PNhx43/IQnFUycPgkZItOkzDH2m+9JDpq
-	 N2FbYYoWMSYxHS/PxBa6VX1Fizv3/w4dw63pIj8/UEXxkro1vOusnmgSyCfWgR/0sjQ==
+	t=1793828890;
+	b=dAP8y+D/O6sv4Dq8trY6+QPGm9cOaMP0TjtX5lDaIMzZFPTZr7Gu0nUwfPnyAn2e+THW
+	 9WeAVABMAH0FDIjj7KPoxzWJriVbKKDcUDsYOKCINtoZvxRJHl/TsTCv7uxzNNvTJOoru
+	 d7QXGMW6ER+YWGGkauqhVHERXebi+9hFWA/UvOV0gi4gI4gf2BSEnqrrkdrSWyIB5TpU9
+	 aLQxYAWaGL7kF7b4E32f0KJ0c2AOBVoYxqa2dSqqYgli9w1/VqhVJSkLoDZYnz2ONuXpX
+	 2UGjEf5C0XKr8l1lpephgjRYQH/1T/vUlN0z5cMQCpk73ybibcc6Ev/tejc7b1JGksA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793828878;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793828890;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
 	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=+31zDwDEoLs4QM7Pb7x038H+Xf6pdgj780CAMYuu12s=;
-	b=fBZKGaUiOimRjonEet/9XyxTurQIb9obvRueYnlZNcDXe0OwiuknrQjXU4WYmY7ct24B
-	 xMbAQclEqk74AU1RCdQp3NddDmH1rVpZB8+UHNmDaio5PsbY+EUKO9pRaYPXoa7efl0sU
-	 9r4HmgT/8wqMsfKVvxX1/ojuyaWcVAoVsXVyVhrAssunQdA4xpEgTtA5APaRgTh/RvB0H
-	 L3ZaXF4e77y4CnCRsmP3MgTrfDVmgEz6p4lYOhhI+lJG830jG86OmHSw4mkKOYt/H2hpM
-	 2NVVx59d7PToQabfGmfrPaHQIMc+tSf+2bUQPYqqazZE4YluLeq1Ht23aAXnzMwF3uw==
+	bh=el0m2kbR9OlGIpwS5dnzF1QY7IXlBk1xl3IwxKlfbfw=;
+	b=1BypbxPtDYoP7GCGbtEX86iGitHnsS7IBErBWo4XdwXeJ3Zbni8AgfB8P9/nLRmUsgZ9
+	 J+5CV3awZpHzEflgQvtl0PYyvvP7TlwfAkzZtX4cbzdzpdPUcrEzSWIKBrLu7O9JhxRdZ
+	 e+xZFcuCyvRQ7tFG1rjNRY6+PYoAydRLuNRxNCclbRDb9+LmhS0yNK8ZvmjpKijYX7dO8
+	 FLzwCNFfOm+efB4C69jk0QUTRaAJViA65jcPl7YOiRWz9KmSZE1RrptjUhZ6CePd6SEEt
+	 3m2d2Jo2oX4rwW5cruZGG6WOdhtnGnqC7W4FMCJMl8HGzeEf4w6Jmh1wWxtOV2xWi4A==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=LqsN7H3k;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.173
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=S5lMc6NN;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.175
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFFE46071AC2
-	for <linux-fsdevel@vger.kernel.org>; Wed,  4 Nov 2026 21:47:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AFFE46071AC2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A7E8607040A
+	for <linux-fsdevel@vger.kernel.org>; Wed,  4 Nov 2026 21:48:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9A7E8607040A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=LqsN7H3k
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2ea7f9c11e6so17535ad.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 04 Nov 2026 13:47:57 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1793828877; cv=none;
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=S5lMc6NN
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2ea7f9c11e6so17565ad.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 04 Nov 2026 13:48:09 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793828889; cv=none;
         d=google.com; s=arc-20260327;
-        b=VLM5hqxXEiFHPAjr3jG2nJWd1kxsUcQDh0U48F5pCPKm1OGe8zPAFdZZPkmbERqbwB
-         hxwCgvlGX51rBm9u98gZNMLBONgYgn/AaKceJj4cQR3Qaiwty5XwgGE85YKqbscj+/GM
-         WbesJvc+x39KyW2SNLCHANBQkZDnBuuDHzDePYed18UgFQLCO8Ou+GHaqj4suQZX39Dw
-         k40E4JKwmo7+yAMaGtckYUQkHytiMRIx4Taxv8syRJe/PQ9wu4qiB8gCjwAXbGcWUS4s
-         fZuVzB9y8/Rq9lgpGSZiJLpxlULN69aavtt6JPXDKC2nS4vIan2tsd9Yio1ZZuAP+TqU
-         VF8Q==
+        b=FIpxjUrwBLxk5AsSOojiMZ+RzPpwULYKrlq7FesAnqOcWHjlbSaTuI2Gs1I5+pg5Fo
+         lV3UGdR9SsYVIVFdGhHLLe6SFU3bvQxaIX8+u1zBIV7a5p5bWYQvVu20m52MpOYvyuy0
+         HEPOvkLrBVgMTdK8RKxsC4xO2qJKCNNXdm1pVYVhKPwsfQ1tz6ITdyeGOAzns6CIXQIv
+         rqzL/86BMLvEwN7zEvZqdokHxXBVyIK//J1QovmGW4ECP0eAqwbYA1gh8QRJMKh1Q/kZ
+         zMq4oObEeTylPo3tcKm4t/rchWM6YNkbEIhzQ7kBsGeAsBeqqUHNon/DFxcUXu6lkVFb
+         kezw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=+31zDwDEoLs4QM7Pb7x038H+Xf6pdgj780CAMYuu12s=;
+        bh=el0m2kbR9OlGIpwS5dnzF1QY7IXlBk1xl3IwxKlfbfw=;
         fh=7mJUVuDvnfYWIVRqWfdluoKVGa5gmjySN/dGUDufUu4=;
-        b=Jx5Bmm8VgwCeeSQ38bjrJgWvvxzeZb2ZyxAfTNYynF+TEwpIxiqSo5nWL/WTmWWhiJ
-         bGTtYdJI3vQiQv2oNYTyvIcBkFM2TWRFYcDZo4x66RssvuQi4tbZQYluvYkwpk2XjRuM
-         RiyOKQQHweJ5ID8kku1F7sznTWjcANcdRSGCs3rfgWV5h/ww9OlA4ZnEdZXnBtkIXJyQ
-         drjRvDlUNKSUQTTJ+tZbeqEX+4DllvkBOZztBFBPhjkkI2S5Y0Nty23uAueuaUasxhAj
-         sx0Ub8CnbyyJVNaJkHXia/tX7Wk6HhK8KQmU3AzGCuGVfmM1In7KJrc9BUotilLA3tRU
-         fzmw==;
+        b=VEdvExd7hIOdUxCAFRvwrupKw0D8gvLD2HKHhVfhbmQKLe7tG9VhiweCHizK0eq4M/
+         VbVjb4ciik7K2QLvsyMxbEOAm2lK63l1kU5wDIfh7O3EL0xD8p4nQEa/38K/pzOM4DFc
+         iDEb8cOFmyHno6rAmtC6KnnZBx4mVnRwWUaEztJXK937lfCYWYPBba8AY42O3o2UEOC4
+         hmJit/T+1ds/d31IssB/yQIl7CAvxLfoOlCut7jU8GZNomL4mEw07n9B8QFCK0QaDjl4
+         QNbLjc0DCkh5NVeoD5sblmJM2jotzbmWYqgmyBiNY1qxrIswFAwBkYvz5u7MGpGsR8el
+         G8gw==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793828877; x=1794433677; darn=vger.kernel.org;
+        d=google.com; s=20260707; t=1793828889; x=1794433689; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=+31zDwDEoLs4QM7Pb7x038H+Xf6pdgj780CAMYuu12s=;
-        b=LqsN7H3kz82QkFSv2j7+VEhQoVmsXuq50miMRUq85EzNxfujUvhUwhp8Tb7OtcZxuq
-         KsID5LCknRfBXAC1i0Z1o/gxAjUd/cQPt9yfRAEXWcUu69v4fBpFt355hTDKUZaG620C
-         KREqYFwyNxaXdLQ1zpDTw3rR5olnq/RCRQ9ChtjiKtYcAHD67Qb7BI4i5REzLI9lX6G2
-         ps00IPai8BnX/ZRnMxp+o1H+V2axFZHiirOTgMLLb8GXbWZQ0qVeCHgtpVwlSW5klkrA
-         3GYKDkw3fKMorPYpJdgUc+/6+Yy9Xw4PGV+e0+Lzs7K8rx+Q6aFW3LTSJ3mp3pJtyCOC
-         ecSw==
+        bh=el0m2kbR9OlGIpwS5dnzF1QY7IXlBk1xl3IwxKlfbfw=;
+        b=S5lMc6NNivNoNxDEj9AwiKwlZ4PWjQOUEE8jptAqtha1iBEu01iBirIlhEPFG9eIGL
+         p5c8ioPkDs6HgWRmvwq+QHDlVHid9rJPtuVNvsMaIeidmBiGSRk9SwWZN2yvMBSBgsjb
+         rYvqyZ9krM7dgx4+SlTaS95G7DKiYbkFABvfRrWmTvUnrFpINbLtfdlBfXKwFEJlzpJe
+         PT505kSwWUoHuLpN2bBfAkhB5FswMDpFoRXkyN0ze4JaCoAQ9gVg0gAfdtDzi8XiKYFW
+         2pTi5Mu/2LdgKMEpc7FONIXhyyPva+sU9Ih5d2KkCzgIvKtNv6o/IuvGhzWNDE/zR8cu
+         VxKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793828877; x=1794433677;
+        d=1e100.net; s=20260707; t=1793828889; x=1794433689;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=+31zDwDEoLs4QM7Pb7x038H+Xf6pdgj780CAMYuu12s=;
-        b=FZpV68URtmdZkhss9OTqzSRANXwgAJfV/4a9R9xCHyK0b10RX/NB+6YRaMMVzWCmPa
-         LR7oSYY+4DAUrTRIXg2X/mmZvPII47hiaWpZSTNpEA/dgba8GC21S0IkyjI8poH/bOOs
-         rg025iDcEa/KEqZ5748efEg0pXeqBG9totG4QrmhzFBc7wZ8u4uWexCZnL2XlfspIdRC
-         Yvo9MvjLg64EqWXP7NEEV4xKaVBgA3QkvLlr+gQ1bXjYi+7FhzdMaXxyr8fZD+wMUJEQ
-         K2jKJ9D9Mac5A+G0zA28OrTstYWY9q2IKLvvstEungxDh2fxfKSNSqHUUugAUEHwz8yt
-         P4AA==
-X-Gm-Message-State: APuU4Z/MruHDVB0LL6UQPH+TRONgiapEeH1qaJ53kDMRNbv+zjmkcVXH
-	oTuPoWtCoxhYJqF6ykJCENjEuus6QwO8PqlDSG9UjabG7cSgLlk7AhUwcXvC2nRilHTgC/dlzMl
-	MSFU7GV6nswkC8TQQLUIwQT0N5T8NvroMOvp2GeDd
-X-Gm-Gg: AYBFou2nKEtqUn7PhZZ+u2CvxSncPzGiZ++r1PBcFaFiQvC3w3DEvd37OcqAKF8zAU2
-	6W1d9UL6eguZu2w5ZWr0wNg9S/RI98QybBfeN9wdkHlMUSFTpS3SlMNihV05gdjDsLGGURHtEan
-	eBpK9gtuh4R1sU/b/nBWp+pCuwhulQpU8t8LKG4o5LFANVPJgvaZ4bR6QiJ4vQGoSWekyd193Q8
-	rj+7vwbVz/OV4IPOSdHRKJh6oSqEA/zmL4B81dZON629Vy0XnD12xoQQJjgNUpEtQUBZd6pAZPh
-	C2+lg84oOsiDg92cACmtxH93H2iIitWfz+dc+6AsfXq9Gf8MpQKK/MPT+EKlNlrDGuGnUbqCb6M
-	RwXXqAN4A+OCoeGHWhgQ9cOAeVMD4EgnFN7i5kqM9s0f2GlrBDjlKgpxi62V48i/FJ0dakFoGzW
-	cPZxGX4AddZTLphUlE12jyELNXMyIC/WoY5fDQW4h8LZ0=
-X-Received: by 2002:a17:903:32d0:b0:2c9:d89f:fd98 with SMTP id
- d9443c01a7336-2ed25b46b2fmr1284195ad.1.1793828876060; Wed, 04 Nov 2026
- 13:47:56 -0800 (PST)
+        bh=el0m2kbR9OlGIpwS5dnzF1QY7IXlBk1xl3IwxKlfbfw=;
+        b=pjB8eBlD/NvlZG7uv+hJHNFc8uKicuVK9YsGFL7Genmk4wPcmp3jBlZsx372rcrLgH
+         5rrpERtTYGD8qN7CL8CaIHzPtvfm8EIsMm2/Qyn1W8HL+f5B4XXq+tDYj7MM6UVHVeMf
+         723cCZ+rtA1mLTFfxU/M+9kTZE3TDEAG7Nxy9z67oZkeZMlIjJcbhqUqGUoJnr4uET8K
+         4yQbxdsXZAQPJJ1oE3sKIzymTXIyVRwY0OqVb3Aa71edFIO+h/LBquHg57B/OZIC3CCr
+         TXfq+w3sBR3F0XBUom0AYpWeClx/Sx0qkKeNLt3hZ1AUQn4pIQfsHMg1GruO0BmB6BW0
+         5FFA==
+X-Gm-Message-State: APuU4Z/Grqe4ZRYXZbRDI+db21wbPnKf2KVuCBeK671yXlKJpyYmUMkq
+	RpYXylLVTrc9QoCh0sg/iIKCNQRivrUSc7v8CRkIx7M0x4wuCOzTgLIczirpu7aByY3JwpfU1ip
+	41A7GeQoBn+Ibh13vl7UzdDzKEiTxQDKQ+LJo2aBu
+X-Gm-Gg: AYBFou15F4wkVnvc/rsagYqB1X6e2dX9BGtKmDaq0KAIiSe0M247ZEd9ekuzAGljc1v
+	w0zfduJZTDiPWtNSoghdH+7dZNWYDgi8ULYL85jllj6+sBz5ywW9Y3fDXDrUoyjO/jCFupGEWcj
+	wRy4s1MLCagNqNZ5IQ1AVF1xg68ztFUSgT6dwyQza0KMnf+OhgiEW1JX2ct1luVNiczqjt9rLTk
+	pBoQ0jIC3kcluQt5cuLpdGj2H1mcS/kSbByXxC5Re1n0hJpZ2AXiLL0IgmRZsUay/OodcwWdqw5
+	vaBu/SEJPDKiOi5gE60a6I+RUTFwMBu4B1oog2EUiPJfZ3VjCS1dIKRV2sI+J4SZ3HXsH/Cn+Pg
+	aoZm8jUtqgsduitPLv/Ti1SrqQEroxsgTBCNyQj1DCvQDi7tmM1o/WIzB2V1PC+U7xaMpdWE8hF
+	Xsec8CyZgB9Rnf37jw0m2jSg==
+X-Received: by 2002:a17:903:3d0f:b0:2c9:b404:b55 with SMTP id
+ d9443c01a7336-2ed2627b4cdmr1246795ad.6.1793828888354; Wed, 04 Nov 2026
+ 13:48:08 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,13 +104,13 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261030-work-procfs-ai-fixes-v1-0-772392d3ccfd@kernel.org> <20261030-work-procfs-ai-fixes-v1-2-772392d3ccfd@kernel.org>
-In-Reply-To: <20261030-work-procfs-ai-fixes-v1-2-772392d3ccfd@kernel.org>
+References: <20261030-work-procfs-ai-fixes-v1-0-772392d3ccfd@kernel.org> <20261030-work-procfs-ai-fixes-v1-3-772392d3ccfd@kernel.org>
+In-Reply-To: <20261030-work-procfs-ai-fixes-v1-3-772392d3ccfd@kernel.org>
 From: Jann Horn <jannh@google.com>
-Date: Wed, 4 Nov 2026 22:47:18 +0100
-X-Gm-Features: AclHuK8OoZ-U7dOb9grdzCYOCDBZBZzqqHG5Adn8etCWJNP9SSN1JAx-Rjqax2A
-Message-ID: <CAG48ez1F4uJLLUJsOOf_wchiLsKoEQ0udv2m+K8_joGHW-4h-Q@mail.gmail.com>
-Subject: Re: [PATCH 2/7] proc: add helpers for files that outlive an execve()
+Date: Wed, 4 Nov 2026 22:47:31 +0100
+X-Gm-Features: AclHuK_M6vPw1MX2q5mdqF8qWU1tK-oDVzfL4yLTme8yjvHjkxfS7f-rX4lbKQc
+Message-ID: <CAG48ez1EtkET27iMBY7tOm_anefqWaXmchFjuXtsfhimM67VhA@mail.gmail.com>
+Subject: Re: [PATCH 3/7] proc: stop fdinfo files at a privileged execve()
 To: Christian Brauner <brauner@kernel.org>
 Cc: linux-fsdevel@vger.kernel.org, Josef Bacik <josef@toxicpanda.com>, 
 	Chris Mason <mason@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>
@@ -119,47 +119,27 @@ Content-Transfer-Encoding: quoted-printable
 
 On Fri, Oct 30, 2026 at 5:12=E2=80=AFPM Christian Brauner <brauner@kernel.o=
 rg> wrote:
-> Some files in /proc/<pid> check access to the task when they are opened
-> but look at the task whenever they are read. Such a file keeps working
-> after the task has executed a set-user-ID program and then shows the
-> state of a program that its opener has no access to.
+> /proc/<pid>/fdinfo/<fd> checks PTRACE_MODE_READ in ->permission(), i.e.
+> when it's opened. The file it describes is looked up in the task's file
+> table on every read. So a file that was opened before the task executed
+> a set-user-ID program keeps working afterwards:
 >
-> Checking again with the credentials of the reader on every read would
-> break readers for which nothing changed, e.g. a reader that dropped its
-> privileges after it opened the file or that got the file from a more
-> privileged process. And it turns a privileged reader into a confused
-> deputy. An unprivileged opener hands the file to a set-user-ID program,
-> e.g. as stdin, and that program reads what its opener isn't allowed to
-> see.
+>   observer, uid 1000              target, uid 1000
+>   f =3D open("/proc/<pid>/fdinfo/5")
+>                                   execve("/usr/bin/su")
+>                                   fd 5 =3D open(something as root)
+>   read(f)
+>     pos, flags, mnt_id, ino and ->show_fdinfo() of su's file
 >
-> So go by the opener and only once the program has changed:
+> ->show_fdinfo() shows, among other things, the targets of an epoll
+> instance, inotify and fanotify marks and the state of an io_uring.
 >
-> - proc_exec_id_open() remembers the task's ->self_exec_id when the file
->   is opened. The permission check of the open may have seen the previous
->   program so it's repeated with exec_update_lock held.
+> Use the exec id helpers and hold exec_update_lock until the file has
+> been looked up. Reading a file that was opened before an execve() now
+> fails with -EACCES if its opener has no access to the new program.
 >
-> - proc_exec_id_lock() takes exec_update_lock for reading and compares.
->   If the task executed another program since, the file only keeps
->   working if its opener would be allowed to open it now. If so, the file
->   is as good as opened again and we remember the new program.
->
-> The task's own threads take no lock. de_thread() waits until all threads
-> but the one that calls execve() are gone before exec_update_lock is
-> taken so they can't see the program change. That's /proc/self, i.e.
-> nearly all users.
->
-> No user yet.
->
-> Suggested-by: Jann Horn <jannh@google.com>
+> Reported-by: Josef Bacik <josef@toxicpanda.com>
+> Fixes: 2793274298c4 ("add file position info to proc")
 > Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-
-This makes sense to me. Accessing tasks through procfs will probably
-always be at least a bit icky, but I think this is pretty good.
-
-(You could change `if (!same_thread_group(task, current))` to `if
-(IS_ENABLED(CONFIG_PROVE_LOCKING) || !same_thread_group(task,
-current))` to increase lockdep's chances of potentially finding
-deadlocks involving exec_update_lock, but I'm not sure if that would
-make sense.)
 
 Reviewed-by: Jann Horn <jannh@google.com>
