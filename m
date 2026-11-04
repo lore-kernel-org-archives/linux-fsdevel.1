@@ -1,47 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793777468;
-	b=izkO4QhqtoNvrkQ/fQLzGvezTmCyKXJn+uI19rRaxMaMhxBVHaahrQy33ugt+U3jV9Wr
-	 hLklfrO6qClWlGomr64noSZ/1WfzWom1eFRDWVe5sb+DLTKM2MA8V4bMLmmc6Yo7p0TZT
-	 yfFJzNL/ifJ/wvRvGUveqDuhyoY3qbNNRs6gshbU/Rlei5+yA/FikscBrgUD7r4/ouGI7
-	 TUzw0mgraZZXZv66TKbDKUumWT/m1xlgWNfbIEXRW+isdxMvDeKKU6uLHfhVKwwT66Ee7
-	 WBqgf6ERQLwopG1K6bkXmAO2RDm6nJjYAzPgNus2V8W2TPdR/4x66qzrkjeGHUcF7/w==
+	t=1793780491;
+	b=5hnDaEfA3UKOdd2WI9/NjoY5B8j8jXLZnqIoebDfPqWv/hkRWoC/bMbFYCN8Za8d3YmY
+	 EhtQSiN/B8pxiWBUBSlzsx4wsWYDltHFBdvNuAwIIeyzfsiYdijGtwuMRovv0t4T4cfGZ
+	 iFY0p8FBz5LGZPTLnf04Jq47u7IUa2tv6vXcnxS6ui0G/wtO06AHmvsMhgDdRkwjsSskI
+	 cuZfm33vImQvvHgFRsymRwMsgt8g0OfeFRFJIYpJKq4sBNhGiMmxmdPdXoiLGcjLIHYjU
+	 5hwSedJ3lQ4uukGaeQZ3PHjDgK4qVMq6eYRUhfzD8qzk7bR1M1poOQr0b4fQNIm6Agg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793777468;
-	h=DMARC-Filter:Received:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To:User-Agent;
-	bh=pkdjWus5knRkpiK/IaGC5F8JUCPOn32ecVHJLQtmr8c=;
-	b=bCTSn8lQyUiZBDZZz0gFqtBhS6zeQMWIrAy/G24vt7leERxyVapou5IHHNfm3j1PTJki
-	 GIQUmAQfiXD6no6j6d741Hb6EUyc0/et5c821xiO8NiiuuFWDlOS5rJWKWmfb0XFxXCB3
-	 GE5KdeoaDgb6wLngb0rxUQat/Xa3/yu5W1yog5f8yWW/F4CsqfUAWrmQDpMyG/H2DfDin
-	 BGONhR9BVywgrI9q40VocO1642/LS1jBBxkMgU0uaVhcENe2IqkOUYwk5JoqQ7PpDb9JJ
-	 Um+LaUGdUAE+4jdlHmeORZVRKRCYrZtbqs7Zcsbdt3PEJRhZCdYIIlovZFEOBu9Emsg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793780491;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=2L8Phg4vAm8z6UFJHLXifD8svd0Kk4bbcZZ25kyGs7M=;
+	b=nuCXcv5T54TjFv2yraeC0LevOQc3M060D3Oly74TfzH+RdDTps/yDgrEOVDNqFSUtqwy
+	 GMpgUoxHmYjAwUU2jcn6oIoL36JwIQ4qGBDmJfUWJ2vBXFOjzz/J9v5Ise5dY2tExKBz4
+	 SBXZR/Vsx7K18sjv6b5OaaO18pl37PdzKqmHFAMqs7oRr6tfk/snHsUJVNB55/7+KHd7m
+	 gOt+0pGz9F+YU1A6855YLJuMcEl75lbiHX9I5fj5hYFCvKG1dWxuuTC0ehJQaM5wQSMSv
+	 unl6O6WXlbgPhx+Egeq78oDf5P7odJSw2FumD5XQ/IjtHjtNaRb2kSj/Dh/eLwzcZ6Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=lst.de;
-	spf=pass smtp.mailfrom=lst.de;
-	arc=none smtp.remote-ip=213.95.11.211
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=d8lWT74G;
+	arc=none smtp.remote-ip=209.85.128.54
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A2F6606A31B;
-	Wed,  4 Nov 2026 07:31:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5A2F6606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 611F368C4E; Wed,  4 Nov 2026 08:31:00 +0100 (CET)
-Date: Wed, 4 Nov 2026 08:30:59 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Andy Lutomirski <luto@amacapital.net>
-Cc: Christoph Hellwig <hch@lst.de>, Christian Brauner <brauner@kernel.org>,
-	Stefan Metzmacher <metze@samba.org>, linux-fsdevel@vger.kernel.org,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	io-uring@vger.kernel.org, linux-api@vger.kernel.org,
-	willy@infradead.org
-Subject: direct I/O vs buffered I/O coherency, was: Re: [PATCH] fs: add
- RWF_DIRECT for preadv2/pwritev2/io_uring to set IOCB_DIRECT per io
-Message-ID: <20261104073059.GA29199@lst.de>
-References: <20261012184642.558349-1-metze@samba.org> <20261021-kontakt-hauen-albern-9053a385d79e@brauner> <20261103080718.GA4109@lst.de> <CALCETrU0jXA7PJwsL059O+ewqTBopdopbDwMuH-Rb8M5yLdUew@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E5EC606A326
+	for <linux-fsdevel@vger.kernel.org>; Wed,  4 Nov 2026 08:21:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5E5EC606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=d8lWT74G
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4a5177d78c7so3145735e9.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 04 Nov 2026 00:21:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793780490; x=1794385290; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=2L8Phg4vAm8z6UFJHLXifD8svd0Kk4bbcZZ25kyGs7M=;
+        b=d8lWT74G+yXWFlqGK8Bo4Tdcnvx0gGeCOXNOZ9hvAcn9Mnk6EPmrQ2cIwxDsCNRczn
+         B8MmhbTG1GF8PnLdup/yJuHZA+v673ZG7cqmCYKELm34vpU7ONvPW/4n9hfSl8n8C9Fx
+         24l1fernS6sYW8RQKkQiuEwgOWPgW4dwSkJsp2Xa61RvxLVVrO79WG0irFpzRmXVhAnP
+         BYYO+Xmx8yrSRqVMr0LBFCISWGGUmUb7RTfWAXv8gyV9592UIQHQPjFiAVvz9grh37U2
+         hokKw3BIWzPcJNNRWESawKpKIKF5nE6j2hzCQ6Kv4TG97G36A/ELCdjQw31mBQ6eRK2p
+         zkAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793780490; x=1794385290;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=2L8Phg4vAm8z6UFJHLXifD8svd0Kk4bbcZZ25kyGs7M=;
+        b=fqCsRuRPLaC72UCy5wqQaeqkTu1ijFiT/qTm8E8xZpcWYAa7trtBlmvfDiWP79BDmZ
+         0SSlsNhtRRG0K/KjnFApaS30mScLVTdQ6WxEv1pbo+nCK3CbBqKIihIEZIQjei9tAThA
+         J+p+l9lZ72Kdg7uPPI57dU8SqOs6D9w+AApCQmdtG/BboXk5kznP5Qnfe5pXA7UQ6h0f
+         WimyGQz5SZIJaPQvyrPNnO3eNtbL8quTO+Pm7B6fT7u07tVL4KbTivPy8BF+k6k//tna
+         8PjxREXK6WquO6oux1lrjT4GPgt/yt9DUw2nZR1ZvuiMCwJ7gcEVoPMms/tWYw7+6C+1
+         fgeA==
+X-Forwarded-Encrypted: i=1; AKwUvBy1CrMTZwK5GL0nkts54N3YgIYRypPq5BaUK4dtPKYQ230RPJuZC0GOWvp/4HIboygb+HfJidVT5rbiD5NX@vger.kernel.org
+X-Gm-Message-State: APuU4Z/QryM7W+eKZKyb5rImT9KspFcJMNZKXlRfxpB+SmW2YwDykYPo
+	WQ3QtVedhA05kM03PJGjJHh3aLzkIw2VFnAgAQ50YA1YWUuZdb8ztDpb
+X-Gm-Gg: AYBFou0e9Xy/BFErhIBQOdwwIZeekHu5EwOMHPhhDPKC9yiEqjo4ZexuVGbSoZcLorq
+	2M/CySAHrGnnsj/22oioOks0eBZaBppviKWVOi6oTyiAsXk/ohB6KcShzpiJIrzu9YAKO2whrJU
+	OHBtjjSOdWIAzGiXmyuwlt744JtxmwCV01fuADm/JdqLoT82wOievktD3bQHeIau9K0M8dmP5m1
+	HPWDtHnWLYXReQQj/Z+cJa3AO08pkuz2hz0XkFb9JHSaurQDMdYdA4hezuxCgvpB4ORKbxthxPc
+	y5Dssi/0ZyiSojtm6mtuKFpFqXDtfHn8JRS1kOAe4bkMRO3FrVbQXqgJwcv2AYa2QwywTm3AinG
+	TBD2cW34Pe9YrV7tcOPcdFn4gXruHJ/qfuBrs2JximnKF5fCDp9dGVxj6JVlLPvHUrlCFuGvIt/
+	KPP+0oJNVbr3m8FGRhrVqLkMdJURAqzziysCXvLUgrlNV76U8a4uMA7uwNZVQn0NdULD71Scf7h
+	dK+Yiu1+T7s+YRnVckRYiE3GYEVMEwt9x7DOKoqA3r5jCWRuJ10T+B/QPMu1KS0LMcbzJtJ36M/
+	A1zBQWGdU3QzWe5exg5uD+qjCl05GSTeLmKJbybP03+AET2AE+dF8NPRJxFUesLMXtSMyvCsZnU
+	uBBvmdCb7qHI=
+X-Received: by 2002:a05:600c:4f0f:b0:4b3:ad9d:e21 with SMTP id 5b1f17b1804b1-4b3ad9d0e48mr67987735e9.12.1793780489447;
+        Wed, 04 Nov 2026 00:21:29 -0800 (PST)
+Received: from localhost (178-84-201-199.dynamic.upc.nl. [178.84.201.199])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b43cff3fcdsm35490905e9.11.2026.11.04.00.21.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Nov 2026 00:21:28 -0800 (PST)
+From: Amir Goldstein <amir73il@gmail.com>
+To: Paul Moore <paul@paul-moore.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Chris Mason <mason@kernel.org>,
+	Josef Bacik <josef@toxicpanda.com>,
+	linux-unionfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH] lsm: put the copy up creds when an LSM hook fails
+Date: Wed,  4 Nov 2026 09:21:28 +0100
+Message-ID: <20261104082128.3573690-1-amir73il@gmail.com>
+X-Mailer: git-send-email 2.55.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -51,162 +100,82 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CALCETrU0jXA7PJwsL059O+ewqTBopdopbDwMuH-Rb8M5yLdUew@mail.gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Transfer-Encoding: 8bit
 
-On Tue, Nov 03, 2026 at 11:13:32AM -0800, Andy Lutomirski wrote:
-> Here's a bit of a taxonomy of page cache access types that I've come
-> up with from poking around at the kernel source [0]:
-> 
-> a) Plain buffered I/O (pread, pwrite, etc) -- I'm sure there is a lot
-> of nuance here, but I'm generally referring to I/O, via pagecache,
-> done in syscall or io_uring context on behalf of a user request.
-> 
-> b) Access via MAP_SHARED mmap or via unbroken-cow MAP_PRIVATE read,
-> whether this is actual ordinary user access or one of the weirder
-> cases like KVM that hits it by cheating a bit and using mmu_notifier.
+From: Chris Mason <mason@kernel.org>
 
-This really also needs to be split into
+security_inode_copy_up() leaks a struct cred when one LSM allocates new
+creds for an overlayfs copy up and a later LSM then denies the copy up.
+One such pair is SELinux and a BPF LSM program that denies
+inode_copy_up. Enabling both LSMs and loading the program requires
+root. After that, each denied copy up leaks one struct cred, no matter
+which user triggers it.
 
-b1) Read-only access through MAP_SHARED mmap without PROT_WRITE
-    or unbroken-cow MAP_PRIVATE read.
+The hook calls each enabled LSM in turn. SELinux or Smack allocates the
+creds and returns them through a pointer argument of the hook. A later
+LSM can still return an error, and the hook then returns that error with
+the creds still allocated. Its kernel-doc does not say that the caller
+owns them on error, and the only caller, overlayfs, does not put them.
 
-and
+Reproduced with SELinux and such a BPF LSM program: 36000 failed opens
+and chmods by an unprivileged user on an overlayfs mount left 36000
+struct cred objects allocated, which kmemleak reported.
 
+Fix this by putting the creds in security_inode_copy_up() when the hook
+fails, so the caller gets either creds that it owns or none.
 
-b2) Writable access through writable MAP_SHARED mmap.
+Fixes: d8ad8b496184 ("security, overlayfs: provide copy up security hook for unioned files")
+Cc: stable@vger.kernel.org
+Signed-off-by: Chris Mason <mason@kernel.org>
+[amir: put the creds in security_inode_copy_up() instead of in overlayfs]
+Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+---
 
-> 
-> c) O_DIRECT: not actually page cache, but it does *logically* touch
-> the same data that might be in page cache.
+Hi Paul,
 
-As in the file side of direct I/O to make this clear.
+I think this LSM hook was introduced with confusing contact for chained
+LSMs and this change makes the hook contract more sane in this case.
 
-> d) Access via pinned folio.  We have reads and writes, and we have
-> non-longterm and longterm pins.
+Thanks,
+Amir.
 
-... and this includes the "remote" side of direct I/O if done to file
-backed VMAs.
+ security/security.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
-We also still have
+diff --git a/security/security.c b/security/security.c
+index f6583d5073959..ad382afbff271 100644
+--- a/security/security.c
++++ b/security/security.c
+@@ -2314,18 +2314,26 @@ void security_inode_getlsmprop(struct inode *inode, struct lsm_prop *prop)
+ /**
+  * security_inode_copy_up() - Create new creds for an overlayfs copy-up op
+  * @src: union dentry of copy-up file
+- * @new: newly created creds
++ * @new: newly created creds, must point to NULL on entry
+  *
+  * A file is about to be copied up from lower layer to upper layer of overlay
+  * filesystem. Security module can prepare a set of new creds and modify as
+  * need be and return new creds. Caller will switch to new creds temporarily to
+  * create new file and release newly allocated creds.
+  *
+- * Return: Returns 0 on success or a negative error code on error.
++ * Return: Returns 0 on success or a negative error code on error, in which
++ *         case @new is left pointing to NULL.
+  */
+ int security_inode_copy_up(struct dentry *src, struct cred **new)
+ {
+-	return call_int_hook(inode_copy_up, src, new);
++	int rc = call_int_hook(inode_copy_up, src, new);
++
++	/* An earlier LSM may have prepared creds before a later one failed */
++	if (unlikely(rc < 0) && *new) {
++		put_cred(*new);
++		*new = NULL;
++	}
++	return rc;
+ }
+ EXPORT_SYMBOL(security_inode_copy_up);
+ 
+-- 
+2.55.0
 
-e) access through get_user_pages without pins.
-
-e) really needs to die ASAP, but various maintainers have dragged
-their feed and kept it.  And of course there's still vmsplice which
-kinda hardcodes this into the syscall interface.
-
-> But why can't an O_DIRECT access be coherent vs mmap?  (I'm assuming
-> we're talking about O_DIRECT writes, not reads.)  ISTM the kernel has
-> two ways to do it coherently: unmap the mapping (slow) or copy the
-> data being written into page cache and then write it from page cache
-> (differently slow).  If anyone mmaps a file and O_DIRECT-writes it
-> while they're touching the mapping at high frequency, I'm not sure
-> they deserve excellent performance, and I'd rather give coherence than
-> high performance incoherent behavior.
-
-Because reads invalidate the mapping they are just as relevant.
-But yes, both could fall back to some form of buffered I/O if the
-relevant ranges are mapped.  And maybe that is the best thing to do.
-
-Note that this also means we need to prevent new folio in the page cache
-from being instantiated while direct I/O is pending.  For XFS which
-always take i_rwsem on buffered reads that's reasonably easy, although
-we'd need additional i_dio_count checks (or move to non-owner release
-of i_rwsem for direct I/O).
-But other file systems don't do this, and they get significantly better
-performance for small cached buffered writes, so they probably do not
-want to change that.
-
-Leaving the rest in here for context.
-> 
-> 
-> Anyway, I have a sort of proposed definition for what coherence might
-> mean -- call this "weak coherence":
-> 
-> For each address in the file, there are various accesses.  They happen
-> in an order -- think of this like a CPU memory model, not a strictly
-> linearizable order (if nothing else, mmaped accesses literally follow
-> the CPU's memory model).  But we broaden the memory model to pretend
-> that it applies to the logical file, not to the physical memory. The
-> implementation is weakly coherent if:
-> 
-> - Accesses via mmap obey the CPU memory model.
-> 
-> - Accesses via syscall or io_uring *including fixed buffers* obey the
-> CPU memory model, except that the access may be broken up into smaller
-> accesses that happen in arbitrary order, so long as they all happen
-> between the submission and the completion of the request.  This
-> includes direct I/O.
-> 
-> - Accesses via longterm folio pin follow the same rules as mmap.
-> 
-> - Accesses via shortterm folio pin are like syscalls: they happen some
-> time between acquisition and release of the pin but are not
-> necessarily ordered at the time that they are made by the CPU.  (This
-> is the weak part.)
-> 
-> I haven't come up with a reason that this would be impossible to
-> implement nicely, except that longterm folio pins would need a much
-> stricter locking scheme: anything that wants to detach a folio from an
-> address_space would need to wait for the pin to be released or
-> actively expedite the pin's release.
-> 
-> Is there a hard issue with O_DIRECT that I haven't thought of?
-> 
-> And someone would need to go through all the short-term pins in the
-> tree and make sure they're all actually okay with the weak form of
-> coherence.
-> 
-> I think there's at least one example that I think is questionable:
-> iov_iter_extract_user_pages, as reachable from FUSE and possibly
-> elsewhere.  Suppose there are two FUSE filesystems, A and B. A has a
-> file a and B has a file b. A process mmaps b, faults it in, and does
-> read(a_fd, b_ptr, 1), and the FUSE kernel code takes a short-term pin
-> on b_ptr's folio.  Then, before A's daemon responds, B's daemon
-> requests invalidation of b (via fuse_notify_inval_inode), which calls
-> invalidate_inode_pages2_range, which removes the folio from b's page
-> cache. Then A's daemon responds to the read via splice from a pipe,
-> causing the kernel to write to the short-term pinned folio, which goes
-> off into the void.
-> 
-> Is this a bug?  If B's invalidation happened because some external
-> actor logically wrote to *the entire area covered by the read*, then
-> arguably it's not -- under my coherence model, the read syscall can be
-> deemed to have occurred immediately before that write and the results
-> simply got overwritten.  But if B's invalidation happened for a
-> different reason (say an external write to a non-overlapping range),
-> then I think this behavior is incorrect.
-> 
-> Similarly, if there is just one FUSE and B is an ordinary filesystem,
-> then userspace can do read(a_fd, b_ptr, 1) and overlap it with an
-> O_DIRECT write to b at, say, offset 512, size 512.  If the FS accepts
-> that, then the folio gets detached and the read's update goes into the
-> void.
-> 
-> 
-> That last example seems more likely to hit if RWF_DIRECT shows up and
-> some library is like "hey, cool, now I can use our shiny atomic direct
-> I/O features in what used to be a buffered I/O path".  And maybe this
-> isn't a *security* bug, but it is an observable case where a simple
-> read() call appears to succeed but does not actually update the
-> destination buffer.  Ouch.
-> 
-> 
-> Anyway, that's my brain dump.
-> 
-> 
-> [0] Despite the fact that I got my start doing serious kernel work as
-> a result of writing a memory mapped database of sorts, I've never
-> actually stared at this part of the code before now...
-> 
-> 
-> --Andy
-> 
-> 
-> -- 
-> Andy Lutomirski
-> AMA Capital Management, LLC
----end quoted text---
