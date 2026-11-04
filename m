@@ -1,55 +1,75 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793832185;
-	b=Y/8yYSriF36+YpRoordswLyAdS1PTe9Z3MSuipdpvMgzqVr1vqn8CwoIm33KazpCpfQI
-	 mCQMMbp44rVJ7oP19DiNBO7e97dJFsiVRfYAu/kPm8YyMcLrKCMHtfBMzmIQR6ZVarHOg
-	 SlMO6WTqwca7ES+xb6Y5Z7QO/34v87E/SsbKDA38ZpgE52NToDWaXQwHE8w899eTca6Uo
-	 CBjgZQxDUJSfQdOhEZCWP9RDOSvsGaLMM0lcHm2yhHkhJupxsl3HkVH/4JDFVaBj5tTP2
-	 gDxAcrN5F3MUqWC9UnIXyQPoZH5hVv/pVLm3+E6EvCExi20jK1zurY+hLjqzaKnG4Qw==
+	t=1793832370;
+	b=GiPJj/b5IETTgaiAxC956zQaYbDdSyZGCxNYuLZCFetISqeOrO3uXvnnxHK/YH+Y5AdN
+	 4y8iWiN+H2uWkXG5NYIeMWDex1F6hAD7Iiwz8nY+Y/tgL3WlQEzCOoYI9bNEtMBe9C1VJ
+	 Z9NOIQQ9aeTnjEUWkEV93rwBqp+0i4UklS/GTPjExFt6z7o5tIVZHumYX25qS1/VXXXZo
+	 W/t6qH6hbIPDpGauq8KUwS60tWoCyzSZyhrKape3UE6/6HA5ZCLzUWE5ww0+Gbs2PdKIw
+	 bfE8s5rueKgjC9MAVHCQX4l3CO3W0PJYEIeu5pCJ7/8DoJ43V/TWU8KY+Kgw6AoKxOw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793832185;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=D6Gd+45O6jd/WTnyKl3qNGPwrR7aNETEgKYw1kcr+R0=;
-	b=ZqNKXvCmBZi1vjK5/6s8jIgCiSyN9wow/+zk6/xPLA59/oWG+/QtKUhAlIsfZ6+UcT6G
-	 DbaAagdUX4xHtiK6l2/ZCEq+Ji75ixkZP5GRa/qpzwdnPKJsj083sDeqW0fULOQ8Xs22c
-	 IZvSpWGSGc1SagwohHg5GF5NTQpxBc8sf6XLpTMCRKQ95gIArytJA7pQ4CVQtSOEParAN
-	 XQ8fc/OAU52YJ5nBmV31vuP3anrwYGY0iALD/0pbpMWWT7md9IboNWCH19GQB7s8c3yfn
-	 Zm5JQLUoZEvs7pD1BJ0U6rfT4+NHlvcEuNJ2JOFdPM3F/XvmasxqZPW4kHAP3aQhToQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793832370;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=XBOw8umZc0PSygGL6ZhSsNEhyMPfzoczgqWFX+5YDNY=;
+	b=Re/6Rg9jSD9Xebvi70a84ZeMmu/I2lfDULXQp8gVW/rAcQgEQo7H7Bm2B45i/4cWD2Qz
+	 bA5PiYIc9GvM4LsvRra4bsZTC675SEPOrg8kMw2nb505Tv9nEXMOEXBmWOA2oIxYMgmqJ
+	 +lHWOwBIftcc35KCKzB0hLHvHE/OhEFsHLfPgbhC0Ts/pbORmj97PoUbWtjBounXmDjiB
+	 mQfvZZDBX4X96/9TtFlVhx528WLd9pGG+gUaWMkQQO/cRYvFd1uTPq/NWJKxb2Q0AZYRH
+	 dcHEjS7kMdFBNNoIBuEl1SVfzq//hK+nG7BkfvMxHJqFrp/DW75GAm8UPQXw5VfKfrw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oXBXu7oW;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Y+guEyix;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15663606A338
-	for <linux-fsdevel@vger.kernel.org>; Wed,  4 Nov 2026 22:43:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F24D4606A31B;
+	Wed,  4 Nov 2026 22:46:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oXBXu7oW
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D36481F00A1A
-	for <linux-fsdevel@vger.kernel.org>; Wed,  4 Nov 2026 22:43:04 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Y+guEyix
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6C1B1F000C1;
+	Wed,  4 Nov 2026 22:45:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793832184;
-	bh=D6Gd+45O6jd/WTnyKl3qNGPwrR7aNETEgKYw1kcr+R0=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=oXBXu7oWdd6jOEskNxnLNKXj5NDVmJ1bZ5msx5HExb5Pste4QfoLQO/cacnE3POpO
-	 GPihD/3ocKKggiPisHsKYkQPQ5tR1i5oblR/kEtDJHe89NnLRsgdFYncOUGQrgiSCO
-	 0ERAAGlyBhlIazvzEVxXiPT1k4gsNC9mVSkCwOtS4MBdPM1pGY0DKe6iIVLZg5EKuz
-	 TRITyqyYPsfEX/IqFKz3KgtcoZZIxxuv7cgd/J80/cfiJNmb+gbjE09RC1GpTrHlM2
-	 rnRPtd8uxYiHDyBMMozp5vGFcTxCvtUU/2yUmIE7ZScUQ50xBVOmImTTr3oA7YrOz6
-	 NoXm3FhKW4u4g==
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-6b547d6c07bso1408805a12.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 04 Nov 2026 14:43:04 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AKwUvBzdnQfidJNS4N7TbjwzSdpT9pCMs+ZUPG3qth5uAnX7GdaFL0FWET3JBbtFL6MsAhLtejfPyHyuPfeuwPJu@vger.kernel.org
-X-Gm-Message-State: APuU4Z8Sxg3QoIttksQgxsG6WQZCtjlhKgIJTyVRc+MWd5JlTL6KL35g
-	n2GlwcNGmf4i3g+2KwSNlDXakQxnPVsJkWCpm8TzH7P4Ctp+VLG8IsSStW8dwEzPSXRwlBYpItn
-	8GShdZr/L/+Yg1darGHUNzR/LoPcZ7ww=
-X-Received: by 2002:a05:6402:4485:b0:6b5:5d17:e27e with SMTP id
- 4fb4d7f45d1cf-6b55d17e2dbmr2505843a12.19.1793832183452; Wed, 04 Nov 2026
- 14:43:03 -0800 (PST)
+	s=k20260515; t=1793832369;
+	bh=XBOw8umZc0PSygGL6ZhSsNEhyMPfzoczgqWFX+5YDNY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Y+guEyixDVYqpS8g3d4FmlRYq/qp1tQeGL16K2BSxNthPOaRsDL0VFTK+tjHByNf5
+	 UG3G3TR4IbDk5BaZwlgwVySr0HiRvL1WeYdDEujyS+zzG35LMJqu1Pm8BzfQ5Z+w4F
+	 3DGZwBGiTOYlKSVRIgaBstWj6LtjUlnMrGUfTY6AgB7LPx3pVl/0nxTfWzl1eRWVeu
+	 9SzZPPQ7yLUIbBzvzOD5olkzaVc7Od6fJQ93jvoDvEvbyLIezG28vK5PJuGqQJ/Zu+
+	 C/TFnkMniWMHftytXgdebgJiyvQu099dnGFvQXlwnwRKY6VGKt0bkFzVDUexAPr+Sm
+	 GvRbuyQmKti0Q==
+Date: Wed, 4 Nov 2026 23:45:55 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>, 
+	Josef Bacik <josef@toxicpanda.com>, Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
+	NeilBrown <neil@brown.name>, Eric Dumazet <edumazet@kernel.org>, 
+	Thomas Gleixner <tglx@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
+	Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
+	Greg Kroah-Hartman <gregkh@suse.de>, Joel Granados <joel.granados@kernel.org>, 
+	Kees Cook <kees@kernel.org>, Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
+	linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, linux-acpi@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	netdev@vger.kernel.org, ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
+	coreteam@netfilter.org, kexec@lists.infradead.org, linux-pci@vger.kernel.org, 
+	linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net, 
+	linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org, 
+	linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, 
+	linux-sh@vger.kernel.org, linux-usb@vger.kernel.org, samba-technical@lists.samba.org, 
+	sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org, 
+	linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net, 
+	Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
+	linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, linux-debuggers@vger.kernel.org, 
+	Chuck Lever <cel@kernel.org>
+Subject: Re: [PATCH RESEND v2 00/30] proc: convert the fs, kernel and mm
+ entries (Part 5/7)
+Message-ID: <20261104-allein-bepacken-hitzig-5e517d3c129f@brauner>
+References: <20261104-work-procfs-v2-0-b45cd5789ac5@brauner>
+ <20261104-work-procfs-fs-v2-0-319e0f9a8aae@kernel.org>
+ <CAHk-=wj9Y9NcOesBBm+jhPjYa7qO00fD7g7uwX+H-k0-R2difA@mail.gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -59,55 +79,20 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261104-exfat-dropbehind-v1-3caa58820a82-1-qiwenjie@xiaomi.com>
-In-Reply-To: <20261104-exfat-dropbehind-v1-3caa58820a82-1-qiwenjie@xiaomi.com>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Thu, 5 Nov 2026 07:42:50 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd-B=jAQmirmtFycab_A-f_7WwJO3-jo=JGPT4L4UcajZA@mail.gmail.com>
-X-Gm-Features: AclHuK9sZ8fC5MaT5ANgQ7UtQYzaYRrCF6oXuG6pQyKO8IO-RfgzTtGPLe3T2bg
-Message-ID: <CAKYAXd-B=jAQmirmtFycab_A-f_7WwJO3-jo=JGPT4L4UcajZA@mail.gmail.com>
-Subject: Re: [PATCH] exfat: enable buffered RWF_DONTCACHE
-To: Wenjie Qi <qwjhust@gmail.com>
-Cc: sj1557.seo@samsung.com, yuezhang.mo@sony.com, exfat@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, qiwenjie@xiaomi.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wj9Y9NcOesBBm+jhPjYa7qO00fD7g7uwX+H-k0-R2difA@mail.gmail.com>
 
-On Wed, Nov 4, 2026 at 6:50=E2=80=AFPM Wenjie Qi <qwjhust@gmail.com> wrote:
->
-> From: Wenjie Qi <qiwenjie@xiaomi.com>
->
-> exFAT uses filemap for buffered reads and iomap for buffered writes and
-> writeback. These paths already handle IOCB_DONTCACHE, including marking
-> new folios for dropbehind and completing writeback bios in task context
-> when needed.
->
-> Advertise FOP_DONTCACHE so preadv2() and pwritev2() callers can request
-> that newly instantiated page-cache folios be dropped after I/O. This is
-> useful for one-pass reads and streaming writes to removable media.
->
-> On an NVMe-backed exFAT image with 128-KiB clusters in QEMU with two
-> vCPUs and 2 GiB RAM, disable KASAN, lockdep and tracing for measurement.
-> Compare normal and dontcache I/O in three pairs with alternating order.
-> Read a 4-GiB file using 1-MiB calls. Write new 1-GiB files using 8-KiB
-> and 1-MiB calls in a memcg with memory.max=3D255852544 and no swap.
-> Write throughput includes fdatasync(). Median throughput and peak cgroup
-> memory were, with percentage changes relative to normal I/O:
->
->                       MiB/s                   Peak memory, MiB
->                 normal/dontcache  change   normal/dontcache  change
->   read,  1 MiB    5788.4/5124.9    -11.5%      1353.3/18.9    -98.6%
->   write, 8 KiB    2924.6/3400.9    +16.3%       244.0/106.7   -56.3%
->   write, 1 MiB    3534.1/3985.0    +12.8%       244.0/188.3   -22.8%
->
-> Dontcache reduced peak memory and recorded no reclaim scans or steals
-> in any profile. Normal reads and writes scanned and reclaimed about
-> 710,000 and 200,000 pages per run, respectively. The memory-limited
-> writes gained throughput. Reads reduced peak memory by 98.6%, to just
-> 18.9 MiB, at a modest 11.5% throughput cost. This smaller cache footprint
-> can help reduce memory pressure on concurrent workloads on
-> memory-constrained mobile devices.
->
-> Signed-off-by: Wenjie Qi <qiwenjie@xiaomi.com>
-Applied it to #dev.
-Thanks!
+On Wed, Nov 04, 2026 at 12:05:08PM -0800, Linus Torvalds wrote:
+> On Wed, 4 Nov 2026 at 11:49, Christian Brauner <brauner@kernel.org> wrote:
+> >
+> > Part 5/7 of "proc: move procfs to what kernfs does", on top of part 2
+> 
+> Christian - way too many patches, re-sent much too often, cc'd to way
+> too many people.
+> 
+> Nobody is going to read these repeated resends, and all you are doing
+> is clogging up peoples mailboxes.
+
+I resent once after I cleaned things up post RFC and I don't plan on
+resending (one failed attempt due to my network dropping).
