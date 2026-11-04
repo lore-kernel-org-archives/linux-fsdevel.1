@@ -1,75 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.79
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793832370;
-	b=GiPJj/b5IETTgaiAxC956zQaYbDdSyZGCxNYuLZCFetISqeOrO3uXvnnxHK/YH+Y5AdN
-	 4y8iWiN+H2uWkXG5NYIeMWDex1F6hAD7Iiwz8nY+Y/tgL3WlQEzCOoYI9bNEtMBe9C1VJ
-	 Z9NOIQQ9aeTnjEUWkEV93rwBqp+0i4UklS/GTPjExFt6z7o5tIVZHumYX25qS1/VXXXZo
-	 W/t6qH6hbIPDpGauq8KUwS60tWoCyzSZyhrKape3UE6/6HA5ZCLzUWE5ww0+Gbs2PdKIw
-	 bfE8s5rueKgjC9MAVHCQX4l3CO3W0PJYEIeu5pCJ7/8DoJ43V/TWU8KY+Kgw6AoKxOw==
+	t=1793833968;
+	b=17y+UUMKnl/Lv4UQVcOLbqy1/Jzx4gVWn8+8IF0g3ZE9mKEe4JXT+lLrJJpN+a8cbjqx
+	 T5SwOiuyR8PLqDDN2FQjkh6NurSGjol6r4t2URDr9dNY2NU7tfcE4klM6N0Md1/QH/Std
+	 Aqdc5yXwZwCzne9fknqzQmCYZ+ueqI/TjcyHnYU7vUgzl5ErqFukEF3PEYE5ubC5K3MhM
+	 hUeHu/lAbIGMKnNV0Qx3lrdCgH5lvesqAofcxDrn0r2qfyGXvYCV9xAk9klgGkYB6UkYZ
+	 +Kc/421uUpTmfR1S148rmppemAyBFUi2dzhVqrIIWQqCOpfgukMxmR2LykdAH6qoN0g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793832370;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	a=rsa-sha256; c=relaxed/relaxed; t=1793833968;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=XBOw8umZc0PSygGL6ZhSsNEhyMPfzoczgqWFX+5YDNY=;
-	b=Re/6Rg9jSD9Xebvi70a84ZeMmu/I2lfDULXQp8gVW/rAcQgEQo7H7Bm2B45i/4cWD2Qz
-	 bA5PiYIc9GvM4LsvRra4bsZTC675SEPOrg8kMw2nb505Tv9nEXMOEXBmWOA2oIxYMgmqJ
-	 +lHWOwBIftcc35KCKzB0hLHvHE/OhEFsHLfPgbhC0Ts/pbORmj97PoUbWtjBounXmDjiB
-	 mQfvZZDBX4X96/9TtFlVhx528WLd9pGG+gUaWMkQQO/cRYvFd1uTPq/NWJKxb2Q0AZYRH
-	 dcHEjS7kMdFBNNoIBuEl1SVfzq//hK+nG7BkfvMxHJqFrp/DW75GAm8UPQXw5VfKfrw==
+	bh=S8+ywaCuxwURWPp9vITK42485CIUGSC5lym6cLndajk=;
+	b=DE+tnff8sEQ4+XsIuyy++jJEJV3epjvraCE7Znc9gOt3FJaIrgK43/8URyCEkWrS7QUj
+	 AUPZvNco18m2bL+j6ZZf58SZ45yF8lw/ie4KuDFuR/Fe6Ms1/O7urJ6G58YC8MBOAtdvf
+	 ft23Fy6uqR6vuya9KvrhIWjJGMjs2xFFNlKYFnJH+WT0amezoPU9/YeIj/HDQmqjeYMDV
+	 Cr5XozPylsIPqad/YC9iKx4u76lPz5e0CEsu0El2tVK60TrgAMcJeYyfr7dZUdepXpR4Z
+	 1D1h1VqRGF4FnEV2UGImJqOzuq5aj3cgtfTL111616OIo8GyU81A5JBS/ScY/hKtKYA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Y+guEyix;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=N8C2gB0w;
+	arc=none smtp.remote-ip=91.218.175.79
+Received: from mta0.migadu.com (out-79.mta0.migadu.com [91.218.175.79])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F24D4606A31B;
-	Wed,  4 Nov 2026 22:46:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C3F9606A32F
+	for <linux-fsdevel@vger.kernel.org>; Wed,  4 Nov 2026 23:12:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5C3F9606A32F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Y+guEyix
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6C1B1F000C1;
-	Wed,  4 Nov 2026 22:45:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793832369;
-	bh=XBOw8umZc0PSygGL6ZhSsNEhyMPfzoczgqWFX+5YDNY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Y+guEyixDVYqpS8g3d4FmlRYq/qp1tQeGL16K2BSxNthPOaRsDL0VFTK+tjHByNf5
-	 UG3G3TR4IbDk5BaZwlgwVySr0HiRvL1WeYdDEujyS+zzG35LMJqu1Pm8BzfQ5Z+w4F
-	 3DGZwBGiTOYlKSVRIgaBstWj6LtjUlnMrGUfTY6AgB7LPx3pVl/0nxTfWzl1eRWVeu
-	 9SzZPPQ7yLUIbBzvzOD5olkzaVc7Od6fJQ93jvoDvEvbyLIezG28vK5PJuGqQJ/Zu+
-	 C/TFnkMniWMHftytXgdebgJiyvQu099dnGFvQXlwnwRKY6VGKt0bkFzVDUexAPr+Sm
-	 GvRbuyQmKti0Q==
-Date: Wed, 4 Nov 2026 23:45:55 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>, 
-	Josef Bacik <josef@toxicpanda.com>, Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
-	NeilBrown <neil@brown.name>, Eric Dumazet <edumazet@kernel.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
-	Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
-	Greg Kroah-Hartman <gregkh@suse.de>, Joel Granados <joel.granados@kernel.org>, 
-	Kees Cook <kees@kernel.org>, Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
-	linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	netdev@vger.kernel.org, ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
-	coreteam@netfilter.org, kexec@lists.infradead.org, linux-pci@vger.kernel.org, 
-	linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net, 
-	linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org, 
-	linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, 
-	linux-sh@vger.kernel.org, linux-usb@vger.kernel.org, samba-technical@lists.samba.org, 
-	sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org, 
-	linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net, 
-	Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
-	linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, linux-debuggers@vger.kernel.org, 
-	Chuck Lever <cel@kernel.org>
-Subject: Re: [PATCH RESEND v2 00/30] proc: convert the fs, kernel and mm
- entries (Part 5/7)
-Message-ID: <20261104-allein-bepacken-hitzig-5e517d3c129f@brauner>
-References: <20261104-work-procfs-v2-0-b45cd5789ac5@brauner>
- <20261104-work-procfs-fs-v2-0-319e0f9a8aae@kernel.org>
- <CAHk-=wj9Y9NcOesBBm+jhPjYa7qO00fD7g7uwX+H-k0-R2difA@mail.gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=N8C2gB0w
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=S8+ywaCuxwURWPp9vITK42485CIUGSC5lym6cLndajk=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1793833965; v=1; x=1794438765;
+ b=N8C2gB0wmhjMhk6mOX9K5o4dj0GnGNV8/EtSP09Ps3eASMY0aalPiV+aUMFtqwPrH4XWTwUg
+ 39Mi5bISSMrSbjqzS0qfu43dFhjDGis1MphF1EtDo9KYkOIisTczq4PFFRPPWXIlTiiCMbTyQ1k
+ YYsvNXztVhwgcGQ6CLzbTse0=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id bc1373684b9d3203;
+	Wed, 04 Nov 2026 23:12:45 +0000
+X-Mizu-Trace-ID: bc1373684b9d3203
+X-Migadu-Flow: FLOW_OUT
+Date: Wed, 4 Nov 2026 23:12:41 +0000
+From: "Jose Fernandez (Anthropic)" <jose.fernandez@linux.dev>
+To: Pedro Falcato <pfalcato@suse.de>
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+	Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@kernel.org>, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, Krystian Kaniewski <krystianmkaniewski@gmail.com>, 
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2] mm/filemap: stop fault-around when the walk steps back
+Message-ID: <20261104-jf-filemap-v2-pedro-reply-r2-74c87c6fbcf@linux.dev>
+References: <20261031-jf-mm-filemap-map-pages-lower-bound-v2-1-21029744e589@linux.dev>
+ <aunPI5eOUOAEUa8d@pedro-suse.tail5790ac.ts.net>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -79,20 +67,29 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAHk-=wj9Y9NcOesBBm+jhPjYa7qO00fD7g7uwX+H-k0-R2difA@mail.gmail.com>
+In-Reply-To: <aunPI5eOUOAEUa8d@pedro-suse.tail5790ac.ts.net>
 
-On Wed, Nov 04, 2026 at 12:05:08PM -0800, Linus Torvalds wrote:
-> On Wed, 4 Nov 2026 at 11:49, Christian Brauner <brauner@kernel.org> wrote:
-> >
-> > Part 5/7 of "proc: move procfs to what kernfs does", on top of part 2
-> 
-> Christian - way too many patches, re-sent much too often, cc'd to way
-> too many people.
-> 
-> Nobody is going to read these repeated resends, and all you are doing
-> is clogging up peoples mailboxes.
+On Tue, Nov 03, 2026 at 12:12:58PM +0000, Pedro Falcato wrote:
+> I'm not sure I understand. xas_find() was fixed. Is there any other case where
+> this loop can step backwards?
+>
+> If not, I don't think this should be Cc: stable, and should probably be a WARN_ON().
+> As it's a hardening patch and not an actual bugfix.
 
-I resent once after I cleaned things up post RFC and I don't plan on
-resending (one failed attempt due to my network dropping).
+Yes, there is at least one more case. It triggers when a read fault
+starts a lookup inside a large folio while a hole punch removes that
+folio and a write puts part of it back. A stress test I wrote for the
+race still made the fault-around walk step back with Krystian's
+xas_find() fix applied. It happened in every run with an artificial
+delay in the lookup and in 2 out of 40 runs without one. Some of those
+step backs left a page mapped before the start of the mapping, and the
+kernel reported it as a bad rss-counter when the process exited. With
+this patch applied none did.
+
+A WARN_ON() doesn't fit because ordinary operations racing with a fault
+can reach this. So I recommend keeping the Fixes and stable tags as
+David suggested on v1.
+
+- Jose
