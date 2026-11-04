@@ -1,113 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.171
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793802197;
-	b=qBPOePf0JNEDT+5f/y1NfFkbS3gthb7rT1Sn38QfhIrzQoUc1b1F0Sx5d9ahOyZYO+qR
-	 7YpHpQDifMYmaAvqmSMSPsJVQIRDquDSwNKSksqupZCiY4fywdydPjo/MA7PT5QWRirD2
-	 Wn4QdMXlPUqBfwJaGyygrc+GBywnApeOaMw9VGEwlWdUsS1Zjd8kOd7ddDd5+uDsUWLSx
-	 Av5Thnic92aqQQmgpuyO34aQJMCI1TVahqX3n/jXwpV8lwTZUekJy7oDtgFmQaLCDWLGc
-	 hUgDz4Z56JcDltOfAQ5So+5WLbJOwWNgZ1Nja8t76t2ZmdaDyXrWbeUovKrN7qU4fZg==
+	t=1793802288;
+	b=uI0zNoVUk+1IcusViBdOoToWjWH2cb3qY8wr2M8PCgdOVFS/qUrpcy+UmCe28Hz2UCe8
+	 TizEJM71EM42TJWpe+EaWyVJHJSxLTeZU749fQJ3/Dc0Zb4FIsFL7jgm9x4dBxwJBdpLk
+	 RKOuhA99KceamZNf7demaTvBWyiz2YdAKuJwFGbUF5oU/xmskLM22qOqrC7ijlcMla/zI
+	 +9fFBxeTLHZbIJUhdbxqjNOvK/dZTbDY0pKYFukpuDgs0w9r7GuFCs93cdiAkvw/bFWde
+	 nlZhkh59+Ky1cWv+ZPnlXEJWIRbd1C/WtmuyULZu5CmN0q+/hcLoKkyqWTgFEsElspA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793802197;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793802288;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:X-Mailer:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=ipCVhzNjz3bkUh3HIH/dC2V084l64YZgYq8uC+CfKVA=;
-	b=jT+l068+x3b7OhB3aUjVDdD8GVfBOZwqP1kSI/nqmSNJAqNphuYgamv7yN67+2SNuU6A
-	 3+Acuz1AyKnu1ItaRfBhCvxKQBGpUtc9pVKhXJa4SJdeZXZnp6cTHwKJkhIsJXX1hWPy1
-	 tZiNytDXWTJnSy2ZIoT8QJnI2tzHvqYp4fZLvf8RsyS+Ev/jsLCGVcumjrXNdnx86ETbT
-	 KX97s1pSVu1UTNH7EZ6PZ+19wSO4J8tDS/Iyez9f9CTW4zBQyonrH2F9mQKFfi11ChrLD
-	 xfx3mb9Ra4PNJnCW9b0M/hvLtaIwL3qoKH5Bmn+cVS7qVjtFJwUJhc4vVV73qg2WBgA==
+	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key;
+	bh=pWQrTSr1cnuN/zJhDRaCY/o7+kRntSwc8YxzyZoPN80=;
+	b=AypEbnnJ3HoY931pi8lxsDF6LGvU1ccBo/dydfTPljOqsUT7DzSGG2EUX2+UiTiD+C4g
+	 IKuookjPXqTpRN/7E42Bifol8r1cjbwwJg0KQ/Ytc1NIt/5cXVPY5jp3V3Jch1NLSF/1/
+	 wgkj7buP1h5Mnie4z5wFBFoMpbEqns45Lf7VyT4a/gNYMXI+7d3gSSsWoJHroRpUuapjG
+	 VUhgnmdYNSje3ySkK2lEHiTLx5xM1HyMX+lzPsFVslaRBQSTt+MNE7PfFAZyTSHyamfS6
+	 nNBRCHMu+dPzIF7Beg3+fqiza3+wJQz4+jhZ2goqqTf8QjknOMq8zbZPfl6UfWD0NyA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0LsVrB1R;
-	arc=none smtp.remote-ip=209.85.128.42
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	dmarc=none header.from=toxicpanda.com;
+	spf=pass smtp.mailfrom=toxicpanda.com;
+	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=TD04l5zw;
+	arc=none smtp.remote-ip=209.85.160.171
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C363606A331
-	for <linux-fsdevel@vger.kernel.org>; Wed,  4 Nov 2026 14:23:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2C363606A331
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F4B7606A326
+	for <linux-fsdevel@vger.kernel.org>; Wed,  4 Nov 2026 14:24:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1F4B7606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0LsVrB1R
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4a2069b9710so6789005e9.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 04 Nov 2026 06:23:16 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=TD04l5zw
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-5430f70c827so7571121cf.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 04 Nov 2026 06:24:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793802195; x=1794406995; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ipCVhzNjz3bkUh3HIH/dC2V084l64YZgYq8uC+CfKVA=;
-        b=0LsVrB1RbPjDtXwX3qjLB1A3vbWVpqZ7HZf5pVQXVp4B7btdszFS1RljBh17d4QysC
-         BS3cixxniLqtiMaPPHJK5cPfu73HovzOQC3aoX+YmxViTbcNeU+xrWcrtDpOK3olBzbq
-         8BYj61J6NvVpkQGghxMoUWWxHaUL3v2+0S7dfFQuuTth1J1asNB7GdDfzPs5Ij5j1Fma
-         CAHQ0lbRdCK0qEiS0+sQqrIdPbDnjliso64JP9yRZdlJQLMNlR49y+Q1lop64YIK2xJG
-         yr/u0N5gPgEp75e1VVKhayMcmVrXJMOLfY8AaES0WpLtJCBYs28K3LQlgCNZwXYwAbjv
-         QTiQ==
+        d=toxicpanda.com; s=google; t=1793802287; x=1794407087; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=pWQrTSr1cnuN/zJhDRaCY/o7+kRntSwc8YxzyZoPN80=;
+        b=TD04l5zw9rr16ERVA20YiTiZjI4cKscaNmguWGe66LNezDqqZeQ0nZ8Kk88Gelx6TZ
+         JB+ILngGrxiL2QjKlo+6q+IJWcjM1asNm9xt4My5MGbOtgyVYXLXZ2Rpn5vUCaXDEcY3
+         8oYkuAk44UhooQbdPGtg1CAeBzvbYCGMK/Bipn/tRnoBUSfq4p9KekU6D6Y4LLEOqQPK
+         6iBxlxfvK22eQIPypii+b5WfGeOluH+4dBrFDA91vWy9iPddr/RctgKUPDitC2RtNZFq
+         c9/WpQPNEAAJBge7R4mEeJ16ODNVK3iX1CuG1HTx4a1kv0IAektabyMSbxDbBngTi6+G
+         7n2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793802195; x=1794406995;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20260707; t=1793802287; x=1794407087;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ipCVhzNjz3bkUh3HIH/dC2V084l64YZgYq8uC+CfKVA=;
-        b=Z3qdtMgdQf/O2IELEy4LltZLHQvrzXaFU9qrLMdRMGniGG1GfAeFycOiKjxUs7gwb2
-         4ad0H/Vo0sNNcmJ5fEnKS3ILLoLj/BuyU6lIzH7891zacFLbvdGWSACUj+ai0ag7O9ga
-         IxUhp5+04tSxvuuBLg+zB0KfVpAbGJqf5KN8VLzwlMjz7JlAtHDhyOLpKNwVWKR1+fNx
-         V2YlCEp9h6KhV4+FMQjvYcstC4EnNHMnDIDW3MmVA5AwiME68eryQ/LSCzQcIGbHTRNH
-         35/bCw5nnygGQ3xoOERqSDNapmbGFbobNAMlgkuOvHYsTUDQMg6op06EA+pMtgY/v2K9
-         vibg==
-X-Forwarded-Encrypted: i=1; AKwUvByAXAH1Jm1ialKCad2yVJSKaytaxHogGJ4UzViKZsNit07QiZHwdKfdlnvteJ2DsFPzYOkzabMmMfXgRSO1@vger.kernel.org
-X-Gm-Message-State: APuU4Z8U+7W5156OefumUBlB/IQAqsFRBN8sZ+89bxg95vYAHOI5x99l
-	r1xjUl0JePZWh4HJlNiyJ+hHawlW710K4jWp4vLYjPB/g+wwKMxmoAdA
-X-Gm-Gg: AYBFou2gKolbBaDmIoTuk056pVIrQ6YaRBwROqSgNRz2k0BWdqlcBn3H8MrSkFLPWdI
-	LWQEfzFnU8Uaap//ehR4F779CCLtWdjo9r/CVurNA/ons6j+Clgo7XaUecYGRE5wnwW5XNtC2Nt
-	A+qupbsfmp0BzzU2mbRI1GkoOMYqYh6sb3dnfCGsBzL9rqrxLW5utyAWCkA49LOnZHfCrheaTW4
-	GoEeB8USSIAZLedjk8UQQRBGeKhbf67G+V+kE6Nwfg0V4BcKyQRm4r8tzM/zsAChxwPMwiu5NTc
-	rdPC/+Peh814CZf3e6w/xGV0Afy7i4w13ZQAgW23b7wMLTHJ+lr8CraXBVJruJhMEuJXsEYsv9r
-	lF0ZhF3QoGm/cIJ1zuyWRWZVTCGPomUkePGrD11eBX1F2qUll08G4eIYO8aenEojfdR49htkn8p
-	MMxeYxa6QJmvivFqTHXLdKJ6PzPXxYn+t/tR3SAM2V9sWvZJwzlzmGIVbqHyy9wZtnmw8N2wb85
-	9G1NxJDNh2gIGip6HEcPmA88ovtPP+zBmGva4t5PhghL4AV9DJl2OEDAVB5WQ4cLI3aSpPUn9Ny
-	7SSnjiUwEu1akjt8NWCE6KK6rhxsa4E7UWciZ744QNonrtjU1QMd5jyzLLl9unsQ
-X-Received: by 2002:a05:600c:4f55:b0:4a3:d327:6ed with SMTP id 5b1f17b1804b1-4ac182dcba3mr406397685e9.17.1793802195353;
-        Wed, 04 Nov 2026 06:23:15 -0800 (PST)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b43c7480e3sm87089165e9.7.2026.11.04.06.23.08
+        bh=pWQrTSr1cnuN/zJhDRaCY/o7+kRntSwc8YxzyZoPN80=;
+        b=vxpAsCK+mF1cF+O9QTpFoIlNoY8PQ8MiLTvhcMHUXVCJ0lZvafzNiBDHluxA+xYzqg
+         8S40Oka95SVQ2EF3cZ8Ybqhvo6S+WydT9jBPVX6cOjvsqW+PhJPgI8XlfaSREmAmZkgK
+         K9873qIXGVMXABpeXcuKK9msoBtLFKoxk6FKGCF64orOY7pVVWkRZaZS8OfeblFU/bYQ
+         /fuxtQt9dV5/AfaU3DVrcIhJ28mK6tfIRjT6W5xi6EOy1PDZ52Y0R+ZcJLmQlX96DLiD
+         WsXrfee8bVzn6zfX+GN7vGXplovNRpbvEuaFGzTxG2cOVUva0pkZaKuuTBzKT9FqRYF4
+         UpLA==
+X-Forwarded-Encrypted: i=1; AKwUvBxhc91NPkfUe9UVWg2RDqwHBpy5ITLJGIXyK0YwyNw/d4Fd4NAT4vaAnVLmvuPw+iht886dUASd0UvDUx8p@vger.kernel.org
+X-Gm-Message-State: APuU4Z9tXEaw4NAysRsC8bgCXYdlMsqb4AroMy+EBXLzl7YQWvw0O/Ml
+	bNptZ3Fg3DgcqrYMj7jnqPvQZ1/I3zbTpcmcYXeDqJ2i6/IZfJjpZKFR68S4aT+KCGU=
+X-Gm-Gg: AYBFou3Ef83dBsBM9Un8S/UMu9uqvaKD5VIKcX8Ay1NLauuHcd2cswvanXdIbvrMfpW
+	uZJNokK6nB2pAzgzbm077a/vwVUtQfM49UM02Jw/bCDqiQeVZRusJ2y4NbRS2n7Ynvj1e/bOfOC
+	R1wS2JyxZaqpQ/3mF9+mVfm84x4a0ai0OtmH08XfFFWJxJUU0+gZ5E/IshW+LFX/EQGKP3cFV4n
+	ucDYdvL/rjFa9RLg/cliXZ6tJ84aRJ2oOSdCZvgsbzyvcihYM7tr9vRkOzl2dMu2FEV0lTO9Ods
+	lEhZ085N2W0U+jx6at7X9pS9fuN9ukZEQ28uaj8u609EphaFiUn31dLTNtNaKJONbMCZBeO/4Tv
+	2D+08oxTmrkIGxls2Le6rFNKHfAbja9fGGDVNGfoTFL4FUHWXmKxsw+nUbD6NXDJzHGE9It7d1K
+	1TV6e11FLNQlazAFRl1gi6YwaAysTFl7by9sQsZBaUT1HIof7s8Z4hYsxgV5pEIxAvO1iQJvfO+
+	LjkzaH2N+EkS2DSI0V4h/CrI1YyOWaqswKYKn9YxRThgbEEZ9k0fAkZ87xAqd4uK95xietAEc4S
+	BgHBvl7NtloRIWAjVeVNo+XwSE7CLrIxT8Fs0Kcbl6BgiPq41Y9BlrOFYFwcmeZT3QE=
+X-Received: by 2002:a05:622a:2996:b0:533:3e09:22bb with SMTP id d75a77b69052e-542b723c1d5mr247673401cf.42.1793802286275;
+        Wed, 04 Nov 2026 06:24:46 -0800 (PST)
+Received: from toxicpanda.com ([153.61.196.248])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-54b0d07599dsm24796651cf.2.2026.11.04.06.24.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Nov 2026 06:23:09 -0800 (PST)
-Date: Wed, 4 Nov 2026 14:23:07 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: Samuel Wu <wusamuel@google.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner
- <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Andrii Nakryiko
- <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, Ihor Solodrai
- <ihor.solodrai@linux.dev>, Alexei Starovoitov <ast@kernel.org>, Daniel
- Borkmann <daniel@iogearbox.net>, Kumar Kartikeya Dwivedi
- <memxor@gmail.com>, Martin KaFai Lau <martin.lau@linux.dev>, Song Liu
- <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa
- <jolsa@kernel.org>, Emil Tsalapatis <emil@etsalapatis.com>, Nathan
- Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- kernel-team@android.com, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH bpf-next v2 1/6] kallsyms: Add KALLSYMS_QUERY ioctl to
- /proc/kallsyms
-Message-ID: <20261104142307.431fc12f@pumpkin>
-In-Reply-To: <CAG2KctqdPq6NmK6rB13s2bgM7kP2w4OMMy2hdp_OFMVYYhTnZA@mail.gmail.com>
-References: <20261023001603.560210-8-wusamuel@google.com>
-	<20261023001603.560210-9-wusamuel@google.com>
-	<20261028134012.01d52e94@pumpkin>
-	<CAG2KctpGPHo-S3AEvBhK5HPUnDHfoJu6Z-r+cS1hQ4Ps=B3DmQ@mail.gmail.com>
-	<20261030100215.6f8e0d4f@pumpkin>
-	<CAG2KctqdPq6NmK6rB13s2bgM7kP2w4OMMy2hdp_OFMVYYhTnZA@mail.gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+        Wed, 04 Nov 2026 06:24:44 -0800 (PST)
+From: Josef Bacik <josef@toxicpanda.com>
+Date: Wed, 04 Nov 2026 14:24:28 +0000
+Subject: [PATCH v2 01/13] cred: gather the rules for acting on a task by
+ uid
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -117,40 +93,309 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261104-b4-cred-ids-v2-1-956213608f16@toxicpanda.com>
+References: <20261104-b4-cred-ids-v2-0-956213608f16@toxicpanda.com>
+In-Reply-To: <20261104-b4-cred-ids-v2-0-956213608f16@toxicpanda.com>
+To: Christian Brauner <brauner@kernel.org>, 
+ Paul Moore <paul@paul-moore.com>
+Cc: Serge Hallyn <sergeh@kernel.org>, linux-fsdevel@vger.kernel.org, 
+ linux-security-module@vger.kernel.org, Josef Bacik <josef@toxicpanda.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openssh-sha256; t=1793802280; l=11088;
+ i=josef@toxicpanda.com; h=from:subject:message-id;
+ bh=mQ7xojoozlPowG5Y6QD8FTHBjW22hFljOH5ULgt7J7c=;
+ b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgUBr36M/n0nWN0DNbnxwzIiCZez6MG
+ JiruuNaSCI/zXsAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
+ QOnFrkG7RSpBB+71aCPxSmF4LJ7xwBIZ+VGsBODvmm7en8iOVfnMHhskN0ofeOGXgfuW6Z9Ri/t
+ bi+RxgVnOPAk=
+X-Developer-Key: i=josef@toxicpanda.com; a=openssh;
+ fpr=SHA256:C8kOX2QUJCMqnCX+KEeoqRAjLo9L+ELOSH2NSAJHqGA
 
-On Tue, 3 Nov 2026 17:14:26 -0800
-Samuel Wu <wusamuel@google.com> wrote:
+A number of operations let one task act on another without any capability,
+because the two belong to the same user: signals, scheduling attributes,
+priorities, resource limits, ptrace and more. Each of them compares the
+ids of the two credentials by hand. There are twelve such places, in six
+flavours that differ in which ids they look at, and nothing says that they
+belong together.
 
-> On Fri, Oct 30, 2026 at 3:02=E2=80=AFAM David Laight
-> <david.laight.linux@gmail.com> wrote:
-> >
-> > On Thu, 29 Oct 2026 15:05:45 -0700
-> > Samuel Wu <wusamuel@google.com> wrote: =20
-> [...]
-> > > BY_NAME matches names exactly, like kallsyms_lookup_name(), so they
-> > > would be different symbols at different addresses. Please correct me
-> > > if I'm missing something here! =20
-> >
-> > Only that the user might really want one of the copies.
-> > Sometimes there is only the copy. =20
->=20
-> Good point. I'll have v3 add KALLSYMS_F_PREFIX + pos/next_pos
-> pagination to cover these. A prefix query for "foo." also finds the
-> copies when plain foo does not exist (expanded on this in my reply to
-> Andrii's Oct 30 mail in this thread).
+That makes them hard to review and hard to change. Nobody can tell from
+one of them whether it differs from its neighbour on purpose. Whoever
+wants to know what an equal uid is good for has to find all twelve, and so
+does whoever has to change it. A place that is overlooked is a hole.
 
-I'm busy rebasing my patches - they got stamped all over :-(
-I should get a v3 that applies by the end of the week.
+Gather the rules in kernel/cred.c, side by side:
 
-I will add a 'prefix' variant for you.
-The 'next symbol matches' flag is exactly that (actually it is a
-this symbol is a duplicate to avoid issues at the start of the array).
-So in this case that application would always need to read
-the next symbol (by name).
+ rule     of the subject    of the object      euid 0 used for
+ signal   euid or uid       suid or uid        no     kill()
+ sigio    euid or uid       suid or uid        yes    SIGIO, SIGURG
+ sched    euid              euid or uid        no     scheduler, nice
+ ioprio   euid or uid       uid                no     ioprio_set()
+ move     euid              uid or suid        yes    cgroup v1, resctrl
+ control  one uid, one gid  all three of each  no     ptrace, prlimit, keys
 
-I think it might be more sensible (less pitfalls later on) to return
-the symbol number - not that of the next one.
+Where it says so, a subject with euid 0 may act on anybody. That is a
+capability by another name, from before there were any, and it belongs
+with the rest: it is a uid that decides whether one task may act on
+another.
 
-David
+What each operation means by "the same user" has grown separately and
+cannot be changed now, so every rule is kept as it is. The functions only
+speak for the ids. A capability that does as well, and the LSM hook that
+goes with the operation, remain with the caller.
+
+The callers are converted one by one in the patches that follow.
+
+Signed-off-by: Josef Bacik <josef@toxicpanda.com>
+---
+ Documentation/security/credentials.rst |  19 ++++
+ include/linux/cred.h                   |  20 ++++
+ kernel/cred.c                          | 162 +++++++++++++++++++++++++++++++++
+ 3 files changed, 201 insertions(+)
+
+diff --git a/Documentation/security/credentials.rst b/Documentation/security/credentials.rst
+index a39a2a2f67aa..b095c03b4531 100644
+--- a/Documentation/security/credentials.rst
++++ b/Documentation/security/credentials.rst
+@@ -422,6 +422,25 @@ magic.  This may not be used for pointer members as what they point to may
+ disappear the moment the RCU read lock is dropped.
+ 
+ 
++Comparing the Ids of Two Tasks
++------------------------------
++
++Whether one task may act on another because both belong to the same user must not
++be decided by comparing the ids of their credentials by hand.  The rules for that
++are kept in one place:
++
++.. kernel-doc:: kernel/cred.c
++   :doc: One task acting on another on the strength of its ids
++
++.. kernel-doc:: kernel/cred.c
++   :identifiers: cred_ids_allow_signal cred_ids_allow_sigio
++                 cred_ids_allow_sched cred_ids_allow_ioprio
++                 cred_ids_allow_move cred_ids_allow_control
++
++.. kernel-doc:: include/linux/cred.h
++   :identifiers: cred_ids
++
++
+ Altering Credentials
+ --------------------
+ 
+diff --git a/include/linux/cred.h b/include/linux/cred.h
+index 49c26af37349..7fb1663a5fc6 100644
+--- a/include/linux/cred.h
++++ b/include/linux/cred.h
+@@ -171,6 +171,26 @@ extern int cred_fscmp(const struct cred *, const struct cred *);
+ extern void __init cred_init(void);
+ extern int set_cred_ucounts(struct cred *);
+ 
++/**
++ * enum cred_ids - which of its ids a subject acts with
++ * @CRED_IDS_REAL:      uid and gid
++ * @CRED_IDS_EFFECTIVE: euid and egid
++ * @CRED_IDS_FS:        fsuid and fsgid
++ */
++enum cred_ids {
++	CRED_IDS_REAL,
++	CRED_IDS_EFFECTIVE,
++	CRED_IDS_FS,
++};
++
++bool cred_ids_allow_signal(const struct cred *subj, const struct cred *obj);
++bool cred_ids_allow_sigio(const struct cred *subj, const struct cred *obj);
++bool cred_ids_allow_sched(const struct cred *subj, const struct cred *obj);
++bool cred_ids_allow_ioprio(const struct cred *subj, const struct cred *obj);
++bool cred_ids_allow_move(const struct cred *subj, const struct cred *obj);
++bool cred_ids_allow_control(const struct cred *subj, enum cred_ids which,
++			    const struct cred *obj);
++
+ static inline bool cap_ambient_invariant_ok(const struct cred *cred)
+ {
+ 	return cap_issubset(cred->cap_ambient,
+diff --git a/kernel/cred.c b/kernel/cred.c
+index d01df40a9a38..5e10e0bdd11e 100644
+--- a/kernel/cred.c
++++ b/kernel/cred.c
+@@ -19,6 +19,7 @@
+ #include <linux/binfmts.h>
+ #include <linux/cn_proc.h>
+ #include <linux/uidgid.h>
++#include <linux/vfsdebug.h>
+ 
+ #if 0
+ #define kdebug(FMT, ...)						\
+@@ -541,6 +542,167 @@ void __init cred_init(void)
+ 			      SLAB_NO_MERGE);
+ }
+ 
++/**
++ * DOC: One task acting on another on the strength of its ids
++ *
++ * A number of operations let one task act on another without any capability,
++ * because the two belong to the same user. What "the same user" means has grown
++ * separately for each of them and cannot be changed now. All of it is kept
++ * here, side by side, so that there is one place to read it.
++ *
++ * =======  ================  =================  ======  =====================
++ * Rule     Of the subject    Of the object      euid 0  Used for
++ * =======  ================  =================  ======  =====================
++ * signal   euid or uid       suid or uid        no      kill()
++ * sigio    euid or uid       suid or uid        yes     SIGIO, SIGURG
++ * sched    euid              euid or uid        no      scheduler, nice
++ * ioprio   euid or uid       uid                no      ioprio_set()
++ * move     euid              uid or suid        yes     cgroup v1, resctrl
++ * control  one uid, one gid  all three of each  no      ptrace, prlimit, keys
++ * =======  ================  =================  ======  =====================
++ *
++ * Where it says so, a subject with euid 0 may act on anybody. That is a
++ * capability by another name, from before there were any.
++ *
++ * These functions only speak for the ids. A capability that does as well, and
++ * the LSM hook that goes with the operation, remain with the caller.
++ *
++ * Do not compare the ids of two credentials by hand to decide whether one task
++ * may act on another. Use one of these, or add one.
++ */
++
++#define CRED_RUID	BIT(0)
++#define CRED_EUID	BIT(1)
++#define CRED_SUID	BIT(2)
++
++static bool cred_euid_is_root(const struct cred *subj)
++{
++	return uid_eq(subj->euid, GLOBAL_ROOT_UID);
++}
++
++static bool cred_has_uid(const struct cred *cred, unsigned int ids, kuid_t uid)
++{
++	return ((ids & CRED_RUID) && uid_eq(cred->uid, uid)) ||
++	       ((ids & CRED_EUID) && uid_eq(cred->euid, uid)) ||
++	       ((ids & CRED_SUID) && uid_eq(cred->suid, uid));
++}
++
++/*
++ * Is any of the @subj_ids of @subj any of the @obj_ids of @obj? No rule looks at
++ * the saved uid of the subject.
++ */
++static bool cred_uid_match_any(const struct cred *subj, unsigned int subj_ids,
++			       const struct cred *obj, unsigned int obj_ids)
++{
++	return ((subj_ids & CRED_RUID) && cred_has_uid(obj, obj_ids, subj->uid)) ||
++	       ((subj_ids & CRED_EUID) && cred_has_uid(obj, obj_ids, subj->euid));
++}
++
++/**
++ * cred_ids_allow_signal - do its ids allow a subject to signal an object?
++ * @subj: the credentials of whoever sends the signal
++ * @obj:  the credentials of the task it is for
++ *
++ * Return: true if the euid or the uid of @subj is the suid or the uid of @obj.
++ */
++bool cred_ids_allow_signal(const struct cred *subj, const struct cred *obj)
++{
++	return cred_uid_match_any(subj, CRED_EUID | CRED_RUID,
++				  obj, CRED_SUID | CRED_RUID);
++}
++
++/**
++ * cred_ids_allow_sigio - do its ids allow a subject to have SIGIO sent?
++ * @subj: the credentials of whoever made the object the owner of a file
++ * @obj:  the credentials of the task that SIGIO or SIGURG is for
++ *
++ * Return: true if cred_ids_allow_signal() says so, or the euid of @subj is 0.
++ */
++bool cred_ids_allow_sigio(const struct cred *subj, const struct cred *obj)
++{
++	return cred_euid_is_root(subj) || cred_ids_allow_signal(subj, obj);
++}
++
++/**
++ * cred_ids_allow_sched - do its ids allow a subject to schedule an object?
++ * @subj: the credentials of whoever asks
++ * @obj:  the credentials of the task whose policy, affinity or nice value is
++ *        to change
++ *
++ * Return: true if the euid of @subj is the euid or the uid of @obj.
++ */
++bool cred_ids_allow_sched(const struct cred *subj, const struct cred *obj)
++{
++	return cred_uid_match_any(subj, CRED_EUID, obj, CRED_EUID | CRED_RUID);
++}
++
++/**
++ * cred_ids_allow_ioprio - do its ids allow a subject to set an I/O priority?
++ * @subj: the credentials of whoever asks
++ * @obj:  the credentials of the task whose I/O priority is to change
++ *
++ * Return: true if the euid or the uid of @subj is the uid of @obj.
++ */
++bool cred_ids_allow_ioprio(const struct cred *subj, const struct cred *obj)
++{
++	return cred_uid_match_any(subj, CRED_EUID | CRED_RUID, obj, CRED_RUID);
++}
++
++/**
++ * cred_ids_allow_move - do its ids allow a subject to move an object about?
++ * @subj: the credentials of whoever asks
++ * @obj:  the credentials of the task that is to be moved to another group of a
++ *        cgroup v1 hierarchy or of resctrl
++ *
++ * Return: true if the euid of @subj is the uid or the suid of @obj, or is 0.
++ */
++bool cred_ids_allow_move(const struct cred *subj, const struct cred *obj)
++{
++	return cred_euid_is_root(subj) ||
++	       cred_uid_match_any(subj, CRED_EUID, obj, CRED_RUID | CRED_SUID);
++}
++
++/**
++ * cred_ids_allow_control - do its ids give a subject the run of an object?
++ * @subj:  the credentials of whoever asks
++ * @which: which of its ids @subj acts with
++ * @obj:   the credentials of the task that is to be traced, limited or the like
++ *
++ * The strictest of the rules, for what amounts to taking the object over. It
++ * fails for an object that has changed any of its ids, a set-id program say.
++ *
++ * Return: true if the uid @subj acts with is the uid, the euid and the suid of
++ * @obj, and the gid it acts with is the gid, the egid and the sgid of @obj.
++ */
++bool cred_ids_allow_control(const struct cred *subj, enum cred_ids which,
++			    const struct cred *obj)
++{
++	kuid_t uid;
++	kgid_t gid;
++
++	switch (which) {
++	case CRED_IDS_REAL:
++		uid = subj->uid;
++		gid = subj->gid;
++		break;
++	case CRED_IDS_EFFECTIVE:
++		uid = subj->euid;
++		gid = subj->egid;
++		break;
++	case CRED_IDS_FS:
++		uid = subj->fsuid;
++		gid = subj->fsgid;
++		break;
++	default:
++		VFS_WARN_ON_ONCE(1);
++		return false;
++	}
++
++	return uid_eq(uid, obj->uid) && uid_eq(uid, obj->euid) &&
++	       uid_eq(uid, obj->suid) && gid_eq(gid, obj->gid) &&
++	       gid_eq(gid, obj->egid) && gid_eq(gid, obj->sgid);
++}
++
+ /**
+  * prepare_kernel_cred - Prepare a set of credentials for a kernel service
+  * @daemon: A userspace daemon to be used as a reference
+
+-- 
+2.55.0
+
