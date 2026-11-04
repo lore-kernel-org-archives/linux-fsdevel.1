@@ -1,112 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793811228;
-	b=ILu5cum2zx6OYqGsHF/Y91pSBUm+P/bviL30c0cS3hBcXJTFj+wUhkLg7O66Q+Whjais
-	 Y/yitvXvb7PrdKmiOxgstVV+wGqo8Wua5t2mBEmfXMkoe3jypdUzCj5wpwsU2Sfi61bFW
-	 vXTJkPjFG4ndjViv8s5mYMTE13mNVQ+tfGNfA9CjE5+up2QY2XpUmmcTpMnlXHTVE87wV
-	 I1QIcyJAJ5T87I+0nsXQL2CCKGNCei6XGByqe+YYN0k/vclHCHWr1LhZmkTNYvf+oTeo0
-	 Unno/cYv4He0SmlSVFDI32H8pLSXvl6dB5JHiwFtp5y50ZbvCr/YRQHLyesGLYEw5iA==
+	t=1793811709;
+	b=s7t8BCJanEqFf9Lw97/83iMBGZJaI+GOQUarDgNJbAeoLxKCVgmmFQMOmoVHKyqZcCb5
+	 eX7ER8DnQSjioJHTELkW5A9NHYuU0Zu4Fd96JZ/K8gA0/JmN7ye8kqQcpg5mwVgPwzFLb
+	 T3+IKHrP9VQ4tGtc1hMG9SyhFgf6qY5Jz1KAoftTRNkapqbp/KF3I6u82K+vBycbt0gfe
+	 pu8tNFcyOFv0mguBgtsWjSa2vZFQbL5NAs5nXzLWBxORLRjRJKY+wcx1hGpJFfEh8Cun6
+	 u9vj0BNO3njgmbFCQctYkeYeA9zJngJtkD+z1n20U/v7V+fAl/aAWBlMVTRckIQpG/Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793811228;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:
-	 X-Rspamd-Action:X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
-	bh=4G+6DIPOVHtjtGmntgfDSVsJzFwPyFWDveLCz6VShN8=;
-	b=XgoKt5jh7lGhKCLjvhDYcnapaE6vm5Id86Cq3DoQMrHWgs6eyUKApIbDOOfi7Elc73ZJ
-	 rBphI7Qb80oUv7XcSGOoWTbwZap9oqDLpo1roBKkXlKVYULTvh2UIokSrFDf58KKVHvtp
-	 ++DQ5KMKvB6C16BTu/APNOvHQWfqY/pco1QG5pLMFBhAmD29FEhUHStnUZYj1AVfeotcH
-	 ilRvBNHvB/Gybc5Y7XLi71eflnAqGFL5S9Atnw+zj+b8+6SU5QwZHXzXH21RNpBLblU3L
-	 XFeDgfX7bLrRkFxJBR9YvSye2XczGoHaN8zxUYxZV7O8Z8uNkokmt94XlvpJ68+uM7w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793811709;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=jkCHVhZioJ1wdZN6npY2hfrvWb9kbC3wPalZmZ3BoVA=;
+	b=Adk+mGQN6ig90XDs8DJpD5/EcU3QUN3IVLXwPlYhSS98hKy8o6U6ymS4k/Dxf+nbmZe5
+	 woaYjvnULp1rLRLZJwOldJmLbD/npBjTvTiyXk436GBYyrYSXRbZYjgAHsMNUDS+YvV+i
+	 Jfha+Dy9MQUaAgpz6NwBYKLbdpZA8bb/v/ci11YowkJtJsDKG+1LsxCBYkZ6v7Ez8IztV
+	 caKETdIMXVEFsxVnQMoMC6vjtXEOgXEnL8y6ebehAwIWSwG+6DJQLVgeOpsQcCqKfmx2W
+	 yLziDqgTdcIqJdG8gFX10q8snG3XqzSQmPd1K8//HKHqqalAR2v9CmQF6tGIgUzRoTA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b="LJ/z7pF0";
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=5b8uXr4t;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b="LJ/z7pF0";
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=5b8uXr4t;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IT2x62J6;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7112E606A330;
-	Wed,  4 Nov 2026 16:53:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7112E606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1563606A326;
+	Wed,  4 Nov 2026 17:01:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=LJ/z7pF0;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=5b8uXr4t;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=LJ/z7pF0;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=5b8uXr4t
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A833B1F388;
-	Wed,  4 Nov 2026 16:53:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793811225; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4G+6DIPOVHtjtGmntgfDSVsJzFwPyFWDveLCz6VShN8=;
-	b=LJ/z7pF0VqGEvjMGbdjtpFsaVmmxMIyEyeUH2Nsk+Ds6Y2YAqHhExUHzTLgBxLIU4obXoT
-	67bUTK8UA+1sfr+Qs7G3FsTWZCIFY6mp5ig3/ueQTq5RixgbpyngMO8qsTWflm06NoWwAa
-	oJY4tiq7lmZNPTJkbPbnkKP8LzG7f3Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793811225;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4G+6DIPOVHtjtGmntgfDSVsJzFwPyFWDveLCz6VShN8=;
-	b=5b8uXr4tMOajkwxeEPPuG50AWnf7Mq6lEWshBBU3mpyehhtlW3sJjk8yQqy9MGddjre/tv
-	Eh/KVn8pXEdPnZAQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b="LJ/z7pF0";
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=5b8uXr4t
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793811225; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4G+6DIPOVHtjtGmntgfDSVsJzFwPyFWDveLCz6VShN8=;
-	b=LJ/z7pF0VqGEvjMGbdjtpFsaVmmxMIyEyeUH2Nsk+Ds6Y2YAqHhExUHzTLgBxLIU4obXoT
-	67bUTK8UA+1sfr+Qs7G3FsTWZCIFY6mp5ig3/ueQTq5RixgbpyngMO8qsTWflm06NoWwAa
-	oJY4tiq7lmZNPTJkbPbnkKP8LzG7f3Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793811225;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4G+6DIPOVHtjtGmntgfDSVsJzFwPyFWDveLCz6VShN8=;
-	b=5b8uXr4tMOajkwxeEPPuG50AWnf7Mq6lEWshBBU3mpyehhtlW3sJjk8yQqy9MGddjre/tv
-	Eh/KVn8pXEdPnZAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 73A29134F0;
-	Wed,  4 Nov 2026 16:53:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id mImBDxlj62q9BwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 04 Nov 2026 16:53:45 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id E5A16B439; Wed, 04 Nov 2026 17:53:40 +0100 (CET)
-Date: Wed, 4 Nov 2026 17:53:40 +0100
-From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, Jan Kara <jack@suse.cz>, 
-	Josef Bacik <josef@toxicpanda.com>, Chris Mason <mason@kernel.org>, linux-ext4@vger.kernel.org, 
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, Andreas Dilger <adilger.kernel@dilger.ca>, 
-	Baokun Li <libaokun@linux.alibaba.com>, Ojaswin Mujoo <ojaswin@linux.ibm.com>, 
-	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>, Namjae Jeon <namjae.jeon@samsung.com>, stable@vger.kernel.org
-Subject: Re: [PATCH RFC 2/9] ext2: don't read the inode block in
- ext2_sync_inode_metadata()
-Message-ID: <rczezs5hk6alwpfpd3h3yevzbpc462lv2cgqxxgh7vfkro67u4@cmz3zcc3hjyj>
-References: <20261029-work-inode-metadata_writeback-v1-0-7d6c678a585d@kernel.org>
- <20261029-work-inode-metadata_writeback-v1-2-7d6c678a585d@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IT2x62J6
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED6B91F000C1;
+	Wed,  4 Nov 2026 17:01:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793811708;
+	bh=jkCHVhZioJ1wdZN6npY2hfrvWb9kbC3wPalZmZ3BoVA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=IT2x62J6jn/yfd+OqmhV0T8VN/l364Oj0rtzzElfoSBg5AlI2P5CKcGHPitytOUdB
+	 rCMPOzw6jrqFs2RRAsbUrEFz0z7dCmzAo7iAbPX7yMi76pnu0twc0lzcE00PeLaNU1
+	 7MeoRZ0ppZpFPXYztbMrcPhjKkDVFz1bx3XsDbcjpguZ59obJbd3Bh5HNxVxh7wXJj
+	 ixi0MMwXpoT534c0m/y5CKXBd64MLxm/fo6C8yso6Yih31nWU0nueRk4Gp9PCcknyW
+	 IJK4aGSV8dvWYKe0JSt/gc6eY0wF30rE0OZrCl9YV5fP6+DeU7pkN+6UV6uqrUunc9
+	 l+HHO6sjCrTxw==
+Date: Wed, 4 Nov 2026 12:01:46 -0500
+From: Mike Snitzer <snitzer@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Matthew Wilcox <willy@infradead.org>, linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org, Chuck Lever <cel@kernel.org>,
+	Jeff Layton <jlayton@kernel.org>, linux-nfs@vger.kernel.org,
+	NeilBrown <neil@brown.name>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
+	Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+	Jonathan Flynn <jonathan.flynn@hammerspace.com>
+Subject: Re: [PATCH v10 7/7] NFSD: drop a shared boundary page only once both
+ WRITEs have written it
+Message-ID: <autk-osSQ8l2LKz1@kernel.org>
+References: <20261103211754.35352-1-snitzer@kernel.org>
+ <20261103211754.35352-8-snitzer@kernel.org>
+ <20261104091543.GA31130@lst.de>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -118,113 +67,77 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261029-work-inode-metadata_writeback-v1-2-7d6c678a585d@kernel.org>
-X-Rspamd-Queue-Id: A833B1F388
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-11.51 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,suse.cz,toxicpanda.com,kernel.org,mail.parknet.co.jp,dilger.ca,linux.alibaba.com,linux.ibm.com,gmail.com,samsung.com];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email]
-X-Spam-Score: -11.51
+In-Reply-To: <20261104091543.GA31130@lst.de>
 
-On Thu 29-10-26 14:28:17, Christian Brauner wrote:
-> ext2_sync_inode_metadata() looks up the inode block with
-> ext2_get_inode() which reads it from disk if it isn't cached. But a
-> block that isn't in the buffer cache is neither dirty nor under
-> writeback. So there's nothing to write or to wait for and reading it in
-> is pointless.
-> 
-> It's also not something we can afford once inode eviction calls
-> ->sync_inode_metadata() from reclaim. So look the block up with
-> sb_find_get_block_nonatomic() instead, the same way
-> fat_sync_inode_metadata() already does.
-> 
-> Cc: stable@vger.kernel.org # v7.3
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+On Wed, Nov 04, 2026 at 10:15:43AM +0100, Christoph Hellwig wrote:
+> Why does the write include an fsync?  Are these STABLE writes, and
+> if yes, why?
 
-Looks good. Feel free to add:
+Only when the client asks for it.  A WRITE with stable_how FILE_SYNC or
+DATA_SYNC must be on stable storage before NFSD replies.  So NFSD runs
+one vfs_fsync_range() over the whole WRITE after all of its segments.
+An UNSTABLE WRITE has no fsync.  Its shared units are completed while
+still dirty, and the writeback that cleans them drops them, whether the
+flusher or the client's COMMIT starts it.
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+The Linux client sends an O_DIRECT write that fits in one WRITE as
+FILE_SYNC (FLUSH_COND_STABLE in nfs_pgio_rpcsetup()).  That is the
+common case for the workload below.
 
-								Honza
+> Can you explain where this very odd number comes from.  Is that just a
+> worst case?  Or for some reason actually relevant?
 
+It is the transfer size of IO500's ior-hard: every rank writes
+47008-byte records, interleaved with the other ranks, into one shared
+file, with O_DIRECT.  It is meant as a hard case, and it is the
+workload that showed the problem on our servers.  The same happens
+with any record size that is not a multiple of the page size.  The
+cover letter also has 6000-byte records.
 
-> ---
->  fs/ext2/inode.c | 12 +++++++-----
->  1 file changed, 7 insertions(+), 5 deletions(-)
-> 
-> diff --git a/fs/ext2/inode.c b/fs/ext2/inode.c
-> index 940f61a4dde3..efb50cb48da3 100644
-> --- a/fs/ext2/inode.c
-> +++ b/fs/ext2/inode.c
-> @@ -1586,19 +1586,22 @@ int ext2_write_inode(struct inode *inode, struct writeback_control *wbc)
->  int ext2_sync_inode_metadata(struct inode *inode, struct writeback_control *wbc)
->  {
->  	struct buffer_head *bh;
-> -	struct ext2_inode *raw_inode = ext2_get_inode(inode->i_sb, inode->i_ino,
-> -						      &bh);
-> +	unsigned long block, offset;
->  	int err = 0;
->  
-> -	if (IS_ERR(raw_inode))
-> +	if (ext2_inode_block(inode->i_sb, inode->i_ino, &block, &offset))
->  		return -EIO;
->  	err = mmb_sync(&EXT2_I(inode)->i_metadata_bhs);
->  	if (err) {
->  		ext2_error(inode->i_sb, __func__,
->  			"Error syncing inode metadata ino=%lu\n",
->  			(unsigned long)inode->i_ino);
-> -		goto out;
-> +		return err;
->  	}
-> +	/* A block that isn't cached is neither dirty nor under writeback. */
-> +	bh = sb_find_get_block_nonatomic(inode->i_sb, block);
-> +	if (!bh)
-> +		return 0;
->  	sync_dirty_buffer(bh);
->  	if (buffer_write_io_error(bh)) {
->  		ext2_error(inode->i_sb, __func__,
-> @@ -1606,7 +1609,6 @@ int ext2_sync_inode_metadata(struct inode *inode, struct writeback_control *wbc)
->  			(unsigned long)inode->i_ino);
->  		err = -EIO;
->  	}
-> -out:
->  	brelse(bh);
->  	return err;
->  }
-> 
-> -- 
-> 2.53.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> How does this compare to just not using DONTCACHE at all for unaligned
+> tails (and maybe heads, if for some reason they I/O you care about
+> reordered writes).
+
+Jon measured that on four pNFS flexfiles data servers with ior-hard
+from three clients.  In one run, cached heads and tails removed the
+reads, 0.000 per record.  But the page cache on the four servers grew
+by 622 GiB during a 318 s write phase.  In a later run of the same
+workload with this series, it grew by 2.9 GiB, at 0.003 reads per
+record.  Keeping the data out of the server's page cache is the point
+of direct mode, so cached ends are not a fix for this case.  Using
+buffered heads and tails are available (in cel/nfsd-testing): set the
+NFSD debugfs knob /sys/kernel/debug/nfsd/direct_misaligned_dontcache
+to N.
+
+> And how does it compare to that plus manual
+> sync_file_range calls to micro-manage the I/O?
+
+Wasn't measured because sync_file_range() writes the folio back but
+leaves it cached.  To get it out of the cache, NFSD would have to drop
+it after writeback.  That is only safe once the neighbouring WRITE has
+written its part of the folio.  Otherwise the neighbour reads it back
+from disk, which is the problem in the first place. NFSD does not know
+when that is without tracking the half-written folios of every file
+itself.  An earlier version of NFSD kept one tail folio per open file
+for the next sequential WRITE.  With interleaved writers the next
+WRITE is rarely the neighbour, and it still read 0.81 blocks per
+record.  The folio's uptodate state already records whether the
+neighbour has written its part, and 5/7 uses that.
+
+> In general I'm not in favour of so many core hacks for
+> very nfsd-specific behavior.
+
+Most of the series is not NFSD-specific.  1/7 to 5/7 fix RWF_DONTCACHE
+itself, for any application.  The table in the cover letter is plain
+pwritev2() on a local XFS file, with no NFSD.  It reads 0.97 blocks per
+write at 831 MiB/s before 5/7, and 0.0005 at 2281 MiB/s after it.  2/7
+also fixes a bug in v7.3 on its own.
+
+Only 6/7 is for callers that sync once after writing several segments,
+which is what NFSD does for a stable WRITE.  The NFS client's LOCALIO
+path does the same.  Without 6/7, each stable WRITE wakes the
+DONTCACHE writeback kick once per segment, 23,000 to 65,000 times a
+run, for folios that its own fsync is about to write.
+
+Thanks,
+Mike
