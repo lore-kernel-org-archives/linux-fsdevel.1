@@ -1,73 +1,73 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793797304;
-	b=mCEUoGI3T++9mxsbJF9KUKvjCL2o9DckIeKkz9LqlUvL1E5lf2r3Qf+ZDkUs/yYEEYV1
-	 z5vBvdti381lUNyMTTQa0Uh3NSdIvD0VqojsqRzlGyxPwlvYho3m2fN+q+Yic8Q8pAS9o
-	 0yEDGH+Xb7rEyxnmAQ4nt8kM9rq+GjWKgwkBnLAg/Mz4UnFtiDNFBh7CFA92t5DEXxek3
-	 xdxeIYG2TeaZN4L7gdyG0uH7rqvplGTeZVm+fh5wAD5h9eVynlrOrX8gjlg6Z8CHwLioB
-	 nYmAOEailHeLaNZtQ/Q45+99///4DmflU6LR0Xg+ZYfbXI1Nz0mWCmiNxVqmUtNWCcQ==
+	t=1793797315;
+	b=m12BlywFWzjz2j9KsFw4I8gjb/qT0qWVWmvZEYHnvIT1ZA+I3MtEfQwR2D1cmsu5MD0U
+	 RQ22TD/N2BqUtjv8Ct/O7lF9eq+WTAKev5xDy9/04Xo2aHmrx+AeagUm5Udnx+hW7sVMK
+	 3CfPQOgPSkyuQ+3jXxrg/5IgfzwkpwF5spYzWM8MtG/cNFnsSGifBWRgWGZ4iRirYTcLD
+	 rYYDLQflxazTNv7Y9EFurf0vwRe388qoFty0Ri3kKzGLM6+YGgmJA5j80SjTmPMTbmWUm
+	 Guujm2hZd6gbRdVFfz65e9S/Tg36Dw/ffnU+AHSSfSSLXwUDYoC3aUrb7ROmHxehoKw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793797304;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793797315;
 	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:X-ME-Received:
 	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=O/dxa82xWVm6PMFOoBLZfnKEj8mtykd0dOrhKJ+ZGuY=;
-	b=ZjQIwkCO4zp3pVq94zug1HZdepl3lFyu9QLFm/+avs1HKJAOfXCd0U0j172qeMPYYbBp
-	 IAsl3i4W6sPnbi1WCRByEmckZ7AAzl5szrPNPF/wCaohSsAJYtThMNjDWvXiHrhJQhogi
-	 keOip80ZrVvBupXApYNhzczOZrle4Az7AL3WCkiR6asF+u8zheOcnDhJSgEWEPZYlypzF
-	 T6dYC1beviP0pzwJflXMhmTFIBaO5UWNwMsOtFUN46EjYvZ0VWvMc+rCbUpN30AFsSgiC
-	 nJd+LGV+Xz8OBW8zzOy8sY3f2iQ9MbcRsiL1lElXb/KWjMkIaiF7ZsJZNK/lcW6tsgQ==
+	bh=B0IkSILmEXDD5SZITUdfDPnAIvH/qKn4TnRnHPUh0Ts=;
+	b=FmRpCkHh28KfOx1ycF1qU6/B3o8aPl3zJfIthSoUgVr8Pp42bYsGQla6Ob4FuwdvmVRs
+	 M3ANLPGgCwZRxnwPh5ZYaW5v1W5bZegbh8Jx0aM/blMM/8/yxSy5ECoA6HScbogQLNa7K
+	 bv4HGIZTZ3Mlj7T5NqX3yLVW+ZmzhwoDwNp4AFusZUyx7YSSiVWklQyGnsQxTRPpUkbae
+	 WBXIjc9ZHsXTaM73x/gyUYQ7cMtb06S+pIdm4OmprA6OjY38JUP/zf61HumvtOeiI/3jq
+	 JLYKPr3j4zGDHLs/N5akcC6C3JZ4rsJDwzhUzvBT6+7HiiUsaIcULeQ8fN1VQEJfPnQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WCdj86M6;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nDAkSE0r;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1983606A31B;
-	Wed,  4 Nov 2026 13:01:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D6D1606A33C
+	for <linux-fsdevel@vger.kernel.org>; Wed,  4 Nov 2026 13:01:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WCdj86M6
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B3471F00A17;
-	Wed,  4 Nov 2026 13:01:40 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nDAkSE0r
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 323241F00A17;
+	Wed,  4 Nov 2026 13:01:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793797303;
-	bh=O/dxa82xWVm6PMFOoBLZfnKEj8mtykd0dOrhKJ+ZGuY=;
+	s=k20260515; t=1793797315;
+	bh=B0IkSILmEXDD5SZITUdfDPnAIvH/qKn4TnRnHPUh0Ts=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=WCdj86M6e+uZ0Cfa8AJEO9lqs5ESzWz2/RB91yXg4fzqW++b9Mx8ghLANqWmUZTo2
-	 5O7eYimcl3s8pWTMPcH1PO5ia60LRvycm0wWjXJQMPXx/lqYQb/lhmI0UGY4m5B7mZ
-	 N9hAzNzNHf51e2aqdSzGMN0WHKq24Dw8R9dcVnDDomvV2T/Ms8JThidrdGB/0g6JfS
-	 TdUaL6GwGB8jb//ljPXbDc0HWhLkZZNwhTPX8ouKR0VJ7gvypBTPPnUvpqs+icXq+6
-	 aAtUH2a0e6uQXrWYFvaOh5hlCAnmnyiPhvjIjQwkrxXgr+Le7na/cKs/7ZbrTap/hl
-	 7TEemNn3LzLiA==
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.ams.internal (Postfix) with ESMTP id 18C311980052;
-	Wed,  4 Nov 2026 08:01:35 -0500 (EST)
+	b=nDAkSE0r0bCMeADhVieVZuLNlHVDkQd1mLuMqGggDincJ99lZouHuSKF5MJCoF6vE
+	 Hcca3DlLynjJQbXJ5rVkuzcwWuI01YBVkFphvO1FKldru9HDDv6dATV3zEWNDlYf71
+	 myoa8IgVePzw2k2dpuJ3NDe0tFLEC1ugkiRrGxYy/GLuvkDMv/JW8ImEOIlL0QBEj2
+	 2VBVeXks6Mrc4uzaPXjrh9Iq+DBB206db4karTJNgM6ccPEgU5f7+BWTnCc72yYGUC
+	 S3V8HbttvRfVP5dz4BQCS8FGYxVs3IKeH6Y3WZLUMXKrMjOL0k81+lanIOzTcUzF9T
+	 tWWzZ6bCiwMdw==
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfauth.ams.internal (Postfix) with ESMTP id 09C571980052;
+	Wed,  4 Nov 2026 08:01:46 -0500 (EST)
 Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-10.internal (MEProxy); Wed, 04 Nov 2026 08:01:38 -0500
-X-ME-Sender: <xms:rizramMhR3FwPI5-KuM6iDPnV3bRBUy9QeXTrkejJ4rRMuylCN58TQ>
-    <xme:rizrar542OiBnGHAuFkdWIy8e2x7ol8kQCXnQx6wC2HaQ4DRLq4PQ8gJ06zgTsl-U
-    _Ma_SIThk_Qxy2JzqsisrJZk5r99Js9PW844Dw6hrFURAc3ednGEsRn>
-X-ME-Received: <xmr:rizraiY5lXWqOx8hhKxWSZ8JoEgRQ0MeeiV9MDKJXzghgWmQ1Jv_UTF9X2o>
-X-ME-Proxy-Cause: dmFkZTGcnWxWNdwzviArTqwO8SleswujEAoF3G5cAnzgWuj9VIXYzVn8L/YtSSoCVpDQCx
-    AFAjkaMBKJDECegKseyQPi3BoJ2ULdzgEWHQh0kOOdV3qcZ96T5qYw8zvnYBduU6y+7gOl
-    ju1hRqdfaUd029Zpq0M1QKVfvNYpVJXA03mIXM/FVYF2n1TVZdGxcwDBil6kVRafbiJtv0
-    QuPNDwYksKVrYzT4QGS7HIxmz8ayVgiPQk5G9zoQji1nSBMTr/zV+0QH6w0a9BT4L54N+d
-    cRhB7KhKgiZgmWNJc1G8l9d+gvjQ75B75nEIsy2loqzEXGvtqjUcmfJ5UhZu2fDzNX4RXN
-    Sos3iNNV9RQQ+6u4LQiUkpyMrihOoJ01WcTinUsG//G0WyVORGzl/J6YD9u3h+RbNhtPuK
-    Fo53IOAMnXTw1Ofxe3I1lptXm4IL/KoDyapzPRkcOl6t9VEJnbx5PTZeXVFOelGmkmiMm9
-    fdmKcVmV56TLAB4Vg7nKut/7z2cVFZF/tju/fjr23Njo7juq6GrcVzYUN5TcCWyd4E9zdi
-    ZodfXYJg+CHnrHsD4BiEIUjvFnzurjL5k2LpqmWZNqI4QLawAlZOCj1IdOgA9oEt3zaM+h
-    w2nWvBmvJsCpEGgu9fY+X7D0puSrcuRoICY+NZKENxCkPLVE2qppRUjbaBaQ
-X-ME-Proxy: <xmx:rizrarEHAnpecQdYd6l_ChFGjfCsimVZBZes41VJIZ8nNTxERFIaZA>
-    <xmx:rizrauJeS6DfQBn8GD_dijDgSBwrCvzCjm5f2GiHKIZWoCbMD1g8hQ>
-    <xmx:rizraiesLrPteMRJHMkuAiPhBBXW0IZGSitpI51cZeyT9uWyCSG0RA>
-    <xmx:rizrajacWYJ_3Pmq9yzbtS5qTw-3CspOaj5U9zZ0baQq1kf0hNYK9g>
-    <xmx:rizran79poDBkQLiKB8Fk-xAqyX6OLWB3p-ubGRjRyYnUTLmi9-6cZbv>
+  by phl-compute-01.internal (MEProxy); Wed, 04 Nov 2026 08:01:50 -0500
+X-ME-Sender: <xms:uizrapVrclNr8_pL4FSy74YnbjY1cOXxoVoji7AAq7WbjE6ZHScs-g>
+    <xme:uizrarHIgnlmMsisAjfoj2fK54I1TAh4dXp8-OUkFAl3w6198HxF8wbq76-hqWi2P
+    RnIuUix8jFG1XbaYNBT4qmdljxK_-ceewb26SVeSYHD4MAEcawnTA>
+X-ME-Received: <xmr:uizrauAHQ3OE4IfGOHvAMrb36jO459m0oSJP8_eCCD0pLL1XRoQpp93lL1s>
+X-ME-Proxy-Cause: dmFkZTGhPc1Yg5t9Q8eRQaKCLT0heVoXQqf6h4uqMuRtXQYzheOI1jp47nBw26mcWoxz9A
+    DH10HnpPYob7RxaCTf32YkHXSpJmh1hLC1IxxzXB90aJAI2wMnFT+nxhjDMKjWZ9Ablulj
+    X6EGhbUdQWvr3vCsmIbyKlTdtYm8QJi2H9b42DzXiIRq27TGzwIAKeq7xgftm17WrW++J+
+    RK/ZhBFKi/01LbyIuttpTNhw8T5nzUYT3/gbSIkELTYoQfWYa9TU1xDsUR8Sja7r663Vhq
+    dT9Vb6Q8iqTkFCbamg7ObiOCckNJsrzr7UPmHz2jvO2iFJ92ew01ZxP0mcoMzU2JutwOgh
+    Deo/g8HEwAnSd00+Sk/Osdm3LkGjObnA/8QcZNGNOZB+xfOYdGiUNVUf88aFswCacRCBmh
+    hokiHdjKaDT29DPVI5Gwiwh/q+igH0C/vvAF0DQfDnNNnYvNgvu66w2jS7vOo6qH6K+7yt
+    nAK3PvNPliSxNz0oqqpOCzOQhLaohJNb1Vx14bhmF4ydiadh2RekHpyLnGH/Zwua5u6R6F
+    aDL/oG6RE6eKtnqYtU1aAOsrFBDA4f8uYS5E4pjAfQtiTgIi2w20lgAILHMHHRHj2bJ86f
+    yYuNqEQjBPE6f07SQgmnAFPAvn5ztU/tCIiy0YSmAyRxyx7vxhdWM+6YJTRA
+X-ME-Proxy: <xmx:uizrauWsdhQjR-9OfL5yBh0fuMvI4QvIKJQsf2XESph5E8vNwllxhg>
+    <xmx:uizram6VeZZh4Bnkj3qhUglgOhGIgPmrg36SHv1dYfMuEZ53GQ2A_g>
+    <xmx:uizranG5SDaFUpvrB5AjjHOQb0cf91fdKfanwlc24rB5wyrnvLAqZg>
+    <xmx:uizrap1xHQ6bLsYSSBoA8Gn9N6eE4-tWrhS2g5H77XucroW0c3tfww>
+    <xmx:uizrar3X2nODYMoj_NapJQRjucu3zlsBRVTFnIuPjVB7eHv2vx6qE6UK>
 Feedback-ID: i10464835:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 4 Nov 2026 08:01:33 -0500 (EST)
+ 4 Nov 2026 08:01:45 -0500 (EST)
 From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>,
 	Linus Torvalds <torvalds@linux-foundation.org>,
@@ -80,7 +80,8 @@ To: Andrew Morton <akpm@linux-foundation.org>,
 	Christian Brauner <brauner@kernel.org>,
 	Alexander Viro <viro@zeniv.linux.org.uk>,
 	Harry Yoo <harry@kernel.org>
-Cc: Miklos Szeredi <miklos@szeredi.hu>,
+Cc: "Kiryl Shutsemau (Meta)" <kas@kernel.org>,
+	Miklos Szeredi <miklos@szeredi.hu>,
 	Miaohe Lin <linmiaohe@huawei.com>,
 	Naoya Horiguchi <nao.horiguchi@gmail.com>,
 	Oscar Salvador <osalvador@suse.de>,
@@ -114,11 +115,10 @@ Cc: Miklos Szeredi <miklos@szeredi.hu>,
 	linux-kernel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	fuse-devel@lists.linux.dev,
-	kernel-team@meta.com,
-	"Kiryl Shutsemau (Meta)" <kas@kernel.org>
-Subject: [RFC PATCH v2 02/18] splice: don't steal page cache folios
-Date: Wed,  4 Nov 2026 13:00:58 +0000
-Message-ID: <20261104130118.2507513-3-kas@kernel.org>
+	kernel-team@meta.com
+Subject: [RFC PATCH v2 04/18] mm: count the pages waiting for a grace period
+Date: Wed,  4 Nov 2026 13:01:00 +0000
+Message-ID: <20261104130118.2507513-5-kas@kernel.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20261104130118.2507513-1-kas@kernel.org>
 References: <20261104130118.2507513-1-kas@kernel.org>
@@ -133,96 +133,120 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Linus Torvalds <torvalds@linux-foundation.org>
+Deferred folios have refcount 0 and are not on the free lists, so no
+counter shows them.  Memory that waits for a grace period is missing
+from the free count and from every LRU count.
 
-PG_rcu_free holds back the reuse of a folio's memory until a grace
-period after the folio is freed.  A stolen page cache pipe buffer is
-reused without being freed: remove_mapping() takes the folio out of the
-page cache and the caller keeps it.  fuse_try_move_folio() puts it into
-a fuse file, where writes change it under a reader that found it before
-the steal.
+Count it per zone in NR_FREE_RCU_PAGES: nr_free_rcu in /proc/vmstat,
+free_rcu in show_free_areas().  Preparation for freeing the waiting
+pages sooner when they hold back memory that is needed.
 
-Drop ->try_steal from page_cache_pipe_buf_ops.  fuse_try_move_folio()
-and virtio_console's pipe_to_sg() then copy, as they already do when
-stealing fails.  SPLICE_F_MOVE from the page cache into a fuse file or
-a virtio console now copies.
-
-Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
-[kas: rewrote the changelog]
 Signed-off-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
 ---
- fs/splice.c | 51 ---------------------------------------------------
- 1 file changed, 51 deletions(-)
+ include/linux/mmzone.h | 1 +
+ mm/page_alloc.c        | 4 ++++
+ mm/show_mem.c          | 9 ++++++---
+ mm/vmstat.c            | 2 ++
+ 4 files changed, 13 insertions(+), 3 deletions(-)
 
-diff --git a/fs/splice.c b/fs/splice.c
-index 9d8f63e2fd1a..0133c2348da0 100644
---- a/fs/splice.c
-+++ b/fs/splice.c
-@@ -55,56 +55,6 @@ static noinline void pipe_clear_nowait(struct file *file)
- 	} while (!try_cmpxchg(&file->f_mode, &fmode, fmode & ~FMODE_NOWAIT));
- }
+diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
+index 94f9c3ff5416..3336b9e5ee99 100644
+--- a/include/linux/mmzone.h
++++ b/include/linux/mmzone.h
+@@ -228,6 +228,7 @@ enum zone_stat_item {
+ 	NR_ZSPAGES,		/* allocated in zsmalloc */
+ #endif
+ 	NR_FREE_CMA_PAGES,
++	NR_FREE_RCU_PAGES,	/* freed, waiting for an RCU grace period */
+ #ifdef CONFIG_UNACCEPTED_MEMORY
+ 	NR_UNACCEPTED,
+ #endif
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index a371e92da273..15bb66e36304 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -1348,6 +1348,8 @@ static void rcu_free_pages(struct list_head *list)
  
--/*
-- * Attempt to steal a page from a pipe buffer. This should perhaps go into
-- * a vm helper function, it's already simplified quite a bit by the
-- * addition of remove_mapping(). If success is returned, the caller may
-- * attempt to reuse this page for another destination.
-- */
--static bool page_cache_pipe_buf_try_steal(struct pipe_inode_info *pipe,
--		struct pipe_buffer *buf)
--{
--	struct folio *folio = page_folio(buf->page);
--	struct address_space *mapping;
--
--	folio_lock(folio);
--
--	mapping = folio_mapping(folio);
--	if (mapping) {
--		WARN_ON(!folio_test_uptodate(folio));
--
--		/*
--		 * At least for ext2 with nobh option, we need to wait on
--		 * writeback completing on this folio, since we'll remove it
--		 * from the pagecache.  Otherwise truncate wont wait on the
--		 * folio, allowing the disk blocks to be reused by someone else
--		 * before we actually wrote our data to them. fs corruption
--		 * ensues.
--		 */
--		folio_wait_writeback(folio);
--
--		if (!filemap_release_folio(folio, GFP_KERNEL))
--			goto out_unlock;
--
--		/*
--		 * If we succeeded in removing the mapping, set LRU flag
--		 * and return good.
--		 */
--		if (remove_mapping(mapping, folio)) {
--			buf->flags |= PIPE_BUF_FLAG_LRU;
--			return true;
--		}
--	}
--
--	/*
--	 * Raced with truncate or failed to remove folio from current
--	 * address space, unlock and return failure.
--	 */
--out_unlock:
--	folio_unlock(folio);
--	return false;
--}
--
- static void page_cache_pipe_buf_release(struct pipe_inode_info *pipe,
- 					struct pipe_buffer *buf)
+ 	folio_batch_init(&fbatch);
+ 	list_for_each_entry_safe(folio, next, list, lru) {
++		mod_zone_page_state(folio_zone(folio), NR_FREE_RCU_PAGES,
++				    -folio_nr_pages(folio));
+ 		if (!folio_batch_add(&fbatch, folio)) {
+ 			free_unref_folios(&fbatch);
+ 			cond_resched_tasks_rcu_qs();
+@@ -1375,9 +1377,11 @@ static void rcu_free_workfn(struct work_struct *work)
+ static void rcu_free_defer(struct folio *folio)
  {
-@@ -155,7 +105,6 @@ static int page_cache_pipe_buf_confirm(struct pipe_inode_info *pipe,
- const struct pipe_buf_operations page_cache_pipe_buf_ops = {
- 	.confirm	= page_cache_pipe_buf_confirm,
- 	.release	= page_cache_pipe_buf_release,
--	.try_steal	= page_cache_pipe_buf_try_steal,
- 	.get		= generic_pipe_buf_get,
- };
+ 	struct rcu_free_pcpu *r = raw_cpu_ptr(&rcu_free_pcpu);
++	struct zone *zone = folio_zone(folio);
+ 	unsigned long flags;
  
+ 	spin_lock_irqsave(&r->lock, flags);
++	__mod_zone_page_state(zone, NR_FREE_RCU_PAGES, folio_nr_pages(folio));
+ 	list_add_tail(&folio->lru, &r->pending);
+ 	rcu_free_start(r);
+ 	spin_unlock_irqrestore(&r->lock, flags);
+diff --git a/mm/show_mem.c b/mm/show_mem.c
+index b938cbcd774a..0d3bddbda108 100644
+--- a/mm/show_mem.c
++++ b/mm/show_mem.c
+@@ -204,7 +204,7 @@ static void show_free_areas(unsigned int filter, const nodemask_t *nodemask,
+ 		" mapped:%lu shmem:%lu pagetables:%lu\n"
+ 		" sec_pagetables:%lu bounce:%lu\n"
+ 		" kernel_misc_reclaimable:%lu\n"
+-		" free:%lu free_pcp:%lu free_cma:%lu\n",
++		" free:%lu free_pcp:%lu free_cma:%lu free_rcu:%lu\n",
+ 		global_node_page_state(NR_ACTIVE_ANON),
+ 		global_node_page_state(NR_INACTIVE_ANON),
+ 		global_node_page_state(NR_ISOLATED_ANON),
+@@ -224,7 +224,8 @@ static void show_free_areas(unsigned int filter, const nodemask_t *nodemask,
+ 		global_node_page_state(NR_KERNEL_MISC_RECLAIMABLE),
+ 		global_zone_page_state(NR_FREE_PAGES),
+ 		free_pcp,
+-		global_zone_page_state(NR_FREE_CMA_PAGES));
++		global_zone_page_state(NR_FREE_CMA_PAGES),
++		global_zone_page_state(NR_FREE_RCU_PAGES));
+ 
+ 	for_each_online_pgdat(pgdat) {
+ 		if (show_mem_node_skip(filter, pgdat->node_id, nodemask))
+@@ -325,6 +326,7 @@ static void show_free_areas(unsigned int filter, const nodemask_t *nodemask,
+ 			" free_pcp:%lukB"
+ 			" local_pcp:%lukB"
+ 			" free_cma:%lukB"
++			" free_rcu:%lukB"
+ 			"\n",
+ 			zone->name,
+ 			K(zone_page_state(zone, NR_FREE_PAGES)),
+@@ -351,7 +353,8 @@ static void show_free_areas(unsigned int filter, const nodemask_t *nodemask,
+ 			0UL,
+ 			K(free_pcp),
+ 			K((unsigned long)this_cpu_read(zone->per_cpu_pageset->count)),
+-			K(zone_page_state(zone, NR_FREE_CMA_PAGES)));
++			K(zone_page_state(zone, NR_FREE_CMA_PAGES)),
++			K(zone_page_state(zone, NR_FREE_RCU_PAGES)));
+ 		printk("lowmem_reserve[]:");
+ 		for (i = 0; i < MAX_NR_ZONES; i++)
+ 			printk(KERN_CONT " %ld", zone->lowmem_reserve[i]);
+diff --git a/mm/vmstat.c b/mm/vmstat.c
+index 66ed017bde46..64068d73d6d2 100644
+--- a/mm/vmstat.c
++++ b/mm/vmstat.c
+@@ -1212,6 +1212,7 @@ const char * const vmstat_text[] = {
+ 	[I(NR_ZSPAGES)]				= "nr_zspages",
+ #endif
+ 	[I(NR_FREE_CMA_PAGES)]			= "nr_free_cma",
++	[I(NR_FREE_RCU_PAGES)]			= "nr_free_rcu",
+ #ifdef CONFIG_UNACCEPTED_MEMORY
+ 	[I(NR_UNACCEPTED)]			= "nr_unaccepted",
+ #endif
+@@ -2023,6 +2024,7 @@ static int vmstat_refresh(const struct ctl_table *table, int write,
+ 		switch (i) {
+ 		case NR_ZONE_WRITE_PENDING:
+ 		case NR_FREE_CMA_PAGES:
++		case NR_FREE_RCU_PAGES:
+ 			continue;
+ 		}
+ 		val = atomic_long_read(&vm_zone_stat[i]);
 -- 
 2.54.0
 
