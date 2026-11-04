@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793815974;
-	b=oHhBZlPWGXi4lcF8ZWfcx/Co5507XqkIfgxOwx8PSEryexlvFvP1/KCE1y5TG+rCSffU
-	 RjoiVa7DtnHTIpI97Yh+GM6VbUZ0VGNxHzGPF+uh8MNEe39gAqft2YGeZk3micdefE9hM
-	 AY4DJzKbaTH6fvhnrIx1LDGhkbDX+HiHu2UoNdplVD0vDnUVThxrSH+hCirZfhQl/FZv4
-	 Z3qdEIX6HDr5hQuBAtaBx0maQ0w2uMkYOxSue2/CdpLY3jMeQHuGvn8RbXYII7DQWCadd
-	 XGRMlcsUsj+JYWBU7ZIF99cPhnnMOByO8w6AfYGzffQctBFH+Mxb5w+CA1FURBNb2zA==
+	t=1793815977;
+	b=q63dXUA0Spu7go0k6CFu3JLzv/s9je6/wOq5sMebMDsRbanPMZ7QzaI9F0MFiZMdAw4t
+	 quTNN585ioo49JQUiBqgLLvL9af35IrU6ko38jPOw/gUW3zmlKSui923ihGYcvyqqyvpw
+	 AoONq3ib6wpe3hMHm/9ckt0DKsUIdi4zR9vM3iKHm1AnTUCqubQgBlcFF1GtnzEFcs6OS
+	 4i0p3IcgdGJwRIAozJB5OBn05VURQ9irbiAMaOzhlPqeshQxAIsn/rLZWgSIJbSSAZ0/l
+	 tKVa/J2PT2nv5hHLIPg/vUY878Az9YVb1TTzbNr58MqvcAxw75RhHuDfIrr4AA/TiAQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793815974;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793815977;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=+uwyiGKRiSmAxxP7JEhVVA1bBtJMZWyBv1xo2sUemYU=;
-	b=5cow6qnQGFZret4yHOYM4W2Y7mi7v3KNpKISwcaMmzjNluPES5P236aa6/nMqu8mxZSZ
-	 Hp5A101RA7A1aAa+y1xFuiDspbWWzjGheoPmfnuur21stYBOPJWsUU1gfXn5dDJjCG1mY
-	 P3/intFnsOxdUi2oidnjkn+jr/v4beKfZVmI3TtwCidCbw9CoTlgghN52Q9IxvmTk45Y4
-	 /+sflEeH6bkxUs1cDvSM86I6nXjxl9lrmRyP9m3Cgyj+eMOJS6IAdsNhc7eWbfLZfXDX5
-	 dbLoqRpolSiR9EHZcG2IoUOQWH50XYLv6iZgwJgDwl6yf0J3loWMojekA6UVw6OmIvw==
+	bh=4uZX4nXlMndOJUkjBA4nnTSJpRObFhe7/4MI/7nLwfs=;
+	b=CyjkdERX4116dJ77k6csWEj1U3ddjXrI/ufjWOSxxoWjIc0EcgRBVQHKbrr/H/Lct19U
+	 GIReVYzLef7dnlggvH6HYcC9t6JwkqvQmiGOlYRt0nNMRxhwlHhpFs4ptydfh/LXxL6Zp
+	 sh2o1uwCFZf97Y62bROZTUa2AvK5XjnC5n/xzV1GkgBldVN9wzJXPaV91osHdMt5J5qzg
+	 eH740v4Wyb5TbLDmUCLXL54LBncYqZTKtCffNeeKug0neSldfQMlbkiWmQKwUBBgePk2I
+	 3g1Vvh56RRMR34hcPTd8jkLjUP5jA2uEpd95gTKfAa1Rrv+Y9NsBXrWEc3hD3xZVY8g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=NOepbPM8;
-	arc=none smtp.remote-ip=209.85.216.44
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=mZEesV8W;
+	arc=none smtp.remote-ip=209.85.216.53
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 553A1606B215
-	for <linux-fsdevel@vger.kernel.org>; Wed,  4 Nov 2026 18:12:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 553A1606B215
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC5CF606B207
+	for <linux-fsdevel@vger.kernel.org>; Wed,  4 Nov 2026 18:12:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DC5CF606B207
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=NOepbPM8
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-3b09a65c76dso721698a91.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 04 Nov 2026 10:12:54 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=mZEesV8W
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-3b09a65c76dso721729a91.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 04 Nov 2026 10:12:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793815973; x=1794420773; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793815975; x=1794420775; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=+uwyiGKRiSmAxxP7JEhVVA1bBtJMZWyBv1xo2sUemYU=;
-        b=NOepbPM8aH9xzVcDb9e2vAUfCXmUfbrXv1pCHX0jZYfqplJ69+NRuA1u3Bdv5FBI5y
-         3BrfpfU2LbfvoS0qIoiK+407efJqkuSfUh/wEhIg/+aZrXD+rnaMz0et6yYL2H6egD3A
-         vyuaF9HgCSvJdti6GJoBbMx/GwZy8fiuzTsH1A6WM3RmTxm0a34EPDQFbxnbZObnreeX
-         9gsKvRnwY8mxZA9LmTzEz+gZiyVvzrDe821sPdmKLzzT/s5GDr2ZOrGQQqpAzrVMwG7M
-         cztXSD7Xi9P0tWf1KxbF4cWfFoAernnAIMSO4lcKAOOnQUh30PJry/rJWD8HWvEshgSI
-         anIQ==
+        bh=4uZX4nXlMndOJUkjBA4nnTSJpRObFhe7/4MI/7nLwfs=;
+        b=mZEesV8WXGpCusS7zoM7GV6Tk7/sB85eaZPnOgjfS9f0zCk3zh35csLXtkNSFSIURA
+         YwTzAUziulX10HZSw39AuHoDjLA0b/37h0RFdU433s4oUn6XkWlKUjQOnIwSeJ/CGYPb
+         DbdoHPoU8uHnQ9Si1Y7gE+vaKONl5XhDaKyDA8BvxU/mp7WGGIHWSGHvkCiavN/i7Y6M
+         ZKDcCHqBZa4KzGQy2nonRxNDzsUfMCIw44IkddQUcPW7jQGLUSuSTG+DnF4E8nqOrjJR
+         q0aiR8RxhyWTA6Cw7G+jL5YKhCwo1kBQJ2ZatPxz9eDCGIT2lDqDSAE8LT2yKvYKKQzi
+         cuRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793815973; x=1794420773;
+        d=1e100.net; s=20260707; t=1793815975; x=1794420775;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=+uwyiGKRiSmAxxP7JEhVVA1bBtJMZWyBv1xo2sUemYU=;
-        b=fnx4KdvOkI1tX0Uf5QyZi62bnWXmtY8y7E82w2CjFRvyCUAZbR4dBuqZBt64N9WemZ
-         mRkoa05JCf0facl2v6fiX7Ye7L5yWPtThDvxvMnYKPbfMVbiDuRUkHCOOsIYRujfLuWZ
-         ViC3INzgNCsRjCxlU99Myk8XCNfUVDufsYEcldqfoCy+wo8MSEiEcUp+z5hfp5Pna0Ub
-         rzexHwWDMqDXaigiw1o4By9T3JWNiDPIjXqb9GQvbGL9IM86nfCXfyNy64d95Yqplm08
-         daZQXVZKsa8EWDIzmLQo0ljPIDcWxrYW4cKVBpqyjyLiqdvdgeOcFopNd8qLXe4zWFOV
-         TWxQ==
-X-Gm-Message-State: APuU4Z+EFvdYu+gDrD+vWk1Sc1MbwrtNuaFBm3lla009sE7QFwNW0PWZ
-	KwDzoJaNleviJX5Ns6TxS9ns1FJk3FjSYSw+UJCGsYP/ojA6zUbETNI6m21I4VU6
-X-Gm-Gg: AYBFou0NXdC0kRDWAu0ip/7WRvXdVsyL3sxUJCo7GtrOqoB9IFs+3EovnJn7BTpK5Vc
-	GRBDMpxGC4hNcl/qbn0bzmmrZjrKWlIbGQWXHsEtpjshAXBgRRz9DGtNntskHRgRdqSaX2XouA8
-	eyeMrJYqImek7sYckdlWbPXAA4xdlSntWRCHxc3qmkNWBI3Y8gEoZDptWrieJEcWENpVhIQ+4iw
-	ZUJhO00b5Sir63zgkTS77mRf04iakTYLL0dRR+0GniHmDpjDCh6Y9hIFmRoaqPIPph5FKCateZ/
-	jPG4GjWhec6ER1A4huN/2VQeasppXsGKK8aPktzqoAXt0vRvYwl7voUlgn17XxXguep1NZAfV4O
-	6FBgneKP+3f3oypvLvEqxTAviTI0gnau4iafCHhscqFdELMne6c7Jk8i7uJO+4yxHCLgo6AI1eV
-	gAp16YsvQAUbVDZuBREMZ1Umf2Us5MdXGC3oGI1ANUNPdpLICAoXjU3yqFOFT3pvLJjLGcpQFKh
-	pba00FrC5ryWXGESaMU17ueOLxdtocTdMmNv1ruv4bDKfMHIAyybOHqqHydAGb5FC1rkBNH6DCc
-	QlcMLrGEnH7cDUTmtpup7AZRBD9xIXHStVBpn/Au3S1efZ3XMlRuhTjpErhcQAZvU/k5IU6wrts
-	P3i43gj8aVl9oOpXH9bMCtolw6MI=
-X-Received: by 2002:a17:90b:33cb:b0:3a0:9640:803a with SMTP id 98e67ed59e1d1-3ae895a5c2fmr14528566a91.5.1793815973278;
-        Wed, 04 Nov 2026 10:12:53 -0800 (PST)
+        bh=4uZX4nXlMndOJUkjBA4nnTSJpRObFhe7/4MI/7nLwfs=;
+        b=fDSuS43VP8xf6qp/q3ewHdz0P9KjzScVbSBGBCxtyf0yueZO4UAQCAKK5uGuKqSmzw
+         jwViVPha67tan2ak/HnWzSZnYLPXkdJ0Vp1EpUBunBKIB4U+JfEweAO9um1vRJxWEAvI
+         mDyIwxiV/+9EV+9bRXtkrInHerlMWcnLOz0V0hlAQyq03WIOxnGwngobRz8gNU6fO9EU
+         VeO88tjC65EcJ+rzNNAN96vXrVJ58QReIdcoazPodb4P+giWbhz8cq368se3rThlAgDd
+         aR0TsTDz+2dj5sDLgF22j9azcRRcQUDrrgC4HcNWqsf6NVX8jASQj/sYpSTWhiNHS3x3
+         2rjA==
+X-Gm-Message-State: APuU4Z9XeVvyWdVVwt6COPEHx03rvIEPSf3FVq9L3LifxRDXqQTMDbFQ
+	YPg1qlVVLwnxKRdYg85dNvYIpGu52IDPZ6ZHnhBnsY1EtLeMzC+6GSy6vwCyvoi/QTufUg==
+X-Gm-Gg: AYBFou1o75YhbeGbE1mwzHbJ/ZF/SxiJmKSpXXk4JS4WjtTO7yRpDu1Aq3eCZh8XPL/
+	a70lUGjP+3cBGVhEvGHwsnXmotd11yZP9Q/Tf5ZHNzIjW6yhxYpgd/Gm/akIHzU2+F3AsMgRLNK
+	80qhuB3MQqn+FZhG1ru/odLd/mdaskeq7c7XbkjxOyW3cIcIT6Hmbumor+X7rkfMdHb5e5FvYwt
+	v+CJyzxiW+aD3sUjltgdXclbhGtjeLtE74rXm8A852rQYm85cP3tRdhnZl7wqsCE6Ogf0T3yvYL
+	/BI+Vr+atDI4Sl1xTAfz8xuLndtSehmo2EYzZ7vmw4XKqze/YimeY1T9tfrlgU0TaXCzSxpWDlb
+	mj5hEeTKI6nQzs7M8yLJ4Hx4JiEOJoTQR+DkOlaPAuq8qQgFDkoVVPdDyTwXFAgz481W068xh53
+	VIQKLLBRyf5d7jc40NGErDj1WfXQP3IAjnIEBIXADQA5UJbRJPk/edzp60TR6mVrdEigJbsqDvJ
+	9Foa4wSCAgXIry3fBpwPR44Hqfox8Rf0poz649DrzfYRxT5sNK5PN/w25TDm8HnXcCz2oWuFqV7
+	Q1lQkgbBU/3A7HGBXrtwH0K5udOQds3mv29uam+RAjcwllRodx3Mhgn97LtJavQgQMMxzJgj4kh
+	uAC8eFQ882DqnvAVyadMszy4I+os=
+X-Received: by 2002:a17:90b:1845:b0:3ac:b145:8f4 with SMTP id 98e67ed59e1d1-3ae8983919amr13278765a91.41.1793815974659;
+        Wed, 04 Nov 2026 10:12:54 -0800 (PST)
 Received: from archlinux.tail3acd4.ts.net ([69.110.143.170])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b0b31a3efasm78326a91.9.2026.11.04.10.12.52
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b0b31a3efasm78326a91.9.2026.11.04.10.12.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Nov 2026 10:12:52 -0800 (PST)
+        Wed, 04 Nov 2026 10:12:54 -0800 (PST)
 From: Vitali Lovich <vlovich@gmail.com>
 To: linux-fsdevel@vger.kernel.org,
 	linux-xfs@vger.kernel.org
@@ -86,9 +86,9 @@ Cc: brauner@kernel.org,
 	jack@suse.cz,
 	cem@kernel.org,
 	djwong@kernel.org
-Subject: [RFC PATCH 4/6] xfs: add range-drain state and latch-based DIO admission
-Date: Wed,  4 Nov 2026 10:12:44 -0800
-Message-ID: <027a4cae2ffb75a2801e6296298533da7d57a215.1793815542.git.vlovich@gmail.com>
+Subject: [RFC PATCH 5/6] xfs: use range-based DIO draining for aligned hole punches
+Date: Wed,  4 Nov 2026 10:12:45 -0800
+Message-ID: <8594c094b34fc65afe253bc4fe81032e5efd0de7.1793815542.git.vlovich@gmail.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <cover.1793815542.git.vlovich@gmail.com>
 References: <cover.1793815542.git.vlovich@gmail.com>
@@ -103,695 +103,1387 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Prepare XFS for range draining with lazily allocated inode-private state,
-retained across VFS inode recycling and freed at XFS inode reclamation.
-Provide ->dio_drain_complete to resolve the state for older requests.
+Hole punching holds exclusive IOLOCK while draining DIO and modifying
+the range, blocking new submissions throughout the inode. Use shared
+IOLOCK and a latch-published range exclusion for eligible aligned
+data-device punches so disjoint new DIO can proceed.
 
-Register provisionally before the final latch range snapshot for every
-direct read and write submission. Transfer the token to iomap, and obtain
-a fresh admission for simple-read fallback or write-check retries.
+Reject obvious ineligible requests before allocating drain state or
+taking the drain mutex. Obtain the drain mutex before IOLOCK and recheck
+eligibility under shared IOLOCK. A waiter must not hold shared IOLOCK
+while the mutex owner may drop and reacquire IOLOCK exclusively during
+write checks. Retain the existing path for DAX, realtime,
+privilege/capability stripping (!IS_NOSEC), reflink remapping, unaligned
+punches, layout breaking, or an unrepresentable rounded endpoint. Round
+the exclusion to the larger of the allocation unit and PAGE_SIZE,
+matching cache invalidation.
 
-Overlapping IOCB_NOWAIT requests return -EAGAIN. Blocking requests drop
-IOLOCK before waiting for a nonoverlapping snapshot and contribute no DIO
-count while asleep. Writers reacquire through
-xfs_ilock_iocb_for_write(), repeat append and limit checks, and recheck
-unaligned COW eligibility because a clone can share blocks while IOLOCK
-is dropped.
+Drain the pre-cutover cohort before taking MMAPLOCK: an in-flight DIO
+can fault in a buffer backed by the same file. Skip unnecessary partial
+block zeroing for aligned data-device punches so the operation can retain
+shared IOLOCK. Keep the exclusion through extent removal and any required
+synchronous log force, and report allocation or drain-start errors.
 
-Establish the final admission and ownership rules before enabling either
-range-drain consumer.
+Add a filesystem selftest that parks registered DIO in a userfaultfd
+fault, observes the active exclusion, and checks disjoint progress and
+overlapping NOWAIT write rejection. Race faulting same-inode buffers
+with punching, using synchronous and AIO extending and COW writes, and
+verify clone isolation.
 
-Provide optional root-only debugfs gates and counters for deterministic
-filesystem selftests of request revalidation. The controls pin the selected
-file and release paused tasks on close or timeout; normal builds omit them.
+Exercise repeated exclusion retries and append-position/limit changes
+while IOLOCK is dropped, including iterator expansion and a limit that
+changes DIO alignment.
+
+Verify completed and in-progress reflink remaps during the unlocked
+window, including exact shared-extent evidence, unaligned COW fallback,
+exclusive lock reacquisition and clone isolation.
 
 Signed-off-by: Vitali Lovich <vlovich@gmail.com>
 ---
- fs/xfs/Kconfig              |   9 ++
- fs/xfs/Makefile             |   2 +
- fs/xfs/tests/xfs_dio_test.c | 190 ++++++++++++++++++++++++++++++++++++
- fs/xfs/xfs_dio_test.h       |  32 ++++++
- fs/xfs/xfs_file.c           | 162 ++++++++++++++++++++++++++++--
- fs/xfs/xfs_icache.c         |   2 +
- fs/xfs/xfs_inode.h          |   1 +
- fs/xfs/xfs_iops.c           |   9 ++
- fs/xfs/xfs_reflink.c        |   2 +
- fs/xfs/xfs_super.c          |   2 +
- 10 files changed, 401 insertions(+), 10 deletions(-)
- create mode 100644 fs/xfs/tests/xfs_dio_test.c
- create mode 100644 fs/xfs/xfs_dio_test.h
+ fs/xfs/xfs_bmap_util.c                        |   9 +-
+ fs/xfs/xfs_file.c                             |  88 ++++
+ fs/xfs/xfs_inode.c                            |  10 +
+ tools/testing/selftests/filesystems/Makefile  |   6 +
+ .../selftests/filesystems/xfs_dio_admission.c | 380 +++++++++++++++++
+ .../selftests/filesystems/xfs_dio_drain.c     | 371 +++++++++++++++++
+ .../selftests/filesystems/xfs_dio_remap.c     | 391 ++++++++++++++++++
+ 7 files changed, 1253 insertions(+), 2 deletions(-)
+ create mode 100644 tools/testing/selftests/filesystems/xfs_dio_admission.c
+ create mode 100644 tools/testing/selftests/filesystems/xfs_dio_drain.c
+ create mode 100644 tools/testing/selftests/filesystems/xfs_dio_remap.c
 
-diff --git a/fs/xfs/Kconfig b/fs/xfs/Kconfig
-index b99da294e9a3..9d36201b5cdc 100644
---- a/fs/xfs/Kconfig
-+++ b/fs/xfs/Kconfig
-@@ -204,6 +204,15 @@ config XFS_WARN
- 	  However, similar to XFS_DEBUG, it is only advisable to use this if you
- 	  are debugging a particular problem.
+diff --git a/fs/xfs/xfs_bmap_util.c b/fs/xfs/xfs_bmap_util.c
+index 865aec3ae5ab..30759c6f94d3 100644
+--- a/fs/xfs/xfs_bmap_util.c
++++ b/fs/xfs/xfs_bmap_util.c
+@@ -889,8 +889,8 @@ xfs_free_file_space(
+ 		return 0;
  
-+config XFS_DIO_TEST
-+	bool "XFS direct I/O filesystem selftest synchronization"
-+	depends on XFS_FS && DEBUG_FS
-+	help
-+	  Enable root-only debugfs synchronization and event counters used by
-+	  direct I/O selftests on a mounted XFS filesystem. Tests can pause a
-+	  selected inode at explicit events; closing the control file or a
-+	  ten-second timeout releases paused tasks. Say N for production kernels.
-+
- config XFS_DEBUG
- 	bool "XFS Debugging support"
- 	depends on XFS_FS
-diff --git a/fs/xfs/Makefile b/fs/xfs/Makefile
-index 399a207f2d0e..2c31202b6ba1 100644
---- a/fs/xfs/Makefile
-+++ b/fs/xfs/Makefile
-@@ -110,6 +110,8 @@ xfs-y				+= xfs_aops.o \
- 				   xfs_verify_media.o \
- 				   xfs_xattr.o
- 
-+xfs-$(CONFIG_XFS_DIO_TEST) += tests/xfs_dio_test.o
-+
- # low-level transaction/log code
- xfs-y				+= xfs_log.o \
- 				   xfs_log_cil.o \
-diff --git a/fs/xfs/tests/xfs_dio_test.c b/fs/xfs/tests/xfs_dio_test.c
-new file mode 100644
-index 000000000000..5d7df903198d
---- /dev/null
-+++ b/fs/xfs/tests/xfs_dio_test.c
-@@ -0,0 +1,190 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/* Test-only synchronization for real filesystem DIO selftests. */
-+#include <linux/debugfs.h>
-+#include <linux/file.h>
-+#include <linux/fs.h>
-+#include <linux/magic.h>
-+#include <linux/module.h>
-+#include <linux/mutex.h>
-+#include <linux/spinlock.h>
-+#include <linux/uaccess.h>
-+#include <linux/wait.h>
-+#include "xfs_dio_test.h"
-+
-+static DEFINE_MUTEX(control_lock);
-+static DEFINE_SPINLOCK(state_lock);
-+static DECLARE_WAIT_QUEUE_HEAD(event_wait);
-+static struct inode *target;
-+static struct file *target_file;
-+static unsigned long generation;
-+static bool opened;
-+static unsigned long gates, timedout;
-+static unsigned long hits[XFS_DIO_TEST_NR_EVENTS];
-+static unsigned long values[XFS_DIO_TEST_NR_EVENTS];
-+
-+void xfs_dio_test_event(struct inode *inode, enum xfs_dio_test_event event,
-+		unsigned long value)
-+{
-+	bool pause;
-+	unsigned long current_generation;
-+
-+	spin_lock(&state_lock);
-+	if (target != inode) {
-+		spin_unlock(&state_lock);
-+		return;
-+	}
-+	hits[event]++;
-+	values[event] = value;
-+	pause = gates & BIT(event);
-+	current_generation = generation;
-+	spin_unlock(&state_lock);
-+	wake_up_all(&event_wait);
-+	if (pause && !wait_event_timeout(event_wait,
-+			READ_ONCE(generation) != current_generation ||
-+			!(READ_ONCE(gates) & BIT(event)), 10 * HZ)) {
-+		spin_lock(&state_lock);
-+		if (generation == current_generation) {
-+			timedout++;
-+			gates = 0;
-+		}
-+		spin_unlock(&state_lock);
-+		wake_up_all(&event_wait);
-+	}
-+}
-+
-+static int dio_test_open(struct inode *inode, struct file *file)
-+{
-+	int error = 0;
-+
-+	mutex_lock(&control_lock);
-+	if (opened)
-+		error = -EBUSY;
-+	else
-+		opened = true;
-+	mutex_unlock(&control_lock);
-+	return error;
-+}
-+
-+static int dio_test_release(struct inode *inode, struct file *file)
-+{
-+	struct file *old;
-+
-+	mutex_lock(&control_lock);
-+	spin_lock(&state_lock);
-+	old = target_file;
-+	target_file = NULL;
-+	target = NULL;
-+	generation++;
-+	gates = 0;
-+	spin_unlock(&state_lock);
-+	wake_up_all(&event_wait);
-+	if (old)
-+		fput(old);
-+	opened = false;
-+	mutex_unlock(&control_lock);
-+	return 0;
-+}
-+
-+static ssize_t dio_test_read(struct file *file, char __user *buf, size_t len,
-+		loff_t *ppos)
-+{
-+	char result[512];
-+	unsigned int i, nr;
-+
-+	spin_lock(&state_lock);
-+	nr = scnprintf(result, sizeof(result), "%lu %lu\n", gates, timedout);
-+	for (i = 0; i < XFS_DIO_TEST_NR_EVENTS; i++)
-+		nr += scnprintf(result + nr, sizeof(result) - nr, "%lu %lu\n",
-+				hits[i], values[i]);
-+	spin_unlock(&state_lock);
-+	return simple_read_from_buffer(buf, len, ppos, result, nr);
-+}
-+
-+static ssize_t dio_test_write(struct file *file, const char __user *buf,
-+		size_t len, loff_t *ppos)
-+{
-+	char command[80];
-+	struct inode *inode;
-+	unsigned long mask;
-+	int fd, error = 0;
-+
-+	if (!len || len >= sizeof(command))
-+		return -EINVAL;
-+	if (copy_from_user(command, buf, len))
-+		return -EFAULT;
-+	command[len] = 0;
-+	mutex_lock(&control_lock);
-+	if (sysfs_streq(command, "release")) {
-+		spin_lock(&state_lock);
-+		gates = 0;
-+		spin_unlock(&state_lock);
-+		wake_up_all(&event_wait);
-+		goto out;
-+	}
-+	if (sscanf(command, "gate %lu", &mask) == 1) {
-+		if (mask >= BIT(XFS_DIO_TEST_NR_EVENTS)) {
-+			error = -EINVAL;
-+			goto out;
-+		}
-+		spin_lock(&state_lock);
-+		gates = mask;
-+		spin_unlock(&state_lock);
-+		wake_up_all(&event_wait);
-+		goto out;
-+	}
-+	if (sscanf(command, "release %lu", &mask) == 1) {
-+		spin_lock(&state_lock);
-+		gates &= ~mask;
-+		spin_unlock(&state_lock);
-+		wake_up_all(&event_wait);
-+		goto out;
-+	}
-+	if (sscanf(command, "arm %d %lu", &fd, &mask) != 2 ||
-+	    mask >= BIT(XFS_DIO_TEST_NR_EVENTS)) {
-+		error = -EINVAL;
-+		goto out;
-+	}
-+	{
-+		CLASS(fd, f)(fd);
-+
-+		if (fd_empty(f)) {
-+			error = -EBADF;
-+			goto out;
-+		}
-+		inode = file_inode(fd_file(f));
-+		if (inode->i_sb->s_magic != XFS_SUPER_MAGIC || !S_ISREG(inode->i_mode)) {
-+			error = -EINVAL;
-+			goto out;
-+		}
-+		spin_lock(&state_lock);
-+		if (target) {
-+			error = -EBUSY;
-+		} else {
-+			target_file = get_file(fd_file(f));
-+			target = inode;
-+			generation++;
-+			gates = mask;
-+			timedout = 0;
-+			memset(hits, 0, sizeof(hits));
-+			memset(values, 0, sizeof(values));
-+		}
-+		spin_unlock(&state_lock);
-+	}
-+out:
-+	mutex_unlock(&control_lock);
-+	return error ? error : len;
-+}
-+
-+static const struct file_operations dio_test_fops = {
-+	.owner = THIS_MODULE,
-+	.open = dio_test_open,
-+	.release = dio_test_release,
-+	.read = dio_test_read,
-+	.write = dio_test_write,
-+	.llseek = default_llseek,
-+};
-+
-+void xfs_dio_test_init(struct dentry *parent)
-+{
-+	debugfs_create_file("dio_test", 0600, parent, NULL, &dio_test_fops);
-+}
-diff --git a/fs/xfs/xfs_dio_test.h b/fs/xfs/xfs_dio_test.h
-new file mode 100644
-index 000000000000..178b668580d8
---- /dev/null
-+++ b/fs/xfs/xfs_dio_test.h
-@@ -0,0 +1,32 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef __XFS_DIO_TEST_H__
-+#define __XFS_DIO_TEST_H__
-+
-+struct inode;
-+struct dentry;
-+
-+enum xfs_dio_test_event {
-+	XFS_DIO_TEST_BATCH_LEADER,
-+	XFS_DIO_TEST_BATCH_FOLLOWER,
-+	XFS_DIO_TEST_BATCH_COLLECT,
-+	XFS_DIO_TEST_BATCH_ZERO,
-+	XFS_DIO_TEST_WAIT_UNLOCKED,
-+	XFS_DIO_TEST_WRITE_CHECKS,
-+	XFS_DIO_TEST_WRITE_ADMIT,
-+	XFS_DIO_TEST_WRITE_REJECT,
-+	XFS_DIO_TEST_UNALIGNED_RECHECK,
-+	XFS_DIO_TEST_REMAP_ACTIVE,
-+	XFS_DIO_TEST_REMAP_UPGRADE,
-+	XFS_DIO_TEST_NR_EVENTS,
-+};
-+
-+#ifdef CONFIG_XFS_DIO_TEST
-+void xfs_dio_test_init(struct dentry *parent);
-+void xfs_dio_test_event(struct inode *inode, enum xfs_dio_test_event event,
-+		unsigned long value);
-+#else
-+static inline void xfs_dio_test_init(struct dentry *parent) { }
-+static inline void xfs_dio_test_event(struct inode *inode,
-+		enum xfs_dio_test_event event, unsigned long value) { }
-+#endif
-+#endif
-diff --git a/fs/xfs/xfs_file.c b/fs/xfs/xfs_file.c
-index 124a037cfa9f..e7452343671b 100644
---- a/fs/xfs/xfs_file.c
-+++ b/fs/xfs/xfs_file.c
-@@ -11,6 +11,7 @@
- #include "xfs_trans_resv.h"
- #include "xfs_mount.h"
- #include "xfs_inode.h"
-+#include "xfs_dio_test.h"
- #include "xfs_trans.h"
- #include "xfs_inode_item.h"
- #include "xfs_bmap.h"
-@@ -38,6 +39,7 @@
- #include <linux/mount.h>
- #include <linux/filelock.h>
- #include <linux/bio-integrity.h>
-+#include <linux/wait_bit.h>
- 
- static const struct vm_operations_struct xfs_file_vm_ops;
- 
-@@ -206,6 +208,8 @@ xfs_ilock_iocb_for_write(
- 	    xfs_iflags_test(ip, XFS_IREMAPPING)) {
- 		xfs_iunlock(ip, *lock_mode);
- 		*lock_mode = XFS_IOLOCK_EXCL;
-+		xfs_dio_test_event(VFS_I(ip), XFS_DIO_TEST_REMAP_UPGRADE,
-+				*lock_mode);
- 		return xfs_ilock_iocb(iocb, *lock_mode);
+ 	/*
+-	 * Now AIO and DIO has drained we flush and (if necessary) invalidate
+-	 * the cached range over the first operation we are about to run.
++	 * The caller has excluded and drained DIO over the affected range.
++	 * Flush and invalidate the cached range before removing its mappings.
+ 	 */
+ 	error = xfs_flush_unmap_range(ip, offset, len);
+ 	if (error)
+@@ -917,6 +917,11 @@ xfs_free_file_space(
+ 		}
  	}
  
-@@ -226,6 +230,80 @@ xfs_dio_read_bounce_submit_io(
- 			iomap_ioend_flags(&iter->iomap) | IOMAP_IOEND_DIRECT);
- }
- 
-+static bool
-+xfs_dio_range_overlap(
-+	struct xfs_inode	*ip,
-+	loff_t			pos,
-+	size_t			len)
-+{
-+	struct inode_dio_drain	*drain;
-+	bool			overlap;
++	/* An aligned data-device punch needs no partial-block zeroing. */
++	if (!XFS_IS_REALTIME_INODE(ip) &&
++	    !((offset | len) & mp->m_blockmask))
++		return 0;
 +
-+	/* Acquire the initialized allocation published by inode_dio_drain_get(). */
-+	drain = smp_load_acquire(&ip->i_dio_drain);
-+	overlap = inode_dio_drain_overlap(VFS_I(ip), drain, pos, len);
-+	return overlap;
+ 	/*
+ 	 * Now that we've unmap all full blocks we'll have to zero out any
+ 	 * partial block at the beginning and/or end.  xfs_zero_range is smart
+diff --git a/fs/xfs/xfs_file.c b/fs/xfs/xfs_file.c
+index e7452343671b..ad83328b7350 100644
+--- a/fs/xfs/xfs_file.c
++++ b/fs/xfs/xfs_file.c
+@@ -1682,6 +1682,90 @@ xfs_falloc_allocate_range(
+ 		 FALLOC_FL_ZERO_RANGE |	FALLOC_FL_INSERT_RANGE |	\
+ 		 FALLOC_FL_UNSHARE_RANGE | FALLOC_FL_WRITE_ZEROES)
+ 
++/*
++ * Aligned punches do not change the file size or zero partial
++ * blocks.  Exclude only the range that cache invalidation can touch, while
++ * retaining the shared IOLOCK to exclude truncate and buffered writes.
++ */
++STATIC bool
++xfs_file_punch_hole_range(
++	struct file		*file,
++	loff_t			offset,
++	loff_t			len,
++	long			*result)
++{
++	struct inode		*inode = file_inode(file);
++	struct xfs_inode	*ip = XFS_I(inode);
++	struct inode_dio_drain	*drain;
++	loff_t			rounding, start, last;
++	unsigned int		inode_flags = READ_ONCE(inode->i_flags);
++	unsigned int		iolock = XFS_IOLOCK_SHARED;
++	bool			handled = false;
++	int			error;
++
++	/*
++	 * Avoid drain allocation and serialization for obvious fallbacks.
++	 * Only data-device files qualify, so check alignment to the filesystem
++	 * block size. Recheck mutable inode state after acquiring IOLOCK.
++	 */
++	if ((inode_flags & S_DAX) || !(inode_flags & S_NOSEC) ||
++	    (READ_ONCE(ip->i_diflags) & XFS_DIFLAG_REALTIME) ||
++	    (READ_ONCE(ip->i_flags) & XFS_IREMAPPING) ||
++	    !IS_ALIGNED(offset | len, i_blocksize(inode)))
++		return false;
++
++	drain = inode_dio_drain_get(&ip->i_dio_drain);
++	if (IS_ERR(drain)) {
++		*result = PTR_ERR(drain);
++		return true;
++	}
++	mutex_lock(&drain->lock);
++	xfs_ilock(ip, iolock);
++	if (IS_DAX(inode) || XFS_IS_REALTIME_INODE(ip) || !IS_NOSEC(inode) ||
++	    xfs_iflags_test(ip, XFS_IREMAPPING) ||
++	    !xfs_is_falloc_aligned(ip, offset, len))
++		goto out_unlock;
++
++	rounding = max_t(loff_t, xfs_inode_alloc_unitsize(ip), PAGE_SIZE);
++	/* The invalidation range must remain representable even beyond EOF. */
++	if (offset + len > rounddown_64(LLONG_MAX, rounding))
++		goto out_unlock;
++	start = rounddown_64(offset, rounding);
++	last = roundup_64(offset + len, rounding) - 1;
++
++	/* Fall back to the exclusive path if breaking a layout would block or fail. */
++	if (break_layout(inode, false))
++		goto out_unlock;
++
++	handled = true;
++	/*
++	 * IS_NOSEC was checked under shared IOLOCK, which excludes chmod and
++	 * security xattr changes that could clear S_NOSEC. file_modified() can
++	 * update timestamps without stripping privileges under shared IOLOCK.
++	 */
++	error = file_modified(file);
++	if (error)
++		goto out_result;
++
++	/* DIO can fault in a buffer from this file. Drain before MMAPLOCK. */
++	error = inode_dio_drain_start(inode, drain, start, last);
++	if (error)
++		goto out_result;
++	inode_dio_drain_wait(inode, drain);
++	xfs_ilock(ip, XFS_MMAPLOCK_EXCL);
++	error = xfs_free_file_space(ip, offset, len, NULL);
++	if (!error && xfs_file_sync_writes(file))
++		error = xfs_log_force_inode(ip);
++	xfs_iunlock(ip, XFS_MMAPLOCK_EXCL);
++	inode_dio_drain_finish(inode, drain);
++out_result:
++	*result = error;
++out_unlock:
++	xfs_iunlock(ip, iolock);
++	mutex_unlock(&drain->lock);
++	return handled;
 +}
 +
-+/* Register provisionally before the final exclusion snapshot. */
-+static bool
-+xfs_dio_try_begin(
-+	struct xfs_inode	*ip,
-+	loff_t			pos,
-+	size_t			len,
-+	unsigned int		*dio_flags)
-+{
-+	bool			generation;
+ STATIC long
+ __xfs_file_fallocate(
+ 	struct file		*file,
+@@ -1695,6 +1779,10 @@ __xfs_file_fallocate(
+ 	long			error;
+ 	uint			iolock = XFS_IOLOCK_EXCL | XFS_MMAPLOCK_EXCL;
+ 
++	if (mode == (FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE) &&
++	    xfs_file_punch_hole_range(file, offset, len, &error))
++		return error;
 +
-+	if (!inode_dio_try_begin(VFS_I(ip), &ip->i_dio_drain, pos, len,
-+			&generation))
-+		return false;
-+	*dio_flags &= ~IOMAP_DIO_GENERATION;
-+	*dio_flags |= IOMAP_DIO_ACCOUNTED;
-+	if (generation)
-+		*dio_flags |= IOMAP_DIO_GENERATION;
+ 	xfs_ilock(ip, iolock);
+ 	error = xfs_break_layouts(inode, &iolock, BREAK_UNMAP);
+ 	if (error)
+diff --git a/fs/xfs/xfs_inode.c b/fs/xfs/xfs_inode.c
+index 05a14da28031..b8119abab30a 100644
+--- a/fs/xfs/xfs_inode.c
++++ b/fs/xfs/xfs_inode.c
+@@ -118,6 +118,16 @@ xfs_lock_flags_assert(
+  *
+  * i_rwsem -> invalidate_lock -> page_lock -> i_ilock
+  *
++ * DIO range drainers add an outer mutex:
++ *
++ * i_dio_drain->lock -> i_rwsem -> invalidate_lock -> page_lock -> i_ilock
++ *
++ * Never wait for the drain mutex while holding IOLOCK: its owner may drop
++ * shared IOLOCK and reacquire it exclusively during write checks. A waiter
++ * holding shared IOLOCK would prevent that upgrade and deadlock both drainers.
++ * The mutex stays held through exclusion removal, including extent freeing
++ * and any synchronous log force. DIO admission and completion do not take it.
++ *
+  * mmap_lock locking order:
+  *
+  * i_rwsem -> page lock -> mmap_lock
+diff --git a/tools/testing/selftests/filesystems/Makefile b/tools/testing/selftests/filesystems/Makefile
+index fbd5c27505ef..0c572f10fa71 100644
+--- a/tools/testing/selftests/filesystems/Makefile
++++ b/tools/testing/selftests/filesystems/Makefile
+@@ -5,7 +5,13 @@ TEST_GEN_PROGS := devpts_pts anon_inode_test kernfs_test fclog ustat_test rw_hin
+ TEST_GEN_PROGS += idmapped_tmpfile
+ TEST_GEN_PROGS_EXTENDED := dnotify_test
+ 
++TEST_GEN_PROGS_EXTENDED += xfs_dio_drain xfs_dio_admission xfs_dio_remap
++
+ include ../lib.mk
+ 
++$(OUTPUT)/xfs_dio_drain: LDLIBS += -pthread
++$(OUTPUT)/xfs_dio_admission: LDLIBS += -pthread
++$(OUTPUT)/xfs_dio_remap: LDLIBS += -pthread
++
+ $(OUTPUT)/idmapped_tmpfile: LDLIBS += -lcap
+ $(OUTPUT)/idmapped_tmpfile: utils.c
+diff --git a/tools/testing/selftests/filesystems/xfs_dio_admission.c b/tools/testing/selftests/filesystems/xfs_dio_admission.c
+new file mode 100644
+index 000000000000..3162de34b2b8
+--- /dev/null
++++ b/tools/testing/selftests/filesystems/xfs_dio_admission.c
+@@ -0,0 +1,380 @@
++// SPDX-License-Identifier: GPL-2.0
++/* Deterministic real-syscall admission retries; see CONFIG_XFS_DIO_TEST. */
++#define _GNU_SOURCE
++#include <errno.h>
++#include <fcntl.h>
++#include <linux/fs.h>
++#include <linux/magic.h>
++#include <linux/userfaultfd.h>
++#include <poll.h>
++#include <pthread.h>
++#include <signal.h>
++#include <stdbool.h>
++#include <stdint.h>
++#include <stdlib.h>
++#include <string.h>
++#include <sys/ioctl.h>
++#include <sys/mman.h>
++#include <sys/resource.h>
++#include <sys/stat.h>
++#include <sys/statfs.h>
++#include <sys/syscall.h>
++#include <sys/uio.h>
++#include <time.h>
++#include <unistd.h>
++#include "../kselftest.h"
++
++/* Event indices in fs/xfs/xfs_dio_test.h. */
++enum { WAIT_UNLOCKED = 4, WRITE_CHECKS, WRITE_ADMIT, WRITE_REJECT, EVENTS };
++#define GATE(event) (1UL << (event))
++struct snapshot { unsigned long gates, timedout, hits[EVENTS], value[EVENTS]; };
++struct request {
++	int fd;
++	void *buffer;
++	size_t length;
++	off_t offset;
++	bool read, punch;
++	ssize_t result;
++	int error;
++};
++struct parked_read {
++	struct request req;
++	pthread_t thread;
++	int uffd;
++};
++
++static void die(const char *what)
++{
++	ksft_exit_fail_msg("%s: %s\n", what, strerror(errno));
++}
++
++static long long milliseconds(void)
++{
++	struct timespec now;
++
++	clock_gettime(CLOCK_MONOTONIC, &now);
++	return now.tv_sec * 1000LL + now.tv_nsec / 1000000;
++}
++
++static void *submit(void *data)
++{
++	struct request *r = data;
++
++	if (r->punch)
++		r->result = fallocate(r->fd, FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE,
++				r->offset, r->length);
++	else if (r->read)
++		r->result = pread(r->fd, r->buffer, r->length, r->offset);
++	else
++		r->result = pwrite(r->fd, r->buffer, r->length, r->offset);
++	r->error = errno;
++	return NULL;
++}
++
++static void command(int control, const char *verb, unsigned long value)
++{
++	char text[80];
++	int len = snprintf(text, sizeof(text), "%s %lu", verb, value);
++
++	if (write(control, text, len) != len)
++		die("DIO test command");
++}
++
++static int arm(int fd, unsigned long gates)
++{
++	char text[80];
++	int control = open("/sys/kernel/debug/xfs/dio_test", O_RDWR);
++	int len;
++
++	if (control < 0)
++		return -1;
++	len = snprintf(text, sizeof(text), "arm %d %lu", fd, gates);
++	if (write(control, text, len) != len)
++		die("arm DIO test");
++	return control;
++}
++
++static struct snapshot snapshot(int control)
++{
++	struct snapshot s = { };
++	char buffer[2048], *cursor, *next;
++	ssize_t n = pread(control, buffer, sizeof(buffer) - 1, 0);
++
++	if (n <= 0)
++		die("read DIO test state");
++	buffer[n] = 0;
++	if (sscanf(buffer, "%lu %lu", &s.gates, &s.timedout) != 2)
++		die("parse DIO test state");
++	cursor = strchr(buffer, '\n');
++	for (int i = 0; i < EVENTS; i++) {
++		if (!cursor || sscanf(cursor + 1, "%lu %lu", &s.hits[i],
++				&s.value[i]) != 2)
++			die("parse DIO test event");
++		next = strchr(cursor + 1, '\n');
++		cursor = next;
++	}
++	return s;
++}
++
++static void wait_event(int control, int event, unsigned long count)
++{
++	long long deadline = milliseconds() + 5000;
++
++	do {
++		struct snapshot s = snapshot(control);
++
++		if (s.hits[event] >= count && !s.timedout)
++			return;
++		usleep(1000);
++	} while (milliseconds() < deadline);
++	ksft_exit_fail_msg("DIO event %d did not reach %lu\n", event, count);
++}
++
++static void park_read(struct parked_read *old, int fd, size_t unit)
++{
++	struct uffdio_api api = { .api = UFFD_API };
++	struct uffdio_register reg = { .mode = UFFDIO_REGISTER_MODE_MISSING };
++	struct uffd_msg message;
++	struct pollfd pollfd;
++
++	memset(old, 0, sizeof(*old));
++	old->req = (struct request){ .fd = fd, .length = unit,
++		.offset = unit, .read = true };
++	old->req.buffer = mmap(NULL, unit, PROT_READ | PROT_WRITE,
++			MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
++	if (old->req.buffer == MAP_FAILED)
++		die("missing read destination");
++	old->uffd = syscall(__NR_userfaultfd, O_CLOEXEC | O_NONBLOCK);
++	reg.range.start = (uintptr_t)old->req.buffer;
++	reg.range.len = unit;
++	if (old->uffd < 0 || ioctl(old->uffd, UFFDIO_API, &api) ||
++	    ioctl(old->uffd, UFFDIO_REGISTER, &reg))
++		die("kernel-fault userfaultfd required by admission test");
++	if (pthread_create(&old->thread, NULL, submit, &old->req))
++		die("parked read thread");
++	pollfd = (struct pollfd){ .fd = old->uffd, .events = POLLIN };
++	if (poll(&pollfd, 1, 5000) != 1 ||
++	    read(old->uffd, &message, sizeof(message)) != sizeof(message) ||
++	    message.event != UFFD_EVENT_PAGEFAULT)
++		ksft_exit_fail_msg("read did not register and reach GUP\n");
++}
++
++static void release_read(struct parked_read *old, void *buffer, size_t unit)
++{
++	struct uffdio_copy copy = { .src = (uintptr_t)buffer,
++		.dst = (uintptr_t)old->req.buffer, .len = unit };
++
++	if (ioctl(old->uffd, UFFDIO_COPY, &copy))
++		die("release registered read");
++	pthread_join(old->thread, NULL);
++	if (old->req.result != (ssize_t)unit)
++		ksft_exit_fail_msg("registered read result %zd\n", old->req.result);
++	close(old->uffd);
++	munmap(old->req.buffer, unit);
++}
++
++static void wait_exclusion(int fd, void *buffer, size_t unit, off_t offset)
++{
++	struct iovec iov = { .iov_base = buffer, .iov_len = unit };
++	long long deadline = milliseconds() + 5000;
++
++	do {
++		if (preadv2(fd, &iov, 1, offset, RWF_NOWAIT) == -1 && errno == EAGAIN)
++			return;
++		usleep(1000);
++	} while (milliseconds() < deadline);
++	ksft_exit_fail_msg("real drainer did not publish exclusion\n");
++}
++
++static void prefill(int fd, void *buffer, size_t unit)
++{
++	memset(buffer, 0x5a, 16 * unit);
++	if (ftruncate(fd, 0) || pwrite(fd, buffer, 8 * unit, 0) != 8 * (ssize_t)unit ||
++	    fsync(fd))
++		die("prefill");
++}
++
++static bool bytes_equal(const void *buffer, size_t length, unsigned char value)
++{
++	const unsigned char *bytes = buffer;
++
++	for (size_t i = 0; i < length; i++)
++		if (bytes[i] != value)
++			return false;
 +	return true;
 +}
 +
-+/* No request is counted while waiting for an overlapping exclusion. */
-+static int
-+xfs_dio_range_wait(
-+	struct kiocb		*iocb,
-+	size_t			len,
-+	unsigned int		*iolock,
-+	bool			write)
++/* Two distinct real punch exclusions must reject the same writer twice. */
++static int repeated_admission(int fd, void *buffer, size_t unit)
 +{
-+	struct inode		*inode = file_inode(iocb->ki_filp);
-+	struct xfs_inode	*ip = XFS_I(inode);
-+	struct inode_dio_drain	*drain;
-+	int			waited = 0;
-+	int			error;
++	struct request writer = { .fd = fd, .buffer = buffer, .length = unit,
++		.offset = 4 * unit };
++	struct request punch = { .fd = fd, .length = unit,
++		.offset = writer.offset,
++		.punch = true };
++	struct snapshot s;
++	pthread_t writing, punching;
++	int control;
++	bool ok = true;
 +
-+	while (xfs_dio_range_overlap(ip, iocb->ki_pos, len)) {
-+		if (iocb->ki_flags & IOCB_NOWAIT)
-+			return -EAGAIN;
-+		/* The successful overlap check acquired this permanent allocation. */
-+		drain = READ_ONCE(ip->i_dio_drain);
-+		xfs_iunlock(ip, *iolock);
-+		xfs_dio_test_event(inode, XFS_DIO_TEST_WAIT_UNLOCKED,
-+				iocb->ki_pos);
-+		wait_var_event(&inode->i_dio_count,
-+			!inode_dio_drain_overlap(inode, drain, iocb->ki_pos, len));
-+		/* Re-evaluate the required write lock mode after dropping IOLOCK. */
-+		if (write) {
-+			error = xfs_ilock_iocb_for_write(iocb, iolock);
-+			if (error) {
-+				*iolock = 0;
-+				return error;
++	prefill(fd, buffer, unit);
++	control = arm(fd, GATE(WRITE_ADMIT));
++	if (control < 0)
++		return -1;
++	if (pthread_create(&writing, NULL, submit, &writer))
++		die("writer thread");
++	for (unsigned int round = 1; round <= 2; round++) {
++		struct parked_read old;
++
++		wait_event(control, WRITE_ADMIT, round);
++		park_read(&old, fd, unit);
++		if (pthread_create(&punching, NULL, submit, &punch))
++			die("punch thread");
++		wait_exclusion(fd, buffer + unit, unit, writer.offset);
++		command(control, "gate", GATE(WAIT_UNLOCKED));
++		wait_event(control, WAIT_UNLOCKED, round);
++		s = snapshot(control);
++		ok &= s.hits[WRITE_REJECT] == round;
++		release_read(&old, buffer + unit, unit);
++		pthread_join(punching, NULL);
++		ok &= punch.result == 0;
++		command(control, "gate", round == 1 ? GATE(WRITE_ADMIT) : 0);
++	}
++	pthread_join(writing, NULL);
++	s = snapshot(control);
++	ok &= writer.result == (ssize_t)unit && s.hits[WRITE_REJECT] == 2 &&
++		s.hits[WAIT_UNLOCKED] == 2 && s.hits[WRITE_ADMIT] == 3 &&
++		s.hits[WRITE_CHECKS] == 5 && !s.timedout;
++	ok &= pread(fd, buffer + unit, unit, writer.offset) == (ssize_t)unit &&
++		bytes_equal(buffer + unit, unit, 0x5a);
++	ksft_print_msg("retry evidence: checks=%lu tries=%lu rejects=%lu waits=%lu\n",
++		s.hits[WRITE_CHECKS], s.hits[WRITE_ADMIT], s.hits[WRITE_REJECT],
++		s.hits[WAIT_UNLOCKED]);
++	close(control);
++	return ok;
++}
++
++/* Move EOF and change the process limit with the writer's IOLOCK dropped. */
++static int append_revalidation(int fd, void *buffer, size_t unit, int mode)
++{
++	struct parked_read old;
++	struct request drain = { .fd = fd, .length = 2 * unit,
++		.offset = 8 * unit, .punch = true };
++	struct request writer = { .buffer = buffer, .length = 2 * unit };
++	struct rlimit saved, limit;
++	struct snapshot s;
++	struct stat st;
++	pthread_t draining, writing;
++	char path[64];
++	int control, appendfd;
++	bool ok;
++	bool expand = mode == 1, unaligned = mode == 2;
++	size_t expected = unaligned ? 1 : (expand ? 2 : 1) * unit;
++
++	prefill(fd, buffer, unit);
++	park_read(&old, fd, unit);
++	if (pthread_create(&draining, NULL, submit, &drain))
++		die("append-range punch thread");
++	wait_exclusion(fd, buffer + 2 * unit, unit, 8 * unit);
++	control = arm(fd, GATE(WAIT_UNLOCKED));
++	if (control < 0) {
++		release_read(&old, buffer + 2 * unit, unit);
++		pthread_join(draining, NULL);
++		return -1;
++	}
++	snprintf(path, sizeof(path), "/proc/self/fd/%d", fd);
++	appendfd = open(path, O_RDWR | O_DIRECT | O_APPEND);
++	if (appendfd < 0 || getrlimit(RLIMIT_FSIZE, &saved))
++		die("append descriptor/limit");
++	limit = saved;
++	limit.rlim_cur = expand ? 9 * unit : RLIM_INFINITY;
++	if (setrlimit(RLIMIT_FSIZE, &limit))
++		die("initial write limit");
++	writer.fd = appendfd;
++	if (pthread_create(&writing, NULL, submit, &writer))
++		die("append writer thread");
++	wait_event(control, WAIT_UNLOCKED, 1);
++	s = snapshot(control);
++	ok = s.value[WAIT_UNLOCKED] == 8 * unit &&
++		s.value[WRITE_CHECKS] == (expand ? unit : 2 * unit);
++	limit.rlim_cur = unaligned ? 14 * unit + 1 : (expand ? 16 : 15) * unit;
++	if (setrlimit(RLIMIT_FSIZE, &limit))
++		die("updated write limit");
++	release_read(&old, buffer + 2 * unit, unit);
++	pthread_join(draining, NULL);
++	ok &= drain.result == 0;
++	if (ftruncate(fd, 14 * unit))
++		die("move append EOF while IOLOCK dropped");
++	command(control, "gate", 0);
++	pthread_join(writing, NULL);
++	if (setrlimit(RLIMIT_FSIZE, &saved))
++		die("restore write limit");
++	s = snapshot(control);
++	ok &= (unaligned ? writer.result == -1 && writer.error == EINVAL :
++		writer.result == (ssize_t)expected) && s.hits[WRITE_CHECKS] == 2 &&
++		s.hits[WAIT_UNLOCKED] == 1 && s.value[WRITE_ADMIT] == 14 * unit &&
++		s.value[WRITE_CHECKS] == expected && !s.timedout;
++	ok &= !fstat(fd, &st) && st.st_size == (off_t)(14 * unit + (unaligned ? 0 : expected));
++	if (!unaligned)
++		ok &= pread(fd, buffer + 2 * unit, expected, 14 * unit) == (ssize_t)expected &&
++			bytes_equal(buffer + 2 * unit, expected, 0x5a);
++	ok &= pread(fd, buffer + 2 * unit, unit, 8 * unit) == (ssize_t)unit &&
++		bytes_equal(buffer + 2 * unit, unit, 0);
++	ksft_print_msg("append evidence: checks=%lu initial_count=%zu final_count=%lu "
++		"position=%lu result=%zd\n", s.hits[WRITE_CHECKS],
++		expand ? unit : 2 * unit, s.value[WRITE_CHECKS],
++		s.value[WRITE_ADMIT], writer.result);
++	close(appendfd);
++	close(control);
++	return ok;
++}
++
++static void timeout_handler(int signal)
++{
++	(void)signal;
++	_exit(KSFT_FAIL);
++}
++
++int main(int argc, char **argv)
++{
++	struct statfs fs;
++	char *path;
++	void *buffer;
++	size_t unit;
++	int fd, result, failed = 0;
++
++	ksft_print_header();
++	if (argc != 2 || statfs(argv[1], &fs) || fs.f_type != XFS_SUPER_MAGIC)
++		ksft_exit_skip("requires a writable XFS directory\n");
++	unit = sysconf(_SC_PAGESIZE);
++	if ((size_t)fs.f_bsize > unit)
++		unit = fs.f_bsize;
++	if (asprintf(&path, "%s/xfs-admission-XXXXXX", argv[1]) < 0 ||
++	    posix_memalign(&buffer, unit, 16 * unit))
++		die("test allocation");
++	fd = mkostemp(path, O_DIRECT);
++	if (fd < 0)
++		die("test file");
++	unlink(path);
++	free(path);
++	signal(SIGALRM, timeout_handler);
++	alarm(40);
++	ksft_set_plan(4);
++	result = repeated_admission(fd, buffer, unit);
++	if (result < 0)
++		ksft_exit_skip("requires CONFIG_XFS_DIO_TEST and mounted debugfs\n");
++	ksft_test_result(result, "released writer retries two successive exclusions\n");
++	failed |= !result;
++	for (int mode = 0; mode < 3; mode++) {
++		const char *names[] = { "reduced aligned", "expanded", "reduced unaligned" };
++
++		result = append_revalidation(fd, buffer, unit, mode);
++		ksft_test_result(result == 1, "dropped IOLOCK revalidates append and %s limit\n",
++				names[mode]);
++		failed |= result != 1;
++	}
++	alarm(0);
++	free(buffer);
++	close(fd);
++	ksft_exit(!failed);
++}
+diff --git a/tools/testing/selftests/filesystems/xfs_dio_drain.c b/tools/testing/selftests/filesystems/xfs_dio_drain.c
+new file mode 100644
+index 000000000000..f2e005f6e896
+--- /dev/null
++++ b/tools/testing/selftests/filesystems/xfs_dio_drain.c
+@@ -0,0 +1,371 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Run against a writable XFS directory. CONFIG_USERFAULTFD and permission to
++ * handle kernel-originated faults are needed for the controlled cohort cases.
++ * The mapped-source cases need CONFIG_AIO; the COW case also needs reflink.
++ */
++#define _GNU_SOURCE
++#include <errno.h>
++#include <fcntl.h>
++#include <linux/magic.h>
++#include <linux/aio_abi.h>
++#include <linux/fs.h>
++#include <linux/userfaultfd.h>
++#include <poll.h>
++#include <pthread.h>
++#include <signal.h>
++#include <stdatomic.h>
++#include <stdbool.h>
++#include <stdint.h>
++#include <stdlib.h>
++#include <string.h>
++#include <sys/ioctl.h>
++#include <sys/mman.h>
++#include <sys/statfs.h>
++#include <sys/syscall.h>
++#include <sys/uio.h>
++#include <time.h>
++#include <unistd.h>
++#include "../kselftest.h"
++
++struct request {
++	int fd;
++	void *buffer;
++	size_t length;
++	off_t offset;
++	bool punch;
++	bool aio;
++	pthread_barrier_t *start;
++	atomic_bool done;
++	ssize_t result;
++};
++
++static ssize_t submit_aio(struct request *req)
++{
++	aio_context_t context = 0;
++	struct iocb cb = {
++		.aio_lio_opcode = IOCB_CMD_PWRITE, .aio_fildes = req->fd,
++		.aio_buf = (uintptr_t)req->buffer, .aio_nbytes = req->length,
++		.aio_offset = req->offset,
++	};
++	struct iocb *list[] = { &cb };
++	struct io_event event;
++	struct timespec timeout = { .tv_sec = 5 };
++	ssize_t result;
++
++	if (syscall(__NR_io_setup, 1, &context))
++		return -errno;
++	if (syscall(__NR_io_submit, context, 1, list) != 1)
++		result = -errno;
++	else if (syscall(__NR_io_getevents, context, 1, 1, &event, &timeout) != 1)
++		result = -ETIMEDOUT;
++	else
++		result = event.res;
++	syscall(__NR_io_destroy, context);
++	return result;
++}
++
++static void *submit(void *data)
++{
++	struct request *req = data;
++
++	if (req->start)
++		pthread_barrier_wait(req->start);
++	if (req->punch)
++		req->result = fallocate(req->fd,
++			FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE,
++			req->offset, req->length);
++	else if (req->aio)
++		req->result = submit_aio(req);
++	else
++		req->result = pwrite(req->fd, req->buffer, req->length, req->offset);
++	atomic_store(&req->done, true);
++	return NULL;
++}
++
++static long long milliseconds(void)
++{
++	struct timespec ts;
++
++	clock_gettime(CLOCK_MONOTONIC, &ts);
++	return (long long)ts.tv_sec * 1000 + ts.tv_nsec / 1000000;
++}
++
++static void timeout_handler(int sig)
++{
++	static const char message[] = "XFS DIO drain test timed out\n";
++
++	(void)sig;
++	if (write(STDERR_FILENO, message, sizeof(message) - 1) < 0)
++		_exit(KSFT_FAIL);
++	_exit(KSFT_FAIL);
++}
++
++static int faultfd(void *buffer, size_t length)
++{
++	struct uffdio_api api = { .api = UFFD_API };
++	struct uffdio_register reg = {
++		.range = { .start = (uintptr_t)buffer, .len = length },
++		.mode = UFFDIO_REGISTER_MODE_MISSING,
++	};
++	int fd;
++
++	/* Kernel-originated GUP faults must be handled, so omit USER_MODE_ONLY. */
++	fd = syscall(__NR_userfaultfd, O_CLOEXEC | O_NONBLOCK);
++	if (fd < 0)
++		return -1;
++	if (ioctl(fd, UFFDIO_API, &api) || ioctl(fd, UFFDIO_REGISTER, &reg)) {
++		close(fd);
++		return -1;
++	}
++	return fd;
++}
++
++/*
++ * Stop a real, registered DIO in GUP. A drain must wait for this old request,
++ * although its file range is disjoint from the punch or post-EOF gap.
++ * Probe the exclusion before checking that newer disjoint I/O can complete.
++ */
++static int cohort_test(int fd, size_t unit, bool eof)
++{
++	struct request old = { .fd = fd, .length = unit, .offset = unit };
++	struct request drain = { .fd = fd, .length = unit,
++		.offset = (eof ? 10 : 4) * unit, .punch = !eof };
++	struct uffd_msg message;
++	struct uffdio_copy copy = { .len = unit };
++	struct pollfd pollfd;
++	struct iovec iov;
++	pthread_t writer, drainer;
++	void *buffer, *missing;
++	long long deadline;
++	bool excluded = false, progressed = false, rejected_write = false, ok = true;
++	int uffd;
++	ssize_t ret;
++
++	if (posix_memalign(&buffer, unit, 12 * unit))
++		ksft_exit_fail_msg("aligned allocation failed\n");
++	memset(buffer, 0x5a, 12 * unit);
++	if (ftruncate(fd, 0) || pwrite(fd, buffer, 8 * unit, 0) != 8 * (ssize_t)unit ||
++	    fsync(fd))
++		ksft_exit_fail_msg("prefill failed: %s\n", strerror(errno));
++	missing = mmap(NULL, unit, PROT_READ | PROT_WRITE,
++			MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
++	if (missing == MAP_FAILED)
++		ksft_exit_fail_msg("mmap failed\n");
++	uffd = faultfd(missing, unit);
++	if (uffd < 0) {
++		free(buffer);
++		munmap(missing, unit);
++		return -1;
++	}
++	old.buffer = missing;
++	drain.buffer = buffer;
++	if (pthread_create(&writer, NULL, submit, &old))
++		ksft_exit_fail_msg("writer creation failed\n");
++	pollfd = (struct pollfd){ .fd = uffd, .events = POLLIN };
++	if (poll(&pollfd, 1, 5000) != 1 ||
++	    read(uffd, &message, sizeof(message)) != sizeof(message) ||
++	    message.event != UFFD_EVENT_PAGEFAULT)
++		ksft_exit_fail_msg("DIO did not reach the controlled GUP fault\n");
++	if (pthread_create(&drainer, NULL, submit, &drain))
++		ksft_exit_fail_msg("drainer creation failed\n");
++	iov = (struct iovec){ .iov_base = buffer + unit, .iov_len = unit };
++	deadline = milliseconds() + 5000;
++	do {
++		ret = preadv2(fd, &iov, 1, (eof ? 8 : 4) * unit, RWF_NOWAIT);
++		if (ret == -1 && errno == EAGAIN) {
++			excluded = true;
++			break;
++		}
++		if (atomic_load(&drain.done))
++			break;
++		usleep(1000);
++	} while (milliseconds() < deadline);
++	if (excluded) {
++		/* This must succeed before the stalled old request is released. */
++		ret = preadv2(fd, &iov, 1, 0, RWF_NOWAIT);
++		progressed = ret == (ssize_t)unit;
++		ret = pwritev2(fd, &iov, 1, (eof ? 8 : 4) * unit, RWF_NOWAIT);
++		rejected_write = ret == -1 && errno == EAGAIN;
++	}
++	ok = excluded && progressed && rejected_write && !atomic_load(&drain.done) &&
++		!atomic_load(&old.done);
++	if (!ok)
++		ksft_print_msg("%s: exclusion=%d disjoint-progress=%d drain-done=%d\n",
++			       eof ? "EOF" : "punch", excluded, progressed,
++			       atomic_load(&drain.done));
++	/* Resolve every missing source page and release both operations. */
++	memset(buffer, 0x5a, unit);
++	copy.src = (uintptr_t)buffer;
++	copy.dst = (uintptr_t)missing;
++	if (ioctl(uffd, UFFDIO_COPY, &copy))
++		ksft_exit_fail_msg("UFFDIO_COPY failed: %s\n", strerror(errno));
++	pthread_join(writer, NULL);
++	pthread_join(drainer, NULL);
++	ok &= old.result == (ssize_t)unit;
++	ok &= drain.result == (eof ? (ssize_t)unit : 0);
++	if (fsync(fd))
++		ok = false;
++	memset(buffer, 0xff, 12 * unit);
++	ret = pread(fd, buffer, (eof ? 11 : 8) * unit, 0);
++	ok &= ret == (eof ? 11 : 8) * (ssize_t)unit;
++	for (size_t i = 0; i < (eof ? 11 : 8) * unit; i++) {
++		unsigned char expected = 0x5a;
++
++		if (eof ? i >= 8 * unit && i < 10 * unit :
++			  i >= 4 * unit && i < 5 * unit)
++			expected = 0;
++		if (((unsigned char *)buffer)[i] != expected) {
++			ksft_print_msg("bad preserved data/gap at byte %zu\n", i);
++			ok = false;
++			break;
++		}
++	}
++	close(uffd);
++	munmap(missing, unit);
++	free(buffer);
++	return ok;
++}
++
++static bool bytes_equal(const void *buffer, size_t length, unsigned char value)
++{
++	const unsigned char *p = buffer;
++
++	for (size_t i = 0; i < length; i++) {
++		if (p[i] != value)
++			return false;
++	}
++	return true;
++}
++
++/* Exercise the MMAPLOCK fault dependency and real asynchronous COW end_io. */
++static int mapped_source_test(int fd, int clonefd, size_t unit, bool cow)
++{
++	void *buffer, *source;
++	bool ok = true;
++
++	if (posix_memalign(&buffer, unit, 8 * unit))
++		ksft_exit_fail_msg("aligned allocation failed\n");
++	memset(buffer, 0x5a, 8 * unit);
++	if (ftruncate(fd, 0) || pwrite(fd, buffer, 8 * unit, 0) != 8 * (ssize_t)unit ||
++	    fsync(fd))
++		ksft_exit_fail_msg("mapped source prefill failed\n");
++	source = mmap(NULL, unit, PROT_READ, MAP_PRIVATE, fd, 0);
++	if (source == MAP_FAILED)
++		ksft_exit_fail_msg("file source mmap failed\n");
++	for (unsigned int round = 0; round < 64; round++) {
++		pthread_barrier_t barrier;
++		struct request writer = { .fd = fd, .buffer = source,
++			.length = unit, .offset = (cow ? 2 : 10) * unit,
++			.aio = round & 1, .start = &barrier };
++		struct request punch = { .fd = fd, .length = unit,
++			.offset = 4 * unit, .punch = true, .start = &barrier };
++		pthread_t writing, punching;
++
++		if (ftruncate(fd, 8 * unit))
++			ksft_exit_fail_msg("mapped source truncate failed\n");
++		if (cow) {
++			memset(buffer, 0xa5, unit);
++			if (pwrite(fd, buffer, unit, 2 * unit) != (ssize_t)unit || fsync(fd))
++				ksft_exit_fail_msg("COW destination prefill failed\n");
++			if (ioctl(clonefd, FICLONE, fd)) {
++				if (errno == EOPNOTSUPP || errno == ENOTTY) {
++					munmap(source, unit);
++					free(buffer);
++					return -1;
++				}
++				ksft_exit_fail_msg("FICLONE failed: %s\n", strerror(errno));
 +			}
-+		} else {
-+			xfs_ilock(ip, *iolock);
 +		}
-+		waited = 1;
++		/* Drop PTEs and clean cache so GUP must fault through this inode. */
++		if (madvise(source, unit, MADV_DONTNEED) ||
++		    posix_fadvise(fd, 0, unit, POSIX_FADV_DONTNEED))
++			ksft_exit_fail_msg("cannot evict mapped source\n");
++		if (pthread_barrier_init(&barrier, NULL, 3) ||
++		    pthread_create(&writing, NULL, submit, &writer) ||
++		    pthread_create(&punching, NULL, submit, &punch))
++			ksft_exit_fail_msg("mapped source thread setup failed\n");
++		pthread_barrier_wait(&barrier);
++		pthread_join(writing, NULL);
++		pthread_join(punching, NULL);
++		pthread_barrier_destroy(&barrier);
++		if (writer.result == -ENOSYS) {
++			munmap(source, unit);
++			free(buffer);
++			return -1;
++		}
++		ok &= writer.result == (ssize_t)unit && punch.result == 0;
++		ok &= pread(fd, buffer, unit, writer.offset) == (ssize_t)unit &&
++			bytes_equal(buffer, unit, 0x5a);
++		ok &= pread(fd, buffer, unit, 4 * unit) == (ssize_t)unit &&
++			bytes_equal(buffer, unit, 0);
++		if (cow)
++			ok &= pread(clonefd, buffer, unit, 2 * unit) == (ssize_t)unit &&
++				bytes_equal(buffer, unit, 0xa5);
++		if (!ok)
++			break;
 +	}
-+	return waited;
++	munmap(source, unit);
++	free(buffer);
++	return ok;
 +}
 +
- static const struct iomap_dio_ops xfs_dio_read_bounce_ops = {
- 	.submit_io	= xfs_dio_read_bounce_submit_io,
- 	.bio_set	= &iomap_ioend_bioset,
-@@ -237,6 +315,10 @@ xfs_file_dio_read(
- 	struct iov_iter		*to)
- {
- 	struct xfs_inode	*ip = XFS_I(file_inode(iocb->ki_filp));
-+	unsigned int		iolock = XFS_IOLOCK_SHARED;
-+	unsigned int		dio_flags = 0;
-+	bool			bounce = mapping_stable_writes(iocb->ki_filp->f_mapping);
-+	bool			simple = !bounce;
- 	ssize_t			ret;
- 
- 	trace_xfs_file_direct_read(iocb, to);
-@@ -249,15 +331,27 @@ xfs_file_dio_read(
- 	ret = xfs_ilock_iocb(iocb, XFS_IOLOCK_SHARED);
- 	if (ret)
- 		return ret;
--	if (mapping_stable_writes(iocb->ki_filp->f_mapping)) {
-+retry:
-+	ret = xfs_dio_range_wait(iocb, iov_iter_count(to), &iolock, false);
-+	if (ret < 0)
-+		goto out_unlock;
-+	if (!xfs_dio_try_begin(ip, iocb->ki_pos, iov_iter_count(to), &dio_flags))
-+		goto retry;
-+	if (!simple) {
- 		ret = iomap_dio_rw(iocb, to, &xfs_read_iomap_ops,
--				&xfs_dio_read_bounce_ops, 0, NULL, 0);
-+					bounce ? &xfs_dio_read_bounce_ops : NULL,
-+					dio_flags,
-+					NULL, 0);
- 	} else {
--		ret = iomap_dio_read_simple(iocb, to, xfs_read_iomap_begin, 0);
--		if (ret == -ENOTBLK)
--			ret = iomap_dio_rw(iocb, to, &xfs_read_iomap_ops, NULL,
--					0, NULL, 0);
-+		ret = iomap_dio_read_simple(iocb, to, xfs_read_iomap_begin,
-+				dio_flags);
-+		if (ret == -ENOTBLK) {
-+			/* Fallback needs a fresh admission and registration. */
-+			simple = false;
-+			goto retry;
-+		}
- 	}
-+out_unlock:
- 	xfs_iunlock(ip, XFS_IOLOCK_SHARED);
- 
- 	return ret;
-@@ -436,9 +530,10 @@ xfs_file_write_zero_eof(
- /*
-  * Common pre-write limit and setup checks.
-  *
-- * Called with the iolock held either shared and exclusive according to
-- * @iolock, and returns with it held.  Might upgrade the iolock to exclusive
-- * if called for a direct write beyond i_size.
-+ * Called with the iolock held shared or exclusive according to @iolock.
-+ * Returns with it held unless reacquisition fails, in which case *@iolock
-+ * is set to zero.  Might upgrade the iolock to exclusive if called for a
-+ * direct write beyond i_size.
-  */
- STATIC ssize_t
- xfs_file_write_checks(
-@@ -453,10 +548,25 @@ xfs_file_write_checks(
- 	ssize_t			error;
- 
- restart:
-+	/* Normalize append position and enforce limits before range admission. */
- 	error = generic_write_checks(iocb, from);
-+	xfs_dio_test_event(inode, XFS_DIO_TEST_WRITE_CHECKS,
-+			iov_iter_count(from));
- 	if (error <= 0)
- 		return error;
- 
-+	if (iocb->ki_flags & IOCB_DIRECT) {
-+		error = xfs_dio_range_wait(iocb, iov_iter_count(from), iolock,
-+				true);
-+		if (error < 0)
-+			return error;
-+		if (error) {
-+			iov_iter_reexpand(from, count);
-+			/* EOF and limits can change while IOLOCK is dropped. */
-+			goto restart;
-+		}
-+	}
-+
- 	if (iocb->ki_flags & IOCB_NOWAIT) {
- 		error = break_layout(inode, false);
- 		if (error == -EWOULDBLOCK)
-@@ -735,6 +845,7 @@ xfs_file_dio_write_aligned(
- {
- 	unsigned int		iolock = XFS_IOLOCK_SHARED;
- 	unsigned int		dio_flags = 0;
-+	size_t			count = iov_iter_count(from);
- 	ssize_t			ret;
- 
- 	/*
-@@ -748,6 +859,7 @@ xfs_file_dio_write_aligned(
- 	ret = xfs_ilock_iocb_for_write(iocb, &iolock);
- 	if (ret)
- 		return ret;
-+retry_checks:
- 	ret = xfs_file_write_checks(iocb, from, &iolock, ac);
- 	if (ret)
- 		goto out_unlock;
-@@ -763,10 +875,18 @@ xfs_file_dio_write_aligned(
- 	}
- 	if (mapping_stable_writes(iocb->ki_filp->f_mapping))
- 		dio_flags |= IOMAP_DIO_BOUNCE;
-+	xfs_dio_test_event(VFS_I(ip), XFS_DIO_TEST_WRITE_ADMIT, iocb->ki_pos);
-+	if (!xfs_dio_try_begin(ip, iocb->ki_pos, iov_iter_count(from), &dio_flags)) {
-+		xfs_dio_test_event(VFS_I(ip), XFS_DIO_TEST_WRITE_REJECT,
-+				iocb->ki_pos);
-+		iov_iter_reexpand(from, count);
-+		goto retry_checks;
-+	}
- 	trace_xfs_file_direct_write(iocb, from);
- 	ret = iomap_dio_rw(iocb, from, ops, dops, dio_flags, ac, 0);
- out_unlock:
--	xfs_iunlock(ip, iolock);
-+	if (iolock)
-+		xfs_iunlock(ip, iolock);
- 	return ret;
- }
- 
-@@ -827,6 +947,7 @@ xfs_file_dio_write_atomic(
- 	if (ret)
- 		return ret;
- 
-+retry_checks:
- 	ret = xfs_file_write_checks(iocb, from, &iolock, NULL);
- 	if (ret)
- 		goto out_unlock;
-@@ -840,6 +961,10 @@ xfs_file_dio_write_atomic(
- 	trace_xfs_file_direct_write(iocb, from);
- 	if (mapping_stable_writes(iocb->ki_filp->f_mapping))
- 		dio_flags |= IOMAP_DIO_BOUNCE;
-+	if (!xfs_dio_try_begin(ip, iocb->ki_pos, iov_iter_count(from), &dio_flags)) {
-+		iov_iter_reexpand(from, ocount);
-+		goto retry_checks;
-+	}
- 	ret = iomap_dio_rw(iocb, from, dops, &xfs_dio_write_ops, dio_flags,
- 			NULL, 0);
- 
-@@ -917,10 +1042,22 @@ xfs_file_dio_write_unaligned(
- 		goto out_unlock;
- 	}
- 
-+retry_checks:
- 	ret = xfs_file_write_checks(iocb, from, &iolock, NULL);
- 	if (ret)
- 		goto out_unlock;
- 
-+	if (IS_ENABLED(CONFIG_XFS_DIO_TEST))
-+		xfs_dio_test_event(VFS_I(ip), XFS_DIO_TEST_UNALIGNED_RECHECK,
-+				(iolock << 8) | xfs_is_cow_inode(ip));
-+
-+	/* The checks can drop IOLOCK, allowing a clone to share this block. */
-+	if (xfs_is_cow_inode(ip)) {
-+		trace_xfs_reflink_bounce_dio_write(iocb, from);
-+		ret = -ENOTBLK;
-+		goto out_unlock;
-+	}
-+
- 	/*
- 	 * If we are doing exclusive unaligned I/O, this must be the only I/O
- 	 * in-flight.  Otherwise we risk data corruption due to unwritten extent
-@@ -932,6 +1069,11 @@ xfs_file_dio_write_unaligned(
- 
- 	if (mapping_stable_writes(iocb->ki_filp->f_mapping))
- 		flags |= IOMAP_DIO_BOUNCE;
-+	xfs_dio_test_event(VFS_I(ip), XFS_DIO_TEST_WRITE_ADMIT, iocb->ki_pos);
-+	if (!xfs_dio_try_begin(ip, iocb->ki_pos, iov_iter_count(from), &flags)) {
-+		iov_iter_reexpand(from, count);
-+		goto retry_checks;
-+	}
- 
- 	trace_xfs_file_direct_write(iocb, from);
- 	ret = iomap_dio_rw(iocb, from, &xfs_direct_write_iomap_ops,
-diff --git a/fs/xfs/xfs_icache.c b/fs/xfs/xfs_icache.c
-index de8be344e987..e26df6894618 100644
---- a/fs/xfs/xfs_icache.c
-+++ b/fs/xfs/xfs_icache.c
-@@ -110,6 +110,7 @@ xfs_inode_alloc(
- 	ip->i_mount = mp;
- 	memset(&ip->i_imap, 0, sizeof(struct xfs_imap));
- 	ip->i_cowfp = NULL;
-+	ip->i_dio_drain = NULL;
- 	memset(&ip->i_af, 0, sizeof(ip->i_af));
- 	ip->i_af.if_format = XFS_DINODE_FMT_EXTENTS;
- 	memset(&ip->i_df, 0, sizeof(ip->i_df));
-@@ -156,6 +157,7 @@ xfs_inode_free_callback(
- 		xfs_inode_item_destroy(ip);
- 	}
- 
-+	kfree(ip->i_dio_drain);
- 	kmem_cache_free(xfs_inode_cache, ip);
- }
- 
-diff --git a/fs/xfs/xfs_inode.h b/fs/xfs/xfs_inode.h
-index 75eff68c1e39..04907a7b431f 100644
---- a/fs/xfs/xfs_inode.h
-+++ b/fs/xfs/xfs_inode.h
-@@ -41,6 +41,7 @@ typedef struct xfs_inode {
- 	struct xfs_inode_log_item *i_itemp;	/* logging information */
- 	struct rw_semaphore	i_lock;		/* inode lock */
- 	atomic_t		i_pincount;	/* inode pin count */
-+	struct inode_dio_drain	*i_dio_drain; /* lazily allocated DIO drain */
- 	struct llist_node	i_gclist;	/* deferred inactivation list */
- 
- 	/*
-diff --git a/fs/xfs/xfs_iops.c b/fs/xfs/xfs_iops.c
-index d307ec97fac8..dec2139c0c6f 100644
---- a/fs/xfs/xfs_iops.c
-+++ b/fs/xfs/xfs_iops.c
-@@ -1278,6 +1278,14 @@ xfs_vn_tmpfile(
- 	return finish_open_simple(file, err);
- }
- 
-+static void
-+xfs_vn_dio_drain_complete(
-+	struct inode		*inode)
++int main(int argc, char **argv)
 +{
-+	/* The generation cutover orders i_dio_drain initialization before this callback. */
-+	inode_dio_drain_complete(inode, READ_ONCE(XFS_I(inode)->i_dio_drain));
++	struct statfs fs;
++	char *path;
++	size_t unit;
++	int fd, clonefd, result, failed = 0;
++
++	ksft_print_header();
++	if (argc != 2)
++		ksft_exit_skip("usage: %s WRITABLE_XFS_DIRECTORY\n", argv[0]);
++	if (statfs(argv[1], &fs) || fs.f_type != XFS_SUPER_MAGIC)
++		ksft_exit_skip("requires a writable XFS directory\n");
++	unit = sysconf(_SC_PAGESIZE);
++	if ((size_t)fs.f_bsize > unit)
++		unit = fs.f_bsize;
++	if (asprintf(&path, "%s/xfs-dio-drain-XXXXXX", argv[1]) < 0)
++		ksft_exit_fail_msg("path allocation failed\n");
++	fd = mkostemp(path, O_DIRECT);
++	if (fd < 0)
++		ksft_exit_fail_msg("open failed: %s\n", strerror(errno));
++	unlink(path);
++	free(path);
++	if (asprintf(&path, "%s/xfs-dio-clone-XXXXXX", argv[1]) < 0)
++		ksft_exit_fail_msg("clone path allocation failed\n");
++	clonefd = mkostemp(path, O_DIRECT);
++	if (clonefd < 0)
++		ksft_exit_fail_msg("clone file open failed\n");
++	unlink(path);
++	free(path);
++	signal(SIGALRM, timeout_handler);
++	alarm(30);
++	ksft_set_plan(3);
++	for (int eof = 0; eof < 1; eof++) {
++		result = cohort_test(fd, unit, eof);
++		if (result < 0)
++			ksft_test_result_skip("%s drain needs kernel-fault userfaultfd support\n",
++					      eof ? "EOF" : "punch");
++		else {
++			ksft_test_result(result, "%s drain permits disjoint I/O\n",
++					 eof ? "EOF" : "punch");
++			failed |= !result;
++		}
++	}
++	for (int cow = 0; cow < 2; cow++) {
++		result = mapped_source_test(fd, clonefd, unit, cow);
++		if (result < 0)
++			ksft_test_result_skip("mapped source test needs AIO%s\n",
++					      cow ? " and reflink support" : "");
++		else {
++			ksft_test_result(result, "same-inode faulting source: %s vs punch\n",
++					 cow ? "sync/AIO COW writes" : "sync/AIO extending writes");
++			failed |= !result;
++		}
++	}
++	close(clonefd);
++	alarm(0);
++	close(fd);
++	ksft_exit(!failed);
++}
+diff --git a/tools/testing/selftests/filesystems/xfs_dio_remap.c b/tools/testing/selftests/filesystems/xfs_dio_remap.c
+new file mode 100644
+index 000000000000..8460a932d195
+--- /dev/null
++++ b/tools/testing/selftests/filesystems/xfs_dio_remap.c
+@@ -0,0 +1,391 @@
++// SPDX-License-Identifier: GPL-2.0
++/* Deterministic real-syscall admission retries; see CONFIG_XFS_DIO_TEST. */
++#define _GNU_SOURCE
++#include <errno.h>
++#include <fcntl.h>
++#include <linux/fs.h>
++#include <linux/fiemap.h>
++#include <linux/magic.h>
++#include <linux/userfaultfd.h>
++#include <poll.h>
++#include <pthread.h>
++#include <signal.h>
++#include <stdbool.h>
++#include <stdint.h>
++#include <stdlib.h>
++#include <string.h>
++#include <sys/ioctl.h>
++#include <sys/mman.h>
++#include <sys/resource.h>
++#include <sys/stat.h>
++#include <sys/statfs.h>
++#include <sys/syscall.h>
++#include <sys/uio.h>
++#include <time.h>
++#include <unistd.h>
++#include "../kselftest.h"
++
++/* Event indices in fs/xfs/xfs_dio_test.h. */
++enum { BATCH_COLLECT = 2, WAIT_UNLOCKED = 4, WRITE_CHECKS, WRITE_ADMIT,
++	WRITE_REJECT, UNALIGNED_RECHECK, REMAP_ACTIVE, REMAP_UPGRADE, EVENTS };
++#define GATE(event) (1UL << (event))
++struct snapshot { unsigned long gates, timedout, hits[EVENTS], value[EVENTS]; };
++struct request {
++	int fd;
++	void *buffer;
++	size_t length;
++	off_t offset;
++	bool read, punch;
++	ssize_t result;
++	int error;
++};
++struct parked_read {
++	struct request req;
++	pthread_t thread;
++	int uffd;
++};
++
++static void die(const char *what)
++{
++	ksft_exit_fail_msg("%s: %s\n", what, strerror(errno));
 +}
 +
- static const struct inode_operations xfs_inode_operations = {
- 	.get_inode_acl		= xfs_get_acl,
- 	.set_acl		= xfs_set_acl,
-@@ -1289,6 +1297,7 @@ static const struct inode_operations xfs_inode_operations = {
- 	.sync_lazytime		= xfs_vn_sync_lazytime,
- 	.fileattr_get		= xfs_fileattr_get,
- 	.fileattr_set		= xfs_fileattr_set,
-+	.dio_drain_complete	= xfs_vn_dio_drain_complete,
- };
- 
- static const struct inode_operations xfs_dir_inode_operations = {
-diff --git a/fs/xfs/xfs_reflink.c b/fs/xfs/xfs_reflink.c
-index 104542b10d9e..3e1b7d628477 100644
---- a/fs/xfs/xfs_reflink.c
-+++ b/fs/xfs/xfs_reflink.c
-@@ -12,6 +12,7 @@
- #include "xfs_mount.h"
- #include "xfs_defer.h"
- #include "xfs_inode.h"
-+#include "xfs_dio_test.h"
- #include "xfs_trans.h"
- #include "xfs_bmap.h"
- #include "xfs_bmap_util.h"
-@@ -1763,6 +1764,7 @@ xfs_reflink_remap_prep(
- 	xfs_iflags_set(src, XFS_IREMAPPING);
- 	if (inode_in != inode_out)
- 		xfs_ilock_demote(src, XFS_IOLOCK_EXCL | XFS_MMAPLOCK_EXCL);
-+	xfs_dio_test_event(inode_in, XFS_DIO_TEST_REMAP_ACTIVE, 0);
- 
- 	return 0;
- out_unlock:
-diff --git a/fs/xfs/xfs_super.c b/fs/xfs/xfs_super.c
-index 5a06132aa384..a7e84ddd145b 100644
---- a/fs/xfs/xfs_super.c
-+++ b/fs/xfs/xfs_super.c
-@@ -12,6 +12,7 @@
- #include "xfs_sb.h"
- #include "xfs_mount.h"
- #include "xfs_inode.h"
-+#include "xfs_dio_test.h"
- #include "xfs_btree.h"
- #include "xfs_bmap.h"
- #include "xfs_alloc.h"
-@@ -2677,6 +2678,7 @@ init_xfs_fs(void)
- 		goto out_cleanup_procfs;
- 
- 	xfs_debugfs = xfs_debugfs_mkdir("xfs", NULL);
-+	xfs_dio_test_init(xfs_debugfs);
- 
- 	xfs_kset = kset_create_and_add("xfs", NULL, fs_kobj);
- 	if (!xfs_kset) {
++static long long milliseconds(void)
++{
++	struct timespec now;
++
++	clock_gettime(CLOCK_MONOTONIC, &now);
++	return now.tv_sec * 1000LL + now.tv_nsec / 1000000;
++}
++
++static void *submit(void *data)
++{
++	struct request *r = data;
++
++	if (r->punch)
++		r->result = fallocate(r->fd, FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE,
++				r->offset, r->length);
++	else if (r->read)
++		r->result = pread(r->fd, r->buffer, r->length, r->offset);
++	else
++		r->result = pwrite(r->fd, r->buffer, r->length, r->offset);
++	r->error = errno;
++	return NULL;
++}
++
++static void command(int control, const char *verb, unsigned long value)
++{
++	char text[80];
++	int len = snprintf(text, sizeof(text), "%s %lu", verb, value);
++
++	if (write(control, text, len) != len)
++		die("DIO test command");
++}
++
++static int arm(int fd, unsigned long gates)
++{
++	char text[80];
++	int control = open("/sys/kernel/debug/xfs/dio_test", O_RDWR);
++	int len;
++
++	if (control < 0)
++		return -1;
++	len = snprintf(text, sizeof(text), "arm %d %lu", fd, gates);
++	if (write(control, text, len) != len)
++		die("arm DIO test");
++	return control;
++}
++
++static struct snapshot snapshot(int control)
++{
++	struct snapshot s = { };
++	char buffer[2048], *cursor, *next;
++	ssize_t n = pread(control, buffer, sizeof(buffer) - 1, 0);
++
++	if (n <= 0)
++		die("read DIO test state");
++	buffer[n] = 0;
++	if (sscanf(buffer, "%lu %lu", &s.gates, &s.timedout) != 2)
++		die("parse DIO test state");
++	cursor = strchr(buffer, '\n');
++	for (int i = 0; i < EVENTS; i++) {
++		if (!cursor || sscanf(cursor + 1, "%lu %lu", &s.hits[i],
++				&s.value[i]) != 2)
++			die("parse DIO test event");
++		next = strchr(cursor + 1, '\n');
++		cursor = next;
++	}
++	return s;
++}
++
++static void wait_event(int control, int event, unsigned long count)
++{
++	long long deadline = milliseconds() + 5000;
++
++	do {
++		struct snapshot s = snapshot(control);
++
++		if (s.hits[event] >= count && !s.timedout)
++			return;
++		usleep(1000);
++	} while (milliseconds() < deadline);
++	ksft_exit_fail_msg("DIO event %d did not reach %lu\n", event, count);
++}
++
++static void park_read(struct parked_read *old, int fd, size_t unit)
++{
++	struct uffdio_api api = { .api = UFFD_API };
++	struct uffdio_register reg = { .mode = UFFDIO_REGISTER_MODE_MISSING };
++	struct uffd_msg message;
++	struct pollfd pollfd;
++
++	memset(old, 0, sizeof(*old));
++	old->req = (struct request){ .fd = fd, .length = unit,
++		.offset = unit, .read = true };
++	old->req.buffer = mmap(NULL, unit, PROT_READ | PROT_WRITE,
++			MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
++	if (old->req.buffer == MAP_FAILED)
++		die("missing read destination");
++	old->uffd = syscall(__NR_userfaultfd, O_CLOEXEC | O_NONBLOCK);
++	reg.range.start = (uintptr_t)old->req.buffer;
++	reg.range.len = unit;
++	if (old->uffd < 0 || ioctl(old->uffd, UFFDIO_API, &api) ||
++	    ioctl(old->uffd, UFFDIO_REGISTER, &reg))
++		die("kernel-fault userfaultfd required by admission test");
++	if (pthread_create(&old->thread, NULL, submit, &old->req))
++		die("parked read thread");
++	pollfd = (struct pollfd){ .fd = old->uffd, .events = POLLIN };
++	if (poll(&pollfd, 1, 5000) != 1 ||
++	    read(old->uffd, &message, sizeof(message)) != sizeof(message) ||
++	    message.event != UFFD_EVENT_PAGEFAULT)
++		ksft_exit_fail_msg("read did not register and reach GUP\n");
++}
++
++static void release_read(struct parked_read *old, void *buffer, size_t unit)
++{
++	struct uffdio_copy copy = { .src = (uintptr_t)buffer,
++		.dst = (uintptr_t)old->req.buffer, .len = unit };
++
++	if (ioctl(old->uffd, UFFDIO_COPY, &copy))
++		die("release registered read");
++	pthread_join(old->thread, NULL);
++	if (old->req.result != (ssize_t)unit)
++		ksft_exit_fail_msg("registered read result %zd\n", old->req.result);
++	close(old->uffd);
++	munmap(old->req.buffer, unit);
++}
++
++static void wait_exclusion(int fd, void *buffer, size_t unit, off_t offset)
++{
++	struct iovec iov = { .iov_base = buffer, .iov_len = unit };
++	long long deadline = milliseconds() + 5000;
++
++	do {
++		if (preadv2(fd, &iov, 1, offset, RWF_NOWAIT) == -1 && errno == EAGAIN)
++			return;
++		usleep(1000);
++	} while (milliseconds() < deadline);
++	ksft_exit_fail_msg("real drainer did not publish exclusion\n");
++}
++
++static void prefill(int fd, void *buffer, size_t unit)
++{
++	memset(buffer, 0x5a, 16 * unit);
++	if (ftruncate(fd, 0) || pwrite(fd, buffer, 8 * unit, 0) != 8 * (ssize_t)unit ||
++	    fsync(fd))
++		die("prefill");
++}
++
++static bool bytes_equal(const void *buffer, size_t length, unsigned char value)
++{
++	const unsigned char *bytes = buffer;
++
++	for (size_t i = 0; i < length; i++)
++		if (bytes[i] != value)
++			return false;
++	return true;
++}
++
++/* FIEMAP proves sharing of the exact partial block before the writer resumes. */
++static bool shared_extent(int fd, off_t offset, uint64_t *physical)
++{
++	struct {
++		struct fiemap map;
++		struct fiemap_extent extent;
++	} request = { .map = { .fm_start = offset, .fm_length = 512,
++		.fm_flags = FIEMAP_FLAG_SYNC, .fm_extent_count = 1 } };
++
++	if (ioctl(fd, FS_IOC_FIEMAP, &request))
++		die("FIEMAP sharing proof");
++	if (request.map.fm_mapped_extents != 1 ||
++	    !(request.extent.fe_flags & FIEMAP_EXTENT_SHARED))
++		return false;
++	*physical = request.extent.fe_physical + offset - request.extent.fe_logical;
++	return true;
++}
++
++struct clone_request { int source, destination, result, error; };
++
++static void *clone_file(void *data)
++{
++	struct clone_request *r = data;
++
++	r->result = ioctl(r->destination, FICLONE, r->source);
++	r->error = errno;
++	return NULL;
++}
++
++/* Change COW eligibility only after observing the writer drop its IOLOCK. */
++static bool remap_revalidation(int fd, int clonefd, void *buffer, size_t unit,
++		bool active)
++{
++	struct parked_read old;
++	struct request punch = { .fd = fd, .offset = 4 * unit,
++		.length = unit, .punch = true };
++	struct request writer = { .fd = fd, .offset = 4 * unit + 512,
++		.buffer = buffer, .length = 512 };
++	struct clone_request clone = { .source = fd, .destination = clonefd };
++	struct snapshot s;
++	pthread_t punching, writing, cloning;
++	uint64_t source_physical = 0, clone_physical = 0;
++	char path[64];
++	int control, buffered;
++	bool ok;
++
++	prefill(fd, buffer, unit);
++	/* First write must really enter the unaligned direct path, before COW. */
++	if (ftruncate(clonefd, 0))
++		die("clear clone");
++	control = arm(fd, GATE(WAIT_UNLOCKED));
++	if (control < 0)
++		ksft_exit_skip("requires CONFIG_XFS_DIO_TEST and mounted debugfs\n");
++	park_read(&old, fd, unit);
++	if (pthread_create(&punching, NULL, submit, &punch))
++		die("punch thread");
++	wait_exclusion(fd, buffer + unit, unit, punch.offset);
++	memset(buffer, 0xa5, 512);
++	if (pthread_create(&writing, NULL, submit, &writer))
++		die("unaligned writer");
++	wait_event(control, WAIT_UNLOCKED, 1);
++	s = snapshot(control);
++	ok = s.value[WAIT_UNLOCKED] == (unsigned long)writer.offset &&
++		s.hits[UNALIGNED_RECHECK] == 0 && s.hits[WRITE_CHECKS] == 1;
++	release_read(&old, buffer + unit, unit);
++	pthread_join(punching, NULL);
++	ok &= punch.result == 0;
++	/* Restore a real allocated block after the punch, still with writer gated. */
++	snprintf(path, sizeof(path), "/proc/self/fd/%d", fd);
++	buffered = open(path, O_RDWR);
++	memset(buffer + unit, 0x5a, unit);
++	if (buffered < 0 || pwrite(buffered, buffer + unit, unit, 4 * unit) !=
++	    (ssize_t)unit || fsync(buffered))
++		die("restore block before clone");
++	close(buffered);
++	if (active)
++		command(control, "gate", GATE(WAIT_UNLOCKED) | GATE(REMAP_ACTIVE));
++	if (pthread_create(&cloning, NULL, clone_file, &clone))
++		die("reflink thread");
++	if (active) {
++		wait_event(control, REMAP_ACTIVE, 1);
++		/* Source IOLOCK is now shared, with IREMAPPING set. */
++		command(control, "release", GATE(WAIT_UNLOCKED));
++		wait_event(control, REMAP_UPGRADE, 1);
++		command(control, "release", GATE(REMAP_ACTIVE));
++	}
++	pthread_join(cloning, NULL);
++	if (clone.result)
++		ksft_exit_fail_msg("FICLONE failed: %s\n", strerror(clone.error));
++	/* Completed case can prove extent sharing before allowing any write. */
++	if (!active) {
++		ok &= shared_extent(fd, writer.offset, &source_physical) &&
++			shared_extent(clonefd, writer.offset, &clone_physical) &&
++			source_physical == clone_physical;
++		command(control, "gate", 0);
++	}
++	pthread_join(writing, NULL);
++	s = snapshot(control);
++	ok &= writer.result == 512 && !s.timedout && s.hits[WAIT_UNLOCKED] == 1 &&
++		s.hits[UNALIGNED_RECHECK] == 1 && s.hits[WRITE_ADMIT] == 0 &&
++		/* IOLOCK_EXCL=1, IOLOCK_SHARED=2; low bit records COW eligibility. */
++		s.value[UNALIGNED_RECHECK] == ((active ? 1UL : 2UL) << 8 | 1UL) &&
++		s.hits[REMAP_UPGRADE] == (unsigned long)active;
++	/* The last write-check pass is the buffered COW fallback. */
++	ok &= s.hits[WRITE_CHECKS] == 4 && !fsync(fd) && !fsync(clonefd);
++	ok &= pread(fd, buffer + unit, unit, 4 * unit) == (ssize_t)unit &&
++		bytes_equal(buffer + unit, 512, 0x5a) &&
++		bytes_equal(buffer + unit + 512, 512, 0xa5) &&
++		bytes_equal(buffer + unit + 1024, unit - 1024, 0x5a);
++	ok &= pread(clonefd, buffer + unit, unit, 4 * unit) == (ssize_t)unit &&
++		bytes_equal(buffer + unit, unit, 0x5a);
++	ksft_print_msg("remap evidence: active=%d waits=%lu upgrades=%lu rechecks=%lu "
++		"lock_cow=%lu checks=%lu admits=%lu shared_physical=%llu result=%zd\n", active,
++		s.hits[WAIT_UNLOCKED], s.hits[REMAP_UPGRADE], s.hits[UNALIGNED_RECHECK],
++		s.value[UNALIGNED_RECHECK], s.hits[WRITE_CHECKS], s.hits[WRITE_ADMIT],
++		(unsigned long long)source_physical, writer.result);
++	close(control);
++	return ok;
++}
++
++static void timeout_handler(int signal)
++{
++	(void)signal;
++	_exit(KSFT_FAIL);
++}
++
++int main(int argc, char **argv)
++{
++	struct statfs fs;
++	char *path;
++	void *buffer;
++	size_t unit;
++	int fd, clonefd, failed = 0;
++
++	ksft_print_header();
++	if (argc != 2 || statfs(argv[1], &fs) || fs.f_type != XFS_SUPER_MAGIC)
++		ksft_exit_skip("requires a writable XFS directory\n");
++	unit = sysconf(_SC_PAGESIZE);
++	if ((size_t)fs.f_bsize > unit)
++		unit = fs.f_bsize;
++	if (asprintf(&path, "%s/xfs-remap-XXXXXX", argv[1]) < 0 ||
++	    posix_memalign(&buffer, unit, 16 * unit))
++		die("test allocation");
++	fd = mkostemp(path, O_DIRECT);
++	if (fd < 0)
++		die("test file");
++	unlink(path);
++	free(path);
++	if (asprintf(&path, "%s/xfs-clone-XXXXXX", argv[1]) < 0)
++		die("clone path");
++	clonefd = mkostemp(path, O_DIRECT);
++	if (clonefd < 0)
++		die("clone file");
++	unlink(path);
++	free(path);
++	signal(SIGALRM, timeout_handler);
++	alarm(40);
++	ksft_set_plan(2);
++	for (int active = 0; active < 2; active++) {
++		/* Each case needs an inode that has never carried the reflink flag. */
++		bool ok = remap_revalidation(fd, clonefd, buffer, unit, active);
++
++		ksft_test_result(ok, "dropped IOLOCK rechecks %s reflink and unaligned COW\n",
++			active ? "active" : "completed");
++		failed |= !ok;
++		/* Reflink flags persist, so use a fresh writer inode for each case. */
++		if (!active) {
++			close(fd);
++			if (asprintf(&path, "%s/xfs-remap-XXXXXX", argv[1]) < 0)
++				die("second path");
++			fd = mkostemp(path, O_DIRECT);
++			if (fd < 0)
++				die("second inode");
++			unlink(path);
++			free(path);
++		}
++	}
++	alarm(0);
++	close(fd);
++	close(clonefd);
++	free(buffer);
++	ksft_exit(!failed);
++}
 -- 
 2.56.0
 
