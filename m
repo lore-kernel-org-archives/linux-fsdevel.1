@@ -1,73 +1,73 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793797309;
-	b=sC+Q1gcoHkkhcQ0KeLJskwnr8z8LggNN/BdHh9zVqmdU2+mPZ9OCsjh+W+Pgjg//gLcf
-	 B5DBpLJLpeLZ2lDvk3t/r3f4sT1lKIogyOg25ZGGcr94XXrCvEwdKthJO3XeTJlHGhRRI
-	 jL5amdg9m7gGdvK5B5rYppxO70yMxcgkUkWIck7Qbbw9zCwZu/LQBZ1jgx/vgZKPttJaL
-	 h8ZNUFQlmNvqZ/UCwxkr9eZVXeMjicJpqXtcngsNljhuESVYp3AVgIPke6nZ2u24bbfkl
-	 08izZ51cZwH7n02LpxkihjWYbq22YHmpxYaeXwaZT5cU3aDaZlKhgAcPrdDc074J6RQ==
+	t=1793797304;
+	b=mCEUoGI3T++9mxsbJF9KUKvjCL2o9DckIeKkz9LqlUvL1E5lf2r3Qf+ZDkUs/yYEEYV1
+	 z5vBvdti381lUNyMTTQa0Uh3NSdIvD0VqojsqRzlGyxPwlvYho3m2fN+q+Yic8Q8pAS9o
+	 0yEDGH+Xb7rEyxnmAQ4nt8kM9rq+GjWKgwkBnLAg/Mz4UnFtiDNFBh7CFA92t5DEXxek3
+	 xdxeIYG2TeaZN4L7gdyG0uH7rqvplGTeZVm+fh5wAD5h9eVynlrOrX8gjlg6Z8CHwLioB
+	 nYmAOEailHeLaNZtQ/Q45+99///4DmflU6LR0Xg+ZYfbXI1Nz0mWCmiNxVqmUtNWCcQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793797309;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793797304;
 	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:X-ME-Received:
 	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=I5JDyfdMkj2wCtOOfN649rnZ+9k1JAyMoYfLCV4c9D0=;
-	b=j5XuUaqxH57zn//IzcygU+16dvTgsmADhYmULsYD2pMMI21Nr5cYf0dGMikjtdwZMePd
-	 oiYD+mipG3huJ2MBZDQJeIqY5Jd01qkBOcbIG1avv62QZGv6YL/LnjrEikSCQqB4qBo5U
-	 RlaOzMQ7325VCS3LcKD18Wo567lMNAeVkXrAzJpSA+hEfoDihG8VayoT/ikOOq/x4Z5og
-	 +KU3AACcYPaF4/fRU0iI6ZVmQDmW4aW40HOUE27XW+lTqN74dy8Coe6uQRrzmXUxvt9CR
-	 DvWBGiBipYYo3nUsJWR1eVVe/f5v1VNj7V0VsuK/kpgwnkzU08DDV2kpXvlpi65iTRg==
+	bh=O/dxa82xWVm6PMFOoBLZfnKEj8mtykd0dOrhKJ+ZGuY=;
+	b=ZjQIwkCO4zp3pVq94zug1HZdepl3lFyu9QLFm/+avs1HKJAOfXCd0U0j172qeMPYYbBp
+	 IAsl3i4W6sPnbi1WCRByEmckZ7AAzl5szrPNPF/wCaohSsAJYtThMNjDWvXiHrhJQhogi
+	 keOip80ZrVvBupXApYNhzczOZrle4Az7AL3WCkiR6asF+u8zheOcnDhJSgEWEPZYlypzF
+	 T6dYC1beviP0pzwJflXMhmTFIBaO5UWNwMsOtFUN46EjYvZ0VWvMc+rCbUpN30AFsSgiC
+	 nJd+LGV+Xz8OBW8zzOy8sY3f2iQ9MbcRsiL1lElXb/KWjMkIaiF7ZsJZNK/lcW6tsgQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FlhgFmtj;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WCdj86M6;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B485B606A329
-	for <linux-fsdevel@vger.kernel.org>; Wed,  4 Nov 2026 13:01:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1983606A31B;
+	Wed,  4 Nov 2026 13:01:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FlhgFmtj
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 209591F000C1;
-	Wed,  4 Nov 2026 13:01:45 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WCdj86M6
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B3471F00A17;
+	Wed,  4 Nov 2026 13:01:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793797308;
-	bh=I5JDyfdMkj2wCtOOfN649rnZ+9k1JAyMoYfLCV4c9D0=;
+	s=k20260515; t=1793797303;
+	bh=O/dxa82xWVm6PMFOoBLZfnKEj8mtykd0dOrhKJ+ZGuY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=FlhgFmtjaoxs8F6OOrSy0drAa0u9kVadieipPKRT27EcdrU8Qufb8WTlvZpP3Ke0H
-	 OyBPPdvgdhaFhZ1S7sVERYdIlKUK4mdYDqcdf+Kd2W8LC79tJy+la9eUP8fU2lCbE9
-	 duyzUrh65347AiT49EVSL5jyDlA6pWB+7CaSfhc3StK+H9BrGQv4utJpHUqeQEWE6q
-	 MPxMhp/sfynDDRh8NW/rXE19x2JBAHlpt5p21lBXjqdeJ0Olf8vN/z2R+DLXbd1N/X
-	 2GfSJrKNtcF+pG4hM6A0fUJKN+O4QnFvwok0Vl0E5mTxIeBiZw1Jzjn6aQG05jcJuF
-	 e5r0ID9QVXhIA==
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfauth.ams.internal (Postfix) with ESMTP id 11C551980054;
-	Wed,  4 Nov 2026 08:01:40 -0500 (EST)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Wed, 04 Nov 2026 08:01:44 -0500
-X-ME-Sender: <xms:tCzrasLnQ-6aoTAivy6dIwb3QAXiDgsOwkB7XNibpfHeE300IgzEIQ>
-    <xme:tCzrahYN1w4j905SN3NhF4jplVsHNsXUlUc5JnqlrL7nOXX3rrLDNn6YZPutix5ri
-    D1SJErl3C5VDQDAvUmssApnUGf7L3krnoy3BZsPIouzDdrEB0m8L6k>
-X-ME-Received: <xmr:tCzravWl5s_fXCNZi1Y-t1CAFz9SGWtnNx5qTk_tp0POGVoUrk2uCd8vxAI>
+	b=WCdj86M6e+uZ0Cfa8AJEO9lqs5ESzWz2/RB91yXg4fzqW++b9Mx8ghLANqWmUZTo2
+	 5O7eYimcl3s8pWTMPcH1PO5ia60LRvycm0wWjXJQMPXx/lqYQb/lhmI0UGY4m5B7mZ
+	 N9hAzNzNHf51e2aqdSzGMN0WHKq24Dw8R9dcVnDDomvV2T/Ms8JThidrdGB/0g6JfS
+	 TdUaL6GwGB8jb//ljPXbDc0HWhLkZZNwhTPX8ouKR0VJ7gvypBTPPnUvpqs+icXq+6
+	 aAtUH2a0e6uQXrWYFvaOh5hlCAnmnyiPhvjIjQwkrxXgr+Le7na/cKs/7ZbrTap/hl
+	 7TEemNn3LzLiA==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.ams.internal (Postfix) with ESMTP id 18C311980052;
+	Wed,  4 Nov 2026 08:01:35 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-10.internal (MEProxy); Wed, 04 Nov 2026 08:01:38 -0500
+X-ME-Sender: <xms:rizramMhR3FwPI5-KuM6iDPnV3bRBUy9QeXTrkejJ4rRMuylCN58TQ>
+    <xme:rizrar542OiBnGHAuFkdWIy8e2x7ol8kQCXnQx6wC2HaQ4DRLq4PQ8gJ06zgTsl-U
+    _Ma_SIThk_Qxy2JzqsisrJZk5r99Js9PW844Dw6hrFURAc3ednGEsRn>
+X-ME-Received: <xmr:rizraiY5lXWqOx8hhKxWSZ8JoEgRQ0MeeiV9MDKJXzghgWmQ1Jv_UTF9X2o>
 X-ME-Proxy-Cause: dmFkZTGcnWxWNdwzviArTqwO8SleswujEAoF3G5cAnzgWuj9VIXYzVn8L/YtSSoCVpDQCx
     AFAjkaMBKJDECegKseyQPi3BoJ2ULdzgEWHQh0kOOdV3qcZ96T5qYw8zvnYBduU6y+7gOl
     ju1hRqdfaUd029Zpq0M1QKVfvNYpVJXA03mIXM/FVYF2n1TVZdGxcwDBil6kVRafbiJtv0
     QuPNDwYksKVrYzT4QGS7HIxmz8ayVgiPQk5G9zoQji1nSBMTr/zV+0QH6w0a9BT4L54N+d
-    cRhB7KhKgiZgmWNJc1G8l9d+gvjQ75B75nEIsy2loqzEXGvtqjUcmfJ5UhZu2fDzNX4RJx
-    MXTgBiPaExnSeSGdTd2uIQPIf04/vV8GeZZGlCpJD3MJZYqa3/ilpSwupO/6D8DuMuVdgf
-    lRhydXCQ6Xa2S+8DXLnkhoRuc1AjZzapOvhFIm7zq8MW9dqCj5VxcPf4OCv5NvmFJ7UYZ2
-    W5KDa8ES6KsPHniHYnWGGUwJ2J4K/1PV1PHsiPmmHvenRB0ZPoybQ89E0SeGb9bommOpqP
-    nH7w/zl3rKWJgnqBtibtcvEVgCGNRaGZi5A1a5NqGqAreUQOZZ+flJMakBeKirePoTtvdm
-    jmXr2MmwPG2xEc7XfTnFlMnp2TzDvQD9nw3/qiRcvcRcLHI9+hkvlT78GBIQ
-X-ME-Proxy: <xmx:tCzrapHj8fNK7yMBcpF29XSoU7Co7uGuP-5XZ3IpQ9GIsIXoWSQu3w>
-    <xmx:tCzrakC5Nm0lKtJYDGNGsLNIOv5n9mqZVigJ3V2aszFgd3UQ5JQEAw>
-    <xmx:tCzrasVyFTfFltq4x2-saDnpvghTxCZn5zweaKj3fmmbIpygVzC22g>
-    <xmx:tCzras4VW6TSobJGmtOJftnDT4qY_mRwirpxa-3AhBFeorfQ2rWlCg>
-    <xmx:tCzralGiIlFvyC1gpv3jZPsZOa5eFtYPy0MBq-9V20rRKnakIHq6cEMm>
+    cRhB7KhKgiZgmWNJc1G8l9d+gvjQ75B75nEIsy2loqzEXGvtqjUcmfJ5UhZu2fDzNX4RXN
+    Sos3iNNV9RQQ+6u4LQiUkpyMrihOoJ01WcTinUsG//G0WyVORGzl/J6YD9u3h+RbNhtPuK
+    Fo53IOAMnXTw1Ofxe3I1lptXm4IL/KoDyapzPRkcOl6t9VEJnbx5PTZeXVFOelGmkmiMm9
+    fdmKcVmV56TLAB4Vg7nKut/7z2cVFZF/tju/fjr23Njo7juq6GrcVzYUN5TcCWyd4E9zdi
+    ZodfXYJg+CHnrHsD4BiEIUjvFnzurjL5k2LpqmWZNqI4QLawAlZOCj1IdOgA9oEt3zaM+h
+    w2nWvBmvJsCpEGgu9fY+X7D0puSrcuRoICY+NZKENxCkPLVE2qppRUjbaBaQ
+X-ME-Proxy: <xmx:rizrarEHAnpecQdYd6l_ChFGjfCsimVZBZes41VJIZ8nNTxERFIaZA>
+    <xmx:rizrauJeS6DfQBn8GD_dijDgSBwrCvzCjm5f2GiHKIZWoCbMD1g8hQ>
+    <xmx:rizraiesLrPteMRJHMkuAiPhBBXW0IZGSitpI51cZeyT9uWyCSG0RA>
+    <xmx:rizrajacWYJ_3Pmq9yzbtS5qTw-3CspOaj5U9zZ0baQq1kf0hNYK9g>
+    <xmx:rizran79poDBkQLiKB8Fk-xAqyX6OLWB3p-ubGRjRyYnUTLmi9-6cZbv>
 Feedback-ID: i10464835:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 4 Nov 2026 08:01:40 -0500 (EST)
+ 4 Nov 2026 08:01:33 -0500 (EST)
 From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>,
 	Linus Torvalds <torvalds@linux-foundation.org>,
@@ -80,8 +80,7 @@ To: Andrew Morton <akpm@linux-foundation.org>,
 	Christian Brauner <brauner@kernel.org>,
 	Alexander Viro <viro@zeniv.linux.org.uk>,
 	Harry Yoo <harry@kernel.org>
-Cc: "Kiryl Shutsemau (Meta)" <kas@kernel.org>,
-	Miklos Szeredi <miklos@szeredi.hu>,
+Cc: Miklos Szeredi <miklos@szeredi.hu>,
 	Miaohe Lin <linmiaohe@huawei.com>,
 	Naoya Horiguchi <nao.horiguchi@gmail.com>,
 	Oscar Salvador <osalvador@suse.de>,
@@ -115,10 +114,11 @@ Cc: "Kiryl Shutsemau (Meta)" <kas@kernel.org>,
 	linux-kernel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	fuse-devel@lists.linux.dev,
-	kernel-team@meta.com
-Subject: [RFC PATCH v2 03/18] fuse: don't move a folio with PG_rcu_free into a fuse file
-Date: Wed,  4 Nov 2026 13:00:59 +0000
-Message-ID: <20261104130118.2507513-4-kas@kernel.org>
+	kernel-team@meta.com,
+	"Kiryl Shutsemau (Meta)" <kas@kernel.org>
+Subject: [RFC PATCH v2 02/18] splice: don't steal page cache folios
+Date: Wed,  4 Nov 2026 13:00:58 +0000
+Message-ID: <20261104130118.2507513-3-kas@kernel.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20261104130118.2507513-1-kas@kernel.org>
 References: <20261104130118.2507513-1-kas@kernel.org>
@@ -133,37 +133,95 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-fuse_try_move_folio() takes the folio of a pipe buffer and puts it into
-a fuse file, where writes change it.  A folio with PG_rcu_free may still
-be copied by a lockless page cache read that found it before it left
-the page cache.
+From: Linus Torvalds <torvalds@linux-foundation.org>
 
-Such a folio reaches fuse when a mapped file page is gifted with
-vmsplice(SPLICE_F_GIFT) and its file is then truncated.
-fuse_check_folio() refuses it only because the flag is not among those
-it allows, and with a dump_page().
+PG_rcu_free holds back the reuse of a folio's memory until a grace
+period after the folio is freed.  A stolen page cache pipe buffer is
+reused without being freed: remove_mapping() takes the folio out of the
+page cache and the caller keeps it.  fuse_try_move_folio() puts it into
+a fuse file, where writes change it under a reader that found it before
+the steal.
 
-Copy such a folio instead, as fuse does whenever it cannot take one.
+Drop ->try_steal from page_cache_pipe_buf_ops.  fuse_try_move_folio()
+and virtio_console's pipe_to_sg() then copy, as they already do when
+stealing fails.  SPLICE_F_MOVE from the page cache into a fuse file or
+a virtio console now copies.
 
+Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
+[kas: rewrote the changelog]
 Signed-off-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
 ---
- fs/fuse/dev.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ fs/splice.c | 51 ---------------------------------------------------
+ 1 file changed, 51 deletions(-)
 
-diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-index 4fec31fc0b84..526929c7b3f1 100644
---- a/fs/fuse/dev.c
-+++ b/fs/fuse/dev.c
-@@ -1152,6 +1152,10 @@ static int fuse_try_move_folio(struct fuse_copy_state *cs, struct folio **foliop
+diff --git a/fs/splice.c b/fs/splice.c
+index 9d8f63e2fd1a..0133c2348da0 100644
+--- a/fs/splice.c
++++ b/fs/splice.c
+@@ -55,56 +55,6 @@ static noinline void pipe_clear_nowait(struct file *file)
+ 	} while (!try_cmpxchg(&file->f_mode, &fmode, fmode & ~FMODE_NOWAIT));
+ }
  
- 	newfolio = page_folio(buf->page);
- 
-+	/* A lockless page cache read may still be copying from it */
-+	if (folio_test_rcu_free(newfolio))
-+		goto out_fallback_unlock;
-+
- 	folio_clear_uptodate(newfolio);
- 	folio_clear_mappedtodisk(newfolio);
+-/*
+- * Attempt to steal a page from a pipe buffer. This should perhaps go into
+- * a vm helper function, it's already simplified quite a bit by the
+- * addition of remove_mapping(). If success is returned, the caller may
+- * attempt to reuse this page for another destination.
+- */
+-static bool page_cache_pipe_buf_try_steal(struct pipe_inode_info *pipe,
+-		struct pipe_buffer *buf)
+-{
+-	struct folio *folio = page_folio(buf->page);
+-	struct address_space *mapping;
+-
+-	folio_lock(folio);
+-
+-	mapping = folio_mapping(folio);
+-	if (mapping) {
+-		WARN_ON(!folio_test_uptodate(folio));
+-
+-		/*
+-		 * At least for ext2 with nobh option, we need to wait on
+-		 * writeback completing on this folio, since we'll remove it
+-		 * from the pagecache.  Otherwise truncate wont wait on the
+-		 * folio, allowing the disk blocks to be reused by someone else
+-		 * before we actually wrote our data to them. fs corruption
+-		 * ensues.
+-		 */
+-		folio_wait_writeback(folio);
+-
+-		if (!filemap_release_folio(folio, GFP_KERNEL))
+-			goto out_unlock;
+-
+-		/*
+-		 * If we succeeded in removing the mapping, set LRU flag
+-		 * and return good.
+-		 */
+-		if (remove_mapping(mapping, folio)) {
+-			buf->flags |= PIPE_BUF_FLAG_LRU;
+-			return true;
+-		}
+-	}
+-
+-	/*
+-	 * Raced with truncate or failed to remove folio from current
+-	 * address space, unlock and return failure.
+-	 */
+-out_unlock:
+-	folio_unlock(folio);
+-	return false;
+-}
+-
+ static void page_cache_pipe_buf_release(struct pipe_inode_info *pipe,
+ 					struct pipe_buffer *buf)
+ {
+@@ -155,7 +105,6 @@ static int page_cache_pipe_buf_confirm(struct pipe_inode_info *pipe,
+ const struct pipe_buf_operations page_cache_pipe_buf_ops = {
+ 	.confirm	= page_cache_pipe_buf_confirm,
+ 	.release	= page_cache_pipe_buf_release,
+-	.try_steal	= page_cache_pipe_buf_try_steal,
+ 	.get		= generic_pipe_buf_get,
+ };
  
 -- 
 2.54.0
