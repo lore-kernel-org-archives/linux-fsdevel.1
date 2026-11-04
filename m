@@ -1,111 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793815021;
-	b=1RtcZ4H7Yvmu7BNfpsOw5R8YNcCL817+lT4MYRI4mwVQ1BOJHjHgqto/jn3NPbKrkVqa
-	 pX1pryw8L1aGPyfITjnIow2nV8l5QWIonz+/3U7gnbHNCAtTCVhuFA8UEmOFHG9/2OslZ
-	 99r5faOy1kNFlSaAbaSPwMhnKfWNIiVobgBLuYi90YbTJWg+vbPiMFgOkq46jxHSKT6kl
-	 S7wxGq7id9JaFTzWxLv3UdplMmBtOEX1CBjUxXf8wbR729aaj926E0+O7nv1/+rezZFKB
-	 ESKUd9hGT8m1HVbvdj4/y3AQb1sTrX+spAcQcH5QNtnmIm9cJxRgZ7EYcsLMJE17Csw==
+	t=1793815970;
+	b=u0pfJe6KaqNhfReiLQukaXGYvRfRobOIlYXsNfcOVUGS0hSsBP4uwul5eHx+1a2g02Pe
+	 maaYvWcGt1OIzLG1IkaenbzZzG4uDPt+qFAL4EbXeEtqI0ZVO5JPMaVHFnOckFNdUFkxv
+	 8ixlUDuIIntBipCQPCPdAamhKIic+E/ZXTCzATF3fJ/BlexcQ5TqfUyCCBdRu6EVGTxpf
+	 kH+Xqf5yV2V7TYdSibqzt8LH4zLXhzZ94l/mwnawCmrQ9QUEZoQy97swHZ/oSeMDDjYOs
+	 gv+PB+SZOSlEbsrH6oYcVStpd6XOG/GD/GkvmLT4k4dVsWAXS/yxK+7dzMfasi5MxJg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793815021;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
-	 In-Reply-To:References:MIME-Version:Content-Type:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:Content-Transfer-Encoding;
-	bh=qeQgphPdxdiWtw36JzKqWooMSgzPZU+EeD4NlyLVhDM=;
-	b=hLWmFrbPw7erilaLuXoiV/7HRrwEOrMVpup6UyLm8lHm7YmyiBt+xXFplhDYhCHP3LVS
-	 vynbqIoOhr4+ti6wXyLdyl5iiQHoNj866LJGWssg+f07Q9VHRPBsRyfeNg6QRec0rglK7
-	 mUv07lPvusXTYkekg8Rrtrdf2XIOduIzih/WU7whBaYgURp3v5CfbsTdcnlCenrm/OzXM
-	 27IcMkVM7UyNZ8dgd//cqwN3UXfC63F8vzFaY+V8YIrOQqs7p7tKlQLuNPk/fB/VtKwqi
-	 FzU6kiWXhyWsyBjkk6j7FEzbVcQkjo53dNE1NL3V5Swd+1AkIYQbIcbHOWm3RsPq/kQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793815970;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=Ono7N58ByNZI48Y3QSu0KoYOTb8Je5peq1KxbsyI0X0=;
+	b=kAgVDCmiF1bSbrfDbFpe17PPh9nfLEaClB7MS7vztbXgCgs/4iVjmK2jVWtPUHbzPLbV
+	 VBe48mqOK9bSd6iMfPh8TF5CPCPooq+QMEbuOhCdjPWNOq4iJ99hJkggTPwZB+FwBItZD
+	 5pPUAUhMdOpO0tQnUM8jLfExAjwiPdTKaSlFQCVCqTUXBldeTj0vADIfDe9MRYV8qkGdf
+	 UbhtQXF0gXItAWpYyiY1qIFFScCNCRCOjyeiQX3Zabbh3JBFxvBYESrEocZpvtrfmp26M
+	 V7ZBIiHwDzwdpKgTTWeEKs6Hc5rhRLMCN/Jq84rCjQ4BBfsUf35IDEiWjj6UkxXpFfw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jJ+YsSS1;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=GWfzPYBi;
+	arc=none smtp.remote-ip=209.85.216.48
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E895607A3C1;
-	Wed,  4 Nov 2026 17:57:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 377C0606A330
+	for <linux-fsdevel@vger.kernel.org>; Wed,  4 Nov 2026 18:12:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 377C0606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jJ+YsSS1
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0110B1F000C1;
-	Wed,  4 Nov 2026 17:56:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793815020;
-	bh=qeQgphPdxdiWtw36JzKqWooMSgzPZU+EeD4NlyLVhDM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=jJ+YsSS1mKgXVutXvIprPjWbk/f3EaiHLkE0iUZZAD8UlGdeiTsq37AMjiJ1LQO42
-	 s7IKloTcsbSWCr6Lc4020v768o++Pni3fgFkFO5tp1ySQmamfYyvOlYF89oN/AE0uz
-	 cDBLCJtKpTc2bEc32o8AER5NNVvUQIyxG/58XGRNwW4UebnC4TzH2w4THg6Y4IuZEE
-	 HY4QLlr1k8HjiamlPJYs4KZrW3+I6WmOXTXZ8NvkX2h2a4OGzF5wxpPCxFfmNGgkxC
-	 TEjrpd9SN8JK0f/Vf8mgRK+nlmhJ6yDeGzIC6DtBcVm6ZCj3+6Kd0iuDWQx/Ae1YSo
-	 KOmYuIt4jqdDw==
-From: Christian Brauner <brauner@kernel.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	Jann Horn <jannh@google.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Chris Mason <mason@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	NeilBrown <neil@brown.name>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Christoph Hellwig <hch@lst.de>,
-	Greg Kroah-Hartman <gregkh@suse.de>,
-	Joel Granados <joel.granados@kernel.org>,
-	Kees Cook <kees@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Jan Kara <jack@suse.com>,
-	linux-kernel@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	linux-acpi@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-s390@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	linux-um@lists.infradead.org,
-	linux-wireless@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	netdev@vger.kernel.org,
-	ntfs3@lists.linux.dev,
-	platform-driver-x86@vger.kernel.org,
-	coreteam@netfilter.org,
-	kexec@lists.infradead.org,
-	linux-pci@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	netfilter-devel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	ibm-acpi-devel@lists.sourceforge.net,
-	jfs-discussion@lists.sourceforge.net,
-	linux-alpha@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-cifs@vger.kernel.org,
-	linux-fbdev@vger.kernel.org,
-	linux-hwmon@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-sh@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	samba-technical@lists.samba.org,
-	sparclinux@vger.kernel.org,
-	linux-m68k@lists.linux-m68k.org,
-	linux-doc@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	linux-atm-general@lists.sourceforge.net,
-	Takashi Iwai <tiwai@suse.de>,
-	linux-input@vger.kernel.org,
-	linux-raid@vger.kernel.org,
-	linux-ext4@vger.kernel.org,
-	linux-modules@vger.kernel.org,
-	linux-debuggers@vger.kernel.org,
-	"Christian Brauner (Amutable)" <brauner@kernel.org>,
-	Chuck Lever <cel@kernel.org>,
-	stable@vger.kernel.org
-Subject: [PATCH v2 39/51] powerpc/crash_dump: recover from a machine check in copy_oldmem_page()
-Date: Wed,  4 Nov 2026 18:47:25 +0100
-Message-ID: <20261104-work-procfs-bugfixes-v2-39-bbf7d5546809@kernel.org>
-In-Reply-To: <20261104-work-procfs-bugfixes-v2-0-bbf7d5546809@kernel.org>
-References: <20261104-work-procfs-bugfixes-v2-0-bbf7d5546809@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=GWfzPYBi
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-3ae1b34e0d2so1142189a91.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 04 Nov 2026 10:12:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793815968; x=1794420768; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Ono7N58ByNZI48Y3QSu0KoYOTb8Je5peq1KxbsyI0X0=;
+        b=GWfzPYBitaO/bkePGx2zn88PE16vLAgyfXWYypFtjslphu40OFxhWQg8jdS2zSrBDR
+         SIUtdKz7r7E4XX2CXYmppqIcjYGdp6Nt62+zgjA5CdlL1ggAYFAfGqyYK+kx4gknnkKT
+         oeXObrhqmgmErfqY2VTKUkIKqEj9FHTe5YoWgDqPQORjCpY0+7FSUVZxCVs7wqPRmeeB
+         cVho0JP33Ab7EmOWx7HvbPa5MINE/31tUQQW5wzr7XRhNQfjJPqx3t/7H8dtvlfwVppu
+         FODvo68ttZ1YyzWgEen68N/Tdx++yjb1K+xO5MhBOxwimVvneH3KXW1ZAAbltC7aax8F
+         h9og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793815968; x=1794420768;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Ono7N58ByNZI48Y3QSu0KoYOTb8Je5peq1KxbsyI0X0=;
+        b=M7ACnnIKYNt73JooXHfH5lENxJWLy1nr27d8juufoAuons8DZtx2L72hXZT18495vJ
+         HW4owKmym3TNapy9KFDb75fhnpXuzhG2eXI2NH8cG33o/4qFfKigFUWyk6R8CnbV55hu
+         jqqw0i25Lj4pWD5SvFJkOZs4Pw9hxwqUpTKXZAVJ5+RLnEz5s5owcnrkaJqt0LCGgQoy
+         PYqYAn795Qdt6tcjozTq5zZA6K8MDhAA/rfavht9seUFc4hdxW76+q9m3GQqgk3YMKRk
+         rXxWJC54DNLAMxf/3Dr47Tj1nnOW+kU6NTEGGjwFDocUtErDo7sXBZxl5I4F/odw0xu7
+         ZjAQ==
+X-Gm-Message-State: APuU4Z9GVy0jFAIv+bQGn3NfMfGpkwuAVqFXYIp6apZ5e3e7e+RY07Tn
+	z9/wmInjHHABKMEFRFjFxy52v/DWvTjndPina3gy2wfFTxh+mNwVJ9B/GVZHSr8ZzltkDg==
+X-Gm-Gg: AYBFou2grZouNTuWjveIdFdvzRstHrxJKfA5Z87MYkWayOOUPEfyeGLUvRyHJfwf+wp
+	ZNVeXRKl23GcNVQRsROcC8di0twl8uvA20leWp+Nt4JFeGVpMBc3QnOeiMwnaoth8toObgDEAIt
+	WHnQAUVP+mH+p+3fwB9RD1TLjf0mH16FPwcBU9tJrpzgmBFRtXXXT0fFGK3ne1jBdadQIqPju6s
+	1CvaAnkFCL3k2shuB52ieE10EPC+2UVtKcqvO+tG+kD2jRzQ+bCVlInBunHA2yGk92JYN1ISCVX
+	9nz2YyFFS3DFE6Y9/g+xwonc0EpB40cv5Js0h5leQpKRfOzR1MCcGhTF7kgJAP1gMJT48YYnoUI
+	qVJf2ZW+nNqY0euVCUOUCrO8JhgHH4iH0S9Y/0pQ/7Sn/Rh+eqo2KHbi3veAfdCDVpVGs8gVCmg
+	eIn6sm+T71Cb+wtXFfbqdA8EC1/yqUvipugsI+8IqhnP6q2oguX0mbspmDk/Gn7yfGxZTDVbphC
+	+maRztt4EyHhm7KjTM+o8VIJp0yx7sUIxh4FmwMhX01aQFLqGPN8NKDJ9+aK4YNGxkbjQV48EXS
+	XIbOpltC+PtVyB2yydzwC9tcXNx2ktlNNV0rD3/uChmqXIeY679fuRqVRFPgY8HmKJTbt1TZ43B
+	EainQew==
+X-Received: by 2002:a17:90b:554c:b0:3b0:a1c6:95ae with SMTP id 98e67ed59e1d1-3b0afc77a41mr149377a91.31.1793815968204;
+        Wed, 04 Nov 2026 10:12:48 -0800 (PST)
+Received: from archlinux.tail3acd4.ts.net ([69.110.143.170])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b0b31a3efasm78326a91.9.2026.11.04.10.12.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Nov 2026 10:12:47 -0800 (PST)
+From: Vitali Lovich <vlovich@gmail.com>
+To: linux-fsdevel@vger.kernel.org,
+	linux-xfs@vger.kernel.org
+Cc: brauner@kernel.org,
+	viro@zeniv.linux.org.uk,
+	jack@suse.cz,
+	cem@kernel.org,
+	djwong@kernel.org
+Subject: [RFC PATCH 0/6] fs: range-based admission for generation-drained DIO
+Date: Wed,  4 Nov 2026 10:12:40 -0800
+Message-ID: <cover.1793815542.git.vlovich@gmail.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -115,63 +97,126 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2421; i=brauner@kernel.org; h=from:subject:message-id; bh=VIVKq8y+KdCJwnDd/z4L2OCrr1yqDfObdGoCOSjiCdM=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS9znu/ZLFx05xpnp+TTtxLuaWnvKXR5q5SRcWM5RNFJ +7uuXKbraOUhUGMi0FWTJHFod0kXG45T8Vmo0wNmDmsTCBDGLg4BWAi0wIZ/nB7KCi471/L1Nq6 9n0/51Uea/Fd3qy9fnsOr1vwmcnr62yG/yWGkZU+VvatQgcYS97WRSfuKtivn95TcozLZv5XWWl eDgA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
 
-A capture kernel reads the memory of the crashed kernel, and that memory
-may well have uncorrectable errors. On powerpc a machine check in the
-kernel is only recovered from if the instruction that took it has an
-exception table entry (cf. mce_common_process_ue()). copy_oldmem_page()
-copies with copy_to_iter(). For a read() of /proc/vmcore that is a user
-copy, all of whose loads have exception table entries, so the machine
-check turns into a short copy and read_from_oldmem() returns -EFAULT.
+Hi all,
 
-But since commit 4a22fd20379c ("vmcore: convert __read_vmcore to use an
-iov_iter") /proc/vmcore can be spliced too, and splice(), sendfile()
-and copy_file_range() copy into kernel pages with memcpy(), which has
-no exception table entries. A machine check there panics the capture
-kernel. The same goes for the reads of the ELF headers and notes that
-vmcore does itself, and those have been memcpy() for as long as
-copy_oldmem_page() has had its kernel buffer branch, since commit
-54c32021eb6f ("[PATCH] powerpc: Add arch-dependent copy_oldmem_page").
+This patch series attempts to resolve a major source of contention between
+concurrent readers and writers on the same inode, specifically when
+those writers are punching holes in the file or gapped appends provided
+that readers aren't overlapping these operations. There's some interface
+changes I needed just for this initial exclusive IOLOCK removal because
+DIO completion needs to cooperate and that lives in generic layers.
 
-Copy with _copy_mc_to_iter() instead. PPC64 selects ARCH_HAS_COPY_MC
-and there it uses copy_mc_generic() for kernel and user destinations
-alike, which has the exception table entries. Everywhere else it is
-_copy_to_iter().
+I believe the patch set to be complete and well-tested. The details
+performance numbers are available in my earlier XFS post:
+https://lore.kernel.org/linux-xfs/20261019182620.1527591-1-vlovich@gmail.com/T/#t
+This patch series is identical, just widening the group.
 
-Reported-by: Chris Mason <mason@kernel.org>
-Fixes: 54c32021eb6f ("[PATCH] powerpc: Add arch-dependent copy_oldmem_page")
-Fixes: 4a22fd20379c ("vmcore: convert __read_vmcore to use an iov_iter")
-Cc: stable@vger.kernel.org
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
----
- arch/powerpc/kernel/crash_dump.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Performance measurements on XFS available in the previous posting indicate
+substantial read throughput + P99 latency improvements under concurrent
+read/write contention with no negative impact to pure read scenarios.
+Fixing all sources of contention even manages to improve pure read
+workloads by ~2-5%.
 
-diff --git a/arch/powerpc/kernel/crash_dump.c b/arch/powerpc/kernel/crash_dump.c
-index 1543917bd3e1..ca7e019ae3e9 100644
---- a/arch/powerpc/kernel/crash_dump.c
-+++ b/arch/powerpc/kernel/crash_dump.c
-@@ -83,12 +83,12 @@ ssize_t copy_oldmem_page(struct iov_iter *iter, unsigned long pfn,
- 
- 	if (memblock_is_region_memory(paddr, csize)) {
- 		vaddr = __va(paddr);
--		csize = copy_to_iter(vaddr + offset, csize, iter);
-+		csize = _copy_mc_to_iter(vaddr + offset, csize, iter);
- 	} else {
- 		vaddr = ioremap_cache(paddr, PAGE_SIZE);
- 		if (!vaddr)
- 			return -ENOMEM;
--		csize = copy_to_iter(vaddr + offset, csize, iter);
-+		csize = _copy_mc_to_iter(vaddr + offset, csize, iter);
- 		iounmap(vaddr);
- 	}
- 
+Technical overview
+------------------
 
+To opt-in, the filesystem serializes compatible punch/gapped operations
+with a per-inode drain mutex (only for filesystems that opt-in). It
+publishes an exclusion range through a seqcount latch and flips the DIO
+generation counter, capturing the outstanding request count. Completion of
+old-generation requests retires that finite cohort to wake the drainer;
+this is similar semantics to today with the exception that reads can
+continue during this exclusive drain mutex hold provided they don't
+overlap the range (the writer doesn't wait for them to drain either
+since it's guaranteed they don't overlap). Overlapping reads queue up
+behind the drain mutex.
+
+Filesystems not using the new interface don't pay a cost.
+
+Not all cases are eligible for this fast-path and those degrade to the old
+exclusive IOLOCK + drain machinery, including DAX, realtime and unaligned
+punches; the goal is to remain conservative for now while correctly solving
+scaling bottlenecks for the common cases. I've tried to make sure there's
+good additional test coverage for the new code paths.
+
+I expect the same concept would also benefit ext4 and Btrfs which
+similarly hold exclusive IOLOCKs; I have only double-checked that they
+broadly follow the similar pattern but I'm not 100% sure if the
+interface introduced here strictly applies the same to solve the same
+scaling problem. I could imagine small adjustments being necessary. Like
+XFS they have additional sources of contention present beyond what this
+specific patch series solves and like XFS I expect filesystem-specific
+optimizations will need to be written; it's possible there could be a
+shared mechanism to encode some of this but I think all contention sources
+for at least two or three filesystems need to be solved before generic
+interfaces are codified.
+
+In particular, I would appreciate feedback on:
+
+* Whether the generic inode DIO accounting and iomap interfaces, with
+  filesystem-private lifetime management through ->dio_drain_complete is
+  correct.
+* The generation/count encoding and ordering guarantees.
+* The XFS lock/revalidation contract and whether my analysis is correct that
+  ext4/Btrfs would benefit from the same interface or if different hooks
+  are needed.
+
+The base is 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4. The patch ordering is
+generic accounting, iomap ownership, KUnit coverage, XFS admission, aligned
+hole punching, then post-EOF zeroing.
+
+Thanks,
+Vitali
+
+Vitali Lovich (6):
+  fs: implement range-based generation-coordinated DIO draining
+  iomap: support generation accounting and caller-registered DIO
+  fs: add KUnit coverage for generation-based DIO draining
+  xfs: add range-drain state and latch-based DIO admission
+  xfs: use range-based DIO draining for aligned hole punches
+  xfs: use range-based DIO draining for post-EOF zeroing
+
+ Documentation/filesystems/locking.rst         |  89 +-
+ Documentation/filesystems/vfs.rst             |  41 +
+ fs/Kconfig                                    |  13 +
+ fs/Makefile                                   |   1 +
+ fs/ext4/file.c                                |   2 +-
+ fs/inode.c                                    | 120 ++-
+ fs/iomap/direct-io.c                          |  56 +-
+ fs/tests/dio_drain_kunit.c                    | 893 ++++++++++++++++++
+ fs/xfs/Kconfig                                |   9 +
+ fs/xfs/Makefile                               |   2 +
+ fs/xfs/tests/xfs_dio_test.c                   | 190 ++++
+ fs/xfs/xfs_bmap_util.c                        |   9 +-
+ fs/xfs/xfs_dio_test.h                         |  32 +
+ fs/xfs/xfs_file.c                             | 357 ++++++-
+ fs/xfs/xfs_icache.c                           |   2 +
+ fs/xfs/xfs_inode.c                            |  10 +
+ fs/xfs/xfs_inode.h                            |   1 +
+ fs/xfs/xfs_iops.c                             |   9 +
+ fs/xfs/xfs_reflink.c                          |   2 +
+ fs/xfs/xfs_reflink.h                          |   2 +-
+ fs/xfs/xfs_super.c                            |   2 +
+ include/linux/fs.h                            |  97 +-
+ include/linux/iomap.h                         |  60 +-
+ .../litmus-tests/DIO-register-first.litmus    |  36 +
+ tools/testing/selftests/filesystems/Makefile  |   6 +
+ .../selftests/filesystems/xfs_dio_admission.c | 380 ++++++++
+ .../selftests/filesystems/xfs_dio_drain.c     | 392 ++++++++
+ .../selftests/filesystems/xfs_dio_remap.c     | 391 ++++++++
+ 28 files changed, 3116 insertions(+), 88 deletions(-)
+ create mode 100644 fs/tests/dio_drain_kunit.c
+ create mode 100644 fs/xfs/tests/xfs_dio_test.c
+ create mode 100644 fs/xfs/xfs_dio_test.h
+ create mode 100644 tools/memory-model/litmus-tests/DIO-register-first.litmus
+ create mode 100644 tools/testing/selftests/filesystems/xfs_dio_admission.c
+ create mode 100644 tools/testing/selftests/filesystems/xfs_dio_drain.c
+ create mode 100644 tools/testing/selftests/filesystems/xfs_dio_remap.c
+
+
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
 -- 
-2.53.0
+2.56.0
 
