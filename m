@@ -1,73 +1,73 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793797315;
-	b=m12BlywFWzjz2j9KsFw4I8gjb/qT0qWVWmvZEYHnvIT1ZA+I3MtEfQwR2D1cmsu5MD0U
-	 RQ22TD/N2BqUtjv8Ct/O7lF9eq+WTAKev5xDy9/04Xo2aHmrx+AeagUm5Udnx+hW7sVMK
-	 3CfPQOgPSkyuQ+3jXxrg/5IgfzwkpwF5spYzWM8MtG/cNFnsSGifBWRgWGZ4iRirYTcLD
-	 rYYDLQflxazTNv7Y9EFurf0vwRe388qoFty0Ri3kKzGLM6+YGgmJA5j80SjTmPMTbmWUm
-	 Guujm2hZd6gbRdVFfz65e9S/Tg36Dw/ffnU+AHSSfSSLXwUDYoC3aUrb7ROmHxehoKw==
+	t=1793797321;
+	b=u0HbfBZPfXJH9Mlq0Jpp94mTqKhilyFg6PEw9ifp5wZBCewtUMmMnb8YNk6NTVRypkaI
+	 ccjBPqmxCL7SSCr6xf1OaWtdqc0hQYf3D5pDsfxpCef0Zybc7EfPi47jbqO2CxZQ+kDpm
+	 BL4316OyXLj/bFRDZkhWhXZtxqpna1VskbULOcFqLkz6jCdq88b9NdTt0JQAVySx0YatW
+	 uNsV9cEYWK71IwZswQJk+xId9eJtTBToYObH3Co5KHveLg0CVRqDgZXJYDbVVTi9f8/12
+	 +msXcQLeYZhsXwFHibxRgzgYJVllraGmLiWjCYIT6c7XPtHi48dVj1FnMaAErjEdEmw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793797315;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793797321;
 	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:X-ME-Received:
 	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=B0IkSILmEXDD5SZITUdfDPnAIvH/qKn4TnRnHPUh0Ts=;
-	b=FmRpCkHh28KfOx1ycF1qU6/B3o8aPl3zJfIthSoUgVr8Pp42bYsGQla6Ob4FuwdvmVRs
-	 M3ANLPGgCwZRxnwPh5ZYaW5v1W5bZegbh8Jx0aM/blMM/8/yxSy5ECoA6HScbogQLNa7K
-	 bv4HGIZTZ3Mlj7T5NqX3yLVW+ZmzhwoDwNp4AFusZUyx7YSSiVWklQyGnsQxTRPpUkbae
-	 WBXIjc9ZHsXTaM73x/gyUYQ7cMtb06S+pIdm4OmprA6OjY38JUP/zf61HumvtOeiI/3jq
-	 JLYKPr3j4zGDHLs/N5akcC6C3JZ4rsJDwzhUzvBT6+7HiiUsaIcULeQ8fN1VQEJfPnQ==
+	bh=EupeGjRb75MNjqEgPTABdH073sRIqN74C/YN1OkBtlU=;
+	b=flWks/WyEqVoVBJRV2BQiBEkDsOCvUaP+U4llBEA0frIccjCJZua4g5RojlMc9BJz3gy
+	 8gdljMLKXQy9oELkt7cY6WnVhrjMt9X038WNG2+LtV13z3aDUvW6r3UqES9Rqcjq4833o
+	 Z77D8kld0DjY61ttUMixbg0ziRwzxvciV255UHLBtjcpXoAe29tbSAM4omshnhSBPZIuc
+	 NxoGLGo60ZzervIh15twvAxFfXESU/bzqsFaU+tHI+jr5vIffa+41qrboqPa+tQkSMRht
+	 HoO/32bAt0Wt6USExAeGkOLiBZpeVNWV9Oezig9Fe5WVVLZR6+snAbdXCE69KsbdIrw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nDAkSE0r;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Tiqu6w4H;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D6D1606A33C
-	for <linux-fsdevel@vger.kernel.org>; Wed,  4 Nov 2026 13:01:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05898606A339;
+	Wed,  4 Nov 2026 13:02:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nDAkSE0r
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 323241F00A17;
-	Wed,  4 Nov 2026 13:01:52 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Tiqu6w4H
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3502D1F00A1E;
+	Wed,  4 Nov 2026 13:01:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793797315;
-	bh=B0IkSILmEXDD5SZITUdfDPnAIvH/qKn4TnRnHPUh0Ts=;
+	s=k20260515; t=1793797320;
+	bh=EupeGjRb75MNjqEgPTABdH073sRIqN74C/YN1OkBtlU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=nDAkSE0r0bCMeADhVieVZuLNlHVDkQd1mLuMqGggDincJ99lZouHuSKF5MJCoF6vE
-	 Hcca3DlLynjJQbXJ5rVkuzcwWuI01YBVkFphvO1FKldru9HDDv6dATV3zEWNDlYf71
-	 myoa8IgVePzw2k2dpuJ3NDe0tFLEC1ugkiRrGxYy/GLuvkDMv/JW8ImEOIlL0QBEj2
-	 2VBVeXks6Mrc4uzaPXjrh9Iq+DBB206db4karTJNgM6ccPEgU5f7+BWTnCc72yYGUC
-	 S3V8HbttvRfVP5dz4BQCS8FGYxVs3IKeH6Y3WZLUMXKrMjOL0k81+lanIOzTcUzF9T
-	 tWWzZ6bCiwMdw==
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfauth.ams.internal (Postfix) with ESMTP id 09C571980052;
-	Wed,  4 Nov 2026 08:01:46 -0500 (EST)
+	b=Tiqu6w4HyQD0fH007XSLvLB9qWrosZvCEY3ZWDJKeGLUjuXAtS1oLIi4qmi/Dr8gY
+	 SzElxiJUPf4pwT2v4t8sIIXS7SgJRNA+kv0zyX3mCHqA0DY6wkFn/zt2D9R6fU+uCa
+	 AHzqtpbXno89S+HMbiZF1YNN3oV+bskHH7ldsxKE04qEWzyJuTwkzzsi5Uj6v0uPGU
+	 DhYBInXs8UgT/pA5O13Ir9/zQGTd2/E+1/r+MgNpA+yJOaGfE9UNamvayORTPmqRar
+	 4KLN3HI4LDeXp20Akgp+LQZagkWb5eZivWb+5CIYspUtuOkj18Lz2wU8fGr5Z87URq
+	 QYxh/TDwJ26WA==
+Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
+	by mailfauth.ams.internal (Postfix) with ESMTP id 068801980054;
+	Wed,  4 Nov 2026 08:01:52 -0500 (EST)
 Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Wed, 04 Nov 2026 08:01:50 -0500
-X-ME-Sender: <xms:uizrapVrclNr8_pL4FSy74YnbjY1cOXxoVoji7AAq7WbjE6ZHScs-g>
-    <xme:uizrarHIgnlmMsisAjfoj2fK54I1TAh4dXp8-OUkFAl3w6198HxF8wbq76-hqWi2P
-    RnIuUix8jFG1XbaYNBT4qmdljxK_-ceewb26SVeSYHD4MAEcawnTA>
-X-ME-Received: <xmr:uizrauAHQ3OE4IfGOHvAMrb36jO459m0oSJP8_eCCD0pLL1XRoQpp93lL1s>
-X-ME-Proxy-Cause: dmFkZTGhPc1Yg5t9Q8eRQaKCLT0heVoXQqf6h4uqMuRtXQYzheOI1jp47nBw26mcWoxz9A
-    DH10HnpPYob7RxaCTf32YkHXSpJmh1hLC1IxxzXB90aJAI2wMnFT+nxhjDMKjWZ9Ablulj
-    X6EGhbUdQWvr3vCsmIbyKlTdtYm8QJi2H9b42DzXiIRq27TGzwIAKeq7xgftm17WrW++J+
-    RK/ZhBFKi/01LbyIuttpTNhw8T5nzUYT3/gbSIkELTYoQfWYa9TU1xDsUR8Sja7r663Vhq
-    dT9Vb6Q8iqTkFCbamg7ObiOCckNJsrzr7UPmHz2jvO2iFJ92ew01ZxP0mcoMzU2JutwOgh
-    Deo/g8HEwAnSd00+Sk/Osdm3LkGjObnA/8QcZNGNOZB+xfOYdGiUNVUf88aFswCacRCBmh
-    hokiHdjKaDT29DPVI5Gwiwh/q+igH0C/vvAF0DQfDnNNnYvNgvu66w2jS7vOo6qH6K+7yt
-    nAK3PvNPliSxNz0oqqpOCzOQhLaohJNb1Vx14bhmF4ydiadh2RekHpyLnGH/Zwua5u6R6F
-    aDL/oG6RE6eKtnqYtU1aAOsrFBDA4f8uYS5E4pjAfQtiTgIi2w20lgAILHMHHRHj2bJ86f
-    yYuNqEQjBPE6f07SQgmnAFPAvn5ztU/tCIiy0YSmAyRxyx7vxhdWM+6YJTRA
-X-ME-Proxy: <xmx:uizrauWsdhQjR-9OfL5yBh0fuMvI4QvIKJQsf2XESph5E8vNwllxhg>
-    <xmx:uizram6VeZZh4Bnkj3qhUglgOhGIgPmrg36SHv1dYfMuEZ53GQ2A_g>
-    <xmx:uizranG5SDaFUpvrB5AjjHOQb0cf91fdKfanwlc24rB5wyrnvLAqZg>
-    <xmx:uizrap1xHQ6bLsYSSBoA8Gn9N6eE4-tWrhS2g5H77XucroW0c3tfww>
-    <xmx:uizrar3X2nODYMoj_NapJQRjucu3zlsBRVTFnIuPjVB7eHv2vx6qE6UK>
+  by phl-compute-09.internal (MEProxy); Wed, 04 Nov 2026 08:01:56 -0500
+X-ME-Sender: <xms:wCzrahdthJvf1Ksum-_Trp8E6coKAxuCeB6IpomqWfxapiUoBJWE5A>
+    <xme:wCzrakcwdmtbXYDC67eyln7xSJlJd-Fk6GnZ9Zndu8UCQULChDA1wcmYpHojDtVEj
+    zDkvSRbLYxDo2RstfujLCvGgw0IfQc2nabXpZclfi5xPXVYeIvjZiqz>
+X-ME-Received: <xmr:wCzratKncigBZZvftdPOQJ-w8MwSWip1FAn66dkUrelfm4a0NJrenzdFh7E>
+X-ME-Proxy-Cause: dmFkZTFnMVB3J0HiCMx6jd1ELkzwNAjOB9sD3KKCO8Jh/oTQ2Wxy6relTg3O6gfcv7zM8M
+    eTaBBuPFg+E7mcCmv32cVM60oGUW0vtD9PJs4Ggt7A8bSf27wgs/KbqZqYfysoNXSdfbJS
+    uDN7pVQSluWZA8VAvimLABcpSfkA5Kk7vwjK4BTKWKiq6LQVLKTvO/5cCJzpn2MdnsR4Gs
+    3XNsuUp3QPqjZDwfKGFhSVnz4zjhEFM8/KpnhFq8S5iPznJUgdAC48w2fdW3UFtgvONs2A
+    P0nLgc7yVVbOklaJM9xm5GgvEFD86ZNlCansaxJabR5MXldQB057xIEdz06tdKFYngb4r6
+    G+UsDQ8RoUEfwRFYCcgXZGmnO8bRlAFd9ivdJD7kH1u+35w44vSrx6fzQbENhgIMfqzwRv
+    y103X+1y8Y1omQ4/orDSeUB14FYTxpaO7MgOntu+XnRFFgjr2x/sZTdSvKm1UVOWD3iL8t
+    smhf/pUSJHFb359EyOyIfD4W/y/Ztlc8QQo+lbWNlEaOUp+6LtMs4AR+uOnWSGjYMES5J+
+    hGh1GKH33JTIh2hknuLoxlUuXaUH/HdViIRSTheoESlSaLUu1QF1Fe0OBDGpbSz40zAgEW
+    q7hj+iz0lzPjKf+48632T9H4mq/jOmhbZdaVpIlg0J5gSLat6+eEo0kF+ZBQ
+X-ME-Proxy: <xmx:wCzraqo8984EblIZFpMYeQwZrKKi39ATyzYmaocEQtZVs4hHOaQA6g>
+    <xmx:wCzrauUelk1k-fkToUOIfp93dI7ZcXHE8B4euseiv6qnZVvAffK-EA>
+    <xmx:wCzragb4IT_qOxG1giJNnbn2Tb2wLghdAE0vUcDe5-Sp_XZRry8_og>
+    <xmx:wCzrans4VIdvZ90oO7iLNkxp4hXwtjwnrHxsve1TIFYB_Vghx8FGdQ>
+    <xmx:wCzravrT2ceR5eRMuUZhXtUDUoR411Qyamn9bn_W0XIBterIIsPk_Dr_>
 Feedback-ID: i10464835:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 4 Nov 2026 08:01:45 -0500 (EST)
+ 4 Nov 2026 08:01:51 -0500 (EST)
 From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>,
 	Linus Torvalds <torvalds@linux-foundation.org>,
@@ -80,8 +80,7 @@ To: Andrew Morton <akpm@linux-foundation.org>,
 	Christian Brauner <brauner@kernel.org>,
 	Alexander Viro <viro@zeniv.linux.org.uk>,
 	Harry Yoo <harry@kernel.org>
-Cc: "Kiryl Shutsemau (Meta)" <kas@kernel.org>,
-	Miklos Szeredi <miklos@szeredi.hu>,
+Cc: Miklos Szeredi <miklos@szeredi.hu>,
 	Miaohe Lin <linmiaohe@huawei.com>,
 	Naoya Horiguchi <nao.horiguchi@gmail.com>,
 	Oscar Salvador <osalvador@suse.de>,
@@ -115,10 +114,11 @@ Cc: "Kiryl Shutsemau (Meta)" <kas@kernel.org>,
 	linux-kernel@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	fuse-devel@lists.linux.dev,
-	kernel-team@meta.com
-Subject: [RFC PATCH v2 04/18] mm: count the pages waiting for a grace period
-Date: Wed,  4 Nov 2026 13:01:00 +0000
-Message-ID: <20261104130118.2507513-5-kas@kernel.org>
+	kernel-team@meta.com,
+	"Kiryl Shutsemau (Meta)" <kas@kernel.org>
+Subject: [RFC PATCH v2 05/18] mm: expedite the grace period when a CPU has many deferred frees
+Date: Wed,  4 Nov 2026 13:01:01 +0000
+Message-ID: <20261104130118.2507513-6-kas@kernel.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20261104130118.2507513-1-kas@kernel.org>
 References: <20261104130118.2507513-1-kas@kernel.org>
@@ -133,120 +133,195 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Deferred folios have refcount 0 and are not on the free lists, so no
-counter shows them.  Memory that waits for a grace period is missing
-from the free count and from every LRU count.
+From: Linus Torvalds <torvalds@linux-foundation.org>
 
-Count it per zone in NR_FREE_RCU_PAGES: nr_free_rcu in /proc/vmstat,
-free_rcu in show_free_areas().  Preparation for freeing the waiting
-pages sooner when they hold back memory that is needed.
+A deferred folio waits one to two grace periods on its CPU's list, where
+the page allocator cannot use it.  A CPU that frees many flagged folios
+at once, for example when a file is truncated, can hold a lot of memory
+there.
 
+When more than 4 MiB is pending on a CPU, a work takes both of the CPU's
+lists and frees them after an expedited grace period.  That grace period
+starts after the take, so it covers every reader that found one of the
+folios.  The task that frees them does not wait.
+
+An expedited grace period interrupts every CPU, so keep it for when the
+memory matters.  That is when the zone is below its high watermark, or
+when the pages waiting in it are more than an eighth of its free pages.
+The watermark alone comes too late for a bulk free.  A truncate or
+fadvise(POSIX_FADV_DONTNEED) of a hot range defers all of it while the
+zone still has memory.  When the readers that refill the range then run
+short, nothing is freed that would check again.
+
+With rcu_normal, the expedited grace period is a normal one.
+
+pgfree_rcu_expedite in /proc/vmstat counts the expedite runs that freed
+something.
+
+Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
+[kas: take both lists, expedite only when the memory matters, rewrote
+ the changelog]
 Signed-off-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
 ---
- include/linux/mmzone.h | 1 +
- mm/page_alloc.c        | 4 ++++
- mm/show_mem.c          | 9 ++++++---
- mm/vmstat.c            | 2 ++
- 4 files changed, 13 insertions(+), 3 deletions(-)
+ include/linux/vm_event_item.h |  2 +-
+ mm/page_alloc.c               | 61 ++++++++++++++++++++++++++++++++++-
+ mm/vmstat.c                   |  1 +
+ 3 files changed, 62 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-index 94f9c3ff5416..3336b9e5ee99 100644
---- a/include/linux/mmzone.h
-+++ b/include/linux/mmzone.h
-@@ -228,6 +228,7 @@ enum zone_stat_item {
- 	NR_ZSPAGES,		/* allocated in zsmalloc */
- #endif
- 	NR_FREE_CMA_PAGES,
-+	NR_FREE_RCU_PAGES,	/* freed, waiting for an RCU grace period */
- #ifdef CONFIG_UNACCEPTED_MEMORY
- 	NR_UNACCEPTED,
- #endif
+diff --git a/include/linux/vm_event_item.h b/include/linux/vm_event_item.h
+index cbe849701653..45527fa7d0c1 100644
+--- a/include/linux/vm_event_item.h
++++ b/include/linux/vm_event_item.h
+@@ -36,7 +36,7 @@ enum vm_event_item { PGPGIN, PGPGOUT, PSWPIN, PSWPOUT,
+ 		FOR_ALL_ZONES(ALLOCSTALL)
+ 		FOR_ALL_ZONES(PGSCAN_SKIP)
+ 		PGFREE, PGACTIVATE, PGDEACTIVATE, PGLAZYFREE,
+-		PGFREE_RCU,
++		PGFREE_RCU, PGFREE_RCU_EXPEDITE,
+ 		PGFAULT, PGMAJFAULT,
+ 		PGLAZYFREED,
+ 		PGREUSE,
 diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index a371e92da273..15bb66e36304 100644
+index 15bb66e36304..a9058d414f92 100644
 --- a/mm/page_alloc.c
 +++ b/mm/page_alloc.c
-@@ -1348,6 +1348,8 @@ static void rcu_free_pages(struct list_head *list)
+@@ -1313,6 +1313,8 @@ static inline void pgalloc_tag_sub_pages(struct alloc_tag *tag, unsigned int nr)
+ 
+ #endif /* CONFIG_MEM_ALLOC_PROFILING */
+ 
++#define RCU_FREE_EXPEDITE	(SZ_4M >> PAGE_SHIFT)
++
+ /*
+  * Each CPU has at most one grace period in flight (@queued), covering
+  * @batch.  Folios freed meanwhile wait on @pending for the next one.
+@@ -1322,7 +1324,9 @@ struct rcu_free_pcpu {
+ 	bool queued;
+ 	struct list_head pending;
+ 	struct list_head batch;
++	unsigned long nr_pending;
+ 	struct rcu_work rwork;
++	struct work_struct expedite;
+ };
+ 
+ static DEFINE_PER_CPU(struct rcu_free_pcpu, rcu_free_pcpu);
+@@ -1337,17 +1341,29 @@ static void rcu_free_start(struct rcu_free_pcpu *r)
+ 		return;
+ 
+ 	list_splice_init(&r->pending, &r->batch);
++	r->nr_pending = 0;
+ 	r->queued = true;
+ 	WARN_ON_ONCE(!queue_rcu_work(rcu_free_wq, &r->rwork));
+ }
+ 
+-static void rcu_free_pages(struct list_head *list)
++static void rcu_free_take(struct rcu_free_pcpu *r, struct list_head *list)
++{
++	lockdep_assert_held(&r->lock);
++
++	list_splice_tail_init(&r->batch, list);
++	list_splice_tail_init(&r->pending, list);
++	r->nr_pending = 0;
++}
++
++static unsigned long rcu_free_pages(struct list_head *list)
+ {
+ 	struct folio_batch fbatch;
+ 	struct folio *folio, *next;
++	unsigned long nr = 0;
  
  	folio_batch_init(&fbatch);
  	list_for_each_entry_safe(folio, next, list, lru) {
-+		mod_zone_page_state(folio_zone(folio), NR_FREE_RCU_PAGES,
-+				    -folio_nr_pages(folio));
++		nr += folio_nr_pages(folio);
+ 		mod_zone_page_state(folio_zone(folio), NR_FREE_RCU_PAGES,
+ 				    -folio_nr_pages(folio));
  		if (!folio_batch_add(&fbatch, folio)) {
- 			free_unref_folios(&fbatch);
- 			cond_resched_tasks_rcu_qs();
-@@ -1375,9 +1377,11 @@ static void rcu_free_workfn(struct work_struct *work)
+@@ -1357,6 +1373,17 @@ static void rcu_free_pages(struct list_head *list)
+ 	}
+ 	if (folio_batch_count(&fbatch))
+ 		free_unref_folios(&fbatch);
++	return nr;
++}
++
++/* Free what rcu_free_take() took: the grace period starts after that */
++static unsigned long rcu_free_flush(struct list_head *list)
++{
++	if (list_empty(list))
++		return 0;
++
++	synchronize_rcu_expedited();
++	return rcu_free_pages(list);
+ }
+ 
+ static void rcu_free_workfn(struct work_struct *work)
+@@ -1374,17 +1401,48 @@ static void rcu_free_workfn(struct work_struct *work)
+ 	rcu_free_pages(&done);
+ }
+ 
++static void rcu_free_expedite_workfn(struct work_struct *work)
++{
++	struct rcu_free_pcpu *r = container_of(work, struct rcu_free_pcpu,
++					       expedite);
++	LIST_HEAD(list);
++
++	spin_lock_irq(&r->lock);
++	rcu_free_take(r, &list);
++	spin_unlock_irq(&r->lock);
++
++	if (rcu_free_flush(&list))
++		count_vm_event(PGFREE_RCU_EXPEDITE);
++}
++
  static void rcu_free_defer(struct folio *folio)
  {
  	struct rcu_free_pcpu *r = raw_cpu_ptr(&rcu_free_pcpu);
-+	struct zone *zone = folio_zone(folio);
+ 	struct zone *zone = folio_zone(folio);
++	unsigned long free, waiting;
  	unsigned long flags;
  
  	spin_lock_irqsave(&r->lock, flags);
-+	__mod_zone_page_state(zone, NR_FREE_RCU_PAGES, folio_nr_pages(folio));
+ 	__mod_zone_page_state(zone, NR_FREE_RCU_PAGES, folio_nr_pages(folio));
  	list_add_tail(&folio->lru, &r->pending);
++	r->nr_pending += folio_nr_pages(folio);
  	rcu_free_start(r);
  	spin_unlock_irqrestore(&r->lock, flags);
-diff --git a/mm/show_mem.c b/mm/show_mem.c
-index b938cbcd774a..0d3bddbda108 100644
---- a/mm/show_mem.c
-+++ b/mm/show_mem.c
-@@ -204,7 +204,7 @@ static void show_free_areas(unsigned int filter, const nodemask_t *nodemask,
- 		" mapped:%lu shmem:%lu pagetables:%lu\n"
- 		" sec_pagetables:%lu bounce:%lu\n"
- 		" kernel_misc_reclaimable:%lu\n"
--		" free:%lu free_pcp:%lu free_cma:%lu\n",
-+		" free:%lu free_pcp:%lu free_cma:%lu free_rcu:%lu\n",
- 		global_node_page_state(NR_ACTIVE_ANON),
- 		global_node_page_state(NR_INACTIVE_ANON),
- 		global_node_page_state(NR_ISOLATED_ANON),
-@@ -224,7 +224,8 @@ static void show_free_areas(unsigned int filter, const nodemask_t *nodemask,
- 		global_node_page_state(NR_KERNEL_MISC_RECLAIMABLE),
- 		global_zone_page_state(NR_FREE_PAGES),
- 		free_pcp,
--		global_zone_page_state(NR_FREE_CMA_PAGES));
-+		global_zone_page_state(NR_FREE_CMA_PAGES),
-+		global_zone_page_state(NR_FREE_RCU_PAGES));
++
++	/* Unlocked: a stale count delays the expedite by one free */
++	if (data_race(r->nr_pending) <= RCU_FREE_EXPEDITE ||
++	    work_pending(&r->expedite))
++		return;
++
++	/*
++	 * An expedited grace period interrupts every CPU: only while the
++	 * zone is short of memory, or while more than an eighth of what it
++	 * has free waits here.
++	 */
++	free = zone_page_state(zone, NR_FREE_PAGES);
++	waiting = zone_page_state(zone, NR_FREE_RCU_PAGES);
++	if (free < high_wmark_pages(zone) || waiting > free / 8)
++		queue_work(rcu_free_wq, &r->expedite);
+ }
  
- 	for_each_online_pgdat(pgdat) {
- 		if (show_mem_node_skip(filter, pgdat->node_id, nodemask))
-@@ -325,6 +326,7 @@ static void show_free_areas(unsigned int filter, const nodemask_t *nodemask,
- 			" free_pcp:%lukB"
- 			" local_pcp:%lukB"
- 			" free_cma:%lukB"
-+			" free_rcu:%lukB"
- 			"\n",
- 			zone->name,
- 			K(zone_page_state(zone, NR_FREE_PAGES)),
-@@ -351,7 +353,8 @@ static void show_free_areas(unsigned int filter, const nodemask_t *nodemask,
- 			0UL,
- 			K(free_pcp),
- 			K((unsigned long)this_cpu_read(zone->per_cpu_pageset->count)),
--			K(zone_page_state(zone, NR_FREE_CMA_PAGES)));
-+			K(zone_page_state(zone, NR_FREE_CMA_PAGES)),
-+			K(zone_page_state(zone, NR_FREE_RCU_PAGES)));
- 		printk("lowmem_reserve[]:");
- 		for (i = 0; i < MAX_NR_ZONES; i++)
- 			printk(KERN_CONT " %ld", zone->lowmem_reserve[i]);
+ static void __init rcu_free_init(void)
+@@ -1404,6 +1462,7 @@ static void __init rcu_free_init(void)
+ 		INIT_LIST_HEAD(&r->pending);
+ 		INIT_LIST_HEAD(&r->batch);
+ 		INIT_RCU_WORK(&r->rwork, rcu_free_workfn);
++		INIT_WORK(&r->expedite, rcu_free_expedite_workfn);
+ 	}
+ }
+ 
 diff --git a/mm/vmstat.c b/mm/vmstat.c
-index 66ed017bde46..64068d73d6d2 100644
+index 64068d73d6d2..aa7280b5e69c 100644
 --- a/mm/vmstat.c
 +++ b/mm/vmstat.c
-@@ -1212,6 +1212,7 @@ const char * const vmstat_text[] = {
- 	[I(NR_ZSPAGES)]				= "nr_zspages",
- #endif
- 	[I(NR_FREE_CMA_PAGES)]			= "nr_free_cma",
-+	[I(NR_FREE_RCU_PAGES)]			= "nr_free_rcu",
- #ifdef CONFIG_UNACCEPTED_MEMORY
- 	[I(NR_UNACCEPTED)]			= "nr_unaccepted",
- #endif
-@@ -2023,6 +2024,7 @@ static int vmstat_refresh(const struct ctl_table *table, int write,
- 		switch (i) {
- 		case NR_ZONE_WRITE_PENDING:
- 		case NR_FREE_CMA_PAGES:
-+		case NR_FREE_RCU_PAGES:
- 			continue;
- 		}
- 		val = atomic_long_read(&vm_zone_stat[i]);
+@@ -1345,6 +1345,7 @@ const char * const vmstat_text[] = {
+ 	[I(PGDEACTIVATE)]			= "pgdeactivate",
+ 	[I(PGLAZYFREE)]				= "pglazyfree",
+ 	[I(PGFREE_RCU)]				= "pgfree_rcu",
++	[I(PGFREE_RCU_EXPEDITE)]		= "pgfree_rcu_expedite",
+ 
+ 	[I(PGFAULT)]				= "pgfault",
+ 	[I(PGMAJFAULT)]				= "pgmajfault",
 -- 
 2.54.0
 
