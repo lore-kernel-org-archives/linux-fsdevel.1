@@ -1,73 +1,73 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793797381;
-	b=Cxk5fhq9tVgcm4DDGKYVnJIM5sqKvQw9KzsdvbmmHBzsVvyf8WTewTRmNb2WF3zCzdPg
-	 fS3alPPbdSG2m0SmwFQmbNE0Z0TIxHAQNdE570Q3HjXv8Leolb9fFtYuW5ZOIU+LIQPY5
-	 KJlFafXWhwLb+MzW4uwknsjTX9Vd3cL3IeFCbfvcLHHTtLzpL6/2sA4NDY+6065Ov1x+z
-	 zBoKxr/Em1x+ZtSaexY/RLpzwrd6vy2Ybrxo4Vcm1cwqd32OulGfPbwP2vitDKGbp31Op
-	 h6K8ob80Bvn2PaZH4ujWSsyesqLiybW110OElfV1URqE2DGBb3rVHq/UMOFfWPjCxTw==
+	t=1793797388;
+	b=RUmwKhBhapTTYrW/hGXJ05ZWTzRvvIOspAE+iAPonNWdrXj80+JmSAC40QYbb2qs2cC4
+	 ct2+0thIYla6H71XykLyWhDmsRZ8QYd4TjGBSeIkxnI0ZBZvUCFpc4aLmskowt2vLwz+H
+	 QFhDuQON5XvPKxyDs/otopNU6oQ1+9WGrJt+/B8zOnnnGEo2mRruZsZODQXwYrpKm8ojH
+	 N4+LyTATf5WvnMxbBRm7HDkrNFotiH+bAjD7NH95p+6aFqO8dR4jl6MRweO/r02uEKPFb
+	 3CwNLRzN+TpR8XLXMJLAJXcH0PP2UYRA80IK2LGK7hhErxhCkmQTlQQSu0tz7V+J/Cw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793797381;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793797388;
 	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:X-ME-Received:
 	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=rz5gqclVsI7Nyi3wdIsP2V0gZuIMwOehVRh4pvFPagk=;
-	b=2nLG6X5Uu/lHE7Om71FyaoiwYmALEfiQqsrzOR0HdD39yT7yzlR7wuAG6jlnZGrDepEh
-	 Xk01jhG/XBI2A+XShCjp6bocbeFQi3Rk+RGNm7Pes927VWH0Eo0YRgNFQ5yJm3dl+1u2c
-	 iw0ZJGmJGEhpTi42EfgaoNjhU41aPM5RwzINoIj2ZnVTcr/OlODI55y0GIjAer+ADXQh2
-	 7fHu5aYbLwtfGyHb7fu5NUM45nrm8++Fovjgtr7giqzTgyanME7S1mHIyPXf01RD8Jwct
-	 KD1D845fwFz3xlL4FQ0ampLwwgAE8bj8MrkS9AYa/XHjvha/ByUIuAUpn9wAJig8n8w==
+	bh=LyJ5LhydnHWMWHiwLye8xdx6/6doxNo3rjssOxw/XEA=;
+	b=4b54HWBJ4ZN7scEbHc26Qo4ZAe4E5V2wjEO/DthFgHVniSpySAsNTBsP3qFIObhGEpBb
+	 6AES4D/0NVet+/r1UpeJYx0J18n5eqshtdJc3TRqHMUxQz+qsMC1obWhcLrQhXTq9uWzS
+	 /AU94d/Kb2RryvFcERydLzQ6K5bCopsIYFgw5poCqlAM0W3NU+H287L3eWcGIlCmrNFKF
+	 TbOkfzF1/IQN3kvrSYQFsjCh/vqZRZQV7vYtMDHKVmwrsh7OdT7eXhZfb9yQpACwxkC2t
+	 M/jHMl7gRS7BaumhakkZxSfrjAgZ7/3CCewHQuMmJsYUAmUxu+Eclln7VuTWuDhCYgg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LcdXsSLP;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RLbBmCrt;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B8A1606D816;
-	Wed,  4 Nov 2026 13:03:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FCE2606EE98;
+	Wed,  4 Nov 2026 13:03:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LcdXsSLP
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2F091F000C1;
-	Wed,  4 Nov 2026 13:02:58 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RLbBmCrt
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC0111F00A02;
+	Wed,  4 Nov 2026 13:03:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793797381;
-	bh=rz5gqclVsI7Nyi3wdIsP2V0gZuIMwOehVRh4pvFPagk=;
+	s=k20260515; t=1793797387;
+	bh=LyJ5LhydnHWMWHiwLye8xdx6/6doxNo3rjssOxw/XEA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=LcdXsSLPAg5DKaj/aTv9PSu2NP1TfKv/KnATTp80uFZvAj/RMdBW+1ZOPeFrFXIx7
-	 C8QG6ERv/NLY32h5WhymVgGeNa+YQYciUPxku0pk8GVL18LnAMrB2tjXMT35BVtc1f
-	 RKHAHigPew3UGAZSjvFYrFmd/K1cEReTLTZLPr6jKunichT+DFykWt/XzltrNGwlxj
-	 wZP27+w9nPxPszO97Il7WVkaoQE/QEWONuTFLsBkK3oKjpihaYjzEp9BjCpS5snY85
-	 FpI1lwH5PeatNZSbHRappTVAIgHvJ3XURdvAarRP31JRYg3s/AIJ3b1+rDwU6eY0Om
-	 XcDyC66dIpPig==
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfauth.ams.internal (Postfix) with ESMTP id AFE2F1980054;
-	Wed,  4 Nov 2026 08:02:53 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Wed, 04 Nov 2026 08:02:57 -0500
-X-ME-Sender: <xms:_SzrajjhOxjr2XwmQIqse1UH4LUbP5FMftC_A5W_XWSuGXPGh7Ne8Q>
-    <xme:_SzralRIVATV3PkPWnjCM5SvKMZ0McdyzgmUKTIQJtK-L_e3PbBXnMpYJOjbb0UGt
-    9u8BTkQyp3pWleC3fWEBloQXw-hlE-bVCkfIqL5wIp8dHO3NAWZouI>
-X-ME-Received: <xmr:_SzraluTmjoqOwcQy9e6ka_pj-2Ujp5hVDTOHn6Ct-5eQUDjaP9sMcvxvkM>
-X-ME-Proxy-Cause: dmFkZTFyj9iBgTb70dT7Nrskf29uuOyI8LMvpppsr+ztaR0SBDghph+zBPTBpK5ZS8w9Hs
-    ZfoFoa0Z54ye4qFPVN9z+iBcUmGJLuDx+F5E+GwM0Yai8h0Kc4rjSxG6WPfOH2iKPLuf3P
-    s2X5S/AicHnwf5qqVsIRpEEeMef/YyNBtQ+L8UUZ6s+iWkyfT6d384myBgsvxs/VTn39m/
-    MUnuiW24J8M/zjUd3ANt41C4Bw9zgbZVxkihnU4ozkl0ylLdfdgBXUdCPFEeO2l/cn91tf
-    naFqCjfGvhGtglGyOuDPbmSg5ttJSGEvGw0VM28OvYSuugU2nbyQInHmfNiv9aGwbOcLH4
-    On74nzUC3nPKqfDN/sMhYaGYO1MhljVDfGE2vC9FhLtaOGURgAAOil+k7jNMbJdmEX0NvH
-    swNaHl/JaFLs6rjXZGOyd5xvwPmbfq1hTp5NWLUbQ12f+BXP5EvzTG4tMGeerrxcrufkjh
-    EzwpMH60K5EW6Z37zOiO9WWgNGElXeReO7uYKlOLtTpSMyfzof0LBZaT33gmHu1A7UQtNY
-    npzMWa+RFPD0Yae0NV8sWf7t87X19860EPPgf/BtLIW4Vsla8t/wiVOklLjsi1yFPg05B2
-    P13+BfYZVFRbqLI4WVn7+IhSyz5k7yg8mJzNRGz+x/GOLEdoSNUNQCEsYylg
-X-ME-Proxy: <xmx:_Szrav-b31d6zMJAwAENaJdU8AZEIB2CijIOzOdlc-_ugaDjKdk7Hw>
-    <xmx:_SzrahYUifZzOGQwa65MAOu6uQsW36D4cuUMV9Bs5zReC8nLjx-3AQ>
-    <xmx:_SzrauNjCv6ipufU8vee145tFV4L_LJ8ioWtu4UN3clsM2caO2UP1w>
-    <xmx:_SzrapSz7raAMh0YiZbyG2yxTyALTmGivrf6UazVsdQ5EDkaFvVucg>
-    <xmx:_Szrap-zRACVOvdl3tdSQLZ_LHA2ubYpNiblmBUTaBM0i1IvgdP3_fM6>
+	b=RLbBmCrtUa60xuCrBC8BAWP/XK96WIAWbFKNGpsqirSqKkQUrQWxXrvksO2J16c+/
+	 0WKIE4wdeJ1xe2E59FE47afAqMbxqXhya+lnTkkPHCfH3heH1TDb81UrG7pkc0evE4
+	 wh1nYcwXRvgx0Y+1HI9FMp4QWkcEJoRTNan6hC27YLnHoSbkB1wmCVnvNXim9pVz+B
+	 qFcR9T7DTvB/kYyKng78VXIipAci6WWVCjTZsnouWFHUTBHrkbtU8AKToK3FfCdW4X
+	 /zWDp1c5UWNSftYVLo7Omq0nTpMreSHRZkSBWpgB6qehF/TfjSDntxnrgN77BZumCV
+	 MJfM0VrkjoqiQ==
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfauth.ams.internal (Postfix) with ESMTP id B995C1980052;
+	Wed,  4 Nov 2026 08:02:59 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Wed, 04 Nov 2026 08:03:03 -0500
+X-ME-Sender: <xms:Ay3ranYgkY_XrLO06Rt2zxbZ81RQuV72zKk2jsGLwvKhRYruiA7gqA>
+    <xme:Ay3ratUlCel_qAS_Di9AObYS-U98a6yBO_z3Ge9POWcq9SjHtX5KDbuAF5p4ffJ9M
+    4ezofs2lBMvbMMYjPRjfNhNrIFCC3FQpO6q4qAEgH-S1oEMX6jwB1I>
+X-ME-Received: <xmr:Ay3ravGVBcnfEuNF7sjgeA-O-pMSZkjMK3jxL6T178epMdym2fDxWgR631E>
+X-ME-Proxy-Cause: dmFkZTEkTGQme7AYtjF3GuVS96P2KQmK7WXeTlUb1QwwiuzIvAmashPSlbgOXzJn8Vwnwy
+    GtuimX8GVaozomoo/zh+dZJa/50iMsle5DQ+rz1xv6q7s8h1ROZ32xDIMTiguWiavpmC2D
+    BBwjWvlIRSWZcXI9bWu6+sLs7omuy7lLW9/gOc6hVkazqru7j3LnWdj5tmV/csyW0bsTmS
+    EsxaoHyCeNrVLjcn3op2UYLn5kjIXtndJ2M5CWyKjF23KtNnUBacMFKYutyyEO2UkxXzYe
+    RLi75JY7cBimTx0NOw8ItiGvjmUs48xoopmJA34QoNHmlECPZN6WTQStnLRujBuoPTyyqY
+    WNZVZSQNCEd6xp+B5OcigglVi/M4vyTQAOp8DAvxQ6AAu7fsihetgvFDtIIDS5ObEaNW2s
+    U6wxXPW0s9rD0+XTraAtlBvBIpvjMETR3urx6nwBgBwLzX9c7PCB1JeSjKkqKBzMFpyxyp
+    D31IEO9Hn2FTO+eQ+QIw9D38MApBAMgD+do7ngt4xMfXhbY3T7wqbAu65VS2ZUtSfwfYKq
+    kWXnicU5R9b31F5IhRxjhTGPQM0+wpZm3zSfBP56ZMPQV3QGtEnX2jeAKyTTDvPWG5w/wq
+    qPiCgH8vCH8FQifqh4DXfGoRyFm0vh6aooGv+EocCSZF8jDUXaZH8fzYqqyg
+X-ME-Proxy: <xmx:Ay3raiDsW4mhWHofLCiwXi87nnuRdmiG3xcWyAVOKXg42RDrH7lqPw>
+    <xmx:Ay3raiVcIcXJxXU8-ZuS5ACNt_e8L9f_7DVbEjG0ZnHYyEhlRpb7JQ>
+    <xmx:Ay3raq6zmTd4ddo3YhxVWmKr3TywONNuMCsLdbUiGR4WYOe9vrCMog>
+    <xmx:Ay3rarEaIw-IXBTza2AXmYn9SNvhb9NqvxYARyWegRJcmKQOBwx5Wg>
+    <xmx:Ay3rat1ZeL1JZQXP0cbJEvUpHP-6iXUb5N58dA-wUg2uhNELNoOnhxi8>
 Feedback-ID: i10464835:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 4 Nov 2026 08:02:52 -0500 (EST)
+ 4 Nov 2026 08:02:58 -0500 (EST)
 From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>,
 	Linus Torvalds <torvalds@linux-foundation.org>,
@@ -116,9 +116,9 @@ Cc: "Kiryl Shutsemau (Meta)" <kas@kernel.org>,
 	linux-fsdevel@vger.kernel.org,
 	fuse-devel@lists.linux.dev,
 	kernel-team@meta.com
-Subject: [RFC PATCH v2 15/18] mm/filemap: don't store f_ra.prev_pos for FMODE_RANDOM files
-Date: Wed,  4 Nov 2026 13:01:11 +0000
-Message-ID: <20261104130118.2507513-16-kas@kernel.org>
+Subject: [RFC PATCH v2 16/18] mm/shmem: count accesses to a folio the way filemap_read() does
+Date: Wed,  4 Nov 2026 13:01:12 +0000
+Message-ID: <20261104130118.2507513-17-kas@kernel.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20261104130118.2507513-1-kas@kernel.org>
 References: <20261104130118.2507513-1-kas@kernel.org>
@@ -133,57 +133,111 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-filemap_read() writes the end of every read to file->f_ra.prev_pos, in
-the cache line that fdget() and fdput() write when threads share the
-file table.
+shmem_file_read_iter() marks a folio accessed only when a read starts at
+the beginning of the folio.  Small reads that start anywhere else never
+count, so a folio that is read over and over at one offset ages as if it
+were never read.
 
-Applications that read a file at random offsets from many threads, such
-as RocksDB, set POSIX_FADV_RANDOM on it.  Readahead then never reads
-prev_pos: page_cache_sync_ra() forces the read first.
+Count accesses with filemap_read_accessed(), as filemap_read() does: a
+read marks the folio accessed unless it goes on in the folio that the
+previous read through the file ended in.  Reading the same bytes again
+through one open file counts once, as for other files, where it used to
+count each time it started at the beginning of the folio.  The end of
+the previous read is kept in f_ra.prev_pos, as for other files.
 
-Skip the store for such files after a read that filemap_read_rcu() did
-in full: without folio references, the file's line is what the threads
-contend on.  Keep it on the slow path, which takes folio references:
-skipping it there made reads slower in my testing.
-
-filemap_read() compares the start of a read with prev_pos, to tell a
-read that goes on in the same folio from another access to it.  On an
-FMODE_RANDOM file it can now be stale; with many threads on one file it
-was another thread's read already.
+This also sets PG_rcu_free on the tmpfs folios that reads keep coming
+back to.  On a shmem folio the PG_readahead bit is PG_reclaim, and shmem
+does no readahead, so do not let that bit keep the flag off.  A write
+marks a tmpfs folio accessed too, so a folio written in several pieces
+can get the flag on its first read.
 
 Signed-off-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
 ---
- mm/filemap.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ mm/filemap.c  | 9 +++++----
+ mm/internal.h | 1 +
+ mm/shmem.c    | 9 ++++-----
+ 3 files changed, 10 insertions(+), 9 deletions(-)
 
 diff --git a/mm/filemap.c b/mm/filemap.c
-index 182ae7d5db56..5998de3d6697 100644
+index 5998de3d6697..65d414ad9d85 100644
 --- a/mm/filemap.c
 +++ b/mm/filemap.c
-@@ -3078,8 +3078,13 @@ ssize_t filemap_read(struct kiocb *iocb, struct iov_iter *iter,
- 	if (fast_read) {
- 		already_read += fast_read;
- 		last_pos = iocb->ki_pos;
--		if (!iov_iter_count(iter))
--			goto out;
-+		if (!iov_iter_count(iter)) {
-+			file_accessed(filp);
-+			/* Readahead of a random file ignores it: skip the shared store */
-+			if (!(filp->f_mode & FMODE_RANDOM))
-+				ra->prev_pos = last_pos;
-+			return already_read;
-+		}
+@@ -2772,8 +2772,10 @@ static void filemap_mark_hot(struct folio *folio)
+ 	if (!IS_ENABLED(CONFIG_PAGE_RCU_FREE))
+ 		return;
+ 	if (folio_test_rcu_free(folio) || !folio_test_uptodate(folio) ||
+-	    folio_test_readahead(folio) || folio_test_dropbehind(folio) ||
+-	    folio_test_unevictable(folio))
++	    folio_test_dropbehind(folio) || folio_test_unevictable(folio))
++		return;
++	/* shmem does no readahead: there the bit is PG_reclaim */
++	if (folio_test_readahead(folio) && !folio_test_swapbacked(folio))
+ 		return;
+ 	if (folio_test_set_rcu_free(folio))
+ 		return;
+@@ -2796,8 +2798,7 @@ static void filemap_mark_hot(struct folio *folio)
+  * LRU records, or when this open file goes back to data that it has just
+  * read.
+  */
+-static void filemap_read_accessed(struct folio *folio, loff_t pos,
+-				  loff_t last_pos)
++void filemap_read_accessed(struct folio *folio, loff_t pos, loff_t last_pos)
+ {
+ 	bool hot;
+ 
+diff --git a/mm/internal.h b/mm/internal.h
+index 38b1165212c9..18391dc50418 100644
+--- a/mm/internal.h
++++ b/mm/internal.h
+@@ -1248,6 +1248,7 @@ struct migration_target_control {
+  */
+ size_t splice_folio_into_pipe(struct pipe_inode_info *pipe,
+ 			      struct folio *folio, loff_t fpos, size_t size);
++void filemap_read_accessed(struct folio *folio, loff_t pos, loff_t last_pos);
+ 
+ static inline bool vma_is_single_threaded_private(struct vm_area_struct *vma)
+ {
+diff --git a/mm/shmem.c b/mm/shmem.c
+index 848316eaa7f4..1c700fa9666d 100644
+--- a/mm/shmem.c
++++ b/mm/shmem.c
+@@ -3309,6 +3309,7 @@ static ssize_t shmem_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
+ 	struct file *file = iocb->ki_filp;
+ 	struct inode *inode = file_inode(file);
+ 	struct address_space *mapping = inode->i_mapping;
++	loff_t last_pos = file->f_ra.prev_pos;
+ 	pgoff_t index;
+ 	unsigned long offset;
+ 	int error = 0;
+@@ -3378,11 +3379,7 @@ static ssize_t shmem_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
+ 					flush_dcache_page(page);
+ 			}
+ 
+-			/*
+-			 * Mark the folio accessed if we read the beginning.
+-			 */
+-			if (!offset)
+-				folio_mark_accessed(folio);
++			filemap_read_accessed(folio, iocb->ki_pos, last_pos);
+ 			/*
+ 			 * Ok, we have the page, and it's up-to-date, so
+ 			 * now we can copy it to user space...
+@@ -3410,6 +3407,7 @@ static ssize_t shmem_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
+ 
+ 		retval += ret;
+ 		iocb->ki_pos += ret;
++		last_pos = iocb->ki_pos;
+ 
+ 		if (!iov_iter_count(to))
+ 			break;
+@@ -3421,6 +3419,7 @@ static ssize_t shmem_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
  	}
  
- 	do {
-@@ -3161,7 +3166,6 @@ ssize_t filemap_read(struct kiocb *iocb, struct iov_iter *iter,
- 		}
- 	} while (iov_iter_count(iter) && iocb->ki_pos < isize && !error);
+ 	file_accessed(file);
++	file->f_ra.prev_pos = last_pos;
+ 	return retval ? retval : error;
+ }
  
--out:
- 	file_accessed(filp);
- 	ra->prev_pos = last_pos;
- 	return already_read ? already_read : error;
 -- 
 2.54.0
 
