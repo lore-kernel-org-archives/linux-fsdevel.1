@@ -1,61 +1,109 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793811709;
-	b=s7t8BCJanEqFf9Lw97/83iMBGZJaI+GOQUarDgNJbAeoLxKCVgmmFQMOmoVHKyqZcCb5
-	 eX7ER8DnQSjioJHTELkW5A9NHYuU0Zu4Fd96JZ/K8gA0/JmN7ye8kqQcpg5mwVgPwzFLb
-	 T3+IKHrP9VQ4tGtc1hMG9SyhFgf6qY5Jz1KAoftTRNkapqbp/KF3I6u82K+vBycbt0gfe
-	 pu8tNFcyOFv0mguBgtsWjSa2vZFQbL5NAs5nXzLWBxORLRjRJKY+wcx1hGpJFfEh8Cun6
-	 u9vj0BNO3njgmbFCQctYkeYeA9zJngJtkD+z1n20U/v7V+fAl/aAWBlMVTRckIQpG/Q==
+	t=1793812036;
+	b=l0o4u/cu2rUS4xtCxgn7hAJG0sClJDZ3var4slqiwT6IJnvh1Z8YTX1KlKbN5TI7+9eD
+	 7wqCkv9d2KGxajLdz2ikZ3KACXLC/X+FnnSFrJgcScXqY5solUsW4AVQ/QGqPEqAMQyu/
+	 Ma+oxO5g4qhEBGXYlKQkBFemD+T7E21f/jYkHBMbxapqeQ1tVss//cjtm7WJ/WqWpmytw
+	 a5GYWrvgHAhdjVFhUnJ2N2gpyoZwnKgFM1Te5QmwAI7ACYMds8vK9mWYcWcZsKdvOT9qO
+	 PehW58+10ad0kAgxXSaTsuraNRuCgBz8HDKYouWJ8+PgFzDgJimtivQmg8Wc/QJLc1A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793811709;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=jkCHVhZioJ1wdZN6npY2hfrvWb9kbC3wPalZmZ3BoVA=;
-	b=Adk+mGQN6ig90XDs8DJpD5/EcU3QUN3IVLXwPlYhSS98hKy8o6U6ymS4k/Dxf+nbmZe5
-	 woaYjvnULp1rLRLZJwOldJmLbD/npBjTvTiyXk436GBYyrYSXRbZYjgAHsMNUDS+YvV+i
-	 Jfha+Dy9MQUaAgpz6NwBYKLbdpZA8bb/v/ci11YowkJtJsDKG+1LsxCBYkZ6v7Ez8IztV
-	 caKETdIMXVEFsxVnQMoMC6vjtXEOgXEnL8y6ebehAwIWSwG+6DJQLVgeOpsQcCqKfmx2W
-	 yLziDqgTdcIqJdG8gFX10q8snG3XqzSQmPd1K8//HKHqqalAR2v9CmQF6tGIgUzRoTA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793812036;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
+	bh=aNDPKOPejKWaDge59K9+Y4zvO9k5lOGA3Jkf04Pk/QY=;
+	b=yDFjcQdHQ921nyr66Gr4P7766EttcmXFigqFtuF9uxrBS7lgdgbczV3tZC6hhSQYvm7M
+	 e3WJULPSgZTjsPA7CKaNnWtLSDtot0o9bOAF57OTjHaIm4bIkdkeVKAOaCVHinnObhSop
+	 ZMjBemLGjsH3tl4VzRZonTXC9naeLPYWI/e7SoXfKT8bxGNY7qq+akiXkkHPhJjomF1RU
+	 DZ171mjkREcO9lv6qVRDXcLG/etPUAgMerP7ZaAUtSFHO09vMIVW1Ue2bjFsNwo13wNHE
+	 mMMYctUFI/2qD01EwGa0kWWHmCohvtriA1/CqapY6Qywbl2Q6RkvxYRoqg+FavmdybA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IT2x62J6;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=suse.cz;
+	spf=pass smtp.mailfrom=suse.cz;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=ItA2E3p4;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=62553P6V;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=ItA2E3p4;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=62553P6V;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1563606A326;
-	Wed,  4 Nov 2026 17:01:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F714606A326;
+	Wed,  4 Nov 2026 17:07:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5F714606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IT2x62J6
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED6B91F000C1;
-	Wed,  4 Nov 2026 17:01:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793811708;
-	bh=jkCHVhZioJ1wdZN6npY2hfrvWb9kbC3wPalZmZ3BoVA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=IT2x62J6jn/yfd+OqmhV0T8VN/l364Oj0rtzzElfoSBg5AlI2P5CKcGHPitytOUdB
-	 rCMPOzw6jrqFs2RRAsbUrEFz0z7dCmzAo7iAbPX7yMi76pnu0twc0lzcE00PeLaNU1
-	 7MeoRZ0ppZpFPXYztbMrcPhjKkDVFz1bx3XsDbcjpguZ59obJbd3Bh5HNxVxh7wXJj
-	 ixi0MMwXpoT534c0m/y5CKXBd64MLxm/fo6C8yso6Yih31nWU0nueRk4Gp9PCcknyW
-	 IJK4aGSV8dvWYKe0JSt/gc6eY0wF30rE0OZrCl9YV5fP6+DeU7pkN+6UV6uqrUunc9
-	 l+HHO6sjCrTxw==
-Date: Wed, 4 Nov 2026 12:01:46 -0500
-From: Mike Snitzer <snitzer@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Matthew Wilcox <willy@infradead.org>, linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org, Chuck Lever <cel@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>, linux-nfs@vger.kernel.org,
-	NeilBrown <neil@brown.name>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
-	Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
-	Jonathan Flynn <jonathan.flynn@hammerspace.com>
-Subject: Re: [PATCH v10 7/7] NFSD: drop a shared boundary page only once both
- WRITEs have written it
-Message-ID: <autk-osSQ8l2LKz1@kernel.org>
-References: <20261103211754.35352-1-snitzer@kernel.org>
- <20261103211754.35352-8-snitzer@kernel.org>
- <20261104091543.GA31130@lst.de>
+	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=ItA2E3p4;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=62553P6V;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=ItA2E3p4;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=62553P6V
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 751B41F388;
+	Wed,  4 Nov 2026 17:07:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1793812033; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aNDPKOPejKWaDge59K9+Y4zvO9k5lOGA3Jkf04Pk/QY=;
+	b=ItA2E3p4o9qbG5LaRFWOhTqNeU0Eepe+Uw9UgIjt6b6Sjip5Y4p9tHm/9X8/t1R1i+8eIP
+	FEV+OgrvYzbajR/JvwqIIzwsP9w5xHJRCsufbKzpjWMLjaq/5NsigMIy2aKQN9C9yj/tSU
+	0kKHX4DD7Na5zDWrJLylYZ8tcPeGBpU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1793812033;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aNDPKOPejKWaDge59K9+Y4zvO9k5lOGA3Jkf04Pk/QY=;
+	b=62553P6V5yueYuV+re3HE/rB6ZrmSUnWEJrrN9vhf8JEM6mhbguBY5lKWKeAXis2KR7WGb
+	Yt7PrhNIxt7fMXAQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1793812033; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aNDPKOPejKWaDge59K9+Y4zvO9k5lOGA3Jkf04Pk/QY=;
+	b=ItA2E3p4o9qbG5LaRFWOhTqNeU0Eepe+Uw9UgIjt6b6Sjip5Y4p9tHm/9X8/t1R1i+8eIP
+	FEV+OgrvYzbajR/JvwqIIzwsP9w5xHJRCsufbKzpjWMLjaq/5NsigMIy2aKQN9C9yj/tSU
+	0kKHX4DD7Na5zDWrJLylYZ8tcPeGBpU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1793812033;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aNDPKOPejKWaDge59K9+Y4zvO9k5lOGA3Jkf04Pk/QY=;
+	b=62553P6V5yueYuV+re3HE/rB6ZrmSUnWEJrrN9vhf8JEM6mhbguBY5lKWKeAXis2KR7WGb
+	Yt7PrhNIxt7fMXAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4B3B0134A5;
+	Wed,  4 Nov 2026 17:07:13 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id hB+FCUFm62p4FQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 04 Nov 2026 17:07:13 +0000
+Received: by quack.suse.cz (Postfix, from userid 1000)
+	id C5AD4B445; Wed, 04 Nov 2026 18:07:04 +0100 (CET)
+Date: Wed, 4 Nov 2026 18:07:04 +0100
+From: Jan Kara <jack@suse.cz>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, Jan Kara <jack@suse.cz>, 
+	Josef Bacik <josef@toxicpanda.com>, Chris Mason <mason@kernel.org>, linux-ext4@vger.kernel.org, 
+	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, Andreas Dilger <adilger.kernel@dilger.ca>, 
+	Baokun Li <libaokun@linux.alibaba.com>, Ojaswin Mujoo <ojaswin@linux.ibm.com>, 
+	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>, Namjae Jeon <namjae.jeon@samsung.com>, stable@vger.kernel.org
+Subject: Re: [PATCH RFC 3/9] ext4: add ext4_inode_loc_block() helper
+Message-ID: <lqhym4n6vu46kretnwfstfutik4vl4l5imhnf6pi3aranjpryx@bgtxuzuha2zs>
+References: <20261029-work-inode-metadata_writeback-v1-0-7d6c678a585d@kernel.org>
+ <20261029-work-inode-metadata_writeback-v1-3-7d6c678a585d@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -67,77 +115,127 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261104091543.GA31130@lst.de>
+In-Reply-To: <20261029-work-inode-metadata_writeback-v1-3-7d6c678a585d@kernel.org>
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spamd-Result: default: False [-11.30 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	TAGGED_RCPT(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,suse.cz,toxicpanda.com,kernel.org,mail.parknet.co.jp,dilger.ca,linux.alibaba.com,linux.ibm.com,gmail.com,samsung.com];
+	RCVD_COUNT_THREE(0.00)[3];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email]
+X-Spam-Score: -11.30
 
-On Wed, Nov 04, 2026 at 10:15:43AM +0100, Christoph Hellwig wrote:
-> Why does the write include an fsync?  Are these STABLE writes, and
-> if yes, why?
+On Thu 29-10-26 14:28:18, Christian Brauner wrote:
+> Move the lookup of the inode table block out of
+> ext4_get_inode_loc_noio() into a helper. ext4_sync_inode_metadata() is
+> going to use it to find the block without reading it from disk.
+> 
+> No functional changes.
+> 
+> Cc: stable@vger.kernel.org # v7.3
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-Only when the client asks for it.  A WRITE with stable_how FILE_SYNC or
-DATA_SYNC must be on stable storage before NFSD replies.  So NFSD runs
-one vfs_fsync_range() over the whole WRITE after all of its segments.
-An UNSTABLE WRITE has no fsync.  Its shared units are completed while
-still dirty, and the writeback that cleans them drops them, whether the
-flusher or the client's COMMIT starts it.
+So I don't think this patch is really needed. ext4_get_inode_loc_noio()
+does exactly what you need so you can use it in the next patch. If you
+really wanted to use sb_find_get_block_nonatomic() instead of
+sb_find_get_block(), you can actually switch ext4_get_inode_loc_noio() to
+use it.  ext4_get_inode_loc_noio() has only a single caller in ext4 -
+ext4_fc_snapshot_inode() - that is actually fine to take the folio lock.
+But that is mostly unrelated improvement to ext4.
 
-The Linux client sends an O_DIRECT write that fits in one WRITE as
-FILE_SYNC (FLUSH_COND_STABLE in nfs_pgio_rpcsetup()).  That is the
-common case for the workload below.
+								Honza
 
-> Can you explain where this very odd number comes from.  Is that just a
-> worst case?  Or for some reason actually relevant?
-
-It is the transfer size of IO500's ior-hard: every rank writes
-47008-byte records, interleaved with the other ranks, into one shared
-file, with O_DIRECT.  It is meant as a hard case, and it is the
-workload that showed the problem on our servers.  The same happens
-with any record size that is not a multiple of the page size.  The
-cover letter also has 6000-byte records.
-
-> How does this compare to just not using DONTCACHE at all for unaligned
-> tails (and maybe heads, if for some reason they I/O you care about
-> reordered writes).
-
-Jon measured that on four pNFS flexfiles data servers with ior-hard
-from three clients.  In one run, cached heads and tails removed the
-reads, 0.000 per record.  But the page cache on the four servers grew
-by 622 GiB during a 318 s write phase.  In a later run of the same
-workload with this series, it grew by 2.9 GiB, at 0.003 reads per
-record.  Keeping the data out of the server's page cache is the point
-of direct mode, so cached ends are not a fix for this case.  Using
-buffered heads and tails are available (in cel/nfsd-testing): set the
-NFSD debugfs knob /sys/kernel/debug/nfsd/direct_misaligned_dontcache
-to N.
-
-> And how does it compare to that plus manual
-> sync_file_range calls to micro-manage the I/O?
-
-Wasn't measured because sync_file_range() writes the folio back but
-leaves it cached.  To get it out of the cache, NFSD would have to drop
-it after writeback.  That is only safe once the neighbouring WRITE has
-written its part of the folio.  Otherwise the neighbour reads it back
-from disk, which is the problem in the first place. NFSD does not know
-when that is without tracking the half-written folios of every file
-itself.  An earlier version of NFSD kept one tail folio per open file
-for the next sequential WRITE.  With interleaved writers the next
-WRITE is rarely the neighbour, and it still read 0.81 blocks per
-record.  The folio's uptodate state already records whether the
-neighbour has written its part, and 5/7 uses that.
-
-> In general I'm not in favour of so many core hacks for
-> very nfsd-specific behavior.
-
-Most of the series is not NFSD-specific.  1/7 to 5/7 fix RWF_DONTCACHE
-itself, for any application.  The table in the cover letter is plain
-pwritev2() on a local XFS file, with no NFSD.  It reads 0.97 blocks per
-write at 831 MiB/s before 5/7, and 0.0005 at 2281 MiB/s after it.  2/7
-also fixes a bug in v7.3 on its own.
-
-Only 6/7 is for callers that sync once after writing several segments,
-which is what NFSD does for a stable WRITE.  The NFS client's LOCALIO
-path does the same.  Without 6/7, each stable WRITE wakes the
-DONTCACHE writeback kick once per segment, 23,000 to 65,000 times a
-run, for folios that its own fsync is about to write.
-
-Thanks,
-Mike
+> ---
+>  fs/ext4/inode.c | 38 +++++++++++++++++++++++++++-----------
+>  1 file changed, 27 insertions(+), 11 deletions(-)
+> 
+> diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+> index b4d581aa5ee1..b34b99d15db6 100644
+> --- a/fs/ext4/inode.c
+> +++ b/fs/ext4/inode.c
+> @@ -5874,16 +5874,14 @@ int ext4_get_inode_loc(struct inode *inode, struct ext4_iloc *iloc)
+>  }
+>  
+>  /*
+> - * ext4_get_inode_loc_noio() is a best-effort variant of ext4_get_inode_loc().
+> - * It looks up the inode table block in the buffer cache and returns -EAGAIN if
+> - * the block is not present or not uptodate, without starting any I/O.
+> + * Find the inode table block that holds @inode without looking at the block
+> + * itself. Fills in iloc->block_group and iloc->offset.
+>   */
+> -int ext4_get_inode_loc_noio(struct inode *inode, struct ext4_iloc *iloc)
+> +static int ext4_inode_loc_block(struct inode *inode, struct ext4_iloc *iloc,
+> +				ext4_fsblk_t *block)
+>  {
+>  	struct super_block *sb = inode->i_sb;
+>  	struct ext4_group_desc *gdp;
+> -	struct buffer_head *bh;
+> -	ext4_fsblk_t block;
+>  	int inodes_per_block, inode_offset;
+>  	unsigned long ino = inode->i_ino;
+>  
+> @@ -5902,15 +5900,33 @@ int ext4_get_inode_loc_noio(struct inode *inode, struct ext4_iloc *iloc)
+>  	inode_offset = ((ino - 1) % EXT4_INODES_PER_GROUP(sb));
+>  	iloc->offset = (inode_offset % inodes_per_block) * EXT4_INODE_SIZE(sb);
+>  
+> -	block = ext4_inode_table(sb, gdp);
+> -	if (block <= le32_to_cpu(EXT4_SB(sb)->s_es->s_first_data_block) ||
+> -	    block >= ext4_blocks_count(EXT4_SB(sb)->s_es)) {
+> +	*block = ext4_inode_table(sb, gdp);
+> +	if (*block <= le32_to_cpu(EXT4_SB(sb)->s_es->s_first_data_block) ||
+> +	    *block >= ext4_blocks_count(EXT4_SB(sb)->s_es)) {
+>  		ext4_error(sb,
+>  			   "Invalid inode table block %llu in block_group %u",
+> -			   block, iloc->block_group);
+> +			   *block, iloc->block_group);
+>  		return -EFSCORRUPTED;
+>  	}
+> -	block += inode_offset / inodes_per_block;
+> +	*block += inode_offset / inodes_per_block;
+> +	return 0;
+> +}
+> +
+> +/*
+> + * ext4_get_inode_loc_noio() is a best-effort variant of ext4_get_inode_loc().
+> + * It looks up the inode table block in the buffer cache and returns -EAGAIN if
+> + * the block is not present or not uptodate, without starting any I/O.
+> + */
+> +int ext4_get_inode_loc_noio(struct inode *inode, struct ext4_iloc *iloc)
+> +{
+> +	struct super_block *sb = inode->i_sb;
+> +	struct buffer_head *bh;
+> +	ext4_fsblk_t block;
+> +	int err;
+> +
+> +	err = ext4_inode_loc_block(inode, iloc, &block);
+> +	if (err)
+> +		return err;
+>  
+>  	bh = sb_find_get_block(sb, block);
+>  	if (!bh)
+> 
+> -- 
+> 2.53.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
