@@ -1,100 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.170
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793828904;
-	b=JtH069FNGd4cZw1Eb7aCbbiwQLsUJuk3RuYAMvKX+3LUhvpWIZLDbjoVUaIaVezdbVqS
-	 phzmWdU3DLjnvqv3b40KdY0YbRKsspnHZK1yufX9VkY2ubRvrRVeGYuQYaerUcXVSmzGF
-	 sQOEvPr91z+lpLPG2fz47gfNK+iJL7Fs8qDZHb6jc94qcS5k3BlqpPJaHZWY2nuJqp8pr
-	 PeTc3za1hjSiiEpq25b61yu/ONbM5LI0ojOVyw2RyF+Igt2YCfPE2ww385IIrHEzSg6Rx
-	 taDsqyYjGgj6knp8BS49v7GmMJw+2rCITNXvpmm332BmFRJsL0b93AQ71rZOE6ZyPPw==
+	t=1793828909;
+	b=b+xvtZkrfQrwjSX1RyJdXKU5h/z0aVEXAlfQne2kPgvwsz8i95iwkvwIxgdeBr+aT4iD
+	 X84eyg6SKSwih7TwXmFD9bGKz8lNjjroHevV/zp9OdDVTbW5yl3rnew9wDmik83/2pdhx
+	 XY8JsBqFPd1vMmsyekmZ2ZEApTV3qbWrYTZwgUxAFW9SvI6oB5Xy+/BMo/y7igMza1F57
+	 84xvFN3OFbnQfD3CxBVz/uIkGoFpj+X6xrHrQE6IrdIY2iU6PyD/LzXoNxvxieTgszYva
+	 NDABBtjqiHXFKuthSoyA+jCwbN8RLrmNazfcH6J2jAKdtJ1fZxEhPY8/6xa2m29MA6Q==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793828904;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793828909;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
 	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=HFxih8R9lRpDAVACkYJBW0qLU/VjGrR4AQyRfvWPnWU=;
-	b=BSBLzTJEFZudNmV66Qv/ETthr1WJDEc2jtya60ErHHC4LdeHEwEwGgmsoelY+OmaKJy6
-	 l9yYg3nZuecqOERlJTiyeY8lnryJTCL3WzsTDg6YGu0/fSm50JlBabus3xhqETXXFyqfW
-	 gSUSEGlO0a9/Br3/AUlDuLFAUm6NNF2kj8yqz85XLRTApIMCOC0KfzgHwdJBzrT8w/+6J
-	 hepLdtJCA7FctL2ZS9pMkbW3SNx61vXmRZ/kPhAYkyi8Ek5KUyB6RSOBbbccr9EK3H9hw
-	 zzInvBD0oAeB+Kes8Om6xoOcgd3gI2p+Oj4hKVttguxt+yJvzCuHNAhtf8HQ9eQc/kw==
+	bh=2D2vDw/U+kzKAtYkN0TR4+tnXX0GaB+Xt7fUx5vEdV8=;
+	b=3G2/kbDevmmIh1arzyZCo9esYVH+WvxUJWzw7oVnM7DYQZwU/MNdNb5UEpQirv6qoj8z
+	 qVvgtegwSIHsvFJV2AjEMtuv3R428jx0qxgFyKqVFyf+/dhKlBGbS4AV+W3zf872dLioQ
+	 pZFPCJruSAnqzMZ1hPcGPnDFSoXqqtnP4UHD92qJYA9j1e/o/UlxMEKn/lk0arOGwRCk3
+	 JYilamUCxEDTtwh4nuPzEv2NztkKR4Wrl4rH3+/lRKHTjiLYKEmvMWTG5Fkmrmzx3Jb4Q
+	 bqaGDSUokoz3zMUzN/+RA4Blz8OPj28uYPzsqIm754TwQeIB5jsDbMcSIEe0/+exBJw==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=Jwrr4D5U;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.177
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=d+G92hXm;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.170
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 072EC6071AF6
-	for <linux-fsdevel@vger.kernel.org>; Wed,  4 Nov 2026 21:48:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 072EC6071AF6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E8FC6072641
+	for <linux-fsdevel@vger.kernel.org>; Wed,  4 Nov 2026 21:48:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6E8FC6072641
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=Jwrr4D5U
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2ea7f9c11e6so17605ad.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 04 Nov 2026 13:48:23 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1793828903; cv=none;
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=d+G92hXm
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2e8d6fcbba0so7745ad.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 04 Nov 2026 13:48:29 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793828909; cv=none;
         d=google.com; s=arc-20260327;
-        b=EQO+isVLJa0dx0m46BSftshG/mqNZ+Dmrhun85vaOb2IvKpY03iYEf79Bh1fxajTEV
-         BHf04oozBO4p30pIH9hG2sG/d//5tY07QRrwfrBC/l7zM7sZodtkPS4jYAXwcAEo6EU8
-         YdNGtFdk0fDJAqNd6srUWRUOAxaJpmUYHeRChgWswLIrWGTK7DzXiMh4IKfjiZd3nGIu
-         hSnddlzrW4il+/DESHJpmgb/mn8kBmFfHNuZr2JM50+nJp7o5nVZ2iZZmG81l0hHGG2R
-         bYng7JzCK5nWwVwsEUPOz3tcci48MBnSMg20T9I9o4yJp6kGvQ1ne5L/l9p16UhpDVpz
-         wxag==
+        b=HOrOdkQh9B/oPztMmDV17Kwud5cjWwI5zUhGv5MpS7fXPgtSNY8C9GrkiDfqDqEXC+
+         kqwhxy6kU+XnW5O4vQSgX+M+vCFNjHp7CIN1q3jDnUvYw3uP2NZM+S8ArrS6sWRYTyLK
+         qZNA2QgzzpeA2liRC8FXIZaTNDOtAIGeygTLFLb0todGU8O80KYc8eAylq74i8O5qNxg
+         A68tLti2+HnowCG8GsqcIudAGdn+uOCOPMKo4RD7Z5rYCwxafhsKz8TXirf0xcsXus4O
+         hWXvQVAn8AjcwsKwt2TpqrrUpq23VQifMyNpXAP6iII2Wgr63N6uTGnqEQrJ+unWe5Tq
+         aRDQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=HFxih8R9lRpDAVACkYJBW0qLU/VjGrR4AQyRfvWPnWU=;
+        bh=2D2vDw/U+kzKAtYkN0TR4+tnXX0GaB+Xt7fUx5vEdV8=;
         fh=7mJUVuDvnfYWIVRqWfdluoKVGa5gmjySN/dGUDufUu4=;
-        b=otHNO4eaTrx+9og4yP86N01rpj07cOcdhOcBeHiAiRhflfec2AaTwaO/EutJ3N87Ad
-         gkpHmMMM36o3UvpjtAgaYDqmV4opMJ+iFPN+ySni7NuK65CRq4m25WrITvCCEyMGskfz
-         EGqF4gy5JX/An9SRDcUEo0etEV+zojrpN3CSnCubQfSsGzcnitF0ulNmUYMjbjFDAGRL
-         mQwTymZmkM38IvhqKQSlPMMtg+PuWbUM7DSN5AQsmE0OodNjkxaM/5ddOKhUhcegheoO
-         pi2cG/uO9m3n4F8BYXUoPl2iO3kK4f9gHmU+28uQYqbOl1+Ury/UQ/eu7T0GlKwAGOUK
-         sGfA==;
+        b=hEPAxOZ1qjcgO4p2mtOth8rMCzw4P1hNbi+OBd+x4jIbA6f+qQ+WhwkW1HLaPBxB9L
+         d1Z0cuZPdwkUxGmQVxWtIgE3Tn2irF9lRMDgketk2w0zggMRYKmKMz3b2Iy+GHtpZJKp
+         M2c6l6XcEZxIDtPTbtYBQDP8MzS6A09Mncvh3xcTnFvXsKphZpd+x3mnO/MVP6FfEnpN
+         3wRXqfIo6N1JSlgPr54Rq5TSzCDa5zY92o4SxUXFJPXfxgoFF1mq6mQ4x9G5a2ra4MMm
+         YXU4EufnN4fzVn2lpkAbkgYks8vazza2NlFaTW9qVshc9u4ONCbt5naAdEyzHDfjSyVs
+         +8QA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793828903; x=1794433703; darn=vger.kernel.org;
+        d=google.com; s=20260707; t=1793828909; x=1794433709; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=HFxih8R9lRpDAVACkYJBW0qLU/VjGrR4AQyRfvWPnWU=;
-        b=Jwrr4D5UuX35OaQFRDRYFnZTLylt7Jl7BBvQqycX3F+ObQ3/FiqISCXH1qDPsBHVYG
-         yDRNq12hSA6qw3BsfcCiC6HK7jSB0TU8FStpkbCw0DdpvLCbzRbjRekp4dC1CkbgnVte
-         G5g+6ITyA6UJR3kceA+bEjgoZXgR72bL2sJxJmzu049NBWhT+mOSmWsgPV1QkHzbLGB7
-         jfeHKe7vMAsA+quEXL7dJK+POHqtvuOUPx40kkcQMkwmX9RIyZYUUpSBJGQ07Xc5RtYs
-         6xThrvDCiGaDVPaAggjJniaAUyZnqUFWFRGdmuFr5ZNvY6bDJ3s+yr8+dfiF1RQT931p
-         49TA==
+        bh=2D2vDw/U+kzKAtYkN0TR4+tnXX0GaB+Xt7fUx5vEdV8=;
+        b=d+G92hXmxS77rfXuq91ghXZziyKtZEkwEu2HNHDyofBsQgvIVj1DIcOYwRXAab3kg5
+         w9Z344QyCiIOZf5Jv088EwOulHCW/Oh5T7Xb0jfL1hl5e1VnB1Yi/gUpFz/eYCYGN41r
+         cQpKLgIO1Rt0N8zuRzPmLUX4oxROcZf9HaWBhYZwKhe74QRPVgoDGCKwD+HelWrz0riy
+         ywxl8nDaI9ZSzSoRLdcXDU81ZoXoTziN2nBkqeqAnEwZ0HOsXserSFX//arfNY2xejdU
+         hDjGA0Ocg8ps4i6APulhcuaCZ/sUUMWa0fqV0lf+1NSqQTN7wpZ5xUcATDFJteXDS/Hd
+         mLDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793828903; x=1794433703;
+        d=1e100.net; s=20260707; t=1793828909; x=1794433709;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=HFxih8R9lRpDAVACkYJBW0qLU/VjGrR4AQyRfvWPnWU=;
-        b=BUmFqYi7uu+W1H5Jf+01EK9w6Z1YCdEZLDneM4gaXPpCC7VN+5G5/meaGhVg/34LYN
-         UD3qD5zj94yU6Pwb8w8BoCYG3zXdpecB5gpSXRraG95XvpM6m+B4WRRETq2vWokPaMGI
-         GzlGMn/XKzZi0SzecHt3nAFLx4ZYF3YXMSpqmY1FpXE5e2GnXrx7heRVZkyJHiBhpGFr
-         hT6KuNyjTMFq+sYQoLtl70EFHq7laFSObU5o/7srwny8N0tNELohUsTLE3cNgJolc04s
-         K5J+sXgZhBV2jSiPrZdRQVyV06N/oof36DlRBleoOToEkNGlqknaGIpinfqyJORaHqt4
-         nUkg==
-X-Gm-Message-State: APuU4Z/mEiKAiBSWAYOplhzoENg7nv3zt45GZDuc3P9Ibp9C6L5DUD9P
-	atoncNU0aEcbb5nyjIJkG2W+OgswFRiYOp4bMOk3kSNEKPdoXAYwo8RWDMtsrxH6Pk7hSrYVqk/
-	x9ig5uSNaZqDKDuZxp51mGW1fpg3rlflaYNKMeYuv
-X-Gm-Gg: AYBFou1iRCb1Cq9BuxeHi6YwHEK/yMLhXEcOPF9L500DB844euFxussyNq7CKzBDGHl
-	Ya2lVf1y5WJEVsloXHMgS0/Z0anTypq1aXy+rlz+uSG5+qTPufhgxc9+J8x7ILWnmB+H49IVJB+
-	KiqcoYz0xWT6OsOeaUaBzOhXygLiL799sXZnBrYketGzzSnIaYgPUWdt+1S/FfkhKA+aBbWrLem
-	uIlDAml9pF4SfjKwz2vbKcQxQ7m4Roei2vXPlZbUoHq9SZ+u4H7gFMrgOjL0S0AgPFhzUyN/ayb
-	GP9qI2ilQr8IeMiA+Mz5B9abiuvqZvrWPQUCY2q4PycyB1uGJvSJwisLZCcs+KRTKKY1v+tc9k7
-	Z2vw253OxqUBSXfkyOlp3gAKOQpMT1T6vGXJGRw/zXrqm1O+mmhe6uPPmMiFz/B1Q685z1Vx4Kr
-	GBo0XDcXVMcygyZLJBZ7U+Rw==
-X-Received: by 2002:a17:903:3d0f:b0:2c9:b404:b55 with SMTP id
- d9443c01a7336-2ed2627b4cdmr1247535ad.6.1793828902569; Wed, 04 Nov 2026
- 13:48:22 -0800 (PST)
+        bh=2D2vDw/U+kzKAtYkN0TR4+tnXX0GaB+Xt7fUx5vEdV8=;
+        b=Gmx8iyxEdUUBiYQXYs9gjL8F0ZFZX7qh53oTZQ9w/BxijWZnDGiyHY3w8HBYPr6/H8
+         24w93kzkBRuCTpA0F6ai+fanOLAGBVKMpkD61FGmT+M3XuJrbCByq/TgGhE98XvLjvAM
+         2Aw5KHHw3MtarzNVMEm8kU9o0S8ooekHehToKJ3z4T2k6cDgiejzqFoSBtl/980Fg6ND
+         zR8w2Pt+LRTupNPHItofpWd4K5Wn21jPbC8zl5LHGQIcUtG8wGeFfb0VGMXrQsGHlw4/
+         FSfjOcIb04NhBh20A+eFQIqXmFomVAJ1oMUFCyCVIbQf6K5+A+JrWSP+zlEU5NQLPMQS
+         C7ig==
+X-Gm-Message-State: APuU4Z8vn54Zb9VppTi17qQ5medjfzdKfTqWxQHulwd/5WTdOWVFQCHx
+	2lgh+n0+Bzs5st6GYhLnD6o2QwqUUMhGMBj3mtvST9QyzWdO4YF4IlRUr53MnBbsoiZ9DUZLdWU
+	/xSnzJmQm/SaXYPV61mWouqdWfqIkYPw3+oBzmuRK
+X-Gm-Gg: AYBFou1raZZoxa7s5IEyhbDl13NYHjj6m0hGdU+19crWv5gWPynkglqm9KkeNgJriCo
+	xkKrSzUBeyVd018sOfgW3MkgXHpqd7p0XL9w3EhcU+Zo4zIFFX9HUUkoZ6ighFkc3XNVIGtGGJR
+	Knsco97Tn/LBxFI3kVpj1JuOe+yaaVatxCa+TrkjPGZGkK4PfBMd7glVpX4H7SICTYFoE4u1CAX
+	zULkJ2VZvOTbdJxkMbyc4A5AtgtkzZY3LiEzzd4p4MZgGtMg1jn1PO22yHWDkAUKA9oJrJgHfq+
+	YrzdTK2r4GXgd1a7/y5D1wpCRVeInmN60eWtuNdsEwnkjoAaQCYbzDa6iNxo6odyVPQcuzRYoEs
+	J1adqapiUyZdxNDDAV2owIEa1k6UEp2BHt1ud1Ep+yyfcuBsa3/oGSn37843LQrCZeNUBWY7q4T
+	T2w9bz18V2hISthA/gQPeMIm+F0UA7hCOeylHdai5aElw=
+X-Received: by 2002:a17:902:f603:b0:2e7:e742:8bb5 with SMTP id
+ d9443c01a7336-2ed27e1d379mr577315ad.14.1793828908143; Wed, 04 Nov 2026
+ 13:48:28 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,13 +104,13 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261030-work-procfs-ai-fixes-v1-0-772392d3ccfd@kernel.org> <20261030-work-procfs-ai-fixes-v1-5-772392d3ccfd@kernel.org>
-In-Reply-To: <20261030-work-procfs-ai-fixes-v1-5-772392d3ccfd@kernel.org>
+References: <20261030-work-procfs-ai-fixes-v1-0-772392d3ccfd@kernel.org> <20261030-work-procfs-ai-fixes-v1-6-772392d3ccfd@kernel.org>
+In-Reply-To: <20261030-work-procfs-ai-fixes-v1-6-772392d3ccfd@kernel.org>
 From: Jann Horn <jannh@google.com>
-Date: Wed, 4 Nov 2026 22:47:44 +0100
-X-Gm-Features: AclHuK9WwZ7ks_pjfrqZ3vI5RBoe_i56RVrQkAqFQZfkVz7rz4ObBUhaFFI4x3U
-Message-ID: <CAG48ez3sOYAE-Pu7y1dmNtS8-ohrgS=vXAoQzNk57EAkVXxWGw@mail.gmail.com>
-Subject: Re: [PATCH 5/7] proc: stop fd directories at a privileged execve()
+Date: Wed, 4 Nov 2026 22:47:50 +0100
+X-Gm-Features: AclHuK-H3qmqNMwpOu6RMabCmLAdKKvUbz4EbuzzaOSh5N8lY-B0Ollc90SywNg
+Message-ID: <CAG48ez2UVYi98wAFUrrLKvPtU2QG=aocJRshshisUBYA_T_LHg@mail.gmail.com>
+Subject: Re: [PATCH 6/7] proc: refresh the owner of fd/ before checking access
 To: Christian Brauner <brauner@kernel.org>
 Cc: linux-fsdevel@vger.kernel.org, Josef Bacik <josef@toxicpanda.com>, 
 	Chris Mason <mason@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>
@@ -119,49 +119,33 @@ Content-Transfer-Encoding: quoted-printable
 
 On Fri, Oct 30, 2026 at 5:12=E2=80=AFPM Christian Brauner <brauner@kernel.o=
 rg> wrote:
-> /proc/<pid>/fd can only be opened by the owner of the task and
-> /proc/<pid>/fdinfo only with PTRACE_MODE_READ. But once open the
-> directory lists the task's descriptors for as long as it lives, also
-> after it executed a set-user-ID program.
+> /proc/<pid>/fd and /proc/<pid>/map_files are mode 0500 and belong to the
+> user the task runs as, or to root if the task isn't dumpable. The owner
+> is stored in the inode and only brought up to date by pid_revalidate(),
+> i.e. when somebody looks the directory up by name. A lookup that starts
+> at a descriptor for the directory checks MAY_EXEC against whatever the
+> inode says:
 >
-> Use the exec id helpers. A single check at the start of getdents() isn't
-> enough. The entries are copied to userspace while the file table is
-> walked and the caller decides how long that takes. With a buffer backed
-> by userfaultfd he can sleep in the first copy until the task has
-> executed the other program and then read its file table. Holding
-> exec_update_lock across the copies isn't an option either because then
-> the reader blocks the execve(). So take it around every
-> fget_task_next() instead.
+>   observer, uid 1000              target, uid 1000
+>   d =3D open("/proc/<pid>/fd", O_PATH)
+>                                   execve("/usr/bin/su")
+>                                   opens its files
+>   fstatat(d, "5", AT_SYMLINK_NOFOLLOW)
+>     fd/ still belongs to uid 1000
+>     succeeds if su has descriptor 5 open,
+>     st_mode tells how it was opened
 >
-> All this tells is which descriptors a set-user-ID program has open and
-> how, so there's not much at stake. But there's no reason to allow it
-> either.
-
-Yeah, it shouldn't matter in practice but I guess we might as well
-make this stricter...
-
+> That works until somebody walks through /proc/<pid>/fd by name. The
+> links themselves are checked on their own, so what is behind the numbers
+> isn't at risk.
+>
+> Refresh the owner in proc_fd_permission() under RCU, the way
+> pid_revalidate() does it. Let the task itself in first, there's nothing
+> to refresh for that and /proc/self/fd is what nearly all lookups are
+> about.
+>
 > Reported-by: Josef Bacik <josef@toxicpanda.com>
-> Suggested-by: Jann Horn <jannh@google.com>
 > Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
 > Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
 Reviewed-by: Jann Horn <jannh@google.com>
-
-> @@ -267,10 +283,13 @@ static int proc_readfd_common(struct file *file, st=
-ruct dir_context *ctx,
->                 char name[10 + 1];
->                 unsigned int len;
->
-> -               f =3D fget_task_next(p, &fd);
-> +               /* Don't hold off execve() across the copy to userspace. =
-*/
-> +               f =3D proc_fd_next(file, p, &fd);
-> +               if (IS_ERR(f))
-> +                       return PTR_ERR(f);
-
-(Non-actionable sidenote: I think this "return PTR_ERR(f)" means that
-getdents() could return an error after having already advanced the
-read cursor ctx->pos. But as long as nobody tries to keep calling
-getdents() on an FD which already returned an error previously, that
-won't matter, and it looks like other ->iterate_shared()
-implementations do the same, so this should be fine.)
