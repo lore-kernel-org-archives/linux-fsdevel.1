@@ -1,110 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793821659;
-	b=iFUTuhBqXadeIFEcya5/lPHMETQWkRkHO0fUs8ja++sMJN/OQM8u425svc8EZxS2PoOZ
-	 0I6XxVUwwKEInYOPag5C9d3cNaxb/CX1thLQkCA7cyaKUAwL8c3ZDbOg4pTdW1erAsiF7
-	 +28CJofzPa+skbPnLh/qZCRF7Ud9Msn3gb28HV3L7J2F9MAl3+IeKmMKhZmDqqe3edmVI
-	 5bMmb6r23X09+I3Im57stjSQ4D1coYvjNDm6s/FLTMJpwxxNHKpmOZAr9C7Ao3cP3H7Le
-	 5cQsxOuY6Yli8mQniTu6vrgLu+L0wiBGj/VQqAvOv4Qnx1FomPqiovKO6kVG2CtrqBg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793821659;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
-	 In-Reply-To:References:MIME-Version:Content-Type:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:Content-Transfer-Encoding;
-	bh=Vfgsd3PUinlq5Gnmk93ZNsjvWtIfYjQstKDgqXFFHmI=;
-	b=fedbxsMnJRHHybrfChPeH9tBuj4WTNvg381ChsraVNfeIc0H0cTcJSpJ16/XNm3me6ig
-	 XqXYSzc6FDs6s12DQOubHkyH27izaY9OKhjTqt7S91aCs86wdc7ajhSV02LRE36ACFJ1E
-	 zid5RIwRixpAjwPmH9J4yli7ydXBgET8oqm8WjkS2Zp881+1wl4YZTJSJguyX5VriEdZc
-	 c1bhcE0E+XtfO9aM+fFRRQPpl6aQncXLYpC3WixQdazGSmbDfa6nDk6W0towpemD0k0ZP
-	 gMDQekvUu44bfa9W7AdkwKvZ0/cY1p7+4iOZXNZDRUmsueT9Od279P97yv+qQZ1xWsQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gtj+GH2h;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.180
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793821672;
+	b=okjNTilBn49Ga1QStbec+seWLWWnb6KroR9Of0lU/XMtHT5k7Znxlmbf3EBcqVY1uVQS
+	 jtz+4fB33GiOnfqLLT3kyAQ58DPHzFhYaGXVKA+l9Hq7WjzlMc2u/ldqwzQJpNE3LFe3a
+	 9k/Eh+w20hzUY/+6ds/ekyxpT1++CjF+G4dqC9y6OfpqTwEIo/TPYmzCWrGNvZ1GM+sAx
+	 Ny3agllxx0bqtbnn4HgQR+D6FTjya1dDwdVVJhIx9eQlwNXn2ufi9OjiQybyEH0o3UnaD
+	 wYLB4nue7uvnXIHNb1oC9Ar/dcd5qaIdM0qUNffNWZVyfRht7VyrTjp/W1BQ/wgLcsQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793821672;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=E8RgS9Fy/AEzzzRdR1tDID8pHQZHUShrwVCmHXZNpOM=;
+	b=TW+6SkN+xMbV3LxZbJliN+kidgTeaW9KCgZQFeB4sH9DbabGnCMR1gz7Ij6XXFxSzjbF
+	 6PKBBM+2QQKr7/00/6NqgdlFmQYCimQlOE+TZ6Qr7AIhRvsOSkDYrulKRdpIrDBuCekpD
+	 QiCkSz+L4f+JifyDvIphTLuBm3X/hM4LsMMXc8Bqg0r/NhyALi0VzRj/QsFkuTU1dpoOy
+	 wdc8NGw4m41xirpOwMbL5LFWnqH2iGUlEobCT+oD6oWf65dXCSvLf3eyl67mosRlMeVSO
+	 2yy/qHWPTJBzxAYUR4yORoi/Ex+ll0bgB28v9kkzc1EWMtooHzhnySlCaSjAwEq+yzQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b="Pre6/T+K";
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.180
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE6726074FB6;
-	Wed,  4 Nov 2026 19:47:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BD5B606AB03
+	for <linux-fsdevel@vger.kernel.org>; Wed,  4 Nov 2026 19:47:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6BD5B606AB03
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gtj+GH2h
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23D2E1F0093A;
-	Wed,  4 Nov 2026 19:47:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793821658;
-	bh=Vfgsd3PUinlq5Gnmk93ZNsjvWtIfYjQstKDgqXFFHmI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=gtj+GH2hqTPplDjhVzhRAWhU8OkVhPJPP0JLMRwTbfdc+nl4HFqaLUtkQ0sGqY9p1
-	 cio3rKWjRbaW0hfoe+iR5yUiUxGlvl6F9N71fZhbqKX3d7khRaPNZmLb3yNj8B0VZt
-	 vYfLltTat3exR0SQB7Uf68Jxi/SRcYyBvdcK5hbQj2/GV68lWs4IX74yTfnWqymq82
-	 M8yspGv/K4UmZRSLladjige3wPn9EOhryHH1PaBstskLXXtn/pAaCO1Kia1pLxX1NY
-	 C6gBdMcfP0MHCUtCGkHA2XBsPT4EAkNI1eiSvXtWEQIDsoCAj2OLDYM0olGMiVe6SX
-	 LvO7OJ7dWJD9w==
-From: Christian Brauner <brauner@kernel.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	Jann Horn <jannh@google.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Chris Mason <mason@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	NeilBrown <neil@brown.name>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Christoph Hellwig <hch@lst.de>,
-	Greg Kroah-Hartman <gregkh@suse.de>,
-	Joel Granados <joel.granados@kernel.org>,
-	Kees Cook <kees@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Jan Kara <jack@suse.com>,
-	linux-kernel@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	linux-acpi@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-s390@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	linux-um@lists.infradead.org,
-	linux-wireless@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	netdev@vger.kernel.org,
-	ntfs3@lists.linux.dev,
-	platform-driver-x86@vger.kernel.org,
-	coreteam@netfilter.org,
-	kexec@lists.infradead.org,
-	linux-pci@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	netfilter-devel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	ibm-acpi-devel@lists.sourceforge.net,
-	jfs-discussion@lists.sourceforge.net,
-	linux-alpha@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-cifs@vger.kernel.org,
-	linux-fbdev@vger.kernel.org,
-	linux-hwmon@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-sh@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	samba-technical@lists.samba.org,
-	sparclinux@vger.kernel.org,
-	linux-m68k@lists.linux-m68k.org,
-	linux-doc@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	linux-atm-general@lists.sourceforge.net,
-	Takashi Iwai <tiwai@suse.de>,
-	linux-input@vger.kernel.org,
-	linux-raid@vger.kernel.org,
-	linux-ext4@vger.kernel.org,
-	linux-modules@vger.kernel.org,
-	linux-debuggers@vger.kernel.org,
-	"Christian Brauner (Amutable)" <brauner@kernel.org>,
-	Chuck Lever <cel@kernel.org>
-Subject: [PATCH RESEND v2 21/26] Input: let procfs own the wait queue of /proc/bus/input/devices
-Date: Wed,  4 Nov 2026 20:47:23 +0100
-Message-ID: <20261104-work-procfs-drivers-v2-21-245e54e87116@kernel.org>
-In-Reply-To: <20261104-work-procfs-drivers-v2-0-245e54e87116@kernel.org>
-References: <20261104-work-procfs-drivers-v2-0-245e54e87116@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=Pre6/T+K
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2e9f6a16afcso9345ad.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 04 Nov 2026 11:47:52 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793821672; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Jdop5JGPkIPuh1KKJxdIdV3fVNp5o5XaGQFo5hIz37MizFsOEF9iWBLIMQnLfbQ2Y3
+         Wr//IaXULbw7gROb1Zx5JBlK2/Vjbhftru0GwWY6iDpBkpF570wS8cIJDbBXMuOrTIDt
+         gth0M9MDzfhdl0qsSlJ+lE6LkHM9dddT3U7iiWiR4fifkvtUVaDJUUVc31qx9IwXGasS
+         w9TB0ubKM8db5mXASPxa6ILghzuvyBcjSOYG3jbciJreTmQ8n/Zma1CVIbL1JdQ5Gip6
+         8/51qSHoLUz71csVa9Wg4X6Nba2g9oCWpW5K78HwPUcCwc8Lv2aXTcnpjuRbTmWO5k7I
+         vtQA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=E8RgS9Fy/AEzzzRdR1tDID8pHQZHUShrwVCmHXZNpOM=;
+        fh=nV/5eH99LlyeFlUhWMWhJB+aiErF2rN7m36f5xgkkbU=;
+        b=CmEFqvRtrULgpOnP2pClH92ALDofj4VgHgwoxd4diu3ZoTfks1OPSIaS4uaEZHm0KA
+         2yKD1OTe8aNOz9A1WZQprEMK0ipju4GVZ03nRg0xeg8C9mOcONv1Opk0rVo4jxOJhtIb
+         HRl784CWlFdv33pIdjVyFVlxJ7oTxLeg6yLJJD9qRSC+Ka75TEnGcv+zIV2SPnCZtKiU
+         aMRt7F6WNL92QgaqmccF5ln0r/NsEdjoZbYcAnExsvPHBblSfRujzVIro0temSR7Un8t
+         +bHmuVIO9kvAl2iE4S7rzF+KpJAmswJPHE7/oR38Jq1Qv/L5/ayhJO1FX/cowzKfU8Sm
+         WKKQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1793821672; x=1794426472; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=E8RgS9Fy/AEzzzRdR1tDID8pHQZHUShrwVCmHXZNpOM=;
+        b=Pre6/T+KB25HpZOrUgjpGk7BYEiTmgAh2V7MBgC7+kz5pppzdcOtDLW9/HXIsWX7w8
+         JGdka7KX2vYErnklggY1QD/7PyLyt/7Ec9VSaJO+xcCBiNu9Vv539qbGYMEZSuxV85OL
+         Dj/X/xaXNkRWK4mO75s4bFPODgbSekHYekfO3TCgxx5H+mH+X39Y4mde6JGDE6nZiw8l
+         MoCkdlgLpp7ynFSENYC6276qkehDa95pPCMnQVMaKUn2F6BQ09Cl8dg2BqYmiwFft5fT
+         +knGNY3hAj6+johQ1ZGTBdHmwXyucQSoMTFGE5wFKLyPobpz2TXj6zanL0E+H1wfyErJ
+         q0nA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793821672; x=1794426472;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=E8RgS9Fy/AEzzzRdR1tDID8pHQZHUShrwVCmHXZNpOM=;
+        b=j7sONZfRiCEsXsyZnvr2gXAgUedagzP9CyIOF3qpT+5sHOF8eX6CuwnCKWnCYcbqSJ
+         CBh9rsu+kb1JegAUuJ6IOr7lrxKB48POwE/S5BJQdpFwxXNH31Jc1lUHpLnyP6HbzGjB
+         Kbv+imK5mW7wNBpC/m2YvHWgcSYfRKe0i124YrkIHnU46d6lUtGNr811KQE8uVCP0i+1
+         iOVcTbxGOGiqSHRNjK8KzzlCUAJkT984rMyW2pTd9XDzyLsJj2k96yTXtooWsAnZWiOB
+         iyJXzyHl7zNzpfITlLH/4M6t9LLSw/QU2FM/rHySKS0fwJQiSHi33jK51yWeH+jxYFHa
+         TPYQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzoXfu9LmFbQnCp46zw6nhhT6PPVQjlrVOoUEsbk7hEQvHJy4qUI5MjIh97S8oJkCiwi5dJg2staTC4O03O@vger.kernel.org
+X-Gm-Message-State: APuU4Z8z+lQr5M4vQYKUk4M51LURf0ugboaKLpj1pi6lwQSe14GqMXFU
+	G4PmW7yGJ3m6ilkw8ysiU07OVMNv3BZzy1+j6TsDTHwqUz0pcmSjQOtqSdN23uAFor6z+WTiwMg
+	x+jCVrToU8N0NWmkJ7nrc8P5CqLRh5AvTMUAebSTB
+X-Gm-Gg: AYBFou099LaMfvv7A+U6gt3TR03eet0R1TYI4EirixrAq0dhWgUJOAgkbg3JqF+sr/g
+	5rvA/9gIDLmvDQ+YoX13TY/voGyvzVw/NilF6zmCEZPiFYX0vR/K1U7X6WFNaZv83D3Q0l0+7Zv
+	IaWizpAEQe+X5BmBe9ACpvU3B2XIG8TucNfClAEv+iwHJEd+8A0kD+hR2/KK5GcDanNCh3pKBrJ
+	7JMR1GBa8ZLrdF1K9vLY+SEGsszHjvMpOhZFKE/vGWLclljuXUNVHmiPL5TssAHkMf7ov6P7uhn
+	lAQKbC0vWHH2xfFV1qH2tgkJRY7sq8Q7n5hM3a3YiKarEwJpT4BA0s3AFnIDLNoIjqM2fzwxzqd
+	VgE7q7Cn61FJRk3y6wTeho3RlKgkAFSFcXzkVwN8UWnfH4X12IvBqulJordRUQmzLJ7098kI2Qk
+	XluhUki1jNUOAI9yWhHZ/i3/4=
+X-Received: by 2002:a17:903:1a03:b0:2e5:9bdf:6b65 with SMTP id
+ d9443c01a7336-2ed25671982mr1025875ad.0.1793821671183; Wed, 04 Nov 2026
+ 11:47:51 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -114,79 +105,111 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2424; i=brauner@kernel.org; h=from:subject:message-id; bh=cAurGI8IRWHsk8N+x2SlkH9/s4vXIqR5KE32d74H9dY=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS97uoVPNHOMiVW7/vlsMd9s7daas+73xSQc6TwtsuLx am89pNudZSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEwk6xbDPwufULMS+bvROaer RY/ePlP4dAePp5GonG38y6XNHTtmb2H4n3LmTr9vRD1nY+L127WsJ/1+dr1MjVS/KzLXyCg/wcW ECQA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+References: <auS7gAFy13EOp_Zt@google.com>
+In-Reply-To: <auS7gAFy13EOp_Zt@google.com>
+From: Jann Horn <jannh@google.com>
+Date: Wed, 4 Nov 2026 20:47:14 +0100
+X-Gm-Features: AclHuK91TcmyWyDMmafA8MM2TvukK-iXd9ZaYxJjCOqPlgsZDHPV4sGOrjcK_VE
+Message-ID: <CAG48ez2e607HNArcX_xA9UTv_u1tvThLwW2kDvnejHcx4A80KA@mail.gmail.com>
+Subject: Re: landlock bug: procfs denials because inodes have unstable identity
+To: =?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>
+Cc: =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
+	linux-security-module@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	Tingmao Wang <m@maowtm.org>, Justin Suess <utilityemal77@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-input_proc_devices_poll() sleeps the poller on a queue of its own.
-procfs owns the queue poll() uses now, so leave the poll_wait() to it
-and wake its pollers instead.
+On Fri, Oct 30, 2026 at 4:45=E2=80=AFPM G=C3=BCnther Noack <gnoack@google.c=
+om> wrote:
+> The Landlock LSM lets processes define policies which are attached to
+> struct inode objects internally.  As a consequence, if filesystems
+> forget these inodes and start using new inode objects for the same
+> files or directories later on, these policies do not work as intended
+> any more.
+>
+> As it turns out, procfs has that property as well and can lose inode
+> identities over time, even though it does not happen immediately.
 
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
----
- drivers/input/input.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+Right; basically, dentries can be dropped from caches while the
+corresponding inodes still exist. In normal filesystems, dentry lookup
+rediscovers already-existing inodes, but procfs calls new_inode() for
+non-persistent dentries from several places without checking whether
+an equivalent inode already exists, which works because procfs doesn't
+really tie any state to inodes. new_inode() is called from these
+places for non-persistent dentries:
 
-diff --git a/drivers/input/input.c b/drivers/input/input.c
-index d27eecbf4a03..a984810eb80d 100644
---- a/drivers/input/input.c
-+++ b/drivers/input/input.c
-@@ -1082,13 +1082,13 @@ static int input_attach_handler(struct input_dev *dev, struct input_handler *han
- #ifdef CONFIG_PROC_FS
- 
- static struct proc_dir_entry *proc_bus_input_dir;
--static DECLARE_WAIT_QUEUE_HEAD(input_devices_poll_wait);
-+static struct proc_dir_entry *proc_bus_input_devices;
- static int input_devices_state;
- 
- static inline void input_wakeup_procfs_readers(void)
- {
- 	input_devices_state++;
--	wake_up(&input_devices_poll_wait);
-+	proc_poll_notify(proc_bus_input_devices);
- }
- 
- struct input_seq_state {
-@@ -1102,7 +1102,6 @@ static __poll_t input_proc_devices_poll(struct file *file, poll_table *wait)
- 	struct seq_file *seq = file->private_data;
- 	struct input_seq_state *state = seq->private;
- 
--	poll_wait(file, &input_devices_poll_wait, wait);
- 	if (state->input_devices_state != input_devices_state) {
- 		state->input_devices_state = input_devices_state;
- 		return EPOLLIN | EPOLLRDNORM;
-@@ -1284,9 +1283,9 @@ static int __init input_proc_init(void)
- 	if (!proc_bus_input_dir)
- 		return -ENOMEM;
- 
--	entry = proc_create("devices", 0, proc_bus_input_dir,
--			    &input_devices_proc_ops);
--	if (!entry)
-+	proc_bus_input_devices = proc_create("devices", 0, proc_bus_input_dir,
-+					     &input_devices_proc_ops);
-+	if (!proc_bus_input_devices)
- 		goto fail1;
- 
- 	entry = proc_create("handlers", 0, proc_bus_input_dir,
-@@ -1297,6 +1296,7 @@ static int __init input_proc_init(void)
- 	return 0;
- 
-  fail2:	remove_proc_entry("devices", proc_bus_input_dir);
-+	proc_bus_input_devices = NULL;
-  fail1: remove_proc_entry("bus/input", NULL);
- 	return -ENOMEM;
- }
-@@ -1304,6 +1304,7 @@ static int __init input_proc_init(void)
- static void input_proc_exit(void)
- {
- 	remove_proc_entry("devices", proc_bus_input_dir);
-+	proc_bus_input_devices = NULL;
- 	remove_proc_entry("handlers", proc_bus_input_dir);
- 	remove_proc_entry("bus/input", NULL);
- }
+ - proc_pid_make_inode
+ - proc_get_inode
+ - proc_sys_make_inode
 
--- 
-2.53.0
+File systems that care about having something like a 1:1 relationship
+between an inode and the object it refers to can instead use
+mechanisms like path_from_stashed() or iget_locked().
 
+> In my understanding, this is not intended.  Landlock has explicit
+> selftests to exercise that Landlock policies work in Procfs.
+
+I think from the procfs perspective, it's currently an intentional
+design choice that simplifies procfs implementation.
+
+> For reference, similar issues have been investigated also for hostfs
+> [1] and 9p [2]:
+>
+> [1] https://lore.kernel.org/all/20230309165455.175131-2-mic@digikod.net/
+> [2] https://lore.kernel.org/all/cover.1756935780.git.m@maowtm.org/
+>
+>
+> Steps to reproduce
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> Process A:
+>
+> * Enter a Landlock domain where access to /proc/sys/kernel/random
+>   (and files below it) is allowed.
+> * Repeatedly open and close the boot_id file from that same directory
+>
+> At the same time, the dentry caches get freed up.
+> We can emulate this by writing to /proc/sys/vm/drop_caches from
+> another (root) process:
+>
+> # echo 2 > /proc/sys/vm/drop_caches
+>
+> Observed result: Process A fails because of a Landlock refusal opening
+>   the boot_id file.  When Landlock walks the path for the check, the
+>   inodes have now a different identity than before and don't match, so
+>   Landlock denies the operation.
+>
+> Expected result: Dropping the caches should not affect Landlock's
+>   behaviour.
+>
+> At the bottom of this email, I am including the source code for a
+> program that does Process A -- you can run this to reproduce, and then
+> write into the drop_caches file from another process as root.
+>
+>
+> Solution...?
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> I don't have a fix for it yet.
+>
+> I am open to suggestions.  Is this feasible to change in procfs?
+
+A landlock domain is supposed to be usable for a hierarchy of multiple
+processes, and for that usecase, if all those processes want a working
+/proc/self, landlock currently can't meaningfully restrict procfs
+beyond what is done implicitly through ptrace access checks, right? I
+think if there is a desire to have fine-grained landlock policies for
+procfs, that would first require some design decisions on how procfs
+peculiarities like per-process directories should be handled.
+I imagine one option would be to add a mechanism that automatically
+grants full access to {procfs mount}/$pid of all in-domain pids, and
+then consider whether sysctls should have persistent dentries or
+something like that?
+
+> =E2=80=94G=C3=BCnther
+>
+>
+>
+> Reproducer program, for easier reproduction (don't forget to drop
+> caches in parallel):
+[...]
