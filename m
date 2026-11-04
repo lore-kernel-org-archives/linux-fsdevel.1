@@ -1,100 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.95.11.211
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793777149;
-	b=HE8H9a3KDvRxNKKQH3wFalxseSa8pxkBe3cbMcuftkk1sh34x07tsmCKjW0Ys0pDpvwy
-	 jGJf5ibxvm8Uu9valO6feMI4IxvG0DLMRySZpI7FdWJSPFRpjaOduR9v3yQxSEi8DJ3lC
-	 fWLadAfyiKOaAyM0wNVpDYThM/2/bxoMU937xV61tCGnjixt+9bYsThRaxUyf5xM+MOtQ
-	 gX/nBzygdumvNbLwc+a5lhN8E9DVOY+NlPx0xcWcgG0gKBZVesGIBCSJ3qbcIHgfeEtau
-	 kBTLLJ+0toRcMAEtMxiy830QlEgiD3uw9RzZsKRQbOtGUWSdIKox/nGqBP0GLfII+DQ==
+	t=1793777468;
+	b=izkO4QhqtoNvrkQ/fQLzGvezTmCyKXJn+uI19rRaxMaMhxBVHaahrQy33ugt+U3jV9Wr
+	 hLklfrO6qClWlGomr64noSZ/1WfzWom1eFRDWVe5sb+DLTKM2MA8V4bMLmmc6Yo7p0TZT
+	 yfFJzNL/ifJ/wvRvGUveqDuhyoY3qbNNRs6gshbU/Rlei5+yA/FikscBrgUD7r4/ouGI7
+	 TUzw0mgraZZXZv66TKbDKUumWT/m1xlgWNfbIEXRW+isdxMvDeKKU6uLHfhVKwwT66Ee7
+	 WBqgf6ERQLwopG1K6bkXmAO2RDm6nJjYAzPgNus2V8W2TPdR/4x66qzrkjeGHUcF7/w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793777149;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=HGf7LW+11fFCmkfZDnBYSiu7NHiZ1J+7B7vrKk2MO+o=;
-	b=x4DPofVGgwPShc5ubGWF2E5Q3kqCZo+QFDLgBx4d9xj+YmyhZYJpfP/QQuNH2fVxFcNk
-	 q39N5BPFUY844z8hWoCMgbLe4vOZ/0KmDU4cADYWT7M67eZ93X1cSfrC2dGH3HwtyJHf0
-	 aCz72hah42n+p6t5m5GEJKrrrxM4l4wMtO1U42C+7rFFmiomCbbWgCh/ABvt+axeSEXwn
-	 3DoIRWDFS+Aq3MVyHuAJvf56uJhC6gGIAZ7Iga7k56+lTvnK+JDDsv/Ac3j8ElreOSoTx
-	 q2l8cGtwaw5qNAoXwM42EP//KWTw5zXjPhm3Wc40TyqNMO08SoDjVsePYQC4DS6zgZg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793777468;
+	h=DMARC-Filter:Received:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To:User-Agent;
+	bh=pkdjWus5knRkpiK/IaGC5F8JUCPOn32ecVHJLQtmr8c=;
+	b=bCTSn8lQyUiZBDZZz0gFqtBhS6zeQMWIrAy/G24vt7leERxyVapou5IHHNfm3j1PTJki
+	 GIQUmAQfiXD6no6j6d741Hb6EUyc0/et5c821xiO8NiiuuFWDlOS5rJWKWmfb0XFxXCB3
+	 GE5KdeoaDgb6wLngb0rxUQat/Xa3/yu5W1yog5f8yWW/F4CsqfUAWrmQDpMyG/H2DfDin
+	 BGONhR9BVywgrI9q40VocO1642/LS1jBBxkMgU0uaVhcENe2IqkOUYwk5JoqQ7PpDb9JJ
+	 Um+LaUGdUAE+4jdlHmeORZVRKRCYrZtbqs7Zcsbdt3PEJRhZCdYIIlovZFEOBu9Emsg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=osandov.com;
-	spf=none smtp.mailfrom=osandov.com;
-	dkim=pass header.d=osandov-com.20260707.gappssmtp.com header.i=@osandov-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=VRgHZidZ;
-	arc=none smtp.remote-ip=209.85.216.52
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=lst.de;
+	spf=pass smtp.mailfrom=lst.de;
+	arc=none smtp.remote-ip=213.95.11.211
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99493606A328
-	for <linux-fsdevel@vger.kernel.org>; Wed,  4 Nov 2026 07:25:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 99493606A328
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=osandov.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=osandov.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=osandov-com.20260707.gappssmtp.com header.i=@osandov-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=VRgHZidZ
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-3ac6008c914so59675a91.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 03 Nov 2026 23:25:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=osandov-com.20260707.gappssmtp.com; s=20260707; t=1793777148; x=1794381948; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=HGf7LW+11fFCmkfZDnBYSiu7NHiZ1J+7B7vrKk2MO+o=;
-        b=VRgHZidZURljCrK0HH3V2vKy9f31BQ0iYTP43G6ikNvBR4QjOxKvexYUY5uUu+JitD
-         T9TOLxU3AuwSiEfvs+OeG0AzPdwnVqjedfkdmdtpWZVvyj1FCA9sCGyKG3IfgqeMduF7
-         tADytHQvwR9g70pEF30quutiy5cwA5plryhJHjdgJ/FA7lKi9UOpU0Hi2aHxpB9zmmLz
-         p7lB/1HmvqOF5+WzgD1Xyuwg3Sd7aC8aoth5hS9HATjN45F4AIk9OThyjOW0PZmMn8Gb
-         PyeFm2ozp72iY7GtQJs9SMMvKa8+VY3YqslwzoN50PyVfinzUal3mgUUKUFwvo9oFTcD
-         Kj2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793777148; x=1794381948;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=HGf7LW+11fFCmkfZDnBYSiu7NHiZ1J+7B7vrKk2MO+o=;
-        b=Vj+fcTwjJmtbjd6ahEwoA7PAuAmNmzZEJoBCP093Om2ul+sJe6zZdhv+HI05iKnDng
-         x7N9w8k0EF+n9nqNA4VzJ9FYqP+3c8XYt/XSom94xUOwT24IOxG8ehwueiSwuipeRYlE
-         lvTm/QqLnbGq2buBWKJgDaBg1bLWbgxENbJlvjdCxf1Hp7YzCpNv0lPlrP7eYc8cS/Zy
-         qoyFwLVzbLcqu08uPvW5SyrS7aphxedcQXEAXD29/035eryLrHKX1bB3xMPDDEz4diY9
-         EdwZurryniEjQyAsBelvo5R8T0tVRsVjRpNWzEFSzHynlv/pfr+/fk+aEsBFZlMooUxh
-         U+Rw==
-X-Forwarded-Encrypted: i=1; AKwUvBy0taMcu95LvGkr9bFCyTAsyumdz9JgQHAn8E9rIDpM94ClveJ7V773caXN2nacuO6IeKKeLYuUw2SXLBNF@vger.kernel.org
-X-Gm-Message-State: APuU4Z/uukTHIeMhndBxaoP5c/sPDtQByOfrZTTQorIMU3pYFKQ3kvFc
-	PwCCRq2ru/LlB2R8/e21vifAufosQUqTKZbScyhs6c7WDkocLG3wbKS2dlyITfgJGBk=
-X-Gm-Gg: AYBFou1DLnGipf9L9r87PnckFD9qUxDFUnklB+VZxSVCd7ePyG9I9UDa9HU4geX/MaZ
-	aiApklfs93muyBw7ls6oupQlrKEuvY7DRy3bAxJrN4eLXNBmrSssDfg/5wGGQuCa8ztcUd+mJF9
-	drRX65W3mnycEHBFwrsTxJidE+CVqnsyxlmZ8wgrJXuZwt7G4ibP0AF3c4fYWcZ0vyTNlDxucmK
-	+HEQObf+f/xnpf5/q8v33SXbtLwwKqe4WqhzNiiNE5LBmufo2IFLtCUd3WHNQ+T5d2e9q7Cz4aL
-	aSqzU9RoZl/t4YlmlSt/wXP+M34BsFH9ZXRbeh1YXkFduWBdDinynaM4V82/IIx3c2H03nBHxf8
-	4BFRT2/s41FXAWSQjmBpaJLLMeh3dcRcmtzwWJadtYFyOLvlF/otW2aFaebx0jQgaLNuWmU/GzJ
-	pTGCCJYmedqCCq0HkWIDZn7w2ZFXxQ00HLvBslpOnhQqQCNyR/kpBTPWW/zIleDQtIHG/ldoEKv
-	oEia0m+cSqR9WEMGPGTWOAakSBg4XgadMj0ut6gKalzcjr6sFoxoMQmlf+jtP4H6gwoc4uDljvq
-	jKsufORUc5+lJS5X569U5CtWKlJNWrNs1/LhUTjsCbIQvYpc+jt3K0j1jQyouMIHHUK+22sCnNI
-	oVSD158vHlOPQmMem+8f8R3oPQTSnre89yWpJGyc0utWYTxbj/+vYSOy5
-X-Received: by 2002:a17:90b:4488:b0:3b0:9a3e:bf8b with SMTP id 98e67ed59e1d1-3b09a3ec031mr1494219a91.6.1793777147801;
-        Tue, 03 Nov 2026 23:25:47 -0800 (PST)
-Received: from os-N5J97HY9XQ.tail2dda0.ts.net (c-67-185-21-237.hsd1.wa.comcast.net. [67.185.21.237])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b09311866fsm2861006a91.17.2026.11.03.23.25.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Nov 2026 23:25:47 -0800 (PST)
-Date: Tue, 3 Nov 2026 23:25:46 -0800
-From: Omar Sandoval <osandov@osandov.com>
-To: Chris Down <chris@chrisdown.name>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-debuggers@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel-team@meta.com
-Subject: Re: [PATCH] proc/kcore: Allow disabling /proc/kcore at boot
-Message-ID: <aurd-kCBE7ebENUl@os-N5J97HY9XQ.tail2dda0.ts.net>
-References: <auAmuqZyUodq3iqk@chrisdown.name>
- <auKKisespDm1xLLg@os-N5J97HY9XQ>
- <auOEhTNaKzu8dgEy@chrisdown.name>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A2F6606A31B;
+	Wed,  4 Nov 2026 07:31:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5A2F6606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 611F368C4E; Wed,  4 Nov 2026 08:31:00 +0100 (CET)
+Date: Wed, 4 Nov 2026 08:30:59 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Andy Lutomirski <luto@amacapital.net>
+Cc: Christoph Hellwig <hch@lst.de>, Christian Brauner <brauner@kernel.org>,
+	Stefan Metzmacher <metze@samba.org>, linux-fsdevel@vger.kernel.org,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	io-uring@vger.kernel.org, linux-api@vger.kernel.org,
+	willy@infradead.org
+Subject: direct I/O vs buffered I/O coherency, was: Re: [PATCH] fs: add
+ RWF_DIRECT for preadv2/pwritev2/io_uring to set IOCB_DIRECT per io
+Message-ID: <20261104073059.GA29199@lst.de>
+References: <20261012184642.558349-1-metze@samba.org> <20261021-kontakt-hauen-albern-9053a385d79e@brauner> <20261103080718.GA4109@lst.de> <CALCETrU0jXA7PJwsL059O+ewqTBopdopbDwMuH-Rb8M5yLdUew@mail.gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -106,47 +53,160 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <auOEhTNaKzu8dgEy@chrisdown.name>
+In-Reply-To: <CALCETrU0jXA7PJwsL059O+ewqTBopdopbDwMuH-Rb8M5yLdUew@mail.gmail.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Fri, Oct 30, 2026 at 01:38:13AM +0800, Chris Down wrote:
-> Hi Omar,
+On Tue, Nov 03, 2026 at 11:13:32AM -0800, Andy Lutomirski wrote:
+> Here's a bit of a taxonomy of page cache access types that I've come
+> up with from poking around at the kernel source [0]:
 > 
-> Thanks for taking a look!
+> a) Plain buffered I/O (pread, pwrite, etc) -- I'm sure there is a lot
+> of nuance here, but I'm generally referring to I/O, via pagecache,
+> done in syscall or io_uring context on behalf of a user request.
 > 
-> Omar Sandoval writes:
-> > The code looks correct, but is there a reason that /proc/kcore
-> > (CAP_SYS_RAWIO) is any more concerning than other ways to read kernel
-> > memory (e.g., CAP_BPF + CAP_PERFMON)?
-> 
-> Not in terms of what it can read, indeed. I would say the distinction is
-> more about who needs each capability and what we can remove.
-> 
-> Abstractly speaking CAP_SYS_RAWIO may be needed for hardware access without
-> necessarily wanting to grant general RAM access. STRICT_DEVMEM already makes
-> that possible for /dev/mem, but /proc/kcore gives the same capability to do
-> general purpose RAM reading anyway.
-> 
-> In our case in particular, a process with CAP_SYS_RAWIO doesn't necessarily
-> have CAP_BPF and CAP_PERFMON, so keeping BPF available doesn't make removing
-> kcore redundant.  On the hosts in question, BPF tracing and BPF LSM are part
-> of the monitoring and sandboxing we rely on, so we can't remove it from the
-> kernel entirely, but we nevertheless keep CAP_BPF and CAP_PERFMON away from
-> guest facing processes. Nothing on those host uses /proc/kcore, so we remove
-> it as one more gap to close.
-> 
-> For that reason those hosts already run with CONFIG_PROC_KCORE=n, while
-> other hosts keep kcore to aid debugging, since they have a different threat
-> model.  This patch, then, lets us preserve those choices while using the
-> same kernel image.
-> 
-> In retrospect I should have explained that better in the commit message :-)
-> I can update it for v2. Does that make more sense? Let me know if I can
-> clarify further.
-> 
-> Thanks!
+> b) Access via MAP_SHARED mmap or via unbroken-cow MAP_PRIVATE read,
+> whether this is actual ordinary user access or one of the weirder
+> cases like KVM that hits it by cheating a bit and using mmu_notifier.
 
-Yeah, with a bit more justification in the commit message I'm fine with
-this.
+This really also needs to be split into
 
-Thanks,
-Omar
+b1) Read-only access through MAP_SHARED mmap without PROT_WRITE
+    or unbroken-cow MAP_PRIVATE read.
+
+and
+
+
+b2) Writable access through writable MAP_SHARED mmap.
+
+> 
+> c) O_DIRECT: not actually page cache, but it does *logically* touch
+> the same data that might be in page cache.
+
+As in the file side of direct I/O to make this clear.
+
+> d) Access via pinned folio.  We have reads and writes, and we have
+> non-longterm and longterm pins.
+
+... and this includes the "remote" side of direct I/O if done to file
+backed VMAs.
+
+We also still have
+
+e) access through get_user_pages without pins.
+
+e) really needs to die ASAP, but various maintainers have dragged
+their feed and kept it.  And of course there's still vmsplice which
+kinda hardcodes this into the syscall interface.
+
+> But why can't an O_DIRECT access be coherent vs mmap?  (I'm assuming
+> we're talking about O_DIRECT writes, not reads.)  ISTM the kernel has
+> two ways to do it coherently: unmap the mapping (slow) or copy the
+> data being written into page cache and then write it from page cache
+> (differently slow).  If anyone mmaps a file and O_DIRECT-writes it
+> while they're touching the mapping at high frequency, I'm not sure
+> they deserve excellent performance, and I'd rather give coherence than
+> high performance incoherent behavior.
+
+Because reads invalidate the mapping they are just as relevant.
+But yes, both could fall back to some form of buffered I/O if the
+relevant ranges are mapped.  And maybe that is the best thing to do.
+
+Note that this also means we need to prevent new folio in the page cache
+from being instantiated while direct I/O is pending.  For XFS which
+always take i_rwsem on buffered reads that's reasonably easy, although
+we'd need additional i_dio_count checks (or move to non-owner release
+of i_rwsem for direct I/O).
+But other file systems don't do this, and they get significantly better
+performance for small cached buffered writes, so they probably do not
+want to change that.
+
+Leaving the rest in here for context.
+> 
+> 
+> Anyway, I have a sort of proposed definition for what coherence might
+> mean -- call this "weak coherence":
+> 
+> For each address in the file, there are various accesses.  They happen
+> in an order -- think of this like a CPU memory model, not a strictly
+> linearizable order (if nothing else, mmaped accesses literally follow
+> the CPU's memory model).  But we broaden the memory model to pretend
+> that it applies to the logical file, not to the physical memory. The
+> implementation is weakly coherent if:
+> 
+> - Accesses via mmap obey the CPU memory model.
+> 
+> - Accesses via syscall or io_uring *including fixed buffers* obey the
+> CPU memory model, except that the access may be broken up into smaller
+> accesses that happen in arbitrary order, so long as they all happen
+> between the submission and the completion of the request.  This
+> includes direct I/O.
+> 
+> - Accesses via longterm folio pin follow the same rules as mmap.
+> 
+> - Accesses via shortterm folio pin are like syscalls: they happen some
+> time between acquisition and release of the pin but are not
+> necessarily ordered at the time that they are made by the CPU.  (This
+> is the weak part.)
+> 
+> I haven't come up with a reason that this would be impossible to
+> implement nicely, except that longterm folio pins would need a much
+> stricter locking scheme: anything that wants to detach a folio from an
+> address_space would need to wait for the pin to be released or
+> actively expedite the pin's release.
+> 
+> Is there a hard issue with O_DIRECT that I haven't thought of?
+> 
+> And someone would need to go through all the short-term pins in the
+> tree and make sure they're all actually okay with the weak form of
+> coherence.
+> 
+> I think there's at least one example that I think is questionable:
+> iov_iter_extract_user_pages, as reachable from FUSE and possibly
+> elsewhere.  Suppose there are two FUSE filesystems, A and B. A has a
+> file a and B has a file b. A process mmaps b, faults it in, and does
+> read(a_fd, b_ptr, 1), and the FUSE kernel code takes a short-term pin
+> on b_ptr's folio.  Then, before A's daemon responds, B's daemon
+> requests invalidation of b (via fuse_notify_inval_inode), which calls
+> invalidate_inode_pages2_range, which removes the folio from b's page
+> cache. Then A's daemon responds to the read via splice from a pipe,
+> causing the kernel to write to the short-term pinned folio, which goes
+> off into the void.
+> 
+> Is this a bug?  If B's invalidation happened because some external
+> actor logically wrote to *the entire area covered by the read*, then
+> arguably it's not -- under my coherence model, the read syscall can be
+> deemed to have occurred immediately before that write and the results
+> simply got overwritten.  But if B's invalidation happened for a
+> different reason (say an external write to a non-overlapping range),
+> then I think this behavior is incorrect.
+> 
+> Similarly, if there is just one FUSE and B is an ordinary filesystem,
+> then userspace can do read(a_fd, b_ptr, 1) and overlap it with an
+> O_DIRECT write to b at, say, offset 512, size 512.  If the FS accepts
+> that, then the folio gets detached and the read's update goes into the
+> void.
+> 
+> 
+> That last example seems more likely to hit if RWF_DIRECT shows up and
+> some library is like "hey, cool, now I can use our shiny atomic direct
+> I/O features in what used to be a buffered I/O path".  And maybe this
+> isn't a *security* bug, but it is an observable case where a simple
+> read() call appears to succeed but does not actually update the
+> destination buffer.  Ouch.
+> 
+> 
+> Anyway, that's my brain dump.
+> 
+> 
+> [0] Despite the fact that I got my start doing serious kernel work as
+> a result of writing a memory mapped database of sorts, I've never
+> actually stared at this part of the code before now...
+> 
+> 
+> --Andy
+> 
+> 
+> -- 
+> Andy Lutomirski
+> AMA Capital Management, LLC
+---end quoted text---
