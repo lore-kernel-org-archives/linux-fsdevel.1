@@ -1,88 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.180
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.174
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793802313;
-	b=vm4CzX/N+/ov1A4/xIJ+jyZNII83PNE4h8qpyO16boHJ2dvxvALi0JcFYTyo/QJzG0cA
-	 kWyS8Xs+TdgQyL3qxQGTNKw04SB70RiOQMDORKLqzEnzIVK+25aDWbBPl0mAfPHlTZPuA
-	 18qO9cVo3+4smvIREQlMPCV1UpdZnF4vI3K0NXHCfU5VUt8hfuLUSB7jsdFG0wNZp6l7M
-	 SrJhKmv6CLsZHf1YkXWbcqWFxiEcQGnpbbx7xjY8QejftzIyX4yon5nMi1phMMXbu/Pac
-	 1dhiFZK20DLVUr+/lFTRw041lMFY7FeMCI+/AdbnOkYfbOQ+VvX/yIdjqjKnvchHoLQ==
+	t=1793802315;
+	b=YRik/x7G4Qu6lCMacuDCRga+0GUrYVp5fexix8aQRqWwZJ5U2R3Yw+t3qo48QjBO5Skg
+	 CysIPfRhBg86abB7SErNF2Lf6oYzZUGbx3HXM+3NCw/Bz8WsrTkYcjDECpb6OCxloBMse
+	 kEmEqeUXQn8suBnXaWmgsN/pNCTs74t/weRiP1pSd/grvfwIH6xpHIS8GMLlt/E4ZwBZh
+	 KZLGdZQ4G0ExU8dTbGQFhkzoF0GxG1BsF/XqR3ubtIjPq7UE5YYTMXIzzKWBI+L9hQ9TF
+	 3c5d95U9z2WbYjpTzwKZ2mRTh3a4KtRZmiJo5jBxSNtkX5thhjFKvVk88fpD3wJ1fbA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793802313;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793802315;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key;
-	bh=hG5TpvKc4RXZNEF5W2j4YHWwCvUbIigtvZnxNoygjVI=;
-	b=kUTTK8EaMqbLv27GtxsLHnBdVgapXtCw5GIZ7Ahfu9hT8xAk2n36kn2cMxraChKOLa+Z
-	 1iUnTirDJHNBk0No3+Raodch9bBh6sCno9I+iXJ/vjcV1VGBQuXqJy1oYUKX/1fSPuys+
-	 vMIlw69qj9vltkzz/a13ATYloAAeE/emFbQ9uWtTyBJuPIDfeYBgyui96Gt2g2L8N6m/G
-	 RUYexdViqffj36vPsP+Kc4zH7kw+ILPQQOA/ajz8XpWgIKu0F3xPgpOZswZhVjH1HLPft
-	 q6pyrBhoR2E8KPjGKXvn8kVGHbM15sAXZ/G2uurrO27pIJ5MfM8sZTUsPAGHDLwI1kA==
+	bh=8SqVqOor5x0swrcQlWs1oXfTolSQ94eqY4/417d2g/c=;
+	b=Y/xfoM9R822R3pdNkqUkj9Z8d6VH6EtOg+p6a0RSePgrjP0gRdtA3WpD7yfdZWb5Cdig
+	 U+O9Ww/vWDQJOfh6FCoa9DON1WtdAcRcJqrZ5K5nJXKUcD55gIYhLhPfgG8/veSSrHd00
+	 CScNR9lcRSTxYDOAErjA1jtL2lIqY/aWbnMY2XmOpBBOzXx9VTrDjsS7320qFrZ4/1P1p
+	 5dbQcxCc5hNv5tyDlVwlY+lD9gGHRqe2qjNeELaWQNSdkIp4CGL45ig8dtomivYooNTuU
+	 mxCRB7ZmQqkwew6moLeHFyvMyPWEMPJMSX+0pjgjJPdsGTeSpw9EF6pSdcMGDzsvX8A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=toxicpanda.com;
 	spf=pass smtp.mailfrom=toxicpanda.com;
-	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=Me5us99O;
-	arc=none smtp.remote-ip=209.85.222.180
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=TIBS42R6;
+	arc=none smtp.remote-ip=209.85.222.174
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D07EC606A331
-	for <linux-fsdevel@vger.kernel.org>; Wed,  4 Nov 2026 14:25:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D07EC606A331
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 007CD606A32E
+	for <linux-fsdevel@vger.kernel.org>; Wed,  4 Nov 2026 14:25:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 007CD606A32E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=Me5us99O
-Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-93f079a63b8so70957285a.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 04 Nov 2026 06:25:12 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=TIBS42R6
+Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-93f22a8515eso74986385a.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 04 Nov 2026 06:25:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toxicpanda.com; s=google; t=1793802312; x=1794407112; darn=vger.kernel.org;
+        d=toxicpanda.com; s=google; t=1793802314; x=1794407114; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=hG5TpvKc4RXZNEF5W2j4YHWwCvUbIigtvZnxNoygjVI=;
-        b=Me5us99ORyikGlYv32KXXwL+de+2DN3/mIdVzQKsvY5g3V3q9glYRRmjw3EbJzrJwL
-         6o+1aefKoApCTSMWYITTEgfkkX9OrVom9BZiuJc6HIver/ePVrBAyvSDKusN/sqWLAoR
-         LW/PLyQW/pYMUV/nrLqY02Rwy2Gs765GuqLR7BtR3GRoM/N8ZLElpJhW5WKk1WtiAtLt
-         qvU3T1vGe0lUiGFAo7ueOSNKUEdrDOW8qeHJeqWxB/7So7I2Z2CfFiX24nl6K/TmJl10
-         wED5NLEW4WtPF/joR1Q46CF0ro+Y6jz+bxk864OcPZ/E7SVAWH2GvBSY4s9G8IzQkA9I
-         nWMQ==
+        bh=8SqVqOor5x0swrcQlWs1oXfTolSQ94eqY4/417d2g/c=;
+        b=TIBS42R6gagObM3Y6q6MqKNHybNEVYTgSyBBZ65hsLXrQW7m17/l1FXh0IIMSaRa9l
+         2HGpeP60Qr2rWKIaivxQnGpJ2JsFRfb8oplb+qL1Bok3a9S46wuu0sB0ajj8Ukged+Jd
+         pb3jkmdT76RsMMoxdonkRO5TInvbhhS03LbId8qazKg9pgvhGuH/Fbdpc5fOMQ0g4TtD
+         Ms5zGTB4+J6EFElTLuVGl2rID9ixM4XTaCljd2CBc8cfVmmZHHHtmz635XElcGJVAwN1
+         7Q/a+LL0kxDgaUSgcLMEiGvh9cvtdtl0UdXCcut04sGDifS9aZCL9SpIo8BCiykFGyIV
+         V31A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793802312; x=1794407112;
+        d=1e100.net; s=20260707; t=1793802314; x=1794407114;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=hG5TpvKc4RXZNEF5W2j4YHWwCvUbIigtvZnxNoygjVI=;
-        b=NDAoLBnCxVXL7h55Uqae38Umx4D5TwS4c13UMg2tMes59dIiYorIgq0JP240kk2zG9
-         m5Dtg87+Sr4KzuAtDXFiEJl/1ajJC2jPghyLym+Efsjf1NIYy2kHNUuhKS6Krni53mYI
-         iH0orOUX/cmmkE4wSSDE76Jo+YKbvaO0zTf87FTAh/TSQATvqAiuSRuC4aoXsAYCDfGx
-         tbOSPiFa0hYgC7Z9VKOsI/ZKKEPhqlwbEc8e6iK7eguf9YrVJfFnGn1KqHgpeusRu+l8
-         cDEM4LkJZsDMBS7qUlaR4jJ7U+z1EEtAP0v2b+ghuWcWB/7yzRSyF+LbJ2LmLBRXUzPs
-         Aqzw==
-X-Forwarded-Encrypted: i=1; AKwUvBxbBWEqjn5np9BOrHvJpgCBM7nBYIVC1LH5FAW+KZhW+AOp2T2rMhmm0nLVI5rx+4afr7IEh6vJg6bQvWUi@vger.kernel.org
-X-Gm-Message-State: APuU4Z8UyFrBld7vEMpM29PQ4NE3313r/atZ6F9Zwx58FitI2yXEKcia
-	oV1vp6/BkE7RD5V3GikXqtOJ+cM3gNdtPy429EQnZXOBG6Z1BMfhk1s/SV2yKjd98Jw=
-X-Gm-Gg: AYBFou2iOdt7sp+eMlSTrlSKVsJODk936n8rltupplqPPiEWt56cakk3yXVnkUHl0Fn
-	WR2fnkDGpj+TYAFS1TJ2XjmacoZnSyaq6uq8MCk6WsC9yJdVJor1+ynCUaQHslh0jZdifXU2kHm
-	23bM8wRqKlrK7rrjqkaxkHuFewPJMtdHiEIIAo6CXYr5bUOQyRLZ0ZkeWUbp1akYaLVsTHMy9OO
-	fKwTDaHsY/8ge4txSMwKWCguM5+zeLwtCiwK2O/K5vE3u4yUcUl4cIk6oNhFxty+9EPnagMQQSN
-	K5q/5ruWdpPw9O8k+cPjicXgUcm48M41qLb0XVB4JXXFCvbhzt9bYmTcx/x5ygbp9K3lUxhZSIJ
-	2Wk/jrLBYbufyFyDH97C/tOnStk9SZ/tu1abLN+tzeRsGwT1+fZUi/kWbxw2PNIEF/8hro/Dig+
-	fFGWF83UVo3HLMBxRJl5JS6Xl55OrZfaB+64FTY2RhGqOqcQKA3K1VN3HcygBEC+RPfu+at6VyC
-	RR71idZuV6/N7B4i4PVYjqa5ELwpIDellCSYXTxyCmUkSMUZgHYmDAQxX+ZeVDilsPzwBa73aU1
-	7+BgpKq8d5l4+RJW6OTsf8f3RhKrPK1bgQWODa/f6vSVow==
-X-Received: by 2002:a05:620a:19a5:b0:940:f224:5a85 with SMTP id af79cd13be357-944217ea7f2mr2751408785a.71.1793802311660;
-        Wed, 04 Nov 2026 06:25:11 -0800 (PST)
-Received: from toxicpanda.com ([153.61.196.252])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-945d483d762sm211949985a.27.2026.11.04.06.25.09
+        bh=8SqVqOor5x0swrcQlWs1oXfTolSQ94eqY4/417d2g/c=;
+        b=Kc+nQeyzaWixPSpRGqvcpD3syoHEkmCvw3OFJ5EZ2R2Dr9TY3PwPjpyCdxn0KMnDO8
+         70nv2eMyo6FiGFvFPjqIpZGB7oLpcXiSYwxrjl43pRl+DRWKvqg7U3vcxB13jcWJpyFY
+         v9tJEEX+f7k8Q99bqyh+3wIxst9LoLrAKy6IV0Mw0QyEcfydQLmjpQcBz8bPDjdjm02N
+         03ddLtQxGCbI3lfTJOd9ZR9P0/0NDHEoLSDWp0MQ8BkxUs3zBIg5yCmKZMbchQln+Bcy
+         ekl0t2WfyFWvvfWF9aJbzu/Yzt4jB5D/qeP00NC8+2bBou0E9rtKF3D1JA4z1lo40Uek
+         xoHQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzYk6h+fpqBM062TzbeWY56f+BbLfLj4yg7kcjWry29AOX6QNKf+DO4Vuy1fLwf5043DCPOGqs1JN12e7Up@vger.kernel.org
+X-Gm-Message-State: APuU4Z8sv1Ppz6EFsAKcDwkZoK7YFxh0DtB2Dv6NyMydTjWFXsN5HRIB
+	PA+lB+6HTnu0hQY2m5nO1qwqwHZP/aNMYrhJesCgeGARwVvBLdNGG8fd2Ri6ScA4nrY=
+X-Gm-Gg: AYBFou0p/z4dnUJnvJQboCcR0lgggj1iXg+xHjPUHWs9Z2f/ZFyTVkhOsLnhtMhJrBM
+	uEJN/HUT8TmFLCb6oZrkXCLY4wVjTwKoYQn8R9TvraOLzkKRN6Dsur3F1V5f4M9TBsyvMYt+6K+
+	jOQ8aDl+GilbX5U9iLWPscvQM8V85pu9zz+3pPBwvYmOwyDb/P0qGG5FlU9x6z0y5SkrjPjuAau
+	OoVuIOcdoQc/pPAhD23oaiVSM+PO4z38c04t7Lz1xcVqdeiCnmBcnhcVO62yfHEDlTwmLmAHoKZ
+	dMolFJLaBUAU7NRzc5lETFXDr4S2Kc5k1tFdWVKeZxVT2Sndy1nFbw/YI2hgifoLr1bNkJXnzmw
+	reQPZlku3iydOn2fpZbKQo9RL+ke5FaVaNBfsoKeG0jrN4Todo3uWxeKdMBc+wFXBw+qnCu1z/q
+	ITfSlvB0qsdxnNHRxYnMiUByOzokt3uUTroPOzqx+sSWrMcNm2usDzQNuaArjUGzOP6Howbaki9
+	dGVL1seIo5nuR10JjR9wUR93dG+vJmb5Jr7nC4FU8UZCbiXI+Of0O5OBhGXW1p8LKfcVYdmMlG5
+	G6FJVfPor2aae/Aqgeo0sVri5MKepMicDriZjMbBq7mBsg==
+X-Received: by 2002:a05:620a:272a:b0:93e:c35b:2332 with SMTP id af79cd13be357-9442184e908mr2661347985a.73.1793802314009;
+        Wed, 04 Nov 2026 06:25:14 -0800 (PST)
+Received: from toxicpanda.com ([153.61.196.242])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-945d4898a06sm209917385a.42.2026.11.04.06.25.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Nov 2026 06:25:10 -0800 (PST)
+        Wed, 04 Nov 2026 06:25:12 -0800 (PST)
 From: Josef Bacik <josef@toxicpanda.com>
-Date: Wed, 04 Nov 2026 14:24:38 +0000
-Subject: [PATCH v2 11/13] fs/resctrl: use cred_ids_allow_move()
+Date: Wed, 04 Nov 2026 14:24:39 +0000
+Subject: [PATCH v2 12/13] ptrace: use cred_ids_allow_control()
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -94,7 +94,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261104-b4-cred-ids-v2-11-956213608f16@toxicpanda.com>
+Message-Id: <20261104-b4-cred-ids-v2-12-956213608f16@toxicpanda.com>
 References: <20261104-b4-cred-ids-v2-0-956213608f16@toxicpanda.com>
 In-Reply-To: <20261104-b4-cred-ids-v2-0-956213608f16@toxicpanda.com>
 To: Christian Brauner <brauner@kernel.org>, 
@@ -102,41 +102,70 @@ To: Christian Brauner <brauner@kernel.org>,
 Cc: Serge Hallyn <sergeh@kernel.org>, linux-fsdevel@vger.kernel.org, 
  linux-security-module@vger.kernel.org, Josef Bacik <josef@toxicpanda.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openssh-sha256; t=1793802280; l=938;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1793802280; l=2045;
  i=josef@toxicpanda.com; h=from:subject:message-id;
- bh=spH7I2p6KlxAWtKZEKyVCuKK4ojI0D9bbJfweH6j3lY=;
+ bh=9DmbRYL9nHbIrwEdqslR1HfoLxxnNGAAY3s4ZuSx70k=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgUBr36M/n0nWN0DNbnxwzIiCZez6MG
  JiruuNaSCI/zXsAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QH5hz21Zf0jQmKY+SmyRld9bkbHzoU5X3h1MbybRG+3C4m7r9/TrMSg5RPbgUNqsIz2rKJMNin3
- xmVcg48bAeQA=
+ QCPouo4xXV/GVLy1uelleQqnw8GVnO0OfsD+sD2IlkuRSz25DloSK9u/PQ7MJcxM5iQ+V8UcwcQ
+ YmSXy3QPcJAk=
 X-Developer-Key: i=josef@toxicpanda.com; a=openssh;
  fpr=SHA256:C8kOX2QUJCMqnCX+KEeoqRAjLo9L+ELOSH2NSAJHqGA
 
-rdtgroup_task_write_permission() makes the comparisons of the cgroup v1
-code, euid 0 included. Use the library.
+__ptrace_may_access() picks the filesystem or the real uid and gid of the
+caller by its mode and wants them to be all three of the uids and gids of
+the target. Say which ids it is and use the library.
 
 No functional change.
 
 Signed-off-by: Josef Bacik <josef@toxicpanda.com>
 ---
- fs/resctrl/rdtgroup.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ kernel/ptrace.c | 16 ++++------------
+ 1 file changed, 4 insertions(+), 12 deletions(-)
 
-diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
-index 57ab090072c2..6b7b7daa9fd3 100644
---- a/fs/resctrl/rdtgroup.c
-+++ b/fs/resctrl/rdtgroup.c
-@@ -732,9 +732,7 @@ static int rdtgroup_task_write_permission(struct task_struct *task,
- 	 * Even if we're attaching all tasks in the thread group, we only
- 	 * need to check permissions on one of them.
- 	 */
--	if (!uid_eq(cred->euid, GLOBAL_ROOT_UID) &&
--	    !uid_eq(cred->euid, tcred->uid) &&
--	    !uid_eq(cred->euid, tcred->suid)) {
-+	if (!cred_ids_allow_move(cred, tcred)) {
- 		rdt_last_cmd_printf("No permission to move task %d\n", task->pid);
- 		ret = -EPERM;
+diff --git a/kernel/ptrace.c b/kernel/ptrace.c
+index 3f2fe68ccb14..8024d80f82e3 100644
+--- a/kernel/ptrace.c
++++ b/kernel/ptrace.c
+@@ -305,8 +305,7 @@ static bool task_still_dumpable(struct task_struct *task, unsigned int mode)
+ static int __ptrace_may_access(struct task_struct *task, unsigned int mode)
+ {
+ 	const struct cred *cred = current_cred(), *tcred;
+-	kuid_t caller_uid;
+-	kgid_t caller_gid;
++	enum cred_ids caller_ids;
+ 
+ 	if (!(mode & PTRACE_MODE_FSCREDS) == !(mode & PTRACE_MODE_REALCREDS)) {
+ 		WARN(1, "denying ptrace access check without PTRACE_MODE_*CREDS\n");
+@@ -327,8 +326,7 @@ static int __ptrace_may_access(struct task_struct *task, unsigned int mode)
+ 		return 0;
+ 	rcu_read_lock();
+ 	if (mode & PTRACE_MODE_FSCREDS) {
+-		caller_uid = cred->fsuid;
+-		caller_gid = cred->fsgid;
++		caller_ids = CRED_IDS_FS;
+ 	} else {
+ 		/*
+ 		 * Using the euid would make more sense here, but something
+@@ -338,16 +336,10 @@ static int __ptrace_may_access(struct task_struct *task, unsigned int mode)
+ 		 * used a syscall that requests access to another process
+ 		 * (and not a filesystem syscall to procfs).
+ 		 */
+-		caller_uid = cred->uid;
+-		caller_gid = cred->gid;
++		caller_ids = CRED_IDS_REAL;
  	}
+ 	tcred = __task_cred(task);
+-	if (uid_eq(caller_uid, tcred->euid) &&
+-	    uid_eq(caller_uid, tcred->suid) &&
+-	    uid_eq(caller_uid, tcred->uid)  &&
+-	    gid_eq(caller_gid, tcred->egid) &&
+-	    gid_eq(caller_gid, tcred->sgid) &&
+-	    gid_eq(caller_gid, tcred->gid))
++	if (cred_ids_allow_control(cred, caller_ids, tcred))
+ 		goto ok;
+ 	if (ptrace_has_cap(tcred->user_ns, mode))
+ 		goto ok;
 
 -- 
 2.55.0
