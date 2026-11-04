@@ -1,59 +1,59 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793782828;
-	b=rxQa9QAncHUy74g6CGOTzP5rwlcWWJpwWZd3J6btv78yvILupS8Lj1Rs7qmhowPBx2oo
-	 Jgh+vCfkcihKElyFsxNSf/F7/BlHkLnMyRoyIjnCrL+OZvm6LkgWcAVu4saZqQhXua4cx
-	 IXWtLGeslbJ/ZgCdWNpiX3Ffmgt+bMw0s559/0fEMARsrVyAFN7H1lKFHzZ9Hk7uHA8ca
-	 gJxz/KBnKABCYvUnqCbT9mmAoK5G+3DobeRHL3hHeh39K6g0VKG/mrx2JqETRRjZf2/Ge
-	 c6+R1ersrXck02iLTKT29QqUazEGtYvFAaRRB5gklluxifiHJ2XKKv/d79YiX9oNjbQ==
+	t=1793782834;
+	b=lHeCMKyFnwVAwf5r/YBpWPXwrSDp4hXqLjEZcwHr2dAHKFpxdhsbdfYmd4mxN9FIo5N9
+	 sdKSuIYI4/FSVb86t4ZvYB9u2hAzxk1qCXmpWDuRQ3g+USYtc2nv0bTcntGFq5MbDLJDp
+	 QWG2IS/iZq8wJt8AUuoPabSoGJ2wJWKm3G/lX9/J0//9FOYfTRK89SLM2ia9sOqL0lieQ
+	 RNlZJw94ODT3D20j7VEgQ/pIrGRSjY2pbfH3hHGdSGpyOfw+GaO04vGg+e72lpy49rgL8
+	 Og4ac/il8utWbZBDbW9xGItur5KUWEqNvxIDZKOHXhyJkiGpKhUemrhX6eLgrf+gtzg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793782828;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793782834;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding:X-SRS-Rewrite;
-	bh=c1tB8Ns2hhy9qaCmWqZiPRPyGTBVliQlqVWOHE27XC0=;
-	b=RJW/6AyDcYKPsAjaJ5+wE5oclRVDTJFgyyKDvV2SiRUPWMYkwwMGMuySoWw/+4FnVOgq
-	 hmbFJ8tHvnhgO4QQUowpvEGmy2l+JO2/E59dPJ42+O9eWN/nT69p9Jg89CozdE2TNLaqv
-	 sUEdlZwjApVteJGcXole9ibjwFFRXhABh4VcyA9ZYnlnENLedpmDVtE/1WvOKdWOdTvQe
-	 z/1wnj48Q4dUPlOCuM0WhFc3in83J6K6vJmsezxYWKgneC0ffAUOB6oL//bpS1Z9hZ4nY
-	 Zc5VPqYQGzCL9qbPRdvXDcH7e6IxR8QTBROBvXSrThzt1UsANsSXnZGquzT4wufZJ+w==
+	bh=mq/fIeDzXgigUAbEc4Pr7j1E7gw2CVJ/NaLzWXar24E=;
+	b=2oD7q4bWkqas5t5tSaHS1ccOmCVhRxokP04ASjKU4VEQq6u00UdraL8BGpP+Ya9GuHad
+	 fvGUSMYiuTPDS29UfYUdENF53qD8evuzpDbGKr3AQgUdHig7HJ7If59eks4KFukyqqAXi
+	 6CmwJ5Be80IHGagWSODOG5tT2579R1b/zXm85gctjFNW2w66SkejEC6vkjM5kYQ8Ol1d6
+	 YGHiBs3Fk1gwWaCJnhC+R833o/MxGAoyvNZNSJ7cbORVeLN4HkjVXelP2105qbDene/7z
+	 Zk4zXpbGsyRxasNnur4dx5nZgwngeLf7pwunzmsa6f1YjJ6poLf7x0qeUI4jar6VeFA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=fail header.from=lst.de;
 	spf=none smtp.mailfrom=bombadil.srs.infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b="jnbTe/ob";
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=b9mmaMkE;
 	arc=none smtp.remote-ip=198.137.202.133
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5915B606D806;
-	Wed,  4 Nov 2026 09:00:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5915B606D806
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6DD8606A332;
+	Wed,  4 Nov 2026 09:00:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A6DD8606A332
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=jnbTe/ob
+	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=b9mmaMkE
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=c1tB8Ns2hhy9qaCmWqZiPRPyGTBVliQlqVWOHE27XC0=; b=jnbTe/obL0hT9aLzxAW0MJeNPy
-	psviwiB7qIKP3p9R0TkehP4w6jEJrtAxodEt3ZRfnTio0U9OFheWPGxgvLsr8I2pceIoi2+d4gL3L
-	wIeozOMFPw8iFkfjHVjEcCdTESSupc7/J+oNQ92iwpDT94sozJAbPzmSjexHEC5R3lHGrdfPL5vmd
-	+2D1ry6tW/Emx7wwHSeSu0vVF8LuPjz7Rx51brq99hvwmtt96sU9uuWu0plYnu5aB7ymbcYn/SxXa
-	ssVsIkAn0xF5oyFZ25zSftvtCLg+4i/J918BGaIFruKyXuYwuuRTUvcpBSql/3njdYAhyBzmnXrNm
-	wM+f7RQQ==;
+	bh=mq/fIeDzXgigUAbEc4Pr7j1E7gw2CVJ/NaLzWXar24E=; b=b9mmaMkEChDp37A8IXX4vyCVqk
+	kpfsEfYLz0M3f4xC9feNXDaB5zqYgUfF4YG8btH/uhLPFYaoYtle0b+VS9Xl325uJoACZx6265K9Z
+	BypMsfS5bzO2miNm4fls5fCbRV1VyCAvKAzB2Zp07Lr4iVQ7RyU/yqJps1dp9rB0D6eYOsODJAU5k
+	UNUKUj34LAHWOpKBSwbJPipPFmpfymDR2kvOHm6sTnz1ZKClh32U66/DALCh5/rxd8AL9BWredcmx
+	VUEO2L1KOe+8y/j9aWvaluSMMZGlcPIX314IQbPkAIO7+WW/N2yXUTWfAq4pZgv1UrkqHA1wx+LFH
+	rLadzsxA==;
 Received: from 2a02-8389-2301-9f00-31e8-efb6-e973-61ca.cable.dynamic.v6.surfer.at ([2a02:8389:2301:9f00:31e8:efb6:e973:61ca] helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOWr5-00000004oWa-1WV3;
-	Wed, 04 Nov 2026 09:00:27 +0000
+	id 1xOWrA-00000004oYQ-3fgC;
+	Wed, 04 Nov 2026 09:00:33 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Carlos Maiolino <cem@kernel.org>
 Cc: linux-xfs@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org
-Subject: [PATCH 19/25] xfs: simplify range tracking in xfs_verify_media
-Date: Wed,  4 Nov 2026 09:57:23 +0100
-Message-ID: <20261104085929.317544-20-hch@lst.de>
+Subject: [PATCH 21/25] xfs: don't try to verify checksums on empty zones
+Date: Wed,  4 Nov 2026 09:57:25 +0100
+Message-ID: <20261104085929.317544-22-hch@lst.de>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261104085929.317544-1-hch@lst.de>
 References: <20261104085929.317544-1-hch@lst.de>
@@ -69,105 +69,110 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Remove the bbcount variable tracking the remainining basic blocks in
-the current verification request, and instead always recalculated it
-from the daddr and the end, reducing the number of moving pieces.
+xfs_scrub can sometimes send XFS_IOC_VERIFY_MEDIA ioctls for ranges
+that have never been written since the last zone reset, which will
+lead to checksum verification failures.
+
+Protect against this by checking that the range is valid.  To make the
+range-check non-racy hold the IOLOCK of the rmap inode over the entire
+media verification and cycle through it before resetting a zone, as that
+is the only way to rewrite data in a zone.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- fs/xfs/xfs_verify_media.c | 42 +++++++++++----------------------------
- 1 file changed, 12 insertions(+), 30 deletions(-)
+ fs/xfs/xfs_verify_media.c | 46 ++++++++++++++++++++++++++++++++++++---
+ fs/xfs/xfs_zone_gc.c      |  7 ++++++
+ 2 files changed, 50 insertions(+), 3 deletions(-)
 
 diff --git a/fs/xfs/xfs_verify_media.c b/fs/xfs/xfs_verify_media.c
-index 516763219d3f..382c46cdfb6a 100644
+index bafaac2f3ea8..d94bee0b9b6b 100644
 --- a/fs/xfs/xfs_verify_media.c
 +++ b/fs/xfs/xfs_verify_media.c
-@@ -267,12 +267,11 @@ xfs_verify_media(
+@@ -25,6 +25,7 @@
+ #include "xfs_rtcsum.h"
+ #include "xfs_trace.h"
+ #include "xfs_verify_media.h"
++#include "xfs_zone_alloc.h"
+ 
+ #include <linux/fserror.h>
+ 
+@@ -291,6 +292,46 @@ xfs_submit_verify_bio(
+  *
+  * When the alignment leads to an empty range, give up.
+  */
++static int
++xfs_csum_verify_metafile(
++	struct xfs_mount	*mp,
++	struct bio		*bio,
++	struct bvec_iter	*saved_iter,
++	void			*csum_buf,
++	xfs_fsblock_t		bno)
++{
++	struct xfs_rtgroup	*rtg;
++	bool			is_valid;
++	int			error = 0;
++
++	rtg = xfs_rtgroup_get(mp, xfs_rtb_to_rgno(mp, bno));
++	if (!rtg)
++		return -EFSCORRUPTED;
++
++	/*
++	 * Only validate the checksums for valid data, as data never written
++	 * will not have valid checksums.  We need to hold the iolock on the
++	 * rmap inode over the actual verification to prevent freeing of blocks
++	 * and thus a zone reset to happen underneath us.
++	 *
++	 * Note that this still relies on cooperating userspace, as there also
++	 * can be blocks that were written but never recorded after an unclean
++	 * shutdown, which this check does not catch.  It purely tries to deal
++	 * with races vs the previous FSMAP output used by xfs_scrub.
++	 */
++	xfs_ilock(rtg_rmap(rtg), XFS_IOLOCK_SHARED);
++	xfs_ilock(rtg_rmap(rtg), XFS_ILOCK_SHARED);
++	is_valid = xfs_zone_rgbno_is_valid(rtg, xfs_rtb_to_rgbno(mp, bno));
++	xfs_iunlock(rtg_rmap(rtg), XFS_ILOCK_SHARED);
++
++	if (is_valid)
++		error = xfs_csum_verify(mp, bio, saved_iter, csum_buf, bno,
++				false);
++	xfs_iunlock(rtg_rmap(rtg), XFS_IOLOCK_SHARED);
++	xfs_rtgroup_put(rtg);
++	return error;
++}
++
+ static int
+ xfs_submit_verify_bio_csum(
  	struct xfs_mount	*mp,
- 	struct xfs_verify_media	*me)
- {
-+	xfs_daddr_t		daddr = me->me_start_daddr;
- 	struct xfs_buftarg	*btp = NULL;
- 	struct folio		*folio;
- 	xfs_daddr_t		dev_start = 0;
- 	xfs_daddr_t		dev_end = 0;
--	xfs_daddr_t		daddr;
--	uint64_t		bbcount;
- 	int			error = 0;
+@@ -339,9 +380,8 @@ xfs_submit_verify_bio_csum(
+ 	if (error)
+ 		goto out_buf_rele;
  
- 	me->me_ioerror = 0;
-@@ -305,11 +304,11 @@ xfs_verify_media(
- 	 */
- 	if (me->me_end_daddr > dev_end)
- 		me->me_end_daddr = dev_end;
--	if (me->me_start_daddr < dev_start)
--		me->me_start_daddr = dev_start;
-+	if (daddr < dev_start)
-+		daddr = dev_start;
+-	error = xfs_csum_verify(mp, &bio, &saved_iter,
+-			csum_bp->b_addr + xfs_rtb_to_rtcsumoff(mp, bno), bno,
+-			false);
++	error = xfs_csum_verify_metafile(mp, &bio, &saved_iter,
++			csum_bp->b_addr + xfs_rtb_to_rtcsumoff(mp, bno), bno);
+ 	if (error) {
+ 		xfs_verify_media_error(mp, me, btp, *daddr, bbcount, error);
+ 		error = 1;
+diff --git a/fs/xfs/xfs_zone_gc.c b/fs/xfs/xfs_zone_gc.c
+index 9296f584282a..7e04693fd573 100644
+--- a/fs/xfs/xfs_zone_gc.c
++++ b/fs/xfs/xfs_zone_gc.c
+@@ -1001,6 +1001,13 @@ xfs_submit_zone_reset_bio(
  
- 	/* start and end have to be aligned to the lba size */
--	if (!IS_ALIGNED(BBTOB(me->me_start_daddr | me->me_end_daddr),
-+	if (!IS_ALIGNED(BBTOB(daddr | me->me_end_daddr),
- 			btp->bt_logical_sectorsize))
- 		return -EINVAL;
+ 	trace_xfs_zone_reset(rtg);
  
-@@ -317,36 +316,22 @@ xfs_verify_media(
- 	 * end_daddr is the exclusive end of the range, so if start_daddr
- 	 * reaches there (or beyond), there's no work to be done.
- 	 */
--	if (me->me_start_daddr >= me->me_end_daddr)
-+	if (daddr >= me->me_end_daddr)
- 		return 0;
++	/*
++	 * Cycle through the rmap inode iolock to synchronize against
++	 * xfs_csum_verify_metafile.
++	 */
++	xfs_ilock(rtg_rmap(rtg), XFS_IOLOCK_SHARED);
++	xfs_iunlock(rtg_rmap(rtg), XFS_IOLOCK_SHARED);
++
+ 	ASSERT(rtg_rmap(rtg)->i_used_blocks == 0);
  
--	/*
--	 * There are three ranges involved here:
--	 *
--	 *  - [me->me_start_daddr, me->me_end_daddr) is the range that the
--	 *    user wants to verify.  end_daddr can be beyond the end of the
--	 *    disk; we'll constrain it to the end if necessary.
--	 *
--	 *  - [daddr, me->me_end_daddr) is the range that we have not yet
--	 *    verified.  We update daddr after each successful read.
--	 *    me->me_start_daddr is set to daddr before returning.
--	 *
--	 *  - [daddr, daddr + bio_bbcount) is the range that we're currently
--	 *    verifying.
--	 */
--	daddr = me->me_start_daddr;
--	bbcount = me->me_end_daddr - me->me_start_daddr;
--
--	folio = xfs_verify_alloc_folio(xfs_verify_iosize(me, btp, bbcount));
-+	folio = xfs_verify_alloc_folio(xfs_verify_iosize(me, btp,
-+			me->me_end_daddr - daddr));
- 	if (!folio)
- 		return -ENOMEM;
- 
--	trace_xfs_verify_media(mp, me, btp->bt_dev, daddr, bbcount, folio);
-+	trace_xfs_verify_media(mp, me, btp->bt_dev, daddr,
-+			me->me_end_daddr - daddr, folio);
- 
- 	for (;;) {
- 		unsigned int	bio_bbcount;
- 
--		bio_bbcount = min(bbcount, folio_size(folio) >> SECTOR_SHIFT);
-+		bio_bbcount = min(me->me_end_daddr - daddr,
-+				folio_size(folio) >> SECTOR_SHIFT);
- 		error = bdev_rw_virt(btp->bt_bdev, daddr, folio_address(folio),
- 				bio_bbcount << SECTOR_SHIFT,
- 				REQ_OP_READ);
-@@ -356,11 +341,8 @@ xfs_verify_media(
- 			error = 0;
- 			break;
- 		}
--
- 		daddr += bio_bbcount;
--		bbcount -= bio_bbcount;
--
--		if (bbcount == 0)
-+		if (daddr >= me->me_end_daddr)
- 			break;
- 
- 		if (me->me_rest_us) {
+ 	if (XFS_TEST_ERROR(mp, XFS_ERRTAG_ZONE_RESET)) {
 -- 
 2.53.0
 
