@@ -1,144 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=40.107.160.79
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
-	t=1793811039;
-	b=Pm2kABgAQSjS+STlcgM91IednPYWQaH4LCr4WiuNYGw4KcCDY7BuscJUTuVRWyo35C1q
-	 8bzRAal5bZtxhcX9EA6cw4bmm5ZR3x1lrrUQh8TGVRRYlITmnL4ht9xewiBIlaRiwjiwn
-	 KcJLVI/8fhnUE8TVobVUyjp0TggR2lM2wxPS4iR56hssUylw8FUuaRu8cxph7L1J2wgot
-	 201phLdLNGfGWXrYcVw2T325aPg8wSsHVzla1ejTNSSdPDg9USwSCFnw7LVnfr5QO+atH
-	 smFQVjaQNn9g9qVa5okQK1bu0b0O2EbZbU1FMGXxlzpU51nR/XKiX/PsEPkXNvduc9g==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793811039;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:CC:Subject:
-	 Thread-Topic:Thread-Index:Date:Message-ID:Accept-Language:
-	 Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:msip_labels:
-	 x-ms-publictraffictype:x-ms-traffictypediagnostic:
-	 x-ms-office365-filtering-correlation-id:x-ms-exchange-senderadcheck:
-	 x-ms-exchange-antispam-relay:x-microsoft-antispam:
-	 x-microsoft-antispam-message-info:x-forefront-antispam-report:
-	 x-ms-exchange-antispam-messagedata-chunkcount:
-	 x-ms-exchange-antispam-messagedata-0:
-	 x-ms-exchange-antispam-messagedata-1:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-originalarrivaltime:
-	 X-MS-Exchange-CrossTenant-fromentityheader:
-	 X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
-	 X-MS-Exchange-CrossTenant-userprincipalname:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=ycM/yr/WL0cl1t5ISoVpIG6YtRxCJWSjqzuUQE2SNpA=;
-	b=4VGem0PKtvBFQgrZ6SiOehVeLReMa0i9VzGS6BwsrrF1++4WtbpFBACkxrD31rPmG0IE
-	 nRJ5wP8W6OIkn0RT6RGSv+a8j3+3thnDySggRA0QEhv+CjjlI8UhGkrBiklc5qWNwWUSG
-	 9rGF9Zw6Xjh2FL/08z4D8/QMQa0mmdtaTjVw7FrABzQX94TGYuRSPfrsuj7+UCH5Rua3r
-	 fCi2sXQ3JCWrn5AAzJAEKM8lzFdIWJICarUK152D3CO7uqCMP8o0M5k0iJ+jL/8hEBDO1
-	 747veDP4xxkFNIod+NRGiuX7buSAn1Gt7XEyBUr8I3mLGrjhmDi8C1Y30eOa4GWEO0Q==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=none header.from=gehtz.com;
-	spf=pass smtp.mailfrom=gehtz.com;
-	dkim=pass header.d=gehtz.onmicrosoft.com header.i=@gehtz.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-gehtz-onmicrosoft-com header.b=WyxYyu+x;
-	arc=fail smtp.remote-ip=40.107.160.79
-Received: from PAUP264CU001.outbound.protection.outlook.com (mail-francecentralazon11021079.outbound.protection.outlook.com [40.107.160.79])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793811120;
+	b=AIiMf/D+fXs8k1+q3YhbqA8Rz/jsQ/ZzdEy3oq69eQyoBMn3j5vK0uPqRBjNJLGUdtBl
+	 AEVYML8ShfDUt1iGXQNBczZTRN4L4xHIW3NxLgdDKnj4/a/mvt+PE93Rtg87dzT8ikp9E
+	 n94krKMwrxB6PF//NfnYaz9s5cHcRmJL2kye6FVoxjDWcGM+Gk+B5OnqQy6X0DdXJJzkj
+	 a65O4Njmb7s+7b4GNfPnt7v9Rm/+f+n990EgO0byhbr1nb51KdjqoH73582hpgJOP3lHh
+	 V3ZcmNWI6CVrwK+jSHXYOCiBqOz0JTRnfi53LhivL+ZA6REc5JSOhAIFKknwwSHod9A==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793811120;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:
+	 X-Rspamd-Action:X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
+	bh=q09G0Aw7d4VDdeSkcwEBqgMj77+p3jsgBtovOOCEeOA=;
+	b=CcI3HvY5WaBtZaN65zfbYYWgjn4HG++Q1NE0i+nuD//o3i0aUOpnJjYd7X+mBwKdc5yV
+	 xE/DMl0JfBhj33O8QKxcJ71MHoVc0r0jmFzkSusnCb1iXnPc0OZUKl3mVXxfqS1rd0hfZ
+	 q2hL9NiZYSSKsTNmlg8bN/yh6oFY7LFPSP9km1C3OT64wPEMBdLN/BA/kGXLYqq9KdJTe
+	 jNsVHNBqIu/z5aNFCCJRSfZoFd5qiWVw9d76B6s+6Vn82NPnThncd80iRiL5tfJW3c8kO
+	 IQorVrwgcnxsLKm+Nbah0Al4Y3OOTWYnBB8o/KXcJZfFRlrwhwo59F8Il9dFZ3SrZNw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=none header.from=suse.cz;
+	spf=pass smtp.mailfrom=suse.cz;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=iErJK+Y5;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="+bx8X/OK";
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=iErJK+Y5;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="+bx8X/OK";
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AE08606D81B
-	for <linux-fsdevel@vger.kernel.org>; Wed,  4 Nov 2026 16:50:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6AE08606D81B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gehtz.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gehtz.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49A4A606EEBD;
+	Wed,  4 Nov 2026 16:51:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 49A4A606EEBD
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gehtz.onmicrosoft.com header.i=@gehtz.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-gehtz-onmicrosoft-com header.b=WyxYyu+x
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gIdgOjx6zYL9Q878+5L8Fw5IcPMMpktn1L3Di6t9Mf8kL8xnTaREMsCzCbOzSKVUVZ8fGTJIZvUHi5735UZCDSxgmbXthXBJc4dIMLv67/TN2+kWUNbtZkpXiJIWvcGkMa9bGTFYsxoJQ0zd/xE0wzsqpYtU0f24DRp/Man+mzbrjTdxFezjgToP1feL+loL9TpbeQ3wKBMo77W4doAce37BAYdD5deZ41Hxo1jwPBuWCu1q31MHoCjqI8O5nAgkzVsHvXdXCiGbayInqOiZJOUNqGiqoRzPlOjqvY50J9mtwxekZm4CiCGaNTZaxW7wFveUPq4zJV8na3mAc0OM7A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ycM/yr/WL0cl1t5ISoVpIG6YtRxCJWSjqzuUQE2SNpA=;
- b=g6uX08+HwawsqHeeVrRvrHwkI2uhAmT7b+FW5t0VdBWkwjhu+vb5ck0GnepY43HBLQgWbE59v4tzPqBWJo6GxJ+/+Tboe+0n9hzOpqJqAS+oH5rmocIdbhrq2cAwgJ3KQnJ87fqK6EbaeFnc0XVlv4tckSyr31CZOC3lxDLOebDSPrfRih48KIyeYDTbVm2hQZA6SWWheCuQmd8mlZhTzIvpKKWFrHVZ+VNIH/ko3aR0ijNRum+j5SmMQJ4H4Nc5iw+H2j8ofmSpPLWj+WNsChtkOcURjECaMck8cHhDjKmvDAf+vA6UI8xyn9THG0yarr5QB2/Bm/2sBKKMRn1FoA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=gehtz.com; dmarc=pass action=none header.from=gehtz.com;
- dkim=pass header.d=gehtz.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gehtz.onmicrosoft.com;
- s=selector1-gehtz-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ycM/yr/WL0cl1t5ISoVpIG6YtRxCJWSjqzuUQE2SNpA=;
- b=WyxYyu+xXNAtgbqTwFiPZRe2lnbUUAPFCy/zr/bmUQg53t/RwKCev8CDeLz0H4+sDmN16itXERvTOEjLV4wdrOT9a3r4I2Hm/lQ9PfdR7cLyeDIAkLD5/SaE3H6KMDi63Pqje9BkpDipt1ADAsV/7K/gqUBAUeEzQKBma0hej3oWuB+6xH9M/UjpR5rDZFN5L6hA0XHcE1tMZGOOCzVr4AJf8nICuGoY+UuOmcPq/FqoXBDv1UBncr+eAmHJOU6pdlRvI3o2F0MJbFv5TJr8QXCPISQNAJVit0IH3y/vC6qDgixg77QTB18KwGk4E5WldsEWeQGpAA9WenE3EfU0fw==
-Received: from PAPP264MB7189.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:543::12)
- by PARP264MB4785.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:42d::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.10; Wed, 4 Nov
- 2026 16:50:34 +0000
-Received: from PAPP264MB7189.FRAP264.PROD.OUTLOOK.COM
- ([fe80::1523:7b3f:c670:41d3]) by PAPP264MB7189.FRAP264.PROD.OUTLOOK.COM
- ([fe80::1523:7b3f:c670:41d3%4]) with mapi id 15.21.0592.009; Wed, 4 Nov 2026
- 16:50:34 +0000
-From: Geoffrey HARTZ <geoffrey.hartz@gehtz.com>
-To: Miklos Szeredi <miklos@szeredi.hu>
-CC: "fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Subject: [BUG] fuse: auto_inval_data drops a write-through write's folio
- before its WRITE is answered, and a read caches the old bytes
-Thread-Topic: [BUG] fuse: auto_inval_data drops a write-through write's folio
- before its WRITE is answered, and a read caches the old bytes
-Thread-Index: AQHdbHtgKInjkaVtCkW7zRUk31/OOQ==
-Date: Wed, 4 Nov 2026 16:50:34 +0000
-Message-ID:
- <PAPP264MB7189832597866399467B911689682@PAPP264MB7189.FRAP264.PROD.OUTLOOK.COM>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=gehtz.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PAPP264MB7189:EE_|PARP264MB4785:EE_
-x-ms-office365-filtering-correlation-id: 10ca3943-0b84-4c5f-8fe6-08df3a93be88
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|23010399003|376014|366016|10070799003|1800799024|6133799003|10067099003|18002099003|38070700021|261022105027099003|56012099006|5023799004|261102123227099003|261022115727099003|261028144727099003|261026121527099003|261026140227099003|261021121427099003|261009223027099003|261022075727099003;
-x-microsoft-antispam-message-info:
- dNZBJTWqrWzocAr2z7JwfmvEk0XNqlGvfCBLcZ7G3bWClX9Bdt2tB/UfDjiMAZRkr1/4rzhfoTkzyKOUyHlpa09FzZRawNlKlZaaehNvdpImFLS9YrghD/AF9KBwe8osA+qjg2KGw1qT7VFE8R5fpgaoI5xrcN3qGMEPTcAO2HUTAVJSH8R1vfp4FRPqkgeyAgS5Q+G7yDaFRla4T/Xp9aDZnr7gx3U4lMuSl0c/8m/05ax/g8zq9ozgRNWNNQr0znKbDF56FfMwQhm0BF8LGb55H0L5lu+NjdfnlzAkURW5yjC8/GVBG7q9a2vngLPUiuNzJr0+bVpDDfxECrlbggoNjMOswz7tughR3iVpmPxAfcYlR7+39GB9Kpn+BT0C6toSoIeMAoPTvMPP4BuyOtZayCsznWIUN8O+0gxWqy9VBclnXdVsZK8QS3W/fCJRtCWozI5BEYYuD72dnHzzHnzuA2LuLHvt657S1Qp06hf3SNpZZQn7Kj+kAdKTdJrRKpURyiLYlod3ONoX6NnakdEwloE7msazTPPLnmSeZj8lk20qJ+Bk4Beq3Y99xwIikKH+KePrNiBpueHoOAPGYmMkKK71AnWR3SHx/5jyqDn3eNuppMd8QNb1r8O2FjJgmTExhUtI7JmZ8C/5DAPMHte3m5MkJVbJr95igTmxPdBx64q563zCrElz2SKErZU0wlMx8MAwrdvPt4uwp5gxJg2ON1oxuDDaNAzfHaZtTSM=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAPP264MB7189.FRAP264.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(10070799003)(1800799024)(6133799003)(10067099003)(18002099003)(38070700021)(261022105027099003)(56012099006)(5023799004)(261102123227099003)(261022115727099003)(261028144727099003)(261026121527099003)(261026140227099003)(261021121427099003)(261009223027099003)(261022075727099003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 2
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?zExkaDtSyjGoaxkhMGRVFwKMVf7r5sSI+Vlwblhw47MbFR0Afk5YJedZ9d?=
- =?iso-8859-1?Q?IBqjq1X5MscMdbLBR5IN4SttSWOXXrIZR5R1V6RNoD2oGtAPvmfa/Xv0xc?=
- =?iso-8859-1?Q?RVt+/0LkUb/nBahuWwBeZOR9CCEq2ADZcqqQBWh4KXMTRHEv20FYZpR3gf?=
- =?iso-8859-1?Q?gVyv1KHAJI9A/JAjxd5vjDy70n4G5oB9huDe+kOYR/I4GKPtEg94nguU+v?=
- =?iso-8859-1?Q?QEZ57MjinHppYU19CsB2NWoF9wzdGXWXf7MOhDxHS2UirhKJQSIIuFa8BA?=
- =?iso-8859-1?Q?3DyFmVkS2n+4YhdYXfq1oAloJzmFBQxBIBfZiawKDoX8mlYuXAPUkqo5K/?=
- =?iso-8859-1?Q?Q+KN6tG1cKKOyN3++PlXaAc1jvg5q5Q3QxQEzVpgMZAXD73zvcjxNyA8UF?=
- =?iso-8859-1?Q?uGFynJ9b+rmJliS5TE8OeybcffV67nAOOuGELhVpzC4XJVfg8n542Uvf42?=
- =?iso-8859-1?Q?Om8PQswOX2sYknoMcyTJE4IJDfqkORPQqqVFznWENQ+3MVl0Dj+4PSCH3v?=
- =?iso-8859-1?Q?j6tFpEtugiJYLAjL1inZUv1o6aEb7H8YgJd7sOwFSeJSaAc9YnmzjYtFB5?=
- =?iso-8859-1?Q?ocPz++rBHbek9XOJ1Z2h5NZkaFQZd3cLesMUydV0bjO7dUWNc5UZ2bK3GN?=
- =?iso-8859-1?Q?sIwPuUnaqzza1x6mpGNCvxjayD7LO9QhpCDSpk6al6X1TV1+diRikv9C77?=
- =?iso-8859-1?Q?+BeX35wkkSj463BH6Lek8UcMF+JN7yF3SG+a9VjvkgM7nKJtI0LoWXuLBz?=
- =?iso-8859-1?Q?Z0dj/Fz0bASYv3wPq6d6SrRWrDN/nJmMe89MXSafBYend5kQER3iXMZ8IK?=
- =?iso-8859-1?Q?gMIpyZgCz58BFyrQLFnZmxqQ8NA1yv5TuFQRET/Q9mwsGIOn9ixuEZtjpP?=
- =?iso-8859-1?Q?+0jN7qhvG3XxcvFS6/SmD1CVDUxo4M2YA+awXgWntyBvJrUqSK8yb4ANul?=
- =?iso-8859-1?Q?C9jl+r+xuXh7eqqp3zXgY4tupZFoHJkb6r3+s5P7mt60DaPb6SsY19cLjp?=
- =?iso-8859-1?Q?FTOutFL1ONSSB6MMQ9fHRVetALqI+U+Ql1jrhm8cuKodie40XlXwsDyPT2?=
- =?iso-8859-1?Q?ev7jonQHSsGvQdPKcrqYAhtjTY+3ydwBOqaYFPlALEeTUjQ/eqZpY9kolE?=
- =?iso-8859-1?Q?KsJjjHQ1wRm8DJmvZaipsYMpLugJpIAA68lCohuAcX0Y32MaS4cH75MAFf?=
- =?iso-8859-1?Q?d6UbzFEFiCVFxg5IXkH3/muRlh+gC8Jv5qyi8DMZojUXgjKV62TviUNjR7?=
- =?iso-8859-1?Q?xn253SmpXao7+Uo2VvreQWZKb3g99IcfB0w3OJb7T3goU//LOXyilNPIlZ?=
- =?iso-8859-1?Q?5//xUV7bdapv78MY6QCEE9gHrfYReFgi4Rx5Oegsqsr3v/DtDUjsCfWsr+?=
- =?iso-8859-1?Q?K3egXqAsLQ2elkPNU0nFVarZvMpfMDjst18Oghk/cbMQ0rAmgvF8ZiBmBh?=
- =?iso-8859-1?Q?d0cLPExG8UMYoeiWYz++7SY65Ec3/FMVFiITRwR7q+MtW/sQYyjhhUMoPs?=
- =?iso-8859-1?Q?rSoOjFBUBHQjMQcVdrowWapx/gZpmSaTnwmNjCKq84IPr1E5I/rI3+jeo/?=
- =?iso-8859-1?Q?nig3ZEQCPpeMBMKFKDuJgfXIT/76HESnc41hrdnmDaOznovW1nEFJxfdnW?=
- =?iso-8859-1?Q?zCgpZh26nK1YKWnS0n++b9WiTw9a0fCcpudsySr7Ka3PoI5HthqbiiOQQZ?=
- =?iso-8859-1?Q?LABvAk358pKYzP1/65zbnN0UKxTDc9lEV+WGiwhO+9Q+wd9TBC/eis2Q4m?=
- =?iso-8859-1?Q?C+WR6wYzeRDZSkyWMuvz9unNC5d1e+aQOLdH1kvLVVtd6qqSVkqCR+2VWk?=
- =?iso-8859-1?Q?iDVKFNEY4tiUYvY85PwziwlEp231wHk0U4tkKIyZvEhdAgNEerewbw+pY5?=
- =?iso-8859-1?Q?ji?=
-x-ms-exchange-antispam-messagedata-1: zlrZPiw3XCuYcQ==
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=iErJK+Y5;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=+bx8X/OK;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=iErJK+Y5;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=+bx8X/OK
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 27D011F79A;
+	Wed,  4 Nov 2026 16:51:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1793811117; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=q09G0Aw7d4VDdeSkcwEBqgMj77+p3jsgBtovOOCEeOA=;
+	b=iErJK+Y5gR9Gjv5/k1apT/Mm9VefEZ3QHI8OVAWHhxGjfibPOHdcr9L14vudbkPXO+n7HE
+	w43aVdDcwY88l0u3RHsqK04HAWGgKI7LAf7aQUmPKzjiKzrXR/cb94RwNFONj0N8urFns8
+	+vyxQFFP5zFbpDRH4ii/OyovvagUzmA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1793811117;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=q09G0Aw7d4VDdeSkcwEBqgMj77+p3jsgBtovOOCEeOA=;
+	b=+bx8X/OK8p1hwRjp2QabLmwn/CFYBIAhxHIOoHnSHKtSPpoctrnA+D3Z/UxSXhr6KZHnIf
+	RdGtXzIpb2pbeCDw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=iErJK+Y5;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="+bx8X/OK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1793811117; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=q09G0Aw7d4VDdeSkcwEBqgMj77+p3jsgBtovOOCEeOA=;
+	b=iErJK+Y5gR9Gjv5/k1apT/Mm9VefEZ3QHI8OVAWHhxGjfibPOHdcr9L14vudbkPXO+n7HE
+	w43aVdDcwY88l0u3RHsqK04HAWGgKI7LAf7aQUmPKzjiKzrXR/cb94RwNFONj0N8urFns8
+	+vyxQFFP5zFbpDRH4ii/OyovvagUzmA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1793811117;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=q09G0Aw7d4VDdeSkcwEBqgMj77+p3jsgBtovOOCEeOA=;
+	b=+bx8X/OK8p1hwRjp2QabLmwn/CFYBIAhxHIOoHnSHKtSPpoctrnA+D3Z/UxSXhr6KZHnIf
+	RdGtXzIpb2pbeCDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 05477134F0;
+	Wed,  4 Nov 2026 16:51:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id wy9JNqxi62r2BQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 04 Nov 2026 16:51:57 +0000
+Received: by quack.suse.cz (Postfix, from userid 1000)
+	id 864D4B437; Wed, 04 Nov 2026 17:51:56 +0100 (CET)
+Date: Wed, 4 Nov 2026 17:51:56 +0100
+From: Jan Kara <jack@suse.cz>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, Jan Kara <jack@suse.cz>, 
+	Josef Bacik <josef@toxicpanda.com>, Chris Mason <mason@kernel.org>, linux-ext4@vger.kernel.org, 
+	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, Andreas Dilger <adilger.kernel@dilger.ca>, 
+	Baokun Li <libaokun@linux.alibaba.com>, Ojaswin Mujoo <ojaswin@linux.ibm.com>, 
+	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>, Namjae Jeon <namjae.jeon@samsung.com>, stable@vger.kernel.org
+Subject: Re: [PATCH RFC 1/9] ext2: add ext2_inode_block() helper
+Message-ID: <rqitd4futx6jkcl7nd6qjmjhwr7q24cmlpbbbidg5osbovetdj@5oaqbqpui5sb>
+References: <20261029-work-inode-metadata_writeback-v1-0-7d6c678a585d@kernel.org>
+ <20261029-work-inode-metadata_writeback-v1-1-7d6c678a585d@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -148,109 +115,152 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-OriginatorOrg: gehtz.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PAPP264MB7189.FRAP264.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 10ca3943-0b84-4c5f-8fe6-08df3a93be88
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Nov 2026 16:50:34.0229
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 75a5ff28-5974-4bc2-8890-738005ef36cf
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: zIQwOuYR80eBJP2iq3LAYg0JspyKFvW0wsihcm3yE/WeXomXYcIA/obbWIuPwTB/TKJ+v3Jk92kjQHalHhRBiVwaNod8Sxo55dLMyPMbUtU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PARP264MB4785
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261029-work-inode-metadata_writeback-v1-1-7d6c678a585d@kernel.org>
+X-Rspamd-Queue-Id: 27D011F79A
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-11.51 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,suse.cz,toxicpanda.com,kernel.org,mail.parknet.co.jp,dilger.ca,linux.alibaba.com,linux.ibm.com,gmail.com,samsung.com];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email]
+X-Spam-Score: -11.51
 
-Hello,=0A=
-=0A=
-On a FUSE mount with FOPEN_KEEP_CACHE, without writeback_cache, and with=0A=
-FUSE_AUTO_INVAL_DATA (libfuse's default), an in-place write(2) can leave th=
-e=0A=
-page cache holding the bytes from before the write. Reads keep returning th=
-e=0A=
-old bytes after write(2) returned and after the server stored the new ones.=
-=0A=
-In our case SQLite in WAL mode read back stale WAL frames, and a checkpoint=
-=0A=
-copied one of them over page 1 of a database (Plex's library).=0A=
-=0A=
-Reproduced on vanilla 7.4-rc1 (not tainted, in a KVM guest), on Debian's=0A=
-6.12.111 and on 7.2.11. The code involved is the same in 6.18.=0A=
-=0A=
-The sequence:=0A=
-=0A=
-1. Thread A calls write(2) over cached pages. fuse_perform_write() calls=0A=
-   fuse_fill_write_pages(), which copies the data into the folios. Folios=
-=0A=
-   that are uptodate are unlocked right away ("if (folio_test_uptodate(foli=
-o))=0A=
-   folio_unlock(folio)"). fuse_send_write_pages() then sends FUSE_WRITE and=
-=0A=
-   waits for the answer. FUSE_I_SIZE_UNSTABLE is set only for a write that=
-=0A=
-   extends the file.=0A=
-=0A=
-2. Thread B calls read(2). With auto_inval_data, fuse_cache_read_iter() cal=
-ls=0A=
-   fuse_update_attributes() on every read, and the attributes are stale=0A=
-   since the previous write's answer. The FUSE_GETATTR answer has a new=0A=
-   mtime: the server moved it, for example at an fsync of earlier writes.=
-=0A=
-   In fuse_change_attributes_i(), fi->attr_version has not moved yet (A's=
-=0A=
-   answer has not come), so the answer is applied. The mtime differs, so=0A=
-   invalidate_inode_pages2() runs. It removes the folio A just filled: the=
-=0A=
-   folio is unlocked and clean, and A's reference does not keep it in the=
-=0A=
-   mapping.=0A=
-=0A=
-3. B's read finds no folio and sends FUSE_READ. The server has not applied=
-=0A=
-   A's WRITE yet, so it returns the old bytes, and they are cached.=0A=
-=0A=
-4. A's WRITE is answered. Nothing drops the stale folio again: the mtime=0A=
-   does not move until the server's next change, so every read until then=
-=0A=
-   returns the old bytes. This includes A reading back what it wrote.=0A=
-=0A=
-writeback_cache avoids it (the folios are dirty, not invalidated). Without=
-=0A=
-auto_inval_data, only a size change invalidates, and with=0A=
-explicit_inval_data only truncate_pagecache() runs.=0A=
-=0A=
-Reproducer: a small go-fuse server with one 1 MiB file. It applies each=0A=
-WRITE 3 ms after it arrives, and moves the mtime every 20 ms when writes=0A=
-have landed since (a periodic sync, as our server does). Writers rewrite=0A=
-1048-byte records in place and read each one back after write(2) returns;=
-=0A=
-readers read the file in a loop. On vanilla 7.4-rc1 (16 vCPUs), in 15 s,=0A=
-441 to 461 of about 4,440 read-backs returned the previous record, in each=
-=0A=
-of 3 runs. With auto_inval_data off: 0 in 3 runs. SQLite in WAL mode=0A=
-(1 writer, 3 readers) over a loopback server built the same way (WRITEs=0A=
-held 3 ms, the mtime moved at fsync, close, setattr or every 30 s): 2 of 3=
-=0A=
-runs failed within 9 s ("database disk image is malformed", "file is not a=
-=0A=
-database"); with auto_inval_data off, 3 of 3 runs were clean. I can send=0A=
-the reproducer.=0A=
-=0A=
-Possible fixes:=0A=
-=0A=
-- Keep every folio of a write-through write locked until its FUSE_WRITE is=
-=0A=
-  answered, as is already done for a last folio that is not uptodate=0A=
-  (ia->write.folio_locked). invalidate_inode_pages2() then waits for the=0A=
-  write.=0A=
-- Or make fuse_change_attributes_i() discard an answer (as it does under=0A=
-  FUSE_I_SIZE_UNSTABLE) while a write-through write is in flight on the=0A=
-  inode, not only one that extends it.=0A=
-=0A=
-Our workaround in the server: turn auto_inval_data off, set=0A=
-explicit_inval_data, and invalidate a file's pages ourselves=0A=
-(FUSE_NOTIFY_INVAL_INODE, or an open without FOPEN_KEEP_CACHE) only when no=
-=0A=
-write open of the file exists on the mount.=0A=
-=0A=
-Thanks,=0A=
-Geoffrey Hartz=
+On Thu 29-10-26 14:28:16, Christian Brauner wrote:
+> Move the lookup of the inode table block that holds an inode out of
+> ext2_get_inode() into a helper. ext2_sync_inode_metadata() is going to
+> use it to find the block without reading it from disk.
+> 
+> No functional changes.
+> 
+> Cc: stable@vger.kernel.org # v7.3
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+
+Looks good. Feel free to add:
+
+Reviewed-by: Jan Kara <jack@suse.cz>
+
+								Honza
+
+> ---
+>  fs/ext2/inode.c | 49 +++++++++++++++++++++++++++++++------------------
+>  1 file changed, 31 insertions(+), 18 deletions(-)
+> 
+> diff --git a/fs/ext2/inode.c b/fs/ext2/inode.c
+> index 12ac4cfe1500..940f61a4dde3 100644
+> --- a/fs/ext2/inode.c
+> +++ b/fs/ext2/inode.c
+> @@ -1272,46 +1272,59 @@ static int ext2_setsize(struct inode *inode, loff_t newsize)
+>  	return 0;
+>  }
+>  
+> -static struct ext2_inode *ext2_get_inode(struct super_block *sb, ino_t ino,
+> -					struct buffer_head **p)
+> +/*
+> + * Find the inode table block that holds inode @ino and the offset of the
+> + * inode in that block.
+> + */
+> +static int ext2_inode_block(struct super_block *sb, ino_t ino,
+> +			    unsigned long *block, unsigned long *offset)
+>  {
+> -	struct buffer_head * bh;
+>  	unsigned long block_group;
+> -	unsigned long block;
+> -	unsigned long offset;
+>  	struct ext2_group_desc * gdp;
+>  
+> -	*p = NULL;
+>  	if ((ino != EXT2_ROOT_INO && ino < EXT2_FIRST_INO(sb)) ||
+> -	    ino > le32_to_cpu(EXT2_SB(sb)->s_es->s_inodes_count))
+> -		goto Einval;
+> +	    ino > le32_to_cpu(EXT2_SB(sb)->s_es->s_inodes_count)) {
+> +		ext2_error(sb, "ext2_get_inode", "bad inode number: %lu",
+> +			   (unsigned long) ino);
+> +		return -EINVAL;
+> +	}
+>  
+>  	block_group = (ino - 1) / EXT2_INODES_PER_GROUP(sb);
+>  	gdp = ext2_get_group_desc(sb, block_group, NULL);
+>  	if (!gdp)
+> -		goto Egdp;
+> +		return -EIO;
+>  	/*
+>  	 * Figure out the offset within the block group inode table
+>  	 */
+> -	offset = ((ino - 1) % EXT2_INODES_PER_GROUP(sb)) * EXT2_INODE_SIZE(sb);
+> -	block = le32_to_cpu(gdp->bg_inode_table) +
+> -		(offset >> EXT2_BLOCK_SIZE_BITS(sb));
+> +	*offset = ((ino - 1) % EXT2_INODES_PER_GROUP(sb)) * EXT2_INODE_SIZE(sb);
+> +	*block = le32_to_cpu(gdp->bg_inode_table) +
+> +		(*offset >> EXT2_BLOCK_SIZE_BITS(sb));
+> +	*offset &= (EXT2_BLOCK_SIZE(sb) - 1);
+> +	return 0;
+> +}
+> +
+> +static struct ext2_inode *ext2_get_inode(struct super_block *sb, ino_t ino,
+> +					struct buffer_head **p)
+> +{
+> +	struct buffer_head *bh;
+> +	unsigned long block;
+> +	unsigned long offset;
+> +	int err;
+> +
+> +	*p = NULL;
+> +	err = ext2_inode_block(sb, ino, &block, &offset);
+> +	if (err)
+> +		return ERR_PTR(err);
+>  	if (!(bh = sb_bread(sb, block)))
+>  		goto Eio;
+>  
+>  	*p = bh;
+> -	offset &= (EXT2_BLOCK_SIZE(sb) - 1);
+>  	return (struct ext2_inode *) (bh->b_data + offset);
+>  
+> -Einval:
+> -	ext2_error(sb, "ext2_get_inode", "bad inode number: %lu",
+> -		   (unsigned long) ino);
+> -	return ERR_PTR(-EINVAL);
+>  Eio:
+>  	ext2_error(sb, "ext2_get_inode",
+>  		   "unable to read inode block - inode=%lu, block=%lu",
+>  		   (unsigned long) ino, block);
+> -Egdp:
+>  	return ERR_PTR(-EIO);
+>  }
+>  
+> 
+> -- 
+> 2.53.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
