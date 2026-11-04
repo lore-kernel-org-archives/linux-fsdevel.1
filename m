@@ -1,45 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793821554;
-	b=KeyUnoD8SoXBGfpMjyZmR5YNzkTsAW7aYTQG9BjW+oulpogqqWLAM48z06UALvifuPVy
-	 5J+2ZrTgwEDqMpYqGEW9PPqhXarZHoAXg5jxBmFekHqGphe8G2asU5nzYVPLvVBukHlMx
-	 60moUwQj0pVYuGqDfgcUOvB8kU/sKtDxlOc2iJIJ1ZwEfR2cmtRjKv+LZQwsLv00YuwHo
-	 /lvlOU8WE6sz2ONil8sRsxQP7SM0SN37Y4UKF7O9TQBUgDaa0GZnlcKbAAt75AMHaRJiy
-	 kQMrgiEZnmaex4KdWlXbgCwqiHJpBKViu1K8DVsO1CyRcuxTkq6VmOg2yMEIWN2Zq4Q==
+	t=1793821584;
+	b=ert0/XWou1kvpt9lHv6g0OTu6aH8D+igb6Gd0FGJT55DK5YCy/uaAxgoTwd574VsQuOY
+	 TOGviybszCT5nDun56DA3icNYxSnE7ymtbynnuE7WWesXWvwyyzzK5D8ljc73vl7yYH6x
+	 VkHBE0HVlyftRim8a/qFTepC+L12UIo6esiKEBnXVghLxPDbAMEvL7BCMv8YJSYD8AZyK
+	 3EUUWUfD0VD8XV2vcW1Jg2+ejmpBlLyyxtMe+yqMweZwlr0+aXPoEAfw6KRPvoraur0RD
+	 fekdozeiwxTPDKDb6oSxbWbHQPL2g598gO2Y2rWX7mqya08G1YC8tgEkN+AUTWsqKCQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793821554;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793821584;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
 	 In-Reply-To:References:MIME-Version:Content-Type:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:Content-Transfer-Encoding;
-	bh=9IR2jOxQyurV4Y0UWx6k8fIXiSGUImfiuKIP9CXfPTA=;
-	b=edj4hfreYDfr35vBtdDaibUCv/J1L3Sgn2W7rDnjeOv30tWVZB0Jty9eY9pphMpbvWxZ
-	 /HxcSiAa534RktuTYYv28SRKHMN9AvtSWex18ieAeBOQTvvqMEoBBF6IVIiV1DE4ZKlEQ
-	 oHM83s52oAvwmV1JPCXjtXpLts3Hok9c8ZO+IbDcwpZ5TsW4hMXk3YjtnvJmeAWUtdIqn
-	 7P8afAsqtli1H3fAIxZQCfVKLMPXsH5HzyMqLBwnCAKCTpQEHQQ+Gm7ZVOKcX08yQ58of
-	 J9Ukc+ig1t4CHMK8bqcVtXnEfcp8y7gn4fh59LsbiEnZcrN+1E2nOsOjnbIcMpYaJPw==
+	bh=bLxRwCxtJ/P3YNIr6jvbkvrLQvoA3ATHIuHzWzBn2J4=;
+	b=aaKhU4m7zWgcgcSgrWcBtl4iUJ4+Bg1YNY4/EEu6rskXt680XxMZBPi0Up++xJD1xyBK
+	 QYuvGvVkfG5pIArcoGFP0MG2vha5+nD6Qnyt5nlRCjU45cR6fEaklc+XpAGxwPbYGX6wL
+	 unMH25pqpPDeDDFeLGXT4MjSTeTn83NAN987BPnzT2Dc9yeDzVV+21FMc55tWsl09uM94
+	 rWhLr+ZByQ95X2gqS+8SxvDzt2cmtoGcpxkF5BPbOy1ZAK9sOSp5On4QaSuaLEir3kwwL
+	 RD32lzlRvU73+xzumA4zyDyKemEMJe2vLXFYI53jrtUbwzaiwVqjHThEuFQUUWemzNA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KSlee+0X;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WGVy0U4Z;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 219D6608B1F7;
-	Wed,  4 Nov 2026 19:45:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0511D606AB09;
+	Wed,  4 Nov 2026 19:46:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KSlee+0X
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BE861F000C1;
-	Wed,  4 Nov 2026 19:45:41 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WGVy0U4Z
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64A131F00919;
+	Wed,  4 Nov 2026 19:46:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793821553;
-	bh=9IR2jOxQyurV4Y0UWx6k8fIXiSGUImfiuKIP9CXfPTA=;
+	s=k20260515; t=1793821583;
+	bh=bLxRwCxtJ/P3YNIr6jvbkvrLQvoA3ATHIuHzWzBn2J4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=KSlee+0XDq+bm+ysUh8nPtikOnchu9TkIAW1VCY3OCd0AvNcw44e5Hzp54rCEEeNB
-	 L3jWndaPZFN6e+WP3JcpT+3RG0ZhvSz3tOpGSVIOUGFO+0FYAr1NPl7u7cOMMQ0fPJ
-	 +knaMWTjbKoGzcmxQNH3DFEm9Ec3Nl5logdXw9qRd0FXTv0BIExvBcdGtMlpPD+P5X
-	 hC9PgG8J3C1XX9TXnT/LOUtJaj+Lvw1tPb/+ixseUzpgnUtzTmNqW0vZ9e3rfcGTmn
-	 SADjUJW9oNfrCSPr0BRrs6Hxsxw5J/g7bKH0shcxqMZgd6mz8rvFTNgLc1cdCHqadt
-	 VP8DK/LvUQzHQ==
+	b=WGVy0U4ZGU9MGVkN5s11MIXd6L4ZW80HabYvpXJKD2FbPo/xhXTihbhJIMMm5yjgp
+	 g4YoG2gYjBvHEd55qb/8eKrNcGJy1t5KQ1dMFb+unC9akGOcKREFdMTo+rMdiE6MjK
+	 Qwst++hGuwNHrO6Pz5Ks38sCNLj6UOvHgHDN9vlcHkhT4XUB9TDAQIPtYVe0zpxjMO
+	 fYYp180+QK9mYvyWZuTSecCl9SsUr4g9V4K9vcGIrma64ubmtN9f0W6WY/GJ07Agnn
+	 WhsV+QgTvy+81YnNiXhZ06V2DcHYqbpniOh2Uv9igjKmY8z2zlPURD68B8addMVZFO
+	 hlNvylhXD/36g==
 From: Christian Brauner <brauner@kernel.org>
 To: linux-fsdevel@vger.kernel.org
 Cc: Linus Torvalds <torvalds@linux-foundation.org>,
@@ -100,9 +100,9 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
 	linux-debuggers@vger.kernel.org,
 	"Christian Brauner (Amutable)" <brauner@kernel.org>,
 	Chuck Lever <cel@kernel.org>
-Subject: [PATCH RESEND v2 14/26] scsi: sg: let procfs copy in writes
-Date: Wed,  4 Nov 2026 20:45:39 +0100
-Message-ID: <20261104-work-procfs-drivers-v2-14-245e54e87116@kernel.org>
+Subject: [PATCH RESEND v2 16/26] hwmon: (dell-smm) let procfs copy the i8k ioctl arguments
+Date: Wed,  4 Nov 2026 20:46:09 +0100
+Message-ID: <20261104-work-procfs-drivers-v2-16-245e54e87116@kernel.org>
 In-Reply-To: <20261104-work-procfs-drivers-v2-0-245e54e87116@kernel.org>
 References: <20261104-work-procfs-drivers-v2-0-245e54e87116@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -116,87 +116,144 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2854; i=brauner@kernel.org; h=from:subject:message-id; bh=PgyqcOYZULSLqb7qnigRBp/yeFf2Hrq3aYxTKZd6WWw=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS97mpZWdQr2n5nhfa9hbuuMma3507NEd2z6qhK4rplW k3LP34/01HKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRYzMZfrPUzUxT2rba7uSD Anbzi5PuGN7V3NNXoe7+56FVZPzfOCeG36y1zXIX/9lqb7zUZV/JZH9mTlfh9l/TZrc98K+uDN6 7lxEA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4573; i=brauner@kernel.org; h=from:subject:message-id; bh=negOiIwbpBXFbC2+4UQ2qelUCL0pz2XjdZael8czB8w=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS97mqLC7v46Tq/2OM60YXF/IwJT7t91n/WXTRlC8/Kr INzkoqfdJSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEykz53hf4aK+JOF56xXan+K c/qQJNoTJsxh93zLrnNOQlZHxI5n5TIyNMhMV5L+1b3683u1mdyPpT5ct+p2sVs5/2nS//WVvHM S+QE=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
 
-Implement ->proc_write_buf() for allow_dio and def_reserved_size so
-procfs copies in what is written before it pins the entry, and parse
-the number from that copy.
+Implement ->proc_ioctl_buf() so procfs copies the arguments in before
+it pins the entry and back out after unpinning it. The command numbers
+in <uapi/linux/i8k.h> encode the wrong sizes, so the table lists what
+is really copied: an int or the 16 bytes of the machine id out, and one
+or two ints in.
 
-kstrtoul_from_user() looked at the first 66 bytes of whatever was
-written. Now the whole write is parsed, and anything larger than
-PAGE_SIZE - 1 bytes fails with -EINVAL from procfs before the
-capability check.
+A NULL argument fails with -EFAULT now instead of -EINVAL, and so does
+a bad pointer to SET_FAN from an unprivileged task, which got -EPERM
+before, since procfs copies the argument in before the entry's own
+checks run. 32-bit tasks can use the commands whose numbers don't
+depend on the size of size_t.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- drivers/scsi/sg.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ drivers/hwmon/dell-smm-hwmon.c | 48 +++++++++++++++++++++---------------------
+ 1 file changed, 24 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/scsi/sg.c b/drivers/scsi/sg.c
-index fb3ab74e8727..df955896e65f 100644
---- a/drivers/scsi/sg.c
-+++ b/drivers/scsi/sg.c
-@@ -2288,18 +2288,18 @@ sg_get_dev(int dev)
- #ifdef CONFIG_SCSI_PROC_FS
- static int sg_proc_seq_show_int(struct seq_file *s, void *v);
+diff --git a/drivers/hwmon/dell-smm-hwmon.c b/drivers/hwmon/dell-smm-hwmon.c
+index 492b2b6c6d7e..67b8c6e5752f 100644
+--- a/drivers/hwmon/dell-smm-hwmon.c
++++ b/drivers/hwmon/dell-smm-hwmon.c
+@@ -549,16 +549,13 @@ static int i8k_get_power_status(const struct dell_smm_data *data)
+  * Procfs interface
+  */
  
--static ssize_t sg_proc_write_adio(struct file *filp, const char __user *buffer,
-+static ssize_t sg_proc_write_adio(struct file *filp, char *buffer,
- 			          size_t count, loff_t *off);
- static const struct proc_ops adio_proc_ops = {
- 	.proc_show	= sg_proc_seq_show_int,
--	.proc_write	= sg_proc_write_adio,
-+	.proc_write_buf	= sg_proc_write_adio,
- };
+-static long i8k_ioctl(struct file *fp, unsigned int cmd, unsigned long arg)
++static long i8k_ioctl(struct file *fp, unsigned int cmd, void *arg)
+ {
+ 	struct dell_smm_data *data = pde_data(file_inode(fp));
+-	int __user *argp = (int __user *)arg;
++	int *argp = arg;
+ 	int speed, err;
+ 	int val = 0;
  
- static ssize_t sg_proc_write_dressz(struct file *filp, 
--		const char __user *buffer, size_t count, loff_t *off);
-+		char *buffer, size_t count, loff_t *off);
- static const struct proc_ops dressz_proc_ops = {
- 	.proc_show	= sg_proc_seq_show_int,
--	.proc_write	= sg_proc_write_dressz,
-+	.proc_write_buf	= sg_proc_write_dressz,
- };
+-	if (!argp)
+-		return -EINVAL;
+-
+ 	switch (cmd) {
+ 	case I8K_BIOS_VERSION:
+ 		if (!isdigit(data->bios_version[0]) || !isdigit(data->bios_version[1]) ||
+@@ -568,17 +565,13 @@ static long i8k_ioctl(struct file *fp, unsigned int cmd, unsigned long arg)
+ 		val = (data->bios_version[0] << 16) |
+ 				(data->bios_version[1] << 8) | data->bios_version[2];
  
- static int sg_proc_seq_show_version(struct seq_file *s, void *v);
-@@ -2360,7 +2360,7 @@ static int sg_proc_seq_show_int(struct seq_file *s, void *v)
+-		if (copy_to_user(argp, &val, sizeof(val)))
+-			return -EFAULT;
+-
++		*argp = val;
+ 		return 0;
+ 	case I8K_MACHINE_ID:
+ 		if (restricted && !capable(CAP_SYS_ADMIN))
+ 			return -EPERM;
+ 
+-		if (copy_to_user(argp, data->bios_machineid, sizeof(data->bios_machineid)))
+-			return -EFAULT;
+-
++		memcpy(argp, data->bios_machineid, sizeof(data->bios_machineid));
+ 		return 0;
+ 	case I8K_FN_STATUS:
+ 		val = i8k_get_fn_status(data);
+@@ -593,8 +586,7 @@ static long i8k_ioctl(struct file *fp, unsigned int cmd, unsigned long arg)
+ 		break;
+ 
+ 	case I8K_GET_SPEED:
+-		if (copy_from_user(&val, argp, sizeof(int)))
+-			return -EFAULT;
++		val = *argp;
+ 
+ 		if (val > U8_MAX || val < 0)
+ 			return -EINVAL;
+@@ -603,8 +595,7 @@ static long i8k_ioctl(struct file *fp, unsigned int cmd, unsigned long arg)
+ 		break;
+ 
+ 	case I8K_GET_FAN:
+-		if (copy_from_user(&val, argp, sizeof(int)))
+-			return -EFAULT;
++		val = *argp;
+ 
+ 		if (val > U8_MAX || val < 0)
+ 			return -EINVAL;
+@@ -616,14 +607,11 @@ static long i8k_ioctl(struct file *fp, unsigned int cmd, unsigned long arg)
+ 		if (restricted && !capable(CAP_SYS_ADMIN))
+ 			return -EPERM;
+ 
+-		if (copy_from_user(&val, argp, sizeof(int)))
+-			return -EFAULT;
+-
++		val = argp[0];
+ 		if (val > U8_MAX || val < 0)
+ 			return -EINVAL;
+ 
+-		if (copy_from_user(&speed, argp + 1, sizeof(int)))
+-			return -EFAULT;
++		speed = argp[1];
+ 
+ 		speed = clamp_val(speed, 0, data->i8k_fan_max);
+ 
+@@ -643,12 +631,22 @@ static long i8k_ioctl(struct file *fp, unsigned int cmd, unsigned long arg)
+ 	if (val < 0)
+ 		return val;
+ 
+-	if (copy_to_user(argp, &val, sizeof(int)))
+-		return -EFAULT;
+-
++	*argp = val;
+ 	return 0;
  }
  
- static ssize_t 
--sg_proc_write_adio(struct file *filp, const char __user *buffer,
-+sg_proc_write_adio(struct file *filp, char *buffer,
- 		   size_t count, loff_t *off)
- {
- 	int err;
-@@ -2368,7 +2368,7 @@ sg_proc_write_adio(struct file *filp, const char __user *buffer,
++/* The command numbers don't encode what is copied, see <uapi/linux/i8k.h>. */
++static const struct proc_ioctl_arg i8k_ioctl_args[] = {
++	PROC_IOCTL_ARG(I8K_BIOS_VERSION, 0, sizeof(int)),
++	PROC_IOCTL_ARG(I8K_MACHINE_ID, 0, sizeof_field(struct dell_smm_data, bios_machineid)),
++	PROC_IOCTL_ARG(I8K_FN_STATUS, 0, sizeof(int)),
++	PROC_IOCTL_ARG(I8K_POWER_STATUS, 0, sizeof(int)),
++	PROC_IOCTL_ARG(I8K_GET_TEMP, 0, sizeof(int)),
++	PROC_IOCTL_ARG(I8K_GET_SPEED, sizeof(int), sizeof(int)),
++	PROC_IOCTL_ARG(I8K_GET_FAN, sizeof(int), sizeof(int)),
++	PROC_IOCTL_ARG(I8K_SET_FAN, 2 * sizeof(int), sizeof(int)),
++};
++
+ /*
+  * Print the information for /proc/i8k.
+  */
+@@ -696,7 +694,9 @@ static int i8k_proc_show(struct seq_file *seq, void *offset)
  
- 	if (!capable(CAP_SYS_ADMIN) || !capable(CAP_SYS_RAWIO))
- 		return -EACCES;
--	err = kstrtoul_from_user(buffer, count, 0, &num);
-+	err = kstrtoul(buffer, 0, &num);
- 	if (err)
- 		return err;
- 	sg_allow_dio = num ? 1 : 0;
-@@ -2376,7 +2376,7 @@ sg_proc_write_adio(struct file *filp, const char __user *buffer,
- }
+ static const struct proc_ops i8k_proc_ops = {
+ 	.proc_show	= i8k_proc_show,
+-	.proc_ioctl	= i8k_ioctl,
++	.proc_ioctl_buf	= i8k_ioctl,
++	.proc_ioctl_args = i8k_ioctl_args,
++	.proc_nr_ioctl_args = ARRAY_SIZE(i8k_ioctl_args),
+ };
  
- static ssize_t 
--sg_proc_write_dressz(struct file *filp, const char __user *buffer,
-+sg_proc_write_dressz(struct file *filp, char *buffer,
- 		     size_t count, loff_t *off)
- {
- 	int err;
-@@ -2385,7 +2385,7 @@ sg_proc_write_dressz(struct file *filp, const char __user *buffer,
- 	if (!capable(CAP_SYS_ADMIN) || !capable(CAP_SYS_RAWIO))
- 		return -EACCES;
- 
--	err = kstrtoul_from_user(buffer, count, 0, &k);
-+	err = kstrtoul(buffer, 0, &k);
- 	if (err)
- 		return err;
- 	if (k <= 1048576) {	/* limit "big buff" to 1 MB */
+ static void i8k_exit_procfs(void *param)
 
 -- 
 2.53.0
