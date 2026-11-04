@@ -1,45 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793820773;
-	b=HTgZV0MjNz39DXsTZEyJbqGCUcyZcuP8y3WcMCYL7LzqOGyZLPAm7lOT0phGginaIm01
-	 ig65T4n6lKsfIIf7QM4XWZrKlA12EBwTucQSfD7DmvJ4CQL4l7WFhgi7pd22fwA0yDDK1
-	 ldUGpoQx5MyDnpsqZ+wKcjjt/6usthTCMjIs0/OVh+bw0ob4MGqON42w3Xs2eOUeREqlX
-	 fX0/rAZxjIw5I4w0NGXocowa6xOoGcAP7JkWj12YLaOQz2C3NORyjvhYqqxWICBR4AYmd
-	 2qzaf7hErX43bxRUwvJJOYlXePYs74pKv30t+KNoUURNBHu7qE3vroarHk9jjEDmE7w==
+	t=1793820952;
+	b=ENOZ3/a2vlCXOsEDFiwWy8oVv+zB+jH+qWb1xwhY4qYNnBq4g8HqfQAFQQVzMzkjwk5P
+	 IOm2cstSs+cDyX3gQ3imGF7hJicf7qjCAzSEFoBmQ6yTty6/bempMnv/ua39hNiffIKSm
+	 2r9aeoM7X93xH4tkRQcW6QpWQn9+Dme5OwMkV16qPZQq0FCiCB2pCMs8k5S+3gCJrRvSr
+	 MdSCSS5Xa5lbnekMOIecGH1porxwP6+yx710A7ORuFAItsaagh+CGv0AyOfJFcGq+4B++
+	 V1rKXBEyd7Ht7vFuFVaPXpyX+e8lP2avgW/5zDIZdXDk0iXC7YWdA/aaZyEaAfgr1ew==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793820773;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793820952;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
-	 In-Reply-To:References:MIME-Version:Content-Type:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Type:X-Change-ID:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:Content-Transfer-Encoding;
-	bh=TEHVy98izX4fxXB98UXZRCAsXp7Vv98/GN00gGR5FH0=;
-	b=ipEh0rYsQhTFUsRIDUdzsXo8KrI3A553fLeXddiq2o49x9iC4nqz1RiZE7xqRw3YmEv3
-	 jA6VZYnpUR9jgvKDLf6mSI0O6C9LweJEzvh5KVsSm41ieXfJJcKeoyHxB7QwPlkv+NyM9
-	 5mKHlnupDFkgBRL/4I9RxDCTVGBWNhb73LtQzARW4iXEPvlzTx6oLFPpuArwTTaIxPuhk
-	 4zQ004WSb+X4NHXMHSrQvOq2XXbj5QBuK7cLifGS1Vl1XGOZzal/4+EusvrWlhmJRD3W8
-	 W6jNMAMc3pjdnPO/S83Caza+QeoA2yKN8JJ2LA89ATE8A5KBFj3IpRxXrYpVeNwRhOQ==
+	bh=JLj8qUmOxG8v+4vkiBPzRKoIk8eoD2QLdzNBq5yfolE=;
+	b=2HSVmE+SqVBvhdXo37rcnM2KBUW795P6WpNsjs5szdKCRsD5IFxBWAOH5urxsT/eDIdK
+	 Nzx9otVr7hICxkq32jPlGQvWWbX2culNAlNt7MKhJlsx4bee86yCC2gUvHaoS48k4GnnZ
+	 Y+0OpFZC/u/YMNotwBYb7euonTlZGJV+8cz4QcdGnDqhCfSA9aPO5ZlVlSkSS+pcr5lqG
+	 9Fl9Aa3YhxTEo+5H+wklXZ478CArCzmJifxVE9qpmNYhHyHay5n5VwsbhljrgmSJPklot
+	 TPF3kIljxiSQ4FM7ZDuTavhFX1lqP8lnQtJnY2M1XvqDZ5kq3pv5g3Nsy90QZ8umrnQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=I5QLB5cP;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b+rC1vw+;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1179D606D4D5;
-	Wed,  4 Nov 2026 19:32:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EDE9606EEAB;
+	Wed,  4 Nov 2026 19:35:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=I5QLB5cP
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BC9D1F00919;
-	Wed,  4 Nov 2026 19:32:40 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b+rC1vw+
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 082D81F000C1;
+	Wed,  4 Nov 2026 19:35:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793820772;
-	bh=TEHVy98izX4fxXB98UXZRCAsXp7Vv98/GN00gGR5FH0=;
+	s=k20260515; t=1793820952;
+	bh=JLj8qUmOxG8v+4vkiBPzRKoIk8eoD2QLdzNBq5yfolE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=I5QLB5cPRnqisNuC7Gqo3F5XkxxQOdtVGXAFMUWMhX2Z7BYWw49ADkpvPU7MqNxI+
-	 j48ixtJJYVGr31znu8c/7Be9nnUewJ72aON0xf/R4isMFiSrAYisnnndH+E4ED8VQQ
-	 XcfgL+2d4gDdQBsrsE6enNmVb2q9GlukpVqvYJqVvErrOeF7xxKhbqDxo8qTklwVA5
-	 Y30cOxhhLbdaCZP3DnUVtJZjx6p43P/fTZQgcWsWTuUtDrOyubqKAr0fQ8lDQzcJg3
-	 4R05YEMlvwuvN8sRYtajj3sC3E3jrB8F1lxhZNUzV+Nt7eI5ePNgQkrGR4Ab/7mBVU
-	 5ngUzPN2tzJhg==
+	b=b+rC1vw+u0giGnhmNK2PaCSZhvh8IQYMvAt0GMDPbM8PtauDqkuQfwxrhz09Jxt0H
+	 RhhBZWMhi3WerjCjDIghmahUUrm6g6C7Tl3QGgArvvK2zhi4wVw+rH9319WMJyFvrx
+	 UKYqgEVai/b1ZKhe1nszmBA1S6GmRy1xJIhSmePB9IxIlpPgMNoGkSkDvH5JDog8PI
+	 mmeZ/UiAGafxLjdgB0i9GFVsqok4ki20v0iWi6BkUQiDmJs0ph5nqCVxMpo4L7P102
+	 WpH0qgr2XT6JgnfTwELlo0C2toSHizUYgk8SQqa4n0wOVT86XRpvv+pKCNlK/qGDVe
+	 eJDiWZiF0ih+Q==
 From: Christian Brauner <brauner@kernel.org>
 To: linux-fsdevel@vger.kernel.org
 Cc: Linus Torvalds <torvalds@linux-foundation.org>,
@@ -100,11 +100,11 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
 	linux-debuggers@vger.kernel.org,
 	"Christian Brauner (Amutable)" <brauner@kernel.org>,
 	Chuck Lever <cel@kernel.org>
-Subject: [PATCH RESEND v2 14/23] proc: let procfs copy in writes before pinning the entry
-Date: Wed,  4 Nov 2026 20:32:38 +0100
-Message-ID: <20261104-work-procfs-core-v2-14-76ace653a773@kernel.org>
-In-Reply-To: <20261104-work-procfs-core-v2-0-76ace653a773@kernel.org>
-References: <20261104-work-procfs-core-v2-0-76ace653a773@kernel.org>
+Subject: [PATCH RESEND v2 00/23] proc: convert the arch and platform entries (Part 3/7)
+Date: Wed,  4 Nov 2026 20:35:37 +0100
+Message-ID: <20261104-work-procfs-arch-v2-0-2aeb952c9597@kernel.org>
+In-Reply-To: <20261104-work-procfs-v2-0-b45cd5789ac5@brauner>
+References: <20261104-work-procfs-v2-0-b45cd5789ac5@brauner>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -115,184 +115,182 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
+X-Change-ID: 20261101-work-procfs-arch-8d4ade48be31
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6007; i=brauner@kernel.org; h=from:subject:message-id; bh=XY7ojw2MJH5q6cdYnSISI9dPPhcEOijXA7taVvYOt3o=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS9bm/kTxWWFrr4tjFsg/6s4/3d3zQzvzzb8u92uexKQ aWHfpMOd5SyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAExk+06GP1wi7B7/1rWYZy25 JqbSIlC9+W/y8g03z9R8S54pVjXRwpiRYZGPccC8jU98amU92Ti0XJqD2prb62ev/Sv9RV1n1mc JZgA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=9990; i=brauner@kernel.org; h=from:subject:message-id; bh=We2l4X25hmir4pnoYpHOHa+cUJRdJP3mhCPydhALQB8=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS97niTacO/1D+hNOHTua5Hp25vnnLWNTzHb5GOzPVtq 64+2XTmVEcpC4MYF4OsmCKLQ7tJuNxynorNRpkaMHNYmUCGMHBxCsBE1HkY/lew3437yFAsbXbd WF5Z0eSK8xHJB/Kn3h1hZ41eVOlzuJuRoXMDf7dOioTwygkGyrIftZQWOi/edHnpTKnPbgdd5RI quQE=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
 
-proc_reg_write() pins the entry and calls ->proc_write() which copies
-from userspace itself. A page fault in that copy can take as long as
-the writer wants, just like the copy to userspace of a read, and
-remove_proc_entry() waits for it.
+Part 3/7 of "proc: move procfs to what kernfs does", on top of part 2
+and independent of parts 4 to 6:
 
-So do what kernfs does for writes as well. An entry that implements
-->proc_write_buf() gets a NUL-terminated kernel copy of what was
-written. procfs makes that copy before it pins the entry. The copy is
-capped at ->proc_write_size bytes, or at PAGE_SIZE - 1 like
-proc_simple_write() if the entry doesn't care. Larger writes fail with
--EINVAL. The proc_ops go away with the entry, so procfs remembers the
-limit in the entry when it is registered, like the size of the seq_file
-state, instead of pinning the entry just to look up a number.
+  https://patch.msgid.link/20261104-work-procfs-v2-0-b45cd5789ac5@brauner
 
-Entries that take binary data in pieces, like the PCI config space,
-ALSA's data entries or a firmware image, can ask for
-PROC_ENTRY_SHORT_WRITES instead. procfs then copies in the first
-->proc_write_size bytes and the write comes up short.
+This converts the proc entries under arch/ and the ones of ACPI, the
+platform drivers, via-pmu and PNP to what "proc: let procfs own the data
+path" set up. Afterwards the entries' code only runs with the entry
+pinned and never touches userspace memory. One patch per subsystem and
+method.
 
-->proc_write_buf() gets the position like ->proc_write() so entries
-that write at an offset keep working.
+- procfs copies in the writes of alpha's srm_env, the ARM and sh
+  alignment files, the rtas, pseries, mconsole and exitcode files,
+  sparc's led, /proc/mtrr, simdisk, /proc/acpi/wakeup, via-pmu's
+  options, thinkpad_acpi, toshiba_acpi and pnpbios. Most of them just
+  stop copying in themselves or switch from kstrto*_from_user() to
+  kstrto*(). Where a write larger than anything the entry parses now
+  fails with -EINVAL from procfs the commit says so.
+- procfs copies out the reads of /proc/atags, /proc/bootinfo, the rtas
+  error log and flash files, /proc/powerpc/systemcfg, simdisk and
+  /proc/bus/isapnp, mostly simple_read_from_buffer() turned into
+  memory_read_from_buffer().
+- procfs owns the seq_file of /proc/mtrr and copies its ioctl arguments
+  in and out. The ioctls are table driven now, the native and the 32-bit
+  commands share one table.
+- the rtas flash files take their image in 4k pieces and keep doing that
+  with PROC_ENTRY_SHORT_WRITES.
+- the rtas error log is a stream, it hands out a record before procfs
+  copies it out, so a reader that passes a bad buffer loses it. Its
+  pollers sleep on the wait queue procfs owns for the entry now and
+  rtasd wakes them with proc_poll_notify().
 
-Note that procfs copies in the whole write before the entry looks at any
-of it. So a write that is too large or whose buffer can't be read fails
-before the entry's own checks run, permission checks included, even
-where the entry only ever looked at the first few bytes.
-
-An entry that implements ->proc_write_buf() and still has a
-->proc_write() fails to register.
-
-No users yet.
+Build tested per commit on x86_64 and with W=1 on the touched objects on
+alpha, arm, m68k, powerpc, sh, sparc, um, x86 and xtensa. The entries I
+could get at in an x86 VM behave the same with and without the series.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/proc/generic.c       |  8 ++++++++
- fs/proc/inode.c         | 33 +++++++++++++++++++++++++++++++++
- fs/proc/internal.h      | 11 +++++++++++
- include/linux/proc_fs.h | 17 +++++++++++++++++
- 4 files changed, 69 insertions(+)
+Changes in v2:
+- rtasd lets procfs own the wait queue of the rtas error log
+- rebased onto v7.4-rc1, the thinkpad_acpi write merged with its
+  cleanup.h restyle upstream
+- Link to v1: https://patch.msgid.link/20261102-work-procfs-arch-v1-0-c9492ab08480@kernel.org
 
-diff --git a/fs/proc/generic.c b/fs/proc/generic.c
-index 959bf9e33245..4f1f83e9f288 100644
---- a/fs/proc/generic.c
-+++ b/fs/proc/generic.c
-@@ -466,6 +466,14 @@ static int pde_set_flags(struct proc_dir_entry *pde)
- 		if (proc_ops->proc_lseek)
- 			pde->flags |= PROC_ENTRY_proc_lseek;
- 	}
-+	if (proc_ops->proc_write_buf) {
-+		if (WARN_ON_ONCE(proc_ops->proc_write))
-+			return -EINVAL;
-+		pde->flags |= PROC_ENTRY_proc_write_buf;
-+		pde->write_size = proc_ops->proc_write_size ?: PAGE_SIZE - 1;
-+		if (proc_ops->proc_flags & PROC_ENTRY_SHORT_WRITES)
-+			pde->flags |= PROC_ENTRY_SHORT_WRITES;
-+	}
- 	return 0;
- }
- 
-diff --git a/fs/proc/inode.c b/fs/proc/inode.c
-index d51ab7548b11..df1caa0f238d 100644
---- a/fs/proc/inode.c
-+++ b/fs/proc/inode.c
-@@ -417,11 +417,44 @@ static ssize_t pde_write(struct proc_dir_entry *pde, struct file *file, const ch
- 	return -EIO;
- }
- 
-+/*
-+ * procfs copies in what is written before it pins the entry. A writer that
-+ * faults on its buffer then doesn't hold up remove_proc_entry().
-+ */
-+static ssize_t pde_write_buf(struct proc_dir_entry *pde, struct file *file,
-+			     const char __user *ubuf, size_t count, loff_t *ppos)
-+{
-+	char *buf __free(kvfree) = NULL;
-+	size_t size;
-+	ssize_t rv;
-+
-+	size = pde->write_size;
-+	if (count > size) {
-+		if (!pde_has_short_writes(pde))
-+			return -EINVAL;
-+		count = size;
-+	}
-+	buf = kvmalloc(count + 1, GFP_KERNEL);
-+	if (!buf)
-+		return -ENOMEM;
-+	if (copy_from_user(buf, ubuf, count))
-+		return -EFAULT;
-+	buf[count] = '\0';
-+
-+	if (!pde_pin(pde))
-+		return -EIO;
-+	rv = pde->proc_ops->proc_write_buf(file, buf, count, ppos);
-+	pde_unpin(pde);
-+	return rv;
-+}
-+
- static ssize_t proc_reg_write(struct file *file, const char __user *buf, size_t count, loff_t *ppos)
- {
- 	struct proc_dir_entry *pde = PDE(file_inode(file));
- 	ssize_t rv;
- 
-+	if (pde_has_proc_write_buf(pde))
-+		return pde_write_buf(pde, file, buf, count, ppos);
- 	if (!pde_pin(pde))
- 		return -EIO;
- 	rv = pde_write(pde, file, buf, count, ppos);
-diff --git a/fs/proc/internal.h b/fs/proc/internal.h
-index 674e6b4ed21e..da246c5ed4bf 100644
---- a/fs/proc/internal.h
-+++ b/fs/proc/internal.h
-@@ -51,6 +51,7 @@ struct proc_dir_entry {
- 	proc_write_t write;
- 	void *data;
- 	unsigned int state_size;
-+	unsigned int write_size;
- 	unsigned int low_ino;
- 	nlink_t nlink;
- 	kuid_t uid;
-@@ -109,6 +110,16 @@ static inline bool pde_has_proc_show(const struct proc_dir_entry *pde)
- 	return pde->flags & PROC_ENTRY_proc_show;
- }
- 
-+static inline bool pde_has_proc_write_buf(const struct proc_dir_entry *pde)
-+{
-+	return pde->flags & PROC_ENTRY_proc_write_buf;
-+}
-+
-+static inline bool pde_has_short_writes(const struct proc_dir_entry *pde)
-+{
-+	return pde->flags & PROC_ENTRY_SHORT_WRITES;
-+}
-+
- /* procfs owns the seq_file, see pde_seq_start() */
- static inline bool pde_is_seq_file(const struct proc_dir_entry *pde)
- {
-diff --git a/include/linux/proc_fs.h b/include/linux/proc_fs.h
-index ea55ed85a2d6..c81c93325044 100644
---- a/include/linux/proc_fs.h
-+++ b/include/linux/proc_fs.h
-@@ -31,6 +31,13 @@ enum {
- 	PROC_ENTRY_proc_show		= 1U << 5,
- 
- 	PROC_ENTRY_FORCE_LOOKUP		= 1U << 7,
-+	PROC_ENTRY_proc_write_buf	= 1U << 8,
-+
-+	/*
-+	 * Writes larger than ->proc_write_size come up short instead of
-+	 * failing with -EINVAL.
-+	 */
-+	PROC_ENTRY_SHORT_WRITES		= 1U << 9,
- };
- 
- struct proc_ops {
-@@ -67,6 +74,16 @@ struct proc_ops {
- 	const struct seq_operations *proc_seq_ops;
- 	int	(*proc_show)(struct seq_file *, void *);
- 	unsigned int proc_state_size;
-+	/*
-+	 * procfs copies what is written into a kernel buffer and calls
-+	 * ->proc_write_buf() with it. The buffer is NUL-terminated and holds
-+	 * at most ->proc_write_size bytes, PAGE_SIZE - 1 if that's 0. Larger
-+	 * writes fail with -EINVAL unless the entry asks for
-+	 * PROC_ENTRY_SHORT_WRITES. The position is NULL for a stream, like
-+	 * for ->write().
-+	 */
-+	ssize_t	(*proc_write_buf)(struct file *, char *, size_t, loff_t *);
-+	unsigned int proc_write_size;
- } __randomize_layout;
- 
- /* definitions for hide_pid field */
+---
+Christian Brauner (23):
+      alpha: srm_env: let procfs copy in writes
+      ARM: alignment: let procfs copy in writes
+      ARM: atags: let procfs copy out reads of /proc/atags
+      m68k/bootinfo: let procfs copy out reads of /proc/bootinfo
+      powerpc/rtas: let procfs copy in writes
+      powerpc/rtas: let procfs copy out reads
+      powerpc/rtasd: let procfs own the wait queue of the rtas error log
+      powerpc/pseries: let procfs copy in writes
+      powerpc/procfs: let procfs copy out reads of /proc/powerpc/systemcfg
+      sh: alignment: let procfs copy in writes
+      sparc: led: let procfs copy in writes
+      um: let procfs copy in writes
+      x86/mtrr: let procfs own the seq_file of /proc/mtrr
+      x86/mtrr: let procfs copy in writes to /proc/mtrr
+      x86/mtrr: let procfs copy the ioctl arguments of /proc/mtrr
+      xtensa: simdisk: let procfs copy in writes
+      xtensa: simdisk: let procfs copy out reads
+      ACPI: proc: let procfs copy in writes to /proc/acpi/wakeup
+      macintosh/via-pmu: let procfs copy in writes to the options file
+      platform/x86: thinkpad_acpi: let procfs copy in writes
+      platform/x86: toshiba_acpi: let procfs copy in writes
+      PNP: pnpbios: let procfs copy in writes
+      PNP: isapnp: let procfs copy out reads
 
--- 
-2.53.0
+ arch/alpha/kernel/srm_env.c                 | 12 +---
+ arch/arm/kernel/atags_proc.c                |  6 +-
+ arch/arm/mm/alignment.c                     |  7 +--
+ arch/m68k/kernel/bootinfo_proc.c            |  6 +-
+ arch/powerpc/kernel/proc_powerpc.c          |  6 +-
+ arch/powerpc/kernel/rtas-proc.c             | 40 ++++++------
+ arch/powerpc/kernel/rtas_flash.c            | 62 +++++++++----------
+ arch/powerpc/kernel/rtasd.c                 | 30 +++------
+ arch/powerpc/platforms/pseries/lpar.c       | 14 ++---
+ arch/powerpc/platforms/pseries/lparcfg.c    |  7 +--
+ arch/powerpc/platforms/pseries/reconfig.c   | 22 +++----
+ arch/sh/mm/alignment.c                      |  7 +--
+ arch/sparc/kernel/led.c                     | 12 +---
+ arch/um/drivers/mconsole_kern.c             | 11 +---
+ arch/um/kernel/exitcode.c                   | 14 ++---
+ arch/x86/kernel/cpu/mtrr/if.c               | 95 ++++++++++++++++-------------
+ arch/xtensa/platforms/iss/simdisk.c         | 32 ++++------
+ drivers/acpi/proc.c                         |  7 +--
+ drivers/macintosh/via-pmu.c                 |  7 +--
+ drivers/platform/x86/lenovo/thinkpad_acpi.c | 12 +---
+ drivers/platform/x86/toshiba_acpi.c         | 36 ++++-------
+ drivers/pnp/isapnp/proc.c                   | 20 +++---
+ drivers/pnp/pnpbios/proc.c                  |  9 +--
+ 23 files changed, 198 insertions(+), 276 deletions(-)
+---
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+change-id: 20261101-work-procfs-arch-8d4ade48be31
+prerequisite-change-id: 20261101-work-procfs-core-8fa4a4f412cf:v2
+prerequisite-patch-id: a81e8b894107e48d607f8257d2c9f56e0dd6f400
+prerequisite-patch-id: 7edf7ca7ecd32c9e09085e4b65922af10097beaa
+prerequisite-patch-id: 81f6893f79b4236637675553298a6f2892b603f3
+prerequisite-patch-id: 598c2b1a389f47adcac88ebcf1c9f74e2511fbab
+prerequisite-patch-id: 6f5a2172dacc5ff2491fa9832c48ccd0e1ce1eda
+prerequisite-patch-id: 8947af6490288e4e2a3b2bf8844a974bedb1d975
+prerequisite-patch-id: 8cbe756286fd95967d31b0c46cacfeb05f0a2c6b
+prerequisite-patch-id: 3fa159f2b6ccd0ac51a2662e4eec5587ec18de89
+prerequisite-patch-id: bfb4e4ffe9631cb58015fefe6bd3698cd53e2244
+prerequisite-patch-id: 56ff6667a57a962264c07c0227c61aa2f1f4c22c
+prerequisite-patch-id: bc506323e29944ec0c29eae84950c706a8592042
+prerequisite-patch-id: 326c0ebb5accf0f40cbee1323fb4c3378f5be154
+prerequisite-patch-id: d6eaf7690a54a0dfda7500936a048b769fa265dd
+prerequisite-patch-id: 7c7b2535642b4d388e13eab518cbe0f9550eb1e6
+prerequisite-patch-id: 0474af12959624910718795bf86684383664c685
+prerequisite-patch-id: f6d4191e23c22e2d2cc90cc5d04781f913e98a8e
+prerequisite-patch-id: b0031a7c4855b7ec38259c59f30f65101a8fc4b5
+prerequisite-patch-id: 0b7f226abf2b9ff41873a1aa55cf97747647d56b
+prerequisite-patch-id: f63e345f897619af54813958046617c655fb7daf
+prerequisite-patch-id: c0e21e762a2960e3324c5ab04634a7035e515fa6
+prerequisite-patch-id: fd59c71eadd8f39c58b3baea93567bc093bc9b0e
+prerequisite-patch-id: 5d52cc8a5c73e4c5ba16b8e24f51408c17583bf9
+prerequisite-patch-id: 1f9179284e2f3314d4b46ac5e989089a21c7576c
+prerequisite-patch-id: 10397bbf696bee16dc71eb79fff6c5e73842bcbc
+prerequisite-patch-id: 9b44279dcf08912238d2f6438a3328a778a79a0c
+prerequisite-patch-id: 16854b621a3a71dfc365aaf7abaa7f65adfe9f7e
+prerequisite-patch-id: ca42eea21fae1fd1cd3518ab057c74b61ffd68fe
+prerequisite-patch-id: 23255dc2be76b0479c083dbd4c897bfbb533aed5
+prerequisite-patch-id: 82129c687ebf0a41b369893b92f2c038420ab801
+prerequisite-patch-id: 56ad57a99a5bda075a9f4e844368974296744934
+prerequisite-patch-id: 288b3cbaa11e01a778cc3d7beb6c0549aacf59f2
+prerequisite-patch-id: a163b1549608652bfa5bd9ff93efa55b541010c4
+prerequisite-patch-id: 43b92dfc1a98fbf0d14597a3e3ae99972844773b
+prerequisite-patch-id: 19c12bc6e3fbed35acc1f657196b1a997f48cdfe
+prerequisite-patch-id: 5800c3076694bad719954b2ad4d7448c6e013bfd
+prerequisite-patch-id: 2a2f63d8843b159594b9eee6ddea028ce76a6270
+prerequisite-patch-id: 40a1951d57906c4a1b98a4bd96a814b80339b9c5
+prerequisite-patch-id: e2141077e69f20a2b27fab69c8d61d0686682f53
+prerequisite-patch-id: c4d6018c26c40dc549d88330d23ce48f872c2b7f
+prerequisite-patch-id: 6de8ec17746031bc6d1d9ac262c5be0f905fcd79
+prerequisite-patch-id: b87bcb167884605bff1fd0f2ed8a88942d07efd5
+prerequisite-patch-id: cfa9a8b4c67e20cfd22d77035bfd21ee96ab3298
+prerequisite-patch-id: abf3482ed2399b7b2e1ee72e937af05bb9200667
+prerequisite-patch-id: 02c175b2dee565a85b3308ecf2ec8e3c9a029e0f
+prerequisite-patch-id: d58c239fba616b366a725de6acba3f88734156d0
+prerequisite-patch-id: dbe02fe3f784776fda5e7ae99f077bef0cd4b48d
+prerequisite-patch-id: 53edc9a95afff57c4acba40095a8054924261ea2
+prerequisite-patch-id: 5348d8957eb7eae7430ca8b101aa84ce77d3aa4f
+prerequisite-patch-id: 36c96d781e2dd80b20932667bbe6e7fd14976069
+prerequisite-patch-id: efeb2d6f7df71d5dede2c1d12fe999a28e38aab9
+prerequisite-patch-id: 17f95c7fdf0bdc7c8aaaf7883bff1dcc19a0f529
+prerequisite-patch-id: 117db27dcdef433de7c6be5e95973cac1e373927
+prerequisite-patch-id: a0844aa26ffb65ccb362b88ef6c2f4758e15edbf
+prerequisite-patch-id: 9c64355dfde62e399f2717d9208c4607834d4650
+prerequisite-patch-id: 9644739854ddfe2876f17fda8727fd5119255957
+prerequisite-patch-id: c61bba24c035f79a2a32a80ace0924ab58e97f46
+prerequisite-patch-id: 143fb91bddf33068b6ee11e205818c4c2815e23d
+prerequisite-patch-id: 9ce9be2ff05250f92d945c0084f4bb31d3d0b27d
+prerequisite-patch-id: aee0961341523547095a43ae298cb8b551302f10
+prerequisite-patch-id: 2f0fdb970ddd760d85ff5d2caad0b96348270182
+prerequisite-patch-id: f2aa468ff5cbb1cabab3f70e1b8eeee0286cfb4a
+prerequisite-patch-id: 5555895bcbca4d7c9888ecc9e82c0e4d76da8f40
+prerequisite-patch-id: 487141c49e2548310bfb6c2a0964a78f08b285a9
+prerequisite-patch-id: c3d3008819fa5629a18142ec9ba6d7024ade7fdb
+prerequisite-patch-id: ca587c976690ac16e3d759fccab2116fef0508e8
+prerequisite-patch-id: 9423f410b99853693db06c29f12f1c08278b050d
+prerequisite-patch-id: e269815617a6324615a38916b8886f99d98c641e
+prerequisite-patch-id: 3d24be1897a624d519ef144801f76d152c7528a9
+prerequisite-patch-id: 1ea3fc8319d9012faaf3a182ac61d5da89aafdb7
+prerequisite-patch-id: 7547b4e2c1b3588acf6caf90cc01fe7884fdb6bd
+prerequisite-patch-id: 695d325349ebeb89bf0ea24bcf0c4f1c4edacab5
+prerequisite-patch-id: e33502a202979aba0d6fdaf196e8471d906992a1
+prerequisite-patch-id: 47bfe4f07677ad75fe8d9accc8923a1cbdf3afa6
+prerequisite-patch-id: 9fc0739226572203fcb36f2c271be7b27f405ef2
 
