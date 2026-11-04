@@ -1,49 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793813389;
-	b=EJtTMwfN8Vb4bVZGiXgbUaQeSGmj9faIfIiNKPdMICfh7F7dfW8KCbaA1gM1/Sin4XNE
-	 rMOO0bmwLYg/p+nYcEGV7SEwsNOnnH4SDnI5W+dp+XJFFntSMd0f7Pn8QuNXLsLGC/5TU
-	 XTYGh+EW6niyL+GjBVAfSrLIsDT+UBrLfoedctYUAKDuqM1w3JDHNFsSMJggIZyFUXOkR
-	 baZIBqL20Jnyy3TmJsPU5LHme6D5gPMKVS1z4xUHM9jFwmxzkBlU/6tf7dFWEIR0bna7H
-	 l3xN2erEe+mydJvmnMBablPLb4yXow7jCTneKg+qbs+gNqvCAb+k8N/QZmxzvIcSbPA==
+	t=1793813430;
+	b=VvpJDZAsLFsSynD+qInXJ5sh5ZKk4V1we0rlQ8cfmqVdc0uwLY4lnetx5nAN3/CiTgqv
+	 7vPRhaEYAw4dCx/puDLUGN9Ii4ZUh/KsUVA45z0r/di1UyWEimGJYxp6+8x4l4u11pfdg
+	 Jp1Cmmre3/jWoZG2DSE6BH63tRYeNUp8QUE5QG7fjIQBCkNyiIsEzMrDPBZEomDJnA1Z1
+	 VYyUxcM4YFxom1gh7r5AOMAk5XwOJ3p4AnXlwrmqrYzk2W30AxBPQhtwrN0Kngu3DGJXA
+	 1gb/FtcH3yQu5XUwIYwfmVR4hlT7iCiOMNqjW3odav5DtSgcJtmCQUwQ2EkYr5DBUIg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793813389;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793813430;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=jP/hayhlpAKZdjJKk3r9BHeVVOYyvJcLU3d1z3kH9u8=;
-	b=sMqlL/Jq1E0mTxGzloD0Of/AxkGQVQGLZKmtyCAAC+Q5M09fsOgWMiFV4HdlDIAJtcLo
-	 IV496OKKCqP70TAV9lvEB/NeDrBBPFvM+QiRiVaAyOkJt0Jh7c5zrQfmtPS8fZT3UaMEp
-	 gJfLhpc4bcLy8+dgQfV19G6ID8qH0PfBXNubAQ0QwWoH+VLZOf/NMzDuJeVWyyQTkw6wc
-	 N9HZ7W9PqQUQ8D7yuHNjV3uRllM9DTHwGdSsp/W9KFqaOnK/YSrdEpdI8OV+IZWyfwRAB
-	 4Gg1kx7LVg4nOkeYa1dBitcROECfCf/2JKWwFEc+rDrBpw/fY4OyD6yx9vgXsg53B0w==
+	bh=gnzz2fT926tAung/y7Xzshf60AQanFXIqjFC5KSqJW4=;
+	b=vwpbMmSzml903IPFA2a5qpxVcL1qG2ffAGrWMvI3zzmqcnZjWlZ+WeWaXA25ZVz7Gf+P
+	 28QjpyCZvg13XJgN/LUe7mMxbASlI6oJS7M2F0f01YLslpczcds/BkuYEgzdqp1wgpavG
+	 1MdtPOltxByLHDF9i4S2KqOpggQM1Yvp9JDDqA3m4N30boHfstK564KxiDQlm8IRX8xaB
+	 ZyY+KE5KW7D0qHxeNMYZQdirM+tOfa8d1v9YVbD8hFhencl5r81Qw8q2Lpt0AGQTmv08g
+	 sb0PdLWQF4HUGTvzAAwRa7AG/8xh++PRD1KNKezmizGwPhkgh5EjKv6wXOxSDXNalPg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=k29wYoDm;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bKrAUcOe;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90DCF606A331;
-	Wed,  4 Nov 2026 17:29:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F19E608361C;
+	Wed,  4 Nov 2026 17:30:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=k29wYoDm
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F7C51F000C1;
-	Wed,  4 Nov 2026 17:29:35 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bKrAUcOe
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D051B1F00A20;
+	Wed,  4 Nov 2026 17:30:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793813389;
-	bh=jP/hayhlpAKZdjJKk3r9BHeVVOYyvJcLU3d1z3kH9u8=;
+	s=k20260515; t=1793813429;
+	bh=gnzz2fT926tAung/y7Xzshf60AQanFXIqjFC5KSqJW4=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=k29wYoDmBb6ORIk/YigyTAaPtSyeooMT9Gehkig8HAb2s5/Z8UK6XLxRTz9EDVGnx
-	 eGiDz9bKPGnbG5+h4f2SaQeQuToessREwOdzcuVK45laKtepD5/4l2EkSVetuFazGP
-	 CpZi4D+axCqGJyyCzcjUodz4iFV75O3vIJZr+FuouuBv26oCOdXws7TH/pp445vvA+
-	 XWOP3PhxdwKX/fQLJFUO/FuU7suEDOp3lVbp7cTbUmYfkzbYCBmWMOBUGP0APptS+H
-	 BJ5uoSpfpKEmuDle2PpFnddFwy9xwQS99ffHUVrrShSkfHcu9R7iUf2ztEg6CLx6Z0
-	 avdFtYzV4BmjA==
+	b=bKrAUcOeVzlg83/euOIHnVFterm+vHdMFNuNi2Dt0LF9VzWRfSHdWlR7H5c2KTzRF
+	 naRK5w+k54/QDDCRMfWgLxdTPqv4FCwBsr1kXOzQqhEOlC8vy1IWJ41ODhEZLno2LS
+	 jjGH8/XSd1jADyBL1p3Hc3Qgb7ui9/GDGzwbwzjY67qrbN3GQL5NP2Jybx4qUpUZX3
+	 CQMNjfOnMG5qtjvL2qoA6KmgJggxXjaC2t2PuKCscK2/RkukWsmgaXtZ0l6oKz5iz+
+	 P64zZ0Jt2cdani8OUoo4/+XjtpVm+osPlwpgz43htAz/C7aUhFTjPEXATp/jT4GDYM
+	 7OqOzge6sGwYQ==
 From: Christian Brauner <brauner@kernel.org>
-Date: Wed, 04 Nov 2026 18:27:22 +0100
-Subject: [PATCH v2 05/51] xtensa: simdisk: remove the proc entry before the
- disk
+Date: Wed, 04 Nov 2026 18:27:25 +0100
+Subject: [PATCH v2 08/51] powerpc/pseries/lparcfg: don't drop the last byte
+ of a write
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -55,7 +55,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261104-work-procfs-bugfixes-v2-5-bbf7d5546809@kernel.org>
+Message-Id: <20261104-work-procfs-bugfixes-v2-8-bbf7d5546809@kernel.org>
 References: <20261104-work-procfs-bugfixes-v2-0-bbf7d5546809@kernel.org>
 In-Reply-To: <20261104-work-procfs-bugfixes-v2-0-bbf7d5546809@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -91,47 +91,48 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
  "Christian Brauner (Amutable)" <brauner@kernel.org>, 
  Chuck Lever <cel@kernel.org>, stable@vger.kernel.org
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1246; i=brauner@kernel.org;
- h=from:subject:message-id; bh=f7Qg/00vnZM3tuJ138yAFxD6JPv6/GBN+HDx2x0z8gg=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS9zvo3+8l6vuY9izMzGv+zF0+8zvxIgy/yWdNkY/Huk
- 2e/XjWN6ihlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZhIUDXDX1nmkANzS/S1E9dt
- 3WFX/Lro3morHw1n24ovs6+YTz8QwsjwT6HT/Ztok6F1lkCbjcPRzduKzU87T1/j1tyZf3L9t5Y
- fLAA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1293; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=N2rHHHUzfsZsGLUBvdMxa3o2qGAAPzh8wsvUFn8S2uA=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS9zmYqts+f6c771jBc691PB/aNiq5rYmuWq7o9SdKKM
+ Ga7qdvUUcrCIMbFICumyOLQbhIut5ynYrNRpgbMHFYmkCEMXJwCMJFb8gz/a+f8MlT+0SWxMsTk
+ QerGWIU8g/w227Ptd+ManyhO269pzsgwb7VmgtgD7UuXjjF+CvlTU3NkGv8+HhW+PC2DOSyTg2v
+ 5AQ==
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-simdisk_teardown() frees the gendisk and only then removes
-/proc/simdisk/<n>. A write to that entry in between attaches the file
-that was written to the disk, and simdisk_attach() sets the capacity of
-the gendisk that is gone. Remove the entry first, remove_proc_entry()
-waits for a writer that is in the middle of that.
+lparcfg_write() terminates its copy of the write by overwriting the
+last byte, so a write without a trailing newline loses its last
+character: "partition_entitled_capacity=5" is parsed as an empty value
+and fails with -EINVAL. Terminate behind the copy instead, and refuse a
+write that fills the whole buffer, which can't be terminated.
 
-Fixes: b6c7e873daf7 ("xtensa: ISS: add host file-based simulated disk")
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
 Cc: stable@vger.kernel.org
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- arch/xtensa/platforms/iss/simdisk.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ arch/powerpc/platforms/pseries/lparcfg.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/arch/xtensa/platforms/iss/simdisk.c b/arch/xtensa/platforms/iss/simdisk.c
-index a2ddb49c269d..e51edb8cf872 100644
---- a/arch/xtensa/platforms/iss/simdisk.c
-+++ b/arch/xtensa/platforms/iss/simdisk.c
-@@ -379,12 +379,13 @@ static void simdisk_teardown(struct simdisk *dev, int which,
- {
- 	char tmp[2] = { '0' + which, 0 };
+diff --git a/arch/powerpc/platforms/pseries/lparcfg.c b/arch/powerpc/platforms/pseries/lparcfg.c
+index 3280b7968cab..9882f98c0efb 100644
+--- a/arch/powerpc/platforms/pseries/lparcfg.c
++++ b/arch/powerpc/platforms/pseries/lparcfg.c
+@@ -699,13 +699,12 @@ static ssize_t lparcfg_write(struct file *file, const char __user * buf,
+ 	if (!firmware_has_feature(FW_FEATURE_SPLPAR))
+ 		return -EINVAL;
  
-+	/* a write to the entry attaches a file to the disk, so it goes first */
-+	remove_proc_entry(tmp, procdir);
- 	simdisk_detach(dev);
- 	if (dev->gd) {
- 		del_gendisk(dev->gd);
- 		put_disk(dev->gd);
- 	}
--	remove_proc_entry(tmp, procdir);
- }
+-	if (count == 0 || count > sizeof(kbuf))
++	if (count == 0 || count >= sizeof(kbuf))
+ 		return -EINVAL;
  
- static void __exit simdisk_exit(void)
+ 	if (copy_from_user(kbuf, buf, count))
+ 		return -EFAULT;
+-
+-	kbuf[count - 1] = '\0';
++	kbuf[count] = '\0';
+ 	tmp = strchr(kbuf, '=');
+ 	if (!tmp)
+ 		return -EINVAL;
 
 -- 
 2.53.0
