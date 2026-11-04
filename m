@@ -1,96 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.229.7
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793819663;
-	b=TPrJbv/TpZB9Ofw8JAQB6+h7iEuObEVt+tLRUeqB7iVk3vad0jZ2hvJkuKjKtzp57qOD
-	 y4mOlSduuJD6F/kjd9CRXY/GGI5IPKnV3SCBiZe4s0KkRjQAoaV3OQXb8eV2mWHZsZxQV
-	 Zc8csVoi+e1y2MkIGbupT4AN8Wlk6DpBU/qyCxpaQZKhdj6WlSXmC8UDnUMSQYBc8llxF
-	 MzPPhKTej5NR//0xGMyZHQneAbV/gCScic46Rrv2S4k4q7/XqtIZn7e5gg7zmOxfaR0X5
-	 ktQZ9l7g0t834AyXEBf5VlbrMouQq4qi9INJ2rxwFGW5t3+oTjSHRmISWvavBww2DjQ==
+	t=1793819805;
+	b=prYIHfrcNamfrTFBhddQ7Mu8juo7D3U77vRjnhofDee9uQRhPJZgJnabJcdanfr6HifT
+	 ocLtgFl1+bHcigEgNkZWktvyBMbIOjmpz+EyICHEOQM/sySy/VvrJeKBvrFRlbzPfRlCU
+	 AWo/lhPnXXcxDa+04mRQ3q0auQu5zrXdZPJkskefVXB9bxXacXtX4QgwPKnSnbpGimQgZ
+	 BfKWNCV9732uLOuhF0yP3dpBU6YtiYLCpYHyShe3EQbbnTx5qV2ewF66OqbpchPh7ZHEL
+	 EVHjDf6VtoFZ4r+VFQnyPOaOY9fyGH8pkJXTXJfM3Tp1P6apkSNBB4zxAN5YI1AHYdA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793819663;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=xITUvna++NkI/eBI/dmyMX8RAsKhHBfiqDAe3Yile2E=;
-	b=GYi35PReifmr250H5ipiHsOS2uk26qbU5U4vM9IkMop4IPaadrFatcPP0UNH/+I274/L
-	 Z9l8VGpb71zbZBp4BUAZENv2kiqZkrDUaI8m55vDgs0mqUxUEu9LIfb9c5/VhoIxevHtE
-	 LBIbpjIqFJ6/T49t2MtVDHAJkiS5qCUhxhHM2hbSw/oFsJZ4uvnESSFbknjp54yiI7+UH
-	 kJss89bMaez54whEjP8bevAghu7nyVmgdL0wKGIBiAONiCgsOiXpjHhWstxKYe61wSFvK
-	 N3UrcNvxIwM58tRv912ZXGQcxC6Apn52ZGF3fxCRzD0aLsz6DXH2QQXbehWmLX5BBfA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793819805;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
+	 In-Reply-To:References:MIME-Version:Content-Type:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:Content-Transfer-Encoding;
+	bh=iSk3nsArFOOtW91DExIIvIg+E3fTnIkI1uYFn4dT7G8=;
+	b=wNyb7wkWytn63/Hp7EBF4PCzwNqExF3okYnT2PcMlbD2BdCGgaWP0k6oAvAqDESupJWm
+	 c9boXz2V7cB1uSW3DkK179Zz9d+l01c6zi1viWciET4VdFWHt9HUF+4TUuf0LSfZCWy57
+	 3+QIzxi2oC78Z5/2NSUzHv7LMBh6Ypv9Y+kpxhuKd0nRR/WgVxWevQYlaFjv1ut9qiXoR
+	 M0EqR5XR6fk6som3zmRVCTGHKTW0L1hxaeOqWn50cNPCFEuvUnqgsOSG6f8xoKWhfuimB
+	 OvlWRkZYLTDXC+kO/Y8RTWIESbMAApj8XhfF6Qb68Trp8uA08y0emP53HaRI064gkFQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qcfxRMy1;
-	arc=none smtp.remote-ip=74.125.229.7
-Received: from mail-dy2-f7.google.com (mail-dy2-f7.google.com [74.125.229.7])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=adc5P9d8;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A700F606A328
-	for <linux-fsdevel@vger.kernel.org>; Wed,  4 Nov 2026 19:14:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A700F606A328
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B145A606A32C;
+	Wed,  4 Nov 2026 19:16:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qcfxRMy1
-Received: by mail-dy2-f7.google.com with SMTP id 5a478bee46e88-36c9b5c6faaso493842eec.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 04 Nov 2026 11:14:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793819662; x=1794424462; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=xITUvna++NkI/eBI/dmyMX8RAsKhHBfiqDAe3Yile2E=;
-        b=qcfxRMy1w09RryqXTW51hmWDlaOIQBBSRpMLN9d1F9lfCHcDP3GnDWzmpdHNb/1tvw
-         BBIvcndRsf9hqsfhSYOHR4TiJD2P4WEPRTp8YaG41eKfG2CReL5Up1YXdLXRlEGkMKMs
-         E0NAcm8YmnUKi2eln6RQ3TuOCrQai+bY20NLZJvtILd7aGT9L1+bplWyRIlF0VoIJGOg
-         qqso8LaJ9LCKdOOnmDlHV45q8u5VMF5DYUQ1EEwMIjpR0MY0hL/4/AqwZr8MWplcfvvk
-         bItWFr7ZjDZGig92HszanKDHuyAqv/NByHnN6ke7EqNlgrWC4OfGvek2DA7is7yjOtWa
-         kQqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793819662; x=1794424462;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=xITUvna++NkI/eBI/dmyMX8RAsKhHBfiqDAe3Yile2E=;
-        b=um62c4HO04g8FY5xbbqJLWqjVUPGfRlzNzMADaHWNE3EkyUeN4OKkur8vSHepJlkOR
-         OUgHSNW4TJNOjIDpWftwn60n2/1PlzD1/vxgkWX1ri9Pp0dBGKno5gKXGB5i7GosYHZO
-         ZfxHuepJ/DsiGJHNHOFxauWi6ZLeZVRafhqLE6KW13eETi9zQfn6VdGhsKbB5XODSPvB
-         bt5GQyO/Le3gynm8cuXbDLGTN3rCYBKLBXAJ70aEYa5WJRmJVGHt1W7Qk1HUX/ymoZ6t
-         oQLdRH+AfAvQYHvpmf924dnYQMh6qHbTrZ2JDM719dI8FmcYroV/ljo7pN+teUCDK9oV
-         p9QA==
-X-Forwarded-Encrypted: i=1; AKwUvBwq4DS99tLDBFs7DLJuk9I1OEDZGOXeGu/RSt+FHu8dR218OQqDKXdRNICnmlfFVDj3NKokU/iUbyOcEPhK@vger.kernel.org
-X-Gm-Message-State: APuU4Z8gc7Kr7AnDbk3qNmncGlzZdg70G5uSKTd4/DJiBFHHHPTKEYYh
-	eetfZNVFX+MghLl90N6HRjpw/V53Aj8nEHjGtT/lq8I4+t80n2ipKdvn
-X-Gm-Gg: AYBFou0mlRqUzJ9pmHOIJoyksPnyOMG2muPyHwgwS/7TpEDNdrwSDr1pPJaKsHfmVvn
-	QAHVxEnr450PG2I/A43ejItyz79y0xmXvtHGA5uJMoiSvNB6wMMBHuteh+NIkecO52T/q7Csg/z
-	Ru8o7yg3VmUUO+aYcu1ePremrJ7+QFOHpIvRsa1ZMLmsBEQo43OmwKOdM+qqNR/7fuMaqyJtccT
-	xJB/ZVpCJreqenarKJ4kh6UhCtbeiQ5idlLZyvu51Z7kYWfnR9kitwEHYK1aCcWxid6F+7rzFcQ
-	r+AlqV6txoT1IXB7LrwCPc7NP5J8rnAcXhQyUlg9aJFz/aMEU4Ji+i3pK6qDehyZVdsv2RbKGBN
-	PEFpYlX/Lj7s+VecmMZ6BYHHFx2nyvbF7WBCne93p2kW9vhXBZbI4Wd0AGsAXijNzUCfuleyjBn
-	mniCdXnysEjPH+nXOrUZeNwZYyI+kMTklGZUvqJZycHyMq2VQP3BCYrn1dbWq2iiyJUY76X5ulX
-	wYM5y6PplmJG4qfkIgTruYcH5rhXbqp9wYkLjdzbCXctt9mCnr2eUHnz1SSfqazBWHy9S0E8MtK
-	S+9UBzcRjUn27DhOQCoTiqKoeu4LZcCFuzA+/VBJPyrSbLFKQz3OWXbU0PVdZX5DjMXLHpvfZI0
-	w76vNrGpHWKBNHYM0jPmzqEV10Dr/wLAoROCtcg==
-X-Received: by 2002:a05:693c:8803:20b0:361:6884:78b1 with SMTP id 5a478bee46e88-36a423bf728mr26751356eec.28.1793819661646;
-        Wed, 04 Nov 2026 11:14:21 -0800 (PST)
-Received: from localhost.localdomain ([98.148.34.5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36ca38a6d3dsm11367318eec.7.2026.11.04.11.14.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Nov 2026 11:14:21 -0800 (PST)
-From: Hungyu Lin <dennylin0707@gmail.com>
-To: jaharkes@cs.cmu.edu
-Cc: coda@cs.cmu.edu,
-	codalist@coda.cs.cmu.edu,
-	viro@zeniv.linux.org.uk,
-	linux-fsdevel@vger.kernel.org,
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=adc5P9d8
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 406881F000C1;
+	Wed,  4 Nov 2026 19:16:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793819804;
+	bh=iSk3nsArFOOtW91DExIIvIg+E3fTnIkI1uYFn4dT7G8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=adc5P9d8MahDP5MWnF8/BQZpdhwQF+Ch+DamqvSkAjn9rCUlBnkqECo/i8i5m6rCU
+	 r+0D3t4BrnoadvsSIYVAap135Zl9/uPV+3cWE1MIZO02KbRYUYm6qut6Iw4ZTKqOu/
+	 6k7TrsWTmBmMQUM3tHfS92Olrwro6VG7uRQk7JNC9KNK3inBXn1gscAHaKpctq+lkz
+	 NHgRnuuGNNngzWx7kkuO/bS69mOTmSTRK/+7SYlvkts5zOYpp6/1gj+SaDwhe5nUBd
+	 NQB1zsZF5ExMRUSJm8geywWpAxhsrbuzBIhJsIT/iETtc8kHozEESlyxMXTZO60F+g
+	 m408MmhemLThg==
+From: Christian Brauner <brauner@kernel.org>
+To: linux-fsdevel@vger.kernel.org
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+	Jann Horn <jannh@google.com>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Chris Mason <mason@kernel.org>,
+	Jeff Layton <jlayton@kernel.org>,
+	NeilBrown <neil@brown.name>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Christoph Hellwig <hch@lst.de>,
+	Greg Kroah-Hartman <gregkh@suse.de>,
+	Joel Granados <joel.granados@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Jan Kara <jack@suse.com>,
 	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Hungyu Lin <dennylin0707@gmail.com>
-Subject: [PATCH] coda: honor the append state of each write
-Date: Wed,  4 Nov 2026 19:13:55 +0000
-Message-ID: <20261104191355.89544-1-dennylin0707@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	linux-nfs@vger.kernel.org,
+	linux-acpi@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-s390@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	linux-um@lists.infradead.org,
+	linux-wireless@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	netdev@vger.kernel.org,
+	ntfs3@lists.linux.dev,
+	platform-driver-x86@vger.kernel.org,
+	coreteam@netfilter.org,
+	kexec@lists.infradead.org,
+	linux-pci@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	netfilter-devel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	ibm-acpi-devel@lists.sourceforge.net,
+	jfs-discussion@lists.sourceforge.net,
+	linux-alpha@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-cifs@vger.kernel.org,
+	linux-fbdev@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-sh@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	samba-technical@lists.samba.org,
+	sparclinux@vger.kernel.org,
+	linux-m68k@lists.linux-m68k.org,
+	linux-doc@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	linux-atm-general@lists.sourceforge.net,
+	Takashi Iwai <tiwai@suse.de>,
+	linux-input@vger.kernel.org,
+	linux-raid@vger.kernel.org,
+	linux-ext4@vger.kernel.org,
+	linux-modules@vger.kernel.org,
+	linux-debuggers@vger.kernel.org,
+	"Christian Brauner (Amutable)" <brauner@kernel.org>,
+	Chuck Lever <cel@kernel.org>,
+	stable@vger.kernel.org
+Subject: [PATCH RESEND v2 02/51] scsi: esas2r: don't copy kernel pointers out in EXPRESS_IOCTL_GET_MOD_INFO
+Date: Wed,  4 Nov 2026 20:16:30 +0100
+Message-ID: <20261104-work-procfs-bugfixes-v2-2-021c84d852e0@kernel.org>
+In-Reply-To: <20261104-work-procfs-bugfixes-v2-0-021c84d852e0@kernel.org>
+References: <20261104-work-procfs-bugfixes-v2-0-021c84d852e0@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -100,48 +115,44 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1380; i=brauner@kernel.org; h=from:subject:message-id; bh=dmwAod4+27NCncmw2oz8APM07k66EUOhHcJdusbTjjg=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS9bjzbuC42lkN5rrFaxyvfJQdiNbQZ7W/e2Jquu5RPe /ZM3ftRHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABNpfM3wzy5cJTFdotRbNPeq 5U63fQ+S03+85HippbBf44binOdz1BgZPlpuOyXM5rh4Ucv0N+t5PzZYf39meEdz+QFRtsctyxa 1cQAA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
 
-coda_open() adds O_APPEND to the container file's f_flags after it has
-been opened, without updating its cached f_iocb_flags. An O_APPEND write
-can therefore overwrite existing data instead of appending. For example,
-writing "Z" to a file containing "abc" produces "Zbc" rather than "abcZ".
+EXPRESS_IOCTL_GET_MOD_INFO fills in the addresses of the adapter, its
+pci_dev and its Scsi_Host and copies the whole struct back to userspace.
+Nothing in userspace can do anything with those addresses, and the
+ioctl is reachable through /proc/scsi/esas2r/ATTONode, which is created
+with mode 0444. Only pass the host number.
 
-Pass RWF_APPEND or RWF_NOAPPEND to vfs_iter_write() according to the
-incoming IOCB_APPEND state. This also honors changes made with F_SETFL
-and per-write append overrides instead of relying on the container's
-open-time flags.
-
-Fixes: 164f4064ca81 ("keep iocb_flags() result cached in struct file")
-Cc: stable@vger.kernel.org # 6.9+
-Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+Fixes: 26780d9e12ed ("[SCSI] esas2r: ATTO Technology ExpressSAS 6G SAS/SATA RAID Adapter Driver")
+Cc: stable@vger.kernel.org
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/coda/file.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/scsi/esas2r/esas2r_ioctl.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/fs/coda/file.c b/fs/coda/file.c
-index 6ca8bfcb58f2..ae03f0b30d84 100644
---- a/fs/coda/file.c
-+++ b/fs/coda/file.c
-@@ -71,6 +71,7 @@ coda_file_write_iter(struct kiocb *iocb, struct iov_iter *to)
- 	struct file *host_file = cfi->cfi_container;
- 	loff_t ki_pos = iocb->ki_pos;
- 	size_t count = iov_iter_count(to);
-+	rwf_t flags = (iocb->ki_flags & IOCB_APPEND) ? RWF_APPEND : RWF_NOAPPEND;
- 	ssize_t ret;
+diff --git a/drivers/scsi/esas2r/esas2r_ioctl.c b/drivers/scsi/esas2r/esas2r_ioctl.c
+index 3f7c1d131ec3..c93d9265e100 100644
+--- a/drivers/scsi/esas2r/esas2r_ioctl.c
++++ b/drivers/scsi/esas2r/esas2r_ioctl.c
+@@ -1468,9 +1468,10 @@ int esas2r_ioctl_handler(void *hostdata, unsigned int cmd, void __user *arg)
  
- 	ret = venus_access_intent(coda_inode->i_sb, coda_i2f(coda_inode),
-@@ -80,7 +81,7 @@ coda_file_write_iter(struct kiocb *iocb, struct iov_iter *to)
- 		goto finish_write;
+ 	case EXPRESS_IOCTL_GET_MOD_INFO:
  
- 	inode_lock(coda_inode);
--	ret = vfs_iter_write(cfi->cfi_container, to, &iocb->ki_pos, 0);
-+	ret = vfs_iter_write(host_file, to, &iocb->ki_pos, flags);
- 	coda_inode->i_size = file_inode(host_file)->i_size;
- 	coda_inode->i_blocks = (coda_inode->i_size + 511) >> 9;
- 	inode_set_mtime_to_ts(coda_inode, inode_set_ctime_current(coda_inode));
+-		ioctl->data.modinfo.adapter = a;
+-		ioctl->data.modinfo.pci_dev = a->pcid;
+-		ioctl->data.modinfo.scsi_host = a->host;
++		/* these are kernel pointers, userspace has no use for them */
++		ioctl->data.modinfo.adapter = NULL;
++		ioctl->data.modinfo.pci_dev = NULL;
++		ioctl->data.modinfo.scsi_host = NULL;
+ 		ioctl->data.modinfo.host_no = a->host->host_no;
+ 
+ 		break;
 
-base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
 -- 
-2.43.0
+2.53.0
 
