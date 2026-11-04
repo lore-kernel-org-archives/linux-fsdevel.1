@@ -1,45 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793821025;
-	b=hBniksmP+/97KLljX6QtmMRiGhwHtsJmheAeRPZYUopmrc0O5eu8xsIwtLq3Uk3Q3m/w
-	 DY1dksh94lnAn8xLe9p/ZX8ZyxcyBe+npqZhqqyTYDTD/RP01QiVr7E43cC/hItvkQZoZ
-	 3FYhDUYEHmvnRD4I5srvMMTMrB1EuClgGGQvUyxBQE+yBKK4PZ2vpcq6ORU5I38OgglQd
-	 6LJqlUJsxeiCgoGiCcSiNHVLsAT1OQIT1EbZMcH2d+RiJP+fU/l1np3uHUqlYV+zKtlad
-	 QmN2wC7YNAuUwBa6CO1VXDVpm6iKyzKQ88wwMpUS7Z7Y2auLsQx9QH6npjCJ5r4y0Xw==
+	t=1793821055;
+	b=Dk5XZCsekEUoxsUiZG7dX+PkVnfaL+nkXErm5bhKvCffcqmUG4uYgZcpMyOyX+I6sAo0
+	 Z7aZ1f2UGpPKEjEg/8rIzoIp8EAX39NIpJ6vO+oCzMkWJVQ/HI8/WTKw/8pSla35AgMiX
+	 uyRQktS3Nw3+DsJ3g56FcZP8y+pHPZhF1k3B85MfCJhpDAnyXy7ZyQfOdeLNvWLxmjoG3
+	 EVhs8q1JjpJF+jS9P01oEK0ZsCjdfPJI5NAzCewiQQyLReFqFxByAaf5RBHjZc4zEzrzM
+	 51ADHfrI7TXTG66j4/9ylFPqzIsiUFZjQVyhIrHYCLTZTfEWQg5touOQ9p/4yWG6v5w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793821025;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793821055;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
 	 In-Reply-To:References:MIME-Version:Content-Type:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:Content-Transfer-Encoding;
-	bh=Okt6xdMkgWeo0kG6AWf8QSrzz+7Gr2sPK6pBT5vn/vI=;
-	b=GYyq0pOr2PmUpskgDgSvjJKU6MQFP1koZFjPNvx4y3kvCvzWSnS+3eJWJGUtDtKII4P/
-	 tWufRJDK02Kr5BOctkZe4f73JfkqaPRB6k/IJ5mBwYp5nuVJkt/as/ugl+5vXgsIiMivL
-	 ErEXwUpV7SfezTUM+4FQt+svyyP9RjrJJNZR6Ms/gRaROorssfc9s34LA5YWNuLVsjEm1
-	 ahA2evex7GPi3ZWIvJIzG5WFUWLXxeGpZHfsdpdnYNs4D6rpwKhWe20X5dw6K5512agTe
-	 8MqlRYSnRQAKG3Qjplg/GhYCJIjaAfKJTT2zkM5Art+MbV2qGvY/hlwD47g16ngo0rg==
+	bh=FBXs+Ai9hCvv2gTN7UF7ctcncQyXKpM3GPgKiB4YAT8=;
+	b=gBz6dmOubyjO1hiRoWxjF4scqgxXSCqBzHjURBY86Ju+dBDKmHrkePJX84rReSlFXmsl
+	 4mI+akJY79sLhPAN12P7e89+baqE+oaOOquG6O62NreYo5IL4Vi8TanozQi3AH4H1sujo
+	 o2hrKH5ugBob/SsFu+cuw+BindHAZpplNPMtsvJ1+0FzuQnkD/EpD/KDqOdiMmy0k4FSG
+	 rxFKx81V7yg6aB34/MyEVYzvwjU3QVrazczBVhKwpH4ZWK3qPKMiRhdXWtdqwAB3l/ufY
+	 jLKKB3FOvO1jsHl+x00Jel9B8RBchmTcnlVHtxJO63QPHjsSZiY4clvnJPa84OiKSwA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Cnvqn+Jv;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oZGa4uxN;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F8F8606EEBF;
-	Wed,  4 Nov 2026 19:37:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65EA9607E738;
+	Wed,  4 Nov 2026 19:37:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Cnvqn+Jv
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D7AB1F000C1;
-	Wed,  4 Nov 2026 19:36:52 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oZGa4uxN
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8DB91F00919;
+	Wed,  4 Nov 2026 19:37:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793821025;
-	bh=Okt6xdMkgWeo0kG6AWf8QSrzz+7Gr2sPK6pBT5vn/vI=;
+	s=k20260515; t=1793821055;
+	bh=FBXs+Ai9hCvv2gTN7UF7ctcncQyXKpM3GPgKiB4YAT8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Cnvqn+Jv6fEKoAh15/fTdIKjuKCorInijpAlj5giRXeAsTB2CnwS4SR1nh+/PPnRp
-	 iukSA0qIPPI1XJtutTx47ER6VGJaYydOHWr92cw9sGMqRo5B7EHo354KoXbiwayB2R
-	 45Gean+GrEMhW3j8mOzAV9gC/AX6mA9i8ymbGJhYaFFpw2ilmVUpG/Yddn3BwH4DDV
-	 2hIXh4O3O24lAZDrDZTsil8UOjfV7TjiZhSHxt9M5KQgE0Z1PIBu4K54rHTpJp/BAe
-	 KnU5apDOm7KmIc09w6E14NgaL7iommwlLzOvj1J9vXW2NXrXwYwXr7S9ewc0OA0ASH
-	 5jEa1F+/SSMtg==
+	b=oZGa4uxNa4f8lPnKCnZcOshs5bIS38FNrm9Me6KMthFTmP+MOwFabIXkXu/wyKAZr
+	 eMuwJ+f88gJjEcbCjCfZt9K+REs55uNNlIGT+aTII7ZPio3yO+n12ryLYxF/Wa4AGF
+	 RTs/sXBBLK+HuDFmMw4GQx8DcZDiGoyEhXa9KRIJsWTr/ApICfUXhkzLdIecTTSsZM
+	 nHz+oFP0Qjh5+4b8BIeAsHx40sCyakErwgtYM1ptBy94JFV23RAvKVaGe6b4yCL5Fu
+	 zKdbeftWi3Cfr5diHQHdPhNunK20Crp1slFjQ4GoZOScF/vgZqztop91HodBl1uB/4
+	 9Lcb7Om7gZE0g==
 From: Christian Brauner <brauner@kernel.org>
 To: linux-fsdevel@vger.kernel.org
 Cc: Linus Torvalds <torvalds@linux-foundation.org>,
@@ -100,9 +100,9 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
 	linux-debuggers@vger.kernel.org,
 	"Christian Brauner (Amutable)" <brauner@kernel.org>,
 	Chuck Lever <cel@kernel.org>
-Subject: [PATCH RESEND v2 05/23] powerpc/rtas: let procfs copy in writes
-Date: Wed,  4 Nov 2026 20:36:50 +0100
-Message-ID: <20261104-work-procfs-arch-v2-5-2aeb952c9597@kernel.org>
+Subject: [PATCH RESEND v2 07/23] powerpc/rtasd: let procfs own the wait queue of the rtas error log
+Date: Wed,  4 Nov 2026 20:37:20 +0100
+Message-ID: <20261104-work-procfs-arch-v2-7-2aeb952c9597@kernel.org>
 In-Reply-To: <20261104-work-procfs-arch-v2-0-2aeb952c9597@kernel.org>
 References: <20261104-work-procfs-arch-v2-0-2aeb952c9597@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -116,283 +116,68 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=11231; i=brauner@kernel.org; h=from:subject:message-id; bh=BlxUMu4o+Pre1G3SMM9dMoFPKEkO8P1xyP8zLtMlBR8=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS97vh0d+F59g9aUzfGZS7dtnz5kRTeS9uvL3zx5MPMP WfsDugzxXeUsjCIcTHIiimyOLSbhMst56nYbJSpATOHlQlkCAMXpwBMZMJLRoZvLtmuapMWODVf WBucpsycKB435/+L50kxmcdcl2yQ9VzG8M+8Mcvm93YPnWMGTYEVzyeJmq45ufTBo8yd03i2t8t e+cAEAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1920; i=brauner@kernel.org; h=from:subject:message-id; bh=URY8OmvUYSj7cGs0MgqVpOcYmOKyD/AnlDpC5EfxAis=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS97vhysuHhtP2XD0+QvcrjIThN4YyziduaSa0B5Ze45 bccDt8i3VHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRdXcYGf47m6tcV9TUtJW6 6rN1+ac5lkXuOyKb82c41N9Z+KfrawEjw4GOwjOGH8J1JW9/u80gYm/VabKvXdx4/nGt/Pjujku VLAA=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
 
-Implement ->proc_write_buf() for the files in /proc/powerpc/rtas and
-/proc/ppc64/rtas so procfs copies in what is written before it pins the
-entry, and parse what was written from that copy.
-
-firmware_flash, firmware_update and validate_flash take an image in 4k
-pieces and relied on writes coming up short. They keep doing that with
-PROC_ENTRY_SHORT_WRITES. Writes to the other files that are larger than
-PAGE_SIZE - 1 bytes fail with -EINVAL now.
-
-validate_flash only keeps the first 4k of the image and used to swallow
-whatever was written beyond that in one go. It takes at most 4k per
-write now, like for the part it keeps, so a writer has to loop there
-like it has to for the image itself.
+rtas_log_poll() sleeps the poller on rtas_log_wait, which the blocking
+read sleeps on as well. procfs owns the queue poll() uses now, so leave
+the poll_wait() to it and wake its pollers along with the readers.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- arch/powerpc/kernel/rtas-proc.c  | 40 ++++++++++++++++++----------------------
- arch/powerpc/kernel/rtas_flash.c | 38 +++++++++++++++++---------------------
- 2 files changed, 35 insertions(+), 43 deletions(-)
+ arch/powerpc/kernel/rtasd.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/arch/powerpc/kernel/rtas-proc.c b/arch/powerpc/kernel/rtas-proc.c
-index 808023f9d1f6..75d64a410209 100644
---- a/arch/powerpc/kernel/rtas-proc.c
-+++ b/arch/powerpc/kernel/rtas-proc.c
-@@ -138,45 +138,45 @@ static unsigned long rtas_tone_volume = 0;
- static int ppc_rtas_sensors_show(struct seq_file *m, void *v);
- static int ppc_rtas_clock_show(struct seq_file *m, void *v);
- static ssize_t ppc_rtas_clock_write(struct file *file,
--		const char __user *buf, size_t count, loff_t *ppos);
-+		char *buf, size_t count, loff_t *ppos);
- static int ppc_rtas_progress_show(struct seq_file *m, void *v);
- static ssize_t ppc_rtas_progress_write(struct file *file,
--		const char __user *buf, size_t count, loff_t *ppos);
-+		char *buf, size_t count, loff_t *ppos);
- static int ppc_rtas_poweron_show(struct seq_file *m, void *v);
- static ssize_t ppc_rtas_poweron_write(struct file *file,
--		const char __user *buf, size_t count, loff_t *ppos);
-+		char *buf, size_t count, loff_t *ppos);
+diff --git a/arch/powerpc/kernel/rtasd.c b/arch/powerpc/kernel/rtasd.c
+index 360ed2e30fd5..fa9574131f40 100644
+--- a/arch/powerpc/kernel/rtasd.c
++++ b/arch/powerpc/kernel/rtasd.c
+@@ -33,6 +33,7 @@
+ static DEFINE_SPINLOCK(rtasd_log_lock);
  
- static ssize_t ppc_rtas_tone_freq_write(struct file *file,
--		const char __user *buf, size_t count, loff_t *ppos);
-+		char *buf, size_t count, loff_t *ppos);
- static int ppc_rtas_tone_freq_show(struct seq_file *m, void *v);
- static ssize_t ppc_rtas_tone_volume_write(struct file *file,
--		const char __user *buf, size_t count, loff_t *ppos);
-+		char *buf, size_t count, loff_t *ppos);
- static int ppc_rtas_tone_volume_show(struct seq_file *m, void *v);
- static int ppc_rtas_rmo_buf_show(struct seq_file *m, void *v);
+ static DECLARE_WAIT_QUEUE_HEAD(rtas_log_wait);
++static struct proc_dir_entry *rtas_log_entry;
  
- static const struct proc_ops ppc_rtas_poweron_proc_ops = {
- 	.proc_show	= ppc_rtas_poweron_show,
--	.proc_write	= ppc_rtas_poweron_write,
-+	.proc_write_buf	= ppc_rtas_poweron_write,
- };
+ static char *rtas_log_buf;
+ static unsigned long rtas_log_start;
+@@ -259,6 +260,7 @@ void pSeries_log_error(char *buf, unsigned int err_type, int fatal)
+ 		WARN_ON_ONCE(!irqs_disabled()); /* @@@ DEBUG @@@ */
+ 		spin_unlock_irqrestore(&rtasd_log_lock, s);
+ 		wake_up_interruptible(&rtas_log_wait);
++		proc_poll_notify(rtas_log_entry);
+ 		break;
+ 	case ERR_TYPE_KERNEL_PANIC:
+ 	default:
+@@ -343,7 +345,6 @@ out:
  
- static const struct proc_ops ppc_rtas_progress_proc_ops = {
- 	.proc_show	= ppc_rtas_progress_show,
--	.proc_write	= ppc_rtas_progress_write,
-+	.proc_write_buf	= ppc_rtas_progress_write,
- };
- 
- static const struct proc_ops ppc_rtas_clock_proc_ops = {
- 	.proc_show	= ppc_rtas_clock_show,
--	.proc_write	= ppc_rtas_clock_write,
-+	.proc_write_buf	= ppc_rtas_clock_write,
- };
- 
- static const struct proc_ops ppc_rtas_tone_freq_proc_ops = {
- 	.proc_show	= ppc_rtas_tone_freq_show,
--	.proc_write	= ppc_rtas_tone_freq_write,
-+	.proc_write_buf	= ppc_rtas_tone_freq_write,
- };
- 
- static const struct proc_ops ppc_rtas_tone_volume_proc_ops = {
- 	.proc_show	= ppc_rtas_tone_volume_show,
--	.proc_write	= ppc_rtas_tone_volume_write,
-+	.proc_write_buf	= ppc_rtas_tone_volume_write,
- };
- 
- static int ppc_rtas_find_all_sensors(void);
-@@ -216,16 +216,14 @@ static int __init proc_rtas_init(void)
- 
- __initcall(proc_rtas_init);
- 
--static int parse_number(const char __user *p, size_t count, u64 *val)
-+static int parse_number(const char *p, size_t count, u64 *val)
+ static __poll_t rtas_log_poll(struct file *file, poll_table * wait)
  {
- 	char buf[40];
+-	poll_wait(file, &rtas_log_wait, wait);
+ 	if (rtas_log_size)
+ 		return EPOLLIN | EPOLLRDNORM;
+ 	return 0;
+@@ -529,17 +530,15 @@ arch_initcall(rtas_event_scan_init);
  
- 	if (count > 39)
- 		return -EINVAL;
- 
--	if (copy_from_user(buf, p, count))
--		return -EFAULT;
+ static int __init rtas_init(void)
+ {
+-	struct proc_dir_entry *entry;
 -
-+	memcpy(buf, p, count);
- 	buf[count] = 0;
+ 	if (!machine_is(pseries) && !machine_is(chrp))
+ 		return 0;
  
- 	return kstrtoull(buf, 10, val);
-@@ -235,7 +233,7 @@ static int parse_number(const char __user *p, size_t count, u64 *val)
- /* POWER-ON-TIME                                                      */
- /* ****************************************************************** */
- static ssize_t ppc_rtas_poweron_write(struct file *file,
--		const char __user *buf, size_t count, loff_t *ppos)
-+		char *buf, size_t count, loff_t *ppos)
- {
- 	struct rtc_time tm;
- 	time64_t nowtime;
-@@ -269,16 +267,14 @@ static int ppc_rtas_poweron_show(struct seq_file *m, void *v)
- /* PROGRESS                                                           */
- /* ****************************************************************** */
- static ssize_t ppc_rtas_progress_write(struct file *file,
--		const char __user *buf, size_t count, loff_t *ppos)
-+		char *buf, size_t count, loff_t *ppos)
- {
- 	size_t len = count;
- 	unsigned long hex;
+ 	if (!rtas_log_buf)
+ 		return -ENODEV;
  
- 	if (count >= MAX_LINELENGTH)
- 		count = MAX_LINELENGTH -1;
--	if (copy_from_user(progress_led, buf, count)) { /* save the string */
--		return -EFAULT;
--	}
-+	memcpy(progress_led, buf, count); /* save the string */
- 	progress_led[count] = 0;
+-	entry = proc_create("powerpc/rtas/error_log", 0400, NULL,
+-			    &rtas_log_proc_ops);
+-	if (!entry)
++	rtas_log_entry = proc_create("powerpc/rtas/error_log", 0400, NULL,
++				     &rtas_log_proc_ops);
++	if (!rtas_log_entry)
+ 		printk(KERN_ERR "Failed to create error_log proc entry\n");
  
- 	/* Lets see if the user passed hexdigits */
-@@ -302,7 +298,7 @@ static int ppc_rtas_progress_show(struct seq_file *m, void *v)
- /* CLOCK                                                              */
- /* ****************************************************************** */
- static ssize_t ppc_rtas_clock_write(struct file *file,
--		const char __user *buf, size_t count, loff_t *ppos)
-+		char *buf, size_t count, loff_t *ppos)
- {
- 	struct rtc_time tm;
- 	time64_t nowtime;
-@@ -661,7 +657,7 @@ static void get_location_code(struct seq_file *m, struct individual_sensor *s,
- /* INDICATORS - Tone Frequency                                        */
- /* ****************************************************************** */
- static ssize_t ppc_rtas_tone_freq_write(struct file *file,
--		const char __user *buf, size_t count, loff_t *ppos)
-+		char *buf, size_t count, loff_t *ppos)
- {
- 	u64 freq;
- 	int error = parse_number(buf, count, &freq);
-@@ -686,7 +682,7 @@ static int ppc_rtas_tone_freq_show(struct seq_file *m, void *v)
- /* INDICATORS - Tone Volume                                           */
- /* ****************************************************************** */
- static ssize_t ppc_rtas_tone_volume_write(struct file *file,
--		const char __user *buf, size_t count, loff_t *ppos)
-+		char *buf, size_t count, loff_t *ppos)
- {
- 	u64 volume;
- 	int error = parse_number(buf, count, &volume);
-diff --git a/arch/powerpc/kernel/rtas_flash.c b/arch/powerpc/kernel/rtas_flash.c
-index f1cd105f7426..77a4627f2507 100644
---- a/arch/powerpc/kernel/rtas_flash.c
-+++ b/arch/powerpc/kernel/rtas_flash.c
-@@ -307,7 +307,7 @@ static ssize_t rtas_flash_read_num(struct file *file, char __user *buf,
-  * count is.  If the system is low on memory it will be just as well
-  * that we fail....
-  */
--static ssize_t rtas_flash_write(struct file *file, const char __user *buffer,
-+static ssize_t rtas_flash_write(struct file *file, char *buffer,
- 				size_t count, loff_t *off)
- {
- 	struct rtas_update_flash_t *const uf = &rtas_update_flash_data;
-@@ -343,16 +343,11 @@ static ssize_t rtas_flash_write(struct file *file, const char __user *buffer,
- 		next_free = 0;
- 	}
- 
--	if (count > RTAS_BLK_SIZE)
--		count = RTAS_BLK_SIZE;
- 	p = kmem_cache_zalloc(flash_block_cache, GFP_KERNEL);
- 	if (!p)
- 		return -ENOMEM;
- 	
--	if(copy_from_user(p, buffer, count)) {
--		kmem_cache_free(flash_block_cache, p);
--		return -EFAULT;
--	}
-+	memcpy(p, buffer, count);
- 	fl->blocks[next_free].data = p;
- 	fl->blocks[next_free].length = count;
- 	fl->num_blocks++;
-@@ -390,7 +385,7 @@ static ssize_t manage_flash_read(struct file *file, char __user *buf,
- 	return simple_read_from_buffer(buf, count, ppos, msg, msglen);
- }
- 
--static ssize_t manage_flash_write(struct file *file, const char __user *buf,
-+static ssize_t manage_flash_write(struct file *file, char *buf,
- 				size_t count, loff_t *off)
- {
- 	struct rtas_manage_flash_t *const args_buf = &rtas_manage_flash_data;
-@@ -401,9 +396,8 @@ static ssize_t manage_flash_write(struct file *file, const char __user *buf,
- 
- 	if ((args_buf->status == MANAGE_AUTH) || (count == 0))
- 		return count;
--		
--	if (get_user(cmd, buf))
--		return -EFAULT;
-+
-+	cmd = buf[0];
- 
- 	if (cmd == '0')
- 		op = RTAS_REJECT_TMP_IMG;
-@@ -471,7 +465,7 @@ static ssize_t validate_flash_read(struct file *file, char __user *buf,
- 	return simple_read_from_buffer(buf, count, ppos, msg, msglen);
- }
- 
--static ssize_t validate_flash_write(struct file *file, const char __user *buf,
-+static ssize_t validate_flash_write(struct file *file, char *buf,
- 				    size_t count, loff_t *off)
- {
- 	struct rtas_validate_flash_t *const args_buf =
-@@ -494,11 +488,7 @@ static ssize_t validate_flash_write(struct file *file, const char __user *buf,
- 		args_buf->status = VALIDATE_INCOMPLETE;
- 	}
- 
--	if (!access_ok(buf, count))
--		return -EFAULT;
--
--	if (copy_from_user(args_buf->buf + *off, buf, count))
--		return -EFAULT;
-+	memcpy(args_buf->buf + *off, buf, count);
- 
- 	*off += count;
- 	return count;
-@@ -632,8 +622,10 @@ static const struct rtas_flash_file rtas_flash_files[] = {
- 		.filename	= "powerpc/rtas/" FIRMWARE_FLASH_NAME,
- 		.handle		= RTAS_FN_IBM_UPDATE_FLASH_64_AND_REBOOT,
- 		.status		= &rtas_update_flash_data.status,
-+		.ops.proc_flags	= PROC_ENTRY_SHORT_WRITES,
- 		.ops.proc_read	= rtas_flash_read_msg,
--		.ops.proc_write	= rtas_flash_write,
-+		.ops.proc_write_buf = rtas_flash_write,
-+		.ops.proc_write_size = RTAS_BLK_SIZE,
- 		.ops.proc_release = rtas_flash_release,
- 		.ops.proc_lseek	= default_llseek,
- 	},
-@@ -641,8 +633,10 @@ static const struct rtas_flash_file rtas_flash_files[] = {
- 		.filename	= "powerpc/rtas/" FIRMWARE_UPDATE_NAME,
- 		.handle		= RTAS_FN_IBM_UPDATE_FLASH_64_AND_REBOOT,
- 		.status		= &rtas_update_flash_data.status,
-+		.ops.proc_flags	= PROC_ENTRY_SHORT_WRITES,
- 		.ops.proc_read	= rtas_flash_read_num,
--		.ops.proc_write	= rtas_flash_write,
-+		.ops.proc_write_buf = rtas_flash_write,
-+		.ops.proc_write_size = RTAS_BLK_SIZE,
- 		.ops.proc_release = rtas_flash_release,
- 		.ops.proc_lseek	= default_llseek,
- 	},
-@@ -650,8 +644,10 @@ static const struct rtas_flash_file rtas_flash_files[] = {
- 		.filename	= "powerpc/rtas/" VALIDATE_FLASH_NAME,
- 		.handle		= RTAS_FN_IBM_VALIDATE_FLASH_IMAGE,
- 		.status		= &rtas_validate_flash_data.status,
-+		.ops.proc_flags	= PROC_ENTRY_SHORT_WRITES,
- 		.ops.proc_read	= validate_flash_read,
--		.ops.proc_write	= validate_flash_write,
-+		.ops.proc_write_buf = validate_flash_write,
-+		.ops.proc_write_size = VALIDATE_BUF_SIZE,
- 		.ops.proc_release = validate_flash_release,
- 		.ops.proc_lseek	= default_llseek,
- 	},
-@@ -660,7 +656,7 @@ static const struct rtas_flash_file rtas_flash_files[] = {
- 		.handle		= RTAS_FN_IBM_MANAGE_FLASH_IMAGE,
- 		.status		= &rtas_manage_flash_data.status,
- 		.ops.proc_read	= manage_flash_read,
--		.ops.proc_write	= manage_flash_write,
-+		.ops.proc_write_buf = manage_flash_write,
- 		.ops.proc_lseek	= default_llseek,
- 	}
- };
+ 	return 0;
 
 -- 
 2.53.0
