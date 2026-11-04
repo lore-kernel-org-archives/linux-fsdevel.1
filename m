@@ -1,50 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.181
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793783884;
-	b=IWCQnJYnoYXKrFJpClHIzTgkOWJM5I/Z5BlJT9OVtiv7oHRx+JqV8ztXm/9+0y7HQ8Cv
-	 2+kngzu360i2G7K+PtodWmMI3NPF9dbNKLIdRdWuz607TYbHHOZZHQnhpVOjP0JXu/zb2
-	 NOB5VfaXkQ2/QU+4uOUiRBRpFOfzs77zhAO7a+kMY88L4s72xzgy6sMSiXJ8dhccsdUfR
-	 atYF/iA4UoO8BpJa6MKPrr3Z70RvFerTJO7cIvI2dK4TYkUEdK9m7nzKZGVEvockh9FrH
-	 xm/TZPmg45MzdxCgkHmUY4wMjSL2zXdRnBGRcblplzCvKBwFK/j9gmWJPl/X9kZDCnA==
+	t=1793784474;
+	b=yYBoBTKkhlA6KPZO/lcql8nZPnwigZ1PqztJ3FSMC84fLIOLChUc1GhPaHO+Qq+ECZyj
+	 +R591vCcigMvlf/AuExU6r4z02z2HgRqybT0Ht0EF356anBU5LDmqGctckmcjpe57bxD0
+	 Ms1XIKOhc4tPMxXSDSDfU082Tf7MdPeUDNSUqryM9K+yCwkmUhb7SqoQ25Waqy+jqaiyT
+	 BjH+MS249rSbX4jX0v9cYmhdjLaUvVlVFl+3GmkML/B28ia2pml+43V2LCJY1FWpx61mF
+	 CVZxngJJbESBALkLc0a2de1IjO2HTkRFcKYvhiA+GBpyvj+YcdBOsP6cA7aqSsfgBrw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793783884;
-	h=DMARC-Filter:Received:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To:User-Agent;
-	bh=M+g/PqMDYZQI68tfBBcin7qYEE0xbkk7OS+btL9Bc2c=;
-	b=TcGzfWHxzS/RcFTOGUUInYyeDWz2DH+o11bLB2z7RKqmsgQA1ImssYO8NwejrV7I5viZ
-	 JAswyDtXURT0FSUkgxPRs9OjuqZwA1bip9U2R2hAWXTyLvgTQZYWy2fImacnwp8NYBoHM
-	 Za9/875piTxaSzsWLyZosAhV18Y8quPzK3T7f4XRo5jg/4/A6rEfwoAWB1g+opHfiCMss
-	 XehlqL1TqkO8cmEknPgwX+7Wp5gRnsDd+8r9Q5BMB5jV9C1t7nlm9Exa+RP6GJwoSmvvT
-	 88QGS1dAXotPHuA4UIDZFhl7BuEUIClgwHzSkRwZplVguFcqIa+sohtXFgpgxbenAWA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793784474;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=FbhRWltBxxgl1MFTaTpQhGPLcLRKiwH3PA6H6UKwK3o=;
+	b=AjTd/ZaZ1SGfhBEYXHZiLHEdzUHFPpuSKnCO0NmiGT5vtE5Jz6ly5xZL3b9mctBXiDsF
+	 r1IRzrk0IjRJjS9afoZ4zfFzoriDtNtn3pfHh8nnmHDHpQSqYAsGbPegi/KiAYoA7ezAB
+	 K0n83TEkAvsn/OFdprKL5cP7Bu/BImgdHOw/PY3nNkL5bnR33vyrWaamub/Ju004C34rr
+	 SOiheEQAEj0JPw72/oLjG6MwNTEM901DD1HgeHYtZVBuM3tdIYWDpVtyG8yDjhpTKhsOz
+	 YBTMC6aelg8GEWc2reQWPRzpsNCx1ogWw+3ohwNbajXiIXIhpKYZNo5CBiP5k/EdE6w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=lst.de;
-	spf=pass smtp.mailfrom=lst.de;
-	arc=none smtp.remote-ip=213.95.11.211
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vAOMf3Yj;
+	arc=none smtp.remote-ip=74.125.82.181
+Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABF13606A326;
-	Wed,  4 Nov 2026 09:18:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ABF13606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id AF6C568BEB; Wed,  4 Nov 2026 10:17:59 +0100 (CET)
-Date: Wed, 4 Nov 2026 10:17:59 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Mike Snitzer <snitzer@kernel.org>
-Cc: Matthew Wilcox <willy@infradead.org>, linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org, Chuck Lever <cel@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>, linux-nfs@vger.kernel.org,
-	NeilBrown <neil@brown.name>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
-	Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v10 1/7] mm: move clearing the uncached flag of a found
- folio into a helper
-Message-ID: <20261104091759.GC31130@lst.de>
-References: <20261103211754.35352-1-snitzer@kernel.org> <20261103211754.35352-2-snitzer@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A18C5606A326
+	for <linux-fsdevel@vger.kernel.org>; Wed,  4 Nov 2026 09:27:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A18C5606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vAOMf3Yj
+Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-36cad25b8b0so669585eec.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 04 Nov 2026 01:27:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793784473; x=1794389273; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=FbhRWltBxxgl1MFTaTpQhGPLcLRKiwH3PA6H6UKwK3o=;
+        b=vAOMf3YjiLDwHmLw8A3rGCPSo1NWhME1Mxs3KoaPzTCPlNo4/uQsmONl9NRDO6hqXB
+         GXfZQUHDlIn9RfJuamSo8HQ+z05dvPHSY1cT/QmH9jtmzdiMD21/cMhgje1N5AGOODZ5
+         9L0lsb3FNPdxNET8TPFShBUyi5rgyWP0U9t6VuR04k2IpNmvIs80H+lKAMrl9qWJGZDu
+         cAoVY1q57D51vHRVGcKdP+YNDHA2Redi9ZausgWSa8GU3AyCNhDGCMQkCqUzMRtsCt41
+         wXLIKGr3EwGZyEKzkMa8zv2CBxnHYwFPwStwD2//nBpmgpQc4p5pD6JuI7vFqi8C2n4r
+         KL5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793784473; x=1794389273;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=FbhRWltBxxgl1MFTaTpQhGPLcLRKiwH3PA6H6UKwK3o=;
+        b=akupRBqM1L1Hbmse71iwp73XVY1trcl17UkMUv7IMnyDNG3e3m9gNMibQbz2vD78uf
+         xeWsjys2bRttYhAls8vxdD18N93U+ywAE3RbvERMxZQtdUq9kmj90NVXgS7oP+I+ZolV
+         0tIg+mq1wMwwES7/RqfGgr3qciyWehiJyyWsTWNkUq/ZOeBQ8UodbmoddiCdhZg9zdAf
+         MxbfyBc1TjxNwJSshwGNpaAcCVhDwWvDFq3L6N3veLQwA4Qw8KCmNFgyLsjsTtkfvDs+
+         LPjO3yLRrwVKuK5IlRpCZMZAMhj6VbLJXv1dV2jECVObCi+/nFdut/ZBP1anrcNkxsnI
+         btCw==
+X-Gm-Message-State: APuU4Z84yS6KCMdReTVOUGFVOP9DnFaWclYyoKoYmxav8cgqPEMtE+gi
+	CrPIjs3v4Bz7g2KElj7+IwNLUPkr80/tTpccIsQmJXikcg++TSouP24N
+X-Gm-Gg: AYBFou1BmFxoHP/OabjwKoHxTolzQD7P4+OCfbrcDmOM3o7eel+i+mBuE/O4hpfhL/z
+	0Q5kkPxmaVhQTzM1KtG+eA6I1KsCFTlowYG/78DXtbjmdpknOTyv/ee2Wux7Ha0sHet+xV37lz+
+	vrt7oVAe1voQmUGSGd5Wm7XKSUneXTDT4RgLyR5kdHSdCvMCKwD8c1AXUmSCQcpDeas8FCOo0Uo
+	3XSAJopzjWRnR/KeWKpCsPq8u/0bRmbSLSVYfp10ECfa1tyoS2U/OTk/f8tXEFGn9O1gKhMWZ/p
+	N6/7nL+fdmLf0K88AgcjeqrEPXt6tjUO+PMRC/EUGjPDvU0LXifZik8NsO1AFu3tZxTIN8WR8ef
+	JC3rC0YlPaJHIMrGTu8eqgJPvZ0ksrbTH2EasF1E80OD++kFtX6GIpoQS/+2gB38rv+3lFExWAV
+	v2miNfYaXF+PQS5Umkx1GBImY+AT5JPLnm+AkTp980jRxSjwzZZca2OddjgFOGs6tbmBNkzV4K7
+	X5lVGVmgGPBWX6X9p5POgzWVN0BACHkXgpH2WnANIYGjylJ8dgM91Io8cj5O3GLpU3ax49d2bEg
+	lazi/joqcF/U2FsH9zGK8TPFs/j7bgCglBpFe5Kw1Q6MQ63ccI/IcVSNTOfpmVREIYU=
+X-Received: by 2002:a05:693c:4154:20b0:35e:f4ac:5f8e with SMTP id 5a478bee46e88-36a420574admr24483113eec.0.1793784472621;
+        Wed, 04 Nov 2026 01:27:52 -0800 (PST)
+Received: from pranith.org (c-67-164-4-239.hsd1.ca.comcast.net. [67.164.4.239])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36ca38a67edsm5492547eec.8.2026.11.04.01.27.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Nov 2026 01:27:51 -0800 (PST)
+From: Pranith Kumar <bobby.prani@gmail.com>
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org (open list:FILESYSTEMS (VFS and infrastructure)),
+	linux-kernel@vger.kernel.org (open list)
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/1] file: Avoid acquire on shared fd table lookups
+Date: Wed,  4 Nov 2026 01:27:49 -0800
+Message-ID: <20261104092750.2998440-1-bobby.prani@gmail.com>
+X-Mailer: git-send-email 2.47.3
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -54,12 +96,49 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261103211754.35352-2-snitzer@kernel.org>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Transfer-Encoding: 8bit
 
-Looks good as a general cleanup independent of the rest:
+__fget_light() reads files->count to choose whether it can borrow an
+fd without taking a file reference. The current acquire load applies
+to both branches. Only the single-owner branch uses the count load
+to order its subsequent fd table lookup against a concurrent
+close_fd() and put_files_struct(). The shared-table branch obtains a
+file reference under RCU instead.
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+Read the count without an acquire and use
+smp_acquire__after_ctrl_dep() on the single-owner branch. The branch
+provides the control dependency, and the barrier preserves acquire
+ordering before the borrowed fd is read. This removes an acquire
+barrier from each shared-table fdget() lookup on arm64.
+
+With two threads sharing an fd table and each performing 10,000 pipe
+write/read pairs on separate arm64 cores, performance improves 1.75%.
+
+Signed-off-by: Pranith Kumar <bobby.prani@gmail.com>
+---
+ fs/file.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/fs/file.c b/fs/file.c
+index 4cd40dfa6129..20ab46434abe 100644
+--- a/fs/file.c
++++ b/fs/file.c
+@@ -1337,10 +1337,12 @@ static inline struct fd __fget_light(unsigned int fd, fmode_t mask)
+ 	 * entry combined with the new refcount - otherwise we could
+ 	 * return a file that is concurrently being freed.
+ 	 *
+-	 * atomic_read_acquire() pairs with atomic_dec_and_test() in
+-	 * put_files_struct().
++	 * The acquire on the single-owner path pairs with
++	 * atomic_dec_and_test() in put_files_struct(). The shared-table
++	 * path obtains its own file reference under RCU.
+ 	 */
+-	if (likely(atomic_read_acquire(&files->count) == 1)) {
++	if (likely(atomic_read(&files->count) == 1)) {
++		smp_acquire__after_ctrl_dep();
+ 		file = files_lookup_fd_raw(files, fd);
+ 		if (!file || unlikely(file->f_mode & mask))
+ 			return EMPTY_FD;
+-- 
+2.47.3
 
