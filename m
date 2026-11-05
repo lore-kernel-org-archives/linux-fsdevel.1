@@ -1,87 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.217.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793891941;
-	b=fdBU8BjFz+Aj+4bt3x0BB+ZZsDg7zbgq9hN1pWvYjIeikymNvjzuADzI/DkqiaoXI0eP
-	 wnb2rMKzZeXMNetAUiVQHYH0DiV/BiyXdu/oDQsLviT6bgRlToZiVeCECMmBS2hKlbYWk
-	 yjLcI4VJuhOqwyjgy77cqEwoxghvZdKpgZ314rs3D1bShuQtPz6O+vhr0YK3Mo+TBAy1r
-	 +VYluf0VeW+J5CrUgmB7on7eQCLJa1E4zpChpHJQHKm5U7/XnJWes1Z+sjlRNbYjw6XbE
-	 2NrxxUFLuY8tETyhPcjD6+LioxoegiIh67GJaGmwI4styIln55URMEGQ4NSpib3SaIA==
+	t=1793891964;
+	b=gltdJIndQGcU5t6gtohayLjl3LoVBRUsBQlOOaVKZs2yeKHlJIoHsjtopFjHFpMZkzO5
+	 4Ca5Salkqf3VmblBntf0lcUgFZTlv8YRNpm8E+Q1nT9jGSKyJzMAQ/ZiWQZ6Gqgo+/9uA
+	 s9w8K+Tp8uS3oOlxcwJFATXefU6r32yP/8JRtjC/ve1UZdhpHdQw+8AamYXqj8k+uYpn+
+	 rNpmgGwzI6BhbgQvoI8l2MY7pcKF5lBl8PNCa13e1AfjhhDHo3Gi+76jZ6UD25NOobn4o
+	 d3ppTA9uMO/RBEPHctIvVCrBAaYwk7em/DxNz0g27myI1KHLf7MyNB91bEoFUTrxVFA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793891941;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793891964;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Date:Subject:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
 	 References:In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=29Wcn8VZVI0znrdWFKpYtEmcEmSy+Ph8VjBMpfbMViI=;
-	b=U6EQozbPQO/n9NpCTLVNgfnaThY9IirZxf3lYWpisTirbsKyVWTZwdq5f6rgKZY280mq
-	 HfUmCSAncWWMo0dmWmLxwEcv2utp7+6n+cHHOamd9ABse7oYIbMb4cf1rLkRlZX2e6GRg
-	 UwCu6ttg3xWkBMpQEk4Fq4KV4rNIB/01as17JfMEZHclvJtVSTj1aI8kHUYxRWo0KInVE
-	 yGLzpWxHJFnEClOUiecI5gYd/PtNxIJhz9PVYbadI/NeWFKzwcSFA/arYDFeXR7FZPJCB
-	 IWtJP0HKfj7d8HL7jjyAsYluSvGZoIkjOhQkLLBSsiMP+++GFBcw3dO8GmF/v1bE/9g==
+	bh=zocf3hS+rm78Bl4vifeo4W5mElcrmUKwBzY+ChMT1a8=;
+	b=oUveKXXl6Qkec0/ZGsYshKXCoWZj/3+AxWkIBIQspUUcviTXb0BFkEpxfNWwxHmN/1PU
+	 8fJQ/xdO9buX5jSWlTjN+0FCmpnz3FmYiIyKiSZzMx7PR/iGJ3JnjsUW+GtxtA1kIXqu6
+	 gEwjHIWIBX4p9GlovN7rP0Sr32w2YviEXDDoflBWgb6RBlsEtWtOafeO53LOIJMe2uoeF
+	 WmVg2KwYYpXsxN0GLYMmeNW0yOsMx2rflXsmgWSi88VNd6Pd4uaCpjtedmZedxNe9q+TZ
+	 gQjiNi+0Ip9rj+aEPUXNgCB/n5eH85FtAdCGhpinCChh+pSv8yb9tDzUKBAO2Nl68mQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=toxicpanda.com;
 	spf=pass smtp.mailfrom=toxicpanda.com;
-	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=ORzi628Y;
-	arc=none smtp.remote-ip=209.85.217.42
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
+	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=S4w0p847;
+	arc=none smtp.remote-ip=209.85.219.48
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B74F0606D823
-	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 15:19:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B74F0606D823
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D026606A32F
+	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 15:19:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7D026606A32F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=ORzi628Y
-Received: by mail-vs1-f42.google.com with SMTP id ada2fe7eead31-7ce645a1c6aso1153708137.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 07:19:00 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=S4w0p847
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-91c719669a8so20172196d6.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 07:19:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toxicpanda.com; s=google; t=1793891940; x=1794496740; darn=vger.kernel.org;
+        d=toxicpanda.com; s=google; t=1793891962; x=1794496762; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=29Wcn8VZVI0znrdWFKpYtEmcEmSy+Ph8VjBMpfbMViI=;
-        b=ORzi628Ywf7tkC7e5KuDc2beIANm/QHXKFAiEueOKJrw27BOvQLhVrkflptzGFQ1VM
-         IF8+L3sJ5aFj6TKOg57TJAloXx6EN6Hh5Aus+INIfZXWc4Fu3hHEk6nl9g6NyctjgmYD
-         I2syo7vmLVvYHlvRSLFi54LecuGfGwhhrimfI7AfXXVL+neULamQ3zBGAgug0psWQUj/
-         xp+J3nO5VpT1V/ngImFEhC5ILi9S/+gmL+xD8djiNAlCFezV0OnsM+27rfqZd7miZxs2
-         ocxF4KMlSbCB8dpGkdESMDDhU+P/IVhw3YNvJ2fKtg4BSxYYxoa92+1btM97rpAHokxb
-         QBKQ==
+        bh=zocf3hS+rm78Bl4vifeo4W5mElcrmUKwBzY+ChMT1a8=;
+        b=S4w0p847D19gm5SSH7mIuKctfl5zGa6gdKRHhQR5kbIlK4cfiq3zy/u7yPG2YGcd5w
+         hJZteYOKV2XzQhYnMJY2ZBCx/QmHlzWLs1sjUkDJwhZzw+pyj7N39iSg3uolNnoetq1k
+         ueEjdPM0hmZuuTEideYyQwbl7Qve8RqTiMq3wj+TY0p5m+kHbx5JS7gOEKt8EURwd023
+         5Rzx3/fvhUayQNSZ3wdcLAWGYe5dCyXW7mI9wY/yYN6x+2fkcMImisJJ1eGpzDWaur6K
+         LPtuFkZ8c4iMFuoaEN2FKUBiHYgWy8eKqNc/rpPpXr+0agQ0NJdRrP9B9y4rdUqgQPHP
+         zFmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793891940; x=1794496740;
+        d=1e100.net; s=20260707; t=1793891962; x=1794496762;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=29Wcn8VZVI0znrdWFKpYtEmcEmSy+Ph8VjBMpfbMViI=;
-        b=tSzZn/yVs5w5LJypNQTtktyPWaVBDZpxMX5VXiLPQGkBvMR5DXPK6IWYKF1LkVtN4g
-         xHvhpyGwTxdUglB+PICrjtGMOB2XmI9jS1wUJpCktbOEU19QBXa6mvu6RfZKXocIOkTt
-         MXGCvuVw44queZIFYIZcp4Ek++InkFYiaXuQrALbNI57wuKCLJ8qC7/Gtdbr5DNiUadF
-         VRPsPHFeYDEYsbpwylFMeQOzqLSGLK8y8p3BG0K1kcNiYlgs8RLU3qatlrFCAQYp0QVV
-         4w8LbTjhX/jZS+NiE3KMzZRyJS39xSCXXjVjtyL8cGIobGqeeUm4dyIcQZPbzoEovrIT
-         0ATA==
-X-Gm-Message-State: APuU4Z+fjjAUGna2XnsIuNj0d4GpiF32dKtQO4m2hC/BnQF/3iNaX1kp
-	OoPgr6R/Sgmum8CTKqdU3yR0899iNnNzVQzzsJn9hj8LQgVUPacYiFPIJ8QIdc3xSAA=
-X-Gm-Gg: AYBFou3zOSwXk/q+27u3e6HCMNrxn462xAxKcpezXbzCd6witKDzioQDuxs0SlsWHdi
-	JOQd5nWG01+Cg35u7A7opxbVNYy02kjgL96GO4cWkwUNauuZ/a8Kt0IcyE5tXs5hfp/07kp93Dt
-	VM+OjTMIU4GyZmyg70o0IjdFlyUCNxn1gfW4GgnKjqxIIMdm1j+/O5xLOMO1Viwld50ptuRieSl
-	tl8lc5lOl2JlNFjlngM7XNRxhq0K6ebnlPmnOtFdLsuL6J67m2M41POdLXz6474yVCZXKWUtyYc
-	dFNJMxEEDXtd9FqfdLWgcVWjXKpaH7ZwtGek7R2EusfM9VwhAFIundAWqUHfPEiCqCu+W2MS+EW
-	HqBRA7TS5WRIkP3lXxTUoQda15TDQcrN8gMCzq1IkO23zTJjdh4blfzU6AEz3y/N5NWLulzXwRd
-	rNiqYdt2lFotF1mU/UF4Mn5DH1atLxb+uLfNsoxHlArhIE1m93FqJ0oBxQy6vZIzi64F2Jhbqa/
-	p2w7hdQInZC55QHSCRpKErjjeXzIyZxfW8Hok75D7eu/3icg+7JtZTeBDHMS7xbUL4abOr7RtwO
-	PWzmzZE2nV5uI9vfYZAJzpyWHVrk92ZsyMuU5nHdasA4
-X-Received: by 2002:a05:6102:8099:b0:7cc:bc0:b2d0 with SMTP id ada2fe7eead31-7d072d59168mr9241054137.33.1793891939604;
-        Thu, 05 Nov 2026 07:18:59 -0800 (PST)
-Received: from toxicpanda.com ([153.61.196.245])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91e7dacef6csm49276776d6.5.2026.11.05.07.18.58
+        bh=zocf3hS+rm78Bl4vifeo4W5mElcrmUKwBzY+ChMT1a8=;
+        b=q/IPCQusuFODeCdvFcSidoBLNnCCsCd/6bqFbWYI5zV+8VfyX6lENjqla7L4RE3peH
+         /GlCSa+NPiOIRiE+vulmHwb2b9BK+9yO0u6HE66d0ZACoCGNRZR/6hdzGkgOLAcY+SlF
+         sZgwtk7KU+cB1l5zMBV5qpU1QfgizEnWTV+Ykisc8XNDCWHXq2HSXvogY4ocmmwTGxK4
+         O4g/y8hayVJYqRiXnqvPhCiFCuDQFiEZfseAgfwpc4434sn6UyT5tAeHI2GXKkMkIQZO
+         MRyA25hKDNJozycjAXO7ukeFZHFpNChpWX24Pw+28WnOZykJWP/gUVky5jFWy1fw0mVn
+         4qOA==
+X-Gm-Message-State: APuU4Z9i9leL0AVN3H0yAB8T8Nt7LWaFsIXy0+0gP6l3kxY8LWs1E39o
+	6Hvf+3SK8Mn394eCDoCPzN5wqhkBHluUr1H1lNh5IKkv+siQ58qpYXOs4qZkN3qYHIY=
+X-Gm-Gg: AYBFou2Dv6o2rPwHW7GzMqRB50rDscIzqYSymIAk25gMPg8kx/AdoWNqmiZYb2FqPtL
+	AGNJmDHAwZ5z3xDLi+QOIBnNuhkFDd3qxAqJ5CD2/tkDH82YkMVu5Z+V7ZdNPCMZh+9TNcQSWs6
+	TYcnt7e4TQl1EVw224desUU10MBN8+ZZhkJeaxHHH1eSIA7hAdleDU44eY1rV3Pk1roE8OaVv3C
+	IH4bYO5dGbNCdMIx/H+MCBX4K4U9Hdha7QscbJKrgunVag7C826j72uJ0UXt2nWmzlZsH2tMGqQ
+	rAiY4unek67jKKmGDLd5MLXDwhexsQrwG0T4p7sEaVhRDQqDchUPssF9Mvfx7r+N/v9c//GTQo+
+	EiXlZBaZyRKNHfjLXifmLGHQJj5NZc8KnSfmFRWl4KJ4j1l6uLGq0wdEEnN6DSM/yX2qcJQBtqk
+	NPm5AxHhzjLpx1aQOVHYwYZX2vSVa+mt7Mj3D8lzwHqh/3V/fWv88y/pg+BTiKwzoWo8AqXs/zB
+	BEDDpHPqdv6Jx3Q89znMrQmsjZ9OTuXedvymfKZgqgVmJtNcy0j+TDdLK1Hmzj/4kSc3Vu3WSMv
+	AkSYTazF+Tj9QylKkiuCNkGEh8evq6vnjcNUrrGS+qD+
+X-Received: by 2002:a05:620a:688f:b0:940:f224:5a67 with SMTP id af79cd13be357-944217f0782mr3247448485a.69.1793891962471;
+        Thu, 05 Nov 2026 07:19:22 -0800 (PST)
+Received: from toxicpanda.com ([153.61.196.244])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-945d4898a06sm482160385a.42.2026.11.05.07.19.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 07:18:58 -0800 (PST)
+        Thu, 05 Nov 2026 07:19:20 -0800 (PST)
 From: Josef Bacik <josef@toxicpanda.com>
-Date: Thu, 05 Nov 2026 15:02:43 +0000
-Subject: [PATCH RFC v3 51/90] cgroup: let nothing but a spawn into a budget
+Date: Thu, 05 Nov 2026 15:02:44 +0000
+Subject: [PATCH RFC v3 52/90] kernfs: let a filesystem refuse a change to a
+ node
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -93,7 +94,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261105-b4-cells-v3-51-bc9095937a84@toxicpanda.com>
+Message-Id: <20261105-b4-cells-v3-52-bc9095937a84@toxicpanda.com>
 References: <20261105-b4-cells-v3-0-bc9095937a84@toxicpanda.com>
 In-Reply-To: <20261105-b4-cells-v3-0-bc9095937a84@toxicpanda.com>
 To: Christian Brauner <brauner@kernel.org>, 
@@ -104,98 +105,188 @@ To: Christian Brauner <brauner@kernel.org>,
 Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Josef Bacik <josef@toxicpanda.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openssh-sha256; t=1793890934; l=2695;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1793890934; l=6397;
  i=josef@toxicpanda.com; h=from:subject:message-id;
- bh=E++I0rAXM0ijSWOuo0ckD4Y6cZuxjdOkUDqziqSMyNw=;
+ bh=cV092EsOpAAG8NDCOxwaLI5LnoLWUM05AD95cGuuS6I=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgUBr36M/n0nWN0DNbnxwzIiCZez6MG
  JiruuNaSCI/zXsAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QGlbPkM+IK8ljt1Qf0FTASArh9RrYgt8UUeMbimWgrw517VCLhDoZ7AOVP9uJWgOZJSRpU8fvEe
- 8w5+qebotsAI=
+ QF+VuW+GCcKorqd6L61DKaGyLokKpzJMG30qlREQ7V60anQvdJUawkX7SvULbDfKBCpfIv8DTuU
+ 2ZlNnio1mdAA=
 X-Developer-Key: i=josef@toxicpanda.com; a=openssh;
  fpr=SHA256:C8kOX2QUJCMqnCX+KEeoqRAjLo9L+ELOSH2NSAJHqGA
 
-A kill has to remove everything from the budget, and the cell is reported
-dead once the budget is empty.
+Whether a node of a kernfs based filesystem may be changed is decided by
+its mode and owner, in the VFS and in kernfs. The filesystem on top of
+kernfs sees some of the changes, such as a write to a file or a mkdir. It
+never sees others: chmod, chown, a timestamp update, an extended
+attribute. If it has a rule that is based on something other than mode and
+owner, it can only enforce that rule for the first kind.
 
-In its kthread mode, vhost attaches a kernel thread to the cgroups of the
-owner of the device with cgroup_attach_task_all(). A kill does not remove
-a kernel thread. So a cell that was given a vhost device could prevent
-itself from ever being reported dead.
+Add a may_change() callback to kernfs_syscall_ops. It is called in
+addition to the mode check, everywhere a change can come from:
 
-Refuse to move a task that is in no cell into a budget or below one. Do
-this in cgroup_attach_task(), which every way of attaching a task goes
-through, and for CLONE_INTO_CGROUP. Budgets do not nest and a task of a
-cell stays within its own budget, so no other case needs a check.
+  - when write permission is checked, which covers opening a file for
+    writing and creating, removing or renaming a directory entry
+  - on every write to a file, because the writer may not be the task that
+    opened it
+  - before an attribute or an extended attribute is set or removed
+
+The callback is told whether the change is to the content of the node or
+to its attributes. A filesystem may want to let a task create entries in a
+directory without letting it change the mode of that directory.
+
+Truncating a file counts as a change to its content. That is what an open
+with O_TRUNC does, which every shell redirection uses, and kernfs ignores
+the size anyway.
+
+No filesystem implements the callback yet.
 
 Signed-off-by: Josef Bacik <josef@toxicpanda.com>
 ---
- kernel/cgroup/cgroup.c | 39 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 39 insertions(+)
+ fs/kernfs/file.c            |  5 +++++
+ fs/kernfs/inode.c           | 25 +++++++++++++++++++++++++
+ fs/kernfs/kernfs-internal.h | 11 +++++++++++
+ include/linux/kernfs.h      | 15 +++++++++++++++
+ 4 files changed, 56 insertions(+)
 
-diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
-index 1286f5d318b0..3fc1f9ac2268 100644
---- a/kernel/cgroup/cgroup.c
-+++ b/kernel/cgroup/cgroup.c
-@@ -3087,6 +3087,30 @@ int cgroup_migrate(struct task_struct *leader, bool threadgroup,
- 	return cgroup_migrate_execute(mgctx);
+diff --git a/fs/kernfs/file.c b/fs/kernfs/file.c
+index cca9f83fc9b5..27e234c4aea0 100644
+--- a/fs/kernfs/file.c
++++ b/fs/kernfs/file.c
+@@ -307,6 +307,11 @@ static ssize_t kernfs_fop_write_iter(struct kiocb *iocb, struct iov_iter *iter)
+ 	ssize_t len = iov_iter_count(iter);
+ 	const struct kernfs_ops *ops;
+ 	char *buf;
++	int ret;
++
++	ret = kernfs_may_change(of->kn, KERNFS_CHANGE_CONTENT);
++	if (ret)
++		return ret;
+ 
+ 	if (of->atomic_write_len) {
+ 		if (len > of->atomic_write_len)
+diff --git a/fs/kernfs/inode.c b/fs/kernfs/inode.c
+index 6630b29d7c07..efefd40161d6 100644
+--- a/fs/kernfs/inode.c
++++ b/fs/kernfs/inode.c
+@@ -112,12 +112,21 @@ int kernfs_iop_setattr(const struct mnt_idmap *idmap, struct dentry *dentry,
+ {
+ 	struct inode *inode = d_inode(dentry);
+ 	struct kernfs_node *kn = inode->i_private;
++	enum kernfs_change what = KERNFS_CHANGE_ATTRS;
+ 	struct kernfs_root *root;
+ 	int error;
+ 
+ 	if (!kn)
+ 		return -EINVAL;
+ 
++	/* Truncating a file is writing to it, which is what O_TRUNC is for. */
++	if ((iattr->ia_valid & ATTR_SIZE) &&
++	    !(iattr->ia_valid & (ATTR_MODE | ATTR_UID | ATTR_GID)))
++		what = KERNFS_CHANGE_CONTENT;
++	error = kernfs_may_change(kn, what);
++	if (error)
++		return error;
++
+ 	root = kernfs_root(kn);
+ 	down_write(&root->kernfs_iattr_rwsem);
+ 	error = setattr_prepare(&nop_mnt_idmap, dentry, iattr);
+@@ -283,6 +292,12 @@ int kernfs_iop_permission(const struct mnt_idmap *idmap,
+ 	kn = inode->i_private;
+ 	root = kernfs_root(kn);
+ 
++	if (mask & MAY_WRITE) {
++		ret = kernfs_may_change(kn, KERNFS_CHANGE_CONTENT);
++		if (ret)
++			return ret;
++	}
++
+ 	down_read(&root->kernfs_iattr_rwsem);
+ 	kernfs_refresh_inode(kn, inode);
+ 	ret = generic_permission(&nop_mnt_idmap, inode, mask);
+@@ -349,6 +364,11 @@ static int kernfs_vfs_xattr_set(const struct xattr_handler *handler,
+ {
+ 	const char *name = xattr_full_name(handler, suffix);
+ 	struct kernfs_node *kn = inode->i_private;
++	int ret;
++
++	ret = kernfs_may_change(kn, KERNFS_CHANGE_ATTRS);
++	if (ret)
++		return ret;
+ 
+ 	return kernfs_xattr_set(kn, name, value, size, flags);
+ }
+@@ -362,10 +382,15 @@ static int kernfs_vfs_user_xattr_set(const struct xattr_handler *handler,
+ 	const char *full_name = xattr_full_name(handler, suffix);
+ 	struct kernfs_node *kn = inode->i_private;
+ 	struct kernfs_iattrs *attrs;
++	int ret;
+ 
+ 	if (!(kernfs_root(kn)->flags & KERNFS_ROOT_SUPPORT_USER_XATTR))
+ 		return -EOPNOTSUPP;
+ 
++	ret = kernfs_may_change(kn, KERNFS_CHANGE_ATTRS);
++	if (ret)
++		return ret;
++
+ 	attrs = kernfs_iattrs(kn);
+ 	if (!attrs)
+ 		return -ENOMEM;
+diff --git a/fs/kernfs/kernfs-internal.h b/fs/kernfs/kernfs-internal.h
+index f1e93b09e27d..5d1d4e282556 100644
+--- a/fs/kernfs/kernfs-internal.h
++++ b/fs/kernfs/kernfs-internal.h
+@@ -127,6 +127,17 @@ static inline const char *kernfs_rcu_name(const struct kernfs_node *kn)
+ 				     kernfs_rename_is_locked(kn));
  }
  
-+/*
-+ * May @task, which cell_may_migrate() has no objection to, be put into @dst?
-+ * Budgets do not nest, so a task of a cell is within its own.
-+ */
-+static bool cgroup_cell_may_enter(struct task_struct *task, struct cgroup *dst)
++/* See kernfs_syscall_ops::may_change. */
++static inline int kernfs_may_change(struct kernfs_node *kn,
++				    enum kernfs_change what)
 +{
-+	bool in_cell;
++	struct kernfs_syscall_ops *scops = kernfs_root(kn)->syscall_ops;
 +
-+	if (!IS_ENABLED(CONFIG_CELLS))
-+		return true;
-+
-+	rcu_read_lock();
-+	in_cell = task_cell(task);
-+	rcu_read_unlock();
-+	if (in_cell)
-+		return true;
-+
-+	for (; dst; dst = cgroup_parent(dst)) {
-+		if (test_bit(CGRP_CELL_BUDGET, &dst->flags))
-+			return false;
-+	}
-+	return true;
++	if (scops && scops->may_change)
++		return scops->may_change(kn, what);
++	return 0;
 +}
 +
- /**
-  * cgroup_attach_task - attach a task or a whole threadgroup to a cgroup
-  * @dst_cgrp: the cgroup to attach to
-@@ -3110,6 +3134,14 @@ int cgroup_attach_task(struct cgroup *dst_cgrp, struct task_struct *leader,
- 	 */
- 	if (!cell_may_migrate(leader, dst_cgrp))
- 		return -EPERM;
-+
-+	/*
-+	 * Nothing else gets into a budget. A kill is to take everything there
-+	 * with it, which it could not do to a kernel thread.
-+	 */
-+	if (!cgroup_cell_may_enter(leader, dst_cgrp))
-+		return -EPERM;
-+
- 	/* look up all src csets */
- 	spin_lock_irq(&css_set_lock);
- 	task = leader;
-@@ -7024,6 +7056,13 @@ static int cgroup_css_set_fork(struct kernel_clone_args *kargs)
- 		ret = -EPERM;
- 		goto err;
- 	}
-+
-+	/* And nobody else forks into one. */
-+	if (!cgroup_cell_may_enter(current, dst_cgrp)) {
-+		ret = -EPERM;
-+		goto err;
-+	}
-+
+ static inline struct kernfs_node *kernfs_parent(const struct kernfs_node *kn)
+ {
  	/*
- 	 * Verify that we the target cgroup is writable for us. This is
- 	 * usually done by the vfs layer but since we're not going through
+diff --git a/include/linux/kernfs.h b/include/linux/kernfs.h
+index 73786b567ccd..62bdb77961e3 100644
+--- a/include/linux/kernfs.h
++++ b/include/linux/kernfs.h
+@@ -243,6 +243,12 @@ struct kernfs_node {
+  * the exact operation requested.  An active reference is held for each
+  * kernfs_node parameter.
+  */
++/* What kernfs_syscall_ops::may_change is asked about. */
++enum kernfs_change {
++	KERNFS_CHANGE_CONTENT,	/* what a file holds, size included, the entries of a directory */
++	KERNFS_CHANGE_ATTRS,	/* mode, owner, times, extended attributes */
++};
++
+ struct kernfs_syscall_ops {
+ 	int (*show_options)(struct seq_file *sf, struct kernfs_root *root);
+ 
+@@ -253,6 +259,15 @@ struct kernfs_syscall_ops {
+ 		      const char *new_name);
+ 	int (*show_path)(struct seq_file *sf, struct kernfs_node *kn,
+ 			 struct kernfs_root *root);
++	/*
++	 * May the caller change @kn? Asked on top of what the mode says, and
++	 * before it: when permission to write is asked for, which is what
++	 * opening a file for writing and making, removing or renaming an entry
++	 * of a directory take, for every write to a file, whoever opened it, and
++	 * before an attribute or an extended attribute is set or removed. No
++	 * active reference is held on @kn. Returns 0 or a negative error.
++	 */
++	int (*may_change)(struct kernfs_node *kn, enum kernfs_change what);
+ };
+ 
+ struct kernfs_node *kernfs_root_to_node(struct kernfs_root *root);
 
 -- 
 2.55.0
