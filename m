@@ -1,77 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793895736;
-	b=XOkVJ7Fq+htz8NG8hbrX/Pwc0Ist0F5SFuXJDIHn+maU5mIOI2rXHmRvKxX9Rfm/4KJq
-	 /zwnzkz2ikPbG26rVQO7V8U9Seb+B2HojYVN/YjbJlznmnniUhnMeF2sU+2k9bqkdBqLK
-	 91RZYqvjT5CrRmOM+tmUQVJclNJ28TvWET4w5GsmZIlq8vdU526XJNmR6yTP21fiyT42Y
-	 5VLh3VWG85rQOyPVlFNOVHJN1L5E9zErBcDOFb3xydJt6LSvYapn6qV+PdkYyS1XPxW8y
-	 d/8LpMQoafURVIotdPMz41ViEzvMiV6k1WPoEuBJv0Q1nJ2n5DXRjTpdrcqy8sjirrQ==
+	t=1793895909;
+	b=AWLhwV+U5gSyKvDknQM5XeAQm3wyLZrArO5KxF5Txtnz88mY+Ul5L0sVns/I2J/XQDLj
+	 ji5/m74+yXWAEf6oX1YkeaKDntZ4D2mJdazEDE4Sy9ie4uV13YftD/YqEZ3S6EI5ZwjNg
+	 4PaXmjvapMNNcKvpCSfA6T9U4e0kR7pTXmdzgUibMbQr/uyV/ugmWL6rEKvQ82y2lq+Y3
+	 znoaDSlu4JRXIvQHNPsKrXDfHcl21MxJ6v3DH5pvbm/NyuH6AT9wUpa7gK4mkdZBjTso8
+	 4dznjey5LuWN5hiDwBRzV4TSZ1MaLq96dcFjb9ZNP058wYqYW4nxiek12YZEeEZAVaw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793895736;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Type:
-	 X-Developer-Signature:X-Developer-Key:Content-Transfer-Encoding;
-	bh=VLO291Yw0dXwc3CQ/dxumGJAHuHs+sp8vgidXg8O+ZA=;
-	b=H7WWwftkf/hZGP3UHDZUaZxHNs6hi2dq1P7GNMglQzkjAGFquJsb/2wbRuiRAyBnImZf
-	 LYtNaIXRXFUqO3/pmB8ZtfD+fhAPgaSgPAOj/E+2Ltmc/6KJn6oVTYqQaMf+NYDObFKT7
-	 2oMG6X7pEU/v/xTYlEuX4dfk/Dh9j0ItzE2yqmAh7AF+B4ureaT3767OVOniqp3Dban6y
-	 KPp9r8MQ/ycpRgb3IGuVCNMqK0A8PpY+6cFgEX3jquQO0DkGTEQVm3zTPBSHHsjaNDO2I
-	 M6euIsFRBjzDuMOsj/WNIh2j3B2NKKG1Sl3ngKpJ+aDpsmIcBLHLHcWMhMOC4ujmQMQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793895909;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer;
+	bh=7NMj2Y2EDcuPBjW65nvrvU7K71Q0gKCYtKgjJX4yu9g=;
+	b=p+dkNp0eQo/mIAuOI550k6azZSOvtVs7cSvu/U115IlX1I2Tfoi6Zi/LQQjyTPPl2VAe
+	 jXBnVdaR9A+AgY3v1r7/3KB5NtXlNr13Zyh1eFOogOox/MGuN0/H6uqX1oRepnd/6bwX9
+	 8x9t3/2hFQk6P1x5A1dNLd/mi49+40G4KoCLFXNriYs00oYa+kDx+ifsZCRVDeuW1rNKh
+	 gn8FB8urA6vua4RK1UqVL+Dixs0P6eysLQtto6hOKxVjoZdzNs9c1jRkePozsbXejsaIZ
+	 qnlUxsxtdjPD3oBF5YX/lgncflReui2ajN7jk6CXNrhoNK1QwTNayME+ZQirW8gtEow==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=h7AbkmxC;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MNqxQDhZ;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAD6C606A328;
-	Thu,  5 Nov 2026 16:22:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD92D606A32C;
+	Thu,  5 Nov 2026 16:25:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=h7AbkmxC
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A30F1F000C1;
-	Thu,  5 Nov 2026 16:22:10 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MNqxQDhZ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABD4B1F000C1;
+	Thu,  5 Nov 2026 16:25:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793895735;
-	bh=VLO291Yw0dXwc3CQ/dxumGJAHuHs+sp8vgidXg8O+ZA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=h7AbkmxClpxZ7zlz7Q/b99c7d0Kf3ZVKzUIkU6QXaBG0a2LdWeSm/0XuLjNegC16+
-	 1rNJrvvhf5hIF1Ib399Mj+GewAfK4Y1dLHDEFvKoP8XNV5heIVxj4wvAodVZJ//Mrg
-	 TG/W00JwKZGDbv0m6E58eDW2Z2n4ZMBsIzGId6ubSrn1NNhEIDD6V0o/gTq8APwKn5
-	 A/qJMBWZLsxinPL0W8f8G52Q1tHIOcbu0dCBVC2qsD0nVHOAKg/fKrdGKNU+Xv15XU
-	 fLpAYTY2sP2b7zy6+QQnzlukPm+eRe9TGQO3wiyfwgPrrnoiu476Yy6EfiimX2T15g
-	 dvN+7y1MZ8Hkw==
+	s=k20260515; t=1793895908;
+	bh=7NMj2Y2EDcuPBjW65nvrvU7K71Q0gKCYtKgjJX4yu9g=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=MNqxQDhZQrXCyvNWXtS8kzeq27U9T/VSlEYeFRu1UBlzQTcumB6KMLC9FAU2tcmtt
+	 9BO3Im7TwAPay/6m33q3fJkoR7mJaOoBgJmhbJrIOkgPlmB1Bbs4PVcQDL0Ub9E0Xz
+	 yhQ/rnq7fuoVm/4Pv4iiqewDObJyZM5jNRlOW2o9fXQEp+Pnf739NXkj1hl/NlFLyQ
+	 CxOqNkW7QtnY0EFTic0yQd0joHO3VHo5Gsm4QEKb4SWRFZEzRlawtqA3Nz/u0NQfTi
+	 yvU7g++0b4PjrqWsDMjbLzpMmHtKHVjdmMJ7RxvHvWw8Pm0VptiUX4NOVTrPFo3zoG
+	 dfS7wfAdNNzkA==
 From: Christian Brauner <brauner@kernel.org>
-To: viro@zeniv.linux.org.uk,
-	jack@suse.cz,
-	pliard@google.com,
-	akpm@linux-foundation.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	phillip@squashfs.org.uk,
-	cem@kernel.org,
-	linux-xfs@vger.kernel.org,
-	tytso@mit.edu,
-	adilger.kernel@dilger.ca,
-	libaokun@linux.alibaba.com,
-	ojaswin@linux.ibm.com,
-	ritesh.list@gmail.com,
-	yi.zhang@huawei.com,
-	Abbott Liu <liuwenliang@huawei.com>
-Cc: Christian Brauner <brauner@kernel.org>,
-	yangzhuohao1@huawei.com,
-	douzhaolei@huawei.com,
-	wangbing6@huawei.com,
-	nixiaoming@huawei.com,
-	liaohua4@huawei.com,
-	chenjie6@huawei.com,
-	chengzhihao1@huawei.com,
-	heyuqiang1@huawei.com
-Subject: Re: [PATCH] initrd: flush deferred fput() before mounting root
-Date: Thu,  5 Nov 2026 17:21:40 +0100
-Message-ID: <20261105-bleifrei-trunk-lehramt-282105689eab@brauner>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260930084632.2965573-1-liuwenliang@huawei.com>
-References: <20260930084632.2965573-1-liuwenliang@huawei.com>
+To: Paulo Alcantara <pc@manguebit.org>, Namjae Jeon <linkinjeon@kernel.org>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, NeilBrown <neilb@ownmail.net>
+Cc: Jeff Layton <jlayton@kernel.org>, Jan Kara <jack@suse.cz>, 
+ linux-fsdevel@vger.kernel.org, linux-cifs@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <179272047063.2068970.18335523787621027348@noble.neil.brown.name>
+References: <179272047063.2068970.18335523787621027348@noble.neil.brown.name>
+Subject: Re: [PATCH v3 0/3] smb/client: prepare for locking changes.
+Message-Id: <20261105-dachorganisation-dermatologisch-pufferzone-f7e9bab2cca9@brauner>
+Date: Thu, 05 Nov 2026 17:25:04 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -82,31 +61,24 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1409; i=brauner@kernel.org; h=from:subject:message-id; bh=+7yza4/4Lx9dwn0alaXtZbTmU5h8UwEKXNai/D6jlAE=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS9WaurH7vEbJrHB6cJFlEPfF1L9pTknG9w7xA16LT/J c1Velijo5SFQYyLQVZMkcWh3SRcbjlPxWajTA2YOaxMIEMYuDgFYCKqZQz/g991FwX/ZVomdTXM MjDJ3aTj5jeGnCWNtw8p3Lm34YVeBcP/sDnKvPpvO1zrtllcX79NiKvgZciRhsk3/Px3TTgZOlm XAwA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev-ce4c1
 
-On Wed, 30 Sep 2026 16:46:32 +0800, Abbott Liu wrote:
-> Booting an old-style initrd, i.e. a bare filesystem image rather than a
-> cpio archive, with "root=/dev/ram rootfstype=squashfs" can fail to
-> mount the root filesystem and panic:
+On Fri, 23 Oct 2026 12:54:30 +1100, NeilBrown wrote:
+> [[Missed the Subject on the cover letter - sorry.  ]]
 > 
->     RAMDISK: squashfs filesystem found at block 0
->     RAMDISK: Loading 68449KiB [1 disk] into ram disk... done.
->     No filesystem could mount root, tried:
->      squashfs
->     Kernel panic - not syncing: VFS: Unable to mount root fs on
->     "/dev/ram" or unknown-block(1,0)
+> This v3 removes the DCACHE_BLOCKED #define and uses IS_ERR_OR_NULL() as requested.
+> Also adds the ack-ed by from Namjae Jeon - thanks!
+> NeilBrown
+> 
+> [PATCH v3 1/3] smb/client: don't unhash and rehash to prevent new
+> [PATCH v3 2/3] smb/client: use d_alloc_trylock in
+> [PATCH v3 3/3] smb/client: Use d_alloc_trylock() in
 > 
 > [...]
 
-I reworded the commit message and cut the comment in the code down to what's
-necessary.
-
----
-
-Applied to the vfs.fixes branch of the vfs/vfs.git tree.
-Patches in the vfs.fixes branch should appear in linux-next soon.
+Applied to the vfs-7.5.lookup branch of the vfs/vfs.git tree.
+Patches in the vfs-7.5.lookup branch should appear in linux-next soon.
 
 Please report any outstanding bugs that were missed during review in a
 new review to the original patch series allowing us to drop it.
@@ -118,7 +90,12 @@ Note that commit hashes shown below are subject to change due to rebase,
 trailer updates or similar. If in doubt, please check the listed branch.
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs.fixes
+branch: vfs-7.5.lookup
 
-[1/1] initrd: flush deferred fput() before mounting root
-      https://git.kernel.org/vfs/vfs/c/807c1d7125a2
+[1/3] smb/client: don't unhash and rehash to prevent new opens.
+      https://git.kernel.org/vfs/vfs/c/b7362fb79d59
+[2/3] smb/client: use d_alloc_trylock in cifs_silly_fullpath()
+      https://git.kernel.org/vfs/vfs/c/08bcc8161fb5
+[3/3] smb/client: Use d_alloc_trylock() in cifs_prime_dcache()
+      https://git.kernel.org/vfs/vfs/c/de7f0d4e7ab8
+
