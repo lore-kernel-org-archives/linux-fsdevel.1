@@ -1,88 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.177
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.179
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793892170;
-	b=DPpQmWtGOo8mC2A8DRkDD6GHfsqjdmdDORU8MkM3Ig7Km+xp0GLC61FTfRzkIbnoVvC3
-	 fQMyTjuYpD8WUW5DvzdR+Kr0uFdoDYdw5NPdH2sqWrU9LDkVKCDFKJirpWnSqDFf2Aag9
-	 r1/b334FnJn58xigmFQsecyfDZc1GBmQPuge+yxiQR1O3wcDzTDqS2ktOomyaE9pzqQxD
-	 p4ndWolRxQe7aDSI+VbSEtXAA0euPG0URs9tyJgMmHB0SpBCL7dleGObAwwlyoKzlQLUK
-	 PoB21EqL21MYT37AkhJyNgcdG4dIdwkkiCLe8qG1EdQsAvgbTuMeeJTpl71/kpDtB/Q==
+	t=1793892196;
+	b=uN4XbAgognMj7ZTjAl8bU0Xlxij5xaRLG1VUVBse+1I3Gkz0VlZhusxmWXeXjbF0Ylpj
+	 RzWPCr8JjU/eiKmhdu+IOUYaiXpaieRWcnCB/7/2mBN/4srAUcBdv/+dNtaKDCh3oVeAi
+	 fApRQIo9mV2xqpZC8NGKxWUrhCpPexehZcpVHcIehQkQ58F1k+wi1T5wcPZesIiv7r952
+	 G3ZQufw/2S0esvGPPpt6l7DtcFfjDEEhfXApt6X6TnxEDLnPJofsxEBW6TQRYuHb2aIbm
+	 bBFCcAyurCTY3b8sgFwMpoO8poAV28L6k3yzZNGgaXTgDnTccuEWLnZQi2WzK1PoZDg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793892170;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793892196;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Date:Subject:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
 	 References:In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=xJYfi5g2zuSnSXCCV+vaULGoe+tZgbf+KcLjRuVRvl0=;
-	b=X4rI5PHnMULR+9louVxShALuV6tJwNy8A6LYHDLeG+RreN0gjg37MV9Qy6ugFKmBkZmF
-	 +OeaA9tKmZm9Lxg141kYLyU/1sid3jyunQaWFr0D3HGs72wdn1M7PxyO65YNOXEsIsinM
-	 gjrmQcqNJO47fhOv0BuyfLwDnbLjOozKlF89GcXHibOe3aYE7XiP8BBuwDh/fBacyhQ5O
-	 zWKlfLzQeDdZElbq4fsk/yqy07jPNytRHf4lxhkbg9i0R3dsKusrKn/+GOlmSW3u1acSU
-	 EMrLWcY8VQDGN7ejqFRocDNt4ujjsPTZLyNKAEA2qzRDP6PEirvh1gXGqVyGKOhYn+Q==
+	bh=7nibMrCIpte7jH5Y8CAGvaqEIBCNW+oSZWFZBxDYXLE=;
+	b=oIq8K/CerEKWboRJ7l+auE0jvpnXe96Sud3W/oAECkVahtb8vwL+3/Ph2Ms+u2AyLOV+
+	 o67mgNtEr1odgC49F3DHCTUxmOIj2+/jp3ewHKYEgi0QmcMij+HWdj9ZNHAiPVdMkaxJs
+	 rm1M3+f8ptICeQW/vhXcjLdJrCvUappfXFdrVtXiUzNbeUKltbL9ZPOfAczPrEjCEFUOL
+	 tz0ASv6UzvEDPNilKR6HCvq2x9LSGXnhlJ/EsKCvHJ0mIQLYfGSXT6ZEG5MnpSs5OMgq9
+	 k4Kgq9EEzDdKoU2Rjw94ZL0ghDVwIkgKV8bVclhz4rsOUBk1+//SqKQ5lhRBO8WyAUw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=toxicpanda.com;
 	spf=pass smtp.mailfrom=toxicpanda.com;
-	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b="X/dPG5lH";
-	arc=none smtp.remote-ip=209.85.222.177
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=a8wrXlvz;
+	arc=none smtp.remote-ip=209.85.221.179
+Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CD84606A32E
-	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 15:22:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5CD84606A32E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5546B606A329
+	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 15:23:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5546B606A329
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=X/dPG5lH
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-93f079a63b8so190605985a.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 07:22:50 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=a8wrXlvz
+Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-5ecbfea5f51so125490e0c.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 07:23:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toxicpanda.com; s=google; t=1793892169; x=1794496969; darn=vger.kernel.org;
+        d=toxicpanda.com; s=google; t=1793892195; x=1794496995; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=xJYfi5g2zuSnSXCCV+vaULGoe+tZgbf+KcLjRuVRvl0=;
-        b=X/dPG5lHSuvt6yi6rtg1orMQuOPGrHGThAsuGl10prX4ljoFpTACCJzvzyQ17gPgzv
-         Z0ccOPXiB7o8j0O+uMo6Rl5ow7e0CDu+UAhFtJS/Xi8ogWHTKE0JeKwypDtSXgEIg1iO
-         +3SRNVkJ9a11P1C6Fjvf3p9j717Xe/qoLZo64i9pbJTwZsrka2mZxX44jgmTwRgctJZg
-         p03Pp2iRTGk0b49neBvC4H5hqDyVj9bNyZqr/efTi+5a6ARXPsM24h6rk90IIsTmQb0w
-         p4tXBcaZuDsGXWgWSH6EQM5V7oGB1IeOAl7Z0DXnL9MTDssLVKVXy5KuVw6KkI0vKJjW
-         3X2w==
+        bh=7nibMrCIpte7jH5Y8CAGvaqEIBCNW+oSZWFZBxDYXLE=;
+        b=a8wrXlvzXG316dQCmVyXiU5b2ORM/eCmyMjOkBwc12xOPJwDiDIXNpHvisHGtxr1U+
+         Z1cNXK+F77P0PfulSJxrtz0ISU3NFi/2LLliQRt4TBwAOUZR0PjY/r3SCd1Z+DJpBwRH
+         V5EAb9c+QfpE8lhPX7Pg/WgNIH2rRXb31oelNDMgQ8SLSYJOUfuj6Ji77Ll7sSJaBnTL
+         ZdeKg7X0bOJeCBUd1qfzO3d/dpuihQpmIqCZ9zrFy4U0jcr55h8vhhORs8NaZeiJC2Js
+         ziIpBgALKVxRgRUVDEbcZO6vJ4+3hCy04iQy3qNm38D0ynJq3xhJyXQn61MHY3BYVfG4
+         SlLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793892169; x=1794496969;
+        d=1e100.net; s=20260707; t=1793892195; x=1794496995;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=xJYfi5g2zuSnSXCCV+vaULGoe+tZgbf+KcLjRuVRvl0=;
-        b=PT+XIhrTv7BfyhGv0wZxmoyE+krDGpCkhleV8fE7zM5UvU0C7qiQfRtXjapiEHlRj0
-         wz3CyXAkKeqTAjUgB4/X6PiizREk6AwtEL57EB5IWqDvZu1RpG8AwJ3HT94bG+263D0V
-         LpR6c6h5Uvh/6kjlxiKF6juw8+8ZJ77oVQ7NQotpt1KX3XoxiifHtqUr+rd71bMtm7+w
-         Idfq/woS4fZPA14RHFSkGbqXiqfdnzOpqLapWNg/vF7TxcxlsIGmZHAt+v7PxiAfefkQ
-         vzav3VAMHdaYAyhw/pErVqiv3MqgQ+qb7X/6n0Xmz7EscEKW9iSNgLr8SXrjO2sj35Ut
-         I5FA==
-X-Gm-Message-State: APuU4Z9fWjD/6fw3Fl3s0jeLnd3K3vhvZOURlxzAeb8wtAfahcBY4+tp
-	f+Sde0b0Z5D4feHbbAlnzP6fHNLTpDeNRyvi70rev8zUvnqFykJwzYdkiGJphwDHnQRncujQ8A2
-	xaCAU2PQ=
-X-Gm-Gg: AYBFou2gbLZwijhhiKI9RUgg9czMcMo9fFrlpJQ43aM2i9w5baGqslnCchDntTmwnLE
-	SsO5K7fZADV6sKv4JvdZSAqrUQuNwcJEmgAB7Ulg6vnA2W55r88QvQ+z42Wj3YgjpqPqyI6tE1/
-	0S626AXrDmdM86QRrdr8XPX3VpS3rn6zeZJceGZ8tkY8EyyPeR5SZJM6vDyo7Z9SzF3/xk9idzG
-	mAiAupiB6K3tXPIN9kiW4QdxVq1VvHoNE/G8NbrF3qvyaI3Zkmik5ZPd0vW+ZRKDDCtnD2Gj7sb
-	0NNfK7Jyvni5upL77Dg9DupLqzFyj0d2mypt4oJCK9kWo1hHUYm0Ee2BvRA9Q0IXKJ1caqW705n
-	FqWVWUBREkHj5xJXh/ZXjUr4kIUqTaMSj8/JXuSZXCEMdAoSAjzqjfmIOKiX+z46XzuII/INE2+
-	iW5ofbr1xSUlfR9Wr++PGQFsQCUxQSpy+bOcB8qV0nw7nF2w9CGgDVD4ZyKhBpJKBA7rXTxgfXZ
-	nbgFccTjayPG5kZtFoCyjPGD3a7avSb8uHmwPLqFI09cgI3MCZTuvCUoidjdFthuGD2hBE9+T8G
-	94MuOMe3xCoh8phqGwLPCDiDTSiQ38G5vfc8N9C7RK5k
-X-Received: by 2002:a05:620a:28c6:b0:945:df59:e62c with SMTP id af79cd13be357-945df59ea90mr616362985a.61.1793892169185;
-        Thu, 05 Nov 2026 07:22:49 -0800 (PST)
-Received: from toxicpanda.com ([153.61.196.244])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91e9a5d0656sm16382296d6.16.2026.11.05.07.22.48
+        bh=7nibMrCIpte7jH5Y8CAGvaqEIBCNW+oSZWFZBxDYXLE=;
+        b=hEXtKi2iHOIqP6NG8Y3ZQYHpkaO+WIEwTx7mSPbZ+8B8BtJiTYASFaC2pHlUFzTObS
+         R494UhdDWKcblAYRQCEg0bxkf/P+4FNrObSKOhNwR12EwlXFS+fEgXEJiaCcvucDdIRy
+         T2GEeqqNJtfMhx9vDQfnGT90cUTMPceMv6hB/pu5UfZjorooY8YWxvGtcy+ylrBuRknr
+         PlH2mdVGTRterE7SHV7vaQld+8H3oed28uIIT0wlDduc7gEllwqo1XKIaUjYcIKuV2KU
+         3yzecXbmFCbDYzUKna+6puCpBsbAZa0flvjwJEDMWznn9qYgCgsW5qKhGs1P/WkvwSy9
+         rD3g==
+X-Gm-Message-State: APuU4Z9R6TnMO1k2BnhqiMSb7r2S972X09qu6fOqeXusc7nj3IetFQdf
+	GqgRwMHgfrSw98Ap5Zbdymb7qp/Zr+iXxlmbKrZH/AQp73vLdjSYPWgv5WZlbBcZxa0=
+X-Gm-Gg: AYBFou01yi8ToMJFDDs4DP6KL2xGMKnG6Tmt5sHHa4Tolr+oqQVUjYn/RM6nnExQmJ3
+	prlHu7ujHr4nfQwj2ylfuDjpXL4VGQF0xNq2p+IyJnl68hOd2On0y0wci0p7d82LoHImbJiIRgk
+	0b/sKIo4eVlwKuZNO0csB1GrtjL/dpHcGxw0Gs/aYUZkTZovyvAP31aiZUjrN2r2Q3iAcC72RCH
+	KIjkIdQ8aHUMYwI854Bx5AFjA1s6gBVa7rnmJGnkbcWp2vEgAz+c+1IQv5yZUBRQ5S5sDxrl4E3
+	m1kKJnelC+9UwpqY1smY9w9ixkI9vkxh64lvgDpgffTJZhPGdmpmwXMgoVOqnnQL1sXl/1v9K/G
+	5EPj5SK/U/FGI0WurAYBzi71lBX0pDG1xIxDhZwzo2Hmwc/BEFYnc0BetOj95ohPZuPr6PlLKh7
+	XYpe/nj94FevPrysnkjxlU5ucP0EXKqnfD2fUBdhIz+0Q9CUhtHVM8zlTWFC8hdQTvOV1WkQstO
+	FoD6luet/tfOMDrdD1C+yDFqFh+AxP1Rd+svn8fk9ww/HaNvVmc6pzK6bQdjFTG3/E9LoxjZtuq
+	TZxGkQl2U+88yhmOsTI7C1Ud0SZkFw==
+X-Received: by 2002:a05:6123:107:b0:5ce:76cf:fb2e with SMTP id 71dfb90a1353d-5ec6895c8e0mr9718425e0c.16.1793892190463;
+        Thu, 05 Nov 2026 07:23:10 -0800 (PST)
+Received: from toxicpanda.com ([153.61.196.253])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5eca8de4908sm4413311e0c.15.2026.11.05.07.23.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 07:22:48 -0800 (PST)
+        Thu, 05 Nov 2026 07:23:09 -0800 (PST)
 From: Josef Bacik <josef@toxicpanda.com>
-Date: Thu, 05 Nov 2026 15:02:53 +0000
-Subject: [PATCH RFC v3 61/90] fs: accept a cellfd for MOUNT_ATTR_IDMAP
+Date: Thu, 05 Nov 2026 15:02:54 +0000
+Subject: [PATCH RFC v3 62/90] fs: let a cell set no set-id bits
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -94,7 +93,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261105-b4-cells-v3-61-bc9095937a84@toxicpanda.com>
+Message-Id: <20261105-b4-cells-v3-62-bc9095937a84@toxicpanda.com>
 References: <20261105-b4-cells-v3-0-bc9095937a84@toxicpanda.com>
 In-Reply-To: <20261105-b4-cells-v3-0-bc9095937a84@toxicpanda.com>
 To: Christian Brauner <brauner@kernel.org>, 
@@ -105,113 +104,125 @@ To: Christian Brauner <brauner@kernel.org>,
 Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Josef Bacik <josef@toxicpanda.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openssh-sha256; t=1793890935; l=3291;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1793890935; l=4050;
  i=josef@toxicpanda.com; h=from:subject:message-id;
- bh=pj31SOm7YhN2z/Z+1E3HdN5yhsS7Wipq66JFp95Wo/0=;
+ bh=uGei2RogEpESKKmv/nP3/P9QyFXxqNI+laosDw1/MVg=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgUBr36M/n0nWN0DNbnxwzIiCZez6MG
  JiruuNaSCI/zXsAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QMZwjK0FbnpD+vbAPIynxe0pA6geEdHqcn0vbeS6RE+ART3eHfqSZcVz2It7s/NbKFeTyZq8WCN
- n2uuh799BDQU=
+ QJgeQkBfm+e1AUIUpI0YTHKRg5QtT3m8jleMm9315EAWQQ7tX8wlAjDhGVMBaPcUZxuhL9RYViZ
+ zghTq45ZcVgg=
 X-Developer-Key: i=josef@toxicpanda.com; a=openssh;
  fpr=SHA256:C8kOX2QUJCMqnCX+KEeoqRAjLo9L+ELOSH2NSAJHqGA
 
-The builder of a cell has to idmap the mounts that it puts into the tree
-of the cell. But it cannot name the ids that the kernel chose for the
-cell.
+A file can give a process privilege at exec, through its set-id bits or
+its file capabilities. Every task of a cell has no_new_privs, so nothing
+that runs in a cell can gain privilege from a file. But that is only half
+of the problem.
 
-Accept a cellfd in mount_attr.userns_fd. It means "idmap this mount for
-the cell": on-disk ids from 0 upwards map to the ids of the cell. This
-works while the cell is being built, once its ids have been set.
+The ids of a cell usually map to on-disk ids from 0 upwards, because that
+is how container images are stored. If the root user of a cell sets the
+set-uid bit on a file, the result is a set-uid root file for anybody else
+who can reach that filesystem. Only directory permissions, and a nosuid
+mount option that the host has to remember, stand in the way.
 
-mount_setattr() normally requires CAP_SYS_ADMIN over the user namespace.
-That check stops a caller from mapping file ownership to ids that it does
-not control. Here the ids belong to the cell and nobody else can hold
-them, so the check is not needed. The checks that can_idmap_mount() makes
-on the filesystem are unchanged.
+File capabilities cannot be written without CAP_SETFCAP, which a task of a
+cell never has. That leaves the mode bits. Clear S_ISUID, and S_ISGID on
+anything that is not a directory, in two places: in vfs_prepare_mode(),
+for a file that a task of a cell creates, and in notify_change(), for a
+mode that it sets.
+
+The bits are cleared silently instead of failing the call, so that
+unpacking an archive keeps working. setattr_prepare() does the same with
+S_ISGID for a caller that is not in the group of the file.
 
 Signed-off-by: Josef Bacik <josef@toxicpanda.com>
 ---
- fs/namespace.c         | 13 +++++++++++++
- include/linux/cell.h   |  7 +++++++
- kernel/cell/boundary.c | 25 +++++++++++++++++++++++++
- 3 files changed, 45 insertions(+)
+ fs/attr.c            |  5 +++++
+ fs/namei.c           |  3 ++-
+ include/linux/cell.h | 28 ++++++++++++++++++++++++++++
+ 3 files changed, 35 insertions(+), 1 deletion(-)
 
-diff --git a/fs/namespace.c b/fs/namespace.c
-index 30167f8863bf..e2406d7f7bcc 100644
---- a/fs/namespace.c
-+++ b/fs/namespace.c
-@@ -5207,6 +5207,19 @@ static int build_mount_idmapped(const struct mount_attr *attr, size_t usize,
- 	if (fd_empty(f))
- 		return -EBADF;
+diff --git a/fs/attr.c b/fs/attr.c
+index 10cf1b3827c6..946fba92b5c8 100644
+--- a/fs/attr.c
++++ b/fs/attr.c
+@@ -7,6 +7,7 @@
+  */
  
-+	/*
-+	 * "For this cell." The ids on the caller's side of the mapping are
-+	 * the cell's own, so there is nobody to ask about them. What is asked
-+	 * about the filesystem is the same as ever.
-+	 */
-+	mnt_userns = cell_idmap_userns(fd_file(f));
-+	if (mnt_userns) {
-+		if (IS_ERR(mnt_userns))
-+			return PTR_ERR(mnt_userns);
-+		kattr->mnt_userns = mnt_userns;
-+		return 0;
-+	}
+ #include <linux/export.h>
++#include <linux/cell.h>
+ #include <linux/time.h>
+ #include <linux/mm.h>
+ #include <linux/string.h>
+@@ -457,6 +458,10 @@ int notify_change(const struct mnt_idmap *idmap, struct dentry *dentry,
+ 		if (S_ISLNK(inode->i_mode))
+ 			return -EOPNOTSUPP;
+ 
++		/* Nothing a cell writes imparts privilege. */
++		attr->ia_mode = cell_strip_setid((attr->ia_mode & ~S_IFMT) |
++						 (inode->i_mode & S_IFMT));
 +
- 	if (!proc_ns_file(fd_file(f)))
- 		return -EINVAL;
+ 		/* Flag setting protected by i_rwsem */
+ 		if (is_sxid(attr->ia_mode))
+ 			inode->i_flags &= ~S_NOSEC;
+diff --git a/fs/namei.c b/fs/namei.c
+index 925aeb63bfa1..49995c353292 100644
+--- a/fs/namei.c
++++ b/fs/namei.c
+@@ -16,6 +16,7 @@
+  */
  
+ #include <linux/init.h>
++#include <linux/cell.h>
+ #include <linux/export.h>
+ #include <linux/slab.h>
+ #include <linux/wordpart.h>
+@@ -4162,7 +4163,7 @@ static inline umode_t vfs_prepare_mode(const struct mnt_idmap *idmap,
+ 	mode &= (mask_perms & ~S_IFMT);
+ 	mode |= (type & S_IFMT);
+ 
+-	return mode;
++	return cell_strip_setid(mode);
+ }
+ 
+ /**
 diff --git a/include/linux/cell.h b/include/linux/cell.h
-index 2107cd3c994b..f204c47ee783 100644
+index f204c47ee783..1d0eec34acb9 100644
 --- a/include/linux/cell.h
 +++ b/include/linux/cell.h
-@@ -249,4 +249,11 @@ bool cell_may_change_cgroup(struct cgroup *cgrp);
- static inline bool cell_may_change_cgroup(struct cgroup *cgrp) { return true; }
+@@ -256,4 +256,32 @@ struct user_namespace *cell_idmap_userns(const struct file *file);
+ static inline struct user_namespace *cell_idmap_userns(const struct file *f) { return NULL; }
  #endif
  
-+/* A mount is idmapped for a cell. */
-+#ifdef CONFIG_CELLS
-+struct user_namespace *cell_idmap_userns(const struct file *file);
-+#else
-+static inline struct user_namespace *cell_idmap_userns(const struct file *f) { return NULL; }
-+#endif
++/* Nothing a cell writes imparts privilege: new files and new modes. */
 +
- #endif /* _LINUX_CELL_H */
-diff --git a/kernel/cell/boundary.c b/kernel/cell/boundary.c
-index 3f5cc898dc48..3891dfe899f2 100644
---- a/kernel/cell/boundary.c
-+++ b/kernel/cell/boundary.c
-@@ -8,6 +8,31 @@
- 
- #include "internal.h"
- 
 +/**
-+ * cell_idmap_userns - the user namespace to idmap a mount with, by cellfd
-+ * @file: what was passed in mount_attr.userns_fd
++ * cell_strip_setid - take from a mode what a task of a cell may not set
++ * @mode: a file mode, file type included
 + *
-+ * A cellfd there means "for this cell". It works while the cell is being built
-+ * and once its ids have been set.
++ * Nothing a cell runs can gain from a file, since every task of a cell has
++ * no_new_privs. This is the other half: nothing a cell writes can make anybody
++ * else gain. The ids of a cell commonly map to on-disk ids from 0 up, so a
++ * set-uid bit set from the inside would make a set-uid root file for whoever
++ * else looks at that filesystem.
 + *
-+ * Return: the user namespace of the cell with a reference, NULL if @file is no
-+ * cellfd, or an ERR_PTR().
++ * The bits are dropped, not refused, as setattr_prepare() drops S_ISGID for a
++ * caller that is not in the group of the file: unpacking an archive keeps
++ * working. On a directory S_ISGID is about inheritance and stays.
++ *
++ * Return: @mode, without S_ISUID and S_ISGID if the caller is in a cell.
 + */
-+struct user_namespace *cell_idmap_userns(const struct file *file)
++static inline umode_t cell_strip_setid(umode_t mode)
 +{
-+	struct cell *cell = cell_from_file(file);
-+
-+	if (!cell)
-+		return NULL;
-+
-+	guard(mutex)(&cell->lock);
-+	if (cell->state != CELL_BUILDING)
-+		return ERR_PTR(-EBUSY);
-+	if (!cell->ids_count)
-+		return ERR_PTR(-EINVAL);
-+	return get_user_ns(cell->user_ns);
++	if (likely(!(mode & (S_ISUID | S_ISGID))) || !current_cell())
++		return mode;
++	mode &= ~S_ISUID;
++	if (!S_ISDIR(mode))
++		mode &= ~S_ISGID;
++	return mode;
 +}
 +
- /**
-  * cell_may_migrate - may a task be moved to a cgroup?
-  * @task: the task
+ #endif /* _LINUX_CELL_H */
 
 -- 
 2.55.0
