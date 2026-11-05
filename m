@@ -1,107 +1,108 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793876094;
-	b=T0ZxDaaNXpS5RD8l5Yppq/f7ZSTOLS1yG+td6jBqNPLaQLK2msk751m/6SwrdT4Xk+YA
-	 DZLT5D/XF+lBcziolgY7Ul4BUZY1GXatDrTzvQ9+XEpmauxBNr4uayYGQBReZu+PUYOBW
-	 C39Uolq/x3gkkalMeMoEVyFt5d59uh/iREjSkDOd7akjhpiaUFt5+2RKHHUUgYY6AcBEc
-	 qEra2cWZle95wVeNytgmLk10TntSDN8pBfigCjd5rsx4wYd6ofaaKQLqy5ACEfGgVy84U
-	 VySDXJP0DnScxn918LWmcSVvhlkbvh/fwUhylJ4jkxsTs2ZGOripBloR2zkgfB389Fw==
+	t=1793876670;
+	b=wpwKfUUGObqsC/1wBwNgib1VaCOm7qxrSaLq+Mt5FrVme2afQ9VLQeAQ/RSHpJSFehyi
+	 LeDM8DSrEVUkvqT1uDKef9AgLh0Wi3nxqqRnBnnO/0Fx9ckSvcxw9Yz5KH4ulXHY1B6+I
+	 ZhhZfRjEqCzOuHfMC3b7X55GLih4xKxbrlOOc38FzJyna4iiQov71I2hIP3ompLbQD9D9
+	 oCWmR43O98gNE63kcztwuYpy+RQn96e3CFKgWlPCQAQBxBY6822n8zhweZlvQ3CmmH/9o
+	 hdbvYDgyH4FNtS8xexghwr5UfW/C065ITDSzvTDfIuhErGejbP/WP+SAZTBccRIlJUQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793876094;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793876670;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
 	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
-	bh=pmrvnZ/EMvEeuZnlTBD+xVIwz9BGrfQBmhgJ0E/6Uns=;
-	b=nTpsssX5+pui9JLAETYzQae2ugHYVXktwcHJ3iVn7C5s3CwInXpPlTmOM2pOZSM5Hl6u
-	 PwJItwGvoxzOHQl9uXjwiyYbPmIOkqEBW6fpCfc7NStbAPrN5wOq8DqFU6/wTS20WTQNU
-	 0Ni/Ie+wcH8/cipqj9Ya/2zmCzcJELTMMlpFmt4JbfaQKghu/ImlH1TAsavLMecvL+dKn
-	 6JpOGNrRDApJ4/dovUwhVU4WaiwahVCa/LdukSaupLqJUjlCDkwuGE+wVF/NRJ+vh7bP/
-	 cpdjHYzLP8lFG+FKUuQpQr9PiVX9V9CxXl78Tjy5XpyZr402msK2KZACv4faugSkY5A==
+	 In-Reply-To:X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:
+	 X-Spam-Flag:X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
+	bh=R8OXXE6lVc0Kg4XvsdhEWlhjIxNHB/gXVg5vw+B42Y4=;
+	b=4Y9zmQjcS4vhHBi44zprjIo6Lkor8VNYrQ0YW5EtZFTmbidc2CGaTBvbhu1gQ7mNFZol
+	 zUZZPYIYgtOfTWJdwugkBXKADVBVusHezYX3Jbv2MI4l4XdmIukO6FWGev0XlzXl91oLC
+	 7NeVc8irOAU4lI2GG6QQP+1f/Y/q5lrbGD3c+ARbyK0DEjWQ5CGOfgIP1T5xPTheMHZM4
+	 z0mZUb8fQ8QU283/Ee6DLXncYgZxAeApljKrlv9v6r9coHduL3l7u6Tkl4DV8IoycYOba
+	 Dj9VbO1dj3PUhm6byPWpIM46X/UN3eAjNWZITpVeC0dC55CnRASUqV/zuBeALsQAKZg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=suse.cz;
 	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b="f/GH5j6W";
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=wEysVB6j;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=KToIDbJJ;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=AiZtdrn0;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=GCXYQiER;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=XIpQHsGl;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=GCXYQiER;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=XIpQHsGl;
 	arc=none smtp.remote-ip=195.135.223.130
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C057C606A31B;
-	Thu,  5 Nov 2026 10:54:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C057C606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28F33606A33F;
+	Thu,  5 Nov 2026 11:04:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 28F33606A33F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=f/GH5j6W;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=wEysVB6j;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=KToIDbJJ;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=AiZtdrn0
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=GCXYQiER;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=XIpQHsGl;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=GCXYQiER;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=XIpQHsGl
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B5F4021F8A;
-	Thu,  5 Nov 2026 10:54:50 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4BAAA21F7A;
+	Thu,  5 Nov 2026 11:04:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793876091; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793876666; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=pmrvnZ/EMvEeuZnlTBD+xVIwz9BGrfQBmhgJ0E/6Uns=;
-	b=f/GH5j6WLHXTIosA4Q9IKyULurUFpMv9+/BYPMq6Rxw8ueFWXCFeDTrfUzIUrNFgf4Nikw
-	zEznvo73bLV4awjLYpO5ViCgpog1U9OOxYxg/cgadjr80VvtftyGtFZxuXyPbpNx7wRnrF
-	4lkRWlALdbhXbjO0Y+WIwrmBHDbsIlY=
+	bh=R8OXXE6lVc0Kg4XvsdhEWlhjIxNHB/gXVg5vw+B42Y4=;
+	b=GCXYQiERLawHs26Zm4d55q6Oi2DpMFIc6lGb0wzeYJXA32HMR6Oe8lyOWKrZa2pVh6YtoK
+	e9fkl/YWIA0avnNf3RSYISsGgBDtHF95qp3FmqnRExLdSNCMVrlcftnVx6XYZ/EWCnrN0e
+	JWss5Xwo9LZ7NUjwl1+1BeK5XQufM3M=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793876091;
+	s=susede2_ed25519; t=1793876666;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=pmrvnZ/EMvEeuZnlTBD+xVIwz9BGrfQBmhgJ0E/6Uns=;
-	b=wEysVB6j2qa61Ws0d3fZhxFRmIXhbmGBCpLlV1PmVRLkJJMbfNnVDQiquBJS3mnGdehk7T
-	emuToUGERLyxupDw==
+	bh=R8OXXE6lVc0Kg4XvsdhEWlhjIxNHB/gXVg5vw+B42Y4=;
+	b=XIpQHsGlc9nVHY5CIQssuyrzzo4F0qjoTpsvdjhAMJxM4wDhEUiU6WMtVU7gg7NQeV7Mup
+	j5JDAan6cD4saoBQ==
 Authentication-Results: smtp-out1.suse.de;
-	none
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=GCXYQiER;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=XIpQHsGl
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793876090; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793876666; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=pmrvnZ/EMvEeuZnlTBD+xVIwz9BGrfQBmhgJ0E/6Uns=;
-	b=KToIDbJJpYXPRUTNGAM2BUdWs/VNL0vlpFaGyCPhhS9L76pGtBfIozD+Zt24m5s+0pmVy1
-	htASFuWBej54OhiKCG5b/84k2DxzdPdND7l17pd/K+LA8HnZKioAJB0qOZg6QW5PfqbDCh
-	KA4aGY8pIljZ+5C9+GS2ZjMuhEAFDNg=
+	bh=R8OXXE6lVc0Kg4XvsdhEWlhjIxNHB/gXVg5vw+B42Y4=;
+	b=GCXYQiERLawHs26Zm4d55q6Oi2DpMFIc6lGb0wzeYJXA32HMR6Oe8lyOWKrZa2pVh6YtoK
+	e9fkl/YWIA0avnNf3RSYISsGgBDtHF95qp3FmqnRExLdSNCMVrlcftnVx6XYZ/EWCnrN0e
+	JWss5Xwo9LZ7NUjwl1+1BeK5XQufM3M=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793876090;
+	s=susede2_ed25519; t=1793876666;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=pmrvnZ/EMvEeuZnlTBD+xVIwz9BGrfQBmhgJ0E/6Uns=;
-	b=AiZtdrn0oKOknRHwHN42UnOic78MCRHrzJCUS5U8LNVNY4/RdzEqzCcxDOD4GJd8UYJg5V
-	syK3fQ1BNdBXYOCg==
+	bh=R8OXXE6lVc0Kg4XvsdhEWlhjIxNHB/gXVg5vw+B42Y4=;
+	b=XIpQHsGlc9nVHY5CIQssuyrzzo4F0qjoTpsvdjhAMJxM4wDhEUiU6WMtVU7gg7NQeV7Mup
+	j5JDAan6cD4saoBQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7FD2B133F6;
-	Thu,  5 Nov 2026 10:54:50 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2CAAD133F6;
+	Thu,  5 Nov 2026 11:04:26 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id lICiFHpg7GoWRQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 05 Nov 2026 10:54:50 +0000
+	id pW5rBLpi7GqiTgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 05 Nov 2026 11:04:26 +0000
 Received: by quack.suse.cz (Postfix, from userid 1000)
-	id E6C96B696; Thu, 05 Nov 2026 11:54:49 +0100 (CET)
-Date: Thu, 5 Nov 2026 11:54:49 +0100
+	id A4A51B69D; Thu, 05 Nov 2026 12:04:25 +0100 (CET)
+Date: Thu, 5 Nov 2026 12:04:25 +0100
 From: Jan Kara <jack@suse.cz>
 To: Avi Weiss <thnkslprpt@gmail.com>
-Cc: Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Andrew Morton <akpm@linux-foundation.org>, Joanne Koong <joannelkoong@gmail.com>, linux-mm@kvack.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] mm/page-writeback: avoid unnecessary strictlimit
- background wakeups
-Message-ID: <fojzqutv5x2umdn44xly7pkgkvesz7lwriah36sq2t3cuuw4ui@ywgowfpmaz34>
-References: <20261031070515.3042848-2-thnkslprpt@gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] fs/stat: reject invalid flags for empty paths
+Message-ID: <nxh7ssislnd5ylxnj7uuaoekq55fydgsvbqzmzqox5hrcgzzg3@63zcrhbm2yyj>
+References: <20261031075809.3173603-2-thnkslprpt@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -113,93 +114,88 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261031070515.3042848-2-thnkslprpt@gmail.com>
-X-Spamd-Result: default: False [-12.80 / 50.00];
+In-Reply-To: <20261031075809.3173603-2-thnkslprpt@gmail.com>
+X-Spamd-Result: default: False [-13.01 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[infradead.org,suse.cz,linux-foundation.org,gmail.com,kvack.org,vger.kernel.org];
-	RCVD_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MX_GOOD(-0.01)[];
 	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,suse.cz:email]
-X-Spam-Score: -12.80
-X-Spam-Level: 
+	RCVD_COUNT_THREE(0.00)[3];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:dkim]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
 X-Spam-Flag: NO
+X-Spam-Score: -13.01
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 4BAAA21F7A
 
-On Sat 31-10-26 09:05:15, Avi Weiss wrote:
-> balance_dirty_pages() includes pages under writeback in
-> gdtc->wb_dirty when checking the per-wb background threshold for
-> strictlimit BDIs. However, wb_over_bg_thresh() only considers
-> reclaimable dirty pages when deciding whether to start more
-> background writeback.
+On Sat 31-10-26 09:58:10, Avi Weiss wrote:
+> vfs_fstatat() and statx() take the file descriptor fast path when
+> AT_EMPTY_PATH is set, even if unsupported flag bits are present.
+> This bypasses vfs_statx() flag validation and lets both syscalls
+> succeed with AT_RECURSIVE.
 > 
-> This can repeatedly wake the background worker even when there are
-> too few dirty pages to write. In a 15-second FUSE writeback test,
-> background wakeup requests dropped from 2657 to 682 (74% drop),
-> while writeback_start events remained nearly unchanged at 99 and 98.
+> Restrict the fast paths to supported flags so invalid combinations
+> fall through to vfs_statx() and return -EINVAL.
 > 
-> Check wb_over_bg_thresh() before starting background writeback through
-> the strictlimit condition. Leave the global background threshold
-> check and the wakeup required for dirty throttling unchanged.
-
-I assume you've left the gdtc->wb_dirty > gdtc->wb_bg_thresh check in to
-reduce times when wb_over_bg_thresh() is called (because it is relatively
-costly and this condition is evaluated relatively often)? Maybe it would be
-good to add there a comment with explanation like:
-
-/*
- * gdtc->wb_dirty includes pages under writeback so it serves only as a
- * quick check and we use wb_over_bg_thresh() for exact evaluation whether
- * a wakeup is needed
- */
-
-> Fixes: 0437906841d0 ("mm: start background writeback based on per-wb threshold for strictlimit BDIs")
+> Fixes: e896474fe485 ("getname_maybe_null() - the third variant of pathname copy-in")
 > Signed-off-by: Avi Weiss <thnkslprpt@gmail.com>
+> ---
+>  fs/stat.c | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/fs/stat.c b/fs/stat.c
+> index a2e63c6c45b7..b75a411b502f 100644
+> --- a/fs/stat.c
+> +++ b/fs/stat.c
+> @@ -371,7 +371,9 @@ int vfs_fstatat(int dfd, const char __user *filename,
+>  {
+>  	CLASS(filename_maybe_null, name)(filename, flags);
+>  
+> -	if (!name && dfd >= 0)
+> +	if (!name && dfd >= 0 &&
+> +	    !(flags & ~(AT_SYMLINK_NOFOLLOW | AT_NO_AUTOMOUNT |
+> +			AT_EMPTY_PATH | AT_STATX_SYNC_TYPE)))
+>  		return vfs_fstat(dfd, stat);
 
-Otherwise the patch looks good so feel free to add:
+Shouldn't we just return EINVAL in the case of unsupported flag instead of
+falling back to vfs_statx() to fail?
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+>  	return vfs_statx(dfd, name, flags | AT_NO_AUTOMOUNT,
+> @@ -812,7 +814,9 @@ SYSCALL_DEFINE5(statx,
+>  {
+>  	CLASS(filename_maybe_null, name)(filename, flags);
+>  
+> -	if (!name && dfd >= 0)
+> +	if (!name && dfd >= 0 &&
+> +	    !(flags & ~(AT_SYMLINK_NOFOLLOW | AT_NO_AUTOMOUNT |
+> +			AT_EMPTY_PATH | AT_STATX_SYNC_TYPE)))
+>  		return do_statx_fd(dfd, flags & ~AT_NO_AUTOMOUNT, mask, buffer);
+
+For symmetry this belongs to vfs_statx_fd() similarly as in the other path
+the checks are done in vfs_statx().
 
 								Honza
-
-> ---
->  mm/page-writeback.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/mm/page-writeback.c b/mm/page-writeback.c
-> index 499a35473e4f..cb0c58715b93 100644
-> --- a/mm/page-writeback.c
-> +++ b/mm/page-writeback.c
-> @@ -1826,7 +1826,8 @@ static int balance_dirty_pages(struct bdi_writeback *wb,
->  
->  		if (!writeback_in_progress(wb) &&
->  		    (nr_dirty > gdtc->bg_thresh ||
-> -		     (strictlimit && gdtc->wb_dirty > gdtc->wb_bg_thresh)))
-> +		     (strictlimit && gdtc->wb_dirty > gdtc->wb_bg_thresh &&
-> +		      wb_over_bg_thresh(wb))))
->  			wb_start_background_writeback(wb);
->  
->  		/*
-> 
-> base-commit: 36aad21d50d1af3f6954bb0c988257a908202477
-> -- 
-> 2.43.0
-> 
 -- 
 Jan Kara <jack@suse.com>
 SUSE Labs, CR
