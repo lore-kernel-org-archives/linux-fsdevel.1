@@ -1,87 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.176
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793892456;
-	b=s1T/qlp77YbQpY/K8+u2WVYPA2/SGSz4ARPv8XVhq7pIqQgdaexSYeNB6JJ849ExGuQI
-	 mQJWS4hE/2skykxSGeAI6QDcZ+38WeC7cZV8CqRBRXUSCmuy9nrfr64WL9gZXOj1rsGS1
-	 j9x7EEIMrQXXk9HiNQUq31WMIYcoORdFJUIc98ax7zSldG2tjz1BR3EZD4QX0c9D/KVgX
-	 B+BDf95FgYsA1iAfE9mtWS7/JZdJ3Zppy67y47xGVHp56Bcva+slIRPbVkXI563cEeZLr
-	 QJKYz1uoSL3YY1tD8WxMtRvRya3UT/P0pU7IbS8l26B1rcbHeC8FBZVTu+46v+kb5sw==
+	t=1793892477;
+	b=lQ/5jK59eIRDyF+fwBCY0tN9Rs41EYiIma9tT8HjvDY63/A1heQOiHsv07XJ3tb71TSG
+	 +NZevw/F2vQdiMVwR9aeTFgfs2UHpb2ShMjF/mYLMIylmdnrOPlMymWJHblzstef6wAl1
+	 Z4gg2JAK+Onox0V4Dy9S/7OCuQixJT47MVJk7mTH3twRyZ11OPZKT/r4BI4Adaduc+3hL
+	 Hu5UcD3/HfKGu9jLW75jgKnMxfJr4gC3FqxrpAvj/tM5EPU/WGyV9Pdu5ENFXzaOqaqH2
+	 PDtDEywhw33x9k+mY3BCtQo2WMt5GMMCUoVbqopuIYgOyuNbSftAd43NIsUmMG3SOvg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793892456;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793892477;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Date:Subject:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
 	 References:In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=pbsocLyCu9Rmc4dh+QFJRSGvOQb5wt/oaKgO1G9gF5g=;
-	b=a2wnRf2vbO7SlUsCY1EBOTinrfuz/od5q/2BpiAlENP1bSwxYQ5Ete5Nr/8SdoHDuMzT
-	 ncD/YyMbx3qcFdT8iL3IXl/xhtc1/OtjNvFq2IHbVJvjzjQWrEefvgHykFOcs8VHgBjXq
-	 6IU3iVih2FB+geyQkPF8xkY+PRgOOH5tfu/7woxZfIjwImUPO6qZxz3afGuPMUghwTfA3
-	 U33lq3dnAPOsDge+CRw5uTya8m1STJ8wBH5/kazTtF2HSsrEEceuLDSHXVTkrwpuPVssv
-	 McWA//TKA1S2CEOq9bjQvMthsXsAnpp7556EbhWOfcWn4MRi+8fLxqN9qnHGPhxCSrQ==
+	bh=s0+tjbQjpmmQyRSNOkK8YN5U0O+gpu5YFl5evGoFkBs=;
+	b=orsH/U3AoTjnax9wsyK2GHquOGueSQxsprOi3/wR/etMRHaHuDwy7SuuJfyTGhn9+M9f
+	 Fz1kt5JWIiYTHIdkQC25EjtgDPu+GB45yl/6Wlaujz8TaGrQOj4h/kl6hzWUKP3V4mVy2
+	 dQpVtRZDlNGf9XcI13kD+1YMmNFapsCl7iw31OsOQoIgdmGw8Bi81UAEugp4BFfCZ+U1c
+	 GtpqW/eaSIuy84VQD0dtvoUFhS9MeyQRiSVhNd2TtUB4PTswLK9Gpoz92r2QqgZtNfZ7B
+	 vRZdAEXReL5CqhVtlMtY92nDPZ3wjU3XIaM+E6Ybp101H4gxxdwbgqNu9ZiVsqBCHAg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=toxicpanda.com;
 	spf=pass smtp.mailfrom=toxicpanda.com;
-	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b="KQK5LU/x";
-	arc=none smtp.remote-ip=209.85.160.182
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=doX9cM1L;
+	arc=none smtp.remote-ip=209.85.160.176
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B826606A32C
-	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 15:27:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7B826606A32C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC93E606A326
+	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 15:27:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AC93E606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=KQK5LU/x
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-53fdd2fb171so21195691cf.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 07:27:35 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=doX9cM1L
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-54d9ac78f2eso2983081cf.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 07:27:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toxicpanda.com; s=google; t=1793892454; x=1794497254; darn=vger.kernel.org;
+        d=toxicpanda.com; s=google; t=1793892476; x=1794497276; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=pbsocLyCu9Rmc4dh+QFJRSGvOQb5wt/oaKgO1G9gF5g=;
-        b=KQK5LU/x+9RemIJlJmNJfQXWDClHpcCB4smF2/Z013ksgNIE2GSzRwQWL7t/PN3NCP
-         JQBx5Tsm1WViOWMPWLoa71ExO5S9JECK0Xko1UCk8O3kluG5fD/5LTancgyxyMcMMHLG
-         MgvbY/KGZpFbWbH6Lbb/Ya+6YhHK601aDSRX+QihB+c0w5WDPQ1ReKTflS55CYfERIyZ
-         R0HIsfS3SeCPIdoYEdkEVjGC5yL0DD7g5SVNCTD2PDGqNK6g+XKRAarv7sJSLpgxTIkG
-         YKNtA66ZoOgEIoXTbe5wXRCWgc2zg3KitJ/2RhCLMLFRg0tTswBkUCviG5eiMFUNTKeH
-         JMSg==
+        bh=s0+tjbQjpmmQyRSNOkK8YN5U0O+gpu5YFl5evGoFkBs=;
+        b=doX9cM1LKJkNFNewyMmGbFfHvqk4Td/BFypCpvwrjU5C/xLqUt7B4F6l9hpKuq3XF+
+         aH+3n9pfXJtuTIwJlsoOzzmwsIXrRL1GzVHF5xU6KHQvRjklo+9CQZohiTvUPUUaNKFO
+         0cHQ7XdHQoFSngAusvlRQAXmABoaApZQJizgJKIr9f5Fb31uSwjoYMbgx28X920uN/8O
+         SlB6UNZeXw1zW2qAHTyI7P8X57lLC6R4T+m7Tc0HTKUCR7uGyAWWPUVbuQzmpBF8B1vd
+         lGOwtOMbq+h2qZ/UtEu5ZRboioAUGQmwI1qSICLhbYiCaR9mFR4RMpM8rCCni9kGtW72
+         cglw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793892454; x=1794497254;
+        d=1e100.net; s=20260707; t=1793892476; x=1794497276;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=pbsocLyCu9Rmc4dh+QFJRSGvOQb5wt/oaKgO1G9gF5g=;
-        b=fRx/ERS/asq1FPdemtSnkkNjFz0VHcTI++jf7zU+pZCxPTW42Pc6I8xLvKBSgpZFHj
-         fFCzWm7nlMvCwJfSbrQzUTT0tHnskwNwoEuoK2N85NNJgns01PjQFziBBC0VOy2hcBDN
-         VfThExlP+d0rInbkhr/TlhgDpw2wDq/VbGDwOG14GAz8hZZb8+h4AxEP3HaYASEKBljb
-         5GnPT0bdy8ddFbtVIdXaOBeiD0HsItR1RCfmb8kcJAnFOmEXC9AZ3KEPT3L3B4g4kZ3e
-         fWcTwRTFbZDIrOM9wfUko9sBGHmVNRU0ujOg4lQXJKii3D27+ySm62KImxwowKz744Od
-         gPcg==
-X-Gm-Message-State: APuU4Z8COsfNNjS/XuiLOARRQFf6lQ29eU2AKwAD71nRxDIXIp+6MKjs
-	Vl0a8foR0fQIVCE+f6mqNv6ZkVj1Kh5yGi5CK5aNEIbM3TVAK8OeAszAMGRbKUxS3qQ=
-X-Gm-Gg: AYBFou300aMulZVaavuXZe3yOAYnSiuba4Lzy2RuxLe+cbvccrPkeLFtoU8/QE1pw5f
-	VilsxpUtPGmfOtgxPbL4vw6ZSe+T0jMTQ8BX0veSjYt/k//JfLe1mtVNLnnzbdGDDX1i1nfS/N8
-	GT5vFPj1bRVbeMFh0h5ysbAf5Aie8qOL+OHGoTRTyvzOiRyiDGB744zdhGWQtBpDlSTnYJF6Sz0
-	Uc/NbYQMkgBeY98LV40c6Fra/rnkrY/G2tRfIuWv+vimLT/069gA4SE/U7uzqsL3N9PG86DRiKc
-	gXyRsjgW7alCVQNyINbfk4ziteVWmIHXHOhXRm9ZSGK4rdjnOqMTVejtkMthDI5g36+m5GgM5My
-	grNuyBiTVd/nCvjqDGnI1EvuWet71qNnP7y+YVf5Yck8e6gGqNxFGFUJfImertgQIQUCQW7U4KI
-	kYRSZkI3Ei/D2pehv5z+RMEotOEelFDkXbuitXuH0y+kd7IEu1i3fsG2tRoRiGWrFNXxdrbBu3u
-	TXHmKEY6eLabf+KGwex8ANykGrSmID7dZlg/rz1VEJJ9I7hALa0yg88IGUo1vCceZgOlzrL3g7N
-	HIJcMa/hE4enWSTJptNXOiHExNUz6IKVdB8ygZZE0/G68KsvOY0ZJA2cMNHQGKTDbtA=
-X-Received: by 2002:a05:622a:1f10:b0:537:59b4:3338 with SMTP id d75a77b69052e-542b65931a6mr335957311cf.25.1793892454290;
-        Thu, 05 Nov 2026 07:27:34 -0800 (PST)
-Received: from toxicpanda.com ([153.61.196.250])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-54b100af507sm54208461cf.6.2026.11.05.07.27.33
+        bh=s0+tjbQjpmmQyRSNOkK8YN5U0O+gpu5YFl5evGoFkBs=;
+        b=samSgcFx+8PceYXNBbb+sn9rAmUUTzKXsWKcRKzJ5QTdaErKQK5P+SnnhG0OKo4aUG
+         TNrJ7tuMj9FTdiuPOR6GWJmLDnsD3dkTOnLoxFWdaHIMCmZIPZZyCw/3qLjlb4wtiyOo
+         qscCWvv42YuekI3xtC37xdBj3A7qCV7PABggj7tLtn9DVdXbsp7nNJTaUJBRbP5clbnq
+         j8ds1i2XWhz8rl4whKymJzg/KJIxAduJaCGwPpF7fd2jHGgMs1cq+iF4bC7AeP35i3Gt
+         l+rEDi4J+jXjOI0WU8vIYyjwDlm2TOQU6iATHKeZnv0DLZ6Fz3OdPMAU8HLM18bI++vU
+         8HLQ==
+X-Gm-Message-State: APuU4Z9wZB7NCyURFcvJSblLcs4QdyvgtU6+yhWYBBWHXZTH6IFkRvcs
+	nul6oGMlesmQ+ntxMwnKPujgIFch39VA1JJ5IgSwwFMIo7VCIGPD08zBi52WcQnbggY=
+X-Gm-Gg: AYBFou2Tjpu3kq5d6boYNcBsMjXdtoosJrXDDPA2Nbt+S1o0cap1yjNgjPFXRXsHr0z
+	LL6KKcvRsuY9NKqCdzyrBH+hgjLvwxhkzWTjvri9rPYzY8u/BOGDMuBRc/V71Zz3PGRA0q/HkoM
+	LZ7xsGfbG7kNCv/dadj9BpzlbSVy/n7rAOmF2XbroLf84IixDxThDhMBw3qcdZvIBLcSRhm7Atd
+	gGyrAAebZ/cAgNq+nurPeZYbYgjmBRaENbMmyTm9QaVwDIygTisUsZzFEB5kpddF7+ZSo8tOxL2
+	68ia4r5Lb30ONySRfV/BefncqVNG9xvmkfou7EL76cU4PQaXqOJV3kHu1MF3EliRENl4hXBs+Vk
+	jBxI+JvXgj9I5PiWCmSRnnReOAP4UP6ecffs7rRTP/gcwnFQ68/oBqoQzq5zyO7v13Guu+bn6I1
+	YwYDFMZ+0348hQPdwakZfpa6fnQBHf2UzZDNFGsBEpP2su1BzUSKyiYrEGaIefzetlM/VttyLdm
+	m2rB4nw2WNylAIUMzaB8/GI0SdPY0KsvJEpP8BNMOMiBM76lBKrMDM8RUpKpwWEN75mwfXF7Xw/
+	W812YTD/8VEK1j0t8kt5KXV+/Nki3daGhoeO+pmUUt5WwQ==
+X-Received: by 2002:a05:622a:c01:b0:535:19f5:e9da with SMTP id d75a77b69052e-542b7044dbbmr317145391cf.30.1793892475438;
+        Thu, 05 Nov 2026 07:27:55 -0800 (PST)
+Received: from toxicpanda.com ([153.61.196.252])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-54b100af507sm54216541cf.6.2026.11.05.07.27.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 07:27:33 -0800 (PST)
+        Thu, 05 Nov 2026 07:27:54 -0800 (PST)
 From: Josef Bacik <josef@toxicpanda.com>
-Date: Thu, 05 Nov 2026 15:03:06 +0000
-Subject: [PATCH RFC v3 74/90] net: give a cell without a network no sockets
+Date: Thu, 05 Nov 2026 15:03:07 +0000
+Subject: [PATCH RFC v3 75/90] net: add net_may()
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -93,7 +93,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261105-b4-cells-v3-74-bc9095937a84@toxicpanda.com>
+Message-Id: <20261105-b4-cells-v3-75-bc9095937a84@toxicpanda.com>
 References: <20261105-b4-cells-v3-0-bc9095937a84@toxicpanda.com>
 In-Reply-To: <20261105-b4-cells-v3-0-bc9095937a84@toxicpanda.com>
 To: Christian Brauner <brauner@kernel.org>, 
@@ -104,225 +104,250 @@ To: Christian Brauner <brauner@kernel.org>,
 Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Josef Bacik <josef@toxicpanda.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openssh-sha256; t=1793890935; l=7967;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1793890936; l=9134;
  i=josef@toxicpanda.com; h=from:subject:message-id;
- bh=27wHnLTXQNwpvpKsc5xrNHL8AKs/aDpCLvYXPRw6xys=;
+ bh=ImuQr/of0tvY4+1OFi9Fedu9tLM7V/PhbuNfkIPksV0=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgUBr36M/n0nWN0DNbnxwzIiCZez6MG
  JiruuNaSCI/zXsAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QN4edvDZLJ38j6ZZlJw8SqR/x4qkVV6HRcflJwWxhKmSLIhxpCrA54ubBo/fCXZqK+UetRMfRMd
- FGBZElve8fAc=
+ QGhESbgqYDCfHJGYY8iCxY26KcV3+K5eN1r1WbSgdQxWS+4KDa2KBhd+78vfv4FrXIT75L6u2eA
+ v/gzXJkMoXgo=
 X-Developer-Key: i=josef@toxicpanda.com; a=openssh;
  fpr=SHA256:C8kOX2QUJCMqnCX+KEeoqRAjLo9L+ELOSH2NSAJHqGA
 
-A cell whose "net" slot is left empty should have no network. So far it
-has a network namespace that nobody has set up, which is not the same
-thing. It is an empty network, and all the code that operates on one is
-within reach. The tasks can create sockets of every family and talk to
-rtnetlink and every other netlink family, although none of that is of any
-use to them. There is no equivalent of failfs for the network.
+Almost every operation that changes a network namespace is guarded by the
+same check: ns_capable(net->user_ns, CAP_NET_ADMIN). There are well over a
+hundred of these checks. They cover devices, addresses, routes, netfilter,
+traffic control, tunnels, IPsec, socket options and more.
 
-Refuse every socket except a unix socket for a task of such a cell. The
-error is EAFNOSUPPORT, which is what a kernel returns that was built
-without the family. The check is in __sock_create(), which socket(),
-socketpair() and the socket operation of io_uring all go through.
+The check does not say which of these it is guarding. So there is no way
+to allow one kind of operation without allowing all of them. A program
+that only needs to add a netfilter rule must be given the power to create
+tunnels as well.
 
-A socket that is handed to the cell works, and so do the sockets that
-accept() returns for it. Holding the socket is the authority to use it,
-and it is the only network that such a cell has.
+Add net_may(net, right). It asks whether the caller may do one particular
+kind of thing to a network namespace, and enum net_right names the kinds.
+For now the answer is the same as before: NET_RIGHT_RAW requires
+CAP_NET_RAW over the owner of the namespace, and every other right
+requires CAP_NET_ADMIN. A single function, net_right_ns(), makes that
+decision, so a later patch can change it in one place.
 
-Holding the socket is not the authority to inspect the network that it
-belongs to, though. Many ioctls are about the network rather than the
-socket, and they work on any socket. Through a single socket of the host,
-a cell could list the devices of the host and their addresses. Refuse
-those ioctls with ENODEV, by number, before anything else looks at them.
-That covers every ioctl from SIOCADDRT upwards except SIOCOUTQNSD. The
-protocol private range can contain either kind, so it is refused as well.
+Add a variant for each form the existing checks take:
 
-The check looks at the cell of the caller, not at a mark on the network
-namespace. So it holds no matter which network namespace a socket belongs
-to.
+  net_may_noaudit()   like ns_capable_noaudit()
+  file_net_may()      like file_ns_capable(), for the opener of a file
+  sockopt_net_may()   like sockopt_ns_capable(), which lets BPF set options
+  netlink_net_may()   like netlink_ns_capable(), which checks both the
+                      opener of the socket and the sender of the message
 
-The decision is recorded once the seal has created the network namespace.
-If the seal fails before that point, the slot can still be filled. If it
-fails later and the builder then asks for the namespace with cell_open(),
-the decision is reverted.
+The rights follow the entry points, because most of the code in question
+sits behind a handful of them. A right can be split later if its entry
+point learns to distinguish more cases.
 
-The network namespace still exists, because unix sockets need one. A
-single static namespace for all such cells would avoid creating and
-destroying a whole network namespace per cell. That requires moving the
-unix socket tables out of struct net and is left for later. It would make
-no difference from inside of the cell.
+There are no users yet.
 
 Signed-off-by: Josef Bacik <josef@toxicpanda.com>
 ---
- include/linux/cell.h   |  7 +++++++
- kernel/cell/boundary.c | 19 +++++++++++++++++++
- kernel/cell/internal.h |  1 +
- kernel/cell/slots.c    |  9 +++++++++
- net/socket.c           | 28 ++++++++++++++++++++++++++++
- 5 files changed, 64 insertions(+)
+ include/linux/netlink.h     |  2 ++
+ include/net/net_namespace.h | 25 +++++++++++++++++++
+ include/net/sock.h          |  1 +
+ net/core/net_namespace.c    | 58 +++++++++++++++++++++++++++++++++++++++++++++
+ net/core/sock.c             | 13 ++++++++++
+ net/netlink/af_netlink.c    | 21 ++++++++++++++++
+ 6 files changed, 120 insertions(+)
 
-diff --git a/include/linux/cell.h b/include/linux/cell.h
-index 0451055f74fc..b12e2f124769 100644
---- a/include/linux/cell.h
-+++ b/include/linux/cell.h
-@@ -249,6 +249,13 @@ bool cell_may_change_cgroup(struct cgroup *cgrp);
- static inline bool cell_may_change_cgroup(struct cgroup *cgrp) { return true; }
+diff --git a/include/linux/netlink.h b/include/linux/netlink.h
+index 882e9c1b6c1d..16ecb55e9f12 100644
+--- a/include/linux/netlink.h
++++ b/include/linux/netlink.h
+@@ -10,6 +10,7 @@
+ #include <uapi/linux/netlink.h>
+ 
+ struct net;
++enum net_right;
+ 
+ void do_trace_netlink_extack(const char *msg);
+ 
+@@ -356,6 +357,7 @@ bool netlink_ns_capable(const struct sk_buff *skb,
+ 			struct user_namespace *ns, int cap);
+ bool netlink_capable(const struct sk_buff *skb, int cap);
+ bool netlink_net_capable(const struct sk_buff *skb, int cap);
++bool netlink_net_may(const struct sk_buff *skb, const struct net *net, enum net_right right);
+ struct sk_buff *netlink_alloc_large_skb(unsigned int size, int broadcast);
+ 
+ #endif	/* __LINUX_NETLINK_H */
+diff --git a/include/net/net_namespace.h b/include/net/net_namespace.h
+index c29a22ca178f..badee0bbc567 100644
+--- a/include/net/net_namespace.h
++++ b/include/net/net_namespace.h
+@@ -459,6 +459,31 @@ static inline struct net *read_pnet_rcu(const possible_net_t *pnet)
+ #define __net_initconst	__initconst
  #endif
  
-+/* A cell without a network. */
-+#ifdef CONFIG_CELLS
-+bool cell_no_net(void);
-+#else
-+static inline bool cell_no_net(void) { return false; }
-+#endif
++/**
++ * enum net_right - what somebody wants to do to a network namespace
++ *
++ * Changing anything about a network namespace takes a capability over the user
++ * namespace that owns it, and nearly always that is CAP_NET_ADMIN, whatever it is
++ * that is to be changed. A check that goes by way of net_may() says what it is for.
++ */
++enum net_right {
++	NET_RIGHT_LINK,		/* change a device: up, down, mtu, name */
++	NET_RIGHT_LINK_NEW,	/* make and remove devices */
++	NET_RIGHT_ADDR,		/* addresses */
++	NET_RIGHT_ROUTE,	/* routes, rules, neighbours */
++	NET_RIGHT_FILTER,	/* netfilter */
++	NET_RIGHT_TC,		/* queueing disciplines, classes, filters */
++	NET_RIGHT_TUN,		/* make tun and tap devices */
++	NET_RIGHT_SYSCTL,	/* /proc/sys/net */
++	NET_RIGHT_SOCKOPT,	/* socket options that reach beyond the socket */
++	NET_RIGHT_RAW,		/* raw and packet sockets. This one is CAP_NET_RAW */
++	NET_RIGHT_NR
++};
 +
- /* A mount is idmapped for a cell. */
- #ifdef CONFIG_CELLS
- struct user_namespace *cell_idmap_userns(const struct file *file);
-diff --git a/kernel/cell/boundary.c b/kernel/cell/boundary.c
-index 3891dfe899f2..af67ef68d4a2 100644
---- a/kernel/cell/boundary.c
-+++ b/kernel/cell/boundary.c
-@@ -85,3 +85,22 @@ bool cell_may_change_cgroup(struct cgroup *cgrp)
- {
- 	return cell_may_migrate(current, cgrp);
++bool net_may(const struct net *net, enum net_right right);
++bool net_may_noaudit(const struct net *net, enum net_right right);
++bool file_net_may(const struct file *file, const struct net *net, enum net_right right);
++
+ int peernet2id_alloc(struct net *net, struct net *peer, gfp_t gfp);
+ int peernet2id(const struct net *net, struct net *peer);
+ bool peernet_has_id(const struct net *net, struct net *peer);
+diff --git a/include/net/sock.h b/include/net/sock.h
+index 173b37b2b8bb..7562a73ac29d 100644
+--- a/include/net/sock.h
++++ b/include/net/sock.h
+@@ -1781,6 +1781,7 @@ static inline void unlock_sock_fast(struct sock *sk, bool slow)
+ void sockopt_lock_sock(struct sock *sk);
+ void sockopt_release_sock(struct sock *sk);
+ bool sockopt_ns_capable(struct user_namespace *ns, int cap);
++bool sockopt_net_may(const struct sock *sk, enum net_right right);
+ bool sockopt_capable(int cap);
+ 
+ /* Used by processes to "lock" a socket state, so that
+diff --git a/net/core/net_namespace.c b/net/core/net_namespace.c
+index 52c2bd44778a..d211631f8c42 100644
+--- a/net/core/net_namespace.c
++++ b/net/core/net_namespace.c
+@@ -362,6 +362,64 @@ int peernet2id(const struct net *net, struct net *peer)
  }
+ EXPORT_SYMBOL(peernet2id);
+ 
++static int net_right_cap(enum net_right right)
++{
++	return right == NET_RIGHT_RAW ? CAP_NET_RAW : CAP_NET_ADMIN;
++}
++
++/* The user namespace over which @cred needs the capability. NULL: none will do. */
++static struct user_namespace *net_right_ns(const struct cred *cred, const struct net *net,
++					   enum net_right right)
++{
++	return net->user_ns;
++}
 +
 +/**
-+ * cell_no_net - is the caller in a cell that was built without a network?
++ * net_may - may the caller do this to a network namespace?
++ * @net:   the network namespace
++ * @right: what it is that the caller wants to do
 + *
-+ * A cell whose "net" slot was left empty has no network. Its tasks make no
-+ * socket but a unix socket, and learn nothing about a network through any socket.
-+ * What they are handed works: a socket is the authority to use it.
-+ *
-+ * It goes by the cell of the caller and not by the network namespace it is in,
-+ * so that it holds whatever that is.
-+ *
-+ * Return: true if so, false for a task of any other cell and of the host.
++ * Return: true if it may, which is noted as a use of privilege.
 + */
-+bool cell_no_net(void)
++bool net_may(const struct net *net, enum net_right right)
 +{
-+	struct cell *cell = current_cell();
++	struct user_namespace *ns = net_right_ns(current_cred(), net, right);
 +
-+	return cell && cell->no_net;
++	return ns && ns_capable(ns, net_right_cap(right));
 +}
-diff --git a/kernel/cell/internal.h b/kernel/cell/internal.h
-index c7a1895eadd4..4eafa19daa25 100644
---- a/kernel/cell/internal.h
-+++ b/kernel/cell/internal.h
-@@ -33,6 +33,7 @@ struct cell {
- 	struct mnt_namespace	*mnt_ns;
- 	struct pid_namespace	*pid_ns;
- 	struct net		*net;
-+	bool			no_net;		/* the slot was left empty */
- 	struct cgroup		*budget;
- 	u64			budget_id;
- 	kuid_t			budget_uid;	/* who owned it before */
-diff --git a/kernel/cell/slots.c b/kernel/cell/slots.c
-index 75855f2ee020..2273d9ce733f 100644
---- a/kernel/cell/slots.c
-+++ b/kernel/cell/slots.c
-@@ -211,6 +211,7 @@ static int cell_seal(struct cell *cell)
- 	struct nsproxy *nsproxy;
- 	kuid_t root_uid;
- 	kgid_t root_gid;
-+	bool no_net;
- 	int ret;
- 
- 	if (!cell->budget || !cell->mnt_ns)
-@@ -227,9 +228,15 @@ static int cell_seal(struct cell *cell)
- 	ret = cell_make_pid_ns(cell);
- 	if (ret)
- 		return ret;
-+	/* No network, see cell_no_net(). Unix sockets need a namespace to live in all the same. */
-+	no_net = !cell->net;
- 	ret = cell_make_net(cell);
- 	if (ret)
- 		return ret;
-+	/* Only now. Had that failed, the slot would still be there to be filled. */
-+	if (no_net)
-+		cell->no_net = true;
++EXPORT_SYMBOL_GPL(net_may);
 +
- 	cgroup_ns = cgroup_cell_ns(cell->user_ns, cell->budget);
- 	if (IS_ERR(cgroup_ns))
- 		return PTR_ERR(cgroup_ns);
-@@ -410,6 +417,8 @@ SYSCALL_DEFINE5(cell_open, int, cfd, unsigned int, what,
- 			ret = cell_make_net(cell);
- 			if (ret)
- 				return ret;
-+			/* A seal that failed may have made it. Whoever asks means to set it up. */
-+			cell->no_net = false;
- 			ns = &get_net(cell->net)->ns;
- 		} else if (!strcmp(key, "pids")) {
- 			ret = cell_make_pid_ns(cell);
-diff --git a/net/socket.c b/net/socket.c
-index 2e3b5737c481..c9659f7370ef 100644
---- a/net/socket.c
-+++ b/net/socket.c
-@@ -106,6 +106,7 @@
- #include <linux/route.h>
- #include <linux/termios.h>
- #include <linux/sockios.h>
-+#include <linux/cell.h>
- #include <net/busy_poll.h>
- #include <linux/errqueue.h>
- #include <linux/ptp_clock_kernel.h>
-@@ -1352,6 +1353,22 @@ static long sock_do_ioctl(struct net *net, struct socket *sock,
-  *	what to do with it - that's up to the protocol still.
++/**
++ * net_may_noaudit - the same, where a no is nothing to write home about
++ * @net:   the network namespace
++ * @right: what it is that the caller wants to do
++ *
++ * Return: true if it may.
++ */
++bool net_may_noaudit(const struct net *net, enum net_right right)
++{
++	struct user_namespace *ns = net_right_ns(current_cred(), net, right);
++
++	return ns && ns_capable_noaudit(ns, net_right_cap(right));
++}
++EXPORT_SYMBOL_GPL(net_may_noaudit);
++
++/**
++ * file_net_may - might whoever opened a file do this to a network namespace?
++ * @file:  the file
++ * @net:   the network namespace
++ * @right: what is to be done
++ *
++ * Return: true if it might, going by what it was when it opened @file.
++ */
++bool file_net_may(const struct file *file, const struct net *net, enum net_right right)
++{
++	struct user_namespace *ns = net_right_ns(file->f_cred, net, right);
++
++	return ns && file_ns_capable(file, ns, net_right_cap(right));
++}
++EXPORT_SYMBOL_GPL(file_net_may);
++
+ /* This function returns true is the peer netns has an id assigned into the
+  * current netns.
   */
+diff --git a/net/core/sock.c b/net/core/sock.c
+index cac93cba3c84..352310066e35 100644
+--- a/net/core/sock.c
++++ b/net/core/sock.c
+@@ -1172,6 +1172,19 @@ bool sockopt_ns_capable(struct user_namespace *ns, int cap)
+ }
+ EXPORT_SYMBOL(sockopt_ns_capable);
  
-+/*
-+ * Is @cmd about the network that a socket is in, its devices, addresses and
-+ * routes, and not about the socket? Those are served for any socket, whatever
-+ * its family, some of them by the family itself. From SIOCADDRT up that is all
-+ * of them but one. What a protocol keeps to itself, SIOCPROTOPRIVATE, may be
-+ * either, the counters of multicast routing are in there, so it counts.
++/**
++ * sockopt_net_may - net_may() over the network namespace of a socket, for an option
++ * @sk:    the socket
++ * @right: what the option comes to
++ *
++ * Return: true if the caller may, or if it is a BPF program that sets the option.
 + */
-+static bool sock_ioctl_about_net(unsigned int cmd)
++bool sockopt_net_may(const struct sock *sk, enum net_right right)
 +{
-+	if (cmd >= SIOCIWFIRST && cmd <= SIOCIWLAST)
-+		return true;
-+	if (!is_socket_ioctl_cmd(cmd) || _IOC_NR(cmd) < _IOC_NR(SIOCADDRT))
-+		return false;
-+	return cmd != SIOCOUTQNSD;
++	return has_current_bpf_ctx() || net_may(sock_net(sk), right);
 +}
++EXPORT_SYMBOL(sockopt_net_may);
 +
- static long sock_ioctl(struct file *file, unsigned cmd, unsigned long arg)
+ bool sockopt_capable(int cap)
  {
- 	const struct proto_ops  *ops;
-@@ -1361,6 +1378,10 @@ static long sock_ioctl(struct file *file, unsigned cmd, unsigned long arg)
- 	int pid, err;
- 	struct net *net;
+ 	return has_current_bpf_ctx() || capable(cap);
+diff --git a/net/netlink/af_netlink.c b/net/netlink/af_netlink.c
+index 1281c42a3456..69c92fad0a32 100644
+--- a/net/netlink/af_netlink.c
++++ b/net/netlink/af_netlink.c
+@@ -899,6 +899,27 @@ bool netlink_net_capable(const struct sk_buff *skb, int cap)
+ }
+ EXPORT_SYMBOL(netlink_net_capable);
  
-+	/* There is no network, so there are no devices. */
-+	if (sock_ioctl_about_net(cmd) && cell_no_net())
-+		return -ENODEV;
++/**
++ * netlink_net_may - net_may() for a request that came in by netlink
++ * @skb:   socket buffer holding a netlink command from userspace
++ * @net:   the network namespace that the command is about
++ * @right: what the command wants to do to it
++ *
++ * As for netlink_ns_capable(), it takes both whoever opened the socket and whoever
++ * sent the message.
++ *
++ * Return: true if both may.
++ */
++bool netlink_net_may(const struct sk_buff *skb, const struct net *net, enum net_right right)
++{
++	const struct netlink_skb_parms *nsp = &NETLINK_CB(skb);
 +
- 	sock = file->private_data;
- 	ops = READ_ONCE(sock->ops);
- 	sk = sock->sk;
-@@ -1620,6 +1641,10 @@ int __sock_create(struct net *net, int family, int type, int protocol,
- 	if (type < 0 || type >= SOCK_MAX)
- 		return -EINVAL;
- 
-+	/* As in a kernel that was built without the rest of them. */
-+	if (!kern && family != PF_UNIX && cell_no_net())
-+		return -EAFNOSUPPORT;
++	return ((nsp->flags & NETLINK_SKB_DST) ||
++		file_net_may(nsp->sk->sk_socket->file, net, right)) &&
++		net_may(net, right);
++}
++EXPORT_SYMBOL(netlink_net_may);
 +
- 	/* Compatibility.
- 
- 	   This uglymoron is moved from INET layer to here to avoid
-@@ -3642,6 +3667,9 @@ static long compat_sock_ioctl(struct file *file, unsigned int cmd,
- 	struct sock *sk;
- 	struct net *net;
- 
-+	if (sock_ioctl_about_net(cmd) && cell_no_net())
-+		return -ENODEV;
-+
- 	sk = sock->sk;
- 	net = sock_net(sk);
- 
+ static inline int netlink_allowed(const struct socket *sock, unsigned int flag)
+ {
+ 	return (nl_table[sock->sk->sk_protocol].flags & flag) ||
 
 -- 
 2.55.0
