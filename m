@@ -1,95 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.229.5
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.149
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793855659;
-	b=aRifJPjDo/e9L8HWuwBmxuTsQ7q7N6Hz/M7kIh7UPmQG4+7kXASzuSV73LF0axhoFmLz
-	 R2WQ+TXhVbY1MgreFqXyeIckfTXtIgXq8fayFAR1m2x+9/2IB10OZhnaMHxrK2aoyjUfF
-	 3sMVH+3znhxXzvKJ6a+2pDhiZ4cl0wE3eDzqM3Precv/fhLZlZJ/D8nURZBXxyJu0ij2J
-	 iu9A2DWpTt8wNLqHZMOLje+KhPZJAmlO7Kx1H+BFbjrPpwLqFwRn/U8ugtlqWacHbevtC
-	 QcPOXdyTxcwy+jFk+ua3OhGvLxK2ijamxYpu6JQFisdM5oTleRLA/umDXWO8XScB0dA==
+	t=1793861960;
+	b=GPue/P5SXGvgXsxCUwbn7S8eEZjRGeWAMyd7qr7CtJwU+x0onwF/jRGvVB8sgOIuhEWf
+	 PjjVRHXMXyNKF0ngUuDzCozIyQJa8RmqHJOrqmEPl/IJkYnn33bpqRZ3d1szk+NpxHuC3
+	 rQNryQRNXDJBklD0l740z/6Kd1IlJmhdO2HDazS88UgwcEh7T2JUdSEdmZmhyr/yGPfph
+	 vyvMBs7MNy7faYO/3FNvn3LsZghBjFNqobCA7jRfdPMLa+OQ4OYWBQpKRMzflCxriZjYe
+	 eV9InEB13lYgASF5erZJrdY87qj0HqV7OzE932zZAuXNp8oyeTy07en4Hg5xUpa4mzg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793855659;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=l1eSX+6egLtOu1lrQcTgUdiF++U+c2v1MrLX8sa3W1M=;
-	b=Eyiv0zYIumqqCh7O+TSCt+N6LQ34uiyr4rV27JusT+ca0yxwEsDLL3pTaRykxggPs7jO
-	 LIjHKFw2cXhqwOigyM8cJhVCv7Cyrpq8rjrGDxvPfyOPGRoMKwANQgeroqQErBW3HE+lZ
-	 fc1iqm9QbMYVGsy58fHnRRIE07gQfMG6nIo1kRM0MHmIgX9kEyt6fCltNIZazg8IjvLlj
-	 XiVh07uEWwiyHrH7NcxQhCXqdoqIkj+wH5T9YgTghb5J6LNC0dYcdDj5brZFZ/0OkrWck
-	 k/2PLSQnGEepm98qmNe8STSlHMOpHALyD6X/3WD3Wd0qVgvA7GtQMkhB18fn5/1vqEQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793861960;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=8CTBv2FsWWNYoIFrDUziKjer08OPepQNcF8zDvYRVUM=;
+	b=qyA65WarPFZzjz2Wht0d/FYbYznsB/RhSNf9Pu8Jkc28bL+6NYnP8qUBwZuSSm7fXaXu
+	 blsfptPXOO+AEQgJ0U/7heNsIiR7rKMqsrfbVVT0i8sEA0mpaAimZRT28cM4pd7LS0nDc
+	 SGJYQQPEcxdczKFg0mZHivCAMNf0iM1k/XV8TbCoQ+cbImgw58tzgR/naXZd9ei2Y0XgX
+	 w+JWSEcOUDdtGLRVVB+Gja2g0K7388stNwi98R8+hxGh6E7zFpV5iX3EVBz4WiL0L9yv8
+	 gtHSAbxMeDV/1jMpH+OZqqSKA/19T1hOShdvUdDO8zj/Xg0Vc+lt0OJ2woklvr3uhJA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=o+unyceh;
-	arc=none smtp.remote-ip=74.125.229.5
-Received: from mail-dy2-f5.google.com (mail-dy2-f5.google.com [74.125.229.5])
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=l+wnEHJf;
+	arc=none smtp.remote-ip=91.218.175.149
+Received: from mta0.migadu.com (out-149.mta0.migadu.com [91.218.175.149])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2C3A606A333
-	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 05:14:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C2C3A606A333
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52C47606A326
+	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 06:59:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 52C47606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=o+unyceh
-Received: by mail-dy2-f5.google.com with SMTP id 5a478bee46e88-36d73027aedso565490eec.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 04 Nov 2026 21:14:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793855658; x=1794460458; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=l1eSX+6egLtOu1lrQcTgUdiF++U+c2v1MrLX8sa3W1M=;
-        b=o+unycehWeryTcRSxGc+h2Dc3fEnOliQuiQCdnsHRKUgGjU1AG+VdIjBDc5OJ68/MX
-         Fpe/yCBi7FY+2rtIwDbdjpnvg/yefTvvXMgaRYbde75/NERLRS3xGmbER4QvbM/B5oY2
-         1+9E0MDBPf48Xeld8f53td+67l3AHv/uaG3r3xbs2idFxelZ9CXTtNwyVtXG70aiK5y/
-         ZW8T70W06hrYtvnuE/2WPgATmwaDKoafZjd1AT5DtdEmhZr80Nhf+dct+uOAQLwSkb8A
-         g+ujz4/HpokjJTelStEbPwQ2duF7qjhwnyiUs2anNDhl3GIxwMkWB/Fgn894ykyOMDsR
-         7Jag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793855658; x=1794460458;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=l1eSX+6egLtOu1lrQcTgUdiF++U+c2v1MrLX8sa3W1M=;
-        b=cg490JAsY2ZmX9JHx9l5xYaCDtWNLVIurg/v8hQYaoQzULBV0KNOO83LdFIayhvXxA
-         oM+l5Ek1zpEtYK8IQzgV/Y/gClQOrBGgCsaro5ILfGuGhx1fkaium/9aVFOV/13E3cdf
-         MkIRWpeh3qQMcq4BA17LxiOB3y+bbqXw/ygEaZJt/l59bGWxVNhjfPATyFAT56fyjYOu
-         FuZ2n1zAUCsxuHoAauO/P+cJuq2ntjpzbV6Zd6p4j3X48Gt5nH3CmxK6tstuv/SxVXYN
-         37MJwQpFjDO4DjdTPIsUG2NRRF1Cks3D+P3hjyuBjA+OCgVrcTBRX7tFAh9QNJTzOVlH
-         yvXw==
-X-Forwarded-Encrypted: i=1; AKwUvBzqdGPE9NQQjWbrvkFvN3zTXqB2YWIOSzOoWqCGgjQgSMPyhohnQlr7gpa3r0a3I9oOe6R/FHQCZ+l4h1Ho@vger.kernel.org
-X-Gm-Message-State: APuU4Z/AthKCXqthtjskBXwvWSbob/Ufc26U/J4F4yBVHvgAzn46J64v
-	bBX0dJ6ex2Yk0U1d/CgXGu2Vij1vvEYX2SENSDRi8Donk+aoZn+zvtSg
-X-Gm-Gg: AYBFou3W5Md716huw5MkvTGFTjc7aadAgFic5YNIrRO/Yx4Zx4JIW/EiQWXFhhTer4+
-	YXmyqgYzU9lIq9I3LMhWhG01PWtPd4CzI6g9yAHTyiICi4BGHPuxSg6l6ezQob89whshPbyENFT
-	BhhTFliQkYEYIRhaMTJcSreQFD05im0V7+RO/hVbj8L3c99LaoAZoO3qFmwU7MQcLrzaHwkf82q
-	2FWXmKVSHopWahX5kEIXHVsyf/I+TzUHy8CVA+F9h2oAcYn+171Nwn+UHaF+8mS0r00hJc/Jo6Z
-	zQGl/WqBrfLp4ofjhkunIrvor05QkqY/bO0KrS+HMLfisMOhGnKGUPQlyu2aYNaUOQ8OpnV1Vgy
-	baNe3BfBOXN+QyEtnC/N+nM+QFz+DjoLRCM8BT5XiUHxzay+Xuoqbtz9aAMvqsUR1UVsT5OE1XG
-	Y2sEmHDzx1i8uHPYiZWe0CMLyQsElLz1e6nKqYDVVoUiKaRhKxNznTuiYvY8kPTzGOfW79Atyp4
-	VF2yTqEBq18GWv0XPDJqgWNHDHkI4HcWmcG1fyIQDpaYaznEaAIsjWkG54yHMnUEVAFAYp45/59
-	r8FZJVgJYX50GFDyfY+SW162BhCvlpJVclXUtg7OdElqj8NeuC911OlOEEQ2+IpDfPstwqkK1vy
-	CrQ1U5fSHuslRn+1LR5uPtmLfb+KiwmrsbiwUfw==
-X-Received: by 2002:a05:693c:6087:b0:369:f420:8679 with SMTP id 5a478bee46e88-36a42440304mr29748490eec.38.1793855657614;
-        Wed, 04 Nov 2026 21:14:17 -0800 (PST)
-Received: from localhost.localdomain ([98.148.34.5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36db94376b1sm6079160eec.10.2026.11.04.21.14.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Nov 2026 21:14:17 -0800 (PST)
-From: Hungyu Lin <dennylin0707@gmail.com>
-To: jaharkes@cs.cmu.edu
-Cc: coda@cs.cmu.edu,
-	codalist@coda.cs.cmu.edu,
-	viro@zeniv.linux.org.uk,
-	linux-fsdevel@vger.kernel.org,
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=l+wnEHJf
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=fD7pQ7iJNJUJ2Lt+Fn/kSJBY5hEsxqJHEyhADQZ0hVw=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1793861952; v=1; x=1794466752;
+ b=l+wnEHJf6Oiyr1JLlLvY1SuR55TOc9qTue71B8BOIDVVCSFo+lpfKq7XMsobufkA1UDFYuZg
+ S/4hbx3RQyzDu0U7TxzFT70wLujr3gW8YUSoIvIo9yke829B2TSk5zIlzdtImG9Q4nyXjjfNiiI
+ 9RSLtJX0JrbHg4jDSxSgZSDo=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id deff676cf379e19e;
+	Thu, 05 Nov 2026 06:59:12 +0000
+X-Mizu-Trace-ID: deff676cf379e19e
+X-Migadu-Flow: FLOW_OUT
+From: Mengmeng Zhao <mengmeng.zhao@linux.dev>
+To: Jens Axboe <axboe@kernel.dk>,
+	Dan Williams <djbw@kernel.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	tytso@mit.edu,
+	Andreas Dilger <adilger.kernel@dilger.ca>,
+	Baokun Li <libaokun@linux.alibaba.com>,
+	Ojaswin Mujoo <ojaswin@linux.ibm.com>,
+	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
+	Zhang Yi <yi.zhang@huawei.com>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	asml.silence@gmail.com,
+	hch@lst.de,
+	Anuj Gupta <anuj1072538@gmail.com>
+Cc: linux-block@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Hungyu Lin <dennylin0707@gmail.com>
-Subject: [PATCH v2] coda: honor the append state of each write
-Date: Thu,  5 Nov 2026 05:14:06 +0000
-Message-ID: <20261105051406.52442-1-dennylin0707@gmail.com>
+	linux-fsdevel@vger.kernel.org,
+	nvdimm@lists.linux.dev,
+	linux-ext4@vger.kernel.org,
+	linux-xfs@vger.kernel.org,
+	linux-mm@kvack.org,
+	Li Wang <liwang@kylinos.cn>
+Subject: [RFC 0/6] ext4: Add dma-buf read/write support
+Date: Thu,  5 Nov 2026 14:58:41 +0800
+Message-ID: <20261105065847.196540-1-mengmeng.zhao@linux.dev>
 X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -102,49 +87,40 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-coda_open() adds O_APPEND to the container file's f_flags after it has
-been opened, without updating its cached f_iocb_flags. An O_APPEND write
-can therefore overwrite existing data instead of appending. For example,
-writing "Z" to a file containing "abc" produces "Zbc" rather than "abcZ".
+From: Mengmeng Zhao <zhaomengmeng@kylinos.cn>
 
-Pass RWF_APPEND or RWF_NOAPPEND to vfs_iter_write() according to the
-incoming IOCB_APPEND state. This also honors changes made with F_SETFL
-and per-write append overrides instead of relying on the container's
-open-time flags.
+This series add dma-buf read/write support for ext4. The dma-buf direct
+I/O infrastructure allows dma-buf to be handed to file I/O as an iov_iter,
+currently it only supports raw device. To better serve the GPU-NVME direct
+access through normal filesystem, prior work for XFS has been discussed
+at [1]. We also are interested in this field and working on it[2]. This
+patchset is based on Anuj Gupta's patchset as there are common parts at
+block/iomap. The base tree is:
+https://github.com/anuj7781/linux-kernel/tree/anuj/fs-dmabuf-rfc-v11-desc-v2
 
-Fixes: 164f4064ca81 ("keep iocb_flags() result cached in struct file")
-Cc: stable@vger.kernel.org # 6.9+
-Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
----
-Changes in v2:
-- Keep cfi->cfi_container as the vfs_iter_write() argument.
+Patches 1-5 add dma-buf guards at several common paths at block,
+mm/filemap, dax and iomap. Patches 6 add dma-buf support for ext4.
 
- fs/coda/file.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+[1] https://lore.kernel.org/linux-xfs/20261016091919.971295-1-anuj1072538@gmail.com/
+[2] https://lore.kernel.org/all/20260908131545.105987-1-liwang@kylinos.cn/
 
-diff --git a/fs/coda/file.c b/fs/coda/file.c
-index 6ca8bfcb58f2..c9fba41f7cea 100644
---- a/fs/coda/file.c
-+++ b/fs/coda/file.c
-@@ -71,6 +71,7 @@ coda_file_write_iter(struct kiocb *iocb, struct iov_iter *to)
- 	struct file *host_file = cfi->cfi_container;
- 	loff_t ki_pos = iocb->ki_pos;
- 	size_t count = iov_iter_count(to);
-+	rwf_t flags = (iocb->ki_flags & IOCB_APPEND) ? RWF_APPEND : RWF_NOAPPEND;
- 	ssize_t ret;
- 
- 	ret = venus_access_intent(coda_inode->i_sb, coda_i2f(coda_inode),
-@@ -80,7 +81,7 @@ coda_file_write_iter(struct kiocb *iocb, struct iov_iter *to)
- 		goto finish_write;
- 
- 	inode_lock(coda_inode);
--	ret = vfs_iter_write(cfi->cfi_container, to, &iocb->ki_pos, 0);
-+	ret = vfs_iter_write(cfi->cfi_container, to, &iocb->ki_pos, flags);
- 	coda_inode->i_size = file_inode(host_file)->i_size;
- 	coda_inode->i_blocks = (coda_inode->i_size + 511) >> 9;
- 	inode_set_mtime_to_ts(coda_inode, inode_set_ctime_current(coda_inode));
+Mengmeng Zhao (6):
+  block: refuse a dma-buf bio that carries a crypto context
+  mm/filemap: refuse dmabuf iterators in the generic read/write copy
+    paths
+  dax: refuse dmabuf iterators in dax_iomap_rw()
+  iomap: refuse dmabuf iterators in iomap_file_buffered_write()
+  iomap: refuse dmabuf iterators on contents-encrypted inodes
+  ext4: support dma-buf registered buffers for direct I/O
 
-base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+ block/blk-mq.c         |  4 +++-
+ fs/dax.c               |  4 ++++
+ fs/ext4/file.c         | 33 +++++++++++++++++++++++++++++++++
+ fs/iomap/buffered-io.c |  7 +++++++
+ fs/iomap/direct-io.c   | 10 ++++++++++
+ mm/filemap.c           | 22 +++++++++++++++++++++-
+ 6 files changed, 78 insertions(+), 2 deletions(-)
+
 -- 
 2.43.0
 
