@@ -1,84 +1,50 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.75
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.95.11.211
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793862043;
-	b=5jYgyHOdNgb5Z0dnfy3ojp5HUUNFKdAJxyJgUk5j5uXdW4wdO+rSSn7ipE8fydYQpXMY
-	 LpwDgeDQidz6hgy8cl5H+rkZv9JgPFAKBJvlZKoVT2qg+N8ho7POkVvCh1B5HjySeEBa6
-	 RMqab09B+JYrciF6MS9r1FHZGvGlvlM/qo5E3ofC+1yfLPMc+vM2LwqRWs1Viv17lnvCu
-	 OTKSOIYwbKlM6E9x5LNm5foKkcSkAdFaSs/vgV+8u4BzhFDDSNbhnAHLEN609BsdyUYTl
-	 GKFgVTzxFG1nV7kT2cJ+j3IdC/HDxzZn5y83i66qb+KrByZUKDOZFkBLdXfPBif7S5A==
+	t=1793865580;
+	b=LU9KW+jF6RuYCeaLZHnd+lGtLVgZ9Caj0jL4vJOzHwELaplb3X7QWA4hXlEm5/qHwPLK
+	 d8/A/IbX2PXE7KwZYWfKfYl6369tJ/wPIHbGFBWc8xctkUo/PxMHs/pb/jM1a82mUW+cL
+	 vcxeTX4RHW5vUgva9tdSoH7rUscW7Sai3GwqzqVn/J29APGC5pRZcYDin3BxL8woWzz/5
+	 HXk4Kxy6gHsdiDto5FJf47CShp86r5bioWG4crET0RgQICSH6HpOZZklIBptnjfA/YFUt
+	 0DLvOSvQDUJet7f4bl32KMlGd3lzZZgOSQFn6VJRD8GYmurx9f8CsZW6BPAdWimYvgA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793862043;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=xg8nXZtLp4oyb17OmIrfnuQowTn1P59jW3Dg4lobw/A=;
-	b=KmOspwW7JSAZF1mEAs699DjV27X0fOpw/Lh9WtA2I3Kv5t3cutpHEEBF2Gmp6ji0c4jp
-	 knMC2a5KL3yb3M7J83ypawuuy19LYdEm599422BzL9JrUjmRV6gXRO5AwjBRcLSzUjgrA
-	 2DH1UVZRHZtnopRPd6NEEKfPtqK3qSmveeycUxU5wDo4zZt6wYuikhWC+QE9uPYvIVhje
-	 jtXeqwjFIbkhRh+NVbEcFzi8euKdyXAvBnpqyurU31O7kXNpRaT2uQB/nYT3a3E7C8Exl
-	 xoFux4sIyzz5VOoRkRkIpfULGpx84dy0lKgHqNttBSdOdwGW6PYd/cQ1P18AghSDK3w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793865580;
+	h=DMARC-Filter:Received:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To:User-Agent;
+	bh=Ln52JZJddcocWfl/gxFwMTgRR26+BYApy8AfhWYLYyY=;
+	b=sQUcFbxbD4f6tpm5l13wNLgKSKUIS42wIpGvxv5R4+335UmnKWU1HXZBHnQ6oWz1t1JZ
+	 aehJNT2dWaFq2zYKXWzVe1Vg/rCYS9aYiNui0nMSx9rnAOBMB0VB8foL/+wPk2L6MDCJi
+	 MeRVZ6gn1OpcQcN/KTTEHHgNqv2+GW0q0+DZpSpxfnrmbNIzWRCTDXgr6+GEzB3tre4Uz
+	 1TT8ifv3KneqzsNIFb5pd49VZambhHdj74RiImTGb8c8tbbvtLPCXVNFcaIZQh8hiqoeJ
+	 vP013VmUV6YQ8ES/uunrThOEE/ztZX/TfZa+aeZqKhCdRNaygO8znv+N5IfnNJ++o6g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=h23ZjTS+;
-	arc=none smtp.remote-ip=95.215.58.75
-Received: from mta1.migadu.com (out-75.mta1.migadu.com [95.215.58.75])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=lst.de;
+	spf=pass smtp.mailfrom=lst.de;
+	arc=none smtp.remote-ip=213.95.11.211
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97250606A32C
-	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 07:00:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 97250606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=h23ZjTS+
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=wHNd6ESNgC5Ksw+CY79MAj+VAYD20bCYtUJOCQAgBeE=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793862040; v=1; x=1794466840;
- b=h23ZjTS+sMfw/fSgET1a6EQQOq62+rKCyha5hbKDRHDq9JIDxlBEevp1LSefq3/YdiHFrwyZ
- xR7a54BddqN0taszXNsAuD0BDkoo48tsAlVr4BE2X3S6dKo62SRd4OC8n6kOn3foSXesFKwRw4H
- UwWJTUEoqiJBMHYdZJsTkre4=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 7a0aea14e9d952c6;
-	Thu, 05 Nov 2026 07:00:36 +0000
-X-Mizu-Trace-ID: 7a0aea14e9d952c6
-X-Migadu-Flow: FLOW_OUT
-From: Mengmeng Zhao <mengmeng.zhao@linux.dev>
-To: Jens Axboe <axboe@kernel.dk>,
-	Dan Williams <djbw@kernel.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Jan Kara <jack@suse.cz>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	tytso@mit.edu,
-	Andreas Dilger <adilger.kernel@dilger.ca>,
-	Baokun Li <libaokun@linux.alibaba.com>,
-	Ojaswin Mujoo <ojaswin@linux.ibm.com>,
-	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
-	Zhang Yi <yi.zhang@huawei.com>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	asml.silence@gmail.com,
-	hch@lst.de,
-	Anuj Gupta <anuj1072538@gmail.com>
-Cc: linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	nvdimm@lists.linux.dev,
-	linux-ext4@vger.kernel.org,
-	linux-xfs@vger.kernel.org,
-	linux-mm@kvack.org,
-	Li Wang <liwang@kylinos.cn>
-Subject: [RFC 6/6] ext4: support dma-buf registered buffers for direct I/O
-Date: Thu,  5 Nov 2026 14:58:47 +0800
-Message-ID: <20261105065847.196540-7-mengmeng.zhao@linux.dev>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261105065847.196540-1-mengmeng.zhao@linux.dev>
-References: <20261105065847.196540-1-mengmeng.zhao@linux.dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D2FB606A31B;
+	Thu,  5 Nov 2026 07:59:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4D2FB606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 29D0C68BEB; Thu,  5 Nov 2026 08:59:36 +0100 (CET)
+Date: Thu, 5 Nov 2026 08:59:35 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Mike Snitzer <snitzer@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Matthew Wilcox <willy@infradead.org>,
+	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+	Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>,
+	linux-nfs@vger.kernel.org, NeilBrown <neil@brown.name>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
+	Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+	Jonathan Flynn <jonathan.flynn@hammerspace.com>
+Subject: Re: [PATCH v10 7/7] NFSD: drop a shared boundary page only once
+ both WRITEs have written it
+Message-ID: <20261105075935.GA18069@lst.de>
+References: <20261103211754.35352-1-snitzer@kernel.org> <20261103211754.35352-8-snitzer@kernel.org> <20261104091543.GA31130@lst.de> <autk-osSQ8l2LKz1@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -88,100 +54,22 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <autk-osSQ8l2LKz1@kernel.org>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-From: Mengmeng Zhao <zhaomengmeng@kylinos.cn>
+On Wed, Nov 04, 2026 at 12:01:46PM -0500, Mike Snitzer wrote:
+> It is the transfer size of IO500's ior-hard: every rank writes
+> 47008-byte records, interleaved with the other ranks, into one shared
+> file, with O_DIRECT.  It is meant as a hard case, and it is the
+> workload that showed the problem on our servers.  The same happens
+> with any record size that is not a multiple of the page size.  The
+> cover letter also has 6000-byte records.
 
-Add the init_dma_buf_io_ctx fop for ext4 files.  The data of every
-regular file lives on the block device of the mount, so the buffer is
-registered for that device and an ext4 file cannot move to another disk
-after the registration.
+So based on a bit googling your totally optimize this for an intentionally
+stupid benchmarking workload.  And that's not been disclosed anywhere.
 
-A device mapping can only be read or written by a direct I/O bio.
-Add a fast check at ext4_file_read_iter/ext4_file_write_iter entry.
-Refuse the iterator for buffered I/O in the two dispatchers; the DAX
-methods are covered by dax_iomap_rw() and direct I/O by the iomap and
-block layer guards.
-
-A direct I/O write whose tail still needs the page cache reports the
-bytes the block layer already submitted instead of the error, as that
-part cannot be undone and the remainder can never be copied.
-
-Signed-off-by: Mengmeng Zhao <zhaomengmeng@kylinos.cn>
-Signed-off-by: Li Wang <liwang@kylinos.cn>
----
- fs/ext4/file.c | 33 +++++++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
-
-diff --git a/fs/ext4/file.c b/fs/ext4/file.c
-index 374b4bc25bd5..46629915fa84 100644
---- a/fs/ext4/file.c
-+++ b/fs/ext4/file.c
-@@ -139,6 +139,12 @@ static ssize_t ext4_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
- 	if (!iov_iter_count(to))
- 		return 0; /* skip atime */
- 
-+	/* a device mapping can only be read by a direct I/O bio */
-+	if (iov_iter_is_dmabuf_map(to) &&
-+	    (!(iocb->ki_flags & IOCB_DIRECT) ||
-+	     !ext4_should_use_dio(iocb, to)))
-+		return -EOPNOTSUPP;
-+
- #ifdef CONFIG_FS_DAX
- 	if (IS_DAX(inode))
- 		return ext4_dax_read_iter(iocb, to);
-@@ -670,6 +676,13 @@ static ssize_t ext4_dio_write_iter(struct kiocb *iocb, struct iov_iter *from)
- 		ssize_t err;
- 		loff_t endbyte;
- 
-+		/*
-+		 * The page cache cannot copy from a device mapping.  What
-+		 * direct I/O already submitted stands on its own.
-+		 */
-+		if (iov_iter_is_dmabuf_map(from))
-+			return ret > 0 ? ret : -EAGAIN;
-+
- 		/*
- 		 * There is no support for atomic writes on buffered-io yet,
- 		 * we should never fallback to buffered-io for DIO atomic
-@@ -773,6 +786,12 @@ ext4_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
- 	if (unlikely(ret))
- 		return ret;
- 
-+	/* a device mapping can only be written by a direct I/O bio */
-+	if (iov_iter_is_dmabuf_map(from) &&
-+	    (!(iocb->ki_flags & IOCB_DIRECT) ||
-+	     !ext4_should_use_dio(iocb, from)))
-+		return -EOPNOTSUPP;
-+
- #ifdef CONFIG_FS_DAX
- 	if (IS_DAX(inode))
- 		return ext4_dax_write_iter(iocb, from);
-@@ -1032,10 +1051,24 @@ loff_t ext4_llseek(struct file *file, loff_t offset, int whence)
- 	return vfs_setpos(file, offset, maxbytes);
- }
- 
-+/*
-+ * The data of every regular file lives on the block device of the
-+ * filesystem, so an ext4 file cannot move to another disk after the
-+ * buffer has been registered.
-+ */
-+static int ext4_file_init_dma_buf_io_ctx(struct file *file,
-+					 struct dma_buf_io_ctx *ctx)
-+{
-+	return iomap_file_init_dma_buf_io_ctx(file,
-+					      file_inode(file)->i_sb->s_bdev,
-+					      ctx);
-+}
-+
- const struct file_operations ext4_file_operations = {
- 	.llseek		= ext4_llseek,
- 	.read_iter	= ext4_file_read_iter,
- 	.write_iter	= ext4_file_write_iter,
-+	.init_dma_buf_io_ctx = ext4_file_init_dma_buf_io_ctx,
- 	.iopoll		= iocb_bio_iopoll,
- 	.unlocked_ioctl = ext4_ioctl,
- #ifdef CONFIG_COMPAT
--- 
-2.43.0
+I guess everyone else was right and just ignored this bordline malicious
+submission.
 
