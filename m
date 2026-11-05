@@ -1,87 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.217.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793892691;
-	b=0oVWVll70Zbr9k6AH5/CF5TseVERv1ScIz43WRzQqMqeDm+c3KGUOZAZgDxI8RSnW68B
-	 0nOha2f5bnax6o+Bu4Js3z7ASuxZPFrD3HLGtixaql8z/1ZU0JRUtsAdQtwf/N40DKct3
-	 RQWSYUldPrxRQvy1WXuVHARNfZ4Zr3Hq5P0umoxXeqYnjkK8qOetILs9FzdBSl4LBCTEh
-	 dY8Tdkfu+EY11K5LD9afW+oUG/dwxPAzzuvTwfA/gM+Z3cHcadoYNhFGeij+itFKJUZJ0
-	 E2rO+Gy7CvkulGvuc0Ius4VIjmdTtvTx+0+2+uecaWuXz4IbsLE2+llDL7D6MXJ60zg==
+	t=1793892718;
+	b=fyHjj3zpD7BbNKNaXvl5dMIzzGwP5IwDu6543LsQUX5ogK+xDZ/NC5NKZT3oCSsda7TS
+	 Cn0V/jc5iS2um5i9DsB2kjBhMD/Er3PJjDx7dmXwQLgnWkhhFRJ3ZoHy5ANMQlP9kb6uL
+	 qROwhUGZ4lhvzrX4eg7hnvBPKAyYo61xLuCi+OwL0It8XFqUSBm4O1O0sqHGk8hVjgab6
+	 VPIwf1lo6RLUFwLHc1N3HuEanExWlU2/xQW0dR/iLDkcRC2SZvWHgrNkj07+tOZvENTcm
+	 2KZ5zgCyD1r0cZjPx3DhARV9vGzSs/WVTXj4K+tSBHBxeBhS4GnVbYWuWZFiUpXkvQw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793892691;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793892718;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Date:Subject:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
 	 References:In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=Lc1sKOCYSlHUV0fHl4eH9tFJeblOhHlw/u9aQiiKpG8=;
-	b=A7TIUhCYjGe97Af7LBtOdeldegYtkc2zf0SBRCSmSmOZ9uqMrdPjvtCHD3kMjkeliSp8
-	 TmXbzS8BQWlrfMQhgBbmCb6sQSF+d236T6MMKJ0fo+g5f52BaB2L5LVhBs6b8Ew3k5m5E
-	 0JTMPwXFpb2TZL2v9kKbtd3/fieVYgNaT5mKc6um2kuJU6FgNAapre5vDpgnuGjS50Dhq
-	 ypO+ra5jlE9sPgva4bxyTDPaSgSHy8qRTwG++xuQSwgrr5CsuGbjzR1I/tXl1I0FONNLB
-	 Uewsj30mczdbBx8UMuqU1tdxDCQYM7iqoWEs2kJd3nna9Ro8rq8vvnVEWB+z3btDznw==
+	bh=qCsxOu2h+avACmuxpbYdZAVBqe8KiC2MNfUoR+07HZM=;
+	b=Ld8J+2Cr+ZPmrfLQ6jDWxuSb7iOJjcXUg9viLkBNMDGYUFxMEJuCEBGwdoRwO3HjaaEc
+	 9muh4JWHBFqvanpgo0fdySbVKIczBoW2Fm3RtPHQh/1C7RP6mSZ7y94arDbw0GN/LRI6r
+	 OLGn72mJOnWhmyyoX3g97T4FsBPlyN6d7bXi1pzUz8HKQJ8Sxix8QG5iZ7zIxLsxK1wFI
+	 8yOOnxZLTvRwNXrV6UkQucSBF0j3flBXFkpwD4xYigTbYRJ8cAJy87zpTw2HaLMrTUoo3
+	 D8YokMI2JMEDTS4BJuIySCEy14HoGw3225bzaEXLAFHmJQCpBUoBb48J6vO7moONzPg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=toxicpanda.com;
 	spf=pass smtp.mailfrom=toxicpanda.com;
-	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=Ow7Bn4jV;
-	arc=none smtp.remote-ip=209.85.217.49
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49])
+	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=QeGnw+BE;
+	arc=none smtp.remote-ip=209.85.219.43
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D3BE606A32E
-	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 15:31:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7D3BE606A32E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEFB8606A331
+	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 15:31:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CEFB8606A331
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=Ow7Bn4jV
-Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-74ab99038afso1279208137.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 07:31:30 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=QeGnw+BE
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-91c67992ce5so15826186d6.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 07:31:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toxicpanda.com; s=google; t=1793892689; x=1794497489; darn=vger.kernel.org;
+        d=toxicpanda.com; s=google; t=1793892713; x=1794497513; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Lc1sKOCYSlHUV0fHl4eH9tFJeblOhHlw/u9aQiiKpG8=;
-        b=Ow7Bn4jVMWNTW2BTiBf1oeu220zXvqX2/ixy6VJEzS7lT4YbYH49UvUCwNeJLvjGUs
-         zZC1gvlvCZlEsw/PgD2NjjS1bEPhr07eC/1OdSPjqOaNBYvbu79JZ0z5DwkpPkVGxrg6
-         PxCizCmixcKo091E1arV6nLRwfSah987kfDrP2FGx3ENiUAiOD3pzbsvVW4zhEd8xwJk
-         /IyM3XrrD2z67gY2DNDfuEh573tgIT8Z+QlFThqjpO6tROz7UX7ueDTLKje+6DyRMyWE
-         ce2NwC5VaxlQgn//CpxUCgGshsf91WPsuc6H6xIDCXwkEjLGOsOKRd8YqP0txXouqCGw
-         COwg==
+        bh=qCsxOu2h+avACmuxpbYdZAVBqe8KiC2MNfUoR+07HZM=;
+        b=QeGnw+BEyIpg5bD27QqT/D97i4sZOM44v4rHnchnwzq3AXjlL553DU2LBDfK1FtP2d
+         HTPTJorq6kNf/E4fG2IlEHBwK+NpW5Lb2ojbKErSRO+acHIQUfIc2hX8QizaiGQabHem
+         MaDUT/gwW5nwhLlkDEJaYQ2U4SyMLIPXyI3rV86GieRkhppUMyQkscVDQz6+Jlmpj0lj
+         8d6llMQnCGxqetQ7CgOVANr4mVsNHUZLXsAiu/LHDx6Orr2TB8ChYHmnznw3S52A9Cpf
+         +LxDnhDIqRMrEYLTCeIcHgIpz6/C7rjAs0Sv/5y3hbC6i+VA+SgF37uqpy5r+kv9LcYk
+         Uliw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793892689; x=1794497489;
+        d=1e100.net; s=20260707; t=1793892713; x=1794497513;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Lc1sKOCYSlHUV0fHl4eH9tFJeblOhHlw/u9aQiiKpG8=;
-        b=RyJO8o/0E2E//+qIVm5VIBomKO1B5t1yKy5UxPJ6OPlgQqdmvGwrE5F1rkY3Lnu0qw
-         JeVz9smADbc52f72bOJbamzdRl0GHRwT5vEAay05Ve+vZI+yoLxykVilC5jUz7ZuodQV
-         /dO8gG2ZWgRuC4hZuSmTQSKR7mzdOqkLZzg4S1JeT/wDdQhYLJnHPLrq4dNibcjTbITh
-         +LlftFyhtP2iuOcqFo1TFOU9EbMhWj1r/q3eGeojVlrziafbGmq03IqE+6rnuodqxkqk
-         VV3BzVtLSyU+jgg39CkmN6pGJnXpRcxYZShU1ko4YyEQlJhYpUtvfYQarWJwYi/USZh3
-         EXag==
-X-Gm-Message-State: APuU4Z9kIkndVVIsbhQIMQA1gHq8cOjwqNJGTkKAW4e/p/0it65lobDW
-	4RYxIxMVCDGYz9gDMkp9BLH6eReQkgRx7xGYHq2G396bymVKeBBpcUu48eMmCelUobI=
-X-Gm-Gg: AYBFou2A6QBibmZ9V+bD8WJ6+55ss1jOgX9bRvCntrPH/BzCJ+iRO9tKxi0nsUmHLl/
-	07kVQ0borv9IiH1aZorWJf8dWWffe3JFfDKp596e8hgGZ8llUVdRjGHHRZFXukG3regPuwz8YFk
-	17gYMYyEzkaKTvA5VkoI43Y/P4kM2pFdXtXpQCF3yBghkYKlXHQ3k1VB1Snr6zeZdabJbjMkHSB
-	8Gh205ldxsft6iitN249sjmEwiVv2aUEhGlIhlQFrWGAlm/OpG5oI7DDCIVyOAIsIQUt526oEtk
-	wZprBBxI0VzZ3+BZi+f3eG4R6PO+6edjapxNQ04FzU+mQJR3+w7W5BcRpHwP5KFAMWBPIgO85eJ
-	j9xyKbMDGUIc/KwO3ZszhXPBv7VpoRVNrAahASMzKqsPEz5JBA0aMlw8iXufukx1k2g+kzA+paX
-	2LJJGpggeSi7ht1VnOizaxBRW1KTvDAlFcuKELSrfjlMWfcESugznEr3c0bpfnMplzIDx5Hznml
-	vMq67s8UAV91xUXmgUD4flrR3Tg9D3R5C1wlnjuc1a+b44ADmLctS77OMP0xrMGcqRFtCa8bvyt
-	Nbqh/yG/zuy0Isruqvc8hr7T5L7YMbdjOS5h/A8FIJ3m
-X-Received: by 2002:a05:6102:5811:b0:7bf:74c1:b607 with SMTP id ada2fe7eead31-7d0728adb49mr10421912137.34.1793892689092;
-        Thu, 05 Nov 2026 07:31:29 -0800 (PST)
-Received: from toxicpanda.com ([153.61.196.244])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7d2770ffbb4sm3644329137.0.2026.11.05.07.31.28
+        bh=qCsxOu2h+avACmuxpbYdZAVBqe8KiC2MNfUoR+07HZM=;
+        b=DgeV8oBm2AbecAia2d/t2OKck6WKUGfBufjjApihGxz/LA8n6QJdyjGHdoJaOAD3N1
+         QmXAnUXGAv3sd/qnnoxT1KHe74jKWw/S1+Ch5zx0tQ4E2a45NR5HC7/kNAYOOQ/7LMSW
+         kESfS8jJ6iUuJoB7xWsrOFSjIFW2xjDyBSc1GEtzIn+WT4xISQZrZH8ZjdANC4Fgs4Xa
+         mJ3ST4nhkIS8LKFnLQaxhAflRU2rUjQ961F4MA/Of5YyUBmgzUklRhT35uLeu15a3rgU
+         zFlVa5iV4aNKKota5mY6kiIejhtRrWYD30KrxK0sDieuxOUHWi1txAvzxeTVZ7Vdd5/p
+         ks0Q==
+X-Gm-Message-State: APuU4Z+nUCEf0l+5nsapsV9xSrIY740IrFr+LP00o/Dxy14aTXHWlmw4
+	I8Rl+/UZ46jn1UfHoP5yVzauekf5nXIkxfb5xA+tOKovdunv35BdJWFiZs8ljcvDBdI=
+X-Gm-Gg: AYBFou3zPciAxNwWgWLg/HfFXta7tR8k5Ld9huZ94+rqFSnn0ydXEhsYDD/kBOjXHYL
+	RXF5mtzJ/IeYpio+VtWJbum10NXdJKaHvoxmcHrUhF0/AtjJ3BwuZxXIGU5vLS1FlcGQSW7m7+K
+	GcQtKs9RjG6Q8Bp2F7apFlRB5yI6/XaCIv8EJ08XCCpQlc/4eFBLoj4dD0PJA2rocV0zshlUs/x
+	Aqpsr85wxunlqMSIAurhj7+1FshdxsK4ggldnfd04haaN+UUKJES6JEGDmNLpX/lL069jnGwwMR
+	+ry5LDUgdyhD2KKxcsl2z26leniKLOKWqgCPvUgv2B2anfH2tr9py1C+7Qw5F6+76w6iTOwhcmz
+	FXbV9qhDcFdZR4GzHEScETWiyIvc1OjJbykFwseaARP29l9AXCZtFbjp/cYOTBHY3A5P0sRTTLB
+	S2ZxVBB4OLqDE0kCovR0Cme4sl7iAhQ3HOyf8SRSnEpn3mVRm2R4Y40fCaG6WyrVUH5Q2I8K+lJ
+	uyXWyUmY/wFu6i7z2/P74mK5jMkHysVRJKqaIXqyqp6eH6RxE1GSTRflDiTw+2W8G2LYfmp8csa
+	RrPe4Mmt9QjRXMzSjwk4iUqahQXELO5+H21AociuwfLa
+X-Received: by 2002:a05:620a:31a6:b0:93d:f7ac:4706 with SMTP id af79cd13be357-94421541a92mr3269657185a.9.1793892712569;
+        Thu, 05 Nov 2026 07:31:52 -0800 (PST)
+Received: from toxicpanda.com ([153.61.196.254])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-945d482eb96sm488072985a.23.2026.11.05.07.31.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 07:31:28 -0800 (PST)
+        Thu, 05 Nov 2026 07:31:50 -0800 (PST)
 From: Josef Bacik <josef@toxicpanda.com>
-Date: Thu, 05 Nov 2026 15:03:17 +0000
-Subject: [PATCH RFC v3 85/90] tun: ignore an equal uid or gid across cells
+Date: Thu, 05 Nov 2026 15:03:18 +0000
+Subject: [PATCH RFC v3 86/90] cells: add cell_info()
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -93,7 +93,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261105-b4-cells-v3-85-bc9095937a84@toxicpanda.com>
+Message-Id: <20261105-b4-cells-v3-86-bc9095937a84@toxicpanda.com>
 References: <20261105-b4-cells-v3-0-bc9095937a84@toxicpanda.com>
 In-Reply-To: <20261105-b4-cells-v3-0-bc9095937a84@toxicpanda.com>
 To: Christian Brauner <brauner@kernel.org>, 
@@ -104,98 +104,182 @@ To: Christian Brauner <brauner@kernel.org>,
 Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Josef Bacik <josef@toxicpanda.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openssh-sha256; t=1793890936; l=3435;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1793890936; l=6237;
  i=josef@toxicpanda.com; h=from:subject:message-id;
- bh=vyjLLoQ/TDAckSS7Xa6CC+c0a1GTVBoLQwuVwjxlg80=;
+ bh=1k/1F+e803S2yTvlGK9tp5BF4RJM2FSGjnqpd/RdqzM=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgUBr36M/n0nWN0DNbnxwzIiCZez6MG
  JiruuNaSCI/zXsAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QNemlnyjEZ8c0KT6w9l885GJ0zr8f73y0iD7INQWVQ9lCbygUr5B4MKELt79MKPWVHgb/GQndZk
- wSRPhYAj+WQs=
+ QGd5aeupkTWIEKGc87kRac1nNHkIduLUwfr3uJZIsM0VMtNlC07iA87yKG+bQFxADi4nt8RISJq
+ j2pTrvF/EIgI=
 X-Developer-Key: i=josef@toxicpanda.com; a=openssh;
  fpr=SHA256:C8kOX2QUJCMqnCX+KEeoqRAjLo9L+ELOSH2NSAJHqGA
 
-A tun device can have an owner and a group, set with TUNSETOWNER and
-TUNSETGROUP. tun_permitted() lets a task attach to the device without
-CAP_NET_ADMIN if its euid is the owner, or it is a member of the group, or
-both if both are set.
+Add the system call that reads from a cell. It reports the id, state,
+flags, exit status, budget, capabilities, ids and network rights of the
+cell. It comes after the slots in this series so that it can report all of
+them.
 
-That check does not know about cells. A one-id cell runs with the uid and
-gid of the user who built it. If the cell has /dev/net/tun in its tree and
-uses a network namespace in which that user owns tun devices, its tasks
-pass the check for all of them. They can attach, read the packets and
-inject their own, with no capability and no right over the network.
+The kernel chooses the block of ids that a cell gets. cell_info() tells
+the builder which block it was, as soon as one has been allocated. The
+builder needs to know, because some things outside of the cell are
+configured by id, such as a netfilter rule that matches the owner of a
+socket, or a routing rule for a range of uids. These are set up together
+with the network of the cell, before anything runs in it. The first id of
+the block is reported as the caller sees it. It is not reported at all if
+the user namespace of the caller has no mapping for it.
 
-A cell with a block of ids has a related problem. Blocks are reused, and a
-persistent tun device can outlive the cell that its owner belonged to. A
-later cell that is lent the same block would pass the check.
+The struct can grow. The caller sets mask to what it wants. The kernel
+sets mask to what it filled in, and supported_mask to what it knows about.
 
-Fix both the way it is done for keys. Record the id of the cell that the
-caller of TUNSETOWNER or TUNSETGROUP is in, and honour the owner and the
-group only for tasks of that cell. Cell ids are never reused. Any other
-task needs NET_RIGHT_TUN, as it does for a device that belongs to somebody
-else.
-
-As a consequence, an owner that a builder sets from outside of the cell no
-longer lets a task of the cell attach. The builder can hand the device to
-the task already open, or give the cell CELL_NET_TUN.
+With CELL_SELF in place of a cellfd, a task can ask for the id of its own
+cell and nothing else.
 
 Signed-off-by: Josef Bacik <josef@toxicpanda.com>
 ---
- drivers/net/tun.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ include/uapi/linux/cell.h | 28 ++++++++++++++
+ kernel/cell/core.c        | 93 +++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 121 insertions(+)
 
-diff --git a/drivers/net/tun.c b/drivers/net/tun.c
-index 0a2f864a253e..ef1cc5617812 100644
---- a/drivers/net/tun.c
-+++ b/drivers/net/tun.c
-@@ -47,6 +47,7 @@
- #include <linux/miscdevice.h>
- #include <linux/ethtool.h>
- #include <linux/rtnetlink.h>
-+#include <linux/cell.h>
- #include <linux/compat.h>
- #include <linux/if.h>
- #include <linux/if_arp.h>
-@@ -185,6 +186,8 @@ struct tun_struct {
- 	unsigned int 		flags;
- 	kuid_t			owner;
- 	kgid_t			group;
-+	u64			owner_cell;	/* the cell that @owner is to be read in */
-+	u64			group_cell;	/* and @group */
+diff --git a/include/uapi/linux/cell.h b/include/uapi/linux/cell.h
+index c0d17c890552..22cd5e1f8f24 100644
+--- a/include/uapi/linux/cell.h
++++ b/include/uapi/linux/cell.h
+@@ -45,6 +45,34 @@ enum cell_state {
+ 	CELL_DEAD		= 4,	/* Nothing left. The status can be read */
+ };
  
- 	struct net_device	*dev;
- 	netdev_features_t	set_features;
-@@ -518,6 +521,14 @@ static inline bool tun_permitted(struct tun_struct *tun)
- 	const struct cred *cred = current_cred();
- 	struct net *net = dev_net(tun->dev);
- 
-+	/*
-+	 * Across cells an equal uid, or gid, means nothing: a cell of one id runs on
-+	 * those of its maker, and a block of ids is lent to one cell after another.
-+	 */
-+	if ((uid_valid(tun->owner) && tun->owner_cell != cred_cell_id(cred)) ||
-+	    (gid_valid(tun->group) && tun->group_cell != cred_cell_id(cred)))
-+		return net_may(net, NET_RIGHT_TUN);
++/* cell_info(): bits for @mask. */
++#define CELL_INFO_ID		(1ULL << 0)	/* id, parent_id */
++#define CELL_INFO_STATE		(1ULL << 1)	/* state, flags */
++#define CELL_INFO_EXIT		(1ULL << 2)	/* exit_status, once CELL_DEAD */
++#define CELL_INFO_BUDGET	(1ULL << 3)	/* budget_cgroupid */
++#define CELL_INFO_IDS		(1ULL << 4)	/* ids_count */
++#define CELL_INFO_CAPS		(1ULL << 5)	/* caps */
++#define CELL_INFO_IDS_FIRST	(1ULL << 6)	/* ids_first, if the caller has a name for it */
++#define CELL_INFO_NET_RIGHTS	(1ULL << 7)	/* net_rights */
 +
- 	/* If both uid and gid are set, *both* must match */
- 	if ((uid_valid(tun->owner) || gid_valid(tun->group)) &&
- 	    (!uid_valid(tun->owner) || uid_eq(cred->euid, tun->owner)) &&
-@@ -3338,6 +3349,7 @@ static long __tun_chr_ioctl(struct file *file, unsigned int cmd,
- 			break;
- 		}
- 		WRITE_ONCE(tun->owner, owner);
-+		tun->owner_cell = current_cell_id();
- 		do_notify = true;
- 		netif_info(tun, drv, tun->dev, "owner set to %u\n",
- 			   from_kuid(&init_user_ns, owner));
-@@ -3351,6 +3363,7 @@ static long __tun_chr_ioctl(struct file *file, unsigned int cmd,
- 			break;
- 		}
- 		WRITE_ONCE(tun->group, group);
-+		tun->group_cell = current_cell_id();
- 		do_notify = true;
- 		netif_info(tun, drv, tun->dev, "group set to %u\n",
- 			   from_kgid(&init_user_ns, group));
++struct cell_info {
++	__u64 mask;		/* in: what is wanted. out: what was filled in */
++	__u64 supported_mask;	/* out: everything this kernel can fill in */
++	__u64 id;		/* never reused */
++	__u64 parent_id;	/* 0: the host */
++	__u32 state;		/* enum cell_state */
++	__u32 flags;		/* none yet */
++	__s32 exit_status;	/* as wait(2) reports it, of the cell's first task */
++	__u32 ids_count;	/* how many uids and gids the cell has */
++	__u64 budget_cgroupid;
++	__u64 caps;		/* the capabilities its tasks start with, bit by number */
++	__u32 ids_first;	/* what uid 0 and gid 0 of a block are to the caller */
++	__u32 __spare;
++	__u64 net_rights;	/* CELL_NET_* */
++};
++
++#define CELL_INFO_SIZE_VER0	80
++
+ /* cell_open(): @what. */
+ enum cell_open_what {
+ 	CELL_OPEN_SLOT		= 0,	/* An fd on the object in the slot named by @key */
+diff --git a/kernel/cell/core.c b/kernel/cell/core.c
+index c780094ad794..12773f16d188 100644
+--- a/kernel/cell/core.c
++++ b/kernel/cell/core.c
+@@ -386,3 +386,96 @@ SYSCALL_DEFINE2(cell_kill, int, cfd, unsigned int, flags)
+ 	cell_kill(cell);
+ 	return 0;
+ }
++
++#define CELL_INFO_SUPPORTED	(CELL_INFO_ID | CELL_INFO_STATE | CELL_INFO_EXIT | \
++				 CELL_INFO_BUDGET | CELL_INFO_IDS | \
++				 CELL_INFO_CAPS | CELL_INFO_IDS_FIRST | \
++				 CELL_INFO_NET_RIGHTS)
++
++/**
++ * sys_cell_info - read from a cell
++ * @cfd:   a cellfd, or CELL_SELF, which tells a task the id of its own cell
++ * @uinfo: where to return it. Only @uinfo->mask is read
++ * @usize: the size of *@uinfo as the caller knows it
++ * @flags: none yet, must be 0
++ *
++ * Fills in what @uinfo->mask asks for and the kernel has, and says in the mask
++ * what that was. @uinfo->supported_mask is everything this kernel knows of.
++ *
++ * Return: 0 or a negative error.
++ */
++SYSCALL_DEFINE4(cell_info, int, cfd, struct cell_info __user *, uinfo,
++		size_t, usize, unsigned int, flags)
++{
++	struct cell_info info = {};
++	struct cell *cell;
++	u64 want;
++
++	BUILD_BUG_ON(sizeof(struct cell_info) != CELL_INFO_SIZE_VER0);
++
++	if (flags)
++		return -EINVAL;
++	if (usize < CELL_INFO_SIZE_VER0)
++		return -EINVAL;
++	/* Only the mask goes in. The rest of the struct is the kernel's to fill. */
++	if (get_user(want, &uinfo->mask))
++		return -EFAULT;
++	info.supported_mask = CELL_INFO_SUPPORTED;
++
++	if (cfd == CELL_SELF) {
++		/* A name, and nothing that a handle would be needed for. */
++		info.id = current_cell_id();
++		info.mask = want & CELL_INFO_ID;
++		return copy_struct_to_user(uinfo, usize, &info, sizeof(info), NULL);
++	}
++
++	CLASS(fd, f)(cfd);
++	cell = cell_from_fd(&f);
++	if (IS_ERR(cell))
++		return PTR_ERR(cell);
++
++	scoped_guard(mutex, &cell->lock) {
++		if (want & CELL_INFO_ID) {
++			info.id = cell->id;
++			/* Cells do not nest yet. */
++			info.parent_id = 0;
++			info.mask |= CELL_INFO_ID;
++		}
++		if (want & CELL_INFO_STATE) {
++			info.state = cell->state;
++			/* There are none yet. */
++			info.flags = 0;
++			info.mask |= CELL_INFO_STATE;
++		}
++		if ((want & CELL_INFO_EXIT) && cell->state == CELL_DEAD) {
++			info.exit_status = cell->exit_status;
++			info.mask |= CELL_INFO_EXIT;
++		}
++		if ((want & CELL_INFO_BUDGET) && cell->budget_id) {
++			info.budget_cgroupid = cell->budget_id;
++			info.mask |= CELL_INFO_BUDGET;
++		}
++		if ((want & CELL_INFO_IDS) && cell->ids_count) {
++			info.ids_count = cell->ids_count;
++			info.mask |= CELL_INFO_IDS;
++		}
++		if (want & CELL_INFO_CAPS) {
++			info.caps = cell->caps.val;
++			info.mask |= CELL_INFO_CAPS;
++		}
++		if (want & CELL_INFO_NET_RIGHTS) {
++			info.net_rights = cell->net_rights;
++			info.mask |= CELL_INFO_NET_RIGHTS;
++		}
++		/* Uids and gids alike. Not everybody has a name for an id of a block. */
++		if ((want & CELL_INFO_IDS_FIRST) && cell->ids_count > 1 && cell->user_ns) {
++			info.ids_first = from_kuid(current_user_ns(),
++						   make_kuid(cell->user_ns, 0));
++			if (info.ids_first != (uid_t)-1)
++				info.mask |= CELL_INFO_IDS_FIRST;
++			else
++				info.ids_first = 0;
++		}
++	}
++	return copy_struct_to_user(uinfo, usize, &info, sizeof(info), NULL);
++}
 
 -- 
 2.55.0
