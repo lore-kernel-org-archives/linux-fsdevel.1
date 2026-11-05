@@ -1,47 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793907627;
-	b=lETMJ27y6ncxqIbo6yYicBu7kDVUFqE8L9eKfBpTF0nJAir+CKRT3lGS3Ju2OOclpVZ5
-	 +k0gKx1fnLSwdYhi28+YnZRqQ/QYiMUocxjOkUbLhmrbtaJSU+uLhKcIGPUN9z7Ax7tfE
-	 2VtjX8zoH7IaXlLY1CD2ho4duVyZEkJ+XL4SoCA6wqMIss+9Z+N7t+T5JwslWZq2bli6D
-	 QUJK8jFbp1iaTB2n5phc+sT6WJ1BD7RtExQiTSug4mDAvSZkEzwja6Pemw8njy/VM0W4D
-	 9W95nba1sbOcpHo1gUoX6DPG8Y7pmbaxY+GLFB5yoIgRnS/6rLdbbTrPzLH9zm8w7qA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793907627;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=Et2NLdyCzf6OtCLzVUxxiZkBqaGGRp7IPuLogLxECcg=;
-	b=EYEEUeK18S2YJvI/OqX1CP6Y++4I8ozxFNV83EscSBomfgPrjJQFiucbcIXB9R6VfpBO
-	 6DInvt2Oa/hu0AoXknW35mmnwwytLTa6IeL3UtXFJtkEXQ4kesbPDDZACV0iMvPWtgLD5
-	 OoSYihWB5iwxfcJFlgyNPuToAt1Gvru2KgX9ZsUCvvJelkF7yKZ50VYp075fj0v3G3WrW
-	 0LBRLAMWtRKLNHzVx8wXnZ67oaXasK2KxtRq/k+TD4SibWbPYpELd188oqOcQk/f8GSIf
-	 briAyY4klFIloNglCoh6OPCzAUZEreE8XZblwvCCWWKkOcD3UMFQy7ILuMChdMe/keg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b9W4YOqv;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.224.44
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793908147;
+	b=VB9QHLN1Vm/CXWaAQS0O5ZbIy0qZ9Uv4NwF6NKsF+nPQFuVysp0u8VCQN1J9j66gMisN
+	 rwLxtq/4hicBCp8bcEacOOzIe3K/MKwkFZiq+u9uOCqtH7FENK+rjpQJ3YE6EEqacG6cI
+	 wxhGvWSEwGsCHZYYY6WYTwAcuYLMET7+ZN09DXHbwz3cAQ/i1pfodS/bOXmzP6ZkPS2h9
+	 nt5e4JsKdgxzMkElBvYHUkBizPO0MrSQO9Rvb4J6KAiLQUtCa0SHNl1n+ajLN54LwrJBB
+	 OrtSusxnQQxwXNLiKjzWCDvRX8+d5lDryTSZS/vlAsC8FO2Zgv+BtmuDgQ+Hd65Lw4g==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793908147;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
+	 Content-Type;
+	bh=N5scGhz5LxdwjNU1yVLwQJMho5xvAY73RNio+z9h7DA=;
+	b=rSD/JoAULY+ke7yJAf6xq7g78ih0CUeDdc8knclOm6MkstTem0p3t3Zx6fiazgcSyaqP
+	 AaDyOfdHyqVC0sriMIDB00BBo6BucxSL4XZvMjMCVsOYbHCA8a5Q61pw6/IRlVtr6R9hS
+	 gFldaXNbsyQ6fUB5JFzn7CJk1UbmucpUk4Vzs8fMD3OuKDM+ATcIbg/4AklXnh4nTBFai
+	 VcOpV0b3su21TZ8kOOt16fOekijWq2+rXA06Zg9RmgsZoS/iI1aWwyge5/3u+WzWAmf+j
+	 Ft6Ixum2pgY9ZxVVXgKOx5q3fWXgQxCLUA25zO3bQGKK1KOLy5MP/9wOxvncBp722yg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=databricks.com;
+	spf=pass smtp.mailfrom=databricks.com;
+	dkim=pass header.d=databricks.com header.i=@databricks.com header.a=rsa-sha256 header.s=google header.b=NDtf8UjY;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.224.44
+Received: from mail-yx1-f44.google.com (mail-yx1-f44.google.com [74.125.224.44])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9692660741E2;
-	Thu,  5 Nov 2026 19:40:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F65C606D510
+	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 19:49:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4F65C606D510
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=databricks.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=databricks.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b9W4YOqv
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68CF71F0089F;
-	Thu,  5 Nov 2026 19:40:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793907627;
-	bh=Et2NLdyCzf6OtCLzVUxxiZkBqaGGRp7IPuLogLxECcg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=b9W4YOqv2o6Le0fb5/CcYr5PJ2TalvpmeU+275RQIBL/dydEpH93uDOuobnEcjMCd
-	 rSIyvJ+e7NBLLnB0hfY3eGORd7xG5mkd5LYg11jzy42zmOtAZeVjp5HkBaKmTPOqXc
-	 dbDf0oeQQLLkISqI2x6jLPD7xmqnvr0c/AtEPAStMyM426jisIh0UYEG1e88lF8rzZ
-	 zR90U5vXUH0QVziDcdIzulj5ROvl24m2mEn+HKpkHiixgo4YdipvO1q9anroMWB8ac
-	 udIZHeNvBmJcKNOPZAVq9h+ktCjtyfUSxBzUwHCDgqbs1gmleaoxJpOJXAXyc8hgNE
-	 ckjeMmf/DevYg==
-Message-ID: <ea17ea77-7238-4a78-88f4-7c9ec0528c4e@kernel.org>
-Date: Thu, 5 Nov 2026 20:40:21 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=databricks.com header.i=@databricks.com header.a=rsa-sha256 header.s=google header.b=NDtf8UjY
+Received: by mail-yx1-f44.google.com with SMTP id 956f58d0204a3-679e6ab6471so1059876d50.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 11:49:07 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793908146; cv=none;
+        d=google.com; s=arc-20260327;
+        b=dEDMsDGO6slueqzr4xTlEIIcZIgorhsv05xeUVDiE57FUa2Z+jpj3NAFLB1cGqmyRW
+         HxdMU8VqDN2eC/ZFSMd/vzZJHeDnNoG290+pxcWWxBENAKHr2rCt7Zx1oyrz9O2aNou+
+         7Ordk2UqacIuwl942NMhQJlk6Q1/HmSXFOQ7XAFrZfrIhhTsoVS21Zuh5iS6rEZDZc+N
+         gOiB2sAJNmdgiFnhSBpPzZs6sRfhXPrjeFc5HOkZYy/Qj4REpZ0Mc3B8dKUk98UFZdvx
+         Ho3uoCvx2f8qMZJHFPsnycrGvdOiL5CJNOGSh5e3TCp7lGPhiZ1Nf39RLaeMWZ6Al5ct
+         GNZA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=N5scGhz5LxdwjNU1yVLwQJMho5xvAY73RNio+z9h7DA=;
+        fh=ENuSgE8qqMXxAp/8TU9QI06+UAkRBbvczcq6C1gn38I=;
+        b=YVthcNypgRY6eIdBx98JrOLY9hPhWD6oJ3Yo1YdCSZlEij3fGbRPlb19J+iNhe16cU
+         n1eh++EkqfnWAzd+ps1o1ZNJayEtZUk9d4pbJKyE+cFCK8joNTh0IeDnGwtiCalEQ9r8
+         yBjAmhwgw09lDtRtATMk7WwGC+LDgcn/wi0+rldqBG5OohEMg1ma/eH+maWYMqzsGjS1
+         CPl280g7KoOA6emiUeYsYY/iSWvkea0zBfg4oUdswujumBeTGsSw/kIPF5LQwEXwNkkW
+         ij3rhKOz2FSW2yRUOxaZNWhbuSW6wY0gj2M7DxhsxFkJikbxNSijS2STEdkXs7FczByQ
+         H12w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=databricks.com; s=google; t=1793908146; x=1794512946; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=N5scGhz5LxdwjNU1yVLwQJMho5xvAY73RNio+z9h7DA=;
+        b=NDtf8UjYO1SM4bYzH6d3Qn3OABrWEv+rCx6bstt4X0ASNc647KopUmC8slRCxA6qOo
+         OtVq1uKyThrHSnUAkRdj9O5cwAWCOceJCLvIHobdVKppyfSY1vYfg0Ml2x8dms+W9r7T
+         LyyKLe+fvyAJsqd2BBYeBKwgjBy5+aWAGYw6iv1wDSgMWV9pPHGcDL2kSknFg8+h+VJo
+         iKuz2Y924a7c0jaKclqdk/Jvp0xuT+J1LbrozS2/2h1N+D3FOad0HyL1N/WG6FIH4669
+         PCfFqmGzS0bN9Ab+N6942ciWemdDP2fecMPl7MCt/cOp+m6ApMV/0yhqkYCGTu9/Et0f
+         KKZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793908146; x=1794512946;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=N5scGhz5LxdwjNU1yVLwQJMho5xvAY73RNio+z9h7DA=;
+        b=v84fMW8nTasW8cXiUcKFWkPcMZ1bVzkGyMRvyW0I/kuqfHsNupZfpAyL/wqdYAaJZl
+         xHFNTHl37b3KcdsBfiTFczzUyPsJgAmFUJsCBBsEykq/1RI8NNmSxZO87ro//YiytUAr
+         tcBxoWxXgX7VKjtqf7ucAR7OA09R7IJpI4HW3LIzI/h5QOXbqvj+cId/dUTY886JFBo3
+         kh2AhdY4KfSKoWzXL20wmOjC+tKYbPgip0A0LkZWSLJrMIWn/FTAYfVffd3Uotf4rKU8
+         mLhhz2GVdjm1F18v/Gw/NQT54Kr3nALIR1GM3T0HAE2Gq/A1l3ElBxxstwu0/elmJHR/
+         hjFw==
+X-Forwarded-Encrypted: i=1; AL+hErHcshJvatS64f+3oUeFcGb/IGosg6xCJIsofZ5t0g8PqmsivRqrDliP+bo78IYJxcqCWjx0UDATrOYn99pA@vger.kernel.org
+X-Gm-Message-State: APuU4Z8tF8yObJ76SkMUf+mSLezCbHNynjHIEaX3HBHmMIyhhuSWwo+3
+	2kWsoi58XMumaxA5V7ACgCx5z7oQGClgTUOLprNwU93hVEC4/t3TaUfv1wxuvzYk4MfJA2RpNU2
+	8zYM6yfsMBhGKIjnnGDaVA/TQSgBQf6QZOYRkq3+Rug==
+X-Gm-Gg: AYBFou1GB5uAbnnGoDRG+Wj4x00BEcR5edscMsotHuOGKbH2z2Ynh/sseL/ww6jVsCg
+	bUSMZwXh2HCgO4MkRqX6ksnEg8uFkfxli7sG63PTBj01pMR+/g24h0I9F8TBHlVBmATyAgcdkUq
+	mBpMMzJ42nElV+H4UjDl2Wf1a4BgBblWvHBtYh4oDSOAi5s9oyLbvTnZv3JtvCK7N2Y2Ds5ZcuD
+	xWX1kDOWRk5Oyr1OwicdJ+BkLEdf50roJ147IGNoVWZffgwnDHs/XipF8wkoywmzCUv8O/whpUz
+	7cHRj4a5gUGTfFdb4mjhNx1w0Cs3gVcLr24IoUvUgFIk/KSdZO16c81XbCTSrng7MY66Hg9y1Hr
+	gf5xUDchJS9V7rb59ke/teL5s4vC7n11k0ks=
+X-Received: by 2002:a53:c045:0:10b0:673:e272:f3ec with SMTP id
+ 956f58d0204a3-67c03574d3cmr1676191d50.16.1793908146013; Thu, 05 Nov 2026
+ 11:49:06 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -51,85 +101,78 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fs/proc/task_mmu: check THP exclusivity for each subpage
-To: Kelvin Zhang <zhangxp1998@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
- "Liam R . Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>, Kalesh Singh <kaleshsingh@google.com>,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- stable@vger.kernel.org
-References: <4c1b393a4b04bd94e4f1c7879ae04e1793eb0931.1793552446.git.zhangxp1998@gmail.com>
- <54617273-262f-4e17-b912-8b07113ca45c@kernel.org>
- <da1dc033-9131-4b77-9443-a8cc82fd7e58@kernel.org>
- <179355762314.2759535.4568050479263510899.pagemap-thp-repro@gmail.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <179355762314.2759535.4568050479263510899.pagemap-thp-repro@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Lakshita Jain <lakshita.jain@databricks.com>
+Date: Thu, 5 Nov 2026 11:48:53 -0800
+X-Gm-Features: AclHuK86O9Kk2D4NIGqxQ7jet_z__LeBB-Hzqe3C7yoJqWGYxhQHMmpa1pCI8qQ
+Message-ID: <CALE1rk6tGt_Pe7CpFL1NSTgugVpXLH_iguO2D9VsAVHn1p-02w@mail.gmail.com>
+Subject: [REGRESSION] fuse: non-owner POSIX ACL writes get EPERM before
+ reaching daemons without default_permissions (since 6.2)
+To: brauner@kernel.org, miklos@szeredi.hu
+Cc: sforshee@kernel.org, linux-fsdevel@vger.kernel.org, 
+	fuse-devel@lists.linux.dev, regressions@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On 11/1/26 19:27, Kelvin Zhang wrote:
-> Hi David,
-> 
-> Thanks for the clarification.
-> 
-> I don't have a real application depending on precise per-subpage bit 56
-> values, or a production failure to report. This is a review/test-driven
-> report, with LLM assistance, rather than something found through a failing
-> workload. I followed it up with an actual old/new kernel comparison.
+Hi Christian, Miklos,
 
-Okay, thanks. I think it's best to just change the behavior to the new world
-directly.
+Since 6.2, a non-owner setting system.posix_acl_access on a
+host-mounted FUSE filesystem gets EPERM before the request reaches the
+daemon, when the daemon does not set FUSE_POSIX_ACL and is mounted
+without default_permissions. Before 6.2 the write was passed through
+and the daemon made the decision.
 
-I'll respin my patch separately shortly, documenting your finding.
+User-visible effect: on a FUSE filesystem that reports files as owned
+by root and does its own permission checks, a non-root user running
+"sed -i" gets "preserving permissions for './sedXXXXXX': Operation not
+permitted", and "install -m 644" fails, even on files the user just
+created. chmod on the same files works.
 
--- 
-Cheers,
+The check that rejects it is in set_posix_acl(), reached from
+vfs_set_acl() since 318e66856dde ("xattr: use posix acl api"):
 
-David
+    if (!inode_owner_or_capable(idmap, inode))
+            return -EPERM;
+    ...
+    return inode->i_op->set_acl(idmap, dentry, acl, type);
+
+facd61053cff ("fuse: fixes after adapting to new posix acl api",
+https://lore.kernel.org/all/20230118-fs-fuse-acl-v1-1-a628a9bb55ef@kernel.org/)
+restored passing these ACLs through to daemons without FUSE_POSIX_ACL,
+but this owner check still runs first. In v6.1, the same write went
+through fuse_xattr_handler, and xattr_permission() places no VFS
+restriction on system.* xattrs, so the daemon saw it.
+
+For daemons without default_permissions, FUSE already leaves
+permission decisions to the daemon for attribute changes:
+fuse_setattr() sets ATTR_FORCE, so chmod/chown/utimes skip the VFS
+owner checks. Would it make sense to treat POSIX ACL writes the same
+way, i.e. not apply the owner check in set_posix_acl() for FUSE inodes
+without default_permissions, and let the daemon decide? Happy to test
+a patch.
+
+Reproducer
+
+libfuse's example/passthrough shows it, using libfuse's generic
+uid=/gid= option to report every file as owned by root. As an
+unprivileged user (mounted without default_permissions), in a
+directory that user owns:
+
+    $ ./passthrough -f -s -d -o uid=0,gid=0 /tmp/mnt 2>fuse.log &
+    $ cd /tmp/mnt$HOME && echo hello > f.txt
+    $ sed -i s/hello/hi/ f.txt
+    sed: preserving permissions for './sedtTZojI': Operation not permitted
+    $ install -m 644 f.txt g.txt
+    install: setting permissions for 'g.txt': Operation not permitted
+    $ echo $?
+    1
+    $ chmod 600 f.txt        # succeeds
+
+fuse.log contains no SETXATTR request. Without -o uid=0,gid=0, both
+commands succeed and fuse.log shows two SETXATTR requests for
+system.posix_acl_access.
+
+Tested on 7.0 (Ubuntu 7.0.0-1014-aws, libfuse 3.14.0). We see the same
+failure on 6.8 hosts in production.
+
+Thanks,
+Lakshita Jain
+Databricks
