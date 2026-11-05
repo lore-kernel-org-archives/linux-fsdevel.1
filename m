@@ -1,47 +1,121 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.177
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793907099;
-	b=ePx3+xyyb9Aw6xl/mBOXE64Lx4GXUK/bETy7dMfM+DP9nDdcy0bqUZ/z3FEHY3iZtZdv
-	 wKte5Q/azCXxHaeQA+Lw8IMFfAMppv1ifMJC4jp1IPwOsH+hdAVuG+VthCfnyU17DIGPq
-	 u+6pwi4EI8/MhyOcFGehIKiihtonZH4YEoe6oTGn/6zNfSQ9/8saUiF5hGv2kDqfaYR87
-	 uapWQsDcMYAoldEQre1n6JIIFkBaezSQuyuxpnw1n4HcA8wnNoZsuNabzJRV4THRClGZE
-	 qHGKR2ZJ0Qcu8pLcFU1TEpfR0P8UbYKFcI9kkdl7oBLg89HezCtt0fVzwQOWDXH9mHg==
+	t=1793907478;
+	b=vwrhP/Z0oQPUgpdxs/lPyn5LPv5eORudruDdMTyoGGU77A66xmeHZxBlyMm7xqu8dWqy
+	 2mkEvh8zy2qiKoqxdi1Jsw43r5VojmF2pf7PqVmoDmBpqQNm17QSkqTpP8ElFhgituPp7
+	 Fa6LPUbNiN0rXxq3cjNjMnyKeIUp3bZti9lllpfaV8Z5wyWyWyDArwSRM92CFm6Q78Y7H
+	 iHExXWKxWgzytCQ7IRAVIzI+dVGoYlGoDsZnKsGXUnvUTPkhDysOk+n84TCvwbuqO4dFY
+	 svbO/gnH237eu7ZBS5qy3eL1JjDrLeX243x9dlWe6w8DzoDFz7WpN6U7D67OXJhit3A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793907099;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=HbYwxsff3zwmd12NfwO1WlkOU+zbs7lqClhdSOh1kUY=;
-	b=wtVxHKHHQFr2nb4eZhZaU37JM00ZhfZQT95KSrFcass/EO+bNCunVRxtdTKwAwCAAMzq
-	 h84NaUuBuJVF3rqFVZf9OOleMocegm/GMWzZLbOBkIWhXWIeTLXOvsKY5g/XZc805qg2f
-	 9+U1kBU9xJ9Mq3H32R+qlPeVlvojAMhbYsLwZ+QMO9BHRDNlkvr+QtlxIriz1/8dUCeQJ
-	 I7qL+CttgTyEupXVLYWBEDKPw2PFiPXvLoOgZUYIL9GxQjtcb4JBUuMEBKHq27aMmwsCr
-	 aT40rOS+aN5Dj1THxLl2B828gbtlOSL3nnRU0nz2bB7UtoCZCkm+LZ2hO1KkLa+j7hQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793907478;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=3AyWWDFVbKJ/DkrPhpXcM2lwKymyXBABHoZtsa2/+w4=;
+	b=a5pNiHw5LDDW+FpgtTPHaJZyDD7teEyLDpFUHmtTMGlxBOwRtQETqg3wIjQ9y0+n4kS1
+	 bmhpLx9hFW34NgsYXyfFbdgfMK90X3hvPBWYsfmzRvRbr74ey3WjeUb7AJyFPCLTGTkUm
+	 sLKM1zrHQce1XVSx4GA7fWe5dZp0u8LHAkojsA+PRuznFMbnEsCuQrxsuRgsaD+Tm880Q
+	 6GE1A6rlvRlf0Q+T3yMai+IBSYzgp4FunyoBNTe7J2MrJCcawgHBRsCT8mXuFR3xWfDQ9
+	 NV4Ib/xqZxY5kkWF6oOXfvlYSWxbeZL2/UqnrGEu+Rmih9GvIySsxelo2O8YuN1xmtw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Qj3MxEnr;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=arista.com;
+	spf=pass smtp.mailfrom=arista.com;
+	dkim=pass header.d=arista.com header.i=@arista.com header.a=rsa-sha256 header.s=google header.b=cPl6L7vv;
+	arc=none smtp.remote-ip=74.125.82.177
+Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DBBD606D834;
-	Thu,  5 Nov 2026 19:31:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 255A9607B970
+	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 19:37:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 255A9607B970
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=arista.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arista.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Qj3MxEnr
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13A361F00919;
-	Thu,  5 Nov 2026 19:31:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793907092;
-	bh=HbYwxsff3zwmd12NfwO1WlkOU+zbs7lqClhdSOh1kUY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Qj3MxEnr6FZYNwGTA5OmT2naokiXBMoHwDE6Lj8EUey3p+vrrO+B7NR7pnKV1X4Zv
-	 qqIeSuiUuOlHHWmQati8GlB2VskV8ND0tGhzjfhPW6kr/SBz7F7Ksc5uoplrPAkTXs
-	 nwy4juookyx2inwkQQcPq7sIBbI4Eb6zyNYvHH/fQmeejdV8Cxd5VYuzpUShTk59Gi
-	 YeZ+/gnyn8aF5z8wFi+1OVRHwLwoCazMPcWmivOpHrtoCzd2V5e9Wm9qmpzEVsqkS2
-	 Ub7iAPCVTOVFtrTRKKcaKClHWOHjDer09tg317cjYDXHOX5ZLSlG3YUEptkgtAZRHU
-	 Wm+aYhRsS9jKQ==
-Message-ID: <1d89aaf1-6c91-4f87-a5c8-15c4fa93503e@kernel.org>
-Date: Thu, 5 Nov 2026 20:31:26 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=arista.com header.i=@arista.com header.a=rsa-sha256 header.s=google header.b=cPl6L7vv
+Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-3645f0f3fcdso3706117eec.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 11:37:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=arista.com; s=google; t=1793907477; x=1794512277; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=3AyWWDFVbKJ/DkrPhpXcM2lwKymyXBABHoZtsa2/+w4=;
+        b=cPl6L7vv4IdiTxomRsfBZyJX59O6aKePsnYBsOL+Il0TM2e7QZLMYUoor5RewSvnv7
+         vLLbLRMSyMW/YKWH7JVRt+VA8awqGEfSTnb3NSI212h84khTjynO2iw5mzK2nVh11z5d
+         EZ6tC6WQcQkAThRjYpVZDYHpM0IHCup/ssjDItaCiUmXD6fNSzFXuqyMXfcjXo9Y3C18
+         AjZA2LqCbQEPJQKpzTHX/9JMW5k+59UhN0TUOXzSYbdIuRgq6YZLqhp3MfDyp1FFBB4n
+         21C0wHgHpp9aOnGvecq21MbiLJ846BIuczpuDUnGu78BBlZgT6V+04NGwiDJ3uZbl2e6
+         YlkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793907477; x=1794512277;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=3AyWWDFVbKJ/DkrPhpXcM2lwKymyXBABHoZtsa2/+w4=;
+        b=Wao9ymc4vpdKU9kU+qBZu0Ur/h8n01zHx7fN/Mf5quABerMtOhleW6k+fH/5W1uCP0
+         pL3OK2y3trh1lDaA0EqXeyVgp76Q6j1JTFYA+ZaWQ9rXyxm0Kj770YCcuwwib0XIaqrt
+         ieL4KALPOWeWxf9vj+3eymnzUOrffnpGyYIrZzYmJ7Xr5HHYS9F2ACLGr8/o6vCQSL5X
+         WV2tpLkM/l9BX9fqS8ljw/K6SfqBlfrdCro4A2/9kWt75lPcrXSWlUMRtZljcaLq0J/t
+         tHf1IQ/BOG1h24LUFJyNFJXaVID8cp6MTftEqt45M2ngnOuChR7S6eh9wDg+ExXtPfHu
+         TF/g==
+X-Forwarded-Encrypted: i=1; AKwUvByQ5AKSEBI4ynE+DQPvGIIyt8TbUuTztSCeEETjNXnqRyVX6VYFsjgRQ8FYavW5sDSeZrrl9pS3v2U3Ckbb@vger.kernel.org
+X-Gm-Message-State: APuU4Z85VavYfc48Oxjpox3MWwohWXzmQsrKhNVoStQIl1/7bZ2Nzc66
+	bt1WtReNe1a+qZyXiy0jUJkmiQiVy24VHLO04YlWHb1YWnZUJO5iyGJCYm+K6AJzOw==
+X-Gm-Gg: AYBFou1dD7wl2Z+MOFYjo69NbDFwtccJ13+R4PWv95G/YZTI9c/f7uYnsRYumd3hKqv
+	n7SA+9hry80MbbiadYYU4ZjyYuSGUN1pofmgmC5oJF76hVZOTmf1ukP/46DxXaUnrNMg8WfBRx/
+	eJFNfuUYJAa3oWnJLRhC8Ch4y/t1zzfLIlhQ/lagWgCMEgSeTfSAOo3Iwqgu+VfkfPCv/8agFPW
+	B8kTli+i2dSO3FLigrfNpR8BSMKJ7QGs3J8k2xcgasFl450kV//SPFpOwlHWqGmnWRJ7AjyYnvO
+	5RUStw1Stjq4a6ErV4ynzW8uOZ0ki7ANm0js65vKpMwvqOzV/+Dd+Hs6zx0VIJGyV02D7n8x1pR
+	sd6ZHTrefgFNh4K8HdgN2xD60uGG7KXGZjKY7R62Hg8h4z6GPRR5yiWVWP0akYbSzw953qeRjQz
+	mYUAqq22XI/wIFo5Tt2ykMEIdRZUx8UCrTsAq9jNtjkky1IAv8gSofSqPmJvz2XW4NAW70lhwOx
+	56IN+9DsjjXPT2SN9mL/42SHebsXUTdl7xPjtUzu3yq09f6+nUNS8ZgYXkLopTtW1J3SdAPG5L2
+	T0Kv83xYzEN82Vm/O/b/qi7vLA5YZIoYtaIH8P4OX+6o3mtCNFZkxD3VWhA2lElLw0yfyQOmGq4
+	fAbpqcEJWoRWe3iqcvm7HsJc=
+X-Received: by 2002:a05:7301:6285:b0:35c:85fa:5a61 with SMTP id 5a478bee46e88-36f76f0e752mr142560eec.38.1793907476899;
+        Thu, 05 Nov 2026 11:37:56 -0800 (PST)
+Received: from dannyhu-upstreamLinux.sjc.aristanetworks.com ([74.123.28.19])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36f72ec8a02sm326134eec.11.2026.11.05.11.37.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Nov 2026 11:37:56 -0800 (PST)
+From: Danny Hu <dannyhu@arista.com>
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>
+Cc: Mimi Zohar <zohar@linux.ibm.com>,
+	Roberto Sassu <roberto.sassu@huawei.com>,
+	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+	Eric Snowberg <eric.snowberg@oracle.com>,
+	Jan Kara <jack@suse.cz>,
+	Victor Kamensky <kamensky@cisco.com>,
+	Taras Kondratiuk <takondra@cisco.com>,
+	Zheng Zengkai <zhengzengkai@huawei.com>,
+	zhangguangzhi <zhangguangzhi3@huawei.com>,
+	Danny Hu <dannyhu@arista.com>,
+	Jason Yan <yanaijie@huawei.com>,
+	silviu.vlasceanu@huawei.com,
+	hpa@zytor.com,
+	arnd@arndb.de,
+	james.w.mcmechan@gmail.com,
+	niveditas98@gmail.com,
+	pierre@arista.com,
+	julien@arista.com,
+	kbharathi@arista.com,
+	alexandr.lobakin@intel.com,
+	linux-fsdevel@vger.kernel.org,
+	linux-integrity@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	initramfs@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	bug-cpio@gnu.org
+Subject: [PATCH v6 2/4] initramfs: add file metadata
+Date: Thu,  5 Nov 2026 11:37:41 -0800
+Message-ID: <20261105193743.2654656-3-dannyhu@arista.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20261105193743.2654656-1-dannyhu@arista.com>
+References: <20261105193743.2654656-1-dannyhu@arista.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -51,103 +125,232 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] mm/shmem: remove truncated folios from the page cache
- in batches
-To: Qiliang Yuan <odys.yuan@gmail.com>,
- Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Hugh Dickins <hughd@google.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org
-References: <20261105-bug-mm-shmem-undo-batch-v2-1-ae5f89ced044@gmail.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20261105-bug-mm-shmem-undo-batch-v2-1-ae5f89ced044@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 11/5/26 13:32, Qiliang Yuan wrote:
-> truncate_inode_pages_range() takes the folios it finds out of the page
-> cache with delete_from_page_cache_batch(), which takes the inode's
-> i_lock and the i_pages lock once for each batch of up to
-> FOLIO_BATCH_SIZE folios.
-> 
-> shmem_undo_range() calls truncate_inode_folio() on each folio instead,
-> so filemap_remove_folio() takes and drops both locks once per folio.
-> Truncating, punching or freeing a tmpfs file or memfd made of small
-> folios, such as a large /dev/shm segment, pays for that on every page.
-> 
-> Clean each folio up as truncate_inode_folio() does, collect the ones to
-> remove and take them out with delete_from_page_cache_batch(), which
-> needs truncate_cleanup_folio() outside mm/truncate.c. Swap entries, and
-> the folios kept when undoing a failed fallocate(), stay out of the
-> batch. Dropping an 8 GiB file of 4K folios, median of five runs,
-> averaged over two boots of each kernel, in a 32 vCPU VM:
-> 
->                         before    after
->   ftruncate() to 0     1150 ms   917 ms
->   hole punch           1165 ms   919 ms
->   close() of a memfd   1153 ms   921 ms
->   unlink()             1152 ms   921 ms
-> 
-> Files of PMD-sized folios take 18-27 ms with or without this change.
-> 
-> Signed-off-by: Qiliang Yuan <odys.yuan@gmail.com>
-> Reviewed-by: Jan Kara <jack@suse.cz>
-> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
-> ---
+From: Mimi Zohar <zohar@linux.vnet.ibm.com>
 
-Thanks, I'll wait a couple of days and will then queue this.
+This patch adds metadata to a file from a supplied buffer. The buffer might
+contains multiple metadata records. The format of each record is:
 
+<metadata len (ASCII, 8 chars)><version><type><metadata>
+
+For now, only the TYPE_XATTR metadata type is supported. The specific
+format of this metadata type is:
+
+<xattr #N name>\0<xattr #N value>
+
+[kamensky: fixed restoring of xattrs for symbolic links by using
+           sys_lsetxattr() instead of sys_setxattr()]
+
+[sassu: removed state management, kept only do_setxattrs(), added support
+        for generic file metadata, replaced sys_lsetxattr() with
+        vfs_setxattr(), added check for entry_size, added check for
+        hdr->c_size, replaced strlen() with strnlen(); moved do_setxattrs()
+        before do_name()]
+
+[zhangguangzhi: fix checkpatch warning EMBEDDED_FILENAME in
+                include/linux/initramfs.h]
+
+Signed-off-by: Mimi Zohar <zohar@linux.vnet.ibm.com>
+Signed-off-by: Victor Kamensky <kamensky@cisco.com>
+Signed-off-by: Taras Kondratiuk <takondra@cisco.com>
+Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
+Signed-off-by: Tianxing Zhang <zhangtianxing3@huawei.com>
+Reviewed-by: Jason Yan <yanaijie@huawei.com>
+Signed-off-by: Zheng Zengkai <zhengzengkai@huawei.com>
+Signed-off-by: zhoushuiqing <zhoushuiqing2@huawei.com>
+Signed-off-by: zhangguangzhi <zhangguangzhi3@huawei.com>
+Signed-off-by: Danny Hu <dannyhu@arista.com>
+---
+Changes in v6:
+ - Document lack of support for POSIX ACL restoration. The main use case is to
+   restore security.ima xattr for IMA use. POSIX ACL support is out of scope
+   for this patchset
+ - Check xattr name and value lengths to ensure they are valid and do not
+   exceed the limit
+ - Compare metadata header and record sizes against the remaining buffer
+   length to avoid pointer arithmetic overflow in bounds checks
+ - Use the kernel u32 type instead of uint32_t
+
+Changes in v5:
+ - For debug print in do_setxattrs(), use print_hex_dump_debug() rather
+   than printing the xattr value as a string
+ - Use u32 metadata record lengths and reject records smaller than their
+   header
+
+ include/linux/initramfs.h |  19 +++++++
+ init/initramfs.c          | 103 +++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 121 insertions(+), 1 deletion(-)
+ create mode 100644 include/linux/initramfs.h
+
+diff --git a/include/linux/initramfs.h b/include/linux/initramfs.h
+new file mode 100644
+index 000000000000..9b3839dc88a1
+--- /dev/null
++++ b/include/linux/initramfs.h
+@@ -0,0 +1,19 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Include file for file metadata in the initial ram disk.
++ */
++#ifndef _LINUX_INITRAMFS_H
++#define _LINUX_INITRAMFS_H
++
++#define METADATA_FILENAME "METADATA!!!"
++
++enum metadata_types { TYPE_NONE, TYPE_XATTR, TYPE__LAST };
++
++struct metadata_hdr {
++	char c_size[8];     /* total size including c_size field */
++	char c_version;     /* header version */
++	char c_type;        /* metadata type */
++	char c_metadata[];  /* metadata */
++} __packed;
++
++#endif /*LINUX_INITRAMFS_H*/
+diff --git a/init/initramfs.c b/init/initramfs.c
+index ebddde9c8f0d..d206624d1160 100644
+--- a/init/initramfs.c
++++ b/init/initramfs.c
+@@ -10,7 +10,9 @@
+ #include <linux/hex.h>
+ #include <linux/init.h>
+ #include <linux/init_syscalls.h>
++#include <linux/initramfs.h>
+ #include <linux/kstrtox.h>
++#include <linux/limits.h>
+ #include <linux/memblock.h>
+ #include <linux/mm.h>
+ #include <linux/namei.h>
+@@ -22,6 +24,7 @@
+ #include <linux/types.h>
+ #include <linux/umh.h>
+ #include <linux/utime.h>
++#include <linux/xattr.h>
+ 
+ #include <asm/byteorder.h>
+ 
+@@ -189,7 +192,7 @@ static __initdata time64_t mtime;
+ 
+ static __initdata unsigned long ino, major, minor, nlink;
+ static __initdata umode_t mode;
+-static __initdata unsigned long body_len, name_len;
++static __initdata unsigned long body_len, name_len, metadata_len;
+ static __initdata uid_t uid;
+ static __initdata gid_t gid;
+ static __initdata unsigned rdev;
+@@ -264,6 +267,7 @@ static void __init read_into(char *buf, unsigned size, enum state next)
+ }
+ 
+ static __initdata char *header_buf, *symlink_buf, *name_buf;
++static __initdata char *metadata_buf;
+ 
+ static int __init do_start(void)
+ {
+@@ -365,6 +369,103 @@ static int __init maybe_link(void)
+ 	return 0;
+ }
+ 
++static int __init do_setxattrs(char *pathname, char *buf, size_t size)
++{
++	struct path path;
++	char *xattr_name, *xattr_value;
++	u32 xattr_name_size, xattr_value_size;
++	int ret;
++
++	xattr_name = buf;
++	xattr_name_size = strnlen(xattr_name, size);
++	if (xattr_name_size == size) {
++		error("malformed xattrs");
++		return -EINVAL;
++	}
++
++	if (!xattr_name_size || xattr_name_size > XATTR_NAME_MAX) {
++		error("invalid xattr name length");
++		return -EINVAL;
++	}
++
++	xattr_value = xattr_name + xattr_name_size + 1;
++	xattr_value_size = buf + size - xattr_value;
++	if (xattr_value_size > XATTR_SIZE_MAX) {
++		error("xattr value exceeds size limit");
++		return -EINVAL;
++	}
++
++	ret = kern_path(pathname, 0, &path);
++	if (!ret) {
++		/*
++		 * POSIX ACL restoration is currently unsupported.
++		 * vfs_setxattr() rejects POSIX ACL xattrs with -EOPNOTSUPP.
++		 */
++		ret = vfs_setxattr(&nop_mnt_idmap, path.dentry, xattr_name, xattr_value,
++				   xattr_value_size, 0);
++
++		path_put(&path);
++	}
++
++	pr_debug("%s: %s size: %u (ret: %d)\n", pathname, xattr_name,
++		 xattr_value_size, ret);
++	print_hex_dump_debug("xattr value: ", DUMP_PREFIX_OFFSET,
++			     16, 1, xattr_value, xattr_value_size, false);
++
++	return ret;
++}
++
++static int __init __maybe_unused do_parse_metadata(char *pathname)
++{
++	char *buf = metadata_buf;
++	char *bufend = metadata_buf + metadata_len;
++	struct metadata_hdr *hdr;
++	char str[sizeof(hdr->c_size) + 1];
++	u32 entry_size;
++
++	if (!metadata_len)
++		return 0;
++
++	str[sizeof(hdr->c_size)] = 0;
++
++	while (buf < bufend) {
++		int ret;
++
++		if (bufend - buf < sizeof(*hdr)) {
++			error("malformed metadata");
++			break;
++		}
++
++		hdr = (struct metadata_hdr *)buf;
++		if (hdr->c_version != 1) {
++			pr_debug("Unsupported header version\n");
++			break;
++		}
++
++		memcpy(str, hdr->c_size, sizeof(hdr->c_size));
++		ret = kstrtou32(str, 16, &entry_size);
++		if (ret || entry_size < sizeof(*hdr) ||
++		    entry_size > bufend - buf) {
++			error("malformed xattrs");
++			break;
++		}
++
++		switch (hdr->c_type) {
++		case TYPE_XATTR:
++			do_setxattrs(pathname, buf + sizeof(*hdr),
++				     entry_size - sizeof(*hdr));
++			break;
++		default:
++			pr_debug("Unsupported metadata type\n");
++			break;
++		}
++
++		buf += entry_size;
++	}
++
++	return 0;
++}
++
+ static __initdata struct file *wfile;
+ static __initdata loff_t wfile_pos;
+ 
 -- 
-Cheers,
+2.51.0
 
-David
