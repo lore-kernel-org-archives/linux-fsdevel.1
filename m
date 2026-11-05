@@ -1,54 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793915806;
-	b=FinF/YzaH6YKRKtlzXMp2uaFt8YqtwEM+zZtAQRLcYd4l6yc07Ed/y0NE7TQfoO5m6Ht
-	 i2lul99FrIYzoIjeezvNUtv5MgldiWn7bIPwLN/I6AsoB4Wk5QkrfkXuPQP1GPf/ZUdcB
-	 cuB/PNqrfAQe1N0Jd6sH7GDFDku876c0xn9y9Wfk7JaadDXa8Dlg3Dtv+DF4NobDdt8aW
-	 Xixa41FWFNXfsk9EyCZKJ0qj/Z0WELL5F7Ai3DXMQ4f3bOa880t1RXfsdST4s/oLsy8Y8
-	 6BsYlmH3w3lMXlY02TxKZc2Ok/RzwCqu8PAcPvovb07gOQK2j8SDJCYcRicUFOLqwvw==
+	t=1793915841;
+	b=ieHxTd6Mxc8bTAxsJ87EyBkdpJUb90112HfBOK7JAJIcuklD7jNU8QaAt3PSIIsbf6Gk
+	 2vwfS6HVwEZfwmdVAYXK4kmRsJPdQeZ2iaXQBjwU56GQ7T+VMF8/v+YgK5iJPleQgTI+E
+	 o6HJlE0ylJqhgTfdU+rVwwpWXf/6cReewhpPDsiikDvh84qEbvZRDOfuyhV/8VOfHodum
+	 oYxP9D0GL/g+D2sdXYqhhLFHzn+eMjaaHmEdtqYIHlCcku/PGbo3nkv5M4oc/z2vjXZ8o
+	 hzTbzCe3HlPoaVq/5zHsVO0gzh8AAREQvFjBt3E4sqIlG4fIA583Riiv1ZLILFemxTg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793915806;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793915841;
 	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
 	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 X-Mailer;
-	bh=PCg+rr2vd7JHnauc9eR8fQNH2TzRs1epF2+HugzfQAg=;
-	b=0VBAIqU6fnKcmB2us1I2GksO7satGwP7DO2gewRc6d19LYU4dt9b0SKPuoq1sP23MIG4
-	 0i1G5GMKzBtWaTgnlvflh898vdIyVXjiF7SI844sC9hmemUPydi+m5R4goxFcYWvJiPn2
-	 jLa0//nUlz1BsHd/v7Ti+0eCs7gxRozgOc/onA2UnyeXMDsYsCto/9g1MrXvMlwrcvof/
-	 bJAiywoqRDHKPBTOqtiMlbCI0Lrx06M+jBa9i8H9abv/4/cxlDrzu1x25+XgEycPsq5eq
-	 N7yU25fKF0OsjHBKsDpLO/euCECLTPcVqSFjerIQuRuiQAbNerDkPjZm0lfWygyjZKA==
+	bh=Fzb6DPv6rvszZtR1lcbQEGQt8Iy1DvZeVZPw32p0vzU=;
+	b=p1Uq8kkp5S6muWbBnoEtJ/hAzTCoETLM8E9gDl6hsxSSZWBJTbffSw2X21GtEv1wfgZT
+	 y+WYc3mpIppHonyteoGIKGvIjGQOA6fnsZ5YCS7QxS4OllFPm2vahWsDFUZ7ccU2wzZ2Q
+	 s/vfaPMyORw8E22Zefrbp0njdhf7+AdOZxiVuJtlFnvcw/FAgQTf9Hrg/LNoXNSci0XrL
+	 YVQILADJifriR78tfgkLXXVugHCkPdMcloji8TNSSBpEhHIh3qzdgW5TD6i64p5PybPFn
+	 /g1QaQMy6/SozU9HT9gvgx1nNoyGe01HiFgqPDapaO9s66kVfJ7gxxV5sUbknsbcaSg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="czLYYJe/";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=j5FamOi1;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A987606A336;
-	Thu,  5 Nov 2026 21:56:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CDF8606A31B;
+	Thu,  5 Nov 2026 21:57:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=czLYYJe/
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97B001F008A4;
-	Thu,  5 Nov 2026 21:56:44 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=j5FamOi1
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C38AD1F0089F;
+	Thu,  5 Nov 2026 21:57:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793915805;
-	bh=PCg+rr2vd7JHnauc9eR8fQNH2TzRs1epF2+HugzfQAg=;
+	s=k20260515; t=1793915840;
+	bh=Fzb6DPv6rvszZtR1lcbQEGQt8Iy1DvZeVZPw32p0vzU=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=czLYYJe/SlNOt4H2OO/6GlMshrCJIJSwtKLbaFrATGMvH++1A4wYbHUTdKhkowCFv
-	 IO1X+3TyJfx1ptrVJ10xfUVem9LK/3jkgJjmyiOfn9R+Ko6yJ7D4NqtC6KGU4mixNF
-	 HBD6o+88W0ydxblJSdBXRM8JZvD36cidKG4z4AHo7BrkeyZbAGLEenWS92dqxV+aVO
-	 l0hb5KfHXvoXG7D1FoMo/No4nM6/lTOrskKsqouBkUljtq0u4rC2Mvi9m4ammJbrm5
-	 Zg53CZ2hfTRs90e9I9uEhgCGJNhzUL3UosKSlDJ7iDhvcTBEf33tsQM1xOZUeIXswD
-	 Pkeo2vVajNq4w==
+	b=j5FamOi1MsOaENu3xSwVJ04TLD3HrrVzjDWHxOYL/NKtHJtB7g7rvY7rSNQDnA5E6
+	 HPtVhKU3X6qDJ8YngIMRK2yjZugRA0PuiDY1e1kj52LZlxPp0JdJZMC6ZvG+dKqQ0p
+	 PsHReqSpOgPLfU0HuTc209Cm88wEobVi07E3rcBJ1J3kN+bdIYX076t2otf428QnT3
+	 T4JsZsKmcaLxj/A0v5yoCmMeEQhfmch/emExugF7VIwVKfy+Zn5l2w42EqtFRdTmdw
+	 jEgGQct8SYnyyvuU1yGUloKfqYkuiqdSi9jEqksOhCt1gPAkc0thN2S18zudMV0vfG
+	 nE67/dbqcYhvg==
 From: Christian Brauner <brauner@kernel.org>
-To: Seth Forshee <sforshee@kernel.org>, Sasha Levin <sashal@kernel.org>
-Cc: Shuah Khan <shuah@kernel.org>, linux-fsdevel@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20261103163924.641377-1-sashal@kernel.org>
-References: <20261103163924.641377-1-sashal@kernel.org>
-Subject: Re: [PATCH] selftests/mount_setattr: build with a 64-bit off_t
-Message-Id: <20261105-beurteilen-derzeit-auszog-9c0e0ea59233@brauner>
-Date: Thu, 05 Nov 2026 22:56:42 +0100
+To: Shuah Khan <shuah@kernel.org>, Sasha Levin <sashal@kernel.org>
+Cc: Aleksa Sarai <aleksa@amutable.com>, John Hubbard <jhubbard@nvidia.com>, 
+ Nathan Chancellor <nathan@kernel.org>, linux-fsdevel@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, llvm@lists.linux.dev, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20261103142756.132111-1-sashal@kernel.org>
+References: <20261103142756.132111-1-sashal@kernel.org>
+Subject: Re: [PATCH] selftests: probe for sanitizer support in fchmodat2
+ and openat2
+Message-Id: <20261105-erlauben-zureden-fanartikel-4e2f6df8cb89@brauner>
+Date: Thu, 05 Nov 2026 22:57:16 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -62,14 +65,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev-ce4c1
 
-On Tue, 03 Nov 2026 11:39:23 -0500, Sasha Levin wrote:
-> With glibc on 32-bit architectures, off_t is 32 bits unless
-> _FILE_OFFSET_BITS=64 is defined, so the 2 GB ftruncate() of the ext4
-> image gets a negative length and the test fails:
+On Tue, 03 Nov 2026 09:27:56 -0500, Sasha Levin wrote:
+> The fchmodat2 and openat2 tests are always built with -fsanitize=address
+> and -fsanitize=undefined. Toolchains without the sanitizer runtimes,
+> such as clang without the compiler-rt package, cannot link them and the
+> tests fail to build:
 > 
->   mount_setattr_test.c:1048:30: warning: implicit conversion from 'long long' to '__off_t' (aka 'long') changes value from 2147483648 to -2147483648 [-Wconstant-conversion]
-> 
-> Build the test with -D_FILE_OFFSET_BITS=64.
+>   ld: cannot find /usr/lib/llvm-21/lib/clang/21/lib/x86_64-unknown-linux-gnu/libclang_rt.asan_static.a: No such file or directory
 > 
 > [...]
 
@@ -88,6 +90,6 @@ trailer updates or similar. If in doubt, please check the listed branch.
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
 branch: vfs.fixes
 
-[1/1] selftests/mount_setattr: build with a 64-bit off_t
-      https://git.kernel.org/vfs/vfs/c/8fa19db00bf3
+[1/1] selftests: probe for sanitizer support in fchmodat2 and openat2
+      https://git.kernel.org/vfs/vfs/c/e00d0eb8e3e7
 
