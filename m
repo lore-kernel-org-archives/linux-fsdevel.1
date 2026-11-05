@@ -1,56 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793914275;
-	b=2ut1yxVMbCuGx2OO8OZKVxIsg9IqFPkAByZUOE3Pu4rh9T+6lkNXbIolAw1EzZ733/wL
-	 GEkJkree+CHDFMr2YjBvBQxjsOD6b5MqFC0LMV5fOo2eGB4m9nOh8eyalGAHL0q46h7Vi
-	 yI2hyMcTTP5b4K2iAfdYbM6iIGTwPXqdkXHjCn6z0am+FttC1HIuXI2Y88jVBY/DdaHLS
-	 rAjDKdo4yEZ1+rhnrS/2zdxN1lmfK0Faokn8gpfZvkMahSs3UK0V6m/9Dta+OMEbGzZe1
-	 +YpjU5jNb3sQu2pGPmJleLME/R0AY69/bFQ0InxhyP5kC45oZv0iOuECyD250BHPcsg==
+	t=1793914298;
+	b=1z5EjoMhqy0EdmuPMyj21tASlYZUd3cKtYg/ZiKHeAB1XrdE4VcigFopzpU7IHIfmdcM
+	 msJyhuSwiF+6Hde49rxUgJKL64qUIrPT34osxYfzNG7EHF+Kf+VuZmBaKBbv3BFfk06bA
+	 /xOFMAJyHE9IshoAWURzmlCN/q5WYm0YtId9T3oaxCymKpa2iMduGwl0keoIIlW6TZErq
+	 bh6zg6xQoIqe9V9MmaPpfS3CtXcwcrBdCkD65ecLqBmCVaCS+dKMdBsFzx4U8NVbAqw+n
+	 Ejg0ZjA2VcD31qRKUFowODJsAxIcunx4oM9iF29OZp/HD26LKc+8dGlRqG7u7+fWcdQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793914275;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=ChocN/q2mB/E5VW7WeyrIaoqTP6cF6JJgg9ERaIrNlw=;
-	b=hHbtoVFetWkbIJgck86p+P4D09mGExc+rxkbl2DuTjh5zDmCuguoPgZQoq+CI+xbPyQY
-	 GhnB3W2eF214aanx7j/Y0zR0X0X9BeM0N4+iPpTdLoId8K0PSMmK1xrYl7vTcx0QyN/c4
-	 kstyaHjOnb1pgNf3qVpzyCSD/cdQmJD+SCDLVK5Az86q1DL00LAY78Ig/kkqgv4nqkNkF
-	 aBYKOh8bc1kRFbVQwsvJgOik0NYEAMmttxWzkTrRLFnaildrskKvEjDZz40YIq8+ZB6K4
-	 7OV7yQPBC8PChX4URLEqyMLzwx7uxZ9wIQPJB5D/tRbgtoFoz6wwwrUzZUqpYnvM8OQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793914298;
+	h=Received:DKIM-Signature:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=l/XBPzIruKyaT68fHsJTL6/0Y1whGy5OpPSy6WgTELw=;
+	b=nm++eguCki+POq6S1UrLZlZXxBBRbWTIZ33gj3TSSAI8zd6+2I+3kK1aVNcxmkjeA3eP
+	 jqPlScq3yWDvgZIzzeiqhr1kRwOt6fUc82TN+iAiMDdH00Qeh8aymdSuSdogkz4KA7jta
+	 6cwk6BARb37bSPhT1TSXum5KYXb9+yMfhDmVy9Ig8ryImZBws6Miqb8vSh7GtcG2wFagu
+	 95IFM2+YTUeTwmEy+k1sv6bSLnNqT9UwbSX23WHhWnJMYAEgtrnp2c8D40Kki5d9iipT3
+	 zgWcnYzC0j2iMMhvRf7xnaXnr/5aRqR6nlTAGNmA6DPzvYvP9ZIdP9U6NVMzc0v4bbw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gtyxnH7D;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aE+anxcK;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBB5F606A326;
-	Thu,  5 Nov 2026 21:31:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5880A606A31B;
+	Thu,  5 Nov 2026 21:31:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gtyxnH7D
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B7921F0089F;
-	Thu,  5 Nov 2026 21:31:12 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aE+anxcK
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 747CB1F0089F;
+	Thu,  5 Nov 2026 21:31:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793914274;
-	bh=ChocN/q2mB/E5VW7WeyrIaoqTP6cF6JJgg9ERaIrNlw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=gtyxnH7Dh1qyli13VX8NB4igOYMzNXl1zSFCmuK7NH29Nc0diIzMZPvos16SoZTgr
-	 foXhvw/UWMooFgepWTprYPQCkp7XcS7MHfrm0X3OcW4VtBlQrUKIiDT55BjOc0YTuC
-	 68oI2abfveQMYJdolwMKouuZ4UB8/nZHEAAW/esjsCN3S+mRVH+hAYlFHmIaUhV5RX
-	 f5V6YoCvvCGxypc8GBQxHvugBWwrru0fSSqB+z1vtaq8XxyxuGBqm1O6hK0Zeh+UUO
-	 odtorYfejzADLXOxddE6ATwiULslxCf6QplSVmHyEBm02dH+G4vu35jSIa3ZVLOyuX
-	 JQmCmeCmjRfqA==
-Date: Thu, 5 Nov 2026 22:31:10 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Alexey Dobriyan <adobriyan@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Chris Mason <mason@kernel.org>, 
-	Al Viro <viro@zeniv.linux.org.uk>, Christoph Hellwig <hch@lst.de>, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org, akpm@linux-foundation.org
-Subject: Re: [PATCH RFC 18/38] proc: don't WARN about a name that is already
- registered
-Message-ID: <20261105-wegstecken-dingfest-nennen-25356ee389f3@brauner>
-References: <20261102-work-procfs-bugfixes-v1-18-59422ed3e465@kernel.org>
- <9cb48eaf-72f2-4e9f-b979-1ead58deb22f@p183>
+	s=k20260515; t=1793914298;
+	bh=l/XBPzIruKyaT68fHsJTL6/0Y1whGy5OpPSy6WgTELw=;
+	h=From:Subject:Date:To:Cc;
+	b=aE+anxcK5DVd4PxfaPeug+8Go7oXIkkyd0cr7QF/UCjgq9jQl+bNK0q+4BhKrFU6l
+	 nH9TpbM/0AmUyIRXZfMR7+ZGUYkgq1BDmA0gMwCZlN+dq+z3ta162TfttOjx4fBrgt
+	 5jqDEBSY60zS13wAtaGgurmcThNfq1GYkCiTlr6kkqTQkdSz/nP1SkszH09Zyo8Vxs
+	 gkd/MAkUnyzsOIfsT4YNgixR1lw3gB/K4VRz5l4xVnYXGhfODUOU8wO+APAcsQd4VM
+	 pobOy+eE76XoFeivYZrQgxoRdn9FhNGDUTwlg2/ulGNDaKNWkzGWtu8Q8T+PXTf1Xg
+	 PFYf3vnSp0ZNg==
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Subject: [PATCH 00/13] mm: continue vma_flags_t conversion
+Date: Thu, 05 Nov 2026 21:30:51 +0000
+Message-Id: <20261105-late-2026-vma-flags-v1-0-0d3cd15ab75f@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -60,173 +53,149 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <9cb48eaf-72f2-4e9f-b979-1ead58deb22f@p183>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MSwqAMAwA0atI1gaMlQpeRVyEmtaAP1oRQby71
+ eVbzNyQJKok6IobopyadFszqCzATbwGQR2zoa5qS1QRznwIfsJzYfQzh4SNpdYQW2OdgVzuUbx
+ e/7UfnucF8MbcSGUAAAA=
+X-Change-ID: 20261101-late-2026-vma-flags-461731a636c3
+To: Andrew Morton <akpm@linux-foundation.org>, 
+ David Hildenbrand <david@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, 
+ John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+ Rik van Riel <riel@surriel.com>, "Liam R. Howlett" <liam@infradead.org>, 
+ Vlastimil Babka <vbabka@kernel.org>, Harry Yoo <harry@kernel.org>, 
+ Jann Horn <jannh@google.com>, Lance Yang <lance.yang@linux.dev>, 
+ Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>, 
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>, 
+ Gregory Price <gourry@gourry.net>, 
+ Ying Huang <ying.huang@linux.alibaba.com>, 
+ Alistair Popple <apopple@nvidia.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, 
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+ Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
+ Xu Xin <xu.xin@linux.dev>, Chengming Zhou <chengming.zhou@linux.dev>, 
+ Madhavan Srinivasan <maddy@linux.ibm.com>, 
+ Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
+ "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>, 
+ Shrikanth Hegde <sshegde@linux.ibm.com>, Pedro Falcato <pfalcato@suse.de>, 
+ Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>, 
+ Shakeel Butt <shakeel.butt@linux.dev>, 
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+ Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>, 
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+ Michal Hocko <mhocko@suse.com>, Leon Romanovsky <leon@kernel.org>, 
+ SJ Park <sj@kernel.org>, Rakie Kim <rakie.kim@sk.com>, 
+ David Rientjes <rientjes@google.com>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, 
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+ Arnaldo Carvalho de Melo <acme@kernel.org>, 
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+ Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
+ Adrian Hunter <adrian.hunter@intel.com>, 
+ James Clark <james.clark@linaro.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+ John Johansen <john.johansen@canonical.com>, 
+ Georgia Garcia <georgia.garcia@canonical.com>, 
+ Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+ "Serge E. Hallyn" <serge@hallyn.com>, Mimi Zohar <zohar@linux.ibm.com>, 
+ Roberto Sassu <roberto.sassu@huawei.com>, 
+ Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
+ Eric Snowberg <eric.snowberg@oracle.com>, Fan Wu <wufan@kernel.org>, 
+ Stephen Smalley <stephen.smalley.work@gmail.com>, 
+ =?utf-8?q?Ondrej_Mosn=C3=A1=C4=8Dek?= <omosnacek@gmail.com>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+ kvm@vger.kernel.org, damon@lists.linux.dev, 
+ linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, 
+ apparmor@lists.ubuntu.com, linux-security-module@vger.kernel.org, 
+ linux-integrity@vger.kernel.org, selinux@vger.kernel.org, 
+ "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3442; i=ljs@kernel.org;
+ h=from:subject:message-id; bh=dw144I8hKInR8Qv8iKnjrU9/3cK4949dnMwWVIcVGbg=;
+ b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLLefF0a6K1vw5BxVPUqn46M6rZ32+yPLM/K3OK58Z/1t
+ UlJ376qdZSyMIhxMciKKbI8/yK+P0gkbF7nBX83mDmsTCBDGLg4BWAiQn8Y/scXBihtmHE7PkF4
+ 5fTvjHX5lf8yagzLot8b3ry68ZZUJgcjw8Jnxy6ELVt+JnMKc9vFq+wXXtq4lq3/3aB8muuMQpi
+ TOR8A
+X-Developer-Key: i=ljs@kernel.org; a=openpgp;
+ fpr=E7F417BF5214569E89D04F46CF9DCD8A81E27F14
 
-On Wed, Nov 04, 2026 at 09:43:43PM +0300, Alexey Dobriyan wrote:
-> Now, some names do come from userspace but it is up to subsystems to
-> find duplicates and return errors (and sanitize for dots/slashes!).
+Continue the conversion of legacy vm_flags_t flags to the new vma_flags_t
+bitmap type.
 
-Agreed. pktgen seems to be the only case suffering from this currently.
-I dropped this patch and added. Tested and the WARN goes away.
+Do some more core mm conversion (we really should be the first to
+completely move to the new scheme :), but also update some mm-adjacent and
+otherwise straightforward cases - /proc/$pid/maps and friends, the coredump
+VMA dump size logic, uprobes, perf and LSM mmap/mprotect hooks.
 
--- >8 --
-From e919a2c72296008ea07b5930bc9e02d59743bbbd Mon Sep 17 00:00:00 2001
-From: Christian Brauner <brauner@kernel.org>
-Date: Thu, 5 Nov 2026 18:02:42 +0100
-Subject: [PATCH] net: pktgen: don't register a device file under a name that
-The device files of pktgen share /proc/net/pktgen with pgctrl and the
-thread files, and a device can be named like either of them:
+This series only makes strictly mechanical changes to keep things gentle
+during this very busy cycle.
 
-  ip link set lo name pgctrl
-  ip link set pgctrl up
-  echo "add_device pgctrl" > /proc/net/pktgen/kpktgend_0
+No functional change intended.
 
-  proc_dir_entry 'pktgen/pgctrl' already registered
-  WARNING: fs/proc/generic.c:404 at proc_register+0x555/0x8b0, CPU#0: bash/241
-  Call Trace:
-   proc_create_data+0x9f/0xf0
-   pktgen_thread_write+0xd9b/0x1780
-   proc_reg_write+0x1c2/0x3c0
-   vfs_write+0x1cd/0xfa0
+Build tested on x86-64 (allmodconfig, each patch individually), i386,
+arm64, riscv nommu and ppc64le.
 
-The same happens from the netdev notifier when a device that pktgen has
-a file for is renamed to pgctrl, and when a device that two threads
-have under different "@" suffixes is renamed, both files move to the
-bare device name then. The files of a network namespace belong to the
-root of its user namespace and none of this needs a capability. So
-once pktgen is loaded an unprivileged user can taint the kernel, or
-crash it with panic_on_warn, from namespaces of its own.
-
-Remember the name a device file is registered under and refuse a name
-that pgctrl, a thread file or another device file has, both for
-"add_device" and before the file of a renamed device moves, which then
-keeps its old name. The thread files go by the prefix of their names,
-the threads of a namespace are created one after the other while its
-first thread file can be written already.
-
-Reported-by: Chris Mason <mason@kernel.org>
-Suggested-by: Alexey Dobriyan <adobriyan@gmail.com>
-Link: https://lore.kernel.org/r/9cb48eaf-72f2-4e9f-b979-1ead58deb22f@p183
-Fixes: 6c2f91e077f1 ("proc: use WARN() rather than printk+backtrace")
-Cc: stable@vger.kernel.org
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 ---
- net/core/pktgen.c | 51 ++++++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 48 insertions(+), 3 deletions(-)
+Lorenzo Stoakes (ARM) (13):
+      mm/gup: convert GUP code to use vma_flags_t
+      mm/filemap: convert fault and readahead logic to use vma_flags_t
+      mm/rmap: convert remaining VMA flag tests to use vma_flags_t
+      mm/migrate: convert VMA flag tests to use vma_flags_t
+      mm: convert THP VMA flag tests to use vma_flags_t
+      mm/ksm: convert VMA flag tests to use vma_flags_t
+      mm/madvise: convert madvise_vma_behavior() to use vma_flags_t
+      mm: convert miscellaneous VMA flag tests to use vma_flags_t
+      fs/proc/task_mmu: convert VMA flag tests to use vma_flags_t
+      fs/coredump: convert vma_dump_size() to use vma_flags_t
+      uprobes: convert VMA flag tests to use vma_flags_t
+      perf: convert VMA flag tests to use vma_flags_t
+      security: convert VMA flag tests to use vma_flags_t
 
-diff --git a/net/core/pktgen.c b/net/core/pktgen.c
-index 02af70d360bc..4dd5920d5769 100644
---- a/net/core/pktgen.c
-+++ b/net/core/pktgen.c
-@@ -240,6 +240,7 @@ static char *pkt_flag_names[] = {
- #define PKTGEN_MAGIC 0xbe9be955
- #define PG_PROC_DIR "pktgen"
- #define PGCTRL	    "pgctrl"
-+#define PG_THREAD_PREFIX "kpktgend_"
- 
- #define MAX_CFLOWS  65536
- 
-@@ -416,6 +417,7 @@ struct pktgen_dev {
- 				  */
- 	netdevice_tracker dev_tracker;
- 	char odevname[32];
-+	char procname[32];	/* the name of ->entry in /proc/net/pktgen */
- 	struct flow_state *flows;
- 	unsigned int cflows;	/* Concurrent flows (config) */
- 	unsigned int lflow;		/* Flow length  (config) */
-@@ -2044,6 +2046,34 @@ static bool __pktgen_NN_threads(const struct pktgen_net *pn,
- 	return false;
- }
- 
-+/*
-+ * A device can be named like pgctrl or a thread file. Threads are still
-+ * being created while the first thread file is writable, so match thread
-+ * names by prefix. Called with pktgen_thread_lock held.
-+ */
-+static bool pktgen_proc_name_taken(const struct pktgen_net *pn,
-+				   const char *name)
-+{
-+	const struct pktgen_thread *t;
-+	const struct pktgen_dev *pkt_dev;
-+
-+	lockdep_assert_held(&pktgen_thread_lock);
-+
-+	if (!strcmp(name, PGCTRL) || str_has_prefix(name, PG_THREAD_PREFIX))
-+		return true;
-+	rcu_read_lock();
-+	list_for_each_entry(t, &pn->pktgen_threads, th_list) {
-+		list_for_each_entry_rcu(pkt_dev, &t->if_list, list) {
-+			if (pkt_dev->entry && !strcmp(name, pkt_dev->procname)) {
-+				rcu_read_unlock();
-+				return true;
-+			}
-+		}
-+	}
-+	rcu_read_unlock();
-+	return false;
-+}
-+
- /*
-  * mark a device for removal
-  */
-@@ -2091,13 +2121,22 @@ static void pktgen_change_name(const struct pktgen_net *pn, struct net_device *d
- 			if (pkt_dev->odev != dev)
- 				continue;
- 
-+			/* renamed back to the name the file kept */
-+			if (pkt_dev->entry && !strcmp(pkt_dev->procname, dev->name))
-+				break;
-+			if (pktgen_proc_name_taken(pn, dev->name)) {
-+				pr_err("can't move proc entry for '%s', the name is taken\n",
-+				       dev->name);
-+				break;
-+			}
- 			proc_remove(pkt_dev->entry);
--
- 			pkt_dev->entry = proc_create_data(dev->name, 0600,
- 							  pn->proc_dir,
- 							  &pktgen_if_proc_ops,
- 							  pkt_dev);
--			if (!pkt_dev->entry)
-+			if (pkt_dev->entry)
-+				strscpy(pkt_dev->procname, dev->name);
-+			else
- 				pr_err("can't move proc entry for '%s'\n",
- 				       dev->name);
- 			break;
-@@ -3841,6 +3880,10 @@ static int pktgen_add_device(struct pktgen_thread *t, const char *ifname)
- 		pr_err("ERROR: interface already used\n");
- 		return -EBUSY;
- 	}
-+	if (pktgen_proc_name_taken(t->net, ifname)) {
-+		pr_err("ERROR: %s/%s is taken\n", PG_PROC_DIR, ifname);
-+		return -EEXIST;
-+	}
- 
- 	pkt_dev = kzalloc_node(sizeof(struct pktgen_dev), GFP_KERNEL, node);
- 	if (!pkt_dev)
-@@ -3888,6 +3931,7 @@ static int pktgen_add_device(struct pktgen_thread *t, const char *ifname)
- 		err = -EINVAL;
- 		goto out2;
- 	}
-+	strscpy(pkt_dev->procname, ifname);
- #ifdef CONFIG_XFRM
- 	pkt_dev->ipsmode = XFRM_MODE_TRANSPORT;
- 	pkt_dev->ipsproto = IPPROTO_ESP;
-@@ -3937,7 +3981,8 @@ static int __net_init pktgen_create_thread(int cpu, struct pktgen_net *pn)
- 	list_add_tail(&t->th_list, &pn->pktgen_threads);
- 	init_completion(&t->start_done);
- 
--	p = kthread_create_on_cpu(pktgen_thread_worker, t, cpu, "kpktgend_%d");
-+	p = kthread_create_on_cpu(pktgen_thread_worker, t, cpu,
-+				  PG_THREAD_PREFIX "%d");
- 	if (IS_ERR(p)) {
- 		pr_err("kthread_create_on_node() failed for cpu %d\n", t->cpu);
- 		list_del(&t->th_list);
+ arch/powerpc/kvm/book3s_hv_uvmem.c | 10 ++++----
+ fs/coredump.c                      | 16 ++++++-------
+ fs/proc/task_mmu.c                 | 43 +++++++++++++++++-----------------
+ include/linux/huge_mm.h            |  4 ++--
+ include/linux/ksm.h                |  4 ++--
+ include/linux/mm_inline.h          |  2 +-
+ kernel/events/core.c               | 26 +++++++++++----------
+ kernel/events/uprobes.c            | 12 ++++++----
+ lib/test_hmm.c                     |  4 ++--
+ mm/damon/vaddr.c                   |  2 +-
+ mm/filemap.c                       | 24 ++++++++++---------
+ mm/gup.c                           | 45 +++++++++++++++++++-----------------
+ mm/hmm.c                           |  6 ++---
+ mm/huge_memory.c                   | 32 +++++++++++++-------------
+ mm/internal.h                      |  2 +-
+ mm/khugepaged.c                    | 18 ++++++++-------
+ mm/ksm.c                           | 22 ++++++++++--------
+ mm/madvise.c                       | 47 ++++++++++++++++++++------------------
+ mm/mempolicy.c                     |  4 ++--
+ mm/migrate.c                       |  5 ++--
+ mm/migrate_device.c                |  8 +++----
+ mm/mmap_lock.c                     |  4 ++--
+ mm/mremap.c                        |  2 +-
+ mm/msync.c                         |  4 ++--
+ mm/oom_kill.c                      |  4 ++--
+ mm/pagewalk.c                      |  2 +-
+ mm/rmap.c                          |  8 ++++---
+ mm/vma.h                           |  4 ++--
+ security/apparmor/lsm.c            |  2 +-
+ security/integrity/ima/ima_main.c  |  2 +-
+ security/ipe/hooks.c               |  2 +-
+ security/selinux/hooks.c           | 14 ++++++------
+ 32 files changed, 202 insertions(+), 182 deletions(-)
+---
+base-commit: b61fa14ce6bcbba2cb9a96feea31b760226d6b43
+change-id: 20261101-late-2026-vma-flags-461731a636c3
+
+Cheers,
 -- 
-2.53.0
+Lorenzo Stoakes (ARM) <ljs@kernel.org>
 
-
--- 
