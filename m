@@ -1,111 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793911012;
-	b=qtjwewF3zOmdGhlf8OAUckKslcZK7wum2r7weQ5exP2ODXxDKkKlEplJdR6kGrAdpQIF
-	 +8QMqBBe4ADt4t1xEaPOLmtp+xHz+SCJIiHlP1g71GSEYVkWJoo1xYejJ2392PTOtt8FA
-	 3ghZNVf/cN6imqBhSuUV3phwXP9gYh4I+dLrD+pYhcm3DDLYu3KXVAhWzE+xox1p+5inp
-	 i33B8B2wvJ2KxJB1cHXfNG0fqtJZbntmmlHsZN93wNEial/aO22VWK5S/VLV8U94y63qW
-	 E5bpTZy4KZSxu1Q7GTBPqFZLxPN87vBSz98XXKPgE8RpGkIKtrRTbgeyI4Qsdl1Aljw==
+	t=1793911080;
+	b=nwpDtfYQY2Kpv3T79hfpcbkGmPbKfQ+dnqVnSMqjjc4Fd7+oEF0RqrLMmFZCLz/1vfCw
+	 9JAEe0OClT1JxqUQw6jbpRjkz/UIPNPwMu4DYYxvNGRO8BFRADFEKF4F/gzJMds9K4J1v
+	 rYnxrqrsvC4Rxm4crWohz3LMCIogw/RMK6yDC6VpRjJpKh6d9uMBtHefLF9U+0S8YKvtS
+	 NKirPl+JBUfkfFafPDwh6xXOaoQqYQJNrhKKbmJ6fz3c/VXaomIA11075t9A2/B+qGUC4
+	 jd7NFIM/FfndJyKAFrajN2n+hF3mZtaCEt5jcB0N976k3/GWatYWb44PD2Qa+5x/lYQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793911012;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=z41TFFLAmTTS/5jHmWp+1Ks0Ngs3R36gPuMvGNvv5wY=;
-	b=h/i4gBHzShUIGo9cxf2L0S93lQsONrnGarMxD/BtbtWRmu/b1Y0JpkVMFvtB5XxuAVVW
-	 eJuT3CWPn0MPldUJv4CkFmZVd7gKxnr4zUvH5SkPzJkF+AhCC+75SSSiONuNkJwwduTeI
-	 Svh5Kb6PMLdXYHHJjSjRSZ0nFPL0OsiYUDeHtydZHf44hTNMTgPG0VmAeHhTEcKSkTQTS
-	 QZcaxVZFUEaC7bXzZoVkdTiPxEO0GBW/RnPuWTi0mZ1bph+nytJUuvEK0wHWLh3f/qeQw
-	 tz62XBgUnu4zFRirtihS8tEqKBstsHUe67TPBphrYVdTnm+18IgFh8MKR/m885EpjIA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793911080;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=kFERB1YnJZQ7J8N8Vjl6e8gBTQxfUW162xiJH7KJiMc=;
+	b=v0+Bas3f6G768kboArpjR6h+dnXxqCNC2iT7S0Y4fLt2p0mqWzz7+uM8W5cqe73sckfg
+	 4JVU6lMOCx/plw27AJ5m7cGql8V3x4qDDdwISiYb+TuP2Wtp+EsxvtQLvxu2sst7jIDA8
+	 sWvcu/qpXqgrPtayQt8GRQEH/rSeyhQnxninZXOQUkxynAKN9C8W4IdAR5kWw1IprV875
+	 PJnFYmeRUZYgeWo5YNVus6BZ7YDcNVgO6W0qyeTiIRP3RZlYp5h38MS3824aMivcB8Oa/
+	 /+5ZtnDMIaswDpWc6vV7E0c9Zt0J5uX71wKLEnJl6ifB2ZZl1zVQIC1xuQZm/H95nHQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=efficios.com;
-	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=u8VrgSuh;
-	arc=none smtp.remote-ip=158.69.130.18
-Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dbEfWOqF;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6F65606D834;
-	Thu,  5 Nov 2026 20:36:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E6F65606D834
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E54B3606A32F;
+	Thu,  5 Nov 2026 20:37:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=u8VrgSuh
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=smtpout1; t=1793911009;
-	bh=z41TFFLAmTTS/5jHmWp+1Ks0Ngs3R36gPuMvGNvv5wY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=u8VrgSuhHOAiDOBKIUc23yXx3z8v12M53P54J6c0vrDVsVZ8li/jPiS6ok80Hk11k
-	 sylYFMWD87BCQ2GdWRwxfsXEN/9bu5UclIBypUmxrLTFJu7dcO4vFoc3Ia43W+8FZv
-	 ov/WOoXq+nss5Xqj4Emjpk3LKJFVxkQdBzJo96FVvHtaa2702sIkc7FNVCdxwtZ4ke
-	 OuawKH0/b4DzbY8fmodhYB76vX+SbH9e9uAvDXtEK9RR7SAx6zJthiCvbv+rzK9GJe
-	 z9Qtm+aw3f2NL2xI17BTkNjnyXsBm/TiNhBi8GlbD8XwE7uKG+jbbgkgO8nUAYBlvX
-	 z2f3c77euNMEg==
-Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jLDcd2w1WzLk9;
-	Thu, 05 Nov 2026 15:36:49 -0500 (EST)
-From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To: David Hildenbrand <david@kernel.org>
-Cc: linux-kernel@vger.kernel.org,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Dennis Zhou <dennis@kernel.org>,
-	Tejun Heo <tj@kernel.org>,
-	Christoph Lameter <cl@gentwo.org>,
-	Martin Liu <liumartin@google.com>,
-	David Rientjes <rientjes@google.com>,
-	christian.koenig@amd.com,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	SeongJae Park <sj@kernel.org>,
-	Michal Hocko <mhocko@suse.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Sweet Tea Dorminy <sweettea-kernel@dorminy.me>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Wei Yang <richard.weiyang@gmail.com>,
-	Miaohe Lin <linmiaohe@huawei.com>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Yu Zhao <yuzhao@google.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Mateusz Guzik <mjguzik@gmail.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Aboorva Devarajan <aboorvad@linux.ibm.com>,
-	David Carlier <devnexen@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-mm@kvack.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-doc@vger.kernel.org,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Ben Segall <bsegall@google.com>,
-	Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	Kees Cook <kees@kernel.org>,
-	linux-trace-kernel@vger.kernel.org,
-	Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	Oleg Nesterov <oleg@redhat.com>
-Subject: [RFC PATCH v24 10/10] lib: add a benchmark of hierarchical per-cpu counters
-Date: Thu,  5 Nov 2026 15:36:39 -0500
-Message-Id: <20261105203639.1459524-11-mathieu.desnoyers@efficios.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20261105203639.1459524-1-mathieu.desnoyers@efficios.com>
-References: <20261105203639.1459524-1-mathieu.desnoyers@efficios.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dbEfWOqF
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D1EF1F0089F;
+	Thu,  5 Nov 2026 20:37:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793911079;
+	bh=kFERB1YnJZQ7J8N8Vjl6e8gBTQxfUW162xiJH7KJiMc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=dbEfWOqF0nWBxai9vV12XaRkr44G6/iPt+1zOArNFr0MrunrJJ/lPqXPZVPT1Cocu
+	 HFOSUAQBJZhMxbfw4qlS9MYOmgsVzPYCPKBmSTM6LUjiVlItsHVRxuzD8L8eC9kz1K
+	 dh9QXfyrUO9/jw2rf0X8v2+rfI82HU6ytKwZypzygqtNqm/zad2U268KoihY3zXaCf
+	 YFpFYAoCV7ChoSdpQA9FYxGqFfl7KfvZbQ4Q6dByQRDU9SQlNeJM28yWZnuAQFUfsn
+	 X7+HLtWy/r/LRn8QEB8OIsw8hR5M20tlFLwVqOol2I73CX+to8jxXEeaSTsPYE5QO4
+	 d2CPJowac60Ng==
+Message-ID: <ecad7b3c-7244-425a-9413-04d49f221057@kernel.org>
+Date: Thu, 5 Nov 2026 21:37:31 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -115,726 +51,406 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v2 01/18] mm: free PG_rcu_free folios only after an
+ RCU grace period
+To: "Kiryl Shutsemau (Meta)" <kas@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Matthew Wilcox <willy@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Lorenzo Stoakes <ljs@kernel.org>, Jan Kara <jack@suse.cz>,
+ Hugh Dickins <hughd@google.com>, Christian Brauner <brauner@kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, Harry Yoo <harry@kernel.org>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Miaohe Lin <linmiaohe@huawei.com>,
+ Naoya Horiguchi <nao.horiguchi@gmail.com>, Oscar Salvador
+ <osalvador@suse.de>, "Liam R. Howlett" <liam@infradead.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Brendan Jackman <brendan.jackman@linux.dev>,
+ Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
+ Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>,
+ Shakeel Butt <shakeel.butt@linux.dev>,
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
+ Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>,
+ "Paul E. McKenney" <paulmck@kernel.org>, Pedro Falcato <pfalcato@suse.de>,
+ Luis Chamberlain <mcgrof@kernel.org>,
+ Ilya Gladyshev <ilya.gladyshev@linux.dev>, Jaegeuk Kim <jaegeuk@kernel.org>,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev,
+ kernel-team@meta.com
+References: <20261104130118.2507513-1-kas@kernel.org>
+ <20261104130118.2507513-2-kas@kernel.org>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20261104130118.2507513-2-kas@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Add a KUnit benchmark comparing the hierarchical per-cpu counters with
-struct percpu_counter, so their performance can be compared on various
-machines:
+On 11/4/26 14:00, Kiryl Shutsemau (Meta) wrote:
+> From: Linus Torvalds <torvalds@linux-foundation.org>
+> 
+> Reading a page cache folio without taking a reference would keep CPUs
+> that read the same file from bouncing its refcount.  But without a
+> reference the folio can be freed, and its memory reused, while the
+> reader copies from it.
+> 
+> Add PG_rcu_free: the free of a folio with the flag waits for an RCU
+> grace period.  A reader that saw the flag under rcu_read_lock(), and
+> then still found the folio where it looked, can read it until
+> rcu_read_unlock().  A split copies the flag, as such a reader may still
+> be reading the new folios.
+> 
+> The folios wait on per-CPU lists, one grace period in flight per CPU:
+> call_rcu() per folio would queue a callback for every folio of a
+> truncated file.  A work, which can reschedule, frees each batch.
+> Reclaim depends on these frees, so the workqueue is WQ_MEM_RECLAIM.
+> 
+> The flag is 64-bit only (CONFIG_PAGE_RCU_FREE): page flags are scarce
+> on 32-bit, and the contention this avoids is a problem of large
+> machines.  It is off on PREEMPT_RT, where expedited grace periods are
+> normal ones, so the waiting pages cannot be freed quickly when memory
+> runs short.
+> 
+> pgfree_rcu in /proc/vmstat counts the deferred pages.  Nothing sets the
+> flag yet.
+> 
+> Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
+> [kas: rework for flagging at read time, 64-bit only and not PREEMPT_RT,
+>  shorter comments and changelog]
+> Signed-off-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
+> ---
+>  include/linux/page-flags.h     |  21 +++++++
+>  include/linux/vm_event_item.h  |   1 +
+>  include/trace/events/mmflags.h |   7 +++
+>  mm/Kconfig                     |  15 +++++
+>  mm/huge_memory.c               |   1 +
+>  mm/memory-failure.c            |   4 ++
+>  mm/page_alloc.c                | 105 +++++++++++++++++++++++++++++++++
+>  mm/vmstat.c                    |   1 +
+>  8 files changed, 155 insertions(+)
+> 
+> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+> index 7a863572adce..a1e52a1f8a52 100644
+> --- a/include/linux/page-flags.h
+> +++ b/include/linux/page-flags.h
+> @@ -111,6 +111,9 @@ enum pageflags {
+>  	PG_swapbacked,		/* Page is backed by RAM/swap */
+>  	PG_unevictable,		/* Page is "unevictable"  */
+>  	PG_dropbehind,		/* drop pages on IO completion */
+> +#ifdef CONFIG_PAGE_RCU_FREE
+> +	PG_rcu_free,		/* free only after an RCU grace period */
+> +#endif
+>  #ifdef CONFIG_MMU
+>  	PG_mlocked,		/* Page is vma mlocked */
+>  #endif
+> @@ -602,6 +605,24 @@ FOLIO_FLAG(dropbehind, FOLIO_HEAD_PAGE)
+>  	FOLIO_TEST_CLEAR_FLAG(dropbehind, FOLIO_HEAD_PAGE)
+>  	__FOLIO_SET_FLAG(dropbehind, FOLIO_HEAD_PAGE)
+>  
+> +/*
+> + * A lockless lookup that sees PG_rcu_free and then still finds the folio
+> + * where it looked may read it until rcu_read_unlock().  Set under a
+> + * reference, cleared only by the free.  Not for hugetlb or
+> + * free_pages_nolock().
+> + */
+> +#ifdef CONFIG_PAGE_RCU_FREE
+> +FOLIO_TEST_FLAG(rcu_free, FOLIO_HEAD_PAGE)
+> +	FOLIO_TEST_SET_FLAG(rcu_free, FOLIO_HEAD_PAGE)
+> +	__FOLIO_CLEAR_FLAG(rcu_free, FOLIO_HEAD_PAGE)
+> +#define __PG_RCU_FREE (1UL << PG_rcu_free)
+> +#else
+> +FOLIO_TEST_FLAG_FALSE(rcu_free)
+> +	FOLIO_TEST_SET_FLAG_FALSE(rcu_free)
+> +	__FOLIO_CLEAR_FLAG_NOOP(rcu_free)
+> +#define __PG_RCU_FREE 0
+> +#endif
+> +
+>  #ifdef CONFIG_HIGHMEM
+>  /*
+>   * Must use a macro here due to header dependency issues. page_zone() is not
+> diff --git a/include/linux/vm_event_item.h b/include/linux/vm_event_item.h
+> index 2628ccda076a..cbe849701653 100644
+> --- a/include/linux/vm_event_item.h
+> +++ b/include/linux/vm_event_item.h
+> @@ -36,6 +36,7 @@ enum vm_event_item { PGPGIN, PGPGOUT, PSWPIN, PSWPOUT,
+>  		FOR_ALL_ZONES(ALLOCSTALL)
+>  		FOR_ALL_ZONES(PGSCAN_SKIP)
+>  		PGFREE, PGACTIVATE, PGDEACTIVATE, PGLAZYFREE,
+> +		PGFREE_RCU,
+>  		PGFAULT, PGMAJFAULT,
+>  		PGLAZYFREED,
+>  		PGREUSE,
+> diff --git a/include/trace/events/mmflags.h b/include/trace/events/mmflags.h
+> index 935893e5ea53..47c3411a75e8 100644
+> --- a/include/trace/events/mmflags.h
+> +++ b/include/trace/events/mmflags.h
+> @@ -117,6 +117,12 @@ TRACE_DEFINE_ENUM(___GFP_LAST_BIT);
+>  #define IF_HAVE_PG_IDLE(_name)
+>  #endif
+>  
+> +#ifdef CONFIG_PAGE_RCU_FREE
+> +#define IF_HAVE_PG_RCU_FREE(_name) ,{1UL << PG_##_name, __stringify(_name)}
+> +#else
+> +#define IF_HAVE_PG_RCU_FREE(_name)
+> +#endif
+> +
+>  #ifdef CONFIG_ARCH_USES_PG_ARCH_2
+>  #define IF_HAVE_PG_ARCH_2(_name) ,{1UL << PG_##_name, __stringify(_name)}
+>  #else
+> @@ -152,6 +158,7 @@ TRACE_DEFINE_ENUM(___GFP_LAST_BIT);
+>  	DEF_PAGEFLAG_NAME(swapbacked),					\
+>  	DEF_PAGEFLAG_NAME(unevictable),					\
+>  	DEF_PAGEFLAG_NAME(dropbehind)					\
+> +IF_HAVE_PG_RCU_FREE(rcu_free)						\
+>  IF_HAVE_PG_MLOCK(mlocked)						\
+>  IF_HAVE_PG_HWPOISON(hwpoison)						\
+>  IF_HAVE_PG_IDLE(idle)							\
+> diff --git a/mm/Kconfig b/mm/Kconfig
+> index 604c58199acb..6e5341b0bf64 100644
+> --- a/mm/Kconfig
+> +++ b/mm/Kconfig
+> @@ -718,6 +718,21 @@ config PCP_BATCH_SCALE_MAX
+>  	  latency.  This option sets the upper limit of scale factor to limit
+>  	  the maximum latency.
+>  
+> +config PAGE_RCU_FREE
 
-- update: cost of an update with a kthread on each online CPU, on one
-  shared counter, on one counter per thread, on groups of 4 counters
-  initialized together like the RSS counters of an mm, and on one lazily
-  initialized counter per thread updated by its owner, like a
-  single-threaded process, with increments of +1, alternating +1/-1, and
-  random increments up to 32 and 512.
-- lifecycle: cost of initializing and destroying 4 counters together,
-  like fork and exit of an mm, eagerly or lazily, from one thread or from
-  all online CPUs.
-- churn: like lifecycle, with a few updates, keeping some of the
-  counters alive until the end, like long-lived processes.
+I think we really want to focus this only on folios (like the current code does).
 
-The batch size of the hierarchical counters is selected with the
-percpu_counter_tree_bench.batch= parameter (32 by default, like the RSS
-counters), and the tree shape with the percpu_counter_tree.arity= boot
-parameter.  The struct percpu_counter variants use their default batch
-size, like the RSS counters before the hierarchical counters.
+FOLIO_RCU_FREE ?
 
-The benchmark reports the accuracy of both counter implementations along
-with the timings.  It runs for a few minutes on large machines, so it
-has its own config option, CONFIG_PERCPU_COUNTER_TREE_BENCH.
+> +	def_bool y
+> +	depends on 64BIT
+> +	depends on !PREEMPT_RT
+> +	help
+> +	  Reads from the page cache can copy from folios that are read
+> +	  again and again without taking a reference on them, so small
+> +	  reads of one file from many CPUs do not contend on the folio's
+> +	  reference count.  The cost is that memory freed from such
+> +	  folios becomes reusable only after an RCU grace period.
 
-For example:
+While that description is helpful, that's not really what this patch, or rather
+the basic infrastructure in page_alloc, does.
 
-  ./tools/testing/kunit/kunit.py run --arch=x86_64 \
-	--kconfig_add CONFIG_PERCPU_COUNTER_TREE_BENCH=y \
-	--kconfig_add CONFIG_NR_CPUS=256 --qemu_args="-smp 64 -m 8192" \
-	--kernel_args percpu_counter_tree.arity=8,8 \
-	--kernel_args percpu_counter_tree_bench.batch=16 \
-	--timeout 3000 percpu_counter_tree_bench
+I'd suggest to have a dedicated FOLIO_RCU_FREE config and maybe another one
+(that selects/depends on) FOLIO_RCU_FREE that actually enables the pagecache use
+and documents the details.
 
-or, on a running kernel with CONFIG_PERCPU_COUNTER_TREE_BENCH=m:
+> +
+> +	  64-bit only: it takes a page flag, and those are scarce on
+> +	  32-bit.  Not on PREEMPT_RT, where expedited grace periods are
+> +	  normal ones, so freeing the waiting pages on demand would stall.
+> +
+>  config PHYS_ADDR_T_64BIT
+>  	def_bool 64BIT
+>  
+> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+> index 1e5d68acf62a..25082949a4ca 100644
+> --- a/mm/huge_memory.c
+> +++ b/mm/huge_memory.c
+> @@ -3743,6 +3743,7 @@ static void __split_folio_to_order(struct folio *folio, int old_order,
+>  #endif
+>  				 (1L << PG_dirty) |
+>  				 (1L << PG_dropbehind) |
+> +				 __PG_RCU_FREE |
 
-  modprobe percpu_counter_tree_bench batch=16
+That looks a bit odd at first, as it's very different to the other once. But no
+easy way around assuming that the flag is not always around.
 
-Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
----
-Changes since v23:
-- Keep the lifecycle and churn sets of counters in struct bench_thread
-  rather than on the stack, where debugobjects warns about a struct
-  percpu_counter. (Reported by Sashiko.)
----
- MAINTAINERS                           |   1 +
- lib/Kconfig                           |  15 +
- lib/tests/Makefile                    |   1 +
- lib/tests/percpu_counter_tree_bench.c | 610 ++++++++++++++++++++++++++
- 4 files changed, 627 insertions(+)
- create mode 100644 lib/tests/percpu_counter_tree_bench.c
+Maybe we should just have this be a const mask constructed somewhere using BIT()
+and __PG_RCU_FREE etc, instead of having this growing list in this user here.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 4d421a784e88..3878203de1c3 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11955,6 +11955,7 @@ S:	Supported
- F:	Documentation/core-api/percpu-counter-tree.rst
- F:	include/linux/percpu_counter_tree.h
- F:	lib/percpu_counter_tree.c
-+F:	lib/tests/percpu_counter_tree_bench.c
- F:	lib/tests/percpu_counter_tree_kunit.c
- F:	tools/testing/hpcc/
- 
-diff --git a/lib/Kconfig b/lib/Kconfig
-index 3921177a0d24..6ab9644a4cb8 100644
---- a/lib/Kconfig
-+++ b/lib/Kconfig
-@@ -53,6 +53,21 @@ config PERCPU_COUNTER_TREE_KUNIT_TEST
- 
- 	  When in doubt, say N.
- 
-+config PERCPU_COUNTER_TREE_BENCH
-+	tristate "Benchmark of hierarchical per-cpu counters"
-+	depends on KUNIT && SMP
-+	help
-+	  This builds a KUnit benchmark comparing the hierarchical per-cpu
-+	  counters with struct percpu_counter: update cost with all online
-+	  CPUs updating shared and private counters, and init/destroy cost.
-+	  It runs for a few minutes on large machines.
-+
-+	  The batch size and the tree shape can be changed with the
-+	  percpu_counter_tree_bench.batch= and percpu_counter_tree.arity=
-+	  parameters, see lib/tests/percpu_counter_tree_bench.c.
-+
-+	  When in doubt, say N.
-+
- config BITREVERSE
- 	tristate
- 	select GENERIC_BITREVERSE if !HAVE_ARCH_BITREVERSE
-diff --git a/lib/tests/Makefile b/lib/tests/Makefile
-index e98687da8706..d158a8be8a19 100644
---- a/lib/tests/Makefile
-+++ b/lib/tests/Makefile
-@@ -60,5 +60,6 @@ obj-$(CONFIG_RATELIMIT_KUNIT_TEST) += test_ratelimit.o
- obj-$(CONFIG_UUID_KUNIT_TEST) += uuid_kunit.o
- 
- obj-$(CONFIG_PERCPU_COUNTER_TREE_KUNIT_TEST) += percpu_counter_tree_kunit.o
-+obj-$(CONFIG_PERCPU_COUNTER_TREE_BENCH) += percpu_counter_tree_bench.o
- 
- obj-$(CONFIG_TEST_RUNTIME_MODULE)		+= module/
-diff --git a/lib/tests/percpu_counter_tree_bench.c b/lib/tests/percpu_counter_tree_bench.c
-new file mode 100644
-index 000000000000..e041ba8ba8c7
---- /dev/null
-+++ b/lib/tests/percpu_counter_tree_bench.c
-@@ -0,0 +1,610 @@
-+// SPDX-License-Identifier: GPL-2.0+ OR MIT
-+/*
-+ * Benchmark of hierarchical per-CPU counters against struct percpu_counter.
-+ *
-+ * update: ns per percpu_counter_tree_add() per thread, one kthread pinned
-+ *         on each online CPU, on one shared counter, on one counter per
-+ *         thread, or on the counters of a few mm-like groups of 4 counters
-+ *         initialized together. The "single" variant gives each thread a
-+ *         lazily initialized counter updated with
-+ *         percpu_counter_tree_add_owner(), like a single-threaded process.
-+ *         The "percpu_counter" variants use percpu_counter_add() with the
-+ *         default batch, like the RSS counters before hierarchical counters.
-+ * lifecycle: ns per init_many(4) + destroy_many(4), like fork + exit of an
-+ *         mm, from one thread or from all online CPUs at once; "lazy" uses
-+ *         init_many_lazy(4), like a single-threaded process.
-+ * churn: like lifecycle with a few updates, keeping one in @pin_period sets
-+ *         of counters alive until the end, like long-lived processes.
-+ *
-+ * Each result ends with the implementation measured: "tree" for the
-+ * hierarchical counters, "percpu_counter" for struct percpu_counter.
-+ *
-+ * The knobs to try on a given machine are:
-+ * - the batch size: percpu_counter_tree_bench.batch=<2..128> (power of 2),
-+ *   or "modprobe percpu_counter_tree_bench batch=<n>",
-+ * - the tree shape: percpu_counter_tree.arity=<fan-out>,... on the kernel
-+ *   command line, from level 0 to the root. The product of the fan-outs
-+ *   is nr_cpu_ids rounded up to a power of 2, e.g. "16" (flat) or "4,4"
-+ *   when nr_cpu_ids is 16. The shape in use is shown in
-+ *   /sys/module/percpu_counter_tree/parameters/arity.
-+ *
-+ * For example, in a VM:
-+ *   ./tools/testing/kunit/kunit.py run --arch=x86_64 \
-+ *	--kconfig_add CONFIG_PERCPU_COUNTER_TREE_BENCH=y \
-+ *	--kconfig_add CONFIG_NR_CPUS=256 --qemu_args="-smp 64 -m 8192" \
-+ *	--kernel_args percpu_counter_tree.arity=8,8 \
-+ *	--kernel_args percpu_counter_tree_bench.batch=16 \
-+ *	--timeout 3000 percpu_counter_tree_bench
-+ */
-+#include <kunit/test.h>
-+#include <linux/percpu_counter_tree.h>
-+#include <linux/percpu_counter.h>
-+#include <linux/kthread.h>
-+#include <linux/random.h>
-+#include <linux/slab.h>
-+#include <linux/delay.h>
-+#include <linux/ktime.h>
-+#include <linux/math64.h>
-+#include <linux/sched/task.h>
-+#include <linux/cpuhplock.h>
-+#include <linux/moduleparam.h>
-+
-+/* Like the RSS counters by default. */
-+static unsigned int batch = 32;
-+module_param(batch, uint, 0444);
-+MODULE_PARM_DESC(batch, "Batch size of the hierarchical counters (power of 2, 2 to 128)");
-+
-+#define BENCH_MS	300
-+#define LIFECYCLE_NR	4	/* Counters per mm. */
-+#define LIFECYCLE_ITER	2000
-+#define CHURN_ITER	4096
-+
-+enum { W_MONO, W_BOUNCE, W_RAND32, W_RAND512, NR_W };
-+static const char * const wname[] = { "monotonic +1", "bounce +-1", "random +-32", "random +-512" };
-+
-+enum bench_impl { IMPL_TREE, IMPL_PERCPU_COUNTER };
-+static const char * const impl_name[] = { "tree", "percpu_counter" };
-+
-+struct bench_shared {
-+	atomic_t ready;
-+	int wl;
-+	unsigned int pin_period;	/* churn: keep one in pin_period sets, 0: none. */
-+	enum bench_impl impl;
-+	bool go, stop;
-+	bool owner;		/* update: percpu_counter_tree_add_owner(). */
-+	bool lifecycle;
-+	bool lazy;		/* lifecycle: percpu_counter_tree_init_many_lazy(). */
-+};
-+
-+struct bench_thread {
-+	u64 ns;
-+	unsigned long ops;
-+	struct bench_shared *sh;
-+	struct percpu_counter_tree *c;
-+	struct percpu_counter *pc;	/* update: IMPL_PERCPU_COUNTER. */
-+	struct percpu_counter_tree *pinned;	/* churn: IMPL_TREE sets kept alive. */
-+	struct percpu_counter *pinned_pc;	/* churn: IMPL_PERCPU_COUNTER sets kept alive. */
-+	struct task_struct *task;
-+	unsigned int nr_pinned;
-+	u32 seed;
-+	/*
-+	 * lifecycle and churn: sets not kept alive. They are not on the
-+	 * stack, where debugobjects warns about a struct percpu_counter.
-+	 */
-+	struct percpu_counter_tree tmp[LIFECYCLE_NR];
-+	struct percpu_counter tmp_pc[LIFECYCLE_NR];
-+} ____cacheline_aligned_in_smp;
-+
-+/*
-+ * Buffers are allocated through KUnit, which frees them if an assertion
-+ * aborts the test, and are freed explicitly otherwise, since the benchmark
-+ * runs many steps within one test.
-+ */
-+KUNIT_DEFINE_ACTION_WRAPPER(bench_kvfree, kvfree, const void *);
-+
-+static void *bench_kvzalloc(struct kunit *test, size_t size)
-+{
-+	void *p = kvzalloc(size, GFP_KERNEL);
-+
-+	if (p && kunit_add_action_or_reset(test, bench_kvfree, p))
-+		return NULL;
-+	return p;
-+}
-+
-+static void bench_kvfree_now(struct kunit *test, void *p)
-+{
-+	kunit_release_action(test, bench_kvfree, p);
-+}
-+
-+/* Wait for the start signal; return true if the benchmark is cancelled. */
-+static bool bench_wait_go(struct bench_shared *sh)
-+{
-+	atomic_inc(&sh->ready);
-+	/* Pairs with bench_start(): a cancellation sets stop before go. */
-+	while (!smp_load_acquire(&sh->go))
-+		cond_resched();
-+	return READ_ONCE(sh->stop);
-+}
-+
-+static int bench_update_fn(void *data)
-+{
-+	struct bench_thread *t = data;
-+	struct bench_shared *sh = t->sh;
-+	unsigned long ops = 0;
-+	long sign = -1;
-+	u32 x = t->seed;
-+	int i;
-+
-+	if (bench_wait_go(sh))
-+		return 0;
-+	while (!READ_ONCE(sh->stop)) {
-+		for (i = 0; i < 1024; i++) {
-+			long inc;
-+
-+			switch (sh->wl) {
-+			case W_MONO:
-+				inc = 1;
-+				break;
-+			case W_BOUNCE:
-+				inc = sign;
-+				sign = -sign;
-+				break;
-+			default:
-+				x ^= x << 13;
-+				x ^= x >> 17;
-+				x ^= x << 5;
-+				inc = sh->wl == W_RAND32 ? 32 : 512;
-+				if (x & 1)
-+					inc = -inc;
-+				break;
-+			}
-+			if (sh->impl == IMPL_PERCPU_COUNTER)
-+				percpu_counter_add(t->pc, inc);
-+			else if (sh->owner)
-+				percpu_counter_tree_add_owner(t->c, inc);
-+			else
-+				percpu_counter_tree_add(t->c, inc);
-+		}
-+		ops += 1024;
-+		cond_resched();
-+	}
-+	t->ops = ops;
-+	return 0;
-+}
-+
-+static int bench_lifecycle_fn(void *data)
-+{
-+	struct bench_thread *t = data;
-+	struct percpu_counter_tree *c = t->tmp;
-+	struct percpu_counter *pc = t->tmp_pc;
-+	u64 t0;
-+	int i;
-+
-+	if (bench_wait_go(t->sh))
-+		return 0;
-+	t0 = ktime_get_ns();
-+	for (i = 0; t->sh->impl == IMPL_PERCPU_COUNTER && i < LIFECYCLE_ITER; i++) {
-+		if (percpu_counter_init_many(pc, 0, GFP_KERNEL, LIFECYCLE_NR))
-+			break;
-+		percpu_counter_add(&pc[0], 1);
-+		percpu_counter_add(&pc[0], -1);
-+		percpu_counter_destroy_many(pc, LIFECYCLE_NR);
-+		cond_resched();
-+	}
-+	for (; t->sh->impl == IMPL_TREE && t->sh->lazy && i < LIFECYCLE_ITER; i++) {
-+		if (percpu_counter_tree_init_many_lazy(c, LIFECYCLE_NR, batch))
-+			break;
-+		percpu_counter_tree_add_owner(&c[0], 1);
-+		percpu_counter_tree_add_owner(&c[0], -1);
-+		percpu_counter_tree_destroy_many(c, LIFECYCLE_NR);
-+		cond_resched();
-+	}
-+	for (; t->sh->impl == IMPL_TREE && !t->sh->lazy && i < LIFECYCLE_ITER; i++) {
-+		if (percpu_counter_tree_init_many(c, LIFECYCLE_NR, batch, GFP_KERNEL))
-+			break;
-+		percpu_counter_tree_add(&c[0], 1);
-+		percpu_counter_tree_add(&c[0], -1);
-+		percpu_counter_tree_destroy_many(c, LIFECYCLE_NR);
-+		cond_resched();
-+	}
-+	t->ns = ktime_get_ns() - t0;
-+	t->ops = i;
-+	return 0;
-+}
-+
-+static int bench_churn_fn(void *data)
-+{
-+	struct bench_thread *t = data;
-+	unsigned int pin_period = t->sh->pin_period;
-+	struct percpu_counter_tree *c;
-+	struct percpu_counter *pc;
-+	u64 t0;
-+	int i;
-+
-+	if (bench_wait_go(t->sh))
-+		return 0;
-+	t0 = ktime_get_ns();
-+	for (i = 0; t->sh->impl == IMPL_PERCPU_COUNTER && i < CHURN_ITER; i++) {
-+		bool pin = pin_period && !(i % pin_period);
-+
-+		pc = pin ? &t->pinned_pc[t->nr_pinned * LIFECYCLE_NR] : t->tmp_pc;
-+		if (percpu_counter_init_many(pc, 0, GFP_KERNEL, LIFECYCLE_NR))
-+			break;
-+		percpu_counter_add(&pc[0], 100);
-+		percpu_counter_add(&pc[1], -77);
-+		percpu_counter_add(&pc[2], 1);
-+		if (pin)
-+			t->nr_pinned++;
-+		else
-+			percpu_counter_destroy_many(pc, LIFECYCLE_NR);
-+		cond_resched();
-+	}
-+	for (; t->sh->impl == IMPL_TREE && i < CHURN_ITER; i++) {
-+		bool pin = pin_period && !(i % pin_period);
-+
-+		c = pin ? &t->pinned[t->nr_pinned * LIFECYCLE_NR] : t->tmp;
-+		if (percpu_counter_tree_init_many(c, LIFECYCLE_NR, batch, GFP_KERNEL))
-+			break;
-+		percpu_counter_tree_add(&c[0], 100);
-+		percpu_counter_tree_add(&c[1], -77);
-+		percpu_counter_tree_add(&c[2], 1);
-+		if (pin)
-+			t->nr_pinned++;
-+		else
-+			percpu_counter_tree_destroy_many(c, LIFECYCLE_NR);
-+		cond_resched();
-+	}
-+	t->ns = ktime_get_ns() - t0;
-+	t->ops = i;
-+	return 0;
-+}
-+
-+/* List at most @max online CPUs in @cpus, and return their number. */
-+static unsigned int bench_cpus(int *cpus, unsigned int max)
-+{
-+	unsigned int n = 0;
-+	int cpu;
-+
-+	for_each_online_cpu(cpu) {
-+		if (n == max)
-+			break;
-+		cpus[n++] = cpu;
-+	}
-+	return n;
-+}
-+
-+static void bench_stop(struct bench_thread *t, unsigned int n)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < n; i++)
-+		kthread_stop_put(t[i].task);
-+}
-+
-+/*
-+ * Start a thread on each of the @n CPUs of @cpus, waiting for the start
-+ * signal. On failure, cancel and join the threads already started.
-+ */
-+static int bench_start(struct bench_shared *sh, struct bench_thread *t, const int *cpus,
-+		       unsigned int n)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < n; i++) {
-+		t[i].sh = sh;
-+		t[i].task = kthread_create_on_cpu(sh->pin_period != UINT_MAX ? bench_churn_fn :
-+						  sh->lifecycle ? bench_lifecycle_fn :
-+						  bench_update_fn, &t[i], cpus[i], "hpcc_bench/%u");
-+		if (IS_ERR(t[i].task)) {
-+			int ret = PTR_ERR(t[i].task);
-+
-+			WRITE_ONCE(sh->stop, true);
-+			/* Pairs with bench_wait_go(): the threads see stop with go. */
-+			smp_store_release(&sh->go, true);
-+			bench_stop(t, i);
-+			return ret;
-+		}
-+		get_task_struct(t[i].task);
-+		wake_up_process(t[i].task);
-+	}
-+	while (atomic_read(&sh->ready) < n)
-+		usleep_range(1000, 2000);
-+	return 0;
-+}
-+
-+enum bench_mode { BENCH_SHARED, BENCH_PRIVATE, BENCH_MM, BENCH_SINGLE };
-+static const char * const mode_name[] = { "shared", "private", "mm", "single" };
-+
-+/*
-+ * BENCH_SHARED: all threads update one counter.
-+ * BENCH_PRIVATE: each thread updates its own counter (a separate mm).
-+ * BENCH_MM: blocks of n / LIFECYCLE_NR threads each update one counter of
-+ * one mm. Its counters share the cache lines of their tree items, and
-+ * CPUs sharing an item are strided, so each line is updated for every
-+ * counter.
-+ * BENCH_SINGLE: each thread owns a lazily initialized counter, like a
-+ * single-threaded process, never activated. Its IMPL_PERCPU_COUNTER
-+ * comparison is BENCH_PRIVATE.
-+ */
-+/* Counters @i of bench_update(), @c_stride and @pc_stride bytes apart. */
-+#define BENCH_C(i)	((struct percpu_counter_tree *)((char *)c + (i) * c_stride))
-+#define BENCH_PC(i)	((struct percpu_counter *)((char *)pc + (i) * pc_stride))
-+
-+static void bench_update(struct kunit *test, enum bench_mode mode, int wl,
-+			 enum bench_impl impl)
-+{
-+	bool shared = mode == BENCH_SHARED || mode == BENCH_MM;
-+	unsigned int n, i, nr_counters, nr_init = 0;
-+	struct bench_shared sh = { .wl = wl, .pin_period = UINT_MAX, .impl = impl,
-+				   .owner = mode == BENCH_SINGLE };
-+	struct percpu_counter_tree *c;
-+	struct percpu_counter *pc;
-+	struct bench_thread *t;
-+	unsigned long ops = 0;
-+	unsigned int *perm;
-+	size_t c_stride, pc_stride;
-+	void *c_mem, *pc_mem;
-+	u64 t0, t1;
-+	int *cpus;
-+	int ret;
-+
-+	cpus = kunit_kcalloc(test, nr_cpu_ids, sizeof(*cpus), GFP_KERNEL);
-+	t = bench_kvzalloc(test, array_size(nr_cpu_ids, sizeof(*t)));
-+	perm = kunit_kcalloc(test, nr_cpu_ids, sizeof(*perm), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, cpus);
-+	KUNIT_ASSERT_NOT_NULL(test, t);
-+	KUNIT_ASSERT_NOT_NULL(test, perm);
-+	/*
-+	 * Set up the counters for the CPUs online now, before taking
-+	 * cpus_read_lock(), which a failed assertion would leave held. The
-+	 * threads then run on the CPUs online under the lock, at most as many.
-+	 */
-+	n = num_online_cpus();
-+	nr_counters = mode == BENCH_SHARED ? 1 : mode == BENCH_MM ? LIFECYCLE_NR : n;
-+	/*
-+	 * Each private counter is written by its own thread: give each its
-+	 * own cache line, as the RSS counters of separate mms, to avoid false
-+	 * sharing. The counters of one mm stay packed, as in mm_struct.
-+	 */
-+	c_stride = shared ? sizeof(*c) : ALIGN(sizeof(*c), SMP_CACHE_BYTES);
-+	pc_stride = shared ? sizeof(*pc) : ALIGN(sizeof(*pc), SMP_CACHE_BYTES);
-+	c_mem = kunit_kzalloc(test, nr_counters * c_stride + SMP_CACHE_BYTES, GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, c_mem);
-+	c = PTR_ALIGN(c_mem, SMP_CACHE_BYTES);
-+	pc_mem = kunit_kzalloc(test, nr_counters * pc_stride + SMP_CACHE_BYTES, GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, pc_mem);
-+	pc = PTR_ALIGN(pc_mem, SMP_CACHE_BYTES);
-+	/*
-+	 * Each private counter stands for a separate mm: initialize them
-+	 * separately so they do not share the cache lines of their tree items.
-+	 */
-+	if (impl == IMPL_PERCPU_COUNTER && mode == BENCH_MM) {
-+		if (!percpu_counter_init_many(pc, 0, GFP_KERNEL, nr_counters))
-+			nr_init = nr_counters;
-+	} else if (impl == IMPL_PERCPU_COUNTER) {
-+		for (; nr_init < nr_counters; nr_init++)
-+			if (percpu_counter_init(BENCH_PC(nr_init), 0, GFP_KERNEL))
-+				break;
-+	} else if (mode == BENCH_MM) {
-+		if (!percpu_counter_tree_init_many(c, nr_counters, batch, GFP_KERNEL))
-+			nr_init = nr_counters;
-+	} else {
-+		for (; nr_init < nr_counters; nr_init++) {
-+			if (mode == BENCH_SINGLE ?
-+			    percpu_counter_tree_init_many_lazy(BENCH_C(nr_init), 1, batch) :
-+			    percpu_counter_tree_init(BENCH_C(nr_init), batch, GFP_KERNEL))
-+				break;
-+		}
-+	}
-+	if (nr_init < nr_counters) {
-+		KUNIT_FAIL(test, "cannot initialize %u counters", nr_counters);
-+		goto destroy;
-+	}
-+	cpus_read_lock();
-+	n = bench_cpus(cpus, n);
-+	/* Random placement of the private counters. */
-+	for (i = 0; i < n; i++)
-+		perm[i] = mode == BENCH_SHARED ? 0 : mode == BENCH_MM ? i * LIFECYCLE_NR / n : i;
-+	for (i = n - 1; !shared && i > 0; i--)
-+		swap(perm[i], perm[get_random_u32_below(i + 1)]);
-+	for (i = 0; i < n; i++) {
-+		t[i].c = BENCH_C(perm[i]);
-+		t[i].pc = BENCH_PC(perm[i]);
-+		t[i].seed = get_random_u32() | 1;
-+	}
-+	ret = bench_start(&sh, t, cpus, n);
-+	if (ret) {
-+		cpus_read_unlock();
-+		KUNIT_FAIL(test, "cannot start the benchmark threads: %d", ret);
-+		goto destroy;
-+	}
-+	t0 = ktime_get_ns();
-+	WRITE_ONCE(sh.go, true);
-+	msleep(BENCH_MS);
-+	WRITE_ONCE(sh.stop, true);
-+	t1 = ktime_get_ns();
-+	bench_stop(t, n);
-+	cpus_read_unlock();
-+	for (i = 0; i < n; i++)
-+		ops += t[i].ops;
-+	for (i = 0; impl == IMPL_TREE && i < nr_counters; i++)
-+		KUNIT_EXPECT_EQ(test, 0, percpu_counter_tree_check_residuals(BENCH_C(i)));
-+	kunit_info(test, "update %-8s %-14s %3u thr %10llu ns/op/thr %s\n",
-+		   mode_name[mode], wname[wl], n,
-+		   ops ? div64_ul((t1 - t0) * n, ops) : 0, impl_name[impl]);
-+destroy:
-+	if (impl == IMPL_PERCPU_COUNTER && mode == BENCH_MM) {
-+		if (nr_init)
-+			percpu_counter_destroy_many(pc, nr_counters);
-+	} else if (impl == IMPL_PERCPU_COUNTER) {
-+		for (i = 0; i < nr_init; i++)
-+			percpu_counter_destroy(BENCH_PC(i));
-+	} else if (mode == BENCH_MM) {
-+		if (nr_init)
-+			percpu_counter_tree_destroy_many(c, nr_counters);
-+	} else {
-+		for (i = 0; i < nr_init; i++)
-+			percpu_counter_tree_destroy(BENCH_C(i));
-+	}
-+	kunit_kfree(test, pc_mem);
-+	kunit_kfree(test, c_mem);
-+	kunit_kfree(test, perm);
-+	bench_kvfree_now(test, t);
-+	kunit_kfree(test, cpus);
-+}
-+
-+static void bench_lifecycle(struct kunit *test, bool all, enum bench_impl impl, bool lazy)
-+{
-+	struct bench_shared sh = { .lifecycle = true, .pin_period = UINT_MAX,
-+				   .impl = impl, .lazy = lazy };
-+	unsigned int n, i;
-+	struct bench_thread *t;
-+	unsigned long ops = 0;
-+	u64 ns = 0;
-+	int *cpus;
-+	int ret;
-+
-+	cpus = kunit_kcalloc(test, nr_cpu_ids, sizeof(*cpus), GFP_KERNEL);
-+	t = bench_kvzalloc(test, array_size(nr_cpu_ids, sizeof(*t)));
-+	KUNIT_ASSERT_NOT_NULL(test, cpus);
-+	KUNIT_ASSERT_NOT_NULL(test, t);
-+	cpus_read_lock();
-+	n = bench_cpus(cpus, all ? num_online_cpus() : 1);
-+	ret = bench_start(&sh, t, cpus, n);
-+	if (ret) {
-+		cpus_read_unlock();
-+		KUNIT_FAIL(test, "cannot start the benchmark threads: %d", ret);
-+		goto free;
-+	}
-+	WRITE_ONCE(sh.go, true);
-+	bench_stop(t, n);
-+	cpus_read_unlock();
-+	for (i = 0; i < n; i++) {
-+		ops += t[i].ops;
-+		ns += t[i].ns;
-+	}
-+	KUNIT_EXPECT_EQ(test, ops, (unsigned long)n * LIFECYCLE_ITER);
-+	kunit_info(test, "lifecycle init_many%s(%d)+destroy_many %3u thr %10llu ns/op %s\n",
-+		   lazy ? "_lazy" : "", LIFECYCLE_NR, n, ops ? div64_ul(ns, ops) : 0,
-+		   impl_name[impl]);
-+free:
-+	bench_kvfree_now(test, t);
-+	kunit_kfree(test, cpus);
-+}
-+
-+static void bench_churn(struct kunit *test, bool all, unsigned int pin_period,
-+			enum bench_impl impl)
-+{
-+	struct bench_shared sh = { .pin_period = pin_period, .impl = impl };
-+	unsigned int n, i, j, max_pinned = pin_period ? DIV_ROUND_UP(CHURN_ITER, pin_period) : 0;
-+	unsigned long ops = 0, live = 0;
-+	unsigned int nr_alloc;
-+	struct bench_thread *t;
-+	u64 ns = 0;
-+	int *cpus;
-+	int ret;
-+
-+	cpus = kunit_kcalloc(test, nr_cpu_ids, sizeof(*cpus), GFP_KERNEL);
-+	t = bench_kvzalloc(test, array_size(nr_cpu_ids, sizeof(*t)));
-+	KUNIT_ASSERT_NOT_NULL(test, cpus);
-+	KUNIT_ASSERT_NOT_NULL(test, t);
-+	/* Allocate before taking cpus_read_lock(), as in bench_update(). */
-+	nr_alloc = all ? num_online_cpus() : 1;
-+	for (i = 0; i < nr_alloc; i++) {
-+		t[i].pinned = bench_kvzalloc(test, array_size(max_pinned * LIFECYCLE_NR + 1,
-+							      sizeof(*t[i].pinned)));
-+		t[i].pinned_pc = bench_kvzalloc(test, array_size(max_pinned * LIFECYCLE_NR + 1,
-+								 sizeof(*t[i].pinned_pc)));
-+		KUNIT_ASSERT_NOT_NULL(test, t[i].pinned_pc);
-+		KUNIT_ASSERT_NOT_NULL(test, t[i].pinned);
-+	}
-+	cpus_read_lock();
-+	n = bench_cpus(cpus, nr_alloc);
-+	ret = bench_start(&sh, t, cpus, n);
-+	if (ret) {
-+		cpus_read_unlock();
-+		KUNIT_FAIL(test, "cannot start the benchmark threads: %d", ret);
-+		goto destroy;
-+	}
-+	WRITE_ONCE(sh.go, true);
-+	bench_stop(t, n);
-+	cpus_read_unlock();
-+	for (i = 0; i < n; i++) {
-+		ops += t[i].ops;
-+		ns += t[i].ns;
-+		live += t[i].nr_pinned * LIFECYCLE_NR;
-+	}
-+	KUNIT_EXPECT_EQ(test, ops, (unsigned long)n * CHURN_ITER);
-+	kunit_info(test, "churn pin 1/%-4u %3u thr %8llu ns/op live %6lu %s\n",
-+		   pin_period, n, ops ? div64_ul(ns, ops) : 0, live, impl_name[impl]);
-+destroy:
-+	for (i = 0; i < nr_alloc; i++) {
-+		for (j = 0; j < t[i].nr_pinned; j++) {
-+			if (impl == IMPL_PERCPU_COUNTER)
-+				percpu_counter_destroy_many(&t[i].pinned_pc[j * LIFECYCLE_NR],
-+							    LIFECYCLE_NR);
-+			else
-+				percpu_counter_tree_destroy_many(&t[i].pinned[j * LIFECYCLE_NR],
-+								 LIFECYCLE_NR);
-+		}
-+		bench_kvfree_now(test, t[i].pinned_pc);
-+		bench_kvfree_now(test, t[i].pinned);
-+	}
-+	bench_kvfree_now(test, t);
-+	kunit_kfree(test, cpus);
-+}
-+
-+static void hpcc_bench(struct kunit *test)
-+{
-+	static const unsigned int pin_periods[] = { 0, 256, 64, 16, 4 };
-+	struct percpu_counter_tree probe;
-+	unsigned int p;
-+	int wl;
-+
-+	if (batch < 2 || !is_power_of_2(batch) || batch > PERCPU_COUNTER_TREE_MAX_BATCH)
-+		kunit_skip(test, "invalid batch size %u", batch);
-+	KUNIT_ASSERT_EQ(test, 0, percpu_counter_tree_init(&probe, batch, GFP_KERNEL));
-+	kunit_info(test, "%u CPUs online, nr_cpu_ids %u\n", num_online_cpus(), nr_cpu_ids);
-+	kunit_info(test, "%s batch %u, accuracy +-%lu\n", impl_name[IMPL_TREE], batch,
-+		   percpu_counter_tree_approximate_accuracy(&probe));
-+	kunit_info(test, "%s batch %d, accuracy +-%lu\n", impl_name[IMPL_PERCPU_COUNTER],
-+		   percpu_counter_batch, (unsigned long)nr_cpu_ids * (percpu_counter_batch - 1));
-+	percpu_counter_tree_destroy(&probe);
-+	bench_lifecycle(test, false, IMPL_TREE, false);
-+	bench_lifecycle(test, false, IMPL_TREE, true);
-+	bench_lifecycle(test, false, IMPL_PERCPU_COUNTER, false);
-+	bench_lifecycle(test, true, IMPL_TREE, false);
-+	bench_lifecycle(test, true, IMPL_TREE, true);
-+	bench_lifecycle(test, true, IMPL_PERCPU_COUNTER, false);
-+	for (p = 0; p < ARRAY_SIZE(pin_periods); p++) {
-+		bench_churn(test, false, pin_periods[p], IMPL_TREE);
-+		bench_churn(test, false, pin_periods[p], IMPL_PERCPU_COUNTER);
-+		bench_churn(test, true, pin_periods[p], IMPL_TREE);
-+		bench_churn(test, true, pin_periods[p], IMPL_PERCPU_COUNTER);
-+	}
-+	for (wl = 0; wl < NR_W; wl++) {
-+		bench_update(test, BENCH_SHARED, wl, IMPL_TREE);
-+		bench_update(test, BENCH_SHARED, wl, IMPL_PERCPU_COUNTER);
-+		bench_update(test, BENCH_PRIVATE, wl, IMPL_TREE);
-+		bench_update(test, BENCH_PRIVATE, wl, IMPL_PERCPU_COUNTER);
-+		bench_update(test, BENCH_MM, wl, IMPL_TREE);
-+		bench_update(test, BENCH_MM, wl, IMPL_PERCPU_COUNTER);
-+		bench_update(test, BENCH_SINGLE, wl, IMPL_TREE);
-+	}
-+}
-+
-+static struct kunit_case hpcc_bench_cases[] = {
-+	KUNIT_CASE_SLOW(hpcc_bench),
-+	{}
-+};
-+
-+static struct kunit_suite hpcc_bench_suite = {
-+	.name = "percpu_counter_tree_bench",
-+	.test_cases = hpcc_bench_cases,
-+};
-+
-+kunit_test_suite(hpcc_bench_suite);
-+
-+MODULE_DESCRIPTION("Benchmark for hierarchical per-CPU counters");
-+MODULE_LICENSE("Dual MIT/GPL");
-+MODULE_IMPORT_NS("EXPORTED_FOR_KUNIT_TESTING");
+>  				 LRU_GEN_MASK | LRU_REFS_MASK));
+>  
+>  		new_folio->mapping = folio->mapping;
+> diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+> index a8b03e2920ba..7dde7c3c9a0c 100644
+> --- a/mm/memory-failure.c
+> +++ b/mm/memory-failure.c
+> @@ -211,6 +211,10 @@ static bool page_handle_poison(struct page *page, bool hugepage_or_freepage, boo
+>  			return false;
+>  	}
+>  
+> +	/* The free of a hwpoisoned page is not deferred: wait for readers */
+> +	if (release && folio_test_rcu_free(page_folio(page)))
+> +		synchronize_rcu();
+> +
+>  	SetPageHWPoison(page);
+>  	if (release)
+>  		put_page(page);
+> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> index 12fac9084c48..a371e92da273 100644
+> --- a/mm/page_alloc.c
+> +++ b/mm/page_alloc.c
+> @@ -1313,6 +1313,96 @@ static inline void pgalloc_tag_sub_pages(struct alloc_tag *tag, unsigned int nr)
+>  
+>  #endif /* CONFIG_MEM_ALLOC_PROFILING */
+>  
+> +/*
+> + * Each CPU has at most one grace period in flight (@queued), covering
+> + * @batch.  Folios freed meanwhile wait on @pending for the next one.
+> + */
+> +struct rcu_free_pcpu {
+> +	spinlock_t lock;
+> +	bool queued;
+> +	struct list_head pending;
+> +	struct list_head batch;
+> +	struct rcu_work rwork;
+> +};
+> +
+> +static DEFINE_PER_CPU(struct rcu_free_pcpu, rcu_free_pcpu);
+> +
+> +static struct workqueue_struct *rcu_free_wq __ro_after_init;
+> +
+> +static void rcu_free_start(struct rcu_free_pcpu *r)
+> +{
+> +	lockdep_assert_held(&r->lock);
+> +
+> +	if (r->queued || list_empty(&r->pending))
+> +		return;
+> +
+> +	list_splice_init(&r->pending, &r->batch);
+> +	r->queued = true;
+> +	WARN_ON_ONCE(!queue_rcu_work(rcu_free_wq, &r->rwork));
+> +}
+> +
+> +static void rcu_free_pages(struct list_head *list)
+> +{
+> +	struct folio_batch fbatch;
+> +	struct folio *folio, *next;
+> +
+> +	folio_batch_init(&fbatch);
+> +	list_for_each_entry_safe(folio, next, list, lru) {
+> +		if (!folio_batch_add(&fbatch, folio)) {
+> +			free_unref_folios(&fbatch);
+> +			cond_resched_tasks_rcu_qs();
+> +		}
+> +	}
+> +	if (folio_batch_count(&fbatch))
+> +		free_unref_folios(&fbatch);
+> +}
+> +
+> +static void rcu_free_workfn(struct work_struct *work)
+> +{
+> +	struct rcu_free_pcpu *r = container_of(to_rcu_work(work),
+> +					       struct rcu_free_pcpu, rwork);
+> +	LIST_HEAD(done);
+> +
+> +	spin_lock_irq(&r->lock);
+> +	list_splice_init(&r->batch, &done);
+> +	r->queued = false;
+> +	rcu_free_start(r);
+> +	spin_unlock_irq(&r->lock);
+> +
+> +	rcu_free_pages(&done);
+> +}
+> +
+> +static void rcu_free_defer(struct folio *folio)
+> +{
+> +	struct rcu_free_pcpu *r = raw_cpu_ptr(&rcu_free_pcpu);
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&r->lock, flags);
+> +	list_add_tail(&folio->lru, &r->pending);
+> +	rcu_free_start(r);
+> +	spin_unlock_irqrestore(&r->lock, flags);
+> +}
+> +
+> +static void __init rcu_free_init(void)
+> +{
+> +	int cpu;
+> +
+> +	if (!IS_ENABLED(CONFIG_PAGE_RCU_FREE))
+> +		return;
+> +
+> +	rcu_free_wq = alloc_workqueue("rcu_free",
+> +				      WQ_MEM_RECLAIM | WQ_PERCPU, 0);
+> +
+> +	for_each_possible_cpu(cpu) {
+> +		struct rcu_free_pcpu *r = per_cpu_ptr(&rcu_free_pcpu, cpu);
+> +
+> +		spin_lock_init(&r->lock);
+> +		INIT_LIST_HEAD(&r->pending);
+> +		INIT_LIST_HEAD(&r->batch);
+> +		INIT_RCU_WORK(&r->rwork, rcu_free_workfn);
+> +	}
+> +}
+> +
+>  static __always_inline bool __free_pages_prepare(struct page *page,
+>  		unsigned int order, fpi_t fpi_flags)
+>  {
+> @@ -1327,6 +1417,19 @@ static __always_inline bool __free_pages_prepare(struct page *page,
+>  
+>  	VM_BUG_ON_PAGE(PageTail(page), page);
+>  
+> +	/*
+> +	 * Not for a hwpoisoned order-0 page: it never reaches the allocator,
+> +	 * and page_handle_poison() takes a reference right after this free.
+> +	 */
+> +	if (unlikely(folio_test_rcu_free(folio)) &&
+> +	    !(PageHWPoison(page) && !order)) {
+> +		VM_WARN_ON_ONCE(fpi_flags & FPI_NOLOCK);
+> +		__folio_clear_rcu_free(folio);
+> +		count_vm_events(PGFREE_RCU, 1 << order);
+> +		rcu_free_defer(folio);
+> +		return false;
+> +	}
+I'm wondering whether we want to intercept on the folio freeing path instead?
+That would be __folio_put(), before we go into free_frozen_pages() used by other
+machinery that does not apply (slab etc).
+
+So maybe this handling could be placed into mm/folio.c instead, just a quick
+thought ... reading about folio batches above I think that might be the right
+direction, we are mixing too much page vs. folio things here.
+
 -- 
-2.47.3
+Cheers,
 
+David
