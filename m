@@ -1,103 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793888037;
-	b=kTqviF2hpvSnoG4Voom67/0ywecD6pefGgx8wgLM0C+afxs6R4+S0pmInnOgomS+yprK
-	 XpaWVkifj5no7fyhA/3cGXLTSWSdy42p4BskvsWP288YnG5xdMfzl+4YZ4F5/yzR/8Z8o
-	 5C+LoVO1QJd/gVYkXgyTm1gfIy3MdczPz3fehH+I/i26mtAHXdDhUAyRcK+h0VTRpJwOb
-	 wJZTaHdWGcMN4OV8/w99XscQMTBk+7NONAYhkjvNyDfUN0YJQD+//lCwZlULVSnmtuo0M
-	 qyMpnGOD6CYPboteR/zUxp25Yt8CTV8h8s5X5pf2nmpDU/yBUU1ATT0DkJU6BlAhdkA==
+	t=1793888066;
+	b=i1a793zL/oX39Bk3mnaBjFiDDgZVAq17vz/zmvFidiRJEoOIxZaqNZNTMehf0ByckfBH
+	 R8QMmP7yBmwyBXpEy2SM1LQ2C68BqX0bC9DByvz118ooDK8o3ESseMlJZmr71bsi5A3mf
+	 36kor7cGYL5LXmsREPnlH9LylqBLfReBfm0DwBHmUYViVMTQl85ARSNUVBrb/A8d83pFC
+	 hRNgSmxQJZTzTC0NQM+V2ij73XxcfVfHznukNmnWXYeKPGV2LocWDkbFr25lCzd/rOxWP
+	 JMfMZYMoNMFwAxZPxCj5HUCbilWD8vwHoOxKBjFfBXxMiaqv/NVR0XkNmGr40TPa9Lw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793888037;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
-	 X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:
-	 X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
-	bh=++gX4nBdQG/f/V126vbbXgIopFhKDy6QkBYtSpzb1Tg=;
-	b=eP99ymR/cGm00vF0wzvdT94YuBTquFBo4JOw89VU5EH7HIY5dGqX6vWQSuXqLwMsE7ED
-	 YnQ6Onn9vbLt+wXSCz9b7HmtowaJMxdIr0pBJHkrDtkVtsxijx/nTqyJuJ8xLXI9qDppU
-	 FC9aTI5usNZPRUd1MhLqG0YpYy3C0qu1E4igOBheJCeMZNgHG9qRp/6ymmads5nim6JZ9
-	 YA7+RGvrHww22aL4FD5WTFYMOufTNU/ludSbVkV/gahCW2oXjAJouHei0FPVlJMfjt75l
-	 egnl9bnDE1B68LFZqtnGqaze+S+tUmXx5zPv0VAwzjinKk3vaDspFAe+tJYoauiVWKA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793888066;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer;
+	bh=4QpYJSS9gn8AjXi8jX/3Dtqw7BlVuFU8dH7dnogBVO0=;
+	b=BgLohuSeZMZIaDr8O2VZ8kLrYts1KGUCH/tdFBMIa019RxnucZxV6jvsirfdEQZas3tw
+	 PpVsF9YzvCRaKDlZgcEy428qWX/DqGDdMv1Y2EVzlb9WPsbRGqJ6rG9b3gpK3vpwkLbce
+	 Uj26qMhDHXr9oeJxj3eOvsOa+WwrjofgqQoUSlbwex9GLxPQnUoc1Bht0iqYnCVb50+jI
+	 14lFaJGWFf0xbqaZ7QuhNDPCHJznIFCccgpB5VNHmoBNtMQxfVUDREcySkCq45dnbRl6x
+	 UgX95Bq2AxOsNLCx+CvJdeOq5TfXHjTtUR5v9CXtR5l1nlR2qBVLYALckvymvoZJn0Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b="jj6u/R7z";
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=0Unfvu+L;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=o7yvw8vM;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=koewNcLK;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZHt7HSGu;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D635606A333
-	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 14:13:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9D635606A333
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0B5E606D812;
+	Thu,  5 Nov 2026 14:14:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=jj6u/R7z;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=0Unfvu+L;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=o7yvw8vM;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=koewNcLK
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 986FC21EEF;
-	Thu,  5 Nov 2026 14:13:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793888034; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=++gX4nBdQG/f/V126vbbXgIopFhKDy6QkBYtSpzb1Tg=;
-	b=jj6u/R7ztlzA18uOhIWn3Fm6ary/ooD0HzROuFmU+rVe/+kcN3Zf+T5HgI3FotjLXtuRht
-	RpV1U30ZFPXojdLp7NNCtPMSns3QPbSRxlnTvHUM7iffgnm1qln6L7zLqSOzEhsZfaWZ9X
-	xheB52mgmUjjDnScJfGglIaqEKZzYmw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793888034;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=++gX4nBdQG/f/V126vbbXgIopFhKDy6QkBYtSpzb1Tg=;
-	b=0Unfvu+LkHcesMtnTP9SEfOPlbttAZSPNjRhMaZoY9z/D6xpyn/xgGIZqC27ep0OmK1KHk
-	2v3uijhZyE9+VHDA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=o7yvw8vM;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=koewNcLK
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793888033; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=++gX4nBdQG/f/V126vbbXgIopFhKDy6QkBYtSpzb1Tg=;
-	b=o7yvw8vMLn89Ch4MKnA1t3SHkoFI+sPRB7i3zUD074AO0YELrUSHFdSS78nQHi25LScBtL
-	R8QPL4AN378wrt5KOZlZeWktqfhjhkoP93JH7vw8n6c6GmAtWN99ChReHYUEp2Zd1t1JmI
-	dsK5EANWa7cW25JOWC2mdPJa27JhM44=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793888033;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=++gX4nBdQG/f/V126vbbXgIopFhKDy6QkBYtSpzb1Tg=;
-	b=koewNcLK8FzYDf9/dEvtOc1B4QzPZ7OJt/zuUYC47FZoWA57QunP21CSjwrM/+c5O476ef
-	ePTCAbjwaHdw1sDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6F787133F6;
-	Thu,  5 Nov 2026 14:13:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id sjO7EiGP7GrbFwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 05 Nov 2026 14:13:53 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id 00311B71C; Thu, 05 Nov 2026 15:13:48 +0100 (CET)
-From: Jan Kara <jack@suse.cz>
-To: <linux-fsdevel@vger.kernel.org>
-Cc: Matthias Goergens <matthias.goergens@gmail.com>,
-	Jan Kara <jack@suse.cz>
-Subject: [PATCH] udf: Simplify udf_table_prealloc_blocks()
-Date: Thu,  5 Nov 2026 15:13:44 +0100
-Message-ID: <20261105141344.279527-1-jack@suse.cz>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZHt7HSGu
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2B311F00A1B;
+	Thu,  5 Nov 2026 14:14:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793888065;
+	bh=4QpYJSS9gn8AjXi8jX/3Dtqw7BlVuFU8dH7dnogBVO0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=ZHt7HSGugybN5tt7aBm2DYpjLqmVSzGHPf+FbQmlOA5T4Nk5fCKWzCEZb+J82PHlw
+	 l6AVe6kDbgKPpfD8/3R3rRcmmEPrg353sNwySWNZPUaC8eFmRslm5bIRcVZkF6IdyU
+	 ruk1UXsR2KoKlIyaiX4m5Bt2MaupvTmPsJkjn50vKnSDxBeKsVV4bwubvy7qds1fXh
+	 dHtWj4Z4lh+pj2d8Bkkjb5jAZcuLTyb0EPvvsrr0CO/XIRBV5F5Y3YmW39L6T82LYq
+	 MDqcufEATybJTn1bGcMM2j64t0KtpUgUMcx8vhy/hXPFsBB7xQM1sVp6uE3gUGspMg
+	 8BTqLnNf590eA==
+From: Lee Jones <lee@kernel.org>
+To: Alex Deucher <alexander.deucher@amd.com>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, Lee Jones <lee@kernel.org>, 
+ Pavel Machek <pavel@kernel.org>, Joel Stanley <joel@jms.id.au>, 
+ Andrew Jeffery <andrew@codeconstruct.com.au>, 
+ Ryan Chen <ryan_chen@aspeedtech.com>, 
+ Billy Tsai <billy_tsai@aspeedtech.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Kees Cook <kees@kernel.org>, Andy Shevchenko <andy@kernel.org>, 
+ Matthew Wilcox <willy@infradead.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, Dmitry Ilvokhin <d@ilvokhin.com>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org, 
+ linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-aspeed@lists.ozlabs.org, linux-hardening@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+ linux-doc@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>
+In-Reply-To: <ed2b0b67c306bb458ba389f16dc92904203a104b.1793027261.git.d@ilvokhin.com>
+References: <ed2b0b67c306bb458ba389f16dc92904203a104b.1793027261.git.d@ilvokhin.com>
+Subject: Re: (subset) [PATCH 08/10] leds: pwm: Switch to __nonnull_args()
+ macro
+Message-Id: <179388805861.2575351.14283088205507759337.b4-ty@b4>
+Date: Thu, 05 Nov 2026 14:14:18 +0000
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -107,97 +81,26 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-12.01 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_CC(0.00)[gmail.com,suse.cz];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,suse.cz:dkim,epos.bh:url,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -12.01
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 986FC21EEF
+X-Mailer: b4 0.16-dev-ad80c
 
-Simplify handling when the specified extent is not found in the table
-of free blocks.
+On Wed, 28 Oct 2026 08:19:47 +0000, Dmitry Ilvokhin wrote:
+> Commit 22302af28d3f ("cleanup: Annotate guard constructors with
+> nonnull") added the macro __nonnull_args() to wrap raw compiler
+> attribute.
+> 
+> Replace __attribute__((nonnull)) with __nonnull_args() to standardize
+> nonnull attribute usage across the tree and keep the attribute's quirks
+> in one place rather than open-coded at every call site.
+> 
+> [...]
 
-Signed-off-by: Jan Kara <jack@suse.cz>
----
- fs/udf/balloc.c | 28 ++++++++++------------------
- 1 file changed, 10 insertions(+), 18 deletions(-)
+Applied, thanks!
 
-I plan to merge this through my tree.
+[08/10] leds: pwm: Switch to __nonnull_args() macro
+        commit: 687615faae92e36a2b6c5ab0d007751e8e88a645
 
-diff --git a/fs/udf/balloc.c b/fs/udf/balloc.c
-index 75124188e745..b6551cc7c6cf 100644
---- a/fs/udf/balloc.c
-+++ b/fs/udf/balloc.c
-@@ -525,30 +525,22 @@ static int udf_table_prealloc_blocks(struct super_block *sb,
- 
- 	while (first_block != eloc.logicalBlockNum) {
- 		ret = udf_next_aext(table, &epos, &eloc, &elen, &etype, 1);
--		if (ret < 0)
-+		if (ret <= 0)
- 			goto err_out;
--		if (ret == 0)
--			break;
- 		udf_debug("eloc=%u, elen=%u, first_block=%u\n",
- 			  eloc.logicalBlockNum, elen, first_block);
- 	}
- 
--	if (ret > 0 && first_block == eloc.logicalBlockNum) {
--		epos.offset -= adsize;
--
--		alloc_count = (elen >> sb->s_blocksize_bits);
--		if (alloc_count > block_count) {
--			alloc_count = block_count;
--			eloc.logicalBlockNum += alloc_count;
--			elen -= (alloc_count << sb->s_blocksize_bits);
--			udf_write_aext(table, &epos, &eloc,
--					(etype << 30) | elen, 1);
--		} else
--			udf_delete_aext(table, epos, &freed);
--	} else {
--		alloc_count = 0;
--	}
-+	epos.offset -= adsize;
- 
-+	alloc_count = (elen >> sb->s_blocksize_bits);
-+	if (alloc_count > block_count) {
-+		alloc_count = block_count;
-+		eloc.logicalBlockNum += alloc_count;
-+		elen -= (alloc_count << sb->s_blocksize_bits);
-+		udf_write_aext(table, &epos, &eloc, (etype << 30) | elen, 1);
-+	} else
-+		udf_delete_aext(table, epos, &freed);
- err_out:
- 	brelse(epos.bh);
- 
--- 
-2.53.0
+--
+Lee Jones [李琼斯]
 
