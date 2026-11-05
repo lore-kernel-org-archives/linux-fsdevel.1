@@ -1,54 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793890726;
-	b=etGz82xzy7ZMEW9vFMqxzdVGkbRG8WYIBfwAY2jUD6DrTYJk5MiLIUKGk2irHvcyu+5h
-	 zfdVMitWfbVUFiTv249BbHunFQgVEWcx9LK0VjXBdggJi9ls1lPHp/LRBV2oqVlChiGRX
-	 XaUHBNT1M68ZnVZkac4fYxeBlSc3fw1chk9y/Fsmwsk6xCjT30muNs3f5Pu0d2aOSLXGR
-	 87V55Ao+AsQm8lkMtJC0MR6drt3+YZJ+YDwqivUOAWfskZjLb9RWVQYwYhrsEjzZdUYPK
-	 GWUrtSA3zF9JwQU9UcXHpg+gz/yCr09AEHk1+XCz7wAy2rdbNETyg/rK8w16Na1smug==
+	t=1793891104;
+	b=HBtPVV9jHE6Zjt2TVix6atXCHxIUonHEQBZjMs/8MxIys/Fc/JSltE2vrOPcPz7JwoaR
+	 ci1UgPKLze9Xo5jhzvc9jIcPxfkyNVaxLFyUhUymWWslrUwfz3FAMpZFTR82+3IIb3Jt8
+	 vC2iUO9zDQkzx4NwBIuLbKTNdFE/6NUxo768ComsUHjr6RORBpeisePSRCDEAL1SoN5wo
+	 Ynu/MCf/qOdHqwGxyQX8tPNscXsqBFu8P3Kc1kldU88/Oku0JCYPuRoEqFaIRP0LXiNyE
+	 +kEfk7AfGOeuQSYFtPscN9M5cEwZGJB2KR+F3zgyXzmtEqdl7R2gxL8XTyDCAHKSM+A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793890726;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793891104;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=HiKTijl55RJ9mCgP7Q1hlrAgo8XqvO7WlmV/52OFCmg=;
-	b=izMZ8U74+6+uJvLtunAtfqpGrpfKIFoKQJfReUXL8VlF3MJghMb50SvucbOl5kKflK7F
-	 x699RC4X1MP1pWrKpOjv3GdrBRQoU4ZgZ0bt5UY9/GZPhwl4ivdzXIzydWZ5LMWGYXfEO
-	 YnAeNCRvVmgcj4/BX7sz/HRAop0ItViOGbh8RPMJpAjhp3kxWB1SURXbtTXEkB8Lbx4nX
-	 WAHxsiw8uCJQGSo/5wZF8YRCa1WQgeEKS5no7HAmBvdGM2bj1QUbKPReiO4aw/+ExQz2r
-	 bu+kb4SvUX9s/XeeuHz2VVdlG7nkivHFz6hWPea9YIWJTfayx+4fN4WM0aPtPj6dQmw==
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=IDZiEDQ2fJcCZR1mPomOrN1HJzC+gocV2xQLf/Xmqno=;
+	b=ZINlSprPFoPW+BlDy2gFoGryyK4tbnD/wIiX0Vn3q/R2pUJzM8/bpl1AQiNzaDeltiFT
+	 k0nAo6OP5EM42uWZyUrUPR2WsKfuBgb41WJROA/2nFkAy7bFp5myirJ7pmgNasTOdZkj0
+	 SQl3vxyNejgwG/4Q1CYbjOvf7oW7lSLkcNeU5v75c2/xvXBmFG35QBHEygew0C3t02ZLr
+	 cjMh/cPmWQgL4+DpJPweZTd7h8onnPQ81GICQSytR5ckJ+PBa4jecZwCQQ1bJQbumMV/y
+	 qIM/zqoNkElm5wyI50mJyUEPDapE30oxzTDBOHQQowNLmoEE1HYtrOUg3KxLj4NNAdA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DDVwOwRr;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HrOw8A1j;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5819E60A5BC2;
-	Thu,  5 Nov 2026 14:58:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1A96606A31B;
+	Thu,  5 Nov 2026 15:05:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DDVwOwRr
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A75111F00A18;
-	Thu,  5 Nov 2026 14:58:44 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HrOw8A1j
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA91E1F000C1;
+	Thu,  5 Nov 2026 15:05:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793890726;
-	bh=HiKTijl55RJ9mCgP7Q1hlrAgo8XqvO7WlmV/52OFCmg=;
+	s=k20260515; t=1793891103;
+	bh=IDZiEDQ2fJcCZR1mPomOrN1HJzC+gocV2xQLf/Xmqno=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=DDVwOwRrj5sJOAmQwf1lVlADs87pEKbr0peOUl0N+oELzWoPb5aIlTQzmgC1jFhui
-	 lP8LaEbX2pWZ6x1N+Cyf8svkZPiqW9hernO7riaP1zFxt9kS3If5XJFTJP+P2VUX5i
-	 4cq6Wk0TPP5MH8qq+IBrU/5/l/rUfusZ7FH9eXQiLci5WHs7HDX06davrp/z6ur3K/
-	 pUb1WGNyVitqQVPslgV5eaxojlPxi/s96ZzoOHiuFHgfJFUwcbQwK5yLo3wInh7+fz
-	 wyTik//hzw3JnC1Wqj2bhUZt44pHWUQtWRyma+PMSNHt+CH6HX/Rpbr7HY/libgYsB
-	 TYOsgcKZ4mduw==
-Date: Thu, 5 Nov 2026 15:58:42 +0100
+	b=HrOw8A1jlUuhJDo1BiAbNQGXgo0JMDDcCaPKHctvyeHpkOGNMXXK9/65YyKmpklzH
+	 rlN5wpQjCoPa3I+ssp3r4upL0cZMHwUddWnS+er5KF4ShJtKSv9Kxe6YZf3mMwZZk3
+	 SAvN2djBmxXJM/XX59Q/5PMOX4NA/rclcaRZTHsB94oMDA9H2FUvtVycQHZv4ravfX
+	 pTPN7wyffQwgwU7ShR+nKJNKSvSQSozsE59O/DR2/496o73Wv2MkC9P0Nz5b06UeBZ
+	 hkcjkn1ly8s5Yerske8dk0Ck2Sdd7endvSjESEOiAwolQU3ipl9m0CjobIs3Cyi+9U
+	 SfdfwyVMM80WA==
+Date: Thu, 5 Nov 2026 16:04:58 +0100
 From: Christian Brauner <brauner@kernel.org>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, linux-unionfs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, Disha Goel <disgoel@linux.ibm.com>
-Subject: Re: [PATCH] selftests/ovl: fix detached layer mountinfo expectations
-Message-ID: <20261105-wurzel-innenansicht-wohnmobil-e1fb034e8c1a@brauner>
-References: <20261017165103.2450042-1-amir73il@gmail.com>
- <20261030-pluspunkt-kreis-lawinen-274971662578@brauner>
- <CAOQ4uxhFFPq0tjbbZo=m2tGx=93Tat2hs5K3LJ_moW=Ca8o12g@mail.gmail.com>
+To: kernel test robot <yi1.lai@intel.com>, 
+	Breno Leitao <leitao@debian.org>
+Cc: oe-lkp@lists.linux.dev, lkp@intel.com, linux-kernel@vger.kernel.org, 
+	Mateusz Guzik <mjguzik@gmail.com>, Oleg Nesterov <oleg@redhat.com>, linux-fsdevel@vger.kernel.org
+Subject: Re: [linus:master] [fs/pipe]  f7f4665dc5:
+ lmbench3.PIPE.bandwidth.MB/sec 18.5% regression
+Message-ID: <20261105-trommeln-einspannen-radius-ccb4e174e407@brauner>
+References: <202611041404.befe64cd-lkp@intel.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -60,8 +61,77 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAOQ4uxhFFPq0tjbbZo=m2tGx=93Tat2hs5K3LJ_moW=Ca8o12g@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <202611041404.befe64cd-lkp@intel.com>
 
-> This patch is already on ovl-fixes in linux-next of today.
+On Thu, Nov 05, 2026 at 08:38:45AM +0800, kernel test robot wrote:
+> 
+> 
+> Hello,
+> 
+> kernel test robot noticed a 18.5% regression of lmbench3.PIPE.bandwidth.MB/sec on:
+> 
+> 
+> commit: f7f4665dc520fd8bbc1db20e59945773e03744a0 ("fs/pipe: unify the page pools into a single per-pipe pool") https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git master
 
-But the fix is already in mainline. I think we got our wires crossed.
+@Breno can you reproduce this?
+It's something we should at least investigate.
+
+> 
+> testcase: lmbench3
+> config: x86_64-rhel-9.4
+> compiler: gcc-14
+> test machine: 224 threads 2 sockets Intel(R) Xeon(R) (Sapphire Rapids) with 128G memory
+> parameters:
+> 
+> 	test_memory_size: 50%
+> 	nr_threads: 20%
+> 	mode: development
+> 	test: PIPE
+> 	cpufreq_governor: performance
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <yi1.lai@intel.com>
+> | Closes: https://lore.kernel.org/oe-lkp/202611041404.befe64cd-lkp@intel.com
+> 
+> Details are as below:
+> -------------------------------------------------------------------------------------------------->
+> 
+> The kernel config and materials to reproduce are available at:
+> https://download.01.org/0day-ci/archive/20261104/202611041404.befe64cd-lkp@intel.com
+> 
+> =========================================================================================
+> compiler/cpufreq_governor/kconfig/mode/nr_threads/rootfs/tbox_group/test/test_memory_size/testcase:
+>   gcc-14/performance/x86_64-rhel-9.4/development/20%/debian-13-x86_64-20250902.cgz/lkp-spr-2sp2/PIPE/50%/lmbench3
+> 
+> commit: 
+>   c610d2d078 ("fs: annotate inode timestamp accessors")
+>   f7f4665dc5 ("fs/pipe: unify the page pools into a single per-pipe pool")
+> 
+> c610d2d0787961cd f7f4665dc520fd8bbc1db20e599
+> ---------------- --------------------------- 
+>          %stddev     %change         %stddev
+>              \          |                \  
+>      29142 ±  2%     -18.5%      23737        lmbench3.PIPE.bandwidth.MB/sec
+>     191.80 ±  8%     +54.1%     295.65 ±  5%  lmbench3.time.elapsed_time
+>     191.80 ±  8%     +54.1%     295.65 ±  5%  lmbench3.time.elapsed_time.max
+>      23261 ± 16%     +19.3%      27743 ±  5%  lmbench3.time.involuntary_context_switches
+>       9853 ± 16%     +27.9%      12605 ±  5%  lmbench3.time.system_time
+>      51.80 ±  2%     +11.6%      57.80 ±  3%  lmbench3.time.user_time
+>  2.928e+08 ±  3%     +26.6%  3.706e+08 ±  4%  lmbench3.time.voluntary_context_switches
+> 
+> 
+> Disclaimer:
+> Results have been estimated based on internal Intel analysis and are provided
+> for informational purposes only. Any difference in system hardware or software
+> design or configuration may affect actual performance.
+> 
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+> 
+> 
+> 
+
+-- 
