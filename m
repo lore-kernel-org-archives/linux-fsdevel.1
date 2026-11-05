@@ -1,87 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.175
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.161.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793890687;
-	b=qNk8TvmoPuBmycWpGdm8VNt8OxocoHEY9QiBAKJdwJp7niOYRbH8QD0dzhsZ9MXtXdlU
-	 YLcxgc/y/nFHReBu+39VIedRfe2dRkmlf6A9cJcQfWnMMUXwbIXn94J85Gc/CNh91wl1m
-	 bMWS+dGBVx76TYdAP49vuayoQpgYGuQw7MeK6kG+J7+1UayGgV1NJOGpEPF8IrVjHPEyK
-	 XivDVF44NSb2fWKgp/7blJ6m5xH7DZGWM0Sf3a4iSd5vwNmbnrVEAhpa/Qjp6F01Ok3aa
-	 J1uq/YqvuLaMBrxo2PW5K3pqpocSTDndOer0R9LJJyaGMY0a2vpo3gzRzm77SxJaqIA==
+	t=1793890682;
+	b=qsEGzd5iy0p7ZJY6Dcq6ap+loihf3n4B4y7dPendBnTltZtGPtFrEOPLQfdAGaKB3+w6
+	 scDZ0uIgFr8yD3MwAS0VZVX1wHuRebfS6dnmqeS1NjXULgTa3AZUJ2umim7Q89DBEzSsw
+	 jiK+0kCXxKJMpdZLZanMwP5WXadC3QtV/oY+ba4T/xOPIWEHGJCBLYLKGs8T/NKzQ74Pf
+	 6MpH9rS0jrt53XxXhhvZCH/fX4t6NDlBrv1BT6y9Nv9EycTYMnqefA2ssAqP+QBEj5m7G
+	 Rgey+WPquROPZk8DahlACfy5yFXD6El2VKL5VyKBO+0lZoDSQS2gYcW+2TfoAo49bdQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793890687;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793890682;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Date:Subject:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
 	 References:In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=oO16tYxG/j6qjYE7/Lk94eKyL+WgFynqYQ6ok883GDM=;
-	b=B8VaJRdQkmK/6YPykPwXXZWLtpXoM/0v/SYzx9KSJawvKJAciN6jfvmOXvM6W0at4WMq
-	 sDqMZtlqA1LFKtScW/BK5GlpXFd8MSl9OFRxMqksFVVaGsh4PRG35wBYP0ZAG46mrVH6z
-	 Mem7FdnXgQvlv4wvGVUvL9gQQi/+Y9AW5HXLwEX+wDG2yPrUe0aqv7RVoYYYS7OuxA1hE
-	 HMkpNI6Y2a+R9tGalJzjAvSu/7AMLBUedjZTNVcfgkqDx+g8J4SvouvXONnKqwGYMTTo/
-	 iNfz8408cdPaN8D4erUbx1lC1kCCifciZjhZgd/rKN6MsRFldSTDpJeAS+2bGP7M22Q==
+	bh=1Oa27i8jHKKaCqDgAvABan/T7W1O2wDNoFWitJ9cz5I=;
+	b=F1uAKzLz80YtWKtumzOul2Rbj4//Bsn578eQIRmuVUT7Mh9fXe8qmJtcK09SV1js0XMO
+	 vt/2YfJcLvxLr8MdvfjInPGZRHS97KUeHa0IpxMV6fy2LtbTOfkJexeXUo2/zcAtc4GGm
+	 2eJfVU+5k8lyZcP/5YzdGfTmJkheu5z64IHBt2W/MyxBEeJ30C0k0vz2FA2OICidi90v6
+	 rE1wgceP8Kc9VgCFLqc9W4dUmIcEPnSujJ1wKQ0LsLV9Z64QIyJr8iXjn7lQ7xZ7UrZf1
+	 ms1Q6y41UklSiG42VtHV84Rg2wrygWKGsqmtFRivHFDtAsjVJWsFm2AX/o8Bn3EArIQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=toxicpanda.com;
 	spf=pass smtp.mailfrom=toxicpanda.com;
-	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=CB1RAK+h;
-	arc=none smtp.remote-ip=209.85.167.175
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
+	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=hxjM+qWr;
+	arc=none smtp.remote-ip=209.85.161.54
+Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96F55606EE89
-	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 14:58:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 96F55606EE89
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 132F2606D815
+	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 14:58:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 132F2606D815
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=CB1RAK+h
-Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-4f55a53898cso1039521b6e.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 06:58:06 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=hxjM+qWr
+Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-6dd7070699eso1344643eaf.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 06:58:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toxicpanda.com; s=google; t=1793890685; x=1794495485; darn=vger.kernel.org;
+        d=toxicpanda.com; s=google; t=1793890681; x=1794495481; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=oO16tYxG/j6qjYE7/Lk94eKyL+WgFynqYQ6ok883GDM=;
-        b=CB1RAK+hBV43O1TDJ3uk1Wdt7UA76x2jg+AoFoYcramvlyycXJm09lvfaBB3Brdp1i
-         DTjlhBM6aLOW0f7J68sJu7q93geRVZoLObNnRpXnCxVoaGXM0P0UhFmhZT/V2pavjyZb
-         bofXWtOoqOFIJ1Ckp99Qh53b60k0hPHoUayvMQjYcWwqahAJEXXxFjJfNsNffmCHMepL
-         5cep+MgfklG5Zb4zqAkP0Psr7DP3mbZIr1RWXzUxxHB9OkGUSSCQ6DBKNcLz+OObAw61
-         0KCeGDVwv58ZJFRcOZVUTOTPq2bz0eSPXmZ2O78t2JYE80Fnme3NwCzSvSpDr0mEy8D+
-         5wOA==
+        bh=1Oa27i8jHKKaCqDgAvABan/T7W1O2wDNoFWitJ9cz5I=;
+        b=hxjM+qWrHYYXdnWv7PFW7hcHPLPOdZ0im6EzNDt3mqaXOk8bM34ni57hsQUKgV9aqU
+         nzwaQl0I0S/QQuX6DfE0wblG/vhO8XTeTyIXhZsQDYMmbde9qXSBBUkQvYvWn4Ukx99t
+         iW6Gzi5hr3M4DJmT1jvz54V/RlpVUTYnlq9SiXniN6R88JwANoacPgOyQWB6kG8SgxD0
+         arOgdrKoBdRq+HkgGqnNske6p5djcSV+qsmtgWMA+6rYnqG+NPtBg/Hre7qjzRmzwXl+
+         eIk+a981/EVv+b5BZVWQpWOiWVO/uV/4YU6O70LjQc/HSkyL/76+XlKHJlwmB4xuea6I
+         ryGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793890685; x=1794495485;
+        d=1e100.net; s=20260707; t=1793890681; x=1794495481;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=oO16tYxG/j6qjYE7/Lk94eKyL+WgFynqYQ6ok883GDM=;
-        b=VjDeVV8LPjlu9vUNyP2/p/UEnrZv+5RoK7Xs1zutTJcvH6bb7pS3OuzpTnpRImYfCV
-         mqARhvhY+kp+rFhEFE9TEX785iA22+Qhfd+TT76LbjIdFAm5ONEIkaE3FWOITujdb/BO
-         oQZzzn6wWBB9FM00qN0hzj+j+Q6/uOhni7VV1vW4fx8gTgzoV2Q2qfo1p4WMuuZaobCF
-         M/sii34vZFt1294ElOxa6Hd1BcI6Iyo+8v5fPbSdHkONAPQIAM7EDoBTtFfE7pocjWfe
-         sua5W86mEV/5eH7hEpZup0kW9fbvrwO8OcDG+y30I6d+XdFmPVFLQE4xOa0Dadp1CIxt
-         vHkg==
-X-Gm-Message-State: APuU4Z/NkOe5769MIkczoRJQOCBTTKjnDKRQjtsy4zIK7nU/M7EfydOq
-	EWzvzOZ7IVdgyndJzOjDn1TWADcZZnNeoPTK3Xr/QebHHi8aLlZCC4F3ZhWWDr+/8pM=
-X-Gm-Gg: AYBFou0e7dMeW8fzSFpxiQq3o3ziRwypse6/OOum/o5/5Ip4OFrCY1F9dwUvqklK36+
-	n4AR1H7lnxR6NRVNc44n8cq/xM7hcScgPDZRypQcGRGXp9hxUixvG71Hill+MUZnSVRZlTEv7r6
-	QG35wYLlgmKWr+wWPXhjO3vwkCRpCS6b9lRiRvziQNgAlWHNpv0riZBYpIi8eLYFB5L+WVy1jSQ
-	tnr+ONgPIGS51Nc25+aclY01DePMUXFttN5bBFdFwnFDo7ZW6wlLvKCC6RAf0ffDi5KSPVuUAku
-	aUEqjEjXn7p3jDvjO3/dFIXCVr/yy7s04qZOqsOpnXYiU3+0M4XnWALpH79QciZuJIEaGVi1GF/
-	CwXK/cm6XVprO4BAwuA3IED7pkyywonD0m0qmXeHbQt7UN2xZgo3CZLn3VmA1QNsHfBXhlKkmQp
-	2iy0H7+2RAVFgFWDxncrNLkMw86zpC0iHr0inrU1T5QhUkEwZDZf8qdNBUDgT/GAbpzDBHEePRx
-	hEYR2y99gBHnDcqBZ1sG7hE43hXToY9Xt6LOdZp3b0LgmtVrEj71h3A52qF99fhf0sqxxd/BKf7
-	uag/2ga7pMi0vn1dzsRUl7nqMPurmdnz/txQqRnm8k63yg==
-X-Received: by 2002:a05:6808:1813:b0:53a:65aa:152e with SMTP id 5614622812f47-5640ddca9e2mr14528848b6e.35.1793890685493;
-        Thu, 05 Nov 2026 06:58:05 -0800 (PST)
-Received: from toxicpanda.com ([153.61.196.250])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-567a9ef6436sm4440554b6e.4.2026.11.05.06.58.04
+        bh=1Oa27i8jHKKaCqDgAvABan/T7W1O2wDNoFWitJ9cz5I=;
+        b=St0XCovPLzmladLq/C8nM+13oZo2eF7BITQoRyVcD+yce2NHMW8Tx4I78b+JjS2IOc
+         fkhkKXPiaF0YBlFbQzLRBob0jGxJjT17+b6m9TdtqdLRfUZrOQX8aOelMRH1+KKOfNqL
+         SexULOyFON0r67KAaGuzB/E6r7C1RA/FMxSq2OZK4XNjNjm0R68AWVgo+ipy0c1r6VUr
+         TNlcytH2czqL3LSxEQuu4mBSMRCBe739JUDHbUbBFzMlWUHoayaSq9GIRUFNh06To5EH
+         hUTLnqw+WsA0cvn2qKCodA8w4vX/s4IK1qOTWDUmTVSQLXEXv3AG7pgLQsv7eBtOPErk
+         pEEQ==
+X-Gm-Message-State: APuU4Z8kiuu9TSHfRCof4jXfjgfmba7rtKtSb/UOzxp2oRHDtPbI5kVM
+	YS2gch4VCEr8zg8CCijtVoeeWZid1Ulp2OXVkvqcscku/jSFZ0Ajkzp/9wIKZmZIlDw=
+X-Gm-Gg: AYBFou2FaQXvx7DUG424tNIPUPgidGg6/ZigeNjXmCPVSrVflJOcE67eFZIGQvpzful
+	j5pzEHYFyPa9UpwlqV5x+8FqbCGUrhEtFJbrivdswlo81/8gcY8Q5UmLqE/20qUtLjxJT3Huj1Q
+	u5+H/9O/Cf0Cq5RHt3vwJI9hJuCg7O0BQ+toUROyLHgaHNqWCi1+Jkpf3PSrkuzWkYvnM27wfzu
+	t5Tnq91wrZ8C316XfynSgKAEp5W6oyq+QTXg0pDqOocPWQA+VZVQ54bAn1ltLu4DuIn4yRft1sa
+	bRsH+7ACX6h4KO+Yumn/g5LL4cktEjramGuHunde8AaL9FPcbxO3kIxrZFvytrRBzKLBh3wpqOK
+	j+WdN/jgGHBqOgoNMvxdAQt0VzbdklbxvLc+qw9gepkPCI7SLHFJvtVMNG1ooBkHjSw8ddND4rm
+	aIhuN2lBPXL+NnSB6MROYzzjPXrjHf9tKMll5LCIg4tWOVP0gmgB8aufAN1CtQC/WO7ZaFAK20u
+	gtMmEQxj8QmAeFYPbFlMjqp53eJbOVYVlHJ5nPYPxdq4uFCLfDMv6eTclXV/3eWwAbSn/A8N3ao
+	CnMroyAhcZH03bgENlj5SC5gGw35Lj+41nDx+4EYCuu8ywi6WuclLLLbsLDjDgY//PJx
+X-Received: by 2002:a05:6820:83d7:20b0:70b:8148:92b with SMTP id 006d021491bc7-714f24e7804mr8959940eaf.62.1793890681047;
+        Thu, 05 Nov 2026 06:58:01 -0800 (PST)
+Received: from toxicpanda.com ([153.61.196.243])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-716c134ff86sm4261668eaf.14.2026.11.05.06.58.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 06:58:04 -0800 (PST)
+        Thu, 05 Nov 2026 06:58:00 -0800 (PST)
 From: Josef Bacik <josef@toxicpanda.com>
-Date: Thu, 05 Nov 2026 14:56:56 +0000
-Subject: [PATCH RFC v3 05/90] user_namespace: refuse setns() into a cell
+Date: Thu, 05 Nov 2026 14:56:54 +0000
+Subject: [PATCH RFC v3 03/90] cells: reserve a window of ids
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -93,7 +93,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261105-b4-cells-v3-5-bc9095937a84@toxicpanda.com>
+Message-Id: <20261105-b4-cells-v3-3-bc9095937a84@toxicpanda.com>
 References: <20261105-b4-cells-v3-0-bc9095937a84@toxicpanda.com>
 In-Reply-To: <20261105-b4-cells-v3-0-bc9095937a84@toxicpanda.com>
 To: Christian Brauner <brauner@kernel.org>, 
@@ -104,43 +104,99 @@ To: Christian Brauner <brauner@kernel.org>,
 Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Josef Bacik <josef@toxicpanda.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openssh-sha256; t=1793890669; l=1005;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1793890669; l=2655;
  i=josef@toxicpanda.com; h=from:subject:message-id;
- bh=oeHv9PDYaQdozIDgTp7q3k8e/SGqvaatRSU+LcY6LLE=;
+ bh=uYURFlGP89RDbq5t2H13wY1pbXbymFIdj6H++R/Kjxc=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgUBr36M/n0nWN0DNbnxwzIiCZez6MG
  JiruuNaSCI/zXsAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QKJ23l1/eRpiN/QFD6DBSyXGfgXNQ7bh2H4Pq7xCGtr9Qm3+8Q1dfH501o/Xz2gXUHThvaBpjW3
- pTNWleP3mQwM=
+ QDQNC3zLxxRe7ukNn89rleJLFuizIwJ7EfSDVIS3gJlCB2pATqsdHif6i+tM5R6Ir6BIpCSJgkm
+ OU6JAGpy6gQM=
 X-Developer-Key: i=josef@toxicpanda.com; a=openssh;
  fpr=SHA256:C8kOX2QUJCMqnCX+KEeoqRAjLo9L+ELOSH2NSAJHqGA
 
-A task that enters a user namespace with setns() gets a full set of
-capabilities over everything that the namespace owns.
+A cell needs uids and gids of its own. The builder should not have to be
+trusted to pick ids that nobody else uses, so the kernel picks them.
 
-A task is born in a cell, and no existing task can enter one. Refuse
-setns() into the user namespace of a cell. This also applies while the
-cell is still being built.
+Reserve the upper half of the uid and gid space, minus its last block, as
+a window. The kernel will hand out blocks of 65536 ids from this window to
+cells. Add helpers that tell whether an id, or a range of ids, lies in the
+window.
+
+None of this is compiled yet. CONFIG_CELLS is added at the end of the
+series.
 
 Signed-off-by: Josef Bacik <josef@toxicpanda.com>
 ---
- kernel/user_namespace.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ include/linux/cell_ids.h | 61 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 61 insertions(+)
 
-diff --git a/kernel/user_namespace.c b/kernel/user_namespace.c
-index 9301d0d41cb9..45699a0a0bfd 100644
---- a/kernel/user_namespace.c
-+++ b/kernel/user_namespace.c
-@@ -1437,6 +1437,10 @@ static int userns_install(struct nsset *nsset, struct ns_common *ns)
- 	if (user_ns == current_user_ns())
- 		return -EINVAL;
- 
-+	/* Nobody enters a cell, not even while it is being built. */
-+	if (userns_is_cell(user_ns))
-+		return -EPERM;
+diff --git a/include/linux/cell_ids.h b/include/linux/cell_ids.h
+new file mode 100644
+index 000000000000..df0b874d5788
+--- /dev/null
++++ b/include/linux/cell_ids.h
+@@ -0,0 +1,61 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#ifndef _LINUX_CELL_IDS_H
++#define _LINUX_CELL_IDS_H
 +
- 	/* Tasks that share a thread group must share a user namespace */
- 	if (!thread_group_empty(current))
- 		return -EINVAL;
++#include <linux/compiler.h>
++#include <linux/limits.h>
++#include <linux/uidgid.h>
++
++struct user_namespace;
++
++/*
++ * The kernel hands every multi-id cell a block of kuids and kgids out of this
++ * window. Nobody else may hold an id in it: a legacy user namespace cannot map
++ * into it, and no create, chown or ACL stores one in a filesystem that the cell
++ * it was lent to does not own.
++ *
++ * The last block is left out so that (uid_t)-1 stays clear of it.
++ */
++#define CELL_ID_BLOCK_SIZE	65536U
++#define CELL_ID_WINDOW_FIRST	0x80000000U
++#define CELL_ID_WINDOW_LAST	0xfffeffffU
++#define CELL_ID_NR_BLOCKS	\
++	((CELL_ID_WINDOW_LAST - CELL_ID_WINDOW_FIRST + 1) / CELL_ID_BLOCK_SIZE)
++
++#ifdef CONFIG_CELLS
++
++/**
++ * cell_id_in_window - is an id one of those the kernel lends to cells?
++ * @id: the value of a kuid or kgid
++ *
++ * Return: true if it is.
++ */
++static inline bool cell_id_in_window(u32 id)
++{
++	return id >= CELL_ID_WINDOW_FIRST && id <= CELL_ID_WINDOW_LAST;
++}
++
++/**
++ * cell_range_in_window - does a range of ids touch the window?
++ * @first: the value of the first kuid or kgid of the range
++ * @count: how many there are
++ *
++ * Return: true if any id of the range lies in the window.
++ */
++static inline bool cell_range_in_window(u32 first, u32 count)
++{
++	u32 last = first + count - 1;
++
++	if (!count)
++		return false;
++	if (last < first)
++		last = U32_MAX;
++	return first <= CELL_ID_WINDOW_LAST && last >= CELL_ID_WINDOW_FIRST;
++}
++
++#else
++
++static inline bool cell_id_in_window(u32 id) { return false; }
++static inline bool cell_range_in_window(u32 first, u32 count) { return false; }
++#endif
++#endif /* _LINUX_CELL_IDS_H */
 
 -- 
 2.55.0
