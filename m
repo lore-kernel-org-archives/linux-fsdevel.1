@@ -1,62 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.235
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.77
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793916817;
-	b=yzfW4I0JzbDvJFflMMkSkv8Zuzf26tjnuNduMiOqE4inZgJOsp5XNd6zYmg8vp9L/CNl
-	 m52VhjiFYIoTNGhB0Iq6ioZe+/0hO0s2StfyO6NxkM5ZWmjMQWxT4bvmrF58kgyip5+bV
-	 bDgSK09OexWv16feF8tAooUk7JFIw9WwqRD/HM6oeSU37IrEK0O5ren9iWFDQ7xhxcqSj
-	 nk9gcJAlZSeZl8789Vfu2HpLGkBhdyuRqykpJLR4NrKmvOtmu3Eh0nnsxbMaEGrmgZD4R
-	 +XnCMuj1Ngq+KwMgPdQsXNKOwLKAACE5JndJCftjGBLX1hkI1WbwGoGNAYZG5HZgN/A==
+	t=1793917504;
+	b=noAFN9zEwJDHlSsIMiMQD7y58sOcxS23YV2ng+XsfwIptzdyOLzw/RHAwHrIwv2PbdWy
+	 lYau6dFZrVR80Bh/13Fw3WKLx7LjcNvRg+NtNbyQnPocXCX43zlYZ1codcdp04dOyDa7y
+	 xR3NLGJen4r7YIXIGEf2jtU8scWUmvseIuZEc2JVxJBC3gKXl5lrpqNG/xLZ+pQr7KM6J
+	 KSssJ9du02INoaqcN1+0jTE+7DCqtYe+lWP2ouxQ3p++cWyU+ddQZJWvcjY3eZ+ObkdAl
+	 6D8mdhFdMdkS6K+626pLv2vTfe5hcUjmwEDxGjYdyuIQBv6Wy7n5vVCBMZbemOw5vuQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793916817;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793917504;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
 	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=4KVE0mlIb8Pa60CBHZvDD8qqhUD9QNgg/6EGkqm9L1Y=;
-	b=igw9nFRkkFPN0aLbYBv7viH866U5UILMbgFIJoMAMx2UjszDulXA0+9CyEshrZnm/YtZ
-	 iGso4kr+KDSHUW2NLOJTvzxqANbvD25wcfoTFWgpg/zsGxslhuFwexwNQhVR5J6jUlcU7
-	 2JLfuTgIM6DQdBws1l3SIFvtpAncxFnRzc8NlSGYLdSOydKHmhSrEdyywag+YXfH3IwYv
-	 iMSlzn+N1ybkdCuuP/WuX8YRCHAoGH/6LC40JhYtgbBTjfw6jDXEP8h5+bFX7tv10YLe7
-	 OJkmL8HDfLtIUJJViMB+dDEnJJ6cKUbyDJ5uLaKMVZdY/iHzSrJG9SqoLtYCkTw9+lw==
+	bh=aC+qtiKQ023bm9o1O7eQng0BAlQQoW+kw14Srbp6hgo=;
+	b=JBwCIgb/74EtneCMDRGwxNfxvn7chZZSSf/IkGZav0MSlMWl7FuBuviYujcFUWSg5CFn
+	 2aBECqo5pPTnXCgsbqFvfX71b/l4xCts48yCOF46Ls7olJ5LAHSL9JK4bLDx3jrpXM8QH
+	 hDsROgzY3m5jglZQBt5FP/ZG/UAx8Biss1R3pxh3V9YqXAbHl1ADAl980tw1M+FGWCLIN
+	 lJzqaZ5b58GnNNLS2Ls85VSJk09Awg4p+GLNMtg/7XG2XbFU4PhrGLLo4U4jdzg5nZ5xX
+	 HNlEkaNZAe/ZCw13r/dlN1ZJXJ+NwMHSdbvDNFTcUlXw0vAA6oC9ZjfKVIFOMnkrj6Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b="FZL/4bYI";
-	arc=none smtp.remote-ip=95.215.58.235
-Received: from mta1.migadu.com (out-235.mta1.migadu.com [95.215.58.235])
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=QEmAV63O;
+	arc=none smtp.remote-ip=91.218.175.77
+Received: from mta0.migadu.com (out-77.mta0.migadu.com [91.218.175.77])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B114E606A328
-	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 22:13:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B114E606A328
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4471606A326
+	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 22:25:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D4471606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=FZL/4bYI
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=QEmAV63O
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=DkefybD1i8xvQ56jyQ09h/HTM19UexBk7u12ksvN4Ok=;
+DKIM-Signature: a=rsa-sha256; bh=aC+qtiKQ023bm9o1O7eQng0BAlQQoW+kw14Srbp6hgo=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793916813; v=1; x=1794521613;
- b=FZL/4bYIYtPOxgYb2t6NdTInSEADFu24zE8bVTWhV8d7DKiaTGawM60fbUJSi3opG7QUYT7r
- 5UnBWjhj0KMKMEeoUUIC+NFwUUQIA+EkX4eLPy8KMDb4oSee8lfUntIzswfHl5C7tAwIKFlgRV/
- vpx80WMwdwnvpLm0xvNOTR/c=
+ t=1793917500; v=1; x=1794522300;
+ b=QEmAV63Owd5BM2w6frMC5QUdHeq45kNM34HaD0v1OQq2PQulxCRLiMPjUAfpCdgJzhX7jxRd
+ F7FL8QPwkH+3lzQ9TDFopccc4Jv4RLTuyls6DgNBAaUNgxHGE2ieItx68IDmXzWKsG9zWOdG5gh
+ IY5pjkR0O7ME7Ws687zf08x4=
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id c3dbcbf73ad53fc4;
-	Thu, 05 Nov 2026 22:13:33 +0000
-X-Mizu-Trace-ID: c3dbcbf73ad53fc4
+Received: by smtp.migadu.com with ESMTPS id 204d4cc12b5d9ed2;
+	Thu, 05 Nov 2026 22:25:00 +0000
+X-Mizu-Trace-ID: 204d4cc12b5d9ed2
 X-Migadu-Flow: FLOW_OUT
-Date: Thu, 5 Nov 2026 22:13:30 +0000
-From: Jose Fernandez <jose.fernandez@linux.dev>
+Date: Thu, 5 Nov 2026 22:24:54 +0000
+From: "Jose Fernandez (Anthropic)" <jose.fernandez@linux.dev>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
 	Jan Kara <jack@suse.cz>, David Hildenbrand <david@kernel.org>, 
 	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
 	Krystian Kaniewski <krystianmkaniewski@gmail.com>, stable@vger.kernel.org
 Subject: Re: [PATCH v2] mm/filemap: stop fault-around when the walk steps back
-Message-ID: <20261105-jf-filemap-v2-akpm-testedby-reply-r1-36ef39856b46@linux.dev>
+Message-ID: <au0CJvc-OwFbL6lm@linux.dev>
 References: <20261031-jf-mm-filemap-map-pages-lower-bound-v2-1-21029744e589@linux.dev>
  <20261102092750.e53073b2c7b872f9d70c0711@linux-foundation.org>
+ <20261105-jf-filemap-v2-akpm-testedby-reply-r1-36ef39856b46@linux.dev>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -68,17 +69,13 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261102092750.e53073b2c7b872f9d70c0711@linux-foundation.org>
+In-Reply-To: <20261105-jf-filemap-v2-akpm-testedby-reply-r1-36ef39856b46@linux.dev>
 
-On Mon, 2 Nov 2026 09:27:50 -0800, Andrew Morton wrote:
-> Can I add your tested-by to [1]?
-> 
-> "xarray: fix index jumping backwards in xas_find()".
+On Thu, 5 Nov 2026 22:13:34 +0000, Jose Fernandez wrote:
+> I ran it under the stress test from my reply to Pedro in this thread.
 
-Yes, please do:
-
-Tested-by: Jose Fernandez (Anthropic) <jose.fernandez@linux.dev>
-
-I ran it under the stress test from my reply to Pedro in this thread.
+I also ran the check_multi_find_4 test that comes with the patch. It
+fails without the fix and passes with it. The stress test only ran with
+the fix applied.
 
 - Jose
