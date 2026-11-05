@@ -1,51 +1,51 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.221
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.174
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793861980;
-	b=IFh8L3k6b2FMUozNbaZ+uhCbgQh3mvkZOwWidPdK4TWP/s4JOe/aO+/0txoDpEepaj4j
-	 R5QvOjJVb1ho+iRdpr05ZluHF1/gRemviocV8Y4WHEn+035NQkDzrkwoJwIrTjpDRh3Dh
-	 eYydiBn4Ro8vSZMT9gMPk5LlOo/JTw2a+0edXhbM74xh31fm0D+F/YAsFEmcsZ/Uz1O/q
-	 pLZE/sWg4zJvzNedetazNgQaWP0KVofjSEPbYhcKks1FoOyePnDQb0+ged7Y7AaLc0/QA
-	 9K37hZHCWJIiLQr+a1j6th7DZVjnIAn1LEknLTuB4mNcHEF+MyyMYfJaYhN/jBMW15Q==
+	t=1793861996;
+	b=zLfwG8lCSrnGogtE9SkZL82wZdWolc85LBHAhgTgQrPrL8Mn7nQO9y5Yugq6gknBtWlD
+	 HXyAaj+v3nL+pp9wt0n50ibp58h+PmIA+v6PhBLgtxfVhfTOFLU3SxEpPwzIXDX6RC9KS
+	 ++eVA+pCxBUQ1Hf2ZF4TEmRY3VaS9aPeUtXjpH0dctBmH6LHCXMSqnDaHc7Sv5NGiN7Gj
+	 H9Mq5khiStai8kqLghIFkki8aKfxg7dHQw9xuG53O8u+n/iThA0NORMaBUxCqgRmDiopb
+	 UXKma871YIeP67EUPMBDthzTU1S5TPXMtjvDyMKLgeQ1rMnSVfs3KnPkAGcHCqnjBIA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793861980;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793861996;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
 	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
 	 X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=V6jXYvV9dka+3jN4FlL/QeRxDjLIKwLo+qsWJ9KiY6Q=;
-	b=fib0sevgs/YUkFGpDi4/D2UpCU6OOBuMOziTTfHGH7cOY4//Dy5wuXzvOR31lUeU3+Pm
-	 Uf276dyjdnEQNt5gelmqPR1PyxsUWIYdlHERAszgjIVUzmqvzrhRaIU37x86mR/ps5igA
-	 h9Q1KMudauVYL2p/AvZn8L9VmNkgjJVBBzb/VlVu8SC9nQedKO8BLfOSiusZNuwI7EQnZ
-	 Y7DzXBIhYbehR1U0XcA1RL9IfvTEgbv1nIZ61dwvIKyhc1GB8ZL+R2NbrpNmyih2dIk5y
-	 3Cqfn5TJtjU1oyd1bMIYHaSGufmHO9RnFbMt/r9tzX0LunxiPNF5Zz5OD+UJzSo7bYg==
+	bh=giKD9GBB7SqWcODKYmNlG0gh8SE1gt/R19vK2YjohsA=;
+	b=Ik4Mtszskyi81dStRm9+9PdEvpdLdjoLAfnd/s/HBZuKB8zYDp/PeseuZMSzxXyVwhGn
+	 c4qMSrdE7QWJI80e6mO9PzCkBan4Af/FQheDBES+50unHrRAfxf8MfDMcPiUhggRrnPZG
+	 x35jObLu/zkHW5NOdaTsUwwDs6ptUg0Kr/pjFiRJez3FxWg3jVhWc82KwO2R5o9LqEdLG
+	 oIEgQv17ow5KiSBfjFm63zhodSvI8FEiVUspatnxJtkJWXRu+SGDBWhRSMVozGguSQ3oy
+	 maTiYVNX1z7Rb1FxqduMuSIQy0RUVaEbGxHFvUBgGKL1dTAGGYpHlVgqBfb/MQO8zaQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=QaWf9wb7;
-	arc=none smtp.remote-ip=95.215.58.221
-Received: from mta1.migadu.com (out-221.mta1.migadu.com [95.215.58.221])
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=UJkINKzK;
+	arc=none smtp.remote-ip=91.218.175.174
+Received: from mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 337BC606A33C
-	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 06:59:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 337BC606A33C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3531606A326
+	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 06:59:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E3531606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=QaWf9wb7
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=UJkINKzK
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=BRMlNTa2IFz117u+LpOsOZxcnQTogf6s+dFMFzcP0xM=;
+DKIM-Signature: a=rsa-sha256; bh=Ht9W8rG1bvFhZOOVFyVUZBS1JBc1APtNoV+i3qOiW1c=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793861978; v=1; x=1794466778;
- b=QaWf9wb7wFivbY4mUbRehlCWWKN3tB0cW4ajPirSzhAocmjyx9TuV37CtcFab/80djMAdLFe
- jRYRmmPTKw1NfQidftHLvJl0yYWgWkAWXm2oWhCr421bGdGGf0wTAUxeGgQ/rZbnokP26pzIvY7
- ddWpsDXwlLWg655twgRVJAOQ=
+ t=1793861993; v=1; x=1794466793;
+ b=UJkINKzKdtLYR8KtpZuaFU8oFOUGl8oRWRJRBWewSilr+ADj9oA9XTq+T9+x9L2sd0LBRZ6i
+ Z/2TgFvG+kvx8D/3Hx3IU7wQqdyh+09q4ppm9LSPVLNI+LaQrJFS/qWfkiLqiLjqQ0vCkhMYn3y
+ KBzd3Uw2/VTZ5LBroZQj6YH4=
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 724bcf4c5e474fe1;
-	Thu, 05 Nov 2026 06:59:38 +0000
-X-Mizu-Trace-ID: 724bcf4c5e474fe1
+Received: by smtp.migadu.com with ESMTPS id 770e8c686bfb0362;
+	Thu, 05 Nov 2026 06:59:52 +0000
+X-Mizu-Trace-ID: 770e8c686bfb0362
 X-Migadu-Flow: FLOW_OUT
 From: Mengmeng Zhao <mengmeng.zhao@linux.dev>
 To: Jens Axboe <axboe@kernel.dk>,
@@ -73,9 +73,9 @@ Cc: linux-block@vger.kernel.org,
 	linux-xfs@vger.kernel.org,
 	linux-mm@kvack.org,
 	Li Wang <liwang@kylinos.cn>
-Subject: [RFC 2/6] mm/filemap: refuse dmabuf iterators in the generic read/write copy paths
-Date: Thu,  5 Nov 2026 14:58:43 +0800
-Message-ID: <20261105065847.196540-3-mengmeng.zhao@linux.dev>
+Subject: [RFC 3/6] dax: refuse dmabuf iterators in dax_iomap_rw()
+Date: Thu,  5 Nov 2026 14:58:44 +0800
+Message-ID: <20261105065847.196540-4-mengmeng.zhao@linux.dev>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261105065847.196540-1-mengmeng.zhao@linux.dev>
 References: <20261105065847.196540-1-mengmeng.zhao@linux.dev>
@@ -92,66 +92,33 @@ Content-Transfer-Encoding: 8bit
 
 From: Mengmeng Zhao <zhaomengmeng@kylinos.cn>
 
-The generic copy helpers cannot touch device memory.  Refuse a
-dmabuf iterator in generic_perform_write() and the filemap_read()
-fallback while keeping any direct-I/O progress, and report a busy
-folio from generic_file_direct_write() as -EAGAIN instead of asking
-for the buffered fallback such an iterator cannot take.
+A dax access copies through the CPU linear address, which a device
+mapping cannot provide.  A dmabuf iterator reaching dax_iomap_rw()
+splats a WARN_ON_ONCE from iterate_and_advance2() and fails the I/O
+with EFAULT.  Refuse it up front with -EOPNOTSUPP, as the generic
+buffered copy paths already do.
 
 Signed-off-by: Mengmeng Zhao <zhaomengmeng@kylinos.cn>
 Signed-off-by: Li Wang <liwang@kylinos.cn>
 ---
- mm/filemap.c | 22 +++++++++++++++++++++-
- 1 file changed, 21 insertions(+), 1 deletion(-)
+ fs/dax.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/mm/filemap.c b/mm/filemap.c
-index 6afec636881f..ab8a5391a699 100644
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -3013,6 +3013,14 @@ generic_file_read_iter(struct kiocb *iocb, struct iov_iter *iter)
- 			return retval;
- 	}
+diff --git a/fs/dax.c b/fs/dax.c
+index 6ba50142eeb2..6ec08316aa6c 100644
+--- a/fs/dax.c
++++ b/fs/dax.c
+@@ -1759,6 +1759,10 @@ dax_iomap_rw(struct kiocb *iocb, struct iov_iter *iter,
+ 	if (!iomi.len)
+ 		return 0;
  
-+	/*
-+	 * Buffered I/O read is not supported for dmabuf; a short direct
-+	 * read before this point stands on its own, as in
-+	 * direct_write_fallback().
-+	 */
++	/* dax copies through the CPU, which a device mapping bypasses */
 +	if (iov_iter_is_dmabuf_map(iter))
-+		return retval > 0 ? retval : -EOPNOTSUPP;
-+
- 	return filemap_read(iocb, iter, retval);
- }
- EXPORT_SYMBOL(generic_file_read_iter);
-@@ -4300,8 +4308,14 @@ generic_file_direct_write(struct kiocb *iocb, struct iov_iter *from)
- 	 */
- 	written = kiocb_invalidate_pages(iocb, write_len);
- 	if (written) {
--		if (written == -EBUSY)
-+		if (written == -EBUSY) {
-+			/*
-+			 * Avoid fallback to buffered write for dmabuf.
-+			 */
-+			if (iov_iter_is_dmabuf_map(from))
-+				return -EAGAIN;
- 			return 0;
-+		}
- 		return written;
- 	}
- 
-@@ -4353,6 +4367,12 @@ ssize_t generic_perform_write(struct kiocb *iocb, struct iov_iter *i)
- 	long status = 0;
- 	ssize_t written = 0;
- 
-+	/*
-+	 * Buffered write is not supported for dmabuf.
-+	 */
-+	if (iov_iter_is_dmabuf_map(i))
 +		return -EOPNOTSUPP;
 +
- 	do {
- 		struct folio *folio;
- 		size_t offset;		/* Offset into folio */
+ 	if (iov_iter_rw(iter) == WRITE) {
+ 		lockdep_assert_held_write(&iomi.inode->i_rwsem);
+ 		iomi.flags |= IOMAP_WRITE;
 -- 
 2.43.0
 
