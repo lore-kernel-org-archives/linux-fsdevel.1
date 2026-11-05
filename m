@@ -1,47 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793901126;
-	b=D1WjE9jt1a4yYOWmoDUdBNC6npjlO6hQCNkGciZcrJigUzMEzxB07Bc8vulf4t73S9Ye
-	 7vGSsUc1FRYDAjvfDmO2+IoSfzgia2NYrDl4F5IO2Fz6Jh/9Y57stIDKFVC5Y9In/ZPac
-	 /R6227T2XFAGo0H9px33NTW6p14mNwZHmoFks3EqSH/Nn03x8aY1XbT21xhW7XAu6h8Md
-	 GPl83on54JknFkcH+JJiaAe+FkkSz98bTHxQy+m8IUvR2rK3+m3UxRuhxhFwHnRQXbFtH
-	 oLC0xc0m7WoclWIg0Ex6e2cIn8Ubs7QEtnnMfU29lprkCnRyUBYaa9f65EqXu+kjR7w==
+	t=1793903006;
+	b=11Tfu49OQqH9QZxxN+aan/0KQyrF88HKLyJ0Rlf5aaPbpNp/YXbRco03d/Qt/kGCETmd
+	 XmEMB4AmVkCzSDXsj9OvyCUkdxFbNkJB+4p5X1JMTthYMfbX9vn6ih/4omdu1bfikkzdD
+	 Pxo6WE2vSFgl553gPHDIUGN43JAy+fv045OCv+QeYPBx29RP6wJ2TfEQzMVJmvoG97Fv5
+	 zicY3Ot8DyHMnFnKSiggfaDWQ4rd1eZsmaMtnpKrJ8Oz3XyB6YmCk37BJqIpjDdGyaz7M
+	 loqZbDBciXjt+J+jJhH/CMqkbXC4Qhzo9KXMTbNqtZjFnq3QIYQ3xnZEVfMpSvKDqvw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793901126;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=TU2co5OHwPqZGsjHAK77lVb6RAQX9yPBM909tv534g8=;
-	b=5hYwksnhsiYYDM0Qj9BjbJNLwlAcJyzAx6Hmqtx7QPUetrvZTNW0ewJqiysN3bP+w4lJ
-	 zrxzVcAveJ9b+JxuKqf3ufZgWFZ//UXvzxck4u0SPKBlnst1w5DRvXIFnIpIO+uKNLAUC
-	 ZlibuopIHdOvN9K3QLBabdFGpboDGjKcCKjK4j4FtScYTRGFa6PpK9kQW5j1OgR0UHGXq
-	 H0gsJk9+bKQZ/hSP53hyPqjUnetLebHCwcMgw+PuhuBxguUq+SyOewWGQAFWnn1+WeLWA
-	 zHpxstu8wlimHUGRbvLnJ+r79nyXSdYxR1oeMfQKX8qe1RuKyH9Y24kQK9uYGBbiisw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793903006;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=+/AxjgSXWf+cy5I45OzU0dqZHLKBrML4mhrI4rJ0JBo=;
+	b=OjCfXYPWev0B2LUv2sGK/By/cTZfZvmm+6zOs3rvhrIQ+q4w2b0CBowdoo15SY9Y4nYS
+	 WmSl4aYdaRTz+yPz34uhmW022pbPlHY0+TUpHgff28oEm2GHS0XHTW5Lq5WX5DsdmLyUK
+	 KSgRahIj7XJrY1oBzu8tAxMfvxURrRYXaLI0MWddniYlKFbY5T35vqS3mG+CNCior+UN/
+	 AZLV31wBOp/UEVnB7WgREj1LtijDtPLZxBFJsByDyxHmknGEMncSnRAw5i6IT40ITBjhc
+	 3KAQm8qzxk4j1rF/BmpILy8uiSAppXnKfCyeiM5Nxm4AMgcBTMZeQ7FzdZTOlgESNrA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="BrB1bRD/";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=none header.from=toxicpanda.com;
+	spf=pass smtp.mailfrom=toxicpanda.com;
+	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=k7IY6gyk;
+	arc=none smtp.remote-ip=209.85.219.54
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DA86606A326;
-	Thu,  5 Nov 2026 17:52:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8949606A326
+	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 18:23:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D8949606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BrB1bRD/
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10D681F000C1;
-	Thu,  5 Nov 2026 17:51:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793901125;
-	bh=TU2co5OHwPqZGsjHAK77lVb6RAQX9yPBM909tv534g8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=BrB1bRD/Soh7jF52sv//X1vQCquFJ8zymfkK/FXO3wwGJCCa1tEzIwzqm+fYvdCY2
-	 DhOXVYoY20C6gB4jzI06/aa3FJKL16cXAVTE6GEma7rI1e7g4iXKOlePRLiF288XT4
-	 VranzWw07bgVjhZQsOa83Q/zQ3MuhhyHnyb2Y6HAkPVvrS/Wn+pivLXwQqw5DGkCmY
-	 Cz1VF9gZFLMgCfghzav+g+H8FtHrcNJ/t8tgMMFQF3ADgfQtXjJ3DcjRu6FOLIlaUE
-	 W42fuX0MRzbloN/Ga6DFTl1WfqZzBIulN3KaPzlLmT4L3jFyDf4xTB+qfOgbKxHlU6
-	 KSfFjlSeP944Q==
-Message-ID: <b21a62bb-db95-48d7-8de3-e8b4d80a3a4d@kernel.org>
-Date: Thu, 5 Nov 2026 18:51:53 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=k7IY6gyk
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-91ea16d8072so4784066d6.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 10:23:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=toxicpanda.com; s=google; t=1793903004; x=1794507804; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=+/AxjgSXWf+cy5I45OzU0dqZHLKBrML4mhrI4rJ0JBo=;
+        b=k7IY6gykZWF7iOT+4ZIqfJBkIn4zPpQHXxj3tXTnLcLszExGz0PKwNm7+Aap9zo6b0
+         QzAjEEjYUPHEswrOiwqYw0y14VnhDSvoWD1act1MPrW8FIdDCLDueaOqP5Vc5CkorDvU
+         WSbTwYwgiENy9CjKELpnvd7ui2jG5bFriC2m8S/L+cmCbNTfkAmu25msPGHxiwaDfRhU
+         Dw8DKgwwGW7BKIA5tDnr+D30b29DkdU3jxgzhwYLIpCrBRR0GrByMRF+nPS1izBhorUL
+         p5WlbN2xkYeZO6FWLopUrrsi868gUCgHoiJZPHo9/oX9qquX6xjDihvd87yufSrnELr5
+         +rZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793903004; x=1794507804;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=+/AxjgSXWf+cy5I45OzU0dqZHLKBrML4mhrI4rJ0JBo=;
+        b=uTwpf3r34E5QNlaQoNPQwG4+Bjhft8EXbBw0d5ibr/zM5G1yRCZPCbf3H5IOwj7T94
+         F8jkqwiox3oVSIu6UY9F5GOEEu58UWTlNm332cvwt7Su3417b9jT6cFvrzlQXBjPjryV
+         72TBs8HmCMk5soMIsLuLYCDXI0m5QJY1uVZICJYfh8xKMCnmHU7a/rCQTf8bjwcan2ur
+         3ReqwzbtVCm39/C4khWrIro6lqcZoCJz3JRXLz5mbmevK7Lc5yZd7DuNRzgmdf00Nl61
+         +bBU1tXqBXpuk7gM+hQQ8VaA8XFIjGNMah1WsSC3ewHezaw95kdHnxPGWa5GXJMQtVXX
+         n4Lg==
+X-Forwarded-Encrypted: i=1; AKwUvByNPYt1cPp+bzAfywIXK0BDDQJzAs1T0GMY/S7H5b9KrO9ANfxkuPjCj2cUEwr3ymojvosyEqEWZjCFULmE@vger.kernel.org
+X-Gm-Message-State: APuU4Z/cMV7pa7/wQl3U2rpkRkPW6nfqRFVtibEyTOqvmKGYzlmVSc80
+	3ONBDi175Zsf3YIZzRYs94pFRRtK2dlL068tVFTdpQ/XMBqax4UrM2++zT176MChwoc=
+X-Gm-Gg: AYBFou2NMLvn5D57BOduvIgobxLyG5s7k8gAh0dECj1b117YWqf7ZGO/ROmj5l4GaDD
+	BKbCZJ+lX58ncxOPNy0HCk9NAI02Co5Q4EgUI3BN3Latf9FuUyMHTujFtBTMhHNYZttKVaFOa3d
+	Ct+zt1m47+eG+YZOZJYwymOENsZ5P2bwU8WOXZ4m4nuWGyVvQ/B2C7w74aMZMIwlwOe4SBra+zR
+	buhdduN1o8Qt2FT2XmU/a2xLwMt5dJ93AgBtOeawEJSTzRvitCMHwsYzyFajTT9Gh53V5DDqpJH
+	Dkg0klk9dDRf5fFPxTrac7hSqiDTcQ+bJai4hNrsx8jAVnyD3wZuE86vProfvl7626Om5lYEPAV
+	Tk0JGC0B1o0PZsnSRjJ8DKT4dnCpk8ti8v4WjQKHb0NHam/6kp5jeMP1kMp9jaTopWLux8NfeT7
+	N47D/ye9rO4Q3DNAJ3FXfza3vFgUwVnPaxIpBF0r7XP/6AeXOpxlXGOOfPIWhQiXFFWDJKlMULy
+	mf4CuTXbCepfd2GiEIgss02DSckUo0KjwN0npuj5gnlG6U8KogAEAYR7fRhGucdGuFdLOMb05bx
+	q/EtVpzwM9uqIdOFrHLE6NKI2B/bH371ESAm0PVZIfjBFvacHUUB2Q6S8LJxXUU5ZYU=
+X-Received: by 2002:a05:6214:519e:b0:91e:a629:ff92 with SMTP id 6a1803df08f44-91ea62a03c7mr7156656d6.42.1793903004406;
+        Thu, 05 Nov 2026 10:23:24 -0800 (PST)
+Received: from toxicpanda.com ([153.61.196.254])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91ea6aa7a97sm1556826d6.35.2026.11.05.10.23.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Nov 2026 10:23:23 -0800 (PST)
+Date: Thu, 05 Nov 2026 18:23:22 +0000
+From: Josef Bacik <josef@toxicpanda.com>
+To: "Serge E. Hallyn" <serge@hallyn.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+ James Bottomley <James.Bottomley@hansenpartnership.com>,
+ Andrew Halaney <andrew@amutable.com>, Jeremy Bingham <jbingham@gmail.com>,
+ Tahera Fahimi <taherafahimi@linux.microsoft.com>,
+ Serge Hallyn <sergeh@kernel.org>, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC v3 01/90] Documentation: add a design document for cells
+Message-ID: <20261105-cells-v3-reply-serge-7c41e0b9a6d3@toxicpanda.com>
+In-Reply-To: <auy3kgm1YytennDE@hallyn.com>
+References: <20261105-b4-cells-v3-0-bc9095937a84@toxicpanda.com>
+ <20261105-b4-cells-v3-1-bc9095937a84@toxicpanda.com>
+ <auy3kgm1YytennDE@hallyn.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -51,126 +103,200 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/5] mm: limit pagecache folio refcount
-To: Andrew Morton <akpm@linux-foundation.org>,
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Kiryl Shutsemau <kas@kernel.org>, Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>,
- Gregory Price <gourry@gourry.net>, Ying Huang
- <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
- Peter Xu <peterx@redhat.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Song Liu <songliubraving@fb.com>, Rik van Riel <riel@surriel.com>,
- Hugh Dickins <hughd@google.com>, Will Deacon <will@kernel.org>,
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin
- <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>,
- "Joerg Roedel (AMD)" <joro@8bytes.org>, Robin Murphy <robin.murphy@arm.com>,
- Steve Sistare <steven.sistare@oracle.com>, John Hubbard <jhubbard@nvidia.com>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- iommu@lists.linux.dev, Chris Mason <mason@kernel.org>, stable@vger.kernel.org
-References: <20261105-refcount_overflow_stable-v1-0-70b9c655da3e@kernel.org>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20261105-refcount_overflow_stable-v1-0-70b9c655da3e@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
 
-On 11/5/26 14:10, David Hildenbrand (Arm) wrote:
-> Users can create a lot of folio references to pagecache folios, making
-> it possible to overflow the refcount of large folios.
-> 
-> While we knew that one could in theory overflow a folio's refcount, we
-> mostly assumed that bad things would happen and it wouldn't go
-> unnoticed.
-> 
-> Not so sure if that is really always the case, and leaving that problem
-> unsolved is irresponsible, so let's limit pagecache folio refcounts.
-> 
-> This is really only relevant for large folios / thps in the page cache.
-> With anon folios (including THPs), we should not be
-> able to trigger folio refcount overflows (until we get PUD-sized ones ;) ).
+On Thu, Nov 05, 2026 at 11:06:26AM -0600, Serge E. Hallyn wrote:
 
-Just a note that I don't think anon THP are as really relevant today, at least
-for 4k kernels, as one would usually need that so many processes (consuming so
-much memory for everything else) that this is mostly irrelevant in practice as
-an attack vector.
+Thanks for going through this. I'm going to answer your last question
+first, because the rest follows from it.
 
-At least with 512 pages per THP.
+> So what is your goal here?  You list several properties of the current
+> namespaces implementation, and imply that they are a problem.  But what
+> is the final goal: is it to implement a security sandbox that is
+> stronger than what you can currently build from userspace?  That's the
+> impression I get.  Or is it to avoid bugs in userspace, by simplifying
+> what userspace needs to do?  Knowing the goal will help review the
+> patchset.set.
 
-The exception might be arm64 with 16k or 64k page size with 2k. (putting aside
-that 512M THPs are barely usable in practice).
+Both. I want a security sandbox that's stronger than what userspace can
+build today, and I want the interface to be simple, with fewer footguns
+and fewer unexplained consequences that turn into holes.
 
-#processes to overflow the folio refcount
+They're the same thing to me. You're right that you can get a lot of
+this out of user namespaces today, you point out one way below. But you
+get there by taking things away. You start with a copy of everything the
+parent had and a full set of capabilities, and then you have to know
+about each thing that needs to be dropped, hidden or locked. A cell
+starts as a blank space and you add what you want it to have. If you
+forget something with namespaces you have a hole, and nothing tells you.
+If you forget something with a cell, the thing doesn't work, and you go
+add it.
 
-4k kernel: 512 pages per THP: 4m processes (irrelevant in practice)
+The document doesn't say any of that up front, which is a pretty big
+thing to leave out. I'll fix that.
 
-16k kernel: 2048 pages per THP: 1m processes (mostly irrelevant in practice)
+> > +Privilege hangs off ids.
+> > +  A user namespace gives its creator a full set of capabilities over everything
+> > +  the namespace owns,
+>
+> Yes this was explicitly one of the 4 user namespace design goals,
+> and I don't really want code running on my system that I can't
+> later control.
 
-64k kernel: 8192 pages per THP: 256k processes
+You can still control it. A capability you hold in an ancestor user
+namespace applies to a cell like it does to any other user namespace, so
+root on the host can signal and ptrace the tasks of a cell. The user who
+made the cell controls it with the cellfd, and a cell only lives as long
+as somebody holds one. When the last one is closed the cell is killed,
+so you can't lose track of one and have it keep running.
 
-The 64k case might be the only relevant one, but I think even there all
-processes combined would already consume way more than 100 GiB of kernel memory.
+The only thing that's gone is the special case in cap_capable() where
+having the same euid as the creator gets you everything. I don't want a
+uid to be the authority.
 
-If we really care about the latter case we could throw in some cheap checks
-during fork() checks.
+> >  which puts a large amount of code that was written for root
+> > +  within reach of every user.
+>
+> You imply that cells don't do this, but the capabilities section below suggests
+> otherwise.
 
-Handling migration entry restore / swapin would be a bit more nasty, but not
-sure if that's really something to worry about in the big scheme of things.
+[...]
 
--- 
-Cheers,
+> It seems to me most of the bugs relating to capabilities in user
+> namespace were not about the privilege leaking, which you seem to
+> suggest here, but rather about kernel code under an ns_capable()
+> check being reachable when, without unprivileged user namespaces,
+> unprivileged users could not have reached them.  Since you open quite
+> a few capabilities for instance with net_may(), that code is still
+> reachable.  So you are probably reducing the reachable code, which
+> is good, but the above is over-stating it.
 
-David
+I agree that reachable code is the problem, that's what I was trying to
+say and the document says it badly. I'll rewrite it around that.
+
+Here's what is reachable. The user namespace of a cell owns its uts, ipc
+and pid namespaces and nothing else. It doesn't own the mount namespace,
+so there's no mount(), and a task of a cell can't make any namespace, so
+it can't get one that it does own. That's where most of that code is.
+
+The network namespace isn't the cell's either, so CAP_NET_ADMIN in the
+cell gets you nothing by itself. It takes the right in the slot as well,
+and whoever fills the slot has to pass net_may() for each right on that
+network namespace themselves. So an unprivileged user can't use a cell
+to get at any of that code unless they could get at it already. Somebody
+who is allowed to do it has to hand it over, one right at a time.
+
+So it isn't nothing, you're right, but it's a lot less, and it's opt in.
+
+> >   Who may do what to whom is decided by comparing
+> > +  uids,
+>
+> It's also decided by namespace targeted capabilities (and LSM
+> credentials).
+
+Yup, I'll fix the wording.
+
+> >  and whether two uids are the same depends on how several runtimes agreed
+> > +  to carve up ``/etc/subuid``.
+>
+> Well, you are adding one more runtime (https://xkcd.com/927/ :)  This
+> particular problem would be better solved using a subuid NSS module.
+
+Fair :). The difference I care about is who enforces it. /etc/subuid is
+an agreement between the tools that read it. Here the kernel hands out
+the block, and it makes sure nobody else has those ids: a legacy user
+namespace can't map into the window, and a filesystem that isn't the
+cell's won't store an id from it. There's nothing to configure and
+nothing to agree on.
+
+> Of course userspace could do this now - create a userns, create an mntns,
+> set up the mounts, and then create another userns with identity uid mapping,
+> so then the container cannot get ns_capable(mnt_ns->userns, CAP_SYS_ADMIN) to
+> unmount.
+>
+> I can envision this being a good strategy for sandbox style runners.
+
+Right, and this is the example I'd use for the above. It works, but you
+have to know to do it, and the inner user namespace still comes with a
+full set of capabilities, so it can unshare a mount namespace that it
+does own and we're back to relying on MNT_LOCKED. You then have to take
+that away as well.
+
+> > +A legacy user namespace hands its first task every capability there is.  A cell hands
+> > +out none.
+>
+> This seems misleading.  It hands any that you want, you just have to specify
+> them differently, right?
+
+Right, none unless the builder names them. I'll reword it. The point is
+the default.
+
+> Every task?  But you do say setuid() drops them as usual.  Are you saying
+> that the first process is uid 0, and capability inheritance just works
+> as usual?  If not, then some examples would be helpful - and in that
+> case it sounds like this would be an unexpected method of operation
+> which would confuse userspace (which can be dangerous).
+
+Yes, it works as usual, the document is sloppy here. A task that is
+started in a cell is uid 0 of the cell and has what's in the slot as its
+permitted, effective and bounding sets. If you start it as another uid
+it loses them, the same as if it had called setresuid(). "Every task"
+was meant to say that this goes for each task you start in the cell from
+the outside, and not just for the first one.
+
+The two differences are that every task has no_new_privs, and that file
+capabilities are ignored. So what a task has let go of doesn't come back
+at the next exec, uid 0 or not.
+
+> Also I would continue to be careful about uid mapped filesystems.  If
+> the host creates a cell with host uid 0 mapped to uid N in the
+> cell, can a cell process chmod u+s the file, and collude with an
+> unprivileged host process to run it as host-root?
+
+No, on both counts.
+
+Host uid 0 is never in a cell. A cell either has a block of ids out of
+the window, or the one id of whoever made it, and root doesn't get to
+make one of those, that's EPERM.
+
+But on disk ids are the real problem, since images are stored with ids
+from 0 up and the mount is idmapped for the cell, so uid 0 of the cell
+does own files that are uid 0 on disk. So nothing a cell writes imparts
+privilege:
+
+ - S_ISUID, and S_ISGID on anything but a directory, are dropped from
+   the mode of whatever a task of a cell creates, and from any mode it
+   sets.
+ - An existing file loses its set-id bits and its file capabilities as
+   soon as a task of a cell opens it for writing, or is handed it open
+   for writing. write() clears them already, a store through a shared
+   mapping doesn't.
+ - CAP_SETFCAP can't be put into the caps slot, so a cell can't write a
+   file capability.
+
+That's the "Files" section of the document and patches 62 to 64, and
+there are tests for it. Please do poke at it, this is one of the places
+where I'd really like more eyes.
+
+> Also, how does this jive with criu?  Is it introducing any cell identifiers
+> that can't be recreated?  I believe that historically that has been the
+> biggest blocker to a "container" like object in the kernel.
+
+Good question, and there is one. cell_info(CELL_SELF) tells a task the
+id of its own cell, which comes from a counter and is never reused.
+Nothing needs that as far as I can tell, so I think the answer is to not
+tell the inside at all.
+
+Other than that I don't think so. On the inside the ids are always 0 to
+65535, whichever block the cell got. The rest of cell_info() takes a
+cellfd, which only the outside has, and cells don't nest, so there's no
+cellfd on the inside to restore. The pid namespace is the cell's, so
+clone3() with set_tid should work given CAP_CHECKPOINT_RESTORE in the
+slot. What's missing is a way to pick the pid of a task that's started
+from the outside.
+
+That's all from reading the code though, I haven't tried criu on one.
+I'll add it to the list of what isn't there yet. Thanks,
+
+Josef
