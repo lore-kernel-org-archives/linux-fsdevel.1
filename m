@@ -1,74 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.217.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793873265;
-	b=R13E6+KBFm8e8ldiNmj5ydf9cj0PT+8M11179RnZb3Gp04VvcINOf7Bp9HKas5IxunAy
-	 o+PfRZ4GL7kjL234SGH9i+mxTjcieIkObNVkatwWdzTzryC57gMEI5DppZrO2s7DpxcxR
-	 TcZ4KDjrxDiDHWVtfEiS2Vao1LYcP9miCn+x1rJom9ejWulCF4DH5zMZGZdoZAehda4Yx
-	 Hg0/qdhhLZtjxEnwW0wb7aDHGm7eTS5wCe3ic+HmNuzZpi3qWbbuigHrB87kWpEjWXurj
-	 B0XHq0UlXwp2UAwd+hovBjHMOTGKsVkmF55F1mewlBH6MDGdkcd6PuHIganQhlAUKQA==
+	t=1793873269;
+	b=Et9ypsMJNsEpnqobkM2yi0+JioI410LfcDOwKijcll0uxbMrkNIGeUVSOCelSZQP3Alp
+	 n9q0XKDD2zNNcWvvxfmNwtPBPAAPJS3W3L1/9NBIBNpz/DsVPF+qHWBlUiAM6sAedCJux
+	 qdo7SpBz8siu24n3/9T5dwqfo1Q6BJj4d4qVWjG9b7dnpgv+FoeQiKTsPQIZZs8Hc8nOX
+	 00Qd6GFynIQGbJQr33ewtGanXh+g9fVR4QBNYLvDKTnRJAo19QcxIremFAby4fgAAEbRe
+	 8xxaUdAwFaLI/QWVXeOnTAdoRyLMWtQdQHYO9fX2JK2GCbHg2A+VVMAyS51xLDdPQmg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793873265;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Gm-Message-State:
-	 X-Gm-Gg:X-Received:Received:Received:X-Received:MIME-Version:
-	 References:In-Reply-To:From:Date:X-Gmail-Original-Message-ID:
-	 X-Gm-Features:Message-ID:Subject:To:Cc:Content-Type;
-	bh=HRfPjQi/EPajP85bp44Mrjs4W2fVG4O74jaEjdHYdtc=;
-	b=4kbJKGlnKQfRQeO5xJE8qhwOW9SCaJ8sBlKDl+ZYIG78klx8ICHCIgt4WHpprPBc0Az4
-	 9KsfZEyozglu5qchyn68jHBLv/Pm1+4M256dEfHh9kt9k79YE84CxpMrFQchv2cSlKM1u
-	 eYA8t6WE06wFHwBFAo7fmHS6ZE1s9LPLCSFxpPwxXsRC+h7dlGJAaJYOg197hiQ2ngTbX
-	 Umepnz5HtofrYji6pMsPRsNimoib4C6j2km7GGlBHqMC20dvbMQ0vnjFnknitpRUvJ63J
-	 MNlUeYnSwxGQY1W3gxlV1yz5Baqyj1Gm5kZE8JAEt2qJdsgk3yn6PH39auPyI0gctdw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793873269;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=GzdAvB2/oHNqGKeRfI1OIOpKJXPB5hmLnx90lxaP2zA=;
+	b=A1Q4e1BZ7wbm2XvtxO81ypA/+XBNyT68XExPiwcHns8fDT+QGEC5FFflkIfz2NU2XJjS
+	 QopOySfZdkXixARNAicLNGWYS4ye2drdMgaKXR8D3vbbv1f9xU2EbaTuspvK14Hr/buYU
+	 3F8v4pBH3wLe/vS7sedefdY7NRcaTJKIoUFlSindLRPAW4/2BEWVAA5MjPTUdLG0EFVtk
+	 lPFasGhTNVOYpIuXN2vFw8owQhWPznvMxFEb/ARtQf74+Ds/Uv02f0OQXc2d5TyHoBOun
+	 wK3H3f8HK4qp6UoPpg1jNp6Hl8lURlcthi8KjYjHb1bldG3viPTD4+L9uLEe/illupg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=linux-m68k.org;
-	spf=pass smtp.mailfrom=gmail.com;
-	arc=none smtp.remote-ip=209.85.217.47
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CEIDyS2d;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85F88606A32C
-	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 10:07:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 85F88606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-7cc1cf48a39so583579137.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 02:07:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793873264; x=1794478064;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=HRfPjQi/EPajP85bp44Mrjs4W2fVG4O74jaEjdHYdtc=;
-        b=pZKG07827B1ZDfX3DsPOBYtYq8agn+MDrhTnxhrsFpY7gr+3mkB/TPywfvK45UgVRC
-         fP+evCU73vGRCxXnb+O4twd+8v1KcaxY5T7Igsch4Vy2xCmIbkRsJn9v3zlV5yuUW/FK
-         GZZsCSY0BGZiv7waclt1DrveZc9mqHWI5wcEaRmeGIbSbsPdP+PSlXmbh3nQ98TL2ITI
-         zcB43cGYm6qh/SaYsgEZruu32R/rsAnzLVM8Bi/r11loLTta5tpEJqaTEZs7zCgtZRjb
-         y7iUEQAvQ/LIWTIvr5nHEcEYBia3MEEWjVrAdeSUlVdzNwUDhu5ud0k87p915CmKdDHi
-         aywA==
-X-Gm-Message-State: APuU4Z8EjgAnlNs9cW4BSCogU41Pvm1vabvQflg2UKli2aQvGyrX6V0f
-	3WIjaqt1y/uA8jGyWPHgQvGnKkiNLgfxNpsCpWPVB6T6odTUjZM56yrxqvtgwT/Kin4=
-X-Gm-Gg: AYBFou2lXADdUtnd9eBe38jp/KFMgL8P5uyR/eF2Ss7MYKf3ef04FnmJcW52gKlL79z
-	YdO0WctqQ3Ltsk46x92sSOGJeX+1SCU3lmbCgSXto4QXjwO8qQJW1dq8TlQ+fNW5JO92onEy1dY
-	UPKbegcxGxpilhNtv1ypNY1s8lcqrmpg7qj62XYBbKigouR5KIETNwRElbqxVZbuWg2WfZYIH9V
-	r0Iz2cynQ4iK6J8UYwhRa6HTZ60BAEGIokULCb9wCLhAxy31UWJhy3+SAzAzm8GkXFttHbkbD76
-	eIw78O+lf4fSUGwcLgi+xf3dRDuXQJvBZO/FLqrzDm0000HaHZmKv7qGgfxVHwUJ72VJHflMiaa
-	KIFRcJ0LBgwsLT+TslWCI0l4vhSTOUOog/KfNqHF6bm9PYZ5jfkF5P7CTLdSy/Homd+vcALnE1a
-	Xg0WqEyhGhtpcFAe8vBMk6osyFnZOijyG0MsR4nzZSgVSb8pdMP/7vgYfLltDB/rMO9tXEJ0AE3
-	UpgocWlEbbrYek7O2+d0C6+fdzewXaHafuXsBUeWFpJfHmowqHucgsj5Yh0ud1uo+bKMSq1bUrk
-	L/CM3JLq71fajGtc4j4tLMCcfZMuMNHXWdJ8PprZpaGss44n2XIwPrUqYT+6yWdXOeLlEdN6MJ0
-	Qozz31sWYdbc=
-X-Received: by 2002:a05:6102:358a:b0:7c3:a6f0:99cb with SMTP id ada2fe7eead31-7d072719913mr7038681137.33.1793873264372;
-        Thu, 05 Nov 2026 02:07:44 -0800 (PST)
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com. [209.85.217.46])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7d277d13753sm3100950137.10.2026.11.05.02.07.43
-        for <linux-fsdevel@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Nov 2026 02:07:44 -0800 (PST)
-Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-7cccb2c96d0so515237137.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 02:07:43 -0800 (PST)
-X-Received: by 2002:a05:6102:374c:b0:7cc:1a41:20e8 with SMTP id
- ada2fe7eead31-7d07227a940mr8060714137.5.1793873263361; Thu, 05 Nov 2026
- 02:07:43 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EAC3606EE93;
+	Thu,  5 Nov 2026 10:07:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CEIDyS2d
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6F1D1F00A17;
+	Thu,  5 Nov 2026 10:07:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793873268;
+	bh=GzdAvB2/oHNqGKeRfI1OIOpKJXPB5hmLnx90lxaP2zA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=CEIDyS2djknf3O5c/eBT+dmxNXdN/G/oUW1+HL7y7blsCddi9eA80g/V5XSEFEC5O
+	 GWzeYpQW/88FuFjd3od24xYlzw1Y8NFhRT9CRAKfOxPxHoEVcWcuhbBFbnYJe5uJ3x
+	 7znzB02zi5HOAp15fi78ez0zS7Xj27yJ7kQw7ICRyVUz6rAYf/2YbkbPXYFvZUG8WV
+	 LWvF2aht/cNIhoVT90q3Y2joyaxE/0lsIxm3UEWmJFmwQuHxu7g3uFWJfcB8187xQc
+	 XUdN+wa8na43x1Uw/a/neuqh2m6zrpJVGHLRYmer9FcDzhG671aBEzU5eMqcXSG2cb
+	 uBUJ5qlFBvWig==
+Message-ID: <c5210774-8c19-4110-8fb5-6273861b019c@kernel.org>
+Date: Thu, 5 Nov 2026 11:07:44 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -78,121 +51,124 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261104-work-procfs-core-v2-0-76ace653a773@kernel.org> <20261104-work-procfs-core-v2-14-76ace653a773@kernel.org>
-In-Reply-To: <20261104-work-procfs-core-v2-14-76ace653a773@kernel.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 5 Nov 2026 11:07:32 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVfakapgBK6TBhO1iWX8qzvLDk8jzRS=t2MVa5G=MCUeg@mail.gmail.com>
-X-Gm-Features: AclHuK9naqg5CZQ7lhJVrMhg9TNH44f-SpA5WbUGCGBsAlcoOw2midTd7doJSmk
-Message-ID: <CAMuHMdVfakapgBK6TBhO1iWX8qzvLDk8jzRS=t2MVa5G=MCUeg@mail.gmail.com>
-Subject: Re: [PATCH RESEND v2 14/23] proc: let procfs copy in writes before
- pinning the entry
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Jann Horn <jannh@google.com>, 
-	Josef Bacik <josef@toxicpanda.com>, Chris Mason <mason@kernel.org>, 
-	Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, Eric Dumazet <edumazet@kernel.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
-	Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, Greg Kroah-Hartman <gregkh@suse.de>, 
-	Joel Granados <joel.granados@kernel.org>, Kees Cook <kees@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Jan Kara <jack@suse.com>, linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, 
-	linux-acpi@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org, ntfs3@lists.linux.dev, 
-	platform-driver-x86@vger.kernel.org, coreteam@netfilter.org, 
-	kexec@lists.infradead.org, linux-pci@vger.kernel.org, 
-	linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, ibm-acpi-devel@lists.sourceforge.net, 
-	jfs-discussion@lists.sourceforge.net, linux-alpha@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org, 
-	linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, 
-	linux-sh@vger.kernel.org, linux-usb@vger.kernel.org, 
-	samba-technical@lists.samba.org, sparclinux@vger.kernel.org, 
-	linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org, 
-	linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net, 
-	Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
-	linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, 
-	linux-debuggers@vger.kernel.org, Chuck Lever <cel@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] mm/filemap: stop fault-around when the walk steps back
+To: "Jose Fernandez (Anthropic)" <jose.fernandez@linux.dev>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org,
+ Krystian Kaniewski <krystianmkaniewski@gmail.com>, stable@vger.kernel.org
+References: <20261031-jf-mm-filemap-map-pages-lower-bound-v2-1-21029744e589@linux.dev>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20261031-jf-mm-filemap-map-pages-lower-bound-v2-1-21029744e589@linux.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Christian,
+On 10/31/26 05:33, Jose Fernandez (Anthropic) wrote:
+> filemap_map_pages() can dereference a PTE pointer outside the page table
+> it locked. KASAN has reported this as a use-after-free read [1]. The
+> same path can also write out of bounds. When the stray entry reads as
+> none, the fault-around loop maps a page there with set_pte_range().
+> 
+> Its fault-around loop walks the page cache and moves vmf->pte by the
+> change in index. A lower index moves it back. xas_find() can step back
+> to a lower index when a multi-index entry is split during the walk.
+> 
+> [1] fixes xas_find(), but the loop still relies on the walk never
+> stepping back. Stop the fault-around when the walk steps back. ->fault()
+> maps the faulting page if the loop did not.
+> 
+> Link: https://lore.kernel.org/20260904121301.200049-1-krystianmkaniewski@gmail.com [1]
+> Fixes: 6b24ca4a1a8d ("mm: Use multi-index entries in the page cache")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Jose Fernandez (Anthropic) <jose.fernandez@linux.dev>
+> ---
+> Changes in v2:
+> - Add Fixes: and Cc: stable tags, and say in the message that the loop
+>   can also write out of bounds (David Hildenbrand).
+>   https://patch.msgid.link/0a1ad7d2-ff0e-4248-8f03-2a64a9134aae@kernel.org
+> - Link to v1: https://patch.msgid.link/20261028-jf-mm-filemap-map-pages-lower-bound-v1-1-0bf126e876d4@linux.dev
+> ---
+>  mm/filemap.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/mm/filemap.c b/mm/filemap.c
+> index b74bc1e5015c..1df776907140 100644
+> --- a/mm/filemap.c
+> +++ b/mm/filemap.c
+> @@ -3968,6 +3968,13 @@ vm_fault_t filemap_map_pages(struct vm_fault *vmf,
+>  		unsigned long end;
+>  		vm_fault_t map_ret;
+>  
+> +		/* A lower index could move vmf->pte out of its page table. */
+> +		if (unlikely(xas.xa_index < last_pgoff)) {
+> +			folio_unlock(folio);
+> +			folio_put(folio);
+> +			break;
+> +		}
+> +
+>  		addr += (xas.xa_index - last_pgoff) << PAGE_SHIFT;
+>  		vmf->pte += xas.xa_index - last_pgoff;
+>  		last_pgoff = xas.xa_index;
+> 
+> ---
+> base-commit: 65ba8f34ec886ec72b2c07ddc8cf3d815c32869d
+> change-id: 20261028-jf-mm-filemap-map-pages-lower-bound-a623ed8a81c9
+> 
+> Best regards,
+> --  
+> Jose Fernandez (Anthropic) <jose.fernandez@linux.dev>
+> 
 
-On Wed, 4 Nov 2026 at 20:32, Christian Brauner <brauner@kernel.org> wrote:
-> proc_reg_write() pins the entry and calls ->proc_write() which copies
-> from userspace itself. A page fault in that copy can take as long as
-> the writer wants, just like the copy to userspace of a read, and
-> remove_proc_entry() waits for it.
->
-> So do what kernfs does for writes as well. An entry that implements
-> ->proc_write_buf() gets a NUL-terminated kernel copy of what was
-> written. procfs makes that copy before it pins the entry. The copy is
-> capped at ->proc_write_size bytes, or at PAGE_SIZE - 1 like
-> proc_simple_write() if the entry doesn't care. Larger writes fail with
-> -EINVAL. The proc_ops go away with the entry, so procfs remembers the
-> limit in the entry when it is registered, like the size of the seq_file
-> state, instead of pinning the entry just to look up a number.
->
-> Entries that take binary data in pieces, like the PCI config space,
-> ALSA's data entries or a firmware image, can ask for
-> PROC_ENTRY_SHORT_WRITES instead. procfs then copies in the first
-> ->proc_write_size bytes and the write comes up short.
->
-> ->proc_write_buf() gets the position like ->proc_write() so entries
-> that write at an offset keep working.
->
-> Note that procfs copies in the whole write before the entry looks at any
-> of it. So a write that is too large or whose buffer can't be read fails
-> before the entry's own checks run, permission checks included, even
-> where the entry only ever looked at the first few bytes.
->
-> An entry that implements ->proc_write_buf() and still has a
-> ->proc_write() fails to register.
->
-> No users yet.
->
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+I'm trusting on Andrew to pick this up :)
 
-Thanks for your patch!
+-- 
+Cheers,
 
-> --- a/include/linux/proc_fs.h
-> +++ b/include/linux/proc_fs.h
-> @@ -67,6 +74,16 @@ struct proc_ops {
->         const struct seq_operations *proc_seq_ops;
->         int     (*proc_show)(struct seq_file *, void *);
->         unsigned int proc_state_size;
-> +       /*
-> +        * procfs copies what is written into a kernel buffer and calls
-> +        * ->proc_write_buf() with it. The buffer is NUL-terminated and holds
-> +        * at most ->proc_write_size bytes, PAGE_SIZE - 1 if that's 0. Larger
-> +        * writes fail with -EINVAL unless the entry asks for
-> +        * PROC_ENTRY_SHORT_WRITES. The position is NULL for a stream, like
-> +        * for ->write().
-> +        */
-> +       ssize_t (*proc_write_buf)(struct file *, char *, size_t, loff_t *);
-
-"const char *"?
-
-Seems like you have to drop several const attributes during the
-conversion from "const char __user *buf" to "char *buf".
-
-While at it, I think it would be good to use this conversion as an
-opportunity to replace "char *" by "void *", which will probably let
-you drop several casts from users.
-
-> +       unsigned int proc_write_size;
->  } __randomize_layout;
->
->  /* definitions for hide_pid field */
->
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+David
