@@ -1,55 +1,77 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793894995;
-	b=I9WxbnvostI8GAU4phGEe3+POo7CsIGE+9f3G3s/4APOA5i4N+/rGMknJ17xQkvbLj9M
-	 xjm61ZRGh2BSY5/8BI9Qd/3gkcz3n13tvw8+jUu3N8lU/Pm6JfKQ06uX/v15wNrYkn7q+
-	 HEikvNW0Q8Y9HZI79KwsHmNMipeCP36Kin5/JhpEOwQ2H5OaJxFqjozTnoqgmOqDyzawQ
-	 qxECJRWqnMKEqS+lYL3l/JAEWdeQCW7OxZJfXKcqXO1ZI2NboKipjTytd9dtFoJgR7ifp
-	 wXzG8QUYS0vm0CDBAkAyeYDgYgiyrZqs8W6Zr8uJzavPO9H7SwRDPBmMrMMfMeIHEkg==
+	t=1793895736;
+	b=XOkVJ7Fq+htz8NG8hbrX/Pwc0Ist0F5SFuXJDIHn+maU5mIOI2rXHmRvKxX9Rfm/4KJq
+	 /zwnzkz2ikPbG26rVQO7V8U9Seb+B2HojYVN/YjbJlznmnniUhnMeF2sU+2k9bqkdBqLK
+	 91RZYqvjT5CrRmOM+tmUQVJclNJ28TvWET4w5GsmZIlq8vdU526XJNmR6yTP21fiyT42Y
+	 5VLh3VWG85rQOyPVlFNOVHJN1L5E9zErBcDOFb3xydJt6LSvYapn6qV+PdkYyS1XPxW8y
+	 d/8LpMQoafURVIotdPMz41ViEzvMiV6k1WPoEuBJv0Q1nJ2n5DXRjTpdrcqy8sjirrQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793894995;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer;
-	bh=OSTCfs2XzAvk025J6lARxVK0zzuzsUUuB+NCb52rlvM=;
-	b=KzSGcEn7A2+oXZjFVH3KLv0iD5SrT8gIlbX1Ne3QQ//opQNPjkqTLuTwuvHlEa7Shom6
-	 Obco1g0LmUZEA8KrDv9GEY4VTj+KBZIzi8mkH+Cx/9Me+fhDTYPW682L9RkmKcKh8CwL2
-	 YLKI8GYTvF89JgyzwBf/g38TKWrTX04nkz3zukzAiXMwUV+n4bwUk4ZQzFhLIMG5WAWG+
-	 SHO/niGfK2q66a86SSVhj89rl9+2kca4wBdHkHFYrY1l0/9MCS92D+OFjbGsa1Nlqj5HZ
-	 2ve9BzZUXZ4WBjbrxcmHiZg9FKac36MEx50yG3scQ+H6rVOAKA9eNeBkEN3VbE35Anw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793895736;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 X-Developer-Signature:X-Developer-Key:Content-Transfer-Encoding;
+	bh=VLO291Yw0dXwc3CQ/dxumGJAHuHs+sp8vgidXg8O+ZA=;
+	b=H7WWwftkf/hZGP3UHDZUaZxHNs6hi2dq1P7GNMglQzkjAGFquJsb/2wbRuiRAyBnImZf
+	 LYtNaIXRXFUqO3/pmB8ZtfD+fhAPgaSgPAOj/E+2Ltmc/6KJn6oVTYqQaMf+NYDObFKT7
+	 2oMG6X7pEU/v/xTYlEuX4dfk/Dh9j0ItzE2yqmAh7AF+B4ureaT3767OVOniqp3Dban6y
+	 KPp9r8MQ/ycpRgb3IGuVCNMqK0A8PpY+6cFgEX3jquQO0DkGTEQVm3zTPBSHHsjaNDO2I
+	 M6euIsFRBjzDuMOsj/WNIh2j3B2NKKG1Sl3ngKpJ+aDpsmIcBLHLHcWMhMOC4ujmQMQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GCS29VHe;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=h7AbkmxC;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59207606BEB1;
-	Thu,  5 Nov 2026 16:09:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAD6C606A328;
+	Thu,  5 Nov 2026 16:22:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GCS29VHe
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E27FB1F00919;
-	Thu,  5 Nov 2026 16:09:53 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=h7AbkmxC
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A30F1F000C1;
+	Thu,  5 Nov 2026 16:22:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793894995;
-	bh=OSTCfs2XzAvk025J6lARxVK0zzuzsUUuB+NCb52rlvM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=GCS29VHeSfqBwiD7+T/mJS0G1T7l93vXoyme+0hV6f6/ESQCxnLUgdPybJbhb2AfA
-	 +2NihJkrjQmIhWmjdQJPng8pimlxlhwYzfaCf3p1O5XF28K4RiDVM5pm7hAdFkHcld
-	 frhUs1iH3z/Hl0wIdlxUWc0AolJ4FLtvhYPCb/s1mRkn1+ZtdStj3d8iWZKBCp1yPw
-	 Mtb22lPn7uNJY43+9rGh+zeGz9QekuXYoDSO+SO7uykrmw5e3M1cOwXbNuc7Fn6Jiz
-	 5696A8QLVlO/LweVUHzVHhC4T+Y118mrXM/7CXMAzsI7kaijnAglz4VICOe5Tm7xpI
-	 DslPJAamhoEHA==
+	s=k20260515; t=1793895735;
+	bh=VLO291Yw0dXwc3CQ/dxumGJAHuHs+sp8vgidXg8O+ZA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=h7AbkmxClpxZ7zlz7Q/b99c7d0Kf3ZVKzUIkU6QXaBG0a2LdWeSm/0XuLjNegC16+
+	 1rNJrvvhf5hIF1Ib399Mj+GewAfK4Y1dLHDEFvKoP8XNV5heIVxj4wvAodVZJ//Mrg
+	 TG/W00JwKZGDbv0m6E58eDW2Z2n4ZMBsIzGId6ubSrn1NNhEIDD6V0o/gTq8APwKn5
+	 A/qJMBWZLsxinPL0W8f8G52Q1tHIOcbu0dCBVC2qsD0nVHOAKg/fKrdGKNU+Xv15XU
+	 fLpAYTY2sP2b7zy6+QQnzlukPm+eRe9TGQO3wiyfwgPrrnoiu476Yy6EfiimX2T15g
+	 dvN+7y1MZ8Hkw==
 From: Christian Brauner <brauner@kernel.org>
-To: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
- Jan Kara <jack@suse.com>, Josef Bacik <josef@toxicpanda.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20261023-b4-s-umount-killable-v1-0-844a341ff1df@toxicpanda.com>
-References: <20261023-b4-s-umount-killable-v1-0-844a341ff1df@toxicpanda.com>
-Subject: Re: [PATCH 0/5] fs: make the system calls waiting for s_umount
- killable
-Message-Id: <20261105-prolog-beteuern-mahnen-85aec53a5e7c@brauner>
-Date: Thu, 05 Nov 2026 17:09:51 +0100
+To: viro@zeniv.linux.org.uk,
+	jack@suse.cz,
+	pliard@google.com,
+	akpm@linux-foundation.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	phillip@squashfs.org.uk,
+	cem@kernel.org,
+	linux-xfs@vger.kernel.org,
+	tytso@mit.edu,
+	adilger.kernel@dilger.ca,
+	libaokun@linux.alibaba.com,
+	ojaswin@linux.ibm.com,
+	ritesh.list@gmail.com,
+	yi.zhang@huawei.com,
+	Abbott Liu <liuwenliang@huawei.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	yangzhuohao1@huawei.com,
+	douzhaolei@huawei.com,
+	wangbing6@huawei.com,
+	nixiaoming@huawei.com,
+	liaohua4@huawei.com,
+	chenjie6@huawei.com,
+	chengzhihao1@huawei.com,
+	heyuqiang1@huawei.com
+Subject: Re: [PATCH] initrd: flush deferred fput() before mounting root
+Date: Thu,  5 Nov 2026 17:21:40 +0100
+Message-ID: <20261105-bleifrei-trunk-lehramt-282105689eab@brauner>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260930084632.2965573-1-liuwenliang@huawei.com>
+References: <20260930084632.2965573-1-liuwenliang@huawei.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -60,25 +82,31 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev-ce4c1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1409; i=brauner@kernel.org; h=from:subject:message-id; bh=+7yza4/4Lx9dwn0alaXtZbTmU5h8UwEKXNai/D6jlAE=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS9WaurH7vEbJrHB6cJFlEPfF1L9pTknG9w7xA16LT/J c1Velijo5SFQYyLQVZMkcWh3SRcbjlPxWajTA2YOaxMIEMYuDgFYCKqZQz/g991FwX/ZVomdTXM MjDJ3aTj5jeGnCWNtw8p3Lm34YVeBcP/sDnKvPpvO1zrtllcX79NiKvgZciRhsk3/Px3TTgZOlm XAwA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-On Fri, 23 Oct 2026 20:39:29 +0000, Josef Bacik wrote:
-> This is the next step after the stuck unmount and stuck mount series,
-> and it applies on top of them (vfs-7.5.super).
+On Wed, 30 Sep 2026 16:46:32 +0800, Abbott Liu wrote:
+> Booting an old-style initrd, i.e. a bare filesystem image rather than a
+> cpio archive, with "root=/dev/ram rootfstype=squashfs" can fail to
+> mount the root filesystem and panic:
 > 
-> Those two took care of the two ends of a super block's life, this one is
-> about a live one. s_umount can be held for a very long time. syncfs()
-> holds it shared for as long as it takes to write the file system out,
-> and on a slow or dead device that's forever. That by itself doesn't keep
-> other readers out, but as soon as somebody wants the lock exclusively, a
-> remount for example, that writer queues up, and every reader that comes
-> after it queues up behind the writer. None of them can be killed.
+>     RAMDISK: squashfs filesystem found at block 0
+>     RAMDISK: Loading 68449KiB [1 disk] into ram disk... done.
+>     No filesystem could mount root, tried:
+>      squashfs
+>     Kernel panic - not syncing: VFS: Unable to mount root fs on
+>     "/dev/ram" or unknown-block(1,0)
 > 
 > [...]
 
-Applied to the vfs-7.5.super branch of the vfs/vfs.git tree.
-Patches in the vfs-7.5.super branch should appear in linux-next soon.
+I reworded the commit message and cut the comment in the code down to what's
+necessary.
+
+---
+
+Applied to the vfs.fixes branch of the vfs/vfs.git tree.
+Patches in the vfs.fixes branch should appear in linux-next soon.
 
 Please report any outstanding bugs that were missed during review in a
 new review to the original patch series allowing us to drop it.
@@ -90,16 +118,7 @@ Note that commit hashes shown below are subject to change due to rebase,
 trailer updates or similar. If in doubt, please check the listed branch.
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.5.super
+branch: vfs.fixes
 
-[1/5] fs: make syncfs(2) killable on s_umount
-      https://git.kernel.org/vfs/vfs/c/da3b792b402a
-[2/5] quota: make quotactl_fd(2) killable on s_umount
-      https://git.kernel.org/vfs/vfs/c/e0f5107f9bad
-[3/5] fs: make mount(2) remounts killable on s_umount
-      https://git.kernel.org/vfs/vfs/c/6e6bd71c9d73
-[4/5] fs: make FSCONFIG_CMD_RECONFIGURE killable on s_umount
-      https://git.kernel.org/vfs/vfs/c/6bde4be1844a
-[5/5] fs: make umount(2) of the root killable on s_umount
-      https://git.kernel.org/vfs/vfs/c/8a869af72cff
-
+[1/1] initrd: flush deferred fput() before mounting root
+      https://git.kernel.org/vfs/vfs/c/807c1d7125a2
