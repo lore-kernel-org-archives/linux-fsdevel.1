@@ -1,76 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.217.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793871285;
-	b=xlA1eMAzy1eiSzBCIy3eWA+VH1GYiscpjMIB98Mda5eoj2SXeyBvWc24WZG7JYYFfwFh
-	 kjPyjov+pORHSIvld5p7a2+u71BFw9Hs1EzoRLiLEQiwRk2qAOStE9Nzqn3o1W75EyGHD
-	 7KA8PkR9wI+pg4fiQCiE3ZLnvR/J/uKfQ8MqcZnSce9FNV/bsjBOIZCuZWkQgzo1q8als
-	 tnazb1B8bRpfrnPMBS2TtOq/AxBuzHINpkTuHe6Keo6xErmYoBQ+M8c9VGJoxZWcvLrld
-	 pFCznnH+cyMCHTpWynQUC5kW8+9Kmb5Jh2GbX2W16XjQ0t/lQ5rTWRjzNg8e1w8f6lA==
+	t=1793871427;
+	b=HHfNVkSs+vVKDO3f4oRTEjMKFJqdDo8cXVAoVDdfcytqtjHFb6tfqsyNrpd55E14o8A1
+	 aKfVotGwpT7wEVo32/DViCyzbduJs362CLm+HCpLvcBf/LN0RoXyN3IP5eikKGFY8CVDd
+	 DetC8d6v6ZRy1K9kZO5+JdIEpDnfqW/LBoPQ9jqM+btavkfch38WHVyRQVFIXwiaWSSHF
+	 HQpkh5Ql+kenPw5hxQcpfnNbV+bUmTfL6SxBS0PZ7QZJnt+xln0GaExU8iiQiREHn0mGy
+	 sbqEuajtA3AzJa9ar3OoITDJ8tAYOLG9GVrjKho0OkyLnPl5aSGAtqKbXgqgU/XlbOg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793871285;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Received:
-	 X-Forwarded-Encrypted:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type;
-	bh=DpLYJIWgXoS5zQrloj/RgE/cGCpS34NjW3pzuN6S6xY=;
-	b=3/6GVEq9BB2wxSDRvwGh7R8KVs9T7/iz4++aZyEIp9E1HNN/6Qh1sf9jjpWbVQLR4ZY3
-	 Zcs/ylCW5OQjD23hZOzohUllpvXEuvYf1MDhVDuqB7xI/7576hl7bbGql80gSrxpbO4LZ
-	 FiAlUIuCA2F4xoHlthlg+Lra74X/4p7/MtKhyO+h5/2A4HpRfn6kUTpOIu6khvmhpBxbv
-	 5ehXczPrm1qmkz0cBB9eNGtYrf50f/pdRW5rnlF69jxnM8IJJKjhgnGW700hGogK48UML
-	 7RAxbKXsDu7kEigu05epDxdt8jQiVAe1UNnOj9zg2iK/gr3qEg4EhCJZZshq2KuziAA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793871427;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=7K/3UYmHmYqyZ4dedHvbD3/glGO/i1xPnHZWZAvi/hU=;
+	b=hYOZYFD4NpINGyhGqqpJW1uo3MuRSeJBLEzBS5jteJEEf8s5ZbpzeQzZHmzukbL0JgUz
+	 oJniLFeRwavUq/BnTK5npfOvuGkES+7RU2NhNAqjRZmFYhqN6rV5kNLv65A8BNqcvorPx
+	 gR2PIB/WlTa43uAEu8HpnKqJRBIQBmq++0QiXIdQ1TjnZ1B5iHOAZKY4XdqGb8Nd6DzF3
+	 tNeClZjST0JpavEOonAw3Ah3KCU9AhzfqVb5dYHddF9STbvm9qV40wp587+WGyCGjfisN
+	 YWhGujqP9SLuzPAlocb0JykPpiS5Pen19Ie/AH1hCYFkzYXEtYKywGC7HkYGUkKJ14w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=linux-m68k.org;
-	spf=pass smtp.mailfrom=gmail.com;
-	arc=none smtp.remote-ip=209.85.217.46
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=c2bSiclw;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E348606A326
-	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 09:34:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9E348606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-7c33cc572e6so359495137.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 01:34:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793871283; x=1794476083;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=DpLYJIWgXoS5zQrloj/RgE/cGCpS34NjW3pzuN6S6xY=;
-        b=a947SxBg7G7VuegvPUjoXMS4UKkf2R4c0PoH2O2ct774jH8nXXXbJ0nicvPJjAVpfr
-         15rl0FKl4ZqNB375DQBWANagQ9Z+sWsONDgM3iaBOD80xU1CHrbAVggwhJlkxH9erSPn
-         MDjlu8SY12UIFgYZQRscCvEyVyf3NZdBRMREtiQ3mzijIwWaxHozhGKm27qogIKGJrWQ
-         ytnp8eN71SqhpPLVbFZzLvZHCTUxgq9PYDiChaVNgF70RHPkz5WKiuDrgtViBKIriPNk
-         NkShi5XYwG7jxaZTNtwQlieQtKD8NgU9Qp7roaaPGkL4mvUxyu9nftGlJ3bYB9sO1PEm
-         VwMw==
-X-Forwarded-Encrypted: i=1; AKwUvBw6pgqgHUNE4LTb+IenLlihwcdiSzIkEwK0VIqU6xsp3di25ylFhO3DqqBVKyCtv9SUgkGrFY5oSVlax4z4@vger.kernel.org
-X-Gm-Message-State: APuU4Z+NYQGFT8JWb8cu10bG3nzlqyze1h8YiZWcJpaS9c+BB7Cj+4aA
-	BcdsPkxFg8rNf9YEJ7MtvFgf3pjYObtf9+WL34Jkma2ED3j/ROGdvBsCfNKxsGNDFAs=
-X-Gm-Gg: AYBFou0LlvasFm1kClMbwtr0NVMKmsWoL/GCAnMLi5pBx/jwKYAur4wxePBvbJDzwTl
-	Y6R8x76wd/3hmyTiwcDxNFHhSq/Styzd63PavPMsYaZLz50e4eHNHSyenct3njHJaU8cchX4oo0
-	AyzI8GWHsWJQGTlTzYDk7FzaOz4q8FVI9bMER37IEk/Yb3vj6096sYu3JLB3K9fdF/lYTq4Ek+a
-	90iNVgABrgYr4HvIRoPxjbuHTMRkgq01+vWzbeVQWKWgj9BVe3y6yiUZXzXiv4bhIgYEg/hh6W2
-	MBoFPKnIEzUBXDdsOdinhn7dzopocytPv9MmJpe9Mf9QumnYG8nIbfkltGQXZD0/fwZHB8FOUit
-	ui8rg/iYWUdW+tYfTQx303Hz/GohgmrnNxmYu9EFmJpnJBwH625SsmWZ+RjkmsyUzWsIPBh7A61
-	jOxIuEZAAQpuM+xPWncWaO0QzF+BLKvJThankNdN/ocT8AWbd29mlO5UFeMx6M+6a/qOfqtU0xC
-	NMRZECAye8pNUws7nBZ+FcBsvx5W+VWOCedaeoe0IxVYUDXRnaKpit4Z6vkgCgME9dza6kpLBYt
-	6p27xHY50qzGzXEpCl28JOzNGrdftrlRA0nIUvWgwEIzFF7aQlzMlVYtdwqe5VvPvw==
-X-Received: by 2002:a05:6102:1627:b0:7c3:83a9:edc5 with SMTP id ada2fe7eead31-7d2867d0ae6mr952089137.4.1793871283602;
-        Thu, 05 Nov 2026 01:34:43 -0800 (PST)
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com. [209.85.222.43])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7d277d13753sm3049766137.10.2026.11.05.01.34.43
-        for <linux-fsdevel@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Nov 2026 01:34:43 -0800 (PST)
-Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-9909e82513fso404828241.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 01:34:43 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AKwUvByfKbf0zaBeqX7cn30l/J2LrS/RuscqlQykSuCLTyw7YYfymDtnyNje2lEZu4cUuHAvxmw746JEpy95tRuF@vger.kernel.org
-X-Received: by 2002:a05:6102:3709:b0:7ca:5626:11e with SMTP id
- ada2fe7eead31-7d286b7fa17mr1126485137.36.1793871283167; Thu, 05 Nov 2026
- 01:34:43 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56512606A31B;
+	Thu,  5 Nov 2026 09:37:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=c2bSiclw
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5550D1F000C1;
+	Thu,  5 Nov 2026 09:37:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793871427;
+	bh=7K/3UYmHmYqyZ4dedHvbD3/glGO/i1xPnHZWZAvi/hU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=c2bSiclwFvsOddDtNdBAGgue40cuAASBAriHF4ShMSnAH+dj5VoZ54/+FhXWYPl8+
+	 oGTmZ8+y0aZU1aGjpnG7PSNmLbrbHYBDtRkHAazRnTRaKM7kFb1gWrF4MgOONLKn6A
+	 D2g12W0/aSEoOEuqtKS+lZMd28/Pr0BAO8/hqM+XQ06Tn/zM0G4nP7gRYzQBGI8gDb
+	 NiFAE3FpUff/5JW8M6gm899fXTDENHW+NvBDvfaMy6A6GVA7US5GfJYie8tO9D2ot0
+	 3bnnWozdI7NLkK3bt+hwaq3bUOwgoV+63mfnaC86dYVSR7/ECeqqyJT/2JhMDDaHKE
+	 5J3D+4peA5HLA==
+Date: Thu, 5 Nov 2026 10:37:01 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Jan Kara <jack@suse.cz>
+Cc: linux-fsdevel@vger.kernel.org, Josef Bacik <josef@toxicpanda.com>, 
+	Chris Mason <mason@kernel.org>, linux-ext4@vger.kernel.org, 
+	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, Andreas Dilger <adilger.kernel@dilger.ca>, 
+	Baokun Li <libaokun@linux.alibaba.com>, Ojaswin Mujoo <ojaswin@linux.ibm.com>, 
+	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>, Namjae Jeon <namjae.jeon@samsung.com>, stable@vger.kernel.org
+Subject: Re: [PATCH RFC 3/9] ext4: add ext4_inode_loc_block() helper
+Message-ID: <20261105-eurer-wimpel-gierig-935915475d98@brauner>
+References: <20261029-work-inode-metadata_writeback-v1-0-7d6c678a585d@kernel.org>
+ <20261029-work-inode-metadata_writeback-v1-3-7d6c678a585d@kernel.org>
+ <lqhym4n6vu46kretnwfstfutik4vl4l5imhnf6pi3aranjpryx@bgtxuzuha2zs>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -80,63 +61,27 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261105044046.52180-1-dennylin0707@gmail.com>
-In-Reply-To: <20261105044046.52180-1-dennylin0707@gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 5 Nov 2026 10:34:32 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWzY9YRnGz1Y_60RYP7TH67q8fxi1VNWwkhhc0EUeSCFw@mail.gmail.com>
-X-Gm-Features: AclHuK8PYnqOIDpZItZg042mTleQ6jUe2E1wddINt5GGmEiia8n8vhGDZzRowiM
-Message-ID: <CAMuHMdWzY9YRnGz1Y_60RYP7TH67q8fxi1VNWwkhhc0EUeSCFw@mail.gmail.com>
-Subject: Re: [PATCH] omfs: remove the filesystem
-To: Hungyu Lin <dennylin0707@gmail.com>
-Cc: me@bobcopeland.com, willy@infradead.org, brauner@kernel.org, 
-	viro@zeniv.linux.org.uk, jack@suse.cz, akpm@linux-foundation.org, 
-	corbet@lwn.net, skhan@linuxfoundation.org, tsbogend@alpha.franken.de, 
-	maddy@linux.ibm.com, linux-karma-devel@lists.sourceforge.net, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <lqhym4n6vu46kretnwfstfutik4vl4l5imhnf6pi3aranjpryx@bgtxuzuha2zs>
 
-On Thu, 5 Nov 2026 at 05:41, Hungyu Lin <dennylin0707@gmail.com> wrote:
-> OMFS supports the on-disk format used by the long-discontinued Rio Karma
-> music player and ReplayTV DVR. While reviewing a fix for incorrect block
-> mapping on writes starting beyond EOF, Matthew suggested removing the
-> filesystem instead of continuing to maintain it.
->
-> Existing OMFS media can still be accessed using an older kernel with OMFS
-> support.
->
-> Remove the driver, its documentation and build configuration, the
-> defconfig entries, and its name from the statmount selftest's filesystem
-> list.
->
-> Suggested-by: Matthew Wilcox <willy@infradead.org>
-> Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+On Wed, Nov 04, 2026 at 06:07:04PM +0100, Jan Kara wrote:
+> So I don't think this patch is really needed. ext4_get_inode_loc_noio()
+> does exactly what you need so you can use it in the next patch. If you
+> really wanted to use sb_find_get_block_nonatomic() instead of
+> sb_find_get_block(), you can actually switch ext4_get_inode_loc_noio() to
+> use it.  ext4_get_inode_loc_noio() has only a single caller in ext4 -
+> ext4_fc_snapshot_inode() - that is actually fine to take the folio lock.
+> But that is mostly unrelated improvement to ext4.
 
->  arch/m68k/configs/amiga_defconfig             |   1 -
->  arch/m68k/configs/apollo_defconfig            |   1 -
->  arch/m68k/configs/atari_defconfig             |   1 -
->  arch/m68k/configs/bvme6000_defconfig          |   1 -
->  arch/m68k/configs/hp300_defconfig             |   1 -
->  arch/m68k/configs/mac_defconfig               |   1 -
->  arch/m68k/configs/multi_defconfig             |   1 -
->  arch/m68k/configs/mvme147_defconfig           |   1 -
->  arch/m68k/configs/mvme16x_defconfig           |   1 -
->  arch/m68k/configs/q40_defconfig               |   1 -
->  arch/m68k/configs/sun3_defconfig              |   1 -
->  arch/m68k/configs/sun3x_defconfig             |   1 -
+Ok, I'll drop this and use ext4_get_inode_loc_noio().
 
-Acked-by: Geert Uytterhoeven <geert@linux-m68k.org> # m68k
+Hm, the nonatomic lookup isn't optional though. Afaict, the atomic one
+bails when the folio is being migrated. So for the fast commit snapshot
+this now means we fall back to a full commit.
 
-Gr{oetje,eeting}s,
-
-                        Geert
+So in ->sync_inode_metadata() we now skip a dirty inode block and
+fsync() returns before it's on disk. So we need to switch
+ext4_get_inode_loc_noio() over to atomic as well, no?
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
