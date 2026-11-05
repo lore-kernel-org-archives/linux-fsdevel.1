@@ -1,88 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.176
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793892306;
-	b=aZnGcRVS7P1POsHCXkyxZE6VdJHI4IlaQeNtmPvlE3DRbeXGAbyrzZIzZJBRAi8nwwK1
-	 V6fvPESKIHIwIvkYXoc14tVejP3iw2Mnz4d4w0XwfQ9bLgHSbf9Ta2M6fngMLZ1nke51G
-	 TTtkXrupgQrODsfSyENrBXeA7SMgrUZCddqetEGqPda0OqpTBh44y4Z+lkSQttVtt8TDQ
-	 QpHVm0HB3O42Um06cLCj9VeH8A3pbl5J9vLOchIM1sGmwn4/kws+uK+y/OGQ7QQyzZffS
-	 WwCgTxKEt3cHH1/gZe+/kRK7cnKtbTJJX8hEUQ7VJaTg8V762O63Nt7yxGIdVbLllIg==
+	t=1793892326;
+	b=rfdc2asfPgIrXlcEdjELDGlb2wAG5R0VWhuPZ8nBFpiE2M0iWc2QUqGmehf5/QpYNjBj
+	 suvyFH5I/Z1OV5YVZ0Lb2aUpHcOq2z8Kq0GP1547agQN+iiYMcZvK/oNlnkWihYevmgS7
+	 Xv3wiBgP4XXhEUJ0MKCFhJXHi6pqDXQOBFKgNbx1F56TT9E57O1JH6dvQgMUMrsJYDkfC
+	 5fO0Bo9/iLmFECxbfH99G7YsRqnkV+grTeHNXnxzp0C9rdF6hmgU9HtmB5TgEDBZlsmdx
+	 0Oh+bM8wW0a9S//Y61T7Sn/QYCSoemQIOBXkw0Q6yKa/rPPsWu+LmchexHrI00qjZww==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793892306;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793892326;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Date:Subject:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
 	 References:In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=nCSH+BUHXufl69korllSQg4yCYhVD/kVb/8Rq5qoQOY=;
-	b=ybRHVke9NxlGpps35nLbCU0xZNlK22OnIs7gT2Z2oi+aa0BFa8hkhkxJO3/o/QifEccq
-	 oX3IQZ9fhscYh7M/N3z+Y7c0TWhpzzgbb4DHRsSVUQMLPqrJtOxmwy82hL82c1SDxFuI4
-	 hjkfMTYO7d3RdRAjB4O5dgPzQfpBjfAzmbYBQBB7d0Ls0Jyu38yYOcq03huE1KBlkiS+H
-	 D0Rf96on5m0Bo5KGMtpX/KqA3qPDyFOYxoED0MH/nyJYkE5hFUBcGVKRkFBoHS854qNh3
-	 o9BOHbWXyEx/ktdUFtk95z0bteLAhNwD9Gu7LdbqP7/zP7l/lmMzetTgMJHu6WQox8Q==
+	bh=71wub0L05hM3JJpdorB68VmX5twzKf91AJhaOYI0rhg=;
+	b=hkJ9ghQ07UTsRBF3kJfd5dQtNojpkUEHt3jLc/NHTJr33Mnix/J+H8za+eprmRsLyzeM
+	 At9aKWYPmGsZPz6zz/tmehL+4qT46cXEvd4x4Tai40jhdY4qd8MyfZPlTAu2vMc/Xw3CR
+	 XIS/yZGHkAx61AacBu2iEGJ4yOIfE1qngsjf4hio9imMlhL6GllbU0/s2J17PVBkX7I1e
+	 IwSHZzCOh3FkyYv+vIp8eoezpmQbS2RCpHG3B/1zukjFmBKQA6V4jeAc1n7Ctpxz3LLfU
+	 5L++BXRxAkq8Z0egfZfLLTZc6/LVXrG4D66+58hKdttKjkCmxeG4UCJWYo/KUJrHdow==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=toxicpanda.com;
 	spf=pass smtp.mailfrom=toxicpanda.com;
-	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=Xlq7e5y3;
-	arc=none smtp.remote-ip=209.85.160.176
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=KKuLKpTz;
+	arc=none smtp.remote-ip=209.85.222.176
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30108606D805
-	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 15:25:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 30108606D805
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53061606D825
+	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 15:25:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 53061606D825
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=Xlq7e5y3
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-53653e30353so26213521cf.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 07:25:06 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=KKuLKpTz
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-93e55db58cfso210796385a.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 07:25:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toxicpanda.com; s=google; t=1793892305; x=1794497105; darn=vger.kernel.org;
+        d=toxicpanda.com; s=google; t=1793892325; x=1794497125; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=nCSH+BUHXufl69korllSQg4yCYhVD/kVb/8Rq5qoQOY=;
-        b=Xlq7e5y33FgelORf21wJphe1YNfYzNbtqhRD1fD9h35XnC2ymKi0z2rRYNnGgPICPQ
-         EoRhKQEoWawWcw2J6NGDkwB1ms4NWnxr7Rfj+yjMhm2S8clnwZvJu+saVF0xgeb4jtev
-         mUmkj3bn45qmput34TzDCplGY53u5ARki+IyfaV+rWODoRn7eWfc5x4uhkvg83dmNQZX
-         LvYJqPlExN2Vxihat84I6kvrqS2b6v8J2G6R/FkaH0aKkbI77eCrCrj/sn4SGSItrj8/
-         zb3Ub4nYxxEZcUJ6h3DXG/4sV5wR6IcYZ8oyE9dpmDP2Yj/h0V7jaD2DF6tdwSE6L5Tk
-         D3mQ==
+        bh=71wub0L05hM3JJpdorB68VmX5twzKf91AJhaOYI0rhg=;
+        b=KKuLKpTzsitUYmLTDEd+Ap3fUkQ85mL3rOZwfff5NWbZWMx97AURL69JnbEqjt4Ma0
+         TGCPMyx3RMQR8raXetCsDIGs1Us1yCEYnXbfF3TSNC71qZFRBEQzwjpyZ4If3CJ1lj5s
+         5pZEpT0sbZ2bHTForcdlvlhXYti8N0f+wMm74cz3fDoee2Q3SVKtpmvIjoukI/MZl6yU
+         BGQYRHuQfWnDstBf6emXbWChO8+xOB9ZThXEh0f+6duzXs85lywDz6PNz9aCPDEbf4Fx
+         NKiE4Vu081KpG3nu888uiIqaUTcG8pkJBRc2w/gO1RnjqyBIoggEVScuyZDVrtL9UFe1
+         Ajug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793892305; x=1794497105;
+        d=1e100.net; s=20260707; t=1793892325; x=1794497125;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=nCSH+BUHXufl69korllSQg4yCYhVD/kVb/8Rq5qoQOY=;
-        b=ad1Pa3uu5Lnthf4umiH+Ff0yNkC2zwD1e4d9MBPwj+eC36bwbkNcKA8rMxB+1oKAO0
-         Gkgv2zhyG+pFpgMunkl6QQOmYj0zWzxXansuVbf4BCp0T8+f9WFL0fEPpXxubTsoyf3k
-         eNpEl/BDQM3uEsTvCwc+bVdJxlpjD6QBGNo7arXTUVAgYhK4+ImymtD/zGWg0f2NWv6G
-         zRmuTz3k48G5/3R1q5eU9WHPlgRoC8cD7Lr+8b2CUgalL8+FQMlvhoUvY5Y81ugS+20V
-         dyH18bIL+Xl6snwnb73vfqklmnZDBxz7fud2R5mBER89OMrsEmsANqL6ebYSTbHIyn/R
-         DL/Q==
-X-Gm-Message-State: APuU4Z/mufG/gSLPoBFJpVlW9yeNK2hh9/rSkHEUpcNIQ0zbd6XCGqBm
-	KYXj/O5309jwlG2dXEb9rZu04GSnDxKmRnEbdBiHtH4U6Cs6FE59TCoAFN/PCzge4iw=
-X-Gm-Gg: AYBFou3lcsfieH+H4LxfBJlqiX6y2LdWQO08RLB++VpfmD7uHWQjzr6EsWxnjeC1GYI
-	6nP876rDaHxelf+oZaY3mjdOBN2z5fPKBGaeqFiPHkmr6y8UPQkBVH4QJ4T7VUDK41mh1g7OdK4
-	cKT1JHkXWQA0XD6IfK3isDZvBpp//pttjkG+kFofhY/hcaKS0dG4LZT/0SiVEebAwCQPOr/uiKa
-	wNrsbmiiubJGPI+7cJ8P1qgRStgnPk13Fst/uTmxZk88xangJGetYrhoeeGIb1PKLWP7DC69CwR
-	zilI/BlvztVbrsRxbcO9zV9wmt3nyTDVeB1iXnOtI3GCe2GHlVMsSON4h24q2rhsBfLZdzInm1N
-	K93ujZRNkkO00O0Qyo5xtkEX3qVr+PH/lbR1e0kp2B0MGuvrKvIhwg6n9AxvoPpqH11KJnLYeF7
-	qtYTR/BEOHC22U5UjShRm+Je3LeHxbIzaUaki9PSVRJ5a5TQYnOQTTyt38xURP9WpNxDnWLmirZ
-	me2JPkT+PJYzEKk+siso0iCEVwO/iUseN7QVWkkbYy2eJY1KAnrQD4ApcVyEfG3fFEbZ+RWTLJ4
-	X9aNrJfS2jEZJe/vNv1Mhq1IqIioOOYvpgP/T9jb6okR
-X-Received: by 2002:a05:622a:4ce:b0:536:93e0:4b46 with SMTP id d75a77b69052e-542b62a60d3mr318811851cf.25.1793892303844;
-        Thu, 05 Nov 2026 07:25:03 -0800 (PST)
-Received: from toxicpanda.com ([153.61.196.254])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91e7dfb8c99sm50242586d6.11.2026.11.05.07.25.02
+        bh=71wub0L05hM3JJpdorB68VmX5twzKf91AJhaOYI0rhg=;
+        b=fn2UdleFFqRT4B4LDJ0VdtcO2rUQO4grJJ6ysbKDprS0fFd9WqCNh5T6FcQ8M9nm44
+         v2zU0/HelcL9zucdCuwGXrS0yp9ZKQyR92O3hGxLiNCJdAErhvI69VsCS10oEOSa89V7
+         kUSiuCz3jmahVnYQ6q7g2Vgq9Vlv8VcuqSQkwMZOR8SBYR0B8GPeJLe9BIX2RMDns1Cb
+         /t9JdVBpd3X8RwHVBitQ7U46BBLKAq1L0PMIx8h/NRgk0Ra+mYXZY5gaRb8X3nGc5CSj
+         R8Eq1Dck3DvGiXEApcMa7ZGSx1Ee+dbbsCCLpYgFP0APur09SAoZEDNdo+H/o5GGp6A9
+         HgXQ==
+X-Gm-Message-State: APuU4Z+u67z2Qnhb25aVZh0zWUP2+I6W/VUcI383DcZBflHFFYaDKTC6
+	cHe0stbfpbkQydOjxDe6mjGpexOftokidT+TyIsQIEf0GnPsEwfYDGjrpcm127SDIFA=
+X-Gm-Gg: AYBFou2kIKz08++zmlJhI43Cg6BEOY5Ymr7CmzBF4W1wnq4Gbta9pPi55xozZS4gI1T
+	2QhiHdwbsyOfz3THjLo27ZpfXTn62YNA6uAUApVOkNTpHNRkEzSA0L8rOxpPZPVEGTM0LiDBFkJ
+	4/EBiFuozUdZqbFMn62Hvg+QSDxuNj0fucjIsXsGx8W+skqvGlx/RAe2i3x+ZYejHu0g3n7t8CI
+	4nB99VFXtYoifbcGVRHBplrE0oJL/1hlfNSHWWO4Y6wGTT07IQYkp+Hy4IYc0an46NBAGwM+vUa
+	PsMmXdc96+xJXiL6OViMbqOJSFvs0BSYsNL4/ZmrDkA3pUZEa4ibZZEr6zSIXx5tI/cEpT7eb86
+	NBOg0GP7czpPEut6Id9lGXMXYcmrrG+Edndv2MWAoJaM+II8F1o7WLrhcys2ZTJwtDh9AhCKuXN
+	5zILPOBfm5StW2RiWld5/xM5Q2AlE/fA0ZL4CvObLYD7Kxf0Nt9DRQJ9xgde+gV0vx0i4okPbsX
+	gAlvkjQHnOP0OXhSpuevlmXotj8UNbSO89qKkkfDLaMXh7lnIb2o5whk/hXECwpjpX34KafwzqK
+	EYPuqmJBcZx+GOIfzfOOlQYq34NJl2lq15nVdeSyEdsuTA==
+X-Received: by 2002:a05:620a:254a:b0:93a:10b0:aee7 with SMTP id af79cd13be357-9442175ae3cmr3373311285a.44.1793892325147;
+        Thu, 05 Nov 2026 07:25:25 -0800 (PST)
+Received: from toxicpanda.com ([153.61.196.252])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-945d48316f4sm482776185a.25.2026.11.05.07.25.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 07:25:03 -0800 (PST)
+        Thu, 05 Nov 2026 07:25:24 -0800 (PST)
 From: Josef Bacik <josef@toxicpanda.com>
-Date: Thu, 05 Nov 2026 15:02:59 +0000
-Subject: [PATCH RFC v3 67/90] af_unix: deliver ancillary data only within a
- cell
+Date: Thu, 05 Nov 2026 15:03:00 +0000
+Subject: [PATCH RFC v3 68/90] af_unix: tell a sender that control data will
+ not cross
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -94,7 +94,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261105-b4-cells-v3-67-bc9095937a84@toxicpanda.com>
+Message-Id: <20261105-b4-cells-v3-68-bc9095937a84@toxicpanda.com>
 References: <20261105-b4-cells-v3-0-bc9095937a84@toxicpanda.com>
 In-Reply-To: <20261105-b4-cells-v3-0-bc9095937a84@toxicpanda.com>
 To: Christian Brauner <brauner@kernel.org>, 
@@ -105,180 +105,206 @@ To: Christian Brauner <brauner@kernel.org>,
 Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Josef Bacik <josef@toxicpanda.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openssh-sha256; t=1793890935; l=5713;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1793890935; l=6412;
  i=josef@toxicpanda.com; h=from:subject:message-id;
- bh=34UKHpmDhuJgkiY9ttXT0mOBt7M8IYPnkWTo02k64zU=;
+ bh=e0ueTuD4wsozKi3dIGbcQXO+SHMXvxKJN71+NrWZ6h4=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgUBr36M/n0nWN0DNbnxwzIiCZez6MG
  JiruuNaSCI/zXsAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QDXWL9Ra8ycAhVa29Rmlg3YacDDDMLJg+gOJMozkadsixEOJF3mJTF02eM1A6kN1bdEyX5mBM3y
- GOlMIRTDTWAA=
+ QAGenU2zm8o4+Ld+iWj14Ou3J8f5y+s2bIElOsfcRzi5ZUdSX7OPF+O2bzpq4kZ4OZ5oXHY8LeH
+ RDOr3mLnuEw0=
 X-Developer-Key: i=josef@toxicpanda.com; a=openssh;
  fpr=SHA256:C8kOX2QUJCMqnCX+KEeoqRAjLo9L+ELOSH2NSAJHqGA
 
-Once a cell has started, no file descriptor and no identity should cross
-its boundary. A unix socket can connect two cells, either because both can
-see the directory that it is bound in, or because one end was given to a
-new task. Such a socket can carry both.
+Control data that is sent to another cell is dropped on the receiving
+side. It is better for the sender to find out.
 
-Record in every skb the cell that it was sent from. The receiver gets the
-files, the credentials, the pidfd and the security label only if it is in
-the same cell.
+Record in each socket the cell that holds it:
 
-This rule needs no state on the socket. So there is no marking that could
-be forgotten, and no race with setsockopt(). It also covers a file that
-was queued on a socket before the socket was given away.
+  - For a new socket, the cell of its creator.
+  - For an accepted socket, the cell of the listener.
+  - For a socket that pidfd_configure() gives to a new task, the cell of
+    that task, once its exec has succeeded. If the task never starts, the
+    socket stays with its current holder.
 
-Messages from different cells are never merged into a single read.
-Otherwise the ancillary data of one message could be lost, or delivered,
-because of the other.
+Sending control data to a socket that is held by another cell fails with
+EPERM.
 
-The cell id fills skb->cb completely. Move the small members of struct
-unix_skb_parms next to each other to make room.
+This is only a convenience for the sender. What is delivered is still
+decided on the receiving side.
 
 Signed-off-by: Josef Bacik <josef@toxicpanda.com>
 ---
- net/unix/af_unix.c | 57 ++++++++++++++++++++++++++++++++++++++++++++++++++++--
- net/unix/af_unix.h | 14 ++++++++++----
- 2 files changed, 65 insertions(+), 6 deletions(-)
+ include/net/af_unix.h |  4 ++++
+ kernel/embryo.c       | 17 ++++++++++++++++
+ net/unix/af_unix.c    | 56 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 77 insertions(+)
 
-diff --git a/net/unix/af_unix.c b/net/unix/af_unix.c
-index 98fcfd7301f6..58fef56c0f7e 100644
---- a/net/unix/af_unix.c
-+++ b/net/unix/af_unix.c
-@@ -78,6 +78,7 @@
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+diff --git a/include/net/af_unix.h b/include/net/af_unix.h
+index bb1b3dee02e8..10c1613b4d42 100644
+--- a/include/net/af_unix.h
++++ b/include/net/af_unix.h
+@@ -14,6 +14,7 @@
  
- #include <linux/bpf-cgroup.h>
-+#include <linux/cell.h>
- #include <linux/btf_ids.h>
- #include <linux/dcache.h>
- #include <linux/errno.h>
-@@ -797,6 +798,37 @@ static void copy_peercred(struct sock *sk, struct sock *peersk)
- 	spin_unlock(&sk->sk_peer_lock);
+ #if IS_ENABLED(CONFIG_UNIX)
+ struct unix_sock *unix_get_socket(struct file *filp);
++void unix_file_cross_cell(struct file *file, u64 cell_id);
+ #else
+ static inline struct unix_sock *unix_get_socket(struct file *filp)
+ {
+@@ -50,6 +51,9 @@ struct unix_sock {
+ 	int			inq_len;
+ 	bool			recvmsg_inq;
+ 	bool			scm_rights_notrunc;
++#ifdef CONFIG_CELLS
++	u64			cell_id;	/* of the cell that holds it */
++#endif
+ #if IS_ENABLED(CONFIG_AF_UNIX_OOB)
+ 	struct sk_buff		*oob_skb;
+ #endif
+diff --git a/kernel/embryo.c b/kernel/embryo.c
+index 657ce07441e0..1f8d0b14e6a4 100644
+--- a/kernel/embryo.c
++++ b/kernel/embryo.c
+@@ -78,6 +78,7 @@ struct embryo {
+ 
+ 	struct pid		*pid;		/* the reference alloc_pid_struct() returned */
+ 	struct cell		*cell;		/* where the task is going to be */
++	u64			cell_id;	/* of that cell */
+ 	struct user_namespace	*user_ns;	/* likewise */
+ 
+ 	int			result;
+@@ -126,6 +127,19 @@ static int embryo_install_fds(struct embryo *e)
+ 	return 0;
  }
  
 +/*
-+ * Between cells a socket carries bytes and nothing else: no file, no
-+ * credential, no pidfd, no label.
-+ *
-+ * The rule is enforced where ancillary data is received, and it keeps no state:
-+ * every message says which cell it was sent from, and whoever receives it gets
-+ * the ancillary data only if that is its own cell. However a socket came to
-+ * span two cells, by a connect() through a tree both can see or by being given
-+ * to a new task, there is nothing to forget to mark.
++ * The exec went through, so these ends are the cell's from here on. Not any
++ * earlier: a socket that was to go to a task which never started stays with
++ * whoever has it.
++ */
++static void embryo_fds_crossed(struct embryo *e)
++{
++	unsigned int i;
++
++	for (i = 0; i < e->nr_fds; i++)
++		unix_file_cross_cell(e->fds[i].file, e->cell_id);
++}
++
+ /*
+  * What was configured has been used, or never will be. The pidfd may be around
+  * for long, and must not keep the other end of a pipe from seeing the last
+@@ -241,6 +255,8 @@ static int embryo_main(void *arg)
+ 
+ 	/* @started is set, so nobody changes anything any more. */
+ 	ret = embryo_exec(e);
++	if (!ret)
++		embryo_fds_crossed(e);
+ 	embryo_drop_config(e);
+ 	/*
+ 	 * A signal to the embryo is no signal to whoever started it. Whatever
+@@ -356,6 +372,7 @@ int embryo_pidfd_open(int cfd, unsigned int flags)
+ 	}
+ 	e->pid = alloc_pid_struct(cell_nsproxy(cell)->pid_ns_for_children);
+ 	e->cell = cell_get(cell);
++	e->cell_id = cell_id(cell);
+ 	e->user_ns = get_user_ns(cell_user_ns(cell));
+ 	cell_fork_finish(cell);
+ 
+diff --git a/net/unix/af_unix.c b/net/unix/af_unix.c
+index 58fef56c0f7e..198898b86c1c 100644
+--- a/net/unix/af_unix.c
++++ b/net/unix/af_unix.c
+@@ -829,6 +829,49 @@ static inline u64 unix_skb_cell(const struct sk_buff *skb) { return 0; }
+ static inline bool unix_skb_foreign(const struct sk_buff *skb) { return false; }
+ #endif
+ 
++/*
++ * A sender is told right away that control data will not arrive, where that can
++ * be known: each socket records the cell that holds it. That is a courtesy. The
++ * rule above is what counts.
 + */
 +#ifdef CONFIG_CELLS
-+static inline void unix_skb_set_cell(struct sk_buff *skb)
++static inline bool unix_sk_foreign(const struct sock *other)
 +{
-+	UNIXCB(skb).cell_id = current_cell_id();
++	return READ_ONCE(unix_sk(other)->cell_id) != current_cell_id();
 +}
 +
-+static inline u64 unix_skb_cell(const struct sk_buff *skb)
++static inline void unix_sk_set_cell(struct sock *sk, u64 cell_id)
 +{
-+	return UNIXCB(skb).cell_id;
++	WRITE_ONCE(unix_sk(sk)->cell_id, cell_id);
 +}
 +
-+static inline bool unix_skb_foreign(const struct sk_buff *skb)
++static inline u64 unix_sk_cell(const struct sock *sk)
 +{
-+	return unix_skb_cell(skb) != current_cell_id();
++	return READ_ONCE(unix_sk(sk)->cell_id);
++}
++
++/**
++ * unix_file_cross_cell - a file is being given to a task of another cell
++ * @file:    any file
++ * @cell_id: the id of that cell
++ *
++ * If @file is a unix socket, it is held by that cell from here on. This only
++ * serves to tell a sender early that control data will not arrive. Whether it
++ * does is decided where it is received.
++ */
++void unix_file_cross_cell(struct file *file, u64 cell_id)
++{
++	struct unix_sock *u = unix_get_socket(file);
++
++	if (u)
++		unix_sk_set_cell(&u->sk, cell_id);
 +}
 +#else
-+static inline void unix_skb_set_cell(struct sk_buff *skb) { }
-+static inline u64 unix_skb_cell(const struct sk_buff *skb) { return 0; }
-+static inline bool unix_skb_foreign(const struct sk_buff *skb) { return false; }
++static inline bool unix_sk_foreign(const struct sock *other) { return false; }
++static inline void unix_sk_set_cell(struct sock *sk, u64 cell_id) { }
++static inline u64 unix_sk_cell(const struct sock *sk) { return 0; }
 +#endif
 +
  static bool unix_may_passcred(const struct sock *sk)
  {
  	return sk->sk_scm_credentials || sk->sk_scm_pidfd ||
-@@ -1993,6 +2025,7 @@ static int unix_scm_to_skb(struct scm_cookie *scm, struct sk_buff *skb, bool sen
- 	UNIXCB(skb).uid = scm->creds.uid;
- 	UNIXCB(skb).gid = scm->creds.gid;
- 	UNIXCB(skb).fp = NULL;
-+	unix_skb_set_cell(skb);
- 	unix_get_secdata(scm, skb);
- 	if (scm->fp && send_fds)
- 		err = unix_attach_fds(scm, skb);
-@@ -2670,7 +2703,10 @@ int __unix_dgram_recvmsg(struct sock *sk, struct msghdr *msg, size_t size,
+@@ -1146,6 +1189,7 @@ static struct sock *unix_create1(struct net *net, struct socket *sock, int kern,
+ 	sock_init_data(sock, sk);
+ 
+ 	sk->sk_scm_rights	= 1;
++	unix_sk_set_cell(sk, current_cell_id());
+ 	sk->sk_hash		= unix_unbound_hash(sk);
+ 	sk->sk_allocation	= GFP_KERNEL_ACCOUNT;
+ 	sk->sk_write_space	= unix_write_space;
+@@ -1777,6 +1821,8 @@ static int unix_stream_connect(struct socket *sock, struct sockaddr_unsized *uad
+ 	newsk->sk_state = TCP_ESTABLISHED;
+ 	newsk->sk_type = sk->sk_type;
+ 	newsk->sk_scm_recv_flags = other->sk_scm_recv_flags;
++	/* It is the listener's end, whoever made it. */
++	unix_sk_set_cell(newsk, unix_sk_cell(other));
+ 	init_peercred(newsk, &peercred);
+ 
+ 	newu = unix_sk(newsk);
+@@ -2284,6 +2330,11 @@ static int unix_dgram_sendmsg(struct socket *sock, struct msghdr *msg,
+ 		goto out_unlock;
  	}
- 	err = (flags & MSG_TRUNC) ? skb->len - skip : size;
  
--	scm_recv_unix(sock, msg, &scm, flags);
-+	if (unix_skb_foreign(skb))
-+		scm_destroy(&scm);
-+	else
-+		scm_recv_unix(sock, msg, &scm, flags);
- 
- out_free:
- 	skb_free_datagram(sk, skb);
-@@ -2929,6 +2965,8 @@ static int unix_stream_read_generic(struct unix_stream_read_state *state,
- 	size_t size = state->size;
- 	int flags = state->flags;
- 	bool check_creds = false;
-+	bool foreign = false, glued = false;
-+	u64 from = 0;
- 	struct scm_cookie scm;
- 	struct unix_sock *u;
- 	int copied = 0;
-@@ -3032,6 +3070,18 @@ static int unix_stream_read_generic(struct unix_stream_read_state *state,
- 
- 		unix_state_unlock(sk);
- 
-+		/*
-+		 * Never glue messages from different cells: what comes with
-+		 * one is not to be lost, or let through, on account of another.
-+		 */
-+		if (!glued) {
-+			glued = true;
-+			from = unix_skb_cell(skb);
-+			foreign = unix_skb_foreign(skb);
-+		} else if (unix_skb_cell(skb) != from) {
-+			break;
-+		}
++	if (msg->msg_controllen && unix_sk_foreign(other)) {
++		err = -EPERM;
++		goto out_unlock;
++	}
 +
- 		if (check_creds) {
- 			/* Never glue messages from different writers */
- 			if (!unix_skb_scm_eq(sk, skb, &scm))
-@@ -3113,7 +3163,10 @@ static int unix_stream_read_generic(struct unix_stream_read_state *state,
- 	if (msg) {
- 		bool do_cmsg = READ_ONCE(u->recvmsg_inq);
+ 	if (sk->sk_type != SOCK_SEQPACKET) {
+ 		err = security_unix_may_send(sk->sk_socket, other->sk_socket);
+ 		if (err)
+@@ -2456,6 +2507,11 @@ static int unix_stream_sendmsg(struct socket *sock, struct msghdr *msg,
  
--		scm_recv_unix(sock, msg, &scm, flags);
-+		if (foreign)
-+			scm_destroy(&scm);
-+		else
-+			scm_recv_unix(sock, msg, &scm, flags);
+ 	otheru = unix_sk(other);
  
- 		if ((do_cmsg | msg->msg_get_inq) && (copied ?: err) >= 0) {
- 			msg->msg_inq = READ_ONCE(u->inq_len);
-diff --git a/net/unix/af_unix.h b/net/unix/af_unix.h
-index 402742895acc..d9c393ac58cd 100644
---- a/net/unix/af_unix.h
-+++ b/net/unix/af_unix.h
-@@ -13,13 +13,19 @@ struct sock *unix_peer_get(struct sock *sk);
++	if (msg->msg_controllen && unix_sk_foreign(other)) {
++		err = -EPERM;
++		goto out_err;
++	}
++
+ 	if (READ_ONCE(sk->sk_shutdown) & SEND_SHUTDOWN)
+ 		goto out_pipe;
  
- struct unix_skb_parms {
- 	DECLARE_PIDS(pid, PIDTYPE_TGID);	/* skb credentials by pid type */
--	kuid_t			uid;
--	kgid_t			gid;
- 	struct scm_fp_list	*fp;		/* Passed files		*/
-+#ifdef CONFIG_CELLS
-+	u64			cell_id;	/* of the cell it was sent from */
-+#endif
-+	/* This fills skb->cb to the last byte. Keep the small ones together. */
-+	struct {
-+		kuid_t		uid;
-+		kgid_t		gid;
- #ifdef CONFIG_SECURITY_NETWORK
--	u32			secid;		/* Security ID		*/
-+		u32		secid;		/* Security ID		*/
- #endif
--	u32			consumed;
-+		u32		consumed;
-+	};
- } __randomize_layout;
- 
- #define UNIXCB(skb)	(*(struct unix_skb_parms *)&((skb)->cb))
 
 -- 
 2.55.0
