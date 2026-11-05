@@ -1,55 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.235
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793916762;
-	b=YCTcSPIdHjSTIxeJ31Duw6acSXKppG9Z5nk0avLjMFfS4JPkBYGb6SJ9h31xl19grWMd
-	 T6W9RyNx4HL5HnOFi9vvWllAN0LjrOdQvL+tTrQ4FaJC9EO7W6pNMCSGEThrR8BvsAmw8
-	 nCnFaWMi8f064WjCEdwgQFs8wzwMUqsiUSSIc1d8WuHC/2creeVs3ZfHTtBm6OyQriMBW
-	 mtbIRZ89vED0ytl1m0m6uTKAJ7bEn4Hp4fPL/f3wIpg8r6+J7vyFpLXnF8rjffhAPxZAX
-	 UnJO5vLqCJerxJJMcjCcoDvyrvag8N//mqzynzYKUXZ/lOeALB5BhQx+//e/4iod4pQ==
+	t=1793916817;
+	b=yzfW4I0JzbDvJFflMMkSkv8Zuzf26tjnuNduMiOqE4inZgJOsp5XNd6zYmg8vp9L/CNl
+	 m52VhjiFYIoTNGhB0Iq6ioZe+/0hO0s2StfyO6NxkM5ZWmjMQWxT4bvmrF58kgyip5+bV
+	 bDgSK09OexWv16feF8tAooUk7JFIw9WwqRD/HM6oeSU37IrEK0O5ren9iWFDQ7xhxcqSj
+	 nk9gcJAlZSeZl8789Vfu2HpLGkBhdyuRqykpJLR4NrKmvOtmu3Eh0nnsxbMaEGrmgZD4R
+	 +XnCMuj1Ngq+KwMgPdQsXNKOwLKAACE5JndJCftjGBLX1hkI1WbwGoGNAYZG5HZgN/A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793916762;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	a=rsa-sha256; c=relaxed/relaxed; t=1793916817;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=F2l1OS/+Jc/lZO07nQMOSgWNuzoUmMBtUBpenkKLMAg=;
-	b=fPuKTTbwh9XL/n9rAwNlBJYewreWbO9uxU1Cdh1o30lwgToNbuFioWucGaruF5XlVRtJ
-	 jcQkY1/JyS/f9IO9F8LTbYUoI6K0Tl9ORlKTfnQ7tq+TqOni1+MuP+0Ivtv2Q2dJkSc5h
-	 qPFTe+gqjy8Dir2HXzKgqPWptDDVQ9BSrlzsypsTgFjmO9la05h5OtZGsKxAMAR8LSnIz
-	 6BdvIo4OZ1HfUUo93GELNQevxpZsPWptl08J87Fyxkj/luwvq+1I4LHXDclnwjr4JKUrF
-	 EIC1IwzOZWJqX7gvS5DrsDO1+KjikqWGK+WoNJKbh7bSDaC0U1LG+4xPLmiEsD6Idkg==
+	bh=4KVE0mlIb8Pa60CBHZvDD8qqhUD9QNgg/6EGkqm9L1Y=;
+	b=igw9nFRkkFPN0aLbYBv7viH866U5UILMbgFIJoMAMx2UjszDulXA0+9CyEshrZnm/YtZ
+	 iGso4kr+KDSHUW2NLOJTvzxqANbvD25wcfoTFWgpg/zsGxslhuFwexwNQhVR5J6jUlcU7
+	 2JLfuTgIM6DQdBws1l3SIFvtpAncxFnRzc8NlSGYLdSOydKHmhSrEdyywag+YXfH3IwYv
+	 iMSlzn+N1ybkdCuuP/WuX8YRCHAoGH/6LC40JhYtgbBTjfw6jDXEP8h5+bFX7tv10YLe7
+	 OJkmL8HDfLtIUJJViMB+dDEnJJ6cKUbyDJ5uLaKMVZdY/iHzSrJG9SqoLtYCkTw9+lw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QKJ7dYxE;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b="FZL/4bYI";
+	arc=none smtp.remote-ip=95.215.58.235
+Received: from mta1.migadu.com (out-235.mta1.migadu.com [95.215.58.235])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7740C606A31B;
-	Thu,  5 Nov 2026 22:12:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B114E606A328
+	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 22:13:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B114E606A328
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QKJ7dYxE
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C27E1F0089F;
-	Thu,  5 Nov 2026 22:12:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793916762;
-	bh=F2l1OS/+Jc/lZO07nQMOSgWNuzoUmMBtUBpenkKLMAg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=QKJ7dYxEPEcXOaSH+0dWeFEClZoZgNvXMTnbKDO+Hl9kxvd+bAaAunRa4rXjD6gc7
-	 LTzsvA147NdZUEPSDx9a+r7OIberNqMw0TC9S4Nk83Dov6huRIyd7dyRsUYqQjR5v3
-	 BgI6hn3iEOBBxKLj1ZqrpGj75kDzJDduZ7I2tYaxKvlj6KhWhIi41hU5Wp/cU1r0Lg
-	 LjYbZpyzfCemRdyK0NqNRLkPvx545B+4YSsYLbX3Wu38GwcVC5qIE2bRyLXn2TJivv
-	 TTHe3IhFWR625F3TGeZIQmB+LWvgFUjTby1WipsQ4yaHn9KEKxVF5KlSW5PdrXxfgQ
-	 8CHLTeoh/5Uxw==
-Date: Thu, 5 Nov 2026 23:12:38 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Sasha Levin <sashal@kernel.org>
-Cc: Shuah Khan <shuah@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, llvm@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] selftests/namespaces: initialize the byte the children
- write
-Message-ID: <20261105-burggraben-wegrand-seeufer-18d3c8517fef@brauner>
-References: <20261103165419.687806-1-sashal@kernel.org>
- <20261103165419.687806-4-sashal@kernel.org>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=FZL/4bYI
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=DkefybD1i8xvQ56jyQ09h/HTM19UexBk7u12ksvN4Ok=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1793916813; v=1; x=1794521613;
+ b=FZL/4bYIYtPOxgYb2t6NdTInSEADFu24zE8bVTWhV8d7DKiaTGawM60fbUJSi3opG7QUYT7r
+ 5UnBWjhj0KMKMEeoUUIC+NFwUUQIA+EkX4eLPy8KMDb4oSee8lfUntIzswfHl5C7tAwIKFlgRV/
+ vpx80WMwdwnvpLm0xvNOTR/c=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id c3dbcbf73ad53fc4;
+	Thu, 05 Nov 2026 22:13:33 +0000
+X-Mizu-Trace-ID: c3dbcbf73ad53fc4
+X-Migadu-Flow: FLOW_OUT
+Date: Thu, 5 Nov 2026 22:13:30 +0000
+From: Jose Fernandez <jose.fernandez@linux.dev>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+	Jan Kara <jack@suse.cz>, David Hildenbrand <david@kernel.org>, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	Krystian Kaniewski <krystianmkaniewski@gmail.com>, stable@vger.kernel.org
+Subject: Re: [PATCH v2] mm/filemap: stop fault-around when the walk steps back
+Message-ID: <20261105-jf-filemap-v2-akpm-testedby-reply-r1-36ef39856b46@linux.dev>
+References: <20261031-jf-mm-filemap-map-pages-lower-bound-v2-1-21029744e589@linux.dev>
+ <20261102092750.e53073b2c7b872f9d70c0711@linux-foundation.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -59,13 +66,19 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261103165419.687806-4-sashal@kernel.org>
+In-Reply-To: <20261102092750.e53073b2c7b872f9d70c0711@linux-foundation.org>
 
-On Tue, Nov 03, 2026 at 11:54:17AM -0500, Sasha Levin wrote:
-> Found with clang 21. The namespaces tests aren't in TARGETS in
-> tools/testing/selftests/Makefile, so CI doesn't build or run them. Is
-> that on purpose?
+On Mon, 2 Nov 2026 09:27:50 -0800, Andrew Morton wrote:
+> Can I add your tested-by to [1]?
+> 
+> "xarray: fix index jumping backwards in xas_find()".
 
-That's an accident. Please send a patch adding it. Thanks for spotting it.
+Yes, please do:
+
+Tested-by: Jose Fernandez (Anthropic) <jose.fernandez@linux.dev>
+
+I ran it under the stress test from my reply to Pedro in this thread.
+
+- Jose
