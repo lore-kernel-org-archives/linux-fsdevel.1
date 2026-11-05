@@ -1,84 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=210.171.160.6
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793853983;
-	b=wOn6FwLufLKWBxOMVju6hElLzbExbwlUkfVn8sPBq9atB85PqjhFiGL3Jg+pLLNHUnUJ
-	 LUyjgENXozJyPhKuq4BbvHvHNP+iBRU24GjHFyEL8ALoObpIWsighO5qoQTzGetKnO6B9
-	 z8jkLmuB3Uz6CKXWM9WlAvd4ZwAwXANOKMQ9T7ghpuEWk4f5/YpRWwXMmXHI6eQcFG1w7
-	 ZDShBwKzhP0lrDaKIns/+UXXvnugyG/B1KDpsUbv1ycmbpLoHIoegIKfkTnCKW/A8SjZp
-	 JGfPxG58G+x1HgX97DaWMGgyVLQCPpGuOo9Kaxt5CtE+9P8qBgvpa1vXB/yJay9bP9w==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793853983;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:Received:
-	 Received:From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 User-Agent:MIME-Version:Content-Type;
-	bh=UEhvz5qnVJcOEvOQ5Tc4seJIA3lfMk/hJ4EDh4hKsfI=;
-	b=qO4LVN/YCjeuNt5fiUjLFb+eMDhjno5PKFPnRNENTiNGJfM8gCRJyErlYda67JGa054d
-	 ll2wKckZuYx1rKWhTqBrNIB6T706/8aV+Lv+2NxFLwdAJJun5phZDj8s+7WsONkbGtybH
-	 AGvxtG8msZtUo4pnOdMNMFgpin9JOQmq1+2/A2h1+8ahAVCeWCSN3PUC+z2EL75TbhKt6
-	 21R3BpR81KOtRmiQO6A+Q8uOzaYxSkJgOUPVURvwI9Zn1SmBYNleu/eAHYESV4U4BgHiv
-	 t2oip2bOjsRNNKUEW/SYD3VdvH5tdF+tmgyrCXcGkMTQvn0FuML+v5v/qRZWnKLXRiw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mail.parknet.co.jp;
-	spf=pass smtp.mailfrom=parknet.co.jp;
-	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=rsa-sha256 header.s=20250114 header.b=AzU3k0xM;
-	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=ed25519-sha256 header.s=20250114-ed25519 header.b=Rdc2RTcK;
-	arc=none smtp.remote-ip=210.171.160.6
-Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.231.198
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793855338;
+	b=m8FJiAdma4nennoNUrCOMY4M5DbBExFTOyEFMRuDUBQkRtlQksAnZkWuuRcKwpx4TEmv
+	 BMjgLOtz4VI1i/I4lusHhk2LAycYPPTS3ZNglV4PqPW/Zyk9JMDauyXhyhucUkp0OlKJN
+	 VXp/jRsFLKCsHgCEE7McQtiGcPjFxV622YXjccS2Xsx+sMW7/UPs/pq5ysMLwlI2JsblR
+	 Cebvo0Cr/weuSrc/BW7BHh+R3xbFRsuZWqhQwtgRCRX1/1LO7oiz3CDjn9aLi/eq2pxcS
+	 vIvJlK3nP9ZoVVYqcCx4UmeRhA4nb1yKFDOLu2qpCEWMfyYuE1ZWvTg7PL1n+gm7QxQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793855338;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Content-Type;
+	bh=F49mRNwIXXKoaU9d1R0TU/cMDFceqYMXuPvzpIRBwac=;
+	b=sI2tyAQnvncToNbGz9LdZLlZIeP6Ceyg8vHRZMHDo5+II4hnozVFnwtBHzvasVp6zId9
+	 HsSp5TMOI35o1J6Zbr1t3nRSi8isL/5/vMlHd++OKe9otMV8z11CjMDjE83DFclYyTx+f
+	 /Qr6WS1mNxWHbp+uxad6c3rAIAo//KMZXizsLuMR7+qOqwjP+UoJNo9GZQSP2t5f0flb5
+	 33+cQC301NG3GgZGWxDqVniVFXM9o3Me6ZrQlEN5JoZRbw0hqwuATLcWXM+Ln1sI9Uvw7
+	 R/YaeSbhQfwYauayVcrzrVov7VWjE8cV7wza/r1mdXH3Auoz/1X+5FcD062wx3HwzxQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ZbcVMO+d;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.231.198
+Received: from mail-oi2-f6.google.com (mail-oi2-f6.google.com [74.125.231.198])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67471606A32D;
-	Thu,  5 Nov 2026 04:46:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 67471606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1735606A326
+	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 05:08:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B1735606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=parknet.co.jp header.i=@parknet.co.jp header.a=rsa-sha256 header.s=20250114 header.b=AzU3k0xM;
-	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=ed25519-sha256 header.s=20250114-ed25519 header.b=Rdc2RTcK
-Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
-	by mail.parknet.co.jp (Postfix) with ESMTPSA id 45A6026F765F;
-	Thu,  5 Nov 2026 13:46:18 +0900 (JST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114; t=1793853978;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UEhvz5qnVJcOEvOQ5Tc4seJIA3lfMk/hJ4EDh4hKsfI=;
-	b=AzU3k0xMre3huuujnXb7O4iBaA+saDtxcD7ekZ22W1lV3TiIKDuxQjyYtO8mGqP8zXW3UF
-	wT9t7n8DAB7OP6dCtKzlYJfljlkrJbF9yvxu/1RDX/0dk6qY2R5+No1FHtBFzKxVsCDMrj
-	+34FkgcEYX5f+cBLPS4RSyRf1tzYa9zMGz4CnCyPQ9/eeExlYtW2ryEZFMPXrNBbdjg+gG
-	mXMmaZh3g5I+7meqAEFe8LMp4IAarAdZFkLBo+/Fo7cBVaZJJ63P10000vh4gi1Tp32OPL
-	uar2Db9B8PthiFsPJ0cqHghWU2DvyYgUHJxENnE+xnegBbTWYd7wNGJsso3AUA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114-ed25519; t=1793853978;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UEhvz5qnVJcOEvOQ5Tc4seJIA3lfMk/hJ4EDh4hKsfI=;
-	b=Rdc2RTcKOFkoTJP+bE9GoCYl8pWdaetk4ehiCYgpPSFQO91vWdH8Wuk96iVyVO6r7X4cME
-	V1oP1w0KC4m4BhBw==
-Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
-	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id B7E87E000B0;
-	Thu, 05 Nov 2026 13:46:17 +0900 (JST)
-Received: by devron.myhome.or.jp (Postfix, from userid 1000)
-	id AD4F722000AE; Thu, 05 Nov 2026 13:46:17 +0900 (JST)
-From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-To: Jan Kara <jack@suse.cz>
-Cc: Christian Brauner <brauner@kernel.org>,  linux-fsdevel@vger.kernel.org,
-  Josef Bacik <josef@toxicpanda.com>,  Chris Mason <mason@kernel.org>,
-  linux-ext4@vger.kernel.org,  Andreas Dilger <adilger.kernel@dilger.ca>,
-  Baokun Li <libaokun@linux.alibaba.com>,  Ojaswin Mujoo
- <ojaswin@linux.ibm.com>,  "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
-  Namjae Jeon <namjae.jeon@samsung.com>,  stable@vger.kernel.org
-Subject: Re: [PATCH RFC 8/9] fat: sync the inode in fat_free_eofblocks()
-In-Reply-To: <3xsybk6czpjtovswdd46bvoug73ojrzshh5hkdjkfszyjl3x5h@j2l7dqxoorhi>
-References: <20261029-work-inode-metadata_writeback-v1-0-7d6c678a585d@kernel.org>
-	<20261029-work-inode-metadata_writeback-v1-8-7d6c678a585d@kernel.org>
-	<oilqmzo3vpddohxp46x3pjzf3wtoebahirtjqmt3izdw6ua5iq@ghdbk27wuf5f>
-	<87v76co5dv.fsf@mail.parknet.co.jp>
-	<3xsybk6czpjtovswdd46bvoug73ojrzshh5hkdjkfszyjl3x5h@j2l7dqxoorhi>
-Date: Thu, 05 Nov 2026 13:46:17 +0900
-Message-ID: <87pkwjopgm.fsf@mail.parknet.co.jp>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ZbcVMO+d
+Received: by mail-oi2-f6.google.com with SMTP id 5614622812f47-550f311b527so629519b6e.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 04 Nov 2026 21:08:57 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793855336; cv=none;
+        d=google.com; s=arc-20260327;
+        b=nFLy6MYMntirTcCRvOP2IvcIEM53iq1DZaqljUAe8ltk8WCe/8jbdodjDtLphDiR2Q
+         zbhW1szMPz6S49O63GTw71UBH9LUzJytc08tBnv4EEIikMOBxWqbfpgTdGyh2QS/F8lE
+         mxcoX7TIqUaJ5N/HQa1it3V0rdTaHUfTzwcFC+p9q21PHe5OHzfAaaLBjlpj8X93Pcw9
+         p/l7ERqpCn8lxhg0aNZc0hnHAGyfW4ELNF6xTRdDH4hdHX/01Npbc6n6Gv6tKJkUrod7
+         A9sOy/UzPwO90uW5wdzc2BTq4jfw022yXD8TzrmPz+uOxrYYX+uPHqQlTMWNH8snYLFs
+         IROg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :dkim-signature;
+        bh=F49mRNwIXXKoaU9d1R0TU/cMDFceqYMXuPvzpIRBwac=;
+        fh=PT4xij0YI934TpxZc5yA21JcQ8C1ePyGMDo56+fX5EE=;
+        b=LX9Mma4c/FrYtLqNwyvY9ukoxkS+vbHBLu7k2dG7b07xwIEtrtrbFhLNBYLneMk97q
+         U8+IjoSOXqVouY6q3gVFpe6yCXCXotaL3jKWO9YUqX7Rnx3DlZNceV5reTSXqvJiwJ4s
+         /ylu3RVVWmB8ALhryId32BHYL8Kov9QpDhF5VtX0SqFH/ZPIAO6quTvPzq7u6T+oOokQ
+         LF1HL3/Nv/mQbEIH39xt0xdsxNX9AIMNeg2cRtKuF5ApV2wG5w+5dnnErdzTlcCQtbaA
+         HAkzj2XN7PbNfK1tuG3EommvVfLF049fD9ZnPt00Kr4EsiuGAdlIUZojmm8jkeLlrdm2
+         nb7Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793855336; x=1794460136; darn=vger.kernel.org;
+        h=content-type:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=F49mRNwIXXKoaU9d1R0TU/cMDFceqYMXuPvzpIRBwac=;
+        b=ZbcVMO+d8qwcr+LjKwI1ovUtnV2jtZiGCbR5yVtezS/VbJnmpZgAhibdGeCD+/j+b4
+         ROiLVWPNDPF6rQsv1L1xB1tg1yDghKBi/J7RDgR9kIRH9qFjhNTNA/adF0iE88qheNyR
+         t8jNAFy2uFAZcrG7qNhqs7/mXem6in/7z92u26l8SqSXyBwrMG9VN3I/oSQr6V7hHe5i
+         qCeDReNgvmU5Z26E9wlUDgezEiILY6BVPG2Jv8SftgJfvUmyC0BqRMYna0rWr8LQdyqj
+         o3HeLuxcTKSzg+l1U1SHMkD/wGN/t/u6+nKkNKfUxyD7E11Kr/HZFeQN8TrWpZMtQCoZ
+         C6iA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793855336; x=1794460136;
+        h=content-type:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=F49mRNwIXXKoaU9d1R0TU/cMDFceqYMXuPvzpIRBwac=;
+        b=Hzu2rDs+6OI1r3MpE+1ohCHfV/4YvfKfiUSgM7gCcCXak/x9GYNMXkjT9Pf4ICnhwb
+         JNmC8B9J7fDOtUIMp7pby2SptuSMevNoJvaT0kH2IHqsIROWdPjHyQUHjLKSJkos2+xa
+         qo7BDYZSvkiFUUSiQCuf1crPxEtCv17pXn62WUaX4HykvIRWQ9fKOk63dnSUXcUe67BS
+         sq7EpjwN9bGZdX2rBQ3xkC8bA5P0EtBzs0Vfa9cRwA42rMU+ngTfBvmDdJZQkWPo/JNG
+         uBQ5g+0lmvz77cjlFvAbR+zxWsJ6Xcs0BDx85Vwi8BpNUuqnn4/snnaO/AFePqaup0jg
+         i/ig==
+X-Forwarded-Encrypted: i=1; AKwUvBxPwXiZRHS+KZtmRMAHf/FnZG8uZlYosoI2DMbcZCieHzyIX2xYPDXWWMi0bKsLOZ8mKsySMuxsfWof/qJZ@vger.kernel.org
+X-Gm-Message-State: APuU4Z99Hje9d+1iUpfy/uExswFqttH2OX28smuZ1FR9eEkqWvRiRJ/G
+	Tuz0oAs20VS5JYXo+1MbDQWw9el+90RA33EYxa4brPfmKj8wPHbsGdZwGnvo9rZrpCK0+84S4ti
+	OsKpB/Mr0LGLoYfzc9ytU4uwahVJbhhs=
+X-Gm-Gg: AYBFou17VpkT1QiKTlkwWMlryxPYSbCh9+Em79ORozg2KLugatzMVPiOU333LK/vgSY
+	xH8zIOH3wYvrSijc96Q6FC2wEZdA64W3u/Dvqh+qhx/h3vVot9d5WMg8898UULCinAaxPC53t9y
+	DdRsUC5t3r+T7sWLz8cNCMJakr0Iffq9n7raxywO2pheMqUu3Ep30Qzyop1bJq+GCfbekKSWok9
+	ZJ8iulZ8Y33jNo57UbPEiAtY3+Yd2BOkHyQwx1gOkDX0Y7g1hV4rkfl6blkhYB/nAhorr9VTjgm
+	lKvPb6KoV+dcKF3kWwMZcGZn+hbJmV6JszcRAXr4okYwAYVZOgy41ce/b5eS++JHa5bjO9P0tKH
+	LvwjXH0WVt53M4UKkrArkgkHanSQv3SuuiAh04low+ZPSxzzQCoVTmLx/+ngzcoDORotx7FwWdY
+	rDqlWox3WjT16TcyuV1f+Onu3ttJvZq55QC1u7kgMZDpv7HAJMJodinj1KvJskH11blBB+UG1bF
+	U0=
+X-Received: by 2002:a05:6808:198e:b0:4d6:9293:9b56 with SMTP id
+ 5614622812f47-5640de2e892mr13926693b6e.62.1793855336421; Wed, 04 Nov 2026
+ 21:08:56 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -88,23 +105,39 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20261104191355.89544-1-dennylin0707@gmail.com> <20261105030304.ukyfkyh7xf66yf7w@cs.cmu.edu>
+In-Reply-To: <20261105030304.ukyfkyh7xf66yf7w@cs.cmu.edu>
+From: Hungyu Lin <dennylin0707@gmail.com>
+Date: Wed, 4 Nov 2026 21:08:45 -0800
+X-Gm-Features: AclHuK_8naWfPmbeC6CGznX_C73hXCMzOor5rRkYJ7y1u4psfW7icnRznn3rIJw
+Message-ID: <CAGEkeHfnyyggAXOUy8MW+UT-B7FrG9sPWcO3CNysA=SwGp0m0Q@mail.gmail.com>
+Subject: Re: [PATCH] coda: honor the append state of each write
+To: Hungyu Lin <dennylin0707@gmail.com>, viro@zeniv.linux.org.uk, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Jan Kara <jack@suse.cz> writes:
+> Why do we now have cached copies of f_flags around? That sounds like a
+> recipe for getting things out of sync.
 
->> In my understand, the result of this change only affect to crash case
->> (FAT has no guarantee about it with non-sync mode). And this doesn't
->> lost data actually - lost some free blocks (maybe fsck would be
->> recoverable).
->
-> The result won't be lost free blocks but rather reference from inode to
-> already freed blocks after a crash (and thus possibility of a block used by
-> two inodes). So it is definitely an unpleasant filesystem corruption after
-> a crash but as you say there are really no guarantees without fsck...
+f_iocb_flags was introduced by 164f4064ca81. The VFS initializes it at
+open and updates it during F_SETFL, but Coda's direct modification of
+the container's f_flags misses that update.
 
-Ah, sure. Possible if the block is reused and flushed without flushing
-EOF mark. However, broken parts usually would be outside of i_size.
+> Anyway, your patch subtly changes the container file we write from
+> cfi->cfi_container to host_file and I am not convinced that is a safe
+> change.
 
-Thanks.
--- 
-OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+That substitution was unnecessary for the append fix. V2 keeps
+cfi->cfi_container in the write call and leaves the existing i_size
+copyback unchanged.
+
+I traced the container reference from coda_open() to coda_release()
+and could not find a path that replaces it after open. ACCESS_INTENT
+does not return a replacement handle. The container's contents and
+size may change during the upcall, but the existing size copyback
+reads i_size through the same held file reference after
+vfs_iter_write() returns.
+
+Thanks,
+Hungyu
