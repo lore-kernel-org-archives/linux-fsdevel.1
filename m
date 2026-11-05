@@ -1,87 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.169
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.171
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793891381;
-	b=rtCKXGhBiQR+dngPuPbFDA0w3aLRDRZMcbsfPQSM3bOj6VlE8FMT/ZOqn3UR2EDdrFpg
-	 /zy7du6mJEkTRMAyP6n/+M83FODePwnOqc0qB1Js0f/mtAU7cqpooO8CbBIlRzgXHGhl9
-	 dtin6kuqz2msbVtHIqJFq8g1vLHqmK1SAbPahtfTkCcz7HYj6veJzDVaviTwcLwknCxME
-	 9uDEYVp9Oo4+oHY0qZxk9jhRzVMQJ2FDTUyDfNtZbxUnWtjkHxHYxjOLETtRCkdyq3GA+
-	 l+zrOYHOnoaCbL4IvimkQWoTIapkBT0HSeLQy+ofzIOWTocMXX+ZahMkciKt/OUYC1A==
+	t=1793891403;
+	b=L/iyyL7OB5TQmcc6IaK2CQTBgv1QF1Tja74SM6zVpHJb2N28MMVR90wDLPswZWMuaC6P
+	 96kR5BA4P9+DuPSvnSvIoL7RmTpPFHmUzgNAlwEQalyTqM0CVn1odEnfwExYMBfC3EgiH
+	 MuVqGTnjsvmpW4HfT6jn21W27z+QFA0G4kivTTzxWil9FEuI8MbcUaf8vLWb4B2lZSY5Y
+	 RblBZOu0fkZbGDErQ/9L6A3FB5Dph9CdVw1YiA1QLwBJzqZ4sAEtvfxq+1INTvQys2M74
+	 cGRFvda8LgZ+3KtL5gFX/u5ESQO1qRXlC6ZbGkJyGunGeEYCLSc/+jl/mhrEQXfddGA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793891381;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793891403;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Date:Subject:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
 	 References:In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=WFfIYKlEcfzlG/dWEIHjKozgVZ74AbCqPxapNXqYqH4=;
-	b=A8ECh9tfqbtD4XrzwOlcex9Rfyyyvr1xSdxsWdCPtDT+Pb8BSTZTFec7Kb99Fx6liQbm
-	 Bo1AK/4OpTPVWJJqzlnRK62LUnXA32Y9r+QFTfRzsG8pVGNdKo62t6i6ljwmHMjN2+XtO
-	 4lFgEP7xPGLsrdyq3i+C1lmL3CuqvERZAKqIq5ftQjM65pNarOPJl2UjgWv4zVy6ffep0
-	 aE9JHt6mUaWmLOYYn5dsFQxvmPyTcG71W/scivYXWzHvXDfPzZ7htYGY/vXV/QOC5bRdW
-	 /Q5+qpwBH8OL0sXluLWDGWQ814In8GNHuKuPML8/hmrtUFpX318ROr7NF4CJXSuU8dg==
+	bh=SONjZYRv1ckGFmSfkMm2m07etEBBhKJvU29wRk5CmFA=;
+	b=o3ieGVofYDMJJuHGY+MQgWn2EoBzMtZnCbGM/QtTRPiZ9Hs566xxcTKFgE/6xPpi75RR
+	 jOl0AsNObayFpxqfSMuKjkpAy9oNXjHvA9YiquuOGfG6JWagi0ZKDCRW4RzOppwT4SjV0
+	 r4xOOwxWMz4CoS7dZUPOu+rBOomWBJXSU2RmZeX5/zz2j1hiCMLAV9LCcxuxxGVwRfNQs
+	 FQtRIdiBotFCtOVncT+qHVYpnzrivllh/+/KZ1msZqrzJNMRz57iYlE0LYFrXhjj3e4VZ
+	 pQnzqjJiqNDNBafp3jcweo3biAylgi2mkIOTNfFMi3OEkeJlMg9qjpHEX9JLmjErvzw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=toxicpanda.com;
 	spf=pass smtp.mailfrom=toxicpanda.com;
-	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=mlTeXDfm;
-	arc=none smtp.remote-ip=209.85.128.169
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=JkRbPk8S;
+	arc=none smtp.remote-ip=209.85.128.171
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7D9B606A31B
-	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 15:09:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E7D9B606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9AFF606A32D
+	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 15:10:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D9AFF606A32D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=mlTeXDfm
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-8b305e10ac7so20000247b3.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 07:09:40 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=JkRbPk8S
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-8ac9d666d4eso24240747b3.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 07:10:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toxicpanda.com; s=google; t=1793891380; x=1794496180; darn=vger.kernel.org;
+        d=toxicpanda.com; s=google; t=1793891402; x=1794496202; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=WFfIYKlEcfzlG/dWEIHjKozgVZ74AbCqPxapNXqYqH4=;
-        b=mlTeXDfmxXMDjL4Lb6C2bOLeeONksppw9Bsab+fkg9io+99V1DUrBKsgA+1GcXqjVz
-         rl1Mgdv2wVEzsEA0SMzHw/M/FU2hNhXYoCjh6A3Tc8qkl7H2Gf0QL5f9gfiOghW8nns+
-         ItDhFmCHlgdfoMBZuDyuF0GYfeKgwJUtZGkBnFvloFBF19P9hnGzkmvf5aNjUSamEYLq
-         KiJbZ9N60tlX+izYB0kfnhR01IsDYknDzsLzi19P7/e+/XfevQqtRKZiSLfcm2ISBMxr
-         qC6FnlQu269Abddef6NLtEX6YK6Mhq6ODP11Vu46NDFZkL4UW9ECrpWgq2C4SR2gwjFB
-         0s9Q==
+        bh=SONjZYRv1ckGFmSfkMm2m07etEBBhKJvU29wRk5CmFA=;
+        b=JkRbPk8SBtJBdOW5WjF/lfB8av9sgiHpDNhZRpiMMQWPkJgLKnFwPVWWcF1C92cqI+
+         Mt9vyz4NQTGDOP4SYxZF07TWnNVc37Z0L5m5QKtQ4NSkC//gMfel4SBmnNeFfswc60JU
+         JbHs19dOicuhjI9aJLJewS8znzSco04ASSWtujHq2WkzZ4lodEzEfuYZi0mHOWbvC5k+
+         AGw7Lqv4WAS7yN6Y8hrwCxsu0fFDo4Syoot4J+lCenAdZ+BQnp7g7GzBzjI5k3luLVJo
+         6ELIE4Mf+qo1ADh+tJxrv6RiyPTmBJN8bJhbh9rREzGLOVqSOS9lCXp/Xnu1oZ+K/7qH
+         P8DQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793891380; x=1794496180;
+        d=1e100.net; s=20260707; t=1793891402; x=1794496202;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=WFfIYKlEcfzlG/dWEIHjKozgVZ74AbCqPxapNXqYqH4=;
-        b=s+jXAO65wTj2g69dy69APSuQyBPckX2jizvyin0B68ilU/lzMRlsTXqFjyWWZsNO/O
-         WDRGSdCvJ1JDs42RnOw2qcxLWv97PD8p+9n4laZMEMXuvwdPIyXeKYqsj1aAx1J/N8Jm
-         99p2eAshEbCWhNBQa0QuDxAl6y3v/mJe8d7bY+1ag436gGtnn0CevS4a1llKI25lLhAi
-         v8/ZiQB+qXhH2pi4rfSMdFClKN7b0Mz2sNDuZsBH+uNTEctAgHhMZbXbomqhKwOiYZXv
-         k1imjmXkzQr9sBQsp8yBoNtlW+llgsfF/sa/1k2agPGfHfW6yzaDdk7aJLLR47mHHYLu
-         MIKg==
-X-Gm-Message-State: APuU4Z8JgoHbyHxSRrYudFsApHVpSw8akE2finldMaIPsSF6kpqTENab
-	jiSPbtNc8R7ZKdWpfvMIGPTQ/wQ6roK8gd6QMsoIcYivrqEmAzic+YijSU+jEQjA5Lg=
-X-Gm-Gg: AYBFou3yoEuYIWAV4I8Ao9nUFj75ViC4XdCssZNrJlbid1A9BPxL/58vFXpJp7UoGNp
-	WD+w4c0J57VKUACMttwWsjOvd/HbI0td61eXlGjHiIJ6UMsBuMQsfRJBuCmXUBowEbcqXLNID/s
-	zRvEtPh6lTZsC7AdPb10gA+8eva5lU03K464XTxRIbRnx6JIKxlVIwjhTz2XWLmYieiy/f6KV9B
-	/mhZnfkDZCsFVUr3AtkO7bK7BETN6l/+PWYJi2tyJk9RF+t4br/Spq4eddYdKxqniIe62W4qSXs
-	Q9wj4Nrwx+8aPFhzweQcZduZj/I3XPcvmcbCp8qTA9hPyqanRJKXjZtaiQwfBbt891fByXEGmqp
-	fsbqf9wyyY4CQn6uL0SuhGUFIVasxVWtgvp7XE2TjA52y7qnrJBw/EZh1Kg8LJrICWBpLdUScfL
-	g4vh/633z8ALfddtqnv9muSVTMGLmJMV8jwimDIgypv/5Lc4ZvoNhMOqM5/aZP/2CSIEkdLjbjF
-	Q19sqZ257owRIDZS2x9wSBfvA8v2LlfXBYgD5xKKyefaA9z7+5rSenBWHjhIMJoBIX26Z8wohrq
-	C1aJdJ7fb7hBtDQsN8MRKHb94mnQ9pvSbMd4IIU3qDbUsQ==
-X-Received: by 2002:a05:690c:a858:20b0:873:5c0f:28b with SMTP id 00721157ae682-8b2b67dca42mr88447657b3.53.1793891379721;
-        Thu, 05 Nov 2026 07:09:39 -0800 (PST)
-Received: from toxicpanda.com ([153.61.196.247])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b309936bd7sm42386077b3.20.2026.11.05.07.09.38
+        bh=SONjZYRv1ckGFmSfkMm2m07etEBBhKJvU29wRk5CmFA=;
+        b=d0lO30TeYTtzCr8d84XI56SdggwFdubHNcq6JdX77ZVleNyKRyZ8GqlnuBi3GDPLRk
+         5/OdDEB74qQPllkOS98646ZYUtTpB1GLEc07jbcM0ht1QPiw3yH9PXC3j4tFgnbTNRqy
+         eS+Cw3V+0FRHRYw4wKsAqOReb8iPdtwvn9B4ZzvUaYEVpbvXw+CX/ROLBTSVRLwSQouW
+         1leQoNGz36MIr78Z+RpR16V5VUfysHHmdopiy7pCFy22+JUNd2H9Leli7DPxF25TdL+u
+         h1u9ofu1fw+eup1GlLo7fZm3Z/qOZlmivAvUfeBiUuWkplOy1JIdFHqH8erYG3mpuIp6
+         12IQ==
+X-Gm-Message-State: APuU4Z9b5D9xSJqw9xKeRJ7u+JlUbt0SMmyHHM7mjDSVl6SJLpUPV8Y+
+	PkWalsF4Q4Gd6t+R3nwx72uuAawyE/+cJObFtPTMDTmrCT9ltF2cR/4v9tbOHwRV/h8=
+X-Gm-Gg: AYBFou3/fZFbL/iT+b4GjtpzuL+WTTnstmQZbkGIYrDu+wyFcfSM6Sy95yVaaKsQuPu
+	PpYaX+u5f/lJEzqzuEAszhMOAV+wxM6QD0iUDNSnAmyNyENjcAgAkYj0oBsG+NNKi10C2Guc0fT
+	KS7l2ooupV5EjVzfRuuQHrP5RmmjwhDuRYdBa7jvQ0eFEva5g/ap5dfoZHnH5U0NF4WykMUdF3N
+	gwEqK8fY2dM6nq+HW/Zzo9ZvKlPdT0+99bfuEIzVFSWqbEac2aLA26xZQ7/Umm/fwB3gkW5pfMJ
+	QwOY/TJMT1+chLhHlN0iVKVVoV8b01xNtvTjlXA3ibranmpVUeeUTvJirg1JDBcBBIx/C6qc6zV
+	/Qc8Onz1kWeReAfqlW/8knCMyDgf6N67KqjFzTIAfctNk8J68CHDgp5ZU2kNjq/kXKawXa04GTl
+	I3+pS1iLQ6k0ci5KyGd+q3lEQzT9oSkoUQlXZFzQCfrNrgMczAiirmlugzx62MpPqSeY+5/QYy4
+	yBbtvFwwx8pnGuvrnKM68qEeg+B+UlMW6NsezpB4lIP2WG6wTrpklKAqHjWstYVbDV6zAS+5sye
+	KgqsgS6LM34REfarf2K6Dml9ZaAHPSSq+hwqzBop7AudDFhD5g+PQ4/YX/5S/mater8=
+X-Received: by 2002:a05:690c:ee:b0:8b0:a957:80d4 with SMTP id 00721157ae682-8b2b66eccf9mr94941007b3.20.1793891401874;
+        Thu, 05 Nov 2026 07:10:01 -0800 (PST)
+Received: from toxicpanda.com ([153.61.196.255])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b309bd35c7sm42380167b3.44.2026.11.05.07.10.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 07:09:38 -0800 (PST)
+        Thu, 05 Nov 2026 07:10:00 -0800 (PST)
 From: Josef Bacik <josef@toxicpanda.com>
-Date: Thu, 05 Nov 2026 15:02:18 +0000
-Subject: [PATCH RFC v3 26/90] cells: add cell_configure()
+Date: Thu, 05 Nov 2026 15:02:19 +0000
+Subject: [PATCH RFC v3 27/90] cells: add the "budget" slot
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -93,7 +93,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261105-b4-cells-v3-26-bc9095937a84@toxicpanda.com>
+Message-Id: <20261105-b4-cells-v3-27-bc9095937a84@toxicpanda.com>
 References: <20261105-b4-cells-v3-0-bc9095937a84@toxicpanda.com>
 In-Reply-To: <20261105-b4-cells-v3-0-bc9095937a84@toxicpanda.com>
 To: Christian Brauner <brauner@kernel.org>, 
@@ -104,204 +104,63 @@ To: Christian Brauner <brauner@kernel.org>,
 Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Josef Bacik <josef@toxicpanda.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openssh-sha256; t=1793890933; l=5832;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1793890933; l=1542;
  i=josef@toxicpanda.com; h=from:subject:message-id;
- bh=Q6k1QdhI9pFIL/cTBXzkI5uE5xkaLe2nKZ9LLtyadOk=;
+ bh=oj66V8aCZSdgG20qiHDURXxVIGnAfze/B7P1AdO5Gf4=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgUBr36M/n0nWN0DNbnxwzIiCZez6MG
  JiruuNaSCI/zXsAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QMLONaDgV+onnmlErxqSlnu7qr/dtXWQZ02TtBvZNkJxv3iW/+tD4IvhqUTY8hEgWo3VydYUjuB
- vMOLPUXHHEAE=
+ QMHbZexBHDoBFDFcix8APhjU+THxpbH6b2eo97j4VDm4wo4tQlfr7N8B8fm8p1Ff5YjUvCMyPNo
+ BsYrxSAj0lA8=
 X-Developer-Key: i=josef@toxicpanda.com; a=openssh;
  fpr=SHA256:C8kOX2QUJCMqnCX+KEeoqRAjLo9L+ELOSH2NSAJHqGA
 
-Add the system call that changes a cell. It is modelled on fsconfig(): it
-takes a command, a key and a value, and data only flows into the kernel.
-Reading from a cell is a separate system call, so that a seccomp filter
-can allow a monitor to read and deny it to change anything.
+CELL_SET_FD with the key "budget" takes a file descriptor for a cgroup2
+directory and makes that cgroup the budget of the cell.
 
-Holding the cellfd is the only authority that is needed over the cell.
-
-This patch adds the framework and the one key that depends on nothing
-else, the "hostname" string. There are no flags for CELL_SET_FLAG yet.
-Every command requires the cell to be in the BUILDING state.
+Holding the cellfd gives authority over the cell, but not over the things
+that are put into it. So cgroup_cell_budget_get() checks at this point
+whether the caller may use the cgroup.
 
 Signed-off-by: Josef Bacik <josef@toxicpanda.com>
 ---
- include/uapi/linux/cell.h |   9 +++
- kernel/cell/Makefile      |   1 +
- kernel/cell/slots.c       | 136 ++++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 146 insertions(+)
+ kernel/cell/slots.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-diff --git a/include/uapi/linux/cell.h b/include/uapi/linux/cell.h
-index f3589a23a596..22337cab3da1 100644
---- a/include/uapi/linux/cell.h
-+++ b/include/uapi/linux/cell.h
-@@ -12,6 +12,15 @@
- 
- /* cell_create(): @parent is CELL_SELF, see <linux/fcntl.h>. */
- 
-+/* cell_configure(): @cmd. Data only ever goes in. */
-+enum cell_configure_cmd {
-+	CELL_SET_FLAG		= 0,	/* Set the flag named by @key. There are none yet */
-+	CELL_SET_STRING		= 1,	/* Set @key to the string in @value */
-+	CELL_SET_BINARY		= 2,	/* Set @key to the @aux bytes at @value */
-+	CELL_SET_FD		= 3,	/* Fill the slot named by @key from fd @aux */
-+	CELL_CMD_SEAL		= 4,	/* Validate everything and seal */
-+};
-+
- /* Life of a cell. It only ever moves down this list. */
- enum cell_state {
- 	CELL_BUILDING		= 0,	/* Slots may be filled */
-diff --git a/kernel/cell/Makefile b/kernel/cell/Makefile
-index e343e0fa72b0..ac48bfb289d0 100644
---- a/kernel/cell/Makefile
-+++ b/kernel/cell/Makefile
-@@ -1,2 +1,3 @@
- # SPDX-License-Identifier: GPL-2.0-only
- obj-y += core.o
-+obj-y += slots.o
 diff --git a/kernel/cell/slots.c b/kernel/cell/slots.c
-new file mode 100644
-index 000000000000..905672db9936
---- /dev/null
+index 905672db9936..3f74b4640334 100644
+--- a/kernel/cell/slots.c
 +++ b/kernel/cell/slots.c
-@@ -0,0 +1,136 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Cells: filling the slots of a cell, and sealing it.
-+ */
-+#include <linux/cgroup.h>
-+#include <linux/fs.h>
-+#include <linux/mnt_namespace.h>
-+#include <linux/nsfs.h>
-+#include <linux/nsproxy.h>
-+#include <linux/pid_namespace.h>
-+#include <linux/proc_fs.h>
-+#include <linux/proc_ns.h>
-+#include <linux/slab.h>
-+#include <linux/syscalls.h>
-+#include <net/net_namespace.h>
-+#include <uapi/linux/cell.h>
-+
-+#include "internal.h"
-+
-+/*
-+ * Slots. All of these run with cell->lock held and the cell BUILDING. Filling a
-+ * slot takes what using the object that goes into it would take: holding the
-+ * cellfd is authority over the cell, not over what is put into it.
-+ */
-+
-+static int cell_set_hostname(struct cell *cell, const char *val)
+@@ -31,6 +31,21 @@ static int cell_set_hostname(struct cell *cell, const char *val)
+ 	return 0;
+ }
+ 
++/* A cgroup2 directory. Judged against whoever fills the slot, here and now. */
++static int cell_set_budget(struct cell *cell, struct file *file)
 +{
-+	if (strlen(val) > __NEW_UTS_LEN)
-+		return -ENAMETOOLONG;
-+	strscpy(cell->hostname, val);
++	struct cgroup *cgrp;
++
++	if (cell->budget)
++		return -EBUSY;
++	cgrp = cgroup_cell_budget_get(file, &cell->budget_uid, &cell->budget_gid);
++	if (IS_ERR(cgrp))
++		return PTR_ERR(cgrp);
++	cell->budget = cgrp;
++	cell->budget_id = cgroup_id(cgrp);
 +	return 0;
 +}
 +
-+static int cell_set_string(struct cell *cell, const char *key, const char *val)
-+{
-+	if (!strcmp(key, "hostname"))
-+		return cell_set_hostname(cell, val);
-+	return -EINVAL;
-+}
-+
-+static int cell_set_binary(struct cell *cell, const char *key,
-+			   const void __user *uvalue, size_t len)
-+{
-+	return -EINVAL;
-+}
-+
-+static int cell_set_fd(struct cell *cell, const char *key, struct file *file)
-+{
-+	return -EINVAL;
-+}
-+
-+/**
-+ * sys_cell_configure - change a cell
-+ * @cfd:    a cellfd
-+ * @cmd:    one of enum cell_configure_cmd
-+ * @ukey:   the name of what is set, or NULL for the commands that take none
-+ * @uvalue: a string for CELL_SET_STRING, @aux bytes for CELL_SET_BINARY
-+ * @aux:    a length for CELL_SET_BINARY, a file descriptor for CELL_SET_FD
-+ *
-+ * Shaped like fsconfig(). Data only goes in. Holding @cfd is all the authority
-+ * it takes over the cell. Filling a slot also takes what using the object that
-+ * goes into it would take.
-+ *
-+ * All of it needs the cell to be in state CELL_BUILDING.
-+ *
-+ * Return: 0, -EBUSY if the cell is past CELL_BUILDING or the slot is taken,
-+ * -EOPNOTSUPP for an unknown @cmd or a reserved key, -EINVAL for an unknown key
-+ * or arguments that do not go with @cmd, or what the slot has to say.
-+ */
-+SYSCALL_DEFINE5(cell_configure, int, cfd, unsigned int, cmd,
-+		const char __user *, ukey, const void __user *, uvalue, int, aux)
-+{
-+	char *key __free(kfree) = NULL;
-+	char *str __free(kfree) = NULL;
-+	struct cell *cell;
-+
-+	CLASS(fd, f)(cfd);
-+	cell = cell_from_fd(&f);
-+	if (IS_ERR(cell))
-+		return PTR_ERR(cell);
-+
-+	switch (cmd) {
-+	case CELL_SET_FLAG:
-+		if (!ukey || uvalue || aux)
-+			return -EINVAL;
-+		break;
-+	case CELL_SET_STRING:
-+		if (!ukey || !uvalue || aux)
-+			return -EINVAL;
-+		break;
-+	case CELL_SET_BINARY:
-+		if (!ukey || !uvalue || aux <= 0)
-+			return -EINVAL;
-+		break;
-+	case CELL_SET_FD:
-+		if (!ukey || uvalue || aux < 0)
-+			return -EINVAL;
-+		break;
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+
-+	if (ukey) {
-+		key = strndup_user(ukey, CELL_KEY_MAX);
-+		if (IS_ERR(key))
-+			return PTR_ERR(no_free_ptr(key));
-+	}
-+	if (cmd == CELL_SET_STRING) {
-+		str = strndup_user(uvalue, 256);
-+		if (IS_ERR(str))
-+			return PTR_ERR(no_free_ptr(str));
-+	}
-+
-+	guard(mutex)(&cell->lock);
-+
-+	if (cell->state != CELL_BUILDING)
-+		return -EBUSY;
-+
-+	switch (cmd) {
-+	case CELL_SET_FLAG:
-+		/* There are none yet. */
-+		return -EINVAL;
-+	case CELL_SET_STRING:
-+		return cell_set_string(cell, key, str);
-+	case CELL_SET_BINARY:
-+		return cell_set_binary(cell, key, uvalue, aux);
-+	case CELL_SET_FD: {
-+		CLASS(fd_raw, slot)(aux);
-+
-+		if (fd_empty(slot))
-+			return -EBADF;
-+		return cell_set_fd(cell, key, fd_file(slot));
-+	}
-+	}
-+	return -EOPNOTSUPP;
-+}
+ static int cell_set_string(struct cell *cell, const char *key, const char *val)
+ {
+ 	if (!strcmp(key, "hostname"))
+@@ -46,6 +61,8 @@ static int cell_set_binary(struct cell *cell, const char *key,
+ 
+ static int cell_set_fd(struct cell *cell, const char *key, struct file *file)
+ {
++	if (!strcmp(key, "budget"))
++		return cell_set_budget(cell, file);
+ 	return -EINVAL;
+ }
+ 
 
 -- 
 2.55.0
