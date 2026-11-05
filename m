@@ -1,56 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793916285;
-	b=mCRJ/CJBl5LafiaME6ij/ZMBRtAyMZgLBthdDYQGuECZLYDhe4dEBK0oHrAmhdqhUdky
-	 6WXIWD/ITcVmIW1jjh7OG55FGDjjBvF5SPZlAcrGZvnypen+Fc/JXRZD7zWVPanzXSFbf
-	 CLIT9QxiHECuhC+xC7qI9//5XtiwagSVp5XIdabN8Y2fGrfW7fBLxpOuwrmgdE0ufJ1LL
-	 a8oUo8jUwqCDa1psQAnzj7f7uUsOwHDYsFdedguqpUYzJXdId02/6+wcOMoIWqJNH0IyX
-	 djQRvJAltrFw7qTsxozn5LqQu1dCKVq9lSgQICVUDpHfQ9l/mEqO0KtZOXcYXg2NuRg==
+	t=1793916762;
+	b=YCTcSPIdHjSTIxeJ31Duw6acSXKppG9Z5nk0avLjMFfS4JPkBYGb6SJ9h31xl19grWMd
+	 T6W9RyNx4HL5HnOFi9vvWllAN0LjrOdQvL+tTrQ4FaJC9EO7W6pNMCSGEThrR8BvsAmw8
+	 nCnFaWMi8f064WjCEdwgQFs8wzwMUqsiUSSIc1d8WuHC/2creeVs3ZfHTtBm6OyQriMBW
+	 mtbIRZ89vED0ytl1m0m6uTKAJ7bEn4Hp4fPL/f3wIpg8r6+J7vyFpLXnF8rjffhAPxZAX
+	 UnJO5vLqCJerxJJMcjCcoDvyrvag8N//mqzynzYKUXZ/lOeALB5BhQx+//e/4iod4pQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793916285;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer;
-	bh=JkVJxCsQ2WkJboEQDErenUdVnx9gpZszna0OBbR409I=;
-	b=h2f6auL9IBT+ZJJVwAFERsWwqWaABSJRxUH72V+Q27idzHpXNd6EaknG1A7Gkrl0ScSe
-	 07VeliWDNzGwL0K9z2vn/XOaO2wpEj9Ce0LkN2Z2K5k+9zTcqmHlLDH1cOJb+IIUNa8Hc
-	 bVQUwJOh9ArML1bpl0oslcqmeSEQ4jlJ/mqHHDlbnZfJ4MTwvoch2xqTk2vhP0nl8/+YR
-	 ZSAO3xNfxyIHt9j0ps/pc43aRvbi3RLr8oPYTmT/xcRuJkR85Nz6ZDpIAV2R6yAEhy9ok
-	 C+y3/a4M+CzmXpk70Q1+5YW3XotUhqD9v3QMW+k7mWCBsWKTq9+xWGfrfHa6skJsPAw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793916762;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=F2l1OS/+Jc/lZO07nQMOSgWNuzoUmMBtUBpenkKLMAg=;
+	b=fPuKTTbwh9XL/n9rAwNlBJYewreWbO9uxU1Cdh1o30lwgToNbuFioWucGaruF5XlVRtJ
+	 jcQkY1/JyS/f9IO9F8LTbYUoI6K0Tl9ORlKTfnQ7tq+TqOni1+MuP+0Ivtv2Q2dJkSc5h
+	 qPFTe+gqjy8Dir2HXzKgqPWptDDVQ9BSrlzsypsTgFjmO9la05h5OtZGsKxAMAR8LSnIz
+	 6BdvIo4OZ1HfUUo93GELNQevxpZsPWptl08J87Fyxkj/luwvq+1I4LHXDclnwjr4JKUrF
+	 EIC1IwzOZWJqX7gvS5DrsDO1+KjikqWGK+WoNJKbh7bSDaC0U1LG+4xPLmiEsD6Idkg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TGHgroIK;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QKJ7dYxE;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 659DD606A32F;
-	Thu,  5 Nov 2026 22:04:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7740C606A31B;
+	Thu,  5 Nov 2026 22:12:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TGHgroIK
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68D4D1F0089F;
-	Thu,  5 Nov 2026 22:04:43 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QKJ7dYxE
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C27E1F0089F;
+	Thu,  5 Nov 2026 22:12:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793916284;
-	bh=JkVJxCsQ2WkJboEQDErenUdVnx9gpZszna0OBbR409I=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=TGHgroIKoGPniw/59CQeuWPMBPX41v4IQnSc+9TbqDzBZ8AGBCuwPumeYG/cg+MyI
-	 vwqyJBEerV81VbW/XRnDC4HRLjlOO9oDhhhnuWXkBRbkX51n0AxM7dKOkdRvG880O+
-	 zeZKZvbidHGsBUtQjbirkWgoSqWWb4eQVDXnTEnyjEvKbAfEOHS/badE5LuUyUCeOj
-	 CCLWWzr8MhpAFsMdNFopz+lQJMDquOk+TuaQIRc4xMgolpA/cp/osyOgNxHq2EXF8c
-	 UHzdoORUwo+M7ZUVeAUJQdTnlHfj1Ww+aOpJ3bn8DzCXQhGKG4ZXPPdrH3gLqY3pt3
-	 X/GSzYHYu3/lg==
+	s=k20260515; t=1793916762;
+	bh=F2l1OS/+Jc/lZO07nQMOSgWNuzoUmMBtUBpenkKLMAg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=QKJ7dYxEPEcXOaSH+0dWeFEClZoZgNvXMTnbKDO+Hl9kxvd+bAaAunRa4rXjD6gc7
+	 LTzsvA147NdZUEPSDx9a+r7OIberNqMw0TC9S4Nk83Dov6huRIyd7dyRsUYqQjR5v3
+	 BgI6hn3iEOBBxKLj1ZqrpGj75kDzJDduZ7I2tYaxKvlj6KhWhIi41hU5Wp/cU1r0Lg
+	 LjYbZpyzfCemRdyK0NqNRLkPvx545B+4YSsYLbX3Wu38GwcVC5qIE2bRyLXn2TJivv
+	 TTHe3IhFWR625F3TGeZIQmB+LWvgFUjTby1WipsQ4yaHn9KEKxVF5KlSW5PdrXxfgQ
+	 8CHLTeoh/5Uxw==
+Date: Thu, 5 Nov 2026 23:12:38 +0100
 From: Christian Brauner <brauner@kernel.org>
 To: Sasha Levin <sashal@kernel.org>
 Cc: Shuah Khan <shuah@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
- linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- llvm@lists.linux.dev, linux-kernel@vger.kernel.org
-In-Reply-To: <20261103165419.687806-4-sashal@kernel.org>
-References: <20261103165419.687806-4-sashal@kernel.org>
-Subject: Re: (subset) [PATCH] selftests/namespaces: initialize the byte the
- children write
-Message-Id: <20261105-kanal-chihuahua-allgegenwart-7ef14eca06c0@brauner>
-Date: Thu, 05 Nov 2026 23:04:43 +0100
+	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, llvm@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] selftests/namespaces: initialize the byte the children
+ write
+Message-ID: <20261105-burggraben-wegrand-seeufer-18d3c8517fef@brauner>
+References: <20261103165419.687806-1-sashal@kernel.org>
+ <20261103165419.687806-4-sashal@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -60,36 +59,13 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev-ce4c1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261103165419.687806-4-sashal@kernel.org>
 
-On Tue, 03 Nov 2026 11:54:17 -0500, Sasha Levin wrote:
-> The children in listns_pagination_bug and stress_test write c to the
-> parent only to say they are ready, but never set it, and clang 21
-> warns:
-> 
->   stress_test.c:137:22: warning: variable 'c' is uninitialized when passed as a const pointer argument here [-Wuninitialized-const-pointer]
-> 
-> Initialize it to 'X', as the parent does with its byte.
-> 
-> [...]
+On Tue, Nov 03, 2026 at 11:54:17AM -0500, Sasha Levin wrote:
+> Found with clang 21. The namespaces tests aren't in TARGETS in
+> tools/testing/selftests/Makefile, so CI doesn't build or run them. Is
+> that on purpose?
 
-Applied to the vfs-7.5.misc branch of the vfs/vfs.git tree.
-Patches in the vfs-7.5.misc branch should appear in linux-next soon.
-
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
-
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.5.misc
-
-[1/1] selftests/namespaces: initialize the byte the children write
-      https://git.kernel.org/vfs/vfs/c/b2971bf97205
-
+That's an accident. Please send a patch adding it. Thanks for spotting it.
