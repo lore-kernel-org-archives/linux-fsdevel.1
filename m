@@ -1,87 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.177
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793892149;
-	b=xZ8UAYkPxo3GJ/W+SQLR3eRH1DfefzC+djKjaBY9Zta2SdOHcxfnN8oobgkpA0tBOznv
-	 Kemr9HgylF8QTUys8yMg+v6FtX2vx/oSpyxHFhzr4OYl5eqlV9AJMzVJbt0a0gqBtXmVU
-	 PsdhkmGxElbGK4tpqz0nE2OckZIjGM6mY89uVWesMhT+ePCOl0fggwktk2lKQwRop3qZL
-	 WpImvfy4qRcja0esTIxhfh6tpIGi3VILTVwi4itlnbpcwU+ZcatUvU7YBIA83Pf8IMyz0
-	 vN0nfpIbz/F4X0PlB9mjejs1trOkNPY9zB1obdOglQquO5yyEc8YcRb9bZEF17UzyAg==
+	t=1793892170;
+	b=DPpQmWtGOo8mC2A8DRkDD6GHfsqjdmdDORU8MkM3Ig7Km+xp0GLC61FTfRzkIbnoVvC3
+	 fQMyTjuYpD8WUW5DvzdR+Kr0uFdoDYdw5NPdH2sqWrU9LDkVKCDFKJirpWnSqDFf2Aag9
+	 r1/b334FnJn58xigmFQsecyfDZc1GBmQPuge+yxiQR1O3wcDzTDqS2ktOomyaE9pzqQxD
+	 p4ndWolRxQe7aDSI+VbSEtXAA0euPG0URs9tyJgMmHB0SpBCL7dleGObAwwlyoKzlQLUK
+	 PoB21EqL21MYT37AkhJyNgcdG4dIdwkkiCLe8qG1EdQsAvgbTuMeeJTpl71/kpDtB/Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793892149;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793892170;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Date:Subject:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
 	 References:In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=0lxvJ/76HcvhKa83JSTiM3ZrJ/dGz+3w7znSDhKLQQg=;
-	b=Hitm3GAFWhXDaZolk4VKNnkee7HqelCyGjhTLaE1tZO37NIqaVtFBBJecUMzdYzCSGdM
-	 w5CufLrJpBfAyDOkC1ZkUsxbSq/g/CeBmiB0IVs4S+G6mJ2csvmLeXVvIJ5kqGxpjNcVX
-	 39pavRL8o2qJA+EOxxiRUOjWgihy/ADqzij76fsSERXhXBE+eAx2eC6CsfmFMg8jEgnbI
-	 yR31wxLUiNDC751CsJ29PwKUAV+V6JXdeTwPTvLJvf6awP8JynLXFf1ZSZC4QXti2yOkq
-	 vTnvvie6pJqxEpZuHSRr3qWmIDsrfVfqwg9U+rVEaYHx+VFbuIDjF+J5S/vHkF7D7Vw==
+	bh=xJYfi5g2zuSnSXCCV+vaULGoe+tZgbf+KcLjRuVRvl0=;
+	b=X4rI5PHnMULR+9louVxShALuV6tJwNy8A6LYHDLeG+RreN0gjg37MV9Qy6ugFKmBkZmF
+	 +OeaA9tKmZm9Lxg141kYLyU/1sid3jyunQaWFr0D3HGs72wdn1M7PxyO65YNOXEsIsinM
+	 gjrmQcqNJO47fhOv0BuyfLwDnbLjOozKlF89GcXHibOe3aYE7XiP8BBuwDh/fBacyhQ5O
+	 zWKlfLzQeDdZElbq4fsk/yqy07jPNytRHf4lxhkbg9i0R3dsKusrKn/+GOlmSW3u1acSU
+	 EMrLWcY8VQDGN7ejqFRocDNt4ujjsPTZLyNKAEA2qzRDP6PEirvh1gXGqVyGKOhYn+Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=toxicpanda.com;
 	spf=pass smtp.mailfrom=toxicpanda.com;
-	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=TI2YGzdi;
-	arc=none smtp.remote-ip=209.85.219.49
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b="X/dPG5lH";
+	arc=none smtp.remote-ip=209.85.222.177
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15A88606D825
-	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 15:22:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 15A88606D825
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CD84606A32E
+	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 15:22:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5CD84606A32E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=TI2YGzdi
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-91c63449320so20341006d6.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 07:22:28 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=X/dPG5lH
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-93f079a63b8so190605985a.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 07:22:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toxicpanda.com; s=google; t=1793892148; x=1794496948; darn=vger.kernel.org;
+        d=toxicpanda.com; s=google; t=1793892169; x=1794496969; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=0lxvJ/76HcvhKa83JSTiM3ZrJ/dGz+3w7znSDhKLQQg=;
-        b=TI2YGzdiR/VFX9D0aWiEo2MxUY1kqyU+HGVBlpLVvu7cdoPNbe13Ym48bWbjxjLnTg
-         bgyEcb93WJJPpIVUNxRLzDFb095PtgzUNJkl3tNaBMHixAeP7JuvKbstgXa63etYlAL6
-         Q96zGRuvvTzDWYVlHEJxKEIjxpj6St3idzM+7LBL1MzgTgibzX99n/DrqTuJ77r9NhGt
-         Q+MRZcW2aaduMG9nitYvVdNBoxZUq/iWplY1ZREN4MGT+w2Rt3aXthxbeHadYLXYi01O
-         K5dL/Fr4VSFEpq/0VNepMHBA0yhefF5/VCCgziGAIfqxLe0CmIvwNe2VT3iYeIw7S9ot
-         12NA==
+        bh=xJYfi5g2zuSnSXCCV+vaULGoe+tZgbf+KcLjRuVRvl0=;
+        b=X/dPG5lHSuvt6yi6rtg1orMQuOPGrHGThAsuGl10prX4ljoFpTACCJzvzyQ17gPgzv
+         Z0ccOPXiB7o8j0O+uMo6Rl5ow7e0CDu+UAhFtJS/Xi8ogWHTKE0JeKwypDtSXgEIg1iO
+         +3SRNVkJ9a11P1C6Fjvf3p9j717Xe/qoLZo64i9pbJTwZsrka2mZxX44jgmTwRgctJZg
+         p03Pp2iRTGk0b49neBvC4H5hqDyVj9bNyZqr/efTi+5a6ARXPsM24h6rk90IIsTmQb0w
+         p4tXBcaZuDsGXWgWSH6EQM5V7oGB1IeOAl7Z0DXnL9MTDssLVKVXy5KuVw6KkI0vKJjW
+         3X2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793892148; x=1794496948;
+        d=1e100.net; s=20260707; t=1793892169; x=1794496969;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=0lxvJ/76HcvhKa83JSTiM3ZrJ/dGz+3w7znSDhKLQQg=;
-        b=yp/qq21FZf5mbg7C5phAhqXGCUmtEiNuwJTDx93x7yl2fHVROKkC8Zkl+rBPs0kVqJ
-         2JKuAlmtI109hXj5AxnXz2pmHWozOYemtKMxigzPgeT5xQBjwnOq5IxcRZpJrPHeEBKg
-         sfupjnCAxrUyDC2/jKVmcj8Qkl0P/Xfq1LjD8Pz+I+oJw7EZsnbcp55T9mFCeu09wdiN
-         T8nNpiLsafr4iKLMZhymyAyZfPd6+UOHuZx/Qt+wL9zSdocEwnZA8HvfneI7XB8rXDWM
-         KPR/oJUzqWHwEwa+9WREUcHVgrRrVOLvULBedQKyi5RfPPcLgPJT1d//qjfiWIAsIfFc
-         2JXw==
-X-Gm-Message-State: APuU4Z+b7MMuYyLAtunyyO5ZSDLlSb/To08bI71+BuTz3oIxVBOUyDtY
-	LQxQiFQvPVY/kw1hw9CHrjUW0y6xidnGJROZikNj4clmNMrrINy+Ovu68Y5QXnFsXBw=
-X-Gm-Gg: AYBFou3gJLVvS1sHSVOhugY8M17IelDHpNTXLGskU/mYAaQVlOz1wtG7X72SGhhoYFZ
-	52rTeCZqmGW4V50GJAyLmiDkidOcOYlLFha8pHrWU24gE1Hy6ZxBSUttK04i5jph/Z5HQa5W/au
-	rLBTFWdZdJ2SP7mciFvmZYBVy15pT9zSMLbq5ikwhMqw5UPgnVpyaikULhSU5coXzbhvFpRVS8F
-	5aOD0pOEU9J9ynlJ2kPykafOBDjz2SMJW+OP3ARetAMgXNEPKV9YxjNO29JoLh6n1zH6bdhKYvK
-	TFNbzpQumQZtAfiSqllGxRK7P2tJeIZ4IvEuOkh0n6gaBw3OM9u3lbHgtfFok+d7uSd8j3rUExH
-	SLA2d26Xhk0lFq0prJOOWRNaj68gF7Nc/NVl+mdAWJD3Npnmd78qr57SQ6T8lsJPJBzjtZ8IZui
-	i33cFIFec+W51+zXF7Ljz0bBxVV122Ib8yfsiuHQn33m4PWRi5bha9SOCQ6FZ9QSxAEStfwNxqg
-	PnFA4OPVJu0b145bwGRqBAzcJES889Cco+0iHc7jWPJ0QgjFzDxxvjT+kiMuWPMw1ctveCTaN8M
-	8TqjMccFS6/kbwVVKDVjQcmebgCtaBk50QdmEd/K2/rGVA==
-X-Received: by 2002:a05:6214:484:b0:91b:9330:26ed with SMTP id 6a1803df08f44-91ca4ae89edmr317307366d6.19.1793892147696;
-        Thu, 05 Nov 2026 07:22:27 -0800 (PST)
-Received: from toxicpanda.com ([153.61.196.253])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91e7dfe9730sm49739886d6.17.2026.11.05.07.22.27
+        bh=xJYfi5g2zuSnSXCCV+vaULGoe+tZgbf+KcLjRuVRvl0=;
+        b=PT+XIhrTv7BfyhGv0wZxmoyE+krDGpCkhleV8fE7zM5UvU0C7qiQfRtXjapiEHlRj0
+         wz3CyXAkKeqTAjUgB4/X6PiizREk6AwtEL57EB5IWqDvZu1RpG8AwJ3HT94bG+263D0V
+         LpR6c6h5Uvh/6kjlxiKF6juw8+8ZJ77oVQ7NQotpt1KX3XoxiifHtqUr+rd71bMtm7+w
+         Idfq/woS4fZPA14RHFSkGbqXiqfdnzOpqLapWNg/vF7TxcxlsIGmZHAt+v7PxiAfefkQ
+         vzav3VAMHdaYAyhw/pErVqiv3MqgQ+qb7X/6n0Xmz7EscEKW9iSNgLr8SXrjO2sj35Ut
+         I5FA==
+X-Gm-Message-State: APuU4Z9fWjD/6fw3Fl3s0jeLnd3K3vhvZOURlxzAeb8wtAfahcBY4+tp
+	f+Sde0b0Z5D4feHbbAlnzP6fHNLTpDeNRyvi70rev8zUvnqFykJwzYdkiGJphwDHnQRncujQ8A2
+	xaCAU2PQ=
+X-Gm-Gg: AYBFou2gbLZwijhhiKI9RUgg9czMcMo9fFrlpJQ43aM2i9w5baGqslnCchDntTmwnLE
+	SsO5K7fZADV6sKv4JvdZSAqrUQuNwcJEmgAB7Ulg6vnA2W55r88QvQ+z42Wj3YgjpqPqyI6tE1/
+	0S626AXrDmdM86QRrdr8XPX3VpS3rn6zeZJceGZ8tkY8EyyPeR5SZJM6vDyo7Z9SzF3/xk9idzG
+	mAiAupiB6K3tXPIN9kiW4QdxVq1VvHoNE/G8NbrF3qvyaI3Zkmik5ZPd0vW+ZRKDDCtnD2Gj7sb
+	0NNfK7Jyvni5upL77Dg9DupLqzFyj0d2mypt4oJCK9kWo1hHUYm0Ee2BvRA9Q0IXKJ1caqW705n
+	FqWVWUBREkHj5xJXh/ZXjUr4kIUqTaMSj8/JXuSZXCEMdAoSAjzqjfmIOKiX+z46XzuII/INE2+
+	iW5ofbr1xSUlfR9Wr++PGQFsQCUxQSpy+bOcB8qV0nw7nF2w9CGgDVD4ZyKhBpJKBA7rXTxgfXZ
+	nbgFccTjayPG5kZtFoCyjPGD3a7avSb8uHmwPLqFI09cgI3MCZTuvCUoidjdFthuGD2hBE9+T8G
+	94MuOMe3xCoh8phqGwLPCDiDTSiQ38G5vfc8N9C7RK5k
+X-Received: by 2002:a05:620a:28c6:b0:945:df59:e62c with SMTP id af79cd13be357-945df59ea90mr616362985a.61.1793892169185;
+        Thu, 05 Nov 2026 07:22:49 -0800 (PST)
+Received: from toxicpanda.com ([153.61.196.244])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91e9a5d0656sm16382296d6.16.2026.11.05.07.22.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 07:22:27 -0800 (PST)
+        Thu, 05 Nov 2026 07:22:48 -0800 (PST)
 From: Josef Bacik <josef@toxicpanda.com>
-Date: Thu, 05 Nov 2026 15:02:52 +0000
-Subject: [PATCH RFC v3 60/90] keys: ignore an equal uid or gid across cells
+Date: Thu, 05 Nov 2026 15:02:53 +0000
+Subject: [PATCH RFC v3 61/90] fs: accept a cellfd for MOUNT_ATTR_IDMAP
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -93,7 +94,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261105-b4-cells-v3-60-bc9095937a84@toxicpanda.com>
+Message-Id: <20261105-b4-cells-v3-61-bc9095937a84@toxicpanda.com>
 References: <20261105-b4-cells-v3-0-bc9095937a84@toxicpanda.com>
 In-Reply-To: <20261105-b4-cells-v3-0-bc9095937a84@toxicpanda.com>
 To: Christian Brauner <brauner@kernel.org>, 
@@ -104,89 +105,113 @@ To: Christian Brauner <brauner@kernel.org>,
 Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Josef Bacik <josef@toxicpanda.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openssh-sha256; t=1793890935; l=2562;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1793890935; l=3291;
  i=josef@toxicpanda.com; h=from:subject:message-id;
- bh=Ay/7Whx+xkCdFP3sI7UgjbwpHquU+xt6eIcifsYqJRA=;
+ bh=pj31SOm7YhN2z/Z+1E3HdN5yhsS7Wipq66JFp95Wo/0=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgUBr36M/n0nWN0DNbnxwzIiCZez6MG
  JiruuNaSCI/zXsAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QItC6PokBhHDU92mKuhbIScpDNWyf3VgyF2JeLWS+0DySJGs21JQ3Ti9Dm5wF96SDAQt2jq3op6
- XkRY4NV+2oAQ=
+ QMZwjK0FbnpD+vbAPIynxe0pA6geEdHqcn0vbeS6RE+ART3eHfqSZcVz2It7s/NbKFeTyZq8WCN
+ n2uuh799BDQU=
 X-Developer-Key: i=josef@toxicpanda.com; a=openssh;
  fpr=SHA256:C8kOX2QUJCMqnCX+KEeoqRAjLo9L+ELOSH2NSAJHqGA
 
-key_task_permission() grants the permissions of the owner to any
-credential whose fsuid equals the uid of the key. Key serial numbers are
-global. A cell with a single id runs with the kuid of the user who created
-it. So a task of the cell can link the user keyring of that user into one
-of its own keyrings and read the keys in it.
+The builder of a cell has to idmap the mounts that it puts into the tree
+of the cell. But it cannot name the ids that the kernel chose for the
+cell.
 
-Record in each key the id of the cell that its uid and gid belong to.
-Grant the owner and group permissions only to credentials of that cell.
+Accept a cellfd in mount_attr.userns_fd. It means "idmap this mount for
+the cell": on-disk ids from 0 upwards map to the ids of the cell. This
+works while the cell is being built, once its ids have been set.
+
+mount_setattr() normally requires CAP_SYS_ADMIN over the user namespace.
+That check stops a caller from mapping file ownership to ids that it does
+not control. Here the ids belong to the cell and nobody else can hold
+them, so the check is not needed. The checks that can_idmap_mount() makes
+on the filesystem are unchanged.
 
 Signed-off-by: Josef Bacik <josef@toxicpanda.com>
 ---
- include/linux/key.h        | 1 +
- security/keys/key.c        | 2 ++
- security/keys/permission.c | 7 +++++++
- 3 files changed, 10 insertions(+)
+ fs/namespace.c         | 13 +++++++++++++
+ include/linux/cell.h   |  7 +++++++
+ kernel/cell/boundary.c | 25 +++++++++++++++++++++++++
+ 3 files changed, 45 insertions(+)
 
-diff --git a/include/linux/key.h b/include/linux/key.h
-index 0bd77fcab4db..c291165e9096 100644
---- a/include/linux/key.h
-+++ b/include/linux/key.h
-@@ -215,6 +215,7 @@ struct key {
- 	time64_t		last_used_at;	/* last time used for LRU keyring discard */
- 	kuid_t			uid;
- 	kgid_t			gid;
-+	u64			cell_id;	/* the cell those ids are to be read in */
- 	key_perm_t		perm;		/* access permissions */
- 	unsigned short		quotalen;	/* length added to quota */
- 	unsigned short		datalen;	/* payload data length
-diff --git a/security/keys/key.c b/security/keys/key.c
-index 0a6e741805d6..bbc594a0cb21 100644
---- a/security/keys/key.c
-+++ b/security/keys/key.c
-@@ -6,6 +6,7 @@
-  */
+diff --git a/fs/namespace.c b/fs/namespace.c
+index 30167f8863bf..e2406d7f7bcc 100644
+--- a/fs/namespace.c
++++ b/fs/namespace.c
+@@ -5207,6 +5207,19 @@ static int build_mount_idmapped(const struct mount_attr *attr, size_t usize,
+ 	if (fd_empty(f))
+ 		return -EBADF;
  
- #include <linux/export.h>
-+#include <linux/cell.h>
- #include <linux/init.h>
- #include <linux/poison.h>
- #include <linux/sched.h>
-@@ -331,6 +332,7 @@ struct key *key_alloc(struct key_type *type, const char *desc,
- 	key->datalen = type->def_datalen;
- 	key->uid = uid;
- 	key->gid = gid;
-+	key->cell_id = cred_cell_id(cred);
- 	key->perm = perm;
- 	key->expiry = TIME64_MAX;
- 	key->restrict_link = restrict_link;
-diff --git a/security/keys/permission.c b/security/keys/permission.c
-index 4a61f804e80f..7b367c59cd3f 100644
---- a/security/keys/permission.c
-+++ b/security/keys/permission.c
-@@ -6,6 +6,7 @@
-  */
- 
- #include <linux/export.h>
-+#include <linux/cell.h>
- #include <linux/security.h>
- #include "internal.h"
- 
-@@ -50,6 +51,12 @@ int key_task_permission(const key_ref_t key_ref, const struct cred *cred,
- 
- 	key = key_ref_to_ptr(key_ref);
- 
-+	/* Across cells an equal uid, or gid, means nothing. */
-+	if (key->cell_id != cred_cell_id(cred)) {
-+		kperm = key->perm;
-+		goto use_these_perms;
++	/*
++	 * "For this cell." The ids on the caller's side of the mapping are
++	 * the cell's own, so there is nobody to ask about them. What is asked
++	 * about the filesystem is the same as ever.
++	 */
++	mnt_userns = cell_idmap_userns(fd_file(f));
++	if (mnt_userns) {
++		if (IS_ERR(mnt_userns))
++			return PTR_ERR(mnt_userns);
++		kattr->mnt_userns = mnt_userns;
++		return 0;
 +	}
 +
- 	/* use the second 8-bits of permissions for keys the caller owns */
- 	if (uid_eq(key->uid, cred->fsuid)) {
- 		kperm = key->perm >> 16;
+ 	if (!proc_ns_file(fd_file(f)))
+ 		return -EINVAL;
+ 
+diff --git a/include/linux/cell.h b/include/linux/cell.h
+index 2107cd3c994b..f204c47ee783 100644
+--- a/include/linux/cell.h
++++ b/include/linux/cell.h
+@@ -249,4 +249,11 @@ bool cell_may_change_cgroup(struct cgroup *cgrp);
+ static inline bool cell_may_change_cgroup(struct cgroup *cgrp) { return true; }
+ #endif
+ 
++/* A mount is idmapped for a cell. */
++#ifdef CONFIG_CELLS
++struct user_namespace *cell_idmap_userns(const struct file *file);
++#else
++static inline struct user_namespace *cell_idmap_userns(const struct file *f) { return NULL; }
++#endif
++
+ #endif /* _LINUX_CELL_H */
+diff --git a/kernel/cell/boundary.c b/kernel/cell/boundary.c
+index 3f5cc898dc48..3891dfe899f2 100644
+--- a/kernel/cell/boundary.c
++++ b/kernel/cell/boundary.c
+@@ -8,6 +8,31 @@
+ 
+ #include "internal.h"
+ 
++/**
++ * cell_idmap_userns - the user namespace to idmap a mount with, by cellfd
++ * @file: what was passed in mount_attr.userns_fd
++ *
++ * A cellfd there means "for this cell". It works while the cell is being built
++ * and once its ids have been set.
++ *
++ * Return: the user namespace of the cell with a reference, NULL if @file is no
++ * cellfd, or an ERR_PTR().
++ */
++struct user_namespace *cell_idmap_userns(const struct file *file)
++{
++	struct cell *cell = cell_from_file(file);
++
++	if (!cell)
++		return NULL;
++
++	guard(mutex)(&cell->lock);
++	if (cell->state != CELL_BUILDING)
++		return ERR_PTR(-EBUSY);
++	if (!cell->ids_count)
++		return ERR_PTR(-EINVAL);
++	return get_user_ns(cell->user_ns);
++}
++
+ /**
+  * cell_may_migrate - may a task be moved to a cgroup?
+  * @task: the task
 
 -- 
 2.55.0
