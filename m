@@ -1,88 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.177
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793892030;
-	b=4e59yUH9RtrhF1SQKZKWnT94IE0UbLeoSS+VIN/rRGWwzgJkQgdIwBeEs7NUICulltbh
-	 RoWwIliTnkuAXPetRBYQeOk7zzwovnOkbOehEXwNBzwiXAWHXvZSmL1UqUpRVYjDrhRCR
-	 H/oLglEl1f0L22SVuaZELfoFDS5QRgqXvDlZ1gzH5d0dEt1hs8vqcV/jEHlTAbPJ08v9P
-	 PhGYfaYd037/rBoTTGOVRl0SFJm/mIwT78rhnJk4tQfHWn3NyzMiX0Znqea5CXSBtR7Xp
-	 t0wfEN3XUOG7ZeQ4OlECHUDKQz65EdVlsNkMHHidbOJRFdGkJ6AHos92Q5Mv5vzS8ZQ==
+	t=1793892055;
+	b=d+IYHIYtVdF7ZvFbwD6dwuXXgbQs22c8PgvU/64vgxMJLzYOIOAHBLt1JpWr7jcLAkjB
+	 jkaQR3wRd4iagW/nzBl0z7q9lMHgf3GB+qV88a/Esbv180H+17WCTD4neuHp5wJy2JQ+x
+	 QBpjdSW++p5V7pkChbWmw/+8M/TLy+lMjI2yH8bHe40frn1eltSyYrBlh0E7QVrAuH9aF
+	 aZkNiNu89wyirgiVHqc/xmVyuKsub/3Ib1xJr0u4VIeqM7ZdxyPWpKKF+5+5Fa9xlnJ97
+	 d25hByrxj9XuDzNjsugXnL6w7XI4BwolEn4NM95FUnr9NWT5Ykn427N/hUa6IZzSmPA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793892030;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793892055;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Date:Subject:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
 	 References:In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=0KmWGsVhWT2tIS8qTau5tAMp34mec8ReoIQIp9XJHck=;
-	b=hFPeQ6k8nEoR6GEIkg8WxM/6rPjWDSi9HGakuzVY7kklFYxLnJfdxi4T8Vtvkeq/E84a
-	 8szbwe3ejnPrzTRId7aCNWzIeU8vCQZGfOZJwF/LnUm8EieWDX90cpu51+bKCgWQFSj8t
-	 5Xwv0sPakBBT1O4roebCjtbnqaBHHxl0wjVpcTVKNIIK3Vfrg1frNpqDp4cW1UNntrqBp
-	 XOX2lp4Z45AGkj6mWuc9k8Xs/rqfKPP/TPWibT9prj0YQxrZ0scwI23QVyJZVnMD7Hr1d
-	 ITWtGtmr4HdlsG0MAcmewqV801lLTVdsS678bBigcj0hY2P46LrGYWoPijnjIKZsiYw==
+	bh=g7OooAgXVyrp/xMdwbWWynIIIxWieLjdlc+2il+3n9U=;
+	b=TkAeNPMrSupFUlJrckIei50nIel0DHSmmqHVUb2YWM8av6Q/cRbXKWpdyfaLoM9ueNxe
+	 ioN/c9Twnlbr7AiUX7OIYnezNIy3172pZs6XNSVqvSU3m6K7K1BQdxrPykhCQnQsuzh+h
+	 Dy+IdbIxoEu1OD9yp9RATSDdEPv10Uj98e5ILjN/V1Q/11zLWmbuSAh7CBkwQqOEXhraH
+	 k75yMxHPGpjGESDl1kNvVND2U1hSt6uDfV5TkQ5GRCmgk4P9eYQ4UxpEQrzOoj/azF3u8
+	 n3/gfCgbPeo/KbywLi52JTsCnn1TJpDzJEG/u7Uc/JdFwptTOhe5pqX2UlHCfx9Xbww==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=toxicpanda.com;
 	spf=pass smtp.mailfrom=toxicpanda.com;
-	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=jn3gEM9x;
-	arc=none smtp.remote-ip=209.85.221.177
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
+	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=adYbJztv;
+	arc=none smtp.remote-ip=209.85.219.44
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7949A606D825
-	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 15:20:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7949A606D825
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C7AE606EE91
+	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 15:20:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9C7AE606EE91
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=jn3gEM9x
-Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-5e948e56af3so716237e0c.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 07:20:30 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=adYbJztv
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-91ea2e29d90so2500396d6.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 07:20:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toxicpanda.com; s=google; t=1793892029; x=1794496829; darn=vger.kernel.org;
+        d=toxicpanda.com; s=google; t=1793892054; x=1794496854; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=0KmWGsVhWT2tIS8qTau5tAMp34mec8ReoIQIp9XJHck=;
-        b=jn3gEM9xruDn7Twg4rCoNKUUQkCCMaoSKCgjDSYInXYovkQTFkmrwzTa8acj6xxrT+
-         JT78XX2/7/ybv6zpbS/xYMUrEjNP1MxwhNGIf9Dg10fNY5HgK1tQJrg8Z2Zh4tS3IeFc
-         576c4JpBtzihCQJpix2Mgq7G3UW6afHcUty1Rxd1vYPcd6Hc4a16ZW8OF7FldhMD7bZx
-         hccAlUh1AZQ/rZg7Blyuoa8SR08BlLkBcgWyas37xep8dmpQ/4P2MO58M9bIqHKo+GpU
-         DsWDx0xwcjyRaSEQdUI/3t9tVgZa1unFYUDpHUKzJuO1YTBQHpZcBMwmJn4zTin37UwA
-         vzjg==
+        bh=g7OooAgXVyrp/xMdwbWWynIIIxWieLjdlc+2il+3n9U=;
+        b=adYbJztv1KkpNtEqZot0xRjgVbMuObrkgEOc4jvRIE0WqspU1MFLYYVPGTqjzSSmSC
+         TwBD6eggaI9ZU7TCa3LUrInT2iKrhkaSqN2HBIktdfnPuJ/ZuL0zsjqKAXI9r3NxJD4k
+         8VfMRUM/MTTG1Yuds15Z9y2RlMyEp1Qjp4QJz1dp+GMrkQ9JyKUNTN2DwWH2SDlTHZI0
+         aJnK/rqIJwfeCpIjL/9gDcBStHKvA7i9ElTVPOQdtxxxrf8A7+XrhFtOAhMPYyWSsHNd
+         Olw6Pqn35nzl6d940GZs2++t4fIv3MQaZ5lwpLYOzusbWLrIc/dO7GKBaY7cZK5dPpMi
+         hpBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793892029; x=1794496829;
+        d=1e100.net; s=20260707; t=1793892054; x=1794496854;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=0KmWGsVhWT2tIS8qTau5tAMp34mec8ReoIQIp9XJHck=;
-        b=JWp5PmRAC2cKZIKqggCyrZJisds/M5MjF2e5p5Vbh5JK2d/5bKHOMklzLoCtVOJAal
-         VBAEpo0F4OyI1eRBjVwyc3KW+NIM57nUwBdlhZp5+TDPtDGkvGHWF5M5GB7LZAE87E9z
-         Ju3JUHXs45nTVDk/6udIk1onVUzGTfADj5DWKZs0l/3O1kC0VMEgYbRS636h6yA2AAoN
-         6whSUWDKvdhcsDjnO7uC7JU7on4Bx5kfqZpzFrYl+XEDevKbIaN8O9Zm+wCYiz8zZjoU
-         PcBHGMgTH52juEkY3dFdIdTVvmNCeIB1TQfFOHZniYOhArNG98zRlBEbrNeYcX2s/UbK
-         u1Cg==
-X-Gm-Message-State: APuU4Z+uVqavvMUBViIlacgbcixRXDstJ5cp50pX8u/YHXb60HT1QdJd
-	Oyy116KhN7NvckAFizIkPcQ0vVi3d32QHgiD1IFL5cG+aQojjPd0ZidIG84XQ3uie4E=
-X-Gm-Gg: AYBFou0efG2V6LgX42nwcxmVae//77OfekAH7ErFSMMZYTQP0fU01xy9einS0BN1oKR
-	ukVVH8C0wAG2h4IpGdJ9W2nF2CEwY/4AuekhA0P08Whk5zfDvI68eUf6+oFWzHYoddxveZf05/F
-	pybZIiHegODTZT7sUJEkBwREqmkf07RNSevfjZPZQta9pKPeH5kAwgJfwjM4wI22DLGyMnkxr4F
-	XF9rlCYB9/S/PDbs8PiDgDPAwlTXLmv2+cvkO7oclWpGeOz6N/GeQxYjKfGK6C4Ge+Q74Cv3OaJ
-	GPoIrAYheFy91hhVq+NlFDr5P9Py4DkVU+eb3yITTPAgO7TGYT41ndnbFyLnt4SiOvba2gFDBH5
-	xn2L0n7u6wWFDAdaIoJy6HRM1rpupW5xUJDb9MZQETwm2OyJ89oIdClPBSjqUr29PFiRrYxct5N
-	U2QfiUawt5/cQNJT04Z3ZWeoYY4sfN3Od4zqnJdZhqGJOJLf2snbDdkPPu/WNdnV5IpFUvfixsf
-	eO7u9xRybOYqSLJBLONnVQNoKIzLV8w1Vxp4wiDFlYIXKt98bneSGEwITlhf+HNtJgz2qLaI6/8
-	mbAiEWLrXPjg2FKqd+meG6VYtVMHRA==
-X-Received: by 2002:a05:6122:298c:b0:5bf:b3a0:388c with SMTP id 71dfb90a1353d-5ec6882f8d1mr9384291e0c.6.1793892028993;
-        Thu, 05 Nov 2026 07:20:28 -0800 (PST)
-Received: from toxicpanda.com ([153.61.196.254])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5eca8da73e8sm4444051e0c.10.2026.11.05.07.20.27
+        bh=g7OooAgXVyrp/xMdwbWWynIIIxWieLjdlc+2il+3n9U=;
+        b=y/xwkKYgN5Zs2vr9TbW6r9aMb8JkDEb4ARttzvce0AjuQdvRfGqgACQFFmqvwLgyI3
+         BVKpJKT7Q+6QNgF8BXhGBFSAb40wbesyMbsTbFz+3itRcV4HCZ5zv8SCiDEFIkZjs1Ij
+         mgMDFklXivrBq1f/Cu0OqhFJAGOtOpPRfOs92YkeGzqvHTNukx+0BHX8uMNSRth+l0zU
+         TUIPDxFoy/DaWlFGq3leB9gANxptQ4nUfLNi7WX/uG3ygeBjkfowBB79iRrVcdpFKs2o
+         zs/k6RtRVsTZY6aCciRgz9ECqIoxg9J6F8ehgaoete+fUEeTZvSaT3NqFBVnFheAqrY2
+         7sfg==
+X-Gm-Message-State: APuU4Z/vBmq6Frogos9qMv6D6EdgmSq7b0L+Nmc6NKgkrG4LqmV2g3ba
+	8KPHnOyHL2McFKlRk8n6vSs2R+lr0+jpTOQmuE2yG/rFAZS73FneQwZR8xmBN4ZDW3s=
+X-Gm-Gg: AYBFou3ydtoebxdUYkOwaZO3F927wGBCajqi3ywrWzh+Tm/WJj4j8w0I+b/airhDKeA
+	SxtPMS8uKA0zHTTxxCo8rP7vEuPZlbRFC/fCy+ZH03btO1NzlZ0TFoVjyM00TP74USiAnhcdwIb
+	RWedFO7wJUqR1dcKAv9wD7PwboYTuv5fftc6uxcu0fhT/Sy2Io4pMLjMO3toGozH6auC0Ubg6gS
+	qQtKzyPZ3bhfS1ionKz+3vhCUEtD7gTwYCbOX/56x6LF/jrp//euV/ptD4B+UEMe9ld5nTajljh
+	6A0zEI22DYh6LhuEwySWcyO1pt4mtqOQyq1dpq6vBAhlagVjEaOGCUMXKggFik1f4sWYEp363ry
+	1U+pFLlY/W1bBfYgzK1a8A1Q3rtZHaPh6A3GjpNEgNCP63qHxXpIpU7J4IYVWBZSw1+4sXdncss
+	xpoxWlT0YHnxBkdnGc1HYDZjd10suZXdVuh8bHwP5Ky6+c+o+wM4a+B3hLX8OJj75RpRH8YjShk
+	ocR2YsRVXdH8x2Tr/NIpEmYq4Ie1s8oNLCVvGKkWkMM48sjJrAdj4EkMj7FQJIBJahcBCoidy8s
+	MzNPUQ6SgQZMbQWeCD3g5qEdDQ9OHWYVxbENVEsbMGlG
+X-Received: by 2002:a05:620a:4592:b0:93e:6618:f4a5 with SMTP id af79cd13be357-945e158cc18mr466781385a.3.1793892053536;
+        Thu, 05 Nov 2026 07:20:53 -0800 (PST)
+Received: from toxicpanda.com ([153.61.196.244])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-945d4844be4sm485076885a.29.2026.11.05.07.20.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 07:20:27 -0800 (PST)
+        Thu, 05 Nov 2026 07:20:50 -0800 (PST)
 From: Josef Bacik <josef@toxicpanda.com>
-Date: Thu, 05 Nov 2026 15:02:47 +0000
-Subject: [PATCH RFC v3 55/90] fs: let a filesystem hold ids that go with
- the cell
+Date: Thu, 05 Nov 2026 15:02:48 +0000
+Subject: [PATCH RFC v3 56/90] cgroup: let a cell make cgroups below its
+ budget
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -94,7 +94,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261105-b4-cells-v3-55-bc9095937a84@toxicpanda.com>
+Message-Id: <20261105-b4-cells-v3-56-bc9095937a84@toxicpanda.com>
 References: <20261105-b4-cells-v3-0-bc9095937a84@toxicpanda.com>
 In-Reply-To: <20261105-b4-cells-v3-0-bc9095937a84@toxicpanda.com>
 To: Christian Brauner <brauner@kernel.org>, 
@@ -105,133 +105,62 @@ To: Christian Brauner <brauner@kernel.org>,
 Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Josef Bacik <josef@toxicpanda.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openssh-sha256; t=1793890934; l=5025;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1793890934; l=2016;
  i=josef@toxicpanda.com; h=from:subject:message-id;
- bh=UUg0QNdov0WC0UgOyYH69+fR7vhjYoKSlu6D6AIHlJQ=;
+ bh=OTJ9QCzjA253vmOiFzdmdl9ASZAcRIOzDg5HpZYKTB4=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgUBr36M/n0nWN0DNbnxwzIiCZez6MG
  JiruuNaSCI/zXsAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QKd/crIPi0788ZCHn5va8k+WUR65MpIhx89M/NxnJlmKsZlUr5A2tFThFR7wgz0DqZ774Ecfpi2
- Rs6kDLgKrTgI=
+ QIre0SmzA0yI/wJIyenH7ASDQ6yQ+AQo9cPfV8U2dBwxSpmbilBW5yHo+V0cJmVO98novDGWWSU
+ Iorhwf+EV6As=
 X-Developer-Key: i=josef@toxicpanda.com; a=openssh;
  fpr=SHA256:C8kOX2QUJCMqnCX+KEeoqRAjLo9L+ELOSH2NSAJHqGA
 
-A filesystem that a cell does not own cannot hold an id that was lent to
-the cell, because the id would outlive the cell. That is the right
-default. It is wrong for a filesystem whose objects do not outlive the
-cell either, because the kernel removes them together with the cell.
+An init that manages cgroups moves itself out of the root of its
+hierarchy, enables controllers there, and creates one cgroup per service.
+In a cell with a block of ids this fails at the first mkdir, with
+EOVERFLOW. cgroupfs is a filesystem of the host, so it cannot hold the ids
+of a cell. The init therefore never leaves the budget, and it can never
+enable a controller, because a cgroup that distributes a controller cannot
+contain tasks. The builder cannot create the cgroups and hand them over
+either, because nobody can name the ids of a cell.
 
-Add the superblock flag SB_I_LENT_IDS, with which a filesystem declares
-that this is the case. The filesystem promises two things: whatever a cell
-owns there is removed with the cell, and the filesystem itself controls
-where a task of a cell can create anything. In return, a task of a cell
-can create objects there and can chown them to another id of its cell.
+cgroupfs meets the conditions for holding those ids:
 
-Nobody else can. sb_takes_lent_kuid() and sb_takes_lent_kgid() require
-that the caller is in a cell and that the id belongs to that cell. So root
-on the host still cannot name such an id, and neither can a task of
-another cell. The helpers are called where a superblock is at hand: in
-fsuidgid_has_mapping() for a create, and in notify_change() for a chown.
+  - cgroup_cell_budget_put() removes everything below the budget when the
+    cell is gone. If that fails, the block is never lent again.
+  - cgroup_may_change() stops a task of a cell from creating or changing
+    anything outside of its budget.
+  - The seal already stores an id of the cell on the budget itself.
 
-No filesystem sets the flag yet.
+So set SB_I_LENT_IDS on the superblock of the default hierarchy.
+
+The alternative would be to make cgroupfs idmappable. The ids that are
+stored would then be 0 to 65535. The limits of the budget, which belong to
+root on the host, would appear to belong to the root user of the cell. And
+uid 1000 on the host would own what uid 1000 of the cell created.
+
+Legacy hierarchies do not get the flag, because none of their cgroups is
+within a budget.
 
 Signed-off-by: Josef Bacik <josef@toxicpanda.com>
 ---
- fs/attr.c                      |  8 ++++++--
- include/linux/fs.h             | 40 ++++++++++++++++++++++++++++++++++++++++
- include/linux/fs/super_types.h |  1 +
- 3 files changed, 47 insertions(+), 2 deletions(-)
+ kernel/cgroup/cgroup.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/fs/attr.c b/fs/attr.c
-index 9706d370f34a..10cf1b3827c6 100644
---- a/fs/attr.c
-+++ b/fs/attr.c
-@@ -520,11 +520,15 @@ int notify_change(const struct mnt_idmap *idmap, struct dentry *dentry,
- 	 */
- 	if (ia_valid & ATTR_UID &&
- 	    !vfsuid_has_fsmapping(idmap, inode->i_sb->s_user_ns,
--				  attr->ia_vfsuid))
-+				  attr->ia_vfsuid) &&
-+	    !sb_takes_lent_kuid(inode->i_sb,
-+				from_vfsuid(idmap, i_user_ns(inode), attr->ia_vfsuid)))
- 		return -EOVERFLOW;
- 	if (ia_valid & ATTR_GID &&
- 	    !vfsgid_has_fsmapping(idmap, inode->i_sb->s_user_ns,
--				  attr->ia_vfsgid))
-+				  attr->ia_vfsgid) &&
-+	    !sb_takes_lent_kgid(inode->i_sb,
-+				from_vfsgid(idmap, i_user_ns(inode), attr->ia_vfsgid)))
- 		return -EOVERFLOW;
- 
- 	/* Don't allow modifications of files with invalid uids or
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index ea9b9d5a667d..e1933649e885 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -1565,6 +1565,44 @@ static inline void inode_fsgid_set(struct inode *inode,
- 	inode->i_gid = mapped_fsgid(idmap, i_user_ns(inode));
+diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
+index a0836b115c79..3f439ae0e3b7 100644
+--- a/kernel/cgroup/cgroup.c
++++ b/kernel/cgroup/cgroup.c
+@@ -2331,6 +2331,9 @@ static int cgroup_get_tree(struct fs_context *fc)
+ 	ret = cgroup_do_get_tree(fc);
+ 	if (!ret)
+ 		apply_cgroup_root_flags(ctx->flags);
++	/* See cgroup_may_change() for where, cgroup_cell_budget_put() for how. */
++	if (!ret)
++		fc->root->d_sb->s_iflags |= SB_I_LENT_IDS;
+ 	return ret;
  }
  
-+/**
-+ * sb_takes_lent_kuid - may the caller have a filesystem hold a kuid of its cell?
-+ * @sb:   the superblock
-+ * @kuid: the kuid, after the idmapping of the mount has been applied
-+ *
-+ * The ids of a cell are only lent to it, so a filesystem that the cell does not
-+ * own does not hold them, see kuid_storable(). One with SB_I_LENT_IDS sees to it
-+ * that what a cell owns there goes with the cell, and to where a task of a cell
-+ * makes anything. So a task of a cell can have it hold the ids of that cell.
-+ * Nobody else can: whoever is not in the cell is not held to any place.
-+ *
-+ * Return: true if it may.
-+ */
-+static inline bool sb_takes_lent_kuid(const struct super_block *sb, kuid_t kuid)
-+{
-+	return (sb->s_iflags & SB_I_LENT_IDS) &&
-+	       userns_is_cell(current_user_ns()) &&
-+	       kuid_has_mapping(current_user_ns(), kuid) &&
-+	       kuid_has_mapping(sb->s_user_ns, kuid);
-+}
-+
-+/**
-+ * sb_takes_lent_kgid - may the caller have a filesystem hold a kgid of its cell?
-+ * @sb:   the superblock
-+ * @kgid: the kgid, after the idmapping of the mount has been applied
-+ *
-+ * See sb_takes_lent_kuid().
-+ *
-+ * Return: true if it may.
-+ */
-+static inline bool sb_takes_lent_kgid(const struct super_block *sb, kgid_t kgid)
-+{
-+	return (sb->s_iflags & SB_I_LENT_IDS) &&
-+	       userns_is_cell(current_user_ns()) &&
-+	       kgid_has_mapping(current_user_ns(), kgid) &&
-+	       kgid_has_mapping(sb->s_user_ns, kgid);
-+}
-+
- /**
-  * fsuidgid_has_mapping() - check whether caller's fsuid/fsgid is mapped
-  * @sb: the superblock we want a mapping in
-@@ -1587,6 +1625,8 @@ static inline bool fsuidgid_has_mapping(struct super_block *sb,
- 	if (!uid_valid(kuid))
- 		return false;
- 	kgid = mapped_fsgid(idmap, fs_userns);
-+	if (sb_takes_lent_kuid(sb, kuid) && sb_takes_lent_kgid(sb, kgid))
-+		return true;
- 	if (!gid_valid(kgid))
- 		return false;
- 	return kuid_has_fsmapping(fs_userns, kuid) &&
-diff --git a/include/linux/fs/super_types.h b/include/linux/fs/super_types.h
-index 72f4288e16c5..727a3c0a72dd 100644
---- a/include/linux/fs/super_types.h
-+++ b/include/linux/fs/super_types.h
-@@ -359,5 +359,6 @@ struct super_block {
- #define SB_I_NOIDMAP	0x00002000	/* No idmapped mounts on this superblock */
- #define SB_I_ALLOW_HSM	0x00004000	/* Allow HSM events on this superblock */
- #define SB_I_NO_DATA_INTEGRITY	0x00008000 /* fs cannot guarantee data persistence on sync */
-+#define SB_I_LENT_IDS	0x00010000	/* What a cell owns here goes with the cell */
- 
- #endif /* _LINUX_FS_SUPER_TYPES_H */
 
 -- 
 2.55.0
