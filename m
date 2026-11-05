@@ -1,87 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.179
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793891720;
-	b=v5QdCvFWtiEZETMjifXZAYgo6qFkKn909p2h7gDAxSNddIvtx3OGqZkdbSeumCUG52CX
-	 1K0SlcI0q/drr2ViTGuzD/FZmxzfmTlWjzzpxWp7R7LAiZQWL56BkKgwb0N1PTr7w7z9Q
-	 ezDNOuxfNUIf/3ANHl4Xji8/91XW1NZtVGx2RSgAy4z8UVesLxPzzo4yLo5b/AE4oGxOo
-	 rQgYjffUO5ZBjwIQmDN2IeLpZzutHu1sf4arSLxWxUKRKkH9J7GRy4Z2NxTDb5G+n+suU
-	 7vUobxPy/lCVGEAnHJQOvL9mZgzBLgn0XN/mKOHEdy/tRpcHkGhfH26F5FDpLPjdeyg==
+	t=1793891742;
+	b=N4bMBhs/8uM0NttwfifHGY7yx+AJhA7osW7lf9XyaDpWX8qgRUaw4NfmDkKuiOQPcFGV
+	 K+uYgYsq76Dpossti0r9Jmbwb8WOGcifxgEBFB+biQ39LFEEmfauNoX5p7nEe4tf1akl3
+	 byd5ZEmBR9JfSHVaVKF2BOWyitG8xHYzxa6KCHz1PhoCu77Wz5rjqVqlHuKSwDS8Ge6yz
+	 jSs48Av4GtMtbMspoWG8uOOX/HUOv1sKilCQTGcFVjytu962QwtU2wMAr95iqcXsskKWb
+	 qI+X6p2zsDW0V2yZR5RJcFopzSVVZIUQwci/b2FYV6P7xKGh1gkZwptlJWYUhDzfUQQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793891720;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793891742;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Date:Subject:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
 	 References:In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=+ba4ngiwOmk7U6+AfgvildQAKlCMw5eTHupi4GkOkgA=;
-	b=wzRT4aerK0nB2JFUypyNxSK0J062a7UGf5ETG8PPShD0eIX74JlMGrorJpmGIIsmNXvf
-	 oEhtHLmafj7ssQGLQyBeurMGDjA0t4rgy1QF36ICb8j7IsrQyaB154itGKQX2ykOA8W/a
-	 cbvhu/gcTJskREC3Rcr2x6L4vAQzmjoR80EvuWZmyM/etRGEd3spXgAl5vU/+RQwSISw8
-	 p5p+M8wRY7ZohaDu2Lb9sr/L9M7WDsXvQpyBQhBG8GsW2ml0MDbjm9wXp+FTStwDjspfx
-	 PX0ocLOsbYWw3GAOR7y7SOtDQLn1QGByXblQ12PSAl5xLvJu2bzq2J6MHu+gy96fHeQ==
+	bh=DTvieg65EmmbVfsOhPpX9x+IrMg5RYBWWbeds/DgorY=;
+	b=iRAPAZT9A9pxAF89LC1RbNXNf5o8dKM9HDzHdXCFZtKNDN/JtJS/V+osEaN5RiePJf2c
+	 HcIUs9b+QiJXohe7ukmGDzuif2P83hI0zMFKUd0Qk0EeaYxLrnlpJ+HMKfa0aJXRzEmqw
+	 3LpBt+qkpdRElvq/z1LTczFg4aa8deGtdASFKlXDqLVkVcOzywEUhHW58ll+88td7lIt6
+	 VprUMmwSHgymTyEQlLqI92pAH75M2RxvqfSDXVc2MvGQkWTmKVoNapxf4875vwmUrfCrP
+	 iIhAnEJEKoIPD5wooaKBO9qR0AvJ3Fng5lY0p37BMmioGY2Y4NcHqD/IpTNd5BCSN0A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=toxicpanda.com;
 	spf=pass smtp.mailfrom=toxicpanda.com;
-	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=lmXeANSs;
-	arc=none smtp.remote-ip=209.85.160.172
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=oFezGpCU;
+	arc=none smtp.remote-ip=209.85.160.179
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11545606A326
-	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 15:15:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 11545606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4008606A329
+	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 15:15:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A4008606A329
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=lmXeANSs
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-5364d86f7f0so22850281cf.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 07:15:19 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=oFezGpCU
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-5364d86f7f0so22855021cf.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 07:15:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toxicpanda.com; s=google; t=1793891719; x=1794496519; darn=vger.kernel.org;
+        d=toxicpanda.com; s=google; t=1793891741; x=1794496541; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=+ba4ngiwOmk7U6+AfgvildQAKlCMw5eTHupi4GkOkgA=;
-        b=lmXeANSsfuf6hQQEc5EOt41HSw3VWd3auXsuEdizoYTZbDLT1YyrFL7mxVN1g8wA/K
-         C3CyaHO0DHjz6gDV/dy/hxICpB0k3xWLUlMIDFcuU22wqXfgY9viPSl1AR8If3FZf7yK
-         zyH6cyX6eGLLDdNBC7AH05C5PEIfKZUYLrVCeP8PvXoGET7urV9QOAjtVSYbpDx7SlmB
-         ECxttbBN/u/G/AMqN24hMiIQ5IFffC+ZXUL4JX2v4IFgm38gGgRrmQL4/IW5ZR8+1Vea
-         w7U8c8BEZb7vJeuIdPT86XjcbDZ6+RqVwIlPag4dJNC2oHB+2tQlQx9nuM68s57umwIC
-         kY7A==
+        bh=DTvieg65EmmbVfsOhPpX9x+IrMg5RYBWWbeds/DgorY=;
+        b=oFezGpCUrNjSG+SCEVEL57o3m8A8tMdNeLpEV2NyRztsSzsiNYMfKetfwAmhSUTVEY
+         e86muBerPXrFtgoFHmgyTZclp1J+F7mIMDwJi9E8FURUsfEaVpDm/8CTlYwk281DPhOM
+         X5WHWnW1faDOLeUJbRxoGMm+F3v8A8Yfj8vmQWG1pXanQ1zvUJ92OXR0piXdbKMstCEJ
+         rl4myJT2AE7Jy6Qgc1XFWjqLyslvLsK08mlfeOdd6Gr31rs7zqtjcW0Pq1QNxGB0QUIX
+         AKSchXfb55hU3P3I9C7jBOYSc94BRQ1GrK1houbJo6Mhdz1xXmHvnSs/aJMJpg+KglU+
+         GwwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793891719; x=1794496519;
+        d=1e100.net; s=20260707; t=1793891741; x=1794496541;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=+ba4ngiwOmk7U6+AfgvildQAKlCMw5eTHupi4GkOkgA=;
-        b=mKzrdoEjPQQScWlWlvV13CEV+Nd4LLwIsALjGyR9CAbu1qV1MBzI6bJ9+YGt3a3ECq
-         aXUIe7b3esfyCXqLc+vd2g2IBDbOpROo1UOe5XBvJ73vWqUdUGvLlvl9znn5Dja6pFre
-         udHoFn/mIi9zErGyC4tr58MP0vVONehAwxrdXsaE7GY953QEKf4LhGxtFU1HBTZCEIVe
-         0STRRmcLN3wTec3dZ4iDi/ZU4yjdwImdeF5HhUJRsOETJb4VxMSWcYb+9ogsI4969S0U
-         9D4tpsDwuRqOUVGaDCU1w5KrEVCRna0q8EBmPRbd8/VK+iqtwkOYs1jmDqDvfrJZ1A86
-         5ZVQ==
-X-Gm-Message-State: APuU4Z9uB8/35pvboNL5sJBLVm7K7HcL54DQ7/rl9H+JrZ0m924IDx2I
-	WnxiZGsBXESUw7mUS+fkGlnylV6ywmbKrGr94e+At2eB0byrGa2RF7chylBgwelG0yc=
-X-Gm-Gg: AYBFou1QztwjtHKlY+4xkcF06s0lSldyW51zJXqn4eQYKxrLNXrX8Wk6wUudCE6cFet
-	76sHLJQAw67slRcSYxSXCjLIkdF2BtzU5WVPyMzX50/3+CkezmBprurRGWM2HRKTpKj68SeCwDW
-	pkwkdadWOVs7ERyB4/ZHlfu/v2WfcnN5L4E6nWPCdmLTA7vTbwKLDQYopR/OoHybvs5+q4VaMW4
-	6bAbRpOn1p3AsJzC7NLSjBK43jW6/jq01HHAmVavt/CBfHjJUqsCta/2ggrFmCPQ0x5hlrAzpv/
-	qGWtA5sjEEArpfAAMR2qORjsIcJhOA8wKsRHsQARvs1QQWeZIw9wPA9thDQqKAQhLEVVgSh/moz
-	nPTRG1DgWxZ3TBrs6H5fYEpwaojCYYCglhQjXc4aTfIMZv3faHG9lvrym+yjYsDOXzBPlgAXoiQ
-	tfxpj5NluAKyfqzE7rkDf1SiVqPkSSPrFlNgUOJ42hZSM1uiNKUNLhJK0/GRZThGrXgMUpX3xXp
-	4vHPQ+N7lMz7vPWDKs22VzjuFN5ICElwti7LCIxiwb7cbvSSfvqgTrW9k4TYbOUlYwtnoVudClB
-	odgwUr6EKVcfAxc6PgdY/w5t+HQsXwv3pyRVU+yqVdva5fhUm+raD7VVA+j+7yKmC+s=
-X-Received: by 2002:a05:622a:5818:b0:533:9753:4e03 with SMTP id d75a77b69052e-542b059a7c6mr313925631cf.0.1793891718792;
-        Thu, 05 Nov 2026 07:15:18 -0800 (PST)
-Received: from toxicpanda.com ([153.61.196.244])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91e7e0139ccsm49958546d6.28.2026.11.05.07.15.17
+        bh=DTvieg65EmmbVfsOhPpX9x+IrMg5RYBWWbeds/DgorY=;
+        b=tWsmzA2WuMJmTxLMpHioxE8eK7m3+6Xzj1i3wmu55TsDrA9PY3qIRZC81tV/hnsns8
+         i23iO9eDlpjYh7erdznYHYHrz2YRbV9udB/HdSNAuTQib9hJfEb/kwUO7DRraE/az+sh
+         BN2ljlWbiahRpBNq0yDMwsYYBmKowTXGeBoEtymsfCWy2mVnD1vBPxosgf8gNIlAACIE
+         4J63VZ7riZxG/0Z35ZFn2MFfUFHBN3l+zNYsWDYxELGHWF8mdsuS9FvgDGesxPrErmow
+         eSGxPoauJnzFMt9hvSQrodw6Ci0Dvdaq8mDbuGyY8AQf28OFC9ufVN7pPkvzV1sfJUKK
+         zMNw==
+X-Gm-Message-State: APuU4Z/8K6iEEiU5HbLQl4V4uAwWdxPU3AMgNTpnPIxzwV7K6J5dl6/F
+	P4G5qWya3yL6CxVGGCMzYFAUD7XPBSE8vNv6CaOlkTXhqHixfT1GHRa/9yECFNvoNdk=
+X-Gm-Gg: AYBFou3/EpPUMRzH61kqwbdqF4N7rlzuhaxeJyDN7NTCUkJIXsl2bfH/2kwiQKLkKLG
+	EpUnSUm6uYYc68c1JOEMcdWTSzOvvSYIFk+XsyZ6Wj2r/hTyu8BodIsoJ0ctcZfhv8LbVXGfBXw
+	rTdR3UBgb1lCjrV3GE+sWajVK3BNWtsR67e2b7ZiUV0Td0BmXha43uYngxZsaqAIzXxd8WX20i7
+	FgyzEdeUjKtaiRGmVIo338NKCuyN3ncPuq/qxYEKqR2O3VfM7A64cw0zNgNkdw0mDl1+1mp0hOr
+	IiqOc1h3deKTwdAIUbPpX6GI910i43Fum0TlcJ3F6wZnwZ2RXvp84c4MYYn4+E7rdBot+2IrHXt
+	t8ujdTcrxQH29u8bmzuGl00mwE8PVoNUKDrm+cRQPD9avRW2VTXPu8kjwA9NmeBypgW/z2vthOh
+	7Z27Tqr+waIbRPpoQ5DGUZYkPeQhF5zQXk5xl4DvzmfAExmqAaGe7t1twDwol+Oa9UlfODW/olr
+	G7WTBasWhlBaJe+Z6vU0kygygMkWg8W/PpZ5S9JJzymaP+ImJ2PvHjwsoHyzorBlPD1CTtNlfFz
+	Q5y3zVq4fSoGm/LziMxcSBop6mlzpS/iWOQ5jZFmO9i+oQ==
+X-Received: by 2002:a05:622a:1393:b0:535:bb7a:884a with SMTP id d75a77b69052e-542b62a5728mr333165041cf.19.1793891740628;
+        Thu, 05 Nov 2026 07:15:40 -0800 (PST)
+Received: from toxicpanda.com ([153.61.196.255])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-54b10c49ab3sm53506771cf.19.2026.11.05.07.15.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 07:15:17 -0800 (PST)
+        Thu, 05 Nov 2026 07:15:39 -0800 (PST)
 From: Josef Bacik <josef@toxicpanda.com>
-Date: Thu, 05 Nov 2026 15:02:33 +0000
-Subject: [PATCH RFC v3 41/90] pidfd: add pidfd_configure()
+Date: Thu, 05 Nov 2026 15:02:34 +0000
+Subject: [PATCH RFC v3 42/90] pidfd: let pidfd_configure() place files
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -93,7 +93,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261105-b4-cells-v3-41-bc9095937a84@toxicpanda.com>
+Message-Id: <20261105-b4-cells-v3-42-bc9095937a84@toxicpanda.com>
 References: <20261105-b4-cells-v3-0-bc9095937a84@toxicpanda.com>
 In-Reply-To: <20261105-b4-cells-v3-0-bc9095937a84@toxicpanda.com>
 To: Christian Brauner <brauner@kernel.org>, 
@@ -104,351 +104,187 @@ To: Christian Brauner <brauner@kernel.org>,
 Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Josef Bacik <josef@toxicpanda.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openssh-sha256; t=1793890933; l=10236;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1793890934; l=4837;
  i=josef@toxicpanda.com; h=from:subject:message-id;
- bh=D/qy6sHPV4k/RfQ6dFvWotMOpbgLiaRV7feEgFhMmQ8=;
+ bh=HrZ7hOpfLM8uTyw2tN+osdrUdjxsSzd8LTpZf1J7bHg=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgUBr36M/n0nWN0DNbnxwzIiCZez6MG
  JiruuNaSCI/zXsAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QO2nhf81BBqbWNCKoDYZG/mft7XR0KBspDN+oiQ6wwjqyeq0i1STTUTPk3HgZ9DCYVlY1b2MHKm
- plo7JHgIRXgE=
+ QNWtyoXBgpADOqby7hoXiq9tNoiPcqqDeLLOKMbLpw1JoipaDLBSS16TncGPRlBXjrlaH94KWux
+ amu8jnfzKLAc=
 X-Developer-Key: i=josef@toxicpanda.com; a=openssh;
  fpr=SHA256:C8kOX2QUJCMqnCX+KEeoqRAjLo9L+ELOSH2NSAJHqGA
 
-Add the system call that describes the task of an empty pidfd and starts
-it. It is modelled on fsconfig(): it takes a command, a key and a value,
-and data only flows into the kernel.
+PIDFD_SET_FD with a decimal number as the key places a file at that
+descriptor number in the new task. The file table of the task starts out
+empty, so it ends up containing exactly the files that were placed.
 
-    pidfd = pidfd_open(cellfd, PIDFD_EMPTY);
-    pidfd_configure(pidfd, PIDFD_SET_STRING, "exec", "/sbin/init", 0);
-    pidfd_configure(pidfd, PIDFD_SET_BINARY, "argv", "init\0-v", 8);
-    pidfd_configure(pidfd, PIDFD_CMD_START, NULL, NULL, 0);
+The files are installed in the context of the new task, after
+security_file_receive() has been called for each of them.
 
-This patch adds the keys "exec", "argv" and "envp", and PIDFD_CMD_START.
-The start command creates the task, applies the configuration in the
-context of the task, lets it exec, and waits for the exec to finish. If
-anything fails, PIDFD_CMD_START returns the error, and the task is killed
-if it already exists. A pidfd can only be started once.
-
-The task gets default signal dispositions and its own session.
-CLONE_CLEAR_SIGHAND would keep signals ignored that the caller ignores, so
-the handlers are flushed the way they are for a usermode helper. Nobody
-has to wait for the task. It is reaped automatically, and the pidfd
-reports how it exited.
-
-The pidfd may be kept open for a long time after the start, so the
-configuration is freed as soon as it has been used.
-
-The LSM hooks for exec run in the context of the new task, as for any
-exec. Seccomp filters apply to the system calls of the new program. But
-the work that the start command does is not a system call of the new task,
-so the filters are not consulted for it. A filter that denies execve() to
-stop a task from running another program must also deny pidfd_configure(),
-just as such filters once had to learn about execveat().
+Some kinds of file are refused, because each of them is a way to act on
+something outside of the cell: io_uring files, cellfds, namespace files,
+and empty pidfds.
 
 Signed-off-by: Josef Bacik <josef@toxicpanda.com>
 ---
- include/uapi/linux/pidfd.h |   7 ++
- kernel/embryo.c            | 258 +++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 265 insertions(+)
+ kernel/embryo.c | 92 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 92 insertions(+)
 
-diff --git a/include/uapi/linux/pidfd.h b/include/uapi/linux/pidfd.h
-index eb3704687c04..c01bce5e17ad 100644
---- a/include/uapi/linux/pidfd.h
-+++ b/include/uapi/linux/pidfd.h
-@@ -17,6 +17,13 @@
- #define PIDFD_AUTOKILL O_TRUNC
- #endif
- 
-+/* pidfd_configure(): @cmd. Data only ever goes in. */
-+enum pidfd_configure_cmd {
-+	PIDFD_SET_STRING	= 0,	/* Set @key to the string in @value */
-+	PIDFD_SET_BINARY	= 1,	/* Set @key to the @aux bytes at @value */
-+	PIDFD_SET_FD		= 2,	/* The file to have at number @key, from fd @aux */
-+	PIDFD_CMD_START		= 3,	/* Make the task, apply everything and exec */
-+};
- /* Flags for pidfd_send_signal(). */
- #define PIDFD_SIGNAL_THREAD		(1UL << 0)
- #define PIDFD_SIGNAL_THREAD_GROUP	(1UL << 1)
 diff --git a/kernel/embryo.c b/kernel/embryo.c
-index e052c09f9192..f405efb195c7 100644
+index f405efb195c7..2c65a99eaeea 100644
 --- a/kernel/embryo.c
 +++ b/kernel/embryo.c
-@@ -40,6 +40,10 @@
- #include <net/af_unix.h>
+@@ -41,9 +41,16 @@
  #include <uapi/linux/pidfd.h>
  
-+#define EMBRYO_KEY_MAX		32
-+#define EMBRYO_MAX_STRINGS	4096
-+#define EMBRYO_MAX_BLOCK	(256 * 1024)
+ #define EMBRYO_KEY_MAX		32
++#define EMBRYO_MAX_FDS		256
++#define EMBRYO_MAX_FD		1024
+ #define EMBRYO_MAX_STRINGS	4096
+ #define EMBRYO_MAX_BLOCK	(256 * 1024)
+ 
++struct embryo_fd {
++	unsigned int	fd;
++	struct file	*file;
++};
 +
  struct embryo_strings {
  	char		*block;		/* NUL terminated strings, back to back */
  	const char	**vec;		/* NULL terminated, points into @block */
-@@ -94,6 +98,53 @@ static void embryo_put(struct embryo *e)
- 	kfree_rcu(e, rcu);
+@@ -59,6 +66,8 @@ struct embryo {
+ 	char			*exec;
+ 	struct embryo_strings	argv;
+ 	struct embryo_strings	envp;
++	struct embryo_fd	fds[EMBRYO_MAX_FDS];
++	unsigned int		nr_fds;
+ 
+ 	struct pid		*pid;		/* the reference alloc_pid_struct() returned */
+ 	struct cell		*cell;		/* where the task is going to be */
+@@ -75,6 +84,34 @@ static void embryo_strings_free(struct embryo_strings *s)
+ 	s->vec = NULL;
  }
  
-+/* The task is done being an embryo, one way or the other. */
-+static void embryo_detach(struct embryo *e)
++static void embryo_put_fds(struct embryo *e)
 +{
-+	WRITE_ONCE(current->embryo, NULL);
-+	embryo_put(e);
++	unsigned int i;
++
++	for (i = 0; i < e->nr_fds; i++)
++		fput(e->fds[i].file);
++	e->nr_fds = 0;
 +}
 +
-+static int embryo_exec(struct embryo *e)
++/* In the context of the embryo, whose file table is empty. */
++static int embryo_install_fds(struct embryo *e)
 +{
-+	static const char * const no_strings[] = { NULL };
-+	const char *argv0[] = { e->exec, NULL };
-+
-+	return kernel_execve(e->exec, e->argv.vec ?: argv0,
-+			     e->envp.vec ?: no_strings);
-+}
-+
-+static int embryo_main(void *arg)
-+{
-+	struct embryo *e = arg;
++	unsigned int i;
 +	int ret;
 +
-+	/* CLONE_CLEAR_SIGHAND leaves what the starter ignores ignored. */
-+	flush_signal_handlers(current, 1);
++	for (i = 0; i < e->nr_fds; i++) {
++		struct file *file = e->fds[i].file;
 +
-+	/* The starter's session, process group and terminal are not ours. */
-+	ksys_setsid();
-+	set_personality(PER_LINUX);
-+
-+	/* @started is set, so nobody changes anything any more. */
-+	ret = embryo_exec(e);
-+	embryo_drop_config(e);
-+	/*
-+	 * A signal to the embryo is no signal to whoever started it. Whatever
-+	 * interrupted the exec, the embryo is about to be killed.
-+	 */
-+	if (ret && (fatal_signal_pending(current) || ret <= -ERESTARTSYS))
-+		ret = -ESRCH;
-+	e->result = ret;
-+	complete_all(&e->done);
-+	embryo_detach(e);
-+	if (ret)
-+		do_group_exit(SIGKILL);
-+
-+	/* Off to user mode. */
++		ret = security_file_receive(file);
++		if (ret)
++			return ret;
++		ret = replace_fd(e->fds[i].fd, file, 0);
++		if (ret < 0)
++			return ret;
++	}
 +	return 0;
 +}
 +
- /**
-  * embryo_fork_finish - done creating an embryo, one way or the other
-  * @args: the arguments of the clone, with @args->embryo set
-@@ -242,3 +293,210 @@ void embryo_pidfd_release(struct file *file)
- 		free_pid_struct(e->pid);
- 	embryo_put(e);
+ /*
+  * What was configured has been used, or never will be. The pidfd may be around
+  * for long, and must not keep the other end of a pipe from seeing the last
+@@ -86,6 +123,7 @@ static void embryo_drop_config(struct embryo *e)
+ 	e->exec = NULL;
+ 	embryo_strings_free(&e->argv);
+ 	embryo_strings_free(&e->envp);
++	embryo_put_fds(e);
  }
+ 
+ static void embryo_put(struct embryo *e)
+@@ -109,6 +147,11 @@ static int embryo_exec(struct embryo *e)
+ {
+ 	static const char * const no_strings[] = { NULL };
+ 	const char *argv0[] = { e->exec, NULL };
++	int ret;
 +
-+static struct embryo *embryo_from_file(struct file *file)
++	ret = embryo_install_fds(e);
++	if (ret)
++		return ret;
+ 
+ 	return kernel_execve(e->exec, e->argv.vec ?: argv0,
+ 			     e->envp.vec ?: no_strings);
+@@ -346,6 +389,43 @@ static int embryo_set_strings(struct embryo_strings *s, const void __user *ubloc
+ 	return 0;
+ }
+ 
++/*
++ * The file table of the new task is exactly what is put here. After this
++ * nothing crosses the boundary of the cell any more, so this is where it is
++ * decided what may.
++ */
++static int embryo_set_fd(struct embryo *e, const char *key, struct file *file)
 +{
-+	struct pid *pid;
++	unsigned int fd, i;
++	int ret;
 +
-+	pid = pidfd_pid(file);
-+	if (IS_ERR(pid))
-+		return ERR_CAST(pid);
-+	/* Only the file pidfd_open() returned will do. Nothing else ever has this. */
-+	if (!(file->f_flags & PIDFD_EMPTY))
-+		return ERR_PTR(-EPERM);
-+	return file->private_data;
-+}
-+
-+static int embryo_set_strings(struct embryo_strings *s, const void __user *ublock,
-+			      size_t len)
-+{
-+	struct embryo_strings new = {};
-+	unsigned int nr = 0, i;
-+	size_t off;
-+
-+	if (!len || len > EMBRYO_MAX_BLOCK)
-+		return -E2BIG;
-+
-+	new.block = vmemdup_user(ublock, len);
-+	if (IS_ERR(new.block))
-+		return PTR_ERR(new.block);
-+	if (new.block[len - 1]) {
-+		kvfree(new.block);
++	ret = kstrtouint(key, 10, &fd);
++	if (ret)
 +		return -EINVAL;
-+	}
++	if (fd >= EMBRYO_MAX_FD)
++		return -EBADF;
 +
-+	for (off = 0; off < len; off += strlen(new.block + off) + 1)
-+		nr++;
-+	if (nr > EMBRYO_MAX_STRINGS) {
-+		kvfree(new.block);
-+		return -E2BIG;
-+	}
++	/* Handles on what is outside, or means to get at it. */
++	if (io_is_uring_fops(file) || cell_from_file(file) || proc_ns_file(file))
++		return -EPERM;
++	if (!IS_ERR(pidfd_pid(file)) && (file->f_flags & PIDFD_EMPTY))
++		return -EPERM;
 +
-+	new.vec = kvmalloc_array(nr + 1, sizeof(*new.vec), GFP_KERNEL_ACCOUNT);
-+	if (!new.vec) {
-+		kvfree(new.block);
-+		return -ENOMEM;
++	for (i = 0; i < e->nr_fds; i++) {
++		if (e->fds[i].fd == fd) {
++			fput(e->fds[i].file);
++			e->fds[i].file = get_file(file);
++			return 0;
++		}
 +	}
-+	for (off = 0, i = 0; off < len; off += strlen(new.block + off) + 1)
-+		new.vec[i++] = new.block + off;
-+	new.vec[i] = NULL;
-+
-+	embryo_strings_free(s);
-+	*s = new;
++	if (e->nr_fds == EMBRYO_MAX_FDS)
++		return -EMFILE;
++	e->fds[e->nr_fds].fd = fd;
++	e->fds[e->nr_fds].file = get_file(file);
++	e->nr_fds++;
 +	return 0;
 +}
 +
-+static int embryo_start(struct embryo *e)
-+{
-+	struct kernel_clone_args args = {
-+		/*
-+		 * CLONE_VM only says "do not copy the mm": there is none,
-+		 * copy_mm() sees to that. Nobody has to wait for the task, the
-+		 * pidfd tells. The rest is what every task of a cell gets.
-+		 */
-+		.flags		= CLONE_VM | CLONE_UNTRACED | CLONE_AUTOREAP |
-+				  CLONE_INTO_CGROUP | CLONE_NNP | CLONE_CLEAR_SIGHAND,
-+		.fn		= embryo_main,
-+		.fn_arg		= e,
-+		.name		= "embryo",
-+		.pid		= e->pid,
-+		.cell		= e->cell,
-+		.embryo		= e,
-+	};
-+	pid_t nr;
-+	int ret;
-+
-+	/* Until embryo_fork_finish(). */
-+	ret = cell_fork_prepare(e->cell);
-+	if (ret)
-+		return ret;
-+
-+	scoped_guard(mutex, &e->lock) {
-+		ret = e->started ? -EBUSY : e->exec ? 0 : -EINVAL;
-+		if (!ret)
-+			e->started = true;
-+	}
-+	if (ret) {
-+		cell_fork_finish(e->cell);
-+		return ret;
-+	}
-+
-+	/* For the task. */
-+	refcount_inc(&e->ref);
-+	nr = kernel_clone(&args);
-+	/*
-+	 * A signal is pending for the caller, so the fork is to be started over
-+	 * once that has been seen to, as any fork is. It has not been tried.
-+	 */
-+	if (nr == -ERESTARTNOINTR) {
-+		scoped_guard(mutex, &e->lock)
-+			e->started = false;
-+		return nr;
-+	}
-+	if (nr < 0) {
-+		scoped_guard(mutex, &e->lock)
-+			embryo_drop_config(e);
-+		return nr;
-+	}
-+
-+	/*
-+	 * Everything up to the point of no return of the exec is reported
-+	 * here. Past that it is a fatal signal, for the pidfd to tell.
-+	 */
-+	if (wait_for_completion_killable(&e->done))
-+		return -EINTR;
-+	return e->result;
-+}
-+
-+/**
-+ * sys_pidfd_configure - say what the task of an empty pidfd is to be, and start it
-+ * @pidfd:  what pidfd_open() returned for PIDFD_EMPTY, and no other pidfd
-+ * @cmd:    one of enum pidfd_configure_cmd
-+ * @ukey:   the name of what is set, or NULL for PIDFD_CMD_START
-+ * @uvalue: a string for PIDFD_SET_STRING, @aux bytes for PIDFD_SET_BINARY
-+ * @aux:    a length for PIDFD_SET_BINARY, a file descriptor for PIDFD_SET_FD
-+ *
-+ * Shaped like fsconfig(). Data only goes in.
-+ *
-+ * PIDFD_CMD_START makes the task, applies everything in its context, has it exec
-+ * and waits for that. Whatever goes wrong is returned here, and the task, if it
-+ * got that far, is killed. It can be tried only once. Being started over because
-+ * a signal is pending for the caller, as a fork is, does not count.
-+ *
-+ * Return: 0, -EPERM for any other pidfd, -EBUSY once it was started, -ESRCH if
-+ * the task or the cell was killed, -EOPNOTSUPP for an unknown @cmd, -EINVAL for
-+ * an unknown key or arguments that do not go with @cmd, or what went wrong.
-+ */
-+SYSCALL_DEFINE5(pidfd_configure, int, pidfd, unsigned int, cmd,
-+		const char __user *, ukey, const void __user *, uvalue, int, aux)
-+{
-+	char *key __free(kfree) = NULL;
-+	char *str __free(kfree) = NULL;
-+	struct embryo *e;
-+	int ret;
-+
-+	switch (cmd) {
-+	case PIDFD_SET_STRING:
-+		if (!ukey || !uvalue || aux)
+ static int embryo_start(struct embryo *e)
+ {
+ 	struct kernel_clone_args args = {
+@@ -444,6 +524,10 @@ SYSCALL_DEFINE5(pidfd_configure, int, pidfd, unsigned int, cmd,
+ 		if (!ukey || !uvalue || aux <= 0)
+ 			return -EINVAL;
+ 		break;
++	case PIDFD_SET_FD:
++		if (!ukey || uvalue || aux < 0)
 +			return -EINVAL;
 +		break;
-+	case PIDFD_SET_BINARY:
-+		if (!ukey || !uvalue || aux <= 0)
-+			return -EINVAL;
-+		break;
-+	case PIDFD_CMD_START:
-+		if (ukey || uvalue || aux)
-+			return -EINVAL;
-+		break;
-+	default:
-+		return -EOPNOTSUPP;
-+	}
+ 	case PIDFD_CMD_START:
+ 		if (ukey || uvalue || aux)
+ 			return -EINVAL;
+@@ -495,6 +579,14 @@ SYSCALL_DEFINE5(pidfd_configure, int, pidfd, unsigned int, cmd,
+ 		else
+ 			ret = -EINVAL;
+ 		break;
++	case PIDFD_SET_FD: {
++		CLASS(fd, slot)(aux);
 +
-+	if (ukey) {
-+		key = strndup_user(ukey, EMBRYO_KEY_MAX);
-+		if (IS_ERR(key))
-+			return PTR_ERR(no_free_ptr(key));
-+	}
-+	if (cmd == PIDFD_SET_STRING) {
-+		str = strndup_user(uvalue, PATH_MAX);
-+		if (IS_ERR(str))
-+			return PTR_ERR(no_free_ptr(str));
-+	}
-+
-+	CLASS(fd, f)(pidfd);
-+	if (fd_empty(f))
-+		return -EBADF;
-+	e = embryo_from_file(fd_file(f));
-+	if (IS_ERR(e))
-+		return PTR_ERR(e);
-+
-+	if (cmd == PIDFD_CMD_START)
-+		return embryo_start(e);
-+
-+	mutex_lock(&e->lock);
-+	ret = -EBUSY;
-+	if (e->started)
-+		goto out;
-+
-+	switch (cmd) {
-+	case PIDFD_SET_STRING:
-+		ret = -EINVAL;
-+		if (strcmp(key, "exec"))
-+			break;
-+		kfree(e->exec);
-+		e->exec = no_free_ptr(str);
-+		ret = 0;
-+		break;
-+	case PIDFD_SET_BINARY:
-+		if (!strcmp(key, "argv"))
-+			ret = embryo_set_strings(&e->argv, uvalue, aux);
-+		else if (!strcmp(key, "envp"))
-+			ret = embryo_set_strings(&e->envp, uvalue, aux);
-+		else
-+			ret = -EINVAL;
++		ret = -EBADF;
++		if (!fd_empty(slot))
++			ret = embryo_set_fd(e, key, fd_file(slot));
 +		break;
 +	}
-+out:
-+	mutex_unlock(&e->lock);
-+	return ret;
-+}
+ 	}
+ out:
+ 	mutex_unlock(&e->lock);
 
 -- 
 2.55.0
