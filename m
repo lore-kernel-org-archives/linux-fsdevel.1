@@ -1,88 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.217.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.173
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793891875;
-	b=4sl57UU00S1tyD7vo86Cy8ZS9vBdNyzxAhUa4Q9j5Ln7w2MtNxp72Cl2WcJavaGF8Mj4
-	 gdTZ1bhn0l4uQ6uEnogAUvVib8B1grc06EnPjdNye29AatdVIm/LPe2IFpIks1/4iCRvA
-	 fWrUz5YbsS7xcUs4EILVAu0pVGXhiUVuA3o4NABNv+TobPxGUMJZL7/inuBFdGR5HpPXm
-	 95llgfUhemKNCFwh1kjlCViT+gjbCbKk5iFPOoVco8wS14EHC5hxKRrgiiAS4Zitg8usX
-	 UuzAOgr2G1QVzY9VMLGKqt5OLzGqdmX5uGIo411ssFfBctBtGBBJRouZg2ox4CZyPUg==
+	t=1793891896;
+	b=goG+MPdV6G3dCU7yXRk3RuMkvu20vOoZdvyZgfAE9avex25neefeberVlbXukRgDy9tU
+	 b2yo2BtnOBCIFzOeBTVMLoR9R74Jy4Gxlq2k34TDz77M0a8t+ejt0qmVU+nsc2l/yDn/S
+	 CBs1Q+kXMKKvWRgwU0pAniHv/XKdO+oSYEItnqj1ZJAnEBk/l7VxkfdPbnQXEJPt82bAh
+	 5aZpwBtfgAzlYbNg3OgYIL6ThqdIC/9LGqvj+xwkpd9lOaeGh3hHtmSTpcXGrokAdUnOO
+	 v0+8c3OuTuLf5/iC/hVVj3rQWcp8mg11eyW2XXbVxmsNAXAG9R8Bh9beok5o9U4Vmkg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793891875;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793891896;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Date:Subject:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
 	 References:In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=SMC+qrNJfteCE2o/qV0U9H+g8BGqFXxMiCMNBQkq4Fw=;
-	b=AG+q4XXpHETybAsHrKMEWuVeDvnAqwFyboSvaPHJ/zJseprKp380vq2W1lb/qT//aDFe
-	 8oPiZyg1fqBi8fZ0eP3aJ//M4TRZlreJlqFk2B3Im6ZIGgfEB3FHvvUpoz5bLavwGMjjD
-	 +P8UR4tURSR5VLx2nh/QoYKlyPeJ4/Jqrrc5ZSNto3OoWZWJes1g36m9xjimMwto53Gku
-	 9h2PfB/gxacyPFtLTwUU/p75sf6E/N41IP46mcud7UAnC3pzGui2g2VHIpFpt6sD0E51v
-	 xW3jA80hC0PwvuSUMpt4NUXgpv6rztwX+f5rGz27TT1a7z4ufcDYaKlKk7pkxBnhy7g==
+	bh=jNN7xmLiVZyF6Z8erpVxlHPtOJGxm7l+TGrLpW+rRHg=;
+	b=dw97JKW3fEuaybae8GzdBLOZOOs+5b0JJ/3lOV1ib63NeBgWNtNlWgliBf8QIUXYd3pt
+	 PTVjvbe00DiYQO9ziCaWjS6fX6fQ2cqfQ+zQNFlc7Ujqpy+4zY2C+6BCbkQyiO0Ga2bLM
+	 B7xJ6hRXTRpDELKN1S0gcG00+HyKCk33FaEXKxqZarQlCtzAiXW5nC1HWR51Vyz6PqOPu
+	 MYDmXfV2kQ2aP3PkYmDZ0N6lA+nWbS13pNeoEXMIy38vBdKJczd66GfhcaSrXy2N71+Rv
+	 XhztkJQijv+Ur4aSmFjsIIJ/tO+5ImxYl6sIuAxFVNq04ciaVelySqbmc1HGBZkrhTA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=toxicpanda.com;
 	spf=pass smtp.mailfrom=toxicpanda.com;
-	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=h77oMB2A;
-	arc=none smtp.remote-ip=209.85.217.42
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
+	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=FDODKT+y;
+	arc=none smtp.remote-ip=209.85.221.173
+Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF669606D804
-	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 15:17:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EF669606D804
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 758C0606A335
+	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 15:18:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 758C0606A335
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=h77oMB2A
-Received: by mail-vs1-f42.google.com with SMTP id ada2fe7eead31-7c3b6e8225dso1270952137.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 07:17:54 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=FDODKT+y
+Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-5eafa528803so670842e0c.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 07:18:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toxicpanda.com; s=google; t=1793891874; x=1794496674; darn=vger.kernel.org;
+        d=toxicpanda.com; s=google; t=1793891895; x=1794496695; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=SMC+qrNJfteCE2o/qV0U9H+g8BGqFXxMiCMNBQkq4Fw=;
-        b=h77oMB2A5XRyL7jxp+5PvELDe06BT6sutaaCGWAvrkxChsFzlwb0TFG6mRZZdPITPK
-         +cOpsQOTGJdQODxOeVaj6RInp9Xj/Q+mXTUpkuO0Vaxkh/jookOT99XwP5JeZ6Pk++mv
-         tZWJWCbjzRHInRrQcPsyLgRihNHkKPXg0dRo+edrDpuQe/nkWyo0QWa5ZDaZ+LNaXOzO
-         68EYlsnR9G54V4Y696ktTvweJelWQ4pLwS/bC9IYTt+40Sp/A2x60Qyq+hyMi2TCn/Jf
-         eFt1pWEKl6pOmfSluFMYzmeKxe04zArMJxZNnHTHRVAcJAE0nrAozI70s6KNNi/Thkr1
-         M4Gw==
+        bh=jNN7xmLiVZyF6Z8erpVxlHPtOJGxm7l+TGrLpW+rRHg=;
+        b=FDODKT+yCZvX632Ezhykp5+NIog+ZfvjV4ZHP8ElO4cX1z+hJUD03xfZCdtWtK7mkG
+         Qp0Lmrhy+4/b1cuNuFv6KOxs4D7I4vevhZYErIXR9iVQonne9p67WuDecz1EA2mUVXsz
+         cN+fYjXe3cOIGsqeQ9bMH4PpokCEOargrWTDbuZfr5rlUFUoO/0AwHeazC8ANOQ8k7tf
+         ky7+RhM2C2/VzirQgE9yGnC6iLGqjMgpx2akdxAvJLApctKnOu8yONJ6jaHEU8/p5xzL
+         jK+JvjRyUmZ0hqzYyAG0lDBd6/VHxTiOGW7qVIOJEs3izWCp1Btn7Aba7dytuktC4U1F
+         Ucag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793891874; x=1794496674;
+        d=1e100.net; s=20260707; t=1793891895; x=1794496695;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=SMC+qrNJfteCE2o/qV0U9H+g8BGqFXxMiCMNBQkq4Fw=;
-        b=Rb8Nfvm5+jCNnbbgykY+gd71PViNDfguS0fW48Yo3FX/oD2UfrIYShFs8DTNgguLGu
-         /tMFahhNegFU/OdLx4gwrJKhZC9jGgDRecHT4SBpTEzjTjSrdNfujmoV+Fgz2qo0dAh9
-         zXVfNZgQgjrGrMdzvwdXy/6k9/STrUhu51zs8U4iOlIZZlrQNIwUo44xDw8+GGDo3rhN
-         pr8v+YGqIyHu1zKMvH8fNgiNV1ayHitDfhJ+I4sqhkYVuPs3Z/14RHBchMqCjZICWh5a
-         2Yza5wg3P9RJRDTWvbeSEs5Td+6XUqblMd83rMuBNrhBxNADUp4IqP8Z33vBcDkeD3DM
-         wG9A==
-X-Gm-Message-State: APuU4Z9YlE4nV2mBWpS3vJC3kpMrGy++YbbxEijP5VFB4mq+nt/V7VUj
-	j2tbKf3YjDLaV6yYsnr0cNh014K4xPmSvtegRIMACyIJRyIC1Nkqy0Y4lUufzlC3ADY=
-X-Gm-Gg: AYBFou0QNYo0j07xveH83luEFb6u3WxZP96c6Cv5oG7wbFIeJuvz5NvrysQzBvpJynU
-	ctwVmKS6pipn9uixlDcXpT9Qibfla7WMUsbSCQwRanFeLQnEM79XSUWajWqQyH1m4LXxKbTQKHT
-	w2L2JA8FkZA3dIixfFLn4eS1gDKwfs8BajqYzYPdl05q+Y2qppqgVOyeUwbZBLejKNFdTqOzfr+
-	x9l4KvErbJM4op057rGH2RY+C8wvcA8EXBvQHeXub2AJD9GmCWM8I9x7Rgxd6lPMaWbtW3deskW
-	Lp8Nrccf3ADPzrD92haWkIuWKODbRNhtdsdSnhrP+mBmqrpWZejLUzbrwLQzjQi8BpDgibdiic4
-	lvvtiNBhr/V6i1hJjJrmhxaQ0kP2zqeOIZQbNRkXmbScFnxb9L6lSyICWB3ihFMl2Y31BRxh0Rs
-	ZB3Gm8kDhuN5w/4IQ7UhRwoE4Z4a2RvnNZoSt1gnJTWs9gU04Pd3rsQaO0KTQkMX38qGzKPz71Z
-	MDHO53dpR4NX86R86mQ9QJjhemVxy99NglfChSypkxIL2PqVO1J69HlwfLOxaGOBTM6aH4G9dcK
-	M7Y72+mE3w/ujxIzzGAUUw8kxjw9f8NCvTQaos9bu+OOdr2t2SKZcHorJnrm9ZXBxw==
-X-Received: by 2002:a05:6102:3f8b:b0:7bc:dd88:add with SMTP id ada2fe7eead31-7d0726716bemr8957996137.14.1793891873865;
-        Thu, 05 Nov 2026 07:17:53 -0800 (PST)
-Received: from toxicpanda.com ([153.61.196.253])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7d26fe8f991sm4364149137.9.2026.11.05.07.17.52
+        bh=jNN7xmLiVZyF6Z8erpVxlHPtOJGxm7l+TGrLpW+rRHg=;
+        b=PHCmLRQJ1CVTHJ1As0iihnD/A/v/pL9HEavxjLwmgkVj7DulFZIFeXbvEkbTFymjgR
+         diuq/jI0wWCjVy/efZ50Ib0D5gl+GPsryhkF7QoGUEohAeSt2EjqANmxP42qFzcxR6V5
+         ejsIsg3c69Sm3dqiPGDNa9iMHdBi8fND5kTNxwpsbIqTPnyM5ZBv8Tf4B+nQvrDAWjTm
+         iOY0pzWktAfai1K5W25+zpLcxRSjIzp4qfDnTkVBAUzaJGTvDmuHIWgjl7dRdPv8aHNX
+         hZImJylHoiuGiJzjKkB8zetb6E+Gr8Sb3gk1lySFa34gJLNcUsTU/O7kB5F1VpgMpbgj
+         JK3w==
+X-Gm-Message-State: APuU4Z/e+v/8+WmjIol16xGHKDOFHlmFBFm7Cmg4SrwHPR7QdKASVkG4
+	uaGQ56r0ZgdI5LvLZHQ66XWm0j8gPv6uT0eerTWeGAVVV1A0qBu1UcSUxtjIljkJO90=
+X-Gm-Gg: AYBFou1IpSD7szydWoJgSIlgT2ozCwY7DoRVtjmTHO1qKnsr2Vkpm3PqysYZSHjZ++h
+	njsOTavm47Mn8fYJL+12FDuyfcLPzoGnqzcwQ8Qx8UjQXwIk24e5Vx0vmyJzdwaAoYunoxe7INO
+	64Wjhdddh0Djm0Z5zQyHgHh7wW7AoRgm0wy1z44cnYESSsUbrsZAbIeOQ51sp4TMqc/zi7/weuJ
+	mleycCn4sPDigcV4LbGka8cys6qF3lVZNkmoyeRMDHfteTUTwWc+Z3AZgfVmkdSz9+dvxqri/i3
+	VENNIKLfA4RAkowI+k5suo/7RQU6dVl/FD5vOW5Ec4cIyoz/XnAx/4tyceImjcUSzHG/i8qAhkW
+	Fr42uIT2mqp/lg1i161pCOczJsMpNJX5gv2fu/t0pHUcvaWLg2z3luj/4fJP1oG4KREyugfrZwx
+	hOTIl/etqxyPbmDUFHjiJ/X8Ot+SXEuxb1sI5OZ1HS/q7it/Icl/O046/QcynS2D3L7thcdAtGF
+	8e2lzRjKAN16Huiahq8WfxtRXJrvH0ne+3WsC7cvNVq6mJKOB5sn55teRxuNeUzMtzAhrskO/ir
+	mxnJrj+qEIwPMeqIQirNdCWCNF8neMI1JtLLrS9lkTvS
+X-Received: by 2002:a05:6122:54e:b0:5e5:29f7:489 with SMTP id 71dfb90a1353d-5ec6899f507mr9340924e0c.22.1793891895290;
+        Thu, 05 Nov 2026 07:18:15 -0800 (PST)
+Received: from toxicpanda.com ([153.61.196.255])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5eca8d774dcsm4443181e0c.5.2026.11.05.07.18.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 07:17:53 -0800 (PST)
+        Thu, 05 Nov 2026 07:18:14 -0800 (PST)
 From: Josef Bacik <josef@toxicpanda.com>
-Date: Thu, 05 Nov 2026 15:02:40 +0000
-Subject: [PATCH RFC v3 48/90] fs: refuse a task of a cell a new mount
- namespace
+Date: Thu, 05 Nov 2026 15:02:41 +0000
+Subject: [PATCH RFC v3 49/90] nsproxy: refuse to enter a namespace of a
+ cell
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -94,7 +94,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261105-b4-cells-v3-48-bc9095937a84@toxicpanda.com>
+Message-Id: <20261105-b4-cells-v3-49-bc9095937a84@toxicpanda.com>
 References: <20261105-b4-cells-v3-0-bc9095937a84@toxicpanda.com>
 In-Reply-To: <20261105-b4-cells-v3-0-bc9095937a84@toxicpanda.com>
 To: Christian Brauner <brauner@kernel.org>, 
@@ -105,50 +105,60 @@ To: Christian Brauner <brauner@kernel.org>,
 Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Josef Bacik <josef@toxicpanda.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openssh-sha256; t=1793890934; l=1326;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1793890934; l=1730;
  i=josef@toxicpanda.com; h=from:subject:message-id;
- bh=nOXPHVO0v3hT1W2sHrZgWd3DNxkisQUAUu39TRuJmkY=;
+ bh=IILX1LIwrnxWBZrztmHqMqyOMZ8/KSYL4VYD8k3ZAQo=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgUBr36M/n0nWN0DNbnxwzIiCZez6MG
  JiruuNaSCI/zXsAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QP9wmFv79GmH7EDKeFr9zp93V2hE/JATKfuBmIF+AlYfCq6/zq/mCDJAA5ZbBuYaoibPpl4dLA/
- r4dWY2nDD2wc=
+ QFJkp+7bJCgWrOlQjezAwrMkgj31NOMOyZP6v++VL2xLlGELRhRo9nkdLV49ycUBRzSHqaKGrBA
+ BxbPQcDy2KwI=
 X-Developer-Key: i=josef@toxicpanda.com; a=openssh;
  fpr=SHA256:C8kOX2QUJCMqnCX+KEeoqRAjLo9L+ELOSH2NSAJHqGA
 
-OPEN_TREE_NAMESPACE and FSMOUNT_NAMESPACE create a mount namespace without
-going through unshare(). A task of a cell could not enter such a
-namespace, but it should not be able to create namespaces in the first
-place. Refuse both flags for a task of a cell.
+No existing task can enter a cell. Refuse setns() into any namespace that
+is owned by the user namespace of a cell.
+
+This also applies while the cell is still being built. A task that entered
+the pid namespace at that point could become the init of the cell while it
+has the credentials of the host. Or it could hold on to the namespace and
+fork into the cell later.
+
+The mount namespace of a cell is owned by the user namespace of the
+builder, and has its own protection, see mnt_ns_seal_for_cell(). The
+network namespace is also owned by the user namespace of the builder. It
+stays accessible to whoever set it up.
 
 Signed-off-by: Josef Bacik <josef@toxicpanda.com>
 ---
- fs/namespace.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ kernel/nsproxy.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/fs/namespace.c b/fs/namespace.c
-index 7298b589e10e..30167f8863bf 100644
---- a/fs/namespace.c
-+++ b/fs/namespace.c
-@@ -3353,6 +3353,9 @@ static struct file *vfs_open_tree(int dfd, const char __user *filename, unsigned
- 	 * just care about being privileged over our current user namespace.
- 	 * The new mount namespace will be owned by it.
- 	 */
-+	if ((flags & OPEN_TREE_NAMESPACE) && current_cell())
-+		return ERR_PTR(-EPERM);
-+
- 	if ((flags & OPEN_TREE_NAMESPACE) &&
- 	    !ns_capable(current_user_ns(), CAP_SYS_ADMIN))
- 		return ERR_PTR(-EPERM);
-@@ -4622,6 +4625,9 @@ SYSCALL_DEFINE3(fsmount, int, fs_fd, unsigned int, flags,
- 	if ((flags & ~(FSMOUNT_CLOEXEC | FSMOUNT_NAMESPACE)) != 0)
- 		return -EINVAL;
+diff --git a/kernel/nsproxy.c b/kernel/nsproxy.c
+index 5d6cec2dc4ce..6b9b220a2bae 100644
+--- a/kernel/nsproxy.c
++++ b/kernel/nsproxy.c
+@@ -467,8 +467,21 @@ static int prepare_nsset(unsigned flags, struct nsset *nsset)
  
-+	if ((flags & FSMOUNT_NAMESPACE) && current_cell())
+ static inline int validate_ns(struct nsset *nsset, struct ns_common *ns)
+ {
++	struct user_namespace *owner = ns->ops->owner ? ns->ops->owner(ns) : NULL;
+ 	int ret;
+ 
++	/*
++	 * Nobody enters a cell, and not while it is being built either. Whoever
++	 * got into the pid namespace then could become the init of the cell, or
++	 * fork into it later.
++	 *
++	 * The mount namespace belongs to the user namespace of whoever built the
++	 * cell and looks after itself, see mnt_ns_seal_for_cell(). So does the
++	 * network namespace, and whoever set that up may go on doing so.
++	 */
++	if (owner && userns_is_cell(owner))
 +		return -EPERM;
 +
- 	if ((flags & FSMOUNT_NAMESPACE) &&
- 	    !ns_capable(current_user_ns(), CAP_SYS_ADMIN))
- 		return -EPERM;
+ 	ret = security_namespace_install(nsset, ns);
+ 	if (ret)
+ 		return ret;
 
 -- 
 2.55.0
