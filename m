@@ -1,88 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.177
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793892498;
-	b=rlR6ZCOShtTjKYkQKWsL7hAvRGwzj36WR77jOwsGL+cjOdMEW388lqiUaWLuSnRnmuF4
-	 lzFXODfXBajlfatTeTEqX0sI3zHLIndU592/mTlXPEq4PFrY9DVzgosjArKP/JJad4pE3
-	 FSKUhwMbFREY7dDi5h9BOat+t2+ecV0Q4W6+41FM9O8QAubnbBnI5S+PB+XPcxDYniPEO
-	 SVuhjJfMus9LxHRWsz7rhaWP6otFhNy26CTkTDXFidnqLDmAetNO8XE9dISiXiPJOq9iH
-	 MmCqLhqDNe5YC0FxueVnS99TcqyfAisBl70BMKfIrDdbtz9mdQTJ0c95G0KFSwNH6KA==
+	t=1793892519;
+	b=URzR2Wos3JU7Sg9GKuiRmfmkxIBd4H1hBZdLvIY84yVr6hP0JFIM65iVo9noXsXSuevZ
+	 PQRpSsirgC66jbpTHhrEX4dRkNZY4MMVlE5vlMJVsQWSTiYPatJMaE6c2bA/zgWJ/enGY
+	 T5jIaeYXAe6fUA2BSHPKxPVDUSoIq4U6uK+9Fw3ypZ/0qOyZ7k9QjZepGkWrtGcvUw5XX
+	 s4GblOpiXISunoD4fzkAjJf1GG0/f8ty/ZUuQ52lM7b1xIILWtLh25RdruggUssCzHfhT
+	 zeCmX1UTBWX+5pmEjU/T13ceTbaIyi36m/QjLBTEFrCQguoua054RbNjxUnR46KvfeQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793892498;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793892519;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Date:Subject:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
 	 References:In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=Kz0PHWKcByhyF/gvlB7if/6abGMtYwQ80lEx67ATnrg=;
-	b=njrhUMhwiC1Sa9MTfTpNu6NKsgFnoQKYp5H/ds0/Uwt7zW2WW2V+NcKt1riUvIJ9pLcR
-	 XYoH01i/t0JvOFuXfYronX+/0USygjFUSEiiL410g6mfRe2ICLO7olRkdbI0iB5Z+wwt3
-	 8sCstgqvPJJMR+lrIkC8ESkiwUzwcVtY0M6Dfn1trw9j3iGxY+9gOkbB98Dn+z93kwdsa
-	 NK8NxmQTVi/F4E0N5SI/5zhRIPZR8yVLYxxPRx3Byx/NEYoJrbpFAhSFIECDtiWj39IxX
-	 z4E8gjgc+SbsJR02m9EoQ27oLKS+vimSskQQEZRk4v0UnsV1C9qOok5tUhvVkl3oSnw==
+	bh=KLPcNV9aUbDLiPnscawDJ9DlhHyhT9MXerP8+aTsTTg=;
+	b=CEQOKsXtzKjMpkKDAxU3gAyUys+9IaIYRpCoSNCOOP/gQ8yblEy3WMPCASjvYpn/GiSl
+	 NAVDOAeMgooTbpRaSMAK2rVjOR4gIi8IUB5f7BgQEU8yv7HgoLm6v2+RmnwZTihbWjqF4
+	 bCDvi+hN6u/grxqa0oNBlhTLdD4AWAf9qvD74JhAtoQsrr6O16s+CAu152rSLm4lpQqqG
+	 4TEWe3Z1nKituOSOmHWjLN3hM0S6ZC4sGET9QJ6g6LES1XOJbRhNr3kkC103V2JqT7DCr
+	 G59bgCrWT4woYVcecjKbLPUOp70wLkuJiZRpg/BEOtIjubfmCLjoWckgqbwHINmWjHQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=toxicpanda.com;
 	spf=pass smtp.mailfrom=toxicpanda.com;
-	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=okYjACgm;
-	arc=none smtp.remote-ip=209.85.219.52
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=nDvoAKD7;
+	arc=none smtp.remote-ip=209.85.160.177
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA824606A328
-	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 15:28:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BA824606A328
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E731A606A31B
+	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 15:28:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E731A606A31B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=okYjACgm
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-91c7a0c1617so27219966d6.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 07:28:17 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=nDvoAKD7
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-533861a59b8so20213341cf.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 07:28:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toxicpanda.com; s=google; t=1793892497; x=1794497297; darn=vger.kernel.org;
+        d=toxicpanda.com; s=google; t=1793892518; x=1794497318; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Kz0PHWKcByhyF/gvlB7if/6abGMtYwQ80lEx67ATnrg=;
-        b=okYjACgm7VGSbm5mvBeAcVOR5vXf+V9s+Un2s5ENVQC1OmFxAFRjqcOsvZBMPLl3iQ
-         o3RBzyHNwWHhgm595K0sbVAhhgOWOQRS3VsbRZ1qif53GmJuhoSXYzYEc4ir6RGvyktp
-         Q5KV3BaeVpUw3pT9UhvPhDWqQg+YvuOMaCtx6lipyUn0nFQmqN2S3Al2j9o4v0QXYqRK
-         qO5e62lvsXDauNRhQExOuf4bqvojvnGEcJNL9NcsXixjZaG040QD/gvEsQiiP0cXScP0
-         oMe/ZpQ7AEJGZtO9/8EF84JyfEXE8s4UfqExcsJ0iz3jZ2cOWrt9NeT8iD6G0KLcq8xR
-         9HxQ==
+        bh=KLPcNV9aUbDLiPnscawDJ9DlhHyhT9MXerP8+aTsTTg=;
+        b=nDvoAKD74JrwtH/SpvIvR9HqdawNMNOudq2c1aLjeVyQHb8kYx/T5JZEbF1CoSCdG/
+         phXlTdkY9vJ63j6mmfIUMXlLMA4fdMj3u6ECqUP+gF4Q7ByuKobzxu4TSvbZgQ+/B41r
+         tqPZYtKXcx0/LOt2JTRdVx9Qf+O9DQngL7PY0n0NHyOhb+4VXHWhua8rRFwKU2xewmxZ
+         ll2Vfw+VYzZJQkY4jrtdUWtkYLgKpQtQzzSCUAW/BjS35Q5enP4TrLJ2P3uSVP2p9kaI
+         uIk8NNxPHzeQ93xmb4QYJCC60EcTEpJ02CRhh6jktWnBr5Ydo0A0f0oGYSVbebbDxpU0
+         vSMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793892497; x=1794497297;
+        d=1e100.net; s=20260707; t=1793892518; x=1794497318;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Kz0PHWKcByhyF/gvlB7if/6abGMtYwQ80lEx67ATnrg=;
-        b=bg2rYLO/UPeUFQvYtywplebXn1FNgK6q9ARJOnVqZsqrWxeiyod9F4p1GLXqXjFEH/
-         71sIbgNIknPwVQUXGbZVBSf2w0iIMH2obGKk8QBr7/zg8w0nmwUiPPRlYtee+AqMn1If
-         o1dMfb+6YFbZBjX30SRLj9rJAPJknN9pPy6Riic732Mnn3thRFVNlbY9qoQ2pmi3AerA
-         AqshCLrdju8pl/XPQpWO8md20WMYRcWCHSnbOkX7PwH78XI/45COb6nJNzzT27B2KnfJ
-         06alADzwXb5S80jALLrlPi2JW6Su/GutN0Bz+zzO/u299ymaKUSlGKbyBlrMtm24jI9j
-         zluQ==
-X-Gm-Message-State: APuU4Z9V+dTI80gw1L2UaxZHE0t2f5WM6kfwM2mGmIvCb02rcaiuqr1N
-	fYK5CrAh9s9FwtQAm8PlID6J8mQ7VTHjrH2KMHS4hg7L+tvqXJmrAd7DqsUejzoDnq0=
-X-Gm-Gg: AYBFou2VUr6bmTcBjzHCBw3aikFyaR6SNqsoE+41eAsdiOG+Xo38u2TDuzEKM1WbzXA
-	/gJOeGzx3KXAIMqUO1mosveTBQq5h7X+c6u3+jKiHzfyPwYkKp4Bqx8xi4GqblRkctI2ZdJ6NlA
-	IyKTPrtC/mOQLReoDVV+P5DdhQ0QNHzTfQdVbLOkgV53hxnZo66FeCGuuu2230SGzq6gcPVhsQR
-	sHlHHAiEaoKcC1IKxeQOnEUnAUXh0hUioQb4wAC2WJsenqminZME9fCMkJl7vXgdmsZ4zJo/mn8
-	xYyMoN6HNJQIvsWVbP1SqHNYH1K7mY3OIACYR8b4qRlU4x+Bdo46icHzHU/6AaYuEmrPdmJc58b
-	CBkoOWvxT79jdQsCxQHXzAwCBJ6jiDc9FfRI+ndSJ5gMIDzECvEEseZZ08VNgY5NBQN3NmC4ZJC
-	MeEWjwJVcexhCA+3qjmWKDhXSwy5lELieqDFyxUqC7tg29XFrxVpceU/4DGSjdF4k59diQitkYJ
-	HsvKx5aZS60D9XrNLNNqSCzw4bKn3ywMlcCwiXMzThDZjZU+scJdfnUBXpKzDDZhiqpSkFoOfIk
-	aNe0zoGqRBEJ+HFuiJROqMU76eroEc45e7XRp973xewXLV9l49dprfLOlA53BHrePJc=
-X-Received: by 2002:a05:620a:6191:b0:93f:1437:2e58 with SMTP id af79cd13be357-944216ee050mr3073697185a.56.1793892496646;
-        Thu, 05 Nov 2026 07:28:16 -0800 (PST)
-Received: from toxicpanda.com ([153.61.196.247])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-945d48694cfsm487038585a.36.2026.11.05.07.28.15
+        bh=KLPcNV9aUbDLiPnscawDJ9DlhHyhT9MXerP8+aTsTTg=;
+        b=0FagvzKkup+LTZT+DWN/MLQrI75ptmeYo3TIRYlVKpmlwtxkDD3M7DC1oPoVqcPXN+
+         o/dh362tXo4TCgxpflPpmzxVr/ExgVhttjmC7VzCcfveMaWkJvmWUnx4HlmEpOOe0QPq
+         sq7UU7qunUIszi/uJQ7sgSWxaF32CCQsGjS6dCTsTieK7LXl4yZ6E51OSx94RmtjYi90
+         5u4cAeEOjKDfJIsn4b1LvkqTGJffGpZzDUQKm7dplExV51x7ZUCKxQWMAVNKnoxMAFpI
+         7X40mJ3sHaK6qfpgRs4XYgLduiK7ieLHE7SwP8o1EwtnDOFqO9AMMehF/+Vf/r3bfwta
+         +ffQ==
+X-Gm-Message-State: APuU4Z8cwTrvue/Br4Sion/ayIY3wlrIA1ASz/Ae/hj1Q2InU6UjCGY5
+	pZakY7NJ/Q7caFr+YA/40bHwViaPZgAM3iALrp8IwGPnqwkA+1tnoaWhNWTmhOuWe7U=
+X-Gm-Gg: AYBFou37l/XRGAk4G1XdBdOJLwh+w0dN4qfUDXdBZIxcYnU1qAW3HEYMv2GVPxwYo9n
+	mYsf+SjaFk+FqASBLNCju9g+3ImLR4lhmrVlCzgrtNG531/9jgn1ZEozH1BcRliH7u1Lj6Smm+O
+	B/TrR3of9MlM2bZqAx3+gmDWjrxEVq7/lAhpMQvKaPEC6pWWZkfhz54+nD/b0XUjE64N6vvzre2
+	altpkkiE2H1tux/njnUu+OvElc2wxtv5sKVQBWKaRPWUy4ed0PMwsuTRb9B54vF5HUZiB8wmsxZ
+	yX+THhFCDRul6UAR1eWiVaQxNs7PQmLWXxI+V6QfzD76WGziTH4WxdKLQMKgYYi/nBY05IGXYMJ
+	pna5lVC/PTU33Gl8ZqYgofPE4i0K5WH1Uo+I6+xiYcyxq22zRfE4YwrJpPkdQfuj5QJHbarNwd4
+	fRyq2Ruf3KkViBQw0PAyLP8DTcmVIdvXCfoupWfvfVR+VOOuAVYba7yjMdAqAYtfGffkzCG8Ojp
+	mIx37W8zXVkmbCrUmVlHqyytlLLUkiOjGXg5Zu6Wj/7fHtsFZtvaJgXJoGtJW6M7E0obnPKMAth
+	UE3e/wrDfC1thmOUm4RgNo7LseD7zWGq8x0F/asHu0a/6Q==
+X-Received: by 2002:a05:622a:4209:b0:536:6488:e7e4 with SMTP id d75a77b69052e-542b6a72b3cmr336045591cf.13.1793892517845;
+        Thu, 05 Nov 2026 07:28:37 -0800 (PST)
+Received: from toxicpanda.com ([153.61.196.248])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-54d970216f6sm6703391cf.25.2026.11.05.07.28.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 07:28:16 -0800 (PST)
+        Thu, 05 Nov 2026 07:28:37 -0800 (PST)
 From: Josef Bacik <josef@toxicpanda.com>
-Date: Thu, 05 Nov 2026 15:03:08 +0000
-Subject: [PATCH RFC v3 76/90] rtnetlink: use net_may() for requests that
- change state
+Date: Thu, 05 Nov 2026 15:03:09 +0000
+Subject: [PATCH RFC v3 77/90] net: use net_may() in the configuration
+ ioctls
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -94,7 +94,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261105-b4-cells-v3-76-bc9095937a84@toxicpanda.com>
+Message-Id: <20261105-b4-cells-v3-77-bc9095937a84@toxicpanda.com>
 References: <20261105-b4-cells-v3-0-bc9095937a84@toxicpanda.com>
 In-Reply-To: <20261105-b4-cells-v3-0-bc9095937a84@toxicpanda.com>
 To: Christian Brauner <brauner@kernel.org>, 
@@ -105,158 +105,143 @@ To: Christian Brauner <brauner@kernel.org>,
 Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Josef Bacik <josef@toxicpanda.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openssh-sha256; t=1793890936; l=5219;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1793890936; l=4548;
  i=josef@toxicpanda.com; h=from:subject:message-id;
- bh=XoA8BbdVLFstFTRRQB2rIoFN5ABiwloSZ4q7Qt5LBx8=;
+ bh=aroO3MBSFDs6m6+Du222Gk5S4GUIEG4XnIpJZgS36no=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgUBr36M/n0nWN0DNbnxwzIiCZez6MG
  JiruuNaSCI/zXsAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QIpXDyOZBYdzTDWL1l/kopzbAXnbdbXC+LWnZGkccvvay4VHDUbhdHJ+jo4myg4NSNTsIFqt2J0
- pmcbwSrC8BgM=
+ QJO6v6Qow2FGiwDal0iPWoEjeBVIuqkZgWf6GgjIBBErGi0Ifpq9yV4cmB+MsCBn1G+9E/WNMVW
+ SnRZ1e7wHMgA=
 X-Developer-Key: i=josef@toxicpanda.com; a=openssh;
  fpr=SHA256:C8kOX2QUJCMqnCX+KEeoqRAjLo9L+ELOSH2NSAJHqGA
 
-rtnetlink_rcv_msg() has a single CAP_NET_ADMIN check for every request
-that is not a GET. Pick the right from the message type instead:
+The ioctls that predate rtnetlink have their own CAP_NET_ADMIN checks.
+Convert them:
 
-  NET_RIGHT_LINK      SETLINK, NEWLINKPROP, DELLINKPROP
-  NET_RIGHT_LINK_NEW  DELLINK
-  NET_RIGHT_ADDR      NEWADDR, DELADDR
-  NET_RIGHT_ROUTE     routes, rules, neighbours, nexthops
-  NET_RIGHT_TC        qdiscs, classes, filters, actions, chains
+  NET_RIGHT_LINK   the device ioctls in dev_ioctl(), and SIOCSIFFLAGS in
+                   devinet_ioctl()
+  NET_RIGHT_ADDR   the address ioctls in devinet_ioctl(), and
+                   addrconf_add_ifaddr() and addrconf_del_ifaddr()
+  NET_RIGHT_ROUTE  SIOCADDRT and SIOCDELRT for IPv4 and IPv6, and SIOCSARP
+                   and SIOCDARP
 
-All other message types keep the plain capability check.
-
-RTM_NEWLINK either changes an existing device or creates a new one, and
-that is only known after __rtnl_newlink() has looked the device up. So
-rtnetlink_rcv_msg() accepts either NET_RIGHT_LINK or NET_RIGHT_LINK_NEW
-for it, and __rtnl_newlink() then checks the one that applies.
-
-rtnl_link_get_net_capable() checks the network namespace that the request
-names as its target. That is the namespace of the sender if the request
-names none. Convert it as well, and keep checking the target namespace.
-All of its callers pass CAP_NET_ADMIN, so drop that argument.
-
-No functional change. Every right used here maps to CAP_NET_ADMIN over the
-owner of the same network namespace as before.
+No functional change.
 
 Signed-off-by: Josef Bacik <josef@toxicpanda.com>
 ---
- net/core/rtnetlink.c | 60 +++++++++++++++++++++++++++++++++++++++++++++++-----
- 1 file changed, 55 insertions(+), 5 deletions(-)
+ net/core/dev_ioctl.c    | 4 ++--
+ net/ipv4/arp.c          | 2 +-
+ net/ipv4/devinet.c      | 4 ++--
+ net/ipv4/fib_frontend.c | 2 +-
+ net/ipv6/addrconf.c     | 4 ++--
+ net/ipv6/route.c        | 2 +-
+ 6 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/net/core/rtnetlink.c b/net/core/rtnetlink.c
-index e141340172ce..df97309a9622 100644
---- a/net/core/rtnetlink.c
-+++ b/net/core/rtnetlink.c
-@@ -2737,7 +2737,7 @@ static struct net *rtnl_link_get_net_by_nlattr(struct net *src_net,
+diff --git a/net/core/dev_ioctl.c b/net/core/dev_ioctl.c
+index f6029f60c1dc..caec8909b0c2 100644
+--- a/net/core/dev_ioctl.c
++++ b/net/core/dev_ioctl.c
+@@ -757,7 +757,7 @@ int dev_ioctl(struct net *net, unsigned int cmd, struct ifreq *ifr,
+ 	case SIOCGMIIREG:
+ 	case SIOCSIFNAME:
+ 		dev_load(net, ifr->ifr_name);
+-		if (!ns_capable(net->user_ns, CAP_NET_ADMIN))
++		if (!net_may(net, NET_RIGHT_LINK))
+ 			return -EPERM;
  
- static struct net *rtnl_link_get_net_capable(const struct sk_buff *skb,
- 					     struct net *src_net,
--					     struct nlattr *tb[], int cap)
-+					     struct nlattr *tb[])
- {
- 	struct net *net;
+ 		rtnl_net_lock(net);
+@@ -799,7 +799,7 @@ int dev_ioctl(struct net *net, unsigned int cmd, struct ifreq *ifr,
+ 	case SIOCBONDSETHWADDR:
+ 	case SIOCBONDCHANGEACTIVE:
+ 	case SIOCSHWTSTAMP:
+-		if (!ns_capable(net->user_ns, CAP_NET_ADMIN))
++		if (!net_may(net, NET_RIGHT_LINK))
+ 			return -EPERM;
+ 		fallthrough;
+ 	case SIOCBONDSLAVEINFOQUERY:
+diff --git a/net/ipv4/arp.c b/net/ipv4/arp.c
+index 1ca4ced280ae..934eead1dc51 100644
+--- a/net/ipv4/arp.c
++++ b/net/ipv4/arp.c
+@@ -1285,7 +1285,7 @@ int arp_ioctl(struct net *net, unsigned int cmd, void __user *arg)
+ 	switch (cmd) {
+ 	case SIOCDARP:
+ 	case SIOCSARP:
+-		if (!ns_capable(net->user_ns, CAP_NET_ADMIN))
++		if (!net_may(net, NET_RIGHT_ROUTE))
+ 			return -EPERM;
+ 		fallthrough;
+ 	case SIOCGARP:
+diff --git a/net/ipv4/devinet.c b/net/ipv4/devinet.c
+index 1e9d988849c9..ec57948ffbb3 100644
+--- a/net/ipv4/devinet.c
++++ b/net/ipv4/devinet.c
+@@ -1088,7 +1088,7 @@ int devinet_ioctl(struct net *net, unsigned int cmd, struct ifreq *ifr)
  
-@@ -2745,7 +2745,9 @@ static struct net *rtnl_link_get_net_capable(const struct sk_buff *skb,
- 	if (IS_ERR(net))
- 		return net;
+ 	case SIOCSIFFLAGS:
+ 		ret = -EPERM;
+-		if (!ns_capable(net->user_ns, CAP_NET_ADMIN))
++		if (!net_may(net, NET_RIGHT_LINK))
+ 			goto out;
+ 		break;
+ 	case SIOCSIFADDR:	/* Set interface address (and family) */
+@@ -1096,7 +1096,7 @@ int devinet_ioctl(struct net *net, unsigned int cmd, struct ifreq *ifr)
+ 	case SIOCSIFDSTADDR:	/* Set the destination address */
+ 	case SIOCSIFNETMASK: 	/* Set the netmask for the interface */
+ 		ret = -EPERM;
+-		if (!ns_capable(net->user_ns, CAP_NET_ADMIN))
++		if (!net_may(net, NET_RIGHT_ADDR))
+ 			goto out;
+ 		ret = -EINVAL;
+ 		if (sin->sin_family != AF_INET)
+diff --git a/net/ipv4/fib_frontend.c b/net/ipv4/fib_frontend.c
+index 8c123b111b3d..67d1eb7f8b7a 100644
+--- a/net/ipv4/fib_frontend.c
++++ b/net/ipv4/fib_frontend.c
+@@ -651,7 +651,7 @@ int ip_rt_ioctl(struct net *net, unsigned int cmd, struct rtentry *rt)
+ 	switch (cmd) {
+ 	case SIOCADDRT:		/* Add a route */
+ 	case SIOCDELRT:		/* Delete a route */
+-		if (!ns_capable(net->user_ns, CAP_NET_ADMIN))
++		if (!net_may(net, NET_RIGHT_ROUTE))
+ 			return -EPERM;
  
--	if (!netlink_ns_capable(skb, net->user_ns, cap)) {
-+	/* Where the device is, or where it is to go. */
-+	if (!netlink_net_may(skb, net, NET_RIGHT_LINK) &&
-+	    !netlink_net_may(skb, net, NET_RIGHT_LINK_NEW)) {
- 		put_net(net);
- 		return ERR_PTR(-EPERM);
- 	}
-@@ -3610,7 +3612,7 @@ static int rtnl_setlink(struct sk_buff *skb, struct nlmsghdr *nlh,
- 	if (err < 0)
- 		goto errout;
+ 		rtnl_net_lock(net);
+diff --git a/net/ipv6/addrconf.c b/net/ipv6/addrconf.c
+index c8c0dd04982d..3699e5410992 100644
+--- a/net/ipv6/addrconf.c
++++ b/net/ipv6/addrconf.c
+@@ -3185,7 +3185,7 @@ int addrconf_add_ifaddr(struct net *net, void __user *arg)
+ 	struct in6_ifreq ireq;
+ 	int err;
  
--	tgt_net = rtnl_link_get_net_capable(skb, net, tb, CAP_NET_ADMIN);
-+	tgt_net = rtnl_link_get_net_capable(skb, net, tb);
- 	if (IS_ERR(tgt_net)) {
- 		err = PTR_ERR(tgt_net);
- 		goto errout;
-@@ -4109,6 +4111,11 @@ static int __rtnl_newlink(struct sk_buff *skb, struct nlmsghdr *nlh,
- 		dev = NULL;
- 	}
- 
-+	/* A device that is there is changed. One that is not is made. */
-+	if (!netlink_net_may(skb, net, dev || !(nlh->nlmsg_flags & NLM_F_CREATE) ?
-+			     NET_RIGHT_LINK : NET_RIGHT_LINK_NEW))
-+		return -EPERM;
-+
- 	if (dev)
- 		return rtnl_changelink(skb, nlh, ops, dev, tgt_net, tbs, data, extack);
- 
-@@ -4220,7 +4227,7 @@ static int rtnl_newlink(struct sk_buff *skb, struct nlmsghdr *nlh,
- 		}
- 	}
- 
--	tgt_net = rtnl_link_get_net_capable(skb, sock_net(skb->sk), tb, CAP_NET_ADMIN);
-+	tgt_net = rtnl_link_get_net_capable(skb, sock_net(skb->sk), tb);
- 	if (IS_ERR(tgt_net)) {
- 		ret = PTR_ERR(tgt_net);
- 		goto put_net;
-@@ -7067,6 +7074,49 @@ static int rtnetlink_dump_start(struct sock *ssk, struct sk_buff *skb,
- 	return netlink_dump_start(ssk, skb, nlh, control);
- }
- 
-+/* May whoever sent a request that changes something do so? */
-+static bool rtnl_may(const struct sk_buff *skb, int msgtype)
-+{
-+	const struct net *net = sock_net(skb->sk);
-+
-+	switch (msgtype) {
-+	case RTM_NEWLINK:
-+		/* Which of the two it takes, __rtnl_newlink() finds out. */
-+		return netlink_net_may(skb, net, NET_RIGHT_LINK) ||
-+		       netlink_net_may(skb, net, NET_RIGHT_LINK_NEW);
-+	case RTM_SETLINK:
-+	case RTM_NEWLINKPROP:
-+	case RTM_DELLINKPROP:
-+		return netlink_net_may(skb, net, NET_RIGHT_LINK);
-+	case RTM_DELLINK:
-+		return netlink_net_may(skb, net, NET_RIGHT_LINK_NEW);
-+	case RTM_NEWADDR:
-+	case RTM_DELADDR:
-+		return netlink_net_may(skb, net, NET_RIGHT_ADDR);
-+	case RTM_NEWROUTE:
-+	case RTM_DELROUTE:
-+	case RTM_NEWNEIGH:
-+	case RTM_DELNEIGH:
-+	case RTM_NEWRULE:
-+	case RTM_DELRULE:
-+	case RTM_NEWNEXTHOP:
-+	case RTM_DELNEXTHOP:
-+		return netlink_net_may(skb, net, NET_RIGHT_ROUTE);
-+	case RTM_NEWQDISC:
-+	case RTM_DELQDISC:
-+	case RTM_NEWTCLASS:
-+	case RTM_DELTCLASS:
-+	case RTM_NEWTFILTER:
-+	case RTM_DELTFILTER:
-+	case RTM_NEWACTION:
-+	case RTM_DELACTION:
-+	case RTM_NEWCHAIN:
-+	case RTM_DELCHAIN:
-+		return netlink_net_may(skb, net, NET_RIGHT_TC);
-+	}
-+	return netlink_net_capable(skb, CAP_NET_ADMIN);
-+}
-+
- static int rtnetlink_rcv_msg(struct sk_buff *skb, struct nlmsghdr *nlh,
- 			     struct netlink_ext_ack *extack)
- {
-@@ -7093,7 +7143,7 @@ static int rtnetlink_rcv_msg(struct sk_buff *skb, struct nlmsghdr *nlh,
- 	family = ((struct rtgenmsg *)nlmsg_data(nlh))->rtgen_family;
- 	kind = rtnl_msgtype_kind(type);
- 
--	if (kind != RTNL_KIND_GET && !netlink_net_capable(skb, CAP_NET_ADMIN))
-+	if (kind != RTNL_KIND_GET && !rtnl_may(skb, nlh->nlmsg_type))
+-	if (!ns_capable(net->user_ns, CAP_NET_ADMIN))
++	if (!net_may(net, NET_RIGHT_ADDR))
  		return -EPERM;
  
- 	rcu_read_lock();
+ 	if (copy_from_user(&ireq, arg, sizeof(struct in6_ifreq)))
+@@ -3212,7 +3212,7 @@ int addrconf_del_ifaddr(struct net *net, void __user *arg)
+ 	struct in6_ifreq ireq;
+ 	int err;
+ 
+-	if (!ns_capable(net->user_ns, CAP_NET_ADMIN))
++	if (!net_may(net, NET_RIGHT_ADDR))
+ 		return -EPERM;
+ 
+ 	if (copy_from_user(&ireq, arg, sizeof(struct in6_ifreq)))
+diff --git a/net/ipv6/route.c b/net/ipv6/route.c
+index 616b86f89f63..f458a3cae13a 100644
+--- a/net/ipv6/route.c
++++ b/net/ipv6/route.c
+@@ -4578,7 +4578,7 @@ int ipv6_route_ioctl(struct net *net, unsigned int cmd, struct in6_rtmsg *rtmsg)
+ 
+ 	if (cmd != SIOCADDRT && cmd != SIOCDELRT)
+ 		return -EINVAL;
+-	if (!ns_capable(net->user_ns, CAP_NET_ADMIN))
++	if (!net_may(net, NET_RIGHT_ROUTE))
+ 		return -EPERM;
+ 
+ 	rtmsg_to_fib6_config(net, rtmsg, &cfg);
 
 -- 
 2.55.0
