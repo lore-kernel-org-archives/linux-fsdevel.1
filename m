@@ -1,54 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.217
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793844847;
-	b=ornKUzCndCnNo8QYpWkESTgvVykmN6t40dqdayEOImJQlu6bmIfx14in4DT1JgMQ64br
-	 doaOohcWEEMPY5bNtcS/2laCDxWdeFwvzqWGsFwlcTW2iyyZqlI1rqQZ/Xa4qACEDHC35
-	 YFllpOU8iQo1vCYc6i+zLSJd5AcMnsUoVkQ8AhFxF/7HDxw35D7Vflj6n4ilI1P4GZ/2u
-	 UeaBtuKU6ZgUsybx6uR6b4Bjcg3mgO7zJXBm4HTwNFB735OzuyTFqAVHA1vfvHt3ywIFy
-	 CPsK6PeMU9flASFFA/B6kKiD1bq7UfvpA6e3dJcstM5cm0x3Zu8dv7EgD+xDcrQY7Tg==
+	t=1793847806;
+	b=a9106gqqDJrVpZQD5iL49mroxUEVIvyGmYN7m3ZHWP1JOteINvIxFrpmN3gJglABqGaI
+	 2TTcc8AJbDroWvaELDZSvFEqmWDw6TgVfQc33kVAdHtWXwBA+0zagytmgztgNaR+FFhX7
+	 FmP2Vo0sbI/vi3ZOPIy9QPa4j2o+/ZaoO5LNVBA9L8OHNbReN/aMIh+pL2N8X83r7QJ/S
+	 JEI86NGuR/YmqYk262u+8iNcYDSuxS4LSP3UbZB1Is8hI6/ibw5bhomJR2TviiBVhuEyZ
+	 nprnhMQqsjX3o+ACdnyqS9J9rXT/9v7FcZ3IuK7E5HG+7PAp33aeekF6HTCxdU8Lu4w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793844847;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=tXeq94tKXH8bHOz1amsH5XRU51n2PYOOTkgxfF1PjyI=;
-	b=GC1UpAIHZ0vG0U9/3z1W2whfpivjPaIjt/gFfWjHW569b5VluN/ZA7A0a3unVT1capGQ
-	 ULIYjPiS029N04bN0JPCMYGf3dUsya4A7aU0/ee7QiHXGHGAQndHnhYYrIFuk6hwb+o0I
-	 A9HtRycbqnlA1aDGFN6AMxjQ15FmbOw6IAmrgbJatx+9mab9FCIET8mv0LI1pmfuETJl7
-	 ZZllbpbH/9OK603vAVnb+GLis7oIv8kQPE2DsNYNbJANugxHjkzblhTgg8YIlT0esyGkw
-	 LUKVi62RYMi0YPnIilV0GxcBVXOh3rnUOw0iABpVITTg7Qb0V0ygZML+HGCnPbIA+RQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793847806;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:Mail-Followup-To:References:
+	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=TmyrGImNoeERgzj0671/YFCWmU7Tn1bl23zRlCFzkls=;
+	b=h33m2u+lEc2B4YSveSAl4Z9xoDZsjlmrvdKNduZ0qNANtt6tZZmk9PgP8v+qeWWZ49JT
+	 NAKWsqnLJYVoF6ueSohh88j9C46SHi+/sq73bJmwIoz+QYeSfZGinzuT+G9x56q2jmNGw
+	 2YnHEWHT00AD3thjWY45jHP8g6CIfVmwswEF+JvFgYpi1XmbPFi4N5M2baH1jbs15sEaE
+	 S9Q7wRAz+2kTNBKge+8LqKRFTnqp8a1sOvubgqCtWfHUdBjaImwdz4W9Wkha7mble5lwI
+	 yET3EEVya/fdEBsaCKFgmdzK3B0fLi7Ekqn0tNpD7R9r79HITc9RgyxJ1B+WSDmiW/Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=j2sTp789;
-	arc=none smtp.remote-ip=91.218.175.217
-Received: from mta0.migadu.com (out-217.mta0.migadu.com [91.218.175.217])
+	dmarc=pass header.from=cs.cmu.edu;
+	spf=pass smtp.mailfrom=andrew.cmu.edu;
+	dkim=pass header.d=cs.cmu.edu header.i=@cs.cmu.edu header.a=rsa-sha256 header.s=google-2021 header.b=HZ0rvCUd;
+	arc=none smtp.remote-ip=209.85.219.50
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B3BB606D803
-	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 02:14:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5B3BB606D803
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50F9B606A326
+	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 03:03:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 50F9B606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.cmu.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=andrew.cmu.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=j2sTp789
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=l5hRS8qgzR0WOCPLF0tQbQ+of37lp1oZsgw+XUQqwhg=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793844844; v=1; x=1794449644;
- b=j2sTp789TAzH4+lGZ7lYWfaDwj4tzc9cwnz9VymVYz+93eIx1j2P1wIewQP0NcIfVbJQKLyf
- 0DO8NIIghKzDouBSBnDym1wAnQyGpqJsD9irj2dQSZrGObeDZJB96QtjMGxheDIwPErfv1cfpzT
- zdnAQ3fG/Xx2Ge3hDWonFfXo=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 7ce234fbb2517b84;
-	Thu, 05 Nov 2026 02:14:03 +0000
-X-Mizu-Trace-ID: 7ce234fbb2517b84
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <fc4939cc-84ec-4c5c-88a7-658ca800377d@linux.dev>
-Date: Thu, 5 Nov 2026 10:15:13 +0800
+	dkim=pass (2048-bit key, unprotected) header.d=cs.cmu.edu header.i=@cs.cmu.edu header.a=rsa-sha256 header.s=google-2021 header.b=HZ0rvCUd
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-91c9cfd8b1bso16567486d6.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 04 Nov 2026 19:03:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cs.cmu.edu; s=google-2021; t=1793847799; x=1794452599; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:mail-followup-to:message-id:subject:cc:to:from:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=TmyrGImNoeERgzj0671/YFCWmU7Tn1bl23zRlCFzkls=;
+        b=HZ0rvCUdtiV8k6tqRF6TNPr6BxCfo26C8HCb+SArpySJ7XV0WATODALH96NFOW6e7o
+         ZGApbRrZ/QSzYLJ8X4t1ECE/Eu4lMlNDeD5wgFvEw8IqauOWePNXyp9HbuUJ7TnRzq9w
+         U3Fio9VNZSRrd/Z/2C9vHTz+SG5PyKTA8gsSf1cbn0lXq0B5Gfq+ofBHPqPkjgfeaBO5
+         /DXZLDSD0LWbJgTztTbwX8R2jJ4XcYm23CuYO5ko5CpQToVLBWnMG6CIHfph0jtfZrkO
+         8ugkjNiL0OzxmB6W5QvQOvvIzyubf5vGK0UgGFdBlaiG97CwLOofr5AdJpIJv6MOq/jP
+         CpGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793847799; x=1794452599;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=TmyrGImNoeERgzj0671/YFCWmU7Tn1bl23zRlCFzkls=;
+        b=FSKpCV/2VR4eFpVzyv0vY9GHcQiDQM5/BYhRnlvSUGlbiIgm6R6jJya85OZ9Bvpc7g
+         PcpTKlWRgG6FESQ/hKuXNrlqxuu0fuKelK2Uh7awAERNRZZrqQm0QQEljrlZ/AjTH+MG
+         V1GccPS9VAtHL+fd91fKRba1ND3xcVhGriPvhanS4nWsSXnstWVmcKI0ILWh9T30xJk0
+         tJZFb/9XLFPDUX5wasMxnQ+rxPEFEg7nb1uO6FGF5pxaNKiwajYW3Q0kMAdF5PivCpHj
+         2TnOFUamXGE1LNkrNXpz5x724J+wBTaW1XUw3DvxwPikVOAtcIhRu3XfJOzvMDZFLWd0
+         iGrA==
+X-Forwarded-Encrypted: i=1; AKwUvBz3Zts8FuPLXEudynQ5MGunztMD7jGpbSzWPbKL1qvFOpPxJJGWc2782Q/QURs3ts3pT/6hTl0SZwrufHik@vger.kernel.org
+X-Gm-Message-State: APuU4Z/3nnE6xQXMQx3FneQzGkdxPJRHymVEihkrQsiLXiHoUznIj/KL
+	A7uj+TVb2apyFbt/+dkZr7L9FqP3/d3j4FP86KkgONiC674U4HLtnXxhdQyBLS1+TQ==
+X-Gm-Gg: AYBFou0SL48A9FbuTdKo3bA8GgTn4SDbKsk4jTQ8ybNmFrF2SwrSDoxi22i4Tvm6Eqf
+	L/V7kJE3k1/bhpbF0nj+GAbMoKBwx8dG0gX8J6AiPwj1nWtSDH3fDF1uGY6BgsOaLpOcHyq/wYE
+	mK0Q3VaFSX+JUAN5GORKmcdb2MKajOydZlOI0ESVBkxJAAqMly4bK+DvJuQX+TLxBSxOe3IUNA5
+	3eY+RhNDdzJ2oh2OxlG71cKOcz0bVpAKTIGBwnQFCuyjoK1el35KdiGxIJXSXCZwMYkCvkJ9XAQ
+	V+X7YkkDms0yNjCmIvT5FOH4VTGQa9Y8g58Ihnq81MjwbS4xuVJRk7reEkQkhL19S/rN/9fGbpr
+	JeW6gLBLEbe8gLSFaxcoZyiKoYNVvWX+EtplVrA+6I130TEkcCUd4Hjh+urfv8EQvFiN02puHjV
+	6uDbQxEV7oVMc5xMaaK1i3NR2qpoYXmN+SKt3UXGWJPpwBAmTokV+PGn5DDfuU3VuYKqYt16Jfp
+	N+l9Ft3ZfAQOLmdDQ5C3MfIQSEj6I1KAV4CCOppwFLvS+ue0/dlDk7ngR93xTmXEzySrA658PBE
+	uB5YjhweQ3XNd7+kmNf/nxQH5FeAjO0k2vB/RLtHmX4/I/PAPw==
+X-Received: by 2002:a05:620a:46a5:b0:93f:2e08:6420 with SMTP id af79cd13be357-94421741ccemr3073423785a.38.1793847799333;
+        Wed, 04 Nov 2026 19:03:19 -0800 (PST)
+Received: from cs.cmu.edu (tempest.elijah.cs.cmu.edu. [128.2.210.10])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-945d468fbe9sm362171485a.3.2026.11.04.19.03.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Nov 2026 19:03:18 -0800 (PST)
+Date: Wed, 4 Nov 2026 22:03:04 -0500
+From: Jan Harkes <jaharkes@cs.cmu.edu>
+To: Hungyu Lin <dennylin0707@gmail.com>
+Cc: viro@zeniv.linux.org.uk, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] coda: honor the append state of each write
+Message-ID: <20261105030304.ukyfkyh7xf66yf7w@cs.cmu.edu>
+Mail-Followup-To: Hungyu Lin <dennylin0707@gmail.com>,
+	viro@zeniv.linux.org.uk, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20261104191355.89544-1-dennylin0707@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -58,189 +99,87 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND v2 01/51] alloc_tag: don't remove /proc/allocinfo
- under the codetag module lock
-To: Christian Brauner <brauner@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- Jann Horn <jannh@google.com>, Josef Bacik <josef@toxicpanda.com>,
- Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>,
- NeilBrown <neil@brown.name>, Eric Dumazet <edumazet@kernel.org>,
- Thomas Gleixner <tglx@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
- Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>,
- Greg Kroah-Hartman <gregkh@suse.de>, Joel Granados
- <joel.granados@kernel.org>, Kees Cook <kees@kernel.org>,
- Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>,
- linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org,
- linux-acpi@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-um@lists.infradead.org, linux-wireless@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
- ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org,
- coreteam@netfilter.org, kexec@lists.infradead.org,
- linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
- netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net,
- linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-cifs@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-mm@kvack.org, linux-sh@vger.kernel.org,
- linux-usb@vger.kernel.org, samba-technical@lists.samba.org,
- sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
- linux-doc@vger.kernel.org, linux-serial@vger.kernel.org,
- linux-atm-general@lists.sourceforge.net, Takashi Iwai <tiwai@suse.de>,
- linux-input@vger.kernel.org, linux-raid@vger.kernel.org,
- linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org,
- linux-debuggers@vger.kernel.org, Chuck Lever <cel@kernel.org>,
- stable@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- Suren Baghdasaryan <surenb@google.com>
-References: <20261104-work-procfs-bugfixes-v2-0-021c84d852e0@kernel.org>
- <20261104-work-procfs-bugfixes-v2-1-021c84d852e0@kernel.org>
-Content-Language: en-US
-From: Hao Ge <hao.ge@linux.dev>
-In-Reply-To: <20261104-work-procfs-bugfixes-v2-1-021c84d852e0@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261104191355.89544-1-dennylin0707@gmail.com>
 
-Cc Suren
+On Wed, Nov 04, 2026 at 02:14:23PM -0500, Hungyu Lin wrote:
+> coda_open() adds O_APPEND to the container file's f_flags after it has
+> been opened, without updating its cached f_iocb_flags. An O_APPEND write
 
-Hi Christian
+Why do we now have cached copies of f_flags around? That sounds like a
+recipe for getting things out of sync.
 
-On 2026/11/5 03:06, Christian Brauner wrote:
-> codetag_alloc_module_section() takes the codetag type's mod_lock for
-> writing and calls reserve_module_tags() with it held. When that can't
-> reserve the tags, because the section's alignment doesn't fit, because
-> there are too many tags for the page flag bits or because the memory
-> for them can't be allocated, it shuts memory allocation profiling down
-> and removes /proc/allocinfo, still with mod_lock held.
+Anyway, your patch subtly changes the container file we write from
+cfi->cfi_container to host_file and I am not convinced that is a safe
+change.
+
+Yes, host_file is set to cfi->cfi_container but then we call
+venus_access_intent, which is an upcall to userspace which involves a
+context switch and may update the state of the container file.
+
+I am going to have to look at this a bit more carefully because we do
+use that cached host_file pointer to get i_size right after the write,
+so maybe it is safe and as far as I know our userspace cache manager
+only updates in place and never actually swaps the container file.
+
+I haven't looked at this in a while, but I think f_pos synchronization
+was assumed to run through the Coda inode, so the append used the
+coda_inode->i_size to decide where the write would land, but I can also
+see that with the locks being where they are and the access_intent upcalls
+that may not be a valid assumption anymore.
+
+You are correct that we cannot rely on the containers open time flags
+because that container file was opened by the userspace cache manager
+and is passed as an open fd to the kernel.  This handle is then shared
+by all users of the Coda inode, so some Coda file handles could be
+O_RDONLY, others may be O_RDWR, and some O_APPEND.
+
+So I think the core of your patch is probably right, but it may need
+some more careful thought, maybe the use of host_file is ok, maybe the
+i_size needs to be copied from cfi->cfi_container instead of host_file.
+
+Jan
+
+
+> can therefore overwrite existing data instead of appending. For example,
+> writing "Z" to a file containing "abc" produces "Zbc" rather than "abcZ".
 > 
-> remove_proc_entry() waits until every reader of the entry has let go of
-> it, and a reader of /proc/allocinfo takes mod_lock for reading in
-> allocinfo_start() while it holds the entry. So a module load that hits
-> one of those paths while /proc/allocinfo is being read waits for the
-> reader and the reader waits for the module load, for good.
+> Pass RWF_APPEND or RWF_NOAPPEND to vfs_iter_write() according to the
+> incoming IOCB_APPEND state. This also honors changes made with F_SETFL
+> and per-write append overrides instead of relying on the container's
+> open-time flags.
 > 
-> Let a work item remove the entry in that case. The profiling is shut
-> down right away like before, the file just goes a moment later.
-> 
-> Fixes: 4835f747d3ed ("alloc_tag: support for page allocation tag compression")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-
-Thanks.
-
-is this a problem you have hit in practice?
-Sashiko discovered this issue earlier and reported it as follows:
-
-> diff --git a/mm/alloc_tag.c b/mm/alloc_tag.c
-> index 2070e682fe106..112a014d4b890 100644
-> --- a/mm/alloc_tag.c
-> +++ b/mm/alloc_tag.c
-> @@ -950,10 +950,12 @@ static void *reserve_module_tags(struct module *mod, unsigned long size,
->  		int grow_res;
->  
->  		module_tags.size = offset + size;
-> -		if (mem_alloc_profiling_enabled() && !tags_addressable()) {
-> +		if (!tags_addressable()) {
->  			shutdown_mem_profiling(true);
-This is a pre-existing issue, but does this shutdown_mem_profiling(true) call
-introduce an AB-BA deadlock between /proc/allocinfo file readers (pde->in_use)
-and module loading (cttype->mod_lock)?
-A user reading /proc/allocinfo acquires the procfs in_use reference in
-use_pde(), then blocks on down_read(&alloc_tag_cttype->mod_lock) in
-allocinfo_start().
-Concurrently, if a module loads and tags_addressable() fails,
-codetag_alloc_module_section() holds down_write(&cttype->mod_lock) and calls
-shutdown_mem_profiling(true), which removes the proc entry. This removal waits
-indefinitely for the in_use reference to drop to zero, hanging both procfs
-reads and module loading.
-> -			pr_warn("With module %s there are too many tags to fit in %d page flag bits. Memory allocation profiling is disabled!\n",
-> -				mod->name, NR_UNUSED_PAGEFLAG_BITS);
-> +			pr_warn_once("With module %s there are too many tags to fit in %d page flag bits. Memory allocation profiling is disabled!\n",
-> +				     mod->name, NR_UNUSED_PAGEFLAG_BITS);
-> +			release_module_tags(mod, false);
-> +			return ERR_PTR(-EAGAIN);
->  		}
->  
->  		grow_res = vm_module_tags_populate();
-
-I previously sent a patch with a comparable idea, though Sashiko remained unconvinced.
-
-[patch]: https://lore.kernel.org/all/20260817062726.106511-3-hao.ge@linux.dev/
-
-[Sashiko's objections]: https://sashiko.dev/#/patchset/20260817062726.106511-1-hao.ge@linux.dev
-
-Could this patch perhaps wait for mine? No worries if this is inconvenient.
-
-Best regards                                                                                                                                                                                                                                                                  
-Hao
-
+> Fixes: 164f4064ca81 ("keep iocb_flags() result cached in struct file")
+> Cc: stable@vger.kernel.org # 6.9+
+> Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
 > ---
->  mm/alloc_tag.c | 27 ++++++++++++++++++++++++---
->  1 file changed, 24 insertions(+), 3 deletions(-)
+>  fs/coda/file.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> diff --git a/mm/alloc_tag.c b/mm/alloc_tag.c
-> index 82e2c3448dcf..7d7ad6704953 100644
-> --- a/mm/alloc_tag.c
-> +++ b/mm/alloc_tag.c
-> @@ -15,6 +15,7 @@
->  #include <linux/seq_file.h>
->  #include <linux/string_choices.h>
->  #include <linux/vmalloc.h>
-> +#include <linux/workqueue.h>
->  #include <linux/kmemleak.h>
->  #include <uapi/linux/alloc_tag.h>
+> diff --git a/fs/coda/file.c b/fs/coda/file.c
+> index 6ca8bfcb58f2..ae03f0b30d84 100644
+> --- a/fs/coda/file.c
+> +++ b/fs/coda/file.c
+> @@ -71,6 +71,7 @@ coda_file_write_iter(struct kiocb *iocb, struct iov_iter *to)
+>  	struct file *host_file = cfi->cfi_container;
+>  	loff_t ki_pos = iocb->ki_pos;
+>  	size_t count = iov_iter_count(to);
+> +	rwf_t flags = (iocb->ki_flags & IOCB_APPEND) ? RWF_APPEND : RWF_NOAPPEND;
+>  	ssize_t ret;
 >  
-> @@ -604,6 +605,26 @@ static void shutdown_mem_profiling(bool remove_file)
->  	mem_profiling_support = false;
->  }
+>  	ret = venus_access_intent(coda_inode->i_sb, coda_i2f(coda_inode),
+> @@ -80,7 +81,7 @@ coda_file_write_iter(struct kiocb *iocb, struct iov_iter *to)
+>  		goto finish_write;
 >  
-> +static void remove_allocinfo_file(struct work_struct *work)
-> +{
-> +	remove_proc_entry(ALLOCINFO_FILE_NAME, NULL);
-> +}
-> +static DECLARE_WORK(remove_allocinfo_work, remove_allocinfo_file);
-> +
-> +/*
-> + * A module's tags are reserved with the codetag module lock held for
-> + * writing, and a reader of /proc/allocinfo takes that lock with the entry
-> + * pinned. Removing the entry there would wait for that reader for good, so
-> + * let a work item do it.
-> + */
-> +static void shutdown_mem_profiling_async(void)
-> +{
-> +	if (!mem_profiling_support)
-> +		return;
-> +	shutdown_mem_profiling(false);
-> +	schedule_work(&remove_allocinfo_work);
-> +}
-> +
->  void __init alloc_tag_sec_init(void)
->  {
->  	struct alloc_tag *last_codetag;
-> @@ -855,7 +876,7 @@ static void *reserve_module_tags(struct module *mod, unsigned long size,
->  		align = 1;
->  
->  	if (!ensure_alignment(align, &prepend)) {
-> -		shutdown_mem_profiling(true);
-> +		shutdown_mem_profiling_async();
->  		pr_err("%s: alignment %lu is incompatible with allocation tag indexing. Memory allocation profiling is disabled!\n",
->  			mod->name, align);
->  		return ERR_PTR(-EINVAL);
-> @@ -905,14 +926,14 @@ unlock:
->  
->  		module_tags.size = offset + size;
->  		if (mem_alloc_profiling_enabled() && !tags_addressable()) {
-> -			shutdown_mem_profiling(true);
-> +			shutdown_mem_profiling_async();
->  			pr_warn("With module %s there are too many tags to fit in %d page flag bits. Memory allocation profiling is disabled!\n",
->  				mod->name, NR_UNUSED_PAGEFLAG_BITS);
->  		}
->  
->  		grow_res = vm_module_tags_populate();
->  		if (grow_res) {
-> -			shutdown_mem_profiling(true);
-> +			shutdown_mem_profiling_async();
->  			pr_err("Failed to allocate memory for allocation tags in the module %s. Memory allocation profiling is disabled!\n",
->  			       mod->name);
->  			return ERR_PTR(grow_res);
+>  	inode_lock(coda_inode);
+> -	ret = vfs_iter_write(cfi->cfi_container, to, &iocb->ki_pos, 0);
+> +	ret = vfs_iter_write(host_file, to, &iocb->ki_pos, flags);
+>  	coda_inode->i_size = file_inode(host_file)->i_size;
+>  	coda_inode->i_blocks = (coda_inode->i_size + 511) >> 9;
+>  	inode_set_mtime_to_ts(coda_inode, inode_set_ctime_current(coda_inode));
+> 
+> base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+> -- 
+> 2.43.0
 > 
