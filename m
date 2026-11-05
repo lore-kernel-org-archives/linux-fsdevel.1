@@ -1,44 +1,44 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793840403;
-	b=LnFJvSQU8vLo+3YbDfGBuz3XG1IQFRN8HIwgRoGn/iNaxzwZJ6flBR9VRfjGJJD1QDNb
-	 fMvHAfilvsWtXSHAJR+xubX4dbPrP5g3AwpQ+E/qOjQwp7R5nV+cDD9QzgjhTEP06Z1uI
-	 9ig7+X5XoYzCdTHEHYolyIQnSmXQC+pZFcR7DHz1kE3nVwufRr/gX2df21+fD4QLT+obQ
-	 K2Iq2Aj0MBJbEo0RYDPkNYVO/FFNepL/fSOhkk3d+Edv3IgWwkuOxPdLMxf0UCNGUznLv
-	 1mTdIWvQQyC1KjIOm+dQ383amaDdZEkKazspByc1UQXtOUpVDTMq7u/uKFh6VW60txw==
+	t=1793840398;
+	b=CLV1clSf0FRblweiJ2fZT/kh2TfJE/+kXUxoNmDViXm/OisYLHolFwc0XJy33FAb+RtJ
+	 vjnlnfmBoL6Uq9CY8dV9fKAG2UnmUrfEdoimNsI0mV0csrk2b5fvOJUT6Fth87/d/idSk
+	 O+0/tkqkHy0PmhZy725jV6T6XMoGpLLBfqGKQSFgIZrnAsuiMIzKVQKVpvRgz0b+mgjBY
+	 3HtWETqZj7PabFUkM3XU69SfQl+dmS40PS0TKzYigsvZ2I6OSPB2mlCmg/hXLZPZRS+d7
+	 w95I+WJUyG7KhFjw7YTx0RUAEGA+ttroV+o0Tn53u0xOD7+H8+FFM9X/u2oB/BUApdQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793840403;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793840398;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=bOcwL6zhtyGOHBUswyF1+2aNaITZbxKLwJZbZHfIdEs=;
-	b=Chg124C8oFDqy9z9k864gy8s/ftNTl7Es28EqtAjuKgEcSMpI7i4zKjOzwYPtet5tnJb
-	 3ammt57vrAy0ECbijoeyB12LGbi6Ldya/b24kYvwC3DRaBkC/WDATBOuC75w8XmQwbNeJ
-	 7Ua/0F0otpDLeXQQSSgCw+yRGG6CHTlYJJKiP+ykyV2vYltJdfVotYyJ044qrP/xHdNv5
-	 1TAnRlkj30GjBsnnv28wRy32Xa7a8C34iPlhQR8lqKqBbYrBc7Y/SoVmeH4Hs/cZHBGY6
-	 WgFzJWz/RedPtHA1abEPioWBtouGkuLl3Nmh9xTnwh0BHeETVdYiSwrVdP0FuDArgjA==
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=5ghn81JNo/X4bGl6s6oEWHPZ6Ik7xjUHUPnVmecnXK8=;
+	b=WQeP7CXJGMXgT2EYvwYtyQYW+cz6L4a7rsq9CTfz/O9t1yBjD3BM6UJEcnCXZ0fo2IJ9
+	 zwYSYUUn0LLn5EPvew2DJkYoxMgm55OSA4YxAGqoyy7XkhG3Aky2aTc73InObwDT+ncsg
+	 sQB5AIdDG+oZbONpiUvIzm4PSnZ6z2bBpuBVt9p1+Jd+MoPr3jp/qdQhOqGdi1NNsAxfd
+	 Z/CNKQYxcw8HABzGUrzjuQ3iXDP9QZiAFxt0Ft5ekUJTme+KZxHL3aI+p9Zid6PSmjB3J
+	 YCisneEj+rNZRYcByWMPk5ybeZ8Gv7cAJ2pP9jT8tMCReMXMh65VwqSXLYzA5vxxxdw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="WmHn/Z55";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ihPLacdM;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2435606A32C;
-	Thu,  5 Nov 2026 01:00:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DABA4606A31B;
+	Thu,  5 Nov 2026 00:59:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WmHn/Z55
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 343FF1F00919;
-	Thu,  5 Nov 2026 00:59:58 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ihPLacdM
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A97C81F000C1;
+	Thu,  5 Nov 2026 00:59:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793840402;
-	bh=bOcwL6zhtyGOHBUswyF1+2aNaITZbxKLwJZbZHfIdEs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=WmHn/Z55HXmaQqq/YpT4MNb7PxFJ4H7cmFpM3PTSVrSrTbBRDa4TLlN+AEFR3AOo+
-	 Owwwr/VRraxtuIYN4kSMGb3zu9eObJwhR+aDrVlnZqjrAgz6K2LZCzl21gqrxRjb4L
-	 p0ThB3UhqX1Yf0YtMDf1oZDvksXXgg2r8cmycVn+ECcYGgDsuGRgdO1kV4O13S4mKA
-	 lceKkdGmGlkOc9fbFXpdWP29Hww4IaSn6n/JVudQoHWB9efnUH72RNlGvGu29/XJer
-	 G4VCo+aePUdVYXKPfhki16yl73XRquj4wuX5wHgOkShwefbBtEuFu82dqyY1NlzePu
-	 P7p664+X//hMw==
+	s=k20260515; t=1793840397;
+	bh=5ghn81JNo/X4bGl6s6oEWHPZ6Ik7xjUHUPnVmecnXK8=;
+	h=From:To:Cc:Subject:Date;
+	b=ihPLacdMqCNrFzO8n7joRxaZ9vap3HjXn/9/X23dw73mWTRIO++0cGYGQlSJtbysZ
+	 gHaAGDNuzh4fmVsqzFzdbqfVCz3TuncksUYgCn7ThqS7yvfJWGqbJeQSF/ubrD9F1q
+	 +8TLVfQ32qBcIcUX6pzkyV8K+hXE0YBuLshQ40lsioUV8uauGIEuIdfKO3xPluuKf+
+	 yzCvHBSm/764ORRpJWvefLVbmmMYw+SMZ8PfhuRR2qKwioJZKp8XkD1VV3sjcCJm0A
+	 i7YN4De/x3mhBEB8laYPLu2M8le27Svr2Ez7XuY7ZadYLnwoKLa0wCTSzFtMDn/YrN
+	 OZuvdHZXDOl/Q==
 From: Danilo Krummrich <dakr@kernel.org>
 To: boqun@kernel.org,
 	gary@garyguo.net,
@@ -60,12 +60,10 @@ To: boqun@kernel.org,
 Cc: linux-kernel@vger.kernel.org,
 	rust-for-linux@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org
-Subject: [PATCH v2 1/5] rust: task: add safe schedule_timeout() wrapper
-Date: Thu,  5 Nov 2026 01:59:38 +0100
-Message-ID: <20261105005951.756157-2-dakr@kernel.org>
+Subject: [PATCH v2 0/5] rust: sync: add WaitQueue infrastructure
+Date: Thu,  5 Nov 2026 01:59:37 +0100
+Message-ID: <20261105005951.756157-1-dakr@kernel.org>
 X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261105005951.756157-1-dakr@kernel.org>
-References: <20261105005951.756157-1-dakr@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -77,48 +75,46 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a safe wrapper around schedule_timeout() that takes and returns
-Jiffies, handling the c_long conversion internally.
+Add a WaitQueue abstraction wrapping struct wait_queue_head, providing
+wait_event()-style methods that take a condition closure directly.
 
-Signed-off-by: Danilo Krummrich <dakr@kernel.org>
----
- rust/kernel/task.rs | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+This is needed for a (subsequent) DRM patch series to wait for in-flight file
+close operations during driver unbind. The Tyr driver also needs it for "CSF
+firmware responses and other GPU-driven events" [1].
 
-diff --git a/rust/kernel/task.rs b/rust/kernel/task.rs
-index 3336df493dec..a733816fd5dd 100644
---- a/rust/kernel/task.rs
-+++ b/rust/kernel/task.rs
-@@ -10,6 +10,7 @@
-     pid_namespace::PidNamespace,
-     prelude::*,
-     sync::aref::ARef,
-+    time::Jiffies,
-     types::{NotThreadSafe, Opaque},
- };
- use core::{
-@@ -20,6 +21,21 @@
- /// A sentinel value used for infinite timeouts.
- pub const MAX_SCHEDULE_TIMEOUT: c_long = c_long::MAX;
- 
-+/// Sleeps for the given timeout in [`Jiffies`], or until woken.
-+///
-+/// Returns the remaining time in [`Jiffies`], or zero if the timeout expired.  The task state
-+/// should be set before calling this.
-+///
-+/// Timeouts at or above [`MAX_SCHEDULE_TIMEOUT`] mean an indefinite wait. In that case, the return
-+/// value is `MAX_SCHEDULE_TIMEOUT` as [`Jiffies`].
-+#[inline]
-+pub fn schedule_timeout(timeout: Jiffies) -> Jiffies {
-+    let timeout = timeout.try_into().unwrap_or(MAX_SCHEDULE_TIMEOUT);
-+
-+    // SAFETY: `schedule_timeout()` is always safe to call.
-+    unsafe { bindings::schedule_timeout(timeout) as Jiffies }
-+}
-+
- /// Bitmask for tasks that are sleeping in an interruptible state.
- pub const TASK_INTERRUPTIBLE: c_int = bindings::TASK_INTERRUPTIBLE as c_int;
- /// Bitmask for tasks that are sleeping in an uninterruptible state.
+Convert CondVar (and PollCondVar) to use WaitQueue internally, removing
+duplicate code using WaitQueue as the base primitive and add
+wait_interruptible_freezable_nonexclusive() for subsequent binder usage.
+
+Changes in v2:
+- Drop the already merged workqueue patch.
+- Make as_raw() public.
+- Split error types and use bindings constants for direct C calls.
+- Avoid condition rechecks after success.
+- Check the condition before preparing a waiter.
+- Add non-exclusive wait support, including a CondVar method for subsequent
+  Binder conversion.
+- Handle zero and expired timeouts before interruption; extend KUnit coverage.
+
+[1] https://lore.kernel.org/dri-devel/20260721151423.444175-2-laura.nao@collabora.com/
+
+Danilo Krummrich (5):
+  rust: task: add safe schedule_timeout() wrapper
+  rust: sync: add WaitQueue infrastructure
+  rust: sync: convert CondVar and PollCondVar to use WaitQueue
+  rust: sync: condvar: use task::schedule_timeout()
+  rust: sync: condvar: add non-exclusive freezable waiting
+
+ rust/kernel/sync.rs         |   8 +
+ rust/kernel/sync/condvar.rs | 134 ++++-----
+ rust/kernel/sync/poll.rs    |  19 +-
+ rust/kernel/sync/wait.rs    | 524 ++++++++++++++++++++++++++++++++++++
+ rust/kernel/task.rs         |  16 ++
+ 5 files changed, 612 insertions(+), 89 deletions(-)
+ create mode 100644 rust/kernel/sync/wait.rs
+
+
+base-commit: 41871f4ddf710339863f957bcfcab5094c234771
 -- 
 2.56.0
 
