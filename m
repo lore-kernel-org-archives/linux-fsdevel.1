@@ -1,88 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793890723;
-	b=xJO0Q5Z2+lTCLpg0CfJhkcz73cEzxpaipFH00c7KLBL+vofFEG245d4yYop3zbOSCAnG
-	 XeCsBQby/wvReQqMVYkmiMkfFIeHmEq9pKwfK9gIIT6hLKhS/k+6oTmrYFRQuHEKX5yWY
-	 GBEE/7bvMJbI5EahbbCgaCNsrRR4Jal/htG0l0xes5ypIMjknxGVUYxC3XheD+bfxgtvr
-	 ZEX5wkyU+AmPO1kzlQ1jI/08XLMk5ilEcPgs75KmRX5j7Rfe++WHK1g0X0FQRbxDK3L2v
-	 jYiQtUz27vebi3MdH1HbLZqa2hBavFzgZdmyAJFutSnOaz4eC8yBiYCNRzurhbPuh4g==
+	t=1793890725;
+	b=FmOonlui2HGtJm11RHAE2cyY5T+Jm43JjSFHQ1VizF5hflV5J/LQTsjhX96jO6t5w8Wx
+	 9mw3M9TXC9UbIC/SkeQy4dkBAxshNLBWOzGTwo4CHIEFFXwYc2bEH0n31yJmzgicHcYuj
+	 7446vd9d3iOlTJT8v2MKIyE3/c//IoGt3ouUCwbl6s90RVoiclH6eyH4DpkWn1ZSO44Os
+	 EfimQ05qJfuF6pquYU/eJPV5tNJv7AnF1IMftnpNC0quOBVN7PUxnFlJGlTQ7Sm7n2R6A
+	 PuB9cGEUETLVxP2RQ59yz+I3bLudljuolJgwBD8TM+TzfW1GBxhVLqvXzCb1KoxJLng==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793890723;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793890725;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Date:Subject:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
 	 References:In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=GXf1OlJCBQmaXmhy+CXLnH1C6s0TuF7O4mjKSnLUX/0=;
-	b=ISpbUgrOfF/cBKhRfM1+N5FQqC4DBrXmkBq/CcRrEUhmVbmJqzDxLSXmGlW/OCrEziGb
-	 t3fXlwvwiZsumublHmxQSPtTFyZ3xra+BzmSVkq3lDlkgmVXg3azbKHoEGqBLuaIcgqGs
-	 FKEEU5h0BSdpXdX+ycgsFege5+uJEKfR8Cx1Qyg2QyVwx2V9RtyKZVxMlW/iCv+W46mPx
-	 d58zoAeIf2+MjIgpl+2rrKKdgXR1u+XF4C7RO3JnZhhst8KdYheILF6KpY5qi0s+WSkfu
-	 ojwLiDp93+/0pPo/xQxyr8QlPiiBFGKwAkj0u+fNAo0r/R74llgIAL8Y0XMr9G+6oKg==
+	bh=buOTmB6dMBkT+g+e+VlChs8aFr20egJQvSL81OYURcg=;
+	b=28KUSGptuYD25DJcf0OR6H/YgR9/f/I6JJFA/6I7CPnVKPWMrmYBjWhMTu8ixdZejCfq
+	 gfUG2x8DYOegn9+r3JboFTzVT9rLDn4WpF9h6zrFqehgETsUr28sl39RiMPkDigMtSQ6A
+	 UrH7Rl6Tcdtwx++197uvXr35Bc3E3ueFM2U3biDYvRYETlqP37vWaSsvDjv8WypatJ+PJ
+	 +25sYfxw4JQP+NqDlHwYFco0JHcmMQSy0AdJ06rI38h6hxEc/sY5a5jSFq/bq6K4mANyD
+	 DskT9zWskvfEnmJdMGgYVGmIrjYW2OfCicRHTRPypeMMv1uqpcpX18gkFKlEGXGs5hQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=toxicpanda.com;
 	spf=pass smtp.mailfrom=toxicpanda.com;
-	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=Q1YEybis;
-	arc=none smtp.remote-ip=209.85.219.48
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=erkvnXUk;
+	arc=none smtp.remote-ip=209.85.210.48
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 836DB606A328
-	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 14:58:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 836DB606A328
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BA966082BD5
+	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 14:58:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6BA966082BD5
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=Q1YEybis
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-91ea0c05c92so3719596d6.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 06:58:42 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=erkvnXUk
+Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-843b6f8e2c7so2154593a34.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 06:58:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toxicpanda.com; s=google; t=1793890721; x=1794495521; darn=vger.kernel.org;
+        d=toxicpanda.com; s=google; t=1793890723; x=1794495523; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=GXf1OlJCBQmaXmhy+CXLnH1C6s0TuF7O4mjKSnLUX/0=;
-        b=Q1YEybisqf9RratfUVhww3ffmdabO6RJUlY0jEz2D9vkyQxAVyei5+myI7WQhg0S+Y
-         JCapHhQqvsM/oIYbE2RENSxJ3FGNEGWqDUFl03gN+5ev1ks4eXcAbamzT4rn9r7mcE1K
-         TyN0WGwROnpEusPea82iudPWn9jf38feFz5JJuof/4EYyPSLtBgAzOjK0Q8LV78vt1yg
-         J0WQdIKh6SpHrC5t7vgS5AKlm4eS/pI5S50AsRxZm7vRCoc+or1rjAbie8QaTkqUj3BT
-         B1/Dz3yLnQxBOGH8CnxzPhQ3FYg2OFp/U3koyp+I/BYWI0C85CIEx///RwqiVKWi8qJ9
-         a+VA==
+        bh=buOTmB6dMBkT+g+e+VlChs8aFr20egJQvSL81OYURcg=;
+        b=erkvnXUkm8aB2WnNzJftRRZ+DY3KmyWhLQBiAKN1H+E+7MIfMDO4BygWkJitjRi0tL
+         cnfkpd94djLeGz3mN70uZ33o0JmOLYklG8e0TwPcNsQIg1NYFGGAd6JWlVqIzAUeDcQ3
+         pqqu34NBupkb5GpKm+UgO0gjR+83usYZ9gGULpRsYk/wa2s0m5nkhcjWf0DQavjoiuN/
+         cy8XmZPnhKkPTlZecESnfgTDBgXPR+j69xMEHk4m68csit0fOUcImvWWIFIXKMC1oET2
+         Xz2T13iY/behXTjKiAUgT6D1d+pxgcdhOBk96ojdwKohdM2q1JuItqbnKUj7JVvTvI1e
+         OGjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793890721; x=1794495521;
+        d=1e100.net; s=20260707; t=1793890723; x=1794495523;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=GXf1OlJCBQmaXmhy+CXLnH1C6s0TuF7O4mjKSnLUX/0=;
-        b=CNi2mG6vD2ZjHagz2C9a8mrhnEIJK2yrC8RFK/hMIyQhLS4l3hCkpWRKeMBAYha0jU
-         7Z2d4Xm80Qb81kW9XY4GO804ci8sIYddY3YsREs7ttdmW5vTTBLbh4HxDOeVY/nn+WGl
-         O7HDCUeTHZbieb5ug1kRZcsEL4rATi3sSP72pY3B7eB0zrKbPyK3SXN4DtpoAWArbzGd
-         CXhyr50PaQ8f1J1uLmhOfiaDXOtDDv0r6jOgvTPThfCJw0epQKeGkFLf5N/SotYrC4M0
-         OLrjxwEuDrjIwapVdsirq/Tsqog74GmAycY9BENsSv5/4X7sJpyZaCHFZjg2NfpHWT6X
-         kQ0w==
-X-Gm-Message-State: APuU4Z+MGi0/HTbRC+MAPr8SAeC/xgubgSvKnefw5VBUon4Z1J9QRFhn
-	4/5QpluvpzR93e4S33eZR6elQ7xmKLCBo/xiKXKsHXJuBh+Ac/ppibGSslXxW7AjB4c=
-X-Gm-Gg: AYBFou18LjM6qwOgurt2VC5EEHzWRZf33ljog8SZgNVaMCd6YJovHB2UWOmMtke6781
-	IKDXQPelesU58rUpP72WsKNGeZtcLqhk/aRnYADCfIZ+s7WgRe0ydF7gTmHZmJF1uH51c8nxtz6
-	1ZJB5KrJYXoqacnCWQUoThHa+E0nAdaac6L/YiiZNZVIz6ywV7LPC05xwIc2+R9wMU1M4VzA/wK
-	s1Z6kZg/TYK5419X/Gjrec9fvQePZCe+p+PWlG1xOBWHpIECLz3JxKV0V60bBF6xOluoyD6T2yZ
-	lGCIZBxdqev8wGr43S0BLfhGRv403SF9SgYOnqRtKwTt2Ui53clwBdA51sjRV4I8wfjeBLLWgYl
-	WWbNtn4BtjQ2IqMzETND0vvOLNfTMi77K7UQ15LC4f1uV3VmL2Q9fcl/UuDU6yaty/fdsK6WY/6
-	RddPDhHw1edelLjFEem1Lg6a2ipleRO6tqcaMK4TbeXUIsyfMg5ghM7g+cPvGTuIe0hKADt2E29
-	eC5CcDP91hQWO1HULqPoSCWjAZVNhZbpw2CbyQkxGMw/LS4yBREiP6ey+0xvZT9N0A2XJbHgy6P
-	v2RHrsRybQVm9xOig99P06dAX3sDbgTRv5c5rOWWBfmklg==
-X-Received: by 2002:a05:620a:a90c:b0:945:d852:15fb with SMTP id af79cd13be357-945d85226ccmr643932285a.69.1793890721539;
-        Thu, 05 Nov 2026 06:58:41 -0800 (PST)
+        bh=buOTmB6dMBkT+g+e+VlChs8aFr20egJQvSL81OYURcg=;
+        b=uw4fFmCL4KQsNjjQ8OG+QZnMIv67MTcq38K/3vAzI3Dr2S78eBtJlftnkERNShVDFe
+         COwF5jl3ngQT24DM5hAjqwURrNyECe9CeWLu8jToaRUHVwyyyMEsWYbiAc3dfa0VyfJW
+         cQASgeEL3fcK6MZwOTGFaXpM3/Zz6gbwDNrRErnn4INZTbZ8lUvBf9b1DmlfOzTQ64xU
+         J9DUqp9IfSUp4eOfA9bV1fRnE7QKwNh4YF+tEt3u6JODX8AVP7JuWf52DFYUc2WXhXsz
+         NYKS+HjvHCZDxqIwWZYTBYduYJK0MGWPHeE1ThaSC90whDoctlHMiekR6ltoPqYPTDqC
+         jdoA==
+X-Gm-Message-State: APuU4Z+5umQDdC65W8AFGqFH3/UNFxpe91oowFbVk1t3lGMm6nUDjd8P
+	pnS4NZ9AznoWtGOHCHEFoAMyyqV9MfeqElozLNvT29qDp0syOo90VvmcXaHW5wTmiyrY8HVXhnN
+	Eh4r6w8E=
+X-Gm-Gg: AYBFou1ZFBOG5u6r0lES0dk9D9DutEdyEdM2ojvj6ofyB8IdU5B8Rz6Lepg2Ui410QS
+	HLDX+GSohGhhjdn2fNajv/kNGWhRTVCBvhu+GLPldyiGsBDAOd5/Srns/sGIgSaAiVnIa0rh+YX
+	lXl6fXsmGqYZnVrSAwR+X+SZ1WtaX+ifzPlPSqPoDlHFF/CINDCnVOnpTBFCCanspEpyloSnbvo
+	cmLgRrCcKvROL5Av9WOo+lnmyRLHZ+aEJi3b6ziziVBhzk3J1wYovMdIPSMMsW0PDqeWXNWtw4P
+	x4rDdOVYMbBcHtwy4/XO0NSK3WifOIyn/Qzfn3DlefR3JoTphNM5tGmt0S27GDx8FqVrfnurqdu
+	y5eOXJDeFa41guvUYMbsnwQ9FViozBisH75gpGXSFVDqlHgwRal8Fh/sJQmMB+JKTef6JM8WD7H
+	fYEYs86ym5/L4Jy/WlwjGk8NX2kAhiB9PBVMUy2uQFAeO5iKv7s5d978EJdd1nbpn1Ot9vOpYhi
+	prCnerSYLlqRv0BICGacn+5kGenyY3lQSxNZoJQnzGTr6ABToZShGsZMTvtz9Y67OSgoBIZmeyX
+	fcneqoptj8IVG3PJfrdKBDnHGVtGtFxfS7sr0NYgGMIeTw==
+X-Received: by 2002:a05:6830:25d6:b0:829:9992:20e7 with SMTP id 46e09a7af769-85d366454f8mr16577501a34.30.1793890723347;
+        Thu, 05 Nov 2026 06:58:43 -0800 (PST)
 Received: from toxicpanda.com ([153.61.196.242])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-945d4691a76sm480799185a.4.2026.11.05.06.58.33
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-85ef3e603b9sm4639148a34.20.2026.11.05.06.58.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 06:58:33 -0800 (PST)
+        Thu, 05 Nov 2026 06:58:42 -0800 (PST)
 From: Josef Bacik <josef@toxicpanda.com>
-Date: Thu, 05 Nov 2026 14:57:13 +0000
-Subject: [PATCH RFC v3 22/90] nsfs: make open_namespace() available outside
- of fs/
+Date: Thu, 05 Nov 2026 14:57:14 +0000
+Subject: [PATCH RFC v3 23/90] nsproxy: build the nsproxy the tasks of a
+ cell share
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -94,7 +95,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261105-b4-cells-v3-22-bc9095937a84@toxicpanda.com>
+Message-Id: <20261105-b4-cells-v3-23-bc9095937a84@toxicpanda.com>
 References: <20261105-b4-cells-v3-0-bc9095937a84@toxicpanda.com>
 In-Reply-To: <20261105-b4-cells-v3-0-bc9095937a84@toxicpanda.com>
 To: Christian Brauner <brauner@kernel.org>, 
@@ -105,101 +106,144 @@ To: Christian Brauner <brauner@kernel.org>,
 Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Josef Bacik <josef@toxicpanda.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openssh-sha256; t=1793890670; l=2897;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1793890670; l=4299;
  i=josef@toxicpanda.com; h=from:subject:message-id;
- bh=Cpw5XQSfeFmZprja2NttUNWqBgRPkOiqn9DKgMo3mh0=;
+ bh=0xMERCPZyIg8/DpTITYMjSEaKK9pIKI3JZmJ5dj+u00=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgUBr36M/n0nWN0DNbnxwzIiCZez6MG
  JiruuNaSCI/zXsAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QD+MLZs/TNSwTZKPOX+qke7bv+zAZmNRB+WjjWQ7blBmR6YEQpDrGqRPyvBZlkRia4JYKMoU+gu
- W1AUe+gcDXw8=
+ QCAXUMNK5XT1BglVpSfYJxXcdL2YqKiUKoGCbB+p1RuwNLSINsd+5TtlA8aIZenFz5CtnZ5Gt3s
+ UK/ZuPhPFrQ0=
 X-Developer-Key: i=josef@toxicpanda.com; a=openssh;
  fpr=SHA256:C8kOX2QUJCMqnCX+KEeoqRAjLo9L+ELOSH2NSAJHqGA
 
-While a cell is being built it hands out nsfs file descriptors for its
-network and pid namespaces. That code lives in kernel/cell/ and needs
-open_namespace(). Move the declaration from fs/internal.h to linux/nsfs.h.
+The namespaces of a cell are a property of the cell, not of its tasks. A
+task of a cell can call neither unshare() nor setns(). So a single
+nsproxy, created when the cell is sealed, can serve every task that the
+cell will ever have.
 
-The name is too generic for a function that is visible everywhere. Rename
-it to ns_open_namespace(), in line with the other functions that are
-declared in that header.
+Add cell_create_nsproxy(), which builds that nsproxy from the namespaces
+in the slots of the cell. The uts and ipc namespaces are always new.
+Objects in a shared ipc namespace would be owned by ids of the cell and
+could outlive the cell. The time namespace is that of the builder.
 
 Signed-off-by: Josef Bacik <josef@toxicpanda.com>
 ---
- fs/internal.h        | 1 -
- fs/nsfs.c            | 6 +++---
- fs/pidfs.c           | 4 ++--
- include/linux/nsfs.h | 1 +
- 4 files changed, 6 insertions(+), 6 deletions(-)
+ include/linux/nsproxy.h |  9 +++++++
+ kernel/nsproxy.c        | 67 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 76 insertions(+)
 
-diff --git a/fs/internal.h b/fs/internal.h
-index 2ce49dff6ee1..8446aed78466 100644
---- a/fs/internal.h
-+++ b/fs/internal.h
-@@ -251,7 +251,6 @@ extern void mnt_pin_kill(struct mount *m);
-  * fs/nsfs.c
-  */
- extern const struct dentry_operations ns_dentry_operations;
--int open_namespace(struct ns_common *ns);
- struct file *open_namespace_file(struct ns_common *ns);
+diff --git a/include/linux/nsproxy.h b/include/linux/nsproxy.h
+index dc2447f5f092..02101d96e4dd 100644
+--- a/include/linux/nsproxy.h
++++ b/include/linux/nsproxy.h
+@@ -12,6 +12,9 @@ struct ipc_namespace;
+ struct pid_namespace;
+ struct cgroup_namespace;
+ struct fs_struct;
++struct cell;
++struct net;
++struct user_namespace;
  
  /*
-diff --git a/fs/nsfs.c b/fs/nsfs.c
-index 8179d69da038..2c7165bb6739 100644
---- a/fs/nsfs.c
-+++ b/fs/nsfs.c
-@@ -113,14 +113,14 @@ struct file *open_namespace_file(struct ns_common *ns)
+  * A structure to contain pointers to all per-process
+@@ -101,6 +104,12 @@ void switch_task_namespaces(struct task_struct *tsk, struct nsproxy *new);
+ int exec_task_namespaces(void);
+ void deactivate_nsproxy(struct nsproxy *ns);
+ void nsproxy_free(struct nsproxy *ns);
++struct nsproxy *cell_create_nsproxy(struct user_namespace *user_ns,
++				    struct mnt_namespace *mnt_ns,
++				    struct pid_namespace *pid_ns,
++				    struct net *net,
++				    struct cgroup_namespace *cgroup_ns,
++				    const char *hostname);
+ int unshare_nsproxy_namespaces(unsigned long, struct nsproxy **,
+ 	struct cred *, struct fs_struct *);
+ int __init nsproxy_cache_init(void);
+diff --git a/kernel/nsproxy.c b/kernel/nsproxy.c
+index 2dcf105e8ee2..bfdd392f4007 100644
+--- a/kernel/nsproxy.c
++++ b/kernel/nsproxy.c
+@@ -28,6 +28,7 @@
+ #include <linux/cgroup.h>
+ #include <linux/perf_event.h>
+ #include <linux/nstree.h>
++#include <linux/cell.h>
+ 
+ static struct kmem_cache *nsproxy_cachep;
+ 
+@@ -242,6 +243,72 @@ int unshare_nsproxy_namespaces(unsigned long unshare_flags,
+ 	return err;
  }
  
- /**
-- * open_namespace - open a namespace
-+ * ns_open_namespace - open a namespace
-  * @ns: the namespace to open
-  *
-  * This will consume a reference to @ns indendent of success or failure.
-  *
-  * Return: A file descriptor on success or a negative error code on failure.
-  */
--int open_namespace(struct ns_common *ns)
-+int ns_open_namespace(struct ns_common *ns)
++#ifdef CONFIG_CELLS
++/**
++ * cell_create_nsproxy - make the nsproxy every task of a cell shares
++ * @user_ns:   the user namespace of the cell
++ * @mnt_ns:    its mount namespace
++ * @pid_ns:    its pid namespace
++ * @net:       its network namespace
++ * @cgroup_ns: its cgroup namespace
++ * @hostname:  its hostname
++ *
++ * The nsproxy never changes: a task of a cell can neither unshare() nor
++ * setns(). It takes its own references. The uts and ipc namespaces are always
++ * fresh, the time namespace is the caller's.
++ *
++ * Return: the nsproxy, active and with a reference for put_nsproxy(), or an
++ * ERR_PTR().
++ */
++struct nsproxy *cell_create_nsproxy(struct user_namespace *user_ns,
++				    struct mnt_namespace *mnt_ns,
++				    struct pid_namespace *pid_ns,
++				    struct net *net,
++				    struct cgroup_namespace *cgroup_ns,
++				    const char *hostname)
++{
++	struct nsproxy *cur = current->nsproxy;
++	struct nsproxy *nsp;
++	int err;
++
++	nsp = create_nsproxy();
++	if (!nsp)
++		return ERR_PTR(-ENOMEM);
++
++	nsp->uts_ns = copy_utsname(CLONE_NEWUTS, user_ns, cur->uts_ns);
++	if (IS_ERR(nsp->uts_ns)) {
++		err = PTR_ERR(nsp->uts_ns);
++		goto out_free;
++	}
++	/* Nobody else can see it yet. */
++	strscpy_pad(nsp->uts_ns->name.nodename, hostname);
++	strscpy_pad(nsp->uts_ns->name.domainname, "(none)");
++
++	nsp->ipc_ns = copy_ipcs(CLONE_NEWIPC, user_ns, cur->ipc_ns);
++	if (IS_ERR(nsp->ipc_ns)) {
++		err = PTR_ERR(nsp->ipc_ns);
++		goto out_uts;
++	}
++
++	nsp->mnt_ns = mnt_ns_get_from_common(from_mnt_ns(mnt_ns));
++	nsp->pid_ns_for_children = get_pid_ns(pid_ns);
++	nsp->net_ns = get_net(net);
++	get_cgroup_ns(cgroup_ns);
++	nsp->cgroup_ns = cgroup_ns;
++	nsp->time_ns = get_time_ns(cur->time_ns);
++	nsp->time_ns_for_children = get_time_ns(cur->time_ns);
++
++	nsproxy_ns_active_get(nsp);
++	return nsp;
++
++out_uts:
++	put_uts_ns(nsp->uts_ns);
++out_free:
++	kmem_cache_free(nsproxy_cachep, nsp);
++	return ERR_PTR(err);
++}
++#endif
++
+ void switch_task_namespaces(struct task_struct *p, struct nsproxy *new)
  {
- 	struct path path __free(path_put) = {};
- 	int err;
-@@ -142,7 +142,7 @@ int open_related_ns(struct ns_common *ns,
- 	if (IS_ERR(relative))
- 		return PTR_ERR(relative);
- 
--	return open_namespace(relative);
-+	return ns_open_namespace(relative);
- }
- EXPORT_SYMBOL_GPL(open_related_ns);
- 
-diff --git a/fs/pidfs.c b/fs/pidfs.c
-index 114d2713a79e..ef305cc359eb 100644
---- a/fs/pidfs.c
-+++ b/fs/pidfs.c
-@@ -709,8 +709,8 @@ static long pidfd_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
- 	if (error)
- 		return error;
- 
--	/* open_namespace() unconditionally consumes the reference */
--	return open_namespace(ns_common);
-+	/* ns_open_namespace() unconditionally consumes the reference */
-+	return ns_open_namespace(ns_common);
- }
- 
- #ifdef CONFIG_COMPAT
-diff --git a/include/linux/nsfs.h b/include/linux/nsfs.h
-index 731b67fc2fec..4cb87c7644a2 100644
---- a/include/linux/nsfs.h
-+++ b/include/linux/nsfs.h
-@@ -23,6 +23,7 @@ bool ns_match(const struct ns_common *ns, dev_t dev, ino_t ino);
- int ns_get_name(char *buf, size_t size, struct task_struct *task,
- 			const struct proc_ns_operations *ns_ops);
- void nsfs_init(void);
-+int ns_open_namespace(struct ns_common *ns);
- 
- #define __current_namespace_from_type(__ns)				\
- 	_Generic((__ns),						\
+ 	struct nsproxy *ns;
 
 -- 
 2.55.0
