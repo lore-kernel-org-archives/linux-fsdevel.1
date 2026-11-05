@@ -1,55 +1,53 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=160.30.148.34
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793887743;
-	b=l75jlfYO8N8FKd6PapIJlXG7FjcooQnWQ5XQfCsHXJsr5DNU+vTrUQu4UV7PymoBK27W
-	 tLg0j9KtP4ztKb7NDa21mNYbdIY1Dnc1D3dOCg/K47/rHcqAhcRidxrX/DIeD0BzsnTQk
-	 vXHN8VjEQYIiwWJiZNr5vswDRRXQL4RCp/ulozJ8ppwdQgt0UjNY+z2csddRiHfJnVM3Y
-	 idysVsW0YvcCIqLlhLcF2DzOwZfUCiIKUIQPeKxFzKpb6Ew+lxqwMZwRDb09sYAeo2XQ1
-	 2Ckg4u7p89K7ztUFhWd19noYxAqfANOowk92pA1n/B+iC6H3F/k8mB03ffQlNKl+0gA==
+	t=1793887847;
+	b=weCSye8S6iwHoJqhsdwFIG7tOdPyik7b6B1+y3CGUR8cG4hfaQNQn+F5Vw0u+fy9DLSp
+	 dxyQi2Bf51hNYd2Dt7ug/jf6TqnTmeRrf3v3hDx1p2ghxzOgwg6chXC5Y9Ty/3ErF/YP+
+	 Za+5u41hULPBr2XMrmaM0erApkG60qHKaj07P0s5ZFQ6WerUZ6+eX+AmUmfjtUw0FmuP/
+	 4LRO7g53/JXbmj3Kjldyvrj1LVMNxojr+UF9KES0esbNsAKjUJplYbtILdxM7Hjr1W542
+	 rUm2nEHbBrKUkUkUiDCdn16lwSzSOQX+yqARZOfbnTYXtBObccgkPUNREktxw6EdzEw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793887743;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=7ORlx52IHBwtuPXPvsF9LO7shERioECqrO4nOejQrGo=;
-	b=h70ea3CVrP1iYFjnNLTwk8FwicStKD+pUpnzvmpjgMm2eGLcchy+2YWS+f+j3DDKqiGc
-	 CkEJ91l/I4mh6i1GQeifDIhwq2eysgbC4bymCsrxXWqM7Im4GdiUNCYZKu19ESxRCnXfl
-	 k5uZ0f2D8A7Y8KRT1ooO+vR73Q3VkYftbdJfTTxQZnj41cWwTKjkr4uJWHba+58SAcJaP
-	 knaqsJUn8dihR3NtR1cbemzb+0LmlhpFOrJghaJ5a/i8IUlFhRlme9aVo9HraF3CmZZxf
-	 YKrbLRm//sNK/1E9axSZfUp4T0dwKCmaJgdcSeNmUxnXusH2t4NxNcbDPZZkN0vpUfw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793887847;
+	h=DMARC-Filter:Received:Received:Received:X-Zmail-TransId:X-Mailer:
+	 Message-ID:Date:Mime-Version:From:To:Cc:Subject:Content-Type:X-MAIL:
+	 X-TLS:X-ENVELOPE-SENDER:X-SOURCE-IP:X-CLEAN:
+	 X-Fangmail-Anti-Spam-Filtered:X-Fangmail-MID-QID;
+	bh=CibUYVH+7OYY+APiKvZin4in4hp417rNXMuqELO13JY=;
+	b=HrJK+nUxbshogO9+QNKfK7hDsnSkcYjA7OumDEDA7OM2A27pljlRd65TvSpydYQZVkBE
+	 8XzhlMxTz2Td4QH1ixug0+xqnYhlFOXujW51sWSHDDC974+kY1f537OsaPRxckU4Po5xL
+	 Uihxxu8yJsHqDg4stZRogD4bfVSQ6iPo9S4dQdND7cbpP46Nv2TldECjBJzbI6lWI7H0r
+	 k7LRxizLjsbX67ztPjOoE2JPc0hIKfGkFgQ/YIaaoSxh+Qg4eY3vyM+/wkgMhzniQKJhL
+	 DFfKQR8OFIFsYwy/kUvzdpqq8Mcuvknsmz2wCRgtbF6yTx4sDmmuqR12NIbKvIHUI6Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=S0WI5r5o;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=zte.com.cn;
+	spf=pass smtp.mailfrom=zte.com.cn;
+	arc=none smtp.remote-ip=160.30.148.34
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.34])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84D76606A31B;
-	Thu,  5 Nov 2026 14:09:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=S0WI5r5o
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DBBB1F000C1;
-	Thu,  5 Nov 2026 14:09:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793887743;
-	bh=7ORlx52IHBwtuPXPvsF9LO7shERioECqrO4nOejQrGo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=S0WI5r5oAv91NFdiWuD6NPZIvEBFnDLbU4BcQHd3j7wQ74bQOpWH4PXHB7LIEwjOF
-	 1qqsLm2vT3BIg6xDzhsrVKvc8qt7JkcVKfAnI4btdDjc9WwzSeIPyy/8y3gUx0v0aG
-	 pTHXUI5+DlvyePFKgtgv4TaHWkO+amcT1IIoKS1H4TQH0wkAwMeqigs04gBqO+wLyL
-	 hW9yJbUNPOnb60E/1axAV/zjgwH9pQoDdLzK9KJRlwGSUjR5NAGK82S3lH7VlYXY3P
-	 rt6PL0g04TC2mWggvMjbwcNDTqaKpbMS9CKu9NjlWQR8l6xuRXyOJ45AjhjrWmlhh0
-	 W2KbD8wK0BO4Q==
-Date: Thu, 5 Nov 2026 15:08:59 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Alexey Dobriyan <adobriyan@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Al Viro <viro@zeniv.linux.org.uk>, 
-	Christoph Hellwig <hch@lst.de>, Kees Cook <kees@kernel.org>, linux-kernel@vger.kernel.org, 
-	akpm@linux-foundation.org
-Subject: Re: [PATCH RFC 02/16] proc: add pde_pin() and pde_unpin()
-Message-ID: <20261105-parkuhren-zartheit-losgefahren-308a80e8f0c0@brauner>
-References: <20261102-work-procfs-core-v1-2-75df35e4f8b8@kernel.org>
- <f3511970-2224-4b53-9ae7-478320b1c8ef@p183>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86080606A336;
+	Thu,  5 Nov 2026 14:10:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 86080606A336
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4jL43320wKz4yjjB;
+	Thu, 05 Nov 2026 22:10:39 +0800 (CST)
+Received: from xaxapp02.zte.com.cn ([10.88.97.241])
+	by mse-fl2.zte.com.cn with SMTP id 6A5EAUA6074069;
+	Thu, 5 Nov 2026 22:10:30 +0800 (+08)
+	(envelope-from shao.mingyin@zte.com.cn)
+Received: from mapi (xaxapp02[null])
+	by mapi (Zmail) with MAPI id mid32;
+	Thu, 5 Nov 2026 22:10:32 +0800 (CST)
+X-Zmail-TransId: 2afa6aec8e58bcc-eb307
+X-Mailer: Zmail v1.0
+Message-ID: <20261105221032737LKGdHz8FE-EFnNwJuw0N9@zte.com.cn>
+Date: Thu, 5 Nov 2026 22:10:32 +0800 (CST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -58,64 +56,101 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <f3511970-2224-4b53-9ae7-478320b1c8ef@p183>
+Mime-Version: 1.0
+From: <shao.mingyin@zte.com.cn>
+To: <viro@zeniv.linux.org.uk>, <brauner@kernel.org>,
+        <linux-fsdevel@vger.kernel.org>
+Cc: <jack@suse.cz>, <josef@toxicpanda.com>, <linux-kernel@vger.kernel.org>
+Subject: =?UTF-8?B?W1BBVENIXSBtb3VudDogZml4IHN0YXRtb3VudCgpIGFuZCBsaXN0bW91bnQoKSBvbiBlbXB0eSBtb3VudCBuYW1lc3BhY2Vz?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl2.zte.com.cn 6A5EAUA6074069
+X-TLS: YES
+X-ENVELOPE-SENDER: shao.mingyin@zte.com.cn
+X-SOURCE-IP: 10.5.228.133 unknown Thu, 05 Nov 2026 22:10:39 +0800
+X-CLEAN: YES
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 6AEC8E5F.000/4jL43320wKz4yjjB
 
-On Wed, Nov 04, 2026 at 10:03:38PM +0300, Alexey Dobriyan wrote:
-> Permanent flags is set after publishing PDE to the world,
-> so there is a window where +1 is done but -1 is not done.
+From: Shao Mingyin <shao.mingyin@zte.com.cn>
 
-The patch doesn't add this. You did in ef1d61781bc6 ("proc: mark more
-files as permanent") and a61c01e8f4a5 ("proc: mark /proc/cmdline as
-permanent").
+statmount() and listmount() on a foreign mount namespace fail with
+-ENOENT when nothing is mounted on top of the namespace root.  That is
+the case for an empty mount namespace created by
+unshare(UNSHARE_EMPTY_MNTNS) or clone3(CLONE_EMPTY_MNTNS): its only
+mount is the namespace root, a nullfs mount, and no rootfs is mounted
+on it.
 
-Both call pde_make_permanent() after proc_create_single() has published
-the entry.
+Both syscalls resolve the path anchor for a foreign namespace in
+grab_requested_root().  It starts at ns->root and looks for a mount
+whose parent is that root, i.e. the mount covering the namespace root:
 
-And then 912289ee831d ("proc: allow to mark /proc files permanent
-outside of fs/proc/") handed that pattern to the rest of the tree this
-year.
+	for (child = node_to_mount(ns->mnt_first_node); child;
+	     child = listmnt_next(child, false)) {
+		if (child != first && child->mnt_parent == first)
+			break;
+	}
+	if (!child)
+		return -ENOENT;
 
-And the specific split is yours as well from d919b33dafb3 ("proc: faster
-open/read/close with "permanent" files") which put the shortcut into
-proc_reg_open() and proc_reg_release().
+When nothing is mounted on the root the loop finds no candidate, so the
+whole syscall fails although the mount id the caller asks about exists
+in that namespace.  statmount() issued from inside the same namespace
+succeeds, which shows that the mount is fine.
 
-An open in your window lists a pde_opener. The release after it takes
-your shortcut and that pde_opener is never unlisted or freed.
+Fall back to the namespace root itself in that case.  Inside such a
+namespace the root mount is what the members' root and cwd point at,
+so it is the correct anchor; paths below it are resolved relative to
+"/".
 
-So pde_pin() inherits this bug.
+The same condition also occurs for an anonymous namespace created by
+fsmount() or open_tree(OPEN_TREE_CLONE): it contains only the root
+mount itself, and statmount(STATMOUNT_BY_FD) on such a mount fd failed
+with -ENOENT for the same reason.
 
-But to be very clear: The bug is unreachable.
+Fixes: 71aacb4c8c3d ("fs: Allow statmount() in foreign mount namespace")
+Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
+---
+Tested on 7.3.0-next-20261030 (x86_64 QEMU/TCG guest, defconfig
+plus KASAN, no extra hardware).
 
-Every one of those is an initcall. There's zero userspace to open
-anything at that point.
+A child process unshares into an empty mount namespace
+(unshare(UNSHARE_EMPTY_MNTNS)), reads the unique mount ID of its root
+with statx("/", STATX_MNT_ID_UNIQUE) and then blocks.  The parent opens
+/proc/<pid>/ns/mnt and queries that namespace by mount ID.  The mount
+ID is valid: statmount() from inside the child's own namespace returns
+fs_type=nullfs on both kernels.
 
-Fixing it is also easy? We just set the at registration for everything
-that is permanent the same way ->proc_flags already does it and then
-pde_make_permanent() can be killed.
+  unpatched                            patched
+  statmount() ret=-1 errno=2 (ENOENT)  statmount() ret=0,
+                                       mask=STATMOUNT_MNT_BASIC|
+                                       STATMOUNT_FS_TYPE
+  listmount() ret=-1 errno=2 (ENOENT)  listmount() ret=1,
+                                       id=<root mount>
 
-> And then 2147483647 security researchers arrive and overflow it.
+The patched kernel also still returns the mount for
+statmount(STATMOUNT_BY_FD) on a mount fd obtained with
+open_tree(OPEN_TREE_CLONE), i.e. for the anonymous namespace case.
 
-How? The window is one initcall per boot before there is any userspace.
-And in_use starts from zero at every boot. Nothing accumulates.
-
-The only thing that ever biases and waits for in_use is
-proc_entry_rundown(), which never runs for an entry that is never
-removed. A pin leaked on a permanent entry is a number nobody ever
-reads.
-
-> There is no detection of buggy usage: proc_make_permanent on dynamic
-> PDEs from buggy modules. It's easy to grep but I'm not signing up for
-> that.
-
-Modules can't do that? You defined PROC_ENTRY_PERMANENT as 0 under
-MODULE in d919b33dafb3 and you didn't export impl_proc_make_permanent()
-in 912289ee831d.
-
-And for built-in code the detection exists? It's your WARN in
-remove_proc_entry() from the same 2020 commit. Nothing in this series
-changes any of that.
-
-I'm confused by this review.
+Both kernels are otherwise clean: no KASAN report, no Oops, no WARN.
+---
+diff --git a/fs/namespace.c b/fs/namespace.c
+index 25e196c05126..8a101a8c48f7 100644
+--- a/fs/namespace.c
++++ b/fs/namespace.c
+@@ -5888,8 +5888,14 @@ static int grab_requested_root(struct mnt_namespace *ns, struct path *root)
+ 		if (child != first && child->mnt_parent == first)
+ 			break;
+ 	}
++	/*
++	 * Nothing mounted on the root of the namespace: an empty mount
++	 * namespace (CLONE_EMPTY_MNTNS) or an anonymous namespace from
++	 * fsmount()/open_tree(OPEN_TREE_CLONE).  Use the namespace root
++	 * itself as the anchor then; there is no child covering it.
++	 */
+ 	if (!child)
+-		return -ENOENT;
++		child = first;
+ 
+ 	root->mnt = mntget(&child->mnt);
+ 	root->dentry = dget(root->mnt->mnt_root);
