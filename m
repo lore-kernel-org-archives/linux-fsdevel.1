@@ -1,56 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793897236;
-	b=22I1SdeYU6usMtDiwDrXiaCjqPn/Y/CkBxqZYFGL04JshTGnl1w7PbBgBlxvfKtdXHmW
-	 hbokga+4VRF1jD1GygGUNYtWB36EMDbWFbyYCKOwV6W6WC9o2x8GFG1SjwmWtkFctn/jE
-	 DYId+/xcmo3ZsX5Up7rI6rxHK6nBOJoqeiJWxrDxMaJn+hFCIGtT+rck+Azm4b29htHhe
-	 R6B2M/7EbvcuxbEFBcrXBJAoKoaPWw/XIyBKfaaI5qR+lnCMKuE9RvbyuOa4WStKiALT0
-	 23iC5GE4ekbc1+gqfZ8IDIhKENR1xLUm93NLhWDYmrK3YfN6lo1AFyZ1s0g9rFuV3+A==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793897236;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer;
-	bh=jNG1aps4R+HTumhwe6FbpJKRYYq9ElBPc4aOw7sMsq0=;
-	b=4Wz7lu/9C5OpdTyLBK0vMFOstsvao47fv+KzJjFjxUOi3r1nezBfjNZweX/OKYeKz+d1
-	 av5c6z6vAnymK0SfefHHfUR/3qmfuuqJaaGNut9uAEOvdOkCA8gUreznloIr7bs/kVrTH
-	 37ehXv7Ks+gQKEsMehrEA8FdMxcl/lp2WQ2lnIxBZQEwxyOmOO4lzXlWdyDvThjHhvWY8
-	 C4eOdrutWJsMSoT+BiOf9gCJB3VOAQz+EEakstIwK5cBbYnGuAGHNDDp9n0/aRLf2e1yn
-	 phH+wP+kXlR85trjD1hSft8SUXQTTNFn7b20TdssT99bRX3hYqva4hRbn/25pY0FY5w==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gH7f1rC3;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.222.178
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793897306;
+	b=yz3x2Y8sFqMiw3Mrg88sOCnLcw+8//r9rKJD06fHM346cDwEqEMITLegH7CwiVnOhOOV
+	 2SxBNRhteeV5Vhjj2cj84mV1Z0PNNuUfWhcA23GH3L9Raql1t7wOy33eB5afuxkpA+t7I
+	 pFOcoW8rEpfheYaEY5T9tKRsNi2SEgIkW5FO3JY93aUrGp8hlivtuVpo+uJaExLJG485D
+	 QjI4zKJFBrYBD5jlYGd8ppJ9GjCXTCqU+gZk1Ghi1K/1jsmwvUodJV+1KLAnctMPdT2t9
+	 AmfOhKqhUaL3qAhT4ALPPDgT8rY/UnTSJQoO637k8UF78z8kkK+Bv8qZKpO7jR7bH7g==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793897306;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=VqiTrc04lJztf2dyTmHN89oGm1bJ8PUHM0btmGHDZmI=;
+	b=wyYKzC9kj+B8wp/g7p3Y7Ej33oF5DYMUVDD3gyn73IJElm3+VyncsLpyPYlYF+Rqx2g5
+	 /3h1f+Lh6Pf1+n4m5MLBCNyoGbh91TC0e9CYZlEozGZKCIznTIQXCly0jocNOS1pqjcbQ
+	 lKg/G6JUE963OHtkCfBwAIfovKdsR92ntaRnWND/gmKQsiD3uYFD6m03+qm99m7kSLXNZ
+	 y8tmZZnv+zxX9/FJV895N9Nv3rS2jIjlA7sDMg9dhZ9fy+zHiYTzjgOayKVSg88mWiELE
+	 9AR798DQFROtdpH8/vbBlqV8SdIa0u55j7PdIH1wmgPR22dzFsPNc4Yp6oDT+uX1AYA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=none header.from=amacapital.net;
+	spf=pass smtp.mailfrom=amacapital.net;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.222.178
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12E67606A32C;
-	Thu,  5 Nov 2026 16:47:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gH7f1rC3
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B28D1F000C1;
-	Thu,  5 Nov 2026 16:47:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793897235;
-	bh=jNG1aps4R+HTumhwe6FbpJKRYYq9ElBPc4aOw7sMsq0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=gH7f1rC3nv+u5B47DXA6huc1TYmmshRhVSRnULRDdFNIdICi50wIeZGNiBadFBIp1
-	 rDt/ybvyr2JUqdFShutl43qfSHcq8Fh/POeFRrNxVGhlo7inoEvjD/s4/P6hFOU47a
-	 D1v0M4ux+vlP3iJr7xzed+JHTpg66CWdwEOMeMX1MZg9NQ9uAdab0S/aaRzw0MpQxB
-	 cMv20dy5cLQVYksPqBCloqhlv6b/AKQIY2laFVbYFKrssDo8FecDHTnqWuI92IBSOl
-	 1uPsi3nAqAFyNXR9YeFsz1+fvgNdPq9UvBsPvlxcz+ZEKiT6kIkoNdxwwG/6AlQNfv
-	 /K6lbJP6vfqSw==
-From: Christian Brauner <brauner@kernel.org>
-To: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
- NeilBrown <neil@brown.name>, Jeff Layton <jlayton@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, linux-fsdevel@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20261103-statx-v2-1-8b09aa8118ab@kernel.org>
-References: <20261103-statx-v2-1-8b09aa8118ab@kernel.org>
-Subject: Re: [PATCH v2] statx: don't leak STATX_ATTR_CHANGE_MONOTONIC in
- stx_attributes_mask
-Message-Id: <20261105-binnenmeer-gegessen-imponieren-c64f267ba409@brauner>
-Date: Thu, 05 Nov 2026 17:47:12 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F5A9606A32E
+	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 16:48:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2F5A9606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-93e7ad9f78dso249304685a.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 08:48:21 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793897300; cv=none;
+        d=google.com; s=arc-20260327;
+        b=oO2U6p/56+KwtAqtGFSqEzMEMgICI3QA4QaI05+zw/y5Bqaa66RQJNCP8Xso2L2Qqw
+         SCDNmAqDmW2CilKtS8hTBUJ2SlYnWKvZaiNhXFOS3dsEdqwE/8rjUXh1tWHQP6o5KCHr
+         XAojh0gnPE1Uo/BJVoz7P1Kd55EGzewV3uqf4k4V8ks+xWs+RJB/Qrh5ED8txN0tS221
+         EOCxNOhTKO83r+nn1G8eP/sPqItqFL1tQV09iwbkPFB4mvXzUeCEWGEAW8XHOwE7Nw2v
+         DIv96dT/2J5y5BshhvkX/Qn8QOWNONfhPEXNNqL5687+bz630UuxFm7/SrADgZtxTXw7
+         xb7g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=VqiTrc04lJztf2dyTmHN89oGm1bJ8PUHM0btmGHDZmI=;
+        fh=17NlkM1QZeH//Ar7VQpLbvu4wu5tJ9U+yyOe4VquLsA=;
+        b=e/ZxfEb0iNK4jMrvOwUlZ2tZLVElmE5i2GVp3AgMmBClD8PqQpm+UlShxFWVjsdWVb
+         OVfom+Lunqz06Nl6ecaSbvFwx6MlVvFcg3xQXoQRDyhqQXVxSxaeosCOhM3q6MJVHT7x
+         pHZnpfnMrj6NuTRH2+XDiI6WiKQpyeNSDz/lQZcFGav7HbjNp2SC5x4mgWovuOPCrh8G
+         sFrhBFibgDk4acmLkOOV53qCg2gr+sDHxXaeKJiQyXZT2Gsh9SJEnI+beIbqtpCA1ABt
+         mVvyw8deZ7eKUCxX+72u10wEN0XbiYM+Qon/BXLwmp0U58Q9oFCQgMgUaWg4I16NFl7O
+         ujZA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amacapital-net.20260707.gappssmtp.com; s=20260707; t=1793897300; x=1794502100; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=VqiTrc04lJztf2dyTmHN89oGm1bJ8PUHM0btmGHDZmI=;
+        b=PD82jKo7jigK4yo/BsC4mL9gzNaCyQCuN/kPVJGkjQjdLI8tYXff0Yq6V8OcVaJvNy
+         weurqZPZmulH0qGSg5NbPVImgWJ+FnTdb3j3Ry4nbirmi+Rj3QFivs4ORBwQaFRqCGqf
+         QEUbVI/SqDEMT+7UGhcd921nGG7eTyZrIMcUrpbYcHWgfkjlc4bKSqYZEDRPXgz7lXtH
+         DqeNW77psjBaqljc2mahGE9h0G2f7KashF5X4+pB5RTZgitOtmNbn03q4nK6XwgY7JUH
+         dHKc7aq+4G8SSRybkD5tRl+j5GVa6fgvquMcqs4nqsv6V0mQuY3Plyf9y99pCk1OO04q
+         xdcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793897300; x=1794502100;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=VqiTrc04lJztf2dyTmHN89oGm1bJ8PUHM0btmGHDZmI=;
+        b=YFffFDcpksrRMMp699z/wUOl9XmOnRHm9+0NjATUFp3GJZeuOPWDYsWl6f9BmoC42T
+         9AZ9/O1y0x/NIR7F7hD1K6MWgqa9321QD8sulJzMio43BrTQ2xlB1Ys7T1S1PBe+a2Tm
+         3dQ3Toy43CtbTo65O3/9Vy56128gDeT64bxd0qD26fQBhjxfQEWwKI1bb3TxPDA4UFVt
+         8Hvf5rlimyXISLwsulvF9TQetQ6z5Testd0CONQVJRLrU1pZU1m7m/7Qsgbss4eEoFRy
+         3lrtWgg+F/A9ID2VuaOWFzHqUG6qwCQNqOm6awPTg8/gP4B6DK5rLgTh39t6iarIQoT3
+         glGA==
+X-Forwarded-Encrypted: i=1; AKwUvBywA8j8zGP75wLThoSc0cAQxRHS5j7bNmj/AiDZnOWajSPDu//xNTqF+DF4R0kaxyFJD4ns+es9XN2A27hc@vger.kernel.org
+X-Gm-Message-State: APuU4Z/0swGeH9rdqutMw5d0JZ6ez3a14xEHNj1/OjNTfDgS5dDJe2Nt
+	j+y6KWqCBKQzcnJ8kuFixBqs+h8UIZPGZYpnlWm3uW+qYK4/EJh/48KCT5kQ6ENFdnv8wZpJODT
+	w0ucs0lTOp3FrhmrCHGUbbBMxXPagrUtl5xjy21sz
+X-Gm-Gg: AYBFou2ku5o/oJxxI6qdU7RNMsHqwRiNrZbrUY1ybrQO3msa6qlaEotWJQoyThdealj
+	cOyxoqVYyQgcecVB31nkwr4wxXrJzHKdudDVxU7UeYMN8v1CmNbGu/LuJyzYny7uD/qhJoDKCI3
+	Ipi3klUhX5Lv0ZN/aWih5IY5QslrJCm7VzbhRT5ft1VJNS0dOfTmZkVJdsXMpp0N0eoLXRiakxn
+	ng09O6Ei/U31CW61GOiImF+wVZZRxKXnqIaSbt/bVnCoS/ox+hhOWoqoe8JCbW3TwlNqOeN/tHl
+	npMoL8Xuq6heSEAmrxFUzSfA23vjcsIhgcglWw/8BUhmq922aC6C61xPjUKKIyTyTrxD2QkSWLq
+	93XoGTLHXLejpd+G6ls/PF6JcMrJ5uhcPC+kmXrG80jct3AEFI4wFY9k=
+X-Received: by 2002:a05:620a:29c1:b0:93f:334e:df25 with SMTP id
+ af79cd13be357-9442175b2f6mr3556460685a.41.1793897300081; Thu, 05 Nov 2026
+ 08:48:20 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -60,35 +101,154 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev-ce4c1
+References: <20261028221705.3915340-1-halg@google.com> <CALCETrW9ygriu54gxiHFLEd5+hJminQo0r8Jwd63wR69Dj4W7w@mail.gmail.com>
+ <auM32mOlBLu6ZUlt@google.com> <CALCETrUD4vh_iSHV7G0bprUFU8=c+ECo701-tXcbQ3UXBWC1ig@mail.gmail.com>
+ <ausXFWLgHabezE7R@google.com>
+In-Reply-To: <ausXFWLgHabezE7R@google.com>
+From: Andy Lutomirski <luto@amacapital.net>
+Date: Thu, 5 Nov 2026 08:48:07 -0800
+X-Gm-Features: AclHuK8CUFetL3KNjWElY9pamqV4vOzKRAOdGaRShI4zykg0vul-u3a1dyx4v8I
+Message-ID: <CALCETrXrdQRWTVdCq-V_AVpZG7g=1aCpeyNP3jLXT7VDW=OaVw@mail.gmail.com>
+Subject: Re: [PATCH 0/8] userns: per-namespace capability bounding set and
+ opt-in netns loopback
+To: "Hallgrimur H. Gunnarsson" <halg@google.com>
+Cc: Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, Kees Cook <kees@kernel.org>, 
+	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jan Kara <jack@suse.cz>, 
+	James Morris <jmorris@namei.org>, Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Jann Horn <jannh@google.com>, =?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
+	KP Singh <kpsingh@kernel.org>, Jonathan Calmels <jcalmels@3xx0.net>, 
+	Casey Schaufler <casey@schaufler-ca.com>, linux-fsdevel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, linux-api@vger.kernel.org, 
+	containers@lists.linux.dev, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 03 Nov 2026 07:04:00 -0500, Jeff Layton wrote:
-> STATX_ATTR_CHANGE_MONOTONIC is kernel-internal. cp_statx() strips it
-> from stx_attributes but copies attributes_mask verbatim, so it leaks to
-> userland on filesystems that advertise it (nfs, ceph), e.g.
-> stx_attributes_mask = 0x8000000000303000 on NFS.
-> 
-> Add a new mask constant and apply it to both fields.
-> 
-> [...]
+On Wed, Nov 4, 2026 at 3:30=E2=80=AFAM Hallgrimur H. Gunnarsson <halg@googl=
+e.com> wrote:
+>
+> On Tue, Nov 03, 2026 at 10:37:48AM -0800, Andy Lutomirski wrote:
+> > On Thu, Oct 29, 2026 at 5:11=E2=80=AFAM Hallgrimur H. Gunnarsson
+> > <halg@google.com> wrote:
+> > >
+> > > On Wed, Oct 28, 2026 at 03:56:11PM -0700, Andy Lutomirski wrote:
+> >
+> > > >
+> > > > Why should the task's cap masks affect this?  *Maybe* cap_bset make=
+s
+> > > > sense, but I'm struggling a bit to see why cap_permitted and
+> > > > cap_effective should matter.
+> > >
+> > > Sorry, the phrasing here may have been misleading. Just to clarify:
+> > > none of the creating task's capability sets (cap_bset, cap_permitted
+> > > or cap_effective) are used to restrict the new user namespace.
+> > >
+> > > When I wrote "reusing the existing task cap_bset, cap_permitted and
+> > > cap_effective sets on namespace entry", I was contrasting this with
+> > > the prior series from 2024 [1], which proposed adding a 6th per-threa=
+d
+> > > capability set to struct cred.
+> > >
+> > > In this series, when a task creates or enters a user namespace, we
+> > > simply initialize its new cred->cap_{bset,permitted,effective} in
+> > > that namespace to user_ns->cap_bset instead of CAP_FULL_SET.
+> > >
+> >
+> > Okay, this makes *more* sense, but I think it's too weak.
+> >
+> > I have a sort-of goal of having the creation of unprivileged
+> > namespaces be allowed in most contexts by default, *even in Docker*
+> > (which would involve the Docker team changing their default seccomp
+> > rules, but that bridge can be crossed later).  (In furtherance of this
+> > goal, I fixed an ancient bug in newuidmap that gets us quite a bit
+> > closer a couple weeks ago.)
+> >
+> > But tying this mitigation to a parent userns means that it's
+> > completely unusable in the single-deep case.
+>
+> To clarify, this mitigation isn't exclusively tied to the parent userns.
+> If a system administrator wants a host-wide policy, like trimming
+> CAP_NET_ADMIN for all unprivileged user namespaces, including
+> single-deep Docker containers, then the host-wide sysctl handles this
+> seamlessly. Any unprivileged process in init_user_ns calling CLONE_NEWUSE=
+R
+> is subjected to the sysctl ceiling, effectively stripping CAP_NET_ADMIN
+> upon creation.
 
-Applied to the vfs.fixes branch of the vfs/vfs.git tree.
-Patches in the vfs.fixes branch should appear in linux-next soon.
+Seems reasonable, but see below.
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+>
+> Where the single-deep case falls short in this series is per-container
+> granularity. For flexible configuration on a per-container basis, this
+> patch series assumes that containers run in their own user namespace,
+> allowing the runtime to bound capabilities at creation time via clone3()
+> and have that bound persist down the namespace hierarchy across any neste=
+d
+> userns creation.
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
+There are plenty of cases of *privileged* user namespaces (i.e.
+created by privileged users) that would nonetheless want this.  Or
+unprivileged user namespaces on systems that will not have this
+restriction set that still want to apply it in their own container.
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs.fixes
 
-[1/1] statx: don't leak STATX_ATTR_CHANGE_MONOTONIC in stx_attributes_mask
-      https://git.kernel.org/vfs/vfs/c/3cfb4bcbdaa4
+>
+> If a container runs in init_user_ns (as in standard Docker) and we want
+> to restrict userns capabilities for that specific container without
+> relying on a host-wide sysctl, then you are exactly right. We would need
+> some kind of cred-based mechanism to pre-configure a restriction for any
+> future CLONE_NEWUSER calls within that container.
+>
+> > I do have a question about this whole scheme, though: are we talking
+> > *just* about CAP_NET_ADMIN?  That is, is there any other bit that has
+> > anywhere near enough security relevance to make this kind of thing
+> > worthwhile?  Because if it's really just a single bit control, maybe
+> > we can come up with a nicer scheme.
+>
+> Yes, primarily CAP_NET_ADMIN, and to a lesser extent CAP_NET_RAW.
+>
+> If we look at submissions to Google's kernelCTF VRP [1], 90% of the
+> exploit submissions in 2026 require CAP_NET_ADMIN (and about 70%
+> across all submissions since the program started in 2023).
+>
+> Restricting these network capabilities when they are not strictly needed
+> (e.g. for sandboxing) is the primary motivation behind the series.
+> However, I wrote the userns capability bounding as a generic mask so it
+> could restrict arbitrary capabilities down the hierarchy, but if the
+> preference is to narrow the scope more specifically to trimming
+> CAP_NET_ADMIN and CAP_NET_RAW, that's completely fine by me.
+>
+> If we go that route and want to support the single-deep Docker case, a
+> per-task inheritable securebit might be one way to do it, e.g.
+> SECBIT_NO_USERNS_NET and SECBIT_NO_USERNS_NET_LOCKED. Docker could then
+> set and lock that bit on a container in init_user_ns without needing a
+> parent userns.
 
+This seems perhaps better.  But maybe a bit that applies the
+restriction to a userns created by someone who doesn't have
+CAP_NET_ADMIN in their own userns?
+
+IMO what we really want is a generic mechanism for sysctl-like
+settings that are scoped to a userns.  And we would want the API not
+to be filesystem-based (or at least not require *mounting* a
+filesystem) because then we would just make everything messier.  This
+would solve many problems.
+
+>
+> On userns creation, create_user_ns() could record this restriction on
+> struct user_namespace. That could either feed into the userns capability
+> bounding set proposed in this series (clearing CAP_NET_ADMIN and
+> CAP_NET_RAW from user_ns->cap_bset when the bit is set on the creator),
+> or be stored as a single boolean in struct user_namespace if we want to
+> keep the mechanism minimal and drop the generic capability mask UAPI.
+> In the latter case, we would still need to replicate some of the
+> userns capability bounding functionality, e.g. strip CAP_NET_ADMIN and
+> CAP_NET_RAW in set_cred_user_ns() on namespace entry, and bound the
+> parent-owner check in cap_capable_helper().
+>
+> [1] https://github.com/google/security-research/tree/master/pocs/linux/ke=
+rnelctf
