@@ -1,73 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793873320;
-	b=2hezdDtbtdfrbL+18hN807svIGwXv1t89qMcN++KWlEpOmp9R/UUSjadIjQSrqs2eB1y
-	 8DYpYg6YKJaeoahzHp7A7O+R0W9XI+0nupq+Y6Pzm5Mq/lTGdE+U92PI1PKVMx6z+9QU5
-	 VKH7lvi/zV52ctC1e+dyj2ywAq6AxJ6AA/dYHNHZ4cHMys7hkOTO3tJrIFJYtdlT7xvYq
-	 LL4n8ORos0EybsYxeAnlrD0yTL8ebpd+WFQI+2NC7s2RINkC6rFXwZhXRnDwwOlrS5Ab6
-	 +5A1Qkg21BMWJq3qAiRf7raaBri+L9h9USU44UR9ox6Co4iIRyzjptDrDD5sHP/ZxSQ==
+	t=1793874544;
+	b=JcHrOfilSn+jy2AJXtvy1PvmiaOnSss29kKKr4PC/a4ZVS4p1iLv4fku93YB3Ez9HsTu
+	 4DJz6x8IdHZ5Lkz0IdP52+WKED49AAAkdFtrwoZ1Zj6mhQClCarja72wdrNefd4jVHmKP
+	 VSw/n3k+9jO9r2HGz9/AwEFuyWzPggjbCdePGYWIf1frnzGCITvzZ2ezpwHkP8tK4y3+v
+	 FaaryV/WdwbPOFUUIcmu+CWSjZf5FejLczlHbGjH5HwunoMyKa7sZXgAKOcijFahRpmNd
+	 CI0nsYJnB7cFWsLvOy8uu/G7sFkQVPPLElnZuJhq09AznYQfLDXJr6JpcErgTXjotXQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793873320;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Gm-Message-State:
-	 X-Gm-Gg:X-Received:Received:Received:X-Received:MIME-Version:
-	 References:In-Reply-To:From:Date:X-Gmail-Original-Message-ID:
-	 X-Gm-Features:Message-ID:Subject:To:Cc:Content-Type;
-	bh=Z2qCIfu1coqF5CKQo/xHkFXbKW7Y+rLlNCa31RZmxiE=;
-	b=iSFSIopSAhX9Z6BA/57BZgZJMvD+N939klVWnAa8ZzcGpjVj/5YMfW1JHWSFjxAfRjuc
-	 1dZ67FwPyjrxR3UXRdKCdKsIRB032p+o7XRvIbr1YTrkO72L+6xoHesEaLRiiRlmzyPwg
-	 9g47HX6015aV4ecDGf9h7zCwqGJzBAhKO2wiCwW04rdSZvtcXozY/9UXFPcaz6D+ZEJVF
-	 /pq4RNsyRRnrxf5ucUX6Jo1v3ZuZo7ruaXlINU1jXW0wIGS+e0l2CLCmeaXCRzq/ooMTa
-	 or76vrctPKDjDkrTyMsX/Ksu7x+1vuQeEFW22v/iE1kE8IobsyIflBx+L2OdJB5LuBA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793874544;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=57E1PfjaDh0LCy68sg+mNNI5f3Z5aUw0wqyBt7zz4T8=;
+	b=v95yTTrRk0DNsIt0X+2B5on0e5iUnmnLdG+cG40Cn6SyxWGaVETH/C7SJImJM1ki7RTn
+	 b2vt7Xt7Qu9NodK8dACgmaYVhOOeyf2sKs7i4KNIKFhlDiA4rRerSuSsa0d/iGo63JnS/
+	 PgWgNsDdm6dE7IzqSlAJd/xjnMatGtVpf+ypQ7HNY9uFcSen6Hq4/jxfDJv5FYJ7dT/6t
+	 0k2mGw3v/26xx0ei4Ev2fE3GcrKT8pe3qrBs2qyxiqwUQHbDo6vNmtjs8XKLV4xlj01Ap
+	 72H6v8BWC8+Hj2d1b/4vmYO2eAgyvk6fQYLpbB+0wNwf7WnjjD/CVsn4zEsn6brqlhw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=linux-m68k.org;
-	spf=pass smtp.mailfrom=gmail.com;
-	arc=none smtp.remote-ip=209.85.222.52
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hmbELvjG;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16E4160A2608
-	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 10:08:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 16E4160A2608
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-998749fe872so935059241.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 02:08:39 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793873319; x=1794478119;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=Z2qCIfu1coqF5CKQo/xHkFXbKW7Y+rLlNCa31RZmxiE=;
-        b=DVzFjqk4nAGcAry4Sr2dGbX/oPQsQNuRZB2BFQ9ZT02alLuo5pXlsOR/dRFV2C+wJ8
-         xig1rlQoK7TI83vh0YqcbLa9PVksih3KvjHES4un88saKOu242tL90VzLbw2qtlRB2Yr
-         nA6VrJ+uLZRySqzKLzay2VZTLZR6SrqTDMD5Cu2dWjcjzRrJ6qBdRX/ounUoIJpKets7
-         9jZ3hNYhuFOVehhQDL5yMBUSQj2+DSDcv4K1xr+nFYL0y2k8F1NawJE0pRGeOYwN1G2d
-         xk2pqv65pSync5g6MPCWyPDVCVecWCFMzZHjXdTMLj57mpNfIe8ioGJrqRCFCLkEWlrl
-         5SjQ==
-X-Gm-Message-State: APuU4Z+OHp5JgPfBo61KneLlJDLb4hufSftW7LO4Z7sqIlD/KPNVpJyX
-	TFxFRkJQElrERdJB/aZMZasywaTQLZi0ig/QYfrdsT8cdiG8BDUzdgI99F8JaWDvP1g=
-X-Gm-Gg: AYBFou3qcRdYEdHUKI/xkkUt2I5EuUS1fQDOxogRIbR4fSgT5xDQrznKUznEhpU+YsG
-	1iP/vX8lcCTf6EjfP1c8I1AoimEcTGK39FEeNM18mT1g+Rai1w7PuIl2zp5QoBNnAkTIxxodB1f
-	JGmVdkeAxKtMQ0C7Pk0L90Vl5Qceaqwpe7PrCQDsoRN7UxIc20aMJn26lvBJBXn63SoBP9ilw78
-	3ZqorgKfWZKZg6P/AQN3kxU4eN39kMKb3FqMZfB7Qk+30lGThj7LNGWbS9rd9/9S0Zfs0Zql8EZ
-	5rnEHANYL9dQvJD4GzS6wgPIet82BBbPc4+FnUbDwTurwl8F0VWrm2qFaJa3QOle2iWFP1v+g2R
-	yvbzJ4ian8sYj/5rxt8eXj402+xg2mwo++JfM4x875nTk7dheJs+MnUEC22UGC+3GSxEkcRknih
-	qbhNuUdjZCyjcgh3EhDQ4JXuJkPN2fTMxvfFczHrQegIrnd/d4WmpF6YDyXy4MEfsJoIQQXcjjP
-	kW/gBv79KZNXAy0Ly/H6x4mXQV1IVBldaBkoQq3WUAq6a34mFR//N+dMOUR7yq5RfoO+zccvnGQ
-	96cgQzESDaBrGG5A/zDKEJZtS+zDhChYBoW8ewzjuT/dPZ56H8smkSz0j0OYWSSe9g==
-X-Received: by 2002:a67:e70e:0:b0:7b2:f3ff:6b34 with SMTP id ada2fe7eead31-7d07277c9e4mr9197483137.1.1793873318990;
-        Thu, 05 Nov 2026 02:08:38 -0800 (PST)
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com. [209.85.217.47])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7d26fdaf4efsm3543762137.5.2026.11.05.02.08.36
-        for <linux-fsdevel@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Nov 2026 02:08:38 -0800 (PST)
-Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-7bec5112765so1033377137.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 02:08:36 -0800 (PST)
-X-Received: by 2002:a05:6102:5494:b0:7cb:bc5e:7d9f with SMTP id
- ada2fe7eead31-7d072bb3829mr8787869137.11.1793873316184; Thu, 05 Nov 2026
- 02:08:36 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD953606D801;
+	Thu,  5 Nov 2026 10:29:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hmbELvjG
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 808A91F00919;
+	Thu,  5 Nov 2026 10:28:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793874543;
+	bh=57E1PfjaDh0LCy68sg+mNNI5f3Z5aUw0wqyBt7zz4T8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=hmbELvjGRYsr506EAwoJgBAXH0ELDX1EPlqMNbyvDHt92LsnGRKJzHsFbggux76Nr
+	 4VuJW2OLsQiJnl39IQDOul1sCQwt9d8MZevNX4eSh6gNm3ZTG/LGbR7xUU9NM2H7ZB
+	 Zmf/KjAazsfp6p+rrHhAm27ed37eIP7oTh4Gn6f4ESRdGcc5084mcjIlsi7PeEnK/h
+	 ZHrwK8mAJ5fFhNsjwwjPEpQcENFcCs7lLj/i7dd0U+MO//fdk5W/zzCW3ShQTr3BSz
+	 /h7RXevBU6GyHIwpRH9BJat6WAMucpuTZsxKrSRux510prhvj/rjFCVc+HBvyfwWTb
+	 6GBRdXGUL1uJQ==
+Date: Thu, 5 Nov 2026 11:28:56 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Josef Bacik <josef@toxicpanda.com>
+Cc: linux-fsdevel@vger.kernel.org, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>, 
+	Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, Eric Dumazet <edumazet@kernel.org>, 
+	Thomas Gleixner <tglx@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
+	Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
+	Greg Kroah-Hartman <gregkh@suse.de>, Joel Granados <joel.granados@kernel.org>, 
+	Kees Cook <kees@kernel.org>, Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
+	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, linux-sound@vger.kernel.org, 
+	linux-mm@kvack.org, Chuck Lever <chuck.lever@oracle.com>, 
+	Takashi Iwai <tiwai@suse.de>
+Subject: Re: [PATCH RFC 0/7] proc: move procfs to what kernfs does
+Message-ID: <20261105-erbrechen-unecht-bauformen-0794d3cfb679@brauner>
+References: <20261102-defizit-jobaussicht-kurios-7016c6e67442@brauner>
+ <464ef986eab97abf226791c7e19ad111.josef@toxicpanda.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -77,123 +65,117 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261104-work-procfs-core-v2-0-76ace653a773@kernel.org> <20261104-work-procfs-core-v2-16-76ace653a773@kernel.org>
-In-Reply-To: <20261104-work-procfs-core-v2-16-76ace653a773@kernel.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 5 Nov 2026 11:08:25 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXAk9CwoXpak8+EQjdvJ2Ab9fo1bvj_D5GqBzXB7urEUQ@mail.gmail.com>
-X-Gm-Features: AclHuK_D2R6ZzQFy7DOLUQHC3VotRoglnOuhbtIFU-Oniz4UMRG_6kQUnblEqeo
-Message-ID: <CAMuHMdXAk9CwoXpak8+EQjdvJ2Ab9fo1bvj_D5GqBzXB7urEUQ@mail.gmail.com>
-Subject: Re: [PATCH RESEND v2 16/23] proc: let procfs copy out reads that
- don't go through seq_file
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Jann Horn <jannh@google.com>, 
-	Josef Bacik <josef@toxicpanda.com>, Chris Mason <mason@kernel.org>, 
-	Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, Eric Dumazet <edumazet@kernel.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
-	Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, Greg Kroah-Hartman <gregkh@suse.de>, 
-	Joel Granados <joel.granados@kernel.org>, Kees Cook <kees@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Jan Kara <jack@suse.com>, linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, 
-	linux-acpi@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org, ntfs3@lists.linux.dev, 
-	platform-driver-x86@vger.kernel.org, coreteam@netfilter.org, 
-	kexec@lists.infradead.org, linux-pci@vger.kernel.org, 
-	linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, ibm-acpi-devel@lists.sourceforge.net, 
-	jfs-discussion@lists.sourceforge.net, linux-alpha@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org, 
-	linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, 
-	linux-sh@vger.kernel.org, linux-usb@vger.kernel.org, 
-	samba-technical@lists.samba.org, sparclinux@vger.kernel.org, 
-	linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org, 
-	linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net, 
-	Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
-	linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, 
-	linux-debuggers@vger.kernel.org, Chuck Lever <cel@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <464ef986eab97abf226791c7e19ad111.josef@toxicpanda.com>
 
-Hi Christian,
+On Wed, 04 Nov 2026 22:23:51 +0000, Josef Bacik wrote:
+> This is a summary of my Claude review of everything.  It didn't find
+> anything wrong with the conversions in parts 3 to 6, the findings are in
+> part 1 and on the procfs side.  1-3 are reproduced in a VM, 4-6 are from
+> reading the code.
 
-On Wed, 4 Nov 2026 at 20:33, Christian Brauner <brauner@kernel.org> wrote:
-> proc_reg_read() and proc_reg_read_iter() pin the entry and call
-> ->proc_read() or ->proc_read_iter() which copy to userspace
-> themselves. Like for seq_file reads and for writes, a reader can make
-> a page fault in that copy take as long as it wants and
-> remove_proc_entry() waits for it.
+Thanks. This is useful. There's some stuff that I already took care in
+v2 fwiw.
+
+> 1) bugfixes 19/38 ("proc: resume readdir after the last name it
+>    returned")
 >
-> So do what kernfs does for these reads as well. An entry that implements
-> ->proc_read_buf() fills a kernel buffer of at most ->proc_read_size
-> bytes, a page if the entry doesn't care, and procfs copies it to
-> userspace after unpinning the entry. The entry moves the position like
-> it did for ->proc_read() but that only sticks if the copy to userspace
-> worked, like in kernfs_file_read_iter(). If the copy fails halfway the
-> read fails with -EFAULT and the position stays, where
-> simple_read_from_buffer() returned what it had copied until then.
-> procfs remembers ->proc_read_size in the entry like ->proc_write_size.
+> proc_readdir_de() now returns 1 instead of 0 when there's nothing left
+> to emit:
+> [...]
+> So at the end of the directory readdir(2) returns 1 without having
+> written a dirent, and keeps doing that.  This is syscall 89 through
+
+Indeed. Fixing that.
+
+> 2) cleanup 5/5 ("proc: drop the _buf suffix from the new methods")
 >
-> Larger reads come up short, like with kernfs. An entry whose readers
-> want all of a large file in one read asks for PROC_ENTRY_FULL_READS and
-> procfs fills the read in pieces of ->proc_read_size, unpinning the entry
-> in between. A piece whose copy fails ends the read with what the pieces
-> before it returned. kexec-tools treats any short read of /proc/vmcore
-> as fatal for example (cf. [1]).
+> 4/5 renames the old ->proc_read() so that "A module that sets one of
+> them doesn't build anymore".  5/5 hands the name to the new method, and
+> the old and the new prototype only differ in __user:
+> [...]
+> builds without a warning with W=1.  pde_set_flags() only refuses the
+> release helpers for seq_file entries, which this isn't one of, so it
+> registers too.  With a module that has exactly that loaded on top of the
+> series there's no warning, open() works and every read() fails with
+> [...]
+> there without anybody noticing.  Either the read method keeps a name of
+> its own or pde_set_flags() refuses seq_read, and either way this
+
+Meh, let me think. I think not renaming them back to proc_{read,write}
+at the end is ok. Not my favorite but it will cause the compiler to
+yell.
+
+> 3) bugfixes 38/38 ("selftests/proc: check that a faulting readlink()
+>    doesn't hold up removal")
+> [...]
+> own.  The two lines want to move to core 08/16.
+
+Fixed in v2.
+
+> 4) core 04/16 ("proc: let procfs own the seq_file of seq_file entries")
+> [...]
+> return v after pde_seq_stop_pinned() takes care of both.
+
+Gone in v2 as there's a simpler way to do it like kernfs.
+
+> 5) bugfixes 35/38 ("proc: sysctl: don't hold the tables while readdir
+>    copies to userspace")
+> [...]
+> lines that get rewritten.  Handling -ENOENT like d.skip would carry on
+> after that name.  -ENOMEM probably wants to be returned instead of
+> turning into EOF.
+
+v2 does both.
+
+> 6) stable tags, bugfixes 34/38 and 37/38
+> [...]
+> table registered.  35/38 applies cleanly without 34/38, so nothing will
+> complain if only the tagged one gets picked up.
+
+Right.
+
+> ->free_inode()"), which went into 6.8.  Before that the inode drops the
+> entry in ->evict_inode() without a grace period, and the pin is what
+> keeps ->data around for a walker that got it from ->get_link().  Which
+
+Right.
+
+> - The cursors in bugfixes 19/38 and 31/38 hang off an open file and
+>   anybody can have as many as they have fds, so GFP_KERNEL_ACCOUNT.
+
+That's a generic problem for nearly all of procfs and is another series
+I have but I don't want to get chased with pitchforks.
+
+> - copy_to_user_fromio() has no callers left after drivers 22/23.
+
+I'll kill it.
+
+> - fs 07/27 says ntfs_set_label() refused a label that's too long with
+>   -ENAMETOOLONG or -EFBIG.  It doesn't always, cpu_str.len is a u8 and
+>   ntfs_nls_to_utf16() is allowed (PATH_MAX - 2) / 2 here, so 300
+>   characters come out as 44 and pass the check.  That's an old ntfs3
+>   bug, it's only the sentence in the changelog.
+
+Right.
+
+> Two more old ones that you might want in part 1, the series doesn't
+> change either of them:
 >
-> These entries are read through ->read_iter() so readv(), splice(), aio,
-> the RWF flags, kernel_read() and io_uring work for them like for the
-> ->proc_read_iter() ones. io_uring's nonblocking attempt gets -EAGAIN
-> though, like loop_rw_iter() gave it for ->proc_read() entries. Neither
-> the allocation nor the entry can honor IOCB_NOWAIT, and io_uring would
-> take a short read of a record file for an unfinished one and glue the
-> next record to it. So it retries from a worker like before.
->
-> An entry that implements ->proc_read_buf() and also declares a seq_file
-> or one of the other read methods fails to register.
->
-> No users yet.
->
-> [1]: https://git.kernel.org/pub/scm/utils/kernel/kexec/kexec-tools.git/tree/util_lib/elf_info.c
->
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> - allocinfo can deadlock against a module load.
 
-Thanks for your patch!
+Yeah, that's in v2 and I think someone else also sent a fix for this.
 
-> --- a/include/linux/proc_fs.h
-> +++ b/include/linux/proc_fs.h
+> - snd_info_text_entry_write() allocates the larger buffer and frees the
+>   old one without copying what's in it, so a text entry written in
+>   pieces loses the start once it crosses a page.  It's been like that
+>   since ffb73b08e794.
 
-> @@ -84,6 +91,15 @@ struct proc_ops {
->          */
->         ssize_t (*proc_write_buf)(struct file *, char *, size_t, loff_t *);
->         unsigned int proc_write_size;
-> +       /*
-> +        * procfs calls ->proc_read_buf() to fill a kernel buffer of at most
-> +        * ->proc_read_size bytes, PAGE_SIZE if that's 0, and copies it to
-> +        * userspace afterwards. Larger reads come up short unless the entry
-> +        * asks for PROC_ENTRY_FULL_READS. The position the entry moves to only
-> +        * sticks if the copy works.
-> +        */
-> +       ssize_t (*proc_read_buf)(struct file *, char *, size_t, loff_t *);
+Yay, more bugfixes... You share the blame for more mail traffic now.
 
-As for proc_write_buf, I think it would be good to use this conversion
-as an opportunity to replace "char *" by "void *", which will probably
-let you drop several casts from users.
+> This part is me. I have a selftest that my claude wrote to validate #1.
+> If you want I can send it along, but we should probably have a test for
+> that.
 
-> +       unsigned int proc_read_size;
->  } __randomize_layout;
->
->  /* definitions for hide_pid field */
->
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Right, I can probably also cook something up.
