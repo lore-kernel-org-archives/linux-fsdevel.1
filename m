@@ -1,95 +1,46 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=115.124.30.119
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793847806;
-	b=a9106gqqDJrVpZQD5iL49mroxUEVIvyGmYN7m3ZHWP1JOteINvIxFrpmN3gJglABqGaI
-	 2TTcc8AJbDroWvaELDZSvFEqmWDw6TgVfQc33kVAdHtWXwBA+0zagytmgztgNaR+FFhX7
-	 FmP2Vo0sbI/vi3ZOPIy9QPa4j2o+/ZaoO5LNVBA9L8OHNbReN/aMIh+pL2N8X83r7QJ/S
-	 JEI86NGuR/YmqYk262u+8iNcYDSuxS4LSP3UbZB1Is8hI6/ibw5bhomJR2TviiBVhuEyZ
-	 nprnhMQqsjX3o+ACdnyqS9J9rXT/9v7FcZ3IuK7E5HG+7PAp33aeekF6HTCxdU8Lu4w==
+	t=1793850225;
+	b=MofcxFJQ8ofUSNIWc93rKZ8VuoB8rQs8zsruLTVvwt2p7H5eyeR4UAPr+WV6p/ssqVUA
+	 CA6AW22WgW9S9kZ3dKI6QFeUsWxT2+/0Ja12XapjhmE6uQhZsmdLBmwuHdwT4bPOKkQZf
+	 EVCXlsYrWE8844s86t97U1LqiIgyEl6ryv43C0rcIsVwomowJ1MYyZdMHGOLpu3V164bT
+	 qInQN/1gYV/KJRkhxwg+eaB8ajSjqr2oY6rjy5o/IJj8kwERTqGtUMbfZmlzsArAyeTfx
+	 a43rNd4htudeOX5gr1LaY66ejKeGBeulhS4ZGtA2ls4TyKk1tfaSJ9Y3UVpjLfzZ/vA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793847806;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:Mail-Followup-To:References:
-	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=TmyrGImNoeERgzj0671/YFCWmU7Tn1bl23zRlCFzkls=;
-	b=h33m2u+lEc2B4YSveSAl4Z9xoDZsjlmrvdKNduZ0qNANtt6tZZmk9PgP8v+qeWWZ49JT
-	 NAKWsqnLJYVoF6ueSohh88j9C46SHi+/sq73bJmwIoz+QYeSfZGinzuT+G9x56q2jmNGw
-	 2YnHEWHT00AD3thjWY45jHP8g6CIfVmwswEF+JvFgYpi1XmbPFi4N5M2baH1jbs15sEaE
-	 S9Q7wRAz+2kTNBKge+8LqKRFTnqp8a1sOvubgqCtWfHUdBjaImwdz4W9Wkha7mble5lwI
-	 yET3EEVya/fdEBsaCKFgmdzK3B0fLi7Ekqn0tNpD7R9r79HITc9RgyxJ1B+WSDmiW/Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793850225;
+	h=DMARC-Filter:DKIM-Signature:X-Alimail-AntiSpam:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=VPL6FGJI6mYbfWVdagRDwQTQgREcZN8JpaFK/cgIs8Y=;
+	b=1aReeW8dRjkVkXcrwDwSKpNwR4MweNc4pIVWUXKZMyT7Ilet13V2Z55H4UoEG4t9fmjU
+	 saDn4H3QLJelql5wJ+QwcxL47uSBSyOGZs7rUpcY/+0i3ojfnPSYSXNXr53ljpMUilp3S
+	 H1u0eYItTi/Fbao/9hcEtKVBdxeb6/HkHmbYkk2/aQC1eAtQiNPvs+AwoO9/ef3Zb0mZ4
+	 6zF9+V3OdbiSJlU670fokiBr3VTWBrUn8kGU1u/0P+38jW7gJWAI82I6/spPAsXu1Y6wq
+	 2hTzidyOu6d3Vu+pFK8BPRjABudwyHLqVKVt0SXC99zl4N7zE+PQjpW4cqNm2QlknCA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=cs.cmu.edu;
-	spf=pass smtp.mailfrom=andrew.cmu.edu;
-	dkim=pass header.d=cs.cmu.edu header.i=@cs.cmu.edu header.a=rsa-sha256 header.s=google-2021 header.b=HZ0rvCUd;
-	arc=none smtp.remote-ip=209.85.219.50
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=linux.alibaba.com;
+	spf=pass smtp.mailfrom=linux.alibaba.com;
+	arc=none smtp.remote-ip=115.124.30.119
+Received: from out30-119.freemail.mail.aliyun.com (out30-119.freemail.mail.aliyun.com [115.124.30.119])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50F9B606A326
-	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 03:03:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 50F9B606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.cmu.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=andrew.cmu.edu
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=cs.cmu.edu header.i=@cs.cmu.edu header.a=rsa-sha256 header.s=google-2021 header.b=HZ0rvCUd
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-91c9cfd8b1bso16567486d6.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 04 Nov 2026 19:03:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cs.cmu.edu; s=google-2021; t=1793847799; x=1794452599; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:mail-followup-to:message-id:subject:cc:to:from:date:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=TmyrGImNoeERgzj0671/YFCWmU7Tn1bl23zRlCFzkls=;
-        b=HZ0rvCUdtiV8k6tqRF6TNPr6BxCfo26C8HCb+SArpySJ7XV0WATODALH96NFOW6e7o
-         ZGApbRrZ/QSzYLJ8X4t1ECE/Eu4lMlNDeD5wgFvEw8IqauOWePNXyp9HbuUJ7TnRzq9w
-         U3Fio9VNZSRrd/Z/2C9vHTz+SG5PyKTA8gsSf1cbn0lXq0B5Gfq+ofBHPqPkjgfeaBO5
-         /DXZLDSD0LWbJgTztTbwX8R2jJ4XcYm23CuYO5ko5CpQToVLBWnMG6CIHfph0jtfZrkO
-         8ugkjNiL0OzxmB6W5QvQOvvIzyubf5vGK0UgGFdBlaiG97CwLOofr5AdJpIJv6MOq/jP
-         CpGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793847799; x=1794452599;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=TmyrGImNoeERgzj0671/YFCWmU7Tn1bl23zRlCFzkls=;
-        b=FSKpCV/2VR4eFpVzyv0vY9GHcQiDQM5/BYhRnlvSUGlbiIgm6R6jJya85OZ9Bvpc7g
-         PcpTKlWRgG6FESQ/hKuXNrlqxuu0fuKelK2Uh7awAERNRZZrqQm0QQEljrlZ/AjTH+MG
-         V1GccPS9VAtHL+fd91fKRba1ND3xcVhGriPvhanS4nWsSXnstWVmcKI0ILWh9T30xJk0
-         tJZFb/9XLFPDUX5wasMxnQ+rxPEFEg7nb1uO6FGF5pxaNKiwajYW3Q0kMAdF5PivCpHj
-         2TnOFUamXGE1LNkrNXpz5x724J+wBTaW1XUw3DvxwPikVOAtcIhRu3XfJOzvMDZFLWd0
-         iGrA==
-X-Forwarded-Encrypted: i=1; AKwUvBz3Zts8FuPLXEudynQ5MGunztMD7jGpbSzWPbKL1qvFOpPxJJGWc2782Q/QURs3ts3pT/6hTl0SZwrufHik@vger.kernel.org
-X-Gm-Message-State: APuU4Z/3nnE6xQXMQx3FneQzGkdxPJRHymVEihkrQsiLXiHoUznIj/KL
-	A7uj+TVb2apyFbt/+dkZr7L9FqP3/d3j4FP86KkgONiC674U4HLtnXxhdQyBLS1+TQ==
-X-Gm-Gg: AYBFou0SL48A9FbuTdKo3bA8GgTn4SDbKsk4jTQ8ybNmFrF2SwrSDoxi22i4Tvm6Eqf
-	L/V7kJE3k1/bhpbF0nj+GAbMoKBwx8dG0gX8J6AiPwj1nWtSDH3fDF1uGY6BgsOaLpOcHyq/wYE
-	mK0Q3VaFSX+JUAN5GORKmcdb2MKajOydZlOI0ESVBkxJAAqMly4bK+DvJuQX+TLxBSxOe3IUNA5
-	3eY+RhNDdzJ2oh2OxlG71cKOcz0bVpAKTIGBwnQFCuyjoK1el35KdiGxIJXSXCZwMYkCvkJ9XAQ
-	V+X7YkkDms0yNjCmIvT5FOH4VTGQa9Y8g58Ihnq81MjwbS4xuVJRk7reEkQkhL19S/rN/9fGbpr
-	JeW6gLBLEbe8gLSFaxcoZyiKoYNVvWX+EtplVrA+6I130TEkcCUd4Hjh+urfv8EQvFiN02puHjV
-	6uDbQxEV7oVMc5xMaaK1i3NR2qpoYXmN+SKt3UXGWJPpwBAmTokV+PGn5DDfuU3VuYKqYt16Jfp
-	N+l9Ft3ZfAQOLmdDQ5C3MfIQSEj6I1KAV4CCOppwFLvS+ue0/dlDk7ngR93xTmXEzySrA658PBE
-	uB5YjhweQ3XNd7+kmNf/nxQH5FeAjO0k2vB/RLtHmX4/I/PAPw==
-X-Received: by 2002:a05:620a:46a5:b0:93f:2e08:6420 with SMTP id af79cd13be357-94421741ccemr3073423785a.38.1793847799333;
-        Wed, 04 Nov 2026 19:03:19 -0800 (PST)
-Received: from cs.cmu.edu (tempest.elijah.cs.cmu.edu. [128.2.210.10])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-945d468fbe9sm362171485a.3.2026.11.04.19.03.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Nov 2026 19:03:18 -0800 (PST)
-Date: Wed, 4 Nov 2026 22:03:04 -0500
-From: Jan Harkes <jaharkes@cs.cmu.edu>
-To: Hungyu Lin <dennylin0707@gmail.com>
-Cc: viro@zeniv.linux.org.uk, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] coda: honor the append state of each write
-Message-ID: <20261105030304.ukyfkyh7xf66yf7w@cs.cmu.edu>
-Mail-Followup-To: Hungyu Lin <dennylin0707@gmail.com>,
-	viro@zeniv.linux.org.uk, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20261104191355.89544-1-dennylin0707@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F923606A31B;
+	Thu,  5 Nov 2026 03:43:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3F923606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1793850209; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=VPL6FGJI6mYbfWVdagRDwQTQgREcZN8JpaFK/cgIs8Y=;
+	b=df7ctmeMETF2xxJwENMAiPw5tB/yyYrAVCP9Ji9c/Agd9scTxdOcVj2cILeacTPjQ68gD4yEHtiCiDxFR/C1UjO9Nj6uhsYO8P3rnc+2SkTZn8BBKH8Qy8wKs5FijRqp9tpIy377D2X9GWps7SuCH0Chdn4NTV4kCewHhVkv5Xc=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R771e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037026112;MF=baolin.wang@linux.alibaba.com;NM=1;PH=DS;RN=64;SR=0;TI=SMTPD_---0XE7Nmrn_1793850203;
+Received: from 30.74.144.136(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0XE7Nmrn_1793850203 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Thu, 05 Nov 2026 11:43:26 +0800
+Message-ID: <d0f78f0f-c883-4919-a416-fe738eb7323a@linux.alibaba.com>
+Date: Thu, 5 Nov 2026 11:43:22 +0800
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -99,87 +50,121 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261104191355.89544-1-dennylin0707@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 18/47] mm/khugepaged: check if PTE table is empty in
+ try_collapse_pte_mapped_thp()
+To: "David Hildenbrand (Arm)" <david@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>,
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Lorenzo Stoakes <ljs@kernel.org>, Kairui Song <kasong@tencent.com>,
+ Barry Song <baohua@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>,
+ Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
+ Baoquan He <baoquan.he@linux.dev>, "Liam R. Howlett" <liam@infradead.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Kees Cook <kees@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+ Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
+ Hugh Dickins <hughd@google.com>, Pasha Tatashin <pasha.tatashin@soleen.com>,
+ Pratyush Yadav <pratyush@kernel.org>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Zi Yan <ziy@nvidia.com>, Lance Yang <lance.yang@linux.dev>,
+ Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
+ Alistair Popple <apopple@nvidia.com>, Nico Pache <nico.pache@linux.dev>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>, John Hubbard <jhubbard@nvidia.com>,
+ Peter Xu <peterx@redhat.com>, Will Deacon <will@kernel.org>,
+ "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin
+ <npiggin@gmail.com>, Oscar Salvador <osalvador@suse.de>,
+ Minchan Kim <minchan@kernel.org>, Muchun Song <muchun.song@linux.dev>,
+ Xu Xin <xu.xin@linux.dev>, Chengming Zhou <chengming.zhou@linux.dev>,
+ Chris Li <chrisl@kernel.org>, Kemeng Shi <shikemeng@huaweicloud.com>,
+ Nhat Pham <nphamcs@gmail.com>, Youngjun Park <youngjun.park@lge.com>,
+ Gregory Price <gourry@gourry.net>, Joshua Hahn <joshua.hahnjy@gmail.com>,
+ Rakie Kim <rakie.kim@sk.com>, Ying Huang <ying.huang@linux.alibaba.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ kexec@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-cxl@vger.kernel.org,
+ Muhammad Usama Anjum <usama.anjum@arm.com>
+References: <20261031-fixes_core-v3-0-d6437171ecc3@kernel.org>
+ <20261031-fixes_core-v3-18-d6437171ecc3@kernel.org>
+ <62268831-f6f3-4666-a32f-a77546b95432@linux.alibaba.com>
+ <979fb046-32dc-4af8-b6a3-177c78f1e557@kernel.org>
+From: Baolin Wang <baolin.wang@linux.alibaba.com>
+In-Reply-To: <979fb046-32dc-4af8-b6a3-177c78f1e557@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 04, 2026 at 02:14:23PM -0500, Hungyu Lin wrote:
-> coda_open() adds O_APPEND to the container file's f_flags after it has
-> been opened, without updating its cached f_iocb_flags. An O_APPEND write
-
-Why do we now have cached copies of f_flags around? That sounds like a
-recipe for getting things out of sync.
-
-Anyway, your patch subtly changes the container file we write from
-cfi->cfi_container to host_file and I am not convinced that is a safe
-change.
-
-Yes, host_file is set to cfi->cfi_container but then we call
-venus_access_intent, which is an upcall to userspace which involves a
-context switch and may update the state of the container file.
-
-I am going to have to look at this a bit more carefully because we do
-use that cached host_file pointer to get i_size right after the write,
-so maybe it is safe and as far as I know our userspace cache manager
-only updates in place and never actually swaps the container file.
-
-I haven't looked at this in a while, but I think f_pos synchronization
-was assumed to run through the Coda inode, so the append used the
-coda_inode->i_size to decide where the write would land, but I can also
-see that with the locks being where they are and the access_intent upcalls
-that may not be a valid assumption anymore.
-
-You are correct that we cannot rely on the containers open time flags
-because that container file was opened by the userspace cache manager
-and is passed as an open fd to the kernel.  This handle is then shared
-by all users of the Coda inode, so some Coda file handles could be
-O_RDONLY, others may be O_RDWR, and some O_APPEND.
-
-So I think the core of your patch is probably right, but it may need
-some more careful thought, maybe the use of host_file is ok, maybe the
-i_size needs to be copied from cfi->cfi_container instead of host_file.
-
-Jan
 
 
-> can therefore overwrite existing data instead of appending. For example,
-> writing "Z" to a file containing "abc" produces "Zbc" rather than "abcZ".
+On 11/4/26 5:13 PM, David Hildenbrand (Arm) wrote:
+> On 11/2/26 09:20, Baolin Wang wrote:
+>>
+>>
+>> On 10/31/26 5:39 PM, David Hildenbrand (Arm) wrote:
+>>> The existing code is rather horrible and already resulted in bugs in the
+>>> past: we special-case UFFD inserting anonymous folios by grabbing the PMD
+>>> lock early, but ignore any other markers (guard, poison through uffd) that
+>>> could have been inserted into the page table in the meantime, effectively
+>>> dropping them.
+>>>
+>>> Let's just unify and simplify the locking: try to grab the PMD table
+>>> lock and if that fails, flush the TLB, drop the PTE lock, take PT locks in
+>>> the right order and check if the page table is still empty.
+>>>
+>>> We still perform the heavy lifting (zapping the folio ptes) under PTE table
+>>> lock only.
+>>>
+>>> Include <linux/hugetlb.h> for now, as x86's flush_tlb_range() macro
+>>> depends on hugetlb helpers. This dependency needs a separate cleanup.
+>>>
+>>> Both issues this fixes are rather corner cases. Let's not CC stable for
+>>> now.
+>>>
+>>> Fixes: f807123d578d ("mm: allow guard regions in file-backed and read-only
+>>> mappings")
+>>> Fixes: 1043173eb5eb ("mm/khugepaged: collapse_pte_mapped_thp() with
+>>> mmap_read_lock()")
+>>> Tested-by: Gregory Price (Meta) <gourry@gourry.net>
+>>> Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
+>>> Tested-by: Muhammad Usama Anjum <usama.anjum@arm.com>
+>>> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+>>> ---
+>>>    mm/khugepaged.c | 64 ++++++++++++++++++++++++++++-----------------------------
+>>>    1 file changed, 31 insertions(+), 33 deletions(-)
+>>>
+>>> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+>>> index ce794d9760a87..ad07c8caa3bd9 100644
+>>> --- a/mm/khugepaged.c
+>>> +++ b/mm/khugepaged.c
+>>> @@ -10,6 +10,7 @@
+>>>    #include <linux/mm_inline.h>
+>>>    #include <linux/kthread.h>
+>>>    #include <linux/khugepaged.h>
+>>> +#include <linux/hugetlb.h>
+>>>    #include <linux/freezer.h>
+>>>    #include <linux/mman.h>
+>>>    #include <linux/hashtable.h>
+>>> @@ -1832,6 +1833,17 @@ static enum scan_result set_huge_pmd(struct
+>>> vm_area_struct *vma, unsigned long a
+>>>        return SCAN_SUCCEED;
+>>>    }
+>>>    +static bool pte_table_empty(pte_t *pte)
+>>> +{
+>>> +    int i;
+>>> +
+>>> +    for (i = 0; i < HPAGE_PMD_NR; i++, pte++) {
+>>
+>> Using PTRS_PER_PTE to iterate PTEs seems more straightforward? Otherwise LGTM.
 > 
-> Pass RWF_APPEND or RWF_NOAPPEND to vfs_iter_write() according to the
-> incoming IOCB_APPEND state. This also honors changes made with F_SETFL
-> and per-write append overrides instead of relying on the container's
-> open-time flags.
-> 
-> Fixes: 164f4064ca81 ("keep iocb_flags() result cached in struct file")
-> Cc: stable@vger.kernel.org # 6.9+
-> Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
-> ---
->  fs/coda/file.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/fs/coda/file.c b/fs/coda/file.c
-> index 6ca8bfcb58f2..ae03f0b30d84 100644
-> --- a/fs/coda/file.c
-> +++ b/fs/coda/file.c
-> @@ -71,6 +71,7 @@ coda_file_write_iter(struct kiocb *iocb, struct iov_iter *to)
->  	struct file *host_file = cfi->cfi_container;
->  	loff_t ki_pos = iocb->ki_pos;
->  	size_t count = iov_iter_count(to);
-> +	rwf_t flags = (iocb->ki_flags & IOCB_APPEND) ? RWF_APPEND : RWF_NOAPPEND;
->  	ssize_t ret;
->  
->  	ret = venus_access_intent(coda_inode->i_sb, coda_i2f(coda_inode),
-> @@ -80,7 +81,7 @@ coda_file_write_iter(struct kiocb *iocb, struct iov_iter *to)
->  		goto finish_write;
->  
->  	inode_lock(coda_inode);
-> -	ret = vfs_iter_write(cfi->cfi_container, to, &iocb->ki_pos, 0);
-> +	ret = vfs_iter_write(host_file, to, &iocb->ki_pos, flags);
->  	coda_inode->i_size = file_inode(host_file)->i_size;
->  	coda_inode->i_blocks = (coda_inode->i_size + 511) >> 9;
->  	inode_set_mtime_to_ts(coda_inode, inode_set_ctime_current(coda_inode));
-> 
-> base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
-> -- 
-> 2.43.0
-> 
+> As I pulled this patch out from the stable fixes, I fixed it up.
+
+Thanks.
+
+> I realized that this helper should likely move to some header later and be
+> reused elsewehere (zap_pte_table_if_empty), but that's something for a later
+> cleanup.
+
+Indeed.
