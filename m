@@ -1,62 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.183
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793918650;
-	b=BrQkejMzyEaqIODMpa+Sm21YD3MxoTY0iW1nbVn/OcFLtwQ3jiDOjJH+bPzzc9jKyM8L
-	 Pij3GlCh8ADX+1vYnhGhaYbQUzgSfgkLZAExTcKsZDkEkiQNmsUzGZ8otVVZOFVG9tZs2
-	 +F3oh7u3MWlxI0GjjhKrL+1MKkpmxXkoQcF5ppCQWSfLaJM09w7S3aI6p+VS/wcK/Tv+8
-	 yW+mcBpWDBALSFHgtojmFFMH49x2m5ikRbzDplO8KbZsdsKX2m4NBU7ZfBiPHVfnSpMmr
-	 M94UmVw8FVWKHqLjWAmg/FU5QoY7+/Q/KA4RTQXtOst1R1wAycwm3c2xjPTX5R0nivw==
+	t=1793918975;
+	b=PALXASzSuk8hH9CybqKAU7YJ8a4xJ70okWUvvGD5+4jJ8MvwbIurubKJ1ivyVrYeCH7B
+	 de/szgMdB2sXXaJXVAMS9zmFYT9cNbsZZMNP6cHnnmd8vriUz/QXpRBoWwNs7DBM3lUms
+	 w/QNfhG6dNN5WOY6dJJA9W5RgdHEc6WNbXliSOqLiCuqnQSaYZpZAE7WSgqufTKQowvUD
+	 IrDX+dRAHO/aO6ox1MNJNinQkFVZezJmhmqQjFxER/VFAAdi7W/Dwsfh8vvme6mTqvqK9
+	 K01+5HfCGwFCtSMg1Ww/dycCwOpq4m5HcrQL1VS/M4acFFlT9EyaMLxhcX7Y4qhNu4Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793918650;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
+	a=rsa-sha256; c=relaxed/relaxed; t=1793918975;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=JxLJNgnKaaDtogy9UDJ+u4IBfGkMCrx4gqopdXLbwqE=;
-	b=Fqp05v770vNskKXF9Gb7K2IETET4+eEax5Hx8PKaZ0N6Y8bcrwp/cMGJ/2Pox+eDFXIr
-	 lUxYMFvszDJfWNZgBqzeKbUg9KJFPBQBxn3JUbY1tRvSeajKBnpoLVsVlADOD8Oz3ywRp
-	 Hu9cKFGx0j933K+VXE/6G6Ey9pzddQGvhNV5qBWA0ICPxVRGa7VuEqa/FLz/nInwMc59F
-	 /cQ9z/bcIgzpGLOWOLQiPdIQMAuowWCNrsxjo8qKl4HoKTQvG8Q/wmb33epoXIg61wCU+
-	 JKlv0m/cAU4SBNUIbT0ioAT7h9UDJZq3W44kf4BJjQhs9z3zj2fUDzEIdS2OwQR/3Uw==
+	bh=S+nYe4I8JfGZ8iq7Bvfptw+3SVmUNoB+MIDzTrsXpZc=;
+	b=V9ybLqb6ZpdR0L3Ud6ifMldFekOW+f3YbHx/q98xpR9lVr7R0TekvqdR6LLdppw8nh8a
+	 LNu+xdNM2DTw8LijH3IiN42QyomLOXzkqjzm6zAl9WtkKGekOwjIFxvlknl70dVS11rM/
+	 WcvzL0nK1VDwcU6/5uutXltJD/IGfSDlJXrSAs95BxjWpP1I6+G9U0uXCgFC96j39q/WW
+	 C6Gr+IuhDlEmM1UHzYJMwvoudDCHb9lTGRph+MRYG/Rk0+0P6vgXsb7oazKNQ5ffYSWy/
+	 RszBDelaQA2Rx6av5qEoPeJl89QaMVUXaWQtf1o5r1bF8fxB5IebjKgYDBNlTx64/oQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	arc=none smtp.remote-ip=91.218.175.183
-Received: from mta0.migadu.com (out-183.mta0.migadu.com [91.218.175.183])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TgHZ7LH2;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B650606D815
-	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 22:44:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7B650606D815
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=vAPWWkIFDwbgy2wHFM/rAmP8el8Mj7wGKfgTaZhtpZ4=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793918642; v=1; x=1794523442;
- b=rp7glFqHvrLHbMfBSaPiYJG22IM71k3aN2mJXgKV8YPS9ZSnI0eD4CGSpjLSYsqaCbG5rVU7
- niGJGtmUA431/BKVodx+m/HkN3vVu/yDMxehWTLamDYafgLyUpZ6bt5suRnNrAgPbvce5imoIzY
- 5T3SqgXEZUkCHeEd5Y8xay/Q=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 960618cb128bac7d;
-	Thu, 05 Nov 2026 22:44:02 +0000
-X-Mizu-Trace-ID: 960618cb128bac7d
-X-Migadu-Flow: FLOW_OUT
-Date: Thu, 5 Nov 2026 22:43:58 +0000
-From: "Jose Fernandez (Anthropic)" <jose.fernandez@linux.dev>
-To: Pedro Falcato <pfalcato@suse.de>
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, Krystian Kaniewski <krystianmkaniewski@gmail.com>, 
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2] mm/filemap: stop fault-around when the walk steps back
-Message-ID: <au0GBdGqu6cv5PMy@linux.dev>
-References: <20261031-jf-mm-filemap-map-pages-lower-bound-v2-1-21029744e589@linux.dev>
- <aunPI5eOUOAEUa8d@pedro-suse.tail5790ac.ts.net>
- <20261104-jf-filemap-v2-pedro-reply-r2-74c87c6fbcf@linux.dev>
- <auxvLCiljPhy0n_q@pedro-suse.tail5790ac.ts.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6887B606A326;
+	Thu,  5 Nov 2026 22:49:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TgHZ7LH2
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D243F1F0089F;
+	Thu,  5 Nov 2026 22:49:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793918975;
+	bh=S+nYe4I8JfGZ8iq7Bvfptw+3SVmUNoB+MIDzTrsXpZc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=TgHZ7LH2yAs2qyGTAyNNtl8frCxxpwAJZEf6PU2DcWnxnWy8Gwr2rY4WWscjskyEm
+	 piib1sPyrp16ZX0SGTmaIsDb7pvL5paKi/uBo8avrLOrUUi1aOj/A7Z5bjfMQBMSjN
+	 j4Eq9xsHFuM2pB920goI6zViijasUSIFu7KXGqFRJvCPeVMdAzEHY6fyhJDfuKuq+E
+	 J58K9DIZLC3V7zC732nScfU/zhzvvw1oMRaZTKz8cZFFqEXg9rdDKXASjqjxeSqrtZ
+	 ELHH8o3eXZWSf+wF68UCbIny6kkYndjaeDR7pwKDeuguD1MRYu20E2srlmlgMetBGp
+	 cv4tnszSs4FrQ==
+Date: Thu, 5 Nov 2026 17:49:33 -0500
+From: Mike Snitzer <snitzer@kernel.org>
+To: Chuck Lever <cel@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org, Jeff Layton <jlayton@kernel.org>,
+	linux-nfs@vger.kernel.org, NeilBrown <neil@brown.name>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
+	Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+	Jonathan Flynn <jonathan.flynn@hammerspace.com>
+Subject: Re: [PATCH v10 7/7] NFSD: drop a shared boundary page only once both
+ WRITEs have written it
+Message-ID: <au0H_TZCp1Snf_5U@kernel.org>
+References: <20261103211754.35352-1-snitzer@kernel.org>
+ <20261103211754.35352-8-snitzer@kernel.org>
+ <20261104091543.GA31130@lst.de>
+ <autk-osSQ8l2LKz1@kernel.org>
+ <20261105075935.GA18069@lst.de>
+ <29851456-2e7c-48a7-bf00-11a1f1a35024@app.fastmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -68,41 +70,83 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <auxvLCiljPhy0n_q@pedro-suse.tail5790ac.ts.net>
+In-Reply-To: <29851456-2e7c-48a7-bf00-11a1f1a35024@app.fastmail.com>
 
-On Thu, 5 Nov 2026 12:19:13 +0000, Pedro Falcato wrote:
-> Thank you. So, if I'm not mistaken, this is the race:
-> First, you map/see this:
-> 	[folio pgoff 4, length 4]
-> Then, at some point in time, someone punches the hole:
-> 	[no folios here]
-> Then, at some point in time, someone faults another folio in the range:
-> 	[folio pgoff 0, length 8]
-> so you step backwards. Is this correct? Or am I misunderstanding this?
+On Thu, Nov 05, 2026 at 08:33:34AM -0500, Chuck Lever wrote:
+> 
+> 
+> On Thu, Nov 5, 2026, at 2:59 AM, Christoph Hellwig wrote:
+> > On Wed, Nov 04, 2026 at 12:01:46PM -0500, Mike Snitzer wrote:
+> >> It is the transfer size of IO500's ior-hard: every rank writes
+> >> 47008-byte records, interleaved with the other ranks, into one shared
+> >> file, with O_DIRECT.  It is meant as a hard case, and it is the
+> >> workload that showed the problem on our servers.  The same happens
+> >> with any record size that is not a multiple of the page size.  The
+> >> cover letter also has 6000-byte records.
+> >
+> > So based on a bit googling your totally optimize this for an intentionally
+> > stupid benchmarking workload.  And that's not been disclosed anywhere.
 
-Not quite. In my test a large folio goes away and a small one comes back
-below where the walk started. If that happens during the walk's first
-lookup, the walk can step back. Krystian's fix doesn't cover that
-lookup.
+Why we're even debating this, like "IO500" is taboo or something, is
+what's stupid.  Not a surprise: handling misaligned IO is "hard".
 
-In your order it doesn't step back. The new folio covers the place where
-the walk is, so the walk either gets it at the right index or skips its
-sibling slots.
+Public service announcement: Don't let Christoph taint others' work
+with trivialities and needlessly hostile strawman arguments.
 
-> If so, how can this happen while we hold the PTE lock? That itself should
-> block truncation.
+For would-be MM reviewers (and you too Jens), my previous reply to
+Christoph in this thread [0] delivered a lot of useful context that
+made this patchset instantly approachable and yet rather than
+acknowledge that fact he attacked a misaligned IO benchmark as
+irrelevant.
+[0]: https://lore.kernel.org/linux-nfs/autk-osSQ8l2LKz1@kernel.org/
 
-We don't hold it yet. filemap_map_pages() does the first lookup under
-RCU and takes the PTE lock after it.
+But anyone who is active in HPC filesystems development _knows_ that
+"47008 bytes" is IOR-hard (part of IO500's benchmark suite).  And yes,
+its aptly named as a "hard" workload to handle efficiently.
 
-> Can you share the reproducer?
+I have named "47008 bytes" and "IOR-hard" and "IO500" _to_ Christoph
+and others multiple times before:
+11 Jun 2025 https://lore.kernel.org/linux-nfs/aEl1RhqybSCAzv3H@kernel.org/
+12 Jun 2025 https://lore.kernel.org/linux-nfs/aEs6gmTXzhzuDZOI@kernel.org/
+29 Oct 2025 https://lore.kernel.org/linux-nfs/aQJG2LIuui08Bx3H@kernel.org/
 
-With the delays it can corrupt memory on a kernel without this patch, so
-I'd rather not post it. I can share it off-list with the maintainers if
-they want it. The 40 runs without a delay were on a debug kernel with
-the delays set to 0.
+Even in the context of this MM DONTCACHE patchset (now on v10)
+Christoph's "not been disclosed anywhere" doesn't hold. IOR-hard was
+named, with its 47008-byte record, on 22 October in a v7 reply he was
+copied on, two weeks before v10:
+https://lore.kernel.org/linux-nfs/atqCTLf42kkGZmSd@kernel.org/
+But it was only in replies, never in a cover letter or commit message.
 
-Andrew, I can send a v3 with this case in the commit message if you
-want it.
+> > I guess everyone else was right and just ignored this bordline malicious
+> > submission.
+>
+> It's not fair to ascribe that kind of intent. I think it's fairly
+> well known that Mike and Jon are using IO500, and not mentioning it
+> in the documentation for this series was a simple oversight.
 
-- Jose
+Thanks Chuck.  If there is a need for v11 I will explicitly mention
+IO500's ior-hard benchmark's use of misaligned IO of 47008 bytes.
+
+Jeff Layton reviewed and provided his Reviewed-by.
+
+I suspect MM engineers have just been busy with the merge window.
+Hopefully Willy and/or Jens will give v10 the courtesy of fair review?
+
+But as I mentioned in [0] any misaligned IO has this issue:
+"The same happens with any record size that is not a multiple of the
+page size.  The cover letter also has 6000-byte records."
+
+> But IMO we do need a broader variety of benchmark results to
+> understand the impact of these changes. IO500 on big hardware is
+> an uncommon workload for NFSD.
+
+IO500's IOR-hard reflects worst case, I understand the reluctance to
+care about it BUT the reality is that not all IO is sized optimally.
+So if steps can be taken to avoid pathological inefficiency during
+worst case (misaligned IO) _without_ hurting the fast path (when IO is
+sized properly) then why not take them?
+
+This patchset doesn't hurt fast path at all.  But happy to take
+direction for benchmarks others would like to see results for.
+
+Mike
