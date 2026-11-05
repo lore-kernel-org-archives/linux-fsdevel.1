@@ -1,49 +1,83 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793882565;
-	b=n6y1VUdMvOY0Y1UQCovCdVhjKw7TBhb9EKigxb1DxgSHgS4ai369goOWdiCO/z0vFVy1
-	 tbT9v6ajl4ctS8+eeBrdZbGisGqYEkL1HWXcjwQDjjFP5jL5yaSuh9u0yipkE9AN2lqHU
-	 K2SusL4F2Bg4H2FEghdLkH+aA3xSUJJU1XuhXqgTiy1aLT/sC3+u9OzxKsU8ZnRF+9D4X
-	 PLI3c7WaPh6IgHaHiFzXRK8malc5kvc2yO+L6WY9GL+NjqN4THTM3yCNOv+VqeDKRtnRq
-	 WWnnJZk9UeqgourGwWpq+Ioo9NSki8OBCBUnZ+unmZpZtZy4OUKk7gLYiGKN0gyK42g==
+	t=1793882966;
+	b=XHY044WF5hv/1WKpbwoPMDuiiLJbLAlPqR8ZqOIP1X7vVQBH3ZIgGDILAvpHWvBzoo5F
+	 fjoSf2RcSkVGRmBzQ7z9ZY3MBHexyDPEvpI9ETpJ1NiOdqMY8U6PkIbMRRfowA9rJfKdh
+	 8jBQK0pT4V8ubtVxpRPUlZOs2lI491Nk0ny1+usuzt44sTcgcwXSSQ2/abT7PQy8LEzhe
+	 zCFCM32inuKHJk2ugjo0Q+KAAok/+8XgmRxOTmmhPN1hlZt9ZbC7zJts/F5l4y/Jk9pMm
+	 bxaUNyVJNsvZSrTmhfDyuEdyxgYgietRMIxgkWzqFKfKHrJ9uDtP0v/6f9T5IOOo0qA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793882565;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=Hpra49h2tIJZvGGHDR5HzCg/FGYiBsWReE6wHFXQ1q0=;
-	b=nMm2XMGL2oe86XlRu5zQQkeqD5Ve8AjAqzNAjixw8cEeBOJorG3Y4R9lCu+6yIddFr4c
-	 4Owlj+Z3SGMKeP79CVCcOkAFk1vBIKW/CLUwz+z8zAn7LM7CQSgwuNRnMDLanuMhragjl
-	 +goSvKnKLfiVTrWl8ElF3AOSKzWKgGrSG+kFgG8NFwXC4VUOLwdcJ/G4lKXULl2Pex6Na
-	 Seh8A6iMDKVNMXnI5qObHlV8kamVxxljSxrOXdjyu6ySuf3ApWBI+VmakcxvN4UMQt6KU
-	 3ByXOcgpFOt7ZK4fuil0Y5BypNPjxL1ISS50V+CT68Ts3Y3YzWXFvdwOZkuUtaAEhOA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793882966;
+	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:X-ME-Received:
+	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=jm/wpw0aBzb0o0AOc3jfnmw4DQX6HAAVWZR9EuNYLsE=;
+	b=eTE9So3vfSZ+DfonouwIc5voWPX89EbCTzJ3bJJRkpNrKU+55V+aWhqGU+FadRXwRllf
+	 9qv0283Aw8r7hRVj0ZG3sizObfzcyWoUPNtEMy82hwQkXI9UM4B1IT5i0ZTxQ8GPPkgBp
+	 zzczQ1niI/Jz6mZ2iArT1FM7IhVwHKFRXQtOV8UQ6Urh6gFjCEjVy2lNGqT1/hcmsoyta
+	 2GIgw/4JzGzUdeI7cxMlxPVqiBpPI5BvY5qLpIVMG9Odz33P3GFl4GXfO/2NOEAQhbWCK
+	 apP/HromaKmsVcDwzr+CEijKMNPizye588HA3WitA9Oq69NDkgq5T4PD3opLhGZtx3g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nv3JJ30q;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hLWHo9b7;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED02E606D828;
-	Thu,  5 Nov 2026 12:42:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E51E606A31B;
+	Thu,  5 Nov 2026 12:49:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nv3JJ30q
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EB501F00A18;
-	Thu,  5 Nov 2026 12:42:41 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hLWHo9b7
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EA771F00919;
+	Thu,  5 Nov 2026 12:49:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793882564;
-	bh=Hpra49h2tIJZvGGHDR5HzCg/FGYiBsWReE6wHFXQ1q0=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=nv3JJ30qrg/q5aGeYQRQKGRnI59swGe3pr6uyrXYP7q4EFwSL6uSOoPEjbveyieAs
-	 xpnUptKUZPDW0b91B9FjJL/pKjLFFEnVxwQKf0oqux8JbuucC1OsMm5WUthAotQPdB
-	 DSW2IBiAxxtiM6ZwG0xAesrrSkPTfX7qiDFSUMgJioX2gO1MxQGL2TouB0noz36ncD
-	 hbY+xmTzxwhtEXXStO1uk3RtivHuNlJO5DQlw/NCcC6NqXyuoQ3jjIFv3/ydTtoA1a
-	 55V3Q2Fb1YJ4id/9U0iCHSfSxDtvmfrvJEXsBnCoepVryXh6ONpfWO/8ghlhKEC2Kr
-	 XCL+qjuCwYkzg==
-From: Christian Brauner <brauner@kernel.org>
-Date: Thu, 05 Nov 2026 13:41:39 +0100
-Subject: [PATCH RFC v2 10/13] udf: don't allocate the inode block in
- udf_sync_inode_metadata()
+	s=k20260515; t=1793882966;
+	bh=jm/wpw0aBzb0o0AOc3jfnmw4DQX6HAAVWZR9EuNYLsE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=hLWHo9b7hGosYSZW7trOle1t4JGK+lOuRPHSSG2ne8QkE8RxORZgz/3ScR/mCd2NY
+	 h4x0RAkm3nAKpJimuuuZNFst2I0wlcVKPd9C3H8o1ZlG88z0q32xfuIRl09+T0hymM
+	 02iY45Rq4Iz9PPnlIJQdwDBnQiAqnoGCt2Q9E4My7WZ+jOZgXT6sVvUBPcnCgA3QkO
+	 R63JJQQ4ALhdm4ZoSLQ+trtZJKWSmaG3b+ELBuyu7Fskp8LXuzheAoK5YOhjbl2OZF
+	 rQ1FK5kT9Ia2+DOVQKMDOaF5dIo90ieLAZjIb1NU/BVZmxs/9LNOkGjNHAEIzv9rVv
+	 3ZWIE3NaexvvQ==
+Received: from phl-compute-08.internal (phl-compute-08.internal [10.202.2.48])
+	by mailfauth.ams.internal (Postfix) with ESMTP id 875C5198003A;
+	Thu,  5 Nov 2026 07:49:22 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-08.internal (MEProxy); Thu, 05 Nov 2026 07:49:24 -0500
+X-ME-Sender: <xms:UnvsahYHfhfuowuo7CsP8DI_Mq629tzha1V6duSqF3d2rOoPSMOv2A>
+    <xme:Unvsapt5IHWqJRc9M1sDyX7maYF_aTnvkF3rMU-NZSWrWQAwToH4sJh1chBA8zN9S
+    vs5PWUD70Qqfv5gbjKLksaFf6psAS_xzlGAl-EQFYJgCyqCRlGupGA>
+X-ME-Received: <xmr:UnvsaokNKCzaNhhvvjKtVP_uXeFX2Ktxdm7UD05Mw8QsKXMyVPjJI11dUpQ>
+X-ME-Proxy-Cause: dmFkZTEW4JllTt5Idft6CjxHmeLyHBmFga2y1IuhusNWLkk+RuUzgi27fIRUkj6zehD73Z
+    qXCwJB+LL25tnZ7MVvsM1jJdiEBmACdZ24JuSELrb7onelR59Gex48EX9ZAQtwkYfzKv6O
+    uaYpMi0+N/MMtqlBvS8vtGqvcrtbxioqnmLvVVrtYt7ftIUJbtV5gX1DIVLeAqEZt1hxdV
+    1+ToEn+FZOdUeh1da2rslwkQZ+AzZG7c40X/kdHTPxPibTU64dnYA36koXg0Tlz8Wztmyv
+    SwnwNjIN0SiiiHU6wxG2euwX+lZfIbFsB8NG0sjX2VL9xr9B8DML+aHpZRMo5jzBfq1zPR
+    ktSIxz93afPY52xXAJMQtDa6ryeGSkd99uQQ6HftCDK/5lq4A4EXG6248hlloaD1dqQXli
+    ZfBqDxP6dPOx+dZRQ5Ewmf0owbcmym2T/DPtrd1oHh+5f0JrozQg5Z3q1nnwt2feob/tEk
+    u4jNZriHcMDhzf+vukSoUlT4TCc8bTEwt3z1Ad0c8X1v6VONQOnV2MwVoZxOFNxVbqAT1s
+    uTKzMC5Z5cFTuo+YI/c5cGoRfBKchT5UlKqB4cs8vwCsJf5yvPg+fHKtjE73dCphA+JD6X
+    4lrlpVaOJ6xaw9/S6Ce8EuGV+CFGCBHfLl4DzEOInSySvMg3qWI/C/CplHqA
+X-ME-Proxy: <xmx:UnvsaiWBPrxsObXpEfarSHjcZGtPcIfjWRAQTuI4KwVlYpuTuVT4jA>
+    <xmx:UnvsajnY5bhdHIG9jufPM0V3sE_xvLSab1AQ3GDusGs1dZGlzkyHiw>
+    <xmx:UnvsanQNGRjIVbPM2n1URzuw1Dv5PS7K8oFUojWmDZegXctMcg26AQ>
+    <xmx:UnvsavE1b5ie_x4Ez0D48lT6jS7Xz-4pnh1JAvyrcmsJuSzP25PwqA>
+    <xmx:UnvsapjUNKB-WYf_Z5-t4A4Z6DmdPTQ_jrkdSpcEREnYB4Kk8P0E7FuG>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 5 Nov 2026 07:49:21 -0500 (EST)
+Date: Thu, 5 Nov 2026 12:49:20 +0000
+From: Kiryl Shutsemau <kas@kernel.org>
+To: Pedro Falcato <pfalcato@suse.de>
+Cc: Hungyu Lin <dennylin0707@gmail.com>, willy@infradead.org, jack@suse.cz, 
+	akpm@linux-foundation.org, dave.hansen@linux.intel.com, linux-mm@kvack.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] filemap: prefault writes starting beyond EOF
+Message-ID: <aux4uyBHKsFo5bTd@thinkstation>
+References: <20261104071002.49693-1-dennylin0707@gmail.com>
+ <aux0ruR5HpMBMPI2@pedro-suse.tail5790ac.ts.net>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -53,93 +87,90 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261105-work-inode-metadata_writeback-v2-10-48628c60c336@kernel.org>
-References: <20261105-work-inode-metadata_writeback-v2-0-48628c60c336@kernel.org>
-In-Reply-To: <20261105-work-inode-metadata_writeback-v2-0-48628c60c336@kernel.org>
-To: linux-fsdevel@vger.kernel.org, Jan Kara <jack@suse.cz>
-Cc: Josef Bacik <josef@toxicpanda.com>, Chris Mason <mason@kernel.org>, 
- linux-ext4@vger.kernel.org, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, 
- Andreas Dilger <adilger.kernel@dilger.ca>, 
- Baokun Li <libaokun@linux.alibaba.com>, 
- Ojaswin Mujoo <ojaswin@linux.ibm.com>, 
- "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>, 
- Namjae Jeon <namjae.jeon@samsung.com>, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>, stable@vger.kernel.org
-X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2116; i=brauner@kernel.org;
- h=from:subject:message-id; bh=DSJoqNCEmQBwJLJ0nW3J2QU7yw43pwXr0BYIRgRbH9c=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS9qZw9xXyN1385EeamesvQ32/ipR7Wmwbx3T96I6+f/
- ZiJbdOcjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIlUcjMy7JgvFj7zZPPUHXM4
- LmXPyftp/tvrj+3rd6eZhX8p3lFws2Bk+B8d/dbJvKJvwbRHz08L6ezeeHS+mOkheUcFxqMHbBi
- rWQE=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aux0ruR5HpMBMPI2@pedro-suse.tail5790ac.ts.net>
 
-udf_sync_inode_metadata() looks the block that holds the inode up with
-sb_getblk() which allocates a buffer for it if it isn't cached. But a
-block that isn't cached is neither dirty nor under writeback, so there's
-nothing to write or to wait for and the buffer just gets thrown away
-again.
+On Thu, Nov 05, 2026 at 12:33:16PM +0000, Pedro Falcato wrote:
+> On Wed, Nov 04, 2026 at 07:10:02AM +0000, Hungyu Lin wrote:
+> > Since prefaulting moved to the slow write path, a buffered write can reach
+> > ->write_begin() and ->write_end() before discovering that its source buffer
+> > is unreadable. Several filesystems can extend i_size in these callbacks
+> > even when no data was copied. For example, a one-byte pwrite() at offset
+> > 4096 into an empty file can fail with EFAULT but leave a 4096-byte file.
+> 
+> I've been following this discussion rather passively on the other thread, so
+> I'll ask my stupid question: Why is this a problem? Yes, it's a bit of
+> weird behavior, but system calls are generally not expected to behave
+> super sanely in the case of bad input/weird errors.
 
-That allocation is also something we can't afford once inode eviction
-calls ->sync_inode_metadata() from reclaim. So look the block up with
-sb_find_get_block_nonatomic() instead.
+The input does not have to be bad. Write from an mmap() of a file that
+another process has truncated: write() fails with EFAULT and the
+destination file has grown anyway. I see it on ext4 and tmpfs. Before
+665575cff098 the file was left alone
 
-Cc: stable@vger.kernel.org # v7.3
-Reviewed-by: Jan Kara <jack@suse.cz>
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
----
- fs/udf/inode.c | 31 +++++++++++++++----------------
- 1 file changed, 15 insertions(+), 16 deletions(-)
+> > 
+> > Prefault the source before ->write_begin() when the write position is
+> > beyond EOF, and return EFAULT if no source bytes can be made readable.
+> > Overwrites and appends continue to skip this prefault. Keep the existing
+> > slow-path faulting for forward progress after a failed atomic copy.
+> > 
+> > This also leaves intentional zero-length ->write_end() calls used by
+> > generic_cont_expand_simple() unchanged. As with the previous prefaulting
+> > behavior, a concurrent userspace unmap can still race with the later copy.
+> 
+> Ok, so it's still racy? What do you do if you can't fault it in at all?
+> You still get a hole?
 
-diff --git a/fs/udf/inode.c b/fs/udf/inode.c
-index bacf2a86161e..b3e7c07cb9e7 100644
---- a/fs/udf/inode.c
-+++ b/fs/udf/inode.c
-@@ -1742,25 +1742,24 @@ void udf_update_extra_perms(struct inode *inode, umode_t mode)
- int udf_sync_inode_metadata(struct inode *inode, struct writeback_control *wbc)
- {
- 	struct buffer_head *bh;
-+	unsigned long block;
- 	int err = 0;
- 
--	bh = sb_getblk(inode->i_sb,
--			udf_get_lb_pblock(inode->i_sb,
--					  &UDF_I(inode)->i_location, 0));
--	if (!bh)
--		return -EIO;
--
--	sync_dirty_buffer(bh);
--	if (buffer_write_io_error(bh)) {
--		udf_warn(inode->i_sb, "IO error syncing udf inode [%08llx]\n",
--			 inode->i_ino);
--		err = -EIO;
--		goto out;
-+	block = udf_get_lb_pblock(inode->i_sb, &UDF_I(inode)->i_location, 0);
-+	/* A block that isn't cached is neither dirty nor under writeback. */
-+	bh = sb_find_get_block_nonatomic(inode->i_sb, block);
-+	if (bh) {
-+		sync_dirty_buffer(bh);
-+		if (buffer_write_io_error(bh)) {
-+			udf_warn(inode->i_sb, "IO error syncing udf inode [%08llx]\n",
-+				 inode->i_ino);
-+			err = -EIO;
-+		}
-+		brelse(bh);
-+		if (err)
-+			return err;
- 	}
--	err = mmb_sync(&UDF_I(inode)->i_metadata_bhs);
--out:
--	brelse(bh);
--	return err;
-+	return mmb_sync(&UDF_I(inode)->i_metadata_bhs);
- }
- 
- static void udf_adjust_time(struct udf_inode_info *iinfo, struct timespec64 time)
+Only if the buffer goes away between the prefault and the copy, e.g.
+another thread munmap()s it mid-write. That is userspace racing with
+itself, and every write had that window before 665575cff098.
+
+> > Fixes: 665575cff098 ("filemap: move prefaulting out of hot write path")
+> > Reported-by: Kiryl Shutsemau <kas@kernel.org>
+> > Closes: https://lore.kernel.org/linux-mm/at9xXRhD2xZhszEj@thinkstation/
+> > Suggested-by: Kiryl Shutsemau <kas@kernel.org>
+> > Link: https://lore.kernel.org/all/at-XtWBQg3jv3H8Z@thinkstation/
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+> > ---
+> > 
+> >  mm/filemap.c | 10 ++++++++++
+> >  1 file changed, 10 insertions(+)
+> > 
+> > diff --git a/mm/filemap.c b/mm/filemap.c
+> > index b74bc1e5015c6f318333427f223b9f42061a6213..30414d55412b84f11ebe98b8eea607ee8c04eef5 100644
+> > --- a/mm/filemap.c
+> > +++ b/mm/filemap.c
+> > @@ -4389,6 +4389,16 @@ ssize_t generic_perform_write(struct kiocb *iocb, struct iov_iter *i)
+> >  			break;
+> >  		}
+> >  
+> > +		/*
+> > +		 * Some filesystems can extend i_size even when nothing was copied.
+> > +		 * Prefault writes beyond EOF to catch unreadable source buffers.
+> > +		 */
+> > +		if (unlikely(pos > i_size_read(mapping->host)) &&
+> > +		    fault_in_iov_iter_readable(i, bytes) == bytes) {
+> 
+> I say this doesn't matter, and if you pass insane inputs you get
+> insane outputs.
+
+As I mentioned above, it can happen with pretty legitimate input.
+
+> Even more so considering this is racy, e.g races
+> against munmap(), mremap(), mprotect(), memory poisoning, and other things
+> like truncated memory mapped files sending out a SIGBUS (or uffd) :)
+> 
+> I don't think it makes to add random prefault loops in hopes this makes
+> for saner semantics.
+
+A buffer that is already unmapped, PROT_NONE, poisoned or beyond EOF of
+its file fails the prefault, and the file is not touched. Only the races
+in your list get through.
+
+It is one prefault, not a loop, and only for writes that start beyond
+EOF. Overwrites and appends keep the fast path.
 
 -- 
-2.53.0
-
+  Kiryl Shutsemau / Kirill A. Shutemov
