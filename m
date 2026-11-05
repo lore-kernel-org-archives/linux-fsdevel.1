@@ -1,51 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793897312;
-	b=aS04pAnbl8UBRzawozI90phlE9SF3kYMDpKlSgy1XYBJ6LRAjWBdqZ3M6Sppw1p7+ww3
-	 ESTY32WJOePDS/0oC0YLF5jwrRG5E69FDXCLrtcX3okgvOIDUS+Q4cdDreLbQ4liaFFPf
-	 AS02l6Zyr87FutAomsqdvqVSO3zm4cqkHh5b62Hu9WT2Ic3bIvnjTG2mojWio+1EYUlfn
-	 LvEE6lxSWh4r4a3MQKMLX3xfbtAoLomApNO0T1I1bKKA3ouit/GAOd7OcViYl8BKhwMVS
-	 8SSGtjh1bzsPixEtQ+JUIAGg6Z5qQzwd//ON5u0SluveN/FxS0wkoACPREwA9ZwDWKQ==
+	t=1793897461;
+	b=ngaU0MdIjqFIwl/HGSe+9iGRonqnBEyfs495r2shjZqT0cysCUNeXomGCRcvYkRT0QY6
+	 DttzzpeJojbDPQoagknTQmakw2r3Z8FMFodV8vFfToLmk5a06zoHdFxpWkrnOB6YMLvJE
+	 Rh+NGDX/+UQaRhLdaqrN7rcRp/gJQIcP28oJNsvpN0UHpUM1qdcavEQ/heSUTQUB6e/Wh
+	 ZS7o12qIiBcUJW2rT6TD5VRbmabvABgD9S1h2BamQ4wER8YXXFhdPBrTXCoK5g0M08jpA
+	 4zVyL2sPDgYnGyKZP+YWUyDgC0ertFTMDCW5ArxG9Si4O0867MWim+8cRqywkQM0pPA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793897312;
-	h=Received:DKIM-Signature:Date:To:Cc:From:Message-Id:Subject;
-	bh=3nNnYS3rXGBEUIhHZKihqecq8rp1NDmqZJxqu67mjHY=;
-	b=1bNATpyHNAw+6TBWOw4OCJBK1g84Cm6pI/nFyyX6zA5He05i5s9xjxkS6pX7c1rwXT/t
-	 oH5uBoqgduulXfi4KGhcMel8S2kwFnj15RjUVPpkstTa23DNB4suT/7qpdn4vquOZAffM
-	 RaP85F6a8w/KngnUKSX8Z0Wr87vTi3oGqpado+AjVfnFrtvQZrdU2+IYrb71RrRxYlnUA
-	 NRBALSVOxG21tvQtzkQtPeAiTvasu7N3ggPY97SJQY3gy35jyTtyPmlUp9VrkWLXpVcFE
-	 Gqet6kBHMeDhyfnn+8uIBbq4w6ITEKuyrbGC5lCW/l/S6B1jEdVddYjv2UbMqy7ZSig==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793897461;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=Evd4zSRSoLM3wtvMWe5vBX2gWrgTZYiZmazmkRXzKvA=;
+	b=g3K3CvnxudQyCV/mGHwJK0ZddysOz8o0N+SMvvlnchxzhPeSklR1jsEDeKdQoVWTCXur
+	 323CU+sJwWDGjmAMHgepBHDMWLgEIHV/VZTT8GEpL9zPGOXivMfXtoLlZVXygV8ckTVA6
+	 sCIvDX953OT0OVbIjJ1XTvLTLLrrgnhnSoQB+CprG7V6msirwTQAZQ9i45WI8v+BtXkjk
+	 rIQY74oKDrZJ6n0QEwsoEH8jDBwGgTQuW3eqogs7siiWqelNmNDSVBU2taXTXE76zQ+Zp
+	 kwo+3+q8puYjc4xfaPEh9a+brOUvJmm6mDMZxWhIHuSD0AR+9lTQJzRhn7Bc9dMR2FA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=ZY1udhAV;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ui93Puyw;
+	arc=none smtp.remote-ip=209.85.221.53
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF6B3606A329;
-	Thu,  5 Nov 2026 16:48:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B8D8606D807
+	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 16:51:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7B8D8606D807
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=ZY1udhAV
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63F6A1F000C1;
-	Thu,  5 Nov 2026 16:48:31 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ui93Puyw
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-48bbb06e746so1352286f8f.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 08:51:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1793897311;
-	bh=3nNnYS3rXGBEUIhHZKihqecq8rp1NDmqZJxqu67mjHY=;
-	h=Date:To:Cc:From:Subject;
-	b=ZY1udhAVpAvlluTuk0VV0ITiU7+6n9sCRl47dQHeqnBsOyMVVj/cHs3BsQEJ79WrN
-	 GrLAc6AJOPd34awsf74B/zRKFmsy3ICE4EcW7bPTxaOXzbuANJ77XDH3iS7HGUqnal
-	 R1b7c2un31wzSEogO+H1x6+H62hKut3GRV/bSPIg=
-Date: Thu, 05 Nov 2026 08:48:30 -0800
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>, Daehyeon Ko <4ncienth@gmail.com>,
- Al Viro <viro@zeniv.linux.org.uk>, Jens Axboe <axboe@kernel.dk>,
- Keith Busch <kbusch@kernel.org>, Hannes Reinecke <hare@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Haocheng Yu <l1za0.sec@gmail.com>,
- Tal Zussman <tz2294@columbia.edu>, stable@vger.kernel.org
-From: Andrew Morton <akpm@linux-foundation.org>
-Message-Id: <de6c68da958f43278194d4cf45a8fde2.1@linux-foundation.org>
-Subject: [PATCH 1/1] iov_iter: validate extracted segment for bvec alignment
+        d=gmail.com; s=20260707; t=1793897459; x=1794502259; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Evd4zSRSoLM3wtvMWe5vBX2gWrgTZYiZmazmkRXzKvA=;
+        b=ui93PuywXMJzjXgS5MOsop1GhFn5R0ZhBytPXAoAZ+Gw+9iNb9ASSqd7sw2b9TtCO9
+         Dpd7IxIcqU6COQrnQFNGktgjp/4R/79/ZU7kYRKa3YjsVepep/tb24YLgEaPtwe35NhD
+         LdJXyT9M1IjrGrn7q0RcFptc2ymFrtOVNyx9Ot++scaAGUyirSboPOmRW7S1vrmJ1QhB
+         Lt+hRhauFgNTB6ws/qU+4o8h2CFB359P5c9yg0OOHbBxRpUzQ7vPQSasLTrWAyYVyKRF
+         GbyufdOZOaDh7akHpW8mXXzUNuH7T9phnxaQW/ofDDX4IRb5NKWTmXQxEofQ1NZt6Y0q
+         D2Vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793897459; x=1794502259;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Evd4zSRSoLM3wtvMWe5vBX2gWrgTZYiZmazmkRXzKvA=;
+        b=mdggIPPMfuvz1VmHMNGIRPw491ICZzA0im1A43OCQyLJytpJaiqxSr98g+s6//qiNw
+         TC3pHssxcwNgwL0HPZmtkSpbDzXariNXsOETf5bSx0IgiX3KJNXO9vekS5LBNgkkaVVR
+         XfNocstHRLVsFkeNblMf+KOc7gNo4mMK6niJRhlaVpAdifJml+7XEv0GDzXr77o3CyDM
+         RUsKaoHi4xflmrnA3XEq29stwKa3YiQHU9c37V6o5TeYJTRdKufdzBzPZS4rm1tlrhYu
+         ZpO67mYJDjh8uyCbpPj2X4i++2XKmjov0lvw83o/L3nSlvEmIX4SCwQyh7GvUMsC0d5E
+         MhfQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzMZLPU8NTQqpQ00Tblho+BBbocomNvwGZimjtd4qsTHewjCxE1LLK7n20jL2vWJBbuVDbzznB0jrw4vl4s@vger.kernel.org
+X-Gm-Message-State: APuU4Z8xAP/vWN33toHbSGqRxPTsM9dz4ntZ4ggBtMIW05T2eltAPa1l
+	mqwIWl1DMTwxRgVYGiaXkXFMEuzoxBEpzSm3oeF6rissDml8/xedY8AC
+X-Gm-Gg: AYBFou3e20RfKE4nY06nXzoPbqhOKQGtPn3BjIvqq0lD9E31taZl5fePaB+VYC+SkW4
+	WRfA9suX6aTi9J8+GomVX5AIfrl6vBCpYJt96Lw3Md4AkIPRNOLnVhkhgA7ppdCvSoZigJ+hbty
+	g0vw6/lx9SwnCB2F6a0GooieoUi5LMFhWNUvUrm3Y3QczDyL17pFCV9AKzS+FpWhwnik9PJPcsz
+	0rAUp1vIMVgcP31M/GUUqgnrRDOUAIynpuWbiP1yBw2Qs3oTR9z/r7UiJJBwP5OKh/nH7guzAhu
+	IQ5yrSMWnrtDxvyrWWaoxl8PWi934s2jvijICc4gnINklfYRWusd0n8+CPL5haemePh2maOLUkz
+	va/vv1cQIJFaw0OPdHK5pBFzscGj4H1l8YH0vo8YqD2sKj5SutQta0EWVsup4sHolJQBrgr8mbg
+	H+tbTDkzgdXrRsMYT90SHrBxx13Tegoq4MODEodVsCwOMI0f5qIwETuTpFym/ll9OXFKhFRZHfC
+	+pc8VCDWwxCnXu1zVmq/BFE2EZjfwr4iTeb89uVCC1DWE6xmxmtq/TOE7KDY0bNNO5BRiFI2aQ/
+	XEALHKgUcTjxfgXSv0rD5w9uJpzyCxkvAJNJq9sGwBPiJ2Dv+IraXZZ+xq+YMsVEY/2kBE77tqn
+	lUtzpO+eMb7/Vg7lmIOpvzDzCWZaLxrkiXb1c56d3LEpCtOMF54O/87gdYw==
+X-Received: by 2002:a5d:4532:0:b0:48e:28bd:e1ad with SMTP id ffacd0b85a97d-492775efe4emr291774f8f.30.1793897458618;
+        Thu, 05 Nov 2026 08:50:58 -0800 (PST)
+Received: from DESKTOP-IR7J1S9.localdomain ([105.98.0.61])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48feda2007esm10825835f8f.47.2026.11.05.08.50.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Nov 2026 08:50:57 -0800 (PST)
+From: Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>
+To: Breno Leitao <leitao@debian.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>
+Cc: Al Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	syzkaller-bugs@googlegroups.com,
+	syzbot+63336d70e1af377d7388@syzkaller.appspotmail.com,
+	Ran Hongyun <ranhongyun1@huawei.com>,
+	Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>
+Subject: [PATCH v3] configfs: fix slab-UAF Write in config_item_put
+Date: Thu,  5 Nov 2026 17:50:54 +0100
+Message-ID: <20261105165055.362-1-drifabdelmalekmohamedsaid@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -54,83 +102,109 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-From: Daehyeon Ko <4ncienth@gmail.com>
-Subject: iov_iter: validate extracted segment for bvec alignment
-Date: Thu, 15 Oct 2026 15:19:07 +0900
+syzbot reported:
+BUG: KASAN: slab-use-after-free in config_item_put+0x26/0x90
+           fs/configfs/item.c:149
 
-iov_iter_extract_bvecs() validates iter_iov_addr() and iter_iov_len()
-before iov_iter_extract_pages() selects the first nonempty segment and
-limits it by iter->count.  The checks can therefore cover a different
-range after a leading empty segment or iov_iter_truncate().
+Call Trace:
+...
+ config_item_put+0x26/0x90 fs/configfs/item.c:149
+ configfs_symlink+0x6be/0x11d0 fs/configfs/symlink.c:225
+ vfs_symlink+0x18b/0x330 fs/namei.c:5823
+ filename_symlinkat+0x1cd/0x420 fs/namei.c:5848
 
-An unprivileged O_DIRECT preadv() reproduced the empty-segment case: an
-aligned empty segment followed by a misaligned one completed 4096 bytes
-instead of returning -EINVAL.  A truncated iterator has the same mismatch
-when its full segment length is aligned but its remaining count is not.
+Allocated by task 5712:
+...
+ nvmet_ports_make+0xe6/0xf00 drivers/nvme/target/configfs.c:2054
+ configfs_mkdir+0x4f6/0x9e0 fs/configfs/dir.c:1369
+ vfs_mkdir+0x408/0x620 fs/namei.c:5439
+ filename_mkdirat+0x289/0x520 fs/namei.c:5472
 
-The worst effect I have confirmed is an alignment-contract bypass.  An
-unprivileged O_DIRECT preadv() produced bvecs with offset/length pairs
-(1, 4095) and (0, 1).  The bio reached brd_submit_bio(), and the read
-completed 4096 bytes instead of failing with -EINVAL.
+Freed by task 5712:
+...
+ config_item_cleanup fs/configfs/item.c:128 [inline]
+ config_item_release+0x13a/0x2d0 fs/configfs/item.c:137
+ configfs_rmdir+0x885/0x950 fs/configfs/dir.c:1580
+ vfs_rmdir+0x3e9/0x6b0 fs/namei.c:5544
+ filename_rmdir+0x292/0x520 fs/namei.c:5601
 
-I have not demonstrated harmful behavior on real DMA hardware.  For a
-normal blk-mq target, blk_mq_submit_bio() calls
-__bio_split_to_limits(), where bio_split_io_at() rejects the misaligned
-bvec before queue_rq().  Virtio-blk and loop both returned -EINVAL in
-my controls.
+configfs_symlink() takes a reference on parent_item, drops the directory
+inode lock around get_target(), and puts the reference at the end. If a
+concurrent rmdir removes the group in that window, and parent_item is a
+default group embedded in a larger object (e.g. nvmet_port.subsys_group),
+the reference does not keep the containing object alive. The object is
+freed, and the final config_item_put(parent_item) hits freed memory.
 
-So a bio-based driver can receive a bvec which violates its advertised
-dma_alignment, but any further effect is driver-specific.  I have not
-reproduced memory corruption or a crash on real hardware.
+The syzbot reproducer hits this by racing symlinkat() into
+ports/1/subsystems against rmdir of ports/1.
 
-Bound the normal fast-path length by iter->count.  Keep
-first_iovec_segment() for leading empty segments so validation covers the
-remaining portion of the segment available for extraction.
+Fix this by not holding parent_item across the unlocked window: put it
+before inode_unlock(), and look it up again from dentry->d_parent after
+inode_lock(), returning -ENOENT if the lookup fails.
 
-Link: https://lore.kernel.org/20261015061907.2713943-1-4ncienth@gmail.com
-Fixes: 14b007e17881 ("block: validate user space vectors during extraction")
-Signed-off-by: Daehyeon Ko <4ncienth@gmail.com>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-Closes: https://lore.kernel.org/r/20261012065520.1089147-1-4ncienth@gmail.com
-Cc: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Jens Axboe <axboe@kernel.dk>
-Cc: Keith Busch <kbusch@kernel.org>
-Cc: Hannes Reinecke <hare@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>
-Cc: Haocheng Yu <l1za0.sec@gmail.com>
-Cc: Tal Zussman <tz2294@columbia.edu>
-Cc: Christian Brauner <brauner@kernel.org>
-Cc: <stable@vger.kernel.org>
+That is not enough on its own. configfs_get_config_item() only fails if
+the parent dentry was unhashed, but if simple_rmdir() fails, rmdir skips
+d_drop() and the dentry stays hashed even though the directory is already
+detached. Default groups are detached through configfs_detach_group(),
+which marks children S_DEAD, so also check IS_DEADDIR(dir) after retaking
+the lock and return -ENOENT.
+
+Reported-by: syzbot+63336d70e1af377d7388@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=63336d70e1af377d7388
+Tested-by: syzbot+63336d70e1af377d7388@syzkaller.appspotmail.com
+Signed-off-by: Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>
 ---
+v3:
+  - Removed redundant null assignment to parent_item
+  - Simplified commit body to not rely heavily on repro
+       explain bug and fix logic
+v2: https://lore.kernel.org/all/20261023162906.2938-1-drifabdelmalekmohamedsaid@gmail.com/T/
+v1: https://lore.kernel.org/all/20261017123748.4430-1-drifabdelmalekmohamedsaid@gmail.com/T/
+ fs/configfs/symlink.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
- lib/iov_iter.c |    9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+diff --git a/fs/configfs/symlink.c b/fs/configfs/symlink.c
+index 89178f5d371a..62d13ce5b46a 100644
+--- a/fs/configfs/symlink.c
++++ b/fs/configfs/symlink.c
+@@ -196,12 +196,26 @@ int configfs_symlink(const struct mnt_idmap *idmap, struct inode *dir,
+ 	 *
+ 	 *  AV, a thoroughly annoyed bastard.
+ 	 */
++
++	/* Put the reference back, retake and check after relocking */
++	config_item_put(parent_item);
+ 	inode_unlock(dir);
+ 	ret = get_target(symname, &target_item, &target_sd, dentry->d_sb);
+ 	inode_lock(dir);
+ 	if (ret)
+ 		goto out_put;
+ 
++	if (IS_DEADDIR(dir)) {
++		ret = -ENOENT;
++		goto out_put_target;
++	}
++
++	parent_item = configfs_get_config_item(dentry->d_parent);
++	if (!parent_item) {
++		ret = -ENOENT;
++		goto out_put_target;
++	}
++
+ 	if (dentry->d_inode || d_unhashed(dentry))
+ 		ret = -EEXIST;
+ 	else
+@@ -218,6 +232,7 @@ int configfs_symlink(const struct mnt_idmap *idmap, struct inode *dir,
+ 						     target_item);
+ 	}
+ 
++out_put_target:
+ 	configfs_put(target_sd);
+ 	config_item_put(target_item);
+ 
+-- 
+2.43.0
 
---- a/lib/iov_iter.c~iov_iter-validate-extracted-segment-for-bvec-alignment
-+++ a/lib/iov_iter.c
-@@ -1042,7 +1042,7 @@ static ssize_t iter_xarray_get_pages(str
- 	return maxsize;
- }
- 
--/* must be done on non-empty ITER_UBUF or ITER_IOVEC one */
-+/* must be used on a non-empty ITER_UBUF, ITER_IOVEC or ITER_KVEC */
- static unsigned long first_iovec_segment(const struct iov_iter *i, size_t *size)
- {
- 	size_t skip;
-@@ -1959,8 +1959,13 @@ ssize_t iov_iter_extract_bvecs(struct io
- 		   iter_is_iovec(iter) ||
- 		   iov_iter_is_kvec(iter))) {
- 		unsigned long start = (unsigned long)iter_iov_addr(iter);
-+		size_t seg_size = min(iter_iov_len(iter), iter->count);
- 
--		if ((start | iter_iov_len(iter)) & mem_align_mask)
-+		if (unlikely(!seg_size && iter->count)) {
-+			seg_size = iter->count;
-+			start = first_iovec_segment(iter, &seg_size);
-+		}
-+		if ((start | seg_size) & mem_align_mask)
- 			return -EINVAL;
- 	} else if (iov_iter_alignment(iter) & mem_align_mask) {
- 		return -EINVAL;
-_
