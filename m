@@ -1,63 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793893481;
-	b=Ec0RMS8W+uiPZJxl9Wm0xGr2C0O6fFu/l0x/QVbPYbuqyU31qbdniHqsFywW3JVyQU2G
-	 he/i3D+dDYRVft4qEAd+WB3ZmE96zE4Rylq489psBTeJfWqXbj5NJ/ZgZm16KWq2/ACNH
-	 mSBSp02X09jb8oFwRQ3DwVT8UsMYAgq2nuTcq6nYRYD3Yuc81LCCPxhJ6nudrCPLRqPjU
-	 Pp6GNXX2p1/pu32I9bjsSsO/3jPs0C1mnYIQTbL9L5gAIbx9aFbYUDjbgERa5JPs6qwrU
-	 KtxwKuNwoWWw3dFQGau1clJ4G1xyGuBjMCiirOGo5wo3ywTiobdM19LzrOe58yf4rjA==
+	t=1793893933;
+	b=yyy/zXU8qEn1GnXH3TrV2qSDNjYHjxEqybpoYPp+6ZSUzeHgL7dOA2Yh4JZC4Xza26q2
+	 vGDgx7DB2EUpjH8E1HRI4gpSgK7aHr5x1F9Kgte3DO8BVGvSONUxrYKqmaZGrJg2kGLvh
+	 0s4JrdYqwmcZovvPx2V8J4d3kHNVX3fSwYCw/0mtr1ZX43DV9sIoxiWZVBzSOLk5UqjBh
+	 VTFk1L3sCfv6q7Rsbf+NzBCxz8+yC2pcWtMda2PjSAQIek3xrwAbpE/sXOshpyW0aR3tn
+	 FY3nzmch9eGzyhBT7yLVCT5rkm+C8Hn9d9V6G75JI0urcz6kGkBn1X6c6xoc0bB7vEw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793893481;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=dEHSukm4T4eXj4wYWKIQpZ+9IcO69CzYv4uOD7S+jpQ=;
-	b=XKQAq+QNwkPvdHHiOARNHESg2H/be4/R55G4dBZD4V8M43ZqO1ZmbQESLAotI8fs6Yh6
-	 ERj4VlYwoWX1tJf6C3U8Nmx5oPenCtWPqJSoYMhXrwHiriEbj5tPdCMeub7dcRZD4ghr8
-	 7iR0It1/+O2Y20cMvt0+mjjvGl4mOumU4M6iVYkJhh+aw7JejCgBPTNET3P3vD8DtwjbK
-	 158C/9F8UuYp0Clqp73/1AAaGXpR/X77HTeh2JOcaDi3V6uRhxqtNC1X6Adu9985LZatW
-	 Xz4pYf1h+h5gRDBXjrRydiqc1ms+JQjbcPm1nyDg8ojzZHI8xAsfoP3YuDDi3zgJrIg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793893933;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer;
+	bh=9LFv/OFFTK3AEfsD2Od8SCPfw+oFgWojWxuAfHczJkA=;
+	b=AyNePBvXjC6ruMUT1RaGalec/TwTi+2+xkTUqFqVfITNLBYGYIIxoM4lHqnyPrNlZAlE
+	 1zlfgRuddx746O3K2hP3Wnue95YeYH7D30NVaataYzemNZ4ykPP4txzgLOuZC86cgu90C
+	 JvNHYklTPnpZA5Nga9j/z9NfAqD8wJg1TC6qVtOHVDp9BtFJ170d94a34jUKcAnYeURKk
+	 3uigkUkQ5l4Qd58aI3maM2xW42huj+M3TQr95l+dBSjTOrTnMNr25tOfD8zLxq1mxKw9n
+	 hgYcY5JbfdyKFSVv+9C1upKoJKcrph3BU9FJsNGhveYTocsl1RMDEnNXxN8BfJo1buQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QPDjg50q;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ozt6UcUw;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFCA7606A32C;
-	Thu,  5 Nov 2026 15:44:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2504D606A333;
+	Thu,  5 Nov 2026 15:52:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QPDjg50q
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 124A51F000C1;
-	Thu,  5 Nov 2026 15:44:36 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ozt6UcUw
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 430D11F00919;
+	Thu,  5 Nov 2026 15:52:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793893480;
-	bh=dEHSukm4T4eXj4wYWKIQpZ+9IcO69CzYv4uOD7S+jpQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=QPDjg50qQCIHzWlsgw3acSA/5xY6m6SZWjGyp1UDaH2j27o/23FstkEFFRWYDyJlR
-	 Fg9xMgaUBcNKbsMh2LZkaQatRqIfNTD2eJCZoU0LKCuIVM99YZ35b6sgM5zc8O7xS/
-	 L3ibsVPf/9JwsWuFvBKP/082nuZ4hnb9OI9qI+lBo++wnR20Xg71SdsHiVlM1adq9B
-	 LTFt+d5FQybUl3SKx4y/DTQdzR8RTN949dljmstqem0tmfKjPoAOZ6yeCTWTQmYoL7
-	 RLyV5y2faWjCN12smpuItcRCIBPCOzya22xq5gbmwto2HhWV0Xm2jLPL8Kgq42lPoD
-	 q//Smeok+OCZw==
-Date: Thu, 5 Nov 2026 16:44:34 +0100
+	s=k20260515; t=1793893932;
+	bh=9LFv/OFFTK3AEfsD2Od8SCPfw+oFgWojWxuAfHczJkA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=Ozt6UcUw/ITRIVWsW4MxepetR0U8OFsEX117XJB4ae0BGcCn+Qc1kfFEdDPQc2+rw
+	 kJrw5sh8ko9l/r/IqZ5nzVgjfOwl2vGf2F64FUNWDyEfZwYAN5iDS4OdQxxzKh2IyP
+	 +lcN4T3r2bmyDLD5iN9Sb0mwnO51xpefaF3I/FEe66q2aiSHjSlZ7XhNDbjClHvbFe
+	 Rj8FJxDnxeXiUYVj9b7iHOzG0DHvgYLB0ok7VvmP34BEnCntudCJqOhGbP2Oe3284e
+	 P4r+XqZKWEA5W+oK6CVvU2Q4PKpLdvVk1tEdq20xZvpBoIHiFQOIZYrEgn/4IpHZti
+	 EmZ04hjBb27Fw==
 From: Christian Brauner <brauner@kernel.org>
-To: Matt Bobrowski <matt@bobrowski.net>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, bpf@vger.kernel.org, 
-	Daniel Borkmann <daniel@iogearbox.net>, Alexei Starovoitov <alexei.starovoitov@gmail.com>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, 
-	Jiri Olsa <jolsa@kernel.org>, Emil Tsalapatis <emil@etsalapatis.com>, 
-	Ihor Solodrai <ihor.solodrai@linux.dev>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	stable@vger.kernel.org
-Subject: Re: [PATCH bpf-next 1/2] bpf: fix crash in bpf_path_d_path() for
- exiting tasks
-Message-ID: <20261105-berglandschaft-mitbringen-baufinanzierung-c0542594d218@brauner>
-References: <20261020105014.97985-1-matt@bobrowski.net>
- <20261020105014.97985-2-matt@bobrowski.net>
- <DM9VJTFJGVXB.3GH9LO3NGV5PO@gmail.com>
- <atiawbBo6WRPA6QA@lima-development>
- <at_MbcW0OlciNLrE@lima-development>
+To: Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev, 
+ linux-unionfs@vger.kernel.org, Chris Mason <mason@kernel.org>, 
+ stable@vger.kernel.org
+In-Reply-To: <20261101123440.3184069-1-amir73il@gmail.com>
+References: <20261101123440.3184069-1-amir73il@gmail.com>
+Subject: Re: [PATCH] backing-file: pass RWF_NOAPPEND to synchronous writes
+Message-Id: <20261105-clever-vorkam-selten-176682867893@brauner>
+Date: Thu, 05 Nov 2026 16:52:09 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -67,55 +59,38 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <at_MbcW0OlciNLrE@lima-development>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev-ce4c1
 
-On Tue, Oct 27, 2026 at 08:55:57AM +1100, Matt Bobrowski wrote:
-> On Wed, Oct 21, 2026 at 09:58:09PM +1100, Matt Bobrowski wrote:
-> > On Tue, Oct 20, 2026 at 06:24:42PM +0000, Alexei Starovoitov wrote:
-> > > On Tue, Oct 20, 2026 at 03:50 AM Matt Bobrowski <matt@bobrowski.net> wrote:
-> > > > Fix this by returning -EINVAL from bpf_path_d_path() when current->fs
-> > > > is NULL. Only the task itself clears its fs, in exit_fs(), so the check
-> > > > cannot race with that.
-> > > 
-> > > The crash is gone, but so is the path. file_release progs will get
-> > > -EINVAL for every file that a task still has open when it exits.
-> > > 
-> > > It also breaks what works today. The d_dname branch in d_path() returns
-> > > before it looks at current->fs, so at task exit a pipe or a socket
-> > > resolves to "pipe:[123]" now and to -EINVAL with this patch.
-> > > 
-> > > And it's not specific to bpf. The comment in fs/cachefiles/namei.c says
-> > > that current->fs == NULL in do_exit() breaks d_path() called from ext4
-> > > open.
-> > > 
-> > > can we fix it in d_path() instead ?
-> > > With an empty root prepend_path() goes up to the global root, the same
-> > > way d_absolute_path() does. Then the check in bpf_path_d_path() is not
-> > > needed and the selftest can expect the path. A chrooted task gets the
-> > > path from the global root, but it doesn't have a root anymore.
-> > > 
-> > > Something like this (compile tested only):
-> > 
-> > Prior to sending out the fix, I also considered addressing this directly
-> > within d_path(), much like you've proposed here, but decided against
-> > it. d_path()'s contract is to build a pathname relative to the current
-> > root. It does fall back to a root-independent name when the path isn't
-> > reachable from that root, but that fallback still presupposes the caller
-> > has a root to measure against. An exiting task past exit_fs() has no
-> > root, so d_path() has no correct answer to give in that state, and I'm
-> > not convinced we should invent one for it.  That's what
-> > d_absolute_path() is for.
-> > 
-> > You're right that my patch regresses the d_dname case though, since
-> > pipes and sockets resolve today without ever looking at current->fs.
-> > Rather than replicating the d_dname check in bpf_path_d_path(), which
-> > would mean duplicating VFS logic such as the mounted pseudo-inode
-> > special case, I think the cleaner fix is to move the "no root, no
-> > answer" check into d_path() itself, after the d_dname branch:
-> > 
-> > 	if (unlikely(!current->fs))
-> > 		return ERR_PTR(-ENOENT);
+On Sun, 01 Nov 2026 13:34:40 +0100, Amir Goldstein wrote:
+> pwritev2() with RWF_NOAPPEND ignores the offset and appends the data on
+> an overlayfs or FUSE passthrough file that was opened with O_APPEND, and
+> the call still returns success. The flag must make the write go to the
+> given offset even though the file is in append mode. Any user who can
+> write to the file is affected, with the default mount options.
+> 
+> overlayfs and FUSE passthrough forward the reads and writes on their
+> files to a backing file on an underlying filesystem, through the helpers
+> in fs/backing-file.c.
+> 
+> [...]
 
-That seems ok albeit fugly.
+Applied to the vfs.fixes branch of the vfs/vfs.git tree.
+Patches in the vfs.fixes branch should appear in linux-next soon.
+
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
+
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs.fixes
+
+[1/1] backing-file: pass RWF_NOAPPEND to synchronous writes
+      https://git.kernel.org/vfs/vfs/c/104d2190e0b4
+
