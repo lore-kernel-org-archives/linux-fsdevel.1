@@ -1,103 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.217.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793894387;
-	b=BHdsgJlezlt2cId+a81Zed5kF49FzStf+YC1HI9BoWVNhkvukTNQg7SQDH80rOS0kff8
-	 my19zxxa9F4yIdZyCbfyPuMzuGKdjbE4h1qhK+P1BSoPCpe24OFyujlRZRhzmCgsy40DK
-	 2qyGBLmD6PEcnDJtnDtE2hwXRTRP83t1CZ+v+T7Ta6d+3ae6H6Wp/tBfwBepCkOhSJux9
-	 1meJ9hee0gotTfSeYaBNQcqVEwInpfGhTLjjL60ryMXdGM916KSLPc3sAY1oUhhzYtMQr
-	 LfnzDZe3v5W1+ZNLUc1+p/0YXxFC9ieBJWDKzzxDraK6CB4xyZBnkPu/AD9DAiz69KQ==
+	t=1793894632;
+	b=DH5MV62vW7D5GPLZtEvQkdHbEWP50MliM2xgNt/+5/RHJyVSzfywqpRY2YfFoUEhAkbE
+	 s9hDb5ugWOyBpIQFMa/GcRvUDMKS/DH6sp7rbpNPA1pMlRIf79w6I/VOi/hiZIMs2RjGs
+	 RtczV9uk1QRDjwz00t3YyF+vn1FNh08JAMpw7od0e+hCuKgARQNXkOUSQL1urESYsfGKV
+	 u2848K7ZoXcUmaZBaXxwuVBd/axGxZ6FaNaHRT1eFwIGELaA+q99di6Cc28t0V4I4+Tgv
+	 D8go9Z7Zz94dz9bRNzfKrje6O4/DmThGFOR6kbG3JXynF8ZlwOTDylfBcpyf11SvoUA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793894387;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Date:Message-ID:From:
-	 To:Cc:Subject:In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=SyweY0UXz6hh0hI/nESUYL8IRVfask0csXM9VevHXJw=;
-	b=mLtt6nNlcSvTuqCypHzkYrGqYhBm4BPtMv3u5PhS2Te+m9QKhCsj5mbbIHc7zznxnjd7
-	 s5ftWePlDHZeUGGZdJzJSuHzgMVi3nbEIDltu0Hf0PDJmb8p5st/O0Frxy4rX9uRUq8BJ
-	 Jj0+9MpXOF187aKZOnHsitoXGpfbJkm+2d38YMMwtjD1iqx+VTGFSrFHNhq6Ba0uvInaB
-	 H4SwaLJKO3PIoIlPznW/BIvb87KXGFr87mn8MKuXOm0ySpYOY7PLO/QEYpOCrXA8WHhlX
-	 C/F7tnjyvJTzQWO/D72cRVUv8SKypBZoU3Lf08mkfk2Wsjxcq5resAm/p1uRMN+6VAQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793894632;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer;
+	bh=msGgG9mVnqkr3M+emaUDYoadKzi54X+6orZEmGrQfBs=;
+	b=Ln0JoEJFEl2tSB5MzrJpAqQ833pq+Vq5QSo2Ba2/gG3LF/nWXnBrN0yr9cXHxvqBWXLe
+	 SxYkf6JzKGFr/1Fzk797ZPO88rZFhnYaJ971REAZTjvYlgvJMJ5dWDXUyAqakYWPTQ3EB
+	 5UKnDsLWR2DHtpnAITUT4YfcmQn3wN+541YtTaWIRpCKkagCiRMmlCME4DFjLoOJP2qII
+	 9IxjDyNZUmYgguJf3Cyt21CAFPeg5CR9+Vu402QMxl0/twoOq92C5E3iuMSmho/3AwIWs
+	 VfO89AtrdjcRofmP+hwuMnWQrFX4tsJoYiyxCv/+lQbIWeggeqU/AsPMeYUjuDeQW4Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=toxicpanda.com;
-	spf=pass smtp.mailfrom=toxicpanda.com;
-	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=imh3HM7u;
-	arc=none smtp.remote-ip=209.85.217.43
-Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=G3BI+v6v;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11F69606A628
-	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 15:59:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 11F69606A628
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA207606BE88;
+	Thu,  5 Nov 2026 16:03:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=imh3HM7u
-Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-7a6e560f580so1400848137.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 07:59:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toxicpanda.com; s=google; t=1793894386; x=1794499186; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:subject:cc:to:from:message-id:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=SyweY0UXz6hh0hI/nESUYL8IRVfask0csXM9VevHXJw=;
-        b=imh3HM7uPpU/TSgpgy9tuGDfsT3kYPBMMDlqwUxIWR9eni6++YnmIn/DFaEGnaw6Dr
-         +nWZ4e9BcKaqrBG0RmBswk3iRHUnqLWWrADqGFso0TxcbQ1KdBvxxUF+siqurSVI4Yrf
-         BSz7ljqX0zkXncPcJgaHGMZ+OJ23cm4EEtj9KPVq7qB4frJ36YWuBBHG0wdJnVCpfH/K
-         L9No9V1wjswYmImK37+33bhDghJ8Wn3pZ2G7zh0kVua0SzhC4xUUvFZLkX+l6ChWDRb5
-         GhHADEPHBC6EWB62YFZ2bRuOVzR7/gwYMGmrawc407G4qZgEI7be0Lq9nOnreJdYyw7o
-         TLgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793894386; x=1794499186;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:subject:cc:to:from:message-id:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=SyweY0UXz6hh0hI/nESUYL8IRVfask0csXM9VevHXJw=;
-        b=cwgmeidVfWQIBO2RS8+16dKS/8KKV7Ldv1oXr49UeYkwRqS9/0SCsFxVxFWFzjp6rJ
-         egpt1i7J9zCClagmd9UEpnH7kcdmqSefDkNPTmsd/zqu7/7E3qNeL3zjjUSV7KFpprZn
-         dvrEtHB0qjUreit/HM4kPMShnLFoo/PPPVWH/fnUnYQSH6JxQN4aNJOemqoUQKkPXq5j
-         LLV2UqfGswzV/TIldnhD7TOSHwAMf7l5kMU/0uSx4Cck7NUDFb7r2xNc3WLHoVhpGWHw
-         zsKGVMotKgEGrHP69vv4pin3+UW/WtW01BlZted7fUibGINllN8YZJ/E1xk12nkmH/Gi
-         sViw==
-X-Gm-Message-State: APuU4Z8HFpqWUidEqDhcDOxmGn4/1aeTh9+gwZuxOFA1q+4qMNfi9sr/
-	UORpJ4wFpGHwxB1E6yKBk9Gm29C6AvQbKacZUBtLEx9X0hW0KcI2XSPJLBEiU6k8ZFs=
-X-Gm-Gg: AYBFou1ioHeFuGP1rfZSyKiabtGcxjRtrzHpmnlh+vR0gATMYm6vQQqDdnV2MRVXHYT
-	PlX6uRjqzXM1GkeIZM0CM9y5db0mmvm3zWWe2kpEmX2Haouzz331xBU4/XygiPtxA5pbbeUbIyE
-	BPm4KoZiyQj/ep3hpfLMdm7rdRWJKJYC/0J0sqx2ND+CiHWbtFBt48Vfbc4PM1EAmCSVYAOKQ+y
-	SfyS4lA2fKVUYvKA+2HEJ6HgTfOGXxsiJ4acrheyFAcMrapFA1Ric/i6sVvTkKiV9I4v2sM4933
-	sFQATb+MeLlpVhaXU4gHAGFO4UyqxgRGNLukvojnEHLm/4SlC7KLePiLq9BzDnteLiHSC/zRMfQ
-	A4GB2EhaK7rcbNCn3Zpl3J0rtudR1+Kuv8BMtEtZfjTwHgKr9MXVxFGdcHkZLoijEfBKh7kFe4e
-	QZes5/80VpsldL4EQ6svZkPp6EwZf0cOvGdEEjRDq5/1P4M8YN+RXUufX+4EUZdKsbHSHgdh8MZ
-	0SCAvGQAXWf08iWlWvO+nQo7ejiFKX180GPZs2AM8nJtMmaqqXXJ8TQ1aLIPDAYCNNgon1QI519
-	aO1RsvpUXLNUmmQ5TcTz1+YG2N5H1Blsj/hEULXYl2gUarzHVFSelOE0kLc/lEQ+PA==
-X-Received: by 2002:a67:e11a:0:b0:7cc:2c52:47aa with SMTP id ada2fe7eead31-7d2a0f73864mr14699137.0.1793894385884;
-        Thu, 05 Nov 2026 07:59:45 -0800 (PST)
-Received: from toxicpanda.com ([153.61.196.254])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7d296415719sm1096670137.8.2026.11.05.07.59.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 07:59:45 -0800 (PST)
-Date: Thu, 05 Nov 2026 15:59:44 +0000
-Message-ID: <499ba73b1a72a30c6118a4f693f8fc5b.josef@toxicpanda.com>
-From: Josef Bacik <josef@toxicpanda.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>,
- Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>,
- Eric Dumazet <edumazet@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
- Al Viro <viro@zeniv.linux.org.uk>, Jonathan Corbet <corbet@lwn.net>,
- Christoph Hellwig <hch@lst.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Joel Granados <joel.granados@kernel.org>, Kees Cook <kees@kernel.org>,
- Jan Kara <jack@suse.cz>, Takashi Iwai <tiwai@suse.de>,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-raid@vger.kernel.org, linux-sound@vger.kernel.org,
- linux-rtc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RESEND v2 0/7] proc: move procfs to what kernfs does
-In-Reply-To: <20261104-work-procfs-v2-0-b45cd5789ac5@brauner>
-References: <20261104-work-procfs-v2-0-b45cd5789ac5@brauner>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=G3BI+v6v
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A2021F000C1;
+	Thu,  5 Nov 2026 16:03:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793894631;
+	bh=msGgG9mVnqkr3M+emaUDYoadKzi54X+6orZEmGrQfBs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=G3BI+v6vCZfbyQCqMtVL7EJeIFAz0EcsIUEQcxJi9JQJ4QQTPhJ14gBG13ejwaUqw
+	 r971ocxjIXXHjaebCGMoq9Fl0Wof+lW92MltYDYp1xfLdQXTZgRGZVhi9VVh5Z64ui
+	 vb1vlnQ7/fTYRCcsB9gTnQwJNP+s+05c5CVxhT3pj8vaJoHYy7hGxdwKCsAZyw34DX
+	 QI+VobyXgu5zNy/FyE4bwFBfsri/ztZeaWhMSYfD23RJu9h083mktyJ11Pl0WQmTeE
+	 mZn+DwwUFL2w7m19yFILDFT4yhoPsQvRj9xODx8LacxSiQD+/Q0r4QXfBbOZIiKAMl
+	 23AxSrVh6UpDA==
+From: Christian Brauner <brauner@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>, 
+ Shashank Mohan Jain <jain.sm@gmail.com>
+Cc: Jeff Layton <jlayton@kernel.org>, Jan Kara <jack@suse.cz>, 
+ NeilBrown <neil@brown.name>, Thomas Maarseveen <maarseveent@gmail.com>, 
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260927051726.71337-1-jain.sm@gmail.com>
+References: <20260927051726.71337-1-jain.sm@gmail.com>
+Subject: Re: [PATCH 0/2] errseq: fix lost writeback errors in
+ errseq_check_and_advance()
+Message-Id: <20261105-rauszuholen-mitkommen-mineral-4754a8543ff3@brauner>
+Date: Thu, 05 Nov 2026 17:03:46 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -107,178 +61,43 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev-ce4c1
 
-Hey Christian,
+On Sun, 27 Sep 2026 10:47:24 +0530, Shashank Mohan Jain wrote:
+> errseq_check_and_advance() advances the caller's cursor to the value it
+> tried to store even when its cmpxchg() failed. If errseq_set() stored a
+> different errno in the meantime, the cursor holds a value that was
+> never in the errseq_t. errseq_set() does not bump the counter while the
+> current error is unseen, so recording the first errno again recreates
+> exactly that value, and once another subscriber has marked it seen, the
+> cursor's next check returns 0. For fsync() (file->f_wb_err) and
+> syncfs() (sb->s_wb_err) this means that a writeback error recorded
+> after the previous call returned is not reported. The race is rare: it
+> needs two different errnos, an error recorded while the check runs, and
+> a second subscriber consuming the value. There is no user report; it
+> was found with a model checker.
+> 
+> [...]
 
-This is a summary of my Claude review of v2.  v2 went out before my mail
-on the RFC [1] did, so the first part is what's left of that one with
-the new patch numbers and the second part is what's new in v2.  What
-says "run" was run in a VM on top of v2, the rest is from reading the
-code.
+Applied to the vfs.fixes branch of the vfs/vfs.git tree.
+Patches in the vfs.fixes branch should appear in linux-next soon.
 
-3 (selftests Makefile), 4 (pde_seq_next()), 5 (sysctl readdir ending
-early) and the allocinfo deadlock from that mail are gone in v2.  These
-still apply:
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
-- 1 is bugfixes 32/51 ("proc: resume readdir after the last name it
-  returned") now and the patch is unchanged.  Run again, readdir(2)
-  still returns 1 without a dirent at the end of /proc/fs, bus, driver,
-  irq, tty, net and self/net, for all of the 100000 calls.
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
 
-- 2 is cleanup 5/6 ("proc: drop the _buf suffix from the new methods")
-  now.  Run again, the module with .proc_read = seq_read builds without
-  a warning with W=1, loads without a warning, and every read() fails
-  with -EFAULT.  There's still nothing in porting.rst.
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
 
-- 6 is bugfixes 47/51, 48/51 and 50/51 now.  47/51 has no Fixes: or
-  stable tag, 48/51 is tagged for stable and git apply takes it on top
-  of 46/51 with two hunks offset by 6 lines.  50/51 has the same Fixes:
-  7e0e953bb0cf.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs.fixes
 
-- All of the smaller stuff.  The cursor is allocated in one place since
-  core 03/23 and it's still GFP_KERNEL, copy_to_user_fromio() loses its
-  last caller in drivers 24/26, the sentence about ntfs_set_label() is
-  in fs 07/30, and snd_info_text_entry_write() still drops what was
-  written before it grows the buffer.
+[1/2] errseq: don't let errseq_check_and_advance() hide later errors
+      https://git.kernel.org/vfs/vfs/c/d0a6315b5b37
+[2/2] lib/tests: errseq: add a concurrent check_and_advance test
+      https://git.kernel.org/vfs/vfs/c/2f3389d99e36
 
-New in v2:
-
-1) bugfixes 01/51 ("alloc_tag: don't remove /proc/allocinfo under the
-   codetag module lock")
-
-shutdown_mem_profiling_async() is defined outside of #ifdef
-CONFIG_MODULES and its three callers are inside of it.  Run with
-CONFIG_MODULES=n, CONFIG_MEM_ALLOC_PROFILING=y and CONFIG_WERROR=y,
-v7.4-rc1 builds mm/alloc_tag.o and with 01/51 it's
-
-	mm/alloc_tag.c:620:13: error: 'shutdown_mem_profiling_async' defined but not used [-Werror=unused-function]
-
-This one is tagged for stable.
-
-2) drivers 07/26 ("md: let procfs own the wait queue of /proc/mdstat")
-
-md_exit() used to remove /proc/mdstat first, which waited for the
-readers.  It now does that after destroy_workqueue(md_misc_wq), so that
-nothing can reach proc_poll_notify() on a removed entry.  But a reader
-can be in here while md_exit() runs:
-
-	mddev = list_entry(v, struct mddev, all_mddevs);
-	if (!mddev_get(mddev))
-		return 0;
-
-	spin_unlock(&all_mddevs_lock);
-	...
-	spin_lock(&all_mddevs_lock);
-	...
-	mddev_put_locked(mddev);
-
-md_exit() clears the array, but its mddev_put_locked() isn't the last
-one anymore, so nothing gets queued and destroy_workqueue() has nothing
-to wait for.  The reader's put is the last one and ends up in
-
-	queue_work(md_misc_wq, &mddev->del_work);
-
-on the destroyed workqueue.  It takes an rmmod with an inactive array
-left over and somebody reading /proc/mdstat, and this wasn't run.
-
-The two orders each fix one side.  If proc_poll_notify() was safe to
-call on an entry that's been removed the removal could stay where it
-was.
-
-3) core 21/23 ("proc: let lockdep check the pin")
-
-The class is keyed on the proc_ops, and every ALSA text entry uses
-snd_info_text_entry_ops, so they're all one class.  Run with
-PROVE_LOCKING and snd-dummy built in, cat /proc/asound/pcm and then
-unbind snd_dummy.0:
-
-	WARNING: possible circular locking dependency detected
-	init/1 is trying to acquire lock:
-	 (pde->in_use){++++}-{0:0}, at: __remove_proc_subtree
-	but task is already holding lock:
-	 (register_mutex#3){+.+.}-{4:4}, at: snd_pcm_dev_disconnect
-
-	-> #1 (register_mutex#3){+.+.}-{4:4}:
-	       snd_pcm_proc_read
-	       snd_info_seq_show
-	       seq_read_iter
-
-	-> #0 (pde->in_use){++++}-{0:0}:
-	       proc_entry_rundown
-	       __remove_proc_subtree
-	       snd_info_disconnect_entry
-	       snd_pcm_dev_disconnect
-
-snd_pcm_proc_read() is the only proc callback that takes register_mutex
-and it only serves /proc/asound/pcm.  What snd_pcm_dev_disconnect()
-removes under the mutex is pcmNp and pcmNc, and nothing below those
-takes it.  So it's a false positive, and it turns lockdep off for
-whoever unplugs a sound card.  The removal under register_mutex is
-already there at your base, only the annotation is new.
-
-proc_create_single_data() gets a key per registration site, but there's
-no way for a proc_create_data() user that multiplexes callbacks behind
-one proc_ops to say so.  sysfs has the per attribute key and
-ignore_lockdep for this.
-
-4) core 20/23 ("selftests/proc: check that a mapped entry can be
-   removed")
-
-The core cover letter says this one "fails without the mmap patch and
-passes with it".  Run against a virtio-rng device, it passes on core
-18/23, which has no proc_vm_ops in System.map, and it passes on the
-whole series.  The test checks that the removal doesn't wait, that the
-entry is gone and that pread() fails with -EIO, and it doesn't touch the
-mapping after the removal, so none of the new wrappers run on a removed
-entry.  These kernels had neither KASAN nor lockdep, so if what fails
-for you is a splat then that's the difference, but the test itself
-doesn't notice.
-
-5) core 18/23 ("proc: let procfs copy ioctl arguments in and out")
-
-No Signed-off-by in the mail.  It's the only one of the 172, and the RFC
-version had it.
-
-Smaller stuff:
-
-- The 0/7 mail still says "the xt_recent deadlock fixed in (1) below".
-  The part 1 cover letter has it right, it goes through netfilter now.
-
-- cleanup 03/06 says mmap() and write() are all that changes for kcore,
-  kmsg and the kpage files.  proc_reg_poll() answered for every regular
-  file, and kcore_fops and the three kpage ones have no ->poll(), so
-  EPOLL_CTL_ADD on them goes from working to -EPERM.  I doubt anybody
-  cares, it's only the changelog.
-
-One more old one for part 1, and this is the lockdep patch doing its
-job.  devm_rtc_unregister_device() holds rtc->ops_lock over
-rtc_proc_del_device(), and rtc_proc_show() -> rtc_read_time() takes
-ops_lock while it's pinned.  Run with PROVE_LOCKING and rtc-test as
-rtc0, cat /proc/driver/rtc and then unbind rtc-test.0:
-
-	WARNING: possible circular locking dependency detected
-	init/1 is trying to acquire lock:
-	 (pde->in_use){++++}-{0:0}, at: remove_proc_entry
-	but task is already holding lock:
-	 (&rtc->ops_lock){+.+.}-{4:4}, at: devm_rtc_unregister_device
-
-	-> #1 (&rtc->ops_lock){+.+.}-{4:4}:
-	       rtc_read_time
-	       rtc_proc_show
-	       seq_read_iter
-
-That one is the same entry on both sides, so it's real.
-rtc_read_time() uses mutex_lock_interruptible(), so a signal to the
-reader gets both of them out of it.
-
-The end state still checks out.  Every proc_ops initializer matches the
-final struct, nothing copies to or from userspace while pinned, and it
-didn't find anything wrong with the new seq_file, open node, poll or
-vm_ops code itself.
-
-[1] https://lore.kernel.org/r/464ef986eab97abf226791c7e19ad111.josef@toxicpanda.com
-
-Thanks,
-Josef
