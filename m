@@ -1,48 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793884714;
-	b=JoQIsfKSBVeZpcPxQ5yqNktUjEoHZZcliQU2CbXDoGJ+rR1y2omyfiT4+SeEsDplRSdR
-	 mmyGbgc8SdlzXEm1f0/VxltOOpW19iiHbaqHkFb1laSHFMRdBNWjJsxBprzxi34XxYLgX
-	 SPmWtJGOLyqCoQohknvP9bw+U5GatlsAF5Qo37/xF6XY4/1I4PHeGoaShRpYR9bZdam/G
-	 Kk7OPg/4upTuc/Z83YejQrNhhwIMd0udRzfxSxXuUJ90uZI6V9nRs44xppl0fOBXCJQM9
-	 tDwP1o61WYO7JucV7/rRP0+VK1RFWLWi72KtwCL/PNwyyWL52OHqOW9aT9OUEJbCQGQ==
+	t=1793884716;
+	b=NtjO0tQiTR6y4Bt5ZIVJ5+UGd2X6/QpP5CqB8ZoJOb52sLyaYUpVXvnLvyzicMM6JjSb
+	 NYBvkHiM4FockYAKb1hMiu6Khb/VVdlpj1rZ+WKfI+n9VJ4RFUVIaANHbZBOjj8HviD/2
+	 p9S2RR7Avw11dauJx+Y3UqzDbu/F9zOQsZAF/U2PVpaenlVsFgpzmdyH159pgUnXauMd7
+	 nqDT2gF1JNmTWUrflIxTy7JVUnh+TdQ2dT9P3MAjsP/F/1Qre0LRpuDxQQadlLNvsN3eZ
+	 PUoCQhSf/rBLYOOq4+DVyZUMDLhgolYkn2Emv6BcXJV4CncKMf7CjUrqWbgfqAVEJqA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793884714;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793884716;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=a4GZC3iN185nnRTSEvNas3gufWD0FekXNVoXSbXNonE=;
-	b=Ja2ZAOTOeC+vlqfqPvxiNuY2RiJts3J1QYqU/gHVwtC9taLnQ86GVqO5X5wriU86hA0i
-	 xzTK0vkzpA0Boc6vyyeKn1bREmJFul/oz3BHrdWzExaSNDMW245rn0d+Cj+qiYoLxRqZs
-	 SlBhEPPUp6OUy2edORUVjIOl66lKRHU0qqLkGvftkXLkZbV9AiS/cYKoHgHsAaVQmPEb5
-	 qur/cA260YctzUtQJ3uIDHj+2iK/axUWTRcpDduHfNd0qR93kaAtEirWeNyJYZXeJwto9
-	 b2+jdAKP1j073fabet7veT29zgIQ4qw7McefCf2o2cAvbjZVbYCeXLMD+vfncZrZizg==
+	bh=ODdfeUdDFcD1XAb58nKWNjYuMR22C1MdWi/N2y9Klus=;
+	b=EYUJbXuxMNPBOsIqXOt4mZdbvXDIJzmxlj5QKIqKOSezyIwORQpi0Go3hABzdO7uQcd7
+	 e3MsSJMLu1CYVDoF6KJVEgPyUhG7+DYaa2RHKSRlt9VNqdXzeCLktdu7MHhqvigglU/m1
+	 9emAvJ75C9LU5cS9m4gmqS/whqm4n2qlQrZjaBwHPCrR3iQQfi4rYwkKgd79N/5rICLgW
+	 81k4xSTdkiHWpDfOUxe/BNx8RefkDzLPkNG8jX2+e+WTTWZKTUEx7/WPeXI8Sz2vmC8ub
+	 RN7m8G/kY17LObYXAlyAC+JOdi5Cemgr+6nwmgqBzbr2WHyEg5tdU7Qx5aHA6slQXqw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=h9mrK6Ku;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=e6hX3oMh;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 457BA606A332
-	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 13:18:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4074B606A332
+	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 13:18:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=h9mrK6Ku
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 849671F000C1;
-	Thu,  5 Nov 2026 13:18:32 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=e6hX3oMh
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57F141F00A1C;
+	Thu,  5 Nov 2026 13:18:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793884713;
-	bh=a4GZC3iN185nnRTSEvNas3gufWD0FekXNVoXSbXNonE=;
+	s=k20260515; t=1793884715;
+	bh=ODdfeUdDFcD1XAb58nKWNjYuMR22C1MdWi/N2y9Klus=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=h9mrK6KuSeBfHVyY3Ew2sIc7Zib9/k8TdchRbQitXD1sWNBjNFC6dZs7BI91yRVSj
-	 WFNUmtGIAbjNdH3lPDrz5eELInEIv8pSrSrb7I8LPtUPivqJ+XygRkXAMUqBMMsodi
-	 FhSFnmWyI6yrfNpxN3S8814s+NJwkvHwRUy5i+UCG2zUFwlgbnNAHhC688K0ZrvfGl
-	 5KKKotGMZj0W3QbPSY03WtW8XBqsf0BywoNnn06V6c5356ogi6tKjXpH2oCE+ZiFjE
-	 ZHjmxPkiUCKWEtMpjXNQ/7ges4Agi1g0+7kPYVPdtLcYG+8/W2ounhWdjzThYIoQ38
-	 ZBKHFRLAD/CIw==
+	b=e6hX3oMh5MHPRgQ6PvuFsO74TlUn4dxHy7sFC1m5t1UveAZEa+ykWB5MCVDGnOLYw
+	 UziNw0nY/9nIfQ2V2FhofQtIEM6natipiqNNzfuFHa1CNYZAQmVnLjU7TiaeFTi7kw
+	 6VTBrvq+K8NjPnY2WVX+yxGqLh/QzROEAAOrCDrq6YSkxTKrnFz6qF820UmKA83mq4
+	 dwNjW2Dpx3w5tIwriHmDfu7e0YQhEcgN5gJIJDwz93Bh59VBhTL9TsZ0r3sfLVLmZ+
+	 0BLb1D5XEonjUA2MQoddqBMc2v0xPQzb8JTslVb3oqJ7Im93OpOyAK+wvbpB2eoxTY
+	 SuUeKbo21lVpw==
 From: Christian Brauner <brauner@kernel.org>
-Date: Thu, 05 Nov 2026 14:18:06 +0100
-Subject: [PATCH 2/5] file_ref: use acquire ordering in file_ref_get()
+Date: Thu, 05 Nov 2026 14:18:07 +0100
+Subject: [PATCH 3/5] file_ref: document why file_ref_put() stays fully
+ ordered
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -54,7 +55,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261105-work-file_ref-ordering-v1-2-8713f4876b7b@kernel.org>
+Message-Id: <20261105-work-file_ref-ordering-v1-3-8713f4876b7b@kernel.org>
 References: <20261105-work-file_ref-ordering-v1-0-8713f4876b7b@kernel.org>
 In-Reply-To: <20261105-work-file_ref-ordering-v1-0-8713f4876b7b@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -63,120 +64,59 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
  "Paul E. McKenney" <paulmck@kernel.org>, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4682; i=brauner@kernel.org;
- h=from:subject:message-id; bh=Simd4VEbXjQI5ubOn8dv/9g+g/a7ipbGFEEEIYxIbrA=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS9aZKL7svcu+7Qvh9ttvHh5olWzczv4tS60526X19ed
- o7/d+eOjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIncTGH4p83GpMvFkDJ9iv9h
- p59n7r247Htv7uwkhxrdf7m9WrNr7jIyLCpUuMW2ZarTVMt5v759FZjC9y7r92mRRSlnMwoan/5
- /zQsA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2305; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=d3AAUlPQSL9FwBSJPT2dOWSlfYhZrxVV05lO+PPrAZE=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS9aZLnXdU85/hJxSd6axabBp9XWnGgsffMhiniF43lm
+ Tuuv/pQ1FHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRKB+Gf8bFL2e4zQpOun56
+ /vSOCXkiWkE7nrftuPtqsk3h0u+tJv8Y/lkpf/DZYbJKwopTPiNyzmlBZbGf55ZZfFzw+upZcfn
+ 5XhwA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-file_ref_get() is fully ordered because the fget-rcu pattern needs the
-loads after it ordered after the increment. This is because
-__fget_files_rcu() reloads the descriptor slot and compares and returns
-the file only if the reload still matches.
+The comment above file_ref_put() describes release ordering on the way
+in and acquire ordering on success. file_ref_put() uses the fully
+ordered atomic_long_dec_return() instead. Document why we need it.
 
-If the reload could be satisfied before the increment, the lookup would
-pass its recheck on a file that was closed, freed and reallocated in
-between and hand the caller the wrong file.
+Files are SLAB_TYPESAFE_BY_RCU. When the last reference goes
+synchronously, in __fput_sync() and on the fallback path of
+fput_close_sync(), the file is freed right after the decrement and
+another CPU can get it from the slab and reinitialize the counter at
+once. The lookup that increments that recycled counter relies on seeing
+the stores the closer made before its put. A release orders those stores
+before the decrement, not before the slab handoff that follows it. The
+full barrier does. The deferred fput() path has the cmpxchg() in
+task_work_add() between the decrement and the free, the synchronous
+paths have nothing else.
 
-This is satisfied by acquire ordering. The load of the pointer the
-reference is taken through is ordered before the increment by the
-address dependency of &file->f_ref on it.
+No functional changes.
 
-The release part isn't needed. Someone getting a reference never has
-stores before it that the put side has to see.
-
-The comment in __fget_files_rcu() references that fact. But it's no
-longer true since we're not using atomic_long_inc_not_zero() anymore.
-file_ref has one so we can use it.
-
-So I had a version of this within in the form of a relaxed increment
-with an smp_load_acquire() on the reload. Linus rightly pointed out that
-this doesn't work in [1].
-
-Let's use atomic_long_add_negative_acquire(). That's a nop change for x86.
-On arm64 and power this is an improvement.
-
-Link: https://lore.kernel.org/all/CAHk-=wj7=Ynmk9+Fm860NqHu5q119AiN4YNXNJPt=6Q=Y=w3HA@mail.gmail.com/ [1]
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/file.c                | 17 ++++++++---------
- include/linux/file_ref.h | 10 +++++++---
- 2 files changed, 15 insertions(+), 12 deletions(-)
+ include/linux/file_ref.h | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/fs/file.c b/fs/file.c
-index 052da9409874..fc4b81328ae2 100644
---- a/fs/file.c
-+++ b/fs/file.c
-@@ -1096,13 +1096,13 @@ static struct file *__get_file_rcu(struct file __rcu **f)
- 	OPTIMIZER_HIDE_VAR(file_reloaded_cmp);
- 
- 	/*
--	 * file_ref_get() above provided a full memory barrier when we
--	 * acquired a reference.
-+	 * file_ref_get() above is an acquire, so the reload of the
-+	 * pointer is ordered after the increment.
- 	 *
--	 * This is paired with the write barrier from assigning to the
--	 * __rcu protected file pointer so that if that pointer still
--	 * matches the current file, we know we have successfully
--	 * acquired a reference to the right file.
-+	 * This is paired with the release of the rcu_assign_pointer()
-+	 * that published the __rcu protected file pointer so that if
-+	 * that pointer still matches the current file, we know we have
-+	 * successfully acquired a reference to the right file.
- 	 *
- 	 * If the pointers don't match the file has been reallocated by
- 	 * SLAB_TYPESAFE_BY_RCU.
-@@ -1197,9 +1197,8 @@ static inline struct file *__fget_files_rcu(struct files_struct *files,
- 		 * We need to confirm it by incrementing the refcount
- 		 * and then check the lookup again.
- 		 *
--		 * file_ref_get() gives us a full memory barrier. We
--		 * only really need an 'acquire' one to protect the
--		 * loads below, but we don't have that.
-+		 * file_ref_get() is an acquire, which is what orders
-+		 * the loads below after the increment.
- 		 */
- 		if (unlikely(!file_ref_get(&file->f_ref)))
- 			continue;
 diff --git a/include/linux/file_ref.h b/include/linux/file_ref.h
-index 31551e4cb8f3..4cffb24257e2 100644
+index 4cffb24257e2..e5fc45714fe2 100644
 --- a/include/linux/file_ref.h
 +++ b/include/linux/file_ref.h
-@@ -69,7 +69,11 @@ bool __file_ref_put(file_ref_t *ref, unsigned long cnt);
+@@ -133,6 +133,17 @@ static __always_inline void file_ref_inc(file_ref_t *ref)
+  * are done before, and provides an acquire ordering on success such
+  * that free() must come after.
   *
-  * Similar to atomic_inc_not_zero() but saturates at FILE_REF_MAXREF.
-  *
-- * Provides full memory ordering.
-+ * Provides acquire memory ordering: loads after a successful get are
-+ * ordered after the increment. That is what the pointer recheck of the
-+ * fget-rcu pattern needs, the load of the pointer the reference is
-+ * taken through is ordered before the increment by its address
-+ * dependency.
-  *
-  * Return: False if the attempt to acquire a reference failed. This happens
-  *         when the last reference has been put already. True if a reference
-@@ -78,7 +82,7 @@ bool __file_ref_put(file_ref_t *ref, unsigned long cnt);
- static __always_inline __must_check bool file_ref_get(file_ref_t *ref)
- {
- 	/*
--	 * Unconditionally increase the reference count with full
-+	 * Unconditionally increase the reference count with acquire
- 	 * ordering. The saturation and dead zones provide enough
- 	 * tolerance for this.
- 	 *
-@@ -105,7 +109,7 @@ static __always_inline __must_check bool file_ref_get(file_ref_t *ref)
- 	 * FILE_REF_ONEREF. It would need 2305843009213693952/2^61
- 	 * file_ref_get()s to resurrect such a dead file.
- 	 */
--	return !atomic_long_add_negative(1, &ref->refcnt);
-+	return !atomic_long_add_negative_acquire(1, &ref->refcnt);
- }
- 
- /**
++ * The decrement is fully ordered though and it has to stay that way.
++ * When the last reference goes synchronously, in __fput_sync() and on
++ * the fallback path of fput_close_sync(), the full barrier is what
++ * orders the caller's earlier stores, in close(2) the cleared slot in
++ * the descriptor table, before the slab handoff that lets another CPU
++ * reallocate the file. A lookup that increments the recycled counter
++ * then sees the cleared slot and fails its recheck. The deferred
++ * fput() has the cmpxchg() of task_work_add() for that, the
++ * synchronous paths have nothing else. So this is not a candidate for
++ * atomic_long_dec_return_release().
++ *
+  * Return: True if this was the last reference with no future references
+  *         possible. This signals the caller that it can safely release
+  *         the object which is protected by the reference counter.
 
 -- 
 2.53.0
