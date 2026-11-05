@@ -1,57 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793916105;
-	b=XP3CDD5WhfUs8uOGcPTIId3DPRAM2l2J8ZAhur4zDpzdfXWZYrsmxRjcIAZoIzSXo/Vv
-	 xOPyQitnrj+YY07iOTrF2wUHEk7D9GeFW4hrnK5F2+/uVh2vuEbkVzcTgThCdH/NEKbAX
-	 1Tx+aiC7FEPA55KfYqHmk05cD0Jr9Uu7x1mjqmYMtNQSengfO6qU6oodOV+B1QoaNCUW8
-	 pZoJLxPR/FsETNIy1klCHUmkoqQYNk7yeZd0SSSGsgDjsCxRe9w8IJCXj2gLmQMZb+zdQ
-	 UeXQ2xRHB3q/9/YmLxWr0vCLL1sZxQi1q9tXY9UH8r7c4tZj9G1cI1iI/a3aXI7bB2w==
+	t=1793916283;
+	b=5hvupXGf3oi6+0WFE1TlOK2PEKSaARBl6FxN7mCq9ZHcBT7Cqjl6fr9OxAMLtAb1Gmwu
+	 w0ka7GraLvz5ifiizdHSi4qRf0e2NxPlg08UPYbjR1yw90mg7WBL55nY1erO1IPQgM7Si
+	 nH1xM5pJKHWtw85fjoL6CpfjDKuI76ytVvj0zxwg/Ted+JN6d3hHm3D4hPleQ+WZgdF0C
+	 jkD7dwE+TTRjGVt5nuGADTUgqzYlj11LLvqDfTCjsKJPw8Pt1SrtmnuJXwcs0F/E7GTTD
+	 45RSmrRmwRVkiaYS8vMvMUa5vpnLkho0PBPOXanyIiw3aB75oSTR1HYNmujJxoFa4IA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793916105;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793916283;
 	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
 	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 X-Mailer;
-	bh=0ssD89ibuYFdykDCSINR+WKonV6NzYYUz46OQQheQ/U=;
-	b=SxtYMuYrRpJfdRD6LETn3+tJofCLQa0JxL/TJ7PQe/lVDnmgt75+JDTfSZpHTZ2CYtT6
-	 tmYMhXB+RIG0u9SJ3qjiIte2+rj9iAXKR7JhZMMrrrR97kqjDtvlI+wwQ+VW+j8/WocC4
-	 4js83nW63srdP9bOL6msA5lIpIZbBCEPvl+J5AcVXL/BDOlTdHm/XeQhbf7BRKTQtNNFx
-	 OFCe6zHdmimjKjvxupQNdD87BIwXQFb6VfwyCE7NdCUXZRy+1GLycMe4Opw+FyIIUKrM9
-	 5ROoUAj/q11nVTH+9FXGFMtD/lRwdEKwSChh8VuUS1LonK/bpSUH9ZY4+qIX1NXa3cQ==
+	bh=zzeGbQmcKYGOMBQOmED5ru3fLNZQtc2Ri2STVwl5x1k=;
+	b=Q3Ja5gw4iEABpsf81rQ6ecks1cho2FGAY8geucpCArJwIbNyMMp+if/nBBJ8X80xx0XX
+	 neX3wN+xpZdnq5TJ/txLPzZzCu/jQZDfMjPLyoE/bez1cWwoI7p7//p50YNOTKKY4BBRG
+	 W2XWcAH1WXxuXO9oG9jsgoOHrJhc9eaOJLOGacB2CHvS3WHXi7XGF/8Xb8gCmeSJFlW3j
+	 P3LHyU7jlIiySDptP0iTfiJiFDgMZpLGe99iweop4Sx+d1am8tjVF08XtiWZ4V5J6fhsi
+	 ccDu5EXetgjhs2rCV84zAe4Sif66XJWjeEJckf97pTyPcCT8Gac8OTqOHEgygGgaFiA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oqn30Nky;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FzLxKc04;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B401606A32C;
-	Thu,  5 Nov 2026 22:01:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AC1E606A328;
+	Thu,  5 Nov 2026 22:04:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oqn30Nky
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9F0F1F008A3;
-	Thu,  5 Nov 2026 22:01:37 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FzLxKc04
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 588231F008A1;
+	Thu,  5 Nov 2026 22:04:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793916099;
-	bh=0ssD89ibuYFdykDCSINR+WKonV6NzYYUz46OQQheQ/U=;
+	s=k20260515; t=1793916282;
+	bh=zzeGbQmcKYGOMBQOmED5ru3fLNZQtc2Ri2STVwl5x1k=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=oqn30Nky2mTWRez2YVjvyepfagHyatEKmE+yfGxiuwg2gfw+XPkXcAr58qvQ7zKIF
-	 0in7LiVprrOn14NY4TzvMhzh2qpRHP9KISenHoDh5RIUoA3pD5jIkC2ragG/eeUIca
-	 Yne/z8Ioyvgig8JD1N25tUMNrX8afcC3q/5xsBHVRfMWaGAz29wan1LeGTsasJ0BhX
-	 Sij+SltLPABwFJ6hPyEwRzpPymq13KkVoHKeZik6o3DyASshrBK/9PJ1c3LML3nQDF
-	 rdZYmWXBX0m4NWYI39sba+yulTXdYptiPrgJg0qgUjykPgfhelY2B9p9Huqp+ScLsk
-	 vyn1RtiZS28vQ==
+	b=FzLxKc04a+Pl+nYsvAfXE2uW82gUle3HAoBbp65cLgqFhC+oJM0aRCHhdwhKSAcM/
+	 WgLSJW2K0Aebgcat2Wy4f/sL20NkRTBx11R7tgzimkHWMVbxk9ghv3EFaPL+ySF53I
+	 bYCuucAJPjnIuUwy3lzyQ7pOuWNfkoQ3g9Te591C6h0vTAja3M4vqBaKt0/Jfmh3tm
+	 diI9iB6W7CZoUiTmRyUMNz5zvgBeswgCtR+9SaZQB9iwVLoERZbsQEYGWwNN4lNPly
+	 /9TulKju5wNfS1k+oXLPWtyfxbHE9Hpl1/1C8sodbX6Xj9Wza4OOd5E8iEpxnPt1hx
+	 r+Vh22o7FVXmA==
 From: Christian Brauner <brauner@kernel.org>
-To: Jan Kara <jack@suse.cz>, Sasha Levin <sashal@kernel.org>
-Cc: Amir Goldstein <amir73il@gmail.com>, Miklos Szeredi <miklos@szeredi.hu>, 
- Shuah Khan <shuah@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+To: Sasha Levin <sashal@kernel.org>
+Cc: Shuah Khan <shuah@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
  linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
  llvm@lists.linux.dev, linux-kernel@vger.kernel.org
-In-Reply-To: <20261103165419.687806-1-sashal@kernel.org>
-References: <20261103165419.687806-1-sashal@kernel.org>
-Subject: Re: [PATCH] selftests/fs/mount-notify: fix the indentation in the
- fsmount test
-Message-Id: <20261105-vielzahl-visier-denunziant-eea115f62537@brauner>
-Date: Thu, 05 Nov 2026 23:01:35 +0100
+In-Reply-To: <20261103165419.687806-3-sashal@kernel.org>
+References: <20261103165419.687806-3-sashal@kernel.org>
+Subject: Re: (subset) [PATCH] selftests/statmount: initialize the byte
+ written to the child
+Message-Id: <20261105-pfoten-entstammen-getilgt-e551e93cc5a3@brauner>
+Date: Thu, 05 Nov 2026 23:04:41 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -65,19 +64,18 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev-ce4c1
 
-On Tue, 03 Nov 2026 11:54:14 -0500, Sasha Levin wrote:
-> A few lines in the fsmount test are indented with spaces instead of a
-> tab. That puts them deeper than the ASSERT_*() in front of them, which
-> ends in a for loop with an empty body, so clang warns:
+On Tue, 03 Nov 2026 11:54:16 -0500, Sasha Levin wrote:
+> test_listmount_ns() writes pval to the child only to let it exit, but
+> never sets it, and clang 21 warns:
 > 
->   mount-notify_test.c:338:18: warning: for loop has empty body [-Wempty-body]
+>   statmount_test_ns.c:334:35: warning: variable 'pval' is uninitialized when passed as a const pointer argument here [-Wuninitialized-const-pointer]
 > 
-> Indent them with tabs.
+> Initialize it to 0.
 > 
 > [...]
 
-Applied to the vfs.fixes branch of the vfs/vfs.git tree.
-Patches in the vfs.fixes branch should appear in linux-next soon.
+Applied to the vfs-7.5.misc branch of the vfs/vfs.git tree.
+Patches in the vfs-7.5.misc branch should appear in linux-next soon.
 
 Please report any outstanding bugs that were missed during review in a
 new review to the original patch series allowing us to drop it.
@@ -89,8 +87,8 @@ Note that commit hashes shown below are subject to change due to rebase,
 trailer updates or similar. If in doubt, please check the listed branch.
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs.fixes
+branch: vfs-7.5.misc
 
-[1/1] selftests/fs/mount-notify: fix the indentation in the fsmount test
-      https://git.kernel.org/vfs/vfs/c/5e042e208dfe
+[1/1] selftests/statmount: initialize the byte written to the child
+      https://git.kernel.org/vfs/vfs/c/678e669241c8
 
