@@ -1,87 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.175
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793891764;
-	b=liN6otaM/OI49Yj7mZsvBH4hjaYk3YJrcxlTdRx7cl6WaGwPdMBiybkdotlC/3eVPsz2
-	 G3dksIm6b2Gr1wvIDvY7dKzGrueokVaUgmpo4JH+xBeNgn8Kg473/pNej+4KPo9wCd55R
-	 HnReCcRYm54yaqF+BCwbU62S2FzKlSY76q0Vmq079ntXziUDk/lGcvpnQ6e/lAYWh+BnO
-	 HTWgYj3i1obbQ1RcJgSWRJEpc14Fjf6dayljtJPvrAVkFg6ga6NdUuEGOwCL1oGQn6YLQ
-	 klunJgzr1xnxFamyCN9Nn2eP9JAX/jMr3FAPfiOUf1fIs47MDEH80ksdu6pU36CwOdA==
+	t=1793891786;
+	b=KcjIz4/61xtifdOTFLsGxhqV8b98AnoIHodgnbnp8TNK/6OS80LkrbuuxYd/FMhIzUpY
+	 BLU3JXkAIuDKT8LfJ0gfvDF5jPuUL3xmREBIjZtt8RaYRKjhbZ0m5K3D+t6myaR/tjKLQ
+	 JZhvlUhxh83zDNf366kpUJ9L0dKXBqi5jX9BaK5RTY1pAbDbwJl3fJHjjvRF3nqs8IGiO
+	 ytP2VULOx61JL2DrC05pCgs52ZpFEHunR9+7ALGRtaz9+HZwiAq9dMK6o0g4tXDEwfMec
+	 b0NAxvwumCCCBi1JPmlMIDD9lS/zLjgVVJP9BBGEc7/yrLW0VCtJAyBLFtryVsK/VPw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793891764;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793891786;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Date:Subject:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
 	 References:In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=H4Mer0Lga1IOizNWXuhoug2hQz4DJn4K5PpD2JnRSys=;
-	b=fREPTUyKOe5xjPJiUreU5PMGyH+8f7lDkUfYdjqpMpKqwj98JVMJcCZFVE+ox+tzAUdL
-	 irg3rjffnhBlD7fy8ISvy/ixhDJBuVPnbb6xuYEwjxkiZh+lDZ9XCGiOJM6fFCGB1R0Ym
-	 iPzUEOvId0wXhFQrpz6J3Gn1OaUyof73PErP69FgnjwzsxfcaaeSjS+2VaDcQ11X1jOpi
-	 4zuKWAnuA/x8FufrkVV/rnMF8l3Y0s+zQVaVxC+8FbENkZAKwPju0jnMTdkIrePOCOTuD
-	 fAK6gURArsTXwQCA06MZqHf5JjK8zDCPlaNi0jeHFsMCdf8kI43c9IJovNTOO4VpjFA==
+	bh=7g1z1fdgH8pC7wU8IArmzkDI6Bi5iuUSZYwLMGECsDo=;
+	b=CJMsA6yhfm6jQ4t+FeDCkNof189igRbpkBbX538+4UUniNaHkNPAGDn9coJrfLTWsj6H
+	 PjPUcs5cAEjwDWfZlTRCPmfHgGEbQxw7ptKEDdrZwQAu9s3K1WjFl1H/xnxT7zttrJS93
+	 KUPGyiyVOyuKnh3Ut+7keIL4zBiL9A+hSA2juc66yHBRDuSQboxz16Gx38N0dNRYERaAp
+	 gCztbJdKwKnVYPCuDq8UN56+tinZSM4y5rMxy5QYHzNs38JU8QChOCk5U5DbQALhRaegQ
+	 ADrXlDaaX9fIF2ktf1Hag+ybKKvHWxNY44+XdJ4Z+Cq+nW33m9jZEV207I1NpYwhEIQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=toxicpanda.com;
 	spf=pass smtp.mailfrom=toxicpanda.com;
-	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=q0tMP3G5;
-	arc=none smtp.remote-ip=209.85.222.175
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=emmxrjZg;
+	arc=none smtp.remote-ip=209.85.219.45
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95F82606A328
-	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 15:16:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 95F82606A328
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19180606D813
+	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 15:16:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 19180606D813
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=q0tMP3G5
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-93f259cdc86so193691085a.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 07:16:03 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=emmxrjZg
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-91c719669a8so20138636d6.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 07:16:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toxicpanda.com; s=google; t=1793891762; x=1794496562; darn=vger.kernel.org;
+        d=toxicpanda.com; s=google; t=1793891785; x=1794496585; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=H4Mer0Lga1IOizNWXuhoug2hQz4DJn4K5PpD2JnRSys=;
-        b=q0tMP3G5TNwHLj0e92cF2/sGUzL0yaOkWUtG/jxiVXHh6qCvrroPpFtyNkrn2crsXE
-         cx+0RrqC429hBqC8qKyYQs9ImXPCn9e/Gom2P16SBM8/PTmrbiNeYJkgcCVu9rNBytrQ
-         EmKfgrJL2Fcnh86KAvc9pLN5D0RAWREwCiyU8QmahV5aeCHNCAElRKfIJOia+9L7UCb1
-         6D5lUMiThI8NlU5z3x8f8+UrBNtNRJb1AzRNeJuxa+F7irdO2Mk7Jla3suaHWX1FJfF2
-         gMCCO6LtiK8/iCzhC6Z4eHccr+9nGz7c1WOhn78NXn4GdW0W3N0JGjJnbZ9Ai1yIrm7X
-         jhXg==
+        bh=7g1z1fdgH8pC7wU8IArmzkDI6Bi5iuUSZYwLMGECsDo=;
+        b=emmxrjZgnzgS8cICYm5ecvPwQRHRq0svHOm82G8MFAJ7W9ZOSKAdxQ40r7qxoBxgr5
+         f5FhG1bPxBvjY6qf2yIN/l+1GrAoVB+P4CnRpckQ2nC8sK9uJZqOE3bfLOXsfCothntb
+         T4mu2BX54Yk8gCfbqcLLBw/1Hw0ExsCWJIjNxdC+xy2/nLW1RIAIbaGai3E+GW0JJOhC
+         WEWo1dcCy5Af7E9cH533yMuwsWTZrqjwOawIXPRUqf9g2mEm/I7jSXMJ+66bQId2M2Y6
+         pgYuIM/VzwoAF8h563QKXpt2pfiFlT4qMAZTLIminPE3njOlPL7S06m2/sSjCt0ggO9n
+         F7iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793891762; x=1794496562;
+        d=1e100.net; s=20260707; t=1793891785; x=1794496585;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=H4Mer0Lga1IOizNWXuhoug2hQz4DJn4K5PpD2JnRSys=;
-        b=YsNxOBiS10aNZ5F2d6Hh07mwQMfImFfHbjbVb6YUh4ZBctm5f4hUAPHjIu8006TOAe
-         eSERnjSUQKDjDJ7IeE8kbuWsqjtqe5frjL/vrhIRuJiiBR6CagBTjDS5bA9u8OdvwV2V
-         o8+XkrdoRmzeGXtRE25icGkljfeRAUIkZjFkcQ4rBEcMTaycQfpUGii4LzGFdjB7SbBV
-         FhAklS5nTQuu+Upj+EqH8KCRVMIUGp5vCHA7L9vJ0i7Hlff5c6Aw/H+KFkDPe8pUoFWH
-         ViP53D5Z7O4t8Z/AZKfbcrr5JBZiahUboAWtmvRnBEkzgUxJ+T5gaYrpxA/NWnIofJE8
-         DN5g==
-X-Gm-Message-State: APuU4Z9CKdpIvyjClnUwLsuGMMHE2Koldb5Hlc4oGg+Obj71gsm/81c6
-	tKM9Cv5xZ5HaA/nf7JhRis4lRHM/Hf4AFyxZQNZblBdrF+lJ8DJ4B3G7J5cFZYSXh+I=
-X-Gm-Gg: AYBFou1lRRrV5igTlSkxSPh1En34mHWkgZCBT1DJHEXY52XMIxGZPzGyoXgGWDB5JBD
-	MV4bw/nP6jYM4XERLU+ccVfbFVgoUKqU4rjhshxDUt2nZ+PxCUjeyqNHM5ppBVpsLwxBqNFxjkE
-	dQlvTzobrN4yj9aBvHOF1TEGDZiBapopJTI3syg6dRyMw4+Mp1WFmEX8aGONjwWIjYf+Hgn0qAn
-	S3Mm/gsFbdjTTbmMWfBpgBcvoU7bPzcE7juxEDN9Eds0LERvnkbZHuUrMMMepRunc9dX4to/tA2
-	LKzjggXw2jHd804N/zNo+kltJ0IipmWTnpvIT0z+2UjpmbOJQg306byIU0CnxO83iixIJI5q2UL
-	YRRju0XNtf3ByYubJzYcleKlPF+xPCvhzcBTBCU/nqPk48IN359jaM8V3I08BNHynDMTvQLBnTP
-	mq0HaaKMzlJjV8xYwcCxqCfgqQqag57j1YnuvnLglJ0xTEjkV7bLtdjX4L3D1cgExjPeLB44eNA
-	58OqB5Ukg9qkYammdrmNHNVfpf7+fJSy6lHogUdfHPZnoo2MXViEjD+/HIR1CdRZyQLUTvwaK0e
-	f0eRkc8/zsRcAQU9DSkEQHJPbetPbakgjupC54piQL4y2A==
-X-Received: by 2002:a05:620a:1a08:b0:93c:9d56:a860 with SMTP id af79cd13be357-944217439e4mr3208698385a.19.1793891762448;
-        Thu, 05 Nov 2026 07:16:02 -0800 (PST)
-Received: from toxicpanda.com ([153.61.196.245])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-945d468c574sm478328785a.6.2026.11.05.07.16.01
+        bh=7g1z1fdgH8pC7wU8IArmzkDI6Bi5iuUSZYwLMGECsDo=;
+        b=QxrRFBgfBPNvNFoiiNJ5xPvEUVcRBZHBGxeg0XKEQx3AEI1cQqRPJhCDJZDZ49Bi4B
+         f5a1/EgZ+qtUUfu6fD2VRvWLxMgmZuukPN1Atew5DUaUej+tpWk0aKn/4OGIeNiDu3M9
+         +A4k4+k5VjhLdX4H1pEehcbjchkH3svuNfXF70KuPXhiyMsPbRA5zthyKWQ8FsJQGXZ7
+         sbvvR43I6S/rThQ8jGqwh6FcEL+BUvkJb+LERJ4s9lSzUMwE2qkGqIdIalb1ImAQHM20
+         e658XeQAvf60BWmtqT5qF/cAcqOTH0XrMaoBjwPGvJP3FZrfLSYmK1ij/DnrjftcNaYl
+         6GyA==
+X-Gm-Message-State: APuU4Z9C7Y/66EOqOFQtSDwx4Fa/7mJFQbIbbpTeQYX8HWWfuhLJhGi6
+	loyBc2FEmJUQ+Z2dCZAf5s6iU8NQiNwGv1bEMUJhW6/bu34xiMmU7VyYDDKnudBM/+c=
+X-Gm-Gg: AYBFou344T+b1SPsLxv8dBuogEPkJgKzycnYFQ+s70O5n0gdO7kDywOdUSuXKleMeuU
+	v+aqXZgL0agCnSy2ANH6YcwBvQfZLBVR6Kzubah6DEPTSc5UaYKI6BCSQYjFWfd1RD7/cN1ZaWN
+	lbMWUQQ9g9UNec3ysopgzkCXZmwR/pv3bZ6ggbOsSqrDCWxeWWj6ptb14VkegsI7D9o4/aQfH6R
+	4ZeauxZqTGvCOS5MPo/SyISkCYaalDQ9X4qrSv3x4QpCf3UdwSGe2kDF3e27RBVToFP2h3M+EtC
+	ycjtwrEEeCtlvUDKYWvvpWtMrYggbBwaNDc/I2LTE7Dowv/ZCeIikrM1WfNDkb4FTjL/KskFabj
+	iUH/xrPeKDhd9kxPsZG2ziKtcdI+kc6eXvPbq9pVx0uglfmzJjZDumtUciYTE62YDdHrUqy7C55
+	SO1wqiETGxT7+cluI9Dx5OSjmjPy+C7K1NDRJUrwd3y9AiWjXiUGXD+MmJEUvQT9OqES4uIN7F1
+	CgykNxmSYXrJ6NqLdsHg2BKNFJDrJMkE47glemA50H9ktFIMbPxXkyGOKBQZQVBVA3pmtKgGOhp
+	iCmF5LarW49WQkoj4D+0v4BTc4nfDy2S7kYWNUhI3tH5ML0=
+X-Received: by 2002:a05:6214:dcf:b0:91c:6027:5542 with SMTP id 6a1803df08f44-91ca4b90bfemr314210956d6.57.1793891784906;
+        Thu, 05 Nov 2026 07:16:24 -0800 (PST)
+Received: from toxicpanda.com ([153.61.196.255])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91e9a5d0656sm16256346d6.16.2026.11.05.07.16.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 07:16:01 -0800 (PST)
+        Thu, 05 Nov 2026 07:16:23 -0800 (PST)
 From: Josef Bacik <josef@toxicpanda.com>
-Date: Thu, 05 Nov 2026 15:02:35 +0000
-Subject: [PATCH RFC v3 43/90] pidfd: let pidfd_configure() set credentials
+Date: Thu, 05 Nov 2026 15:02:36 +0000
+Subject: [PATCH RFC v3 44/90] pidfd: let pidfd_configure() name a cgroup to
+ start in
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -93,7 +94,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261105-b4-cells-v3-43-bc9095937a84@toxicpanda.com>
+Message-Id: <20261105-b4-cells-v3-44-bc9095937a84@toxicpanda.com>
 References: <20261105-b4-cells-v3-0-bc9095937a84@toxicpanda.com>
 In-Reply-To: <20261105-b4-cells-v3-0-bc9095937a84@toxicpanda.com>
 To: Christian Brauner <brauner@kernel.org>, 
@@ -104,230 +105,164 @@ To: Christian Brauner <brauner@kernel.org>,
 Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Josef Bacik <josef@toxicpanda.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openssh-sha256; t=1793890934; l=6052;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1793890934; l=5440;
  i=josef@toxicpanda.com; h=from:subject:message-id;
- bh=xCOzpfBWllVdE4yMVFqvejvqNl2LulCdnNMFvhJsFR8=;
+ bh=Q7qmfYiZWh2k967NZLGElGMNdLq2eA92Jmb5C4uWviE=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgUBr36M/n0nWN0DNbnxwzIiCZez6MG
  JiruuNaSCI/zXsAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QIDvwxZxncMYV40si2e99c3SO8+1/aH1vOhFmxmw64uRXS+2sj/KslaWVYs6FVtmRBEV6htKg8y
- WHl1V0Uc+WQ0=
+ QB9Ri4RbbwO6mSV3bifvChAs1PoT0JyD/+e2dfYBYzKqbLIKY8+DRMUCX2txSXakT9/QyB6tgrB
+ LonYgPXAx5wc=
 X-Developer-Key: i=josef@toxicpanda.com; a=openssh;
  fpr=SHA256:C8kOX2QUJCMqnCX+KEeoqRAjLo9L+ELOSH2NSAJHqGA
 
-A task that is spawned into a cell starts as uid 0 of the cell. Add a way
-to start it as another user. PIDFD_SET_BINARY with the key "cred" takes a
-struct pidfd_cred that holds a uid, a gid and supplementary groups, all
-given as ids of the cell.
+A new task of a cell starts in the budget of the cell. That stops working
+once the init of the cell manages cgroups. It moves itself out of the
+budget and enables controllers there, which systemd does right at the
+start. A cgroup that distributes a controller to its children cannot
+contain tasks, so from then on every start fails with EBUSY. Spawning is
+the replacement for entering a container, so this means that nothing can
+be added to a running cell.
 
-The credentials are applied in the context of the new task. The task loses
-its capabilities in the process, as it would with a setresuid() away from
-uid 0.
+Container runtimes have the same problem today and solve it themselves.
+runc exec accepts a cgroup for the new process. If it is given none and
+gets EBUSY, it looks up the cgroup of the init of the container and uses
+that.
+
+So let the spawner choose. PIDFD_SET_FD with the key "cgroup" names the
+cgroup that the task starts in. Which cgroup to use is a policy decision,
+and it stays with the runtime. For containers that share a cell, like
+those of a pod, this is also how each of them gets its own cgroup.
+
+The cgroup must be the budget or lie below it, because a kill finds the
+tasks of the cell through the budget. The fork checks this with
+cgroup_mutex held, along with whether the cgroup still exists and can
+contain tasks. It has to be checked that late because the cell can change
+what is below its budget at any time. The task is created in the cgroup
+rather than moved there, so it is never anywhere else.
+
+No permission on the cgroup is required. Whoever holds the cellfd can
+already do anything to the cell, including killing it, and the permission
+to put tasks into the budget was checked when the slot was filled.
+Requiring write access to cgroup.procs would not work in practice: the
+cgroups that the init of a cell creates are owned by ids that nobody
+outside of the cell has, so only a builder with CAP_DAC_OVERRIDE would
+pass.
 
 Signed-off-by: Josef Bacik <josef@toxicpanda.com>
 ---
- include/uapi/linux/pidfd.h |  10 ++++
- kernel/embryo.c            | 116 +++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 126 insertions(+)
+ include/linux/sched/task.h |  1 +
+ kernel/cgroup/cgroup.c     |  8 ++++++++
+ kernel/embryo.c            | 31 +++++++++++++++++++++++++++++++
+ 3 files changed, 40 insertions(+)
 
-diff --git a/include/uapi/linux/pidfd.h b/include/uapi/linux/pidfd.h
-index c01bce5e17ad..e1f6d27bb220 100644
---- a/include/uapi/linux/pidfd.h
-+++ b/include/uapi/linux/pidfd.h
-@@ -24,6 +24,16 @@ enum pidfd_configure_cmd {
- 	PIDFD_SET_FD		= 2,	/* The file to have at number @key, from fd @aux */
- 	PIDFD_CMD_START		= 3,	/* Make the task, apply everything and exec */
+diff --git a/include/linux/sched/task.h b/include/linux/sched/task.h
+index 97e3675101bd..83bc58598ea0 100644
+--- a/include/linux/sched/task.h
++++ b/include/linux/sched/task.h
+@@ -50,6 +50,7 @@ struct kernel_clone_args {
+ 	unsigned int kill_seq;
+ 	struct pid *pid;
+ 	struct cell *cell;
++	struct cgroup *cell_cgrp;
+ 	struct embryo *embryo;
  };
+ 
+diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
+index 3869cfa6af50..d3a36b586cd3 100644
+--- a/kernel/cgroup/cgroup.c
++++ b/kernel/cgroup/cgroup.c
+@@ -6917,6 +6917,14 @@ static int cgroup_css_set_fork_cell(struct kernel_clone_args *kargs,
+ 	struct cgroup *dst_cgrp = cell_budget(kargs->cell);
+ 	int ret;
+ 
++	/* Somewhere below, if whoever spawns says so. Nowhere else: a kill goes by the budget. */
++	if (kargs->cell_cgrp) {
++		ret = -EPERM;
++		if (!cgroup_is_descendant(kargs->cell_cgrp, dst_cgrp))
++			goto err;
++		dst_cgrp = kargs->cell_cgrp;
++	}
 +
-+/* pidfd_configure(PIDFD_SET_BINARY, "cred"). Ids are those of the new task. */
-+struct pidfd_cred {
-+	__u32 uid;
-+	__u32 gid;
-+	__u32 ngroups;
-+	__u32 __spare;
-+	__aligned_u64 groups;	/* pointer to @ngroups __u32 gids */
-+};
-+
- /* Flags for pidfd_send_signal(). */
- #define PIDFD_SIGNAL_THREAD		(1UL << 0)
- #define PIDFD_SIGNAL_THREAD_GROUP	(1UL << 1)
+ 	ret = -ENODEV;
+ 	if (cgroup_is_dead(dst_cgrp))
+ 		goto err;
 diff --git a/kernel/embryo.c b/kernel/embryo.c
-index 2c65a99eaeea..0ad85cd2b865 100644
+index 0ad85cd2b865..0a04f39fa37a 100644
 --- a/kernel/embryo.c
 +++ b/kernel/embryo.c
-@@ -69,8 +69,14 @@ struct embryo {
- 	struct embryo_fd	fds[EMBRYO_MAX_FDS];
- 	unsigned int		nr_fds;
+@@ -19,6 +19,7 @@
+  */
+ #include <linux/binfmts.h>
+ #include <linux/cell.h>
++#include <linux/cgroup.h>
+ #include <linux/completion.h>
+ #include <linux/cred.h>
+ #include <linux/fdtable.h>
+@@ -73,6 +74,7 @@ struct embryo {
+ 	kuid_t			uid;
+ 	kgid_t			gid;
+ 	struct group_info	*groups;
++	struct cgroup		*cgrp;		/* where in the budget, or NULL for the budget */
  
-+	bool			have_cred;
-+	kuid_t			uid;
-+	kgid_t			gid;
-+	struct group_info	*groups;
-+
  	struct pid		*pid;		/* the reference alloc_pid_struct() returned */
  	struct cell		*cell;		/* where the task is going to be */
-+	struct user_namespace	*user_ns;	/* likewise */
- 
- 	int			result;
- 	struct completion	done;		/* embryo -> starter */
-@@ -124,6 +130,9 @@ static void embryo_drop_config(struct embryo *e)
- 	embryo_strings_free(&e->argv);
- 	embryo_strings_free(&e->envp);
- 	embryo_put_fds(e);
-+	if (e->groups)
-+		put_group_info(e->groups);
-+	e->groups = NULL;
+@@ -133,6 +135,9 @@ static void embryo_drop_config(struct embryo *e)
+ 	if (e->groups)
+ 		put_group_info(e->groups);
+ 	e->groups = NULL;
++	if (e->cgrp)
++		cgroup_put(e->cgrp);
++	e->cgrp = NULL;
  }
  
  static void embryo_put(struct embryo *e)
-@@ -132,6 +141,7 @@ static void embryo_put(struct embryo *e)
- 		return;
- 
- 	embryo_drop_config(e);
-+	put_user_ns(e->user_ns);
- 	cell_put(e->cell);
- 	kfree_rcu(e, rcu);
- }
-@@ -143,6 +153,52 @@ static void embryo_detach(struct embryo *e)
- 	embryo_put(e);
- }
- 
-+static int embryo_apply_cred(struct embryo *e)
-+{
-+	const struct cred *old = current_cred();
-+	struct user_struct *user;
-+	struct cred *new;
-+	int ret;
-+
-+	if (!e->have_cred)
-+		return 0;
-+
-+	new = prepare_creds();
-+	if (!new)
-+		return -ENOMEM;
-+
-+	new->uid = new->euid = new->suid = new->fsuid = e->uid;
-+	new->gid = new->egid = new->sgid = new->fsgid = e->gid;
-+	if (e->groups)
-+		set_groups(new, e->groups);
-+
-+	ret = -EAGAIN;
-+	user = alloc_uid(e->uid);
-+	if (!user)
-+		goto err;
-+	free_uid(new->user);
-+	new->user = user;
-+
-+	/* Leaving uid 0 behind costs the capabilities, as setresuid() would. */
-+	ret = security_task_fix_setuid(new, old, LSM_SETID_RES);
-+	if (ret)
-+		goto err;
-+	ret = security_task_fix_setgid(new, old, LSM_SETID_RES);
-+	if (ret)
-+		goto err;
-+	ret = security_task_fix_setgroups(new, old);
-+	if (ret)
-+		goto err;
-+	ret = set_cred_ucounts(new);
-+	if (ret)
-+		goto err;
-+	return commit_creds(new);
-+
-+err:
-+	abort_creds(new);
-+	return ret;
-+}
-+
- static int embryo_exec(struct embryo *e)
- {
- 	static const char * const no_strings[] = { NULL };
-@@ -150,6 +206,9 @@ static int embryo_exec(struct embryo *e)
- 	int ret;
- 
- 	ret = embryo_install_fds(e);
-+	if (ret)
-+		return ret;
-+	ret = embryo_apply_cred(e);
- 	if (ret)
- 		return ret;
- 
-@@ -286,6 +345,7 @@ int embryo_pidfd_open(int cfd, unsigned int flags)
- 	}
- 	e->pid = alloc_pid_struct(cell_nsproxy(cell)->pid_ns_for_children);
- 	e->cell = cell_get(cell);
-+	e->user_ns = get_user_ns(cell_user_ns(cell));
- 	cell_fork_finish(cell);
- 
- 	ret = -ENOMEM;
-@@ -389,6 +449,60 @@ static int embryo_set_strings(struct embryo_strings *s, const void __user *ubloc
+@@ -540,6 +545,26 @@ static int embryo_set_fd(struct embryo *e, const char *key, struct file *file)
  	return 0;
  }
  
-+static int embryo_set_cred(struct embryo *e, const void __user *uvalue, size_t len)
++/*
++ * Where in the budget of the cell the task starts. Whether it is in there, still
++ * there and able to hold a task is for the fork to say, with cgroup_mutex held:
++ * what is below the budget is the cell's to change at any time.
++ *
++ * It takes no permission. Whoever holds the cellfd can do anything to the cell, and
++ * what the cell made in there belongs to ids that nobody outside of it has.
++ */
++static int embryo_set_cgroup(struct embryo *e, int fd)
 +{
-+	struct group_info *groups = NULL;
-+	struct pidfd_cred tc;
-+	kuid_t uid;
-+	kgid_t gid;
-+	u32 i;
++	struct cgroup *cgrp = cgroup_get_from_fd(fd);
 +
-+	if (len != sizeof(tc))
-+		return -EINVAL;
-+	if (copy_from_user(&tc, uvalue, sizeof(tc)))
-+		return -EFAULT;
-+	if (tc.__spare || tc.ngroups > NGROUPS_MAX)
-+		return -EINVAL;
-+
-+	/* The ids are the cell's own. One it does not have cannot be named. */
-+	uid = make_kuid(e->user_ns, tc.uid);
-+	gid = make_kgid(e->user_ns, tc.gid);
-+	if (!uid_valid(uid) || !gid_valid(gid))
-+		return -EINVAL;
-+
-+	if (tc.ngroups) {
-+		const u32 __user *ugroups = u64_to_user_ptr(tc.groups);
-+
-+		if (!userns_may_setgroups(e->user_ns))
-+			return -EPERM;
-+		groups = groups_alloc(tc.ngroups);
-+		if (!groups)
-+			return -ENOMEM;
-+		for (i = 0; i < tc.ngroups; i++) {
-+			u32 g;
-+
-+			if (get_user(g, ugroups + i)) {
-+				put_group_info(groups);
-+				return -EFAULT;
-+			}
-+			groups->gid[i] = make_kgid(e->user_ns, g);
-+			if (!gid_valid(groups->gid[i])) {
-+				put_group_info(groups);
-+				return -EINVAL;
-+			}
-+		}
-+		groups_sort(groups);
-+	}
-+
-+	if (e->groups)
-+		put_group_info(e->groups);
-+	e->groups = groups;
-+	e->uid = uid;
-+	e->gid = gid;
-+	e->have_cred = true;
++	if (IS_ERR(cgrp))
++		return PTR_ERR(cgrp);
++	if (e->cgrp)
++		cgroup_put(e->cgrp);
++	e->cgrp = cgrp;
 +	return 0;
 +}
 +
- /*
-  * The file table of the new task is exactly what is put here. After this
-  * nothing crosses the boundary of the cell any more, so this is where it is
-@@ -576,6 +690,8 @@ SYSCALL_DEFINE5(pidfd_configure, int, pidfd, unsigned int, cmd,
- 			ret = embryo_set_strings(&e->argv, uvalue, aux);
- 		else if (!strcmp(key, "envp"))
- 			ret = embryo_set_strings(&e->envp, uvalue, aux);
-+		else if (!strcmp(key, "cred"))
-+			ret = embryo_set_cred(e, uvalue, aux);
- 		else
- 			ret = -EINVAL;
- 		break;
+ static int embryo_start(struct embryo *e)
+ {
+ 	struct kernel_clone_args args = {
+@@ -569,6 +594,8 @@ static int embryo_start(struct embryo *e)
+ 		ret = e->started ? -EBUSY : e->exec ? 0 : -EINVAL;
+ 		if (!ret)
+ 			e->started = true;
++		/* Nobody changes it from here on. */
++		args.cell_cgrp = e->cgrp;
+ 	}
+ 	if (ret) {
+ 		cell_fork_finish(e->cell);
+@@ -698,6 +725,10 @@ SYSCALL_DEFINE5(pidfd_configure, int, pidfd, unsigned int, cmd,
+ 	case PIDFD_SET_FD: {
+ 		CLASS(fd, slot)(aux);
+ 
++		if (!strcmp(key, "cgroup")) {
++			ret = embryo_set_cgroup(e, aux);
++			break;
++		}
+ 		ret = -EBADF;
+ 		if (!fd_empty(slot))
+ 			ret = embryo_set_fd(e, key, fd_file(slot));
 
 -- 
 2.55.0
