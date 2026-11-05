@@ -1,49 +1,50 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793884278;
-	b=lTvaowqJ3hUq2ThPIsXyDj5bUbngzGRgZhDl1YlRcXc+CCxkns8MTlqhoXVj7Yc6Dx2R
-	 4g0Bn7/boOcQF3nvRhLE4q1IoXF/nz/IFS4nzn6iIM2Vtpr9dpvmwXEGw0gxeNDJxVNsV
-	 6Dd6AiXQ5iCcXnwh6IL7xgyYTWwOwYv63mAVAXBHcQdkRsHgYLZ3DVsCbVqJNo62FiXH2
-	 NRYCdTNj6Z+abFxP1uk8FraIrxDl7zt+8gVyMtimAJriAZAID8ezWT0WkfvYM7Mtaj9yZ
-	 Em1QJMbJWlcCZ69SdziBBGvKGHzlYnCap3dazLlEJeZJTO+krpT/tYKpat8Tbr2BdSg==
+	t=1793884710;
+	b=ORww8KuCy8y3CsybF1Qem9K6FOjLiAyCDgTM4KZMI4QNZBa2AftPlX/CA5QL56gLVbeQ
+	 oKIB33TFOpB+5tdhp3kag38wmwbRKJjEONw/x3n9G8XVSCpXhYDe0OZkb913LHwt0fC5d
+	 p29r5IV34Akr3ZzlRnGrpEA2tM1eLnV/YPG/gyB+Cft0RrJGc4oqeDc6CgLlM1mb1Un0p
+	 clweYUFpp2KIV0cKk7pS7+pHqTxAEYq9WQ89d6l1izJ6YeQX4KGWAROzUJIZayqbBtOGm
+	 5FI/AXSvDCGvMYqjGHrFVMVktGQgETvE6HvB6OucTaBAIKEMBbWGlh4B6BWBgE+/v5g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793884278;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=O+uAOf22ku0nBzO5a3bnCrNp2btg27dwJZHDk2t3+oc=;
-	b=waUJsQdr8+ace3zwgswwP3orfcFRtNfsGChElLwMu2Vxr9d60RJFv+uPB9hggptji+Y1
-	 ziT51AAY+D9yVCzPBYQmE3T7o17WSVGGcXw2j0bUhZzlJ1yxtUSeYN8gQvhUqNqK+SHfJ
-	 mJyFUGlvbpPZwHE30LvFHrwUR9LihZh0p7QD8ML9fnxLNCBXUgyTxxVVkM1qSQ7Zhr2gu
-	 tEN1ISutz7oBsK8A/A93rRDsHEGkgdPZGbDxK4DhAeGpA3X1BkXQxPeE4zrdvtoB9gcQa
-	 6dbn4tx5CpUYdmkUvHXFnsbpym4tnHLnGcRmULRCHbd14EgcD5bO+5ZtTqETjL/3+bA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793884710;
+	h=Received:DKIM-Signature:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=DXlALzxYM36/ki6riHR/Kh9IQJCV3TdTeTCjVtxynx8=;
+	b=aSSCGTtA0gHUzeiZNCLgzgrT3RV+KJ8/QnH/ONkICpkzo1ljDQns1r2UkJbxLn2/CSmY
+	 QGgUBbcGvceSW0vO1w62qiX046bGQx1GSYofz6pc+U9juw/+vTFXMsr/Qdh7nc3B050I4
+	 1ltti3SPafsxaZ/Cb9Z+ryZSR00AUPSLVXPtfftbmMrbKvP/SdZ1T6lDp9KbVytWyjRJa
+	 Qdokp8NABzSEbMI/ckPeZVfZs7/yHkz3IfaP/8mzoFNIYNARTOG9W4qU9EUKjAGPfSKV5
+	 mEhLovQw+MFRH8y3SMDgzQW4dXf5/7O56wbpJjmT4ezKfRTR/JHsbm47ALmmpdhayTg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=C6DY1Waz;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YISs77ka;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7232F606D815;
-	Thu,  5 Nov 2026 13:11:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97EF6606A32F
+	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 13:18:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=C6DY1Waz
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70BFA1F00A1B;
-	Thu,  5 Nov 2026 13:11:08 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YISs77ka
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0B6C1F000C1;
+	Thu,  5 Nov 2026 13:18:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793884278;
-	bh=O+uAOf22ku0nBzO5a3bnCrNp2btg27dwJZHDk2t3+oc=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=C6DY1WazDreIp0tqngL8J96ms2jUv/PGhhduU/iK8a4K4yiFtHbCImq5yDnpJSB/i
-	 MfT83/xUbBuNgTPO+k6ECz01TEg9sNUG1vuGIMo+eDHmOGuSyK/iXBga1oxUJvU6aU
-	 UleLYrBcEjbSEdPFjdvQZRHBf0w+ObpAzE/dWNnyZlxsEfa1E2GGa23gAVJlVV3E2C
-	 gukdedk+fcJrHXpCAgX66uTS9c7Ioybk9NhVkXaGy0WzWE98E7/aHLlU95nZJV9z19
-	 Oqc96TL3rSJh9YcyeeyatdylmcGOyB3tpTtGz6gvzdl2DJExwADPbM5H/dn42p891Z
-	 1EkqpbCJAaDaw==
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Date: Thu, 05 Nov 2026 14:10:14 +0100
-Subject: [PATCH 5/5] mm/gup: limit pagecache folio refcount when grabbing
- references
+	s=k20260515; t=1793884710;
+	bh=DXlALzxYM36/ki6riHR/Kh9IQJCV3TdTeTCjVtxynx8=;
+	h=From:Subject:Date:To:Cc;
+	b=YISs77kamgloteawqYJQp+bNdsHDHN+jZn2J9ygjQZu3xafXEuFxyEgoxcFN5tJOb
+	 FFXE6BMjAcxUJy07g/CNd1csKd2kWTkyFdWCSMZL+QCzLBgAeLm5OHZXL9JiNgQACt
+	 P9rJiETpqHPNqtxLmOilD1sXTV6rl68xxw69AcdL7GIBVzxKo9tD91sUmXpuUpW0SG
+	 rUnQYku9heHgkmZJaa4sdgiXdMz0t+x48VEjWvf02ycFtBal7OXIqH9WeM0VGuxov8
+	 DTdt7KzBQe9ABzmsQaL0t/0H4zwMYKSEcT8mvhTvs3A+12K8o4Nx3B7r934AcX7dSg
+	 1x1g3u5RWnQrQ==
+From: Christian Brauner <brauner@kernel.org>
+Subject: [PATCH 0/5] file: fix and document ordering for lockless fd lookup
+ wrt to file_ref
+Date: Thu, 05 Nov 2026 14:18:04 +0100
+Message-Id: <20261105-work-file_ref-ordering-v1-0-8713f4876b7b@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -55,103 +56,77 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261105-refcount_overflow_stable-v1-5-70b9c655da3e@kernel.org>
-References: <20261105-refcount_overflow_stable-v1-0-70b9c655da3e@kernel.org>
-In-Reply-To: <20261105-refcount_overflow_stable-v1-0-70b9c655da3e@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>, 
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
- Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, 
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
- Kiryl Shutsemau <kas@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
- Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>, 
- Gregory Price <gourry@gourry.net>, 
- Ying Huang <ying.huang@linux.alibaba.com>, 
- Alistair Popple <apopple@nvidia.com>, Peter Xu <peterx@redhat.com>, 
- Johannes Weiner <hannes@cmpxchg.org>, Song Liu <songliubraving@fb.com>, 
- Rik van Riel <riel@surriel.com>, Hugh Dickins <hughd@google.com>, 
- Will Deacon <will@kernel.org>, "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, 
- Nick Piggin <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>, 
- Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>, 
- "Joerg Roedel (AMD)" <joro@8bytes.org>, Robin Murphy <robin.murphy@arm.com>, 
- Steve Sistare <steven.sistare@oracle.com>, 
- John Hubbard <jhubbard@nvidia.com>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org, 
- iommu@lists.linux.dev, "David Hildenbrand (Arm)" <david@kernel.org>, 
- stable@vger.kernel.org
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2098; i=david@kernel.org;
- h=from:subject:message-id; bh=IBF3fb4To5eP04NbeBZ/jj0H6jfX9PmTFRUfnhgVDek=;
- b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLLeNFhOiqkz3PLwi9bq1D/7fq4JYkqqbdslJTwlJHeTN
- +MK/mNNHaUsDGIcDLJiiixBwfcNXr5cV1vtxscMM4eVCWQIAxenAEzEN4aR4YGas5mNyg05jdwp
- L5pmXlDsVHMPbzDdvbWu5rHw8ek3kxj+6X9Yrf89V7Sg1lXs6jzOC3F8x1TtJ+29GvphkYnibr/
- ZPAA=
-X-Developer-Key: i=david@kernel.org; a=openpgp;
- fpr=1BD9CAAD735C4C3A460DFCCA4DDE10F700FF835A
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/zWM2woCIRCGX2WZ60ZUqKBXiQh1xt2p0NBOsOy7p
+ 8Vefv/hm6FyEa5wGGYo/JIqOTUwmwHC5NLIKNQYrLY7Y/QW37lcMcqNz4Uj5kLtn0bUmiiQ3ft
+ oCdr53lr5/MTH05/r0184PLqtL7yrjL64FKYeda9avWr1qr6CZfkCtSI87KgAAAA=
+X-Change-ID: 20261105-work-file_ref-ordering-00ddcd27bf2d
+To: linux-fsdevel@vger.kernel.org
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ Peter Zijlstra <peterz@infradead.org>, 
+ "Paul E. McKenney" <paulmck@kernel.org>, 
+ "Christian Brauner (Amutable)" <brauner@kernel.org>
+X-Mailer: b4 0.17-dev-ce4c1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2725; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=SRr/sYpJYJo+IfNOvY6pbJNLj3wgx53i0Llw4tQazxI=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS9aZL+/W4X24fJtvEBq6ZpBIfbHLhoNPOwk9Me+0WLf
+ S5em+Vl1lHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRFBaGPzzFhar/Vl8KZNr/
+ xHquoGV73fnvzxVmiNwQjp6yfN6CguUMf7gtQ6yW+M6eq310omNawTsZt11N3SrL/Rtu7nNb8s1
+ hFjMA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Let's replace our existing safety check by the new
-folio_ref_count_over_limit() check in fast and slow GUP before acquiring
-additional references or pins.
+I went through include/linux/file_ref.h and its lockless users with a
+TLA+ model and a set of LKMM litmus tests:
 
-Keep it simple and use the check for all folio types.
+__fget_files_rcu(), __get_file_rcu(), fput() and file_ref_put_close()
+against close(), open() and the SLAB_TYPESAFE_BY_RCU recycling of the
+file. The protocol itself is fine but there are a few minor things:
 
-Drop the WARN_ON_ONCE(), because apparently these things can currently
-happen with large pagecache folios.
+* __fget_files_rcu() lost the dependency on its reload in
+  253ca8678d30 making it possible to see f_mode and f_op from an earlier
+  lifetime of a file on arm64 and power.
 
-Keep the zero-refcount rejection if the refcount is 0.
+* file_ref_get() only needs acquire ordering. The reload has to be
+  ordered after the increment. This is all we need.
 
-Fixes: 800d8c63b2e9 ("shmem: add huge pages support")
-Fixes: 99cb0dbd47a1 ("mm,thp: add read-only THP support for (non-shmem) FS")
-Fixes: 793917d997df ("mm/readahead: Add large folio readahead")
-Cc: stable@vger.kernel.org
-Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+* Add some missing documentation why we need full ordering during put.
+
+This also adds litmus tests for this stuff. Here are the numbers after
+this series:
+                       instructions        cycles
+    fcntl(F_GETFL)      457 -> 463    217.6 -> 218.1
+    fstat()            1052 -> 1058   455.4 -> 454.1
+    poll(), 16 fds     2394 -> 2458   828.7 -> 833.4
+    pipe write+read    2261 -> 2271   925.1 -> 913.0
+    unix socketpair    3269 -> 3277  1202.3 -> 1184.8
+    io_uring_enter()   1036 -> 1038   284.6 -> 286.5
+      registered file   942 -> 942    262.6 -> 263.2
+    open()+close()     4277 -> 4277  1365.7 -> 1334.7
+    dup()+close()       869 -> 873    525.1 -> 520.5
+
+It's all within noise in terms of performance.
+
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- mm/gup.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+Christian Brauner (5):
+      file: depend on the reloaded pointer in __fget_files_rcu()
+      file_ref: use acquire ordering in file_ref_get()
+      file_ref: document why file_ref_put() stays fully ordered
+      Documentation/litmus-tests: add the file reference count tests
+      Documentation: update the lock-free file lookup in files.rst
 
-diff --git a/mm/gup.c b/mm/gup.c
-index 2ab42fc6834e5..db9db6b2a4662 100644
---- a/mm/gup.c
-+++ b/mm/gup.c
-@@ -77,7 +77,7 @@ static inline struct folio *try_get_folio(struct page *page, int refs)
- 
- retry:
- 	folio = page_folio(page);
--	if (WARN_ON_ONCE(folio_ref_count(folio) < 0))
-+	if (unlikely(folio_ref_count_over_limit(folio)))
- 		return NULL;
- 	if (unlikely(!folio_ref_try_add(folio, refs)))
- 		return NULL;
-@@ -140,7 +140,11 @@ static void gup_put_folio(struct folio *folio, int refs, unsigned int flags)
- int __must_check try_grab_folio(struct folio *folio, int refs,
- 				unsigned int flags)
- {
--	if (WARN_ON_ONCE(folio_ref_count(folio) <= 0))
-+	if ((flags & (FOLL_GET | FOLL_PIN)) &&
-+	    unlikely(folio_ref_count_over_limit(folio)))
-+		return -ENOMEM;
-+
-+	if (WARN_ON_ONCE(!folio_ref_count(folio)))
- 		return -ENOMEM;
- 
- 	if (unlikely(!(flags & FOLL_PCI_P2PDMA) && folio_is_pci_p2pdma(folio)))
-@@ -1482,8 +1486,8 @@ static long __get_user_pages(struct mm_struct *mm,
- 				struct folio *folio = page_folio(page);
- 
- 				/*
--				 * Since we already hold refcount on the
--				 * large folio, this should never fail.
-+				 * Grabbing more references can fail once we
-+				 * hit folio refcount limits.
- 				 */
- 				if (try_grab_folio(folio, page_increm - 1,
- 						   gup_flags)) {
-
--- 
-2.43.0
+ Documentation/filesystems/files.rst                | 48 +++++++++-----
+ Documentation/litmus-tests/README                  | 57 ++++++++++++++++
+ .../fs/file-ref-get-acquire-recheck.litmus         | 66 +++++++++++++++++++
+ .../fs/file-ref-get-relaxed-recheck.litmus         | 50 ++++++++++++++
+ .../fs/file-ref-put-full-handoff.litmus            | 76 ++++++++++++++++++++++
+ .../fs/file-ref-put-release-handoff.litmus         | 66 +++++++++++++++++++
+ .../fs/file-ref-reload-dep-field.litmus            | 74 +++++++++++++++++++++
+ .../fs/file-ref-reload-nodep-field.litmus          | 59 +++++++++++++++++
+ fs/file.c                                          | 42 +++++++++---
+ include/linux/file_ref.h                           | 21 +++++-
+ 10 files changed, 528 insertions(+), 31 deletions(-)
+---
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+change-id: 20261105-work-file_ref-ordering-00ddcd27bf2d
 
