@@ -1,88 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793892215;
-	b=ii84YE3jR7rljsdgVuaZXZJtd17ZHO6S4PxXY612jDQpnI7/R2o3hCKD5xpaVvgKmbTf
-	 Z3VAG4nhD+ph+qMJMS3LQ11MZZGyHSjJMAcMQ4eDzVj+qY994oKNK0kDSJppwEuMhuMCP
-	 rbTSWNAoh08MlXd1DW/ZT45QRR8O86T8cDv0/dskyOJy0B1z/wmbG7BoFjQctZNgiaT2q
-	 cvvRNXpHVdoWEHiHcS1H+zSvGksRKAbGiy4k0G8cb/5YgDir7byfC/VbPiqtrxtSIbPin
-	 WPk9R2El+rdzq915ydUJoklF9ORo2ozDHy7PyiHemHXnY71tXkPid/OyunHG6UHITFQ==
+	t=1793892239;
+	b=LyrEC1n4hwEt82XEivvHS4moZFNs32PA76NGXy8W3WH5lp3CL9z4aNhJCP6fhbh2LG9z
+	 WV0hoGkrJ9hoRwXPBigHInSldiBY8YUkHS0get6QYYXZ5NgQ+bf3TNm+M2thSkITQwRNj
+	 /9IGqvqsMPUFb86tX64yo2Yz6QbucwiOKkFzIldbRGSG5Taj4N0mN6/7QvobvHZT2WSx4
+	 b5DL5TK2h7fUR5KzQo3BHgDmAfuUZk9YZVkTAgaC+TLoio5UttHjx/FAKmiO5EvyOlw9O
+	 VLf0+l/sVk/wsj0mOBtIz78e1rH7GGyYzTaCiEjXBGyi6MXoCAu9KhPwrC3/ebUquog==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793892215;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793892239;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Date:Subject:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
 	 References:In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=kdXj6//jxdtcWs7h4JxcJxKLQ6Lk98T2w2GxXOA8Ujw=;
-	b=bTpdErjdvIQFNB+Jr/+DU0ehBCD14bmoM/CRVKIPww9Vq/AtIprAwETXB3AIWJbrhJuR
-	 1Q7j4wTsvzZUp4ANBE77USqXVrOkm8lGPLR2RX+D+3QCdACIfM39RNKE7Na9tK2cdzMp9
-	 BYv3j3mzIxp5fEZGngLTXEvKqEV97AaqZUOasKvGfvWBJZnYSZ4X2Qe408UXkhvAow0Ot
-	 jxOhSsDLsGOS8znz/9zAIX8NqAfz2H3JS2jHNvJsszDgMSBMiOXgy0gDQKqExvMV91p7Q
-	 ICSiL1bIpDHbLAa3g0tWUcQYB8bd9V/+CZudaIAz7K8m4xdriALu+hUoaILSLNdLODg==
+	bh=UNhgRqz9zBhtBnU+8XawzxvpxSy1UN2gEvH030GM0ys=;
+	b=xFMYHqQEmJNPhGuLsnDN8d+zpNrB37KNueFomOFgGP3OpiuFWh00pflNvGck0DkhJOnG
+	 Z61hoiqu5QAWz4RJzEoCkx3hdnSXqZwwVH42lIIuXeoIjMxFh8x4Lu9ieAWr0JG9WroYV
+	 r4ob5c+uFOw7SGl8+otlX7NaekP2lrR07jRO92/hKwXSeShBDI0IYxj9Ne8px2kpY1YaV
+	 GOdUODk525AHkkwFw1xpw6/ju07EvxpKy3bnAH6kEjabx5Sfh/PAgDXfd16c3ZL8hAe0+
+	 MwtEDCZ2+yQLmzsiHpPwcAcF2II7/khnBq6MTFt72RB5AiAmr1ldf0V0TlJM8fCglPw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=toxicpanda.com;
 	spf=pass smtp.mailfrom=toxicpanda.com;
-	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=jFv7JG3X;
-	arc=none smtp.remote-ip=209.85.128.42
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=hxb9tgal;
+	arc=none smtp.remote-ip=209.85.160.49
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 393E9606A331
-	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 15:23:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 393E9606A331
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B5F1606A31B
+	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 15:23:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7B5F1606A31B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=jFv7JG3X
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4a3517554f7so17113465e9.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 07:23:35 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=hxb9tgal
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-4ad4072943dso625280fac.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 07:23:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toxicpanda.com; s=google; t=1793892214; x=1794497014; darn=vger.kernel.org;
+        d=toxicpanda.com; s=google; t=1793892238; x=1794497038; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=kdXj6//jxdtcWs7h4JxcJxKLQ6Lk98T2w2GxXOA8Ujw=;
-        b=jFv7JG3XZaJkSmPlPLcfE9OCnqAnrFIHWurWtq5O25T0d3IKJTFJLQ/Tlh1cQdZdF5
-         jZe0mRWMpOKGSKlVU7OnUUrtccQJos28SZAjnjAooX9EAk1qDqsSytT2/MABpT0o6cW4
-         Te3Q+wfScQdbIEl9gzzkLutwHZkHOSstck/g9x4QgupyhN2uZxfhrATdnH6Aap6zGwje
-         YY3hR3y9CsIxwLB/YjwmNnarq3DANSUZsv841ylnVyMBLXVDctsWvYB7fhs2JO7MbycC
-         mKDrvns48LjXuMQogYbKDJupivw/9KKxj9x3UvvPVIXjbEMcj5jV4dSOfwjXKADHZKaV
-         JYLQ==
+        bh=UNhgRqz9zBhtBnU+8XawzxvpxSy1UN2gEvH030GM0ys=;
+        b=hxb9tgalD25gfP6CVq4fs63HIuR0c0KbZPiAOgCqkbQZX1IPSyQsnsJgaipfuqWUNn
+         WAvk6//Z6gwChVAvFbVTt3ehZ5NMi3X1Y0ZzrHULO5bwkrabU007ZjRUBy20oIJG5CzL
+         UWm0ugMD0/UjHEBulrAGjtmepzv9RvJx8ia2EyBfW5al6Q7pepMH8ZE9gqJYoOPysPDi
+         mMAA2zT23gmioCfJcXE+d2bWYeQ4MsGHyF/qi+z5uJpFkKvMMuD7ji0RnXPlMQJoVtFF
+         Emmm4JaL/n0oCBcL4H4o6Fh6VNmmYyRw20Au1DrGWC/kYgt946ehbsp65Y5qGg0llord
+         3yYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793892214; x=1794497014;
+        d=1e100.net; s=20260707; t=1793892238; x=1794497038;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=kdXj6//jxdtcWs7h4JxcJxKLQ6Lk98T2w2GxXOA8Ujw=;
-        b=mqHT3w/3qUhmE+yMXrQ7DC0QbVip0Lm8N2S8Uy3bPxGpGFXQy3JJgMdzVCcWkI4/0c
-         NK+8ctAuOyyxhm8Di3zEbI9xlAv2TXFTCoND1Rximb9JU/jnGB5s+Ls9JcmafrKoQC0F
-         qWbCa9K6V/MMc2wbv6uS+WYOz8qtDUy+VgEJ+GTOqv0RNdW00gTCLo9IgSzEdL8v21vE
-         7chm4os/qve5ONSD3hcqOjOnjQpX36N8r69nczJA070wRlocx5dkK5Gr0GKiML+mA7RS
-         fFqL905q3Gd44PJcEFIUJT+lfUWKcvFZzf5qF+c0+rU9FEcUTtzMLLCswvE86eiXQWHR
-         roRg==
-X-Gm-Message-State: APuU4Z9fJK+J9Gi2+PRs4PNVj4bF8lXcMFBu4f6FQX3k3DRNvA8aiXSC
-	Bfc4NHltginhKotZ+1/R9VDkkHCJfzi/jF7G/BwCISnFF7qaX6SQ84AOcNFlv3KHgx4=
-X-Gm-Gg: AYBFou0iBwYvwNghYSGAirJYdcy1PKoEqifhwtMXN1VRRrFN8S2pP66PbLdCANedCaZ
-	5NzvCS6B9y/NVDVgOQ93mJuu8CfxQuul9BiedubyZp/sGs2ook30MkMM2P3pTio5UHmnkmPM0Hn
-	9PyxmJc68mR0NO2Ic5E+PXuB4KtG1EfXcjlMuDnDy4U2RAhSsBMSXzREpV2D75sMNfoGLWVyGks
-	wcrNegHJezGCN/6l/g3p4xMBwvpHXH5x+7lq84UC0047+KiDZUUnuGrPhe5WIM56f3iV8/2PbH5
-	EtG7TV5I4FxpkSDdsbgeN5yjrG7mKRknHqWex8QTKz9Qg/oOTxbSKQWG/o+1H4q48OM3eFkBYjh
-	vJsH82mewh50jtHKIIQlI8O1t6vEaMFA/FOHwK+liRFmRmf92x6AdmT36IV3J0puF7BLUZRfnFD
-	seKlYLq9irsCB/LVC2JTJAjRnrv8MlwIR+4k6WJ6JriZF98wm1RHw98ECcejOu24sfKR2fi6AHp
-	cZVaK9AgZRQ7DU3Lh6RxUhyzelPapBIl4p5O1XQM8EZibJyu5R5E8B9WdO1vOTgayhsVTwqgcGr
-	zzeb3kfNW8h8zEIivXHFJtVworOSjabHT768I9efz689
-X-Received: by 2002:a05:600c:e547:10b0:4ad:5e09:ae43 with SMTP id 5b1f17b1804b1-4ad5e09ae61mr223607775e9.29.1793892213219;
-        Thu, 05 Nov 2026 07:23:33 -0800 (PST)
-Received: from toxicpanda.com ([153.61.196.254])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48fecac1caesm10086281f8f.17.2026.11.05.07.23.32
+        bh=UNhgRqz9zBhtBnU+8XawzxvpxSy1UN2gEvH030GM0ys=;
+        b=DqD7XUdD8L0ApehKSeDZB+h8Em0HTeBmuG/wSckr2Be3k0Fh8wVdoB0kYoNJqvkMiZ
+         e+U8dAR0OHdxwNYTbhGCHM9PIYNMuPsZTJ0mqknqYRay3DtSVb+NDfpg9Kpfa8JkcoCi
+         voDf2RChsywaraVex3CFTOHsLQTdTJBwCj81otRUUNOG/YifkYF0Nz8FwXDNdlGhVJ0g
+         v4i7NjPz5CMWjyhUK7VFHgxBvQCWFK11YweNQgWOMAi1AteYnQCZfpaQRQsT9hmtRIl2
+         abZC7YZFppSHFd92jrXd6iTfnQGppCAxf2zGUfoyV1dG9sFl7poJ7Lrx8KuWUml2CPd6
+         l6cA==
+X-Gm-Message-State: APuU4Z9P7bxQewn1gqcAA43+BzW51vclpEVVsiUqtZi+tZ/wff72rLD0
+	CMXViWTMt0b5kPZYyCp3/B5pSU2gpD2Z2hJ0AajJkjeZ/fPefyHufPQdBL/RfI4iYnc=
+X-Gm-Gg: AYBFou1fSLIHFQtVEmX1VwzFOc+DAq4FD1+ZOnY6J6fLBE/OW7vxgvzfgQRWp+kBFVL
+	R80TyUSDTifp+K9yrNMyHQpW0K32/Has04E5YNg5ayFjai1BeflrdAqzlbr1uAuAs7E6T8C2Fap
+	67Z4fxTQa2cessHZWy6XU5E3hgo7NUoezSuGtLFTsJcyYv0xPYT+AtSRXqDWNAvM40lxkBMd/3O
+	faENs3G/oiHb0kBhwKGg1jZ5JFQVZGoeDyGC1Cima2xMrhNlB4N60B7cg4tf5SKfGvN/kRTO8cN
+	g1yHqFUdClr/MKLGxmi+FrrIMeNzm4Y2pcShbIMF/nMUO+tulAQFb/YgFIAtmY6qy5ZPnOWZTDS
+	r+R97yEql6vq7TQ2N89mjhbO+4EHDQA994PKLkZok9GnrLkthN00WZz0sta6bgLC5sigMV5nTie
+	mc5HDtUiNIm8JfnHLnNldxpdEeU4sVu08MJ6NEXItpLOMpKVVZDt9KyNAgF3JdL4gRTo3xzwlGH
+	tnJsMasYHxmyB21H1dX3xtacBEBa37FApANX+UIaYd138DHuFfUDalS1Un6p7PuCdQS0FYUGC5X
+	Vx1qgTjlLYxWmV74W7V3vC1KwT9PrfO4ESjiSZm+nEPi
+X-Received: by 2002:a05:6870:f623:b0:49d:d220:e234 with SMTP id 586e51a60fabf-4a90770fb5fmr12484357fac.35.1793892237891;
+        Thu, 05 Nov 2026 07:23:57 -0800 (PST)
+Received: from toxicpanda.com ([153.61.196.253])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4acea48fd55sm4929307fac.4.2026.11.05.07.23.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 07:23:32 -0800 (PST)
+        Thu, 05 Nov 2026 07:23:55 -0800 (PST)
 From: Josef Bacik <josef@toxicpanda.com>
-Date: Thu, 05 Nov 2026 15:02:55 +0000
-Subject: [PATCH RFC v3 63/90] fs: drop privileges from what a cell may
- write to
+Date: Thu, 05 Nov 2026 15:02:56 +0000
+Subject: [PATCH RFC v3 64/90] cells: add the "caps" slot
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -94,7 +93,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261105-b4-cells-v3-63-bc9095937a84@toxicpanda.com>
+Message-Id: <20261105-b4-cells-v3-64-bc9095937a84@toxicpanda.com>
 References: <20261105-b4-cells-v3-0-bc9095937a84@toxicpanda.com>
 In-Reply-To: <20261105-b4-cells-v3-0-bc9095937a84@toxicpanda.com>
 To: Christian Brauner <brauner@kernel.org>, 
@@ -105,168 +104,110 @@ To: Christian Brauner <brauner@kernel.org>,
 Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Josef Bacik <josef@toxicpanda.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openssh-sha256; t=1793890935; l=5024;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1793890935; l=3699;
  i=josef@toxicpanda.com; h=from:subject:message-id;
- bh=/WLGeeEm8E2O/SOVtC/ElmM+tG1LfrcPrZQl9vVf+t8=;
+ bh=yhopv4p9Qv5aSxqkvolwlmRaUHEIceXqiSVnH82EndA=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgUBr36M/n0nWN0DNbnxwzIiCZez6MG
  JiruuNaSCI/zXsAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QKS5fAxTghKSICyzvxndkndKJSwBCeYnyHI67j2sLdsxkcKPY/AbqzZwCCaz7i90Wyltyf/Pup1
- em+ZpbT5sfgc=
+ QHNk1fZtucJ9cJajDPxHPodvTs2pBeAUzZVRa1DK03U6pa+mHvNo31+66NwasbIOOPV+dk5TgJU
+ U0l6Nr1DuiAg=
 X-Developer-Key: i=josef@toxicpanda.com; a=openssh;
  fpr=SHA256:C8kOX2QUJCMqnCX+KEeoqRAjLo9L+ELOSH2NSAJHqGA
 
-A write() clears the set-id bits and the file capabilities of a file. A
-store through a shared mapping does not. So a task of a cell could replace
-the contents of an existing set-uid file while the file keeps the bit.
+The first task in a new user namespace has every capability, over
+everything that the namespace owns. That puts a large amount of code that
+was written for root within reach of every user. A container runtime then
+spends its time taking most of those capabilities away again.
 
-Clear them as soon as a task of a cell opens a file for writing, and when
-pidfd_configure() places a file that is open for writing.
+A cell only has what it is given, so start from the other end. Being uid 0
+in a cell comes with no privilege. It is one id out of 65536. It cannot
+switch to another id, give a file away, or signal a task that runs under
+another id.
 
-This changes the inode at open time, like O_TRUNC, so it is done in the
-same place as the truncation, in do_open(). The directory lock has been
-dropped at that point, which is not the case in ->atomic_open(). The
-change needs write access to the mount, so it waits if the filesystem is
-frozen, but only if there is something to clear.
+Let the builder name the capabilities that the tasks of the cell have. The
+"caps" slot takes a __u64 with one bit per capability. An empty slot means
+none.
+
+The value is used as the bounding set as well as the initial permitted and
+effective sets, so nothing in the cell can ever have more. Every task of a
+cell has no_new_privs, so it gains nothing from a file, or from being uid
+0 when it runs one. And no task of a cell can create a user namespace to
+get a full set in.
+
+Filling the slot requires no privilege. The capabilities apply to the user
+namespace of the cell, so they cover its ids, its tasks and whatever else
+that namespace owns. That is no more than anybody gets from
+unshare(CLONE_NEWUSER).
+
+CAP_SETFCAP is refused, because nothing that a cell writes may confer
+privilege.
+
+A task of a cell with a single id is not uid 0 in the cell, so it would
+lose its capabilities as soon as it runs a program. The seal refuses
+capabilities for such a cell instead of letting them disappear silently.
+
+For reference: systemd 255 boots in a cell without any capability and runs
+units that stay root. To run units as other users, give files and cgroups
+to those users, and stop the units again, it needs CAP_SETUID, CAP_SETGID,
+CAP_CHOWN, CAP_FOWNER, CAP_DAC_OVERRIDE and CAP_KILL.
 
 Signed-off-by: Josef Bacik <josef@toxicpanda.com>
 ---
- fs/inode.c           | 61 ++++++++++++++++++++++++++++++++++++++++++++++++++++
- fs/namei.c           |  8 +++++++
- include/linux/cell.h |  7 ++++++
- kernel/embryo.c      |  6 ++++++
- 4 files changed, 82 insertions(+)
+ kernel/cell/slots.c | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-diff --git a/fs/inode.c b/fs/inode.c
-index f63535ee3629..d32c14217420 100644
---- a/fs/inode.c
-+++ b/fs/inode.c
-@@ -4,6 +4,7 @@
-  * (C) 1999 Andrea Arcangeli <andrea@suse.de> (dynamic inode allocation)
-  */
- #include <linux/export.h>
-+#include <linux/cell.h>
- #include <linux/fs.h>
- #include <linux/filelock.h>
- #include <linux/mm.h>
-@@ -2379,6 +2380,66 @@ static int __remove_privs(const struct mnt_idmap *idmap,
- 	return notify_change(idmap, dentry, &newattrs, NULL);
+diff --git a/kernel/cell/slots.c b/kernel/cell/slots.c
+index 0a406422ce34..a96d2f262aa1 100644
+--- a/kernel/cell/slots.c
++++ b/kernel/cell/slots.c
+@@ -105,6 +105,28 @@ static int cell_set_ids_binary(struct cell *cell, const void __user *uvalue,
+ 	return cell_set_ids(cell, count);
  }
  
-+#ifdef CONFIG_CELLS
-+static int cell_privs_to_kill(struct dentry *dentry)
-+{
-+	umode_t mode = d_inode(dentry)->i_mode;
-+	int kill = 0, ret;
-+
-+	if (mode & S_ISUID)
-+		kill |= ATTR_KILL_SUID;
-+	if (mode & S_ISGID)
-+		kill |= ATTR_KILL_SGID;
-+	ret = security_inode_need_killpriv(dentry);
-+	if (ret < 0)
-+		return ret;
-+	if (ret)
-+		kill |= ATTR_KILL_PRIV;
-+	return kill;
-+}
-+
-+/**
-+ * cell_file_drop_privs - a task of a cell is about to be able to write @file
-+ * @file: a file open for writing
-+ *
-+ * Nothing a cell writes imparts privilege. A write() drops the set-id bits and
-+ * the file capabilities of what it writes to, a store through a shared mapping
-+ * does not. So for a cell they go as soon as the file can be written at all,
-+ * and they all go, whatever capabilities the caller has.
-+ *
-+ * This changes the inode, so the caller must hold no inode lock and no write
-+ * access to the superblock. It waits for a frozen filesystem, but only if there
-+ * is something to drop.
-+ *
-+ * Return: 0 or a negative error, in which case @file must not be handed out.
++/*
++ * The capabilities that the tasks of the cell start with, and can never have more
++ * than. They are over the user namespace of the cell, so they are good for what
++ * that owns and for the ids of the cell, which is why naming them takes nothing.
 + */
-+int cell_file_drop_privs(struct file *file)
++static int cell_set_caps(struct cell *cell, const void __user *uvalue, size_t len)
 +{
-+	struct dentry *dentry = file_dentry(file);
-+	struct inode *inode = file_inode(file);
-+	int kill;
++	u64 caps;
 +
-+	if (!S_ISREG(inode->i_mode) || IS_NOSEC(inode))
-+		return 0;
-+
-+	/* A look without the lock, as do_truncate() takes one. */
-+	kill = cell_privs_to_kill(dentry);
-+	if (kill <= 0)
-+		return kill;
-+
-+	kill = mnt_want_write_file(file);
-+	if (kill)
-+		return kill;
-+	inode_lock(inode);
-+	kill = cell_privs_to_kill(dentry);
-+	if (kill > 0)
-+		kill = __remove_privs(file_mnt_idmap(file), dentry, kill);
-+	inode_unlock(inode);
-+	mnt_drop_write_file(file);
-+	return kill;
++	if (len != sizeof(caps))
++		return -EINVAL;
++	if (copy_from_user(&caps, uvalue, sizeof(caps)))
++		return -EFAULT;
++	if (caps & ~CAP_VALID_MASK)
++		return -EINVAL;
++	/* Nothing a cell writes imparts privilege, so it writes no file capability. */
++	if (caps & BIT_ULL(CAP_SETFCAP))
++		return -EINVAL;
++	cell->caps.val = caps;
++	return 0;
 +}
-+#endif
 +
- static int file_remove_privs_flags(struct file *file, unsigned int flags)
+ static int cell_set_string(struct cell *cell, const char *key, const char *val)
  {
- 	struct dentry *dentry = file_dentry(file);
-diff --git a/fs/namei.c b/fs/namei.c
-index 49995c353292..f36c1a385d80 100644
---- a/fs/namei.c
-+++ b/fs/namei.c
-@@ -4862,6 +4862,14 @@ static int do_open(struct nameidata *nd,
- 		mnt_drop_write(mnt);
- 		mntput(mnt);
- 	}
-+	/*
-+	 * Nothing a cell writes imparts privilege. Here, like the truncation,
-+	 * because it changes the inode: the lock of the directory has been
-+	 * dropped, which is not so in ->atomic_open().
-+	 */
-+	if (!error && unlikely(current_cell()) &&
-+	    (file->f_mode & (FMODE_WRITE | FMODE_CREATED)) == FMODE_WRITE)
-+		error = cell_file_drop_privs(file);
- 	return error;
+ 	if (!strcmp(key, "hostname"))
+@@ -117,6 +139,8 @@ static int cell_set_binary(struct cell *cell, const char *key,
+ {
+ 	if (!strcmp(key, "ids"))
+ 		return cell_set_ids_binary(cell, uvalue, len);
++	if (!strcmp(key, "caps"))
++		return cell_set_caps(cell, uvalue, len);
+ 	return -EINVAL;
  }
  
-diff --git a/include/linux/cell.h b/include/linux/cell.h
-index 1d0eec34acb9..0451055f74fc 100644
---- a/include/linux/cell.h
-+++ b/include/linux/cell.h
-@@ -284,4 +284,11 @@ static inline umode_t cell_strip_setid(umode_t mode)
- 	return mode;
- }
- 
-+/* Nothing a cell writes imparts privilege: files that are already there. */
-+#ifdef CONFIG_CELLS
-+int cell_file_drop_privs(struct file *file);
-+#else
-+static inline int cell_file_drop_privs(struct file *file) { return 0; }
-+#endif
-+
- #endif /* _LINUX_CELL_H */
-diff --git a/kernel/embryo.c b/kernel/embryo.c
-index 0a04f39fa37a..657ce07441e0 100644
---- a/kernel/embryo.c
-+++ b/kernel/embryo.c
-@@ -113,6 +113,12 @@ static int embryo_install_fds(struct embryo *e)
- 		ret = security_file_receive(file);
+@@ -163,6 +187,9 @@ static int cell_seal(struct cell *cell)
  		if (ret)
  			return ret;
-+		/* As if the cell had opened it. */
-+		if (file->f_mode & FMODE_WRITE) {
-+			ret = cell_file_drop_privs(file);
-+			if (ret)
-+				return ret;
-+		}
- 		ret = replace_fd(e->fds[i].fd, file, 0);
- 		if (ret < 0)
- 			return ret;
+ 	}
++	/* Who is not uid 0 loses them as soon as it runs a program. */
++	if (cell->ids_count == 1 && !cap_isclear(cell->caps))
++		return -EINVAL;
+ 	ret = cell_make_pid_ns(cell);
+ 	if (ret)
+ 		return ret;
 
 -- 
 2.55.0
