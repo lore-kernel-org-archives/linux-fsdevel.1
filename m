@@ -1,76 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793839133;
-	b=tfb1z16SR2keUd71EjteKe+mQ70hzm3MAJ18ASoN1QB1NZnC2W/EqpIqFHXwM2WLnhXe
-	 u0ThN2AcWusYzTLn9hfz3eUX/A/+16PGBTPJF9OzerqwnRYvvDuQhe/qq4pmvQDvolzEc
-	 HF3LRJ16VLV93tdC/b/+u68Gs8QYEv2soBOHBUZWxGGMy657IaU9xUX3mm5aBBCtMizLQ
-	 1DVSsxSuJHsmbE8wQfS1OLgFG1eDA8oDTTqYKq4lOi7oMhO72uvaBI01pvoSueCtGqmgM
-	 m+qgnSisNp8FXd1tUdQEd5i0k8rLL8wOC4JESkYnG6i9v8zdkm79pL463li5UHlAS+g==
+	t=1793840403;
+	b=LnFJvSQU8vLo+3YbDfGBuz3XG1IQFRN8HIwgRoGn/iNaxzwZJ6flBR9VRfjGJJD1QDNb
+	 fMvHAfilvsWtXSHAJR+xubX4dbPrP5g3AwpQ+E/qOjQwp7R5nV+cDD9QzgjhTEP06Z1uI
+	 9ig7+X5XoYzCdTHEHYolyIQnSmXQC+pZFcR7DHz1kE3nVwufRr/gX2df21+fD4QLT+obQ
+	 K2Iq2Aj0MBJbEo0RYDPkNYVO/FFNepL/fSOhkk3d+Edv3IgWwkuOxPdLMxf0UCNGUznLv
+	 1mTdIWvQQyC1KjIOm+dQ383amaDdZEkKazspByc1UQXtOUpVDTMq7u/uKFh6VW60txw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793839133;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
-	 Subject:Message-ID:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding;
-	bh=3j8nosRT0hMFrdPaU0fdOT3QafLKdAoumLCtN8aeB7c=;
-	b=rc5wJhrf3C0Y0Pp3v/3D9B18oK3bO/3vIKLZn5tfeEzSYzcFxAblSUYo/8IlvKBvuqMh
-	 BxE9mOXRoyV5K2LQd9GeYQ5XvGxLPY/XBWYxlxX6txuVamqwerAgLdv9p5XxSqLFLm2Lg
-	 5WFxInowysxSEGAUMqJ9JykBTIEmYCP5AZY2SKCTBMoNSmUbE0y5VJwxH6Ktgg8uQswr3
-	 04Xq/uizZyNZ2kxF1ns6PrEHquLlv5D2DnCv7DDoljxGO9ZXOelWz+cFRN6Ohea12RTDm
-	 LwKafcpNB0UguhyRgN5Vthkwl6N6YmckNGfYsGpxvsGoYPdPwbUZtYFaZnRUYjv6BqA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793840403;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
+	bh=bOcwL6zhtyGOHBUswyF1+2aNaITZbxKLwJZbZHfIdEs=;
+	b=Chg124C8oFDqy9z9k864gy8s/ftNTl7Es28EqtAjuKgEcSMpI7i4zKjOzwYPtet5tnJb
+	 3ammt57vrAy0ECbijoeyB12LGbi6Ldya/b24kYvwC3DRaBkC/WDATBOuC75w8XmQwbNeJ
+	 7Ua/0F0otpDLeXQQSSgCw+yRGG6CHTlYJJKiP+ykyV2vYltJdfVotYyJ044qrP/xHdNv5
+	 1TAnRlkj30GjBsnnv28wRy32Xa7a8C34iPlhQR8lqKqBbYrBc7Y/SoVmeH4Hs/cZHBGY6
+	 WgFzJWz/RedPtHA1abEPioWBtouGkuLl3Nmh9xTnwh0BHeETVdYiSwrVdP0FuDArgjA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=h6i4uEwF;
-	arc=none smtp.remote-ip=192.198.163.16
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="WmHn/Z55";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AE15606A326;
-	Thu,  5 Nov 2026 00:38:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2AE15606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2435606A32C;
+	Thu,  5 Nov 2026 01:00:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=h6i4uEwF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793839131; x=1825375131;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=5+t87+N/s71iHTzWzcKOMalV2nyZX0pYiXF/rYzODWc=;
-  b=h6i4uEwFrfeEv+kx230LwJIbRGbUXf2FXk6G8Iswv+zpLtubgbW0EEiN
-   427KQH5pi4KZjJna1Nrd2lKvzE5z6cRlIQfXyFP8ip+E/bl3y96vWFyRv
-   3kfj/FaoLOjmpNdoMDUInMRnsdH1aPL2vrMnlP6z3sHOSs5QANdqEpX19
-   Hw+MyGugM16yqJaja/ArqQiJUHgde0Pu+C6X3bLWcKwXmAvUm7Q5nk8Bd
-   +EWKV+z7WTCiwxEfTFBrp7HDMuq9Q6HARTaLrqKryhHxatQv9tSltZwBk
-   lEW07AGBgqf4rpaChh2dY1nawdpM68LaJshc3u0bICKBDBuZj27kgJHMW
-   Q==;
-X-CSE-ConnectionGUID: Ff+7UFPaQIWm7dPcryLQpQ==
-X-CSE-MsgGUID: 1sXCG6OZTHe028hIUeJ95Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11956"; a="2630956"
-X-IronPort-AV: E=Sophos;i="6.27,196,1787036400"; 
-   d="scan'208";a="2630956"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 16:38:50 -0800
-X-CSE-ConnectionGUID: uRcZfDPTQACPdZzQ63gB0g==
-X-CSE-MsgGUID: iLMWVtDLQ3ulnBNpVVj06w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,196,1787036400"; 
-   d="scan'208";a="6866644"
-Received: from ly-workstation.sh.intel.com (HELO ly-workstation) ([10.239.182.64])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 16:38:48 -0800
-Date: Thu, 5 Nov 2026 08:38:45 +0800
-From: kernel test robot <yi1.lai@intel.com>
-To: Breno Leitao <leitao@debian.org>
-Cc: oe-lkp@lists.linux.dev, lkp@intel.com, linux-kernel@vger.kernel.org,
-	Christian Brauner <brauner@kernel.org>,
-	Mateusz Guzik <mjguzik@gmail.com>, Oleg Nesterov <oleg@redhat.com>,
-	linux-fsdevel@vger.kernel.org, yi1.lai@intel.com
-Subject: [linus:master] [fs/pipe]  f7f4665dc5: lmbench3.PIPE.bandwidth.MB/sec
- 18.5% regression
-Message-ID: <202611041404.befe64cd-lkp@intel.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WmHn/Z55
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 343FF1F00919;
+	Thu,  5 Nov 2026 00:59:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793840402;
+	bh=bOcwL6zhtyGOHBUswyF1+2aNaITZbxKLwJZbZHfIdEs=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=WmHn/Z55HXmaQqq/YpT4MNb7PxFJ4H7cmFpM3PTSVrSrTbBRDa4TLlN+AEFR3AOo+
+	 Owwwr/VRraxtuIYN4kSMGb3zu9eObJwhR+aDrVlnZqjrAgz6K2LZCzl21gqrxRjb4L
+	 p0ThB3UhqX1Yf0YtMDf1oZDvksXXgg2r8cmycVn+ECcYGgDsuGRgdO1kV4O13S4mKA
+	 lceKkdGmGlkOc9fbFXpdWP29Hww4IaSn6n/JVudQoHWB9efnUH72RNlGvGu29/XJer
+	 G4VCo+aePUdVYXKPfhki16yl73XRquj4wuX5wHgOkShwefbBtEuFu82dqyY1NlzePu
+	 P7p664+X//hMw==
+From: Danilo Krummrich <dakr@kernel.org>
+To: boqun@kernel.org,
+	gary@garyguo.net,
+	aliceryhl@google.com,
+	lyude@redhat.com,
+	daniel.almeida@collabora.com,
+	work@onurozkan.dev,
+	ojeda@kernel.org,
+	bjorn3_gh@protonmail.com,
+	lossin@kernel.org,
+	a.hindborg@kernel.org,
+	tmgross@umich.edu,
+	dakr@kernel.org,
+	tamird@kernel.org,
+	acourbot@nvidia.com,
+	viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	jack@suse.cz
+Cc: linux-kernel@vger.kernel.org,
+	rust-for-linux@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: [PATCH v2 1/5] rust: task: add safe schedule_timeout() wrapper
+Date: Thu,  5 Nov 2026 01:59:38 +0100
+Message-ID: <20261105005951.756157-2-dakr@kernel.org>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261105005951.756157-1-dakr@kernel.org>
+References: <20261105005951.756157-1-dakr@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -80,70 +75,50 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
+Add a safe wrapper around schedule_timeout() that takes and returns
+Jiffies, handling the c_long conversion internally.
 
+Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+---
+ rust/kernel/task.rs | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-Hello,
-
-kernel test robot noticed a 18.5% regression of lmbench3.PIPE.bandwidth.MB/sec on:
-
-
-commit: f7f4665dc520fd8bbc1db20e59945773e03744a0 ("fs/pipe: unify the page pools into a single per-pipe pool") https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git master
-
-testcase: lmbench3
-config: x86_64-rhel-9.4
-compiler: gcc-14
-test machine: 224 threads 2 sockets Intel(R) Xeon(R) (Sapphire Rapids) with 128G memory
-parameters:
-
-	test_memory_size: 50%
-	nr_threads: 20%
-	mode: development
-	test: PIPE
-	cpufreq_governor: performance
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <yi1.lai@intel.com>
-| Closes: https://lore.kernel.org/oe-lkp/202611041404.befe64cd-lkp@intel.com
-
-Details are as below:
--------------------------------------------------------------------------------------------------->
-
-The kernel config and materials to reproduce are available at:
-https://download.01.org/0day-ci/archive/20261104/202611041404.befe64cd-lkp@intel.com
-
-=========================================================================================
-compiler/cpufreq_governor/kconfig/mode/nr_threads/rootfs/tbox_group/test/test_memory_size/testcase:
-  gcc-14/performance/x86_64-rhel-9.4/development/20%/debian-13-x86_64-20250902.cgz/lkp-spr-2sp2/PIPE/50%/lmbench3
-
-commit: 
-  c610d2d078 ("fs: annotate inode timestamp accessors")
-  f7f4665dc5 ("fs/pipe: unify the page pools into a single per-pipe pool")
-
-c610d2d0787961cd f7f4665dc520fd8bbc1db20e599
----------------- --------------------------- 
-         %stddev     %change         %stddev
-             \          |                \  
-     29142 ±  2%     -18.5%      23737        lmbench3.PIPE.bandwidth.MB/sec
-    191.80 ±  8%     +54.1%     295.65 ±  5%  lmbench3.time.elapsed_time
-    191.80 ±  8%     +54.1%     295.65 ±  5%  lmbench3.time.elapsed_time.max
-     23261 ± 16%     +19.3%      27743 ±  5%  lmbench3.time.involuntary_context_switches
-      9853 ± 16%     +27.9%      12605 ±  5%  lmbench3.time.system_time
-     51.80 ±  2%     +11.6%      57.80 ±  3%  lmbench3.time.user_time
- 2.928e+08 ±  3%     +26.6%  3.706e+08 ±  4%  lmbench3.time.voluntary_context_switches
-
-
-Disclaimer:
-Results have been estimated based on internal Intel analysis and are provided
-for informational purposes only. Any difference in system hardware or software
-design or configuration may affect actual performance.
-
-
+diff --git a/rust/kernel/task.rs b/rust/kernel/task.rs
+index 3336df493dec..a733816fd5dd 100644
+--- a/rust/kernel/task.rs
++++ b/rust/kernel/task.rs
+@@ -10,6 +10,7 @@
+     pid_namespace::PidNamespace,
+     prelude::*,
+     sync::aref::ARef,
++    time::Jiffies,
+     types::{NotThreadSafe, Opaque},
+ };
+ use core::{
+@@ -20,6 +21,21 @@
+ /// A sentinel value used for infinite timeouts.
+ pub const MAX_SCHEDULE_TIMEOUT: c_long = c_long::MAX;
+ 
++/// Sleeps for the given timeout in [`Jiffies`], or until woken.
++///
++/// Returns the remaining time in [`Jiffies`], or zero if the timeout expired.  The task state
++/// should be set before calling this.
++///
++/// Timeouts at or above [`MAX_SCHEDULE_TIMEOUT`] mean an indefinite wait. In that case, the return
++/// value is `MAX_SCHEDULE_TIMEOUT` as [`Jiffies`].
++#[inline]
++pub fn schedule_timeout(timeout: Jiffies) -> Jiffies {
++    let timeout = timeout.try_into().unwrap_or(MAX_SCHEDULE_TIMEOUT);
++
++    // SAFETY: `schedule_timeout()` is always safe to call.
++    unsafe { bindings::schedule_timeout(timeout) as Jiffies }
++}
++
+ /// Bitmask for tasks that are sleeping in an interruptible state.
+ pub const TASK_INTERRUPTIBLE: c_int = bindings::TASK_INTERRUPTIBLE as c_int;
+ /// Bitmask for tasks that are sleeping in an uninterruptible state.
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+2.56.0
 
