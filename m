@@ -1,51 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793911011;
-	b=Okbw8A0bkdrUlrrDgm2ewGsdz23NfMFZAoAZkAcaL27WGhdad1UIbQBLPBIHaN+SILPX
-	 t2EHsxicEUmRprGsaG518GrbWuvuoZWyhlBWn9BHoSV2efLevu0UDeKPFbYF19QPCHgxC
-	 ZQuOds9xPkzOwGzVwVVep2a20S/8qWaC6G3kMRs60kOuFoqWL3Ej8g4NKRE+dyHT24EhD
-	 7YnuKsqAFBaG7JjAAbOrIGwyJYlPLG0v9Bs/RBzZVwQXitzSYc7k5J1NTyLQtGvZw5AMu
-	 eG4xDc2Jcy0OP1IrJBfGu0aFTrTI8Z3AZqGRk0eCQDsN2a14G4Y0VOe6J8BiV+NxUUA==
+	t=1793911012;
+	b=Q2ejye/wknsQMNMyXdPMX3p9DVFu5eYAV3y36R6/IIJvWxwd2jE+RcQvzSTlBQW8Z015
+	 1aYuHeos3SrB1M5iA2vmp00Axw6TR75vICjCp2cB0W6zkQwoFQ48Ioe7fqVmmUCOmmaBS
+	 am3CuJ9MdPKZre6qd2nuzxOD5+GXJelobD3viOpjxFhhzVeWPD3nfAU8nIclPqWVw4tIk
+	 sRh84GO9J69A4KIFghldvWhwVDW17IFCPI6lsYfYN7e0JN99Cut2vOvdwddVF0alEF14P
+	 tz4HLDYxzS5BxhgduUgszw7TscaIl5lyKYCisClFMpHqt3vTpFABauhIZLwlMn/Y/dA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793911011;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793911012;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=MEjeXYAHsM/mZlyABkCVMFG/+f2zwbm0Ohf1JbTu1mw=;
-	b=rWSkujGnguQvR69sUeXrWvG0OUOvzF+ZHIm3yppFGDSpfoTPFWvsqIudcqw41TgJKUKD
-	 ERh4P2dstDWqnIVO8HqB7NDZBzoOGYf7aMBoMk0RSZOa9wtAxkwCrsDYQelReuzODvbDd
-	 HHW1gEWKdkgdu7quDcANnLwkEXBDEn9qxs9bw05PeJZH60/Io+2b4SfopqotDmJCsVgpB
-	 Ucbhv3z4ofJLgMgCRKByMc/PERBJeG+cdQRZGUyHhfDtWsBquAHuqyqPE8oI3pHL2Hn77
-	 i+qwPMXiXEbtVyvxNLyWXh3gc5jP21XUg4LXWRGtoHxnttd+acmfuh5fg9ooZvI3voQ==
+	bh=Ib/8tMLGtt27sJZu0PWSdxMF+OyU8O51PeyOkAbnJ1o=;
+	b=dbVLZen15iWj9eQnzL8DQXBtLP3faITqJhUVe8aQlLmx0WJwzlg2ch7zYjUCeEBuNQt2
+	 Qo6c5Rf27UMY5MHU9LItBw7YSFq8Nyr5IyJ9A2r5h5xETWz07y61i/35T1vwyOFanIiTb
+	 yBqShIktlFk0EmTUbOhdo3RCTPkCJGDrtLEmZvOwHDK2nccVM/bvz8dA6aktCOWYo4Vhd
+	 5Bo3azEDXL159H3ekttxjLB095RQ4w1fxThQHI5wQwHVd42vV/u2+0wgZwBZfhG9AOasN
+	 x6t7tfsX/g4gESgnfxvc1vt/yjKRyRiaR/VKHgP3uTI/+ZxHeUMWqUo9SGbqu6H6fSQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=efficios.com;
 	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=QaIbKmsy;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=cf8aVBOu;
 	arc=none smtp.remote-ip=158.69.130.18
 Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0CD9606A32C;
-	Thu,  5 Nov 2026 20:36:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C0CD9606A32C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 503FC606D809;
+	Thu,  5 Nov 2026 20:36:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 503FC606D809
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=QaIbKmsy
+	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=cf8aVBOu
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
 	s=smtpout1; t=1793911008;
-	bh=MEjeXYAHsM/mZlyABkCVMFG/+f2zwbm0Ohf1JbTu1mw=;
+	bh=Ib/8tMLGtt27sJZu0PWSdxMF+OyU8O51PeyOkAbnJ1o=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=QaIbKmsydpIXf3QTcBs2INp0Tq069v9ISPZRpy2n9iMQs+0Kx1/rhNygaFRfIQBoI
-	 gK+L1JK52nQRJk0lMxYf0HfilDpp8NdiywjJ6XE7hqywvuhBFCwQmW5dRSOSunEny6
-	 9lCRBL3/Ma+gkHOi2UTj3bA2Aoqctv9SzNKq7JE+P4VflrVOFYbq1yfNfgA0N/7gjG
-	 LzUAsWyw/SiNR0PCFmK3Y+g021pcW/TalDk2yzhM1RNho7WERDbb6mt0oTjI5JKeTQ
-	 dTr5VKubG+HxkVhXQjTALPnsBeRg2914abFgqGIP7kpI36w/vwG+TVahFLFF6Ylweg
-	 SXWUUj20QtBUQ==
+	b=cf8aVBOuf+TmeySlJyS0bdPM7Rxtom+G4YLHZ8/oECvwWRYgyE8Xj4QwMV9KVk/4X
+	 Q3VV9VTeYmOvknzamGK6YApdwW6+F4ePnfN0a09c8OaRk7JE60ruSAVWmEg3P74oGj
+	 Cc4Ea6YyO7kryGuYX9ezMDCVXDi1M7sa/p6uYXsc1X7x5WKg0eEF4fgt13fKydhdNU
+	 SEhKCUbIttkCisrtYMEiGGCdlL4tfc/31M01w60dQ7MW/ARRzFmY2oUHgJ1Gpa/zJw
+	 ZfJCIPpAQvESC+v3aAiaknwbqVxCZT70c0nTgA5W3RB/lku6qEroHxRZn6o6fa54d/
+	 tKouYa4ZHhQqA==
 Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jLDcb6hf5zM2M;
-	Thu, 05 Nov 2026 15:36:47 -0500 (EST)
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jLDcc2xtYzLcx;
+	Thu, 05 Nov 2026 15:36:48 -0500 (EST)
 From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To: David Hildenbrand <david@kernel.org>
 Cc: linux-kernel@vger.kernel.org,
@@ -100,9 +100,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Jan Kara <jack@suse.cz>,
 	linux-fsdevel@vger.kernel.org,
 	Oleg Nesterov <oleg@redhat.com>
-Subject: [RFC PATCH v24 04/10] tools/testing/hpcc: add userspace test of hierarchical per-CPU counters
-Date: Thu,  5 Nov 2026 15:36:33 -0500
-Message-Id: <20261105203639.1459524-5-mathieu.desnoyers@efficios.com>
+Subject: [RFC PATCH v24 06/10] lib: percpu_counter_tree: add lazy tree activation
+Date: Thu,  5 Nov 2026 15:36:35 -0500
+Message-Id: <20261105203639.1459524-7-mathieu.desnoyers@efficios.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20261105203639.1459524-1-mathieu.desnoyers@efficios.com>
 References: <20261105203639.1459524-1-mathieu.desnoyers@efficios.com>
@@ -117,856 +117,1118 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The KUnit test only covers the topology of the machine it runs on.
-Add a userspace test which builds lib/percpu_counter_tree.c with a
-simulated topology, which allows testing every supported tree
-configuration on a single machine, following the approach of
-tools/testing/vma and tools/testing/radix-tree.
+Add counters which start without their tree, for counters which may
+never need its scalability, such as the RSS counters of a
+single-threaded process.
 
-A small shim header provides the kernel environment needed by the
-library, on top of tools/include: per-CPU data is an array indexed by
-the simulated current CPU, and atomic operations are plain operations,
-because the test is single-threaded. It therefore only covers settled
-counters.
+percpu_counter_tree_init_many_lazy() initializes counters without
+allocating their per-cpu counters and tree items.  Until
+percpu_counter_tree_activate_many() allocates and publishes them, the
+counters are exact:
 
-Validate the configuration table, then, for each simulated number of
-CPUs (1 to 65536, up to 1048576 with -a) and batch size (2 to 128):
+- percpu_counter_tree_add_owner() adds to the bias of the counter,
+  without atomic instruction.  Its calls for a given counter must not
+  run concurrently with each other: they come from a single context,
+  the owner chosen by the user of the counters, such as a task.
+- percpu_counter_tree_add() adds atomically to a new atomic bias of the
+  counter, for any other updater.
 
-- Saturate the counter upward and downward: leave every tree item with
-  its largest positive (or negative) residual which has not been
-  propagated yet, check that the distance between the precise and
-  approximate sums matches the residual capacity of the tree, computed
-  from the configuration table, which is exactly the accuracy range, the
-  same in both directions, and check the accuracy range contract and the
-  comparison functions in these worst-case states.  A lost carry fails
-  the saturation rather than hanging it.
+The precise and approximate sums read both biases, in O(1).  The
+activation does not move these values: the sums keep reading them along
+with the tree, so updates racing with the activation are not lost,
+whichever side of it they land on.  The bias only has the owner as
+writer, and the atomic bias only receives atomic additions, before and
+after the activation.  After the activation, both update functions add
+to the tree, and percpu_counter_tree_active() reports it, so a user can
+skip selecting between them.  The accuracy range of a lazily initialized
+counter is the range of its tree, even before activation, which keeps
+the comparison functions correct across an activation.
 
-- Random walk: apply random increments from random CPUs to two counters,
-  and check the accuracy range contract and the comparison functions
-  against shadow sums after each increment.
+The activations of the same counters must be serialized by the caller,
+for instance with a mutex: a concurrent activation would publish a
+second tree.  The activation publishes the root, then the per-cpu
+counters, of each counter in order, with release ordering.  Once the
+last counter is active, the activation is complete, so a caller which
+sees it active can skip the activation and its serialization; it may not
+observe the other counters active yet, which only delays their updates
+going to the tree.  The update functions only reach the per-cpu counters
+through their published pointer, which orders their initialization
+before their use by address dependency, as for rcu_dereference(),
+without an acquire on the fast path.  The approximate sum reaches the
+root the same way.  The carry path reads the root pointer after the
+per-cpu counters pointer with a read barrier between them, and the
+precise sum reads the per-cpu counters pointer with an acquire.
 
-Along with the accuracy range contract, check the residuals of the tree
-items, and that no carry was lost or duplicated.
+struct percpu_counter_tree grows from 32 to 40 bytes with the atomic
+bias, the size of struct percpu_counter.
 
-The comparison checks include the edges of the possible precise range:
-the approximate comparison against a value must be definitive exactly
-outside of [approx - over, approx + under].
+Test the lazy counters:
 
-Usage:
-
-  make -C tools/testing/hpcc
-  tools/testing/hpcc/hpcc [-a]
+- KUnit: exact sums before activation with owner and atomic updates,
+  set(), idempotent activation, destruction without activation, and an
+  activation racing with an owner and remote updaters on other CPUs,
+  which also activate the tree when released, serialized by a mutex,
+  checking that the counter is exact while they pause, that the tree is
+  active once an activation returns, and that no update is lost across
+  the activations.
+- Userspace test: random owner and atomic updates from random CPUs,
+  exact before the tree is activated halfway, with the accuracy and
+  comparison checks after each update.  The test checks that the
+  activation allocates one tree, that activating again allocates
+  nothing, and that destroying the counter frees the tree.  The shim
+  provides the ordering primitives as plain accesses.
 
 Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 ---
 Changes since v23:
-- Destroy the counters already initialized when an initialization fails
-  in test_saturated() and test_random_walk(). (Reported by Sashiko.)
+- The NULL check of approx_sum in percpu_counter_tree_approximate_sum()
+  moved to patch 1.
 ---
- MAINTAINERS                                   |   1 +
- tools/testing/hpcc/.gitignore                 |   2 +
- tools/testing/hpcc/Makefile                   |  18 +
- tools/testing/hpcc/include/hpcc_shim.h        | 177 ++++++++
- tools/testing/hpcc/include/kunit/visibility.h |   2 +
- tools/testing/hpcc/include/linux/args.h       |   4 +
- tools/testing/hpcc/include/linux/atomic.h     |   2 +
- tools/testing/hpcc/include/linux/bug.h        |   2 +
- tools/testing/hpcc/include/linux/cache.h      |   2 +
- tools/testing/hpcc/include/linux/cpumask.h    |   2 +
- tools/testing/hpcc/include/linux/errno.h      |   3 +
- tools/testing/hpcc/include/linux/limits.h     |   2 +
- tools/testing/hpcc/include/linux/math.h       |   2 +
- tools/testing/hpcc/include/linux/percpu.h     |   2 +
- .../hpcc/include/linux/percpu_counter_tree.h  |   2 +
- tools/testing/hpcc/include/linux/preempt.h    |   2 +
- tools/testing/hpcc/include/linux/slab.h       |   2 +
- tools/testing/hpcc/main.c                     | 427 ++++++++++++++++++
- 18 files changed, 654 insertions(+)
- create mode 100644 tools/testing/hpcc/.gitignore
- create mode 100644 tools/testing/hpcc/Makefile
- create mode 100644 tools/testing/hpcc/include/hpcc_shim.h
- create mode 100644 tools/testing/hpcc/include/kunit/visibility.h
- create mode 100644 tools/testing/hpcc/include/linux/args.h
- create mode 100644 tools/testing/hpcc/include/linux/atomic.h
- create mode 100644 tools/testing/hpcc/include/linux/bug.h
- create mode 100644 tools/testing/hpcc/include/linux/cache.h
- create mode 100644 tools/testing/hpcc/include/linux/cpumask.h
- create mode 100644 tools/testing/hpcc/include/linux/errno.h
- create mode 100644 tools/testing/hpcc/include/linux/limits.h
- create mode 100644 tools/testing/hpcc/include/linux/math.h
- create mode 100644 tools/testing/hpcc/include/linux/percpu.h
- create mode 100644 tools/testing/hpcc/include/linux/percpu_counter_tree.h
- create mode 100644 tools/testing/hpcc/include/linux/preempt.h
- create mode 100644 tools/testing/hpcc/include/linux/slab.h
- create mode 100644 tools/testing/hpcc/main.c
+ .../core-api/percpu-counter-tree.rst          |  28 ++
+ include/linux/percpu_counter_tree.h           |  85 ++++-
+ lib/percpu_counter_tree.c                     | 315 ++++++++++++++++--
+ lib/tests/percpu_counter_tree_kunit.c         | 218 ++++++++++++
+ tools/testing/hpcc/include/hpcc_shim.h        |  28 +-
+ tools/testing/hpcc/main.c                     |  47 +++
+ 6 files changed, 675 insertions(+), 46 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 21348605d06e..4d421a784e88 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11956,6 +11956,7 @@ F:	Documentation/core-api/percpu-counter-tree.rst
- F:	include/linux/percpu_counter_tree.h
- F:	lib/percpu_counter_tree.c
- F:	lib/tests/percpu_counter_tree_kunit.c
-+F:	tools/testing/hpcc/
+diff --git a/Documentation/core-api/percpu-counter-tree.rst b/Documentation/core-api/percpu-counter-tree.rst
+index 6b381deacd83..138e9b74b0c8 100644
+--- a/Documentation/core-api/percpu-counter-tree.rst
++++ b/Documentation/core-api/percpu-counter-tree.rst
+@@ -74,6 +74,34 @@ takes no lock: an update which carries from the per-cpu counter to the
+ upper levels can be counted in part, the residual it left below read and
+ its carry missed on the way up.
  
- HIGH-RESOLUTION TIMERS, TIMER WHEEL, CLOCKEVENTS
- M:	Anna-Maria Behnsen <anna-maria@linutronix.de>
-diff --git a/tools/testing/hpcc/.gitignore b/tools/testing/hpcc/.gitignore
-new file mode 100644
-index 000000000000..f362a8a46868
---- /dev/null
-+++ b/tools/testing/hpcc/.gitignore
-@@ -0,0 +1,2 @@
-+# SPDX-License-Identifier: GPL-2.0+ OR MIT
-+hpcc
-diff --git a/tools/testing/hpcc/Makefile b/tools/testing/hpcc/Makefile
-new file mode 100644
-index 000000000000..e4758643a3f0
---- /dev/null
-+++ b/tools/testing/hpcc/Makefile
-@@ -0,0 +1,18 @@
-+# SPDX-License-Identifier: GPL-2.0+ OR MIT
++Lazy Tree Activation
++====================
 +
-+.PHONY: default clean
++Counters initialized with percpu_counter_tree_init_many_lazy() start
++without their per-cpu counters and tree items, for counters which may
++never need the scalability of the tree. Until
++percpu_counter_tree_activate_many() allocates and publishes the tree,
++the counters are exact:
 +
-+default: hpcc
++ * percpu_counter_tree_add_owner() adds to the bias of the counter,
++   written only by its owner, a single context chosen by the user of the
++   counters, such as a task, without atomic instruction.
 +
-+CFLAGS += -O2 -g -Wall -I./include -I../../include -fno-strict-overflow -fno-strict-aliasing
-+CFLAGS += -DCONFIG_SMP -DCONFIG_KUNIT=1 -D'NR_CPUS=(1U << 20)'
++ * percpu_counter_tree_add() adds to the atomic bias of the counter, for
++   any other updater.
 +
-+DEPS = ../../../lib/percpu_counter_tree.c \
-+	../../../include/linux/percpu_counter_tree.h \
-+	include/hpcc_shim.h
++The precise and approximate sums read both, in O(1), and count each
++update whole. The activation does not move these values: the sums keep
++reading them along with the tree, so updates racing with the activation
++are not lost, whichever side of it they land on. The bias only has the
++owner as writer, and the atomic bias only receives atomic additions,
++before and after the activation. After activation, both update functions
++add to the tree, and the approximation has the accuracy of the tree.
 +
-+hpcc: main.c $(DEPS)
-+	$(CC) $(CFLAGS) -o $@ main.c $(LDLIBS)
++The activations of the same counters must be serialized by the caller:
++a concurrent activation would publish a second tree and lose the
++updates made to the first.
 +
-+clean:
-+	$(RM) hpcc
-diff --git a/tools/testing/hpcc/include/hpcc_shim.h b/tools/testing/hpcc/include/hpcc_shim.h
-new file mode 100644
-index 000000000000..7e268de984c6
---- /dev/null
-+++ b/tools/testing/hpcc/include/hpcc_shim.h
-@@ -0,0 +1,177 @@
-+/* SPDX-License-Identifier: GPL-2.0+ OR MIT */
-+/*
-+ * Minimal userspace environment to build lib/percpu_counter_tree.c.
+ Use Cases
+ =========
+ 
+diff --git a/include/linux/percpu_counter_tree.h b/include/linux/percpu_counter_tree.h
+index df3883e8b249..2c27350ce836 100644
+--- a/include/linux/percpu_counter_tree.h
++++ b/include/linux/percpu_counter_tree.h
+@@ -32,10 +32,22 @@ struct percpu_counter_tree {
+ 	unsigned int items_stride;	/* Distance between this counter's consecutive items. */
+ 	/*
+ 	 * Approximate sum: this counter's item of the root, in the tree
+-	 * items allocated with the per-CPU counters.
++	 * items allocated with the per-CPU counters. NULL until the tree of a
++	 * counter initialized by percpu_counter_tree_init_many_lazy() is
++	 * activated.
+ 	 */
+ 	atomic_long_t *approx_sum;
+-	long bias;	/* Bias to apply to counter precise and approximate values. */
++	/*
++	 * Bias to apply to counter precise and approximate values. Before the
++	 * tree is activated, it also accumulates the updates of
++	 * percpu_counter_tree_add_owner(), written only by the owner.
++	 */
++	long bias;
++	/*
++	 * Updates of percpu_counter_tree_add() made before the tree is
++	 * activated, also applied to the precise and approximate values.
++	 */
++	atomic_long_t atomic_bias;
+ };
+ 
+ int percpu_counter_tree_init_many(struct percpu_counter_tree *counters,
+@@ -43,10 +55,15 @@ int percpu_counter_tree_init_many(struct percpu_counter_tree *counters,
+ 				  gfp_t gfp_flags);
+ int percpu_counter_tree_init(struct percpu_counter_tree *counter,
+ 			     unsigned long batch_size, gfp_t gfp_flags);
++int percpu_counter_tree_init_many_lazy(struct percpu_counter_tree *counters,
++				       unsigned int nr_counters, unsigned long batch_size);
++int percpu_counter_tree_activate_many(struct percpu_counter_tree *counters,
++				      unsigned int nr_counters, gfp_t gfp_flags);
+ void percpu_counter_tree_destroy_many(struct percpu_counter_tree *counters,
+ 				      unsigned int nr_counters);
+ void percpu_counter_tree_destroy(struct percpu_counter_tree *counter);
+ void percpu_counter_tree_add(struct percpu_counter_tree *counter, long inc);
++void percpu_counter_tree_add_owner(struct percpu_counter_tree *counter, long inc);
+ long percpu_counter_tree_precise_sum(struct percpu_counter_tree *counter);
+ int percpu_counter_tree_approximate_compare(struct percpu_counter_tree *a,
+ 					    struct percpu_counter_tree *b);
+@@ -57,6 +74,26 @@ int percpu_counter_tree_precise_compare_value(struct percpu_counter_tree *counte
+ void percpu_counter_tree_set(struct percpu_counter_tree *counter, long v);
+ int percpu_counter_tree_subsystem_init(void);
+ 
++/**
++ * percpu_counter_tree_active() - Query whether the tree of a counter is active.
++ * @counter: The counter to query.
 + *
-+ * The test is single-threaded: per-CPU data is an array indexed by the
-+ * simulated current CPU, and atomic operations are plain operations.
++ * A counter initialized by percpu_counter_tree_init_many() is active. A
++ * counter initialized by percpu_counter_tree_init_many_lazy() becomes
++ * active when percpu_counter_tree_activate_many() publishes its tree, and
++ * stays active. Once active, percpu_counter_tree_add() and
++ * percpu_counter_tree_add_owner() both add to the tree, so a user can skip
++ * selecting between them.
++ *
++ * Return: true if the updates of @counter go to its tree.
 + */
-+#ifndef _HPCC_SHIM_H
-+#define _HPCC_SHIM_H
-+
-+#include <stdbool.h>
-+#include <stddef.h>
-+#include <stdint.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <errno.h>
-+
-+/* From tools/include. */
-+#include <linux/compiler.h>
-+#include <linux/gfp_types.h>
-+#include <linux/init.h>
-+#include <linux/kconfig.h>
-+#include <linux/kernel.h>
-+#include <linux/types.h>
-+
-+#define __ro_after_init
-+#define __percpu
-+#define SMP_CACHE_BYTES			64
-+#define ____cacheline_aligned_in_smp	__aligned(SMP_CACHE_BYTES)
-+#define S8_MAX				INT8_MAX
-+
-+#undef abs
-+#define abs(x) ({ typeof(x) __x = (x); __x < 0 ? -__x : __x; })
-+
-+#define pr_err(...)		fprintf(stderr, __VA_ARGS__)
-+#define pr_info(...)		do { if (0) printf(__VA_ARGS__); } while (0)
-+
-+extern unsigned long hpcc_nr_warnings;
-+
-+#define WARN(cond, ...) ({						\
-+	int __ret_warn = !!(cond);					\
-+	if (__ret_warn) {						\
-+		hpcc_nr_warnings++;					\
-+		fprintf(stderr, "WARNING at %s:%d: ", __FILE__, __LINE__); \
-+		fprintf(stderr, __VA_ARGS__);				\
-+	}								\
-+	__ret_warn;							\
-+})
-+#define WARN_ON(cond)		WARN(cond, "%s\n", #cond)
-+#define WARN_ON_ONCE(cond)	WARN_ON(cond)
-+
-+static inline int get_count_order(unsigned int count)
++static inline
++bool percpu_counter_tree_active(struct percpu_counter_tree *counter)
 +{
-+	int order;
-+
-+	if (!count)
-+		return -1;
-+	order = 31 - __builtin_clz(count);
-+	if (count & (count - 1))
-+		order++;
-+	return order;
++	/* No ordering: the update functions and the sums read level0 again. */
++	return !!READ_ONCE(counter->level0);
 +}
 +
-+#define atomic_long_read(v)			READ_ONCE((v)->counter)
-+#define atomic_long_set(v, i)			WRITE_ONCE((v)->counter, (i))
-+#define atomic_long_add(i, v)			((void)((v)->counter += (i)))
-+#define atomic_long_add_return_relaxed(i, v)	((v)->counter += (i))
-+#define atomic_long_add_return_release(i, v)	((v)->counter += (i))
-+#define smp_rmb()				barrier()
-+
-+static inline bool atomic_long_try_cmpxchg_relaxed(atomic_long_t *v, long *old, long new)
+ /**
+  * percpu_counter_tree_approximate_sum() - Return approximate counter sum.
+  * @counter: The counter to sum.
+@@ -71,13 +108,21 @@ int percpu_counter_tree_subsystem_init(void);
+ static inline
+ long percpu_counter_tree_approximate_sum(struct percpu_counter_tree *counter)
+ {
+-	atomic_long_t *approx_sum = counter->approx_sum;
+-	unsigned long v = (unsigned long)READ_ONCE(counter->bias);
++	/*
++	 * Pairs with the release of approx_sum in
++	 * percpu_counter_tree_activate_many(): the root is zeroed before its
++	 * pointer, and the address dependency orders the read of the root
++	 * after it, as for rcu_dereference().
++	 */
++	atomic_long_t *approx_sum = READ_ONCE(counter->approx_sum);
++	unsigned long v = (unsigned long)READ_ONCE(counter->bias) +
++			  (unsigned long)atomic_long_read(&counter->atomic_bias);
+ 
+ 	/*
+-	 * A zeroed counter reads as 0, like a zeroed struct percpu_counter:
+-	 * sparc64 init_new_context() reads the RSS counters after mm_init()
+-	 * zeroes them, before their initialization.
++	 * A counter not activated yet has no tree items. A zeroed counter
++	 * reads as 0, like a zeroed struct percpu_counter: sparc64
++	 * init_new_context() reads the RSS counters after mm_init() zeroes
++	 * them, before their initialization.
+ 	 */
+ 	if (approx_sum)
+ 		v += (unsigned long)atomic_long_read(approx_sum);
+@@ -124,6 +169,26 @@ int percpu_counter_tree_init(struct percpu_counter_tree *counter,
+ 	return percpu_counter_tree_init_many(counter, 1, batch_size, gfp_flags);
+ }
+ 
++static inline
++int percpu_counter_tree_init_many_lazy(struct percpu_counter_tree *counters,
++				       unsigned int nr_counters, unsigned long batch_size)
 +{
-+	if (v->counter == *old) {
-+		v->counter = new;
-+		return true;
-+	}
-+	*old = v->counter;
-+	return false;
++	return percpu_counter_tree_init_many(counters, nr_counters, batch_size, 0);
 +}
 +
-+/* Simulated topology, and CPU on which the current code runs. */
-+extern unsigned int nr_cpu_ids;
-+extern unsigned int hpcc_current_cpu;
-+
-+#define raw_smp_processor_id()		hpcc_current_cpu
-+#define for_each_possible_cpu(cpu)	for ((cpu) = 0; (cpu) < (int)nr_cpu_ids; (cpu)++)
-+
-+/*
-+ * Each per-CPU allocation reserves HPCC_PCPU_UNIT bytes per CPU, so
-+ * per_cpu_ptr() can be applied to a pointer within an allocation.
-+ */
-+#define HPCC_PCPU_UNIT	64
-+
-+static inline void *__alloc_percpu_gfp(size_t size, size_t align, gfp_t gfp)
++static inline
++int percpu_counter_tree_activate_many(struct percpu_counter_tree *counters,
++				      unsigned int nr_counters, gfp_t gfp_flags)
 +{
-+	if (size > HPCC_PCPU_UNIT || align > HPCC_PCPU_UNIT)
-+		return NULL;
-+	return calloc(nr_cpu_ids, HPCC_PCPU_UNIT);
++	return 0;
 +}
 +
-+static inline void free_percpu(void *ptr)
++static inline
++bool percpu_counter_tree_active(struct percpu_counter_tree *counter)
 +{
-+	free(ptr);
-+}
-+
-+#define SLAB_PANIC	0
-+
-+struct kmem_cache {
-+	size_t size;
-+	size_t align;
-+};
-+
-+static inline struct kmem_cache *kmem_cache_create(const char *name, unsigned int size,
-+						   unsigned int align, unsigned int flags,
-+						   void (*ctor)(void *))
-+{
-+	struct kmem_cache *s = malloc(sizeof(*s));
-+
-+	if (!s)
-+		abort();
-+	s->size = size;
-+	s->align = align;
-+	return s;
-+}
-+
-+static inline void kmem_cache_destroy(struct kmem_cache *s)
-+{
-+	free(s);
-+}
-+
-+static inline void *kmem_cache_zalloc(struct kmem_cache *s, gfp_t gfp)
-+{
-+	/* The allocation size needs to be a multiple of the alignment. */
-+	void *p = aligned_alloc(s->align, (s->size + s->align - 1) / s->align * s->align);
-+
-+	if (p)
-+		memset(p, 0, s->size);
-+	return p;
-+}
-+
-+static inline void kmem_cache_free(struct kmem_cache *s, void *p)
-+{
-+	free(p);
-+}
-+
-+static inline void *kzalloc(size_t size, gfp_t gfp)
-+{
-+	return calloc(1, size);
-+}
-+
-+static inline void kfree(void *p)
-+{
-+	free(p);
-+}
-+
-+#define per_cpu_ptr(ptr, cpu)	\
-+	((typeof(ptr))((char *)(ptr) + (size_t)(cpu) * HPCC_PCPU_UNIT))
-+
-+/* Level 0 counters are the only per-CPU data: s8. */
-+static inline bool __hpcc_this_cpu_try_cmpxchg(s8 *pcp, s8 *old, s8 new)
-+{
-+	s8 *p = per_cpu_ptr(pcp, hpcc_current_cpu);
-+
-+	if (*p != *old) {
-+		*old = *p;
-+		return false;
-+	}
-+	*p = new;
 +	return true;
 +}
 +
-+#define this_cpu_read(pcp)	(*per_cpu_ptr(&(pcp), hpcc_current_cpu))
-+#define this_cpu_try_cmpxchg(pcp, ovalp, nval)	\
-+	__hpcc_this_cpu_try_cmpxchg(&(pcp), (ovalp), (nval))
-+
-+#endif /* _HPCC_SHIM_H */
-diff --git a/tools/testing/hpcc/include/kunit/visibility.h b/tools/testing/hpcc/include/kunit/visibility.h
-new file mode 100644
-index 000000000000..dfcbfd01a415
---- /dev/null
-+++ b/tools/testing/hpcc/include/kunit/visibility.h
-@@ -0,0 +1,2 @@
-+/* SPDX-License-Identifier: GPL-2.0+ OR MIT */
-+#define EXPORT_SYMBOL_IF_KUNIT(symbol)
-diff --git a/tools/testing/hpcc/include/linux/args.h b/tools/testing/hpcc/include/linux/args.h
-new file mode 100644
-index 000000000000..0c00a85fdd21
---- /dev/null
-+++ b/tools/testing/hpcc/include/linux/args.h
-@@ -0,0 +1,4 @@
-+/* SPDX-License-Identifier: GPL-2.0+ OR MIT */
-+/* Also defined by the C library <sys/cdefs.h>. */
-+#undef __CONCAT
-+#include "../../../../../include/linux/args.h"
-diff --git a/tools/testing/hpcc/include/linux/atomic.h b/tools/testing/hpcc/include/linux/atomic.h
-new file mode 100644
-index 000000000000..b2aa26415cca
---- /dev/null
-+++ b/tools/testing/hpcc/include/linux/atomic.h
-@@ -0,0 +1,2 @@
-+/* SPDX-License-Identifier: GPL-2.0+ OR MIT */
-+#include "../hpcc_shim.h"
-diff --git a/tools/testing/hpcc/include/linux/bug.h b/tools/testing/hpcc/include/linux/bug.h
-new file mode 100644
-index 000000000000..b2aa26415cca
---- /dev/null
-+++ b/tools/testing/hpcc/include/linux/bug.h
-@@ -0,0 +1,2 @@
-+/* SPDX-License-Identifier: GPL-2.0+ OR MIT */
-+#include "../hpcc_shim.h"
-diff --git a/tools/testing/hpcc/include/linux/cache.h b/tools/testing/hpcc/include/linux/cache.h
-new file mode 100644
-index 000000000000..b2aa26415cca
---- /dev/null
-+++ b/tools/testing/hpcc/include/linux/cache.h
-@@ -0,0 +1,2 @@
-+/* SPDX-License-Identifier: GPL-2.0+ OR MIT */
-+#include "../hpcc_shim.h"
-diff --git a/tools/testing/hpcc/include/linux/cpumask.h b/tools/testing/hpcc/include/linux/cpumask.h
-new file mode 100644
-index 000000000000..b2aa26415cca
---- /dev/null
-+++ b/tools/testing/hpcc/include/linux/cpumask.h
-@@ -0,0 +1,2 @@
-+/* SPDX-License-Identifier: GPL-2.0+ OR MIT */
-+#include "../hpcc_shim.h"
-diff --git a/tools/testing/hpcc/include/linux/errno.h b/tools/testing/hpcc/include/linux/errno.h
-new file mode 100644
-index 000000000000..45fdd60261e7
---- /dev/null
-+++ b/tools/testing/hpcc/include/linux/errno.h
-@@ -0,0 +1,3 @@
-+/* SPDX-License-Identifier: GPL-2.0+ OR MIT */
-+/* Also included by the C library <errno.h>: only provide the error numbers. */
-+#include <asm/errno.h>
-diff --git a/tools/testing/hpcc/include/linux/limits.h b/tools/testing/hpcc/include/linux/limits.h
-new file mode 100644
-index 000000000000..b2aa26415cca
---- /dev/null
-+++ b/tools/testing/hpcc/include/linux/limits.h
-@@ -0,0 +1,2 @@
-+/* SPDX-License-Identifier: GPL-2.0+ OR MIT */
-+#include "../hpcc_shim.h"
-diff --git a/tools/testing/hpcc/include/linux/math.h b/tools/testing/hpcc/include/linux/math.h
-new file mode 100644
-index 000000000000..b2aa26415cca
---- /dev/null
-+++ b/tools/testing/hpcc/include/linux/math.h
-@@ -0,0 +1,2 @@
-+/* SPDX-License-Identifier: GPL-2.0+ OR MIT */
-+#include "../hpcc_shim.h"
-diff --git a/tools/testing/hpcc/include/linux/percpu.h b/tools/testing/hpcc/include/linux/percpu.h
-new file mode 100644
-index 000000000000..b2aa26415cca
---- /dev/null
-+++ b/tools/testing/hpcc/include/linux/percpu.h
-@@ -0,0 +1,2 @@
-+/* SPDX-License-Identifier: GPL-2.0+ OR MIT */
-+#include "../hpcc_shim.h"
-diff --git a/tools/testing/hpcc/include/linux/percpu_counter_tree.h b/tools/testing/hpcc/include/linux/percpu_counter_tree.h
-new file mode 100644
-index 000000000000..065a2aca4d5b
---- /dev/null
-+++ b/tools/testing/hpcc/include/linux/percpu_counter_tree.h
-@@ -0,0 +1,2 @@
-+/* SPDX-License-Identifier: GPL-2.0+ OR MIT */
-+#include "../../../../../include/linux/percpu_counter_tree.h"
-diff --git a/tools/testing/hpcc/include/linux/preempt.h b/tools/testing/hpcc/include/linux/preempt.h
-new file mode 100644
-index 000000000000..b2aa26415cca
---- /dev/null
-+++ b/tools/testing/hpcc/include/linux/preempt.h
-@@ -0,0 +1,2 @@
-+/* SPDX-License-Identifier: GPL-2.0+ OR MIT */
-+#include "../hpcc_shim.h"
-diff --git a/tools/testing/hpcc/include/linux/slab.h b/tools/testing/hpcc/include/linux/slab.h
-new file mode 100644
-index 000000000000..b2aa26415cca
---- /dev/null
-+++ b/tools/testing/hpcc/include/linux/slab.h
-@@ -0,0 +1,2 @@
-+/* SPDX-License-Identifier: GPL-2.0+ OR MIT */
-+#include "../hpcc_shim.h"
-diff --git a/tools/testing/hpcc/main.c b/tools/testing/hpcc/main.c
-new file mode 100644
-index 000000000000..28fb3af2ea1d
---- /dev/null
-+++ b/tools/testing/hpcc/main.c
-@@ -0,0 +1,427 @@
-+// SPDX-License-Identifier: GPL-2.0+ OR MIT
-+/*
-+ * Userspace test of the hierarchical per-CPU counters (lib/percpu_counter_tree.c).
-+ *
-+ * The library is built with a simulated topology, which allows testing
-+ * every supported tree configuration on a single machine, whereas the
-+ * KUnit test only covers the topology of the machine it runs on.
-+ *
-+ * For each simulated number of CPUs and batch size:
-+ *
-+ * - Saturate the counter upward and downward: leave every tree item with
-+ *   its largest positive (or negative) residual which has not been
-+ *   propagated yet, check that the distance between the precise and
-+ *   approximate sums matches the residual capacity of the tree in that
-+ *   direction, and check the accuracy range contract and the comparison
-+ *   functions in these worst-case states.
-+ *
-+ * - Random walk: apply random increments from random CPUs to two counters,
-+ *   and check the accuracy range contract and the comparison functions
-+ *   against shadow sums after each increment.
-+ *
-+ * The test is single-threaded, so it only covers settled counters.
-+ */
-+
-+#include <stdarg.h>
-+#include "hpcc_shim.h"
-+
-+unsigned int nr_cpu_ids;
-+unsigned int hpcc_current_cpu;
-+unsigned long hpcc_nr_warnings;
-+
-+#include "../../../lib/percpu_counter_tree.c"
-+
-+#define MAX_REPORTED_FAILURES	10
-+
-+static unsigned long nr_case_failures;
-+
-+#define CHECK(cond) do {							\
-+	if (!(cond)) {								\
-+		if (nr_case_failures++ < MAX_REPORTED_FAILURES)			\
-+			printf("#   %s:%d: check failed: %s\n",			\
-+			       __FILE__, __LINE__, #cond);			\
-+	}									\
-+} while (0)
-+
-+static uint64_t rng_state = 88172645463325252ULL;
-+
-+static uint64_t rnd(void)
+ static inline
+ void percpu_counter_tree_destroy_many(struct percpu_counter_tree *counters,
+ 				      unsigned int nr_counters)
+@@ -201,6 +266,12 @@ void percpu_counter_tree_add(struct percpu_counter_tree *counter, long inc)
+ 	atomic_long_add(inc, &counter->count);
+ }
+ 
++static inline
++void percpu_counter_tree_add_owner(struct percpu_counter_tree *counter, long inc)
 +{
-+	rng_state ^= rng_state << 13;
-+	rng_state ^= rng_state >> 7;
-+	rng_state ^= rng_state << 17;
-+	return rng_state;
++	percpu_counter_tree_add(counter, inc);
 +}
 +
-+static int sign(long v)
+ static inline
+ long percpu_counter_tree_approximate_sum(struct percpu_counter_tree *counter)
+ {
+diff --git a/lib/percpu_counter_tree.c b/lib/percpu_counter_tree.c
+index 67cdb22c3786..32c4f05d7d7d 100644
+--- a/lib/percpu_counter_tree.c
++++ b/lib/percpu_counter_tree.c
+@@ -328,10 +328,12 @@ int __percpu_counter_tree_init(struct percpu_counter_tree *counter,
+ 		return -EINVAL;
+ 	counter->batch_order = ilog2(batch_size);
+ 	counter->bias = 0;
++	atomic_long_set(&counter->atomic_bias, 0);
+ 	counter->level0 = level0;
+ 	counter->items_stride = items_stride;
+-	/* The root is the last item. */
+-	counter->approx_sum = &items[(tree_topology.nr_items - 1) * items_stride];
++	/* The root is the last item, allocated by the activation if lazy. */
++	counter->approx_sum = items ?
++		&items[(tree_topology.nr_items - 1) * items_stride] : NULL;
+ 	return 0;
+ }
+ 
+@@ -364,6 +366,26 @@ unsigned long percpu_counter_tree_accuracy(struct percpu_counter_tree *counter)
+ 	return batch_size * tree_topology.accuracy_multiplier - nr_cpu_ids;
+ }
+ 
++/* Initialize @nr_counters counters, with their per-CPU counters and tree items, or NULL if lazy. */
++static
++int __percpu_counter_tree_init_many(struct percpu_counter_tree *counters,
++				    unsigned int nr_counters, unsigned long batch_size,
++				    s8 __percpu *level0, atomic_long_t *items)
 +{
-+	return (v > 0) - (v < 0);
-+}
++	unsigned int items_stride = percpu_counter_tree_items_stride(nr_counters);
++	unsigned int i;
++	int ret;
 +
-+struct test_counter {
-+	struct percpu_counter_tree tree;
-+	long shadow;	/* Expected precise sum. */
-+};
-+
-+int scnprintf(char *buf, size_t size, const char *fmt, ...)
-+{
-+	va_list args;
-+	int len;
-+
-+	if (!size)
-+		return 0;
-+	va_start(args, fmt);
-+	len = vsnprintf(buf, size, fmt, args);
-+	va_end(args);
-+	return len < (int)size ? len : (int)size - 1;
-+}
-+
-+static void hpcc_init_topology(unsigned int nr_cpus)
-+{
-+	nr_cpu_ids = nr_cpus;
-+	/* Reset the state accumulated by a prior subsystem initialization. */
-+	kmem_cache_destroy(tree_topology.items_cachep);
-+	memset(&tree_topology, 0, sizeof(tree_topology));
-+	tree_topology.nr_items = UINT_MAX;
-+	CHECK(!percpu_counter_tree_subsystem_init());
-+}
-+
-+static int test_counter_init(struct test_counter *c, unsigned long batch_size)
-+{
-+	c->shadow = 0;
-+	return percpu_counter_tree_init(&c->tree, batch_size, GFP_KERNEL);
-+}
-+
-+static void test_counter_destroy(struct test_counter *c)
-+{
-+	percpu_counter_tree_destroy(&c->tree);
-+}
-+
-+static void test_counter_add(struct test_counter *c, unsigned int cpu, long inc)
-+{
-+	hpcc_current_cpu = cpu;
-+	percpu_counter_tree_add(&c->tree, inc);
-+	c->shadow += inc;
-+}
-+
-+static void test_counter_set(struct test_counter *c, long v)
-+{
-+	percpu_counter_tree_set(&c->tree, v);
-+	c->shadow = v;
-+}
-+
-+/*
-+ * Residual capacity of the tree items above level 0, in either direction:
-+ * sum of the largest residual which each item can hold without propagating
-+ * a carry. A level L item only receives multiples of the level L - 1 carry,
-+ * and propagates once its residual reaches the level L carry, so it holds
-+ * at most bit(L) - bit(L - 1) in either direction.
-+ */
-+static unsigned long tree_item_capacity(unsigned long batch_size)
-+{
-+	unsigned long capacity = 0, lo = batch_size, hi;
-+	unsigned int level, level_items;
-+
-+	level_items = 1U << tree_topology.nr_cpus_order;
-+	for (level = 1; level < tree_topology.config->nr_levels; level++) {
-+		unsigned int n_arity_order = tree_topology.config->n_arity_order[level - 1];
-+
-+		level_items >>= n_arity_order;
-+		hi = lo << n_arity_order;
-+		capacity += level_items * (hi - lo);
-+		lo = hi;
++	for (i = 0; i < nr_counters; i++) {
++		ret = __percpu_counter_tree_init(&counters[i], batch_size,
++						 level0 ? level0 + i : NULL,
++						 items ? items + i : NULL, items_stride);
++		if (ret)
++			return ret;
 +	}
-+	return capacity;
++	return 0;
 +}
++
+ /**
+  * percpu_counter_tree_init_many() - Initialize many per-CPU counter trees.
+  * @counters: An array of @nr_counters counters to initialize.
+@@ -392,10 +414,8 @@ int percpu_counter_tree_init_many(struct percpu_counter_tree *counters,
+ 				  unsigned int nr_counters, unsigned long batch_size,
+ 				  gfp_t gfp_flags)
+ {
+-	unsigned int items_stride = percpu_counter_tree_items_stride(nr_counters);
+ 	s8 __percpu *level0;
+ 	atomic_long_t *items;
+-	unsigned int i;
+ 	int ret;
+ 
+ 	/* The tree shape is selected by percpu_counter_tree_subsystem_init() at boot. */
+@@ -410,15 +430,9 @@ int percpu_counter_tree_init_many(struct percpu_counter_tree *counters,
+ 		ret = -ENOMEM;
+ 		goto free_level0;
+ 	}
+-	for (i = 0; i < nr_counters; i++) {
+-		ret = __percpu_counter_tree_init(&counters[i], batch_size, level0 + i,
+-						 items + i, items_stride);
+-		if (ret)
+-			goto free_items;
+-	}
+-	return 0;
+-
+-free_items:
++	ret = __percpu_counter_tree_init_many(counters, nr_counters, batch_size, level0, items);
++	if (!ret)
++		return 0;
+ 	percpu_counter_tree_free_items(items, nr_counters);
+ free_level0:
+ 	free_percpu(level0);
+@@ -450,6 +464,163 @@ int percpu_counter_tree_init(struct percpu_counter_tree *counter,
+ }
+ EXPORT_SYMBOL_GPL(percpu_counter_tree_init);
+ 
++/**
++ * percpu_counter_tree_init_many_lazy() - Initialize many counters, without their tree.
++ * @counters: An array of @nr_counters counters to initialize.
++ *	      Their memory is provided by the caller.
++ * @nr_counters: The number of counter trees to initialize
++ * @batch_size: The batch size, as for percpu_counter_tree_init_many().
++ *
++ * Initialize counters without allocating their per-CPU counters and tree
++ * items, for counters which may never need the scalability of the tree,
++ * such as the RSS counters of a single-threaded process. Until
++ * percpu_counter_tree_activate_many() allocates the tree, the counters
++ * are exact: percpu_counter_tree_add_owner() adds to the bias, written
++ * only by the owner, percpu_counter_tree_add() adds to the atomic bias,
++ * and the precise and approximate sums read both in O(1).
++ * percpu_counter_tree_destroy_many() and percpu_counter_tree_set() work on
++ * counters which were never activated. The accuracy range of a lazily
++ * initialized counter is the range of its tree, even before activation,
++ * which keeps the comparison functions correct across an activation.
++ * The batch size is fixed here: the activation only publishes the per-CPU
++ * counters and the tree, so updaters read the batch size without ordering.
++ *
++ * Return:
++ * * %0: Success
++ * * %-EINVAL:		- Invalid @batch_size argument
++ */
++int percpu_counter_tree_init_many_lazy(struct percpu_counter_tree *counters,
++				       unsigned int nr_counters, unsigned long batch_size)
++{
++	/* The tree shape is selected by percpu_counter_tree_subsystem_init() at boot. */
++	if (WARN_ON_ONCE(tree_topology.nr_items == UINT_MAX))
++		return -EINVAL;
++	return __percpu_counter_tree_init_many(counters, nr_counters, batch_size, NULL, NULL);
++}
++EXPORT_SYMBOL_GPL(percpu_counter_tree_init_many_lazy);
 +
 +/*
-+ * Residual capacity of the tree, in either direction: a level 0 counter
-+ * holds at most batch_size - 1 on top of the item capacity.
++ * Publication of the tree
++ *
++ * The updaters and the readers of a counter take no lock, and may run
++ * while percpu_counter_tree_activate_many() publishes its tree. The
++ * activation allocates the per-CPU counters and the tree items zeroed,
++ * then publishes two pointers per counter, each with a store-release:
++ *
++ * - the release of approx_sum: the root is zeroed before its pointer,
++ * - the release of level0, after it: the per-CPU counters, the tree items
++ *   and approx_sum are set before level0.
++ *
++ * level0 opens the tree to updates: until it is published, the tree is
++ * empty. Each load of a published pointer pairs with one of the releases:
++ *
++ * - Update fast path, percpu_counter_tree_add() and
++ *   percpu_counter_tree_add_owner(): READ_ONCE(level0), then the per-CPU
++ *   counters through it. The address dependency pairs with the release of
++ *   level0, as for rcu_dereference().
++ * - Carry slow path: smp_rmb() after the read of level0, then
++ *   READ_ONCE(approx_sum). Pairs with the release of level0, which
++ *   follows the store of approx_sum.
++ * - Precise sum: smp_load_acquire(level0), then approx_sum, the tree items
++ *   and the per-CPU counters. Pairs with the release of level0.
++ * - Approximate sum: READ_ONCE(approx_sum), then the root through it. The
++ *   address dependency pairs with the release of approx_sum.
++ * - percpu_counter_tree_active(): READ_ONCE(level0), without ordering. It
++ *   only selects the update function, which reads level0 again, or lets
++ *   the caller skip an activation which is complete.
++ * - Activations: serialized by the caller, for instance with a mutex,
++ *   which orders a complete activation before the check of level0 at the
++ *   start of the next one.
++ *
++ * The update fast path has no acquire. smp_load_acquire() is free on
++ * strongly ordered architectures such as x86, but on weakly ordered ones,
++ * such as arm64, powerpc and RISC-V, it costs an ordering load or a barrier
++ * on every update, to order a publication which happens at most once in
++ * the life of a counter. The address dependency orders the per-CPU
++ * counters, reached through level0, at no cost. It does not order
++ * approx_sum, a separate field: the carry slow path, taken only when an
++ * update carries, pays an smp_rmb() to read it, and the precise sum, which
++ * reads the whole tree, reads level0 with an acquire.
++ *
++ * Missing the publication is harmless. An updater which reads level0 as
++ * NULL adds to the bias (owner) or to the atomic bias (others), and a
++ * reader which reads a NULL pointer sums the bias and the atomic bias:
++ * the sums keep reading both after the activation, and the tree receives
++ * no update before level0 is published.
++ *
++ * The read barriers between the levels of the precise sum are unrelated
++ * to the publication: they order carries, see
++ * percpu_counter_tree_precise_sum_unbiased().
 + */
-+static unsigned long tree_residual_capacity(unsigned long batch_size)
-+{
-+	return nr_cpu_ids * (batch_size - 1) + tree_item_capacity(batch_size);
-+}
 +
-+/* Copy the state of counter @src into counter @dst, of the same topology. */
-+static void test_counter_copy(struct test_counter *dst, struct test_counter *src)
-+{
-+	percpu_counter_tree_copy_state(&dst->tree, &src->tree);
-+	dst->shadow = src->shadow;
-+}
-+
-+/*
-+ * Check the accuracy range contract, and the comparison of the counter
-+ * against values around its precise sum and its possible precise range.
++/**
++ * percpu_counter_tree_activate_many() - Activate the tree of lazily initialized counters.
++ * @counters: The array of @nr_counters counters passed to
++ *	      percpu_counter_tree_init_many_lazy().
++ * @nr_counters: The number of counters.
++ * @gfp_flags: gfp flags to pass to the per-CPU and tree item allocators.
++ *
++ * Allocate the per-CPU counters and the tree items, and publish them:
++ * later updates go to the tree, and the approximation then has the
++ * accuracy of the tree. The updates made before activation stay in the
++ * bias and the atomic bias, which the sums keep reading, so updates racing
++ * with the activation are not lost: the bias only has the owner as writer,
++ * and the atomic bias only receives atomic additions. Activating active
++ * counters does nothing. @counters and @nr_counters must be those passed
++ * to percpu_counter_tree_init_many_lazy().
++ *
++ * The activations of the same counters must be serialized by the caller,
++ * for instance with a mutex: a concurrent activation would publish a second
++ * tree and lose the updates made to the first. The counters are published
++ * in order: once percpu_counter_tree_active() reports the last one active,
++ * the activation is complete, and a caller can skip it and its
++ * serialization. The caller may not observe the other counters active yet,
++ * which only delays their updates going to the tree.
++ *
++ * Return:
++ * * %0: Success
++ * * %-EINVAL:		- @nr_counters differs from percpu_counter_tree_init_many_lazy()
++ * * %-ENOMEM:		- Out of memory
 + */
-+static void check_counter(struct test_counter *c)
++int percpu_counter_tree_activate_many(struct percpu_counter_tree *counters,
++				      unsigned int nr_counters, gfp_t gfp_flags)
 +{
-+	struct percpu_counter_tree *t = &c->tree;
-+	long approx = percpu_counter_tree_approximate_sum(t);
-+	long precise = c->shadow, precise_min, precise_max;
-+	unsigned long accuracy;
-+	long values[7];
++	s8 __percpu *level0;
++	atomic_long_t *items, *root;
 +	unsigned int i;
 +
-+	CHECK(percpu_counter_tree_precise_sum(t) == precise);
-+	CHECK(!percpu_counter_tree_check_residuals(t));
-+
-+	/* precise - accuracy <= approx <= precise + accuracy */
-+	accuracy = percpu_counter_tree_approximate_accuracy(t);
-+	CHECK(approx >= precise - (long)accuracy);
-+	CHECK(approx <= precise + (long)accuracy);
-+
-+	percpu_counter_tree_approximate_min_max_range(approx, accuracy,
-+						      &precise_min, &precise_max);
-+	CHECK(precise >= precise_min);
-+	CHECK(precise <= precise_max);
-+
-+	/* Approximate comparison is definitive exactly outside of the precise range. */
-+	CHECK(percpu_counter_tree_approximate_compare_value(t, precise_min - 1) == -1);
-+	CHECK(percpu_counter_tree_approximate_compare_value(t, precise_min) == 0);
-+	CHECK(percpu_counter_tree_approximate_compare_value(t, precise_max) == 0);
-+	CHECK(percpu_counter_tree_approximate_compare_value(t, precise_max + 1) == 1);
-+
-+	values[0] = precise - 1;
-+	values[1] = precise;
-+	values[2] = precise + 1;
-+	values[3] = precise_min - 1;
-+	values[4] = precise_min;
-+	values[5] = precise_max;
-+	values[6] = precise_max + 1;
-+	for (i = 0; i < ARRAY_SIZE(values); i++) {
-+		long v = values[i];
-+		int expect = sign(v - precise);
-+		int res = percpu_counter_tree_approximate_compare_value(t, v);
-+
-+		CHECK(res == 0 || res == expect);
-+		CHECK(percpu_counter_tree_precise_compare_value(t, v) == expect);
++	/* Serialized by the caller: a previous activation is complete. */
++	if (counters[0].level0)
++		return 0;
++	/* The tree items are sized for @nr_counters, at the stride set by the initialization. */
++	if (WARN_ON_ONCE(counters[0].items_stride !=
++			 percpu_counter_tree_items_stride(nr_counters)))
++		return -EINVAL;
++	level0 = __alloc_percpu_gfp(nr_counters * sizeof(*level0),
++				    __alignof__(*counters->level0), gfp_flags);
++	if (!level0)
++		return -ENOMEM;
++	items = percpu_counter_tree_alloc_items(nr_counters, gfp_flags);
++	if (!items) {
++		free_percpu(level0);
++		return -ENOMEM;
 +	}
++	root = &items[(tree_topology.nr_items - 1) * counters[0].items_stride];
++	/* See "Publication of the tree" above. */
++	for (i = 0; i < nr_counters; i++) {
++		/* Release of approx_sum: the root is zeroed before its pointer. */
++		smp_store_release(&counters[i].approx_sum, root + i);
++		/*
++		 * Release of level0: the per-CPU counters, the tree items and
++		 * approx_sum are set before level0, which opens the tree to
++		 * updates.
++		 */
++		smp_store_release(&counters[i].level0, level0 + i);
++	}
++	return 0;
 +}
++EXPORT_SYMBOL_GPL(percpu_counter_tree_activate_many);
 +
-+/* Check the comparison of two counters against their shadow sums. */
-+static void check_counter_pair(struct test_counter *a, struct test_counter *b)
+ /**
+  * percpu_counter_tree_destroy_many() - Destroy many per-CPU counter trees.
+  * @counters: Array of counters trees to destroy.
+@@ -457,7 +628,7 @@ EXPORT_SYMBOL_GPL(percpu_counter_tree_init);
+  *
+  * Release internal resources allocated for @nr_counters per-CPU counter trees.
+  * @counters and @nr_counters must be those passed to
+- * percpu_counter_tree_init_many().
++ * percpu_counter_tree_init_many() or percpu_counter_tree_init_many_lazy().
+  */
+ void percpu_counter_tree_destroy_many(struct percpu_counter_tree *counters,
+ 				      unsigned int nr_counters)
+@@ -470,8 +641,9 @@ void percpu_counter_tree_destroy_many(struct percpu_counter_tree *counters,
+ 	if (WARN_ON_ONCE(counters->items_stride !=
+ 			 percpu_counter_tree_items_stride(nr_counters)))
+ 		return;
+-	/* The first item of the first counter is the base of the tree items. */
+-	percpu_counter_tree_free_items(percpu_counter_tree_items(counters), nr_counters);
++	/* The first item of the first counter is the base of the tree items, if allocated. */
++	if (counters->approx_sum)
++		percpu_counter_tree_free_items(percpu_counter_tree_items(counters), nr_counters);
+ }
+ EXPORT_SYMBOL_GPL(percpu_counter_tree_destroy_many);
+ 
+@@ -511,9 +683,19 @@ void percpu_counter_tree_add_slowpath(struct percpu_counter_tree *counter, long
+ 		     level, n_arity_order;
+ 	unsigned long bit_mask;
+ 	unsigned int stride = counter->items_stride;
+-	atomic_long_t *item = percpu_counter_tree_items(counter);
+ 	unsigned int cpu = raw_smp_processor_id();
++	atomic_long_t *root, *item;
+ 
++	/*
++	 * Pairs with the release of level0 in
++	 * percpu_counter_tree_activate_many(), which follows the store of
++	 * approx_sum. The caller read level0, but approx_sum is a separate
++	 * field, which the address dependency of that read does not order:
++	 * read it after level0.
++	 */
++	smp_rmb();
++	root = READ_ONCE(counter->approx_sum);
++	item = root - (tree_topology.nr_items - 1) * stride;
+ 	n_arity_order = tree_topology.config->n_arity_order[0];
+ 	bit_mask = percpu_counter_tree_batch_size(counter) << n_arity_order;
+ 	level_items = 1U << (tree_topology.nr_cpus_order - n_arity_order);
+@@ -571,19 +753,14 @@ void percpu_counter_tree_add_slowpath(struct percpu_counter_tree *counter, long
+ 		level_items >>= n_arity_order;
+ 		bit_mask <<= n_arity_order;
+ 	}
+-	atomic_long_add_return_release(inc, counter->approx_sum);
++	/* The atomic API has no add with release ordering without a return value. */
++	atomic_long_add_return_release(inc, root);
+ }
+ 
+-/**
+- * percpu_counter_tree_add() - Add to a per-CPU counter tree.
+- * @counter: Counter added to.
+- * @inc: Increment value (either positive or negative).
+- *
+- * Add @inc to a per-CPU counter tree. This is a fast-path which will
+- * typically increment per-CPU counters as long as there is no carry
+- * greater or equal to the counter tree batch size.
+- */
+-void percpu_counter_tree_add(struct percpu_counter_tree *counter, long inc)
++/* Add @inc to the per-CPU counters @level0 of an activated tree. */
++static inline
++void percpu_counter_tree_add_tree(struct percpu_counter_tree *counter,
++				  s8 __percpu *level0, long inc)
+ {
+ 	unsigned long bit_mask = percpu_counter_tree_batch_size(counter);
+ 	s8 old, new;
+@@ -605,18 +782,69 @@ void percpu_counter_tree_add(struct percpu_counter_tree *counter, long inc)
+ 	 * interrupts, and the carry may propagate from any CPU, see
+ 	 * percpu_counter_tree_add_slowpath().
+ 	 */
+-	old = this_cpu_read(*counter->level0);
++	old = this_cpu_read(*level0);
+ 	do {
+ 		v = old + inc;
+ 		carry = percpu_counter_tree_item_carry(v, bit_mask);
+ 		new = (s8)(v - carry);
+-	} while (!this_cpu_try_cmpxchg(*counter->level0, &old, new));
++	} while (!this_cpu_try_cmpxchg(*level0, &old, new));
+ 	if (likely(!carry))
+ 		return;
+ 	percpu_counter_tree_add_slowpath(counter, carry);
+ }
++
++/**
++ * percpu_counter_tree_add() - Add to a per-CPU counter tree.
++ * @counter: Counter added to.
++ * @inc: Increment value (either positive or negative).
++ *
++ * Add @inc to a per-CPU counter tree. This is a fast-path which will
++ * typically increment per-CPU counters as long as there is no carry
++ * greater or equal to the counter tree batch size. Before the tree is
++ * activated, add to the atomic bias.
++ */
++void percpu_counter_tree_add(struct percpu_counter_tree *counter, long inc)
 +{
-+	int expect = sign(a->shadow - b->shadow);
-+	int res = percpu_counter_tree_approximate_compare(&a->tree, &b->tree);
++	/*
++	 * Pairs with the release of level0 in
++	 * percpu_counter_tree_activate_many(): the per-CPU counters are only
++	 * reached through this pointer, and the address dependency orders
++	 * their initialization before their use, as for rcu_dereference().
++	 * No acquire, see "Publication of the tree".
++	 */
++	s8 __percpu *level0 = READ_ONCE(counter->level0);
 +
-+	CHECK(res == 0 || res == expect);
-+	CHECK(percpu_counter_tree_precise_compare(&a->tree, &b->tree) == expect);
-+	res = percpu_counter_tree_approximate_compare(&b->tree, &a->tree);
-+	CHECK(res == 0 || res == -expect);
-+	CHECK(percpu_counter_tree_precise_compare(&b->tree, &a->tree) == -expect);
++	if (!level0) {
++		atomic_long_add(inc, &counter->atomic_bias);
++		return;
++	}
++	percpu_counter_tree_add_tree(counter, level0, inc);
++}
+ EXPORT_SYMBOL_GPL(percpu_counter_tree_add);
+ 
++/**
++ * percpu_counter_tree_add_owner() - Add to a per-CPU counter tree as its owner.
++ * @counter: Counter added to.
++ * @inc: Increment value (either positive or negative).
++ *
++ * Like percpu_counter_tree_add(), but before the tree is activated, add
++ * to the bias without atomic instruction. The calls for a given counter
++ * must not run concurrently with each other: they come from a single
++ * context, the owner chosen by the user of the counter, such as a task.
++ */
++void percpu_counter_tree_add_owner(struct percpu_counter_tree *counter, long inc)
++{
++	/* Address dependency, as in percpu_counter_tree_add(). */
++	s8 __percpu *level0 = READ_ONCE(counter->level0);
++
++	if (!level0) {
++		WRITE_ONCE(counter->bias, (long)((unsigned long)READ_ONCE(counter->bias) + inc));
++		return;
++	}
++	percpu_counter_tree_add_tree(counter, level0, inc);
++}
++EXPORT_SYMBOL_GPL(percpu_counter_tree_add_owner);
++
+ /*
+  * The precise sum is the sum of the residuals of all tree levels. A carry
+  * leaves a level before reaching a higher level, and the release ordering
+@@ -630,19 +858,29 @@ long percpu_counter_tree_precise_sum_unbiased(struct percpu_counter_tree *counte
+ {
+ 	unsigned int nr_levels = tree_topology.config->nr_levels, i,
+ 		     level_items[MAX_NR_LEVELS], stride = counter->items_stride;
++	/*
++	 * Pairs with the release of level0 in
++	 * percpu_counter_tree_activate_many(): approx_sum, the tree items and
++	 * the per-CPU counters read below are set before level0.
++	 */
++	s8 __percpu *level0 = smp_load_acquire(&counter->level0);
++	unsigned long sum = atomic_long_read(&counter->atomic_bias);
+ 	atomic_long_t *item;
+-	unsigned long sum;
+ 	int level, cpu;
+ 
++	/* Before activation, the atomic bias holds the whole unbiased sum. */
++	if (!level0)
++		return (long)sum;
+ 	/* Number of items of each level above level 0. */
+ 	level_items[0] = 1U << tree_topology.nr_cpus_order;
+ 	for (level = 1; level < (int)nr_levels; level++)
+ 		level_items[level] = level_items[level - 1] >>
+ 				     tree_topology.config->n_arity_order[level - 1];
+-	sum = atomic_long_read(counter->approx_sum);
++	/* Published before level0, so ordered by its acquire. */
++	item = READ_ONCE(counter->approx_sum);
++	sum += atomic_long_read(item);
+ 	smp_rmb();	/* Read each level before the level below it. */
+ 	/* The items of each level precede those of the level above it. */
+-	item = counter->approx_sum;
+ 	for (level = (int)nr_levels - 1; level >= 1; level--) {
+ 		item -= level_items[level] * stride;
+ 		for (i = 0; i < level_items[level]; i++)
+@@ -650,7 +888,7 @@ long percpu_counter_tree_precise_sum_unbiased(struct percpu_counter_tree *counte
+ 		smp_rmb();	/* Read this level before the level below it. */
+ 	}
+ 	for_each_possible_cpu(cpu)
+-		sum += (long)READ_ONCE(*per_cpu_ptr(counter->level0, cpu));
++		sum += (long)READ_ONCE(*per_cpu_ptr(level0, cpu));
+ 	return (long)sum;
+ }
+ 
+@@ -1013,6 +1251,7 @@ EXPORT_SYMBOL_IF_KUNIT(percpu_counter_tree_check_config);
+  * - a counter at level N, above level 0, holds a multiple of
+  *   BATCH(level N - 1) within (-BATCH(level N), +BATCH(level N)),
+  * - the root holds a multiple of the batch of the last level.
++ * Before activation, a lazily initialized counter has no tree to check.
+  *
+  * Return: The number of violated invariants.
+  */
+@@ -1020,11 +1259,14 @@ unsigned int percpu_counter_tree_check_residuals(struct percpu_counter_tree *cou
+ {
+ 	unsigned int nr_levels = tree_topology.config->nr_levels, level, level_items,
+ 		     nr_errors = 0, stride = counter->items_stride;
+-	atomic_long_t *item = percpu_counter_tree_items(counter);
+ 	unsigned long lo = percpu_counter_tree_batch_size(counter);
++	atomic_long_t *item;
+ 	long root;
+ 	int cpu;
+ 
++	if (!counter->level0)
++		return 0;
++	item = percpu_counter_tree_items(counter);
+ 	for_each_possible_cpu(cpu) {
+ 		long v = READ_ONCE(*per_cpu_ptr(counter->level0, cpu));
+ 
+@@ -1063,7 +1305,7 @@ EXPORT_SYMBOL_IF_KUNIT(percpu_counter_tree_check_residuals);
+ /*
+  * Copy the state of counter @src into counter @dst, initialized with the
+  * same batch size and without concurrent updates: their per-CPU counters,
+- * tree items and bias.
++ * tree items and biases. Both trees are active.
+  */
+ void percpu_counter_tree_copy_state(struct percpu_counter_tree *dst,
+ 				    struct percpu_counter_tree *src)
+@@ -1079,6 +1321,7 @@ void percpu_counter_tree_copy_state(struct percpu_counter_tree *dst,
+ 		atomic_long_set(&dst_items[pos * dst->items_stride],
+ 				atomic_long_read(&src_items[pos * src->items_stride]));
+ 	dst->bias = src->bias;
++	atomic_long_set(&dst->atomic_bias, atomic_long_read(&src->atomic_bias));
+ }
+ EXPORT_SYMBOL_IF_KUNIT(percpu_counter_tree_copy_state);
+ #endif
+diff --git a/lib/tests/percpu_counter_tree_kunit.c b/lib/tests/percpu_counter_tree_kunit.c
+index 5774278ea140..156bb63de346 100644
+--- a/lib/tests/percpu_counter_tree_kunit.c
++++ b/lib/tests/percpu_counter_tree_kunit.c
+@@ -2,6 +2,8 @@
+ // SPDX-FileCopyrightText: 2026 Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+ 
+ #include <kunit/test.h>
++#include <linux/delay.h>
++#include <linux/mutex.h>
+ #include <linux/percpu_counter_tree.h>
+ #include <linux/kthread.h>
+ #include <linux/wait.h>
+@@ -796,6 +798,220 @@ static void hpcc_test_saturated_compare(struct kunit *test)
+ 	}
+ }
+ 
++/* Check a counter against its expected sum: exact before activation, within range after. */
++static void check_lazy_counter(struct kunit *test, struct percpu_counter_tree *c, long v)
++{
++	long approx_sum = percpu_counter_tree_approximate_sum(c);
++	unsigned long accuracy;
++
++	KUNIT_EXPECT_EQ(test, percpu_counter_tree_precise_sum(c), v);
++	KUNIT_EXPECT_EQ(test, 0, percpu_counter_tree_precise_compare_value(c, v));
++	KUNIT_EXPECT_EQ(test, 0, percpu_counter_tree_approximate_compare_value(c, v));
++	check_residuals(test, c);
++#ifdef CONFIG_SMP
++	if (!READ_ONCE(c->level0)) {
++		KUNIT_EXPECT_EQ(test, approx_sum, v);
++		return;
++	}
++#endif
++	accuracy = percpu_counter_tree_approximate_accuracy(c);
++	KUNIT_EXPECT_GE(test, (long)(approx_sum - (v - accuracy)), 0);
++	KUNIT_EXPECT_LE(test, (long)(approx_sum - (v + accuracy)), 0);
 +}
 +
 +/*
-+ * On each CPU, add @inc (1 or -1) until the next addition would propagate a
-+ * carry to the approximate sum. This leaves every tree item on the path from
-+ * this CPU to the root holding its largest residual in the direction of @inc.
-+ * Each addition is first tried on @probe, which holds the same state as @c:
-+ * reverting an addition which reached the approximate sum would not restore
-+ * the residuals subtracted on the way. The path from a CPU to the root
-+ * holds less than the accuracy bound: more additions mean that a carry was
-+ * lost.
++ * Lazily initialized counters: exact sums before the tree is activated,
++ * with owner and atomic updates, set(), idempotent activation, updates
++ * after activation, and destruction of counters never activated.
 + */
-+static void saturate(struct test_counter *c, struct test_counter *probe, long inc)
++static void hpcc_test_lazy(struct kunit *test)
 +{
-+	unsigned long max_steps;
-+	unsigned int cpu;
++	struct percpu_counter_tree pct[2];
++	long expect[2] = { 0, 0 };
++	int i, j;
 +
-+	max_steps = percpu_counter_tree_approximate_accuracy(&c->tree) +
-+		    (1UL << c->tree.batch_order);
-+	for (cpu = 0; cpu < nr_cpu_ids; cpu++) {
-+		unsigned long steps;
++	KUNIT_ASSERT_EQ(test, 0, percpu_counter_tree_init_many_lazy(pct, 2, 32));
++#ifdef CONFIG_SMP
++	KUNIT_EXPECT_FALSE(test, percpu_counter_tree_active(&pct[0]));
++	KUNIT_EXPECT_FALSE(test, percpu_counter_tree_active(&pct[1]));
++	/* The level 0 counters are __percpu pointers: compare them as booleans. */
++	KUNIT_EXPECT_TRUE(test, !pct[0].level0);
++	KUNIT_EXPECT_TRUE(test, !pct[1].level0);
++	KUNIT_EXPECT_NULL(test, pct[0].approx_sum);
++	KUNIT_EXPECT_NULL(test, pct[1].approx_sum);
++#endif
++	for (j = 0; j < 2; j++) {
++		/* j == 0: before activation; j == 1: after activation. */
++		for (i = 0; i < 10000; i++) {
++			long inc = (long)(get_random_u32() % 1025) - 512;
 +
-+		for (steps = 0; steps < max_steps; steps++) {
-+			long approx = percpu_counter_tree_approximate_sum(&probe->tree);
++			if (get_random_u32() & 1)
++				percpu_counter_tree_add_owner(&pct[0], inc);
++			else
++				percpu_counter_tree_add(&pct[0], inc);
++			expect[0] += inc;
++			percpu_counter_tree_add(&pct[1], -inc);
++			expect[1] -= inc;
++		}
++		check_lazy_counter(test, &pct[0], expect[0]);
++		check_lazy_counter(test, &pct[1], expect[1]);
++		percpu_counter_tree_set(&pct[1], 12345);
++		expect[1] = 12345;
++		check_lazy_counter(test, &pct[1], expect[1]);
++		if (j)
++			break;
++		KUNIT_ASSERT_EQ(test, 0, percpu_counter_tree_activate_many(pct, 2, GFP_KERNEL));
++		KUNIT_EXPECT_TRUE(test, percpu_counter_tree_active(&pct[0]));
++		KUNIT_EXPECT_TRUE(test, percpu_counter_tree_active(&pct[1]));
++#ifdef CONFIG_SMP
++		{
++			s8 __percpu *level0 = pct[0].level0;
 +
-+			test_counter_add(probe, cpu, inc);
-+			if (percpu_counter_tree_approximate_sum(&probe->tree) != approx) {
-+				test_counter_copy(probe, c);
-+				break;
++			KUNIT_EXPECT_TRUE(test, level0);
++			KUNIT_EXPECT_TRUE(test, pct[1].level0 == level0 + 1);
++			KUNIT_EXPECT_NOT_NULL(test, pct[0].approx_sum);
++			KUNIT_EXPECT_PTR_EQ(test, pct[1].approx_sum, pct[0].approx_sum + 1);
++			KUNIT_EXPECT_EQ(test, 0,
++					percpu_counter_tree_activate_many(pct, 2, GFP_KERNEL));
++			KUNIT_EXPECT_TRUE(test, pct[0].level0 == level0);
++		}
++#endif
++		/* The sums carry the updates made before activation. */
++		check_lazy_counter(test, &pct[0], expect[0]);
++		check_lazy_counter(test, &pct[1], expect[1]);
++	}
++	percpu_counter_tree_destroy_many(pct, 2);
++
++	/* Destroy counters which were never activated. */
++	KUNIT_ASSERT_EQ(test, 0, percpu_counter_tree_init_many_lazy(pct, 2, 32));
++	percpu_counter_tree_add_owner(&pct[0], 7);
++	percpu_counter_tree_add(&pct[1], -7);
++	check_lazy_counter(test, &pct[0], 7);
++	check_lazy_counter(test, &pct[1], -7);
++	percpu_counter_tree_destroy_many(pct, 2);
++}
++
++/*
++ * Activation racing with updates: one owner and updaters on other CPUs add
++ * to a lazily initialized counter. Each worker makes a first part of its
++ * updates, reports their sum and waits. The test checks that the counter
++ * is exact, then releases the workers and activates the tree while they
++ * make the rest of their updates. The remote updaters also activate the
++ * tree when released, serialized with the test and with each other by a
++ * mutex, and check that the tree is active once their activation returns.
++ * No update may be lost, whichever side of the activation it lands on.
++ */
++#define LAZY_RACE_NR_INC	200000
++#define LAZY_RACE_NR_FIRST	(LAZY_RACE_NR_INC / 8)
++#define LAZY_RACE_MAX_REMOTE	8
++
++struct lazy_race_shared {
++	struct percpu_counter_tree *c;
++	atomic_long_t first_sum;	/* Sum of the updates made before the release. */
++	atomic_long_t expect;		/* Sum of all updates. */
++	struct mutex activate_lock;	/* Serializes the activations. */
++	atomic_t paused;		/* Workers waiting for the release. */
++	atomic_t activate_errors;	/* Failed activations of the workers. */
++	bool go;			/* Releases the workers. */
++};
++
++struct lazy_race_work {
++	struct work_struct work;
++	struct lazy_race_shared *sh;
++	bool owner;
++};
++
++static void lazy_race_fn(struct work_struct *work)
++{
++	struct lazy_race_work *w = container_of(work, struct lazy_race_work, work);
++	struct lazy_race_shared *sh = w->sh;
++	long sum = 0;
++	int i;
++
++	for (i = 0; i < LAZY_RACE_NR_INC; i++) {
++		long inc = (long)(get_random_u32() % 65) - 32;
++
++		if (i == LAZY_RACE_NR_FIRST) {
++			/* Fully ordered: the first updates are visible before the pause. */
++			atomic_long_add_return(sum, &sh->first_sum);
++			atomic_inc_return(&sh->paused);
++			while (!READ_ONCE(sh->go))
++				cond_resched();
++			if (!w->owner) {
++				mutex_lock(&sh->activate_lock);
++				if (percpu_counter_tree_activate_many(sh->c, 1, GFP_KERNEL) ||
++				    !percpu_counter_tree_active(sh->c))
++					atomic_inc(&sh->activate_errors);
++				mutex_unlock(&sh->activate_lock);
 +			}
-+			test_counter_add(c, cpu, inc);
 +		}
-+		if (steps == max_steps) {
-+			CHECK(0);
-+			return;
++		if (w->owner)
++			percpu_counter_tree_add_owner(sh->c, inc);
++		else
++			percpu_counter_tree_add(sh->c, inc);
++		sum += inc;
++		if (!(i & 1023))
++			cond_resched();
++	}
++	atomic_long_add(sum, &sh->expect);
++	kfree(w);
++	complete_work();
++}
++
++static void hpcc_test_lazy_activation_race(struct kunit *test)
++{
++	struct percpu_counter_tree pct;
++	int round;
++
++	if (num_online_cpus() < 2)
++		kunit_skip(test, "needs at least 2 online CPUs");
++	for (round = 0; round < 4; round++) {
++		struct lazy_race_shared sh = { .c = &pct };
++		unsigned long timeout = jiffies + 10 * HZ;
++		int cpu, nr_workers = 0;
++
++		KUNIT_ASSERT_EQ(test, 0, percpu_counter_tree_init_many_lazy(&pct, 1, 32));
++		mutex_init(&sh.activate_lock);
++		init_kthreads();
++		cpus_read_lock();
++		for_each_online_cpu(cpu) {
++			struct lazy_race_work *w;
++
++			if (nr_workers > LAZY_RACE_MAX_REMOTE)
++				break;
++			w = kzalloc_obj(*w);
++			KUNIT_EXPECT_NOT_NULL(test, w);
++			if (!w)
++				break;
++			INIT_WORK(&w->work, lazy_race_fn);
++			w->sh = &sh;
++			/* The first worker is the owner, the others update remotely. */
++			w->owner = !nr_workers;
++			atomic_inc(&kernel_threads_to_run);
++			queue_work_on(cpu, hpcc_test_wq, &w->work);
++			nr_workers++;
 +		}
++		cpus_read_unlock();
++		while (atomic_read(&sh.paused) < nr_workers && time_before(jiffies, timeout))
++			usleep_range(100, 200);
++		smp_mb();	/* Read the counter after the first updates of the workers. */
++		/* Every worker, the owner included, has updates left for after the activation. */
++		KUNIT_EXPECT_EQ(test, atomic_read(&sh.paused), nr_workers);
++		/* Before activation, the owner and atomic updates are exact. */
++		check_lazy_counter(test, &pct, atomic_long_read(&sh.first_sum));
++		WRITE_ONCE(sh.go, true);
++		mutex_lock(&sh.activate_lock);
++		KUNIT_EXPECT_EQ(test, 0, percpu_counter_tree_activate_many(&pct, 1, GFP_KERNEL));
++		KUNIT_EXPECT_TRUE(test, percpu_counter_tree_active(&pct));
++		mutex_unlock(&sh.activate_lock);
++		fini_kthreads();
++		mutex_destroy(&sh.activate_lock);
++		KUNIT_EXPECT_EQ(test, 0, atomic_read(&sh.activate_errors));
++		check_lazy_counter(test, &pct, atomic_long_read(&sh.expect));
++		percpu_counter_tree_destroy_many(&pct, 1);
 +	}
 +}
 +
-+static void test_saturated(unsigned long batch_size, long inc)
+ static void hpcc_test_check_config(struct kunit *test)
+ {
+ #ifdef CONFIG_SMP
+@@ -817,6 +1033,8 @@ static struct kunit_case hpcc_test_cases[] = {
+ 	KUNIT_CASE(hpcc_test_set),
+ 	KUNIT_CASE(hpcc_test_saturated_compare),
+ 	KUNIT_CASE(hpcc_test_contended_carries),
++	KUNIT_CASE(hpcc_test_lazy),
++	KUNIT_CASE(hpcc_test_lazy_activation_race),
+ 	{}
+ };
+ 
+diff --git a/tools/testing/hpcc/include/hpcc_shim.h b/tools/testing/hpcc/include/hpcc_shim.h
+index 7e268de984c6..d321c8363b0b 100644
+--- a/tools/testing/hpcc/include/hpcc_shim.h
++++ b/tools/testing/hpcc/include/hpcc_shim.h
+@@ -68,6 +68,9 @@ static inline int get_count_order(unsigned int count)
+ #define atomic_long_add_return_relaxed(i, v)	((v)->counter += (i))
+ #define atomic_long_add_return_release(i, v)	((v)->counter += (i))
+ #define smp_rmb()				barrier()
++/* The harness runs on one thread: ordering primitives are plain accesses. */
++#define smp_load_acquire(p)			READ_ONCE(*(p))
++#define smp_store_release(p, v)			WRITE_ONCE(*(p), (v))
+ 
+ static inline bool atomic_long_try_cmpxchg_relaxed(atomic_long_t *v, long *old, long new)
+ {
+@@ -92,15 +95,32 @@ extern unsigned int hpcc_current_cpu;
+  */
+ #define HPCC_PCPU_UNIT	64
+ 
++/* Outstanding allocations, to check for leaks. */
++extern long hpcc_nr_allocs;
++
++static inline void *hpcc_alloc_account(void *p)
 +{
-+	struct test_counter c, probe, exact;
-+	unsigned long accuracy;
-+	long approx, delta;
-+
-+	if (test_counter_init(&c, batch_size)) {
-+		CHECK(0);
-+		return;
-+	}
-+	if (test_counter_init(&probe, batch_size)) {
-+		CHECK(0);
-+		goto destroy_c;
-+	}
-+	if (test_counter_init(&exact, batch_size)) {
-+		CHECK(0);
-+		goto destroy_probe;
-+	}
-+	saturate(&c, &probe, inc);
-+	approx = percpu_counter_tree_approximate_sum(&c.tree);
-+	accuracy = percpu_counter_tree_approximate_accuracy(&c.tree);
-+	/* Symmetric residuals: the accuracy is reached in both directions. */
-+	CHECK((c.shadow - approx) * inc == (long)tree_residual_capacity(batch_size));
-+	CHECK((c.shadow - approx) * inc == (long)accuracy);
-+	check_counter(&c);
-+
-+	/* Compare with exactly approximated counters around the saturated precise sum. */
-+	for (delta = -1; delta <= 1; delta++) {
-+		test_counter_set(&exact, c.shadow + delta);
-+		CHECK(percpu_counter_tree_approximate_sum(&exact.tree) == exact.shadow);
-+		check_counter_pair(&c, &exact);
-+	}
-+	test_counter_destroy(&exact);
-+destroy_probe:
-+	test_counter_destroy(&probe);
-+destroy_c:
-+	test_counter_destroy(&c);
++	if (p)
++		hpcc_nr_allocs++;
++	return p;
 +}
 +
-+static long random_increment(unsigned long batch_size)
++static inline void hpcc_free_account(void *p)
 +{
-+	long v;
-+
-+	switch (rnd() % 4) {
-+	case 0:
-+		v = rnd() % 4;
-+		break;
-+	case 1:
-+		v = rnd() % (4 * batch_size);
-+		break;
-+	case 2:
-+		v = rnd() % (64 * batch_size);
-+		break;
-+	default:
-+		v = rnd() % 1000000;
-+		break;
-+	}
-+	return rnd() & 1 ? v : -v;
++	if (p)
++		hpcc_nr_allocs--;
 +}
 +
-+static void test_random_walk(unsigned long batch_size, unsigned long nr_steps)
+ static inline void *__alloc_percpu_gfp(size_t size, size_t align, gfp_t gfp)
+ {
+ 	if (size > HPCC_PCPU_UNIT || align > HPCC_PCPU_UNIT)
+ 		return NULL;
+-	return calloc(nr_cpu_ids, HPCC_PCPU_UNIT);
++	return hpcc_alloc_account(calloc(nr_cpu_ids, HPCC_PCPU_UNIT));
+ }
+ 
+ static inline void free_percpu(void *ptr)
+ {
++	hpcc_free_account(ptr);
+ 	free(ptr);
+ }
+ 
+@@ -136,21 +156,23 @@ static inline void *kmem_cache_zalloc(struct kmem_cache *s, gfp_t gfp)
+ 
+ 	if (p)
+ 		memset(p, 0, s->size);
+-	return p;
++	return hpcc_alloc_account(p);
+ }
+ 
+ static inline void kmem_cache_free(struct kmem_cache *s, void *p)
+ {
++	hpcc_free_account(p);
+ 	free(p);
+ }
+ 
+ static inline void *kzalloc(size_t size, gfp_t gfp)
+ {
+-	return calloc(1, size);
++	return hpcc_alloc_account(calloc(1, size));
+ }
+ 
+ static inline void kfree(void *p)
+ {
++	hpcc_free_account(p);
+ 	free(p);
+ }
+ 
+diff --git a/tools/testing/hpcc/main.c b/tools/testing/hpcc/main.c
+index 28fb3af2ea1d..1b86fea543e5 100644
+--- a/tools/testing/hpcc/main.c
++++ b/tools/testing/hpcc/main.c
+@@ -19,6 +19,10 @@
+  *   and check the accuracy range contract and the comparison functions
+  *   against shadow sums after each increment.
+  *
++ * - Lazy counter: random owner and atomic updates of a lazily initialized
++ *   counter, exact before its tree is activated halfway, with the same
++ *   checks after each increment.
++ *
+  * The test is single-threaded, so it only covers settled counters.
+  */
+ 
+@@ -28,6 +32,7 @@
+ unsigned int nr_cpu_ids;
+ unsigned int hpcc_current_cpu;
+ unsigned long hpcc_nr_warnings;
++long hpcc_nr_allocs;
+ 
+ #include "../../../lib/percpu_counter_tree.c"
+ 
+@@ -343,6 +348,47 @@ static void test_random_walk(unsigned long batch_size, unsigned long nr_steps)
+ 	test_counter_destroy(&c[1]);
+ }
+ 
++static void test_lazy(unsigned long batch_size, unsigned long nr_steps)
 +{
-+	struct test_counter c[2];
++	long nr_allocs = hpcc_nr_allocs;
++	struct test_counter c;
 +	unsigned long step;
 +
-+	if (test_counter_init(&c[0], batch_size)) {
++	if (percpu_counter_tree_init_many_lazy(&c.tree, 1, batch_size)) {
 +		CHECK(0);
 +		return;
 +	}
-+	if (test_counter_init(&c[1], batch_size)) {
-+		CHECK(0);
-+		test_counter_destroy(&c[0]);
-+		return;
-+	}
++	c.shadow = 0;
++	CHECK(!c.tree.level0);
++	CHECK(!c.tree.approx_sum);
++	CHECK(!percpu_counter_tree_active(&c.tree));
 +	for (step = 0; step < nr_steps; step++) {
-+		struct test_counter *t = &c[rnd() & 1];
++		long inc = random_increment(batch_size);
 +
-+		test_counter_add(t, rnd() % nr_cpu_ids, random_increment(batch_size));
-+		/* Bring the counters close to each other to exercise the precise comparison. */
-+		if (!(rnd() % 8)) {
-+			long delta = c[0].shadow - c[1].shadow;
-+			unsigned long accuracy;
-+
-+			accuracy = percpu_counter_tree_approximate_accuracy(&c[0].tree);
-+			delta += (long)(rnd() % (2 * accuracy + 1)) - (long)accuracy;
-+			test_counter_add(&c[1], rnd() % nr_cpu_ids, delta);
++		hpcc_current_cpu = rnd() % nr_cpu_ids;
++		if (rnd() & 1)
++			percpu_counter_tree_add_owner(&c.tree, inc);
++		else
++			percpu_counter_tree_add(&c.tree, inc);
++		c.shadow += inc;
++		if (!c.tree.level0)
++			CHECK(percpu_counter_tree_approximate_sum(&c.tree) == c.shadow);
++		check_counter(&c);
++		if (step == nr_steps / 2) {
++			CHECK(!percpu_counter_tree_activate_many(&c.tree, 1, GFP_KERNEL));
++			CHECK(c.tree.level0);
++			CHECK(c.tree.approx_sum);
++			CHECK(percpu_counter_tree_active(&c.tree));
++			/* One tree: its per-CPU counters and its tree items. */
++			CHECK(hpcc_nr_allocs == nr_allocs + 2);
++			CHECK(!percpu_counter_tree_activate_many(&c.tree, 1, GFP_KERNEL));
++			CHECK(hpcc_nr_allocs == nr_allocs + 2);
 +		}
-+		check_counter(t);
-+		check_counter_pair(&c[0], &c[1]);
 +	}
-+	test_counter_destroy(&c[0]);
-+	test_counter_destroy(&c[1]);
++	test_counter_destroy(&c);
++	CHECK(hpcc_nr_allocs == nr_allocs);
 +}
 +
-+static const unsigned int test_nr_cpus[] = {
-+	1, 2, 3, 4, 5, 8, 9, 16, 17, 32, 33, 64, 65, 100, 128, 256, 512,
-+	1000, 1024, 2048, 4096, 8192, 16384, 32768, 65536,
-+};
-+
-+/* Exhaustive mode: also cover the largest supported configurations. */
-+static const unsigned int test_nr_cpus_large[] = {
-+	1U << 17, 1U << 18, 1U << 19, 1U << 20,
-+};
-+
-+static const unsigned long test_batch_sizes[] = { 2, 4, 8, 16, 32, 64, 128 };
-+
-+static int test_num;
-+
-+static int run_case(unsigned int nr_cpus, unsigned long batch_size)
-+{
-+	/* Each check iterates over all CPUs: bound the random walk cost. */
-+	unsigned long nr_steps = 10000000 / nr_cpus;
-+
-+	if (nr_steps < 100)
-+		nr_steps = 100;
-+	if (nr_steps > 50000)
-+		nr_steps = 50000;
-+
-+	nr_case_failures = 0;
-+	hpcc_nr_warnings = 0;
-+	hpcc_init_topology(nr_cpus);
-+	test_saturated(batch_size, 1);
-+	test_saturated(batch_size, -1);
-+	test_random_walk(batch_size, nr_steps);
-+	CHECK(!hpcc_nr_warnings);
-+	printf("%sok %d - nr_cpus=%u batch_size=%lu\n", nr_case_failures ? "not " : "",
-+	       ++test_num, nr_cpus, batch_size);
-+	if (nr_case_failures > MAX_REPORTED_FAILURES)
-+		printf("#   ... %lu failed checks in total\n", nr_case_failures);
-+	return nr_case_failures ? 1 : 0;
-+}
-+
-+static int run_check_config(void)
-+{
-+	unsigned int nr_errors = percpu_counter_tree_check_config();
-+
-+	printf("%sok %d - configuration table\n", nr_errors ? "not " : "", ++test_num);
-+	return nr_errors ? 1 : 0;
-+}
-+
-+static void usage(const char *name)
-+{
-+	fprintf(stderr, "Usage: %s [-a]\n", name);
-+	fprintf(stderr, "  -a  Also test the largest supported numbers of CPUs (slow).\n");
-+}
-+
-+int main(int argc, char **argv)
-+{
-+	unsigned int i, j, nr_tests;
-+	bool large = false;
-+	int failed = 0;
-+
-+	if (argc > 2 || (argc == 2 && strcmp(argv[1], "-a"))) {
-+		usage(argv[0]);
-+		return 2;
-+	}
-+	if (argc == 2)
-+		large = true;
-+
-+	nr_tests = 1 + ARRAY_SIZE(test_nr_cpus) * ARRAY_SIZE(test_batch_sizes);
-+	if (large)
-+		nr_tests += ARRAY_SIZE(test_nr_cpus_large) * ARRAY_SIZE(test_batch_sizes);
-+	printf("1..%u\n", nr_tests);
-+
-+	failed += run_check_config();
-+	for (i = 0; i < ARRAY_SIZE(test_nr_cpus); i++)
-+		for (j = 0; j < ARRAY_SIZE(test_batch_sizes); j++)
-+			failed += run_case(test_nr_cpus[i], test_batch_sizes[j]);
-+	if (large) {
-+		for (i = 0; i < ARRAY_SIZE(test_nr_cpus_large); i++)
-+			for (j = 0; j < ARRAY_SIZE(test_batch_sizes); j++)
-+				failed += run_case(test_nr_cpus_large[i], test_batch_sizes[j]);
-+	}
-+	printf("# %d/%u test cases failed\n", failed, nr_tests);
-+	return failed ? 1 : 0;
-+}
+ static const unsigned int test_nr_cpus[] = {
+ 	1, 2, 3, 4, 5, 8, 9, 16, 17, 32, 33, 64, 65, 100, 128, 256, 512,
+ 	1000, 1024, 2048, 4096, 8192, 16384, 32768, 65536,
+@@ -373,6 +419,7 @@ static int run_case(unsigned int nr_cpus, unsigned long batch_size)
+ 	test_saturated(batch_size, 1);
+ 	test_saturated(batch_size, -1);
+ 	test_random_walk(batch_size, nr_steps);
++	test_lazy(batch_size, nr_steps / 2);
+ 	CHECK(!hpcc_nr_warnings);
+ 	printf("%sok %d - nr_cpus=%u batch_size=%lu\n", nr_case_failures ? "not " : "",
+ 	       ++test_num, nr_cpus, batch_size);
 -- 
 2.47.3
 
