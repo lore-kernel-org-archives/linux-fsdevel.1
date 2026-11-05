@@ -1,110 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.198
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793877461;
-	b=c4pdm7DC/WrAvA+m5AHn99B6/q0ZK8rniT4oTKlX+EBTm8ivEFAuNMTUa9Bo/VLy8HWJ
-	 9jCVhlJgBmnHxzD5bD06QxrVqfz0S3qY2JFuN8+7b3ueAu1vM5fUv0WAYFXGTyXEc1Ach
-	 r/0z/1u7cctXW7KpG1P6PF/M3gKqlgWOhyqU8I7INkicsHBIbCUrEieXOD+xZhXHJKdVZ
-	 yfGg7cJ9/TOBmJ311pSSDLbmUkTkE9XxKM74NTzttRrWTzwjaoitb7KLAk70HFVnKBUEQ
-	 cVUcQn+IqBKS1KvfiRpbmhaUqZYBCoeFqZMQGY3Jt2gvlscpopEY2calr/cqymt4DNQ==
+	t=1793877757;
+	b=41ArC4+78QBeNIflqNO2rVoMzod66eFXU0EZ08ErW77o05+3brZIAHPpN+ZKxy69B/js
+	 2Mqr6sMBz2faa7MZ/+uIaw3Nc2gn7zFHtHMiF9saBEUH5G8R4OSwkDWpSQMoiNU3FMzWO
+	 10hXPTtWEupzgh9B+h8EJamhzB99X+RrQ2LLTlGnVQvqip7avMcarRpkQOIYUiYj5Tdas
+	 YM+iDgJZzeGtKPSZ7bXHUz0p1iWgp/oALHdozlrR0KTWEU4xFPmMWyNJhB7Zg4tEW5yIF
+	 sRi/XVwnOm+Gk5c+aKJXwrPnXEi9s4M0R/vs48yDdDT3WFQheGgq2zkY2u01AqIWnOg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793877461;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:
-	 X-Spam-Score;
-	bh=msp994urLwWxZ+8aYsZyEqhRjD4sYQdz1y2nQk5mPq4=;
-	b=U11cZD3RNY66WqB8ay+VVrRVq3mu6l2lAWmQWdzoc+rc4MwhrRoDrdz6xm1p2sq9s6Nr
-	 B8hVZMaKYQSXsE7138HhoNBldKmTrMpNJ6RcWOUU1R1MsT0/+j4Pc4AZ1+1supQdmE9n3
-	 nLe+pQbO5r5wUjpkdRW3WkiNCHdWMTWZrHvTG0XbIYG9gw+fT9PTE41kAr23hIbS56G1p
-	 KE3sHCx7ClEBsXOLRei/YbSpLAap5x77d8bRMdndrVeOWgsTCZdChCm0B1j42Ye7sCX8s
-	 u18+rR3tn93q2mnvedoHH3xhkcH3McTRn+McDcr0exYlMe9RSlf3JuQQMRDaufcrW6A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793877757;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:MIME-Version:X-Received:Date:
+	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
+	 Subject:From:To:Content-Type;
+	bh=0HDImICxJh3jNrQBVW5054s3CUghVutij9O/9PEuBwI=;
+	b=rpzyVaWmeLUYSJRsOZdI84HC6pB7yJqpyc5vmReIm6YuW6aq3g4OybBok3eEMX/NoPOO
+	 YQhoakYUBSyxRkS9kpFvELFtoYwtEHmptKs919lKj/Otah3MHrX8nues7HUaExtZhux82
+	 IkwEmy5KT2hu1w4WYSivm1heuMbcUvS4WqL2WtXfgksljzJbEo9V8qtqCQ/A9b0NZOx6E
+	 zrqJoiRkFPAH8aTEfnK3BjfxchAeYubDrRdjLEw2CwnCjRtGnFMt+aILp5KpChAlrwKgJ
+	 ifUep75o7fZEmEsfcli/R8Rfoj7TLkbSUiC5UZW9srbCm7Hhjhfkn0QHkdC/+996K0w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=eGgRAWHu;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=pAoGLGsF;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=eGgRAWHu;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=pAoGLGsF;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=fail header.from=syzkaller.appspotmail.com;
+	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
+	arc=none smtp.remote-ip=209.85.167.198
+Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com [209.85.167.198])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41C65606A333
-	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 11:17:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 41C65606A333
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=eGgRAWHu;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=pAoGLGsF;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=eGgRAWHu;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=pAoGLGsF
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id CE1F41F387;
-	Thu,  5 Nov 2026 11:17:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793877459; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=msp994urLwWxZ+8aYsZyEqhRjD4sYQdz1y2nQk5mPq4=;
-	b=eGgRAWHugwcD81/MIon8cosx7yQKkZfHQGU/MtDuAQfw5cFJTjll9ZH+FvjRslBzeAMtKB
-	VAcHhy2ZfJsLzkxsmaEFp3CXQTIfFJFBlxbDLPxM0OJ8FO3+16CsAezMOpRzaw3CW4Vyza
-	8Ozo+55DOgg1z5JryW+V6PtHGMzhfZM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793877459;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=msp994urLwWxZ+8aYsZyEqhRjD4sYQdz1y2nQk5mPq4=;
-	b=pAoGLGsFQkmWFSVeNDIZS06OfRA3GRGhyCOPwdfqrRhAzX1J3xukAMIbyhmXb5cko0PbA8
-	9wZgQhP8LWq9S3AQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793877459; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=msp994urLwWxZ+8aYsZyEqhRjD4sYQdz1y2nQk5mPq4=;
-	b=eGgRAWHugwcD81/MIon8cosx7yQKkZfHQGU/MtDuAQfw5cFJTjll9ZH+FvjRslBzeAMtKB
-	VAcHhy2ZfJsLzkxsmaEFp3CXQTIfFJFBlxbDLPxM0OJ8FO3+16CsAezMOpRzaw3CW4Vyza
-	8Ozo+55DOgg1z5JryW+V6PtHGMzhfZM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793877459;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=msp994urLwWxZ+8aYsZyEqhRjD4sYQdz1y2nQk5mPq4=;
-	b=pAoGLGsFQkmWFSVeNDIZS06OfRA3GRGhyCOPwdfqrRhAzX1J3xukAMIbyhmXb5cko0PbA8
-	9wZgQhP8LWq9S3AQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 21806134F4;
-	Thu,  5 Nov 2026 11:17:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id j89PKbpl7GruWwAAD6G6ig:T4
-	(envelope-from <ddiss@suse.de>); Thu, 05 Nov 2026 11:17:37 +0000
-From: David Disseldorp <ddiss@suse.de>
-To: linux-fsdevel@vger.kernel.org,
-	Christian Brauner <brauner@kernel.org>
-Cc: David Disseldorp <ddiss@suse.de>
-Subject: [PATCH 3/3] initramfs_test: test clean_path collisions
-Date: Thu,  5 Nov 2026 22:10:01 +1100
-Message-ID: <20261105111654.214569-4-ddiss@suse.de>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261105111654.214569-1-ddiss@suse.de>
-References: <20261105111654.214569-1-ddiss@suse.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0AF6606A32E
+	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 11:22:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F0AF6606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f198.google.com with SMTP id 5614622812f47-5384e381fbbso1516857b6e.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 03:22:36 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793877756; x=1794482556;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=0HDImICxJh3jNrQBVW5054s3CUghVutij9O/9PEuBwI=;
+        b=To98V0cGnQHbtXImFBQzAPrn3uSZnwoBUdR8OBue0L+SDPnxxoueZSIz3ZlLSRa+mn
+         6WfQMfV1bEzFFrwyO7jMf/epw1Z6HoqEDukWIJ6R/CuoVgXZp7GxS5NzUxZfVARcOdES
+         SZNty1iRHpV31NXgbSHJhpDjIyNbebzd39vSVH3o2A5eGtFrOjA3TS6sBhj1GdiTUinp
+         wkrivAMSGIgey1gj5RbmGevY+W2IglNUagjOsLkEdUPvEoATiPXVbNpt+5QDM9U/AdOm
+         s3K3G6DAM5A02FofJzYJllP2H/VfdyDr5k/GKSmvVa4W/lsDywyPhVTFmAiQfJz3x1YE
+         +RAQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzGoN+gEvxGnwPv+pqA9UrNM89Nimesx1v7jChVxOGKlARCyG6x1EK8cZSt65yauhuA0x+tCfr3TN5+ZNP7@vger.kernel.org
+X-Gm-Message-State: APuU4Z/VQXq8INjtZTiIuigG9STmfrUHV8hHxryTW8DmjrfMehnEJ+yC
+	Y/cBA9PH4nv2YXXkbxlw0tBkpf7WRI+W8BfbNNLK5Uco7Pa9QvVRtCvRjXlbpygdQmDJ4HldbCq
+	SFMdr6RPkptQK610+YmW620eXOKR2ihMPqs8p9yAr+fel6pzs4EsDbB7Fkbk=
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -114,231 +58,340 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spamd-Result: default: False [-11.80 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.996];
-	MIME_GOOD(-0.10)[text/plain];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email];
-	FROM_HAS_DN(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCPT_COUNT_THREE(0.00)[3];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Score: -11.80
+X-Received: by 2002:a05:6808:1b2c:b0:4e5:2f2e:45b4 with SMTP id
+ 5614622812f47-5640dc2a7a3mr12521050b6e.21.1793877756067; Thu, 05 Nov 2026
+ 03:22:36 -0800 (PST)
+Date: Thu, 05 Nov 2026 03:22:36 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6aec66fc.059f5055.2712e4.0001.GAE@google.com>
+Subject: [syzbot] [fs?] [mm?] possible deadlock in hugetlbfs_file_mmap
+From: syzbot <syzbot+d7d72f3d467710442af0@syzkaller.appspotmail.com>
+To: david@kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, muchun.song@linux.dev, 
+	netdev@vger.kernel.org, osalvador@suse.de, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-initramfs unpack handles path collisions by removing an existing path
-if S_IFMT flags differ from a subsequent cpio entry with the same name.
-These tests exercise some of the corner cases.
+Hello,
 
-Signed-off-by: David Disseldorp <ddiss@suse.de>
+syzbot found the following issue on:
+
+HEAD commit:    c3e67bd82b9b ipv6: reject wrapped temporary address prefer..
+git tree:       net
+console output: https://syzkaller.appspot.com/x/log.txt?x=15c1162d580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=d30e1495ee3ac817
+dashboard link: https://syzkaller.appspot.com/bug?extid=d7d72f3d467710442af0
+compiler:       Debian clang version 22.1.8 (1~deb13u4), Debian LLD 22.1.8
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/e07bb7d41be1/disk-c3e67bd8.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/d44a4b5bff57/vmlinux-c3e67bd8.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/a7ebe221505e/bzImage-c3e67bd8.xz
+
+AI-generated root cause summary:
+In the Network Block Device (NBD) driver, sockets used for block transport must
+be reclassified to dedicated lockdep lock classes (sk_lock-AF_INET-NBD) to avoid
+false and real circular locking dependencies with userspace network sockets that
+acquire mm->mmap_lock on page faults. While nbd_add_socket() properly invokes
+nbd_reclassify_socket(), nbd_genl_reconnect_sock_cb() replaces dead sockets
+during reconnection via nbd_get_socket() without calling
+nbd_reclassify_socket(). As a result, the reconnected socket retains the generic
+sk_lock-AF_INET lock class, causing socket operations like
+kernel_sock_shutdown() executed under &nsock->tx_lock (e.g., in recv_work ->
+nbd_mark_nsock_dead) to register a dependency chain from fs_reclaim through
+blk-mq queue usage, elevator lock, &cmd->lock, and &nsock->tx_lock to
+sk_lock-AF_INET and mm->mmap_lock, producing a circular locking dependency
+warning.
+
+full analysis:  https://syzkaller.appspot.com/x/ai_root_cause?x=d7d72f3d467710442af0
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+d7d72f3d467710442af0@syzkaller.appspotmail.com
+
+netlink: 8 bytes leftover after parsing attributes in process `syz.2.139'.
+======================================================
+WARNING: possible circular locking dependency detected
+syzkaller #0 Not tainted
+------------------------------------------------------
+syz.2.139/6452 is trying to acquire lock:
+ffffffff90094cc0 (fs_reclaim){+.+.}-{0:0}, at: might_alloc include/linux/sched/mm.h:316 [inline]
+ffffffff90094cc0 (fs_reclaim){+.+.}-{0:0}, at: slab_pre_alloc_hook mm/slub.c:4673 [inline]
+ffffffff90094cc0 (fs_reclaim){+.+.}-{0:0}, at: slab_alloc_node mm/slub.c:5011 [inline]
+ffffffff90094cc0 (fs_reclaim){+.+.}-{0:0}, at: __kmalloc_cache_noprof+0x61/0x600 mm/slub.c:5676
+
+but task is already holding lock:
+ffff88803e6af1b0 (&sb->s_type->i_mutex_key#24){+.+.}-{4:4}, at: inode_lock include/linux/fs.h:1024 [inline]
+ffff88803e6af1b0 (&sb->s_type->i_mutex_key#24){+.+.}-{4:4}, at: hugetlbfs_file_mmap+0x2de/0x630 fs/hugetlbfs/inode.c:138
+
+which lock already depends on the new lock.
+
+
+the existing dependency chain (in reverse order) is:
+
+-> #8 (&sb->s_type->i_mutex_key#24){+.+.}-{4:4}:
+       down_write+0x91/0x200 kernel/locking/rwsem.c:1631
+       inode_lock include/linux/fs.h:1024 [inline]
+       hugetlbfs_file_mmap+0x2de/0x630 fs/hugetlbfs/inode.c:138
+       vfs_mmap include/linux/fs.h:2068 [inline]
+       mmap_file mm/internal.h:256 [inline]
+       __mmap_new_file_vma mm/vma.c:2623 [inline]
+       __mmap_new_vma mm/vma.c:2720 [inline]
+       __mmap_region mm/vma.c:3054 [inline]
+       mmap_region+0x1d5e/0x2840 mm/vma.c:3136
+       do_mmap+0xe0a/0x1300 mm/mmap.c:573
+       vm_mmap_pgoff+0x27a/0x520 mm/util.c:581
+       ksys_mmap_pgoff+0x57d/0x760 mm/mmap.c:619
+       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+       do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #7 (&mm->mmap_lock){++++}-{4:4}:
+       __might_fault+0xcb/0x130 mm/memory.c:7530
+       _copy_from_iter+0x100/0x1680 lib/iov_iter.c:271
+       copy_from_iter include/linux/uio.h:236 [inline]
+       copy_from_iter_full include/linux/uio.h:253 [inline]
+       skb_do_copy_data_nocache include/net/sock.h:2333 [inline]
+       skb_copy_to_page_nocache include/net/sock.h:2359 [inline]
+       tcp_sendmsg_locked+0x214a/0x53c0 net/ipv4/tcp.c:1321
+       tcp_sendmsg+0x2f/0x50 net/ipv4/tcp.c:1462
+       sock_sendmsg_nosec+0x10f/0x190 net/socket.c:801
+       __sock_sendmsg net/socket.c:818 [inline]
+       sock_write_iter+0x2de/0x3e0 net/socket.c:1269
+       new_sync_write fs/read_write.c:595 [inline]
+       vfs_write+0x612/0xba0 fs/read_write.c:687
+       ksys_write+0x150/0x270 fs/read_write.c:739
+       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+       do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #6 (sk_lock-AF_INET){+.+.}-{0:0}:
+       lock_sock_nested+0x41/0x100 net/core/sock.c:3908
+       lock_sock include/net/sock.h:1717 [inline]
+       inet_shutdown+0x6a/0x390 net/ipv4/af_inet.c:911
+       nbd_mark_nsock_dead+0x2cb/0x550 drivers/block/nbd.c:319
+       recv_work+0x1d14/0x1e30 drivers/block/nbd.c:1030
+       process_one_work kernel/workqueue.c:3495 [inline]
+       process_scheduled_works+0xc3d/0x1630 kernel/workqueue.c:3578
+       worker_thread+0xa47/0xfb0 kernel/workqueue.c:3659
+       kthread+0x38b/0x480 kernel/kthread.c:436
+       ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+-> #5 (&nsock->tx_lock){+.+.}-{4:4}:
+       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+       __mutex_lock+0x197/0x15a0 kernel/locking/mutex.c:821
+       nbd_handle_cmd drivers/block/nbd.c:1143 [inline]
+       nbd_queue_rq+0x373/0xff0 drivers/block/nbd.c:1207
+       blk_mq_dispatch_rq_list+0x499/0x1990 block/blk-mq.c:2131
+       __blk_mq_do_dispatch_sched block/blk-mq-sched.c:168 [inline]
+       blk_mq_do_dispatch_sched block/blk-mq-sched.c:182 [inline]
+       __blk_mq_sched_dispatch_requests+0xd36/0x1580 block/blk-mq-sched.c:307
+       blk_mq_sched_dispatch_requests+0xd7/0x190 block/blk-mq-sched.c:329
+       blk_mq_run_work_fn+0x167/0x2f0 block/blk-mq.c:2546
+       process_one_work kernel/workqueue.c:3495 [inline]
+       process_scheduled_works+0xc3d/0x1630 kernel/workqueue.c:3578
+       worker_thread+0xa47/0xfb0 kernel/workqueue.c:3659
+       kthread+0x38b/0x480 kernel/kthread.c:436
+       ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+-> #4 (&cmd->lock){+.+.}-{4:4}:
+       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+       __mutex_lock+0x197/0x15a0 kernel/locking/mutex.c:821
+       nbd_queue_rq+0xc1/0xff0 drivers/block/nbd.c:1199
+       blk_mq_dispatch_rq_list+0x499/0x1990 block/blk-mq.c:2131
+       __blk_mq_do_dispatch_sched block/blk-mq-sched.c:168 [inline]
+       blk_mq_do_dispatch_sched block/blk-mq-sched.c:182 [inline]
+       __blk_mq_sched_dispatch_requests+0xd36/0x1580 block/blk-mq-sched.c:307
+       blk_mq_sched_dispatch_requests+0xd7/0x190 block/blk-mq-sched.c:329
+       blk_mq_run_work_fn+0x167/0x2f0 block/blk-mq.c:2546
+       process_one_work kernel/workqueue.c:3495 [inline]
+       process_scheduled_works+0xc3d/0x1630 kernel/workqueue.c:3578
+       worker_thread+0xa47/0xfb0 kernel/workqueue.c:3659
+       kthread+0x38b/0x480 kernel/kthread.c:436
+       ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+-> #3 (set->srcu){.+.+}-{0:0}:
+       srcu_lock_sync include/linux/srcu.h:225 [inline]
+       __synchronize_srcu+0xca/0x2f0 kernel/rcu/srcutree.c:1662
+       elevator_switch+0x1e8/0x7b0 block/elevator.c:576
+       elevator_change+0x2fa/0x480 block/elevator.c:681
+       elevator_set_default+0x375/0x440 block/elevator.c:754
+       blk_register_queue+0x404/0x4f0 block/blk-sysfs.c:992
+       __add_disk+0x6b8/0xdb0 block/genhd.c:531
+       add_disk_fwnode+0x100/0x3a0 block/genhd.c:600
+       add_disk include/linux/blkdev.h:801 [inline]
+       nbd_dev_add+0x733/0xb60 drivers/block/nbd.c:2026
+       nbd_init+0x168/0x1f0 drivers/block/nbd.c:2743
+       do_one_initcall+0x250/0x870 init/main.c:1419
+       do_initcall_level+0x10a/0x1a0 init/main.c:1481
+       do_initcalls+0x59/0xa0 init/main.c:1497
+       kernel_init_freeable+0x29d/0x3e0 init/main.c:1732
+       kernel_init+0x22/0x1d0 init/main.c:1622
+       ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+-> #2 (&q->elevator_lock){+.+.}-{4:4}:
+       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+       __mutex_lock+0x197/0x15a0 kernel/locking/mutex.c:821
+       elevator_change+0x1af/0x480 block/elevator.c:679
+       elevator_set_none+0xb5/0x140 block/elevator.c:769
+       blk_mq_elv_switch_none block/blk-mq.c:5114 [inline]
+       __blk_mq_update_nr_hw_queues block/blk-mq.c:5159 [inline]
+       blk_mq_update_nr_hw_queues+0x5ef/0x19e0 block/blk-mq.c:5224
+       nbd_start_device+0x189/0xb30 drivers/block/nbd.c:1530
+       nbd_genl_connect+0x167d/0x1cd0 drivers/block/nbd.c:2310
+       genl_family_rcv_msg_doit+0x233/0x340 net/netlink/genetlink.c:1114
+       genl_family_rcv_msg net/netlink/genetlink.c:1194 [inline]
+       genl_rcv_msg+0x614/0x7a0 net/netlink/genetlink.c:1209
+       netlink_rcv_skb+0x226/0x4a0 net/netlink/af_netlink.c:2584
+       genl_rcv+0x28/0x40 net/netlink/genetlink.c:1218
+       netlink_unicast_kernel net/netlink/af_netlink.c:1335 [inline]
+       netlink_unicast+0x8ef/0xa80 net/netlink/af_netlink.c:1361
+       netlink_sendmsg+0x7f0/0xb20 net/netlink/af_netlink.c:1920
+       sock_sendmsg_nosec+0x14e/0x190 net/socket.c:800
+       __sock_sendmsg net/socket.c:818 [inline]
+       ____sys_sendmsg+0x54e/0x850 net/socket.c:2715
+       ___sys_sendmsg+0x2a5/0x360 net/socket.c:2769
+       __sys_sendmsg net/socket.c:2801 [inline]
+       __do_sys_sendmsg net/socket.c:2806 [inline]
+       __se_sys_sendmsg net/socket.c:2804 [inline]
+       __x64_sys_sendmsg+0x1b1/0x290 net/socket.c:2804
+       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+       do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #1 (&q->q_usage_counter(io)#49){++++}-{0:0}:
+       blk_alloc_queue+0x544/0x690 block/blk-core.c:505
+       blk_mq_alloc_queue block/blk-mq.c:4439 [inline]
+       __blk_mq_alloc_disk+0x194/0x390 block/blk-mq.c:4486
+       nbd_dev_add+0x494/0xb60 drivers/block/nbd.c:1996
+       nbd_init+0x168/0x1f0 drivers/block/nbd.c:2743
+       do_one_initcall+0x250/0x870 init/main.c:1419
+       do_initcall_level+0x10a/0x1a0 init/main.c:1481
+       do_initcalls+0x59/0xa0 init/main.c:1497
+       kernel_init_freeable+0x29d/0x3e0 init/main.c:1732
+       kernel_init+0x22/0x1d0 init/main.c:1622
+       ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+-> #0 (fs_reclaim){+.+.}-{0:0}:
+       check_prev_add kernel/locking/lockdep.c:3209 [inline]
+       check_prevs_add kernel/locking/lockdep.c:3328 [inline]
+       validate_chain kernel/locking/lockdep.c:3952 [inline]
+       __lock_acquire+0x164c/0x2de0 kernel/locking/lockdep.c:5288
+       lock_acquire+0x115/0x350 kernel/locking/lockdep.c:5942
+       __fs_reclaim_acquire mm/page_alloc.c:4360 [inline]
+       fs_reclaim_acquire+0x71/0x100 mm/page_alloc.c:4374
+       might_alloc include/linux/sched/mm.h:316 [inline]
+       slab_pre_alloc_hook mm/slub.c:4673 [inline]
+       slab_alloc_node mm/slub.c:5011 [inline]
+       __kmalloc_cache_noprof+0x61/0x600 mm/slub.c:5676
+       _kmalloc_noprof include/linux/slab.h:991 [inline]
+       resv_map_alloc+0x51/0x2c0 mm/hugetlb.c:1096
+       hugetlb_reserve_pages+0x36d/0x1160 mm/hugetlb.c:6813
+       hugetlbfs_file_mmap+0x475/0x630 fs/hugetlbfs/inode.c:152
+       vfs_mmap include/linux/fs.h:2068 [inline]
+       mmap_file mm/internal.h:256 [inline]
+       __mmap_new_file_vma mm/vma.c:2623 [inline]
+       __mmap_new_vma mm/vma.c:2720 [inline]
+       __mmap_region mm/vma.c:3054 [inline]
+       mmap_region+0x1d5e/0x2840 mm/vma.c:3136
+       do_mmap+0xe0a/0x1300 mm/mmap.c:573
+       vm_mmap_pgoff+0x27a/0x520 mm/util.c:581
+       ksys_mmap_pgoff+0x57d/0x760 mm/mmap.c:619
+       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+       do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+other info that might help us debug this:
+
+Chain exists of:
+  fs_reclaim --> &mm->mmap_lock --> &sb->s_type->i_mutex_key#24
+
+ Possible unsafe locking scenario:
+
+       CPU0                    CPU1
+       ----                    ----
+  lock(&sb->s_type->i_mutex_key#24);
+                               lock(&mm->mmap_lock);
+                               lock(&sb->s_type->i_mutex_key#24);
+  lock(fs_reclaim);
+
+ *** DEADLOCK ***
+
+locks held by syz.2.139/6452: 2, last CPU#1:
+ #0: ffff8880375bccc0 (&mm->mmap_lock){++++}-{4:4}, at: mmap_write_lock_killable include/linux/mmap_lock.h:550 [inline]
+ #0: ffff8880375bccc0 (&mm->mmap_lock){++++}-{4:4}, at: vm_mmap_pgoff+0x1ed/0x520 mm/util.c:579
+ #1: ffff88803e6af1b0 (&sb->s_type->i_mutex_key#24){+.+.}-{4:4}, at: inode_lock include/linux/fs.h:1024 [inline]
+ #1: ffff88803e6af1b0 (&sb->s_type->i_mutex_key#24){+.+.}-{4:4}, at: hugetlbfs_file_mmap+0x2de/0x630 fs/hugetlbfs/inode.c:138
+
+stack backtrace:
+CPU: 1 UID: 0 PID: 6452 Comm: syz.2.139 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/07/2026
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ print_circular_bug+0x2e2/0x300 kernel/locking/lockdep.c:2087
+ check_noncircular+0x12f/0x150 kernel/locking/lockdep.c:2219
+ check_prev_add kernel/locking/lockdep.c:3209 [inline]
+ check_prevs_add kernel/locking/lockdep.c:3328 [inline]
+ validate_chain kernel/locking/lockdep.c:3952 [inline]
+ __lock_acquire+0x164c/0x2de0 kernel/locking/lockdep.c:5288
+ lock_acquire+0x115/0x350 kernel/locking/lockdep.c:5942
+ __fs_reclaim_acquire mm/page_alloc.c:4360 [inline]
+ fs_reclaim_acquire+0x71/0x100 mm/page_alloc.c:4374
+ might_alloc include/linux/sched/mm.h:316 [inline]
+ slab_pre_alloc_hook mm/slub.c:4673 [inline]
+ slab_alloc_node mm/slub.c:5011 [inline]
+ __kmalloc_cache_noprof+0x61/0x600 mm/slub.c:5676
+ _kmalloc_noprof include/linux/slab.h:991 [inline]
+ resv_map_alloc+0x51/0x2c0 mm/hugetlb.c:1096
+ hugetlb_reserve_pages+0x36d/0x1160 mm/hugetlb.c:6813
+ hugetlbfs_file_mmap+0x475/0x630 fs/hugetlbfs/inode.c:152
+ vfs_mmap include/linux/fs.h:2068 [inline]
+ mmap_file mm/internal.h:256 [inline]
+ __mmap_new_file_vma mm/vma.c:2623 [inline]
+ __mmap_new_vma mm/vma.c:2720 [inline]
+ __mmap_region mm/vma.c:3054 [inline]
+ mmap_region+0x1d5e/0x2840 mm/vma.c:3136
+ do_mmap+0xe0a/0x1300 mm/mmap.c:573
+ vm_mmap_pgoff+0x27a/0x520 mm/util.c:581
+ ksys_mmap_pgoff+0x57d/0x760 mm/mmap.c:619
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f14e739fb19
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f14e8278028 EFLAGS: 00000246 ORIG_RAX: 0000000000000009
+RAX: ffffffffffffffda RBX: 00007f14e7625fa0 RCX: 00007f14e739fb19
+RDX: 0000000000000000 RSI: 0000000001400000 RDI: 0000200000000000
+RBP: 00007f14e7437b70 R08: ffffffffffffffff R09: 0000000000000000
+R10: 00000000000c3072 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f14e7626038 R14: 00007f14e7625fa0 R15: 00007ffebda95258
+ </TASK>
+
+
 ---
- init/initramfs_test.c | 173 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 173 insertions(+)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/init/initramfs_test.c b/init/initramfs_test.c
-index b6ed4490f018c..2d17c158b94d5 100644
---- a/init/initramfs_test.c
-+++ b/init/initramfs_test.c
-@@ -585,6 +585,176 @@ static void __init initramfs_test_dir_dataseg(struct kunit *test)
- 	kfree(tbufs);
- }
- 
-+static void __init initramfs_test_overwrite(struct kunit *test)
-+{
-+	char *err;
-+	size_t len;
-+	struct kstat st = {};
-+	struct initramfs_test_cpio c[] = { {
-+		.magic = "070701",
-+		.ino = 1,
-+		.mode = S_IFDIR | 0777,
-+		.nlink = 1,
-+		.namesize = sizeof("dir_to_file"),
-+		.fname = "dir_to_file",
-+	}, {
-+		.magic = "070701",
-+		.ino = 2,
-+		/* S_IFDIR->S_IFREG: rmdir(existing) and replace */
-+		.mode = S_IFREG | 0766,
-+		.nlink = 1,
-+		.namesize = sizeof("dir_to_file"),
-+		.fname = "dir_to_file",
-+	}, {
-+		.magic = "070701",
-+		.ino = 3,
-+		.mode = S_IFREG | 0777,
-+		.nlink = 1,
-+		.namesize = sizeof("file_to_dir"),
-+		.fname = "file_to_dir",
-+	}, {
-+		.magic = "070701",
-+		.ino = 4,
-+		/* S_IFREG->S_IFDIR: unlink(existing) and replace */
-+		.mode = S_IFDIR | 0766,
-+		.nlink = 1,
-+		.namesize = sizeof("file_to_dir"),
-+		.fname = "file_to_dir",
-+	} };
-+	struct initramfs_test_bufs {
-+		char cpio_src[(CPIO_HDRLEN + PATH_MAX + 3) * ARRAY_SIZE(c)];
-+	} *tbufs = kzalloc_obj(struct initramfs_test_bufs);
-+
-+	len = fill_cpio(c, ARRAY_SIZE(c), false, tbufs->cpio_src);
-+
-+	err = unpack_to_rootfs(tbufs->cpio_src, len);
-+	KUNIT_EXPECT_NULL(test, err);
-+
-+	KUNIT_EXPECT_EQ(test, init_stat("dir_to_file", &st, 0), 0);
-+	KUNIT_EXPECT_EQ(test, st.mode, S_IFREG | 0766);
-+	KUNIT_EXPECT_EQ(test, init_unlink("dir_to_file"), 0);
-+	KUNIT_EXPECT_EQ(test, init_stat("file_to_dir", &st, 0), 0);
-+	KUNIT_EXPECT_EQ(test, st.mode, S_IFDIR | 0766);
-+	KUNIT_EXPECT_EQ(test, init_rmdir("file_to_dir"), 0);
-+	kfree(tbufs);
-+}
-+
-+static void __init initramfs_test_overwrite_trunc(struct kunit *test)
-+{
-+	char *err;
-+	size_t len;
-+	struct kstat st = {};
-+	struct file *file;
-+	char fdata_long[] = "loooooooooooooooong";
-+	char fdata_short[] = "short";
-+	struct initramfs_test_cpio c[] = { {
-+		.magic = "070701",
-+		.ino = 1,
-+		.mode = S_IFREG | 0766,
-+		.nlink = 1,
-+		.namesize = sizeof("file_to_file"),
-+		.fname = "file_to_file",
-+		.filesize = sizeof(fdata_long),
-+		.data = fdata_long,
-+	}, {
-+		.magic = "070701",
-+		.ino = 2,
-+		/* S_IFREG->S_IFREG: chmod/truncate/fill */
-+		.mode = S_IFREG | 0755,
-+		.nlink = 1,
-+		.namesize = sizeof("file_to_file"),
-+		.fname = "file_to_file",
-+		.filesize = sizeof(fdata_short),
-+		.data = fdata_short,
-+	} };
-+	struct initramfs_test_bufs {
-+		char iobuf[sizeof(fdata_short)];
-+		char cpio_src[(CPIO_HDRLEN + PATH_MAX + 3) * ARRAY_SIZE(c)];
-+	} *tbufs = kzalloc_obj(struct initramfs_test_bufs);
-+
-+	len = fill_cpio(c, ARRAY_SIZE(c), false, tbufs->cpio_src);
-+
-+	err = unpack_to_rootfs(tbufs->cpio_src, len);
-+	KUNIT_EXPECT_NULL(test, err);
-+
-+	KUNIT_EXPECT_EQ(test, init_stat("file_to_file", &st, 0), 0);
-+	KUNIT_EXPECT_EQ(test, st.mode, S_IFREG | 0755);
-+	if (st.size != sizeof(fdata_short)) {
-+		KUNIT_FAIL(test, "unexpected st.size");
-+		goto out;
-+	}
-+
-+	file = filp_open("file_to_file", O_RDONLY, 0);
-+	if (IS_ERR(file)) {
-+		KUNIT_FAIL(test, "open failed");
-+		goto out;
-+	}
-+	len = kernel_read(file, tbufs->iobuf, st.size, NULL);
-+	KUNIT_EXPECT_EQ(test, len, st.size);
-+	KUNIT_EXPECT_MEMEQ(test, tbufs->iobuf, fdata_short, len);
-+	fput(file);
-+	KUNIT_EXPECT_EQ(test, init_unlink("file_to_file"), 0);
-+out:
-+	kfree(tbufs);
-+}
-+
-+static void __init initramfs_test_overwrite_parent(struct kunit *test)
-+{
-+	char *err;
-+	size_t len;
-+	struct kstat st = {};
-+	struct initramfs_test_cpio c[] = { {
-+		.magic = "070701",
-+		.ino = 5,
-+		.mode = S_IFDIR | 0777,
-+		.nlink = 1,
-+		.namesize = sizeof("parent_dir_to_file"),
-+		.fname = "parent_dir_to_file",
-+	}, {
-+		.magic = "070701",
-+		.ino = 6,
-+		.mode = S_IFDIR | 0777,
-+		.nlink = 1,
-+		.namesize = sizeof("parent_dir_to_file/child"),
-+		.fname = "parent_dir_to_file/child",
-+	}, {
-+		.magic = "070701",
-+		.ino = 7,
-+		/* S_IFDIR->S_IFREG ignored: rmdir(parent) fails */
-+		.mode = S_IFREG | 0666,
-+		.nlink = 1,
-+		.namesize = sizeof("parent_dir_to_file"),
-+		.fname = "parent_dir_to_file",
-+	}, {
-+		.magic = "070701",
-+		.ino = 8,
-+		.mode = S_IFREG | 0777,
-+		.nlink = 1,
-+		.namesize = sizeof("last"),
-+		.fname = "last",
-+	} };
-+	struct initramfs_test_bufs {
-+		char cpio_src[(CPIO_HDRLEN + PATH_MAX + 3) * ARRAY_SIZE(c)];
-+	} *tbufs = kzalloc_obj(struct initramfs_test_bufs);
-+
-+	len = fill_cpio(c, ARRAY_SIZE(c), false, tbufs->cpio_src);
-+
-+	err = unpack_to_rootfs(tbufs->cpio_src, len);
-+	KUNIT_EXPECT_NULL(test, err);
-+
-+	KUNIT_EXPECT_EQ(test, init_stat("parent_dir_to_file", &st, 0), 0);
-+	KUNIT_EXPECT_EQ(test, st.mode, S_IFDIR | 0777);
-+	KUNIT_EXPECT_EQ(test, init_stat("parent_dir_to_file/child", &st, 0), 0);
-+	KUNIT_EXPECT_TRUE(test, S_ISDIR(st.mode));
-+	KUNIT_EXPECT_EQ(test, init_rmdir("parent_dir_to_file/child"), 0);
-+	KUNIT_EXPECT_EQ(test, init_rmdir("parent_dir_to_file"), 0);
-+	KUNIT_EXPECT_EQ(test, init_stat("last", &st, 0), 0);
-+	KUNIT_EXPECT_TRUE(test, S_ISREG(st.mode));
-+	KUNIT_EXPECT_EQ(test, init_unlink("last"), 0);
-+
-+	kfree(tbufs);
-+}
-+
- /*
-  * The kunit_case/_suite struct cannot be marked as __initdata as this will be
-  * used in debugfs to retrieve results after test has run.
-@@ -600,6 +770,9 @@ static struct kunit_case __refdata initramfs_test_cases[] = {
- 	KUNIT_CASE(initramfs_test_fname_path_max),
- 	KUNIT_CASE(initramfs_test_hdr_hex),
- 	KUNIT_CASE(initramfs_test_dir_dataseg),
-+	KUNIT_CASE(initramfs_test_overwrite),
-+	KUNIT_CASE(initramfs_test_overwrite_trunc),
-+	KUNIT_CASE(initramfs_test_overwrite_parent),
- 	{},
- };
- 
--- 
-2.56.0
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
