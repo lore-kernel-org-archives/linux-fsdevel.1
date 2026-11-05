@@ -1,48 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793882556;
-	b=zJWBd5B5ikJ64u3LmCmrOCQtIxd7wGO9GGaK1Ah51ZcCUosur0jWuzD/GK9DAro9jLPU
-	 fW1UC8Rvz83BqICMg1QjblKr29jhBZTxGvZxlphV/ioo6uOsynyzHafOxM6PKpxCbLP29
-	 R36o3UapuyyjAO5RsqvZHNxKJIdukkrF8rg7vlKdsjogD6rtftq3ZXdwj/clCVMiy1LRg
-	 8pB59SgPq2+4h80nE9d6o2Im1MSDu03m5ynN6MBs3Pg8QIQVziHdSu2WkMl4dk3fJML3x
-	 zNT0QDPUPsFwwhB/BMLj4nzqBHfxK7fxIiGq3+WtDz+SSHVgiMaQBHJ63Pe3LVrPgLw==
+	t=1793882571;
+	b=JvhcQIGMrayvQUXh6Q6ttfQ3g0hPUbx3Ps11aaINEUKvWXt4yEenzBxGv+Q0qeJiCRVO
+	 cqmqupfE4fc+ZuRd61jnb5VC3+0huyLpskOAcaZyT3naOZpYpJ07HE3rRzUB7OqGP1QGl
+	 MztxpGkepRDyKtzSyMsxJEANj9y4cnAGmkZr88PAs0oFUTo+kwNMHB2sr8lsx7ikrAeEJ
+	 buJ95rXpzokJVljSfpoVxBn88/xyJT0GXrFky4dVKlnhjU8e6G+mya+lluXW1j1e43Xys
+	 5TpQcs5y+6la8KrVFAsVWqmjWEBJ7Yj4UBDvV0Y49T1fn5ayzkNrnwm30SEjxCy09BQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793882556;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793882571;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=GrzNqira/q6xHj3RrsdinaJQRvF/Byboo3gR6uCrG+E=;
-	b=nnR0e9ArQkzUF2AUm3wnRHV++52PeaGsn2hYTDJ02cw9ABnBV8lyuVDtqPf4e2H1GGsF
-	 2k/fIhexJsqkrI1HhAO4jr4rk2Wl969Zt9xcbEW+g+HfiwGD4xdNmZlI2fOmt92tFU1AK
-	 /FRGnxjAVG45Jd/By3Mxt6Bs650BBKiAEal96mkR64EYJHCJDCvV1FtTi0wbnuxraqQ9h
-	 7pvNx5WWTTmOQhXo1CmsePu6sCtNvf6DgeD9s6+4LpZXyzyPBceXcwOOcgRiE2gNkqjGN
-	 jN16PViUP2xbNg+oNKI9yfOwGy+ClIzIIsP/Uafiyq9nNGU/rAY2vyn+RrEPQ1XTFJg==
+	bh=17n60/t2P67mde7UFdTZTcEcl1DYU83c2e3eW9XUAxg=;
+	b=dQTIckBGBC2fz9ijKxERGbMVRFszAN6XXCPgbZJeZSCpj3pATA08ISbEhAnjp5gKaSMU
+	 5FL6DPgBiGY7+opukBi3LHB1+I1F/MY7mQ4bc/dERkYMa+zSrSmxyyCJbSc/OdylPg5W/
+	 Oz2NRzshlV8kgl1BW/32mauJ3E5tCMpBxy+Cm1YP2hsu367ptROGvv3jbOkjEhckHXdNa
+	 ytAGy4h3n4c5Z0z1iQnxv2rDg7yrj493ZQR5O6PWcbWX3rTGbeluZbx8ay8FHYiDOg/Vo
+	 BjtYDfQS3NsP69dj1X/WluuZk//WOb8oBJ2ldIdQ7H4iZxWIg+2hqRt7GYc5iJc8XTA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=el6gG2CF;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Iq7apeWx;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B59E5606A330;
-	Thu,  5 Nov 2026 12:42:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E509606D836;
+	Thu,  5 Nov 2026 12:42:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=el6gG2CF
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB6D31F00919;
-	Thu,  5 Nov 2026 12:42:32 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Iq7apeWx
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70BF41F0093A;
+	Thu,  5 Nov 2026 12:42:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793882555;
-	bh=GrzNqira/q6xHj3RrsdinaJQRvF/Byboo3gR6uCrG+E=;
+	s=k20260515; t=1793882571;
+	bh=17n60/t2P67mde7UFdTZTcEcl1DYU83c2e3eW9XUAxg=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=el6gG2CFcdrXCAeDx2IPQk0/AVofFq09Lvu48SEjZ2RbvD5uoJIPaGhAOxGU/x50t
-	 P4zFlWJzPFDTDyDCXfE8vX1o6oA7HmmriHey5gm4Ixy0oHuYIrHLxH9R08mLAqAW68
-	 FVMn/nbS6cVb32KJMA4x5jlmi+Q1VxGPYiJA9lNlnAHJT0BQ3IKHu4CgJxc8faR/CV
-	 dG/bRKYO5GhlCLfbci7opxY2+vmKqVSj/NAy1pgSV5OeG0kfugL3a82t5H8R++7QAt
-	 8mDW9FYSP1uiQYI1lzKoOJ4PJcCJLG4ZN5PTimOUtyPebGYNBLO/FusGDlq2TdLfhu
-	 UETPO0TvB89ZQ==
+	b=Iq7apeWxrKULcW1j7g55joJ+3wJkrT6z0bMK4hGE5a1u+KJn5ag3APZ5X2Et7Iwov
+	 5z9Og/noCqCSl8sL0LcGXE86KRmAiuOuKZgRJKWOVbyts1gCr70c/dUFFSvZuigU2H
+	 zX9/7Oi+09Z+coVl5xImDHOqLDLNQ+WMypum6fWDY88oIcJMZ//HmpLyUSRFXSYNtJ
+	 h0uP/WD78FlpvfeQTC0GaMNbnxBRJLRco04ALvD7EuukqPi6Ns1UM+f3Lr2FSzqx0y
+	 41ULBgllZ3hjgTHZnU16Y5wYQZpwf7dyKD6g9AEjEVQukJ3uf4xa0cqI5tVYf6kqpp
+	 n5QUt3ZuLWt0Q==
 From: Christian Brauner <brauner@kernel.org>
-Date: Thu, 05 Nov 2026 13:41:36 +0100
-Subject: [PATCH RFC v2 07/13] minix: add minix_inode_block() helper
+Date: Thu, 05 Nov 2026 13:41:41 +0100
+Subject: [PATCH RFC v2 12/13] fat: sync inode metadata in fat_evict_inode()
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -54,7 +54,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261105-work-inode-metadata_writeback-v2-7-48628c60c336@kernel.org>
+Message-Id: <20261105-work-inode-metadata_writeback-v2-12-48628c60c336@kernel.org>
 References: <20261105-work-inode-metadata_writeback-v2-0-48628c60c336@kernel.org>
 In-Reply-To: <20261105-work-inode-metadata_writeback-v2-0-48628c60c336@kernel.org>
 To: linux-fsdevel@vger.kernel.org, Jan Kara <jack@suse.cz>
@@ -67,111 +67,66 @@ Cc: Josef Bacik <josef@toxicpanda.com>, Chris Mason <mason@kernel.org>,
  Namjae Jeon <namjae.jeon@samsung.com>, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>, stable@vger.kernel.org
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3386; i=brauner@kernel.org;
- h=from:subject:message-id; bh=vP6nHnxbknUQxQ6VYZuCGgOUFmSvhp3UqRPap0CV+EU=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS9qZxxOba+LrlCOl6FJe/PBI2Pat/ELGREF74WkpbW2
- cnqu3FbRykLgxgXg6yYIotDu0m43HKeis1GmRowc1iZQIYwcHEKwERuzGb4n/Uz288nXmfDecef
- EZ4RteqFO1MsHrVr7ciPkZd8MqWZl+GfovFJnTOTDO+psEy8XMI2P+3Cs1mZs6y4XpvrC2re41N
- gBwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2085; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=OXUqvsCtU2kG/WbMso7j4UEzPtBq/0ADao3mPOR0UJ4=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS9qZy3IelJumR1guwJzbMsz3fYCTOxrfA9ruGZLrrl7
+ dfmsJTmjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgImU3GL4K2BmtVVuud/iCDG1
+ 2n2bruxd53Loeg0vQ9oVvaDfWy5vPc7wP5D1UZ7art3Wi57ZnXoQXC00lbP9wrtMm6C3e/q13tq
+ yMgAA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-Move the lookup of the block that holds an inode out of
-minix_V1_raw_inode() and minix_V2_raw_inode() into a helper.
-minix_sync_inode_metadata() is going to use it to find the block
-without reading it from disk.
+fat_write_inode() copies the inode into its directory entry, marks the
+buffer dirty and sets I_METADATA_WRITEBACK so that a later fsync()
+writes the entry out and waits for it. But the bit goes away with the
+inode. If the inode is evicted and read back in, fsync() finds a clean
+inode and returns while the directory entry might still be dirty or
+under writeback.
 
-No functional changes.
+Right now that can't happen because inode_lru_isolate() never lets go
+of an inode with I_METADATA_WRITEBACK set. That is about to change.
 
+So call fat_sync_inode_metadata() from fat_evict_inode() for a linked
+inode that still has the bit set. It syncs the metadata buffers as well
+so it replaces the mmb_sync() there, and it already looks the directory
+entry up in the buffer cache only.
+
+Do it before fat_free_eofblocks(). That one updates the directory entry
+again for a file with unused fallocated clusters and only waits for it
+on a sync mount. That's intentional (cf. [1]) and syncing after it
+would turn every such eviction into a synchronous write.
+
+[1]: https://lore.kernel.org/r/87v76co5dv.fsf@mail.parknet.co.jp
+
+Suggested-by: Jan Kara <jack@suse.cz>
 Cc: stable@vger.kernel.org # v7.3
-Reviewed-by: Jan Kara <jack@suse.cz>
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/minix/bitmap.c | 37 +++++++++++++++++++++++--------------
- fs/minix/minix.h  |  1 +
- 2 files changed, 24 insertions(+), 14 deletions(-)
+ fs/fat/inode.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/fs/minix/bitmap.c b/fs/minix/bitmap.c
-index abec438330a7..deac05472bef 100644
---- a/fs/minix/bitmap.c
-+++ b/fs/minix/bitmap.c
-@@ -103,21 +103,35 @@ unsigned long minix_count_free_blocks(struct super_block *sb)
- 		<< sbi->s_log_zone_size);
- }
- 
--struct minix_inode *
--minix_V1_raw_inode(struct super_block *sb, ino_t ino, struct buffer_head **bh)
-+/* Return the block that holds inode @ino or 0 if @ino is out of range. */
-+int minix_inode_block(struct super_block *sb, ino_t ino)
- {
--	int block;
- 	struct minix_sb_info *sbi = minix_sb(sb);
--	struct minix_inode *p;
-+	int inodes_per_block;
- 
- 	if (!ino || ino > sbi->s_ninodes) {
- 		printk("Bad inode number on dev %s: %ld is out of range\n",
- 		       sb->s_id, (long)ino);
--		return NULL;
-+		return 0;
+diff --git a/fs/fat/inode.c b/fs/fat/inode.c
+index d85c8fbdcca4..df4616636c65 100644
+--- a/fs/fat/inode.c
++++ b/fs/fat/inode.c
+@@ -693,7 +693,16 @@ static void fat_evict_inode(struct inode *inode)
+ 		inode->i_size = 0;
+ 		fat_truncate_blocks(inode, 0);
+ 	} else {
+-		mmb_sync(&MSDOS_I(inode)->i_metadata_bhs);
++		/*
++		 * fsync() can't find what I_METADATA_WRITEBACK tracks once the
++		 * inode is gone. This syncs the metadata buffers as well.
++		 */
++		if (inode_state_read_once(inode) & I_METADATA_WRITEBACK)
++			fat_sync_inode_metadata(inode, &(struct writeback_control) {
++				.sync_mode = WB_SYNC_ALL,
++			});
++		else
++			mmb_sync(&MSDOS_I(inode)->i_metadata_bhs);
+ 		fat_free_eofblocks(inode);
  	}
-+	if (sbi->s_version == MINIX_V1)
-+		inodes_per_block = MINIX_INODES_PER_BLOCK;
-+	else
-+		inodes_per_block = sb->s_blocksize / sizeof(struct minix2_inode);
-+	return 2 + sbi->s_imap_blocks + sbi->s_zmap_blocks +
-+		 (ino - 1) / inodes_per_block;
-+}
-+
-+struct minix_inode *
-+minix_V1_raw_inode(struct super_block *sb, ino_t ino, struct buffer_head **bh)
-+{
-+	int block;
-+	struct minix_inode *p;
-+
-+	block = minix_inode_block(sb, ino);
-+	if (!block)
-+		return NULL;
- 	ino--;
--	block = 2 + sbi->s_imap_blocks + sbi->s_zmap_blocks +
--		 ino / MINIX_INODES_PER_BLOCK;
- 	*bh = sb_bread(sb, block);
- 	if (!*bh) {
- 		printk("Unable to read inode block\n");
-@@ -131,19 +145,14 @@ struct minix2_inode *
- minix_V2_raw_inode(struct super_block *sb, ino_t ino, struct buffer_head **bh)
- {
- 	int block;
--	struct minix_sb_info *sbi = minix_sb(sb);
- 	struct minix2_inode *p;
- 	int minix2_inodes_per_block = sb->s_blocksize / sizeof(struct minix2_inode);
  
- 	*bh = NULL;
--	if (!ino || ino > sbi->s_ninodes) {
--		printk("Bad inode number on dev %s: %ld is out of range\n",
--		       sb->s_id, (long)ino);
-+	block = minix_inode_block(sb, ino);
-+	if (!block)
- 		return NULL;
--	}
- 	ino--;
--	block = 2 + sbi->s_imap_blocks + sbi->s_zmap_blocks +
--		 ino / minix2_inodes_per_block;
- 	*bh = sb_bread(sb, block);
- 	if (!*bh) {
- 		printk("Unable to read inode block\n");
-diff --git a/fs/minix/minix.h b/fs/minix/minix.h
-index db92cf9e0e1b..67d8e2a7dc06 100644
---- a/fs/minix/minix.h
-+++ b/fs/minix/minix.h
-@@ -47,6 +47,7 @@ void __minix_error_inode(struct inode *inode, const char *function,
- 			 unsigned int line, const char *fmt, ...);
- 
- struct inode *minix_iget(struct super_block *, unsigned long);
-+int minix_inode_block(struct super_block *sb, ino_t ino);
- struct minix_inode *minix_V1_raw_inode(struct super_block *, ino_t, struct buffer_head **);
- struct minix2_inode *minix_V2_raw_inode(struct super_block *, ino_t, struct buffer_head **);
- struct inode *minix_new_inode(const struct inode *, umode_t);
 
 -- 
 2.53.0
