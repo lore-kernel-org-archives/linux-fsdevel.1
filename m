@@ -1,87 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793891610;
-	b=tSrYUIdqiPWSOzyJm7Cz1Ba2OIVm9Nr9H+tDrwpqgQ8c9bmUVOd8MZuR8ZzieDpeKNrc
-	 eND0YJ1cQqTZGNizF70A5519aQzL3wQA5BaFnTDAjaSuJCHlny7hJlqhlmCGtsjFim2RA
-	 u5TAnebUpLdH8q/ZM9p54Ry+RIiESmgtZ/4z7IXNqkGKE+mDtKCux9icg4wzLVGnAQcO0
-	 8Im/CnbS0Px5bGRY7wxBlQDTYvNULL9q/nAj8lDa6L55ttGZ0sRu+Fcl8uG5wqglnDJvp
-	 VC9jZeM+iUF2Sce5rlDtgV5ZcCrVTlOQ6qUfYzBbau5FwuM4ga64yzC27NgccaAc7UA==
+	t=1793891632;
+	b=SQc5Mg3M8r1uxvyQ+OSgxz97kgvQzgRF+LDPr7fLPE+zFtZfdBt9sqViKZ0Hzr2EV5Y0
+	 H7aTOw3EMSB+1hEc31Ntuq8wwzxWM+U/+XP6h7HbG/AMB6dxiLLG4iz7vEAjwRcIMHB+q
+	 03t2IDsNjtNKF6ezkPyy5kXc88uULBDMoZ+T4a6TuI0OV8+tYE9I/IHU4mqOlMbZhNpjs
+	 br3niEs3wpuvYYKjKPs2s0kiODK8WsqPDLcicYdkWHrR1ivIZdjShR8SDwO5MDsCXJB2G
+	 68XNnk3c7FpVWHfMweAG5B4ZhfZEezsmiXXYUUGEy2QV85k4GbFLPXPThpspw+AwfJQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793891610;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793891632;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Date:Subject:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
 	 References:In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=3EntorAO6uGRZa0XmiRAoxNunW5o1VJzJz1CYc+fDIg=;
-	b=TN0nJjgxcLU7Itr2ekxdV+dXN4TF6u7UwHsoZmMfrGMa5nb8a2JxB2Jtq3IgWppVEkln
-	 /YvSQWfzevtzVo5saF3UNnet+1xq/LWBnxDlFgWWX5ETVz/KkGXe20ssDHI11iCEjUaAK
-	 TdaKwE3nEEJbBwieg3qY4hOzXfvjSo4bZqECXyIEdDoHP/q2vARO6BqTVF6eKXCdHGAQi
-	 CZLBZRGabWlidLShqlpkbyYez2soOyn6CejHhSiDxsnrMWH2rP6O1Xc+uBd8PUcashBej
-	 74RN6cQYPJQ3S70C4etwttU0nsL2Sx/Ea9iCS6bTllmDvLs6jfjNFeEwj6A/qs9GyYA==
+	bh=eD/U90elOlLuZ8H1ZNNelJtjhWVVGMS1O6rYfNflbg8=;
+	b=hUZSR0JeF640hAIw30MuIiny/kY7t5dGVTwhBEzAerWFAurt778aKgLuVOSlpnTJY5Gp
+	 B3X9LQzSTzF1Qd2X0VE8BO5+oWburctlPZOt5P08MeOIsopKKTIFe/b0VkrL4A+IvF4D0
+	 0WOfvOr70iDoW+LKg+q03eliM2+rCWDjtNQgbm2q2zYeZ+CVNSOWTwTTo+hvH9R4QYHqL
+	 FV/IjPHbu/WcfkMzfOjR7UPpzYpZRGAYOqswbjMESxcILoBBmpQfwGTK+F1VS71yr/sbt
+	 9jHePYLOgUDLKuENDlp17AfEcJ0HVXZGDn5Ibg3h26/BdGUzrLLhOgdr0Jh/BJ2MZeQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=toxicpanda.com;
 	spf=pass smtp.mailfrom=toxicpanda.com;
-	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=hoykBM8z;
-	arc=none smtp.remote-ip=74.125.224.53
-Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
+	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=YaXOXgb2;
+	arc=none smtp.remote-ip=209.85.219.50
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04B10606A31B
-	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 15:13:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 04B10606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 951EF606A31B
+	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 15:13:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 951EF606A31B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=hoykBM8z
-Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-679aeeddc6bso2104923d50.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 07:13:28 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=YaXOXgb2
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-91c1f548f87so30717966d6.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 07:13:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toxicpanda.com; s=google; t=1793891608; x=1794496408; darn=vger.kernel.org;
+        d=toxicpanda.com; s=google; t=1793891630; x=1794496430; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=3EntorAO6uGRZa0XmiRAoxNunW5o1VJzJz1CYc+fDIg=;
-        b=hoykBM8zoBNM3xS79z2oaGRpmQ8DP66aiJndj5FeffpBvuhPGe7H41Ui66UX4iiXTP
-         qF/mo5pCvIBzND5Kbbd/9GbTt56HlAnOG/L2VdXfVzY96SVheILe+1pVVV6c+4pzZ1Ki
-         bYpDRMcSQUgO8K/cvjlUF5NzlGe2/8hb1g5Tkh0BKnTxzHmVGSHiR+Liw/L7l1MxWmYe
-         oRApjycvW8W1eLJV9xaAvpJVa3YDqgIC7SX6/G9jfx3XG961pftSiQ2cT5a6AZRqtOhv
-         kisF4QZQQ0pcbf9D67kNeatTwfYAyWSDqZycUUsiBLCjbxTZsDK61oqWRGtZwxaDGpu/
-         rQYQ==
+        bh=eD/U90elOlLuZ8H1ZNNelJtjhWVVGMS1O6rYfNflbg8=;
+        b=YaXOXgb2LB7UJyMuzhPZqITboSOeaC2R94lnsrvcdpcgMGVp5opbkAfjwS5NyH9YVQ
+         IhxxZAmVJGIjl3X5We14lSCXhHRUKb2XQE+2nj3FGdGOk+/o+KPQeo+OwyN6qpuKEXKR
+         vvagzx+Q8NPJR1bTBTYTfq525CwCkrGyGeXh+MUmW7GI1kdK0RRDxjPxCHcL6ZAiLo3O
+         qOnYF0HvER6+IeLjalRvvjES6TB+ECjErFeZkNgThhLMg5gfPm+s5EzZWhaBgpPIATAO
+         CgXGMXhyx5T1rW4SVOxmjnGGtbFbCI924ubephgWgS0oncXsD3NGaMSnp6ntK8jl3ReK
+         zwkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793891608; x=1794496408;
+        d=1e100.net; s=20260707; t=1793891630; x=1794496430;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=3EntorAO6uGRZa0XmiRAoxNunW5o1VJzJz1CYc+fDIg=;
-        b=bc4FskVNTV/whsmKkHxb8rdaD1pjoY7TA4Cu6sDjbzF+hak2nhDJQe0h6xI9piIR7p
-         o7+3kyBX+C/3L1Z6Cuz1gHSD+WBVz1NYfeyAib7YcbtMKe9Pm2aQTwJ2faKEoGLMcXh5
-         8jMPJaXrnf9BAi4RoG/IXYC4WX1HEsSgQ5cpZ1v1Ofv2+EBVrUriswTtc1AQt8i8tt/j
-         qVBuydNlhGGN6Y2gs7bhMt8JlDLhGuyL4DWo8mdEaDYfst9txvBEONpa8fjDgxDbrZjS
-         XGmbAlB5Saw4bTtrMZ5+Uq6FDA86xHsUz3kA325iwz5xRMuvjuDIO4NVLwfGDBgTCcGh
-         n4Dw==
-X-Gm-Message-State: APuU4Z8LI2W5IhNPfN0jOMSnrlJYfAEReXY1h8B/vKnTjpG1xV7S/EBY
-	BSTvWX/vv8xfxRuZMPNbEr1YIgFryuD1B6ITTBvYG27UwnIu+IkMIzy40Xik9c1AKg8=
-X-Gm-Gg: AYBFou1+3EYHWldzl1mQYL3l4qfpz+fyb3UkOfEbu2HRT3dJ8LQYKv7SPsdYJQfQkrX
-	27ph86EZTQLw/BxkIUmLRjO5J2zCAb6BiZsqsP++K8VhMyaLESaaw7e0p0tXOY1QQpGrxhMTYPD
-	6ADFL9MS7sXHcKjnrmYzjQ/Z8ZPi1M8vCZK7SBMqu1lq/DsvsgVWQsbwnGj1RvzcuCb9F0xCyq9
-	Pp8dPTh8m0pbfPbsRdqJfHuikPW0d3SjvCeb7fwao+hpxBwRd9lN3RfmCKIaxRGVGJTD70v0qi3
-	Ds7jcGxoOB6hQ0A96nZiclPheQR87g5UntjZBuO8lbYJ6p7BZc2h3xzyM5d7T3TAtHXfLtAWACV
-	uWtmAIDpZwITz4Zj8OyD34S9ymOgPvV3d/81NZyqwHOFt1kaBLmqxc/ol7C7J3U/WHFGY+gBNJG
-	m3B2qyB0kFew9f/DbhqUCpToBau0XEAX2sw7hFLK+d/FF+V54GR7/PkFczmEa4dHykyOVetlvYg
-	Eix69S/Rj8uHkXcuSgIZ5SQbamfknfMcRGGj8yrEr38yWyP2JzzZinAQ2jfaKAnRqUJrDw3qE00
-	aRZfwXWpwxrV+cULIPl+gPLaJt7z91cv/RxkO5jTW9efVw==
-X-Received: by 2002:a05:690e:488b:10b0:67b:ec5d:4ac4 with SMTP id 956f58d0204a3-67bec5d63f6mr1835180d50.15.1793891607899;
-        Thu, 05 Nov 2026 07:13:27 -0800 (PST)
-Received: from toxicpanda.com ([153.61.196.244])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67bee202c7asm3588018d50.6.2026.11.05.07.13.26
+        bh=eD/U90elOlLuZ8H1ZNNelJtjhWVVGMS1O6rYfNflbg8=;
+        b=erXuCUaLjqMS3uBFA7bQ45bzFdv4xXH64SQ4VQilpdbGd0IGmq9bBoNzfBXoI2VXN6
+         7YEwSjMpFRFdJiYNRsVwQG7t5A/uSs5v/ZyVZRYDP1qBToEE64NJcTvSDkZ645h7eeKL
+         z9RTIKKHS8cubNGFshz7z0WsJg2Y7REdWa7kTVMPPSwHuXw4C05tgQvyHlKj39fb30lr
+         VhMLpYVe1AfxhkKwIqJ2kKft7tCNmCqNfhJtuDH3K4RQ/prEiyoKew/soVNA7kVlzD/T
+         coh5m0v7rq6ph9Oro0CU45GVbRy7Li4uamFa0pbmfTvhlq9jnTO87KnBUInanon+vFvv
+         DZFA==
+X-Gm-Message-State: APuU4Z8RKPy6gJOTB1Adz8OzW8dbjgs+N/5tN46YXCTGN9Ex1+fz8JjN
+	JLVzLbRdZJy8V0xKF134SdfVOPVpsJs3srEt1Q4DbucM+iR4iUJT3oQggec4fMr5tI4=
+X-Gm-Gg: AYBFou1GIJcrzug7r1t5WSitvpdXeW5TpbHRfdzvlcwaLiQi8e7we7RiVX6ThhRMy7I
+	52gE0IZ3kSk+NQ2DhbVnRhIRiyzo9twKOtvz5aehqG3+OpsNFHMFm/1W+oueqz5l6pz5lcYv9/H
+	ynwU2Fb8yLeJsK0xBgWI8fZrgiC3B3Wvatmr0BWWjcxjvs8UBqAc7Ll7fxvyFBG1Hj//4BD1Tnl
+	Woamei1UIr1jVEHGk4pg9fWAIHRkZisuJKeh/ZHjQifFAnLFyWuTk1++VPzhEaEfGrW87ry12hc
+	apixbfbO1ifiXz7fpBTXpGu3xppaefIIRotIl6O3WQDvPUcUDqaaKKO/DfZOiSaQ1ZlehYER6vJ
+	6OSYZE19Q1bSDjH64nWeN62UHfiCTpHwqQo7P9Cimn8YPSaIl2VocnjW1pKCIl3IlaXe+TuiNV2
+	5+0bGlzCNgIiUbklHF2gUUGrMjh9jAczL57YWTR2807VA9wEUNkx7Y4ZCaZgAbdfW1tGOVKpkyv
+	lHmkgGrM8IV3ZhNmZsL6JoAT+6shtx2RXvc+stscdrnXT/h5K73ko/kxnWdZ3sp4KR3pPmel8ZI
+	GUMKkrApF17SadLh9OPa5RlkgDZgrgTsbqzucO/dMJ7Liw==
+X-Received: by 2002:a05:620a:6497:b0:93f:5519:5e87 with SMTP id af79cd13be357-944214dc4e9mr2928442185a.4.1793891630501;
+        Thu, 05 Nov 2026 07:13:50 -0800 (PST)
+Received: from toxicpanda.com ([153.61.196.243])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-945d4799adcsm482767985a.13.2026.11.05.07.13.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 07:13:26 -0800 (PST)
+        Thu, 05 Nov 2026 07:13:48 -0800 (PST)
 From: Josef Bacik <josef@toxicpanda.com>
-Date: Thu, 05 Nov 2026 15:02:28 +0000
-Subject: [PATCH RFC v3 36/90] cgroup: fork a task of a cell into the budget
+Date: Thu, 05 Nov 2026 15:02:29 +0000
+Subject: [PATCH RFC v3 37/90] x86: give a task without an mm no user state
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -93,7 +93,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261105-b4-cells-v3-36-bc9095937a84@toxicpanda.com>
+Message-Id: <20261105-b4-cells-v3-37-bc9095937a84@toxicpanda.com>
 References: <20261105-b4-cells-v3-0-bc9095937a84@toxicpanda.com>
 In-Reply-To: <20261105-b4-cells-v3-0-bc9095937a84@toxicpanda.com>
 To: Christian Brauner <brauner@kernel.org>, 
@@ -104,91 +104,119 @@ To: Christian Brauner <brauner@kernel.org>,
 Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Josef Bacik <josef@toxicpanda.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openssh-sha256; t=1793890933; l=2212;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1793890933; l=4121;
  i=josef@toxicpanda.com; h=from:subject:message-id;
- bh=aghM9m8AJxdVBWbbIIBSJs8ZGBiK18GQhS+/zAhLPFM=;
+ bh=AzJUK89H36+a6DZkLJfb/bsDi6+Ma/W3G+ZrG4Bu/+k=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgUBr36M/n0nWN0DNbnxwzIiCZez6MG
  JiruuNaSCI/zXsAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QFPWcYa90YXI9Ef1XT//sBpt2wNn+pGzGCM/QC9BceQrmWDdppLW9c4764qCBaK6M54GuxtXwY3
- RaS3rMwtNWg8=
+ QOvh7eMY4P2VdmuVqh6BApfDmksMcmre4B9bSmm4fmjaNCLtAj6C8hwekw8TooCQ0iCvy2Luk72
+ VQAXezGMcsgI=
 X-Developer-Key: i=josef@toxicpanda.com; a=openssh;
  fpr=SHA256:C8kOX2QUJCMqnCX+KEeoqRAjLo9L+ELOSH2NSAJHqGA
 
-A task that is born in a cell starts in the budget of the cell.
+A later patch creates tasks that have no mm and whose first action is to
+exec. Such a task has no use for the user state of its parent, and none of
+that state should be left in it. A kernel thread can keep the state
+because it never returns to user mode, but these tasks do.
 
-The spawner is not checked for permission to put a task into that cgroup.
-That check was made when the "budget" slot was filled, and holding the
-cellfd is the authority to spawn.
+In copy_thread(), clear the segment bases and selectors, the I/O bitmap
+and the shadow stack state for a task without an mm. The registers are
+already cleared, as for every task that starts in a kernel function.
 
 Signed-off-by: Josef Bacik <josef@toxicpanda.com>
 ---
- kernel/cgroup/cgroup.c | 39 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 39 insertions(+)
+ arch/x86/include/asm/shstk.h |  2 ++
+ arch/x86/kernel/process.c    | 24 +++++++++++++++++++++---
+ arch/x86/kernel/shstk.c      | 14 ++++++++++++++
+ 3 files changed, 37 insertions(+), 3 deletions(-)
 
-diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
-index 051b220e2850..3869cfa6af50 100644
---- a/kernel/cgroup/cgroup.c
-+++ b/kernel/cgroup/cgroup.c
-@@ -28,6 +28,7 @@
- #include "cgroup-internal.h"
+diff --git a/arch/x86/include/asm/shstk.h b/arch/x86/include/asm/shstk.h
+index fc7dcec58fd4..fdf43119c2bb 100644
+--- a/arch/x86/include/asm/shstk.h
++++ b/arch/x86/include/asm/shstk.h
+@@ -16,6 +16,7 @@ struct thread_shstk {
  
- #include <linux/bpf-cgroup.h>
-+#include <linux/cell.h>
- #include <linux/cred.h>
- #include <linux/errno.h>
- #include <linux/init_task.h>
-@@ -6905,6 +6906,41 @@ static void cgroup_fork_child_unlock(struct task_struct *child)
- 		up_read(&child->signal->cgroup_threadgroup_rwsem);
- }
+ long shstk_prctl(struct task_struct *task, int option, unsigned long arg2);
+ void reset_thread_features(void);
++void shstk_clear_thread(struct task_struct *p);
+ unsigned long shstk_alloc_thread_stack(struct task_struct *p, u64 clone_flags,
+ 				       unsigned long stack_size);
+ void shstk_free(struct task_struct *p);
+@@ -29,6 +30,7 @@ int shstk_push(u64 val);
+ static inline long shstk_prctl(struct task_struct *task, int option,
+ 			       unsigned long arg2) { return -EINVAL; }
+ static inline void reset_thread_features(void) {}
++static inline void shstk_clear_thread(struct task_struct *p) {}
+ static inline unsigned long shstk_alloc_thread_stack(struct task_struct *p,
+ 						     u64 clone_flags,
+ 						     unsigned long stack_size) { return 0; }
+diff --git a/arch/x86/kernel/process.c b/arch/x86/kernel/process.c
+index 346c438ac880..d2be7a9647ce 100644
+--- a/arch/x86/kernel/process.c
++++ b/arch/x86/kernel/process.c
+@@ -219,9 +219,23 @@ int copy_thread(struct task_struct *p, const struct kernel_clone_args *args)
+ 	 * is disabled, new_ssp will remain 0, and fpu_clone() will know not to
+ 	 * update it.
+ 	 */
+-	new_ssp = shstk_alloc_thread_stack(p, clone_flags, args->stack_size);
+-	if (IS_ERR_VALUE(new_ssp))
+-		return PTR_ERR((void *)new_ssp);
++	if (unlikely(args->fn && !p->mm)) {
++		/*
++		 * It has no address space to have a shadow stack in, and what
++		 * it will run it has yet to exec. Nothing of the user state of
++		 * whoever created it is any of its business.
++		 */
++		new_ssp = 0;
++		shstk_clear_thread(p);
++#ifdef CONFIG_X86_64
++		p->thread.fsindex = p->thread.gsindex = 0;
++		p->thread.fsbase = p->thread.gsbase = 0;
++#endif
++	} else {
++		new_ssp = shstk_alloc_thread_stack(p, clone_flags, args->stack_size);
++		if (IS_ERR_VALUE(new_ssp))
++			return PTR_ERR((void *)new_ssp);
++	}
  
-+/*
-+ * Fork into the budget of a cell. The cellfd is the authority: whoever gave the
-+ * cell this budget was asked everything cgroup_css_set_fork() asks of a caller
-+ * that names a cgroup. Consumes @cset.
-+ */
-+static int cgroup_css_set_fork_cell(struct kernel_clone_args *kargs,
-+				    struct css_set *cset)
-+{
-+	struct cgroup *dst_cgrp = cell_budget(kargs->cell);
-+	int ret;
-+
-+	ret = -ENODEV;
-+	if (cgroup_is_dead(dst_cgrp))
-+		goto err;
-+	ret = cgroup_migrate_vet_dst(dst_cgrp);
-+	if (ret)
-+		goto err;
-+	ret = -ENOMEM;
-+	kargs->cset = find_css_set(cset, dst_cgrp);
-+	if (!kargs->cset)
-+		goto err;
-+
-+	put_css_set(cset);
-+	cgroup_get(dst_cgrp);
-+	kargs->cgrp = dst_cgrp;
-+	kargs->kill_seq = dst_cgrp->kill_seq;
-+	return 0;
-+
-+err:
-+	cgroup_threadgroup_change_end(current);
-+	cgroup_unlock();
-+	put_css_set(cset);
-+	return ret;
-+}
-+
- /**
-  * cgroup_css_set_fork - find or create a css_set for a child process
-  * @kargs: the arguments passed to create the child process
-@@ -6945,6 +6981,9 @@ static int cgroup_css_set_fork(struct kernel_clone_args *kargs)
+ 	fpu_clone(p, clone_flags, args->fn, new_ssp);
+ 
+@@ -258,6 +272,10 @@ int copy_thread(struct task_struct *p, const struct kernel_clone_args *args)
+ 		 */
+ 		childregs->sp = 0;
+ 		childregs->ip = 0;
++		if (!p->mm) {
++			memset(childregs, 0, sizeof(struct pt_regs));
++			p->thread.pkru = pkru_get_init_value();
++		}
+ 		kthread_frame_init(frame, args->fn, args->fn_arg);
  		return 0;
  	}
+diff --git a/arch/x86/kernel/shstk.c b/arch/x86/kernel/shstk.c
+index eb690ba90180..41d77efd7952 100644
+--- a/arch/x86/kernel/shstk.c
++++ b/arch/x86/kernel/shstk.c
+@@ -183,6 +183,20 @@ void reset_thread_features(void)
+ 	current->thread.features_locked = 0;
+ }
  
-+	if (kargs->cell)
-+		return cgroup_css_set_fork_cell(kargs, cset);
++/**
++ * shstk_clear_thread - a new task takes no shadow stack state from its parent
++ * @p: a task that is being created
++ *
++ * For a task without an mm, which has no address space to have a shadow stack
++ * in. What reset_thread_features() does for the caller at exec.
++ */
++void shstk_clear_thread(struct task_struct *p)
++{
++	memset(&p->thread.shstk, 0, sizeof(struct thread_shstk));
++	p->thread.features = 0;
++	p->thread.features_locked = 0;
++}
 +
- 	CLASS(fd_raw, f)(kargs->cgroup);
- 	if (fd_empty(f)) {
- 		ret = -EBADF;
+ unsigned long shstk_alloc_thread_stack(struct task_struct *tsk, u64 clone_flags,
+ 				       unsigned long stack_size)
+ {
 
 -- 
 2.55.0
