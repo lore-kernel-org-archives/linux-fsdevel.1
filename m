@@ -1,50 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793884710;
-	b=ORww8KuCy8y3CsybF1Qem9K6FOjLiAyCDgTM4KZMI4QNZBa2AftPlX/CA5QL56gLVbeQ
-	 oKIB33TFOpB+5tdhp3kag38wmwbRKJjEONw/x3n9G8XVSCpXhYDe0OZkb913LHwt0fC5d
-	 p29r5IV34Akr3ZzlRnGrpEA2tM1eLnV/YPG/gyB+Cft0RrJGc4oqeDc6CgLlM1mb1Un0p
-	 clweYUFpp2KIV0cKk7pS7+pHqTxAEYq9WQ89d6l1izJ6YeQX4KGWAROzUJIZayqbBtOGm
-	 5FI/AXSvDCGvMYqjGHrFVMVktGQgETvE6HvB6OucTaBAIKEMBbWGlh4B6BWBgE+/v5g==
+	t=1793884712;
+	b=46YKMtlE4ScwieXcINNh4a8bbjkkIpQzCDvCbRe7FuzenJ7bZLWsycrwVFPMw2x+gJgk
+	 uMdAzNo4D7zh6mj3jYd8T7kgKLTZg5Bjb2uBslsNUemjWPQc0f4mE/+gzM/+i+ICe1njv
+	 TJlHXd7LqMevEog32k4QKsoLZbJdN3vzu9dMTB1Mv7uylCVm9Wc/ynTmNJ3O9JhGcFnRb
+	 ZLDt+cgMPLJDUrnjnASomE2XJWUVUZNNggXUgE5Pm6m6qwl2MJBaZMhsU0mkiJ3wNE/LT
+	 CP398Lbt6H1Qb3zrjq4+8da6A06k5d2WPBVEcIdCmCrOIEzkI+MPU7t0mD4OMhYoQPw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793884710;
-	h=Received:DKIM-Signature:From:Subject:Date:Message-Id:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
-	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=DXlALzxYM36/ki6riHR/Kh9IQJCV3TdTeTCjVtxynx8=;
-	b=aSSCGTtA0gHUzeiZNCLgzgrT3RV+KJ8/QnH/ONkICpkzo1ljDQns1r2UkJbxLn2/CSmY
-	 QGgUBbcGvceSW0vO1w62qiX046bGQx1GSYofz6pc+U9juw/+vTFXMsr/Qdh7nc3B050I4
-	 1ltti3SPafsxaZ/Cb9Z+ryZSR00AUPSLVXPtfftbmMrbKvP/SdZ1T6lDp9KbVytWyjRJa
-	 Qdokp8NABzSEbMI/ckPeZVfZs7/yHkz3IfaP/8mzoFNIYNARTOG9W4qU9EUKjAGPfSKV5
-	 mEhLovQw+MFRH8y3SMDgzQW4dXf5/7O56wbpJjmT4ezKfRTR/JHsbm47ALmmpdhayTg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793884712;
+	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=ozDE69mxIoGwhcyK2c128JoWzobDSlOBs9tdnoi4aO0=;
+	b=mIu591NPlbla26pUcBvDxJ/TSHoVC2lym0rPHQk1fI3F/qo1yr17P8Y8Bv8ZmH+IXnpF
+	 atJzRR3lN8WFmwUiBgfctnHzULT03VJxjiU+XQsZ4nhlyOVrLB3c+WBqUNkbqQAK5Eo+K
+	 4+gBxCO3yz2gr+HvcH8wsYjomWpGqoLRtAblSNxfoHlrdNliaSoNcocZas5ilgJTCYogp
+	 P1GylNCzUEv+b+AvmSvbRafVaUz8Uy3PGoL7+6crtXzOY6AF1MpSs0UiN0BQvZWYrm9rP
+	 f/MLW7+IcRuhCC6lvYCJxQl50b63W9rq4Y+J5gmWpd/LcxcIUur8EpSpQCMj482tQcQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YISs77ka;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XE2fL8iA;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97EF6606A32F
-	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 13:18:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88C36606A330
+	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 13:18:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YISs77ka
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0B6C1F000C1;
-	Thu,  5 Nov 2026 13:18:28 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XE2fL8iA
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A71971F00919;
+	Thu,  5 Nov 2026 13:18:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793884710;
-	bh=DXlALzxYM36/ki6riHR/Kh9IQJCV3TdTeTCjVtxynx8=;
-	h=From:Subject:Date:To:Cc;
-	b=YISs77kamgloteawqYJQp+bNdsHDHN+jZn2J9ygjQZu3xafXEuFxyEgoxcFN5tJOb
-	 FFXE6BMjAcxUJy07g/CNd1csKd2kWTkyFdWCSMZL+QCzLBgAeLm5OHZXL9JiNgQACt
-	 P9rJiETpqHPNqtxLmOilD1sXTV6rl68xxw69AcdL7GIBVzxKo9tD91sUmXpuUpW0SG
-	 rUnQYku9heHgkmZJaa4sdgiXdMz0t+x48VEjWvf02ycFtBal7OXIqH9WeM0VGuxov8
-	 DTdt7KzBQe9ABzmsQaL0t/0H4zwMYKSEcT8mvhTvs3A+12K8o4Nx3B7r934AcX7dSg
-	 1x1g3u5RWnQrQ==
+	s=k20260515; t=1793884712;
+	bh=ozDE69mxIoGwhcyK2c128JoWzobDSlOBs9tdnoi4aO0=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=XE2fL8iA6YNYG5TB7cAxRyUp9qIs1tZKDWgyHZPnXZ5i3NiowR28GqCzyRWu0UO2t
+	 KKZtajqcpG/u/aXnaFRhMdNxK4pbSKdFyDpPqJ0/HhrIqDfPUUUfODwOrmBya5O2Y0
+	 ISmawnwcre+UswwUj8IA8jVk6arxWIKuUktpHKKwdtXeNSp/SbpG2uROL3tqZe9eOC
+	 Rr/ZJFhpF0BWxCfON2TfTVLuZQexHH7JMzsvFSbmNU3OTW51B5YlUt0g+fyiTNxcOO
+	 92w7kR14E49bPSunI35qztyOQ04Lauj8xcWuzp8l+HNM4aOwsAN6SIkyVXSM1bzHST
+	 FlnwqQcI2Ju1w==
 From: Christian Brauner <brauner@kernel.org>
-Subject: [PATCH 0/5] file: fix and document ordering for lockless fd lookup
- wrt to file_ref
-Date: Thu, 05 Nov 2026 14:18:04 +0100
-Message-Id: <20261105-work-file_ref-ordering-v1-0-8713f4876b7b@kernel.org>
+Date: Thu, 05 Nov 2026 14:18:05 +0100
+Subject: [PATCH 1/5] file: depend on the reloaded pointer in
+ __fget_files_rcu()
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -56,77 +55,108 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/zWM2woCIRCGX2WZ60ZUqKBXiQh1xt2p0NBOsOy7p
- 8Vefv/hm6FyEa5wGGYo/JIqOTUwmwHC5NLIKNQYrLY7Y/QW37lcMcqNz4Uj5kLtn0bUmiiQ3ft
- oCdr53lr5/MTH05/r0184PLqtL7yrjL64FKYeda9avWr1qr6CZfkCtSI87KgAAAA=
-X-Change-ID: 20261105-work-file_ref-ordering-00ddcd27bf2d
+Message-Id: <20261105-work-file_ref-ordering-v1-1-8713f4876b7b@kernel.org>
+References: <20261105-work-file_ref-ordering-v1-0-8713f4876b7b@kernel.org>
+In-Reply-To: <20261105-work-file_ref-ordering-v1-0-8713f4876b7b@kernel.org>
 To: linux-fsdevel@vger.kernel.org
 Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
  Peter Zijlstra <peterz@infradead.org>, 
  "Paul E. McKenney" <paulmck@kernel.org>, 
  "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2725; i=brauner@kernel.org;
- h=from:subject:message-id; bh=SRr/sYpJYJo+IfNOvY6pbJNLj3wgx53i0Llw4tQazxI=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS9aZL+/W4X24fJtvEBq6ZpBIfbHLhoNPOwk9Me+0WLf
- S5em+Vl1lHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRFBaGPzzFhar/Vl8KZNr/
- xHquoGV73fnvzxVmiNwQjp6yfN6CguUMf7gtQ6yW+M6eq310omNawTsZt11N3SrL/Rtu7nNb8s1
- hFjMA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3277; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=ggy6tKGgKbJu49tAfyH3ra7ZC2ISXRxZdejygrIGq9I=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS9aZJ1ucKUNSHubIC/xrVdkj1Jqb7n2vPcQq4uvaW0/
+ vAnafeGjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIkIbWFkOMsU+8xJkq353N85
+ ZTJ6GcLNhoqaXLds9TMFbT5aKFsHMDJcUry/dFFs+SL9WMa9L+2ep3QeS+rpD1qxv6Q+XGF5BRc
+ vAA==
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-I went through include/linux/file_ref.h and its lockless users with a
-TLA+ model and a set of LKMM litmus tests:
+__fget_files_rcu() loads the file pointer, takes a reference with
+file_ref_get(), reloads the pointer and compares the two. If they match
+it returns the pointer of the first load. The caller will read f_mode,
+f_op and everything else through.
 
-__fget_files_rcu(), __get_file_rcu(), fput() and file_ref_put_close()
-against close(), open() and the SLAB_TYPESAFE_BY_RCU recycling of the
-file. The protocol itself is fine but there are a few minor things:
+Becuase of SLAB_TYPESAFE_BY_RCU the file can be closed, freed and
+reallocated between the first load and the increment. If another thread
+of the same process reopens the same descriptor the reload can see the
+same pointer again and the recheck passes.
 
-* __fget_files_rcu() lost the dependency on its reload in
-  253ca8678d30 making it possible to see f_mode and f_op from an earlier
-  lifetime of a file on arm64 and power.
+While that's fine because the descriptor does point to that file now the
+subsequent loads are only ordered after the increment.
 
-* file_ref_get() only needs acquire ordering. The reload has to be
-  ordered after the increment. This is all we need.
+The increment synchronizes with the store of file_ref_init() and
+init_file(). But that happens before do_dentry_open() sets f_op and most
+of the other fields.
 
-* Add some missing documentation why we need full ordering during put.
+They are published by the rcu_assign_pointer() in fd_install() meaning
+the reload of the pointer.
 
-This also adds litmus tests for this stuff. Here are the numbers after
-this series:
-                       instructions        cycles
-    fcntl(F_GETFL)      457 -> 463    217.6 -> 218.1
-    fstat()            1052 -> 1058   455.4 -> 454.1
-    poll(), 16 fds     2394 -> 2458   828.7 -> 833.4
-    pipe write+read    2261 -> 2271   925.1 -> 913.0
-    unix socketpair    3269 -> 3277  1202.3 -> 1184.8
-    io_uring_enter()   1036 -> 1038   284.6 -> 286.5
-      registered file   942 -> 942    262.6 -> 263.2
-    open()+close()     4277 -> 4277  1365.7 -> 1334.7
-    dup()+close()       869 -> 873    525.1 -> 520.5
+But there's no dependency between the reload and later loads. So on
+arm64 or power the caller can read the f_mode and the f_op of the
+previous lifetime of the file.
 
-It's all within noise in terms of performance.
+So we do need to compare against a copy the compiler can't see through
+and then use the reloaded pointer from there on just like we already do
+in __get_file_rcu().
 
+Nothing measurable changes because of this change.
+
+Fixes: 253ca8678d30 ("Improve __fget_files_rcu() code generation (and thus __fget_light())")
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
-Christian Brauner (5):
-      file: depend on the reloaded pointer in __fget_files_rcu()
-      file_ref: use acquire ordering in file_ref_get()
-      file_ref: document why file_ref_put() stays fully ordered
-      Documentation/litmus-tests: add the file reference count tests
-      Documentation: update the lock-free file lookup in files.rst
+ fs/file.c | 25 ++++++++++++++++++++++++-
+ 1 file changed, 24 insertions(+), 1 deletion(-)
 
- Documentation/filesystems/files.rst                | 48 +++++++++-----
- Documentation/litmus-tests/README                  | 57 ++++++++++++++++
- .../fs/file-ref-get-acquire-recheck.litmus         | 66 +++++++++++++++++++
- .../fs/file-ref-get-relaxed-recheck.litmus         | 50 ++++++++++++++
- .../fs/file-ref-put-full-handoff.litmus            | 76 ++++++++++++++++++++++
- .../fs/file-ref-put-release-handoff.litmus         | 66 +++++++++++++++++++
- .../fs/file-ref-reload-dep-field.litmus            | 74 +++++++++++++++++++++
- .../fs/file-ref-reload-nodep-field.litmus          | 59 +++++++++++++++++
- fs/file.c                                          | 42 +++++++++---
- include/linux/file_ref.h                           | 21 +++++-
- 10 files changed, 528 insertions(+), 31 deletions(-)
----
-base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
-change-id: 20261105-work-file_ref-ordering-00ddcd27bf2d
+diff --git a/fs/file.c b/fs/file.c
+index 4cd40dfa6129..052da9409874 100644
+--- a/fs/file.c
++++ b/fs/file.c
+@@ -1168,6 +1168,8 @@ static inline struct file *__fget_files_rcu(struct files_struct *files,
+ {
+ 	for (;;) {
+ 		struct file *file;
++		struct file *file_reloaded;
++		struct file *file_reloaded_cmp;
+ 		struct fdtable *fdt = rcu_dereference_raw(files->fdt);
+ 		struct file __rcu **fdentry;
+ 		unsigned long nospec_mask;
+@@ -1216,11 +1218,32 @@ static inline struct file *__fget_files_rcu(struct files_struct *files,
+ 		 *
+ 		 * If so, we need to put our ref and try again.
+ 		 */
+-		if (unlikely(file != rcu_dereference_raw(*fdentry)) ||
++		file_reloaded = rcu_dereference_raw(*fdentry);
++
++		/*
++		 * Every load needs to depend on the reload. If the
++		 * file was freed and reallocated into this slot in the
++		 * meantime, what open() wrote to it was published by the
++		 * rcu_assign_pointer() in fd_install(), which is the
++		 * store the reload saw.
++		 *
++		 * The increment above only orders against file_ref_init()
++		 * and init_file(). That happens before do_dentry_open()
++		 * sets f_op et al. So every load needs to depend on the
++		 * reload otherwise we can see e.g., stale f_op on e.g.,
++		 * arm64.
++		 *
++		 * So compare against a copy the compiler can't see through
++		 * and use the reloaded pointer from here on.
++		 */
++		file_reloaded_cmp = file_reloaded;
++		OPTIMIZER_HIDE_VAR(file_reloaded_cmp);
++		if (unlikely(file != file_reloaded_cmp) ||
+ 		    unlikely(rcu_dereference_raw(files->fdt) != fdt)) {
+ 			fput(file);
+ 			continue;
+ 		}
++		file = file_reloaded;
+ 
+ 		/*
+ 		 * This isn't the file we're looking for or we're not
+
+-- 
+2.53.0
 
