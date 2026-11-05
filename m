@@ -1,46 +1,126 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=115.124.30.119
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.151
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793850225;
-	b=MofcxFJQ8ofUSNIWc93rKZ8VuoB8rQs8zsruLTVvwt2p7H5eyeR4UAPr+WV6p/ssqVUA
-	 CA6AW22WgW9S9kZ3dKI6QFeUsWxT2+/0Ja12XapjhmE6uQhZsmdLBmwuHdwT4bPOKkQZf
-	 EVCXlsYrWE8844s86t97U1LqiIgyEl6ryv43C0rcIsVwomowJ1MYyZdMHGOLpu3V164bT
-	 qInQN/1gYV/KJRkhxwg+eaB8ajSjqr2oY6rjy5o/IJj8kwERTqGtUMbfZmlzsArAyeTfx
-	 a43rNd4htudeOX5gr1LaY66ejKeGBeulhS4ZGtA2ls4TyKk1tfaSJ9Y3UVpjLfzZ/vA==
+	t=1793852441;
+	b=kdFfVj4IJGaJxS7XbUv/wwGz5yo+xAkLlG58wGqe1GxJF1RWg5cUfWyOyW1SrAA77dd4
+	 dVymlMpgX0WcegtSay3TM/G7XEex6XhrcroBVx5iwausxfdWwiXihfapr4psklJZJjoot
+	 YqsRtubCz8Ox515Q+oTou7ojewTVHuNYll0CqjAcv8Pxb2xSKGy5L3pQsxrd9KyAxPjMa
+	 6WdwaWfNfZQBBpsvtwCe70uT/G+TEMsvKzv7PNZqW9ROqEM6GaTRCwc2kvx3ltTBCbwoU
+	 E3oLhC4aKwu+xtaZ5F7RLCK5x/CIg2Lu+dpvmRBr012t9uesiQG2jvgCpCcAuc2I/2A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793850225;
-	h=DMARC-Filter:DKIM-Signature:X-Alimail-AntiSpam:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=VPL6FGJI6mYbfWVdagRDwQTQgREcZN8JpaFK/cgIs8Y=;
-	b=1aReeW8dRjkVkXcrwDwSKpNwR4MweNc4pIVWUXKZMyT7Ilet13V2Z55H4UoEG4t9fmjU
-	 saDn4H3QLJelql5wJ+QwcxL47uSBSyOGZs7rUpcY/+0i3ojfnPSYSXNXr53ljpMUilp3S
-	 H1u0eYItTi/Fbao/9hcEtKVBdxeb6/HkHmbYkk2/aQC1eAtQiNPvs+AwoO9/ef3Zb0mZ4
-	 6zF9+V3OdbiSJlU670fokiBr3VTWBrUn8kGU1u/0P+38jW7gJWAI82I6/spPAsXu1Y6wq
-	 2hTzidyOu6d3Vu+pFK8BPRjABudwyHLqVKVt0SXC99zl4N7zE+PQjpW4cqNm2QlknCA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793852441;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:Date:Message-Id:To:Cc:Subject:From:In-Reply-To:References:
+	 Mime-Version:Content-Type:Content-Transfer-Encoding;
+	bh=HzGdVuKfaxoCHLs4sxabrmogQfwjrZQP3GXvj9V58n8=;
+	b=ABuXrAVQyU7hkXKO0at00fVhuPIf/FS42q6PSWHlVoErWRM+i/yqm2H92Pw9vLI2QAt8
+	 XYL3OP9NbbJagTmSykKXGQEZ0pIdDn3gKB5MVDeBe6WpaX22QqSJym9G9zB0McZW0tKYi
+	 MXvNVWfRJgDYYmoSs3dQ1tO8sNnFjhlMu1WQVFKl3kG9mmY53bjSdqApBX927RiyZ3A3I
+	 xNO3u1sQm2fpwqr9GINz+hZX607kB6lPwi3YaNSP+a54ODVb4xvY4ovxk4rlBHjXaNaMJ
+	 66FE3m8FmK+CGrC51W6SGT3V4vS1oYe3Ja8Y+Z6eAV1djlCIG11kIh17Xr7IrSKdS8g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.alibaba.com;
-	spf=pass smtp.mailfrom=linux.alibaba.com;
-	arc=none smtp.remote-ip=115.124.30.119
-Received: from out30-119.freemail.mail.aliyun.com (out30-119.freemail.mail.aliyun.com [115.124.30.119])
+	dmarc=none header.from=flapping.org;
+	spf=pass smtp.mailfrom=flapping.org;
+	dkim=pass header.d=flapping.org header.i=@flapping.org header.a=rsa-sha256 header.s=fm1 header.b=TAruSG1G;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=Q5Rrnnfk;
+	arc=none smtp.remote-ip=103.168.172.151
+Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F923606A31B;
-	Thu,  5 Nov 2026 03:43:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3F923606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1793850209; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=VPL6FGJI6mYbfWVdagRDwQTQgREcZN8JpaFK/cgIs8Y=;
-	b=df7ctmeMETF2xxJwENMAiPw5tB/yyYrAVCP9Ji9c/Agd9scTxdOcVj2cILeacTPjQ68gD4yEHtiCiDxFR/C1UjO9Nj6uhsYO8P3rnc+2SkTZn8BBKH8Qy8wKs5FijRqp9tpIy377D2X9GWps7SuCH0Chdn4NTV4kCewHhVkv5Xc=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R771e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037026112;MF=baolin.wang@linux.alibaba.com;NM=1;PH=DS;RN=64;SR=0;TI=SMTPD_---0XE7Nmrn_1793850203;
-Received: from 30.74.144.136(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0XE7Nmrn_1793850203 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Thu, 05 Nov 2026 11:43:26 +0800
-Message-ID: <d0f78f0f-c883-4919-a416-fe738eb7323a@linux.alibaba.com>
-Date: Thu, 5 Nov 2026 11:43:22 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AA41606A328
+	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 04:20:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4AA41606A328
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=flapping.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flapping.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=flapping.org header.i=@flapping.org header.a=rsa-sha256 header.s=fm1 header.b=TAruSG1G;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=Q5Rrnnfk
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfout.phl.internal (Postfix) with ESMTP id 798D1EC0241
+	for <linux-fsdevel@vger.kernel.org>; Wed,  4 Nov 2026 23:20:39 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-10.internal (MEProxy); Wed, 04 Nov 2026 23:20:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flapping.org; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1793852439;
+	 x=1793938839; bh=HzGdVuKfaxoCHLs4sxabrmogQfwjrZQP3GXvj9V58n8=; b=
+	TAruSG1GoneYyaCrWQmY5gmwrfprMOJTV7mgOcTyyKP3r6LzO/0AuiH8H1neCtrT
+	/UsrNsOLC5gXLZhxCETh4YWcghFChy4UQSLfmno2/LM1SjYsJUYJWYmtOtNROQ8t
+	Bk0B+6nPeG/u7SwTwxohc+XFee2L+eHjWpgVO+joT4anxMrWZ1ufzgSWugn/HTJZ
+	7gmccwWls/g37IubvYSUpRLKgcyKR0bdSQ5ASv0fSkQgIaSJRyesfwXnpe6jImbZ
+	wKmMW6RxA84hSYXoIF6+dNpiD2HJC1XAm4mz3WW2y4Hj/25Rv2mmHMlqiHOr0DNo
+	evacCNdu/mRhUnbAisKUgQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1793852439; x=
+	1793938839; bh=HzGdVuKfaxoCHLs4sxabrmogQfwjrZQP3GXvj9V58n8=; b=Q
+	5RrnnfklqZ9h7iPMlP6uBaGtr8cUGezoC/nkpHnchw/LHGT0ovLKM9LWqOk3y5kX
+	iBFGcebznE9qzPsHt/ZFxE79Sbw/FKiYeJX985rP2v4r5V6pEGnEtqsGHVCKiWan
+	5XSFoVpYiipQMeYLnb74dkJqUS8qHJepFwW3UZvPoS8/+qatOpdIXKeRVIXQY3wI
+	OE4XXFfLlr+8Lgj1zRpLE+Jc2flUf0PQVCAae/mzyQX+mzKI2dQi5MYuxrBdFjqr
+	YbaktNjx3m1Bl+vZTAp9cUVAbQAbwybXz34TKhhSO7rTd00LjZ6TP/TQEOLPqCIk
+	JgYXqRUXqKTh4OkbpUO4w==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=flapping.org a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1793852439; d=flapping.org;
+	mf=PHRvbW9AZmxhcHBpbmcub3JnPg==;
+	rt=PGxpbnV4LWZzZGV2ZWxAdmdlci5rZXJuZWwub3JnPg==;
+	s=fm1:rsa-sha256:cAFb94//Dq+17NP3mr8y89nZOf2F9sUDExa/vD1ba+5LiZu
+	kBRlSu8f4ZCgK9DzcHH5X30yNDHGF8zlpodNctelOQJXgOReXjHcawHuYeuXScwV
+	cm+DRCuzLnB4oZrznvvWgekVdRIg2RdUDC4A3d1lElIn1S0S+pVoRbKV23KR4Oeh
+	ydwcHnbGiuqRoTVu7wV66R/BI8z7BBU1nK5xrrVfTiAYoPL5oVj6VEE9Wrc19CFz
+	5dIG2MITg+jKdLrj5jh4MCrYp5+PVLoD5pugjIkpftNzwAOum195uCl9J/IgAQgz
+	E7w23Kyv+aavx5Ohi/pGXGlqEOCKRjbf/31rJwg==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:VCmNIkCxe3ud6Y66TW3ee92cqQj1wp4OBuBM/uJF/PY=:eThNjHzssFM7BnMUPb12DtxguAsdmbEMW+IUTJHsNXo=;
+X-ME-Sender: <xms:FgTsak7smipsnLsw6BOuoDxTnLtY0bMquV3zD54dnncen5ff6U-eGA>
+    <xme:FgTsakSbnyOllo7FLrTfVQtAZMOpDWyOCoornbnQj0VAWGRdVD0SZ7caLzB9HszM3
+    FjT3nEEP2QNl7c83bA5fA5dYj2UI2unDHC8_DIFsfplV3mxjnTB-Q>
+X-ME-Received: <xmr:FgTsavfsjyZTdE_PaT4hmZQ5bn_nbdYQcCwpxtdr3WgQK4GbcGxzmLZqtRb_iqjLBU1fGiibSHSHfUO3R0xqbjv5>
+X-ME-Proxy-Cause: dmFkZTE29mSY7vx5v8IH+e10ONWO6Z1HP+4WZmAAatZbaOoEqhBr1kviQBgR3/GVImrqMO
+    nsG1i1GAE47f8WaFWc7MNHX7kN7uuwmpqX2hNTtfwy641w1MBH3IzqKz7W7IuSqJC/UA7n
+    /hS1aB9eXzmpxVVT2ZLi+9RvMaAvpC2xHFSod3pQVOZIUKHK0a/rbbYFzCwCII74yaU3Gq
+    I85XZ3NHbX2dKvX5YV6uw2FSj1vXAy1DVBbsVTk7e3Yw/4pOoHRhKfDQWn/dAIXY2BPcx4
+    5Jxd8q67eUfueG+cQybkw4UPspiR/sk+7ZFZTo94DYqXRuMNk9R4HvU34KXNJPeKDvF9tW
+    kPo0MHpUWEYxnDndhPNXyzkVWHSXROoA1UcQT8TPAdpPngjBIKI+KqUbzizKSw53czhq3/
+    WQfA8FwqmTsNnssdbdHAkiuneMdFsclldU5HFnWwYEppb65DG9Q5H1m0OtvXWJ/IiZJ+Ut
+    h/f1gqPB5tRQ+lNC7bIogRZbUVa+h8GHmDUNKUsLgCQzgx60NuuaBcIypaP0lJvgxNi2ih
+    AK2OKKY4dxrjwekUib9HivzmWfAy0rfhVTmLXoYocjX71nix9YTxdPOYVorKZyXdqywUQS
+    yviYsijTUxAp96suGZAL9h1DfJR0ULFC0+MpW8XSvaCsokEw+51bNhTG6fHw
+X-ME-Proxy: <xmx:FgTsasRlPSCdsLp4W6YqJUT4dchOY0DjBodRGWNVqujZwf6-daHJVQ>
+    <xmx:FgTsagOODLYV6KtRMFFWlR2AfirsLrncKLaz0740odrVBri2I_llIA>
+    <xmx:FgTsanXdwRmXPVtQhy6sraEKgzc4YMDCxWLTIj5CLuyAn4nujtXbxg>
+    <xmx:FgTsaoZ2GEEgHcM1w7Wgm7CI0vUim_be3MVRdbc3VKfH1djP8IOI9A>
+    <xmx:FwTsany884P1nLxEf4wnW_lQQ5XbEBHnzCmvJchW1J4XhHQtwx7dPI1g>
+Feedback-ID: i51fe4b43:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 4 Nov 2026 23:20:34 -0500 (EST)
+Date: Thu, 05 Nov 2026 13:20:31 +0900 (JST)
+Message-Id: <20261105.132031.1626373229852235546.tomo@flapping.org>
+To: dakr@kernel.org, boqun@kernel.org
+Cc: gary@garyguo.net, aliceryhl@google.com, lyude@redhat.com,
+ daniel.almeida@collabora.com, work@onurozkan.dev, ojeda@kernel.org,
+ bjorn3_gh@protonmail.com, lossin@kernel.org, a.hindborg@kernel.org,
+ tmgross@umich.edu, tamird@kernel.org, acourbot@nvidia.com,
+ viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v2 1/5] rust: task: add safe schedule_timeout() wrapper
+From: FUJITA Tomonori <tomo@flapping.org>
+In-Reply-To: <20261105005951.756157-2-dakr@kernel.org>
+References: <20261105005951.756157-1-dakr@kernel.org>
+	<20261105005951.756157-2-dakr@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -49,122 +129,36 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 18/47] mm/khugepaged: check if PTE table is empty in
- try_collapse_pte_mapped_thp()
-To: "David Hildenbrand (Arm)" <david@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>,
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
- Lorenzo Stoakes <ljs@kernel.org>, Kairui Song <kasong@tencent.com>,
- Barry Song <baohua@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>,
- Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
- Baoquan He <baoquan.he@linux.dev>, "Liam R. Howlett" <liam@infradead.org>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Kees Cook <kees@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
- Hugh Dickins <hughd@google.com>, Pasha Tatashin <pasha.tatashin@soleen.com>,
- Pratyush Yadav <pratyush@kernel.org>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Zi Yan <ziy@nvidia.com>, Lance Yang <lance.yang@linux.dev>,
- Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
- Alistair Popple <apopple@nvidia.com>, Nico Pache <nico.pache@linux.dev>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>, John Hubbard <jhubbard@nvidia.com>,
- Peter Xu <peterx@redhat.com>, Will Deacon <will@kernel.org>,
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin
- <npiggin@gmail.com>, Oscar Salvador <osalvador@suse.de>,
- Minchan Kim <minchan@kernel.org>, Muchun Song <muchun.song@linux.dev>,
- Xu Xin <xu.xin@linux.dev>, Chengming Zhou <chengming.zhou@linux.dev>,
- Chris Li <chrisl@kernel.org>, Kemeng Shi <shikemeng@huaweicloud.com>,
- Nhat Pham <nphamcs@gmail.com>, Youngjun Park <youngjun.park@lge.com>,
- Gregory Price <gourry@gourry.net>, Joshua Hahn <joshua.hahnjy@gmail.com>,
- Rakie Kim <rakie.kim@sk.com>, Ying Huang <ying.huang@linux.alibaba.com>,
- Jason Gunthorpe <jgg@ziepe.ca>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- kexec@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-cxl@vger.kernel.org,
- Muhammad Usama Anjum <usama.anjum@arm.com>
-References: <20261031-fixes_core-v3-0-d6437171ecc3@kernel.org>
- <20261031-fixes_core-v3-18-d6437171ecc3@kernel.org>
- <62268831-f6f3-4666-a32f-a77546b95432@linux.alibaba.com>
- <979fb046-32dc-4af8-b6a3-177c78f1e557@kernel.org>
-From: Baolin Wang <baolin.wang@linux.alibaba.com>
-In-Reply-To: <979fb046-32dc-4af8-b6a3-177c78f1e557@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
+On Thu,  5 Nov 2026 01:59:38 +0100
+Danilo Krummrich <dakr@kernel.org> wrote:
 
-
-On 11/4/26 5:13 PM, David Hildenbrand (Arm) wrote:
-> On 11/2/26 09:20, Baolin Wang wrote:
->>
->>
->> On 10/31/26 5:39 PM, David Hildenbrand (Arm) wrote:
->>> The existing code is rather horrible and already resulted in bugs in the
->>> past: we special-case UFFD inserting anonymous folios by grabbing the PMD
->>> lock early, but ignore any other markers (guard, poison through uffd) that
->>> could have been inserted into the page table in the meantime, effectively
->>> dropping them.
->>>
->>> Let's just unify and simplify the locking: try to grab the PMD table
->>> lock and if that fails, flush the TLB, drop the PTE lock, take PT locks in
->>> the right order and check if the page table is still empty.
->>>
->>> We still perform the heavy lifting (zapping the folio ptes) under PTE table
->>> lock only.
->>>
->>> Include <linux/hugetlb.h> for now, as x86's flush_tlb_range() macro
->>> depends on hugetlb helpers. This dependency needs a separate cleanup.
->>>
->>> Both issues this fixes are rather corner cases. Let's not CC stable for
->>> now.
->>>
->>> Fixes: f807123d578d ("mm: allow guard regions in file-backed and read-only
->>> mappings")
->>> Fixes: 1043173eb5eb ("mm/khugepaged: collapse_pte_mapped_thp() with
->>> mmap_read_lock()")
->>> Tested-by: Gregory Price (Meta) <gourry@gourry.net>
->>> Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
->>> Tested-by: Muhammad Usama Anjum <usama.anjum@arm.com>
->>> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
->>> ---
->>>    mm/khugepaged.c | 64 ++++++++++++++++++++++++++++-----------------------------
->>>    1 file changed, 31 insertions(+), 33 deletions(-)
->>>
->>> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
->>> index ce794d9760a87..ad07c8caa3bd9 100644
->>> --- a/mm/khugepaged.c
->>> +++ b/mm/khugepaged.c
->>> @@ -10,6 +10,7 @@
->>>    #include <linux/mm_inline.h>
->>>    #include <linux/kthread.h>
->>>    #include <linux/khugepaged.h>
->>> +#include <linux/hugetlb.h>
->>>    #include <linux/freezer.h>
->>>    #include <linux/mman.h>
->>>    #include <linux/hashtable.h>
->>> @@ -1832,6 +1833,17 @@ static enum scan_result set_huge_pmd(struct
->>> vm_area_struct *vma, unsigned long a
->>>        return SCAN_SUCCEED;
->>>    }
->>>    +static bool pte_table_empty(pte_t *pte)
->>> +{
->>> +    int i;
->>> +
->>> +    for (i = 0; i < HPAGE_PMD_NR; i++, pte++) {
->>
->> Using PTRS_PER_PTE to iterate PTEs seems more straightforward? Otherwise LGTM.
+> Add a safe wrapper around schedule_timeout() that takes and returns
+> Jiffies, handling the c_long conversion internally.
 > 
-> As I pulled this patch out from the stable fixes, I fixed it up.
+> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
 
-Thanks.
+[...]
 
-> I realized that this helper should likely move to some header later and be
-> reused elsewehere (zap_pte_table_if_empty), but that's something for a later
-> cleanup.
+> +/// Sleeps for the given timeout in [`Jiffies`], or until woken.
+> +///
+> +/// Returns the remaining time in [`Jiffies`], or zero if the timeout expired.  The task state
+> +/// should be set before calling this.
+> +///
+> +/// Timeouts at or above [`MAX_SCHEDULE_TIMEOUT`] mean an indefinite wait. In that case, the return
+> +/// value is `MAX_SCHEDULE_TIMEOUT` as [`Jiffies`].
+> +#[inline]
+> +pub fn schedule_timeout(timeout: Jiffies) -> Jiffies {
+> +    let timeout = timeout.try_into().unwrap_or(MAX_SCHEDULE_TIMEOUT);
 
-Indeed.
+The Jiffies alias will be removed, so could you use Delta<Jiffy> here
+instead? I think the code would be almost the same as in my patch that
+converts condvar [1].
+
+This series conflicts with that patch. Boqun, how would you like to
+merge them?
+
+[1] https://lore.kernel.org/rust-for-linux/20261104235929.1282640-1-tomo@flapping.org/
