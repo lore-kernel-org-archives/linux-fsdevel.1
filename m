@@ -1,97 +1,51 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.222.178
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793897306;
-	b=yz3x2Y8sFqMiw3Mrg88sOCnLcw+8//r9rKJD06fHM346cDwEqEMITLegH7CwiVnOhOOV
-	 2SxBNRhteeV5Vhjj2cj84mV1Z0PNNuUfWhcA23GH3L9Raql1t7wOy33eB5afuxkpA+t7I
-	 pFOcoW8rEpfheYaEY5T9tKRsNi2SEgIkW5FO3JY93aUrGp8hlivtuVpo+uJaExLJG485D
-	 QjI4zKJFBrYBD5jlYGd8ppJ9GjCXTCqU+gZk1Ghi1K/1jsmwvUodJV+1KLAnctMPdT2t9
-	 AmfOhKqhUaL3qAhT4ALPPDgT8rY/UnTSJQoO637k8UF78z8kkK+Bv8qZKpO7jR7bH7g==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793897306;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=VqiTrc04lJztf2dyTmHN89oGm1bJ8PUHM0btmGHDZmI=;
-	b=wyYKzC9kj+B8wp/g7p3Y7Ej33oF5DYMUVDD3gyn73IJElm3+VyncsLpyPYlYF+Rqx2g5
-	 /3h1f+Lh6Pf1+n4m5MLBCNyoGbh91TC0e9CYZlEozGZKCIznTIQXCly0jocNOS1pqjcbQ
-	 lKg/G6JUE963OHtkCfBwAIfovKdsR92ntaRnWND/gmKQsiD3uYFD6m03+qm99m7kSLXNZ
-	 y8tmZZnv+zxX9/FJV895N9Nv3rS2jIjlA7sDMg9dhZ9fy+zHiYTzjgOayKVSg88mWiELE
-	 9AR798DQFROtdpH8/vbBlqV8SdIa0u55j7PdIH1wmgPR22dzFsPNc4Yp6oDT+uX1AYA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=none header.from=amacapital.net;
-	spf=pass smtp.mailfrom=amacapital.net;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.222.178
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793897312;
+	b=aS04pAnbl8UBRzawozI90phlE9SF3kYMDpKlSgy1XYBJ6LRAjWBdqZ3M6Sppw1p7+ww3
+	 ESTY32WJOePDS/0oC0YLF5jwrRG5E69FDXCLrtcX3okgvOIDUS+Q4cdDreLbQ4liaFFPf
+	 AS02l6Zyr87FutAomsqdvqVSO3zm4cqkHh5b62Hu9WT2Ic3bIvnjTG2mojWio+1EYUlfn
+	 LvEE6lxSWh4r4a3MQKMLX3xfbtAoLomApNO0T1I1bKKA3ouit/GAOd7OcViYl8BKhwMVS
+	 8SSGtjh1bzsPixEtQ+JUIAGg6Z5qQzwd//ON5u0SluveN/FxS0wkoACPREwA9ZwDWKQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793897312;
+	h=Received:DKIM-Signature:Date:To:Cc:From:Message-Id:Subject;
+	bh=3nNnYS3rXGBEUIhHZKihqecq8rp1NDmqZJxqu67mjHY=;
+	b=1bNATpyHNAw+6TBWOw4OCJBK1g84Cm6pI/nFyyX6zA5He05i5s9xjxkS6pX7c1rwXT/t
+	 oH5uBoqgduulXfi4KGhcMel8S2kwFnj15RjUVPpkstTa23DNB4suT/7qpdn4vquOZAffM
+	 RaP85F6a8w/KngnUKSX8Z0Wr87vTi3oGqpado+AjVfnFrtvQZrdU2+IYrb71RrRxYlnUA
+	 NRBALSVOxG21tvQtzkQtPeAiTvasu7N3ggPY97SJQY3gy35jyTtyPmlUp9VrkWLXpVcFE
+	 Gqet6kBHMeDhyfnn+8uIBbq4w6ITEKuyrbGC5lCW/l/S6B1jEdVddYjv2UbMqy7ZSig==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=ZY1udhAV;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F5A9606A32E
-	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 16:48:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2F5A9606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-93e7ad9f78dso249304685a.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 08:48:21 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1793897300; cv=none;
-        d=google.com; s=arc-20260327;
-        b=oO2U6p/56+KwtAqtGFSqEzMEMgICI3QA4QaI05+zw/y5Bqaa66RQJNCP8Xso2L2Qqw
-         SCDNmAqDmW2CilKtS8hTBUJ2SlYnWKvZaiNhXFOS3dsEdqwE/8rjUXh1tWHQP6o5KCHr
-         XAojh0gnPE1Uo/BJVoz7P1Kd55EGzewV3uqf4k4V8ks+xWs+RJB/Qrh5ED8txN0tS221
-         EOCxNOhTKO83r+nn1G8eP/sPqItqFL1tQV09iwbkPFB4mvXzUeCEWGEAW8XHOwE7Nw2v
-         DIv96dT/2J5y5BshhvkX/Qn8QOWNONfhPEXNNqL5687+bz630UuxFm7/SrADgZtxTXw7
-         xb7g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=VqiTrc04lJztf2dyTmHN89oGm1bJ8PUHM0btmGHDZmI=;
-        fh=17NlkM1QZeH//Ar7VQpLbvu4wu5tJ9U+yyOe4VquLsA=;
-        b=e/ZxfEb0iNK4jMrvOwUlZ2tZLVElmE5i2GVp3AgMmBClD8PqQpm+UlShxFWVjsdWVb
-         OVfom+Lunqz06Nl6ecaSbvFwx6MlVvFcg3xQXoQRDyhqQXVxSxaeosCOhM3q6MJVHT7x
-         pHZnpfnMrj6NuTRH2+XDiI6WiKQpyeNSDz/lQZcFGav7HbjNp2SC5x4mgWovuOPCrh8G
-         sFrhBFibgDk4acmLkOOV53qCg2gr+sDHxXaeKJiQyXZT2Gsh9SJEnI+beIbqtpCA1ABt
-         mVvyw8deZ7eKUCxX+72u10wEN0XbiYM+Qon/BXLwmp0U58Q9oFCQgMgUaWg4I16NFl7O
-         ujZA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF6B3606A329;
+	Thu,  5 Nov 2026 16:48:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key, unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=ZY1udhAV
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63F6A1F000C1;
+	Thu,  5 Nov 2026 16:48:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20260707.gappssmtp.com; s=20260707; t=1793897300; x=1794502100; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=VqiTrc04lJztf2dyTmHN89oGm1bJ8PUHM0btmGHDZmI=;
-        b=PD82jKo7jigK4yo/BsC4mL9gzNaCyQCuN/kPVJGkjQjdLI8tYXff0Yq6V8OcVaJvNy
-         weurqZPZmulH0qGSg5NbPVImgWJ+FnTdb3j3Ry4nbirmi+Rj3QFivs4ORBwQaFRqCGqf
-         QEUbVI/SqDEMT+7UGhcd921nGG7eTyZrIMcUrpbYcHWgfkjlc4bKSqYZEDRPXgz7lXtH
-         DqeNW77psjBaqljc2mahGE9h0G2f7KashF5X4+pB5RTZgitOtmNbn03q4nK6XwgY7JUH
-         dHKc7aq+4G8SSRybkD5tRl+j5GVa6fgvquMcqs4nqsv6V0mQuY3Plyf9y99pCk1OO04q
-         xdcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793897300; x=1794502100;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=VqiTrc04lJztf2dyTmHN89oGm1bJ8PUHM0btmGHDZmI=;
-        b=YFffFDcpksrRMMp699z/wUOl9XmOnRHm9+0NjATUFp3GJZeuOPWDYsWl6f9BmoC42T
-         9AZ9/O1y0x/NIR7F7hD1K6MWgqa9321QD8sulJzMio43BrTQ2xlB1Ys7T1S1PBe+a2Tm
-         3dQ3Toy43CtbTo65O3/9Vy56128gDeT64bxd0qD26fQBhjxfQEWwKI1bb3TxPDA4UFVt
-         8Hvf5rlimyXISLwsulvF9TQetQ6z5Testd0CONQVJRLrU1pZU1m7m/7Qsgbss4eEoFRy
-         3lrtWgg+F/A9ID2VuaOWFzHqUG6qwCQNqOm6awPTg8/gP4B6DK5rLgTh39t6iarIQoT3
-         glGA==
-X-Forwarded-Encrypted: i=1; AKwUvBywA8j8zGP75wLThoSc0cAQxRHS5j7bNmj/AiDZnOWajSPDu//xNTqF+DF4R0kaxyFJD4ns+es9XN2A27hc@vger.kernel.org
-X-Gm-Message-State: APuU4Z/0swGeH9rdqutMw5d0JZ6ez3a14xEHNj1/OjNTfDgS5dDJe2Nt
-	j+y6KWqCBKQzcnJ8kuFixBqs+h8UIZPGZYpnlWm3uW+qYK4/EJh/48KCT5kQ6ENFdnv8wZpJODT
-	w0ucs0lTOp3FrhmrCHGUbbBMxXPagrUtl5xjy21sz
-X-Gm-Gg: AYBFou2ku5o/oJxxI6qdU7RNMsHqwRiNrZbrUY1ybrQO3msa6qlaEotWJQoyThdealj
-	cOyxoqVYyQgcecVB31nkwr4wxXrJzHKdudDVxU7UeYMN8v1CmNbGu/LuJyzYny7uD/qhJoDKCI3
-	Ipi3klUhX5Lv0ZN/aWih5IY5QslrJCm7VzbhRT5ft1VJNS0dOfTmZkVJdsXMpp0N0eoLXRiakxn
-	ng09O6Ei/U31CW61GOiImF+wVZZRxKXnqIaSbt/bVnCoS/ox+hhOWoqoe8JCbW3TwlNqOeN/tHl
-	npMoL8Xuq6heSEAmrxFUzSfA23vjcsIhgcglWw/8BUhmq922aC6C61xPjUKKIyTyTrxD2QkSWLq
-	93XoGTLHXLejpd+G6ls/PF6JcMrJ5uhcPC+kmXrG80jct3AEFI4wFY9k=
-X-Received: by 2002:a05:620a:29c1:b0:93f:334e:df25 with SMTP id
- af79cd13be357-9442175b2f6mr3556460685a.41.1793897300081; Thu, 05 Nov 2026
- 08:48:20 -0800 (PST)
+	d=linux-foundation.org; s=korg; t=1793897311;
+	bh=3nNnYS3rXGBEUIhHZKihqecq8rp1NDmqZJxqu67mjHY=;
+	h=Date:To:Cc:From:Subject;
+	b=ZY1udhAVpAvlluTuk0VV0ITiU7+6n9sCRl47dQHeqnBsOyMVVj/cHs3BsQEJ79WrN
+	 GrLAc6AJOPd34awsf74B/zRKFmsy3ICE4EcW7bPTxaOXzbuANJ77XDH3iS7HGUqnal
+	 R1b7c2un31wzSEogO+H1x6+H62hKut3GRV/bSPIg=
+Date: Thu, 05 Nov 2026 08:48:30 -0800
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>, Daehyeon Ko <4ncienth@gmail.com>,
+ Al Viro <viro@zeniv.linux.org.uk>, Jens Axboe <axboe@kernel.dk>,
+ Keith Busch <kbusch@kernel.org>, Hannes Reinecke <hare@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, Haocheng Yu <l1za0.sec@gmail.com>,
+ Tal Zussman <tz2294@columbia.edu>, stable@vger.kernel.org
+From: Andrew Morton <akpm@linux-foundation.org>
+Message-Id: <de6c68da958f43278194d4cf45a8fde2.1@linux-foundation.org>
+Subject: [PATCH 1/1] iov_iter: validate extracted segment for bvec alignment
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -100,155 +54,83 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-References: <20261028221705.3915340-1-halg@google.com> <CALCETrW9ygriu54gxiHFLEd5+hJminQo0r8Jwd63wR69Dj4W7w@mail.gmail.com>
- <auM32mOlBLu6ZUlt@google.com> <CALCETrUD4vh_iSHV7G0bprUFU8=c+ECo701-tXcbQ3UXBWC1ig@mail.gmail.com>
- <ausXFWLgHabezE7R@google.com>
-In-Reply-To: <ausXFWLgHabezE7R@google.com>
-From: Andy Lutomirski <luto@amacapital.net>
-Date: Thu, 5 Nov 2026 08:48:07 -0800
-X-Gm-Features: AclHuK8CUFetL3KNjWElY9pamqV4vOzKRAOdGaRShI4zykg0vul-u3a1dyx4v8I
-Message-ID: <CALCETrXrdQRWTVdCq-V_AVpZG7g=1aCpeyNP3jLXT7VDW=OaVw@mail.gmail.com>
-Subject: Re: [PATCH 0/8] userns: per-namespace capability bounding set and
- opt-in netns loopback
-To: "Hallgrimur H. Gunnarsson" <halg@google.com>
-Cc: Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, Kees Cook <kees@kernel.org>, 
-	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jan Kara <jack@suse.cz>, 
-	James Morris <jmorris@namei.org>, Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jann Horn <jannh@google.com>, =?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
-	KP Singh <kpsingh@kernel.org>, Jonathan Calmels <jcalmels@3xx0.net>, 
-	Casey Schaufler <casey@schaufler-ca.com>, linux-fsdevel@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, linux-api@vger.kernel.org, 
-	containers@lists.linux.dev, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 4, 2026 at 3:30=E2=80=AFAM Hallgrimur H. Gunnarsson <halg@googl=
-e.com> wrote:
->
-> On Tue, Nov 03, 2026 at 10:37:48AM -0800, Andy Lutomirski wrote:
-> > On Thu, Oct 29, 2026 at 5:11=E2=80=AFAM Hallgrimur H. Gunnarsson
-> > <halg@google.com> wrote:
-> > >
-> > > On Wed, Oct 28, 2026 at 03:56:11PM -0700, Andy Lutomirski wrote:
-> >
-> > > >
-> > > > Why should the task's cap masks affect this?  *Maybe* cap_bset make=
-s
-> > > > sense, but I'm struggling a bit to see why cap_permitted and
-> > > > cap_effective should matter.
-> > >
-> > > Sorry, the phrasing here may have been misleading. Just to clarify:
-> > > none of the creating task's capability sets (cap_bset, cap_permitted
-> > > or cap_effective) are used to restrict the new user namespace.
-> > >
-> > > When I wrote "reusing the existing task cap_bset, cap_permitted and
-> > > cap_effective sets on namespace entry", I was contrasting this with
-> > > the prior series from 2024 [1], which proposed adding a 6th per-threa=
-d
-> > > capability set to struct cred.
-> > >
-> > > In this series, when a task creates or enters a user namespace, we
-> > > simply initialize its new cred->cap_{bset,permitted,effective} in
-> > > that namespace to user_ns->cap_bset instead of CAP_FULL_SET.
-> > >
-> >
-> > Okay, this makes *more* sense, but I think it's too weak.
-> >
-> > I have a sort-of goal of having the creation of unprivileged
-> > namespaces be allowed in most contexts by default, *even in Docker*
-> > (which would involve the Docker team changing their default seccomp
-> > rules, but that bridge can be crossed later).  (In furtherance of this
-> > goal, I fixed an ancient bug in newuidmap that gets us quite a bit
-> > closer a couple weeks ago.)
-> >
-> > But tying this mitigation to a parent userns means that it's
-> > completely unusable in the single-deep case.
->
-> To clarify, this mitigation isn't exclusively tied to the parent userns.
-> If a system administrator wants a host-wide policy, like trimming
-> CAP_NET_ADMIN for all unprivileged user namespaces, including
-> single-deep Docker containers, then the host-wide sysctl handles this
-> seamlessly. Any unprivileged process in init_user_ns calling CLONE_NEWUSE=
-R
-> is subjected to the sysctl ceiling, effectively stripping CAP_NET_ADMIN
-> upon creation.
+From: Daehyeon Ko <4ncienth@gmail.com>
+Subject: iov_iter: validate extracted segment for bvec alignment
+Date: Thu, 15 Oct 2026 15:19:07 +0900
 
-Seems reasonable, but see below.
+iov_iter_extract_bvecs() validates iter_iov_addr() and iter_iov_len()
+before iov_iter_extract_pages() selects the first nonempty segment and
+limits it by iter->count.  The checks can therefore cover a different
+range after a leading empty segment or iov_iter_truncate().
 
->
-> Where the single-deep case falls short in this series is per-container
-> granularity. For flexible configuration on a per-container basis, this
-> patch series assumes that containers run in their own user namespace,
-> allowing the runtime to bound capabilities at creation time via clone3()
-> and have that bound persist down the namespace hierarchy across any neste=
-d
-> userns creation.
+An unprivileged O_DIRECT preadv() reproduced the empty-segment case: an
+aligned empty segment followed by a misaligned one completed 4096 bytes
+instead of returning -EINVAL.  A truncated iterator has the same mismatch
+when its full segment length is aligned but its remaining count is not.
 
-There are plenty of cases of *privileged* user namespaces (i.e.
-created by privileged users) that would nonetheless want this.  Or
-unprivileged user namespaces on systems that will not have this
-restriction set that still want to apply it in their own container.
+The worst effect I have confirmed is an alignment-contract bypass.  An
+unprivileged O_DIRECT preadv() produced bvecs with offset/length pairs
+(1, 4095) and (0, 1).  The bio reached brd_submit_bio(), and the read
+completed 4096 bytes instead of failing with -EINVAL.
 
+I have not demonstrated harmful behavior on real DMA hardware.  For a
+normal blk-mq target, blk_mq_submit_bio() calls
+__bio_split_to_limits(), where bio_split_io_at() rejects the misaligned
+bvec before queue_rq().  Virtio-blk and loop both returned -EINVAL in
+my controls.
 
+So a bio-based driver can receive a bvec which violates its advertised
+dma_alignment, but any further effect is driver-specific.  I have not
+reproduced memory corruption or a crash on real hardware.
 
->
-> If a container runs in init_user_ns (as in standard Docker) and we want
-> to restrict userns capabilities for that specific container without
-> relying on a host-wide sysctl, then you are exactly right. We would need
-> some kind of cred-based mechanism to pre-configure a restriction for any
-> future CLONE_NEWUSER calls within that container.
->
-> > I do have a question about this whole scheme, though: are we talking
-> > *just* about CAP_NET_ADMIN?  That is, is there any other bit that has
-> > anywhere near enough security relevance to make this kind of thing
-> > worthwhile?  Because if it's really just a single bit control, maybe
-> > we can come up with a nicer scheme.
->
-> Yes, primarily CAP_NET_ADMIN, and to a lesser extent CAP_NET_RAW.
->
-> If we look at submissions to Google's kernelCTF VRP [1], 90% of the
-> exploit submissions in 2026 require CAP_NET_ADMIN (and about 70%
-> across all submissions since the program started in 2023).
->
-> Restricting these network capabilities when they are not strictly needed
-> (e.g. for sandboxing) is the primary motivation behind the series.
-> However, I wrote the userns capability bounding as a generic mask so it
-> could restrict arbitrary capabilities down the hierarchy, but if the
-> preference is to narrow the scope more specifically to trimming
-> CAP_NET_ADMIN and CAP_NET_RAW, that's completely fine by me.
->
-> If we go that route and want to support the single-deep Docker case, a
-> per-task inheritable securebit might be one way to do it, e.g.
-> SECBIT_NO_USERNS_NET and SECBIT_NO_USERNS_NET_LOCKED. Docker could then
-> set and lock that bit on a container in init_user_ns without needing a
-> parent userns.
+Bound the normal fast-path length by iter->count.  Keep
+first_iovec_segment() for leading empty segments so validation covers the
+remaining portion of the segment available for extraction.
 
-This seems perhaps better.  But maybe a bit that applies the
-restriction to a userns created by someone who doesn't have
-CAP_NET_ADMIN in their own userns?
+Link: https://lore.kernel.org/20261015061907.2713943-1-4ncienth@gmail.com
+Fixes: 14b007e17881 ("block: validate user space vectors during extraction")
+Signed-off-by: Daehyeon Ko <4ncienth@gmail.com>
+Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+Closes: https://lore.kernel.org/r/20261012065520.1089147-1-4ncienth@gmail.com
+Cc: Al Viro <viro@zeniv.linux.org.uk>
+Cc: Jens Axboe <axboe@kernel.dk>
+Cc: Keith Busch <kbusch@kernel.org>
+Cc: Hannes Reinecke <hare@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>
+Cc: Haocheng Yu <l1za0.sec@gmail.com>
+Cc: Tal Zussman <tz2294@columbia.edu>
+Cc: Christian Brauner <brauner@kernel.org>
+Cc: <stable@vger.kernel.org>
+---
 
-IMO what we really want is a generic mechanism for sysctl-like
-settings that are scoped to a userns.  And we would want the API not
-to be filesystem-based (or at least not require *mounting* a
-filesystem) because then we would just make everything messier.  This
-would solve many problems.
+ lib/iov_iter.c |    9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
->
-> On userns creation, create_user_ns() could record this restriction on
-> struct user_namespace. That could either feed into the userns capability
-> bounding set proposed in this series (clearing CAP_NET_ADMIN and
-> CAP_NET_RAW from user_ns->cap_bset when the bit is set on the creator),
-> or be stored as a single boolean in struct user_namespace if we want to
-> keep the mechanism minimal and drop the generic capability mask UAPI.
-> In the latter case, we would still need to replicate some of the
-> userns capability bounding functionality, e.g. strip CAP_NET_ADMIN and
-> CAP_NET_RAW in set_cred_user_ns() on namespace entry, and bound the
-> parent-owner check in cap_capable_helper().
->
-> [1] https://github.com/google/security-research/tree/master/pocs/linux/ke=
-rnelctf
+--- a/lib/iov_iter.c~iov_iter-validate-extracted-segment-for-bvec-alignment
++++ a/lib/iov_iter.c
+@@ -1042,7 +1042,7 @@ static ssize_t iter_xarray_get_pages(str
+ 	return maxsize;
+ }
+ 
+-/* must be done on non-empty ITER_UBUF or ITER_IOVEC one */
++/* must be used on a non-empty ITER_UBUF, ITER_IOVEC or ITER_KVEC */
+ static unsigned long first_iovec_segment(const struct iov_iter *i, size_t *size)
+ {
+ 	size_t skip;
+@@ -1959,8 +1959,13 @@ ssize_t iov_iter_extract_bvecs(struct io
+ 		   iter_is_iovec(iter) ||
+ 		   iov_iter_is_kvec(iter))) {
+ 		unsigned long start = (unsigned long)iter_iov_addr(iter);
++		size_t seg_size = min(iter_iov_len(iter), iter->count);
+ 
+-		if ((start | iter_iov_len(iter)) & mem_align_mask)
++		if (unlikely(!seg_size && iter->count)) {
++			seg_size = iter->count;
++			start = first_iovec_segment(iter, &seg_size);
++		}
++		if ((start | seg_size) & mem_align_mask)
+ 			return -EINVAL;
+ 	} else if (iov_iter_alignment(iter) & mem_align_mask) {
+ 		return -EINVAL;
+_
