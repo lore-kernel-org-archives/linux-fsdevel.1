@@ -1,107 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793893080;
-	b=AGkJSbpuSclewk5ulU6ZOr9IbWcPgL4zq5+qFWHM+L+vcVhTk4sI79zArRrF61Z8y0A/
-	 8/UHYTSShkatU3avSY7IIC9TbpTnOyOJ/d1xAJoEixwmlLIpuAyuPAu7N2+RLxOv0JzNf
-	 adCOXB7QCfVNIV9REKlsi250PAewZgHcxw8ODYxo4xrq8I3lNhbpBvwI1YExLG+iarsXG
-	 /8ctxTDbEhWFAGsH14y0wNj5i1QIIJCPIdSSt5F97IXjyIt3gpTI/E5FaIveWCe70lGTh
-	 8K/rTKPvvl8/cDp9Nd1zz3N868sXiQttHFvRsfSwzPQ74XI6gXd/S7zDe8MeyJOuggw==
+	t=1793893481;
+	b=Ec0RMS8W+uiPZJxl9Wm0xGr2C0O6fFu/l0x/QVbPYbuqyU31qbdniHqsFywW3JVyQU2G
+	 he/i3D+dDYRVft4qEAd+WB3ZmE96zE4Rylq489psBTeJfWqXbj5NJ/ZgZm16KWq2/ACNH
+	 mSBSp02X09jb8oFwRQ3DwVT8UsMYAgq2nuTcq6nYRYD3Yuc81LCCPxhJ6nudrCPLRqPjU
+	 Pp6GNXX2p1/pu32I9bjsSsO/3jPs0C1mnYIQTbL9L5gAIbx9aFbYUDjbgERa5JPs6qwrU
+	 KtxwKuNwoWWw3dFQGau1clJ4G1xyGuBjMCiirOGo5wo3ywTiobdM19LzrOe58yf4rjA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793893080;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
-	bh=rn+wFvbgmGD2mi6hZAgXI17+uY+nPNgmOpv7W0MTn8k=;
-	b=OWokia+ocMTiRSwsLTbHx++9R8Agzt28PMVdE2t5bcBxjgdmlcTjnOdLWXi6k5JwMp/l
-	 Er0eLgjDE/fqwtdJQGJlj6chdz6Ni1wqpdnh+xUq3i9XoaREU7+OsQV9V0Pznu0TWKJ1k
-	 vQ3dtfpVuxLpmBptBaCeLSdvU+kvGjRnNc2UPRtXYb1MG4dk6HdqfqihSFCp/Dj70UYkp
-	 NSJyvsWyD2/jhN7ij8eedS5qy6XAVdm9hHarNydtN+RoOXEk9qNG5ukvkuUI8jLcC/2t+
-	 bTjLlSPSsBHH6z1LXShJ4u+hwWg3mgYsZTBJwEsznA2vsOQLvgbDppVURIX4UbOAh6A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793893481;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=dEHSukm4T4eXj4wYWKIQpZ+9IcO69CzYv4uOD7S+jpQ=;
+	b=XKQAq+QNwkPvdHHiOARNHESg2H/be4/R55G4dBZD4V8M43ZqO1ZmbQESLAotI8fs6Yh6
+	 ERj4VlYwoWX1tJf6C3U8Nmx5oPenCtWPqJSoYMhXrwHiriEbj5tPdCMeub7dcRZD4ghr8
+	 7iR0It1/+O2Y20cMvt0+mjjvGl4mOumU4M6iVYkJhh+aw7JejCgBPTNET3P3vD8DtwjbK
+	 158C/9F8UuYp0Clqp73/1AAaGXpR/X77HTeh2JOcaDi3V6uRhxqtNC1X6Adu9985LZatW
+	 Xz4pYf1h+h5gRDBXjrRydiqc1ms+JQjbcPm1nyDg8ojzZHI8xAsfoP3YuDDi3zgJrIg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=uGIYsDTD;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=A8EdLJV0;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=Kn3yERPG;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ucOfUodT;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QPDjg50q;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 206B4606A332;
-	Thu,  5 Nov 2026 15:37:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 206B4606A332
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFCA7606A32C;
+	Thu,  5 Nov 2026 15:44:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=uGIYsDTD;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=A8EdLJV0;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=Kn3yERPG;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ucOfUodT
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1A30721F99;
-	Thu,  5 Nov 2026 15:37:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793893078; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rn+wFvbgmGD2mi6hZAgXI17+uY+nPNgmOpv7W0MTn8k=;
-	b=uGIYsDTDJwSMXQ57mFgsz9hPxEJcLbCO4ZhjAoZW62cq79kzSLivDRrVKWs35c8RI9QeI8
-	Vm+uRJg0Ut8bNXp6fTSWObSxWPQI1T3SwLdk8F7qtZu5Km2LbrPw62UOmcRYm9tlRKcBmI
-	G4Nv0rQFicHkzdTbZ07OhdaDm5HPldM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793893078;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rn+wFvbgmGD2mi6hZAgXI17+uY+nPNgmOpv7W0MTn8k=;
-	b=A8EdLJV0Yrafz/6PhZ4oua84nhZbqniplcyqOxD+ihbl7DN87/znLkq/VPyk62IApoehHV
-	PVdkHfZG4xA8n/CQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793893077; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rn+wFvbgmGD2mi6hZAgXI17+uY+nPNgmOpv7W0MTn8k=;
-	b=Kn3yERPG1TCwzY+U7d6EGCGuUK3/U7M9d+rmSg13ESY+3Nm/6uYeB1tDATs+2Di6O8fGk1
-	0IxMEOvKicr6gMWT+o2Js0rMSSNrGA6YMZ6QTVSejPQJEODdN/K736SUgJILsJW0FbsQyL
-	q2iG/TX+YpjkNr84nIMTp30QENYT85A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793893077;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rn+wFvbgmGD2mi6hZAgXI17+uY+nPNgmOpv7W0MTn8k=;
-	b=ucOfUodTRPKzkbGc/r7LJnjonnyq4BR9/Ll/K73j5RipUtd5vajMhqU+qu8j1gm2APnd/m
-	JQXyIxTX1PLElWBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E2F1F134F4;
-	Thu,  5 Nov 2026 15:37:56 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id KMWCL9Si7GrTcAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 05 Nov 2026 15:37:56 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id 63758B747; Thu, 05 Nov 2026 16:37:48 +0100 (CET)
-Date: Thu, 5 Nov 2026 16:37:48 +0100
-From: Jan Kara <jack@suse.cz>
-To: daejun7.park@samsung.com
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Ryan Roberts <ryan.roberts@arm.com>, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] mm/readahead: align the async window in
- page_cache_ra_order()
-Message-ID: <cs7sng2kwgcdbuxfk56sbc3x4ku6jtxk6nzwhaaqbjvmi5fqd6@nac6orsarmta>
-References: <20261103-mm-readahead-async-align-v2-1-c3c304cbca59@samsung.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QPDjg50q
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 124A51F000C1;
+	Thu,  5 Nov 2026 15:44:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793893480;
+	bh=dEHSukm4T4eXj4wYWKIQpZ+9IcO69CzYv4uOD7S+jpQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=QPDjg50qQCIHzWlsgw3acSA/5xY6m6SZWjGyp1UDaH2j27o/23FstkEFFRWYDyJlR
+	 Fg9xMgaUBcNKbsMh2LZkaQatRqIfNTD2eJCZoU0LKCuIVM99YZ35b6sgM5zc8O7xS/
+	 L3ibsVPf/9JwsWuFvBKP/082nuZ4hnb9OI9qI+lBo++wnR20Xg71SdsHiVlM1adq9B
+	 LTFt+d5FQybUl3SKx4y/DTQdzR8RTN949dljmstqem0tmfKjPoAOZ6yeCTWTQmYoL7
+	 RLyV5y2faWjCN12smpuItcRCIBPCOzya22xq5gbmwto2HhWV0Xm2jLPL8Kgq42lPoD
+	 q//Smeok+OCZw==
+Date: Thu, 5 Nov 2026 16:44:34 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Matt Bobrowski <matt@bobrowski.net>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, bpf@vger.kernel.org, 
+	Daniel Borkmann <daniel@iogearbox.net>, Alexei Starovoitov <alexei.starovoitov@gmail.com>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, 
+	Jiri Olsa <jolsa@kernel.org>, Emil Tsalapatis <emil@etsalapatis.com>, 
+	Ihor Solodrai <ihor.solodrai@linux.dev>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	stable@vger.kernel.org
+Subject: Re: [PATCH bpf-next 1/2] bpf: fix crash in bpf_path_d_path() for
+ exiting tasks
+Message-ID: <20261105-berglandschaft-mitbringen-baufinanzierung-c0542594d218@brauner>
+References: <20261020105014.97985-1-matt@bobrowski.net>
+ <20261020105014.97985-2-matt@bobrowski.net>
+ <DM9VJTFJGVXB.3GH9LO3NGV5PO@gmail.com>
+ <atiawbBo6WRPA6QA@lima-development>
+ <at_MbcW0OlciNLrE@lima-development>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -111,161 +67,55 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="lgcir5uumdsu3tbv"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261103-mm-readahead-async-align-v2-1-c3c304cbca59@samsung.com>
-X-Spamd-Result: default: False [-12.80 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[multipart/mixed,text/plain,text/x-patch];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,suse.cz:email,samsung.com:email];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	HAS_ATTACHMENT(0.00)[]
-X-Spam-Score: -12.80
-X-Spam-Level: 
-X-Spam-Flag: NO
+In-Reply-To: <at_MbcW0OlciNLrE@lima-development>
 
+On Tue, Oct 27, 2026 at 08:55:57AM +1100, Matt Bobrowski wrote:
+> On Wed, Oct 21, 2026 at 09:58:09PM +1100, Matt Bobrowski wrote:
+> > On Tue, Oct 20, 2026 at 06:24:42PM +0000, Alexei Starovoitov wrote:
+> > > On Tue, Oct 20, 2026 at 03:50 AM Matt Bobrowski <matt@bobrowski.net> wrote:
+> > > > Fix this by returning -EINVAL from bpf_path_d_path() when current->fs
+> > > > is NULL. Only the task itself clears its fs, in exit_fs(), so the check
+> > > > cannot race with that.
+> > > 
+> > > The crash is gone, but so is the path. file_release progs will get
+> > > -EINVAL for every file that a task still has open when it exits.
+> > > 
+> > > It also breaks what works today. The d_dname branch in d_path() returns
+> > > before it looks at current->fs, so at task exit a pipe or a socket
+> > > resolves to "pipe:[123]" now and to -EINVAL with this patch.
+> > > 
+> > > And it's not specific to bpf. The comment in fs/cachefiles/namei.c says
+> > > that current->fs == NULL in do_exit() breaks d_path() called from ext4
+> > > open.
+> > > 
+> > > can we fix it in d_path() instead ?
+> > > With an empty root prepend_path() goes up to the global root, the same
+> > > way d_absolute_path() does. Then the check in bpf_path_d_path() is not
+> > > needed and the selftest can expect the path. A chrooted task gets the
+> > > path from the global root, but it doesn't have a root anymore.
+> > > 
+> > > Something like this (compile tested only):
+> > 
+> > Prior to sending out the fix, I also considered addressing this directly
+> > within d_path(), much like you've proposed here, but decided against
+> > it. d_path()'s contract is to build a pathname relative to the current
+> > root. It does fall back to a root-independent name when the path isn't
+> > reachable from that root, but that fallback still presupposes the caller
+> > has a root to measure against. An exiting task past exit_fs() has no
+> > root, so d_path() has no correct answer to give in that state, and I'm
+> > not convinced we should invent one for it.  That's what
+> > d_absolute_path() is for.
+> > 
+> > You're right that my patch regresses the d_dname case though, since
+> > pipes and sockets resolve today without ever looking at current->fs.
+> > Rather than replicating the d_dname check in bpf_path_d_path(), which
+> > would mean duplicating VFS logic such as the mounted pseudo-inode
+> > special case, I think the cleaner fix is to move the "no root, no
+> > answer" check into d_path() itself, after the d_dname branch:
+> > 
+> > 	if (unlikely(!current->fs))
+> > 		return ERR_PTR(-ENOENT);
 
---lgcir5uumdsu3tbv
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Tue 03-11-26 13:19:26, Daejun Park via B4 Relay wrote:
-> From: Daejun Park <daejun7.park@samsung.com>
-> 
-> page_cache_async_ra() rounds each window end down to a multiple of
-> 1 << ra->order pages before page_cache_ra_order() clamps the folio
-> order. A window starting just below a boundary shrinks to a few pages.
-> With read_ahead_kb=128 and max_sectors_kb=512, 1 MiB reads after a
-> 4 KiB read at offset 0 hit this on one window in three. On a 512 MiB
-> XFS file over QEMU NVMe (cold cache), that takes 0.251 s, 3329 device
-> reads, and 9721 folios (none of order 7).
-> 
-> Pass a flag in struct readahead_control and align the window end in
-> page_cache_ra_order(), stepping the order down to keep at least half of
-> the window. The read then takes 0.200 s, 1031 device reads, and 1039
-> folios (1021 of order 7).
-> 
-> Fixes: 18ebe55a9236 ("mm/readahead: terminate async readahead on natural boundary")
-> Suggested-by: Jan Kara <jack@suse.cz>
-> Link: https://lore.kernel.org/r/747jhqta3plrrx3bfikceoltsewshdpejdei2qjpn3onnvtu3p@cptmb4phbn54
-> Signed-off-by: Daejun Park <daejun7.park@samsung.com>
-...
-
-> diff --git a/mm/readahead.c b/mm/readahead.c
-> index 6e55632902..959c9a7b48 100644
-> --- a/mm/readahead.c
-> +++ b/mm/readahead.c
-> @@ -498,6 +498,35 @@ void page_cache_ra_order(struct readahead_control *ractl,
->  		goto fallback;
->  	}
->  
-> +	new_order = min(mapping_max_folio_order(mapping), new_order);
-> +	new_order = min_t(unsigned int, new_order, ilog2(ra->size));
-> +	new_order = max(new_order, min_order);
-> +
-> +	/*
-> +	 * The caller allows the window to shrink so that it ends on a folio
-> +	 * boundary, rather than ending in small folios. Keep at least half of
-> +	 * the window: one that starts just below a boundary would otherwise
-> +	 * shrink to a few pages. Use a smaller order instead.
-> +	 */
-> +	if (ractl->_align_end) {
-> +		pgoff_t end = start + ra->size;
-> +
-> +		while (new_order > min_order) {
-> +			pgoff_t aligned_end = round_down(end, 1UL << new_order);
-> +
-> +			if (aligned_end <= start)
-> +				break;
-> +			if (2 * (aligned_end - start) >= ra->size) {
-> +				ra->size = aligned_end - start;
-> +				ra->async_size = ra->size;
-> +				new_order = min_t(unsigned int, new_order,
-> +						  ilog2(ra->size));
-> +				break;
-> +			}
-> +			new_order--;
-> +		}
-> +	}
-
-Um, this isn't quite what I meant because this is still quite ad hoc.
-Rather something like attached change (plus the _align_end bits from this
-patch). It will also end up guaranteeing at least half of the original
-window is read but it is also implicitly taking into account alignment of
-the starting offset and other possible factors.
-
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
-
---lgcir5uumdsu3tbv
-Content-Type: text/x-patch; charset=us-ascii
-Content-Disposition: attachment;
-	filename="0001-readahead-Align-window-end-in-pagecache_ra_order.patch"
-
-From 51aaef0da6965d13cfa44a7ddf8e0e846af5585f Mon Sep 17 00:00:00 2001
-From: Jan Kara <jack@suse.cz>
-Date: Thu, 5 Nov 2026 16:31:59 +0100
-Subject: [PATCH] readahead: Align window end in pagecache_ra_order()
-
----
- mm/readahead.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
-
-diff --git a/mm/readahead.c b/mm/readahead.c
-index 6e5563290287..62e204eb3e7c 100644
---- a/mm/readahead.c
-+++ b/mm/readahead.c
-@@ -490,7 +490,7 @@ void page_cache_ra_order(struct readahead_control *ractl,
- 	unsigned int nofs;
- 	int err = 0;
- 	gfp_t gfp = readahead_gfp_mask(mapping);
--	unsigned int new_order = ra->order;
-+	unsigned int new_order = ra->order, last_order = 0;
- 
- 	trace_page_cache_ra_order(mapping->host, start, ra);
- 	if (!mapping_large_folio_support(mapping)) {
-@@ -532,10 +532,22 @@ void page_cache_ra_order(struct readahead_control *ractl,
- 		/* Don't allocate pages past EOF */
- 		while (order > min_order && index + (1UL << order) - 1 > limit)
- 			order--;
-+		/*
-+		 * If we are allowed to align the end of readahead window, stop
-+		 * the readahead as soon as we have to reduce folio order due
-+		 * to it exceeding the RA window.
-+		 */
-+		if (ractl->_align_end && order < last_order) {
-+			ra->size = index - start;
-+			if (ra->async_size > ra->size)
-+				ra->async_size = ra->size;
-+			break;
-+		}
- 		err = ra_alloc_folio(ractl, index, mark, order, gfp);
- 		if (err)
- 			break;
- 		index += 1UL << order;
-+		last_order = order;
- 	}
- 
- 	read_pages(ractl);
--- 
-2.53.0
-
-
---lgcir5uumdsu3tbv--
+That seems ok albeit fugly.
