@@ -1,70 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=178.63.66.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793995176;
-	b=QU/1PkWmQj+0TOvJK1XRVCyctTRII06byVoPygsck1MYRQf5ghfw5i9b5iSlHXvN0t0m
-	 t+NCdTfN0RrdnwgnFjejomSPd4Lz7vQnLTBRdROCRHnRtCi3bTthjKmJ1p0zoJZ+ezehT
-	 TrOqHbEDYLPpO747fj7OO1bvwpP9aJSHzhuSJy/9jO2SKyFzV+DIxXViLm+BOjtryre7L
-	 DYiXkO16FNAlsjR6wf966acYrIXBgYwIwx2myZfmffHsRffYvWmLy5GT/Z/bjwJsx2T3s
-	 GoWdEV2P1IxvxGLkKlKk6vI0tXFzKR19SIREV1UAJKtCZVkkeAO+979llTqiO81SCnA==
+	t=1793995439;
+	b=Q3YbiynHPggIEUDp75piwPzzndjQdou6nbYrpra1HRXlKb7RkFUkUi/J91ykjdFVImqy
+	 41ncBm1/X1a0IywGrVdt6RX2GAHIQlBmSDjV/BpEfwOxsntDiwgBOfzoXVdfxTMNad2AR
+	 3si26s0ctoppJjpvl/pQ7B65Me2IcBU/jT8XXnJTJcq5Y8Stq+OV1xkrKyEVwzhgU3kXR
+	 8JG2bEaU6bDkkW5gPvyRXkqdrnUJSRzIm/lD6IA2QGs9zJVLorz/Lc5R6MxxuaQXfPRgC
+	 3xyCby3ekDjOV0XAgTBlC3C3RuIHel0NzCqcOJiaQEtv7GCpKWu6GHpktIm9f4sKkPw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793995176;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=4JJO7J4fojnA0nt5hwOEl9UDSFikUampjKz664dNgaI=;
-	b=UxnQ84L8ykdngxvojz6bpdDPZBcvEsOUcuYs6V8KAlg6/05+Q3a8uJQ6HUxutiGevRXg
-	 I9Gurp536qurXsqKQ7UNZKYRCFm8mfhGTAbNyTpBZxlt7zQzPIR0vkAlePJd58Nk3v8PT
-	 iGIOk18LL55kD3jaSD8kSNlpQFBNmXVugofDcYEnajulfWdh+G5yboLx4fgMMQUPcxRa+
-	 wU+y9i6gGs5SCO3Y1eHh/shT0+rkHCMOdHwL8LckWqijxqmFwzVPl4JyNmsttJRtq+TSp
-	 Y91av6Xqotm7R3s0f15DVn3IQjf7u1McZhFNNOxcl20t/8HWLe4VHibHnE1BpcilsHQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793995439;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Received:X-Forwarded-Encrypted:X-Received:MIME-Version:References:
+	 In-Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=SOuZsP/y9xq/TzGg7mOta+j2cGpkuhLYFhFIr9N0YU8=;
+	b=j+H6smlO+8F1Z5mm6cYAr6lLM5VjpTlEelyV5FbaTJTcg4tsicklQqWeXzjyRsR3NOvT
+	 33C6shU9cIfOhTY1rRhnlDGlWVfz1orNkv6Q3EFDdSSoLK/Afiwi/tF6UMX3zoE4ukrTR
+	 4r07A5waReB7Gq9RkrJAepDdCmWREdLuzwazoIEkngExr8jfxDIgrCpfJJ2sOLifeiZJ8
+	 bb90XNTzbPrSeShMSvW/4TsfGJbjtYIOcfVO1M4EgELWIFSx2RBg01Ne4tZFhDmWksUwe
+	 WEz8szv2KV0jew2XI/oIftVh2+oakEmAK4GVFg3A/iP/mMTx9cs1mubxAooYf7Kf1iA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=hallyn.com;
-	spf=pass smtp.mailfrom=hallyn.com;
-	dkim=pass header.d=hallyn.com header.i=@hallyn.com header.a=rsa-sha256 header.s=mail header.b=Opz9o4VQ;
-	arc=none smtp.remote-ip=178.63.66.53
-Received: from mail.hallyn.com (mail.hallyn.com [178.63.66.53])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=none header.from=linux-foundation.org;
+	spf=pass smtp.mailfrom=linuxfoundation.org;
+	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=dmCRAjfq;
+	arc=none smtp.remote-ip=209.85.218.42
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92459606A326;
-	Fri,  6 Nov 2026 19:59:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 92459606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hallyn.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hallyn.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EB3B606A326
+	for <linux-fsdevel@vger.kernel.org>; Fri,  6 Nov 2026 20:03:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6EB3B606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=hallyn.com header.i=@hallyn.com header.a=rsa-sha256 header.s=mail header.b=Opz9o4VQ
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=hallyn.com; s=mail;
-	t=1793995173; bh=I8hBdflsjy5ULST78omV7Oaz6W+NqRtKI6XBIEd0n60=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Opz9o4VQjwN9tzX/hO5eSaQ5FQr2WLZl2g1ulAKlt/I2IxmzJ07EHL9LiEfJOVcZ1
-	 cx+7z1Uy5uM+BDh9hDXSmu4+YnsGU3op5jSCjUG33hSaM+zPGOjky5ElfFMhbwHAT1
-	 13EStbhliD7a6DbxEWKx0jLosOxuuYIn/Huix4qegeXUbaoah8N3m625DbjOYsK+4f
-	 7JNeWuVf9y2lKTxVFGvq2lheqSxd7h16n+LxptqmB8cjs41rJd9N/v+1Wiv0Up6Dmz
-	 pIMe67tgdd44TRJhG2FM9jstawe6mBUAFw5k4oHUGNTZOPLyKwPUmef05sBb2tl67/
-	 +C8idkqAnfGOQ==
-Received: by mail.hallyn.com (Postfix, from userid 1001)
-	id 952DC8B5; Fri,  6 Nov 2026 13:59:33 -0600 (CST)
-Date: Fri, 6 Nov 2026 13:59:33 -0600
-From: "Serge E. Hallyn" <serge@hallyn.com>
-To: Aaron Tomlin <atomlin@atomlin.com>
-Cc: tsbogend@alpha.franken.de, paul@paul-moore.com, jmorris@namei.org,
-	mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com,
-	vincent.guittot@linaro.org, stephen.smalley.work@gmail.com,
-	casey@schaufler-ca.com, longman@redhat.com, tj@kernel.org,
-	hannes@cmpxchg.org, mkoutny@suse.com, chenridong@huaweicloud.com,
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-	mgorman@suse.de, vschneid@redhat.com, kprateek.nayak@amd.com,
-	omosnace@redhat.com, kees@kernel.org, neelx@suse.com, sean@ashe.io,
-	chjohnst@gmail.com, steve@abita.co, mproche@gmail.com,
-	nick.lange@gmail.com, cgroups@vger.kernel.org,
-	linux-mips@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-security-module@vger.kernel.org, selinux@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5] security: Expand task_setscheduler LSM hook
-Message-ID: <au4xpT1D8WzBxdvY@hallyn.com>
-References: <20261105172210.76706-1-atomlin@atomlin.com>
- <au4ovp/Ghd25rtfZ@hallyn.com>
- <kn57okulm7cmodzdzvzqqswzafu3vopsatfcsptyrz5ztknx4w@ngwh6si3zgpo>
+	dkim=pass (1024-bit key, unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=dmCRAjfq
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-c4322d310e7so157409166b.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 06 Nov 2026 12:03:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google; t=1793995436; x=1794600236; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=SOuZsP/y9xq/TzGg7mOta+j2cGpkuhLYFhFIr9N0YU8=;
+        b=dmCRAjfqJQwsKcX+aHrTgrTRqIJdg+k9SFLsWpGQ+P+41R5j9aS5CEwIXDn+eakTve
+         5U+GNQQRXGgCs3E+9Hlk9GIcrKajtHeD726ELCBX8HEEcnLHew0SSiw87gUhLpKrsVcL
+         fojGVnEsy+Al734Rbk78gOVWTyojys22Q2oJg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793995436; x=1794600236;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=SOuZsP/y9xq/TzGg7mOta+j2cGpkuhLYFhFIr9N0YU8=;
+        b=SiuttgNJHRjFpWT1tYkXAffIWrLwkj/pudopw+VUuushNQBAaH2d5/Sr8bkyDHIHPM
+         +YGkCbF2hkKnxla847oYPZQySzhJ7xDClJuMolBg08OaMh79q1kTVRALgxCKoKT+VSlq
+         1jwPs09chcVQcLnT9p2KMR1YypfgSY/N/PGD7nWuAlYHNyFZ8uTZp9hJVC6gS0nDw+qN
+         EErYqTuz5NB7WbCQO+eKlEofElEmafrX123HUAZTSQCNNWM5pw/lXxb9HbwPCcxr0Tyg
+         AMt6vhvjjGOp4P80jTcYHdeqKF0SfJ+E2JwD+6ZSMXM32floD1KkTIGecYG85AmVZucl
+         OmlA==
+X-Forwarded-Encrypted: i=1; AKwUvBx3H9CyBTChY0aFTXmcwC3jmemOS70yXJjNS9GzpOCt8DPsaFRp4hcZUmJEoTk4q/a+treTdjyhdDDMLwnS@vger.kernel.org
+X-Gm-Message-State: APuU4Z/ZKP7Vtj2tWHLSz3goFlNegVPKP7R3ODX/ucWKPo7JXJ4vLAuV
+	KJfMqyauC5eTrVOTxnVkWJeaOvesm3QO+2NJVFmLr2Dp6B/Ifh2LzLSqoyYXZtX7qlOc0XFULx+
+	zMyRH5xpVNA==
+X-Gm-Gg: AYBFou2i0u4Ja3dKHCyyOfnsIdgxYvW8ZQZuVdkcBdp6MivbhIbTu3JBFkSy5JUoeKB
+	QyuF1Kb4O91TFK8GLLVsnpxIP0NcH73OrnvFPiAfPx8hoxdAiKNGW+a4MyQBx6bD4T5nRt8QZH2
+	/0rISJH4xg716b97tQdnvHvc7JK3Zr8nAaC9MsugzPJlwkXuK1bus0zrcFoWeI9/53HdaJcbM5w
+	xcLaS7z1IvoMZ/qxcDHP7cRdogn5xz8MIGEoHlCyLx32EhriyTNpefos5k6xJPvpmMGrzQH9GTl
+	b4T/tG6bSr0NIOvIaHBOO1REqaal4AL9JDpwiJEBeFFc0JjHLTkiOXMfFuENUrGdwox+5q1MVla
+	0ZoR5w6tTpPqiazMkEn9+EnF7YHmbBTtTzejiWGVR6NkD/j5L7mV27NJgmERP8E/tOZpnoPXZNr
+	ZIyPHMMgPChZDC/kK/6+V7zYGkW1bxAL1fkkIz6RqgCQlD2zAjWPQssJzxknZz5zHturNjefw/+
+	uh+BxNS3ZjBobqtnmoWp555TvrFlcBvS5/Of/knPVDCQbf+sQrCk/VfRZu69rY4V6+nErh7+VIR
+	nyiFt9sJ887ZTjO7EzoymBwu1iVElOqdXomuK/1kjSciVOhJ4//qJVIcqYjQTXibGcSbb+qZ1A3
+	/DmOkioG+mlSTdYoKzC+tUdY=
+X-Received: by 2002:a17:907:c0a:b0:c2e:5efe:f1cb with SMTP id a640c23a62f3a-c4d34c5a0b4mr312831366b.8.1793995435724;
+        Fri, 06 Nov 2026 12:03:55 -0800 (PST)
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com. [209.85.218.47])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c4d487be8aasm52004266b.15.2026.11.06.12.03.55
+        for <linux-fsdevel@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 06 Nov 2026 12:03:55 -0800 (PST)
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-c3fd91337baso191321366b.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 06 Nov 2026 12:03:55 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AKwUvBz+vzlktNzpKcWuI5rkf91mzY2hUlTiJve6f3hHEnVFmafwiOFVcKlh8ayTLt6pWXVnOreHGEw9AERhbIcP@vger.kernel.org
+X-Received: by 2002:a17:907:c0a:b0:c2e:5efe:f1cb with SMTP id
+ a640c23a62f3a-c4d34c5a0b4mr312829466b.8.1793995435035; Fri, 06 Nov 2026
+ 12:03:55 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -74,62 +94,67 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <kn57okulm7cmodzdzvzqqswzafu3vopsatfcsptyrz5ztknx4w@ngwh6si3zgpo>
+References: <20261104-work-procfs-fs-v2-0-319e0f9a8aae@kernel.org>
+ <CAHk-=wj9Y9NcOesBBm+jhPjYa7qO00fD7g7uwX+H-k0-R2difA@mail.gmail.com>
+ <20261104-allein-bepacken-hitzig-5e517d3c129f@brauner> <20261105-genehm-dachrinnen-infusion-9cdf4868d32e@brauner>
+In-Reply-To: <20261105-genehm-dachrinnen-infusion-9cdf4868d32e@brauner>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Fri, 6 Nov 2026 12:03:37 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wiBsoUD=_V3vQr+sgArezxdk0aVk+_8yTX+gK+JVyNH+w@mail.gmail.com>
+X-Gm-Features: AclHuK8ZOQnPnzaiKmUJOJtxse2KcPSfRUhBBgxVSOLQ5inoQjgyGjpXmIAMBaI
+Message-ID: <CAHk-=wiBsoUD=_V3vQr+sgArezxdk0aVk+_8yTX+gK+JVyNH+w@mail.gmail.com>
+Subject: Re: [PATCH RESEND v2 00/30] proc: convert the fs, kernel and mm
+ entries (Part 5/7)
+To: Christian Brauner <brauner@kernel.org>
+Cc: Al Viro <viro@zeniv.linux.org.uk>, Jann Horn <jannh@google.com>, 
+	Christoph Hellwig <hch@lst.de>, Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, 
+	Josef Bacik <josef@toxicpanda.com>, Chris Mason <mason@kernel.org>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Nov 06, 2026 at 02:50:34PM -0500, Aaron Tomlin wrote:
-> On Fri, Nov 06, 2026 at 01:21:34PM -0600, Serge E. Hallyn wrote:
-> > > This change updates all in-tree security modules (capabilities, SELinux,
-> > > and Smack) to accommodate the new parameters mechanically, while
-> > > providing LSMs with the necessary context to enforce strict scheduling
-> > > and affinity policies.
-> > > 
-> > > Reviewed-by: Casey Schaufler <casey@schaufler-ca.com>
-> > 
-> > This seems misleading - Casey explicitly said "for the smack bits".  This
-> > makes it seem like he reviewed and approved of the whole set.
-> 
-> Hi Serge,
-> 
-> Apologies for that, it was not my intention to misrepresent the scope of
-> Casey's review. The qualifier line was dropped when collecting the trailer.
-> I will update the tag in the next revision to explicitly scope it:
-> 
->     Reviewed-by: Casey Schaufler <casey@schaufler-ca.com> # Smack
-> 
-> > I see no issues with the commoncap.c and security.c changes, but as
-> > Paul said two versions ago in
-> > https://lore.kernel.org/lkml/CAHC9VhSROg6RGUN4_ZVBoEwYjRnKvyjnkbx2D88c09KiTgY3KQ@mail.gmail.com/
-> > nothing appaers to be using these.  Where is the user?
-> 
-> The intended consumer is the BPF LSM (via the generated
-> bpf_lsm_task_setscheduler() hook and the __nullable BTF annotations in
+On Wed, 4 Nov 2026 at 15:35, Christian Brauner <brauner@kernel.org> wrote:
+>
+> > I resent once after I cleaned things up post RFC and I don't plan on
+> > resending (one failed attempt due to my network dropping).
+>
+> A git tree with all of the patches can be found at:
+>
+>     https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git/log/?h=work.procfs.cleanup
 
-Ah, I see, thanks.
+Thanks. Looking at it again, I now reacted to the PCI
+proc_bus_pci_read() patch again, and decided that what I *really* hate
+about it is that it uses those "unsigned int" variables in the first
+place.
 
-> include/linux/lsm_hook_defs.h). As discussed with Peter and Paul in the v3
-> thread [1], when sched_setaffinity() is called, the cpuset controller
-> silently intersects and truncates the requested mask without surfacing the
-> original request, and seccomp cannot safely dereference the __user cpumask
-> or sched_attr pointers without TOCTOU races. Exposing the copied-in
-> sched_attr and cpumask to task_setscheduler allows BPF LSM programs to
-> audit or mediate the actual userspace request before it is sanitised or
-> applied.
-> 
-> In my reply to Paul on v3 [1], I mentioned that once the MIPS prerequisite
-> landed, I would include a concrete in-tree demonstration alongside the hook
-> expansion, which I neglected to include in v4 and v5.
-> 
-> Would adding a BPF LSM selftest (under tools/testing/selftests/bpf/) that
-> attaches to lsm/task_setscheduler and exercises both the sched_attr and
-> cpumask parameters (including NULL and non-NULL paths) be sufficient as an
-> in-tree user/test?
+And even worse, proc_bus_pci_write() uses the signed "int" variables.
 
-Self-tests are good :)
+That's just wrong. It's all garbage. It shouldn't use "int" at all. I
+think it's just that all this code is two decades+ old, and 64-bit
+issues weren't a thing, and even "loff_t" was a newfangled interface
+at the time.
 
-> [1]: https://lore.kernel.org/lkml/ozsngetxq44lahategdi43sqrwdnpotsrebssczymqtkbh7snl@u6ytkznmpne5/
-> 
-> Kind regards,
-> -- 
-> Aaron Tomlin
+"pos" should just be loff_t, and "size" and "cnt" should be "size_t".
+Those are the correct types for those things. Not "unsigned int" and
+certainly not "int".
+
+And yeah, cfg_size in "struct pci_dev" really is "int", and that's an
+independent issue and likely a bug in the PCI layer.
+
+     int pci_cfg_space_size(struct pci_dev *dev);
+
+doesn't seem able to actually return signed values (I think it returns
+either 256 or 4096), but "int" is still not a great type for it - and
+the comparisons with proper variables like 'size_t' will then turn the
+comparison unsigned anyway.
+
+This is all ancient code that works, but isn't pretty. But I'd rather
+fix the types than do things like
+
+        if (*ppos >= size)
+                return 0;
+        pos = *ppos;
+
+which first does the comparison in the right type before it then
+truncates it to the wrong one...
+
+           Linus
