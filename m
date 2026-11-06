@@ -1,55 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793971909;
-	b=qzHsE/+OulM9EIA6rHYKb3raKZ9fHUmIps4rrI9SmWOf5FFkUbMkhbUQPqjK6wdMakOK
-	 wJjb1j+mNK4zDd3fsL6bABSqNJ0Joca6MbpBptAgBDLTpGpjvLroRmML5faCDHUm01tuR
-	 ysfYFNKUi+DEp5kspxFvguzXT3zyx8OG4qfl9OyeIkWJp9v/gc1o36qvwc1qp2dSZyxFo
-	 ZtoIjjC7wu8pnpaLleX8keEB2MlS0BVryCQWjVO5nTdCidoQDpEXuY8ZaUauCgrHbN2FT
-	 31Besdart7ALS1F5EdxAHCTenptjKETZAUw6dp+kNQOfNV4X4fZk/ysb2pMOVWOZNmQ==
+	t=1793972224;
+	b=4OeAVBS91Sz96k3w1cVtnb6V0wBfEpUjU1861BNjc/wRpTkBbo/Y0dwmotfANGWPHLYc
+	 iRSexNNu5f0NZq2ouCdEA/Q2LmPOiDT8q18HsiJtocKgVo3UjVOwIEnhq7XKRPRXtgYiR
+	 HgslK16kWYgY/+Gv7Un5qvrrUspeGgBAI4RMPrQJRP9I1yq0OjPrVWcNJMDN0gNA5xsiX
+	 wN/4Kgjiw474Kodx7c9ubZoSH1U9BjB5wscWLdw7ROen1z+I/4iZ7WqSAYHS8ZkbFhvaY
+	 +dzW4bY1sSLM4QagwB7KCMUQRvJEg4XCyfQRc95To1FsjNoSawb24qxZiGM+byqru3Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793971909;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=mhTP+ansnWyCnsd8FIk5/G7cqO8hbPbQQPwxhP1XaSs=;
-	b=2plVOGS/K4whxMk+XHGu7AAy6UzhfqjPqYy5LwEMqpI7K5UD01RXQMzfAkQZ9K202D2/
-	 6GXojMquXcsfvIHj7zMSartbbRisCmTpCRyFOHnoGBsOmtCaPgsIwWfQ2tp5WRAjHyScE
-	 tWxM8rZC7NHTbY1aoFyNpryR5nbczglENN729kqp1gwjNjXx33ndYOfXHYv6+H5tjmZYe
-	 35tiBRTgGrWpgOMXYgWTfGE0lINo7mqfP+15yNiaXIU9iznDaWQDSS+K3SN7nrT+1dhqA
-	 yqrfu/DGk40I1NOzl60L14ToGznb3oZJVn0zKn4OaFL/5s2HHfyLtqQhlVKZXMLh0gQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793972224;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key;
+	bh=fsgc145zwHET8lvApLf2hA0PKAQBWP1kvOH0cyQnSe8=;
+	b=QfkgiAJF8aUhn/IDIN96rY5Fgg3xkRembWn+su1Lxb7FKU73ypfyGCr6CrvBJAo2WPwA
+	 JWUV/cHNTokLtr6U7t+qh64suoMsjwvRrTtgo22EXI2nr2psK9JpYeUSlRpRSgi5hfHjF
+	 eXkf4GLl1SqtgW4VsVWVQKAyY7nS6/9w672bFSARUj6z8ySIzJRWtxuwj3gRncwUbL96v
+	 dMj1vKZhkrAxHvPrNVWRwLUJsO6Zz/6ed9WonUJdIK2i7u5YmvbP4QWEcw5CdLiH1wpbW
+	 EC7gI2zDMV91jt3CfxqvAiF/Ak6ojUlngF8duQXBqzgNRETV+40diVzvkmpxlH7XdyA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nxbGiJNd;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=none header.from=toxicpanda.com;
+	spf=pass smtp.mailfrom=toxicpanda.com;
+	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=aqvwX80A;
+	arc=none smtp.remote-ip=209.85.160.182
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35D1A606A329
-	for <linux-fsdevel@vger.kernel.org>; Fri,  6 Nov 2026 13:31:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF39E606D803
+	for <linux-fsdevel@vger.kernel.org>; Fri,  6 Nov 2026 13:37:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BF39E606D803
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nxbGiJNd
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1394D1F008BE
-	for <linux-fsdevel@vger.kernel.org>; Fri,  6 Nov 2026 13:31:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793971909;
-	bh=mhTP+ansnWyCnsd8FIk5/G7cqO8hbPbQQPwxhP1XaSs=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=nxbGiJNdCDRPpn3Ds5xruEsDGjB8aOc1P4pg/362ujTefX0vgYJQ8lTUBvRzkr862
-	 f7ZOiH5+YiYCrn1QDti0o0wKJm56Tp4BObB6JTy3yjn3dmycy+nwl4x4jCXkC7XlHR
-	 rJZqt/6madjZa7ORCtscUytSSC5kTYL/m1PWeEZtHPcDc0X7mt8Xr2AFySGrUA1V5N
-	 9KrHlseIOueB7UVeOi3ot+l4bvnWhU7tHgVKbiANWlkTtvLFKS+A+hj72UlMB0Esb/
-	 +NxMUv6Z6wP/6Z48o9vrqC5jBNKcJf12QfyvPldO0A+xuSSQIMgemeRdtDqsCnJ7N3
-	 2+ePiWFsMPL+g==
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c4ceb15dfd7so72251266b.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 06 Nov 2026 05:31:49 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AKwUvBxOJl5ugx84je63yHWYar3AelCfWB1t/ZYlz2/P9rB493gPFHtLzE/d9Z65QMp/YkD1VXhrX+F0TJlmwgJy@vger.kernel.org
-X-Gm-Message-State: APuU4Z981gGhZeM8IsP/2gR4Z1sGaLnki0Q2jSAfE9V33jGFGN4MJ5Dv
-	BmBzC0eUexPspTuhjpjwztkaaT2EX/SuYn3Yo969s5cD9U+1irnt5wrUKSih3nY629P7j1DAMzO
-	EETNEGXC48R3lfDDs8muIeMHJIO4IEV8=
-X-Received: by 2002:a17:906:c150:b0:c46:9ca9:f524 with SMTP id
- a640c23a62f3a-c4d354b9d04mr222051066b.32.1793971907691; Fri, 06 Nov 2026
- 05:31:47 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=aqvwX80A
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-53381e53b80so6452921cf.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 06 Nov 2026 05:37:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=toxicpanda.com; s=google; t=1793972223; x=1794577023; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=fsgc145zwHET8lvApLf2hA0PKAQBWP1kvOH0cyQnSe8=;
+        b=aqvwX80AjGRwxCjKMWgVXyvpVydMW0JPni4tQ1PkFnI19f65ijPwfSv4NDB/dmBLAZ
+         sgkHMN75auCP6VUaaFF5xHO57tobC1BYLRCPYW443LRub/mtjmO7r6bSY0rrKVrQSjVA
+         6BO0QajzfAHQeqYeSSh8oSaXRKi/qtKCk/3lsy31j2LdB12LgTHUGtj495OjmW6gDnNz
+         SutGKU6FQtSDNsEMD243pp3zqskoVz/TO+aHkTsjCNMV8F7WTubCfQZxeYuf5Or67sEj
+         NBFHxZs/R0O1jsRtTGMDD2LSo96v+AfmxnOZeJfklC7L0ydlA3DqXXam3GjdYzcx5YAE
+         +IFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793972223; x=1794577023;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=fsgc145zwHET8lvApLf2hA0PKAQBWP1kvOH0cyQnSe8=;
+        b=kBGXmQ29i8Y+aDRZH8nV4KIvZulThALLvxjhFxKoXXDGjHrgF2qeYE/sxEfHDefAfj
+         JZeoAH56vJ+7WpHjpQ5zgpUTUG/eRlYEHiSt91DTxi7G2QD6qzvRyQdGcrJzLykhng2h
+         ytSJcAozjJCLo7lgVdfdu7+lu9V+pL3Sm65+0TVBNu01LXfkW/MorsDUaBMWNtda//l/
+         HUfZeaGJvDE3GeLkmEXogWXqQ7fYzQ2/73dBKPzW2Ow5HX3lVUZNSbcfeQtn3IDjvFEy
+         GyYbO08Pc43tqi1V/K+zAA9TEn+1hEo2aCnb01onkYRfS3qVo1KuzAjl3sPntYyf4Afr
+         HGtw==
+X-Forwarded-Encrypted: i=1; AKwUvBxqNcBTUN+bxDCE7WuTGRc+QE2K6UrEi1wPKnZ0ZV3aPOh/nnHmmm5z0IRDuT3idMc7hlER81ySQunDsfHz@vger.kernel.org
+X-Gm-Message-State: APuU4Z+EO4O9hI05ODjsdYv/AU80uwGwSpd/sq3CsgwhnBM6aSKVb5DZ
+	Aiqd8isl1PQGH8KNV0c2MN4oCzgN+eC55XYKaeHNfE8kSrEDtTHIA6AP0mz5QF/6IKk=
+X-Gm-Gg: AYBFou06FH7m7sws3s4oLshkS/QR+wft6pnYNId1iW2Xfqr721RQ/sxDlTdVx/pbLhn
+	WqJVmWh/9UBl7CV1Vz3xtIZ66t8nsV3sT+6y8a/ZTq2CBbEj9frt4H4+y8UZGjNhtjR1lBtZO7e
+	RrGbhv8tDnZMaJ+bAb+US/urR0wggCfyhQHLXXUF9RsawZOo4jJBhxG6DCyLtu2ECN76w6sbHDl
+	2G58e01nx1vpNaniJFXDX8q4M+5gJ/UqOTta7sfo1wRysqPmpilJ1zbq0toFUrMhj11UqEyqjdU
+	EsEuFt9emGZbpLU8WxaJq36bJVVzuCNo6CmDM2FD3UZ7vvVWrRb/JLZB+7tI6dEt86+XU+l8hYi
+	n+5dGX5XhG1k+fzA8va5gzqCATqQrVQkyi0s3aOHLAp/la8H3dOmm2rxVu2hGMr+/b9M9ybugD3
+	Vw44XfDZvBx43cGkkprw1EcFdqFOhGh56NxruFzkR3/6BDGoLgHtLIf4WCMIeaNiyqLckElXQ+1
+	SyLKNz3e7W4SxY70yKTyBLB3r3x4K4l1CRBvuTgIvt95JpDR8gboAR5o/WYAqYC6IE6U5doqm/i
+	gNJFqvvKRXRHp8CcAjfcm1l+90lWIqmrIXe+1uProjapxg==
+X-Received: by 2002:a05:622b:1c6:10b0:535:a5fc:3b58 with SMTP id d75a77b69052e-54e15d687f9mr29797641cf.68.1793972222579;
+        Fri, 06 Nov 2026 05:37:02 -0800 (PST)
+Received: from toxicpanda.com ([153.61.196.244])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91ea6a2c110sm20707636d6.7.2026.11.06.05.37.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Nov 2026 05:37:02 -0800 (PST)
+From: Josef Bacik <josef@toxicpanda.com>
+Date: Fri, 06 Nov 2026 13:36:44 +0000
+Subject: [PATCH v4 2/8] ovl: setup overlayfs' private bdi
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -59,58 +92,63 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261106124553.2617026-1-wahidzk0091@gmail.com>
-In-Reply-To: <20261106124553.2617026-1-wahidzk0091@gmail.com>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Fri, 6 Nov 2026 22:31:35 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd8kw-aU=skSEtuE6w3_-gpb-RcHNqEf-b6NRKmx7k1BVg@mail.gmail.com>
-X-Gm-Features: AclHuK8QlL2KYAlZd1A7gGj73Ok5BKOYr08SKud368ZUdJ-5i9SrAT7vTxdKcf8
-Message-ID: <CAKYAXd8kw-aU=skSEtuE6w3_-gpb-RcHNqEf-b6NRKmx7k1BVg@mail.gmail.com>
-Subject: Re: [PATCH v2 0/3] ntfs: three fixes for crafted images, found by fuzzing
-To: Wahid Khan <wahidzk0091@gmail.com>
-Cc: Hyunchul Lee <hyc.lee@gmail.com>, ntfs@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261106-b4-ovl-containerized-sync-v4-2-6ddde0b7dd8a@toxicpanda.com>
+References: <20261106-b4-ovl-containerized-sync-v4-0-6ddde0b7dd8a@toxicpanda.com>
+In-Reply-To: <20261106-b4-ovl-containerized-sync-v4-0-6ddde0b7dd8a@toxicpanda.com>
+To: Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>, 
+ Christian Brauner <brauner@kernel.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ Christoph Hellwig <hch@infradead.org>, Chris Mason <mason@kernel.org>, 
+ Chengguang Xu <cgxu519@mykernel.net>, linux-unionfs@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Chengguang Xu <charliecgxu@tencent.com>, Josef Bacik <josef@toxicpanda.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openssh-sha256; t=1793972217; l=1000;
+ i=josef@toxicpanda.com; h=from:subject:message-id;
+ bh=oigsy1vUIPeqGe01IWwnaOrpAKAk76udNuQNtC58Mj4=;
+ b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgUBr36M/n0nWN0DNbnxwzIiCZez6MG
+ JiruuNaSCI/zXsAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
+ QH2MMGJo3VtO/g4mpjtSeMtfHkOvY5p3MTJJt5D34LL2yuZaYjI4lVmv6voneKKUnxmg7ImbaT6
+ mUv/1qHSlZgo=
+X-Developer-Key: i=josef@toxicpanda.com; a=openssh;
+ fpr=SHA256:C8kOX2QUJCMqnCX+KEeoqRAjLo9L+ELOSH2NSAJHqGA
 
-On Fri, Nov 6, 2026 at 9:46=E2=80=AFPM Wahid Khan <wahidzk0091@gmail.com> w=
-rote:
->
-> I fuzz the new fs/ntfs driver with mutated images: an image from mkntfs
-> populated with ntfs-3g, a few bytes changed, then mount, walk the tree
-> and write, under KASAN. These three problems are still present in
-> ntfs-next (e62b384ca). Each patch has its trace and reproduction steps.
->
-> 1. ntfs: do not read an index block outside $INDEX_ALLOCATION
->    A directory without a usable $INDEX_ALLOCATION hangs on its first
->    lookup. The task waits for an mft record lock that it already holds.
-> 2. ntfs: open the index allocation before reading or writing an index blo=
-ck
->    NULL pointer dereference in ntfs_ib_write() on link().
-> 3. ntfs: do not convert a named $DATA stream when making room in a record
->    WARN_ON() in ntfs_attr_make_non_resident(); no damaged volume needed.
->
-> All three need an image to be mounted, so a crafted image, not a remote
-> attacker.
->
-> Changes in v2, after an automated review of v1 that I checked by hand:
-> - 2/3: ntfs_ia_open() also succeeds for a directory without
->   $INDEX_ALLOCATION and returns an empty resident inode. Reject an index
->   inode that is not non-resident, as 1/3 already does.
-> - 3/3: v1 opened the named stream and converted it. That would lock the
->   stream's folio under the mft record lock, the reverse of the read
->   path (ntfs_read_iomap_begin_resident()). v2 skips named streams in
->   that loop instead.
-> - 1/3: unchanged.
->
-> v1: https://lore.kernel.org/all/20261106091420.2461683-1-wahidzk0091@gmai=
-l.com/
->
->
-> Wahid Khan (3):
->   ntfs: do not read an index block outside $INDEX_ALLOCATION
->   ntfs: open the index allocation before reading or writing an index
->     block
->   ntfs: do not convert a named $DATA stream when making room in a record
-Applied it to #ntfs-next.
-Thanks!
+From: Chengguang Xu <charliecgxu@tencent.com>
+
+Setup overlayfs' private bdi so that we can collect
+overlayfs' own dirty inodes.
+
+Signed-off-by: Chengguang Xu <charliecgxu@tencent.com>
+[josef: only for an overlay that tracks dirty inodes]
+Signed-off-by: Josef Bacik <josef@toxicpanda.com>
+---
+ fs/overlayfs/super.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/fs/overlayfs/super.c b/fs/overlayfs/super.c
+index 81da70fd53a6..22a8d4eb3b7c 100644
+--- a/fs/overlayfs/super.c
++++ b/fs/overlayfs/super.c
+@@ -1490,6 +1490,16 @@ static int ovl_fill_super_creds(struct fs_context *fc, struct super_block *sb)
+ 		if (!ofs->workdir)
+ 			sb->s_flags |= SB_RDONLY;
+ 
++		/*
++		 * Dirty overlay inodes go on the lists of this bdi.  fsync_mode
++		 * is final once ovl_get_workdir() has returned.
++		 */
++		if (ovl_tracks_dirty(ofs)) {
++			err = super_setup_bdi(sb);
++			if (err)
++				return err;
++		}
++
+ 		sb->s_stack_depth = upper_sb->s_stack_depth;
+ 		sb->s_time_gran = upper_sb->s_time_gran;
+ 	}
+
+-- 
+2.55.0
+
