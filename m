@@ -1,78 +1,125 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793949169;
-	b=Pb/zafVGbVwUGkCj6W9rOqO5UOYI4kDU5R3YVGHctMl3qsKHb92UBwE2j+3/k6tubAKI
-	 pWHpTlkgqP636xs8w+lq/bQwrZhFLw39l9Lp3kjO3TI8LSgvUhO+QbtPZ20qALs87/WJO
-	 DTqCIqimoSZ8+Eu/BIkBCm2X2DnpTpnfPvib8MoOKZ8Y1pTnx0/TAP3NxnNdzT94G0tn+
-	 ZeeA9q3hSpOJmlbViljN7YVUd8plqVqq4RFtMg8sd2v8Xq0ue9AeYLgM4RzhQAoxLYFLD
-	 Q5B3NU7juvE9aKVY6774SCdoxovb3wur7KCSiPbAu9qnP/ZzEPdL19LbsxhLk9EsJGA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793949169;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=POBWiouFjcVL/0AJQbsFRft/KQzJa80eb9xN5M5sEJ8=;
-	b=t6AVFNMZVTYl/FA/pCkOI/M0wBoU0A7lz2Xx0BSDDEge7bIyDKHF/c53BnGgXA1jtZOM
-	 7l9k8xdeRqLz8KOqc8OGjBNB9speMtqW932ur3YbNRG8DIlcJDU2NjTRVxARKl+r7NMrY
-	 bzzV1SXk9u89HsH/rkx2y5spQPYw9mYQ0Wd4BUnQ/qslb913S5N095/m2R2/tJrbkOXK9
-	 vaIujGEzbXgZP9Ff4zNl6alrSnCIHtDcKv+T4tiNm5/3UPMTJajxXpqwzwSs/w7VjWKlH
-	 p6sJCld5fdJxVQvG2PBY2SddI1VkCSJ0b/4HPqlfu2C6R2ycvDZfwLrJN6CqinF1v6Q==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HmYg4AwQ;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 377E9606A333;
-	Fri,  6 Nov 2026 07:12:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HmYg4AwQ
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1793949168;
-	b=1W9z/2pmWTHxvidFPyn/kedtExdVG6Gb1UBYkTRzCiIoSIpYhYC120WtSpQWeLY6Bby7
-	 RmCXi+6vHkFhFtnT92sY1RN0wiYGhBUW5SbqEBxTHX6jJzAdOPbYKGESJoNUNs7+Ub/9X
-	 fkZ5jrBvnc4xroFnv8u/AiGOGmpZPWhIww42SLZQifw1DmbJeYDpDqDCtUYifYnmW3eoF
-	 TRyUQzjclYetV0mTcJU8JT0tM1g1YmQWzEFjAV9DM4YWpxpKKdMLko8nY6YsdaazayZUF
-	 DfMCPd1u2R4oWBTxgtbkapWlM9sc1pdHhSVTrqY0NQ6rYsCy0SCVCQkNILW9E4TC7nQ==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1793949168;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=POBWiouFjcVL/0AJQbsFRft/KQzJa80eb9xN5M5sEJ8=;
-	b=qIvdTXLfTEHQQ4dwxMhee6iOi7TpymcLNjO1oc/w9wDZUsmoYS/mGBycrBa+2XPYP6UL
-	 FuZGglo+aWPeF5495w9PVW3/PRv+SZC99s7FpYwAAYBF8fo6iiMwj+3hJONfDpJvIySzg
-	 MUmN27mHB75cH1ZLRZue2xN58EIV7M7vws5dCDVQifPVlo691QvDyb95jegr/gTd+ZQ2P
-	 NFw22DaFDHKWmEgiCwi+wPn0lVvx4lqx1r0razjM9OsRZR35kubLqyUr1bcqUiMJoF9Kw
-	 oJ95PR3f0ye2X+zXjv974q4iDGHU4iBWqoG0JXe+9/uRuh7pdPYltsHGKsocOFcbckQ==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.156
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793950983;
+	b=Jmve3qwcyQTmIMkFyPD2+nAL2VTy9pF1AizQltjS73ECAUh0s7AD7Tpnr8NVezHGreeh
+	 Wtyv7yuKooeEERdGo5D5MACo9SvnUwCS/ElG6hIMLQ7GJM7ssciD7u67o4+9IMDx853Jr
+	 oqzC2/3Nc44SkdrKqPj52LsSicjXD50ej3NWl0e7X9wYuJMbVzUP3tTPEES/nUuTwOBR2
+	 m2/FAwPwH52Xna6att5NRwPJiYYFfnPABDEvWODjRuCNALUlsemECgr6xsY2RlIvC12fO
+	 A3cIpzz0CfIXNflR1bCD45et6uANgSsjNoZsgrnErRvrGbNyVsNfX/STNzCWK2a4iuQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793950983;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=J6SE0s1+Cmv2tEQyGLs4E7WejNQSVW6EagB3ds9ygbQ=;
+	b=3FgSdyYElmZfGavWGqJx+spt42LEdbYzevQPo7tOa+oeqPKse43LNC4kwaEFY7LciekW
+	 sb3m7MSEUVt6J8XUSqXl8j4asKYLDRDqPYn6zKC2EcVcjqJOeBKJduvnCbkVYA2WsSkR6
+	 vUhdY/PL+1uw2yAJGRsPrcEgJlltGdfU9eY12XUYE5YTRV9Q8JahOEozaC3LDTcy0FnAw
+	 jgcAoHAMTT9MM6TV6mc5N8MOujZkiOtrkQlcwWndVLKC1PWYgtoZB3u787pYX0YK88EdX
+	 w9Xs3mxas6ABa+ZuwxhxMQ0dpriFF9pF/p0BF9jWmGimdTvWvmFlUUzGn71iNVue9EQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=gtXIZZ4r;
+	arc=none smtp.remote-ip=91.218.175.156
+Received: from mta0.migadu.com (out-156.mta0.migadu.com [91.218.175.156])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 1E9E81F008A2;
-	Fri,  6 Nov 2026 07:12:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793949168;
-	bh=POBWiouFjcVL/0AJQbsFRft/KQzJa80eb9xN5M5sEJ8=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=HmYg4AwQaxfiHcS5U06YqGmlN7h/CnbtCsqfpBJvFLWSTe1/jRl0QF5vtpfn+yTl6
-	 mOkGaK5HJYN90jPOvHix5w9+E6qOpS3Tg7i5zVplqbQeULQ3zDkBaLKKr/9aiw2Lw3
-	 plLN8627Ozn+mqRvaiU0/F9Qwl1jtP6sSPDKyzqaFoWk6pD35l66c7AFtpuFxY7KEp
-	 aW1fIhl63KBHm+aEEbMBaPR6u2CrjnhuoTtnqP86U64CtzzUmUGJmibrdKOhKdJjsK
-	 yTMYMx5fDojKd9ZEYUetGbH1rDHjt3UuUlBwIHiKb4ezGaXS6qCfmhkbeFtSiA/C5F
-	 8dZy0w9Ll3/6w==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 905F945C37;
-	Fri,  6 Nov 2026 07:12:46 +0000 (UTC)
-From: Chen Linxuan via B4 Relay <devnull+me.black-desk.cn@kernel.org>
-Date: Fri, 06 Nov 2026 15:12:22 +0800
-Subject: [PATCH v5 2/3] pidfd: Use scoped cleanup for task access
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56F77606A331
+	for <linux-fsdevel@vger.kernel.org>; Fri,  6 Nov 2026 07:42:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 56F77606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=gtXIZZ4r
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=PtWTq6nqlzK8T9nMNNfK0YJy8biQ9MHHy5p7qGOpMUs=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1793950975; v=1; x=1794555775;
+ b=gtXIZZ4rmz/p9dHMvPiQm/hGmURo27cmP4mV8N7bQJ5MuqHFcI1QGxpDVQ8r3iiEbFMsKCGP
+ 01detMh5YokECKMeCjPSO5Wl2KVKZpIsiPd6RHQ7bYztDNjh0y1y70UbrcYZ1g4xL0ouWYBLqtU
+ SFSBeQP4yLwxTzrcd+bLLwN4=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by mta11.migadu.com with ESMTPS id 9c50986a3e384fa4;
+	Fri, 06 Nov 2026 07:42:54 +0000
+X-Mizu-Trace-ID: 9c50986a3e384fa4
+X-Migadu-Flow: FLOW_OUT
+Date: Fri, 6 Nov 2026 15:42:19 +0800
+From: "Xu Xin (vivo)" <xu.xin@linux.dev>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
+	Peter Xu <peterx@redhat.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>, Rik van Riel <riel@surriel.com>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>, Harry Yoo <harry@kernel.org>,
+	Jann Horn <jannh@google.com>, Lance Yang <lance.yang@linux.dev>,
+	Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>,
+	Joshua Hahn <joshua.hahnjy@gmail.com>,
+	Byungchul Park <byungchul@sk.com>,
+	Gregory Price <gourry@gourry.net>,
+	Ying Huang <ying.huang@linux.alibaba.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Nico Pache <nico.pache@linux.dev>,
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+	Barry Song <baohua@kernel.org>, Usama Arif <usama.arif@linux.dev>,
+	Kiryl Shutsemau <kas@kernel.org>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
+	Shrikanth Hegde <sshegde@linux.ibm.com>,
+	Pedro Falcato <pfalcato@suse.de>, Kairui Song <kasong@tencent.com>,
+	Qi Zheng <qi.zheng@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
+	Baoquan He <baoquan.he@linux.dev>, Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Leon Romanovsky <leon@kernel.org>,
+	SJ Park <sj@kernel.org>, Rakie Kim <rakie.kim@sk.com>,
+	David Rientjes <rientjes@google.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	James Clark <james.clark@linaro.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	John Johansen <john.johansen@canonical.com>,
+	Georgia Garcia <georgia.garcia@canonical.com>,
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Mimi Zohar <zohar@linux.ibm.com>,
+	Roberto Sassu <roberto.sassu@huawei.com>,
+	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+	Eric Snowberg <eric.snowberg@oracle.com>, Fan Wu <wufan@kernel.org>,
+	Stephen Smalley <stephen.smalley.work@gmail.com>,
+	Ondrej =?utf-8?B?TW9zbsOhxI1law==?= <omosnacek@gmail.com>,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	kvm@vger.kernel.org, damon@lists.linux.dev,
+	linux-trace-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org, apparmor@lists.ubuntu.com,
+	linux-security-module@vger.kernel.org,
+	linux-integrity@vger.kernel.org, selinux@vger.kernel.org
+Subject: Re: [PATCH 06/13] mm/ksm: convert VMA flag tests to use vma_flags_t
+Message-ID: <au2E2/Q3yQacg5pk@dgvxl46587.localhost.localdomain>
+References: <20261105-late-2026-vma-flags-v1-0-0d3cd15ab75f@kernel.org>
+ <20261105-late-2026-vma-flags-v1-6-0d3cd15ab75f@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -82,238 +129,89 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261106-pidfd-get-paths-v5-2-3147ce6571cb@black-desk.cn>
-References: <20261106-pidfd-get-paths-v5-0-3147ce6571cb@black-desk.cn>
-In-Reply-To: <20261106-pidfd-get-paths-v5-0-3147ce6571cb@black-desk.cn>
-To: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
- Michal Hocko <mhocko@suse.com>, Ingo Molnar <mingo@redhat.com>, 
- Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
- Vincent Guittot <vincent.guittot@linaro.org>, 
- Dietmar Eggemann <dietmar.eggemann@arm.com>, 
- Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, 
- Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, 
- K Prateek Nayak <kprateek.nayak@amd.com>, Kees Cook <kees@kernel.org>, 
- John Johansen <john.johansen@canonical.com>, 
- Georgia Garcia <georgia.garcia@canonical.com>, 
- Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
- "Serge E. Hallyn" <serge@hallyn.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-mm@kvack.org, apparmor@lists.ubuntu.com, 
- linux-security-module@vger.kernel.org, Chen Linxuan <me@black-desk.cn>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5558; i=me@black-desk.cn;
- s=20260831; h=from:subject:message-id;
- bh=gzvhhroq0taD08thWsIYRMrkzi7RjkED7WAzCrTTY6w=;
- b=owEBbQKS/ZANAwAKAXYe5hQ5ma6LAcsmYgBq7X3tLqm3ymOk6hzMoNuLWgNObaoSZT+r7/WwK
- QyYPlMwnX6JAjMEAAEKAB0WIQTO1VElAk6xdvy0ZVp2HuYUOZmuiwUCau197QAKCRB2HuYUOZmu
- ixChD/9GjOXUnYx4ahEXEQWkWH+5kRKbSkUOliJ7ApgYYPYKngx/XkW1YnQrybu2MpJuJerZSOD
- oPL2Yz6RbjuZbM6cUXSJT+opBwa1xkfXJ8BcQhQaNu2tQoq0dHwrii0C91OFepi9jpw9FNVxIAT
- zB7RhQu5Yh3hPTOrnXrEbSGOF7MqqvgsTblrFGZoUpEkGmWvuCLnjrsSMe/czzdfWMJZZAm+Eh/
- BJb5h85xXjYUYCV55MOE1vtbHgDhM0LAGsK1YtCbcQ8tjE6aP5ISuVEHMpSJTLNBdt2iVmBZYV3
- uudqPSVK5Z8z55jlzACzJ6RkJtYlv6PIg9SkOCbYPtEGRDCDd4yTCpHlsxR+5ZDLcqhvFuUqOLT
- /zkl32WKxihU0d4V2q6J48SXdRkISQVCUciw5whIS1uoCd9Hsl/bvgwIli8hD6nYJRIjHBOGHyV
- 0KoLIr9n7zr4/ij0EBd15ptzbrtpZJAtA/V2UEg14eUlzyzFEryXy2Cj0Cp+7OYV4XW/kahIcY8
- pn9D4WCJHT01pgy229I0IFMPOtyRDJGPmtlQ5o4bB+ODc8yzoLuqYnCV7nxaTr99/S7unl0NHIE
- H5EAb2Sb8tUuTsiQ6PpRMZ44uqBGHxRMpTRReMJBh5guX5v96bIKshK19Kp/bSi2U8BhhgAPKqP
- lNj6OrCoDEZcm2g==
-X-Developer-Key: i=me@black-desk.cn; a=openpgp;
- fpr=D818ACDD385CAE92D4BAC01A6269794D24791D21
-X-Endpoint-Received: by B4 Relay for me@black-desk.cn/20260831 with
- auth_id=991
-X-Original-From: Chen Linxuan <me@black-desk.cn>
-Reply-To: me@black-desk.cn
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261105-late-2026-vma-flags-v1-6-0d3cd15ab75f@kernel.org>
 
-From: Chen Linxuan <me@black-desk.cn>
+On Thu, Nov 05, 2026 at 09:30:57PM +0000, Lorenzo Stoakes (ARM) wrote:
+> Replace use of the legacy vm_flags_t flags with vma_flags_t values where
+> KSM tests VMA flags directly.
+> 
+> The ksm_madvise() interface continues to take legacy flags for the time
+> being.
+> 
+> No functional change intended.
+> 
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> ---
+>  mm/ksm.c | 13 +++++++------
+>  1 file changed, 7 insertions(+), 6 deletions(-)
 
-Split namespace acquisition from namespace fd creation and represent a
-privileged target task as a scoped class that owns both the task
-reference and exec_update_lock. Use the class for namespace lookups so
-ptrace access checks and task state reads remain tied to the same exec
-critical section, while open_namespace() stays outside the lock.
+LGTM! Thanks!
 
-Carry the pid namespace visibility check into the helper so that all
-users of the class enforce it.
+Reviewed-by: Xu Xin (vivo) <xu.xin@linux.dev>
 
-Signed-off-by: Chen Linxuan <me@black-desk.cn>
----
- fs/pidfs.c | 120 +++++++++++++++++++++++++++++++++++++------------------------
- 1 file changed, 74 insertions(+), 46 deletions(-)
-
-diff --git a/fs/pidfs.c b/fs/pidfs.c
-index cfb93c4ccf23..b70ec50f64da 100644
---- a/fs/pidfs.c
-+++ b/fs/pidfs.c
-@@ -527,70 +527,76 @@ static bool pidfs_ioctl_valid(unsigned int cmd)
- 	return false;
- }
- 
--static long pidfd_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
-+static inline void pidfd_put_task_locked(struct task_struct *task)
- {
--	struct task_struct *task __free(put_task) = NULL;
--	struct nsproxy *nsp __free(put_nsproxy) = NULL;
--	struct ns_common *ns_common = NULL;
--	int error;
--
--	if (!pidfs_ioctl_valid(cmd))
--		return -ENOIOCTLCMD;
--
--	if (cmd == FS_IOC_GETVERSION) {
--		if (!arg)
--			return -EINVAL;
--
--		__u32 __user *argp = (__u32 __user *)arg;
--		return put_user(file_inode(file)->i_generation, argp);
-+	if (!IS_ERR_OR_NULL(task)) {
-+		up_read(&task->signal->exec_update_lock);
-+		put_task_struct(task);
- 	}
-+}
- 
--	/* Extensible IOCTL that does not open namespace FDs, take a shortcut */
--	if (_IOC_NR(cmd) == _IOC_NR(PIDFD_GET_INFO))
--		return pidfd_info(file, cmd, arg);
-+/*
-+ * Return @pid's task with @task's exec_update_lock held, or -EREMOTE if the
-+ * task is not visible in the caller's pid namespace. The ptrace check and
-+ * the callers' task state lookup must be performed while the lock is held
-+ * so that they cannot race with a concurrent execve().
-+ */
-+static struct task_struct *pidfd_get_task_locked(struct pid *pid,
-+						 unsigned long arg)
-+{
-+	struct task_struct *task __free(put_task) =
-+		get_pid_task(pid, PIDTYPE_PID);
-+	int error;
- 
--	task = get_pid_task(pidfd_pid(file), PIDTYPE_PID);
- 	if (!task)
--		return -ESRCH;
-+		return ERR_PTR(-ESRCH);
- 
- 	if (arg)
--		return -EINVAL;
-+		return ERR_PTR(-EINVAL);
- 
- 	/*
- 	 * Require the target to be visible in the caller's pid namespace
- 	 * for operations that grant access to its resources, mirroring
- 	 * procfs and PIDFD_GET_INFO.
- 	 */
--	if (!pid_in_current_pidns(pidfd_pid(file)))
--		return -EREMOTE;
-+	if (!pid_in_current_pidns(pid))
-+		return ERR_PTR(-EREMOTE);
- 
--	/*
--	 * We're trying to open a file descriptor to the namespace so perform a
--	 * filesystem cred ptrace check. Hold @task's exec_update_lock for the
--	 * duration of the ptrace check and the namespace lookup so that the
--	 * credentials used for the access decision match those of @task at the
--	 * time its namespace is read, preventing a concurrent execve() from
--	 * swapping the task's credentials in between the check and the use. We
--	 * mirror nsfs behavior.
--	 */
- 	error = down_read_killable(&task->signal->exec_update_lock);
- 	if (error)
--		return error;
-+		return ERR_PTR(error);
- 
- 	if (!ptrace_may_access(task, PTRACE_MODE_READ_FSCREDS)) {
--		error = -EACCES;
--		goto out_unlock;
-+		up_read(&task->signal->exec_update_lock);
-+		return ERR_PTR(-EACCES);
- 	}
- 
-+	return_ptr(task);
-+}
-+
-+DEFINE_CLASS(pidfd_task_locked, struct task_struct *,
-+	     pidfd_put_task_locked(_T),
-+	     pidfd_get_task_locked(pid, arg),
-+	     struct pid *pid, unsigned long arg)
-+
-+static struct ns_common *pidfd_get_namespace(struct pid *pid,
-+					     unsigned int cmd,
-+					     unsigned long arg)
-+{
-+	struct nsproxy *nsp __free(put_nsproxy) = NULL;
-+	struct ns_common *ns_common = NULL;
-+
-+	CLASS(pidfd_task_locked, task)(pid, arg);
-+	if (IS_ERR(task))
-+		return ERR_CAST(task);
-+
- 	scoped_guard(task_lock, task) {
- 		nsp = task->nsproxy;
- 		if (nsp)
- 			get_nsproxy(nsp);
- 	}
--	if (!nsp) {
--		error = -ESRCH; /* just pretend it didn't exist */
--		goto out_unlock;
--	}
-+	if (!nsp)
-+		return ERR_PTR(-ESRCH); /* just pretend it didn't exist */
- 
- 	switch (cmd) {
- 	/* Namespaces that hang of nsproxy. */
-@@ -672,16 +678,38 @@ static long pidfd_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
- #endif
- 		break;
- 	default:
--		error = -ENOIOCTLCMD;
-+		return ERR_PTR(-ENOIOCTLCMD);
- 	}
- 
--	if (!error && !ns_common)
--		error = -EOPNOTSUPP;
-+	if (!ns_common)
-+		return ERR_PTR(-EOPNOTSUPP);
- 
--out_unlock:
--	up_read(&task->signal->exec_update_lock);
--	if (error)
--		return error;
-+	return ns_common;
-+}
-+
-+static long pidfd_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
-+{
-+	struct ns_common *ns_common = NULL;
-+
-+	if (!pidfs_ioctl_valid(cmd))
-+		return -ENOIOCTLCMD;
-+
-+	if (cmd == FS_IOC_GETVERSION) {
-+		if (!arg)
-+			return -EINVAL;
-+
-+		__u32 __user *argp = (__u32 __user *)arg;
-+
-+		return put_user(file_inode(file)->i_generation, argp);
-+	}
-+
-+	/* Extensible IOCTL that does not open namespace FDs, take a shortcut */
-+	if (_IOC_NR(cmd) == _IOC_NR(PIDFD_GET_INFO))
-+		return pidfd_info(file, cmd, arg);
-+
-+	ns_common = pidfd_get_namespace(pidfd_pid(file), cmd, arg);
-+	if (IS_ERR(ns_common))
-+		return PTR_ERR(ns_common);
- 
- 	/* open_namespace() unconditionally consumes the reference */
- 	return open_namespace(ns_common);
-
--- 
-2.56.0
-
-
+> 
+> diff --git a/mm/ksm.c b/mm/ksm.c
+> index d6f736a1aa2f..61b772bba229 100644
+> --- a/mm/ksm.c
+> +++ b/mm/ksm.c
+> @@ -779,7 +779,7 @@ static struct vm_area_struct *find_mergeable_vma(struct mm_struct *mm,
+>  	if (ksm_test_exit(mm))
+>  		return NULL;
+>  	vma = vma_lookup(mm, addr);
+> -	if (!vma || !(vma->vm_flags & VM_MERGEABLE) || !vma_has_anon_rmap(vma))
+> +	if (!vma || !vma_test(vma, VMA_MERGEABLE_BIT) || !vma_has_anon_rmap(vma))
+>  		return NULL;
+>  	return vma;
+>  }
+> @@ -1243,7 +1243,8 @@ static int unmerge_and_remove_all_rmap_items(void)
+>  			goto mm_exiting;
+>  
+>  		for_each_vma(vmi, vma) {
+> -			if (!(vma->vm_flags & VM_MERGEABLE) || !vma_has_anon_rmap(vma))
+> +			if (!vma_test(vma, VMA_MERGEABLE_BIT) ||
+> +			    !vma_has_anon_rmap(vma))
+>  				continue;
+>  			err = break_ksm(vma, vma->vm_start, vma->vm_end, false);
+>  			if (err)
+> @@ -2698,7 +2699,7 @@ static struct ksm_rmap_item *scan_get_next_rmap_item(struct page **page)
+>  		goto no_vmas;
+>  
+>  	for_each_vma(vmi, vma) {
+> -		if (!(vma->vm_flags & VM_MERGEABLE))
+> +		if (!vma_test(vma, VMA_MERGEABLE_BIT))
+>  			continue;
+>  		if (ksm_scan.address < vma->vm_start)
+>  			ksm_scan.address = vma->vm_start;
+> @@ -2890,7 +2891,7 @@ static int __ksm_del_vma(struct vm_area_struct *vma)
+>  {
+>  	int err;
+>  
+> -	if (!(vma->vm_flags & VM_MERGEABLE))
+> +	if (!vma_test(vma, VMA_MERGEABLE_BIT))
+>  		return 0;
+>  
+>  	if (vma_has_anon_rmap(vma)) {
+> @@ -3027,7 +3028,7 @@ int ksm_madvise(struct vm_area_struct *vma, unsigned long start,
+>  
+>  	switch (advice) {
+>  	case MADV_MERGEABLE:
+> -		if (vma->vm_flags & VM_MERGEABLE)
+> +		if (vma_test(vma, VMA_MERGEABLE_BIT))
+>  			return 0;
+>  		if (!vma_ksm_compatible(vma))
+>  			return 0;
+> @@ -3484,7 +3485,7 @@ bool ksm_process_mergeable(struct mm_struct *mm)
+>  	mmap_assert_locked(mm);
+>  	VMA_ITERATOR(vmi, mm, 0);
+>  	for_each_vma(vmi, vma)
+> -		if (vma->vm_flags & VM_MERGEABLE)
+> +		if (vma_test(vma, VMA_MERGEABLE_BIT))
+>  			return true;
+>  
+>  	return false;
+> 
+> -- 
+> 2.56.0
+> 
