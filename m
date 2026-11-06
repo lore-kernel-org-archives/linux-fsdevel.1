@@ -1,56 +1,52 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793955521;
-	b=x8W/hoa5WdYcTdjueFiQdQH8XwTmlfyaAI8+2ITl3cnyiB0PCDCwuihGFua6SLuzGdvN
-	 ubgl8jFclmBcrS66aFYWPdvCIFzsXQHmzToBWrbqTDtajK6F7SWFA6+af3ztLnEhWuABY
-	 loNhFVHFpZXx8pF7reWMRBrskpBen0OypqvCGCSGaXNGrjAOa8ePzdgnc4Gyr1Y4lPel/
-	 jlvwNPo/4qhD+46MxiksTvt2R5kdyQPzTnzNmMGWLJloQAbJmY6BSLji12/VXwty6a3Pg
-	 u0/ZaogIrmEQX/Ne83wwg/+sXYCI3Ep8DY0+2bUxdy7eeDwGVf8gYdQzjn/Cq/6zFsw==
+	t=1793955826;
+	b=i6NSeEeVAhXvnOAwm3+aYRx6AaKRAkI+hmOGnlOdx/I8zTHmQefZ+cF/8pZiB024HCY6
+	 W5B6pvoRKHErpkheDQCe9cgWedahq7bVZ4ghGuVC6c4j6H1BCmq7TE+vfl/JBVPjFqjCr
+	 xAUpV1S0ibZQYzmUkYX7AOTXwXKTAX7iD2hywaA6GuRVgT6GvwiRa18bwmo43u8F3nNqH
+	 Kx59cGWhMbCIr8TKgorPeuAsN0CrNW+kUNTp83EU/61HLgDFIKf2jczQ6o024gkoMQJgV
+	 tjFV1bHdCJHT8OPaXruOZ6fzEyl/Z9QbnrUTJs9+vvM6FtwsC2Skv+ESXUQ7q5UKCAg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793955521;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=uY2z+WiMRycCgSzTLuJYpDAs4u+e3hUofoi4yXknU0A=;
-	b=zbNnj5AMGnAt+65R8Ue0kTsklqbOJBKOiTDudMyMZaJOTOQTc78UGg8myaVQVPQxsCmQ
-	 onP2yGFkZp0Bu+qOCZuMcA6LPH3kkclObc1S2a8OZ7iY4fUfJGKyBNsrU7cHriNb90BAL
-	 dOGsXzMKi8b/o89Wj0CWq0Zgeu0ZnB+3H2Rfxg1qwKbDjyERioTIfNWagMRLUAyEEj3Nb
-	 mLQL1dkb0YbRRlYwPVT58FwnKOwleMDLbYEIUtcfwALIIxtgV8j052iskJArf7LNPMA5N
-	 7hGPzGWFtViXnrBTgsF1q2XGdXCgOrARFb6aOnSKYGnRazjK3fCU4E1Q9Yzc/qjJ7vg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793955826;
+	h=Received:DKIM-Signature:From:To:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer;
+	bh=GEMaa6k3b2yw1Rc+GvXN57M0QDViTmYq2ZiXe9vfmY4=;
+	b=rKrSsWNUtw1E9wdrYpKACEiyGAA9EponXQnStXAaNAm5aUiyE9ENobi8idZfQxbMSxCM
+	 1eJ6+7OwxW9rlZHiW09sQDKs1YNPCWBFx3eDLO2hZn4lFFECkB9pb0DLYEYq+a77U+tn4
+	 /ezuL8ooHlo+gNpM33SHClf/ccsZWzQIq9FMq9sYaei+iL5qQuK8WOp/kPREBbH/xXV75
+	 qvOkp5zP/mm9Feodpqw8SF+mtL2hXhrSjHY10nlLLP0p3opYCHCM8WnxVEFyrESS6SHz+
+	 sc6tkYZt7ZeyZMywJ32jBb1UCB2rfYwZTBsHlCh7FFSv0dW1jO2DU71M8zD/e0Mgbvw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SRZTvbqG;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gDU+NADX;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F820606A326;
-	Fri,  6 Nov 2026 08:58:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F417E606A328
+	for <linux-fsdevel@vger.kernel.org>; Fri,  6 Nov 2026 09:03:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SRZTvbqG
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F5321F0089F;
-	Fri,  6 Nov 2026 08:58:37 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gDU+NADX
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7B9E1F0089F;
+	Fri,  6 Nov 2026 09:03:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793955521;
-	bh=uY2z+WiMRycCgSzTLuJYpDAs4u+e3hUofoi4yXknU0A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=SRZTvbqGRZtPITJdrVmBB6ut8PxEml+amDCfjRlMqLHhHzWnewWetimD2z6K4VKbs
-	 2mTZfC7lyqh+0VszDh3wDoklo//2DVSIUh1kGzcDVL534K9089SmsDHGvFC86QqCW5
-	 +6mbiyMP7KAy6FFkUWCEnHJyYfZVIOp+XhNUQ55uXVVleMrfzAY9/HDUyHVgBOeRcS
-	 sZ7oq7rsRqFZCS0m6pIj3dMMBj/FuKGHFl7NfvoyLxHeLNJJ7ekGB2lG1s3LCEtPwo
-	 8RBhMB1NgLF51czy0ADTopSm/wZ92l4M0mztjZ0wFoKc/szcwgOYBN2DQxKN/RqvYs
-	 r68lOqDqP7Ynw==
-Date: Fri, 6 Nov 2026 09:58:35 +0100
+	s=k20260515; t=1793955825;
+	bh=GEMaa6k3b2yw1Rc+GvXN57M0QDViTmYq2ZiXe9vfmY4=;
+	h=From:To:In-Reply-To:References:Subject:Date;
+	b=gDU+NADXJKHFyb7NGk5ePGmlcsW5eNQnlEnXY36hixwuMxBDPpKlweGr9FxSPzfWC
+	 PFKFmk6a08XWVRwZ4qdJOhhUbp10093WoQfi3mL4xuoySIi/s5CtwVAqFcj8sCBe2G
+	 6fuGGOCF4wX0HtY6tZ0ey43yCPXc1MK2japkzrcoyuYN7wSbXGnpNcnTFXi8t1Jump
+	 eEu5Fyy9fRSiIZJHxjCrw1SsYuZ3wi2QXmWDtGAHuP8M2wVMIrjIlS5nQ4ED/gv/TY
+	 KzjkS86jloQI3PUMHfT6ehY8XbQU+2LJGv6qlUub9g/FDmCWqikFtCPqWCA2O7v8oG
+	 /jkbVe8LN9jsg==
 From: Christian Brauner <brauner@kernel.org>
-To: Alex Markuze <amarkuze@redhat.com>
-Cc: ceph-devel@vger.kernel.org, idryomov@gmail.com, xiubo.li@clyso.com, 
-	slava@dubeyko.com, viro@zeniv.linux.org.uk, jack@suse.cz, 
-	linux-fsdevel@vger.kernel.org, linux-fscrypt@vger.kernel.org, ebiggers@kernel.org, 
-	tytso@mit.edu, jaegeuk@kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 1/5] dcache: export d_find_alias_rcu() for modular
- filesystems
-Message-ID: <20261106-server-lautlos-hufeisen-0fc0ec477472@brauner>
-References: <cover.20261025T182649Z.ca9ae7a18449.git.amarkuze@redhat.com>
- <99467b57d12e5b671246aa5e216ddce3a7dc3923.20261025T182649Z.ca9ae7a18449.git.amarkuze@redhat.com>
+To: linux-fsdevel@vger.kernel.org, David Disseldorp <ddiss@suse.de>
+In-Reply-To: <20261105111654.214569-1-ddiss@suse.de>
+References: <20261105111654.214569-1-ddiss@suse.de>
+Subject: Re: [PATCH 0/3] initramfs_test: minor coverage improvements
+Message-Id: <20261106-delikat-wahlgang-bollwerk-3d975b365a3c@brauner>
+Date: Fri, 06 Nov 2026 10:03:42 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -60,31 +56,39 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <99467b57d12e5b671246aa5e216ddce3a7dc3923.20261025T182649Z.ca9ae7a18449.git.amarkuze@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev-ce4c1
 
-On Sun, Oct 25, 2026 at 06:42:41PM +0000, Alex Markuze wrote:
-> CephFS subvolume quarantine needs a dentry alias for its RCU ancestry
-> walk without acquiring a dentry reference. d_find_alias_rcu() provides
-> that lookup, but is unavailable to a modular Ceph client.
+On Thu, 05 Nov 2026 22:09:58 +1100, David Disseldorp wrote:
+> This series adds coverage for some initramfs unpack corner cases.
 > 
-> Export d_find_alias_rcu() to GPL modules. The Ceph quarantine state
-> handling patch uses the export with the helper's RCU lifetime rules.
+> David Disseldorp (3):
+>       initramfs_test: drop dir data segment from PATH_MAX test
+>       initramfs_test: test unpack of dir with data segment
+>       initramfs_test: test clean_path collisions
 > 
-> Signed-off-by: Alex Markuze <amarkuze@redhat.com>
-> ---
->  fs/dcache.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/fs/dcache.c b/fs/dcache.c
-> index 1b1a81f10da67c608704383086c3facb64ee3b3b..13ba553081b33a54fd8d1cac5cbc55d0149e4ad7 100644
-> --- a/fs/dcache.c
-> +++ b/fs/dcache.c
-> @@ -1248,6 +1248,7 @@ struct dentry *d_find_alias_rcu(struct inode *inode)
->  	spin_unlock(&inode->i_lock);
->  	return de;
->  }
-> +EXPORT_SYMBOL_GPL(d_find_alias_rcu);
+> [...]
 
-Please use EXPORT_SYMBOL_FOR_MODULES() and restrict this to ceph for now.
+Applied to the vfs-7.5.misc branch of the vfs/vfs.git tree.
+Patches in the vfs-7.5.misc branch should appear in linux-next soon.
+
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
+
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-7.5.misc
+
+[1/3] initramfs_test: drop dir data segment from PATH_MAX test
+      https://git.kernel.org/vfs/vfs/c/fddaa75eda0b
+[2/3] initramfs_test: test unpack of dir with data segment
+      https://git.kernel.org/vfs/vfs/c/ada0255e934d
+[3/3] initramfs_test: test clean_path collisions
+      https://git.kernel.org/vfs/vfs/c/b6b8e4485c98
+
