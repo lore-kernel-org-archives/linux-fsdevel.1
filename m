@@ -1,106 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.1
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793978143;
-	b=HgLme0n9w2i3pyD6ArSTmeNVQeGh95yAeJN60gFUc+CnQvvvEJhvWy0ucBLK4fFXMI78
-	 vP1LG9FQDHGOqmyh41a3IVvMU7WJyDqyzNyMORdqZrzDoyu1KWp39aunQiNjE+V5tH7zg
-	 ENHImrwEx91ifafMjjAB4JXv4aj95+yQ5nB0VY24r3ZhqvMEX80/KwF8/O2K3TQYB0ea9
-	 dYEyCHP6xNfKBGtQyBLHRQIcnNeUbrJTTeN65G/Mpu7yVzPob6wwGpdAjpl0/Skrz1Lv6
-	 tOYupIdUFoGyXsUh8vYHuxPqZsne2IzjB7FQosY4W7eWnRLC4Pta79OK+gEGGWBir3A==
+	t=1793978406;
+	b=Ow/DD6zbJ+OWY9wM1qvu+k1ZJCA2njERi/K1wcV+9pp+j54+9E9qm2NcLqabn/yYsTjk
+	 QXoOCyVSwwWVxHqOhtJ0KJzNHyfYSY1jtSRuiCj3dOJWJvqeyUBz7uQyCFzdxLx7DsAK8
+	 CrOiT5CBB6zOYk+VpVA90gh1nKXh6Y2dmgxq6itMr4AU1gB0fOJt4U2ua7hexytvizAWm
+	 txjoF2IkLlAlvsH+ytl/pO6+VvCnl1qh9R4eeEUkLKKkvC0uxvWYGEXq4XaH8Zwr7nD9w
+	 rt+0ZxsZEjUnlEFEKMgprZwUXaDiZwY2Agk1NOZDRwFnFiXNRSdmpq4zHD9foCwp76Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793978143;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=BQ98lptuezRaClL/2frvW7Abmv8umTPGLgyOyGvfOsk=;
-	b=X5Kv4UNsqnIKrAbhXBnCNNOO5qSylzckjfJWZ+csV+V2HqaW4SjQYgRKM5RBs/CVbivw
-	 BNBGpmXKVaRxo0BOTSqQTneaCGntUx6nxZUOa2ayLk4Qr4xrFbNeCOg1XL25Ff8wuVKX7
-	 6VQl5p8T/UfE+OwwhVBWosCJHKwKOGHcqkKtbfiSSAkrTsvgw0PJuaRQQY00B6HzTnf/n
-	 wThKSCuWm0P6Za3xXh7qNKgB6EgW+fsrU/U4nuFgvqQktzqxlD/DX1B+xzzOT0JCKB3V8
-	 Bv9RU3SzjTb3mMbQqatvc5le9qkQo3r2IsYoFUJio9bcpox55v89HBMbrZH9rZdkBAg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793978406;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-SRS-Rewrite;
+	bh=JlkehWuvNeAqUDDm0lW60pJ1rm2Tezb4uxm9g5ZPK2Y=;
+	b=xLdpzsD5Uqea/HNT4PhMc90Y7BYOSSNxltARc2M3TmMKNzeskIWXGYxk7s9ygM5VAUP4
+	 Wciaf6OeV60PLJ5IPbY7ZVbxuyEZtizfhk6BLVwI1V9OGtPXqhL6vOEh84LzCTzK8THKL
+	 vpK3nPaLe8M2nUnkC6rdJ3c8p0lstsXCG9KmJMzBKEDjvQxAK8J/EiU7c/IlCbirFmusF
+	 IKQ9/AMScB1KunDDLxbiQpCSc4RZH+ccICzeNdiDie7t8tmC3z6r9NzI9YBCn7fMggqKI
+	 1Zf2K7IvfTKpI6E4SxZiNxagLy4pRSseYnn4jeFPtFCt5E6/w8dyMhmqNainYDJ+bEQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=BS+wWOBp;
-	arc=none smtp.remote-ip=95.215.58.1
-Received: from mta1.migadu.com (out-1.mta1.migadu.com [95.215.58.1])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=infradead.org;
+	spf=none smtp.mailfrom=bombadil.srs.infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=NleT4fbb;
+	arc=none smtp.remote-ip=198.137.202.133
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36512606A333
-	for <linux-fsdevel@vger.kernel.org>; Fri,  6 Nov 2026 15:15:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 36512606A333
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4990606D82E;
+	Fri,  6 Nov 2026 15:20:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A4990606D82E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=BS+wWOBp
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=BQ98lptuezRaClL/2frvW7Abmv8umTPGLgyOyGvfOsk=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793978139; v=1; x=1794582939;
- b=BS+wWOBpkanXuDOzgufMBLVEhna7aL+1g1sop8joueXjNrvUxsu52rtxyL4e5+hOz9zL8jlw
- Rh9ddG2x6Kkkn/xyndIPS43SbZU39nj7wSqa7RQPOvmrrvbiMp0l4BaQy2ZZCzgMAJU5DmfDGTC
- wzRss1N8g3/8HPDXGEJwL1DY=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 8657a346237bb2f3;
-	Fri, 06 Nov 2026 15:15:39 +0000
-X-Mizu-Trace-ID: 8657a346237bb2f3
-X-Migadu-Flow: FLOW_OUT
-From: Lance Yang <lance.yang@linux.dev>
-To: david@kernel.org
-Cc: akpm@linux-foundation.org,
-	ljs@kernel.org,
-	liam@infradead.org,
-	vbabka@kernel.org,
-	rppt@kernel.org,
-	surenb@google.com,
-	mhocko@suse.com,
-	willy@infradead.org,
-	jack@suse.cz,
-	ziy@nvidia.com,
-	baolin.wang@linux.alibaba.com,
-	nico.pache@linux.dev,
-	ryan.roberts@arm.com,
-	dev.jain@arm.com,
-	baohua@kernel.org,
-	lance.yang@linux.dev,
-	usama.arif@linux.dev,
-	kas@kernel.org,
-	matthew.brost@intel.com,
-	joshua.hahnjy@gmail.com,
-	byungchul@sk.com,
-	gourry@gourry.net,
-	ying.huang@linux.alibaba.com,
-	apopple@nvidia.com,
-	peterx@redhat.com,
-	hannes@cmpxchg.org,
-	songliubraving@fb.com,
-	riel@surriel.com,
-	hughd@google.com,
-	will@kernel.org,
-	aneesh.kumar@kernel.org,
-	npiggin@gmail.com,
-	peterz@infradead.org,
-	jgg@ziepe.ca,
-	kevin.tian@intel.com,
-	joro@8bytes.org,
-	robin.murphy@arm.com,
-	steven.sistare@oracle.com,
-	jhubbard@nvidia.com,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	iommu@lists.linux.dev,
-	mason@kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH 3/5] mm/mmu_gather: flush pending references early before the folio limit
-Date: Fri,  6 Nov 2026 23:15:33 +0800
-Message-ID: <20261106151533.89428-1-lance.yang@linux.dev>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20261105-refcount_overflow_stable-v1-3-70b9c655da3e@kernel.org>
-References: <20261105-refcount_overflow_stable-v1-3-70b9c655da3e@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=NleT4fbb
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=JlkehWuvNeAqUDDm0lW60pJ1rm2Tezb4uxm9g5ZPK2Y=; b=NleT4fbbVCJtudoFYZQqx17+Kf
+	qd8Dc4Tc5df3T/fufqZLn3arNky3pqfHKNX4gU1542rMqcTSbnhgjtItY9/iKDq8gu8urp2Ld+uiZ
+	SHK2ntWU681pUotk4L9ieyug3skM46z9FEVeDJI/aHEyd4CEvF6Slyc4Itx9vasM2g9klOjqRhJpR
+	A/pQKubHyqxD/KMMQod7PRSePZ4sKRjLjFnmok19kaackjreaOgt0cOl6+H8XIZY0DnqRoqMdoF5g
+	4YkQDM5x4jDU8rdyCu0A+O1NVDr+n9g8yXmtEWPI+X7/mmiQxl0LOvhKL8PkJwrm5Sh4/0iVspOpY
+	Hb5ns+9w==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xPLjY-0000000Cnlc-0PHR;
+	Fri, 06 Nov 2026 15:20:04 +0000
+Date: Fri, 6 Nov 2026 07:20:04 -0800
+From: Christoph Hellwig <hch@infradead.org>
+To: Lauri Gates <lauri.gates@gmail.com>
+Cc: Dave Chinner <dgc@kernel.org>, linux-xfs@vger.kernel.org,
+	Carlos Maiolino <cem@kernel.org>,
+	Christian Brauner <christian@brauner.io>, linux-api@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org,
+	ocfs2-devel@lists.linux.dev, linux-nfs@vger.kernel.org,
+	linux-cifs@vger.kernel.org
+Subject: Re: Concurrent FIEMAP on reflinked files serialises on the AGF
+ buffer lock
+Message-ID: <au3wJNbRPXQZG5Op@infradead.org>
+References: <auudz7Iwm2MrNA-b@dread>
+ <20261106122355.16885-1-lauri.gates@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -110,26 +69,23 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261106122355.16885-1-lauri.gates@gmail.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
+On Fri, Nov 06, 2026 at 02:23:55PM +0200, Lauri Gates wrote:
+> Mirroring XFS_DIFLAG2_REFLINK, the flag would mean "may have shared
+> extents", which is all a du tool needs to decide whether to look
+> closer. If it helps, I can write the patch.
 
-On Thu, Nov 05, 2026 at 02:10:12PM +0100, David Hildenbrand (Arm) wrote:
->When a task zaps mappings (e.g., MADV_DONTNEED), it can drop the PT lock
->and defer dropping the folio references. In the meantime, page faults
->can refault pagecache folios, creating more references for the same
->folios.
->
->Let's just request a flush after enqueueing a pagecache folio whose
->refcount reached a certain threshold. Start flushing well before new
->references are refused, regardless of the caller's privileges.
->
->This is a temporary measure until we have something better.
->
->Reported-by: Chris Mason <mason@kernel.org>
->Fixes: 10ebac4f95e7 ("mm/memory: optimize unmap/zap with PTE-mapped THP")
->Cc: stable@vger.kernel.org
->Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
->---
+Please do.  The main question are:
 
-Reviewed-by: Lance Yang <lance.yang@linux.dev>
+ - do we want it in fileattr_get or as a STATX_ATTR_ in statx.
+ - how do we make the query reliable, and do we even need to?
+
+Besides xfs, btrfs and ocfs2 also support reflinks, and nfs (and maybe
+cifs?) can export the semanics remotely.  So we really need a way
+to indicate if the file system could support reflinks to start with,
+and then one that the file could, so we probably need two bits
+
