@@ -1,56 +1,52 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793956550;
-	b=F0xA2yxJQ68HVOUkGjWnJkHL7wzgvNrY6NfMBuI/ePWIhXyrr8ejxZ9uZ0+x0ox/W6JC
-	 /1QP4Cp/ZkalV3s88xjxzRtwyGEgQeVay5+E7l4YBf2o5x6KJhGLQ0AtZaRmceYyk5jUt
-	 FbL3LU4zmHyoYI9y8JX7aEuewbHUkr3oVDxjx6wO81wqgeyFsYHnylBjXeiOQ2Nwo2Qp1
-	 coRY6wTyU6F13QdFov/qqd2jdP5vXhDZZoRaJvCN5rHc+nK6w+2bYVLDYsBAmIPBrShwp
-	 GQyRZ6s9PYWdK5szcy1BVXHO4C3D55MIgkG9NyugXqPOzCp+dh/BUuEhIaOr9cST2sg==
+	t=1793956925;
+	b=jWpp5ugImvCAGRqJVZjvL2PWHaAoeXba6BsbaSgdRog6Ha28/ajMxh8El7RlD63PwILz
+	 e/7jLM/1RnrffcP6LCB3/x6Yw1b9EFytU+ctjMFAStiqcfJiKZmE46i1t1kWLIh+HSVBn
+	 usKpavb+D7ju9s+Ug9lGtz0A9aSZdb5kcqdiwOUhiHH3r6B9EcEneJeQMFnOlt36pq6Af
+	 3sAMH1RMzSA4JAPV8SKyrCwq+6PypmfyFn2tOVwHs6bd2k7P91o+AnGqNRss9VPbFHVeV
+	 S4Q4IbSl4pnlXYMOkyl29L57j8bQICrKB80TZGyFQQsh1d0uy8Mg2I7wRU22VD1D6eA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793956550;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer;
-	bh=Ichcn6R1WA+kVr6ejRwn+uYrwL9UqNqqT+ZrDzCqQlU=;
-	b=WxoNoh9UulJOUYkH26Skxdr8is+0pTGGNEWT8S0lIF3jlomniFIPT3YioCPMhz5ZStyz
-	 oUzcD34YY7j9+O34qADx6ulztIqJz3g3auppJCGW7Tv7b8EnqumktxhYEiMXSaXiDKEJN
-	 FJcJAHh7nCrQmPWrQ+NgPQb4ziGqjG6f5XRrr0S9FOHmBc5IwfXpG6+nks4U3Z8DZOVbb
-	 RzKehHWy7gH9Jsgb2lQZuEyeuK2ssGXtEaIqsFq2Tdh/Xi3//trl5kkWXFJuM7pqldM7g
-	 OPlw/peAnnoUgtFgmQrIRXM/y7iclLcsVD+lC4LUHOd7fF4ock8Jh/QY48wdtC3DHPQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793956925;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=TmTInOdBW2S88oUds34DqgFhVrod/eStkNJs0WetGwk=;
+	b=3NsZyZj4lE/y99tad5FeWDqsPR0EKkTYNWayum/JGn4r/XX/Pbqfy1XpxESHzFN6gIoA
+	 ZU932Wa8wbllopdSRanghGGdsxN1CmpIiTk7OmhFR6pJ5lMG4EPZqQ59Jr98BcPi+MUys
+	 F9ZEbFdQ8nxIxXiB3XcGpg5lU15s3nBiUpYc03Gi8xG6wEa+DxQCXv1dNwviw0S9wZ84m
+	 Swq02BezPm6cYRiyaDPW31BBALHQDZvfd/kX5zf0LzdtUL8FJ/wChipWVwNr9PVQHLewQ
+	 94XMJU9fK87zbll1kHBf95Ay7qolPqToet9dAsghf2KcXlh3nnlAxDB5atoG4GeS+XA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CR6KPJIi;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=H5HHW2pU;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CC09606A326;
-	Fri,  6 Nov 2026 09:15:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8318D606A32C;
+	Fri,  6 Nov 2026 09:22:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CR6KPJIi
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 012CA1F008A5;
-	Fri,  6 Nov 2026 09:15:48 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=H5HHW2pU
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1651F1F008A1;
+	Fri,  6 Nov 2026 09:22:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793956550;
-	bh=Ichcn6R1WA+kVr6ejRwn+uYrwL9UqNqqT+ZrDzCqQlU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=CR6KPJIiAYWgaVFI3RlaWUf7+QTpIe9G5TGty5Cs8wzHctDd2+y55HNlFY5QpprWU
-	 CotY0QXCKCuhgufyaGNDdgopzknZGZtcwhcMpugccp8+em9ee1gdTv4VEyx7hJrqrV
-	 M2jVo789nCaOAfE2KGXpZYUkqmcS/zzH7hSEJH/Ig5lXK+cQPY2EuyG/SPtcTR40PN
-	 tEse04g6lUBTg92d7oE55a9mGYbaqTB4at9AykOviovXddRjfnVQ20ZJKHwxxusZHX
-	 R9/7kUsL5IC/5g1uQNP/ofsRKO3LXgKAyMgl/BllHjGT2rsXbdsGMnLr9ksK6sDvmQ
-	 YvjU3ifaN+qHw==
+	s=k20260515; t=1793956925;
+	bh=TmTInOdBW2S88oUds34DqgFhVrod/eStkNJs0WetGwk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=H5HHW2pUxekXofpc6Fv4C5hcrSkxXSFsMYSAh7S8prSqKcDY4UeSSs1fPx2A+rMWo
+	 2i+g9Y5nH+1A0lxynudwpu9KBFzfFvWgbnL/1xym2fOm8xXqZbflTD9WRvB0KncBaU
+	 /88dluHXESNwx4+O2LU6jqhpsHs96Xk3clE+2WqPYHI1x5A8n8iDYnYJ9MEYMyqGRy
+	 jxjdzT4yYA51JDM1q0sC9m7gno5W/7JuBhXtLfxbnJ5nkvQDy5DvmUknn3YG+rVZX+
+	 UCf19B+QkVXPNf5ZLSAqJ0hCsKdqWC4c7VKj7W6NejuqIzfFNMukmexSMeNmCrdGop
+	 0AIHXmbeQ/hXQ==
+Date: Fri, 6 Nov 2026 10:22:01 +0100
 From: Christian Brauner <brauner@kernel.org>
-To: Luis de Bethencourt <luisbg@kernel.org>, 
- Salah Triki <salah.triki@gmail.com>, 
- =?utf-8?q?Axel_D=C3=B6rfler?= <axeld@pinc-software.de>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20261102141714.306719-1-axeld@pinc-software.de>
-References: <20261102141714.306719-1-axeld@pinc-software.de>
-Subject: Re: [PATCH v2 0/2] befs: Large file support and a superblock check
- fix
-Message-Id: <20261106-ungemacht-beispiel-aufgearbeitet-e038f1941ca2@brauner>
-Date: Fri, 06 Nov 2026 10:15:46 +0100
+To: Guikun Yang <yangguikun19@qq.com>, linux-kernel@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org
+Subject: Re: [Bug report] qnx6: unvalidated di_filelevels in an inode drives
+ a shift-out-of-bounds in qnx6_block_map() - UBSAN panic at first read
+Message-ID: <20261106-einstellen-herzmuskel-behaupten-26599d61136d@brauner>
+References: <tencent_6946E1A60E7EAF8C6439BD988E45D5F9580A@qq.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -60,37 +56,16 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.17-dev-ce4c1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <tencent_6946E1A60E7EAF8C6439BD988E45D5F9580A@qq.com>
 
-On Mon, 02 Nov 2026 15:17:11 +0100, Axel Dörfler wrote:
-> Two small befs fixes I originally sent in 2019 [1][2], which never got
-> picked up. Rebased onto v7.3 and resent as v2.
-> 
-> Patch 1 lets befs serve files larger than 2GiB; the on-disk format and
-> the implementation already handle 64-bit file sizes, only s_maxbytes was
-> never raised from the MAX_NON_LFS default.
-> 
-> [...]
+On Sat, Oct 31, 2026 at 09:00:00PM +0800, Guikun Yang wrote:
+> A natural fix is to reject the inode in qnx6_iget() when di_filelevels
+> exceeds what ptrbits allows, and to tighten the superblock check to the
+> same bound. QNX6_PTR_MAX_LEVELS alone is not sufficient for small block
+> sizes: with ptrbits = 7 the usable maximum is 31 / 7 = 4. Happy to test a
+> patch.
 
-Applied to the vfs-7.5.misc branch of the vfs/vfs.git tree.
-Patches in the vfs-7.5.misc branch should appear in linux-next soon.
-
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
-
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.5.misc
-
-[1/2] befs: Allow file sizes beyond 2GiB
-      https://git.kernel.org/vfs/vfs/c/cd1fb89d09f9
-[2/2] befs: Fix allocation group consistency check
-      https://git.kernel.org/vfs/vfs/c/f51cd637b410
-
+Please send a patch. qnx6 is orphaned and reports for orphaned or badly
+maintained filesystems have low priority. Patches don't.
