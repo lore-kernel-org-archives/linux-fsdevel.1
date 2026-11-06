@@ -1,55 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.59
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793938214;
-	b=vcH2WcKQGsKZvWx6arTE/Vvbhz0zyLBHVGS+xYAlk4qDrqH4bxoWe660xc+4Oyv/QUIt
-	 XubKwAwbMO1kOTf+m7piJfTGFcA2P8/dZrS6ehxyEtODe4q8YMRARL9txHubyyZuADYzK
-	 ta0JBmGeow8nBF0jklfspXpm7XjP8U8g2f4Z5UjDqWPZRhw/J/hVGlZy3IWMKCeq5x9bR
-	 S+chF3FOhmCMEiEerc4sgI7ECKWHtiyvoNc0gdXYGcqTc+U2PTtJprCf+mIqLMeAUVh1i
-	 XbhxeLgEc+98B284l0XcRBrAAnh8nbPU2MKmhP7D4axc8+aioj84IMvcUjY+XSyxY2w==
+	t=1793940426;
+	b=2RC/yK3IXJkYIS9Rde3iutOs6VXOORMbtepoq/QfD/xhRdjDmC5QHmAqv8lKWJ/6HUE+
+	 aiDN4LRpRKvfMdZC4f+olZutytqzmLOhtrU9zm+V0Nt3ymV1QqbGjlO/KKqteD4OcdRWx
+	 ubfjzOaeFO1dbWogJSERK3j9TWmr6fi9MOaHzcg/gsRVwEd2L6ccZbgojhHPYm2xtyfiP
+	 I5x8LrOPhDK9CZu2KzSGKEnYRy8tPJK9LBfioIEBOGh66F0exgW8KVcbdXYGf/CPQI1Wc
+	 bvgt6K55kcQxYyHmdmW8iM6556LDT3TUQv4RXxFmWoJkvR0eXS33fyXFdBrNfHCEjDA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793938214;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=bpOrsKv6qGnA9uW832gOGeZZa5N6TFONX1C9LOr1sUo=;
-	b=kux6g7QYSuh8A+HbVSkunYrw9oTDTyRnqr3dtKO83r5uNUDv+ZQ8MUBQ83+OpdW7MXK2
-	 X42zRXH4MuJ0rfJ1+htL18/eQqBVt0Io/HW/ESOoeIo5fAZXKNkfO42FQxXZi+mU+vI6R
-	 fBbvBzgjdIzn8LA2huOakDHR/I2dA80+5Ezj4BTa96mKLXgA/7AKGnBby05wCOJBS1bFK
-	 wAxoS7Wau3YtdgS4tY8dr5iHRvxBRKhhL30tJ/oXgj0LQJVk7CK1E8CFofhbOI1LAAH9A
-	 smbkb3ToeYAmMj3DBkovzSjPjRZbRaXNUIsU0yY3IhtQpQBH3lMUzHn7meA7c6fZYEA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793940426;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=nT8GsGl9ylVIBcndChf2G1+bvGTn9s7An5P12CIB7to=;
+	b=TsuqS/n1I8RAP26qrcA5gVUsF/ZrVgVfgFXjIHvFfVNFLNFM9W1tnr9Cf4gmQnTh2SM2
+	 FkOQt9BLxaH21xidSM6Jb6AEOWe6ak+u2ZYW+0MI93H9W835idjIvIfCFFuPQnBGGfeQ+
+	 IT771E746zP6wOIlZAzdW4MjXZBBs1/OoJoEXrzB8FuU+1ORGoB2xO56vYa6JKGewVM2L
+	 lvqdUrpPVlGo32MfqBWt1w8f/V1wTLSyQWnmel5QoHkr+tmleJqBrW3qje2rxmyquHMZ9
+	 r4gKvhMlnia6NNU+uVVrnjSJ2Rcl4ONPbmMgIjSL3XyuC5PZnYU5eGcgEEKhOvLOLDA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=M4g7meN9;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=iO2nZl6q;
+	arc=none smtp.remote-ip=95.215.58.59
+Received: from mta1.migadu.com (out-59.mta1.migadu.com [95.215.58.59])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCB27606A32C
-	for <linux-fsdevel@vger.kernel.org>; Fri,  6 Nov 2026 04:10:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FCB6606A31B
+	for <linux-fsdevel@vger.kernel.org>; Fri,  6 Nov 2026 04:46:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3FCB6606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=M4g7meN9
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 969DB1F008A4
-	for <linux-fsdevel@vger.kernel.org>; Fri,  6 Nov 2026 04:10:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793938213;
-	bh=bpOrsKv6qGnA9uW832gOGeZZa5N6TFONX1C9LOr1sUo=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=M4g7meN9L4jcufSegpXXlWaGlXSAiSHsKt/N0gqp+weN1qe6aJeULVDkyojAgWtGd
-	 gPzkuMhS3VJVvD2iSMsunZRORx5vJwxaWTAQVgFcpLq14jjWIAD7Nw2dIR1i7/2Hzk
-	 /O5QenXf94M6jdl7yxnrnrLBTyfQ+VOsC+G1To0qVtvIPWpP8LkN4Fxrkoshn5Eodv
-	 iI2U+VQDFU28zucCyh62Ju3w7+sSJBZjMtmNRYMl89xvA9b06kdZffirB4Mo5dQJxN
-	 lfwJBW8CcnqbWHB2+bVzFKHN9Grs/TML+8Rs5t7LhzX+R2+u3PZkzW2XpkS0NsohGE
-	 EFmyKRadV+PGA==
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-91c719669a8so1958416d6.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 20:10:13 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AKwUvBzwaf5Nx+Jp4Aql9uBewi813vJmADrpJb0ej9Mu1TrvGh3y2wJxJUnR0kIKYKz/RNBeTJhg2Xn2F7mLzrWQ@vger.kernel.org
-X-Gm-Message-State: APuU4Z+YcgCxB33DFOec9VFEdxG/r2yDc4a5uHPczGgNVNooXdOJW75o
-	EESmkr9mwY2QM/lDMjXLWddvxtQswkTxz3/LvZK97+LkU/pWlT8QqExDcFUVzVHmOfy5mdoObnt
-	7J9s+WLDQLw44j4OecXmqECHwqOMXzlc=
-X-Received: by 2002:a05:620a:1b86:b0:93e:c12c:f134 with SMTP id
- af79cd13be357-945f364d640mr184996685a.79.1793938212273; Thu, 05 Nov 2026
- 20:10:12 -0800 (PST)
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=iO2nZl6q
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=JaY48vU82NpgXndow1t+yYyeEA70Dvrc3FgWUyhC1LQ=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1793940418; v=1; x=1794545218;
+ b=iO2nZl6qyBzhoePfyqFBlVtZKcDfW9+p1u2Bu0CQ1+Dk2zZ+G++eol6MT1rDrLtIFmprt8+R
+ xgHulVSkNjRNhiWE3m7TWPiFJ7AgkZ5cJExArE4pnIp+8R7c8ry7cxeLAolxJblFkNlfeuHvDi0
+ YTGpoItu6jISRF5u0J3bflkA=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 5b9226a0469bd136;
+	Fri, 06 Nov 2026 04:46:58 +0000
+X-Mizu-Trace-ID: 5b9226a0469bd136
+X-Migadu-Flow: FLOW_OUT
+From: Jiayuan Chen <jiayuan.chen@linux.dev>
+To: linux-fsdevel@vger.kernel.org,
+	brauner@kernel.org
+Cc: Jiayuan Chen <jiayuan.chen@linux.dev>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] eventpoll: check the event mask before taking ep->lock
+Date: Fri,  6 Nov 2026 12:46:23 +0800
+Message-ID: <20261106044624.278356-1-jiayuan.chen@linux.dev>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -59,73 +66,78 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261105-late-2026-vma-flags-v1-0-0d3cd15ab75f@kernel.org> <20261105-late-2026-vma-flags-v1-4-0d3cd15ab75f@kernel.org>
-In-Reply-To: <20261105-late-2026-vma-flags-v1-4-0d3cd15ab75f@kernel.org>
-From: Barry Song <baohua@kernel.org>
-Date: Fri, 6 Nov 2026 12:10:01 +0800
-X-Gmail-Original-Message-ID: <CAGsJ_4zfovh2t9zNeo2D6+TqPbKeEeoFniTyE6DQT8w8stXNhw@mail.gmail.com>
-X-Gm-Features: AclHuK-3k2KPmLqEqbOgFVFtxh57Y4Ge5X7nQzdyUQMEUj3H7k7EkhGovaoUjnE
-Message-ID: <CAGsJ_4zfovh2t9zNeo2D6+TqPbKeEeoFniTyE6DQT8w8stXNhw@mail.gmail.com>
-Subject: Re: [PATCH 04/13] mm/migrate: convert VMA flag tests to use vma_flags_t
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Rik van Riel <riel@surriel.com>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Harry Yoo <harry@kernel.org>, 
-	Jann Horn <jannh@google.com>, Lance Yang <lance.yang@linux.dev>, Zi Yan <ziy@nvidia.com>, 
-	Matthew Brost <matthew.brost@intel.com>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
-	Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
-	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
-	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, Xu Xin <xu.xin@linux.dev>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>, 
-	Shrikanth Hegde <sshegde@linux.ibm.com>, Pedro Falcato <pfalcato@suse.de>, 
-	Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Baoquan He <baoquan.he@linux.dev>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Leon Romanovsky <leon@kernel.org>, 
-	SJ Park <sj@kernel.org>, Rakie Kim <rakie.kim@sk.com>, David Rientjes <rientjes@google.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, 
-	Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, 
-	James Clark <james.clark@linaro.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Oleg Nesterov <oleg@redhat.com>, John Johansen <john.johansen@canonical.com>, 
-	Georgia Garcia <georgia.garcia@canonical.com>, Paul Moore <paul@paul-moore.com>, 
-	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, Mimi Zohar <zohar@linux.ibm.com>, 
-	Roberto Sassu <roberto.sassu@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
-	Eric Snowberg <eric.snowberg@oracle.com>, Fan Wu <wufan@kernel.org>, 
-	Stephen Smalley <stephen.smalley.work@gmail.com>, =?UTF-8?B?T25kcmVqIE1vc27DocSNZWs=?= <omosnacek@gmail.com>, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	kvm@vger.kernel.org, damon@lists.linux.dev, 
-	linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, 
-	apparmor@lists.ubuntu.com, linux-security-module@vger.kernel.org, 
-	linux-integrity@vger.kernel.org, selinux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Nov 6, 2026 at 5:32=E2=80=AFAM Lorenzo Stoakes (ARM) <ljs@kernel.or=
-g> wrote:
->
-> Replace use of the legacy vm_flags_t flags with vma_flags_t values in the
-> migration logic.
->
-> We retain the READ_ONCE() of vma->vm_flags in remove_migration_pte(), as
-> there is no vma_flags_t equivalent, and arch_make_huge_pte() continues to
-> take legacy flags for the time being.
->
-> No functional change intended.
->
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> ---
+ep_poll_callback() takes ep->lock and only then checks whether the
+event matches epi->event.events. But epi->event.events is not protected
+by ep->lock, ep_modify() and the EPOLLONESHOT disarm update it under
+ep->mtx.
 
-LGTM,
+So a wakeup for an event nobody asked for takes and releases ep->lock
+for nothing. E.g. a UDP socket registered with EPOLLIN only gets an
+EPOLLOUT wakeup for every freed tx skb.
 
-Reviewed-by: Barry Song <baohua@kernel.org>
+Check the mask first and return early if the event is not wanted. The
+comment in ep_modify() counts on ep_poll_callback() taking ep->lock, so
+do smp_mb() and read the mask again before dropping the event. Wanted
+events take the lock as before.
+
+Benchmark, based on stress-epoll.c [1]: N threads share one epoll, each
+thread registers its own eventfd with EPOLLPRI, which eventfd never
+raises, and loops on write() + read(). Both call ep_poll_callback(),
+with EPOLLIN and EPOLLOUT. 12 vCPU VM, ops/ms:
+
+  threads   before    after
+        1      396      402
+        4     1514     1604
+       12     1264     4817
+
+The original stress-epoll.c hits this path too: the poller read()s the
+eventfds, and eventfd_read() wakes with EPOLLOUT while they are
+registered with EPOLLIN. 32 vCPU VM, events/ms, average of 6 runs:
+
+  threads   before    after
+        8     1293     1315
+       16     1407     1422
+       32     1304     1431
+
+Real case, udp rr over veth with 1000 connected sockets registered with
+EPOLLIN: _raw_spin_lock_irqsave drops by ~1%.
+
+[1] https://github.com/rouming/test-tools/blob/master/stress-epoll.c
+
+Signed-off-by: Jiayuan Chen <jiayuan.chen@linux.dev>
+---
+ fs/eventpoll.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/fs/eventpoll.c b/fs/eventpoll.c
+index e0c4bf88a838..29e034e3a295 100644
+--- a/fs/eventpoll.c
++++ b/fs/eventpoll.c
+@@ -1495,8 +1495,22 @@ static int ep_poll_callback(wait_queue_entry_t *wait, unsigned mode, int sync, v
+ 	struct eventpoll *ep = epi->ep;
+ 	__poll_t pollflags = key_to_poll(key);
+ 	unsigned long flags;
++	__poll_t events;
+ 	int ewake = 0;
+ 
++	/*
++	 * epi->event.events is updated under ep->mtx, not ep->lock, so an
++	 * event nobody asked for can be dropped without taking ep->lock.
++	 */
++	events = READ_ONCE(epi->event.events);
++	if (pollflags && !(pollflags & (events | POLLFREE))) {
++		/* Pairs with smp_mb() in ep_modify(). */
++		smp_mb();
++		events = READ_ONCE(epi->event.events);
++		if (!(pollflags & events))
++			return !(events & EPOLLEXCLUSIVE);
++	}
++
+ 	spin_lock_irqsave(&ep->lock, flags);
+ 
+ 	ep_set_busy_poll_napi_id(epi);
+-- 
+2.43.0
+
