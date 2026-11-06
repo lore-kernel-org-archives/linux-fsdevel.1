@@ -1,55 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=82.195.75.108
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793968063;
-	b=PdSXh6J+Cscr2ZuNhT6LspGzWl7Wu49dk/0/XdAmntpjUfD9Q9xeeG5S2fIIYaa2/Q7A
-	 y7pEOTs8sfmX9tl0j3PwTm8+xnD1XOLTWtz0EGz0c0580GzUkThg1uuYIJCEQPB/8hPS1
-	 MNpvaeWpcasN/9/0Htr1ZCK++nufN9skoANGNVSHjCXP/GeMeEYAbt7ager1luRF1d10j
-	 qAYvWy+4GcNOCKc4D+kDoZD1aDZ//Ui/hscRrBLTncwnMWtohynWzlBbfc3emvXosW4gZ
-	 eog67raRhmcTI1R4WQmUgTY9w+EEwrmkkWqU9hiqTeMhU1zIkhNnsafWr2OAJrX/XZA==
+	t=1793968077;
+	b=1QN2wwjjNyMzVPr/tXw+NcYovCdRfCh14PgdbpntNfaYan2rAv0rZvjUIySA9dao0QU1
+	 Gi44R74Go7bV5LVW1tncjTyCv/GTekOgPuC1ggnnI+TWorNDP5BYImubVlKgLzJLmc/Ux
+	 6yH1V9ob/Q/q0UXEb1xkR9iHZXbTi0Kf2IRlWZQrx1b8aw7DvE4GU20q5vQdYxFo8c1/C
+	 GcrdW/bJadx8MvoQZKjils1scCD3WVTURMBsEJq8/dVarhFkGXyWYM5X8ox2R4wswNscH
+	 M1tj7R2cuXabFD6SjlnSEu02u8M6yxTfHE3UBvs62nZRzJc2191L4uvdx0vsDEn3JIA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793968063;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=gXaYki6uWSOGEqG2nnwjkCld7NyYwmbFRUn/nj+UBJk=;
-	b=4NNTiwQwP1yAkoy9zY6KTJGP1N04pVZ13Va3oWLaJrKMan3IlYOOC2I/Iy6Jr92MhnMD
-	 ErnSF3m3f3KrQS/MvOV34fcOCgamZUI0m8fwy7n3JIkgUki6pgMPBEVwpTG5LatU5NORe
-	 tSVoTaB/1cD9aKVyaVtiH9XcRK2yzPdNAz1KvHicFVqZH9W5snZkp6He+KImQwJBmeATL
-	 2nhBUGI187M+pGG/7VP3Wri6OGtlJg6JWX8uCX+iVksrHPrQ8kCMiadqUNRAnKqHPk3FV
-	 iB7BPu5rju7eOC/M1YBE29dnhflcR8XYcpYCV72oTCV677f0VEUf0F32JZRO/K1g/qg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793968077;
+	h=DMARC-Filter:DKIM-Signature:Received:From:Subject:Date:Message-Id:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
+	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-Debian-User;
+	bh=NwiypONsoLZzkdBGuzeZ3yGbT8VUdMblEVHsZrbIo4U=;
+	b=Ze6elPLPMBtZtXwweUEGbhg1F5kcBAhLB1EiY2kSpZ73hti7fok+u2GHACPn6ujbkO4a
+	 Kxh3fYTunDFK6tEUyUsnZGyTV1GZpqhf3xwwS3QJRaW+2A7p70aJMVR6H3TuUk5DMAWiR
+	 +LLgxaAxmlhVIU+rt8StzSLZVHI9XMucUW9N9pyTQc1RdVWnGkKQ0ad3dsgiOPkjXYEHx
+	 ZnOQ7gk26WVmTYUzl1aVoQYDF/Y3mM8BtC2V+0tPPatHz+SdEmOjT9FMu6VPZQi+uGwKS
+	 6tLU2A5Phg5ZROfZIfESRO8IvE+r7h09Nkwew0M0r/ZTCFjPVjZOUuEJKnGaHkaOHag==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WRCNHhnj;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=debian.org;
+	spf=pass smtp.mailfrom=debian.org;
+	dkim=pass header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=Ulq2Gtno;
+	arc=none smtp.remote-ip=82.195.75.108
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C20E2606A335
-	for <linux-fsdevel@vger.kernel.org>; Fri,  6 Nov 2026 12:27:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3419C606A326;
+	Fri,  6 Nov 2026 12:27:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3419C606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WRCNHhnj
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 263211F008A2
-	for <linux-fsdevel@vger.kernel.org>; Fri,  6 Nov 2026 12:27:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793968062;
-	bh=gXaYki6uWSOGEqG2nnwjkCld7NyYwmbFRUn/nj+UBJk=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=WRCNHhnjK2/U6cTw19O5vG9KnmkI3EATjgbS8Vp12vvdhMZw0bS6+u2k25MpIX5OL
-	 DijLA0057PexK4ZzikC7TgmkBtj2z12XbLzUGW1HtdyFQM7tci5jDlubuBkxlYXlVW
-	 e4FxoCwwLEn+FCeZwcv17e4QFwMJv7QlTSaT3WvBrn4YjYa00g/SxWMlat3hOZtwzy
-	 jtfgUoSW489vYcpneHL6LHI2uSsRtrRndthhPlDUwBXQhtZt8S5+7nyTNxlEccLcsY
-	 pbB7E9esK+k5zo8A9LhxD0KUVVz3dYp249aLeA2wpE2QfWs7O8vYd4C4rnePrtv72K
-	 AJEfXS5X32zrw==
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-6b1dae0febeso742095a12.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 06 Nov 2026 04:27:42 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AKwUvBzI/oeW1afNDRnPDqY84Yp+BOG/3U90R3bpFEYSzsJSNe1vyubXwUu99hwrT/3ssxEJdpnqOGmhDvfFbRQR@vger.kernel.org
-X-Gm-Message-State: APuU4Z9fdUQhUe0ORCEmRw+6VuidBsfL/mJ1MU+6T1Muru21wMDDaNO2
-	ZOEY1Fbo6GNNOwbt0H7foVnlj4jYNZk7XzTZb+lBjMdKwd+KmoFUAMaHO06urM/NYsxUTWeTuEg
-	6sPH3QD48CR4j2pfSfnrZ3IzTFSuymrA=
-X-Received: by 2002:a17:907:1b2a:b0:c42:102f:15e8 with SMTP id
- a640c23a62f3a-c4d35413244mr208015366b.14.1793968060730; Fri, 06 Nov 2026
- 04:27:40 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=Ulq2Gtno
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Message-Id:Date:Subject:From:Reply-To:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=NwiypONsoLZzkdBGuzeZ3yGbT8VUdMblEVHsZrbIo4U=; b=Ulq2Gtno2cozebVUNoQKeEA1oJ
+	FKFj1scdcKVIIlbtFUj1G4qq76gHRSzxr3SXyBPYxI+YwqTJyygfee3hGIHAfly/8mmU7zdF8C6/Z
+	VH6cR+UzBGI6eUamT8/llFce39TGw/5CYwU1g3MgtYmd9hars+tepDghiPy1Wp5r1APzyb/lzZdDH
+	RFSwrQKkUHh7n0YzLIvbo/99Z9Pm+ji7oyw2rtH/l2Rc2L1XWQ4mvUpW6fnxFQxgW4jc0XgEWyU59
+	ZQ46SilyLGloE9eRv5d1YMIb4Gt9rQBO6VzhCZO5kcXSfe8XC7SDlTPt3LZAsSBU92xb/1RqptETP
+	FiUMgchA==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1xPJ2c-009HTh-2h;
+	Fri, 06 Nov 2026 12:27:35 +0000
+From: Breno Leitao <leitao@debian.org>
+Subject: [PATCH 0/4] writeback: make slow writeback report more actionable
+Date: Fri, 06 Nov 2026 04:26:30 -0800
+Message-Id: <20261106-writeback_stall_report-v1-0-bf0c3b9023a5@debian.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -59,59 +63,112 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261106091420.2461683-1-wahidzk0091@gmail.com>
-In-Reply-To: <20261106091420.2461683-1-wahidzk0091@gmail.com>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Fri, 6 Nov 2026 21:27:28 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd_te6K0uKmJNQDzi9E5=-wqrQ6Vc7MP_cZpGCQZK1JaGQ@mail.gmail.com>
-X-Gm-Features: AclHuK9pyTUmpj4YjLkVERCMkUy0IHDLyx8Ch1ej0-bKsscvef4Mm_oafumewPk
-Message-ID: <CAKYAXd_te6K0uKmJNQDzi9E5=-wqrQ6Vc7MP_cZpGCQZK1JaGQ@mail.gmail.com>
-Subject: Re: [PATCH 0/3] ntfs: three fixes for crafted images, found by fuzzing
-To: Wahid Khan <wahidzk0091@gmail.com>
-Cc: Hyunchul Lee <hyc.lee@gmail.com>, ntfs@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAHvH7WoC/x3MUQqDMBAFwKss79tAIhoxVyklRLttl4rKJqgg3
+ l3oHGBOZFbhjEAnlDfJsswI5CrC+E3zh428EAi1rb1ztjW7SuEhjb+YS5qmqLwuWozrbNfa5Pu
+ +8agIq/Jbjn/8eF7XDdljRqtoAAAA
+X-Change-ID: 20261105-writeback_stall_report-170750a69946
+To: Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Julian Sun <sunjunchao@bytedance.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+ Michal Hocko <mhocko@suse.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+ Roman Gushchin <roman.gushchin@linux.dev>, 
+ Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-mm@kvack.org, cgroups@vger.kernel.org, 
+ Breno Leitao <leitao@debian.org>, kernel-team@meta.com, 
+ stable@vger.kernel.org
+X-Mailer: b4 0.17-dev-ce4c1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3335; i=leitao@debian.org;
+ h=from:subject:message-id; bh=1HmsM4AmOu1Z2b61jfdJLukN4nebCK9JA4xCaLqawJk=;
+ b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBq7cexdV0P/wi9k7Ii4huksYbn7v1NjChk3inU1
+ 3b4BgEFIAKJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCau3HsQAKCRA1o5Of/Hh3
+ bZbqD/sG6F4YNxE6zVSdVXQRyXNr0ImaQGVClKuo+AjvsLcnbyE6d46B80pR6vPYgU61oD3KBJ0
+ MpNeJyj8gh3G2sJqdxVKwEW56gvY17zTbfLQLmip3IEiBidfe77rvM5CYrizlowLDcaaXAMq8o+
+ ToI9m6tjlDvMoX/FZx02QUCLou1sMMF78B6FZIc8C0e+klHmme/+fPotUvHsbBm2VwuEtc9bbAa
+ nT9RphAsfrzDTwvlsfIAfcJhknM9a5vkl9+Fn3jqX70trWZcAawP8ovMBUXZnwSq2o1ktcSHX98
+ Q/Osb8goyIvEp5LJq02/GoEnoRcp6USB2SK5krK26BOu2xiF6HBEO45IlCc7v6T4gEZor0OJ54K
+ 3SSzUkgKuaIv4D2xpY2cEADO5Hi9G2NM+65ndmsbjjQQmApWYew+SlLIeVzKxFnLl+E95j+H0xZ
+ oWIO2yqIqN5NCSnt7bltva5ePrIAJ5RWkM8IcavueMjck6V0EdW7YLm/0cdYvDY/Cy4+SAu2s15
+ ycD0FaY2RGHcPaXdC6HqI4R/ajzWjffLK7APrnWQILcul3kORjy217bZTN9SBpCvCknQ0DHOq/r
+ 4N5J/7dNVlbopT/VLdXqvUMqNAF/RNuwFUhHzWnPJQV8PVEN5gRXxy08BCEpt16xJ3RXhdEmd5E
+ QwN9QsIXME0EuFg==
+X-Developer-Key: i=leitao@debian.org; a=openpgp;
+ fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
+X-Debian-User: leitao
 
-On Fri, Nov 6, 2026 at 6:14=E2=80=AFPM Wahid Khan <wahidzk0091@gmail.com> w=
-rote:
->
-> I fuzz the new fs/ntfs driver with mutated images: an image from mkntfs
-> populated with ntfs-3g (directories, streams, sparse files, long names), =
-a
-> few bytes changed, then mount, walk the tree and write, under KASAN.
-> Three problems from that are still present in ntfs-next (e62b384ca).
-> Each patch has its own trace and the reproduction steps.
->
-> 1. ntfs: do not read an index block outside $INDEX_ALLOCATION
->    A directory without a usable $INDEX_ALLOCATION hangs on its first
->    lookup. The task waits for an mft record lock that it already holds.
->    It needs one changed byte in a crafted image.
->
-> 2. ntfs: open the index allocation before reading or writing an index blo=
-ck
->    NULL pointer dereference in ntfs_ib_write() on link() when the lookup
->    ended in the index root. This is not the path fixed by 9365c4a1357e.
->    It needs one changed byte in a crafted image.
->
-> 3. ntfs: open a named $DATA stream by name when making room in a record
->    WARN_ON() in ntfs_attr_make_non_resident(). This one does not need a
->    damaged volume: a file with an alternate data stream and a full mft
->    record is enough.
->
-> All three need an image to be mounted, so a crafted image, not a remote
-> attacker. I can send the images (about 380 KB each, compressed) if they
-> are useful.
->
->
-> Wahid Khan (3):
->   ntfs: do not read an index block outside $INDEX_ALLOCATION
->   ntfs: open the index allocation before reading or writing an index
->     block
->   ntfs: open a named $DATA stream by name when making room in a record
-Please check Sashiko's review comments:
+Since v6.19, writeback waiters are woken while their writeback makes
+progress, so a slow sync no longer trips the hung task detector.
+Instead, a waiter past hung_task_timeout_secs logs:
 
-https://sashiko.dev/#/patchset/20261106091420.2461683-1-wahidzk0091%40gmail=
-.com
+  INFO: The task sync:180 has been waiting for writeback completion for more than 28 seconds.
 
-Thanks.
+Across the Meta fleet, this line is logged about 19,000 times a day
+(the median over 40 days), and up to 82,000 times on a busy day.
+
+Over one day, 194 hosts logged 16,858 of these lines for only about
+2,000 waits, half of them longer than 160 seconds. Most reports were
+printed twice, and a wait logged a median of 7 lines.
+
+Going through these reports, a few things made them hard to use and
+quickly act on:
+
+1. The message has no trailing newline, so it only shows up once the
+   next message is logged. Patch 1 fixes that, for stable.
+2. It does not say which device is slow. Patch 2 adds the bdi and the
+   number of work items left.
+3. The end of the wait is logged as one more "has been waiting" line.
+   Patch 3 logs the total wait instead.
+4. It is printed every half timeout, often twice. Patch 4 prints it
+   once per timeout.
+
+With the series, a sync of files dirtied from two cgroups, on a null_blk
+device throttled to 4 MB/s and with hung_task_timeout_secs set to 5,
+logs:
+
+  [    7.632999] INFO: The task sync:275 has been waiting for writeback completion for more than 5 seconds.
+  [    7.633006]       bdi 252:0, work items left: 2
+  [   12.913256] INFO: The task sync:275 has been waiting for writeback completion for more than 10 seconds.
+  [   12.913263]       bdi 252:0, work items left: 2
+  [   18.353245] INFO: The task sync:275 has been waiting for writeback completion for more than 16 seconds.
+  [   18.353252]       bdi 252:0, work items left: 2
+  [   23.633304] INFO: The task sync:275 has been waiting for writeback completion for more than 21 seconds.
+  [   23.633312]       bdi 252:0, work items left: 2
+  [   28.893299] INFO: The task sync:275 has been waiting for writeback completion for more than 26 seconds.
+  [   28.893307]       bdi 252:0, work items left: 2
+  [   31.792987] The task sync:275 waited 29 seconds for writeback completion on bdi 252:0
+
+Without patch 4, the same test logs 18 reports.
+
+One question I left open: the report uses pr_info(). The hung task
+warning these waiters used to trigger uses pr_err(), which still reaches
+the consoles, netconsole included, with "quiet" on the command line
+(console loglevel 4). The report does not, and pr_warn() would not
+either. Should it be pr_err()?
+
+Signed-off-by: Breno Leitao <leitao@debian.org>
+---
+Breno Leitao (4):
+      writeback: add the missing newline to the slow writeback report
+      writeback: name the bdi in the slow writeback report
+      writeback: log the end of a slow writeback wait
+      writeback: report a slow writeback wait once per timeout
+
+ fs/fs-writeback.c                | 37 ++++++++++++++++++++++++++++---------
+ include/linux/backing-dev-defs.h |  1 +
+ include/linux/backing-dev.h      |  3 ++-
+ mm/memcontrol.c                  |  2 +-
+ 4 files changed, 32 insertions(+), 11 deletions(-)
+---
+base-commit: 8b7179210b22f8e48a82c5ceacb9d56a9c4cfec4
+change-id: 20261105-writeback_stall_report-170750a69946
+
+Best regards,
+--  
+Breno Leitao <leitao@debian.org>
+
