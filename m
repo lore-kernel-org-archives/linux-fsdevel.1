@@ -1,100 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=209.85.216.41
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
-	t=1793920680;
-	b=YmqJRZnRVmRB9MDMzj6trGWrTqYtNo42VLoyP/O6T/TOE3f2QG69FLUWoedjZZoL+uCi
-	 iKdXCGjAIg4R66447KB3cioVkFTC+1ok5Z+ZfxdjP1teAnngqvZGXKEsTlciKslZsNqAY
-	 3b2L+Ij2CiwO1X6SZDZ7RJ01lTWJ9OzOtf5m6+uRVGIdSB7tWTZC5/pi//6VuX2YEzbVy
-	 mDo323AY80lHiLmN2vzwhe6mp6BcHIrQwQWh//pomki+xSYMiYQTgMPiGZ3Y27j1xW2M8
-	 0UMtPBIrbBHK1HEw6tRL1upiYbb5BrgfPxXcNSIEu45m/JVxLKNxndpwPgLXUh1UdZA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793920680;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.176
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793926177;
+	b=iu9JVhDocFQ4U9wtG2h4L2PRtMSHa3ZeL9m1ylgqwbxDtjQCtQ20PZz9ccJoTHIEBN8t
+	 T5flnRymK82eeNDVHVh9dR5HHqX49DbtdtkXADvUJKT2RTGDe4q5PkanCwK/O/JHQ4jwj
+	 wVrt3tfwi5ZWKIa6ZOgnumAkWaLwnrwXB6DPK+D3k79XRtICkXR/Oucg9kBcDJieGvYfU
+	 nFmFhmpFY7NtwndJx43UEqQ1dkU+R/Q2Y9LS7CSPOhwF99PFTsrc/kcip+yuelOFIaePm
+	 MeVcLuFxEhPhHsCNbrFTH6lfnaArQfyOYpmT+ARpqVqL5ym/O2PtOnCfJ/rCWqshe0g==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793926177;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=fuCDmSI9zu6AYuOwJkaSaRyngdfgRozjSLztTOAphqk=;
-	b=qV8vhfxQgBf+t0pFEtFFcNc6mdqAOVQ7etNGNZDtzTlzPI+WjIH7CBjPvx6UQkjZYlqf
-	 eteMO1aII+uLI7tayW+zYprqpW2WblzlQx/LveHpEEKhHiNrjw6A/0dgaq4Sp8Va4nOzX
-	 DX/VB/jmdw2Rwauo+AhiAg/NRmbW+LFOmFkjBnIevEU8rFMzXzcmWHg6EuQOUa6k/5470
-	 9jrbGuYELqv6FnNasbeRMYT06UiDPApXQ/29xPg0iOuR910bZmy7wj3TbmJDyq+ufwM8X
-	 sHoUEYvYXECbe4OhfsB+r0m3P/kp9pCYwVCpSbyajyO3BjWv6L5Vhs6QLaS9fCybOeg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=paul-moore.com;
-	spf=pass smtp.mailfrom=paul-moore.com;
-	dkim=pass header.d=paul-moore.com header.i=@paul-moore.com header.a=rsa-sha256 header.s=google header.b=F936vzKm;
-	arc=fail smtp.remote-ip=209.85.216.41
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=pQEO01ciF970e+91pnP2bZpNYHOflDL1L7tQ/3yYlos=;
+	b=RPUxlQphsinG3AtrRC7C+Ymh3hCo4wh8dRqtdLXhiOtDPEyq5r19G0LU3z2NocfxAE2v
+	 vwvHZaVd1o3KwstFB9xMk+Xcuvz4+HxRnsXSr5a5ISTQby9JJdnG0Ab8qed44UymWeFUW
+	 yEgA56niseBjLPV+v0MRWXZDZ9Z+uDiak+RTILDSa7mn6wpGsaO7nNGrtUXIosfdfK/Jq
+	 ERgJRzyelFvggXpnze0rfUyR7TdZDyOvMb5aTZ3icfCi91Od1mkDRh0Kb8UpX8qN8bIwZ
+	 YEW5iXveki5e+wHQaOYN4jUqlGXF5K/cqKxwsKvyUeL+FY3NPYCa7ZUMOpDmeB4zM/g==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=none header.from=dubeyko.com;
+	spf=pass smtp.mailfrom=dubeyko.com;
+	dkim=pass header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=SRvsCRRh;
+	arc=none smtp.remote-ip=209.85.128.176
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C8D4606A32C
-	for <linux-fsdevel@vger.kernel.org>; Thu,  5 Nov 2026 23:17:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0C8D4606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60871606A334
+	for <linux-fsdevel@vger.kernel.org>; Fri,  6 Nov 2026 00:49:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 60871606A334
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=paul-moore.com header.i=@paul-moore.com header.a=rsa-sha256 header.s=google header.b=F936vzKm
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-3ae1d0caaedso31379a91.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 15:17:59 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1793920679; cv=none;
-        d=google.com; s=arc-20260327;
-        b=cKDNpnL5uw/BTG/FE68p8AYiRhOQhRxuKFN1xVpsAp9dR77lSyk0cBasWLUdu87e6h
-         VLfM4tSSo441RRAYwi2h7oPpfAldj5OB1WMAOHFrdzKG9464jq6Urx+s6mDUQn4YxEJH
-         NAWivqtvGPBFQAFw73qUuVKQsRup/ROZPvCFLPHZdhLOJbiqzvSffoj4FaGZu2H0k80c
-         eEOIyY6471jMUgbrggpRy5RnYpCQ5IfbUGZkMMfF6k9e87ZLh5FiuoJRC4z67m4Qceok
-         wA1KAD1U8DmWBkj/UrjEiM0/+BH/PPJH2eJAi0Z5I4P98duaEPVlARpxxoMFuikwwhYB
-         BnqA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=fuCDmSI9zu6AYuOwJkaSaRyngdfgRozjSLztTOAphqk=;
-        fh=Uj8bZELHN4O6OAiPRxiif8C/MAYOqiDwJzvARiAEegk=;
-        b=BgMSDELCuv6L47ftY8OAHCFXdbMwnEBEnKRtbMEGoa88wjFFSoKNeHR5QtbfTiAlXe
-         SJsN4ED9oDqbQO+b0tERCMryHIXbA6ijPQq9h+LAyIhGTelkUS8emFKXMPYUo/26g4hn
-         7s6vRTrk1cufMWO4smlMFtKtxNzhQ9+/Z53sr0pwCWClPxr1ZYhrPX8ZTqhbThVJuk/f
-         7yAY9gyEIEiPZeN889qvdNZsdxn3zZGOghUsFZd7d55zWo1lYTk8Egqm8YW9TG9lhuPm
-         jE9aaZHSgtJVRVUmFwtFEq2UOWXnEZkfL5Mrx0jXM4oq8NxEk8HK8yhDtf8SpG/oGkZX
-         KU2A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key, unprotected) header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=SRvsCRRh
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-8b331cad3cfso316567b3.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 16:49:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1793920679; x=1794525479; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=fuCDmSI9zu6AYuOwJkaSaRyngdfgRozjSLztTOAphqk=;
-        b=F936vzKmZco1Rg9qiS2Cf7yXwnXt8dn1LQ3YxCN5SMsKSJRTlu37FG2JQnmiZ4tO3q
-         ZY7C/eCqTECYbf79gAR8gp3oow9+Ykdrk78RZdAOFLnN4sIU8x8jDIiI/j4+tmIgfhgQ
-         Kfc7/iulz45+20nMepsyi2DVKsca2I7vu/IOFa2DSNB+5NoNB+X3xZL+TnSEr5nUJW/0
-         t+eWupnUof2Q+Z07m3XUdhgKdmPOk5SNXh4+R1i03zuB5eyYkN5hGGMTpwfL4P3jF/oi
-         qjoVjwxKWuHtQbutc+EbzPaNTI2YVJHBnHBIs9egvV2qx2jXIUZICkPleteOCZKku3cJ
-         ZAwQ==
+        d=dubeyko-com.20260707.gappssmtp.com; s=20260707; t=1793926175; x=1794530975; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=pQEO01ciF970e+91pnP2bZpNYHOflDL1L7tQ/3yYlos=;
+        b=SRvsCRRh6RXZ6HSsP9hDVUOfGHTN2h+v6pEIzcaWNaMhUyl8R89A5rSdYFjSey0WBn
+         LZ9CEd7glpe7Ucv1Ix7TF6OO5amWDz508ONNAilzMUEFPD6+DRKlc7xpa0+SEtDwcIRN
+         qJlJ8Oga5cZHpIA4Wf1oPxKA1wx/ggWN96eKzaV7rfw0wK/Kaz8Id7ZBLbDJgtUZ5x11
+         cUMIoJX0jgEa2aglKf1uPAai9na9bmmppDRSD7oHWWPBdJAFbEI/oqDMaFF2CacoPttw
+         CojtyXcqHdeIZEUdKUFtVW5hEtkDNYgSlrhDB/D2vjeRMVV/QrA2eX6dctznoUoLM+im
+         TXpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793920679; x=1794525479;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=fuCDmSI9zu6AYuOwJkaSaRyngdfgRozjSLztTOAphqk=;
-        b=BSGpI3IKe0cMhsWUskCHh3LwHwDSkrsOMKmAQQS7KJbHJkH9QOXLUtcDZMOI5SCSWr
-         1hd1iIlyN9wnvb7BSqZOJxXeSaFO2u14hjLTXATEWNL/fxSTsO9s/BUT1DtBwooktjRJ
-         KPTEWeQ/ne6VDl/frVTBYzT2GKJvA5roQWndz1kyCRcQFXw6fDVG8U3cn8tG1Qa5rs4z
-         a24/dEGjbw4iFteOmiJGWMBYzvc4fV+jmXLFhJnKWeWwovBv03aP/UhaCDjTDNb+xnMD
-         grzUSBmJdKM7a9bLb9TB/vPW1fxfnd9RQC348BafeYs+0fCcj8gpWcjNIggGbVotaDSi
-         HCWA==
-X-Forwarded-Encrypted: i=1; AKwUvBzN+w/UA8lIuQjkthVAEzbcWgnFqbnei9FqyfVukSCpnYisd7rSIj2g77SqXZnXqDXMAvFCGwqPTIXPLVqp@vger.kernel.org
-X-Gm-Message-State: APuU4Z8YG9UJZjIf1Qhhn7d/NDQ4Nf89rDWNwIMhNgwNM6zRf7HWUjtC
-	mTIRaGS6i9Cy37+x3mYBQDnFzvVcF71LEi1qvkQy/HieqeKIJwMr2gODfZJXmiqXGygLqMAlYZF
-	AFCRETm6n4XqL0Um/Kl7SbZQV7q2uG46jbMve62O5
-X-Gm-Gg: AYBFou3e16VjakmrfJlhCBR5ct8UAz+6XYDLkWi7aQI/906BTJPmGOyyGVgEwwYAf9V
-	Hfvh59lLNBSNeTmhHeWSoL7yi7Al0MdXO20plj5PoRX9cEg6C8ZhJVgN84aeXPDHkfuyZsTPImb
-	svqXWlH0DubyuqE7qX8pKr7HmWO2EeXhiNXiGfsQMdA1GB7mGxZzdER6s/W+ikdfLzPf1eoG53b
-	IvGJ4R+S0gA7xjPx+TsCXp75pu88hWmJXmozQBv9Uesx/sUVy1QrnZbNVbH1StHabdx+aFi8IjG
-	AXltOo9K/oNwnEEV8XM5gXtFT1ln5O8mGnIC23Ymnu8Z9korMrjs6vuL7UBhRRyIsGbe3p/KTVo
-	xd2Yavj3Z0YcYct1/HvjIaVTbEFFM4sgQ50l8NE/Hl3piwDVvGEA6j86NXPgE/64YxR9p
-X-Received: by 2002:a17:90b:1dcd:b0:3ab:f38:2b43 with SMTP id
- 98e67ed59e1d1-3b0db703e39mr535625a91.34.1793920679319; Thu, 05 Nov 2026
- 15:17:59 -0800 (PST)
+        d=1e100.net; s=20260707; t=1793926175; x=1794530975;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=pQEO01ciF970e+91pnP2bZpNYHOflDL1L7tQ/3yYlos=;
+        b=jVG0aACu/28S2Lw5NdqQqwQJrc4Ui/1eRAgEZaoaHkwKT3/LXPkonozetAhQPNwfth
+         6ptNxa7N+0vzmosJbaZTvsxA06hlvcLOLUjaqNCgBi1PgsNsADGvoHKtIvSY4isarnsR
+         m/ejY9MhDsz8YjeWXEHBT2V7HTHnxfiezYvxyZJ1LuZ1sO+ChHmjhSsHB9xclq/AnTTk
+         czB++ZMLu8RRXsB/qDRUaW6isZ0LM6hQc22hVS67nNa8ApEN1b2Is0CjCM0Bnck4cFqD
+         ZC9YKnAnj/ue552dtvIL67fB6zES5Eq2tix5uiMSpyhPHA6lsJ8gRbx1vGxW/OqdqgiE
+         5mMQ==
+X-Gm-Message-State: APuU4Z/VPKArEhG88xENlp7BdAO0Z9ef/ZZWR2YU5AUxbMWp+Ixs8por
+	zFVQ7IljinAQ7RoymIEn+VhMyhH8uvPrN4VrDF6nfvFhPemGMY9lrH113/GrsRCO5f4=
+X-Gm-Gg: AYBFou318bQkUz9Gris6pQmNB25GAeSwEqVwhIiWPP4ooEsdHPsLRr2NbOfVmOSm4JM
+	4/n6wAYN/3y989ALLFYqmQXbesa5yOVH6fXpcSysWwNrNwk7FFq78kwM7BbtHY452qQiYIM6+pe
+	cmcmW5LIox3HM3vhtgheRMvidSVRnYL8J0hllYnqUTcaCM2veXDeKnNzBGsNtdkIKM+scessVcc
+	I/jIn/ARzw/JtpdVcXFvNnd7soISI68lkw2fNiKHfU329LOmWfLwnuUh0cbFiFASqYG+DinV8UA
+	7UumUKnVqULYu9j87uK+8nN6l0ToOHohvvV2UCuLREIL6l/MCirDSeGB9cD8eyHbzeC2mTePGlY
+	DBGnRVF/McfKEKW1b72gXOOvGKyfGSp5b2oFVs82VdetWfalHzo2sBt45MwYOttvulzqpUMQ5El
+	iaiUl7QFeOVVMakiDYwLT6mqmK2OAIGzvdWfkpnbiRxs2XvkNTGEgGJBaL9IJwR1eQg8cuPOP1B
+	DHP0wzmM6B+tCseq9fUTxK43mupRWYJLt72+AxUQffE91UCLIIyyMcN+aGNBYEy9XpyuJYLbEpN
+	prTW0xSM7y6DEYOgCcZ8ltWA3AwvLXuBz3m25SohM0LlyTngUOfYioDRDkSwA7UvFY64kInJDxw
+	mcR9r/C+LQPFcl/CtqfU3sjvFJMZcU3sgw2M4oFyjAdm18keA/C4/1vcPEp0=
+X-Received: by 2002:a05:690e:1443:b0:677:d023:49e3 with SMTP id 956f58d0204a3-67c1454bac8mr777734d50.65.1793926175279;
+        Thu, 05 Nov 2026 16:49:35 -0800 (PST)
+Received: from pop-os.attlocal.net ([2600:1700:6476:1430:62d1:9ddf:24f7:e87e])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67c134f0e5fsm851304d50.5.2026.11.05.16.49.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Nov 2026 16:49:34 -0800 (PST)
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: glaubitz@physik.fu-berlin.de,
+	frank.li@vivo.com
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	vdubeyko@coreweave.com,
+	Viacheslav Dubeyko <slava@dubeyko.com>
+Subject: [PATCH 1/2] hfsplus: set s_maxbytes from the volume capacity
+Date: Thu,  5 Nov 2026 16:49:22 -0800
+Message-ID: <20261106004923.1844283-2-slava@dubeyko.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261106004923.1844283-1-slava@dubeyko.com>
+References: <20261106004923.1844283-1-slava@dubeyko.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,81 +100,85 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261105-late-2026-vma-flags-v1-0-0d3cd15ab75f@kernel.org> <20261105-late-2026-vma-flags-v1-13-0d3cd15ab75f@kernel.org>
-In-Reply-To: <20261105-late-2026-vma-flags-v1-13-0d3cd15ab75f@kernel.org>
-From: Paul Moore <paul@paul-moore.com>
-Date: Thu, 5 Nov 2026 18:17:47 -0500
-X-Gm-Features: AclHuK_gkg-Hspii6U5_01_jGLQO23B7F4YXuvzvsb53ImE19wnChR3DgLruv6g
-Message-ID: <CAHC9VhSR=9YNhBxeFBcTR8wgG2yDP1fW590QKjzuc4Kq9ohaiQ@mail.gmail.com>
-Subject: Re: [PATCH 13/13] security: convert VMA flag tests to use vma_flags_t
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Rik van Riel <riel@surriel.com>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Harry Yoo <harry@kernel.org>, 
-	Jann Horn <jannh@google.com>, Lance Yang <lance.yang@linux.dev>, Zi Yan <ziy@nvidia.com>, 
-	Matthew Brost <matthew.brost@intel.com>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
-	Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
-	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, Xu Xin <xu.xin@linux.dev>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>, 
-	Shrikanth Hegde <sshegde@linux.ibm.com>, Pedro Falcato <pfalcato@suse.de>, 
-	Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Baoquan He <baoquan.he@linux.dev>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Leon Romanovsky <leon@kernel.org>, 
-	SJ Park <sj@kernel.org>, Rakie Kim <rakie.kim@sk.com>, David Rientjes <rientjes@google.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, 
-	Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, 
-	James Clark <james.clark@linaro.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Oleg Nesterov <oleg@redhat.com>, John Johansen <john.johansen@canonical.com>, 
-	Georgia Garcia <georgia.garcia@canonical.com>, James Morris <jmorris@namei.org>, 
-	"Serge E. Hallyn" <serge@hallyn.com>, Mimi Zohar <zohar@linux.ibm.com>, 
-	Roberto Sassu <roberto.sassu@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
-	Eric Snowberg <eric.snowberg@oracle.com>, Fan Wu <wufan@kernel.org>, 
-	Stephen Smalley <stephen.smalley.work@gmail.com>, =?UTF-8?B?T25kcmVqIE1vc27DocSNZWs=?= <omosnacek@gmail.com>, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	kvm@vger.kernel.org, damon@lists.linux.dev, 
-	linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, 
-	apparmor@lists.ubuntu.com, linux-security-module@vger.kernel.org, 
-	linux-integrity@vger.kernel.org, selinux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Nov 5, 2026 at 4:35=E2=80=AFPM Lorenzo Stoakes (ARM) <ljs@kernel.or=
-g> wrote:
->
-> Replace use of the legacy vm_flags_t flags with vma_flags_t values in the
-> mmap and mprotect LSM hooks of SELinux, AppArmor, IMA and IPE.
->
-> No functional change intended.
->
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> ---
->  security/apparmor/lsm.c           |  2 +-
->  security/integrity/ima/ima_main.c |  2 +-
->  security/ipe/hooks.c              |  2 +-
->  security/selinux/hooks.c          | 14 +++++++-------
->  4 files changed, 10 insertions(+), 10 deletions(-)
+The xfstests' test-case generic/564 expects -EFBIG when
+copy_file_range() targets a destination offset near 8EiB.
+hfsplus_fill_super() sets s_maxbytes to MAX_LFS_FILESIZE,
+so the VFS limit checks (generic_write_check_limits())
+only trim the length instead of failing, and the request
+reaches the file system. Because HFS+ does not support
+holes, the driver then tries to zero-fill the whole gap
+up to the target offset, and the operation fails with
+-ENOSPC instead of -EFBIG.
 
-Similar to the other patchset you just posted, is there any reason why
-individual subsystem maintainers can't pick these patches up, or is
-there some reason I'm missing and they need to go through a single
-tree?
+This was previously worked around by a local check
+against the volume capacity in hfsplus_write_begin().
+That check only covered the write path and only the
+start offset: truncate up, copy_file_range() and writes
+that straddle the limit were not handled.
 
-If they can go through multiple trees, can you split this patch up?
-AppArmor, Integrity/IMA, IPE, and SELinux are all maintained by
-different groups/people.
+Every byte of an HFS+ file up to end-of-file must be
+backed by an allocated block, so a file can never be
+larger than the volume. Set s_maxbytes to the volume
+capacity (total_blocks << alloc_blksz_shift, capped by
+MAX_LFS_FILESIZE). The VFS then returns -EFBIG for
+write(), copy_file_range(), truncate and fallocate
+beyond that limit, and trims writes that straddle it.
+Drop the now redundant local check from
+hfsplus_write_begin().
 
---=20
-paul-moore.com
+Fixes: 56a4dbc90601 ("hfsplus: fix error code when writing beyond volume capacity")
+Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
+cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+cc: Yangtao Li <frank.li@vivo.com>
+cc: linux-fsdevel@vger.kernel.org
+---
+ fs/hfsplus/inode.c |  7 -------
+ fs/hfsplus/super.c | 10 +++++++++-
+ 2 files changed, 9 insertions(+), 8 deletions(-)
+
+diff --git a/fs/hfsplus/inode.c b/fs/hfsplus/inode.c
+index aed0866499b2..5fa72b465922 100644
+--- a/fs/hfsplus/inode.c
++++ b/fs/hfsplus/inode.c
+@@ -44,15 +44,8 @@ int hfsplus_write_begin(const struct kiocb *iocb,
+ 			void **fsdata)
+ {
+ 	struct inode *inode = mapping->host;
+-	struct hfsplus_sb_info *sbi = HFSPLUS_SB(inode->i_sb);
+-	loff_t total_capacity;
+ 	int ret;
+ 
+-	total_capacity = (loff_t)sbi->total_blocks << sbi->alloc_blksz_shift;
+-
+-	if (pos >= total_capacity)
+-		return -EFBIG;
+-
+ 	ret = cont_write_begin(iocb, mapping, pos, len, foliop, fsdata,
+ 				hfsplus_get_block,
+ 				&HFSPLUS_I(inode)->phys_size);
+diff --git a/fs/hfsplus/super.c b/fs/hfsplus/super.c
+index 4e878641fb59..f3283e9b42c8 100644
+--- a/fs/hfsplus/super.c
++++ b/fs/hfsplus/super.c
+@@ -672,7 +672,15 @@ static int hfsplus_fill_super(struct super_block *sb, struct fs_context *fc)
+ 
+ 	/* Set up operations so we can load metadata */
+ 	sb->s_op = &hfsplus_sops;
+-	sb->s_maxbytes = MAX_LFS_FILESIZE;
++
++	/*
++	 * HFS+ does not support sparse files, so every byte up to
++	 * the end-of-file has to be backed by an allocated block.
++	 * Therefore, a file can never be larger than the volume.
++	 */
++	sb->s_maxbytes = min_t(loff_t, MAX_LFS_FILESIZE,
++			       (loff_t)sbi->total_blocks <<
++					sbi->alloc_blksz_shift);
+ 
+ 	if (!(vhdr->attributes & cpu_to_be32(HFSPLUS_VOL_UNMNT))) {
+ 		pr_warn("Filesystem was not cleanly unmounted, running fsck.hfsplus is recommended.  mounting read-only.\n");
+-- 
+2.43.0
+
