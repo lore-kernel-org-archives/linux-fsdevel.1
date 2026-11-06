@@ -1,74 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.62.57.137
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793973293;
-	b=QNNkQq1QA/iX1wWIqp3IoMPpfpKgsOEzOFgOwX/7LYLx5UZ2HA08mI6r/Jx7beI0jr3M
-	 wlCOLNruwtKX8xOugPMCRsWhQ5UInDW+7ecRMDRnYbfC3l2ifaCT9ljlHmpPLqf4psxlT
-	 EiNzS/xMOT22UFTEEH6N7aVU+XYa2ISfIYcq3z8B7pvnfl7syK1khF4reMC2dpbZyWaWZ
-	 tX2L7DeTVAqlhwMqiuaqnzIsdGzyDhb/YgSHIPu1zYm/S8Q2DK3pDSTDURT9AoS8R4VtK
-	 sjOaAKfM4qtu0BQlwUTa6gGNZYejkIQlp5nHBOaOT3GHgqWiFob1OUmbCW06KJpkJCQ==
+	t=1793973621;
+	b=FAw8M9kSLizfeREd2LdMa9qWnDFud+3M40IUqS9rHEuQaxuh1X3jzzVSocqrXws5NZUa
+	 VAvIgJeWB4jFHd5FPq/pckKA/VTzaP7y5P6I6NhnoyjFJaNQLPuCA2DtzqzGofQgx5bfa
+	 ERYQ3SohN/CdTpyevLdBIQuRuIEtjrMdfuAm2kfBH0+Ybe8wDEy33QWNAgEjoVqkzxP3G
+	 INK2qQ/vjotjRzCC6IGx8MaCYYXbAIzJ6esrsR8HGapivfiYqsG1wDkGDU30zO2rEtKqC
+	 x0H3318+sq24/BS/S2YjoOGKkgByg6UD/bI4U7YZLOh0zwTXbO87xpzZK2lVXTUvg8Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793973293;
-	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
-	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:X-OQ-MSGID:Date:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	bh=f9AcNQk+E2Uh8Cu5xVuG9tcvbwsMIkzO8WOpBpYCAgs=;
-	b=3yAKmZeeWB7ulqPFeYcG5Ud8XMxrTmN6AGLOuFWIfA2Dj2SVZ3OrDnNHfMDqor3gFIUW
-	 x6UtHurc/Y3VShsaTe/piUOVPWyxznLuSGZTywXvF7KEUupHhkGpZIEPhDidKHxFUEpQn
-	 vNE0jMkhbaWyp/2PKPzkvOI2LBFXQJ2caOLEOmRI2gSnTNzUsZtgMdhWP3TvpGylXMOr+
-	 bPL+DiBDNcoG0KEljXR3A2J0dHh5mTPS8qOKMkBQz4uBIclRSoK9TtWxMr413KdhtJ318
-	 dh6G2MpopQ3WgOLTrVzaW3YyJWxap+31AnCMsjD5ZP3kiW8PJ63hnqH6zmj9P8/QzIA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793973621;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer;
+	bh=MMisgwf5ivCyneAXCg/69ag5tUf9sccmY26a8c7FNEM=;
+	b=erpWR01rBaXUAfN4SBtTe94TEDi00h2Xmi017utayXvxsNISxXk1pgGCTSrT4k+AzNCw
+	 EihMvDQdVT1gMrREdtUFXLk5YHQGKHFZFBMUVkFBpb+XPWY+hjUw+H8zVMHRCF73qs7V6
+	 lNeHArFnJGDg47CQAXq6L9jz/zarNFkYjEhdNCM8+DUb6uQrkZtt2tyfd0+NZlDRdl51n
+	 xMTwBAZqRKGAXp4DUyzIGBFFoLOD/JTrByna4+fjv/UGWTvcCyEBTYprTuwZ3fNSfC+8T
+	 GOdX/U/8zjSyuzejqiUmEh0XrMUs+8mH1bJ1sIHrPNEodlcxAnthOYOAUOI6JR+gP4A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=qq.com;
-	spf=pass smtp.mailfrom=qq.com;
-	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=tQuCMTAl;
-	arc=none smtp.remote-ip=162.62.57.137
-Received: from out162-62-57-137.mail.qq.com (out162-62-57-137.mail.qq.com [162.62.57.137])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NoMaartx;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 211B4606A339;
-	Fri,  6 Nov 2026 13:54:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 211B4606A339
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9075A606D81D;
+	Fri,  6 Nov 2026 14:00:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=tQuCMTAl
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1793973281; bh=f9AcNQk+E2Uh8Cu5xVuG9tcvbwsMIkzO8WOpBpYCAgs=;
-	h=From:To:Cc:Subject:Date;
-	b=tQuCMTAlJdh9TBAB0kcxFJ3oATVWzvPPBHXN5P9liFaO6jerquWh9POmyHPNt/020
-	 54iLXlJAK9/cJbWm5KDeov0r1o3wOPAtADj9EO61PFkw8567zaWzkyvhLJ7JPW4taC
-	 t+cuLhx0YJNjgOtNWOinVGGN0zLKKnos8tkwNIrw=
-Received: from [172.18.4.77] ([202.113.185.209])
-	by newxmesmtplogicsvrszb51-1.qq.com (NewEsmtp) with SMTP
-	id DA7AD633; Fri, 06 Nov 2026 21:54:39 +0800
-X-QQ-mid: xmsmtpt1793973279tsdxdqbg3
-Message-ID: <tencent_A85D514AA9FADF1423994E41A6F851213E08@qq.com>
-X-QQ-XMAILINFO: MDbayGdXPuoeF9R5xDbzU0MXB0V86cqjgru6iz3yUgboFdp3Wp3qZEkdVcYCk7
-	 1BdupbI8FTABzocOqn1iq/MIdF5qIYO8r73iZNXG2No2Fs1UWjaACRFWN0acwg8dZVpx1t9zDQoM
-	 IFIKYA5I8tLtQovYIOUdcYx+7bELy6/Jgns7AEWcn4xyG0i4CqS602cYUBTSsL0sx+trOyXA4Snj
-	 ojYwwRk6e1/kMBBb9Up8vSku2prOigJ8YTORvKuSMkYZSvLGxejGX4+qtuDyGqJr8vH2vjP3eaS2
-	 of3mh1RKX+PJIWsxz26Ly/5OixCL1j1/YCWRNAKf++VWRof1UVnJ6aKKxBX51W5CxoIBH+3+Hav9
-	 jJyzrheSndFCzqK2iPGa7ktDb/oelHIthfJcYzXBr3bhGtM0t63gWBpZBDQdeeHFyo+gC2xKmbVI
-	 JHolu4ETxJaWh3GNN4IKlguihpw+qF6G0DD3b7JcvL9OCD7wr2jLZ5B8k7DebDSZM/EImKERfPR0
-	 nww3alyp550F/iewtdYc7F325t7o9KdzQEyxKrfLhf0WXR1Yg3zJ/7RJhqN40kC0/OR55TnpcQVN
-	 WT7zslcH/niTB8pSp3400jzeQHK3gAN8qoQxaDwKslxswsUAHZFemBlyL7DZKudCRBS0rE8ADX5w
-	 8KFZj8aR2BOQHyoI4CjGsbOZoYYRX3fq2JETvj0YiIPzQqisIAPtDEQOU+ZEi1WX85tAyypPEMWM
-	 eWiouAXcDax1VIeRVc/yX6KYUwL1VaSRcVUWcor5zaMWkjSntBJY/LTp2yOmO1VhANjPWFS5+roG
-	 MO7CLIs0+mpcAmZSqth+7aupct3Qhpfws/Jfl1yFCePcsb94cKos7y2OT3m8yZvXxV52N/R1c5Cr
-	 T9wBjkUShONx0gYzFt9/kz1X0XLwOfoHpe14Fxajjm0tO/Is/ins6/oguhtX15NltbyPiOjo+RG3
-	 ZW3pOrzGM4w/40R0HQtuAT3H0hXr/nZlQaXQezDMIVFPaVZ1f7YJFUPsKeePz/2bw7OB+nMAxLHY
-	 snskZTgccP7a6yPypUKaGNF9JdqLO5+Kt92Nzj/lEJ7c4vba9H
-X-QQ-XMRINFO: NS+P29fieYNwqS3WCnRCOn9D1NpZuCnCRA==
-From: Guikun Yang <yangguikun19@qq.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: ntfs3@lists.linux.dev, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: ntfs3: log replay reads past the restart page buffer when the on-disk
- sys_page_size is larger - slab-out-of-bounds in log_replay()
-X-OQ-MSGID: <c21-ntfs3-logreplay-oob-20261106@qq.com>
-Date: Fri, 06 Nov 2026 20:00:00 +0800
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NoMaartx
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E0DE1F0089F;
+	Fri,  6 Nov 2026 14:00:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793973621;
+	bh=MMisgwf5ivCyneAXCg/69ag5tUf9sccmY26a8c7FNEM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=NoMaartx2k1NoDKHbinjDj/PbXDYhvLBDoS7ThiZ6Zh8degSdrM/cbNrjWCvJFPXn
+	 IJa6OLrwSv7WeMgzoB3AuW/FePKuMzJwKFHbXEdI+ZYAwQGc/8vmhnKnmMjWU6LJ9x
+	 33ovPBGmrTbUtWQlZ8QAyW3GCySDsLz5acI0WwsJZ5luc2SvTKggPaXxOHYrDVTmU1
+	 D0Syu1/RiDILFaoQPgpwI3BeakKZgA8HYUcIZbDXsO1DAvgiVgvpXqbRHAyOx0m8ju
+	 kJuhvtjsTeuWAZga6LkTBCYXNU81R/1eVeG/45nAIROGbzedXUk1SOmtB8Ud+4XU9q
+	 KBbQqwdFHF80w==
+From: David Hildenbrand <david@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>, 
+ David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+ Michal Hocko <mhocko@suse.com>, Hugh Dickins <hughd@google.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+ Qiliang Yuan <odys.yuan@gmail.com>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org
+In-Reply-To: <20261105-bug-mm-shmem-undo-batch-v2-1-ae5f89ced044@gmail.com>
+References: <20261105-bug-mm-shmem-undo-batch-v2-1-ae5f89ced044@gmail.com>
+Subject: Re: [PATCH v2] mm/shmem: remove truncated folios from the page
+ cache in batches
+Message-Id: <179397361569.3706.17727764242079446039.b4-ty@b4>
+Date: Fri, 06 Nov 2026 15:00:15 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -78,104 +66,46 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16.0
 
-Hi,
+On Thu, 05 Nov 2026 07:32:11 -0500, Qiliang Yuan wrote:
+> truncate_inode_pages_range() takes the folios it finds out of the page
+> cache with delete_from_page_cache_batch(), which takes the inode's
+> i_lock and the i_pages lock once for each batch of up to
+> FOLIO_BATCH_SIZE folios.
+> 
+> shmem_undo_range() calls truncate_inode_folio() on each folio instead,
+> so filemap_remove_folio() takes and drops both locks once per folio.
+> Truncating, punching or freeing a tmpfs file or memfd made of small
+> folios, such as a large /dev/shm segment, pays for that on every page.
+> 
+> [...]
 
-Mounting an NTFS volume whose restart page declares a sys_page_size
-larger than the host page size ends in a slab-out-of-bounds read inside
-log_replay(), during mount:
+Applied, thanks!
 
-  BUG: KASAN: slab-out-of-bounds Read in log_replay+0x...
-  Read of size 80 at addr ... (kmalloc-4k)
-  Call Trace:
-   log_replay fs/ntfs3/fslog.c
-   ntfs_load_log_and_replay
-   ntfs_fill_super
+tree: mm/core.git
+branch: shmem-7.5.misc
 
-## The gap
+Applied patches will appear soon in mm-next, followed by linux-next.
 
-log_replay() starts with the host page size:
+Please report any outstanding bugs that were missed during review, so we
+can either drop the patch series or decide how to fix it up.
 
-  log->page_size = norm_file_page(PAGE_SIZE, &log->l_size, true);  /* 4096 */
-  log->one_page_buf = kmalloc(log->page_size, GFP_NOFS);
+It is encouraged to provide Acked-bys, Reviewed-bys, and Tested-bys even
+though the patches have already been applied. If possible, patch trailers
+will be updated.
 
-The restart page is read by log_read_rst() -> read_log_page() while
-log->page_size is still 4096, so the buffer holding it
-(log->rst_info.r_page) is a 4096-byte allocation.
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. Further, this is not a guarantee that the
+patches will go upstream. If in doubt, please check the listed branch.
 
-Later, log_replay() adopts the on-disk page size:
+[1/1] mm/shmem: remove truncated folios from the page cache in batches
+      https://git.kernel.org/mm/core/c/b97fbd54
 
-  t32 = le32_to_cpu(log->rst_info.r_page->sys_page_size);
-  if (log->page_size != t32) {
-          log->page_size = norm_file_page(t32, &log->l_size, ...);
-          if (log->page_size > old_page_size) {
-                  buf = krealloc(log->one_page_buf, log->page_size, ...);
-                  log->one_page_buf = buf;
-          }
-  }
+-- 
+Cheers,
 
-5a35454179 ("fs/ntfs3: resize log->one_page_buf when adopting on-disk
-page size") added exactly this krealloc, but it only covers
-one_page_buf. rst_info.r_page is left allocated at the old page size
-and is never re-read:
-
-  ra2 = Add2Ptr(log->rst_info.r_page, ra_off);
-  ...
-  log->ra_size = le16_to_cpu(ra2->ra_len);   /* raw on-disk u16 */
-  ...
-  memcpy(ra, ra2, log->ra_size);             /* fs/ntfs3/fslog.c:4176 */
-
-The destination ra is kzalloc(log->restart_size) - sized from the
-adopted page size, so it is large enough. The source ra2 points into
-the still-4096-byte r_page, and ra_len is a raw on-disk field bounded
-only by sys_page_size - ra_off. With sys_page_size = 8192 (a legal
-power of two, accepted by norm_file_page) and ra_len = ra_off + 80,
-the memcpy reads 80 bytes past the end of the kmalloc-4k object.
-
-The branch at fslog.c:4181 has the same problem from the other side:
-
-  memcpy(ra->clients, Add2Ptr(ra2, t16), le16_to_cpu(ra2->ra_len) - t16);
-
-same source, same unbounded length.
-
-## Observed
-
-Deterministic, 6/6 runs with panic_on_warn=1; the unmodified volume
-mounts cleanly as a control. Trigger is mount(2) alone - no file is
-opened. The forged restart page carries a valid update sequence array,
-a consistent client list and matching seq_num_bits, so every existing
-check passes; only the page-size adoption is abused.
-
-sys_page_size = 8192, ra_len chosen just past 4096 - ra_off gives the
-reported 80-byte overread; larger ra_len values read further.
-
-## Suggested fix
-
-Re-read (and reallocate) the restart page at the adopted page size, or
-grow rst_info.r_page alongside one_page_buf in the same branch, before
-ra2 is derived from it:
-
-  if (log->page_size > old_page_size) {
-          ...
-          log->one_page_buf = buf;
-  +       /* r_page was allocated with the old page size */
-  +       kfree(log->rst_info.r_page);
-  +       log->rst_info.r_page = kmalloc(log->page_size, GFP_NOFS);
-  +       /* re-read the restart page at the new size */
-  ...
-  }
-
-Alternatively, validating that ra_len fits within the buffer the page
-was actually allocated with would bound the memcpy directly.
-
-The reproducer (image builder that walks $MFT/$LogFile runlists and
-writes the restart page with USA and client-list consistency, plus a
-ready-made image and serial log) is available on request.
-
-Tested on 7.3.0 (ntfs3 as a module); the adoption branch, ra_len
-handling and the memcpy are unchanged in current mainline as of
-2026-11-06.
-
-Thanks,
-Guikun Yang
+David
 
