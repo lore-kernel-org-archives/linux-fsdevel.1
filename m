@@ -1,103 +1,134 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793997630;
-	b=ZoIeAQsY2+p86wbR281EpS+QhUYl76Eg8S8gzBKTtZqtb/HNsCClbrY7sWtkTCBijkC5
-	 dCItDKt/Zic2WSioHbCI9soT6BaFmJlmKjxBIjMFTQ65xr4QuBdr1a36dNMaxY6UQn9CE
-	 BQ3qa/fuK9xHVZlRigRoiyoxwJfjRr6KGDL9nY0yIZFOjfFNDhOnzd2/l0TCHPD8cneYY
-	 41u+vujPk1KCpxOUl1T2E8iIFjPMqLbUwEUomlljzY25VrdAACWdn6/znwz959pC8I8/E
-	 QeqD7hxFnxRMAP81HIKrnuQYXiLpCj0TsrPB5poFhv3es8VkOtpFFk5CCwhlIamqW/Q==
+	t=1793997794;
+	b=itOQQG8WH+zWqp3CO050vRks17p66j0xzJinEQd1XetgNx8P3Dd/GgSVKejWTKcYbDg+
+	 THvaT7X92BrCwbbLRAE/dtKPETz/Z6AjC/vHkFSH+25K3tZnpIMpXconXX6D7gWiGAMvm
+	 4V+0BRT2HZvHTJGNvtF+IICzaCki1U00iyzOxr4YcK9lPf3RJWWB2D+92njKSevLD3Bkv
+	 5Btqk6weu/DvtlHDZPhyr/jdMOs/iwPm0vFrkhQzNjpvofKTBuV9DhpnturHOYD5yBy+e
+	 /rqqOuo64azPj/bBFNS8ZSy9AZRPtfFfo69YoFWP6QPC3g+yvLZ4h7SnD8OfQQJKKLQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793997630;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793997794;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=D/PxjqMUnoRNvdLWmtMbPlTvfojIHeVHPRoAErTV6bk=;
-	b=U51SLJjnytmGUaVm7hi38QhYULf0F7CAmgTDkuFkzS6lmEwNQjK4S7EPYFmk8ZqBXA7+
-	 lern9Y3cOllAcC9F3sHVxTVr9zlm7JC4gvWC56PVusdI9c/t6GUZJhsQz6LgT/NI3QcKr
-	 i2FrCK+fV4CxeV32PjUoMUMXdjPZzTdb3+jebtM6hHXYMIYCZ5DaZdw2N8k/02l2lgJrl
-	 eFN6nAkfAu0ki3ND2f+cdUYItVHqcXz4R98fisiT5frjd94/vtnN9cHtEYiwukxHf4enH
-	 9lAqicWuSvS41Vf+el6wDbtefOIosDhUhpvrL+0gC9MIouiSO3jbD1p/2WD6OJSU4cQ==
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=ws2V6VbViJ6cnrlfEDvDEs6KCs0YOuB35XjyLfjvYOA=;
+	b=o6WvE7yecSlLOW9sCz7COgBbJKsN7BP/aGvjYFtcsqKfkPJz0z7L0y2sJosWXH8be24o
+	 pLUrXL9jsL6Jk6VjYwpFHHVLB/YHKZgKhHcrPdk8c5lOuYHhb01R4WjnLALynQSy7QayP
+	 uluC5FWcyKfPCJUtB9538BlEyNG3oVOB97LB8su8Tuitfieu+d4HBtQrcsnOK35lWgFoZ
+	 wK+DtN13NrD7Lgy5juwWYVRxtIkzYKQ8FrB8R2XsKPEMHkmHI1qSBkC5VD+uuctqrzS/1
+	 V91j7YHUcR5GOXgQybg//MATyxfj3WRx+Afe1FsJCMUrVXj6zflDFYTaDpR48ZgVbDw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=SIJeD92Q;
-	arc=none smtp.remote-ip=209.85.208.176
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+	dmarc=none header.from=ziepe.ca;
+	spf=pass smtp.mailfrom=ziepe.ca;
+	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=REFEyl2N;
+	arc=none smtp.remote-ip=209.85.219.42
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08E64606A330
-	for <linux-fsdevel@vger.kernel.org>; Fri,  6 Nov 2026 20:40:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 08E64606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EED8606A326
+	for <linux-fsdevel@vger.kernel.org>; Fri,  6 Nov 2026 20:43:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8EED8606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=SIJeD92Q
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-3ab3b29a298so7746541fa.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 06 Nov 2026 12:40:29 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=REFEyl2N
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-91befbcad6dso12870036d6.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 06 Nov 2026 12:43:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793997628; x=1794602428; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=D/PxjqMUnoRNvdLWmtMbPlTvfojIHeVHPRoAErTV6bk=;
-        b=SIJeD92Qu1ghLn6Diwyb6fKrNsRE4AsbWWViYIN/gXJsQyeupZTIwUP8vl58BvBs2t
-         YI+JBoAXYqrypkee0TpRKbjDCNK7XjE+X8s+DbIKRMNyYguo2UimIdmlW9FHJFkxsj6F
-         PRe74jak0M/nBlafEMyhrTfp5sy9m+5Y5AKj9tYqSQiZ8qhvXj75WvrXgfTpfb7Q8+QW
-         27tEhwXkHqsMzu2hu7fLcBCVVP92uvzvKB+vrrQgbQ1Xrnke6CxmcQt+JKCUCDBBy4tG
-         X4eElH8xoqVZzURtTRS97dAV9yMuUmrqd4xvPFm8WmomV7UhwzX7c9nlGhmbkKTPspy/
-         Z6QQ==
+        d=ziepe.ca; s=google; t=1793997792; x=1794602592; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ws2V6VbViJ6cnrlfEDvDEs6KCs0YOuB35XjyLfjvYOA=;
+        b=REFEyl2N/lgmfldAVFpxIWxQa8mjfRZ+rZu+VbJlPELmGLoAMssVZsg4Bw+JPUe95Q
+         Y/+7TrhaVb742lX5HOvfYl5c8tdB9czfTvg+/vPAkrj9deCRb9o77jvOHMvRN4NFT+Us
+         ybtE7N/j08Yo8TizgspuDg/xp1VtRZGq6sUf6uJV1YrIhg2qFP9g5wF57DH9VkfVQStn
+         4ZNBdx9BbGLhMDmmTMxt1/LSgHH4HYRUio31WfKrQQRxXVL0B2mrBDJi7luolVdmYxxx
+         r+j1ArDIDr+vUF0me32H7jSKSjODetgV3j9jw0TC5pHi0hn9wyRUYJT4xRQMphXho2hD
+         k69A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793997628; x=1794602428;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=D/PxjqMUnoRNvdLWmtMbPlTvfojIHeVHPRoAErTV6bk=;
-        b=Q/XGT5aXv6zzIN+bJyZkmD68DDO3GUfQFcMIfgwRj5Mi5LrwvilAakIpxUE6uNm21f
-         SkldKKJjuEZAjFybbmq+yQeYe0jiDoA6PeDICW8JIlaneOj077TgwpYzTCDmUod75IGY
-         tRaPJrm6yjTFCOME8rI78bY/cxcDHdTlgdsrI685R6JCDuwNqGVZNJAp8qW2q4KXOiup
-         Lo0F0LxFBlbnov9RGpca18KVwg6iFfG+ha1ZqObmSajKFiaPvJYGEYuH+rRlo/BW9vYh
-         qkKsMHKpggryh99IV2GYx1qld6VNzho3or6+jOJMOES42lAqsBYyciXhtsGMzB2pFn7A
-         K2oA==
-X-Forwarded-Encrypted: i=1; AL+hErEhWgM2kctimu79yuWDv8l8W0L0Kr18FE1msmEJA6sEkMpQgU0qUo8biaXHciDgTR6Z7FB+JX/iVHP3dO1d@vger.kernel.org
-X-Gm-Message-State: APuU4Z8PpmoqHcvu9p1wj98C+T0v9SI6RxHvdMk83ydkYiFXukV1N1db
-	zHWw6asflQ5CqGbJBAcSCjbH+4uYX7q9k0GIXp0sK5hVEsx9lRC4L/UQ
-X-Gm-Gg: AYBFou3zw+NnpXxzV2VmxgdX0At0j22/OKQ69qgPVEj9Ea7CXva6jVs9tzPVk5oJBkW
-	ttkZcgv1zXgcccTudV1sQAkN09Oddq48HQLEvBeL7cAdcyTgHg9vt3+2+QN96ErmTHZFjRBlHiz
-	jV/0MvF4BH2AVqRKIBdWDObdW1Gv7IxW9Un3y72FXHuFFXdWfzwFC+R7Xa2b5Jd850t/e3niye0
-	bjxOAG2XWy6MsrZ3YEPBpcJP13l6V9D5nr9ENRriKQFZOEA2V3wxPUyDvkvuMTukqDiKhc0B0M7
-	RF3E2AJzyuEc8R8gjhEq5AXvKiPL3I7JgATt44g1ltC8HRpIeJSNffVda8HAp9Q5d/eWQ2+XJj7
-	FDCRyCkA+Tti0tdlYdt7WRMgjaeJ+1opqUwkw5V2P3c7H3YuAH8vimT4weaOmVrxcwDMlUeMCno
-	fzKGLoexIKOpozrr2EcTOsiFgSg6awqekL9jet9/XT57QIUWv/sdVghMz11Nu4tuh22MsoR37lH
-	Yu4lNcLlBXeMzeWWM17AzTC8PEt14Vw+NaPIh1NBdXB2WS7w6lc9k+gQfRrdvYbweUwZRvocGID
-	Bd0mTtp87Adluy3Y28k/p48waA3ptBgLg4/tfdRHOmiELvW1w3KxFec9vriSJ0GUZhl6sOgKMz2
-	bBFcHqEK2whQOEz+GIaLIv7uNA1FIkhNWOipwpmr0htEbQrGkAXutSv2f+kz9
-X-Received: by 2002:a05:6512:1104:b0:5bf:e341:b175 with SMTP id 2adb3069b0e04-5c003ab5418mr1155367e87.39.1793997627853;
-        Fri, 06 Nov 2026 12:40:27 -0800 (PST)
-Received: from Lauri-G-Pro-14-M4.intra.lakuz.com (n2vuxegy3pwmc89dqti-1.v6.elisa-laajakaista.fi. [2001:99a:2ab:bb00:c40d:a019:da27:d206])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5c00306f939sm494383e87.52.2026.11.06.12.40.27
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 06 Nov 2026 12:40:27 -0800 (PST)
-From: Lauri Gates <lauri.gates@gmail.com>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Dave Chinner <dgc@kernel.org>,
-	linux-xfs@vger.kernel.org,
-	Carlos Maiolino <cem@kernel.org>,
-	Christian Brauner <christian@brauner.io>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-btrfs@vger.kernel.org,
-	ocfs2-devel@lists.linux.dev,
-	linux-nfs@vger.kernel.org,
-	linux-cifs@vger.kernel.org
-Subject: Re: Concurrent FIEMAP on reflinked files serialises on the AGF buffer lock
-Date: Fri,  6 Nov 2026 22:40:26 +0200
-Message-ID: <20261106204026.14530-1-lauri.gates@gmail.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <au3wJNbRPXQZG5Op@infradead.org>
-References: <au3wJNbRPXQZG5Op@infradead.org>
+        d=1e100.net; s=20260707; t=1793997792; x=1794602592;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ws2V6VbViJ6cnrlfEDvDEs6KCs0YOuB35XjyLfjvYOA=;
+        b=LR8fy4jUIg1LGiNvpiU/zwuVm9HSehzimteynYKige6laey5wHAfoGvL4vHz41v+e6
+         n53cACXUL7LlbyrQAcxTjyhG+GM0OQG6mI0mxgPG+vBW4N91uXsV0G1dbKluVVnU2lOM
+         pD5W9I1HpGHprux+RwVieqPWoCkPj8oSSup5MVg6CLvY4OBghHkJJqDzL6neacI2aw75
+         lnGUDFrBS2QLPZjLCRYpyM4yri8PVeHs9E2zBlHHnsPuJcAQwYaYnldqs2hYnhxHERGa
+         knuG8gLV8LQiAXh1y5kJDUjrwHiaZBGdWIzm/z2M6EX40FnUA5peh3vS6j+PRYuimFpE
+         ptIw==
+X-Forwarded-Encrypted: i=1; AL+hErGvmW1QBRWN0shc8SZB85DJJKquEQOalI0cmvC5WP5toG6DyC9XO4WdWjstWB2Xeyzy82tyw+1HvF0SUFQ9@vger.kernel.org
+X-Gm-Message-State: APuU4Z+Q9lkM+7evtbvRBspMV2ubqPdGyKhW0kpvuJ3jIy32pJ1g1H5W
+	y03Dn8FdE9aFMka7xznozXNc34Zhw/Jo2ra0qBIPmXRhjq0ASL9Mjyf9AOFpLxWdqAM=
+X-Gm-Gg: AYBFou0WC7Ew6MMIPJLHYQgFhsUyofEP7e0LlF3Qy+2YgaKFh5p8SBotaYpKGLOUOGR
+	cNeW2A2p1ifzbY+n3oI8rYOlw9m/Xw9Mmjo5ErlsUUoIEhLRmr2+T1jiT7pIPiqg+zIA9a6eLUV
+	6KLVZTVuwrvJTLZRtG4PT3RcI0Aw8K3u/ZPp+dTgsIGVdbYgsrrkHeZ4WrxXJ4p2Ar9IhjIgLM5
+	fPRS+NfUEr/BHPLxTRQ0mdt3g6sevj4yQoE5tUIaKQ1gNZFgIBnv0D6PofAS/lrdIBui/hB+oAe
+	z39mnGA493UJOCKu4kJvLCzmoNNA23gsZF1Ms1iK5I6UGf8E9Ic8p0Q9sQDkdHfk3V4fsfaAFKD
+	NcgBgwRpZGp8LvEjThZV3qnwOesWrhR1BjJi9diOummEZKAtRyJHfbunS5x//TJafkD/vBhtey6
+	4Fm6uyhxTa8ghhoeHWXYQujO03z1n34JPCXvvA2tvzgceReJDadn9SnsjPwOIoWuS/mQL10x1/X
+	GSeQZ7eV84zAeQ5y5w3gisJ96dM++iMjPPUAK6n9UEK+z2bSPIMl9eMxWc0Xe++FAicXUOKigZI
+	vzOhzJ9Sw6rAQqheOYWvnkScXRJBEgrz2OilXSse4w7QgcHgBWMZIiwQhR6MQAAAp8sFZyC1mDs
+	jokgqquNXhA==
+X-Received: by 2002:ad4:4ee5:0:b0:91e:a5c2:37f7 with SMTP id 6a1803df08f44-91ea97a22b7mr53003846d6.42.1793997792129;
+        Fri, 06 Nov 2026 12:43:12 -0800 (PST)
+Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91ea6a2c742sm29232026d6.11.2026.11.06.12.43.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Nov 2026 12:43:11 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1xPQmE-00000007ent-3ktJ;
+	Fri, 06 Nov 2026 16:43:10 -0400
+Date: Fri, 6 Nov 2026 16:43:10 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Josef Bacik <josef@toxicpanda.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>, Zi Yan <ziy@nvidia.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Nico Pache <nico.pache@linux.dev>,
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Joshua Hahn <joshua.hahnjy@gmail.com>,
+	Byungchul Park <byungchul@sk.com>,
+	Gregory Price <gourry@gourry.net>,
+	Ying Huang <ying.huang@linux.alibaba.com>,
+	Alistair Popple <apopple@nvidia.com>, Peter Xu <peterx@redhat.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Song Liu <songliubraving@fb.com>, Rik van Riel <riel@surriel.com>,
+	Hugh Dickins <hughd@google.com>, Will Deacon <will@kernel.org>,
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+	Nick Piggin <npiggin@gmail.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Kevin Tian <kevin.tian@intel.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Steve Sistare <steven.sistare@oracle.com>,
+	John Hubbard <jhubbard@nvidia.com>, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-arch@vger.kernel.org, iommu@lists.linux.dev,
+	stable@vger.kernel.org
+Subject: Re: [PATCH 2/5] mm: limit pagecache folio refcount when splicing
+ into pipes
+Message-ID: <20261106204310.GK663069@ziepe.ca>
+References: <20261105-refcount_overflow_stable-v1-0-70b9c655da3e@kernel.org>
+ <20261105-refcount_overflow_stable-v1-2-70b9c655da3e@kernel.org>
+ <n3l2cnx6d25jovloqyoxiz566mh62janclmiewjvumtmqfezo7@zmsmco5vvssn>
+ <23f947e2-ff06-426d-adb7-396871304736@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -107,149 +138,65 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <23f947e2-ff06-426d-adb7-396871304736@kernel.org>
 
-On Fri, Nov 06, 2026 at 07:20:04AM -0800, Christoph Hellwig wrote:
-> Please do.  The main question are:
->
->  - do we want it in fileattr_get or as a STATX_ATTR_ in statx.
->  - how do we make the query reliable, and do we even need to?
+On Fri, Nov 06, 2026 at 09:09:10PM +0100, David Hildenbrand (Arm) wrote:
+> On 11/6/26 18:58, Josef Bacik wrote:
+> > On Thu, Nov 05, 2026 at 02:10:11PM +0100, David Hildenbrand (Arm) wrote:
+> >> Similar to mapping pagecache folios into page tables, let's reject splicing
+> >> folios into a pipe if the refcount is at it's limit, similar to how we
+> >> handle it during GUP.
+> >>
+> >> This will prevent more cases of possible folio refcount overflows with
+> >> large pagecache folios.
+> >>
+> >> Let's keep it simple and check in the two callers of
+> >> splice_folio_into_pipe().
+> >>
+> >> Also check in try_get_page() to cover pipe-buffer duplication by tee()
+> >> and partial pipe-to-pipe splicing.
+> >>
+> >> Fixes: 800d8c63b2e9 ("shmem: add huge pages support")
+> >> Fixes: 99cb0dbd47a1 ("mm,thp: add read-only THP support for (non-shmem) FS")
+> >> Fixes: 793917d997df ("mm/readahead: Add large folio readahead")
+> >> Cc: stable@vger.kernel.org
+> >> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+> >> ---
+> >>  include/linux/mm.h | 9 ++++++---
+> >>  mm/filemap.c       | 4 ++++
+> >>  mm/shmem.c         | 4 ++++
+> >>  3 files changed, 14 insertions(+), 3 deletions(-)
+> >>
+> >> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> >> index 79ae8fc0d6bb4..a82cfbce18215 100644
+> >> --- a/include/linux/mm.h
+> >> +++ b/include/linux/mm.h
+> >> @@ -2287,10 +2287,13 @@ static inline void get_page(struct page *page)
+> >>  
+> >>  static inline __must_check bool try_get_page(struct page *page)
+> >>  {
+> >> -	page = compound_head(page);
+> >> -	if (WARN_ON_ONCE(page_ref_count(page) <= 0))
+> >> +	struct folio *folio = page_folio(page);
+> >> +
+> >> +	if (WARN_ON_ONCE(folio_ref_count(folio) <= 0))
+> > 
+> > Since you're here anyway can you change this to something other than
+> > WARN_ON_ONCE, since that results in an OOPS with panic_on_warn set?
+> > Thanks,
+> 
+> If it actually turns negative (or 0) with out changes, we had an overflow and
+> for sure want to know about it :)
 
-Thanks. For the newly Cc'd lists: the thread [1] started from du-like
-tools that call FIEMAP on every file to count shared extents, which on
-XFS serialises on the AGF buffer lock. Dave suggested a per-file "may
-have shared extents" flag so such tools can skip FIEMAP on files that
-cannot share, and Christoph asked for a patch. Before writing one I'd
-like to settle the two questions above and the "two bits" question
-below.
+Yeah, didn't you get Docs merged to clarify WARN_ON is fine if
+userspace can't trigger it?
 
-To see what the flag would buy, I emulated it: a walker that calls
-statx() on every file and runs open + FIEMAP + close only on files
-whose XFS_DIFLAG2_REFLINK was set, read beforehand with xfs_db -r. In
-all 80 configurations (trees 0-100% reflinked, 1-24 threads, two
-machines) it found the same shared files and extents as FIEMAP on
-every file.
+If you use panic_on_warn you *WANT* your system to stop if it detects
+corruption, that's the whole point. Removing corruption detection so
+panic doesn't trigger is pure 100% nonsense.
 
-On placement, a STATX_ATTR_ bit (say STATX_ATTR_MAY_SHARE) looks like
-the better fit to me, for two reasons, though I may well be missing
-history here.
+This keeps coming up and it's frustrating to go over again and again.
 
-A du walk needs statx() for stx_blocks anyway, so a bit in
-stx_attributes would cost it no extra syscall, while the path-based
-file_getattr(2) adds a second call and lookup per file. Median of 5
-runs, 100,000 files, warm cache, Ryzen 9 3900X on 6.17:
-
-                               1 thread   24 threads
-    statx()                      195 ms      11.4 ms
-    statx() + file_getattr()     352 ms      19.9 ms
-
-(An arm64 VM on 7.2 shows a smaller gap: statx() alone vs with
-file_getattr() is 79 vs 97 ms on 1 thread, 8.9 vs 11.0 ms on 13.)
-
-The other is that for a "may share" bit, clear is the unsafe answer,
-so a filesystem that cannot answer should not look like one that
-answers "not shared". As I understand it, stx_attributes_mask makes
-that distinction, while struct file_attr has no validity mask today
-(it is size-versioned, so one could be added), so through
-file_getattr() btrfs would currently read as never shared. A spare
-bit in stx_attributes adds no field to struct statx, which I hope
-meets the concern Christian raised about spending statx space on the
-case-folding RFC [2]. If fileattr is preferred, the bit could instead
-mean "no shared extents", so that clear is the safe default, as it is
-for FS_XFLAG_CASEFOLD.
-
-> Besides xfs, btrfs and ocfs2 also support reflinks, and nfs (and maybe
-> cifs?) can export the semanics remotely.  So we really need a way
-> to indicate if the file system could support reflinks to start with,
-> and then one that the file could, so we probably need two bits
-
-For du, I think the mask could stand in for the "could support
-reflinks" bit if it means "this filesystem can answer for this file":
-
-  mask clear            not reported, fall back to FIEMAP
-  mask set, bit clear   no shared extents
-  mask set, bit set     may have shared extents
-
-A filesystem that cannot share extents at all would set the mask and
-leave the bit clear. If I read v7.4-rc1 right, only xfs, btrfs and
-ocfs2 report shared extents, and all three implement
-->remap_file_range, so the VFS might set the mask itself for files
-whose filesystem lacks ->remap_file_range. What I could find per
-filesystem:
-
- - xfs: XFS_DIFLAG2_REFLINK is set on both inodes in
-   xfs_reflink_remap_prep() before any extent is remapped, so clear
-   means no shared extents.
- - ocfs2: OCFS2_HAS_REFCOUNT_FL is set on both inodes before the
-   remap and cleared only at zero clusters, which looks like the same
-   meaning.
- - btrfs: I could not find a persisted per-inode reflink record
-   (last_reflink_trans is in memory only and reset to last_trans when
-   the inode is loaded), so btrfs would leave the bit out of the mask
-   for now. btrfs folks, please correct me if I missed something.
- - nfs, cifs: I could not find a per-file attribute in NFSv4.2 or
-   MS-FSCC that could carry it (space_freed comes closest, and nfsd
-   does not implement it), so no mask bit there.
-
-A filesystem-level "could reflink" bit might be a separate need:
-nfsd encodes clone_blksize for every export and ksmbd advertises
-FILE_SUPPORTS_BLOCK_REFCOUNTING unconditionally, I assume because
-neither can ask the exported filesystem. Did you have nfsd and ksmbd
-in mind for that bit?
-
-On reliability, my tentative answer is that the bit does not need to
-be exact for this use. A clear bit must never be wrong, and it never
-was in my tests, including a survey of my desktop's XFS root (2.0M
-files, flags read with xfs_db -r and matched by inode number). A
-stale set bit costs one FIEMAP, so I would document it as "may have
-shared extents"; since the contract is only "may", clearing it more
-eagerly later would not change the uapi.
-
-Stale bits do limit what it saves, though. The flag stays set when
-the other copy is deleted or the file is overwritten; only truncation
-to zero and FALLOC_FL_UNSHARE_RANGE (see the caveat below) clear it.
-Ordinary copies set it: coreutils 9.4 cp and install, cat (which
-copies with copy_file_range), Rust's std::fs::copy, and overlayfs
-copy-up all reflink on XFS. On my desktop, leaving out benchmark
-trees, 18% of inodes have the flag and 41% of those share nothing.
-That leaves out ~/.rustup too: an earlier test reflink-copied it, so
-all of its 132k inodes are flagged and none share; counting it, the
-figures are 25% and 62%.
-
-On real trees (24 threads, median of 5), statx() on every file, then
-open + FIEMAP + close on every file, on flagged files, or on files
-with shared extents only, the lower bound for a flag cleared when
-sharing ends (/usr has no shared files):
-
-                       statx only  every file  flagged  shared only
-  /usr      224k files      28 ms      264 ms    29 ms       -
-  ~/.local  372k files      63 ms      506 ms   487 ms    322 ms
-  ~/.rustup 132k files      20 ms      319 ms   318 ms     21 ms
-
-Would there be a reasonable point for XFS to clear the flag once
-sharing ends? I don't know the code well enough to tell what that
-would cost.
-
-The caveat, which may be unintended or may be my misreading:
-FALLOC_FL_UNSHARE_RANGE over a whole shared file does not clear the
-flag on the first call. bpftrace on 7.2 shows
-xfs_reflink_clear_inode_flag() entered and
-xfs_reflink_inode_has_shared_extents() not, so it looks like
-xfs_can_free_cowblocks() returned false, perhaps on I_DIRTY_PAGES
-left by the unshare. A second call after sync clears the flag.
-
-On Darrick's XFS_IOC_GETFSREFCOUNTS patch from your other mail:
-thanks for the pointer. It gives a device-wide total without
-privileges, which a du tool could show for the whole filesystem,
-though not per directory.
-
-If the statx direction sounds reasonable, I would be glad to put
-together an RFC with the uapi bit, xfs and ocfs2 support, a man-pages
-patch and an xfstest. This would be my first kernel patch, so
-corrections on any of the above are very welcome.
-
-[1] https://lore.kernel.org/linux-xfs/20261102193533.93690-1-lauri.gates@gmail.com/
-[2] https://lore.kernel.org/all/20251006-zypressen-paarmal-4167375db973@brauner/
-
-Thanks,
-Lauri
+Jason
