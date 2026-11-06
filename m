@@ -1,47 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=130.117.225.111
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793998478;
-	b=IFZjmGuqaTBVyQVgZXe0LRFodistEBi0wZ5LsK78gydzd9zP6MrM0Hf4h8yAn5I0L8Sb
-	 1PkbeDPgqI30hnt+jnhkpm5NO0ps1CP7KyZxpOmBRVUX4DNmIt3WGA4eAC45bFpgJTgZX
-	 a42NJdkTeguDrp/ZewA+dQxmwAsUwr8yx/zdgbluRXxmlf89NYfj+ororHgWkA7YTZlD1
-	 yz+GsfosX9f8FW62TqC+yxbxCQwUEfimaGVLT3kPhE4x/qGSYjcSFMTI605dZcSgxFtOP
-	 WTDra3afOhElWYRLKIyx4XnFBiD6n6pyQ4yqiZjNldGGACPgPjcjUukmGw0fdZT+U+w==
+	t=1793998667;
+	b=ipcjsjoxDEyyYX98c/Oe5k2tPvjzXwCxHKrBacH1ToikD8StPAhHfxJIyQzmiZ2vdiMo
+	 suf/evT3BymQLB+jRcWO8Oh+DWpzLo+WuNrVXsxY+94V7mYiCI9H+bCJffwQ3x2zVJntU
+	 Tom+bj28j2tI6f7uzavXzYvb7Po8RsxceUTFvHzNkGwijCgEfuTO7gNrMiXpN1sP4k/TA
+	 vbfnC5NmlxuKr34hwsOnJ0D6awrQxjHOB58BNAbI2WDj2eQZGgFxJMUC/eKUDsKAOr/K0
+	 YrvgnRfi5knGQ36065GReMH7dcAGPDlpL8c3hPHrq0bD5CQhv0F3622CPiz7x2qTP+w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793998478;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=AsX+TMzFckS6UeZpPD2RTOIgXnxB2VhmQ+PsRFL5QKo=;
-	b=tpdAmt6J0RyVt4jvvL1rLG35wE5MJjmcH8ifJX8BwdxNNTnHQWYGr5wK25h/agt9aBNJ
-	 +2IosJ3UfiS/EBt2ksKIXJ68FFdNWXVcasxPlEtOUSTCxy+DW54R6RCZy/iOmezihIBNy
-	 UeUPs74J0ntxuHiYDp5Exs10EBoAjzCqMoJIW/TQ78XliUzG9HAyOVBg4MuqDPzjtmk8q
-	 r3JNfjT95pI48zK9mnd4P30jNbEsVpSCe2ayYs24K2XuKmxX/6LmJYS7u6nD3iGqWqIWf
-	 Wg3IHWge7ixgtafCcChcUA1BQxm2LkL31fNLRZ7uwxX3zXd7X0RBjmiG+mY5gd/B3+g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793998667;
+	h=DMARC-Filter:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
+	 In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=QlZfCydMdiZJG6iKdjekNCpuqnBx+M7L7gaCG7InoYA=;
+	b=IuyuiAZJRtxvOwaa6w8s/x3mgm5i2ENYfS2VYWORlZdDHNfUDROjMWTNGSszjoL4CPJx
+	 k5By6w1VLcDxYp5sm7SMcgWaBlqwk91ZUAKNyZ2l7n4SPBAPnmS5bVqkgGyDgWYzOD6WC
+	 9VN14rcpyjbodWH/0hmKlCuwD2y7wYFvEE77BGLgl/7ZOy/9RSLJcIOyCguQE1xgV57ps
+	 6yyG/MVtkDUb62YE/VR1EgCxVAWYYOdD8megXQchT0MRAeTAF617VLcASFG48ua8UEYZW
+	 s0gYO+19tenuEV/aerhFvIjKCh90yVSgzT9tQgmrBDXzcHMqAz5jM5SYKJatJd1Rz3w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IpPZXKRG;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=virtuozzo.com;
+	spf=pass smtp.mailfrom=virtuozzo.com;
+	dkim=pass header.d=virtuozzo.com header.i=@virtuozzo.com header.a=rsa-sha256 header.s=relay header.b=jbypRHMI;
+	arc=none smtp.remote-ip=130.117.225.111
+Received: from relay.virtuozzo.com (relay.virtuozzo.com [130.117.225.111])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79C17606A326;
-	Fri,  6 Nov 2026 20:54:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D675D606A32C;
+	Fri,  6 Nov 2026 20:57:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D675D606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=virtuozzo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=virtuozzo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IpPZXKRG
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BC9B1F008A1;
-	Fri,  6 Nov 2026 20:54:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793998478;
-	bh=AsX+TMzFckS6UeZpPD2RTOIgXnxB2VhmQ+PsRFL5QKo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=IpPZXKRGpf9khfm1NTYYTBT+gxgNZ9uloqpY/GSHjqUrcXTJzZoR+hUq/DX2K7bh9
-	 KIJjq7S0jJSkgper9xghQon8ZNFYo5LokdvH3ByRrO2r4RiqrjLdbT0dCNUJKrJRWw
-	 zZQkusqGT8tybUC3V/CG5LSebX0f9dwUH/MmI0cZOYC3lTOmUiwp+q8Qr/Ni/YSGZQ
-	 x1ZBdGNvOlz3u4N9kdHSIDNl0do2E4dd90+t4IOqsvA9fq+b9GE+mpz2Ag8RF76v6m
-	 NkL+WdGxAeY+tzEn7JJhTScK+oN4/V8Zg1dz+VOq9yDQOZVYo/zZQ9et+604MSVHHr
-	 XHUUeOum6FIXQ==
-Message-ID: <323500a7-ffca-4285-929e-f667415589a3@kernel.org>
-Date: Fri, 6 Nov 2026 21:54:24 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=virtuozzo.com header.i=@virtuozzo.com header.a=rsa-sha256 header.s=relay header.b=jbypRHMI
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=virtuozzo.com; s=relay; h=Message-Id:Content-Type:MIME-Version:Subject:Date
+	:From; bh=QlZfCydMdiZJG6iKdjekNCpuqnBx+M7L7gaCG7InoYA=; b=jbypRHMIVpVutCK8Nol
+	Tan4TShI831g7CfN/Mo2Nd0qav2Ss/+ZlydhIURkJEda6ycqz0+j7ehj+V/J0iUiSO2t2y8kgVp7x
+	P/KClbHbZgldSMh3T4vdfSXdYbEb0eY5X89BRKekg+p9RK176e3TWoP+YT8h5FkWf7VYDQI0ql3/h
+	XTE3FdJLDFNT39N1jEOWl0sNRnWSeLzLvQQIaE/y8v1EZRs1DrqWQpCl4A4orQ1CuyJ4P0XYl2st7
+	D4wiQhA3qnuv+LYa6GdVrBR00ugw+oNt6hMn3vcljrKVLt9H398TqLUU9c5itXVicCCKYa+qgTqA8
+	loW3UjLHi9GpvQg==;
+Received: from ch-demo-asa.virtuozzo.com ([130.117.225.8] helo=f0.sw.ru)
+	by relay.virtuozzo.com with esmtp (Exim 4.96)
+	(envelope-from <khorenko@virtuozzo.com>)
+	id 1xPQwJ-001xD7-0l;
+	Fri, 06 Nov 2026 21:57:39 +0100
+From: Konstantin Khorenko <khorenko@virtuozzo.com>
+Date: Fri, 06 Nov 2026 21:57:38 +0100
+Subject: [PATCH v2 2/2] selftests/exec: check the errors of an unloadable
+ program header table
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -51,233 +59,503 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/5] mm: limit pagecache folio refcount when mapping pages
-To: Kiryl Shutsemau <kas@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>,
- Gregory Price <gourry@gourry.net>, Ying Huang
- <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
- Peter Xu <peterx@redhat.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Song Liu <songliubraving@fb.com>, Rik van Riel <riel@surriel.com>,
- Hugh Dickins <hughd@google.com>, Will Deacon <will@kernel.org>,
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin
- <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>,
- "Joerg Roedel (AMD)" <joro@8bytes.org>, Robin Murphy <robin.murphy@arm.com>,
- Steve Sistare <steven.sistare@oracle.com>, John Hubbard
- <jhubbard@nvidia.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- iommu@lists.linux.dev, Chris Mason <mason@kernel.org>, stable@vger.kernel.org
-References: <20261105-refcount_overflow_stable-v1-0-70b9c655da3e@kernel.org>
- <20261105-refcount_overflow_stable-v1-1-70b9c655da3e@kernel.org>
- <au3JT5QXbcOFXCp0@thinkstation>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <au3JT5QXbcOFXCp0@thinkstation>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20261106-b4-prep-vstor-149847-binfmt_elf-enomem-load-elf-phdrs-v2-2-1c8b7b1dae5c@virtuozzo.com>
+References: <20261106-b4-prep-vstor-149847-binfmt_elf-enomem-load-elf-phdrs-v2-0-1c8b7b1dae5c@virtuozzo.com>
+In-Reply-To: <20261106-b4-prep-vstor-149847-binfmt_elf-enomem-load-elf-phdrs-v2-0-1c8b7b1dae5c@virtuozzo.com>
+To: Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Kees Cook <kees@kernel.org>, Paul Burton <paulburton@kernel.org>, 
+ Shuah Khan <shuah@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+ linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Konstantin Khorenko <khorenko@virtuozzo.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=13649;
+ i=khorenko@virtuozzo.com; h=from:subject:message-id;
+ bh=Z5LQpkRS8qi5xVqPX8O16A4VfgmR+BUDze/ifhqek3Q=;
+ b=owEBbQKS/ZANAwAKAVGWCkf5YVwqAcsmYgBq7j9GdrJFhg85nhzAWbIE1poVOskcQev2YnF+Z
+ Mf8HCQUNHmJAjMEAAEKAB0WIQRWD23IPcXT0GO9CCxRlgpH+WFcKgUCau4/RgAKCRBRlgpH+WFc
+ Kk1cD/9+mHZPI4GROV4icAfXOUXn0rO1zrLPRK9xOObLQi+AgwbMtW9DstFpKZ3BL7Sao+30vmn
+ 0H9AYo8+MqOqxYhY+KS+wUKhY9AI6ygViz7ObKj2dGyN7QNBw7NmAB+4U9yHi/Aab7WrBcSiCTt
+ pyxhc32Ii98TEXPAO1MR/LD9HQvkcgwW71fYNYsNY51yp7Vqz9kRjTBPMgh9JIMN8QhHMB5q4WA
+ ucc/UR+mZdqyXxNudiF54dJ1xp/eNLXcQ58smNCUdBoEP4VyGOZr3VTwXnlEXMhvMAVogJIKI+i
+ 1rMAW29rGwkoW99+is86Thdlm63YVEzpUMzBOwRLke1GdY++1mu/kboOhV3nrIS/emfQl1c8mVf
+ MjF9/7IggZoc8PLQdMV2JmiUL3AA82wcBslkzJya4YTubBTZ/9QmGOydvThTSJuO2Rxq7R+dgMz
+ cpcKwdRvI7Ccy0o79ikxP3MQJ8bBNlyrI+LJMwHViQhJ9YCZ1F1fJ/HqZVhLotmJ17wdSrp6HE6
+ Uvw5MCMyqKf9muYG1Olv5K4QNIzfzOQRXQnXhyVZHT16NDkHmD9DKAW2Qh+lxV5ee26UGD50MgE
+ eSEf+SctpXakaGLepHfQDIIowtcf9F6wd1l+qMzDUMyt3+h5TYL0q1C3dSVZtSuX5gjCyHCVzl0
+ qR6OPxBk4OC3DLQ==
+X-Developer-Key: i=khorenko@virtuozzo.com; a=openpgp;
+ fpr=560F6DC83DC5D3D063BD082C51960A47F9615C2A
 
-On 11/6/26 13:38, Kiryl Shutsemau wrote:
-> On Thu, Nov 05, 2026 at 02:10:10PM +0100, David Hildenbrand (Arm) wrote:
->> With large file folios, overflowing the folio mapcount and refcount
->> became possible. For anon folios it is currently not really an issue:
->> each large anon folio can only be mapped once into a process.
->>
->> That's not really big news, but it's about time that we do something
->> about it because some modern technology might find ways to abuse it :)
->>
->> One of the enablers for that was commit ddc58f27f9ee ("mm: drop tail page
->> refcounting"), however, file thp support was added later.
->>
->> File folios can be mapped multiple times into the same process, allowing
->> for processes to hold many references to the same folio.
->>
->> As a short-term solution, let's introduce two folio refcount limits:
->> one for ordinary consumers and one for admins. Leave some headroom
->> before the refcount goes negative, which we really don't want (having
->> the mapcount go negative is also not expected).
->>
->> Start reporting SIGBUS if we run into limits. When restoring mappings
->> from migration entries, instead zap the pte/pmd entry. We allow for
->> slightly exceeding the limit to keep things simpler.
->>
->> This is far from ideal, but better than all easy alternatives we can
->> backport comfortably. For now it fixes the big problem: letting
->> the refcount (+mapcount) go negative and cause trouble.
->>
->> This is only a temporary fix, we'll follow up with something better.
->>
->> While the refcount checks are not required for order 0 folios, let's
->> just add them for consistency: each folio_add_file_rmap*() and
->> folio_dup_file_rmap*() needs a prior check.
->>
->> Also, just document -EHWPOISON for copy_present_ptes() while at it.
->>
->> Reported-by: Chris Mason <mason@kernel.org>
->> Fixes: 800d8c63b2e9 ("shmem: add huge pages support")
->> Fixes: 99cb0dbd47a1 ("mm,thp: add read-only THP support for (non-shmem) FS")
->> Fixes: 793917d997df ("mm/readahead: Add large folio readahead")
->> Cc: stable@vger.kernel.org
->> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
->> ---
->>  include/linux/mm.h | 33 +++++++++++++++++++++++++++++++++
->>  mm/filemap.c       |  6 ++++++
->>  mm/huge_memory.c   | 24 ++++++++++++++++++++++--
->>  mm/memory.c        | 23 ++++++++++++++++++++---
->>  mm/migrate.c       | 11 +++++++++++
->>  mm/userfaultfd.c   |  4 ++++
->>  6 files changed, 96 insertions(+), 5 deletions(-)
->>
->> diff --git a/include/linux/mm.h b/include/linux/mm.h
->> index a2dd76cc5bbfe..79ae8fc0d6bb4 100644
->> --- a/include/linux/mm.h
->> +++ b/include/linux/mm.h
->> @@ -8,6 +8,7 @@
->>  #include <linux/gfp.h>
->>  #include <linux/pgalloc_tag.h>
->>  #include <linux/bug.h>
->> +#include <linux/capability.h>
->>  #include <linux/list.h>
->>  #include <linux/mmzone.h>
->>  #include <linux/rbtree.h>
->> @@ -2228,6 +2229,38 @@ vm_fault_t finish_fault(struct vm_fault *vmf);
->>  #define folio_ref_zero_or_close_to_overflow(folio) \
->>  	((unsigned int) folio_ref_count(folio) + 127u <= 127u)
->>  
->> +/* Leave separate reserves for administrators and concurrent reference gains. */
->> +#define FOLIO_REF_COUNT_LIMIT		(INT_MAX - (1U << 26))
->> +#define FOLIO_REF_COUNT_ADMIN_LIMIT	(INT_MAX - (1U << 25))
->> +
->> +/**
->> + * folio_ref_count_over_limit - Check whether to refuse more folio references.
->> + * @folio: The folio.
->> + *
->> + * Relevant for large pagecache folios (!hugetlb). For these, we have to check
->> + * before adding page table mappings or other significant refcount users whether
->> + * we are close to our folio ref count limit, to avoid overflows.
->> + *
->> + * Checking this for other folios does no harm but is mostly unnecessary.
->> + *
->> + * This check is an approximation; we leave some headroom such that concurrent
->> + * increments, batches and temporary references are not a problem.
->> + *
->> + * Return: True if the caller should refuse additional references, false
->> + * otherwise.
->> + */
->> +static inline bool folio_ref_count_over_limit(const struct folio *folio)
->> +{
->> +	const unsigned int ref_count = folio_ref_count(folio);
->> +
->> +	if (likely(ref_count < FOLIO_REF_COUNT_LIMIT))
->> +		return false;
->> +	if (ref_count >= FOLIO_REF_COUNT_ADMIN_LIMIT)
->> +		return true;
->> +	/* Background threads must not consume admin reserves. */
->> +	return (current->flags & PF_KTHREAD) || !capable(CAP_SYS_RESOURCE);
->> +}
->> +
->>  /**
->>   * folio_get - Increment the reference count on a folio.
->>   * @folio: The folio.
-> 
-> Does the slow path need to be inline at all 15 call sites, GUP-fast
-> among them?
+load_elf_binary() reports a program header table that it cannot use as
+-ENOEXEC, and as -ELIBBAD when the table is the interpreter's. A failed
+allocation of the table says nothing about the file and has to come
+back as -ENOMEM.
 
-It's not a lot of code. Do we really care?
+The test builds ELF files whose table is malformed, placed past the end
+of the file or cut short, both as the executable and as the PT_INTERP of
+one, and checks for those two errors. As root, on a kernel with fault
+injection, it then fails each fault injection point of an execve() in
+turn and checks that none of them comes back as -ENOEXEC or -ELIBBAD;
+without root or fault injection that case is skipped.
 
-E.g., in gup.c, the compiler is free to not inline into each of the two callsites.
+Fault injection here means CONFIG_FAULT_INJECTION, CONFIG_FAILSLAB and
+CONFIG_FAULT_INJECTION_DEBUG_FS.
 
-> 
-> Maybe only leave the likely() check in inline and move the rest into a
-> function call?
-> 
-> Something like:
-> 
-> static inline bool folio_ref_count_over_limit(const struct folio *folio)
-> {
->         const unsigned int ref_count = folio_ref_count(folio);
-> 
->         if (likely(ref_count < FOLIO_REF_COUNT_LIMIT))
->                 return false;
->         return __folio_ref_count_over_limit(ref_count);
-> }
-> 
-> bool __folio_ref_count_over_limit(unsigned int ref_count)
-> {
->         if (ref_count >= FOLIO_REF_COUNT_ADMIN_LIMIT)
->                 return true;
->         /* Background threads must not consume admin reserves */
->         if (current->flags & PF_KTHREAD)
->                 return true;
->         return !capable(CAP_SYS_RESOURCE);
-> }
-> 
-> Also, should this be capable_noaudit()? I am not sure a refused
-> reference should leave an audit record. cap_vm_enough_memory() checks
-> the admin reserve with CAP_OPT_NOAUDIT.
-> 
+Signed-off-by: Konstantin Khorenko <khorenko@virtuozzo.com>
+---
+ tools/testing/selftests/exec/.gitignore       |   2 +
+ tools/testing/selftests/exec/Makefile         |   4 +
+ tools/testing/selftests/exec/load_elf_phdrs.c | 399 ++++++++++++++++++++++++++
+ 3 files changed, 405 insertions(+)
 
-Not an expert, but capable_noaudit() sounds good.
-
-Not sure if that fully resolves sashiko's complaint in the last commit.
-
-Thanks!
+diff --git a/tools/testing/selftests/exec/.gitignore b/tools/testing/selftests/exec/.gitignore
+index e42ecd4c908d1..3736834117f7c 100644
+--- a/tools/testing/selftests/exec/.gitignore
++++ b/tools/testing/selftests/exec/.gitignore
+@@ -11,9 +11,11 @@ non-regular
+ null-argv
+ /check-exec
+ /false
++/false-dynamic
+ /inc
+ /load_address.*
+ !load_address.c
++/load_elf_phdrs
+ /recursion-depth
+ /set-exec
+ xxxxxxxx*
+diff --git a/tools/testing/selftests/exec/Makefile b/tools/testing/selftests/exec/Makefile
+index 91decfa8ff2c1..607f5ecd9d76c 100644
+--- a/tools/testing/selftests/exec/Makefile
++++ b/tools/testing/selftests/exec/Makefile
+@@ -20,6 +20,8 @@ TEST_FILES := Makefile
+ TEST_GEN_PROGS += recursion-depth
+ TEST_GEN_PROGS += null-argv
+ TEST_GEN_PROGS += check-exec
++TEST_GEN_PROGS += load_elf_phdrs
++TEST_GEN_PROGS_EXTENDED += false-dynamic
+ 
+ # binfmt_misc must not be reachable as an exec source or as a stacking layer,
+ # or an 'F' entry can pin the instance that owns it. Unprivileged, no bpf.
+@@ -98,6 +100,8 @@ $(OUTPUT)/load_address.static.0x%: load_address.c
+ 		-fPIE -static-pie $< -o $@
+ $(OUTPUT)/false: false.c
+ 	$(CC) $(CFLAGS) $(LDFLAGS) -static $< -o $@
++$(OUTPUT)/false-dynamic: false.c
++	$(CC) $(CFLAGS) $(LDFLAGS) $< -o $@
+ $(OUTPUT)/inc: $(CHECK_EXEC_SAMPLES)/inc.c
+ 	$(CC) $(CFLAGS) $(LDFLAGS) $< -o $@
+ $(OUTPUT)/set-exec: $(CHECK_EXEC_SAMPLES)/set-exec.c
+diff --git a/tools/testing/selftests/exec/load_elf_phdrs.c b/tools/testing/selftests/exec/load_elf_phdrs.c
+new file mode 100644
+index 0000000000000..7d888a3e9d7f4
+--- /dev/null
++++ b/tools/testing/selftests/exec/load_elf_phdrs.c
+@@ -0,0 +1,399 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * execve() of an ELF file whose program header table cannot be loaded.
++ *
++ * A malformed, misplaced or truncated table fails with ENOEXEC, and with
++ * ELIBBAD when it is the interpreter's. A failed allocation of the table is
++ * reported as ENOMEM, never as one of those two: checked as root with
++ * CONFIG_FAULT_INJECTION, CONFIG_FAILSLAB and CONFIG_FAULT_INJECTION_DEBUG_FS
++ * (so CONFIG_DEBUG_FS), skipped without them.
++ */
++#define _GNU_SOURCE
++#include <elf.h>
++#include <errno.h>
++#include <fcntl.h>
++#include <limits.h>
++#include <link.h>
++#include <linux/magic.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <sys/mount.h>
++#include <sys/resource.h>
++#include <sys/statvfs.h>
++#include <sys/vfs.h>
++#include <sys/wait.h>
++#include <unistd.h>
++
++#include "kselftest_harness.h"
++
++/* The test itself could not fork or arm the fault, as opposed to an errno. */
++#define SETUP_FAILED	(-2)
++
++enum table {
++	BAD_PHENTSIZE,
++	NO_PHDRS,
++	TOO_BIG,
++	HUGE_PHOFF,	/* on 32-bit only past the end of the file */
++	PAST_EOF,
++	TRUNCATED,
++};
++
++static int write_file(const char *path, const void *buf, size_t len)
++{
++	int fd = open(path, O_WRONLY | O_CREAT | O_TRUNC | O_CLOEXEC, 0755);
++	ssize_t ret;
++
++	if (fd < 0)
++		return -1;
++	ret = write(fd, buf, len);
++	close(fd);
++	return ret == (ssize_t)len ? 0 : -1;
++}
++
++static int read_ehdr(ElfW(Ehdr) *eh)
++{
++	int fd = open("/proc/self/exe", O_RDONLY | O_CLOEXEC);
++	ssize_t ret;
++
++	if (fd < 0)
++		return -1;
++	ret = read(fd, eh, sizeof(*eh));
++	close(fd);
++	return ret == sizeof(*eh) ? 0 : -1;
++}
++
++/* An ELF header for this machine with one program header, then that header. */
++static size_t one_phdr_image(char *buf, const ElfW(Phdr) *ph)
++{
++	ElfW(Ehdr) eh;
++
++	if (read_ehdr(&eh))
++		return 0;
++	eh.e_phoff = sizeof(eh);
++	eh.e_phentsize = sizeof(*ph);
++	eh.e_phnum = 1;
++	eh.e_shoff = 0;
++	eh.e_shnum = 0;
++	eh.e_shstrndx = 0;
++	memcpy(buf, &eh, sizeof(eh));
++	memcpy(buf + sizeof(eh), ph, sizeof(*ph));
++	return sizeof(eh) + sizeof(*ph);
++}
++
++static size_t bad_table_image(char *buf, enum table table)
++{
++	ElfW(Phdr) ph = { .p_type = PT_NULL };
++	ElfW(Ehdr) *eh = (ElfW(Ehdr) *)buf;
++	size_t len = one_phdr_image(buf, &ph);
++
++	if (!len)
++		return 0;
++	switch (table) {
++	case BAD_PHENTSIZE:
++		eh->e_phentsize--;
++		break;
++	case NO_PHDRS:
++		eh->e_phnum = 0;
++		break;
++	case TOO_BIG:
++		eh->e_phnum = 65536 / sizeof(ph) + 1;
++		break;
++	case HUGE_PHOFF:
++		eh->e_phoff = (ElfW(Off))1 << (8 * sizeof(eh->e_phoff) - 1);
++		break;
++	case PAST_EOF:
++		eh->e_phoff = 1 << 20;
++		break;
++	case TRUNCATED:
++		eh->e_phnum = 2;
++		break;
++	}
++	return len;
++}
++
++/* An executable whose PT_INTERP names @interp. */
++static size_t interp_image(char *buf, const char *interp)
++{
++	ElfW(Phdr) ph = {
++		.p_type = PT_INTERP,
++		.p_offset = sizeof(ElfW(Ehdr)) + sizeof(ElfW(Phdr)),
++		.p_filesz = strlen(interp) + 1,
++	};
++	size_t len = one_phdr_image(buf, &ph);
++
++	if (!len)
++		return 0;
++	memcpy(buf + len, interp, ph.p_filesz);
++	return len + ph.p_filesz;
++}
++
++/* Returns the errno of a failed execve(), 0 if it did not return. */
++static int exec_errno(const char *path, char *const argv[])
++{
++	char *const envp[] = { NULL };
++	int pipefd[2], err = 0, status;
++	pid_t pid;
++
++	if (pipe2(pipefd, O_CLOEXEC))
++		return SETUP_FAILED;
++	pid = fork();
++	if (pid < 0) {
++		close(pipefd[0]);
++		close(pipefd[1]);
++		return SETUP_FAILED;
++	}
++	if (!pid) {
++		execve(path, argv, envp);
++		err = errno;
++		write(pipefd[1], &err, sizeof(err));
++		_exit(1);
++	}
++	close(pipefd[1]);
++	if (read(pipefd[0], &err, sizeof(err)) != sizeof(err))
++		err = 0;
++	close(pipefd[0]);
++	waitpid(pid, &status, 0);
++	return err;
++}
++
++FIXTURE(table) {
++	char dir[64];
++	char exe[96];
++	char interp[96];
++};
++
++FIXTURE_VARIANT(table) {
++	enum table table;
++	bool interp;
++};
++
++FIXTURE_VARIANT_ADD(table, bad_phentsize) { .table = BAD_PHENTSIZE };
++FIXTURE_VARIANT_ADD(table, no_phdrs) { .table = NO_PHDRS };
++FIXTURE_VARIANT_ADD(table, too_big) { .table = TOO_BIG };
++FIXTURE_VARIANT_ADD(table, huge_phoff) { .table = HUGE_PHOFF };
++FIXTURE_VARIANT_ADD(table, past_eof) { .table = PAST_EOF };
++FIXTURE_VARIANT_ADD(table, truncated) { .table = TRUNCATED };
++FIXTURE_VARIANT_ADD(table, interp_bad_phentsize) { .table = BAD_PHENTSIZE, .interp = true };
++FIXTURE_VARIANT_ADD(table, interp_no_phdrs) { .table = NO_PHDRS, .interp = true };
++FIXTURE_VARIANT_ADD(table, interp_too_big) { .table = TOO_BIG, .interp = true };
++FIXTURE_VARIANT_ADD(table, interp_huge_phoff) { .table = HUGE_PHOFF, .interp = true };
++FIXTURE_VARIANT_ADD(table, interp_past_eof) { .table = PAST_EOF, .interp = true };
++FIXTURE_VARIANT_ADD(table, interp_truncated) { .table = TRUNCATED, .interp = true };
++
++static void remove_files(FIXTURE_DATA(table) *self)
++{
++	unlink(self->exe);
++	unlink(self->interp);
++	rmdir(self->dir);
++}
++
++FIXTURE_SETUP(table)
++{
++	char bad[sizeof(ElfW(Ehdr)) + sizeof(ElfW(Phdr))];
++	char exe[sizeof(bad) + sizeof(self->interp)];
++	size_t bad_len, exe_len;
++	struct statvfs st;
++	int ret;
++
++	ASSERT_EQ(0, statvfs("/tmp", &st));
++	if (st.f_flag & ST_NOEXEC)
++		SKIP(return, "/tmp is on a noexec mount");
++	bad_len = bad_table_image(bad, variant->table);
++	ASSERT_NE(0, bad_len);
++	strcpy(self->dir, "/tmp/load_elf_phdrs.XXXXXX");
++	ASSERT_NE(NULL, mkdtemp(self->dir));
++	snprintf(self->exe, sizeof(self->exe), "%s/exe", self->dir);
++	snprintf(self->interp, sizeof(self->interp), "%s/interp", self->dir);
++
++	if (!variant->interp) {
++		ret = write_file(self->exe, bad, bad_len);
++	} else {
++		exe_len = interp_image(exe, self->interp);
++		ret = !exe_len || write_file(self->interp, bad, bad_len) ||
++		      write_file(self->exe, exe, exe_len);
++	}
++	if (ret)
++		remove_files(self);
++	ASSERT_EQ(0, ret);
++}
++
++FIXTURE_TEARDOWN(table)
++{
++	remove_files(self);
++}
++
++TEST_F(table, execve)
++{
++	char *const argv[] = { self->exe, NULL };
++	int expect = variant->interp ? ELIBBAD : ENOEXEC;
++	int err = exec_errno(self->exe, argv);
++
++	ASSERT_NE(SETUP_FAILED, err);
++	EXPECT_EQ(expect, err) {
++		TH_LOG("execve(): %s, expected %s", strerror(err), strerror(expect));
++	}
++}
++
++#define DEBUGFS		"/sys/kernel/debug"
++#define IGNORE_GFP_WAIT	DEBUGFS "/failslab/ignore-gfp-wait"
++#define VERBOSE		DEBUGFS "/failslab/verbose"
++
++static int read_str(const char *path, char *buf, size_t size)
++{
++	int fd = open(path, O_RDONLY | O_CLOEXEC);
++	ssize_t ret;
++
++	if (fd < 0)
++		return -1;
++	ret = read(fd, buf, size - 1);
++	close(fd);
++	if (ret <= 0)
++		return -1;
++	buf[ret] = '\0';
++	return 0;
++}
++
++static int write_str(const char *path, const char *str)
++{
++	return write_file(path, str, strlen(str));
++}
++
++/* errno of execve() with fault @nth injected; 0: the new image exited, -1: it died */
++static int exec_fail_nth(const char *path, unsigned int nth)
++{
++	char *const argv[] = { (char *)path, NULL };
++	char *const envp[] = { NULL };
++	int pipefd[2], err, status;
++	char buf[16];
++	pid_t pid;
++
++	if (pipe2(pipefd, O_CLOEXEC))
++		return SETUP_FAILED;
++	pid = fork();
++	if (pid < 0) {
++		close(pipefd[0]);
++		close(pipefd[1]);
++		return SETUP_FAILED;
++	}
++	if (!pid) {
++		struct rlimit no_core = { 0, 0 };
++		int null = open("/dev/null", O_WRONLY | O_CLOEXEC);
++		int fd;
++
++		/* Faults past the point of no return kill the new image. */
++		setrlimit(RLIMIT_CORE, &no_core);
++		if (null >= 0) {
++			dup2(null, STDOUT_FILENO);
++			dup2(null, STDERR_FILENO);
++		}
++		fd = open("/proc/thread-self/fail-nth", O_WRONLY | O_CLOEXEC);
++		if (fd < 0 || write(fd, buf, sprintf(buf, "%u", nth)) < 0)
++			_exit(2);
++		execve(path, argv, envp);
++		err = errno;
++		write(fd, "0", 1);
++		write(pipefd[1], &err, sizeof(err));
++		_exit(1);
++	}
++	close(pipefd[1]);
++	if (read(pipefd[0], &err, sizeof(err)) != sizeof(err))
++		err = 0;
++	close(pipefd[0]);
++	if (waitpid(pid, &status, 0) != pid ||
++	    (WIFEXITED(status) && WEXITSTATUS(status) == 2))
++		return SETUP_FAILED;
++	if (err)
++		return err;
++	return WIFEXITED(status) && WEXITSTATUS(status) == 1 ? 0 : -1;
++}
++
++FIXTURE(alloc) {
++	char ignore_gfp_wait[8];
++	char verbose[8];
++	bool mounted;
++};
++
++static void failslab_restore(FIXTURE_DATA(alloc) *self)
++{
++	write_str(IGNORE_GFP_WAIT, self->ignore_gfp_wait);
++	write_str(VERBOSE, self->verbose);
++	if (self->mounted)
++		umount(DEBUGFS);
++}
++
++FIXTURE_SETUP(alloc)
++{
++	struct statfs st;
++	int ret;
++
++	self->mounted = false;
++	if (geteuid())
++		SKIP(return, "needs root for the failslab settings");
++	if (access("/proc/thread-self/fail-nth", W_OK))
++		SKIP(return, "no fault injection (CONFIG_FAULT_INJECTION)");
++	if (statfs(DEBUGFS, &st) || st.f_type != DEBUGFS_MAGIC)
++		self->mounted = !mount("debugfs", DEBUGFS, "debugfs", 0, NULL);
++	if (read_str(IGNORE_GFP_WAIT, self->ignore_gfp_wait, sizeof(self->ignore_gfp_wait)) ||
++	    read_str(VERBOSE, self->verbose, sizeof(self->verbose))) {
++		if (self->mounted)
++			umount(DEBUGFS);
++		SKIP(return, "no debugfs or no failslab (CONFIG_FAULT_INJECTION_DEBUG_FS)");
++	}
++	/* The allocations of an execve() may sleep, and a splat for each is noise. */
++	ret = write_str(IGNORE_GFP_WAIT, "N") ?: write_str(VERBOSE, "0");
++	if (ret) {
++		ret = errno;
++		failslab_restore(self);
++		SKIP(return, "cannot set up failslab: %s", strerror(ret));
++	}
++}
++
++FIXTURE_TEARDOWN(alloc)
++{
++	failslab_restore(self);
++}
++
++TEST_F(alloc, no_enoexec)
++{
++	unsigned int nth, clean = 0, failed = 0, wrong = 0;
++	char path[PATH_MAX];
++	ssize_t len;
++	int err;
++
++	/* Dynamically linked, so that the interpreter's table is allocated too. */
++	len = readlink("/proc/self/exe", path, sizeof(path) - sizeof("false-dynamic"));
++	ASSERT_LT(0, len);
++	path[len] = '\0';
++	strcpy(strrchr(path, '/') + 1, "false-dynamic");
++	if (access(path, X_OK))
++		SKIP(return, "false-dynamic not found next to the test");
++
++	/* Done once the faults to inject lie past the whole exec and exit. */
++	for (nth = 1; clean < 50 && nth < 100000; nth++) {
++		err = exec_fail_nth(path, nth);
++		ASSERT_NE(SETUP_FAILED, err) {
++			TH_LOG("fail-nth %u: fork or fail-nth write failed", nth);
++		}
++		if (!err) {
++			clean++;
++			continue;
++		}
++		clean = 0;
++		if (err < 0)
++			continue;
++		failed++;
++		if (err == ENOEXEC || err == ELIBBAD) {
++			wrong++;
++			TH_LOG("fail-nth %u: execve(): %s", nth, strerror(err));
++		}
++	}
++	ASSERT_EQ(50, clean) {
++		TH_LOG("no clean exec after fail-nth %u", nth);
++	}
++	if (!failed)
++		SKIP(return, "no execve() failed: failslab did not inject");
++	EXPECT_EQ(0, wrong);
++}
++
++TEST_HARNESS_MAIN
 
 -- 
-Cheers,
+2.43.0
 
-David
