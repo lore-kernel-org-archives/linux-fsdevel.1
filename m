@@ -1,105 +1,73 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.117
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=82.195.75.108
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793979564;
-	b=elmzA4k9M6gHC7koDqI1czVrxgc1Db6pQqF53qp2joq/Xk9sumjEm3HeAMCHzIZbAvGu
-	 U/soHl/XNyWhunWmskK8m64a77YH0NZBta/Vj2kN5Rzm8EuPgwVJ6QAv35wO0UcIHBPzY
-	 QfmWNtKonNgWigJx4EZNJKwYeGzHOuuxdpQUA3AcLbjV8iwimTsp9LdrR+4uwIdUFrO5b
-	 wF1A2fm0ZG0bHmfCJFuuFBaDL2huQDyRDIji9vngJIkV7Uy2hjLmDCtv3CbVI6VPqn5Ww
-	 hBDhuWN3QQqI7SHWDBSm9/7l/kgDqKkmulOxLBHg0IC4toFrT/rwVf0xth0IpHyx1kQ==
+	t=1793980068;
+	b=f47WvQmBMlK+iy3YxF5DqM/wWSe4ONWsapNtascoSN6VovbAB4gBkDlVZ0QIsdZqZ85w
+	 39jCKhp1676OG3l8MlbYXkwgjB7j1R6V7Coqffr0kggsrW+/3MTMaAwQw5fueKTt6QWtA
+	 NNErQ27swEi5WSp90PRWF2UtXhuv5s0UXpDYa+Rb78NCFcQKK8yEsU9nj74Uh7Yv4tUEh
+	 zKmQFn1Zx+aoyQMj7vGCXgkpXwDs2CbsfKtuM6pGP4dvWdAQ8OHW0QAT15hmgaGz57QPA
+	 GcSC0mEMCKjXZmiJCLtoLOEOhhro3dBduVkik4ijSw+O48VDBuP+WZhDh+t3mjJNzhw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793979564;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=4tmGxuQStKCk7w+onoi1RLdqwI1kArXig6jzABebmog=;
-	b=MylgQlXcQSaroZZhiB6i7wmP4AIg3rR3jlFdzrzJQrl0xJsQfwvlz89ME87nlFJCx8w3
-	 t5JfMAG2WSrIoqzMjS9+bwft6F9jYgaCmDwExY4DmNurtySXTXY+662eJ9oErzMD3ICLt
-	 WX9XPXArrLpNwmPY2l4b93JZ8ET60Ys5Nn+voM9bB0utV47xwqJCq8JkZHeJEQy9CEDg2
-	 e/wTY52ELiyNVG3RQFtczL25eD3IfOjEG2oaMwu3/GaahfqMhqWyQWdG9hvuU5IlmiJHt
-	 OMDMSnK2AlUo4xpC/SdJxq7cLFJ988r2jR/IeldWoGspgW4/+z2+T2aFbSKwj7BZ9Ew==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793980068;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Debian-User;
+	bh=UmKUyztNyCKEX6kdM2pzglbfBGyZ6nijYc/+g6Roixw=;
+	b=lBYuOmv5uT+BWSfVMshZU5J2Id6Tf4oLqO2VB0wL+KKhWX18g3Lazv4HrZrPrhAvc4Vl
+	 KDu4qp2tw28O7POgSUfAgpneRetuG7qB5bFYd8i8ygfFzl6kcvTwHQNz6L84lEd7YWvR/
+	 gNGvY1pC9INh2uwkLhAApzGDyPE7d9wnPoYFeJqEX8Hlw9l5C6SoUGkG0ZcyAfICZ8RN5
+	 BUfx2nnBspp+CQvs6HfiHmEOUbXa03/F2ByzO9GnwGWTzFBD+kI5oDrTeTvbmzOxzzTDn
+	 +dx++7Jfg6BYJqqRf+o0HA/6yAXuyEWlUt4YcZQJGjHcjba6inQeGHJlgWRlkHTNgPw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=CmzgYoZC;
-	arc=none smtp.remote-ip=91.218.175.117
-Received: from mta0.migadu.com (out-117.mta0.migadu.com [91.218.175.117])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=debian.org;
+	spf=pass smtp.mailfrom=debian.org;
+	dkim=pass header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=hxJ0aWWr;
+	arc=none smtp.remote-ip=82.195.75.108
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC360606A32E
-	for <linux-fsdevel@vger.kernel.org>; Fri,  6 Nov 2026 15:39:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AC360606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7380B606A326;
+	Fri,  6 Nov 2026 15:47:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7380B606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=CmzgYoZC
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=cxp+oaexrpUE0cyElicHmhKBrNrP/fzOSAf3exqA3F4=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793979561; v=1; x=1794584361;
- b=CmzgYoZCoSCoPOD8d4J2CNcL+azM+zYCz75PcmISXevWmg5vTMxyEjplZCkCK5TM1Om8yZ6V
- Zbx3Wd/Y4LxkocPiaUzZIXerQYHYqPH79yMQI8F7Y4Qt8r5e7Ub4KBDOVvOGzoyHoXX09hBsmQG
- 4dbcIPuXWKdimO8uWiqmyp2U=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id be0c1e5625ffc958;
-	Fri, 06 Nov 2026 15:39:21 +0000
-X-Mizu-Trace-ID: be0c1e5625ffc958
-X-Migadu-Flow: FLOW_OUT
-From: Lance Yang <lance.yang@linux.dev>
-To: david@kernel.org
-Cc: akpm@linux-foundation.org,
-	ljs@kernel.org,
-	liam@infradead.org,
-	vbabka@kernel.org,
-	rppt@kernel.org,
-	surenb@google.com,
-	mhocko@suse.com,
-	willy@infradead.org,
-	jack@suse.cz,
-	ziy@nvidia.com,
-	baolin.wang@linux.alibaba.com,
-	nico.pache@linux.dev,
-	ryan.roberts@arm.com,
-	dev.jain@arm.com,
-	baohua@kernel.org,
-	lance.yang@linux.dev,
-	usama.arif@linux.dev,
-	kas@kernel.org,
-	matthew.brost@intel.com,
-	joshua.hahnjy@gmail.com,
-	byungchul@sk.com,
-	gourry@gourry.net,
-	ying.huang@linux.alibaba.com,
-	apopple@nvidia.com,
-	peterx@redhat.com,
-	hannes@cmpxchg.org,
-	songliubraving@fb.com,
-	riel@surriel.com,
-	hughd@google.com,
-	will@kernel.org,
-	aneesh.kumar@kernel.org,
-	npiggin@gmail.com,
-	peterz@infradead.org,
-	jgg@ziepe.ca,
-	kevin.tian@intel.com,
-	joro@8bytes.org,
-	robin.murphy@arm.com,
-	steven.sistare@oracle.com,
-	jhubbard@nvidia.com,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	iommu@lists.linux.dev,
-	stable@vger.kernel.org
-Subject: Re: [PATCH 4/5] iommufd: fix cleanup when adding memfd folio pins fails
-Date: Fri,  6 Nov 2026 23:39:14 +0800
-Message-ID: <20261106153914.91168-1-lance.yang@linux.dev>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20261105-refcount_overflow_stable-v1-4-70b9c655da3e@kernel.org>
-References: <20261105-refcount_overflow_stable-v1-4-70b9c655da3e@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=hxJ0aWWr
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=UmKUyztNyCKEX6kdM2pzglbfBGyZ6nijYc/+g6Roixw=; b=hxJ0aWWrhA/N+kPnh9QdadK03I
+	lphqVrug6uscPzlWL2jyy4zJB2rNqXeOEXOLuwmTGBKV3e6eyRkSxZroS7b5nL61OzJDkf2UkX+ln
+	0BmB02lmybqsifwdOsPKfRKNklN7Giqov+pGQZVxC5OCfay9a3Wn3EhTRIaImRfCjzT4xtmKEtpzx
+	svMGJfZBLYPoYIHp/j8+GM0EpjPZlGl/zWct1qAtM3b9sush4NCM+c1ChfiEjgkhJoDryu9M53/lU
+	bWMwwwkvUcLuN3iGCOJ9nqxg6EvJeYKwB+fKWCDpK2kjJFauLIg9FqPkOwViu3y64uaSgBQBi1bJG
+	RqdWC0iw==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1xPMA3-009OAp-2L;
+	Fri, 06 Nov 2026 15:47:27 +0000
+Date: Fri, 6 Nov 2026 07:47:22 -0800
+From: Breno Leitao <leitao@debian.org>
+To: Jan Kara <jack@suse.cz>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Julian Sun <sunjunchao@bytedance.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	cgroups@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH 4/4] writeback: report a slow writeback wait once per
+ timeout
+Message-ID: <au3w4xiaYbEYLTru@gmail.com>
+References: <20261106-writeback_stall_report-v1-0-bf0c3b9023a5@debian.org>
+ <20261106-writeback_stall_report-v1-4-bf0c3b9023a5@debian.org>
+ <ysxh2sfvjikoh6cw2qmk2i6p7xripwnqxkx43jj7unxop5tkiw@gws5wezjt34g>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -109,36 +77,72 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ysxh2sfvjikoh6cw2qmk2i6p7xripwnqxkx43jj7unxop5tkiw@gws5wezjt34g>
+X-Debian-User: leitao
 
+On Fri, Nov 06, 2026 at 03:37:45PM +0100, Jan Kara wrote:
+> On Fri 06-11-26 04:26:34, Breno Leitao wrote:
+> > The slow writeback report is printed on every wakeup of the waiter past
+> > hung_task_timeout_secs, and the waiter is woken more often than that.
+> > 
+> > Each flusher working for it wakes it once it has not run for half the
+> > timeout. All waiters on a bdi share bdi->wb_waitq, so a wakeup meant for
+> > one of them reaches all of them.
+> > 
+> > A sync of files dirtied from two cgroups, on a throttled null_blk device
+> > with the timeout set to 5 seconds, gets a report every half timeout,
+> > each printed twice, 18 reports for a 29 second wait:
+> > 
+> >   [   10.327992] INFO: The task sync:276 has been waiting for writeback completion for more than 8 seconds.
+> >   [   10.328000]       bdi 252:0, work items left: 2
+> >   [   10.328003] INFO: The task sync:276 has been waiting for writeback completion for more than 8 seconds.
+> >   [   10.328004]       bdi 252:0, work items left: 2
+> >   [   12.888187] INFO: The task sync:276 has been waiting for writeback completion for more than 10 seconds.
+> >   [   12.888195]       bdi 252:0, work items left: 2
+> >   [   12.888197] INFO: The task sync:276 has been waiting for writeback completion for more than 10 seconds.
+> >   [   12.888198]       bdi 252:0, work items left: 2
+> >   ...
+> > 
+> > Remember when the waiter last reported, and report again only once
+> > another timeout has passed. The wakeups do not change, so the hung task
+> > detector still sees the waiter making progress. The same test now
+> > prints 5 reports:
+> > 
+> >   [    7.661129] INFO: The task sync:277 has been waiting for writeback completion for more than 5 seconds.
+> >   [    7.661136]       bdi 252:0, work items left: 2
+> >   [   13.241102] INFO: The task sync:277 has been waiting for writeback completion for more than 11 seconds.
+> >   [   13.241109]       bdi 252:0, work items left: 2
+> >   ...
+> >   [   31.801068] The task sync:277 waited 29 seconds for writeback completion on bdi 252:0
+> > 
+> > Signed-off-by: Breno Leitao <leitao@debian.org>
+> 
+> Now I'm waiting for someone to complain it gets written out too
+> infrequently :). 
 
-On Thu, Nov 05, 2026 at 02:10:13PM +0100, David Hildenbrand (Arm) wrote:
->folio_add_pins() can fail after memfd_pin_folios() succeeded pinning a
->folio. Upcoming folio refcount limit checks will make this easier to
->trigger.
->
->Let's fix three problems in the error handling:
->
->1. pfn_reader_release_pins() uses the allocated array size instead of the
->   number of folios returned by memfd_pin_folios(). With large folios,
->   cleanup can unpin uninitialized entries. Remember the number of returned
->   folios and use that during cleanup.
->
->2. pin_memfd_pages() returns on failure without releasing the pins acquired
->   by the current call. Release the per-page pins for folios already
->   expanded into the page array, and the single pins for the remaining
->   folios.
->
->3. pfn_reader_next() returns on failure before updating batch_end_index,
->   even if the batch already contains successfully expanded folios. Update
->   it before propagating the error so cleanup releases those pins as well.
->
->Fixes: 92687c793644 ("iommufd: pfn_reader for file mappings")
->Cc: stable@vger.kernel.org
->Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
->---
+Once per timeout is also how often the hung task detector checks by
+default, and patch 3 logs the total once the wait ends, so maybe that is
+exactly what people need? Not sure.
 
-Nothing jumped out at me, so:
+> Is this change substantially different from
+> writeback_sb_inodes() waking up done->waitq less frequently?
 
-Reviewed-by: Lance Yang <lance.yang@linux.dev>
+You mean the ->progress_stamp field? That is not used for reporting
+purposes, right? Should it be?
+
+It could drop the duplicates: a wakeup with work left runs the
+wait_event() condition twice (since 84654c7f4730, it is checked right
+after schedule() and again after prepare_to_wait_event()), and the
+second check would find ->progress_stamp just refreshed by the first.
+
+But the waiter refreshes ->progress_stamp on every wakeup, so it cannot
+space the reports further apart than the wakeups, and those have to
+come more often than the hung task timeout.
+
+So it is a choice between a report every half timeout with no new
+field, or once per timeout with report_stamp. Which one do you prefer?
+
+Thanks for the review,
+--breno
