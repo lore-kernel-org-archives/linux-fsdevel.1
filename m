@@ -1,55 +1,116 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793974360;
-	b=IzxLdYVm5KO1KTlnj1ErJuFGgpN2TS/a+vjAgxGsbd/wQ9cR2cqv8LzIWvdtTfiGdJtV
-	 RXg2bO7isrfLWmnvwBlZZH6caI2Jxwr0XYRy3Hi9ARkT0t9kQ/rEp7WfvMFLp0+a9PRhE
-	 5i6uh+CuoD1RUZFsTyZDstvDf0HZJ0rFHvA7DfxHumHxBzoAJnB4cdYRrpEEJab7FBu7z
-	 F6umvI1t1DB9f8jcAG1hCY+ZyPLlD5BfqAC8f1Ez3Y+9dWQb5JDYyGYBwK/D6NUnAHJV8
-	 HdR+11dVlszZzC3Fd7FlkgiwEPNe9Pu/OJkH/bcvlItNjKu4vcpX0D16mxiNrABoJ3Q==
+	t=1793974439;
+	b=DJZ52K1X3tL3icKtxnGyhV0WflI4osJgbeWUqn7iI6w7X6RBrgLJjk58a3gCjvEILz7r
+	 1uH5tyQiq1B8r5EtGMbsSRPmtKX3NMDYBSSSIjJ1Yl8WanoD5oETfsE9w/cik9tsb4iG8
+	 PmvgQNfiwAfQJKxns7fVI07J3uZbTR9C+Ec+eNM9j/+j87tgJnDJI8o9kSK85OG3guOsM
+	 9M4NO6CcCksjOg04eo1BZFlbHEin3B0KvIaqe28jX9IdUbDFMS0kIBku/gjGO/mmszzqx
+	 CqFzm9iDnH9D9RnPS2voHrf8rqe7cJPfy2QxTOYontkL7aNfGeT4HcWEHyn9t07xldQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793974360;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=Hy9Nb6PTTUob6aohVhlErbLUpEbw+NLmXu1l6Sjgt7M=;
-	b=rHTc29t08YoSix+N7Mx5Zcltmwh5Xr69tzL128M3ZdTp3FvBO7g4IZBtFBNJukh/kYvj
-	 gqN7WypcVkxLx09xm8g59I0uwQd1J+8o3xj3fyXDmb35rus0NSrp4lK+dAq5mnFMM4jAk
-	 RFhf00ysVEahakgIEGTQVc6fbkW+iUQN179G47Z4pwSeOnDRH+VjuYD1iuXtSeRSzMJ/D
-	 hDukNegXtwaxrFSj6T+qVWF19p+Rikl54rQ+HBba1F9vGFLUthtymKU09Y4Mjh4EYv9UA
-	 70P7s/Ce/F6LDQoADKnVIhoOUbGO6HjdyKzo1Tiu4cS5uKm42VCVCKeildxV4rlhy3g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793974439;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To:X-Spamd-Result:X-Spam-Score:
+	 X-Spam-Level:X-Spam-Flag;
+	bh=6K30hVHhqXoPEaw21V0OV260X+ND3ARDmqWUfKNcc4g=;
+	b=fXFIwLpfcVQVmQuTGz3MgoMiQIfxG9FSSuh1CVDRxvwEFryqZ3no7U5l68tpPOsMmTRO
+	 bMmBvUvfTN8+PtaSDCAdozUDS/h36tJ1XQk82BzLwNQtwcDX7NIlMpIl3Tqxt6redz/ft
+	 3efMqBtmGMvYIYWt5REFwA8ywMzrgadxeQQ9V/vM/e2uQ5fIsiBRkAQPXK47FAFEkxFVi
+	 Ib/LUDnx+AZ4Ibz40igcRUASj61Eqb0W6DPiiNk9DLpu1uS/57Ln/9Ml2x3SWQo9WFlGN
+	 hwS608g4mIHju/NrHtnZBqDiUGT5MbOfQ2ekOVtV2m1dl6x7yMwpv+SPDOo//BEurvw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TzH98RjQ;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=suse.cz;
+	spf=pass smtp.mailfrom=suse.cz;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=MdqF6m8E;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=0FEKAcG7;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b="cgcr/uF6";
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=EkMEKg6R;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C70B8606A329
-	for <linux-fsdevel@vger.kernel.org>; Fri,  6 Nov 2026 14:12:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F394606A329;
+	Fri,  6 Nov 2026 14:13:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1F394606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TzH98RjQ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CF9C1F008A1
-	for <linux-fsdevel@vger.kernel.org>; Fri,  6 Nov 2026 14:12:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793974359;
-	bh=Hy9Nb6PTTUob6aohVhlErbLUpEbw+NLmXu1l6Sjgt7M=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=TzH98RjQsHDOqeXhw7sIiddkbUl76gvevZ2XcY843kQ1SCq5N8euopxVsRxB9TIAe
-	 rwaJf+Rut6RsXnRzA28n5d0Hr4+eMNEjyAnfLRu4UShUUAN/jwWKql4t47hRzpu6DO
-	 Em3hWPDhvGt3eDEUiZv0euYdchAOf1WS15AgvkKqWIt8rUwgFO20KjGBGOyHxT7QeT
-	 T/1dxLzTDMJZ4iJXCwp8JbYF/mKTSaTDlbBWXOI9h/pdSkxpvjI5Bz+CeW5njrLrxr
-	 3L6XLS4cEveqTNRoakjgnBrNH55we73pSdMmq7UjiIHYzhXfsOpan383dscrdzvQxl
-	 /OOvDsNFsoWnw==
-Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-67c05273c38so662245d50.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 06 Nov 2026 06:12:39 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErFUXz+v0g6lQDoMhWpERN87nJKA4vFCa4fFs0+cxryLzqHj3xrwvFgx+JjMWkypczmqMlHn/gCbLnckyvd5@vger.kernel.org
-X-Gm-Message-State: APuU4Z9vR55rY7ft6P5F4PQvBPkqmpMbc29l/Y1h/zZ889xwjW+oBJUN
-	PAlby7Y1LhehTxBsYCkabHd4J1V91+xb4AHxl3uwXWlUimgaWEaziRjqxDHnPX+iWXbMgHaJ3Xz
-	fO8aYqYX02CGwjgoyzBaoGZv5g51wbVQ=
-X-Received: by 2002:a53:e808:0:b0:67c:11a9:bbfe with SMTP id
- 956f58d0204a3-67c142c4275mr1111242d50.20.1793974358607; Fri, 06 Nov 2026
- 06:12:38 -0800 (PST)
+	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=MdqF6m8E;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=0FEKAcG7;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=cgcr/uF6;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=EkMEKg6R
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 3062B22130;
+	Fri,  6 Nov 2026 14:13:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1793974437; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6K30hVHhqXoPEaw21V0OV260X+ND3ARDmqWUfKNcc4g=;
+	b=MdqF6m8E2qCtZh8P7amkkKG3Ce/2rxwsLs45P/KN26lJYHVec/x+r8QZ0bDTaQ1Q2ciLz3
+	genos76NXyeeY27gEBoAJiYLNHXpp878ok26i/jKIOWtjdHCon86hkG3lwvt/7+gRqOjT+
+	D2YlTMUxv71sUiAoFd+BgFn/qNxhqS4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1793974437;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6K30hVHhqXoPEaw21V0OV260X+ND3ARDmqWUfKNcc4g=;
+	b=0FEKAcG7j5y2RE5+msUbcCwmOQmH9FD8Z0YCUr5v+JQr6cfEiJwUQwLFpnGl9f31cU6n3d
+	Fmo/560AICUlZFAg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1793974436; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6K30hVHhqXoPEaw21V0OV260X+ND3ARDmqWUfKNcc4g=;
+	b=cgcr/uF6oMgxvfsar8cZ5Jm8xurU+djim4hT3s/6PNpNSQiKatXoCAhli9efi/MkfxC+lg
+	KHOvpCNrITX288ebnO9YEy+ngRw8ikjC8TyWBYCXuNyOdDGPS/VsJwNvqy7LtO8Un5m9QN
+	vmlLw96VbbOtiyTgWSLpMdRk98zzWCU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1793974436;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6K30hVHhqXoPEaw21V0OV260X+ND3ARDmqWUfKNcc4g=;
+	b=EkMEKg6Rq7p6T2dAdlddo3Ddu/SzdnzzrfxfyG6Ijczc+5rZ3K5bTuHeAykb2gOAV+NQOh
+	nwP2LvPTuOqyGtCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 098D5134E9;
+	Fri,  6 Nov 2026 14:13:56 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ELg4NqPg7WofZAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Fri, 06 Nov 2026 14:13:56 +0000
+Received: by quack.suse.cz (Postfix, from userid 1000)
+	id 9003021B7D; Fri, 06 Nov 2026 15:13:40 +0100 (CET)
+Date: Fri, 6 Nov 2026 15:13:40 +0100
+From: Jan Kara <jack@suse.cz>
+To: Bence =?utf-8?B?Q3PDs2vDoXM=?= <bence.csokas@arm.com>
+Cc: Christian Brauner <brauner@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v3 0/2] Add scope-based cleanup capability to eventfd_ctx
+Message-ID: <sp6gvawt6petvrlky7g6pqaqsp3jwouu6ixarevis5m5vd7fwe@xjxeakzi3nn3>
+References: <20261027-efd-autofree-v3-0-caa2442e1beb@arm.com>
+ <20261106-hinein-lagebericht-abbezahlen-cb826d68d175@brauner>
+ <bba04255-5dee-4dd2-a877-5e169edceadc@arm.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -59,47 +120,79 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261106124553.2617026-4-wahidzk0091@gmail.com> <20261106133110.2659482-1-wahidzk0091@gmail.com>
-In-Reply-To: <20261106133110.2659482-1-wahidzk0091@gmail.com>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Fri, 6 Nov 2026 23:12:21 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd-68oCuAU=x0TV6BMsNJZkmBcdVZTtOQXh3iEm6BptJSg@mail.gmail.com>
-X-Gm-Features: AclHuK_T2DQUMc0OEmrubLWb5yXs7ugphPBK2FPnifKmAkfBBAp1bb89FaW0bos
-Message-ID: <CAKYAXd-68oCuAU=x0TV6BMsNJZkmBcdVZTtOQXh3iEm6BptJSg@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] ntfs: do not convert a named $DATA stream when
- making room in a record
-To: Wahid Khan <wahidzk0091@gmail.com>
-Cc: Hyunchul Lee <hyc.lee@gmail.com>, ntfs@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <bba04255-5dee-4dd2-a877-5e169edceadc@arm.com>
+X-Spamd-Result: default: False [-12.80 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,zeniv.linux.org.uk,suse.cz,linux.intel.com,suse.de,gmail.com,ffwll.ch,vger.kernel.org,lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[arm.com:email,suse.com:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -12.80
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-On Fri, Nov 6, 2026 at 10:31=E2=80=AFPM Wahid Khan <wahidzk0091@gmail.com> =
-wrote:
->
-> Hi Namjae,
-Hi Wahid,
->
-> The Sashiko review of 3/3 also suggests skipping every AT_DATA
-> attribute in this loop, not only the named ones. I'd keep the unnamed
-> case as it is, for three reasons:
->
-> - Converting the unnamed $DATA from this loop is what the loop already
->   did before the patch. The patch only stops it from pairing the length
->   of a named stream with the unnamed inode.
->
-> - The lock order the review points at (mrec_lock held while
->   ntfs_attr_make_non_resident() locks folio 0) is the same one used by
->   the direct conversion near the top of ntfs_resident_attr_resize(),
->   before the loop. So it is not specific to the loop.
->
-> - When an EA or a stream grows in a full record, converting the unnamed
->   $DATA is what frees the space. Skipping all of $DATA would turn those
->   writes into failures.
->
-> If you'd rather drop the unnamed case from the loop too, I can send
-> that as a separate patch so the two changes can be judged on their own.
-I think making the lock ordering consistent and using ntfs_attr_iget()
-for named $DATA would be the right approach. Please check it if you
-have the time.
-Thanks for the patches!
+Hi!
+
+On Fri 06-11-26 10:31:58, Bence Csókás wrote:
+> On 2026. 11. 06. 10:05, Christian Brauner wrote:
+> > On Tue, Oct 27, 2026 at 05:22:00PM +0100, Bence Csokas wrote:
+> > > Add __free() support to eventfd and update drm_syncobj to use it as an
+> > > example consumer.
+> > > 
+> > > A minor discrepancy I encountered is whether to put a semicolon after
+> > > DEFINE_FREE(). It seems some in-tree code does, some doesn't. In the end,
+> > > I followed the example set in core-api/cleanup.rst, and omitted it.
+> > > 
+> > > Signed-off-by: Bence Csokas <bence.csokas@arm.com>
+> > > ---
+> > 
+> > I'm really having trouble seeing how this improves anything
+> > significantly. Probably others have the same impression which is why
+> > this doesn't get a lot of review.
+> 
+> The goal of the __free() API is to reduce the number of goto-based error
+> paths. Normally, you'd have to keep the state of every local in your head
+> for every early return. (Has it been initialized? Has it been consumed? Or
+> does it need to be freed?) Then you need to arrange your "goto tree" (error
+> labels) in a way that frees everything, and then for every early exit, jump
+> to the correct one. This can be quite complex for some functions. Look at
+> KVM or HyperV eventfd code, for example.
+> 
+> By contrast, you just mark the local var with _free() and an appropriate
+> destructor snippet, and the consumption point (the point after which we
+> don't need to free it on a return) with no_free_ptr(), and the compiler
+> instruments every early return accordingly.
+
+Sure, but there's also the other side about which you don't speak: unless
+the destructor is trivial (like kfree()), there are implications about
+locking, when resources (such as references held by the object) get
+released etc. So it can also be more complex to wrap your head around
+__free usage than around standard cleanup code.
+
+So unless __free is providing a noticeable simplification of some goto
+hell, cleanup in many functions or similar, I generally don't find it worth
+it...
+
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
