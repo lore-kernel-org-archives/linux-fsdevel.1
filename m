@@ -1,112 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793978456;
-	b=uOKkDNgftqmvf2aJlGjpocbAY2VRleZa0jvj9YvzhPC2pBX/ZO3LwXgsZWxUOz9rmc2d
-	 P1IvzcYDHjmW6FkLgkfMZvLWoh7ZaYYddujSdPSl/1RknWK+Dc20cW51n0w+VOy6O3kQ5
-	 PxJwCQXg3pY8cVsQs3pcY6x5HfnKtuEmUYuHU81IukXgsKtrdGxFXKT6Rwcf2R/ZGvn3J
-	 gpwENmvkJHa6cqFz+LFnws0GsBoKQAX3VJzWUgl7FuO1kDRB2eVSF/boH4QBWXIrEabqt
-	 6jLVktJRWuJ3Jk5pCmLT8JhPPv7WIBmFIFzsQ06QPzB/GxwnbnvFEdMg+N63k8RZohg==
+	t=1793978548;
+	b=ffkctUyVfLOQw9VQV8MEG3myIs9iNNNarii8gvgA/Nmtxy91XQAtW5dwkBNs1RKeG1oC
+	 uUttN0b2MFF1wXaSRAUWy4gPbEm1TwhjBiKlUs3Of9U2HO0Y9aaSXsMIfFX92l0holULW
+	 StcdTdvIy2dLDxZMQv6e3I8BbNqhEUJXX+6Aywj81BjnTfQJcoCkxKjzxbAUjZxWvx3bl
+	 1HpaDAsUoD4eK+Iz8m3sgld0GuoP9XkVQXFXvxrDeDK16iEpoq9N4YAym79sIQR0TN4su
+	 akrVUsXqEjOBXpNgEwMbvLPBB9lbIZPoztWUKSRywnKJGFCKRs8TUswaqlaqVlgc2Vw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793978456;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:
-	 X-Spam-Flag:X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
-	bh=lOfcUzUxRduq192IgOhioYawIM/WrKSe+bEbqw39O/Y=;
-	b=XgtXmoWhe4kghS6pX1Mxd23oYspzJs2pxBwAHIUmf30KJS/xyVvIjXtHEzV840Cp4NCN
-	 VeLCWm0CcNyjmHLn7tTS+/A/MhtzSclPVSFEphGpUUCNjyxX3pAuh4FUEa4XqoOJBI3L7
-	 qbXSRnVPRwKfUpScxCfStRU+Ejx/rhXLI7S+x1Ezrwg7YNWBWHcy197VwBwAhLZELSNti
-	 QpArbg/QoX59nEnRci4XA3md8isRJr0M/ck4ZCbxQrDgZB6yWcdaatcyjI0so5CpNubxK
-	 5wn8f0EsNIlgM2E6PI94ILK/p+4yfbHMDWmnfx43yi3E+K4G+hfOVGhgfvRIfRd8UKg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793978548;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=z3y+DELGAxT9V5PmpfgouMZn+gCc4O45ROBPQSi1BPo=;
+	b=zvG/pFCnX+N7P6i/0L8qwFk3gaCDMZRqcH+u65PWyybcl0c3wqFXnuorIBNRP1hVhKeK
+	 jlyONjui4CHYxLfeEEnsGzzLnB+AsOSmTMzl6a5MdGQ6iGDxiIvMkYbknBYkJOjpt2A79
+	 Dz6RFjVa1ujDWoQHB3suVg3Js+XhFuOarcI0WRcYoGnAWcWmRJA3mlIwcYBhnHorG/c51
+	 xZjj8mf3L8QnVuuaYZHMi8hYpPFwD6VmEaErkHX/8l87a9LLh8TpnUpDIKWq6R3AmO7oQ
+	 7iu7flhqx22l8dE1RB5S8Roc0lKmwpTe0Ty259Vwqad+/nPnOiX8UI69o6SlRztdPKg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=h9jZyoaq;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=38Ev3DWo;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=d4HclQzv;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=iNcNz+AH;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=D0OBt12S;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22371606A334;
-	Fri,  6 Nov 2026 15:20:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 22371606A334
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5E95606A32D;
+	Fri,  6 Nov 2026 15:22:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=h9jZyoaq;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=38Ev3DWo;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=d4HclQzv;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=iNcNz+AH
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 47D921F452;
-	Fri,  6 Nov 2026 15:20:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793978454; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lOfcUzUxRduq192IgOhioYawIM/WrKSe+bEbqw39O/Y=;
-	b=h9jZyoaq1B2i6H+A5hm/gINCxnKytThn6YMUvJtsOwN5elmRsfWoaj88+bviRl2WDV+RRb
-	5iH/WRqcvVCP1vpbSqlJhHPwpOX0nLN91g9IfZAo6vGv8KDrABtmZklGfWp1q+L+9h8NSL
-	c/i3cPWx9U2ftUep+3oHVuYVW0Hf9jg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793978454;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lOfcUzUxRduq192IgOhioYawIM/WrKSe+bEbqw39O/Y=;
-	b=38Ev3DWobm9B+KYBtrSzLrwn5L8Fj8SB0xjgaj34P+PN2uYJy6zPnJalFNiCBhuLu7ctRo
-	h16K74ufflA7lVCg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=d4HclQzv;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=iNcNz+AH
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793978453; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lOfcUzUxRduq192IgOhioYawIM/WrKSe+bEbqw39O/Y=;
-	b=d4HclQzv/UGG7b64v3tnPeQZO/ij/NGmRbS0pKFbsiEAx8S4arF+nq14MvkKEbbme2AHwq
-	d5TnqxX005FUv8+ls6Ek8Hub4rETsb79c5+6qiu9YfWAixgh9MEdrPJlxRFfCONRpBjr/f
-	36pZSW2wP/ITcCIPXDVADIUzuBhMLes=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793978453;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lOfcUzUxRduq192IgOhioYawIM/WrKSe+bEbqw39O/Y=;
-	b=iNcNz+AHUW9J8Sz+onaGSvgxCoIqUZhqaSMW68R+Y9h92hACwCcECwphr80cmlCUE0c0YF
-	Hue5rh/VX2DbggBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 20A06134E9;
-	Fri,  6 Nov 2026 15:20:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 2q0lAFXw7WrSKgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Fri, 06 Nov 2026 15:20:53 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id BC05721BB5; Fri, 06 Nov 2026 16:20:44 +0100 (CET)
-Date: Fri, 6 Nov 2026 16:20:44 +0100
-From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, Jan Kara <jack@suse.cz>, 
-	Josef Bacik <josef@toxicpanda.com>, Chris Mason <mason@kernel.org>, linux-ext4@vger.kernel.org, 
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, Andreas Dilger <adilger.kernel@dilger.ca>, 
-	Baokun Li <libaokun@linux.alibaba.com>, Ojaswin Mujoo <ojaswin@linux.ibm.com>, 
-	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>, Namjae Jeon <namjae.jeon@samsung.com>, stable@vger.kernel.org
-Subject: Re: [PATCH RFC v2 05/13] ext4: don't read the inode block in
- ext4_sync_inode_metadata()
-Message-ID: <lx65jq4bdbz7srd2ff5ozjalp6clkzwuuvmdqmk5v3wsnzsv6g@holn6db5xlc7>
-References: <20261105-work-inode-metadata_writeback-v2-0-48628c60c336@kernel.org>
- <20261105-work-inode-metadata_writeback-v2-5-48628c60c336@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=D0OBt12S
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C73F71F0089F;
+	Fri,  6 Nov 2026 15:22:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793978547;
+	bh=z3y+DELGAxT9V5PmpfgouMZn+gCc4O45ROBPQSi1BPo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=D0OBt12S5A0/61ajOHRCOvVj9Y496CxzkIZ539OmP2Egd7lJ1ZTg+93+bz35MlhhQ
+	 aEcmgJvs2K1rXKjoPty9afP418nmgDzNbNz3R49xM82YI+IZppcn7JPT2+rOR1oP3E
+	 aXPgvNxlojcYTHikG/NcZ6k0ko8+NVlu5A2DjoEJYkhK0Y6iRimNr2X51btaRYAQe4
+	 3oYkIoHH1FFpK2QL5UAfs5I6l1ULxHTF3yATZiallmsTHKUql1MDHJSRDkOp7LPZaS
+	 WDiRcIhr4R/mT8uJ1TsaVWpbDwDHCB8mxh70Ac0iVGTP+nI77JgCBpwlXJfuSijYjQ
+	 cOmEIk2xUD+nw==
+Date: Fri, 6 Nov 2026 15:22:08 +0000
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Rik van Riel <riel@surriel.com>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Harry Yoo <harry@kernel.org>, Jann Horn <jannh@google.com>, Lance Yang <lance.yang@linux.dev>, 
+	Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
+	Barry Song <baohua@kernel.org>, Usama Arif <usama.arif@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Xu Xin <xu.xin@linux.dev>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+	Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>, 
+	Shrikanth Hegde <sshegde@linux.ibm.com>, Pedro Falcato <pfalcato@suse.de>, 
+	Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Leon Romanovsky <leon@kernel.org>, SJ Park <sj@kernel.org>, 
+	Rakie Kim <rakie.kim@sk.com>, David Rientjes <rientjes@google.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
+	Adrian Hunter <adrian.hunter@intel.com>, James Clark <james.clark@linaro.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	John Johansen <john.johansen@canonical.com>, Georgia Garcia <georgia.garcia@canonical.com>, 
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Mimi Zohar <zohar@linux.ibm.com>, 
+	Roberto Sassu <roberto.sassu@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
+	Eric Snowberg <eric.snowberg@oracle.com>, Fan Wu <wufan@kernel.org>, 
+	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej =?utf-8?B?TW9zbsOhxI1law==?= <omosnacek@gmail.com>, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, damon@lists.linux.dev, 
+	linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, apparmor@lists.ubuntu.com, 
+	linux-security-module@vger.kernel.org, linux-integrity@vger.kernel.org, selinux@vger.kernel.org
+Subject: Re: [PATCH 00/13] mm: continue vma_flags_t conversion
+Message-ID: <au3r0-geuwtRYPiC@gremlin>
+References: <20261105-late-2026-vma-flags-v1-0-0d3cd15ab75f@kernel.org>
+ <d0ea7929-7c12-4245-ba3f-6dd5c0269e6b@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -118,113 +96,47 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261105-work-inode-metadata_writeback-v2-5-48628c60c336@kernel.org>
-X-Spamd-Result: default: False [-11.51 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_COUNT_THREE(0.00)[3];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[vger.kernel.org,suse.cz,toxicpanda.com,kernel.org,mail.parknet.co.jp,dilger.ca,linux.alibaba.com,linux.ibm.com,gmail.com,samsung.com];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[iloc.bh:url,suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:email,suse.cz:dkim]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -11.51
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 47D921F452
+In-Reply-To: <d0ea7929-7c12-4245-ba3f-6dd5c0269e6b@kernel.org>
 
-On Thu 05-11-26 13:41:34, Christian Brauner wrote:
-> Without a journal ext4_sync_inode_metadata() looks the inode table
-> block up with __ext4_get_inode_loc_noinmem() which reads it from disk,
-> with readahead of the inode table on top, if it isn't cached. But a
-> block that isn't cached is neither dirty nor under writeback, so there's
-> nothing to write or to wait for.
-> 
-> That read is also something we can't afford once inode eviction calls
-> ->sync_inode_metadata() from reclaim. So look the block up with
-> ext4_get_inode_loc_noio() instead and treat -EAGAIN as nothing to do.
-> 
-> Note that ext4_get_inode_loc_noio() also returns -EAGAIN for a block
-> that isn't uptodate. Such a block is being read or failed to be read
-> and can't be dirty either. A block whose write failed still counts as
-> uptodate for ext4_buffer_uptodate() so the write error still gets
-> reported.
-> 
-> Suggested-by: Jan Kara <jack@suse.cz>
-> Cc: stable@vger.kernel.org # v7.3
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+On Fri, Nov 06, 2026 at 03:35:01PM +0100, David Hildenbrand (Arm) wrote:
+> I agree that this should be picked separately. For example, I will pick
+> everything that falls into my realm to reduce conflicts.
 
-Looks good. Feel free to add:
+Hmm, generally tree-wide mechanical changes are the exception to that rule
+no?
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+It's going to make the rest of the VMA flags/mmap_prepare conversion really
+quite difficult if I have to chase every single driver maintainer in the
+kernel (literally in both cases pretty much :).
 
-								Honza
+And sometimes there are dependencies which mean you really can't split it
+across trees unless you establish functionality in one cycle and callers in
+another, but that seems a little silly.
 
-> ---
->  fs/ext4/inode.c | 12 +++++++-----
->  1 file changed, 7 insertions(+), 5 deletions(-)
-> 
-> diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
-> index 4484c2383eaf..18362580097f 100644
-> --- a/fs/ext4/inode.c
-> +++ b/fs/ext4/inode.c
-> @@ -6815,22 +6815,24 @@ int ext4_sync_inode_metadata(struct inode *inode, struct writeback_control *wbc)
->  	if (WARN_ON_ONCE(EXT4_SB(inode->i_sb)->s_journal))
->  		return -EFSCORRUPTED;
->  
-> -	err = __ext4_get_inode_loc_noinmem(inode, &iloc);
-> -	if (err)
-> -		return err;
->  	mmb = READ_ONCE(EXT4_I(inode)->i_metadata_bhs);
->  	if (mmb) {
->  		err = mmb_sync(mmb);
->  		if (err)
-> -			goto out;
-> +			return err;
->  	}
-> +	/* A block that isn't cached is neither dirty nor under writeback. */
-> +	err = ext4_get_inode_loc_noio(inode, &iloc);
-> +	if (err == -EAGAIN)
-> +		return 0;
-> +	if (err)
-> +		return err;
->  	sync_dirty_buffer(iloc.bh);
->  	if (buffer_write_io_error(iloc.bh)) {
->  		ext4_error_inode_block(inode, iloc.bh->b_blocknr, EIO,
->  				       "IO error syncing inode");
->  		err = -EIO;
->  	}
-> -out:
->  	brelse(iloc.bh);
->  	return err;
->  }
-> 
-> -- 
-> 2.53.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+I was thinking that once the VMA tree is separate I'd put mechanical
+changes like this through it. Is that not the way to go?
+
+>
+> Ideally, patches really only touch one component.
+
+Right, but sometimes functions are declared in one place and called in
+others. It is impossible to change the signature of one without also touching
+the others.
+
+>
+> [PATCH 07/13] mm/madvise: convert madvise_vma_behavior() to use vma_flags_t
+>
+> is all over the place :)
+
+It's not really all over the place, it's converting vm_flags_t to
+vma_flags_t across madvise.c, which involves changing a few function
+signatures, whose callers must be updated.
+
+I could split it up into 3 patches where 1 does internal-only, one changes 1
+function, and the next changes another, if that works?
+
+But there's no way for that change to only touch madvise() given the
+function decl/callers.
+
+--
+Cheers, Lorenzo
