@@ -1,67 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793963486;
-	b=B0kXT4MlLvuBKsC39KKkvJ7hbsISkwLRtZ6eH/wO/p8btpKw9tYSlmNowtGD/OHf7oOl
-	 zmjMsF3jix5bSB2J3VbtZ3AcsG9uaXtE5gsmMsJ2ZFxX+1h6ZB3uwU7oIPSjHeMkNGl8O
-	 XFUk+oF9mylKYWGYHSyoR0lWtczjyVJiXzrXzS7vw1aJ8WNc9rYN7rEsSsUVgh+z9Jdss
-	 KNtiKQeX6Zk3I+x5GBzuLso8bQVEkBq/p363Sgo9vmZOYiqwZM4QcH541f7xTkY982hz3
-	 SRtJB7z/HDHkftQWfgD+9u/+twIxiRySdOdPjStmNUGuwoiy3Lx2f4xOhp61QDsyBUg==
+	t=1793964120;
+	b=G3348mn3e/6qX4XHstLORqtXde9ynMzS1SPXaFLknwLmopmKKpg7a7/0lhYzMpAKlLr3
+	 HMipZbASpz9PFGbmJhjQ5ylRMH5wbhLrSB6cWtfezCq0hhUP7bmiamNIhJs0S4/SdxC6c
+	 1uITpEktXK6vUBlOIq2Ade1OVzQB58YMtIfLUHzMFoxQSn1B2TG4VY/RksERLRTF2C/wQ
+	 85VRmCHbZQOWxUXZ/ztkjr2aPOvJ7uu6lOOVX7fJlmxHNTSe93secXilEsRjxutwBUVxw
+	 6TNuHXzChejlJM8sNc86/m4VJdjeS6zaRcpGOK0FDVTPmM8B7333J7BfURqpvsrdRxg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793963486;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To:X-Debian-User;
-	bh=AuFxEXPAYsp+N5j29FDM6Sk7erK7vo72BA6vE8/tGgc=;
-	b=JK74Ywub9rhIV7Uz+qplupVL2MHKe4YKT2BMRzPJKatzAN0KshyBXlA5Awx8F9qlx8oB
-	 6dkGMZ/EqqE1VEpX0BEpdQFc/nL1d6ZDxDjMvYLjhiizPFpM/uobDfcvZRXWsnb5o4lTw
-	 zU1ClbK5h1TzGqVdHbAcSrSPwrfKSrXy0vbyDhSsZpZgl4hcUejlbrY8iPPenOqagiVS6
-	 BvfI6zBbwFt1t9j81T+lfq5x8h9RuezPOTprHzJSfgvbYs6oBHgUX2KbyI4rViRH1ADSl
-	 F/ketbTv1r/hpfi/tjuq1DaOqOU0Y2pzpLe1QogsiFJv10PsfbTeE4uAJCqlVhlofqA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793964120;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=p+Ok2jd0IVx31NW+VHJJuf+Q+PVcuhS6OrBHlNc0X1Y=;
+	b=ytue30Mko8PcVj8n6z3W2CMEEYWN49LNpERPk2jQ5ealzk5wi9PF2m9zyZMtLnzp0+j/
+	 cBJ53ZCK4iUYWhF5WHzqtyKtbauwa6elVNpynSiK3xtXY4NPUIXtds7uTsuP+IpxLIZaJ
+	 BPV6B1K//fa/OPDbnQLknMsmMZxM8RfAPNJ4A/8sXeLyeSaAMPTIkISrC9zhfI8Dn0g/a
+	 pqiUlvRBUcL4x79F+r2JmMqOoubFsrtA2FyVlA3lI435DEHuFC+AekxHj2LK3w5MngjX6
+	 V+UiY7mLhFwQS/O3v+tAKXGepvpXfR3XCcl7pM9rFdQYXccTlaUOFP4BzvyVMJYpbmA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=debian.org;
-	spf=pass smtp.mailfrom=debian.org;
-	dkim=pass header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=uMGAgYQA;
-	arc=none smtp.remote-ip=82.195.75.108
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bK0a9SGW;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6F23606A32F;
-	Fri,  6 Nov 2026 11:11:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C6F23606A32F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54B84606A331;
+	Fri,  6 Nov 2026 11:22:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=uMGAgYQA
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Reply-To:Content-ID:Content-Description;
-	bh=AuFxEXPAYsp+N5j29FDM6Sk7erK7vo72BA6vE8/tGgc=; b=uMGAgYQANtuQKhq195eAtXdwqQ
-	3YbROkQxjTERFFXO7rspff9yZU3mHsw7eW121bQTjhNqux4UCXVWvCXrbYDA0RwP3u3WSJrvF/t3K
-	iMzm2u4P68ELRHmJvXiYFCHbap0eYkRC/vo+VCXA+qt82El6n41KD2TA4zwNcFli+5xsAGUFWn/nc
-	G+oYwIv2rHBswc9kgTx4Q+SjUjzYVHQ0k54tkF+2mBhUMFC36WEM1amm5d0VOgFn0uRodtF1PR8Cj
-	7CQvW/3PvWTY/kse5UBImwwXfijLcyhGWCHRby5Tdepzzkxw81gdLkOMUvYNJXwfVZ04kRfDr/+3U
-	BhkJOAdw==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1xPHqo-009F2k-2d;
-	Fri, 06 Nov 2026 11:11:19 +0000
-Date: Fri, 6 Nov 2026 03:11:14 -0800
-From: Breno Leitao <leitao@debian.org>
-To: Mateusz Guzik <mjguzik@gmail.com>
-Cc: Christian Brauner <brauner@kernel.org>, 
-	kernel test robot <yi1.lai@intel.com>, oe-lkp@lists.linux.dev, lkp@intel.com, 
-	linux-kernel@vger.kernel.org, Oleg Nesterov <oleg@redhat.com>, linux-fsdevel@vger.kernel.org
-Subject: Re: [linus:master] [fs/pipe] f7f4665dc5:
- lmbench3.PIPE.bandwidth.MB/sec 18.5% regression
-Message-ID: <au2vjpu_yqNa83pN@gmail.com>
-References: <202611041404.befe64cd-lkp@intel.com>
- <20261105-trommeln-einspannen-radius-ccb4e174e407@brauner>
- <auygOHcuBba_o132@gmail.com>
- <CAGudoHFpNbxL13ZOWiyyLSPpmzXcB=e=RBZ8ZGk+Oc58Aad9pA@mail.gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bK0a9SGW
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18F931F0089F;
+	Fri,  6 Nov 2026 11:21:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793964120;
+	bh=p+Ok2jd0IVx31NW+VHJJuf+Q+PVcuhS6OrBHlNc0X1Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=bK0a9SGWX+VyZD0kFIiK4yNIK9A9v+An7WfGjPiMiNKuUGcrfRy/CwNqTxljrBpV0
+	 U7m1a/COhNVgako5ExzfFpup8zroemN8PZasns74e+wzdmXNGp9HfFsumePkfHpqUz
+	 B54avhJDK4RV1zIBmim6BKz7o7ZgZ9/g1a3ek0DWtoergphiLCDdHz5glMnik8SvAi
+	 sjlHg1ttAqkP8985sWOQHptTvB9E/+p4pzQXWHiAvU6YBAJ26cTB4FDz0XEBtsF1a0
+	 bgh+paL3EuS+CEi5iRnn4vYJCUV3oXHmFOJ7h5ygJmRsCVDkmI4xEURGnOh8gud8UK
+	 jwyBg4yTS3zRQ==
+Date: Fri, 6 Nov 2026 11:21:40 +0000
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Barry Song <baohua@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Rik van Riel <riel@surriel.com>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Harry Yoo <harry@kernel.org>, Jann Horn <jannh@google.com>, Lance Yang <lance.yang@linux.dev>, 
+	Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
+	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, Xu Xin <xu.xin@linux.dev>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+	Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>, 
+	Shrikanth Hegde <sshegde@linux.ibm.com>, Pedro Falcato <pfalcato@suse.de>, 
+	Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Leon Romanovsky <leon@kernel.org>, SJ Park <sj@kernel.org>, 
+	Rakie Kim <rakie.kim@sk.com>, David Rientjes <rientjes@google.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
+	Adrian Hunter <adrian.hunter@intel.com>, James Clark <james.clark@linaro.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	John Johansen <john.johansen@canonical.com>, Georgia Garcia <georgia.garcia@canonical.com>, 
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Mimi Zohar <zohar@linux.ibm.com>, 
+	Roberto Sassu <roberto.sassu@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
+	Eric Snowberg <eric.snowberg@oracle.com>, Fan Wu <wufan@kernel.org>, 
+	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej =?utf-8?B?TW9zbsOhxI1law==?= <omosnacek@gmail.com>, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, damon@lists.linux.dev, 
+	linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, apparmor@lists.ubuntu.com, 
+	linux-security-module@vger.kernel.org, linux-integrity@vger.kernel.org, selinux@vger.kernel.org
+Subject: Re: [PATCH 03/13] mm/rmap: convert remaining VMA flag tests to use
+ vma_flags_t
+Message-ID: <au2yhvzWy6HID8jM@gremlin>
+References: <20261105-late-2026-vma-flags-v1-0-0d3cd15ab75f@kernel.org>
+ <20261105-late-2026-vma-flags-v1-3-0d3cd15ab75f@kernel.org>
+ <CAGsJ_4wCd_j5or0uHwPLq0PUixcXgiFim=_d7uUhUhAuQf0nTQ@mail.gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -74,91 +100,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGudoHFpNbxL13ZOWiyyLSPpmzXcB=e=RBZ8ZGk+Oc58Aad9pA@mail.gmail.com>
-X-Debian-User: leitao
+In-Reply-To: <CAGsJ_4wCd_j5or0uHwPLq0PUixcXgiFim=_d7uUhUhAuQf0nTQ@mail.gmail.com>
 
-On Thu, Nov 05, 2026 at 04:57:33PM +0100, Mateusz Guzik wrote:
-> On Thu, Nov 5, 2026 at 4:28 PM Breno Leitao <leitao@debian.org> wrote:
+On Fri, Nov 06, 2026 at 11:57:08AM +0800, Barry Song wrote:
+> On Fri, Nov 6, 2026 at 5:32 AM Lorenzo Stoakes (ARM) <ljs@kernel.org> wrote:
+> >
+> > Replace the remaining uses of the legacy vm_flags_t flags in the rmap logic
+> > with vma_flags_t values.
+> >
+> > No functional change intended.
+> >
+> > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> > ---
 >
-> The test at hand has multiple readers and writers using the same pipe,
-> with 64KB i/os.
-> 
-> Prior to the patch each writer had its own private pool to draw from,
-> guaranteeing no allocation will happen under the mutex.
-> 
-> With the patch the reader exit also drains the pool.
-> 
-> As a result tons of allocation ends up happening under the lock again:
-> 
-> -   94.88%    94.88%  bw_pipe          [kernel.kallsyms]     [k]
-> __alloc_frozen_pages_noprof
->      94.88% __internal_syscall_cancel
->         entry_SYSCALL_64_after_hwframe
->         do_syscall_64
->         ksys_write
->         vfs_write
->       - anon_pipe_write
->          - 47.46% alloc_pages_noprof
->               alloc_pages_mpol
->               __alloc_frozen_pages_noprof
->          - 47.42% anon_pipe_prefill_and_lock
->               alloc_pages_noprof
->               alloc_pages_mpol
->               __alloc_frozen_pages_noprof
+> LGTM,
+>
+> Reviewed-by: Barry Song <baohua@kernel.org>
+>
+> >  mm/rmap.c | 8 +++++---
+> >  1 file changed, 5 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/mm/rmap.c b/mm/rmap.c
+> > index 1131b76bbbc2..cdc97fec8586 100644
+> > --- a/mm/rmap.c
+> > +++ b/mm/rmap.c
+> > @@ -1196,7 +1196,7 @@ static bool page_mkclean_one(struct folio *folio, struct vm_area_struct *vma,
+> >
+> >  static bool invalid_mkclean_vma(struct vm_area_struct *vma, void *arg)
+> >  {
+> > -       if (vma->vm_flags & VM_SHARED)
+> > +       if (vma_test(vma, VMA_SHARED_BIT))
+> >                 return false;
+> >
+> >         return true;
+> > @@ -1660,7 +1660,8 @@ void folio_add_new_anon_rmap(struct folio *folio, struct vm_area_struct *vma,
+> >          * VM_DROPPABLE mappings don't swap; instead they're just dropped when
+> >          * under memory pressure.
+> >          */
+> > -       if (!folio_test_swapbacked(folio) && !(vma->vm_flags & VM_DROPPABLE))
+> > +       if (!folio_test_swapbacked(folio) &&
+> > +           !vma_test_single_mask(vma, VMA_DROPPABLE))
+>
+> Right, VMA_DROPPABLE_BIT is not available on
+> 32-bit architectures, so vma_test() cannot be
+> used here.
 
-Ack, this matches what I found as well. Thanks for investigating it.
+Yeah, it's an annoying wrinkle having to differentiate, but is necessary.
 
-Because the preallocated pages are not private to the writer anymore,
-the reader flushes them while the writer waits for room in the pipe,
-and the writer then has to allocate them inside the lock.
+Eventually we will have 32-bit kernels move to the same size vma_flags_t as
+64-bit, e.g. something like:
 
-This basically loses the wins[0] from commit 212ed884a1aeef ("fs/pipe:
-pre-allocate pages outside pipe->mutex in anon_pipe_write") for this
-specific scenario.
+- #define NUM_VMA_FLAG_BITS BITS_PER_LONG
++ #define NUM_VMA_FLAG_BITS 8
 
-> I don't think multiple high-volume writers vs multiple high
-> volume-readers is a realistic scenario and I would not bother fixing
-> it.
+But that's down the road :)
 
-Agree, but I would like to spend some cycles on it.
+Which will solve the 'not in 32-bit-kernels' stuff.
 
-> However, should someone want to address it, I think the patch should
-> be reverted and the resulting state tweaked. The patch at hand came
-> after the mutex is released -- the kernel prior to any of this would
-> still put_page on the reader side under the lock. This bit would have
-> to get tweaked to recover the loss in that scenario (not to be
-> confused with the loss reported here).
+But also this form is also used for stuff that's not defined under certain
+configurations, in which case you get something like:
 
-We can revert the patch, but that would bring back the two page pools
-(the on-stack prealloc and tmp_page[]), which is probably worse than
-this regression itself (IIRC it would also lose the gains for smaller
-writes (about 20% for 8-16 KiB writes IIRC ))
+#ifdef CONFIG_FOOBAR
+#define VMA_BLAH	mk_vma_flags(VMA_BLAH_BIT)
+#else
+#define VMA_BLAH	EMPTY_VMA_FLAGS
+#endif
 
-That said, these are the items I am planning to spend some time one:
+And then vma_test_single_mask() is necessary too.
 
-1) Reclaiming the pooled pages from a shrinker, as suggested in [1]
+An unfortunate outcome of defining per-bit (so no bit value means
+'nothing'), and any kind of invalid bit value solution has worse drawbacks.
 
-2) Trimming the pool gradually on the reader side, instead of cutting it
-   down to two pages in one go. Or not trimming it while a writer is
-   in the waiting room (!?)
+In the end all this stuff will be useful as it allows us to no longer be
+constrained by either 32-bit vs 64-bit or in only having 64 possible
+flags. :)
 
-3) Keeping the writer's preallocated pages private again, while keeping
-   the unified pool (i.e. without bringing tmp_page[] back).
-
-4) Freeing the pages the reader drops after releasing pipe->mutex,
-   instead of under it, as you suggested. This is independent of the
-   options above.
-
-5) Longer term: copying the data into the preallocated pages before
-   taking pipe->mutex, so the writer only links them into the pipe
-   under the lock. This doesn't seem trivial, but it would make this
-   whole pre-allocated buffers go away
-
-6) Any other idea?
-
-[0] https://lore.kernel.org/all/202607091015.c3936260-lkp@intel.com/
-[1] https://lore.kernel.org/all/CAGudoHGKyN6k+eSAUm35_WDSZcxxtm4QL6fO+4rYJTvtObMqzA@mail.gmail.com/
-
-Thanks for looking at it,
---breno
-
+--
+Cheers, Lorenzo
