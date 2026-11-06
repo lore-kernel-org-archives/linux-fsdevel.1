@@ -1,100 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.171
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793968731;
-	b=nGk8+30E2xTF7HnW2aYu1pjx43Iyyj4Usi00+SqiEMnbGIqqrehtJ2JnzB2p3L5+pcDF
-	 go+tR9/8/AwKFtyuIOeqtL2ktZDXw3cYUo1Ut2B4dzuf+s/VeYTXxxuZvA9eR79Fi93Qj
-	 fPZc99PZGGsbhbjw4MQ0yWn+W7NhUR+S+99qfiFfI2b6DJ6aR6TbnkV/qvaBLJ4cJUpBR
-	 UkQ/N/zQE71AHDX0SSBHMTfbEwrfB7blTbK+/9ULDOQ31/akwwribVf5Snp42bC+qOW3E
-	 nKmOeLbTu4SXYOlUSUwTJp6G7sp7xVolaI7zVYpbad7/CPSLZs/kR04ukpeGArsopcg==
+	t=1793969164;
+	b=itZ69I6OtAHNIbcG6+pZBLcwhRSARkGqKKQ/fWrnzgZ6TDEdi/wug2G2u3IrtWXEdhcM
+	 FAZkYVedEREtGl77Fl/rY2s6uFdGrq8mTGOj3rrduFUGHx72bNZJnpWdgNHJSztR/ByO3
+	 N04O2LHv2Fp4jhiJ6w7VqyGyIGq5D36uyh7lXLoE73tVmYR1frysg3i6Y0lE8YsWndVbC
+	 796eJk1oon4EPpQTaDtwoiBFQ0ijzdxGCvHwkDCpldssCLASJJahnvX1AUlbEuTPopCGn
+	 8ambOR6s9OyUqX8y4NJZ6oiqUJ8aKpdw5MuHUz/RaTpqXt6Jim0zMW5Q0I8tTOdU8jQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793968731;
-	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:X-ME-Received:
-	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=2pfmacECcqVcYywkgZMGS6LkZuCwqHkVAmJzamD2whI=;
-	b=C9QM1QH/jzp/+qvXldvLp4AIgixC5Dp0tfyE37vKN8ZlUrIj1AxcI6sb8WEx8shIOjFc
-	 uXuirF/NF+DfzNQhAuK8Bj6W1GioDBnUygl7qYLDQbL0+ceJtZsCfWXt3zHC43zGde7Bt
-	 3vFSnE/Cln9mJVTF04uLwtah3xmqBxq7NJyqM1r4HGcxezn97gGRFPFl0xxuzA0hoMkCt
-	 C8PGpztVUXdYL2nS9YQgFoIL0FrPuYQjUmLV0yYoB7pVHAR6RywdNQnjA6K7F3CQI+XNn
-	 5I+Lt0IOOoMkFTnkydfCuToxiOK4NCawJ0LJZZN3Hoi/9fr/InkJWaGbPiNOZs+30HQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793969164;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=5lZ1X9OvYujo7R37IHLIlb8OsfThW1dgQ21ejL+gEBc=;
+	b=vzc5BVVYffeerC9xbtdzcyf7GbgApQWL287EWmbgjwnlf7vVoBSXS6R6oIwNBbqfmZd5
+	 H8uwRSdRIP/aIAAsNhd3jvt9ODmBHccIHWJOLuGrLT0pvlnqiVQIIC0sMycTS/ru/5YDC
+	 sFEFFNgvIuz6OKdoKDWbjqvXJVFvIrK7iyAsPiY336CfPhMzqc9o8eskK+P/n+0LGIYn0
+	 10jSW+uZbyxcMs/0392A2dGLsCfZQr91WTXCwzTngPK6ZWlcjE8ZgGuBUZUugPIpxasph
+	 JRok7tpeDYzs34CYe/JMRfuBMnDhZ3eIN7m+AdW/1KGNi/fCBbr+pP+XCaFiWTOUNSQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FStjyAY0;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=J0EVpDk5;
+	arc=none smtp.remote-ip=74.125.82.171
+Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 789E1606A32C;
-	Fri,  6 Nov 2026 12:38:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6783E606A32E
+	for <linux-fsdevel@vger.kernel.org>; Fri,  6 Nov 2026 12:46:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6783E606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FStjyAY0
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12EFB1F008A2;
-	Fri,  6 Nov 2026 12:38:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793968731;
-	bh=2pfmacECcqVcYywkgZMGS6LkZuCwqHkVAmJzamD2whI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=FStjyAY0FW6kbw3uXf62FFRYlWxG2nSgA93yBnFn9ugwM4dGwj+PVQ5pap3K6oUCi
-	 6dxcxRVZr9JyPyaOU6SYFRRi58za2FXqmecILZDvxCPf7QF6Mlhi6kF01dciRML/Z4
-	 eRn5sl5YOxCMJYaQvK+u+uPEdGNKFbQPlgkNW0i/k60D1vI70pS5ye7rqRu75Zndy3
-	 ZQ8pUPUv1CNkmt7bvel927xSaAxSegYQoftq/nm4tU+F5STRijVbDSs55DLUR47sJZ
-	 QiK2yN/hspvh0Iklt1e9SeTadZzrE5GuO3l2AnEfFwMYTy26psvQbGlQ/5oBg3tJnq
-	 Ml0ZmtOtJlCtA==
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfauth.ams.internal (Postfix) with ESMTP id 7526D198004A;
-	Fri,  6 Nov 2026 07:38:40 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Fri, 06 Nov 2026 07:38:47 -0500
-X-ME-Sender: <xms:T8rtasefdrDg50RCfXVYapWRPd7hJhOH7MR_vMfF_RkFPcpgn0iabg>
-    <xme:T8rtaq11Zf6R1Zc0aftUnIsFDaY0LWo5YyxJjLiJyorI0EjMIMb_FQ2H1PSDt_qJk
-    eenHVeoya81NzJfPZ9LLMg62Zf4K4Yl6CtsrypytKDJ7q2XXT-7fkAQ>
-X-ME-Received: <xmr:T8rtauiyuNtFX1s9r67EC8H9v-rJ9qUshbNAZWxxA-i546XDDMOnOCzcYEY>
-X-ME-Proxy-Cause: dmFkZTGzAjGnz4qczRWBwFDzqEedcIN2RDs77+IhaKJdOHI/wRF4GJ+/XYgTh6qUDCaXtK
-    q3BGgpdQwiz8g3jZv+XNiZ3PHhWZePA+KkMXnh5DVEYxm4xAwVX0MEjom76ZmfzWC+JTPH
-    KiS19Dcunkmjpxr4Uil2sC19R8pXj7ovLT0PA2yAVZWcLty5pA48PAv7fst0p77EiM3n+1
-    SmGSQ5XOtXFCV1+dbb7vBvMxrwGRHPa+XdLj9z9pUYo6DwpdcyJmkiF0P6rFAo/V/JZdTc
-    JB24ZdeHtaiEyrrTwoEjAufvE1haKfVDIo+IxU19WrQxgP8cc4psM9iHQFHP4vpOpa7VoH
-    wzQ1pi5Xm1k+/vd5fWuuLnXYA4NDa3sM6PbhRSGJ29vaEqlrEoBKvduJJT2QLau5zON77X
-    LVS4No3GqNmQ7P5K5ZGNyDCsQUAFFMjELc5QUn1AxYZC+wWsbenSBZU/lmEyveJGaJ2+jX
-    5fuGn8bxlHcwcJNuyglZcxdfbk0Sa0PEcwNUH2TBBBLTHU0CoNDi/SD5/1309grZ9OgwS7
-    L3pcQ1dDN1WJl/+zOkyXMbph0dlAPT58n+aswI4a5WzW2PE7JzKbmxjsgGo+8fBfzklnrj
-    EBr+0lhdOkv1TdfFi5YziSH1mehaQtbycU8WlCmDbaBUbLQfGwo3GJ9qXvIg
-X-ME-Proxy: <xmx:T8rtat7js2s-eKQZcHK3_aXiUqi4PQT3ApNyxSy7PplOfAyVt45tMw>
-    <xmx:T8rtagW_pOIDqaJwR8OxdqY5JxVHrJv54OXWTAdpWfg2Vex1AvmGtg>
-    <xmx:T8rtatlscF93bVi-jaQNcHjAI-NjY-w5CIlVvBjJDaO8_4AtvZP4lQ>
-    <xmx:T8rtahSHJTPBlU6GOzNLC9za7s75hOd8IlP5D3JPnl2Uwi1M9NeaSA>
-    <xmx:UMrtaiNVGrkcAtiFcecPVVpaYRDrYD4OeE5iPf8Os-chIedx19aW39g_>
-Feedback-ID: i10464835:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 6 Nov 2026 07:38:39 -0500 (EST)
-Date: Fri, 6 Nov 2026 12:38:38 +0000
-From: Kiryl Shutsemau <kas@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Matthew Brost <matthew.brost@intel.com>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
-	Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
-	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
-	Peter Xu <peterx@redhat.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Song Liu <songliubraving@fb.com>, Rik van Riel <riel@surriel.com>, Hugh Dickins <hughd@google.com>, 
-	Will Deacon <will@kernel.org>, "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, 
-	Nick Piggin <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>, 
-	"Joerg Roedel (AMD)" <joro@8bytes.org>, Robin Murphy <robin.murphy@arm.com>, 
-	Steve Sistare <steven.sistare@oracle.com>, John Hubbard <jhubbard@nvidia.com>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org, 
-	iommu@lists.linux.dev, Chris Mason <mason@kernel.org>, stable@vger.kernel.org
-Subject: Re: [PATCH 1/5] mm: limit pagecache folio refcount when mapping pages
-Message-ID: <au3JT5QXbcOFXCp0@thinkstation>
-References: <20261105-refcount_overflow_stable-v1-0-70b9c655da3e@kernel.org>
- <20261105-refcount_overflow_stable-v1-1-70b9c655da3e@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=J0EVpDk5
+Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-3535a54bed9so863230eec.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 06 Nov 2026 04:46:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793969163; x=1794573963; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=5lZ1X9OvYujo7R37IHLIlb8OsfThW1dgQ21ejL+gEBc=;
+        b=J0EVpDk534xXmZlhJmIUi9XA9qotEUu15atz2gyPmWLJFyPapECP0OJsL4AlqB4XSh
+         Egm65cYGOfDobgBFJDvbnaaO4SUHJnXExolEW7fETfOsH55o5ppeZdVj1w2sL71z0z1z
+         B9wC/nQrI/H3wrO5cQCWME/2t5WfXdci09sl4ZxenZ5AFP8JOepG+0/8k1XRAmUF44B5
+         N9DwqTaPnjZ2oo3jJ3pfR355upUI5EezGI3/VIxiM5oxomCB1kYh8ACJBDA5iTWEivr2
+         VGJdENqiBmCehsdmtOiYMNefTTFLpQWkY0jNw6ILdqPJwbh1oRUci63l3W0gspSv5S4J
+         p3/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793969163; x=1794573963;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=5lZ1X9OvYujo7R37IHLIlb8OsfThW1dgQ21ejL+gEBc=;
+        b=0lgIQbcA4sN0ykyYC2mtLOGGcMHGTdjdL7j0xqm5ZPYVnEY4JUe5qszCdJdZ4jI9jJ
+         Zns7+Js7fISJpmgCJkwtj0S4omSZMdgxsEBt+Jrh7kxOVtSC6WXQ1iTErsqsryHufA4T
+         PHILEt72O5reAd7gwbCYr4Fl4fOZaZe1fnZG786MTQnKcihqF45U97FCjf/5ejLM3xeg
+         aMunZOe9hLaGbyWtlXFFeiRildS1S7BPQGLX18ZK4uOih0F3H6B82wzRf/JgJlwL+lsn
+         rG5m/rH7skz4ZldCq1Musv1jCOct0mRtJzLMPt6hX4Cc8dY2gRHM858t25ZAaniNWdip
+         6v5Q==
+X-Forwarded-Encrypted: i=1; AL+hErF9z2joDBDtT4capvyCM32uv0FYI3RvPbouehlx4z7ZyWWno2WDo37d8/Hvyzoh21j5lIb2250KyOTRHL2k@vger.kernel.org
+X-Gm-Message-State: APuU4Z/YAIwZbnP+FAKhVlYTOFm8LRkIvhamyWZ+vkQX4Q2QougAu7li
+	a/1McxLun+Rgju06LrtzI87lIq+vOuom1O+Pk8na/xuhuOpeFDAyjvN2
+X-Gm-Gg: AYBFou0DGHg1z4SbwekMugKm/qNQcSwjAF5PV7pIG/POcSb9RrcuQJjbkvsthHGKJbY
+	83bJgJytGMRL7C70W8VQ+tSBMVfc9KNLRvn8mxml8JW7vYJ8qQdjDbNk83r8R5CeDwwCjA+A4k1
+	6+sBonb33vrkQbAb3CqKWrUW1cjCPdlIrZ1p0Qo0D79rds3l3XGvMHQC6Q1dICLYd6GWu5WtCoF
+	ssWKfK3u6Djm95W6Keqfva+fCHFaUrkv2v3XAEjwkESTFhZDgGj4/rzVoGphjMtfIRosX77zp/r
+	6uxyIgQslQxV3HXL6ffYr4a/d0MpN8xpJCgLozS/HxOdbj6pXpNLMv049vthWRjH6PDFVITRk49
+	0nJHQfUnGT2Mvn9JEJZE+0dLJ/hvKFa57IhWIaCvvLwIWU62n4KYoNY4WwFlV5o2BUJiutc0jlb
+	tw+mFhD5mkZMJ71YJQoUXILLqp6LYOTNnfRddAaWYqtlJWm0DxMl9CHjwaJRCTeZ+RvJ2TAoOQH
+	LEsPhhLdr1x85sSYxbv2F4LVMFSvAVpGsIk7Qm32GTxwD9clhwA50gWyfKgJlyGkU55hIqBKLT0
+	Wy3YrKbNB7DAdW4eVv9g+7bXj3CcFy0KK2vTaPqZfoTSMi9or82xH35UTJposPD+6Q==
+X-Received: by 2002:a05:7301:1601:b0:36e:dd5:fb08 with SMTP id 5a478bee46e88-36f773f7c7fmr3004408eec.40.1793969163232;
+        Fri, 06 Nov 2026 04:46:03 -0800 (PST)
+Received: from anon-laptop ([103.187.196.159])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36fa651eccdsm6802331eec.1.2026.11.06.04.46.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Nov 2026 04:46:02 -0800 (PST)
+From: Wahid Khan <wahidzk0091@gmail.com>
+To: Namjae Jeon <linkinjeon@kernel.org>,
+	Hyunchul Lee <hyc.lee@gmail.com>
+Cc: ntfs@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Wahid Khan <wahidzk0091@gmail.com>
+Subject: [PATCH v2 0/3] ntfs: three fixes for crafted images, found by fuzzing
+Date: Fri,  6 Nov 2026 18:15:50 +0530
+Message-ID: <20261106124553.2617026-1-wahidzk0091@gmail.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,142 +97,48 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261105-refcount_overflow_stable-v1-1-70b9c655da3e@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Nov 05, 2026 at 02:10:10PM +0100, David Hildenbrand (Arm) wrote:
-> With large file folios, overflowing the folio mapcount and refcount
-> became possible. For anon folios it is currently not really an issue:
-> each large anon folio can only be mapped once into a process.
-> 
-> That's not really big news, but it's about time that we do something
-> about it because some modern technology might find ways to abuse it :)
-> 
-> One of the enablers for that was commit ddc58f27f9ee ("mm: drop tail page
-> refcounting"), however, file thp support was added later.
-> 
-> File folios can be mapped multiple times into the same process, allowing
-> for processes to hold many references to the same folio.
-> 
-> As a short-term solution, let's introduce two folio refcount limits:
-> one for ordinary consumers and one for admins. Leave some headroom
-> before the refcount goes negative, which we really don't want (having
-> the mapcount go negative is also not expected).
-> 
-> Start reporting SIGBUS if we run into limits. When restoring mappings
-> from migration entries, instead zap the pte/pmd entry. We allow for
-> slightly exceeding the limit to keep things simpler.
-> 
-> This is far from ideal, but better than all easy alternatives we can
-> backport comfortably. For now it fixes the big problem: letting
-> the refcount (+mapcount) go negative and cause trouble.
-> 
-> This is only a temporary fix, we'll follow up with something better.
-> 
-> While the refcount checks are not required for order 0 folios, let's
-> just add them for consistency: each folio_add_file_rmap*() and
-> folio_dup_file_rmap*() needs a prior check.
-> 
-> Also, just document -EHWPOISON for copy_present_ptes() while at it.
-> 
-> Reported-by: Chris Mason <mason@kernel.org>
-> Fixes: 800d8c63b2e9 ("shmem: add huge pages support")
-> Fixes: 99cb0dbd47a1 ("mm,thp: add read-only THP support for (non-shmem) FS")
-> Fixes: 793917d997df ("mm/readahead: Add large folio readahead")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
-> ---
->  include/linux/mm.h | 33 +++++++++++++++++++++++++++++++++
->  mm/filemap.c       |  6 ++++++
->  mm/huge_memory.c   | 24 ++++++++++++++++++++++--
->  mm/memory.c        | 23 ++++++++++++++++++++---
->  mm/migrate.c       | 11 +++++++++++
->  mm/userfaultfd.c   |  4 ++++
->  6 files changed, 96 insertions(+), 5 deletions(-)
-> 
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index a2dd76cc5bbfe..79ae8fc0d6bb4 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -8,6 +8,7 @@
->  #include <linux/gfp.h>
->  #include <linux/pgalloc_tag.h>
->  #include <linux/bug.h>
-> +#include <linux/capability.h>
->  #include <linux/list.h>
->  #include <linux/mmzone.h>
->  #include <linux/rbtree.h>
-> @@ -2228,6 +2229,38 @@ vm_fault_t finish_fault(struct vm_fault *vmf);
->  #define folio_ref_zero_or_close_to_overflow(folio) \
->  	((unsigned int) folio_ref_count(folio) + 127u <= 127u)
->  
-> +/* Leave separate reserves for administrators and concurrent reference gains. */
-> +#define FOLIO_REF_COUNT_LIMIT		(INT_MAX - (1U << 26))
-> +#define FOLIO_REF_COUNT_ADMIN_LIMIT	(INT_MAX - (1U << 25))
-> +
-> +/**
-> + * folio_ref_count_over_limit - Check whether to refuse more folio references.
-> + * @folio: The folio.
-> + *
-> + * Relevant for large pagecache folios (!hugetlb). For these, we have to check
-> + * before adding page table mappings or other significant refcount users whether
-> + * we are close to our folio ref count limit, to avoid overflows.
-> + *
-> + * Checking this for other folios does no harm but is mostly unnecessary.
-> + *
-> + * This check is an approximation; we leave some headroom such that concurrent
-> + * increments, batches and temporary references are not a problem.
-> + *
-> + * Return: True if the caller should refuse additional references, false
-> + * otherwise.
-> + */
-> +static inline bool folio_ref_count_over_limit(const struct folio *folio)
-> +{
-> +	const unsigned int ref_count = folio_ref_count(folio);
-> +
-> +	if (likely(ref_count < FOLIO_REF_COUNT_LIMIT))
-> +		return false;
-> +	if (ref_count >= FOLIO_REF_COUNT_ADMIN_LIMIT)
-> +		return true;
-> +	/* Background threads must not consume admin reserves. */
-> +	return (current->flags & PF_KTHREAD) || !capable(CAP_SYS_RESOURCE);
-> +}
-> +
->  /**
->   * folio_get - Increment the reference count on a folio.
->   * @folio: The folio.
+I fuzz the new fs/ntfs driver with mutated images: an image from mkntfs
+populated with ntfs-3g, a few bytes changed, then mount, walk the tree
+and write, under KASAN. These three problems are still present in
+ntfs-next (e62b384ca). Each patch has its trace and reproduction steps.
 
-Does the slow path need to be inline at all 15 call sites, GUP-fast
-among them?
+1. ntfs: do not read an index block outside $INDEX_ALLOCATION
+   A directory without a usable $INDEX_ALLOCATION hangs on its first
+   lookup. The task waits for an mft record lock that it already holds.
+2. ntfs: open the index allocation before reading or writing an index block
+   NULL pointer dereference in ntfs_ib_write() on link().
+3. ntfs: do not convert a named $DATA stream when making room in a record
+   WARN_ON() in ntfs_attr_make_non_resident(); no damaged volume needed.
 
-Maybe only leave the likely() check in inline and move the rest into a
-function call?
+All three need an image to be mounted, so a crafted image, not a remote
+attacker.
 
-Something like:
+Changes in v2, after an automated review of v1 that I checked by hand:
+- 2/3: ntfs_ia_open() also succeeds for a directory without
+  $INDEX_ALLOCATION and returns an empty resident inode. Reject an index
+  inode that is not non-resident, as 1/3 already does.
+- 3/3: v1 opened the named stream and converted it. That would lock the
+  stream's folio under the mft record lock, the reverse of the read
+  path (ntfs_read_iomap_begin_resident()). v2 skips named streams in
+  that loop instead.
+- 1/3: unchanged.
 
-static inline bool folio_ref_count_over_limit(const struct folio *folio)
-{
-        const unsigned int ref_count = folio_ref_count(folio);
+v1: https://lore.kernel.org/all/20261106091420.2461683-1-wahidzk0091@gmail.com/
 
-        if (likely(ref_count < FOLIO_REF_COUNT_LIMIT))
-                return false;
-        return __folio_ref_count_over_limit(ref_count);
-}
 
-bool __folio_ref_count_over_limit(unsigned int ref_count)
-{
-        if (ref_count >= FOLIO_REF_COUNT_ADMIN_LIMIT)
-                return true;
-        /* Background threads must not consume admin reserves */
-        if (current->flags & PF_KTHREAD)
-                return true;
-        return !capable(CAP_SYS_RESOURCE);
-}
+Wahid Khan (3):
+  ntfs: do not read an index block outside $INDEX_ALLOCATION
+  ntfs: open the index allocation before reading or writing an index
+    block
+  ntfs: do not convert a named $DATA stream when making room in a record
 
-Also, should this be capable_noaudit()? I am not sure a refused
-reference should leave an audit record. cap_vm_enough_memory() checks
-the admin reserve with CAP_OPT_NOAUDIT.
+ fs/ntfs/attrib.c |  6 ++++++
+ fs/ntfs/dir.c    | 14 ++++++++++++++
+ fs/ntfs/index.c  | 22 ++++++++++++++++++++++
+ 3 files changed, 42 insertions(+)
 
 -- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+2.53.0
+
