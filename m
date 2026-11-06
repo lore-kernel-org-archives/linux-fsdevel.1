@@ -1,116 +1,149 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793975394;
-	b=UQPihn1F29XwvI1QDKMB2gF5z3jW8/bvEgResvC3L+Nuf/NOaNFeVl0kheZ7Bq3hPPl3
-	 0CbAQPuCQ3BFumdT1JQu1f3Cefy6tAj8D33hI0NLPA50Vk4Qv0QjHTn2U3ICLKnh3F3A4
-	 +PfviP5C8qqy4QJQz8DTwIE2P1i7TiDS04ckUnDE5nxNKnKLrScbv7EB3vnwE/rF97vDW
-	 zGPDJqwUavga0nd82CVvSXnhaG6B8/xPN25vgqnHh3SG7SUCXQBVV/qjyK6um16XL0a7c
-	 0Clc9i9Pw9WWZdV1d4JeisiDWu+xb6uroGUjKYP5Rr15+3ItRn3nabtMxuEbPdh8Tgg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793975394;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:
-	 X-Rspamd-Action:X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
-	bh=O3BxtbkW6dUgg0e4SBYmdv0h0k2sMGxdODd1ZfZ8Kws=;
-	b=Uv6H5nSx16/I/bEwUMME8wJ70mUHEnjShBHcJb0WNbJ1hrDEjvUnL8Npj+s6P15ZzeC/
-	 hFI11X7YoCe7Ya/L23OKLdvJ3MSUBOWXcVP3ljY0uiHHG9Vz4S2D/k+KB5W1G5aR57Dih
-	 N5z3ZhGTink5UDE0mV8NaUDPu3EfenTpQfHpPV2JqKgAzq9A0OXFSefGDfa4BFTV7Dxf5
-	 woCi+bk3H0wkl6N3OIGKmVW15VjkeLKt8YfDIZunU4YDjYv7tSWqDuT5MQjyb4GEDZxGE
-	 hMKqQazktvg5imp/+D9z9AwBfYdIw/6UTbLKndkloJ8yc8aDb4Mf16DgktMJizYKbTw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=T9F6eGMH;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=T3BliDtd;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b="wP9/6bwL";
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=JTKT7OmU;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=2 smtp.remote-ip=52.101.84.12
+ARC-Seal: i=3; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793975453;
+	b=DxYWz3hoY4yJ8SbhmKTckFFypWfSDli/aIw8L0a4+Q29oJHXG6JwzwHkR1Ys12YdZ3s3
+	 5liy6UxREWcEXKTa5Sv30nAwPE3QubIixbtpLdQwwfHkcUA0RyA+PMfJCM6wHayKGznjX
+	 wdETNqoLAqm+HQWVuM62pVPKC4p1FhSs5lvy6YnG3d7tGdJH5ktw8GDV+DOq9qrk26ueN
+	 qQkbaKBNXhBDcTfq3REWcFqltDR4B0BbIoZJomckHFw9pSAq532HDof17TcjNzUdqDbt1
+	 PGhVkujZeceUNkaiQCslh9I2z8kR2YcS+GxeobdjvLhjbKHTzG5cj2TbIDUHUSYU/sg==
+ARC-Message-Signature: i=3; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793975453;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:
+	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:
+	 DKIM-Signature:Authentication-Results-Original:Received:Received:
+	 Message-ID:Date:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 X-ClientProxiedBy:MIME-Version:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:x-checkrecipientrouted:
+	 NoDisclaimer:X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam-Untrusted:
+	 X-Microsoft-Antispam-Message-Info-Original:
+	 X-Forefront-Antispam-Report-Untrusted:X-Exchange-RoutingPolicyChecked:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:
+	 X-EOPAttributedMessage:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStripped:
+	 X-MS-PublicTrafficType:X-MS-Office365-Filtering-Correlation-Id-Prvs:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=lq+41/Q26boLhL3CuohefDfFczhQJ0XSODdaLWWeDqc=;
+	b=u7B40tKtguXcckNsjyc00JnDU8VKrGDV+z+ZkU2b4w6AsTFlT5f5l90p9dI6brOyeO1Y
+	 +OcNxBNjeE+ClPv7M1TPGBe+VO5fN9VFplZ1+a0SRn1mctP4f0+KeOYPGlbtK09hRFr+u
+	 5IrE911NpxXmJK1bnp8htVNovVNFVjt+vde0kSxltODrionFZ0fHRda64sGEzbPzXW69e
+	 Y01ecO8B4zIlDLPECo0wjBqY1nmEQm7sIha3BRqbr6KpbJregQQ+W+Hn9YH/FgSdC5eAX
+	 yOAEXN2yDeRuT2dD9qsWhzmwJnqL2NE22jRKy5/2KzU2bGlg+JADEqsc5VaSWcenXzQ==
+ARC-Authentication-Results: i=3; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=selector1 header.b=Peyabi0V;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=selector1 header.b=Peyabi0V;
+	arc=pass header.oldest-pass=2 smtp.remote-ip=52.101.84.12
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010012.outbound.protection.outlook.com [52.101.84.12])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D865B606A326;
-	Fri,  6 Nov 2026 14:29:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D865B606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D147606A32C;
+	Fri,  6 Nov 2026 14:30:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8D147606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=T9F6eGMH;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=T3BliDtd;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=wP9/6bwL;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=JTKT7OmU
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C76B222218;
-	Fri,  6 Nov 2026 14:29:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793975392; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=O3BxtbkW6dUgg0e4SBYmdv0h0k2sMGxdODd1ZfZ8Kws=;
-	b=T9F6eGMHRkO93M0BvqGAMusPFNwPVE2nZTwMPcHXoJFTTbB3+4NoLHOv1C+toGGOBKGOsM
-	Zk4TdOT631Sy0ozE6svg4m/sffbWzP/QAJ9aPH/eJBtbPI2nO8HVCr3M8wwf69BTk6F+b5
-	MK/wZecBX5OFBNb0NhG3xr2Kip7cVRY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793975392;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=O3BxtbkW6dUgg0e4SBYmdv0h0k2sMGxdODd1ZfZ8Kws=;
-	b=T3BliDtd9hpp3d6y1F+DcpLXvmp5oYhKc7XGdJvyWIGfamCNevWsZnL5z/zeAONom/Wnl4
-	zQDZz8EVxlBqibBg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b="wP9/6bwL";
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=JTKT7OmU
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793975391; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=O3BxtbkW6dUgg0e4SBYmdv0h0k2sMGxdODd1ZfZ8Kws=;
-	b=wP9/6bwLd7Dg8vz1YAVSAYLlngNth8RT+ABVFG/3gC8noUpc2zJt3wyocGMDkrdQWl7x5I
-	WngtzrQB3YSlYjHF4Vl+HeqNxFwnSwYziKY4/4ODYOeCUmuJL3TWzdQFFciBGYPJk3dpMv
-	52qK1UnCZMrWr2M1XgV/nQ153kZ26bg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793975391;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=O3BxtbkW6dUgg0e4SBYmdv0h0k2sMGxdODd1ZfZ8Kws=;
-	b=JTKT7OmUoUh5jLYQxMNsM55o6rRZZSOOxNxxzyR4vBWtUM8EmfkSYsSlSJG9eJG0uMLMFu
-	FomoGh0SM6bwlGBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7AA7D132C9;
-	Fri,  6 Nov 2026 14:29:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id eDMeN17k7WqTdAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Fri, 06 Nov 2026 14:29:51 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id 7FBCE21B8E; Fri, 06 Nov 2026 15:29:35 +0100 (CET)
-Date: Fri, 6 Nov 2026 15:29:35 +0100
-From: Jan Kara <jack@suse.cz>
-To: Breno Leitao <leitao@debian.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Julian Sun <sunjunchao@bytedance.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	cgroups@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH 3/4] writeback: log the end of a slow writeback wait
-Message-ID: <ftkoesjrylhcmtij2gi63wnrkjdjf2ps65cwhz4g7rejhpjdh3@ieu2t4wtnjwo>
-References: <20261106-writeback_stall_report-v1-0-bf0c3b9023a5@debian.org>
- <20261106-writeback_stall_report-v1-3-bf0c3b9023a5@debian.org>
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=selector1 header.b=Peyabi0V;
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=selector1 header.b=Peyabi0V
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=WA/L/jat5Nqc+mx+TBwdPp78IGHMU40cNrqGiKgJhFSK9MMmsU/UPNYExK7P6I+Y3aKruWIkntVwYGwPcVkPn7ElO0FTWNlwlVCMAsygg4XWJk2uXJdhuFShTUxz1dUbkzmQz4Dy7HWKn4y8O1uR/W87oXF+t7Wn1uzeAjcBVGMrJKrx2L2hC5TVQzpsIjvveaw9FrV3uN5h8YjHDm8GDtM9zBBsdpJKw7Rb260+MkxE3C59joWEc+ftbfMs6g5YMvF795z7ByOYQnaw2pnuJMCTrPYvsAYpQEn+w0qDMZYXr/rEYLWwVPGxPJh5jCKgT3AyPYlYYQojxNyenCnMvQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lq+41/Q26boLhL3CuohefDfFczhQJ0XSODdaLWWeDqc=;
+ b=xsUH3MSfOL1RLac857T6sEf6VSaZzKy89nJC2Y0NdNw2TWpy9Eyj93SC1Nb+88CJtyMFfoAKFhmfqHxSenehsdMWUIMcmB1FTKDofbgXbfJJQa2QxCsi/Bfv9kjv6/y02Fz0RgvvQH+yIL+b16kRvAYZ8ulR2YXE9yqWAz3nKwnb8mUARuHeV9Kxj4LpZYbbxw7wmAmtyx0gA4kuOyMorYz9mS4P4DBwUNargvKxcSv6QpNUZwj0LpHzyhETIyvhhWidaqg8F/XKEqaqkpUpIhssDUFOOKBoROLaeFi0vwDu3qbgpVT0jiIfNFPkg9fkt56ApxrH6SxSPMQ3ILv0XQ==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=suse.cz smtp.mailfrom=arm.com; dmarc=pass
+ (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
+ (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lq+41/Q26boLhL3CuohefDfFczhQJ0XSODdaLWWeDqc=;
+ b=Peyabi0V5OFKDOqr7q7pptQANSkBy1FJ5K6aEAn8C5Kv6d60cNlz6kxNHelweBWQ0mD98cC7iXXcNJ9XABDHKJCNKIxDRmNej0lEndN8MIWAhg4/6bnLzAULK97Fgi9nuydGw8a0R04VG5wcOIvfzVvVJp1nVJ23iIGKWw88bL4=
+Received: from AS9PR06CA0119.eurprd06.prod.outlook.com (2603:10a6:20b:465::15)
+ by VI0PR08MB11709.eurprd08.prod.outlook.com (2603:10a6:800:310::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.12; Fri, 6 Nov
+ 2026 14:30:44 +0000
+Received: from CPH1EPF00000524.eurprd05.prod.outlook.com
+ (2603:10a6:20b:465:cafe::90) by AS9PR06CA0119.outlook.office365.com
+ (2603:10a6:20b:465::15) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.592.10 via Frontend Transport; Fri, 6
+ Nov 2026 14:30:44 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 4.158.2.129) smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ CPH1EPF00000524.mail.protection.outlook.com (10.167.241.135) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.615.4
+ via Frontend Transport; Fri, 6 Nov 2026 14:30:43 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=lrWh/Y5VMla4rf5AhTEfriJNsb+yFlJY2oE9nptfLgYAhs7R0oWLFj+EA8isjfCPbhLqsQoNSOJuC9VyOz1cuNToyqaXvNVjsUSsKNabkYAxxqm6PV8VdPDy5nPFXWSKOIeYwgQKMxxXPtLe9J7XoUiqNDwVKa6ga/mRjTodsywgDTJ2bEWjmJhXfe5DAlSeXvs29BrrV997IaajH0KWmKjMwWNbdgimL38n7GH4GAamSsY8QalvJvzrLCsREhNoMcYQdvm9JqcuMi+3PMNvhW3kHVaCuUb44f/LJ5KgNnenWOx9Ber2vlgOuoZFr0wTLHMFV3AU5OC63mOOCcCCkw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lq+41/Q26boLhL3CuohefDfFczhQJ0XSODdaLWWeDqc=;
+ b=pbWUrNg12ClJ2AAP+w3WrO5mFehmpousspprQnzbSWLqy7coJsqYTi+8J9QFLhG/76JCTmu5k4+3W5q6q9mLZr+MwYJslEqvfuMqcqY+prc7VywLSR+0+2ggDE43uSw8auL4rTr3zdPH6Y5TKlbZ8RvxlB50RqEWEGbXi7v8iaFEnPt6dwfrvJQKyljIY/1IQFCe6oRyLAyvQh43MMML8/9YjaKhQTniZOYNaeMAg7p1Ik96bs5jJzD8e96NpQJb1Bny5dnXC+iyLnt8b9UmpX5dsFz8HzBVW0YNxz3Im82+Gx8stomQHVTfg3nlOcw2ehjh6seWjQSPK5lvdvEjoA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lq+41/Q26boLhL3CuohefDfFczhQJ0XSODdaLWWeDqc=;
+ b=Peyabi0V5OFKDOqr7q7pptQANSkBy1FJ5K6aEAn8C5Kv6d60cNlz6kxNHelweBWQ0mD98cC7iXXcNJ9XABDHKJCNKIxDRmNej0lEndN8MIWAhg4/6bnLzAULK97Fgi9nuydGw8a0R04VG5wcOIvfzVvVJp1nVJ23iIGKWw88bL4=
+Authentication-Results-Original: mx.microsoft.com 1; dkim=none (message not
+ signed) header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from AS8PR08MB10291.eurprd08.prod.outlook.com
+ (2603:10a6:20b:629::15) by VI0PR08MB11381.eurprd08.prod.outlook.com
+ (2603:10a6:800:2fe::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.11; Fri, 6 Nov
+ 2026 14:30:09 +0000
+Received: from AS8PR08MB10291.eurprd08.prod.outlook.com
+ ([fe80::9f01:508:17aa:279c]) by AS8PR08MB10291.eurprd08.prod.outlook.com
+ ([fe80::9f01:508:17aa:279c%6]) with mapi id 15.21.0592.009; Fri, 6 Nov 2026
+ 14:30:09 +0000
+Message-ID: <803191ed-6597-4b8d-af7d-812b1b494fee@arm.com>
+Date: Fri, 6 Nov 2026 15:30:07 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/2] Add scope-based cleanup capability to eventfd_ctx
+To: Jan Kara <jack@suse.cz>
+Cc: Christian Brauner <brauner@kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+References: <20261027-efd-autofree-v3-0-caa2442e1beb@arm.com>
+ <20261106-hinein-lagebericht-abbezahlen-cb826d68d175@brauner>
+ <bba04255-5dee-4dd2-a877-5e169edceadc@arm.com>
+ <sp6gvawt6petvrlky7g6pqaqsp3jwouu6ixarevis5m5vd7fwe@xjxeakzi3nn3>
+Content-Language: en-US
+From: =?UTF-8?B?QmVuY2UgQ3PDs2vDoXM=?= <bence.csokas@arm.com>
+In-Reply-To: <sp6gvawt6petvrlky7g6pqaqsp3jwouu6ixarevis5m5vd7fwe@xjxeakzi3nn3>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: LO4P123CA0611.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:314::10) To AS8PR08MB10291.eurprd08.prod.outlook.com
+ (2603:10a6:20b:629::15)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -120,119 +153,103 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261106-writeback_stall_report-v1-3-bf0c3b9023a5@debian.org>
-X-Rspamd-Queue-Id: C76B222218
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-13.01 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.cz:dkim,suse.cz:email];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Spam-Score: -13.01
+X-MS-TrafficTypeDiagnostic:
+	AS8PR08MB10291:EE_|VI0PR08MB11381:EE_|CPH1EPF00000524:EE_|VI0PR08MB11709:EE_
+X-MS-Office365-Filtering-Correlation-Id: a06b969d-b38f-4874-44f0-08df3c128a42
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted:
+ BCL:0;ARA:13230040|1800799024|366016|376014|7416014|23010399003|18002099003|22082099003|6133799003|10067099003|3023799007|4143699003|11063799006|261026121527099003|261026140227099003|261102123227099003|261028144727099003|261022115727099003|261021123027099003|261021121427099003|261022105027099003|261022075727099003|56012099006;
+X-Microsoft-Antispam-Message-Info-Original:
+ chsBg0wiyiajp0z9q5D7Je9fq8WEuSxga9V51RsA+gy0ZTLmjBs5YgoaCwIsKcAVIoqYVhqHKvCvCWgYnG29F/6HiMlzhdKtCqD1xI6r+yW47ud5yRN3Oxix3JHPHGkrsvUm7qiv9hwdJRU78SahHmpVHF6UnVipUPRAwXd+x/C+339xiebLmu4ZAnXAPNGVCdPCS2KmJWI+kaHesnh7xFUv8/4QeO7Gk9sQLoeGQTTeW5JLhuscEDnmWohNJBW0woVK0JQkLwTq10vHSXlM4nXzq1myFZCedvWZl6Q8mzMPdEH9oHG7xpdRqkHch1s4H3kbLsHTAl336BLQAdTgIXI1sUXZ0C17OfGSO/BYA1pnTRxfkIu2DWSwScUklmg1GMtKmqEczGC7u7JiQT+5KPY/2IKYnEoHQnSQTM1EcPu4B0jbtXtclAaJfzJJNfcobryUOKwyZCz3Ev+/obhG9WE4B1u+HQEP1Ia6J9Fd1Ano2W1BsAItOuwha1UOEIpl4dLKH+X87sah5Qu4DfR/TV7f2Y8L+wRF3Cf5pcIe+lvY52jRqND/FggqGc3PuQYqriA6uEHRcYSQw0jhiz9VdheoCs+TygjUhjfLPFOGCeByl5Gsikih/cKWoAncI+YkDu8wIvmWHaL83DkCGHQFqTdG5LtyqtoGTret6YVYItM=
+X-Forefront-Antispam-Report-Untrusted:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR08MB10291.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(23010399003)(18002099003)(22082099003)(6133799003)(10067099003)(3023799007)(4143699003)(11063799006)(261026121527099003)(261026140227099003)(261102123227099003)(261028144727099003)(261022115727099003)(261021123027099003)(261021121427099003)(261022105027099003)(261022075727099003)(56012099006);DIR:OUT;SFP:1101;
+X-Exchange-RoutingPolicyChecked:
+ p5/mWeYUd3wJq5xq3CtA7zeKKOnGCMLshE5ggbX8GQmDsNBI6dRcgX20PJXBImNB8vLLpL5OeAVlKMirFOeEpH65fOePLJrw0LcUpzeiroVmrh3WM6cwEogbYcM/o9XfZ6BXtEElKhZ8p2CUjebPfSWVoMxECOM1I8aglLHpRDVBY6pbD0Y20UeBtzJAMKCxU//BVL+qMMLgL4e2qLwrOiuwi1VHmpEcP5urErw1CWLVrzpQmQbRCtEF5z2IPH29pZXKuDijB3qDQ8RT5d0iOEcPoxlJsgdKp5rSxzSzPFVhwiEAx+RhO7kmGzgj+q0BK+LAMg3l9uU8IMrv4OWzuQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR08MB11381
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped:
+ CPH1EPF00000524.eurprd05.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs:
+	d5d29393-fab2-445c-106b-08df3c1275b5
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700016|82310400026|14060799003|23010399003|35042699022|1800799024|376014|7416014|6133799003|18002099003|10067099003|22082099003|261102123227099003|3023799007|261026121527099003|261022115727099003|4143699003|56012099006|11063799006|261022075727099003|261021123027099003|261022105027099003|261026140227099003|261028144727099003|261021121427099003;
+X-Microsoft-Antispam-Message-Info:
+	LHtUYGxJVv0B5LXSk/korFA+Pl3/rjwQSHOYd+S0eF+J0haBEsp9qGrNLmvH/XoIVdtLOslmQ1TLxqZ4mZveMXDoAFtVKv6p36eaVDvGoorSARHwMA5GTfh7rSAIJZfdYR49xTq5N0pTvcQqt/a3ajcNf56b+J9htBenMC2YWwaplUj4prfE6rvWi+/KN+zEjMvzezpadf5OGhktMMLW5QNeBHcPgO5LIcFooyaHXhRUtO78vXA8F3z4IP9qUs1vLhqlnZaAvL/riiwSA5ARCVjX2SbEgcFsZwyRpHKPUlIV7zXl6bQ9k9jX1BCSH+bb/1pLLhGq5DOz9SAyJFKleWTRweLVwDBMQjRZgzqOvS5sOnBdibUWvNtUcKs4evvJiDjEidp5m4JlJgr6nuz9arDmfD7EyA+A/LZVrNCQJbPR7muLNA6pnPgaOsUx4UNE+ngrnrskJBZZvrX+NyY9iGyWaLpX6cK65ua89DOqUTG9AL8zML/92oLzUTMB2oaVNgbwFkAWLVXrGirvM1XwDh2BsHm5ZCMRqIvZ4HI5deq20Tq7Lqxdd2sEMB9bJJMrjMVYa/gQCsFXVApyqADD6sdxXVRb+Y/LX7nktVRTKGQ+CS+RZYZhhxSVDoHM8ZJP8W/UQDmjn4QpjU2B8mBgV1RtxfUekNkXbo3OgrviWDArbKzE/sqgEEOavp82osAnVZe05ViCOCfAoxh06xmXgQ==
+X-Forefront-Antispam-Report:
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(82310400026)(14060799003)(23010399003)(35042699022)(1800799024)(376014)(7416014)(6133799003)(18002099003)(10067099003)(22082099003)(261102123227099003)(3023799007)(261026121527099003)(261022115727099003)(4143699003)(56012099006)(11063799006)(261022075727099003)(261021123027099003)(261022105027099003)(261026140227099003)(261028144727099003)(261021121427099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	Y1Ht8cnQEr0WDPMpQxxrM1R4ha7eqpG2mEr76DD8r/Q1pEiMfO8mlA3oWeGHEt1DDlbAxOKj7QS0wiBkNxUbl/iaQ4+4rFmg52jTRbwgl29SeAqdhui7HsolOT8pc3mEopWfJRN6c0DGxREhdO9fPirdh13+B6Zn+V2/tZFBz1h3afS/Z9RDjP6CvDeZbDO4jdUuhlZL8pOdqpCZvbMZy/2bk4+DExRgd4qo/dccK+TPfrlJBx4oLTo9XM7zYjTJ0fwC2ukXp/O1ThGTbwZtfsdcA8czZoFGMdBtkDlwoU7jZsqCNn9SQ++2iPbDP3hP2ZxJ/DpNUrcZH+GThf9rhhWVd9wRrCJYIX2OkD/Vcy5UrkZ2l8Q1aXiJyYK1NOOxiqLnmzQWyqWpGFj1Pbo/X9Fx9qOZ6enqPIj3J3gDS8CRkH4KZW3Tvfggz6bcWsj5
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2026 14:30:43.5121
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a06b969d-b38f-4874-44f0-08df3c128a42
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CPH1EPF00000524.eurprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR08MB11709
 
-On Fri 06-11-26 04:26:33, Breno Leitao wrote:
-> A slow writeback wait ends with one more "has been waiting" report,
-> printed by the wakeup that sees the last work item complete:
-> 
->   INFO: The task sync:180 has been waiting for writeback completion for more than 29 seconds.
->         bdi 252:0, work items left: 0
-> 
-> That line reads as if the task were still waiting. To tell a slow
-> writeback from a stuck one, the reader has to notice that the reports
-> stopped, which is easy to miss in a busy log.
-> 
-> Report only while work items are outstanding, and log how long the wait
-> took once it is over:
-> 
->   The task sync:181 waited 29 seconds for writeback completion on bdi 252:0
-> 
-> Signed-off-by: Breno Leitao <leitao@debian.org>
+Hi,
 
-Looks good. Feel free to add:
-
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
-
-> ---
->  fs/fs-writeback.c | 16 +++++++++++++---
->  1 file changed, 13 insertions(+), 3 deletions(-)
+On 2026. 11. 06. 15:13, Jan Kara wrote:
+> Hi!
 > 
-> diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
-> index 3dee9d65eaf721..cdb2631b8552e1 100644
-> --- a/fs/fs-writeback.c
-> +++ b/fs/fs-writeback.c
-> @@ -201,17 +201,18 @@ static bool wb_wait_for_completion_cb(struct wb_completion *done,
->  {
->  	unsigned long timeout = sysctl_hung_task_timeout_secs;
->  	unsigned long waited_secs = (jiffies - done->wait_start) / HZ;
-> +	int left = atomic_read(&done->cnt);
->  
->  	done->progress_stamp = jiffies;
-> -	if (timeout && (waited_secs > timeout)) {
-> +	if (left && timeout && (waited_secs > timeout)) {
->  		pr_info("INFO: The task %s:%d has been waiting for writeback "
->  			"completion for more than %lu seconds.\n",
->  			current->comm, current->pid, waited_secs);
->  		pr_info("      bdi %s, work items left: %d\n",
-> -			bdi_dev_name(bdi), atomic_read(&done->cnt));
-> +			bdi_dev_name(bdi), left);
->  	}
->  
-> -	return !atomic_read(&done->cnt);
-> +	return !left;
->  }
->  
->  /**
-> @@ -228,9 +229,18 @@ static bool wb_wait_for_completion_cb(struct wb_completion *done,
->  void wb_wait_for_completion(struct wb_completion *done,
->  			    struct backing_dev_info *bdi)
->  {
-> +	unsigned long timeout, waited;
-> +
->  	done->wait_start = jiffies;
->  	atomic_dec(&done->cnt);		/* put down the initial count */
->  	wait_event(*done->waitq, wb_wait_for_completion_cb(done, bdi));
-> +
-> +	timeout = sysctl_hung_task_timeout_secs;
-> +	waited = jiffies - done->wait_start;
-> +	if (timeout && waited > timeout * HZ)
-> +		pr_info("The task %s:%d waited %lu seconds for writeback completion on bdi %s\n",
-> +			current->comm, current->pid, waited / HZ,
-> +			bdi_dev_name(bdi));
->  }
->  
->  #ifdef CONFIG_CGROUP_WRITEBACK
+> On Fri 06-11-26 10:31:58, Bence Csókás wrote:
+>> On 2026. 11. 06. 10:05, Christian Brauner wrote:
+>>> On Tue, Oct 27, 2026 at 05:22:00PM +0100, Bence Csokas wrote:
+>>>> Add __free() support to eventfd and update drm_syncobj to use it as an
+>>>> example consumer.
+>>>>
+>>>> A minor discrepancy I encountered is whether to put a semicolon after
+>>>> DEFINE_FREE(). It seems some in-tree code does, some doesn't. In the end,
+>>>> I followed the example set in core-api/cleanup.rst, and omitted it.
+>>>>
+>>>> Signed-off-by: Bence Csokas <bence.csokas@arm.com>
+>>>> ---
+>>>
+>>> I'm really having trouble seeing how this improves anything
+>>> significantly. Probably others have the same impression which is why
+>>> this doesn't get a lot of review.
+>>
+>> The goal of the __free() API is to reduce the number of goto-based error
+>> paths. Normally, you'd have to keep the state of every local in your head
+>> for every early return. (Has it been initialized? Has it been consumed? Or
+>> does it need to be freed?) Then you need to arrange your "goto tree" (error
+>> labels) in a way that frees everything, and then for every early exit, jump
+>> to the correct one. This can be quite complex for some functions. Look at
+>> KVM or HyperV eventfd code, for example.
+>>
+>> By contrast, you just mark the local var with _free() and an appropriate
+>> destructor snippet, and the consumption point (the point after which we
+>> don't need to free it on a return) with no_free_ptr(), and the compiler
+>> instruments every early return accordingly.
 > 
-> -- 
-> 2.53.0-Meta
+> Sure, but there's also the other side about which you don't speak: unless
+> the destructor is trivial (like kfree()), there are implications about
+> locking, when resources (such as references held by the object) get
+> released etc. So it can also be more complex to wrap your head around
+> __free usage than around standard cleanup code.
+
+Sure. Thankfully eventfd_ctx_put() is one of the pretty trivial ones, 
+basically just calling kfree() on itself when the kref drops to 0.
+
+> So unless __free is providing a noticeable simplification of some goto
+> hell, cleanup in many functions or similar, I generally don't find it worth
+> it...
 > 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> 								Honza
+
+Look into for instance mshv_irqfd_assign() and weep... And then imagine 
+how much simpler it'd be if it were using __free() instead.
+
+For the example in 2/2, I deliberately chose one callsite where it's 
+trivial to deduce that behaviour is unchanged.
+
+Bence
