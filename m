@@ -1,55 +1,103 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793955958;
-	b=adAw5rapXzgwdnnF6soiOpfZ1V+a1cpUYfD5C1SUvU+CiLvbt3bPKj8NV3icGT0ivvTW
-	 yIFRva3uX7BrVJ97hl4Tj3IDPdUp0oLDvFfFM0908QDdsjjPdRSaHjyJDTh7wO5xL7CdD
-	 PvDqz6Pv/Zn0yjrzLcI0qvuc93aBpRuTHfMeCsCscBZCFKvyaRWXW5LUcA0CaoZYisIVs
-	 36Mxyjvkd3ov3J4JR+1djMiUrdJJWBogK/Gbi7jXnjNz/cukEAaean7kBwORt9Rr/wKgS
-	 +iMXVtBwv9AZhf584Onh02dOYnbPnMwvTfV1EAnwyH8/Y5W7rRTSmOYjPgaHcY4lI/w==
+	t=1793956312;
+	b=YGxc94s9rlGcbejT+hAhCoNwa1ToWWNcR+bZV+K+lJml+8jol/vd1QYmV/P4jz+3PP8c
+	 1TU17OwXxc5YwTMponTuiKzT7Ss3fPcrwG7FG2c9PBcd/eiMcQbQ7/X/IqmL/r4fh8MED
+	 xchu3bz8b63HD2aCZ9x8pAsCTaiJG9EYa+mTjFuHXK78PW9vEB2UPiV5WGbdJ6sr7VTtb
+	 yqjWt+TasaRRUXKxfp6ygee+sdMMjEJ4ab2ZTdB7csgoyhimOxyNA3y+11caR5ODLj9ku
+	 Snu9/whR8b/hlaKDY4I2H7j4U+koNJ12vElOREyghQf5/FejdTvXm/SVRi6NuKOGTrg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793955958;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=WPuD57JlYcSeWtGJ9evE1GvVEReb3TMJbzr2AWb1TC0=;
-	b=zO4gcf9IcMFK9rZByoqWmG4McCBYKcPoRLUAqHHOE0Dljc40uzxTdCahKbraR6+kRJKb
-	 CSAx/yPIHt0sJ0Ku6YtQfdNvZoufEAPxHkEZSO13XGmJuWZcmhvV2Qpfm/5evda3cDQqk
-	 9yyHVZXj0dmqJw5uBRx9afPDKzF1+Tx8b+JEZN1u33ET4s9I8/5rsRAd2sJqyvx2h+F1M
-	 9K/tchl7aAWxYpugEqXuBrNEM0Dm6mPMSqvz6sVm2/Kle/9MrD7qbjV1E7xPhVlbIk2Zo
-	 P667C/ZHDkrjf6Te+Tn19um/qmzl/kfj1hPGN/7rGUkNt4qsrBWmBl03AH/eVaVQ7kw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793956312;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=AKi4F1XkSqKNw3b7+Ng4uXx+ZMXFkYDoN/Pwc1tdXyw=;
+	b=VBpM1N5cATsJeuLZkL2FMkw8tcfTsGnR9xidscSFxpq1cV4phtE9Vu5pApaYo2wKzBXQ
+	 V7jkHoNEaQ05+K+IOxTKXqBR+mpBrIoejSSGGm0GKGGKOm99jRJ/BXs+hk9iktgAuleUC
+	 JRc8nankcAY56l/Do6mI7G2zrIMn0EWsKKxfeSNzDT4RchV7NOhyikflmW18zYfTSRIGM
+	 YpzFEMbvV7xNT5R6jpmjZNm1OyLsE2JBymk9/9uPUjcVoS2v8mhROyE/Srx1jALRfznZa
+	 YIKXaZHzKHfS6A31kx92/wY9YKwEvcOEKClB6fOophXqCLBXIaX5ZlfSyvoYCTPRrxQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AQeXbXSj;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	arc=none smtp.remote-ip=95.215.58.18
+Received: from mta1.migadu.com (out-18.mta1.migadu.com [95.215.58.18])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C541E606A328;
-	Fri,  6 Nov 2026 09:05:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AQeXbXSj
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B99D11F008A1;
-	Fri,  6 Nov 2026 09:05:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793955957;
-	bh=WPuD57JlYcSeWtGJ9evE1GvVEReb3TMJbzr2AWb1TC0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=AQeXbXSjATO/WDYBekds4BBIebSW0WG9iHKpPgnTW28ettxwmkwQ0/xjfwFmL7Mmc
-	 zLaFuwzibEv7sVucctAshKhoqTa6Y4F6CLIuyt2xUHcgwjPUiVEAOB7ZRwHuevtQK8
-	 tEuLn4+B+ovonEjxMceVJMNt9vz7ECPKWvy9Ty8m0BHZuoXTH9KFJF1o4a3OYhNHkk
-	 uBa8bjFXC/gqDwQcsxJeeMaTzTNN7wG1thV9mmryXl+VTCGomvbaTMxgO9r1LHKgQZ
-	 Kg1I3zPLD7bRNkuNuGRQaNt/Xvb9uxKdWEZJGv8FGjdqIlS/3raZEGUBuHBhR7wh/4
-	 CB2tL81t4MbvQ==
-Date: Fri, 6 Nov 2026 10:05:52 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Bence Csokas <bence.csokas@arm.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3 0/2] Add scope-based cleanup capability to eventfd_ctx
-Message-ID: <20261106-hinein-lagebericht-abbezahlen-cb826d68d175@brauner>
-References: <20261027-efd-autofree-v3-0-caa2442e1beb@arm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C99DE606A330
+	for <linux-fsdevel@vger.kernel.org>; Fri,  6 Nov 2026 09:11:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C99DE606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=RB9jCfeGXFtAeNZRCJe7qF1HA2DzPZCiRtQ6f8rlwO8=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1793956308; v=1; x=1794561108;
+ b=SP14kqgHZegobLguKceMWVRaaEf3xj0wYia2VHIJv7nrvC8v/x1oCpRu272qEx3kMDDC6SEE
+ DlL0PmcvKPbKwAj+xL2YncyuVQl1aPxY6vKPhNcd0sk3NnzrIjyjhtFA8ayH6u8Qep1tmr357io
+ IqEHRdCNdAzL3+8AVKpJKnLM=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id a5d8b693a372ae24;
+	Fri, 06 Nov 2026 09:11:48 +0000
+X-Mizu-Trace-ID: a5d8b693a372ae24
+X-Migadu-Flow: FLOW_OUT
+From: Lance Yang <lance.yang@linux.dev>
+To: david@kernel.org
+Cc: akpm@linux-foundation.org,
+	ljs@kernel.org,
+	liam@infradead.org,
+	vbabka@kernel.org,
+	rppt@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	willy@infradead.org,
+	jack@suse.cz,
+	ziy@nvidia.com,
+	baolin.wang@linux.alibaba.com,
+	nico.pache@linux.dev,
+	ryan.roberts@arm.com,
+	dev.jain@arm.com,
+	baohua@kernel.org,
+	lance.yang@linux.dev,
+	usama.arif@linux.dev,
+	kas@kernel.org,
+	matthew.brost@intel.com,
+	joshua.hahnjy@gmail.com,
+	byungchul@sk.com,
+	gourry@gourry.net,
+	ying.huang@linux.alibaba.com,
+	apopple@nvidia.com,
+	peterx@redhat.com,
+	hannes@cmpxchg.org,
+	songliubraving@fb.com,
+	riel@surriel.com,
+	hughd@google.com,
+	will@kernel.org,
+	aneesh.kumar@kernel.org,
+	npiggin@gmail.com,
+	peterz@infradead.org,
+	jgg@ziepe.ca,
+	kevin.tian@intel.com,
+	joro@8bytes.org,
+	robin.murphy@arm.com,
+	steven.sistare@oracle.com,
+	jhubbard@nvidia.com,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-arch@vger.kernel.org,
+	iommu@lists.linux.dev,
+	mason@kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH 1/5] mm: limit pagecache folio refcount when mapping pages
+Date: Fri,  6 Nov 2026 17:11:39 +0800
+Message-ID: <20261106091139.67845-1-lance.yang@linux.dev>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20261105-refcount_overflow_stable-v1-1-70b9c655da3e@kernel.org>
+References: <20261105-refcount_overflow_stable-v1-1-70b9c655da3e@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -59,21 +107,63 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261027-efd-autofree-v3-0-caa2442e1beb@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 27, 2026 at 05:22:00PM +0100, Bence Csokas wrote:
-> Add __free() support to eventfd and update drm_syncobj to use it as an
-> example consumer.
-> 
-> A minor discrepancy I encountered is whether to put a semicolon after
-> DEFINE_FREE(). It seems some in-tree code does, some doesn't. In the end,
-> I followed the example set in core-api/cleanup.rst, and omitted it.
-> 
-> Signed-off-by: Bence Csokas <bence.csokas@arm.com>
-> ---
 
-I'm really having trouble seeing how this improves anything
-significantly. Probably others have the same impression which is why
-this doesn't get a lot of review.
+On Thu, Nov 05, 2026 at 02:10:10PM +0100, David Hildenbrand (Arm) wrote:
+>With large file folios, overflowing the folio mapcount and refcount
+>became possible. For anon folios it is currently not really an issue:
+>each large anon folio can only be mapped once into a process.
+>
+>That's not really big news, but it's about time that we do something
+>about it because some modern technology might find ways to abuse it :)
+>
+>One of the enablers for that was commit ddc58f27f9ee ("mm: drop tail page
+>refcounting"), however, file thp support was added later.
+>
+>File folios can be mapped multiple times into the same process, allowing
+>for processes to hold many references to the same folio.
+>
+>As a short-term solution, let's introduce two folio refcount limits:
+>one for ordinary consumers and one for admins. Leave some headroom
+>before the refcount goes negative, which we really don't want (having
+>the mapcount go negative is also not expected).
+>
+>Start reporting SIGBUS if we run into limits. When restoring mappings
+>from migration entries, instead zap the pte/pmd entry. We allow for
+>slightly exceeding the limit to keep things simpler.
+>
+>This is far from ideal, but better than all easy alternatives we can
+>backport comfortably. For now it fixes the big problem: letting
+>the refcount (+mapcount) go negative and cause trouble.
+>
+>This is only a temporary fix, we'll follow up with something better.
+>
+>While the refcount checks are not required for order 0 folios, let's
+>just add them for consistency: each folio_add_file_rmap*() and
+>folio_dup_file_rmap*() needs a prior check.
+>
+>Also, just document -EHWPOISON for copy_present_ptes() while at it.
+>
+>Reported-by: Chris Mason <mason@kernel.org>
+>Fixes: 800d8c63b2e9 ("shmem: add huge pages support")
+>Fixes: 99cb0dbd47a1 ("mm,thp: add read-only THP support for (non-shmem) FS")
+>Fixes: 793917d997df ("mm/readahead: Add large folio readahead")
+>Cc: stable@vger.kernel.org
+>Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+>---
+> include/linux/mm.h | 33 +++++++++++++++++++++++++++++++++
+> mm/filemap.c       |  6 ++++++
+> mm/huge_memory.c   | 24 ++++++++++++++++++++++--
+> mm/memory.c        | 23 ++++++++++++++++++++---
+> mm/migrate.c       | 11 +++++++++++
+> mm/userfaultfd.c   |  4 ++++
+> 6 files changed, 96 insertions(+), 5 deletions(-)
+
+Nice work! I just went through all folio_add_file_rmap*() and
+folio_dup_file_rmap*() callers, including callers of set_pte_range().
+
+All covered, looks good to me1
+
+Reviewed-by: Lance Yang <lance.yang@linux.dev>
