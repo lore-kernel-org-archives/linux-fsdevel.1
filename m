@@ -1,98 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.54
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793980357;
-	b=kHihEnlWr//r/LDZyiyvMFezecuMoPZyAYvK/KBbpHEsO1hcsRcn+b4yESjnsF2QAx3G
-	 5CsRXVJD6JvdOip8vzTCbzkAM7AOs1JCeffbPSV9zN5RzY8s6hS69FDU7OOFeW0GtP8dX
-	 Bztej1VPHYfN9oDGT01TTqk/l6tu/FTtMlWBjqCy8Q7Izgt7azH1DTCIajzpCLACHUVxS
-	 wLlj/HeN3wT5Dz9gnfLsk3+n79L4ZZi7eRaeXT99jUo+H42Z1Arh1nv8v/Uq8hOM6QfCX
-	 F4qrA9uICfGpRGrxlcqx8H4OY1gYjsrJOvGNKMgOz/NjsLe79fCyXr7EcoA5t/4z9TA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793980357;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:From:Date:X-Gm-Features:Message-ID:Subject:To:
-	 Content-Type;
-	bh=imxiLTdOX5HC1rp3c25qmGQ65Qq/V6SkfQFDiRpdc+U=;
-	b=aG+9qSFSDtxAmybno66zmpFPOkenzuQsrubGz33t/fo6G0P91v34wLDlStoKRrKFjCK1
-	 aNDLImSiovmLKK8rI8Ox0xp30jWJzwKK6fiZ4Hmt8GKF47OFye2AW7MyMFRb5+8mlIKh1
-	 ewhZMeUbQAXERibPAeJONUr5PkU8FH9tqRRNjLwnWpO1HfgJoA8t3pSdPuvujNEDUsd16
-	 mMS/yW1KtnsIOy3ZDeYPS0THz5AIJynTOBiZhwQ48+chOKk9nAu3vrxA78lqmR2lsoPyc
-	 AF7n5JoVcUUJeGv3wCrxXEeh46kjrlGMgBT5KwoLuDDclMI1VLcen2OFvjb9wNz4+/g==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=WyTdu2WC;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.54
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793980641;
+	b=j6Pt76tV9tzt9nWaFHb4m4aAV2FatiX9dhnteEXvEYVI+Gok1BqdbXn0rdzW+jbXv2Iz
+	 7/54mvP9gSaxuL52wIidtQs38f0lHlBOhIJYyJd8AyK+L2FjWCRgrTeNEwtrE5SfVruDn
+	 pbrrr2a0hsp6+2odseLgz0EjvenOZ9aDdyou7O0fRfEv5tPPkCZQaCy/4wGdxYwwcR1lE
+	 fNPcCaEl79n1HvRKuhcayssyIMoFP4kM01tkkFWvQHjn+Ju6YoMdBHAYoDSKEcB6zujmj
+	 5SX1AAK4Q1HBVLRQ4BPGULsaq3fRXc+HK+EeU3Kl5N0NVq1YxcUwHBH3K7QbGCphRKg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793980641;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-Id:
+	 In-Reply-To:References:X-Mailer:Mime-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=kGLkV2arTsITsFBFDWHaARE2+eYeJRko9HB2FvywEtA=;
+	b=5qsQ0SNWyEcxgfJVlQjqdsZjVnePeb/2pRraOhrOQQjB24gbLRkpNpClBawsJXyxok9p
+	 lgCdOuWKSafjgevRQ0c8YMbP0Z0cr2Y9d2VE653v6oNCDTg4umbLfEd0Y7Yp415+5ukmm
+	 Bh3yjD+D0KYe40KtXJdkpHXlyM7KLZ9y1kTcMcbHbaqFm4WkYVRQI7nN3yGoaVa16TMjq
+	 oJ/vECfCiCf69WDWFLdGG+LlxA48CQQJfqFYnYiP2yjAZq1wE/IBwF9FXXEDb0YoxBoRo
+	 XtUlrp6BU0bG8riPF5Ch4/N1fXPGxU8OdY0cZTGMMxsIaANOCk/75sHHTAawLC9ygVw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=iicvIvre;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A11A7606A326
-	for <linux-fsdevel@vger.kernel.org>; Fri,  6 Nov 2026 15:52:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A11A7606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8AA7606A329;
+	Fri,  6 Nov 2026 15:57:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=WyTdu2WC
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c43373ae89aso122001766b.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 06 Nov 2026 07:52:36 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1793980355; cv=none;
-        d=google.com; s=arc-20260327;
-        b=CykahvLrv4LoZQd8FhrWnA2ZH8Ouo+oUjLAAgnSex8EQFAceFUxr4e+4u9oWjOUXKh
-         2OTOkE5Dl+7xrF5fZzuaVDA5GbOPOGFrx2ACSAJ7yWlaeAhEd3JMf8J6u4FNeA4yKg3Q
-         wVBJqli19nyjgti4dXCe4uwCHST+PTns9gcM3RBNq9OUssUaPzlOn5BT20i7+VkSXdXH
-         N/wdB48RxnBGa89pPLOBUXueYj29BAsFxf8/9mvADXrrbcHVtTT/tPVXQ/VIQMqNIOs7
-         BxjialgqucFps6dyKt/lgy1g4Vh3eWUSGvImq5gYkbu0lp8qND4ToESzd3lc3bOpRywz
-         OLXA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=imxiLTdOX5HC1rp3c25qmGQ65Qq/V6SkfQFDiRpdc+U=;
-        fh=0jVS+qKvi5HvpvEhwRwkzufIC6QKXPBK938Acz4Rta4=;
-        b=nnHREK0abUrEs9z1bW+KwMEEVF4te/c49zDRB7dsvU0T+GxF0GWHzX8VRNcBmfqIWc
-         OzBK4eNxSaeVe4vhSD1fsdKAlCIrJduPHSXdB4KE626lY69Xoo0TwKqDTt8RWMwNfGrA
-         kPpSjsYspBd27kRbnulVGHQoZgQ+35l2slCgVpPL3LOosVO2suBdolaXJSzXnXv472Mi
-         8AI2OAXSO7a6kF8bPb2dFsRU/GDLY4TKFWsd8jayZNlnWLwl+JjaqwcyBuOTm4f8Rt4D
-         j7OY3N+DVfaWwJj76KZHdIoq5N78PSn3T0WkGpOFK+GDYV4/EcT+ZTIxLXnOXRx8rnZs
-         5E2A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (1024-bit key, unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=iicvIvre
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E850F1F0089F;
+	Fri,  6 Nov 2026 15:57:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793980355; x=1794585155; darn=vger.kernel.org;
-        h=content-type:to:subject:message-id:date:from:mime-version:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=imxiLTdOX5HC1rp3c25qmGQ65Qq/V6SkfQFDiRpdc+U=;
-        b=WyTdu2WC22mzje3irwikGleidsXg+3oVHnL1S9iAAs1XkonNIHenxnpJssyPyKP6Yw
-         W6RW2BIYr3jvM/MrXJz6P4yhpzDNqHn1/4vKE/uJWmB2hJVxyPwU13GetZqqdHl9mmV9
-         y9kroJk14ILiSDv0Y3AWgf3Ka9YeKhCNQKRDJv74TZlZiikO8baQGodnQOLHCs48+MUe
-         sIr94GGPxt6yDTWRLP3hPp2HgM4+2yGvs5t9du4+bKZBybp5pwe/ARqX65L/+yJ40YbU
-         t/UCYE7DoCgrsLIfVvpIQcqiSjGLfu8qXp7bzblvXGp7B1Xvua1/uAUHBpMVg8gMgGIi
-         5hWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793980355; x=1794585155;
-        h=content-type:to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=imxiLTdOX5HC1rp3c25qmGQ65Qq/V6SkfQFDiRpdc+U=;
-        b=UooZ/g3ak759OFSV5aGcJqeYHxRxvmOJrghQyLKe9Bvu2MdXl5LPD12dyHzsBwaU5k
-         yTVBqpSDLfYwjR3MmC95ybjP6Ht4/FnxEBveaZY5Turo0GMuW9yW2MAxIuyExyGpiet9
-         wcxu54qE2sITkY1PixN+e4zLr0rPfYr0Fo2c8Inu6iHSYSubh/Dm5t+vdxn+QG9Q2Eva
-         94ogoy2UaehW7yVv4WWbeLgaoAZnHShLiQX3sHc08LkV3wDvfeVPAUmDtLUzuLLvvRwF
-         uKoQMy914H11zUvsb7WGFCiNGofvZLQXcjnqE/UCerN2gfxLtCtJKurSyRYyNYvrPLbx
-         lvZA==
-X-Forwarded-Encrypted: i=1; AKwUvBw3YQcYegg7bigPtyXsD2OKdmxwMOiZPp2rECu9fpf19+zXgN31BWG2vZEc/cbMyDgRRX/HgBtFwBsne2Cc@vger.kernel.org
-X-Gm-Message-State: APuU4Z+RUAisR1QtvFCeBLRiic71S4JSlwQxs2FTYH+RalhTl3pgbBsg
-	olLNiYtcD7H3BdZFfUcXqB8vWqzTOYxVWL9KEN8v33C/R8RlmCJpsNRG24hvreqAm6miG5XNTqP
-	4Gk6Ih6iFYaHyDOo+dzR/zGpiCy6GDjrj2Rew26Q=
-X-Gm-Gg: AYBFou1nM4OZN9RrdjjOkA5AQNuAa4Jsrl7+9rhCvM1Wz1dMPnxDxPF9o4aCi+P24vw
-	Bd/Bea6uCmL2u0Te+IQCxilX3hMEJsok7t4LSX+rJ3CB86J5qJetcS6BJVvvJFRdmftdMpn1ojS
-	2D0RVMJvwTwTbhMMcesrzBgcxQaql/2PqbRL3iOTnTtGkMql3Ahb5BZp/7OE+ps2oZiST3L4k7/
-	lAXKZevCBPh7TMihpPY9YMIkqV/sGzMmGeFMgX89qQ1JgdTAOE4kcTNzP6/mhLpbhg17/H76px0
-	B01CH0EbJ85m2UZs31+Dh3/jY3+FWheURMf+RrqQx55tv0NhxNpZlaJygxIeOYFZBt0ZrYU4jcZ
-	2u1eWCh43GTNaI5m4HoB8beuV1GyV4VXRPOrsN2bgK7SmQNX2DiTJYiIizZP52+n9VH3dQxiA1S
-	uiucTeUe0nM1PBbxGCh6sL8GIFD4bs
-X-Received: by 2002:a17:907:1c91:b0:c48:ddac:7eb1 with SMTP id
- a640c23a62f3a-c4d34cdc549mr257468666b.45.1793980354757; Fri, 06 Nov 2026
- 07:52:34 -0800 (PST)
+	d=linux-foundation.org; s=korg; t=1793980640;
+	bh=kGLkV2arTsITsFBFDWHaARE2+eYeJRko9HB2FvywEtA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=iicvIvreJ71pkcvw1woL/L4zbavYkDErAVrArRIp0dsEjS5KXngMPY+bjbp3m/FKb
+	 c036lM6d9y2HoPzyRIKUUF/5Wiq9g9Q/PPMtAupq43FycCfj8H/teRDPmstoA13Uf8
+	 FnWskYgGKvCK7CeatILM3S21WjlcHZAT6gBX4HoM=
+Date: Fri, 6 Nov 2026 07:57:19 -0800
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Krystian Kaniewski <krystianmkaniewski@gmail.com>
+Cc: "Jose Fernandez (Anthropic)" <jose.fernandez@linux.dev>, Pedro Falcato
+ <pfalcato@suse.de>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan
+ Kara <jack@suse.cz>, David Hildenbrand <david@kernel.org>,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH v2] mm/filemap: stop fault-around when the walk steps
+ back
+Message-Id: <20261106075719.5ae53a9d248c9219381ee60e@linux-foundation.org>
+In-Reply-To: <4284c2d3-75cb-4e41-aa45-f7311e60ab4a@gmail.com>
+References: <20261031-jf-mm-filemap-map-pages-lower-bound-v2-1-21029744e589@linux.dev>
+	<aunPI5eOUOAEUa8d@pedro-suse.tail5790ac.ts.net>
+	<20261104-jf-filemap-v2-pedro-reply-r2-74c87c6fbcf@linux.dev>
+	<auxvLCiljPhy0n_q@pedro-suse.tail5790ac.ts.net>
+	<au0GBdGqu6cv5PMy@linux.dev>
+	<4284c2d3-75cb-4e41-aa45-f7311e60ab4a@gmail.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -101,68 +64,176 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-From: Mateusz Guzik <mjguzik@gmail.com>
-Date: Fri, 6 Nov 2026 16:52:22 +0100
-X-Gm-Features: AclHuK8p0HBDrOmkB3xF0AiTXt-CjeYHVOqupnZd0JdVBSmHKu9mDQ6Xg5ihE28
-Message-ID: <CAGudoHGEfHXydqneyo94zEWfFZY32AWCOfQL01dYGCQKi0zJgg@mail.gmail.com>
-Subject: unstable performance during continuous memory reclamation
-To: linux-mm <linux-mm@kvack.org>, linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-I have a synthetic benchmark which stats millions of files in parallel
-(each worker stats inodes in its own tree), which I'm running in a
-loop. The total number of inodes is purposefully chosen to NOT fit in
-ram and require continuous memory reclamation to proceed.
+On Fri, 6 Nov 2026 12:36:05 +0100 Krystian Kaniewski <krystianmkaniewski@gmail.com> wrote:
 
-I would expect the total time needed to be roughly the same for each
-run. Instead I am seeing massive variance, from 18-ish seconds to over
-50 (see sample runs at the end of the e-mail).
+> Andrew, Jose's Tested-by for the xarray patch is on the filemap patch
+> in mm-hotfixes-unstable.
 
-I don't have time to dig into this, I am posting this in case someone
-would be interested.
+So it is, thanks.  I've moved that into "xarray: fix index jumping
+backwards in xas_find()":
 
-You can grab the bench here:
-https://people.freebsd.org/~mjg/fstree.tgz
 
-My test jig has 24 cores and 24GB RAM running this against ext4, the
-kernel is 7.4-rc1. The problem is not new but I could not be arsed to
-write this up previously.
+From: Krystian Kaniewski <krystianmkaniewski@gmail.com>
+Subject: xarray: fix index jumping backwards in xas_find()
+Date: Fri, 4 Sep 2026 14:12:59 +0200
 
-The fs is prepped with mkfs.ext4 -N 24000000 and mounted on /testfs.
+A bug in the XArray iterator xas_find() causes the iterator's index
+(xas->xa_index) to jump backwards when iterating over a multi-index entry
+(like a THP) that resides in a non-leaf node and is concurrently split.
 
-$ sh createtrees /testfs 20 # creates 20 dirs with a million inodes each
-$ while true; do time sh walktrees /testfs 20; done # bench
+When iterating over a multi-index entry in a non-leaf node, xas_load()
+sets xas->xa_offset to the base offset of the entry, but leaves
+xas->xa_index at the requested index.  When the caller subsequently wants
+to advance to the next entry, xas_find() is called.  xas_find() attempts
+to synchronize xas->xa_offset with xas->xa_index before advancing. 
+However, the fixup logic was incorrectly restricted to leaf nodes
+(!xas->xa_node->shift).  Because the THP resides in a non-leaf node, the
+fixup is skipped.
 
-sh walktrees /testfs 20  3.32s user 255.90s system 1397% cpu 18.55s
-(18.549) total
-sh walktrees /testfs 20  3.65s user 376.84s system 883% cpu 43.08s
-(43.079) total
-sh walktrees /testfs 20  3.25s user 253.34s system 1314% cpu 19.53s
-(19.527) total
-sh walktrees /testfs 20  4.45s user 423.65s system 1079% cpu 39.66s
-(39.664) total
-sh walktrees /testfs 20  3.19s user 288.14s system 1590% cpu 18.32s
-(18.317) total
-sh walktrees /testfs 20  3.34s user 342.73s system 1124% cpu 30.78s
-(30.778) total
-sh walktrees /testfs 20  3.14s user 231.58s system 1374% cpu 17.08s
-(17.080) total
-sh walktrees /testfs 20  3.33s user 329.40s system 1108% cpu 30.02s
-(30.019) total
-sh walktrees /testfs 20  3.68s user 301.85s system 602% cpu 50.70s
-(50.701) total
-sh walktrees /testfs 20  3.61s user 259.41s system 1172% cpu 22.43s
-(22.427) total
-sh walktrees /testfs 20  4.20s user 376.32s system 1093% cpu 34.80s
-(34.797) total
-sh walktrees /testfs 20  3.50s user 268.13s system 1238% cpu 21.93s
-(21.930) total
-sh walktrees /testfs 20  4.17s user 377.34s system 1065% cpu 35.81s
-(35.810) total
-sh walktrees /testfs 20  2.81s user 245.95s system 503% cpu 49.37s
-(49.373) total
-sh walktrees /testfs 20  3.75s user 367.58s system 920% cpu 40.34s
-(40.335) total
-sh walktrees /testfs 20  3.73s user 298.43s system 1191% cpu 25.36s
-(25.361) total
+As a result, xas_find() simply increments xas->xa_offset and recalculates
+xas->xa_index based on this new offset.  This causes xas->xa_index to jump
+backwards.  If the THP was concurrently split, the entry at the new offset
+is a node pointer, so xas_find() descends into it and returns the folio at
+the backwards index.  The caller (filemap_map_pages()) then calculates the
+PTE pointer based on this backwards index, resulting in an invalid memory
+access such as an out-of-bounds read or use-after-free on a page-table
+page freed via tlb_remove_table_rcu().
+
+A userspace access that faults in a file-backed mapping can trigger this
+path.  When the index moves backwards, filemap_map_pages() can calculate a
+PTE outside the page locked for fault-around and dereference a freed
+page-table page, resulting in a KASAN-detected use-after-free read.
+
+To fix this, check if xas->xa_offset matches get_offset(xas->xa_index,
+xas->xa_node).  If it does not and the node is a non-leaf node, set
+xas->xa_offset to get_offset(xas->xa_index, xas->xa_node) before
+advancing.  Also add test cases in test_xarray to verify xas_find()
+behavior when iterating over and splitting multi-index entries.
+
+Link: https://lore.kernel.org/20260904121301.200049-1-krystianmkaniewski@gmail.com
+Fixes: b803b42823d0 ("xarray: Add XArray iterators")
+Reported-by: syzbot+b72767277f29b6407083@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=b72767277f29b6407083
+Closes: https://syzkaller.appspot.com/ai_job?id=a01c56bd-74d0-411c-afb4-ee6f0cb6cb61
+Signed-off-by: Krystian Kaniewski <krystianmkaniewski@gmail.com>
+Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+Tested-by: Jose Fernandez (Anthropic) <jose.fernandez@linux.dev>
+  Link: https://lore.kernel.org/20261104-jf-filemap-v2-pedro-reply-r2-74c87c6fbcf@linux.dev
+Cc: Matthew Wilcox (Oracle) <willy@infradead.org>
+Cc: Mike Rapoport <rppt@kernel.org>
+Cc: <stable@vger.kernel.org>
+---
+
+ lib/test_xarray.c |   70 ++++++++++++++++++++++++++++++++++++++++++++
+ lib/xarray.c      |    8 +++--
+ 2 files changed, 75 insertions(+), 3 deletions(-)
+
+--- a/lib/test_xarray.c~xarray-fix-index-jumping-backwards-in-xas_find
++++ a/lib/test_xarray.c
+@@ -1247,6 +1247,75 @@ static noinline void check_multi_find_3(
+ 	}
+ }
+ 
++static noinline void check_multi_find_4(struct xarray *xa)
++{
++#ifdef CONFIG_XARRAY_MULTI
++	unsigned int order = XA_CHUNK_SHIFT + 1;
++	unsigned long next = 1UL << order;
++	unsigned long start = next - 1;
++	XA_STATE(xas, xa, start);
++	XA_STATE_ORDER(split, xa, 0, 0);
++	void *entry;
++	unsigned long i;
++
++	/* Multi-index entry in two slots of a non-leaf node. */
++	xa_store_order(xa, 0, order, xa_mk_index(0), GFP_KERNEL);
++	XA_BUG_ON(xa, xa_store_index(xa, next, GFP_KERNEL) != NULL);
++
++	rcu_read_lock();
++	entry = xas_find(&xas, ULONG_MAX);
++	XA_BUG_ON(xa, entry != xa_mk_index(0));
++	XA_BUG_ON(xa, xas.xa_index != start);
++
++	entry = xas_find(&xas, ULONG_MAX);
++	XA_BUG_ON(xa, entry != xa_mk_index(next));
++	XA_BUG_ON(xa, xas.xa_index != next);
++
++	entry = xas_find(&xas, ULONG_MAX);
++	XA_BUG_ON(xa, entry != NULL);
++	rcu_read_unlock();
++
++	xa_erase_index(xa, next);
++	xa_erase_index(xa, 0);
++	XA_BUG_ON(xa, !xa_empty(xa));
++
++	/* Split the multi-index entry after a lookup begins inside it. */
++	xa_store_order(xa, 0, order, xa_mk_index(0), GFP_KERNEL);
++	XA_BUG_ON(xa, xa_store_index(xa, next, GFP_KERNEL) != NULL);
++
++	xas_set(&xas, start);
++	rcu_read_lock();
++	entry = xas_find(&xas, ULONG_MAX);
++	XA_BUG_ON(xa, entry != xa_mk_index(0));
++	XA_BUG_ON(xa, xas.xa_index != start);
++	rcu_read_unlock();
++
++	xas_split_alloc(&split, xa_mk_index(0), order, GFP_KERNEL);
++	if (xas_error(&split)) {
++		XA_BUG_ON(xa, true);
++		goto out;
++	}
++	xas_lock(&split);
++	xas_split(&split, xa_mk_index(0), order);
++	for (i = 0; i < next; i++)
++		__xa_store(xa, i, xa_mk_index(i), 0);
++	xas_unlock(&split);
++
++	rcu_read_lock();
++	entry = xas_find(&xas, ULONG_MAX);
++	XA_BUG_ON(xa, entry != xa_mk_index(next));
++	XA_BUG_ON(xa, xas.xa_index != next);
++
++	entry = xas_find(&xas, ULONG_MAX);
++	XA_BUG_ON(xa, entry != NULL);
++	rcu_read_unlock();
++
++out:
++	xa_destroy(xa);
++	XA_BUG_ON(xa, !xa_empty(xa));
++#endif
++}
++
+ static noinline void check_find_1(struct xarray *xa)
+ {
+ 	unsigned long i, j, k;
+@@ -1370,6 +1439,7 @@ static noinline void check_find(struct x
+ 		check_multi_find_1(xa, i);
+ 	check_multi_find_2(xa);
+ 	check_multi_find_3(xa);
++	check_multi_find_4(xa);
+ }
+ 
+ /* See find_swap_entry() in mm/shmem.c */
+--- a/lib/xarray.c~xarray-fix-index-jumping-backwards-in-xas_find
++++ a/lib/xarray.c
+@@ -1410,9 +1410,11 @@ void *xas_find(struct xa_state *xas, uns
+ 		entry = xas_load(xas);
+ 		if (entry || xas_not_node(xas->xa_node))
+ 			return entry;
+-	} else if (!xas->xa_node->shift &&
+-		    xas->xa_offset != (xas->xa_index & XA_CHUNK_MASK)) {
+-		xas->xa_offset = ((xas->xa_index - 1) & XA_CHUNK_MASK) + 1;
++	} else if (xas->xa_offset != get_offset(xas->xa_index, xas->xa_node)) {
++		if (!xas->xa_node->shift)
++			xas->xa_offset = ((xas->xa_index - 1) & XA_CHUNK_MASK) + 1;
++		else
++			xas->xa_offset = get_offset(xas->xa_index, xas->xa_node);
+ 	}
+ 
+ 	xas_next_offset(xas);
+_
+
