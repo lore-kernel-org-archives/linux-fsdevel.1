@@ -1,47 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793995765;
-	b=L9lApsakdUsF3VHRzWMnKrAS3zq83RBSiPBC3XymH9NQf1eqwxBIGN7NM0JdlfOA2wRa
-	 hqV/Cjrl/Uh2lXNksT6BIc0Uh1PAW5sppKTNnjbHFnekrdkGjF9AlSX9eOgAdC/US+w+i
-	 wKmD6CBmR6SdQ+HLPKyJ86jPj5F6nWWvQxN5c5/mnUtpeIdO264RZJG0hOB4qTqmP6UZ1
-	 LmmQY4JCgM9WK3zP2n8WE2mZmrkTYkTA8aB+SfqIDoE7vQDvms2lXjH56zQhnWkuXsYry
-	 hf7VACSiABYX310vMDTs0hlzFxHx+n/tmT0Y5o0OKqBh5PaPjSX6+TxdfGNYTVELfEA==
+	t=1793995833;
+	b=F9XuvuLGbNOBZLfTCj0QdBXf3gHOH9jI8LvD/3SJ75u+/NUZIJFtKTM9xXTOzAKZD3vO
+	 CzMZymCfH4L3z/FzAeTx3KL/JIZYwVq8VrayCOSJjDkAu9Iz6D4zPk+pfWoBAsu0lTPrO
+	 gR0giYONz7cKEBeoDpBGLrsADBMxFziH5xk4WvTGSclCWKHgNDH7i9qP5gXj2l+eH4ON+
+	 9ANSNo3/7QaHlcEgDrnn5+l3QVl+st63a6eka/Ji3XB1g8P6iEuMNknsMilc0OIN7Q9bC
+	 1jKthK9/BK/52OKIrcTVj16vwmUFe7Pu3SD26Lm8WxjEGPnW+dXNGG4h9jJO+WtqXJA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793995765;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=QYKpj50QcPFYT5hlR28ZO7Qz7JK2NgENQ8jSUlp2pWU=;
-	b=0/8whyqYFl82TwtRjbGLj8DbOlzcIB1a8NZyj1i+MOvNfa0RefDYQCjM/Cx3wlaY/qLf
-	 mgWc94m23nSP1quN2K9m3uQhg7o3ubFQkiz+wKkw7gg5FTfb/Rb52I6XGyTjTMkkGOvqH
-	 /dut6VjPu6NbV3+KXY71IQwe2m4zqH8RMOeu4OIPjoecoobILfNvfpXWcxsFEdD2ce3RI
-	 AkBp7AWrD9b0YkfxNDNQXYnQFTecKsOcR3HWpMns/oZ+56kWf86HxcJmnxhKi/qBArrw3
-	 hp5bMVjuuqxk57mhN/yTOCj6eloDnVaPBpSXcYKrbFsnO4o31RVD2p3pL8LXmMHbPfQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793995833;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Received:X-Forwarded-Encrypted:X-Received:MIME-Version:References:
+	 In-Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=1PuD9l1hH8OOyees3FtjiIDpzh8LbMQefMah40HN15c=;
+	b=rZsU5MaEcHJVhHBFsICDvKuyhLm+ALRKfaOPEklTY7TbyJs/2/mC/clC+1ly4h+qizvF
+	 fM/1eKECCaNeoF8jAb8WyvetaRWqEkusqW5QPJomcPQfGCMgPLAVCHT73OT5uE3qehKeZ
+	 nRfrTX5Fz5HyJp+1njyVI9rekhAhsgxioPEIv7WiLKFmpFxQG6s9MfsOPkEHch9ytyTAz
+	 +5mfCyRIeyPXedLTtt5RueGAGLj3+3Ipdv0vBFUce0y1fQ0QsN3x4kZ5vmaEANUVosWV3
+	 1lg5LU0L+BGmmjTwmPXGfeU89i7sd361IbNco+54N8rzQq/TXNtg5mygSVHq3XNP5JQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YrVHuq3J;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=none header.from=linux-foundation.org;
+	spf=pass smtp.mailfrom=linuxfoundation.org;
+	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=MhiSgMfh;
+	arc=none smtp.remote-ip=209.85.208.43
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3496606A326;
-	Fri,  6 Nov 2026 20:09:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 469CE606A329
+	for <linux-fsdevel@vger.kernel.org>; Fri,  6 Nov 2026 20:10:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 469CE606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YrVHuq3J
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EA0E1F0089F;
-	Fri,  6 Nov 2026 20:09:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793995764;
-	bh=QYKpj50QcPFYT5hlR28ZO7Qz7JK2NgENQ8jSUlp2pWU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=YrVHuq3JuRIEd7tjBfUeT/Qk0DuNfXl4YVMThJcT80ptmZzANGzEFsALP5sxZlfys
-	 ZABuxRNId9i2ezwIzNGhupGpPTeG/+Ua0IrtHAZyldbRgEphdzF0p3FPQ7z2zoF1kn
-	 nnpyFnX40vBIUYmViW8+50dWaKQ2zK/tAClXS4kmgJtUsTS0KOxjpN86eOoHQVGSep
-	 mHAXwv6xOdHMx1KYuOPXddB6d1cGWA8dfX7t2r/bAOguAP/l+m6+jUWmmCYirJz51i
-	 p+FWCDRFD6IkmQ3s3PTHPzmFC44LSnKdiFht+QMqWssMW7YWrzR8NFKdbo6HzPrjQq
-	 e3DYi6gFzU+wg==
-Message-ID: <23f947e2-ff06-426d-adb7-396871304736@kernel.org>
-Date: Fri, 6 Nov 2026 21:09:10 +0100
+	dkim=pass (1024-bit key, unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=MhiSgMfh
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-6b577addee9so1251628a12.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 06 Nov 2026 12:10:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google; t=1793995830; x=1794600630; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=1PuD9l1hH8OOyees3FtjiIDpzh8LbMQefMah40HN15c=;
+        b=MhiSgMfhijLptj6lPoTvX15KIY6L7UlXEWtu97bHRZz2RLdkrQhDAYF3a8hG5uTkNx
+         oHVwliW9gsROgYSfdBjhX+Nh6TF/9br2CYUuDgU72TOoDW4LsCGk5SWbytkkwtJGF50H
+         1Z3npzHxuc2viHhG2m8aYLruxeghjRkW0mYMY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793995830; x=1794600630;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=1PuD9l1hH8OOyees3FtjiIDpzh8LbMQefMah40HN15c=;
+        b=PFA/nJnCTYsIreRF7flPLrhSZ7f+63T/j4u8HHubxKE7bYTxpOKusYDXejPN0Y4PMO
+         nvkzZbtj/G1rpC76ADlRWb4JxAn6nhcsHfKLOLtM8BZ/Gb3zkzCoaHfRAcHvrwx98x4H
+         49zqyjQ9DqDOT6HUzKJep0417k71Sni64CHkrdTpkd/nL5QXCACSUGpHrnmyAM0TUZnZ
+         pz0/ctEBlMScmpG6YP10BoOjagiie4yEUGpt6XXq1Ij2Ft4aEILYXZIpHIC21pBuDxp7
+         CtW8r0WCbpcDgiVdiva9ErkLwnB1X2PcwcRs0FusecGgu3bGp4k0mHev9ij00qShl5xJ
+         IdjA==
+X-Forwarded-Encrypted: i=1; AL+hErEl2PocdFDudQzY7UfCiPBx7mfNU9hH43v6opJ7JxdJGnndBNe0SGrpCc58hBCdkKVX868SEGxxW+LLoZ3b@vger.kernel.org
+X-Gm-Message-State: APuU4Z8egaJlzMCS5Mv0xlqY6JqTn0SYl7m5fD6BXL+PzX/ZhmPzq6OT
+	/5c/RNAmTP05/Jaq18ouSYzRMzx/2OixNzsBLDWxuB1onPIRqhXasehdkmyO3vhGCY7IrP9gFGb
+	enqZfAsyaZg==
+X-Gm-Gg: AYBFou1iAiqyYdUSzixGYpeAA2GYvxX9KzbDGfkwH7klpYb/luxZZit74XcG4KZbLC0
+	Eat/URxP6s+rYpmLlHc6WL8FwB/GEu2YgvbeUt3rERhy9D/kTrLlqidtOhvviPwuh/J4haiHryN
+	Bz3FYX93hEztnxQZwRH6BaKvzMHkzMlZHaOkgg61r21fwbUSE1hMfCOxFpxfN7y5u4H6O843O5j
+	tOkmMM2ih/n9Z8ngf02REHVMb8xU4sawRRhGHNStPS5E362q02vaQh3GKknlSw5nbVEiOuBpyx+
+	4n4dOabygQFYMOdbklo39HAeBaOgCCMg+u/m1KS9cfJNspG9Y8YWjycgs2Y/v8o9//RQw+PWaxf
+	8JUCus3QKq4Jfyp4kAYAPVQ/hk2pT3jL7TjUd27u6aHguZ7AtscBuOrrNXplqTa6PwMOMZw7AdT
+	C0XzSNiKW1PpMkW7WLY4gpNazLAd5VEDpL5y6dBTpnvTQf5rB0tPky4/qQXsgEpNUIjLJ9sDlpF
+	RZn1xEgwZFWeD5TPuSr67+f5Wg6vU8bSVEr2e9pR0oHmVl+S4F37NulPIwXiJFuGVJoZBHN2wvO
+	k/YYJENFYSO2EtG28o05h5oIIDihmwpVNZU56U6904jpNV20LNoIUysFSvQYsyAvXvxzGWhCH7e
+	/CP0jo8YLW2I9mXVjKFi4N2Y=
+X-Received: by 2002:a05:6402:3897:b0:6ac:934e:a9ca with SMTP id 4fb4d7f45d1cf-6b59747e728mr2679634a12.0.1793995830587;
+        Fri, 06 Nov 2026 12:10:30 -0800 (PST)
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com. [209.85.218.46])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b664ad17aasm1002077a12.9.2026.11.06.12.10.29
+        for <linux-fsdevel@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 06 Nov 2026 12:10:30 -0800 (PST)
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-c4d2b741ed9so157433666b.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 06 Nov 2026 12:10:29 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AKwUvBzacgP97JAxXnNU1WpuGdECxGaMQctpPDDeLt3KZNByar1TERQuuKx7VTFVBVEYXS9zaOF0wYAayqh9ayyE@vger.kernel.org
+X-Received: by 2002:a17:907:97d1:b0:c2d:ca32:2176 with SMTP id
+ a640c23a62f3a-c4d3522bf11mr295774766b.8.1793995829552; Fri, 06 Nov 2026
+ 12:10:29 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -51,135 +94,47 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/5] mm: limit pagecache folio refcount when splicing into
- pipes
-To: Josef Bacik <josef@toxicpanda.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Kiryl Shutsemau <kas@kernel.org>, Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>,
- Gregory Price <gourry@gourry.net>, Ying Huang
- <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
- Peter Xu <peterx@redhat.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Song Liu <songliubraving@fb.com>, Rik van Riel <riel@surriel.com>,
- Hugh Dickins <hughd@google.com>, Will Deacon <will@kernel.org>,
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin
- <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>,
- "Joerg Roedel (AMD)" <joro@8bytes.org>, Robin Murphy <robin.murphy@arm.com>,
- Steve Sistare <steven.sistare@oracle.com>, John Hubbard
- <jhubbard@nvidia.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- iommu@lists.linux.dev, stable@vger.kernel.org
-References: <20261105-refcount_overflow_stable-v1-0-70b9c655da3e@kernel.org>
- <20261105-refcount_overflow_stable-v1-2-70b9c655da3e@kernel.org>
- <n3l2cnx6d25jovloqyoxiz566mh62janclmiewjvumtmqfezo7@zmsmco5vvssn>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <n3l2cnx6d25jovloqyoxiz566mh62janclmiewjvumtmqfezo7@zmsmco5vvssn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20261104-work-procfs-fs-v2-0-319e0f9a8aae@kernel.org>
+ <CAHk-=wj9Y9NcOesBBm+jhPjYa7qO00fD7g7uwX+H-k0-R2difA@mail.gmail.com>
+ <20261104-allein-bepacken-hitzig-5e517d3c129f@brauner> <20261105-genehm-dachrinnen-infusion-9cdf4868d32e@brauner>
+In-Reply-To: <20261105-genehm-dachrinnen-infusion-9cdf4868d32e@brauner>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Fri, 6 Nov 2026 12:10:13 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wgLpWDjmcNWphCMkKXKwuZsa8KWRPvJ4j=C_ktCL4gBzg@mail.gmail.com>
+X-Gm-Features: AclHuK8u2vjwLORBZ85ALxektHeJKK64DjU4CTV-vhgdh1gurlxjwUzbjkbzF94
+Message-ID: <CAHk-=wgLpWDjmcNWphCMkKXKwuZsa8KWRPvJ4j=C_ktCL4gBzg@mail.gmail.com>
+Subject: Re: [PATCH RESEND v2 00/30] proc: convert the fs, kernel and mm
+ entries (Part 5/7)
+To: Christian Brauner <brauner@kernel.org>
+Cc: Al Viro <viro@zeniv.linux.org.uk>, Jann Horn <jannh@google.com>, 
+	Christoph Hellwig <hch@lst.de>, Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, 
+	Josef Bacik <josef@toxicpanda.com>, Chris Mason <mason@kernel.org>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 11/6/26 18:58, Josef Bacik wrote:
-> On Thu, Nov 05, 2026 at 02:10:11PM +0100, David Hildenbrand (Arm) wrote:
->> Similar to mapping pagecache folios into page tables, let's reject splicing
->> folios into a pipe if the refcount is at it's limit, similar to how we
->> handle it during GUP.
->>
->> This will prevent more cases of possible folio refcount overflows with
->> large pagecache folios.
->>
->> Let's keep it simple and check in the two callers of
->> splice_folio_into_pipe().
->>
->> Also check in try_get_page() to cover pipe-buffer duplication by tee()
->> and partial pipe-to-pipe splicing.
->>
->> Fixes: 800d8c63b2e9 ("shmem: add huge pages support")
->> Fixes: 99cb0dbd47a1 ("mm,thp: add read-only THP support for (non-shmem) FS")
->> Fixes: 793917d997df ("mm/readahead: Add large folio readahead")
->> Cc: stable@vger.kernel.org
->> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
->> ---
->>  include/linux/mm.h | 9 ++++++---
->>  mm/filemap.c       | 4 ++++
->>  mm/shmem.c         | 4 ++++
->>  3 files changed, 14 insertions(+), 3 deletions(-)
->>
->> diff --git a/include/linux/mm.h b/include/linux/mm.h
->> index 79ae8fc0d6bb4..a82cfbce18215 100644
->> --- a/include/linux/mm.h
->> +++ b/include/linux/mm.h
->> @@ -2287,10 +2287,13 @@ static inline void get_page(struct page *page)
->>  
->>  static inline __must_check bool try_get_page(struct page *page)
->>  {
->> -	page = compound_head(page);
->> -	if (WARN_ON_ONCE(page_ref_count(page) <= 0))
->> +	struct folio *folio = page_folio(page);
->> +
->> +	if (WARN_ON_ONCE(folio_ref_count(folio) <= 0))
-> 
-> Since you're here anyway can you change this to something other than
-> WARN_ON_ONCE, since that results in an OOPS with panic_on_warn set?
-> Thanks,
+On Wed, 4 Nov 2026 at 15:35, Christian Brauner <brauner@kernel.org> wrote:
+>
+> A git tree with all of the patches can be found at:
+>
+>     https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git/log/?h=work.procfs.cleanup
 
-If it actually turns negative (or 0) with out changes, we had an overflow and
-for sure want to know about it :)
+Next comment:  3c7a6276d211 ("scsi: core: NUL-terminate what is
+written to the host proc files") is nasty.
 
--- 
-Cheers,
+It does compares 'count' to PROC_BLOCK_SIZE, and then after that it
+just allocates PAGE_SIZE and does
 
-David
+    page[count] = '\0';
+
+and it all *works*, but it depends on that PROC_BLOCK_SIZE being a
+random value smaller than PAGE_SIZE:
+
+    #define PROC_BLOCK_SIZE (3*1024)
+
+and yes, the minimum page size we support across architectures is 4k.
+
+So this is a "it works, but it's still wrong" kind of thing. If making
+changes in this area, please just fix these kinds of issues. Use the
+*same* constant for size comparisons rather than two different ones.
+
+             Linus
