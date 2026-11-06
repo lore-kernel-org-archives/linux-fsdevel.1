@@ -1,99 +1,106 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.1
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793978122;
-	b=CBvK2kq7k5WlatSB9Sh3HO4JYUgt385VaHsebeuZIjxEzEl4MrpE7NYYFBtELk6w/4F6
-	 gu5NJjofnu6O+xDuIugck+XkIYt0/biJWumST5KTAy7RxkKdTo9ztbvdAt/0aAxkACM7n
-	 N+PoeLh63IOvcSnYFxnT7yru8K28aV+8GcNChJbNp/BjHvP9U2AtHUwGJxdpM5e2VDZSW
-	 hUt1u9QsxDM8Ci3IDXOduZWVIdxJafkeHLhYDIQJrXbVjNG6KLqjjH2BuB96gFIBnO9Yb
-	 dWq+TR3DuQ/E11yCaAKkxgUCKAFcWGihxnrA8pA3X+0JR5mRqXeWtm3/dFO+KsndrPA==
+	t=1793978143;
+	b=HgLme0n9w2i3pyD6ArSTmeNVQeGh95yAeJN60gFUc+CnQvvvEJhvWy0ucBLK4fFXMI78
+	 vP1LG9FQDHGOqmyh41a3IVvMU7WJyDqyzNyMORdqZrzDoyu1KWp39aunQiNjE+V5tH7zg
+	 ENHImrwEx91ifafMjjAB4JXv4aj95+yQ5nB0VY24r3ZhqvMEX80/KwF8/O2K3TQYB0ea9
+	 dYEyCHP6xNfKBGtQyBLHRQIcnNeUbrJTTeN65G/Mpu7yVzPob6wwGpdAjpl0/Skrz1Lv6
+	 tOYupIdUFoGyXsUh8vYHuxPqZsne2IzjB7FQosY4W7eWnRLC4Pta79OK+gEGGWBir3A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793978122;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:MIME-Version:Content-Type:Content-Disposition:
-	 X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
-	bh=RKBOr2Uvgk0TVgwtfSMFrp+4uISUamTqoJZmjbQ31gM=;
-	b=oC46V/waXUFhJhD45mWgHpaola9b4G8WV4ljh+N7c5HoDNbzU0ZfazqqdLQNeAbnKBJ0
-	 vqIwXQMEuO6+XvKFleRWN8hQcPesYc0AaKT3zGuUmhq5xo3LnUKIpQqmV+Y9A3cCFKVkR
-	 BOwMZGv0Atsn9dyWcLiZkoMaBAx8IjT8RYdyITofvwPcAgyhNXwQ3XMaGorUjjFrZ7jqz
-	 MnhYFPQ8sXgE66np5C5Vfh7KWunHzk6PneIGHQvV57gtZXDPNGyfY6LuR5S2ry9cbNlIm
-	 9Vcy9p4cUXvd5dQ6/F/BSnAMClt/FNMP8p2JR65oFrY8K8LUb3EfrWMrDreSXwG2ZPw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793978143;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=BQ98lptuezRaClL/2frvW7Abmv8umTPGLgyOyGvfOsk=;
+	b=X5Kv4UNsqnIKrAbhXBnCNNOO5qSylzckjfJWZ+csV+V2HqaW4SjQYgRKM5RBs/CVbivw
+	 BNBGpmXKVaRxo0BOTSqQTneaCGntUx6nxZUOa2ayLk4Qr4xrFbNeCOg1XL25Ff8wuVKX7
+	 6VQl5p8T/UfE+OwwhVBWosCJHKwKOGHcqkKtbfiSSAkrTsvgw0PJuaRQQY00B6HzTnf/n
+	 wThKSCuWm0P6Za3xXh7qNKgB6EgW+fsrU/U4nuFgvqQktzqxlD/DX1B+xzzOT0JCKB3V8
+	 Bv9RU3SzjTb3mMbQqatvc5le9qkQo3r2IsYoFUJio9bcpox55v89HBMbrZH9rZdkBAg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=mtpgGF2k;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Jjhmh4NP;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=mtpgGF2k;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Jjhmh4NP;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=BS+wWOBp;
+	arc=none smtp.remote-ip=95.215.58.1
+Received: from mta1.migadu.com (out-1.mta1.migadu.com [95.215.58.1])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97281606A329
-	for <linux-fsdevel@vger.kernel.org>; Fri,  6 Nov 2026 15:15:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 97281606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36512606A333
+	for <linux-fsdevel@vger.kernel.org>; Fri,  6 Nov 2026 15:15:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 36512606A333
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=mtpgGF2k;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Jjhmh4NP;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=mtpgGF2k;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Jjhmh4NP
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B8FBE21B12;
-	Fri,  6 Nov 2026 15:15:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793978119; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=RKBOr2Uvgk0TVgwtfSMFrp+4uISUamTqoJZmjbQ31gM=;
-	b=mtpgGF2kcKOxazNVqp6n/9fxEDtHGUlby8xPTlkFowLZFSaWkIR92Em1MEUk8NudqhpgK/
-	NYyEf/GZ5gJLSGNOlV7sTpI3TGPh82fOKx7Y6PdLWw4sHk/LpFk67LAFippVwOu09bmJ6d
-	iK3Fh5MKlSUIxFkDvoyQQnGPkVoYN+I=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793978119;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=RKBOr2Uvgk0TVgwtfSMFrp+4uISUamTqoJZmjbQ31gM=;
-	b=Jjhmh4NPujEVHwhOYRHK1aYNHDAcPVVCmf9yM36oAR4ZsDZ4GrQrJPq69aiGpRxe45kDe/
-	feqGit1czeLhh7Aw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793978119; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=RKBOr2Uvgk0TVgwtfSMFrp+4uISUamTqoJZmjbQ31gM=;
-	b=mtpgGF2kcKOxazNVqp6n/9fxEDtHGUlby8xPTlkFowLZFSaWkIR92Em1MEUk8NudqhpgK/
-	NYyEf/GZ5gJLSGNOlV7sTpI3TGPh82fOKx7Y6PdLWw4sHk/LpFk67LAFippVwOu09bmJ6d
-	iK3Fh5MKlSUIxFkDvoyQQnGPkVoYN+I=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793978119;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=RKBOr2Uvgk0TVgwtfSMFrp+4uISUamTqoJZmjbQ31gM=;
-	b=Jjhmh4NPujEVHwhOYRHK1aYNHDAcPVVCmf9yM36oAR4ZsDZ4GrQrJPq69aiGpRxe45kDe/
-	feqGit1czeLhh7Aw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8EB84134E9;
-	Fri,  6 Nov 2026 15:15:19 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id SJ8UGgfv7Wq2JAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Fri, 06 Nov 2026 15:15:19 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id 1814321BAC; Fri, 06 Nov 2026 16:15:19 +0100 (CET)
-Date: Fri, 6 Nov 2026 16:15:19 +0100
-From: Jan Kara <jack@suse.cz>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: linux-fsdevel@vger.kernel.org
-Subject: [GIT PULL] udf, ext2, isofs and quota fixes for 7.4-rc2
-Message-ID: <mlorvbdtnqywaghslq472ylg7yckewhbu4fk5mhaq6gwyp43to@ppnfgyl6xezl>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=BS+wWOBp
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=BQ98lptuezRaClL/2frvW7Abmv8umTPGLgyOyGvfOsk=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1793978139; v=1; x=1794582939;
+ b=BS+wWOBpkanXuDOzgufMBLVEhna7aL+1g1sop8joueXjNrvUxsu52rtxyL4e5+hOz9zL8jlw
+ Rh9ddG2x6Kkkn/xyndIPS43SbZU39nj7wSqa7RQPOvmrrvbiMp0l4BaQy2ZZCzgMAJU5DmfDGTC
+ wzRss1N8g3/8HPDXGEJwL1DY=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 8657a346237bb2f3;
+	Fri, 06 Nov 2026 15:15:39 +0000
+X-Mizu-Trace-ID: 8657a346237bb2f3
+X-Migadu-Flow: FLOW_OUT
+From: Lance Yang <lance.yang@linux.dev>
+To: david@kernel.org
+Cc: akpm@linux-foundation.org,
+	ljs@kernel.org,
+	liam@infradead.org,
+	vbabka@kernel.org,
+	rppt@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	willy@infradead.org,
+	jack@suse.cz,
+	ziy@nvidia.com,
+	baolin.wang@linux.alibaba.com,
+	nico.pache@linux.dev,
+	ryan.roberts@arm.com,
+	dev.jain@arm.com,
+	baohua@kernel.org,
+	lance.yang@linux.dev,
+	usama.arif@linux.dev,
+	kas@kernel.org,
+	matthew.brost@intel.com,
+	joshua.hahnjy@gmail.com,
+	byungchul@sk.com,
+	gourry@gourry.net,
+	ying.huang@linux.alibaba.com,
+	apopple@nvidia.com,
+	peterx@redhat.com,
+	hannes@cmpxchg.org,
+	songliubraving@fb.com,
+	riel@surriel.com,
+	hughd@google.com,
+	will@kernel.org,
+	aneesh.kumar@kernel.org,
+	npiggin@gmail.com,
+	peterz@infradead.org,
+	jgg@ziepe.ca,
+	kevin.tian@intel.com,
+	joro@8bytes.org,
+	robin.murphy@arm.com,
+	steven.sistare@oracle.com,
+	jhubbard@nvidia.com,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-arch@vger.kernel.org,
+	iommu@lists.linux.dev,
+	mason@kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH 3/5] mm/mmu_gather: flush pending references early before the folio limit
+Date: Fri,  6 Nov 2026 23:15:33 +0800
+Message-ID: <20261106151533.89428-1-lance.yang@linux.dev>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20261105-refcount_overflow_stable-v1-3-70b9c655da3e@kernel.org>
+References: <20261105-refcount_overflow_stable-v1-3-70b9c655da3e@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -103,101 +110,26 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spamd-Result: default: False [-12.80 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_TWO(0.00)[2];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -12.80
-X-Spam-Level: 
-X-Spam-Flag: NO
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-  Hello Linus,
 
-  could you please pull from
+On Thu, Nov 05, 2026 at 02:10:12PM +0100, David Hildenbrand (Arm) wrote:
+>When a task zaps mappings (e.g., MADV_DONTNEED), it can drop the PT lock
+>and defer dropping the folio references. In the meantime, page faults
+>can refault pagecache folios, creating more references for the same
+>folios.
+>
+>Let's just request a flush after enqueueing a pagecache folio whose
+>refcount reached a certain threshold. Start flushing well before new
+>references are refused, regardless of the caller's privileges.
+>
+>This is a temporary measure until we have something better.
+>
+>Reported-by: Chris Mason <mason@kernel.org>
+>Fixes: 10ebac4f95e7 ("mm/memory: optimize unmap/zap with PTE-mapped THP")
+>Cc: stable@vger.kernel.org
+>Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+>---
 
-git://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git fs_for_v7.4-rc2
-
-to get several assorted fixes:
-  * Some disk format validation improvements for udf
-  * Fix isofs handling of dates before 1900
-  * Fix ext2 inadvertedly syncing buffer on every directory modification
-  * Fix ext2 O_DSYNC handling for direct IO
-  * Couple smaller ext2 fixes
-  * Fix tmpfs quotas for root filesystem
-  * Unify my email addresses in MAINTAINERS file
-
-Top of the tree is e5801273f93e. The full shortlog is:
-
-Hui Peng (1):
-      udf: validate vat20->lengthHeader and VAT inode size in udf_load_vat()
-
-Hungyu Lin (3):
-      ext2: preserve completed DIO bytes when buffered fallback fails
-      isofs: handle Rock Ridge long-form dates before 1900
-      ext2: preserve IOMAP_F_DIRTY for extending direct writes
-
-Jan Kara (4):
-      udf: Validate extended attribute space is large enough
-      udf, ext2, quota, jbd2: Unify email addresses in MAINTAINERS
-      udf: Simplify udf_table_prealloc_blocks()
-      udf: Fix incorrect error code in udf_current_aext()
-
-Josef Bacik (1):
-      ext2: only flush DIRSYNC directories on every change
-
-Matthias Goergens (4):
-      udf: don't let the extent type hide an exhausted free-space table extent
-      udf: check the unallocated space table when it is loaded
-      udf: fix preallocation discarding before an empty allocation extent
-      udf: don't use eloc after the end of the unallocated space table
-
-Nathan Chancellor (1):
-      ext2: Make sbi an proper alias for EXT2_SB(sb) in ext2_fill_super()
-
-Pedro Falcato (1):
-      ext2: take invalidate_lock in ext2_write_failed()
-
-YouYou Yu (1):
-      quota: initialize dquot cache before mounting rootfs
-
-The diffstat is
-
- MAINTAINERS              |  8 ++---
- fs/dcache.c              |  2 ++
- fs/ext2/dir.c            |  3 ++
- fs/ext2/file.c           |  3 +-
- fs/ext2/inode.c          | 17 +++++----
- fs/ext2/super.c          |  9 ++---
- fs/isofs/util.c          |  8 ++---
- fs/quota/dquot.c         | 10 +++---
- fs/udf/balloc.c          | 37 +++++++++----------
- fs/udf/inode.c           |  9 +++--
- fs/udf/super.c           | 94 ++++++++++++++++++++++++++++++++++++++++++++++--
- fs/udf/truncate.c        |  7 ++--
- include/linux/quotaops.h |  5 +++
- 13 files changed, 157 insertions(+), 55 deletions(-)
-
-							Thanks
-								Honza
-
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Reviewed-by: Lance Yang <lance.yang@linux.dev>
