@@ -1,110 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793980220;
-	b=eBHggFyp6KT18GWfQ3D3frV4R6RS70r2Rp5YLNzqNrS7jwS48kCv68PuBIYrAcwPSfLU
-	 /2EEgDFg9cFfbLDP+XwKkCu+qKOTSrDwSwKvrQ6Dw72mHhnOAiUiNfWy0MBe2fgRxPvmA
-	 PhWQg1gE4sRHkjMJApr6RL2NRJa/gKpRsjGAH/A2yhbs9xJc5nlV0f5XYRmin4Dz/j8xB
-	 lfiwYqh1gBzKjpLAI90TQHQURkBSVvNDoGzIzgsWuf5+ba5TujHjT3dav772HN6+GRbig
-	 MAr9HXt+rik9aY2VTZT2pbgsc1tfbXxzXUOFN3o+gtgetqwfQ115UnPGe+Bke9DKMHw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793980220;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
-	bh=zTp9Cr20AR6CKCk5U+cw0acbXY2MwUTtO0/pfsY8yQ4=;
-	b=rcregFGIzAmBubvjALeODQLKV3n1IbMRHFN0oDEMtZa4FLmO96FFbhBBCS4SoC79Ui+8
-	 8rqgyI3/5lazYITRGLidZWP1ZZD1rkjyI3YkheAnOIBsqU4Q+msRm5hZ1eht5qaxfbGP6
-	 1ebWybyulo5Jg41UKAsugU3MtvcCk1ovAaJwUfPAdQZwNQRmsKcynkHrLcv4zfAKXV/v9
-	 mNw4YYBe/WFWSZzHPqfCXdr7jVvG3TMN+7edZS2VG34z4OMJnLsBv6BSf/X9YwChV1yre
-	 jLZ37rT0aUUb/00p8IRYzn1cYpNM6DG58nCkdYWvo6TGvZOTjye6UE/8wDnWjbv3nfQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=vgCCwJGK;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=BWqGICap;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=vgCCwJGK;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=BWqGICap;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.54
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793980357;
+	b=kHihEnlWr//r/LDZyiyvMFezecuMoPZyAYvK/KBbpHEsO1hcsRcn+b4yESjnsF2QAx3G
+	 5CsRXVJD6JvdOip8vzTCbzkAM7AOs1JCeffbPSV9zN5RzY8s6hS69FDU7OOFeW0GtP8dX
+	 Bztej1VPHYfN9oDGT01TTqk/l6tu/FTtMlWBjqCy8Q7Izgt7azH1DTCIajzpCLACHUVxS
+	 wLlj/HeN3wT5Dz9gnfLsk3+n79L4ZZi7eRaeXT99jUo+H42Z1Arh1nv8v/Uq8hOM6QfCX
+	 F4qrA9uICfGpRGrxlcqx8H4OY1gYjsrJOvGNKMgOz/NjsLe79fCyXr7EcoA5t/4z9TA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793980357;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:From:Date:X-Gm-Features:Message-ID:Subject:To:
+	 Content-Type;
+	bh=imxiLTdOX5HC1rp3c25qmGQ65Qq/V6SkfQFDiRpdc+U=;
+	b=aG+9qSFSDtxAmybno66zmpFPOkenzuQsrubGz33t/fo6G0P91v34wLDlStoKRrKFjCK1
+	 aNDLImSiovmLKK8rI8Ox0xp30jWJzwKK6fiZ4Hmt8GKF47OFye2AW7MyMFRb5+8mlIKh1
+	 ewhZMeUbQAXERibPAeJONUr5PkU8FH9tqRRNjLwnWpO1HfgJoA8t3pSdPuvujNEDUsd16
+	 mMS/yW1KtnsIOy3ZDeYPS0THz5AIJynTOBiZhwQ48+chOKk9nAu3vrxA78lqmR2lsoPyc
+	 AF7n5JoVcUUJeGv3wCrxXEeh46kjrlGMgBT5KwoLuDDclMI1VLcen2OFvjb9wNz4+/g==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=WyTdu2WC;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.54
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AFE3606A326;
-	Fri,  6 Nov 2026 15:50:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5AFE3606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A11A7606A326
+	for <linux-fsdevel@vger.kernel.org>; Fri,  6 Nov 2026 15:52:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A11A7606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=vgCCwJGK;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=BWqGICap;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=vgCCwJGK;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=BWqGICap
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 916871F78F;
-	Fri,  6 Nov 2026 15:50:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793980217; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zTp9Cr20AR6CKCk5U+cw0acbXY2MwUTtO0/pfsY8yQ4=;
-	b=vgCCwJGKbxqXUEjkqQTF5M5Urwy5sd/omWqyJOM9fFnpMtnNjRjiQAqv0EKvYiNrdI8EQl
-	eP83z4c1kvA3YW4rLcN0VZnxR2wB8jUoqASArHLcRjJGtCkutb+4gWqVL93pCWDWAtrJef
-	j8a+mIkttFPL7vSoF2V49++nrQrsDYk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793980217;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zTp9Cr20AR6CKCk5U+cw0acbXY2MwUTtO0/pfsY8yQ4=;
-	b=BWqGICapIqjyGC6Yj0OD3+tkyAskQ8ydsnJJhN7vhGL8pQoY7WMNgfKf6HMe1CuFEHVAV7
-	TVnbKdYkovWoQ5DA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793980217; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zTp9Cr20AR6CKCk5U+cw0acbXY2MwUTtO0/pfsY8yQ4=;
-	b=vgCCwJGKbxqXUEjkqQTF5M5Urwy5sd/omWqyJOM9fFnpMtnNjRjiQAqv0EKvYiNrdI8EQl
-	eP83z4c1kvA3YW4rLcN0VZnxR2wB8jUoqASArHLcRjJGtCkutb+4gWqVL93pCWDWAtrJef
-	j8a+mIkttFPL7vSoF2V49++nrQrsDYk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793980217;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zTp9Cr20AR6CKCk5U+cw0acbXY2MwUTtO0/pfsY8yQ4=;
-	b=BWqGICapIqjyGC6Yj0OD3+tkyAskQ8ydsnJJhN7vhGL8pQoY7WMNgfKf6HMe1CuFEHVAV7
-	TVnbKdYkovWoQ5DA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6487A134E9;
-	Fri,  6 Nov 2026 15:50:17 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id wVcUEDn37WoVSQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Fri, 06 Nov 2026 15:50:17 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id E635A21BC9; Fri, 06 Nov 2026 16:50:16 +0100 (CET)
-Date: Fri, 6 Nov 2026 16:50:16 +0100
-From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, Jan Kara <jack@suse.cz>, 
-	Josef Bacik <josef@toxicpanda.com>, Chris Mason <mason@kernel.org>, linux-ext4@vger.kernel.org, 
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, Andreas Dilger <adilger.kernel@dilger.ca>, 
-	Baokun Li <libaokun@linux.alibaba.com>, Ojaswin Mujoo <ojaswin@linux.ibm.com>, 
-	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>, Namjae Jeon <namjae.jeon@samsung.com>, stable@vger.kernel.org
-Subject: Re: [PATCH RFC v2 03/13] ext2: sync inode metadata in
- ext2_evict_inode()
-Message-ID: <z2xbwyggdrfkoqalunacpfqtb3q7yqgg3m2qk2gdbrkgoios2m@blar7uefy42g>
-References: <20261105-work-inode-metadata_writeback-v2-0-48628c60c336@kernel.org>
- <20261105-work-inode-metadata_writeback-v2-3-48628c60c336@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=WyTdu2WC
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c43373ae89aso122001766b.3
+        for <linux-fsdevel@vger.kernel.org>; Fri, 06 Nov 2026 07:52:36 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793980355; cv=none;
+        d=google.com; s=arc-20260327;
+        b=CykahvLrv4LoZQd8FhrWnA2ZH8Ouo+oUjLAAgnSex8EQFAceFUxr4e+4u9oWjOUXKh
+         2OTOkE5Dl+7xrF5fZzuaVDA5GbOPOGFrx2ACSAJ7yWlaeAhEd3JMf8J6u4FNeA4yKg3Q
+         wVBJqli19nyjgti4dXCe4uwCHST+PTns9gcM3RBNq9OUssUaPzlOn5BT20i7+VkSXdXH
+         N/wdB48RxnBGa89pPLOBUXueYj29BAsFxf8/9mvADXrrbcHVtTT/tPVXQ/VIQMqNIOs7
+         BxjialgqucFps6dyKt/lgy1g4Vh3eWUSGvImq5gYkbu0lp8qND4ToESzd3lc3bOpRywz
+         OLXA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=imxiLTdOX5HC1rp3c25qmGQ65Qq/V6SkfQFDiRpdc+U=;
+        fh=0jVS+qKvi5HvpvEhwRwkzufIC6QKXPBK938Acz4Rta4=;
+        b=nnHREK0abUrEs9z1bW+KwMEEVF4te/c49zDRB7dsvU0T+GxF0GWHzX8VRNcBmfqIWc
+         OzBK4eNxSaeVe4vhSD1fsdKAlCIrJduPHSXdB4KE626lY69Xoo0TwKqDTt8RWMwNfGrA
+         kPpSjsYspBd27kRbnulVGHQoZgQ+35l2slCgVpPL3LOosVO2suBdolaXJSzXnXv472Mi
+         8AI2OAXSO7a6kF8bPb2dFsRU/GDLY4TKFWsd8jayZNlnWLwl+JjaqwcyBuOTm4f8Rt4D
+         j7OY3N+DVfaWwJj76KZHdIoq5N78PSn3T0WkGpOFK+GDYV4/EcT+ZTIxLXnOXRx8rnZs
+         5E2A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793980355; x=1794585155; darn=vger.kernel.org;
+        h=content-type:to:subject:message-id:date:from:mime-version:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=imxiLTdOX5HC1rp3c25qmGQ65Qq/V6SkfQFDiRpdc+U=;
+        b=WyTdu2WC22mzje3irwikGleidsXg+3oVHnL1S9iAAs1XkonNIHenxnpJssyPyKP6Yw
+         W6RW2BIYr3jvM/MrXJz6P4yhpzDNqHn1/4vKE/uJWmB2hJVxyPwU13GetZqqdHl9mmV9
+         y9kroJk14ILiSDv0Y3AWgf3Ka9YeKhCNQKRDJv74TZlZiikO8baQGodnQOLHCs48+MUe
+         sIr94GGPxt6yDTWRLP3hPp2HgM4+2yGvs5t9du4+bKZBybp5pwe/ARqX65L/+yJ40YbU
+         t/UCYE7DoCgrsLIfVvpIQcqiSjGLfu8qXp7bzblvXGp7B1Xvua1/uAUHBpMVg8gMgGIi
+         5hWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793980355; x=1794585155;
+        h=content-type:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=imxiLTdOX5HC1rp3c25qmGQ65Qq/V6SkfQFDiRpdc+U=;
+        b=UooZ/g3ak759OFSV5aGcJqeYHxRxvmOJrghQyLKe9Bvu2MdXl5LPD12dyHzsBwaU5k
+         yTVBqpSDLfYwjR3MmC95ybjP6Ht4/FnxEBveaZY5Turo0GMuW9yW2MAxIuyExyGpiet9
+         wcxu54qE2sITkY1PixN+e4zLr0rPfYr0Fo2c8Inu6iHSYSubh/Dm5t+vdxn+QG9Q2Eva
+         94ogoy2UaehW7yVv4WWbeLgaoAZnHShLiQX3sHc08LkV3wDvfeVPAUmDtLUzuLLvvRwF
+         uKoQMy914H11zUvsb7WGFCiNGofvZLQXcjnqE/UCerN2gfxLtCtJKurSyRYyNYvrPLbx
+         lvZA==
+X-Forwarded-Encrypted: i=1; AKwUvBw3YQcYegg7bigPtyXsD2OKdmxwMOiZPp2rECu9fpf19+zXgN31BWG2vZEc/cbMyDgRRX/HgBtFwBsne2Cc@vger.kernel.org
+X-Gm-Message-State: APuU4Z+RUAisR1QtvFCeBLRiic71S4JSlwQxs2FTYH+RalhTl3pgbBsg
+	olLNiYtcD7H3BdZFfUcXqB8vWqzTOYxVWL9KEN8v33C/R8RlmCJpsNRG24hvreqAm6miG5XNTqP
+	4Gk6Ih6iFYaHyDOo+dzR/zGpiCy6GDjrj2Rew26Q=
+X-Gm-Gg: AYBFou1nM4OZN9RrdjjOkA5AQNuAa4Jsrl7+9rhCvM1Wz1dMPnxDxPF9o4aCi+P24vw
+	Bd/Bea6uCmL2u0Te+IQCxilX3hMEJsok7t4LSX+rJ3CB86J5qJetcS6BJVvvJFRdmftdMpn1ojS
+	2D0RVMJvwTwTbhMMcesrzBgcxQaql/2PqbRL3iOTnTtGkMql3Ahb5BZp/7OE+ps2oZiST3L4k7/
+	lAXKZevCBPh7TMihpPY9YMIkqV/sGzMmGeFMgX89qQ1JgdTAOE4kcTNzP6/mhLpbhg17/H76px0
+	B01CH0EbJ85m2UZs31+Dh3/jY3+FWheURMf+RrqQx55tv0NhxNpZlaJygxIeOYFZBt0ZrYU4jcZ
+	2u1eWCh43GTNaI5m4HoB8beuV1GyV4VXRPOrsN2bgK7SmQNX2DiTJYiIizZP52+n9VH3dQxiA1S
+	uiucTeUe0nM1PBbxGCh6sL8GIFD4bs
+X-Received: by 2002:a17:907:1c91:b0:c48:ddac:7eb1 with SMTP id
+ a640c23a62f3a-c4d34cdc549mr257468666b.45.1793980354757; Fri, 06 Nov 2026
+ 07:52:34 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -114,95 +102,67 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261105-work-inode-metadata_writeback-v2-3-48628c60c336@kernel.org>
-X-Spamd-Result: default: False [-11.30 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	TAGGED_RCPT(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,suse.cz,toxicpanda.com,kernel.org,mail.parknet.co.jp,dilger.ca,linux.alibaba.com,linux.ibm.com,gmail.com,samsung.com];
-	RCVD_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.cz:email]
-X-Spam-Score: -11.30
-X-Spam-Level: 
-X-Spam-Flag: NO
+From: Mateusz Guzik <mjguzik@gmail.com>
+Date: Fri, 6 Nov 2026 16:52:22 +0100
+X-Gm-Features: AclHuK8p0HBDrOmkB3xF0AiTXt-CjeYHVOqupnZd0JdVBSmHKu9mDQ6Xg5ihE28
+Message-ID: <CAGudoHGEfHXydqneyo94zEWfFZY32AWCOfQL01dYGCQKi0zJgg@mail.gmail.com>
+Subject: unstable performance during continuous memory reclamation
+To: linux-mm <linux-mm@kvack.org>, linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu 05-11-26 13:41:32, Christian Brauner wrote:
-> ext2_write_inode() copies the inode into its inode table block, marks
-> the block dirty and sets I_METADATA_WRITEBACK so that a later fsync()
-> writes the block out and waits for it. But the bit goes away with the
-> inode. If the inode is evicted and read back in, fsync() finds a clean
-> inode and returns while the block might still be dirty or under
-> writeback.
-> 
-> Right now that can't happen because inode_lru_isolate() never lets go
-> of an inode with I_METADATA_WRITEBACK set. That is about to change.
-> 
-> So call ext2_sync_inode_metadata() from ext2_evict_inode() for a linked
-> inode that still has the bit set. It syncs the metadata buffers as well
-> so it replaces the mmb_sync() there, and since the previous patch it
-> doesn't read anything from disk.
-> 
-> Suggested-by: Jan Kara <jack@suse.cz>
-> Cc: stable@vger.kernel.org # v7.3
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+I have a synthetic benchmark which stats millions of files in parallel
+(each worker stats inodes in its own tree), which I'm running in a
+loop. The total number of inodes is purposefully chosen to NOT fit in
+ram and require continuous memory reclamation to proceed.
 
-OK, only now I've realized that what you do here is indeed needed because
-otherwise fsync(2) would miss calling .sync_inode_metadata() at all after
-inode eviction so inode buffer won't be flushed. But seeing how things
-evolve, it would look more natural to call set_inode_metadata_writeback()
-from mmb_mark_buffer_dirty() and then the generic writeout mechanism in
-evict() you had in v1 actually makes sense so we can return to it (and drop
-mmb_sync() calls from the evict methods). Sorry for the confusion and going
-there and back!
+I would expect the total time needed to be roughly the same for each
+run. Instead I am seeing massive variance, from 18-ish seconds to over
+50 (see sample runs at the end of the e-mail).
 
-								Honza
+I don't have time to dig into this, I am posting this in case someone
+would be interested.
 
-> ---
->  fs/ext2/inode.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/fs/ext2/inode.c b/fs/ext2/inode.c
-> index 9261b666d043..4ed727c3d26d 100644
-> --- a/fs/ext2/inode.c
-> +++ b/fs/ext2/inode.c
-> @@ -91,6 +91,14 @@ void ext2_evict_inode(struct inode * inode)
->  		if (inode->i_blocks)
->  			ext2_truncate_blocks(inode, 0);
->  		ext2_xattr_delete_inode(inode);
-> +	} else if (inode_state_read_once(inode) & I_METADATA_WRITEBACK) {
-> +		/*
-> +		 * fsync() can't find what I_METADATA_WRITEBACK tracks once the
-> +		 * inode is gone. This syncs the metadata buffers as well.
-> +		 */
-> +		ext2_sync_inode_metadata(inode, &(struct writeback_control) {
-> +			.sync_mode = WB_SYNC_ALL,
-> +		});
->  	} else {
->  		mmb_sync(&EXT2_I(inode)->i_metadata_bhs);
->  	}
-> 
-> -- 
-> 2.53.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+You can grab the bench here:
+https://people.freebsd.org/~mjg/fstree.tgz
+
+My test jig has 24 cores and 24GB RAM running this against ext4, the
+kernel is 7.4-rc1. The problem is not new but I could not be arsed to
+write this up previously.
+
+The fs is prepped with mkfs.ext4 -N 24000000 and mounted on /testfs.
+
+$ sh createtrees /testfs 20 # creates 20 dirs with a million inodes each
+$ while true; do time sh walktrees /testfs 20; done # bench
+
+sh walktrees /testfs 20  3.32s user 255.90s system 1397% cpu 18.55s
+(18.549) total
+sh walktrees /testfs 20  3.65s user 376.84s system 883% cpu 43.08s
+(43.079) total
+sh walktrees /testfs 20  3.25s user 253.34s system 1314% cpu 19.53s
+(19.527) total
+sh walktrees /testfs 20  4.45s user 423.65s system 1079% cpu 39.66s
+(39.664) total
+sh walktrees /testfs 20  3.19s user 288.14s system 1590% cpu 18.32s
+(18.317) total
+sh walktrees /testfs 20  3.34s user 342.73s system 1124% cpu 30.78s
+(30.778) total
+sh walktrees /testfs 20  3.14s user 231.58s system 1374% cpu 17.08s
+(17.080) total
+sh walktrees /testfs 20  3.33s user 329.40s system 1108% cpu 30.02s
+(30.019) total
+sh walktrees /testfs 20  3.68s user 301.85s system 602% cpu 50.70s
+(50.701) total
+sh walktrees /testfs 20  3.61s user 259.41s system 1172% cpu 22.43s
+(22.427) total
+sh walktrees /testfs 20  4.20s user 376.32s system 1093% cpu 34.80s
+(34.797) total
+sh walktrees /testfs 20  3.50s user 268.13s system 1238% cpu 21.93s
+(21.930) total
+sh walktrees /testfs 20  4.17s user 377.34s system 1065% cpu 35.81s
+(35.810) total
+sh walktrees /testfs 20  2.81s user 245.95s system 503% cpu 49.37s
+(49.373) total
+sh walktrees /testfs 20  3.75s user 367.58s system 920% cpu 40.34s
+(40.335) total
+sh walktrees /testfs 20  3.73s user 298.43s system 1191% cpu 25.36s
+(25.361) total
