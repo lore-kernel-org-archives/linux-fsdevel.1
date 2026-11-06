@@ -1,107 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.237
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793959621;
-	b=xLg3dXSOA4uznfPyLR7Cp4HboZrE6FxDaJfUm7wv6e9c1ko5TlliRKkq6wsbxn1MnFqq
-	 yZxk0u0LOFY0J4DbwlqF9ErYSeW3uFvmvqd+RAxz72zo6ssddDDrOgmRv/LxfOnnnkVxe
-	 CFc9IobQQC0nQ16i/9jQxKGIzTBZ8x0OtkA5kK6LP+12Vpsq9i9FudEfSO8OuLyMyb/+V
-	 m4Zp1HUV1aKmY3gJWrOcqZxSFFf2Prq5A0MGj3boK643aPjcV+/GiNuDBwk/WaOUBGvKp
-	 lu2kNWEUu5nOiKyOnAZnGfAoWcE09HLiahywoWMcww9a46BTIs0pOoBXMZAS9PVsDtw==
+	t=1793959982;
+	b=Z+MhnnWrt6JPuTP4JSsqIj1oHNViJpmCiEG3ua34SX2e2vVTzaTrlN4xnhsznOZ/Mp2w
+	 TFIxz3FAcIioRTbsCYh9CBQNZ6WPT9Ok+h8pWPHRoEi2UXpXmcmDO5PDm5PVMuJP8Njrh
+	 kWFEJ173bLe+0+vNJ5S+hwFA0pRMsYmhQyOIapPXNolRJe+wILJjX76D2ysY6i9PsNgp9
+	 //Rz1heaAVG6idkoChhug24fOGgI7+3o89TLQA8wkbrGr+mDWKRXlLcC+jmz+UErUsosF
+	 MU4ruTNuq1LgPE68OqBgM+ROofJUO4x1jr6QvBhizVegUy4rvKJvktpKKto8fBIOQfA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793959621;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=wS8HVyR4zbY3pfGi/Mj8Yz7yzAVziAm8n3+oqxcnzgc=;
-	b=Sf9YKiKt8uu4a2tBhgOq8e0LlVVUe+kANbL7+agtrhlANlZHJxIdwNq2CMPRdB8hdlwU
-	 RTnMA2AUGccAOBncGaofYkZnUFBzd/mjddZ9cMzIwJ3jSFm6BFx+yQO3FA/RLUeHaA387
-	 BMBFa3cEs5EQe1GzsHuna/qoe2Bs6MVRKBT5mNxW0vNw/gVBBsCZMLnXoCxZmxq+kh5Sl
-	 TLDJn4+Lhi6vPWxMosF1tTW12jGGQRL69B2sdr5413+zSJ38Y0Ao4u3gtQeBWEKY3oi0D
-	 Vf9qXXFC6wRvrvS8SjDFAOietqDi5VJHe7bKlkyAmoZWja0QalHvcxvkTqasa+gKprg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793959982;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=nnzK0BslWJHcXFemGgfYITU9fhviw2smy0wN/ApAn14=;
+	b=hZc5LuKlOx2w2Rj9dJJVWrPOd+rMzUP8RYWAtuGiHC4aOjQowbicne2HE+A55E+sOXzH
+	 ShEe1Q37OPzLq5XxuCXwfDHBqCzrZlNEbhHO8p2UYS/gwAccNrcyilJqxAuoU6UZQCrE5
+	 NnqikgR5l+ROns1KftFoonDvbjHqnJpq+onv5lkp0Sb3j4jmenHD8DFYxmW1ZVtMh8Ghz
+	 TU28JlcNj0Mt9pQ5Jzfdqcw162gxO+xghvhZa95EVpS82A+y9u0f7vpdlBGUc6LaQhmkl
+	 ySipzs+g88lP9YHGk6KbJb79+nhrWnA48URkmAmuWJHtClwdu/PQNG3kV4L3NOpulAw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=EziUgwa2;
-	arc=none smtp.remote-ip=95.215.58.237
-Received: from mta1.migadu.com (out-237.mta1.migadu.com [95.215.58.237])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="edM4/p9S";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 197E7606A331
-	for <linux-fsdevel@vger.kernel.org>; Fri,  6 Nov 2026 10:07:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 197E7606A331
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54AFD606A326;
+	Fri,  6 Nov 2026 10:13:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=EziUgwa2
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=RbNpr/gp/P3/FChdryWgHiDNE03PXpM0ZDpmAqvKnzE=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793959619; v=1; x=1794564419;
- b=EziUgwa2y6pX6lOUce9W+3Pcj4so/8hyEMAWywYesjK8x6xHOAX/A3zDdlSpe6i/qDPi0g8V
- QNh1T9foTRG6i+++DrYKw5bF27iENNmcG9PEKvCKss+gS3dYDWPFzg9K0E9L0zqjnAwhnYd68dG
- Lso2HTCdggWNVfngEUj4sCWc=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id b7c33c397d809dcb;
-	Fri, 06 Nov 2026 10:06:58 +0000
-X-Mizu-Trace-ID: b7c33c397d809dcb
-X-Migadu-Flow: FLOW_OUT
-From: Lance Yang <lance.yang@linux.dev>
-To: azpijr@gmail.com,
-	david@kernel.org
-Cc: akpm@linux-foundation.org,
-	ljs@kernel.org,
-	liam@infradead.org,
-	vbabka@kernel.org,
-	rppt@kernel.org,
-	surenb@google.com,
-	mhocko@suse.com,
-	willy@infradead.org,
-	jack@suse.cz,
-	ziy@nvidia.com,
-	baolin.wang@linux.alibaba.com,
-	nico.pache@linux.dev,
-	ryan.roberts@arm.com,
-	dev.jain@arm.com,
-	baohua@kernel.org,
-	lance.yang@linux.dev,
-	usama.arif@linux.dev,
-	kas@kernel.org,
-	matthew.brost@intel.com,
-	joshua.hahnjy@gmail.com,
-	byungchul@sk.com,
-	gourry@gourry.net,
-	ying.huang@linux.alibaba.com,
-	apopple@nvidia.com,
-	peterx@redhat.com,
-	hannes@cmpxchg.org,
-	songliubraving@fb.com,
-	riel@surriel.com,
-	hughd@google.com,
-	will@kernel.org,
-	aneesh.kumar@kernel.org,
-	npiggin@gmail.com,
-	peterz@infradead.org,
-	jgg@ziepe.ca,
-	kevin.tian@intel.com,
-	joro@8bytes.org,
-	robin.murphy@arm.com,
-	steven.sistare@oracle.com,
-	jhubbard@nvidia.com,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	iommu@lists.linux.dev,
-	mason@kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH 1/5] mm: limit pagecache folio refcount when mapping pages
-Date: Fri,  6 Nov 2026 18:06:45 +0800
-Message-ID: <20261106100645.77296-1-lance.yang@linux.dev>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <528e3a0e-04fb-427f-88c7-63a7f4bbc505@gmail.com>
-References: <528e3a0e-04fb-427f-88c7-63a7f4bbc505@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=edM4/p9S
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A44D81F0089F;
+	Fri,  6 Nov 2026 10:12:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793959982;
+	bh=nnzK0BslWJHcXFemGgfYITU9fhviw2smy0wN/ApAn14=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=edM4/p9SW7+S73fDgQfspXTjrIk9baHrV37Kd/QhylG3sLFrLKrn7Hstn6AQsz5uw
+	 UpQitFXbsHcThZxWuXEdgx2CDWhWf6hbi4u2aagagDQcQos8ZBnDTihVAkxsA3Xn2S
+	 DaXEaR4Ddkun5RuUbGazbbXXqJnn4U2NrjbxamgcSa5zL2fHatPp33S0Uil9R6wxXW
+	 6ge5YPJC6yBuH0U/vS7kAmhEAxOiNR4kAK8TFOI7nFk/vAgdTcuJjqV3mfM6VrhrYp
+	 EqVajW7CacXXOnIxA1xdsWgBIymxyAvUB9LHqQ8we47DuLvg13NGqZGYXr7xRTpXPl
+	 +UVOBxUZErwXA==
+Date: Fri, 6 Nov 2026 11:12:53 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: "Serge E. Hallyn" <serge@hallyn.com>, 
+	"Hallgrimur H. Gunnarsson" <halg@google.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, Kees Cook <kees@kernel.org>, 
+	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jan Kara <jack@suse.cz>, 
+	James Morris <jmorris@namei.org>, Simon Horman <horms@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jann Horn <jannh@google.com>, 
+	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, KP Singh <kpsingh@kernel.org>, 
+	Jonathan Calmels <jcalmels@3xx0.net>, Casey Schaufler <casey@schaufler-ca.com>, 
+	linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, linux-api@vger.kernel.org, 
+	containers@lists.linux.dev, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/8] userns: per-namespace capability bounding set and
+ opt-in netns loopback
+Message-ID: <20261106-sandalen-monopol-neugierig-23357f8efc64@brauner>
+References: <20261028221705.3915340-1-halg@google.com>
+ <aunVmg42/S2uUDWR@hallyn.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -111,58 +69,40 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <aunVmg42/S2uUDWR@hallyn.com>
 
+On Tue, Nov 03, 2026 at 06:37:46AM -0600, Serge E. Hallyn wrote:
+> Kees whipped up a proof of concept BPF lsm that implemented this.  A copy
+> from his email (and let's call it GPLv2 unless he wants to change it to
+> something like MIT) follows:
 
-On Fri, Nov 06, 2026 at 10:42:17AM +0100, Jose A. Perez de Azpillaga wrote:
->On 11/5/26 2:10 PM, David Hildenbrand (Arm) wrote:
->> With large file folios, overflowing the folio mapcount and refcount
->> became possible. For anon folios it is currently not really an issue:
->> each large anon folio can only be mapped once into a process.
->> 
->> That's not really big news, but it's about time that we do something
->> about it because some modern technology might find ways to abuse it :)
->> 
->> One of the enablers for that was commit ddc58f27f9ee ("mm: drop tail page
->> refcounting"), however, file thp support was added later.
->> 
->> File folios can be mapped multiple times into the same process, allowing
->> for processes to hold many references to the same folio.
->> 
->> As a short-term solution, let's introduce two folio refcount limits:
->> one for ordinary consumers and one for admins. Leave some headroom
->> before the refcount goes negative, which we really don't want (having
->> the mapcount go negative is also not expected).
->> 
->> Start reporting SIGBUS if we run into limits. When restoring mappings
->> from migration entries, instead zap the pte/pmd entry. We allow for
->> slightly exceeding the limit to keep things simpler.
->> 
->> This is far from ideal, but better than all easy alternatives we can
->> backport comfortably. For now it fixes the big problem: letting
->> the refcount (+mapcount) go negative and cause trouble.
->> 
->> This is only a temporary fix, we'll follow up with something better.
->> 
->> While the refcount checks are not required for order 0 folios, let's
->> just add them for consistency: each folio_add_file_rmap*() and
->> folio_dup_file_rmap*() needs a prior check.
->in mm-new copy_huge_pmd() now does a folio_dup_file_rmap_pmd() at fork,
->since Konstantin's "mm/huge_memory: copy file THPs at fork like
->copy_present_ptes() does". doesn't that one need the check too?
+There's no need to special-case user namespaces for this anymore.
+I've added generic namespace LSM hooks for v7.4-rc1:
 
-Ah, good catch! My local tree didn't have Konstantin's series [1] yet. And
-right, that path needs a check too I guess :)
+* namespace_init()
+* namespace_install() (setns())
+* namespace_free()
 
-[1] https://lore.kernel.org/all/20261104-b4-prep-vstor-149847-copy_huge_pmd-recheck-special-pmd-v5-2-c56d0d26f970@virtuozzo.com/
+called from the common namespace code I added and for every namespace type.
 
->
->the rest LGTM:
->
->Reviewed-by: Jose A. Perez de Azpillaga <azpijr@gmail.com>
->
->-- 
->cheers,
->jose a. p-a
->
+So a policy like this can cover creation and setns() of all namespaces
+and follow a namespace by its id until it's gone.
+
+The catch is that what got merged doesn't work with the bpf LSM right
+now.
+
+namespace_free() is never called unless an LSM allocated a namespace
+blob, namespace_init() sees a namespace id of zero because
+the id is allocated after the hook has run, and the bpf LSM marks the
+namespace arguments of both hooks as trusted although the namespace can
+be freed right after.
+
+I sent fixes for all of that (cf. [1], [2]) (cf. [3]).
+
+[1]: https://lore.kernel.org/all/20261026-work-security-namespace_free-v1-0-ffa3ebbf71bd@kernel.org
+[2]: https://lore.kernel.org/all/20261029-work-security-namespace_free-v2-0-65591dbba7b3@kernel.org
+[3]: https://lore.kernel.org/all/CAHC9VhRwD1c1qKK4=Uc8cbMy27iF722C0DZeXy4WGtH-kOBOcQ@mail.gmail.com
+
+-- 
