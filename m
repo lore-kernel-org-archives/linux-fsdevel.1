@@ -1,65 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793970835;
-	b=NAtbdzh6W1wPGaZb3v1D9lVqUGIFnPq2XiGrG1TowwK3BmlZO0i285gYjfb5DHdyrW7E
-	 A0v2uAlDsKm4kPIKbEG5rTpytal5/xLxSByq1gCB1Sncu9dj3JW1RlyVYQx/eHCWsE0sr
-	 fNqRWo9Fp499sFpG3L1ovQFdFhB8WMiURgJNEOSb11NiJTdJpS/IHXuuKmlTAbeQFQtva
-	 SFmFKZjDqat3rXj0UdPHjwlSfrvqLbmm9JDL2RL55Z0k3tHLFxVt4moFKYozDXmjacOpp
-	 X336TsV+SHbwAaqTqRBEGtBgGjMEb207Ri0mfxXwr1fmreqvfqADN9UHWroAig/ZPNw==
+	t=1793970893;
+	b=MVrWGHkHR/TkJHvIM81AHbIX2onNzND1BNEGU+ovk3cRe1ArniiJqvdmr4luK3wrbtdA
+	 7F530+iyfjTnJLIjlKiGZvds4t3rYbrG23TQ9AzhNUDLhToA/Ygn8VCUxZ7m2uL7YGM/u
+	 hT2MDbxVTGuMvMKUIWSBTm4pmQtNDWWdcTSMPiBgZJRjaDIH0hvmrldA2uALmdsUXmur4
+	 AFDBRb5PVhz/Mxi+lkHDRM8wPaHntMmpiP9KrqSFgMDBuuf18GcGk1pk2zGiTAj9FX5wb
+	 NVUORZAJsMTEBcChtbz50QQ6jCsln9avvjg2C7VxvRR3UOMkjtq5svxxoC6nel8yt2w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793970835;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=9iuU7MEsK2c2Pxl1bKzJoGbt24cwSpLcFKHMSnlxVwA=;
-	b=tKk/fjXPWg1AaVrBJ/a8KBBH/ZBfrLe6kLgiEeMCZI5j08THcAyifGbDCxmJFDxGwQND
-	 JZBvRx8hy27BktTIIvAvqVnIMbQfUA8nwITAv91K09Kznq7aXCQAF7w2uhbjW23vCrotg
-	 3A9kEMbuyZFrhTjvJzwdo4ohtgJMJsgn8A0ZUt2KldLds/XjtfCaCdUoOTKtHvoFSQDZ8
-	 TecOj2ub2XBROqxjF9W8jwidFSlXUCjsHVJ1O1PFkoC/3WMoYe6qfWpbLvMuqbOAGqJaO
-	 VMMCPEU30g0qqOHs5BXbfhcTkUFHEOwJVWOh/ItkDMtoUWuPiiZtM9MGiKoeqQ34s9A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793970893;
+	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=/CRMzZYyn/B4bVMs1J06QgSseyrMwQE3tkNJskd511I=;
+	b=csCtuKtulVVxsBqGabubpxbz7bA7k+8u4RyTMuS553I5i2yPoDFcHaZJBrMOB0d6KvEJ
+	 t+jot2U8wPZ6CBxXMfBifbhXvIR824z4K6WMxjVvWbKtIpAbh/H0K1eghCP+T6evYVERR
+	 zdqdVtC4QZel+8Wge/epgElcroyga2Riryrbvy4Eqr3bw0T6/hmtBMbvx2MyZVfjDLrav
+	 wihhSGhhCCixqcND0po3nMYdfSul++NbrZb27VqzUAQB2KopC+vDgGRfThup6zSLFxTXQ
+	 TmMtF2ZUgWr2xswnZwelJJjHz/Nnh2ctx9OdWPaFPnp3o9aOJfq7sCNTYvQxVeb7zxQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KC5lAMVT;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mrc0ZDI6;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACFA8606A32F;
-	Fri,  6 Nov 2026 13:13:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DC0D606A32E;
+	Fri,  6 Nov 2026 13:14:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KC5lAMVT
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC9261F008A1;
-	Fri,  6 Nov 2026 13:13:47 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mrc0ZDI6
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEC401F008A1;
+	Fri,  6 Nov 2026 13:14:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793970834;
-	bh=9iuU7MEsK2c2Pxl1bKzJoGbt24cwSpLcFKHMSnlxVwA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=KC5lAMVTiD1H0HRO9wudEjkt9ITRbgLn9PNNZsFAY+PQgcAeTb+mLFYjU0VQBr/P4
-	 OMgR42zZI/a2XPhf2h7VSdpTnTw+0H4wU7aQXkP7RjIUfB+HBeff4XbbOOVLZiU+Ef
-	 d+tf/0NHrAEZuk6IfYvnyUE8lgmnTQjSZ0Bx8YVn6mlfS8I8eHqh0HdwSiV8K805D4
-	 bJ5IqHRIeniTOCWEvTu2GBSeCrdyHq1f6RaWtk+BKmv8FhwurXZ0OHdQtFPFH3rTGF
-	 N9CtRUIOqssm47/xNL3vOfqwll1NQPWSaNY3Fc6Y80QCDrAqqIW4txwjbaUoMbPGvN
-	 WvA32gRJYIsIA==
-Date: Fri, 6 Nov 2026 14:13:45 +0100
+	s=k20260515; t=1793970893;
+	bh=/CRMzZYyn/B4bVMs1J06QgSseyrMwQE3tkNJskd511I=;
+	h=From:Date:Subject:To:Cc;
+	b=mrc0ZDI6FptHzOTzoAR1dixzdjZRcHma4QM984BQCGtUlAnyuKhmuLnQn2L/11QRi
+	 MWWLstX6x4RMVwZax575V7cr5PULD+1pjz536CsbQKLkKlB3AWtCsCHYNhYuk+L0Ps
+	 EGfbCE0JS7IVDlAw5rdYZ9vWK8AErK3HcZeZVZVX10i6fGkoFbnVMQ/5rPMt4zXwhd
+	 Hf/OJhTns7n1JQtPtg5P/GfdysT8HQ3vyQWaQrtXu/6LPw6LLnNozYWcXf5sckzLwU
+	 VOXpN7ROtwjPSJn6DexKMLxM0B3ta4+hK5F/SYFN0szbtsT4f2tQFhTGUbiHjvrWiL
+	 gDf1pJ9tOwsZQ==
 From: Christian Brauner <brauner@kernel.org>
-To: Andy Lutomirski <luto@amacapital.net>
-Cc: "Hallgrimur H. Gunnarsson" <halg@google.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Paul Moore <paul@paul-moore.com>, 
-	Serge Hallyn <sergeh@kernel.org>, Kees Cook <kees@kernel.org>, 
-	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jan Kara <jack@suse.cz>, 
-	James Morris <jmorris@namei.org>, Simon Horman <horms@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jann Horn <jannh@google.com>, 
-	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, KP Singh <kpsingh@kernel.org>, 
-	Jonathan Calmels <jcalmels@3xx0.net>, Casey Schaufler <casey@schaufler-ca.com>, 
-	linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, linux-api@vger.kernel.org, 
-	containers@lists.linux.dev, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/8] userns: per-namespace capability bounding set and
- opt-in netns loopback
-Message-ID: <20261106-befreien-addieren-eislauf-e09212803534@brauner>
-References: <20261028221705.3915340-1-halg@google.com>
- <CALCETrW9ygriu54gxiHFLEd5+hJminQo0r8Jwd63wR69Dj4W7w@mail.gmail.com>
+Date: Fri, 06 Nov 2026 14:14:35 +0100
+Subject: [PATCH] fs: fix the SEEK_CUR f_lock condition
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -69,47 +52,81 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CALCETrW9ygriu54gxiHFLEd5+hJminQo0r8Jwd63wR69Dj4W7w@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261106-work-file-seek_f_lock-v1-1-5b9a6c2928d4@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/03MTQ7CIBCG4as0sxZSaEOiVzGmARws0oBh/Eua3
+ l1GNy7fyTfPCoQ1IsGhW6HiM1IsuYXadeBnmy8o4rk16F4bpXojXqUmEeKCghDTFKal+CT8ENx
+ +NGrQaoT2e6sY4vvrHk+/poe7or8zxgtnCYWrNvuZT8xKZuUfK3kE2/YBqQ6OxqYAAAA=
+X-Change-ID: 20261106-work-file-seek_f_lock-c3fb94613214
+To: linux-fsdevel@vger.kernel.org
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ stable@vger.kernel.org, "Christian Brauner (Amutable)" <brauner@kernel.org>
+X-Mailer: b4 0.17-dev-ce4c1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2249; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=U2veAtMtI6xEELERchwEl5/0cnEe41ur7uX2eoDA0eA=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS9vXRi+e09vzfbi7f8Nz77Mu5KmH5EX8hczpp1sy+G5
+ GswtO/W6ShlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZhIQiXDP3NNppuHS3QLF0qu
+ fWgTKH4u54j1R4ujW39Ndagr2iwX+YGRYbZj6sw45uKjVvyz566ZunHqf4Prt4KeZhee3DT/eGi
+ VARcA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Wed, Oct 28, 2026 at 03:56:11PM -0700, Andy Lutomirski wrote:
-> The whole unshare/clone flag situation is getting out of hand, IMO.
-> And this new thing makes logical sense but is really about reducing
-> exposure.
-> 
-> Perhaps we should instead have a small list associated with a userns
-> (extensible in the future) of things that the ns's admin (i.e. whoever
-> has CAP_SYS_ADMIN relative to the ns) may do.  That list could
-> include:
-> 
-> - Create loopback with sensible defaults for ipv4 and/or ipv6 (i see
-> no obvious reason to separate them)
-> - Create tun/tap interfaces in that ns (and attach them, etc)
-> 
-> And add a very simple new API to do these things.  Actually, the
+Commit da06e3c51794 ("fs: don't needlessly acquire f_lock") wanted to
+skip f_lock for SEEK_CUR on files that already serialize f_pos through
+f_pos_lock, i.e. FMODE_ATOMIC_POS files and directories, and keep it
+for everything else. The condition it added does the opposite:
+file_seek_cur_needs_f_lock() returns false exactly for the files that
+never take f_pos_lock and true for the ones that do.
 
-We've had this idea in the past and I think it is reasonable. I had
-always thought that we should expose a system call to create empty
-namespaces ot any type. Usually I'd be excited about that but I think
-that point is a bit moot and I'd really like see whether we can turn
-cells (or whatever other name) into a first class api.
+So since v6.15 a SEEK_CUR on a shared block device or on a character
+device that uses fixed_size_llseek() updates f_pos without any lock and
+two concurrent calls can lose an update, while regular files and
+directories pay for a spinlock they don't need.
 
-The problem I have with the patchset as written is that adds a lot of
-moving parts. And yes, I find the CLONE_* and UNSHARE_* flags plus
-sysctl to be suboptimal as well.
+Invert the condition.
 
-So the TL;DR is that CAP_NET_ADMIN + userns =
-CAP_NET_PRIVILEGE_ESCALATION 10+ years later. And this patchset wants to
-put it back on a leash.
+Fixes: da06e3c51794 ("fs: don't needlessly acquire f_lock")
+Cc: stable@vger.kernel.org
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+---
+Commit da06e3c51794 got the condition in file_seek_cur_needs_f_lock()
+backwards. Regular files and directories still take f_lock on SEEK_CUR
+while block devices and fixed_size_llseek() character devices, which
+never take f_pos_lock, update f_pos unlocked since v6.15 and can lose
+an update. It's a one-liner.
+---
+ fs/file.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-So why isn't an aggressively stupid solution to this problem to split a
-new capability out of CAP_NET_ADMIN so it covers the absolute minimal
-set of things that should be allowed instead of doing effectively the
-same thing but split over multiple apis?
+diff --git a/fs/file.c b/fs/file.c
+index 4cd40dfa6129..fd08d34874ac 100644
+--- a/fs/file.c
++++ b/fs/file.c
+@@ -1387,14 +1387,18 @@ static inline bool file_needs_f_pos_lock(struct file *file)
+ 
+ bool file_seek_cur_needs_f_lock(struct file *file)
+ {
+-	if (!(file->f_mode & FMODE_ATOMIC_POS) && !file->f_op->iterate_shared)
+-		return false;
+-
+ 	/*
++	 * Files that go through f_pos_lock when they are shared, i.e.
++	 * FMODE_ATOMIC_POS files and directories, don't need f_lock for a
++	 * SEEK_CUR. Everything else does, since nothing else serializes
++	 * the f_pos update.
++	 *
+ 	 * Note that we are not guaranteed to be called after fdget_pos() on
+ 	 * this file obj, in which case the caller is expected to provide the
+ 	 * appropriate locking.
+ 	 */
++	if ((file->f_mode & FMODE_ATOMIC_POS) || file->f_op->iterate_shared)
++		return false;
+ 
+ 	return true;
+ }
 
-Anything that is reasonably advanced should not be the kernel's
-responsibility to delegate. I really think the old privilege model where
-the kernel grants control over a whole subsystem is inherently flawed
-and is much better replaced if you have the means to let userspace
-services grant and delegate resources.
+---
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+change-id: 20261106-work-file-seek_f_lock-c3fb94613214
+
