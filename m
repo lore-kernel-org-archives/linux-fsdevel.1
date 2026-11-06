@@ -1,55 +1,73 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=166.70.13.231
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793936864;
-	b=uYpvwNq5R29eo2GtgjHeYViYN+bxXk/nQW8ZVeE/b7T7cXDsb73wqDootAhOaQ9jXtHl
-	 wETwnk1lGzOuqJNZNLo0crjdq6jKmlP0VMTq/K09f4RRLAXkT5617DjZCl7MPfDG+kE79
-	 Bp7uSVbaFMikK6eMgscL4O+TWi2UcB5OQjOL+wL4ugas9A6WjN5X+GnD0WQ4gvaRmGhDz
-	 vD/2ih/aVzfvdEb066vUBxozA49qZj7y3CmJqrq6xI13dFkxy9End8jPoAu/+ORVgYPKN
-	 44N3OkyekoNnuLebKwwG/l7JJFUeEP+WxT5kY1t6vQokU51TPNPYDkRtJfZzCYtY9fw==
+	t=1793936904;
+	b=fnckPFiyqc+cqFSJQHEpleeuMep2J8mhPtIVbjwBK+QjLZiybRMf9QYxM0Ft9WlAMe2c
+	 ePGgCrrt7KIXrdR84JKx2fC5uySdM8Uqn85EVkH7ijdj/3qDwJH5c6R6i1JMC/KSRgBhP
+	 hMdeaj1t2PQaD/J4HSx+X0D2pB4+ccayAqqWWrpme075XP6lVh6gTchsypYkGcZrdce7Y
+	 67Sv+Gg5vn6yTM4cBwue/JOvKnuaYbknbJCWWE6l+/UfJ8+QIpJsjV68/8thPM4wPBEOF
+	 qQR8eDPA92YMEt981TNdLHi1Y/jpkAvQBHXoo7Ayw/ERV4XblI5sinkYCrw0JiAYJDQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793936864;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=7itVVRO0OrCMzanAOyJRHIm0MPtgmrlnhYWCxSa5SEs=;
-	b=xEpnW6fvvTCAtda1i4X3nJB1qKXwWv1hNUQb7lVHMEFGDLdRvVJEpLwimUZ9jMzejevW
-	 Xwui9l9IsuVnbmd4QV+1p2N0D2y6lQuDaVVgi8QHaRHEPnhXcNPoRlFUugReyvKH3utKp
-	 0yZeqVrOdcyokMBB3rrvrn0GDQCOfLqCWG14zee4RvAarW547oDkK2RTGfC1q6nPtLXeC
-	 VW4KGK2ffjYbxfv19YaxKXoa4LmEetXyDxb1X/qpvZLqQCF5QdCB7iY0hHWKUVHx/5++G
-	 /TKVwEhbJOz0KBaf5vrh1lcROJuANdpajS1MAqTNguImhz4KkdJDj7+iY22LCpxiB9g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793936904;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:In-Reply-To:
+	 References:Date:Message-ID:User-Agent:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-XM-SPF:X-XM-AID:X-Spam-Checker-Version:
+	 X-Spam-Level:X-Spam-Status:X-Spam-Virus:X-Spam-Report:X-Spam-DCC:
+	 X-Spam-Combo:X-Spam-Relay-Country:X-Spam-Timing:Subject:
+	 X-SA-Exim-Connect-IP:X-SA-Exim-Rcpt-To:X-SA-Exim-Mail-From:
+	 X-SA-Exim-Scanned;
+	bh=Be0Za5xRQuKpCLQH+AxKFL6WKlTHgvlPTNvTbJmkg0A=;
+	b=4aO6EdiF6nPeBGxspzY8VfgmH9tC2wVOEsTfHSqYwMC8a64qv9yuV/30sxztd0oQHcuJ
+	 r2chYmJ0PBXTxaGLe/hF520QGG4UdG8WRRGP/Icjkilh8x8nAY5ndAv2yuomqaMkltWpQ
+	 RYoKVT43iZON9D8TMx8UTy5MVHICA6i+6vWT+Jrc3O1V9buTAeABZOdmfzT5EMAhpt5Ma
+	 ZdwMtrqKLL6Kbf1TgeWKYnMJcB6NA2T+IB0fc75rZY8BeC51XNZy5AJKcZFFCZEz66IZE
+	 O0MpEZKMkqEDV1+5ukRVSF9gukP3qwN2z0Slq+4806LKR+pJ6CJHBXQ+DdkJZlRGR9A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IboQVEBX;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=xmission.com;
+	spf=pass smtp.mailfrom=xmission.com;
+	dkim=pass header.d=xmission.com header.i=@xmission.com header.a=rsa-sha256 header.s=xmission header.b=EHKXlCPs;
+	arc=none smtp.remote-ip=166.70.13.231
+Received: from out01.mta.xmission.com (out01.mta.xmission.com [166.70.13.231])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62E50606A331
-	for <linux-fsdevel@vger.kernel.org>; Fri,  6 Nov 2026 03:47:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99C71606A31B;
+	Fri,  6 Nov 2026 03:48:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 99C71606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xmission.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xmission.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IboQVEBX
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D34D1F008BD
-	for <linux-fsdevel@vger.kernel.org>; Fri,  6 Nov 2026 03:47:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793936864;
-	bh=7itVVRO0OrCMzanAOyJRHIm0MPtgmrlnhYWCxSa5SEs=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=IboQVEBXl4jWmUIvw0DOc0QCJjQ8dTtJqHWh38IstQq4GF/XzX2BgioRpgWgX6v3P
-	 D5fDo4sg7rNsqSrYNK8o/zN8HDEQJwDTBpkQc5B6wdsLuzlBioIZJ1JXxYScTaKhKq
-	 EXzy4QVcoH3qpcgpOmOr7ueMPQ0Pdq3rpjD4upTnMEExPCwaJHTNl7ZEa+kCA6YMjg
-	 V1+Zo6uLqCaTfqZG2lyPYI8f9v6lHJhj3xgryyJGW5y3JtAdTcHJwPwPYL8MTIL+j3
-	 DjsAyuNPIoqIO1HAGO1EEAT+4quG29QrQNBWH+drmvQELISCJ4FKo/roKRV/DkIV4c
-	 oMSGhP/EEgang==
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-93a40a9a01aso160563485a.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 05 Nov 2026 19:47:44 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AKwUvBy/6bHv/8D56AvIjYd66rHs3EEIootQxa8JC33fYwqOfBMfUTPOka30jBbaXpRFMxVaANTLn9uF1m4ZxOh9@vger.kernel.org
-X-Gm-Message-State: APuU4Z8R11pB06wl98v0148ZqkPuhnKwBqDnfzzJX48OxQPUgD57nDjg
-	goK45EYICvDiLoHc13E8aROWGplUba053g0zyLoBk2cISo5xM+aaJHQqN1rTInJ4D0Pg9W2Xrtu
-	9tZ7dAWDtQi9W9Eq24vmujEhCwsv2lPc=
-X-Received: by 2002:a05:620a:6ccd:b0:945:d3ba:7d99 with SMTP id
- af79cd13be357-945f3593146mr175996585a.37.1793936862458; Thu, 05 Nov 2026
- 19:47:42 -0800 (PST)
+	dkim=pass (1024-bit key, unprotected) header.d=xmission.com header.i=@xmission.com header.a=rsa-sha256 header.s=xmission header.b=EHKXlCPs
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=simple/simple; d=xmission.com;
+	 s=xmission; h=Subject:Content-Transfer-Encoding:Content-Type:MIME-Version:
+	Message-ID:Date:References:In-Reply-To:Cc:To:From:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=qOycUJnM4+Vyffpl3FVfBzrNIrruMMWTqnYgMXkrk38=; b=EHKXlCPszM0rpYy4cajgqFYg4J
+	jWoICZTCzQtAO63laxuT/FUZ1ri1EN9NyXmJc6p+GeBT305E//7uGH+jtyE0EUH2J0oAw7H3WR7yP
+	mUiTG+oP/HJsngXtPE2Uj13DfHhZgTyJ5ZkW41lesRVQMThtz2M7RWSnaVp2hQzqlfiU=;
+Received: from in02.mta.xmission.com ([166.70.13.52]:44172)
+	by out01.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.93)
+	(envelope-from <ebiederm@xmission.com>)
+	id 1xPAw4-000kR9-NM; Thu, 05 Nov 2026 20:48:16 -0700
+Received: from ip72-198-196-98.om.om.cox.net ([72.198.196.98]:60968 helo=email.froward.int.ebiederm.org.xmission.com)
+	by in02.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.93)
+	(envelope-from <ebiederm@xmission.com>)
+	id 1xPAw3-00Cpbz-Ft; Thu, 05 Nov 2026 20:48:16 -0700
+From: "Eric W. Biederman" <ebiederm@xmission.com>
+To: Andy Lutomirski <luto@amacapital.net>
+Cc: Linux FS Devel <linux-fsdevel@vger.kernel.org>,  Linux API
+ <linux-api@vger.kernel.org>
+In-Reply-To: <CALCETrXnZVq4pcmo=2T2S=yzWuj9Q5tvrpuZTXzU4ptHCDnjBA@mail.gmail.com>
+	(Andy Lutomirski's message of "Tue, 3 Nov 2026 20:02:12 -0800")
+References: <CALCETrWDJKr=LMzfPjwwRRuKapFKQ_OaYF6qYz-9Cs91xAXUgA@mail.gmail.com>
+	<87se1hclmb.fsf@email.froward.int.ebiederm.org>
+	<CALCETrXnZVq4pcmo=2T2S=yzWuj9Q5tvrpuZTXzU4ptHCDnjBA@mail.gmail.com>
+Date: Thu, 05 Nov 2026 21:48:11 -0600
+Message-ID: <87bj82d3ic.fsf@email.froward.int.ebiederm.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -59,86 +77,187 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261105-late-2026-vma-flags-v1-0-0d3cd15ab75f@kernel.org> <20261105-late-2026-vma-flags-v1-1-0d3cd15ab75f@kernel.org>
-In-Reply-To: <20261105-late-2026-vma-flags-v1-1-0d3cd15ab75f@kernel.org>
-From: Barry Song <baohua@kernel.org>
-Date: Fri, 6 Nov 2026 11:47:31 +0800
-X-Gmail-Original-Message-ID: <CAGsJ_4wFi9mqSsq9RFoYP8m0GbqU01he_icbP2VLPhBfQAvCOg@mail.gmail.com>
-X-Gm-Features: AclHuK8VX6mOjbrvfm7oXhssK45doLoq2eZ9cV_P4690FurSVGBQe9E3r9SjObI
-Message-ID: <CAGsJ_4wFi9mqSsq9RFoYP8m0GbqU01he_icbP2VLPhBfQAvCOg@mail.gmail.com>
-Subject: Re: [PATCH 01/13] mm/gup: convert GUP code to use vma_flags_t
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Rik van Riel <riel@surriel.com>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Harry Yoo <harry@kernel.org>, 
-	Jann Horn <jannh@google.com>, Lance Yang <lance.yang@linux.dev>, Zi Yan <ziy@nvidia.com>, 
-	Matthew Brost <matthew.brost@intel.com>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
-	Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
-	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
-	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, Xu Xin <xu.xin@linux.dev>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>, 
-	Shrikanth Hegde <sshegde@linux.ibm.com>, Pedro Falcato <pfalcato@suse.de>, 
-	Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Baoquan He <baoquan.he@linux.dev>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Leon Romanovsky <leon@kernel.org>, 
-	SJ Park <sj@kernel.org>, Rakie Kim <rakie.kim@sk.com>, David Rientjes <rientjes@google.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, 
-	Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, 
-	James Clark <james.clark@linaro.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Oleg Nesterov <oleg@redhat.com>, John Johansen <john.johansen@canonical.com>, 
-	Georgia Garcia <georgia.garcia@canonical.com>, Paul Moore <paul@paul-moore.com>, 
-	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, Mimi Zohar <zohar@linux.ibm.com>, 
-	Roberto Sassu <roberto.sassu@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
-	Eric Snowberg <eric.snowberg@oracle.com>, Fan Wu <wufan@kernel.org>, 
-	Stephen Smalley <stephen.smalley.work@gmail.com>, =?UTF-8?B?T25kcmVqIE1vc27DocSNZWs=?= <omosnacek@gmail.com>, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	kvm@vger.kernel.org, damon@lists.linux.dev, 
-	linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, 
-	apparmor@lists.ubuntu.com, linux-security-module@vger.kernel.org, 
-	linux-integrity@vger.kernel.org, selinux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+X-XM-SPF: eid=1xPAw3-00Cpbz-Ft;;;mid=<87bj82d3ic.fsf@email.froward.int.ebiederm.org>;;;hst=in02.mta.xmission.com;;;ip=72.198.196.98;;;frm=ebiederm@xmission.com;;;sPfnum=0;;;sPf=pass
+X-XM-AID: U2FsdGVkX19xw+2xzokroOVsQV1/cg6Q/Fo7dzZ0siU=
+X-Spam-Level: 
+X-Spam-Virus: No
+X-Spam-Report: 
+	* -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+	*  0.1 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+	*      [score: 0.5000]
+	*  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
+	*  0.0 XM_B_Unicode BODY: Testing for specific types of unicode
+	*  0.0 XM_B_EmailChain RAW: Email Chain Detected
+	* -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
+	*      [sa01 1397; Body=1 Fuz1=1 Fuz2=1]
+	*  0.2 XM_B_SpammyWords One or more commonly used spammy words
+X-Spam-DCC: XMission; sa01 1397; Body=1 Fuz1=1 Fuz2=1 
+X-Spam-Combo: ;Andy Lutomirski <luto@amacapital.net>
+X-Spam-Relay-Country: 
+X-Spam-Timing: total 738 ms - load_scoreonly_sql: 0.04 (0.0%),
+	signal_user_changed: 4.4 (0.6%), b_tie_ro: 3.0 (0.4%), parse: 1.67
+	(0.2%), extract_message_metadata: 16 (2.2%), get_uri_detail_list: 2.9
+	(0.4%), tests_pri_-2000: 15 (2.0%), tests_pri_-1000: 1.95 (0.3%),
+	tests_pri_-950: 1.01 (0.1%), tests_pri_-900: 0.69 (0.1%),
+	tests_pri_-90: 64 (8.7%), check_bayes: 63 (8.6%), b_tokenize: 10
+	(1.3%), b_tok_get_all: 11 (1.5%), b_comp_prob: 3.5 (0.5%),
+	b_tok_touch_all: 34 (4.6%), b_finish: 0.88 (0.1%), tests_pri_0: 550
+	(74.5%), check_dkim_signature: 0.53 (0.1%), check_dkim_adsp: 2.1
+	(0.3%), poll_dns_idle: 69 (9.3%), tests_pri_10: 1.72 (0.2%),
+	tests_pri_500: 78 (10.6%), rewrite_mail: 0.00 (0.0%)
+Subject: Re: Accidental mountns/tmpfs API break from 2016?
+X-SA-Exim-Connect-IP: 166.70.13.52
+X-SA-Exim-Rcpt-To: linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, luto@amacapital.net
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+X-SA-Exim-Scanned: No (on out01.mta.xmission.com); SAEximRunCond expanded to false
 
-On Fri, Nov 6, 2026 at 5:31=E2=80=AFAM Lorenzo Stoakes (ARM) <ljs@kernel.or=
-g> wrote:
->
-> Replace use of the legacy vm_flags_t flags with vma_flags_t values
-> throughout the GUP logic, both for the MMU and nommu variants.
->
-> No functional change intended.
->
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+Andy Lutomirski <luto@amacapital.net> writes:
 
-Reviewed-by: Barry Song <baohua@kernel.org>
-
-> ---
->  mm/gup.c | 45 ++++++++++++++++++++++++---------------------
->  1 file changed, 24 insertions(+), 21 deletions(-)
+ On Tue, Nov 3, 2026 at 7:37=E2=80=AFPM Eric W. Biederman <ebiederm@xmissio=
+n.com> wrote:
+>>
+>> Andy Lutomirski <luto@amacapital.net> writes:
+>>
+>> > Hi-
+>> >
+>> > I (well, an LLM following my rather explicit instructions) just wrote
+>> > a little tool to make a tmpfs as an unprivileged user: it unshares
+>> > userns and mountns, makes a tmpfs, fchdirs to it, and prints
+>> > /proc/PID/cwd to stdout.  Full source below.
+>> >
+>> > I was a bit surprised that trying to create anything in the tmpfs did
+>> > not work without a uid_map and gid_map.  It looks like it came from:
+>> >
+>> > commit 036d523641c66bef713042894a17f4335f199e49
+>> > Author: Eric W. Biederman <ebiederm@xmission.com>
+>> > Date:   Fri Jul 1 12:52:06 2016 -0500
+>> >
+>> >     vfs: Don't create inodes with a uid or gid unknown to the vfs
+>> >
+>> >     It is expected that filesystems can not represent uids and gids fr=
+om
+>> >     outside of their user namespace.  Keep things simple by not even
+>> >     trying to create filesystem nodes with non-sense uids and gids.
+>> >
+>> >     Acked-by: Seth Forshee <seth.forshee@canonical.com>
+>> >     Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
+>> >
+>> >
+>> > Now my tool won't actually run on a pre-2016 kernel due to use of
+>> > fsopen, and I'm not about to say that a decade-old commit broke my ABI
+>> > and needs to be reverted.  But I am rather curious whether this rule
+>> > actually makes sense.
+>>
+>> I am pretty certain it was deliberate at the time.
+>>
+>> > I'm not creating an idmapped mount, and I'm
+>> > using tmpfs, which could not care less about the mapping as far as I
+>> > know.
+>> >
+>> > Would it make sense to only enforce this for filesystems that care?
+>>
+>> Interesting question.  You are in a user namespace.  You are
+>> running as a user that does not exist in your user namespace.
+>> You want to create files.
+>>
+>> You can map a that single uid and gid without privileges.
+>> So there is no hardship in getting a uid and gid in your user namespace.
+>>
+>> Is it just the extra bit of code to perform that write that is the
+>> problem?
+>>
+>> Why would you want to be able to create files as a owned by a user
+>> from another user namespace?  Even if you created them reading them
+>> would show an 0xfffe the invalid uid/gid.  I think there are then
+>> some difficulties in using those files as well.
+>>
+>> Why would you want to do much of anything as without having a
+>> properly setup uid or gid?
 >
-
-> @@ -1514,9 +1514,8 @@ static bool vma_permits_fault(struct vm_area_struct=
- *vma,
->  {
->         bool write   =3D !!(fault_flags & FAULT_FLAG_WRITE);
->         bool foreign =3D !!(fault_flags & FAULT_FLAG_REMOTE);
-> -       vm_flags_t vm_flags =3D write ? VM_WRITE : VM_READ;
+> Hah, you haven't quite figured out the ridiculous thing I'm doing. :)
+> What I want is a temporary tmpfs that I can create as an unprivileged
+> user.  Linux doesn't let me do that directly, so I'm kludging it.
+> Shell transcript, edited for clarity:
 >
-> -       if (!(vm_flags & vma->vm_flags))
-> +       if (!vma_test(vma, write ? VMA_WRITE_BIT : VMA_READ_BIT))
->                 return false;
-
-This also improves readability. Thanks!
-
+> #### Make a tmpfs, keeping the tool running to keep it alive
+> $ ./temp_shm &
+> [1] 34157
+> /proc/34157/cwd
 >
+> #### cd to the tmpfs, which references it and keeps it alive
+> $ cd /proc/34157/cwd
+>
+> #### Kill the tool, since we're done with it
+> $ fg
+> bin/lktool temp_shm     (wd: /workspaces/master)
+> ^C
+>
+> #### cwd is a working tmpfs!
+> $ echo "Look a tmpfs!" >some_file
+>
+> #### and it has no '..', as expected :)
+> $ cd ..                  # and it has
+> cd: error retrieving current directory: getcwd: cannot access parent
+> directories: No such file or directory
+>
+> This whole workflow runs in the init userns and the init mountns,
+> which is exactly what I wanted.  And now I have a tmpfs that I can use
+> to run my test suite unprivileged to test some cool code that *needs*
+> a tmpfs.  (Yes, I could probably use /dev/shm, but that's messy and I
+> don't want to.)
+>
+> I'm not actually banging this out in shell, but I am running literally
+> the C++ code I posted as a subprocess called by my test harness.
+>
+> The user creating files is not in the mountns or the userns, by design.
+>
+>>
+>> At a quick look tmpfs just uses vfs inodes which use kuid_t and kgid_t
+>> so it theoretically would be ok.
+>>
+>> Still what would be the motivation for supporting something so silly?
+>>
+>
+> My test suite! :)
+>
+>> If there is a good use case I could see it making sense to support it.
+>
+> I think my use case is excellent.
+>
+> Seriously, though, I think a *much* nicer solution would be to allow
+> fsconfig and fsmount to be called by an unprivileged user, at least
+> for some very limited list of filesystems.
+>
+>>
+>> Short of a good use case we are talking about having to support weird
+>> corner cases that no one really cares about that will just bit-rot.
+>>
+>> Note.  You can identity map your original uid and gid, instead of
+>> mapping your uid and gid 0.
+>
+> Does the inner uid made a sound if there's no running task to observe
+> it? :)
+
+Hmm.  So the problem is that the user outside of the user namespace
+can't write files unless he is mapped.
+
+I think I even remember why that happened originally, it seems very
+familiar.
+
+I think that was to prevent processes running inside of a user namespace
+from having to deal with files and directories appearing on their
+filesystem that their isn't full information for because they aren't
+mapped.
+
+In particular I think it prevents "chmod u+S file" on a file that isn't
+mapped into the user namespace.
+
+The issue is that the mounter of the filesystem has all caps over the
+filesystem.
+
+So in general you don't want them to be able to manipulate files that
+they couldn't create.
+
+Eric
