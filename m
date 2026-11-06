@@ -1,59 +1,105 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.59
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793959008;
-	b=DDenmip8Vu85dodblsje2unxHpsji97iBYSb3s2KbIEDGSx3DWAt8nKh4SBti9I1nv8J
-	 e9JeI0yLddSRvoXAPrUEUlTuq/igS/AHG7wBiHf9T780pXwiPOpFQHM1D+WPP0oL3eIn2
-	 f2kgO3ZSXA+aVnruPOnBJRbjui7YDiY2GR9WmU/7PAtHSB67/IY0AX45kRe+0XSI2RCAK
-	 1Pk4bD25qm+Rukr3pQAhOLvJr2oxHrwc78Vt/9jI1Wpqwp3tURbB9knJAlt7yTToR/5+b
-	 uolG6GU8fEux8MdFxSXxF4ZEQfm+ghJPswDd4lqK0UGEp5Iqc402/fJzbmfzrcf9Qug==
+	t=1793959413;
+	b=E6nA77ziblyLH7XpOl8DjnrlV3VFbmZDSCfW4vmwDaymiSp684ErcQWXDShDx6D5PsUK
+	 NElxWVTEU3OgrJvn9pHFKoCxG+xEU4UF1TI4bbm/xJY0lrVsobU9xa0p3mx2fTqOLgcnD
+	 D8WREPq5oV9aK7oadYdAyth+gvroe0soQWSJqqrP5xQQ+HkHLw0aYv1gUnlQepCviJESX
+	 nVFEuOTzAZmjoth9BNnyAhzqBBEaiAozv4O+Fohv+XHaNqAgFkzXz3PvCsHMcPOwSpaZH
+	 izD3IWpUv7RSAjTTFofEkSH8k46HrCm+1aZVHHgJI6fThD0GAVL6DIahiX0W0Xk5SCw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793959008;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=8rYKjadnk3L5Rz2sdZiwE2HJjQFgAIZLkKW3Se/Vlio=;
-	b=qCLxua7wOyLpZW41gCwQg+1uePsrHxATN/93KzCA4hYvUHDeiS3ZmrWQdpmoE8aWno55
-	 mRNT3dJatwLD8A28+wLgwpZYxaKAKDrYSw0MKsQsxTtGSqaJm0RUlzSgGh9bDEnrO00sH
-	 dNiXBj5sWsUZ1jBlXCTvUJANegCCPxHP//tEqNX5xFcyegR9zGx0s4l7z5XFyXF2SA9ir
-	 2sgnAWS8ze8HmktNH8b0IdaMI/dNNhGPbGU2OVpJr0Dk/4KEauFrZKz6A7oCawJWswTUI
-	 3w03aAFI4FzUbqZvx05WNVAGa9iinC0/qvGAQDxoi3pQB0j3SLaRMo9YF7MG9QAeWiA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793959413;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=rMheU+EhCPcWnJV6yby7BQW3sus9xoZHDLVucVGtR10=;
+	b=d/lnQ8AT8/4m0INVmXY1RdYdsDZvPDyp4qSQhjU0TUyxAutybsoQ8yHqISGwNJF/GI63
+	 Y8e7imZGgzWAGuJekzFSyRQBo6lvnujlv5LSmov/9gcC4VyTRTaVigCjng5Yp/dGXMhfD
+	 jvt1GpnDmKLKo+9TS02pF6whwAVQzfHirX/DsWCLDWGD5KcALEPAgZi8xUvkUxmQO8bWV
+	 F7pao9/QofQeo23OiCvEtuc1BzmMebH9m4In9gq2txquF+oZUmSaOv4Zmnq7TIQxBypUA
+	 xx83hgWvwP44tgjffXiYT0iNOHZ7FeS3qo9U2kxtEHk9E4KF/Mxp2MeEMRB2BX9KJiA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i0BJXS8o;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=K70IeZK4;
+	arc=none smtp.remote-ip=91.218.175.59
+Received: from mta0.migadu.com (out-59.mta0.migadu.com [91.218.175.59])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96987606A337;
-	Fri,  6 Nov 2026 09:56:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77C78606A32F
+	for <linux-fsdevel@vger.kernel.org>; Fri,  6 Nov 2026 10:03:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 77C78606A32F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i0BJXS8o
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 356801F008A6;
-	Fri,  6 Nov 2026 09:56:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793959007;
-	bh=8rYKjadnk3L5Rz2sdZiwE2HJjQFgAIZLkKW3Se/Vlio=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=i0BJXS8ozGxBJTF/juHvXRYUv7atCQvntoanEOw+Wzpip+/pcwVT4MNZOCJ00Wtzv
-	 2GKwDbWa0tAmAgxFJaivrTwtUiRQSlhjQ+6RQBf02qCHEmGFpmkKklHvVje4zUM8gh
-	 P8OSPIY2bpi8Y+m5z2P2HHS4Zx3xjghAKMeAgSFmsg40JrZkIYRMhluxjK0mi+7xd+
-	 J9SOwRqOP5hhe+1GRED9+fk5ADE8hkxlaxQiQ6FMGGUmRnmay0gJqiJqk/77q9iD5P
-	 bML5yePY+Ey9pW7QEOOPehcx7lweOr8UkZv2mjl/SWHwoNmYKmPNZRANGFPsRu7aza
-	 Ow2nYRxI3N1QQ==
-Date: Fri, 6 Nov 2026 10:56:42 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Amir Goldstein <amir73il@gmail.com>, 
-	Miklos Szeredi <miklos@szeredi.hu>, linux-kernel <linux-kernel@vger.kernel.org>, 
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>, overlayfs <linux-unionfs@vger.kernel.org>, 
-	Al Viro <viro@zeniv.linux.org.uk>
-Subject: Re: Return failure from take_dentry_name_snapshot() (Was: [GIT PULL]
- overlayfs fixes for 7.3)
-Message-ID: <20261106-geothermie-stier-animieren-67c9677d5906@brauner>
-References: <20261031095716.3030288-1-amir73il@gmail.com>
- <CAHk-=wiPhTLn1p0ZHx-7SMdk4_zazqDK1k7MMEn9scRfqeDgtw@mail.gmail.com>
- <CAOQ4uxjNrdxZdZZipsqnUNq+TswCKqp+30iKRKCqh2WOQ-zKGA@mail.gmail.com>
- <CAHk-=wiimdwWu0EVQdxGVjbVWdzNKGg0f6vZ1aR-GXxDvQa-Eg@mail.gmail.com>
- <CAHk-=wjz+Tg3iq_6uBqxm+egP_aRhodcz2Qu3pQaR8SQcvPt0A@mail.gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=K70IeZK4
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=HebWn3oEvn+Xp5ULYEc4RbMXXdDqctn1MVk/JQNM9Qc=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1793959408; v=1; x=1794564208;
+ b=K70IeZK4ChyvsIjWjnf+4PyYUZUZL+M7DAGxBjGVRAmkn4E59xs9gXe+dS1tEo52DLU3NhHk
+ wXzvG7P/tU2y7zNLQsSQnRMcfXQ4yMM+F2CZjQk+ARRmJKVphNGgrmSLhAxkOKraKZmY/dMWglf
+ 06tBoeDwOxOfZFLyydTEs3CE=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id cd637f8f166aebf7;
+	Fri, 06 Nov 2026 10:03:28 +0000
+X-Mizu-Trace-ID: cd637f8f166aebf7
+X-Migadu-Flow: FLOW_OUT
+From: Lance Yang <lance.yang@linux.dev>
+To: david@kernel.org
+Cc: akpm@linux-foundation.org,
+	ljs@kernel.org,
+	liam@infradead.org,
+	vbabka@kernel.org,
+	rppt@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	willy@infradead.org,
+	jack@suse.cz,
+	ziy@nvidia.com,
+	baolin.wang@linux.alibaba.com,
+	nico.pache@linux.dev,
+	ryan.roberts@arm.com,
+	dev.jain@arm.com,
+	baohua@kernel.org,
+	lance.yang@linux.dev,
+	usama.arif@linux.dev,
+	kas@kernel.org,
+	matthew.brost@intel.com,
+	joshua.hahnjy@gmail.com,
+	byungchul@sk.com,
+	gourry@gourry.net,
+	ying.huang@linux.alibaba.com,
+	apopple@nvidia.com,
+	peterx@redhat.com,
+	hannes@cmpxchg.org,
+	songliubraving@fb.com,
+	riel@surriel.com,
+	hughd@google.com,
+	will@kernel.org,
+	aneesh.kumar@kernel.org,
+	npiggin@gmail.com,
+	peterz@infradead.org,
+	jgg@ziepe.ca,
+	kevin.tian@intel.com,
+	joro@8bytes.org,
+	robin.murphy@arm.com,
+	steven.sistare@oracle.com,
+	jhubbard@nvidia.com,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-arch@vger.kernel.org,
+	iommu@lists.linux.dev,
+	stable@vger.kernel.org
+Subject: Re: [PATCH 2/5] mm: limit pagecache folio refcount when splicing into pipes
+Date: Fri,  6 Nov 2026 18:03:20 +0800
+Message-ID: <20261106100320.77084-1-lance.yang@linux.dev>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20261105-refcount_overflow_stable-v1-2-70b9c655da3e@kernel.org>
+References: <20261105-refcount_overflow_stable-v1-2-70b9c655da3e@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -63,27 +109,94 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wjz+Tg3iq_6uBqxm+egP_aRhodcz2Qu3pQaR8SQcvPt0A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Nov 03, 2026 at 08:32:17AM -0800, Linus Torvalds wrote:
-> On Sun, 1 Nov 2026 at 09:16, Linus Torvalds
-> <torvalds@linux-foundation.org> wrote:
-> >
-> > I'd like to see an ack from Al / Christian, but
-> > I think I'll also rewrite that function to use guards.
+
+On Thu, Nov 05, 2026 at 02:10:11PM +0100, David Hildenbrand (Arm) wrote:
+>Similar to mapping pagecache folios into page tables, let's reject splicing
+>folios into a pipe if the refcount is at it's limit, similar to how we
+>handle it during GUP.
+>
+>This will prevent more cases of possible folio refcount overflows with
+>large pagecache folios.
+>
+>Let's keep it simple and check in the two callers of
+>splice_folio_into_pipe().
+>
+>Also check in try_get_page() to cover pipe-buffer duplication by tee()
+>and partial pipe-to-pipe splicing.
+
+What about fuse_ref_folio()? Buffered FUSE_WRITE requests can carry
+pagecache folios into a pipe through /dev/fuse without going through
+splice_folio_into_pipe() or try_get_page() ...
+
+Cheers, Lance
+
+>Fixes: 800d8c63b2e9 ("shmem: add huge pages support")
+>Fixes: 99cb0dbd47a1 ("mm,thp: add read-only THP support for (non-shmem) FS")
+>Fixes: 793917d997df ("mm/readahead: Add large folio readahead")
+>Cc: stable@vger.kernel.org
+>Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+>---
+> include/linux/mm.h | 9 ++++++---
+> mm/filemap.c       | 4 ++++
+> mm/shmem.c         | 4 ++++
+> 3 files changed, 14 insertions(+), 3 deletions(-)
+>
+>diff --git a/include/linux/mm.h b/include/linux/mm.h
+>index 79ae8fc0d6bb4..a82cfbce18215 100644
+>--- a/include/linux/mm.h
+>+++ b/include/linux/mm.h
+>@@ -2287,10 +2287,13 @@ static inline void get_page(struct page *page)
 > 
-> I didn't get any acks, but I obviously did do the guard rewrite (and
-> then some: I got a bit OCD about it).
-
-VFS is just another acronym for OCD.
-
-> I've committed the end result.
-
-Thanks. Sorry, I didn't get to this earlier because of reasons... Well,
-you know as you were on receiving end of it. In any case,
-
-Reviewed-by: Christian Brauner (Amutable) <brauner@kernel.org>
-
-retroactively.
+> static inline __must_check bool try_get_page(struct page *page)
+> {
+>-	page = compound_head(page);
+>-	if (WARN_ON_ONCE(page_ref_count(page) <= 0))
+>+	struct folio *folio = page_folio(page);
+>+
+>+	if (WARN_ON_ONCE(folio_ref_count(folio) <= 0))
+> 		return false;
+>-	page_ref_inc(page);
+>+	if (unlikely(folio_ref_count_over_limit(folio)))
+>+		return false;
+>+	folio_ref_inc(folio);
+> 	return true;
+> }
+> 
+>diff --git a/mm/filemap.c b/mm/filemap.c
+>index 920bbf86dfdff..0f2ec790a5b65 100644
+>--- a/mm/filemap.c
+>+++ b/mm/filemap.c
+>@@ -3168,6 +3168,10 @@ ssize_t filemap_splice_read(struct file *in, loff_t *ppos,
+> 			if (writably_mapped)
+> 				flush_dcache_folio(folio);
+> 
+>+			if (unlikely(folio_ref_count_over_limit(folio))) {
+>+				error = -ENOMEM;
+>+				goto out;
+>+			}
+> 			n = min_t(loff_t, len, isize - *ppos);
+> 			n = splice_folio_into_pipe(pipe, folio, *ppos, n);
+> 			if (!n)
+>diff --git a/mm/shmem.c b/mm/shmem.c
+>index cda1a0f7db99d..1c0f6bceac486 100644
+>--- a/mm/shmem.c
+>+++ b/mm/shmem.c
+>@@ -3819,6 +3819,10 @@ static ssize_t shmem_file_splice_read(struct file *in, loff_t *ppos,
+> 			 * Ok, we have the page, and it's up-to-date, so we can
+> 			 * now splice it into the pipe.
+> 			 */
+>+			if (unlikely(folio_ref_count_over_limit(folio))) {
+>+				error = -ENOMEM;
+>+				break;
+>+			}
+> 			n = splice_folio_into_pipe(pipe, folio, *ppos, part);
+> 			folio_put(folio);
+> 			folio = NULL;
+>
+>-- 
+>2.43.0
+>
+>
