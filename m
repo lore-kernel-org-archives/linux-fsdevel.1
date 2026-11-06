@@ -1,116 +1,115 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793974439;
-	b=DJZ52K1X3tL3icKtxnGyhV0WflI4osJgbeWUqn7iI6w7X6RBrgLJjk58a3gCjvEILz7r
-	 1uH5tyQiq1B8r5EtGMbsSRPmtKX3NMDYBSSSIjJ1Yl8WanoD5oETfsE9w/cik9tsb4iG8
-	 PmvgQNfiwAfQJKxns7fVI07J3uZbTR9C+Ec+eNM9j/+j87tgJnDJI8o9kSK85OG3guOsM
-	 9M4NO6CcCksjOg04eo1BZFlbHEin3B0KvIaqe28jX9IdUbDFMS0kIBku/gjGO/mmszzqx
-	 CqFzm9iDnH9D9RnPS2voHrf8rqe7cJPfy2QxTOYontkL7aNfGeT4HcWEHyn9t07xldQ==
+	t=1793974691;
+	b=S0CjzF8E/oynNxhTAAfxv2EaOUJpI68FWIvJ57wTcM2DX3nWj6l2F/blG7D7xHrYo+4U
+	 XPCV43mmZ7RNWJuJDxFFN2bthDhL3eKsmm63qSEMReLw1Dw7P1v9POuBdinAmYGjCcNoX
+	 H6BkjqcK8svf7Tpg+YzMxotHdHyLffLFIC8k0fa3JhegoIp2BgSniBR97YLbFd8HRYoF+
+	 4LmbQFZbnsHr3ck9Xc05tqp2pf2hi/PHTmUvIHYiCgmM4xrL49t7xXZ78iW+b1KhfXdYu
+	 IDuO3wix81eK+CBvNZXwVjTCiZDaKcCIB8AHNq3XmqAnQkL2/GrTmweZczLZhsAoOCw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793974439;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793974691;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
 	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To:X-Spamd-Result:X-Spam-Score:
-	 X-Spam-Level:X-Spam-Flag;
-	bh=6K30hVHhqXoPEaw21V0OV260X+ND3ARDmqWUfKNcc4g=;
-	b=fXFIwLpfcVQVmQuTGz3MgoMiQIfxG9FSSuh1CVDRxvwEFryqZ3no7U5l68tpPOsMmTRO
-	 bMmBvUvfTN8+PtaSDCAdozUDS/h36tJ1XQk82BzLwNQtwcDX7NIlMpIl3Tqxt6redz/ft
-	 3efMqBtmGMvYIYWt5REFwA8ywMzrgadxeQQ9V/vM/e2uQ5fIsiBRkAQPXK47FAFEkxFVi
-	 Ib/LUDnx+AZ4Ibz40igcRUASj61Eqb0W6DPiiNk9DLpu1uS/57Ln/9Ml2x3SWQo9WFlGN
-	 hwS608g4mIHju/NrHtnZBqDiUGT5MbOfQ2ekOVtV2m1dl6x7yMwpv+SPDOo//BEurvw==
+	 In-Reply-To:X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
+	bh=DbXOMRc+RxyXDwhPgVxgq6OSlAD0HlpBTR9dAYmXezE=;
+	b=ZniozLnf5pBSyLz8i72JKxnr2VwCMQbOfKFC00z29VPny8Z8Sawc9bgjRjUFVkIOtTEn
+	 +jaziS8Z76UQFmf71TZQfxhCoUnuCHJkpEujxdOvlw7LTsqz6ibrWohlzsCrSYqksid+W
+	 fFkz66nGJkPeWBgjuiWV6VX4jIduECfg395KxEEqT0BkHOJJkt0+iCidEpUDuMkMrEcsp
+	 v0TFc8ycUzi1tzS4VerjWgDb4npoC95jYIQ8hwnUpiyI/QRLVpnBQ19nBWBJ0XWltkAuq
+	 A56/JB+hEEs2LCKEUiFqabpFnpNGbstIoGrwUzu7P52SgqTxD14VL2NxAF+PaoOPFgQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=suse.cz;
 	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=MdqF6m8E;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=0FEKAcG7;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b="cgcr/uF6";
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=EkMEKg6R;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=FIawBo5u;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=GAIC8+xY;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=FIawBo5u;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=GAIC8+xY;
 	arc=none smtp.remote-ip=195.135.223.130
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F394606A329;
-	Fri,  6 Nov 2026 14:13:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1F394606A329
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E1AE606A326;
+	Fri,  6 Nov 2026 14:18:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1E1AE606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=MdqF6m8E;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=0FEKAcG7;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=cgcr/uF6;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=EkMEKg6R
+	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=FIawBo5u;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=GAIC8+xY;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=FIawBo5u;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=GAIC8+xY
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 3062B22130;
-	Fri,  6 Nov 2026 14:13:56 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 1D076221AB;
+	Fri,  6 Nov 2026 14:18:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793974437; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793974689; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=6K30hVHhqXoPEaw21V0OV260X+ND3ARDmqWUfKNcc4g=;
-	b=MdqF6m8E2qCtZh8P7amkkKG3Ce/2rxwsLs45P/KN26lJYHVec/x+r8QZ0bDTaQ1Q2ciLz3
-	genos76NXyeeY27gEBoAJiYLNHXpp878ok26i/jKIOWtjdHCon86hkG3lwvt/7+gRqOjT+
-	D2YlTMUxv71sUiAoFd+BgFn/qNxhqS4=
+	bh=DbXOMRc+RxyXDwhPgVxgq6OSlAD0HlpBTR9dAYmXezE=;
+	b=FIawBo5uxM6qqiDjVJWp3+osfdJHTB7/9k/8ZXnfwSqMSVMQsrA+ls8eohG0IqsgJpshAu
+	4k11WqrTgHHWctbcwqEkg37q29R+/n7gnGuz2bQMgmmTJ/h2bxDAuTJMuFv97yn+PnssG4
+	8k8LiAdzcqtEIdwStCzpo35K3tJtj+M=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793974437;
+	s=susede2_ed25519; t=1793974689;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=6K30hVHhqXoPEaw21V0OV260X+ND3ARDmqWUfKNcc4g=;
-	b=0FEKAcG7j5y2RE5+msUbcCwmOQmH9FD8Z0YCUr5v+JQr6cfEiJwUQwLFpnGl9f31cU6n3d
-	Fmo/560AICUlZFAg==
+	bh=DbXOMRc+RxyXDwhPgVxgq6OSlAD0HlpBTR9dAYmXezE=;
+	b=GAIC8+xY/rXGUL8rB7GiG/X98jUIopLTsD8tl90kFvlhyIwDk5QTCQpDh/2tRDj5r7pbP4
+	TKSB1zBzbcO0FBBw==
 Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793974436; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793974689; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=6K30hVHhqXoPEaw21V0OV260X+ND3ARDmqWUfKNcc4g=;
-	b=cgcr/uF6oMgxvfsar8cZ5Jm8xurU+djim4hT3s/6PNpNSQiKatXoCAhli9efi/MkfxC+lg
-	KHOvpCNrITX288ebnO9YEy+ngRw8ikjC8TyWBYCXuNyOdDGPS/VsJwNvqy7LtO8Un5m9QN
-	vmlLw96VbbOtiyTgWSLpMdRk98zzWCU=
+	bh=DbXOMRc+RxyXDwhPgVxgq6OSlAD0HlpBTR9dAYmXezE=;
+	b=FIawBo5uxM6qqiDjVJWp3+osfdJHTB7/9k/8ZXnfwSqMSVMQsrA+ls8eohG0IqsgJpshAu
+	4k11WqrTgHHWctbcwqEkg37q29R+/n7gnGuz2bQMgmmTJ/h2bxDAuTJMuFv97yn+PnssG4
+	8k8LiAdzcqtEIdwStCzpo35K3tJtj+M=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793974436;
+	s=susede2_ed25519; t=1793974689;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=6K30hVHhqXoPEaw21V0OV260X+ND3ARDmqWUfKNcc4g=;
-	b=EkMEKg6Rq7p6T2dAdlddo3Ddu/SzdnzzrfxfyG6Ijczc+5rZ3K5bTuHeAykb2gOAV+NQOh
-	nwP2LvPTuOqyGtCQ==
+	bh=DbXOMRc+RxyXDwhPgVxgq6OSlAD0HlpBTR9dAYmXezE=;
+	b=GAIC8+xY/rXGUL8rB7GiG/X98jUIopLTsD8tl90kFvlhyIwDk5QTCQpDh/2tRDj5r7pbP4
+	TKSB1zBzbcO0FBBw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 098D5134E9;
-	Fri,  6 Nov 2026 14:13:56 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EDB5D132C9;
+	Fri,  6 Nov 2026 14:18:08 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ELg4NqPg7WofZAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Fri, 06 Nov 2026 14:13:56 +0000
+	id WnUKNKDh7WpnaAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Fri, 06 Nov 2026 14:18:08 +0000
 Received: by quack.suse.cz (Postfix, from userid 1000)
-	id 9003021B7D; Fri, 06 Nov 2026 15:13:40 +0100 (CET)
-Date: Fri, 6 Nov 2026 15:13:40 +0100
+	id 8BE5F21B85; Fri, 06 Nov 2026 15:18:04 +0100 (CET)
+Date: Fri, 6 Nov 2026 15:18:04 +0100
 From: Jan Kara <jack@suse.cz>
-To: Bence =?utf-8?B?Q3PDs2vDoXM=?= <bence.csokas@arm.com>
-Cc: Christian Brauner <brauner@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3 0/2] Add scope-based cleanup capability to eventfd_ctx
-Message-ID: <sp6gvawt6petvrlky7g6pqaqsp3jwouu6ixarevis5m5vd7fwe@xjxeakzi3nn3>
-References: <20261027-efd-autofree-v3-0-caa2442e1beb@arm.com>
- <20261106-hinein-lagebericht-abbezahlen-cb826d68d175@brauner>
- <bba04255-5dee-4dd2-a877-5e169edceadc@arm.com>
+To: Breno Leitao <leitao@debian.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Julian Sun <sunjunchao@bytedance.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	cgroups@vger.kernel.org, kernel-team@meta.com, stable@vger.kernel.org
+Subject: Re: [PATCH 1/4] writeback: add the missing newline to the slow
+ writeback report
+Message-ID: <qmosz7e5iaxgadaltvzzcduym4z3dpzw7qrdcwahfvoh75mbzm@2gfo7v62qajq>
+References: <20261106-writeback_stall_report-v1-0-bf0c3b9023a5@debian.org>
+ <20261106-writeback_stall_report-v1-1-bf0c3b9023a5@debian.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -120,10 +119,9 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <bba04255-5dee-4dd2-a877-5e169edceadc@arm.com>
+In-Reply-To: <20261106-writeback_stall_report-v1-1-bf0c3b9023a5@debian.org>
 X-Spamd-Result: default: False [-12.80 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
@@ -131,68 +129,63 @@ X-Spamd-Result: default: False [-12.80 / 50.00];
 	MID_RHS_NOT_FQDN(0.50)[];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	MISSING_XM_UA(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,zeniv.linux.org.uk,suse.cz,linux.intel.com,suse.de,gmail.com,ffwll.ch,vger.kernel.org,lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[23];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[arm.com:email,suse.com:email,imap1.dmz-prg2.suse.org:helo]
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo]
 X-Spam-Score: -12.80
 X-Spam-Level: 
 X-Spam-Flag: NO
 
-Hi!
-
-On Fri 06-11-26 10:31:58, Bence Csókás wrote:
-> On 2026. 11. 06. 10:05, Christian Brauner wrote:
-> > On Tue, Oct 27, 2026 at 05:22:00PM +0100, Bence Csokas wrote:
-> > > Add __free() support to eventfd and update drm_syncobj to use it as an
-> > > example consumer.
-> > > 
-> > > A minor discrepancy I encountered is whether to put a semicolon after
-> > > DEFINE_FREE(). It seems some in-tree code does, some doesn't. In the end,
-> > > I followed the example set in core-api/cleanup.rst, and omitted it.
-> > > 
-> > > Signed-off-by: Bence Csokas <bence.csokas@arm.com>
-> > > ---
-> > 
-> > I'm really having trouble seeing how this improves anything
-> > significantly. Probably others have the same impression which is why
-> > this doesn't get a lot of review.
+On Fri 06-11-26 04:26:31, Breno Leitao wrote:
+> wb_wait_for_completion_cb() reports a writeback wait that exceeds
+> hung_task_timeout_secs with a pr_info() that has no trailing newline.
+> printk() keeps such a record open for a continuation and does not
+> finalize it, so dmesg, the consoles and netconsole only see the report
+> once the next message is logged.
 > 
-> The goal of the __free() API is to reduce the number of goto-based error
-> paths. Normally, you'd have to keep the state of every local in your head
-> for every early return. (Has it been initialized? Has it been consumed? Or
-> does it need to be freed?) Then you need to arrange your "goto tree" (error
-> labels) in a way that frees everything, and then for every early exit, jump
-> to the correct one. This can be quite complex for some functions. Look at
-> KVM or HyperV eventfd code, for example.
+> Terminate the message with a newline.
 > 
-> By contrast, you just mark the local var with _free() and an appropriate
-> destructor snippet, and the consumption point (the point after which we
-> don't need to free it on a return) with no_free_ptr(), and the compiler
-> instruments every early return accordingly.
+> Fixes: d6e621590764 ("writeback: Add logging for slow writeback (exceeds sysctl_hung_task_timeout_secs)")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Breno Leitao <leitao@debian.org>
 
-Sure, but there's also the other side about which you don't speak: unless
-the destructor is trivial (like kfree()), there are implications about
-locking, when resources (such as references held by the object) get
-released etc. So it can also be more complex to wrap your head around
-__free usage than around standard cleanup code.
+Sure. Feel free to add:
 
-So unless __free is providing a noticeable simplification of some goto
-hell, cleanup in many functions or similar, I generally don't find it worth
-it...
+Reviewed-by: Jan Kara <jack@suse.cz>
 
 								Honza
+
+> ---
+>  fs/fs-writeback.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
+> index 15260cf2a29b09..01a00d7542b371 100644
+> --- a/fs/fs-writeback.c
+> +++ b/fs/fs-writeback.c
+> @@ -204,7 +204,7 @@ static bool wb_wait_for_completion_cb(struct wb_completion *done)
+>  	done->progress_stamp = jiffies;
+>  	if (timeout && (waited_secs > timeout))
+>  		pr_info("INFO: The task %s:%d has been waiting for writeback "
+> -			"completion for more than %lu seconds.",
+> +			"completion for more than %lu seconds.\n",
+>  			current->comm, current->pid, waited_secs);
+>  
+>  	return !atomic_read(&done->cnt);
+> 
+> -- 
+> 2.53.0-Meta
+> 
 -- 
 Jan Kara <jack@suse.com>
 SUSE Labs, CR
