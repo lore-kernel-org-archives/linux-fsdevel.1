@@ -1,79 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794011843;
-	b=sjOJgXjICESCxlDikkpekzRdJxuWWEKBuPIHyE7FHGinUNBIN0jU4Y2Vtj4M83PQh8Kh
-	 ZQQhkoF66Dc7R1u8/dRJKuBUPVIg7dkm8cAXje8zX8XC950Ppi0v43+ESh8MUkH4vnac7
-	 jn+izwKv3t0quCsNsjXX5+JDXbRR2SI2GK1DgYDsOADeM4zN9Zyndj+IxQSUzeH1D4AKE
-	 qewhiYKN2hSLrAhfZkdv9VMkWPxKsZNBT8qO1tU1GFPWs7t/QA7jPG2b+ngr7tssB1sDE
-	 5mdDkF4Ylne5vMxgGBk3WgawNipnhrcywgtM3qj95MaHQGZxsGbuRScZTqgkNoZ9bTQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794011843;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=Nw+7gH6TQyDm++SEtaBJ9qTZjP0IXilw6YZGdfy/+5c=;
-	b=hNwhl2+nhO68959vplCuM/StCnIAsbEUTTGSy+9uroxuR8VzG8b9bW2/4MyPGtiMxGHg
-	 jeKpPP85+wiIWxpdTceCr07QsU4S/bH9kd3+WF1dd73uiOCeTvvekPddSLLYtOW/5wIwg
-	 U5EsmTPwzuw+qwqduJ0LR4P7Ns+ZQMede/udMutooQRD9e+k4+jKnwFhIjSzb/Ae/4GWS
-	 8CctkQkfB8fp6WFxNdVmwbwQRwI3FSNC4g86Smb7ZpzfzN/nkli0dPegu6lqZV6eXKuOl
-	 Zcvv9T/3cS2HxZDZaOH8su4lKLMEKf/QlKqJQ8/++8W1ECkRs5P1oNtBJAkoGpXPPOw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aShcBXa0;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.205.221.245
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794025753;
+	b=c3iPOb5anfxZ8TGTd1BJMTk91jMwXBX5uBDiizV3lnDwvpCqCuHBlyflHPAlXHl0LyWN
+	 vXYZo9/HoUtVyWrPb0i0FwMSvehoH6HTh++nha5pjYTcocIrcBXkXtB6amvxrhLfgRagp
+	 WHcVmHZWGVdtb0LP95gIRiRYuOwF6fFbV89oYXLiJimVyZCcOhfO5gb1Cx0hJiW4/AdQG
+	 cQqeKNPosoPUwRpyty9m8NBdGME0klLpXSGPTLLhfz99m/gDrnwWwDL3Na5/jajjNz4Lk
+	 QszjaKqQSoXO4GFZT5lhTnTZ2iYAN5Ai4StseISNIgUFuIM9eL1FhVo7YYxBRsjIU4A==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794025753;
+	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
+	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:X-OQ-MSGID:In-Reply-To:
+	 References:Date:Content-Type:Content-Transfer-Encoding:MIME-Version;
+	bh=iX4UozUO3MlxlRY8rbobS09QzTYf/voPJs4YZBBQplg=;
+	b=CgEfYOJKE/uFoB97NUftgXecaDbqgdN6Mb9XoxpwIAZHeANIsbCJ0adL51t/biT2Ca9V
+	 xQeSDc9VBc8420baSVUfErHS9jQOn+d+U+HT7Mm55wvpFlAWpCnGCzV4bBcWBCzCZ0D6D
+	 JRhMXiDqFxekJsMoN2Kn73gqRYiXBLm3leCrAu0SVryixrj2Pfapyr3hayoXjx8crguDW
+	 TQzwwizT6xpQ0fAchTNiCnGRpYkPTeuIWbdd0JEZWtwxlgyECSPW5/opghYI/w8wS9iHN
+	 rZj5WiE53+nYe6yVetPDWtTqc7HgbDhblw7GaHTunWoS8CMK2OUb2g//0uKtF9FmNZw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=qq.com;
+	spf=pass smtp.mailfrom=qq.com;
+	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=shlc24jQ;
+	arc=none smtp.remote-ip=203.205.221.245
+Received: from out203-205-221-245.mail.qq.com (out203-205-221-245.mail.qq.com [203.205.221.245])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 681D060A3833;
-	Sat,  7 Nov 2026 00:37:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 771B3606A326;
+	Sat,  7 Nov 2026 04:29:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 771B3606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aShcBXa0
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794011825;
-	b=G3e7bbwIKSigAnvmAE3ySxyTekfUL94FMcE79ekSs9Sd1Bb3+rTxYqQ6EH7YB5G+zeeC
-	 nimu+aS47yNcQhzRy0sw9pc7Za2hrSa7uMXl6le/R0VOFuaSPW3V4hNi2e+bwIKIRv0AU
-	 eFsBHb+DdSgfZJlVWanWYJYjX2aqvdgd90gFLjy1DiRUEawogWdQZS8T1n16Zj9/ddGLF
-	 5CY3ndxO216oMA3cIs+Qwn+rsZ5aq4GX0sLuBN6mAflwpUloIhjtxSKJtbDO8VDM4b8dZ
-	 NGje3FpYinNeTMuRthJWiK0SCigq6M9IXq/x9IW3BOEzTi+9/1l6JAe0fYiLlcF1F6w==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794011825;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=Nw+7gH6TQyDm++SEtaBJ9qTZjP0IXilw6YZGdfy/+5c=;
-	b=PGjf+K+Y5dYZyq1RC+f01aFmITwhGZ+5JA2stxPJV2xkAVZfjFFkOQ9oo3Rf5qq4ioqJ
-	 YJCvY6/Z4G0/lVU4SKynmF5CB+2/MOmIe/md3X4MlJZRgNzwp06DbYqMqISXE9VZjQJ1P
-	 zOGj87IHpdPRgv/rt6Ha0OwiVo5O5Vht4VWJ3nzDLIVXEHUNYBZCULsU49AmmiLz74iiX
-	 mdUw/QEU0GDg7lki6INGinAVtDryYPfd1n4ZzP0lnciSBZ9+DqBwHm1nC8mWQgTPxLlvH
-	 CyAvlz3WyCggtaeWko4vKlSy2Jf0rDsDF1zp641/baBPlas/3rr3PK05B+NuxaiG2eg==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 8BD031F00A04;
-	Sat,  7 Nov 2026 00:37:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794011825;
-	bh=Nw+7gH6TQyDm++SEtaBJ9qTZjP0IXilw6YZGdfy/+5c=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=aShcBXa0Mol8YafWuNQV7fdFIYFdp7mdpO5ytD+MtPYWHeB+z5LLAFIMlnhdac+mi
-	 pCPWjCmvMyyr6Z/wn6hc59Tb4xzLOJZJVjItFi7BvKyX32l+nXGaWr3o/QF/v2Xu41
-	 ACDFYMtx52xLwQVGDMALGdZL9JhAcnjQJFt02PhQLtrINhBaVt4/QqPlgs2J0fP1G8
-	 QaCf0rdxzyMvElPICGhEs9KaazSw8jfk7nH26Cn9JwQ5tdQkO1OVLs6JwGIruIpkcO
-	 pMNMQt3nzTxITUOVq8fudBjn+iQjHWyEFZVwM0FXZSWSLjT/plVjdy/GhRkZYZl8DW
-	 tjYsxBOsAkWLg==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 886E1479A9;
-	Sat,  7 Nov 2026 00:36:55 +0000 (UTC)
-From: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>
-Date: Fri, 06 Nov 2026 16:37:12 -0800
-Subject: [PATCH RFC v3 38/88] KVM: guest_memfd: Support arch reclaim on
- inode destruction in PFN mode
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=shlc24jQ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1794025743; bh=iX4UozUO3MlxlRY8rbobS09QzTYf/voPJs4YZBBQplg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=shlc24jQJ74+lIJeryVOU3Ie4wZZa93jFmqZaAcH2LIpeuTo1G8vkx4L6hVHT3cX3
+	 wL5Ku3/ISAVoG5Rus/iGgpSVL3B5H4jsx30ikHv03OZVjmYid6refOjJI7mrABvXD6
+	 q5FeRFAzJJUENxnBwJ08l8NRx9nww8+0lCeRymyA=
+Received: from [172.18.4.77] ([202.113.185.209])
+	by newxmesmtplogicsvrszb51-1.qq.com (NewEsmtp) with SMTP
+	id 7411C4AF; Sat, 07 Nov 2026 12:29:01 +0800
+X-QQ-mid: xmsmtpt1794025741tbj3z0pz6
+Message-ID: <tencent_64A24695F85844F5A5227DB38C503A219B0A@qq.com>
+X-QQ-XMAILINFO: OdpilHhB3Diu2r6R4FAx8c2RirsIeTm5JbdNmOK7nBwz0WY/VumI1MvGEw0FG2
+	 ogEgiRKlib/BThli9MIVJbUQ7UNuJ6ON7Zs7C31Td1Y1rjWyLvmdDBoXv/+PbTznfn8E4C8Gimkh
+	 zW23l2yU7hdfda6Gsc6GKoizcI5ml1YwNFVAJgp6nHPX2w3CMlcQRqvjmoj5Db7ANX1H3gRuwRlb
+	 7s7g2Y1nZpHsvTwAdPc+Xcwr+nhrsmJ47K5fMoEm0+7M1XnNbyHbf3/u8y7ze23bnRswBboF3xwr
+	 +dd3/qI/g81GAzPI+HKoK9d9iEUsT9MyaY626SdQWWSXIM7z8fACyMZJVOfgp41KKXCdhxEx8k8K
+	 OBCtItnwlK7ISuhAUbfS1l33XOK7/0NoPPR7RsBCl2QtoPwxi11C/YYdDFqwjt46tAi6NJKOWOt+
+	 SFxT0L8WVrt8kZFwptgUGVmwzCrTmrgKl9Of/tplR47/Kg+WyRr71M8Rd8/+69FxL/SxOKOF2vj+
+	 nln10/A/MhAurVkCJxNOU6tEdFbBI7VZM50AAzfg2/FhfThx1mcI8/NkIFTYSbPMFQVfG6vMVvdE
+	 /ZsgeaFTD3lERGAkECJ7kg3NRRIeMGT75lEOxiGoJvm367HwB8lM4qiagbBX3U7TsjVh+5MKfr41
+	 ODKyZB5CvtZSpYjxtYfyHvLzBOVtzeKD9flN2nOsigtNltjGjAiPZyNGjAvRJx3EQ7OvApXFOjAh
+	 jHlZBOctFNWBrF/NwPwu8WXEgNPbcc5eX/vbqBhqOdr9PWks32lANlHE3ES5rl7qpo1kAkY4eGPM
+	 sAvItfKsbJ/H2qEzY5BbC2qLUbCIxhqiEOxMBH6KYxql4ILyBlCqJhkh5qghReU4DsNdiNhDMu0+
+	 BWiZ/v5tikGq0DdSLYKgsEf9yBusrPKXgDG4/rwU3CYOp84q+4z39x4KBADn9y2WvKLZvnBFGdky
+	 SemNPvk8tkxaoeDTTnoy4e3F92lyeFRr5cP1uVqh42QXO/Txq452PzgbVszYfTNyk/DRlTUdK6R7
+	 nVM2G2siFp6Yk2blcc7cONAzACkZnW4udyfQ5cPUMwjEgSEeFEExtXlCiVRWE=
+X-QQ-XMRINFO: NyFYKkN4Ny6FuXrnB5Ye7Aabb3ujjtK+gg==
+From: Guikun Yang <yangguikun19@qq.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: ntfs3: two out-of-bounds reads in $LogFile replay (restart page
+ resize, restart table offset)
+X-OQ-MSGID: <c26c27-ntfs3-logfile-more-20261106@qq.com>
+In-Reply-To: <c21c25-ntfs3-logfile-oob-20261106@qq.com>
+References: <c21c25-ntfs3-logfile-oob-20261106@qq.com>
+Date: Fri, 06 Nov 2026 23:30:00 +0800
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -83,79 +80,95 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261106-gmem-alternative-providers-v3-38-8484dde66a7e@google.com>
-References: <20261106-gmem-alternative-providers-v3-0-8484dde66a7e@google.com>
-In-Reply-To: <20261106-gmem-alternative-providers-v3-0-8484dde66a7e@google.com>
-To: Alexey Kardashevskiy <aik@amd.com>, 
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, 
- Christian Brauner <brauner@kernel.org>, 
- David Hildenbrand <david@kernel.org>, David Woodhouse <dwmw2@infradead.org>, 
- Fred Griffoul <fgriffo@amazon.co.uk>, 
- Jacob Pan <jacob.pan@linux.microsoft.com>, Jianxiong Gao <jxgao@google.com>, 
- John Starks <John.Starks@microsoft.com>, 
- Michael Roth <michael.roth@amd.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- Samiullah Khawaja <skhawaja@google.com>, 
- Sean Christopherson <seanjc@google.com>, 
- Suzuki K Poulose <suzuki.poulose@arm.com>, 
- Tarun Sahu <tarunsahu@google.com>, Vishal Annapurve <vannapurve@google.com>, 
- Xu Yilun <yilun.xu@linux.intel.com>, Fuad Tabba <fuad.tabba@linux.dev>
-Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
- Ackerley Tng <ackerleytng@google.com>
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794011810; l=1330;
- i=ackerleytng@google.com; s=20260225; h=from:subject:message-id;
- bh=TXq1Q9jBI24peVbPvjCPNkLRxMY1K4Ef0Snx4+ixQ0k=;
- b=NZ3n/EAMYCRX+fSqoFNACF15ZIxG3Bi/dLX6qBEDTgTqkaUaK6OzCVw0u+02oNBki4B329uiy
- 2o4HzhyKxyYDdZSUnNDup6ShAhNskz8gXyW1Q2hAjUX3tFCGmC2x4V5
-X-Developer-Key: i=ackerleytng@google.com; a=ed25519;
- pk=sAZDYXdm6Iz8FHitpHeFlCMXwabodTm7p8/3/8xUxuU=
-X-Endpoint-Received: by B4 Relay for ackerleytng@google.com/20260225 with
- auth_id=649
-X-Original-From: Ackerley Tng <ackerleytng@google.com>
-Reply-To: ackerleytng@google.com
-Content-Transfer-Encoding: 7bit
 
-From: Ackerley Tng <ackerleytng@google.com>
+Hi,
 
-In folio mode, folios truncated on inode destruction are reclaimed via
-aops->free_folio (kvm_gmem_free_folio), calling kvm_arch_gmem_reclaim()
-to reset hardware confidential VM state (e.g. SEV-SNP RMP entries).
+Two more in the same path while re-checking it - one OOB read, one OOB
+write. Same forged-logfile setup as before, mainline 2026-11-06
+unchanged.
 
-In PFN mode, memory is not backed by page cache folios, so
-kvm_gmem_free_folio() is never invoked.
+## 3. Undo pass indexes the open-attribute table without the bound the
+   redo pass has
 
-Do the reclaim during kvm_gmem_destroy_inode() when in PFN mode across the
-entire file range, ensuring that any confidential architecture state on
-provider PFNs is reclaimed before releasing the provider.
+The redo pass bounds target_attr (fs/ntfs3/fslog.c:5105):
 
-Signed-off-by: Ackerley Tng <ackerleytng@google.com>
----
- virt/kvm/guest_memfd.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+  t16 = le16_to_cpu(lrh->target_attr);
+  if (t16 >= bytes_per_rt(oatbl)) {
+          err = -EINVAL;
+          goto out;
+  }
+  oe = Add2Ptr(oatbl, t16);
 
-diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
-index 567735a564c7a..b46907b480138 100644
---- a/virt/kvm/guest_memfd.c
-+++ b/virt/kvm/guest_memfd.c
-@@ -1726,6 +1726,13 @@ static void kvm_gmem_destroy_inode(struct inode *inode)
- {
- 	struct gmem_inode *gi = GMEM_I(inode);
- 
-+	/*
-+	 * Skip if the provider was not yet set up, as iput() can reach this on
-+	 * error paths before provider_ops is initialized.
-+	 */
-+	if (gi->provider_ops && kvm_gmem_is_pfn_mode(gi))
-+		kvm_gmem_pfn_reclaim(gi, 0, i_size_read(inode) >> PAGE_SHIFT);
-+
- 	gmem_provider_release(gi);
- 
- 	mpol_free_shared_policy(&gi->policy);
+The undo pass does not (fslog.c:5251):
 
--- 
-2.56.0.455.g6c5a503b38-goog
+  oe = Add2Ptr(oatbl, le16_to_cpu(lrh->target_attr));
+  oa = oe->ptr;
 
+check_log_rec() only validates target_attr when lcns_follow != 0, so a
+record with undo_op != Noop, lcns_follow = 0 and target_attr beyond
+the open-attribute table reaches oe->ptr outside the table:
+
+  BUG: KASAN: slab-out-of-bounds in log_replay+0xafda/0xf580
+  Read of size 8 ... located 104 bytes to the right of allocated
+  344-byte region (kmalloc-512)
+  Allocated by: init_rsttbl -> log_replay
+
+In our run the table is 0x158 bytes and target_attr = 0x1A0.
+
+Suggested fix: mirror the redo-pass check in the undo pass.
+
+## 4. Dirty page table size underflow in the analysis pass ->
+   OOB write via copy_lcns()
+
+The number of lcns per dirty-page entry is computed differently in
+two places. The version-0 conversion has a guard (fslog.c:4357):
+
+  t16 = le16_to_cpu(dptbl->size);
+  if (t16 < sizeof(struct DIR_PAGE_ENTRY)) { ... goto out; }
+  t32 = (t16 - sizeof(struct DIR_PAGE_ENTRY)) / sizeof(u64);
+
+The analysis pass does the same subtraction without the guard
+(fslog.c:4666):
+
+  if (dptbl) {
+          t32 = (le16_to_cpu(dptbl->size) -
+                 sizeof(struct DIR_PAGE_ENTRY)) / sizeof(u64);
+  }
+
+dptbl->size is an on-disk u16. A table header of size = 0x10, total = 0
+passes check_rstbl() (rsize nonzero, no allocated entries) and
+check_dp_table() (nothing to enumerate). The unsigned subtraction then
+wraps, and copy_lcns() copies lrh->lcns_follow = 0x60 entries into
+dp->page_lcns[] of a table that extend_rsttbl() allocated for the
+bogus per-entry size - the 29th entry writes past the end:
+
+  BUG: KASAN: slab-out-of-bounds in log_replay+0x8b01/0xf580
+  Write of size 8 ... located 0 bytes to the right of allocated
+  280-byte region (kmalloc-512)
+  Allocated by: extend_rsttbl -> log_replay
+
+This is an OOB write, unlike the three reads reported so far.
+
+Suggested fix: apply the same t16 < sizeof(struct DIR_PAGE_ENTRY)
+guard (or reject size < sizeof(struct DIR_PAGE_ENTRY) in
+check_rstbl()/check_dp_table() itself, which covers both sites).
+
+## Context
+
+Both reproduce 3/3 with panic_on_warn=1, mount(2) alone, clean image
+mounts fine as control. The forged volume is the same one used for
+reports 1 and 2 - each of the four findings differs from the last by
+one field of one log record.
+
+Four different missing-bound mechanisms are now known on this replay
+path: buffer resizing (report 1), unbounded in-record offset (report
+2), redo/undo asymmetry (3) and the version-0/analysis asymmetry plus
+underflow (4). Given the pattern, a systematic pass over the remaining
+offsets in log_replay() may be more effective than fixing these one by
+one - happy to test any patch.
+
+Both sites are unchanged in mainline as of 2026-11-06.
+
+Thanks,
+Guikun Yang
 
