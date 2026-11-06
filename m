@@ -1,55 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.197
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793968091;
-	b=xVI6J4Gh5jMyuP7SIYRBrXJ9dD8cinqj2lVtdjri8ZWdzRvUf7EjOctB38XSeV4Km0LB
-	 6WUm2qb8VmZ3MJ6y0YaqEcJMcJCvfmrwoYr0k6hbc+UnoIjoOAvxx9Km3gFNDcKG44clw
-	 apZ0brcT+z/udXQYTKIEzC4bxz5jZmJUBIvAlb31JVwCttFzDxdQV1qYpKs8o79jgNE5D
-	 EpNoiwCxpwV8qzyNHJmE0bSbKPodKV8k3JZD1wCKWLaju3JC8O/IL7muEUu++yVUyDXnf
-	 rcukCcsWBuRKE/l2BwoWgNh4jkQfI17HA8yY71fmzdS0ZHLxzxl8AL0sAKx/bol516g==
+	t=1793968430;
+	b=ZwoLxkRsMqGHTL3nS9jX7qqbjtzlRc3JXWEGpuDC98NaShxEJHN4zBA9ld13h2PD9STo
+	 /Y+1ZBeTzk+E2xrAyafKXkbhsUpeOrxrYTaSlL4BWL2+V3n/icdwAq0yk58ieYFLdbnkI
+	 FPmkSMyCXGcQxa8lHMZuNCuqH67khimeiJd+AOqDciwJ+l/70Y7c6WCDPjhWZv7Gz3tuI
+	 6UwYQVzj4njClzb86BhBrVzBvvzCbjwX9JGbAxX8HsUaecXLcVDSstF1ede5vQ8oMfxkt
+	 CUfKgZsOGDD+r8FV202ySgCP9+DBB+zS8R7iMGoqlD2NFMrftRx+X5NwwCLljjSpf4w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793968091;
-	h=DMARC-Filter:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
-	 In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 X-Debian-User;
-	bh=gvU9Ll/eiIhTIGP9YekbSrp0PA62VwZ43mnN9JohyA8=;
-	b=ibFpmumGaEXfkIVBtiwfZojJbR14BkKCc6MV61aMrS4gasCUroqjVGcohhAQx68FStFn
-	 c2T0roO0xC0U0CxfVVwObE0Cg572OwpYaz4x0RYrUWf0JHDDhC3K8fDkDn1u2Nk2cu7UX
-	 vcgAV5DijONgQwQQmjEeiyKZvmAXDcv+lDSBihz5k4bAY0B+obTQUx2kMJbb1ef8i3hOD
-	 CdE1MGMtH9CZEm/V/PYaYniSoNANsnp8I7JIdjPluBqOUmnhhNYEr++jrP1i0AUDRL6l5
-	 vzBHilrEKsMiClJzu7IC0rgymY8jSx3ExkvyMa809wSGYyuSm0ag/XTYgDyP2fvoX5w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793968430;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:MIME-Version:X-Received:Date:
+	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
+	 Subject:From:To:Content-Type;
+	bh=31zJHAipSlhPMGedMX5ynsYIkiuZ+8oMTFm3jTUaEqE=;
+	b=y43/Yhfz5ZO65kFV7OgsyNhCSZU3FmYQa0GOtPqOMHjg7oF79293vZyLRJLLxl9HKu/G
+	 JlM/NZbrFnctYmvIi82ztZ6SnpDiltnGJWFkBwTrz7Vo9yIRHUpkHSU7iWuca0nFnkbFo
+	 umj6m/Rvh2R83416+nKdWu2j2SYFIrfoNrH9FTXs4AMQqo21v0hyf2co6r6+gauKiLLoz
+	 7AZ57okZTaQOesN/oeOzeOenvJqmI2TNtIq+ewN7KN+hC1qoXv3o+jBkUPTzFzRlgQXlG
+	 QwGBkKcWWY8gflEeUmY3+dVm0VEBryfVeD4Rhn/JzLTR6IKns0mh9/9hKgTkoHjI4WA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=debian.org;
-	spf=pass smtp.mailfrom=debian.org;
-	arc=none smtp.remote-ip=82.195.75.108
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=fail header.from=syzkaller.appspotmail.com;
+	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
+	arc=none smtp.remote-ip=209.85.167.197
+Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com [209.85.167.197])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B02B0606D81B;
-	Fri,  6 Nov 2026 12:28:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B02B0606D81B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:In-Reply-To:References:
-	Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
-	From:Reply-To:Content-ID:Content-Description;
-	bh=gvU9Ll/eiIhTIGP9YekbSrp0PA62VwZ43mnN9JohyA8=; b=kriSbH89ZxwtRAa6ULhkqiNJJf
-	TMaNoX6df9t3k6PGp1kYsjOs/Uk4kZlxd2LT9Ef0SVLrsbktATcTSLmjMZbnnyVnbTWWpurDISd+d
-	JmstELL20CDQKrzTqq0bPXA53sRl103ypUpcJhT/R+rAYa+KbS0BxwjatXRBnjdmx+H7p+GL2b5Gz
-	/xdfUVsC5BR13YX2wUFQ2uS/O/m8bqGuL2PKCYS3i3enLAd6v/7olOpcw8Evo+zvIWpMgG78xNUN4
-	m3WmW0/zWol98h641oDlS5urIAKqVHsgB2c7urVMjSPBfchScJyINF7kaVchSMscNAexmiTMWOoUV
-	gtQVcWgA==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1xPJ2t-009HUA-2L;
-	Fri, 06 Nov 2026 12:27:51 +0000
-From: Breno Leitao <leitao@debian.org>
-Date: Fri, 06 Nov 2026 04:26:33 -0800
-Subject: [PATCH 3/4] writeback: log the end of a slow writeback wait
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C600B606D801
+	for <linux-fsdevel@vger.kernel.org>; Fri,  6 Nov 2026 12:33:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C600B606D801
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-4c55ba309c2so673045b6e.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 06 Nov 2026 04:33:49 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793968429; x=1794573229;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=31zJHAipSlhPMGedMX5ynsYIkiuZ+8oMTFm3jTUaEqE=;
+        b=zV32RljqMuPKHA/OMTiJPgruGEIb/jqoUp6tbXoMRCSz+uYxQInxeEGQ/wI4d3DTsV
+         3IouQ6VD8w2rZoN4KwAux82V6vTldpYZd5IA7izYqoqv3yNeEHHYDR+75jAqapkcoP4V
+         HnneFDqLoDraHvPmDaAAtm1M4Nu+So8cKBMGt7pP3OjqwpY4DOGp5ix/iQWl978bA0TU
+         j12Plx+EywnfmsLW64QGG2fTzcISKl/F+yfFM0n7omKJhMV4UUmEDKXiLUVwJIVpaHF4
+         EL8bpvnh6bIoD+LDS30Jremt1ygKxhODBOYvXrVMUuDbqxItg1fEp3XLrQYJHfVUUi09
+         7cPw==
+X-Forwarded-Encrypted: i=1; AKwUvBw3IE2F+NNb2qzqw87DnOoBOHPKgAuea5fydN9WDciG2v5s83qF1SIjwK52lpXypboL7D0Pkj1QhgDojdVS@vger.kernel.org
+X-Gm-Message-State: APuU4Z+P9oROPZHo+Gitc2MPOylrzjA63KFPx08S1bP+tNQmJCkc7f68
+	WByXl+IVxESV7bLZvG9ZNFTpkq20RL8mJPWcSThJpzLb6k8G3tImg/2XrdhqEMRl9cL0g/+eGWY
+	rX6lmqZKAcHG8UTq2ftfxW6haOtm//8fjEDsr6LzjYyawPSllIQEZLjhlX4s=
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -59,109 +58,55 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261106-writeback_stall_report-v1-3-bf0c3b9023a5@debian.org>
-References: <20261106-writeback_stall_report-v1-0-bf0c3b9023a5@debian.org>
-In-Reply-To: <20261106-writeback_stall_report-v1-0-bf0c3b9023a5@debian.org>
-To: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- Julian Sun <sunjunchao@bytedance.com>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
- Michal Hocko <mhocko@suse.com>, Johannes Weiner <hannes@cmpxchg.org>, 
- Roman Gushchin <roman.gushchin@linux.dev>, 
- Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-mm@kvack.org, cgroups@vger.kernel.org, 
- Breno Leitao <leitao@debian.org>, kernel-team@meta.com
-X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2421; i=leitao@debian.org;
- h=from:subject:message-id; bh=iWceDHwwzC7CtVXVGCT6gvnNpBmDPTUwLcY2UEonv3g=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBq7cexBfiJ3VegtWonP+xsYLQRVNrpAkov7A9YO
- NvPZ0oPNouJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCau3HsQAKCRA1o5Of/Hh3
- be1dD/4nmrxOfJYJw/5P28bGYcp4gHuYsEy9nJmS7KV0gQju7E62cEKfqwun2aIGlpvay7dRID8
- cRLJGizJ4tudbbP4XCo5rOM30dE9DHgmSZTj1fnehuy7ZdYYdE1gWKZTpa/QNgZAZaWY/bgeTA0
- OhbYSoGs+rzin3e9Fo6Ko8rjtcUXoXGbqBrOQ0+9N5vgbJG9tk/+BKtpEB1abqAzWwtqJWxfCWD
- RrkqpjokGI3TNCFMHmHwYt0JdOne/nnqF8WYlnwLyQAG2va1YbIbmqqEPWEmpvij2tP3VefCfMA
- cCo0ytSjAtkAL3seve6NPqHdupdLI6godDCn2iqJ+CjrJnpj35Sk/zQ2sd7nXNeTsRAEnBBharh
- aHNM07S935HTyiLMvulRUH0HsgIuJ/GW/gsK50J4mP6nx/EYgDeJdgQnahVc9eUpkJ0KgWZVoZ0
- 5SES4RL8biRgHO4lU9AonTVL+3nFktwndc6nSORxWZsN0edcM9eUOtGJGnZa/lhmgZ3bhj1rRrv
- 98yB0/h334klPS7bNk03tvG4v01dm6wVMJcm47vRXvIqlkw7uDj0CzMA99RqDEEsjjzEfHI/Ecu
- ZV70VFYUA1zo9p2jGVqzuaNuPQ55geQxE1r/U+aj5UIaGtHdcfnn1k+w48Jb8JkdwV2aosyQtE3
- /ojLOEHIPKH8wpw==
-X-Developer-Key: i=leitao@debian.org; a=openpgp;
- fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
-X-Debian-User: leitao
+X-Received: by 2002:a05:6808:c3ea:b0:55c:836:597e with SMTP id
+ 5614622812f47-567e14d6d1cmr1493728b6e.31.1793968428769; Fri, 06 Nov 2026
+ 04:33:48 -0800 (PST)
+Date: Fri, 06 Nov 2026 04:33:48 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6aedc92c.a716b02e.a4a62.0002.GAE@google.com>
+Subject: [syzbot] Monthly hfs report (Nov 2026)
+From: syzbot <syzbot+list1e64672c7831f2f46cc6@syzkaller.appspotmail.com>
+To: frank.li@vivo.com, glaubitz@physik.fu-berlin.de, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	slava@dubeyko.com, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-A slow writeback wait ends with one more "has been waiting" report,
-printed by the wakeup that sees the last work item complete:
+Hello hfs maintainers/developers,
 
-  INFO: The task sync:180 has been waiting for writeback completion for more than 29 seconds.
-        bdi 252:0, work items left: 0
+This is a 31-day syzbot report for the hfs subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/hfs
 
-That line reads as if the task were still waiting. To tell a slow
-writeback from a stuck one, the reader has to notice that the reports
-stopped, which is easy to miss in a busy log.
+During the period, 0 new issues were detected and 0 were fixed.
+In total, 17 issues are still open and 42 have already been fixed.
+There is also 1 low-priority issue.
 
-Report only while work items are outstanding, and log how long the wait
-took once it is over:
+Some of the still happening issues:
 
-  The task sync:181 waited 29 seconds for writeback completion on bdi 252:0
+Ref Crashes Repro Title
+<1> 11662   Yes   WARNING in hfs_bnode_create
+                  https://syzkaller.appspot.com/bug?extid=a19ca73b21fe8bc69101
+<2> 8181    Yes   possible deadlock in hfs_find_init (2)
+                  https://syzkaller.appspot.com/bug?extid=e390d66dda462b51fde1
+<3> 1125    Yes   possible deadlock in hfsplus_find_init
+                  https://syzkaller.appspot.com/bug?extid=f8ce6c197125ab9d72ce
+<4> 6122    Yes   possible deadlock in hfs_extend_file (3)
+                  https://syzkaller.appspot.com/bug?extid=2a62f58f1a4951a549bb
+<5> 1895    Yes   KMSAN: uninit-value in hfsplus_rename_cat
+                  https://syzkaller.appspot.com/bug?extid=93f4402297a457fc6895
+<6> 1121    Yes   possible deadlock in hfsplus_file_extend (2)
+                  https://syzkaller.appspot.com/bug?extid=4cba2fd444e9a16ae758
 
-Signed-off-by: Breno Leitao <leitao@debian.org>
 ---
- fs/fs-writeback.c | 16 +++++++++++++---
- 1 file changed, 13 insertions(+), 3 deletions(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
-index 3dee9d65eaf721..cdb2631b8552e1 100644
---- a/fs/fs-writeback.c
-+++ b/fs/fs-writeback.c
-@@ -201,17 +201,18 @@ static bool wb_wait_for_completion_cb(struct wb_completion *done,
- {
- 	unsigned long timeout = sysctl_hung_task_timeout_secs;
- 	unsigned long waited_secs = (jiffies - done->wait_start) / HZ;
-+	int left = atomic_read(&done->cnt);
- 
- 	done->progress_stamp = jiffies;
--	if (timeout && (waited_secs > timeout)) {
-+	if (left && timeout && (waited_secs > timeout)) {
- 		pr_info("INFO: The task %s:%d has been waiting for writeback "
- 			"completion for more than %lu seconds.\n",
- 			current->comm, current->pid, waited_secs);
- 		pr_info("      bdi %s, work items left: %d\n",
--			bdi_dev_name(bdi), atomic_read(&done->cnt));
-+			bdi_dev_name(bdi), left);
- 	}
- 
--	return !atomic_read(&done->cnt);
-+	return !left;
- }
- 
- /**
-@@ -228,9 +229,18 @@ static bool wb_wait_for_completion_cb(struct wb_completion *done,
- void wb_wait_for_completion(struct wb_completion *done,
- 			    struct backing_dev_info *bdi)
- {
-+	unsigned long timeout, waited;
-+
- 	done->wait_start = jiffies;
- 	atomic_dec(&done->cnt);		/* put down the initial count */
- 	wait_event(*done->waitq, wb_wait_for_completion_cb(done, bdi));
-+
-+	timeout = sysctl_hung_task_timeout_secs;
-+	waited = jiffies - done->wait_start;
-+	if (timeout && waited > timeout * HZ)
-+		pr_info("The task %s:%d waited %lu seconds for writeback completion on bdi %s\n",
-+			current->comm, current->pid, waited / HZ,
-+			bdi_dev_name(bdi));
- }
- 
- #ifdef CONFIG_CGROUP_WRITEBACK
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
 
--- 
-2.53.0-Meta
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
 
+You may send multiple commands in a single email message.
