@@ -1,88 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793958640;
-	b=omXWUNJmD/xHZgX2+jEZavnau6PH5dgKE6dxXq768tjMECAItj1ED+7AskK6L3vX/qSn
-	 Q+vaTGpYtF3asTulgovz1ptDxOxlqEiIo7HOQi2c/WFysBeVtRSHyk9lRt1miobjaN1JO
-	 +POIa28UfSz/8ROEzT/CjaXxG22BmFIE0QJ9/9PrBvbctJqNrhLqWEgEpDA1FvhzZgth8
-	 HwltiOa3D8LBEq1wwqIvgda54ocSyqqO8bU+9FWpTbmosZ+uW+9azAcsZNJ//ltr1z1Rx
-	 uutm8gBCRx0JLHOG3u4kX+rF1NA3zPq7CMAslEmJ638XenB9auhxzWpRUG8SdXNBfQg==
+	t=1793958978;
+	b=DyCjs4+9JCQ5+QParvMt6wp5XFIkmWVRMrnykDCWg0sbgYqFfxvs1vFo3JgZC4EROqMQ
+	 evD/j5zGO/Z83e3JMDdJSgPBN/YvIiLgJ05Pgs7kCEI8f3ik3gEHHk3zMqmZn3pxm0M63
+	 NL2looSLRVXYvp30KH3RcO/tX5RK+S+9GqnCmyj236p33a2+QIO3X+3h6s63YKoB6A3wy
+	 mdlxc52NpkmEHYNrlv6G8Nw28bUNSMMSHr+Hf7Lf8/tojNIYhYNPKgbXs6Ul4dvA12VH2
+	 2X8PmqAeok6PCsACAj6opPkoSz48aeqPNl5nk2AEQPUyKeFwPpcSCDnjLhTcEr9+0TA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793958640;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793958978;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
 	 Content-Language:From:In-Reply-To:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=RupwrtSRCRknDTCP4U8+mHVorluG3D1aDqrqCuXGL/o=;
-	b=BwX54kQeLv6e6ImU0fbJtH2aFQzfLINd2K6CWKNbpzLVr/JMP7O0GKF1JIdGckNtR1GK
-	 8lJM6MLAzeaLQioad0b+TugjSG2xFJthqOgMyPWZqDqYyZsw3Zi4iOznsQYfMHhPNg7RO
-	 0lJRlhCU4WsxjSXG2V/QcHie7v8/428JpLV2RiLeldU2lbQkgtA8BddMofyUY9af+VYJk
-	 qDYSPTMVIr3hvhNZ0qp47A+Tz3FIAi8J78MNlhXvft8+joRS6aqsLYkaos7iBehZu2tjn
-	 5W9daU72z18KceHyLRQRQIzW3k5CfxZHwdQQea33yy5RF2yEKT8KnZo1LFlsIWgve+w==
+	bh=PVNqNcKixHGsvQRk+aF9Z3pXurarEsFSJxJzB1XGyf0=;
+	b=IP4PbNLlH52oAp05y+rgqlnQ1a6tVUxuQUr0TbtYwdFudMI0Gx8kmlKCEUMRqIbUAeXT
+	 yMc4OzQegXTgwPF1ypZGd/j0b9xShCfL40VzVjrbwx+YTNHe78py1dsYGRvHTqg2ZAXde
+	 A5R0AN6ssVUrJ6Jkn+BdSxpSptN0y6eepgTdyFzb9IUf+1qqyqPyF2clszFvrdg/ORu8s
+	 GbgdOe1i7DtG0T+07cQRaiTL+QMpKL9qNZS5Ak5atxVBU1NQMtFCv7yQGmIqCLZ5mseXN
+	 txGz55ica6NaKgoJh/bjsS7aRbh3tYOTbxrBzvq/97k6shjgNNV7iT94MVVOoHKsiBA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=t1D9H5iu;
-	arc=none smtp.remote-ip=209.85.221.52
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=H1Xmkiwr;
+	arc=none smtp.remote-ip=209.85.221.53
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEC2C606EEB8
-	for <linux-fsdevel@vger.kernel.org>; Fri,  6 Nov 2026 09:50:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DEC2C606EEB8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 585B6606A326
+	for <linux-fsdevel@vger.kernel.org>; Fri,  6 Nov 2026 09:56:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 585B6606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=t1D9H5iu
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-48dfc0421d9so447391f8f.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 06 Nov 2026 01:50:39 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=H1Xmkiwr
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-49376eb635fso41573f8f.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 06 Nov 2026 01:56:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793958638; x=1794563438; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793958976; x=1794563776; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=RupwrtSRCRknDTCP4U8+mHVorluG3D1aDqrqCuXGL/o=;
-        b=t1D9H5iuTUmjdPhOVJmZIub2cA7iiSUr41ZQ3yS+raxwi2K9JW5USUNO1Ej8W7ktyy
-         jDlpr6IYaICDt5N3782Vm+vT8R7N+VD6e282WCZUIr3qHs3ymqVae8nOek4p5Qr6O/oS
-         dqZpOzvc4Swchkzri6wDXvUOBTWJM5lyg5UOT7Y/iAiO/bDMWNay73N2vmeXoqlrNWa3
-         CWfy2PPZ8DtSbf0uhLB61kRz/tBH8yhEbP0mgAap9N/KETVXb+EF1zhC7HOG5tW8CGpR
-         ZOvm0YUZZDiDTRNjJd5C/6nVAnSAYqMrPeB1m3dSCFZzIl8NAmnARF5bgl9O49QSbyKD
-         /grw==
+        bh=PVNqNcKixHGsvQRk+aF9Z3pXurarEsFSJxJzB1XGyf0=;
+        b=H1XmkiwrX3YLzUoz8v63tW0K3f8HeQQMrYHC6NguBq0Yc1lHgV5BxOaPiQVM/nx5Kr
+         Nv4Nkr/P+0smDYStmA0vxUWIevexJO6W3YeVFzXWxjpUb82YtyB7exO1WkMPRlrqshbw
+         7gdELKEwKXzXZnlrkpHr1yD7exsMl5g9kqsHjwkVOrYoszaDhxn1MLxcOJF4sb/6L3MY
+         sIdWD7L/keA+kAzxJc8rrEhKaeUKb4K3OJKzQ0cL4yoRHek+Sk1AtTQV2X8+u59Vj8dP
+         k4wPQ0+F+f6g4v8Op0nmFGDXNrToQHYaCL+7LHoyjFE/RK0fmcwPf6Waptypct15sbUF
+         jOcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793958638; x=1794563438;
+        d=1e100.net; s=20260707; t=1793958976; x=1794563776;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=RupwrtSRCRknDTCP4U8+mHVorluG3D1aDqrqCuXGL/o=;
-        b=ccwKy6HTONpdHRbMKlgkPHLr+YovuMDKQg12tUThmzXxvAMafwLQaehzF7t2dT8su7
-         V5egRBd8nPRCByMcv9XoFlkWoQRKJC9qoQ7klau02G8GPqIG1eovBCd9vbSIeUbCNrdG
-         ucVdOa33ccMvF9w48U1wBuyZr30Mj9t7yy3xht+tLRbNHHoXagNXkDB4//wMiruCOhZR
-         iUvjArgVjAupbBWOO3UjipQTxG5KdCxLhu3Wda8V8WczDCiJtFhYFkkoFzPB80SF9dIf
-         TgLwbgqC8vJM3wVp+7tzZZFJowQ33gNN6oyg0kbWrhs6g1bM45blgaySKQoa9VzwiVrT
-         JbmQ==
-X-Forwarded-Encrypted: i=1; AL+hErE1/E0H9izSnoThl8fIRGDifhSt/ai4iSBncHMxOSkZhmpP7EgKIb1i2CsSWevaoEfKR7ouAw4XWPLl1ZN9@vger.kernel.org
-X-Gm-Message-State: APuU4Z8ST9TSteMhibcnIyNqQWOV9XLuxgVXCaOzxDCQXhY9VPPbIKSt
-	7Pruuzv57ts0tOiBBahRFkMB+KysIg02Kd1acSUVblcCogmfmYnx/Jrj
-X-Gm-Gg: AYBFou18QikQa/vjkj7lgJ6C7PT42c/aKZGSirF+g2Kkd7DgPLXx4aK6rTDSbrdgwmc
-	tuBjXLBzKj49tFYL1ZiLUdMHp09y6yGeSPd1mDQIbgBa0YpbqqWk8yLnPU2l284naKZEWNmpZOf
-	f9/v6JkbCipZTHu89u1ef1tcQuRqqpzbo66Xnd3nFnuvaraToTOBFOQBbHMf8hoVWvbp4SLuD6Z
-	O2wn9EnIiecFo303fCWWeXVL7m0V/0AyOby4BWH/MAY/OugepXQ4GLzWMkeQID9yn6vK5YpMY0K
-	xxATSdrGx6uh8J30lm+/Ooi5J3f5i+B57Dn29NBOfy2e8Kid0qfYyDisaWmeJ+UCdjDHPlu1wcB
-	tFXuILxqS6mQOJtEwJek1zRXlyUeO8I3oQ6HeMIX1jj0AUanhKZJWdnPMUCEgKyyy6KWIepdimQ
-	Ezi0REbJ1nvNStIJsgId7PiesVflRsl7FlcVzHrU7lL5KCo96Lkd0KQRKPh+pB3uzGFuy6jupJ8
-	uzxGBWHDN+Demp/wKQLUrqx1HB8I4GYfHNvsJWqxPL/lIcMV8X5lQkSptf0r8NZOzqfKmPVvTWy
-	VzSlwULZDWo+vnpd9sJihR0=
-X-Received: by 2002:a5d:5d82:0:b0:491:83e7:32bd with SMTP id ffacd0b85a97d-49277f88313mr3982559f8f.50.1793958637679;
-        Fri, 06 Nov 2026 01:50:37 -0800 (PST)
+        bh=PVNqNcKixHGsvQRk+aF9Z3pXurarEsFSJxJzB1XGyf0=;
+        b=Ce6cKrBiWc3TW5SpVSih1+KuY3vHG5KUUvCbSoHm/HmkG0ylUCkcnodi18zT8jH+nz
+         gEBcHA7MIVeAII9gaSmtY+5BB02fVI/wvyjqKKQ2hEw2RGk/qwYLCj8/a0t2AzrGmHnC
+         hQMoGoPWj48bPOUtlb5PlM8+iKK/YfHZI0Ug0G6wWkaabsiD6EPxyaJDgBce7syGc2z0
+         JNq8HS2pXCM0hNAGQlZYoQZsCvGLO78C7FZYlK0ewvapJCzCcruK9Q/xV+Hs5SjoUaNv
+         6Y7v3/Erb2Pu8iutJ1b3pRcwXNyOUUY66ahQN5dMqyKsMVdoJ6eIXz5zFSa1mF3sCO5T
+         L8MQ==
+X-Forwarded-Encrypted: i=1; AL+hErHH0YG2nWEI/iOseGs8Uyg+egITGMtyo2gXwHmKAnEtoKqGT2PfEpjstyDcBRO5FAQxon4aQASRCJtuKQQT@vger.kernel.org
+X-Gm-Message-State: APuU4Z9J+w5SnyLz9V6i4LAesU8nedG7Z6gq7RorV1VekIG9jK6IODwx
+	QmcZDPOXqqtr268b32yvo7SgrxI4dW5ZAVZ6HcrSW4t32WIWFHNwdad8
+X-Gm-Gg: AYBFou1FdYo5YTnZ8snTrumsZAj1RVueSl81xDv2qQdZkEX2bkwyJRTgmM2Qss3Aw3t
+	SKGZ1exI1D7Hvlp5dp43dTu2X89LnBd3W/EooKi5NY7S5+IQCR1wyLLhET08KVK8+fVptPXU0Q/
+	XfNkPbPOVNPIRpeHR6Pm7llO6XmFt95VD/rwuLIBNTbTVDxEtPCl1w4bJ6YJ2Ju6BiSa53VFdTd
+	z92z3Dw+3+Vg5QLPY7CEuJVy29nxcrtsV7s238TA3L+SacuSrsPfbyOeSq66h5frFn/tR1zuN50
+	dsic1H/yrRkdYzYdr48f5ZR9no/xQLSSziwx630z/+gapepV+iubdZbEwNo8X8uKSnGtWvt9R5c
+	MW/rPtfRBoQ0w2HbZrf2EqIotSRTohB9kQ8hjbJwk8Vfo6SSWO6BkWKUGAvX3dISOVlTTtnE5wa
+	MI+ijuRxr2BGVv7KVDCkKuW+YKiKXFI+X8Ze8EXGJrjH9iAGqVr3Tqw1WmgkQYqws/grokWIMgu
+	/maZPZ8sE3jg1G8QYRDJA/A4rZG7Y9knPVWYylJVIWUFJHbDNM2htcZzl4yFfGNqlDqX0MusQRP
+	D69BwDw53vO4BqwU4jLK2LA=
+X-Received: by 2002:a05:6000:26d3:b0:48e:6159:8274 with SMTP id ffacd0b85a97d-492765a3e9emr3874962f8f.27.1793958975594;
+        Fri, 06 Nov 2026 01:56:15 -0800 (PST)
 Received: from [192.168.1.22] ([83.231.69.9])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-492d3d60e78sm2755152f8f.1.2026.11.06.01.50.35
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-492d7dbb0d4sm2752385f8f.50.2026.11.06.01.56.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 Nov 2026 01:50:37 -0800 (PST)
-Message-ID: <6662ae76-c8dc-4bc5-9730-bf9f537ca9cb@gmail.com>
-Date: Fri, 6 Nov 2026 10:50:34 +0100
+        Fri, 06 Nov 2026 01:56:15 -0800 (PST)
+Message-ID: <e3e15340-d6c0-479b-867f-e5eeac1e0e2c@gmail.com>
+Date: Fri, 6 Nov 2026 10:56:11 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -93,8 +93,8 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/5] mm: limit pagecache folio refcount when splicing into
- pipes
+Subject: Re: [PATCH 3/5] mm/mmu_gather: flush pending references early before
+ the folio limit
 To: "David Hildenbrand (Arm)" <david@kernel.org>,
  Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>,
  "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
@@ -119,32 +119,29 @@ To: "David Hildenbrand (Arm)" <david@kernel.org>,
  Steve Sistare <steven.sistare@oracle.com>, John Hubbard <jhubbard@nvidia.com>
 Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- iommu@lists.linux.dev, stable@vger.kernel.org
+ iommu@lists.linux.dev, Chris Mason <mason@kernel.org>, stable@vger.kernel.org
 References: <20261105-refcount_overflow_stable-v1-0-70b9c655da3e@kernel.org>
- <20261105-refcount_overflow_stable-v1-2-70b9c655da3e@kernel.org>
+ <20261105-refcount_overflow_stable-v1-3-70b9c655da3e@kernel.org>
 Content-Language: en-US
 From: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
-In-Reply-To: <20261105-refcount_overflow_stable-v1-2-70b9c655da3e@kernel.org>
+In-Reply-To: <20261105-refcount_overflow_stable-v1-3-70b9c655da3e@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 11/5/26 2:10 PM, David Hildenbrand (Arm) wrote:
-> Similar to mapping pagecache folios into page tables, let's reject splicing
-> folios into a pipe if the refcount is at it's limit, similar to how we
-> handle it during GUP.
+> When a task zaps mappings (e.g., MADV_DONTNEED), it can drop the PT lock
+> and defer dropping the folio references. In the meantime, page faults
+> can refault pagecache folios, creating more references for the same
+> folios.
 > 
-> This will prevent more cases of possible folio refcount overflows with
-> large pagecache folios.
+> Let's just request a flush after enqueueing a pagecache folio whose
+> refcount reached a certain threshold. Start flushing well before new
+> references are refused, regardless of the caller's privileges.
 > 
-> Let's keep it simple and check in the two callers of
-> splice_folio_into_pipe().
+> This is a temporary measure until we have something better.
 > 
-> Also check in try_get_page() to cover pipe-buffer duplication by tee()
-> and partial pipe-to-pipe splicing.
-> 
-> Fixes: 800d8c63b2e9 ("shmem: add huge pages support")
-> Fixes: 99cb0dbd47a1 ("mm,thp: add read-only THP support for (non-shmem) FS")
-> Fixes: 793917d997df ("mm/readahead: Add large folio readahead")
+> Reported-by: Chris Mason <mason@kernel.org>
+> Fixes: 10ebac4f95e7 ("mm/memory: optimize unmap/zap with PTE-mapped THP")
 > Cc: stable@vger.kernel.org
 > Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 
