@@ -1,57 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.174
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793971569;
-	b=1DFqrcL17zoAjBw8vaZuXkFD7zXEWkvJS7n8idiI+HUe5x/pZKeDFTbpBK/xyu5JXdV/
-	 UftKzq4iHWGnnWOLDqQDaZTtUzdk8+WNzG47EuZchrv1fNJN4rylPkQdoySH/3VXGmRcQ
-	 PPbYgM094zokwEI4lc294voINgFAgyHBPPfdmHOn/y/Bbe4C7bX/77kIe3WZye61MM6wd
-	 1DT0iy3MMgPl96bIZZLPxvUz3adCW1+BFQk79hPynxfGbkyV4+s1zNCjoCV7PcitlT6bx
-	 IcaPCyCvTtXHoI8Ek+Vqvbc85RJ/k5PiVsiFGYboXh3cvV/j7a/KNs1fV5OggNuV9ig==
+	t=1793971880;
+	b=xvhb7ho6vuWgSFoL0D9jCFhxQKZ+Lfx5JX/uAT8wNptP5wrlkVFFhZTa8DnCpzavA7V4
+	 lu0uBQh3gpU26hEANoqS97KGn4stODok/kxv9+6MTZpe5bfXWCfLxfnTi1yeaQ+dTOpNd
+	 AOsbnz+ksRyOWfJst72bz+C/07ukOiGrttlJiDQ7OG5o43geXWJUrLQrEGtNZVkRBFL2z
+	 Z93/GK4KOB5YCzn3m+l02/EIEI1d/Taxfqw9vvVEgMgykuMq6YaGlDNOwc7ePQEWjmcq0
+	 9/Wo4dFLHiuIfxLqK0T+DJkPoJvbqc7FSGDovq4frUXAyasii4zK35wu3jXdnzbNj4A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793971569;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer;
-	bh=LhMPudYkOtb9w/6jA+5Qtcary7Z+OOpKoB//TNR+IsM=;
-	b=F3YtqSJy9OTkVjqI72nx0qiiaW2Is7+sMVnT/okOuQCRHj+jrY+uQe5ub8LF4lxsn6dL
-	 a+sfwi2o+MzACRxtKwQLd1EWDZKDaEvTLMtZ9tvCMOzlGG6getlTZ3FR2bAQvfYEP65Xf
-	 jvh/42g+n7BsQ4Bi2oTOfrBuYcvlqD+p7b0gzFc7Xd0GJFSvNnf575TPu73vlA01MkZlv
-	 iyafq9RUcBy81gIBJY6p/mMEHpsns0Zq4QiKgjc8qy/gJufbhRPL2dBgbaJmniuf/7U5y
-	 AhnXKpESBtVjIfZUk/lfKgM6lG0vxbIzBgw+DiHolbMiD32eAClBPNeAhMOX5j71gCA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793971880;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=G6DwXFsKVtS0DwVfDaHzAgdX+wZZI3a8OJ1eN4exF+E=;
+	b=DAve+lHvMhNucTHAhylj8MQ1NApGmNCfsW7ypc/6kFNlfsSyEWnozywjn3HQBAFfgYJE
+	 gZTkznHcaYk6U1tDHef0djBn02lAba3x/sIjMMs/l29ekRrWMnUqutq6p0l1/KMJ8se8I
+	 KcdeLyGg3ALPyCz4260VZdCpAighL89JGCbs6pi2FaUwUzjkv+EMAGYdBQsbdIHqoamkN
+	 jE255wR8j8oO7fbrLALtLq7ruptfB5/A0Q2HekNdN6dUYLK1lyjM9vajRnFFnh00GFuPK
+	 e2DFnlR4IzkgZFNCU8yr1Qnor9lmcHPR78ek9Hw82b/co93bXfNCKlgGx4hPK9T2Mig==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jJUy2Xgg;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="S/NyLCh4";
+	arc=none smtp.remote-ip=74.125.82.174
+Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CA56606A329;
-	Fri,  6 Nov 2026 13:26:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76599606A32C
+	for <linux-fsdevel@vger.kernel.org>; Fri,  6 Nov 2026 13:31:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 76599606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jJUy2Xgg
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 662BE1F0089F;
-	Fri,  6 Nov 2026 13:26:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793971568;
-	bh=LhMPudYkOtb9w/6jA+5Qtcary7Z+OOpKoB//TNR+IsM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=jJUy2XggSeYfC08VrXAlFI3aF3pE2X9jBDo/Ll60t8/0vjuhdp8KSWpN3EmT/w91P
-	 lZKiOYqxBPVWym6ycaRZeY6ViHjOwXINvnFJuZo+fXtApUWMZ9d9S6dRTgwrMUF7pB
-	 1xvUlLr8S1Tj2kr1A5Sqy0k4kXX9EGqbrlj7FHm7wAugVfSNXCI7k3QqEGekslbqKq
-	 V/PQMvKoNXac8nJm5N0apUafVNmIhNnfGdZSwb+AoB6NykCN4VTllMOrZXhj2lkGCR
-	 y5weJAwONk8vmDHcuCniJIyvOG+1d0TqGWlVbw7Lo2qNuSu5+agdMrAV03vXR6Xsfg
-	 L3DsbkOyPwweA==
-From: Christian Brauner <brauner@kernel.org>
-To: linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
- Benjamin LaHaise <bcrl@kvack.org>, Jeff Moyer <jmoyer@redhat.com>, 
- Jens Axboe <axboe@kernel.dk>, linux-aio@kvack.org, 
- Kyle Zeng <kylebot@openai.com>, stable@vger.kernel.org
-In-Reply-To: <20261030-work-aio-exit_aio-v1-1-83942022a4c4@kernel.org>
-References: <20261030-work-aio-exit_aio-v1-1-83942022a4c4@kernel.org>
-Subject: Re: [PATCH] aio: don't let exit_aio() return before complete() is
- done
-Message-Id: <20261106-evakuieren-lackieren-professionell-d298e362144c@brauner>
-Date: Fri, 06 Nov 2026 14:26:04 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=S/NyLCh4
+Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-3282db206d3so1315056eec.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 06 Nov 2026 05:31:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793971879; x=1794576679; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=G6DwXFsKVtS0DwVfDaHzAgdX+wZZI3a8OJ1eN4exF+E=;
+        b=S/NyLCh45koJw3aWO9oB5LHT8jb/eDRdMkihc5/fHLq87Rg8V/uWFV4LxQKaaIj6Qp
+         PhXWXPSmnD3DlUYE/7htwlzCiWSlde8wBDIkKNetpQCFJKhsr9qKq7xk46cZCvm+RWNL
+         jWf+b1ZdcWA+HEOouHO1wapzkqHMx+M+XfgxP82RsnmpK9euNX1SgF1vqM87wmYh9l7W
+         ZTkuVwHz1V2b6nEcR/vs+ZfhJ+DiFnyKXXyka/0VE9T+XGGw5+vWaUAmyyQcZBZjcMQE
+         2KQ5JoHR8Bho+Ww5Kzq0W1IKWL7rJ3kEd4VFvr8/DjMFOd5LMW1zBGeeu1tHFHANWmRL
+         9FBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793971879; x=1794576679;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=G6DwXFsKVtS0DwVfDaHzAgdX+wZZI3a8OJ1eN4exF+E=;
+        b=KC7U6/S0KgNaORCFgRGPTHArInZ18P/kAZ0HPM9/n5zbM6xHLme+z8unKm49v3khH8
+         tk0hfyz9vRMCQ+ey4qljsm0uVSarnxF2mhLcesHLkDIJsswvDiSoe5e1LM+GV2W77Ssd
+         tZn/ie2dzLUGJCNXmbZCUb8olZA4UzTa+UZ06ULx1gQlr9GExLGPFCH4JgsfKE5rhLfR
+         NfGYg6vPWB20hGTPCaUgh1tW44UU1NE+IgtayyU2dAYsQEZ1USZFVgPZCRwbC2BLCMJr
+         R7/9Ho2GdCU4jJVGYsiFw2OlCKR9WLPNb0LYNBt/i7CdkoYot8wahPioGDAhnimCEHOf
+         9OrA==
+X-Forwarded-Encrypted: i=1; AL+hErGDuclGnDxxIWZl6dflWHBGAZkaAyfmYTqz0T3JF38f5wZgmeorwZzu8AY5nAN9HygOKgtS05yDZp/rls/V@vger.kernel.org
+X-Gm-Message-State: APuU4Z90z6emvlGWKR5AvVc8Hown3K5LlcxnTuHCK/MDHLkMPpPQmCV6
+	Tj93dQLYL6k9U5lvJ2OKT6zF6MNpjd9VHKj1VBRE0gjX251hvV5E+ieM
+X-Gm-Gg: AYBFou3UethWvg1/VBrPnqa1rau3NWZOIyiByrFd29PBVGxuP8DC4H/F6AqQmpweSbk
+	Wp9L2mlRcaYcnqaLIaQc/g3zdvXDbXCy8LYUajgh3zYpC1w1DoZZVpWykmdh4crEp2sVYr4LNcC
+	BHp4NNPY9vTkdUdbkfhZinhDdoL+iKr0EfU87jr6UPvE+BSLmth6EOYh7ha+BLiCtSDC5ymZ16n
+	Af2heWTlU6n6klaA8efH7dUiotQ9Yg+3xiYsBFNwIc5MM3ccMeTbC1bU6EZQjF7G7FN2zWD0TnF
+	3WrgrLOQE1tCSAyd55u9cROjA4Me5lRdJDLyglPoYDmMDdaVGJaWtoiI88cerJZ/nlcntFTHuXM
+	S+3ADyvLv/upTigYVMzze9tMeHy+4cED3GWD8XDGBi7jkzHMGVVBTHOmw7KD93muKP7dkDuyA+k
+	rrb+Znw1Ue4L0DzFDDDsMWTJ17/T1ayws+hznZ6qGXqY0aoaBAzuoN9BEI1wcKOfo/lbIIJgMyq
+	DBatYnUokbNV0Nd4clfog6vU5RC1x68G7XBVjoaGivfRbk8h66n41dKc0KaumGhk7fTE0C3gkf4
+	uwDdbbRflDoNt9n8GwWS47Mb+get1LRGgSGqCj0rgpmhMzgtEmwvCPLi8109YtpmPCx5kOTAgMO
+	JKu2tcDkaal8=
+X-Received: by 2002:a05:7301:4701:b0:369:f0de:259f with SMTP id 5a478bee46e88-36f76c170e7mr2928285eec.35.1793971879318;
+        Fri, 06 Nov 2026 05:31:19 -0800 (PST)
+Received: from anon-laptop ([103.187.196.159])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36fa651e6b1sm15269305eec.3.2026.11.06.05.31.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Nov 2026 05:31:18 -0800 (PST)
+From: Wahid Khan <wahidzk0091@gmail.com>
+To: Namjae Jeon <linkinjeon@kernel.org>
+Cc: Hyunchul Lee <hyc.lee@gmail.com>,
+	ntfs@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 3/3] ntfs: do not convert a named $DATA stream when making room in a record
+Date: Fri,  6 Nov 2026 19:01:10 +0530
+Message-ID: <20261106133110.2659482-1-wahidzk0091@gmail.com>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261106124553.2617026-4-wahidzk0091@gmail.com>
+References: <20261106124553.2617026-4-wahidzk0091@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -61,40 +100,29 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev-ce4c1
+Content-Transfer-Encoding: 8bit
 
-On Fri, 30 Oct 2026 17:15:21 +0100, Christian Brauner wrote:
-> exit_aio() kills all contexts in one go and waits for them with a
-> single on-stack struct ctx_rq_wait. The count starts at table->nr, each
-> killed context drops one count in free_ioctx_reqs() and exit_aio()
-> subtracts the empty slots afterwards. Whoever drops the last count
-> either calls complete() or, if it is exit_aio(), skips the wait.
-> 
-> With a full table skipped is zero and atomic_sub_and_test(0, ...) only
-> tells us whether the count already hit zero. free_ioctx_reqs() runs from
-> the percpu_ref RCU callback, so if exit_aio() is off the CPU long enough
-> the last callback can have done its atomic_dec_and_test() but not yet
-> called complete():
-> 
-> [...]
+Hi Namjae,
 
-Applied to the vfs.fixes branch of the vfs/vfs.git tree.
-Patches in the vfs.fixes branch should appear in linux-next soon.
+The Sashiko review of 3/3 also suggests skipping every AT_DATA
+attribute in this loop, not only the named ones. I'd keep the unnamed
+case as it is, for three reasons:
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+- Converting the unnamed $DATA from this loop is what the loop already
+  did before the patch. The patch only stops it from pairing the length
+  of a named stream with the unnamed inode.
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
+- The lock order the review points at (mrec_lock held while
+  ntfs_attr_make_non_resident() locks folio 0) is the same one used by
+  the direct conversion near the top of ntfs_resident_attr_resize(),
+  before the loop. So it is not specific to the loop.
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
+- When an EA or a stream grows in a full record, converting the unnamed
+  $DATA is what frees the space. Skipping all of $DATA would turn those
+  writes into failures.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs.fixes
+If you'd rather drop the unnamed case from the loop too, I can send
+that as a separate patch so the two changes can be judged on their own.
 
-[1/1] aio: don't let exit_aio() return before complete() is done
-      https://git.kernel.org/vfs/vfs/c/ac4b449b39e6
-
+Thanks,
+Wahid
