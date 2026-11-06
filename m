@@ -1,101 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.52
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793972708;
-	b=KNX5Qcjdhdz5yVrW4PPsWITrESDEt41wxHd8vPsXG6tTDs621Hnw4b/ZVuAtubueACj1
-	 g2wwroENG7ojxNjVMpLr++XyOYAOkIq9Gv2QnmjKeBQZXzA2nMOfoMeN4NrF0iE7V4DuM
-	 47mlQwbJRlq5boHAqJqJ+//keZ/OgU74TtjvKygZqYFgr2r+CqoedV1tsWA+5dQaz1xo0
-	 nfezMHDjuM9m+h/EhqC+gLYVNgVb6F8odgquh+3oSwHnnEN/VKvdC/rieYj8MwQ6cu2xW
-	 rgl3kkLU9nYPfmD5xX7UyMizt3F+AvdpORu78oxDbtLzp0YZ4pxiEQo8TyxWUDc5S/g==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793972708;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=K63SRYXJYnToUzmwwdizK3xJn9h0hSaj5lF2H2514zI=;
-	b=ngEju2tapTKLYvmO57uShcB6Qm+NTBBmXA/HKhE7/whuiAKr+gxUge2r8a7+ANhZrWsR
-	 qBiCZY0YKhkgwCpEsU7uolkQCnXy9S48DuD4kPnaVIbD2nnSAtAkFDhXsXNN9gk0ho5i1
-	 6V5UpkgRqhvIaoofZ1QpHfnxmkaDzvgsAQ723EsSdD799/yXA1x8X9r/s8Kqu25nAtCsk
-	 /T3G1goXHVlRi/LvoyLoFTTfXOByWrZLKl0847jY1Q0/rlugarr4mRV/XYCw1yKvVBFg8
-	 YZJgr8RJTdv2Kt8Xiw/471DtnLvTZhlUd0woeLvD87WYLGPwOluX1viwR/7R5azO9vg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=d2JVQdvL;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.52
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.62.57.137
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793973293;
+	b=QNNkQq1QA/iX1wWIqp3IoMPpfpKgsOEzOFgOwX/7LYLx5UZ2HA08mI6r/Jx7beI0jr3M
+	 wlCOLNruwtKX8xOugPMCRsWhQ5UInDW+7ecRMDRnYbfC3l2ifaCT9ljlHmpPLqf4psxlT
+	 EiNzS/xMOT22UFTEEH6N7aVU+XYa2ISfIYcq3z8B7pvnfl7syK1khF4reMC2dpbZyWaWZ
+	 tX2L7DeTVAqlhwMqiuaqnzIsdGzyDhb/YgSHIPu1zYm/S8Q2DK3pDSTDURT9AoS8R4VtK
+	 sjOaAKfM4qtu0BQlwUTa6gGNZYejkIQlp5nHBOaOT3GHgqWiFob1OUmbCW06KJpkJCQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793973293;
+	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
+	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:X-OQ-MSGID:Date:
+	 Content-Type:Content-Transfer-Encoding:MIME-Version;
+	bh=f9AcNQk+E2Uh8Cu5xVuG9tcvbwsMIkzO8WOpBpYCAgs=;
+	b=3yAKmZeeWB7ulqPFeYcG5Ud8XMxrTmN6AGLOuFWIfA2Dj2SVZ3OrDnNHfMDqor3gFIUW
+	 x6UtHurc/Y3VShsaTe/piUOVPWyxznLuSGZTywXvF7KEUupHhkGpZIEPhDidKHxFUEpQn
+	 vNE0jMkhbaWyp/2PKPzkvOI2LBFXQJ2caOLEOmRI2gSnTNzUsZtgMdhWP3TvpGylXMOr+
+	 bPL+DiBDNcoG0KEljXR3A2J0dHh5mTPS8qOKMkBQz4uBIclRSoK9TtWxMr413KdhtJ318
+	 dh6G2MpopQ3WgOLTrVzaW3YyJWxap+31AnCMsjD5ZP3kiW8PJ63hnqH6zmj9P8/QzIA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=qq.com;
+	spf=pass smtp.mailfrom=qq.com;
+	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=tQuCMTAl;
+	arc=none smtp.remote-ip=162.62.57.137
+Received: from out162-62-57-137.mail.qq.com (out162-62-57-137.mail.qq.com [162.62.57.137])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78F4D606D83B
-	for <linux-fsdevel@vger.kernel.org>; Fri,  6 Nov 2026 13:45:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 78F4D606D83B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 211B4606A339;
+	Fri,  6 Nov 2026 13:54:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 211B4606A339
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=d2JVQdvL
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-c4d2b741ed9so94049866b.2
-        for <linux-fsdevel@vger.kernel.org>; Fri, 06 Nov 2026 05:45:08 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1793972707; cv=none;
-        d=google.com; s=arc-20260327;
-        b=mKiuSyH1cyR6MYRrDOC8MQfRnhDCZFf4tOjSmSp2MfLhZbMU46Yri62RhHiB7RLy9o
-         BaQpm62IGi6mUx40HEvm2YXktzOj1np9KfJ7lXZYh24EJ2IzrA7tzfHP3vc4VHWB9ITo
-         XlYAQ5nRvAjMDwQH3GdRmEa0BPFtuA4m1PqJdrqBydPtWdA51vBLfx9qQ/8s//JBXumC
-         tuA+Y2Cn7nJ7c0KHG7zqmOYL8dHPvp+m+SMBy82aS+DInGN8M+36ZNMOrY2wSAuU+46k
-         G1/fWs/Gxfj1xjY3nZPqwOtQXLboUuWL/j25t+88HbDwPFsAOqzSTrujeqCi96ksyfBL
-         Cisg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=K63SRYXJYnToUzmwwdizK3xJn9h0hSaj5lF2H2514zI=;
-        fh=xEUhpYTfEW6+TsahHFKKXHihKLWk+4G3xMQ+KEet6lY=;
-        b=Myvf7LlVjfNsYZkLHzvbmrattDyVc/7ska9adLDqiiM6o6O2Dr1bTqiG1XMDB9c2jg
-         BO8SYUxCUp0pPWOvktQ0Skeqi7mYk3Uspj3tOjQ0qPKdOAfjLaHRmA/DQk9MOOvqN6a/
-         5nrDi6a5i60CMNvdcTej1rODOAvYEP77sUpVPWKJDX0u/IydjIwdku7j86zvV2HwzSOR
-         vl0cFitivvOGoW3EgF5YcpcX5MB7od0Qr1DQvLDxgv/5xaDH7Tv175nEpGhpMuES3ts5
-         cyF952/uQ5L14TMyu0O57byYJL64tlWPLL/Gufdgf0K09yq5qo6J8S4T4EAMQ5oWms4l
-         o6nA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793972707; x=1794577507; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=K63SRYXJYnToUzmwwdizK3xJn9h0hSaj5lF2H2514zI=;
-        b=d2JVQdvLfHRRFU/9OajScUqNz6CIKbCaSp2D4Io5kCHMRRpXsoTNBwA/PnRxye4Qfm
-         9HdfsacDpjYiMOycWgwUAH7asXfv4Dh1/y6gRVeCaM6PGgZ0w/nfz14wdcLsQ0EXZ4fx
-         vKaNFcWXfWfA8eNqDcScRKySJH3pnGX5j91/rjBf5CirdNyqritRekG3Mz3osdAOGBdc
-         5I/66tzj/3umdKEgS3yhEthrehRd/7SiF930Z1Qz8bWWdFf/bwNBBgw9MATkT7MJjY8z
-         NRDRoTF+WeYrI5HVryl5Qj8CaGmmONK4EAaUyNroAXPKWFyYv2lVbq8My+W7TIcG+oIK
-         uDzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793972707; x=1794577507;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=K63SRYXJYnToUzmwwdizK3xJn9h0hSaj5lF2H2514zI=;
-        b=uMJDHFP5si816BRNSuRNn/tIAPIafWC5Qw556alOLkL0IxP90+0LibV6tF0SI9ZCs3
-         XmCWEnPB50GZQY65gEwlOE7K3RUb6VjwmmU0NKI5uJEsotl72uhImiJN0gWSYprO1Chq
-         N8FrCGASm/z0jCWEa1Jx5lqDfxCNoYRRKmemXyl0zVPhBnN148gJPzOKS63INn4FB02/
-         mCZWkdAi2L7E3a5FaU7NfQG63YXTYtiewG0m1edqmgK5yCzHvXJS56A/O7dlh+y9J7EB
-         CZtPHjYiCFCOLNBKwQt4fulO0An5f47ozaedBL743h8k4eYDd0hFsh9O+g8Ftfjf1OLg
-         zR9g==
-X-Forwarded-Encrypted: i=1; AKwUvBzVjXIHNEV9QefmIlGPyv4uuuvsEoOrot5LtS34zeM1ThF4gyrZ8WZJa5bXZO0zUWQFPc6yfLpqp2gq+N5L@vger.kernel.org
-X-Gm-Message-State: APuU4Z+ii5iKXndrMV+BJrcGL0HvPtmIIfOAbP1IAv9zH2CHBhyQOPbp
-	JcypfgMYYKa27O+ap/dAErSDPOcPYYlJt9iZROUe8c6yS0JxH2mUoTeiqVbXB0ljQkEHMg6zzrh
-	LHlBQie90qN16yEcMoFz13djEELv8faI=
-X-Gm-Gg: AYBFou1mbujmoh5n2DLqNT0F/7ivQZ64bODf0JS8HAv0UAwd2vHXAM9YFNubjtZqVBz
-	xpv3/Kt3CP6qEJt41SbqQ70BpNfdJtR9qx6mMHCeYXxTMTnXudz9ARMsY/AaLrClOS9Cfwrfy4G
-	zbCOgcB55dzfzo6HBULs1NvvyYe0tut8WLp3Vi9JSojBlsBvf5f9F9uqP/14cfSlr/lYsYA+Vxc
-	WW0kgzecpBmg7r5udLJCuvZsGgGZZuere5+kCcJNqM95CQaYGevw71rX96dufndbkPrh6TjZ7dE
-	OXkPh9Z4sXJlZW1xcjxAtg+87F4Bq0HVS/dJLEJ93Bp04mKZlFpB5xgL1WhJARN1OCIMngiBhl1
-	SltwilsvjrA8NxT+9hN1t0XEXD2z/t40S//H0VBTwhbSBwtz5KDVjdfSM8XHC+NbVyZLP6jupWd
-	ShfQJypQ5kxysbFGlBMZjX1XZp4EG+TY9F7tR76aS2E1ioxwA4Hw==
-X-Received: by 2002:a17:907:ea89:b0:c4c:bff4:200c with SMTP id
- a640c23a62f3a-c4d3531f031mr216233766b.32.1793972706561; Fri, 06 Nov 2026
- 05:45:06 -0800 (PST)
+	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=tQuCMTAl
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1793973281; bh=f9AcNQk+E2Uh8Cu5xVuG9tcvbwsMIkzO8WOpBpYCAgs=;
+	h=From:To:Cc:Subject:Date;
+	b=tQuCMTAlJdh9TBAB0kcxFJ3oATVWzvPPBHXN5P9liFaO6jerquWh9POmyHPNt/020
+	 54iLXlJAK9/cJbWm5KDeov0r1o3wOPAtADj9EO61PFkw8567zaWzkyvhLJ7JPW4taC
+	 t+cuLhx0YJNjgOtNWOinVGGN0zLKKnos8tkwNIrw=
+Received: from [172.18.4.77] ([202.113.185.209])
+	by newxmesmtplogicsvrszb51-1.qq.com (NewEsmtp) with SMTP
+	id DA7AD633; Fri, 06 Nov 2026 21:54:39 +0800
+X-QQ-mid: xmsmtpt1793973279tsdxdqbg3
+Message-ID: <tencent_A85D514AA9FADF1423994E41A6F851213E08@qq.com>
+X-QQ-XMAILINFO: MDbayGdXPuoeF9R5xDbzU0MXB0V86cqjgru6iz3yUgboFdp3Wp3qZEkdVcYCk7
+	 1BdupbI8FTABzocOqn1iq/MIdF5qIYO8r73iZNXG2No2Fs1UWjaACRFWN0acwg8dZVpx1t9zDQoM
+	 IFIKYA5I8tLtQovYIOUdcYx+7bELy6/Jgns7AEWcn4xyG0i4CqS602cYUBTSsL0sx+trOyXA4Snj
+	 ojYwwRk6e1/kMBBb9Up8vSku2prOigJ8YTORvKuSMkYZSvLGxejGX4+qtuDyGqJr8vH2vjP3eaS2
+	 of3mh1RKX+PJIWsxz26Ly/5OixCL1j1/YCWRNAKf++VWRof1UVnJ6aKKxBX51W5CxoIBH+3+Hav9
+	 jJyzrheSndFCzqK2iPGa7ktDb/oelHIthfJcYzXBr3bhGtM0t63gWBpZBDQdeeHFyo+gC2xKmbVI
+	 JHolu4ETxJaWh3GNN4IKlguihpw+qF6G0DD3b7JcvL9OCD7wr2jLZ5B8k7DebDSZM/EImKERfPR0
+	 nww3alyp550F/iewtdYc7F325t7o9KdzQEyxKrfLhf0WXR1Yg3zJ/7RJhqN40kC0/OR55TnpcQVN
+	 WT7zslcH/niTB8pSp3400jzeQHK3gAN8qoQxaDwKslxswsUAHZFemBlyL7DZKudCRBS0rE8ADX5w
+	 8KFZj8aR2BOQHyoI4CjGsbOZoYYRX3fq2JETvj0YiIPzQqisIAPtDEQOU+ZEi1WX85tAyypPEMWM
+	 eWiouAXcDax1VIeRVc/yX6KYUwL1VaSRcVUWcor5zaMWkjSntBJY/LTp2yOmO1VhANjPWFS5+roG
+	 MO7CLIs0+mpcAmZSqth+7aupct3Qhpfws/Jfl1yFCePcsb94cKos7y2OT3m8yZvXxV52N/R1c5Cr
+	 T9wBjkUShONx0gYzFt9/kz1X0XLwOfoHpe14Fxajjm0tO/Is/ins6/oguhtX15NltbyPiOjo+RG3
+	 ZW3pOrzGM4w/40R0HQtuAT3H0hXr/nZlQaXQezDMIVFPaVZ1f7YJFUPsKeePz/2bw7OB+nMAxLHY
+	 snskZTgccP7a6yPypUKaGNF9JdqLO5+Kt92Nzj/lEJ7c4vba9H
+X-QQ-XMRINFO: NS+P29fieYNwqS3WCnRCOn9D1NpZuCnCRA==
+From: Guikun Yang <yangguikun19@qq.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: ntfs3@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: ntfs3: log replay reads past the restart page buffer when the on-disk
+ sys_page_size is larger - slab-out-of-bounds in log_replay()
+X-OQ-MSGID: <c21-ntfs3-logreplay-oob-20261106@qq.com>
+Date: Fri, 06 Nov 2026 20:00:00 +0800
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -105,170 +78,104 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <202611041404.befe64cd-lkp@intel.com> <20261105-trommeln-einspannen-radius-ccb4e174e407@brauner>
- <auygOHcuBba_o132@gmail.com> <CAGudoHFpNbxL13ZOWiyyLSPpmzXcB=e=RBZ8ZGk+Oc58Aad9pA@mail.gmail.com>
- <au2vjpu_yqNa83pN@gmail.com>
-In-Reply-To: <au2vjpu_yqNa83pN@gmail.com>
-From: Mateusz Guzik <mjguzik@gmail.com>
-Date: Fri, 6 Nov 2026 14:44:54 +0100
-X-Gm-Features: AclHuK9fhTVlPSoaFVQpmWKFtp3rg-Yo_vESXYaoYYRFIlvR-B2NGlbbcPxrfcY
-Message-ID: <CAGudoHF3de_55YvdztPs7QiYs25u6nPEV=uMOzfr=bWmwof69g@mail.gmail.com>
-Subject: Re: [linus:master] [fs/pipe] f7f4665dc5: lmbench3.PIPE.bandwidth.MB/sec
- 18.5% regression
-To: Breno Leitao <leitao@debian.org>
-Cc: Christian Brauner <brauner@kernel.org>, kernel test robot <yi1.lai@intel.com>, oe-lkp@lists.linux.dev, 
-	lkp@intel.com, linux-kernel@vger.kernel.org, Oleg Nesterov <oleg@redhat.com>, 
-	linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 6, 2026 at 12:11=E2=80=AFPM Breno Leitao <leitao@debian.org> wr=
-ote:
->
-> On Thu, Nov 05, 2026 at 04:57:33PM +0100, Mateusz Guzik wrote:
-> > On Thu, Nov 5, 2026 at 4:28=E2=80=AFPM Breno Leitao <leitao@debian.org>=
- wrote:
-> >
-> > The test at hand has multiple readers and writers using the same pipe,
-> > with 64KB i/os.
-> >
-> > Prior to the patch each writer had its own private pool to draw from,
-> > guaranteeing no allocation will happen under the mutex.
-> >
-> > With the patch the reader exit also drains the pool.
-> >
-> > As a result tons of allocation ends up happening under the lock again:
-> >
-> > -   94.88%    94.88%  bw_pipe          [kernel.kallsyms]     [k]
-> > __alloc_frozen_pages_noprof
-> >      94.88% __internal_syscall_cancel
-> >         entry_SYSCALL_64_after_hwframe
-> >         do_syscall_64
-> >         ksys_write
-> >         vfs_write
-> >       - anon_pipe_write
-> >          - 47.46% alloc_pages_noprof
-> >               alloc_pages_mpol
-> >               __alloc_frozen_pages_noprof
-> >          - 47.42% anon_pipe_prefill_and_lock
-> >               alloc_pages_noprof
-> >               alloc_pages_mpol
-> >               __alloc_frozen_pages_noprof
->
-> Ack, this matches what I found as well. Thanks for investigating it.
->
-> Because the preallocated pages are not private to the writer anymore,
-> the reader flushes them while the writer waits for room in the pipe,
-> and the writer then has to allocate them inside the lock.
->
-> This basically loses the wins[0] from commit 212ed884a1aeef ("fs/pipe:
-> pre-allocate pages outside pipe->mutex in anon_pipe_write") for this
-> specific scenario.
->
-> > I don't think multiple high-volume writers vs multiple high
-> > volume-readers is a realistic scenario and I would not bother fixing
-> > it.
->
-> Agree, but I would like to spend some cycles on it.
->
-> > However, should someone want to address it, I think the patch should
-> > be reverted and the resulting state tweaked. The patch at hand came
-> > after the mutex is released -- the kernel prior to any of this would
-> > still put_page on the reader side under the lock. This bit would have
-> > to get tweaked to recover the loss in that scenario (not to be
-> > confused with the loss reported here).
->
-> We can revert the patch, but that would bring back the two page pools
-> (the on-stack prealloc and tmp_page[]), which is probably worse than
-> this regression itself (IIRC it would also lose the gains for smaller
-> writes (about 20% for 8-16 KiB writes IIRC ))
->
+Hi,
 
-Like I said above, per my understanding the win is not specific to the
-unified pool thing, but merely to the fact that the reader would put
-pages *after* releasing the lock. this can be done in either approach.
+Mounting an NTFS volume whose restart page declares a sys_page_size
+larger than the host page size ends in a slab-out-of-bounds read inside
+log_replay(), during mount:
 
-> That said, these are the items I am planning to spend some time one:
->
-> 1) Reclaiming the pooled pages from a shrinker, as suggested in [1]
->
+  BUG: KASAN: slab-out-of-bounds Read in log_replay+0x...
+  Read of size 80 at addr ... (kmalloc-4k)
+  Call Trace:
+   log_replay fs/ntfs3/fslog.c
+   ntfs_load_log_and_replay
+   ntfs_fill_super
 
-The more I look at this the more the extra memory usage bothers me --
-even with shrinker support there is just plain waste until it runs and
-it is going to cost elsewhere. If this was "free" performance I would
-have no comments.
+## The gap
 
-Makes me wonder if there is any practical win to pursuing it in the first p=
-lace.
+log_replay() starts with the host page size:
 
-But here is an idea just to ponder: what if the threads using the pipe
-were guaranteed to trim it at some point, even if it remains open and
-unused?
+  log->page_size = norm_file_page(PAGE_SIZE, &log->l_size, true);  /* 4096 */
+  log->one_page_buf = kmalloc(log->page_size, GFP_NOFS);
 
-Currently there is the notion of task_work, which allows for arbitrary
-callbacks to execute on the user<->kernel boundary. As implemented it
-is rather expensive (atomics) to use and always flushes the entire
-work queue.
+The restart page is read by log_read_rst() -> read_log_page() while
+log->page_size is still 4096, so the buffer holding it
+(log->rst_info.r_page) is a 4096-byte allocation.
 
-But imagine the mechanism got extended such that there is a separate
-queue where only current can add stuff (so it is cheap). Getting to
-the code could be gated with the same branch which tells the kernel
-about task_work, so no extra overhead in syscall handling as long as
-you don't have anything queued up.
+Later, log_replay() adopts the on-disk page size:
 
-With this in place pipe code seeing a big buffer could add a callback,
-which would do some magic to decide whether to trim the pool and by
-what amount. Just for the sake of argument, here is an example: 1/16
-chance it will do anything to begin with. if it chooses to do
-something, it checks if there is a "trimmer was here" bit. If no, sets
-the bit and leaves. If yes, shrinks the pool in half. The pipe write
-code would clear the bit, so a pipe with continuous usage would mostly
-remain intact and an unused pipe would eventually drain to nothing
-(including the currently held 2 pages).
+  t32 = le32_to_cpu(log->rst_info.r_page->sys_page_size);
+  if (log->page_size != t32) {
+          log->page_size = norm_file_page(t32, &log->l_size, ...);
+          if (log->page_size > old_page_size) {
+                  buf = krealloc(log->one_page_buf, log->page_size, ...);
+                  log->one_page_buf = buf;
+          }
+  }
 
-> 2) Trimming the pool gradually on the reader side, instead of cutting it
->    down to two pages in one go. Or not trimming it while a writer is
->    in the waiting room (!?)
->
+5a35454179 ("fs/ntfs3: resize log->one_page_buf when adopting on-disk
+page size") added exactly this krealloc, but it only covers
+one_page_buf. rst_info.r_page is left allocated at the old page size
+and is never re-read:
 
-There is no indicator there is a writer pending, at best you can check
-if the lock is contested. This seems like gaming the benchmark to me
-though, as a real program who happened to generate data a little later
-would suddenly find itself with the pool trimmed.
+  ra2 = Add2Ptr(log->rst_info.r_page, ra_off);
+  ...
+  log->ra_size = le16_to_cpu(ra2->ra_len);   /* raw on-disk u16 */
+  ...
+  memcpy(ra, ra2, log->ra_size);             /* fs/ntfs3/fslog.c:4176 */
 
-Granular trimming definitely makes sense, provided shrinker support is
-implemented.
+The destination ra is kzalloc(log->restart_size) - sized from the
+adopted page size, so it is large enough. The source ra2 points into
+the still-4096-byte r_page, and ra_len is a raw on-disk field bounded
+only by sys_page_size - ra_off. With sys_page_size = 8192 (a legal
+power of two, accepted by norm_file_page) and ra_len = ra_off + 80,
+the memcpy reads 80 bytes past the end of the kmalloc-4k object.
 
-> 3) Keeping the writer's preallocated pages private again, while keeping
->    the unified pool (i.e. without bringing tmp_page[] back).
->
-> 4) Freeing the pages the reader drops after releasing pipe->mutex,
->    instead of under it, as you suggested. This is independent of the
->    options above.
->
-> 5) Longer term: copying the data into the preallocated pages before
->    taking pipe->mutex, so the writer only links them into the pipe
->    under the lock. This doesn't seem trivial, but it would make this
->    whole pre-allocated buffers go away
->
+The branch at fslog.c:4181 has the same problem from the other side:
 
-I think this is sounds awfully complicated in face of multiple writers.
+  memcpy(ra->clients, Add2Ptr(ra2, t16), le16_to_cpu(ra2->ra_len) - t16);
 
-> 6) Any other idea?
+same source, same unbounded length.
 
-The SMAP stuff is the primary problem right now. To reiterate: every
-single buffer read/write takes a SMAP trip, which is very expensive
-even on modern uarchs. Refactoring this into i/o under one SMAP round
-would provide a visible speed up. It also happens to not pose a
-tradeoff in terms of memory usage and would be my first avenue of
-attack if I was working on this.
+## Observed
 
-All that said, one reader vs one writer scenario definitely makes
-sense to optimize.
+Deterministic, 6/6 runs with panic_on_warn=1; the unmodified volume
+mounts cleanly as a control. Trigger is mount(2) alone - no file is
+opened. The forged restart page carries a valid update sequence array,
+a consistent client list and matching seq_num_bits, so every existing
+check passes; only the page-size adoption is abused.
 
-Apart from that, highly parallel i/o on one pipe is imo the wrong
-thing to look at in the first place. What is more likely to occur in
-the real world is the user having separate processes operating on
-distinct pipes, but this was not benchmarked at all. Another case to
-look at is one reader vs one writer, but all the tuples have unique
-uids.
+sys_page_size = 8192, ra_len chosen just past 4096 - ra_off gives the
+reported 80-byte overread; larger ra_len values read further.
+
+## Suggested fix
+
+Re-read (and reallocate) the restart page at the adopted page size, or
+grow rst_info.r_page alongside one_page_buf in the same branch, before
+ra2 is derived from it:
+
+  if (log->page_size > old_page_size) {
+          ...
+          log->one_page_buf = buf;
+  +       /* r_page was allocated with the old page size */
+  +       kfree(log->rst_info.r_page);
+  +       log->rst_info.r_page = kmalloc(log->page_size, GFP_NOFS);
+  +       /* re-read the restart page at the new size */
+  ...
+  }
+
+Alternatively, validating that ra_len fits within the buffer the page
+was actually allocated with would bound the memcpy directly.
+
+The reproducer (image builder that walks $MFT/$LogFile runlists and
+writes the restart page with USA and client-list consistency, plus a
+ready-made image and serial log) is available on request.
+
+Tested on 7.3.0 (ntfs3 as a module); the adoption branch, ra_len
+handling and the memcpy are unchanged in current mainline as of
+2026-11-06.
+
+Thanks,
+Guikun Yang
+
