@@ -1,105 +1,117 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793976695;
-	b=tYtNOO/6zymomT9YHAsBlLi5tYs7zpI9R7IOGeo9jN8rckR5k2oLjMKBm/NZfpS74cQd
-	 t1Q5CD07fAArKY207KqgopAFOPVNFt/TH8duVYkWhG3NdFBVdBRX2Xi8iOxkMzqeCJHDa
-	 /XqGOTiDzqh4e3QNcQtnaQxIEN3OnQdhoXREyPz+5IHYF/Fdnt2FF5f0vaLN630e5Aa+H
-	 4UK4TdKdXCM0cVMTrYs2AHYY+T/QHE9GSX8AL7zv0udGPfylT7NEG5870Er2WD9Q5Mb6Q
-	 7OgJ0rnpIe4lItI0+unpAOVk8fgV/0yK4GAQY780l+xCuwRb9G1Wy/nV1gSPp/CU2pA==
+	t=1793977338;
+	b=4ayUUFtFgPfPHlWes/bTIyYjDHvNOv7zVoFL1PRHUEYHDBiBp771WYRAPhqocR2GJXFz
+	 YmyGNSdOAwiBm8wPd1HD/nv8wgApTP+RTad8n72J2mP0RH8UWo7xl+W6qaCjkWkEnE19z
+	 lVQPEbaeL/3yeQ+g7glPH6gTza9P74xX12wqmSNhY2prDYLC4/DNDz7hAFxGCKxBRK0/7
+	 inDifjxgF9FjAj1vxKxP/8gDl7CZQclT2zxnk7N1/z5cH5Nje3VpQxQY5a2Oz2Ncfzu+/
+	 WOjY+ZuKuimDvO++oNswgQPuP9gs4/hFV97PsbyDs8C1Qfg4pX2MAe3B+xtzkXtNE9A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793976695;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793977338;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
 	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
-	bh=4/Drp7ifQeUDYwHgL1y7yzB8cVXQQt4dJhK1PJvWBeQ=;
-	b=5rJ55steepiaORQqbpO9ShMDwVRkSpDzOKSpQ0y12b9Y8rn/GYH9SrgsvokmgO7HGCAI
-	 IbCnEk5/NPXbX11qKJCyqezRfGSyn4hyAYRR0YlACtppBMFxHXFX7yPHh/vgS2gjppZzY
-	 mtvOpcsLXC3FZGF6hTM6HW/fm9pCeRRWP4MjTV7VRyvS61uwRe/fdDT7dYmD5iA2aCIm7
-	 lIzO4zMsB3uIbJculNiSNCQFwy/1s2AuPptgi760LoYuc112hfVS1tx1UyEeZMtOkEEiv
-	 mvAEKA3bjXfxhjB9QjIPKSzVS9N1aH7juQ/IWlX9SbbSG5xvzmHr8mYiMW9w1/J3VHQ==
+	 Content-Transfer-Encoding:In-Reply-To:X-Spamd-Result:X-Spam-Score:
+	 X-Spam-Level:X-Spam-Flag;
+	bh=TDtXPdEsZccRCyjiEYbL6djLMqFzCkE9S7yHHucO/Y0=;
+	b=0MrRXzM3ZjFP7tGwaQ8aoIw2U8Yeut890CWalW4szGYtqkhPuBx3dUfXc5Xhx7cy5UdD
+	 AQ0GKeChjex8Fjli9jlBMEEXaae3nEQnkhkLssuE244jwfyt0UJ8ZqK7tC19oFFezeRoE
+	 Qx1o8Yanv/0TSWRD9jjQ0MUYkegwlgw9ZyL/mNX3pWJLGULrx56E9XRBCmcO6wzPjw7Yp
+	 axtshd33y2JDFtMinMQs7LN4k16lYVuA0V/AM63D/q2QIU1NbcNsYr81SbhyI+NdPiWS0
+	 naVhOvfNEI1TzWndDXPKQxEeGaxdL51PZN3Kyu5pbzJfySkMVBn3QuZPE7zbW7g6bAQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=suse.cz;
 	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=JnXTZjNW;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=vu+SOg9R;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=xaftLuhN;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=BaTthie3;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=MVW024mu;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=1Lr3dwzb;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=MVW024mu;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=1Lr3dwzb;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80057606A32C;
-	Fri,  6 Nov 2026 14:51:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 80057606A32C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C302606A331;
+	Fri,  6 Nov 2026 15:02:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3C302606A331
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=JnXTZjNW;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=vu+SOg9R;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=xaftLuhN;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=BaTthie3
+	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=MVW024mu;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=1Lr3dwzb;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=MVW024mu;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=1Lr3dwzb
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9050F1F452;
-	Fri,  6 Nov 2026 14:51:31 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 42E9522189;
+	Fri,  6 Nov 2026 15:02:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793976692; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793977336; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4/Drp7ifQeUDYwHgL1y7yzB8cVXQQt4dJhK1PJvWBeQ=;
-	b=JnXTZjNWKaYglOEMRDSghM1mCC8CNtPojWVDsn5B13eHKgmQOu3cdekZBeNj+00J7iQ3LI
-	UV5d4kkPrTH06M2o7FGxphCpaBfr2wN+9n8CAw0gwtLhigQG1cjEgACINTpI9LhqUTGl9p
-	/ZvgV3B60NlCepfGQLtjfH5sRUnkvuw=
+	bh=TDtXPdEsZccRCyjiEYbL6djLMqFzCkE9S7yHHucO/Y0=;
+	b=MVW024mu3KUwb1eDIw9bJ7PUOylrtjz83alILp27tKzUsdCksGRqb2eNBKhuCftDFHtDtf
+	KABuC9It6O4tyCiPhUZjyZ0u1CeiNtO1HN59BmgR16E4h4eTs/ZpBWkV5LTiB8N+XVmgMb
+	7B6PnDrfL/H4DtYHAIw1gx2QjGhRbKM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793976692;
+	s=susede2_ed25519; t=1793977336;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4/Drp7ifQeUDYwHgL1y7yzB8cVXQQt4dJhK1PJvWBeQ=;
-	b=vu+SOg9RfkkDnYPxjvQXAyw7j8Wrlj0Vh5LJPvpl4cQVWL8z6J/t/foUpDm8d3gLugJwuB
-	KMSFez8osLFwxaCw==
-Authentication-Results: smtp-out2.suse.de;
+	bh=TDtXPdEsZccRCyjiEYbL6djLMqFzCkE9S7yHHucO/Y0=;
+	b=1Lr3dwzbGO42cHRrGquEh+E16qepkp47m3zjRAPxn7qf0CmFHNw6zxA6wxNnbXYCoqd78j
+	473SBMFwRpWhQHDQ==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793976691; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793977336; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4/Drp7ifQeUDYwHgL1y7yzB8cVXQQt4dJhK1PJvWBeQ=;
-	b=xaftLuhNsHCJTSkN5c8rVdB9MVTN8fHJ8mnsW+M9up9jf1l/5IB73gkO15bYG0ZfA6Zu4B
-	T5swbGc4Z3/V887/5tD9HefzA2SvrMOZlpnNXBvHDdkQt1rwlGVAoIP9UODYwBckO1mz+J
-	GUWmg0Q3GLuEcssGb0u6JIIdS5XCa3E=
+	bh=TDtXPdEsZccRCyjiEYbL6djLMqFzCkE9S7yHHucO/Y0=;
+	b=MVW024mu3KUwb1eDIw9bJ7PUOylrtjz83alILp27tKzUsdCksGRqb2eNBKhuCftDFHtDtf
+	KABuC9It6O4tyCiPhUZjyZ0u1CeiNtO1HN59BmgR16E4h4eTs/ZpBWkV5LTiB8N+XVmgMb
+	7B6PnDrfL/H4DtYHAIw1gx2QjGhRbKM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793976691;
+	s=susede2_ed25519; t=1793977336;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4/Drp7ifQeUDYwHgL1y7yzB8cVXQQt4dJhK1PJvWBeQ=;
-	b=BaTthie3RK/0Nw8QZfZHg0G/Q9yNycBg8SyGWFn5lAf7LAB+y3C1SXcSiRHteLRheifI/H
-	QtHlG/YJDKaluPCw==
+	bh=TDtXPdEsZccRCyjiEYbL6djLMqFzCkE9S7yHHucO/Y0=;
+	b=1Lr3dwzbGO42cHRrGquEh+E16qepkp47m3zjRAPxn7qf0CmFHNw6zxA6wxNnbXYCoqd78j
+	473SBMFwRpWhQHDQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6A02E132C9;
-	Fri,  6 Nov 2026 14:51:31 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 19C6F132C9;
+	Fri,  6 Nov 2026 15:02:16 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id P5/ZEXPp7WoZDAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Fri, 06 Nov 2026 14:51:31 +0000
+	id guvJOffr7WpFFwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Fri, 06 Nov 2026 15:02:16 +0000
 Received: by quack.suse.cz (Postfix, from userid 1000)
-	id E957121B9C; Fri, 06 Nov 2026 15:51:26 +0100 (CET)
-Date: Fri, 6 Nov 2026 15:51:26 +0100
+	id A02AA21BA3; Fri, 06 Nov 2026 16:02:00 +0100 (CET)
+Date: Fri, 6 Nov 2026 16:02:00 +0100
 From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, stable@vger.kernel.org
-Subject: Re: [PATCH] fs: fix the SEEK_CUR f_lock condition
-Message-ID: <7vzn53nez54u2ps3z7eb2v7vqca3sitzhhu7epk2lrrkt6l32o@hxboo6t23vow>
-References: <20261106-work-file-seek_f_lock-v1-1-5b9a6c2928d4@kernel.org>
+To: Bence =?utf-8?B?Q3PDs2vDoXM=?= <bence.csokas@arm.com>
+Cc: Jan Kara <jack@suse.cz>, Christian Brauner <brauner@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v3 0/2] Add scope-based cleanup capability to eventfd_ctx
+Message-ID: <boyk6gdk2qmgj4fxhbluqbtcbhqkgnyiq36hurhomfib6vrogw@tjgi2oxtbvmd>
+References: <20261027-efd-autofree-v3-0-caa2442e1beb@arm.com>
+ <20261106-hinein-lagebericht-abbezahlen-cb826d68d175@brauner>
+ <bba04255-5dee-4dd2-a877-5e169edceadc@arm.com>
+ <sp6gvawt6petvrlky7g6pqaqsp3jwouu6ixarevis5m5vd7fwe@xjxeakzi3nn3>
+ <803191ed-6597-4b8d-af7d-812b1b494fee@arm.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -109,9 +121,10 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20261106-work-file-seek_f_lock-v1-1-5b9a6c2928d4@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <803191ed-6597-4b8d-af7d-812b1b494fee@arm.com>
 X-Spamd-Result: default: False [-12.80 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
@@ -119,91 +132,90 @@ X-Spamd-Result: default: False [-12.80 / 50.00];
 	MID_RHS_NOT_FQDN(0.50)[];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
 	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,imap1.dmz-prg2.suse.org:helo,suse.com:email]
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_CC(0.00)[suse.cz,kernel.org,zeniv.linux.org.uk,linux.intel.com,suse.de,gmail.com,ffwll.ch,vger.kernel.org,lists.freedesktop.org];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,arm.com:email,suse.com:email]
 X-Spam-Score: -12.80
 X-Spam-Level: 
 X-Spam-Flag: NO
 
-On Fri 06-11-26 14:14:35, Christian Brauner wrote:
-> Commit da06e3c51794 ("fs: don't needlessly acquire f_lock") wanted to
-> skip f_lock for SEEK_CUR on files that already serialize f_pos through
-> f_pos_lock, i.e. FMODE_ATOMIC_POS files and directories, and keep it
-> for everything else. The condition it added does the opposite:
-> file_seek_cur_needs_f_lock() returns false exactly for the files that
-> never take f_pos_lock and true for the ones that do.
-> 
-> So since v6.15 a SEEK_CUR on a shared block device or on a character
-> device that uses fixed_size_llseek() updates f_pos without any lock and
-> two concurrent calls can lose an update, while regular files and
-> directories pay for a spinlock they don't need.
-> 
-> Invert the condition.
-> 
-> Fixes: da06e3c51794 ("fs: don't needlessly acquire f_lock")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-> ---
-> Commit da06e3c51794 got the condition in file_seek_cur_needs_f_lock()
-> backwards. Regular files and directories still take f_lock on SEEK_CUR
-> while block devices and fixed_size_llseek() character devices, which
-> never take f_pos_lock, update f_pos unlocked since v6.15 and can lose
-> an update. It's a one-liner.
-> ---
->  fs/file.c | 10 +++++++---
->  1 file changed, 7 insertions(+), 3 deletions(-)
-> 
-> diff --git a/fs/file.c b/fs/file.c
-> index 4cd40dfa6129..fd08d34874ac 100644
-> --- a/fs/file.c
-> +++ b/fs/file.c
-> @@ -1387,14 +1387,18 @@ static inline bool file_needs_f_pos_lock(struct file *file)
->  
->  bool file_seek_cur_needs_f_lock(struct file *file)
->  {
-> -	if (!(file->f_mode & FMODE_ATOMIC_POS) && !file->f_op->iterate_shared)
-> -		return false;
-> -
->  	/*
-> +	 * Files that go through f_pos_lock when they are shared, i.e.
-> +	 * FMODE_ATOMIC_POS files and directories, don't need f_lock for a
-> +	 * SEEK_CUR. Everything else does, since nothing else serializes
-> +	 * the f_pos update.
-> +	 *
->  	 * Note that we are not guaranteed to be called after fdget_pos() on
->  	 * this file obj, in which case the caller is expected to provide the
->  	 * appropriate locking.
->  	 */
-> +	if ((file->f_mode & FMODE_ATOMIC_POS) || file->f_op->iterate_shared)
+Hi!
 
-Isn't the iterate_shared check moot now? Because all directories will have
-FMODE_ATOMIC_POS set AFAICS do_dentry_open(). But regardless feel free to
-add:
+On Fri 06-11-26 15:30:07, Bence Csókás wrote:
+> On 2026. 11. 06. 15:13, Jan Kara wrote:
+> > Hi!
+> > 
+> > On Fri 06-11-26 10:31:58, Bence Csókás wrote:
+> > > On 2026. 11. 06. 10:05, Christian Brauner wrote:
+> > > > On Tue, Oct 27, 2026 at 05:22:00PM +0100, Bence Csokas wrote:
+> > > > > Add __free() support to eventfd and update drm_syncobj to use it as an
+> > > > > example consumer.
+> > > > > 
+> > > > > A minor discrepancy I encountered is whether to put a semicolon after
+> > > > > DEFINE_FREE(). It seems some in-tree code does, some doesn't. In the end,
+> > > > > I followed the example set in core-api/cleanup.rst, and omitted it.
+> > > > > 
+> > > > > Signed-off-by: Bence Csokas <bence.csokas@arm.com>
+> > > > > ---
+> > > > 
+> > > > I'm really having trouble seeing how this improves anything
+> > > > significantly. Probably others have the same impression which is why
+> > > > this doesn't get a lot of review.
+> > > 
+> > > The goal of the __free() API is to reduce the number of goto-based error
+> > > paths. Normally, you'd have to keep the state of every local in your head
+> > > for every early return. (Has it been initialized? Has it been consumed? Or
+> > > does it need to be freed?) Then you need to arrange your "goto tree" (error
+> > > labels) in a way that frees everything, and then for every early exit, jump
+> > > to the correct one. This can be quite complex for some functions. Look at
+> > > KVM or HyperV eventfd code, for example.
+> > > 
+> > > By contrast, you just mark the local var with _free() and an appropriate
+> > > destructor snippet, and the consumption point (the point after which we
+> > > don't need to free it on a return) with no_free_ptr(), and the compiler
+> > > instruments every early return accordingly.
+> > 
+> > Sure, but there's also the other side about which you don't speak: unless
+> > the destructor is trivial (like kfree()), there are implications about
+> > locking, when resources (such as references held by the object) get
+> > released etc. So it can also be more complex to wrap your head around
+> > __free usage than around standard cleanup code.
+> 
+> Sure. Thankfully eventfd_ctx_put() is one of the pretty trivial ones,
+> basically just calling kfree() on itself when the kref drops to 0.
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+Ok, fair.
+
+> > So unless __free is providing a noticeable simplification of some goto
+> > hell, cleanup in many functions or similar, I generally don't find it worth
+> > it...
+> 
+> Look into for instance mshv_irqfd_assign() and weep... And then imagine how
+> much simpler it'd be if it were using __free() instead.
+
+Well, over the years I've seen much worse things :) But I agree for that
+function using __free would be a simplification.
+
+> For the example in 2/2, I deliberately chose one callsite where it's trivial
+> to deduce that behaviour is unchanged.
+
+Well, the change is kind of "meh, I don't care much" for me. So I guess if
+you include some conversion that actually makes code simpler, I guess
+Christian might be open to merging this.
 
 								Honza
-
-> +		return false;
->  
->  	return true;
->  }
-> 
-> ---
-> base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
-> change-id: 20261106-work-file-seek_f_lock-c3fb94613214
-> 
 -- 
 Jan Kara <jack@suse.com>
 SUSE Labs, CR
