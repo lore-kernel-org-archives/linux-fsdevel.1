@@ -1,88 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793959999;
-	b=dddSBwn0jJ4/YsP74AzsapkR8dgppJ9Y7cGjrUb4cOsIdSSh248ExX3mvdGalhyw7OB1
-	 usQjSqXO1NatnNEqeVhe9frH2l7nwQoMChXJqYZj5V6W9PhfbgzJa/YMtmYzIcZEhNYj2
-	 LnrFUEhXEmIlShFnW/rOfjOWpumfnqQbUuKN/1qVZaSBLltwq7jer8HoOfaa2BMq8RO5O
-	 7OMA+y30oHKDuQt6uT5GMiyr10geVwO52x4lB2o4zfFk+ITWupv7Y6YwuF8TCW/qUQvj0
-	 66mht4vlKBRC46xKww3xfR6GglhMlERxQ+gAwBCE9RSZd43JBbGVJlIEpnVKodS2nqA==
+	t=1793960026;
+	b=BkR6aj5ZeCtWMDu6vul64vOLd0tBl/2ZgO8tCEh+bL9lf/llv8ECdpMt9k1qL+Egjnkn
+	 snXrQ27AVHQ5Ee8HpNLmovJ1p+Z+X9AcTvwDGWGhBPKcy2T43tlX+XxlVggAB65lte1QC
+	 +zcuvUfkXAx4aQ4kbCyIcz1AcH1UckWxAyWGg/Z9iISeCbMe09anvcPYwSI6oZyifiLo8
+	 eaQBhX5b//Q1n4ztnEgIl7TKzVlltqB8brUKU5yGTxAAT6gxDtMrcLOz8p0ZpJrI7p85e
+	 zEgnfeCOT7WY/kYgOi8yzP2IWAhtq46TKLx4/HXwNb3iSGF0lPzUgQuu1riRcNIJIJQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793959999;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=fLL3XmqFz5Pf3FaFIovTOe/0d0X3Y15DtdwfOU4Sa2o=;
-	b=NdxXMasDBY1dmXarbQ3lyzEe/Aq3IDhIdpIPQ/cyZbBeFECaaZKnshWB7e/kPjq9Mi+V
-	 Lhmr657HzQdguwap7QWY2mffaWaW8aZdtSBVi8uXdaOF8cI7/4ZI5PEg0GN1hmSl8q8WX
-	 Xxh8P+xuDoF/0J/jObi6NOXKxmNHQq9fA7O9C/e8HABMfRN7+ffwZzVIkTHbmn04/5ud6
-	 tD9n86FRFYAnXU4mStTBsYyF2FOuZpv9p2tJupdGexix+6HOrK2Izt54l7mmXq84/zkGp
-	 20+bLKm35I/WFKpTlluXOe79cS+t/ScliMRQGXMKTzHy3XomH0DZrZJAvAxRyfHyS3A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793960026;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=cFVMR87EGNpkNOCnSwEX2b70j/gGYf8Jkc9yEvS8W5Y=;
+	b=2lOMFaOb8G+xAUauT1HWRGCCaoECIzcqs3NKGAQc4lNAgLpV++2wRVE2xD0b520lfDYZ
+	 OQCkNkf2NadnHPvizY7Cn6tHOYZkjcsFWvT3QOCIxJvPZ5x4f6OX1ZmLdoFJRwh0qlt7H
+	 HcPg/CnvYCpqM6Ncf+9qAk8enXpD17LvtQwT0/if+24P5MX+dKSQ+SyQYEVIYjwYdHsuk
+	 1/XkK9fZ3uYV/HYjEdSmqBbjxITJ8+dUxCXEafElhRdu+nyF6Hi4RmTYKPW3H2aejhY9n
+	 eH4ZeMP6iDYDgU6Wi0BVMuitDxGh8MFRVcwH0GFcTY1+h+s7HMqXBeH9G4oBYk0EPSg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=lmi5Q0Fv;
-	arc=none smtp.remote-ip=209.85.128.49
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YwYtVdd3;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4710F606A334
-	for <linux-fsdevel@vger.kernel.org>; Fri,  6 Nov 2026 10:13:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4710F606A334
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8A68606A335;
+	Fri,  6 Nov 2026 10:13:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=lmi5Q0Fv
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4a1fbd52ab6so2864065e9.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 06 Nov 2026 02:13:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793959997; x=1794564797; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=fLL3XmqFz5Pf3FaFIovTOe/0d0X3Y15DtdwfOU4Sa2o=;
-        b=lmi5Q0Fv7T71Md66nuBX67PlvPoEFrAFoRKV1Sq9HgiIufOQpo6A5qA4voQ9XVsQnI
-         Y5Hj/M5KiCFqmc99z/aMxLeWTTEEj7wwOi2WSlzSWmo/tAk3DTZOxVOHqmd3JGBbyX5p
-         MjxD+nIIkXrtlDg79Rto+zQPgz6nVr2WPvpz2LPA0t+/5xqCmE79Ud+YVNwx95IDOpUY
-         6gKHohlLzrUuTmWRolrPZjIckPQ9XVpyHmmteUBXc8zNdemlnEFZM9+mZVxPhBgRgSxd
-         OK8xZxmBxgiJbDDXxSodZkJXJeAnpIIx2xVIJR2W/+gMaMI2CJhuiL6Zi46Q+a4Dwvd2
-         pmHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793959997; x=1794564797;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=fLL3XmqFz5Pf3FaFIovTOe/0d0X3Y15DtdwfOU4Sa2o=;
-        b=Pky9Bil3dQcCw7ly73OrERNWZnF8tac3upwOI3yyCuON7YU1rI9R3X0R6HkDU8GL9D
-         7yRj0Lt3ryb4/akGWYgSfc5DVH53Icqi2oKWqlSjbSfqmWpIKBiP+5bzsf1+wHG8EFSL
-         IquiZmf3wCn4XCNy3qDHvfXSa3WxuKoW6KE+oUFc4WI1CaIGclPXS7Wi6RCWG52CFaHH
-         utlQMeQ9E0gWTCSSf0kfz72C/k2UOWuHjBxoyzOqd4FrETCcII0R87HF2aw68qAFNlTn
-         xXYvxH3x4ThiLwWSPDMslGwCtLicrR4FpT6MIiD52rkThkmkEmQIPOAbg+P5r6kNDYuA
-         qcLg==
-X-Forwarded-Encrypted: i=1; AKwUvBxpwdaGS+lndf7HjUAZ+USNEKjkNKU3UUv+WnBBoOTTDkp9uIgGnURSteX84P+vhdrPJIZRJFRSbiYUkXVD@vger.kernel.org
-X-Gm-Message-State: APuU4Z8eIyd7DpMcjHYv38FoYxISzCHxU+VTtO2lCVEaM/vBpgQzEq5o
-	0AfQtpEM/TOTlBYKEod0v0/wta2AaVeZcnEsdVu50vWPotKJ9hXdaKu0
-X-Gm-Gg: AYBFou341ijsJXc7Ophe8lL++zpfiCqizCqmAX0zaeuwupaKgpq1vSZBfekO587gdPX
-	d1c0T1G/m5vCbqazbKJQl1duMvU1Nv40DJUqK/8V1v8ThzIiDo2fRX4dsVaE8Y2ASM5eDTJYSOF
-	XcZZS0DHi+jQwRjUg0r+GahLLT0K6hWZzJCHGCFSjYjbUp/6yJDLcWJWNQQnUhOQfGW4gZ4uCLF
-	WiZjXnkcU+RC1gLYGbUhHlnAkfIHfnbtK7fxinxAp87bPXWsYpr+ZSWtdlzJhjNSHuW9gFSfVKS
-	+vPkaazjpP7LxS/nF3lmIeWCEiLppyTbhsWihccXh+VI9mSN+t1Mv1xVD6cPaW+xyhij87Q4WuV
-	U8yD4rJSGJaec7NpCz6Il/PXPwcWM/B4ygvTHg09YuggGCmMzBtqgety6VqSFKZADi01dgCnw2B
-	6hn5BCDbFo88AkBNFXdo8u9d5CjKeX5sVjaEE/AUMllOKlTUGBAiujYAZw4bsj6L1qSOJVtD7MP
-	b8ZJHrC0UaQB4Wv14gd7pNwezeRV5JEdE7fANK9/tTOIKxV8VUZEvS8mTqeaVxVj2x9qxhRXQ2h
-	YDKsYphWQcrX7kull7utOqA=
-X-Received: by 2002:a05:600c:310f:b0:4b6:bb67:bb9 with SMTP id 5b1f17b1804b1-4b6ded4a3b0mr30188925e9.29.1793959996617;
-        Fri, 06 Nov 2026 02:13:16 -0800 (PST)
-Received: from [192.168.1.22] ([83.231.69.9])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b572bba207sm121341505e9.10.2026.11.06.02.13.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 Nov 2026 02:13:16 -0800 (PST)
-Message-ID: <4763a039-60f8-4263-8124-beb0f9ab3366@gmail.com>
-Date: Fri, 6 Nov 2026 11:13:13 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YwYtVdd3
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEE401F008A6;
+	Fri,  6 Nov 2026 10:13:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793960025;
+	bh=cFVMR87EGNpkNOCnSwEX2b70j/gGYf8Jkc9yEvS8W5Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=YwYtVdd3f+9r0rGtBh8d1tRPhVBL4qmvxhKCMZkV8lomBwDWV76lkDV2ZPvzrsUcy
+	 trEyAB1TCppduadMVhftHMFVxgeYolc/EMPmtth1hXWiwFgz1kQ0EKU4byddd4Ylof
+	 Kw8NW48Kkjzx+SlpAufJOnfBvexabI3n6q9ar/Hme/DA7MCCquYR1YVU8yI3FmAIG8
+	 1O4CYPlx4m2ZTD5HMwTNZOFUugRf4D3Ab0jOV8qahLlzSisYMSFxFIYqDA/1U31men
+	 TNFTuhw5aLNcrLSy3wXMfK9DUwkHBXM2MWRhS62JTGof+13zFAAyi0DL6QeEKCjKfL
+	 pWOWcHUvqbeJQ==
+Date: Fri, 6 Nov 2026 10:13:27 +0000
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Paul Moore <paul@paul-moore.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Rik van Riel <riel@surriel.com>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Harry Yoo <harry@kernel.org>, Jann Horn <jannh@google.com>, Lance Yang <lance.yang@linux.dev>, 
+	Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
+	Barry Song <baohua@kernel.org>, Usama Arif <usama.arif@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Xu Xin <xu.xin@linux.dev>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+	Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>, 
+	Shrikanth Hegde <sshegde@linux.ibm.com>, Pedro Falcato <pfalcato@suse.de>, 
+	Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Leon Romanovsky <leon@kernel.org>, SJ Park <sj@kernel.org>, 
+	Rakie Kim <rakie.kim@sk.com>, David Rientjes <rientjes@google.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
+	Adrian Hunter <adrian.hunter@intel.com>, James Clark <james.clark@linaro.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	John Johansen <john.johansen@canonical.com>, Georgia Garcia <georgia.garcia@canonical.com>, 
+	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
+	Mimi Zohar <zohar@linux.ibm.com>, Roberto Sassu <roberto.sassu@huawei.com>, 
+	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, Eric Snowberg <eric.snowberg@oracle.com>, 
+	Fan Wu <wufan@kernel.org>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
+	Ondrej =?utf-8?B?TW9zbsOhxI1law==?= <omosnacek@gmail.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, 
+	damon@lists.linux.dev, linux-trace-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, apparmor@lists.ubuntu.com, linux-security-module@vger.kernel.org, 
+	linux-integrity@vger.kernel.org, selinux@vger.kernel.org
+Subject: Re: [PATCH 13/13] security: convert VMA flag tests to use vma_flags_t
+Message-ID: <au2ny_goOYa9TJ4u@gremlin>
+References: <20261105-late-2026-vma-flags-v1-0-0d3cd15ab75f@kernel.org>
+ <20261105-late-2026-vma-flags-v1-13-0d3cd15ab75f@kernel.org>
+ <CAHC9VhSR=9YNhBxeFBcTR8wgG2yDP1fW590QKjzuc4Kq9ohaiQ@mail.gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -92,104 +97,41 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/5] mm/gup: limit pagecache folio refcount when grabbing
- references
-To: "David Hildenbrand (Arm)" <david@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, "Matthew Wilcox (Oracle)"
- <willy@infradead.org>, Jan Kara <jack@suse.cz>, Zi Yan <ziy@nvidia.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Kiryl Shutsemau <kas@kernel.org>, Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>,
- Gregory Price <gourry@gourry.net>, Ying Huang
- <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
- Peter Xu <peterx@redhat.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Song Liu <songliubraving@fb.com>, Rik van Riel <riel@surriel.com>,
- Hugh Dickins <hughd@google.com>, Will Deacon <will@kernel.org>,
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin
- <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>,
- "Joerg Roedel (AMD)" <joro@8bytes.org>, Robin Murphy <robin.murphy@arm.com>,
- Steve Sistare <steven.sistare@oracle.com>, John Hubbard <jhubbard@nvidia.com>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- iommu@lists.linux.dev, stable@vger.kernel.org
-References: <20261105-refcount_overflow_stable-v1-0-70b9c655da3e@kernel.org>
- <20261105-refcount_overflow_stable-v1-5-70b9c655da3e@kernel.org>
-Content-Language: en-US
-From: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
-In-Reply-To: <20261105-refcount_overflow_stable-v1-5-70b9c655da3e@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHC9VhSR=9YNhBxeFBcTR8wgG2yDP1fW590QKjzuc4Kq9ohaiQ@mail.gmail.com>
 
-On 11/5/26 2:10 PM, David Hildenbrand (Arm) wrote:
-> Let's replace our existing safety check by the new
-> folio_ref_count_over_limit() check in fast and slow GUP before acquiring
-> additional references or pins.
-> 
-> Keep it simple and use the check for all folio types.
-> 
-> Drop the WARN_ON_ONCE(), because apparently these things can currently
-> happen with large pagecache folios.
-> 
-> Keep the zero-refcount rejection if the refcount is 0.
-> 
-> Fixes: 800d8c63b2e9 ("shmem: add huge pages support")
-> Fixes: 99cb0dbd47a1 ("mm,thp: add read-only THP support for (non-shmem) FS")
-> Fixes: 793917d997df ("mm/readahead: Add large folio readahead")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
-> ---
->  mm/gup.c | 12 ++++++++----
->  1 file changed, 8 insertions(+), 4 deletions(-)
-> 
-> diff --git a/mm/gup.c b/mm/gup.c
-> index 2ab42fc6834e5..db9db6b2a4662 100644
-> --- a/mm/gup.c
-> +++ b/mm/gup.c
-> @@ -77,7 +77,7 @@ static inline struct folio *try_get_folio(struct page *page, int refs)
->  
->  retry:
->  	folio = page_folio(page);
-> -	if (WARN_ON_ONCE(folio_ref_count(folio) < 0))
-> +	if (unlikely(folio_ref_count_over_limit(folio)))
->  		return NULL;
->  	if (unlikely(!folio_ref_try_add(folio, refs)))
->  		return NULL;
-> @@ -140,7 +140,11 @@ static void gup_put_folio(struct folio *folio, int refs, unsigned int flags)
->  int __must_check try_grab_folio(struct folio *folio, int refs,
->  				unsigned int flags)
->  {
-> -	if (WARN_ON_ONCE(folio_ref_count(folio) <= 0))
-> +	if ((flags & (FOLL_GET | FOLL_PIN)) &&
-> +	    unlikely(folio_ref_count_over_limit(folio)))
-> +		return -ENOMEM;
-> +
-> +	if (WARN_ON_ONCE(!folio_ref_count(folio)))
->  		return -ENOMEM;
->  
->  	if (unlikely(!(flags & FOLL_PCI_P2PDMA) && folio_is_pci_p2pdma(folio)))
-> @@ -1482,8 +1486,8 @@ static long __get_user_pages(struct mm_struct *mm,
->  				struct folio *folio = page_folio(page);
->  
->  				/*
-> -				 * Since we already hold refcount on the
-> -				 * large folio, this should never fail.
-> +				 * Grabbing more references can fail once we
-> +				 * hit folio refcount limits.
->  				 */
->  				if (try_grab_folio(folio, page_increm - 1,
->  						   gup_flags)) {
+On Thu, Nov 05, 2026 at 06:17:47PM -0500, Paul Moore wrote:
+> On Thu, Nov 5, 2026 at 4:35 PM Lorenzo Stoakes (ARM) <ljs@kernel.org> wrote:
+> >
+> > Replace use of the legacy vm_flags_t flags with vma_flags_t values in the
+> > mmap and mprotect LSM hooks of SELinux, AppArmor, IMA and IPE.
+> >
+> > No functional change intended.
+> >
+> > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> > ---
+> >  security/apparmor/lsm.c           |  2 +-
+> >  security/integrity/ima/ima_main.c |  2 +-
+> >  security/ipe/hooks.c              |  2 +-
+> >  security/selinux/hooks.c          | 14 +++++++-------
+> >  4 files changed, 10 insertions(+), 10 deletions(-)
+>
+> Similar to the other patchset you just posted, is there any reason why
+> individual subsystem maintainers can't pick these patches up, or is
+> there some reason I'm missing and they need to go through a single
+> tree?
+>
+> If they can go through multiple trees, can you split this patch up?
+> AppArmor, Integrity/IMA, IPE, and SELinux are all maintained by
+> different groups/people.
 
-this can fail now, so shouldn't the error path below return -ENOMEM like
-the first page does, instead of -EFAULT?
+Sure, they're all independent so you can take the security bits through your
+tree, I guess fairly easy for Andrew/David to figure out which went where?
 
--- 
-cheers,
-jose a. p-a
+Intentionally made these easy ones given how busy the cycle is, just keeping the
+conversion rolling forward :)
+
+--
+Cheers, Lorenzo
