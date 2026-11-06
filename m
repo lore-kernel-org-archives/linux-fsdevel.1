@@ -1,81 +1,148 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.62.57.64
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.64
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793947641;
-	b=mesM0XO/evmmUJeMJ3rLf0VJeLXTpG2G1FZ9ObJ/s85Hgdkj4GnAsc0xTnXyb7ViIOSk
-	 j3NQlG9qdxbROBVqk3kfOw8VkX/+tmU0uWjbl7eAWcJ8JElcq8ZWtqOxfZcQrTqljyY8x
-	 Kj3Y07vMt6FTIP4yeax4iHnJKJehmRNqEbtDq2q3WdFFaXtjkPp4606SswhBJP8t24Z1c
-	 cKor/WDX0QHRmGGaPlde1GIO+8yK+HMMQazq+9GqxGipkXNJoS8YSRHVaqpz8eUm7QtDu
-	 SBukK9+JJ/+p5GhMMxTvsS2M6oWvrwl5vYH3P5wdi3AQ2FGxDRb+24pmxVjdBTFDRTw==
+	t=1793948381;
+	b=FaJsfWxbe8lYOOll2SdGLSK5gnLhvWP3QGPrS9fjmh5BEiBuoKMznAynr1eZ7azyeC9M
+	 zNYY2FVFogCZZi/8IqjNV5iNldBqq1NfFiCAQSq4Pe7MoCOuoNPQ8vNtHp8lICQuyF9f6
+	 XXUZ/SMUoy7S4zInfUxKyQgmer3ZN2lSTxILQwUeIY4eHufuSvzRXih3CIO1o471Rx0NO
+	 feTZwnr++vFOxCQZIfAhuXfK8GP9Y8rWecvbSXh8Y3Rnta0h6A0WM77rABLQ7zQ2jdJtm
+	 gRAubkpEU2vx2kceVCIfPsG5T4ueHoc38yFq+Zi4BizZRYpdQgXYVVwqR7Q+QKBLiGQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793947641;
-	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
-	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:Date:X-OQ-MSGID:
+	a=rsa-sha256; c=relaxed/relaxed; t=1793948381;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
 	 X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=lFJ4Bk9Szd6iDcz+AwPPa8L1TNNV0r9ZDRnxCUcLem8=;
-	b=YNbmw29G4kHi8Ywm4Ip/E7JPX2N4sP6DkExYycN+CYhRsd1fn6+EDW04R+7p0QhYeGhu
-	 TBKlgo8zrvwT9qDWqKSu0aflQpc/hxiG2KLR8k8+qsrMYdubD3Oh/El0Gd/ytW1ZCzyB6
-	 /G1kD1PkDrGWe4w87ThrlRen7g+znbWcl0Wxa/sDIG/FGFCRkVfC+cDo1a8wx3MT2vm3p
-	 6TWGju+UcpqiWAfoVnWhL+vm0NpMkfxmdxmrfxs89/X1mtoM7jhA5n4V207BigX1TrKt7
-	 7m2Otya8HTbSPBkTwJXr3XgS5EqFDCIiP23ykBXvK6UYQ6nkuf/hBNUA9taGhgMJRBw==
+	bh=OcOt4PX0tQHzNhn0VTU6sv5KTaqGga1IVFO+qQedORk=;
+	b=QPXNbthAtZ2z5zszW+VWpvTBXLOoNlduH+1yQqaPcp1u61MMcWBQ27qe0/iWT7uZxRQu
+	 ZG03461cpRgIucfnQ+Sm47GYLMtvfCfyGgjUSMtABHXDi1jAyRtjCzVT5U5k+0tMfQfqD
+	 8PzZcWaHOpM02Cd99So2ZZnbuMLJ5328Ku9k7uivF4Vg48jNZV/Jx/lOkSVK8b5errC1P
+	 YI/cYI1wp3gilf+aXT9vQiCoJTBBC1bcRGpv0Ca5TEDeMv+KD66t8DGJR3H9mAkWk/Hbu
+	 MUGOHIXs08V+L04Noe3qp4GmzoDR35WdMEhyoz7CChX0a9MLHVYClkkzX/b3GnB2fnA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=qq.com;
-	spf=pass smtp.mailfrom=qq.com;
-	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=RfaMmIe+;
-	arc=none smtp.remote-ip=162.62.57.64
-Received: from out162-62-57-64.mail.qq.com (out162-62-57-64.mail.qq.com [162.62.57.64])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=fUtXNC9O;
+	arc=none smtp.remote-ip=95.215.58.64
+Received: from mta1.migadu.com (out-64.mta1.migadu.com [95.215.58.64])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17AC6606A326;
-	Fri,  6 Nov 2026 06:47:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 17AC6606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F893606A32E
+	for <linux-fsdevel@vger.kernel.org>; Fri,  6 Nov 2026 06:59:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3F893606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=RfaMmIe+
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1793947633; bh=lFJ4Bk9Szd6iDcz+AwPPa8L1TNNV0r9ZDRnxCUcLem8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=RfaMmIe+ywMbLXca3R2UmGDrQQ4eTPzogG/LdFGJrLN8UVh2f5IK0NcfK755UGK1C
-	 i9HzzPlcPZwmQ6e58CxSvUlL4MFlLTHazu7mRJ7xJ5tUeNrp7x57X8IRz2e1huqugK
-	 G8Wivl6jFqJ6f96gCf7F3finxVv/86qJTIAUvieA=
-Received: from shuai-VMware-Virtual-Platform.. ([218.28.192.28])
-	by newxmesmtplogicsvrsza53-0.qq.com (NewEsmtp) with SMTP
-	id BC20A2BA; Fri, 06 Nov 2026 14:47:02 +0800
-X-QQ-mid: xmsmtpt1793947622tuse42h1u
-Message-ID: <tencent_29EE4AD2892C62F20E4D49B8626246134B08@qq.com>
-X-QQ-XMAILINFO: ODQfruXGvXmaI/SBdJ5Rlb2p6UcDTYznVkHqvapaL/Ytc5q6HIAS/J2QRzAEbz
-	 DHedU4gIZyHitD641FzBJkJBW2Pr8TCFN0ogdcd+kPrEZhFy1ud7TXu0DdIPwK/YInFV0KoIZpK6
-	 uwHLb4GO9apQels8qOFSRXYPmsTT2d7uraTV71QGYGsdRl7NFQlkFfodq7y6ieEBB0ctwzohhldD
-	 a8CGeMeRHBEBLd8T2HMO+hC4zFTnl9EXsQ8R5wG+JUAAJVuNaZIeST++AjSosVFvtgSJyvhP+GaP
-	 NvE+ZYsozA/4tgrerGBn7u36WDAhDQZTc6FZud/eEkil3S2nEcKWBSwsurkVdJ+6M0OOFhPYZh+S
-	 Q5fwrVd/LSIyxCbACj+Ukg0WoqiCbtjAUmJ9YsB3edIBXt9z90ZlvXJIj8OUnogbyD1m8Qqb5dRF
-	 1TBeIfMJGs1IYkuCnVLVXuGDmLuz22bnxDmG1zisfUXJbNenoU6TCEvFC9ddsbOhd3Aye+TTI743
-	 FIpC5pGXQHkZFfpZ3Mb8xAip4fq53sAzQSyfs5a8j18LGbVy+lqFgolvNBMFlgZj8hywYN9IGrAY
-	 yZ3Eo/QKPEkN82u0+XhZY+Qy6OLG6UVtMRvtgBzrBiz3NQVd1AN9FmvRdzxkIRh40mHX3WdkuIvz
-	 Re9orkvjHK5lKGG8gTMcbrFJ8514N4e+NZD1eqwLpXbgCm57IPIkKcshViIBCxq8yiw5/yzcT6dz
-	 /jn7eGb6vLgkasHwr8sCQbvnrvftQvl1nWS8DSAPGHUFpiy1Ynzt6l+CYoLMuxgjJowC6BdH/zn1
-	 krgviNH8I/IQ6CEW2YystvKKtPyC0EJbQea60N4PYNfl+nbcX5NkqXCz8AbYp4qGVwrvy5Z1TFN8
-	 CHdRM1OrZkQpnfH/VJ3LAU3u/Il8zHu0aMZLF9IWY3froBIkFfWO2+6nsDprvYAnxypcd8gtUPCl
-	 lC81dE2FVfWcikxLKkGCxIUsLPRhuJATAY7BgwHeAGhJZAwJQdF/bamMYFE7+vXwYm8MfxGSgFsr
-	 ajIhYV8Flzw2CW2BzytqsrtfZNrxZzXBCpbJstqZS0oecZVSnXDkSXkqDzvrxDpfV2pxswWklUY3
-	 qsgJexRZWygzsQTzzYZegoZP8S4lOaP+xdyXR8
-X-QQ-XMRINFO: NyFYKkN4Ny6FuXrnB5Ye7Aabb3ujjtK+gg==
-From: Shuai Liu <847807867@qq.com>
-To: linux-fsdevel@vger.kernel.org
-Cc: viro@zeniv.linux.org.uk,
-	neil@brown.name,
-	brauner@kernel.org,
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=fUtXNC9O
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=3ZBSNl6NQMmaNPPXZuPSoh3zWTH6z/X2ys0Il7SoJQY=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1793948378; v=1; x=1794553178;
+ b=fUtXNC9OokVys2pDgqqV7e6IHkbdRcMdPpy/CPmJJy5ZvxX78CKDrcJbdfBJiVcUVB0uRxLZ
+ aB9l0za7aJYiuHTJ68eaxwmBZdo01FLmMN5RXQpgaE3ZQx+rALutShsqUC19hf7el6+TtqXvGN1
+ Ql5qsQaTQjOBZ77V+afsWQMY=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id fab8f084cc4903d4;
+	Fri, 06 Nov 2026 06:59:35 +0000
+X-Mizu-Trace-ID: fab8f084cc4903d4
+X-Migadu-Flow: FLOW_OUT
+From: Lance Yang <lance.yang@linux.dev>
+To: ljs@kernel.org
+Cc: akpm@linux-foundation.org,
+	david@kernel.org,
+	jgg@ziepe.ca,
+	jhubbard@nvidia.com,
+	peterx@redhat.com,
+	willy@infradead.org,
 	jack@suse.cz,
+	riel@surriel.com,
+	liam@infradead.org,
+	vbabka@kernel.org,
+	harry@kernel.org,
+	jannh@google.com,
+	lance.yang@linux.dev,
+	ziy@nvidia.com,
+	matthew.brost@intel.com,
+	joshua.hahnjy@gmail.com,
+	byungchul@sk.com,
+	gourry@gourry.net,
+	ying.huang@linux.alibaba.com,
+	apopple@nvidia.com,
+	baolin.wang@linux.alibaba.com,
+	nico.pache@linux.dev,
+	ryan.roberts@arm.com,
+	dev.jain@arm.com,
+	baohua@kernel.org,
+	usama.arif@linux.dev,
+	kas@kernel.org,
+	xu.xin@linux.dev,
+	chengming.zhou@linux.dev,
+	maddy@linux.ibm.com,
+	npiggin@gmail.com,
+	mpe@ellerman.id.au,
+	chleroy@kernel.org,
+	ritesh.list@gmail.com,
+	sshegde@linux.ibm.com,
+	pfalcato@suse.de,
+	kasong@tencent.com,
+	qi.zheng@linux.dev,
+	shakeel.butt@linux.dev,
+	axelrasmussen@google.com,
+	yuanchu@google.com,
+	weixugc@google.com,
+	baoquan.he@linux.dev,
+	rppt@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	leon@kernel.org,
+	sj@kernel.org,
+	rakie.kim@sk.com,
+	rientjes@google.com,
+	viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	peterz@infradead.org,
+	mingo@redhat.com,
+	acme@kernel.org,
+	namhyung@kernel.org,
+	mark.rutland@arm.com,
+	alexander.shishkin@linux.intel.com,
+	jolsa@kernel.org,
+	irogers@google.com,
+	adrian.hunter@intel.com,
+	james.clark@linaro.org,
+	mhiramat@kernel.org,
+	oleg@redhat.com,
+	john.johansen@canonical.com,
+	georgia.garcia@canonical.com,
+	paul@paul-moore.com,
+	jmorris@namei.org,
+	serge@hallyn.com,
+	zohar@linux.ibm.com,
+	roberto.sassu@huawei.com,
+	dmitry.kasatkin@gmail.com,
+	eric.snowberg@oracle.com,
+	wufan@kernel.org,
+	stephen.smalley.work@gmail.com,
+	omosnacek@gmail.com,
+	linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
-	syzbot+2ed46b6b748df855347f@syzkaller.appspotmail.com,
-	Shuai Liu <847807867@qq.com>
-Subject: Re: end_dirop() can unlock the i_rwsem of a re-parented dentry on PREEMPT_RT (DEBUG_LOCKS_WARN_ON in filename_symlinkat)
-Date: Fri,  6 Nov 2026 14:47:00 +0800
-X-OQ-MSGID: <20261106064700.525802-1-847807867@qq.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <tencent_EE9EBC53933F6E9658D6848B7B89F4370B06@qq.com>
-References: <tencent_EE9EBC53933F6E9658D6848B7B89F4370B06@qq.com>
+	linux-fsdevel@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	kvm@vger.kernel.org,
+	damon@lists.linux.dev,
+	linux-trace-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org,
+	apparmor@lists.ubuntu.com,
+	linux-security-module@vger.kernel.org,
+	linux-integrity@vger.kernel.org,
+	selinux@vger.kernel.org
+Subject: Re: [PATCH 09/13] fs/proc/task_mmu: convert VMA flag tests to use vma_flags_t
+Date: Fri,  6 Nov 2026 14:59:25 +0800
+Message-ID: <20261106065925.50906-1-lance.yang@linux.dev>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20261105-late-2026-vma-flags-v1-9-0d3cd15ab75f@kernel.org>
+References: <20261105-late-2026-vma-flags-v1-9-0d3cd15ab75f@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -88,38 +155,115 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi Al, Neil, Christian, Jan,
 
-Adding you to Cc on this -- my first mail in this thread only reached
-the list address due to a sendmail mishap on my side.
+On Thu, Nov 05, 2026 at 09:31:00PM +0000, Lorenzo Stoakes (ARM) wrote:
+>Replace use of the legacy vm_flags_t flags with vma_flags_t values where
+>VMA flags are tested directly in /proc/$pid/[s]maps, pagemap, clear_refs
+>and PROCMAP_QUERY.
+>
+>In replacing vm_flags_clear() (which takes the VMA write lock) with
+>vma_clear_flags() (which does not) in clear_refs_write(), we explicitly
+>write lock the VMA. The mmap write lock is already held at this point.
+>
+>The show_vma_header_prefix() and show_smap_vma_flags() output functions and
+>the thp_vma_allowable_orders() call continue to use legacy flags for the
+>time being.
+>
+>No functional change intended.
+>
+>Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+>---
+> fs/proc/task_mmu.c | 43 ++++++++++++++++++++++---------------------
+> 1 file changed, 22 insertions(+), 21 deletions(-)
+>
+>diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+>index 22361607020d..b6e8ef15e40e 100644
+>--- a/fs/proc/task_mmu.c
+>+++ b/fs/proc/task_mmu.c
+>@@ -569,18 +569,18 @@ static struct vm_area_struct *query_matching_vma(struct proc_maps_locking_ctx *l
+> 
+> 	/* VMA permissions should satisfy query flags */
+> 	if (flags & PROCMAP_QUERY_VMA_FLAGS) {
+>-		u32 perm = 0;
+>+		vma_flags_t perm = EMPTY_VMA_FLAGS;
+> 
+> 		if (flags & PROCMAP_QUERY_VMA_READABLE)
+>-			perm |= VM_READ;
+>+			vma_flags_set(&perm, VMA_READ_BIT);
+> 		if (flags & PROCMAP_QUERY_VMA_WRITABLE)
+>-			perm |= VM_WRITE;
+>+			vma_flags_set(&perm, VMA_WRITE_BIT);
+> 		if (flags & PROCMAP_QUERY_VMA_EXECUTABLE)
+>-			perm |= VM_EXEC;
+>+			vma_flags_set(&perm, VMA_EXEC_BIT);
+> 		if (flags & PROCMAP_QUERY_VMA_SHARED)
+>-			perm |= VM_MAYSHARE;
+>+			vma_flags_set(&perm, VMA_MAYSHARE_BIT);
+> 
+>-		if ((vma->vm_flags & perm) != perm)
+>+		if (!vma_test_all_mask(vma, perm))
+> 			goto skip_vma;
+> 	}
+> 
+>@@ -647,13 +647,13 @@ static int do_procmap_query(struct mm_struct *mm, void __user *uarg)
+> 	karg.vma_end = vma->vm_end;
+> 
+> 	karg.vma_flags = 0;
+>-	if (vma->vm_flags & VM_READ)
+>+	if (vma_test(vma, VMA_READ_BIT))
+> 		karg.vma_flags |= PROCMAP_QUERY_VMA_READABLE;
+>-	if (vma->vm_flags & VM_WRITE)
+>+	if (vma_test(vma, VMA_WRITE_BIT))
+> 		karg.vma_flags |= PROCMAP_QUERY_VMA_WRITABLE;
+>-	if (vma->vm_flags & VM_EXEC)
+>+	if (vma_test(vma, VMA_EXEC_BIT))
+> 		karg.vma_flags |= PROCMAP_QUERY_VMA_EXECUTABLE;
+>-	if (vma->vm_flags & VM_MAYSHARE)
+>+	if (vma_test(vma, VMA_MAYSHARE_BIT))
+> 		karg.vma_flags |= PROCMAP_QUERY_VMA_SHARED;
+> 
+> 	karg.vma_page_size = vma_kernel_pagesize(vma);
+>@@ -970,7 +970,7 @@ static void smaps_pte_entry(pte_t *pte, unsigned long addr,
+> {
+> 	struct mem_size_stats *mss = walk->private;
+> 	struct vm_area_struct *vma = walk->vma;
+>-	bool locked = !!(vma->vm_flags & VM_LOCKED);
+>+	bool locked = vma_test(vma, VMA_LOCKED_BIT);
+> 	struct page *page = NULL;
+> 	bool present = false, young = false, dirty = false;
+> 	pte_t ptent = ptep_get(pte);
+>@@ -1017,7 +1017,7 @@ static void smaps_pmd_entry(pmd_t *pmd, unsigned long addr,
+> {
+> 	struct mem_size_stats *mss = walk->private;
+> 	struct vm_area_struct *vma = walk->vma;
+>-	bool locked = !!(vma->vm_flags & VM_LOCKED);
+>+	bool locked = vma_test(vma, VMA_LOCKED_BIT);
+> 	struct page *page = NULL;
+> 	bool present = false;
+> 	struct folio *folio;
+>@@ -1728,7 +1728,7 @@ static int clear_refs_test_walk(unsigned long start, unsigned long end,
+> 	struct clear_refs_private *cp = walk->private;
+> 	struct vm_area_struct *vma = walk->vma;
+> 
+>-	if (vma->vm_flags & VM_PFNMAP)
+>+	if (vma_test(vma, VMA_PFNMAP_BIT))
+> 		return 1;
+> 
+> 	/*
+>@@ -1798,9 +1798,10 @@ static ssize_t clear_refs_write(struct file *file, const char __user *buf,
+> 
+> 		if (type == CLEAR_REFS_SOFT_DIRTY) {
+> 			for_each_vma(vmi, vma) {
+>-				if (!(vma->vm_flags & VM_SOFTDIRTY))
+>+				if (!vma_test(vma, VMA_SOFTDIRTY_BIT))
+> 					continue;
+>-				vm_flags_clear(vma, VM_SOFTDIRTY);
 
-In short: on PREEMPT_RT, syzbot reports DEBUG_LOCKS_WARN_ON
-(rt_mutex_owner != current) from inode_unlock() called by end_dirop()
-via filename_symlinkat -> end_creating_path() -> end_creating()
-(syzbot dashboard: https://syzkaller.appspot.com/bug?extid=2ed46b6b748df855347f).
+vm_flags_clear() still warns on VM_SOFTDIRTY when pgtable_supports_soft_dirty()
+is false. Did you mean to drop that?
 
-end_dirop() re-derives the directory to unlock from the current
-de->d_parent, while start_dirop() locked the parent it was given
-*before* the lookup.  The warning therefore implies the dentry was
-re-parented between the two.
+(Vaguely recall you weren't too keen on that warn, though I could be wrong.)
 
-I audited the candidates that could move a held dentry
-(lookup_one_qstr_excl/d_lookup; d_splice_alias_ops() both branches --
-IS_ROOT __d_move under rename_lock, and the __d_unalias path with its
-s_vfs_rename_mutex + inode_trylock_shared()/-ESTALE fallback) and
-could not construct an interleaving that re-parents the dirop dentry
-while the exclusive parent lock is held.  Runtime instrumentation at
-both ends (owner check in end_dirop(), parent-identity check in
-end_creating_path()) ran ~48k iterations of the C reproducer with
-zero hits and zero false positives.
+Otherwise, LGTM!
 
-The full analysis and my questions (Q1: should start_dirop() capture
-the locked inode explicitly for end_dirop() to unlock; Q2: which
-d_move() callers do you suspect; Q3: could the divergence originate
-at start time) are in my previous mail in this thread.  I'd greatly
-appreciate your insight, Neil especially given the start_dirop()/
-end_dirop() rework.
-
-Thanks,
-Shuai Liu (刘帅)
-
+Reviewed-by: Lance Yang <lance.yang@linux.dev>
