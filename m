@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794049151;
-	b=WVTfSa0wtNaA9qjw40c0pP3gol7EC6oSYlhWiIjdgZf834Zm+WWmOOfbJBk3NvDHb9T6
-	 PV/ujQWhE5+jopbJ+z7YWfTirRKAplh4pCodyJvDysFkY11MdmBkGBGz6YbUFPOzpNS+w
-	 iM/RRpRq05zQtS6JcnXUFO/McPK4Uq0EupthVxX+aQCT9lJXaMckCGJ+NKyJ1ahMP4cQi
-	 SutmoY6UVlfqpYJAx2AZ5q9wgs6qQsaoPkrEWhXDJZb94OHboMbPDY+i0boO9mlqMi3PD
-	 7Ot0t061ERWp/Q862kxnb+EGAw2Nt3IxBHmWvjyg6YmPniqgOkrafBz1b1SwnNMahHg==
+	t=1794049148;
+	b=ToG38YZ2SdGCZBW3jR3KQH79Xn/pFNgdPFfABN+kN6m+iPAvflc4lKCMzbJghr8vDjzl
+	 FRQtDjtDezU+rlpSDcfqIOEBEA3qPfp0U/yw0gA0zNKb+M66/E2c89PM5xrEqnJn2L983
+	 NUeV4zQy2x97AFdCgleQ0azRb3vjT2GKg+q94QfGiyeLJb2bG3zKF8sza9ekbzJekvB7Q
+	 RgIDWuJuLRDtzZeLT13rxkACgfBAZ7VeqAuEcUvXhfJdsvKVUXs6idYllpAYHD3K+Bi4w
+	 9HOwG/WkvEFNYaDrjsvpYaahcGOARGMMt4BYWa/y2MB6mpLNqQCw/XdB935D9EBmCwQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794049151;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794049148;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=f3l0zpGiWBDLrkdGS//TuXETPQIE+ln1iP7r/4acX0o=;
-	b=3yyo4MVP7Nn0JldHfl8DHTmqCK5Wy8UH8teMbh/blLqVNXIG+jBouUMszELSqCfxe9e2
-	 bBWa8Oq9dRiAIxIZBcRkraCBMoOgYkLQNbNugn2SUYffRb/dP2PUQ2xh26wcAzuKIxG8+
-	 ElkyuzIKgohsf81dvSseECPLYz5lkoRADFn0TCn8BSs80LXv564B8dJqCQfVrp/hQtqnm
-	 6vnfoywHHk3AaI1spjT16o8cdIEIrge6WmDKDyamcBk5z+qKuUpauSKcSXXt2VVHEnJ2F
-	 Kq247LAOJYHg6nNF1AxBKTnayBG7oIXED6LE9QWTcs+gRmv535SP6gdXx0J83MU7kQw==
+	bh=uF3NLECGowX2y5BaUJvCNV96peqx+/eZQsYA4HOxfiA=;
+	b=jUnnKIX0pZ16lucoASBGagGGwtJWSbSAWWry3x1Z3WrXyHWsi76fRPxu5mvJa+WXCFVp
+	 bklrsDtnOPtOtC33H2cA0yB+aztR/mH2jte8bVECAHIKh0EWka35ay2Mt/Kb+crX8fAhp
+	 fXPN2f9osDym+yqh0iQ6UsN7+s/6sy34EkhPlzyPcGsrHBfsfmwmdCBd8WElfVPehKzfY
+	 kvdcr7z2C1eSEJ9aq4PI302LSbjN51oOOBKkYx2sI7Byboo2XS6n3Rb1eIMYoRdVRmqpA
+	 /T37BgaEaUydDKyu6pwhMMTtwC37VZibwQWjRs9aLRpvzCgoOr6JHqwXeRryAArtfJQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jmoJRG5L;
-	arc=none smtp.remote-ip=209.85.218.45
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=AfRugtVJ;
+	arc=none smtp.remote-ip=209.85.218.41
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB4F0606A333
-	for <linux-fsdevel@vger.kernel.org>; Sat,  7 Nov 2026 10:59:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BB4F0606A333
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A2AA606A332
+	for <linux-fsdevel@vger.kernel.org>; Sat,  7 Nov 2026 10:59:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0A2AA606A332
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jmoJRG5L
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c40e30c26a4so63682366b.0
-        for <linux-fsdevel@vger.kernel.org>; Sat, 07 Nov 2026 02:59:10 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=AfRugtVJ
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-c40e30c26a4so63678266b.0
+        for <linux-fsdevel@vger.kernel.org>; Sat, 07 Nov 2026 02:59:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794049149; x=1794653949; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1794049146; x=1794653946; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=f3l0zpGiWBDLrkdGS//TuXETPQIE+ln1iP7r/4acX0o=;
-        b=jmoJRG5LFPkpneFDc4+nTlERpAkw2Fyx79LANkHmU59Esr0Sy1tds04Tq+dLppDxGz
-         94oKJZiMGy71L3Bqbv5rs7n0FN+yvV/HGbD6bBQQ6IvMBvUf6nmUV10ZkIhsjP2Wx+YM
-         gyZ1KX7TIX1phuvp5z54OJWwDV7zeVDmMxPwKQQ4WQkVYTeQSSdA7UGAhE+3TrYbXtbh
-         9BKDqRcRkct+tABBB1DbwKxAikMQlzq8tzEaNIHnuXCOVBU0BGFG3OANucQV5fAULe6x
-         pqMxDWhomIWm/9+YWS6F3scQ0wlwSWTazLHOF6/Fx+/mQnkUinV5ur6KSJf2beTaWSsY
-         Vp4A==
+        bh=uF3NLECGowX2y5BaUJvCNV96peqx+/eZQsYA4HOxfiA=;
+        b=AfRugtVJHHWWen0rD4EPsg5cpCcP0AekhrFA9Qt/I/sf0AYhVFxJuJiuAaP9JFZtp0
+         9yLwbTGPT4/921m5nXTYLd5LLMuzVqDb+Ws7u8HPuAjJhOuvma0tuCHivKiS2jNdBCbd
+         Wz/2t0HI7G5QShGuq54OjEk7kvdwGFSsGqXVnIcoWjEpg3G/J/CtiMvkKoRfVVlLkNx+
+         NJkDTTdZYy5W+2znJZcRy8D7Ua0T+MwIHdWnzM2+XXDCiUkOMVtqJJ2Hiyq6NpkpRckn
+         gjA0dptNa7A0UY0NPLF4MLzY+Q8D0vk98gXYz3ZTuFiaTAZDmSueug51qA028x3scVF/
+         fDyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794049149; x=1794653949;
+        d=1e100.net; s=20260707; t=1794049146; x=1794653946;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=f3l0zpGiWBDLrkdGS//TuXETPQIE+ln1iP7r/4acX0o=;
-        b=dOzPUXDQIaZmq0Ony/cq0tAG6BiH/RHEfAWJhupTmv3l11yIJlOHH/dCSXBdMQK0+h
-         7u04JVq7ISjzg9yfu8TLdE8rrHlQcEbIc9h5AsMM0XvEX+N71np+L81cjRu3t9MmH1GJ
-         DC8uJOtfaAZsNJ4VHV7k3ieh44mLiMxvoT+E8RBSAC/ZAphsXXP2BuwcWi7gzstDxhN2
-         F7kO0/EFeAbl31hNOMHOCnRwjd8nj0Z6MHrOxamtv8mGLIw7gz19Dcuu36org46J6b6a
-         4LtdA60UvmD7zsFwdXtIZF02ZexPCCxugmhTKIoYsSrzDP9hnOWA4CDamAmX9G3hzovb
-         kqLw==
-X-Forwarded-Encrypted: i=1; AL+hErGrFBw9FXqqOfJuTZkj+De5800CKOhetgMR+st+gQ4pf45+UGkH9K+fFGUNBEY+icHG15bbLEg9Nt0MNn37@vger.kernel.org
-X-Gm-Message-State: APuU4Z9mdvuHI1L3Cw2AflNj1FMFvzTOD83UnsnqKeMC4Ekhnl1ifRMJ
-	Qx9fwM4J6IvAhtLEgCAOCmwn+EeRUV+6BmGi3/F0YP40eQ7Vn6Yr9Aes7O3Aok9w
-X-Gm-Gg: AYBFou2+27FWO68S0sBniifZmLst/VZ58Qqjgp9Iajs0DmTq9J5HBowURAyRdlvIlLb
-	pibwv8ppPQhdU/7ZRMbhsSO2lgQzDa1jT3ECiiDsxwk+4XX/uPZcnfrPcEHM4KPNPzOYSVmnEu0
-	/mrGuxLRSMwZD0TJ6wHf2z8Y6N35lDYiCAKZzl7NB0JZ2aeSXwa7btjG0b5V5ssW7kODqH5Ir10
-	vT7K7ZtZgmlbQmKpxdLhtan4STH/LZeQWKAwCas/g3eP9UyCg6EGG2Xdq9dIyfntG1jr1kM4FeT
-	gi+VsmZvsdW/FRJa72BugS6rS58G4Q8dhz3RyU3DbGXPUAz+DQzGdK+l29RrRWxygF5KtaMbBNW
-	oYg2cP/oVUMb543SoreeCnb1Cb5pSE6gBlmCHgHMyLW8txdyLwHFBjbB25336jj2pgXCzKuu5Ax
-	USBJcQkmrbxYmCFAcqxpubhof+H9g0u7dkbzYj8q+i1U6+v5czuZ1gGQZxrgv94B3Zoad5yTvvk
-	BuYFWzWqf0LzKk68NOrj5SHAFeCRvGtvliXAThuGiROxDesU+c6OLhmasMNxJrFUcubIA8ZyL2G
-	TyhEXp7HOqr4ma4jchuZFen78HSnAe9jH/YYRahi6Sa+eQTcShb9NwQyH6pyTrER+A6aBEjXV/r
-	YxTFmAJ2/NoA=
-X-Received: by 2002:a17:907:94c9:b0:c26:1cfd:4244 with SMTP id a640c23a62f3a-c4d525794f8mr109604366b.11.1794049149018;
-        Sat, 07 Nov 2026 02:59:09 -0800 (PST)
+        bh=uF3NLECGowX2y5BaUJvCNV96peqx+/eZQsYA4HOxfiA=;
+        b=Zd60PcFJEfdtZXlCglb+8mMy/Kj3YvsB8qmFLsYreqRH7KPDAHKxtsBCi5I4/9R6hw
+         D9g6jQt8uchtPUZnFdtOQU/L7+bx45P6vnZIOcQJFMiKOCwIVVxBdUqxdLho8wTpHswS
+         HQKwUs31kE1ESVS5MtVDSeXawF6vKcMPaWYDs1bDjTMn4BUWAEZbqgAGgetkuNnjV1uH
+         U02XaOrUC+mIHaUInaGuvlCD+bEi1O8UumWBVVrlD/IAQyBWODMvKTS5OhEoINU3Ee2w
+         isJYIlIIUJm+S5xArdPckCF/lNCvCopZfyWkIo6jAmLd9JwyaMRdB1oRPKpbNF+ViqXV
+         9YvA==
+X-Forwarded-Encrypted: i=1; AKwUvByuwGv08bt4QJLT67+dMacYKnK54JroUjHvrQg2X/93Sr5oduqHFktIiuDXIpkdsYyfkU0YH/GgV9iATHDN@vger.kernel.org
+X-Gm-Message-State: APuU4Z/Bw1HS9aUQCzhkkPJB0rYRQFJEiqLuDa7V/X54eeEQAIw2vkza
+	NqAy3O5l2YCmny4LjHHTi39yx93RiRXWjJ3Ia4NYpoPQ22snGH9XjFxr
+X-Gm-Gg: AYBFou1sFNdmx1g2goTvwi0+bTifmX5ifOJCt07BnbeS8QaR1Ab03NwR8OgZZAgoep1
+	+5jwof+EvHPpBU7Sb17lJlG2Uy3E8Nru98XVG1m4qcojeh+I4uQ7Uqcptl83FsApgNGuvvEaw8i
+	enjj1wB44rQNUt4pitiZQoCmCZMjvp4rzllvLPjKqRAlERyHdYUCLYYGN/oBcDPmaWAdjJiL3E/
+	OjMg++5DHcQ1FPtpuTCq2c6zfQ6uDDzLXgtEdlUvfYhX+GO9+T/MAwQpGlR/rxlehELKKQDxMoH
+	IKushzdfVvI4FUcYcFDVlj6aeO5OYY0x8S7Y94+2H3VBCG1oUymi+OOXI3+PLw6mi4pgjmk0Bzg
+	itxfNFms+4DCX3gsmfMOWaAxNH2G9RW50pctmnwr6yatguM3TlYMBPCOLwZp2zw5KAMyZ3CAtZV
+	TO01z9bPmDfcod68u+s03h7n9FWpbccHOUfAX6leXhhNVi0fnolBooUeyELKR8iisW+gECacvG1
+	U7VWSprLFaE8HsUtUQocndFeF5IqAJOo8bSNvwJXfm8/Qv4O0rCrrdxS4BGRNEzKjfG+1L4dJYC
+	82c03mcsIf5lVx7+m4/+mO9IYIm3P4jzdv2n0qh6QVPMv/E3xzAUqnaOauG/vW24kE4qX5HTkfn
+	1TWJfxzNJCxgc
+X-Received: by 2002:a17:907:1c92:b0:c2e:2275:1168 with SMTP id a640c23a62f3a-c4d527afc43mr109634466b.19.1794049146286;
+        Sat, 07 Nov 2026 02:59:06 -0800 (PST)
 Received: from localhost (178-84-201-199.dynamic.upc.nl. [178.84.201.199])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c4d354ac7ddsm144880566b.8.2026.11.07.02.59.07
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b664ff8a6asm1695097a12.32.2026.11.07.02.59.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Nov 2026 02:59:08 -0800 (PST)
+        Sat, 07 Nov 2026 02:59:05 -0800 (PST)
 From: Amir Goldstein <amir73il@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Sasha Levin <sashal@kernel.org>,
@@ -88,9 +88,9 @@ Cc: Sasha Levin <sashal@kernel.org>,
 	linux-unionfs@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	Chris Mason <mason@kernel.org>
-Subject: [PATCH 6.6] backing-file: always end a queued write
-Date: Sat,  7 Nov 2026 11:59:03 +0100
-Message-ID: <20261107105904.3962893-4-amir73il@gmail.com>
+Subject: [PATCH 6.18] backing-file: always end a queued write
+Date: Sat,  7 Nov 2026 11:59:01 +0100
+Message-ID: <20261107105904.3962893-2-amir73il@gmail.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261107105904.3962893-1-amir73il@gmail.com>
 References: <20261107105904.3962893-1-amir73il@gmail.com>
@@ -141,41 +141,43 @@ Signed-off-by: Chris Mason <mason@kernel.org>
 Signed-off-by: Amir Goldstein <amir73il@gmail.com>
 Link: https://patch.msgid.link/20261029180319.2852090-1-amir73il@gmail.com
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-[backport: no fs/backing-file.c, mark the write in struct ovl_aio_req and
- test it in ovl_aio_cleanup_handler()]
-Signed-off-by: Amir Goldstein <amir73il@gmail.com>
 ---
- fs/overlayfs/file.c | 5 ++++-
+[ backport: context: no do_backing_file_write_iter(), the write is marked
+  in backing_file_write_iter() ]
+
+ fs/backing-file.c | 5 ++++-
  1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/fs/overlayfs/file.c b/fs/overlayfs/file.c
---- a/fs/overlayfs/file.c
-+++ b/fs/overlayfs/file.c
-@@ -19,6 +19,7 @@ struct ovl_aio_req {
- 	struct kiocb iocb;
+diff --git a/fs/backing-file.c b/fs/backing-file.c
+--- a/fs/backing-file.c
++++ b/fs/backing-file.c
+@@ -83,6 +83,7 @@ struct backing_aio {
  	refcount_t ref;
  	struct kiocb *orig_iocb;
+ 	/* used for aio completion */
 +	bool is_write;
- };
+ 	void (*end_write)(struct kiocb *iocb, ssize_t);
+ 	struct work_struct work;
+ 	long res;
+@@ -123,7 +124,8 @@ static void backing_aio_rw_complete(struct kiocb *iocb, long res)
+ 	struct backing_aio *aio = container_of(iocb, struct backing_aio, iocb);
+ 	struct kiocb *orig_iocb = aio->orig_iocb;
  
- static struct kmem_cache *ovl_aio_request_cachep;
-@@ -289,7 +290,8 @@ static void ovl_aio_cleanup_handler(struct ovl_aio_req *aio_req)
- 	struct kiocb *iocb = &aio_req->iocb;
- 	struct kiocb *orig_iocb = aio_req->orig_iocb;
- 
--	if (iocb->ki_flags & IOCB_WRITE) {
-+	/* Pairs with kiocb_start_write() in ovl_write_iter() */
-+	if (aio_req->is_write) {
- 		struct inode *inode = file_inode(orig_iocb->ki_filp);
- 
+-	if (iocb->ki_flags & IOCB_WRITE)
++	/* Pairs with kiocb_start_write() in vfs_iocb_iter_write() */
++	if (aio->is_write)
  		kiocb_end_write(iocb);
-@@ -413,6 +415,7 @@ static ssize_t ovl_write_iter(struct kiocb *iocb, struct iov_iter *iter)
+ 
+ 	backing_aio_cleanup(aio, res);
+@@ -255,6 +257,7 @@ ssize_t backing_file_write_iter(struct file *file, struct iov_iter *iter,
+ 		if (!aio)
  			goto out;
  
- 		aio_req->orig_iocb = iocb;
-+		aio_req->is_write = true;
- 		kiocb_clone(&aio_req->iocb, iocb, get_file(real.file));
- 		aio_req->iocb.ki_flags = ifl;
- 		aio_req->iocb.ki_complete = ovl_aio_rw_complete;
+ 		aio->orig_iocb = iocb;
++		aio->is_write = true;
+ 		aio->end_write = ctx->end_write;
+ 		kiocb_clone(&aio->iocb, iocb, get_file(file));
+ 		aio->iocb.ki_flags = flags;
 -- 
 backport
+
