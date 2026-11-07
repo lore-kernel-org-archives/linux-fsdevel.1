@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794011826;
-	b=5sVYAF4T+J+AUJF98lXuIElWgbRwTZIss6SZ+jdcgIW4lY63B/tSOgXyuGEE5tI+Kt5o
-	 tU4DVr1ij/NKfwIy1pEEPZT8h85/rdPqcE5HesNAOpI4fZRFPO2xFBzkhJOJQ90Vl17De
-	 72/XcvO9xXF4Aq5rdnk62Ahz4lBpIEbUHJiEBCY6L5SKqq44tCU/vBgr7GMbWJh4ZudOV
-	 eo1k5EQtrizD1caD4RE00r7zjTvW4YKQLAb5lcS9x4D3skKyBvPpmLAL5D7DyhQErPYdS
-	 m8p7E8AtT+s1uk5AjjI29wsZA3x253z5H/c5OqjEIIK0XN9CicV5jmaZLHSEl+hA3yQ==
+	t=1794011822;
+	b=en1NLit7Szg8xcKXrGWcZvEkbLWy0OJ9C4nrFK3GDtw2+MWQCS+d9l6hygNDinokqkuv
+	 24es6XMSmjwHHB7mA8qApW9cHJJilP3f8fSVYt83/zcQ6owr3txJ/btzq6QSKYco1aNi5
+	 isjQaNQTI3VuNGw12JKvmVv6U6DEIEXt00dDWRptBGWu97B5sgmRGdMaRnoLMGwXXsUXH
+	 MWE8U61jQSVa9XDds3rLM5xMxyE2ji6UoL0Q13Nv/Vn5NudPmW5PwOgW1oiiu97o00lbi
+	 3aDPCfYMf16aPFHEHhnWZqB8ra5hid/0xXVRTLaoYGUCl3K5EqO24Q2qDRyGZT1VZfw==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794011826;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794011822;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=8Tz/4R3+nBGJbuRMe2ive2nBKLEVbhjpacp28U7sWIg=;
-	b=T9HpPy9tj3B/JEi3gpPzCLFPwp2Vz5a3/Xo9itvw3qF6dSLhWei1AV7I7Y1MNPaNlYhM
-	 T80u3X68fskQuLAuPbRT/QrqX0XFOWsmWFFjFlAupGjaqD6qpDOqb4tCiraT6Whq9Ks8H
-	 t25r8Cs7mzJTqBoxkF+9mkDC4e5ml2XJtV7QO8C+l3ZdJZ1tRRvfnuZ7otbCMlou8pg5I
-	 VSGj+kGtDRQTTaqB2qKjaMnxXWQWPbayE567mPhcWjuHJkvHBvMM9Tr6y8JOVW6fqODem
-	 pCnvFZY9LaqYE0scr7DNt9jVhTUgn89Km7FRVxCc813hTUtZ3oecImGpSTGoGiP3ixA==
+	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
+	 In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-Endpoint-Received:X-Original-From:Reply-To;
+	bh=VXEN2fX4IZspMfQCjFNkasyktSzz9/ubEwayDCWJkus=;
+	b=C3ARIJ4F9zf+e38mEYZk+Lmh+tMvDf85/VosXLl22ua4k07t4T4ubXlKKWqZhCVJGxIs
+	 twWRz89C7zOHCXoscRjiOfv56/iUVUZ7s5+QMCNCaNuRjTRqWwDwA0RoMwP7pwdmjCObj
+	 6ASBIF5qsos+fryGK5kmKKKHfQND2je8QmXIxKDpyualiLWUbf8n6b/TLzyJvJKWEaZ4Y
+	 ui0EcJRtQrZVR2lZl5tKaAzC5KGxSIxz3+nd513LrtsZqKNS/fAtp5HH8nkkoo+V57ZLQ
+	 rA0uLoXCeqt3EHda0PtGascw2Bm4DEaG/JQfVZwQ2pNf5fyxSGj9bMu3iuKc5UZA4PA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YcFgk06y;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CqIRBYJu;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C047606D803;
-	Sat,  7 Nov 2026 00:37:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06DBE606EEB8;
+	Sat,  7 Nov 2026 00:37:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YcFgk06y
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CqIRBYJu
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794011826;
-	b=us3VkzdYHP08912mKq5PN8ekRTFJmXPZ04BxJYq9g68sMU91aqsJTY5SgZ7AiioWEoPh
-	 ZQBZiprsMcjB+z4SZUyo4Ut0EFE74SJk11aF1idkiWzht8ZhPh4N3TO/bSW2ZmKebqFLN
-	 X1txzHT+KCxLN6gfhOd8GBRmRrgPVFIoSVLu8V6OL6uZ85VY8M4r+eCSVU2XoCNHixC1S
-	 exjDV/1rdkhAPL4/k14HRnTqx4mWlZfwtSRCSHZ/FaV6dCTzgMhxg5UMXbMwJCQG+RWvL
-	 LMQkoh0RCLn12i8VV57/RKT4LWfrqk7oeUrWDqwgoL/6zmSY++vMBNULttKt7QHJiQA==
+	t=1794011821;
+	b=rSKq5sNG5Gj7gIOhZXrVqFdCXSwy6ApZkCTDorCx+qx2Sq70zpqbg+aKMF6MeLf2V5nj
+	 KTqsw3DGwV74xNre4PWk2L9KqHQO58ewZpmt/bGEstqOyjftc/snnSgyDqsKRQBq+XFnJ
+	 soGibdrwZhnO5rwi7U9g+vQf1fekeWF5ZMAArCcyVnmbatum79EJ4xajak6V8OQR8sIKx
+	 DWCV7gjwi7GnhdIlwhfr+ZpPea13xbzc2hDjktNtscjG9bsiOVXzaQn3FeVCjR1kRyswZ
+	 p4ecTBI46ENAw4dx0V9G9NqaVTwPGit7Z/4gzli3cO8ul4KmHQF7W/RIAMLA5SLx9Cg==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794011826;
+	c=relaxed/relaxed; t=1794011821;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=8Tz/4R3+nBGJbuRMe2ive2nBKLEVbhjpacp28U7sWIg=;
-	b=RBNzmu2e/EnV4QYovyyO3EZXgsLuTFRniMk/XGr/g6vX3EPHBWe1xjsnX7ZxVnzqLsHG
-	 oEx+OMR/dwI40100Qh0U5q6v6GmvWuRw2OiDL2xsGW6AglDH/g+jLC5vp1tsuTrarOB+A
-	 ok3UBgi5xpyUq0pG6qXWG2YLhznO/WclX+E6VUuPptGXO3we2XYgImxSH1poKThHWUPSU
-	 BhJ+yMVSgSXWV9w/iErpagk/eJ94FlJ4g698xI/6UkrYjzAG6fSr7x5Pqz/646uA7sif0
-	 rqYnPve5mqcyUIqYpMBqJM4YDhRFctSxlITbnlLEfMmH2NR5rUZJibC11I+XPAJa58Q==
+	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To;
+	bh=VXEN2fX4IZspMfQCjFNkasyktSzz9/ubEwayDCWJkus=;
+	b=b3Hx05ywh8qL/e9wDHvUL1bD41rTLNxFBliU2BcmHupPye8irVAtgoj/EbPvFZJK07aF
+	 7f6FlvUnbV7Zdv2Oy0oAdD034CjbvY4eyrPIjLuC0o4zXvuRZZp06Sml+PnnRFWQerRrH
+	 0i4IBpeC+eaPA8y6FxdEDcKdus58uBeGr5DPpbHZP5V8iBNnrQJ5Wc/qTnS+Ayn9PZMbp
+	 E2CwWxbBj06iqe+OGRVuW6ytt6eefGiPc5TvX3qkuhdlJaxnG/AjBJjlednyYoPfnouwG
+	 R2wHsQdQPXgY4ZJg2cjeCe4ePJjE7l7xw2fhpa98scuR7mFETuVje7wuIKOYZCIOjqw==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id E6F101F008A4;
+	by smtp.kernel.org (Postfix) with ESMTPS id 822B01F0089F;
 	Sat,  7 Nov 2026 00:36:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794011825;
-	bh=8Tz/4R3+nBGJbuRMe2ive2nBKLEVbhjpacp28U7sWIg=;
+	s=k20260515; t=1794011821;
+	bh=VXEN2fX4IZspMfQCjFNkasyktSzz9/ubEwayDCWJkus=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=YcFgk06yhJGMx4ocEtTr3gFzuX5jO8NFKmGUP29JT/g/8d43ZnvGlJn39kJwh3ifM
-	 sGG8YUQn6msPVOxgGAvKqsJsbl29PDvVcHnOWnqgnWzFiIg6Aj0kyXuLE7l8kAlLW1
-	 vwMSI5sZkeOOsLiHJMPWhXENSb9ZPGn1Uq8ag5oKrlFKzCTePF3XHaf2QiH0cCuHSR
-	 r3SFVQ4M+MJQbiwJD5gfbiEQ7jV2nLwgR23K6L7k2Je7bhUsMhhofNqGGRcwPvqDow
-	 RePU/m4urp+n7NCqph7NJ+hxsB1kO079i5FeOarqAVutz2CmAsZIo2YjCnhRnhwks/
-	 wLD2gE9JJXVog==
+	b=CqIRBYJuBQm1T3h2S6fC0yitfwcQuoBnf754Uh1Dz1I/iQhfxzFkuIlN+U1E9KDov
+	 x469opBxGeSGfiK7KZXpsGupOTQ/M71ndw9OOOgTp9z8tESAu2rgWbK1AXmBzU2mPX
+	 c7TxDqePJS9LS6lbLe2I0mg2mNVBPAChelWsBYMZEpbXu1owWehdJTNlqBd4pLHSf/
+	 grB1ViPYwd621MiZaVNs5ajTiVBweGsz0MplcPIB9pBZIiArKZXkdSWb909356wAoW
+	 cD7lOJWEMPZuYjBwe4k8goILNG9Q+/YKI6Qg+vZQevR0dJ4Wsq+GPdroWcZ1k2G6q1
+	 6kX0NwtG0wgbg==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id B52414797B;
+	by lkml.kernel.org (Postfix) with ESMTP id 641A247967;
 	Sat,  7 Nov 2026 00:36:54 +0000 (UTC)
 From: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>
-Date: Fri, 06 Nov 2026 16:37:00 -0800
-Subject: [PATCH RFC v3 26/88] KVM: selftests: Test marking page ranges
- present and absent
+Date: Fri, 06 Nov 2026 16:36:55 -0800
+Subject: [PATCH RFC v3 21/88] samples/kvm: Support creating memory provider
+ files
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -84,7 +84,8 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261106-gmem-alternative-providers-v3-26-8484dde66a7e@google.com>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261106-gmem-alternative-providers-v3-21-8484dde66a7e@google.com>
 References: <20261106-gmem-alternative-providers-v3-0-8484dde66a7e@google.com>
 In-Reply-To: <20261106-gmem-alternative-providers-v3-0-8484dde66a7e@google.com>
 To: Alexey Kardashevskiy <aik@amd.com>, 
@@ -105,115 +106,203 @@ Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
  linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
  Ackerley Tng <ackerleytng@google.com>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794011809; l=3215;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794011809; l=4749;
  i=ackerleytng@google.com; s=20260225; h=from:subject:message-id;
- bh=7QFJFoFyo46UmZUpk/RDNGh2vejWq8fPg2Gg5WaYGKY=;
- b=ohlAxuF/ZwnJnySiSieqvLG3K3rQ2HRF2CfC9ljofHA8P0oU4N4eE4ebYlYM9FPPevFAFBfew
- 2jjSIdh2dl6D92vo4evhVx/SgIK++1Q/1C6fef7z+b8ldarmKvndCR9
+ bh=XXTp8SdWg70OOlSfykbRC6MejUHDWKPgp0+KOuBNidk=;
+ b=5RFhXgQAErb6ooWSjO2h2LLuBNBG+M12psdrf0zRpmzprvoxOn5g77SsRgDZdK81NEofXQKVd
+ ZjHGZkeX1tqBraGtNTCPyfLjAP17YEJOBXzIpgHtEfmSANNbl79366s
 X-Developer-Key: i=ackerleytng@google.com; a=ed25519;
  pk=sAZDYXdm6Iz8FHitpHeFlCMXwabodTm7p8/3/8xUxuU=
 X-Endpoint-Received: by B4 Relay for ackerleytng@google.com/20260225 with
  auth_id=649
 X-Original-From: Ackerley Tng <ackerleytng@google.com>
 Reply-To: ackerleytng@google.com
-Content-Transfer-Encoding: 7bit
 
-From: Ackerley Tng <ackerleytng@google.com>
+From: Fred Griffoul <fgriffo@amazon.co.uk>
 
-Test dynamically changing page presence in provider files via the
-sample memory provider interface.
+Support creating memory provider files via the MP_NEW_FILE ioctl on the
+control device.
 
-Verify marking pages absent and restoring them back to present, ensuring
-that absent page counts in statistics reflect each change accurately.
+Allocating contiguous physical memory at file creation time ensures that
+every provider file descriptor exists in a fully initialized state with a
+fixed physical page range throughout its lifetime. When the provider file
+is closed, free the contiguous memory range and release the associated
+tracking metadata.
 
+Co-developed-by: Ackerley Tng <ackerleytng@google.com>
 Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+Signed-off-by: Fred Griffoul <fgriffo@amazon.co.uk>
 ---
- .../selftests/kvm/mem_provider_sample_test.c       | 65 ++++++++++++++++++++++
- 1 file changed, 65 insertions(+)
+ samples/kvm/memory_provider.c | 110 ++++++++++++++++++++++++++++++++++++++++++
+ samples/kvm/memory_provider.h |  30 ++++++++++++
+ 2 files changed, 140 insertions(+)
 
-diff --git a/tools/testing/selftests/kvm/mem_provider_sample_test.c b/tools/testing/selftests/kvm/mem_provider_sample_test.c
-index b39161f4933d3..8fe634b0b4f2e 100644
---- a/tools/testing/selftests/kvm/mem_provider_sample_test.c
-+++ b/tools/testing/selftests/kvm/mem_provider_sample_test.c
-@@ -72,6 +72,70 @@ static void test_lifecycle_and_creation(int dev_fd)
- 	}
- }
+diff --git a/samples/kvm/memory_provider.c b/samples/kvm/memory_provider.c
+index d5272cb88b758..e89ce55a357c0 100644
+--- a/samples/kvm/memory_provider.c
++++ b/samples/kvm/memory_provider.c
+@@ -2,15 +2,125 @@
+ /*
+  * memory_provider - a sample memory provider.
+  *
++ * The module provides physical memory through provider files.
++ *
++ * The control device /dev/memory_provider creates provider files.
++ * Each file allocates its own contiguous memory from alloc_contig_pages().
++ * See memory_provider.h.
++ *
+  * Confidential VMs are not supported.
+  */
  
-+static void test_set_present(int dev_fd)
++#include <linux/anon_inodes.h>
++#include <linux/file.h>
+ #include <linux/fs.h>
++#include <linux/gfp.h>
+ #include <linux/miscdevice.h>
++#include <linux/mm.h>
+ #include <linux/module.h>
++#include <linux/slab.h>
++#include <linux/uaccess.h>
++
++#include "memory_provider.h"
++
++/*
++ * One provider file.
++ */
++struct mp_info {
++	unsigned long base_pfn;
++	unsigned long npages;
++	struct page *cma_pages;		/* from alloc_contig_pages() */
++};
++
++static int mp_file_release(struct inode *inode, struct file *file)
 +{
-+	size_t page_size = getpagesize();
-+	uint64_t nr_pages = 4;
-+	uint64_t file_size = nr_pages * page_size;
-+	struct mp_set_present sp;
-+	struct mp_stats st;
-+	int ret, fd;
++	struct mp_info *info = file->private_data;
 +
-+	fd = create_provider_file(dev_fd, file_size);
-+
-+	/* Initially all pages are present */
-+	TEST_ASSERT(!ioctl(fd, MP_GET_STATS, &st),
-+		    "MP_GET_STATS failed: %d (%s)", errno, strerror(errno));
-+	TEST_ASSERT(st.absent_pages == 0,
-+		    "Initial absent_pages mismatch: expected 0, got %llu",
-+		    st.absent_pages);
-+
-+	/* Mark page 1 absent */
-+	memset(&sp, 0, sizeof(sp));
-+	sp.value = 0;
-+	sp.offset = page_size;
-+	sp.len = page_size;
-+	ret = ioctl(fd, MP_SET_PRESENT, &sp);
-+	TEST_ASSERT(!ret, "MP_SET_PRESENT (absent) failed: %d (%s)",
-+		    errno, strerror(errno));
-+
-+	TEST_ASSERT(!ioctl(fd, MP_GET_STATS, &st),
-+		    "MP_GET_STATS failed: %d (%s)", errno, strerror(errno));
-+	TEST_ASSERT(st.size == file_size,
-+		    "size changed unexpectedly: 0x%llx", st.size);
-+	TEST_ASSERT(st.absent_pages == 1,
-+		    "absent_pages mismatch after absent: expected 1, got %llu",
-+		    st.absent_pages);
-+
-+	/* Mark page 1 back to present */
-+	sp.value = 1;
-+	ret = ioctl(fd, MP_SET_PRESENT, &sp);
-+	TEST_ASSERT(!ret, "MP_SET_PRESENT (present) failed: %d (%s)",
-+		    errno, strerror(errno));
-+
-+	TEST_ASSERT(!ioctl(fd, MP_GET_STATS, &st),
-+		    "MP_GET_STATS failed: %d (%s)", errno, strerror(errno));
-+	TEST_ASSERT(st.absent_pages == 0,
-+		    "absent_pages mismatch after restore: expected 0, got %llu",
-+		    st.absent_pages);
-+
-+	/* Mark all pages absent */
-+	sp.value = 0;
-+	sp.offset = 0;
-+	sp.len = file_size;
-+	ret = ioctl(fd, MP_SET_PRESENT, &sp);
-+	TEST_ASSERT(!ret, "MP_SET_PRESENT (all absent) failed: %d (%s)",
-+		    errno, strerror(errno));
-+
-+	TEST_ASSERT(!ioctl(fd, MP_GET_STATS, &st),
-+		    "MP_GET_STATS failed: %d (%s)", errno, strerror(errno));
-+	TEST_ASSERT(st.absent_pages == nr_pages,
-+		    "absent_pages mismatch after all absent: expected %lu, got %llu",
-+		    nr_pages, st.absent_pages);
-+
-+	close(fd);
++	if (info->cma_pages)
++		free_contig_range(info->base_pfn, info->npages);
++	kfree(info);
++	return 0;
 +}
 +
- int main(int argc, char *argv[])
- {
- 	int dev_fd;
-@@ -79,6 +143,7 @@ int main(int argc, char *argv[])
- 	dev_fd = open_provider_dev();
++static const struct file_operations mp_file_fops = {
++	.owner		= THIS_MODULE,
++	.release	= mp_file_release,
++};
++
++static long mp_ctl_new_file(void __user *uarg)
++{
++	struct mp_new_file nf;
++	struct mp_info *info;
++	struct page *pages;
++	struct file *file;
++	unsigned long npages;
++	int fd, ret;
++
++	if (copy_from_user(&nf, uarg, sizeof(nf)))
++		return -EFAULT;
++	if (nf.flags || nf.pad)
++		return -EINVAL;
++	if (!nf.size || !PAGE_ALIGNED(nf.size))
++		return -EINVAL;
++
++	npages = nf.size >> PAGE_SHIFT;
++
++	info = kzalloc_obj(*info);
++	if (!info)
++		return -ENOMEM;
++
++	pages = alloc_contig_pages(npages, GFP_KERNEL | __GFP_ZERO,
++				   numa_node_id(), NULL);
++	if (!pages) {
++		ret = -ENOMEM;
++		goto err_free_info;
++	}
++
++	info->cma_pages = pages;
++	info->base_pfn = page_to_pfn(pages);
++	info->npages = npages;
++
++	fd = get_unused_fd_flags(O_CLOEXEC);
++	if (fd < 0) {
++		ret = fd;
++		goto err_free_pages;
++	}
++
++	file = anon_inode_getfile("[memory-provider]", &mp_file_fops,
++				  info, O_RDWR);
++	if (IS_ERR(file)) {
++		put_unused_fd(fd);
++		ret = PTR_ERR(file);
++		goto err_free_pages;
++	}
++
++	fd_install(fd, file);
++	return fd;
++
++err_free_pages:
++	free_contig_range(page_to_pfn(pages), npages);
++err_free_info:
++	kfree(info);
++	return ret;
++}
++
++static long mp_ctl_ioctl(struct file *file, unsigned int cmd,
++			 unsigned long arg)
++{
++	void __user *uarg = (void __user *)arg;
++
++	switch (cmd) {
++	case MP_NEW_FILE:
++		return mp_ctl_new_file(uarg);
++	default:
++		return -ENOTTY;
++	}
++}
  
- 	test_lifecycle_and_creation(dev_fd);
-+	test_set_present(dev_fd);
+ static const struct file_operations mp_ctl_fops = {
+ 	.owner		= THIS_MODULE,
++	.unlocked_ioctl	= mp_ctl_ioctl,
++	.compat_ioctl	= compat_ptr_ioctl,
+ };
  
- 	close(dev_fd);
- 	return 0;
+ static struct miscdevice mp_dev = {
+diff --git a/samples/kvm/memory_provider.h b/samples/kvm/memory_provider.h
+new file mode 100644
+index 0000000000000..0bd9e250aeaf5
+--- /dev/null
++++ b/samples/kvm/memory_provider.h
+@@ -0,0 +1,30 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#ifndef _SAMPLES_KVM_MEMORY_PROVIDER_H
++#define _SAMPLES_KVM_MEMORY_PROVIDER_H
++
++#include <linux/ioctl.h>
++#include <linux/types.h>
++
++/*
++ * A sample memory provider.
++ *
++ * Every fd that this module returns is a provider file. Pass it to
++ * KVM_CREATE_GUEST_MEMFD.
++ */
++
++#define MP_IOCTL_BASE		'P'
++
++/*
++ * ioctl on /dev/memory_provider: create a new provider fd of @size.
++ * Returns the provider fd.
++ */
++struct mp_new_file {
++	__u32 flags;	/* Reserved, must be 0 */
++	__u32 pad;
++	__u64 size;	/* bytes, page aligned */
++};
++
++#define MP_NEW_FILE \
++	_IOW(MP_IOCTL_BASE, 5, struct mp_new_file)
++
++#endif /* _SAMPLES_KVM_MEMORY_PROVIDER_H */
 
 -- 
 2.56.0.455.g6c5a503b38-goog
