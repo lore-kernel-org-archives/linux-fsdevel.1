@@ -1,78 +1,78 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794011840;
-	b=w6px+idG8Qodiq0zf1GAHzGSsZa17mA3GzMXdyvyvGoNjPkesiuslZJRG0vyPoYXHiI6
-	 2FkcCP7uQRdZd069AiS7iVqn7i1RLhz8hGVlwB5Y0qIq3Jk07Jfig5hYRYEAJJdIB+2Tj
-	 ma5L08/h2+0L7sk/Rzy4dJMkCcrenMu7mQcujs1RXml1lxuJ2awzQsvESukFrcZIgcnt3
-	 uHcdluZuld+rwooQRzku8ZXSNzGmy+S1JaxhNzs6relfCE124WYZjZcasObvdiiXCt9/c
-	 psK5G67sKcCxH2FJ4+PpGaNS6ZTpYXCrx8/xF+6ugn6SBOmK41Imjv/ZjfeK5daNZrA==
+	t=1794011845;
+	b=Jp6wUFp04qi46RylToYcv0qtZ/n89cVASd+LB2I0sFkE9/jlH4JMVpyvbDlU7b2Ku+go
+	 UU7tmSLYmDlQXqnbUo1v8hOVd97iy1lzRUEXpoFiR6GmSctKvftzsdDATAUCIrH+j9j01
+	 Rxwqgz7fC6UhDAcxreXYg7Hx0FKlofhV2Cvxlpr1jwOGoTMtGD9Zom2TIRPifMf1WlvPt
+	 NPlEBJmclfyabx/TB91BnOQXA8oOGRBxGO5ev1A+uEGnGZEoe/VUqbtB5mjB5XrdjC11w
+	 Sd/7MUh68VnSMJtkOV7ZMNO17LG9pTeBSuhDGR6IMCR3odzdZ0WQGxfn4+mXj/Iy8xQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794011840;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794011845;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=0nkKW4qaDx3asj2guFXILmxbH04Ei7Qw0v+PRGtBfmM=;
-	b=DeV0ca24W8+d1x6iEbecLoy7E5QmRQ+2xHVpZvrlbW7qfm6e/NuYLjtS8iNvPVpEjMr/
-	 AkI16Kv8Ujl4/AUCTyUiE20GGe+04Qs5eZD9xtiJUWJt9w4kdwnuM0ouGcxDiOWQZudVw
-	 RoLtbrAdylF4UywsIprga7CT9fg7u63ce3BgQ2+8bk4LZUDc6o1rGNXPRPc8TYGwE+emS
-	 WNWiZwNGtDtLfwTF+RPYy5oABdv4lmOPdjw+DhjtDgtTPabkh7TRRsNXPR9MalgIjiX7x
-	 ns+A6vJKR/gqQQa+M/9tqpsGiygSXNDoh0xtyIKiRNGRMTjgohGaKMQrAHxByqkje3w==
+	bh=M1cXkOgzZjDMJwHRh87UzeiwzMokp065wJbSjfeeioc=;
+	b=DxamOa0fwqK0lZEHRlMlv6mNd2YSgs78a43uxEd4OyvExAHwtZR4zfVfwp9auGifD93V
+	 cJOAuKW3xlT+hhChB+K4pfvRQCh26UJji4fFxyYq7tSpjX2U1dDhAD+S/q5xaNLxMF8j9
+	 z8z+C/e0q85rGLhZqW7xVlmV9K9ZK5cmb1BRREK1otJCPwWXskXJgX5lhDSd3CaRyOVt0
+	 TTb8D1865woVi616KxKSKsKEbapMcRug+bgshw8wmlZs5tDlWhfulib+3wwAeZ07pKlyj
+	 Nrfd5sXxcxskJyZLhpBG5kYJvyZyNCvPKVTINfv8s9hma8dAtcSWLfOE/XHu3mCp6Vw==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hazlIY6T;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NXxRtu60;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE481606AF8C;
-	Sat,  7 Nov 2026 00:37:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68ED9606AFB9;
+	Sat,  7 Nov 2026 00:37:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hazlIY6T
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NXxRtu60
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794011839;
-	b=i3OjkfOEm6IXp1VyiCWIyLE8QFPCgCTpa9ToPd1NL9YXN/iV4mZfAp8VDWdWp83YIXfo
-	 AFyYe52P736v5tjTqrEFeyuxdYDOMKejSwrTT0duKlszhQHP44b6rjO053RTbThhKGgdN
-	 tAcfPI8G/BBLOkCho1W8jVEY4XYKaIphx/PMvTXC2QMemgHVAWylX8CPB17HOb2J1dQ2s
-	 AOaVa7jCkaIzOY2okmZxzW3RtX2a4SUwv5efZFdP5fJXpqarjNLy516BFk+qBm2g3pXE2
-	 B812GoLlHdSsT/uCof1lrZUaM1tIDszuoIa+a2hCPM0eUPaKv1AGMu4IvQdryWVFIbg==
+	t=1794011840;
+	b=BXXAr0Ytr0ihc6QOLCaVjWx6dsHGfm0vjxYYrWCpNQ39r9uvPzhucCJL4t2yRrZVye+r
+	 uoTvdMPZyoti7VuGBnXmsebYHPcs5qKq3IZzfswFXkIsnMAEf3k1SqZ1VMlCtA/rOK0wT
+	 GAwSGI2WfKVbQYnt1bB711mDU+Hsjemt5BbUeLsM4D82KFIf+iZc+gEYmlE9GieSRf57p
+	 CJE4vNX2RomW5VVLJSlGAA6NPqWYhDt4m13QqKaRuv1aelvohOkucsyP2cgsw5C0T/AeV
+	 84qfISAVikhwpJyhkGPoNikKbeQt6m9bLioKymwCb0XXGwctbNE8CEozeVhq8G51UQA==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794011839;
+	c=relaxed/relaxed; t=1794011840;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=0nkKW4qaDx3asj2guFXILmxbH04Ei7Qw0v+PRGtBfmM=;
-	b=zrZ65MbsloqKg+o34ShyiAI9rC2PdFU0auT0c6t+rwvqRHuiVYq0Js7Kb9J1HpXZzwrF
-	 M9o1X/LSpwMLqNyH44cx8gH38t7sLyo7qm9oOyTzw/SWaXNqGB4dRP16OYJ6K5KbnOyMW
-	 SscE/01qzIzluMwEejpGYK8b3oZwxudmvxO4/GwNC2k7lrXSH9+VbLZ5DrqMSAJOdKbRF
-	 PPWqatBwQi/yepuWx33Ovn9LmypTB/Ym+Xqo1Krim2rAV8a39AFJdF9pCYK+xC/SL0W/6
-	 ObPtZsk0fJHicBdoPqkY0ZXGD+n/MQ/+fs5J6y2moaM5+21woDpqVTD08lddCQCZ28g==
+	bh=M1cXkOgzZjDMJwHRh87UzeiwzMokp065wJbSjfeeioc=;
+	b=IHum0TXEkhMnoSEe8xdw51h5zyxd+dcB+q2Ca4xWO5P4/kSutpVD936q/E+YfSDLDHcr
+	 SSw37qTHWc4nm6MzgsGyE5KGMGBq+ScKMboXuo4ouigRlgLEkWd/vEsQ+uuPl8wHVVyLB
+	 2IoERIxJm2U7F1fSF+k8Ys4RsC6B+spuVP23ZTpuy+Xik19LemP62346u1XI5zN5L2DjB
+	 Kjojw2tgfw1pkPJ2bJHOVOgmUW+np1Hq2S9PXGqbx7O3ja9s0OQZK1CaweebVCHzXXn56
+	 zvoKd+BFuWcTE+IOGhMzrqUCTn1wpkCnwpBKdE1WEY/Qv8XqQp+l9WbjT/oSIgp5j7w==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 420141F00901;
-	Sat,  7 Nov 2026 00:37:15 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id A01471F008A1;
+	Sat,  7 Nov 2026 00:37:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794011839;
-	bh=0nkKW4qaDx3asj2guFXILmxbH04Ei7Qw0v+PRGtBfmM=;
+	s=k20260515; t=1794011840;
+	bh=M1cXkOgzZjDMJwHRh87UzeiwzMokp065wJbSjfeeioc=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=hazlIY6TaUYJJBHK20yeEie7vDuC4nIuUs6rgF5AWjaAsWS2CR3tdgWF9zrpnxyfQ
-	 dlLfxX/O+9rSMGB3ImgNqjX7jRPH8TaUg3lRxijCT+c6OdznXVyiyJrVwFWEK59Gun
-	 SEuQlLLYn4z6QF2wQnJUlHlPrqTQSa249YP3JFjHvI+bD7ZSOJEKcY3Lp2hWCRn1Im
-	 GkUa+f5Uj0W2D06vn9830RKJxd/TlXD0zUqdlfFW0ZUFlKoOZs7GKWjIbSQTY0/xPG
-	 iak9/tablOE2/IwsA/R76zv8LkqFWlwwUXHlSSjeYMKEx/CKcdyBL5pBWIX7H+IqA3
-	 jKFMSj8pbiIUw==
+	b=NXxRtu60BWP44qbkoD17v5SKSPpfy6O5yo6f8smG9mbfn9ef3nc72RIIyUOOKpjsB
+	 Xp9CQ9d6MgSeYAy+GNZvkoA3kMD/p9DyDPJO0JXbetClrMzIZE2SJwR36CDCUC7OwK
+	 s/oJlpfm6ksO24kCbGQBQWaop0O+nzZjFbdo43yUTzzibVWrjoNqiGKDJyXQR7hcEa
+	 yloC6oKLfIrhIj1RrBMW6dEQsZ73+UCdftbkRLglWGo5rIqe+Jjfxesc9aDrISaDGK
+	 zZPVXwU1iqB7wtds57HKFpOyVwS1OWyYqx0WmGMRPu3WyELZoLD+AUSQOh3iy7uzz+
+	 vqVwlXURlZehQ==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 18F5847A3F;
-	Sat,  7 Nov 2026 00:36:58 +0000 (UTC)
+	by lkml.kernel.org (Postfix) with ESMTP id CFF4C47A30;
+	Sat,  7 Nov 2026 00:36:57 +0000 (UTC)
 From: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>
-Date: Fri, 06 Nov 2026 16:37:51 -0800
-Subject: [PATCH RFC v3 77/88] KVM: selftests: Verify VFIO device reset for
+Date: Fri, 06 Nov 2026 16:37:47 -0800
+Subject: [PATCH RFC v3 73/88] KVM: selftests: Verify VFIO region info for
  igb device
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -84,7 +84,7 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261106-gmem-alternative-providers-v3-77-8484dde66a7e@google.com>
+Message-Id: <20261106-gmem-alternative-providers-v3-73-8484dde66a7e@google.com>
 References: <20261106-gmem-alternative-providers-v3-0-8484dde66a7e@google.com>
 In-Reply-To: <20261106-gmem-alternative-providers-v3-0-8484dde66a7e@google.com>
 To: Alexey Kardashevskiy <aik@amd.com>, 
@@ -102,14 +102,13 @@ To: Alexey Kardashevskiy <aik@amd.com>,
  Xu Yilun <yilun.xu@linux.intel.com>, Fuad Tabba <fuad.tabba@linux.dev>
 Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
  linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
- Ackerley Tng <ackerleytng@google.com>
+ linux-kselftest@vger.kernel.org, linux-mm@kvack.org
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794011810; l=2756;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794011810; l=2549;
  i=ackerleytng@google.com; s=20260225; h=from:subject:message-id;
- bh=jIcxaC8x28xPsLi5SMudkDfabTx4GIIOp8BRTMbwoBw=;
- b=22zVgyg/vzsiW0zlhJ3ne60GqMpiyEfDMQk6bsvNnD6uIZt2eSXJ3foj8SNHHIzAaGagwcB/5
- y8itLkPWPqaCVForcElwYW6W+a1qYjsL6jumqYkGxAoeFuJhkUTZucc
+ bh=mrWvs6FF7l4LpcTEng8nbYIsnoTAo2jJxDhGuJ9QU+g=;
+ b=wY395FIuwjLW/oJNaiS8f/FOkSCxKWTmBujK/E4H3vKhDyLPEibe2RUJEOyL3f7zZZ6SQEXMe
+ pVDqo0rakbqDQ8XO4K1/+VBsAUIcnImILMrQ/YDvpu/qskpIqC2kMNB
 X-Developer-Key: i=ackerleytng@google.com; a=ed25519;
  pk=sAZDYXdm6Iz8FHitpHeFlCMXwabodTm7p8/3/8xUxuU=
 X-Endpoint-Received: by B4 Relay for ackerleytng@google.com/20260225 with
@@ -120,75 +119,64 @@ Content-Transfer-Encoding: 7bit
 
 From: Ackerley Tng <ackerleytng@google.com>
 
-Add a subtest for VFIO_DEVICE_RESET on the bound Intel 82576 device.
+Add a subtest for VFIO region info queries on the bound device.
 
-Configure PCI command space to enable memory decode, map BAR0, and write
-a distinct test pattern to the scratch receive address low (RAL0) register.
+Verify that the operational register MMIO space (128 KiB), MSI-X table
+and PBA space (16 KiB), and extended PCIe configuration space (4096 bytes)
+report their exact sizes and expected access capability flags.
 
-Trigger a device reset via the VFIO device ioctl, handling potential lock
-contention with retry logic. Re-enable memory decode post-reset and assert
-that the scratch register pattern reverted to its hardware reset value.
-
-This verifies hardware reset lifecycle behavior, establishing a baseline
-to later confirm that resetting a device revokes access when BAR0 is
-wrapped by guest_memfd.
-
-Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+Testing multiple regions establishes baseline checks on the underlying
+device descriptor so that when VFIO BARs are later delegated to or wrapped
+by guest_memfd, native region querying on the device descriptor is
+confirmed to remain unaffected.
 ---
- .../selftests/kvm/x86/guest_memfd_vfio_test.c      | 45 ++++++++++++++++++++++
- 1 file changed, 45 insertions(+)
+ .../selftests/kvm/x86/guest_memfd_vfio_test.c      | 38 ++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
 
 diff --git a/tools/testing/selftests/kvm/x86/guest_memfd_vfio_test.c b/tools/testing/selftests/kvm/x86/guest_memfd_vfio_test.c
-index 4d5211b6acf79..91cba359e4392 100644
+index 669acc6058b5b..c76abe6d45140 100644
 --- a/tools/testing/selftests/kvm/x86/guest_memfd_vfio_test.c
 +++ b/tools/testing/selftests/kvm/x86/guest_memfd_vfio_test.c
-@@ -331,4 +331,49 @@ TEST_F(guest_memfd_vfio, bar_mmap)
- 	ASSERT_EQ(0, munmap(bar0, bar0_info.size));
+@@ -150,4 +150,42 @@ TEST_F(guest_memfd_vfio, get_device_info)
+ 	ASSERT_GT(dev_info.num_irqs, 0);
  }
  
-+TEST_F(guest_memfd_vfio, device_reset)
++TEST_F(guest_memfd_vfio, get_region_info)
 +{
-+	struct vfio_region_info bar0_info = {};
-+	uint32_t val;
-+	void *bar0;
-+	int retries = 20;
++	struct vfio_region_info reg_info = {};
 +	int ret;
 +
-+	vfio_pci_enable_memory_and_bus_master(_metadata, self->vfio_fd);
-+
-+	bar0_info.argsz = sizeof(bar0_info);
-+	bar0_info.index = VFIO_PCI_BAR0_REGION_INDEX;
-+	ret = ioctl(self->vfio_fd, VFIO_DEVICE_GET_REGION_INFO, &bar0_info);
++	/* Test BAR0: 128 KiB MMIO register space */
++	reg_info.argsz = sizeof(reg_info);
++	reg_info.index = VFIO_PCI_BAR0_REGION_INDEX;
++	ret = ioctl(self->vfio_fd, VFIO_DEVICE_GET_REGION_INFO, &reg_info);
 +	ASSERT_EQ(0, ret);
++	ASSERT_EQ(0x20000, reg_info.size);
++	ASSERT_EQ(VFIO_REGION_INFO_FLAG_READ |
++		  VFIO_REGION_INFO_FLAG_WRITE |
++		  VFIO_REGION_INFO_FLAG_MMAP,
++		  reg_info.flags & (VFIO_REGION_INFO_FLAG_READ |
++				    VFIO_REGION_INFO_FLAG_WRITE |
++				    VFIO_REGION_INFO_FLAG_MMAP));
 +
-+	bar0 = mmap(NULL, bar0_info.size, PROT_READ | PROT_WRITE, MAP_SHARED,
-+		    self->vfio_fd, bar0_info.offset);
-+	ASSERT_NE(MAP_FAILED, bar0);
-+
-+	/* Write scratch test pattern to RAL0 */
-+	WRITE_ONCE(*(uint32_t *)((char *)bar0 + E1000_RAL0), 0xdeadbeef);
-+	val = READ_ONCE(*(uint32_t *)((char *)bar0 + E1000_RAL0));
-+	ASSERT_EQ(0xdeadbeef, val);
-+
-+	/* Trigger VFIO_DEVICE_RESET, handling possible lock contention (-EAGAIN) */
-+	do {
-+		ret = ioctl(self->vfio_fd, VFIO_DEVICE_RESET, NULL);
-+		if (ret != 0 && errno == EAGAIN)
-+			usleep(10000);
-+	} while (ret != 0 && errno == EAGAIN && retries-- > 0);
++	/* Test BAR3: 16 KiB MSI-X table and PBA */
++	memset(&reg_info, 0, sizeof(reg_info));
++	reg_info.argsz = sizeof(reg_info);
++	reg_info.index = VFIO_PCI_BAR3_REGION_INDEX;
++	ret = ioctl(self->vfio_fd, VFIO_DEVICE_GET_REGION_INFO, &reg_info);
 +	ASSERT_EQ(0, ret);
++	ASSERT_EQ(0x4000, reg_info.size);
 +
-+	/*
-+	 * After device reset, PCI Command register memory decode is cleared by
-+	 * hardware. Re-enable it to access BAR0 registers again.
-+	 */
-+	vfio_pci_enable_memory_and_bus_master(_metadata, self->vfio_fd);
-+
-+	/* Verify RAL0 was reset and reverted from scratch pattern */
-+	val = READ_ONCE(*(uint32_t *)((char *)bar0 + E1000_RAL0));
-+	ASSERT_NE(0xdeadbeef, val);
-+
-+	ASSERT_EQ(0, munmap(bar0, bar0_info.size));
++	/* Test PCIe Config Space: 4096 bytes extended config */
++	memset(&reg_info, 0, sizeof(reg_info));
++	reg_info.argsz = sizeof(reg_info);
++	reg_info.index = VFIO_PCI_CONFIG_REGION_INDEX;
++	ret = ioctl(self->vfio_fd, VFIO_DEVICE_GET_REGION_INFO, &reg_info);
++	ASSERT_EQ(0, ret);
++	ASSERT_EQ(PCI_CFG_SPACE_EXP_SIZE, reg_info.size);
++	ASSERT_EQ(VFIO_REGION_INFO_FLAG_READ | VFIO_REGION_INFO_FLAG_WRITE,
++		  reg_info.flags & (VFIO_REGION_INFO_FLAG_READ |
++				    VFIO_REGION_INFO_FLAG_WRITE));
 +}
 +
  TEST_HARNESS_MAIN
