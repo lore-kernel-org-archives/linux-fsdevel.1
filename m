@@ -1,79 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794011840;
-	b=e8EnSHyJew14zEHzEvt32uR/4zO1aYBHzgLEJvWLnoUTOAUNdikbvdu9ksTAWpd92dH9
-	 qr4Z3zYBCFI74xuLqHYdOKWagOGVshtj6qcUx4k+hGpigABJOq3cJ31VhI2bTo0T2Zk+P
-	 D1sGL5Kaa5h/qkwo66vx8Os6dTRlepTKAKmJOkqqTJR5PmrQh7Ok/FOKhK/pTRpsD9fNe
-	 Ij2R9TEYOsLC9R1NIGXzLs1UBiQEMJqkVxPLL++GOM9t9qrQXD4N4Z9aqLFdYqYpqSLck
-	 dG8XH5v+ZqQZgUiVOQALMoHkh731xmVZR8mczwpnsCF0J6sXrCTcoTHrFezBz69wZ3A==
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
+	t=1794011835;
+	b=n+Tly5dO2/BI/VZ7NutHehLIJ75Df8kWer2q9p/IhW6lhcFwU0/CyoEiwelwoIoQ5opD
+	 8Vt0UBtf77H0qPDNtZtu8bW06nsBF4MjqoflQT4iPRdHS3eJwih1Y0A1eTPmWlOaP/O0K
+	 sg+oym6NLUsDIzp5dPRSln+pY+IezlrGOGWhW5ZTwmZ1uYQpZ1BaTrP3YiMmF5jFgYxkA
+	 3HF7xtNYFcNsME9QTDQYGatDLtGPDrIut4+hHvjqjjwLavIyIw672TadnSGiuNe49SPXW
+	 uDz5njuodd58Hh35b2dcN7DvfR20dvPU2gQDghB0rd1pOAw1PemQ6anPjDhTcVky6Jg==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794011840;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794011835;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=KSzCvt8WQqpzBuP3J/NQntpezWM4rdwAQRra0I/Idek=;
-	b=Yw0CjrUtpQr0oCdsDY8rxGMU+4yuEUJyU5bvpbLy5KftrBqRtQYZcflOfd0zaQtyQ5Ae
-	 59N5jmz2xVRNhDxRYXYlXU3c6nsOnv7IB6UVk6d+CoR2cZz4uSTcq9+9I3dv++/4OctDC
-	 j9iCRMES/iwjSr6UamGv9a+cVNBYYEAjMaBO5FOrEhEqrU0llPtuVNagvApA68KuG7eRd
-	 OfT/SSFsJe8xlRLBCGO4QY7Px1i3Y2tQWBO1uGpUi/b8IcbYkHFLtL0L91O14O/3qrZxH
-	 /X7mQ23rvb5KYTgJfiQEZGGNRDECiXXLq0zaqCbOhsvHcShE57lixO2LMifPf3bOmZw==
+	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
+	 In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-Endpoint-Received:X-Original-From:Reply-To;
+	bh=1pCSunxlZGtDuCXdYB75wFXTfLNCc/lfSGqnGUAN2tc=;
+	b=Z2iDCeKoesGqaHh+V2IbWzmt+3n3XL7w2sBJwT1c73dqbaaAI3isn70bgctAAvwi4LzD
+	 w+iVtvVSjvMuATDI0aMUoWwtX1k2WbpI0DtWnTo1crCi1IDrb80nJ4jtZ/mQzRlOhwT7N
+	 vpzzOIkgonqAWnitjecGzhF8AbTO0KRmD57zgikxWfTc8iog6aPP9lbnrp8VfuedTj3L7
+	 DZSXTL5fwxLCNxTWLN2RzXRIyp/LBz4jcLcBXftCusGFamgmSOxS32r7LrnruDVWAQ50Y
+	 /EJ8t0pre/Fos1kHFXzHNeHgrBtx3RjxJFWVhuF2c2wRRGZhN3VqSEpj+DqfyDwFbZg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MnYQ3Z5r;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cpHWLxJK;
+	arc=fail smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30A026082BC5;
-	Sat,  7 Nov 2026 00:37:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D73960A382F;
+	Sat,  7 Nov 2026 00:37:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MnYQ3Z5r
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cpHWLxJK
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794011839;
-	b=KrAYrNLBi7d1PD7L5Q1JOQKJfxAGkuDDQ03hvYRyuH/dYwMdSlr2F9zYbVF/gtm33URB
-	 7KkQp/Yqn6yTJ9YFap5Jf0/VQTH78MxLLknvwRnLzuQxXF4InMkl3szTmrgJU8hfBrrYJ
-	 v7l4i5JaKMLgcgbHBff1rkmtgRw0jkzBBJGWpvP9YiggLQb2j+M2KtfIFtlJYDymI40gf
-	 zeOVsPunl5RPQmAH9jBqB4qvZ9yy81ILv1Y2QSRiFP0gkBvZPlkV3f1FDji2j3ssEguaF
-	 pg7WJuAHsUBH632GjLJm48bL28mOzICxYlVRnsRxDHhvrS7+p6oFpFGebHNrt8tz6Ig==
+	t=1794011830;
+	b=ZkBb4o1iDukY5E+BLQHTMaXApti41QAnALP36KbWvjpybrv2F0C8GmhS5XPWhJbsZqDw
+	 JG419A4C2Jwl6Fn8C72BAcOzHyOZxL+k07rvae/sS79kc79T3O5FAf1yVe7CkII0r2Nhx
+	 vaNuMs1n7SB7X5jNT77ErApOPzRUVNv9gyUfylJXUcnO5Fth5cr0xpW1i+F7nymzLLOQn
+	 tq4BPqwhZNs8yKuK+LNyYGKVKH26dglKHY5F9BhCkfIAH7NzeQzmUfX+6GBXIStlyk/+k
+	 OQO+o/36JHzV3KDBDNgIE3TAi6itva/YTRBYVISlrS/9m4ILgMNy/BBcPp29sxOqAvQ==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794011839;
+	c=relaxed/relaxed; t=1794011830;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=KSzCvt8WQqpzBuP3J/NQntpezWM4rdwAQRra0I/Idek=;
-	b=xcLkA3wwlqpaKCyRxPJNMfvK/gkCVUQk6hE0f6nFBFq2b5fUmkbV+I99/LrxQLUg00uV
-	 opRfzVKJQDZv4/1VO8s6dUazNshPLGbNRZyB64/B4d+i/eH0tb3nPlrRdOI+6gdOBVgV6
-	 e/RHHphClAeMhZoBJElJXC/VYZ+cnRsMG4x5TzwCiUCk3+y2Y1oFpCPJKgpAGqz1GYsoM
-	 VVGA6Oede0nTXwsaIm7d/AAqTEkSNvxtHfACjGRK7L0irVANKDWssnhuuapjpGmM3EbLl
-	 nJJtWpMABkhLWcVIx0ybqhzypd9wa9mVQXZOnQeZu04A+naE4tF/Bx28AQ4eTRIdc/w==
+	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To;
+	bh=1pCSunxlZGtDuCXdYB75wFXTfLNCc/lfSGqnGUAN2tc=;
+	b=O6uZcIEiTTqBcu3V56RgohfosHZBNWytQs/76vOiSga+Pmqm6CzBqnrUqGBssA9RT9/y
+	 uIlFjuHDJziHxkiuNjBF4OI0RQ/cAzEAI165Nq6qzT+fEBjsVOethtNxXEiHUtFFOswGH
+	 +Qxktc1A5V41tTiIV8dSkMHJX+QjWpMv7E4UTZOXb3FOsf8ALxJ2OZdz3A53ZR2atbMTI
+	 rSY5EuK8YOgGLP0xw0dLPqNfBt9cxALhs8zR3mgY0qFmTWByuO1dKubE1tx+MH9MCCkUN
+	 lNoDfBHHoLcnFC6i8IJ1JDbvLSxjMmpvUK7AicllpnaalxGGCeZLFL/SiKVq1CyJrRg==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 069831F008A2;
-	Sat,  7 Nov 2026 00:37:14 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 4F3E31F00921;
+	Sat,  7 Nov 2026 00:36:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794011839;
-	bh=KSzCvt8WQqpzBuP3J/NQntpezWM4rdwAQRra0I/Idek=;
+	s=k20260515; t=1794011830;
+	bh=1pCSunxlZGtDuCXdYB75wFXTfLNCc/lfSGqnGUAN2tc=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=MnYQ3Z5rSfWFp59+l0g1SybbhKh9PRW9YHbrIppFTWa/HkXHtR3wvQjIEqPXdrjOs
-	 AIs+CKHU5Z0XotS3FubdL6TpFaLONpq/yRrmrCrfu+9I/LlQOtQP2RYKicNgoUPREy
-	 061mphxTa9LqIN0g2dhnHNxgBQCFjC9+cajEtxnlkyhwgpvtxCqX0YW+2H/LvcjnzT
-	 JQc2IiCSrEXf+juyUlTkkWEJnGlMcCu9UEyrtiMvNSUUQqjsUL6UwK0Smtbl1tY3fa
-	 qr1nEXNOjtmov2gh7hce6aNilqD01WW2q4Bcd2/B3/bkJNxtGx5sQzik9X3usSsPx5
-	 qA+7MTlEmn1dw==
+	b=cpHWLxJKy3/cLvXieHb1nlxWpIcSIVE/RG/jpbZfdbKA4m6D8tG5NnR7LegC64l5k
+	 M7m2yZiHxEptu6las5yte/dyHT2buTNqQq8E99sj6BvOLhNr8RvlyA3dRm5STLaIxG
+	 xq0ayOTVP4CSeokCFeOAvOKNrrK/Do9BRDpkWbQJTR8iFHyaHfIw8i1uCipQjS/2GN
+	 jY47jPMVn06obn3D3ad4RQ0uHCYpWKz4ol2gKzwq69f5Cj+e0twjEwH+fbuHQuGNI6
+	 xO08LDIXC8TdBQvEc5MKXc7yDdnLqd6NDz4RydL46VTHirnNTLXhb0YSeHp/w5IFQP
+	 B57q4j8XVad+w==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 9DFD347A24;
-	Sat,  7 Nov 2026 00:36:57 +0000 (UTC)
+	by lkml.kernel.org (Postfix) with ESMTP id 55EDF47963;
+	Sat,  7 Nov 2026 00:36:54 +0000 (UTC)
 From: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>
-Date: Fri, 06 Nov 2026 16:37:44 -0800
-Subject: [PATCH RFC v3 70/88] vfio/pci: Introduce vfio_pci_bar_rw_kbuf for
- kernel buffer MMIO access
+Date: Fri, 06 Nov 2026 16:36:54 -0800
+Subject: [PATCH RFC v3 20/88] samples/kvm: Introduce memory provider module
+ skeleton
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -84,7 +84,8 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261106-gmem-alternative-providers-v3-70-8484dde66a7e@google.com>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261106-gmem-alternative-providers-v3-20-8484dde66a7e@google.com>
 References: <20261106-gmem-alternative-providers-v3-0-8484dde66a7e@google.com>
 In-Reply-To: <20261106-gmem-alternative-providers-v3-0-8484dde66a7e@google.com>
 To: Alexey Kardashevskiy <aik@amd.com>, 
@@ -105,114 +106,119 @@ Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
  linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
  Ackerley Tng <ackerleytng@google.com>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794011810; l=3928;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794011809; l=3200;
  i=ackerleytng@google.com; s=20260225; h=from:subject:message-id;
- bh=UIlkF+Cr22G3+Xr2iBhEh8LcRpc3sGqQkL185U7r+lA=;
- b=+kFt+aQv22Fzn/rAHsafa1OuVqSafNgWyqhLjRHbRfa9pHHNKcUImie1vu/kp7shzbDEOq5Ui
- o/cvz/JgZIMB7fndBfMPCP9FpzvLu83/5upSc1Qy9/oaTWLV4373+Kc
+ bh=nt2cs3RpI5IUFgJs4dsgiWZl0HfyGKiOhLkBsycGpfo=;
+ b=4cdyeAJ7HccYK8NGv9Q29bFTAR/IcMhIOFe8+7RU78D738bkU/WshB9UbwT/KAILWqam4ykOd
+ CO6Tw3GiatGC9mriP8x0CMuJxG1AZn5inkS4uDdxzwnFtZL/sbetXox
 X-Developer-Key: i=ackerleytng@google.com; a=ed25519;
  pk=sAZDYXdm6Iz8FHitpHeFlCMXwabodTm7p8/3/8xUxuU=
 X-Endpoint-Received: by B4 Relay for ackerleytng@google.com/20260225 with
  auth_id=649
 X-Original-From: Ackerley Tng <ackerleytng@google.com>
 Reply-To: ackerleytng@google.com
-Content-Transfer-Encoding: 7bit
 
-From: Ackerley Tng <ackerleytng@google.com>
+From: Fred Griffoul <fgriffo@amazon.co.uk>
 
-Refactor BAR read and write handling to separate the core MMIO logic
-from the buffer source.
+Introduce the memory provider sample module skeleton under samples/kvm/.
 
-Extract the core BAR read and write implementation into a static helper
-that operates on an iov_iter and accepts a test_mem parameter controlling
-whether memory decoding and power state should be validated under
-memory_lock. Retain the userspace interface, importing the user buffer
-into an iov_iter with test_mem enabled.
+The memory provider module will serve as a sample in-tree memory provider
+for guest_memfd and iommufd. Register a miscdevice at /dev/memory_provider
+upon module initialization and deregister it upon module exit.
 
-Introduce a counterpart helper taking a kernel buffer and setting up
-an ITER_KVEC iov_iter, allowing callers with kernel buffers to read
-and write to PCI BARs without userspace pointer conversion or copy
-overhead, and to specify whether memory testing is required.
-
+Co-developed-by: Ackerley Tng <ackerleytng@google.com>
 Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+Signed-off-by: Fred Griffoul <fgriffo@amazon.co.uk>
 ---
- drivers/vfio/pci/vfio_pci_priv.h |  3 +++
- drivers/vfio/pci/vfio_pci_rdwr.c | 34 ++++++++++++++++++++++++++++++----
- 2 files changed, 33 insertions(+), 4 deletions(-)
+ samples/Kconfig               | 11 +++++++++++
+ samples/Makefile              |  1 +
+ samples/kvm/Makefile          |  2 ++
+ samples/kvm/memory_provider.c | 35 +++++++++++++++++++++++++++++++++++
+ 4 files changed, 49 insertions(+)
 
-diff --git a/drivers/vfio/pci/vfio_pci_priv.h b/drivers/vfio/pci/vfio_pci_priv.h
-index 607a33270aca1..48a068e68aab8 100644
---- a/drivers/vfio/pci/vfio_pci_priv.h
-+++ b/drivers/vfio/pci/vfio_pci_priv.h
-@@ -53,6 +53,9 @@ ssize_t vfio_pci_config_rw_single(struct vfio_pci_core_device *vdev,
+diff --git a/samples/Kconfig b/samples/Kconfig
+index a75e8e78330da..d4e79e1a9286b 100644
+--- a/samples/Kconfig
++++ b/samples/Kconfig
+@@ -326,6 +326,17 @@ source "samples/rust/Kconfig"
  
- ssize_t vfio_pci_bar_rw(struct vfio_pci_core_device *vdev, char __user *buf,
- 			size_t count, loff_t *ppos, bool iswrite);
-+ssize_t vfio_pci_bar_rw_kbuf(struct vfio_pci_core_device *vdev, void *kbuf,
-+			     size_t count, loff_t *ppos, bool iswrite,
-+			     bool test_mem);
+ source "samples/damon/Kconfig"
  
- #ifdef CONFIG_VFIO_PCI_VGA
- ssize_t vfio_pci_vga_rw(struct vfio_pci_core_device *vdev, char __user *buf,
-diff --git a/drivers/vfio/pci/vfio_pci_rdwr.c b/drivers/vfio/pci/vfio_pci_rdwr.c
-index cc64722d1ab9a..c44c78e48e6aa 100644
---- a/drivers/vfio/pci/vfio_pci_rdwr.c
-+++ b/drivers/vfio/pci/vfio_pci_rdwr.c
-@@ -221,8 +221,9 @@ ssize_t vfio_pci_core_do_io_rw(struct vfio_pci_core_device *vdev, bool test_mem,
- }
- EXPORT_SYMBOL_GPL(vfio_pci_core_do_io_rw);
++config SAMPLE_KVM_MEMORY_PROVIDER
++	tristate "Build sample memory provider -- loadable module only"
++	depends on CONTIG_ALLOC && X86_64 && m
++	help
++	  This builds a sample memory provider.
++	  Its files can back a guest_memfd and be mapped by iommufd.
++	  It allocates a contiguous region with alloc_contig_pages()
++	  and carves out child provider files on the fly.
++
++	  If unsure, say N.
++
+ endif # SAMPLES
  
--ssize_t vfio_pci_bar_rw(struct vfio_pci_core_device *vdev, char __user *buf,
--			size_t count, loff_t *ppos, bool iswrite)
-+static ssize_t __vfio_pci_bar_rw(struct vfio_pci_core_device *vdev,
-+				 struct iov_iter *iter, size_t count,
-+				 loff_t *ppos, bool iswrite, bool test_mem)
- {
- 	struct pci_dev *pdev = vdev->pdev;
- 	loff_t pos = *ppos & VFIO_PCI_OFFSET_MASK;
-@@ -284,8 +285,9 @@ ssize_t vfio_pci_bar_rw(struct vfio_pci_core_device *vdev, char __user *buf,
- 		x_end = vdev->msix_offset + vdev->msix_size;
- 	}
- 
--	done = vfio_pci_core_do_io_rw(vdev, res->flags & IORESOURCE_MEM, io, buf, pos,
--				      count, x_start, x_end, iswrite, max_width);
-+	done = __vfio_pci_core_do_io_rw(vdev, test_mem && (res->flags & IORESOURCE_MEM),
-+					io, iter, pos, count, x_start, x_end,
-+					iswrite, max_width);
- 
- 	if (done >= 0)
- 		*ppos += done;
-@@ -301,6 +303,30 @@ ssize_t vfio_pci_bar_rw(struct vfio_pci_core_device *vdev, char __user *buf,
- 	return done;
- }
- 
-+ssize_t vfio_pci_bar_rw(struct vfio_pci_core_device *vdev, char __user *buf,
-+			size_t count, loff_t *ppos, bool iswrite)
+ config HAVE_SAMPLE_FTRACE_DIRECT
+diff --git a/samples/Makefile b/samples/Makefile
+index 07641e177bd8b..3933ef6a323ed 100644
+--- a/samples/Makefile
++++ b/samples/Makefile
+@@ -37,6 +37,7 @@ obj-$(CONFIG_SAMPLE_TPS6594_PFSM)	+= pfsm/
+ subdir-$(CONFIG_SAMPLE_WATCHDOG)	+= watchdog
+ subdir-$(CONFIG_SAMPLE_WATCH_QUEUE)	+= watch_queue
+ obj-$(CONFIG_SAMPLE_KMEMLEAK)		+= kmemleak/
++obj-$(CONFIG_SAMPLE_KVM_MEMORY_PROVIDER)	+= kvm/
+ obj-$(CONFIG_SAMPLE_CORESIGHT_SYSCFG)	+= coresight/
+ obj-$(CONFIG_SAMPLE_FPROBE)		+= fprobe/
+ obj-$(CONFIG_SAMPLES_RUST)		+= rust/
+diff --git a/samples/kvm/Makefile b/samples/kvm/Makefile
+new file mode 100644
+index 0000000000000..9668dc57aa458
+--- /dev/null
++++ b/samples/kvm/Makefile
+@@ -0,0 +1,2 @@
++# SPDX-License-Identifier: GPL-2.0
++obj-$(CONFIG_SAMPLE_KVM_MEMORY_PROVIDER) += memory_provider.o
+diff --git a/samples/kvm/memory_provider.c b/samples/kvm/memory_provider.c
+new file mode 100644
+index 0000000000000..d5272cb88b758
+--- /dev/null
++++ b/samples/kvm/memory_provider.c
+@@ -0,0 +1,35 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * memory_provider - a sample memory provider.
++ *
++ * Confidential VMs are not supported.
++ */
++
++#include <linux/fs.h>
++#include <linux/miscdevice.h>
++#include <linux/module.h>
++
++static const struct file_operations mp_ctl_fops = {
++	.owner		= THIS_MODULE,
++};
++
++static struct miscdevice mp_dev = {
++	.minor	= MISC_DYNAMIC_MINOR,
++	.name	= "memory_provider",
++	.fops	= &mp_ctl_fops,
++};
++
++static int __init mp_init(void)
 +{
-+	struct iov_iter iter;
-+	int ret;
-+
-+	ret = import_ubuf(iswrite ? ITER_SOURCE : ITER_DEST, buf, count, &iter);
-+	if (ret)
-+		return ret;
-+
-+	return __vfio_pci_bar_rw(vdev, &iter, count, ppos, iswrite, true);
++	return misc_register(&mp_dev);
 +}
++module_init(mp_init);
 +
-+ssize_t vfio_pci_bar_rw_kbuf(struct vfio_pci_core_device *vdev, void *kbuf,
-+			     size_t count, loff_t *ppos, bool iswrite,
-+			     bool test_mem)
++static void __exit mp_exit(void)
 +{
-+	struct kvec kvec = { .iov_base = kbuf, .iov_len = count };
-+	struct iov_iter iter;
-+
-+	iov_iter_kvec(&iter, iswrite ? ITER_SOURCE : ITER_DEST, &kvec, 1, count);
-+	return __vfio_pci_bar_rw(vdev, &iter, count, ppos, iswrite, test_mem);
++	misc_deregister(&mp_dev);
 +}
++module_exit(mp_exit);
 +
- #ifdef CONFIG_VFIO_PCI_VGA
- ssize_t vfio_pci_vga_rw(struct vfio_pci_core_device *vdev, char __user *buf,
- 			       size_t count, loff_t *ppos, bool iswrite)
++MODULE_LICENSE("GPL");
++MODULE_DESCRIPTION("Sample memory provider for guest_memfd and iommufd");
 
 -- 
 2.56.0.455.g6c5a503b38-goog
