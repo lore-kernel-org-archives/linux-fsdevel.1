@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794011828;
-	b=jhFOGfqVQMDWSk0qepn8/9d9NNzOOuplqlqacTRRqVCCN8lDPQ6q055+S22XeXwoBb+7
-	 ogN4a8xbZxh9ACfTyGikf5YCkCDUhBlAQHOIoRyy94b9eqJ1NS5DFTMCfmGUG4tdxyKz4
-	 vWvcGKSrKAwEa8oU2ACpLP36PT8usylmn+x8DGd4psAoEDLPxY8JVT74M+GvBNQYvW3JN
-	 ZqOti3deLQ3SMNMPN4phlzLUy01WLB+z0wQvWDQk3bqzL/copJfIyDDQOrgnTpTrj8us4
-	 9QTAhsu5FuInatam7JfZ74XvUmnUVGCZdYxEjchrQOUrzaw0Ig8W7X/VlhC+0ow9LMQ==
+	t=1794011835;
+	b=eoE218iljVbVHBJgd2tO3HuytnJe+KmSJYA2ZlmE4eJrEobCtI6oRVoz5nOSgUtDLN3o
+	 GayO+h5Ol0h7owGEV/ECe5jqOvxoWsRW/GQg5A1WDfp6rUy2kIiotDYCaM2PAxlkeZFs9
+	 1wlzw/5Cb3GsMa9XK49zpdlyfkNhe2yF14Fjkq1HQy+JBmfDb7GY7YM3NhvKtasPHRT+Y
+	 Brwtio8yDMZuoYBxMBqH/tX8O7WRiQEg6nflHvbAQNpx0etGuFajOMRsnZGUq6Tvpqy6w
+	 q39ZWUW1wKtKtMhkRzYsyD2YJennarW2DxdVmSSq9Y0YuXwbRN53flJVn0akQZZbBAg==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794011828;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794011835;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=ZexpTI9NCkfxTl2+zcrGYej44u/dsyRYTkwcPEgAIK4=;
-	b=yhqmI+8d1pEb9v6fP4wdXrM25BwrHzPyR+TzJvrvQ9xxVXN5kQOEPxfsY669hO8o/yZT
-	 K51R4ipyFK/49KCvZNHFHTnUBUFMSttxPPPmP0X8m9MAoNj8Oz7S2O0OvAUKmQoQNYPeh
-	 ylFiHyXd0BnQ+vM8g1ugaDn5jHk9eiHNvFuQwfIdZgvktiFdA1uMwHL1+CiunDtTdaShg
-	 hnok9UgRD0mCF3/uVBoErTAScy5kySnEYlBZmQAn6DXgtw2saKNzhzv067mGuGmY5Fs3X
-	 FJwuu1wXhVkg7tC0NpDfwxAatl0Lkri1rLDiqrX0srjaTIQ1ZuyxCGcCybQ/Iha+3iQ==
+	bh=WKx0S/q4LHoqXh512KCmG0Z59UCrs4m44WNNAgPuWKk=;
+	b=znXuwhxs1v3kzoH0OmxPthtoxafTwFBnklKcZSyjI2i7xQS0zi+IoLHis/UVxOcviFeC
+	 wkLZRD43hNJtN+RP2a7U+FLmawA3QzHRiyHcRD9I1GiVVQyrNs+CxGKN320BQKRHivuJ8
+	 SG3DLwP0Fk/rYJV+iE+R5g8+DnOHyq8YH5XR10JS2CQ9rWe7hG4FaaR+6sV5F0SJNPPIc
+	 rPK7t2/Ru9y7wYYoiSW3yL4NcLhWoJ8Cpd22FbhGHS9IEmPGTD0QO/rZsNLWWVJBdjBZv
+	 jsOLaVBJx8DXrMfD3F9aELPjqA08lnc3PchlLCqDsNlpI/foUzk6RLIPpD5zBHKCnnw==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="U2a/JriD";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UyJ8GHMj;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07AD36083630;
-	Sat,  7 Nov 2026 00:37:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C804C60A6F65;
+	Sat,  7 Nov 2026 00:37:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=U2a/JriD
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UyJ8GHMj
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794011824;
-	b=n2JBcqPFPglIt/KtST6lDWUQiFUgelLZaDe2WcSiJBrV5cY2OzpIIYt8ZfBd/XnfpTv3
-	 Ot8m5KQbMJlAoGH3waz/8kzpTCu8kr34aVDszDfn2ZYi6BHwg59JLBKtWORRX9EhN6FHB
-	 N8sUU7Tow0of0PoqIbzkvKfRMLTQFOfLsvJs2WCUPetpFlI4mBSH+rL7Y8NV/VtU7t+CP
-	 5HSMTyhlAeaNt0v6IePMKSzrpu478vnpOVvaB92hT3UIgZ2lSPZJLWGF7TdoD+9/aJOrz
-	 7UGasbuWq+C5gZg/H4jaFc82zJwsbiAg37/WiF+Uu9/tjg3B5OBbLjk34m6XrzqRs0A==
+	t=1794011834;
+	b=ZmP2qen5yy0OlzVCFE7lwuma1KZ3jOYVXli49mLUTIYfHADWurXEV/gxraqWLZTGLPw+
+	 X+i3Vzyr58cewRLcYl57BS9qLzdBsjPX9MuTRfcmHWsQd+SMY5tDhwTINF9lIUlZU0o+h
+	 80xg4h6yZUTjDU8VavadZYH3w5Fy5tW1dl/UXkz7vd0hjtya04OV/HTnKKXei8qVc0Okx
+	 xqRN3FFUgXX7wSCWC2yhENWGUpZtP/ZfxDNy7ofdvWtTo+s/XibxQz+o9j/1Z90NNTN+Q
+	 NIDl2oavUHEb47zR6BNwOFbVYjU4A7poHaIXlJiePJrrP0GkPR+ZkvmtaanuKLljlkg==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794011824;
+	c=relaxed/relaxed; t=1794011834;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=ZexpTI9NCkfxTl2+zcrGYej44u/dsyRYTkwcPEgAIK4=;
-	b=2eCEbqMbpZ/rLjlCnMfZgwQj3e8KYSEglBbtARJrKM/bAdGmYMZC5FazaG1mnopD/jMs
-	 +4hJ2Go45wY2dVADdUVF7ED9djTQ6+wJnIxPXSf+X/vAOOx8k0KgkIPZtcojwalLJAzNB
-	 2nTg/c6G5A4XcYyG0liwcoQ4xvUZ8xKU/LvDHowXKdtxuHmuBm+0rPoWLP9ZoyuaywpPH
-	 ivT3DS9f/0ixHLO+Qc4xKvZoF1MI8GJ0Fr446Fb37EuEM0ak4qMENffysiX8uPdpA5qkB
-	 ZcZ96/5bkWZeBzOXA4rs3AuFHcsmExoPY9ptOOXwYla2W9HgSo0M24D+oBPgbLKC7ew==
+	bh=WKx0S/q4LHoqXh512KCmG0Z59UCrs4m44WNNAgPuWKk=;
+	b=U24hBmLGJCe6mYgwWzIukTbR4l5BmbvH3COYJW3+2whge1FdMZ0TtTzdg8KRjYcFupvf
+	 j3yiG80JD4KFdlhKhE3No5Vbg5ayUlm0Tl0ENPwh8enPxCRNIFNBHRjSpa6By+Xp4KgtH
+	 uew9q0+1cvfWpsnPtg82m+e0TSY1XMahOgB+VrXtvEpB8AC+c6nsmWI1lv//P8pB0PEkc
+	 0ZgKonXXeV0ZzXceiV+pqD/x74yjQaOFdvGMe9gmpNESWRlQ2lRpZ/tmciyMJZBmi+kcc
+	 h2kLYF+1mcnMALsx51n7TDTaQ3jMoC5Sk/pE8oDmdakbXA113WrL8++Ox0qM/zzamKw==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 88E421F00929;
-	Sat,  7 Nov 2026 00:36:59 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 974B31F00901;
+	Sat,  7 Nov 2026 00:37:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794011824;
-	bh=ZexpTI9NCkfxTl2+zcrGYej44u/dsyRYTkwcPEgAIK4=;
+	s=k20260515; t=1794011834;
+	bh=WKx0S/q4LHoqXh512KCmG0Z59UCrs4m44WNNAgPuWKk=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=U2a/JriDuhd2uKeFAPf2f07kDJg0uavmyiYcaTQpo9ICmNZW99AYdxwcE3Gt1y5Vc
-	 X4HCSiHqDNLQjmy8V2U05jZOxTa8Pz7/5uvHbBR61rbSRl+IEt6q8O08m8y4OmZfWC
-	 6wqaHI4SNsBksLRXtOpsauaYE2tKcgqw9UQQ1OtNifP3ppXFHweC/hFBSilnzJ5OMO
-	 c/DEE0OwB016TeFike16q+BpqrpvsDaJyOlANSj3xZhfMDVZfUD3hBF7eTWOUL7teJ
-	 rTwo2+yx7KJt8enYB9jrLWYVHWJv7hNWfxDljf0lg+iInTFldiGL+DqysTkofady4d
-	 Qy/acbsBMl5cQ==
+	b=UyJ8GHMj7CDmRAOYLqSw+DWPAcD8w6Gzx5bJLyn82vP+WD79hijnDIpIlxfbagNsz
+	 yyUVz6uY+zBoedBsPX+mKb2LzO63CBPhBtWBoj1AN7zI2QhcVZVS6Z0p6dYq/h1SGt
+	 LpIUF2RAhQ8PAn3xCu+gpMUmfW3N9hqdf1q+XJTP7bAVowIPTvZOEKNi3KTYEbqkEF
+	 AL5jWVu6e2l58VkEeCJmLy2l/TO74x53dgm3Xz6x74EKaj5HOUviLw5zhJIGtQeMIL
+	 kUgru+3bFcThEc2KPaYVelPgOo6h9MQA5rM6FQ3t9+epnZlwk+Z3NO/5S+xLuBEbN6
+	 ygQTX4/AQjG3Q==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 255D947992;
-	Sat,  7 Nov 2026 00:36:55 +0000 (UTC)
+	by lkml.kernel.org (Postfix) with ESMTP id 2035847A04;
+	Sat,  7 Nov 2026 00:36:57 +0000 (UTC)
 From: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>
-Date: Fri, 06 Nov 2026 16:37:06 -0800
-Subject: [PATCH RFC v3 32/88] KVM: guest_memfd: Support user fault handling
- in PFN mode
+Date: Fri, 06 Nov 2026 16:37:36 -0800
+Subject: [PATCH RFC v3 62/88] vfio: Dispatch guest_memfd
+ check_set_attributes via vfio_device_ops
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -84,7 +84,7 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261106-gmem-alternative-providers-v3-32-8484dde66a7e@google.com>
+Message-Id: <20261106-gmem-alternative-providers-v3-62-8484dde66a7e@google.com>
 References: <20261106-gmem-alternative-providers-v3-0-8484dde66a7e@google.com>
 In-Reply-To: <20261106-gmem-alternative-providers-v3-0-8484dde66a7e@google.com>
 To: Alexey Kardashevskiy <aik@amd.com>, 
@@ -105,11 +105,11 @@ Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
  linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
  Ackerley Tng <ackerleytng@google.com>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794011809; l=4803;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794011810; l=2646;
  i=ackerleytng@google.com; s=20260225; h=from:subject:message-id;
- bh=BHfl6wvLdeD6eD5eILiiO6y1oWReh7OD+qFN9r31eZY=;
- b=PheuT7ywy0hAO/mjTx3YVz658XWJPOjzwi+5Hkdw/rJUyuN13z+94s/e15qbngjBlOTdHHYJA
- gCPlAhTinKMAkcCG8fDXSpq+8UE96qNxdU+ZortX7X5Tdcsqh23gX1A
+ bh=/6avTRCqI4M8/ALHbbIFehsJKaQvoBf+svzx5j3iq8o=;
+ b=A/0h+r+KSCP4fQo2hcBDtiJJa5JKzY648tnHJ16FNMD3MSKRsvEZ8EZGzK1oxHVIF1ZwPtJO+
+ DRSFyeeW6yzBnvH8OVDGq4XMpFSwBUDkTeKVElbM8BqKXtFQu6mFHma
 X-Developer-Key: i=ackerleytng@google.com; a=ed25519;
  pk=sAZDYXdm6Iz8FHitpHeFlCMXwabodTm7p8/3/8xUxuU=
 X-Endpoint-Received: by B4 Relay for ackerleytng@google.com/20260225 with
@@ -120,136 +120,72 @@ Content-Transfer-Encoding: 7bit
 
 From: Ackerley Tng <ackerleytng@google.com>
 
-In PFN mode, guest_memfd memory is backed by raw PFNs rather than
-page-cache folios.
+When userspace requests attribute conversion on a guest_memfd file
+backed by a VFIO resource descriptor, guest_memfd invokes the
+.check_set_attributes provider operation under the exclusive filemap
+invalidation lock before committing attribute changes.
 
-When inserting the PFN into the user page tables during fault handling,
-constrain the inserted protection by stripping write permissions if the
-provider reports a read-only PFN attribute, and fail immediate write faults
-on read-only frames with VM_FAULT_SIGBUS.
+Implement .check_set_attributes on vfio_device_gmem_provider_ops to
+dispatch to the bus driver's .gmem_check_set_attributes callback on
+struct vfio_device_ops if implemented, allowing the driver to inspect
+and validate the requested attributes and offset range.
 
-Introduce kvm_gmem_pfn_vm_ops with a .pfn_mkwrite callback that returns
-VM_FAULT_SIGBUS to block subsequent write attempts or upgrades to read-only
-PFN mappings. Without this, core MM would have marked the PTE writable and
-the write would have succeeded.
-
-There is no need to do another .get_pfn() call since the contract with the
-provider requires the attributes to be kept constant until memory is
-revoked, at which time the user page tables would have been zapped.
-
-In folio mode, the fault handler obtains a locked folio under the shared
-filemap invalidation lock and returns with the folio still locked so the
-core fault handler installs the PTE before unlocking the folio. Any
-concurrent truncation or invalidation must wait on the folio lock before
-unmapping and removing the folio.
-
-In PFN mode, there is no folio lock to bridge the gap after dropping the
-shared filemap invalidation lock. Hold the shared filemap invalidation lock
-across PFN insertion to prevent races with revocation.
-
-Co-developed-by: Fred Griffoul <fgriffo@amazon.co.uk>
-Signed-off-by: Fred Griffoul <fgriffo@amazon.co.uk>
 Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 ---
- virt/kvm/guest_memfd.c | 52 +++++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 51 insertions(+), 1 deletion(-)
+ drivers/vfio/vfio_main.c | 24 ++++++++++++++++++++----
+ include/linux/vfio.h     |  3 +++
+ 2 files changed, 23 insertions(+), 4 deletions(-)
 
-diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
-index 183e15775523f..e94f2359b7c9a 100644
---- a/virt/kvm/guest_memfd.c
-+++ b/virt/kvm/guest_memfd.c
-@@ -565,11 +565,40 @@ static bool kvm_gmem_supports_mmap(struct inode *inode)
- 	return GMEM_I(inode)->flags & GUEST_MEMFD_FLAG_MMAP;
+diff --git a/drivers/vfio/vfio_main.c b/drivers/vfio/vfio_main.c
+index 979ed69c5ebf7..e4e7bfe77d03b 100644
+--- a/drivers/vfio/vfio_main.c
++++ b/drivers/vfio/vfio_main.c
+@@ -1621,11 +1621,27 @@ static int vfio_device_gmem_mmap(void *provider, struct vm_area_struct *vma)
+ 	return vfio_device_mmap(df->device, vma);
  }
  
-+/*
-+ * In PFN mode, physical frame attributes are constant for the lifetime of the
-+ * mapping. If a page was inserted read-only, it was because the provider
-+ * reported a read-only PFN attribute, and write upgrades are never permitted.
-+ * Write faults on such pages must fail with SIGBUS.
-+ */
-+static vm_fault_t kvm_gmem_pfn_mkwrite(struct vm_fault *vmf)
++static int vfio_device_gmem_check_set_attributes(void *provider, pgoff_t index,
++						 size_t nr_pages,
++						 u64 attributes)
 +{
-+	return VM_FAULT_SIGBUS;
++	struct file *file = provider;
++	struct vfio_device_file *df = file->private_data;
++	struct vfio_device *device = df->device;
++
++	if (!device->ops->gmem_check_set_attributes)
++		return 0;
++
++	return device->ops->gmem_check_set_attributes(device, index, nr_pages,
++						      attributes);
 +}
 +
-+static vm_fault_t gmem_insert_pfn(struct vm_fault *vmf, kvm_pfn_t pfn,
-+				 u64 pfn_attrs)
-+{
-+	struct vm_area_struct *vma = vmf->vma;
-+	vm_flags_t flags = vma->vm_flags;
-+
-+	if (pfn_attrs & GUEST_MEMFD_PFN_ATTRS_READONLY)
-+		flags &= ~VM_WRITE;
-+
-+	if ((vmf->flags & FAULT_FLAG_WRITE) && !(flags & VM_WRITE))
-+		return VM_FAULT_SIGBUS;
-+
-+	return vmf_insert_pfn_prot(vma, vmf->address, pfn,
-+				   vm_get_page_prot(flags));
-+}
-+
- static vm_fault_t kvm_gmem_fault_user_mapping(struct vm_fault *vmf)
- {
- 	struct inode *inode = file_inode(vmf->vma->vm_file);
-+	struct gmem_inode *gi = GMEM_I(inode);
- 	vm_fault_t ret = VM_FAULT_LOCKED;
- 	struct folio *folio = NULL;
-+	kvm_pfn_t pfn;
- 	int r = 0;
- 
- 	if (((loff_t)vmf->pgoff << PAGE_SHIFT) >= i_size_read(inode))
-@@ -578,6 +607,12 @@ static vm_fault_t kvm_gmem_fault_user_mapping(struct vm_fault *vmf)
- 	filemap_invalidate_lock_shared(inode->i_mapping);
- 	if (!kvm_gmem_is_shared_mem(inode, vmf->pgoff)) {
- 		r = -EACCES;
-+	} else if (kvm_gmem_is_pfn_mode(gi)) {
-+		u64 pfn_attrs;
-+
-+		r = gmem_provider_get_pfn(gi, vmf->pgoff, &pfn, NULL, &pfn_attrs);
-+		if (!r)
-+			ret = gmem_insert_pfn(vmf, pfn, pfn_attrs);
- 	} else {
- 		folio = kvm_gmem_get_folio(inode, vmf->pgoff);
- 		if (IS_ERR(folio))
-@@ -592,6 +627,9 @@ static vm_fault_t kvm_gmem_fault_user_mapping(struct vm_fault *vmf)
- 		return vmf_error(r);
- 	}
- 
-+	if (kvm_gmem_is_pfn_mode(gi))
-+		return ret;
-+
- 	if (WARN_ON_ONCE(folio_test_large(folio))) {
- 		ret = VM_FAULT_SIGBUS;
- 		goto out_folio;
-@@ -650,6 +688,15 @@ static const struct vm_operations_struct kvm_gmem_vm_ops = {
- #endif
+ static const struct guest_memfd_provider_operations vfio_device_gmem_provider_ops = {
+-	.attach  = vfio_device_gmem_attach,
+-	.release = vfio_device_gmem_release,
+-	.get_pfn = vfio_device_gmem_get_pfn,
+-	.mmap    = vfio_device_gmem_mmap,
++	.attach               = vfio_device_gmem_attach,
++	.release              = vfio_device_gmem_release,
++	.get_pfn              = vfio_device_gmem_get_pfn,
++	.mmap                 = vfio_device_gmem_mmap,
++	.check_set_attributes = vfio_device_gmem_check_set_attributes,
  };
+ #endif
  
-+static const struct vm_operations_struct kvm_gmem_pfn_vm_ops = {
-+	.fault		= kvm_gmem_fault_user_mapping,
-+	.pfn_mkwrite	= kvm_gmem_pfn_mkwrite,
-+#ifdef CONFIG_NUMA
-+	.get_policy	= kvm_gmem_get_policy,
-+	.set_policy	= kvm_gmem_set_policy,
-+#endif
-+};
-+
- static int kvm_gmem_mmap(struct file *file, struct vm_area_struct *vma)
- {
- 	struct gmem_inode *gi = GMEM_I(file_inode(file));
-@@ -665,7 +712,10 @@ static int kvm_gmem_mmap(struct file *file, struct vm_area_struct *vma)
- 	if (kvm_gmem_is_pfn_mode(gi))
- 		vm_flags_set(vma, VM_PFNMAP);
- 
--	vma->vm_ops = &kvm_gmem_vm_ops;
-+	if (kvm_gmem_is_pfn_mode(gi))
-+		vma->vm_ops = &kvm_gmem_pfn_vm_ops;
-+	else
-+		vma->vm_ops = &kvm_gmem_vm_ops;
- 
- 	return 0;
- }
+diff --git a/include/linux/vfio.h b/include/linux/vfio.h
+index 51e04b980a381..ffb01e655735f 100644
+--- a/include/linux/vfio.h
++++ b/include/linux/vfio.h
+@@ -125,6 +125,9 @@ struct vfio_device_ops {
+ 	int (*gmem_get_pfn)(struct vfio_device *device, pgoff_t index,
+ 			    unsigned long *pfn, int *max_order,
+ 			    u64 *pfn_attrs);
++	int (*gmem_check_set_attributes)(struct vfio_device *device,
++					 pgoff_t index, size_t nr_pages,
++					 u64 attributes);
+ 	char	*name;
+ 	int	(*init)(struct vfio_device *vdev);
+ 	void	(*release)(struct vfio_device *vdev);
 
 -- 
 2.56.0.455.g6c5a503b38-goog
