@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794011827;
-	b=rk0Pfi+AzrPiUHJJ9cy7sDWkwxhvfAAfuSHVnatjWDfJno3ZuJ1yEsSaeFKRbNd0zWkN
-	 0E2uN4bmK2NKYgsti8ANavnc0Zu1Qu6KL7Y2gg6k/vrYEaBu23ZxJ8El+mSO0W8G591/Y
-	 PVrlZaYY9ZnQjS4LxZ05DonJzIf+AfE+N+4vsca8DvyE62P1W/DROkVonfyS90ZIGu4LM
-	 +TWQGSRT0nSxd/5NMCVuEBgWLDRSQ1aPYlh1gIWjEsaCKow+vfDmS8eDQXObSpe9PqwRC
-	 22GblsnofIEWadcZgTX8NLVFq+kt7FL+GMx/RRRKLNmPmIyVK+UoYxdl/e2YOzy5txw==
+	t=1794011834;
+	b=WK1+cWMJocqxbdrojrjPdLPNWr8ANFLhjSeym7ZYB2k7hWhbq1iX+ckMkGKVSfs2wzb1
+	 IVaIYJs54NgVq/34si95eE/kYC8QggX2Pxx10pqOKMu3NinJ5CSYyPyyEZ06hwmSCsFa2
+	 Ov/ExDfk5snd0ivA4UOCeNyazOI3o0bnSPQvOkNX5O3VIY2ihcSXzVyYSLVi12WxhF48K
+	 5NlL9qn4hhRdO/0n/4LGK1n2qVHVfEcngqIWBVm/0LQz2V9LIqWrfxvSY7AYOyHDnMXqT
+	 FxQJmrajHmoX6UJ4kuX5USRZq5pOXhc8FA35AYyLJa0+Kv41iaoKIylOMVsnNUaejJg==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794011827;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794011834;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=GG/vi0gJ8pTHrLZGRuIsOdTtI6tx4Aak0QyiCSlFpoE=;
-	b=RjfvFIA6XgXsfs2ckGqOidWg0oZStzyrW3/+5WUBDEjK1fQzH8Nt0cM6JvzyQk45xTDG
-	 BNd+RW3cHhA3xp6qXvfAUfe6YYefMgvi0BgtRY2GQFyFu2iEayiKGCWgak0Q66K3mXtYc
-	 nvAQMGPeFgW85855KDXIUG+4grkGBn6ZsJFRFWusoLXKY8cDjZO+xbd+Y1fkrPr3M8jsK
-	 pw9e4FxrImbjOQQm6F6hI0Wu6CqAhUW/OgyjJZaBX5SvmiLZbM1Ynbu6A8P/d0160liav
-	 85XV7qohxM0T7cgESQIGtFVskSUZdouueGH1AokOFKxzB/pyI53rgUUynvqPHG2GrTg==
+	bh=8wUojUUQbhfKIFXbbfP6LPWOjX5Iaf2r3UNVYHxBruY=;
+	b=jTcghUKSSLH1AN9i8bCXLLpKT3qicWTo4wdtAy9nR7ScvnMty/VIYG0ADejlKyGKxh/6
+	 yosfph0QRmERy/uo0dbJz0GPbCNTU4b6GBEes3rU0TRqIvE4fUAS8/AFOjN9bHFsb2Ivv
+	 OHpdNQb8k5ZY1Yjk20T9CKk2d/jJFOJ0KsSk7OmKaDrUx8AG6Q3zHYz8DON05gk4fHiA0
+	 cczMUCteNf2WX25oqEul3oqgUAMIr3rD1DwJpOzP19v25t+HEh8bFvlzVCPXKrcukvbwW
+	 XP97PWKJsnr90l3gzSSYrbwVZL/xYQV8OzUj+0q52BAmK3lZtxv7bNP7j3zSaZaNsbw==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Sr/HKeXx";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iqR0yZBG;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DCCE606EE84;
-	Sat,  7 Nov 2026 00:37:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB42960A5BE0;
+	Sat,  7 Nov 2026 00:37:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Sr/HKeXx
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iqR0yZBG
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794011826;
-	b=Df8QglB/TUk3FzbaeAHZ2/I3OMtv1blVusJAlbAckTpCX2lavBb40FPr++NG01Y/VK4c
-	 PzdeP9oAjbZXtmEPq4a+cd8akZjzOC13W9OOgUwgmA4nDBLygw89BOjRIulTb+EVbdbaS
-	 8XoBHJ10msffbOqf/jmt1q+br7/xC6d41uIxZwFp2y7XSJG2L/Epe4pZxA2tt4Gyp9RdE
-	 r3YKF3Ed7/uEh7+AM48eQLsUXMcWkjVYaT3NdwwpgTQJ7Q21l+CBQsgqE0z6JHkf3y7SV
-	 QyhrnAyyvvyO7j+XDplj33PJ7GSQK1jzYAuxqhvAJObTdhRN4BxQkiCpyl1Bs9irWmA==
+	t=1794011833;
+	b=oLWrvkI4tuefU+4aBCp6uGE+iRdA/QNsyBsNrWtRTbycHgvStlWL8yzI48DO+l5eGL7F
+	 jO8mqNeZiilZExpaP5xkquM0cYEWkF22j/PUPkxgYVOjDo8xudxe6UlPuG9yWQbQm8M4c
+	 4RPKR5LMyrMFxXsDe7LfLMYDc3l2KYvhVRsTs6clpoa38A6UviHLGPsycPORCxKsKSNvz
+	 6W9CbU1U/fKY66aZoBfocvmb6wgvYAz+zh6yyqog8aKOlLoWy0Ao76ipYbebjXkdO9mPA
+	 MsZ97whmAgNQdtkBsxYvkBXIC18S/O6OgF5XOQy30fZxAbLBWKBJ3mMWwqPyzibqbLA==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794011826;
+	c=relaxed/relaxed; t=1794011833;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=GG/vi0gJ8pTHrLZGRuIsOdTtI6tx4Aak0QyiCSlFpoE=;
-	b=VWetsHcOd/gg92AKF6N1EC88C7mRo2Ch/3xKXO6sXEr6bcfx7j99SCM24n1M1WtjELNh
-	 9dX7IOVA+Ag0Zh7OaEpctGkTIIKHxC9SXw5qKkVwKDxlqNMurAvQQttxnLk/BcnTB6JYf
-	 D7SPLSJj8TmF6lvVnVotlrGrDmfBM+hiDMqRuSi5kFWzt+X0l4jHgH1MJ00PW015JgOr6
-	 Zsh13n0O8BmO3EasjQRctr9P/w863FgKgBBIjlbclIWnYaN82juqxgZ1Ytrm6IXp9I00o
-	 7DTZvOWSAUoNRfWueTatKMwob+bZWS200psCJq8sk4iNjTtc7NGHC3k7na95LJmwzbw==
+	bh=8wUojUUQbhfKIFXbbfP6LPWOjX5Iaf2r3UNVYHxBruY=;
+	b=C5mH2h6/sMtWYqK3QUFQShBVbzRq6fBQQnZKqoLris3RcGu/rttN4v4wgM0WDKFddOEH
+	 Sp4G24XJ6c4cFoiH75qE95eEdg3qfRfsBE4VoGRGCr4UIuGvYBiqcxUkmi757qLrwiTHO
+	 Pcj1kTib8rea5iC14ro6dqjI+kW92ZKH5wca2ZvZzACvETE33UTeH4RCnAuGRl/aA3rZn
+	 EYjWGQlAVOa6NJJENlQeyslEhxVDD1bN6COs7+bXZOLApquOiy7s7aTxoWsTiIpIFlmi7
+	 3prhmY1V+9zvDbCck3fUvvIgdASCtGVcsZ458Dd1Nd4i8ihtGmlf1M9J1GnzBcDM8TA==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id B17901F00932;
-	Sat,  7 Nov 2026 00:36:59 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 187CA1F00A0E;
+	Sat,  7 Nov 2026 00:37:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794011826;
-	bh=GG/vi0gJ8pTHrLZGRuIsOdTtI6tx4Aak0QyiCSlFpoE=;
+	s=k20260515; t=1794011833;
+	bh=8wUojUUQbhfKIFXbbfP6LPWOjX5Iaf2r3UNVYHxBruY=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=Sr/HKeXxICARumR9MJeBd8kXcXqe1+kN1thUC5m4BaxGMm0Xj5iyCC4DNA7xwy45M
-	 v5MxgZSorel1UCzAu/bJ65nDOKsIhuX7sDDG6ijaAb+ra3bEJjdYJEbFREMs5mV0w9
-	 lpaoV69K4KTSznNMl/cuvDkYwCueV3W0yp1nH8vZ4fgAizfJ/ay790XBLc9L4lJCpK
-	 qAxd7J6W36bEqJGB5Dw0C+t6yxAof98d5RVrpqlWo6cGKjo5LaF+1iaqlOS1C5kxmi
-	 v7YhnropXNOmISXkSlDcwsSeZVOl+BJj6FRTAkUFHsSl9siCaB0ztlkwRFtaQm0+F6
-	 AyOV93HWEryIg==
+	b=iqR0yZBGWzgyjp+HYhCfGxAhrs+PJbiGs+QiA4n6lTpvdeMsOo9AhwbEjWNIDcSV0
+	 gwrnIBMm4oKX4IcsmVbVx7xfsFgFonHycwzyImkvW/k5P9envjsL1kToym/4CQLUpQ
+	 BTV4NYjqpxQUiCdDs6BNG4wVqI3lag+3wsdjrtqD3U8jNKxaSbiVu6N398jP3ss8f8
+	 GUSSTPagfzJoEZYMVBCDC59uwvjBgTpFAL45zWvp4iczXi9G4+3Ag2tSO7fyIyvWOx
+	 vJTcaijlR0nSshDR22w+pqH8Bjs5iXcKzGhT8SgOmuOgvhDxZtJ3zlXtH2FEQTByXq
+	 o2TtG8u6ZVasg==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 467C64799A;
-	Sat,  7 Nov 2026 00:36:55 +0000 (UTC)
+	by lkml.kernel.org (Postfix) with ESMTP id 2FE4147A08;
+	Sat,  7 Nov 2026 00:36:57 +0000 (UTC)
 From: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>
-Date: Fri, 06 Nov 2026 16:37:08 -0800
-Subject: [PATCH RFC v3 34/88] KVM: guest_memfd: Support converting to
- shared in PFN mode
+Date: Fri, 06 Nov 2026 16:37:37 -0800
+Subject: [PATCH RFC v3 63/88] vfio/pci: Implement check_set_attributes
+ provider op for guest_memfd
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -84,7 +84,7 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261106-gmem-alternative-providers-v3-34-8484dde66a7e@google.com>
+Message-Id: <20261106-gmem-alternative-providers-v3-63-8484dde66a7e@google.com>
 References: <20261106-gmem-alternative-providers-v3-0-8484dde66a7e@google.com>
 In-Reply-To: <20261106-gmem-alternative-providers-v3-0-8484dde66a7e@google.com>
 To: Alexey Kardashevskiy <aik@amd.com>, 
@@ -105,11 +105,11 @@ Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
  linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
  Ackerley Tng <ackerleytng@google.com>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794011809; l=5043;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794011810; l=5833;
  i=ackerleytng@google.com; s=20260225; h=from:subject:message-id;
- bh=Iv1zxYO7fP3JXSyVWe6MUD/FvJRtFUd+FcQgJ86kKzs=;
- b=t9r2seWbuOAXmUmfzxNh546Jm5ih8d+H+/MViGmGMCCMkk14rA7b1r8r4bFuLkICvw9lrZNT9
- aVvzkME4C1NDEPrlUHY28C3SvXO2C/Assv0iGM+b0fiXHh5FEAyWZKf
+ bh=TMwTUp5cqKcj2kTekFr4TruFvpaWuzNv14YEyWz6eMk=;
+ b=UbZOzxtTC0NPZ+730r8uhK3++yIyJUWwAWmy+/W4WSFvCFPEUZshY+F2FUPkeQ5iFwFW9Lu4Q
+ PXLtOpflYs0DIUR68SWBUFmgEcb08Fk5N8T/UABlrAzf2Oaz48/TkDa
 X-Developer-Key: i=ackerleytng@google.com; a=ed25519;
  pk=sAZDYXdm6Iz8FHitpHeFlCMXwabodTm7p8/3/8xUxuU=
 X-Endpoint-Received: by B4 Relay for ackerleytng@google.com/20260225 with
@@ -120,130 +120,150 @@ Content-Transfer-Encoding: 7bit
 
 From: Ackerley Tng <ackerleytng@google.com>
 
-When converting memory attributes to shared, guest_memfd iterates
-through folios in the page cache to notify architecture code.
+Implement the .check_set_attributes provider operation in the generic
+PCI VFIO bus driver to validate attribute conversion requests on
+guest_memfd files backed by a VFIO PCI device.
 
-In PFN mode, memory is not backed by page cache folios. To notify
-architecture code without unintentionally triggering memory allocation
-in dynamic providers for unpopulated ranges, introduce the
-lookup_pfn_range provider operation. It returns the PFN and number of
-pages of contiguous backing memory, or -ENOENT if not allocated.
+When converting to private, decode the 40-bit VFIO region offset to
+verify that the targeted BAR is a standard memory BAR and that the range
+does not exceed the BAR's physical resource size.
 
-Add support for PFN mode when converting to shared by querying
-lookup_pfn_range and converting contiguous chunks.
+Prevent private conversion of pages overlapping the device's MSI-X
+vector table. The host kernel accesses MSI-X table entries directly to
+configure and mask device interrupts; converting these pages to private
+would cause subsequent host kernel interrupt operations to trigger fatal
+hardware protection faults (such as RMP or GPT violations) on
+confidential computing platforms.
 
 Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 ---
- include/linux/guest_memfd.h | 19 +++++++++++++++++-
- virt/kvm/guest_memfd.c      | 47 +++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 65 insertions(+), 1 deletion(-)
+ drivers/vfio/pci/vfio_pci.c      |  7 ++++---
+ drivers/vfio/pci/vfio_pci_core.c | 34 ++++++++++++++++++++++++++++++++++
+ drivers/vfio/pci/vfio_pci_priv.h | 10 ++++++++++
+ drivers/vfio/pci/vfio_pci_rdwr.c |  4 +---
+ include/linux/vfio_pci_core.h    |  3 +++
+ 5 files changed, 52 insertions(+), 6 deletions(-)
 
-diff --git a/include/linux/guest_memfd.h b/include/linux/guest_memfd.h
-index 9fdc0bd1a7190..e965aeca061a6 100644
---- a/include/linux/guest_memfd.h
-+++ b/include/linux/guest_memfd.h
-@@ -28,7 +28,22 @@ struct mempolicy;
-  *           @pfn with uniform @pfn_attrs in @max_order. Once @get_pfn succeeds,
-  *           the provider must keep the @index-to-@pfn mapping and @pfn_attrs
-  *           constant, and the memory accessible, until guest_memfd stops using
-- *           this page. Returns a negative error code on failure.
-+ *           this page. Returns a negative error code on failure. The provider
-+ *           must define @lookup_pfn_range when @get_pfn is defined.
-+ * @lookup_pfn_range: Look up the PFN for a given index. This only checks for
-+ *                    the existence of backing pages and should not allocate
-+ *                    memory. Returns 0 on success with the physical frame
-+ *                    number in @pfn and the number of physically contiguous
-+ *                    pages in @nr_pages (@nr_pages need not be reduced for
-+ *                    pages with different PFN attributes). Once
-+ *                    @lookup_pfn_range succeeds, the provider must keep the
-+ *                    existence of the pages and the @index-to-@pfn mapping
-+ *                    constant until guest_memfd stops using the range. If
-+ *                    backing memory is not available at @index, return -ENOENT
-+ *                    with @nr_pages set to the number of consecutive indices
-+ *                    starting from @index that have no entry. Return a negative
-+ *                    error code on other failure. The provider must define
-+ *                    @get_pfn when @lookup_pfn_range is defined.
-  *
-  * Used by filesystems and device drivers that provide memory for guest_memfd.
-  */
-@@ -40,6 +55,8 @@ struct guest_memfd_provider_operations {
- 	void (*invalidate_folio)(void *provider, struct folio *folio);
- 	int (*get_pfn)(void *provider, pgoff_t index, unsigned long *pfn,
- 		       int *max_order, u64 *pfn_attrs);
-+	int (*lookup_pfn_range)(void *provider, pgoff_t index,
-+				unsigned long *pfn, size_t *nr_pages);
+diff --git a/drivers/vfio/pci/vfio_pci.c b/drivers/vfio/pci/vfio_pci.c
+index 9bc8009a9e766..f42422c1b7bc5 100644
+--- a/drivers/vfio/pci/vfio_pci.c
++++ b/drivers/vfio/pci/vfio_pci.c
+@@ -169,9 +169,10 @@ static const struct vfio_device_ops vfio_pci_ops = {
+ 	.pasid_attach_ioas	= vfio_iommufd_physical_pasid_attach_ioas,
+ 	.pasid_detach_ioas	= vfio_iommufd_physical_pasid_detach_ioas,
+ #ifdef CONFIG_KVM_GUEST_MEMFD
+-	.gmem_attach	= vfio_pci_core_gmem_attach,
+-	.gmem_release	= vfio_pci_core_gmem_release,
+-	.gmem_get_pfn	= vfio_pci_core_gmem_get_pfn,
++	.gmem_attach		= vfio_pci_core_gmem_attach,
++	.gmem_release		= vfio_pci_core_gmem_release,
++	.gmem_get_pfn		= vfio_pci_core_gmem_get_pfn,
++	.gmem_check_set_attributes = vfio_pci_core_gmem_check_set_attributes,
+ #endif
  };
  
- #endif /* _LINUX_GUEST_MEMFD_H */
-diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
-index ceef61cb63a0d..0e392b8735259 100644
---- a/virt/kvm/guest_memfd.c
-+++ b/virt/kvm/guest_memfd.c
-@@ -149,6 +149,27 @@ static int gmem_provider_get_pfn(struct gmem_inode *gi, pgoff_t index,
+diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
+index 9551a067b5689..894b1332f8a0c 100644
+--- a/drivers/vfio/pci/vfio_pci_core.c
++++ b/drivers/vfio/pci/vfio_pci_core.c
+@@ -16,6 +16,7 @@
+ #include <linux/eventfd.h>
+ #include <linux/file.h>
+ #include <linux/guest_memfd.h>
++#include <linux/kvm_host.h>
+ #include <linux/interrupt.h>
+ #include <linux/iommu.h>
+ #include <linux/module.h>
+@@ -2769,6 +2770,39 @@ int vfio_pci_core_gmem_get_pfn(struct vfio_device *core_vdev, pgoff_t index,
  	return 0;
  }
- 
-+#ifdef CONFIG_HAVE_KVM_ARCH_GMEM_CONVERT
-+static int gmem_provider_lookup_pfn_range(struct gmem_inode *gi, pgoff_t index,
-+					  kvm_pfn_t *pfn, size_t *nr_pages)
+ EXPORT_SYMBOL_GPL(vfio_pci_core_gmem_get_pfn);
++
++int vfio_pci_core_gmem_check_set_attributes(struct vfio_device *core_vdev,
++					    pgoff_t index, size_t nr_pages,
++					    u64 attributes)
 +{
-+	unsigned long raw_pfn;
-+	int r;
++	struct vfio_pci_core_device *vdev =
++		container_of(core_vdev, struct vfio_pci_core_device, vdev);
++	pgoff_t bar_pgoff;
++	size_t size;
++	loff_t pos;
++	int bar;
 +
-+	r = gi->provider_ops->lookup_pfn_range(gi->provider, index, &raw_pfn,
-+					       nr_pages);
-+	if (!r || r == -ENOENT) {
-+		if (WARN_ON_ONCE(!*nr_pages))
-+			return -EINVAL;
-+	}
-+	if (r)
-+		return r;
++	if (!(attributes & KVM_MEMORY_ATTRIBUTE_PRIVATE))
++		return 0;
 +
-+	*pfn = raw_pfn;
++	/*
++	 * Prevent private conversion of pages containing the MSI-X vector
++	 * table. The host kernel directly programs MSI-X table entries to
++	 * configure and mask interrupts; converting these pages to private
++	 * would cause host kernel writes to trigger fatal hardware protection
++	 * faults (e.g. RMP or GPT violations) on confidential compute platforms.
++	 */
++	bar = index >> (VFIO_PCI_OFFSET_SHIFT - PAGE_SHIFT);
++	bar_pgoff = index & ((1ULL << (VFIO_PCI_OFFSET_SHIFT - PAGE_SHIFT)) - 1);
++	pos = (loff_t)bar_pgoff << PAGE_SHIFT;
++	size = nr_pages << PAGE_SHIFT;
++
++	if (vfio_pci_range_overlaps_msix(vdev, bar, pos, size))
++		return -EINVAL;
++
 +	return 0;
 +}
-+#endif
-+
- static void gmem_provider_invalidate_folio(struct gmem_inode *gi,
- 					   struct folio *folio)
- {
-@@ -830,10 +851,36 @@ static bool kvm_gmem_has_outstanding_references(struct inode *inode,
- #ifdef CONFIG_HAVE_KVM_ARCH_GMEM_CONVERT
- static void kvm_gmem_make_shared(struct inode *inode, pgoff_t start, pgoff_t end)
- {
-+	struct gmem_inode *gi = GMEM_I(inode);
- 	struct folio_batch fbatch;
- 	pgoff_t next = start;
- 	int i;
++EXPORT_SYMBOL_GPL(vfio_pci_core_gmem_check_set_attributes);
+ #endif
  
-+	if (kvm_gmem_is_pfn_mode(gi)) {
-+		pgoff_t index;
+ module_init(vfio_pci_core_init);
+diff --git a/drivers/vfio/pci/vfio_pci_priv.h b/drivers/vfio/pci/vfio_pci_priv.h
+index 4e7162234a2eb..607a33270aca1 100644
+--- a/drivers/vfio/pci/vfio_pci_priv.h
++++ b/drivers/vfio/pci/vfio_pci_priv.h
+@@ -23,6 +23,16 @@ struct vfio_pci_ioeventfd {
+ 	bool			test_mem;
+ };
+ 
++static inline bool vfio_pci_range_overlaps_msix(struct vfio_pci_core_device *vdev,
++						int bar, loff_t pos, size_t count)
++{
++	if (vdev->msix_bar == 0xFF || bar != vdev->msix_bar)
++		return false;
 +
-+		for (index = start; index < end; ) {
-+			size_t step = 1;
-+			size_t nr_pages;
-+			kvm_pfn_t pfn;
-+			int r;
++	return !(pos + count <= vdev->msix_offset ||
++		 pos >= vdev->msix_offset + vdev->msix_size);
++}
 +
-+			r = gmem_provider_lookup_pfn_range(gi, index, &pfn, &nr_pages);
-+			if (!r || r == -ENOENT) {
-+				step = min_t(size_t, nr_pages, end - index);
-+				if (!r)
-+					kvm_arch_gmem_make_shared(pfn, step);
-+			} else {
-+				WARN_ONCE(1, "unexpected lookup_pfn_range error %d at index 0x%lx\n",
-+					  r, index);
-+			}
-+
-+			index += step;
-+			cond_resched();
-+		}
-+		return;
-+	}
-+
- 	folio_batch_init(&fbatch);
- 	while (filemap_get_folios(inode->i_mapping, &next, end - 1, &fbatch)) {
- 		for (i = 0; i < folio_batch_count(&fbatch); ++i) {
+ bool vfio_pci_intx_mask(struct vfio_pci_core_device *vdev);
+ void vfio_pci_intx_unmask(struct vfio_pci_core_device *vdev);
+ 
+diff --git a/drivers/vfio/pci/vfio_pci_rdwr.c b/drivers/vfio/pci/vfio_pci_rdwr.c
+index 7f14dd46de17a..e5f1f60513709 100644
+--- a/drivers/vfio/pci/vfio_pci_rdwr.c
++++ b/drivers/vfio/pci/vfio_pci_rdwr.c
+@@ -418,9 +418,7 @@ int vfio_pci_ioeventfd(struct vfio_pci_core_device *vdev, loff_t offset,
+ 		return -EINVAL;
+ 
+ 	/* Disallow ioeventfds working around MSI-X table writes */
+-	if (bar == vdev->msix_bar &&
+-	    !(pos + count <= vdev->msix_offset ||
+-	      pos >= vdev->msix_offset + vdev->msix_size))
++	if (vfio_pci_range_overlaps_msix(vdev, bar, pos, count))
+ 		return -EINVAL;
+ 
+ 	if (count == 8)
+diff --git a/include/linux/vfio_pci_core.h b/include/linux/vfio_pci_core.h
+index 3a6d039454472..6ff67e38eaf84 100644
+--- a/include/linux/vfio_pci_core.h
++++ b/include/linux/vfio_pci_core.h
+@@ -175,6 +175,9 @@ void vfio_pci_core_gmem_release(struct vfio_device *core_vdev);
+ int vfio_pci_core_gmem_get_pfn(struct vfio_device *core_vdev, pgoff_t index,
+ 			       unsigned long *pfn, int *max_order,
+ 			       u64 *pfn_attrs);
++int vfio_pci_core_gmem_check_set_attributes(struct vfio_device *core_vdev,
++					    pgoff_t index, size_t nr_pages,
++					    u64 attributes);
+ #endif
+ extern const struct pci_error_handlers vfio_pci_core_err_handlers;
+ int vfio_pci_core_sriov_configure(struct vfio_pci_core_device *vdev,
 
 -- 
 2.56.0.455.g6c5a503b38-goog
