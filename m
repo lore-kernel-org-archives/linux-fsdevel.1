@@ -1,51 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794059857;
-	b=SRpG7f+I9YxwA19gs6EvND3Lhwwhvqh2ZQasXCRu0Qp2AyNNXX4MEOVI9Q1rc2W+4BGR
-	 +81eTFdP/bIhJaGDiF0ee3kFv6vHVg5+FS31611EL2tSpuUh/BkuI/IcwSiaMCKpSpzvv
-	 wJCRf98OYbNavhRgHIckzbfJT+ANn5Oie8k7QpWwcL+Du2N5L9URHFi0wQimUDeN2MM7u
-	 fZwHtQLKwhnZuqag6OV5v+qusiVT3j0QgO7PvKGjPGJVRjs5hPt81VvJtM8yN3e5qwvCZ
-	 AWn5AHpq9aOQgSh4sHY/UGtJk853aJjMhQx0j6kuZnBlE+Si+codGmcGBgLHxZbJofg==
+	t=1794065274;
+	b=s4Y0TbbcLKFZaDKuiuucKHd65CcAABBm++EwgjoE9kyA++09NCYm9aSFc2UbchdGIHjt
+	 pUGaAzbyz6bmTncW9RY/DU43xG6AfatOaQFQbgJ+Amht+wU73hH/Sw8Ebjd57BlbcKGDI
+	 mUESZpi1yBwQXg+bjZc+6bOUqfJlWAKGlEgyUmhSmSZSDE2ESI+ePA+7Z/pc4HvqLUX5q
+	 8Qf+xbXVUKuWWlZ6rIcK1CbxQiMlHpP4NSHB9a++NX2nPvOx/o8fDIBKcXfnaPQHiovxr
+	 5x0J4k3yoLkaKK/7qg9F5UuQ/t7breAAINXcMlT9ItQkYYLlYKvEN36dOFS46Y6VLEw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794059857;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=bof9tUcTOZBXMkDJCDfY6C3YrCB7UvJznTngHIBFOlg=;
-	b=BH4YPKiZZAVr8hCbaNI8CTCwWBDjkzZ6AORHz1omNCkcaqriMNjw3R4PpmN9+Mll/g3m
-	 FCUIMVqbCc5B31OSIPLsovGrrJJtkQeYL6KYMn5x8THTDr0rBNdZq3lJ+acOJDbrfJQG2
-	 DJ2Z1k9V6BI7B0eLk6awnobV3MSSbx0yPT1SCAlNmb8HmE12OudZxm4BYltpcMA2lcG9U
-	 LLaAzeplzI7DV5FeQ6COCNTbw5bvLILx56m9p/6N6lSdSVEzYKK1SNgnsMFmXsliqoOcK
-	 f9MYJFSLzfKWUsWKlWBnJb5vZgLkrLKRJIXOJBMuM0A5sfw+/TJ6BGf8/7Y4vfAmldQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794065274;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=Ph2t4knCJOyucU1WzKS5xblnUdrZ8Cbp0nWPL8wGjTU=;
+	b=gIxIohLzwO+gE9gm2ym4Co7A9Cnq+fshJiWGGg5Z2pFVtltjraXLFHJ27i8DGiuQGeXx
+	 m4XYd1x3iH6her7qGf2AYGNogZrLgtyVgWBFWFFK1A78rM+RfSMRXfdO8kQQE7dfB9dgv
+	 IlqS1DuJHCGM7YPVzRRZnsc/Pc4+hJ5l6z9XeGf/pS9J250XFy3tus6wIatsW1PA1PH93
+	 qNxLh9RodynwvOAva68TdoQGFJUDy3co36vxnZ9Q15HBc2kdZDeEzQQcqlkwTxZD3MzWM
+	 9fuQNhZiNgrklflGAgvuvqG44ejkvV3OyaJS9YkQQcQc+h1KN7KN3XrMLp5s4fkkdFQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	arc=none smtp.remote-ip=91.218.175.52
-Received: from mta0.migadu.com (out-52.mta0.migadu.com [91.218.175.52])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QlEK02+Z;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 395ED606A337
-	for <linux-fsdevel@vger.kernel.org>; Sat,  7 Nov 2026 13:57:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 395ED606A337
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=a4WQjTS9cLmNAnAJkm3u/yMKK8cVrEp4RpmNfDVq90s=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794059853; v=1; x=1794664653;
- b=lJxfz6F4qBNSR5tFla7gLu8C60Ut8j6sNhgl36PjYrBesekcQ460PWTFUBZKJBTXlOb167Cz
- EYAxD+DU/YXTiDp0v0C46KCq/hhwcfZgC5Q+E2SOBt3QwWyB+hXy5CTC+iuQKMFnn9NMW+C4It5
- ILQjSrkCXaBdr5OGpjI70qJg=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by mta12.migadu.com with ESMTPS id bb1f088a7420c55f;
-	Sat, 07 Nov 2026 13:57:32 +0000
-X-Mizu-Trace-ID: bb1f088a7420c55f
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <fd7ed305-6192-46e8-a5bb-cc1ed8f12f74@linux.dev>
-Date: Sat, 7 Nov 2026 21:57:02 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBA58606A326;
+	Sat,  7 Nov 2026 15:27:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QlEK02+Z
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 159EA1F0089F;
+	Sat,  7 Nov 2026 15:27:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794065273;
+	bh=Ph2t4knCJOyucU1WzKS5xblnUdrZ8Cbp0nWPL8wGjTU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=QlEK02+ZHmhnxP31ehAeA2Juadksl6+HcJm1iqoMA/FBqYvha/Oe+18fvSZzPcgjL
+	 lxlq1zOl+sNyMeJJ1HYCSiFBebHo3ktJYiW95XW6a7OIQrjWbTAYLRXH4V0L3P9R3d
+	 EbnQBatdHYDew1aO5p5Vkx6qTEv5hq9IGSDvu18jviNrZwoNtqKTzNIRXrkkxPIwn3
+	 HW+vDh7J2VBZhYT5jQKOzcj1u5snXjmQy0KRwfmJ+7RD4xyNfT1thuW9L5WQpBJzN5
+	 Fw+tyIOAy8gYj56IUuYsM1ElORAv6btJqLxuLDHgVj4+KYb6KRM0WP/x2SBeSug8Je
+	 JBqbj+8mU78KQ==
+Date: Sat, 7 Nov 2026 16:27:39 +0100
+From: Joel Granados <joel.granados@kernel.org>
+To: Wen Yang <wen.yang@linux.dev>
+Cc: David Laight <david.laight.linux@gmail.com>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 00/39] sysctl: replace overloaded extra pointers with
+ typed bounds and context
+Message-ID: <au85ISJ2qUsB7y-6@hobbes>
+References: <cover.1793204511.git.wen.yang@linux.dev>
+ <20261029105837.2f8bee67@pumpkin>
+ <0316f664-d98c-43be-92af-13c30436727a@linux.dev>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -55,99 +59,164 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mm/list_lru: Account node removals in isolation helpers
-To: Johannes Weiner <hannes@cmpxchg.org>, Dave Chinner <dgc@kernel.org>
-Cc: gregkh@linuxfoundation.org, arve@android.com, tkjos@android.com,
- brauner@kernel.org, cmllamas@google.com, aliceryhl@google.com,
- nat@pixelcluster.dev, arunpravin.paneerselvam@amd.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, viro@zeniv.linux.org.uk,
- agruenba@redhat.com, trondmy@kernel.org, anna@kernel.org, cel@kernel.org,
- jlayton@kernel.org, cem@kernel.org, akpm@linux-foundation.org,
- david@fromorbit.com, david@kernel.org, hughd@google.com, yosry@kernel.org,
- nphamcs@gmail.com, matthew.auld@intel.com, matthew.brost@intel.com,
- thomas.hellstrom@linux.intel.com, jack@suse.cz, neil@brown.name,
- okorniev@redhat.com, Dai.Ngo@oracle.com, tom@talpey.com, qi.zheng@linux.dev,
- roman.gushchin@linux.dev, muchun.song@linux.dev, ziy@nvidia.com,
- baolin.wang@linux.alibaba.com, liam@infradead.org, nico.pache@linux.dev,
- ryan.roberts@arm.com, dev.jain@arm.com, baohua@kernel.org,
- lance.yang@linux.dev, usama.arif@linux.dev, kas@kernel.org,
- mhocko@kernel.org, shakeel.butt@linux.dev, ljs@kernel.org,
- kasong@tencent.com, axelrasmussen@google.com, yuanchu@google.com,
- weixugc@google.com, baoquan.he@linux.dev, chengming.zhou@linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-fsdevel@vger.kernel.org, gfs2@lists.linux.dev,
- linux-nfs@vger.kernel.org, linux-xfs@vger.kernel.org, linux-mm@kvack.org,
- Kaitao Cheng <chengkaitao@kylinos.cn>
-References: <20261103045053.59548-1-kaitao.cheng@linux.dev>
- <aupITfr9pBKPrU20@dread> <au3eyCrHiuhbJx3u@cmpxchg.org>
-From: Kaitao Cheng <kaitao.cheng@linux.dev>
-In-Reply-To: <au3eyCrHiuhbJx3u@cmpxchg.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="izytb5obkgwh663k"
+Content-Disposition: inline
+In-Reply-To: <0316f664-d98c-43be-92af-13c30436727a@linux.dev>
 
-在 2026/11/6 22:06, Johannes Weiner 写道:
-> On Wed, Nov 04, 2026 at 07:47:09AM +1100, Dave Chinner wrote:
->> On Tue, Nov 03, 2026 at 12:50:53PM +0800, Kaitao Cheng wrote:
->>> From: Kaitao Cheng <chengkaitao@kylinos.cn>
->>>
->>> Successful writeback calls zswap_entry_free(), which removes the entry
->>> from the LRU and decrements both the sublist and node item counts.
->>> shrink_memcg_cb() then returns LRU_REMOVED_RETRY, causing the LRU walker
->>> to decrement the node count again.
->>>
->>> The affected call path before this change is:
->>>
->>>   __list_lru_walk_one()
->>>     shrink_memcg_cb()
->>>       zswap_writeback_entry()
->>>         zswap_entry_free()
->>>           zswap_lru_del()
->>>             list_lru_del()
->>>               __list_lru_del()
->>>                 atomic_long_dec()  /* first node count decrement */
->>>       return LRU_REMOVED_RETRY
->>>     atomic_long_dec()              /* second node count decrement */
->>
->> That's a bug in the zswap code. You shouldn't be calling
->> list_lru_del() from __list_lru_walk_one() context.
-> 
-> Grr, Kaitao you dropped the wrong thing that I thought had merit in my
-> proposal...
-> 
-> Dave, would you mind taking a look at my patch at
-> https://lore.kernel.org/all/auJkvb-Lq0M5Enkz@cmpxchg.org/?
-> 
-> Ignore zswap for a second. I know it has problems. Most of it stems
-> from the fact that we rely on the swap locking and do none of our own
-> locking/lifetime on the zswap entry. As a result we work around it in
-> odd ways. Sorry, you didn't ask :-) That's worth revisiting, although
-> it's likely more invasive work.
-> 
-> The observation that led to the patch above was a much simpler one:
-> since we now have the caller-locked __list_lru_del() anyway, the only
-> difference between that and the list_lru_isolate* is the
-> accounting. The patch is about one thing: removing the isolate helpers
-> entirely. There is then simply one tool for caller-locked list
-> unlinking, __list_lru_del(). It removes an avoidable distinction,
-> shrinks the API surface, makes it harder to screw up.
 
-I don't think replacing EXPORT_SYMBOL_GPL(list_lru_isolate) with
-EXPORT_SYMBOL_GPL(__list_lru_del) makes much difference by itself.
-The only reason I kept list_lru_isolate() in the current version
-is to avoid passing an additional parameter (nid) to the isolate
-callbacks.
+--izytb5obkgwh663k
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [RFC PATCH 00/39] sysctl: replace overloaded extra pointers with
+ typed bounds and context
+MIME-Version: 1.0
 
-I don't have a strong preference for the current approach. If we
-can reach a consensus, I'd be happy to send v3 with the proposed
-changes.
+On Mon, Nov 02, 2026 at 11:40:40PM +0800, Wen Yang wrote:
+>=20
+>=20
+> On 10/29/26 18:58, David Laight wrote:
+> > On Thu, 29 Oct 2026 00:34:39 +0800
+> > wen.yang@linux.dev wrote:
+> >=20
+> > > From: Wen Yang <wen.yang@linux.dev>
+> > >=20
+> > > struct ctl_table describes an entry with data, maxlen and, until this
+> > > series, two untyped misc pointers in extra1 and extra2. Those two poi=
+nters
+> > > have accumulated at least seven unrelated jobs: a fixed bound, a boun=
+d read
+> > > through a pointer on every call, an object or namespace pointer, a sm=
+all
+> > > integer cookie encoded into the pointer, a lock signal, NULL standing=
+ for
+> > > "no bound", and a value the core itself casts to unsigned int while
+> > > validating a u8 range. Nothing in the entry says which job applies, so
+> > > readers infer it from the handler, and the core gets it wrong where it
+> > > treats extra1 as an unsigned int.
+<--- snip --->
+> > > (~574 new min/max initializers) instead of pointing at constants. The
+> > > sysctl ABI is unchanged; the parport spintime minimum is corrected as
+> > > described above.
+> > >=20
+> > > The cost is 8 bytes per ctl_table entry on 64-bit (56 -> 64) and 4 by=
+tes on
+> > > 32-bit, because priv is appended; the range read path gains no indire=
+ction
+> > > and the migrated entries no longer dereference a bound pointer.
+> >=20
+> > Can you remove the little-used 'priv' parameter by making the extra
+> > information just follow the table entry (nested structure) and have
+> > the relevant functions use container_of() to get the outer structure
+> > and extra values?
+> >=20
+>=20
+>=20
+> Hi David, Hi Joel,
+>=20
+> I reworked the context side of the series so that priv is gone entirely;
+> and the final tree has no per-entry context pointer.
+> A small helper recovers the enclosing object, but it needs the slot
+> index from the caller:
+>=20
+>   #define sysctl_table_container(entry, type, member, index) ({       \
+>           static_assert(__same_type(*(entry),                         \
+>                                     typeof_member(type, member[0])),  \
+>                         "pointer type mismatch");                     \
+>           (type *)((void *)(entry) - offsetof(type, member) -         \
+>                    (size_t)(index) * sizeof(*(entry)));               \
+>   })
+>=20
+> The reason plain container_of() is not enough is that the core keeps the
+> table as a contiguous array.  For
+>=20
+>   struct addrconf_sysctl_table {
+>           struct addrconf_sysctl_ctx context;
+>           struct ctl_table table[];
+>   };
+>=20
+> the handler receives an interior entry, and
+>=20
+>   container_of(ctl, struct addrconf_sysctl_table, table)
+>       =3D=3D (char *)outer + index * sizeof(struct ctl_table)
+>=20
+> for ctl =3D=3D &outer->table[index].  It only returns the outer object for
+> index 0.  Passing the index explicitly keeps the original registered
+> entry usable:
+>=20
+>   static int addrconf_sysctl_forward(const struct ctl_table *ctl, ...)
+>   {
+>           struct addrconf_sysctl_table *t =3D
+>                   sysctl_table_container(ctl, struct addrconf_sysctl_tabl=
+e,
+>                                          table, ADDRCONF_SYSCTL_FORWARDIN=
+G);
+>           const struct addrconf_sysctl_ctx *ctx =3D &t->context;
+>           ...
+>   }
+>=20
+> Shared handlers get one wrapper per slot; the common body does not need
+> to know its position:
+>=20
+>   #define DEVINET_CONF_WRAPPER(attr)                                  \
+>   static int devinet_conf_##attr(const struct ctl_table *ctl, ...)    \
+>   {                                                                   \
+>           struct devinet_sysctl_table *t =3D                            \
+>                   sysctl_table_container(ctl,                         \
+>                           struct devinet_sysctl_table, devinet_vars,  \
+>                           IPV4_DEVCONF_##attr - 1);                   \
+>           return devinet_conf_proc_common(ctl, &t->context, ...);     \
+>   }
 
-> The zswap weirdness made me look at list_lru. Consider it a stress
-> test from idiotic code :-) But I would propose the list_lru
-> simplification for its own sake, regardless of what we do with zswap.
+Two questions before seeing the actual implementation of this.
 
--- 
-Thanks
-Kaitao Cheng
+1. This means that we will have to add more macros to the sysctl
+   callers? There is a clear signal in [1] against overuse of macros.
+2. I understand that you are doing this to avoid having priv. Is it to
+   save memory?  Yes. priv is a void* and we are also trying to get rid
+   of these. But this changes removes the use of two void pointers and
+   replaces it with just one.
 
+Best
+
+[1] https://lore.kernel.org/CAHk-=3DwjUmLrJd4KM4xvJHUN4P0r8oSu5LyvG4Jipnhxi=
+zBrE9Q@mail.gmail.com
+>=20
+> Single-entry tables simply use slot 0:
+>=20
+>   struct devinet_forward_table *t =3D
+>           sysctl_table_container(ctl, struct devinet_forward_table, table,
+> 0);
+>=20
+>=20
+> The series is 20 commits over 134 files, with no priv at any point.  If
+> you would prefer a different shape for the helper or the wrappers, I am
+> happy to adjust it.
+>=20
+>=20
+> Thanks,
+> Wen
+>=20
+> > David
+> >=20
+
+--izytb5obkgwh663k
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmrvQ2QACgkQupfNUreW
+QU8nhgv/bOtQvxtZIW9FR4G5+avco51TQR3Rx2Cb+L6Hb2JDt4cm1xIGlE4DzoZC
+AqwnuTVyvHXmSTZ14YXgUPtgnB6bdfMq+uXX3wuIP/wflX3WknrpcQst2lznVje7
+tgXZvBiIULte8LblHlXULFm+Jrp5zJmWN9U4HU8LqJ1rieZrin5J93c/9362gU7z
+xHQdFjwKYbUVaYsVb2bwvhdm/Q+6Y0HhqaSEV3HrV3IuyPoqqWpLkg3Rkn2EgQt2
+pYea7y2PGh9B414D/mTFU2VV/lUYHxLwMAm7Zk10T3GSDU5ts8/Vg776koYnnVlM
+gXjvj0KazVj4y8nHD6NbrHqQ8tnEUldj8QoJ3R26WJhCPUCYzFQA6I5dbLOlj/1/
+jPhgJJ/3YpQY9vF3R7X0Lx35D5V2tSnPoVreWAk+cZQ6P+fRYYRTivDO4Hh6qlyc
+jANi09hOu2gJYeSVlzYOZBsXu87rIbC02Lsgu99zvXC64g517ryvsvgmwm8bPuzv
+cEFzHXHX
+=NJK7
+-----END PGP SIGNATURE-----
+
+--izytb5obkgwh663k--
