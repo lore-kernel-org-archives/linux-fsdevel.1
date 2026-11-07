@@ -1,51 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794055689;
-	b=bUndkCJR/HCBYFaBZa5ESZ7lYCcr96561mSDgvIBYErI8IKpp+b2x/mGQ1oFDiwHGaSp
-	 FSwYVpvDUk/FQKca25RDFSSVE6xootPbJq8t3tmoZ9G8z2gOfG6C73anFSCAHyFm7u6RG
-	 7ZLKqiiOaZeGRoAI1DE1bwRkfJ8kQujr8DyXVUd0TdaSuLpmEZT51Ulxe+qLendJZnvTy
-	 5AhD5EVdWwOpLjLMDIZ+cBGB6XuHWbXpoz4KAwdgdBEDH57ULbPYYz8OY/ctYvqciNGAB
-	 YwDY1U4GGQM6hnXV6hZF2WMeorW9rgNsT2yNlZYzs9r+L9jdny0v9H6yPmjR/lVtlzQ==
+	t=1794055693;
+	b=mNn+0c/Zmet9ohpLErSUbdWpuEUA3sPhiC8Qv8axK9mTVJTFUonbe4WQZMb1zl7Bl/MZ
+	 W7qefyqeXHjPd+s7Wv8tTIBtYIJOlMQm0mUEMajIsm9YgZUeAZR3kPiP8JZ1KWDs7+r09
+	 OiIj8uSEqz1W9sManypspkiQTT6GZwiUFSgBheYKOjbgc/Odz7UpOIpSTWKjvtNmUbB9Z
+	 MuMwNZR+yHemQ6mBFnta3yfzoGm1UwzJOovfwa3Mix+qy39XbcgbJ5CYKcNwWjGi4JfyI
+	 eOABWOGPRiBMa66Zi5higr8eqolH6e78sQBLCFq9oa/eAtJkaldJBtljyAQzhCjpH0w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794055689;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794055693;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:X-Mailer:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=Pun/VuY3YbJ3LaWu9ImgdYcUCB+ElVWwFaZHdU3fk4c=;
-	b=y6/nA34Zg+C43S5WD+5Te7Ic3GEwAnO08AVBZTrKnRE1COoK9Xj/q3czJ+5B0pDNMxw5
-	 YjrKunkVtgujJ+M1OtmyiR/u40Xk14qBrM8z0jjFcMc7B5WwdrP6es+BIZfUU1zjQY+Li
-	 GTru7nAJymeGgbtqITDlpW6WqcBXwdY69RnKtKbi7uIoxGkTD8XyGT+h54jvX7DKO9vY7
-	 PrQFyCXS60/NLiw9MF3Z17VDKduKwEo2vI3PPftCPupKW13XxLUVRfoYsauh7hpdSjIB0
-	 SJrE+5K1wSdMjpxiW32vBCyhF1W0drUxYER+jWSP/4dBSsBPe3o2VH8blOK7dtkqNtA==
+	bh=UHRNEo+MufxeruDRrXBT7cWXvWTfIDovfED8u3ael6Q=;
+	b=nCuguwxfEGKFB4R3qgMBceeUhcBJMxu8vGbL1sJ/t6k90/iEXCSCDGDIXsLz53Q7of2+
+	 Px6EsNYHtsWCHEKd1ofxK+C0coHWuMjBqMAqszhW+/NG+u41P7zjRIjMEILq/TyJz6cHa
+	 9M2l5QAwPt2D48U1A+0LvST3Gocie6XHVOGr88bdPnduoedJOX2iIwLGwWFYsCfoZrjAV
+	 BUrnJi8m6m/fc3+rd5dUfrZ7rXjEhwE/hFpnbJN6Xkx6TpNBrCShj/qtDiHHQ18mx0GuD
+	 HO2IJhLi/CyE/4hZBrEl4hq2A79RcgMFG9jBbfQV+cs391wZXUtcRIBOYkdYBx63A3Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Nt8zcmDu;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XcyIk7bC;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AFAF606A32C;
-	Sat,  7 Nov 2026 12:48:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 735DD606A326;
+	Sat,  7 Nov 2026 12:48:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Nt8zcmDu
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC6E91F0089F;
-	Sat,  7 Nov 2026 12:48:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XcyIk7bC
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5D561F0089F;
+	Sat,  7 Nov 2026 12:48:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794055689;
-	bh=Pun/VuY3YbJ3LaWu9ImgdYcUCB+ElVWwFaZHdU3fk4c=;
+	s=k20260515; t=1794055693;
+	bh=UHRNEo+MufxeruDRrXBT7cWXvWTfIDovfED8u3ael6Q=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Nt8zcmDuczusyqPfuqthY38zj+rzi5aj8PpmfSLv/eZXk5Vd4mR0ncs964SqySSv6
-	 uDP6I1lOX4Gu2RKNYZ88FYZlOsN8Gu0P01XTOxhq8rI11ArfEKK4T03OVe0Wx5sEuN
-	 O9fL1BuX1uUn0reZokxC0mo9gda1TURuV7dGIAIF9CPZHtc8KxkJzxT5DPdZtPVp9q
-	 3iMyn3BwpdzjB4o2FQh5Txx2WvsF/AH2evtS5rp6wvaV1FyCedof7WAM+twZEe7UBn
-	 Wl8Ijy90Z0F+QUjk1d2ommyuWLF4ZLoD2Mu3y0L4+NDwSGeSD8mh0w+6dh1sY/PkAV
-	 yLqQ8TG8D/pEw==
-Date: Sat, 7 Nov 2026 13:48:06 +0100
+	b=XcyIk7bC2YKu6AULlp9Tr2M7CZ2JQuAjKylq4lMxi2UuDJm8tuNmH0tIu48fW5INb
+	 dpK8llJXxPsofpDojPrdd7hAxqDOWuWNO5xndGMbEOvDkN2C6wcBlE97aM7zQmj8yY
+	 IpFakfG4FFyNAVm+L0R0oc1Mf/1SRpAf28owj4J1PsSFiQfKG2PcIa+ZVxUG5hZjGT
+	 Mpfq5AvjFMLpQIPvG7xvmzR9ZeuoY7ZN9mcIggLA2DC9KiSFisZGwBRb+mC163ioL0
+	 LfkMyyq0ufFqiPfAhuFHRGYH8Qn4TH+RGLtaX71TKpxmvhcYJJyC3z4buZWIo4NRIH
+	 Z95yCTcYfxsnA==
+Date: Sat, 7 Nov 2026 13:48:10 +0100
 From: Alejandro Colomar <alx@kernel.org>
 To: linux-man@vger.kernel.org
 Cc: Alejandro Colomar <alx@kernel.org>, aalbersh@kernel.org, 
 	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: [RFC v2 5/8] man/man2/open_tree.2: Refer to at(2)
-Message-ID: <4e8ce7b9cf9dd32623ab15735a88b393b5e8af0a.1794055492.git.alx@kernel.org>
+Subject: [RFC v2 6/8] man/man2/rename.2: Refer to at(2)
+Message-ID: <8a5ac3f93ba5d2e70cb6fe94c6f5efb9ae44d4fc.1794055492.git.alx@kernel.org>
 X-Mailer: git-send-email 2.55.0
 References: <c93cb32f5d7f4473bdf51465037f1a010348b705.1792776993.git.alx@kernel.org>
  <cover.1794055492.git.alx@kernel.org>
@@ -59,12 +59,12 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ejazxmlhhc6c7nho"
+	protocol="application/pgp-signature"; boundary="b6vw45tq6ds5xc6v"
 Content-Disposition: inline
 In-Reply-To: <cover.1794055492.git.alx@kernel.org>
 
 
---ejazxmlhhc6c7nho
+--b6vw45tq6ds5xc6v
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
@@ -72,8 +72,8 @@ From: Alejandro Colomar <alx@kernel.org>
 To: linux-man@vger.kernel.org
 Cc: Alejandro Colomar <alx@kernel.org>, aalbersh@kernel.org, 
 	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: [RFC v2 5/8] man/man2/open_tree.2: Refer to at(2)
-Message-ID: <4e8ce7b9cf9dd32623ab15735a88b393b5e8af0a.1794055492.git.alx@kernel.org>
+Subject: [RFC v2 6/8] man/man2/rename.2: Refer to at(2)
+Message-ID: <8a5ac3f93ba5d2e70cb6fe94c6f5efb9ae44d4fc.1794055492.git.alx@kernel.org>
 References: <c93cb32f5d7f4473bdf51465037f1a010348b705.1792776993.git.alx@kernel.org>
  <cover.1794055492.git.alx@kernel.org>
 MIME-Version: 1.0
@@ -81,242 +81,161 @@ In-Reply-To: <cover.1794055492.git.alx@kernel.org>
 
 Signed-off-by: Alejandro Colomar <alx@kernel.org>
 ---
- man/man2/open_tree.2 | 168 +++----------------------------------------
- 1 file changed, 8 insertions(+), 160 deletions(-)
+ man/man2/rename.2 | 84 +++--------------------------------------------
+ 1 file changed, 5 insertions(+), 79 deletions(-)
 
-diff --git a/man/man2/open_tree.2 b/man/man2/open_tree.2
-index 3e587f7be14b..9afca6ef91a2 100644
---- a/man/man2/open_tree.2
-+++ b/man/man2/open_tree.2
-@@ -115,110 +115,17 @@ .SH DESCRIPTION
- is included in
- .IR flags .
+diff --git a/man/man2/rename.2 b/man/man2/rename.2
+index 7e5c02797230..87f49ba851d7 100644
+--- a/man/man2/rename.2
++++ b/man/man2/rename.2
+@@ -16,10 +16,6 @@ .SH SYNOPSIS
+ .B #include <stdio.h>
  .P
--As with "*at()" system calls,
--.BR open_tree ()
--uses the
--.I dirfd
--argument in conjunction with the
--.I path
--argument to determine the path to operate on, as follows:
--.IP \[bu] 3
+ .BI "int rename(const char *" oldpath ", const char *" newpath );
+-.P
+-.BR "#include <fcntl.h>           " "/* Definition of " AT_* " constants *=
+/"
+-.B #include <stdio.h>
+-.P
+ .BI "int renameat(int " olddirfd ", const char *" oldpath ,
+ .BI "             int " newdirfd ", const char *" newpath );
+ .BI "int renameat2(int " olddirfd ", const char *" oldpath ,
+@@ -96,52 +92,10 @@ .SH DESCRIPTION
+ .I newpath
+ refers to a symbolic link, the link will be overwritten.
+ .SS renameat()
+-The
++The file descriptor and path arguments of
+ .BR renameat ()
+-system call operates in exactly the same way as
+-.BR rename (),
+-except for the differences described here.
+-.P
 -If the pathname given in
--.I path
--is absolute, then
--.I dirfd
--is ignored.
--.IP \[bu]
--If the pathname given in
--.I path
--is relative and
--.I dirfd
--is the special value
--.BR \%AT_FDCWD ,
--then
--.I path
--is interpreted relative to
--the current working directory
--of the calling process (like
--.BR open (2)).
--.IP \[bu]
--If the pathname given in
--.I path
--is relative,
--then it is interpreted relative to
--the directory referred to by the file descriptor
--.I dirfd
--(rather than relative to
--the current working directory
--of the calling process,
--as is done by
--.BR open (2)
+-.I oldpath
+-is relative, then it is interpreted relative to the directory
+-referred to by the file descriptor
+-.I olddirfd
+-(rather than relative to the current working directory of
+-the calling process, as is done by
+-.BR rename ()
 -for a relative pathname).
--In this case,
--.I dirfd
--must be a directory
--that was opened for reading
--.RB ( \%O_RDONLY )
--or using the
--.B O_PATH
--flag.
--.IP \[bu]
+-.P
 -If
--.I path
--is an empty string,
-+.IR dirfd ,
-+.IR path ,
- and
- .I flags
--contains
--.BR \%AT_EMPTY_PATH ,
--then the file descriptor
--.I dirfd
--is operated on directly.
--In this case,
--.I dirfd
--may refer to any type of file,
--not just a directory.
+-.I oldpath
+-is relative and
+-.I olddirfd
+-is the special value
+-.BR AT_FDCWD ,
+-then
+-.I oldpath
+-is interpreted relative to the current working
+-directory of the calling process (like
+-.BR rename ()).
+-.P
+-If
+-.I oldpath
+-is absolute, then
+-.I olddirfd
+-is ignored.
+-.P
+-The interpretation of
+-.I newpath
+-is as for
+-.IR oldpath ,
+-except that a relative pathname is interpreted relative
+-to the directory referred to by the file descriptor
+-.IR newdirfd .
 -.P
 -See
 -.BR openat (2)
--for an explanation of why the
--.I dirfd
--argument is useful.
--.P
+-for an explanation of the need for
+-.BR renameat ().
 +are interpreted as specified in
-+.BR at (2),
-+but
- .I flags
--can be used to control aspects of the path lookup
--and properties of the returned file descriptor.
--A value for
--.I flags
--is constructed by bitwise ORing
--zero or more of the following constants:
-+accepts some more values:
- .RS
- .TP
--.B \%AT_EMPTY_PATH
--If
--.I path
--is an empty string, operate on the file referred to by
--.I dirfd
--(which may have been obtained from
--.BR open (2),
--.BR fsmount (2),
--or from another
--.BR open_tree ()
--call).
--In this case,
--.I dirfd
--may refer to any type of file, not just a directory.
--If
--.I dirfd
--is
--.BR \%AT_FDCWD ,
--.BR open_tree ()
--will operate on the current working directory
--of the calling process.
--This flag is Linux-specific;
--define
--.B \%_GNU_SOURCE
--to obtain its definition.
--.TP
- .B \%AT_NO_AUTOMOUNT
- Do not automount the terminal ("basename") component of
- .I path
-@@ -231,18 +138,6 @@ .SH DESCRIPTION
- .B \%_GNU_SOURCE
- to obtain its definition.
- .TP
--.B \%AT_SYMLINK_NOFOLLOW
--If
--.I path
--is a symbolic link, do not dereference it;
--instead,
--create either a handle to the link itself
--or a bind-mount of it.
--The resultant file descriptor is indistinguishable from one produced by
--.BR openat (2)
--with
--.BR \%O_PATH | O_NOFOLLLOW .
--.TP
- .B \%OPEN_TREE_CLOEXEC
- Set the close-on-exec
- .RB ( FD_CLOEXEC )
-@@ -404,21 +299,8 @@ .SH RETURN VALUE
++.BR at (2).
+ .SS renameat2()
+ .BR renameat2 ()
+ has an additional
+@@ -274,25 +228,20 @@ .SH RETURN VALUE
  .I errno
  is set to indicate the error.
  .SH ERRORS
--.TP
--.B EACCES
--Search permission is denied for one of the directories
--in the path prefix of
--.IR path .
--(See also
--.BR path_resolution (7).)
--.TP
--.B EBADF
--.I path
--is relative but
--.I dirfd
--is neither
--.B \%AT_FDCWD
--nor a valid file descriptor.
 +See
 +.BR at (2).
  .TP
- .B EFAULT
- .I path
-@@ -426,46 +308,12 @@ .SH ERRORS
- or a pointer to a location
- outside the calling process's accessible address space.
+ .B EACCES
+ Write permission is denied for the directory containing
+ .I oldpath
+ or
+ .IR newpath ,
+-or, search permission is denied for one of the directories
+-in the path prefix of
+-.I oldpath
+-or
+-.IR newpath ,
+ or
+ .I oldpath
+ is a directory and does not allow write permission (needed to update
+ the
+ .I ..
+ entry).
+-(See also
+-.BR path_resolution (7).)
  .TP
--.B EINVAL
--Invalid flag specified in
--.IR flags .
+ .B EBUSY
+ The rename fails because
+@@ -411,29 +360,6 @@ .SH ERRORS
+ even if the same filesystem is mounted on both.)
+ .P
+ The following additional errors can occur for
+-.BR renameat ()
+-and
+-.BR renameat2 ():
 -.TP
--.B ELOOP
--Too many symbolic links encountered when resolving
--.IR path .
--.TP
- .B EMFILE
- The calling process has too many open files to create more.
- .TP
--.B ENAMETOOLONG
--.I path
--is longer than
--.BR PATH_MAX .
--.TP
- .B ENFILE
- The system has too many open files to create more.
- .TP
--.B ENOENT
--A component of
--.I path
--does not exist, or is a dangling symbolic link.
--.TP
--.B ENOENT
--.I path
--is an empty string, but
--.B AT_EMPTY_PATH
--is not specified in
--.IR flags .
+-.B EBADF
+-.I oldpath
+-.RI ( newpath )
+-is relative but
+-.I olddirfd
+-.RI ( newdirfd )
+-is not a valid file descriptor.
 -.TP
 -.B ENOTDIR
--A component of the path prefix of
--.I path
--is not a directory, or
--.I path
+-.I oldpath
 -is relative and
--.I dirfd
--is a file descriptor referring to a file other than a directory.
--.TP
- .B ENOSPC
- The "anonymous" mount namespace
- necessary to contain the
+-.I olddirfd
+-is a file descriptor referring to a file other than a directory;
+-or similar for
+-.I newpath
+-and
+-.I newdirfd
+-.P
+-The following additional errors can occur for
+ .BR renameat2 ():
+ .TP
+ .B EEXIST
 --=20
 2.55.0
 
 
---ejazxmlhhc6c7nho
+--b6vw45tq6ds5xc6v
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmrvHgUACgkQ64mZXMKQ
-wqkH/w//YzZZH84x7M3R2IHggNtvjCZgpxo4Qf672v9gownsI3qyItBLK75v5KDP
-CFc7n6H++HwoNVpvIlNXIAWK5LoKqPBEX5+RxbPIUmfZ59yYMcus5p5pbQRfVYJP
-EsyrUvqKuU+zNGGPhWpwJpZUCzbKgAn4KtaAgb7itnBdqOC3RnhQ6d4N+HiRFY++
-qGHpuem+980it9uFZ1aRUZfKa0dmdx4iNL+PZFBCyVgZXGIENonL4iTB7oREulCB
-qW1i/DkqHMVMO7lBR0dEZ+lIXiuNLDW0R3duwgzOBxvsQsEG+8idVIyeFHyBIKZ/
-R8o31l/aDyXNWH974sz2JXPCGMlLPGZ9jcG7UtY4oGstsaR9R3Qq4KremTb4Gf/v
-08Ewl1vTsSoEhmzYvqqiMH5AHyhFWVSPnZi5c6FmLLUY7jrglhiNg/Y24RzdIARB
-zXaGA0Bj+TYSMcarHoz4eqNDm0PXCsWamSLRG+zMaGnuCesLcmm4B83w8312kzYi
-N6qPkiQ5Thm1/34WCT//Lya39Do62aJFaCD5mxoo7tgJOLEusKKWTIczbIfV419p
-pd4Kp/fOxMxms1+Yz/SCvrpbRZYU+pS8xCPMR0gt3XAKfifZZtMbD1N+/LmJo2MS
-eSWSsQY+JVZGBMnBdTRZazRJ6YFS/gv9MII4gXvYFSmViSrrmfA=
-=rynI
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmrvHgkACgkQ64mZXMKQ
+wqnUCw/+J+n2h4IfQ7dZMCRY/8KylU4GqUF5GqgvP/ncFe/3BDWNSC3aUT+/bj7B
+KVeeFwuGGtqxls4MWhRozxdX1KpcVShXbrKjb5r/PpScITemArrcBzLlZw+aCx+M
+k0vpQ89ek+gXUJwy3mXfRICPP+kXGxYah56/a4aBApaiLGXhJoGcbPvpreVDfsIZ
+1NFWr8c1NpqFSaGGX/M8l3P9UTrpwDadanWVdx9iwCfmlBtjHqB+vsv8n05Jn2DK
+0kHPwPirCQoZ1oLOeBgdm97PZwsTymfPIG8fGBN2oJlJwZWYatcfSMG625S5lUmc
+ppn9IJ6xfhK/6gYwJXEd6HK9WGwAsyWzvyHlI/6C6qYv0tWhAUHzINGyED5IwuNa
++QSwJ139QYoTbqkVd42NxRAAC1xVt+ioNfc5WRd8yuUkRNaFy7E9zbgXEeyiD1xJ
+n/pGm0+6ZesvubUdJ892r3ZDS8ZW9dFN5uiEWp6ju0A0va4zfTwGTRFm2O2B/+fC
+S7TjMsL8TsqH1IK0QkYU8o9JqdXcGofckJ2tNRKAyY8PRdKKzB2lHpbdeE6Hf72x
+wK3MFXe6gkLFZTMEykaQv1dCznJU7gQvvOJc/0avZ9Pq+k8FMJF42c9AGX2BQ246
+S1CMfIr5j/rUhCYlVPdDvk4FMFVEvrneYMnxIiZKDbnW2qjUwyc=
+=RY/q
 -----END PGP SIGNATURE-----
 
---ejazxmlhhc6c7nho--
+--b6vw45tq6ds5xc6v--
