@@ -1,88 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.175
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794079199;
-	b=PTUT63gTF4auP8WXZcUkEXvK0qvxbIxdOQb2nN2pCVb3VDclFJOBwP62kBFFyOVB1C7Y
-	 hAc69drKtFZkX47F70sNpdfRh3FDxkztSX7o9l3v3e1/r5Xdn2QOCQTRASag3MG1EjMuf
-	 ahoesK80xRqQS0pG5G9wtoaRVGrhGjY8Be9E/x+ogPYM8Fl/4JZwF5OAD1G9y9FXnviZ6
-	 bZYDId8b05W1w9UKaOMwx9igWyKGFtfBk4L56ZsIImmyZirjsWoxngvZKXYhXVR7UzLpR
-	 7yzufbACp0j/+FqEIf4Ccvy2nvZCEL8dmxhVNJKy/iIwc+kEXDj22xXbnDm9Vgg8JtA==
+	t=1794079198;
+	b=0sQQPKP3733W2VbGbATDxGuDc7GricbDwCklSBUEw0Zz+CkKLoiUnuMX67cGfLCuAyPp
+	 Gpg8VPFQ0C8bgUcOmSwp3gVBbsb6us6ZtnVgGw890T3jcMvruXNaoCB+ujz+q33ZKfJbu
+	 Qo8thvYNChEEi6mzyyiNFtVm06UZoMNJRSHVZCbN1JwUVNNpP3budDPlptZPFiZnmaDVM
+	 we1sfGS7MsWCca84/uzDwpQUT1f7IWc3tnSRL2iek271JJ5xn43NxGLnCP00Z2Dqvg1q9
+	 gb903nupey+w54c+o+D4QR54bYZmFY8ZUcav/UM5Jz2LNSJ449PGd0vYhSOs+98XZPg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794079199;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794079198;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key;
-	bh=yyz+TCgoPL1RPM4ciC0T5BUQFlfpuuTjnTjdwz3J2B4=;
-	b=QnJXKF8YhDpr96rq6sBOAEpH5vM+c7NR45gNn5bDceK4wdfBng40NJX64jy51oH0xnbx
-	 qcIhQsSkZhzDthCUjefx7Fw4zIhcfJiu+XPy+DaLfswnKHKmTzN/wpCnuEvnsWtnROQ0y
-	 PWVja37kze4mYT2rR8iXWi9Pl61OG6zIz+JIcoKHNob7Y0CA7cdYzOuyEiLXMYK4S3QE/
-	 cZ7iw9rKJ9mDkVMG+Z50K1i0MzCLKOyGbLpiFTHB9vviMaBjxU4Q+dy7AWzJJ0ASaRJgT
-	 ENlvHhWbJnzTudPd2Gfo2umWzY+WRjhimPuAxTYJcqbIoCoTgvmiVd9S/Sq0ssuGjow==
+	bh=tSgquXwr/HzowPSw0CcNwelS2rBBKKasUYdOd6dLaGM=;
+	b=3xoKrSbOVDZuVhrDV+PnDu42MbIAtOj2j7YWeQtRRq7z8A0z6n/+l8xIcnE0CzzmgeGp
+	 m+zX5t6C2GsvRUZ2KSreaQ3zDjn7qsRD4Idptco2YnN3Ov4PTeUsndEu5/Uz4KwbqAllH
+	 w0xqbyBm89sKFQ8FoymM9WLyYRxUKVZ40S8XAsM3YWNIf7ko6hHR4tgFfFu2/JNxpGPyH
+	 LB8eWjHU/8eNb81fdrmJ9YlOW+FSBe9t3W3KeEnrEJkqjW/vOlALJsxuAkmxBRSJQhCiV
+	 64JZSk6FTb+YnrcRpd4KDUwtPWH34+BqotNru5h9PguyEZAO6GtBgbiBeNa65xweI4A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=toxicpanda.com;
 	spf=pass smtp.mailfrom=toxicpanda.com;
-	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=jhCXnqXt;
-	arc=none smtp.remote-ip=209.85.219.48
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=PCta5vgI;
+	arc=none smtp.remote-ip=209.85.160.175
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC6BD606D819
-	for <linux-fsdevel@vger.kernel.org>; Sat,  7 Nov 2026 19:19:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DC6BD606D819
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A643A606EE93
+	for <linux-fsdevel@vger.kernel.org>; Sat,  7 Nov 2026 19:19:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A643A606EE93
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=jhCXnqXt
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-91ccfb88e4dso19939266d6.0
-        for <linux-fsdevel@vger.kernel.org>; Sat, 07 Nov 2026 11:19:58 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=PCta5vgI
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-5364648ae07so64531cf.1
+        for <linux-fsdevel@vger.kernel.org>; Sat, 07 Nov 2026 11:19:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toxicpanda.com; s=google; t=1794079198; x=1794683998; darn=vger.kernel.org;
+        d=toxicpanda.com; s=google; t=1794079197; x=1794683997; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=yyz+TCgoPL1RPM4ciC0T5BUQFlfpuuTjnTjdwz3J2B4=;
-        b=jhCXnqXtZhNManQzhOa7bUYKsxRSop+m6mAKqX3CTlPMw/6n+c2JU5JU+Ai1GFr03Y
-         kHhPZECL8LDMAbXEeOkTbzJdinPCLwZM/1ftLYhk7U7c8Bx3u95Rb5qtlQ5Yj8u1UIHb
-         NM1H8ARt9yv0THG1UzcvA0jQior0s6qA2KgcJHZCC+Aa6ch4c3LRxBKDCIOCcwBBjr6Y
-         scgIH56KUiC/a24YXf9ZiuuaPoDdsSNDj2pg817FMMX2ZjO5cv+6T+t7gqdsD1PTgJQm
-         t1cywZDmtCKVGEx4pz1ypp1Bdif7UT1E4M96U5Eap8cwa6N8jZ29eXcHNOsrbNSCjYyC
-         iOow==
+        bh=tSgquXwr/HzowPSw0CcNwelS2rBBKKasUYdOd6dLaGM=;
+        b=PCta5vgIP4YfnO3iqVfYY9551bxqkklLPfWEZAy8L/8OsQQL+viixu32N+w5MRyBw+
+         CApjJtmaQcOblafdC0DZk8FKbQiooA9Oj9Oic6KS1K7MHdDJ0p1+EdzvqbN8mPbWJPJ/
+         mbRJTuONsMtM27cbMlHKA+rEG9oIg/f8Ak+mOamcPAUdpPjXHks0DP5oAKKOZWj/qXdF
+         ScVKqR7XqEegn3HZVmUN7V/cNm/w9evgeUl35GJu/bJ6ptH4CeT3b45AqC71Rt9eIwKe
+         R7IuqAEX3X7A4KyExNie0a4r+ShQKz8ViaU58cOR1r/KTYFTcvgnNn8BF/SjnMiVV6Ec
+         rCUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794079198; x=1794683998;
+        d=1e100.net; s=20260707; t=1794079197; x=1794683997;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=yyz+TCgoPL1RPM4ciC0T5BUQFlfpuuTjnTjdwz3J2B4=;
-        b=zg8025y+bXhdIt1Zi0IPQur57hsHl/bc7CIPEpoNbyVuv8DsJ+mk4UPDWWblhcGDJP
-         kUUj3eSDe3peJP7z3988dmcsSkAuFDedsxLAPNXmFbwACVGR3qLLzWgVmNqTeXy2F+eR
-         bjtJf9U9f0L4gxEOECoBg3lZIoPnU7BBr+NKWcxDWEYkQCUjRy5yIPY7t9scSCqq+o44
-         35Fe+XNfM+qzhzXq3WyEoUC1WYzwGIYrZEM5UzyW7waCQ/YgM+JUQR/33CmenxgqUXbS
-         uunYAm8VUSkKKORGwUyqJNNND6CfeKmORjLwp2M7hH4zObQ3FlfObxh9twwd2oV6GbTW
-         HrYg==
-X-Forwarded-Encrypted: i=1; AL+hErGL+8/NN44OR2GACWgFUUf6dLlQ2mltqyy/7H+JcoIN1biKCfFpbRKk/s0XtNifFQE5XOuPZHHzn/5HmHGi@vger.kernel.org
-X-Gm-Message-State: APuU4Z+ijp02tMIRTqJOzsv7AyWxf7XONousK1jWJFOtCoAKjWa14Eqd
-	HVEBWNUSQFEpH3oLgu4FSYTPo5+Vdu5RLuRS9LY4XxKEvtpJGMvsFYMuJ8/xjLLQgdU=
-X-Gm-Gg: AYBFou1T7kyHhA60Jz4tWfT/8Y/ow4Zj6GxyHCO5cYgTWEpnXetZh5de+jqUz+DVGei
-	JYpIksdqVLb76I0Zc7dkMNd1lqNZaxiE4+OVmvHcucPo/882kzVuvE++0dIzPBDOpxH1MFtSoAw
-	sNz4JWNNNscNtD9c75Saf3TONilRaCFodXboqYjlVfYuTgjROKuLBx6/cYwqIaP1ApP1OUKLwQ9
-	WiTMBl9JBEdYqcugAMeob1TX5C3M/FIwCTKQGwBZJ0YIo8y39BsNwQJoGKePymVT+jX7rFw5cCK
-	Nxc6YSfA0t2Z/7jxe2BJ7KRuk3nb8WTOHiAtlvqXq5Im+gSAeoRcheq3hSpQ35HLTp+SFMPZr9b
-	tOFHcHy36yBRy3JCCnP0UHthVJ/IWi2ShkgMXfg4dVKNjp7bAfQbyv7OGFbSYYW++fa4Aav2jyJ
-	wgBKSvN+SRZnI5pg/6XwVBW+RWt+qgCUW28APH/a9vhZnV0L2+8XvWnHvP+6xOn3HJ/mePThVEI
-	S6luvTHK05PlMcDE8nMBvnvSiWbgMgW9dzl++CpPb6+a7M/vONqbf29sDfY8zaG6lrrEfI4Vrhw
-	wD3xS5kbOgAWl1scpaQhnEgo8LuG7Uk97MX8RP3jbQfR75c=
-X-Received: by 2002:a05:6214:4302:b0:91e:81a3:d440 with SMTP id 6a1803df08f44-91ea96207b0mr83428466d6.16.1794079197856;
-        Sat, 07 Nov 2026 11:19:57 -0800 (PST)
-Received: from toxicpanda.com ([153.61.196.252])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91eceb56c90sm703446d6.3.2026.11.07.11.19.57
+        bh=tSgquXwr/HzowPSw0CcNwelS2rBBKKasUYdOd6dLaGM=;
+        b=zQpntSzRMcQvcsdUU0tt/9zM1NRUt7uFRGd3GXiVJ8F8N32RxOb1GdihbVYFddvRf5
+         MOqccoIDTFtxu7BNtE/BPKAZCUBnSTtSk1/A0OE/mDRWDpdDpUge212mMZz/1PTkJNU2
+         fMFYwIOHlYlIe8d/ADVeVl5jkXFKnVbJlBIeAt/351duQpPf2NzfM0aRuwjjapCqn4O7
+         5xKf8Fkvl5RIbIQtOpsBZsV3Zigcm6FnwC98+Xl231nB/BMtC0LZDytEYHncV0T95AWi
+         /WAUcRpRlKHsp3wn9NcsU1TOnKHflsuYZAH7/Ejn/L1hyoybFR4Db0yivtfzNSuqT+L+
+         VhVQ==
+X-Forwarded-Encrypted: i=1; AL+hErHj+wDqrxCd+TM2J8ukDztyOU3X2BMouP30ALLf3xZJ8qlqgS+M8fWMN+uxfyv+bE4jw1XnToBQqKzH/gP5@vger.kernel.org
+X-Gm-Message-State: APuU4Z9T0ivzFovo0b0B6azIQP9azFID92CRMaA/8xMigwlMUAcyIzjQ
+	DL7JVmUhnM519i6XPXOLD+lfL8q3ALJFR/FFoU41e7v2+dTTP5OrHwU6L4iikaOsK8o=
+X-Gm-Gg: AYBFou1vjC7mUHAYPfUyplTKGHV6/NamYQhxC6MH5COT28Kwtp3u7yLCgelMSpjW+Lc
+	80OKQoRp1MbWLOESwkzewyb3lyhOqD7ZRRkT60QJlR8oQ2OAPb1U6rFCSDmFCbe/sGJm6KMt14O
+	68CmYgRBAhNtGnfIY+53tlUHkxegNJRf8UgeIm/l3Yavbfzs5L6pAXFWNDhZJ66rDiRucsCxpYC
+	GN8lpCQfrkfpFgWmEiT4+0Gh/qAYIaqe4X/ouCSkiQtV3ENQ4nXM3/mMpHiGS6gr3q/UO8VtFwz
+	VRkumuclHHNx46QMTxsclugDP6lakzSc59ZeYPgfQJ4hbN2jOBEAK9/dBHj2Ccu/wYnAe1CcnGy
+	pGwcStSj37wvbG2340/HHE+KHYpcAVOncBqEf8H+FvfTpGJ6acyNtynwEJ/Z4BjiI3UgtGUxUmF
+	m9kMNXoxALK0WbsE6FU81l0o32bd+KAxHmp8OMWrEqXr4ucwWmhc4CTx030UWAKq6gWjQlO1DiW
+	GVF2d+pj5fd8IHjfVoOucDgE93HDMjbZARFiDETAqLaxlK8eBKZa/YcBk0fjTTMww+x3Yxt/+rt
+	Y6388tGELHjl7EeWioASvqWpS0xLutVIPwcNcK8br5+qog==
+X-Received: by 2002:a05:622a:8842:b0:536:91bf:b540 with SMTP id d75a77b69052e-54e1329addamr93105611cf.23.1794079196644;
+        Sat, 07 Nov 2026 11:19:56 -0800 (PST)
+Received: from toxicpanda.com ([153.61.196.251])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91ecedbefb2sm496736d6.17.2026.11.07.11.19.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Nov 2026 11:19:57 -0800 (PST)
+        Sat, 07 Nov 2026 11:19:55 -0800 (PST)
 From: Josef Bacik <josef@toxicpanda.com>
-Date: Sat, 07 Nov 2026 19:19:37 +0000
-Subject: [PATCH v5 8/8] ovl: implement containerized syncfs for overlayfs
+Date: Sat, 07 Nov 2026 19:19:36 +0000
+Subject: [PATCH v5 7/8] ovl: write the timestamps that lazytime defers
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -94,7 +94,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261107-b4-ovl-containerized-sync-v5-8-d34b4ae57fdf@toxicpanda.com>
+Message-Id: <20261107-b4-ovl-containerized-sync-v5-7-d34b4ae57fdf@toxicpanda.com>
 References: <20261107-b4-ovl-containerized-sync-v5-0-d34b4ae57fdf@toxicpanda.com>
 In-Reply-To: <20261107-b4-ovl-containerized-sync-v5-0-d34b4ae57fdf@toxicpanda.com>
 To: Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>, 
@@ -103,142 +103,142 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
  Christoph Hellwig <hch@infradead.org>, Chris Mason <mason@kernel.org>, 
  Chengguang Xu <cgxu519@mykernel.net>, linux-unionfs@vger.kernel.org, 
  linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Chengguang Xu <charliecgxu@tencent.com>, Josef Bacik <josef@toxicpanda.com>
+ Josef Bacik <josef@toxicpanda.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openssh-sha256; t=1794079181; l=4798;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1794079181; l=5521;
  i=josef@toxicpanda.com; h=from:subject:message-id;
- bh=Mk4AG64uyCvjs4ynhnVlu/B/QEf+yciM4nDTzhGVnWc=;
+ bh=9AHm45iPL9xMQ/MU/5eyp57lFw+X1sZFu/GzN0eYJ54=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgUBr36M/n0nWN0DNbnxwzIiCZez6MG
  JiruuNaSCI/zXsAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QNA5+8X0bIazjZwZW6M8RCBna/Vn2OUFAkR9UTevs/wu3GMie+PUgjx0lBBrfk+MhzafNWCor4e
- eiTTkZRplPwg=
+ QO6oQ6I4bXteBk+CKlPdvgdMOZ7FgA4dT/6hslZezUe6rhV+QwaC6fv/81Mq+wiyJBZC+MFJW8H
+ NI9xZHZeHEwU=
 X-Developer-Key: i=josef@toxicpanda.com; a=openssh;
  fpr=SHA256:C8kOX2QUJCMqnCX+KEeoqRAjLo9L+ELOSH2NSAJHqGA
 
-From: Chengguang Xu <charliecgxu@tencent.com>
+With lazytime on the upper filesystem new timestamps stay in memory for up
+to 12 hours, and syncfs() has to write them.  So the overlay inode must not
+become clean during that time, or syncfs() on the overlay would miss them.
+It should not stay dirty for that long either, because the flusher would
+visit it on every pass and it could not be reclaimed.
 
-Now overlayfs can only sync own dirty inodes during syncfs,
-so remove unnecessary sync_filesystem() on upper file system.
+When overlayfs writes an upper inode, or looks at it in ->write_inode(),
+and it has deferred timestamps, hand them to the upper filesystem.  They
+go out with that write, or with the next pass of the flusher of the upper
+filesystem, and the overlay inode becomes clean after that.
 
-Do that with fsync=relaxed only.  Call sync_fs_and_bdev() on the upper
-filesystem instead, which is what sync_filesystem() does after it has
-written the inodes.  Do the same for a read-only remount.
+This takes the benefit of lazytime away from inodes that are modified or
+read through an overlay with fsync=relaxed.  The flusher looks at the inode
+of a file that is open for writing up to every 5 seconds.
 
-The root inode of an overlay is not hashed and cannot be on a dirty list,
-so write its upper inode every time.
+A syncfs() that meets a freeze of the upper filesystem leaves the
+timestamps to the freeze.  One that meets a read-only remount of it that
+fails leaves them to the next pass.
 
-Upper inodes that have no overlay inode, like whiteouts and the work
-directories, are not tracked.  It is up to ->sync_fs() and the block device
-to get them to disk.  ext4, xfs and btrfs log all metadata, and ext4
-without a journal keeps it in the buffers of the block device.
-
-With many containers on one upper filesystem, stopping one of them no
-longer writes out the dirty data of all the others.
-
-Signed-off-by: Chengguang Xu <charliecgxu@tencent.com>
-[josef: everything after the first paragraph, no wait_sb_inodes() on the
- upper filesystem]
 Signed-off-by: Josef Bacik <josef@toxicpanda.com>
 ---
- Documentation/filesystems/overlayfs.rst |  2 +-
- fs/overlayfs/params.c                   | 14 +++----------
- fs/overlayfs/super.c                    | 36 +++++++++++++++++++++++++--------
- 3 files changed, 32 insertions(+), 20 deletions(-)
+ fs/overlayfs/overlayfs.h |  1 +
+ fs/overlayfs/super.c     | 10 +++++++---
+ fs/overlayfs/util.c      | 29 +++++++++++++++++++++++++++++
+ 3 files changed, 37 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/filesystems/overlayfs.rst b/Documentation/filesystems/overlayfs.rst
-index 1a59500834a1..34fc4e6f8a84 100644
---- a/Documentation/filesystems/overlayfs.rst
-+++ b/Documentation/filesystems/overlayfs.rst
-@@ -830,7 +830,7 @@ Traditionally, syncfs(2) and unmount of an overlay sync the entire upper
- filesystem, including the dirty data of other overlays that share it.
- Overlayfs can be told to only write back the files that were modified
- through the overlay, and then ask the upper filesystem to commit its
--metadata.
-+metadata and write its block device.
+diff --git a/fs/overlayfs/overlayfs.h b/fs/overlayfs/overlayfs.h
+index 1d7b102a1127..676520ff026f 100644
+--- a/fs/overlayfs/overlayfs.h
++++ b/fs/overlayfs/overlayfs.h
+@@ -523,6 +523,7 @@ enum ovl_write_mode {
+ 	OVL_WRITE_COMMIT,
+ };
  
- On traditional local filesystems with a single journal (e.g. ext4, xfs),
- fsync on a file also persists the parent directory changes, because they
-diff --git a/fs/overlayfs/params.c b/fs/overlayfs/params.c
-index 549fc1e83ac9..6de99e79eb6b 100644
---- a/fs/overlayfs/params.c
-+++ b/fs/overlayfs/params.c
-@@ -774,22 +774,14 @@ static int ovl_reconfigure(struct fs_context *fc)
- {
- 	struct super_block *sb = fc->root->d_sb;
- 	struct ovl_fs *ofs = OVL_FS(sb);
--	struct super_block *upper_sb;
--	int ret = 0;
- 
- 	if (!(fc->sb_flags & SB_RDONLY) && ovl_force_readonly(ofs))
- 		return -EROFS;
- 
--	if (fc->sb_flags & SB_RDONLY && !sb_rdonly(sb)) {
--		upper_sb = ovl_upper_mnt(ofs)->mnt_sb;
--		if (ovl_should_sync(ofs)) {
--			down_read(&upper_sb->s_umount);
--			ret = sync_filesystem(upper_sb);
--			up_read(&upper_sb->s_umount);
--		}
--	}
-+	if (fc->sb_flags & SB_RDONLY && !sb_rdonly(sb) && ovl_should_sync(ofs))
-+		return sync_filesystem(sb);
- 
--	return ret;
-+	return 0;
- }
- 
- static const struct fs_context_operations ovl_context_ops = {
++void ovl_flush_lazytime(struct super_block *sb, struct inode *upper);
+ int ovl_write_upper_inode(struct super_block *sb, struct inode *upper,
+ 			  enum ovl_write_mode mode);
+ struct inode *ovl_inode_lower(struct inode *inode);
 diff --git a/fs/overlayfs/super.c b/fs/overlayfs/super.c
-index f38c6dd2ae47..72f5d81aff6a 100644
+index ccfbaf9d8797..f38c6dd2ae47 100644
 --- a/fs/overlayfs/super.c
 +++ b/fs/overlayfs/super.c
-@@ -270,18 +270,38 @@ static int ovl_sync_fs(struct super_block *sb, int wait)
+@@ -331,6 +331,7 @@ static int ovl_statfs(struct dentry *dentry, struct kstatfs *buf)
+  * all, see ovl_write_inode().  And a write_inode_now() that does not wait does
+  * nothing if the flusher of the upper filesystem is writing @upper.  A
+  * modification that was made during that pass is only recorded in the flags.
++ * I_DIRTY_TIME is only left if ovl_flush_lazytime() could not get rid of it.
+  *
+  * i_writecount has to be read first.  If it is seen at zero, the tag of a page
+  * that was dirtied through a mapping must be seen as well.  The tag is set when
+@@ -344,7 +345,7 @@ static bool ovl_upper_unfinished(struct inode *upper)
+ 	return atomic_read_acquire(&upper->i_writecount) > 0 ||
+ 	       mapping_tagged(mapping, PAGECACHE_TAG_DIRTY) ||
+ 	       mapping_tagged(mapping, PAGECACHE_TAG_WRITEBACK) ||
+-	       (inode_state_read_once(upper) & (I_DIRTY | I_SYNC));
++	       (inode_state_read_once(upper) & (I_DIRTY_ALL | I_SYNC));
+ }
+ 
+ static enum ovl_write_mode ovl_write_mode(struct inode *inode,
+@@ -375,12 +376,15 @@ static int ovl_write_inode(struct inode *inode, struct writeback_control *wbc)
  	/*
- 	 * Not called for sync(2) call or an emergency sync (SB_I_SKIP_SYNC).
- 	 * All the super blocks will be iterated, including upper_sb.
--	 *
--	 * If this is a syncfs(2) call, then we do need to call
--	 * sync_filesystem() on upper_sb, but enough if we do it when being
--	 * called with wait == 1.
+ 	 * Leave periodic and background writeback to the flusher of the upper
+ 	 * filesystem.  @upper is on its dirty list, and it knows when the data
+-	 * is old enough to be written.  All there is to do here is to find out
+-	 * whether the overlay inode can be clean again.
++	 * is old enough to be written.  All there is to do here is to hand over
++	 * deferred timestamps, and to find out whether the overlay inode can be
++	 * clean again.
  	 */
--	if (!wait)
--		return 0;
--
- 	upper_sb = ovl_upper_mnt(ofs)->mnt_sb;
+ 	if (!wbc->for_kupdate && !wbc->for_background)
+ 		ret = ovl_write_upper_inode(inode->i_sb, upper,
+ 					    ovl_write_mode(inode, wbc));
++	else
++		ovl_flush_lazytime(inode->i_sb, upper);
  
-+	if (ovl_should_sync_upper_fs(ofs)) {
-+		/* Enough if we do it when being called with wait == 1 */
-+		if (!wait)
-+			return 0;
+ 	if (ovl_upper_unfinished(upper))
+ 		ovl_mark_inode_dirty(inode);
+diff --git a/fs/overlayfs/util.c b/fs/overlayfs/util.c
+index d7b08a46cb76..16ca33e2b794 100644
+--- a/fs/overlayfs/util.c
++++ b/fs/overlayfs/util.c
+@@ -1528,6 +1528,33 @@ void ovl_copyattr(struct inode *inode)
+ 	ovl_mark_inode_dirty(inode);
+ }
+ 
++/*
++ * With lazytime the upper filesystem keeps new timestamps in memory for up to
++ * 12 hours.  syncfs() has to write them, so the overlay inode could not become
++ * clean for that long.  It would be pinned, and the flusher would visit it on
++ * every pass.  Do not wait.  Hand the timestamps to the upper filesystem, which
++ * then writes the inode like after any other change.
++ *
++ * Like touch_atime(), leave a filesystem alone that is being frozen or
++ * remounted read-only.  Both write the timestamps, and the overlay inode stays
++ * dirty until then, see ovl_upper_unfinished().
++ */
++void ovl_flush_lazytime(struct super_block *sb, struct inode *upper)
++{
++	struct vfsmount *mnt = ovl_upper_mnt(OVL_FS(sb));
 +
-+		down_read(&upper_sb->s_umount);
-+		ret = sync_filesystem(upper_sb);
-+		up_read(&upper_sb->s_umount);
++	if (!(inode_state_read_once(upper) & I_DIRTY_TIME))
++		return;
 +
-+		return ret;
++	if (!sb_start_write_trylock(upper->i_sb))
++		return;
++	if (!mnt_get_write_access(mnt)) {
++		mark_inode_dirty_sync(upper);
++		mnt_put_write_access(mnt);
 +	}
++	sb_end_write(upper->i_sb);
++}
 +
-+	/*
-+	 * sync_filesystem() has already written the dirty inodes of this
-+	 * overlay through ovl_write_inode().  What is left are the last two
-+	 * steps of sync_filesystem() on the upper filesystem.  They have to
-+	 * take care of the upper inodes that have no overlay inode, like
-+	 * whiteouts and the work directories.  Do not write the inodes that
-+	 * others have dirtied on the upper filesystem.
-+	 *
-+	 * The root inode is not hashed, so it is never on the dirty list.
-+	 * Write its upper inode every time.  sb->s_root is gone during an
-+	 * unmount.  An error ends up in s_wb_err, like for any other inode.
-+	 */
-+	ovl_write_upper_inode(sb, d_inode(ovl_upper_mnt(ofs)->mnt_root),
-+			      wait ? OVL_WRITE_WAIT : OVL_WRITE_START);
-+
- 	down_read(&upper_sb->s_umount);
--	ret = sync_filesystem(upper_sb);
-+	ret = sync_fs_and_bdev(upper_sb, wait);
- 	up_read(&upper_sb->s_umount);
+ /*
+  * Do what sync_inodes_sb() does to an inode: wait for the data, hand the inode
+  * to the filesystem, and leave it to ->sync_fs() to commit it.  It gets there
+@@ -1565,6 +1592,8 @@ int ovl_write_upper_inode(struct super_block *sb, struct inode *upper,
+ {
+ 	int err;
  
- 	return ret;
++	ovl_flush_lazytime(sb, upper);
++
+ 	/* sync_inodes_sb() does not wait for such a filesystem either */
+ 	if (upper->i_sb->s_iflags & SB_I_NO_DATA_INTEGRITY)
+ 		mode = OVL_WRITE_START;
 
 -- 
 2.55.0
