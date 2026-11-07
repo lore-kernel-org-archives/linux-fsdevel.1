@@ -1,98 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794071111;
-	b=D2AOeeI3b4gdmsp4X/OTQU0t/gygGWYj3/OYD3aQsfYdK/9zqy5AiKvicJW9WHZoRJSI
-	 UfTdtWjZ+MbEechor/LUestC9n1PIzL+IN69WytMEgFfLoEbM1yq8iWkZq8QyOmaf2XRD
-	 LyVVIxLQJC464hRw2Z3TrO7RoEJqXxffnDvz+SPF0CtuX/fV1b3xb74gpE9P5brHTHvbY
-	 3DRmV/0mfv124RZbo17p7sjyv2YDgZrsRtcngfBVvEh0knh1xvZvpYAwDggigtktvhbOh
-	 ELk3drxEU5Ft+fo5BcwPz3DyWUnAIK+hRXTgSo0WV1x0y9pBH+0LGP3cdhQFIru2REQ==
+	t=1794071380;
+	b=MU27Qx+9rduA5kcBWx3sGZD4lmQbVd2Oa2hUp+b9qzviB7QYmP1LA1MRnO2lrnbjnlSx
+	 9zFB7bl5oN+kYYz4CkKfzNh0YbQ7kJi9cmkExIoSkYKyU2ZDh78XiPkwUZ2jS//mOfO3k
+	 OBVewG+KWOWcw+nX5w5GqjR5VKr/jNpRSk9FO4D7xdhNNBgSX1JtXS4oX2MyVCEs0OtCX
+	 Ifs1bUnKcHQpScqZ86TzYiHVtk3x1aKqz8P76CMPpT0H4w7td6dTfPKNrMswP8LgD/OT3
+	 xTjXxvkmITYeFa+lcxIbc9NKz47fd+RpQdBVOW12MfAaxFSmeEdh5fbjOudQYtmBVhw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794071111;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794071380;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:X-Mailer:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=TsrMgj6bLCNF471e8BX5RjLkU1AefdOx5U9fzWvZrc4=;
-	b=e+utIQcGehU+ntWh1812S66TEeDk08ZktiZB0U40L6C0+/hyXjrIv/uoTIGDg3MOjf/h
-	 lX6jOQjkdeJg8wpdosvSa8kAc+NXQB67mRxgJwOdssbyVkL4x1pCRuRZN/sLVv3EuZx9n
-	 /ldwpwFFVuAemKW2DXZP3QG3n9sSNPPO8I6KyybE+lHELYknHsgQ3WFln1P13oWrTcf4r
-	 ZW/XkmGcBizvoyo+B71qJftgoWZGb5V/U5qgudLC/2nrJEEfBG8zWzaNSOMkeeXjUgitb
-	 jSKkilazKt1ZFnGfz6F7+02Vo+SXQytHH7pRyEkbV0ap/71P7Tvk9av24fwSW7ap0gw==
+	 Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:X-Mailer:
+	 References:In-Reply-To;
+	bh=Uo6XeYcnV/x5wbpR7pZuFSSSODwH8TPy4AbG/hgvRWs=;
+	b=FLAcPksX4dbzVSt5SnN/D5R1piWg1621mmFpEQgKDjgQWWguNjoLHIIpDB/AZRkaclCi
+	 JqM6DfiCwVRTdlYiNhJHPeuSkU/beps1WiJLhYQdSNzpKxfu+3n5DcVIlHoePyyJNE319
+	 1hzHixpBdGfftuckk9a2flBh/Wq4D7f4WryWGjsULpOT32EqsAeCDowNk5es/lAyUnHkm
+	 4TVgQspMAxeK+Dsum+bFh054/QMGI7JFkSK2MFrqVe19d2xI/h9vA5JKOgFnljZBv7/HN
+	 eOgxm7tm/aceWnO+CetLqqGoOfpNu/VbxiWmhBBJq9qYwfxEsnlvzkhYrSm/QNxDvLg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="rCG/Y3xW";
-	arc=none smtp.remote-ip=209.85.128.44
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=FBLki2AJ;
+	arc=none smtp.remote-ip=209.85.128.49
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FEC0606A32C
-	for <linux-fsdevel@vger.kernel.org>; Sat,  7 Nov 2026 17:05:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8FEC0606A32C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D501D606A330
+	for <linux-fsdevel@vger.kernel.org>; Sat,  7 Nov 2026 17:09:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D501D606A330
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rCG/Y3xW
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4a35d5d4a20so18277295e9.2
-        for <linux-fsdevel@vger.kernel.org>; Sat, 07 Nov 2026 09:05:10 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=FBLki2AJ
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4b7252a32c8so14478605e9.0
+        for <linux-fsdevel@vger.kernel.org>; Sat, 07 Nov 2026 09:09:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794071109; x=1794675909; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=TsrMgj6bLCNF471e8BX5RjLkU1AefdOx5U9fzWvZrc4=;
-        b=rCG/Y3xWsXwF3I7/WqmNdD2VWITaJ7zv82Ec+WkPrhN/Q2HaVvHUxVY/JRnNWwp2gG
-         t2IM3nP2WVJb/5tRx4UhNOl6sUqH6f46/8hnutnn1utJwNeb5mANRYu5xglM7K8u1gZr
-         S1N3CWKnC9LKfCD8uixV/BONkwInAg04IPve8V5MAkSY0H/9IkG82BNKg+SOVgrvxThV
-         hp9qOCAPZakhUMKT6HUSHF200IB34nBhFo32E2Yk7nDdJErj4LWu0iDb9uIbRpxtp0h6
-         hUDQ5I19byCZGT3HCxay66tKC1QL9KiiVgLEqqWDmX163jYh2Aa/P/AbMhjVWU9NLo2p
-         LuPw==
+        d=gmail.com; s=20260707; t=1794071378; x=1794676178; darn=vger.kernel.org;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-type:mime-version:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=Uo6XeYcnV/x5wbpR7pZuFSSSODwH8TPy4AbG/hgvRWs=;
+        b=FBLki2AJGBeQ54jkvu0WK8OGjDWsQzv8Q+98dp9ZolzbeG2I1S7zLKim2dXIgiJq9N
+         vNHmoKkQWpTwLHfUKcmlhSwxPHVBkgKgEeNzJZgCDvKeJGrdGBQ1wSNmB7ZFiw/1tR9p
+         W+S9+okUE7B0Z7oL7B30Dle49C5AU+y7OnJ3sCUl3FiX8BMeJTj9RpFAeRDwYtV60pfw
+         Z55WiM3bCmJd633OoJVcSqoEBl9H3DNTtm6S9jCOz1bQwkr4U5V25mNy9uD0Nfjj+Fgg
+         ru9bMo958NpEI2RI+hojtJs3sdsEjpmVz6t95FtiDa2hNkD2JQnfUka+02t/AjDEIFHi
+         rNvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794071109; x=1794675909;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=TsrMgj6bLCNF471e8BX5RjLkU1AefdOx5U9fzWvZrc4=;
-        b=bsQ2kzAoVG4oRW0P+MEPR6PvvW71+IEGWnCX7LT73+rAzoIxWCbzR8Z0mSl/zYUp/e
-         haUJAc04W4h0Btf3q3ogkY9ygnq1Fep0QUeqKw16nfSsOWlBwzBHMstZPVnhdVrPpIXQ
-         jq7PUSbZ1VTyzajrxmyOSJ8RTww5I2wnT20uHo/uWhJX1W2J4QrFdu69HW83Z6Sm1rxk
-         S3l3Ey1n396AiBfWD7jP4yf56PFxi+AV4d5vG2QDvbNuCQmoRh2u3oOxjaexng6lP57v
-         +HO0T52xMdqEwpGrASeN/UrD+z3J+1wWoxX0YFY0rswQpQ35moIaYjiN3AhjW5J5dyeR
-         IJAA==
-X-Forwarded-Encrypted: i=1; AKwUvBwopqQkVPhMdoccUA52acXS312iEG87Bz08AdHuLWVsfw2HmKsELu402tldhoxZ+GSOdZG8yGotTnVD1VrB@vger.kernel.org
-X-Gm-Message-State: APuU4Z9skuI33tE3fFpwatfGb1Pj0vBTDyGbEYe9PMtX7AYX59n4ywMp
-	hyzZAacTSWz8mrt+iGM8ftEM4VHQldomc9SjcY5hZNvf6BjvTpzE5Zil
-X-Gm-Gg: AYBFou0b+OkHenrGDTKc5VUx7epgTZaRs4kU1gwyvrXaoABu0fIKQdmJ+EmTdpDLwyJ
-	Mx7SOZj0fkeSkWCgG6DqaVIQT/z7hcK9DKT8cFIN5LiNm0GPXt2nXQi7pG50eM2XhjoLBN3TcGR
-	etoKRM5WfcCs3NOs9cie8gzGXY1mF6amlZKI04VaR74jWiuViJwzM8c/UxokLl0fH6BO3V/I49z
-	WyfAhyAdFP7a+Nhe5XMvQFNtyxw6advLezt/X5JN1Z2NOS1JUzpnugaG5X+TzQSScBOFyVzNlnC
-	DBBKDMzougT9go7bcMskV5dcl00sG2GCY4Vc+FBW3wAY0DI7qus+3d918mvytLRFuEquT6t8I0P
-	DVGkB5JHR0fn2xL/hc/lp7EDgqbyshCtnKG/vmCygnOWpTaV5jd8vWkmjEjr+eGLEVpvEeS/fmS
-	RpdeiV3zG/DTdP3ckniVvZ64AUdMCxMvQdZ9KwbAd2aefDNpPGu9Nnb7aJdkSUYYE5VNZiHGIHI
-	GRNOcEjcDEnZxwKXj9ZNvd2NDlZvrUpQPjLxzKZ/7yMu5wqTYtUdl7TN1itAXPTMUT1Zxvax4qA
-	J7N/KJPL0PyNXkc19lERtS2y8rc7XesTtl/P7BTlx0U3slR79OkFygQfZ+33qEPL
-X-Received: by 2002:a05:600c:3f0e:b0:4a0:23f:8b0d with SMTP id 5b1f17b1804b1-4b6db0d060fmr107153375e9.2.1794071108761;
-        Sat, 07 Nov 2026 09:05:08 -0800 (PST)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b7e329153esm94149515e9.14.2026.11.07.09.05.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Nov 2026 09:05:08 -0800 (PST)
-Date: Sat, 7 Nov 2026 17:05:07 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: Joel Granados <joel.granados@kernel.org>
-Cc: Wen Yang <wen.yang@linux.dev>, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 00/39] sysctl: replace overloaded extra pointers
- with typed bounds and context
-Message-ID: <20261107170507.0d66cc2e@pumpkin>
-In-Reply-To: <au85ISJ2qUsB7y-6@hobbes>
-References: <cover.1793204511.git.wen.yang@linux.dev>
-	<20261029105837.2f8bee67@pumpkin>
-	<0316f664-d98c-43be-92af-13c30436727a@linux.dev>
-	<au85ISJ2qUsB7y-6@hobbes>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+        d=1e100.net; s=20260707; t=1794071378; x=1794676178;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-type:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=Uo6XeYcnV/x5wbpR7pZuFSSSODwH8TPy4AbG/hgvRWs=;
+        b=p4b/8KpE7LxUyC/Lu+IBiICXybzz78wacB5GgTuaA/6H1E2sEXgNvlz/Kb2HMKwe2O
+         iJuocQuXKs/j7pTd6UeGZdA3swACx3hYfVRO6vPdGWIFOgRFCwnmY2JwADPYF2oZLQX+
+         wvGvGnBsuwvJNpz16RhPUuD9l3Mqu59msxC7tewqAAwHFgOHsp0dDj2xb2q2MvIfcd3M
+         2yFXgv290cYSo2Onk6g0Wjh2IIfoS8GQHTNlcNqommY8HOJMK8rTYuBko09d63IwXzZs
+         Hvsr6a+RKstfxmaHGCqvakk37CnVCAjua+IRisNHeraWacjPoVwZOYAUSGnqpTrumul1
+         KOYA==
+X-Forwarded-Encrypted: i=1; AKwUvBzO5iS7N7xaCoG1HR9k9EkKUyI032dRR6GctOlelqw2iN37wo3cMZ3XADNA25OviFd4M2qDR8i6Bjj5Yjrb@vger.kernel.org
+X-Gm-Message-State: APuU4Z9eC9QrQCAS6FIvCakZ2FLXUuHlgNbQ08ozs7pqsdBbVNmS+LQ0
+	wfR9YhJQ/3l45p2CYZkX2Gqn7dFSt7notoaKmrXv4DNRCiUxeXY8Htmk
+X-Gm-Gg: AYBFou1BQAMq4s6o3cJYV27lGyPezDau21FjxAZFvAZDaxmwOP9ZD4dAI008oHWMwjS
+	BmKaLFJwxqCft80NvJ6lhaXlvPYubcW+ArFJ2MZbevvxJphGA/uoBc1/ZlUfg2k+OwZC6hpb0MV
+	nhnUdpPEjJrsNI7RKdRD/oVSFLAomCTu2H7aA8dz1zAjZEha1gEbWRRQEB9RBBRP1x2aewXNCUV
+	RRGlRE4we5GgDc4XdIiRQUKnkgaZr/z9UwZTXmv1vOwtj+Inx7zzO0zhEqWBe8h0FRTJtMEvtNK
+	p2zDfz0lI9DK17G+8zsLpgOAmBgMph7xgsiEm1I65AMRIqcGA7hUPzTC4XFLPv8I+Ofmm1e8NIj
+	dfmFCjIrHJzI73D3BcTAZPBbBTqjF2/ZT9xTBhfq8rIyeL2TvfySgIMPrMXdiGwPiCoJ3fYkQBX
+	4NZ0JE7T40aPCaHSibV9Ppej7zGbzdarCilaYRevwKKUxacRombCivQ7KF9/Mn8tnEl/b3vMnLY
+	gdSS0GWuNNtwGC8J6gQzBVRFeiw8FQkVF088aPmg03atAMZYRTguYS3SIiyWybezFDMZ7sXsjto
+	7kb1HR/4ufAnlPtApP6LdwOe4A==
+X-Received: by 2002:a05:600c:a013:b0:4a1:c6fd:4db0 with SMTP id 5b1f17b1804b1-4b6df5eabebmr104412535e9.19.1794071378114;
+        Sat, 07 Nov 2026 09:09:38 -0800 (PST)
+Received: from localhost ([2001:b07:5d26:7a6a:365a:60ff:fe0d:cfc6])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b7e32ad610sm201380835e9.3.2026.11.07.09.09.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 07 Nov 2026 09:09:37 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -101,142 +86,221 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+Content-Type: multipart/signed;
+ boundary=90b72889c6b6179eb92b7fa762786d4ce0b6554dc9b311a78855b8ffacbe;
+ micalg=pgp-sha512; protocol="application/pgp-signature"
+Date: Sat, 07 Nov 2026 18:09:32 +0100
+Message-Id: <DMP582BGB7DV.2U0SJLJL7A87K@gmail.com>
+Subject: Re: [RFC PATCH v3 1/5] vfs: add provenance time (ptime)
+From: "koraynilay" <koray.fra@gmail.com>
+To: "Amir Goldstein" <amir73il@gmail.com>, "koraynilay"
+ <koray.fra@gmail.com>
+Cc: "David Sterba" <dsterba@suse.com>, "Alexander Viro"
+ <viro@zeniv.linux.org.uk>, "Christian Brauner" <brauner@kernel.org>,
+ "Namjae Jeon" <linkinjeon@kernel.org>, "Sungjong Seo"
+ <sj1557.seo@samsung.com>, "Konstantin Komarov"
+ <almaz.alexandrovich@paragon-software.com>, "Chris Mason"
+ <mason@kernel.org>, "Jan Kara" <jack@suse.cz>, "Yuezhang Mo"
+ <yuezhang.mo@sony.com>, "Chuck Lever" <cel@kernel.org>, "Darrick J . Wong"
+ <djwong@kernel.org>, "Sean Smith" <defendthedisabled@gmail.com>, "Andrey
+ Albershteyn" <aalbersh@kernel.org>, "Pedro Falcato" <pfalcato@suse.de>,
+ =?utf-8?q?Pali_Roh=C3=A1r?= <pali@kernel.org>,
+ <linux-btrfs@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <exfat@lists.linux.dev>,
+ <ntfs3@lists.linux.dev>, <linux-api@vger.kernel.org>
+X-Mailer: aerc 0.22.0-0-gc2f86b7abde3
+References: <20261101015551.786044-1-koray.fra@gmail.com>
+ <20261101015551.786044-2-koray.fra@gmail.com>
+ <CAOQ4uxiuJ=eZu28FZAUz3rpqPKqCimPxJucOnYYuBowvD09_Cw@mail.gmail.com>
+ <DMP3UBB0QVOT.20HIXK7ZL6K6U@gmail.com>
+ <CAOQ4uxgSVc8n1LbL_dcU-DpNN5BB-ap_vGdXEu7+d0Td7PK5Tw@mail.gmail.com>
+In-Reply-To: <CAOQ4uxgSVc8n1LbL_dcU-DpNN5BB-ap_vGdXEu7+d0Td7PK5Tw@mail.gmail.com>
 
-On Sat, 7 Nov 2026 16:27:39 +0100
-Joel Granados <joel.granados@kernel.org> wrote:
+--90b72889c6b6179eb92b7fa762786d4ce0b6554dc9b311a78855b8ffacbe
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-> On Mon, Nov 02, 2026 at 11:40:40PM +0800, Wen Yang wrote:
-> > 
-> > 
-> > On 10/29/26 18:58, David Laight wrote:  
-> > > On Thu, 29 Oct 2026 00:34:39 +0800
-> > > wen.yang@linux.dev wrote:
-> > >   
-> > > > From: Wen Yang <wen.yang@linux.dev>
-> > > > 
-> > > > struct ctl_table describes an entry with data, maxlen and, until this
-> > > > series, two untyped misc pointers in extra1 and extra2. Those two pointers
-> > > > have accumulated at least seven unrelated jobs: a fixed bound, a bound read
-> > > > through a pointer on every call, an object or namespace pointer, a small
-> > > > integer cookie encoded into the pointer, a lock signal, NULL standing for
-> > > > "no bound", and a value the core itself casts to unsigned int while
-> > > > validating a u8 range. Nothing in the entry says which job applies, so
-> > > > readers infer it from the handler, and the core gets it wrong where it
-> > > > treats extra1 as an unsigned int.  
-> <--- snip --->
-> > > > (~574 new min/max initializers) instead of pointing at constants. The
-> > > > sysctl ABI is unchanged; the parport spintime minimum is corrected as
-> > > > described above.
-> > > > 
-> > > > The cost is 8 bytes per ctl_table entry on 64-bit (56 -> 64) and 4 bytes on
-> > > > 32-bit, because priv is appended; the range read path gains no indirection
-> > > > and the migrated entries no longer dereference a bound pointer.  
-> > > 
-> > > Can you remove the little-used 'priv' parameter by making the extra
-> > > information just follow the table entry (nested structure) and have
-> > > the relevant functions use container_of() to get the outer structure
-> > > and extra values?
-> > >   
-> > 
-> > 
-> > Hi David, Hi Joel,
-> > 
-> > I reworked the context side of the series so that priv is gone entirely;
-> > and the final tree has no per-entry context pointer.
-> > A small helper recovers the enclosing object, but it needs the slot
-> > index from the caller:
-> > 
-> >   #define sysctl_table_container(entry, type, member, index) ({       \
-> >           static_assert(__same_type(*(entry),                         \
-> >                                     typeof_member(type, member[0])),  \
-> >                         "pointer type mismatch");                     \
-> >           (type *)((void *)(entry) - offsetof(type, member) -         \
-> >                    (size_t)(index) * sizeof(*(entry)));               \
-> >   })
-> > 
-> > The reason plain container_of() is not enough is that the core keeps the
-> > table as a contiguous array.  For
-> > 
-> >   struct addrconf_sysctl_table {
-> >           struct addrconf_sysctl_ctx context;
-> >           struct ctl_table table[];
-> >   };
-> > 
-> > the handler receives an interior entry, and
-> > 
-> >   container_of(ctl, struct addrconf_sysctl_table, table)
-> >       == (char *)outer + index * sizeof(struct ctl_table)
-> > 
-> > for ctl == &outer->table[index].  It only returns the outer object for
-> > index 0.  Passing the index explicitly keeps the original registered
-> > entry usable:
-> > 
-> >   static int addrconf_sysctl_forward(const struct ctl_table *ctl, ...)
-> >   {
-> >           struct addrconf_sysctl_table *t =
-> >                   sysctl_table_container(ctl, struct addrconf_sysctl_table,
-> >                                          table, ADDRCONF_SYSCTL_FORWARDING);
-> >           const struct addrconf_sysctl_ctx *ctx = &t->context;
-> >           ...
-> >   }
-> > 
-> > Shared handlers get one wrapper per slot; the common body does not need
-> > to know its position:
-> > 
-> >   #define DEVINET_CONF_WRAPPER(attr)                                  \
-> >   static int devinet_conf_##attr(const struct ctl_table *ctl, ...)    \
-> >   {                                                                   \
-> >           struct devinet_sysctl_table *t =                            \
-> >                   sysctl_table_container(ctl,                         \
-> >                           struct devinet_sysctl_table, devinet_vars,  \
-> >                           IPV4_DEVCONF_##attr - 1);                   \
-> >           return devinet_conf_proc_common(ctl, &t->context, ...);     \
-> >   }  
-> 
-> Two questions before seeing the actual implementation of this.
-> 
-> 1. This means that we will have to add more macros to the sysctl
->    callers? There is a clear signal in [1] against overuse of macros.
-> 2. I understand that you are doing this to avoid having priv. Is it to
->    save memory?  Yes. priv is a void* and we are also trying to get rid
->    of these. But this changes removes the use of two void pointers and
->    replaces it with just one.
+On Sat Nov 7, 2026 at 5:48 PM CET, Amir Goldstein wrote:
+> On Sat, Nov 7, 2026 at 5:04=E2=80=AFPM koraynilay <koray.fra@gmail.com> w=
+rote:
+>>
+>> On Mon Nov 2, 2026 at 3:00 PM CET, Amir Goldstein wrote:
+>> > On Sun, Nov 1, 2026 at 2:57=E2=80=AFAM koraynilay <koray.fra@gmail.com=
+> wrote:
+>> >>
+>> >> Add provenance time (ptime), indicating the time when a file or
+>> >> directory was created. This is user-settable via file_setattr() and
+>> >> retrievable via statx(2) (using STATX_PTIME) or file_getattr().
+>> >>
+>> >> The semantics of when to preserve this new timestamp are the same as
+>> >> mtime, the idea being that there is a correspondence like this:
+>> >>
+>> >> ctime <-> btime
+>> >> mtime <-> ptime
+>> >>
+>> >> so every operation (copying, moving, ...) that currently preserves mt=
+ime
+>> >> should also preserve ptime.
+>> >>
+>> >> Furthermore, in order to avoid the legacy FS_IOC_FSSETXATTR accepting
+>> >> FS_XFLAG_PTIME, add an FS_FILE_ATTR_XFLAGS_MASK mask to support new
+>> >> xflags, and use it in fileattr_to_file_attr()/file_attr_to_fileattr()=
+ to
+>> >> allow ptime to be used with the file_setattr()/file_getattr() syscall=
+s.
+>> >>
+>> >> [ This is a re-implementation of the initial patch[1] by Sean Smith
+>> >>   <defendthedisabled@gmail.com>, following the advice[2] from Darrick=
+ J.
+>> >>   Wong <djwong@kernel.org> of using file_setattr() instead of updatin=
+g
+>> >>   utimensat() ]
+>> >>
+>> >> [1]: https://lore.kernel.org/20260405195007.1306-2-DefendTheDisabled@=
+gmail.com
+>> >> [2]: https://lore.kernel.org/20260407014129.GC6192@frogsfrogsfrogs
+>> >>
+>> >> Assisted-by: Gemini:3.8-flash-high antigravity-cli-1.4.7
+>> >> Signed-off-by: koraynilay <koray.fra@gmail.com>
+>> >> ---
+>> >>  fs/file_attr.c            | 33 +++++++++++++++++++++++++++++++--
+>> >>  fs/stat.c                 |  2 ++
+>> >>  include/linux/fileattr.h  |  5 +++++
+>> >>  include/linux/stat.h      |  1 +
+>> >>  include/uapi/linux/fs.h   |  8 +++++++-
+>> >>  include/uapi/linux/stat.h |  7 ++++++-
+>> >>  6 files changed, 52 insertions(+), 4 deletions(-)
+>> >>
+>> >> diff --git a/fs/file_attr.c b/fs/file_attr.c
+>> >> index 833e03810b24..c0645cb22bf3 100644
+>> >> --- a/fs/file_attr.c
+>> >> +++ b/fs/file_attr.c
+>> >> @@ -102,7 +102,7 @@ EXPORT_SYMBOL(vfs_fileattr_get);
+>> >>  static void fileattr_to_file_attr(const struct file_kattr *fa,
+>> >>                                   struct file_attr *fattr)
+>> >>  {
+>> >> -       __u32 mask =3D FS_XFLAGS_MASK;
+>> >> +       __u32 mask =3D FS_FILE_ATTR_XFLAGS_MASK;
+>> >>
+>> >>         memset(fattr, 0, sizeof(struct file_attr));
+>> >>         fattr->fa_xflags =3D fa->fsx_xflags & mask;
+>> >> @@ -110,6 +110,8 @@ static void fileattr_to_file_attr(const struct fi=
+le_kattr *fa,
+>> >>         fattr->fa_nextents =3D fa->fsx_nextents;
+>> >>         fattr->fa_projid =3D fa->fsx_projid;
+>> >>         fattr->fa_cowextsize =3D fa->fsx_cowextsize;
+>> >> +       fattr->fa_ptime_sec =3D fa->fsx_ptime.tv_sec;
+>> >> +       fattr->fa_ptime_nsec =3D fa->fsx_ptime.tv_nsec;
+>> >>  }
+>> >>
+>> >>  /**
+>> >> @@ -141,15 +143,20 @@ EXPORT_SYMBOL(copy_fsxattr_to_user);
+>> >>  static int file_attr_to_fileattr(const struct file_attr *fattr,
+>> >>                                  struct file_kattr *fa)
+>> >>  {
+>> >> -       __u64 mask =3D FS_XFLAGS_MASK;
+>> >> +       __u64 mask =3D FS_FILE_ATTR_XFLAGS_MASK;
+>> >
+>> > That is not the correct way to extend this API.
+>> > This fixed mask was added as a placeholder for
+>> > "We intend to add support for more xflags to selective filesystems":
+>> > https://lore.kernel.org/linux-fsdevel/20250329143312.1350603-2-amir73i=
+l@gmail.com/
+>> >
+>> > Please see this POC patch for filesystems to publish their supported
+>> > xflags mask:
+>> > https://lore.kernel.org/linux-fsdevel/20250329143312.1350603-3-amir73i=
+l@gmail.com/
+>>
+>> Quick quesiton, should _mask also be used for user-space -> VFS to adver=
+tise
+>> what it wants to change?
+>> This would be useful for on/off flags, but for ptime both fa->xflags and
+>> fa->xflags_mask would have the same meaning of "I want to change ptime,
+>> look at fa->ptime".
+>> Should we make _mask the only way to advertise what the user wants to
+>> change, ignore xflags | PTIME in user-space -> VFS and use it only in FS
+>> -> VFS -> user-space to say "this fs supports PTIME for this file"
+>> (which will be always once support is added to an FS, so it would just
+>> be "this FS supports PTIME")?
+>>
+>
+> Sorry I was not able to parse your question.
+>
+> I think the mask should mean "this FS supports PTIME"
+> regardless if the user asked to get/set it or not.
 
-The idea behind removing the 'void *priv' is mostly to save memory.
-There are a lot of systctl and hardly any need it.
+Yeah sorry, I'm just a bit confused because of all the similar names and
+concepts.
 
-This solution does look nasty.
-I suggested another where the size of the array entries was passed in
-by the caller.
-If that works it would allow the per-value function use container_of()
-to get extra fields.
-That only really helps if only a few 'private' functions need it.
+(assuming btrfs supports ptime and ext4 doesn't)
 
-David
+* filesystem -> VFS -> user-space, while in fileattr_to_file_attr():
 
-> 
-> Best
-> 
-> [1] https://lore.kernel.org/CAHk-=wjUmLrJd4KM4xvJHUN4P0r8oSu5LyvG4JipnhxizBrE9Q@mail.gmail.com
-> > 
-> > Single-entry tables simply use slot 0:
-> > 
-> >   struct devinet_forward_table *t =
-> >           sysctl_table_container(ctl, struct devinet_forward_table, table,
-> > 0);
-> > 
-> > 
-> > The series is 20 commits over 134 files, with no priv at any point.  If
-> > you would prefer a different shape for the helper or the wrappers, I am
-> > happy to adjust it.
-> > 
-> > 
-> > Thanks,
-> > Wen
-> >   
-> > > David
-> > >   
+  for btrfs, for all files[1]:
+        fa->fa_xflags & FS_XFLAG_PTIME =3D=3D 1
+        fa->fa_xflags_mask & FS_XFLAG_PTIME =3D=3D 1
 
+  for ext4, for all files:
+        fa->fa_xflags & FS_XFLAG_PTIME =3D=3D 0
+        fa->fa_xflags_mask & FS_XFLAG_PTIME =3D=3D 0
+
+* user-space -> VFS -> filesystem, while in file_attr_to_fileattr():
+
+        fattr->fa_xflags & FS_XFLAG_PTIME =3D=3D ignored
+        fattr->fa_xflags_mask & FS_XFLAG_PTIME =3D=3D 1 if user wants to se=
+t it, otherwise 0
+
+Would this be correct?
+
+Or would it be better to set FS_XFLAG_PTIME only in fa_xflags_mask, and
+never touch fa_xflags with it, which would make the above become:
+
+
+* filesystem -> VFS -> user-space, while in fileattr_to_file_attr():
+
+  for btrfs, for all files[1]:
+        fa->fa_xflags_mask & FS_XFLAG_PTIME =3D=3D 1
+
+  for ext4, for all files:
+        fa->fa_xflags_mask & FS_XFLAG_PTIME =3D=3D 0
+
+  (and always fa->fa_xflags & FS_XFLAG_PTIME =3D=3D 0)
+
+* user-space -> VFS -> filesystem, while in file_attr_to_fileattr():
+
+        (fattr->fa_xflags & FS_XFLAG_PTIME =3D=3D ignored)
+        fattr->fa_xflags_mask & FS_XFLAG_PTIME =3D=3D 1 if user wants to se=
+t it, otherwise 0
+
+This would mean that fa_xflags_mask is used like stx_mask both by the fs
+(to let the user know what it supports (a.k.a. what it's returning)) and
+by the user (to let the fs know what it's trying to set), and fa_xflags
+is used only for ON/OFF flags (like immutable).
+
+Let me know if it's clearer.
+
+Thanks,
+koraynilay
+
+[1]: as we don't have a "no ptime" value (since 0 is a valid epoch), all
+files would have it if the fs supports it
+
+> Thanks,
+> Amir.
+
+
+
+--90b72889c6b6179eb92b7fa762786d4ce0b6554dc9b311a78855b8ffacbe
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSgVimKafU5DQMcjcDmj22qf5IGXAUCau9bTAAKCRDmj22qf5IG
+XLOnAQCYgmkH9FcgSKhJkILhSIa5F/PVtSlv2NxQd9SmQy++kAD+O8Jm/L7wqEIX
+9+esMnf9eYtazI3CTEE5wrzfACj7uQs=
+=Jjnq
+-----END PGP SIGNATURE-----
+
+--90b72889c6b6179eb92b7fa762786d4ce0b6554dc9b311a78855b8ffacbe--
