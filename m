@@ -1,83 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794049147;
-	b=aUhE5KS1gQNP710U8SreLgFrU7R2qqgdAxTH2Waa4YqDYd85tnYA9LITOj2Cim1/9MUP
-	 /8lS2aPeW6vFgA8Hz5XzfXRCGYcey6FgQvtghaj8qCAWzXfAy9BHCFea94SpiQnb8sPtL
-	 fXGBHJO9UZKJ0nUa4vS6I/bU3OAzdKgaAN9t4lTzPRAyD6oc97OOiNLvLGktBcwEU17PG
-	 UsbWjh0sjPnX0CN7vd/IEHb+qIU1IIUTNo1x+GinePE3PbqySXrd8iLoXOhsnpyZwU9eT
-	 GHqAW4vcb7YKaHCTtcGjt4dXrYgVN05d5/oFz23qd/SMohJVznLfb7+ENLaQ/dUzf5w==
+	t=1794049150;
+	b=a6015EtvOmkaBlbbau15dukY7bsRu+T9stxrQiguMoMFxFshz4jSbRvdslOlNSp2x9eH
+	 boPmnB22lVtt1BFZrL/yvqVEGXvKshsP/JfjITJ+Sx5eY0UJFJHjvNtnFFveNspV+LqCn
+	 YpVWVOlBR+eRV0zayCxEzRTxjE3thllId/aXTjip50T9N+JKaKtha8L55z24nHTNDdZe/
+	 tsUC/EIcqNvVfmip9YQgktUZkwek4xXEGu/LGVvis1l/sGzBNQCxhzhgnmEt7VjFYbyKb
+	 EOSZI9b3vpU5CyGShfQ7qfprPrJRgaFmGtnF59QwNgCda3w6wdkCNOaQxeBgMuYQuzg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794049147;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794049150;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=Y7ipCEUrdtIpyp5vON0jqVmEjc93IveEInQ5iyQmhTA=;
-	b=LNaBwTfN/cjEUEYKmQVt0TpQJg7RG9LSao8pQB/rjdliGXtsXwuo5/i0W1k8O58QCURW
-	 sRzpKZGudB0WZ2AJ/QlgNeUDvsrQ2ZzpkraiS9KorqiIZiFpf7jg8xH91yjFJC1elglzv
-	 nncD+DKCwaJq3Rby9hd+ZNxIBLqpt3onz+a0DSmTiiZgxc8xo4Zm2U6uHdPoxhT0EJ0jy
-	 +ILfISS5ebaSRksc00YWfpAmifFzVte++5UFrMo2SdbAtYvPqYkv3Y8oEPU8p3sK3xTLA
-	 BvkH3yns8gyYtbP9eCjy9Lq1i2q+Q73MCVyrWR5nTV28qL6RFzNoQw5iUhG0FuXdT6Q==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=y7eKlQFnzHnXX2CdTEqVqjFeVAewWs55ryAaOGj8KvE=;
+	b=4xyJII7wOOzQfexWOWKpFw4Hxj4B4Oiq5GIZl5Rf/9HnUnlXX+ahTpZO2rv1lH26Rx8a
+	 znN4ECdhZOoos/57YnFNBisabRq9OH7oUp2KutRaZ7QEciUREoBlZ9hOqmFAhHJxwjfr0
+	 LEk10xV9qvKn3+kHM+DObhpAlkcRptZPELS31yrCtYBCrPN8d8KNyfRL6Jjhwzalo+vda
+	 k0h9eYoLv4LAMMwgyaQllOVSfE9ThXSU/0a2RBHibYLBsN8WB6VhpHqkvRI9PUcDsjc1c
+	 ieB+LEn/0tYzY7a/5h18nbG94BRWCq0yh5GnjoDdzf4LLu1VgokS8Kdg6WBLMXWjU7A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=HvHBgbPz;
-	arc=none smtp.remote-ip=209.85.208.49
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Y06Y0WFV;
+	arc=none smtp.remote-ip=209.85.218.41
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11C44606A331
-	for <linux-fsdevel@vger.kernel.org>; Sat,  7 Nov 2026 10:59:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 11C44606A331
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22C49606A336
+	for <linux-fsdevel@vger.kernel.org>; Sat,  7 Nov 2026 10:59:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 22C49606A336
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=HvHBgbPz
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6afbc363efeso1730361a12.3
-        for <linux-fsdevel@vger.kernel.org>; Sat, 07 Nov 2026 02:59:06 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Y06Y0WFV
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-c49c32650adso192176166b.0
+        for <linux-fsdevel@vger.kernel.org>; Sat, 07 Nov 2026 02:59:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794049145; x=1794653945; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Y7ipCEUrdtIpyp5vON0jqVmEjc93IveEInQ5iyQmhTA=;
-        b=HvHBgbPzV9vYHHncefQoVq2YOPXOaNBD/LbZSBsl6UfsFTreUEenBqrKE53enVGuBZ
-         cueLshNxWFgeHUaMlnJSyuePRFv9cT+JapbvK0CR0AuNoWM1s1N/plgLfyuGF918j6CL
-         JnyxhTCp+Mf2P7oRpE6DHVRMATjRXyXkEcGgV6KD9cPZiK1wL31xrnGczuQvsUSXz7Aw
-         1I53MsBjFTbYzDj8vZfcYNuXHhuGFXmJIsIo/BA/tIr6fK2zFvM7hPAyW159j6YDVvJn
-         IjhaqiDJ/ulTJhQFzrbcrPEULvfN1P4GMk1YH3KRAGA79bkiLRRmnnGjPcfjgjHV9md1
-         D+Xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794049145; x=1794653945;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20260707; t=1794049147; x=1794653947; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Y7ipCEUrdtIpyp5vON0jqVmEjc93IveEInQ5iyQmhTA=;
-        b=BSUaP52KoTkFwgFHTaH0eqw0XPR+4nQCNLy/d4BjEvswct+oYR5aNrCK/w+jnZTfmR
-         K2hWdYZxmQ2jyQbjuabWl8gLVwY6XI2kXjKeEiYBbg3cCi9a448NCf3I4+HWWKCERX+b
-         NKB5Tixc8LFWVo4zPfxGSPGkVTxc6Dfrl5gwkcBnCH54JAKH95pq8FlPeRHl5n6MN+H+
-         f/Ggi0alLgb3DeOQP4Q3RGwgsJp7lSiH580eEvtNyhp7hVNaKDh0Sfo/RDRsRedSb2gd
-         1EpZ9fyBXFObdEiF1F0MKcvvXtXAf5RsQ6lvuvLUV1JHBM/QsgDcNqiCLeuzz698Oyhi
-         Eq0w==
-X-Forwarded-Encrypted: i=1; AL+hErFchl+HYvaC29piSmRohD5mXfRQQjI1AYcGwT8a0VQ3B2lTPoOkeGNWZK+GATQYC+56aXkYO24MDT57ayV/@vger.kernel.org
-X-Gm-Message-State: APuU4Z+gjKmJg4LKMptwFzbPf1dUs8Mfp8TyufOxZXgm30Z6cY6cti/+
-	G3AQqXZr+8PV++bM4tkMezhZrNSMnw/HYI5osPFuX9gAhSiMd8U1qNZg
-X-Gm-Gg: AYBFou2g2In21P5g60MFa4BFm3vPX6kpKT9ntz/21hO2ZNVT2t2cQeaQbP7PQlsTmzY
-	7Z3SK9LVkruagA8RFu3nF946SRgnQyrPYTX1RHJVG0oLebSpZ9PGzlWt4Zgm95Tm2U9viHIwRw4
-	pQZ3PrCwJRNfzpaP9Yxp2cejBxH5leuSrg2VrG7gPJo+YiJt/2qA3Wx3iLYFtpdVZZzHXCNJukl
-	XlV16e3oPF2Vtfb9ZcxDeVjaiHaaOg4qmiyi4Uhd07ZUbW9n/UiUNsXdAzBafKJHiO9W1KeRzd3
-	sejVFAEksyeO4+l86kZNgUdHYi+q6rusEtf0Qokg/glcclHJErSPagfbyg3ZxJb5Pa5WOoeWis1
-	xyPVlTUVW8jvTykBiSNaHMjePBnrbn2tbaXicmh7QCcDZ3oQeFjHB7HznUncIrhlc81D1nGWqFW
-	ZL+w4Xlx8t6Zz3pbbAhDrBzPwvbUgv135EIYDl66QcxNorF9Zj7ANSL/l16ICZ5A5hvqKJlUsSO
-	3ZzOyniNY04Zo4E7HQMB1yWRdXmwNto37woI+7ALtesmnldcAchtQRKoracj5PG4qI5qmruo7KM
-	PoF0465XUkO/pA0jwepTJIvcJIU3Hs+MiPhYxsq1SBpTXlhE+h9wGLrbMcEiuIFy8uYjsZf9yWR
-	Fo35mu1w04yQ=
-X-Received: by 2002:a05:6402:43cf:b0:6b5:4fa7:4f49 with SMTP id 4fb4d7f45d1cf-6b59753419cmr3643652a12.6.1794049145133;
-        Sat, 07 Nov 2026 02:59:05 -0800 (PST)
+        bh=y7eKlQFnzHnXX2CdTEqVqjFeVAewWs55ryAaOGj8KvE=;
+        b=Y06Y0WFViwKkS32pCebWEBBoJbm6etoFc+KHIQ4KUvTNNMqrREM3XOZT7Ismb+7Ixz
+         ju9gaUCeEu0qpYjIqShKelhTtnyGF7y9w/wYb9DueOPa69HhmccCwzIOPLdhK0sJ1I5c
+         x/Jy+uQDWou8xD/muiYNkWVAINs3RaqNKXFuRDSVK1cM2hsMrcKNb6URLanbATBaN8D4
+         yr7UpIhLF2DyhvG7GFaNDjqiySfzSJSdZRFK+6rF3Pjn7u1v6kiCHc3LyAveTxPKEekC
+         SBe88C+ff/dPWzE73Jy4CSTO+pfz2vS7DFG6xLiEcGD8IvN0vTMLUm4LhvN6OPuiQNos
+         cL8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794049147; x=1794653947;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=y7eKlQFnzHnXX2CdTEqVqjFeVAewWs55ryAaOGj8KvE=;
+        b=LuL54Eqza3idSvXikEygL8z48DB/bc+csIFXF2vLKHJW+5oBLGQMVr8z5gpzSzQvNJ
+         NlgjWrvk/ymy+UtLZi5zcAd+nGkdDIXAPRrlkEGJWF0waBbbWRdV6pGrhBthqS0EqcAt
+         CtQBpV4nNqpUhRDWqlQDktYgLdPef9KKkSeRnZeacNL0y9T8gWnR6c4JMuXqgBh6wIdE
+         WwMuTajBgck400NvP3GqTNORu28jgNV03m3HGHl/sHHEz504/faVRnakSoojOLd6dnKy
+         bPrAXaVT0eiPkJiHVwOFuay4AsyW9ixkCIyNX4d1o3z+/zmk7f722P9hHWC8A2/gwr7u
+         XMAQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwxcXdiDAg9UDDAZx6fmAduiGfrHGVC3vSTv8oBzST5xE9XbxJJEs485r1FTMun00zGudQ7GM+MnuoYOuOr@vger.kernel.org
+X-Gm-Message-State: APuU4Z/Wk5EU9PZTOJzSP+mRizFTzy0gj6jFe3clZ+ap0XZm3QmiKnNl
+	QintthcnYFIQ4Fz7ArFYuBewQjZYzAQLDGPZR/m/jwMPLVVuzeu5texd
+X-Gm-Gg: AYBFou0FDEbflUe1YoPAdvRaAq2nV/876vHoUr+ZEcx8YkYmaKLp2MuGKwmpSyYj07T
+	qDi3Ohq7uk7SMziIgW4PW1TZjW8qP5zGXph/DZy1dswRV3WYEOPa1lG0htKGIXpIpxSacCtrm9f
+	CjVh0QF3P1EoIzQa6FYangrys7GzGS6/F3vRyNtmALKMKz3AN/j5k5ThtUAKWCuVKeGbUcjAKm6
+	H5x/9MyLD4YjH4c+98e/sSy1riJOXI/CVMAP3+aHpdM3Vp4Y5pszL3IJKB4H7qwx0doJ8etAgy8
+	ahyK/7IYLZIIWbPD/ASLCozjQhOgSzfXrZ5C8OwdDEtL7cmjuGCMg2r+1/rK3dfoGfbO5x/ce+1
+	FrMaLzkKssUgI8kISPm1Kpqzqdo/ETSglE8etiXNKdW9Fh8HFHy46xF1Tol0k+ObCl1oCy25j3O
+	NC1hNiVxMDxwAv7UWuYMVpJDJVvNBAfOD/gKPAYwAw0zSK1rwOVutCOnOS5vo9e9HzKWtb9nM4V
+	jp9dB72HSXBS+qA04QurIPV9v4a0lEWogVizMtIexdhOTeBfE2rh3srbPDULp0eF88tu7X8bkTj
+	GVMVQTERG5tLF/4XzLPA2g1oTiySJUwdjRJXdvCfcjkSqoJNE5bNJf8bv/g1Rk4NcsvHivks5wQ
+	lFNVoprB70LM=
+X-Received: by 2002:a17:907:3ea8:b0:c40:33d:f06f with SMTP id a640c23a62f3a-c4d34cb8b07mr416804266b.39.1794049147355;
+        Sat, 07 Nov 2026 02:59:07 -0800 (PST)
 Received: from localhost (178-84-201-199.dynamic.upc.nl. [178.84.201.199])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b65d6b3847sm1654045a12.1.2026.11.07.02.59.04
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c4d3569f6b8sm139673366b.54.2026.11.07.02.59.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Nov 2026 02:59:04 -0800 (PST)
+        Sat, 07 Nov 2026 02:59:06 -0800 (PST)
 From: Amir Goldstein <amir73il@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Sasha Levin <sashal@kernel.org>,
@@ -87,10 +88,12 @@ Cc: Sasha Levin <sashal@kernel.org>,
 	linux-unionfs@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	Chris Mason <mason@kernel.org>
-Subject: [PATCH 6.12] backing-file: always end a queued write
-Date: Sat,  7 Nov 2026 11:59:00 +0100
-Message-ID: <20261107105904.3962893-1-amir73il@gmail.com>
+Subject: [PATCH 6.1] backing-file: always end a queued write
+Date: Sat,  7 Nov 2026 11:59:02 +0100
+Message-ID: <20261107105904.3962893-3-amir73il@gmail.com>
 X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261107105904.3962893-1-amir73il@gmail.com>
+References: <20261107105904.3962893-1-amir73il@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -138,43 +141,40 @@ Signed-off-by: Chris Mason <mason@kernel.org>
 Signed-off-by: Amir Goldstein <amir73il@gmail.com>
 Link: https://patch.msgid.link/20261029180319.2852090-1-amir73il@gmail.com
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+[backport: no fs/backing-file.c, mark the write in struct ovl_aio_req and
+ test it in ovl_aio_cleanup_handler()]
+Signed-off-by: Amir Goldstein <amir73il@gmail.com>
 ---
-[ backport: context: no do_backing_file_write_iter(), the write is marked
-  in backing_file_write_iter() ]
+ fs/overlayfs/file.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
- fs/backing-file.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/fs/backing-file.c b/fs/backing-file.c
---- a/fs/backing-file.c
-+++ b/fs/backing-file.c
-@@ -83,6 +83,7 @@ struct backing_aio {
+diff --git a/fs/overlayfs/file.c b/fs/overlayfs/file.c
+--- a/fs/overlayfs/file.c
++++ b/fs/overlayfs/file.c
+@@ -19,6 +19,7 @@ struct ovl_aio_req {
+ 	struct kiocb iocb;
  	refcount_t ref;
  	struct kiocb *orig_iocb;
- 	/* used for aio completion */
 +	bool is_write;
- 	void (*end_write)(struct file *, loff_t, ssize_t);
- 	struct work_struct work;
- 	long res;
-@@ -123,7 +124,8 @@ static void backing_aio_rw_complete(struct kiocb *iocb, long res)
- 	struct backing_aio *aio = container_of(iocb, struct backing_aio, iocb);
- 	struct kiocb *orig_iocb = aio->orig_iocb;
+ };
  
--	if (iocb->ki_flags & IOCB_WRITE)
-+	/* Pairs with kiocb_start_write() in vfs_iocb_iter_write() */
-+	if (aio->is_write)
- 		kiocb_end_write(iocb);
+ static struct kmem_cache *ovl_aio_request_cachep;
+@@ -269,7 +270,7 @@ static void ovl_aio_cleanup_handler(struct ovl_aio_req *aio_req)
+ 	struct kiocb *iocb = &aio_req->iocb;
+ 	struct kiocb *orig_iocb = aio_req->orig_iocb;
  
- 	backing_aio_cleanup(aio, res);
-@@ -255,6 +257,7 @@ ssize_t backing_file_write_iter(struct file *file, struct iov_iter *iter,
- 		if (!aio)
- 			goto out;
+-	if (iocb->ki_flags & IOCB_WRITE) {
++	if (aio_req->is_write) {
+ 		struct inode *inode = file_inode(orig_iocb->ki_filp);
  
- 		aio->orig_iocb = iocb;
-+		aio->is_write = true;
- 		aio->end_write = ctx->end_write;
- 		kiocb_clone(&aio->iocb, iocb, get_file(file));
- 		aio->iocb.ki_flags = flags;
+ 		/* Actually acquired in ovl_write_iter() */
+@@ -396,6 +397,7 @@ static ssize_t ovl_write_iter(struct kiocb *iocb, struct iov_iter *iter)
+ 				     SB_FREEZE_WRITE);
+ 		real.flags = 0;
+ 		aio_req->orig_iocb = iocb;
++		aio_req->is_write = true;
+ 		kiocb_clone(&aio_req->iocb, iocb, get_file(real.file));
+ 		aio_req->iocb.ki_flags = ifl;
+ 		aio_req->iocb.ki_complete = ovl_aio_rw_complete;
 -- 
 backport
-
