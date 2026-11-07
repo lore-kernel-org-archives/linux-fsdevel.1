@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
 	t=1794011827;
-	b=gSOrd37L4eVfK1IcxXMcboxJVAnDm8g5n9t9PfUZnvqhjXcHmEvmWZzR3kfymOTiwSwY
-	 +f2a1ZusPgWz3IqfUBPn5K0qgc9+EgJrxg2jzpr9e81AsFcFotc6H6rgOJKrbh6B0ybGS
-	 RmhmbMP43DEOiOTLV/iR5FFb+WKVdWm40MgPySeEvOPO12cDtJNPae3UOorb+shw+Ux2e
-	 k7xNPx4H0V3AlQx3PiH5raaYtYm8+LzPZus89jZU6Yt3RkL5YpzD+Adfc5y+6vzrSM/sX
-	 AJikAUHBntLPbKj1Hoz+1XhhfQGeNzeo+NReKniIbCnSkTMksFdhhqS8qPotUNSF/uA==
+	b=QYUPi52Qy50mqCjuP0yBh9tQc49u+0DC1zfEmDT5Vz5Uu21hTKqBMw9JK5WKpoeecaUW
+	 STuPYNus0KfNbckHvB3HZhJqduJGrbi4oSSRpm+lIzlzdpAkb6u5yfqK8ghdORqjg3eXC
+	 SpfhFl3AVK8+Zf26l8mVXe8ojALve6/LwI89PxQLWySxroHrTDhR12MZGBBsAekN6eOp9
+	 NOxevMd9e8f+5Gqt0GJVi1+KC2rfCheGdrcjVYQqupII+2PVklve6WhED1mBpMpkm/fh0
+	 m0wfSDDC7PtwmEuQ2olJU+Zs11kYwkPvEWTb9I1lVsbLlgwAStO7pf0HqpblVnI4V9Q==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794011827;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=ReU0Kd+FdZN68/M0M8cDAR0IDKP7C8zpUFj1mjltVuQ=;
-	b=I2tASj0yR38GECyAM2q3K8/TMRl8zGKYnSZN0oN/gu7bT0jf5wLpGH9mpJQJRoW8E1v4
-	 AFh5qZmJ9i11noMQQFqx4AJsVg2ZTJhZV9iKDG3hUqML5jlKxSTQrXcm4PkU1EVlKZohp
-	 LeViilsCjcyg50EBLYiNWq3nE1jQlwtAXy+fZ05KhZUhQ2t4oqbPXlW+dMdx0QihgLc2J
-	 jGIPJ6i2/Jv8IZMLOTZco5idnX/d5L6y4EV++HawvECuTEDxX7ZuXcWlTvbSI7uWZGNsp
-	 Kl04pVCfPs32s9iA5oXKl/eCn8c6nPGi7dpegbq/tt3wM8mfj/lZ0BDbhMavwTJqkEg==
+	bh=JrP6l22VK6AldWxiWhpFsQCv9l0Qgcd3J7DNoznOHbY=;
+	b=jP1YVt6qUGUw9ECErBx504zQPtYY/mUzZ0BIcp0jZ9mjyzR6JrXnTlbMM1gUtWSf3LFI
+	 wB49+yI+A+FnC8Te6U9hIotZ3iFGGCVyie46FZDYi2cSXnll3ahTFFDmC6+rjmfvX+BCE
+	 5mZpnflOgizNF5AYMBH/CR9EDhgvbZpwwiawArjjWdrlvgUvjQwAqoi6iYHnzEkx1kfJS
+	 1GRNPekUI+Bm9RB18LisXgiVR/x/kUnimBZMKB7IETXNbVaf7HnVMjADDpKo7extf+SAh
+	 Uh18Ag6Zsw/T3PIOKqELW1xPunUWh75+YURmvd1cd4s29htk9slLW8ayjTW5aqJw+sA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=F75uEguT;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hx3uuviZ;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D67E2606EE87;
-	Sat,  7 Nov 2026 00:37:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AAAC606D82D;
+	Sat,  7 Nov 2026 00:37:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=F75uEguT
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hx3uuviZ
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794011826;
-	b=05hxEjhEqo6TvNbe5/8iJxieooxXKUZKhOzJBq23AsnOnI5tSbhzuZ+4sLMXis071Nni
-	 fl/NT0mHeIJ1aw4ehxfOmw78CptWMnMEwcPCB1INRIL0SAWY9NxdBEHnyjhiPkxxkPEN3
-	 UetotQ275OHDoU/+ncUEAm/ToGVLYHGLP5gjcmOiG/S1xHjgFTcBoJ/LErLm4wYJYD9AK
-	 MHUAUKnPadsCWC6rbIlP6UTiafZoXoLFz34ZNygq+dXF2GpJctvTBbi1/6ePZQi+RGMc9
-	 gcmaasssLjE6FWe/2Z05kFgIJyz9E43apeS7ZVZ8uqI/zlfEyyhm+MR8bWPi2z2ug/g==
+	t=1794011827;
+	b=pIOf56ltUFVp8TKwdob/sf3XUAs+kP859hXEEnm3HATr5salmNva4s9ecN+AG1+/dzuk
+	 HZC4TxCLDb52v5REw+84eeocIx38cGUDKC4pqmc3ISrnRqvjZnyyBav5CZwtkToZ8fDnj
+	 1Y0xsj17LxTpaaX6JfsibOQ24/GVogkfLRMsqT8jQMiLTonHGrP7BeHGlboqSaqJieyWQ
+	 eeyyQXRWb9G+UGKytJFLC5hy8N9L/q0UvKLXsCax9l8c1E3Vge//664xxoH/NZefUQzpI
+	 YBpWIqxg/RWOpsspqW+d+X7fmvUEtY4QN0uGHl/dQ1HK9njo7BYRdRKtFEpIqHaw3dg==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794011826;
+	c=relaxed/relaxed; t=1794011827;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=ReU0Kd+FdZN68/M0M8cDAR0IDKP7C8zpUFj1mjltVuQ=;
-	b=zj+jbU7dzpnKmpF3CZ/l/SkqwmeK76jlYHq6Ubi8oIt9PhR8cSOxY5BUY3sfv0BUenhH
-	 1jUOimltu+lTt0xnjbBnmxVR1/8xpX04iUzTQPVXJu+o7iYwmJjLjTY+MsmCRU6IkZxFy
-	 xiXI6nruMMqWFDlPVBpImWcZnqsfCCaFslALf4C1/KD+XVQBgaIgUZqUtSZjGcKr3eQVZ
-	 cSMC0p8dUbjnivJ5ufvDeD3SSICWL9hTlsSX35716viscDpBNkGSX4CcARCQpOt7UzcUi
-	 YNctGat2XxQJPJ5Rc/+dE9MP6CzjmpK+QSwtIdFzeBbxhJmr391TcfBvXEECSEf8VqA==
+	bh=JrP6l22VK6AldWxiWhpFsQCv9l0Qgcd3J7DNoznOHbY=;
+	b=bngrH46gRD3bEbiwOoWvBz3tyFeKOKpAVEUR48EtzyF+Fe53B6aqQTf8E1JzVqtF63a0
+	 TlgWns/3Gd3zi/uCO+bigQXlWNLpuXxxWJ26p0WVpyJIjK0WHY6ep1qw1y0eANfZybqRk
+	 LGB4c0Bn2gDPNohj0VbkAvcTy4ni0X1FUKwDfOkwlIoMbpCqgsYcIM57KhXVtg8p44uTC
+	 CWu+Zrb3TkHsxP9WYBO2BvZqOWPrOORsp3mq0IS51Zr9ODPmkIeZGQTtVEAIW0C6EeY3o
+	 l2X09eYT7Z5YtsSW6NMRGEUikAh9YjrK5t8OgojaJlBpzgEJj1h6HVE6aGFRXu/Lrvg==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 9D7861F008A6;
+	by smtp.kernel.org (Postfix) with ESMTPS id 24F781F0092C;
 	Sat,  7 Nov 2026 00:37:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794011826;
-	bh=ReU0Kd+FdZN68/M0M8cDAR0IDKP7C8zpUFj1mjltVuQ=;
+	s=k20260515; t=1794011827;
+	bh=JrP6l22VK6AldWxiWhpFsQCv9l0Qgcd3J7DNoznOHbY=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=F75uEguTQqAJ03WhlACLIRO2diPsETAYhJCo12G2j3JlW1G606YrIicyLAfSJZt3U
-	 Wl/AoXCSkF3oJFW+jlylucMvO1VE4eE7Lbqk9lS+6JZnvPIU8LDDic8rN6ByuDwt63
-	 oSSgAdSuX0wGgFLuM39z7F5Y+myaYwLJ8kXb4MkwJ5VdzbqgYyLS3eq7ul8NXkX/uT
-	 VbhWJwIHCp3hz0rkiDO56coeRdJKpKrT9hA6S3C2bm65TFC2kSgZxpnmUVuEjzPG0G
-	 BOP3A3raKASJpxDQDkZIHrA12le/QgD4Jj9yKKAAW2aB2e7bZekyai/BV8nSYQWHVP
-	 mFB8tKGBFRUBA==
+	b=hx3uuviZV9dttW2piCRtuIyn3jTtJRrhwB0hi1IIp6523Hpbpx+Mts8ZNhfp/NJBi
+	 so5CvAr0GwA7t1HyRTbMnY1r/NYb/CYGAAFRoxKzC5twOsJTyA8SHQZfuYbGTGp5gI
+	 pHCUrWFXj2e8g1CU4SEM2qXrjahR0M4Qw3cu0mbjtV3SZtO4VE5TUUTyiiAxR3QI3+
+	 Yd0jAjO6a67U26nYAsT3Yh2KOcTmHizCiW/MG6uZWR/9WpD+f2DQTozQXcwHRQng2d
+	 Cb1KdUW4OCMJ5j9OXHozuEXe+gmBQBA+cDtk5yM9Bj4syufJ9BVc1rw1CFNPvmIkV9
+	 NA9zuB7OHFxqg==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 66C09479A2;
+	by lkml.kernel.org (Postfix) with ESMTP id 564534799E;
 	Sat,  7 Nov 2026 00:36:55 +0000 (UTC)
 From: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>
-Date: Fri, 06 Nov 2026 16:37:10 -0800
-Subject: [PATCH RFC v3 36/88] KVM: guest_memfd: Clamp hole punch range to
- inode size
+Date: Fri, 06 Nov 2026 16:37:09 -0800
+Subject: [PATCH RFC v3 35/88] KVM: guest_memfd: Support preallocating
+ memory via fallocate in PFN mode
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -84,7 +84,7 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261106-gmem-alternative-providers-v3-36-8484dde66a7e@google.com>
+Message-Id: <20261106-gmem-alternative-providers-v3-35-8484dde66a7e@google.com>
 References: <20261106-gmem-alternative-providers-v3-0-8484dde66a7e@google.com>
 In-Reply-To: <20261106-gmem-alternative-providers-v3-0-8484dde66a7e@google.com>
 To: Alexey Kardashevskiy <aik@amd.com>, 
@@ -105,11 +105,11 @@ Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
  linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
  Ackerley Tng <ackerleytng@google.com>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794011809; l=1715;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794011809; l=2052;
  i=ackerleytng@google.com; s=20260225; h=from:subject:message-id;
- bh=T1L8Nqi+JAoaUb9Yx5e8qDpkaF/OKb1FzBs+jwYeM/M=;
- b=4gV4aRNMilBvg0nqyt8Kg4QHKxmtpIyDoHFAB46oLSBIQhuWagSSLMn6nq9UF/ZLeSvyJZ1eW
- jOa0E0XXB1iAfvQ6IfaTdKRmpQRRW0WZutOkaFwv0I1tgcjtp4U/5YM
+ bh=y5ji1QZXHiuR/oyFz2HLfJNU3wDMuExGaG2bV2F9jH0=;
+ b=DW3LHEMrOWHyFBzYbIPFyKM5f6WF7y8psIUQsI0OqS5DAy7Qg1PqfpHwQmy0Y47gdcmY7E2JQ
+ Pg5dgsEC+uVDKCSzf51XtagCoDyPmvKfgnkxrFZ8dF0gqS9b+M/7K6r
 X-Developer-Key: i=ackerleytng@google.com; a=ed25519;
  pk=sAZDYXdm6Iz8FHitpHeFlCMXwabodTm7p8/3/8xUxuU=
 X-Endpoint-Received: by B4 Relay for ackerleytng@google.com/20260225 with
@@ -120,49 +120,70 @@ Content-Transfer-Encoding: 7bit
 
 From: Ackerley Tng <ackerleytng@google.com>
 
-When userspace punches a hole via fallocate, the VFS only validates that
-the offset and length do not overflow the superblock maximum file size,
-allowing ranges that extend past the end of the guest_memfd inode.
+In PFN mode, memory is not backed by page cache folios, so attempting
+to allocate folios during fallocate fails.
 
-In folio mode, truncating page cache folios past the end of the inode is a
-fast no-op because the page cache xarray has no entries beyond the inode
-size.
-
-Prepare for PFN mode by clamping the hole punch range to the inode size and
-returning early if the starting offset is at or beyond the end of the file.
-
-This avoids, in PFN mode, iterating across a potentially huge punched range
-where the provider isn't even providing that memory to guest_memfd.
-
-For folios, no functional change intended.
+Support preallocating backing memory in PFN mode by querying the
+provider for PFNs across the requested range. Step forward by the
+contiguous order reported by the provider so that large contiguous
+allocations do not require redundant per-page calls.
 
 Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 ---
- virt/kvm/guest_memfd.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ virt/kvm/guest_memfd.c | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
 diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
-index c62e15e05a249..9e8204f5c2588 100644
+index 0e392b8735259..c62e15e05a249 100644
 --- a/virt/kvm/guest_memfd.c
 +++ b/virt/kvm/guest_memfd.c
-@@ -388,8 +388,15 @@ static void kvm_gmem_invalidate_end(struct inode *inode, pgoff_t start,
- static long kvm_gmem_punch_hole(struct inode *inode, loff_t offset, loff_t len)
+@@ -411,6 +411,7 @@ static long kvm_gmem_punch_hole(struct inode *inode, loff_t offset, loff_t len)
+ static long kvm_gmem_allocate(struct inode *inode, loff_t offset, loff_t len)
  {
- 	enum kvm_gfn_range_filter filter = kvm_gmem_get_all_gfns_filter(inode);
--	pgoff_t start = offset >> PAGE_SHIFT;
--	pgoff_t end = (offset + len) >> PAGE_SHIFT;
-+	loff_t size = i_size_read(inode);
-+	pgoff_t start, end;
-+
-+	if (offset >= size)
-+		return 0;
-+
-+	len = min(len, size - offset);
-+	start = offset >> PAGE_SHIFT;
-+	end = (offset + len) >> PAGE_SHIFT;
+ 	struct address_space *mapping = inode->i_mapping;
++	struct gmem_inode *gi = GMEM_I(inode);
+ 	pgoff_t start, index, end;
+ 	int r;
  
- 	/*
- 	 * Bindings must be stable across invalidation to ensure the start+end
+@@ -424,6 +425,30 @@ static long kvm_gmem_allocate(struct inode *inode, loff_t offset, loff_t len)
+ 	end = (offset + len) >> PAGE_SHIFT;
+ 
+ 	r = 0;
++	if (kvm_gmem_is_pfn_mode(gi)) {
++		for (index = start; index < end; ) {
++			pgoff_t next_boundary;
++			pgoff_t max_nr_pages;
++			int max_order = 0;
++			kvm_pfn_t pfn;
++
++			if (signal_pending(current)) {
++				r = -EINTR;
++				break;
++			}
++
++			r = gmem_provider_get_pfn(gi, index, &pfn, &max_order, NULL);
++			if (r)
++				break;
++
++			max_nr_pages = 1UL << max_order;
++			next_boundary = ALIGN_DOWN(index + max_nr_pages, max_nr_pages);
++			index += min_t(size_t, next_boundary - index, end - index);
++			cond_resched();
++		}
++		goto out_unlock;
++	}
++
+ 	for (index = start; index < end; ) {
+ 		struct folio *folio;
+ 
+@@ -450,6 +475,7 @@ static long kvm_gmem_allocate(struct inode *inode, loff_t offset, loff_t len)
+ 		cond_resched();
+ 	}
+ 
++out_unlock:
+ 	filemap_invalidate_unlock_shared(mapping);
+ 
+ 	return r;
 
 -- 
 2.56.0.455.g6c5a503b38-goog
