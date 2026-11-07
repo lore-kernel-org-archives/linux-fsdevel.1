@@ -1,79 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=54.254.200.92
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794066611;
-	b=VfRPBptE7z3Vmpy+dhx/4YGi5O6MtNCctSxRs0I1Y1yPfN7VfO+aHUcT2R1ds9Tui+Xd
-	 yv6rNSYjM9ExT85VTuga5PIBeyuAWnoCABVzJJN3tgpJA7mPW8qwLIDDy8m1QKZgoe5QU
-	 uBXevbreTasgIzp1ywTEZ9xWHSn5WixYI1aBESkbC3yGsf0Y7Bke/MJDURCvYuOLST1Ug
-	 2mByvaqiGVOi/Qpf/gGd6kqPOaVhYih/b7y1iJAweN0HEO9I80Msq/0MGp63tpTi5iu4C
-	 MLPEhcoIA/o4O7N1ouxWmGH08CoWuLYBIzhzcia+eAjTmV4MiX1nqbaZIla3uECv0vg==
+	t=1794067486;
+	b=xfUsSQW0CJTVpr9+xYtkc9oFTrfyYdY21nHkUDIuhqJEFreltSzRZWrftTxQ/fHKkdQv
+	 FbENDGhj5blUuRjNfsbHZNtOSyw1JPQJIKJSlA05KwdfZ9RcAjQ6B4h0UlOH5GBsKVLT6
+	 OHJpxT9yElHSxbUW8pzqF1rkMraWCruj/p0sIV0v5QmouTTf+w58XwP3cH5XBCjKOk6to
+	 MkV+PA7RlWxqaYkb22Q3KXr0UxHWcx/JK8cH8yanawFKVqPBJJiY1rscFLtWq9vO94yEc
+	 EuipLVzLLq8XKfiqkkKVSQr+aPPyix7V6IEjs4jL1rXzW7TEDn/VtQBTtxCY5ivfBPA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794066611;
-	h=DMARC-Filter:DKIM-Signature:X-QQ-mid:X-QQ-Originating-IP:Received:
-	 X-QQ-SSF:X-QQ-GoodBg:X-BIZMAIL-ID:EX-QQ-RecipientCnt:From:To:Cc:
-	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-QQ-SENDSIZE:Feedback-ID:X-QQ-XMAILINFO:
-	 X-QQ-XMRINFO:X-QQ-RECHKSPAM;
-	bh=aJjGWD/vfGCeNthSFGq62tpflr1wnv6PQDhbywv/vbY=;
-	b=4T9QCIpWleeICFtiGj4qbNsAbK/jAJd88In/MeBlRvlxp81Sto3Ud/aK95LNGK9xsB+E
-	 a7Iyd6mrudvWh5+RutXNgUJQgrbv9zXeJ+B8R8nwe11KMinP2kTwZmpdw9cKrMwNtVtS+
-	 04ndqC92eSaFbxViKMmCLFRl6PEETdf4xVGSWYghqBLE2geXpqtiGCCyXX6uT/2TBDQoc
-	 thnKGQZUOU1yWccouQX7SbmA6AHsWRo2ixvKi4PgB6PThcIiraxNqfykZetBJo/IhLLdR
-	 n3uIdcs1vAmhScRmqf5NpXXL7bxgd3tvGY506suJxbRGSWfk/Qm60Hi+r7mFV9llfWw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794067486;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:X-Mailer:
+	 References:In-Reply-To;
+	bh=mqyQUben+O+C45t60kMw5HEu8sl3i3WUxLhAUPmitLU=;
+	b=yMFzX+uTuHiWp85/lb+jzN9W/tUkva24n6JDefu0O1fZeLmRLg8Qm3YmI9fClmxdOkWa
+	 RYCBx6Ieu9qo7BCUtq8Rutm7b0Cz3gNBY2IhcHiuPbQ6cv7qziLEWHlYw2A5IqEoGAd47
+	 TBLhSbk7L/UlWaI8vJAbgi1C9dn7MEQ5Uq+gcE0fzUFjuOcMDP96TYZa+AoCAdub51E0x
+	 /dYF0lsvEw6M7jhL8oMMGLtYlWi/2ay75WLUju5uss3uS6t9PeLhAD3wzuOnKnoZ4sy16
+	 fOv/lzdqxSRHmH/tSnFufaz5744FRc1jWdyErxc0I6dJlLgGTtOOXGPl89zVRNSNrPw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mail.sustech.edu.cn;
-	spf=pass smtp.mailfrom=mail.sustech.edu.cn;
-	dkim=pass header.d=mail.sustech.edu.cn header.i=@mail.sustech.edu.cn header.a=rsa-sha256 header.s=oemc2211 header.b=GvHcgPzc;
-	arc=none smtp.remote-ip=54.254.200.92
-Received: from smtpbgsg1.qq.com (smtpbgsg1.qq.com [54.254.200.92])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="YZf/KkmS";
+	arc=none smtp.remote-ip=209.85.128.45
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7CDE606A96D;
-	Sat,  7 Nov 2026 15:50:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B7CDE606A96D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.sustech.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.sustech.edu.cn
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0ABB606A32E
+	for <linux-fsdevel@vger.kernel.org>; Sat,  7 Nov 2026 16:04:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B0ABB606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=mail.sustech.edu.cn header.i=@mail.sustech.edu.cn header.a=rsa-sha256 header.s=oemc2211 header.b=GvHcgPzc
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mail.sustech.edu.cn;
-	s=oemc2211; t=1794066580;
-	bh=aJjGWD/vfGCeNthSFGq62tpflr1wnv6PQDhbywv/vbY=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=GvHcgPzc4RkvD4MuMNMlSmkxn1Q+j1WO+SNbucOUUAWwhfv88xFYWrA7GGoktragP
-	 +jEUDnpoUg+pj2n+W7X/2Jp3vIxsSQmRHdWiauoC9HWhPtVbzMgxmoQxvOkvktGfAo
-	 l6zZ56FrPHzkFTIHBswWjCSVzJ193ZacY9IzhH4c=
-X-QQ-mid: zesmtpip2t1794066575t17dc6bf4
-X-QQ-Originating-IP: zQ/J0f/x/SlXcb2KzWWkP67AAd1gcp+nJr1xJQnRQww=
-Received: from szdytom-matebook.sustech.edu.cn ( [localhost])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Sat, 07 Nov 2026 23:49:33 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 11137086329825717384
-EX-QQ-RecipientCnt: 17
-From: Shi Lecun <shilc2025@mail.sustech.edu.cn>
-To: John Johansen <john.johansen@canonical.com>,
-	Georgia Garcia <georgia.garcia@canonical.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>
-Cc: Paul Moore <paul@paul-moore.com>,
-	James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Seth Arnold <seth.arnold@canonical.com>,
-	Jeff Layton <jlayton@kernel.org>,
-	Chuck Lever <cel@kernel.org>,
-	Alexander Aring <alex.aring@gmail.com>,
-	Jan Kara <jack@suse.cz>,
-	apparmor@lists.ubuntu.com,
-	linux-security-module@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Fengwei Zhang <zhangfw@sustech.edu.cn>
-Subject: [RFC PATCH 1/2] apparmor: mediate file-generated signals
-Date: Sat,  7 Nov 2026 23:49:27 +0800
-Message-ID: <B01DC8398B429509+20261107154928.3519030-2-shilc2025@mail.sustech.edu.cn>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261107154928.3519030-1-shilc2025@mail.sustech.edu.cn>
-References: <20261107154928.3519030-1-shilc2025@mail.sustech.edu.cn>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YZf/KkmS
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4b467581b98so12513455e9.0
+        for <linux-fsdevel@vger.kernel.org>; Sat, 07 Nov 2026 08:04:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794067484; x=1794672284; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:mime-version:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=mqyQUben+O+C45t60kMw5HEu8sl3i3WUxLhAUPmitLU=;
+        b=YZf/KkmSteAYdRId8mTuuz8BJ1lU0kzsVdHhpcRnnR0CeeqnhipeaU0L73tQ+IUITO
+         8rDliT1U67umS4LkrhAS6QvZRNETB8V8E0+ghQQMGGnWb7ijLmrOghJVu3Au2EJyWlaD
+         bL838wdplSfs9kpxwI4OLCmteAeuCyxbjtrXDa45y5fGDpbrT0J/ZiRr09wnRdAyrfnX
+         ucrIHuFRXb7KM1aXXTqeIZI7CAq8FX+g9KGH2PkSs2BUJsij5onOWbqKipq7Lm3Ax74C
+         9wk/Bdgf6iNWumacZJlCrUdLplNGZe47u2FDr817cv97Y38mKuE1VNytKZy3KfaOFwgb
+         YfFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794067484; x=1794672284;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=mqyQUben+O+C45t60kMw5HEu8sl3i3WUxLhAUPmitLU=;
+        b=wjHp6FS7KoMb0YNS+r6D/vrZP/41ZJ048e86qmFqBHCt1PF9BSX95c6mBtTAl3SadB
+         50EO6OpwIAu0owuuThxg2Mz3hnjqqbzsy0Wd9CH1V8+NRWXemON48I4LD5m3P6o2Hkmj
+         oRpNUxdMG/Gsv7dwLZttqkdgIOKx2ukIhzOwr1oe2G8w2zts0IiAZn2idfom/2xpdz7v
+         80cGznr30+CVRah5azDOPv977y+Oapz6/xkXIZ5S7XUtZLUnRiJ2tAWZw2pGqZkfqYvf
+         8Tus/PfLfMrcPHhW3VgQL9gXtVI8KFc8c2JfNnNyM2q0Pez+pqesDynCKkNtg4+h8ZU0
+         kttA==
+X-Forwarded-Encrypted: i=1; AKwUvBz1YRfkThTd6uGtZC/QIKL1XH5H+Ce5ds9KUemZHLNNphvUG7ePODJl5wWaeE73nw05hey4Wj3hh38jRF2n@vger.kernel.org
+X-Gm-Message-State: APuU4Z+wfTWVjm4Os1Wu/KEi4uKJnQn19CaJ3I7YH0xuqLCyIVJ/6cnx
+	4a2vmyDlcIhiR5S0a/Sqgp0DWhYjQwBx/0y9Fe771VCoDL3G2OaulXZJ
+X-Gm-Gg: AYBFou1Dip3iuOTuq5rBJJHK9wORwfPgcH98HF3n2PLgP9lCDOOXWemaLeLflrPU9eq
+	WlnlJfXXHf4l4+3BR7rYtWXMcn1UoLnuHxJyoQyjq+5FZkpOYluB2VnB9GJMgye1nXENUrxpRwc
+	pZsFS6nUg2fTj7IVjvccHlUMRzTCikFLWVQwCDJXRybIOyjszbbiaB80dbOE1CZWXhbXgVttG45
+	22REpRJA2foNCSUttm1KHfExLdfrm7Sa12vIljZ/tYbWQdJDJSMwONy+CQxLjAvHtX52mS8ETS8
+	WuRN9lkLuvPKeaFBVhoVOOet2+Re6CLKcwrVDtFM46VDqoogeK92DhEFX+PIfU0kVbaKPW8aSvm
+	c8We14pvjY1oRLSSpEPFdW1A1nALUpEIgdUJGMHOutw+A1oxaBG0UvH7LM3Ny7lmbhg4VFrKwGq
+	kRi/60XkKUWZyu5yjUgd+Pxa0q7K82mkSnfSR9JwzlfiKoLxv+TFzF2wkRPgqG/3lYwIvmURp5k
+	ek4YTlbBXK1aWZyHnRJ6IgtgoM1lulovHbCHgO9bdNl1yy4Pb4hRpyh7XSKTaowPCnt8kZjBSVX
+	C1lx6W3eRbTFQLK3jR1KQi9LmbXxBkRR5A+jU6XhvB5/jYUb
+X-Received: by 2002:a05:600c:3e8f:b0:4a5:87b3:ddc1 with SMTP id 5b1f17b1804b1-4b6de4a6ba1mr96406245e9.13.1794067483781;
+        Sat, 07 Nov 2026 08:04:43 -0800 (PST)
+Received: from localhost ([2001:b07:5d26:7a6a:de3b:51f3:e461:c0df])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b7e327a652sm72731355e9.7.2026.11.07.08.04.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 07 Nov 2026 08:04:42 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -82,138 +86,155 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpip:mail.sustech.edu.cn:qybglogicsvrsz:qybglogicsvrsz4b-0
-X-QQ-XMAILINFO: NcmC868q55ANhqeY2IR6i5kWK1brczVm1xMTuUpVyTOefSwQ8gD9wsTq
-	j5FbW4+cMkJNb3CMUhFPNTGFb3sNTqFfLC7GAIyR0uCraN0Cd579kCFqSbWnCrtPcfYI0yM
-	kU6GG9+r95fXlQqPgz/n873sk1ojM7gT2QBdO/ENBbR+yS3JDuWoriZKExDij62rwrYkHDg
-	sUmUURB8++rooN40LRZ6udn6apRjGHKc1sk4dFVUcyPQa+UIgCP/KFmQzgeiYci1HvsfqXb
-	Cyk+YzbbX1rChenJrOpvGmafLCCmyBcEsJKLDJGNNEjB/N+I/GhbtUdqT7W/n3dvbz1CYVD
-	++3wk9lGZ48BedMlEuKK67++hSiISnPqWFZHrc6DrYBfNaPoE4LM3IvKX71JUepEwBIeV2L
-	+GeTKYz1qarhtRVdbMtbeKCcuRpF/wZDZc2PfhNxi5ZPzf0vaU3Py8rMKuFFtx8Mq0F1Mez
-	topDQs9tiWOhSiMQPXiSc2rWTiptojuooh4A0jDJFPP5pd3QC1zp6FvJHfnFVwf/BPfoyCJ
-	LU+Ne1fxOV7M9trtvKiORwux/HQ8+NJDKxNB66EKC5rWzUn67YkThowZ6wT4A/PY2mD6u5v
-	4xmz2GfV4VZcqNVU5dgXzcF05S7RHTPTiyzoR25uyfFTT7mJFmAwq+L0zRJ+Da+i9P+jCkN
-	28tXHQHd9cg9h6gRXrAIKSmHC6as8OnBw2T8Vd4SkR7FLDr4cYGmrs5WZ3y5ZoIQf8ZPzSN
-	pO7t49Gq+bg3fvZpKUoakdjlPKepk0GOlckPCSNiNtIOUUCkJjCI+ZJBZ2oIHmEOUpLZswZ
-	AmCVrRBLp8+gT4AbwzTZUNJxEHYJglgShLJByO6WU0wEC2LJZhQLtaR491Dbz0Gpffvy5g9
-	pqvwQkycgjmT91NibfuSwgXXHAlBuM5PSfTXlWLhNCl6oW6+UCBHAg0ghy6olmso+ip15eG
-	+GgDGfryUnRVcDKkiaW/lAFLuHNEhJ+uEko05ezUF8GnsZFlBWHc8XM6LFYor35bepHKQ+m
-	YrQHVOLp+qEkINF6RS2nxa8h+bszaCB6VOaMxb4XNtRM/qyHcYfrIezUd54fSBipEbspB7D
-	WBlhUIbUNm4rf9M8FpFBy4=
-X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
-X-QQ-RECHKSPAM: 0
+Mime-Version: 1.0
+Content-Type: multipart/signed;
+ boundary=95ab675be9d074487606c137f0b6646de41c65221c97957b70ca632d1c3b;
+ micalg=pgp-sha512; protocol="application/pgp-signature"
+Date: Sat, 07 Nov 2026 17:04:33 +0100
+Message-Id: <DMP3UBB0QVOT.20HIXK7ZL6K6U@gmail.com>
+Cc: "David Sterba" <dsterba@suse.com>, "Alexander Viro"
+ <viro@zeniv.linux.org.uk>, "Christian Brauner" <brauner@kernel.org>,
+ "Namjae Jeon" <linkinjeon@kernel.org>, "Sungjong Seo"
+ <sj1557.seo@samsung.com>, "Konstantin Komarov"
+ <almaz.alexandrovich@paragon-software.com>, "Chris Mason"
+ <mason@kernel.org>, "Jan Kara" <jack@suse.cz>, "Yuezhang Mo"
+ <yuezhang.mo@sony.com>, "Chuck Lever" <cel@kernel.org>, "Darrick J . Wong"
+ <djwong@kernel.org>, "Sean Smith" <defendthedisabled@gmail.com>, "Andrey
+ Albershteyn" <aalbersh@kernel.org>, "Pedro Falcato" <pfalcato@suse.de>,
+ =?utf-8?q?Pali_Roh=C3=A1r?= <pali@kernel.org>,
+ <linux-btrfs@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <exfat@lists.linux.dev>,
+ <ntfs3@lists.linux.dev>, <linux-api@vger.kernel.org>
+Subject: Re: [RFC PATCH v3 1/5] vfs: add provenance time (ptime)
+From: "koraynilay" <koray.fra@gmail.com>
+To: "Amir Goldstein" <amir73il@gmail.com>, "koraynilay"
+ <koray.fra@gmail.com>
+X-Mailer: aerc 0.22.0-0-gc2f86b7abde3
+References: <20261101015551.786044-1-koray.fra@gmail.com>
+ <20261101015551.786044-2-koray.fra@gmail.com>
+ <CAOQ4uxiuJ=eZu28FZAUz3rpqPKqCimPxJucOnYYuBowvD09_Cw@mail.gmail.com>
+In-Reply-To: <CAOQ4uxiuJ=eZu28FZAUz3rpqPKqCimPxJucOnYYuBowvD09_Cw@mail.gmail.com>
 
-File-generated SIGIO and SIGURG notifications use file_send_sigiotask
-rather than task_kill. AppArmor does not implement that hook, so its
-signal send and receive rules are not enforced on this path. A profile
-that denies SIGIO reception can therefore still receive an asynchronous
-pipe notification even though a direct kill() is denied.
+--95ab675be9d074487606c137f0b6646de41c65221c97957b70ca632d1c3b
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-Save the credentials of the task that sets the file owner and use them
-as the sender identity at delivery. Resolve the newest sender and
-recipient labels, and use aa_may_signal() to enforce both send and
-receive rules. Treat a zero signal argument as SIGIO.
+On Mon Nov 2, 2026 at 3:00 PM CET, Amir Goldstein wrote:
+> On Sun, Nov 1, 2026 at 2:57=E2=80=AFAM koraynilay <koray.fra@gmail.com> w=
+rote:
+>>
+>> Add provenance time (ptime), indicating the time when a file or
+>> directory was created. This is user-settable via file_setattr() and
+>> retrievable via statx(2) (using STATX_PTIME) or file_getattr().
+>>
+>> The semantics of when to preserve this new timestamp are the same as
+>> mtime, the idea being that there is a correspondence like this:
+>>
+>> ctime <-> btime
+>> mtime <-> ptime
+>>
+>> so every operation (copying, moving, ...) that currently preserves mtime
+>> should also preserve ptime.
+>>
+>> Furthermore, in order to avoid the legacy FS_IOC_FSSETXATTR accepting
+>> FS_XFLAG_PTIME, add an FS_FILE_ATTR_XFLAGS_MASK mask to support new
+>> xflags, and use it in fileattr_to_file_attr()/file_attr_to_fileattr() to
+>> allow ptime to be used with the file_setattr()/file_getattr() syscalls.
+>>
+>> [ This is a re-implementation of the initial patch[1] by Sean Smith
+>>   <defendthedisabled@gmail.com>, following the advice[2] from Darrick J.
+>>   Wong <djwong@kernel.org> of using file_setattr() instead of updating
+>>   utimensat() ]
+>>
+>> [1]: https://lore.kernel.org/20260405195007.1306-2-DefendTheDisabled@gma=
+il.com
+>> [2]: https://lore.kernel.org/20260407014129.GC6192@frogsfrogsfrogs
+>>
+>> Assisted-by: Gemini:3.8-flash-high antigravity-cli-1.4.7
+>> Signed-off-by: koraynilay <koray.fra@gmail.com>
+>> ---
+>>  fs/file_attr.c            | 33 +++++++++++++++++++++++++++++++--
+>>  fs/stat.c                 |  2 ++
+>>  include/linux/fileattr.h  |  5 +++++
+>>  include/linux/stat.h      |  1 +
+>>  include/uapi/linux/fs.h   |  8 +++++++-
+>>  include/uapi/linux/stat.h |  7 ++++++-
+>>  6 files changed, 52 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/fs/file_attr.c b/fs/file_attr.c
+>> index 833e03810b24..c0645cb22bf3 100644
+>> --- a/fs/file_attr.c
+>> +++ b/fs/file_attr.c
+>> @@ -102,7 +102,7 @@ EXPORT_SYMBOL(vfs_fileattr_get);
+>>  static void fileattr_to_file_attr(const struct file_kattr *fa,
+>>                                   struct file_attr *fattr)
+>>  {
+>> -       __u32 mask =3D FS_XFLAGS_MASK;
+>> +       __u32 mask =3D FS_FILE_ATTR_XFLAGS_MASK;
+>>
+>>         memset(fattr, 0, sizeof(struct file_attr));
+>>         fattr->fa_xflags =3D fa->fsx_xflags & mask;
+>> @@ -110,6 +110,8 @@ static void fileattr_to_file_attr(const struct file_=
+kattr *fa,
+>>         fattr->fa_nextents =3D fa->fsx_nextents;
+>>         fattr->fa_projid =3D fa->fsx_projid;
+>>         fattr->fa_cowextsize =3D fa->fsx_cowextsize;
+>> +       fattr->fa_ptime_sec =3D fa->fsx_ptime.tv_sec;
+>> +       fattr->fa_ptime_nsec =3D fa->fsx_ptime.tv_nsec;
+>>  }
+>>
+>>  /**
+>> @@ -141,15 +143,20 @@ EXPORT_SYMBOL(copy_fsxattr_to_user);
+>>  static int file_attr_to_fileattr(const struct file_attr *fattr,
+>>                                  struct file_kattr *fa)
+>>  {
+>> -       __u64 mask =3D FS_XFLAGS_MASK;
+>> +       __u64 mask =3D FS_FILE_ATTR_XFLAGS_MASK;
+>
+> That is not the correct way to extend this API.
+> This fixed mask was added as a placeholder for
+> "We intend to add support for more xflags to selective filesystems":
+> https://lore.kernel.org/linux-fsdevel/20250329143312.1350603-2-amir73il@g=
+mail.com/
+>
+> Please see this POC patch for filesystems to publish their supported
+> xflags mask:
+> https://lore.kernel.org/linux-fsdevel/20250329143312.1350603-3-amir73il@g=
+mail.com/
 
-Use the existing fown lock to protect the saved credentials. Replace
-the reference when ownership is set again and drop it when the file is
-destroyed. The task triggering I/O need not be the owner setter, and
-delivery can run in interrupt context, so current cannot identify the
-sender.
+Quick quesiton, should _mask also be used for user-space -> VFS to advertis=
+e
+what it wants to change?
+This would be useful for on/off flags, but for ptime both fa->xflags and
+fa->xflags_mask would have the same meaning of "I want to change ptime,
+look at fa->ptime".
+Should we make _mask the only way to advertise what the user wants to
+change, ignore xflags | PTIME in user-space -> VFS and use it only in FS
+-> VFS -> user-space to say "this fs supports PTIME for this file"
+(which will be always once support is added to an FS, so it would just
+be "this FS supports PTIME")?
 
-QEMU/KVM tests on v7.4-rc1 cover send/receive denials, allowed signals,
-F_SETSIG, process-group and TID owners, profile transitions, ownership
-replacement, unconfined senders and TCP urgent notifications. A separate
-fcntl fix handles the case where queuing a configured signal fails and
-delivery falls back to an unchecked SIGIO.
+Thanks,
+koraynilay
 
-Fixes: cd1dbf76b23d ("apparmor: add the ability to mediate signals")
-Signed-off-by: Shi Lecun <shilc2025@mail.sustech.edu.cn>
----
- security/apparmor/include/file.h |  2 ++
- security/apparmor/lsm.c          | 41 +++++++++++++++++++++++++++++++-
- 2 files changed, 42 insertions(+), 1 deletion(-)
+> This will allow callers of file_getattr() to know if the filesystem
+> supports ptime
+> without trying to set it and failing.
+>
+> Thanks,
+> Amir.
 
-diff --git a/security/apparmor/include/file.h b/security/apparmor/include/file.h
-index 1614c07fc53e..c638baf7b9c0 100644
---- a/security/apparmor/include/file.h
-+++ b/security/apparmor/include/file.h
-@@ -37,11 +37,13 @@ static inline struct aa_file_ctx *file_ctx(struct file *file)
- /* struct aa_file_ctx - the AppArmor context the file was opened in
-  * @lock: lock to update the ctx
-  * @label: label currently cached on the ctx
-+ * @fown_cred: credentials of the file owner setter, protected by fown->lock
-  * @perms: the permission the file was opened with
-  */
- struct aa_file_ctx {
- 	spinlock_t lock;
- 	struct aa_label __rcu *label;
-+	const struct cred *fown_cred;
- 	u32 allow;
- };
- 
-diff --git a/security/apparmor/lsm.c b/security/apparmor/lsm.c
-index eaebc3c60c5a..b1c4e82463e2 100644
---- a/security/apparmor/lsm.c
-+++ b/security/apparmor/lsm.c
-@@ -522,8 +522,45 @@ static void apparmor_file_free_security(struct file *file)
- {
- 	struct aa_file_ctx *ctx = file_ctx(file);
- 
--	if (ctx)
-+	if (ctx) {
- 		aa_put_label(rcu_access_pointer(ctx->label));
-+		put_cred(ctx->fown_cred);
-+	}
-+}
-+
-+static void apparmor_file_set_fowner(struct file *file)
-+{
-+	struct aa_file_ctx *ctx = file_ctx(file);
-+	const struct cred *old;
-+
-+	lockdep_assert_held(&file_f_owner(file)->lock);
-+	old = ctx->fown_cred;
-+	ctx->fown_cred = get_current_cred();
-+	put_cred(old);
-+}
-+
-+static int apparmor_file_send_sigiotask(struct task_struct *target,
-+					struct fown_struct *fown, int sig)
-+{
-+	const struct cred *cred, *tc;
-+	struct aa_label *sender, *receiver;
-+	int error;
-+
-+	/* Delivery can run in interrupt context, unrelated to the setter. */
-+	lockdep_assert_held(&fown->lock);
-+	cred = file_ctx(fown->file)->fown_cred;
-+	if (!cred)
-+		return 0;
-+
-+	tc = get_task_cred(target);
-+	sender = aa_get_newest_cred_label(cred);
-+	receiver = aa_get_newest_cred_label(tc);
-+	error = aa_may_signal(cred, sender, tc, receiver, sig ? sig : SIGIO);
-+	aa_put_label(receiver);
-+	aa_put_label(sender);
-+	put_cred(tc);
-+
-+	return error;
- }
- 
- static int common_file_perm(const char *op, struct file *file, u32 mask)
-@@ -1810,6 +1847,8 @@ static struct security_hook_list apparmor_hooks[] __ro_after_init = {
- 	LSM_HOOK_INIT(file_permission, apparmor_file_permission),
- 	LSM_HOOK_INIT(file_alloc_security, apparmor_file_alloc_security),
- 	LSM_HOOK_INIT(file_free_security, apparmor_file_free_security),
-+	LSM_HOOK_INIT(file_set_fowner, apparmor_file_set_fowner),
-+	LSM_HOOK_INIT(file_send_sigiotask, apparmor_file_send_sigiotask),
- 	LSM_HOOK_INIT(mmap_file, apparmor_mmap_file),
- 	LSM_HOOK_INIT(file_mprotect, apparmor_file_mprotect),
- 	LSM_HOOK_INIT(file_lock, apparmor_file_lock),
--- 
-2.56.0
 
+
+--95ab675be9d074487606c137f0b6646de41c65221c97957b70ca632d1c3b
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRJ2XvJtXGwULYEerQ0bnTtJTDoOAUCau9MEQAKCRA0bnTtJTDo
+OPD4AQDWB5fWQqsTINMtZPk06g/4k0QigUfibKGxR/tGXecw/wEA85kDqWvA8lK2
+swDiGJWmx17SfhowAqqmLKGa5kRouQI=
+=T96n
+-----END PGP SIGNATURE-----
+
+--95ab675be9d074487606c137f0b6646de41c65221c97957b70ca632d1c3b--
