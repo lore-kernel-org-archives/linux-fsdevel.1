@@ -1,53 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794073439;
-	b=LWZhnYF+oDbnjyyaCfVgfYkUVs1ngCGZVI6+bbKg5NMSTXfZMZ/uRlWlUV3KbehkuLGg
-	 kzOAHLNaunwSiqXrePz6a6NPOegpCrnX73nF8Wh/YyLzlFngNEjYW1vbHoeQY//pBlzMa
-	 2EpOmEKkd/qV8zGs39uldcJaXKJ0n5psDtnc5XTDt1IQhi/BiFuJfd6pbziOpalKWQwWj
-	 BOPzPujFjcUCE2EftcsFMevYU7qA7bLZGrkgbylT5yyuIJA/QohgQ4P8VHQW4aVp/nVJ/
-	 KcD9ptqDxLgebX3TiJ770THh8WJbmFzN1nfWVf8CNmcZt3EvCVAwq3dTnCbMRrFJHBA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794073439;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=GGq589h5eOWxVn8W6IXN4b0IB3BiHtLk7CoyJEnDMNw=;
-	b=mz/vzfPNjUt2UP6VeRKGX9YscqtPN4iFJ8FPoYljfRRHlQFvRIZxcW98+j2crWaRC406
-	 lxy2x1idpvbXUgaVFlWa982tA8WH4umoCNvw6R9XTSBYtnO9huUVaST5b9UksoROqApTS
-	 ZYpbCl2MzeL0znGg+pykh72FUXkzCMYaVRq1QlYNT8BfEMpMEX1EHuG+xKbErvaJEEG6V
-	 e3KrcPks0j1qrNif320/+m3S6Za8x2qLZOgrEANH3RgsLN3IWdHSgwPhuMnqI+QzIgNyQ
-	 TTRmvMCAK7tZIsKjRqwJpIQZgtOKLuQ7+JCrZJmfVzOKRwgm0jWPwSwpSwJ1/K3ZauA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Te6EbcG9;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.54
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794077276;
+	b=E4R09qN75nfBvoPVCgdP1MQhg1tiCIMkRo/rQw89C92dz06N9P9ed5b3mHaXvJsY8GLM
+	 p4qoLOfJeYSjN67yFBfXts/3cvaxDKT8I8irHTUsOWxaR/2CIKK7CnKYRquY9x+UsfQ24
+	 Hq8/OzZMTW1D1UX6MyMYYGjfbQUkF03GFp1JsZoSt7jfIcURUBihP6vjD3qp4/Qj0umwy
+	 69aHvL2MUDNRrlXKfDzR1vqnCzIyTm0lNyB7tHabiaHJYbGdAl13+lRVh0RK0ETXYD2Jf
+	 tnX9hRdsXxLRy98SoBfgjGlC6TCUPBkHaxI4D39Mp437kwjLR6v4dN+V0vQVQNxuKYQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794077276;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=DWojXY4nDMT9rtwg6h/b477SwUuLPC3ITyeb/WPBYqc=;
+	b=3OwVsj78sAAWszqwPlSyAJ3oBMbo9NWC8AVGoDB1wco7tSvD/IIHGb+7qIFzlCGIFrqP
+	 1WxeQvKl7IS1LuIUPC7WjEHImxpjwLlu+nC1lxxj6jW7dEOr5FTYMZlBLxcSZm8KUKvwQ
+	 yKMGbo8pUDPtLb4MDpVUqIqtV9Ltu40qWdUbW4feXlI9ix5+tj2Xrb5JuEIERBzg63sAr
+	 Mof5eYuqoHNXndIera4m04rXa1cush4Y+AkXtBaTlJKE92z9vRuGbLe101BTYB2beGzY1
+	 MT97TFHqJSjIT4BOytaKJbbr5+VAtBlqDSNveYoD6yw+vi/z8uNuaX0d90nHPRKfIKg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=none header.from=amacapital.net;
+	spf=pass smtp.mailfrom=amacapital.net;
+	dkim=pass header.d=amacapital-net.20260707.gappssmtp.com header.i=@amacapital-net.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=jDsWkgNe;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.54
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73AEE606A32C;
-	Sat,  7 Nov 2026 17:43:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5C3C606A326
+	for <linux-fsdevel@vger.kernel.org>; Sat,  7 Nov 2026 18:47:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E5C3C606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Te6EbcG9
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31B6D1F0089F;
-	Sat,  7 Nov 2026 17:43:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794073438;
-	bh=GGq589h5eOWxVn8W6IXN4b0IB3BiHtLk7CoyJEnDMNw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Te6EbcG9aPvs2NCvT/iPXFPXErNvLFf06jv1CSrd/neusK87ra9w1+K+hNyBmpEUB
-	 rTfhSzEFBXdWnS8ItD7s3eK19lVj1TrX7ViuwfZUT/ASgs8RR6v1ccsT8zFpR0tcEW
-	 E9L5V7ZnVRTpRl+vhd91DXB8fCgI+RomU5ny/G6LgzJsLt3vylS5L4rPMQwAKji50h
-	 GSu+ig3+j2nBYxfwGVf+NTJ3Fd0p+Gk93R2qgmKKJt6GLiH29w+uehl09cD6V4Vpam
-	 CtGqC39SND8X8RPVpODf8AIoK82Op5PohRjbALXCeqjUfcrm2aqyxab5wnnnxNKZQZ
-	 rYOtwJzkVMO2Q==
-Date: Sat, 7 Nov 2026 18:43:52 +0100
-From: Joel Granados <joel.granados@kernel.org>
-To: wen.yang@linux.dev
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 01/39] sysctl: replace overloaded extra pointers with
- typed bounds and context
-Message-ID: <au9L9-UqlO90UbSQ@hobbes>
-References: <cover.1793204511.git.wen.yang@linux.dev>
- <fec089bb7a3ea62a5e2006cf578b1efec2df4aff.1793204511.git.wen.yang@linux.dev>
+	dkim=pass (2048-bit key) header.d=amacapital-net.20260707.gappssmtp.com header.i=@amacapital-net.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=jDsWkgNe
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5c1479a959aso135875e87.2
+        for <linux-fsdevel@vger.kernel.org>; Sat, 07 Nov 2026 10:47:55 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794077274; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Kx/0P7XRfsvtJh4ZTtAo3FFxEuIpoy5+LUkdU/iYZOF8gCI/Rjabe2yPhNar7nRq4u
+         QkqJi1lwO8pF8/8bQtSe+gIIFBKdNKByUvO65/4OsM9KSkg6Xj5sQo+QRS+Hx4aOQbjm
+         lpdx3U2xwxUtv0YtvVvPCynyWQp6ZxMQey2mJcRj5TXJ+GpgtmUWGkj1dqtogTQUfI8M
+         4Jiw9x4xCfXc7cOq8bfdwzO4jz0XvBKSAM45TZObxvjBFq28WDdEAep+8Yrd7bNRslZ3
+         yTcJDWd0bGhsY0GsXHB4dbs8iQF7JGTfpj/HIKDzXfNx0RW2WpcwCDCFvpJBy/o/r2Bl
+         OJ5g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=DWojXY4nDMT9rtwg6h/b477SwUuLPC3ITyeb/WPBYqc=;
+        fh=ll9FK3i/RXGVWeQE6aiZaWKSokDqUSX7zA0ljwZZ/vQ=;
+        b=qjuCro3DnkE7p1Pulew/mmMCwIcPRBlJLUlC1a2AUIUukYFkvDZei4FUfkxevF2Y1V
+         oVXH4RUkpq+OB3tyNmgV/rf6gXd8+vmPBYOkBCtSTcjGRG/gniPTob96U3bKVz1cxLzY
+         aJbICtq+Hq6wEq+ZIwEnzk4cNtxk6FMrxfmhld+hvhusGYnUOiyH5ZIpSsHHKfGpqJBv
+         hDunHv3A2CxG6ID+oVF7zPp7NNsSU81aYoNGnO5rykbh/BhulOisviQcrIa4r7Tp4bwp
+         dKP/DrXtw2M23CjIAlsTBV9gK0W9EuLxc+ackvTtbP3PANs80HoFqGcQp3M7Tx1lXAKk
+         HFQA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amacapital-net.20260707.gappssmtp.com; s=20260707; t=1794077274; x=1794682074; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=DWojXY4nDMT9rtwg6h/b477SwUuLPC3ITyeb/WPBYqc=;
+        b=jDsWkgNeFsbdQ7qKqbpHSGOmDkfyI4OzDS2pJc6+Irn0QHpBxG9wPbmRTDmNnDdzS5
+         db8t7KSVAGcHE/QtRbNhFDCWnX4uqUr1mEeZuLglr9YUDK4k94+gZZ0e2v5XDqaLBMAu
+         GF2mKtLq3tPj9IBZGN3w1gGTAF0jFrsZMFCKcXAmKrirJiOIjEcuysNg1l24IqICP4gV
+         r2UQCTmuYiVAi+q/1GU8UDVYE1+IZodom/D3RIz9GtMMMdasHTqHTXmlylMP0IcXnVJO
+         5lWPTzglrmuISOXtwRoPqefa1QyXnIQk56sGTTb2Rf1nGsDNJzcZ5BPRF2XDpKcZZ3TD
+         g2UA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794077274; x=1794682074;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=DWojXY4nDMT9rtwg6h/b477SwUuLPC3ITyeb/WPBYqc=;
+        b=KH0/jDc7SKWB5Fe5Nj5pO8Njfn1buhDUp4pTmFAIkzOO0W92XpFfiNU3aWzWwKyOhv
+         e5eotCkV4s9dmg8Zwp3Ff2kB+/o85ALQ2UcNgNDY16uTZyzslvgNb39Rf9rvbQM6WJP4
+         rabrBO+F9o8pqjVrYQ0bqgIHucFJDyeio065Xjr2Lm/xvxQDGFmNXrpyppJTiux7EUQd
+         PJHlm/nhXc6XJmW6gbMGLBla6aqjj6pAdroGtqC+Hn5xEJiATx7pNmIwO3jEl5WmfQ3a
+         n5ofk/M5yedjY1MJLEV1YHa43w9aDDajjXy4oDtdVCAjJa32f5zPEpCHtsXQ7QARtpnJ
+         WuWA==
+X-Forwarded-Encrypted: i=1; AL+hErE5tUgr0UU5niUcYnx8MS54PAu/wmLt3B/G7kHdQ5Huzn5Kcbmf+piPsU7OwCUahknFKlScqgAvQfTQj5fZ@vger.kernel.org
+X-Gm-Message-State: APuU4Z8ENsDnYc+ZkghAl0GKpC3+IiDzwy/sZsa/8pnhmr4wpgnz8R1w
+	WhBsx7ksE2h/3mNyobZaOpKc9TqDhqS8D3ECiZZrYjJ0FMO4pT/CZhFwnmra/AsHKV9+W/B7ENo
+	XoyknMT3loIwQ+X7suoeMfMd1Rqa/hF/mbBO5p6tt
+X-Gm-Gg: AYBFou2JS/9ZKkbrlJXUNC1de1MZFC1JLFxa/46YfgkMFkGJhax32E+El20Rozi4a7v
+	L5bMkwaw74zyin8TcABXpa7pN4PubC55laMW3+WJv5rCOHLfk1pY0H+dL7AYnlsJcBYnnBFM9rT
+	p1PSJDERX49GJz3fl6V1gZ4RNGcq9brDQb7DlGArHMkVkv/kgR7kwpqGWZP9nzaI7VAVMbvjS/q
+	vyvqrX6UUiYotaNyomWV2aGMpTVK2wBhkIMr9oaSsFROWkZy9T9OsRNfGQXbzp4XKatcMsr26D4
+	ygjZkBcfy5RXFg5eKynbmZ+5lyqwSFJWR8F+q4sSoG3CaDXHl8/va1EK40kAlyk91AdS+0VqtPk
+	xQ4TX2SiIj0dz3Fj2BEgGwFUcrfxnZCVFHA==
+X-Received: by 2002:a05:6512:291a:b0:5c0:ca1:9dd7 with SMTP id
+ 2adb3069b0e04-5c00ca19f2bmr594320e87.35.1794077274068; Sat, 07 Nov 2026
+ 10:47:54 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -57,979 +104,87 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="dylffndjuewr4vwx"
-Content-Disposition: inline
-In-Reply-To: <fec089bb7a3ea62a5e2006cf578b1efec2df4aff.1793204511.git.wen.yang@linux.dev>
-
-
---dylffndjuewr4vwx
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
+References: <20261028221705.3915340-1-halg@google.com> <CALCETrW9ygriu54gxiHFLEd5+hJminQo0r8Jwd63wR69Dj4W7w@mail.gmail.com>
+ <20261106-befreien-addieren-eislauf-e09212803534@brauner>
+In-Reply-To: <20261106-befreien-addieren-eislauf-e09212803534@brauner>
+From: Andy Lutomirski <luto@amacapital.net>
+Date: Sat, 7 Nov 2026 10:47:41 -0800
+X-Gm-Features: AclHuK9s0dgg3FDVqp4WbjYQnA0hebDpEpxOAgz_VjLjRP_HfRjeTpRH9DX274k
+Message-ID: <CALCETrWa1SBLcb5oWjqjgzZvKvCoHjmYFk=Lf5ytEM9uqm5jYA@mail.gmail.com>
+Subject: Re: [PATCH 0/8] userns: per-namespace capability bounding set and
+ opt-in netns loopback
+To: Christian Brauner <brauner@kernel.org>
+Cc: "Hallgrimur H. Gunnarsson" <halg@google.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, Kees Cook <kees@kernel.org>, 
+	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jan Kara <jack@suse.cz>, 
+	James Morris <jmorris@namei.org>, Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Jann Horn <jannh@google.com>, =?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
+	KP Singh <kpsingh@kernel.org>, Jonathan Calmels <jcalmels@3xx0.net>, 
+	Casey Schaufler <casey@schaufler-ca.com>, linux-fsdevel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, linux-api@vger.kernel.org, 
+	containers@lists.linux.dev, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [RFC PATCH 01/39] sysctl: replace overloaded extra pointers with
- typed bounds and context
-MIME-Version: 1.0
 
-On Thu, Oct 29, 2026 at 12:34:40AM +0800, wen.yang@linux.dev wrote:
-> From: Wen Yang <wen.yang@linux.dev>
->=20
-> struct ctl_table has two untyped misc pointers, extra1 and extra2, whose
-> meaning depends on the handler that reads them. In-tree use has grown to
-> cover at least seven unrelated jobs: a fixed bound, a bound read through a
-> pointer on every call, an object or namespace pointer, a small integer
-> cookie encoded into the pointer, a lock signal, NULL standing for "no
-<... snip ...>
->  #include <linux/nsproxy.h>
->  #include <linux/sysctl.h>
-> @@ -80,6 +81,8 @@ static const struct ctl_table ipc_sysctls[] =3D {
->  		.maxlen		=3D sizeof(init_ipc_ns.shm_ctlmax),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_doulongvec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D ULONG_MAX,
->  	},
->  	{
->  		.procname	=3D "shmall",
-> @@ -87,6 +90,8 @@ static const struct ctl_table ipc_sysctls[] =3D {
->  		.maxlen		=3D sizeof(init_ipc_ns.shm_ctlall),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_doulongvec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D ULONG_MAX,
->  	},
->  	{
->  		.procname	=3D "shmmni",
-> diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-> index f5145b32f6be..7d0bcd2b24ef 100644
-> --- a/kernel/sysctl.c
-> +++ b/kernel/sysctl.c
-> @@ -423,11 +423,15 @@ int proc_uint_conv(ulong *u_ptr, uint *k_ptr, int d=
-ir,
->  		ret =3D user_to_kern(u_ptr, &tmp_k);
->  		if (ret)
->  			return ret;
-> -		if ((tbl->extra1 &&
-> -		     *(uint *)tbl->extra1 > tmp_k) ||
-> -		    (tbl->extra2 &&
-> -		     *(uint *)tbl->extra2 < tmp_k))
-> +		if (tbl->extra1 || tbl->extra2) {
-> +			if ((tbl->extra1 &&
-> +			     *(uint *)tbl->extra1 > tmp_k) ||
-> +			    (tbl->extra2 &&
-> +			     *(uint *)tbl->extra2 < tmp_k))
-> +				return -ERANGE;
-> +		} else if (tbl->min > tmp_k || tbl->max < tmp_k) {
+On Fri, Nov 6, 2026 at 5:13=E2=80=AFAM Christian Brauner <brauner@kernel.or=
+g> wrote:
+>
+> On Wed, Oct 28, 2026 at 03:56:11PM -0700, Andy Lutomirski wrote:
+> > The whole unshare/clone flag situation is getting out of hand, IMO.
+> > And this new thing makes logical sense but is really about reducing
+> > exposure.
+> >
+> > Perhaps we should instead have a small list associated with a userns
+> > (extensible in the future) of things that the ns's admin (i.e. whoever
+> > has CAP_SYS_ADMIN relative to the ns) may do.  That list could
+> > include:
+> >
+> > - Create loopback with sensible defaults for ipv4 and/or ipv6 (i see
+> > no obvious reason to separate them)
+> > - Create tun/tap interfaces in that ns (and attach them, etc)
+> >
+> > And add a very simple new API to do these things.  Actually, the
+>
+> We've had this idea in the past and I think it is reasonable. I had
+> always thought that we should expose a system call to create empty
+> namespaces ot any type. Usually I'd be excited about that but I think
+> that point is a bit moot and I'd really like see whether we can turn
+> cells (or whatever other name) into a first class api.
+>
+> The problem I have with the patchset as written is that adds a lot of
+> moving parts. And yes, I find the CLONE_* and UNSHARE_* flags plus
+> sysctl to be suboptimal as well.
+>
+> So the TL;DR is that CAP_NET_ADMIN + userns =3D
+> CAP_NET_PRIVILEGE_ESCALATION 10+ years later. And this patchset wants to
+> put it back on a leash.
+>
+> So why isn't an aggressively stupid solution to this problem to split a
+> new capability out of CAP_NET_ADMIN so it covers the absolute minimal
+> set of things that should be allowed instead of doing effectively the
+> same thing but split over multiple apis?
 
-One of the things that the void * pointers coded was whether there was a
-value there to use for the range check. If there was not value (NULL),
-then there was no check.
+Because we don't actually have a clean way to make a list of
+privileges that are, in theory, harmless but are hazardous from an
+attack surface perspective and assign them only to tasks that ought to
+have them.
 
-I see that you are changing all the callers in such a way that they
-define the min max every time, but this is not really needed if you
-end up calling a converter that does not check range, you will never
-use those values.
+But maybe we should invent such a thing.  It would be very, very nice.
 
-Is there a way to tell from within the sysctl core that there needs to
-be a range check? I think max =3D=3D min =3D=3D 0 is not a good option as z=
-ero
-is a valid value.
+Other than that, I agree with you.
 
-I wonder if we can use the hole (I think it is 2 byte) in the ctl_table
-struct. Could we add a bit flag there and then code whether to do the
-range check or not?
-
-Best
+>
+> Anything that is reasonably advanced should not be the kernel's
+> responsibility to delegate. I really think the old privilege model where
+> the kernel grants control over a whole subsystem is inherently flawed
+> and is much better replaced if you have the means to let userspace
+> services grant and delegate resources.
 
 
->  			return -ERANGE;
-> +		}
->  		WRITE_ONCE(*k_ptr, tmp_k);
->  	} else
->  		return user_to_kern(u_ptr, k_ptr);
-> @@ -543,17 +547,19 @@ int proc_int_conv(bool *negp, ulong *u_ptr, int *k_=
-ptr, int dir,
->  		ret =3D user_to_kern(negp, u_ptr, &tmp_k);
->  		if (ret)
->  			return ret;
-> -		if ((tbl->extra1 && *(int *)tbl->extra1 > tmp_k) ||
-> -		    (tbl->extra2 && *(int *)tbl->extra2 < tmp_k))
-> +		if (tbl->extra1 || tbl->extra2) {
-> +			if ((tbl->extra1 && *(int *)tbl->extra1 > tmp_k) ||
-> +			    (tbl->extra2 && *(int *)tbl->extra2 < tmp_k))
-> +				return -EINVAL;
-> +		} else if ((long)tbl->min > tmp_k || (long)tbl->max < tmp_k) {
->  			return -EINVAL;
-> +		}
->  		WRITE_ONCE(*k_ptr, tmp_k);
->  	} else
->  		return user_to_kern(negp, u_ptr, k_ptr);
->  	return 0;
->  }
-> =20
-> -
-> -
->  static int sysctl_user_to_kern_int_conv(const bool *negp, const ulong *u=
-_ptr,
->  					int *k_ptr)
->  {
-> @@ -985,7 +991,7 @@ int proc_dou8vec_minmax(const struct ctl_table *table=
-, int dir,
->  			void *buffer, size_t *lenp, loff_t *ppos)
->  {
->  	struct ctl_table tmp;
-> -	unsigned int min =3D 0, max =3D 255U, val;
-> +	unsigned int val;
->  	u8 *data =3D table->data;
->  	int res;
-> =20
-> @@ -997,10 +1003,6 @@ int proc_dou8vec_minmax(const struct ctl_table *tab=
-le, int dir,
-> =20
->  	tmp.maxlen =3D sizeof(val);
->  	tmp.data =3D &val;
-> -	if (!tmp.extra1)
-> -		tmp.extra1 =3D (unsigned int *) &min;
-> -	if (!tmp.extra2)
-> -		tmp.extra2 =3D (unsigned int *) &max;
-> =20
->  	val =3D READ_ONCE(*data);
->  	res =3D proc_douintvec_minmax(&tmp, dir, buffer, lenp, ppos);
-> @@ -1045,9 +1047,13 @@ int proc_ulong_conv(ulong *u_ptr, ulong *k_ptr, in=
-t dir,
->  		ret =3D user_to_kern(u_ptr, &tmp_k);
->  		if (ret)
->  			return ret;
-> -		if ((tbl->extra1 && *(ulong *)tbl->extra1 > tmp_k) ||
-> -		    (tbl->extra2 && *(ulong *)tbl->extra2 < tmp_k))
-> +		if (tbl->extra1 || tbl->extra2) {
-> +			if ((tbl->extra1 && *(ulong *)tbl->extra1 > tmp_k) ||
-> +			    (tbl->extra2 && *(ulong *)tbl->extra2 < tmp_k))
-> +				return -ERANGE;
-> +		} else if (tbl->min > tmp_k || tbl->max < tmp_k) {
->  			return -ERANGE;
-> +		}
->  		WRITE_ONCE(*k_ptr, tmp_k);
->  	} else
->  		return user_to_kern(u_ptr, k_ptr);
-> diff --git a/lib/test_sysctl.c b/lib/test_sysctl.c
-> index 65ce42346170..eed2cc1bea82 100644
-> --- a/lib/test_sysctl.c
-> +++ b/lib/test_sysctl.c
-> @@ -15,6 +15,7 @@
->  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-> =20
->  #include <linux/init.h>
-> +#include <linux/limits.h>
->  #include <linux/jiffies.h>
->  #include <linux/list.h>
->  #include <linux/module.h>
-> @@ -217,6 +218,8 @@ static const struct ctl_table test_table_unregister[]=
- =3D {
->  		.maxlen		=3D sizeof(int),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_dointvec_minmax,
-> +		.min		=3D INT_MIN,
-> +		.max		=3D INT_MAX,
->  	},
->  };
-> =20
-> diff --git a/mm/util.c b/mm/util.c
-> index 8acfe2148ba5..2f2bc521868a 100644
-> --- a/mm/util.c
-> +++ b/mm/util.c
-> @@ -1,5 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0-only
->  #include <linux/mm.h>
-> +#include <linux/limits.h>
->  #include <linux/slab.h>
->  #include <linux/string.h>
->  #include <linux/compiler.h>
-> @@ -880,6 +881,8 @@ static const struct ctl_table util_sysctl_table[] =3D=
- {
->  		.maxlen		=3D sizeof(sysctl_user_reserve_kbytes),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_doulongvec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D ULONG_MAX,
->  	},
->  	{
->  		.procname	=3D "admin_reserve_kbytes",
-> @@ -887,6 +890,8 @@ static const struct ctl_table util_sysctl_table[] =3D=
- {
->  		.maxlen		=3D sizeof(sysctl_admin_reserve_kbytes),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_doulongvec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D ULONG_MAX,
->  	},
->  };
-> =20
-> diff --git a/net/ieee802154/6lowpan/reassembly.c b/net/ieee802154/6lowpan=
-/reassembly.c
-> index ddb6a5817d09..a2167f76ecc3 100644
-> --- a/net/ieee802154/6lowpan/reassembly.c
-> +++ b/net/ieee802154/6lowpan/reassembly.c
-> @@ -10,6 +10,7 @@
->  #define pr_fmt(fmt) "6LoWPAN: " fmt
-> =20
->  #include <linux/net.h>
-> +#include <linux/limits.h>
->  #include <linux/list.h>
->  #include <linux/netdevice.h>
->  #include <linux/random.h>
-> @@ -332,12 +333,16 @@ static struct ctl_table lowpan_frags_ns_ctl_table[]=
- =3D {
->  		.maxlen		=3D sizeof(unsigned long),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_doulongvec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D ULONG_MAX,
->  	},
->  	{
->  		.procname	=3D "6lowpanfrag_low_thresh",
->  		.maxlen		=3D sizeof(unsigned long),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_doulongvec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D ULONG_MAX,
->  	},
->  	{
->  		.procname	=3D "6lowpanfrag_time",
-> diff --git a/net/ipv4/ip_fragment.c b/net/ipv4/ip_fragment.c
-> index c790d2f49487..75bc675e5579 100644
-> --- a/net/ipv4/ip_fragment.c
-> +++ b/net/ipv4/ip_fragment.c
-> @@ -24,6 +24,7 @@
->  #define pr_fmt(fmt) "IPv4: " fmt
-> =20
->  #include <linux/compiler.h>
-> +#include <linux/limits.h>
->  #include <linux/module.h>
->  #include <linux/types.h>
->  #include <linux/mm.h>
-> @@ -551,12 +552,16 @@ static struct ctl_table ip4_frags_ns_ctl_table[] =
-=3D {
->  		.maxlen		=3D sizeof(unsigned long),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_doulongvec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D ULONG_MAX,
->  	},
->  	{
->  		.procname	=3D "ipfrag_low_thresh",
->  		.maxlen		=3D sizeof(unsigned long),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_doulongvec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D ULONG_MAX,
->  	},
->  	{
->  		.procname	=3D "ipfrag_time",
-> diff --git a/net/ipv4/sysctl_net_ipv4.c b/net/ipv4/sysctl_net_ipv4.c
-> index e3760daa3470..2ed9f59ea747 100644
-> --- a/net/ipv4/sysctl_net_ipv4.c
-> +++ b/net/ipv4/sysctl_net_ipv4.c
-> @@ -7,6 +7,7 @@
->   */
-> =20
->  #include <linux/sysctl.h>
-> +#include <linux/limits.h>
->  #include <linux/seqlock.h>
->  #include <linux/init.h>
->  #include <linux/slab.h>
-> @@ -564,6 +565,8 @@ static struct ctl_table ipv4_table[] =3D {
->  		.data		=3D &sysctl_tcp_mem,
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_doulongvec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D ULONG_MAX,
->  	},
->  	{
->  		.procname	=3D "tcp_low_latency",
-> @@ -614,6 +617,8 @@ static struct ctl_table ipv4_table[] =3D {
->  		.maxlen		=3D sizeof(sysctl_udp_mem),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_doulongvec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D ULONG_MAX,
->  	},
->  	{
->  		.procname	=3D "fib_sync_mem",
-> @@ -778,6 +783,8 @@ static const struct ctl_table ipv4_net_table[] =3D {
->  		.maxlen		=3D sizeof(u8),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_dou8vec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D U8_MAX,
->  	},
->  	{
->  		.procname	=3D "ip_early_demux",
-> @@ -785,6 +792,8 @@ static const struct ctl_table ipv4_net_table[] =3D {
->  		.maxlen		=3D sizeof(u8),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_dou8vec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D U8_MAX,
->  	},
->  	{
->  		.procname       =3D "udp_early_demux",
-> @@ -792,6 +801,8 @@ static const struct ctl_table ipv4_net_table[] =3D {
->  		.maxlen         =3D sizeof(u8),
->  		.mode           =3D 0644,
->  		.proc_handler   =3D proc_dou8vec_minmax,
-> +		.min           =3D 0,
-> +		.max           =3D U8_MAX,
->  	},
->  	{
->  		.procname       =3D "tcp_early_demux",
-> @@ -799,6 +810,8 @@ static const struct ctl_table ipv4_net_table[] =3D {
->  		.maxlen         =3D sizeof(u8),
->  		.mode           =3D 0644,
->  		.proc_handler   =3D proc_dou8vec_minmax,
-> +		.min           =3D 0,
-> +		.max           =3D U8_MAX,
->  	},
->  	{
->  		.procname       =3D "nexthop_compat_mode",
-> @@ -845,6 +858,8 @@ static const struct ctl_table ipv4_net_table[] =3D {
->  		.maxlen		=3D sizeof(u8),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_dou8vec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D U8_MAX,
->  	},
->  	{
->  		.procname	=3D "ip_forward_use_pmtu",
-> @@ -852,6 +867,8 @@ static const struct ctl_table ipv4_net_table[] =3D {
->  		.maxlen		=3D sizeof(u8),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_dou8vec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D U8_MAX,
->  	},
->  	{
->  		.procname	=3D "ip_forward_update_priority",
-> @@ -868,6 +885,8 @@ static const struct ctl_table ipv4_net_table[] =3D {
->  		.maxlen		=3D sizeof(u8),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_dou8vec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D U8_MAX,
->  	},
->  	{
->  		.procname	=3D "ip_autobind_reuse",
-> @@ -884,6 +903,8 @@ static const struct ctl_table ipv4_net_table[] =3D {
->  		.maxlen		=3D sizeof(u8),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_dou8vec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D U8_MAX,
->  	},
->  	{
->  		.procname	=3D "tcp_fwmark_accept",
-> @@ -891,6 +912,8 @@ static const struct ctl_table ipv4_net_table[] =3D {
->  		.maxlen		=3D sizeof(u8),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_dou8vec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D U8_MAX,
->  	},
->  #ifdef CONFIG_NET_L3_MASTER_DEV
->  	{
-> @@ -909,6 +932,8 @@ static const struct ctl_table ipv4_net_table[] =3D {
->  		.maxlen		=3D sizeof(u8),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_dou8vec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D U8_MAX,
->  	},
->  	{
->  		.procname	=3D "tcp_base_mss",
-> @@ -956,6 +981,8 @@ static const struct ctl_table ipv4_net_table[] =3D {
->  		.maxlen		=3D sizeof(u8),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_dou8vec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D U8_MAX,
->  	},
->  	{
->  		.procname	=3D "igmp_max_memberships",
-> @@ -1013,6 +1040,8 @@ static const struct ctl_table ipv4_net_table[] =3D {
->  		.maxlen		=3D sizeof(u8),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_dou8vec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D U8_MAX,
->  	},
->  	{
->  		.procname	=3D "tcp_keepalive_intvl",
-> @@ -1036,6 +1065,8 @@ static const struct ctl_table ipv4_net_table[] =3D {
->  		.maxlen		=3D sizeof(u8),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_dou8vec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D U8_MAX,
->  	},
->  #ifdef CONFIG_SYN_COOKIES
->  	{
-> @@ -1044,6 +1075,8 @@ static const struct ctl_table ipv4_net_table[] =3D {
->  		.maxlen		=3D sizeof(u8),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_dou8vec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D U8_MAX,
->  	},
->  #endif
->  	{
-> @@ -1078,6 +1111,8 @@ static const struct ctl_table ipv4_net_table[] =3D {
->  		.maxlen		=3D sizeof(u8),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_dou8vec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D U8_MAX,
->  	},
->  	{
->  		.procname	=3D "tcp_orphan_retries",
-> @@ -1085,6 +1120,8 @@ static const struct ctl_table ipv4_net_table[] =3D {
->  		.maxlen		=3D sizeof(u8),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_dou8vec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D U8_MAX,
->  	},
->  	{
->  		.procname	=3D "tcp_fin_timeout",
-> @@ -1212,6 +1249,8 @@ static const struct ctl_table ipv4_net_table[] =3D {
->  		.maxlen		=3D sizeof(u8),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_dou8vec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D U8_MAX,
->  	},
->  	{
->  		.procname	=3D "tcp_window_scaling",
-> @@ -1219,6 +1258,8 @@ static const struct ctl_table ipv4_net_table[] =3D {
->  		.maxlen		=3D sizeof(u8),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_dou8vec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D U8_MAX,
->  	},
->  	{
->  		.procname	=3D "tcp_timestamps",
-> @@ -1226,6 +1267,8 @@ static const struct ctl_table ipv4_net_table[] =3D {
->  		.maxlen		=3D sizeof(u8),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_dou8vec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D U8_MAX,
->  	},
->  	{
->  		.procname	=3D "tcp_early_retrans",
-> @@ -1242,6 +1285,8 @@ static const struct ctl_table ipv4_net_table[] =3D {
->  		.maxlen		=3D sizeof(u8),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_dou8vec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D U8_MAX,
->  	},
->  	{
->  		.procname       =3D "tcp_thin_linear_timeouts",
-> @@ -1249,6 +1294,8 @@ static const struct ctl_table ipv4_net_table[] =3D {
->  		.maxlen         =3D sizeof(u8),
->  		.mode           =3D 0644,
->  		.proc_handler   =3D proc_dou8vec_minmax,
-> +		.min           =3D 0,
-> +		.max           =3D U8_MAX,
->  	},
->  	{
->  		.procname	=3D "tcp_slow_start_after_idle",
-> @@ -1256,6 +1303,8 @@ static const struct ctl_table ipv4_net_table[] =3D {
->  		.maxlen		=3D sizeof(u8),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_dou8vec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D U8_MAX,
->  	},
->  	{
->  		.procname	=3D "tcp_retrans_collapse",
-> @@ -1263,6 +1312,8 @@ static const struct ctl_table ipv4_net_table[] =3D {
->  		.maxlen		=3D sizeof(u8),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_dou8vec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D U8_MAX,
->  	},
->  	{
->  		.procname	=3D "tcp_stdurg",
-> @@ -1270,6 +1321,8 @@ static const struct ctl_table ipv4_net_table[] =3D {
->  		.maxlen		=3D sizeof(u8),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_dou8vec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D U8_MAX,
->  	},
->  	{
->  		.procname	=3D "tcp_rfc1337",
-> @@ -1277,6 +1330,8 @@ static const struct ctl_table ipv4_net_table[] =3D {
->  		.maxlen		=3D sizeof(u8),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_dou8vec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D U8_MAX,
->  	},
->  	{
->  		.procname	=3D "tcp_abort_on_overflow",
-> @@ -1284,6 +1339,8 @@ static const struct ctl_table ipv4_net_table[] =3D {
->  		.maxlen		=3D sizeof(u8),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_dou8vec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D U8_MAX,
->  	},
->  	{
->  		.procname	=3D "tcp_fack",
-> @@ -1291,6 +1348,8 @@ static const struct ctl_table ipv4_net_table[] =3D {
->  		.maxlen		=3D sizeof(u8),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_dou8vec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D U8_MAX,
->  	},
->  	{
->  		.procname	=3D "tcp_max_reordering",
-> @@ -1306,6 +1365,8 @@ static const struct ctl_table ipv4_net_table[] =3D {
->  		.maxlen		=3D sizeof(u8),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_dou8vec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D U8_MAX,
->  	},
->  	{
->  		.procname	=3D "tcp_app_win",
-> @@ -1331,6 +1392,8 @@ static const struct ctl_table ipv4_net_table[] =3D {
->  		.maxlen		=3D sizeof(u8),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_dou8vec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D U8_MAX,
->  	},
->  	{
->  		.procname	=3D "tcp_no_metrics_save",
-> @@ -1338,6 +1401,8 @@ static const struct ctl_table ipv4_net_table[] =3D {
->  		.maxlen		=3D sizeof(u8),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_dou8vec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D U8_MAX,
->  	},
->  	{
->  		.procname	=3D "tcp_no_ssthresh_metrics_save",
-> @@ -1354,6 +1419,8 @@ static const struct ctl_table ipv4_net_table[] =3D {
->  		.maxlen		=3D sizeof(u8),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_dou8vec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D U8_MAX,
->  	},
->  	{
->  		.procname	=3D "tcp_rcvbuf_low_rtt",
-> @@ -1370,6 +1437,8 @@ static const struct ctl_table ipv4_net_table[] =3D {
->  		.maxlen		=3D sizeof(u8),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_dou8vec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D U8_MAX,
->  	},
->  	{
->  		.procname	=3D "tcp_workaround_signed_windows",
-> @@ -1377,6 +1446,8 @@ static const struct ctl_table ipv4_net_table[] =3D {
->  		.maxlen		=3D sizeof(u8),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_dou8vec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D U8_MAX,
->  	},
->  	{
->  		.procname	=3D "tcp_limit_output_bytes",
-> @@ -1406,6 +1477,8 @@ static const struct ctl_table ipv4_net_table[] =3D {
->  		.maxlen		=3D sizeof(u8),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_dou8vec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D U8_MAX,
->  	},
->  	{
->  		.procname	=3D "tcp_min_rtt_wlen",
-> @@ -1472,6 +1545,8 @@ static const struct ctl_table ipv4_net_table[] =3D {
->  		.maxlen		=3D sizeof(unsigned long),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_doulongvec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D ULONG_MAX,
->  	},
->  	{
->  		.procname	=3D "tcp_comp_sack_rtt_percent",
-> @@ -1488,6 +1563,8 @@ static const struct ctl_table ipv4_net_table[] =3D {
->  		.maxlen		=3D sizeof(unsigned long),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_doulongvec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D ULONG_MAX,
->  	},
->  	{
->  		.procname	=3D "tcp_comp_sack_nr",
-> @@ -1601,6 +1678,8 @@ static const struct ctl_table ipv4_net_table[] =3D {
->  		.maxlen         =3D sizeof(u8),
->  		.mode           =3D 0644,
->  		.proc_handler   =3D proc_dou8vec_minmax,
-> +		.min           =3D 0,
-> +		.max           =3D U8_MAX,
->  	},
->  	{
->  		.procname       =3D "tcp_plb_cong_thresh",
-> diff --git a/net/ipv6/icmp.c b/net/ipv6/icmp.c
-> index a95b0351824f..1ba2ff759075 100644
-> --- a/net/ipv6/icmp.c
-> +++ b/net/ipv6/icmp.c
-> @@ -28,6 +28,7 @@
->  #define pr_fmt(fmt) "IPv6: " fmt
-> =20
->  #include <linux/module.h>
-> +#include <linux/limits.h>
->  #include <linux/errno.h>
->  #include <linux/types.h>
->  #include <linux/socket.h>
-> @@ -1388,6 +1389,8 @@ static const struct ctl_table ipv6_icmp_table_templ=
-ate[] =3D {
->  		.maxlen		=3D sizeof(u8),
->  		.mode		=3D 0644,
->  		.proc_handler =3D proc_dou8vec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D U8_MAX,
->  	},
->  	{
->  		.procname	=3D "echo_ignore_multicast",
-> @@ -1395,6 +1398,8 @@ static const struct ctl_table ipv6_icmp_table_templ=
-ate[] =3D {
->  		.maxlen		=3D sizeof(u8),
->  		.mode		=3D 0644,
->  		.proc_handler =3D proc_dou8vec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D U8_MAX,
->  	},
->  	{
->  		.procname	=3D "echo_ignore_anycast",
-> @@ -1402,6 +1407,8 @@ static const struct ctl_table ipv6_icmp_table_templ=
-ate[] =3D {
->  		.maxlen		=3D sizeof(u8),
->  		.mode		=3D 0644,
->  		.proc_handler =3D proc_dou8vec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D U8_MAX,
->  	},
->  	{
->  		.procname	=3D "ratemask",
-> diff --git a/net/ipv6/netfilter/nf_conntrack_reasm.c b/net/ipv6/netfilter=
-/nf_conntrack_reasm.c
-> index be72c4346f8b..1f3ba85f6dca 100644
-> --- a/net/ipv6/netfilter/nf_conntrack_reasm.c
-> +++ b/net/ipv6/netfilter/nf_conntrack_reasm.c
-> @@ -13,6 +13,7 @@
->  #define pr_fmt(fmt) "IPv6-nf: " fmt
-> =20
->  #include <linux/errno.h>
-> +#include <linux/limits.h>
->  #include <linux/types.h>
->  #include <linux/string.h>
->  #include <linux/net.h>
-> @@ -55,12 +56,16 @@ static struct ctl_table nf_ct_frag6_sysctl_table[] =
-=3D {
->  		.maxlen		=3D sizeof(unsigned long),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_doulongvec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D ULONG_MAX,
->  	},
->  	{
->  		.procname	=3D "nf_conntrack_frag6_high_thresh",
->  		.maxlen		=3D sizeof(unsigned long),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_doulongvec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D ULONG_MAX,
->  	},
->  };
-> =20
-> diff --git a/net/ipv6/reassembly.c b/net/ipv6/reassembly.c
-> index a7964125c764..70c845385744 100644
-> --- a/net/ipv6/reassembly.c
-> +++ b/net/ipv6/reassembly.c
-> @@ -26,6 +26,7 @@
->  #define pr_fmt(fmt) "IPv6: " fmt
-> =20
->  #include <linux/errno.h>
-> +#include <linux/limits.h>
->  #include <linux/types.h>
->  #include <linux/string.h>
->  #include <linux/socket.h>
-> @@ -427,12 +428,16 @@ static struct ctl_table ip6_frags_ns_ctl_table[] =
-=3D {
->  		.maxlen		=3D sizeof(unsigned long),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_doulongvec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D ULONG_MAX,
->  	},
->  	{
->  		.procname	=3D "ip6frag_low_thresh",
->  		.maxlen		=3D sizeof(unsigned long),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_doulongvec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D ULONG_MAX,
->  	},
->  	{
->  		.procname	=3D "ip6frag_time",
-> diff --git a/net/ipv6/sysctl_net_ipv6.c b/net/ipv6/sysctl_net_ipv6.c
-> index 1a0a36dcdabc..c870a364de60 100644
-> --- a/net/ipv6/sysctl_net_ipv6.c
-> +++ b/net/ipv6/sysctl_net_ipv6.c
-> @@ -7,6 +7,7 @@
->   */
-> =20
->  #include <linux/mm.h>
-> +#include <linux/limits.h>
->  #include <linux/sysctl.h>
->  #include <linux/in6.h>
->  #include <linux/ipv6.h>
-> @@ -68,6 +69,8 @@ static const struct ctl_table ipv6_table_template[] =3D=
- {
->  		.maxlen		=3D sizeof(u8),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_dou8vec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D U8_MAX,
->  	},
->  	{
->  		.procname	=3D "anycast_src_echo_reply",
-> @@ -75,6 +78,8 @@ static const struct ctl_table ipv6_table_template[] =3D=
- {
->  		.maxlen		=3D sizeof(u8),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_dou8vec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D U8_MAX,
->  	},
->  	{
->  		.procname	=3D "flowlabel_consistency",
-> @@ -82,6 +87,8 @@ static const struct ctl_table ipv6_table_template[] =3D=
- {
->  		.maxlen		=3D sizeof(u8),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_dou8vec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D U8_MAX,
->  	},
->  	{
->  		.procname	=3D "auto_flowlabels",
-> @@ -97,6 +104,8 @@ static const struct ctl_table ipv6_table_template[] =
-=3D {
->  		.maxlen		=3D sizeof(u8),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_dou8vec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D U8_MAX,
->  	},
->  	{
->  		.procname	=3D "idgen_retries",
-> @@ -118,6 +127,8 @@ static const struct ctl_table ipv6_table_template[] =
-=3D {
->  		.maxlen		=3D sizeof(u8),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_dou8vec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D U8_MAX,
->  	},
->  	{
->  		.procname	=3D "ip_nonlocal_bind",
-> @@ -125,6 +136,8 @@ static const struct ctl_table ipv6_table_template[] =
-=3D {
->  		.maxlen		=3D sizeof(u8),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_dou8vec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D U8_MAX,
->  	},
->  	{
->  		.procname	=3D "flowlabel_reflect",
-> diff --git a/net/mptcp/ctrl.c b/net/mptcp/ctrl.c
-> index 63c5747f0f63..e5a5995c5753 100644
-> --- a/net/mptcp/ctrl.c
-> +++ b/net/mptcp/ctrl.c
-> @@ -6,6 +6,7 @@
-> =20
->  #ifdef CONFIG_SYSCTL
->  #include <linux/sysctl.h>
-> +#include <linux/limits.h>
->  #endif
-> =20
->  #include <net/net_namespace.h>
-> @@ -317,6 +318,8 @@ static struct ctl_table mptcp_sysctl_table[] =3D {
->  		.maxlen =3D sizeof(unsigned int),
->  		.mode =3D 0644,
->  		.proc_handler =3D proc_douintvec_minmax,
-> +		.min =3D 0,
-> +		.max =3D UINT_MAX,
->  	},
->  	{
->  		.procname =3D "pm_type",
-> @@ -356,6 +359,8 @@ static struct ctl_table mptcp_sysctl_table[] =3D {
->  		.maxlen =3D sizeof(u8),
->  		.mode =3D 0644,
->  		.proc_handler =3D proc_dou8vec_minmax,
-> +		.min =3D 0,
-> +		.max =3D U8_MAX,
->  	},
->  	{
->  		.procname =3D "path_manager",
-> diff --git a/net/netfilter/ipvs/ip_vs_ctl.c b/net/netfilter/ipvs/ip_vs_ct=
-l.c
-> index ce9fe20d6106..6c29a901d139 100644
-> --- a/net/netfilter/ipvs/ip_vs_ctl.c
-> +++ b/net/netfilter/ipvs/ip_vs_ctl.c
-> @@ -16,6 +16,7 @@
->  #define pr_fmt(fmt) "IPVS: " fmt
-> =20
->  #include <linux/module.h>
-> +#include <linux/limits.h>
->  #include <linux/init.h>
->  #include <linux/types.h>
->  #include <linux/capability.h>
-> @@ -2778,6 +2779,8 @@ static struct ctl_table vs_vars[] =3D {
->  		.maxlen		=3D sizeof(unsigned long),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_doulongvec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D ULONG_MAX,
->  	},
->  	{
->  		.procname	=3D "sync_sock_size",
-> diff --git a/net/netfilter/nf_conntrack_standalone.c b/net/netfilter/nf_c=
-onntrack_standalone.c
-> index d88a10230862..561db3aecada 100644
-> --- a/net/netfilter/nf_conntrack_standalone.c
-> +++ b/net/netfilter/nf_conntrack_standalone.c
-> @@ -1,5 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0
->  #include <linux/types.h>
-> +#include <linux/limits.h>
->  #include <linux/netfilter.h>
->  #include <linux/slab.h>
->  #include <linux/module.h>
-> @@ -821,6 +822,8 @@ static const struct ctl_table nf_ct_sysctl_table[] =
-=3D {
->  		.maxlen		=3D sizeof(u8),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_dou8vec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D U8_MAX,
->  	},
->  	[NF_SYSCTL_CT_PROTO_TIMEOUT_UDP] =3D {
->  		.procname	=3D "nf_conntrack_udp_timeout",
-> diff --git a/net/rds/ib_sysctl.c b/net/rds/ib_sysctl.c
-> index 2af678e71e3c..b7757f31001c 100644
-> --- a/net/rds/ib_sysctl.c
-> +++ b/net/rds/ib_sysctl.c
-> @@ -31,6 +31,7 @@
->   *
->   */
->  #include <linux/kernel.h>
-> +#include <linux/limits.h>
->  #include <linux/sysctl.h>
->  #include <linux/proc_fs.h>
-> =20
-> @@ -95,6 +96,8 @@ static struct ctl_table rds_ib_sysctl_table[] =3D {
->  		.maxlen         =3D sizeof(unsigned long),
->  		.mode           =3D 0644,
->  		.proc_handler   =3D proc_doulongvec_minmax,
-> +		.min           =3D 0,
-> +		.max           =3D ULONG_MAX,
->  	},
->  	{
->  		.procname	=3D "flow_control",
-> diff --git a/net/sctp/sysctl.c b/net/sctp/sysctl.c
-> index 2b94c211427d..59c6f22337ea 100644
-> --- a/net/sctp/sysctl.c
-> +++ b/net/sctp/sysctl.c
-> @@ -24,6 +24,7 @@
->  #include <net/sctp/structs.h>
->  #include <net/sctp/sctp.h>
->  #include <linux/sysctl.h>
-> +#include <linux/limits.h>
-> =20
->  static int timer_max =3D 86400000; /* ms in one day */
->  static int sack_timer_min =3D 1;
-> @@ -65,6 +66,8 @@ static struct ctl_table sctp_table[] =3D {
->  		.maxlen		=3D sizeof(sysctl_sctp_mem),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_doulongvec_minmax
-> +		.min		=3D 0,
-> +		.max		=3D ULONG_MAX,
->  	},
->  	{
->  		.procname	=3D "sctp_rmem",
-> diff --git a/net/tipc/sysctl.c b/net/tipc/sysctl.c
-> index 30d2e06e3d8c..8352c790c8fe 100644
-> --- a/net/tipc/sysctl.c
-> +++ b/net/tipc/sysctl.c
-> @@ -38,6 +38,7 @@
->  #include "crypto.h"
->  #include "bcast.h"
->  #include <linux/sysctl.h>
-> +#include <linux/limits.h>
-> =20
->  static struct ctl_table_header *tipc_ctl_hdr;
-> =20
-> @@ -64,6 +65,8 @@ static struct ctl_table tipc_table[] =3D {
->  		.maxlen         =3D sizeof(sysctl_tipc_sk_filter),
->  		.mode           =3D 0644,
->  		.proc_handler   =3D proc_doulongvec_minmax,
-> +		.min           =3D 0,
-> +		.max           =3D ULONG_MAX,
->  	},
->  #ifdef CONFIG_TIPC_CRYPTO
->  	{
-> @@ -90,6 +93,8 @@ static struct ctl_table tipc_table[] =3D {
->  		.maxlen		=3D sizeof(sysctl_tipc_bc_retruni),
->  		.mode		=3D 0644,
->  		.proc_handler	=3D proc_doulongvec_minmax,
-> +		.min		=3D 0,
-> +		.max		=3D ULONG_MAX,
->  	},
->  };
-> =20
-> --=20
-> 2.25.1
->=20
 
---dylffndjuewr4vwx
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmrvY1cACgkQupfNUreW
-QU/79wv/SCrrTs8r0Y3haTkaht9zZRK26pUwIP6Ot/VGm0cxB0wkWr4pm1qRKnKP
-/mCd6sXJj3XoMscuNlkUmLJS+GgJPj36HxUszTNBJTazWE4danJ3rMJMuMp1QHP8
-dsA9qiaOsNY7ujtWoC4iQPjJJ/vhR0ZI82E5uquy/OOmMDegwAOebjTQrj1qD+rA
-sJPjH4CUmJiM6ftgDlsD4u0kA17fGJpO9nSWHQ5MHVNwqmOM+D5VghGr9oLLcPVZ
-t7svHgYGWi/D0RWty/A4v5XD2feUzYE5/56ood2KVT5KmuXV7EG5NYbUACnrPVLu
-PkQS0QXn0yBCPAyAMkViyoUjsd9YLd7XQFkQvnzoVDcHV6EFuD4L0ETY/XS602T7
-/v78vRBgsIC/bYPGLjWVm3XWGA4bFyjhFaOwbm6YEXhacYrOoB9pkHYI8+wGY2zX
-kEbgUZVnuVqrpJxabhNIy496cRV8P4peS/H2e+7AT6YAl2/rnEm75h+fWERDtrPn
-c3X+vHBv
-=nSGQ
------END PGP SIGNATURE-----
-
---dylffndjuewr4vwx--
+--=20
+Andy Lutomirski
+AMA Capital Management, LLC
