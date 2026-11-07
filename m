@@ -1,101 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.54
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794054944;
-	b=MU/z89cFrDR2708gAQLcVeN9WfaEe9iMhNt33L1X5YTvXZe0dYU5mapjID1s0cuQArV2
-	 W5EjQu26j/+kT1pW2sM4od6CZA9sDHu1aWkbCHpHANCz/Nmr32qgiMg+gpdzo2PChj1Uh
-	 mJ92sAzTM8aytaPDzyuVH0VwlUK6XxynnJA9LpIJekoVSOX92SE6CCUuBfE4w/8+J4fhk
-	 p/JqcJHpg7CTK4G3UiNBwDvSLT7FKaq5LkpeeTNiNVle/t6TNAZArcZGXNjT/7NU/s2/N
-	 CSrDcncJfpc8WyJ/sY2Kd5gJm43eRFQkSnBsnB2WXFxcUoRKnLKKtTffFo2BhgXgxzg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794054944;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=qAh0bgBsog7Y7KnhvEREARaQP2vFlXIvO9i9mhA5trA=;
-	b=bWZdK8b+AxGD0Rov9zoUfQTkANu79tlPGElN1Y14fKblz1oTDIqoC1dXA+2Rkd4euSYR
-	 SZsWVtcC/+Zs3lDhmWcVgUu/f72O2q3PkxC2QzQUgX7ZLzyRZcMSOfd5eSgEoJDGcW2D2
-	 QYG7Sjt8IR8alyHs1s/lSFrDm12yZvbBKXqLZvqagQn3sAoZjLfbuwchud8bA3wXkLmgJ
-	 j3PfUOEL8oA7eZYxcT+KMg8nCNsQ83zTgyacGnT8XsPrQnFGUWVxkYJdN2V7dBNa2tW3t
-	 F9kopt+b+tfDhQ9EJ2diwnQCh/CG0uupY8kQ9dbvio39VB+9L3JQyLlJGSrp0KmtnvA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=teqGjgBJ;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.54
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.157.188.15
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794055446;
+	b=gxJ2RbczKRx/BgjBZxtv+hbx9kJaO8hOMu2U6hWpraIOoJXRL5c9Fsygbfr0ak793eiP
+	 M0MI5hB6YhVw9MFO+Cmib6gNhl/mEsvIGBuj9cXlzjhGo/VVkTpuE19HQcQgV1NmEfJCE
+	 zdBoJTQ4be2GpwuYi1905nUTKedc9H098fAl3MsmwV/Wk/M+Tx7QsUF1rsfEDytj1inG+
+	 Q3kynk5snXzvID9biIBAxBprxQX5HPbPw1dq8HZAsnLEHCf04HNUCwMSQ071QfIAiRqI2
+	 1gcW1flzcYVsBc+mHdlvz8/SBx+wMkuPXk0rOdgQ9eCf9ae9lu1ejBUr1EHbxCVNDYA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794055446;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To:
+	 X-Infomaniak-Routing;
+	bh=Iugw2OGAg4mgOCQFETYGOufLLan+evQzLIrMETtF5rY=;
+	b=KW8NytyveRl0IDtTLq4YfZt3hVz7+k55u1tbqzjibdSUBiXIpnppuwkpX5glnHlIfLrR
+	 o2AdalZc8uOOVQMlwpTFpNc7PyXOqSihooZrPbAhMMlfD+f8QbPho51CXjVvrU2yor3ZP
+	 xVjebUlagwnTOf2BNj4IMC23+qGqs/Sy8gJVVWkT60NsrlAEyXbXKjKEpYFXqxr894D7E
+	 OUkNjCGygUp0QBZhRW535UpUweuEB5iajqJMHqOnDIISDWYyWiD1DSrBQFfJ8lZ2EhdMa
+	 sTfJIcv3vLBlJPH+4FU7coMK51gnfMqadyPaYE/O7IqpwIrw6CvTIB7kx67jL57ynCg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=none header.from=digikod.net;
+	spf=pass smtp.mailfrom=digikod.net;
+	dkim=pass header.d=digikod.net header.i=@digikod.net header.a=rsa-sha256 header.s=20191114 header.b=MFwmpIt1;
+	arc=none smtp.remote-ip=45.157.188.15
+Received: from smtp-bc0f.mail.infomaniak.ch (smtp-bc0f.mail.infomaniak.ch [45.157.188.15])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2561A606A326
-	for <linux-fsdevel@vger.kernel.org>; Sat,  7 Nov 2026 12:35:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2561A606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A35B606A32D
+	for <linux-fsdevel@vger.kernel.org>; Sat,  7 Nov 2026 12:44:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7A35B606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=teqGjgBJ
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-6b1b13e09ffso1792977a12.3
-        for <linux-fsdevel@vger.kernel.org>; Sat, 07 Nov 2026 04:35:43 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794054942; cv=none;
-        d=google.com; s=arc-20260327;
-        b=e6ptPiZyeJ8S714v9BTkoZsr1oPf1ZJRXicTdBvA8QmlP2GMCLaOARzvXh+vSAa5ea
-         HWZsy8OV5PVY9cV3EbD5Y5de+ECIdvQLPzS3S0y66U9AnmAx4VanpfjZAs/RSU7mdXqJ
-         vk31TkA7ez+xDRVm/Wk/hVX2B6r+1QsC1DgKrr8DSw8ZVUxFbOr5QTPQRUehN+ZaG9N/
-         OG3oMOMhhN0cxvbTUT2afEu4LZ6nAnwQTHCczmXp3wgW+Vk1hRD6sm4hEkSKCwiqxH2K
-         PJh6wrMMcYwhpGlTqR3Hq9ztyvLunCCyzUfTlhveegxmbhic5d7F/sZso66WPZs4HvaW
-         +WBw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=qAh0bgBsog7Y7KnhvEREARaQP2vFlXIvO9i9mhA5trA=;
-        fh=7YUQVcUkfg5O1ZNsVnpZMeUayajnhZ+3U+RCgr2/Pes=;
-        b=kkwa5ZLW0tz9MZJeO1QmXAs0dzNrqr/QgoY0GACzpMTMz4AQVdx/CjAfoBTwZ0o0IZ
-         R6XDdPt7ywYJ36PbsqtbhE51v69qWjDjATHizvN89c1KvJ2fZpb3uzKD2L0bH6QEYr7g
-         0NjJM23oj7v0NRYnsZVsLI+TcWlPC54x3ZFRhJxgS2zQHlqTjMhMVgBsBnvYxML97C22
-         rFPr4qqqAjD+b/wMP3zwQFTlRTKLSeBffMuCXPOEVIjJxa8LYkL2pwfU2uSAZOte5I2U
-         2/pvjXEIOVppvwWK7UZLZeiC6hg0NeUKudAve8LdS+5PQP3gtSdBC4Wmmt5Qzy8W3ZZc
-         Dkhg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794054942; x=1794659742; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=qAh0bgBsog7Y7KnhvEREARaQP2vFlXIvO9i9mhA5trA=;
-        b=teqGjgBJvuEB9n6ZIUNiRw+r+b/ZgZYOoqNjsf/AwJ7m0jfQeBp6AWoIv+u8NooF+q
-         5Ou/x3/ijsxBDoqXbtBWvSzHWWVZkLmm9NYcKzz9kVHyE1JFU5BznhW004dt0rqRfIff
-         cEf5sdiho2+JUWLpvgHqoEKQC5NLvpgwqIw1HDrm0xMZ2KN8OwaSJB8oqh1Yrvwuu9aw
-         uo72uhxVmvHq6UJklRMJMxJcGUU27t3utiVCXIxT3NC0duVnvSC5rvDhugqpUlspX4cO
-         m3evQLzojeHFKSk5nrO76ywIkY2aght59uvmuUkUeyu1JsnogVoSukhUtSaj0a+prvDj
-         X26g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794054942; x=1794659742;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=qAh0bgBsog7Y7KnhvEREARaQP2vFlXIvO9i9mhA5trA=;
-        b=bdZUz8yHhl+LtIv5h3+cNlkwZZxUwz1Gr+sBZx8XyKntQU0SRAt6m0DRU3TW0lQPLA
-         YJ64z8lFI+KTKJuXtMJbAlRAim4lAi5d9q3bII8VgdrxlQrpSdmcjTiHHaBu+aryybTM
-         ZaOwNiuOHDBriNUWVwkymPJyAAP06VpJTi5zD7iBr/fgMnmnjZMPTMFnSNMem77U/z+b
-         NAah4A9tIxOKq/xxh+vLMzNzDLqgfQ4hKhJzzJF0GDV8sywdbWmkTfxOygiLoYdYBlfa
-         uuxppoidc48M/lUHMLbmrh4BEGBPiEn16tjJvlTOuv8iHn7oHMMbJFImTrT9rO5oWvqh
-         Ru4A==
-X-Forwarded-Encrypted: i=1; AL+hErFpGShvGpSC1xuENye/QBGNWXbqJJoxBqYSZRd0NYm6vEH1nYpyWCrUglRLc3OlOLiC9MUL6ZcodFJgZiJN@vger.kernel.org
-X-Gm-Message-State: APuU4Z8nduQEcUWyZsDd+Lp1v3olc1RDu+yEjFrQJLfuqsam7zDsYll8
-	dCDSlId1oDCorTVaiwgGaSwie0ZOd9OehcCXY5ppfD/w3K0fD/FO+eZOmwDtc8ycTurjgtZ5w4Y
-	Qj+9JwvI7mn8MqI9SGD3lenhXEZSefxw=
-X-Gm-Gg: AYBFou2IRaFuH4fcRB9vURTpkk54KItgAi8XfHaHMOyrxtaeBrQCToEPaAEHBtuSknc
-	ywLeZfHd1oOFrY7k4SM7qlDcKqWH1EKTQO2Tptanu5nK8PPz/41AjH6uwyZnSO/z52vwEl5SZ+Q
-	F01hfZ7f39lVMQGm8lLiwfuDkjUaQyToFGDxQnuxrWzJ0MK+cdsGVdUrbJe83wBMUYEDYOoW+66
-	1ijyQS6oagQnOiPd9YkGSu1QwW6m07E1esWq5VszbtgSmHzC+DWLbi3KxC8OEbrdMctcKWGUNhY
-	MH/R5D/GH6gJngcNui0YTiVKsAiR6WIYldx+s7YrGgobxOEtgt5wAJCqhL28UQrGVkzPJUTwpl6
-	pOM3Oy99OaeUISEhINrQrlDtfN6rummMfdgsQKdaWBqqahZe80n/lm992FolPHxPRGFVq5gqG23
-	NzutXm7rOzl8orOD0=
-X-Received: by 2002:a05:6402:51d1:b0:6b6:e83b:6fc6 with SMTP id
- 4fb4d7f45d1cf-6b6e83b70a5mr2926584a12.32.1794054942352; Sat, 07 Nov 2026
- 04:35:42 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.a=rsa-sha256 header.s=20191114 header.b=MFwmpIt1
+Received: from smtp-4-0001 (smtp-4-0001.mail.infomaniak.ch [10.7.10.108])
+	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4jMG21592qz83c;
+	Sat,  7 Nov 2026 13:43:53 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
+	s=20191114; t=1794055433;
+	bh=Iugw2OGAg4mgOCQFETYGOufLLan+evQzLIrMETtF5rY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MFwmpIt1qZcBPnMoZo1dAkshNSJXJi5Z9XoJgwh9bS2c1ZR9flCVe3Hjn/A6pUe0K
+	 jONZd07fdPGrGe1Zje1niLZpKMS5FxWmfk1m7nkp7PZvsUKFxlpGEJDtqPHUz3VGcr
+	 x1OCZyAWH+FgoxXekhVw3ktb57jEmVWYt/ZOYHdk=
+Received: from unknown by smtp-4-0001 (Postfix) with ESMTPA id 4jMG1y4gD5zb44;
+	Sat,  7 Nov 2026 13:43:50 +0100 (CET)
+Date: Sat, 7 Nov 2026 13:43:46 +0100
+From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+To: "Hallgrimur H. Gunnarsson" <halg@google.com>
+Cc: Christian Brauner <brauner@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Paul Moore <paul@paul-moore.com>, 
+	Serge Hallyn <sergeh@kernel.org>, Kees Cook <kees@kernel.org>, 
+	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jan Kara <jack@suse.cz>, 
+	James Morris <jmorris@namei.org>, Simon Horman <horms@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jann Horn <jannh@google.com>, 
+	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, KP Singh <kpsingh@kernel.org>, 
+	Jonathan Calmels <jcalmels@3xx0.net>, Casey Schaufler <casey@schaufler-ca.com>, 
+	linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, linux-api@vger.kernel.org, 
+	containers@lists.linux.dev, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/8] userns: per-namespace capability bounding set and
+ opt-in netns loopback
+Message-ID: <20261107.aighieG4Ami1@digikod.net>
+References: <20261028221705.3915340-1-halg@google.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -105,156 +75,207 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261104-b4-ovl-containerized-sync-v3-0-8daa20144f53@toxicpanda.com>
- <20261106-nebel-fragment-normierung-84511a5676d9@brauner> <5ba0cd611f787673e219509aba8b81a0.josef@toxicpanda.com>
-In-Reply-To: <5ba0cd611f787673e219509aba8b81a0.josef@toxicpanda.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Sat, 7 Nov 2026 13:35:31 +0100
-X-Gm-Features: AclHuK-7zpwSdqr5f1prmL6hTFzHE5Q5jFkb22xQF-E3GZFK1ObGfIvxTBr_qPE
-Message-ID: <CAOQ4uxiRhKvZ5UJNDTF56L-q-SaB-uVuc9UhKWPG5d4VKx32qQ@mail.gmail.com>
-Subject: Re: [PATCH v3 0/8] ovl: only sync what was written through the overlay
-To: Josef Bacik <josef@toxicpanda.com>, Christian Brauner <brauner@kernel.org>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
-	Christoph Hellwig <hch@infradead.org>, Chris Mason <mason@kernel.org>, 
-	Chengguang Xu <cgxu519@mykernel.net>, Chengguang Xu <charliecgxu@tencent.com>, 
-	linux-unionfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261028221705.3915340-1-halg@google.com>
+X-Infomaniak-Routing: alpha
 
-On Fri, Nov 6, 2026 at 5:53=E2=80=AFPM Josef Bacik <josef@toxicpanda.com> w=
-rote:
->
-> On Fri, Nov 06, 2026 at 04:32:50PM +0100, Christian Brauner wrote:
-> > The thing that's a bit ugly is that overlayfs open-codes the tail of
-> > sync_filesystems(): ovl_sync_fs() calling upper_sb->s_op->sync_fs() and
-> > sync_blockdev() itself is one more place that needs to know what
-> > sync_filesystem() does.
-> >
-> > So we should probably add a helper to fs/sync.c for the ->sync_fs() and
-> > block device part and use that.
->
-> v4 went out a couple of hours before this, it only swaps in v2 of Amir's
-> patch, so all of this applies to it as well.
->
-> I've added sync_fs_and_bdev(sb, wait) for v5, sync_filesystem() calls it
-> twice and ovl_sync_fs() once.
->
-> > Eheeeem, isn't that kind of a bad proxy for this? What ->sync_fs() +
-> > block device do is a property of the upper filesystems and how is that
-> > related to RENAME_WHITEOUT? There's a few counter examples you even
-> > give:
->
-> [...]
->
-> > So on ubifs a syncfs() in relaxed mode returns with metadata still in
-> > memory. Meh. I know the flag got droppped but that was an overlayfs
-> > speicfic thing. A generic property of ->sync_fs() is a different thing?
->
-> I dropped the flag after v1 because nobody liked it, me included, and I
-> don't want to touch every file system for this.
->
-> What relaxed leaves to ->sync_fs() and the block device is only the
-> upper inodes that have no overlay inode, that's whiteouts and the work
-> directories. With creation fixed (below) everything else is on the dirty
-> list and gets written.
->
-> For the file systems that pass the probe: ext4, xfs and btrfs log all
-> metadata. ext4 without a journal has it in the buffers of the block
-> device, which we write. f2fs writes its dirty inodes in the checkpoint,
-> f2fs_sync_inode_meta(). ubifs writes names, whiteouts and links to its
-> journal when they are made, only setattr leaves an inode dirty in the
-> VFS. The only setattr overlayfs does on an inode it doesn't track is the
-> chmod of the work directory to 0 at mount time, right after it was
-> created with mode 0. That's the counter example from the cover letter,
-> and it's the only one I could find.
->
-> Anybody who needs more than that has fsync=3Don and fsync=3Dstrict, which
-> sync the whole upper file system like before.
->
+Hi,
 
-Another way of putting this is that this entire sub-thread revolves around
-what should be the default value of OVERLAY_FS_FSYNC_AUTO
-for upstream kernel, because the distros are likely to change it anyway.
+I think this is mostly solved with Landlock (kernel v7.4), see
+https://docs.kernel.org/userspace-api/landlock.html#capability-and-namespace-restrictions
+and
+https://lore.kernel.org/all/20261014082718.1435842-1-mic@digikod.net/
 
-AFAIK, the only upper fs which is going to be getting the wrong default
-with the current OVERLAY_FS_FSYNC_AUTO=3Dy is ubifs.
+This approach is agnostic to UID, cgroups, or other ways to identify
+processes, so it should fit any use case.
 
-My rationale regarding ubifs is that it is a very specific and unique user
-base for embedded/IoT/mobile devices.
+What is missing is a split of capabilities (e.g. CAP_NET_ADMIN) that
+makes sense from a security and (user) namespace point of view.
 
-The durability of overlayfs is already wrong on ubifs without
-fsync=3Dstrict. We tried to fix this without opt-in, but we failed,
-so using ubifs requires fsync=3Dstrict anyway for correct durability.
+Regards,
+ Mickaël
 
-I admit that this is a weak excuse for regressing syncfs for ovl+ubifs,
-but I am still leaning towards leaving OVERLAY_FS_FSYNC_AUTO=3Dy
-as the upstream default.
-
-> > Afaict, creation isn't covered. ovl_instantiate() ends up in
-> > ovl_inode_init() which now uses __ovl_copyattr(). So a new file,
-> > directory, symlink or hardlink only dirties the parent but not the new
-> > overlay inode.
-> >
-> > Fine for metadata, but a long symlink isn't metadata. We should mark th=
-e
-> > new inode dirty where it's instantiated.
->
-> Yup, ovl_instantiate() marks it in v5. Nothing gets lost today, ext4
-> journals the block of a long symlink, xfs logs it, btrfs has it in the
-> tree and f2fs writes it in f2fs_symlink(), but we shouldn't depend on
-> that. I've added a long symlink to the fstest.
->
-> > * ovl_park_inode() calls mark_inode_dirty_sync(). Jan's deferred inode
-> >   reclaim (cf. [1]) removes exactly that from iput() because it does IO
-> >   from dentry reclaim.
-> >
-> >   He replaces it with queue_dirtytime_writeback(). That moves the inode
-> >   to the head of b_dirty_time and wakes the flusher.
-> >
-> > So it would be nice if we could base your thing on top of Jan's series
-> > (I hope he'll send v2 soon!) and call queue_dirtytime_writeback() thing=
-.
->
-> The one in ovl_park_inode() is called from ->write_inode(), not from
-> iput(), and it's on the overlay inode, which has no ->dirty_inode(), so
-> it only moves it to another list.
->
-> The one that does IO from dentry reclaim is iput() of an overlay inode
-> with I_DIRTY_TIME, that's sync_lazytime() -> ovl_sync_lazytime() ->
-> mark_inode_dirty_sync(upper). Jan's patch 2 takes that out of iput(), so
-> it goes away without any change on my side, and then using
-> queue_dirtytime_writeback() in ovl_park_inode() makes sense too. It
-> would have to be exported for that.
->
-> I only need patches 1 and 2 of that series, and they don't depend on the
-> rest of it. Jan, could those two go in ahead of the deferred reclaim
-> part? Then I'll rebase on top of them. Otherwise I'd rather do this as a
-> follow up than wait for the whole thing.
->
-> > > An overlay inode that loses its last reference while it is dirty is
-> > > kept until it has been written and then sits on the LRU, like with
-> > > any other file system.
-> >
-> > Hm, Jan's series fixes that as well afaict. :)
->
-> I don't see how, what am I missing? overlayfs has inode_just_drop() for
-> ->drop_inode(), so a dirty overlay inode is evicted on the last iput()
-> and we forget that the upper inode has to be written. Patch 6 keeps it
-> around until it's clean.
->
-> > There's some Sashiko thing btw you should look into?
->
-> The only mails I got from it are on v1, those are fixed since v2, except
-> for dirtied_time_when of a parked inode, which I left alone on purpose,
-> it's in the v2 changelog.
-
-I am not sure what the current policy is for Sashiko and emails for ovl rev=
-iews.
-
-There are 3 high severity comments on v3 that are still in v4:
-https://sashiko.dev/#/patchset/20261106-b4-ovl-containerized-sync-v4-0-6ddd=
-e0b7dd8a%40toxicpanda.com
-
-Thanks,
-Amir.
+On Wed, Oct 28, 2026 at 10:16:57PM +0000, Hallgrimur H. Gunnarsson wrote:
+> When an unprivileged process creates a new user namespace, it is granted
+> a full set of capabilities (CAP_FULL_SET) scoped to that namespace.
+> While these capabilities are isolated to the namespace, they allow
+> unprivileged local users to reach deep kernel subsystems (most notably
+> networking configuration and raw sockets via CAP_NET_ADMIN and
+> CAP_NET_RAW) that historically assumed a trusted caller and have
+> accounted for a large share of local privilege escalation
+> vulnerabilities.
+> 
+> Many workloads and sandboxes use unprivileged user namespaces strictly
+> for basic UID/GID, mount, PID, or network isolation and never need
+> high-risk capabilities like CAP_NET_ADMIN or CAP_NET_RAW. Likewise,
+> system administrators often want a host-wide policy ceiling restricting
+> which capabilities unprivileged user namespaces may acquire, without
+> disabling unprivileged user namespaces altogether.
+> 
+> Prior work by Jonathan Calmels [1] proposed addressing this via a sixth
+> per-thread capability set (cap_userns) alongside a global sysctl mask.
+> During that discussion [1, 2], feedback (e.g. from Casey Schaufler)
+> suggested that rather than adding another per-thread capability set and
+> prctl() interface, capability restrictions could be integrated directly
+> into struct user_namespace and configured via clone3(). At the same
+> time, as noted in [1], a clone3() flag alone is not sufficient for
+> administrators who need to enforce a host-wide ceiling on unprivileged
+> user namespaces without modifying every userspace callsite.
+> 
+> This series combines both pieces of feedback: it embeds a capability
+> bounding set (cap_bset) directly into struct user_namespace, reusing
+> the existing task cap_bset, cap_permitted, and cap_effective sets on
+> namespace entry, and provides both a system-wide sysctl ceiling for
+> unprivileged user namespaces and a CLONE_NEWUSER_BSET flag for
+> voluntary per-namespace restriction via clone3().
+> 
+> In addition, because restricting CAP_NET_ADMIN at user namespace
+> creation time prevents userspace from bringing up the loopback
+> interface in new network namespaces, the series first introduces
+> an opt-in flag to automatically enable loopback on network namespace
+> creation:
+> 
+> 1. Opt-in loopback activation on netns creation (Patch 1)
+> 
+>   New network namespaces start with the loopback interface (lo) DOWN by
+>   default, requiring CAP_NET_ADMIN over the owning user namespace to
+>   bring it up. To block external network access while preserving
+>   localhost networking, sandboxes commonly create an isolated network
+>   namespace with only the loopback interface enabled.
+> 
+>   However, requiring a sandbox to hold CAP_NET_ADMIN in a new user
+>   namespace solely to bring loopback up conflicts with reducing the
+>   CAP_NET_ADMIN attack surface. Today, an unprivileged sandbox must
+>   start with CAP_NET_ADMIN to bring loopback up, drop it, and then
+>   block CAP_NET_ADMIN from being regained in nested user namespaces
+>   (e.g. via seccomp or max_user_namespaces limits). Conversely, when
+>   CAP_NET_ADMIN is restricted at user namespace creation time (via the
+>   sysctl ceiling or CLONE_NEWUSER_BSET introduced in Patches 2-3, or
+>   via LSMs such as Landlock), tasks inside the new namespace never
+>   acquire CAP_NET_ADMIN and cannot bring loopback up from userspace,
+>   breaking localhost networking for unprivileged sandboxes.
+> 
+>   Introduce the CLONE_NEWNET_LOOPBACK flag for clone3() and the
+>   corresponding UNSHARE_NEWNET_LOOPBACK flag for unshare(), which imply
+>   CLONE_NEWNET and automatically bring the loopback device up in
+>   copy_net_ns() before returning the new network namespace. Making this
+>   an explicit opt-in preserves default network namespace semantics
+>   while allowing unprivileged sandboxes to create an isolated network
+>   namespace with functional localhost networking without ever holding
+>   CAP_NET_ADMIN.
+> 
+> 2. Per-user-namespace capability bounding set & sysctl ceiling (Patch 2)
+> 
+>   Add cap_bset to struct user_namespace (initialized to CAP_FULL_SET in
+>   init_user_ns) and introduce a system-wide sysctl ceiling for
+>   unprivileged users at:
+>     /proc/sys/kernel/unprivileged_userns_caps_allowed
+>   (defaulting to CAP_FULL_SET).
+> 
+>   When a new user namespace is created:
+>   - Privileged creators (holding CAP_SYS_ADMIN in the parent user
+>     namespace) inherit cap_bset from the parent user namespace.
+>   - Unprivileged creators (lacking CAP_SYS_ADMIN in the parent user
+>     namespace) have the child namespace's bounding set constrained by
+>     the sysctl ceiling combined with any effective capabilities the
+>     creator already holds in the parent namespace:
+>         child_bset = parent_bset & (sysctl_ceiling | creator_effective)
+>     Allowing the creator to retain capabilities it already holds in the
+>     parent namespace ensures that a process granted a specific
+>     capability (e.g. CAP_NET_ADMIN) does not lose it when creating a
+>     nested user namespace.
+> 
+>   When a task enters a user namespace via clone()/unshare() or
+>   setns(), its cap_bset, cap_permitted, and cap_effective sets are
+>   clamped to user_ns->cap_bset. In addition, cap_capable_helper() is
+>   updated so that implicit capabilities granted to the parent-namespace
+>   owner of a user namespace are likewise bounded by the owned
+>   namespace's cap_bset.
+> 
+> 3. Per-namespace restriction via clone3() (Patch 3)
+> 
+>   Introduce CLONE_NEWUSER_BSET and add cap_bset to struct clone_args.
+>   When specified alongside CLONE_NEWUSER, the new user namespace's
+>   bounding set is further intersected with the requested cap_bset mask,
+>   allowing container runtimes and sandboxes to drop unneeded capabilities
+>   from a user namespace at creation time even when permitted by the
+>   global sysctl.
+> 
+> 4. Introspection via NS_USER_GET_INFO (Patch 4)
+> 
+>   While tasks inside a user namespace see their initial ceiling in
+>   /proc/<pid>/status (CapBnd), threads may subsequently drop
+>   individual capabilities from their per-thread bounding set. Add
+>   an extensible NS_USER_GET_INFO ioctl on userns file descriptors
+>   to allow userspace to directly query a user namespace's cap_bset.
+> 
+> 5. Selftests (Patches 5-8)
+> 
+>   Add kselftest suites covering CLONE_NEWNET_LOOPBACK, the sysctl
+>   ceiling, creator capability retention, nested monotonicity,
+>   parent-owner bounding, CLONE_NEWUSER_BSET and NS_USER_GET_INFO.
+> 
+> [1] https://lore.kernel.org/all/20240609104355.442002-1-jcalmels@3xx0.net/
+> [2] https://lwn.net/Articles/978846/
+> 
+> Note on tree routing:
+> 
+> While Patch 1 (CLONE_NEWNET_LOOPBACK) touches net/core/net_namespace.c,
+> most of its changes add clone3()/unshare() flag plumbing in
+> include/uapi/linux/sched.h, kernel/fork.c, and kernel/nsproxy.c, which
+> Patch 3 (CLONE_NEWUSER_BSET) builds directly on top of. To avoid
+> merge conflicts in kernel/fork.c and include/uapi/linux/sched.h, it
+> may be simplest to route the entire series through a single tree, e.g.
+> a namespace branch in vfs.git with Acked-by from the netdev and
+> capabilities/credentials maintainers, or whichever tree the maintainers
+> prefer.
+> 
+> Hallgrimur H. Gunnarsson (8):
+>   net: introduce CLONE_NEWNET_LOOPBACK to auto-enable loopback
+>   userns: introduce capability bounding set for user namespaces
+>   userns: allow restricting capability bounding set via clone3()
+>   nsfs: add NS_USER_GET_INFO ioctl to inspect user namespace
+>     capabilities
+>   selftests/net: add test suite for CLONE_NEWNET_LOOPBACK
+>   selftests/capabilities: tests for user namespace capability bounding
+>     set
+>   selftests/capabilities: add clone3() tests for CLONE_NEWUSER_BSET
+>   selftests/nsfs: add tests for NS_USER_GET_INFO ioctl
+> 
+>  Documentation/admin-guide/sysctl/kernel.rst   |  37 ++
+>  fs/nsfs.c                                     |  29 +
+>  include/linux/cred.h                          |   3 +-
+>  include/linux/sched/task.h                    |   1 +
+>  include/linux/user_namespace.h                |  20 +-
+>  include/uapi/linux/nsfs.h                     |  17 +
+>  include/uapi/linux/sched.h                    |   9 +
+>  kernel/cred.c                                 |  10 +-
+>  kernel/fork.c                                 |  38 +-
+>  kernel/nsproxy.c                              |   9 +
+>  kernel/user.c                                 |   1 +
+>  kernel/user_namespace.c                       | 100 +++-
+>  net/core/net_namespace.c                      |  11 +
+>  security/commoncap.c                          |   8 +-
+>  .../testing/selftests/capabilities/.gitignore |   1 +
+>  tools/testing/selftests/capabilities/Makefile |   2 +-
+>  .../capabilities/userns_bounding_set_test.c   | 566 ++++++++++++++++++
+>  .../selftests/clone3/clone3_selftests.h       |   1 +
+>  .../selftests/filesystems/nsfs/.gitignore     |   1 +
+>  .../selftests/filesystems/nsfs/Makefile       |   4 +-
+>  .../selftests/filesystems/nsfs/userns.c       | 120 ++++
+>  tools/testing/selftests/net/.gitignore        |   1 +
+>  tools/testing/selftests/net/Makefile          |   1 +
+>  tools/testing/selftests/net/loopback_netns.c  | 103 ++++
+>  24 files changed, 1069 insertions(+), 24 deletions(-)
+>  create mode 100644 tools/testing/selftests/capabilities/userns_bounding_set_test.c
+>  create mode 100644 tools/testing/selftests/filesystems/nsfs/userns.c
+>  create mode 100644 tools/testing/selftests/net/loopback_netns.c
+> 
+> 
+> base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
+> -- 
+> 2.56.0.313.g2479322e68-goog
+> 
+> 
