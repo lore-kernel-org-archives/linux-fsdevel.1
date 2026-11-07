@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794011838;
-	b=QGi6H0g+U/4ndEJur6fBi2JFM3bR4vnf6SBPdZjkj8hk60ZGoEsJdZ6E7R5F8tcpoKWa
-	 /tyRyLaNiu7n6LtBJN6rGibnLjQqKP++PBj/yRn4520lpzM0jFjxwOOo00il0SDvZDx1k
-	 4o2YckKjDd/sntJ+qEDFeyKH279WY6Yt6/EgrVYq7LwFyJmaHbIjFxoL/X+o5HUAQBkj2
-	 Hiekc/FjpdMk3LBtPsF6RyLCpMqAD7n7royyf6k3ipuNYeme5uL9LUw/bw0jlUHrcUaSg
-	 Sgb1c3yp9Bk9h8Wbz9Y6RE4ofU8+/a8BEVXJhJZo1iUdJ1upbsNL5zzaVMcHeQ9JXQQ==
+	t=1794011839;
+	b=UlI4reOJ5m8rdp9X1Xu0jsyLxw9hIstdJOMVOjmYhXfX9rY8OqRUt/u4FRwdULUuk+EV
+	 jA6xqFYGhis4v18bDC3JJaXQ1leKESlvp764VzDtf2rZ+QUr8ySeIWCc4+eoRsp+mEQTr
+	 hx6fRD+byJqxhNrOU0mQQ81ut8Aci3WmLM2KPO3Ba7lQxdqmPkSrNXidyDUsYUR5cfyLs
+	 E0Xi+POioBN1o7AmqNX6RaVVSfzEchymlYyo68ZPMpfrrMuvvnxecS0eLeJkPy4QwD+Js
+	 d7q1KtmE46TiJ5DxrV9IFDJyV3DxUSh8xj2L6pK3St3GXU19gCUoSsPvEKJUJi3QRsw==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794011838;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794011839;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=Zs1J/x6nfmV3dx/eHdCEN/mRYv0Hi+QZwL/OVF2OHBE=;
-	b=H2WnPd+umYoHbjRMV6obuW7KmB8mNlgqZ0ne2ilo0a5yUoILtPdvruMtqvisJqsqlKwT
-	 ubYXx6iyHNnOgjnnjbvY/ohAWvGocizxORqwFVQYHZbbd8WKVebwRpA9S0mz3hfFuab16
-	 C2zeOlU7cw985h9FzeDG3TYE/iIlxGexPNk16TSawjVGLRWy8iCkR6DuV5c+K5rBieM1I
-	 L8Lgxme6rOh9e9/wQgTBb3420qpUiH/JMCxbSW5RM/n5Ml8Z/1XwR/SwQUYPwrCt226I+
-	 Xp9PNHkg1+m1X2OTaPouV7wAeVX08AgQUs1fOtKB6yO2fpmNQIhz1/Wf1V65ZApRBsg==
+	bh=LZOMQbbwROsg3RJmo5tNBpuYTJxKTJ2ke5j/Ex7a5iY=;
+	b=4D+SwA9+cXDf3NcQh9zqQuTRewO2D/egYbmQhzCXSze/in6FguL2uOfYwOvRSqdasBzh
+	 XWfkMhgTiYc9gIO+sSlKW64mbHzYdONGRVEPQ3fnb7D6TmdaRfF4eSYMGAqe9gMvYRncf
+	 1RzTrtLSNqFOCjcDpDqOuOiA/bouTPxdT3siUaCyi9jNjcxcWEckiR0J86YCjXN59fPeG
+	 vFPGnzmhh44KiD76zgHv0/4e6XUzGNP5X2zniTrSQP4+vGjcleZi2SijUgRrQmChWzcCL
+	 kJMeMCLQ8a/wz+jELHF/ljboRzoCinqj9hkY58iRGR0nOadJwLgB8wGUgHgHRhCRHRA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ieb+P2xG;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gtHV2y36;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 655BE606A822;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F142C606A837;
 	Sat,  7 Nov 2026 00:37:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ieb+P2xG
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gtHV2y36
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
 	t=1794011838;
-	b=g4hSPArBDnT/jney67n0J1t/Fbtz1sIexhNHL4FA/ltR+N1eazRRuuUxGVKnvNKFKE5Q
-	 hNDoB9kp0LaQcALLfEmwXi7mZ/qIMZ+1k+u8VsQYAdKZHqMa1VE8F4tcqEBsTU/I/tlec
-	 RZtzXwD/trH8VlFbVEAVvIKCHCwTbrSPrMNcFJwkIFkGeJ/7hX3iEMY30p/lCS3KSQmZP
-	 maq1I9OklQh/Tjv4Vl8SEcI1hCzVNKuB2Kn8BA1JVNh04fnzlZMT7hEhVmnugD9TNtfYI
-	 OVFGZBrG+qqpwD+OneiZx5Mi8+VuNlPoKsXkPVy2Mr+IWbQfTsVOiplV68lk5G8DJpw==
+	b=Q7CEpij3av3k2nbISTpV+xuRk/HBYUd2JJ9pV4+OeLltEqYt+Mf7AL9lKh7eqVvoP0zB
+	 xdmN+htVTvft8NROTmnoHCyoLoEWYLwqKQRX/egY8GhyDfwdqn0rgJbB2F4n5ozxe6pwj
+	 yALOykOlHVQTCYknG/J5G1cbpgvOknzosaYE6m/Te29ApU3BEdSVabBRf7xF8Ukk0Xh/u
+	 j/WpOWZ5+ltkMDn2Gr8md4jZXL+kWn88p53JE5l2HpVGzdxIh7TbzdO8/KUmcfE82qX/E
+	 OTJcShnJuuy0IHMhG089QQVsxBpOOVXPkixhssuHzA+5vvTtyDHkfDBczgjB7PxnzzA==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
 	c=relaxed/relaxed; t=1794011838;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=Zs1J/x6nfmV3dx/eHdCEN/mRYv0Hi+QZwL/OVF2OHBE=;
-	b=wUgxTJ7VW22WQ1KjJxU8xv8sYXDlQbWKTd59+MFCPYMmhcQiOaWNy+mVpqvnhPJrjoin
-	 xaOtNY6MG0T1A+8m7g9wRRwlPiBDlIClFjAFLZGjMyiuFXoXdA3dvBVg9kNYO5ejT8T9g
-	 y0WWdDQ5U2k5ikt6ybpknIxhOnsd4k+SVTIlhB1itYGviIdc78hLxjsH1l3+LBHPPkfgT
-	 Xq5smajz4qco+fPQpxqESnMm0T7+cRo52kSlaJOQn/NGwO7dX61+E1mR8Oo3ow0+MdwZ2
-	 wxeclurOeWODUsfpYF15CszyxTip1EKg/F6SyM8aOvkkScjB9Y2FFSnSnV0/0SYBPtA==
+	bh=LZOMQbbwROsg3RJmo5tNBpuYTJxKTJ2ke5j/Ex7a5iY=;
+	b=aYUncUAOF1z24CX+m25wIoBeOrC+feCAcMh5v0XeHTYGxjVrpxE8oNYPYrZV99P/Lg4i
+	 zmCFUB4t8RvzYIAYbKp6uwYusu8Z6DuHTdqS+QVxxSuknrOB1S8V8kPaov2J0MM8ctSuO
+	 mjlkJLCSErEsD87vl56J2FAenMM56NjTnujgHuOjjyUi8kArcxoKYxOFhxaA6DzD6SMzb
+	 o+uPrk6M8UibVBbTN4tpUgbAEZgZdCHLv6lKBYdBiun8cdWRa0hl90er5NxBMAgpIQxc3
+	 L10+ujEXTfaWWlvL22QGpL0JAjvVjJ8384HhyzOEziKpK0UVNiv+6UqD16cjtrZh9Yg==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id E3C221F008BC;
-	Sat,  7 Nov 2026 00:37:12 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 84EFF1F00922;
+	Sat,  7 Nov 2026 00:37:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1794011838;
-	bh=Zs1J/x6nfmV3dx/eHdCEN/mRYv0Hi+QZwL/OVF2OHBE=;
+	bh=LZOMQbbwROsg3RJmo5tNBpuYTJxKTJ2ke5j/Ex7a5iY=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=ieb+P2xGQ6kamYKd4+tenquqlrTGuaSLKQlY4uw6J8rckIGGLk5ey3IKena50A7jJ
-	 A0e2nux8/sTNf0jZorwFGKdAy8YVWGhWc4N2wvjdyZtoZgaktWwjBFXVEzFv3qR9dN
-	 1fh2oJ90229fD92r5zPH3D92IYcdrqI6gb66u7wQRBnVD1yIw3EfjjlL18eCTsqajO
-	 dQ9qfzpMYgITlEJ/NKsQkpKfgeqKKUmmw6BFvy1KnC5WfxHBCjKiQ9cJmcoIME/GMK
-	 JQyaVUOBl/636TUTgWCF2pFfzD+cC2yWhxa90hK58oo6Jazwx0+lMOXNhRFpxOsBRX
-	 J1P4ZJPVmqTxA==
+	b=gtHV2y36PgAJHCS5NiPs0Ma8QHOH4Srr3v45JFj1jY/zag3RUsy8mG6y3f50gqCmr
+	 auq/cLI2JWUZjFWx88XFLhSH5BqQMvvXKcyJ+gjSu6S2+CRdu4u+suleoP2zxsFt6j
+	 IA57r3NRnu+/QDCY39IRfzWhcICBifOm62nSJN+EgGUwsfDY4gtUCT/rzqU4mUVjaY
+	 gfsx8XSWqocv/pENT0zGunXFpJHtFPmjfPWTKcGF4a7/PZL723A7YWpondZ9/I+rNk
+	 dRuO7YowuBZPOpbfTsDbSI/rGPf1+G+9KPmyXPYZ9dsS5MY3zowyoVnORpyARQfADn
+	 mWqODlfLAj7ng==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 4E83147A10;
-	Sat,  7 Nov 2026 00:36:57 +0000 (UTC)
+	by lkml.kernel.org (Postfix) with ESMTP id 43F2547A4A;
+	Sat,  7 Nov 2026 00:36:58 +0000 (UTC)
 From: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>
-Date: Fri, 06 Nov 2026 16:37:39 -0800
-Subject: [PATCH RFC v3 65/88] vfio/pci: Revoke guest_memfd memory on BAR
- invalidation and reset
+Date: Fri, 06 Nov 2026 16:37:54 -0800
+Subject: [PATCH RFC v3 80/88] KVM: selftests: Verify host VMA flags for
+ VFIO BAR
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -84,7 +84,7 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261106-gmem-alternative-providers-v3-65-8484dde66a7e@google.com>
+Message-Id: <20261106-gmem-alternative-providers-v3-80-8484dde66a7e@google.com>
 References: <20261106-gmem-alternative-providers-v3-0-8484dde66a7e@google.com>
 In-Reply-To: <20261106-gmem-alternative-providers-v3-0-8484dde66a7e@google.com>
 To: Alexey Kardashevskiy <aik@amd.com>, 
@@ -105,11 +105,11 @@ Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
  linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
  Ackerley Tng <ackerleytng@google.com>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794011810; l=7771;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794011810; l=2687;
  i=ackerleytng@google.com; s=20260225; h=from:subject:message-id;
- bh=g3NkV0PMjIPnPGwhZsAlobRqGmDhxygV0Omg1VEgfl4=;
- b=x0AjF2T9NT+QEEiAao5ICbuevp1PlS++gYajfqkdep24IiXXDURbfHVED4DDFk2qgccq23/84
- Hl46rCqEmiJD0groeAVC0Rygr97P5L8AyZHy2WA1gx7BSh3dr38vIwq
+ bh=UlabEjEO5/7bc1Xc7qMAcF1rv+8kEYtRG7NVYEhErUE=;
+ b=AYnUVtyYbnET239Be/q7ZKR7z0MuG0D/wBLiSNROBy6M+iTcydm/LLxQnKZUtCpZwDkUgkWWx
+ NLfenWKq+rzDHvtjBPQsocyULycu+dcV6xLglIVZfDmfMBDwHdFzAaM
 X-Developer-Key: i=ackerleytng@google.com; a=ed25519;
  pk=sAZDYXdm6Iz8FHitpHeFlCMXwabodTm7p8/3/8xUxuU=
 X-Endpoint-Received: by B4 Relay for ackerleytng@google.com/20260225 with
@@ -120,213 +120,92 @@ Content-Transfer-Encoding: 7bit
 
 From: Ackerley Tng <ackerleytng@google.com>
 
-When PCI hardware events occur (such as clearing PCI_COMMAND_MEMORY,
-entering low-power D3, bus resets, or function-level resets), physical
-BAR access is invalidated.
+Add a test verifying host userspace memory mapping characteristics
+over a VFIO device BAR.
 
-In vfio_pci_zap_bars(), if guest_memfd memory was marked available,
-mark the BARs unavailable and invoke vfio_device_gmem_revoke() for each
-mappable standard PCI BAR to revoke host userspace mappings and guest
-stage-2 SPTEs before hardware state is modified.
-
-When memory decoding is subsequently re-enabled and power state is
-restored to D0 under the device memory lock, mark BARs available again
-so future guest_memfd faults can proceed.
+Map BAR0 of the bound VFIO device into host userspace and parse
+/proc/self/smaps to verify that the kernel configured the expected
+hardware MMIO VMA flags (io, pf, de).
 
 Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 ---
- drivers/vfio/pci/vfio_pci_config.c | 16 ++++++++++----
- drivers/vfio/pci/vfio_pci_core.c   | 44 ++++++++++++++++++++++++++++++--------
- include/linux/vfio_pci_core.h      | 22 +++++++++++++++++++
- 3 files changed, 69 insertions(+), 13 deletions(-)
+ .../selftests/kvm/x86/guest_memfd_vfio_test.c      | 65 ++++++++++++++++++++++
+ 1 file changed, 65 insertions(+)
 
-diff --git a/drivers/vfio/pci/vfio_pci_config.c b/drivers/vfio/pci/vfio_pci_config.c
-index 9914f3ac69aef..fae3980fb8d9c 100644
---- a/drivers/vfio/pci/vfio_pci_config.c
-+++ b/drivers/vfio/pci/vfio_pci_config.c
-@@ -630,8 +630,10 @@ static int vfio_basic_config_write(struct vfio_pci_core_device *vdev, int pos,
- 		*virt_cmd &= cpu_to_le16(~mask);
- 		*virt_cmd |= cpu_to_le16(new_cmd & mask);
+diff --git a/tools/testing/selftests/kvm/x86/guest_memfd_vfio_test.c b/tools/testing/selftests/kvm/x86/guest_memfd_vfio_test.c
+index cf2d46a365504..79a0001ca1733 100644
+--- a/tools/testing/selftests/kvm/x86/guest_memfd_vfio_test.c
++++ b/tools/testing/selftests/kvm/x86/guest_memfd_vfio_test.c
+@@ -529,4 +529,69 @@ TEST_F(guest_memfd_vfio, low_power_bar_revocation)
+ 	ASSERT_EQ(0, munmap(bar0, bar0_info.size));
+ }
  
--		if (__vfio_pci_memory_enabled(vdev))
-+		if (__vfio_pci_memory_enabled(vdev)) {
- 			vfio_pci_dma_buf_move(vdev, false);
-+			vfio_pci_set_bars_available(vdev, true);
++
++static void verify_smaps_vm_flags(struct __test_metadata *_metadata,
++				  void *addr, const char *flag_substr)
++{
++	unsigned long vma_start, vma_end;
++	bool found_flag = false;
++	bool in_vma = false;
++	char *line = NULL;
++	size_t size = 0;
++	FILE *file;
++
++	file = fopen("/proc/self/smaps", "r");
++	ASSERT_NE(NULL, file);
++
++	while (getline(&line, &size, file) > 0) {
++		if (sscanf(line, "%lx-%lx", &vma_start, &vma_end) == 2) {
++			if ((unsigned long)addr >= vma_start &&
++			    (unsigned long)addr < vma_end)
++				in_vma = true;
++			else
++				in_vma = false;
++			continue;
 +		}
- 		up_write(&vdev->memory_lock);
- 	}
- 
-@@ -720,8 +722,10 @@ static void vfio_lock_and_set_power_state(struct vfio_pci_core_device *vdev,
- 	}
- 
- 	vfio_pci_set_power_state(vdev, state);
--	if (__vfio_pci_memory_enabled(vdev))
-+	if (__vfio_pci_memory_enabled(vdev)) {
- 		vfio_pci_dma_buf_move(vdev, false);
-+		vfio_pci_set_bars_available(vdev, true);
-+	}
- 	up_write(&vdev->memory_lock);
- }
- 
-@@ -911,8 +915,10 @@ static int vfio_exp_config_write(struct vfio_pci_core_device *vdev, int pos,
- 			vfio_pci_zap_and_down_write_memory_lock(vdev);
- 			vfio_pci_dma_buf_move(vdev, true);
- 			pci_try_reset_function(vdev->pdev);
--			if (__vfio_pci_memory_enabled(vdev))
-+			if (__vfio_pci_memory_enabled(vdev)) {
- 				vfio_pci_dma_buf_move(vdev, false);
-+				vfio_pci_set_bars_available(vdev, true);
-+			}
- 			up_write(&vdev->memory_lock);
- 		}
- 	}
-@@ -996,8 +1002,10 @@ static int vfio_af_config_write(struct vfio_pci_core_device *vdev, int pos,
- 			vfio_pci_zap_and_down_write_memory_lock(vdev);
- 			vfio_pci_dma_buf_move(vdev, true);
- 			pci_try_reset_function(vdev->pdev);
--			if (__vfio_pci_memory_enabled(vdev))
-+			if (__vfio_pci_memory_enabled(vdev)) {
- 				vfio_pci_dma_buf_move(vdev, false);
-+				vfio_pci_set_bars_available(vdev, true);
-+			}
- 			up_write(&vdev->memory_lock);
- 		}
- 	}
-diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
-index 894b1332f8a0c..2b29d0ec6a0c9 100644
---- a/drivers/vfio/pci/vfio_pci_core.c
-+++ b/drivers/vfio/pci/vfio_pci_core.c
-@@ -464,8 +464,10 @@ static void vfio_pci_runtime_pm_exit(struct vfio_pci_core_device *vdev)
- 	 */
- 	down_write(&vdev->memory_lock);
- 	__vfio_pci_runtime_pm_exit(vdev);
--	if (__vfio_pci_memory_enabled(vdev))
-+	if (__vfio_pci_memory_enabled(vdev)) {
- 		vfio_pci_dma_buf_move(vdev, false);
-+		vfio_pci_set_bars_available(vdev, true);
-+	}
- 	up_write(&vdev->memory_lock);
- }
- 
-@@ -1337,8 +1339,10 @@ static int vfio_pci_ioctl_reset(struct vfio_pci_core_device *vdev,
- 
- 	vfio_pci_dma_buf_move(vdev, true);
- 	ret = pci_try_reset_function(vdev->pdev);
--	if (__vfio_pci_memory_enabled(vdev))
-+	if (__vfio_pci_memory_enabled(vdev)) {
- 		vfio_pci_dma_buf_move(vdev, false);
-+		vfio_pci_set_bars_available(vdev, true);
-+	}
- 	up_write(&vdev->memory_lock);
- 
- 	return ret;
-@@ -1727,8 +1731,31 @@ static void vfio_pci_zap_bars(struct vfio_pci_core_device *vdev)
- 	loff_t start = VFIO_PCI_INDEX_TO_OFFSET(VFIO_PCI_BAR0_REGION_INDEX);
- 	loff_t end = VFIO_PCI_INDEX_TO_OFFSET(VFIO_PCI_ROM_REGION_INDEX);
- 	loff_t len = end - start;
-+	int i;
- 
- 	unmap_mapping_range(core_vdev->inode->i_mapping, start, len, true);
 +
-+#ifdef CONFIG_KVM_GUEST_MEMFD
-+	if (vfio_pci_get_bars_available(vdev)) {
-+		vfio_pci_set_bars_available(vdev, false);
-+
-+		for (i = 0; i < PCI_STD_NUM_BARS; i++) {
-+			pgoff_t gmem_start;
-+			unsigned long pfn;
-+			size_t nr_pages;
-+
-+			if (!vdev->bar_mmap_supported[i])
-+				continue;
-+
-+			gmem_start = VFIO_PCI_INDEX_TO_OFFSET(i) >> PAGE_SHIFT;
-+			nr_pages = pci_resource_len(vdev->pdev, i) >> PAGE_SHIFT;
-+			pfn = pci_resource_start(vdev->pdev, i) >> PAGE_SHIFT;
-+
-+			vfio_device_gmem_revoke(&vdev->vdev, gmem_start,
-+						nr_pages, &pfn);
++		if (in_vma && !strncmp(line, "VmFlags:", 8)) {
++			if (strstr(line, flag_substr))
++				found_flag = true;
++			break;
 +		}
 +	}
-+#endif
- }
- 
- void vfio_pci_zap_and_down_write_memory_lock(struct vfio_pci_core_device *vdev)
-@@ -2621,8 +2648,10 @@ static int vfio_pci_dev_set_hot_reset(struct vfio_device_set *dev_set,
- err_undo:
- 	list_for_each_entry_from_reverse(vdev, &dev_set->device_list,
- 					 vdev.dev_set_list) {
--		if (vdev->vdev.open_count && __vfio_pci_memory_enabled(vdev))
-+		if (vdev->vdev.open_count && __vfio_pci_memory_enabled(vdev)) {
- 			vfio_pci_dma_buf_move(vdev, false);
-+			vfio_pci_set_bars_available(vdev, true);
-+		}
- 		up_write(&vdev->memory_lock);
- 	}
- 
-@@ -2709,9 +2738,7 @@ int vfio_pci_core_gmem_attach(struct vfio_device *core_vdev)
- 
- 	bars_available = __vfio_pci_memory_enabled(vdev) &&
- 			 !vdev->pm_runtime_engaged;
--
--	/* Pairs with smp_load_acquire() in provider operations */
--	smp_store_release(&vdev->bars_available, bars_available);
-+	vfio_pci_set_bars_available(vdev, bars_available);
- 
- 	up_write(&vdev->memory_lock);
- 
-@@ -2726,8 +2753,7 @@ void vfio_pci_core_gmem_release(struct vfio_device *core_vdev)
- 
- 	down_write(&vdev->memory_lock);
- 
--	/* Pairs with smp_load_acquire() in provider operations */
--	smp_store_release(&vdev->bars_available, false);
-+	vfio_pci_set_bars_available(vdev, false);
- 
- 	up_write(&vdev->memory_lock);
- }
-@@ -2747,7 +2773,7 @@ int vfio_pci_core_gmem_get_pfn(struct vfio_device *core_vdev, pgoff_t index,
- 	 * Lockless check: if memory decoding is disabled or the device is in
- 	 * low-power D3, fail immediately without blocking on memory_lock.
- 	 */
--	if (!smp_load_acquire(&vdev->bars_available))
-+	if (!vfio_pci_get_bars_available(vdev))
- 		return -EFAULT;
- 
- 	bar = index >> (VFIO_PCI_OFFSET_SHIFT - PAGE_SHIFT);
-diff --git a/include/linux/vfio_pci_core.h b/include/linux/vfio_pci_core.h
-index 6ff67e38eaf84..af74766d7c90a 100644
---- a/include/linux/vfio_pci_core.h
-+++ b/include/linux/vfio_pci_core.h
-@@ -178,6 +178,28 @@ int vfio_pci_core_gmem_get_pfn(struct vfio_device *core_vdev, pgoff_t index,
- int vfio_pci_core_gmem_check_set_attributes(struct vfio_device *core_vdev,
- 					    pgoff_t index, size_t nr_pages,
- 					    u64 attributes);
-+static inline void vfio_pci_set_bars_available(struct vfio_pci_core_device *vdev,
-+					       bool available)
-+{
-+	/* Pairs with smp_load_acquire() in provider operations */
-+	smp_store_release(&vdev->bars_available, available);
++
++	free(line);
++	fclose(file);
++
++	ASSERT_TRUE(found_flag);
 +}
 +
-+static inline bool vfio_pci_get_bars_available(struct vfio_pci_core_device *vdev)
++TEST_F(guest_memfd_vfio, host_vma_flags)
 +{
-+	/* Pairs with smp_store_release() under memory_lock */
-+	return smp_load_acquire(&vdev->bars_available);
-+}
-+#else
-+static inline void vfio_pci_set_bars_available(struct vfio_pci_core_device *vdev,
-+					       bool available)
-+{
++	struct vfio_region_info bar0_info = {};
++	void *bar0_mmap;
++	int ret;
++
++	bar0_info.argsz = sizeof(bar0_info);
++	bar0_info.index = VFIO_PCI_BAR0_REGION_INDEX;
++	ret = ioctl(self->vfio_fd, VFIO_DEVICE_GET_REGION_INFO, &bar0_info);
++	ASSERT_EQ(0, ret);
++	ASSERT_TRUE(bar0_info.flags & VFIO_REGION_INFO_FLAG_MMAP);
++
++	/* mmap the VFIO BAR directly into host userspace */
++	bar0_mmap = mmap(NULL, bar0_info.size, PROT_READ | PROT_WRITE,
++			 MAP_SHARED, self->bar_fd, bar0_info.offset);
++	ASSERT_NE(MAP_FAILED, bar0_mmap);
++
++	/*
++	 * Verify host VMA configuration in /proc/self/smaps:
++	 * VFIO MMIO mappings must have io, pf, and de flags set.
++	 */
++	verify_smaps_vm_flags(_metadata, bar0_mmap, "io");
++	verify_smaps_vm_flags(_metadata, bar0_mmap, "pf");
++	verify_smaps_vm_flags(_metadata, bar0_mmap, "de");
++
++	ASSERT_EQ(0, munmap(bar0_mmap, bar0_info.size));
 +}
 +
-+static inline bool vfio_pci_get_bars_available(struct vfio_pci_core_device *vdev)
-+{
-+	return false;
-+}
- #endif
- extern const struct pci_error_handlers vfio_pci_core_err_handlers;
- int vfio_pci_core_sriov_configure(struct vfio_pci_core_device *vdev,
+ TEST_HARNESS_MAIN
 
 -- 
 2.56.0.455.g6c5a503b38-goog
