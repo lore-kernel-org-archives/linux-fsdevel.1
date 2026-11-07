@@ -1,55 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=54.207.19.206
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794065274;
-	b=s4Y0TbbcLKFZaDKuiuucKHd65CcAABBm++EwgjoE9kyA++09NCYm9aSFc2UbchdGIHjt
-	 pUGaAzbyz6bmTncW9RY/DU43xG6AfatOaQFQbgJ+Amht+wU73hH/Sw8Ebjd57BlbcKGDI
-	 mUESZpi1yBwQXg+bjZc+6bOUqfJlWAKGlEgyUmhSmSZSDE2ESI+ePA+7Z/pc4HvqLUX5q
-	 8Qf+xbXVUKuWWlZ6rIcK1CbxQiMlHpP4NSHB9a++NX2nPvOx/o8fDIBKcXfnaPQHiovxr
-	 5x0J4k3yoLkaKK/7qg9F5UuQ/t7breAAINXcMlT9ItQkYYLlYKvEN36dOFS46Y6VLEw==
+	t=1794066617;
+	b=5D2eA5tzXsuwxG9MPJ8eUnokn408FBfzCUbPcdZZAdKxt2l7T85o2LPY9MckqfOedz0j
+	 LZ8aXUKyytmPIHDyM9m17kGitctKwrQxrdwb293RwEEZo7cAnj5IBOaQNYgY2litISkE1
+	 DF7lcmLboKB9LpPu1wTgudjNz9BqVuyI0mWELAO6wIwi2lZea0oyCNUMWms3sCVFIMVn8
+	 5mGRna3WJOc2flxzZuh/SJd9M4iUZnvDjd8rK3uNCIHBJo6bjMN5t4qY1K0Yo90ihv/bn
+	 rcYcQkdNoIj9GbyvlETIF/oIFO9eTQEgc0y5JxTzwlBlSInifLFnyg93HjCfWVHiXVg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794065274;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=Ph2t4knCJOyucU1WzKS5xblnUdrZ8Cbp0nWPL8wGjTU=;
-	b=gIxIohLzwO+gE9gm2ym4Co7A9Cnq+fshJiWGGg5Z2pFVtltjraXLFHJ27i8DGiuQGeXx
-	 m4XYd1x3iH6her7qGf2AYGNogZrLgtyVgWBFWFFK1A78rM+RfSMRXfdO8kQQE7dfB9dgv
-	 IlqS1DuJHCGM7YPVzRRZnsc/Pc4+hJ5l6z9XeGf/pS9J250XFy3tus6wIatsW1PA1PH93
-	 qNxLh9RodynwvOAva68TdoQGFJUDy3co36vxnZ9Q15HBc2kdZDeEzQQcqlkwTxZD3MzWM
-	 9fuQNhZiNgrklflGAgvuvqG44ejkvV3OyaJS9YkQQcQc+h1KN7KN3XrMLp5s4fkkdFQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794066617;
+	h=DMARC-Filter:DKIM-Signature:X-QQ-mid:X-QQ-Originating-IP:Received:
+	 X-QQ-SSF:X-QQ-GoodBg:X-BIZMAIL-ID:EX-QQ-RecipientCnt:From:To:Cc:
+	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:X-QQ-SENDSIZE:Feedback-ID:X-QQ-XMAILINFO:
+	 X-QQ-XMRINFO:X-QQ-RECHKSPAM;
+	bh=PxDKAlr3pjVMRmZhgIjYRL8aFDbvpp1VwQppzcfLAic=;
+	b=iQ0BSUiZTZJTq8a1YnZgQS+/8y6d76/HGuVFuDjiN9S2aGyeVtfxBfTIVgEm2K/NAqwD
+	 ZzVdymlMaucZt936UW/UU7o0LJYmRPhcS3QWwYmP8kzidgrF3sFPSIflRXJFwPgUh3+i0
+	 DHxbRKkKxyMoVPHc0kmew0XiJiSDrgnqAXwrxms6eHWfAI6T2XO3gAGX/nUXsOPjtmZ6+
+	 V05RZ/NMn87qfMf7cFfVD/7BX3SOhI77QymKkxTAozSlP80dNr8QVkCci9DabimltOXPV
+	 s21Uip5LFXU9cGEGNUY7PE7xSorzx0nk9ZFMylWHeBIAnyj9+sUyj3JYr4lPYtdYM8w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QlEK02+Z;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=mail.sustech.edu.cn;
+	spf=pass smtp.mailfrom=mail.sustech.edu.cn;
+	dkim=pass header.d=mail.sustech.edu.cn header.i=@mail.sustech.edu.cn header.a=rsa-sha256 header.s=oemc2211 header.b=rWgptGe2;
+	arc=none smtp.remote-ip=54.207.19.206
+Received: from smtpbgbr1.qq.com (smtpbgbr1.qq.com [54.207.19.206])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBA58606A326;
-	Sat,  7 Nov 2026 15:27:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AEFA606A958;
+	Sat,  7 Nov 2026 15:50:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3AEFA606A958
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.sustech.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.sustech.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QlEK02+Z
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 159EA1F0089F;
-	Sat,  7 Nov 2026 15:27:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794065273;
-	bh=Ph2t4knCJOyucU1WzKS5xblnUdrZ8Cbp0nWPL8wGjTU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=QlEK02+ZHmhnxP31ehAeA2Juadksl6+HcJm1iqoMA/FBqYvha/Oe+18fvSZzPcgjL
-	 lxlq1zOl+sNyMeJJ1HYCSiFBebHo3ktJYiW95XW6a7OIQrjWbTAYLRXH4V0L3P9R3d
-	 EbnQBatdHYDew1aO5p5Vkx6qTEv5hq9IGSDvu18jviNrZwoNtqKTzNIRXrkkxPIwn3
-	 HW+vDh7J2VBZhYT5jQKOzcj1u5snXjmQy0KRwfmJ+7RD4xyNfT1thuW9L5WQpBJzN5
-	 Fw+tyIOAy8gYj56IUuYsM1ElORAv6btJqLxuLDHgVj4+KYb6KRM0WP/x2SBeSug8Je
-	 JBqbj+8mU78KQ==
-Date: Sat, 7 Nov 2026 16:27:39 +0100
-From: Joel Granados <joel.granados@kernel.org>
-To: Wen Yang <wen.yang@linux.dev>
-Cc: David Laight <david.laight.linux@gmail.com>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 00/39] sysctl: replace overloaded extra pointers with
- typed bounds and context
-Message-ID: <au85ISJ2qUsB7y-6@hobbes>
-References: <cover.1793204511.git.wen.yang@linux.dev>
- <20261029105837.2f8bee67@pumpkin>
- <0316f664-d98c-43be-92af-13c30436727a@linux.dev>
+	dkim=pass (1024-bit key) header.d=mail.sustech.edu.cn header.i=@mail.sustech.edu.cn header.a=rsa-sha256 header.s=oemc2211 header.b=rWgptGe2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mail.sustech.edu.cn;
+	s=oemc2211; t=1794066584;
+	bh=PxDKAlr3pjVMRmZhgIjYRL8aFDbvpp1VwQppzcfLAic=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=rWgptGe20uHKZKMhsZWoV4ftXgrTOmUKxWP2FeEV3uaUKlysT3Z0bJDzDjRC8o8Rl
+	 p6T7shK2IfGBmHo5wUx+cgeZjV7xO61A+trCehVsiIfkO7npWWtnro7TAp2ULFnMEO
+	 sDuX7C6pzGe2DvQeNIxkCk/3IfpjLuEz/kvygiTM=
+X-QQ-mid: zesmtpip2t1794066579tb52f8897
+X-QQ-Originating-IP: E0ayHV238RN0bFS1v7Gf/MBATEwc+WmOvszSt1bKJIQ=
+Received: from szdytom-matebook.sustech.edu.cn ( [localhost])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Sat, 07 Nov 2026 23:49:37 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 1414680298667499598
+EX-QQ-RecipientCnt: 17
+From: Shi Lecun <shilc2025@mail.sustech.edu.cn>
+To: John Johansen <john.johansen@canonical.com>,
+	Georgia Garcia <georgia.garcia@canonical.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>
+Cc: Paul Moore <paul@paul-moore.com>,
+	James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Seth Arnold <seth.arnold@canonical.com>,
+	Jeff Layton <jlayton@kernel.org>,
+	Chuck Lever <cel@kernel.org>,
+	Alexander Aring <alex.aring@gmail.com>,
+	Jan Kara <jack@suse.cz>,
+	apparmor@lists.ubuntu.com,
+	linux-security-module@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Fengwei Zhang <zhangfw@sustech.edu.cn>
+Subject: [RFC PATCH 2/2] fcntl: recheck signal permissions before falling back to SIGIO
+Date: Sat,  7 Nov 2026 23:49:28 +0800
+Message-ID: <4C916018FDDAFB60+20261107154928.3519030-3-shilc2025@mail.sustech.edu.cn>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261107154928.3519030-1-shilc2025@mail.sustech.edu.cn>
+References: <20261107154928.3519030-1-shilc2025@mail.sustech.edu.cn>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -59,164 +83,66 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="izytb5obkgwh663k"
-Content-Disposition: inline
-In-Reply-To: <0316f664-d98c-43be-92af-13c30436727a@linux.dev>
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpip:mail.sustech.edu.cn:qybglogicsvrsz:qybglogicsvrsz4b-0
+X-QQ-XMAILINFO: M94I2jolx1v3zXNHjlJ/VCgQVaXLtKVGaSZ2p9lCFewi4/4/zvVBsNSg
+	fZmnSFe6+GWMNUBrYSjyV20zUrHy14HWMuSfO05yF7xzV0LRI5WF0wGo2NQxsjO/LlsNbY6
+	iV5oaMQZJDdO5DKlH196UcGc8WAjx1ffjBXim/HrAS+GGf5q1otenpbtOj66HGFEtNIoU9Y
+	k6PnwA3DAUj1u4ofP51fJczvLF8OysKIWukBplbqHfTGZGwdFFpsO0yc7VmLvor2M19eRmW
+	u9t6i8UjPLZ+tBL7U+XAdW7bx1xjZWKvoxQmL/OtLq/0DmbVTF3rGb+aKKssJiAnr43EhTH
+	Y8vFHlCFa2xd/LyPULCnEdriiMhRnn+sFi1mmRxlxm3VpI5LJUJaa7VC0ch9X0DE9Blffdv
+	XSd3q/iR924f3ih6jlqEcvrft5APWC2yZlfGZooEIrcfZvmPCcSPsrQuSH2Wk3Qqi0iXYj1
+	Lb+k4u8W8k0yOtDV1RRaz2K53lL2tv9suqBzXecAoidl8xgoamttRPuicjS5bW54bi2aoNf
+	qc1yFEb/XCt7TYdcDaNlYzF7bPTNTFfwjLW1czijSxwbXjWNLvJY6SDPFWRlJEi4vXE+SyM
+	xhgruZodko9orHR5JadU6W5GKvfa6EnLJMrcT1jWU19MMymUnRv7pWYsjuXEg47vlFZYwZF
+	+t+UU3u6EC2GGqi8Gl9vq2ViThaQvIw4IYmyvoPHm87Edh9RGsNMP/uNugI/soThgxz8Xqm
+	IczJ2JYYZdr55K7LVrccBt5h6WRUYr3z3JbbdiySwVmJ/fF25P4tAjpDdnShiR23MoSz+er
+	/NKfMa0ncG/VxnARyfC7eezhQ4ZTUrjKHVUNPsqwPwA7uOjN7pJ7xr1Vu/XwjBLyz/NZt2d
+	+a5n9vCNqUHKdF4p0qH9bgs4XiTwPQW6WLaEmfu2tKycRlGPC+PR+guhfrp3WpqUm5l1Qjz
+	8mUTbV0OKxmHZ3td1AcUstTXXucnMqojWzE7bSwDO+A4PNsuVlVtsD9jT5B8otyY+fY3alQ
+	yguY9+0WzMea21Y0blbdCHaJFLKu8WfhBdjoaMnLBW4Hhsg6dzFQ21Cn/W8IXoO2IXJzt8v
+	HknrfyiMhW1
+X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
+X-QQ-RECHKSPAM: 0
 
+F_SETSIG allows a file owner to request a signal other than SIGIO.
+send_sigio_to_task() checks permission for the configured signal, but
+if queuing fails, it falls back to SIGIO without checking permission
+for the fallback. Permission for the configured signal does not imply
+permission for SIGIO.
 
---izytb5obkgwh663k
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [RFC PATCH 00/39] sysctl: replace overloaded extra pointers with
- typed bounds and context
-MIME-Version: 1.0
+Recheck permission before falling back from a different signal to
+SIGIO. Keep the existing behavior when SIGIO itself has already been
+checked.
 
-On Mon, Nov 02, 2026 at 11:40:40PM +0800, Wen Yang wrote:
->=20
->=20
-> On 10/29/26 18:58, David Laight wrote:
-> > On Thu, 29 Oct 2026 00:34:39 +0800
-> > wen.yang@linux.dev wrote:
-> >=20
-> > > From: Wen Yang <wen.yang@linux.dev>
-> > >=20
-> > > struct ctl_table describes an entry with data, maxlen and, until this
-> > > series, two untyped misc pointers in extra1 and extra2. Those two poi=
-nters
-> > > have accumulated at least seven unrelated jobs: a fixed bound, a boun=
-d read
-> > > through a pointer on every call, an object or namespace pointer, a sm=
-all
-> > > integer cookie encoded into the pointer, a lock signal, NULL standing=
- for
-> > > "no bound", and a value the core itself casts to unsigned int while
-> > > validating a u8 range. Nothing in the entry says which job applies, so
-> > > readers infer it from the handler, and the core gets it wrong where it
-> > > treats extra1 as an unsigned int.
-<--- snip --->
-> > > (~574 new min/max initializers) instead of pointing at constants. The
-> > > sysctl ABI is unchanged; the parport spintime minimum is corrected as
-> > > described above.
-> > >=20
-> > > The cost is 8 bytes per ctl_table entry on 64-bit (56 -> 64) and 4 by=
-tes on
-> > > 32-bit, because priv is appended; the range read path gains no indire=
-ction
-> > > and the migrated entries no longer dereference a bound pointer.
-> >=20
-> > Can you remove the little-used 'priv' parameter by making the extra
-> > information just follow the table entry (nested structure) and have
-> > the relevant functions use container_of() to get the outer structure
-> > and extra values?
-> >=20
->=20
->=20
-> Hi David, Hi Joel,
->=20
-> I reworked the context side of the series so that priv is gone entirely;
-> and the final tree has no per-entry context pointer.
-> A small helper recovers the enclosing object, but it needs the slot
-> index from the caller:
->=20
->   #define sysctl_table_container(entry, type, member, index) ({       \
->           static_assert(__same_type(*(entry),                         \
->                                     typeof_member(type, member[0])),  \
->                         "pointer type mismatch");                     \
->           (type *)((void *)(entry) - offsetof(type, member) -         \
->                    (size_t)(index) * sizeof(*(entry)));               \
->   })
->=20
-> The reason plain container_of() is not enough is that the core keeps the
-> table as a contiguous array.  For
->=20
->   struct addrconf_sysctl_table {
->           struct addrconf_sysctl_ctx context;
->           struct ctl_table table[];
->   };
->=20
-> the handler receives an interior entry, and
->=20
->   container_of(ctl, struct addrconf_sysctl_table, table)
->       =3D=3D (char *)outer + index * sizeof(struct ctl_table)
->=20
-> for ctl =3D=3D &outer->table[index].  It only returns the outer object for
-> index 0.  Passing the index explicitly keeps the original registered
-> entry usable:
->=20
->   static int addrconf_sysctl_forward(const struct ctl_table *ctl, ...)
->   {
->           struct addrconf_sysctl_table *t =3D
->                   sysctl_table_container(ctl, struct addrconf_sysctl_tabl=
-e,
->                                          table, ADDRCONF_SYSCTL_FORWARDIN=
-G);
->           const struct addrconf_sysctl_ctx *ctx =3D &t->context;
->           ...
->   }
->=20
-> Shared handlers get one wrapper per slot; the common body does not need
-> to know its position:
->=20
->   #define DEVINET_CONF_WRAPPER(attr)                                  \
->   static int devinet_conf_##attr(const struct ctl_table *ctl, ...)    \
->   {                                                                   \
->           struct devinet_sysctl_table *t =3D                            \
->                   sysctl_table_container(ctl,                         \
->                           struct devinet_sysctl_table, devinet_vars,  \
->                           IPV4_DEVCONF_##attr - 1);                   \
->           return devinet_conf_proc_common(ctl, &t->context, ...);     \
->   }
+This was reproduced on x86-64 QEMU/KVM with AppArmor file signal
+mediation added: a recipient allowed a real-time signal but denied
+SIGIO reception and set RLIMIT_SIGPENDING to zero. Queuing the
+real-time signal failed, and the denied SIGIO was delivered. With this
+change, the fallback SIGIO is blocked; allowing SIGIO still permits
+fallback.
 
-Two questions before seeing the actual implementation of this.
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Signed-off-by: Shi Lecun <shilc2025@mail.sustech.edu.cn>
+---
+ fs/fcntl.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-1. This means that we will have to add more macros to the sysctl
-   callers? There is a clear signal in [1] against overuse of macros.
-2. I understand that you are doing this to avoid having priv. Is it to
-   save memory?  Yes. priv is a void* and we are also trying to get rid
-   of these. But this changes removes the use of two void pointers and
-   replaces it with just one.
+diff --git a/fs/fcntl.c b/fs/fcntl.c
+index 9b71bc9d71d1..5b0c912264ca 100644
+--- a/fs/fcntl.c
++++ b/fs/fcntl.c
+@@ -904,6 +904,9 @@ static void send_sigio_to_task(struct task_struct *p,
+ 			si.si_fd    = fd;
+ 			if (!do_send_sig_info(signum, &si, p, type))
+ 				break;
++			/* The fallback signal may have different permissions. */
++			if (signum != SIGIO && !sigio_perm(p, fown, SIGIO))
++				break;
+ 		}
+ 			fallthrough;	/* fall back on the old plain SIGIO signal */
+ 		case 0:
+-- 
+2.56.0
 
-Best
-
-[1] https://lore.kernel.org/CAHk-=3DwjUmLrJd4KM4xvJHUN4P0r8oSu5LyvG4Jipnhxi=
-zBrE9Q@mail.gmail.com
->=20
-> Single-entry tables simply use slot 0:
->=20
->   struct devinet_forward_table *t =3D
->           sysctl_table_container(ctl, struct devinet_forward_table, table,
-> 0);
->=20
->=20
-> The series is 20 commits over 134 files, with no priv at any point.  If
-> you would prefer a different shape for the helper or the wrappers, I am
-> happy to adjust it.
->=20
->=20
-> Thanks,
-> Wen
->=20
-> > David
-> >=20
-
---izytb5obkgwh663k
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmrvQ2QACgkQupfNUreW
-QU8nhgv/bOtQvxtZIW9FR4G5+avco51TQR3Rx2Cb+L6Hb2JDt4cm1xIGlE4DzoZC
-AqwnuTVyvHXmSTZ14YXgUPtgnB6bdfMq+uXX3wuIP/wflX3WknrpcQst2lznVje7
-tgXZvBiIULte8LblHlXULFm+Jrp5zJmWN9U4HU8LqJ1rieZrin5J93c/9362gU7z
-xHQdFjwKYbUVaYsVb2bwvhdm/Q+6Y0HhqaSEV3HrV3IuyPoqqWpLkg3Rkn2EgQt2
-pYea7y2PGh9B414D/mTFU2VV/lUYHxLwMAm7Zk10T3GSDU5ts8/Vg776koYnnVlM
-gXjvj0KazVj4y8nHD6NbrHqQ8tnEUldj8QoJ3R26WJhCPUCYzFQA6I5dbLOlj/1/
-jPhgJJ/3YpQY9vF3R7X0Lx35D5V2tSnPoVreWAk+cZQ6P+fRYYRTivDO4Hh6qlyc
-jANi09hOu2gJYeSVlzYOZBsXu87rIbC02Lsgu99zvXC64g517ryvsvgmwm8bPuzv
-cEFzHXHX
-=NJK7
------END PGP SIGNATURE-----
-
---izytb5obkgwh663k--
