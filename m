@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
 	t=1794011842;
-	b=0Hq9mk+bu1U9RmacHJwX7XkCkPIwwbUrE0otuhDRynl4yIqF36DKRdzJI5ECevvKk5DB
-	 HEMkMXPuLqJPi0wBdjxzw1SFHGdie9EJVznIiyki9uQkChKbkFPKenzZPqEJqgRbKue5q
-	 xDNGo3j+tCoxreuVAOOLNXn8LR6zlyOyrRftpgYXqIBDHuNoTBGLkZhl+XPpbv8LU6ro6
-	 eH4CxPh1QCfTghPsQbJRDNjly715PptDuYB066kZEVHLkuV9G4jrYoRzhqWwDmCfUD+I6
-	 3UUlwToE0GoEeydLOWpY64bgl+WD6Wk3ihC2kFgVc2q2bEwGLSmRPTCAsPgpFcnasTw==
+	b=pO+EUx5rlK7LzLWa7fgNp7mMZTGvJ8eNJbuUxmp/yOFgM6w6BeoJbo87CIa4teKzlm5u
+	 QBpvEkHcN8yr6XTiq7i4u4smw8diO9utp40a8jcBs/WDNWd0O+XO7yDvqQV9HUuT3eFq8
+	 /Ov6+WvEIMNqY3hoaLSZ7EDwE4bEM8dnA2Xf6c6b0Pu6FPpVXeY4qy6boZmhsFf4ZeNOW
+	 4yPvUwIKyYoRoPg+AcW939Eb6L9r1xhkQsBE6e+dCg+1lWAJRSNF5GzKdDktJpul48wyQ
+	 kPc8HxSsf90j6E67Dzx1dpQb3XfGCfXyinzIQXDOqmwHYWaiHoWNQnziUkRvHR1n6Eg==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794011842;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=H8fIHxJ4J5OBMV0gDzF+bqbkZDbxtMyMoTFPXBOC3Ko=;
-	b=GlaVD/CtJLeiLrQ9cYc2Wuv4fIX+hsLzJ0xKOLLM9ww9A+P6XMJAQMeDsTLlRtfFEtQl
-	 VsJeXmYjFHJZHFKaF6YMaqvmDW5Epo71e19ms8mc87RYe7Y82XJlbufr/nnoRWYaqjZv6
-	 FminnoERdG5J4W4XmWHGUfF3YvSp5cM9IqIym7Gkm16Rlz7xg/1rDvH/VGwco4Wfsfy2B
-	 EJ/VYtu8UZGuNXDvRezBpN3J54T1i07JQ/hgMGS5yqUETt0V8PUGnAk5Qis+LkIWBP4ME
-	 t99ETCM68w8oAF/YxdduU5ZLCel8Xhgyfp9g81TyyAYMTyWyjH99gBo7bmIZN3MvkzQ==
+	bh=sxqsi8+toyrpTaa7l33gT+8/FQLeWRcGY9DZTW0jNlc=;
+	b=eab9k6maIqbeP47dPyVCHwTDO02IqBXDSnCqaa+wygVq7DS9fMLzBzDhYugEH7kyzfe9
+	 llinNw2xgUkC4cO10s0b+msqv4+WXDiOvbIrpeZgOPuhi7AoR7hiXsgaEYZJrdqk1FCrZ
+	 +MTB//FW+TlkhTULq7XDlk/VirVsVYkg7buV2Jl6j+h5QYEqvvfujyHN+P0xPT6J4HkuW
+	 vD0iKBeIOLk74b313q+kkcpSv9MIW73ToVuXWMoBGqkDIgRtEafkMsXrzwDrpqNMA6QAI
+	 VehQnQPj7Fp5gKVZ1FNNjatjZs0AMcMAUqN5am3IOw5VqF78Kzvi2Ok7iVItP7cN9Pg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KINdUHbH;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UoR1VlJm;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3671606B774;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0ACF606B779;
 	Sat,  7 Nov 2026 00:37:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KINdUHbH
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UoR1VlJm
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
 	t=1794011841;
-	b=iEUBZkmeiK6TuGIqh7IFrbVL/nlicsvwt7AmqBNBGJYx/0dRUdFcAsvwUQZR7yIBZe15
-	 ilGTUbL7G9Sq6PhfNoxmQysqUw6tJTGESEIZgBS9rHFOGNj0jTaEYaX203DF/+fek1Ss1
-	 MRYFfTXQV0NalGe+udndx9b2dyw8y5LXRUivB9yhXmB78y6c7BPFAu8A3GqXXDCEDdt/X
-	 zCiTWxyP3tdRCTiXzLl6TcUBWDto017ZYHEk8kY9ux7C5PilqZiYfLpYhUXs6nggG0d4L
-	 BjbYIXsuTz78hhKJtdU7PKvM9BDuvDWCLlntzpxk+m/1Y1Z2u8u29OeUlbmxdWPBRCg==
+	b=qUABWoYQZFC7EY34Kr38ZCoujYBCxmdwpNYmyaAz0Lr4WCX+E+C9elbHuUuY/y2JbbRc
+	 TWS1hIE+TEsGuErLP3TN8xy5dMxgUixYZWYPW4VYvkjLTUZrKIjmPHXXZ5C0oGdg/SQ6n
+	 mEzEgLLab4XH/7LDfnjtR37BQlcPPHrDrWQzfWbptynK5jo6fE1MXBz/8YdvJIbrx+dP/
+	 kdudRrX7jPEPCl5KaIyTJTpUTCcop5It/7pZAAl8+Hlf68AJTzmuu8OKcvgdbK1v4PdTB
+	 wvRMdSgwN3lGBCwdIDEBRP9aA61xoa/0zQ6xFBWu3NeSWU6v6khhcXoLEWxyhhQrd/Q==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
 	c=relaxed/relaxed; t=1794011841;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=H8fIHxJ4J5OBMV0gDzF+bqbkZDbxtMyMoTFPXBOC3Ko=;
-	b=vpUb1Rym4v0vO8yLevY2Mga2x9AkkutdGzgbvqn3id7PQBsNQ6Ko6yjC05Ja/+9BMmdj
-	 mMd2TxRfCPUOPirfMaDojAFcf13YBAwwnlsRNPIHq57i777M5MvCKo/Uezso2vo/J42DR
-	 XcAZYcRSf1Es4d185IPJH6xkWatHD2qd1UZF0rkAbC9/G9yc9HBALPANkbdWCykE53LcL
-	 UAcLccsxK5bZ/2S2xp5LshGMpBuZR8Acirorm4jgt9Ez0HNvIpw9emH8MOAl8VHf0zgJU
-	 cJR2gDk2XeuTaZwYrUAKNm1OvS8itP1mAGbbE2ZXWK5aq+VdkUJY9IyCDb7J/GxsUCg==
+	bh=sxqsi8+toyrpTaa7l33gT+8/FQLeWRcGY9DZTW0jNlc=;
+	b=Wo0J3QzYBnZlX5hx1iqM3tpVTnFCSreQemxvxBpivmGlT6t8c+DnIXMbyROU2bEg8EGS
+	 s3zs8t9Bpysn7PyMuVSbvi9irSK1iUAJmuCU99jIGOmcuQOJkmkW5ceU/R9ia4fU84fYA
+	 apkIVqlOKkpwtw1cT/MpkQB3mn9cYf5gAOTp6my6iA8W7yv3ViqAHf+wFP9ZG4VyFRJlw
+	 m4ebeCleD7YbAF3ri9Gko5/qp1Q6+ci+TmYBE9YHmN4XTfhc5KB+5hQ7HmYlwOry51xqJ
+	 yL4MbPQBoOYPgGa0kPhYOj13ndt2ilVULBbqQR/z4bCvQDt64gtzZXLwLJ7dZwr6Yzw==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id BAE0C1F00A13;
-	Sat,  7 Nov 2026 00:37:13 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 0AA231F008BF;
+	Sat,  7 Nov 2026 00:37:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1794011841;
-	bh=H8fIHxJ4J5OBMV0gDzF+bqbkZDbxtMyMoTFPXBOC3Ko=;
+	bh=sxqsi8+toyrpTaa7l33gT+8/FQLeWRcGY9DZTW0jNlc=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=KINdUHbH7Q9eJiZ6pg2azrGbWxcKuXaLnE2T6kOumAANRaBRQlI5WtF1P1Z1FCdyb
-	 IoLS1qnK2Wv2cBsLAeEq2ql02EurVkADaQeEbg0x1CCbLZoAkgjjbSQ2nOS+4kBNEd
-	 nBM5lKQEi35FW0QHC/49G0gP2ePzc3In9NsGSegQRA9N6Q6W63WF1mD+5PzR5rNAc+
-	 VcaGLIemH+6n9DCimHxN666W5wJYWPlT5VHA1pJp+vkAdGZ7zCIhvSAH4aIpn6S9qa
-	 Syb36amyfIAXH5R4EGZrUTn538lAyFqJndo8Kl8p13dQBSDCF+jCuOip7dWSMEc2l+
-	 wTGqVNX3P43hw==
+	b=UoR1VlJmvBnw2565e3nIFjL8HA/IsIFk5h10Dza6vZUgg+EU2aECgR3BBHS90PTDp
+	 c1zpA5/n27GNgnKBRXFD9nXm48HUKZ9YiQ1SPU1XMkagsFKf5KHL6TVo6K3WEM8hUe
+	 DqNSivmaE0I5tuM1e8KANO6TY9Hwqj+ktBDQZyI7nlUUEcZHaTqNcY+Rvtwy6s+Khp
+	 RejGcfGI27rUQ32aFmlKPE7t3qem25R7GU4syFv0pnjsMF7JjYmSqEUoxQw5dd03+9
+	 DOv2pOgOZuuTtvTOC76WrnZONO2LjFP8Id0VDlICpcwy2E8Mcz9G/uxwWkzk9ok+2R
+	 upJK9KJKo9uzQ==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 8DF8D47A20;
-	Sat,  7 Nov 2026 00:36:57 +0000 (UTC)
+	by lkml.kernel.org (Postfix) with ESMTP id 35FE547A46;
+	Sat,  7 Nov 2026 00:36:58 +0000 (UTC)
 From: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>
-Date: Fri, 06 Nov 2026 16:37:43 -0800
-Subject: [PATCH RFC v3 69/88] vfio: Dispatch guest_memfd read and write
- provider ops via vfio_device_ops
+Date: Fri, 06 Nov 2026 16:37:53 -0800
+Subject: [PATCH RFC v3 79/88] KVM: selftests: Verify BAR revocation and
+ access gating in low power state
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -84,7 +84,7 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261106-gmem-alternative-providers-v3-69-8484dde66a7e@google.com>
+Message-Id: <20261106-gmem-alternative-providers-v3-79-8484dde66a7e@google.com>
 References: <20261106-gmem-alternative-providers-v3-0-8484dde66a7e@google.com>
 In-Reply-To: <20261106-gmem-alternative-providers-v3-0-8484dde66a7e@google.com>
 To: Alexey Kardashevskiy <aik@amd.com>, 
@@ -105,11 +105,11 @@ Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
  linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
  Ackerley Tng <ackerleytng@google.com>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794011810; l=3723;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794011810; l=4274;
  i=ackerleytng@google.com; s=20260225; h=from:subject:message-id;
- bh=jM77+UpFK8UZJ6Z/B9OjQwdxpmk38JIQhpdGHBHGDN0=;
- b=qZQmSdOhDsqL/VO1Qtn/xfjCgHVuDDCpM2sUtQnC+iJGQWbhQHH4tf/D2WJ0crZwfhZ+WoCZ0
- TPw9vQHWPJGBAJdDnviv0dQFie2JIrL5WljLO4Uq+bUnoXiRG/anEkK
+ bh=HXOqCEcn1wMNNgFV4ufgWpq3HP3d5KMTONODuY/LkjQ=;
+ b=hfJIou2E40cEogfjGxqpPpOHJzj8+eMJz0hE+mUJsmyO3SWxtyR789XZaiT8+HTKnEdUzJ2If
+ Q0v4pcLysRCBmrNVjh3IoBZrnVwu9QVRWFtl+wJj7s9Fai6Pwzf069q
 X-Developer-Key: i=ackerleytng@google.com; a=ed25519;
  pk=sAZDYXdm6Iz8FHitpHeFlCMXwabodTm7p8/3/8xUxuU=
 X-Endpoint-Received: by B4 Relay for ackerleytng@google.com/20260225 with
@@ -120,97 +120,119 @@ Content-Transfer-Encoding: 7bit
 
 From: Ackerley Tng <ackerleytng@google.com>
 
-When userspace reads or writes to a guest_memfd descriptor backed by a
-VFIO device descriptor, guest_memfd invokes the .read and .write
-provider operations under the shared filemap invalidation lock.
+When a device transitions to low power state (D3hot), physical BAR
+access is invalidated. The kernel revokes existing memory mappings and
+marks the BARs unavailable.
 
-Implement .read and .write on vfio_device_gmem_provider_ops to dispatch
-to the bus driver's .gmem_read and .gmem_write callbacks on struct
-vfio_device_ops. The callbacks operate on kernel buffers (void *buf and
-const void *buf), as guest_memfd bounces userspace transfers outside
-its filemap invalidation lock. Return -EINVAL if the bus driver does
-not define the respective callback.
+Add a subtest to verify BAR revocation upon entering low power state.
+Populate BAR0 mappings, write a test pattern, and enter low power mode.
+Confirm that host mmap access to the revoked region raises SIGBUS and
+that pread and pwrite on the BAR descriptor fail with -EIO while in low
+power mode.
 
-Enforce the partition between direct VFIO descriptor access and
-guest_memfd delegation: query is_ctrl_plane on the target file offset,
-rejecting reads and writes to control-plane offsets (such as PCI
-configuration space) with -EINVAL so guest_memfd only services
-data-plane regions complementary to what direct VFIO descriptor accesses
-allow in control-only mode.
+Exit low power state back to D0 and confirm that host mmap access and
+pread/pwrite operations are restored and succeed again.
 
 Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 ---
- drivers/vfio/vfio_main.c | 36 ++++++++++++++++++++++++++++++++++++
- include/linux/vfio.h     |  4 ++++
- 2 files changed, 40 insertions(+)
+ .../selftests/kvm/x86/guest_memfd_vfio_test.c      | 86 ++++++++++++++++++++++
+ 1 file changed, 86 insertions(+)
 
-diff --git a/drivers/vfio/vfio_main.c b/drivers/vfio/vfio_main.c
-index 1c2811848c775..96a768b5ec71b 100644
---- a/drivers/vfio/vfio_main.c
-+++ b/drivers/vfio/vfio_main.c
-@@ -1650,11 +1650,47 @@ static int vfio_device_gmem_lookup_pfn_range(void *provider, pgoff_t index,
- 	return device->ops->gmem_lookup_pfn_range(device, index, pfn, nr_pages);
+diff --git a/tools/testing/selftests/kvm/x86/guest_memfd_vfio_test.c b/tools/testing/selftests/kvm/x86/guest_memfd_vfio_test.c
+index 03c324f7f618d..cf2d46a365504 100644
+--- a/tools/testing/selftests/kvm/x86/guest_memfd_vfio_test.c
++++ b/tools/testing/selftests/kvm/x86/guest_memfd_vfio_test.c
+@@ -443,4 +443,90 @@ TEST_F(guest_memfd_vfio, device_reset)
+ 	ASSERT_EQ(0, munmap(bar0, bar0_info.size));
  }
  
-+static ssize_t vfio_device_gmem_read(void *provider, void *buf,
-+				     size_t count, loff_t *ppos)
++TEST_F(guest_memfd_vfio, low_power_bar_revocation)
 +{
-+	struct file *file = provider;
-+	struct vfio_device_file *df = file->private_data;
-+	struct vfio_device *device = df->device;
++	struct vfio_device_feature feat = {};
++	struct vfio_region_info bar0_info = {};
++	ssize_t ret_bytes;
++	uint32_t val;
++	void *bar0;
++	int ret;
 +
-+	if (!device->ops->gmem_read)
-+		return -EINVAL;
++	vfio_pci_enable_memory_and_bus_master(_metadata, self->vfio_fd);
 +
-+	if (device->ops->is_ctrl_plane &&
-+	    device->ops->is_ctrl_plane(device, *ppos))
-+		return -EINVAL;
++	bar0_info.argsz = sizeof(bar0_info);
++	bar0_info.index = VFIO_PCI_BAR0_REGION_INDEX;
++	ret = ioctl(self->vfio_fd, VFIO_DEVICE_GET_REGION_INFO, &bar0_info);
++	ASSERT_EQ(0, ret);
++	ASSERT_TRUE(bar0_info.flags & VFIO_REGION_INFO_FLAG_MMAP);
 +
-+	return device->ops->gmem_read(device, buf, count, ppos);
++	bar0 = mmap(NULL, bar0_info.size, PROT_READ | PROT_WRITE, MAP_SHARED,
++		    self->bar_fd, bar0_info.offset);
++	ASSERT_NE(MAP_FAILED, bar0);
++
++	/* Probe support for VFIO_DEVICE_FEATURE_LOW_POWER_ENTRY */
++	feat.argsz = sizeof(feat);
++	feat.flags = VFIO_DEVICE_FEATURE_PROBE |
++		     VFIO_DEVICE_FEATURE_SET |
++		     VFIO_DEVICE_FEATURE_LOW_POWER_ENTRY;
++	ret = ioctl(self->vfio_fd, VFIO_DEVICE_FEATURE, &feat);
++	if (ret != 0) {
++		ASSERT_EQ(0, munmap(bar0, bar0_info.size));
++		SKIP(return, "LOW_POWER_ENTRY feature not supported on device");
++	}
++
++	/* Populate mapping and write test pattern to scratch register */
++	WRITE_ONCE(*(uint32_t *)((char *)bar0 + E1000_RAL0), 0xdeadbeef);
++	val = READ_ONCE(*(uint32_t *)((char *)bar0 + E1000_RAL0));
++	ASSERT_EQ(0xdeadbeef, val);
++
++	/* Enter low-power D3hot state */
++	feat.argsz = sizeof(feat);
++	feat.flags = VFIO_DEVICE_FEATURE_SET |
++		     VFIO_DEVICE_FEATURE_LOW_POWER_ENTRY;
++	ret = ioctl(self->vfio_fd, VFIO_DEVICE_FEATURE, &feat);
++	ASSERT_EQ(0, ret);
++
++	/*
++	 * In low-power state, BARs are marked unavailable and mappings are
++	 * revoked.
++	 *
++	 * - Host mmap accesses trigger SIGBUS because page tables were zapped
++	 *   and get_pfn fails with -EFAULT while in low power state.
++	 * - Host pread() and pwrite() on the BAR descriptor fail with -EIO.
++	 */
++	TEST_EXPECT_SIGBUS((void)READ_ONCE(*(uint32_t *)((char *)bar0 + E1000_RAL0)));
++	TEST_EXPECT_SIGBUS(WRITE_ONCE(*(uint32_t *)((char *)bar0 + E1000_RAL0), 0x12345678));
++
++	val = 0;
++	ret_bytes = pread(self->bar_fd, &val, sizeof(val), bar0_info.offset + E1000_STATUS);
++	ASSERT_EQ(-1, ret_bytes);
++	ASSERT_EQ(EIO, errno);
++
++	val = 0x12345678;
++	ret_bytes = pwrite(self->bar_fd, &val, sizeof(val), bar0_info.offset + E1000_RAL0);
++	ASSERT_EQ(-1, ret_bytes);
++	ASSERT_EQ(EIO, errno);
++
++	/* Exit low-power state back to D0 */
++	feat.argsz = sizeof(feat);
++	feat.flags = VFIO_DEVICE_FEATURE_SET |
++		     VFIO_DEVICE_FEATURE_LOW_POWER_EXIT;
++	ret = ioctl(self->vfio_fd, VFIO_DEVICE_FEATURE, &feat);
++	ASSERT_EQ(0, ret);
++
++	/*
++	 * Access must succeed again after returning to active D0.
++	 */
++	val = READ_ONCE(*(uint32_t *)((char *)bar0 + E1000_RAL0));
++	ASSERT_EQ(0xdeadbeef, val);
++
++	val = 0;
++	ret_bytes = pread(self->bar_fd, &val, sizeof(val), bar0_info.offset + E1000_STATUS);
++	ASSERT_EQ(sizeof(val), ret_bytes);
++	ASSERT_NE(0xFFFFFFFF, val);
++
++	ASSERT_EQ(0, munmap(bar0, bar0_info.size));
 +}
 +
-+static ssize_t vfio_device_gmem_write(void *provider, const void *buf,
-+				      size_t count, loff_t *ppos)
-+{
-+	struct file *file = provider;
-+	struct vfio_device_file *df = file->private_data;
-+	struct vfio_device *device = df->device;
-+
-+	if (!device->ops->gmem_write)
-+		return -EINVAL;
-+
-+	if (device->ops->is_ctrl_plane &&
-+	    device->ops->is_ctrl_plane(device, *ppos))
-+		return -EINVAL;
-+
-+	return device->ops->gmem_write(device, buf, count, ppos);
-+}
-+
- static const struct guest_memfd_provider_operations vfio_device_gmem_provider_ops = {
- 	.attach               = vfio_device_gmem_attach,
- 	.release              = vfio_device_gmem_release,
- 	.get_pfn              = vfio_device_gmem_get_pfn,
- 	.lookup_pfn_range     = vfio_device_gmem_lookup_pfn_range,
-+	.read                 = vfio_device_gmem_read,
-+	.write                = vfio_device_gmem_write,
- 	.mmap                 = vfio_device_gmem_mmap,
- 	.check_set_attributes = vfio_device_gmem_check_set_attributes,
- };
-diff --git a/include/linux/vfio.h b/include/linux/vfio.h
-index 8022adedc26a6..012a233a375ab 100644
---- a/include/linux/vfio.h
-+++ b/include/linux/vfio.h
-@@ -130,6 +130,10 @@ struct vfio_device_ops {
- 					 u64 attributes);
- 	int (*gmem_lookup_pfn_range)(struct vfio_device *device, pgoff_t index,
- 				     unsigned long *pfn, size_t *nr_pages);
-+	ssize_t (*gmem_read)(struct vfio_device *device, void *buf,
-+			     size_t count, loff_t *ppos);
-+	ssize_t (*gmem_write)(struct vfio_device *device, const void *buf,
-+			      size_t count, loff_t *ppos);
- 	char	*name;
- 	int	(*init)(struct vfio_device *vdev);
- 	void	(*release)(struct vfio_device *vdev);
+ TEST_HARNESS_MAIN
 
 -- 
 2.56.0.455.g6c5a503b38-goog
