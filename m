@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794011839;
-	b=UlI4reOJ5m8rdp9X1Xu0jsyLxw9hIstdJOMVOjmYhXfX9rY8OqRUt/u4FRwdULUuk+EV
-	 jA6xqFYGhis4v18bDC3JJaXQ1leKESlvp764VzDtf2rZ+QUr8ySeIWCc4+eoRsp+mEQTr
-	 hx6fRD+byJqxhNrOU0mQQ81ut8Aci3WmLM2KPO3Ba7lQxdqmPkSrNXidyDUsYUR5cfyLs
-	 E0Xi+POioBN1o7AmqNX6RaVVSfzEchymlYyo68ZPMpfrrMuvvnxecS0eLeJkPy4QwD+Js
-	 d7q1KtmE46TiJ5DxrV9IFDJyV3DxUSh8xj2L6pK3St3GXU19gCUoSsPvEKJUJi3QRsw==
+	t=1794011834;
+	b=IexF1zJAVyje30kD1t6XqOJADTU/CbXRz0V1RHu7EWhusKrgUKB8zortnWRfius/1RJ4
+	 egdScwi1mCMSB0cws4KHz+VdUuwtgtg0pKXuyWlksiJc9z1PfmckNnYm15N9BTj+z0vR6
+	 c4hAtIIUmfOWZNz8Njwt0tLXHCWvOoquwE9kmJrFt5ro4pnl5D8EMuYTs5IJCdFsPOQrf
+	 LoAWmKg4QZCR5+xHv2BLr90O6p57EnrOAD6PVZnAiPO3FpxZcPV2CqRp5APz0LYzXIf/+
+	 mwyb3ngsbaqyFF+7Jn/BsAem3O0zjrzcw0OlM10cRbzYs9uKWi0pctcQLv2LjiHlgtQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794011839;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794011834;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=LZOMQbbwROsg3RJmo5tNBpuYTJxKTJ2ke5j/Ex7a5iY=;
-	b=4D+SwA9+cXDf3NcQh9zqQuTRewO2D/egYbmQhzCXSze/in6FguL2uOfYwOvRSqdasBzh
-	 XWfkMhgTiYc9gIO+sSlKW64mbHzYdONGRVEPQ3fnb7D6TmdaRfF4eSYMGAqe9gMvYRncf
-	 1RzTrtLSNqFOCjcDpDqOuOiA/bouTPxdT3siUaCyi9jNjcxcWEckiR0J86YCjXN59fPeG
-	 vFPGnzmhh44KiD76zgHv0/4e6XUzGNP5X2zniTrSQP4+vGjcleZi2SijUgRrQmChWzcCL
-	 kJMeMCLQ8a/wz+jELHF/ljboRzoCinqj9hkY58iRGR0nOadJwLgB8wGUgHgHRhCRHRA==
+	bh=ttx/3hBeE8lksy2FGsNe5d3QOJT7B6jPkU8kfvGYtR0=;
+	b=gID4rUGrOjYOKZF8UeBS0VTPUqCT/PO4A57tS2GEbfTjAEjqKXx4F/ffeFt4CpXmFj3C
+	 VvSablX8PDTc6/BAzDp7f6SzIyVjxIlDG60Un6X2QcRYgjFfVFyQaGkZBeVdpPvIAQWcW
+	 iE9yZ8CmiemlO/5RoWur+0dM7g7Rc8bpIPcpZIGZDB4StjfABdnI6LNbufqnGEnw3uR+5
+	 dri5aUX85egag4v/eENnyWTlAMT6iFlRs40hltCvAPwkn5ZXrOJzsg8pOEtc0PJq9wr56
+	 ZfUoRP0aVCfJxv0CMMWP7CI1rlSHXuOS8dxJULrsIVjkuLFVeGBSyDZrNpXGQrpv2yQ==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gtHV2y36;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HHW04eun;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F142C606A837;
-	Sat,  7 Nov 2026 00:37:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD8A460A5BE7;
+	Sat,  7 Nov 2026 00:37:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gtHV2y36
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HHW04eun
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794011838;
-	b=Q7CEpij3av3k2nbISTpV+xuRk/HBYUd2JJ9pV4+OeLltEqYt+Mf7AL9lKh7eqVvoP0zB
-	 xdmN+htVTvft8NROTmnoHCyoLoEWYLwqKQRX/egY8GhyDfwdqn0rgJbB2F4n5ozxe6pwj
-	 yALOykOlHVQTCYknG/J5G1cbpgvOknzosaYE6m/Te29ApU3BEdSVabBRf7xF8Ukk0Xh/u
-	 j/WpOWZ5+ltkMDn2Gr8md4jZXL+kWn88p53JE5l2HpVGzdxIh7TbzdO8/KUmcfE82qX/E
-	 OTJcShnJuuy0IHMhG089QQVsxBpOOVXPkixhssuHzA+5vvTtyDHkfDBczgjB7PxnzzA==
+	t=1794011833;
+	b=iXhcGqspd84qIcGG4hgIzBzwygszoI5mxwNS1oOQUoXjwnM4P8kiK2AVaYyE6rF06umQ
+	 i4S2f4A0Vapa4+6XfANaiOVjUBLkUD4eE3CNf8zovYu9zWsbw4x/WGJfvgivYIez8MqSp
+	 6orFbrK4VZkeV8LEVOu2o04S9bnN/locc2K/fZUxLj0zh5jr49ZvolefYBgZE69oTOa+U
+	 H3CGe7gP9ozwpj2Z94A3ShbJ8r5YA0SkZwctW5kPvAQY0c8Jc2Sa5IOSUX6XeSaGxueaC
+	 Q9x+IgYeYRe8G2LE19gM+e8ww411n3NriiSzCyko0I3TISFjFEQTIWoOwOjL7hKvIhA==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794011838;
+	c=relaxed/relaxed; t=1794011833;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=LZOMQbbwROsg3RJmo5tNBpuYTJxKTJ2ke5j/Ex7a5iY=;
-	b=aYUncUAOF1z24CX+m25wIoBeOrC+feCAcMh5v0XeHTYGxjVrpxE8oNYPYrZV99P/Lg4i
-	 zmCFUB4t8RvzYIAYbKp6uwYusu8Z6DuHTdqS+QVxxSuknrOB1S8V8kPaov2J0MM8ctSuO
-	 mjlkJLCSErEsD87vl56J2FAenMM56NjTnujgHuOjjyUi8kArcxoKYxOFhxaA6DzD6SMzb
-	 o+uPrk6M8UibVBbTN4tpUgbAEZgZdCHLv6lKBYdBiun8cdWRa0hl90er5NxBMAgpIQxc3
-	 L10+ujEXTfaWWlvL22QGpL0JAjvVjJ8384HhyzOEziKpK0UVNiv+6UqD16cjtrZh9Yg==
+	bh=ttx/3hBeE8lksy2FGsNe5d3QOJT7B6jPkU8kfvGYtR0=;
+	b=YwiOYJovE4HtCnqYs1KPCtjrvIC3xuAE8Z2jqSRtAP8VNlfZq5JaZ6HJbAMWvi4qdC4r
+	 FG97H9QTU4ieLSZFrf5+emrWtzZMzMiSKJ9SfNvK+V3kYfr+sUL1p6702CqfS4OqJgWUM
+	 fnAvBYeMwpSYqQbTPlAHXNDi8JPpYQd7iNI5cLl+qPEoJvjHyTRK8pV2zpbQbyxnlNOEk
+	 S/qIL0sHbGGPIVM8055XYN3AZeV76yo7Qq8ndTO2AZsbA3lU8sXQz+QCXGVG4/8D8bR+9
+	 v6t/5ZN9DSsViY32mHO/w0zBvMw/Pgtk3GRp+VX/88b12iVQlgvzptDRj9yPaOvnr1Q==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 84EFF1F00922;
-	Sat,  7 Nov 2026 00:37:16 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id A36551F00AD6;
+	Sat,  7 Nov 2026 00:37:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794011838;
-	bh=LZOMQbbwROsg3RJmo5tNBpuYTJxKTJ2ke5j/Ex7a5iY=;
+	s=k20260515; t=1794011833;
+	bh=ttx/3hBeE8lksy2FGsNe5d3QOJT7B6jPkU8kfvGYtR0=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=gtHV2y36PgAJHCS5NiPs0Ma8QHOH4Srr3v45JFj1jY/zag3RUsy8mG6y3f50gqCmr
-	 auq/cLI2JWUZjFWx88XFLhSH5BqQMvvXKcyJ+gjSu6S2+CRdu4u+suleoP2zxsFt6j
-	 IA57r3NRnu+/QDCY39IRfzWhcICBifOm62nSJN+EgGUwsfDY4gtUCT/rzqU4mUVjaY
-	 gfsx8XSWqocv/pENT0zGunXFpJHtFPmjfPWTKcGF4a7/PZL723A7YWpondZ9/I+rNk
-	 dRuO7YowuBZPOpbfTsDbSI/rGPf1+G+9KPmyXPYZ9dsS5MY3zowyoVnORpyARQfADn
-	 mWqODlfLAj7ng==
+	b=HHW04eunuqjPqIEBmg4cgYT2MQ3D4nbkYA3KPz/7EfS3w3mRbMwseGnvbghUSl5b2
+	 9AR+rDgTqI6lJpJ4YZJ0o24wMvvM+qEzJhYoMCwdGBGa7SI295+sBYu4fgmplG/YKg
+	 s0EFKc3J8OsBUAi8HfDQUlXFQDPIKcQpGJiV7gD9Vnf5GX2G8U0QEajQVP20z3Aq/s
+	 CK8OhTsMz5h4KQ9NjWzIiMXVhn/iOrC7iv2ZZ+aQzQg6krCGMY3jSvi01efeyqm+Ha
+	 Er1gj/KySXQrhGTAJR3u7n67MxEx7oTgN6yQIVPofV7I6HPlnwmVOcl5rGSdYpc5c2
+	 kBYaL65tIpehw==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 43F2547A4A;
-	Sat,  7 Nov 2026 00:36:58 +0000 (UTC)
+	by lkml.kernel.org (Postfix) with ESMTP id 069AA479C4;
+	Sat,  7 Nov 2026 00:36:56 +0000 (UTC)
 From: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>
-Date: Fri, 06 Nov 2026 16:37:54 -0800
-Subject: [PATCH RFC v3 80/88] KVM: selftests: Verify host VMA flags for
- VFIO BAR
+Date: Fri, 06 Nov 2026 16:37:19 -0800
+Subject: [PATCH RFC v3 45/88] samples/kvm: Disallow MP_SET_READONLY after
+ attach
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -84,7 +84,7 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261106-gmem-alternative-providers-v3-80-8484dde66a7e@google.com>
+Message-Id: <20261106-gmem-alternative-providers-v3-45-8484dde66a7e@google.com>
 References: <20261106-gmem-alternative-providers-v3-0-8484dde66a7e@google.com>
 In-Reply-To: <20261106-gmem-alternative-providers-v3-0-8484dde66a7e@google.com>
 To: Alexey Kardashevskiy <aik@amd.com>, 
@@ -105,11 +105,11 @@ Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
  linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
  Ackerley Tng <ackerleytng@google.com>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794011810; l=2687;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794011810; l=1622;
  i=ackerleytng@google.com; s=20260225; h=from:subject:message-id;
- bh=UlabEjEO5/7bc1Xc7qMAcF1rv+8kEYtRG7NVYEhErUE=;
- b=AYnUVtyYbnET239Be/q7ZKR7z0MuG0D/wBLiSNROBy6M+iTcydm/LLxQnKZUtCpZwDkUgkWWx
- NLfenWKq+rzDHvtjBPQsocyULycu+dcV6xLglIVZfDmfMBDwHdFzAaM
+ bh=W6hpgZ/SuWeulozFQ+D1CrfcagL7NIynEtQGb/opNZw=;
+ b=ILyPeR8Z4qzwmTsH228I3CTu1pFhQQ5MWMIByYFJpNmOGFiP/sRffFefkPZJvJJmQLFRCWCMe
+ r5kLMeQnZa7CLlcRG/TOCMgsnzmWL3Yhl8aE192+9z9TDbTji6SwO+6
 X-Developer-Key: i=ackerleytng@google.com; a=ed25519;
  pk=sAZDYXdm6Iz8FHitpHeFlCMXwabodTm7p8/3/8xUxuU=
 X-Endpoint-Received: by B4 Relay for ackerleytng@google.com/20260225 with
@@ -120,92 +120,55 @@ Content-Transfer-Encoding: 7bit
 
 From: Ackerley Tng <ackerleytng@google.com>
 
-Add a test verifying host userspace memory mapping characteristics
-over a VFIO device BAR.
+Once a provider file is attached to guest_memfd, its physical attributes
+must remain constant throughout its lifetime.
 
-Map BAR0 of the bound VFIO device into host userspace and parse
-/proc/self/smaps to verify that the kernel configured the expected
-hardware MMIO VMA flags (io, pf, de).
+Disallow changing page read-only state via MP_SET_READONLY if the provider
+file is currently attached to a guest_memfd inode, returning -EBUSY.
 
 Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 ---
- .../selftests/kvm/x86/guest_memfd_vfio_test.c      | 65 ++++++++++++++++++++++
- 1 file changed, 65 insertions(+)
+ samples/kvm/memory_provider.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/tools/testing/selftests/kvm/x86/guest_memfd_vfio_test.c b/tools/testing/selftests/kvm/x86/guest_memfd_vfio_test.c
-index cf2d46a365504..79a0001ca1733 100644
---- a/tools/testing/selftests/kvm/x86/guest_memfd_vfio_test.c
-+++ b/tools/testing/selftests/kvm/x86/guest_memfd_vfio_test.c
-@@ -529,4 +529,69 @@ TEST_F(guest_memfd_vfio, low_power_bar_revocation)
- 	ASSERT_EQ(0, munmap(bar0, bar0_info.size));
+diff --git a/samples/kvm/memory_provider.c b/samples/kvm/memory_provider.c
+index 6f86e3e3262e3..168c1d90edacd 100644
+--- a/samples/kvm/memory_provider.c
++++ b/samples/kvm/memory_provider.c
+@@ -58,17 +58,23 @@ static int mp_range(struct mp_info *info, u64 offset, u64 len,
+ 	return 0;
  }
  
-+
-+static void verify_smaps_vm_flags(struct __test_metadata *_metadata,
-+				  void *addr, const char *flag_substr)
-+{
-+	unsigned long vma_start, vma_end;
-+	bool found_flag = false;
-+	bool in_vma = false;
-+	char *line = NULL;
-+	size_t size = 0;
-+	FILE *file;
-+
-+	file = fopen("/proc/self/smaps", "r");
-+	ASSERT_NE(NULL, file);
-+
-+	while (getline(&line, &size, file) > 0) {
-+		if (sscanf(line, "%lx-%lx", &vma_start, &vma_end) == 2) {
-+			if ((unsigned long)addr >= vma_start &&
-+			    (unsigned long)addr < vma_end)
-+				in_vma = true;
-+			else
-+				in_vma = false;
-+			continue;
-+		}
-+
-+		if (in_vma && !strncmp(line, "VmFlags:", 8)) {
-+			if (strstr(line, flag_substr))
-+				found_flag = true;
-+			break;
-+		}
+-static void mp_set_readonly(struct mp_info *info, unsigned long start,
++static int mp_set_readonly(struct mp_info *info, unsigned long start,
+ 			    unsigned long end, bool readonly)
+ {
+ 	mutex_lock(&info->lock);
+ 
++	if (info->gmem_inode) {
++		mutex_unlock(&info->lock);
++		return -EBUSY;
 +	}
 +
-+	free(line);
-+	fclose(file);
-+
-+	ASSERT_TRUE(found_flag);
-+}
-+
-+TEST_F(guest_memfd_vfio, host_vma_flags)
-+{
-+	struct vfio_region_info bar0_info = {};
-+	void *bar0_mmap;
-+	int ret;
-+
-+	bar0_info.argsz = sizeof(bar0_info);
-+	bar0_info.index = VFIO_PCI_BAR0_REGION_INDEX;
-+	ret = ioctl(self->vfio_fd, VFIO_DEVICE_GET_REGION_INFO, &bar0_info);
-+	ASSERT_EQ(0, ret);
-+	ASSERT_TRUE(bar0_info.flags & VFIO_REGION_INFO_FLAG_MMAP);
-+
-+	/* mmap the VFIO BAR directly into host userspace */
-+	bar0_mmap = mmap(NULL, bar0_info.size, PROT_READ | PROT_WRITE,
-+			 MAP_SHARED, self->bar_fd, bar0_info.offset);
-+	ASSERT_NE(MAP_FAILED, bar0_mmap);
-+
-+	/*
-+	 * Verify host VMA configuration in /proc/self/smaps:
-+	 * VFIO MMIO mappings must have io, pf, and de flags set.
-+	 */
-+	verify_smaps_vm_flags(_metadata, bar0_mmap, "io");
-+	verify_smaps_vm_flags(_metadata, bar0_mmap, "pf");
-+	verify_smaps_vm_flags(_metadata, bar0_mmap, "de");
-+
-+	ASSERT_EQ(0, munmap(bar0_mmap, bar0_info.size));
-+}
-+
- TEST_HARNESS_MAIN
+ 	if (readonly)
+ 		bitmap_set(info->readonly, start, end - start);
+ 	else
+ 		bitmap_clear(info->readonly, start, end - start);
+ 
+ 	mutex_unlock(&info->lock);
++	return 0;
+ }
+ 
+ static void mp_set_present(struct mp_info *info, unsigned long start,
+@@ -123,7 +129,7 @@ static long mp_file_set_readonly(struct mp_info *info, void __user *uarg)
+ 
+ 	ret = mp_range(info, sr.offset, sr.len, &start, &end);
+ 	if (!ret)
+-		mp_set_readonly(info, start, end, sr.value);
++		ret = mp_set_readonly(info, start, end, sr.value);
+ 
+ 	return ret;
+ }
 
 -- 
 2.56.0.455.g6c5a503b38-goog
