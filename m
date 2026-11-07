@@ -1,95 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.181
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794079732;
-	b=pVLwpQnVZIp43ojCscyEJ3SnUCREiyn5UJXrK4z1IDCfUfF0AMGFPSR8J0F9pL+FNRNM
-	 OWuYJqa8CDX92pAx7rqUmnvePe8/m+qAKNGpFTCqFGdTswqjdUyjBYbt5TQItCgkofK/Q
-	 llMvnxjtxiNMS01IZgi6TaVSIoLf9DyT1rSm0kB7K3rN80vKmKtiqOKQloSnhcubO4rfw
-	 BuOQV952ewhgc2E7eFg1/X9XlqLa5Hw1pmBLyjTB5t6lu5GVXfPECyrpJ6yIjyO2D0Jjy
-	 pAAr/h5ey2TURZoWpSTXj4VuO94AhFeIA+Tkv+Xqz/i3w7ykPAZ8kPnCCriRp+Fn+EA==
+	t=1794082215;
+	b=uHXW3fAvQtUp7AwtObeDMEY2z5xz2SuP20HBG6V+k8SvStKuexo39nTUdBe/7ZWaoWpI
+	 LD9qLi8kYqeizve7W5eR/GZIdZijURWkV1Ob8mRTQWduXYljpMX6dHWHjnPOrcFP14lF5
+	 sMS7c4eOwLqe3dL8NCLdc7ZfdmCFyqSFP71FUYAp8aA+9QqSBKdEX50t1PyuL9qvdDuZX
+	 TsqrRA31M8HFahZ37v08GKHuC8LdcGNG51utO8/8/0CIlaoXLPPHUUCTTPDfOagwLcFRL
+	 YMJn2PhLqPOtBJIsOt8GGlTIsXWOc06fFrOzdapk+ebBgATmGs5qPG+qZ7FyzhikI1w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794079732;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=4YvQ88Tw3BpTAX+GwccgHZpr8xDWaxtWSxka8yipfg8=;
-	b=Y1OE6IQXjf6Gd1S6/8vqI4YZRNEzulCWX9uSsu9C37FhovjIK+XKkRK7l8Cc0kiIM5uy
-	 0eX7kwwlh5WoAZoaJpIxLCyIPodcE1iIXrBqxsNPIkVI2KUiT+dv5+p45682qx8ffALjp
-	 zmimcVQnlC4Xrpb7+V0b2VuxkA7j/4snes7rVit2BTh7+CPV0uPePMnTYN7n1G7B0uwFu
-	 xMNo9hOEQM6GlQS2QPQBI1rxbGHu/xl1SDaSCuzQngCwMcqyVUXBMpO5xVu+LKwQbaskP
-	 89gzWZkT/hg59zFiXDKd5f67wK1qDMZzqC9mp0vb/yxT+ckr8QD6Pj35Mxt1WiD4vsQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794082215;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=CMFxkbGnr/NpLAXZXk8rbwy5EGs+66IVJk9lKIVoNp8=;
+	b=uX1djr4KrJAMZKxMVMBGYBEm/Gr7wt1qgnOzrDxZK9R1iSBgprGdLPyP6K/Kq5ISNBIN
+	 wMVrjJPxY+WYgwM6OzCuCxosnXy6wpI7W2HCMKsmd4geOY/3EXgMLxeQzoTZZKzIr/H56
+	 N3barsESmMZbnsBeKFP/sE+lvJdpfnVBVYh6KtGrA6YPQCjDC5vbFEdrF/uGb8eu08gGQ
+	 IIiYpTSbihqegc9CVuAUJXC/ca/2FRym+yV5s/6JKpiCAr5bxDzblan4+s6Pnbta5N+DB
+	 y+rKReozhIyNO+exF3zibImrmrZ/WANB3SHiefsi5qtkY52sPd3I9px3QHhTq1zuMRg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YO5yP8qC;
-	arc=none smtp.remote-ip=74.125.82.181
-Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iLeOYJRj;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E531606A32C
-	for <linux-fsdevel@vger.kernel.org>; Sat,  7 Nov 2026 19:28:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6E531606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 830D7606A331;
+	Sat,  7 Nov 2026 20:10:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YO5yP8qC
-Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-3282db206d3so50934eec.0
-        for <linux-fsdevel@vger.kernel.org>; Sat, 07 Nov 2026 11:28:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794079731; x=1794684531; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=4YvQ88Tw3BpTAX+GwccgHZpr8xDWaxtWSxka8yipfg8=;
-        b=YO5yP8qCHZt3E1p7kirdA3BaQ/nmYjlsW6tYhTjLTm7hN0UMx49b/eckfBQdj9h3Ob
-         Iwq3aZM0S8PHvI0b/7XMozBn1SEYbBxVgnaPCgkEc1jBWlf6LD3U7QiuAlAs5yI/STBA
-         QnpBx9bE8cWbQ2Vq5EGysf9+rAue2S6KdRMwBrdl4EwllbxX+EOAZ9hzgWXQooFCLGnl
-         QbqheRZMzHkt2ye2ZTjB1YXBkH/VNHKIiNPWpFNYK2wukaVo+QMth0DRU9W4nYWCE0tW
-         jU9JEDMea7K3oxpyJ4cyVopstrPMVs5j5nz8USvb+UymAO5RhaiKc8Wx6ArBEWv7Tiuz
-         Ax2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794079731; x=1794684531;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=4YvQ88Tw3BpTAX+GwccgHZpr8xDWaxtWSxka8yipfg8=;
-        b=X0CVP9+eOBkqdVi8DK1gDU28rV8glL1NjsYhGXvtXThqxgnyDzONW4Wws5GzZfeTDU
-         YJXTTZBS2hT+GppVMlRZ6Ckq4KPpUeJLO9Ho5P/pziS2YCgs+E4ayaEQay2w6srFuKCi
-         wQ6FCr8CKe7OaEo2+J29Q6s62loM/SG3nDHfgqztrNCNqgWuYciVFi1xbnNead3/guFn
-         Lzf2rtwQ2KfYrAQWpHxPUKVIHqlG5vKGUe7qOKptpUoMD9WYrt+nlBco0m+m//Bh3Vpk
-         q32g65vO8tGVhbPy19psA3qylcSVERfZaX6lLfHpqjm+POyigjuenJpfR/MTOrVpYLta
-         Rp5Q==
-X-Forwarded-Encrypted: i=1; AKwUvBw5jPOuzikZHOrJTlymZPZqhb8plAFdJ6ULEWp8WL8sU1cVl6RsR8fyBwIE2qrtpOenGq9kV03X5FR0CXGO@vger.kernel.org
-X-Gm-Message-State: APuU4Z+3gPBupFvVHj+j2FAfntdLKw84eSCGTntgbX7g0JcFwzaMQpo9
-	CCvMlmv1HKQy9XPv811iOhGSfsNhgdkQCGKe3XhU0FTXwBfK+AOeQVQ1
-X-Gm-Gg: AYBFou0D+cRHrxXJy0Xpr3pg8d3HhmSlJaLOIWS8l/aEzQ5d3WcG7C3uP5B0pckPUtY
-	BlN5VCVRgfbXF3CT2qX5bxxPUk87ATBUzPIaeXxEmvYffsU9rlb8iJWbcdvrf6i55v566FXISCN
-	sRhsebSDHXoi3adxkzJcHa1HfXXbNaxngEcD30F+dgYIwHmJyrTXrgFLZX+ZGhkDxV6KeCarMX0
-	uBZ/Cvj7PhF3I4Nj0P6lbglFJR0YxiyS5BieVepWJwVOP1C6a4Yyn3nVGdneMfrfuVrdGU6WjLI
-	ZPlDWtjDSW9JPyvduYeEinLsc1UdUDSwinz1oiq6j7UbTtTXsBkdsgnZvKs6njJhvdqXg04xVD9
-	GNIyanCEhyfWUAF0sMfPTioWWGA60mo5N8mlS+h+gSLGOW2JXSk1p2HIERW1XlbldUeZxyeb5rK
-	Ch57CHWwlp/yPxFgTln4HRw+keUw4gNKVSl/qnsJV7yvclh3+wsg557ZaVGZfVEbWt35baCGv4y
-	83ak21fVa5Rtg5rDa8X+ewdXbuj2O/KbF+I2G10UGZnW/O9dfFXwi4ydrZIgxFY3kMtkvGFENYn
-	eIySPc2xMsfRXgtTJMLGwNd5HJ+901VUXY3zgkeu6WS6YrlfbLTGEw/Dc57WHoyWYw==
-X-Received: by 2002:a05:701b:270d:b0:1a2:2da2:b278 with SMTP id a92af1059eb24-1b25d30af61mr9520523c88.14.1794079731268;
-        Sat, 07 Nov 2026 11:28:51 -0800 (PST)
-Received: from anon-laptop ([103.187.196.132])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3755e936bsm551856c88.6.2026.11.07.11.28.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Nov 2026 11:28:50 -0800 (PST)
-From: Wahid Khan <wahidzk0091@gmail.com>
-To: Namjae Jeon <linkinjeon@kernel.org>
-Cc: Hyunchul Lee <hyc.lee@gmail.com>,
-	ntfs@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] ntfs: do not convert a named $DATA stream when making room in a record
-Date: Sun,  8 Nov 2026 00:58:44 +0530
-Message-ID: <20261107192844.3908575-1-wahidzk0091@gmail.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <CAKYAXd-68oCuAU=x0TV6BMsNJZkmBcdVZTtOQXh3iEm6BptJSg@mail.gmail.com>
-References: <CAKYAXd-68oCuAU=x0TV6BMsNJZkmBcdVZTtOQXh3iEm6BptJSg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iLeOYJRj
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8D661F008A3;
+	Sat,  7 Nov 2026 20:09:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794082215;
+	bh=CMFxkbGnr/NpLAXZXk8rbwy5EGs+66IVJk9lKIVoNp8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=iLeOYJRjjnhZl3LWMSGaUd1S27vEBJh9NrDzelAqlZmg4R2RciRfWoeIsojODwzqH
+	 AmV3EGrrSvx70iXnLVmV7/bs2dBDE1x/r3nyPcxADmxBtch4xZP+oTaqLUfx+eYAuG
+	 SGRWdAxli2sYIZwe/Tbuw0udh+c0QNfiwmJOXLSfQKYp1etxVNRgoDq0IPlAd0lt9t
+	 yDMA0BPoIWju9BFMAW7mO+dutMm2GHuzj6pjWBP8PMNdT9kLO2lCpBJij+NhIf7LIF
+	 N/2SXcwPj4meyprPc8KlcX/gZ5yZ2cdhj422kyiEPIrnEjIKnHoNmFfhk++nuATcLn
+	 UZoP1hyr/4Jww==
+Date: Sat, 7 Nov 2026 20:09:55 +0000
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Rik van Riel <riel@surriel.com>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Harry Yoo <harry@kernel.org>, Jann Horn <jannh@google.com>, Lance Yang <lance.yang@linux.dev>, 
+	Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
+	Barry Song <baohua@kernel.org>, Usama Arif <usama.arif@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Xu Xin <xu.xin@linux.dev>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+	Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>, 
+	Shrikanth Hegde <sshegde@linux.ibm.com>, Pedro Falcato <pfalcato@suse.de>, 
+	Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Leon Romanovsky <leon@kernel.org>, SJ Park <sj@kernel.org>, 
+	Rakie Kim <rakie.kim@sk.com>, David Rientjes <rientjes@google.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
+	Adrian Hunter <adrian.hunter@intel.com>, James Clark <james.clark@linaro.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	John Johansen <john.johansen@canonical.com>, Georgia Garcia <georgia.garcia@canonical.com>, 
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Mimi Zohar <zohar@linux.ibm.com>, 
+	Roberto Sassu <roberto.sassu@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
+	Eric Snowberg <eric.snowberg@oracle.com>, Fan Wu <wufan@kernel.org>, 
+	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej =?utf-8?B?TW9zbsOhxI1law==?= <omosnacek@gmail.com>, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, damon@lists.linux.dev, 
+	linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, apparmor@lists.ubuntu.com, 
+	linux-security-module@vger.kernel.org, linux-integrity@vger.kernel.org, selinux@vger.kernel.org
+Subject: Re: [PATCH 00/13] mm: continue vma_flags_t conversion
+Message-ID: <au-DXpEi4wHwsz0r@gremlin>
+References: <20261105-late-2026-vma-flags-v1-0-0d3cd15ab75f@kernel.org>
+ <d0ea7929-7c12-4245-ba3f-6dd5c0269e6b@kernel.org>
+ <au3r0-geuwtRYPiC@gremlin>
+ <1c0b1368-a381-4b25-bba9-7a4f8e92b764@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -99,35 +96,82 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1c0b1368-a381-4b25-bba9-7a4f8e92b764@kernel.org>
 
-Hi Namjae,
+I think we're slightly talking across purposes, so to be clear - I am totally
+fine with you taking any of this through your tree or whatever works for you and
+Andrew to avoid merge pain :)
 
-I sent v3 of this patch as a reply to this mail. It opens a named $DATA
-stream with ntfs_attr_iget() like the other attribute types in the loop,
-and keeps ntfs_iget() for the unnamed one. With it the image that
-triggered the WARN mounts and walks cleanly on a KASAN and lockdep
-kernel. Without it the WARN fires at ntfs_attr_make_non_resident().
+I was just talking more generally about how to merge series that touch a lot of
+subsystems and maintainers-who-may-never-reply, etc.
 
-About the lock ordering: I checked the code. The comment above the
-__filemap_get_folio() call in ntfs_attr_make_non_resident() says the
-folio lock nests outside all ntfs locks, but its callers hold mrec_lock
-when they get there (ntfs_expand_for_write() takes it in file.c and goes
-through ntfs_attr_expand() into ntfs_resident_attr_resize()). The read
-side takes the folio first and mrec_lock inside
-ntfs_read_iomap_begin_resident(). So the two orders do exist. This is
-true for the direct conversion at the top of ntfs_resident_attr_resize()
-as well, not only for the loop.
+These are the edge cases that make things... fun :)
 
-I could not turn it into a hang. A reader and a writer racing on resident
-files, also with a delay forced between taking mrec_lock and the folio,
-completed every time. So I do not know how reachable it is, and I did
-not want to change the locking in this patch on a guess.
+Anyway, I guess easiest resolution here is for you to take the bits that belong
+to your trees and Andrew takes the bits that belong elsewhere?
 
-If you want the order fixed, I think it needs the folio to be taken
-before mrec_lock in the callers (or a non-blocking folio get on the
-make-room path, which only tries to free space). Tell me which you
-prefer and I will send it as a separate patch.
+I don't think anything here has an inter-dependency.
 
-Thanks,
-Wahid
+
+On Sat, Nov 07, 2026 at 08:26:29PM +0100, David Hildenbrand (Arm) wrote:
+[ ... ]
+>
+> Because of [PATCH 05/13] mm: convert THP VMA flag tests to use vma_flags_t which
+> is THP-only, and feels like it could go straight through one of my trees,
+> avoiding conflicts with Andrew's tree. But maybe there is more to it that I am
+> missing.
+
+Sorry about that! Please take that through your tree.
+
+>
+> I assume stable topic branches would fix that, but they are currently
+> unfortunately not on the table ... :)
+
+I guess we need everybody-on-git for this!
+
+I guess when Liam and & I have the VMA tree we can do that at least for stuff
+that goes there :)
+
+>
+> >
+> >>
+> >> Ideally, patches really only touch one component.
+> >
+> > Right, but sometimes functions are declared in one place and called in
+> > others. It is impossible to change the signature of one without also touching
+> > the others.
+>
+> Yes. Something like that is unavoidable. Or if you need new APIs/
+
+Yes.
+
+>
+> >
+> >>
+> >> [PATCH 07/13] mm/madvise: convert madvise_vma_behavior() to use vma_flags_t
+> >>
+> >> is all over the place :)
+> >
+> > It's not really all over the place, it's converting vm_flags_t to
+> > vma_flags_t across madvise.c, which involves changing a few function
+> > signatures, whose callers must be updated.
+>
+> Ah, yeah. What on earth does arch/powerpc/kvm/book3s_hv_uvmem.c do with madvise :(
+
+Yeah it's quite worrying that... :)
+
+>
+> >
+> > I could split it up into 3 patches where 1 does internal-only, one changes 1
+> > function, and the next changes another, if that works?
+>
+> No, these things really have to go in as one unit, no need to split that up.
+
+Thanks, yeah, it's a pain I know but eventually 'one fine day' (probably in
+2028) everything will be converted to vma_flags_t/mmap_prepare and we won't have
+to think about this :P
+
+--
+Cheers, Lorenzo
