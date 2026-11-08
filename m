@@ -1,77 +1,76 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=210.171.160.6
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794149990;
-	b=Xr3RbloGwR1P+ELupFQDLcIEi4wTwc0saGw3YEAlmWzHrFzpIYYwxTYqNdS0AS6bS1Sz
-	 YHcDuMVZcCSysNpGHX/iy8zXl8M66fC6RfiTmew5JXak1/QbMlyAoMFwXQha1WXWhaP1S
-	 HrOPdNzqEHoh+CXPqzZryUO8OKeo0tL/hdoq6DU7+iYZBdHd3M+OyW4Cf/UmM7hlxSYpv
-	 ICAmjtKoLofCLgSbrqGlibOoKYT1UMccsnGdtxy6QQMLd74bTmeJfXrBlenhIgxXzry8u
-	 S148Ko2brLBGeDwrMwAqdg2HTVRnscKKisfLd0/YKZCXnZLeYY1Y2mD+K15PqXEztOQ==
+	t=1794150184;
+	b=REQc2nCAZSiPPuvJ910xq4u1ZON0bAKuy6Tr+nc5iFtFDbG/TH0zfTfJunj57lqcT7/k
+	 eIwkFGehjpyDHMpGVcEvZBYyUuYQsZKOiQht8yNs/zQJhCNf0X39RinKkaVx08K8Erz3s
+	 BARGg3TP3Y/b/8y/27tz4Uprgq/M4iIY5Oyv3BD0LeT1eojOc5/FG+yVycjxjGQEmRFmN
+	 3UFN+jAM2N78dPgMi7A7U40B94EHACd61/1ufhFrkaapg1pOqalokAghi7H/qC9bPLgpo
+	 8/vF8cSh7m1z95l5zkqdfR75iz9dZQp6pxs0JvzL4RRd2tRY9xEzM6eUjUGfi6b/eHg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794149990;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794150184;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:Received:
 	 Received:From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
 	 User-Agent:MIME-Version:Content-Type;
-	bh=SXQNJ+p122gnLyH8yrLKt31093LHuXH9zkA5Ta6zR7M=;
-	b=u/HLpGc+EyNAhRDhROadkKtto+y4RHU9VrkEuSFI0opX/6E01DqsV4clohErCLRIVNVN
-	 ZNWcnZadEuMCSnZYGbZN7Xfy7qBFvVorvbWYuqiTEmB9rfa4Xv1VjHhgfy0cS9uDoZ3g/
-	 ADuBrO/SMjP97xSww/UJdlFnZyBrux3qIBebdvwFdMtR0OqKPOFZkYicOXz9B2DU0DvnS
-	 MaBgJdd4uJFTS1awx549NW0d+MspEV2V+KoQF2rPTPIidQrRN6LuVGncXZD6/O95pKOhz
-	 EFDLrD7WyyDZ54qY4yJE4438aCs/KWGA0bhrE5+vsGObpXD4UUUJ8ZOuIEVyNren/Dg==
+	bh=bZMDDSEbstrrBxqro/V4y0hp97EWTM7ZBohHqqfsHp4=;
+	b=WY+IfhfIvl9JRJkEBCZKh8UoF24HF5LGda9+/ooQ+Gruk3DV2+ou8Rxo88d4fDexB11k
+	 iJeGJeMgk4RTZZblpPtcSZuZzfufqCdu0N4bXXvgwHDcvt1wnfN6X5F2N/d1LHGPWTEKV
+	 WEP7yBBbcZna1uxd8nxOlr6TkWZ9x07Q4Kiw58uDtXJfxo1Q4L34cPedI5HNUkZPL+duO
+	 7cN0awmoQ4gf9nnw7+w7T5RBFVC69nEtQNqEvFHMtzV3ZSq1i19zLeWcXFYI49klWjT9M
+	 uHO3LeSHQkscq+NE0PxFHAfCZ1AqZVXXcbf8JK/L7ivR214fboVu0WDP2B7r9kX9zTw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=mail.parknet.co.jp;
 	spf=pass smtp.mailfrom=parknet.co.jp;
-	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=rsa-sha256 header.s=20250114 header.b=Kb8AUN2l;
-	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=ed25519-sha256 header.s=20250114-ed25519 header.b="Z2/s6RIX";
+	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=rsa-sha256 header.s=20250114 header.b="HL7zu/AH";
+	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=ed25519-sha256 header.s=20250114-ed25519 header.b=Qo1vOSPm;
 	arc=none smtp.remote-ip=210.171.160.6
 Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90CBC606A334;
-	Sun,  8 Nov 2026 14:59:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 90CBC606A334
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 045CC606A31C;
+	Sun,  8 Nov 2026 15:03:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 045CC606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.a=rsa-sha256 header.s=20250114 header.b=Kb8AUN2l;
-	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=ed25519-sha256 header.s=20250114-ed25519 header.b=Z2/s6RIX
+	dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.a=rsa-sha256 header.s=20250114 header.b=HL7zu/AH;
+	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=ed25519-sha256 header.s=20250114-ed25519 header.b=Qo1vOSPm
 Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
-	by mail.parknet.co.jp (Postfix) with ESMTPSA id EDEF820BD288;
-	Sun,  8 Nov 2026 23:59:47 +0900 (JST)
+	by mail.parknet.co.jp (Postfix) with ESMTPSA id 4A03320BD289;
+	Mon,  9 Nov 2026 00:03:01 +0900 (JST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114; t=1794149987;
+	s=20250114; t=1794150181;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=SXQNJ+p122gnLyH8yrLKt31093LHuXH9zkA5Ta6zR7M=;
-	b=Kb8AUN2ljtNBD3KjhDkK/QWb6xDCPf8tF0dCEkNfwnPUaV9ixZXoTUt3b3fOvK91YIllaZ
-	H1qC4XMYDPpOS7FkKiS5oE+bF/3qdin6qCW91HucovPc4ds0VVkde+Zq8kkGw3VtBXxbHO
-	zM7So2dEK4wD0iJAi/X13VhKkMnChoRDgj1QzAHi/DMz81R4yaCkRDDZqF8GDL/CxKtl1/
-	KmaRVBCiQzPRVvu9RUjBqd5GPjs4XRlOPMUmIxww/TcH/ZVmODuk13SOVEz9jgcu6GGmgs
-	P61yK8zE/ML4MvOpsD4KhNYAXXutJZdmGAG44bHaui0msbuoJxqgVfkIVs5yGQ==
+	bh=bZMDDSEbstrrBxqro/V4y0hp97EWTM7ZBohHqqfsHp4=;
+	b=HL7zu/AHW2aD8+DnmDe1Fdquyt3x44oI+n93C8etOO3SojOm3S6b7xABPNMK5Vgt2Hrerz
+	Y56eyo0U44Hd1td/X72LxOyeT8Rmaq7lEHqz6juziNlKhowEpgKYYgWDWzAmklJvno1xW/
+	gjHd13/icumay+zlHPqjEWcCmPyYKFu0VzOvpsGkW/b1YCNfKOga2Y/B5hwgd+Cxke1Gq0
+	AUVy/JsylG+QzBJk2CbJtqVyPCiE5FCHsu974y9Whm4JLYSMV33BUa7eGWiHi4qoBgtUMy
+	x06q25r/E9iOzaRa718Oy9Wrywi773Xr3ePgb/eKO/0+zM5aVxhcFDy9TT1ceA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114-ed25519; t=1794149987;
+	s=20250114-ed25519; t=1794150181;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=SXQNJ+p122gnLyH8yrLKt31093LHuXH9zkA5Ta6zR7M=;
-	b=Z2/s6RIXw7K2FkJ+7q4PsF7c7Oh5QyfgMFzozErOoC20X4x7GbZtXspfgdO6CiXx2Hn8ya
-	OKEGy20Ilwm09sDg==
+	bh=bZMDDSEbstrrBxqro/V4y0hp97EWTM7ZBohHqqfsHp4=;
+	b=Qo1vOSPmVSOdSF4SJHPf5ZLb0+Mf+uxHy0TNYX4vv4FOEeLlPYaw8e1XWnqovvOgWrt1AK
+	2SAzp68ieCit2sCA==
 Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
-	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id 7C2D7E000D8;
-	Sun, 08 Nov 2026 23:59:47 +0900 (JST)
+	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id CB45AE001A6;
+	Mon, 09 Nov 2026 00:03:00 +0900 (JST)
 Received: by devron.myhome.or.jp (Postfix, from userid 1000)
-	id 6BE1B22001DF; Sun, 08 Nov 2026 23:59:47 +0900 (JST)
+	id B8B7622001DF; Mon, 09 Nov 2026 00:03:00 +0900 (JST)
 From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
 To: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
 Cc: linux-fsdevel@vger.kernel.org,  brauner@kernel.org,  djwong@kernel.org,
   hch@lst.de,  linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 5/8] fat: drop ->write_begin() and ->write_end()
- usage from fat_cont_expand()
-In-Reply-To: <20261031164326.278125-6-matheus.aalmeida@inf.ufrgs.br>
+Subject: Re: [RFC PATCH 6/8] fat: add iomap buffered I/O support
+In-Reply-To: <20261031164326.278125-7-matheus.aalmeida@inf.ufrgs.br>
 References: <20261031164326.278125-1-matheus.aalmeida@inf.ufrgs.br>
-	<20261031164326.278125-6-matheus.aalmeida@inf.ufrgs.br>
-Date: Sun, 08 Nov 2026 23:59:47 +0900
-Message-ID: <87eccvtllo.fsf@mail.parknet.co.jp>
+	<20261031164326.278125-7-matheus.aalmeida@inf.ufrgs.br>
+Date: Mon, 09 Nov 2026 00:03:00 +0900
+Message-ID: <87a4njtlgb.fsf@mail.parknet.co.jp>
 User-Agent: Gnus/5.13 (Gnus v5.13)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -86,73 +85,77 @@ Content-Type: text/plain
 
 Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br> writes:
 
-> fat_cont_expand() currently relies on ->write_begin() and ->write_end()
-> to zero the new file range. These callbacks will no longer be available
-> after the iomap conversion, so a new method for zeroing is needed.
->
-> Zero new ranges folio-by-folio instead.
+> Use iomap for buffered I/O, replacing buffer_heads. Remove
+> fat_get_block(), fat_write_begin(), fat_write_failed() as the iomap path
+> makes them unnecessary.
 >
 > Signed-off-by: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
 > ---
->  fs/fat/file.c | 122 +++++++++++++++++++++++++++++++-------------------
->  1 file changed, 76 insertions(+), 46 deletions(-)
+>  fs/fat/fat.h   |   4 +-
+>  fs/fat/file.c  |  72 +++++++++++++++++++----
+>  fs/fat/inode.c | 157 +++++--------------------------------------------
+>  fs/fat/iomap.c |  84 ++++++++++++++++++++++++++
+>  4 files changed, 164 insertions(+), 153 deletions(-)
 >
+
+[...]
+
 > diff --git a/fs/fat/file.c b/fs/fat/file.c
-> index 177a26186ddc..8689cbbdad13 100644
+> index 8689cbbdad13..723b671d5b4b 100644
 > --- a/fs/fat/file.c
 > +++ b/fs/fat/file.c
-> @@ -18,6 +18,8 @@
->  #include <linux/security.h>
->  #include <linux/falloc.h>
->  #include <linux/fileattr.h>
-> +#include <linux/rmap.h>
-> +#include <linux/writeback.h>
->  #include "fat.h"
->  
->  static long fat_fallocate(struct file *file, int mode,
-> @@ -353,68 +355,96 @@ static int fat_preallocate(struct inode *inode, loff_t new_size)
->  	return fat_add_clusters(inode, nr_cluster);
->  }
->  
-> -static int fat_cont_expand_simple(struct inode *inode, loff_t size)
-> +static int fat_zero_and_extend(struct inode *inode, loff_t new_size)
->  {
-> +	struct msdos_inode_info *mi = MSDOS_I(inode);
->  	struct address_space *mapping = inode->i_mapping;
-> -	const struct address_space_operations *aops = mapping->a_ops;
-> +	loff_t pos = i_size_read(inode), fpos, next;
-> +	loff_t old_size = pos;
->  	struct folio *folio;
-> -	void *fsdata = NULL;
-> -	int err;
-> +	size_t from, to;
-> +	pgoff_t index;
->  
-> -	err = aops->write_begin(NULL, mapping, size, 0, &folio, &fsdata);
-> -	if (err)
-> -		goto out;
-> +	while (pos < new_size) {
-> +		index = pos >> PAGE_SHIFT;
->  
-> -	err = aops->write_end(NULL, mapping, size, 0, 0, folio, fsdata);
-> +		folio = read_mapping_folio(mapping, index, NULL);
 
-Hm, is this reading blocks from the device for zeroing blocks even if
-page is completely unwritten block? If so, we would not want to read
-from the device.
+[...]
 
-> +		if (IS_ERR(folio))
-> +			return PTR_ERR(folio);
->  
-> -out:
-> -	return err;
-> +		folio_lock(folio);
-> +		if (folio->mapping != mapping) {
-> +			folio_unlock(folio);
-> +			folio_put(folio);
-> +			continue;
-> +		}
-> +		folio_wait_stable(folio);
+> +static int fat_cont_expand(struct inode *inode, loff_t new_size);
+> +
+> +static ssize_t fat_file_write_iter_buffered(struct kiocb *iocb,
+> +					    struct iov_iter *iter)
+> +{
+> +	struct inode *inode = file_inode(iocb->ki_filp);
+> +	struct msdos_sb_info *sbi = MSDOS_SB(inode->i_sb);
+> +	loff_t offset, old_size, old_alloc, keep_alloc;
+> +	ssize_t ret;
+> +
+> +	inode_lock(inode);
+> +	ret = generic_write_checks(iocb, iter);
+> +	if (ret <= 0)
+> +		goto out;
+> +
+> +	ret = file_modified(iocb->ki_filp);
+> +	if (ret)
+> +		goto out;
+> +
+> +	offset = iocb->ki_pos;
+> +	old_size = i_size_read(inode);
+> +	if (offset > old_size) {
+> +		/* We need to fill this hole */
+> +		ret = fat_cont_expand(inode, offset);
+> +		if (ret)
+> +			goto out;
+> +	}
+> +
+> +	inode_dio_wait(inode);
+> +	old_alloc = inode_get_bytes(inode);
+> +	ret = iomap_file_buffered_write(iocb, iter, &fat_iomap_write_ops,
+> +					NULL, NULL);
+> +	keep_alloc = max(old_alloc, round_up(i_size_read(inode),
+> +					     sbi->cluster_size));
+> +	if (inode_get_bytes(inode) > keep_alloc)
+> +		fat_truncate_blocks(inode, keep_alloc);
+
+What is doing by this fat_truncate_blocks?
+
+> +	if (ret > 0)
+> +		ret = generic_write_sync(iocb, ret);
+
+Maybe we want to do this outside inode_unlock()?
+
+> +out:
+> +	inode_unlock(inode);
+> +	return ret;
+> +}
+> +
 
 Thanks.
 -- 
