@@ -1,95 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.173
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794125319;
-	b=iWa4vbHc4itlstl5wMOugNpxjY9m2ibvUbdDYZTAoUwqMfWSm16UgjJOa0j91pSE8MWK
-	 SIdBvV5s4eNZYb6EuFyE2k/K7iVW+Whvki35+D74ymyQ87ex8OGxL9bGA5NBmeh2GJNYi
-	 F+jzeMSb77oX0ujS7wbFC2b8ps3QDJC8pXVOYzgCyqCn45Qe/DxZFdHFgIk5T9/JymKsF
-	 XGSm4De2fR9kTZelcOSP8locHXf7BlU4eYXWP/WcXpqGAqpxQl1BetmnKqENPaD+H2z3s
-	 06P5zbKQmsYqKhI7knj3reomL0acmefz+mQZL6dIoP78yLDDb6tcY6h6zf2wMzgJ3kg==
+	t=1794128102;
+	b=RLE+m/omdCWnIbeTH4hF7Fmx1KcI46/PHp7SI5qzBC+6ACbKOP4ygDqF5gg2Q7LbFGk+
+	 vF9wUNfFVFQLwCI82V3hrmNeRwC6UtTd/Jq1ze0YpDMUYKOZicIZEPIoFFKkz9ldkpKUE
+	 n3vgG3Z8wHhS2hKHGPT37i3EPm5F/tdyTd/Or+ywiUFEgf4sK0dSxui7weojL86WqUZzF
+	 MWmhMmIBsZVSO/cm7z5NCY2Hsv3mWpLV9JmwP7EF+U0GtHy0RYZVrpCrsGmMip/OZiDUr
+	 d1TZJJInKw80wC8+KqaEEncb0E5C0/0X7Q5AyCKOyTPBuYMd26ZhVQZyNcoZtPW2ccg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794125319;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794128102;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=TsRttVjyd52nFqSKn2goHPGI41zRyopfMZ0qKg9Sa5g=;
-	b=JqBoLf02gX5uEgWwe1Hn324/M/8v4uMUdv4xI0Nv1HZySbMiGWCElk9mTFz2SN7glYFx
-	 RNq8tBwLhRMFYySFrqnark5e/0RVU+cpq87RlFDz2TppD6fbEhpzWoGx/ZV6Bfm47zyku
-	 i3vBeKK+a7JIxBL3clTZNxALEPDBFGOUK3DrS7vFak05qUOeeZQ6EzQjecP7fzNlsx5+x
-	 72TRz+c/TMD9v99yoRI8bQEVhkBJQjtK1ymwRB1zyd5gM8yvOjECBZScUxCIu32jIxs/L
-	 pT+AIPr34olfZ8wKIRsUzDnGtguClRGc/Z9QSlkYC8BaiJGHg2YinO4n7uzCAS27T6A==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=V6FT4KAZBmJIi4It1KRfQsBThfynsYK7WB3H1EWORGY=;
+	b=bAxcxJQ/Jxwts4I10T3qU4GplewHY93ZPHIDyVvXP1EwIuWv5/e84ZD8zRn5nOBsCdd5
+	 dz7/iUwLV1Upb6VFkNvx0gDjxYESjgc3LmHsN2Oolnv+XmWDu6MBe90xlJx8IyQnkx5KP
+	 z/8RUaFP8GZqHFes0aa9dB1FueVpnJJbZFWos9CELHsvnqRd2b0Iat9hmxXWaNV20DfZv
+	 ypaginEgaM5p44i30TKO51N0ogzhQSPYmRvo8HufWAgghW7veyL+Dwb+i9PIu8wFSp6tk
+	 whqw3QM2mr96g9fNAZqK3aRsIakmPmXIxIJuu2WMzBxTL1fQuQVMqMdprB+6uMH6C1g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="r/m7Zo7P";
-	arc=none smtp.remote-ip=74.125.82.173
-Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=iGxefxpe;
+	arc=none smtp.remote-ip=209.85.128.43
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 915FF606A323
-	for <linux-fsdevel@vger.kernel.org>; Sun,  8 Nov 2026 08:08:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 915FF606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71FEF606A31C
+	for <linux-fsdevel@vger.kernel.org>; Sun,  8 Nov 2026 08:55:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 71FEF606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=r/m7Zo7P
-Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-37000e7234bso890324eec.1
-        for <linux-fsdevel@vger.kernel.org>; Sun, 08 Nov 2026 00:08:38 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=iGxefxpe
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4a2072b9832so165935e9.1
+        for <linux-fsdevel@vger.kernel.org>; Sun, 08 Nov 2026 00:55:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794125318; x=1794730118; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=TsRttVjyd52nFqSKn2goHPGI41zRyopfMZ0qKg9Sa5g=;
-        b=r/m7Zo7PFarqKvoI+Fpdim0GYjyaCzcMe1baV5ykCMlaJ6T5LaoNb+8dvaJT6Yzkin
-         gHMf/n3RrOD0/WroYYQgCvWZTaxBZJBD2Xnu+++W4i9MSQBVDi++W1MW8dc4KhNWyE4e
-         xdsFkdy7HfL1s5NdGxVC1vUn25pqrc62mMSWzFndU4Yr0KE4t4qbdoDDZEsiyG/il9gi
-         jwkYhPePT9pxrvJB47bqpscAuW6M/7N6vLlrDLge9gMgBjOFpi7P2ww4teKeuRxMMc34
-         qzcTkSVhDx9s3hObPtescXpepLafzuM+v8lQupntdbcHnGJ0z7+xEjBlEwWro5QbDY3M
-         4SvA==
+        d=gmail.com; s=20260707; t=1794128101; x=1794732901; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=V6FT4KAZBmJIi4It1KRfQsBThfynsYK7WB3H1EWORGY=;
+        b=iGxefxpeWce+3+/L5xQxAOe9XHTUrTRccukwyIuf9W3zkFLhxQqPAQnER/eTnywxkx
+         GBd6+id7tYtbEFdtnx37i6RIN2YRJlfGW/0ephEz5wONi1Umg5z5+5s3jfhEThPqu1zQ
+         jJydZA//88B7Iz3K/bLwqeOYsMRiN8JuEyuECTWcazPurL4YBCtvx4Fwmu4JA71KYLxE
+         rVA30uMooXgVIwYwcnP4OVlgO5hiEb2/F4OsBREy1x79eqH8lcmA2Npq20ZHneKH3GqR
+         63rE3io5iFrmqDYqKzyHMdWt1q2PTQtqAm2/rNTLp0tZP/VlFWKebNqh4i6WeWER1SVs
+         UEiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794125318; x=1794730118;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=TsRttVjyd52nFqSKn2goHPGI41zRyopfMZ0qKg9Sa5g=;
-        b=bt6imIjpb9AtIRtk2zYJG+TpBPqqOLkJ1mBYnsAW4t4im55c0fIfyNZEjvV8Xbnk6N
-         GZIXc3oMkXtHlhp5mG+btX4ReLLr+6kRS/y262/yzLwwv0Mdz5y4YquzzqV6+x4IrVyO
-         +URsqeIulQTahpS7Lu8uiUHgX3HHd0ENs//4NQ0YevApv/AAX+7dbs35ojiOvp8CqXR/
-         fSLfct1uopJWHOAPKqRB0J0zqQrp1APGQGLLYzbcbBZnYps8bsXwvmjK1R8vLvxUXe/N
-         AomKjkCIVS+YbG4UH5a8glnz2BM6lJs/3GDvCLU/bwYvXJ4yUVVK4DLTSzd5rbph7Zkb
-         y8gg==
-X-Forwarded-Encrypted: i=1; AL+hErFPLOQCkO3Mi8Ra9V3x3unBnBXrELN6SHZlII73GTiWyweYdnc6LZd8tlxC55T24fVBls2b/3t1CfG2etMM@vger.kernel.org
-X-Gm-Message-State: APuU4Z89PyhJg/aupcqF2HGG8vFbrSZTI/TqC4jmFksgqpUEpq4wsHrl
-	bUquk6pGaNivfPUj7gO10tjNgQ6Sz7VPgjh5OQTBhy+OuTP56Gqy+LFpPdUwA3TvyaDdpQ==
-X-Gm-Gg: AYBFou2ZgBR2vlr4kjTqQks6OvpL9K5ImFnoIJrV20T/LJBU7DWG8+qvtP9RI+r4rpz
-	2q5yh6vhZNHB/bmMDNP/AHswhdTvzhyTcfgOGYy+efPcbfbfqj//0DaHQNFM8ergIJf7ioRnm98
-	TGyQnhpeHwGS78VC243O71I9QfIp+vUnIk4EeHFwvj+oxCD8VS8yt38CtZ8qgESjGbipEzMVOsR
-	uX/bfhOf7vLYjwv7vOQf5+idBT1t/UwYbpOduCSp/kuvpp60ANOK+Rhu47MX2XummhZI0+Wh52r
-	DsPMvO0wUUs7WNn96XPnJpwGjyBpqWVt2XVbpd7gSuIDgUWnSRIpCWz9CFKbie1N1c3nihTQEdI
-	4Ic2Ale/otGfGEGMPNOkinh8Os1jquUxiQf2qyaJQnj2KUxwE4rY1VegNgHw8Uco+I1klZXZ/hM
-	Q4/9htlBOmEu/hyczRYNNQBYthCqW7+Nsvv1yhxEkqOjlasHxy02v4zZz8tH7zFyDQs66m091nF
-	GLr7wjQuKRnZyKJsVSrz6HDZdjehKCqlPc0yjCk4FBeN2n1tJGFNfqOdTAVELY2AhUmRyNwW8dW
-	RZ/nLqO2e/fNEVQIupsa19x7nRAIJm/ALc6bhCPaE79EVbieprURLFCDNxNOE0jLRQ==
-X-Received: by 2002:a05:701b:220d:b0:1b2:6cba:7f48 with SMTP id a92af1059eb24-1b39ff068c2mr1346405c88.31.1794125317382;
-        Sun, 08 Nov 2026 00:08:37 -0800 (PST)
-Received: from anon-laptop ([103.187.196.132])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3755e8a27sm3898586c88.7.2026.11.08.00.08.34
+        d=1e100.net; s=20260707; t=1794128101; x=1794732901;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=V6FT4KAZBmJIi4It1KRfQsBThfynsYK7WB3H1EWORGY=;
+        b=jww2SB/YUsqoTk1CzlgxapYmz1nPAR7ZUr4CKvkGVWeiWS5dOrSU9toKgolWz/3LH0
+         dkq3diN7ax3Iyjeskzbz0a4HUpf2SFecDVEZoSpXYn8ud7hQTX39ENuc8lVA2C1kWRSs
+         Ahqk/dn9CqAADR4SgvzZL5mDk1dJFPyXpYgysyX7RD0miLU3syBTObQC5boudfsvr+/L
+         +847mzQmCbAuiCLvlvhbSGLytkRICpgZjrXL4CzgShbyjIldliMWgB5FyPg8gcsQ8zNO
+         f22z/QEbu4yJoErlEMMdRbuOqzvlBAwiIoc9dfR2pradlcd4yJ6XvarkuKwa1KPMd5G9
+         Hosw==
+X-Forwarded-Encrypted: i=1; AL+hErH7YzZHtmT7Txd3Tr+3jHcx2oZVN1aTIi3qa0n84VMCQFng4sDEe3r3LmFO4uxi1r9f3UdsAlKJYbL9wg12@vger.kernel.org
+X-Gm-Message-State: APuU4Z+y1wpEBmtQlKMYlVEPhf/kDXG3pNKdc4ohYvwwEYQB6L09WwDi
+	exsqq9Ol7udMLoPpz/Irozw54WtS620dxV8AvaMGxydScVvoNKqVqS/f
+X-Gm-Gg: AYBFou0gk4zZLfotSS+XhTOr8T0fPPTWu/a8BrKXigSU4Iu6WUAuwj7wu0MFfr3uQcx
+	rs31W53TAoogOuQwHee5xzREoLZ8HBMVP7mAjP81eBC3EwkLjyeJWGjeY2hAonvOMSh8EL6bXy8
+	X38ZWxD6MYgcdMtrKfyNLoS8aW1+Po+U2XUgs+Trgun+Dmfdw/21sUbNgg9f0/PLN0kU1zE0WZn
+	lL4S089zZ/FkA2edc84vtMW74i1MBnC7agEF3M+wJndJ1n3XOt5P3KNQYUeR9Lh30UOiJAH5hdx
+	6hi60Se74RNhouJQXXd1kiLZstFXnTAIQxh9XbCFsA0pykw7h8nbVQFwnMw1E63Jm2D3bnSTBOg
+	B/skDloAl0e9pe/tVa2WgOJCgfjx7w03bsaM1RTsDkVc8Ne1OzuwCCX/a1khUI98T4h6a4rnB6u
+	mGW5KFpl67WWPJIsGKiotJhH/NyJJSJ3GlajrlDsYFR/jURT3PBNtdKJp+bV/bOBDje46ubbqrR
+	+12JTN4DYmshxym3n0YVkaDMJxw3DcT11P7XbgBtNp4vg+plGpfDYRlawj4S73Zk0e3vYSevLGS
+	i7vQQB2+ZD+L1v2AAzCF2+N/3Wkv4Tsb8+aQgdTE8MWnkSyY+cB49Wqsl+JBJlX6rr0=
+X-Received: by 2002:a05:600c:4504:b0:4a2:526b:d40f with SMTP id 5b1f17b1804b1-4b943f76422mr18343555e9.0.1794128100763;
+        Sun, 08 Nov 2026 00:55:00 -0800 (PST)
+Received: from localhost.localdomain ([2a06:c701:475e:f800:9c3f:1631:3855:dec8])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b7e32ad610sm322985835e9.3.2026.11.08.00.54.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Nov 2026 00:08:36 -0800 (PST)
-From: Wahid Khan <wahidzk0091@gmail.com>
-To: Namjae Jeon <linkinjeon@kernel.org>
-Cc: Hyunchul Lee <hyc.lee@gmail.com>,
-	ntfs@lists.linux.dev,
+        Sun, 08 Nov 2026 00:55:00 -0800 (PST)
+From: Avi Weiss <thnkslprpt@gmail.com>
+To: willy@infradead.org,
+	jack@suse.cz,
+	akpm@linux-foundation.org,
+	joannelkoong@gmail.com
+Cc: linux-mm@kvack.org,
 	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] ntfs: do not convert a named $DATA stream when making room in a record
-Date: Sun,  8 Nov 2026 13:38:23 +0530
-Message-ID: <20261108080823.473369-1-wahidzk0091@gmail.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <CAKYAXd-68oCuAU=x0TV6BMsNJZkmBcdVZTtOQXh3iEm6BptJSg@mail.gmail.com>
-References: <CAKYAXd-68oCuAU=x0TV6BMsNJZkmBcdVZTtOQXh3iEm6BptJSg@mail.gmail.com>
+	linux-kernel@vger.kernel.org,
+	Avi Weiss <thnkslprpt@gmail.com>
+Subject: [PATCH v2] mm/page-writeback: avoid unnecessary strictlimit background wakeups
+Date: Sun,  8 Nov 2026 10:54:57 +0200
+Message-ID: <20261108085456.2093096-2-thnkslprpt@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -101,41 +101,58 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi,
+balance_dirty_pages() includes pages under writeback in
+gdtc->wb_dirty when checking the per-wb background threshold for
+strictlimit BDIs. However, wb_over_bg_thresh() only considers
+reclaimable dirty pages when deciding whether to start more
+background writeback.
 
-You were right, v3 deadlocks. I reproduced your diagram: with a debug
-delay before the folio lock in ntfs_attr_make_non_resident(), a reader
-of the stream and the make-room loop hang the kernel (hung task, lockdep
-shows the writer holding the unnamed inode's i_rwsem and mrec_lock and
-waiting for folio 0, the reader holding the stream's folio 0 and waiting
-for mrec_lock). The same direct conversion of the inode being written
-is safe because the reader of that inode waits on its i_rwsem first.
+This can repeatedly wake the background worker even when there are
+too few dirty pages to write. In a 15-second FUSE writeback test,
+background wakeup requests dropped from 2657 to 682 (74% drop),
+while writeback_start events remained nearly unchanged at 99 and 98.
 
-An automated review of v3 also listed other problems with converting a
-stream from this loop. I could reproduce most of them, with a forced
-make-room pass and debug delays:
+Check wb_over_bg_thresh() before starting background writeback through
+the strictlimit condition. Leave the global background threshold
+check and the wakeup required for dirty throttling unchanged.
 
-- a write to the stream that passed its residency check before the
-  conversion carries on with a non-resident attribute (iomap_iter
-  WARNINGs, "possible recursive locking", hang)
-- an unlinked file with an open stream: "mft 0x1b, type 0x80 is
-  corrupt. Run chkdsk." and the next write to the stream fails
-- a stream that is being removed is converted under
-  ntfs_stream_finish_remove() (unlink returned 1)
-- two streams whose names differ only in case: WARN in
-  ntfs_attr_make_non_resident(), the lookup ignores case
+Fixes: 0437906841d0 ("mm: start background writeback based on per-wb threshold for strictlimit BDIs")
+Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
+Reviewed-by: Jan Kara <jack@suse.cz>
+Signed-off-by: Avi Weiss <thnkslprpt@gmail.com>
+---
 
-v4 keeps ntfs_attr_iget() for the named stream and adds what is needed:
-FGP_NOWAIT for the folio in this loop (skip when busy), convert a
-stream only if it is not in the inode cache and its file is not being
-deleted or unlinked, and compare the stream name exactly. All of the
-cases above fail on v3 and pass with v4. The WARN from the original
-image is fixed.
+v2:
+- explain the preliminary strictlimit threshold check
 
-I could not show data loss on unlink, only that the unsafe state is
-reached. The debug delays are mine, so these windows are narrow without
-them. If you think this is more than the loop should
-carry, the one-line v2 (skip named streams) also fixes the WARN.
+v1: https://lore.kernel.org/r/20261031070515.3042848-2-thnkslprpt@gmail.com
 
-Thanks,
-Wahid
+ mm/page-writeback.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/mm/page-writeback.c b/mm/page-writeback.c
+index 499a35473e4f..0529b4a7e99c 100644
+--- a/mm/page-writeback.c
++++ b/mm/page-writeback.c
+@@ -1824,9 +1824,15 @@ static int balance_dirty_pages(struct bdi_writeback *wb,
+ 			balance_domain_limits(mdtc, strictlimit);
+ 		}
+ 
++		/*
++		 * gdtc->wb_dirty includes pages under writeback, so use it as
++		 * a cheap preliminary check before wb_over_bg_thresh() decides
++		 * whether background writeback is needed.
++		 */
+ 		if (!writeback_in_progress(wb) &&
+ 		    (nr_dirty > gdtc->bg_thresh ||
+-		     (strictlimit && gdtc->wb_dirty > gdtc->wb_bg_thresh)))
++		     (strictlimit && gdtc->wb_dirty > gdtc->wb_bg_thresh &&
++		      wb_over_bg_thresh(wb))))
+ 			wb_start_background_writeback(wb);
+ 
+ 		/*
+
+base-commit: 36aad21d50d1af3f6954bb0c988257a908202477
+-- 
+2.43.0
+
