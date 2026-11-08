@@ -1,54 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.71
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794170529;
-	b=4uG6afchDLxz2GUp1966MNdiNuqQAALpbZryOa+DjrSz4/c/pV8aEQrQGsH0i1JJgYBF
-	 TvCjSaJUkLTk7jTN167TeO9zt2a9gklmf2RlHsL4GMm3/OCM7Ys4u1x7IlC6rj11TAN3Y
-	 4HrUorGAmGYHwQJNjVxFQu75eS3Glz5pQ6FejK+H8nZC7E3a10zWGEmRtNt55yaoOf15p
-	 zWthinkzrhXsZKPsvNQZADJXG6i87ZtMIbnn+nkRiJqHcpjh4NMakp+3LpEKJqR447SAO
-	 BpSizX8e/aneQcDPLU5VQTdjSnY/l+IrZTmDRAPTjkKeMv8jmxm7UU+5WgDZ34/M/6w==
+	t=1794175893;
+	b=rzBpntVyc7SZSBtrEXpGuhSKbSuNSPYtyzFbcsTSOpC1mhATfkf9wilcntZs/rJSuu2P
+	 hpw6/QgBuwbLeh+vTr81II04mG9u9uASW0vZ8BT5OD2g0qDpiWq7vojCMTeZWmozBC5aC
+	 iwPXYDlGsnRVp7Ht8eugXLRwJvUb7VZXY5ChTDyMSJdnd0ZiAc941Iz1ATL15fWhouLoq
+	 sOK16tClcLm8/JvdtLWpniBuothZleNcU2QGyhKg8Fd2w1GvYrtgoHfH7lYjk5eW6XT+A
+	 IivkVs9JOk/Q5ax2bJszX2Qf/Omq0ABZo3+bzTd7b8zlsdZ33F2iUOWvKGy06stzBgg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794170529;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:MIME-Version:X-Received:Date:In-Reply-To:
-	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
-	 Subject:From:To:Cc:Content-Type;
-	bh=ZyAIE4V+IPrxJ+LBwwccVXIlmn04keFT6A2ZLt8nDmM=;
-	b=sMOgPiLWnJs04tHg+2lv9ymsLnbrQ+5ZboYrVUeAqaqPcpuf9g4X/g0+0csT1ciaqvM6
-	 1UPQxMYjFbdjM9itEISWf7k8cBd8tmLT8Mdpi1IdXdDvr1oxYmEq7LUsbGPJZh9+YC1BH
-	 Xe58sY+6h3Nuniuh3UNuIEKx4CWoKsRkFFvDLbo1JLBJsSzbwrAy6Jr/ZOWYM8cStWBBg
-	 d9XRPV+Jkegerhu6H0msWhLGs0UG3wVJqx78GLUJqs6nZ2z5FUHKwd+Cn0qgzjaTX9XNP
-	 Om6N6IeGONvJhx2Ftv5z8KoogUoPrn9S7yCQd/GPOOfcFlqbN3TtnXu1En03RiBFdPg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794175893;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=AtwP5j20gn7E2EyXET3bhOC0Urzo30JN8vyaQdZ3DMA=;
+	b=i8pK8unQiAjqKuBmkTqUoxs6xXPiKqmkCscfMOYsXlWercXR3yn7xp86vvilRMUbErqT
+	 Ic0GzCOFC5XTCg/6nT/qFpP4vwz/srQW4IKjy+SduR5MghG1520Lt5nzEfbvUL6qVwu1d
+	 EekTj+hqk5pymlAOeO+Tx6/Efew8fCCsa6xQDMMLp3w1ZI206dhFh+q3Vy0ydB2MRcPvm
+	 kHDHkslxgpCuAh1AvM67ZI3H9mH/nuSreNGyddkCakgdJTNex+Hcft5YYAoE4A7nncw54
+	 wn7w1vnyzHB+3ymZgY9lXL+BXhaKS5shz88wZXLs5aH0I3MkLyrmwQLO+oCgjT72Ryg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=fail header.from=syzkaller.appspotmail.com;
-	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
-	arc=none smtp.remote-ip=209.85.210.71
-Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com [209.85.210.71])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="R/lRsW7o";
+	arc=none smtp.remote-ip=74.125.82.50
+Received: from mail-dl1-f50.google.com (mail-dl1-f50.google.com [74.125.82.50])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2755D606A31C
-	for <linux-fsdevel@vger.kernel.org>; Sun,  8 Nov 2026 20:42:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2755D606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-ot1-f71.google.com with SMTP id 46e09a7af769-843c6807307so340837a34.3
-        for <linux-fsdevel@vger.kernel.org>; Sun, 08 Nov 2026 12:42:08 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C94CC606A31C
+	for <linux-fsdevel@vger.kernel.org>; Sun,  8 Nov 2026 22:11:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C94CC606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=R/lRsW7o
+Received: by mail-dl1-f50.google.com with SMTP id a92af1059eb24-15ea896ddc8so581318c88.0
+        for <linux-fsdevel@vger.kernel.org>; Sun, 08 Nov 2026 14:11:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794175892; x=1794780692; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=AtwP5j20gn7E2EyXET3bhOC0Urzo30JN8vyaQdZ3DMA=;
+        b=R/lRsW7oCKLF+VFs4SbeM7nISXevZJc7zyUGcAWotAPalydatcKCAA3DjG5H3msv+M
+         ZgDytWBst86rTrwPJ6wA9+1akDnJyjBvPwXajXtBVxOdmj2ljA63IjNggzLlyeriidG/
+         Ya41xCiPQLdQ9h9lev7MtWbg7xLGBUHGTAfWLSr6VP52Cl8LjJEsBXBmOQW/cK5e98na
+         qsYJn0kCNWf4wdnPNcc2ShRzNsI5Cr/oIORH6Lg8TE7xzirzVMMj9vpqjoXVOmxl9jue
+         1R8MqK22vQ42RorlKTFqU58xn4YxM1evQJTIc3/97ias3XQx3HsH90aRTJfANbT009sg
+         /c0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794170528; x=1794775328;
-        h=content-type:cc:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=ZyAIE4V+IPrxJ+LBwwccVXIlmn04keFT6A2ZLt8nDmM=;
-        b=vYgewIDZWXVY52TsudB3LJ7PLHNAssGWB0pDAKVMhfSHHugemj7pfUWeGTQwEpM037
-         VjWoeYUPf0FMsrqv8CPmcQssfv0ZdUcNZE0/tE99ZSN43m1C80IYULODOnaANVG0zWcw
-         tNOoc0xw+rUnqt+3USCcSnWZp/vgXQAu2EL9GWkmDw5G1f22jZKYS+JprTX5j/MdRSbB
-         fpg1JxekDb8nCcMSnt/WfPvoPQpfgcbiJ6XAwe4xNOAVPSSjT0trSFF1NC86outlrN3u
-         xYDThd5SO1exGh3OuvL0tNZVPuT8Ah8plMsRXArq+ou9VaIkDPSbrP727oJUt+8/SMGZ
-         +VbQ==
-X-Forwarded-Encrypted: i=1; AL+hErETguKtD8J2UwpKGkPRMEyv49tmrTa8cWFHqQqEiifsTdS7g+xDkL3v1TlyDknCXR4dY4ctD1dRHx3K9Qq1@vger.kernel.org
-X-Gm-Message-State: APuU4Z+Hx6pA+jPjJq0oKn/LDQzXdYpu+7hmJy8NfiPTluD+fsWDoYBa
-	En8lwPYeHgI7ktBC1eVogUrHe5XhZCY4AiX5NmLVU2jFUz7Gjb33UzMeeO91Nud6IjN079fsWez
-	qx9Nzmv9mvJbRirKVonVvbuBTIpON194W2eEtyXYSEt5Hk01w7Iu39zemqk8=
+        d=1e100.net; s=20260707; t=1794175892; x=1794780692;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=AtwP5j20gn7E2EyXET3bhOC0Urzo30JN8vyaQdZ3DMA=;
+        b=QkFm5Oxrwbs8sxWm2zfgNhNRIp/12/PsZGiTlvDfo5jcc1LgsuVENVupDy7B0NXAPB
+         ki2DBKyvexxk61ZUSvlA6d/Xo6XCoCCJHaQV1rOrYbTQ+w14zd/flGLCf4cVosAjamjX
+         DuMn+oIPMEY5DOTD85A47EvbJnPR9qbMEWQj3306NfQ0ro0+TXSApzFIY9AzNXoBUjML
+         uataJnL72kRFVqmaRGSG9KUai40basHOolVyeFKqKwqLdLoNknWVPAhD2NJ/z5fUAWCE
+         tfLji70qD+QCLgj/yOCGeKJUihNTnfNUCsubx1L0uGpLP+z9g9XnKtkVRHdrjx6Pxnzw
+         blpQ==
+X-Forwarded-Encrypted: i=1; AL+hErHmL+35hKiaHRjSE73l7yAUTZuhnwm9LA5j7pgYBwmnUUAMsfK64eCflA2ky8LADMwmqJcANP6Fxy8YzvVa@vger.kernel.org
+X-Gm-Message-State: APuU4Z8eRMjGhUBHJRWXD7kXBFsW61WLjU+KaepMQHnVRbOsNw8kRDVW
+	effGyY05PgR4gM//RD5FplEj7g/4rB1DCghYTHqAzLPBPWIbxxVXIHp2
+X-Gm-Gg: AYBFou1PfAkCa3nzIWtDobhGtcQURBLyeGrbCVjGgngOfc+dYf9sOuv3c9NvTgC4zr/
+	wbOabP6rB1G95/BWcjEqpPmuNBsVJMd1zNc6IQT1SWd6QxOqcIn6caAMPKbWBptDcZ3bVaANTAc
+	EDkvAGfPlKPgLhkdWsT5I3V9OEfK3HKhKkQI70aJRvQDjK+qgDacDzM/mgqfH7VSzOFSk4rtpPH
+	sP0sAesVui3J8HLpsY8THrzpFraU4LEFLSm3XUqL4URvhYAIlkzlcHBWA1nqhl+q5yMtwojtSQu
+	G/Nlfkp4gDqbPPNFJ54k+WCKXMIvXbXE0I1583qfRFX7BbjTU4VIHJbYd2OpDV76oYypqJVnk1R
+	a9FYS4se7K/G6NmNMDCXV+m7uA4CRMMBWO0md/yWqzp80PSQKnkcGfyava72MNe+ZzH6EBz0aoR
+	qQxlrw6ydM7npBH9cIP1srUxOIT8G+l3Fc6YAUhgXHuIgvjqS/rKnWX751Gupx1F9RPkJxLotq9
+	CExYlqqszG9/vtBaT5HeTzCG1L9Q9XnlooWer8W2strRzMO+Sq52THp8eeOVZ6q1GHjpEQY4o9G
+	V0CLD6DkPJOZsuX7resKC08L9Do9FJ1j6SSC8ZdJOVF93TCUArsuNoA/l8chwsQQew==
+X-Received: by 2002:a05:7022:b0c6:b0:183:e993:7901 with SMTP id a92af1059eb24-1b39fe9485dmr3817898c88.17.1794175891567;
+        Sun, 08 Nov 2026 14:11:31 -0800 (PST)
+Received: from anon-laptop ([103.187.196.132])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3771f833esm7912691c88.21.2026.11.08.14.11.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Nov 2026 14:11:30 -0800 (PST)
+From: Wahid Khan <wahidzk0091@gmail.com>
+To: linkinjeon@kernel.org
+Cc: hyc.lee@gmail.com,
+	ntfs@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] ntfs: convert a named $DATA stream safely when making room in a record
+Date: Mon,  9 Nov 2026 03:41:04 +0530
+Message-ID: <20261108221104.1081384-1-wahidzk0091@gmail.com>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <CAKYAXd9=crUmmGbO1vcPsdz-GmWoHxD_W_bRv2PQ_Db3Q+EkCQ@mail.gmail.com>
+References: <CAKYAXd9=crUmmGbO1vcPsdz-GmWoHxD_W_bRv2PQ_Db3Q+EkCQ@mail.gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -58,368 +99,49 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:509f:b0:4f4:be18:5de2 with SMTP id
- 5614622812f47-568143a7b57mr1381696b6e.13.1794170528194; Sun, 08 Nov 2026
- 12:42:08 -0800 (PST)
-Date: Sun, 08 Nov 2026 12:42:08 -0800
-In-Reply-To: <20261105165055.362-1-drifabdelmalekmohamedsaid@gmail.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6af0dea0.29ad3093.346b70.0003.GAE@google.com>
-Subject: [syzbot ci] Re: configfs: fix slab-UAF Write in config_item_put
-From: syzbot ci <syzbot+cidc5711a055bc22f3@syzkaller.appspotmail.com>
-To: a.hindborg@kernel.org, brauner@kernel.org, 
-	drifabdelmalekmohamedsaid@gmail.com, jack@suse.cz, leitao@debian.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	ranhongyun1@huawei.com, syzbot@syzkaller.appspotmail.com, 
-	syzkaller-bugs@googlegroups.com, viro@zeniv.linux.org.uk
-Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-syzbot ci has tested the following series
+Hi,
 
-[v3] configfs: fix slab-UAF Write in config_item_put
-https://lore.kernel.org/all/20261105165055.362-1-drifabdelmalekmohamedsaid@gmail.com
-* [PATCH v3] configfs: fix slab-UAF Write in config_item_put
+I went through Sashiko's review of v4. The WOF finding is right, and
+checking the rest of its report turned up three more problems in the
+same loop. I reproduced all four with a forced make-room pass and debug
+delays; each fails on v4 and passes on v5, which I am sending as a
+reply to this mail:
 
-and found the following issues:
-* KASAN: slab-use-after-free Write in config_item_get
-* kernel BUG in config_item_get
-* kernel BUG in configfs_symlink
+- WofCompressedData: the stream of a WOF file was converted, but
+  ntfs_read_wof_chunk() reads a non-resident stream from the device, so
+  the file read stale clusters until writeback (249 of 250 bytes wrong,
+  correct after sync). v5 leaves the streams of a WOF file alone.
 
-Full report is available here:
-https://ci.syzbot.org/series/6e7e3ace-c083-43ff-9d6c-4b65ef15bd2f
+- An attribute converted in a file with no links left is evicted on the
+  last iput() with its dirty folio, so an open file reads its extended
+  attribute back as missing. This is older than my patch, the check
+  covered only $DATA. v5 converts nothing in such a file.
 
-***
+- A resize of a stream or an EA converted the unnamed data of the file
+  under a writer of that file (iomap_iter warnings, recursive
+  mrec_lock), because only the resize of the unnamed data itself holds
+  its i_rwsem. v5 converts the unnamed data only when it is the
+  attribute being resized.
 
-KASAN: slab-use-after-free Write in config_item_get
+- The conversion of the attribute being resized waited for folio 0 with
+  mrec_lock held and hangs against an mmap fault or a splice reader
+  (hung task). I wrote in the mail to the v2 thread that this direct
+  conversion is safe because the reader waits on i_rwsem first. That
+  holds for read(), not for mmap and splice, so it was wrong. v5 uses
+  FGP_NOWAIT there too. While such a reader is stuck on the lock the
+  resize now fails with -ENOSPC instead of hanging, which I think is the
+  better of the two, but tell me if you would rather handle it
+  differently.
 
-tree:      vfs
-URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/vfs/vfs.git
-base:      691edd89507f8977eb8831892c3b460edc79d73c
-arch:      amd64
-compiler:  Debian clang version 22.1.8 (1~deb13u4), Debian LLD 22.1.8
-config:    https://ci.syzbot.org/builds/b34863a5-8646-4b81-a3b6-8d7c722db7f8/config
-syz repro: https://ci.syzbot.org/findings/4586cba9-fdc4-48a1-bbe4-43b477a6d2cf/syz_repro
+The six scenarios from the v4 mail still pass, and so does a WOF file
+read before and after the conversion. I also ran a mutated-image fuzzer
+(about 800 images, KASAN and lockdep) and the resident/non-resident
+reader stress test on v5: no crash involves this code. Two things the
+fuzzer hit exist without this patch as well, a WARN in iomap_iter() on
+the read path of a crafted image and a lockdep report between extent_lock
+and the mft runlist lock. I will look at those separately.
 
-==================================================================
-BUG: KASAN: slab-use-after-free in instrument_atomic_read_write include/linux/instrumented.h:112 [inline]
-BUG: KASAN: slab-use-after-free in atomic_fetch_add_relaxed include/linux/atomic/atomic-instrumented.h:252 [inline]
-BUG: KASAN: slab-use-after-free in __refcount_add include/linux/refcount.h:283 [inline]
-BUG: KASAN: slab-use-after-free in __refcount_inc include/linux/refcount.h:366 [inline]
-BUG: KASAN: slab-use-after-free in refcount_inc include/linux/refcount.h:383 [inline]
-BUG: KASAN: slab-use-after-free in kref_get include/linux/kref.h:45 [inline]
-BUG: KASAN: slab-use-after-free in config_item_get+0x26/0x90 fs/configfs/item.c:104
-Write of size 4 at addr ffff8881191a501c by task syz.1.22/5911
-
-CPU: 0 UID: 0 PID: 5911 Comm: syz.1.22 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- print_address_description+0x55/0x1e0 mm/kasan/report.c:378
- print_report+0x58/0x70 mm/kasan/report.c:482
- kasan_report+0x117/0x150 mm/kasan/report.c:595
- check_region_inline mm/kasan/generic.c:-1 [inline]
- kasan_check_range+0x264/0x2c0 mm/kasan/generic.c:200
- instrument_atomic_read_write include/linux/instrumented.h:112 [inline]
- atomic_fetch_add_relaxed include/linux/atomic/atomic-instrumented.h:252 [inline]
- __refcount_add include/linux/refcount.h:283 [inline]
- __refcount_inc include/linux/refcount.h:366 [inline]
- refcount_inc include/linux/refcount.h:383 [inline]
- kref_get include/linux/kref.h:45 [inline]
- config_item_get+0x26/0x90 fs/configfs/item.c:104
- configfs_get_config_item fs/configfs/configfs_internal.h:127 [inline]
- configfs_symlink+0x17d/0xa60 fs/configfs/symlink.c:167
- vfs_symlink+0x18e/0x370 fs/namei.c:5812
- filename_symlinkat+0x1a5/0x430 fs/namei.c:5837
- __do_sys_symlinkat fs/namei.c:5857 [inline]
- __se_sys_symlinkat+0x4e/0x2b0 fs/namei.c:5852
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7ffbd0f9fb19
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffbd1dfb028 EFLAGS: 00000246 ORIG_RAX: 000000000000010a
-RAX: ffffffffffffffda RBX: 00007ffbd1225fa0 RCX: 00007ffbd0f9fb19
-RDX: 0000200000000780 RSI: ffffffffffffff9c RDI: 0000200000000740
-RBP: 00007ffbd1037b70 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007ffbd1226038 R14: 00007ffbd1225fa0 R15: 00007ffeea8f6108
- </TASK>
-
-Allocated by task 5903:
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
- poison_kmalloc_redzone mm/kasan/common.c:409 [inline]
- __kasan_kmalloc+0x93/0xb0 mm/kasan/common.c:426
- kasan_kmalloc include/linux/kasan.h:263 [inline]
- __kmalloc_cache_noprof+0x31c/0x600 mm/slub.c:5680
- _kmalloc_noprof include/linux/slab.h:991 [inline]
- _kzalloc_noprof include/linux/slab.h:1312 [inline]
- config_desc_make+0x23e/0x620 drivers/usb/gadget/configfs.c:730
- configfs_mkdir+0x4f6/0x9e0 fs/configfs/dir.c:1369
- vfs_mkdir+0x411/0x660 fs/namei.c:5428
- filename_mkdirat+0x284/0x550 fs/namei.c:5461
- __do_sys_mkdirat fs/namei.c:5482 [inline]
- __se_sys_mkdirat+0x35/0x150 fs/namei.c:5479
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-Freed by task 5908:
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
- kasan_save_free_info+0x40/0x50 mm/kasan/generic.c:584
- poison_slab_object mm/kasan/common.c:264 [inline]
- __kasan_slab_free+0x5c/0x80 mm/kasan/common.c:296
- kasan_slab_free include/linux/kasan.h:235 [inline]
- slab_free_hook mm/slub.c:2780 [inline]
- slab_free mm/slub.c:6630 [inline]
- kfree+0x1c5/0x650 mm/slub.c:6923
- config_item_cleanup fs/configfs/item.c:128 [inline]
- config_item_release+0x13a/0x2d0 fs/configfs/item.c:137
- configfs_symlink+0x7b4/0xa60 fs/configfs/symlink.c:240
- vfs_symlink+0x18e/0x370 fs/namei.c:5812
- filename_symlinkat+0x1a5/0x430 fs/namei.c:5837
- __do_sys_symlinkat fs/namei.c:5857 [inline]
- __se_sys_symlinkat+0x4e/0x2b0 fs/namei.c:5852
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-The buggy address belongs to the object at ffff8881191a5000
- which belongs to the cache kmalloc-1k of size 1024
-The buggy address is located 28 bytes inside of
- freed 1024-byte region [ffff8881191a5000, ffff8881191a5400)
-
-The buggy address belongs to the physical page:
-page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x1191a0
-head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
-flags: 0x17ff00000000040(head|node=0|zone=2|lastcpupid=0x7ff)
-page_type: f5(slab)
-raw: 017ff00000000040 ffff888100041dc0 dead000000000100 dead000000000122
-raw: 0000000000000000 0000000000100010 00000000f5000000 0000000000000000
-head: 017ff00000000040 ffff888100041dc0 dead000000000100 dead000000000122
-head: 0000000000000000 0000000000100010 00000000f5000000 0000000000000000
-head: 017ff00000000003 fffffffffffffe01 00000000ffffffff 00000000ffffffff
-head: ffffffffffffffff 0000000000000000 00000000ffffffff 0000000000000008
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 3, migratetype Unmovable, gfp_mask 0xd2820(GFP_ATOMIC|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 5697, tgid 5697 (kworker/u8:3), ts 73161807282
- set_page_owner include/linux/page_owner.h:33 [inline]
- post_alloc_hook+0x1f9/0x250 mm/page_alloc.c:1856
- prep_new_page mm/page_alloc.c:1864 [inline]
- get_page_from_freelist+0x220f/0x2280 mm/page_alloc.c:3935
- __alloc_frozen_pages_noprof+0x1fe/0x410 mm/page_alloc.c:5444
- alloc_slab_page mm/slub.c:3384 [inline]
- allocate_slab+0x7d/0x5e0 mm/slub.c:3499
- new_slab mm/slub.c:3550 [inline]
- refill_objects+0x2d5/0x350 mm/slub.c:7539
- refill_sheaf mm/slub.c:2917 [inline]
- __pcs_replace_empty_main+0x2c8/0x6c0 mm/slub.c:4811
- alloc_from_pcs mm/slub.c:4887 [inline]
- slab_alloc_node mm/slub.c:5021 [inline]
- __do_kmalloc_node mm/slub.c:5530 [inline]
- __kmalloc_noprof+0x476/0x710 mm/slub.c:5556
- _kmalloc_noprof include/linux/slab.h:995 [inline]
- _kzalloc_noprof include/linux/slab.h:1312 [inline]
- neigh_alloc net/core/neighbour.c:525 [inline]
- ___neigh_create+0x6da/0x21f0 net/core/neighbour.c:659
- ip6_finish_output2+0xe06/0x1460 net/ipv6/ip6_output.c:130
- NF_HOOK_COND include/linux/netfilter.h:314 [inline]
- ip6_output+0x337/0x540 net/ipv6/ip6_output.c:248
- dst_output include/net/dst.h:472 [inline]
- NF_HOOK include/linux/netfilter.h:325 [inline]
- ndisc_send_skb+0xcb2/0x1650 net/ipv6/ndisc.c:513
- ndisc_send_ns+0xd7/0x160 net/ipv6/ndisc.c:672
- addrconf_dad_work+0xa8d/0x15c0 net/ipv6/addrconf.c:4343
- process_one_work kernel/workqueue.c:3495 [inline]
- process_scheduled_works+0xc3d/0x1630 kernel/workqueue.c:3578
- worker_thread+0xa47/0xfb0 kernel/workqueue.c:3659
- kthread+0x38b/0x480 kernel/kthread.c:436
-page last free pid 5696 tgid 5696 ts 63917357465 stack trace:
- reset_page_owner include/linux/page_owner.h:26 [inline]
- __free_pages_prepare mm/page_alloc.c:1403 [inline]
- __free_frozen_pages+0xc97/0xd90 mm/page_alloc.c:2954
- __slab_free+0x269/0x2c0 mm/slub.c:5926
- qlink_free mm/kasan/quarantine.c:163 [inline]
- qlist_free_all+0x99/0x100 mm/kasan/quarantine.c:179
- kasan_quarantine_reduce+0x148/0x160 mm/kasan/quarantine.c:286
- __kasan_slab_alloc+0x22/0x80 mm/kasan/common.c:361
- kasan_slab_alloc include/linux/kasan.h:253 [inline]
- slab_post_alloc_hook mm/slub.c:4720 [inline]
- slab_alloc_node mm/slub.c:5033 [inline]
- kmem_cache_alloc_noprof+0x2b4/0x600 mm/slub.c:5047
- __proc_create+0x55d/0xad0 fs/proc/generic.c:462
- proc_create_reg fs/proc/generic.c:606 [inline]
- proc_create_data+0xa5/0x190 fs/proc/generic.c:620
- nfs_net_init+0x1a7/0x290 fs/nfs/inode.c:2777
- ops_init+0x35d/0x5d0 net/core/net_namespace.c:137
- setup_net+0x118/0x350 net/core/net_namespace.c:443
- copy_net_ns+0x536/0x770 net/core/net_namespace.c:584
- create_new_namespaces+0x3f0/0x6b0 kernel/nsproxy.c:132
- unshare_nsproxy_namespaces+0x144/0x190 kernel/nsproxy.c:234
- ksys_unshare+0x532/0x890 kernel/fork.c:3320
- __do_sys_unshare kernel/fork.c:3386 [inline]
- __se_sys_unshare kernel/fork.c:3384 [inline]
- __x64_sys_unshare+0x38/0x50 kernel/fork.c:3384
-
-Memory state around the buggy address:
- ffff8881191a4f00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
- ffff8881191a4f80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
->ffff8881191a5000: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                            ^
- ffff8881191a5080: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff8881191a5100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-==================================================================
-
-
-***
-
-kernel BUG in config_item_get
-
-tree:      vfs
-URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/vfs/vfs.git
-base:      691edd89507f8977eb8831892c3b460edc79d73c
-arch:      amd64
-compiler:  Debian clang version 22.1.8 (1~deb13u4), Debian LLD 22.1.8
-config:    https://ci.syzbot.org/builds/b34863a5-8646-4b81-a3b6-8d7c722db7f8/config
-syz repro: https://ci.syzbot.org/findings/1475de5c-5602-4f7c-97d8-fa318d3969f7/syz_repro
-
-refcount_t: addition on 0; use-after-free.
-------------[ cut here ]------------
-kernel BUG at lib/refcount.c:34!
-Oops: invalid opcode: 0000 [#1] SMP KASAN PTI
-CPU: 0 UID: 0 PID: 5904 Comm: syz.1.18 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-RIP: 0010:refcount_warn_saturate+0xf0/0x110 lib/refcount.c:34
-Code: 80 c1 03 38 c1 0f 8c 6a ff ff ff 4c 89 f7 e8 a7 10 51 fd e9 5d ff ff ff e8 fd c2 d9 fc 48 c7 c7 a0 98 8c 8c e8 e1 73 38 fc 90 <0f> 0b e8 e9 c2 d9 fc 48 c7 c7 20 99 8c 8c e8 cd 73 38 fc 90 0f 0b
-RSP: 0018:ffffc900030bfc68 EFLAGS: 00010246
-RAX: 000000000000002a RBX: 0000000000000002 RCX: ca30be1f7752be00
-RDX: 0000000000000000 RSI: 8000000000000001 RDI: 0000000000000000
-RBP: 0000000000000000 R08: ffffc900030bf9e7 R09: 1ffff92000617f3c
-R10: dffffc0000000000 R11: fffff52000617f3d R12: 1ffff1102365c80a
-R13: ffff88811776d218 R14: ffff888117f184b4 R15: ffff8881ba75a598
-FS:  00007fcbbc6696c0(0000) GS:ffff88818be0d000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007fcbbb6716a0 CR3: 0000000117a68000 CR4: 00000000000006f0
-Call Trace:
- <TASK>
- __refcount_add include/linux/refcount.h:-1 [inline]
- __refcount_inc include/linux/refcount.h:366 [inline]
- refcount_inc include/linux/refcount.h:383 [inline]
- kref_get include/linux/kref.h:45 [inline]
- config_item_get+0x88/0x90 fs/configfs/item.c:104
- configfs_get_config_item fs/configfs/configfs_internal.h:127 [inline]
- configfs_symlink+0x17d/0xa60 fs/configfs/symlink.c:167
- vfs_symlink+0x18e/0x370 fs/namei.c:5812
- filename_symlinkat+0x1a5/0x430 fs/namei.c:5837
- __do_sys_symlinkat fs/namei.c:5857 [inline]
- __se_sys_symlinkat+0x4e/0x2b0 fs/namei.c:5852
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fcbbb79fb19
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fcbbc669028 EFLAGS: 00000246 ORIG_RAX: 000000000000010a
-RAX: ffffffffffffffda RBX: 00007fcbbba25fa0 RCX: 00007fcbbb79fb19
-RDX: 0000200000000840 RSI: ffffffffffffff9c RDI: 0000200000000800
-RBP: 00007fcbbb837b70 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007fcbbba26038 R14: 00007fcbbba25fa0 R15: 00007ffd984fbca8
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:refcount_warn_saturate+0xf0/0x110 lib/refcount.c:34
-Code: 80 c1 03 38 c1 0f 8c 6a ff ff ff 4c 89 f7 e8 a7 10 51 fd e9 5d ff ff ff e8 fd c2 d9 fc 48 c7 c7 a0 98 8c 8c e8 e1 73 38 fc 90 <0f> 0b e8 e9 c2 d9 fc 48 c7 c7 20 99 8c 8c e8 cd 73 38 fc 90 0f 0b
-RSP: 0018:ffffc900030bfc68 EFLAGS: 00010246
-RAX: 000000000000002a RBX: 0000000000000002 RCX: ca30be1f7752be00
-RDX: 0000000000000000 RSI: 8000000000000001 RDI: 0000000000000000
-RBP: 0000000000000000 R08: ffffc900030bf9e7 R09: 1ffff92000617f3c
-R10: dffffc0000000000 R11: fffff52000617f3d R12: 1ffff1102365c80a
-R13: ffff88811776d218 R14: ffff888117f184b4 R15: ffff8881ba75a598
-FS:  00007fcbbc6696c0(0000) GS:ffff88818be0d000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007fcbbb6716a0 CR3: 0000000117a68000 CR4: 00000000000006f0
-
-
-***
-
-kernel BUG in configfs_symlink
-
-tree:      vfs
-URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/vfs/vfs.git
-base:      691edd89507f8977eb8831892c3b460edc79d73c
-arch:      amd64
-compiler:  Debian clang version 22.1.8 (1~deb13u4), Debian LLD 22.1.8
-config:    https://ci.syzbot.org/builds/b34863a5-8646-4b81-a3b6-8d7c722db7f8/config
-
-refcount_t: underflow; use-after-free.
-------------[ cut here ]------------
-kernel BUG at lib/refcount.c:37!
-Oops: invalid opcode: 0000 [#1] SMP KASAN PTI
-CPU: 1 UID: 0 PID: 5815 Comm: syz.2.17 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-RIP: 0010:refcount_warn_saturate+0x104/0x110
-Code: 5d ff ff ff e8 fd c2 d9 fc 48 c7 c7 a0 98 8c 8c e8 e1 73 38 fc 90 0f 0b e8 e9 c2 d9 fc 48 c7 c7 20 99 8c 8c e8 cd 73 38 fc 90 <0f> 0b 66 2e 0f 1f 84 00 00 00 00 00 90 90 90 90 90 90 90 90 90 90
-RSP: 0018:ffffc90006787c88 EFLAGS: 00010246
-RAX: 0000000000000026 RBX: 0000000000000003 RCX: 7d2d66e1f00cde00
-RDX: 0000000000000000 RSI: 8000000000000000 RDI: 0000000000000000
-RBP: ffffc90006787d88 R08: ffffc90006787a07 R09: 1ffff92000cf0f40
-R10: dffffc0000000000 R11: fffff52000cf0f41 R12: 1ffff110228fe2e2
-R13: 00000000fffffffe R14: ffff88816f8584b4 R15: 1ffff92000cf0fa0
-FS:  00007f3b9041d6c0(0000) GS:ffff8882a780d000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007feda95bb440 CR3: 0000000110044000 CR4: 00000000000006f0
-Call Trace:
- <TASK>
- configfs_symlink+0x7b4/0xa60
- vfs_symlink+0x18e/0x370
- filename_symlinkat+0x1a5/0x430
- __se_sys_symlinkat+0x4e/0x2b0
- do_syscall_64+0x166/0x520
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f3b8f59fb19
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f3b9041d028 EFLAGS: 00000246 ORIG_RAX: 000000000000010a
-RAX: ffffffffffffffda RBX: 00007f3b8f826090 RCX: 00007f3b8f59fb19
-RDX: 0000200000000840 RSI: ffffffffffffff9c RDI: 0000200000000800
-RBP: 00007f3b8f637b70 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007f3b8f826128 R14: 00007f3b8f826090 R15: 00007ffcd3b51e38
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:refcount_warn_saturate+0x104/0x110
-Code: 5d ff ff ff e8 fd c2 d9 fc 48 c7 c7 a0 98 8c 8c e8 e1 73 38 fc 90 0f 0b e8 e9 c2 d9 fc 48 c7 c7 20 99 8c 8c e8 cd 73 38 fc 90 <0f> 0b 66 2e 0f 1f 84 00 00 00 00 00 90 90 90 90 90 90 90 90 90 90
-RSP: 0018:ffffc90006787c88 EFLAGS: 00010246
-RAX: 0000000000000026 RBX: 0000000000000003 RCX: 7d2d66e1f00cde00
-RDX: 0000000000000000 RSI: 8000000000000000 RDI: 0000000000000000
-RBP: ffffc90006787d88 R08: ffffc90006787a07 R09: 1ffff92000cf0f40
-R10: dffffc0000000000 R11: fffff52000cf0f41 R12: 1ffff110228fe2e2
-R13: 00000000fffffffe R14: ffff88816f8584b4 R15: 1ffff92000cf0fa0
-FS:  00007f3b9041d6c0(0000) GS:ffff88818be0d000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007fd9936587f0 CR3: 0000000110044000 CR4: 00000000000006f0
-
-
-***
-
-If these findings have caused you to resend the series or submit a
-separate fix, please add the following tag to your commit message:
-  Tested-by: syzbot@syzkaller.appspotmail.com
-
----
-This report is generated by a bot. It may contain errors.
-syzbot ci engineers can be reached at syzkaller@googlegroups.com.
-
-To test a fix for this bug, please reply with `#syz test`
-(on a separate line) and attach the patch to the email.
-
-Notes:
-- The patch will be applied on top of the tested series (as an
-  incremental fix).
-- To test a new version of the whole series, please send it directly
-  to syzbot@lists.linux.dev.
-- Arguments like custom git repos and branches are not supported.
+Thanks,
+Wahid
