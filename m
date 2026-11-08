@@ -1,77 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=210.171.160.6
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794150184;
-	b=REQc2nCAZSiPPuvJ910xq4u1ZON0bAKuy6Tr+nc5iFtFDbG/TH0zfTfJunj57lqcT7/k
-	 eIwkFGehjpyDHMpGVcEvZBYyUuYQsZKOiQht8yNs/zQJhCNf0X39RinKkaVx08K8Erz3s
-	 BARGg3TP3Y/b/8y/27tz4Uprgq/M4iIY5Oyv3BD0LeT1eojOc5/FG+yVycjxjGQEmRFmN
-	 3UFN+jAM2N78dPgMi7A7U40B94EHACd61/1ufhFrkaapg1pOqalokAghi7H/qC9bPLgpo
-	 8/vF8cSh7m1z95l5zkqdfR75iz9dZQp6pxs0JvzL4RRd2tRY9xEzM6eUjUGfi6b/eHg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794150184;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:Received:
-	 Received:From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 User-Agent:MIME-Version:Content-Type;
-	bh=bZMDDSEbstrrBxqro/V4y0hp97EWTM7ZBohHqqfsHp4=;
-	b=WY+IfhfIvl9JRJkEBCZKh8UoF24HF5LGda9+/ooQ+Gruk3DV2+ou8Rxo88d4fDexB11k
-	 iJeGJeMgk4RTZZblpPtcSZuZzfufqCdu0N4bXXvgwHDcvt1wnfN6X5F2N/d1LHGPWTEKV
-	 WEP7yBBbcZna1uxd8nxOlr6TkWZ9x07Q4Kiw58uDtXJfxo1Q4L34cPedI5HNUkZPL+duO
-	 7cN0awmoQ4gf9nnw7+w7T5RBFVC69nEtQNqEvFHMtzV3ZSq1i19zLeWcXFYI49klWjT9M
-	 uHO3LeSHQkscq+NE0PxFHAfCZ1AqZVXXcbf8JK/L7ivR214fboVu0WDP2B7r9kX9zTw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mail.parknet.co.jp;
-	spf=pass smtp.mailfrom=parknet.co.jp;
-	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=rsa-sha256 header.s=20250114 header.b="HL7zu/AH";
-	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=ed25519-sha256 header.s=20250114-ed25519 header.b=Qo1vOSPm;
-	arc=none smtp.remote-ip=210.171.160.6
-Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.215.173
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794155527;
+	b=bnAJ4fxMXHKa1s9nqPv/SrA6YYzZ73CzrD1+txwuMnlHqGek+ecHPLwaxY8f8X4/4veG
+	 q1zjVzkBDlOpHdmYnLxDNrNLe/emUAqZJ2GjX8Gm6CmrBi7zAM8rUIFP82Xecxiv/MoIp
+	 qBiAY9UlLCI6bdZNHDFACWi7zBizw5Gvga7OuJ0rZ/nIABbIrzUOgeP3INU0SJFcXNjMc
+	 H2swWXgSM2zILjoOCqx/va64luMTisFn083QxUqNnb00CRvHS20sy4PE9kdydrIsJXe3g
+	 epczmHd6zstMJgoaiLpdO5kfxP7DsLBYcX++ePVL51Msl9GuUyEp2kQ0UVqfrImGsEA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794155527;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=nRA3uBFq/unnmFefY9OZatsKPIJhx+OZZvSDJnxcK8I=;
+	b=Zb5PJcM5kV9kCI6Sowhx1oZCNeImx0lv6OmrwKvLyiMCyyRC2B5NhGzG7b5vV/CgGkj7
+	 b5Ca7P4ON6RhAT4GUpPGzNWpebjsKZ7HjRwWnTO4hJ2KeuHK97c5s2Tcco/I2Fy4Rz32+
+	 TIYq/iy6hrypqBC6neYbg63WoQuZ02dNAYqQcgx9B3g4LEEysluLJMaba9Zhvud4GfrK+
+	 yppAdwLk48/3PtwBXaXBDdin2pqHSVUbmfhqL2EsKOVUl0DjIgN/sacAcFb6U9btijXHK
+	 9SAO0Zwhi0jukIddWyXbQmR5rYvknXSySRMuZl8d39NLYz6yoSCNEc3qT/44R4Vzd7w==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=none header.from=omnibond.com;
+	spf=pass smtp.mailfrom=omnibond.com;
+	dkim=pass header.d=omnibond.com header.i=@omnibond.com header.a=rsa-sha256 header.s=google header.b="CaBSZ8J/";
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.215.173
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 045CC606A31C;
-	Sun,  8 Nov 2026 15:03:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 045CC606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEAAC606A320
+	for <linux-fsdevel@vger.kernel.org>; Sun,  8 Nov 2026 16:32:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DEAAC606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omnibond.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omnibond.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=parknet.co.jp header.i=@parknet.co.jp header.a=rsa-sha256 header.s=20250114 header.b=HL7zu/AH;
-	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=ed25519-sha256 header.s=20250114-ed25519 header.b=Qo1vOSPm
-Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
-	by mail.parknet.co.jp (Postfix) with ESMTPSA id 4A03320BD289;
-	Mon,  9 Nov 2026 00:03:01 +0900 (JST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114; t=1794150181;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bZMDDSEbstrrBxqro/V4y0hp97EWTM7ZBohHqqfsHp4=;
-	b=HL7zu/AHW2aD8+DnmDe1Fdquyt3x44oI+n93C8etOO3SojOm3S6b7xABPNMK5Vgt2Hrerz
-	Y56eyo0U44Hd1td/X72LxOyeT8Rmaq7lEHqz6juziNlKhowEpgKYYgWDWzAmklJvno1xW/
-	gjHd13/icumay+zlHPqjEWcCmPyYKFu0VzOvpsGkW/b1YCNfKOga2Y/B5hwgd+Cxke1Gq0
-	AUVy/JsylG+QzBJk2CbJtqVyPCiE5FCHsu974y9Whm4JLYSMV33BUa7eGWiHi4qoBgtUMy
-	x06q25r/E9iOzaRa718Oy9Wrywi773Xr3ePgb/eKO/0+zM5aVxhcFDy9TT1ceA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114-ed25519; t=1794150181;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bZMDDSEbstrrBxqro/V4y0hp97EWTM7ZBohHqqfsHp4=;
-	b=Qo1vOSPmVSOdSF4SJHPf5ZLb0+Mf+uxHy0TNYX4vv4FOEeLlPYaw8e1XWnqovvOgWrt1AK
-	2SAzp68ieCit2sCA==
-Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
-	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id CB45AE001A6;
-	Mon, 09 Nov 2026 00:03:00 +0900 (JST)
-Received: by devron.myhome.or.jp (Postfix, from userid 1000)
-	id B8B7622001DF; Mon, 09 Nov 2026 00:03:00 +0900 (JST)
-From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-To: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
-Cc: linux-fsdevel@vger.kernel.org,  brauner@kernel.org,  djwong@kernel.org,
-  hch@lst.de,  linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 6/8] fat: add iomap buffered I/O support
-In-Reply-To: <20261031164326.278125-7-matheus.aalmeida@inf.ufrgs.br>
-References: <20261031164326.278125-1-matheus.aalmeida@inf.ufrgs.br>
-	<20261031164326.278125-7-matheus.aalmeida@inf.ufrgs.br>
-Date: Mon, 09 Nov 2026 00:03:00 +0900
-Message-ID: <87a4njtlgb.fsf@mail.parknet.co.jp>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (1024-bit key) header.d=omnibond.com header.i=@omnibond.com header.a=rsa-sha256 header.s=google header.b=CaBSZ8J/
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-cc1bc88a20eso82777a12.3
+        for <linux-fsdevel@vger.kernel.org>; Sun, 08 Nov 2026 08:32:06 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794155526; cv=none;
+        d=google.com; s=arc-20260327;
+        b=JXoeZ0Sxg6IaDl8fYO1+5ZpzVlYsQqruPdCPWTqEjoNnIDc07JQ6vanwQZ25YrJovZ
+         vIsCX9HquHX/5fmnRqkEv5iS48pjf5rHeAeQWMPSonwHy90GUm7chREuzhuYHc8yYTla
+         f2/JGdc/RNp3MA1tCgYZ8WKaxre7AVLjDDxRXfEgi/W+eaQPCd5HDiDVJyugLONIHsM/
+         NLFON6oWsI2xdeEkpxwHtY4tc5ALZ1H2purQZ+htx78Bzo/+HY5R1HXhLLW9XO8uWHl8
+         OynhU7/tizGfvXTZxhcVi0Jj4xwhmG//oxw0yuQ5hGN2KSjsTxUGVM5QyNPP4qzzLzuR
+         Tlwg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=nRA3uBFq/unnmFefY9OZatsKPIJhx+OZZvSDJnxcK8I=;
+        fh=SHaY3b81uN7EsjF5pDVrj2xAqfBEYz5kFtX19S4T4ew=;
+        b=naTL7Lu5whLqw8fZkujf/pgP/ZjYy3WYQqU7dqlycBTGdSzAI7+m/mqWUVvOTzXeAk
+         7LB5N+5/Tx0yIr5V0FdcFKbYIg3pLTjf6obzgPicSIo7Pn454REXN9Sm3C7Ur9nzQJ5r
+         Y0hwu2XPolbwrMj60ltuW1Bnel7Bj7IdvjPGJ4cEQAyVYjhQrpotPP3XmLc9AGdXbT4y
+         T1UUyrTG8vZti32TCu8Ip9VmLQv6cWNScUuaBxHN6s8Y2SlhyqrjDf4WgmLOofytSkhQ
+         MU+P6zhLT8cAyZzqvtNP28riV3uHEWgw6tVpQtcEtkqw9+BviEbJ6nrj+07XadTEjbzA
+         GlRA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=omnibond.com; s=google; t=1794155526; x=1794760326; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=nRA3uBFq/unnmFefY9OZatsKPIJhx+OZZvSDJnxcK8I=;
+        b=CaBSZ8J/go7wNJ3SZ2z3CPOXIlMd3pXwhYegM4lzKGJ1K75rarqHhQliFeTcAdjcuj
+         o8NdwsygVqa0pjIuPLeQOlsCuCz1fp5+wuVT54Fr7H1vrB1aTAcEnE7ds5XC4qdbsW2t
+         WieaCOLluJlfD2zUBiKlqPYIvrtEgy+/hTcxo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794155526; x=1794760326;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=nRA3uBFq/unnmFefY9OZatsKPIJhx+OZZvSDJnxcK8I=;
+        b=13ubQsQV1T+qu0CqKzpLwmQDCIlNVjnS0tv7hl6qFmCFYNvI9SC7H5Bt+jYiVOQG1R
+         zhbQ9DEE3skSLNDmqTmAX7gbv1WmXQCJX2grBEU1yL3W0XDS/HRPLjHvZDFOnV3dWN3E
+         f9+/0kpeb17bD+eM6pQoQKJCyQa09kggtnz6vEKQjH4jNiOJQH+i6k109x7znUjcyXD4
+         rcC/sIxExgNXUa2suFSd/MaR/HimS2eabuQ5tsHIuXVoTmOKz5xDvkF2SRZikyyUg3l0
+         n5sgQfwMtvmcA4DKM0JBnpyPg31yU4q5keKvbrr5hmFxn8H4NuEznxs3+r1XtTxmz+ya
+         mKLQ==
+X-Forwarded-Encrypted: i=1; AL+hErFn5W2qIluBzxM9+Ez0Aa1dz7LD5eo7eDmKt7ePM4jSIk77Fs1N9audMg2Hq5QV83paY1+O6JU0yt9NbZbX@vger.kernel.org
+X-Gm-Message-State: APuU4Z+jumB99q6xlxbDfqInOsgJrEetoFz8PaBUrBwiPLNjszFU6ABS
+	lp4mw7MJms8X8aLP2A6Bu7reSs18boEo+6tXekKD+51IhjzClqtV4yLKnz7NKdrkOUKrHPHVhFv
+	E7Xlb/pGn9cw6YteFM6RHlw0hJS7aZwQae8yJ6H1w
+X-Gm-Gg: AYBFou37CMIM6E3U4Y+zuwY3vsdh4lvC8UrRz+AQWi5O+AQQXBGnVFWAgVT7UtHs43U
+	KiIrB3LCpjNykUmYCh0fRinYyqxYNaqpAqotTDtUWi0Iuuz2sIIlGK3Pl0+0FXuEdMyFA/LUwq6
+	v4WBdd7jo8eeDmoiJlGcFkOxXEP6MIi4548eegrpnwK8daeHhxcRPq81Ptt0K9ZSzLTVa1X9XT9
+	d5aUCmwKr+V10Xk3o8t+5GCO7Zb4sGVh8yMIAtJeOj/0/WLeWgO4/DQ70q5hPzDGXMO+JXRmO9H
+	h8ZpUo20+U2UY1ihg+kd9J1KLrMBTrIkVrfjbcSeTApmyj3hWxFBbzNNKi2wF/NBM4XXa0mgGvD
+	Kj6uBddsNjZW8wGkzrtFM89yuCzKzCFRMLG90n7uEwurvum+2
+X-Received: by 2002:a17:90b:54c4:b0:3ab:36c4:b500 with SMTP id
+ 98e67ed59e1d1-3b12d108881mr1704045a91.5.1794155526074; Sun, 08 Nov 2026
+ 08:32:06 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -81,82 +101,129 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <tencent_5D9DCBD693C37FAA4FBCA042AB2FCF222207@qq.com>
+In-Reply-To: <tencent_5D9DCBD693C37FAA4FBCA042AB2FCF222207@qq.com>
+From: Mike Marshall <hubcap@omnibond.com>
+Date: Sun, 8 Nov 2026 11:31:55 -0500
+X-Gm-Features: AclHuK_X-4AOoWa9U2JXIk1B5q8F8ohCWp8rOY8hKOQGXDZ07iazbVSsef87fOo
+Message-ID: <CAOg9mSTSnkVmt92ehkDDD5SNO4O8==gnxnmte421N6AQEALt7Q@mail.gmail.com>
+Subject: Re: [PATCH] orangefs: bound op_timeout_secs and slot_timeout_secs
+To: Yingjie Wang <1075151112@qq.com>
+Cc: linux-kernel@vger.kernel.org, Mike Marshall <hubcap@omnibond.com>, 
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br> writes:
+Your patch looks good and runs through xfstests fine.
+I've added it to the stuff I intend to put on my linux
+next... Thanks...
 
-> Use iomap for buffered I/O, replacing buffer_heads. Remove
-> fat_get_block(), fat_write_begin(), fat_write_failed() as the iomap path
-> makes them unnecessary.
+-Mike
+
+On Tue, Nov 3, 2026 at 9:40=E2=80=AFAM Yingjie Wang <1075151112@qq.com> wro=
+te:
 >
-> Signed-off-by: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
+> service_operation() and wait_for_free() multiply op_timeout_secs and
+> slot_timeout_secs by HZ as int and pass the result to
+> schedule_timeout(). orangefs_init() only replaces negative module
+> parameters with 0, and the /sys/fs/orangefs attributes store any int.
+> Negative values are not valid timeouts, and values above INT_MAX / HZ
+> overflow the signed multiplication. The result can be negative, zero,
+> or much shorter than configured. Negative results make
+> schedule_timeout() print "wrong timeout value" with a stack dump and
+> return at once; all of these cases can make the operation fail with
+> -ETIMEDOUT before the configured interval.
+>
+> Reject values outside 0..INT_MAX / HZ when the attributes are written,
+> and clamp the module parameters to that range at load time, as negative
+> values already were.
+>
+> Fixes: 274dcf55bd4a ("Orangefs: kernel client part 3")
+> Signed-off-by: Yingjie Wang <1075151112@qq.com>
 > ---
->  fs/fat/fat.h   |   4 +-
->  fs/fat/file.c  |  72 +++++++++++++++++++----
->  fs/fat/inode.c | 157 +++++--------------------------------------------
->  fs/fat/iomap.c |  84 ++++++++++++++++++++++++++
->  4 files changed, 164 insertions(+), 153 deletions(-)
 >
-
-[...]
-
-> diff --git a/fs/fat/file.c b/fs/fat/file.c
-> index 8689cbbdad13..723b671d5b4b 100644
-> --- a/fs/fat/file.c
-> +++ b/fs/fat/file.c
-
-[...]
-
-> +static int fat_cont_expand(struct inode *inode, loff_t new_size);
-> +
-> +static ssize_t fat_file_write_iter_buffered(struct kiocb *iocb,
-> +					    struct iov_iter *iter)
+> Notes:
+>     Tested on x86-64 (HZ=3D1000) in QEMU with the orangefs module and no
+>     client daemon, so a pvfs2 mount waits in service_operation(). On the
+>     base kernel, op_timeout_secs values of 2147484, 2147483647 and -1 wer=
+e
+>     accepted, and the mount failed with ETIMEDOUT after 14-29 ms with the
+>     schedule_timeout() warning; loading the module with 2147484 did the
+>     same. With the patch those writes fail with EINVAL and keep the old
+>     value, the module parameter is clamped to 2147483, and the mount wait=
+s
+>     (stopped by a 3 s userspace timeout). 1 and 2147483 behaved the same =
+on
+>     both kernels. slot_timeout_secs was checked through store and readbac=
+k
+>     only; its wait needs a running client. Also built for i386 with W=3D1=
+.
+>
+>  fs/orangefs/orangefs-mod.c   |  8 +++-----
+>  fs/orangefs/orangefs-sysfs.c | 19 +++++++++++++++++--
+>  2 files changed, 20 insertions(+), 7 deletions(-)
+>
+> diff --git a/fs/orangefs/orangefs-mod.c b/fs/orangefs/orangefs-mod.c
+> index f591f09531da..7a62d4987175 100644
+> --- a/fs/orangefs/orangefs-mod.c
+> +++ b/fs/orangefs/orangefs-mod.c
+> @@ -83,11 +83,9 @@ static int __init orangefs_init(void)
+>         int ret;
+>         __u32 i =3D 0;
+>
+> -       if (op_timeout_secs < 0)
+> -               op_timeout_secs =3D 0;
+> -
+> -       if (slot_timeout_secs < 0)
+> -               slot_timeout_secs =3D 0;
+> +       /* The timeouts are multiplied by HZ as int. */
+> +       op_timeout_secs =3D clamp(op_timeout_secs, 0, INT_MAX / HZ);
+> +       slot_timeout_secs =3D clamp(slot_timeout_secs, 0, INT_MAX / HZ);
+>
+>         /* initialize global book keeping data structures */
+>         ret =3D op_cache_initialize();
+> diff --git a/fs/orangefs/orangefs-sysfs.c b/fs/orangefs/orangefs-sysfs.c
+> index a02bfc7b3542..1873a4f5cd16 100644
+> --- a/fs/orangefs/orangefs-sysfs.c
+> +++ b/fs/orangefs/orangefs-sysfs.c
+> @@ -270,6 +270,21 @@ static ssize_t sysfs_int_show(struct kobject *kobj,
+>         return rc;
+>  }
+>
+> +/* The timeouts are multiplied by HZ as int. */
+> +static int sysfs_timeout_secs_store(const char *buf, int *timeout_secs)
 > +{
-> +	struct inode *inode = file_inode(iocb->ki_filp);
-> +	struct msdos_sb_info *sbi = MSDOS_SB(inode->i_sb);
-> +	loff_t offset, old_size, old_alloc, keep_alloc;
-> +	ssize_t ret;
+> +       int val;
+> +       int rc;
 > +
-> +	inode_lock(inode);
-> +	ret = generic_write_checks(iocb, iter);
-> +	if (ret <= 0)
-> +		goto out;
-> +
-> +	ret = file_modified(iocb->ki_filp);
-> +	if (ret)
-> +		goto out;
-> +
-> +	offset = iocb->ki_pos;
-> +	old_size = i_size_read(inode);
-> +	if (offset > old_size) {
-> +		/* We need to fill this hole */
-> +		ret = fat_cont_expand(inode, offset);
-> +		if (ret)
-> +			goto out;
-> +	}
-> +
-> +	inode_dio_wait(inode);
-> +	old_alloc = inode_get_bytes(inode);
-> +	ret = iomap_file_buffered_write(iocb, iter, &fat_iomap_write_ops,
-> +					NULL, NULL);
-> +	keep_alloc = max(old_alloc, round_up(i_size_read(inode),
-> +					     sbi->cluster_size));
-> +	if (inode_get_bytes(inode) > keep_alloc)
-> +		fat_truncate_blocks(inode, keep_alloc);
-
-What is doing by this fat_truncate_blocks?
-
-> +	if (ret > 0)
-> +		ret = generic_write_sync(iocb, ret);
-
-Maybe we want to do this outside inode_unlock()?
-
-> +out:
-> +	inode_unlock(inode);
-> +	return ret;
+> +       rc =3D kstrtoint(buf, 0, &val);
+> +       if (rc)
+> +               return rc;
+> +       if (val < 0 || val > INT_MAX / HZ)
+> +               return -EINVAL;
+> +       *timeout_secs =3D val;
+> +       return 0;
 > +}
 > +
-
-Thanks.
--- 
-OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+>  static ssize_t sysfs_int_store(struct kobject *kobj,
+>      struct orangefs_attribute *attr, const char *buf, size_t count)
+>  {
+> @@ -280,10 +295,10 @@ static ssize_t sysfs_int_store(struct kobject *kobj=
+,
+>                      attr->attr.name, buf);
+>
+>         if (!strcmp(attr->attr.name, "op_timeout_secs")) {
+> -               rc =3D kstrtoint(buf, 0, &op_timeout_secs);
+> +               rc =3D sysfs_timeout_secs_store(buf, &op_timeout_secs);
+>                 goto out;
+>         } else if (!strcmp(attr->attr.name, "slot_timeout_secs")) {
+> -               rc =3D kstrtoint(buf, 0, &slot_timeout_secs);
+> +               rc =3D sysfs_timeout_secs_store(buf, &slot_timeout_secs);
+>                 goto out;
+>         } else if (!strcmp(attr->attr.name, "cache_timeout_msecs")) {
+>                 rc =3D kstrtoint(buf, 0, &orangefs_cache_timeout_msecs);
+>
+> base-commit: c339f4010dea8b0d754f84ace70cd1b089878ef8
+> --
+> 2.43.0
+>
