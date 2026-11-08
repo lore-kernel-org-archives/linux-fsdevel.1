@@ -1,113 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.139.74
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794111900;
-	b=okoU1cc9MHuNCOQENhqHhB8j8fSjvwhbvXX9S8m2LqGFyT6cTnph2GY7EnhESu3eWjU9
-	 GmEX+/Rj4tkEtxJvWQw5nT8EGQQVb1wjPqTp0m/RoJ5E61UAv9RJfF8sJiRgvzn2Q8/YU
-	 km5uhOLY9w9ia+rvgCVOQzUbaTy5ftpZ+86f4Iv97z3Q5Pg3WUzD8lT9NK6ddfEirnOcg
-	 snNC3vPgkkVImqZLcKoqP2+sLso+m/6iJa4Px2lJtNlnB+6pO0jHSofzsyUkK6QiGOfrz
-	 wk/vQh5i9XhcuvdnpJVe86aOwT5tT/mtNin61iRhRG5sEVTAZY2toS/weHZNzZv5GqA==
+	t=1794125031;
+	b=lXU50GKa7hBGv7uo8SCeUWmJAV3q/aJYv9w5uZYZRTh9bLXEOtcjgZHMTubnTcCRpGd4
+	 ZPR4/sIOOCw/7JTIjbgCLpYelf8GUalNJDY7AwBKRg9QFmDKqMF/fqaIBTuKzKNBiKi9w
+	 pJ0P8XI3dadVIeWR/ihf81s6JHKuSY8uvES6QlF4fj9gQ/DYQ+LAK60bej0EXZ3UiQYSl
+	 sQNvBVrKD7KpaG4fxRlpU6RozvEp1qmywwHbL9ozfl+fUOW14UgoOBZiTipVAFmIiVhV4
+	 2/KjIon6998kAhjzy3OEvjmcZrwJ+log69jzAtxeIut/codBGJVbpJ9o9FO1M8M1q+w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794111900;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:Date:
-	 Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Proofpoint-GUID:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Details-Enc:
-	 X-Authority-Analysis:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=KZJMLmuXX9sJhrtyIz3QqrKY753KM/thMo2GKlgX/ZY=;
-	b=xs29H46YRfz6Aa8DgR0fVLuiCWkDnlkCStHxQuZlfSvY8B2zAbJ24rJgM0Vn87h3iM3+
-	 pzEH1H2AFAkcnlmytgOvkvW1k/mVibOqZETPCn8Y80xwu32leyRYw9K2fV+3flOM3DlUz
-	 AFvr5N9Vui0pzYRG4OFTF6Tplw+CHNQJrAEkhyPNGS2tGKSmFU2TFJ/nlEvEUUxuionlx
-	 I9ENciYV40lb8bUl7+jVRcO2wRmWoz8S5n2Luq7vI9cKymXWWQYIm4jUUwWC3IzoOiHbO
-	 9Ems5ocrmFdFlBwEn8hXsFxwHdHXhTezk46EAgMaq0IV/ERDQMJW+6a/Wxkkr5uCGkg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794125031;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=JOX77fus2x/eG1WoZO3OzTindRAi1WdAyfHFy3V4a8g=;
+	b=tVxNushH/Fa2VHGcAprn31ObJqeQoTjxs/LblOxu66IoOB4z8JUwLS6b+QH+q2aBBMHX
+	 iFtstFeNNHUyS3aWjcIoBNFL1BdWmo3nppFQFbBOJKMb4H+a47r4J1kciHAzebxlsJ8SZ
+	 EoffbtBzX3UxyA8C9l6dcd4M19yHmSUebnUPRkZ31jDiP5bl45nC36GXk9LUvcenAx4wV
+	 sevDD8rnCSPWkL3rk4X3wzvZHEgfiBDz4vBbIx7jUaQ+sq/sqH20ssJrIQlRcZ3r92uMS
+	 Bm9V6owUainf6KE6RwBK8UpF6+FS76IRPOB0Ono2Q2ZtCAG5Cy5MCQ4VgY5t4UqBa2w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=columbia.edu;
-	spf=pass smtp.mailfrom=columbia.edu;
-	dkim=pass header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=pps01 header.b=QTlZKnSq;
-	dkim=pass header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=lionmail header.b=ii601FQr;
-	arc=none smtp.remote-ip=148.163.139.74
-Received: from mx0b-00364e01.pphosted.com (mx0b-00364e01.pphosted.com [148.163.139.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BF3Aubl4;
+	arc=none smtp.remote-ip=74.125.82.42
+Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9440606A339
-	for <linux-fsdevel@vger.kernel.org>; Sun,  8 Nov 2026 04:24:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C9440606A339
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C8C7606A321
+	for <linux-fsdevel@vger.kernel.org>; Sun,  8 Nov 2026 08:03:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5C8C7606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=pps01 header.b=QTlZKnSq;
-	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=lionmail header.b=ii601FQr
-Received: from pps.filterd (m0167077.ppops.net [127.0.0.1])
-	by mx0b-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A83dpTt1884730
-	for <linux-fsdevel@vger.kernel.org>; Sat, 7 Nov 2026 23:24:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pps01; bh=KZJM
-	LmuXX9sJhrtyIz3QqrKY753KM/thMo2GKlgX/ZY=; b=QTlZKnSqJMb+trqFGS6U
-	AZ7w/DFE0vw9ltjPsMynYi1Q6FrW8Wk5UVmjUTI3JPX0b00cd58UJ5A/0KHMBDYX
-	nS7qmIwJA8+eZCe73U2OMUC6VdJHJWMI2dAh3ISkk1IocjjsNwDi54rXFvac97Rb
-	FDXnK/gJ5FJIzupP/v7mHqfwRDVXcvE0JakFvXDoWDmM/pmvV/ic7IO3Xq5PyyeQ
-	BfPe9Yecxap6gs5+hzDJIiMufH1TNCHF9meVL3X3n871YusaivyUhy/e71tGi/PM
-	Y0Jm8LAvs4p/gPZrWroGX6jp2nueUC5J5uPipq2EVvj129G0C++goEgyLu5RM/3V
-	Bg==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com [209.85.219.71])
-	by mx0b-00364e01.pphosted.com (PPS) with ESMTPS id 4hsxev48et-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-fsdevel@vger.kernel.org>; Sat, 07 Nov 2026 23:24:58 -0500 (EST)
-Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-91eacf20364so2967966d6.0
-        for <linux-fsdevel@vger.kernel.org>; Sat, 07 Nov 2026 20:24:58 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BF3Aubl4
+Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-1a2af4c8d00so438459c88.0
+        for <linux-fsdevel@vger.kernel.org>; Sun, 08 Nov 2026 00:03:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=columbia.edu; s=lionmail; t=1794111898; x=1794716698; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
+        d=gmail.com; s=20260707; t=1794125029; x=1794729829; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=KZJMLmuXX9sJhrtyIz3QqrKY753KM/thMo2GKlgX/ZY=;
-        b=ii601FQr7cfN6jCjSyEFGn7xpVfcpuK8gVH5oYBBcOx+tZH1NLMzB3WxGcC42516LV
-         sW2/JO9v4jtqVdGUWAPF9Tp6X70eWK+L3P8F8f6Pm/X694jF1q9hCJHZoXqoBXu9cjAX
-         lhXA88TJLN95Dd/HRs5G2jPykW/rRCR2QLdhlZ6MxxB0TV40zivfMhQfXbMYMfXKGCOI
-         OMMD0gDKPyzFPyxjBnal/4/0KBar1smOlan7iAzSOU1GdkC9u30TvuifluJapWsdxJ0u
-         PVU/Z6yi2PDPSD9qXXcYIQRxatJweYei9mS1XimdS0kCU60d4wGkbRfS1TiHZFzIVBYE
-         PKyQ==
+        bh=JOX77fus2x/eG1WoZO3OzTindRAi1WdAyfHFy3V4a8g=;
+        b=BF3Aubl4v0ZUvg1OJvLO75TxuEO95rmneinKKX5J0RbJfN/Ff9dGx1miWCPrHpSLgn
+         Nxtrf1xvhvtasGyQmYvJ+4K1HFeJVakAcsaf2YphGOKEdmIxyT1VjbJbAzXVPaNPPL4h
+         izlqO/KA3+V3XZG+sZNMeH7eov/APDXg9Fyaol9YtOXtGqCQ4zR3fqtNgpXl3ScM/eJX
+         q2JkcfPL1k3dRFxsk1x/EmrXaDA2tYLwqC3uhpbM79WUT4nZ2oe8mVZ3GZvCATD4Bv98
+         Wcv5Aey9v/qAmtSdUtTaS5Ot2vLAw+Hf80sIccRHbcKQYuGVfhiueEAyuE8KkJRmj7D6
+         27YQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794111898; x=1794716698;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=KZJMLmuXX9sJhrtyIz3QqrKY753KM/thMo2GKlgX/ZY=;
-        b=lnHKrd/nQe7ErAO+T3hR/k2CUxk7YS6xJmhdgpQUkQv4b5V70jY9y22p/DvBBbWTe9
-         535dnQDqKsNjsS1ts0lo5B32TAdaRmLKXNNkVHufcJ3PCxywk8nUN4eMtCCoA1h94Jen
-         4o/w9Q3R6zM41j8qKAk5a7eQIDO7tIN9mINj7YgWwby6c+CAuJwOU1EoHex/Xo/vR/b4
-         G97DsoES2o0tTU6GJkAE1PYCrRNzfDngE/VQiP+AhKQ7mkLq1QtfkUlTxuy1XKvA4E2p
-         kag1QuEgnpkGI14rMBoREQbIV4z+J8l2xnx8AGrd/uMN3rL1MTJUHzf2O15ImWl7b+Zc
-         zWWA==
-X-Forwarded-Encrypted: i=1; AL+hErFljrTdmT05pA1npOY2ZQE7nsChOkLObmoAOVnqmSRgmrhGWY5Exx+v9CGLYF4XoB+sT6IxKlfQSsICgZZo@vger.kernel.org
-X-Gm-Message-State: APuU4Z+VYCGPAeme2ftT5WQ+c52BAzBruZu4zUfKF4vGMjrhsyt68Zmd
-	Mi+dlLJQlvL5ZBZybNM+yXwkf0I5xj+FLAIvU8a/fXH2EIes4kUBwnxIW71ouXzLaDWAbi2Tu3/
-	2AD1XM73kfy2LoLZK7ODx1XKR/f8BD2KPo+ctdgBpHpHv2oKB2rue/Pjk3KpgK1w=
-X-Gm-Gg: AYBFou34bL2oGf2ZRUZJRwJtrOV8n8p7Zc2aAE9nvyyD88vmBPKOTFwhTKwF3w+Qiuj
-	psSa30B3wSGfSJftR3HznSFZtJ1eJ1YqiI2qZR5HTA1U13Y3A58sCEPemYBNWvoHPu8ZPdKlguK
-	sVrhhjVBTn6bdWz3GYTrO+ynslFZlQIfEAAkvMy053D11jyLcom0pzTTH4ii8X2qt/DXKMy/KZQ
-	gvEH3B3CdL7DFoaW+YGN6Lij73JPX9lP5gSeFkg3Q8kTLG1arjhS4Rmo12AxpQ6w/NeW6V31Ufi
-	spslt5RlhG9HzPzjE4NZbViSJM8/NaTmAR5wXty16E7kyRvwQJVqXdr5RAx42vIjDHj3YkDMXG+
-	Wap0PZH+GFZMwCas7Vh6GISfUfGCKGgMXurl2gSQ1/S0maOCZkOcjgfvSymjXohYuHmVtql6Anx
-	1MT/vIDo+4zXqd+jTuBg==
-X-Received: by 2002:a05:6214:f2b:b0:917:aa8e:474f with SMTP id 6a1803df08f44-91ed241d308mr5684276d6.23.1794111898124;
-        Sat, 07 Nov 2026 20:24:58 -0800 (PST)
-X-Received: by 2002:a05:6214:f2b:b0:917:aa8e:474f with SMTP id 6a1803df08f44-91ed241d308mr5684156d6.23.1794111897712;
-        Sat, 07 Nov 2026 20:24:57 -0800 (PST)
-Received: from [127.0.1.1] (dyn-160-39-33-242.dyn.columbia.edu. [160.39.33.242])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91eceb56290sm10085586d6.1.2026.11.07.20.24.56
+        d=1e100.net; s=20260707; t=1794125029; x=1794729829;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=JOX77fus2x/eG1WoZO3OzTindRAi1WdAyfHFy3V4a8g=;
+        b=W59Pv2lrj/FVDaMMs4zK26FKOUcHy0oUTuqaf8MBQkSt1o73ENk7WJUMMbho9D4rWi
+         YTCwR6pQGrQ/x9ai4OU3Dtj1H/Kvl6njEHvl2llD4f20MXtyKyMZaNeGN1ZAJLX8BKyA
+         98AV7KfSeP6LhsxIyNRAWDkFuU1Qv7RfwGrwuGY3mHusFaZTiYth8OuMEiHeOf2i4J7i
+         liAhPJLsnnWq26G65upsDl0EftNAaCS9r6KJd5fMaH6LpO2Q7oInhHDgkt1/JJOWyWz/
+         RrnvnqlPG/LwWhxKxFQG5o+tQqGiFArX9N9TrBNDJhjWoCns1oyVvCzJZtlhn8Zw0538
+         n5Lw==
+X-Forwarded-Encrypted: i=1; AL+hErELHjGDocypg+RBmZ/nGfoEPk35PD2NVupHhhmD3D3ZuGJxVawkHyIeiDouEDSm09LupOP9HGAFYe1H22/T@vger.kernel.org
+X-Gm-Message-State: APuU4Z/vfKM/XAZ5/Tvr4lDZp92+U01LxuKOv7uF9KADc0LPnMEgT4eX
+	n/HQ/ae8MFQkwEhBvTxv5TcReTnsRXiJd+lzuew9FdWOVCF8QP5gLIm8
+X-Gm-Gg: AYBFou18dDA1DEEwQuvpfM6qmtnvIbOSwC6oMCU2mGeidFB159DbL6CRvGcL3DxvdMQ
+	l2VOn5zZRSi5dxLRbouoRBBJKSaE7bNXoNsiY6MUbhuXQebXeJk6qHv+T3LKopRUVLlMlpsILjT
+	CzPAL2HCnpyZH+LiZMQ33a/XA/mPfKO72UxY+kp64YLqSqZ0l1cekHzRLKeKjcRHpZiBwaD/TSi
+	zDeU6+I+mw9UeIJvwfTDfLtb5Pb9x8zqD3m2aoUEmVLMG4e+kO4iEKNT3muApSt0OGWK5O9q8Bt
+	IyjIzuIWindsa7yZe8DGEf/vGPDwqzIzmQWbnqkz5px66NcKnBE7Ttqi1phpnH9QZ6ON4JgxSea
+	BtxhrcoiJtmto3z4a2aJs3LRtr9HfGu8JnGAMMjVJlyERSTGiARsqX5akQJgW7JGKpGgvxevIql
+	dvYpXAB9X3PLqIw7KeO95LWSMhPl0Afuz2LiRKawnmgXpKNdF3yk5JkTWH7JlREghKZDaOQsu3I
+	iPhMgatUo7t2OqvzNT1g/BJTAeSZjBJuxty1l3eFBGlNeAnJB+yGTzxRP7MKcCfuowJP2WI3nRI
+	4rotvbYUTGdQtxM3VxlR7GD9CsIOwWNCf2unt3qokQpMzLA5aANYCwSjrXp8XY1QtQ==
+X-Received: by 2002:a05:701b:2616:b0:149:50cb:2175 with SMTP id a92af1059eb24-1b39fef4a85mr1364346c88.33.1794125029163;
+        Sun, 08 Nov 2026 00:03:49 -0800 (PST)
+Received: from anon-laptop ([103.187.196.132])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b375604109sm4681740c88.10.2026.11.08.00.03.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Nov 2026 20:24:57 -0800 (PST)
-From: Tal Zussman <tz2294@columbia.edu>
-Date: Sat, 07 Nov 2026 23:24:36 -0500
-Subject: [PATCH 2/2] iomap: remove the atomic write length check in
- iomap_dio_bio_iter_one()
+        Sun, 08 Nov 2026 00:03:48 -0800 (PST)
+From: Wahid Khan <wahidzk0091@gmail.com>
+To: Namjae Jeon <linkinjeon@kernel.org>
+Cc: Hyunchul Lee <hyc.lee@gmail.com>,
+	ntfs@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Wahid Khan <wahidzk0091@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH v4] ntfs: convert a named $DATA stream safely when making room in a record
+Date: Sun,  8 Nov 2026 13:33:23 +0530
+Message-ID: <20261108080323.468892-1-wahidzk0091@gmail.com>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <CAKYAXd-68oCuAU=x0TV6BMsNJZkmBcdVZTtOQXh3iEm6BptJSg@mail.gmail.com>
+References: <CAKYAXd-68oCuAU=x0TV6BMsNJZkmBcdVZTtOQXh3iEm6BptJSg@mail.gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -117,96 +101,208 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261107-blkdev-atomic-bounce-v1-2-f66344262096@columbia.edu>
-References: <20261107-blkdev-atomic-bounce-v1-0-f66344262096@columbia.edu>
-In-Reply-To: <20261107-blkdev-atomic-bounce-v1-0-f66344262096@columbia.edu>
-To: Jens Axboe <axboe@kernel.dk>, Christian Brauner <brauner@kernel.org>
-Cc: John Garry <john.garry@linux.dev>, Christoph Hellwig <hch@lst.de>,
-        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        Tal Zussman <tz2294@columbia.edu>
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794111894; l=1480;
- i=tz2294@columbia.edu; s=20250528; h=from:subject:message-id;
- bh=raAZDoGoyOUdBE+OG2rr/mS13qUOspHTisqUqAlpy7c=;
- b=CLzcS9Tl3wtyGtCIhcgXJGXi+GUmlZBXZqeULwvnGRqHuLjZlROfZcK+k64yvGX7pHkOtdT0O
- kJ+c0z9sJP4BJNuptANA537ABkv5+MZNClcxLmCZoYiCbzo1pJK+689
-X-Developer-Key: i=tz2294@columbia.edu; a=ed25519;
- pk=BIj5KdACscEOyAC0oIkeZqLB3L94fzBnDccEooxeM5Y=
-X-Proofpoint-GUID: 8z9P_cGTK9nrFfzPvO9ktIPo388ipDcH
-X-Proofpoint-ORIG-GUID: 8z9P_cGTK9nrFfzPvO9ktIPo388ipDcH
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA4MDAxNyBTYWx0ZWRfX3PbwgOABTiIM
- xXP2pwr/JpQEMW7bW9CCUNRRKYpOWAS1zw14XL04G4U5TZeiqIrLhgVZ3p+89xu16wTh4+sHe7/
- XH5oWmiVmoNR/9Mb4p5vW0ImmUnTdEY3qi8FIfK48u9sl9mNzzWlV/2GiwSxpwBhHZ1qfLVIGVT
- r9Hq+UIH6gAdIsOTHJGL1mPbV/1l1ML669Yu5HveMoapfwSa8LCtx1x/UaR996j+qWAWavHs7At
- AY92ibk/ZFNAxc3b9P0ITO5NyGi7msew25Y/KTLldDioH7gZ6g/imnynSxQoi9oKWmToen8phLt
- H/AczkaFf0DcwxqV9/b0Mw3VSRVSMJ10mtQYhYxKEvrHwSXTPMOahv1FHukyupZQ4WrGuyI/Lpi
- E8/xXmKrzBiBITe1jb8T7QVgpkPBJCtfpD3u2RPkAvLg1UAUmBkWGbOJyndflorHA91M4ZVAnqe
- N7Oar3qHz0YLbWFQPVw==
-X-Authority-Analysis: v=2.4 cv=BIYmP1QG c=1 sm=1 tr=0 ts=6aeff99a cx=c_pps
- a=UgVkIMxJMSkC9lv97toC5g==:117 a=GaPK54s0Se3oFqK5NkZy0g==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=x7bEGLp0ZPQA:10 a=A0y_DWxS2BwA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=QOCMdifcju39GKoXhKua:22
- a=VwQbUJbxAAAA:8 a=I7NSszDGB1yI4--CJuAA:9 a=QEXdDO2ut3YA:10
- a=1HOtulTD9v-eNWfpl4qZ:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA4MDAxNyBTYWx0ZWRfX/ArC6+j5jYfs
- 4TYj9k4C0raMGxyFM0iUlrr4u5om08DudhxgqfdK4qjncZ1QoRf5/MfZ4rlE9JYTS9NfkTw9A38
- TiPJZmgBXoTZcro+56Zl0iZZteu76gn8ChVKHl7gtXzgY1N4joue
-X-Proofpoint-Virus-Version: vendor=nai engine=6900 definitions=11959
- signatures=596817
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 impostorscore=10 priorityscore=1501 bulkscore=10 malwarescore=0
- clxscore=1015 lowpriorityscore=10 adultscore=0 phishscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611080017
+Content-Transfer-Encoding: 8bit
 
-bio_iov_iter_get_pages() and bio_iov_iter_bounce_write() now fail a
-REQ_ATOMIC bio that doesn't cover the whole iterator, so the bio here
-always covers iomap_length() and the check can't trigger. Remove the
-check.
+When an attribute has to grow and the mft record is full,
+ntfs_resident_attr_resize() walks the other resident attributes and
+converts them to non-resident ones. For $DATA it always opens the
+unnamed data inode of the base inode, even if the attribute found is a
+named stream:
 
-Suggested-by: John Garry <john.garry@linux.dev>
-Link: https://lore.kernel.org/all/82978d5c-3e08-48e9-bf0a-7913e1cd0507@linux.dev/
-Signed-off-by: Tal Zussman <tz2294@columbia.edu>
+  tvi = ntfs_iget(sb, base_ni->mft_no);
+  ntfs_attr_make_non_resident(NTFS_I(tvi), value_len);
+
+value_len is the length of the stream, so it does not match the
+attribute that ntfs_attr_make_non_resident() looks up for the unnamed
+inode, and the WARN_ON() on entry fires:
+
+  WARNING: fs/ntfs/attrib.c:2115 at ntfs_attr_make_non_resident
+   ntfs_resident_attr_resize
+   ntfs_attr_expand_locked
+   ntfs_expand_for_write
+   ntfs_file_write_iter
+   vfs_write
+
+It does not need a damaged volume. A file with an alternate data stream
+whose record has no room left is enough.
+
+Open a named stream by name with ntfs_attr_iget(), as is done for the
+other attribute types in this loop, and keep ntfs_iget() for the
+unnamed one. The loop runs with the mft record lock held and takes no
+lock of the stream inode, so converting a stream from here needs more
+care than the plain lookup gives:
+
+- A reader of the stream holds the folio lock and then takes the mft
+  record lock in ntfs_read_iomap_begin_resident(), the conversion takes
+  them the other way round and waits for folio 0. Take the folio with
+  FGP_NOWAIT in this loop and skip the attribute if it is busy. The loop
+  only tries to free space.
+
+- A stream that is in the inode cache can be open, being written, being
+  removed or already unlinked. A write that passed its residency check
+  before the conversion carries on with a non-resident attribute, and
+  a stream in the middle of ntfs_stream_finish_remove() is converted
+  under its feet. Convert only a stream that is not cached, and none of
+  a file that is being deleted or has no links left.
+
+- The lookup of a stream ignores case, so a stream whose name differs
+  only in case from an earlier one resolves to that one and the length
+  does not match again. Compare the names exactly.
+
+Fixes: 495e90fa3348 ("ntfs: update attrib operations")
+Cc: stable@vger.kernel.org # v7.1+
+Signed-off-by: Wahid Khan <wahidzk0091@gmail.com>
 ---
- fs/iomap/direct-io.c | 14 --------------
- 1 file changed, 14 deletions(-)
+v4: v3 (convert a named stream via ntfs_attr_iget()) can deadlock against
+    a reader of the stream and has other races with an open or removed
+    stream. Each is reproduced with a forced make-room pass and a debug
+    delay, fails on v3 and passes here: reader/converter deadlock
+    (hung task), write continuing on a converted attribute (iomap_iter
+    WARNINGs, recursive locking), unlinked file with an open stream (mft
+    record reported corrupt), stream converted during its own removal,
+    and a stream pair that differs only in case (WARN in
+    ntfs_attr_make_non_resident).
+v3: use ntfs_attr_iget() for a named stream instead of skipping it (v2).
 
-diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
-index ad041ac3252a..aca7cbaea4af 100644
---- a/fs/iomap/direct-io.c
-+++ b/fs/iomap/direct-io.c
-@@ -370,15 +370,6 @@ static ssize_t iomap_dio_bio_iter_one(struct iomap_iter *iter,
- 		goto out_put_bio;
- 	ret = bio->bi_iter.bi_size;
- 
--	/*
--	 * An atomic write bio must cover the complete length.  If it doesn't,
--	 * error out.
--	 */
--	if ((op & REQ_ATOMIC) && WARN_ON_ONCE(ret != iomap_length(iter))) {
--		ret = -EINVAL;
--		goto out_bio_release_pages;
--	}
--
- 	if (dio->flags & IOMAP_DIO_WRITE)
- 		task_io_account_write(ret);
- 	else if ((dio->flags & IOMAP_DIO_USER_BACKED) &&
-@@ -393,11 +384,6 @@ static ssize_t iomap_dio_bio_iter_one(struct iomap_iter *iter,
- 	iomap_dio_submit_bio(iter, dio, bio, pos);
- 	return ret;
- 
--out_bio_release_pages:
--	if (dio->flags & IOMAP_DIO_BOUNCE)
--		bio_free_folios(bio);
--	else
--		bio_release_pages(bio, false);
- out_put_bio:
- 	bio_put(bio);
- 	return ret;
+ fs/ntfs/attrib.c | 57 +++++++++++++++++++++++++++++++++++++++++-------
+ fs/ntfs/inode.c  | 19 ++++++++++++++++
+ fs/ntfs/inode.h  |  2 ++
+ 3 files changed, 70 insertions(+), 8 deletions(-)
 
+diff --git a/fs/ntfs/attrib.c b/fs/ntfs/attrib.c
+index ce7c1b524180..c824bd3ea9fa 100644
+--- a/fs/ntfs/attrib.c
++++ b/fs/ntfs/attrib.c
+@@ -1975,7 +1975,21 @@ int ntfs_resident_attr_value_resize(struct mft_record *m, struct attr_record *a,
+  * inode i_size is that this is not necessarily uptodate.  This happens when
+  * ntfs_attr_make_non_resident() is called in the ->truncate call path(s).
+  */
++static int __ntfs_attr_make_non_resident(struct ntfs_inode *ni, const u32 data_size,
++		bool nowait);
++
+ int ntfs_attr_make_non_resident(struct ntfs_inode *ni, const u32 data_size)
++{
++	return __ntfs_attr_make_non_resident(ni, data_size, false);
++}
++
++/*
++ * With @nowait the folio lock is only tried: a caller that holds mrec_lock
++ * must not wait for a folio lock, the read path takes them the other way
++ * round. Fails with -EAGAIN if the folio is locked.
++ */
++static int __ntfs_attr_make_non_resident(struct ntfs_inode *ni, const u32 data_size,
++		bool nowait)
+ {
+ 	s64 new_size;
+ 	struct inode *vi = VFS_I(ni);
+@@ -2056,10 +2070,11 @@ int ntfs_attr_make_non_resident(struct ntfs_inode *ni, const u32 data_size)
+ 		 * outside all ntfs locks, we need to get the folio now.
+ 		 */
+ 		folio = __filemap_get_folio(vi->i_mapping, 0,
+-					    FGP_CREAT | FGP_LOCK,
++					    FGP_CREAT | FGP_LOCK |
++					    (nowait ? FGP_NOWAIT : 0),
+ 					    mapping_gfp_mask(vi->i_mapping));
+ 		if (IS_ERR(folio)) {
+-			err = -ENOMEM;
++			err = nowait ? -EAGAIN : -ENOMEM;
+ 			goto err_out;
+ 		}
+ 
+@@ -4933,18 +4948,44 @@ static int ntfs_resident_attr_resize(struct ntfs_inode *attr_ni, const s64 newsi
+ 		if (a->type == AT_DATA && !value_len)
+ 			continue;
+ 
+-		if (a->type == AT_DATA)
++		if (a->type == AT_DATA && !a->name_length) {
+ 			tvi = ntfs_iget(sb, base_ni->mft_no);
+-		else
+-			tvi = ntfs_attr_iget(VFS_I(base_ni), a->type,
+-				(__le16 *)((u8 *)a + le16_to_cpu(a->name_offset)),
+-				a->name_length);
++		} else {
++			__le16 *name = (__le16 *)((u8 *)a +
++					le16_to_cpu(a->name_offset));
++
++			/*
++			 * A named $DATA stream is converted only if nobody has
++			 * it open: an open one can be unlinked, being removed
++			 * or in use. Its file must not be going away either.
++			 */
++			if (a->type == AT_DATA) {
++				if (NInoBeingDeleted(base_ni) ||
++				    !VFS_I(base_ni)->i_nlink)
++					continue;
++				tvi = ntfs_attr_ilookup(VFS_I(base_ni), a->type,
++						name, a->name_length);
++				if (tvi) {
++					iput(tvi);
++					continue;
++				}
++			}
++			tvi = ntfs_attr_iget(VFS_I(base_ni), a->type, name,
++					a->name_length);
++			/* the lookup ignores case for streams, ours does not */
++			if (!IS_ERR(tvi) && a->type == AT_DATA &&
++			    memcmp(NTFS_I(tvi)->name, name,
++				   a->name_length * sizeof(__le16))) {
++				iput(tvi);
++				continue;
++			}
++		}
+ 		if (IS_ERR(tvi)) {
+ 			ntfs_error(sb, "Couldn't open attribute");
+ 			continue;
+ 		}
+ 
+-		if (ntfs_attr_make_non_resident(NTFS_I(tvi), value_len)) {
++		if (__ntfs_attr_make_non_resident(NTFS_I(tvi), value_len, true)) {
+ 			iput(tvi);
+ 			continue;
+ 		}
+diff --git a/fs/ntfs/inode.c b/fs/ntfs/inode.c
+index 62dd5bd5bb81..ec9c7b219192 100644
+--- a/fs/ntfs/inode.c
++++ b/fs/ntfs/inode.c
+@@ -287,6 +287,25 @@ struct inode *ntfs_attr_iget(struct inode *base_vi, __le32 type,
+ 	return vi;
+ }
+ 
++/*
++ * ntfs_attr_ilookup - find an attribute inode that is already in the cache
++ *
++ * Like ntfs_attr_iget() but never reads anything. Returns the inode with an
++ * increased reference count, or NULL if it is not cached.
++ */
++struct inode *ntfs_attr_ilookup(struct inode *base_vi, __le32 type,
++		__le16 *name, u32 name_len)
++{
++	struct ntfs_attr na = {
++		.mft_no = base_vi->i_ino,
++		.type = type,
++		.name = name,
++		.name_len = name_len,
++	};
++
++	return ilookup5(base_vi->i_sb, na.mft_no, ntfs_test_inode, &na);
++}
++
+ /*
+  * ntfs_index_iget - obtain a struct inode corresponding to an index
+  * @base_vi:	vfs base inode containing the index related attributes
+diff --git a/fs/ntfs/inode.h b/fs/ntfs/inode.h
+index a18cbcf1c631..7ea52c59c04b 100644
+--- a/fs/ntfs/inode.h
++++ b/fs/ntfs/inode.h
+@@ -326,6 +326,8 @@ struct ntfs_attr {
+ int ntfs_test_inode(struct inode *vi, void *data);
+ int ntfs_test_inode_rcu(struct inode *vi, void *data);
+ struct inode *ntfs_iget(struct super_block *sb, u64 mft_no);
++struct inode *ntfs_attr_ilookup(struct inode *base_vi, __le32 type,
++		__le16 *name, u32 name_len);
+ struct inode *ntfs_attr_iget(struct inode *base_vi, __le32 type,
+ 		__le16 *name, u32 name_len);
+ struct inode *ntfs_index_iget(struct inode *base_vi, __le16 *name,
 -- 
-2.39.5
+2.56.0
 
