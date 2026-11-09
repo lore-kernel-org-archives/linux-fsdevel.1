@@ -1,90 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794244631;
-	b=abLAupImVN9gm6lRweX6pt88/y6x217iHcpkUEUIwIKjiqaJOzC7vqiYivKNf5QeSq2a
-	 NrcVy+RoUosCxsAV1Ed627UnCIW3Az08PJAPed3P6vbEU9hNR7ryr/ZvrkkMAKaiUTCQO
-	 ugrmHeVKfkTotqyS+M+lCKIPzYZ3pxZyxF0FuZT9y2pE2cfKWq8bLAFL44C2lpMyQUaQu
-	 GcR6Hr9icMjCw7HQCFUihx+shwKBSod4dTcEux+HHauyGTSZrEoWT6lDqrDb0ARN68FEE
-	 A9bLnWE4hHrLiG/7XEjgmp37IFjBk9DuiUg6VC7og4ir7YKKD0nR38yEMcoHIdLf6nA==
+	t=1794245056;
+	b=3hzJ/ufreFwz04Znv73Jkz9PalesQMEEiciIszrFeFacrdsVYezBG01qVK5HGpIXSi/H
+	 trnoNolOsmSOHi3KeEvL7rORn+23Fr4vRJiA7+P/Ecbwhqf7YaVjQlS20E0Sg0v2onEk5
+	 WPhfyVj/Ist7QOat67k7zwToElQlWPL3uB+WvKoxukt/ULEx5TuTQwGGDOxPon8Ic4XAT
+	 MP0+6iNFzvcPxiW0/pyqkJREPhEeWa/7H0LVn9DiRO1UkrJTzZoyce8e45y1l3Ul9opIP
+	 xZgyvkliD0rgwvdrKUy1cV52M4Fjn9i+ji0hgfD+opru5GMDuuvtD/kqJIpLp36bq5g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794244631;
-	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:X-ME-Received:
-	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=hikr3NdZOFIV97qGG552H/Op66kxtcpyq5g4qXWJP2g=;
-	b=TCUOI1YTEVXYweAlLaTfp4uAlwT1zDYKS3jdaAt9JkDTf3Es9+UAYiBeZVZjFBIj2hCK
-	 MPIk3n3AhvI4lIH+KmGnSGSNvuIYk2tehrlhN9SPVXF5vlKxDEs5l7ok5ce2j0uuaMN0D
-	 JpOPKLFdh6onRQx9A32YAXzz/j8rs04DcAUUNcxuFGQRPIyxKB7HHjHWk78U51pPz7/wa
-	 QgB6GKOUCKgLSRRU7dOJDtezB4baYDHsN0v9/Pba3F0KwLJeW1fLM6wIes/CmUjBidevT
-	 zYYNrgZRoS53Biz54Af4u9k6Mc+V/DM82hxwbw1avtuibl/ntdewS0F3Dezi0aWE5hg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794245056;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=/aSAxr7TF1nfjT/HWiDs+7ns10jo5fbdPg/x0SCDIHs=;
+	b=IXwAoMCw3h3dBmiRM7KPb4jxmNjWbdeT4WNRpfS5Mn/4LMMY24xGRQ4Mzai1yHaCKgw2
+	 vuGxNKi+u+a6UDq0nZJ+Lx4EqyHamlwkaCvQDv4O3TiceuBKKdNSm7Efj85tJAm5wLSEr
+	 8ttY82WHQQ4teJBEWCKWILrghczEoxFV4WPxVoswg+43wE2LIeK7ZVpwHRHV8PHthgcWC
+	 EAi50/9Lpbm28lOlkMVMCK0n2fIn9mHAEqRKmn3j99fqLskJFUSsqITJmtY1SNdp4qxoz
+	 v/HhHq6ucj8h7Oip6ywyGC8hCCiU//U7hO1pJhEQrS0Vdm1tq6bDeShYe/EmsMWR0dw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=A3BQpc24;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iDxqQhow;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A215606A330
-	for <linux-fsdevel@vger.kernel.org>; Mon,  9 Nov 2026 17:17:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0C60606A321;
+	Mon,  9 Nov 2026 17:24:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=A3BQpc24
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBF931F0089F;
-	Mon,  9 Nov 2026 17:17:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iDxqQhow
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2FD51F008A3;
+	Mon,  9 Nov 2026 17:24:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794244631;
-	bh=hikr3NdZOFIV97qGG552H/Op66kxtcpyq5g4qXWJP2g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=A3BQpc249JiAHGzDn/jKaB8/JdsBIQYKxlvcX8a0z19TzLiikm66XpXAZ538sdUcg
-	 HOUH4neX3WFMPk7uZlcRp7Xnlv7xbTSepi4Ya3yUwuNLZ43f9LcP8gMgz+oWQOJEFe
-	 GWxh9krtyQflCmZelNlaOIkpnwqIHSnI8/fTh0bgX3QgAFusG9UJzY1d/wJP2kxUsc
-	 bBDk+RGGOVN4t5vWbIYF5DrL90v+ZwYvib0KfFU1w0BHjeIl/QvXKUUznqhrxjOjjm
-	 kt7K0LOyNoHajLVVR6UWA5sovHFXE4bZzkG/AC7M96sG0Sb6a87ZZlQEYKPIH8ZIUH
-	 HOzaAikrio9wA==
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfauth.ams.internal (Postfix) with ESMTP id CBB7E1980050;
-	Mon,  9 Nov 2026 12:17:05 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Mon, 09 Nov 2026 12:17:08 -0500
-X-ME-Sender: <xms:EQDyal_E3i3-JOyrXgAel3XmchxyRy6dJKHmn0RHn09DQU2qOx53hg>
-    <xme:EQDyanWxemPQ8pkRZ3YIAgJXgCHOaoZyOyNuPrDU5zA2HaG5sWlsImUkQtTh6Bzdq
-    K_oRDDnMt_Uvxe17C4ltpB7ARntMwEY0niGeDEOzmakFyjqhWkQTuCq>
-X-ME-Received: <xmr:EQDyaqY-wXPnBLr-hCcdNW8K2xDebDgZ6hWdC4L97R30CLsRRXQaW2WkeWE>
-X-ME-Proxy-Cause: dmFkZTElZQIW6SWcaw1iguscu2eY5QRPkCI+Zh7YF9LAIl6Q6UDTQUJwYU5pgh0mTZpmF5
-    NxbI9uk32CzRVwmOylzVie+SWfDBrEYcRZ2p1j1AQ/MuQcSePoOec3dfy1ajnlOjYwO1hl
-    Xbo5hNTGbMq0y+sDiK+aCg9uHGvxRy7N3Vq+rRj2PhA2LLezz9+bkjEBvK8ETAnlSc5TZR
-    akrsVfCK2YDA101kRiLJ8f0MlU4hyylsv1fMuxTwHhQnwjjvVkpGCb5ees+82vtcTP3kO+
-    WocAA+bVDijg7kHIjKZXEn2dV9MY1IjQ8Sm1IF6WYExkFItyIcDhe9h9bl4fPV9mWjJUnY
-    DzCUMfJsGPdbDNKvpXAWZxzzlawuUdw6tZGAmgVqamoAzzCihQfFMmK/Zx8GOl68saGJIx
-    6YlurgnnIRLoX1tHfkwEq8INt3eSuOAdIsI/iT3mhaKEXxVCKwX8NxZFuTwdXRxAaaZWJd
-    Zo9dxHry3xUo1MsDZaFCB0yHpzXua+EIBPQ8zzN2OylaHG09yWtEzoLiEsGiz6/xOCNuqV
-    5X6xF4+kz8U9F8mw5cDCkCSf+2seoPzNTK2phXDxtLlectgNneWxA6GmVuDi6QtYrci6H0
-    UM1nBtG2OIZRUWr6iYNSsJ2OQk9fT/GmSreDs7XCkBonjX9IDZfzAYYaPTSQ
-X-ME-Proxy: <xmx:EQDyahqdwG4SwoeTcbhVCpgeaBptrobVJSl3lwLMRXXr7y3al7i06A>
-    <xmx:EQDyah74B5-hdy-JkxViNftHu2_nEgrX-ElvPBIxzsPbXPhDCq3aJA>
-    <xmx:EQDyarUZh4JrJRfeBxK_Z2rVLGPtiG7EZ0I-MBGqFaJZ79tOt2Cu5g>
-    <xmx:EQDyavvaWKiEUsAYuDF_q8xdT0s-OFkyeTI9FYlZDwxqsvbSi05JsQ>
-    <xmx:EQDyagrbS8mKwXtaEumhHAY747RpoQ1KmHErQTqj7u4kdzLNTLdfiGFe>
-Feedback-ID: i10464835:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 9 Nov 2026 12:17:04 -0500 (EST)
-Date: Mon, 9 Nov 2026 17:17:03 +0000
-From: Kiryl Shutsemau <kas@kernel.org>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	"David Hildenbrand (Arm)" <david@kernel.org>, Pedro Falcato <pfalcato@suse.de>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	Hugh Dickins <hughd@google.com>, Chris Mason <mason@kernel.org>, linux-mm@kvack.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, kernel-team@meta.com, 
-	Sashiko <sashiko-bot@kernel.org>
-Subject: Re: [PATCH v2 1/2] mm/memory: recheck PG_uptodate after
- ->page_mkwrite()
-Message-ID: <avH3L4ZbQC6fIt5s@thinkstation>
-References: <20261109120403.82361-1-kas@kernel.org>
- <20261109120403.82361-2-kas@kernel.org>
- <avHWhZzXE-ge6nU6@gremlin>
+	s=k20260515; t=1794245055;
+	bh=/aSAxr7TF1nfjT/HWiDs+7ns10jo5fbdPg/x0SCDIHs=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=iDxqQhowEYVH36uK8isMhxGwgKmT4ozWL9rSdUjNWzrBo3moZtLoNOSvoVSUND1DU
+	 Z8AD+H/zvOBRivvUcXJxAh4a4AZz2ZNDg55SbcCfObS90h8dUDN60lUYO71TVIOhY8
+	 Y1GstciRTQt0rYz+zKmsbn1pPvifXUMe1fnnfIkU4WLLMhL/c/5m69u63sLKRX8XVk
+	 1AV+QUD+WE2Xbj8s0b+cviQC7bEr3H1n0iHRSST8nMw681/5s+LA0KtcxsuqbFQW9c
+	 6tqcoOl7W1dz0n+qVrfeJE8TA1jc4cLRLlL3cWGuak+W4c9NURwTpeu/h+DCgKeTV/
+	 1VzI36dbDHEEg==
+Message-ID: <8504e28f-faeb-41e3-842e-0cb74d1a25ad@kernel.org>
+Date: Mon, 9 Nov 2026 18:23:58 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -94,121 +51,135 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <avHWhZzXE-ge6nU6@gremlin>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v2 01/18] mm: free PG_rcu_free folios only after an
+ RCU grace period
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Kiryl Shutsemau <kas@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Matthew Wilcox <willy@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Lorenzo Stoakes <ljs@kernel.org>, Jan Kara <jack@suse.cz>,
+ Hugh Dickins <hughd@google.com>, Christian Brauner <brauner@kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, Harry Yoo <harry@kernel.org>,
+ Miklos Szeredi <miklos@szeredi.hu>, Miaohe Lin <linmiaohe@huawei.com>,
+ Naoya Horiguchi <nao.horiguchi@gmail.com>, Oscar Salvador
+ <osalvador@suse.de>, "Liam R. Howlett" <liam@infradead.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Brendan Jackman <brendan.jackman@linux.dev>,
+ Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
+ Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>,
+ Shakeel Butt <shakeel.butt@linux.dev>,
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
+ Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>,
+ "Paul E. McKenney" <paulmck@kernel.org>, Pedro Falcato <pfalcato@suse.de>,
+ Luis Chamberlain <mcgrof@kernel.org>,
+ Ilya Gladyshev <ilya.gladyshev@linux.dev>, Jaegeuk Kim <jaegeuk@kernel.org>,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev,
+ kernel-team@meta.com
+References: <20261104130118.2507513-1-kas@kernel.org>
+ <20261104130118.2507513-2-kas@kernel.org>
+ <ecad7b3c-7244-425a-9413-04d49f221057@kernel.org>
+ <au2lsbDkyWt-To0C@thinkstation>
+ <aa2a1e32-9b1d-4545-b2e0-03d213593023@kernel.org>
+ <CAHk-=whnH5qLJH3Wd3bOxv--Ei6674Jo4iifGD_MqzyJg2Jm4g@mail.gmail.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <CAHk-=whnH5qLJH3Wd3bOxv--Ei6674Jo4iifGD_MqzyJg2Jm4g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Nov 09, 2026 at 04:11:40PM +0000, Lorenzo Stoakes (ARM) wrote:
-> On Mon, Nov 09, 2026 at 12:04:01PM +0000, Kiryl Shutsemau (Meta) wrote:
-> > do_shared_fault() unlocks the folio around ->page_mkwrite(). Writeback
-> > can lock it in that window, fail, and clear PG_uptodate with the folio
-> > left in the page cache. ecryptfs_writepages() does this when encryption
-> > fails. filemap_page_mkwrite() relocks the folio and checks only
-> > ->mapping, so the fault maps a folio that is not uptodate:
-> >
-> >     CPU0                            CPU1
-> >     do_shared_fault()
-> >       folio_unlock()
-> >                                     ecryptfs_writepages()
-> >                                       folio_clear_uptodate()
-> >       filemap_page_mkwrite()
-> >         folio_lock()
-> >       finish_fault()
-> >
-> > The next read(2) or fault on the folio reads it in again from the file,
-> > over anything stored through the mapping in the meantime. Those stores
-> > are lost.
-> >
-> > Recheck PG_uptodate once ->page_mkwrite() returns with the folio locked,
-> > and retry the fault if it is clear, the same way filemap_fault() retries
-> > on a cached folio that lost PG_uptodate. Skip folios outside the page
-> > cache: driver pages from ->fault() never get PG_uptodate and would
-> > retry forever.
-> >
-> > The check stays out of do_page_mkwrite(): wp_page_shared() calls it on
-> > a folio that is still mapped, and a retry there would fault on the same
-> > PTE forever.
-> >
-> > Reported-by: Sashiko <sashiko-bot@kernel.org>
-> > Closes: https://lore.kernel.org/sashiko-outbox-202966@kernel.org/
+On 11/9/26 16:56, Linus Torvalds wrote:
+> On Mon, 9 Nov 2026 at 06:43, David Hildenbrand (Arm) <david@kernel.org> wrote:
+>>
+>> Can we just rework that code first to have some clear folio freeing path, IOW
+>> doing this in a folio-specific helper?
 > 
-> No Fixes? Sorry I may have missed context from v1 here :)
+> I think you're making things worse rather than better.
 
-The window is from 2007, when __do_fault() started to drop the folio
-lock around ->page_mkwrite():
+The current code deals with pages vs. folios in ways that already makes this
+code only work with folios even in the short term.
 
-Fixes: 6967614761fd ("ocfs2: release page lock before calling ->page_mkwrite")
+We'll be starting to let page_folio() fail soon on things that are not actual
+folios. PG_folio for that is already in the works.
 
-Not sure how useful such Fixes is. It predates any possible stable tree.
-
-> > ---
-> >  mm/memory.c | 22 ++++++++++++++++++++++
-> >  1 file changed, 22 insertions(+)
-> >
-> > diff --git a/mm/memory.c b/mm/memory.c
-> > index fe72e66c9c2e..cc1d0b7d15c7 100644
-> > --- a/mm/memory.c
-> > +++ b/mm/memory.c
-> > @@ -5613,6 +5613,18 @@ static vm_fault_t do_anonymous_page(struct vm_fault *vmf)
-> >  	return VM_FAULT_OOM;
-> >  }
-> >
-> > +/*
-> > + * A page cache folio that is not uptodate holds data that was never read in
-> > + * or cleared, and mapping it leaks stale memory to userspace.
-> > + */
-> > +static bool file_folio_not_uptodate(struct folio *folio)
-> > +{
-> > +	if (likely(folio_test_uptodate(folio)))
-> > +		return false;
-> > +	/* Driver pages from ->fault() never get PG_uptodate */
 > 
-> I guess you mean drivers that return non-page cache folios from ->fault()?
+> The whole point was to hook into *one* place: the page freeing.
 
-Yes. How about:
+Right, and I'd hook into the folio freeing path if it is folio-specific.
 
-        /*
-         * ->fault() can also return driver memory that is not in the page
-         * cache. It never gets PG_uptodate.
-         */
+And we will need clean path for freeing folios either way as we are starting to
+decouple struct page from struct folio as envisioned by Willy.
 
-I would rather avoid "rmappable". These folios do get
-folio_add_file_rmap_ptes() in set_pte_range(), and the word reads like
-PG_large_rmappable. As you said, DAX never reaches the check, so "page
-cache" is accurate.
+If we actually manage to make this generic for different memdescs in the future,
+it can obviously stay on the generic path.
 
-> > +	return !folio_test_anon(folio) && folio->mapping;
 > 
-> Technically folio_test_anon() can never return true based on where this is
-> called from right? Could this just be a:
+> Trying to make it specific to one special freeing path only makes it
+> fragile and less obvious, and results in anybody who then uses some
+> other freeing model to miss the RCU thing.
 > 
-> 	VM_WARN_ON_ONCE(folio_test_anon(folio));
-> 	/* ... comment */
-> 	return folio->mapping;
+> It also means that suddenly nobody else can use the RCU path for their own uses.
 > 
-> Instead?
-
-Right, all callers pass a file folio.
-
-I will make it an assert, but at the top of the helper, so it checks
-every call and not only the rare !uptodate one.
-
-> > @@ -6163,6 +6175,16 @@ static vm_fault_t do_shared_fault(struct vm_fault *vmf)
-> >  			folio_put(folio);
-> >  			return tmp;
-> >  		}
-> > +
-> > +		/*
-> > +		 * The folio was unlocked for ->page_mkwrite(). If it lost
-> > +		 * PG_uptodate meanwhile, retry the fault to read it in again.
-> > +		 */
-> > +		if (unlikely(file_folio_not_uptodate(folio))) {
+> Look at all the kmalloc RCU freeing: it's used all over the place. RCU
+> has basically taken over the kernel. Every single performance-critical
+> lock-free area of the kernel wants RCU freeing.
 > 
-> As Pedro said, I think this unlikely() is probably unnecessary given the true
-> return case is implicitly unlikely.
-
-As I told Pedro, I prefer it at the call site. That is where the reader
-needs to see that the retry is the rare path. But if you insist...
+> I think trying to corral it into some special case is the last thing
+> we want to do. It only makes things less potentially useful and more
+> fragile.
+Let me wrap my head around how this would look when we decouple pages from
+folios, where pages might not have a ->lru anymore, or not even a refcount.
 
 -- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+Cheers,
+
+David
