@@ -1,112 +1,112 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.147
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.157
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794257539;
-	b=zmXTn5uGqRTXR62ZJ5ym1Uv/hT2EpQKXQgWwxJTvI3ahGTQQrbFiKaIOUkIJd191DWMQ
-	 faGb19Exfk//AhbvNF+BjbMuh+YCL1YWH8CTdKAHF9pniWY51pv6atCyhIfkvKqZMxqHw
-	 JExVsgzMr197JszLDn0cM1y0IyJ8q429daMNP3B7RvZ+5U8BajOswKH9ROrhDbSzy0mIP
-	 UjGUwn3bR1p8dM9kNQnYzkahPn0bNWWJpgPhcOlK2l9GqgbgpOCItr3U8Pa4I8mKdToRV
-	 QJvjaZYoRI8hKaDglvv9hECgpqMugV6+eyB2N6fAvnXbSgIc1MyqLRjhr2QvCJd73cQ==
+	t=1794257533;
+	b=oAzyg4wXDVjWDWnEfTtvnEdQQOdIetjJ6yT06QVUEHRvVRhpuzAmS50CyoqTT7MMoXP5
+	 5e8g9W3g5DjP8vxFCG9YE2ixIxKK7pyU7QO4Itd54qCzlcfLX/iXQICc59cJPZ0KXacM/
+	 cCHbISSgVRORTxtw7S6jwc/Bd6DSPsOic00Xb5h+jOfzLLjWeQ3gwnpgUnVhX9ZkTH3Jv
+	 m5CPDmbHiew/oTiwJRUb9t7GBGog6Ume5qFMxh2xCIwsNLFoh57a+ieBeASmuPySwzxBk
+	 f1W8u/8fbUSR8D7vYQnsFxnrmoFYQeRSqHExaiZbWjV0vyuE3QryUnrtMTggosiMOOw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794257539;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794257533;
 	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
 	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
 	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
 	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
 	 References:Reply-To:MIME-Version:Content-Transfer-Encoding;
-	bh=dyk2Y6IvRzcJbTyhO1VPVJeWMWSpr8fE3byR/HVy4hw=;
-	b=5ltpA7aT8YgiF4uvDhNscN7PT1JWoaCQjnwJjhjbHMvun6jQNj7Sc/vewl4uX2/j2JxL
-	 YExeECPwzUZD2sGcMuDKPkpjgdsea1dxZbgiUe+FFdEOj7m0WybGIRdot6BYeTOu9RW3f
-	 OR2vVNNLrDzY/8ZpdE6luxD5YvZDNfJHnZMlVq7y70A3WnGTQa0QgC8LxLxo/mgg3b6ok
-	 Mhpp6N4UL8R/6Fip/36KgRC7O/JoK7U83Wjds6bf/BVWfGi9Ih7Q8lByO93N7xdxa+W0R
-	 8FDlIliUW2dJd8upm9XMTa24VT5UWyKHf3VsHTSIPY4RH+GvC6THnzpE0X9xpTyEEQw==
+	bh=lFnDvIIf15wWJEk/NJrkflWxoq4d1zyNbWPBVLGhFIc=;
+	b=rzkYCrjqJFjgQMfkNg5vBBW+CtZ7R+KADxzQV+DBrLErXjdj2mGsACzg86+w5gRHM5OB
+	 YuhFTt+/BW84BVz7Lp167qFC5HpwoRiXCCzRnf4Kfz+PtWCbXe5p8h2UEuyRbIMWH3i6E
+	 daOZ/t+KjXeqCImZQb4frF1lV+kYRXv7q5CBVwnCBfMgfpSEsHQOqotdtu5qGF0dxqDr7
+	 0oTVOk+e87S2df+IVgQ/jkXV6ok5Go02+mUNLckjzmksEvzt/UGtvpXi9LbiGKWoQUiU6
+	 cQvpM0bqaLIvlgUXKs5HroesrYHkWWZBSp1QO5z/z5LCJTJtSQ8xbvnAKC8SPjwyAEA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=ownmail.net;
 	spf=pass smtp.mailfrom=ownmail.net;
-	dkim=pass header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm3 header.b=Ae9DNwY5;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=i+XPhPtA;
-	arc=none smtp.remote-ip=103.168.172.147
-Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
+	dkim=pass header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm3 header.b=f+SpbeBR;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=pmT3Liaj;
+	arc=none smtp.remote-ip=103.168.172.157
+Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19142606A334
-	for <linux-fsdevel@vger.kernel.org>; Mon,  9 Nov 2026 20:52:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 19142606A334
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03F45606A32A
+	for <linux-fsdevel@vger.kernel.org>; Mon,  9 Nov 2026 20:52:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 03F45606A32A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm3 header.b=Ae9DNwY5;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=i+XPhPtA
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfout.phl.internal (Postfix) with ESMTP id 54321EC012A
-	for <linux-fsdevel@vger.kernel.org>; Mon,  9 Nov 2026 15:52:18 -0500 (EST)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Mon, 09 Nov 2026 15:52:18 -0500
+	dkim=pass (2048-bit key, unprotected) header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm3 header.b=f+SpbeBR;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=pmT3Liaj
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 4BEA5140015F
+	for <linux-fsdevel@vger.kernel.org>; Mon,  9 Nov 2026 15:52:12 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Mon, 09 Nov 2026 15:52:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
 	cc:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:reply-to:subject:subject:to:to; s=fm3; t=1794257538;
-	 x=1794343938; bh=dyk2Y6IvRzcJbTyhO1VPVJeWMWSpr8fE3byR/HVy4hw=; b=
-	Ae9DNwY5DdqHKicFMT7uj8FUbSGzMMy0/3Cbw+Dogl51p5H+SxuqsCfZMr5FLhlA
-	85ogC4ptC7/rtPDr/9thF1LHfwhAwsEFHFnIWuPmNYaRC8/UEgDUTlhGONUdp67p
-	Lj81k6VapcV62LHvE0nmG2b8edJMxZJnT96ZnUQ9sua34cRYypAUxC3STKC3cUWK
-	WftkhMsQg/btDNsIzF2lFjQRMgxxVIyWz37vK2PF1rSwr0U86kBpV0+hwWUXFVVN
-	z+/6i5U2NS8z8fnWrvXi41QC6CgExpE3zz3uo3Lbw1LCIqZMEsHTNZo2mcFzoUr5
-	2vkfNfyrcSqk2/KqLBW4mA==
+	:reply-to:reply-to:subject:subject:to:to; s=fm3; t=1794257532;
+	 x=1794343932; bh=lFnDvIIf15wWJEk/NJrkflWxoq4d1zyNbWPBVLGhFIc=; b=
+	f+SpbeBRNxVjrIV+p+zTUQ4wSam/Z2ZEpKStqEKoQF8L6XD5qdzoy2AFnuMaH21t
+	8j8Ile05CQKM1PZIXJ77PkxX783kbHysXNOQ3ax57gfkmhBn260IXrrFFTQTXaEu
+	VNXfs7bddLcfJOk916ARd8V15BIZ6Tgms8soIF11t3oh3XuKW0ZbebIQ7NuGaybs
+	MgPawS/lRV0stb9J5Rl2tyynq1nCYRLzjiV2Tc+PukmC4uaE+/uYJkKK3Aw/GOGx
+	GHjVzyuyBY77rpJXRl/hbYRAMYF+2vonBg04+Qg1cjKFvQlD5PqA9TRkn1h0gea1
+	aQJUPhs6Fr3Na7rPHmWkAg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm3; t=1794257538; x=1794343938; bh=d
-	yk2Y6IvRzcJbTyhO1VPVJeWMWSpr8fE3byR/HVy4hw=; b=i+XPhPtA00D9BC6VL
-	Mu64Y4Ds0QidG3VAcqr/H0AW5vLjXnTPUTXn1GlWK0jkW+uq2AV5fBhCzbvVAXm0
-	NnRIUHkZ94lr2fLXpo4aFUmTIX6MhSKu0IB7/SWY3hK2LJmBRoO2OUKYIydvxwO0
-	0znlyfwFnX1McF5OnG2TvyQfFX5TC6aFm2bUygXXBNkOnKv+fxDQwRhnJgI5JG5S
-	RWeyZznZUOD/WfqG2Mjs6bQ8IVhPic5v173t3J6nznBQZpW/adpjdDsnBeUaVT9I
-	QnnOJmjPHCrrbkmiOIPgrXAj3M3+KDCTiJfEClt5tWzjEFmC6YTKxLAR5UlC5t2c
-	CM4fQ==
+	:x-me-sender:x-sasl-enc; s=fm3; t=1794257532; x=1794343932; bh=l
+	FnDvIIf15wWJEk/NJrkflWxoq4d1zyNbWPBVLGhFIc=; b=pmT3LiajADTgT5jsc
+	SHkM1iqNsUrxSUNAc6ZsR4G3JItLKTE3gAVAU4mYiGyilcHewmat+kb8wp8t7GK6
+	T66nJG0SVgktEQaR/aSxfDVZOwZbwJO38XHSPFYRul59W/yeuXT4+rBlLCmOZxZd
+	6bRnwCvcIsCI0ztBffQsAxGbEr9fFcaBl77NNGgVl/kDqBU64J8KiKQC0v3uibp5
+	Bj37aMxz8CdoKN4xwk2l1FlPN98m9X7d8PglprwcWb8rwHBDF1bN2XJhSmEvHlLt
+	xvKi94bCQOsab0VtRQwv4BojmoS4U7u+rok8xjuhUHyfZ2DjU/SSK9JBURpVhAV7
+	4GSQw==
 X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
 	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
 	action=sign d=ownmail.net a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1794257538; d=ownmail.net;
+DKIM2-Signature: i=1; m=1; t=1794257532; d=ownmail.net;
 	mf=PG5laWxiQG93bm1haWwubmV0Pg==;
 	rt=PGxpbnV4LWZzZGV2ZWxAdmdlci5rZXJuZWwub3JnPg==;
-	s=fm3:rsa-sha256:uzkiD5jpiqOnM0ItL7h19Dj1x+69YyW1VFy98KiQ5inWAoL
-	ZvFJvQ0OtV+7VMRZmuLfwQgYd1+57UquarzHXy56JwvlG8sj5RDYNwaXpfsCmo+q
-	wz8Z1mkYszdtZL5sYWD6K6G4Kkb4ssw4ECrmg2JrF9h5hY66SoBGixSJlzxzv+oV
-	WZKyj/JI4PZqXa/YDQq2/70+tHOmTT7ect5YDqAwF7XasNPLuBBNoKv1n2LxQ6nP
-	3yRkxJ/SMsj6DO5cVOatbGZsZRa523d8FKYJp6sKbspH/R6gvzYGHlr8F7MjaYHw
-	ZGErNcLi3Lz5skpZGcqSfGUaAwFBQ+Az5wb9FJg==;
+	s=fm3:rsa-sha256:EzcSiOWqhw/1kRrARtj04dhnsVMSWDXJO0zBKcvOBWMVKI4
+	N2y4wvPqzSX6ArC+FTj10tW7fTvimkxtxhRixHKaSOFCE9mL29FFmNbAusm3THBD
+	bh+9LD3jfjzuaUInYu7hCu/7U1gTXc35Nqtqd6uJJ4D0RUlH0ugWk6sUnrx+Mfxq
+	tymti7fqC+BHE2Pp1qVslkTp/huaZHc89HV69Po9kvF5SLOj88tAhPC1oSOS7mzH
+	WDUoauSxWE+LALy30gHeQ/ZYmN7bD8PkNhz9RJSaG1vVBz34H7B5VucEEm0oyUUT
+	xlfEi/QnA6OkhErDuOCywqsVXLkK2e+f01bzv4w==;
 X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
 	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
 	action=mi-m=1; hc=12;
 	hn=cc,content-transfer-encoding,date,feedback-id,from,
 	in-reply-to,message-id,mime-version,references,reply-to,subject,
 	to;
-Message-Instance: m=1; h=sha256:OjlggicRpXsqoHxwCfthU1rEz95a1BBPwmeqIYH//3E=:oo0bAeJSgMQhHyLRODIO+1r2n+AS/TNK1Wi+tD/AeaA=;
-X-ME-Sender: <xms:gTLyanCj1z3C4n3Ykjk26YIj3sCfClqGJo-jxH0i8RaVFnT7o22kUg>
-    <xme:gTLyary8Xz_NRpf-v1oqmGFUz69vgCAAare85jUNCNMhio3wrYtNyBA2JA4Ye_KxS
-    d7pjSzWu3ryCD8jcdNjWIOoBXt2S3g04VTVrgsIQxdO-WWV>
-X-ME-Received: <xmr:gTLyar6H8vvfhcPIfdKkRYImEvi9uG23pYclk0pqsFnNOzs9-tMjB3986NkwUleeDQzLkQ6kVjyf7drtQRkJVo2xyVQPAZk>
+Message-Instance: m=1; h=sha256:wIDaHjgaHc5xEadbnXB6Na6mEianXIgqCOILa97zh1w=:90hJjMXsm556f1HSrGBwO5c4/5MV3a+u9QFLaZ3WH+g=;
+X-ME-Sender: <xms:fDLyak4VvE9MMNXCsfXLHYF_5SJAGEFOuCjAndvQiWf_h5fMAStl7g>
+    <xme:fDLyakKsmZjXZ65hlGO_8ZBOBcqiLnQfVdxJYFv4XQbftOcY7Tj0BNXZ6yYCIx28c
+    aqMxE7wBUPkYoI7hxNpYFy0gNN7Q_tSOqhviW-9L9JBSze9Aw>
+X-ME-Received: <xmr:fDLyasznVwoKYQykWvEnRhqm7MvgSTyBVRTPHlTUmGsFO5Li9ah5WdgjcV-bH96PkBhBil7zHMQsFs-sDycokBhwWC22bkY>
 X-ME-Proxy-Cause: dmFkZTGc6Wfopr3yByBODvVP+Oeb+FLkCIAHSHXx7lKy5HW2U1upI0iembimvsk8AEpSZE
     MvwARY+UFbjHd9YV6pYDviSr02W6QSVyDIHPRBaIeKkb1ynLuXblQeWa4vWXWMBoGY2ylR
     8MibvhVLpjf6RGg5myDdFApSiNfnMFCWLo2DKnZNkL1ttRA6R81HrKhVsSTnWD3U90M/g0
     eiWpkBEA+yo88el8kYtfl23LMEmQaTJAZ92kFH+xvZejbh4XlaDKRH2fIaheAZzuwljtfD
-    vNWLVebH1mhryAUvGEemIVHPzuHDbGpFhYTwQXOwD7SZCf79zoP3iXyu1/YWAyCQeXFgWE
-    QPd3f5JCfXOhTVB+Z70v9tEBZtq6BY+heOk22T+qsbZ+IxEUgsiFzmKX5zpNN6uF7KA7n+
-    5sq4kvGcQEcQAJZWz3n2dzLxHVlZmh9RNhejVBfWCZlJfZ8Dy93QyrDzn5ZP8ZrSZbuRwq
-    g8pdDvdVuEBfc4BIwN8gHC8x4p/jaLWVdJjzbk026IDIjrwuIukmB5RLbVzEbaab5Kpz/J
-    7OJsmA8X+WvUhTrk4MiIXOSX9Gn8DvsoR5pInNsTujVQuCgJeHuES2sIW9lDn5PMGGeUAF
-    fUz1IbrJFhO1u19jcMx4fsk+z+aNRkSqWZGeHyjm2iiv/RwqYMDv8cZ3CvOw
-X-ME-Proxy: <xmx:gTLyasxSRQq-GkAvvM5RC1pSbuS9swBoRlJFFQr4Z783LAwtOzr2XQ>
-    <xmx:gTLyavejwrOLSUwsAOy9JU7MgEuiDmzUXVMtk3ipxK0VzCuWTmuQXQ>
-    <xmx:gTLyahAlFYBZybcH3C5dk7EAMlIBaciaaVrKYbUhLwRXnF9QG8YaZw>
-    <xmx:gTLyaj5hXlsrJkwt2aiEIs90BsemL0k-WjFN-rbMLdTMc8HtD1LRtw>
-    <xmx:gjLyao_CfJ8IE9txg1VIi96KJfA7HqeRCb6PVVAEYoOHJh9f82_Mntav>
+    vNWLVebH1mhryAUvGEemIVHPzuHDbGpFhYTwQXOwD7SZCf79zoP3iXyu1/YWAyCQeXFgGr
+    6+LGQypJXjy1S4mf3Sh7pDTvKtz+v0Sg9PZRD8GIXgjyrUwLqyrAKlpFkcCCyyK20kNMRO
+    OwNTvbb8z0qmtww75XwnUq9/QoDcUA+AhXByYUviEuCkf2YVDRNTNbVjMm8+/AvdMlQF6l
+    Q9hZMZk6CX2dlJmdyfXqIv/MJPvIfhDgys1CDFU3h5+g+I3HizLLkMr7XNRME8PhAlRh2o
+    kqf/OWRq+sY58IM5Ouy0mqNwtXnpvT3Wmell9w6jUAz764k79zWcmZApEndi+3pi2pE7Eq
+    ZJ8a+iVCXCmyGI4lC3XEgug5yB6WX6EQS0kNcdYbOeP8uG4x0zHQ5EM9aZXg
+X-ME-Proxy: <xmx:fDLyasLMo_By_MPTuzxqeK1M9Uo5fXxgzUF1bnxljU7o89vInLbHgw>
+    <xmx:fDLyarWVV26oZdarSHBULIsuzEe7TjmgPJOUkag2EfPIbkHTYlIICA>
+    <xmx:fDLyavbG2GFcPnNr85DAQNtBir3gJlU1XrhR9U5yubJd3FYzkebtjw>
+    <xmx:fDLyaiz0JvMDnSOfozghCqKBHfKE3EWHfY2HqxpDnQb96kjEMvTRKg>
+    <xmx:fDLyah1fKz61tSt34A8Df3vAVbfpljDeX5gRQ2-_tqrVKqa5AR9uFSab>
 Feedback-ID: i9d664b8f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 9 Nov 2026 15:52:14 -0500 (EST)
+ 9 Nov 2026 15:52:09 -0500 (EST)
 From: NeilBrown <neilb@ownmail.net>
 To: David Howells <dhowells@redhat.com>,
 	Marc Dionne <marc.dionne@auristor.com>,
@@ -118,9 +118,9 @@ Cc: Jeff Layton <jlayton@kernel.org>,
 	linux-afs@lists.infradead.org,
 	linux-kernel@vger.kernl.org,
 	"Jonathan Flynn" <jonathan.flynn@hammerspace.com>
-Subject: [PATCH v3 3/5] afs: use d_alloc_trylock in afs_sillyrename()
-Date: Tue, 10 Nov 2026 07:48:25 +1100
-Message-ID: <20261109205132.1561271-4-neilb@ownmail.net>
+Subject: [PATCH v3 2/5] afs: use d_splice_alias() in afs_vnode_new_inode()
+Date: Tue, 10 Nov 2026 07:48:24 +1100
+Message-ID: <20261109205132.1561271-3-neilb@ownmail.net>
 X-Mailer: git-send-email 2.50.0.107.gf914562f5916.dirty
 In-Reply-To: <20261109205132.1561271-1-neilb@ownmail.net>
 References: <20261109205132.1561271-1-neilb@ownmail.net>
@@ -138,130 +138,84 @@ Content-Transfer-Encoding: 8bit
 
 From: NeilBrown <neil@brown.name>
 
-Rather than performing a normal lookup (which will be awkward with future
-locking changes) use d_alloc_trylock() to find a dentry for an
-unused name, and use an open-coded lookup_slow() to see if it is free on
-the server.
+As afs supports the fhandle interfaces there is a theoretical possibility
+that the inode created for mkdir could be found by open_by_handle_at()
+and given a dentry before d_instantiate() is called.  This would result
+in two dentries for the one directory inode, which is not permitted.
+
+So this patch changes afs_mkdir() to use d_splice_alias() and to
+return the alternate dentry from ->mkdir() if appropriate.
 
 Signed-off-by: NeilBrown <neil@brown.name>
 ---
- fs/afs/dir.c       |  6 ++---
- fs/afs/dir_silly.c | 56 ++++++++++++++++++++++++++++++++--------------
- fs/afs/internal.h  |  2 ++
- 3 files changed, 43 insertions(+), 21 deletions(-)
+ fs/afs/dir.c      | 13 ++++++++-----
+ fs/afs/internal.h |  1 +
+ 2 files changed, 9 insertions(+), 5 deletions(-)
 
 diff --git a/fs/afs/dir.c b/fs/afs/dir.c
-index 20c68a8b3028..580fe51fd08f 100644
+index 10420c4ba2b3..20c68a8b3028 100644
 --- a/fs/afs/dir.c
 +++ b/fs/afs/dir.c
-@@ -19,8 +19,6 @@
- #include "afs_fs.h"
- #include "xdr_fs.h"
- 
--static struct dentry *afs_lookup(struct inode *dir, struct dentry *dentry,
--				 unsigned int flags);
- static int afs_dir_open(struct inode *inode, struct file *file);
- static int afs_readdir(struct file *file, struct dir_context *ctx);
- static int afs_d_revalidate(struct inode *dir, const struct qstr *name,
-@@ -969,8 +967,8 @@ static struct dentry *afs_lookup_atsys(struct inode *dir, struct dentry *dentry)
+@@ -1257,7 +1257,7 @@ void afs_check_for_remote_deletion(struct afs_operation *op)
  /*
-  * look up an entry in a directory
+  * Create a new inode for create/mkdir/symlink
   */
--static struct dentry *afs_lookup(struct inode *dir, struct dentry *dentry,
--				 unsigned int flags)
-+struct dentry *afs_lookup(struct inode *dir, struct dentry *dentry,
-+			  unsigned int flags)
+-static void afs_vnode_new_inode(struct afs_operation *op)
++static struct dentry *afs_vnode_new_inode(struct afs_operation *op)
  {
- 	struct afs_vnode *dvnode = AFS_FS_I(dir);
- 	struct afs_fid fid = {};
-diff --git a/fs/afs/dir_silly.c b/fs/afs/dir_silly.c
-index 982bb6ec15f0..e07c882c4fc7 100644
---- a/fs/afs/dir_silly.c
-+++ b/fs/afs/dir_silly.c
-@@ -112,7 +112,8 @@ int afs_sillyrename(struct afs_vnode *dvnode, struct afs_vnode *vnode,
- 		    struct dentry *dentry, struct key *key)
- {
- 	static unsigned int sillycounter;
--	struct dentry *sdentry = NULL;
-+	struct dentry *sdentry = NULL, *old;
-+	struct inode *dir = dentry->d_parent->d_inode;
- 	unsigned char silly[16];
- 	int ret = -EBUSY;
+ 	struct afs_vnode_param *dvp = &op->file[0];
+ 	struct afs_vnode_param *vp = &op->file[1];
+@@ -1274,7 +1274,7 @@ static void afs_vnode_new_inode(struct afs_operation *op)
+ 		 * the new directory on the server.
+ 		 */
+ 		afs_op_accumulate_error(op, PTR_ERR(inode), 0);
+-		return;
++		return NULL;
+ 	}
  
-@@ -122,23 +123,44 @@ int afs_sillyrename(struct afs_vnode *dvnode, struct afs_vnode *vnode,
- 	if (dentry->d_flags & DCACHE_NFSFS_RENAMED)
- 		return -EBUSY;
+ 	vnode = AFS_FS_I(inode);
+@@ -1285,7 +1285,7 @@ static void afs_vnode_new_inode(struct afs_operation *op)
+ 		afs_init_new_symlink(vnode, op);
+ 	if (!afs_op_error(op))
+ 		afs_cache_permit(vnode, op->key, vnode->cb_break, &vp->scb);
+-	d_instantiate(op->dentry, inode);
++	return d_splice_alias(inode, op->dentry);
+ }
  
--	sdentry = NULL;
--	do {
--		dput(sdentry);
--		sillycounter++;
--
--		/* Create a silly name.  Note that the ".__afs" prefix is
--		 * understood by the salvager and must not be changed.
--		 */
--		scnprintf(silly, sizeof(silly), ".__afs%04X", sillycounter);
--		sdentry = lookup_noperm(&QSTR(silly), dentry->d_parent);
-+newname:
-+	sillycounter++;
+ static void afs_create_success(struct afs_operation *op)
+@@ -1294,7 +1294,7 @@ static void afs_create_success(struct afs_operation *op)
+ 	op->ctime = op->file[0].scb.status.mtime_client;
+ 	afs_vnode_commit_status(op, &op->file[0]);
+ 	afs_update_dentry_version(op, &op->file[0], op->dentry);
+-	afs_vnode_new_inode(op);
++	op->create.ret = afs_vnode_new_inode(op);
+ }
  
--		/* N.B. Better to return EBUSY here ... it could be dangerous
--		 * to delete the file while it's in use.
--		 */
--		if (IS_ERR(sdentry))
--			goto out;
--	} while (!d_is_negative(sdentry));
-+	/*
-+	 * Create a silly name.  Note that the ".__afs" prefix is
-+	 * understood by the salvager and must not be changed.
-+	 */
-+	scnprintf(silly, sizeof(silly), ".__afs%04X", sillycounter);
-+	sdentry = d_alloc_trylock(dentry->d_parent, &QSTR(silly));
-+	if (sdentry == ERR_PTR(-EWOULDBLOCK))
-+		/* try another name */
-+		goto newname;
-+	/* N.B. Better to return EBUSY here ... it could be dangerous
-+	 * to delete the file while it's in use.
-+	 */
-+	if (IS_ERR(sdentry))
-+		goto out;
-+	if (!d_in_lookup(sdentry)) {
-+		if (d_really_is_negative(sdentry)) {
-+			/* try to get an in-lookup dentry */
-+			d_drop(sdentry);
-+			sillycounter--;
-+		}
-+		dput(sdentry);
-+		goto newname;
-+	}
-+	/* This name isn't known locally - check on server */
-+	old = afs_lookup(dir, sdentry, 0);
-+	d_lookup_done(sdentry);
-+	if (IS_ERR(old)) {
-+		dput(sdentry);
-+		goto out;
-+	}
-+	if (old || d_is_positive(sdentry)) {
-+		dput(old);
-+		dput(sdentry);
-+		goto newname;
-+	}
+ static void afs_create_edit_dir(struct afs_operation *op)
+@@ -1365,7 +1365,10 @@ static struct dentry *afs_mkdir(const struct mnt_idmap *idmap, struct inode *dir
+ 	op->ops		= &afs_mkdir_operation;
+ 	ret = afs_do_sync_operation(op);
+ 	afs_dir_unuse_cookie(dvnode, ret);
+-	return ERR_PTR(ret);
++	if (ret)
++		return ERR_PTR(ret);
++	else
++		return op->create.ret;
+ }
  
- 	ihold(&vnode->netfs.inode);
- 
+ /*
 diff --git a/fs/afs/internal.h b/fs/afs/internal.h
-index 1542b53e2cd8..60687671f18b 100644
+index 578fe7d35ab4..1542b53e2cd8 100644
 --- a/fs/afs/internal.h
 +++ b/fs/afs/internal.h
-@@ -1111,6 +1111,8 @@ ssize_t afs_read_dir(struct afs_vnode *dvnode, struct file *file)
- 	__acquires(&dvnode->validate_lock);
- extern void afs_d_release(struct dentry *);
- extern void afs_check_for_remote_deletion(struct afs_operation *);
-+extern struct dentry *afs_lookup(struct inode *dir, struct dentry *dentry,
-+				 unsigned int flags);
- 
- /*
-  * dir_edit.c
+@@ -899,6 +899,7 @@ struct afs_operation {
+ 			int	reason;		/* enum afs_edit_dir_reason */
+ 			mode_t	mode;
+ 			struct afs_symlink *symlink;
++			struct dentry *ret;
+ 		} create;
+ 		struct {
+ 			struct dentry	*unblock;
 -- 
 2.50.0.107.gf914562f5916.dirty
 
