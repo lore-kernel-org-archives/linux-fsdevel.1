@@ -1,60 +1,75 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794223589;
-	b=Q1ZQN/snMTORmIH6GdzEbxSeQJKXk+j86tGAiTahwVILakuWVIQmlGk5OjjtSW88IV48
-	 PJ+DbUiJur6FfoELkAahL6DJIIO2wOq9AUXroWg1GbhGIaxNshKA2lVrJdHKGe80wjYsF
-	 l3pkKt96iJcy7zFEe9EpepiUVzkEC7tv5+mlppxZ9Y4ftC9/AwTwbRcx+1FsxyIgoOv1r
-	 sdD6KbzQLdJKoPj4F4Kwi4wzHljbuDO1RNUhrz0DQMFf1Sw2bK9bJ3OoVspWXnXAh4sF9
-	 IH71QS5f3noS0BBMVQV0hxRwUVgp/RJhvHUO34OrgcXHujfyKUYodd/gcp959thVeUg==
+	t=1794223657;
+	b=spEtiLHs1vykCb7mu18k+fj5gS7BEkKaMdlKxXuZJw3m5VVuJjpOfkW4LAMFYy+Mly6E
+	 VZKQbyZF2edVcC2p8IWqFFLV1YOlSllKdKV/KNi86+yQ9vWNWc9G9wgPMVVGLrMpuOU3s
+	 g01geXp53SmaWi3iH5M0YLchwGkOSqRtXngI8Gy+F8sRhrqFmOTJr1/xm7/7x8/Zn/SS+
+	 T+y62K9SOKsPGV5pY8CNL3u2US196cooTgHmR6ypd+jSSRn/H5IN5QHvbvg4V3ubmStst
+	 PYejedaFY/tIGx9zQ5yBtUVV0s8UZkV9Lp0tO+as/awA/wK8fpPtrRtwfN7L4q+M7yQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794223589;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794223657;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=cWiIJfTA4m6YoCnpWTMnm48t+HL+VdqiKbJWu4IPPdI=;
-	b=ixdPBnsTxKh63Yxo+UxkXgj4TtjBC/sxOgTPU35bLUIkfudeoxs4S28hfh9Sz+2ECNhf
-	 lDYg5VbfWsJvELFHUkMED3fQ7FUs2jSlVxMJP3n6++l7o256wjuQwrZcPmYLYyv3wUK/G
-	 GIwxI5Kt9p6axwkewKnlM4jGdnXFrTOuDvTucVtAXUHHkUrlK7J+B26HVHshF4dlz8wvo
-	 8tCICZovpjFWvZxNwOlnaImFEmEpFemaCBcm14H6yyEaEI2/vlmfbGTbsWFK5SxV9DqX4
-	 lmGYJSHjFcY86A4TzxA720rszTfAufe8TiHmjrIsRKEJaZT/hv6SmETKk8E7am0W3SQ==
+	bh=GTe3rVqqBFubJwfvXPNDDRZX+sidHXepwnZzWomDy5A=;
+	b=NfU9kT2bZiORXw5zCXCda/QL8aJYOgH2BUdYtc79k8w+H+He5VhdNu9Cnf2/2IcxBuZu
+	 whoIpQKrD35eFow0FLSeMsppAHs7T/JowXmdaEvnahhYKBHCrBHaeXZYVCvXSKNKTWszk
+	 Bu8qi6oDSgI1VXT2Gz0/7R+qYdNY941e6XcKfGF8hCMO9ChGo+afDYbgil6zPxFQW8Ini
+	 zhqGLTzGo1Higv2QnpkZm+THa5sLuSQ314SC+lkWoKCvQA7uNE01oHPo+7+uf7W7pI2vb
+	 YaXO+uRyI3C57qCB2gf8wMWl5rPrj/0D0L6RxC02HaZZJotqm2D1dRWZD7LMkPwW/AA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kWSP1RPk;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iU5O51DC;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B029606D808;
-	Mon,  9 Nov 2026 11:26:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E54B7606A31C;
+	Mon,  9 Nov 2026 11:27:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kWSP1RPk
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 464561F008A2;
-	Mon,  9 Nov 2026 11:26:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iU5O51DC
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96EA41F0089F;
+	Mon,  9 Nov 2026 11:27:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794223588;
-	bh=cWiIJfTA4m6YoCnpWTMnm48t+HL+VdqiKbJWu4IPPdI=;
+	s=k20260515; t=1794223656;
+	bh=GTe3rVqqBFubJwfvXPNDDRZX+sidHXepwnZzWomDy5A=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=kWSP1RPkS24dEgDNYv4KYac7avJsXtouTvBsfatKfIdfsE80vvUnsGPkW+9Q/DyYd
-	 KkpaXRymRGAeUcF1lSPxl7VSDidJEpOzaBEOKNe6vlhN2E40nn51Wexa0Ce7z0zzW2
-	 dF4s9veVnpkPUIuMxUqkLzzsmM6PNMuZ1tq77xRs+u1jFWqr7BgWl1QTsM3NN1fmQ+
-	 f480dlqWSngyecHYbh0xThW6uaWLYGsAB8PJzknCFTYY5qIXHPnq8ZNcmfgI1/QDQ6
-	 jeKQEefd7e69ETCCvYM33nKDf+j4OnGsE0DqDVmt2UanVUARZ2DErNo8oJo2rFEILF
-	 3uu2anWcXkbvw==
-Date: Mon, 9 Nov 2026 12:26:23 +0100
+	b=iU5O51DC6zVVQKzDHuys9tIxjfbSOhYw8z0UcE86pb//wkXavh32S2N8S2PUurU2A
+	 o1E3RopKG7W94xtmWo25LA834OkIsoplK5Zc5sWRxNqoMBKXFQxzncUeAVAHVqzYUN
+	 x0xzl99BebTVjgItzYyFM18S+rvSgi3xMyTZJ/jJZ69X0Gf56Vq2vszIAP9EEsAUq5
+	 YP1A5SHoyPmQVAQUq/DaV61yYmuj4yVaaeC+HIcZMJhadQiWUxN4AW86j7fp4xdZK/
+	 SKtdAofdOgM6AVAC0cEZ3+8Z/6By8LpM/kvwzBv9E4RtCHAt3TdDxZIlKuxADBPb0I
+	 863RWmyUQ6DWA==
+Date: Mon, 9 Nov 2026 12:27:22 +0100
 From: Christian Brauner <brauner@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Al Viro <viro@zeniv.linux.org.uk>, Jann Horn <jannh@google.com>, 
-	Christoph Hellwig <hch@lst.de>, Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, 
-	Josef Bacik <josef@toxicpanda.com>, Chris Mason <mason@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND v2 00/30] proc: convert the fs, kernel and mm
- entries (Part 5/7)
-Message-ID: <20261109-hackfleisch-lohnt-konkret-02b5f3dde4f6@brauner>
-References: <20261104-work-procfs-fs-v2-0-319e0f9a8aae@kernel.org>
- <CAHk-=wj9Y9NcOesBBm+jhPjYa7qO00fD7g7uwX+H-k0-R2difA@mail.gmail.com>
- <20261104-allein-bepacken-hitzig-5e517d3c129f@brauner>
- <20261105-genehm-dachrinnen-infusion-9cdf4868d32e@brauner>
- <CAHk-=wgLpWDjmcNWphCMkKXKwuZsa8KWRPvJ4j=C_ktCL4gBzg@mail.gmail.com>
- <CAHk-=wi-B--TBQuYjz6J6vKtEMpNSm4_wVRzTP_vE=uTLb7P5g@mail.gmail.com>
+To: Kees Cook <kees@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Jann Horn <jannh@google.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, 
+	Eric Dumazet <edumazet@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Al Viro <viro@zeniv.linux.org.uk>, Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
+	Greg Kroah-Hartman <gregkh@suse.de>, Joel Granados <joel.granados@kernel.org>, 
+	Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, linux-kernel@vger.kernel.org, 
+	linux-nfs@vger.kernel.org, linux-acpi@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, linux-um@lists.infradead.org, 
+	linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org, 
+	ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org, coreteam@netfilter.org, 
+	kexec@lists.infradead.org, linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, 
+	netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net, 
+	linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org, 
+	linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, 
+	linux-sh@vger.kernel.org, linux-usb@vger.kernel.org, samba-technical@lists.samba.org, 
+	sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org, 
+	linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net, 
+	Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
+	linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, linux-debuggers@vger.kernel.org, 
+	Chuck Lever <cel@kernel.org>
+Subject: Re: [PATCH RESEND v2 07/23] proc: let procfs own the seq_file of
+ seq_file entries
+Message-ID: <20261109-atemberaubend-begabung-bedienen-85aade0f99b4@brauner>
+References: <20261104-work-procfs-core-v2-0-76ace653a773@kernel.org>
+ <20261104-work-procfs-core-v2-7-76ace653a773@kernel.org>
+ <8A21EE2A-F392-40B7-9152-CBC440FDDA70@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -66,46 +81,35 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAHk-=wi-B--TBQuYjz6J6vKtEMpNSm4_wVRzTP_vE=uTLb7P5g@mail.gmail.com>
+In-Reply-To: <8A21EE2A-F392-40B7-9152-CBC440FDDA70@kernel.org>
 
-On Fri, Nov 06, 2026 at 12:19:45PM -0800, Linus Torvalds wrote:
-> Ahh, this all goes away in "scsi: core: let procfs copy in writes", so
-> never mind.
+On Sat, Nov 07, 2026 at 08:10:28AM -0800, Kees Cook wrote:
+> Please use the new style typed allocation calls for objects:
+> 
+> ops = kmalloc_obj(*ops);
+> 
+> (This happened to jump out at me, but please check the other patches for this pattern.)
 
-Yeah, but we can still do what you say in the fix:
+Done, there are 5 of them in total:
 
---- v2/drivers/scsi/scsi_proc.c
-+++ v3/drivers/scsi/scsi_proc.c
-@@ -66,24 +66,19 @@
-                            size_t count, loff_t *ppos)
- {
- 	struct Scsi_Host *shost = pde_data(file_inode(file));
--	ssize_t ret = -ENOMEM;
-+	ssize_t ret;
- 	char *page;
--    
-+
- 	if (count > PROC_BLOCK_SIZE)
- 		return -EOVERFLOW;
- 
- 	if (!shost->hostt->write_info)
- 		return -EINVAL;
- 
--	page = kmalloc(PAGE_SIZE, GFP_KERNEL);
--	if (page) {
--		ret = -EFAULT;
--		if (copy_from_user(page, buf, count))
--			goto out;
--		page[count] = '\0';
--		ret = shost->hostt->write_info(shost, page, count);
--	}
--out:
-+	page = memdup_user_nul(buf, count);
-+	if (IS_ERR(page))
-+		return PTR_ERR(page);
-+	ret = shost->hostt->write_info(shost, page, count);
- 	kfree(page);
- 	return ret;
- }
+proc: resume readdir after the last name it returned
+-		cursor = kmalloc(sizeof(*cursor), GFP_KERNEL_ACCOUNT);
++		cursor = kmalloc_obj(*cursor, GFP_KERNEL_ACCOUNT);
+
+proc: sysctl: resume readdir after the last name it returned
+-		cursor = kmalloc(sizeof(*cursor), GFP_KERNEL_ACCOUNT);
++		cursor = kmalloc_obj(*cursor, GFP_KERNEL_ACCOUNT);
+
+proc: keep the open files of an entry in an open node
+-		dp->open = kzalloc(sizeof(*dp->open), GFP_KERNEL);
++		dp->open = kzalloc_obj(*dp->open);
+
+proc: own the wait queue of an entry with a ->proc_poll()
+-	on = kzalloc(sizeof(*on), GFP_KERNEL);
++	on = kzalloc_obj(*on);
+
+proc: let procfs own the seq_file of seq_file entries
+-	ops = kmalloc(sizeof(*ops), GFP_KERNEL);
++	ops = kmalloc_obj(*ops);
 
 -- 
