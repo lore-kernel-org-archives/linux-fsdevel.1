@@ -1,54 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.4
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.73
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794192871;
-	b=T6SdKZ+qHXVMpJ2uMs1QxaQFzs1b5PSH8SXjL2Sg94dOyRY6QrU65lo56kjnHVXQ6F9m
-	 +16xcuWsoXGpdwJGKIzx2X6agaqZARooqb4NSp9TOKeY03kJO9L8lFTEAxuSeEM6sH2DP
-	 F3GbTMgM8mSlAlp+mW9+B587x8vuIahmsdDZkEdJI4PfT1121i5e52gj9YEIK6ORB0d5d
-	 nnHTTeB1m+KUbsNkn/LaoUb4oiWns/1o75LISM9mTeBU4EM98F6Tp66ImOGeLGqxlt+0l
-	 QMvsPmLurdkmMMo02r3qWt7sDitrcR6RCv/H5OttApoDdzeqC1Oo23FxaeKJOEorMrw==
+	t=1794192989;
+	b=AA1n8CNpo4y+CrvVk3Rh0P3Ybu2kJ8WXWl/6cUwnWPDIva2lBf+fF3DDZTw7nO1qwvhT
+	 taBxXcxJItBrIkp3bfRcVxoDGHeOWYj9c6ETB7VX/TIdqbPYv6O8+oMnb8b9u96yl0IHW
+	 XvNVRMGZw8DKZR9mSVZW/WqsXe9lmUUemx1tL80NN6dfUE1e4d/+m60oXaovi1hsaC56L
+	 48hAKKMwETHzjIuLTKAabTrglioP8LQT9Zf2kMLhpjH3LoHRKYQzLeAc3D+HpTi0rZdh5
+	 VAPmSC1+6oZh6xnGPMew+y1xuaJmeJaf99Crqh8OtLe3xXLelVVJGw4aYamxWw1vvrA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794192871;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794192989;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
 	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:From:In-Reply-To:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=eoxX5hhnrVdnCsiEYxw4rUS1B0+rsEN339m2Nai3htg=;
-	b=xdzDqzZN5I+lYWn30sQJzG8uwRlQZofGOoxZ5Z1rnaFp4AFw7nG+zhglhP+jTbC18d2A
-	 QtXkAuuY/O811zSAA+ywoNpARX58zuG57nwtmis+IMBqUCU2/Zvp/8ymNQvsJ4nnZX1wF
-	 2z/o4EpOmHA+UEelyD/3np8QbpSrLXS5fwVXMIuPlTs+9xLxE5vwj3Y+3gOfAXvLjDcXt
-	 9Q6IDlpGwdb20RBHqls1Q6J+w+NcYrJ2VojEX/LIAY7JnMFsHCwf4ZRBw7ui9z7fv3i9D
-	 o7FfY5kIPtAK1mp00nZjgtf2lzt4zYfHaJWwjvYcQxC7WqZx6a7Ofg+XAsYjLxy/57Q==
+	bh=n+4TwEwtUO3KwUkahtVVwASlPtdRGoMNVNlYwVFyhNM=;
+	b=EvsYaxVqvrg6PubB5b7OtSVLV0BOfMdgULaKWgUVWg2CpzpwskbaNN4ccnDgICv/FUKe
+	 +XvvuigPInJ0qTAo/HeTMGdcsv1tKGLJcztKef+9oJiqNA+baZkpE3j7GqGChcLv2YMN3
+	 u05bNDfdWx5VDk6YC/r4iAjp0ZtScyJC5Bu+lgZ5LL3IxdZGtphbed0DKP2H8sBSdA937
+	 tqFai93B5vhbU+TJuUy55BgRqFx1UFe/WvXtAnrRKtwBb0FFNiRRhPUi37v9+xRzmabur
+	 k0kngOT9rBxfiBB1SGDfLPqsma9Kpshvx8ufhCMJ4lOaom8youpmXUa0i4yLjDRWArA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=tN54d4fE;
-	arc=none smtp.remote-ip=91.218.175.4
-Received: from mta0.migadu.com (out-4.mta0.migadu.com [91.218.175.4])
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=Ony5awTA;
+	arc=none smtp.remote-ip=91.218.175.73
+Received: from mta0.migadu.com (out-73.mta0.migadu.com [91.218.175.73])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E269F606A330
-	for <linux-fsdevel@vger.kernel.org>; Mon,  9 Nov 2026 02:54:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E269F606A330
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D117C606A321
+	for <linux-fsdevel@vger.kernel.org>; Mon,  9 Nov 2026 02:56:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D117C606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=tN54d4fE
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=Ony5awTA
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=8GZA7yXccoOl25ncF5WoFStP/OWge7+wGkdg+7Q22+4=;
+DKIM-Signature: a=rsa-sha256; bh=E6nbi2q9BWguhq7sUJJq5GhBbCo7Z1GUqwFoBaxZTl4=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794192869; v=1; x=1794797669;
- b=tN54d4fELbTw1iziAe++lO07fZ5SAh4ue1naK2/9LPEFWsB9OLEZ7IIGwvMwJvNf7ENjDX9l
- QF+x5znsrYZqBLXzHYLOEerlPhB46/CjWVcI55sfgyCGnVuArQb6b6zkWJJxnh0Q7RS+EamCd8D
- JxPzlZh1L1SF3JmB2gcgkYPc=
+ t=1794192986; v=1; x=1794797786;
+ b=Ony5awTAgbmLsrGgFLGN+cLVk7IZWAP3tmpT1qrRBuK7dNO0hugdBuUGWBeLt4XIjNOYMq3f
+ 7ufDpZOF7Pzol6jvJvfzNo6qsYak2JTaZ021ZasCg8mEm4DH8yyv7OPSEEEHd98kmkqwqbmAG44
+ vNDNkSGgDm4jSgrI5mi+O+yI=
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 197dc3b85a73d5c0;
-	Mon, 09 Nov 2026 02:54:28 +0000
-X-Mizu-Trace-ID: 197dc3b85a73d5c0
+Received: by smtp.migadu.com with ESMTPS id f9c8e6b6d36b6895;
+	Mon, 09 Nov 2026 02:56:26 +0000
+X-Mizu-Trace-ID: f9c8e6b6d36b6895
 X-Migadu-Flow: FLOW_OUT
-Message-ID: <e483fc86-9a7e-49a5-873c-b5fb32d01848@linux.dev>
-Date: Mon, 9 Nov 2026 10:54:14 +0800
+Message-ID: <f7f034f6-cc88-4f54-a37f-9e9fd2dbb62f@linux.dev>
+Date: Mon, 9 Nov 2026 10:56:11 +0800
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -59,8 +59,8 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 2/6] mm/filemap: refuse dmabuf iterators in the generic
- read/write copy paths
+Subject: Re: [RFC 5/6] iomap: refuse dmabuf iterators on contents-encrypted
+ inodes
 To: Christoph Hellwig <hch@lst.de>
 Cc: Jens Axboe <axboe@kernel.dk>, Dan Williams <djbw@kernel.org>,
  Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
@@ -76,33 +76,22 @@ Cc: Jens Axboe <axboe@kernel.dk>, Dan Williams <djbw@kernel.org>,
  nvdimm@lists.linux.dev, linux-ext4@vger.kernel.org,
  linux-xfs@vger.kernel.org, linux-mm@kvack.org, Li Wang <liwang@kylinos.cn>
 References: <20261105065847.196540-1-mengmeng.zhao@linux.dev>
- <20261105065847.196540-3-mengmeng.zhao@linux.dev>
- <20261106104205.GB5668@lst.de>
+ <20261105065847.196540-6-mengmeng.zhao@linux.dev>
+ <20261106104403.GC5668@lst.de>
 From: Mengmeng Zhao <mengmeng.zhao@linux.dev>
-In-Reply-To: <20261106104205.GB5668@lst.de>
+In-Reply-To: <20261106104403.GC5668@lst.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 11/6/26 18:42, Christoph Hellwig wrote:
-> On Thu, Nov 05, 2026 at 02:58:43PM +0800, Mengmeng Zhao wrote:
->> From: Mengmeng Zhao <zhaomengmeng@kylinos.cn>
->>
->> The generic copy helpers cannot touch device memory.
+On 11/6/26 18:44, Christoph Hellwig wrote:
+> I think contents-encrypted should be content-encrypted.
 > 
-> Which generic copy helpers?  This doesn't seem to touch copy_file_range
-> at all.
-> 
-Sorry for the inaccuracy, it refers to the buffered io patch in 
-generic_file_read_iter() and __generic_file_write_uter().
->> Refuse a
->> dmabuf iterator in generic_perform_write() and the filemap_read()
->> fallback while keeping any direct-I/O progress, and report a busy
->> folio from generic_file_direct_write() as -EAGAIN instead of asking
->> for the buffered fallback such an iterator cannot take.
-> 
-> I suspect the fallback code in the callers might be a better stop
-> for this.
+> But we really need to find a way to make these checks more
+> systematic instead of sprinkling them everywhere.  E.g. have a flag
+> in file->f_mode to allow it, which then only leaves the direct I/O
+> to buffered I/O fallback as a special case.
 > 
 
-Ok, I will put it in the callers side.
-
+Agreed, adding the check to every file system is quite tedious.
+We'll look into redesigning the implementation based on your
+suggestion. Thanks for your time!
