@@ -1,47 +1,109 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794216650;
-	b=0xslEbmdHRZDfGdvT1wKW0JmuUeBppB/tMIhiaIwbIrDzBXqsmbCvDR0BaUZkwlEs2ad
-	 ney8RHozwj8uG35lZdeSMmzRuoaCvT0OHplppOAWh4o8cz90Ikr8lCC0LMV0ENttzmXyY
-	 AlVlrC/9cGruioRuQniLsJJKm2WItnHaNAsTgGUYz4VpqPOSITa5mNC/n4CMH+gbMy3zQ
-	 2H/XLa5gd2iGi2/peGhLUkfK6hyLzM46OUiphAWOsKadYxm/srl+AdKXffU0fsJ4eXMNL
-	 gMpa/+G1zrFgAFYh7nQlStXXj6SZdk+DjYa5GPg03iMryv5oxc+rRBAdTjUd6BTFZ/A==
+	t=1794216924;
+	b=srv7oJJpmHSJL2GdvSF0Io3LPoapaOU/is3h6eJtRs4Nd2iQuhdbxQ0igUK7pwgoVD5p
+	 dtkiD7caHJw6psre30dA8lparUkFZvLClMAJPBdi2ZRA9FWuzd4ssm9/D99admQZDoIZU
+	 vVwHZVlda2zrRl4T15NTI8bad/6HADLFOB35Pn0v+I4W1zx5QyIpT0U/V5D2VtTGkLYfq
+	 uR1bMn4hgrwtLBedrAu8b1E+6NiNbWHylnus9TDp/koHOhKHMsSM6T2lBeP1oSYSxSkJ2
+	 rjGXuBJrtLGAgsOfbM2ZNpueV8M3vcWHJdksiniJqfeWnpRnZuEZArc8gnOK5NuZiyQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794216650;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=CnLuB1koimLEfQ+FWHiIsUD83n76RtlgKdSdoCMVJq8=;
-	b=JFYliI4wk1NqTJu9D3wMiA99FLq5Xh68Ju0I0LeujVPdlGUCyO6cYBXgfSsZdfuw+DIr
-	 d0MT0yHEzYIYldhrerIwHdBRuynOLvXrNs+VuR0laMmVTv5vxydMRkYyjO0u0XWpX12/m
-	 jfwj/w69UDWoj7vQ8oc41hhHo+PbmxrPrEc7tEfrCJRR2G6EGO0R5pFYlvHDdNjrFBb1S
-	 8gmspTly6C0zLxYqAIJUv19ESeB5omYSJy48s0q+lVvlZv6AMuPCZ/2CgAby4Q82YrJ9T
-	 dctXMc4VTewCzL98Gs8VCZdrQVwXEw97yvkHoel1i8u132b28D5NyU6ukuvbLs5j/5w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794216924;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:
+	 X-Rspamd-Action:X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
+	bh=WSit3TGT+Hu+nxHooiffR1vu/MdQOPAucNBeRLAD2WQ=;
+	b=RrH3bVzSf5mPI+3TGKrN6bSR2Zdx93tnEf1pTxz5v/WUESoyz1SxEGqJOTUmnawBuZ+w
+	 +xpSw8mpf53N9DX/+w0fZkVBILNJJ/8EZ9TEJFXXuRBfJcUVHqoaU8pLxi0t7T51XYK/j
+	 lrrry3eHkKiKlNJdIbqvk9xeHf2YM62EBdKHLCUEj/FV2cm+CrEcdtjM1Mw7CphmTuJMr
+	 Iwpz+T1BiaZKHIxR56inzDPgTDYZYMQ795aTYhpq9q98pT1M54Tmb1E7TxLVktiAPFC0V
+	 H1z/QQXRTMSRxsX9W76wM/5YalQReO06Sx6I9jLyh9t5hOwhjyhLWXJCskkYssBiAMw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gQEWG2IB;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=suse.cz;
+	spf=pass smtp.mailfrom=suse.cz;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=EClSQMAE;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ciNjkuEv;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=EClSQMAE;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ciNjkuEv;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 618E6606A325;
-	Mon,  9 Nov 2026 09:30:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AAE0606A330;
+	Mon,  9 Nov 2026 09:35:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6AAE0606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gQEWG2IB
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFFC81F0089F;
-	Mon,  9 Nov 2026 09:30:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794216650;
-	bh=CnLuB1koimLEfQ+FWHiIsUD83n76RtlgKdSdoCMVJq8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=gQEWG2IBcfNstZNIv1Xnc+lP4lR+pAahDXpU3RGCGBOMinSgmiwz75vj8fKpk38lN
-	 kH5xmhCQZgrfUViEmJt0bM3/0Hor4tjeJmlNYBbO/RvJR7wCGR3z5orTe1/+Q344wH
-	 Xurgc6ggije9UGeZylAM9cpTVpGpRrlb8fi6hWTxUmoLE+Jgrp4MdWUQqJMwaeXhBO
-	 js93YjM1f/w5NEd4CwqPVdYJB27S2BTrkOSR9Covkf3vxI93K8oMWcdtXGKhFihX/4
-	 CZjLSINByS89lCwi+7uv1mzc3Ky5AcyS5UbzVMnwcZNOqjwb9Y0UPtG9D8qW3T1D3i
-	 eYTeMcCM3QqBQ==
-Message-ID: <8d23b1eb-72aa-479d-9486-dbfd86d8414c@kernel.org>
-Date: Mon, 9 Nov 2026 10:30:34 +0100
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=EClSQMAE;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ciNjkuEv;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=EClSQMAE;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ciNjkuEv
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4B34B21CAF;
+	Mon,  9 Nov 2026 09:35:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1794216915; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WSit3TGT+Hu+nxHooiffR1vu/MdQOPAucNBeRLAD2WQ=;
+	b=EClSQMAEvw+IcyaG1Qxrd+JZVZ43RLDOdxWR6aFLfofrzfYgW6+hmOuKeftCbpTdCqo2k4
+	Vs6PultMnJzoxffGPO7kTUyhRl1XagJpkyQcE1oOSWa1RdTvsZ2VZZJkx7ERUf2LRicI5O
+	Un5n5+YartxfeAV+EOnVaWODY+1+5Ms=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1794216915;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WSit3TGT+Hu+nxHooiffR1vu/MdQOPAucNBeRLAD2WQ=;
+	b=ciNjkuEvdX6KzinecG4iHsckf3OwP+Xn8jfdrZX6SNOR2wAYwzP1uDEITs5+siMO+b+YqY
+	+wpdDMvI732AZXBw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=EClSQMAE;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=ciNjkuEv
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1794216915; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WSit3TGT+Hu+nxHooiffR1vu/MdQOPAucNBeRLAD2WQ=;
+	b=EClSQMAEvw+IcyaG1Qxrd+JZVZ43RLDOdxWR6aFLfofrzfYgW6+hmOuKeftCbpTdCqo2k4
+	Vs6PultMnJzoxffGPO7kTUyhRl1XagJpkyQcE1oOSWa1RdTvsZ2VZZJkx7ERUf2LRicI5O
+	Un5n5+YartxfeAV+EOnVaWODY+1+5Ms=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1794216915;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WSit3TGT+Hu+nxHooiffR1vu/MdQOPAucNBeRLAD2WQ=;
+	b=ciNjkuEvdX6KzinecG4iHsckf3OwP+Xn8jfdrZX6SNOR2wAYwzP1uDEITs5+siMO+b+YqY
+	+wpdDMvI732AZXBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1F47C13302;
+	Mon,  9 Nov 2026 09:35:15 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id QUYTO9KT8WqrMQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 09 Nov 2026 09:35:15 +0000
+Received: by quack.suse.cz (Postfix, from userid 1000)
+	id 9ADB521D7C; Mon, 09 Nov 2026 10:35:14 +0100 (CET)
+Date: Mon, 9 Nov 2026 10:35:14 +0100
+From: Jan Kara <jack@suse.cz>
+To: Seiji Nishikawa <snishika@redhat.com>
+Cc: Jan Kara <jack@suse.cz>, Amir Goldstein <amir73il@gmail.com>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	syzbot+181b8b439f5207144b16@syzkaller.appspotmail.com
+Subject: Re: [PATCH] inotify: do not expose a zero mask while replacing a
+ watch
+Message-ID: <pitzz3qt6efds6xqkowtaybzwh5tsd2arn3en263qqccs5wb3s@rrky5c2aggkq>
+References: <20261019230320.1855016-1-snishika@redhat.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -51,183 +113,324 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/5] mm: limit pagecache folio refcount when splicing
- into pipes
-To: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>,
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Kiryl Shutsemau <kas@kernel.org>, Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>,
- Gregory Price <gourry@gourry.net>, Ying Huang
- <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
- Peter Xu <peterx@redhat.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Song Liu <songliubraving@fb.com>, Rik van Riel <riel@surriel.com>,
- Miklos Szeredi <miklos@szeredi.hu>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
- Hugh Dickins <hughd@google.com>, Will Deacon <will@kernel.org>,
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin
- <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>,
- Arnd Bergmann <arnd@arndb.de>, Jason Gunthorpe <jgg@ziepe.ca>,
- Kevin Tian <kevin.tian@intel.com>, "Joerg Roedel (AMD)" <joro@8bytes.org>,
- Robin Murphy <robin.murphy@arm.com>,
- Steve Sistare <steven.sistare@oracle.com>, John Hubbard
- <jhubbard@nvidia.com>, Josef Bacik <josef@toxicpanda.com>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev,
- linux-arch@vger.kernel.org, iommu@lists.linux.dev, stable@vger.kernel.org
-References: <20261107-refcount_overflow_stable-v2-0-c38f6809b106@kernel.org>
- <20261107-refcount_overflow_stable-v2-2-c38f6809b106@kernel.org>
- <a9fb2d3c-d518-49d3-9479-a25fa2cfc5b3@gmail.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <a9fb2d3c-d518-49d3-9479-a25fa2cfc5b3@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261019230320.1855016-1-snishika@redhat.com>
+X-Rspamd-Queue-Id: 4B34B21CAF
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-11.51 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TAGGED_RCPT(0.00)[181b8b439f5207144b16];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_CC(0.00)[suse.cz,gmail.com,vger.kernel.org,syzkaller.appspotmail.com];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[syzkaller.appspot.com:url,appspotmail.com:email,suse.cz:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email]
+X-Spam-Score: -11.51
 
-On 11/9/26 09:57, Jose A. Perez de Azpillaga wrote:
-> On 11/7/26 11:23 PM, David Hildenbrand (Arm) wrote:
->> Similar to mapping pagecache folios into page tables, let's reject
->> additional references when splicing folios into a pipe if the refcount
->> is at its limit, similar to how we handle it during GUP.
->>
->> This will prevent more cases of possible folio refcount overflows with
->> large pagecache folios.
->>
->> Let's keep it simple and check in the two callers of
->> splice_folio_into_pipe(). Return -EOVERFLOW if the limit prevents any
->> progress, so do_splice_read() can fall back to copy_splice_read() when
->> read_iter is available. This keeps sendfile() and other splice users
->> working when ordinary reads would still succeed.
->>
->> Also fall back to copying in FUSE when taking another reference through
->> fuse_ref_folio() would exceed the limit.
->>
->> Also check in try_get_page() to cover pipe-buffer duplication by tee()
->> and partial pipe-to-pipe splicing.
->>
->> Fixes: 800d8c63b2e9 ("shmem: add huge pages support")
->> Fixes: 99cb0dbd47a1 ("mm,thp: add read-only THP support for (non-shmem) FS")
->> Fixes: 793917d997df ("mm/readahead: Add large folio readahead")
->> Cc: stable@vger.kernel.org
->> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
->> ---
->>  fs/fuse/dev.c      |  5 +++--
->>  fs/splice.c        |  8 +++++++-
->>  include/linux/mm.h |  9 ++++++---
->>  mm/filemap.c       | 11 ++++++++---
->>  mm/shmem.c         |  4 ++++
->>  5 files changed, 28 insertions(+), 9 deletions(-)
->>
->> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
->> index 3641abb90d6bb..4f6b7b42bfd3e 100644
->> --- a/fs/fuse/dev.c
->> +++ b/fs/fuse/dev.c
->> @@ -1265,9 +1265,10 @@ int fuse_copy_folio(struct fuse_copy_state *cs, struct folio **foliop,
->>  		if (cs->write && cs->pipebufs && folio) {
->>  			/*
->>  			 * Can't control lifetime of pipe buffers, so always
->> -			 * copy user pages.
->> +			 * copy user pages. Also copy folios at their refcount limit.
->>  			 */
->> -			if (cs->req->args->user_pages) {
->> +			if (cs->req->args->user_pages ||
->> +			    unlikely(folio_ref_count_over_limit(folio))) {
->>  				err = fuse_copy_fill(cs);
->>  				if (err)
->>  					return err;
->> diff --git a/fs/splice.c b/fs/splice.c
->> index e6d43329ed3f0..df73a4e65118b 100644
->> --- a/fs/splice.c
->> +++ b/fs/splice.c
->> @@ -956,6 +956,7 @@ static ssize_t do_splice_read(struct file *in, loff_t *ppos,
->>  			      unsigned int flags)
->>  {
->>  	unsigned int p_space;
->> +	ssize_t ret;
->>  
->>  	if (unlikely(!(in->f_mode & FMODE_READ)))
->>  		return -EBADF;
->> @@ -977,7 +978,12 @@ static ssize_t do_splice_read(struct file *in, loff_t *ppos,
->>  	 */
->>  	if ((in->f_flags & O_DIRECT) || IS_DAX(in->f_mapping->host))
->>  		return copy_splice_read(in, ppos, pipe, len, flags);
->> -	return in->f_op->splice_read(in, ppos, pipe, len, flags);
->> +	ret = in->f_op->splice_read(in, ppos, pipe, len, flags);
->> +
->> +	/* Fallback to copying when hitting folio refcount limits. */
->> +	if (unlikely(ret == -EOVERFLOW) && in->f_op->read_iter)
->> +		ret = copy_splice_read(in, ppos, pipe, len, flags);
+On Tue 20-10-26 08:03:20, Seiji Nishikawa wrote:
+> When inotify_add_watch() is called on an existing watch without
+> IN_MASK_ADD, inotify_update_existing_watch() first sets mark->mask to 0
+> and clears the inotify mark flags, and then sets the new bits. This is
+> done under mark->lock, but event delivery reads mask and flags without
+> that lock, in send_to_group(), fsnotify_iter_select_report_types(),
+> fsnotify_ignore_mask(), fsnotify_handle_inode_event() and
+> inotify_handle_inode_event().
+
+Thanks for the report and the patch and I'm sorry for a delayed reply. I
+agree the problem exists and it is a bit of a can of worms because the
+lockless path on event delivery samples mask and flags multiple times and
+can be getting different results each time it looks. Also there are more
+place than you've identified that actually need similar kind of treatment
+(both on the read and write side).
+
+For example the problem can in principle affect fanotify as well (although
+there we update the mask and flags with a simple read-modify-write
+operation so the compiler would have to be actively trying to screw us for
+it to be a practical problem). For ignore mask (in particular if
+FSNOTIFY_MARK_FLAG_IGNORED_SURV_MODIFY is not set) things get even more
+interesting because we clear the mask locklessly in send_to_group() and
+that can obviously race with other ignore mask modification.
+
+So I'm now thinking how to best address all of this...
+
+								Honza
+
+
+> So if an event comes in the middle of the update, a lockless reader of
+> mark->mask can see 0 and drop the event, even when both the old mask
+> and the new mask include the bit for that event. KCSAN reports this as
+> a data race:
 > 
-> here it can't tell where the -EOVERFLOW came from, if another file
-> returns -EOVERFLOW (i.e. tty_fops uses copy_splice_read, and
-> n_hdlc_tty_read() returns -EOVERFLOW after dropping the frame), it now
-> gets a second read.
-
-
-That's what claude told me during review, and when asked whether that actually
-happened in practice it said no ;)
-
-So is that actually a problem?
-
-> also, the first read already lost data. so the data
-> read returns different data, the dropped frame is never reported and
-> returns the next frame instead.
-
-I don't follow. Can you give an example?
-
+> ==================================================================
+> BUG: KCSAN: data-race in __se_sys_inotify_add_watch / fsnotify_handle_inode_event
+> 
+> write to 0xffff88811afe9be0 of 4 bytes by task 3651 on cpu 0:
+>  inotify_update_existing_watch fs/notify/inotify/inotify_user.c:558 [inline]
+>  inotify_update_watch fs/notify/inotify/inotify_user.c:632 [inline]
+>  __do_sys_inotify_add_watch fs/notify/inotify/inotify_user.c:769 [inline]
+>  __se_sys_inotify_add_watch+0x2ea/0x720 fs/notify/inotify/inotify_user.c:717
+>  __x64_sys_inotify_add_watch+0x43/0x50 fs/notify/inotify/inotify_user.c:717
+>  x64_sys_call+0xa19/0x2550 arch/x86/include/generated/asm/syscalls_64.h:255
+>  do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+>  do_syscall_64+0x112/0x360 arch/x86/entry/syscall_64.c:84
+>  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> 
+> read to 0xffff88811afe9be0 of 4 bytes by task 3653 on cpu 1:
+>  fsnotify_handle_inode_event+0x18a/0x230 fs/notify/fsnotify.c:272
+>  fsnotify_handle_event fs/notify/fsnotify.c:330 [inline]
+>  send_to_group fs/notify/fsnotify.c:378 [inline]
+>  fsnotify+0x16ae/0x1860 fs/notify/fsnotify.c:597
+>  __fsnotify_parent+0x2f8/0x3a0 fs/notify/fsnotify.c:241
+>  fsnotify_parent include/linux/fsnotify.h:96 [inline]
+>  fsnotify_path include/linux/fsnotify.h:113 [inline]
+>  fsnotify_file include/linux/fsnotify.h:127 [inline]
+>  fsnotify_close include/linux/fsnotify.h:461 [inline]
+>  __fput+0x1e2/0x630 fs/file_table.c:498
+>  fput_close_sync+0xad/0x190 fs/file_table.c:617
+>  __do_sys_close fs/open.c:1560 [inline]
+>  __se_sys_close fs/open.c:1545 [inline]
+>  __x64_sys_close+0x55/0xf0 fs/open.c:1545
+>  x64_sys_call+0x812/0x2550 arch/x86/include/generated/asm/syscalls_64.h:4
+>  do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+>  do_syscall_64+0x112/0x360 arch/x86/entry/syscall_64.c:84
+>  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> 
+> value changed: 0x00002018 -> 0x00000000
+> 
+> Reported by Kernel Concurrency Sanitizer on:
+> CPU: 1 UID: 0 PID: 3653 Comm: syz-executor126 Not tainted syzkaller #0 PREEMPT(lazy)
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+> ==================================================================
+> 
+> The old value 0x00002018 in the report is FS_UNMOUNT |
+> FS_CLOSE_NOWRITE | FS_CLOSE_WRITE. The syzbot reproducer has one thread
+> that calls inotify_add_watch() on a regular file in a loop, always with
+> IN_CLOSE_WRITE | IN_CLOSE_NOWRITE and without IN_MASK_ADD, and another
+> thread that opens and closes the same file. Calling inotify_add_watch()
+> again on a watched file with the same mask is allowed, and it returns
+> the same watch descriptor. But each such call still sets the mask to 0
+> first, as described above, so the mask changes from 0x2018 to 0 and
+> then back to 0x2018. The report shows the first thread (task 3651, in
+> inotify_add_watch()) setting the mask to 0 while the second thread
+> (task 3653, in close()) was reading it.
+> 
+> The same problem can happen to the IN_EXCL_UNLINK and IN_ONESHOT bits
+> in mark->flags.
+> 
+> To check that events are really dropped, the dropped events were
+> counted with bpftrace while the syzbot reproducer was running. The
+> kernel is v7.3-rc7 built with the syzbot config plus CONFIG_KPROBES and
+> CONFIG_KPROBE_EVENTS. The script counts the calls of
+> fsnotify_handle_inode_event() that return without calling
+> inotify_handle_inode_event(), that is, the events dropped there:
+> 
+> kprobe:fsnotify_handle_inode_event
+> /comm == "repro" || comm == "repro_add"/
+> {
+> 	@calls = count();
+> 	@pending[tid] = 1;
+> }
+> 
+> kprobe:inotify_handle_inode_event
+> /@pending[tid] == 1/
+> {
+> 	@passed = count();
+> 	@pending[tid] = 0;
+> }
+> 
+> kretprobe:fsnotify_handle_inode_event
+> /@pending[tid] == 1/
+> {
+> 	@dropped = count();
+> 	@pending[tid] = 0;
+> }
+> 
+> With the reproducer built as "repro", 1551 of 213431 events were
+> dropped in 5 seconds:
+> 
+> @calls: 213431
+> @dropped: 1551
+> @passed: 211880
+> 
+> With IN_MASK_ADD added to the inotify_add_watch() call in the
+> reproducer, built as "repro_add", no events were dropped:
+> 
+> @calls: 195658
+> @dropped: 0
+> @passed: 195658
+> 
+> With this patch, no events were dropped with "repro", even without
+> IN_MASK_ADD:
+> 
+> @calls: 337082
+> @dropped: 0
+> @passed: 337082
+> 
+> Commit 38035c04f586 ("inotify: move control flags from mask to mark
+> flags") changed the call without IN_MASK_ADD to first clear the mask and
+> the inotify flags, and then OR in the new bits with the same code as the
+> IN_MASK_ADD case. The mask is cleared and set again under mark->lock,
+> but the lockless readers do not take that lock, so they can see the
+> zero mask after it is cleared and before the new bits are set, and
+> drop events.
+> 
+> Write the new mask and flags to the mark with one WRITE_ONCE() each, so
+> a lockless reader sees either the old value or the new value, never a
+> zero mask in between. Also use READ_ONCE() in the lockless readers on
+> the event delivery path, to pair with the WRITE_ONCE() and mark these
+> reads as intentionally lockless.
+> 
+> Fixes: 38035c04f586 ("inotify: move control flags from mask to mark flags")
+> Reported-by: syzbot+181b8b439f5207144b16@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=181b8b439f5207144b16
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Seiji Nishikawa <snishika@redhat.com>
+> ---
+>  fs/notify/fsnotify.c                 | 10 +++++-----
+>  fs/notify/inotify/inotify_fsnotify.c |  2 +-
+>  fs/notify/inotify/inotify_user.c     | 17 +++++++++++++----
+>  include/linux/fsnotify_backend.h     |  4 ++--
+>  4 files changed, 21 insertions(+), 12 deletions(-)
+> 
+> diff --git a/fs/notify/fsnotify.c b/fs/notify/fsnotify.c
+> index 7e2f330fd283..4687ba54da01 100644
+> --- a/fs/notify/fsnotify.c
+> +++ b/fs/notify/fsnotify.c
+> @@ -264,12 +264,12 @@ static int fsnotify_handle_inode_event(struct fsnotify_group *group,
+>  	if (WARN_ON_ONCE(!inode && !dir))
+>  		return 0;
+>  
+> -	if ((inode_mark->flags & FSNOTIFY_MARK_FLAG_EXCL_UNLINK) &&
+> +	if ((READ_ONCE(inode_mark->flags) & FSNOTIFY_MARK_FLAG_EXCL_UNLINK) &&
+>  	    path && d_unlinked(path->dentry))
+>  		return 0;
+>  
+>  	/* Check interest of this mark in case event was sent with two marks */
+> -	if (!(mask & inode_mark->mask & ALL_FSNOTIFY_EVENTS))
+> +	if (!(mask & READ_ONCE(inode_mark->mask) & ALL_FSNOTIFY_EVENTS))
+>  		return 0;
+>  
+>  	return ops->handle_inode_event(inode_mark, mask, inode, dir, name, cookie);
+> @@ -349,7 +349,7 @@ static int send_to_group(__u32 mask, const void *data, int data_type,
+>  	/* clear ignored on inode modification */
+>  	if (mask & FS_MODIFY) {
+>  		fsnotify_foreach_iter_mark_type(iter_info, mark, type) {
+> -			if (!(mark->flags &
+> +			if (!(READ_ONCE(mark->flags) &
+>  			      FSNOTIFY_MARK_FLAG_IGNORED_SURV_MODIFY))
+>  				mark->ignore_mask = 0;
+>  		}
+> @@ -358,7 +358,7 @@ static int send_to_group(__u32 mask, const void *data, int data_type,
+>  	/* Are any of the group marks interested in this event? */
+>  	fsnotify_foreach_iter_mark_type(iter_info, mark, type) {
+>  		group = mark->group;
+> -		marks_mask |= mark->mask;
+> +		marks_mask |= READ_ONCE(mark->mask);
+>  		marks_ignore_mask |=
+>  			fsnotify_effective_ignore_mask(mark, is_dir, type);
+>  	}
+> @@ -439,7 +439,7 @@ static bool fsnotify_iter_select_report_types(
+>  			 * But is *this mark* watching children?
+>  			 */
+>  			if (type == FSNOTIFY_ITER_TYPE_PARENT &&
+> -			    !(mark->mask & FS_EVENT_ON_CHILD) &&
+> +			    !(READ_ONCE(mark->mask) & FS_EVENT_ON_CHILD) &&
+>  			    !(fsnotify_ignore_mask(mark) & FS_EVENT_ON_CHILD))
+>  				continue;
+>  
+> diff --git a/fs/notify/inotify/inotify_fsnotify.c b/fs/notify/inotify/inotify_fsnotify.c
+> index 7c326ec2e8a8..da506ef03a25 100644
+> --- a/fs/notify/inotify/inotify_fsnotify.c
+> +++ b/fs/notify/inotify/inotify_fsnotify.c
+> @@ -129,7 +129,7 @@ int inotify_handle_inode_event(struct fsnotify_mark *inode_mark, u32 mask,
+>  		fsnotify_destroy_event(group, fsn_event);
+>  	}
+>  
+> -	if (inode_mark->flags & FSNOTIFY_MARK_FLAG_IN_ONESHOT)
+> +	if (READ_ONCE(inode_mark->flags) & FSNOTIFY_MARK_FLAG_IN_ONESHOT)
+>  		fsnotify_destroy_mark(inode_mark, group);
+>  
+>  	return 0;
+> diff --git a/fs/notify/inotify/inotify_user.c b/fs/notify/inotify/inotify_user.c
+> index 5f19c24ec187..98a13699ee66 100644
+> --- a/fs/notify/inotify/inotify_user.c
+> +++ b/fs/notify/inotify/inotify_user.c
+> @@ -554,12 +554,21 @@ static int inotify_update_existing_watch(struct fsnotify_group *group,
+>  	i_mark = container_of(fsn_mark, struct inotify_inode_mark, fsn_mark);
+>  
+>  	spin_lock(&fsn_mark->lock);
+> +	/*
+> +	 * Event delivery reads mask and flags without mark->lock, so update
+> +	 * each of them with a single store and never expose a partial value.
+> +	 */
+>  	if (replace) {
+> -		fsn_mark->mask = 0;
+> -		fsn_mark->flags &= ~INOTIFY_MARK_FLAGS;
+> +		WRITE_ONCE(fsn_mark->mask, inotify_arg_to_mask(inode, arg));
+> +		WRITE_ONCE(fsn_mark->flags,
+> +			   (fsn_mark->flags & ~INOTIFY_MARK_FLAGS) |
+> +			   inotify_arg_to_flags(arg));
+> +	} else {
+> +		WRITE_ONCE(fsn_mark->mask,
+> +			   fsn_mark->mask | inotify_arg_to_mask(inode, arg));
+> +		WRITE_ONCE(fsn_mark->flags,
+> +			   fsn_mark->flags | inotify_arg_to_flags(arg));
+>  	}
+> -	fsn_mark->mask |= inotify_arg_to_mask(inode, arg);
+> -	fsn_mark->flags |= inotify_arg_to_flags(arg);
+>  	spin_unlock(&fsn_mark->lock);
+>  
+>  	fsnotify_recalc_mask(fsn_mark->connector);
+> diff --git a/include/linux/fsnotify_backend.h b/include/linux/fsnotify_backend.h
+> index a6d5c1a89cff..5f0b94bfde8e 100644
+> --- a/include/linux/fsnotify_backend.h
+> +++ b/include/linux/fsnotify_backend.h
+> @@ -802,7 +802,7 @@ static inline __u32 fsnotify_ignore_mask(struct fsnotify_mark *mark)
+>  	__u32 ignore_mask = mark->ignore_mask;
+>  
+>  	/* The event flags in ignore mask take effect */
+> -	if (mark->flags & FSNOTIFY_MARK_FLAG_HAS_IGNORE_FLAGS)
+> +	if (READ_ONCE(mark->flags) & FSNOTIFY_MARK_FLAG_HAS_IGNORE_FLAGS)
+>  		return ignore_mask;
+>  
+>  	/*
+> @@ -812,7 +812,7 @@ static inline __u32 fsnotify_ignore_mask(struct fsnotify_mark *mark)
+>  	 */
+>  	ignore_mask |= FS_ISDIR;
+>  	ignore_mask &= ~FS_EVENT_ON_CHILD;
+> -	ignore_mask |= mark->mask & FS_EVENT_ON_CHILD;
+> +	ignore_mask |= READ_ONCE(mark->mask) & FS_EVENT_ON_CHILD;
+>  
+>  	return ignore_mask;
+>  }
+> -- 
+> 2.55.0
+> 
 -- 
-Cheers,
-
-David
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
