@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794246517;
-	b=26rnmdXOzIEJClWPZFbhSYicE0aofaZyRheBEii6xi0AxT5neyNX2yeL93kPQAXy7VHk
-	 y0rCw1cWF2bFvnys3yz/oUfg8MPSJ3wkKuTJSsmuW77uHQGJ5gGg5Pif3WXPxuh91pDdn
-	 n1d2CXD8/4lQ7myFTF39Pkt3XL4y5naBxQ5ijX6bTw8n2jO/CImeEO6XWvWaMKyFKEH8J
-	 CBqm0Yl/YDm0oF90xqpVqzuw7Jk/FKgCG6xplErRtHOB8S+Xf9X0OcnNboaEjgRmwUTKO
-	 /hGgeQpZ8QfURH8nsXOt0TESNoFzNIUqXgvIU0338Dgtx4NdvHRo7H7i23Gg80m681g==
+	t=1794246535;
+	b=3lM2Sg1UiPYBojPufwhBzLNvfQVcuKNzMLRU4ioYHD1cePhu5P2lOUNsLQ3bexhLytDS
+	 7Nybflsvk0x9GoxMhkneY5cuqUWu9hrO1djjiRK66xdZ0x91vtmqxqxuBuWle6wBHMzIy
+	 UAAtgpnFay8Xrvbp9P4KcVrsf1207VmQzvgBsziafP/tCYabBwHB5Di0T8gzE5ukkQQ7J
+	 DbKdvPxX99EGVrLtdIINnZHoc82jmXZVAkDyjg00cwC6ERmQTeK4aCyN4c9El9+bElyJa
+	 7OKb63f3LdTquQpdkAPJHUofvqbTrU5WgeSbssaxQ6LfSyl97ktEB2Wiog054yW2xLg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794246517;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794246535;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=lcHVNb8h9ym/nW67h6wzRR7N7FkAfMPdvxxCwA8+c2g=;
-	b=mftyRMSdQyQHe69KrwtBukbPVCPa8v2icS8R4re8fHOwRkx81FiyYS4ltrUwpYNQ3pHV
-	 gVUAtyQvFjQ4Qy18MLtMVuRxsQS9uzkBh7+hg3fVLWtmU2ISo+93Oyy1A9W86bqCUU+bg
-	 wet4Daitdvwi8JVsEkqt4FwCljKXZR4tYWbphbewh/V9piSkS6nhK7YXsvg4nBHvEPTpk
-	 s8ltOkaaUKLZWmV6JPMqnSbv/NS/9gtSwULPmqervhKcDq8oxNv6lQWNa+TbFuFFEvn1V
-	 0uce0E6HBBx/3tp+Z9f1jpxYmf0K7yLcq7a6XVd9ZW/q7N6PUba4IsxoLjCuf9b9Vcw==
+	bh=dHxEdjexbDAxhEaz003lOiCE3vg4apNJPfNwG6nSAow=;
+	b=132Cyn0SfW9OvHppl6JvApX8wsiRT+39KTDeotng7NuAbd82TQ6JVpxLHyByWXuKQdjD
+	 rkP6/Mdjhcx73Rbq6E0c3p9dU5QwlRHh79Q+AjSx15xCKdSZJq9V0IGL1eqGpo8iiw/Or
+	 YdNjKJy7U4raWwn0AatGYKHLpNsIEGkUJTIU5lrMuWbAAeQad8Dff6FyF7avvo3jkUFBO
+	 aLre8TaXW2dLZExcreeZ/S9SY2+b1S/BHhO6w+4BW/iWDZwt7T89C/GvZGQoh1ZXjsOvI
+	 S5pht/0qO13fhcvJ2gyq0SbC5LWGqzAj2l6BygP2gaOzzKiB/EgwDj3KA/UPHC/aHIA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="lkoDD4+/";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Pek9s7zB;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA718606A31C;
-	Mon,  9 Nov 2026 17:48:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4E44606A31C;
+	Mon,  9 Nov 2026 17:48:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lkoDD4+/
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9E011F008A6;
-	Mon,  9 Nov 2026 17:48:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Pek9s7zB
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBE031F008A1;
+	Mon,  9 Nov 2026 17:48:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794246516;
-	bh=lcHVNb8h9ym/nW67h6wzRR7N7FkAfMPdvxxCwA8+c2g=;
+	s=k20260515; t=1794246535;
+	bh=dHxEdjexbDAxhEaz003lOiCE3vg4apNJPfNwG6nSAow=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=lkoDD4+/yYSc0TRRYBmcWMudLmbIzQucPBUxkh4qoyIWogL1k4ZeJA+sIZgycMJaJ
-	 GlsdpeGkUvFnUajiwqaUoJzGhzQuVetlT+Vq6veOeb4eAU7S3a6HiqmiU5g0S0xlzB
-	 wjdYEqzxdHWWUTKfYJfy1vP7iNTwNitM0eu6BzKkcVwU6aYWrBq1iNIah3D72sC3uz
-	 wje5C8DL5z63ijGwAdNFRfbDem0Cx73jwc1ZIG2bkF5gJhcGmBRBrRj6UqZaqvxmdz
-	 ngYOkuyKZKiwFL/4KsFYnAwB3QonHpvmWd2aCwhX+EZ+NLqV2Hb1a6cgFycRxnGaeS
-	 FGVPTL9jOHEOA==
-Message-ID: <ab4be2bc-8959-4c09-a120-37e216279dae@kernel.org>
-Date: Mon, 9 Nov 2026 18:48:07 +0100
+	b=Pek9s7zBH0iPwsSpcUG005YFC1HK89pX4jsQNNeogHCzt4HyJI7X/6lZf5+7iMxvc
+	 rXQIj8PlSNmYODFFj3rXKyfHyW2qPFSVPc8dbbTFYccpGhJtNDSawBiSC5j9x9sxed
+	 Olr2iyiFE3ie6Jw2rtzed5xGk2A9JiOt0cbquzPkVQSveOB7CQC1IJKgHX/L/OPmUh
+	 PKo0zYmMFGSKAJXUMd9+fwEbQ4vNbukBOV5EsWL3wuja6tSb4TAKLpxGLu1BYHQ3TR
+	 kjxMEhHWj/i76fDu4ytgwvqaaqRAlhaIncCx2xVGCxVf0hHuEl+L/KVequLYiOHkh7
+	 aEHPTMDRdPT4Q==
+Message-ID: <befbf3e1-d25d-42fc-86df-e4b695b017a2@kernel.org>
+Date: Mon, 9 Nov 2026 18:48:39 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -52,65 +52,40 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/13] mm: continue vma_flags_t conversion
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Rik van Riel <riel@surriel.com>, "Liam R. Howlett" <liam@infradead.org>,
- Vlastimil Babka <vbabka@kernel.org>, Harry Yoo <harry@kernel.org>,
- Jann Horn <jannh@google.com>, Lance Yang <lance.yang@linux.dev>,
- Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>,
- Gregory Price <gourry@gourry.net>, Ying Huang
- <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
+Subject: Re: [RFC PATCH v2 03/18] fuse: don't move a folio with PG_rcu_free
+ into a fuse file
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: "Kiryl Shutsemau (Meta)" <kas@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Matthew Wilcox <willy@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Lorenzo Stoakes <ljs@kernel.org>, Jan Kara <jack@suse.cz>,
+ Hugh Dickins <hughd@google.com>, Christian Brauner <brauner@kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, Harry Yoo <harry@kernel.org>,
+ Miklos Szeredi <miklos@szeredi.hu>, Miaohe Lin <linmiaohe@huawei.com>,
+ Naoya Horiguchi <nao.horiguchi@gmail.com>, Oscar Salvador
+ <osalvador@suse.de>, "Liam R. Howlett" <liam@infradead.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Brendan Jackman <brendan.jackman@linux.dev>,
+ Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
  Baolin Wang <baolin.wang@linux.alibaba.com>,
  Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
  Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>,
- Xu Xin <xu.xin@linux.dev>, Chengming Zhou <chengming.zhou@linux.dev>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>,
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
- "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
- Shrikanth Hegde <sshegde@linux.ibm.com>, Pedro Falcato <pfalcato@suse.de>,
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
  Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>,
  Shakeel Butt <shakeel.butt@linux.dev>,
  Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
  Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Leon Romanovsky <leon@kernel.org>,
- SJ Park <sj@kernel.org>, Rakie Kim <rakie.kim@sk.com>,
- David Rientjes <rientjes@google.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Peter Zijlstra
- <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
- Adrian Hunter <adrian.hunter@intel.com>, James Clark
- <james.clark@linaro.org>, Masami Hiramatsu <mhiramat@kernel.org>,
- Oleg Nesterov <oleg@redhat.com>, John Johansen
- <john.johansen@canonical.com>, Georgia Garcia
- <georgia.garcia@canonical.com>, Paul Moore <paul@paul-moore.com>,
- James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
- Mimi Zohar <zohar@linux.ibm.com>, Roberto Sassu <roberto.sassu@huawei.com>,
- Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
- Eric Snowberg <eric.snowberg@oracle.com>, Fan Wu <wufan@kernel.org>,
- Stephen Smalley <stephen.smalley.work@gmail.com>,
- =?UTF-8?B?T25kcmVqIE1vc27DocSNZWs=?= <omosnacek@gmail.com>,
+ "Paul E. McKenney" <paulmck@kernel.org>, Pedro Falcato <pfalcato@suse.de>,
+ Luis Chamberlain <mcgrof@kernel.org>,
+ Ilya Gladyshev <ilya.gladyshev@linux.dev>, Jaegeuk Kim <jaegeuk@kernel.org>,
  linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- kvm@vger.kernel.org, damon@lists.linux.dev,
- linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
- apparmor@lists.ubuntu.com, linux-security-module@vger.kernel.org,
- linux-integrity@vger.kernel.org, selinux@vger.kernel.org
-References: <20261105-late-2026-vma-flags-v1-0-0d3cd15ab75f@kernel.org>
- <d0ea7929-7c12-4245-ba3f-6dd5c0269e6b@kernel.org> <au3r0-geuwtRYPiC@gremlin>
- <1c0b1368-a381-4b25-bba9-7a4f8e92b764@kernel.org> <au-DXpEi4wHwsz0r@gremlin>
- <93fef824-9f60-4940-9ee6-80c9c8e3f945@kernel.org>
- <20261109094434.d23a227a869e76455ddff3b1@linux-foundation.org>
+ linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev,
+ kernel-team@meta.com
+References: <20261104130118.2507513-1-kas@kernel.org>
+ <20261104130118.2507513-4-kas@kernel.org>
+ <f21433af-afc6-4a8f-8d2d-3a377cd3bd6e@kernel.org>
+ <CAHk-=whn=xc9J3qApHWRGTaBpwVRtGbvJ0LURGF=dqC9B3swUw@mail.gmail.com>
+ <CAHk-=whhp=Q8qR+wPoM9+mxYPQ_OXMOEoKmT7J0JZikFZusuqw@mail.gmail.com>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -157,45 +132,38 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20261109094434.d23a227a869e76455ddff3b1@linux-foundation.org>
+In-Reply-To: <CAHk-=whhp=Q8qR+wPoM9+mxYPQ_OXMOEoKmT7J0JZikFZusuqw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 11/9/26 18:44, Andrew Morton wrote:
-> On Mon, 9 Nov 2026 14:40:48 +0100 "David Hildenbrand (Arm)" <david@kernel.org> wrote:
-> 
->> On 11/7/26 21:09, Lorenzo Stoakes (ARM) wrote:
->>> I think we're slightly talking across purposes, so to be clear - I am totally
->>> fine with you taking any of this through your tree or whatever works for you and
->>> Andrew to avoid merge pain :)
->>>
->>> I was just talking more generally about how to merge series that touch a lot of
->>> subsystems and maintainers-who-may-never-reply, etc.
->>>
->>> These are the edge cases that make things... fun :)
->>>
->>> Anyway, I guess easiest resolution here is for you to take the bits that belong
->>> to your trees and Andrew takes the bits that belong elsewhere?
+On 11/9/26 17:35, Linus Torvalds wrote:
+> On Mon, 9 Nov 2026 at 08:28, Linus Torvalds
+> <torvalds@linux-foundation.org> wrote:
 >>
->> Yes, that's what I did now, applying #1,#3,#4,#5,#6
+>> On Mon, 9 Nov 2026 at 06:46, David Hildenbrand (Arm) <david@kernel.org> wrote:
+>>>
+>>> Could we get rid of fuse_try_move_folio() entirely?
+>>
+>> Please. That would be great.
 > 
-> Cool.
+> .. and in a similar vein, we should get rid of splice doing the same entirely.
 > 
-> I'll remove the whole series from mm.git immediately for
-> collision-avoidance reasons - let's sort things out later.
-
-The mm-next merge today still worked (minor conflict on #7 due to one
-unnecessary ksm.c hunk I commented on), so you could have likely just kept all
-but the above patches.
-
+> Kirly's patch to just remove page_cache_pipe_buf_try_steal() entirely
+> (ok, it was originally mine, but Kiryl took ownership of that series:
+> "Tag, you're it") is worth doing, but I think worth doubling down on.
+> I think we sh ould just get rid of 'try_steal' entirely. I don't think
+> anybody really uses it. I think it exists in fuse and in the virtio
+> console, and neither is worth it.
 > 
-> I'll get better/more accurate about this soon - I need to set up
-> infrastructure to fetch everyone else's trees, do test merges and
-> figure out what should be removed/fixed in mm.git.  I might just base
-> mm.git on everyone-else and always route its stuff ->david.  I need to
-> spend a bit of time on this and discuss with the mm-next peeps.
+> Removing pipe_buf_try_steal() would basically remove all of
+> fuse_try_move_folio().
+> 
+> Conversely, removing fuse_try_move_folio() would make
+> pipe_buf_try_steal() even less useful than it is now.
+> 
+> Just remove them both. Good riddance.
 
-Ack!
+Yes, that would be very nice.
 
 -- 
 Cheers,
