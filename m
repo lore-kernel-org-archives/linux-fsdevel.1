@@ -1,110 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794226828;
-	b=pgAR53E2fEVnBByS/qKmhgSgbBDdAHRbEqgAxpuPoLOMQrM6yKIgWZ0qAb3LKK+eotp9
-	 o8fgQyv0LgKIyVrgrx9wbEDXVwAj01n1QHP+VGrR0hA2d24CJk4toNghZVkchI91Qu2ka
-	 6L7R6xyXyZHD/nx6kdqo9svsnyb2+hGiI7O/Yi6BXfpkjHB7yBDYLhZESpvS8obvIXcpq
-	 mcmjeziHizznSulfF23cBUFlUprwBhlIv11JjGXbZYobt5L26NLj7Ojr7GiFUg/LcNATO
-	 1vZG0QbmipA69lv4/KA1VcFTKHqgJ8yKnp/bqkqU2G3THwHIgXAugAdo6QYDbKVrnhg==
+	t=1794227244;
+	b=srFN5VCe6g9DUFvI6/7vzQQ+zNiLnsYnrMjDjXXBAr39tbx4MGZRw4JN3IJLS7BHJDHC
+	 8rdpKa0KFmxZXsniJBE2w7/R1kon/XN1HHC9AmiKfc5Sq6C4lYV08Z0+6c+H/EQ/kSqA+
+	 fYYPla3ePT3oVUuyDYLPBnY/G3DoeuU7NwhSpfKpSsgutPkaggXOBYaNpD25gXrcggb9N
+	 qDDTDJfhVWOp0blCe4H8pta5wpPBZrf/6ymoW9Lobb5+DAXo9+5xHsZPL477JihtLXEK4
+	 8KUMdXq4478ADejRAQqBN/oYWLv5M7GemEZalq3vikERpHjQNJgXs1XzBZGUiYyX7fA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794226828;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:
-	 X-Spam-Flag:X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
-	bh=YcGWRSLO8Yfbujxln+iu8vgkMzCPp+fOVFLW3VDJHEw=;
-	b=tXWVS/G+9qpiE99N2aW59G47bfxBMld2PE98YQEadUHD2mDofKVVncEDvgjZMzS8c5uC
-	 ZNlmgUHS7eNN3sh9k9GHP8m0lWTpVppqdciWIxE8u0lhCCIvEuMsx1/uC9RzqHPNgax2k
-	 JmLLKt5CPMIuHclJtY4NRCWMuVReGXa7p0otPpOQ3U6rKev8DWJT2V7I8rLfTRgBptxNC
-	 qYEpdnIeCZAotTNoJ+K3qcdFwYEyUxCOYCSJtMNZgw8glzwyYFL/43FEJ8TP3NQDEXCAu
-	 RuvHZxSVY1fRNObndBeND0otld7ds5lGNpWxfx3UpAbKn0n4LgqJERTsYs0iDrWM0Pg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794227244;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=RYIcWcYzIUZ35LbYpg6XHYKMwvcMU7zN300uv/7AjsM=;
+	b=5L3gcaWF4f153ORc5lQUt+i37o2pI0gDGZx6wvKghUNHjj4jL6ql+0HHEeKLXyK5xR08
+	 SfZhxoqnBZ130dJc9KVNs0oHOcXuJKC7agxPakP5Pj1ir+GmiDlu9VF4U8SX9TUP+uuCZ
+	 eRFccs1vW4sfrWsVLeSrXl7ZAN7PseEnZy2Bk/AQot6AhotKyWKcdU6pebF6kQx7wYaTq
+	 1irsGhfWYYXr+pMomL2CXpnY6OJxYwDYnCwLXf8MxGWIVAuStia+J+ZY3QKBEtXCKQCJl
+	 Xpopa0X+OLGPCclNMhvOGaS1skReCjGfGsBgPdR6kGCWEFmAy26d28mHpJARKstA1Qw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=ut7+3u6S;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=SApFq5WF;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=ut7+3u6S;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=SApFq5WF;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WkYzP4rt;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D85C606A321;
-	Mon,  9 Nov 2026 12:20:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0D85C606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED134606A31C;
+	Mon,  9 Nov 2026 12:27:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=ut7+3u6S;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=SApFq5WF;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=ut7+3u6S;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=SApFq5WF
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9B4F11F7B0;
-	Mon,  9 Nov 2026 12:20:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794226825; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YcGWRSLO8Yfbujxln+iu8vgkMzCPp+fOVFLW3VDJHEw=;
-	b=ut7+3u6SWUn9H8Jk66vEquo6iEFh7zATkMxP+B0KrFpqdOTRAYkB5eSvqIDm4Rftcg06HF
-	f7tCAJLzEpBvUUmWwknN84Sa+PrtyJG9nxQ4uagQy4WqPiSGG6MhXP7Lp3Tpooe8AZqVzX
-	1EqRV98wGShKrD9PbU/12/Bb4A/d288=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794226825;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YcGWRSLO8Yfbujxln+iu8vgkMzCPp+fOVFLW3VDJHEw=;
-	b=SApFq5WFZKP1QJxdXVdmiFrXqZfJWpmJ9J498Q0lnZH6aJAC8jzrJFO5frmz50TRQOq2eL
-	BC6YY8lV1FJQEoCA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=ut7+3u6S;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=SApFq5WF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794226825; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YcGWRSLO8Yfbujxln+iu8vgkMzCPp+fOVFLW3VDJHEw=;
-	b=ut7+3u6SWUn9H8Jk66vEquo6iEFh7zATkMxP+B0KrFpqdOTRAYkB5eSvqIDm4Rftcg06HF
-	f7tCAJLzEpBvUUmWwknN84Sa+PrtyJG9nxQ4uagQy4WqPiSGG6MhXP7Lp3Tpooe8AZqVzX
-	1EqRV98wGShKrD9PbU/12/Bb4A/d288=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794226825;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YcGWRSLO8Yfbujxln+iu8vgkMzCPp+fOVFLW3VDJHEw=;
-	b=SApFq5WFZKP1QJxdXVdmiFrXqZfJWpmJ9J498Q0lnZH6aJAC8jzrJFO5frmz50TRQOq2eL
-	BC6YY8lV1FJQEoCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6BA5E13302;
-	Mon,  9 Nov 2026 12:20:25 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id TyZzEYm68WqqXgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 09 Nov 2026 12:20:25 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id E3A9B21FF2; Mon, 09 Nov 2026 13:20:20 +0100 (CET)
-Date: Mon, 9 Nov 2026 13:20:20 +0100
-From: Jan Kara <jack@suse.cz>
-To: Hungyu Lin <dennylin0707@gmail.com>
-Cc: willy@infradead.org, jack@suse.cz, akpm@linux-foundation.org, 
-	lczerner@redhat.com, tytso@mit.edu, hughd@google.com, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] mm: skip empty finite ranges in
- truncate_pagecache_range
-Message-ID: <tbwekv4fqz3w74jgyy3pqvg3hvfi4erosgwnxwao5lwsrc7hp7@aaxxwdkkte4x>
-References: <20261027211505.22044-1-dennylin0707@gmail.com>
- <20261104182700.88789-1-dennylin0707@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WkYzP4rt
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD0D91F0089F;
+	Mon,  9 Nov 2026 12:27:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794227243;
+	bh=RYIcWcYzIUZ35LbYpg6XHYKMwvcMU7zN300uv/7AjsM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=WkYzP4rt/AxJflSDY4QvHlo3QQtj+85opjVNNjFvMZqJZn+bBCQKsOR1Vc56wCsWw
+	 FHwDkIcJj0dA8rBrIwiablgEvMq9q7ucu+JfX5ZN/0yOM8xaxvKN1o/8G1XCL0eIBJ
+	 b0Cv7HUFzyyS7CUgxu7a5sjYbh8AKtzd//4hZ8f+wOi407hdVAolsL1UEeBF+yDk3z
+	 Cz0noIGTuP+nGcjHMqce1MVu5INeoK3aRdrWAaXkeN9Rfm7WjlKS4/wg/Th3S/XzAR
+	 k2GkQM8y0M0SzQ1l9cxFRP1xd1zIG5cLpSzvpH/O1BlNyrFDSrS7beg0mpHerpJWoL
+	 FtSvpRHC0A2SA==
+Date: Mon, 9 Nov 2026 12:27:00 +0000
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Rik van Riel <riel@surriel.com>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Harry Yoo <harry@kernel.org>, Jann Horn <jannh@google.com>, Lance Yang <lance.yang@linux.dev>, 
+	Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
+	Barry Song <baohua@kernel.org>, Usama Arif <usama.arif@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Xu Xin <xu.xin@linux.dev>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+	Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>, 
+	Shrikanth Hegde <sshegde@linux.ibm.com>, Pedro Falcato <pfalcato@suse.de>, 
+	Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Leon Romanovsky <leon@kernel.org>, SJ Park <sj@kernel.org>, 
+	Rakie Kim <rakie.kim@sk.com>, David Rientjes <rientjes@google.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
+	Adrian Hunter <adrian.hunter@intel.com>, James Clark <james.clark@linaro.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	John Johansen <john.johansen@canonical.com>, Georgia Garcia <georgia.garcia@canonical.com>, 
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Mimi Zohar <zohar@linux.ibm.com>, 
+	Roberto Sassu <roberto.sassu@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
+	Eric Snowberg <eric.snowberg@oracle.com>, Fan Wu <wufan@kernel.org>, 
+	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej =?utf-8?B?TW9zbsOhxI1law==?= <omosnacek@gmail.com>, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, damon@lists.linux.dev, 
+	linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, apparmor@lists.ubuntu.com, 
+	linux-security-module@vger.kernel.org, linux-integrity@vger.kernel.org, selinux@vger.kernel.org
+Subject: Re: [PATCH 05/13] mm: convert THP VMA flag tests to use vma_flags_t
+Message-ID: <avG7_rb_PtU1jsbH@gremlin>
+References: <20261105-late-2026-vma-flags-v1-0-0d3cd15ab75f@kernel.org>
+ <20261105-late-2026-vma-flags-v1-5-0d3cd15ab75f@kernel.org>
+ <631047fa-8a19-44b8-9fed-6607ec79a1c1@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -116,103 +97,48 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261104182700.88789-1-dennylin0707@gmail.com>
-X-Spamd-Result: default: False [-13.01 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_COUNT_THREE(0.00)[3];
-	ARC_NA(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -13.01
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 9B4F11F7B0
+In-Reply-To: <631047fa-8a19-44b8-9fed-6607ec79a1c1@kernel.org>
 
-On Wed 04-11-26 18:27:00, Hungyu Lin wrote:
-> For a finite range ending before the first page boundary,
-> truncate_pagecache_range() calculates unmap_end as -1. The unsigned
-> comparison then treats the empty full-page interval as nonempty.
-> 
-> For example, lstart == 0 and lend == 0 cause unmap_mapping_range() to be
-> called with a zero length, meaning unmap to EOF. Punching one byte at
-> offset zero in a mapped FUSE file can therefore remove mappings outside
-> the hole, causing unnecessary page-table work and subsequent faults.
-> 
-> Set unmap_end to zero for these small finite ranges so that the existing
-> unsigned comparison skips the empty interval. Explicitly handle lend ==
-> -1 and lend == LLONG_MAX with LLONG_MAX, preserving EOF handling and
-> avoiding wrapping in the endpoint calculation at the largest inclusive
-> end.
-> 
-> Suggested-by: Jan Kara <jack@suse.cz>
-> Fixes: 5a7203947a1d ("mm: teach truncate_inode_pages_range() to handle non page aligned ranges")
-> Link: https://lore.kernel.org/r/20261027211505.22044-1-dennylin0707@gmail.com
-> Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+On Fri, Nov 06, 2026 at 03:36:55PM +0100, David Hildenbrand (Arm) wrote:
+> > diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> > index 0d3bd9e23613..a2c7c6a0768d 100644
+> > --- a/mm/khugepaged.c
+> > +++ b/mm/khugepaged.c
+> > @@ -640,7 +640,8 @@ static enum scan_result __collapse_huge_page_isolate(struct vm_area_struct *vma,
+> >  		 * If the vma has the VM_DROPPABLE flag, the collapse will
+> >  		 * preserve the lazyfree property without needing to skip.
+> >  		 */
+> > -		if (cc->policy.anon_skip_lazyfree && !(vma->vm_flags & VM_DROPPABLE) &&
+> > +		if (cc->policy.anon_skip_lazyfree &&
+> > +		    !vma_test_single_mask(vma, VMA_DROPPABLE) &&
+> >  		    folio_test_lazyfree(folio) && !pte_dirty(pteval)) {
+> >  			result = SCAN_PAGE_LAZYFREE;
+> >  			goto out;
+> > @@ -1683,7 +1684,8 @@ static enum scan_result collapse_scan_anon(struct vm_area_struct *vma,
+> >  		 * If the vma has the VM_DROPPABLE flag, the collapse will
+> >  		 * preserve the lazyfree property without needing to skip.
+> >  		 */
+> > -		if (cc->policy.anon_skip_lazyfree && !(vma->vm_flags & VM_DROPPABLE) &&
+> > +		if (cc->policy.anon_skip_lazyfree &&
+> > +		    !vma_test_single_mask(vma, VMA_DROPPABLE) &&
+> >  		    folio_test_lazyfree(folio) && !pte_dirty(pteval)) {
+> >  			result = SCAN_PAGE_LAZYFREE;
+> >  			failed_pfn = folio_pfn(folio);
+> > @@ -1948,7 +1950,7 @@ static enum scan_result try_collapse_pte_mapped_thp(struct mm_struct *mm, unsign
+> >  	 * So page lock of folio does not protect from it, so we must not drop
+> >  	 * ptl before pgt_pmd is removed, so uffd private needs pml taken now.
+> >  	 */
+> > -	if (userfaultfd_armed(vma) && !(vma->vm_flags & VM_SHARED))
+> > +	if (userfaultfd_armed(vma) && !vma_test(vma, VMA_SHARED_BIT))
+> >  		pml = pmd_lock(mm, pmd);
+>
+> A patch in mm/core.git will remove that entirely.
+>
+> Right now it results in a conflict between mm-new and mm/core.git.
+>
+> Beat to drop this here entirely. (I can also drop it when applying)
 
-Nice! Feel free to add:
+Sorry I missed this, feel free to apply with this bit removed!
 
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
-
-> ---
-> Changes in v2:
-> - Compute unmap_end directly as suggested by Jan Kara, keeping the
->   original condition for calling unmap_mapping_range().
-> - Handle the EOF sentinel and LLONG_MAX explicitly.
-> 
->  mm/truncate.c | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
-> 
-> diff --git a/mm/truncate.c b/mm/truncate.c
-> index 733d2713a87..2c1f4a6c336 100644
-> --- a/mm/truncate.c
-> +++ b/mm/truncate.c
-> @@ -945,7 +945,15 @@ void truncate_pagecache_range(struct inode *inode, loff_t lstart, loff_t lend)
->  {
->  	struct address_space *mapping = inode->i_mapping;
->  	loff_t unmap_start = round_up(lstart, PAGE_SIZE);
-> -	loff_t unmap_end = round_down(1 + lend, PAGE_SIZE) - 1;
-> +	loff_t unmap_end;
-> +
-> +	if (lend == -1 || lend == LLONG_MAX)
-> +		unmap_end = LLONG_MAX;
-> +	else if (lend < PAGE_SIZE - 1)
-> +		unmap_end = 0;
-> +	else
-> +		unmap_end = round_down(1 + lend, PAGE_SIZE) - 1;
-> +
->  	/*
->  	 * This rounding is currently just for example: unmap_mapping_range
->  	 * expands its hole outwards, whereas we want it to contract the hole
-> 
-> base-commit: 05441d697f7f9a927264f4058cbbc6a03dfcac9d
-> -- 
-> 2.50.1 (Apple Git-155)
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+--
+Cheers, Lorenzo
