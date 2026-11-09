@@ -1,77 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794207404;
-	b=mgluqNK8a1or56IWGzL0NQDO8lS8cOWV6EIIBkF0y7bNleYYTBvLFZ9a5EFTCqaveZJ3
-	 5iWg1+fpExWhCAYSlgGCNL06OBeHvl/7pCXNW3kl5fXTfTqPcyT0Okowx2bIVRATOYGAt
-	 nbZsHPU8sds01NNpMKIko0+Rtkyuy0MHzcApMkSS6lGWfgYEL7D190e2Aig53X4x/IlM9
-	 eTOafh0CgjVikZOaYW7g3IBCZvWWkkLX5FFYMwSh5vAakTZJJuKHdgGoffCBwSl++rqj0
-	 mK+8DtUkqGo8j9TShoS+DNNIF5ZgrUco2GPy09889XjQ6UYDT9VHhn9CJIqRMLjOfpg==
+	t=1794208212;
+	b=NQFKZshgSQFYCPGj6PJtNIcpppzl8baY8vzXvfFRic+5RzgX5QXQ1hO3aBEX9RgjSjZf
+	 fFQysIX9to4AqVczzDM+pOdQo/mhaaXP04tyS9VYtww6TkkbBvW5LXqXGDeCrFvKXV6bo
+	 ZpHBi7jL/GXfL5x0KvnsXYPXW+ILrjF8lLPQ3Vlits0RDq5NpSymyLeueepdVZF05NziC
+	 afiYyGK+vvCBLrzIZTVY9Dg/vE5tDtLPN+YHRqSNVdsLoQOeTwVRK215S/nWUT1fNavmP
+	 k0sleQtXSzguJnkAELXpzXnLjYGn8CjTuVO9l5kosv9OHm0YXIdBN2+uLhfJebuDQSg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794207404;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:Received:
-	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
-	 References:Content-Language:From:Autocrypt:In-Reply-To:Content-Type:
-	 X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
-	bh=WHqpquX4+WgSAOGsQ15QoNjicHp3909wIyVH3LC+fIc=;
-	b=aLSLpQueeu04ZH4V7cb5/PWXJ+B5XPDxrVlvreSmc5p868VqNO3CuMqDUBVnuL7mkE/v
-	 fuI3oeJ+QJMqvm8n7X26Ck06Ro1DLBF24KO2PWIBfCWVtjcoW/1kFFPCQaNIxF/j55Fup
-	 29WfYa1fiyjbHofTLBJt2R7QM1ZsY4whEA3/WBpD5/ZxAWdrHf8AYWJwsea4wBluswSnV
-	 iklBthz8M3sGP/OC3GUevqBCRjigsXVQYyXdk+zpuKcBa6U5qbqS0neYzidjOApbIyJSw
-	 Zb2lhBmqdZMntbfHEDDFtIH96nxrhQ8Q5ZcdaGybyF1k5KxumITtcClmJ79YrsfwgVQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794208212;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=pV09QwifzAwa1ef00lcbenE/8qBNihaigjYc1y00wBU=;
+	b=PrVqQpi4tAMhwMakFfrLFCMFn73ULtgA3Nyt3WAB1+uE/erF7Ww5IMjYNKZ4T0J2KAnz
+	 XNLAtKTunfzbujtxNMSLKVe0/++0hNaf78wmfY6bjBTaTEZVBGYGrmhgkLjH0ewwF9D6o
+	 BalUog7OWs0exhSY7/XASnrOwz5tgkp0SgFAZTDoWSSd1puRCHzRIP+RHlZxF1Z5lyV7T
+	 3euIaKKylteu6gzm3XAUgPOtFVzBxkJ/MV5MLmNBVgec6yFQ3tckXnolqkYFChbb1QDLy
+	 Ym6HOtXEYkEDSGfHlyw8d2uUaXxrLqcZpMc/vdlg7VqO6p3jqhC+INSo3HMsVyz0kHQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.com;
-	spf=pass smtp.mailfrom=suse.com;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=E3x4iL2G;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=E3x4iL2G;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MGUao2Y0;
+	arc=none smtp.remote-ip=74.125.82.182
+Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9546606A321;
-	Mon,  9 Nov 2026 06:56:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B9546606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0749606A33E
+	for <linux-fsdevel@vger.kernel.org>; Mon,  9 Nov 2026 07:10:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B0749606A33E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=E3x4iL2G;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=E3x4iL2G
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id BFB4422086;
-	Mon,  9 Nov 2026 06:56:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1794207401; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=WHqpquX4+WgSAOGsQ15QoNjicHp3909wIyVH3LC+fIc=;
-	b=E3x4iL2Gc/XWuhfQMNUOKqoI4E0m5EnETfzT76nx6b7qV84ubOZiHQopTGE+/ShjT1Su+D
-	eFv5cAYZs/EKOrf7+MUOKlm7pcH0yOnhLuDMf/po4pG9Tpzh6WvMHKJmfxAcqdpc47p7ju
-	WNc+k70F0GbHtGFIh5lz5AnF8HMqzw0=
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1794207401; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=WHqpquX4+WgSAOGsQ15QoNjicHp3909wIyVH3LC+fIc=;
-	b=E3x4iL2Gc/XWuhfQMNUOKqoI4E0m5EnETfzT76nx6b7qV84ubOZiHQopTGE+/ShjT1Su+D
-	eFv5cAYZs/EKOrf7+MUOKlm7pcH0yOnhLuDMf/po4pG9Tpzh6WvMHKJmfxAcqdpc47p7ju
-	WNc+k70F0GbHtGFIh5lz5AnF8HMqzw0=
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6A17313302;
-	Mon,  9 Nov 2026 06:56:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id rXt7D6hu8WpCCwAAD6G6ig
-	(envelope-from <jgross@suse.com>); Mon, 09 Nov 2026 06:56:40 +0000
-Message-ID: <b8d171de-52fe-474e-96db-d119840c6240@suse.com>
-Date: Mon, 9 Nov 2026 07:56:39 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MGUao2Y0
+Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-3282db206d3so1279160eec.0
+        for <linux-fsdevel@vger.kernel.org>; Sun, 08 Nov 2026 23:10:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794208211; x=1794813011; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=pV09QwifzAwa1ef00lcbenE/8qBNihaigjYc1y00wBU=;
+        b=MGUao2Y0Lbhh/TtXTt/9nJ0HBCr+WDbUh9YHq7g9ve+f8uUfV1iwrtsWjjNrv8cLMr
+         0ftqhroSmZpWMPteKP6wvFem4aK+vNAdP9DDlVVRh1wWbs4EQyUdmlHweZ6m1ouYrGJ9
+         Sy6Wfe3P6OzqORXB1fktYZsnIxwYMd2laGov0S/9OBS/A2anhUvjegNyF8UHrJY7Ts8m
+         NGMWsDz56f39ryZ5fgAQ29h91ylUB7uFKVIWsqoQOQEiohrCs6w/S0rMcXTPOT7P/OfP
+         WYJzKPFP/NOmHZMEEBuhpcAhqe6yjyLAlo7g4rWrS3dmMRWQEfov7YWpWjT+pplEdAIJ
+         lXyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794208211; x=1794813011;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=pV09QwifzAwa1ef00lcbenE/8qBNihaigjYc1y00wBU=;
+        b=sN+iIxjH7RbO9BuEf0mzceN9+U6K/fjeNuUqPxeR4QERZeLG0B8wgqxj3pdIfwkb+V
+         H6S1LrGl0+6xWRDpb4/zC4b6B+LbymjQ6VxV9Pj8OIwyBuptcAmTn45lZk2QwaS/D3qE
+         WHzXdJYRuCo8gMcrocDc22uHZ+7VTvru7oo6ua9bZCP80+5PAQmllklR5PWWB1EzwtDl
+         PTGBQbUpxCImWeDLWBDhwJ6Euwgtjz9sU7gHEwsuizYcJiqxNDOTXWRl95RqMCyrSkZI
+         YAlvX/NHh4phd2oDjt6IwhJLNsHkFmF8LqkkKRNK8NnG2//4mn9Lkn8WcjdY3ocTtw0S
+         g/vg==
+X-Forwarded-Encrypted: i=1; AL+hErFuumn3Ercali3u1wwXUcgZET3LvpkbEFtZCbhQXeXtMbKcHxOV/UNxKoqAXeJeU3dqZaRlcXTI+OiXW9pG@vger.kernel.org
+X-Gm-Message-State: APuU4Z/FHGijnj+88ddDleluJVU+33AuiLxHire9960OmxqLEgd1uTFD
+	4pudi2bm0skotccm9e4gJ+SowvBtSFkG7hst1tDlpRKKrvDEihhX8lY1
+X-Gm-Gg: AYBFou2EGaGbCjQE039gAXeD437a6YbINHxDFzXW7jBaPucm7tzb5K6mR2YTvA983uX
+	mVBzZAs41fkUib4E28/sr4+QnCC5W2imlju+VrHcuTxUNHtec4f96X7rabYgQHjHxtCSIRX+04Y
+	5Hsl5nQxzfd/ffGc5kqXr+29BicipR84POXsXBSDSCb/XDl6UJ4W936yk+zfiYaQHk+YEY7VLah
+	XWxPnVdlRE5ROViBuzg6bgYPbulCidjC9boQTf1rlV3p3DQlrtqljTl6WzD6RazCff8fGbqQg/Y
+	NlwkZgz/T2gSkDOsEVFKmrppf6eISGeCsr8SGB407OUv+1NA0JllYE7yprua87YNIStglmxl7hR
+	kChRQ5CxI3awt0tC7kUOWG9ORyO6U1G8Bzuj04qoUUsSYPepjsFxvvs7L6HtMOGNJwGhfK6aM3H
+	7WOyccZi3SMoOku8DraHXHtpsLHvVPBOWmdKBkdTa9zqH2X6FHveROO5Hff1l0tVwCWYtlxGSjr
+	syMlIdiFkxWlHxotrT5Ruubf6IAUa08HKt1VsMVVFArnKF+h2tAmTpaQrKqG5TGDhrlxbNUjlHO
+	bvIWCZJNlOzQR1AQ4wgtAVcxEE80c1ey1V31NgQ9n4F5w/BZcoaMnSt9Mp4reK4QgQqEF5JysO/
+	77eR+VDpNLv0=
+X-Received: by 2002:a05:7301:fc10:b0:372:7af9:b916 with SMTP id 5a478bee46e88-3727af9cc9fmr5425663eec.18.1794208210467;
+        Sun, 08 Nov 2026 23:10:10 -0800 (PST)
+Received: from anon-laptop ([103.187.196.132])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-372632d7d62sm16641367eec.3.2026.11.08.23.10.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Nov 2026 23:10:09 -0800 (PST)
+From: Wahid Khan <wahidzk0091@gmail.com>
+To: linkinjeon@kernel.org
+Cc: hyc.lee@gmail.com,
+	ntfs@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH v6] ntfs: convert a named $DATA stream safely when making room in a record
+Date: Mon,  9 Nov 2026 12:37:04 +0530
+Message-ID: <20261109070704.1430784-1-wahidzk0091@gmail.com>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261108221227.1083022-1-wahidzk0091@gmail.com>
+References: <20261108221227.1083022-1-wahidzk0091@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -81,221 +101,300 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 6/9] xen/sys-hypervisor: Add release callback to
- hyp_sysfs_kobj_type
-To: Ian Rogers <irogers@google.com>, Danilo Krummrich <dakr@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Kees Cook
- <kees@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>
-Cc: Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <chleroy@kernel.org>, Nayna Jain <nayna@linux.ibm.com>,
- Srish Srinivasan <ssrish@linux.ibm.com>, Mimi Zohar <zohar@linux.ibm.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
- Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>,
- Alexander Aring <aahringo@redhat.com>,
- Felix Kuehling <felix.kuehling@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Zhihao Cheng <chengzhihao1@huawei.com>,
- Sumanth Korikkar <sumanthk@linux.ibm.com>, Bill Wendling <morbo@google.com>,
- Justin Stitt <justinstitt@google.com>, driver-core@lists.linux.dev,
- llvm@lists.linux.dev, linux-hardening@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-acpi@vger.kernel.org, linux-pm@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
- linux-s390@vger.kernel.org, gfs2@lists.linux.dev,
- xen-devel@lists.xenproject.org, linux-mtd@lists.infradead.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20261108223913.3624571-1-irogers@google.com>
- <20261108223913.3624571-7-irogers@google.com>
-Content-Language: en-US
-From: Juergen Gross <jgross@suse.com>
-Autocrypt: addr=jgross@suse.com; keydata=
- xsBNBFOMcBYBCACgGjqjoGvbEouQZw/ToiBg9W98AlM2QHV+iNHsEs7kxWhKMjrioyspZKOB
- ycWxw3ie3j9uvg9EOB3aN4xiTv4qbnGiTr3oJhkB1gsb6ToJQZ8uxGq2kaV2KL9650I1SJve
- dYm8Of8Zd621lSmoKOwlNClALZNew72NjJLEzTalU1OdT7/i1TXkH09XSSI8mEQ/ouNcMvIJ
- NwQpd369y9bfIhWUiVXEK7MlRgUG6MvIj6Y3Am/BBLUVbDa4+gmzDC9ezlZkTZG2t14zWPvx
- XP3FAp2pkW0xqG7/377qptDmrk42GlSKN4z76ELnLxussxc7I2hx18NUcbP8+uty4bMxABEB
- AAHNH0p1ZXJnZW4gR3Jvc3MgPGpncm9zc0BzdXNlLmNvbT7CwHkEEwECACMFAlOMcK8CGwMH
- CwkIBwMCAQYVCAIJCgsEFgIDAQIeAQIXgAAKCRCw3p3WKL8TL8eZB/9G0juS/kDY9LhEXseh
- mE9U+iA1VsLhgDqVbsOtZ/S14LRFHczNd/Lqkn7souCSoyWsBs3/wO+OjPvxf7m+Ef+sMtr0
- G5lCWEWa9wa0IXx5HRPW/ScL+e4AVUbL7rurYMfwCzco+7TfjhMEOkC+va5gzi1KrErgNRHH
- kg3PhlnRY0Udyqx++UYkAsN4TQuEhNN32MvN0Np3WlBJOgKcuXpIElmMM5f1BBzJSKBkW0Jc
- Wy3h2Wy912vHKpPV/Xv7ZwVJ27v7KcuZcErtptDevAljxJtE7aJG6WiBzm+v9EswyWxwMCIO
- RoVBYuiocc51872tRGywc03xaQydB+9R7BHPzsBNBFOMcBYBCADLMfoA44MwGOB9YT1V4KCy
- vAfd7E0BTfaAurbG+Olacciz3yd09QOmejFZC6AnoykydyvTFLAWYcSCdISMr88COmmCbJzn
- sHAogjexXiif6ANUUlHpjxlHCCcELmZUzomNDnEOTxZFeWMTFF9Rf2k2F0Tl4E5kmsNGgtSa
- aMO0rNZoOEiD/7UfPP3dfh8JCQ1VtUUsQtT1sxos8Eb/HmriJhnaTZ7Hp3jtgTVkV0ybpgFg
- w6WMaRkrBh17mV0z2ajjmabB7SJxcouSkR0hcpNl4oM74d2/VqoW4BxxxOD1FcNCObCELfIS
- auZx+XT6s+CE7Qi/c44ibBMR7hyjdzWbABEBAAHCwF8EGAECAAkFAlOMcBYCGwwACgkQsN6d
- 1ii/Ey9D+Af/WFr3q+bg/8v5tCknCtn92d5lyYTBNt7xgWzDZX8G6/pngzKyWfedArllp0Pn
- fgIXtMNV+3t8Li1Tg843EXkP7+2+CQ98MB8XvvPLYAfW8nNDV85TyVgWlldNcgdv7nn1Sq8g
- HwB2BHdIAkYce3hEoDQXt/mKlgEGsLpzJcnLKimtPXQQy9TxUaLBe9PInPd+Ohix0XOlY+Uk
- QFEx50Ki3rSDl2Zt2tnkNYKUCvTJq7jvOlaPd6d/W0tZqpyy7KVay+K4aMobDsodB3dvEAs6
- ScCnh03dDAFgIq5nsB11j3KPKdVoPlfucX2c7kGNH+LUMbzqV6beIENfNexkOfxHfw==
-In-Reply-To: <20261108223913.3624571-7-irogers@google.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------AIXzU7yBxxMCFwv4ehArOVmL"
-X-Spamd-Result: default: False [-14.46 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	REPLY(-4.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_SPAM_LONG(2.83)[0.809];
-	SIGNED_PGP(-2.00)[];
-	MIME_BASE64_TEXT_BOGUS(1.00)[];
-	MIME_GOOD(-0.20)[multipart/signed,multipart/mixed,text/plain];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_BASE64_TEXT(0.10)[];
-	XM_UA_NO_VERSION(0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:+,3:~];
-	DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[45];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[linux.ibm.com,ellerman.id.au,gmail.com,kernel.org,users.sourceforge.jp,libc.org,physik.fu-berlin.de,epam.com,google.com,linaro.org,oss.qualcomm.com,redhat.com,amd.com,huawei.com,lists.linux.dev,vger.kernel.org,lists.ozlabs.org,lists.xenproject.org,lists.infradead.org,lists.freedesktop.org];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RLujoqb9xj6u63c55fak3nsx3a)];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	HAS_ATTACHMENT(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -14.46
-X-Spam-Level: 
-X-Spam-Flag: NO
+Content-Transfer-Encoding: 8bit
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------AIXzU7yBxxMCFwv4ehArOVmL
-Content-Type: multipart/mixed; boundary="------------vYCWG004ZOIZfxgQWDErlryz";
- protected-headers="v1"; hp="clear"
-Message-ID: <b8d171de-52fe-474e-96db-d119840c6240@suse.com>
-Date: Mon, 9 Nov 2026 07:56:39 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 6/9] xen/sys-hypervisor: Add release callback to
- hyp_sysfs_kobj_type
-To: Ian Rogers <irogers@google.com>, Danilo Krummrich <dakr@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Kees Cook
- <kees@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>
-Cc: Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <chleroy@kernel.org>, Nayna Jain <nayna@linux.ibm.com>,
- Srish Srinivasan <ssrish@linux.ibm.com>, Mimi Zohar <zohar@linux.ibm.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
- Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>,
- Alexander Aring <aahringo@redhat.com>,
- Felix Kuehling <felix.kuehling@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Zhihao Cheng <chengzhihao1@huawei.com>,
- Sumanth Korikkar <sumanthk@linux.ibm.com>, Bill Wendling <morbo@google.com>,
- Justin Stitt <justinstitt@google.com>, driver-core@lists.linux.dev,
- llvm@lists.linux.dev, linux-hardening@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-acpi@vger.kernel.org, linux-pm@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
- linux-s390@vger.kernel.org, gfs2@lists.linux.dev,
- xen-devel@lists.xenproject.org, linux-mtd@lists.infradead.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20261108223913.3624571-1-irogers@google.com>
- <20261108223913.3624571-7-irogers@google.com>
-Content-Language: en-US
-From: Juergen Gross <jgross@suse.com>
-Autocrypt: addr=jgross@suse.com; keydata=
- xsBNBFOMcBYBCACgGjqjoGvbEouQZw/ToiBg9W98AlM2QHV+iNHsEs7kxWhKMjrioyspZKOB
- ycWxw3ie3j9uvg9EOB3aN4xiTv4qbnGiTr3oJhkB1gsb6ToJQZ8uxGq2kaV2KL9650I1SJve
- dYm8Of8Zd621lSmoKOwlNClALZNew72NjJLEzTalU1OdT7/i1TXkH09XSSI8mEQ/ouNcMvIJ
- NwQpd369y9bfIhWUiVXEK7MlRgUG6MvIj6Y3Am/BBLUVbDa4+gmzDC9ezlZkTZG2t14zWPvx
- XP3FAp2pkW0xqG7/377qptDmrk42GlSKN4z76ELnLxussxc7I2hx18NUcbP8+uty4bMxABEB
- AAHNH0p1ZXJnZW4gR3Jvc3MgPGpncm9zc0BzdXNlLmNvbT7CwHkEEwECACMFAlOMcK8CGwMH
- CwkIBwMCAQYVCAIJCgsEFgIDAQIeAQIXgAAKCRCw3p3WKL8TL8eZB/9G0juS/kDY9LhEXseh
- mE9U+iA1VsLhgDqVbsOtZ/S14LRFHczNd/Lqkn7souCSoyWsBs3/wO+OjPvxf7m+Ef+sMtr0
- G5lCWEWa9wa0IXx5HRPW/ScL+e4AVUbL7rurYMfwCzco+7TfjhMEOkC+va5gzi1KrErgNRHH
- kg3PhlnRY0Udyqx++UYkAsN4TQuEhNN32MvN0Np3WlBJOgKcuXpIElmMM5f1BBzJSKBkW0Jc
- Wy3h2Wy912vHKpPV/Xv7ZwVJ27v7KcuZcErtptDevAljxJtE7aJG6WiBzm+v9EswyWxwMCIO
- RoVBYuiocc51872tRGywc03xaQydB+9R7BHPzsBNBFOMcBYBCADLMfoA44MwGOB9YT1V4KCy
- vAfd7E0BTfaAurbG+Olacciz3yd09QOmejFZC6AnoykydyvTFLAWYcSCdISMr88COmmCbJzn
- sHAogjexXiif6ANUUlHpjxlHCCcELmZUzomNDnEOTxZFeWMTFF9Rf2k2F0Tl4E5kmsNGgtSa
- aMO0rNZoOEiD/7UfPP3dfh8JCQ1VtUUsQtT1sxos8Eb/HmriJhnaTZ7Hp3jtgTVkV0ybpgFg
- w6WMaRkrBh17mV0z2ajjmabB7SJxcouSkR0hcpNl4oM74d2/VqoW4BxxxOD1FcNCObCELfIS
- auZx+XT6s+CE7Qi/c44ibBMR7hyjdzWbABEBAAHCwF8EGAECAAkFAlOMcBYCGwwACgkQsN6d
- 1ii/Ey9D+Af/WFr3q+bg/8v5tCknCtn92d5lyYTBNt7xgWzDZX8G6/pngzKyWfedArllp0Pn
- fgIXtMNV+3t8Li1Tg843EXkP7+2+CQ98MB8XvvPLYAfW8nNDV85TyVgWlldNcgdv7nn1Sq8g
- HwB2BHdIAkYce3hEoDQXt/mKlgEGsLpzJcnLKimtPXQQy9TxUaLBe9PInPd+Ohix0XOlY+Uk
- QFEx50Ki3rSDl2Zt2tnkNYKUCvTJq7jvOlaPd6d/W0tZqpyy7KVay+K4aMobDsodB3dvEAs6
- ScCnh03dDAFgIq5nsB11j3KPKdVoPlfucX2c7kGNH+LUMbzqV6beIENfNexkOfxHfw==
-In-Reply-To: <20261108223913.3624571-7-irogers@google.com>
+When an attribute has to grow and the mft record is full,
+ntfs_resident_attr_resize() walks the other resident attributes and
+converts them to non-resident ones. For $DATA it always opens the
+unnamed data inode of the base inode, even if the attribute found is a
+named stream:
 
---------------vYCWG004ZOIZfxgQWDErlryz
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+  tvi = ntfs_iget(sb, base_ni->mft_no);
+  ntfs_attr_make_non_resident(NTFS_I(tvi), value_len);
 
-T24gMDguMTEuMjYgMjM6MzksIElhbiBSb2dlcnMgd3JvdGU6DQo+IGh5cGVydmlzb3JfaW5p
-dCgpIGluIGRyaXZlcnMvYmFzZS9oeXBlcnZpc29yLmMgY3JlYXRlcyBoeXBlcnZpc29yX2tv
-YmoNCj4gd2l0aCBrb2JqZWN0X2NyZWF0ZV9hbmRfYWRkKCkgKHdoaWNoIGFsbG9jYXRlcyBh
-IGR5bmFtaWMga29iamVjdCB1c2luZw0KPiBkeW5hbWljX2tvYmpfa3R5cGUpLCBhbmQgaHlw
-ZXJ2aXNvcl9zdWJzeXNfaW5pdCgpIGluDQo+IGRyaXZlcnMveGVuL3N5cy1oeXBlcnZpc29y
-LmMgdGhlbiBvdmVyd3JpdGVzIGh5cGVydmlzb3Jfa29iai0+a3R5cGUgd2l0aA0KPiAmaHlw
-X3N5c2ZzX2tvYmpfdHlwZSwgd2hpY2ggaGFkIG5vIC5yZWxlYXNlIGNhbGxiYWNrLg0KPiAN
-Cj4gQWRkIGh5cF9zeXNmc19yZWxlYXNlKCkgY2FsbGluZyBrZnJlZShrb2JqKSB0byBwcmVz
-ZXJ2ZSB0aGUgZHluYW1pYw0KPiBrb2JqZWN0IHJlbGVhc2UgYmVoYXZpb3IuDQo+IA0KPiBG
-aXhlczogY2ZmN2U4MWIzZGQ3ICgieGVuOiBhZGQgL3N5cy9oeXBlcnZpc29yIHN1cHBvcnQi
-KQ0KPiBTaWduZWQtb2ZmLWJ5OiBJYW4gUm9nZXJzIDxpcm9nZXJzQGdvb2dsZS5jb20+DQo+
-IC0tLQ0KPiAgIGRyaXZlcnMveGVuL3N5cy1oeXBlcnZpc29yLmMgfCA2ICsrKysrKw0KPiAg
-IDEgZmlsZSBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKykNCj4gDQo+IGRpZmYgLS1naXQgYS9k
-cml2ZXJzL3hlbi9zeXMtaHlwZXJ2aXNvci5jIGIvZHJpdmVycy94ZW4vc3lzLWh5cGVydmlz
-b3IuYw0KPiBpbmRleCA5MTkyMzI0MmE1YWUuLjBlOGEyY2Q2OWZkNiAxMDA2NDQNCj4gLS0t
-IGEvZHJpdmVycy94ZW4vc3lzLWh5cGVydmlzb3IuYw0KPiArKysgYi9kcml2ZXJzL3hlbi9z
-eXMtaHlwZXJ2aXNvci5jDQo+IEBAIC02NTksNyArNjU5LDEzIEBAIHN0YXRpYyBjb25zdCBz
-dHJ1Y3Qgc3lzZnNfb3BzIGh5cF9zeXNmc19vcHMgPSB7DQo+ICAgCS5zdG9yZSA9IGh5cF9z
-eXNmc19zdG9yZSwNCj4gICB9Ow0KPiAgIA0KPiArc3RhdGljIHZvaWQgaHlwX3N5c2ZzX3Jl
-bGVhc2Uoc3RydWN0IGtvYmplY3QgKmtvYmopDQo+ICt7DQo+ICsJa2ZyZWUoa29iaik7DQo+
-ICt9DQo+ICsNCj4gICBzdGF0aWMgY29uc3Qgc3RydWN0IGtvYmpfdHlwZSBoeXBfc3lzZnNf
-a29ial90eXBlID0gew0KPiArCS5yZWxlYXNlID0gaHlwX3N5c2ZzX3JlbGVhc2UsDQo+ICAg
-CS5zeXNmc19vcHMgPSAmaHlwX3N5c2ZzX29wcywNCj4gICB9Ow0KPiAgIA0KDQpXb3VsZG4n
-dCBpdCBtYWtlIHNlbnNlIHRvIGhhdmUgYSBjb21tb24gZnVuY3Rpb24gZm9yIGp1c3Qga2Zy
-ZWUoa29iaik/DQoNCkluIHlvdXIgc2VyaWVzIHRoZXJlIGFyZSAzIGluc3RhbmNlcyBvZiAu
-cmVsZWFzZSBqdXN0IGRvaW5nIGtmcmVlKGtvYmopLg0KDQpJbiBjYXNlIHRoaXMgaXMgbm90
-IHdhbnRlZCBvciB3aXRoIHVzaW5nIHRoZSBzdWdnZXN0ZWQgY29tbW9uIC5yZWxlYXNlDQpo
-ZWxwZXIgeW91IGNhbiBhZGQgbXkNCg0KUmV2aWV3ZWQtYnk6IEp1ZXJnZW4gR3Jvc3MgPGpn
-cm9zc0BzdXNlLmNvbT4NCg0KDQpKdWVyZ2VuDQo=
+value_len is the length of the stream, so it does not match the
+attribute that ntfs_attr_make_non_resident() looks up for the unnamed
+inode, and the WARN_ON() on entry fires:
 
---------------vYCWG004ZOIZfxgQWDErlryz--
+  WARNING: fs/ntfs/attrib.c:2115 at ntfs_attr_make_non_resident
+   ntfs_resident_attr_resize
+   ntfs_attr_expand_locked
+   ntfs_expand_for_write
+   ntfs_file_write_iter
+   vfs_write
 
---------------AIXzU7yBxxMCFwv4ehArOVmL
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+It does not need a damaged volume. A file with an alternate data stream
+whose record has no room left is enough.
 
------BEGIN PGP SIGNATURE-----
+Open a named stream by name with ntfs_attr_iget(), as is done for the
+other attribute types in this loop, and keep ntfs_iget() for the
+unnamed one. The loop runs with the mft record lock held and takes no
+lock of the stream inode, so converting a stream from here needs more
+care than the plain lookup gives:
 
-wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAmrxbqcFAwAAAAAACgkQsN6d1ii/Ey8b
-bwf/ZTFiD1KHpnwASdlC96fzY8LKDEU4SduJ4BSPmrFxqeUdpBJRlpL6PFjpCmtNPiLLEbLKSAKO
-8V/XKxTIYctU0kiaUun1NZqGKFmrXr5+bd8Ni+xwtaGtIIfnOjqGyMzuwNciofyiVdRpGNDU4Ad5
-+IpYk4FwGyKy7gkE9Nf03vXcbchktM8Z7Q9NrRvjll64xw9gneGYxkexvVMA5kT1E2odD6BcYrLI
-CEO328qO8Lgz6SE8FgqgIswYgSDv+ZebyiTUHev2cTSA8n0v3O9snk/5y+Fsz9khYihMtTqVE/bo
-tXZZc3GHoOhrkCuVNC/6dPI9Z74/ZIX87YIjnwMrxg==
-=E5Nf
------END PGP SIGNATURE-----
+- A reader of the stream holds the folio lock and then takes the mft
+  record lock in ntfs_read_iomap_begin_resident(), the conversion takes
+  them the other way round and waits for folio 0. Take the folio with
+  FGP_NOWAIT in this loop and skip the attribute if it is busy. The loop
+  only tries to free space. The same inversion exists for the conversion
+  of the attribute being resized, which waited for folio 0 with the lock
+  held and hangs against an mmap fault or splice reader. Use FGP_NOWAIT
+  there too. The resize then fails with -ENOSPC while such a reader is
+  stuck on the lock, instead of hanging.
 
---------------AIXzU7yBxxMCFwv4ehArOVmL--
+- A stream that is in the inode cache can be open, being written, being
+  removed or already unlinked. A write that passed its residency check
+  before the conversion carries on with a non-resident attribute, and
+  a stream in the middle of ntfs_stream_finish_remove() is converted
+  under its feet. Convert only a stream that is not cached.
+
+- An attribute inode of a file that has no links left is evicted on the
+  last iput() with its dirty folio, so what was converted is lost and
+  an open file reads its extended attributes back as missing. Convert
+  nothing, of any type, in a file that is being deleted or has no links
+  left.
+
+- The unnamed data is converted through the file's own inode, whose
+  i_rwsem only a resize of the unnamed data itself holds. When a stream
+  or an extended attribute is being resized, a writer of the file can
+  have passed its residency check and carry on with a non-resident
+  attribute (iomap_iter warnings, recursive mrec_lock). When the
+  unnamed data is the attribute being resized, its conversion was just
+  tried by the caller. Do not convert the unnamed data from this loop.
+
+- Do not convert the attribute that is being resized either. Its
+  conversion was just tried and failed, for instance on a busy folio,
+  and a second try that succeeds leaves the resize to go on with the
+  resident layout of a record that is now non-resident.
+
+- The lookup of a stream ignores case, so a stream whose name differs
+  only in case from an earlier one resolves to that one and the length
+  does not match again. Compare the names exactly.
+
+Fixes: 495e90fa3348 ("ntfs: update attrib operations")
+Cc: stable@vger.kernel.org # v7.1+
+Signed-off-by: Wahid Khan <wahidzk0091@gmail.com>
+---
+v6: Sashiko's review of v5: when the conversion of the resized attribute
+    returns -EAGAIN (busy folio) and is mapped to -ENOSPC, the loop could
+    reach that attribute itself, convert it and resize its record as if it
+    were resident. Reproduced with one forced -EAGAIN (the EA is lost, the
+    resize fails with -EINVAL), fixed: the attribute being resized is never
+    converted from the loop, and neither is the unnamed data (its branch
+    was dead code once that is skipped).
+v5: Sashiko's review of v4 found more, each reproduced with a forced make-room
+    pass and a debug delay, fails before and passes after:
+    - the WofCompressedData stream of a WOF file was converted, and the
+      file read stale clusters until writeback (249 of 250 bytes wrong)
+    - an attribute converted in a file with no links left was evicted
+      with its dirty folio (open file reads its EA back as missing)
+    - a resize of a stream converted the unnamed data under a writer of
+      the file (iomap_iter WARNs, recursive mrec_lock)
+    - the conversion of the resized attribute itself waited for folio 0
+      with mrec_lock held (hung task against mmap fault and splice)
+    The six v4 scenarios still pass.
+v4: v3 (convert a named stream via ntfs_attr_iget()) can deadlock against
+    a reader of the stream and has other races with an open or removed
+    stream. Each is reproduced with a forced make-room pass and a debug
+    delay, fails on v3 and passes here: reader/converter deadlock
+    (hung task), write continuing on a converted attribute (iomap_iter
+    WARNINGs, recursive locking), unlinked file with an open stream (mft
+    record reported corrupt), stream converted during its own removal,
+    and a stream pair that differs only in case (WARN in
+    ntfs_attr_make_non_resident).
+v3: use ntfs_attr_iget() for a named stream instead of skipping it (v2).
+ fs/ntfs/attrib.c | 90 ++++++++++++++++++++++++++++++++++++++++++------
+ fs/ntfs/inode.c  | 19 ++++++++++
+ fs/ntfs/inode.h  |  2 ++
+ 3 files changed, 101 insertions(+), 10 deletions(-)
+
+diff --git a/fs/ntfs/attrib.c b/fs/ntfs/attrib.c
+index ce7c1b524180..f3dc0579bd5b 100644
+--- a/fs/ntfs/attrib.c
++++ b/fs/ntfs/attrib.c
+@@ -1975,7 +1975,21 @@ int ntfs_resident_attr_value_resize(struct mft_record *m, struct attr_record *a,
+  * inode i_size is that this is not necessarily uptodate.  This happens when
+  * ntfs_attr_make_non_resident() is called in the ->truncate call path(s).
+  */
++static int __ntfs_attr_make_non_resident(struct ntfs_inode *ni, const u32 data_size,
++		bool nowait);
++
+ int ntfs_attr_make_non_resident(struct ntfs_inode *ni, const u32 data_size)
++{
++	return __ntfs_attr_make_non_resident(ni, data_size, false);
++}
++
++/*
++ * With @nowait the folio lock is only tried: a caller that holds mrec_lock
++ * must not wait for a folio lock, the read path takes them the other way
++ * round. Fails with -EAGAIN if the folio is locked.
++ */
++static int __ntfs_attr_make_non_resident(struct ntfs_inode *ni, const u32 data_size,
++		bool nowait)
+ {
+ 	s64 new_size;
+ 	struct inode *vi = VFS_I(ni);
+@@ -2056,10 +2070,11 @@ int ntfs_attr_make_non_resident(struct ntfs_inode *ni, const u32 data_size)
+ 		 * outside all ntfs locks, we need to get the folio now.
+ 		 */
+ 		folio = __filemap_get_folio(vi->i_mapping, 0,
+-					    FGP_CREAT | FGP_LOCK,
++					    FGP_CREAT | FGP_LOCK |
++					    (nowait ? FGP_NOWAIT : 0),
+ 					    mapping_gfp_mask(vi->i_mapping));
+ 		if (IS_ERR(folio)) {
+-			err = -ENOMEM;
++			err = nowait ? -EAGAIN : -ENOMEM;
+ 			goto err_out;
+ 		}
+ 
+@@ -4895,8 +4910,14 @@ static int ntfs_resident_attr_resize(struct ntfs_inode *attr_ni, const s64 newsi
+ 	/* There is not enough space in the mft record to perform the resize. */
+ 
+ 	/* Make the attribute non-resident if possible. */
+-	err = ntfs_attr_make_non_resident(attr_ni,
+-			le32_to_cpu(ctx->attr->data.resident.value_length));
++	err = __ntfs_attr_make_non_resident(attr_ni,
++			le32_to_cpu(ctx->attr->data.resident.value_length), true);
++	/*
++	 * A reader holding folio 0 waits for mrec_lock, which we hold. Do not
++	 * wait for it, try to make room some other way.
++	 */
++	if (err == -EAGAIN)
++		err = -ENOSPC;
+ 	if (!err) {
+ 		mark_mft_record_dirty(ctx->ntfs_ino);
+ 		ntfs_attr_put_search_ctx(ctx);
+@@ -4913,12 +4934,14 @@ static int ntfs_resident_attr_resize(struct ntfs_inode *attr_ni, const s64 newsi
+ 	while (!(err = ntfs_attr_lookup(AT_UNUSED, NULL, 0, 0, 0, NULL, 0, ctx))) {
+ 		struct inode *tvi;
+ 		struct attr_record *a;
++		__le16 *name;
+ 		u32 value_len;
+ 
+ 		a = ctx->attr;
+ 		if (a->non_resident || a->type == AT_ATTRIBUTE_LIST)
+ 			continue;
+ 		value_len = le32_to_cpu(a->data.resident.value_length);
++		name = (__le16 *)((u8 *)a + le16_to_cpu(a->name_offset));
+ 
+ 		if (ntfs_attr_can_be_non_resident(vol, a->type))
+ 			continue;
+@@ -4933,18 +4956,65 @@ static int ntfs_resident_attr_resize(struct ntfs_inode *attr_ni, const s64 newsi
+ 		if (a->type == AT_DATA && !value_len)
+ 			continue;
+ 
+-		if (a->type == AT_DATA)
+-			tvi = ntfs_iget(sb, base_ni->mft_no);
+-		else
+-			tvi = ntfs_attr_iget(VFS_I(base_ni), a->type,
+-				(__le16 *)((u8 *)a + le16_to_cpu(a->name_offset)),
++		/*
++		 * The attribute inode of an unlinked file is evicted on the
++		 * last iput() together with its dirty folio.
++		 */
++		if (NInoBeingDeleted(base_ni) || !VFS_I(base_ni)->i_nlink)
++			continue;
++
++		/*
++		 * Not the attribute being resized. Its conversion was tried
++		 * above and failed, for instance on a busy folio, and
++		 * converting it here would leave the resize to go on with the
++		 * resident layout of a non-resident record.
++		 */
++		if (a->type == attr_ni->type &&
++		    a->name_length == attr_ni->name_len &&
++		    (!a->name_length ||
++		     !memcmp(name, attr_ni->name,
++			     a->name_length * sizeof(__le16))))
++			continue;
++
++		/*
++		 * Not the unnamed data either. Only the resize of the unnamed
++		 * data itself holds its i_rwsem, a writer of the file can be
++		 * between its residency check and the mft record lock.
++		 */
++		if (a->type == AT_DATA && !a->name_length)
++			continue;
++
++		/*
++		 * A named $DATA stream is converted only if nobody has it open:
++		 * an open one can be unlinked, being removed or in use. A WOF
++		 * file reads its stream from the device, so the stream must
++		 * stay resident.
++		 */
++		if (a->type == AT_DATA) {
++			if (NInoWofCompressed(base_ni))
++				continue;
++			tvi = ntfs_attr_ilookup(VFS_I(base_ni), a->type,
++					name, a->name_length);
++			if (tvi) {
++				iput(tvi);
++				continue;
++			}
++		}
++		tvi = ntfs_attr_iget(VFS_I(base_ni), a->type, name,
+ 				a->name_length);
++		/* the lookup ignores case for streams, ours does not */
++		if (!IS_ERR(tvi) && a->type == AT_DATA &&
++		    memcmp(NTFS_I(tvi)->name, name,
++			   a->name_length * sizeof(__le16))) {
++			iput(tvi);
++			continue;
++		}
+ 		if (IS_ERR(tvi)) {
+ 			ntfs_error(sb, "Couldn't open attribute");
+ 			continue;
+ 		}
+ 
+-		if (ntfs_attr_make_non_resident(NTFS_I(tvi), value_len)) {
++		if (__ntfs_attr_make_non_resident(NTFS_I(tvi), value_len, true)) {
+ 			iput(tvi);
+ 			continue;
+ 		}
+diff --git a/fs/ntfs/inode.c b/fs/ntfs/inode.c
+index 62dd5bd5bb81..ec9c7b219192 100644
+--- a/fs/ntfs/inode.c
++++ b/fs/ntfs/inode.c
+@@ -287,6 +287,25 @@ struct inode *ntfs_attr_iget(struct inode *base_vi, __le32 type,
+ 	return vi;
+ }
+ 
++/*
++ * ntfs_attr_ilookup - find an attribute inode that is already in the cache
++ *
++ * Like ntfs_attr_iget() but never reads anything. Returns the inode with an
++ * increased reference count, or NULL if it is not cached.
++ */
++struct inode *ntfs_attr_ilookup(struct inode *base_vi, __le32 type,
++		__le16 *name, u32 name_len)
++{
++	struct ntfs_attr na = {
++		.mft_no = base_vi->i_ino,
++		.type = type,
++		.name = name,
++		.name_len = name_len,
++	};
++
++	return ilookup5(base_vi->i_sb, na.mft_no, ntfs_test_inode, &na);
++}
++
+ /*
+  * ntfs_index_iget - obtain a struct inode corresponding to an index
+  * @base_vi:	vfs base inode containing the index related attributes
+diff --git a/fs/ntfs/inode.h b/fs/ntfs/inode.h
+index a18cbcf1c631..7ea52c59c04b 100644
+--- a/fs/ntfs/inode.h
++++ b/fs/ntfs/inode.h
+@@ -326,6 +326,8 @@ struct ntfs_attr {
+ int ntfs_test_inode(struct inode *vi, void *data);
+ int ntfs_test_inode_rcu(struct inode *vi, void *data);
+ struct inode *ntfs_iget(struct super_block *sb, u64 mft_no);
++struct inode *ntfs_attr_ilookup(struct inode *base_vi, __le32 type,
++		__le16 *name, u32 name_len);
+ struct inode *ntfs_attr_iget(struct inode *base_vi, __le32 type,
+ 		__le16 *name, u32 name_len);
+ struct inode *ntfs_index_iget(struct inode *base_vi, __le16 *name,
+-- 
+2.56.0
+
