@@ -1,111 +1,108 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794221011;
-	b=t97pTuMEWobgBvb9f6x6W0KPa7Bp5QYQ3J7GlN7VcGNfThJhpH3pmEd1raNNNsmmIixF
-	 tfO2jF2MEt/qdiPmIj3rhDH2a5J7HU3AnotHPcWNf/pL10Zx8Ffu/CClenAVGaLkyDUdy
-	 qgVMS64Z6vHs3uMN2P8GvDbIT0P+eE/9kpABAtInQ87lG78ITUGtHASPmDrUBFEUqzTJe
-	 FtybK+yuYwLp8T8GzaYPr3Ss1UNW6gp+jPVtI7frlryZE+dEz4VZ2IrbKnCe9EIcz0vms
-	 gVH0WpMq+mG8dZLhn04B01AFzuhwVB4hmqVdGS4X5JhspkCVNxQ2qbwul5o/9KHD24A==
+	t=1794221750;
+	b=25oX/xuWgPUBDLiXZoEcRn7qlmJ5fOuWHAEscekQ6nXn73JtBHrCOiWaydD5ye6JyXOt
+	 OSRLE4TwKIIh0sNAq0eduRhfyeKHPvQpxlyuT7KXL2+RomOB1ejLWllxoOGdWNTG2vk9l
+	 kjsQ/M99XTs9wCgeqJgW5ZE7MGGy7RgONc7TMzpqzoFpk/y5606ZFoBaxQatIhjqnmDRa
+	 cmwCNToP8bQx5Uk8/uSiwmulRwfAsKNsRsMDcNpYiSqjX5fZss/plPwjeQg1s62/e+JF7
+	 yZuyyur4/eBU8zUOSMXoKoMZZgN8rAUEdFkE7Fvk4NwUA2JQh6hC9GuFfpUebNYNgMA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794221011;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794221750;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
 	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
-	bh=UDca6BQDSujzYN3iXgd+k/sP2oPa3lW0EYEkVXMqZGI=;
-	b=BdOGP8MkMRbGOsOWcJMnpsyeXI7/8tsP6ICUdCJU5VSghLR+uvbYHq5ezwYMkI6FgBBP
-	 aLvEyt2mE8mNGIqqHa7xbw1B46YKd+a0G5ziRBCFtW356trTkCT5gOVIV/j1Sd+cjsMNP
-	 /7SlymzaPEZEpLNEolsRs5buB8v5tu+6vpYIqdKPBr6spEyHZKdQNrFJKPVDELTcwPPIV
-	 AnDDD+MIDxJeN2FkMYaGN5E6icnu78Wy0FQvbw9d9g+8oBkNIcptcxYVkLjirbGvK/oyC
-	 M/gzzNaNw+ye+92xatvyRUbRlylubkndGtIYc4U4JFgMu7etjuLba7U32QlWErhZpPA==
+	 In-Reply-To:X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:
+	 X-Spam-Flag:X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
+	bh=WjVWX6E21tFl2sD8Mx7SLeOlrK6FQokIkj+LlsMQstQ=;
+	b=yJAHJbKn8ITaQMno/q27bIUV1a3/4HYG4TVqERAlxxaikuGDDk5mH3W7Btei0BByLI+x
+	 QQTBNutANMZkgaLdDLMLFkAyFCajp6pv8ISrvNfYpnzlMtUiuXLAG49qV8hpaO134w65t
+	 15WvLhuVlwopA+aGEnUyyIX9qQSUD7DAHswagnfb3yLl+tLi2ViLn+MxDNKJ4JIz1krXO
+	 el52bMGvEAvlSN8C99aNYOjJ+K5LRQVLq2MQ8DSBTjGlrkiNIyn0/7i4+LnjjbqELvmZ9
+	 4fziE9TOYwwZgUCa3BnwPSKoYulnowjfD/4A6RAh0NZ++0et1r2cZFZBLOt6bgcunbA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=suse.cz;
 	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b="bQZO/4ow";
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=cju391Pb;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b="bQZO/4ow";
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=cju391Pb;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=CscclKHE;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=qufVQwoT;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=n7NL+oR7;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=qZ3i4Ij6;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 347A8606A321;
-	Mon,  9 Nov 2026 10:43:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 347A8606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C022606A321;
+	Mon,  9 Nov 2026 10:55:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3C022606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=bQZO/4ow;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=cju391Pb;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=bQZO/4ow;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=cju391Pb
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=CscclKHE;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=qufVQwoT;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=n7NL+oR7;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=qZ3i4Ij6
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 68CC51F7DC;
-	Mon,  9 Nov 2026 10:43:28 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 0D8DA2202C;
+	Mon,  9 Nov 2026 10:55:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794221008; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1794221748; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=UDca6BQDSujzYN3iXgd+k/sP2oPa3lW0EYEkVXMqZGI=;
-	b=bQZO/4ownfo2yOHaR61k0wnNVBUfekWvdGFDswdi15wmEuCR8Z1/p2ZL6dN64g69FEIkRO
-	PRKrz4vmmMvnPAsZqEGUjbVs1ChGiH4/NjYgeZ09IW9q6Jhz1ig9kodd9g/i2I5zKjXx5F
-	3FFvH4zSFyFct0dpFcx+NtASgf+YDdk=
+	bh=WjVWX6E21tFl2sD8Mx7SLeOlrK6FQokIkj+LlsMQstQ=;
+	b=CscclKHEIlu/Q61Xk5Hh4VchYO+eezj+MGVMuYCp8E2Xs8ENpkkNja9WQp0ucIIyQeV2j6
+	y1OUzfzv9zSFSYqILcH40oukwIWrfPsWf/R325cZ/26GCAPCOdIWciItDUKgPjS9jNEH5P
+	scALSnazHU/dRIuYjQkKonIHiB/++24=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794221008;
+	s=susede2_ed25519; t=1794221748;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=UDca6BQDSujzYN3iXgd+k/sP2oPa3lW0EYEkVXMqZGI=;
-	b=cju391PbLRfEBl3XJCGRIWAIkQf+7o/Sl/VZ1cZw2D761PRg10H9FTP02kRQSC/0Gj8nUX
-	skSOEkBupJ8pXyBA==
-Authentication-Results: smtp-out2.suse.de;
-	none
+	bh=WjVWX6E21tFl2sD8Mx7SLeOlrK6FQokIkj+LlsMQstQ=;
+	b=qufVQwoT1LMSP11eAa4ve7TRhyy8JX5taO1QNjgQEqXhR7vyx1RyLzuyOvwWCS/AvFH7+o
+	TmrSXifcntz7kUBQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=n7NL+oR7;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=qZ3i4Ij6
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794221008; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1794221747; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=UDca6BQDSujzYN3iXgd+k/sP2oPa3lW0EYEkVXMqZGI=;
-	b=bQZO/4ownfo2yOHaR61k0wnNVBUfekWvdGFDswdi15wmEuCR8Z1/p2ZL6dN64g69FEIkRO
-	PRKrz4vmmMvnPAsZqEGUjbVs1ChGiH4/NjYgeZ09IW9q6Jhz1ig9kodd9g/i2I5zKjXx5F
-	3FFvH4zSFyFct0dpFcx+NtASgf+YDdk=
+	bh=WjVWX6E21tFl2sD8Mx7SLeOlrK6FQokIkj+LlsMQstQ=;
+	b=n7NL+oR7Reaim+RWNUMTZHX2Q/WVbcqcqJ9pPXizXf0ljWHkiTQIpIQU0hx2DR4wlkL0c2
+	E9RdrhClQELefsBi9xLJ3fp4aLVAg62zrgC8QSHXvFYbHtqgJeTCJh4NDxz0rCQOj+fy9f
+	fiLlhmj1UXgEtQFAwHEOfmHojYtvswE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794221008;
+	s=susede2_ed25519; t=1794221747;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=UDca6BQDSujzYN3iXgd+k/sP2oPa3lW0EYEkVXMqZGI=;
-	b=cju391PbLRfEBl3XJCGRIWAIkQf+7o/Sl/VZ1cZw2D761PRg10H9FTP02kRQSC/0Gj8nUX
-	skSOEkBupJ8pXyBA==
+	bh=WjVWX6E21tFl2sD8Mx7SLeOlrK6FQokIkj+LlsMQstQ=;
+	b=qZ3i4Ij6wVdOuvLQnvtDp3MHdOPaZc5kDK/WlKCa0WV3s07OnP1hl2zmKhc0L7VHGK3VR8
+	2bIKy5Lnbba3UjAA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E1B3313319;
-	Mon,  9 Nov 2026 10:43:23 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D703013319;
+	Mon,  9 Nov 2026 10:55:46 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id BRLeLsuj8WpadwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 09 Nov 2026 10:43:23 +0000
+	id aeYKKrKm8WqQBgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 09 Nov 2026 10:55:46 +0000
 Received: by quack.suse.cz (Postfix, from userid 1000)
-	id 6B4BD21DA3; Mon, 09 Nov 2026 11:43:19 +0100 (CET)
-Date: Mon, 9 Nov 2026 11:43:19 +0100
+	id 5CE2221EB8; Mon, 09 Nov 2026 11:55:38 +0100 (CET)
+Date: Mon, 9 Nov 2026 11:55:38 +0100
 From: Jan Kara <jack@suse.cz>
-To: Huang Shijie <huangsj@hygon.cn>
-Cc: axboe@kernel.dk, viro@zeniv.linux.org.uk, brauner@kernel.org, 
-	zhongyuan@hygon.cn, fangbaoshun@hygon.cn, yingzhiwei@hygon.cn, jack@suse.cz, 
-	agruenba@redhat.com, mic@digikod.net, gnoack@google.com, paul@paul-moore.com, 
-	jmorris@namei.org, serge@hallyn.com, aleksa@amutable.com, legion@kernel.org, 
-	david@kernel.org, sandeen@redhat.com, ebiggers@kernel.org, 
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	gfs2@lists.linux.dev, linux-security-module@vger.kernel.org, sunjunchao@bytedance.com
-Subject: Re: [PATCH 1/3] vfs: add inode iteration method super_iter_inodes
-Message-ID: <symrqnxn6tkrahynz7rm5b7n3tolkifpbubmwfd3y6q4q2xnt2@vhh7plsok3kh>
-References: <20261015093854.2082600-1-huangsj@hygon.cn>
- <20261015093854.2082600-2-huangsj@hygon.cn>
+To: Hungyu Lin <dennylin0707@gmail.com>
+Cc: willy@infradead.org, jack@suse.cz, akpm@linux-foundation.org, 
+	kas@kernel.org, dave.hansen@linux.intel.com, linux-mm@kvack.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] filemap: prefault writes starting beyond EOF
+Message-ID: <vmzll2iszhdaycphuyjjp6vwki7gf4npbfb2eltzt3rc7pbdsk@bcnlvrzc6c2g>
+References: <20261104071002.49693-1-dennylin0707@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -117,156 +114,102 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261015093854.2082600-2-huangsj@hygon.cn>
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spamd-Result: default: False [-12.80 / 50.00];
+In-Reply-To: <20261104071002.49693-1-dennylin0707@gmail.com>
+X-Spamd-Result: default: False [-13.01 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
+	MX_GOOD(-0.01)[];
 	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,hygon.cn:email]
-X-Spam-Score: -12.80
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:email,suse.cz:dkim]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -13.01
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 0D8DA2202C
 
-On Thu 15-10-26 17:38:52, Huang Shijie wrote:
-> This will be used to replace the explicit sb->s_inodes iteration,
-> with the caller supplying a callback function and a private data
-> pointer that is passed to the callback along with each inode that is
-> iterated.
+On Wed 04-11-26 07:10:02, Hungyu Lin wrote:
+> Since prefaulting moved to the slow write path, a buffered write can reach
+> ->write_begin() and ->write_end() before discovering that its source buffer
+> is unreadable. Several filesystems can extend i_size in these callbacks
+> even when no data was copied. For example, a one-byte pwrite() at offset
+> 4096 into an empty file can fail with EFAULT but leave a 4096-byte file.
 > 
-> A single iteration function, super_iter_inodes(), is provided, with
-> the iteration mode selected by the INO_ITER_F_UNSAFE flag. The
-> INO_ITER_F_REFERENCED flag can additionally restrict the iteration to
-> inodes that still have a reference.
+> Prefault the source before ->write_begin() when the write position is
+> beyond EOF, and return EFAULT if no source bytes can be made readable.
+> Overwrites and appends continue to skip this prefault. Keep the existing
+> slow-path faulting for forward progress after a failed atomic copy.
 > 
-> Without INO_ITER_F_UNSAFE, the callback is called with a valid,
-> unlocked and referenced inode, so any inode operation, including
-> blocking operations, is allowed. The iterator is responsible for
-> inode lifecycle management, so the callback only needs to implement
-> the operation it wants to perform on all inodes.
+> This also leaves intentional zero-length ->write_end() calls used by
+> generic_cont_expand_simple() unchanged. As with the previous prefaulting
+> behavior, a concurrent userspace unmap can still race with the later copy.
 > 
-> With INO_ITER_F_UNSAFE set, the inodes are iterated without taking a
-> reference and the callback is run in an atomic context that must not
-> block. This mode is for internal VFS use only and runs under a RCU
-> read lock so that the VFS inode is not freed from under the callback.
-> It is needed for operations that require tight control over the state
-> of the inodes they operate on.
-> 
-> This mechanism allows the existing sb->s_inodes iteration models to
-> be maintained, providing a generic implementation for iterating all
-> cached inodes on the superblock.
-> 
-> Signed-off-by: Huang Shijie <huangsj@hygon.cn>
+> Fixes: 665575cff098 ("filemap: move prefaulting out of hot write path")
+> Reported-by: Kiryl Shutsemau <kas@kernel.org>
+> Closes: https://lore.kernel.org/linux-mm/at9xXRhD2xZhszEj@thinkstation/
+> Suggested-by: Kiryl Shutsemau <kas@kernel.org>
+> Link: https://lore.kernel.org/all/at-XtWBQg3jv3H8Z@thinkstation/
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
 
-Some more comments after seeing more conversions:
+Looks good! Feel free to add:
 
-> +static bool super_iter_iget(struct inode *inode, int flags)
-> +{
-> +	bool ret = false;
-> +
-
-Here I'd do a lockless icount_read_once(inode) check if INO_ITER_F_REFERENCED
-is set to avoid unnecessary i_lock round trip.
-
-> +	spin_lock(&inode->i_lock);
-> +	if (inode_state_read(inode) & (I_NEW | I_FREEING | I_WILL_FREE))
-> +		goto out_unlock;
-> +
-> +	if ((flags & INO_ITER_F_REFERENCED) && !icount_read(inode))
-> +		goto out_unlock;
-> +
-> +	__iget(inode);
-> +	ret = true;
-> +out_unlock:
-> +	spin_unlock(&inode->i_lock);
-> +	return ret;
-> +}
-> +
-> +static int generic_iter_inodes(struct super_block *sb, ino_iter_fn iter_fn,
-> +			       void *private_data, int flags)
-> +{
-> +	struct inode *inode, *old_inode = NULL;
-> +	int ret = INO_ITER_RET_DONE;
-> +
-> +	spin_lock(&sb->s_inode_list_lock);
-> +	list_for_each_entry(inode, &sb->s_inodes, i_sb_list) {
-> +		if (!super_iter_iget(inode, flags))
-> +			continue;
-> +
-> +		spin_unlock(&sb->s_inode_list_lock);
-> +		iput(old_inode);
-> +
-> +		ret = iter_fn(inode, private_data);
-> +
-> +		old_inode = inode;
-> +		if (ret == INO_ITER_RET_ABORT) {
-> +			ret = INO_ITER_RET_DONE;
-> +			goto out_loop;
-> +		}
-> +		if (ret < 0)
-> +			goto out_loop;
-> +
-> +		cond_resched();
-> +		spin_lock(&sb->s_inode_list_lock);
-> +	}
-> +	spin_unlock(&sb->s_inode_list_lock);
-> +out_loop:
-> +	iput(old_inode);
-> +	return ret;
-> +}
-> +
-> +/*
-> + * Unsafe iteration for internal VFS use only: @iter_fn runs in atomic
-> + * context with only an inode existence guarantee, so it must not block
-> + * and must perform its own inode state checks. Return INO_ITER_RET_ABORT
-> + * to stop the iteration early.
-> + */
-> +static int generic_iter_inodes_unsafe(struct super_block *sb, ino_iter_fn iter_fn,
-> +				      void *private_data)
-> +{
-> +	struct inode *inode;
-> +	int ret = INO_ITER_RET_DONE;
-> +
-> +	rcu_read_lock();
-> +	spin_lock(&sb->s_inode_list_lock);
-> +	list_for_each_entry(inode, &sb->s_inodes, i_sb_list) {
-> +		ret = iter_fn(inode, private_data);
-
-After some thought, I'd probably make this function inline in some VFS
-internal header. That way the compiler can inline everything and avoid the
-extra costs of indirect function calls, etc. These iterators tend to be
-rather lightweight so it would avoid performance regressions from the
-conversion.
-
-I was considering the same for the generic iterator as well but there I
-don't have so strong opinion as the function is already relatively big and
-the callbacks are usually more heavy. Might still be worth some more
-detailed investigation and performance measurements...
-
-> +		if (ret == INO_ITER_RET_ABORT)
-> +			break;
-> +	}
-> +	spin_unlock(&sb->s_inode_list_lock);
-> +	rcu_read_unlock();
-> +
-> +	return ret;
-> +}
+Reviewed-by: Jan Kara <jack@suse.cz>
 
 								Honza
+
+> ---
+> 
+>  mm/filemap.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/mm/filemap.c b/mm/filemap.c
+> index b74bc1e5015c6f318333427f223b9f42061a6213..30414d55412b84f11ebe98b8eea607ee8c04eef5 100644
+> --- a/mm/filemap.c
+> +++ b/mm/filemap.c
+> @@ -4389,6 +4389,16 @@ ssize_t generic_perform_write(struct kiocb *iocb, struct iov_iter *i)
+>  			break;
+>  		}
+>  
+> +		/*
+> +		 * Some filesystems can extend i_size even when nothing was copied.
+> +		 * Prefault writes beyond EOF to catch unreadable source buffers.
+> +		 */
+> +		if (unlikely(pos > i_size_read(mapping->host)) &&
+> +		    fault_in_iov_iter_readable(i, bytes) == bytes) {
+> +			status = -EFAULT;
+> +			break;
+> +		}
+> +
+>  		status = a_ops->write_begin(iocb, mapping, pos, bytes,
+>  						&folio, &fsdata);
+>  		if (unlikely(status < 0))
+> 
+> base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+> -- 
+> 2.43.0
+> 
 -- 
 Jan Kara <jack@suse.com>
 SUSE Labs, CR
