@@ -1,113 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794218327;
-	b=h9tQsFIC/4hqwkoBgLRmoaUQs+Kz2RiFrTr6TN38/ieS2uBHMlDutR4t6XOaDQEVZ8fH
-	 eAyQICb6VQUuUTSCe8YHkRFthUFFQMDj/gVHiof4ATjO21QeYAOGlM3iLkcyrwjMdYctS
-	 C+tPJbVXWPekjffsHWl4Gw0+PZ/531YrNesWmcGq5kmbkaAcxrujQHsAp1jI3dOl4q9By
-	 k7HEwplOELZp8697x7m/f2Lj7VYY3WULIKVOdTgqc1VCLIiXXeXjivYClbXtChv9PrmAF
-	 WX2phgLTmgS5sLm1zVQ+sBPr7DWC5cIQvrg3Kc5jJvtZ6+E5SeLPoW8d7GSDStmHn1A==
+	t=1794218828;
+	b=yMaHZJDJcJZIaVM5WLjKJSV6abejgeOxBmV1vOiUhMXw9cWd2Pte0Gn8T3qCGsER477a
+	 f3VGT7ni89FatB/VJEowEc9sf2jMPUbXoEkAkS77LYMpJDCMrg0KSSwksPZHBQLU9AZfM
+	 zpFZPSei1jK0W6QeX9mReUDqhRjP3qDhwwbb7aURbCFrGJ7KCe03e0wNhcf7uPuVOPpW7
+	 Heh1LWFQuNu9L2AgstB2s85pxu4A5Jm5XFeqAlMINEwdR/0prBs66rXM0p1yuDFBwj9wj
+	 IMH8Ftc89iCEdbfHZDnwwGJ4U11/Dc+IJf9aBsDCdzVfd3S6jWtqJ1xPsLF0JKzeJow==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794218327;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:
-	 X-Spam-Flag:X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
-	bh=9YqeSUwdUI+ewo9U6HDew1v5EKdGFa3Vpg/7xfVnlmo=;
-	b=EOMl1T1y9+r7xQr0P16AY8WFo/urbmNuZR7NEJ/XZiRJVBl5U4TmYAEZ5BkyfIVFv+vc
-	 V0yHruA7anqpqqywEs5N2vCLi7AJuUrUoBUII48Tu1nvAWArGMOjoYzF/y4pAVT36KgwQ
-	 9ai4a0fDORLFuFl6IOkLl0ft23mEbGOmn94nZcq+/DkclWQklRAtCZB3+2FBD1eivoFXA
-	 PWsIXg8v5veSGZRLpCp5aiyVxqPORint/Jjy0UotubOVIoZDGnQLmW7ZYOtF4xoDeMKHm
-	 DSAS0Jt5EII1QpyEN73q2CVt+096LOZPtr4jHO9HTBJ4FYP2faYVQ13aNDvs8EkfUQA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794218828;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=HrsIsrqSYPkZUAPyuLllNQ1aS8CwBsDo/9IWKIbJVfA=;
+	b=0kI6jY9toj2LzjT5TvLGwQgwaWU4qBG5z9akGfJ32jbBiCXRM+TniMnAY7hB4JtrHGjX
+	 tK6lz06wTIQna/g9Guj/qGEcrmYd50JvTh60QNDhJVsOtcArU8Xu66FFlLLdt+RoKcu43
+	 g5NYyOiVD6jBBERSXBU7hyaAc3LAzdmviIrJ+OSLs9n/2T09QO8AqBk8VC0Lx47xkk4v2
+	 78IldNMZoUK1kSwaJJ5QNQP7jV58HBYDpfCAppuJ0S1o3KhQ/mhuP1wD5+droEX7KlU39
+	 v1hF5muVF7LhPdSBwm6m6hpWmb0ncGv18GiB8RPec1MBIfdji9S36qCTiz/8Q3EdOEQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=G7CRuED6;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=recl9Zt6;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=G7CRuED6;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=recl9Zt6;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VI8yRdjT;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA4B6606EE98;
-	Mon,  9 Nov 2026 09:58:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AA4B6606EE98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2DA8606A31C;
+	Mon,  9 Nov 2026 10:07:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=G7CRuED6;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=recl9Zt6;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=G7CRuED6;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=recl9Zt6
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7FDBD21ED1;
-	Mon,  9 Nov 2026 09:58:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794218324; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9YqeSUwdUI+ewo9U6HDew1v5EKdGFa3Vpg/7xfVnlmo=;
-	b=G7CRuED6NzzdVt7L5gKNNsG/Jmnoev6NtThl9kEVfWK/2/+rb/TksLeG93lrFto59BSskc
-	tUV5XK2e62heEW+kBIuM6+Pc0iqjkEEIMEj0WHBH1B3yMuSUcKYCfhH0HQf62SFf+gP9c5
-	vF94vb5EdlVdf1S3UamAszCm67Rnbec=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794218324;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9YqeSUwdUI+ewo9U6HDew1v5EKdGFa3Vpg/7xfVnlmo=;
-	b=recl9Zt6rDMQiYnaOHiXv3tKpLuIQ0i3v7iw5narrceerKWXtcn5gVnPcrnO+5lP6WKaED
-	ptMslHoHdl0Eb9Ag==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=G7CRuED6;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=recl9Zt6
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794218324; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9YqeSUwdUI+ewo9U6HDew1v5EKdGFa3Vpg/7xfVnlmo=;
-	b=G7CRuED6NzzdVt7L5gKNNsG/Jmnoev6NtThl9kEVfWK/2/+rb/TksLeG93lrFto59BSskc
-	tUV5XK2e62heEW+kBIuM6+Pc0iqjkEEIMEj0WHBH1B3yMuSUcKYCfhH0HQf62SFf+gP9c5
-	vF94vb5EdlVdf1S3UamAszCm67Rnbec=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794218324;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9YqeSUwdUI+ewo9U6HDew1v5EKdGFa3Vpg/7xfVnlmo=;
-	b=recl9Zt6rDMQiYnaOHiXv3tKpLuIQ0i3v7iw5narrceerKWXtcn5gVnPcrnO+5lP6WKaED
-	ptMslHoHdl0Eb9Ag==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5233013302;
-	Mon,  9 Nov 2026 09:58:44 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id boGKC1SZ8Wr9SQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 09 Nov 2026 09:58:44 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id D6B9E21D88; Mon, 09 Nov 2026 10:58:43 +0100 (CET)
-Date: Mon, 9 Nov 2026 10:58:43 +0100
-From: Jan Kara <jack@suse.cz>
-To: Huang Shijie <huangsj@hygon.cn>
-Cc: axboe@kernel.dk, viro@zeniv.linux.org.uk, brauner@kernel.org, 
-	zhongyuan@hygon.cn, fangbaoshun@hygon.cn, yingzhiwei@hygon.cn, jack@suse.cz, 
-	agruenba@redhat.com, mic@digikod.net, gnoack@google.com, paul@paul-moore.com, 
-	jmorris@namei.org, serge@hallyn.com, aleksa@amutable.com, legion@kernel.org, 
-	david@kernel.org, sandeen@redhat.com, ebiggers@kernel.org, 
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	gfs2@lists.linux.dev, linux-security-module@vger.kernel.org, sunjunchao@bytedance.com
-Subject: Re: [PATCH 1/3] vfs: add inode iteration method super_iter_inodes
-Message-ID: <wepk7b6hw44k7aodwmk24mt4ied25jl5zzdyd5dfx3pjop6omq@bvld6lyzbetm>
-References: <20261015093854.2082600-1-huangsj@hygon.cn>
- <20261015093854.2082600-2-huangsj@hygon.cn>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VI8yRdjT
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCF831F0089F;
+	Mon,  9 Nov 2026 10:07:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794218827;
+	bh=HrsIsrqSYPkZUAPyuLllNQ1aS8CwBsDo/9IWKIbJVfA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=VI8yRdjT7fBUJPMzLDt2H1mylAHBDLlQ55kdtzz7yVjxHqcA+QOMLSIVo/0wAASYr
+	 Z7RWNX7Rl6RZSi2UO1oZcZLnKAgL4RvLRpLBeuktP+gpX0Swtyk9ZyQE+Q45VRjWUw
+	 c8aEFA+Ptp3OuOOCwk8S/PdY0vaPOB5Jk9HKxHbc4OLf3KUIze/wW8BnNEKKOkmUSa
+	 kobRALJLj0KzreD1irfZSMicoRE4Ip8wU6ZgPoI2iyNxQUHX+cIk/Mw/Kzv4W0PZfP
+	 DMXxH0Nmz8xusIV4oT54nW+mLJXVgXgzLL2VA7510LUb921GAZ+85Y9dwBPem3eNP0
+	 sTEkwfeY2T67g==
+Date: Mon, 9 Nov 2026 11:07:02 +0100
+From: Joel Granados <joel.granados@kernel.org>
+To: David Laight <david.laight.linux@gmail.com>
+Cc: Wen Yang <wen.yang@linux.dev>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 00/39] sysctl: replace overloaded extra pointers with
+ typed bounds and context
+Message-ID: <avGVyB9erjZl8zIO@hobbes>
+References: <cover.1793204511.git.wen.yang@linux.dev>
+ <20261029105837.2f8bee67@pumpkin>
+ <0316f664-d98c-43be-92af-13c30436727a@linux.dev>
+ <au85ISJ2qUsB7y-6@hobbes>
+ <20261107170507.0d66cc2e@pumpkin>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -117,158 +61,226 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="zykn2ejteafndfrg"
 Content-Disposition: inline
-In-Reply-To: <20261015093854.2082600-2-huangsj@hygon.cn>
-X-Spamd-Result: default: False [-13.01 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -13.01
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 7FDBD21ED1
+In-Reply-To: <20261107170507.0d66cc2e@pumpkin>
 
-On Thu 15-10-26 17:38:52, Huang Shijie wrote:
-> This will be used to replace the explicit sb->s_inodes iteration,
-> with the caller supplying a callback function and a private data
-> pointer that is passed to the callback along with each inode that is
-> iterated.
-> 
-> A single iteration function, super_iter_inodes(), is provided, with
-> the iteration mode selected by the INO_ITER_F_UNSAFE flag. The
-> INO_ITER_F_REFERENCED flag can additionally restrict the iteration to
-> inodes that still have a reference.
-> 
-> Without INO_ITER_F_UNSAFE, the callback is called with a valid,
-> unlocked and referenced inode, so any inode operation, including
-> blocking operations, is allowed. The iterator is responsible for
-> inode lifecycle management, so the callback only needs to implement
-> the operation it wants to perform on all inodes.
-> 
-> With INO_ITER_F_UNSAFE set, the inodes are iterated without taking a
-> reference and the callback is run in an atomic context that must not
-> block. This mode is for internal VFS use only and runs under a RCU
-> read lock so that the VFS inode is not freed from under the callback.
-> It is needed for operations that require tight control over the state
-> of the inodes they operate on.
-> 
-> This mechanism allows the existing sb->s_inodes iteration models to
-> be maintained, providing a generic implementation for iterating all
-> cached inodes on the superblock.
-> 
-> Signed-off-by: Huang Shijie <huangsj@hygon.cn>
 
-This looks as a good base but see my comments for individual conversions.
-Some smaller comments below:
+--zykn2ejteafndfrg
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [RFC PATCH 00/39] sysctl: replace overloaded extra pointers with
+ typed bounds and context
+MIME-Version: 1.0
 
-> +/*
-> + * Unsafe iteration for internal VFS use only: @iter_fn runs in atomic
-> + * context with only an inode existence guarantee, so it must not block
-> + * and must perform its own inode state checks. Return INO_ITER_RET_ABORT
-> + * to stop the iteration early.
-> + */
-> +static int generic_iter_inodes_unsafe(struct super_block *sb, ino_iter_fn iter_fn,
-> +				      void *private_data)
-> +{
-> +	struct inode *inode;
-> +	int ret = INO_ITER_RET_DONE;
-> +
-> +	rcu_read_lock();
-> +	spin_lock(&sb->s_inode_list_lock);
-> +	list_for_each_entry(inode, &sb->s_inodes, i_sb_list) {
-> +		ret = iter_fn(inode, private_data);
-> +		if (ret == INO_ITER_RET_ABORT)
-> +			break;
-> +	}
-> +	spin_unlock(&sb->s_inode_list_lock);
-> +	rcu_read_unlock();
-> +
-> +	return ret;
-> +}
-> +
-> +/**
-> + * super_iter_inodes - iterate all the cached inodes on a superblock
-> + * @sb: superblock to iterate
-> + * @iter_fn: callback to run on every inode found
-> + * @private_data: private data to pass to @iter_fn
-> + * @flags: inode iteration control flags
-> + *
-> + * This function iterates all cached inodes on a superblock that are not in
-> + * the process of being initialised or torn down. It will run @iter_fn() with
-> + * a valid, referenced inode, so it is safe for the caller to do anything it
-> + * wants with the inode except drop the reference the iterator holds.
-> + *
-> + * If @flags has %INO_ITER_F_REFERENCED set, inodes with a zero refcount are
-> + * skipped as well, so that they are not needlessly bounced through
-> + * __iget()/iput() (which would evict them from the inode cache).
-> + *
-> + * If @flags has %INO_ITER_F_UNSAFE set, the inodes are iterated without
-> + * taking a reference and @iter_fn is run in an atomic context that must not
-> + * block; %INO_ITER_F_REFERENCED is ignored in this mode. This is for internal
-> + * VFS operations only and almost certainly not what the caller wants.
-> + *
-> + * Return: %INO_ITER_RET_DONE on completion, a negative errno if @iter_fn()
-> + * returned an error (safe iteration only), or %INO_ITER_RET_ABORT if the
-> + * unsafe iteration was aborted early.
-> + */
-> +int super_iter_inodes(struct super_block *sb, ino_iter_fn iter_fn,
-> +		      void *private_data, int flags)
-> +{
-> +	if (flags & INO_ITER_F_UNSAFE)
-> +		return generic_iter_inodes_unsafe(sb, iter_fn, private_data);
+On Sat, Nov 07, 2026 at 05:05:07PM +0000, David Laight wrote:
+> On Sat, 7 Nov 2026 16:27:39 +0100
+> Joel Granados <joel.granados@kernel.org> wrote:
+>=20
+> > On Mon, Nov 02, 2026 at 11:40:40PM +0800, Wen Yang wrote:
+> > >=20
+> > >=20
+> > > On 10/29/26 18:58, David Laight wrote: =20
+> > > > On Thu, 29 Oct 2026 00:34:39 +0800
+> > > > wen.yang@linux.dev wrote:
+> > > >  =20
+> > > > > From: Wen Yang <wen.yang@linux.dev>
+> > > > >=20
+> > > > > struct ctl_table describes an entry with data, maxlen and, until =
+this
+> > > > > series, two untyped misc pointers in extra1 and extra2. Those two=
+ pointers
+> > > > > have accumulated at least seven unrelated jobs: a fixed bound, a =
+bound read
+> > > > > through a pointer on every call, an object or namespace pointer, =
+a small
+> > > > > integer cookie encoded into the pointer, a lock signal, NULL stan=
+ding for
+> > > > > "no bound", and a value the core itself casts to unsigned int whi=
+le
+> > > > > validating a u8 range. Nothing in the entry says which job applie=
+s, so
+> > > > > readers infer it from the handler, and the core gets it wrong whe=
+re it
+> > > > > treats extra1 as an unsigned int. =20
+> > <--- snip --->
+> > > > > (~574 new min/max initializers) instead of pointing at constants.=
+ The
+> > > > > sysctl ABI is unchanged; the parport spintime minimum is correcte=
+d as
+> > > > > described above.
+> > > > >=20
+> > > > > The cost is 8 bytes per ctl_table entry on 64-bit (56 -> 64) and =
+4 bytes on
+> > > > > 32-bit, because priv is appended; the range read path gains no in=
+direction
+> > > > > and the migrated entries no longer dereference a bound pointer. =
+=20
+> > > >=20
+> > > > Can you remove the little-used 'priv' parameter by making the extra
+> > > > information just follow the table entry (nested structure) and have
+> > > > the relevant functions use container_of() to get the outer structure
+> > > > and extra values?
+> > > >  =20
+> > >=20
+> > >=20
+> > > Hi David, Hi Joel,
+> > >=20
+> > > I reworked the context side of the series so that priv is gone entire=
+ly;
+> > > and the final tree has no per-entry context pointer.
+> > > A small helper recovers the enclosing object, but it needs the slot
+> > > index from the caller:
+> > >=20
+> > >   #define sysctl_table_container(entry, type, member, index) ({      =
+ \
+> > >           static_assert(__same_type(*(entry),                        =
+ \
+> > >                                     typeof_member(type, member[0])), =
+ \
+> > >                         "pointer type mismatch");                    =
+ \
+> > >           (type *)((void *)(entry) - offsetof(type, member) -        =
+ \
+> > >                    (size_t)(index) * sizeof(*(entry)));              =
+ \
+> > >   })
+> > >=20
+> > > The reason plain container_of() is not enough is that the core keeps =
+the
+> > > table as a contiguous array.  For
+> > >=20
+> > >   struct addrconf_sysctl_table {
+> > >           struct addrconf_sysctl_ctx context;
+> > >           struct ctl_table table[];
+> > >   };
+> > >=20
+> > > the handler receives an interior entry, and
+> > >=20
+> > >   container_of(ctl, struct addrconf_sysctl_table, table)
+> > >       =3D=3D (char *)outer + index * sizeof(struct ctl_table)
+> > >=20
+> > > for ctl =3D=3D &outer->table[index].  It only returns the outer objec=
+t for
+> > > index 0.  Passing the index explicitly keeps the original registered
+> > > entry usable:
+> > >=20
+> > >   static int addrconf_sysctl_forward(const struct ctl_table *ctl, ...)
+> > >   {
+> > >           struct addrconf_sysctl_table *t =3D
+> > >                   sysctl_table_container(ctl, struct addrconf_sysctl_=
+table,
+> > >                                          table, ADDRCONF_SYSCTL_FORWA=
+RDING);
+> > >           const struct addrconf_sysctl_ctx *ctx =3D &t->context;
+> > >           ...
+> > >   }
+> > >=20
+> > > Shared handlers get one wrapper per slot; the common body does not ne=
+ed
+> > > to know its position:
+> > >=20
+> > >   #define DEVINET_CONF_WRAPPER(attr)                                 =
+ \
+> > >   static int devinet_conf_##attr(const struct ctl_table *ctl, ...)   =
+ \
+> > >   {                                                                  =
+ \
+> > >           struct devinet_sysctl_table *t =3D                         =
+   \
+> > >                   sysctl_table_container(ctl,                        =
+ \
+> > >                           struct devinet_sysctl_table, devinet_vars, =
+ \
+> > >                           IPV4_DEVCONF_##attr - 1);                  =
+ \
+> > >           return devinet_conf_proc_common(ctl, &t->context, ...);    =
+ \
+> > >   } =20
+> >=20
+> > Two questions before seeing the actual implementation of this.
+> >=20
+> > 1. This means that we will have to add more macros to the sysctl
+> >    callers? There is a clear signal in [1] against overuse of macros.
+> > 2. I understand that you are doing this to avoid having priv. Is it to
+> >    save memory?  Yes. priv is a void* and we are also trying to get rid
+> >    of these. But this changes removes the use of two void pointers and
+> >    replaces it with just one.
+>=20
+> The idea behind removing the 'void *priv' is mostly to save memory.
+> There are a lot of systctl and hardly any need it.
+>=20
+> This solution does look nasty.
+> I suggested another where the size of the array entries was passed in
+> by the caller.
+That would mean changing all the proc handler signature. Right?
 
-Since unsafe iteration is a separate function anyway and we advertise it as
-an "internal VFS" function (which I agree with), I'd just have
-super_iter_inodes() for the normal iteration and super_iter_inodes_unsafe()
-for the unsafe iteration which won't be exported to modules (so we really
-get the message across this should be VFS internal function). 
+> If that works it would allow the per-value function use container_of()
+> to get extra fields.
+Would this mean that the callers would have to have to keep track of the
+ctl_table offsets? in other words the sysctl indices and the caller's
+indices would have to be synced. right? This goes a bit against the
+second point in [1]. Which I'm still willing to live with, but worth
+avoiding if it can be done.
 
-> +
-> +	return generic_iter_inodes(sb, iter_fn, private_data, flags);
-> +}
-> +EXPORT_SYMBOL_GPL(super_iter_inodes);
-> +
+Best
 
-...
-> +/* Inode iteration callback return values */
-> +#define INO_ITER_RET_DONE		0
+[1] https://lore.kernel.org/atoDngZsxy3TWmO_@hobbes
 
-Maybe INO_ITER_RET_NEXT? DONE looks too much like the loop should finish.
 
-> +#define INO_ITER_RET_ABORT		1
-> +
-> +/* Inode iteration control flags */
-> +/* Iterate without taking a reference; @iter_fn must not block. */
-> +#define INO_ITER_F_UNSAFE		(1U << 1)
-> +/* Only iterate inodes that still have a reference. */
-> +#define INO_ITER_F_REFERENCED		(1U << 2)
+> That only really helps if only a few 'private' functions need it.
+>=20
+> David
+>=20
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+
+
+> >=20
+> > Best
+> >=20
+> > [1] https://lore.kernel.org/CAHk-=3DwjUmLrJd4KM4xvJHUN4P0r8oSu5LyvG4Jip=
+nhxizBrE9Q@mail.gmail.com
+> > >=20
+> > > Single-entry tables simply use slot 0:
+> > >=20
+> > >   struct devinet_forward_table *t =3D
+> > >           sysctl_table_container(ctl, struct devinet_forward_table, t=
+able,
+> > > 0);
+> > >=20
+> > >=20
+> > > The series is 20 commits over 134 files, with no priv at any point.  =
+If
+> > > you would prefer a different shape for the helper or the wrappers, I =
+am
+> > > happy to adjust it.
+> > >=20
+> > >=20
+> > > Thanks,
+> > > Wen
+> > >  =20
+> > > > David
+> > > >  =20
+>=20
+
+--zykn2ejteafndfrg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmrxm0UACgkQupfNUreW
+QU8R7wv/aad4+doUCBbcOxH5zO2Rg4nvC7cOKpkalU4+WbIGiThVH77rYtuPS1ZC
+ZgzUgOfOJPgdPYM300e7A17yZ6B3VKJwTM0X731XYnahP2q9lIOJGw6CKigHN3Vh
+mu/tMoqZcfYttH2EdT3rFcuha8oXC1buECEZX91dZKBSjUAT1ma6jl0gTTrP0RmD
+3YWzjd90LGIzcjb2oMrmYBVXU1jBdDR0VXot52104wS08MW1djXpcLZERt2bNIoU
+hdGEf7nHcvqvQv1c5s/RweZHprTn8nwU0c2umj7dTTWiUCOnaWoZLk+/AmVCJJpB
+zB9Oqeh3Lnt9SmuSM+zL9+ySGlWPUnqZzeY5UusU6yNY29A0yGQjApO5/Xqs3jqw
+HTAtBh0QiGeO/8TwIhHgLCgVSf/QbU7Gt/rHOG0h7aBEeSvmzTsrJ6fiHdVgc1AV
+OCBgxTc45IN68n6bm3zkgXk/gjbmx5fXc/JV2kwoKwfeDNG2eQNZElE3aJBSZX80
++CAc1KVV
+=YBJs
+-----END PGP SIGNATURE-----
+
+--zykn2ejteafndfrg--
