@@ -1,135 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.172
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794263005;
-	b=IlN74TBVPakWhc9ZdlgKxKFtZ86NjwnaFM/22ujzXjtOVyh3RiFil7Jh0hpu6ay6+qFX
-	 3o1h7FVq1KbDZJcUM5tomUAumS0AqIBQH894iXND08Pk39SzorBiwRVe8TbaHC+40R3w3
-	 7N+4G/mSKI6ayQgMhTIb07EwdlygcPKM6zdPGOHa8AGKpRFbvmgKcevuy6V6RmP6luKoR
-	 ieixFBS2sjQCSikQhUm2q4DPf0uGPW35+rLrxtV1BP2CCaS+GeHvMKt5+gj1ZNVkfVvr2
-	 mCoAhHJnFbsMUd0XDvMW9WeJDPNo+XkK6HtvZ2wVMuLJtm6MNJjxxhxyJZsrDei9mtA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794263005;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.180
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794263410;
+	b=PpnUoNJOOJtV3DALRFNb8NoJBnapRI05Dg9U9i3IO706y89o3+yrt4D+VDGIfwL6uDJE
+	 dIoV1xczjWFNAjKJGDHpGzQF7AUIEWG/0ndEV64UCQYO8q8IpXT8kU45l7CozTYV/7ufh
+	 HnIvJiig6E01z+Q5iNtoSOdwfruKHE4XV0DIp25DxxSGfvQp1kRh1YycLGQgp3LJpmhWH
+	 1MBS1O6dbIAtaA3iZN1oSzh6UR5HEN8NAmYnihE6qz090BEs/o7iU6lWBUJiaeAs8y1za
+	 yQa8bEpIWUnzq2+6dJ3Lyuq2zyw6POTbAGbJSgo4LO3ESRkfAvPR3rK5i+9mp8iGCQw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794263410;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Message-ID:Subject:
-	 From:To:Cc:Date:In-Reply-To:References:Autocrypt:Content-Type:
-	 Content-Transfer-Encoding:User-Agent:MIME-Version;
-	bh=hvt+G1mIzT35OGkCWsRN+8maDO38GDDJRQI/VuEpfmU=;
-	b=yl4/kM6UJGgpzpTh7DMBkiFc6QcEPN754UdNBC42WZFp0GX6a7PZm+WPdEqHedOZtb4L
-	 cLA+y/06DjPQ8UB165RERych8nrcWYKPjIJai4tWnwE4fjDOlkIPQBdqyslKhbLWeItCz
-	 2nasEb0Txz3MSkzohAVZ8/0Yo63SB4qkuARe5/VTyC3mj8GBJT7k5t4GnRBbyGX9CqDHG
-	 2BeThAB2BeDa5PyOB9a2tESKv150QOooXYsUh1qt5Q5boYFxpfDmM2PEs9B1K10a6CD2J
-	 GFJwDBX2+EKZLdRyYW+gqEzYyAHmxvpAUqk0Y+9fdDfdKKYMYarh73I00LTPBA5wyJg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=dubeyko.com;
-	spf=pass smtp.mailfrom=dubeyko.com;
-	dkim=pass header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=kI1EnoNo;
-	arc=none smtp.remote-ip=209.85.128.172
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=S6J9qhUwfhfejNNDnNi/t39zME3R/+tshu3QmKCryWs=;
+	b=sPkx9O3X4gKLSk7Vei8CsZpIezsDK/ew7PvAocXtwsS1oB6ZjUSVbG3A7hmzZHtLviAB
+	 OIOa8QmWxSA2g2uan2tD9+B03lPcSd+1LKWjNyMhSsQyh7nCBkN5RbN3pcp4yl1zppgry
+	 s6ORymAP0SRfx7KQ+XeUpj4bBATESNlTPvRZr7vxKaGsn7jw6uOhZRQ6vPgZEb66O3bxF
+	 pOhbfDXoHtOfp0zGk+E/mq1n6zpQ0hWDh28Dc646DEiFd3MTfGUgNRDyZe3F9d2P1srFz
+	 qNDsE3XsFInGHdQaFibx1gkQqrkiJ5lpb9tlPU7boBITbpfyuHa2ff0GuXGl+pPZJUg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=bc6ecKnX;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.180
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA20B606A31C
-	for <linux-fsdevel@vger.kernel.org>; Mon,  9 Nov 2026 22:23:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AA20B606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 437E6606A31C
+	for <linux-fsdevel@vger.kernel.org>; Mon,  9 Nov 2026 22:30:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 437E6606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=kI1EnoNo
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-8b32daac9d7so10780947b3.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 09 Nov 2026 14:23:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=bc6ecKnX
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-535f598d126so39531cf.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 09 Nov 2026 14:30:09 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794263408; cv=none;
+        d=google.com; s=arc-20260327;
+        b=U2BX2EUCYTwGoxXaOLvXj2evIfhCU7CPpi+CM+MwQct+qLL9h7xoxFgFGtYvAMbSO9
+         3/EAHX/hulttYZd9Udqhk9c1uYEgI0DNiLIY8e22DaiolWa2ydbjnmLIEY3udpJQ635H
+         GSzQ+L3TWY/IKBVGcxZT91BzWnRPAp2oOaP23eHObTiWXGyChvFztowE6mailijpxZph
+         gRcEtwFWb/1sokerFpdGR+36moywGWTpegLBtakjOlDRE7yr+8AdVcRNbuvO+B9/tjrU
+         Acbs3dZ5e88VKhgZSa7aDtejOYy/onyuI6XkjEkUMxu0vvxQXc7aRdGkwzV9x89oiO+8
+         NHBw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=S6J9qhUwfhfejNNDnNi/t39zME3R/+tshu3QmKCryWs=;
+        fh=r3dVkNojxykZP8GYgwG2D/7Rfi0V5UKtVDoxcGFSPP8=;
+        b=hCfvlmWpBU1SdINwQK0GX/f+vxW9HXR8f0wzz7s2zQwEUersUu8nWfJ5KH2BibrYMV
+         ePLPrJYBa80EGTRrjWOHW/PuEctghBsq5RvOsTQErrWDndkaKzzJKa+nTP5rkMbQ7fQT
+         Wytbu1/goV8NpipGnUv4xyyiKX6BE+qefoc5ZCUwkOvbKG2xPrypICvyNIjk0U34H9LW
+         tsbC6O/BrYTwkGu3WeKHWSXQc+VBaaOvSokjpz4dGH0N2L+TerVejUMg4L9XdLlcVl25
+         nCzbmNakw85vHzaT78rPd+1/JYEeAL57aA3DDo6jo/SiOhFq1gV3E6X9P71isGCsTwDP
+         ARLw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20260707.gappssmtp.com; s=20260707; t=1794263003; x=1794867803; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=hvt+G1mIzT35OGkCWsRN+8maDO38GDDJRQI/VuEpfmU=;
-        b=kI1EnoNoLZkJv1riHQNNPu/sBIhscyQqHWRKH7RUJ5Qt4Q6CwTRGfAElyO6WodBzgK
-         Vx5q7OvRzeGjA9LmQQuzC7voCOIXvEHazMUvmcOA8j8b1n0O3IwpJRzEivHgpAhdLyvw
-         BO/a5rqQDrPnzKXeCfhdAu79QTGbU3C7bB8Yvs+tVRofz1e49D/AKoxeQ9OF207xrFLP
-         +1WPVb53fELgvSRIl2b54wZtS4WgIcUDLb3ZyEFgzSeI8n0VnVx7fWVHCvuqAWOFS4kd
-         R3USqBx8sbaxwp1ks1qB7InJ/g924dPnFyFJGmd+SNPX4STePR7GeCvrDwGBAup3GeNW
-         iLSg==
+        d=google.com; s=20260707; t=1794263408; x=1794868208; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=S6J9qhUwfhfejNNDnNi/t39zME3R/+tshu3QmKCryWs=;
+        b=bc6ecKnXzqp5zahKN5US+W/GLFNu9bOCxLTorv75CdL/TyOgB/Qh6QFUi86M3M/XI3
+         3gbxOXuAYS2+xcjqU4SLj5C27dCKM/SCCgBGdSbxDV00eICb4MzgEjo9vjECQ1QTCTmr
+         MgCtojiqIWlVyB6AunwAs2qSQJP0tUdJsdT71C1y4WilJg+rQa++O5B+9FpAikzFpyGD
+         TU94u5aUZCMHCz2bEPFushfsTW1bpin21NCA0WBKSF7omxyVw4eI3lnqeaGfI4JhzN5X
+         ZQZwi7mBvwRBGIVH1EKWZ2xsmVHzuYxoBrVKANockiyw6pDDJKKlw7J5nTOQpM4hDjUm
+         KR1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794263003; x=1794867803;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=hvt+G1mIzT35OGkCWsRN+8maDO38GDDJRQI/VuEpfmU=;
-        b=vtQfhv1c0Zg/ar5/WAkxF8DIYUfeCgvbAULPpcBCMO/+g4ZKQ1htyrzl/PiQ8Qs0Br
-         RU6UZiwHQG1r81Tc9c87nz5SF8CNYNaJhe56gbwRejfzPeTRtDTDFunhgONlnJbZVrW9
-         hA6Aybj36K2Od76q2+NGN/qGOUAiTm56XrWTgbbFgaw1cWdATrvDvck60fEHUcBiOYLm
-         4Z/+MCfNZAetrFU0B3FSfcqheJzg6C7qYSiX0RVEP/oRGlDU6GbbshGzKUC5yZrBkkRP
-         p9pJOIJaCIGu/pztW1u5wbDy5Gp27E1cxKS2D9vW0y1Wt5RvZMO6xsesPC1JuxgS1QtY
-         HqFQ==
-X-Gm-Message-State: APuU4Z+M8ETlvgZzXhjcSTJRc3lvya0NxT7Dfm6vX7n6HDPs1H81Sif1
-	sfe9FtuTqDhNmrQV0GtJMovrd/iZSV++4UqR/UgVnbNEJUvLfENTHfyarQNkq4vfMlnJInixGgz
-	QcdPMLik=
-X-Gm-Gg: AYBFou1kfjKOC7F9VnpNHcC6qGGJdPYlwbbxOW6roPYCkFCHGP+aloGgj51EWFlQ3y4
-	UNyYeTj5TyCfLaS/J2KxFzhPp+JNsbzkYvgBR0y2MI+9W5jefgb9XcSU8suOp7nMiO6ZUEOY+OH
-	anf8iWr4qTf8OFG+QiUYLasXnN52lRiD0ORauMMeVxE1STegoXGOp0FJGDc/NF9etRDiv6vj2c8
-	3M4Xc5Dz4wGCyD28i1cgM78c00Pbdsh/kXS8g7vKhezMMAcqtNhtC5gzhjW7tN1/L5O5gsrr7fj
-	4qa5U+pHsME1mF+A85G3XHk1eu36JKVrFhxt0D+2R146IJF1/fyIndd9hAjJhB7wWN+AnAfq6he
-	heSIxx/Y/TzvxV1vMOYJ5o5dP/daiyFKh3DBSS6UZvH4tGns7ddpTanF2pIr7z9Z+deEM65XZ1P
-	A9UXzlxe+ILu0V4esWrbIMDPelqLWhtGW18RejjsXbzjR5LPByHmTaQCx0hhtPK26LWofy0/Z55
-	iZhWraouGNLrI/xej6fsoKIwbaS/vSOBHpaLpnZtV/C98QNGEhdlM/NgVd6x0s6VyoEl1FnELhR
-	A1/DwKE9rheSMTj1bmZSHJLeSm3b/6BK5JTpz29Nq6mYdY40Z+hgVPRp0RecpELzrLeMOKlEoi7
-	J8B9lQfRcWZ1nW3hPz0gXGXmxm/SHK0M3ZaSC+knMwHnWRtv1T/7z7mr3GIhCOe1Lg8hbAvyPr9
-	YvDw71O42IuG1xaQatB90=
-X-Received: by 2002:a05:690c:9304:b0:8b3:2eb4:1439 with SMTP id 00721157ae682-8b392a10e6fmr4468687b3.19.1794263003496;
-        Mon, 09 Nov 2026 14:23:23 -0800 (PST)
-Received: from ?IPv6:2600:1700:6476:1430:19e2:7427:4b2d:8d6a? ([2600:1700:6476:1430:19e2:7427:4b2d:8d6a])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b393477a57sm4829777b3.44.2026.11.09.14.23.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Nov 2026 14:23:23 -0800 (PST)
-Message-ID: <564d24919b96070f53297b03e8551c8e98bd4c91.camel@dubeyko.com>
-Subject: Re: [PATCH] hfsplus: enforce legacy sequence fixup table invariant
-From: "slava@dubeyko.com" <slava@dubeyko.com>
-To: Noah Weinberger <NoahWeinberger2003@proton.me>, 
- "glaubitz@physik.fu-berlin.de"
-	 <glaubitz@physik.fu-berlin.de>, "frank.li@vivo.com" <frank.li@vivo.com>
-Cc: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
- "linux-kernel@vger.kernel.org"
-	 <linux-kernel@vger.kernel.org>
-Date: Mon, 09 Nov 2026 14:23:21 -0800
-In-Reply-To: <XizPhPDPPpkNfPh9_zn3vMVegijzle2lWWBSUgdPB3tpi8xMB2qBIDun8c_X7eyFVMgq0zBlmGikFuBstwkN-O0l2bfQcmA5gtxudDOHUQg=@proton.me>
-References: 
-	<XizPhPDPPpkNfPh9_zn3vMVegijzle2lWWBSUgdPB3tpi8xMB2qBIDun8c_X7eyFVMgq0zBlmGikFuBstwkN-O0l2bfQcmA5gtxudDOHUQg=@proton.me>
-Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
- keydata=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
- NFdvziOa4FgUBC4X71upsZIoZJeii2V/Jtc3B4g==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+        d=1e100.net; s=20260707; t=1794263408; x=1794868208;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=S6J9qhUwfhfejNNDnNi/t39zME3R/+tshu3QmKCryWs=;
+        b=fvueiK4D5WQgDu4CGCaZ9FsiHt6XMZJigvrWgYKJx+ujF4i8VuVAEzJrCdwJaWMf9p
+         LwErIA8HA8+CtNWEFMr5t6uy+WEuKdTHJlB2TteP4FNjoJ7N/GNI8IgykXZ9chN+75Vc
+         80C7g7ll5qF+par27ZSZ2BilWtQSURiHaWql5Xt73loc5IatBCdWYMtvGJVNZY8ZvfhN
+         TZHNEm9hHkAC9/LgbsJisP9N5Ago/eAt3QmqJCoSGUQS8tXz9gVsnUqJSnGwou6oW3Yi
+         QFwx0QwnA5+jv55wsmaKGgV3zdSfZ8srHS8yDlb1vleBi0fMpTMmz3Qph3ZI5aDBjUjG
+         JBQg==
+X-Forwarded-Encrypted: i=1; AL+hErF8oOw8p5ykOFMT7Gp3sSPcBL7NjhmWbVcm9v3XkyfsCupo+5aEJLvxhZZxZbGNkTC5Ty5siTK+O5ODm3qo@vger.kernel.org
+X-Gm-Message-State: APuU4Z991AzdiGNKklFrN1bWI6He9/y2/88/yr0Ue90TxaWfw/UwAo2a
+	4QF/tUdny953s2XXwlAV8Gql9x9ko3wf6yUIAv6TfXddC72GZ0wnLjrGyJIXfB/qyZe2h424075
+	JJx984V0Kh2ssOssmC0RAPz2Di2YZM3zxhrDhYI0D
+X-Gm-Gg: AYBFou24IFjIuBQsMIkd2C/AerZt/XFdtDGDRusRVrXijG66RYatKL5Vui307YH8u9v
+	T1/NAYZUd4xRYj1+IwVrPLpsn7YTiAMrGYCnRIAvmN/MfdN+MB1+Tdazon6cJghV7LO5l0Bju0r
+	1DIj/ua0nHFzDxG8I0/BUCjPuaSXMJc4TNiRd+V4ODAf1bXDpkZXs5SchDIeUVrRJlztrYRQdmm
+	LEPDyX8ixBmqUat9s6i7oDn8Ksh3Ys8Y/XDDGRgnFzAVoHC4Ti70tGoFJr4qHY/9Pw1+Y1Hku+C
+	ly8DEEvx6+LyGzVDo1METETVDIJTdlZTe0nuISi3T9Hb66D2RPeCoSOimJ/kLT8RSTsedNXC6AQ
+	44eQ1N1m7dzoDz4iPHajc1ezx2squZxVLAesUxbvzXacU5IUc2D35d71LT0OVl2fV3mo=
+X-Received: by 2002:a05:622a:1b16:b0:530:e00f:7768 with SMTP id
+ d75a77b69052e-555290bb288mr6464421cf.0.1794263407457; Mon, 09 Nov 2026
+ 14:30:07 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -139,85 +104,114 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+References: <20261108223913.3624571-1-irogers@google.com> <20261108223913.3624571-7-irogers@google.com>
+ <b8d171de-52fe-474e-96db-d119840c6240@suse.com>
+In-Reply-To: <b8d171de-52fe-474e-96db-d119840c6240@suse.com>
+From: Ian Rogers <irogers@google.com>
+Date: Mon, 9 Nov 2026 14:29:55 -0800
+X-Gm-Features: AclHuK-dlWDp0B4FdK6V9QBR5LM_sA67_T-19O3ovPwDJ5RdBpzojQ18ICzxF_E
+Message-ID: <CAP-5=fXd640kfaR+soPdiEV2mfqCPGDANCt04KzaXBphYP4Htg@mail.gmail.com>
+Subject: Re: [PATCH v3 6/9] xen/sys-hypervisor: Add release callback to hyp_sysfs_kobj_type
+To: Juergen Gross <jgross@suse.com>
+Cc: Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Kees Cook <kees@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	"Rafael J . Wysocki" <rafael@kernel.org>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+	Christophe Leroy <chleroy@kernel.org>, Nayna Jain <nayna@linux.ibm.com>, 
+	Srish Srinivasan <ssrish@linux.ibm.com>, Mimi Zohar <zohar@linux.ibm.com>, 
+	Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>, 
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Stefano Stabellini <sstabellini@kernel.org>, 
+	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Viresh Kumar <viresh.kumar@linaro.org>, 
+	Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>, Alexander Aring <aahringo@redhat.com>, 
+	Felix Kuehling <felix.kuehling@amd.com>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Zhihao Cheng <chengzhihao1@huawei.com>, Sumanth Korikkar <sumanthk@linux.ibm.com>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, driver-core@lists.linux.dev, 
+	llvm@lists.linux.dev, linux-hardening@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-acpi@vger.kernel.org, linux-pm@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org, 
+	linux-s390@vger.kernel.org, gfs2@lists.linux.dev, 
+	xen-devel@lists.xenproject.org, linux-mtd@lists.infradead.org, 
+	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, 2026-11-08 at 22:32 +0000, Noah Weinberger wrote:
-> Hello,
->=20
-> hfsplus_fixup_legacy_sequences() can grow *len and memmove the tail
-> upward with no check that the replacement fits the caller's buffer -
-> safety rests entirely on every table entry satisfying repl_len <=3D
-> match_len. The table is regenerated from Unicode data, and the
-> sibling
-> decomposer asserts its invariants at build time, so this one deserves
-> a
-> guard too. With the current table the invariant holds (no entry grows
-> a
-> sequence), so this is purely regression protection:
->=20
-> =C2=A0=C2=A0=C2=A0 if (WARN_ON_ONCE(f->repl_len > f->match_len))
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 contin=
-ue;
->=20
-> Affected version/commit: mainline
-> fa4ad798f6f681031775266044ba1b0cf3c670bd (v7.4-rc1, 2026-11-07),
-> fs/hfsplus/tables.c:3701-3742, callers fs/hfsplus/unicode.c:551,670.
-> New table/code added in this window.
->=20
-> This was found during an assisted (AI-supported) static source review
-> of
-> mainline fa4ad798f6f681031775266044ba1b0cf3c670bd (v7.4-rc1, 2026-11-
-> 07); every code path cited below was re-verified by the
-> reporter against that tree. The patch below has NOT been compiled and
-> has
-> NOT been runtime tested, and no reproducer was produced - the
-> triggering
-> conditions are described above instead. Please treat this as a report
-> for
-> verification rather than a battle-tested fix.
->=20
-> Reported-by: Noah Weinberger <noahweinberger2003@proton.me>
+On Sun, Nov 8, 2026 at 10:56=E2=80=AFPM Juergen Gross <jgross@suse.com> wro=
+te:
+>
+> On 08.11.26 23:39, Ian Rogers wrote:
+> > hypervisor_init() in drivers/base/hypervisor.c creates hypervisor_kobj
+> > with kobject_create_and_add() (which allocates a dynamic kobject using
+> > dynamic_kobj_ktype), and hypervisor_subsys_init() in
+> > drivers/xen/sys-hypervisor.c then overwrites hypervisor_kobj->ktype wit=
+h
+> > &hyp_sysfs_kobj_type, which had no .release callback.
+> >
+> > Add hyp_sysfs_release() calling kfree(kobj) to preserve the dynamic
+> > kobject release behavior.
+> >
+> > Fixes: cff7e81b3dd7 ("xen: add /sys/hypervisor support")
+> > Signed-off-by: Ian Rogers <irogers@google.com>
+> > ---
+> >   drivers/xen/sys-hypervisor.c | 6 ++++++
+> >   1 file changed, 6 insertions(+)
+> >
+> > diff --git a/drivers/xen/sys-hypervisor.c b/drivers/xen/sys-hypervisor.=
+c
+> > index 91923242a5ae..0e8a2cd69fd6 100644
+> > --- a/drivers/xen/sys-hypervisor.c
+> > +++ b/drivers/xen/sys-hypervisor.c
+> > @@ -659,7 +659,13 @@ static const struct sysfs_ops hyp_sysfs_ops =3D {
+> >       .store =3D hyp_sysfs_store,
+> >   };
+> >
+> > +static void hyp_sysfs_release(struct kobject *kobj)
+> > +{
+> > +     kfree(kobj);
+> > +}
+> > +
+> >   static const struct kobj_type hyp_sysfs_kobj_type =3D {
+> > +     .release =3D hyp_sysfs_release,
+> >       .sysfs_ops =3D &hyp_sysfs_ops,
+> >   };
+> >
+>
+> Wouldn't it make sense to have a common function for just kfree(kobj)?
+>
+> In your series there are 3 instances of .release just doing kfree(kobj).
+>
+> In case this is not wanted or with using the suggested common .release
+> helper you can add my
+>
+> Reviewed-by: Juergen Gross <jgross@suse.com>
 
-I cannot consider any patch without Signed-off-by tag.
+Thanks Juergen!
 
-> ---
-> diff --git a/fs/hfsplus/tables.c b/fs/hfsplus/tables.c
-> index 2101201..0b2aabd 100644
-> --- a/fs/hfsplus/tables.c
-> +++ b/fs/hfsplus/tables.c
-> @@ -3709,6 +3709,13 @@ void hfsplus_fixup_legacy_sequences(u16 *buf,
-> int *len)
-> =C2=A0		for (j =3D 0; j <
-> ARRAY_SIZE(hfsplus_legacy_seq_fixups); j++) {
-> =C2=A0			struct hfsplus_legacy_seq_fixup *f =3D
-> =C2=A0						&hfsplus_legacy_seq_
-> fixups[j];
-> +
-> +						/* A replacement
-> must never be longer than the sequence it
-> +						 * replaces: the
-> caller's buffer is sized to the original
-> +						 * length and *len
-> may not grow.
-> +						 */
-> +						if (WARN_ON_ONCE(f-
-> >repl_len > f->match_len))
-> +							continue;
+lib/kobject.c already has a static dynamic_kobj_release() that does
+this (and there are ~15 other places in the tree open-coding a static
+kfree(kobj) release wrapper), so include/linux/kobject.h +
+lib/kobject.c would be the natural home if we exported one.
 
-It's really strange location and alignment for this check. Could you
-please place the code in better place and align it properly?
+I kept them as local static functions here for two reasons:
 
-Frankly speaking, it's the wrong place for the check. The check runs
-for every table entry at every position of every name conversion:
-lookup, hash, compare and create. Skipping a bad entry also changes the
-result silently, so the on-disk name would no longer match what
-fsck_hfs or macOS expect. The table is static data, so this should be
-checked once, at test time, not on every call.
+1. Patches 2/9, 3/9, and 6/9 carry Fixes: tags, and keeping the small
+   local callbacks avoids a dependency on a new driver-core export for
+   backports.
+2. Since kobjects are normally embedded in a larger struct and freed via
+   container_of(), I wasn't sure whether Greg and Danilo would view an
+   exported kfree(kobj) release helper (especially alongside
+   __must_init) as an invitation for misuse on embedded kobjects.
 
-I think that the KUnit test is the real fix.
+Unless Greg or Danilo would like dynamic_kobj_release() (or similar)
+exported now, I'll plan to keep the local callbacks for this series
+and can send a follow-up cleanup for the tree-wide callers if
+driver-core maintainers think a shared helper makes sense.
 
 Thanks,
-Slava.
+Ian
 
-> =C2=A0			u16 *src, *dst;
-> =C2=A0			size_t copy_len;
-> =C2=A0			int k;
+>
+>
+> Juergen
