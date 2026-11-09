@@ -1,90 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=82.195.75.108
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794242471;
-	b=ht94VV6sTrp/GC1QSOo2/IVQSqa2zPew4pYy43uQMZqkvJ1EQtnBPJNSBtCmlV4pfkTH
-	 r3QZ2+dpZi/ZuDwbN/mQLbW7L0Ep90bDHwlL7qazgGJHqmF7edEf2eUD5zFFijL38PYKT
-	 kVllcUcS4vVd3wM2f/JTF72LYsGP/Xn/QNEqgONY0Ynt4gvO/cgVNYz0hPnaESPODd0fh
-	 4PQI2fUYp9kDkKIJGEFyBNxAycvE5mG4gXHHhtqZbelUegn7AXs1l2SH25k/2PSFf5kLL
-	 FgNIrlx3sOac4p7Kl+tycPwceZPZCwlcoVNXZ3bM65DEVXQq4orwCWh59FlIXcP5ZNg==
+	t=1794242687;
+	b=EEpJgnkYQBNHWe9nvc8jIj7HMs2PEHSj8/1LySj4J/20jeve5USOT/8dt0EVyxIttqyp
+	 coNoTRPOGSt/grEamCmgL1MvzbvaOc55BUdreZam9ULqh/mycfCfmIIpMxn8TG251nj0M
+	 LRcLRkzOCRe9E7x7Nu6BKVy5kp8NTmbnR/EIjG4+cttxXKkGMqSm/UZPwzwxpvT3//J6t
+	 fyKcy2gnbZe1YbETI/UpVIuV/nnP4SEOBMCLurX/2qSYowzZmBq4ryDsRsWjfjoRkGBch
+	 QJygsrSLUuTUMao6kikhvJhZpeaOjO2m/OBxZuT7X7ysFwSxdg4vo26RVt4F1bQEqiQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794242471;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Received:X-Forwarded-Encrypted:X-Received:MIME-Version:References:
-	 In-Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=hck20NyvBqj3Ac8MLVTjPeq6/3Z/Gw267omoUWkMKcU=;
-	b=wfhtSH8sPBxc1AzW9fBKQKWWOl5jRx0Y/GseV3cirXb7hq63NZ3lPNK7in/Hb1QSqT2S
-	 G4z0sXrdN9uDcLNYP9LijZeHO7CY+SG9ZAkCbG0EApUuQtI9rTMxNSx5YfSOsAbZDE0oN
-	 8jC+zHuSkhMeOtK2rixSJmKRQvIC5PpnJfKp9dbZyOD0eHnDXdg2K5Bht9aqdrk5MGvRX
-	 YuDkqD09WksQOQnJoQvCc1Hs4zs7XhJcCPCd/rdFRi6nigNTmj8H5r6jw+IWlgNWJZdEM
-	 cgTx9P8HGqzGlXSHPo8itfluY2E86611Pk+EkgjBzEVBsBUO80LrX2tbmJJag3wZT2A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794242687;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Debian-User;
+	bh=7vmLERfGD76whB6hILQUqqQo9S4q4ZlcNJ1AUlRZ+Ms=;
+	b=dHtAhHsL3xGCGqLKWUHIW8fmiwJPTw0zJAcUt8AgEDFzjXsyyx3q29U0hgMx7zznPWvs
+	 HUV7ZCWBaUV8UBnB1AYhR7gN6IBJHW+FWIs9TaNIFJXxClCZE0M8kbhMEjCqAxuUgDenc
+	 6KnNuU9S1G/b4RYK8HDwLCLsqd8+oEYU+0DMbojdGDke0kVwPDnwNjZThe5x3w0TA3av8
+	 UPetu3fzzIzDu0GaVUBQevIVzd6c4NuRK9vfDYGr2hZyznax+y4RLpEHemOa9yEKLfHsN
+	 cpgNTiI9X61N5BqKAxENGkW4zES9aTUs9giIUkCB2WJWpNkzGVAAQWBDkn9KD/hlJuw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=linux-foundation.org;
-	spf=pass smtp.mailfrom=linuxfoundation.org;
-	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=KAOc3KOF;
-	arc=none smtp.remote-ip=209.85.167.41
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=debian.org;
+	spf=pass smtp.mailfrom=debian.org;
+	dkim=pass header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=Bf5BsZQm;
+	arc=none smtp.remote-ip=82.195.75.108
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80AAB606A326
-	for <linux-fsdevel@vger.kernel.org>; Mon,  9 Nov 2026 16:41:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 80AAB606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 541D060A2636;
+	Mon,  9 Nov 2026 16:44:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 541D060A2636
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=KAOc3KOF
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5c14470729eso620844e87.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 09 Nov 2026 08:41:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1794242469; x=1794847269; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=hck20NyvBqj3Ac8MLVTjPeq6/3Z/Gw267omoUWkMKcU=;
-        b=KAOc3KOFsUIkTz9YDG5Tiue16ZSocsLrpbGZxplTN/gDjvlFT0kgPoKiesYIirQM7Z
-         rvprYxHX+L3KY3/EitMB1i6r6rUi84NlCUYNfgo3KUyqXD7+7WZnmcgG/DmVm1Hb8SMA
-         Hv3wwqD8y/7RW6U3rylF7zXiwygOCUR/f3CkI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794242469; x=1794847269;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=hck20NyvBqj3Ac8MLVTjPeq6/3Z/Gw267omoUWkMKcU=;
-        b=Z3A+xuT5RH2qUjrRdAKBhWhTv6M/gZ5nNoADg1y6vjJndyhrjm2//PgfBNufkZWA/L
-         qKAY0rC/ubGRrj4ptAvrs1QLk+S29yPfSqMC/9JATozxnq53eH96R+Nx1FBLE3aDTSQV
-         GGEUcHM+66FnDnx8R2jKfFRwQe9pNmk1sg3SMCCt5ojAPeTWRyFVbRSziVGGaEhg+H9e
-         ihb6OWDqvJJ0dcgGClgT+CPtIhkug2nOumJqnZXxy8Tjlnzpe5LpLbWlr4SKMn2LQUg0
-         ehS5d3wrNBtVfAXgBD+QAXhXJAylIzkA+aycfT2EayMQCrrInofFiGOKBHAJcqof84wv
-         zDng==
-X-Forwarded-Encrypted: i=1; AL+hErGmGh5sO+X6eWCnuqjG2YfAwqkC34sOG6OfLcozxlQCS61HOjI9Pupu2p2JeO5WsjrXFfTkcr4WuWeho7cS@vger.kernel.org
-X-Gm-Message-State: APuU4Z87xR6Fh+Tk345D1L0bRI3pp6d13GbO/K7ZDURYi56pPDcNouEz
-	Wd+gRlfOfB0QzWm0TNA8uIwIt5UnE5nEv++PwypQWNcgntZjwCs83rQ0x2LSVp4a9HYlhjiF9SY
-	3X5dqlYrrgw==
-X-Gm-Gg: AYBFou0MrWYNzPS19KhwFZBWA88rGqX3Lx/bQDnWP+nc742+vKALmKcOwt6J0XlhpJC
-	IDQsyI2krMvv0Cb21znwkP4uXHftxEyju5FOF65M+7z9cK7FokMZutegZpZQWnZ/yd3S83BlGW4
-	jh2aO2fjMBbckOt5/5is20pX8VFJv9JaybjqRnsSjmQICgJnaKnrxDQyVOGSZ6gkQXqRgo+8gwz
-	eysF8W/uvyaLL5NldizLOPnED57f4DSEI9mLM3Y/O0/Bk29dxwnEKFDyklM6T/RHBBsnBhUPYC6
-	4p+NfaO8QFsKivprb4APZwctiMixKgSNnXeO78fQggXw3NF0uzS2tB13e8y1bCIxwbz8mHPd1wD
-	uMcC9E/HQGXJJgmP3mXaZJXz8PgNd1OiCdVdNWBX5wXuszws9UVxU7ugx+IGwUjUPlNXyQHbe6y
-	tiDsJUUjoOgsZeEj84aCba1ReGbpLyITQCLe/fLpERrNvGL5krvESWyW9qlbb1HIVXK18j9zkg5
-	1S/1APd8Hpby3h1V1oJyY6OR+xR76tU8YcG/RHR4EVR7bAajJW7iwrCVjIGPw1TH9f/E9dNVSZL
-	pBLb/dFw4LJgyR9DdRRv3pN8YwcX9sqwx3Ep0vck7Ey0ShzjrNVvE4NNtFQRvPDWJ1kc/ybph7T
-	kd6VpTQLJu1QSpHmw64KmDCE=
-X-Received: by 2002:a05:6512:2305:b0:5b8:f0d9:98cc with SMTP id 2adb3069b0e04-5c14c038e15mr1291600e87.61.1794242468521;
-        Mon, 09 Nov 2026 08:41:08 -0800 (PST)
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com. [209.85.167.46])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5c14b825f7asm969136e87.79.2026.11.09.08.41.08
-        for <linux-fsdevel@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Nov 2026 08:41:08 -0800 (PST)
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5c14470729eso620835e87.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 09 Nov 2026 08:41:08 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErFk701cEPn2MFbbGN5saeSZ7WzG/9SgmC/DvzrQVzIoe+YeLa0NL85+LQ2oMknkUnmTWIaBlmNt8Slx8650@vger.kernel.org
-X-Received: by 2002:a17:907:9303:b0:c41:a5da:1511 with SMTP id
- a640c23a62f3a-c4d6d58b94dmr324648266b.25.1794242121304; Mon, 09 Nov 2026
- 08:35:21 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=Bf5BsZQm
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=7vmLERfGD76whB6hILQUqqQo9S4q4ZlcNJ1AUlRZ+Ms=; b=Bf5BsZQmw7kqkyNLaJy36LCu6O
+	DuhqQq7rkrdUnaBAunpnrOgxBv0C9mefE+kILiW6fL//AERC4l6xRx6Ba6r8SXrSjRRekPdlIFNZ2
+	SDsQsGKykzUAWSke3vbYsnUlX5d1s9cqi7kAYXbzDvQ4E4E87HA1wicoTm/AbIlgncEXt8r5GOhko
+	hTfkMTLUCBJJwdBTiv1gLH1xWheXezX+xSXJ4Ub6kneYYRaxmZWrIyRZgWBakyuBaEZtBhA6HdwFV
+	wBiuwgR2QKGQyrEfeeLR4phfZwK4JAXGDAAB/64pZacvnNmiB6IfGcpXKz8ukSibwZ0aMl8rWEnj2
+	YQ1YssTg==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1xQSTo-00BlId-2m;
+	Mon, 09 Nov 2026 16:44:25 +0000
+Date: Mon, 9 Nov 2026 08:44:17 -0800
+From: Breno Leitao <leitao@debian.org>
+To: Jan Kara <jack@suse.cz>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Julian Sun <sunjunchao@bytedance.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	cgroups@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH 4/4] writeback: report a slow writeback wait once per
+ timeout
+Message-ID: <avH2FWw6-N8s03Zb@gmail.com>
+References: <20261106-writeback_stall_report-v1-0-bf0c3b9023a5@debian.org>
+ <20261106-writeback_stall_report-v1-4-bf0c3b9023a5@debian.org>
+ <ysxh2sfvjikoh6cw2qmk2i6p7xripwnqxkx43jj7unxop5tkiw@gws5wezjt34g>
+ <au3w4xiaYbEYLTru@gmail.com>
+ <xehz3f62chf5ivwbh7f5chapypp5md5vasdtsnxfwzsebontf3@roqs5cwjk2va>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -94,63 +79,49 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261104130118.2507513-1-kas@kernel.org> <20261104130118.2507513-4-kas@kernel.org>
- <f21433af-afc6-4a8f-8d2d-3a377cd3bd6e@kernel.org> <CAHk-=whn=xc9J3qApHWRGTaBpwVRtGbvJ0LURGF=dqC9B3swUw@mail.gmail.com>
-In-Reply-To: <CAHk-=whn=xc9J3qApHWRGTaBpwVRtGbvJ0LURGF=dqC9B3swUw@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Mon, 9 Nov 2026 08:35:05 -0800
-X-Gmail-Original-Message-ID: <CAHk-=whhp=Q8qR+wPoM9+mxYPQ_OXMOEoKmT7J0JZikFZusuqw@mail.gmail.com>
-X-Gm-Features: AclHuK9Zg1YgOX8tZrGKznWYWBoZxGMj9dsb1Z1k4ney-3EhDZHB_lO5ezPS7Ak
-Message-ID: <CAHk-=whhp=Q8qR+wPoM9+mxYPQ_OXMOEoKmT7J0JZikFZusuqw@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 03/18] fuse: don't move a folio with PG_rcu_free
- into a fuse file
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: "Kiryl Shutsemau (Meta)" <kas@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Matthew Wilcox <willy@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Jan Kara <jack@suse.cz>, Hugh Dickins <hughd@google.com>, 
-	Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Harry Yoo <harry@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, Miaohe Lin <linmiaohe@huawei.com>, 
-	Naoya Horiguchi <nao.horiguchi@gmail.com>, Oscar Salvador <osalvador@suse.de>, 
-	"Liam R. Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Brendan Jackman <brendan.jackman@linux.dev>, Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Baoquan He <baoquan.he@linux.dev>, "Paul E. McKenney" <paulmck@kernel.org>, 
-	Pedro Falcato <pfalcato@suse.de>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Ilya Gladyshev <ilya.gladyshev@linux.dev>, Jaegeuk Kim <jaegeuk@kernel.org>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	fuse-devel@lists.linux.dev, kernel-team@meta.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <xehz3f62chf5ivwbh7f5chapypp5md5vasdtsnxfwzsebontf3@roqs5cwjk2va>
+X-Debian-User: leitao
 
-On Mon, 9 Nov 2026 at 08:28, Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> On Mon, 9 Nov 2026 at 06:46, David Hildenbrand (Arm) <david@kernel.org> wrote:
-> >
-> > Could we get rid of fuse_try_move_folio() entirely?
->
-> Please. That would be great.
+Hello Jan,
 
-.. and in a similar vein, we should get rid of splice doing the same entirely.
+On Mon, Nov 09, 2026 at 03:12:16PM +0100, Jan Kara wrote:
+> > Once per timeout is also how often the hung task detector checks by
+> > default, and patch 3 logs the total once the wait ends, so maybe that is
+> > exactly what people need? Not sure.
+> 
+> I was mostly making jokes here. I agree reporting once per hung-task
+> timeout makes more sense.
 
-Kirly's patch to just remove page_cache_pipe_buf_try_steal() entirely
-(ok, it was originally mine, but Kiryl took ownership of that series:
-"Tag, you're it") is worth doing, but I think worth doubling down on.
-I think we sh ould just get rid of 'try_steal' entirely. I don't think
-anybody really uses it. I think it exists in fuse and in the virtio
-console, and neither is worth it.
+you got me here. ;-P
 
-Removing pipe_buf_try_steal() would basically remove all of
-fuse_try_move_folio().
+> > > Is this change substantially different from
+> > > writeback_sb_inodes() waking up done->waitq less frequently?
+> > 
+> > You mean the ->progress_stamp field? That is not used for reporting
+> > purposes, right? Should it be?
+> 
+> So my thinking was: If we change the wake up condition in
+> writeback_sb_inodes() to use HZ * timeout as a limit instead of HZ *
+> timeout / 2, then we should get one report per timeout, shouldn't we?
 
-Conversely, removing fuse_try_move_folio() would make
-pipe_buf_try_steal() even less useful than it is now.
+I think so. Let me hack it up and respin.
 
-Just remove them both. Good riddance.
+> > It could drop the duplicates: a wakeup with work left runs the
+> > wait_event() condition twice (since 84654c7f4730, it is checked right
+> > after schedule() and again after prepare_to_wait_event()), and the
+> > second check would find ->progress_stamp just refreshed by the first.
+> > 
+> > But the waiter refreshes ->progress_stamp on every wakeup, so it cannot
+> > space the reports further apart than the wakeups, and those have to
+> > come more often than the hung task timeout.
+> 
+> Why do we want to wake up more often than hung task timeout? We evaluate
+> the condition after each inode so the error shouldn't be that big?
 
-                 Linus
+Yeah, I don't think we want to wake up more often than the hung task
+timeout. That should be enough here, honestly.
+
+Thanks for the review,
+--breno
