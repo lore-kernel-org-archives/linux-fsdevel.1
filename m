@@ -1,56 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.77
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.91
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794220493;
-	b=hxqcdKYoSmy4JTRnJRc4+3RiBSpvO+ozfwWoAFbIDLFUmliky4aadoZ3+r/gOS7S8Ez1
-	 ohiTToDzzIU/RFdMAMW1AcquTP/dnq1tYv8iQ6RwWtOyyex9Fw8LH26v3QX/C82UQlYql
-	 /O4RR/BeQa3yYOm3oUeZ1Hq45bgBMEo6DDXTWYKsmzhbrDq2hXfl74Sx+97NVUf4i2lNR
-	 pR6IqouyT2GNgdm5r40bQDbv56BDvZV4jkgYODCxEMH5vp8uc58HCVKl4g32YQe1VcH2U
-	 Hrg3h/CLmz6F2pomelRccB7QbwQGHK9BgSkBp2ue74yWqKomJBWJwWM9wdZckNt/HOg==
+	t=1794220507;
+	b=jpIS/bfdrG5Lyd26GXbnUtG8+7hdClLKkW+CMzZWFKZyAf6hbmbkVpNYblwoz8bQH16o
+	 De3AEzRq7SBZPEJfJuPnc9lsoDqIzmZ+5H5JCUHzcGHuxr8IjQfrKc2vos3jYpTiXah5E
+	 rPkfp1fCkERybDwGYiFZdmooY2H2XOPv/zafl9g3MLhAbeouajxqnq0ts1ZIKYoVyZoXJ
+	 rbbmpGQgBQP0f6b81h7RSKbSVqDXQ1Ky/m8XQPDKwWRZsTdBNF4p2JHooZ6Uw8gZn4uUk
+	 imydYLJElyHIZ4HoMe8WhqG2QaoTa4qbxV2IcH/lQVyWax1f5DelTj+0NaTOUmfvD0A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794220493;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794220507;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
 	 X-Mizu-Trace-ID:X-Migadu-Flow:From:Date:Subject:MIME-Version:
 	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
 	 In-Reply-To:To:Cc:X-Mailer;
-	bh=r7zFSuRHxbLKvLhaBXFfwZSQS8Ww63rMzgnhGg9p6Q8=;
-	b=tDBLY/nTmd8S1XPoAB2nsGZyXmODwJ+MElpffZo+NpzyePIvsbkjd7dDvXNamjg6O9+j
-	 ksD4jMtFOTElmlSmS/IxRChJAN4FzurqnsrbErK5wjAsiP5tsHMcj5sKXOODF3fsIYgw1
-	 AI9BeOt0qWqlt+VqJnoi+3WEwHYvO8+YDB9v6c9hGKcbH1bZcF08AtAAW90W+pqz2o5RQ
-	 m/+CsbahNsvQCIQjZmTWRAUd59qFHa+/OfhIFwPEO/Ue1M26Z8OQ56HZYgJQeWX0LVqlk
-	 N1hOo5IRG+177Ov9JnbPGoJq57zf5rVL+0Xxp5GJ603gkMwLbEA01vQwkL+F4LrykBQ==
+	bh=DsGtn4KFPLGuAk1q5B2pREh+sGKflm9tEnT1EFIbPjA=;
+	b=zJGjCe24zZ6deEcPlGIRRYJmyfAe2DDxaE/Cs9bwsemMK64c2ZWlDDEspNYRGiFc9DNf
+	 dTSDiWuwZvvu7x+GupVhfOmwlz+eE34AjbgBemD9ZHqg2TIBM3qYptZFIexf+6ke3bhBT
+	 x9l5C+ID2dcUQShQTzzAUTHVmFCcaZ5b5JZwF9Otfd2kLgYYq//zXWhSxJf71CqqetjR9
+	 PT8CHzJWh9ysiko2Wh5DpikwjD/s6mri/zOnAZzC43WUmEQ/cVni3YJiwMPKEPTHE7t+F
+	 t70MCXc07PyWNcUPVNQM57isg1QhdsTN6I5+33Km+PkSn+DLCkQ/bp+HUG6RtHzq1qw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=rHEGSCfy;
-	arc=none smtp.remote-ip=91.218.175.77
-Received: from mta0.migadu.com (out-77.mta0.migadu.com [91.218.175.77])
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=LsCCK+Ye;
+	arc=none smtp.remote-ip=91.218.175.91
+Received: from mta0.migadu.com (out-91.mta0.migadu.com [91.218.175.91])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1586606A326
-	for <linux-fsdevel@vger.kernel.org>; Mon,  9 Nov 2026 10:34:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D1586606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8CD8606A321
+	for <linux-fsdevel@vger.kernel.org>; Mon,  9 Nov 2026 10:35:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A8CD8606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=rHEGSCfy
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=LsCCK+Ye
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=ZowXYPpehaGrr4w7J2ZcT85zAd1vaHLiUEOsJbbNAQU=;
+DKIM-Signature: a=rsa-sha256; bh=bCU29ep+uwz6VaIaH7VVMUYbRv38UnA4EsVYxT/9pjs=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794220490; v=1; x=1794825290;
- b=rHEGSCfywrL7dGE5Au+uLy5I7FAEkuO+lt7l/b6GHu7OIP0LAtf9nnaoxBMhQvoBQRQFiRW9
- 8W5rr4/d+JxYqC3r3ZweVR9i4iGDH1L8dXAq3K+Wjuxp5EtPTHFlazYcMdsGnCbTYXbHTmnpxk/
- KMaAADfF5n+MNPMhRoTq4JGI=
+ t=1794220504; v=1; x=1794825304;
+ b=LsCCK+YeiL7Ml+HbL21XCdTjqFj5x9+iCSUBFlkzlrluAahWpau7tAgMULaETmvvtrlZlbvf
+ WCsveD3qUjSdIZ0yTKnteI14Zbj66IspTGnOG3N9agJKcXJK4NFahMp01PkGqGBxHEKywDuRXF5
+ yFHshJQh1OBTwaXxbP4jUfxk=
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 4a2580fc19b1d598;
-	Mon, 09 Nov 2026 10:34:50 +0000
-X-Mizu-Trace-ID: 4a2580fc19b1d598
+Received: by smtp.migadu.com with ESMTPS id 29236d32ff73c5e8;
+	Mon, 09 Nov 2026 10:35:04 +0000
+X-Mizu-Trace-ID: 29236d32ff73c5e8
 X-Migadu-Flow: FLOW_OUT
 From: Qiliang Yuan <qiliang.yuan@linux.dev>
-Date: Mon, 09 Nov 2026 05:34:12 -0500
-Subject: [PATCH v2 2/3] mm/filemap: read ahead downwards on descending
- VM_HUGEPAGE faults
+Date: Mon, 09 Nov 2026 05:34:13 -0500
+Subject: [PATCH v2 3/3] mm/filemap: extend VM_SEQ_READ readahead below
+ descending faults
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -62,7 +62,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261109-bug-mm-mmap-readahead-descending-v2-2-abac52890a9c@linux.dev>
+Message-Id: <20261109-bug-mm-mmap-readahead-descending-v2-3-abac52890a9c@linux.dev>
 References: <20261109-bug-mm-mmap-readahead-descending-v2-0-abac52890a9c@linux.dev>
 In-Reply-To: <20261109-bug-mm-mmap-readahead-descending-v2-0-abac52890a9c@linux.dev>
 To: "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
@@ -71,118 +71,57 @@ To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
 Cc: Roman Gushchin <roman.gushchin@linux.dev>, 
  Usama Arif <usama.arif@linux.dev>, linux-fsdevel@vger.kernel.org, 
  linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
- Qiliang Yuan <qiliang.yuan@linux.dev>, stable@vger.kernel.org
+ Qiliang Yuan <qiliang.yuan@linux.dev>
 X-Mailer: b4 0.13.0
 
-On a VM_HUGEPAGE file mapping, a synchronous fault reads the PMD-sized
-folio that holds the faulting address and the one above it, and maps
-the faulting folio with a PMD. do_sync_mmap_readahead() counts each such
-fault in mmap_miss and stops reading ahead once it passes
-MMAP_LOTSAMISS, while filemap_map_pages() lowers the count for faults
-served from the page cache, but only when it maps them with PTEs.
+On a VM_SEQ_READ mapping, a synchronous fault reads ahead from the
+faulting page towards higher offsets through page_cache_sync_ra().
 
 A reader that moves towards lower offsets, such as memmove() copying
-backwards out of a mapping, never finds its next folio cached: the
-folio above is the one it just read. Every folio is a miss and none is a
-hit, so after about a hundred folios mmap_miss passes the limit and
-every page after that is read on its own. Since the PTEs mapped around
-a fault no longer count as hits, nothing lowers the count for it.
+backwards out of a mapping, finds the pages above the fault already
+cached, so each of its faults reads a single new page.
+page_cache_sync_ra() also looks for a stream only below the fault and
+takes it for a small random read.
 
-When the folio above the faulting one is cached and the one below is
-not, read the folio below instead, without a readahead mark, and count a
-PMD mapping of the faulting address as a hit the way a PTE mapping is.
-Such a reader then misses on every other folio and hits on the rest.
-Reading one byte from each page of a 2 GiB file, last page first, in a
-MADV_HUGEPAGE mapping with a cold page cache, read_ahead_kb 8192:
+When the page above the fault is already cached, read the window of
+ra_pages that ends at the faulting page instead, without a readahead
+mark. Reading one byte from each page of a 2 GiB file, last page first,
+in a MADV_SEQUENTIAL mapping with a cold page cache, read_ahead_kb 8192:
 
                    before       after
-  time            42.83 s      0.57 s
-  major faults     473189         514
+  time            50.92 s      0.96 s
+  major faults     524289         258
 
-Fixes: 0b9c0aeba938 ("mm/filemap: count only the faulting address as a mmap hit")
-Cc: stable@vger.kernel.org # 7.2.x: needs the previous patch
 Signed-off-by: Qiliang Yuan <qiliang.yuan@linux.dev>
 ---
- mm/filemap.c | 48 +++++++++++++++++++++++++++++++++++++++++-------
- 1 file changed, 41 insertions(+), 7 deletions(-)
+ mm/filemap.c | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
 diff --git a/mm/filemap.c b/mm/filemap.c
-index c38f0e4cf6123..e445279cc561f 100644
+index e445279cc561f..be587f8d0e8e6 100644
 --- a/mm/filemap.c
 +++ b/mm/filemap.c
-@@ -3336,6 +3336,27 @@ static int lock_folio_maybe_drop_mmap(struct vm_fault *vmf, struct folio *folio,
- 	return 1;
- }
+@@ -3405,7 +3405,19 @@ static struct file *do_sync_mmap_readahead(struct vm_fault *vmf)
  
-+/*
-+ * Whether a miss at @index, right below @nr cached pages and right above
-+ * @nr uncached ones, comes from a stream that runs towards lower offsets.
-+ */
-+static bool filemap_descending(struct address_space *mapping, pgoff_t index,
-+			       unsigned long nr)
-+{
-+	void *entry;
-+
-+	if (index < nr)
-+		return false;
-+	rcu_read_lock();
-+	entry = xa_load(&mapping->i_pages, index + nr);
-+	rcu_read_unlock();
-+	if (!entry || xa_is_value(entry))
-+		return false;
-+	return !filemap_range_has_page(mapping,
-+				       (loff_t)(index - nr) << PAGE_SHIFT,
-+				       ((loff_t)index << PAGE_SHIFT) - 1);
-+}
-+
- /*
-  * Synchronous readahead happens when we don't even find a page in the page
-  * cache at all.  We don't want to perform IO under the mmap sem, so if we have
-@@ -3409,13 +3430,20 @@ static struct file *do_sync_mmap_readahead(struct vm_fault *vmf)
- 		fpin = maybe_unlock_mmap_for_io(vmf, fpin);
- 		ractl._index &= ~(folio_nr_pages - 1);
- 		ra->size = folio_nr_pages;
-+		ra->async_size = folio_nr_pages;
- 		/*
- 		 * Fetch two folios so we get the chance to actually
--		 * readahead, unless we've been told not to.
-+		 * readahead, unless we've been told not to. A stream that
-+		 * runs towards lower offsets gets the folio below.
- 		 */
--		if (!(vm_flags & VM_RAND_READ))
-+		if (!(vm_flags & VM_RAND_READ)) {
- 			ra->size *= 2;
--		ra->async_size = folio_nr_pages;
-+			if (filemap_descending(mapping, ractl._index,
-+					       folio_nr_pages)) {
-+				ractl._index -= folio_nr_pages;
-+				ra->async_size = 0;
+ 		if (vm_flags & VM_SEQ_READ) {
+ 			fpin = maybe_unlock_mmap_for_io(vmf, fpin);
+-			page_cache_sync_ra(&ractl, ra->ra_pages);
++			if (!filemap_descending(mapping, vmf->pgoff, 1)) {
++				page_cache_sync_ra(&ractl, ra->ra_pages);
++				return fpin;
 +			}
-+		}
- 		ra->order = thp_order;
- 		page_cache_ra_order(&ractl, ra);
- 		return fpin;
-@@ -3981,10 +4009,16 @@ vm_fault_t filemap_map_pages(struct vm_fault *vmf,
- 	 * Make an exception for shmem/tmpfs that for long time
- 	 * intentionally mapped with PMDs across i_size.
- 	 */
--	if ((file_end >= folio_next_index(folio) || shmem_mapping(mapping)) &&
--	    filemap_map_pmd(vmf, folio, start_pgoff)) {
--		ret = VM_FAULT_NOPAGE;
--		goto out;
-+	if (file_end >= folio_next_index(folio) || shmem_mapping(mapping)) {
-+		/* Check before filemap_map_pmd(), which may drop the last ref */
-+		bool hit = filemap_mmap_hit(vmf, folio);
-+
-+		if (filemap_map_pmd(vmf, folio, start_pgoff)) {
-+			if (hit)
-+				filemap_count_mmap_hit(file);
-+			ret = VM_FAULT_NOPAGE;
-+			goto out;
-+		}
++			/* Read the window that ends at the faulting page */
++			ra->start = vmf->pgoff + 1 -
++				    min_t(unsigned long, ra->ra_pages,
++					  vmf->pgoff + 1);
++			ra->size = vmf->pgoff + 1 - ra->start;
++			ra->async_size = 0;
++			ra->order = 0;
++			ractl._index = ra->start;
++			page_cache_ra_order(&ractl, ra);
+ 			return fpin;
+ 		}
  	}
- 
- 	addr = vma->vm_start +
 
 -- 
 2.43.0
