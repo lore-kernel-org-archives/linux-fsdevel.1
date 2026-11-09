@@ -1,108 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794244283;
-	b=O2priupefXvz0B53EiiWM/v50HeD5w+EvKvE3hvGdMiV0+8hRct/IEpt0PxCzn9QcYkh
-	 JnRv1W2xAowadoOy6KjBiJLGX/yxjt7G76bf62dU1HGU2OERjx3LRVFXyk0PEjD1SWR3y
-	 6pttkWbHqjnacLBY+6cONCQqHiVkWIqZ4IlkNGgWRHuLtvb5AQzuwg9S/JIks2QHEIR+k
-	 b+HcwV89lAz2ZFHK3hc67JM8010iTF8Fq6mnBd67X5tapafkEnujhnv2MDlAtSOFXvetZ
-	 QCzsk/TbxJ6oSuvUkyimUnPM8rmCx+QM1M2hzeJplZ4g+XLkpcZoiw1jQLToHGVoPAg==
+	t=1794244631;
+	b=abLAupImVN9gm6lRweX6pt88/y6x217iHcpkUEUIwIKjiqaJOzC7vqiYivKNf5QeSq2a
+	 NrcVy+RoUosCxsAV1Ed627UnCIW3Az08PJAPed3P6vbEU9hNR7ryr/ZvrkkMAKaiUTCQO
+	 ugrmHeVKfkTotqyS+M+lCKIPzYZ3pxZyxF0FuZT9y2pE2cfKWq8bLAFL44C2lpMyQUaQu
+	 GcR6Hr9icMjCw7HQCFUihx+shwKBSod4dTcEux+HHauyGTSZrEoWT6lDqrDb0ARN68FEE
+	 A9bLnWE4hHrLiG/7XEjgmp37IFjBk9DuiUg6VC7og4ir7YKKD0nR38yEMcoHIdLf6nA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794244283;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
-	bh=Gs6QBIGalAs9lEG41sgY64X7mlEyPCFXyN0vk0XfcLQ=;
-	b=qgg/klmWlA1gPFkjxrLvNAAyGsxWQovYxzsiOKBSJbYMd/nVeIQARSHwNn0bzqTKMPsU
-	 CXf4IVzItecrhYWBnVEwI4L7j1jlBrbH7VXWrcw4wq8P+kOgf+JHbDvFaeI17i/wSCCRL
-	 6nvbq5RAiiADoGASTNrdxYhfO36D7MOoqT3cpprC1H4gpHSvOiRr4AcQEzemqZDeY1pXs
-	 85lKeDqYzJ0Ac90jYHo8YAhBrbD5/G3pBDFvNuQ2mO6ZoJtf8b4mTMj7eM9aKc2pREI93
-	 2dxU8W9Htn+grOZAlb/MWihMA0HmvCczImdQJasBB0KLLukFix8lOAR0ac7cog9V1Iw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794244631;
+	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:X-ME-Received:
+	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=hikr3NdZOFIV97qGG552H/Op66kxtcpyq5g4qXWJP2g=;
+	b=TCUOI1YTEVXYweAlLaTfp4uAlwT1zDYKS3jdaAt9JkDTf3Es9+UAYiBeZVZjFBIj2hCK
+	 MPIk3n3AhvI4lIH+KmGnSGSNvuIYk2tehrlhN9SPVXF5vlKxDEs5l7ok5ce2j0uuaMN0D
+	 JpOPKLFdh6onRQx9A32YAXzz/j8rs04DcAUUNcxuFGQRPIyxKB7HHjHWk78U51pPz7/wa
+	 QgB6GKOUCKgLSRRU7dOJDtezB4baYDHsN0v9/Pba3F0KwLJeW1fLM6wIes/CmUjBidevT
+	 zYYNrgZRoS53Biz54Af4u9k6Mc+V/DM82hxwbw1avtuibl/ntdewS0F3Dezi0aWE5hg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=SsY3NZY5;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Gfs5si5n;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=1+XxaE5u;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="//9sHfMv";
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=A3BQpc24;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E234E606A31C;
-	Mon,  9 Nov 2026 17:11:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E234E606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A215606A330
+	for <linux-fsdevel@vger.kernel.org>; Mon,  9 Nov 2026 17:17:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=SsY3NZY5;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Gfs5si5n;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=1+XxaE5u;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=//9sHfMv
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E62F41FB53;
-	Mon,  9 Nov 2026 17:11:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794244281; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Gs6QBIGalAs9lEG41sgY64X7mlEyPCFXyN0vk0XfcLQ=;
-	b=SsY3NZY5sMQeTbtV7S8+yP3pq+ks38fZoFZm9Ebpm0CPO8jjwrVg7A5iHmX+4ahVUVYmPB
-	NqRcMBF5DCWpTf9drN2Y/vjh0NRxXclb1UOJvEQzuZWxVT9ccQIorovXRHIDiketABtJMF
-	S4PkgaVisKb5v9+OSS0MvXRJrlQp0Q4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794244281;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Gs6QBIGalAs9lEG41sgY64X7mlEyPCFXyN0vk0XfcLQ=;
-	b=Gfs5si5n9TEWpaR1fl2aMvru04EM9s6SJUkkHkAFcEK24xgXICLVSH6sce2/7k6TFzp5iR
-	8fwTLliGP0eUZTDA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794244279; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Gs6QBIGalAs9lEG41sgY64X7mlEyPCFXyN0vk0XfcLQ=;
-	b=1+XxaE5uo8TfQfC3A9/88to8Y9OLGLVLHci8k626/NbcbB6UC677xEhkEfF7ZHx4b4HfvE
-	xEB7IRobo3dqbXNYqpj4dLut9FDMIB1hx3z7EhYpbXWIFP9IWXLkX3hVMeGB+mL3uOg0BD
-	QoGIiDXJeXCcqvS8xjBzirpTGVxIELA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794244279;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Gs6QBIGalAs9lEG41sgY64X7mlEyPCFXyN0vk0XfcLQ=;
-	b=//9sHfMvBMOGxyFoizeJphQPIUv4nhiiueyDnbLr2//cxHGwfRkp1peTplCdyLnt3T3U3c
-	zUprmjIIQovyzMCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E43B913302;
-	Mon,  9 Nov 2026 17:11:18 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id py5/L7b+8WpAFQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 09 Nov 2026 17:11:18 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id 150B622368; Mon, 09 Nov 2026 18:11:14 +0100 (CET)
-Date: Mon, 9 Nov 2026 18:11:14 +0100
-From: Jan Kara <jack@suse.cz>
-To: alireza.haddadi@it.uu.se
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>, 
-	Vishal Moola <vishal.moola@gmail.com>, fujunjie <fujunjie1@qq.com>, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	Roman Gushchin <roman.gushchin@linux.dev>
-Subject: Re: [PATCH] mm/filemap: let sequential faults restart mmap readahead
-Message-ID: <gewwqi2kcu4nsitueyw2nd6g6eqjb3wqh4mks5lqcbkc6re4sn@eaqpgn2hxls5>
-References: <20261109-mmap-miss-v1-1-8b44b33f3358@it.uu.se>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=A3BQpc24
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBF931F0089F;
+	Mon,  9 Nov 2026 17:17:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794244631;
+	bh=hikr3NdZOFIV97qGG552H/Op66kxtcpyq5g4qXWJP2g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=A3BQpc249JiAHGzDn/jKaB8/JdsBIQYKxlvcX8a0z19TzLiikm66XpXAZ538sdUcg
+	 HOUH4neX3WFMPk7uZlcRp7Xnlv7xbTSepi4Ya3yUwuNLZ43f9LcP8gMgz+oWQOJEFe
+	 GWxh9krtyQflCmZelNlaOIkpnwqIHSnI8/fTh0bgX3QgAFusG9UJzY1d/wJP2kxUsc
+	 bBDk+RGGOVN4t5vWbIYF5DrL90v+ZwYvib0KfFU1w0BHjeIl/QvXKUUznqhrxjOjjm
+	 kt7K0LOyNoHajLVVR6UWA5sovHFXE4bZzkG/AC7M96sG0Sb6a87ZZlQEYKPIH8ZIUH
+	 HOzaAikrio9wA==
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfauth.ams.internal (Postfix) with ESMTP id CBB7E1980050;
+	Mon,  9 Nov 2026 12:17:05 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-04.internal (MEProxy); Mon, 09 Nov 2026 12:17:08 -0500
+X-ME-Sender: <xms:EQDyal_E3i3-JOyrXgAel3XmchxyRy6dJKHmn0RHn09DQU2qOx53hg>
+    <xme:EQDyanWxemPQ8pkRZ3YIAgJXgCHOaoZyOyNuPrDU5zA2HaG5sWlsImUkQtTh6Bzdq
+    K_oRDDnMt_Uvxe17C4ltpB7ARntMwEY0niGeDEOzmakFyjqhWkQTuCq>
+X-ME-Received: <xmr:EQDyaqY-wXPnBLr-hCcdNW8K2xDebDgZ6hWdC4L97R30CLsRRXQaW2WkeWE>
+X-ME-Proxy-Cause: dmFkZTElZQIW6SWcaw1iguscu2eY5QRPkCI+Zh7YF9LAIl6Q6UDTQUJwYU5pgh0mTZpmF5
+    NxbI9uk32CzRVwmOylzVie+SWfDBrEYcRZ2p1j1AQ/MuQcSePoOec3dfy1ajnlOjYwO1hl
+    Xbo5hNTGbMq0y+sDiK+aCg9uHGvxRy7N3Vq+rRj2PhA2LLezz9+bkjEBvK8ETAnlSc5TZR
+    akrsVfCK2YDA101kRiLJ8f0MlU4hyylsv1fMuxTwHhQnwjjvVkpGCb5ees+82vtcTP3kO+
+    WocAA+bVDijg7kHIjKZXEn2dV9MY1IjQ8Sm1IF6WYExkFItyIcDhe9h9bl4fPV9mWjJUnY
+    DzCUMfJsGPdbDNKvpXAWZxzzlawuUdw6tZGAmgVqamoAzzCihQfFMmK/Zx8GOl68saGJIx
+    6YlurgnnIRLoX1tHfkwEq8INt3eSuOAdIsI/iT3mhaKEXxVCKwX8NxZFuTwdXRxAaaZWJd
+    Zo9dxHry3xUo1MsDZaFCB0yHpzXua+EIBPQ8zzN2OylaHG09yWtEzoLiEsGiz6/xOCNuqV
+    5X6xF4+kz8U9F8mw5cDCkCSf+2seoPzNTK2phXDxtLlectgNneWxA6GmVuDi6QtYrci6H0
+    UM1nBtG2OIZRUWr6iYNSsJ2OQk9fT/GmSreDs7XCkBonjX9IDZfzAYYaPTSQ
+X-ME-Proxy: <xmx:EQDyahqdwG4SwoeTcbhVCpgeaBptrobVJSl3lwLMRXXr7y3al7i06A>
+    <xmx:EQDyah74B5-hdy-JkxViNftHu2_nEgrX-ElvPBIxzsPbXPhDCq3aJA>
+    <xmx:EQDyarUZh4JrJRfeBxK_Z2rVLGPtiG7EZ0I-MBGqFaJZ79tOt2Cu5g>
+    <xmx:EQDyavvaWKiEUsAYuDF_q8xdT0s-OFkyeTI9FYlZDwxqsvbSi05JsQ>
+    <xmx:EQDyagrbS8mKwXtaEumhHAY747RpoQ1KmHErQTqj7u4kdzLNTLdfiGFe>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 9 Nov 2026 12:17:04 -0500 (EST)
+Date: Mon, 9 Nov 2026 17:17:03 +0000
+From: Kiryl Shutsemau <kas@kernel.org>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	"David Hildenbrand (Arm)" <david@kernel.org>, Pedro Falcato <pfalcato@suse.de>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+	Hugh Dickins <hughd@google.com>, Chris Mason <mason@kernel.org>, linux-mm@kvack.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, kernel-team@meta.com, 
+	Sashiko <sashiko-bot@kernel.org>
+Subject: Re: [PATCH v2 1/2] mm/memory: recheck PG_uptodate after
+ ->page_mkwrite()
+Message-ID: <avH3L4ZbQC6fIt5s@thinkstation>
+References: <20261109120403.82361-1-kas@kernel.org>
+ <20261109120403.82361-2-kas@kernel.org>
+ <avHWhZzXE-ge6nU6@gremlin>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -114,216 +96,119 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261109-mmap-miss-v1-1-8b44b33f3358@it.uu.se>
-X-Spamd-Result: default: False [-11.30 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,qq.com];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[infradead.org,suse.cz,linux-foundation.org,gmail.com,qq.com,vger.kernel.org,kvack.org,linux.dev];
-	RCVD_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[uu.se:email,imap1.dmz-prg2.suse.org:helo,qq.com:email,suse.com:email,linux.dev:email,infradead.org:email,suse.cz:email]
-X-Spam-Score: -11.30
-X-Spam-Level: 
-X-Spam-Flag: NO
+In-Reply-To: <avHWhZzXE-ge6nU6@gremlin>
 
-On Mon 09-11-26 15:23:24, Alireza Haddadi via B4 Relay wrote:
-> From: Alireza Haddadi <alireza.haddadi@it.uu.se>
+On Mon, Nov 09, 2026 at 04:11:40PM +0000, Lorenzo Stoakes (ARM) wrote:
+> On Mon, Nov 09, 2026 at 12:04:01PM +0000, Kiryl Shutsemau (Meta) wrote:
+> > do_shared_fault() unlocks the folio around ->page_mkwrite(). Writeback
+> > can lock it in that window, fail, and clear PG_uptodate with the folio
+> > left in the page cache. ecryptfs_writepages() does this when encryption
+> > fails. filemap_page_mkwrite() relocks the folio and checks only
+> > ->mapping, so the fault maps a folio that is not uptodate:
+> >
+> >     CPU0                            CPU1
+> >     do_shared_fault()
+> >       folio_unlock()
+> >                                     ecryptfs_writepages()
+> >                                       folio_clear_uptodate()
+> >       filemap_page_mkwrite()
+> >         folio_lock()
+> >       finish_fault()
+> >
+> > The next read(2) or fault on the folio reads it in again from the file,
+> > over anything stored through the mapping in the meantime. Those stores
+> > are lost.
+> >
+> > Recheck PG_uptodate once ->page_mkwrite() returns with the folio locked,
+> > and retry the fault if it is clear, the same way filemap_fault() retries
+> > on a cached folio that lost PG_uptodate. Skip folios outside the page
+> > cache: driver pages from ->fault() never get PG_uptodate and would
+> > retry forever.
+> >
+> > The check stays out of do_page_mkwrite(): wp_page_shared() calls it on
+> > a folio that is still mapped, and a retry there would fault on the same
+> > PTE forever.
+> >
+> > Reported-by: Sashiko <sashiko-bot@kernel.org>
+> > Closes: https://lore.kernel.org/sashiko-outbox-202966@kernel.org/
 > 
-> After commit 0b9c0aeba938 ("mm/filemap: count only the faulting address
-> as a mmap hit"), once a file's mmap_miss goes over MMAP_LOTSAMISS it can
-> stay there until the file is closed.
-> 
-> With mmap_miss over the limit, do_sync_mmap_readahead() reads only the
-> page that faulted. Since nothing gets read ahead, no later fault can
-> land on a page that readahead brought in. In turn filemap_map_pages()
-> never counts a hit, and the counter never comes back down. From then
-> on every fault on the file reads only a single page, even when the
-> access has become sequential.
-> 
-> I ran into this on v7.3 with llama.cpp, where a model larger than its
-> memory limit sometimes ended up being read 4 KiB at a time, but other
-> programs hit it as well. Anything that does some random reads and then
-> reads the same open file in order faces the same problem. I tested the
-> following:
-> 
->  - SQLite with mmap_size set, 300 random lookups followed by a full scan
->    of a 1.8 GiB table. The scan took 9.3-14.2 s instead of 2.1 s in 8 of
->    10 runs.
-> 
->  - numpy.memmap, 1000 random rows sampled from the first 75% of a 4 GiB
->    array and then the last 25% read sequentially, as a training and
->    evaluation loop would do. The sequential part took 3.3 s instead of
->    0.3 s in 5 of 5 runs.
-> 
-> Give a sequential reader a way back. When readahead is off and the page
-> before the faulting one is in the page cache, read the next page too
-> and mark it with PG_readahead. A sequential reader faults on that page
-> next, which starts async readahead. That path is not gated by mmap_miss,
-> and the pages it brings in count as hits again, so the counter drops
-> and readahead resumes. A random reader, however, rarely has the previous
-> page cached, so it keeps reading one page per fault, or at most two.
-> Forced THP readahead is left as it is.
-> 
-> This reproducer takes 100 random faults on a file of at least 4 GiB
-> and then reads 1 GiB of it in order:
-> 
-> 	#define _GNU_SOURCE
-> 	#include <fcntl.h>
-> 	#include <stdio.h>
-> 	#include <stdlib.h>
-> 	#include <unistd.h>
-> 	#include <sys/mman.h>
-> 	#include <sys/resource.h>
-> 
-> 	/* ./a.out FILE N: N random faults, then read 1 GiB in order */
-> 	int main(int argc, char **argv)
-> 	{
-> 		long G = 1L << 30, i, flt, size;
-> 		struct rusage ru;
-> 		volatile char *p;
-> 		int fd;
-> 
-> 		if (argc != 3 || (fd = open(argv[1], O_RDONLY)) < 0)
-> 			return 2;
-> 		size = lseek(fd, 0, SEEK_END);
-> 		posix_fadvise(fd, 0, 0, POSIX_FADV_DONTNEED);
-> 		p = mmap(NULL, size, PROT_READ, MAP_SHARED, fd, 0);
-> 
-> 		/* N random faults beyond 3 GiB */
-> 		for (i = 0; i < atol(argv[2]); i++)
-> 			p[3 * G + random() % (size - 3 * G) / 4096 * 4096];
-> 
-> 		/* then read [2 GiB, 3 GiB) in order */
-> 		getrusage(RUSAGE_SELF, &ru);
-> 		flt = ru.ru_majflt;
-> 		for (i = 2 * G; i < 3 * G; i += 4096)
-> 			p[i];
-> 		getrusage(RUSAGE_SELF, &ru);
-> 		printf("%ld major faults for %ld pages\n",
-> 		       ru.ru_majflt - flt, G / 4096);
-> 		return 0;
-> 	}
-> 
-> 	$ ./a.out FILE 100
-> 	before: 262144 major faults for 262144 pages
-> 	after:       2 major faults for 262144 pages
-> 
-> I also ran the access patterns from that commit's changelog (random,
-> strides of 1021, 1024, 2053, and 4099 pages, and sequential, on a
-> 20 GiB and a 4 GiB file in an 8 GiB guest). With this change, bytes
-> read stay within 0.1% and times within 3% in all cases, so its gains
-> are kept.
-> 
-> Fixes: 0b9c0aeba938 ("mm/filemap: count only the faulting address as a mmap hit")
-> Signed-off-by: Alireza Haddadi <alireza.haddadi@it.uu.se>
-> Cc: fujunjie <fujunjie1@qq.com>
-> Cc: Jan Kara <jack@suse.cz>
-> Cc: Vishal Moola <vishal.moola@gmail.com>
-> Cc: Matthew Wilcox (Oracle) <willy@infradead.org>
-> Cc: Roman Gushchin <roman.gushchin@linux.dev>
+> No Fixes? Sorry I may have missed context from v1 here :)
 
-Hum, this looks like an ellegant way around the problem so I'm willing to
-give this a try :). Feel free to add:
+The window is from 2007, when __do_fault() started to drop the folio
+lock around ->page_mkwrite():
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+Fixes: 6967614761fd ("ocfs2: release page lock before calling ->page_mkwrite")
 
-								Honza
+Not sure how useful such Fixes is. It predates any possible stable tree.
 
-> ---
-> Tested on mm-new (x86-64):
+> > ---
+> >  mm/memory.c | 22 ++++++++++++++++++++++
+> >  1 file changed, 22 insertions(+)
+> >
+> > diff --git a/mm/memory.c b/mm/memory.c
+> > index fe72e66c9c2e..cc1d0b7d15c7 100644
+> > --- a/mm/memory.c
+> > +++ b/mm/memory.c
+> > @@ -5613,6 +5613,18 @@ static vm_fault_t do_anonymous_page(struct vm_fault *vmf)
+> >  	return VM_FAULT_OOM;
+> >  }
+> >
+> > +/*
+> > + * A page cache folio that is not uptodate holds data that was never read in
+> > + * or cleared, and mapping it leaks stale memory to userspace.
+> > + */
+> > +static bool file_folio_not_uptodate(struct folio *folio)
+> > +{
+> > +	if (likely(folio_test_uptodate(folio)))
+> > +		return false;
+> > +	/* Driver pages from ->fault() never get PG_uptodate */
 > 
->  - With the patch, no run gets stuck: the SQLite scan (10 runs) and
->    the numpy pass (5 runs) take as long as their controls.
->  - mm selftests: no new failures. droppable fails about once in 20
->    runs, with and without this patch.
->  - A KVM guest with KASAN, lockdep and DEBUG_VM ran the reproducer
->    above, strided and interleaved access, and a 4-thread test: after
->    200 random faults, 4 threads read the same file in order through
->    one mapping, so they all take the new path at once; the file is
->    twice the guest's memory, so this runs under reclaim. No reports,
->    with or without the patch.
->  - W=1 and sparse are clean, also with THP or LRU_GEN disabled.
+> I guess you mean drivers that return non-page cache folios from ->fault()?
+
+Yes. How about:
+
+        /*
+         * ->fault() can also return driver memory that is not in the page
+         * cache. It never gets PG_uptodate.
+         */
+
+I would rather avoid "rmappable". These folios do get
+folio_add_file_rmap_ptes() in set_pte_range(), and the word reads like
+PG_large_rmappable. As you said, DAX never reaches the check, so "page
+cache" is accurate.
+
+> > +	return !folio_test_anon(folio) && folio->mapping;
 > 
-> The cost for random readers, once readahead is off: when every third
-> page is cached and each access lands just after a cached page, 1.77
-> pages are read per access instead of 0.89. Strided access reads the
-> same as before.
+> Technically folio_test_anon() can never return true based on where this is
+> called from right? Could this just be a:
 > 
-> Forced THP readahead has a similar problem with mmap_miss. I left it
-> out to keep this change small and will look at it separately.
+> 	VM_WARN_ON_ONCE(folio_test_anon(folio));
+> 	/* ... comment */
+> 	return folio->mapping;
 > 
-> I can share the benchmark scripts (SQLite, numpy, the access patterns
-> of 0b9c0aeba938) if that helps.
-> ---
->  mm/filemap.c | 27 ++++++++++++++++++++++++++-
->  1 file changed, 26 insertions(+), 1 deletion(-)
+> Instead?
+
+Right, all callers pass a file folio.
+
+I will make it an assert, but at the top of the helper, so it checks
+every call and not only the rare !uptodate one.
+
+> > @@ -6163,6 +6175,16 @@ static vm_fault_t do_shared_fault(struct vm_fault *vmf)
+> >  			folio_put(folio);
+> >  			return tmp;
+> >  		}
+> > +
+> > +		/*
+> > +		 * The folio was unlocked for ->page_mkwrite(). If it lost
+> > +		 * PG_uptodate meanwhile, retry the fault to read it in again.
+> > +		 */
+> > +		if (unlikely(file_folio_not_uptodate(folio))) {
 > 
-> diff --git a/mm/filemap.c b/mm/filemap.c
-> index 93db8fc60ae0..0930aacee9fe 100644
-> --- a/mm/filemap.c
-> +++ b/mm/filemap.c
-> @@ -3403,8 +3403,33 @@ static struct file *do_sync_mmap_readahead(struct vm_fault *vmf)
->  		 * Do we miss much more than hit in this file? If so,
->  		 * stop bothering with read-ahead. It will only hurt.
->  		 */
-> -		if (mmap_miss > MMAP_LOTSAMISS)
-> +		if (mmap_miss > MMAP_LOTSAMISS) {
-> +			struct folio *prev = NULL;
-> +
-> +			/*
-> +			 * Nothing is read ahead now, so mmap_miss stays high
-> +			 * forever.  If the previous page is cached, this may be
-> +			 * a sequential read: read the next page as well and
-> +			 * mark it, so that async readahead, which does not
-> +			 * check mmap_miss, restarts when the mark is hit.  The
-> +			 * pages it reads then count as hits and lower
-> +			 * mmap_miss.  A random reader rarely has the previous
-> +			 * page cached and keeps reading one page per fault.
-> +			 */
-> +			if (!force_thp_readahead && vmf->pgoff)
-> +				prev = xa_load(&mapping->i_pages,
-> +					       vmf->pgoff - 1);
-> +			if (prev && !xa_is_value(prev)) {
-> +				fpin = maybe_unlock_mmap_for_io(vmf, fpin);
-> +				ra->start = vmf->pgoff;
-> +				ra->size = 2;
-> +				ra->async_size = 1;
-> +				ra->order = 0;
-> +				ractl._index = ra->start;
-> +				page_cache_ra_order(&ractl, ra);
-> +			}
->  			return fpin;
-> +		}
->  	}
->  
->  	if (force_thp_readahead) {
-> 
-> ---
-> base-commit: b95f8bb86713c860ce8536d22a988b949b884d5f
-> change-id: 20261108-mmap-miss-bf5a501088eb
-> 
-> Best regards,
-> --  
-> Alireza Haddadi <alireza.haddadi@it.uu.se>
-> 
-> 
+> As Pedro said, I think this unlikely() is probably unnecessary given the true
+> return case is implicitly unlikely.
+
+As I told Pedro, I prefer it at the call site. That is where the reader
+needs to see that the retry is the rare path. But if you insist...
+
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+  Kiryl Shutsemau / Kirill A. Shutemov
