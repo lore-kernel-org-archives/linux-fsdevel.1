@@ -1,47 +1,113 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794217897;
-	b=ceoMoVaAEH1lVDogwac3VzjRm5/V7IWvNzSTTNa5Hk/ScOb7h+How8l73i/7OMHJBwUU
-	 VuNXBcYlus9REoSeziIK6jLE9McLnI1ufXJ8RI+Tx9O653X9wg7sls/2UxVYIrD1MHRWC
-	 FAco5ERgSwI0LgHadOTM0c3IXiSMQy0iic6H/O39Cu/R9c/MKBJiBgW0YWlhLaKhTIlgP
-	 dDIl+fFUtfAVSRWHSaKceLkYg1QAIU4wduN6P74G3OBp8/s3WInXnKaJUgyp8j/zHH6rW
-	 EhGfTzL/R7/KeeN9yE9YWjdw2GCTQSfBTvYkyoK3xDgI/XSufTi46tVFCW1yd5hD7uQ==
+	t=1794218327;
+	b=h9tQsFIC/4hqwkoBgLRmoaUQs+Kz2RiFrTr6TN38/ieS2uBHMlDutR4t6XOaDQEVZ8fH
+	 eAyQICb6VQUuUTSCe8YHkRFthUFFQMDj/gVHiof4ATjO21QeYAOGlM3iLkcyrwjMdYctS
+	 C+tPJbVXWPekjffsHWl4Gw0+PZ/531YrNesWmcGq5kmbkaAcxrujQHsAp1jI3dOl4q9By
+	 k7HEwplOELZp8697x7m/f2Lj7VYY3WULIKVOdTgqc1VCLIiXXeXjivYClbXtChv9PrmAF
+	 WX2phgLTmgS5sLm1zVQ+sBPr7DWC5cIQvrg3Kc5jJvtZ6+E5SeLPoW8d7GSDStmHn1A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794217897;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=Evsm93Jf7an7afCmpYNcizJpvuoFJEVrWxhvJjq1VG0=;
-	b=EkapM16GPi8978B3ucLQ1OO6CjqrPForgW0MnriXy4hcyz9UM2vw+zVCOIXAw8Ah20iq
-	 1c59wFuSLyBoz5byzB18US4yiVN/otPmLmIsp49lsN8h9fo7xtPeHeTUB4LT5NrXA51Qm
-	 E5gBq26bL/YPCaS7Id4DbjURY79D3Wfwj20m66pYYlXBUQBAelJbUB2ZoIVeNhwoXvUEZ
-	 LGD5AnBCGXNAOGPCllOY8XZAh1bAF/VzJ3Hz0thhQbzxIBtKuT3ZoTSTu76qFRWz/2pAO
-	 13CX5Nn+VR/SPxNOcsyttpbn7+Fn+6wX5TnY3J9aeXAtak0Bg74bDrhzezSi8DbpCyw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794218327;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:
+	 X-Spam-Flag:X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
+	bh=9YqeSUwdUI+ewo9U6HDew1v5EKdGFa3Vpg/7xfVnlmo=;
+	b=EOMl1T1y9+r7xQr0P16AY8WFo/urbmNuZR7NEJ/XZiRJVBl5U4TmYAEZ5BkyfIVFv+vc
+	 V0yHruA7anqpqqywEs5N2vCLi7AJuUrUoBUII48Tu1nvAWArGMOjoYzF/y4pAVT36KgwQ
+	 9ai4a0fDORLFuFl6IOkLl0ft23mEbGOmn94nZcq+/DkclWQklRAtCZB3+2FBD1eivoFXA
+	 PWsIXg8v5veSGZRLpCp5aiyVxqPORint/Jjy0UotubOVIoZDGnQLmW7ZYOtF4xoDeMKHm
+	 DSAS0Jt5EII1QpyEN73q2CVt+096LOZPtr4jHO9HTBJ4FYP2faYVQ13aNDvs8EkfUQA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bhqNNQOV;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=suse.cz;
+	spf=pass smtp.mailfrom=suse.cz;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=G7CRuED6;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=recl9Zt6;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=G7CRuED6;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=recl9Zt6;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CDF1606A321;
-	Mon,  9 Nov 2026 09:51:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA4B6606EE98;
+	Mon,  9 Nov 2026 09:58:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AA4B6606EE98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bhqNNQOV
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 398411F0089F;
-	Mon,  9 Nov 2026 09:51:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794217897;
-	bh=Evsm93Jf7an7afCmpYNcizJpvuoFJEVrWxhvJjq1VG0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=bhqNNQOV9B10W1Kf+7AkY4klAiBwSyMS64uCIN5C2ry9FaHossio85/T+jcSxZFth
-	 zbBBi0sFWCFeSqS8KvSvajPokW1ehMJQfPzYOOyGXxzRPbsXl8EjF2/8ONP7xUM+XW
-	 sYwl2qRVwZseaif7xlBE9tCwEt6iL279YjBiJREbwO8R/mPiUOak4T7h/DbViQTQZg
-	 hXPJaTP8JI+Wj4hIFzuQ6JmkvfH1TEn65uzoxqrA6mEtLh5yvVX/D/he1p2v1Ocgin
-	 1AMXAeTnbw0i2zeG1M5YIXiTSUZdO4ESqh5MnIOOwJVmtGYcCZA38e8rLX9i1b48Ub
-	 rOqb9dsZR9vMw==
-Message-ID: <db93735f-2452-453f-bfe2-f1cef00f143a@kernel.org>
-Date: Mon, 9 Nov 2026 10:51:20 +0100
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=G7CRuED6;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=recl9Zt6;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=G7CRuED6;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=recl9Zt6
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7FDBD21ED1;
+	Mon,  9 Nov 2026 09:58:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1794218324; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9YqeSUwdUI+ewo9U6HDew1v5EKdGFa3Vpg/7xfVnlmo=;
+	b=G7CRuED6NzzdVt7L5gKNNsG/Jmnoev6NtThl9kEVfWK/2/+rb/TksLeG93lrFto59BSskc
+	tUV5XK2e62heEW+kBIuM6+Pc0iqjkEEIMEj0WHBH1B3yMuSUcKYCfhH0HQf62SFf+gP9c5
+	vF94vb5EdlVdf1S3UamAszCm67Rnbec=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1794218324;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9YqeSUwdUI+ewo9U6HDew1v5EKdGFa3Vpg/7xfVnlmo=;
+	b=recl9Zt6rDMQiYnaOHiXv3tKpLuIQ0i3v7iw5narrceerKWXtcn5gVnPcrnO+5lP6WKaED
+	ptMslHoHdl0Eb9Ag==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=G7CRuED6;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=recl9Zt6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1794218324; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9YqeSUwdUI+ewo9U6HDew1v5EKdGFa3Vpg/7xfVnlmo=;
+	b=G7CRuED6NzzdVt7L5gKNNsG/Jmnoev6NtThl9kEVfWK/2/+rb/TksLeG93lrFto59BSskc
+	tUV5XK2e62heEW+kBIuM6+Pc0iqjkEEIMEj0WHBH1B3yMuSUcKYCfhH0HQf62SFf+gP9c5
+	vF94vb5EdlVdf1S3UamAszCm67Rnbec=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1794218324;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9YqeSUwdUI+ewo9U6HDew1v5EKdGFa3Vpg/7xfVnlmo=;
+	b=recl9Zt6rDMQiYnaOHiXv3tKpLuIQ0i3v7iw5narrceerKWXtcn5gVnPcrnO+5lP6WKaED
+	ptMslHoHdl0Eb9Ag==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5233013302;
+	Mon,  9 Nov 2026 09:58:44 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id boGKC1SZ8Wr9SQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 09 Nov 2026 09:58:44 +0000
+Received: by quack.suse.cz (Postfix, from userid 1000)
+	id D6B9E21D88; Mon, 09 Nov 2026 10:58:43 +0100 (CET)
+Date: Mon, 9 Nov 2026 10:58:43 +0100
+From: Jan Kara <jack@suse.cz>
+To: Huang Shijie <huangsj@hygon.cn>
+Cc: axboe@kernel.dk, viro@zeniv.linux.org.uk, brauner@kernel.org, 
+	zhongyuan@hygon.cn, fangbaoshun@hygon.cn, yingzhiwei@hygon.cn, jack@suse.cz, 
+	agruenba@redhat.com, mic@digikod.net, gnoack@google.com, paul@paul-moore.com, 
+	jmorris@namei.org, serge@hallyn.com, aleksa@amutable.com, legion@kernel.org, 
+	david@kernel.org, sandeen@redhat.com, ebiggers@kernel.org, 
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	gfs2@lists.linux.dev, linux-security-module@vger.kernel.org, sunjunchao@bytedance.com
+Subject: Re: [PATCH 1/3] vfs: add inode iteration method super_iter_inodes
+Message-ID: <wepk7b6hw44k7aodwmk24mt4ied25jl5zzdyd5dfx3pjop6omq@bvld6lyzbetm>
+References: <20261015093854.2082600-1-huangsj@hygon.cn>
+ <20261015093854.2082600-2-huangsj@hygon.cn>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -51,203 +117,158 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 09/47] mm/rmap: handle device-exclusive entries in
- folio_referenced_one()
-To: "Garg, Shivank" <shivankg@amd.com>,
- "pratyush@kernel.org" <pratyush@kernel.org>,
- "osalvador@suse.de" <osalvador@suse.de>, "xu.xin@linux.dev"
- <xu.xin@linux.dev>, "peterx@redhat.com" <peterx@redhat.com>,
- "aneesh.kumar@kernel.org" <aneesh.kumar@kernel.org>,
- "baoquan.he@linux.dev" <baoquan.he@linux.dev>,
- "riel@surriel.com" <riel@surriel.com>,
- "ryan.roberts@arm.com" <ryan.roberts@arm.com>,
- "mhocko@suse.com" <mhocko@suse.com>,
- "usama.arif@linux.dev" <usama.arif@linux.dev>,
- "hannes@cmpxchg.org" <hannes@cmpxchg.org>, "jack@suse.cz" <jack@suse.cz>,
- "pfalcato@suse.de" <pfalcato@suse.de>,
- "lance.yang@linux.dev" <lance.yang@linux.dev>,
- "shakeel.butt@linux.dev" <shakeel.butt@linux.dev>,
- "peterz@infradead.org" <peterz@infradead.org>,
- "weixugc@google.com" <weixugc@google.com>, "kees@kernel.org"
- <kees@kernel.org>, "kasong@tencent.com" <kasong@tencent.com>,
- "jannh@google.com" <jannh@google.com>, "chrisl@kernel.org"
- <chrisl@kernel.org>, "liam@infradead.org" <liam@infradead.org>,
- "yuanchu@google.com" <yuanchu@google.com>,
- "youngjun.park@lge.com" <youngjun.park@lge.com>,
- "ying.huang@linux.alibaba.com" <ying.huang@linux.alibaba.com>,
- "joshua.hahnjy@gmail.com" <joshua.hahnjy@gmail.com>,
- "rppt@kernel.org" <rppt@kernel.org>,
- "axelrasmussen@google.com" <axelrasmussen@google.com>,
- "nphamcs@gmail.com" <nphamcs@gmail.com>,
- "gourry@gourry.net" <gourry@gourry.net>,
- "willy@infradead.org" <willy@infradead.org>,
- "baolin.wang@linux.alibaba.com" <baolin.wang@linux.alibaba.com>,
- "surenb@google.com" <surenb@google.com>,
- "qi.zheng@linux.dev" <qi.zheng@linux.dev>,
- "matthew.brost@intel.com" <matthew.brost@intel.com>,
- "minchan@kernel.org" <minchan@kernel.org>,
- "dev.jain@arm.com" <dev.jain@arm.com>, "will@kernel.org" <will@kernel.org>,
- "hughd@google.com" <hughd@google.com>,
- "nico.pache@linux.dev" <nico.pache@linux.dev>,
- "npiggin@gmail.com" <npiggin@gmail.com>,
- "baohua@kernel.org" <baohua@kernel.org>,
- "muchun.song@linux.dev" <muchun.song@linux.dev>,
- "harry@kernel.org" <harry@kernel.org>,
- "chengming.zhou@linux.dev" <chengming.zhou@linux.dev>,
- "apopple@nvidia.com" <apopple@nvidia.com>, "ziy@nvidia.com"
- <ziy@nvidia.com>, "vbabka@kernel.org" <vbabka@kernel.org>,
- "jhubbard@nvidia.com" <jhubbard@nvidia.com>, "ljs@kernel.org"
- <ljs@kernel.org>, "shikemeng@huaweicloud.com" <shikemeng@huaweicloud.com>,
- "mhocko@kernel.org" <mhocko@kernel.org>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
- "pasha.tatashin@soleen.com" <pasha.tatashin@soleen.com>,
- "kas@kernel.org" <kas@kernel.org>, "jgg@ziepe.ca" <jgg@ziepe.ca>,
- "rakie.kim@sk.com" <rakie.kim@sk.com>
-Cc: "kexec@lists.infradead.org" <kexec@lists.infradead.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
- "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "josef@toxicpanda.com" <josef@toxicpanda.com>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>,
- "usama.anjum@arm.com" <usama.anjum@arm.com>
-References: <20261031-fixes_core-v3-0-d6437171ecc3@kernel.org>
- <20261031-fixes_core-v3-9-d6437171ecc3@kernel.org>
- <50c50262c50da19f6a2b27f848324772b0e3c707.camel@amd.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <50c50262c50da19f6a2b27f848324772b0e3c707.camel@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261015093854.2082600-2-huangsj@hygon.cn>
+X-Spamd-Result: default: False [-13.01 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.cz:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -13.01
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 7FDBD21ED1
 
-On 11/9/26 06:22, Garg, Shivank wrote:
-> On Sat, 2026-10-31 at 10:39 +0100, David Hildenbrand (Arm) wrote:
->> page_vma_mapped_walk() can return non-present device-exclusive entries,
->> but folio_referenced_one() passes them to PTE young-bit accessors that
->> require present PTEs.
->>
->> We must neither call clear_flush_young_ptes_notify() nor
->> folio_pte_batch() with non-present entries. For example, clearing the
->> young bit on non-present PTEs can corrupt the entry: on arm64
->> PTE_AF overlaps the swap type, so clearing it turns a device-exclusive
->> entry into an ordinary swap entry.
->>
->> folio_pte_batch() will VM_WARN_ON_FOLIO.
->>
->> Apply the same approach as the previous fixes to e.g., damon_ptep_mkold():
->> treat these entries as old from the CPU's perspective and obtain their
->> young state through the MMU notifier.
->>
->> Skip PTE batching and MGLRU look-around for non-present entries, and
->> don't modify non-present PTEs.
->>
->> Fixes: b756a3b5e7ea ("mm: device exclusive memory access")
->> Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
->> Cc: stable@vger.kernel.org
->> Reported-by: Josef Bacik <josef@toxicpanda.com>
->> Reviewed-by: Harry Yoo (Meta) <harry@kernel.org>
->> Reviewed-by: Barry Song <baohua@kernel.org>
->> Reviewed-by: Dev Jain <dev.jain@arm.com>
->> Tested-by: Muhammad Usama Anjum <usama.anjum@arm.com>
->> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
->> ---
->>  mm/rmap.c | 23 +++++++++++++++++++----
->>  1 file changed, 19 insertions(+), 4 deletions(-)
->>
->> diff --git a/mm/rmap.c b/mm/rmap.c
->> index 1131b76bbbc28..0faef46806e5c 100644
->> --- a/mm/rmap.c
->> +++ b/mm/rmap.c
->> @@ -924,6 +924,7 @@ static bool folio_referenced_one(struct folio *folio,
->>  	DEFINE_FOLIO_VMA_WALK(pvmw, folio, vma, address, 0);
->>  	int ptes = 0, referenced = 0;
->>  	unsigned int nr;
->> +	pte_t pteval;
->>  
->>  	while (page_vma_mapped_walk(&pvmw)) {
->>  		address = pvmw.address;
->> @@ -968,10 +969,12 @@ static bool folio_referenced_one(struct folio *folio,
->>  			return false;
->>  		}
->>  
->> -		if (pvmw.pte && folio_test_large(folio)) {
->> +		if (pvmw.pte)
->> +			pteval = ptep_get(pvmw.pte);
->> +
->> +		if (pvmw.pte && pte_present(pteval) && folio_test_large(folio)) {
->>  			const unsigned long end_addr = pmd_addr_end(address, vma->vm_end);
->>  			const unsigned int max_nr = (end_addr - address) >> PAGE_SHIFT;
->> -			pte_t pteval = ptep_get(pvmw.pte);
->>  
->>  			nr = folio_pte_batch(folio, pvmw.pte, pteval, max_nr);
->>  		}
->> @@ -981,11 +984,23 @@ static bool folio_referenced_one(struct folio *folio,
->>  		 * are. —they could be on active/inactive lists or on MGLRU. So the
->>  		 * simplest approach is to disable this look-around optimization.
->>  		 */
->> -		if (lru_gen_enabled() && !lru_gen_switching() && pvmw.pte) {
->> +		if (lru_gen_enabled() && !lru_gen_switching() && pvmw.pte &&
->> +		    pte_present(pteval)) {
->>  			if (lru_gen_look_around(&pvmw, nr))
->>  				referenced++;
->>  		} else if (pvmw.pte) {
->> -			if (clear_flush_young_ptes_notify(vma, address, pvmw.pte, nr))
+On Thu 15-10-26 17:38:52, Huang Shijie wrote:
+> This will be used to replace the explicit sb->s_inodes iteration,
+> with the caller supplying a callback function and a private data
+> pointer that is passed to the callback along with each inode that is
+> iterated.
 > 
-> This was the only caller of clear_flush_young_ptes_notify(), so this
-> leaves both definitions in mm/internal.h unused.
+> A single iteration function, super_iter_inodes(), is provided, with
+> the iteration mode selected by the INO_ITER_F_UNSAFE flag. The
+> INO_ITER_F_REFERENCED flag can additionally restrict the iteration to
+> inodes that still have a reference.
 > 
-> Would you prefer to remove them, or keep them for company with their
-> still used test_and_clear_young_ptes_notify friend?
+> Without INO_ITER_F_UNSAFE, the callback is called with a valid,
+> unlocked and referenced inode, so any inode operation, including
+> blocking operations, is allowed. The iterator is responsible for
+> inode lifecycle management, so the callback only needs to implement
+> the operation it wants to perform on all inodes.
+> 
+> With INO_ITER_F_UNSAFE set, the inodes are iterated without taking a
+> reference and the callback is run in an atomic context that must not
+> block. This mode is for internal VFS use only and runs under a RCU
+> read lock so that the VFS inode is not freed from under the callback.
+> It is needed for operations that require tight control over the state
+> of the inodes they operate on.
+> 
+> This mechanism allows the existing sb->s_inodes iteration models to
+> be maintained, providing a generic implementation for iterating all
+> cached inodes on the superblock.
+> 
+> Signed-off-by: Huang Shijie <huangsj@hygon.cn>
 
-Can you send a cleanup? Thanks!
+This looks as a good base but see my comments for individual conversions.
+Some smaller comments below:
 
+> +/*
+> + * Unsafe iteration for internal VFS use only: @iter_fn runs in atomic
+> + * context with only an inode existence guarantee, so it must not block
+> + * and must perform its own inode state checks. Return INO_ITER_RET_ABORT
+> + * to stop the iteration early.
+> + */
+> +static int generic_iter_inodes_unsafe(struct super_block *sb, ino_iter_fn iter_fn,
+> +				      void *private_data)
+> +{
+> +	struct inode *inode;
+> +	int ret = INO_ITER_RET_DONE;
+> +
+> +	rcu_read_lock();
+> +	spin_lock(&sb->s_inode_list_lock);
+> +	list_for_each_entry(inode, &sb->s_inodes, i_sb_list) {
+> +		ret = iter_fn(inode, private_data);
+> +		if (ret == INO_ITER_RET_ABORT)
+> +			break;
+> +	}
+> +	spin_unlock(&sb->s_inode_list_lock);
+> +	rcu_read_unlock();
+> +
+> +	return ret;
+> +}
+> +
+> +/**
+> + * super_iter_inodes - iterate all the cached inodes on a superblock
+> + * @sb: superblock to iterate
+> + * @iter_fn: callback to run on every inode found
+> + * @private_data: private data to pass to @iter_fn
+> + * @flags: inode iteration control flags
+> + *
+> + * This function iterates all cached inodes on a superblock that are not in
+> + * the process of being initialised or torn down. It will run @iter_fn() with
+> + * a valid, referenced inode, so it is safe for the caller to do anything it
+> + * wants with the inode except drop the reference the iterator holds.
+> + *
+> + * If @flags has %INO_ITER_F_REFERENCED set, inodes with a zero refcount are
+> + * skipped as well, so that they are not needlessly bounced through
+> + * __iget()/iput() (which would evict them from the inode cache).
+> + *
+> + * If @flags has %INO_ITER_F_UNSAFE set, the inodes are iterated without
+> + * taking a reference and @iter_fn is run in an atomic context that must not
+> + * block; %INO_ITER_F_REFERENCED is ignored in this mode. This is for internal
+> + * VFS operations only and almost certainly not what the caller wants.
+> + *
+> + * Return: %INO_ITER_RET_DONE on completion, a negative errno if @iter_fn()
+> + * returned an error (safe iteration only), or %INO_ITER_RET_ABORT if the
+> + * unsafe iteration was aborted early.
+> + */
+> +int super_iter_inodes(struct super_block *sb, ino_iter_fn iter_fn,
+> +		      void *private_data, int flags)
+> +{
+> +	if (flags & INO_ITER_F_UNSAFE)
+> +		return generic_iter_inodes_unsafe(sb, iter_fn, private_data);
+
+Since unsafe iteration is a separate function anyway and we advertise it as
+an "internal VFS" function (which I agree with), I'd just have
+super_iter_inodes() for the normal iteration and super_iter_inodes_unsafe()
+for the unsafe iteration which won't be exported to modules (so we really
+get the message across this should be VFS internal function). 
+
+> +
+> +	return generic_iter_inodes(sb, iter_fn, private_data, flags);
+> +}
+> +EXPORT_SYMBOL_GPL(super_iter_inodes);
+> +
+
+...
+> +/* Inode iteration callback return values */
+> +#define INO_ITER_RET_DONE		0
+
+Maybe INO_ITER_RET_NEXT? DONE looks too much like the loop should finish.
+
+> +#define INO_ITER_RET_ABORT		1
+> +
+> +/* Inode iteration control flags */
+> +/* Iterate without taking a reference; @iter_fn must not block. */
+> +#define INO_ITER_F_UNSAFE		(1U << 1)
+> +/* Only iterate inodes that still have a reference. */
+> +#define INO_ITER_F_REFERENCED		(1U << 2)
+
+								Honza
 -- 
-Cheers,
-
-David
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
