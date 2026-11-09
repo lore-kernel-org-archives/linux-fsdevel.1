@@ -1,74 +1,110 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=166.70.13.233
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794225947;
-	b=buTeHxfLlm7QVlSAfA4ES76lLEX68jmUpKuEXj33zWsuE2RLdNkyhAgN1CR1E7Jjeiov
-	 84+puLtdgw882Lbh0we0S8l76tcDs+BbKtwfU+2w1j+gPQqh/ooQUJCPSz4SFw260MCRu
-	 z7fBiFXEFXWaUOG+DMD4n8FgPD9FeQzkeuoU5etLX248GEnxoH/vwdv16q8ndyBsH/SSs
-	 ylg0DkCZWJvaZNe3Tu0OuNf6fL9qZD6lkyvATRK0d6DsfD0xD9IlYMfVRsbl3HgVds32T
-	 rcgF3xLUpxKzwBafUSLG9Xuz7wZTxm6APn5g1zrwBkZayKXA5KhGhjVyGxszdRIXMtQ==
+	t=1794226828;
+	b=pgAR53E2fEVnBByS/qKmhgSgbBDdAHRbEqgAxpuPoLOMQrM6yKIgWZ0qAb3LKK+eotp9
+	 o8fgQyv0LgKIyVrgrx9wbEDXVwAj01n1QHP+VGrR0hA2d24CJk4toNghZVkchI91Qu2ka
+	 6L7R6xyXyZHD/nx6kdqo9svsnyb2+hGiI7O/Yi6BXfpkjHB7yBDYLhZESpvS8obvIXcpq
+	 mcmjeziHizznSulfF23cBUFlUprwBhlIv11JjGXbZYobt5L26NLj7Ojr7GiFUg/LcNATO
+	 1vZG0QbmipA69lv4/KA1VcFTKHqgJ8yKnp/bqkqU2G3THwHIgXAugAdo6QYDbKVrnhg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794225947;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:In-Reply-To:
-	 References:Date:Message-ID:User-Agent:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-XM-SPF:X-XM-AID:X-Spam-Checker-Version:
-	 X-Spam-Level:X-Spam-Status:X-Spam-Virus:X-Spam-Report:X-Spam-DCC:
-	 X-Spam-Combo:X-Spam-Relay-Country:X-Spam-Timing:Subject:
-	 X-SA-Exim-Connect-IP:X-SA-Exim-Rcpt-To:X-SA-Exim-Mail-From:
-	 X-SA-Exim-Scanned;
-	bh=0WBPpAS8QhIFFinpCvXWvHgYUMT4lMip8rLHtHsH/84=;
-	b=uGDy1fSr+Adqfy3T/iF8PsJd9lyUr0LxiZgX3myWd3XE+qC2nLbgvj6iDSZY3deJs92u
-	 qKgaoDVhUfioI3mhHV2eTFgz24bQrLP8VgeKDq2SkSwFIzoXG11W6gX2/RX5aElAvxlrt
-	 RfNcaBpnVqGVRx3hihNM0qEFMd3puapNDtOdElJuynOh+6srXxpUfFkrBsQGxKjALVmOp
-	 2OWjFfcoHTnX4sen5lC6uczcIZ/P2kgF4MFffItuaSpF0K4kYep4Hczc8XVWFZ1jMDNoC
-	 0XAS0SmDPMKGKsBYEIVy7LCCSHUe5hWQNTGFqLkkTPLzxD1GpHXg3Vf1C1mTW1wgnpw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794226828;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:
+	 X-Spam-Flag:X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
+	bh=YcGWRSLO8Yfbujxln+iu8vgkMzCPp+fOVFLW3VDJHEw=;
+	b=tXWVS/G+9qpiE99N2aW59G47bfxBMld2PE98YQEadUHD2mDofKVVncEDvgjZMzS8c5uC
+	 ZNlmgUHS7eNN3sh9k9GHP8m0lWTpVppqdciWIxE8u0lhCCIvEuMsx1/uC9RzqHPNgax2k
+	 JmLLKt5CPMIuHclJtY4NRCWMuVReGXa7p0otPpOQ3U6rKev8DWJT2V7I8rLfTRgBptxNC
+	 qYEpdnIeCZAotTNoJ+K3qcdFwYEyUxCOYCSJtMNZgw8glzwyYFL/43FEJ8TP3NQDEXCAu
+	 RuvHZxSVY1fRNObndBeND0otld7ds5lGNpWxfx3UpAbKn0n4LgqJERTsYs0iDrWM0Pg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=xmission.com;
-	spf=pass smtp.mailfrom=xmission.com;
-	dkim=pass header.d=xmission.com header.i=@xmission.com header.a=rsa-sha256 header.s=xmission header.b="m1+sWa/Q";
-	arc=none smtp.remote-ip=166.70.13.233
-Received: from out03.mta.xmission.com (out03.mta.xmission.com [166.70.13.233])
+	dmarc=none header.from=suse.cz;
+	spf=pass smtp.mailfrom=suse.cz;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=ut7+3u6S;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=SApFq5WF;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=ut7+3u6S;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=SApFq5WF;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81CD9606A31C;
-	Mon,  9 Nov 2026 12:05:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 81CD9606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xmission.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xmission.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D85C606A321;
+	Mon,  9 Nov 2026 12:20:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0D85C606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=xmission.com header.i=@xmission.com header.a=rsa-sha256 header.s=xmission header.b=m1+sWa/Q
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=simple/simple; d=xmission.com;
-	 s=xmission; h=Subject:Content-Transfer-Encoding:Content-Type:MIME-Version:
-	Message-ID:Date:References:In-Reply-To:Cc:To:From:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=NImTGobAjdhsHF45Qh7scPijta2lkjTwAUUTKpVGc6o=; b=m1+sWa/Qpp0nS7vN6coLeVl2tr
-	2mxFaXvYgxOQbc10uwXyIdHoYMEeLc7Z/KvFT0uE4VLSoYi2BEuno/WVJJ9FfvK3ZxizTmG7h2y+f
-	WolqNsOdpzD9pRdkFeVwRTe3yl+9Z3ZAZgCZY1DcQ0IeBue3caDGyBvMGwWMAIHDPYQg=;
-Received: from in01.mta.xmission.com ([166.70.13.51]:41670)
-	by out03.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.93)
-	(envelope-from <ebiederm@xmission.com>)
-	id 1xQO83-008JTB-Tn; Mon, 09 Nov 2026 05:05:39 -0700
-Received: from ip72-198-196-98.om.om.cox.net ([72.198.196.98]:59876 helo=email.froward.int.ebiederm.org.xmission.com)
-	by in01.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.93)
-	(envelope-from <ebiederm@xmission.com>)
-	id 1xQO82-007Pwb-Kg; Mon, 09 Nov 2026 05:05:39 -0700
-From: "Eric W. Biederman" <ebiederm@xmission.com>
-To: Andy Lutomirski <luto@amacapital.net>
-Cc: Linux FS Devel <linux-fsdevel@vger.kernel.org>,  Linux API
- <linux-api@vger.kernel.org>
-In-Reply-To: <87bj82d3ic.fsf@email.froward.int.ebiederm.org> (Eric
-	W. Biederman's message of "Thu, 05 Nov 2026 21:48:11 -0600")
-References: <CALCETrWDJKr=LMzfPjwwRRuKapFKQ_OaYF6qYz-9Cs91xAXUgA@mail.gmail.com>
-	<87se1hclmb.fsf@email.froward.int.ebiederm.org>
-	<CALCETrXnZVq4pcmo=2T2S=yzWuj9Q5tvrpuZTXzU4ptHCDnjBA@mail.gmail.com>
-	<87bj82d3ic.fsf@email.froward.int.ebiederm.org>
-Date: Mon, 09 Nov 2026 06:05:33 -0600
-Message-ID: <874idq8b1u.fsf@email.froward.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=ut7+3u6S;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=SApFq5WF;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=ut7+3u6S;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=SApFq5WF
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 9B4F11F7B0;
+	Mon,  9 Nov 2026 12:20:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1794226825; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YcGWRSLO8Yfbujxln+iu8vgkMzCPp+fOVFLW3VDJHEw=;
+	b=ut7+3u6SWUn9H8Jk66vEquo6iEFh7zATkMxP+B0KrFpqdOTRAYkB5eSvqIDm4Rftcg06HF
+	f7tCAJLzEpBvUUmWwknN84Sa+PrtyJG9nxQ4uagQy4WqPiSGG6MhXP7Lp3Tpooe8AZqVzX
+	1EqRV98wGShKrD9PbU/12/Bb4A/d288=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1794226825;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YcGWRSLO8Yfbujxln+iu8vgkMzCPp+fOVFLW3VDJHEw=;
+	b=SApFq5WFZKP1QJxdXVdmiFrXqZfJWpmJ9J498Q0lnZH6aJAC8jzrJFO5frmz50TRQOq2eL
+	BC6YY8lV1FJQEoCA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=ut7+3u6S;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=SApFq5WF
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1794226825; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YcGWRSLO8Yfbujxln+iu8vgkMzCPp+fOVFLW3VDJHEw=;
+	b=ut7+3u6SWUn9H8Jk66vEquo6iEFh7zATkMxP+B0KrFpqdOTRAYkB5eSvqIDm4Rftcg06HF
+	f7tCAJLzEpBvUUmWwknN84Sa+PrtyJG9nxQ4uagQy4WqPiSGG6MhXP7Lp3Tpooe8AZqVzX
+	1EqRV98wGShKrD9PbU/12/Bb4A/d288=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1794226825;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YcGWRSLO8Yfbujxln+iu8vgkMzCPp+fOVFLW3VDJHEw=;
+	b=SApFq5WFZKP1QJxdXVdmiFrXqZfJWpmJ9J498Q0lnZH6aJAC8jzrJFO5frmz50TRQOq2eL
+	BC6YY8lV1FJQEoCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6BA5E13302;
+	Mon,  9 Nov 2026 12:20:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id TyZzEYm68WqqXgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 09 Nov 2026 12:20:25 +0000
+Received: by quack.suse.cz (Postfix, from userid 1000)
+	id E3A9B21FF2; Mon, 09 Nov 2026 13:20:20 +0100 (CET)
+Date: Mon, 9 Nov 2026 13:20:20 +0100
+From: Jan Kara <jack@suse.cz>
+To: Hungyu Lin <dennylin0707@gmail.com>
+Cc: willy@infradead.org, jack@suse.cz, akpm@linux-foundation.org, 
+	lczerner@redhat.com, tytso@mit.edu, hughd@google.com, linux-fsdevel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] mm: skip empty finite ranges in
+ truncate_pagecache_range
+Message-ID: <tbwekv4fqz3w74jgyy3pqvg3hvfi4erosgwnxwao5lwsrc7hp7@aaxxwdkkte4x>
+References: <20261027211505.22044-1-dennylin0707@gmail.com>
+ <20261104182700.88789-1-dennylin0707@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -78,164 +114,105 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-XM-SPF: eid=1xQO82-007Pwb-Kg;;;mid=<874idq8b1u.fsf@email.froward.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=72.198.196.98;;;frm=ebiederm@xmission.com;;;sPfnum=0;;;sPf=pass
-X-XM-AID: U2FsdGVkX1/OO6e5cT4bbCckn1cBRowbcpc8DdfAd2c=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261104182700.88789-1-dennylin0707@gmail.com>
+X-Spamd-Result: default: False [-13.01 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
+	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -13.01
 X-Spam-Level: 
-X-Spam-Virus: No
-X-Spam-Report: 
-	* -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-	*  0.1 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-	*      [score: 0.4999]
-	*  0.0 XM_B_Unicode BODY: Testing for specific types of unicode
-	*  0.0 T_TM2_M_HEADER_IN_MSG BODY: No description available.
-	*  0.0 XM_B_EmailChain RAW: Email Chain Detected
-	* -0.0 DCC_CHECK_NEGATIVE Not listed in DCC
-	*      [sa03 1397; Body=1 Fuz1=1 Fuz2=1]
-	*  0.2 XM_B_SpammyWords One or more commonly used spammy words
-X-Spam-DCC: XMission; sa03 1397; Body=1 Fuz1=1 Fuz2=1 
-X-Spam-Combo: ;Andy Lutomirski <luto@amacapital.net>
-X-Spam-Relay-Country: 
-X-Spam-Timing: total 787 ms - load_scoreonly_sql: 0.08 (0.0%),
-	signal_user_changed: 4.9 (0.6%), b_tie_ro: 3.4 (0.4%), parse: 1.39
-	(0.2%), extract_message_metadata: 15 (1.9%), get_uri_detail_list: 2.4
-	(0.3%), tests_pri_-2000: 27 (3.4%), tests_pri_-1000: 2.0 (0.3%),
-	tests_pri_-950: 1.02 (0.1%), tests_pri_-900: 0.82 (0.1%),
-	tests_pri_-90: 261 (33.2%), check_bayes: 259 (32.9%), b_tokenize: 9
-	(1.1%), b_tok_get_all: 10 (1.3%), b_comp_prob: 3.2 (0.4%),
-	b_tok_touch_all: 232 (29.5%), b_finish: 1.13 (0.1%), tests_pri_0: 459
-	(58.3%), check_dkim_signature: 0.58 (0.1%), check_dkim_adsp: 3.8
-	(0.5%), poll_dns_idle: 1.76 (0.2%), tests_pri_10: 1.85 (0.2%),
-	tests_pri_500: 9 (1.1%), rewrite_mail: 0.00 (0.0%)
-Subject: Re: Accidental mountns/tmpfs API break from 2016?
-X-SA-Exim-Connect-IP: 166.70.13.51
-X-SA-Exim-Rcpt-To: linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, luto@amacapital.net
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-X-SA-Exim-Scanned: No (on out03.mta.xmission.com); SAEximRunCond expanded to false
+X-Rspamd-Queue-Id: 9B4F11F7B0
 
-"Eric W. Biederman" <ebiederm@xmission.com> writes:
+On Wed 04-11-26 18:27:00, Hungyu Lin wrote:
+> For a finite range ending before the first page boundary,
+> truncate_pagecache_range() calculates unmap_end as -1. The unsigned
+> comparison then treats the empty full-page interval as nonempty.
+> 
+> For example, lstart == 0 and lend == 0 cause unmap_mapping_range() to be
+> called with a zero length, meaning unmap to EOF. Punching one byte at
+> offset zero in a mapped FUSE file can therefore remove mappings outside
+> the hole, causing unnecessary page-table work and subsequent faults.
+> 
+> Set unmap_end to zero for these small finite ranges so that the existing
+> unsigned comparison skips the empty interval. Explicitly handle lend ==
+> -1 and lend == LLONG_MAX with LLONG_MAX, preserving EOF handling and
+> avoiding wrapping in the endpoint calculation at the largest inclusive
+> end.
+> 
+> Suggested-by: Jan Kara <jack@suse.cz>
+> Fixes: 5a7203947a1d ("mm: teach truncate_inode_pages_range() to handle non page aligned ranges")
+> Link: https://lore.kernel.org/r/20261027211505.22044-1-dennylin0707@gmail.com
+> Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
 
-> Andy Lutomirski <luto@amacapital.net> writes:
->
->  On Tue, Nov 3, 2026 at 7:37=E2=80=AFPM Eric W. Biederman <ebiederm@xmiss=
-ion.com> wrote:
->>>
->>> Andy Lutomirski <luto@amacapital.net> writes:
+Nice! Feel free to add:
 
->> Hah, you haven't quite figured out the ridiculous thing I'm doing. :)
->> What I want is a temporary tmpfs that I can create as an unprivileged
->> user.  Linux doesn't let me do that directly, so I'm kludging it.
->> Shell transcript, edited for clarity:
->>
->> #### Make a tmpfs, keeping the tool running to keep it alive
->> $ ./temp_shm &
->> [1] 34157
->> /proc/34157/cwd
->>
->> #### cd to the tmpfs, which references it and keeps it alive
->> $ cd /proc/34157/cwd
->>
->> #### Kill the tool, since we're done with it
->> $ fg
->> bin/lktool temp_shm     (wd: /workspaces/master)
->> ^C
->>
->> #### cwd is a working tmpfs!
->> $ echo "Look a tmpfs!" >some_file
->>
->> #### and it has no '..', as expected :)
->> $ cd ..                  # and it has
->> cd: error retrieving current directory: getcwd: cannot access parent
->> directories: No such file or directory
->>
->> This whole workflow runs in the init userns and the init mountns,
->> which is exactly what I wanted.  And now I have a tmpfs that I can use
->> to run my test suite unprivileged to test some cool code that *needs*
->> a tmpfs.  (Yes, I could probably use /dev/shm, but that's messy and I
->> don't want to.)
->>
->> I'm not actually banging this out in shell, but I am running literally
->> the C++ code I posted as a subprocess called by my test harness.
->>
->> The user creating files is not in the mountns or the userns, by
->> design.
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-This reminded me of something so I looked it up.
-Then I re-read your sample code.
+								Honza
 
-And I think you have asked the wrong question.
-
-The question should be why does fsopen test may_mount?  As it doesn't
-mount the filesystem at that point.
-
-Your example code could just do:
-
-int cmd_temp_shm(int argc, char **) {
-    if (argc !=3D 1) {
-        fprintf(stderr, "Usage: lktool temp_shm\n");
-        return 1;
-    }
-
-    try {
-        OwnedFd context{static_cast<int>(syscall(SYS_fsopen, "tmpfs",
-FSOPEN_CLOEXEC))};
-        Check(context.fd, "fsopen tmpfs");
-        Check(syscall(SYS_fsconfig, context.fd, FSCONFIG_CMD_CREATE,
-nullptr, nullptr, 0),
-              "fsconfig create tmpfs");
-
-        OwnedFd mount{static_cast<int>(syscall(SYS_fsmount,
-context.fd, FSMOUNT_CLOEXEC, 0))};
-        Check(mount.fd, "fsmount tmpfs");
-        Check(fchdir(mount.fd), "fchdir tmpfs");
-
-        // The detached mount is kept alive by cwd and the mount descriptor.
-        // No mount is attached to the inherited filesystem hierarchy.
-        std::string path =3D "/proc/" + std::to_string(getpid()) + "/cwd";
-        path.push_back('\0');
-        WriteAll(STDOUT_FILENO, path);
-        for (;;)
-            pause();
-    } catch (const std::system_error &e) {
-        fprintf(stderr, "lktool temp_shm: %s\n", e.what());
-        return 1;
-    }
-}
-
-
-It would not surprise me if in practice there are assumptions that have
-to be worked through to allow that to work, but it seems a perfectly
-reasonable thing to do on first glance.  Especially since there are
-useful application of doing that.
-
-The really interesting piece to make it through is FSCONFIG_CMD_CREATE.
-I think that permission check and the logic there are what needs to
-be modified to make it work without a user namespace.
-
-There is also fsopen which has that has a may_mount check that seems
-to serve not immediately discernible purpose.
-
-The part that can obviously break pre-existing privileged applications
-is the mount_move that attaches the mount to an existing mount
-namespace, and that is obviously not allowed.  That definitely can not
-be allowed.
-
-The unprivileged mounter without a usernamespace at that point won't
-have the ability to reconfigure the filesystem.  So the attack vectors
-I was worried about earlier don't seem to apply.
-
-There is a practical question is the additional attack surface and
-maintenance burden worth it.
-
-At a quick look it seems reasonable for a handful of filesystems like
-tmpfs to allow mounting without first creating a user namespace.
-
-There might even be an argument in there somewhere for allowing
-privilege separation of the mount command.
-
-In summary.  At first glance it seems reasonable to allow fsopen,
-FSCONFIG_CMD_CREATE, fsmount on select filesystems without privilege and
-without a user namespace.
-
-Eric
+> ---
+> Changes in v2:
+> - Compute unmap_end directly as suggested by Jan Kara, keeping the
+>   original condition for calling unmap_mapping_range().
+> - Handle the EOF sentinel and LLONG_MAX explicitly.
+> 
+>  mm/truncate.c | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
+> 
+> diff --git a/mm/truncate.c b/mm/truncate.c
+> index 733d2713a87..2c1f4a6c336 100644
+> --- a/mm/truncate.c
+> +++ b/mm/truncate.c
+> @@ -945,7 +945,15 @@ void truncate_pagecache_range(struct inode *inode, loff_t lstart, loff_t lend)
+>  {
+>  	struct address_space *mapping = inode->i_mapping;
+>  	loff_t unmap_start = round_up(lstart, PAGE_SIZE);
+> -	loff_t unmap_end = round_down(1 + lend, PAGE_SIZE) - 1;
+> +	loff_t unmap_end;
+> +
+> +	if (lend == -1 || lend == LLONG_MAX)
+> +		unmap_end = LLONG_MAX;
+> +	else if (lend < PAGE_SIZE - 1)
+> +		unmap_end = 0;
+> +	else
+> +		unmap_end = round_down(1 + lend, PAGE_SIZE) - 1;
+> +
+>  	/*
+>  	 * This rounding is currently just for example: unmap_mapping_range
+>  	 * expands its hole outwards, whereas we want it to contract the hole
+> 
+> base-commit: 05441d697f7f9a927264f4058cbbc6a03dfcac9d
+> -- 
+> 2.50.1 (Apple Git-155)
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
