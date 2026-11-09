@@ -1,88 +1,114 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.158
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794214669;
-	b=Py0kP1L2EclErgcPc/keQvwK39nDl3OWMBf91a6ovBOdupPvB5YsCODFoeZl8LzXJrDp
-	 Ep6xldjK41koXm4Biv+Y7t1PbN2d7Ug8UD2ht/KxFIY9azxLVCroSkrfZPJL5iQv6JEFa
-	 pOVcVJ2p6asv+3LAsVmC82Rz8FVQ/rlVV8gCdpCG849bvmnVTSnm2Ed8zhSMFUC0nPw8x
-	 N2Z4z2WpF6ljzQx+ruxUpCYMggDW0bGC8uPGri8opygdmGPpnroR1p6qegXItYmbiLWLd
-	 TFpb7ND8ZUozKN7zbN71TrqPdRN3PZNGzhbV0Z4Dm087gYPJYBBV2C00XyzIMBJZq6g==
+	t=1794215069;
+	b=HzjqP4BJtAjiF0X0/WJTya5eEUChb36JSPeLOuM8Ud8pAveXqR73wjArgNfTvI5hOWZH
+	 rmxEnLyICAsDabnga+MAEJxiJ5ZH0SMbVZteyV9B3m6Ni3gIY/s009auRUswPQy/YgrCO
+	 g0hGoSqK5swDua48wRJkDkAc8y0gTeQvwZR9EF2Dd4zbhMhmCMJCUo22mGqGhJvsIYgSL
+	 KO1mFwnSTcRlJyLlgtQC/Bt3iP64fKjTvW9VCAov6vZYNg3byS+8VMNxhPjL+TBMvT60I
+	 Sm+DR+e5Reghv3o5OGceR0FIk6O+lY1/6wd5hpK2mFzqBq5jX9+rf0O3OI3FwMAqO2w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794214669;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=6gPNbhKnS4UiPYe9GkhcEdm+Vle3xI8UXMcC7kdMJ/8=;
-	b=F1kVAbYSzFLcHX8rMYR7mAYUkt5NiOzT5crbINITZCw5vT13ofHwEY30SrYq0QdtteVK
-	 Mxfp/vg+6LyGY2VfPHxOQaGd/ZBRK/zvmjQh2Gpj3vIVkFvEm8QJUZ7LIejMujRpfQnds
-	 drs4g74UljW539g1vEGQu5iQcc5kwP/A44J3SyEmSeCHPyxMYfCiE77VCIzcGydA34SXT
-	 dE16TKmOm/WAvJLQrksEoGV6VW+nCU2jaAttdczgtYk1qScb1v4jITgKY3BZFnNsvwcQj
-	 ovODzSCTbj5zPaIoaQNZjoe/lI/dikqvDl5M87SSGYJd+xk/U7lQRFldodyE3Ehef7Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794215069;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:Content-Type:Content-Transfer-Encoding:MIME-Version:From:To:
+	 Cc:Subject:In-reply-to:References:Date:Message-id:Reply-To;
+	bh=A7lUCQ6TfilbbMdtLH7yLs5PgdPcrQehFFZLhkZSAUY=;
+	b=y8jaQrDDLJZttpUjmzFaCNgc3YaRNEPqx+wnRZ5ErDsAir45fEy6uq9IAuS76r3te3S9
+	 LMD+XB27ixDP8nSPbwa0Fjr6/p97hfvFw3yvSVOWwCGnS9INo1uoYpaTKppqcvVyhBgaJ
+	 um74p70f59snwvNPkPeK+pXEO7K2BGnajcufiLUUBKVXjBdllFzeOGr/o8t22+pm46fyc
+	 85GK6DiCcD3q58yGiWRRU1d8wMf3nBPqxO6Z3+8uUsDbtYgcAfpupNK0hkABOv63Nx2p4
+	 H0A5hP+On1KV1jfz9pq8d3BO3LkuaViwcbOcINk0/9NVc5avBjCIYFGPa7HQH4JfHNQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=WX99d5g8;
-	arc=none smtp.remote-ip=209.85.128.44
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=ownmail.net;
+	spf=pass smtp.mailfrom=ownmail.net;
+	dkim=pass header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm3 header.b=NOtwMs8N;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=gNZnB5fB;
+	arc=none smtp.remote-ip=103.168.172.158
+Received: from fhigh-a7-smtp.messagingengine.com (fhigh-a7-smtp.messagingengine.com [103.168.172.158])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 896DB606A325
-	for <linux-fsdevel@vger.kernel.org>; Mon,  9 Nov 2026 08:57:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 896DB606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 524AC606A321
+	for <linux-fsdevel@vger.kernel.org>; Mon,  9 Nov 2026 09:04:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 524AC606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=WX99d5g8
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4afe2d546f9so9121115e9.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 09 Nov 2026 00:57:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794214667; x=1794819467; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=6gPNbhKnS4UiPYe9GkhcEdm+Vle3xI8UXMcC7kdMJ/8=;
-        b=WX99d5g8HsNJ2Xc3dJWqBEteZ1Yzefr2XigtdxHvKUPJpgca1CoZqq4dp9NTaNP6YU
-         bfxXvVbrXNq1MdQzDcVoMJst5p/JdASrGhqAQ35GgrQgGpWZpMZlArfgaA1khdBAvC3f
-         UCgBrQaf6/SWaIrIz1cfg3VI8DlRIOxG1IFQ8rIXoFZQPGYzqcNzDEqWjIR9CgfeTAw8
-         NE+Bm718A9eCD1tFyyGwavlgkgZz4MK9/UkYHD7WODjq9NCi/wfmLAsHbxT2jEtokNMQ
-         8Q5NxTbvsYh5rJzdZ+Fl9IzESFScMGEZ1Re6QX6Qo6SLBiZakqLIE2CVv/0RDj39F8Jv
-         /HqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794214667; x=1794819467;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=6gPNbhKnS4UiPYe9GkhcEdm+Vle3xI8UXMcC7kdMJ/8=;
-        b=F0loHm5MMH+igWm+WEErJoJooN+xwLk7HL97Eg/g54B9iMrvc2Gg2kWjntsgH364u3
-         NZlAWYR639vPbJjk/Iy8VMnz35BaT9SR0RoEJU5YPb0wFR8RA8ZiSPgE6OB94HQTecnq
-         TlmwgMX9pZHjERPKoOyJGfVFjaOwJPVLIp7zTgeW7DXXRX0LPAkfneqejg00xhVgSdIA
-         4g0ISGMVumTQ88mmK+E1C3sJuQPAvIvlyCzx9WNUfUlFT2ix0Lipkx60xUI3XVa8dURp
-         bPmLZ5pHHKf0u+/NsF9QzQGyoTYzgURScPKY7E4JscBrFJT2wE7Ezr7RC/X/brwFPoO5
-         F0Ag==
-X-Forwarded-Encrypted: i=1; AL+hErFnjZqowqUcCGh4yhW7TTIvKrFlg8mRg14fVRlYl3J97xyBZPwdgE0dx61x9ge7vIJIExA+J6B6m4vgPa83@vger.kernel.org
-X-Gm-Message-State: APuU4Z85hryscAgg0Mw2dGxw4ZP5GSC7/vehCX7it1JReOpyT9niEIUH
-	ND8XFO8LIbk79TJ//srUm4DNVAgmZGCGxRfOBJrTHf6pEvKVeNHRzw+O
-X-Gm-Gg: AYBFou23YgjezB+4sd5bNJr2KiBPQam5i9y3nSW2j6mhAvaQrbWlLEV2x5Y8/2bxtpM
-	3o19KaEtNYds5ttvbAvr9OEBTOoeNfCfVqGAGEdxDk2PjuXvKS5BnlhRdE3pIE1aYcO/ADHu/PE
-	h1kN6bm5IQRx9m6v3Zf6y7H/l+1Igl4nSHLPxnyh2kwxlzPbK53lAXMN06RVh+J5lX4KhU9X0nC
-	9P2O9m7nJsZArGLKVYI0tqZAhOcFFvv7Is/eXuv6tDgbNZN2KkcCzXV2inTFMeYVsOmV8sHXPl+
-	wn7jEBkR8wgABQTfPgXU5bCk6ERlslhxCbDuigpQvX8vF5lPaTl+Kq3Ev7OJb2F5D77HUr2cs1F
-	HkoOBYlEnRfFuixhncfEFqgEEBaJqchgIXrspq/Alzn2ara+fLlL4MVXCtvh5ZzXwJMfZWptDMr
-	acaY2TX1VCTpJRmsqSXt9GFlpL7cDeGBkYUczE3DI+w5y80VN+XDZVSHXfj1wnFVKs/qRIh79q2
-	4OWIeWpvizPJNItbw58Xtnb2z1zMU5VN17ILxEXVUOWBSGLIbRlaky7XnMbaAxbDyrJLjSPYBw/
-	tTvTMoTZVD7lrVphG4CUvPA=
-X-Received: by 2002:a05:600c:4f86:b0:4a1:fa21:fd90 with SMTP id 5b1f17b1804b1-4b960d9b17dmr61969495e9.9.1794214666809;
-        Mon, 09 Nov 2026 00:57:46 -0800 (PST)
-Received: from [192.168.1.22] ([83.231.69.9])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b79501502asm149200295e9.2.2026.11.09.00.57.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Nov 2026 00:57:46 -0800 (PST)
-Message-ID: <a9fb2d3c-d518-49d3-9479-a25fa2cfc5b3@gmail.com>
-Date: Mon, 9 Nov 2026 09:57:43 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm3 header.b=NOtwMs8N;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=gNZnB5fB
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 52B2414000E3
+	for <linux-fsdevel@vger.kernel.org>; Mon,  9 Nov 2026 04:04:17 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-03.internal (MEProxy); Mon, 09 Nov 2026 04:04:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm3; t=
+	1794215057; x=1794301457; bh=A7lUCQ6TfilbbMdtLH7yLs5PgdPcrQehFFZ
+	LhkZSAUY=; b=NOtwMs8NH1d3FV0LZSmtHIUQqvFRHhZNPuPFCIuJ/+xjj3a7w+h
+	iBwOfbo1RaE1meOpNzGWP2tYBivj/PIYFh7F7Vba148rKiMNkNCnLn/vHOngWFsa
+	eMb+WpTBOsM+DxOSOQsiDjxdA08eprbEJQOLP7Mz5IRqmW/xCA7ivnrWR5n0dDLx
+	hmwIBwQeCMsFrcu7w28OG8BiVuAYC2zHWO0bB/IZrDl/YMf0LhgDDV+DzYhVehUX
+	biT1K4hibIpLajFrEfzPgt4FXpMUvy52DD8yfnKV0Wxn0Dqi/ir71BaUWNZbOD1v
+	LyJEDwGVYlhYpNqR2Kx772gl70L9RIv3X+w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1794215057; x=
+	1794301457; bh=A7lUCQ6TfilbbMdtLH7yLs5PgdPcrQehFFZLhkZSAUY=; b=g
+	NZnB5fBKRVmT50nRyPlaPpVjG06opfD5E7+RjGybfo6S1aqFOcu2a4h4drFKpAnA
+	dA56UfWU2DVVZdAJs2CUFbSfRl+5PWutuk79Hi9o3szI0UskXyfxqtUGh3ItSX3s
+	z6lCAemvudO4Nu/iXr1nJCSnW5Qey7QMBLydGS3raSUh/kvjFZu4TWWUH/3hwKT/
+	waaeEkrLJgpOxitapE9K0sVgTjPmQKLq1sx/e9gX4qzWoW2+/SejW4yYbEISKMIG
+	dkj5qD4pTxbpU62+qz35qZ4cis9nXzuKfzO1Ig7Rz8NySQxKz93v7JeyEcQnYKn1
+	7HW/uC7K2uKDHfN4MmV3Q==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=ownmail.net a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1794215057; d=ownmail.net;
+	mf=PG5laWxiQG93bm1haWwubmV0Pg==;
+	rt=PGxpbnV4LWZzZGV2ZWxAdmdlci5rZXJuZWwub3JnPg==;
+	s=fm3:rsa-sha256:BFDmQthAqopumf/7MRQtEVx3zOLAulXeyQKjpyZcyFhFnLB
+	4lVQmorVj2yeY2rEybH9sHUNJ8uutuWYS8q5rFl5NXoVBQHybWks3JN4uBaJOxV6
+	gZadq59XhI9hSiuob34qYcbGuXMv5AR9qlt7C//N25aRhCyYjWev3Q9WamD+zmpu
+	V2VF24muCFTW3jFIUJKgsFmTC2TDexPpxb8P946esq8G+tNdArniqwLBOE0bZlkh
+	G8mMaFo8W3a5ez++9u7iF1aEroquHXeQVfrNVUb8VWsspuuxVviW9T7ujzFQYDXj
+	faf6mfw7pyXSif1MXfNxTYCq36cNNiRQpvUWOBA==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=13;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,reply-to,
+	subject,to;
+Message-Instance: m=1; h=sha256:uhH+5jEbgf0OVZmwsBe73BkFdI181nPpwXKWwE+fiLM=:fyDyBEYQH4WiTFivwx1RXK7atpp+u470SuFc2CH/LFE=;
+X-ME-Sender: <xms:kIzxaszuj1S_lK9wMdJIlPW_hv2Q2bKfa-h2CSCQuLmzDi7P50YxkA>
+    <xme:kIzxalOqcGtwHnkSYIpU7cbiaDQczzL_p2rLndktmHIjQy5tyqyN1ssEsS9NfNzJm
+    Tz4LL8GNu34w73hSZhLpFJOotJ3h2bvIJ93fjEOal_MU6WW0Q>
+X-ME-Received: <xmr:kIzxailHA3hDjTjZ_gsp5zWzTDJL8l6h5IRBa9xk6adjbqQ7HyYk7XGCAOJnEIiVb4ZZmHDBLNUhjxTKgVa3MQRn9lMpeg0>
+X-ME-Proxy-Cause: dmFkZTEkdVYupBKa/zOjHLtNrVKec+EYMaibjw/u5rBeZjZiGACUvEg0eAwNXw0YYafcgW
+    aolGBNXQD0wAqIeXlGuNDPsw1jVaFpBm2Xob+NeVXjFi1QdLRD9Hw9U1PzNOLzQvhg3WZ1
+    8EfSfCQjKzklnab0Epo0ev5xdB/D/huMLtM07FveST6oxQMCk931g6q9Rak1k8rzXm2A6+
+    H+xf1kLn9Am+V2E6PlIg1dV84YG1sN4RLYYEFFU1dTmmcrTx6grJCErSrTLBuPzVKZaOEz
+    DoSPsAXluiEf3ZmBu/zRs/Wz85Mr4s9SrR7ujSpqHqzadNlTYJOIPQ5wJ1DMrnV+nFBIOx
+    dwRqVgEY+1jkM6d1uKtuwFas8wF1z1FsoO6EbFfIg+FTPuic9MYfrC5RyozMi3rVQjLumZ
+    3SueAc1zSJ/pWCDUXNvmNMoo/ceTtCfMAjutxMlTrjmuJ6CPYyqUkbSwJOXImWJv3oyVDg
+    C9j1oXQKYizJ+7YiigwDkHGOYlgMMLeVDWoj+thI7VnEDtcVEfgqVua6Ka64EpZcf0LJy1
+    gG6zi1puVxl2cxjJ8blm+A6TK7ng1n+NJSsKmIUOoxQWbnsEqVz+OTf9G26SgCmGc4GBV1
+    u1rN3BiyjVkmtbOId5zDQLVRdxPWNJw+mds9skpllbgbaTRi/m7XVS+AIlkQ
+X-ME-Proxy: <xmx:kIzxaqTYwURi1DLdT4-rL9Hn9JFSvRF23cRyHebd1aA45q6JYl6TEw>
+    <xmx:kIzxahWSYyfuEi2_h2f7weDPvnU1bbgUAZWbG4HimBKijOVFEVAjtg>
+    <xmx:kIzxauL3y5M7Tt7fqFRbl4iJfLyTWP2EhQ_mj-RnCL7SoBNiNxik4Q>
+    <xmx:kIzxah3QiyKACXh8QQHlTYvIEaGWX8EP-UA1HCjdWfFyeHvG8ohTxw>
+    <xmx:kYzxaqbNrIhI5asWDBGvJJCCXGem2l9_wsTau-QNjtcz_1CDtsqutTDo>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 9 Nov 2026 04:04:13 -0500 (EST)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -92,127 +118,191 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/5] mm: limit pagecache folio refcount when splicing
- into pipes
-To: "David Hildenbrand (Arm)" <david@kernel.org>,
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Kiryl Shutsemau <kas@kernel.org>, Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>,
- Gregory Price <gourry@gourry.net>, Ying Huang
- <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
- Peter Xu <peterx@redhat.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Song Liu <songliubraving@fb.com>, Rik van Riel <riel@surriel.com>,
- Miklos Szeredi <miklos@szeredi.hu>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
- Hugh Dickins <hughd@google.com>, Will Deacon <will@kernel.org>,
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin
- <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>,
- Arnd Bergmann <arnd@arndb.de>, Jason Gunthorpe <jgg@ziepe.ca>,
- Kevin Tian <kevin.tian@intel.com>, "Joerg Roedel (AMD)" <joro@8bytes.org>,
- Robin Murphy <robin.murphy@arm.com>,
- Steve Sistare <steven.sistare@oracle.com>, John Hubbard
- <jhubbard@nvidia.com>, Josef Bacik <josef@toxicpanda.com>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev,
- linux-arch@vger.kernel.org, iommu@lists.linux.dev, stable@vger.kernel.org
-References: <20261107-refcount_overflow_stable-v2-0-c38f6809b106@kernel.org>
- <20261107-refcount_overflow_stable-v2-2-c38f6809b106@kernel.org>
-Content-Language: en-US
-From: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
-In-Reply-To: <20261107-refcount_overflow_stable-v2-2-c38f6809b106@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: NeilBrown <neilb@ownmail.net>
+To: "Shuai Liu" <847807867@qq.com>
+Cc: viro@zeniv.linux.org.uk, neil@brown.name, brauner@kernel.org, jack@suse.cz,
+ linux-kernel@vger.kernel.org,
+ syzbot+2ed46b6b748df855347f@syzkaller.appspotmail.com,
+ Shuai Liu <847807867@qq.com>, linux-fsdevel@vger.kernel.org
+Subject: Re: end_dirop() can unlock the i_rwsem of a re-parented dentry on
+ PREEMPT_RT (DEBUG_LOCKS_WARN_ON in filename_symlinkat)
+In-reply-to: <tencent_EE9EBC53933F6E9658D6848B7B89F4370B06@qq.com>
+References: <tencent_EE9EBC53933F6E9658D6848B7B89F4370B06@qq.com>
+Date: Mon, 09 Nov 2026 20:04:09 +1100
+Message-id: <179421504912.1728055.8601875536308970773@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
-On 11/7/26 11:23 PM, David Hildenbrand (Arm) wrote:
-> Similar to mapping pagecache folios into page tables, let's reject
-> additional references when splicing folios into a pipe if the refcount
-> is at its limit, similar to how we handle it during GUP.
-> 
-> This will prevent more cases of possible folio refcount overflows with
-> large pagecache folios.
-> 
-> Let's keep it simple and check in the two callers of
-> splice_folio_into_pipe(). Return -EOVERFLOW if the limit prevents any
-> progress, so do_splice_read() can fall back to copy_splice_read() when
-> read_iter is available. This keeps sendfile() and other splice users
-> working when ordinary reads would still succeed.
-> 
-> Also fall back to copying in FUSE when taking another reference through
-> fuse_ref_folio() would exceed the limit.
-> 
-> Also check in try_get_page() to cover pipe-buffer duplication by tee()
-> and partial pipe-to-pipe splicing.
-> 
-> Fixes: 800d8c63b2e9 ("shmem: add huge pages support")
-> Fixes: 99cb0dbd47a1 ("mm,thp: add read-only THP support for (non-shmem) FS")
-> Fixes: 793917d997df ("mm/readahead: Add large folio readahead")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
-> ---
->  fs/fuse/dev.c      |  5 +++--
->  fs/splice.c        |  8 +++++++-
->  include/linux/mm.h |  9 ++++++---
->  mm/filemap.c       | 11 ++++++++---
->  mm/shmem.c         |  4 ++++
->  5 files changed, 28 insertions(+), 9 deletions(-)
-> 
-> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-> index 3641abb90d6bb..4f6b7b42bfd3e 100644
-> --- a/fs/fuse/dev.c
-> +++ b/fs/fuse/dev.c
-> @@ -1265,9 +1265,10 @@ int fuse_copy_folio(struct fuse_copy_state *cs, struct folio **foliop,
->  		if (cs->write && cs->pipebufs && folio) {
->  			/*
->  			 * Can't control lifetime of pipe buffers, so always
-> -			 * copy user pages.
-> +			 * copy user pages. Also copy folios at their refcount limit.
->  			 */
-> -			if (cs->req->args->user_pages) {
-> +			if (cs->req->args->user_pages ||
-> +			    unlikely(folio_ref_count_over_limit(folio))) {
->  				err = fuse_copy_fill(cs);
->  				if (err)
->  					return err;
-> diff --git a/fs/splice.c b/fs/splice.c
-> index e6d43329ed3f0..df73a4e65118b 100644
-> --- a/fs/splice.c
-> +++ b/fs/splice.c
-> @@ -956,6 +956,7 @@ static ssize_t do_splice_read(struct file *in, loff_t *ppos,
->  			      unsigned int flags)
->  {
->  	unsigned int p_space;
-> +	ssize_t ret;
->  
->  	if (unlikely(!(in->f_mode & FMODE_READ)))
->  		return -EBADF;
-> @@ -977,7 +978,12 @@ static ssize_t do_splice_read(struct file *in, loff_t *ppos,
->  	 */
->  	if ((in->f_flags & O_DIRECT) || IS_DAX(in->f_mapping->host))
->  		return copy_splice_read(in, ppos, pipe, len, flags);
-> -	return in->f_op->splice_read(in, ppos, pipe, len, flags);
-> +	ret = in->f_op->splice_read(in, ppos, pipe, len, flags);
-> +
-> +	/* Fallback to copying when hitting folio refcount limits. */
-> +	if (unlikely(ret == -EOVERFLOW) && in->f_op->read_iter)
-> +		ret = copy_splice_read(in, ppos, pipe, len, flags);
+On Fri, 06 Nov 2026, Shuai Liu wrote:
+> Hi Al, Neil,
+>=20
+> I've been digging into this syzbot report and would like to share an
+> analysis and ask for your insight on where the invariant breaks.
+>=20
+>   syzbot dashboard: https://syzkaller.appspot.com/bug?extid=3D2ed46b6b748df=
+855347f
+>   Title: WARNING in filename_symlinkat (PREEMPT_RT, still open)
+>   First reported: February 2026; syzbot's own retests are flaky
+>   (10 of the last 15 retests report "no crash"), and earlier fix
+>   attempts posted to the discussion thread did not resolve it.
 
-here it can't tell where the -EOVERFLOW came from, if another file
-returns -EOVERFLOW (i.e. tty_fops uses copy_splice_read, and
-n_hdlc_tty_read() returns -EOVERFLOW after dropping the frame), it now
-gets a second read. also, the first read already lost data. so the data
-read returns different data, the dropped frame is never reported and
-returns the next frame instead.
+Interesting - thanks for looking into this.
+
+>=20
+> 1. What the warning means
+> -------------------------
+>=20
+> The crash is a DEBUG_LOCKS_WARN_ON(rt_mutex_owner(lock) !=3D current)
+> fired from inode_unlock() called by end_dirop(), via:
+>=20
+>   filename_symlinkat
+>     -> end_creating_path()          (fs/namei.c)
+>        -> end_creating()            (include/linux/namei.h)
+>           -> end_dirop()            (fs/namei.c)
+>              -> inode_unlock(de->d_parent->d_inode)
+>=20
+> end_dirop() re-derives the directory to unlock from the *current*
+> value of de->d_parent:
+>=20
+>         struct inode *dir =3D de->d_parent->d_inode;
+>         ...
+>         inode_unlock(dir);
+>=20
+> while start_dirop() locked the parent's i_rwsem *before* performing
+> lookup_one_qstr_excl().  The warning therefore means that between
+> start_dirop() and end_dirop(), the returned dentry was re-parented:
+> we took the lock on inode A but are now releasing inode B.  On
+> !PREEMPT_RT the same mismatch presumably happens silently.
+
+That is certainly one thing that the warning could mean.
+It could also mean that the ->d_parent point was corrupted.
+Or that the ->d_inode pointer in the parent was corrupted.
+Or that the i_rwsem in the parent inode was corrupted.
+Or that the i_rwsem was unlocked or re-initialised since it was locked.
+
+None of these seem likely, but we shouldn't exclude the possibility.
+
+The original version of this syzbot report (e.g.  2nd Feb) was caused
+by i_rwsem being re-initialised (aka corrupted).
+It was fixed by
+  Commit: 2ff7cf7e0640 ("gfs2: Call unlock_new_inode before d_instantiate")
+
+The corruption happened because unlock_inode_new() reinitialised the
+i_rwsem *after* it has been exposed in the dcache via a d_instantiate()
+call.
+
+That bug is fixed in the more recent instances.  But something is
+causing a similar symptom.
+
+It appears that syzkaller is exercising lots of different filesystems
+and we don't know which one triggered the problem.  It would be useful
+if we could get a crashdump - is that possible?
 
 
--- 
-cheers,
-jose a. p-a
+>=20
+> 2. What I checked and could not break
+> -------------------------------------
+>=20
+> For de->d_parent to change, something must move `de` itself (d_move()
+> family) while we hold it.  I audited the plausible candidates:
+>=20
+>   a) lookup_one_qstr_excl()/d_lookup(): lookups hash under the parent
+>      and never re-parent an existing dentry.  No window.
+>=20
+>   b) d_splice_alias_ops()/d_splice_alias() during a lookup of a
+>      directory, which is the classic way a dentry gets moved to
+>      another parent:
+>        - IS_ROOT alias branch: __d_move(new, dentry) under
+>          write_seqlock(&rename_lock) moves the *existing* alias into
+>          the freshly allocated lookup dentry's slot; the destination
+>          is a new dentry, not the dirop's held one.
+>        - !IS_ROOT branch: __d_unalias(dentry, new) takes
+>          s_vfs_rename_mutex and then inode_trylock_shared() on the
+>          alias's old parent, and bails out with -ESTALE if the
+>          trylock fails; the moving victim is the alias, not `de`.
+>=20
+>   By static reading I could not construct an interleaving in which
+>   the dentry returned by start_dirop() gets its d_parent changed
+>   while the dirop's exclusive parent lock is held.  Either I am
+>   missing a caller, or the mechanism is subtler than the alias
+>   paths -- hence this email.
+>=20
+> 3. Instrumentation result: ~48k iterations, zero hits
+> ------------------------------------------------------
+>=20
+> To get runtime evidence I added two DEBUG probes to the tip of the
+> paths in question (both compiled only under CONFIG_PREEMPT_RT):
+>=20
+>   - end_dirop(): read rt_mutex_owner() of de->d_parent->d_inode and
+>     warn with full context (dentry/parent pointers, %pd names, inode
+>     numbers, d_flags, filesystem/superblock, comm, pid, owner comm)
+>     whenever owner !=3D current -- i.e. log *before* the kernel's own
+>     debug check fires;
+>=20
+>   - end_creating_path(): compare path->dentry (the parent whose lock
+>     start_creating_path() took) against dentry->d_parent at the end,
+>     to catch divergence even if the ownership warning never fires.
+>=20
+> I then looped syzbot's C reproducer (gfs2 with lock_nolock, mount /
+> chdir / creat / open(".") / symlinkat+renameat2 racing threads) under
+> QEMU/KVM with the syzbot-provided PREEMPT_RT config, across ~48,000
+> reproducer iterations.  Result: zero probe hits, zero false
+> positives -- the probes print nothing in a completely healthy run,
+> and the kernel-side check never fired either.
+>=20
+> So the window is real (syzbot hit it) but extremely narrow, and my
+> repro cannot reach it locally.
+>=20
+> 4. Questions
+> ------------
+>=20
+>   Q1: Is end_dirop()'s contract deliberately "unlock whatever
+>       de->d_parent points to now", relying on an assumption that no
+>       path can re-parent the dentry while the dirop parent lock is
+>       held?  Or would it be more robust for start_dirop() to
+>       remember the exact directory it locked (e.g. return the locked
+>       inode alongside the dentry) and have end_dirop() unlock that
+>       captured inode?
+
+Yes, that contract is deliberate.  start_dirop() finds a dentry and
+locks it so that the parent *cannot* change.
+So assuming that it hasn't changed is the same as assuming the it is
+behaving correctly.
+
+There is an exception in that an alternate dentry may be substituted
+(returned from d_splice_alias()) but it must have the same parent.
+
+>=20
+>   Q2: Which callers of d_move()/__d_move() do you see as plausible
+>       candidates for re-parenting a held create/remove dentry?
+>       Candidates I could not fully rule out by reading are callers
+>       outside the lookup path itself (rename on another mount of the
+>       same file, network/cluster filesystems revalidating and
+>       re-parenting dentries, overlayfs redirect/merge behavior, ...).
+
+I cannot see any of them as plausible.
+
+
+>=20
+>   Q3: If no re-parenting path exists, could the divergence instead
+>       originate at start time -- i.e. start_creating_path() locking
+>       one parent while the dentry handed to end_creating() was
+>       created under a different one?  My end_creating_path() probe
+>       compares exactly that and never fired, which argues against
+>       it, but a second pair of eyes on that layer would help.
+
+I strongly suspect a corruption of some sort.
+
+NeilBrown
+
+
+>=20
+> Happy to share the instrumented kernel, probe diffs, and full boot
+> logs.  The reproducer is the one attached to the syzbot report, so
+> anyone with a PREEMPT_RT build can try it directly.
+>=20
+> Thanks,
+> Shuai Liu (=E5=88=98=E5=B8=85)
+>=20
+>=20
+>=20
+
