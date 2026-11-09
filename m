@@ -1,44 +1,44 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794268281;
-	b=a9eAedaYFP+hdmnASI+FxNJGraTR+rk1bFPy0Gm6t2ULEs3Zivxz37ZvzgqKKmhyURkR
-	 rzXUF4a7WL8+KmpQ7+QLCVXyW/qKC92nCHlQ2v0LNYx0FUmYgveT1HrU7q8tsTo+NaLaz
-	 LWZJswht9VAKJnYXf9Wud5PJvAKeIrTSr6q3tuDniFZszjNVBexNgoNM8aFkctlMEi8ri
-	 lmkR+327RNNoMZ6HyP4H+5Q8nqdu+pow2B3tPYQWdEE0d4Ow8NQMZPAe8W0yUX5pxgOWz
-	 1+/CXzMiL5MYmj1MSq4FyF7eOPD0cb504pI4njWVLUMkFnp7X84guydV4/OprYtSK8w==
+	t=1794268289;
+	b=LYD+c4bwknP0W6JRKp2cR84AAFtPhMRFEiH8biMkVAOmZOYVbaBxJ9NVn3kNMMSdTCX2
+	 oWJQBNEWCD0mOw+1EqVhb3glGDKvYepQkFNw3rsb+fTcqsDYOAEYcAoWUdYb99l4aSHlE
+	 a0hTFKNxOGunU31upKMfqtSF8YIt3rwAY1lnr7rTDbUwA+4PsHmkrm52P3ydOTZYKp2Pk
+	 k+cUphxyj6czK/dGT5qkVQAJX6Yiaq41GWLMTZl8qV+SZHvweJ+6GjXW3xklBgZzQhxLI
+	 VWC8fiZELatIPBM8SgtpIYM5Wz0JFrrvNfoLPLyj6hXNX7+QvIHcRIR0o02DdnYeaUA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794268281;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794268289;
 	h=Received:DKIM-Signature:From:To:Subject:Date:Message-ID:In-Reply-To:
 	 References:MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=xebwCZ71jTrY9GbqrwXpYwC1G6Q6Dw22Bz/PxvMl554=;
-	b=a4XsG31fCiIf0pUAFNqVMWXzOSvRgxu92fB1m7WfIkQ6Sp5eH+GFR5WWFKo8RDhSbfVi
-	 dq9Q2HJKlEL/sqxVuRA5BMPzqQnv0uRCmxt1dQc+DooR5K7/RFxE8VTo4m7tOiUrbOxHO
-	 ZUpzDkcdUgTs2zJExEJxHWEOVxCLvxnrZ+qNELonAN/5dhALQrtHQuJFIwjpf1wrFZq+O
-	 G5gxQO10JMhGYox9/lxAvTgxqzGvq6JmSL9rLYeSYc/PO2iWOlunnadM7kncfc42MGjSk
-	 06h5/l0R3dG97tDfZ1oHMH55feJpnF2yLHQYAVioIVRrnjZm/VLfTFFxW/cB5OZYDGg==
+	bh=QDooGSmj6o+7BecvXiHqRFpr+EwV+FnQqyyovvptWSw=;
+	b=pcv+ubsWQEbhO1WifTtSDPtW7qfOSDyPhHhx7gvwUQNxaVlGAwkZdM+01YjqWUsqnQrQ
+	 pE16NzUAezGlCojLjtoIJJwt5TRUcePSAYSVP7bz6tuJ7RSce/FQGOBNEyugMMkftvwK6
+	 v0enK0S033hnv5cPpfMgjGmKuEtwkhLM0vcBIqYIvUHqSwsqcLtFp9hKZF/azEiAaX/Fz
+	 vnKOOKZuuxeaoEIvau2X4WqX2QTPYoB62Idl33Y5znN5Y4o17SaCBoXsnNRIP5TNhA0KB
+	 ZM5tEBSDa94n2LGrOHwCfQsF1ioLPTQcQiLDId1Uyb9/r/5DpxUpCHKT3EIh6wajVNA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DUUfDsXY;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=frwkv9fM;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B88860A2600;
-	Mon,  9 Nov 2026 23:51:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A567E606A326;
+	Mon,  9 Nov 2026 23:51:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DUUfDsXY
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7F9D1F00900;
-	Mon,  9 Nov 2026 23:51:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=frwkv9fM
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D4401F00900;
+	Mon,  9 Nov 2026 23:51:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794268281;
-	bh=xebwCZ71jTrY9GbqrwXpYwC1G6Q6Dw22Bz/PxvMl554=;
+	s=k20260515; t=1794268288;
+	bh=QDooGSmj6o+7BecvXiHqRFpr+EwV+FnQqyyovvptWSw=;
 	h=From:To:Subject:Date:In-Reply-To:References;
-	b=DUUfDsXYi1WN7hevkFFr+Q30XN5fqR1eQdUqouT7ztBKf2vujvRi6IAUvSUlMRCjS
-	 D+EonbPfBbdt2+TRn6bHwQl4TivZwHNl/lc6XyQ6Dwdsi+RQucJnOtv6VoUzsSF5f6
-	 dpSow+Rtgn0wlKpw5hT8AIMhqtDE+Imc0/TM9gk66GVQYWjOFsf3usH+L/CRhePhaT
-	 aN82dI9nYLi/+vH9hGir9tgERAFWKiJELW13I/FIFnNuMEPGbktawlmWsuMjGoXE4V
-	 MJjw9nj+y38C2IR30WxxPbJ+nHfuturUC694z4aoAD+jWAAZ3K6bX2BgRFXpjnyzDY
-	 zoM6BvWSCXjxg==
+	b=frwkv9fMlEG8vp+JQMtGpatzZTOVa5eyoBqQUJnTxdS1XVYIbxHL/TM+FrH1wDroY
+	 PifbHkzzrohxl+78qP1uyRrTpoKCwIhi1uwCmvaf/3rwG5WwxZhA2vCDLrZvK6AAWp
+	 mkB+uHaZr6X1Be3MsfTLoGbCnKaywFSXRX8QeevDepcbT0+Mxm/XXNmWQ07+9n1SBp
+	 btGEDlr5WRV2D4jbgYdTN0EHPbAZHQqH0SXd/qzqGhor6DEPKr+1wZXPGGHAyDYp5D
+	 MUIImvetkpZ93A+rVK+02C7Vrs8hm1TQIJni47e1UzuX/3tFHM+dt1gU3+IMssQ4hG
+	 ymSTo7QJiTZiA==
 From: Chris Mason <mason@kernel.org>
 To: mason@kernel.org,
 	tytso@mit.edu,
@@ -50,9 +50,9 @@ To: mason@kernel.org,
 	hch@lst.de,
 	linux-xfs@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org
-Subject: [PATCH v6 05/10] fs: validate atomic writes after O_APPEND and limits
-Date: Mon, 09 Nov 2026 18:51:16 -0500
-Message-ID: <20261109235111.14129-6-mason@kernel.org>
+Subject: [PATCH v6 10/10] xfs: restart faults racing with realtime flag changes
+Date: Mon, 09 Nov 2026 18:51:21 -0500
+Message-ID: <20261109235111.14129-11-mason@kernel.org>
 In-Reply-To: <20261109235111.14129-1-mason@kernel.org>
 References: <20261109235111.14129-1-mason@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -67,114 +67,113 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-An RWF_ATOMIC write on XFS with reflink can expose stale disk contents
-if O_APPEND or RLIMIT_FSIZE leaves it sector aligned but not block
-aligned.
+On a zoned XFS, a store through a shared mapping can dereference a NULL
+pointer, or corrupt the free block counter, if the realtime flag of the
+file changes during the write fault.
 
-XFS and ext4 call generic_atomic_write_valid() on the range that the
-caller passed. But generic_write_checks() changes the range later:
-O_APPEND moves the position, and RLIMIT_FSIZE cuts the length. XFS can
-then fill only a part of a new block, and still map the whole block into
-the file:
+xfs_write_fault() reserves zoned space only for a zoned inode, and tests
+for that with no lock held. xfs_buffered_write_iomap_begin() tests again
+before it takes the ILOCK. FS_IOC_FSSETXATTR can change the flag of a
+file with no blocks between the two tests, since a fault never takes the
+IOLOCK:
 
-    block size 4096, i_size 512, O_APPEND
-    validated:        0 to 4095
-    written:          512 to 4607
-    new blocks:       0 to 8191
-    stale below EOF:  0 to 511
+    write fault                           FS_IOC_FSSETXATTR
+    ===========                           =================
+    xfs_write_fault()
+      sees that the inode is not zoned
+                                          sets the realtime flag
+    xfs_buffered_write_iomap_begin()
+      sees that the inode is zoned
+      /* ac is NULL */
 
-The fix used here is to validate an atomic write in
-generic_write_checks(), after its range is final, and to refuse one that
-was cut. XFS no longer picks the path of an atomic write by the
-alignment of the range that the caller passed.
+If the flag is cleared instead, xfs_zoned_buffered_write_iomap_begin()
+can be waiting for the ILOCK at that time. It then reserves blocks the
+zoned way on a regular inode, and the free block counter ends up too
+high.
 
-Fixes: f096207d3276 ("xfs: Validate atomic writes")
-Fixes: 43c696f9d094 ("ext4: Check for atomic writes support in write iter")
+The fix used here is to test again under the ILOCK, before blocks are
+reserved or allocated, and to return -EAGAIN if the flag has changed, so
+that the fault starts over.
+
+Fixes: 058dd70c65ab ("xfs: implement buffered writes to zoned RT devices")
 Signed-off-by: Chris Mason <mason@kernel.org>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 ---
- fs/ext4/file.c    |  4 ----
- fs/read_write.c   | 13 +++++++++++++
- fs/xfs/xfs_file.c | 17 +++++++++++------
- 3 files changed, 24 insertions(+), 10 deletions(-)
+ fs/xfs/xfs_iomap.c | 33 ++++++++++++++++++++++++++++++++-
+ 1 file changed, 32 insertions(+), 1 deletion(-)
 
-diff --git a/fs/ext4/file.c b/fs/ext4/file.c
-index 50d3c92709c8..e301d4faf1c3 100644
---- a/fs/ext4/file.c
-+++ b/fs/ext4/file.c
-@@ -802,10 +802,6 @@ ext4_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
- 		if (len < EXT4_SB(inode->i_sb)->s_awu_min ||
- 		    len > EXT4_SB(inode->i_sb)->s_awu_max)
- 			return -EINVAL;
--
--		ret = generic_atomic_write_valid(iocb, from);
--		if (ret)
--			return ret;
- 	}
- 
- 	if (iocb->ki_flags & IOCB_DIRECT)
-diff --git a/fs/read_write.c b/fs/read_write.c
-index 676728310899..1b34b7382619 100644
---- a/fs/read_write.c
-+++ b/fs/read_write.c
-@@ -1775,6 +1775,19 @@ ssize_t generic_write_checks(struct kiocb *iocb, struct iov_iter *from)
- 	if (ret)
- 		return ret;
- 
-+	/*
-+	 * O_APPEND has moved the position and the file size limits have
-+	 * shortened the write by now, so this is the range to validate.  An
-+	 * atomic write is all or nothing, so refuse it if it got shorter.
-+	 */
-+	if (iocb->ki_flags & IOCB_ATOMIC) {
-+		if (count != iov_iter_count(from))
-+			return -EINVAL;
-+		ret = generic_atomic_write_valid(iocb, from);
-+		if (ret)
-+			return ret;
+diff --git a/fs/xfs/xfs_iomap.c b/fs/xfs/xfs_iomap.c
+index c3465204b8d5..3e71d619c657 100644
+--- a/fs/xfs/xfs_iomap.c
++++ b/fs/xfs/xfs_iomap.c
+@@ -264,6 +264,23 @@ xfs_iomap_eof_align_last_fsb(
+ 	return end_fsb;
+ }
+
++/*
++ * A write fault picks the zoned or the regular path before it takes a lock, and
++ * it never takes the IOLOCK, which keeps the realtime flag stable for all other
++ * callers.  The flag cannot change under the ILOCK, or once the inode has
++ * blocks.  So look at it again under the ILOCK, before reserving or allocating
++ * blocks, and make the fault start over if it has changed.
++ */
++static int
++xfs_iomap_rtflag_changed(
++	struct xfs_inode	*ip)
++{
++	xfs_warn_ratelimited(ip->i_mount,
++		"RT flag modifying during page fault for inode 0x%llx.",
++		VFS_I(ip)->i_ino);
++	return -EAGAIN;
++}
++
+ int
+ xfs_iomap_write_direct(
+ 	struct xfs_inode	*ip,
+@@ -334,6 +351,11 @@ xfs_iomap_write_direct(
+ 	if (error)
+ 		return error;
+
++	if (xfs_is_zoned_inode(ip)) {
++		error = xfs_iomap_rtflag_changed(ip);
++		goto out_trans_cancel;
 +	}
 +
- 	iov_iter_truncate(from, count);
- 	return iov_iter_count(from);
- }
-diff --git a/fs/xfs/xfs_file.c b/fs/xfs/xfs_file.c
-index be1f775128d1..153f53f964b9 100644
---- a/fs/xfs/xfs_file.c
-+++ b/fs/xfs/xfs_file.c
-@@ -926,12 +926,21 @@ xfs_file_dio_write(
- 	if ((iocb->ki_pos | count) & target->bt_logical_sectormask)
- 		return -EINVAL;
- 
-+	/*
-+	 * An atomic write is at least one block long, and generic_write_checks()
-+	 * refuses it unless its final position is a multiple of its length.  So
-+	 * there is no unaligned case to handle for it.
-+	 */
-+	if (iocb->ki_flags & IOCB_ATOMIC) {
-+		if (xfs_is_zoned_inode(ip))
-+			return xfs_file_dio_write_zoned(ip, iocb, from);
-+		return xfs_file_dio_write_atomic(ip, iocb, from);
+ 	error = xfs_iext_count_extend(tp, ip, XFS_DATA_FORK, nr_exts);
+ 	if (error)
+ 		goto out_trans_cancel;
+@@ -1668,7 +1690,6 @@ xfs_zoned_buffered_write_iomap_begin(
+
+ 	ASSERT(!xfs_get_extsz_hint(ip));
+ 	ASSERT(!(flags & IOMAP_UNSHARE));
+-	ASSERT(ac);
+
+ 	if (xfs_is_shutdown(mp))
+ 		return -EIO;
+@@ -1682,6 +1703,11 @@ xfs_zoned_buffered_write_iomap_begin(
+ 	if (error)
+ 		return error;
+
++	if (!xfs_is_zoned_inode(ip) || !ac) {
++		error = xfs_iomap_rtflag_changed(ip);
++		goto out_unlock;
 +	}
 +
- 	if ((iocb->ki_pos | count) & ip->i_mount->m_blockmask)
- 		return xfs_file_dio_write_unaligned(ip, iocb, from);
- 	if (xfs_is_zoned_inode(ip))
- 		return xfs_file_dio_write_zoned(ip, iocb, from);
--	if (iocb->ki_flags & IOCB_ATOMIC)
--		return xfs_file_dio_write_atomic(ip, iocb, from);
- 	return xfs_file_dio_write_aligned(ip, iocb, from,
- 			&xfs_direct_write_iomap_ops, &xfs_dio_write_ops, NULL);
- }
-@@ -1128,10 +1137,6 @@ xfs_file_write_iter(
- 
- 		if (ocount > xfs_get_atomic_write_max(ip))
- 			return -EINVAL;
--
--		ret = generic_atomic_write_valid(iocb, from);
--		if (ret)
--			return ret;
- 	}
- 
- 	if (IS_DAX(inode))
--- 
+ 	if (XFS_IS_CORRUPT(mp, !xfs_ifork_has_extents(&ip->i_df)) ||
+ 	    XFS_TEST_ERROR(mp, XFS_ERRTAG_BMAPIFORMAT)) {
+ 		xfs_bmap_mark_sick(ip, XFS_DATA_FORK);
+@@ -1865,6 +1891,11 @@ xfs_buffered_write_iomap_begin(
+ 	if (error)
+ 		return error;
+
++	if (xfs_is_zoned_inode(ip)) {
++		error = xfs_iomap_rtflag_changed(ip);
++		goto out_unlock;
++	}
++
+ 	if (XFS_IS_CORRUPT(mp, !xfs_ifork_has_extents(&ip->i_df)) ||
+ 	    XFS_TEST_ERROR(mp, XFS_ERRTAG_BMAPIFORMAT)) {
+ 		xfs_bmap_mark_sick(ip, XFS_DATA_FORK);
+--
 2.55.0
 
