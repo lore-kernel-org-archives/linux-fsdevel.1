@@ -1,49 +1,92 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794243156;
-	b=aiddJSTWAC3S2zGzcAPVd9iJm+wUBlUMWJ3tyjZWOGJAdA5o+la+fU9XlmH+kY0a3bcx
-	 BzHhx1sD4NO+WJswlLqzsvV0BKCYfLYcM+YDX+x1Y8anqxhdvV6lfB6N0jXBGzswaMdUx
-	 RoivBbeLXJb4VzCc6Gr7/Juj8n2L02C9rRFsGkDI7bCuI0F9U23ixevqlw6s2aNaj32OA
-	 DK1MFKQh5uSM3Z5wY8m5/kO1cJfvRdBs2NLTyhjtmqlrTJc0shiJsFUAjPlIYXEmtHuW5
-	 IFXaSNoIf68gMDxIy6XdIwEm68DzzjhVwXmkg0TyF2Vd/Get3ly5CQMh9R4A8IMX9nQ==
+	t=1794243693;
+	b=bo5N8n5pghPISVXkWWLZa/ka9T65WL/RPtlUjuquAlvOzMc/w/YZ7M5bgcofMRL5z9Ut
+	 0srDCxGsD926nEEIofJvwuDMnxyqSld04U7QxdNAT0Wa0QdeRmJJssFfWHWZp/mGAOK2H
+	 k4/ggjJBn1Rk8dDPecI2DxIVFwtDo9mA6YTQ4Rqd0GZJdccibtkyS0dyaI7mvfKNtI2Qg
+	 D4cfuoWwD4/revKwhsibQpyWUn8UHGtuh2aJICu/vmkO5JgkPLgbxSwNvYy3Ko4VO79aV
+	 QBqqz6TorZPxA53GU2dH4w9fkzVJYqbYwY8pxKXJrc96xXZBmmIxyEMLIJgNMhTcjrg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794243156;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=BadfbEzt++8z0w/0JooA8YMHaAQJPS2a003BZBq4VbE=;
-	b=FesabsY8DYrcZQwmZLk/3VwQBFyFHYiJCY9rHUmJ5WFVge1pxpRaMDCK3R+K5a44qvKr
-	 vM6zVNVLnlxuxAHdlGUo1lngP7umU2TITzWHEyWrGqz/s/ijjNKFcJdV+wjapEAzF4rUt
-	 TmpJLg/HuGn9CVICChpChUXtrHDxrxTtw5cSLlIEpyKF30yHmGHCKTE/gCwQAx57tPk0L
-	 KYCtUXK95djd/71hkeHUkhRGD3cifMI53yv4/hnmnWsz4XL4/wWOQZ13vKTRrXKLotZRd
-	 7VCrvHhpTsSrtoDNdfpDH8sORJqHqowLXX41hUPUYhsBnBWfgrQxN+uvf54boKiC5kw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794243693;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=IJJA/oulexA9Wi8BzNg299HmiKK85/J/7UwO2YuuFAE=;
+	b=eSfCMfqMaI8ss/HQPgU0e21qC/QmM46qLqk2O1T470sBkdhumKod9yct53gg+J366mfA
+	 3tBpEMkR1DR6CEhBYvrBK7XOdLMAfKdA9799MYeJpe5x1EPKXql6CX5nIFV+R+BUGIFLT
+	 U0gXIKhr9N0jxDVHkhGWl/OSsgF6bZoKC+TpStpKAUDrxk/GipDOkk4cSTspCisJNkQjf
+	 eR/xXJk5fUdildMHKwauOQodQBBDEIBDroKs7/Q4jCp5n52AKy6yOTljT1UfXBl2NqYie
+	 FD40p+VqF4qx/RhAK+WbUOKQtQ6Z35cqRy9tXaRxMFb4pzqQQGtuJ4pt+YSzDsNK2tQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fOTvZvnD;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OXe4ayyk;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93461606EE9F;
-	Mon,  9 Nov 2026 16:52:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BC2C606A31C;
+	Mon,  9 Nov 2026 17:01:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fOTvZvnD
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A8B41F008A5;
-	Mon,  9 Nov 2026 16:52:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OXe4ayyk
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BAE241F008A1;
+	Mon,  9 Nov 2026 17:01:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794243156;
-	bh=BadfbEzt++8z0w/0JooA8YMHaAQJPS2a003BZBq4VbE=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=fOTvZvnDDNpHYZVBuar2z0B7PqQqFnLCRG982csJjGxmBavCV6XknJa7dzxn4QvV/
-	 y4d6pXcpBjo0MgsPCf8iBWysWdXA/5MffD+vzoUo5UaicU1BE+A372MYC65LL3UhUG
-	 0H23torrc0y4LgeTRmLqbJtf6EdXoRal8SWkz2jro4ND6LdFXWpgjZHj5VbLcxYtxW
-	 Oq9gg3D3JPeQ2OCr68UropRM2vp5GwScp5ta9RxeIGqx4g25VG+DGZS4PZmKqzbyCS
-	 RaOa8HaEIF0h5fvBHCIlHu5mWxG9Ac7yB6FmtYA9MCS47et6fzYCd0iE5I5eBD4CcF
-	 zK30HukuI3yBA==
-From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 09 Nov 2026 17:51:27 +0100
-Subject: [PATCH RFC v3 12/14] minix: drop mmb_sync() from
- minix_evict_inode()
+	s=k20260515; t=1794243693;
+	bh=IJJA/oulexA9Wi8BzNg299HmiKK85/J/7UwO2YuuFAE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=OXe4ayykX8PUhC/4mrNJvncbfHA3iL/5BrhRULUfvCb//HukvqL4y9L8+ZI2+vW9+
+	 doj8jdAoDBms4Y/TX9s9GeRGv6bI1Ltpt/Lu8J5o8F0yXtKHYH960N4EPGuHQUuiS/
+	 B22zxkwtnpfjOTfPuxCsPIbzylf0Elc7CEBHgMSoo+UQXgyzRCL+P50xk8E142A+WV
+	 j64x0q5W0uSDp/Hk2Xq4WbWA/NCM/42wyA2jcpJB/sy6XhQedT2XBt20lZtmVJqQ2t
+	 K4ASDB/NlEAdIJVJoGnNwe0XMIyt/1Qbr/6ykjLENJ/RenFPKeiz7rH3eSvw6S5CQS
+	 hlY+XwYPl3T9g==
+Date: Mon, 9 Nov 2026 17:01:17 +0000
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Rik van Riel <riel@surriel.com>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Harry Yoo <harry@kernel.org>, Jann Horn <jannh@google.com>, Lance Yang <lance.yang@linux.dev>, 
+	Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
+	Barry Song <baohua@kernel.org>, Usama Arif <usama.arif@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Xu Xin <xu.xin@linux.dev>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+	Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>, 
+	Shrikanth Hegde <sshegde@linux.ibm.com>, Pedro Falcato <pfalcato@suse.de>, 
+	Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Leon Romanovsky <leon@kernel.org>, SJ Park <sj@kernel.org>, 
+	Rakie Kim <rakie.kim@sk.com>, David Rientjes <rientjes@google.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
+	Adrian Hunter <adrian.hunter@intel.com>, James Clark <james.clark@linaro.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	John Johansen <john.johansen@canonical.com>, Georgia Garcia <georgia.garcia@canonical.com>, 
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Mimi Zohar <zohar@linux.ibm.com>, 
+	Roberto Sassu <roberto.sassu@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
+	Eric Snowberg <eric.snowberg@oracle.com>, Fan Wu <wufan@kernel.org>, 
+	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej =?utf-8?B?TW9zbsOhxI1law==?= <omosnacek@gmail.com>, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, damon@lists.linux.dev, 
+	linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, apparmor@lists.ubuntu.com, 
+	linux-security-module@vger.kernel.org, linux-integrity@vger.kernel.org, selinux@vger.kernel.org
+Subject: Re: [PATCH 07/13] mm/madvise: convert madvise_vma_behavior() to use
+ vma_flags_t
+Message-ID: <avH8PeBwpa2K5vK6@gremlin>
+References: <20261105-late-2026-vma-flags-v1-0-0d3cd15ab75f@kernel.org>
+ <20261105-late-2026-vma-flags-v1-7-0d3cd15ab75f@kernel.org>
+ <65038fdc-f4a1-461d-b7b9-669885f15c3c@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -53,54 +96,29 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261109-work-inode-metadata_writeback-v3-12-91ac6c024018@kernel.org>
-References: <20261109-work-inode-metadata_writeback-v3-0-91ac6c024018@kernel.org>
-In-Reply-To: <20261109-work-inode-metadata_writeback-v3-0-91ac6c024018@kernel.org>
-To: linux-fsdevel@vger.kernel.org, Jan Kara <jack@suse.cz>
-Cc: Josef Bacik <josef@toxicpanda.com>, Chris Mason <mason@kernel.org>, 
- linux-ext4@vger.kernel.org, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, 
- Andreas Dilger <adilger.kernel@dilger.ca>, 
- Baokun Li <libaokun@linux.alibaba.com>, 
- Ojaswin Mujoo <ojaswin@linux.ibm.com>, 
- "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>, 
- Namjae Jeon <namjae.jeon@samsung.com>, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>
-X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=809; i=brauner@kernel.org;
- h=from:subject:message-id; bh=HxoLuBlB7R3nw39RjarD8ObpVPEAktRzXkj/RV6CKfM=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWR9/KW0NEP1A4+EXu3zQ6qchj2SJzl8Ota/t+5M0ZZ/P
- l8tXlWpo5SFQYyLQVZMkcWh3SRcbjlPxWajTA2YOaxMIEMYuDgFYCL1dxj+KelaBDfV3upvfOc2
- w+Bv19x7nzebdJyW2DE5c3lWW+8aP0aG9qeNupZdcx9eLTKKkuY1fZR7/ODnUzMOSjfIZ1pNmNr
- OCwA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <65038fdc-f4a1-461d-b7b9-669885f15c3c@kernel.org>
 
-evict() writes out what I_METADATA_WRITEBACK tracks before it calls
-->evict_inode() and since mmb_mark_buffer_dirty() sets the bit that
-includes the tracked metadata buffers. So there's nothing left for
-minix_evict_inode() to sync.
+On Mon, Nov 09, 2026 at 03:10:12PM +0100, David Hildenbrand (Arm) wrote:
+> > --- a/mm/ksm.c
+> > +++ b/mm/ksm.c
+> > @@ -779,7 +779,8 @@ static struct vm_area_struct *find_mergeable_vma(struct mm_struct *mm,
+> >  	if (ksm_test_exit(mm))
+> >  		return NULL;
+> >  	vma = vma_lookup(mm, addr);
+> > -	if (!vma || !vma_test(vma, VMA_MERGEABLE_BIT) || !vma_has_anon_rmap(vma))
+> > +	if (!vma || !vma_test(vma, VMA_MERGEABLE_BIT) ||
+> > +	    !vma_has_anon_rmap(vma))
+>
+> This change should be dropped form this patch IIUC.
+>
+> It would have to go into the previous one (that I applied) but it's not actually
+> required.
+>
+> Unless I am missing something :)
 
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
----
- fs/minix/inode.c | 2 --
- 1 file changed, 2 deletions(-)
+Yup I'm not bothered by whitespace-only changes :P Feel free to drop this bit!
 
-diff --git a/fs/minix/inode.c b/fs/minix/inode.c
-index 756bef4dc832..9fb938ec5868 100644
---- a/fs/minix/inode.c
-+++ b/fs/minix/inode.c
-@@ -50,8 +50,6 @@ static void minix_evict_inode(struct inode *inode)
- 	if (!inode->i_nlink) {
- 		inode->i_size = 0;
- 		minix_truncate(inode);
--	} else {
--		mmb_sync(&minix_i(inode)->i_metadata_bhs);
- 	}
- 	mmb_invalidate(&minix_i(inode)->i_metadata_bhs);
- 	clear_inode(inode);
-
--- 
-2.53.0
-
+--
+Cheers, Lorenzo
