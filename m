@@ -1,89 +1,107 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.176
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=130.238.7.173
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794253770;
-	b=mLuYBfXT1+GH0XzqzfYS6oJoZGphkL6nIdBHx9AzSZo1moyNppO+adIrKICa0AJaJ4sc
-	 3p3jo3mX2lNe2tWGHMu/AlK0ZD7XkgssIfQ3k/EJ7g+iptBOQFlgGczQiBoDCzHOX7U3q
-	 W7RYyBzd30m9p8Mxo6mx/wCBSuSwCVuFDmhwMvUCE0Ppg8ksv6B5mli0Tr+y0fVRkpNUe
-	 VGQcpf74t+HTBlCUszCB8WaZ2zkmR+pNngWOoRhNyk/qAC2m4KwvY3x+P45OF2xsUU0Ov
-	 Id/I5eRc8JZHJOuYkiYt0LlO3nDq2/7bskOA6p1jW6vkNeaXGs3qm74l8FGvkjVELJQ==
+	t=1794255829;
+	b=amKbgV5UZIEZglIeCr+M/jjboNtS0bkTiMQ5E+vQ1CBibG+pW8BuvnwTbbopwI2dvkUy
+	 twX63bz7xOHJs3Nxc8aNqLAuBs4pq50DiXdEiIIoCTDX2z8DiyhiUsRQiHWZWHfEWbVa/
+	 owT4bOaWegfyl0RijwxxWLHR3KVnhkQ8RvK/B5fj2ts9TPP+9z06jvgO0Qt0TEbSzTU/K
+	 Zli+exh/hxFRk/1K7AbnAQ1v2WwM3GFNvY1P+X1HODsGkbwylOf9F0625eqvTNw6qSrk3
+	 6WHjpHeQwYu2QSdrAfJdGMzMIdb/E3DLT9SNZ7vkYfln3y9a/WNsW+xTRsqpYuY4pvg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794253770;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key;
-	bh=S7QCKovtSRmz2zqep4Ju41CT+lBr0nj7AVsN7jaK33I=;
-	b=KpxhLoP/l2r5RP98TRWLkWEHXg9b0JGX+6FwrdFhUW72GdkChFmybqKgUF4J+FU+X5V6
-	 ZsQk9TdCOS69D3iG+rG+ZmaD1rXidJ95/Qg8azvO6+Olg7PCOvRCVsaoxqhtujU+BJ9UH
-	 EoUjpyKHRlmbcSPE8oWJGK1bUzFYWXyEO2JDHflhkqTLtB5rwWWdC5ZeKJ+tXEnqoQ2Rt
-	 EV4MI+/qSsOjAr0XgkpKoHi/KTmm67gjFoXJg0HbtlsfoJYa39MLUno7y76r2CEMHaeMf
-	 Fn/mmkawEji6eUSw1eSdMFwi3MjtHZQ1K8Sokz37+5kQL9cuXPQeib2zXqyCa9Yk0AQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794255829;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:X-Halon-ID:
+	 Received:Received:Received:Received:From:To:CC:Subject:Thread-Topic:
+	 Thread-Index:Date:Message-ID:References:In-Reply-To:Accept-Language:
+	 Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
+	 x-originating-ip:x-uu-exchange-origin:Content-Type:Content-ID:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=KaGwMk1e+AfoUTJG4NvEDeDGIVHChroWtiv1UPMkOr4=;
+	b=Dp9bpmndyr+D/61Khc8BU5fGTC7w40ChV782wgsWi669cgtNOpxVFdAPiHz7YzpNzS0x
+	 Wb3aSDoiKrqArG0ANdDbH0gyosPzerW6QCPQCR7tHDYkoc5qDkpzcRoS4bVWjmdN8VIiR
+	 NzoxscA30HaNm5fdx30uc9xkVUaeHxd2Rq0zOBHM8PdniA57hmjdDfvJG2G+RzJp93+ML
+	 pGFn9YfqRVpZH4dLosx20VdeoSK1+3JJHmWc6Tg+Uvyb6Oa7veO1a3v7Jm5IS4DHu1Crb
+	 f7k/qMuf9g8DlZ3+x0IxVS8l2o0u4Y3uqG3VHErpPxAHy3AN3ZF8hTgnj6Z7GFcRCpQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=toxicpanda.com;
-	spf=pass smtp.mailfrom=toxicpanda.com;
-	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=dnsh+z96;
-	arc=none smtp.remote-ip=209.85.222.176
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=it.uu.se;
+	spf=pass smtp.mailfrom=it.uu.se;
+	dkim=pass header.d=uu.se header.i=@uu.se header.a=rsa-sha256 header.s=centralsmtp2 header.b=R3JmpDgV;
+	dkim=pass header.d=it.uu.se header.i=@it.uu.se header.a=rsa-sha256 header.s=halon header.b=nzdMV3NV;
+	arc=none smtp.remote-ip=130.238.7.173
+Received: from smtp-out2.uu.se (smtp-out2.uu.se [130.238.7.173])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EC0560A2602
-	for <linux-fsdevel@vger.kernel.org>; Mon,  9 Nov 2026 19:49:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0EC0560A2602
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14576606A325
+	for <linux-fsdevel@vger.kernel.org>; Mon,  9 Nov 2026 20:23:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 14576606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=it.uu.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=it.uu.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=dnsh+z96
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-93f2049ea7aso83628985a.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 09 Nov 2026 11:49:29 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=uu.se header.i=@uu.se header.a=rsa-sha256 header.s=centralsmtp2 header.b=R3JmpDgV;
+	dkim=pass (2048-bit key, unprotected) header.d=it.uu.se header.i=@it.uu.se header.a=rsa-sha256 header.s=halon header.b=nzdMV3NV
+Received: from mailfilter-ng-1.sunet.se (mailfilter-ng-1.sunet.se [192.36.171.207])
+	by cursor.its.uu.se (Postfix) with ESMTP id 84141680094
+	for <linux-fsdevel@vger.kernel.org>; Mon,  9 Nov 2026 21:23:33 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uu.se;
+	s=centralsmtp2; t=1794255813;
+	bh=KaGwMk1e+AfoUTJG4NvEDeDGIVHChroWtiv1UPMkOr4=;
+	h=From:To:CC:Subject:Date:References:In-Reply-To;
+	b=R3JmpDgVHhPCqfJH0aJLQwHkw1VxhAuNvihCmk+Um9mmjwHvGELqOukLI+BGLjlNl
+	 VRjPTTkT4Iq7iSIS7xR+aDsjmOpR4cUO8PK1QskbgOfexHGLFHzObapuRL0DnqK19s
+	 FeZmF9OL9Wb9yp0pJbMZdhSTPPn9QYwFPIReK3N03ibkexJuz5aFEMB4CVakLukS0R
+	 q7pOOyodhi6njkyfjQDZyr5gswbXch7SaOMTzYlTltPaElW6rKJOUoFX2P1hiW3p0T
+	 Y6TKUH5W2qRCSTlsaWNTVDcHX+iXuUSx++vogDrg3T3daq79umTPxxGXbkUTgbuL+x
+	 cg9EcEHmJeDeQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toxicpanda.com; s=google; t=1794253769; x=1794858569; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=S7QCKovtSRmz2zqep4Ju41CT+lBr0nj7AVsN7jaK33I=;
-        b=dnsh+z96MhkHoxK/3+cgCXE2K7av8U/waEdp4BPWbPltsVOV9WICfQ90cMdOCEsRnV
-         HgL3afFrLi1/LJgWhmavusyfO2vN2R6qLm86fmja+GOMaT+eS7fWBnht0A8B5BGI3pu4
-         0mkG+CBTw84Ra6RyucKNgyDvSThrLqgDidSqZQU4hyQU3QoLTnIKHbvya7ioa92/f2bZ
-         8XLPrI09ZxQa5l/dLe5SgdyFuUv3Zfa0hso8KXLU8dV+7pg0HaOVXtP3Rh9wfmH6jTNn
-         kzh4YjmzBJ1UEayLAtzjHZegRAgVMqlVVdNMWxaUADtMGKRv9D1hyk8BvWWRtfFvr2aT
-         4DGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794253769; x=1794858569;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=S7QCKovtSRmz2zqep4Ju41CT+lBr0nj7AVsN7jaK33I=;
-        b=SU7W1IsU4rb72O2lZ55kNfmtnWJPrDxXMDOpr1+JDWrzJTzdFb1fy0V12mlX+c00Ej
-         kZF5kvyTWK41aJfLAY2KjNqU4IMzqtyc5OJF9LcUY1+/fyYY7O6KfMOMla4Qlug7hlh5
-         tLFXAs02qL4xXgLlB1oqePJzaY2ku7gSF8UrpY32oZan2/Ws2OwsaCHQ5Zuyy3bzq1FK
-         +GmwGFBaPvQzw/1aHjsCuxcFR8hFSOMVCNEFo2lF+GXxCoq6jjw9+gjJMEkylWtw4yLN
-         62ZbDxYtTsO4KYfa4Cz5A0TYs2FkHeSKevOoZeG4cza31QDfUrfNlWvIMaE76px3g74K
-         fSEg==
-X-Forwarded-Encrypted: i=1; AL+hErE+Tr5AzPOSI7qySYgVfRebNrW4bqDqhVOJvPDAbKr3HepYknAGqfbytfWjdHLVh27V1ewHlfjNmorySMQW@vger.kernel.org
-X-Gm-Message-State: APuU4Z9cJr5bijbZE0N46T7dGaTBcudzmPQTYB1Q1ne4YlkS6vwVhnOC
-	POcpMLdO0m1/IKBIFP0l+xoo7f6djPU5/biHm1DUJao41Y1krAN4DkKrWGykivuvsNju/7K4Cc2
-	OZ4HDv+M=
-X-Gm-Gg: AYBFou1g4FZsxFTSSdu9l3bg3dlOLb1T91O6JR5TW3myuCZhYRdE7N6/2Kw2Atw7srX
-	1xPOwBtA/kISnY2iwultfSArKAUDkduv8entPNgpGXwm9Cw1wRRo1dkpNSDG6//b7awrBw6KRG2
-	B03BY5Z3faZ60/PCmexsIVpscTbu0yLGQa2m40qcIJmBZ9c6LetaU3URV1mZxHkHdJ05diiTJrP
-	NnDiBiuXfoUrkiDhGicNn8dHi5OGAMhlv7neUxV9SrcHTOBqWNejGRSTKBWtSN66avFA4k5TM6C
-	VmDyVs1Ek51PHl6XB5lmnpevIu/MjmMiVi0dY/sGVLUQ84ICLWzxxwluqBz6RSXKazX3zUzJuIP
-	qf0dL8Xq/+dqpTlsfnbuYFAGaf2SlY5WSzgkhx4eJXeOm3pvYyjuywWmgtDAgEz9IlclDe6Xrve
-	bSSCfEA4eKZsgmylYQCwsLE5Ack87sb9lsaQJEHZHSO1gsNnvfAOC5XVcMhbUU5K5bOVhOr11lM
-	UJxwo6Adn+73hS/m5RsDXeGf1YuxYOgPq7K1R8HTklLc6Ay5osBr0h820iJ8rbjUJ0J8zdvw5gm
-	qCvmmfWtu/+VTSDgiqqq1X3/Yu6H01BJpES3dXsD/MH9JA==
-X-Received: by 2002:a05:620a:2687:b0:943:faab:a15b with SMTP id af79cd13be357-9479f31c515mr87878885a.32.1794253768911;
-        Mon, 09 Nov 2026 11:49:28 -0800 (PST)
-Received: from toxicpanda.com ([153.61.196.251])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9479e73ab4bsm50511785a.14.2026.11.09.11.49.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Nov 2026 11:49:28 -0800 (PST)
-From: Josef Bacik <josef@toxicpanda.com>
-Date: Mon, 09 Nov 2026 19:49:10 +0000
-Subject: [PATCH v9 1/3] userns: don't let setns() lend CAP_SETFCAP
+	d=it.uu.se; s=halon;
+	h=mime-version:content-transfer-encoding:content-id:content-type:in-reply-to:
+	 references:message-id:date:subject:cc:to:from:from;
+	bh=KaGwMk1e+AfoUTJG4NvEDeDGIVHChroWtiv1UPMkOr4=;
+	b=nzdMV3NVi2GAh/gVeMOCBl6jwo0Aj/73bWaLagi3eR1z5mzJP3jPoqtHG2J9NvXQGWg1WCjma9PVi
+	 x+Wvll1m9l5rDidUcKpi0x4hCXuvPCtdhBt9CK3VDwd7WUDksHZVqnR+sfyK5bENX+MIIUnhDXkAxP
+	 BIJl7Hv5mGdVP3Fo0nNNJb8gxZzk4xHLn4TVE9rZknJVj3pkUX2JQ9M6FVMGlno15/XAPrJF72UmI6
+	 y1no9LuqV1gVhGfmiNuMwOAwPTAoTVk2EOJYzVS5tjO5VQQS+JWjOL/rXtlGlmBhDYJHRpvo43UGtQ
+	 3/OlabBi7fsuYx7Idq7sXARetD/H60w==
+X-Halon-ID: 6e267a2e-dc7b-11f1-aa92-0050569a42e2
+Received: from lyra.its.uu.se (lyra.its.uu.se [130.238.7.73])
+	by mailfilter-ng-1.sunet.se (Halon) with ESMTPS
+	id 6e267a2e-dc7b-11f1-aa92-0050569a42e2;
+	Mon, 09 Nov 2026 20:23:31 +0000 (UTC)
+Received: from smtp.user.uu.se (uuc-epost011.user.uu.se [130.238.3.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by lyra.its.uu.se (Postfix) with ESMTPS id 1BAB4600082;
+	Mon,  9 Nov 2026 21:23:29 +0100 (CET)
+Received: from UUC-EPOST014.user.uu.se (130.238.3.24) by
+ UUC-EPOST011.user.uu.se (130.238.3.21) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.56; Mon, 9 Nov 2026 21:23:29 +0100
+Received: from UUC-EPOST014.user.uu.se ([130.238.3.24]) by
+ UUC-EPOST014.user.uu.se ([130.238.3.24]) with mapi id 15.02.2562.056; Mon, 9
+ Nov 2026 21:23:29 +0100
+From: Alireza Haddadi <alireza.haddadi@it.uu.se>
+To: Jan Kara <jack@suse.cz>
+CC: "Matthew Wilcox (Oracle)" <willy@infradead.org>, Andrew Morton
+	<akpm@linux-foundation.org>, Vishal Moola <vishal.moola@gmail.com>, fujunjie
+	<fujunjie1@qq.com>, "linux-fsdevel@vger.kernel.org"
+	<linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Roman Gushchin
+	<roman.gushchin@linux.dev>
+Subject: Re: [PATCH] mm/filemap: let sequential faults restart mmap readahead
+Thread-Topic: [PATCH] mm/filemap: let sequential faults restart mmap readahead
+Thread-Index: AQHdcFXobp3vto+/eEuuawUN31FcZrcl6TYAgAA1q4A=
+Date: Mon, 9 Nov 2026 20:23:29 +0000
+Message-ID: <5310BD2F-6626-44C9-A156-3B985552030A@it.uu.se>
+References: <20261109-mmap-miss-v1-1-8b44b33f3358@it.uu.se>
+ <gewwqi2kcu4nsitueyw2nd6g6eqjb3wqh4mks5lqcbkc6re4sn@eaqpgn2hxls5>
+In-Reply-To: <gewwqi2kcu4nsitueyw2nd6g6eqjb3wqh4mks5lqcbkc6re4sn@eaqpgn2hxls5>
+Accept-Language: en-GB, sv-SE, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-uu-exchange-origin: Internal
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <3F95716068C6FB47B44C1CCD18BF0777@user.uu.se>
+Content-Transfer-Encoding: base64
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -93,146 +111,179 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261109-b4-setfcap-userns-v9-1-0d3f00976ce2@toxicpanda.com>
-References: <20261109-b4-setfcap-userns-v9-0-0d3f00976ce2@toxicpanda.com>
-In-Reply-To: <20261109-b4-setfcap-userns-v9-0-0d3f00976ce2@toxicpanda.com>
-To: Serge Hallyn <serge@hallyn.com>, Paul Moore <paul@paul-moore.com>, 
- Christian Brauner <brauner@kernel.org>
-Cc: James Morris <jmorris@namei.org>, David Howells <dhowells@redhat.com>, 
- Jarkko Sakkinen <jarkko@kernel.org>, "Andrew G. Morgan" <morgan@kernel.org>, 
- Serge Hallyn <sergeh@kernel.org>, linux-security-module@vger.kernel.org, 
- linux-kernel@vger.kernel.org, keyrings@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, Shuah Khan <shuah@kernel.org>, 
- linux-kselftest@vger.kernel.org, Bradley Morgan <brads@mainlining.org>, 
- Josef Bacik <josef@toxicpanda.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openssh-sha256; t=1794253763; l=4765;
- i=josef@toxicpanda.com; h=from:subject:message-id;
- bh=MyoI12J2mS6a6d5ICXvJmRkK2bMGU7JBMjtmZLyO6gY=;
- b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgUBr36M/n0nWN0DNbnxwzIiCZez6MG
- JiruuNaSCI/zXsAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QGSqonFJbbSZ2NZMQQ+dnrbmFs4WNW7xsdPuq7j31htqLMJlL5iWw6jhY5KJWRmspfONjO1v8tf
- e21CpO1x36Q4=
-X-Developer-Key: i=josef@toxicpanda.com; a=openssh;
- fpr=SHA256:C8kOX2QUJCMqnCX+KEeoqRAjLo9L+ELOSH2NSAJHqGA
 
-A uid 0 task that gave up CAP_SETFCAP can get it back by joining a user
-namespace that another root task created.  Commit db2e718a4798
-("capabilities: require CAP_SETFCAP to map uid 0") keeps such a task
-from mapping uid 0 into a namespace it creates itself, because tasks in
-that namespace could then write file capabilities for its root user.
-setns() gives a joiner a full capability set in the namespace too, so
-it can do the same there:
-
-  task A: uid 0, full caps          task B: uid 0, no CAP_SETFCAP
-  unshare(CLONE_NEWUSER)
-                                    setns(A's user ns)
-                                      allowed, euid == ns->owner
-                                    write "0 0 1" to /proc/self/uid_map
-                                      A had CAP_SETFCAP -> allowed
-
-If A's namespace already maps host uid 0, at any uid, B can set
-security.capability on a file right away.  Either way uid 1000 can then
-run that file with CAP_SYS_ADMIN, which the selftest at the end of this
-series shows on an unmodified kernel.
-
-The check doesn't look at the joiner's uids, which it can change while
-keeping its other capabilities.  Containers that don't map the joiner's
-root user, tasks with CAP_SETFCAP and unprivileged users are not
-affected.
-
-Fix by refusing setns() when the joiner has no CAP_SETFCAP and tasks in
-the namespace can write file capabilities for the root user of the
-joiner's namespace.
-
-Suggested-by: Serge Hallyn <serge@hallyn.com>
-Link: https://lore.kernel.org/all/fd159e68-c613-4c7d-bfba-8af0a3f3a96e@hallyn.com/
-Fixes: db2e718a4798 ("capabilities: require CAP_SETFCAP to map uid 0")
-Signed-off-by: Josef Bacik <josef@toxicpanda.com>
----
- include/linux/capability.h |  3 +++
- kernel/user_namespace.c    |  4 ++++
- security/commoncap.c       | 30 ++++++++++++++++++++++++++++++
- 3 files changed, 37 insertions(+)
-
-diff --git a/include/linux/capability.h b/include/linux/capability.h
-index 622137f66f09..9ebcdab56937 100644
---- a/include/linux/capability.h
-+++ b/include/linux/capability.h
-@@ -34,6 +34,7 @@ struct cpu_vfs_cap_data {
- #define _USER_CAP_HEADER_SIZE  (sizeof(struct __user_cap_header_struct))
- #define _KERNEL_CAP_T_SIZE     (sizeof(kernel_cap_t))
- 
-+struct cred;
- struct file;
- struct inode;
- struct dentry;
-@@ -222,4 +223,6 @@ int get_vfs_caps_from_disk(const struct mnt_idmap *idmap,
- int cap_convert_nscap(const struct mnt_idmap *idmap, struct dentry *dentry,
- 		      const void **ivalue, size_t size);
- 
-+bool cred_borrows_setfcap(const struct cred *cred, struct user_namespace *ns);
-+
- #endif /* !_LINUX_CAPABILITY_H */
-diff --git a/kernel/user_namespace.c b/kernel/user_namespace.c
-index 50c374ed4687..34becacaccd6 100644
---- a/kernel/user_namespace.c
-+++ b/kernel/user_namespace.c
-@@ -1390,6 +1390,10 @@ static int userns_install(struct nsset *nsset, struct ns_common *ns)
- 	if (!ns_capable(user_ns, CAP_SYS_ADMIN))
- 		return -EPERM;
- 
-+	/* Don't hand back CAP_SETFCAP to a root task that gave it up. */
-+	if (cred_borrows_setfcap(current_cred(), user_ns))
-+		return -EPERM;
-+
- 	cred = nsset_cred(nsset);
- 	if (!cred)
- 		return -EINVAL;
-diff --git a/security/commoncap.c b/security/commoncap.c
-index d47ab3022343..0ece141c68a6 100644
---- a/security/commoncap.c
-+++ b/security/commoncap.c
-@@ -131,6 +131,36 @@ int cap_capable(const struct cred *cred, struct user_namespace *target_ns,
- 	return ret;
- }
- 
-+/**
-+ * cred_borrows_setfcap - Check whether a userns gives back CAP_SETFCAP
-+ * @cred: The credentials of a task that joins @ns or traces a task in it
-+ * @ns: The user namespace
-+ *
-+ * A task without CAP_SETFCAP can't map uid 0 of its namespace into a user
-+ * namespace it creates, see verify_root_map(), as tasks there could then
-+ * write file capabilities that are honoured for that root user.  Tasks in
-+ * @ns can do that for every kuid @ns maps.  While @ns has no uid_map yet,
-+ * they can still map uid 0 of the parent if the creator of @ns had
-+ * CAP_SETFCAP, and other uids of the parent without it.
-+ *
-+ * Return: true if @cred doesn't have CAP_SETFCAP and tasks in @ns can write
-+ * file capabilities for the root user of @cred's namespace.
-+ */
-+bool cred_borrows_setfcap(const struct cred *cred, struct user_namespace *ns)
-+{
-+	kuid_t root = make_kuid(cred->user_ns, 0);
-+	uid_t id;
-+
-+	if (cap_raised(cred->cap_permitted, CAP_SETFCAP))
-+		return false;
-+
-+	if (READ_ONCE(ns->uid_map.nr_extents))
-+		return kuid_has_mapping(ns, root);
-+
-+	id = from_kuid(ns->parent, root);
-+	return id != (uid_t)-1 && (id != 0 || ns->parent_could_setfcap);
-+}
-+
- /**
-  * cap_settime - Determine whether the current process may set the system clock
-  * @ts: The time to set
-
--- 
-2.55.0
-
+DQoNCj4gT24gOSBOb3YgMjAyNiwgYXQgMTg6MTEsIEphbiBLYXJhIDxqYWNrQHN1c2UuY3o+IHdy
+b3RlOg0KPg0KPiBPbiBNb24gMDktMTEtMjYgMTU6MjM6MjQsIEFsaXJlemEgSGFkZGFkaSB2aWEg
+QjQgUmVsYXkgd3JvdGU6DQo+PiBGcm9tOiBBbGlyZXphIEhhZGRhZGkgPGFsaXJlemEuaGFkZGFk
+aUBpdC51dS5zZT4NCj4+DQo+PiBBZnRlciBjb21taXQgMGI5YzBhZWJhOTM4ICgibW0vZmlsZW1h
+cDogY291bnQgb25seSB0aGUgZmF1bHRpbmcgYWRkcmVzcw0KPj4gYXMgYSBtbWFwIGhpdCIpLCBv
+bmNlIGEgZmlsZSdzIG1tYXBfbWlzcyBnb2VzIG92ZXIgTU1BUF9MT1RTQU1JU1MgaXQgY2FuDQo+
+PiBzdGF5IHRoZXJlIHVudGlsIHRoZSBmaWxlIGlzIGNsb3NlZC4NCj4+DQo+PiBXaXRoIG1tYXBf
+bWlzcyBvdmVyIHRoZSBsaW1pdCwgZG9fc3luY19tbWFwX3JlYWRhaGVhZCgpIHJlYWRzIG9ubHkg
+dGhlDQo+PiBwYWdlIHRoYXQgZmF1bHRlZC4gU2luY2Ugbm90aGluZyBnZXRzIHJlYWQgYWhlYWQs
+IG5vIGxhdGVyIGZhdWx0IGNhbg0KPj4gbGFuZCBvbiBhIHBhZ2UgdGhhdCByZWFkYWhlYWQgYnJv
+dWdodCBpbi4gSW4gdHVybiBmaWxlbWFwX21hcF9wYWdlcygpDQo+PiBuZXZlciBjb3VudHMgYSBo
+aXQsIGFuZCB0aGUgY291bnRlciBuZXZlciBjb21lcyBiYWNrIGRvd24uIEZyb20gdGhlbg0KPj4g
+b24gZXZlcnkgZmF1bHQgb24gdGhlIGZpbGUgcmVhZHMgb25seSBhIHNpbmdsZSBwYWdlLCBldmVu
+IHdoZW4gdGhlDQo+PiBhY2Nlc3MgaGFzIGJlY29tZSBzZXF1ZW50aWFsLg0KPj4NCj4+IEkgcmFu
+IGludG8gdGhpcyBvbiB2Ny4zIHdpdGggbGxhbWEuY3BwLCB3aGVyZSBhIG1vZGVsIGxhcmdlciB0
+aGFuIGl0cw0KPj4gbWVtb3J5IGxpbWl0IHNvbWV0aW1lcyBlbmRlZCB1cCBiZWluZyByZWFkIDQg
+S2lCIGF0IGEgdGltZSwgYnV0IG90aGVyDQo+PiBwcm9ncmFtcyBoaXQgaXQgYXMgd2VsbC4gQW55
+dGhpbmcgdGhhdCBkb2VzIHNvbWUgcmFuZG9tIHJlYWRzIGFuZCB0aGVuDQo+PiByZWFkcyB0aGUg
+c2FtZSBvcGVuIGZpbGUgaW4gb3JkZXIgZmFjZXMgdGhlIHNhbWUgcHJvYmxlbS4gSSB0ZXN0ZWQg
+dGhlDQo+PiBmb2xsb3dpbmc6DQo+Pg0KPj4gLSBTUUxpdGUgd2l0aCBtbWFwX3NpemUgc2V0LCAz
+MDAgcmFuZG9tIGxvb2t1cHMgZm9sbG93ZWQgYnkgYSBmdWxsIHNjYW4NCj4+ICAgb2YgYSAxLjgg
+R2lCIHRhYmxlLiBUaGUgc2NhbiB0b29rIDkuMy0xNC4yIHMgaW5zdGVhZCBvZiAyLjEgcyBpbiA4
+IG9mDQo+PiAgIDEwIHJ1bnMuDQo+Pg0KPj4gLSBudW1weS5tZW1tYXAsIDEwMDAgcmFuZG9tIHJv
+d3Mgc2FtcGxlZCBmcm9tIHRoZSBmaXJzdCA3NSUgb2YgYSA0IEdpQg0KPj4gICBhcnJheSBhbmQg
+dGhlbiB0aGUgbGFzdCAyNSUgcmVhZCBzZXF1ZW50aWFsbHksIGFzIGEgdHJhaW5pbmcgYW5kDQo+
+PiAgIGV2YWx1YXRpb24gbG9vcCB3b3VsZCBkby4gVGhlIHNlcXVlbnRpYWwgcGFydCB0b29rIDMu
+MyBzIGluc3RlYWQgb2YNCj4+ICAgMC4zIHMgaW4gNSBvZiA1IHJ1bnMuDQo+Pg0KPj4gR2l2ZSBh
+IHNlcXVlbnRpYWwgcmVhZGVyIGEgd2F5IGJhY2suIFdoZW4gcmVhZGFoZWFkIGlzIG9mZiBhbmQg
+dGhlIHBhZ2UNCj4+IGJlZm9yZSB0aGUgZmF1bHRpbmcgb25lIGlzIGluIHRoZSBwYWdlIGNhY2hl
+LCByZWFkIHRoZSBuZXh0IHBhZ2UgdG9vDQo+PiBhbmQgbWFyayBpdCB3aXRoIFBHX3JlYWRhaGVh
+ZC4gQSBzZXF1ZW50aWFsIHJlYWRlciBmYXVsdHMgb24gdGhhdCBwYWdlDQo+PiBuZXh0LCB3aGlj
+aCBzdGFydHMgYXN5bmMgcmVhZGFoZWFkLiBUaGF0IHBhdGggaXMgbm90IGdhdGVkIGJ5IG1tYXBf
+bWlzcywNCj4+IGFuZCB0aGUgcGFnZXMgaXQgYnJpbmdzIGluIGNvdW50IGFzIGhpdHMgYWdhaW4s
+IHNvIHRoZSBjb3VudGVyIGRyb3BzDQo+PiBhbmQgcmVhZGFoZWFkIHJlc3VtZXMuIEEgcmFuZG9t
+IHJlYWRlciwgaG93ZXZlciwgcmFyZWx5IGhhcyB0aGUgcHJldmlvdXMNCj4+IHBhZ2UgY2FjaGVk
+LCBzbyBpdCBrZWVwcyByZWFkaW5nIG9uZSBwYWdlIHBlciBmYXVsdCwgb3IgYXQgbW9zdCB0d28u
+DQo+PiBGb3JjZWQgVEhQIHJlYWRhaGVhZCBpcyBsZWZ0IGFzIGl0IGlzLg0KPj4NCj4+IFRoaXMg
+cmVwcm9kdWNlciB0YWtlcyAxMDAgcmFuZG9tIGZhdWx0cyBvbiBhIGZpbGUgb2YgYXQgbGVhc3Qg
+NCBHaUINCj4+IGFuZCB0aGVuIHJlYWRzIDEgR2lCIG9mIGl0IGluIG9yZGVyOg0KPj4NCj4+ICAg
+ICAgI2RlZmluZSBfR05VX1NPVVJDRQ0KPj4gICAgICAjaW5jbHVkZSA8ZmNudGwuaD4NCj4+ICAg
+ICAgI2luY2x1ZGUgPHN0ZGlvLmg+DQo+PiAgICAgICNpbmNsdWRlIDxzdGRsaWIuaD4NCj4+ICAg
+ICAgI2luY2x1ZGUgPHVuaXN0ZC5oPg0KPj4gICAgICAjaW5jbHVkZSA8c3lzL21tYW4uaD4NCj4+
+ICAgICAgI2luY2x1ZGUgPHN5cy9yZXNvdXJjZS5oPg0KPj4NCj4+ICAgICAgLyogLi9hLm91dCBG
+SUxFIE46IE4gcmFuZG9tIGZhdWx0cywgdGhlbiByZWFkIDEgR2lCIGluIG9yZGVyICovDQo+PiAg
+ICAgIGludCBtYWluKGludCBhcmdjLCBjaGFyICoqYXJndikNCj4+ICAgICAgew0KPj4gICAgICAg
+ICAgICAgIGxvbmcgRyA9IDFMIDw8IDMwLCBpLCBmbHQsIHNpemU7DQo+PiAgICAgICAgICAgICAg
+c3RydWN0IHJ1c2FnZSBydTsNCj4+ICAgICAgICAgICAgICB2b2xhdGlsZSBjaGFyICpwOw0KPj4g
+ICAgICAgICAgICAgIGludCBmZDsNCj4+DQo+PiAgICAgICAgICAgICAgaWYgKGFyZ2MgIT0gMyB8
+fCAoZmQgPSBvcGVuKGFyZ3ZbMV0sIE9fUkRPTkxZKSkgPCAwKQ0KPj4gICAgICAgICAgICAgICAg
+ICAgICAgcmV0dXJuIDI7DQo+PiAgICAgICAgICAgICAgc2l6ZSA9IGxzZWVrKGZkLCAwLCBTRUVL
+X0VORCk7DQo+PiAgICAgICAgICAgICAgcG9zaXhfZmFkdmlzZShmZCwgMCwgMCwgUE9TSVhfRkFE
+Vl9ET05UTkVFRCk7DQo+PiAgICAgICAgICAgICAgcCA9IG1tYXAoTlVMTCwgc2l6ZSwgUFJPVF9S
+RUFELCBNQVBfU0hBUkVELCBmZCwgMCk7DQo+Pg0KPj4gICAgICAgICAgICAgIC8qIE4gcmFuZG9t
+IGZhdWx0cyBiZXlvbmQgMyBHaUIgKi8NCj4+ICAgICAgICAgICAgICBmb3IgKGkgPSAwOyBpIDwg
+YXRvbChhcmd2WzJdKTsgaSsrKQ0KPj4gICAgICAgICAgICAgICAgICAgICAgcFszICogRyArIHJh
+bmRvbSgpICUgKHNpemUgLSAzICogRykgLyA0MDk2ICogNDA5Nl07DQo+Pg0KPj4gICAgICAgICAg
+ICAgIC8qIHRoZW4gcmVhZCBbMiBHaUIsIDMgR2lCKSBpbiBvcmRlciAqLw0KPj4gICAgICAgICAg
+ICAgIGdldHJ1c2FnZShSVVNBR0VfU0VMRiwgJnJ1KTsNCj4+ICAgICAgICAgICAgICBmbHQgPSBy
+dS5ydV9tYWpmbHQ7DQo+PiAgICAgICAgICAgICAgZm9yIChpID0gMiAqIEc7IGkgPCAzICogRzsg
+aSArPSA0MDk2KQ0KPj4gICAgICAgICAgICAgICAgICAgICAgcFtpXTsNCj4+ICAgICAgICAgICAg
+ICBnZXRydXNhZ2UoUlVTQUdFX1NFTEYsICZydSk7DQo+PiAgICAgICAgICAgICAgcHJpbnRmKCIl
+bGQgbWFqb3IgZmF1bHRzIGZvciAlbGQgcGFnZXNcbiIsDQo+PiAgICAgICAgICAgICAgICAgICAg
+IHJ1LnJ1X21hamZsdCAtIGZsdCwgRyAvIDQwOTYpOw0KPj4gICAgICAgICAgICAgIHJldHVybiAw
+Ow0KPj4gICAgICB9DQo+Pg0KPj4gICAgICAkIC4vYS5vdXQgRklMRSAxMDANCj4+ICAgICAgYmVm
+b3JlOiAyNjIxNDQgbWFqb3IgZmF1bHRzIGZvciAyNjIxNDQgcGFnZXMNCj4+ICAgICAgYWZ0ZXI6
+ICAgICAgIDIgbWFqb3IgZmF1bHRzIGZvciAyNjIxNDQgcGFnZXMNCj4+DQo+PiBJIGFsc28gcmFu
+IHRoZSBhY2Nlc3MgcGF0dGVybnMgZnJvbSB0aGF0IGNvbW1pdCdzIGNoYW5nZWxvZyAocmFuZG9t
+LA0KPj4gc3RyaWRlcyBvZiAxMDIxLCAxMDI0LCAyMDUzLCBhbmQgNDA5OSBwYWdlcywgYW5kIHNl
+cXVlbnRpYWwsIG9uIGENCj4+IDIwIEdpQiBhbmQgYSA0IEdpQiBmaWxlIGluIGFuIDggR2lCIGd1
+ZXN0KS4gV2l0aCB0aGlzIGNoYW5nZSwgYnl0ZXMNCj4+IHJlYWQgc3RheSB3aXRoaW4gMC4xJSBh
+bmQgdGltZXMgd2l0aGluIDMlIGluIGFsbCBjYXNlcywgc28gaXRzIGdhaW5zDQo+PiBhcmUga2Vw
+dC4NCj4+DQo+PiBGaXhlczogMGI5YzBhZWJhOTM4ICgibW0vZmlsZW1hcDogY291bnQgb25seSB0
+aGUgZmF1bHRpbmcgYWRkcmVzcyBhcyBhIG1tYXAgaGl0IikNCj4+IFNpZ25lZC1vZmYtYnk6IEFs
+aXJlemEgSGFkZGFkaSA8YWxpcmV6YS5oYWRkYWRpQGl0LnV1LnNlPg0KPj4gQ2M6IGZ1anVuamll
+IDxmdWp1bmppZTFAcXEuY29tPg0KPj4gQ2M6IEphbiBLYXJhIDxqYWNrQHN1c2UuY3o+DQo+PiBD
+YzogVmlzaGFsIE1vb2xhIDx2aXNoYWwubW9vbGFAZ21haWwuY29tPg0KPj4gQ2M6IE1hdHRoZXcg
+V2lsY294IChPcmFjbGUpIDx3aWxseUBpbmZyYWRlYWQub3JnPg0KPj4gQ2M6IFJvbWFuIEd1c2hj
+aGluIDxyb21hbi5ndXNoY2hpbkBsaW51eC5kZXY+DQo+DQo+IEh1bSwgdGhpcyBsb29rcyBsaWtl
+IGFuIGVsbGVnYW50IHdheSBhcm91bmQgdGhlIHByb2JsZW0gc28gSSdtIHdpbGxpbmcgdG8NCj4g
+Z2l2ZSB0aGlzIGEgdHJ5IDopLiBGZWVsIGZyZWUgdG8gYWRkOg0KPg0KPiBSZXZpZXdlZC1ieTog
+SmFuIEthcmEgPGphY2tAc3VzZS5jej4NCj4NCj4gICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgSG9uemENCj4NClRoYW5rcyBhIGxv
+dCBmb3IgdGhlIHJldmlldyENCg0KQXMgU2FzaGlrbyBub3RpY2VkLCB3aXRoIGEgbWluaW11bSBm
+b2xpbyBvcmRlciAobGFyZ2UgYmxvY2sgc2l6ZQ0KZmlsZXN5c3RlbXMpLCB0aGUgMi1wYWdlIHJl
+cXVlc3QgZW5kcyB1cCBhcyBhIHNpbmdsZSBmb2xpbyB3aXRoIHRoZQ0KbWFyayBvbiB0aGUgZmF1
+bHRpbmcgZm9saW8gaXRzZWxmLiBUaGF0IGZvbGlvIGdldHMgbWFwcGVkIGluIGZ1bGwgb24NCnRo
+ZSByZXRyeSwgc28gdGhlIG1hcmsgaXMgbmV2ZXIgaGl0IGFuZCB0aGUgcmVhZGFoZWFkIGRvZXMg
+bm90DQpyZXN0YXJ0IHRoZXJlLg0KDQpJIGNoZWNrZWQgaXQgbXlzZWxmLCBhbmQgaXQncyByaWdo
+dC4gSW4gdjIgSSdkIHJlYWQgdHdvIG1pbmltdW0tc2l6ZQ0KZm9saW9zIGluc3RlYWQgYW5kIG1h
+cmsgdGhlIHNlY29uZCBvbmU6DQoNCnVuc2lnbmVkIGludCBuciA9IG1hcHBpbmdfbWluX2ZvbGlv
+X25ycGFnZXMobWFwcGluZyk7DQpyYS0+c2l6ZSA9IDIgKiBucjsNCnJhLT5hc3luY19zaXplID0g
+bnI7DQpyYS0+b3JkZXIgPSBtYXBwaW5nX21pbl9mb2xpb19vcmRlcihtYXBwaW5nKTsNCg0KV2l0
+aCBhIG1pbmltdW0gb3JkZXIgb2YgMCwgdGhpcyBpcyB0aGUgc2FtZSBhcyBub3cuIFRoZSBjb3N0
+IHN0YXlzIHRoZQ0Kc2FtZSBpbiBwcm9wb3J0aW9uOiBhIG1pc3MgdGhhdCBmb2xsb3dzIGEgY2Fj
+aGVkIHBhZ2UgcmVhZHMgdHdvDQptaW5pbXVtLXNpemUgZm9saW9zIGluc3RlYWQgb2Ygb25lLiBJ
+J2xsIGFsc28gdGVzdCBpdCBvbiBYRlMgd2l0aCAxNmsNCmJsb2NrcyBiZWZvcmUgc2VuZGluZyB2
+Mi4gV291bGQgeW91IGJlIE9LIHdpdGggbWUga2VlcGluZyB5b3VyDQpSZXZpZXdlZC1ieSBmb3Ig
+dGhhdCwgb3Igd291bGQgeW91IHJhdGhlciBsb29rIGF0IHYyIGZpcnN0Pw0KDQpCZXN0IHJlZ2Fy
+ZHMsDQpBbGlyZXphDQo+PiAtLS0NCj4+IFRlc3RlZCBvbiBtbS1uZXcgKHg4Ni02NCk6DQo+Pg0K
+Pj4gLSBXaXRoIHRoZSBwYXRjaCwgbm8gcnVuIGdldHMgc3R1Y2s6IHRoZSBTUUxpdGUgc2NhbiAo
+MTAgcnVucykgYW5kDQo+PiAgIHRoZSBudW1weSBwYXNzICg1IHJ1bnMpIHRha2UgYXMgbG9uZyBh
+cyB0aGVpciBjb250cm9scy4NCj4+IC0gbW0gc2VsZnRlc3RzOiBubyBuZXcgZmFpbHVyZXMuIGRy
+b3BwYWJsZSBmYWlscyBhYm91dCBvbmNlIGluIDIwDQo+PiAgIHJ1bnMsIHdpdGggYW5kIHdpdGhv
+dXQgdGhpcyBwYXRjaC4NCj4+IC0gQSBLVk0gZ3Vlc3Qgd2l0aCBLQVNBTiwgbG9ja2RlcCBhbmQg
+REVCVUdfVk0gcmFuIHRoZSByZXByb2R1Y2VyDQo+PiAgIGFib3ZlLCBzdHJpZGVkIGFuZCBpbnRl
+cmxlYXZlZCBhY2Nlc3MsIGFuZCBhIDQtdGhyZWFkIHRlc3Q6IGFmdGVyDQo+PiAgIDIwMCByYW5k
+b20gZmF1bHRzLCA0IHRocmVhZHMgcmVhZCB0aGUgc2FtZSBmaWxlIGluIG9yZGVyIHRocm91Z2gN
+Cj4+ICAgb25lIG1hcHBpbmcsIHNvIHRoZXkgYWxsIHRha2UgdGhlIG5ldyBwYXRoIGF0IG9uY2U7
+IHRoZSBmaWxlIGlzDQo+PiAgIHR3aWNlIHRoZSBndWVzdCdzIG1lbW9yeSwgc28gdGhpcyBydW5z
+IHVuZGVyIHJlY2xhaW0uIE5vIHJlcG9ydHMsDQo+PiAgIHdpdGggb3Igd2l0aG91dCB0aGUgcGF0
+Y2guDQo+PiAtIFc9MSBhbmQgc3BhcnNlIGFyZSBjbGVhbiwgYWxzbyB3aXRoIFRIUCBvciBMUlVf
+R0VOIGRpc2FibGVkLg0KPj4NCj4+IFRoZSBjb3N0IGZvciByYW5kb20gcmVhZGVycywgb25jZSBy
+ZWFkYWhlYWQgaXMgb2ZmOiB3aGVuIGV2ZXJ5IHRoaXJkDQo+PiBwYWdlIGlzIGNhY2hlZCBhbmQg
+ZWFjaCBhY2Nlc3MgbGFuZHMganVzdCBhZnRlciBhIGNhY2hlZCBwYWdlLCAxLjc3DQo+PiBwYWdl
+cyBhcmUgcmVhZCBwZXIgYWNjZXNzIGluc3RlYWQgb2YgMC44OS4gU3RyaWRlZCBhY2Nlc3MgcmVh
+ZHMgdGhlDQo+PiBzYW1lIGFzIGJlZm9yZS4NCj4+DQo+PiBGb3JjZWQgVEhQIHJlYWRhaGVhZCBo
+YXMgYSBzaW1pbGFyIHByb2JsZW0gd2l0aCBtbWFwX21pc3MuIEkgbGVmdCBpdA0KPj4gb3V0IHRv
+IGtlZXAgdGhpcyBjaGFuZ2Ugc21hbGwgYW5kIHdpbGwgbG9vayBhdCBpdCBzZXBhcmF0ZWx5Lg0K
+Pj4NCj4+IEkgY2FuIHNoYXJlIHRoZSBiZW5jaG1hcmsgc2NyaXB0cyAoU1FMaXRlLCBudW1weSwg
+dGhlIGFjY2VzcyBwYXR0ZXJucw0KPj4gb2YgMGI5YzBhZWJhOTM4KSBpZiB0aGF0IGhlbHBzLg0K
+Pj4gLS0tDQo+PiBtbS9maWxlbWFwLmMgfCAyNyArKysrKysrKysrKysrKysrKysrKysrKysrKy0N
+Cj4+IDEgZmlsZSBjaGFuZ2VkLCAyNiBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+Pg0K
+Pj4gZGlmZiAtLWdpdCBhL21tL2ZpbGVtYXAuYyBiL21tL2ZpbGVtYXAuYw0KPj4gaW5kZXggOTNk
+YjhmYzYwYWUwLi4wOTMwYWFjZWU5ZmUgMTAwNjQ0DQo+PiAtLS0gYS9tbS9maWxlbWFwLmMNCj4+
+ICsrKyBiL21tL2ZpbGVtYXAuYw0KPj4gQEAgLTM0MDMsOCArMzQwMywzMyBAQCBzdGF0aWMgc3Ry
+dWN0IGZpbGUgKmRvX3N5bmNfbW1hcF9yZWFkYWhlYWQoc3RydWN0IHZtX2ZhdWx0ICp2bWYpDQo+
+PiAgICAgICAgICAgICAgICogRG8gd2UgbWlzcyBtdWNoIG1vcmUgdGhhbiBoaXQgaW4gdGhpcyBm
+aWxlPyBJZiBzbywNCj4+ICAgICAgICAgICAgICAgKiBzdG9wIGJvdGhlcmluZyB3aXRoIHJlYWQt
+YWhlYWQuIEl0IHdpbGwgb25seSBodXJ0Lg0KPj4gICAgICAgICAgICAgICAqLw0KPj4gLSAgICAg
+ICAgICAgICBpZiAobW1hcF9taXNzID4gTU1BUF9MT1RTQU1JU1MpDQo+PiArICAgICAgICAgICAg
+IGlmIChtbWFwX21pc3MgPiBNTUFQX0xPVFNBTUlTUykgew0KPj4gKyAgICAgICAgICAgICAgICAg
+ICAgIHN0cnVjdCBmb2xpbyAqcHJldiA9IE5VTEw7DQo+PiArDQo+PiArICAgICAgICAgICAgICAg
+ICAgICAgLyoNCj4+ICsgICAgICAgICAgICAgICAgICAgICAgKiBOb3RoaW5nIGlzIHJlYWQgYWhl
+YWQgbm93LCBzbyBtbWFwX21pc3Mgc3RheXMgaGlnaA0KPj4gKyAgICAgICAgICAgICAgICAgICAg
+ICAqIGZvcmV2ZXIuICBJZiB0aGUgcHJldmlvdXMgcGFnZSBpcyBjYWNoZWQsIHRoaXMgbWF5IGJl
+DQo+PiArICAgICAgICAgICAgICAgICAgICAgICogYSBzZXF1ZW50aWFsIHJlYWQ6IHJlYWQgdGhl
+IG5leHQgcGFnZSBhcyB3ZWxsIGFuZA0KPj4gKyAgICAgICAgICAgICAgICAgICAgICAqIG1hcmsg
+aXQsIHNvIHRoYXQgYXN5bmMgcmVhZGFoZWFkLCB3aGljaCBkb2VzIG5vdA0KPj4gKyAgICAgICAg
+ICAgICAgICAgICAgICAqIGNoZWNrIG1tYXBfbWlzcywgcmVzdGFydHMgd2hlbiB0aGUgbWFyayBp
+cyBoaXQuICBUaGUNCj4+ICsgICAgICAgICAgICAgICAgICAgICAgKiBwYWdlcyBpdCByZWFkcyB0
+aGVuIGNvdW50IGFzIGhpdHMgYW5kIGxvd2VyDQo+PiArICAgICAgICAgICAgICAgICAgICAgICog
+bW1hcF9taXNzLiAgQSByYW5kb20gcmVhZGVyIHJhcmVseSBoYXMgdGhlIHByZXZpb3VzDQo+PiAr
+ICAgICAgICAgICAgICAgICAgICAgICogcGFnZSBjYWNoZWQgYW5kIGtlZXBzIHJlYWRpbmcgb25l
+IHBhZ2UgcGVyIGZhdWx0Lg0KPj4gKyAgICAgICAgICAgICAgICAgICAgICAqLw0KPj4gKyAgICAg
+ICAgICAgICAgICAgICAgIGlmICghZm9yY2VfdGhwX3JlYWRhaGVhZCAmJiB2bWYtPnBnb2ZmKQ0K
+Pj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcHJldiA9IHhhX2xvYWQoJm1hcHBpbmct
+PmlfcGFnZXMsDQo+PiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICB2bWYtPnBnb2ZmIC0gMSk7DQo+PiArICAgICAgICAgICAgICAgICAgICAgaWYgKHByZXYgJiYg
+IXhhX2lzX3ZhbHVlKHByZXYpKSB7DQo+PiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICBm
+cGluID0gbWF5YmVfdW5sb2NrX21tYXBfZm9yX2lvKHZtZiwgZnBpbik7DQo+PiArICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICByYS0+c3RhcnQgPSB2bWYtPnBnb2ZmOw0KPj4gKyAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgcmEtPnNpemUgPSAyOw0KPj4gKyAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgcmEtPmFzeW5jX3NpemUgPSAxOw0KPj4gKyAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgcmEtPm9yZGVyID0gMDsNCj4+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+IHJhY3RsLl9pbmRleCA9IHJhLT5zdGFydDsNCj4+ICsgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgIHBhZ2VfY2FjaGVfcmFfb3JkZXIoJnJhY3RsLCByYSk7DQo+PiArICAgICAgICAgICAgICAg
+ICAgICAgfQ0KPj4gICAgICAgICAgICAgICAgICAgICAgcmV0dXJuIGZwaW47DQo+PiArICAgICAg
+ICAgICAgIH0NCj4+ICAgICAgfQ0KPj4NCj4+ICAgICAgaWYgKGZvcmNlX3RocF9yZWFkYWhlYWQp
+IHsNCj4+DQo+PiAtLS0NCj4+IGJhc2UtY29tbWl0OiBiOTVmOGJiODY3MTNjODYwY2U4NTM2ZDIy
+YTk4OGI5NDliODg0ZDVmDQo+PiBjaGFuZ2UtaWQ6IDIwMjYxMTA4LW1tYXAtbWlzcy1iZjVhNTAx
+MDg4ZWINCj4+DQo+PiBCZXN0IHJlZ2FyZHMsDQo+PiAtLQ0KPj4gQWxpcmV6YSBIYWRkYWRpIDxh
+bGlyZXphLmhhZGRhZGlAaXQudXUuc2U+DQo+Pg0KPj4NCj4gLS0NCj4gSmFuIEthcmEgPGphY2tA
+c3VzZS5jb20+DQo+IFNVU0UgTGFicywgQ1INCj4NCj4gVkFSTklORzogS2xpY2thIGludGUgcMOl
+IGzDpG5rYXIgb2NoIMO2cHBuYSBpbnRlIGJpbGFnb3Igb20gZHUgaW50ZSBrw6RubmVyIGlnZW4g
+YXZzw6RuZGFyZW4gb2NoIHZldCBhdHQgaW5uZWjDpWxsZXQgw6RyIHPDpGtlcnQuDQo+IENBVVRJ
+T046IERvIG5vdCBjbGljayBvbiBsaW5rcyBvciBvcGVuIGF0dGFjaG1lbnRzIHVubGVzcyB5b3Ug
+cmVjb2duaXNlIHRoZSBzZW5kZXIgYW5kIGtub3cgdGhlIGNvbnRlbnQgaXMgc2FmZS4NCg0KDQoN
+Cg0KDQoNCg0KDQoNCg0KTsOkciBkdSBoYXIga29udGFrdCBtZWQgb3NzIHDDpSBVcHBzYWxhIHVu
+aXZlcnNpdGV0IG1lZCBlLXBvc3Qgc8OlIGlubmViw6RyIGRldCBhdHQgdmkgYmVoYW5kbGFyIGRp
+bmEgcGVyc29udXBwZ2lmdGVyLiBGw7ZyIGF0dCBsw6RzYSBtZXIgb20gaHVyIHZpIGfDtnIgZGV0
+IGthbiBkdSBsw6RzYSBow6RyOiBodHRwOi8vd3d3LnV1LnNlL29tLXV1L2RhdGFza3lkZC1wZXJz
+b251cHBnaWZ0ZXIvDQoNCkUtbWFpbGluZyBVcHBzYWxhIFVuaXZlcnNpdHkgbWVhbnMgdGhhdCB3
+ZSB3aWxsIHByb2Nlc3MgeW91ciBwZXJzb25hbCBkYXRhLiBGb3IgbW9yZSBpbmZvcm1hdGlvbiBv
+biBob3cgdGhpcyBpcyBwZXJmb3JtZWQsIHBsZWFzZSByZWFkIGhlcmU6IGh0dHA6Ly93d3cudXUu
+c2UvZW4vYWJvdXQtdXUvZGF0YS1wcm90ZWN0aW9uLXBvbGljeQ0K
