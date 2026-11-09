@@ -1,62 +1,106 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.115
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794228832;
-	b=pyGfb1wurm58P9Yo6Z0RH7C0Q0/5LjgIvToTO03jVF9WOKHgQTWlcOUGabKRK4Ob5G5L
-	 EBz1+YlZNrRnVgMkN1OjQwPfhLg3ffdjl9deaULCHAeqf1BeeovV8vDJnupTZI9MEgRaS
-	 rP/zzhdwznXviK23/mW5K4aXNeYnOKTHmVB/diIzljfZbussQjd3B1D+ovEPlM4VsQO/2
-	 rHhFN9iY+Uzff5CfXsvkK5hKu2hwItUupB9nVPsAp2yFwPuV7D3me3z7J1hDtzRyCnBNL
-	 Bcw6N33C7SiTAUPchURfcDxfGmpbjkaI3051F3TEQDYOdLUHELhOqlKSUmKUJS4Ogdg==
+	t=1794230045;
+	b=VNMc8frNbhLODVjDUpJnnUxTO2sVUbQDDphctEMQnhkrQsydXEKm4gZBVeGZC4GgRsO+
+	 XzhZ7eZRai/ZTkMya+X75i924i32i/xmTJyMJOSgxuAQ1EMy64AIEshnigtoAas6dk3Q4
+	 Tkm0QtmCelzluzdl+sKGdduYgdK8v9NLpJQJth4M2o9hDvgLiNyh4ONOGxnjTVGLCeDR4
+	 Eb3dYXDyvUwnU5WvZfdclLVOBXJ2Qs19KavlRhdJYrGw+wdvxNSo9X9y0S0uWtbTXM0ro
+	 yXnF5QbN/wZ+5HmioaoOS7EIuvK2CfYW8nzpA4W4uUFAK491GPaFsQE3XNNxzayJ88Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794228832;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type;
-	bh=xsolfVVWbRORmL7YZZKbpcvUqqBN4m/xr4JBostwKXI=;
-	b=xBxKo1uIcgClPgao/BRw7EigY2KsmFJSllD8Q9Yj0Y50BzvRYqtCZf3/Nc+rOiEg+cIk
-	 8pVyagmxq10ABKKx3LD1R8bPWslDYqC/iUEuoM1EETE7I3bAQUxjlsG/dMtjFgN0e3bkR
-	 cpvqodL7yH7UhQ+qmdsxXTdLOdGEVyfiekcP9EQzqVPAlbs9dx+G4FO9LlDmdrK57ynJq
-	 oR/wAA90PTKVRJVWBenr8gvJ7UAFg57WVAoz1JUO45/KxlCH54ALhnwBzvSZrHTceAAAt
-	 sqkjHqNjVMmer712cDMMj2a98vaGY2HgEc7XkjdSyJvytd/XBeBDO1o/44ps0xJgyRQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794230045;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
+	bh=6trJ9wczP37AYaNtcfH5XbErL0q3s27qFQESsRxGE2c=;
+	b=oF3CIKx2Psh9Yzavac7L0yGWmv+3pB1tfwogGzF7rYhkBAAw5oE+9Os8fd1M+57ZVtDl
+	 1P1hFnsnrdTY5pZAZxkee4EMWt4OqbPtDVeyjv/0F8s/Gt106GCOC9qfdjiSg9hCLcuL4
+	 kQQW7E99K1oGxy1/MOBCnUskvhjbUuT5TLOrRebi0yPikAeKHEutXR4hYOQLAv/t9gCzO
+	 l/VMUhVqqszqVYQZOrOr00hQ0KlqdElGmPc7x7SLyMrnD4T6Fx6EECv2incmgYMRjV7l+
+	 lh0+gX9KRfUcXuO97LyTeM7HLlGRpTCESdOxuR6JChNQmQKduOn9/X9PvsZTVCC8Eiw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=D5YTQ8ou;
-	arc=none smtp.remote-ip=91.218.175.115
-Received: from mta0.migadu.com (out-115.mta0.migadu.com [91.218.175.115])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=none header.from=suse.cz;
+	spf=pass smtp.mailfrom=suse.cz;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=YfMwmyns;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=x4IfSmHD;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=YfMwmyns;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=x4IfSmHD;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43AF2606A333
-	for <linux-fsdevel@vger.kernel.org>; Mon,  9 Nov 2026 12:53:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 43AF2606A333
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4854D606A31C;
+	Mon,  9 Nov 2026 13:14:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4854D606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=D5YTQ8ou
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=xsolfVVWbRORmL7YZZKbpcvUqqBN4m/xr4JBostwKXI=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794228829; v=1; x=1794833629;
- b=D5YTQ8ouE+25VC2GZ+u7sTiV8IUMj4amnhuD1OmqB+I8tXSvwJC3P9a0l71VVFQFK+4MmeE/
- yzPHuUiGGiqQwKL3+89x9UYkyfdb2YKGVUa/tJTzv+p9Q5V7B5sio9lE/sJM8yCPP6iLhYOTsxP
- 6HnLJsxQtiFROWMHv4trQ58U=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 3e5a50d809f86ab9;
-	Mon, 09 Nov 2026 12:53:49 +0000
-X-Mizu-Trace-ID: 3e5a50d809f86ab9
-X-Migadu-Flow: FLOW_OUT
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5c14bc5a743so4935e87.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 09 Nov 2026 04:53:44 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErEjOg8Fi9e1OZZZw/0zRnkPhFdwHnT91r1ai+pPMETFou5cULUWvOJClyTRnBRHyVGg93P8ol7W6YxUsrS1@vger.kernel.org
-X-Gm-Message-State: APuU4Z/GhejfheVvLG9wwQ4W5+uE50GHfNzpQZIkVk+7t4JSnV3+9J4u
-	doz33+0cFnlD/qyrhjirquooDhZGXv8ThDSWMt0vxj62zKslV+Z9qcgoWT5TgHBMITt8vOU+SdT
-	aVzG30qTy7VcJHxW2zU28wm7NdUy/iRhVhFlDuT/5
-X-Received: by 2002:a05:6512:1296:b0:5bf:f060:c0f3 with SMTP id
- 2adb3069b0e04-5c00bd5d693mr185283e87.12.1794228823188; Mon, 09 Nov 2026
- 04:53:43 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=YfMwmyns;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=x4IfSmHD;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=YfMwmyns;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=x4IfSmHD
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 6452F21FBA;
+	Mon,  9 Nov 2026 13:14:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1794230043; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6trJ9wczP37AYaNtcfH5XbErL0q3s27qFQESsRxGE2c=;
+	b=YfMwmynsVNmYqIMTXypZWx+cwgIK9JHQUyosrPprP8O1k23y6eZd2/6lUnDDFDyuk63fCB
+	EJqrtLwTc+aBwTxfMLvpCFd1Nfl05H3FNNA36VeRNmB5EPzpKjD7vQ4k/CUtuybV0PTKHi
+	fdxgAQP+itQcMWgSz5gR0/3KSZRf844=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1794230043;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6trJ9wczP37AYaNtcfH5XbErL0q3s27qFQESsRxGE2c=;
+	b=x4IfSmHDP9lqPIEJ454ik8hNStOUDM6BJeSzSf44VaXxugPML2kD0nbalRriIZBceyIyaT
+	NUfTUqlzfhouZYCQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1794230043; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6trJ9wczP37AYaNtcfH5XbErL0q3s27qFQESsRxGE2c=;
+	b=YfMwmynsVNmYqIMTXypZWx+cwgIK9JHQUyosrPprP8O1k23y6eZd2/6lUnDDFDyuk63fCB
+	EJqrtLwTc+aBwTxfMLvpCFd1Nfl05H3FNNA36VeRNmB5EPzpKjD7vQ4k/CUtuybV0PTKHi
+	fdxgAQP+itQcMWgSz5gR0/3KSZRf844=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1794230043;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6trJ9wczP37AYaNtcfH5XbErL0q3s27qFQESsRxGE2c=;
+	b=x4IfSmHDP9lqPIEJ454ik8hNStOUDM6BJeSzSf44VaXxugPML2kD0nbalRriIZBceyIyaT
+	NUfTUqlzfhouZYCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3A8F713302;
+	Mon,  9 Nov 2026 13:14:03 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 5rosBhvH8WoRGwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 09 Nov 2026 13:14:03 +0000
+Received: by quack.suse.cz (Postfix, from userid 1000)
+	id C2AE02201A; Mon, 09 Nov 2026 14:14:02 +0100 (CET)
+Date: Mon, 9 Nov 2026 14:14:02 +0100
+From: Jan Kara <jack@suse.cz>
+To: Avi Weiss <thnkslprpt@gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] fs/stat: reject invalid flags for empty paths
+Message-ID: <euzvpi6nlgs5hc5oak3de2vi6e5u73jzz2bvwnxdkpzdxwftui@ngew7npmjq7v>
+References: <20261108125617.2383285-2-thnkslprpt@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -66,41 +110,97 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261108200141.383158-1-fuad.tabba@linux.dev> <20261108200141.383158-2-fuad.tabba@linux.dev>
- <87ld72f9rf.fsf@mail.parknet.co.jp>
-In-Reply-To: <87ld72f9rf.fsf@mail.parknet.co.jp>
-From: Fuad Tabba <fuad.tabba@linux.dev>
-Date: Mon, 9 Nov 2026 12:53:06 +0000
-X-Gmail-Original-Message-ID: <CA+EHjTyouGHwy4nYAfGuNeMp6NXhhatNp2ambAzdQMxv0AXp_A@mail.gmail.com>
-X-Gm-Features: AclHuK_ZmCOyHXfQ_oS5KSMvwNHpXLhELyCWXJ7DxRnrCffbYDVqCAYceYWYm1o
-Message-ID: <CA+EHjTyouGHwy4nYAfGuNeMp6NXhhatNp2ambAzdQMxv0AXp_A@mail.gmail.com>
-Subject: Re: [PATCH 1/2] fs/nls: Add codepage 720 (Arabic)
-To: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-Cc: brauner@kernel.org, viro@zeniv.linux.org.uk, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261108125617.2383285-2-thnkslprpt@gmail.com>
+X-Spamd-Result: default: False [-12.80 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_COUNT_THREE(0.00)[3];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -12.80
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-On Mon, 9 Nov 2026 at 12:51, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp> wrote:
->
-> Fuad Tabba <fuad.tabba@linux.dev> writes:
->
-> > FAT stores short names in the OEM code page of the system that wrote
-> > them, and the OEM code page of Arabic Windows is 720. The kernel's only
-> > DOS code page for Arabic is cp864, so mounting such a volume with
-> > codepage=720 fails with "codepage cp720 not found".
-> >
-> > Add nls_cp720 behind NLS_CODEPAGE_720, with tables generated by a
-> > script from Microsoft's code page 720 table, as ICU's windows-720-2000
-> > mapping carries it. That table maps 0x80, 0x81, 0x84, 0x86 and
-> > 0x8d-0x90 to C1 controls, and those eight bytes are left unassigned, as
-> > ICU's ibm-720 mapping leaves them.
-> >
-> > Signed-off-by: Fuad Tabba <fuad.tabba@linux.dev>
->
-> Looks good. However, maybe no maintainer in this area, so I'm not sure
-> who handle...
+On Sun 08-11-26 14:56:18, Avi Weiss wrote:
+> vfs_fstatat() and statx() take the file descriptor fast path for empty
+> paths when AT_EMPTY_PATH is set. These paths bypass the flag validation
+> in vfs_statx(), allowing unsupported flags such as AT_RECURSIVE to
+> succeed.
+> 
+> Return -EINVAL for unsupported flags in the vfs_fstatat() fast path,
+> and validate flags in vfs_statx_fd() as is already done in vfs_statx().
+> 
+> Fixes: e896474fe485 ("getname_maybe_null() - the third variant of pathname copy-in")
+> Signed-off-by: Avi Weiss <thnkslprpt@gmail.com>
 
-I was wondering the same thing :)
+Looks good. Feel free to add:
 
-Thanks,
-/fuad
+Reviewed-by: Jan Kara <jack@suse.cz>
+
+								Honza
+
+> ---
+> v2:
+> - return -EINVAL directly for unsupported flags in vfs_fstatat()
+> - validate flags in vfs_statx_fd() instead of changing statx()
+>   dispatch (as suggested by Jan Kara)
+> 
+>  fs/stat.c | 11 ++++++++++-
+>  1 file changed, 10 insertions(+), 1 deletion(-)
+> 
+> diff --git a/fs/stat.c b/fs/stat.c
+> index a2e63c6c45b7..3013e4ece011 100644
+> --- a/fs/stat.c
+> +++ b/fs/stat.c
+> @@ -322,6 +322,11 @@ static int vfs_statx_fd(int fd, int flags, struct kstat *stat,
+>  			  u32 request_mask)
+>  {
+>  	CLASS(fd_raw, f)(fd);
+> +
+> +	if (flags & ~(AT_SYMLINK_NOFOLLOW | AT_NO_AUTOMOUNT |
+> +		      AT_EMPTY_PATH | AT_STATX_SYNC_TYPE))
+> +		return -EINVAL;
+> +
+>  	if (fd_empty(f))
+>  		return -EBADF;
+>  	return vfs_statx_path(&fd_file(f)->f_path, flags, stat, request_mask);
+> @@ -371,8 +376,12 @@ int vfs_fstatat(int dfd, const char __user *filename,
+>  {
+>  	CLASS(filename_maybe_null, name)(filename, flags);
+>  
+> -	if (!name && dfd >= 0)
+> +	if (!name && dfd >= 0) {
+> +		if (flags & ~(AT_SYMLINK_NOFOLLOW | AT_NO_AUTOMOUNT |
+> +			      AT_EMPTY_PATH | AT_STATX_SYNC_TYPE))
+> +			return -EINVAL;
+>  		return vfs_fstat(dfd, stat);
+> +	}
+>  
+>  	return vfs_statx(dfd, name, flags | AT_NO_AUTOMOUNT,
+>  			 stat, STATX_BASIC_STATS);
+> 
+> base-commit: fa4ad798f6f681031775266044ba1b0cf3c670bd
+> -- 
+> 2.43.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
