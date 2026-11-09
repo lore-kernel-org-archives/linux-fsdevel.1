@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794235583;
-	b=FySArSkUFDR1rE6AO+XcQR2DEsQdcf2siHhKwB4jRb215GdP8HFlE0GhCrfNBYZgfnfN
-	 at6k+Gcpdirxr83tn3iKW6uBxyJFsjj5M6Xg93sw6hm+d3nbExACYS/7Wicx3hqYSzDA5
-	 piMl/gTvpP9rFf39U2PS5WoQFi2UpcQXeHyLFCNPLotVxfAjZJzqfVO5g9zja+DR9NF8Z
-	 gTcr6lkw4Pa9CqdAsIcKQkxc5Cl4gMpF7lQFvh2sXNvA8ysN3i7tPIvvafy4t60VDD+RQ
-	 +Ksi+S/iT22QO2xRdeBqZeNmDr91myDLaCx8IdY7hSJp1eRJDCoS+r/njNEoN/8yPhw==
+	t=1794235713;
+	b=DlMPyOLRuv3e3aGv1Ei5uIhzFc/hz8/tixVG0NGMcPGqYfQv8Zk0NZhXJBLGNw6XbOSj
+	 IDxRMl8tVXRL3eLcCCRbAh+OjJbO59pG3PBmVYaAZX52kZ/dT0Ijshwda7lnK+ntrlCzO
+	 0BSJq/GzMiMnX+18/cjolcNJHI6Py6vFY04AqQEDli4xgPjq+aqkVe7mfgjw7GlafGZNw
+	 Q0HBs9iVx2pVcBY7muyi933nmg+j0FNR4+SEWdqsHyMomEzgBEHZ+KnZsofFklZ3ov4yi
+	 7ORSWvfdPBFz2INQTPvXaxfszFx5gNBpepklZdvNJ3GMmyRvnADl7OvbA7D4aYv97Bw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794235583;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794235713;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=93AR0ixWRF7Xc+mKq42uEUHnh202mM0USTi6ybrtt/0=;
-	b=o35LYz1AqkQzhto2HS+5NQVYY2RDCXLRYR6fsK2MWKc2aJaFW2eotNe30OwK9EsgtWlt
-	 MK0Ye0oSLFq5pdewRyJowS6YAJauuMA0RGZWCDSlPzv9VuxwynA7xILYfkwzc9Qeyx5MT
-	 lAVmtPG43We3Glpoe5+swmnaG5hdSITj1XkVjOYtWV7yKEh1vnHBbbEIpXQK7QtGzlLGn
-	 gITE9nAqRaWWqiY3/mDwWZgW0+h/8F+IosDg1M5LvtGYkyjK9+nCEs9aBsTAafelaP0xJ
-	 kmPvVuSs3VjIDHIg/H6/GfOxTfCCoDr4oeaIButXwh4lpHbuxO30QmTwvOxwFhoIbaQ==
+	bh=eigh9zARB3K5Yks6WSGw85FtpjPdjIU2WFiM1YwX0hU=;
+	b=z9ujBpv6VVTxcRPbmg8o03mctNoiT1YM/mAiciXotH+1pdlQxB7niCcDp29wfd04jftA
+	 nBIuXJA2UOv0dlrFfobHkIH8aRbwzs4vv3M1feozWDu0c0Maa2gXMjIGwpRHH3lywiqzW
+	 qOKGM/cSELsDjF4HVzrBlI++2WueXNknfWvLH1GfWvYX7XJ6TymTNYFDBdmZ6kt/zZrDG
+	 I6aCMfbLXyCLIsyOnFSmNhWFCtqzEs/NztP1VGSLyrpXCA4eTQ8Kn5UvKogG1J4usJfsf
+	 36llctLYpRNzuhhqMCfk9yP/eF6etrkj3ABjE60HdXZZrKAyu91jFEegr5ANbg9mIQg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=R3j5M1Gt;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="dz0LFd/6";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A155606A31C;
-	Mon,  9 Nov 2026 14:46:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B689D606A330;
+	Mon,  9 Nov 2026 14:48:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=R3j5M1Gt
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 620B81F0089F;
-	Mon,  9 Nov 2026 14:46:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dz0LFd/6
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CA891F008A1;
+	Mon,  9 Nov 2026 14:48:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794235583;
-	bh=93AR0ixWRF7Xc+mKq42uEUHnh202mM0USTi6ybrtt/0=;
+	s=k20260515; t=1794235712;
+	bh=eigh9zARB3K5Yks6WSGw85FtpjPdjIU2WFiM1YwX0hU=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=R3j5M1GtbQ4HJLT7OhpTZEh2BryQV+uiLHfcysgIOQ1NFb5i4bak6X+eNkP0EAbZ9
-	 IQ85enPQ15w1I2aklY5dL5f+9UPF1nB4OWrbOipMU1EhxsV2QyXRhRi7HD89zlVrf2
-	 7dp+w/hxXIYXChRG6Ji8VoQrIx+r53F4pKdzVlHCKuMaMejkxQ+1tOSwdkAJ62sF6h
-	 C72/0kQZRLR+UgfMObni0YgD7P8W7VFoxpbK2xToMWavoQI7CPAdxeSX5jQMqY0cW2
-	 bIXVv9cTXdaGNcAZah1PVqO7mgk/LZXCLJk1Xgn4u2atOJoobfxWL1KjRB9VY6Ej/t
-	 Oj1Qw5V5yi4vg==
-Message-ID: <f21433af-afc6-4a8f-8d2d-3a377cd3bd6e@kernel.org>
-Date: Mon, 9 Nov 2026 15:46:10 +0100
+	b=dz0LFd/6XIMfjXdzs+pMzB67I9Ju7xSYoda8FIjhq3hedCPya74hwuKLSmcux9hke
+	 6TH+3UVTOwRz8fKDdsqMLSQDDkSZlwX6aRhNKVgCvN99mSdrpRqXTWHZiSjgZcO9jP
+	 0SbjrPQpABg4zHADLcge2uFRH4PwaEvCXZsZLjK2tg2cTX868lHeT1ruywvD7t6aOT
+	 FEwebnRCugED3YVOYErNDeUuKZ+HfkDBO9NVVSTZ7x8VZLeeLsxqsKcL4PiPPOMcQh
+	 4O99aONWfscqmDEjOPzUaMTCQic18AEhCdX2aou0OxNuFJB1wVMz9b1zzUb0DS5Eqk
+	 eQ9QZm32EzcVQ==
+Message-ID: <01605605-d6a9-44c6-a5b9-024f33d8c488@kernel.org>
+Date: Mon, 9 Nov 2026 15:48:20 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -52,8 +52,8 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 03/18] fuse: don't move a folio with PG_rcu_free
- into a fuse file
+Subject: Re: [RFC PATCH v2 04/18] mm: count the pages waiting for a grace
+ period
 To: "Kiryl Shutsemau (Meta)" <kas@kernel.org>,
  Andrew Morton <akpm@linux-foundation.org>,
  Linus Torvalds <torvalds@linux-foundation.org>,
@@ -82,7 +82,7 @@ Cc: Miklos Szeredi <miklos@szeredi.hu>, Miaohe Lin <linmiaohe@huawei.com>,
  linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev,
  kernel-team@meta.com
 References: <20261104130118.2507513-1-kas@kernel.org>
- <20261104130118.2507513-4-kas@kernel.org>
+ <20261104130118.2507513-5-kas@kernel.org>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -129,50 +129,25 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20261104130118.2507513-4-kas@kernel.org>
+In-Reply-To: <20261104130118.2507513-5-kas@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 11/4/26 14:00, Kiryl Shutsemau (Meta) wrote:
-> fuse_try_move_folio() takes the folio of a pipe buffer and puts it into
-> a fuse file, where writes change it.  A folio with PG_rcu_free may still
-> be copied by a lockless page cache read that found it before it left
-> the page cache.
+On 11/4/26 14:01, Kiryl Shutsemau (Meta) wrote:
+> Deferred folios have refcount 0 and are not on the free lists, so no
+> counter shows them.  Memory that waits for a grace period is missing
+> from the free count and from every LRU count.
 > 
-> Such a folio reaches fuse when a mapped file page is gifted with
-> vmsplice(SPLICE_F_GIFT) and its file is then truncated.
-> fuse_check_folio() refuses it only because the flag is not among those
-> it allows, and with a dump_page().
-> 
-> Copy such a folio instead, as fuse does whenever it cannot take one.
-> 
-> Signed-off-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
-> ---
->  fs/fuse/dev.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-> index 4fec31fc0b84..526929c7b3f1 100644
-> --- a/fs/fuse/dev.c
-> +++ b/fs/fuse/dev.c
-> @@ -1152,6 +1152,10 @@ static int fuse_try_move_folio(struct fuse_copy_state *cs, struct folio **foliop
->  
->  	newfolio = page_folio(buf->page);
->  
-> +	/* A lockless page cache read may still be copying from it */
-> +	if (folio_test_rcu_free(newfolio))
-> +		goto out_fallback_unlock;
-> +
->  	folio_clear_uptodate(newfolio);
->  	folio_clear_mappedtodisk(newfolio);
+> Count it per zone in NR_FREE_RCU_PAGES: nr_free_rcu in /proc/vmstat,
+> free_rcu in show_free_areas().  Preparation for freeing the waiting
+> pages sooner when they hold back memory that is needed.
 
-Talking to Zi, it would actually be nice if we could disallow converting
-ordinary pages to folios and the other way around. That will be required for
-some future changes where we identify folios with a distinct PG_folio.
+Even if we switch to having this folio-specific internally, I think it will be
+the right approach to expose this as NR_FREE_RCU_PAGES. (not NR_*FOLIOS, for
+example, because we want the actual # pages)
 
-Could we get rid of fuse_try_move_folio() entirely?
 
-I think we'd just want to get rid of any such stealing if possible.
+Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
 -- 
 Cheers,
