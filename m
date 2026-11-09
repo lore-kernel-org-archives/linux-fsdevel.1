@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794235391;
-	b=ynKmqU/03gZRJYWJQVFasa/Gvc6uXRTVOLNmi+eX4Ouy3fHeVRgw6wYo0psP3TegyoRE
-	 TdBP1tayy+HuF+FaRAdRdfqBY0d7yiHBtgiIxCyz+k46CCqgn1X/4rUuu5/ml58HmbLMA
-	 UlpcHolh5zW8VK2p4lQQpRhXXfjxlhB/s2OS4yDy36xg841uyRTZtjTbxZYFmfSbccQqO
-	 LK0VmbThf3pxjMWpCIKJX+ih9OXQrvPDVpnUnnYwEhxqXOYGOhY5Zl1GMGXM9qfKixSOx
-	 MI4t3n/W9yutIvIeT53TrNRAAbABHIJ5XvgHRjTES38B90qTWCBvtQaFxXwNyZM1gOA==
+	t=1794235583;
+	b=FySArSkUFDR1rE6AO+XcQR2DEsQdcf2siHhKwB4jRb215GdP8HFlE0GhCrfNBYZgfnfN
+	 at6k+Gcpdirxr83tn3iKW6uBxyJFsjj5M6Xg93sw6hm+d3nbExACYS/7Wicx3hqYSzDA5
+	 piMl/gTvpP9rFf39U2PS5WoQFi2UpcQXeHyLFCNPLotVxfAjZJzqfVO5g9zja+DR9NF8Z
+	 gTcr6lkw4Pa9CqdAsIcKQkxc5Cl4gMpF7lQFvh2sXNvA8ysN3i7tPIvvafy4t60VDD+RQ
+	 +Ksi+S/iT22QO2xRdeBqZeNmDr91myDLaCx8IdY7hSJp1eRJDCoS+r/njNEoN/8yPhw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794235391;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794235583;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=8xp9qI2Ok6sylEAN+gwDtNeJcQqJMD2By0aR3Vam4ic=;
-	b=EYonIdh7RsTSdNj0sqZkjhb4/V74Njz3IBFqauGwEvuLYOH4vw8vEidccY8r1NR9C0ag
-	 zeJOF15n4ovNxu56DEFdaV9a99nmWnr+3WK/RjnxcugMdfnMkxlImRMnf2ZgOfzkwOIah
-	 iKF2evnZhZMQDNi3E21Px6uvKjuq5oG7SCUVydfoD7NcLhSwLGl99S/d7R6ZF+55S8JFm
-	 QSGVOj+56oOFVy/NQm3P2OKGikK+8R9J7CNcXfN+wo2yAi1GVDCt95oXn3yvfY2JBYVcx
-	 z3fq9OHLItISZl+npxXzCbdnwhDu5SOK/HCIF1c0lGVDBsevFFjOeswI8xNq0fXLq4g==
+	bh=93AR0ixWRF7Xc+mKq42uEUHnh202mM0USTi6ybrtt/0=;
+	b=o35LYz1AqkQzhto2HS+5NQVYY2RDCXLRYR6fsK2MWKc2aJaFW2eotNe30OwK9EsgtWlt
+	 MK0Ye0oSLFq5pdewRyJowS6YAJauuMA0RGZWCDSlPzv9VuxwynA7xILYfkwzc9Qeyx5MT
+	 lAVmtPG43We3Glpoe5+swmnaG5hdSITj1XkVjOYtWV7yKEh1vnHBbbEIpXQK7QtGzlLGn
+	 gITE9nAqRaWWqiY3/mDwWZgW0+h/8F+IosDg1M5LvtGYkyjK9+nCEs9aBsTAafelaP0xJ
+	 kmPvVuSs3VjIDHIg/H6/GfOxTfCCoDr4oeaIButXwh4lpHbuxO30QmTwvOxwFhoIbaQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fiRcdJU3;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=R3j5M1Gt;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C3FA606A331;
-	Mon,  9 Nov 2026 14:43:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A155606A31C;
+	Mon,  9 Nov 2026 14:46:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fiRcdJU3
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B71801F0089F;
-	Mon,  9 Nov 2026 14:43:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=R3j5M1Gt
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 620B81F0089F;
+	Mon,  9 Nov 2026 14:46:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794235390;
-	bh=8xp9qI2Ok6sylEAN+gwDtNeJcQqJMD2By0aR3Vam4ic=;
+	s=k20260515; t=1794235583;
+	bh=93AR0ixWRF7Xc+mKq42uEUHnh202mM0USTi6ybrtt/0=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=fiRcdJU3ll1oX0GL0kFkxzsBFsMHgUWajfOKORb5n5LGR0Ijd/a/ZTZV+msRt+7AE
-	 izmHSZ0aw7NmYNXW2GLtEsOVZAVfpyTgNpWMg0tnkNJIiyc5/KCWAsOooJ2agALkvo
-	 xMx1r2vihgzi5AJitWcAdZVUonHMXvaKgl9UVq27SVx9gYsvdThm6KBH+43D8zNpIr
-	 FMQ7SsNDb6DxIz8AlwOC0mr0jutSYBOHsbEGL+VL9IRKLrnSaOy3QQQC3fefk2V1Bc
-	 NeugOO2gVdweOhasQ4WB+Fp70fov7x2MciIpscO2WdjUB0pXFmsgdSIiWUkB+DBpqF
-	 g6u1UllN9MC0w==
-Message-ID: <aa2a1e32-9b1d-4545-b2e0-03d213593023@kernel.org>
-Date: Mon, 9 Nov 2026 15:42:58 +0100
+	b=R3j5M1GtbQ4HJLT7OhpTZEh2BryQV+uiLHfcysgIOQ1NFb5i4bak6X+eNkP0EAbZ9
+	 IQ85enPQ15w1I2aklY5dL5f+9UPF1nB4OWrbOipMU1EhxsV2QyXRhRi7HD89zlVrf2
+	 7dp+w/hxXIYXChRG6Ji8VoQrIx+r53F4pKdzVlHCKuMaMejkxQ+1tOSwdkAJ62sF6h
+	 C72/0kQZRLR+UgfMObni0YgD7P8W7VFoxpbK2xToMWavoQI7CPAdxeSX5jQMqY0cW2
+	 bIXVv9cTXdaGNcAZah1PVqO7mgk/LZXCLJk1Xgn4u2atOJoobfxWL1KjRB9VY6Ej/t
+	 Oj1Qw5V5yi4vg==
+Message-ID: <f21433af-afc6-4a8f-8d2d-3a377cd3bd6e@kernel.org>
+Date: Mon, 9 Nov 2026 15:46:10 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -52,16 +52,16 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 01/18] mm: free PG_rcu_free folios only after an
- RCU grace period
-To: Kiryl Shutsemau <kas@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
+Subject: Re: [RFC PATCH v2 03/18] fuse: don't move a folio with PG_rcu_free
+ into a fuse file
+To: "Kiryl Shutsemau (Meta)" <kas@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
  Linus Torvalds <torvalds@linux-foundation.org>,
  Matthew Wilcox <willy@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
  Lorenzo Stoakes <ljs@kernel.org>, Jan Kara <jack@suse.cz>,
  Hugh Dickins <hughd@google.com>, Christian Brauner <brauner@kernel.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>, Harry Yoo <harry@kernel.org>,
- Miklos Szeredi <miklos@szeredi.hu>, Miaohe Lin <linmiaohe@huawei.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, Harry Yoo <harry@kernel.org>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Miaohe Lin <linmiaohe@huawei.com>,
  Naoya Horiguchi <nao.horiguchi@gmail.com>, Oscar Salvador
  <osalvador@suse.de>, "Liam R. Howlett" <liam@infradead.org>,
  Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
@@ -82,9 +82,7 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
  linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev,
  kernel-team@meta.com
 References: <20261104130118.2507513-1-kas@kernel.org>
- <20261104130118.2507513-2-kas@kernel.org>
- <ecad7b3c-7244-425a-9413-04d49f221057@kernel.org>
- <au2lsbDkyWt-To0C@thinkstation>
+ <20261104130118.2507513-4-kas@kernel.org>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -131,166 +129,50 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <au2lsbDkyWt-To0C@thinkstation>
+In-Reply-To: <20261104130118.2507513-4-kas@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 11/6/26 11:23, Kiryl Shutsemau wrote:
-> On Thu, Nov 05, 2026 at 09:37:31PM +0100, David Hildenbrand (Arm) wrote:
->>> diff --git a/mm/Kconfig b/mm/Kconfig
->>> index 604c58199acb..6e5341b0bf64 100644
->>> --- a/mm/Kconfig
->>> +++ b/mm/Kconfig
->>> @@ -718,6 +718,21 @@ config PCP_BATCH_SCALE_MAX
->>>  	  latency.  This option sets the upper limit of scale factor to limit
->>>  	  the maximum latency.
->>>  
->>> +config PAGE_RCU_FREE
->>
->> I think we really want to focus this only on folios (like the current code does).
->>
->> FOLIO_RCU_FREE ?
+On 11/4/26 14:00, Kiryl Shutsemau (Meta) wrote:
+> fuse_try_move_folio() takes the folio of a pipe buffer and puts it into
+> a fuse file, where writes change it.  A folio with PG_rcu_free may still
+> be copied by a lockless page cache read that found it before it left
+> the page cache.
 > 
-> Sure.
+> Such a folio reaches fuse when a mapped file page is gifted with
+> vmsplice(SPLICE_F_GIFT) and its file is then truncated.
+> fuse_check_folio() refuses it only because the flag is not among those
+> it allows, and with a dump_page().
 > 
->>> +	def_bool y
->>> +	depends on 64BIT
->>> +	depends on !PREEMPT_RT
->>> +	help
->>> +	  Reads from the page cache can copy from folios that are read
->>> +	  again and again without taking a reference on them, so small
->>> +	  reads of one file from many CPUs do not contend on the folio's
->>> +	  reference count.  The cost is that memory freed from such
->>> +	  folios becomes reusable only after an RCU grace period.
->>
->> While that description is helpful, that's not really what this patch, or rather
->> the basic infrastructure in page_alloc, does.
->>
->> I'd suggest to have a dedicated FOLIO_RCU_FREE config and maybe another one
->> (that selects/depends on) FOLIO_RCU_FREE that actually enables the pagecache use
->> and documents the details.
+> Copy such a folio instead, as fuse does whenever it cannot take one.
 > 
-> I will make the help describe what this patch does.  The page cache is
-> the only user, and both symbols would be def_bool without a prompt, so
-> I would rather add the second one with a second user.
+> Signed-off-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
+> ---
+>  fs/fuse/dev.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> Does that work for you?
-> 
->>> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
->>> index 1e5d68acf62a..25082949a4ca 100644
->>> --- a/mm/huge_memory.c
->>> +++ b/mm/huge_memory.c
->>> @@ -3743,6 +3743,7 @@ static void __split_folio_to_order(struct folio *folio, int old_order,
->>>  #endif
->>>  				 (1L << PG_dirty) |
->>>  				 (1L << PG_dropbehind) |
->>> +				 __PG_RCU_FREE |
->>
->> That looks a bit odd at first, as it's very different to the other once. But no
->> easy way around assuming that the flag is not always around.
->>
->> Maybe we should just have this be a const mask constructed somewhere using BIT()
->> and __PG_RCU_FREE etc, instead of having this growing list in this user here.
-> 
-> Makes sense.  Something like the diff below, on top of this patch.
-> Introducing split_copy_flags would be a preparatory patch, and this one
-> would only add __PG_RCU_FREE to it.
-> 
->>> @@ -1327,6 +1417,19 @@ static __always_inline bool __free_pages_prepare(struct page *page,
->>>  
->>>  	VM_BUG_ON_PAGE(PageTail(page), page);
->>>  
->>> +	/*
->>> +	 * Not for a hwpoisoned order-0 page: it never reaches the allocator,
->>> +	 * and page_handle_poison() takes a reference right after this free.
->>> +	 */
->>> +	if (unlikely(folio_test_rcu_free(folio)) &&
->>> +	    !(PageHWPoison(page) && !order)) {
->>> +		VM_WARN_ON_ONCE(fpi_flags & FPI_NOLOCK);
->>> +		__folio_clear_rcu_free(folio);
->>> +		count_vm_events(PGFREE_RCU, 1 << order);
->>> +		rcu_free_defer(folio);
->>> +		return false;
->>> +	}
->> I'm wondering whether we want to intercept on the folio freeing path instead?
->> That would be __folio_put(), before we go into free_frozen_pages() used by other
->> machinery that does not apply (slab etc).
-> 
-> Not all page cache folios are freed through __folio_put().  Reclaim
-> frees them with free_unref_folios() directly (shrink_folio_list(),
-> move_folios_to_lru()), and so do folios_put_refs() and the LRU batches.
-> __free_pages_prepare() is the one place they all pass.
-
-Can we just rework that code first to have some clear folio freeing path, IOW
-doing this in a folio-specific helper?
-
-folios_put_refs() is just a specialized and batched variant of the __folio_put()
-freeing path in the end. So we can hook into these two easily.
-
-For free_unref_folios() would need another hook or a cleaner rework.
-
-
-> 
-> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
-> index a1e52a1f8a52..6d4e534c9ccc 100644
-> --- a/include/linux/page-flags.h
-> +++ b/include/linux/page-flags.h
-> @@ -1185,6 +1185,18 @@ static __always_inline void __ClearPageAnonExclusive(struct page *page)
->  #define __PG_MLOCKED		0
->  #endif
+> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+> index 4fec31fc0b84..526929c7b3f1 100644
+> --- a/fs/fuse/dev.c
+> +++ b/fs/fuse/dev.c
+> @@ -1152,6 +1152,10 @@ static int fuse_try_move_folio(struct fuse_copy_state *cs, struct folio **foliop
 >  
-> +#ifdef CONFIG_ARCH_USES_PG_ARCH_2
-> +#define __PG_ARCH_2		BIT(PG_arch_2)
-> +#else
-> +#define __PG_ARCH_2		0
-> +#endif
+>  	newfolio = page_folio(buf->page);
+>  
+> +	/* A lockless page cache read may still be copying from it */
+> +	if (folio_test_rcu_free(newfolio))
+> +		goto out_fallback_unlock;
 > +
-> +#ifdef CONFIG_ARCH_USES_PG_ARCH_3
-> +#define __PG_ARCH_3		BIT(PG_arch_3)
-> +#else
-> +#define __PG_ARCH_3		0
-> +#endif
-> +
->  /*
->   * Flags checked when a page is freed.  Pages being freed should not have
->   * these flags set.  If they are, there is a problem.
-> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-> index 25082949a4ca..44a1aaa3f834 100644
-> --- a/mm/huge_memory.c
-> +++ b/mm/huge_memory.c
-> @@ -3689,6 +3689,23 @@ static void __split_folio_to_order(struct folio *folio, int old_order,
->  	const bool handle_hwpoison = folio_test_has_hwpoisoned(folio) && new_order;
->  	long new_nr_pages = 1 << new_order;
->  	long nr_pages = 1 << old_order;
-> +	const unsigned long split_copy_flags =
-> +		BIT(PG_referenced) |
-> +		BIT(PG_swapbacked) |
-> +		BIT(PG_swapcache) |
-> +		__PG_MLOCKED |
-> +		BIT(PG_uptodate) |
-> +		BIT(PG_active) |
-> +		BIT(PG_workingset) |
-> +		BIT(PG_locked) |
-> +		BIT(PG_unevictable) |
-> +		__PG_ARCH_2 |
-> +		__PG_ARCH_3 |
-> +		BIT(PG_dirty) |
-> +		BIT(PG_dropbehind) |
-> +		__PG_RCU_FREE |
-> +		LRU_GEN_MASK |
-> +		LRU_REFS_MASK;
+>  	folio_clear_uptodate(newfolio);
+>  	folio_clear_mappedtodisk(newfolio);
 
+Talking to Zi, it would actually be nice if we could disallow converting
+ordinary pages to folios and the other way around. That will be required for
+some future changes where we identify folios with a distinct PG_folio.
 
-I was rather thinking of a
+Could we get rid of fuse_try_move_folio() entirely?
 
-
-#define FOLIO_SPLIT_FLAGS	BIT(PG_referenced) | BIT(PG_swapbacked) | \
-
-...
-
-To make this function actually shorter :)
-
-(ofc, you could also have a static const unsigned long, if that's what we want)
+I think we'd just want to get rid of any such stealing if possible.
 
 -- 
 Cheers,
