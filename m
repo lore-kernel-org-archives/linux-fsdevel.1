@@ -1,57 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.68
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.71
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794220469;
-	b=0t0WAeMcLeWrs0tl/wJBtVaJlKQpbuxtVHrg/cfdujFCP40H/akhzD8OjU/OmetuLT6t
-	 xFn4ldwX+gFCpT5gvl61pYD3nGlexVSoT6UbnljdVACmCtWnNUpMm5XvwhohquvHwHI6r
-	 SideCzG+abUbsu5D3ssHN2YmPe0o+tIA5+g2JeiehurDY8F92/T/tShz1nQBz1YUbW23m
-	 UG9y8Ny71+5dKoYbDxgWml2uxVGXZkU9P+6RMJXW+i8Uch4SmnGfT1YN1OWK06Aez/Y5r
-	 v0LJT3+HowNa/YJy2+pXnvLE2RqGWoSckeXBm+HRdt2iHEb5qrOrApKCtDt9cEZcbuQ==
+	t=1794220479;
+	b=kXfem6CVTCB9ILUOG4oChvaIc5aKtMk8OySf5Hufi+X8e+JIt5Ygly9DH5fRRMlMNZJ+
+	 HjyxefuO2WzGU4xUFdT4Zko2SsGAu+6JB8EL4Cao2lc+/6ETFPA/+wYiIoPJfJCEJWWGp
+	 xITTe/NMndQSwAExrNEhaO+NFJ+ejuR3TQMtKBlkLPN4IDyQnfCsm4CEAj1FeltisH9iN
+	 G2KRfT9Fue+rXwV6ljqCVW4wBu9KXMJcjIlQz6o/gjPwNxqyARrYdIOdi/fRubODXj7TG
+	 xuqbdkiU6e83BNmMxQMasMCA81k7ucmTKqhJBSCx3OhK2JmsjOPgmuIAeI270m+3XBg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794220469;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794220479;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:From:Subject:Date:Message-Id:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:To:
-	 Cc:X-Mailer;
-	bh=HcyC4gXLAdfeaP/Wt/S0vvlPaGMCmoRLGX/CIA6lY9Q=;
-	b=OGKGw7pT8QsWSTDMHQry5ZdxBeeKccPmFFMKaBP8ytMc11HEmYemezYhq5PJ+9JjhLrJ
-	 AnEfVfUKGVVTsnfWlyjsx8S2LACA0F1aEsm6idmrIjyZJh8kXrOSQ1V5qmtUXQR4l63uV
-	 CeBltIP+CJO5kS3Ux6zJWfAwVoD93UWL4b18vf3meukTKB0jUjefdSsFZFeePZYkQvXnD
-	 hAhggLgXeRnK9EqnSwgoaCUPWW0Rv104xvceaDKu67d5Mc2a55rbv6X9RgKLGcg/3BpR3
-	 4xCUiHHLdRECWFrHOrhWXKusScTxLlY+dB01klMepiCWeaOPKo6ALLdEBhhEqkt5C1g==
+	 X-Mizu-Trace-ID:X-Migadu-Flow:From:Date:Subject:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
+	 In-Reply-To:To:Cc:X-Mailer;
+	bh=rtsHU++eHrXo/wih9M9uuk16BRNVVDXZX/+Z/5nwGFY=;
+	b=hV9u8Jk5lAuLf5WPaWUcYPiWqNOv/CXRKLT68rn8rMNwRLJK8b1PfjYUj7bus1XHcVEF
+	 KRr7e+0im8aN6FgCLsGH9eoxwjFHjTpToZQOenXAMvTGvcrUBt30PqrkOnp/E7dzMCyJI
+	 3cfyokDvUKqg1N6b66gC9IA2E8dIy2XPl2kkeGuuTu9czBHLicGQAQrs1X6rfvwkOHLr1
+	 14UOYtlc+HLm/RufQhSNyXGYCvsLoH/tjSHfxIUKStKEtTb6rBSjuQ4eq7e0+JM1lapJn
+	 9Osm8L1z5KoUY+rDUVnbG5wnqv+dr9FsNerFBxqn5z5hoW0/z1VGEw431NCAVE8gNRw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b="PVJC/UwA";
-	arc=none smtp.remote-ip=91.218.175.68
-Received: from mta0.migadu.com (out-68.mta0.migadu.com [91.218.175.68])
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=G5UlDFmA;
+	arc=none smtp.remote-ip=91.218.175.71
+Received: from mta0.migadu.com (out-71.mta0.migadu.com [91.218.175.71])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5517606D801
-	for <linux-fsdevel@vger.kernel.org>; Mon,  9 Nov 2026 10:34:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C5517606D801
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1437D606A322
+	for <linux-fsdevel@vger.kernel.org>; Mon,  9 Nov 2026 10:34:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1437D606A322
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=PVJC/UwA
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=G5UlDFmA
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=WSKRKNHs8TgH01lWznvz9ZL6seoezqmhP3XWrJeisK4=;
+DKIM-Signature: a=rsa-sha256; bh=jiy3X41lKoHJ9TTiUEkmvmqa1hNlv04MEvb3bMfslJQ=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794220464; v=1; x=1794825264;
- b=PVJC/UwAIHH3G4mW91KyQrf9mbg4ryVduXLxAkM/ZzXH4axh9UXh9mRUCm7bgIq4kePsTTtI
- aKSnr4ktc4gZTYxW421oOygh6VDmaTrfelpF7JHlhyIQx5u5hzA+TstLotDnQZ20qjo2GMRHiL5
- ttASds2G4+wWVdB4MIcYEv7Y=
+ t=1794220475; v=1; x=1794825275;
+ b=G5UlDFmAxfB89RIUDbFCCBS1nF+v8gvREXBs2zhxptUYUNc1JSIXCBYnlyl5Ve2epJFTWjkg
+ dM19fpY5DLMMlQVRBBK4v+INbT74Y00EEqMk2JPLOO/N2vvQokDB+yIGi84zNC11LYCM/MgDDki
+ c4+CssmTN1asQAWEejKKndkQ=
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 2c4cef387cfdf462;
-	Mon, 09 Nov 2026 10:34:24 +0000
-X-Mizu-Trace-ID: 2c4cef387cfdf462
+Received: by smtp.migadu.com with ESMTPS id 4358eec4bb05e3ec;
+	Mon, 09 Nov 2026 10:34:35 +0000
+X-Mizu-Trace-ID: 4358eec4bb05e3ec
 X-Migadu-Flow: FLOW_OUT
 From: Qiliang Yuan <qiliang.yuan@linux.dev>
-Subject: [PATCH v2 0/3] mm/filemap: read ahead for mmap readers that move
- backwards
-Date: Mon, 09 Nov 2026 05:34:10 -0500
-Message-Id: <20261109-bug-mm-mmap-readahead-descending-v2-0-abac52890a9c@linux.dev>
+Date: Mon, 09 Nov 2026 05:34:11 -0500
+Subject: [PATCH v2 1/3] mm/filemap: move the mmap hit check of
+ filemap_map_pages() into helpers
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -63,122 +62,110 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAKKh8WoC/5WNTQrCMBCFr1Jm7UiaSqyuvId0kZ9pOmDSkmhQS
- u9u7A2Ex4PvLb63QqbElOHarJCocOY5VpCHBuykoydkVxmkkKoVUqJ5eQyhRi+YSDs91UJH2VJ
- 0HD1erDa9OovOGANVsyQa+b1f3IfKE+fnnD77Y2l/6x/y0qJA5URvulOv5ChvPmh+HO0cYNi27
- QtDyh2F0AAAAA==
+Message-Id: <20261109-bug-mm-mmap-readahead-descending-v2-1-abac52890a9c@linux.dev>
+References: <20261109-bug-mm-mmap-readahead-descending-v2-0-abac52890a9c@linux.dev>
+In-Reply-To: <20261109-bug-mm-mmap-readahead-descending-v2-0-abac52890a9c@linux.dev>
 To: "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
  Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>, 
  Vishal Moola <vishal.moola@gmail.com>, fujunjie <fujunjie1@qq.com>
 Cc: Roman Gushchin <roman.gushchin@linux.dev>, 
  Usama Arif <usama.arif@linux.dev>, linux-fsdevel@vger.kernel.org, 
  linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
- Qiliang Yuan <qiliang.yuan@linux.dev>, stable@vger.kernel.org
+ Qiliang Yuan <qiliang.yuan@linux.dev>
 X-Mailer: b4 0.13.0
 
-A reader that walks a file mapping towards lower offsets gets almost no
-readahead from mmap faults when the mapping asks for it. glibc's
-memmove() and memcpy() copy backwards when the destination lies above
-the source, so this happens to loaders that copy large files out of a
-mapping, such as LLM inference engines copying model weights out of a
-safetensors mapping. Both MADV_HUGEPAGE and MADV_SEQUENTIAL read ahead
-only towards higher offsets, so each fault of such a reader reads just
-the part it is missing.
+filemap_map_pages() lowers mmap_miss for a folio it maps with PTEs at
+the faulting address, unless the fault is a retry, the folio was
+recently evicted, or the mapping skips the matching mmap_miss increment
+in do_sync_mmap_readahead().
 
-MADV_SEQUENTIAL was slow for this before 7.2 as well. MADV_HUGEPAGE
-became much slower in 7.2: since commit 0b9c0aeba938 ("mm/filemap:
-count only the faulting address as a mmap hit"), the PTEs mapped around
-a fault no longer count as hits and PMD mappings never did, so a
-backward reader's mmap_miss passes MMAP_LOTSAMISS after about a hundred
-folios and readahead stops. Each page after that is read on its own.
+The PMD path of filemap_map_pages() returns before that loop, and the
+next patch needs the same check there.
 
-Patch 1 moves the mmap hit check of filemap_map_pages() into helpers.
-Patch 2 fixes the regression: on a descending VM_HUGEPAGE fault it also
-reads the folio below, and it counts a PMD mapping of the faulting
-address as a hit, as a PTE mapping is. Patch 3 reads the window that
-ends at the fault on a descending VM_SEQ_READ fault.
-
-Reading one byte from each page of a 2 GiB file, last page first, with
-a cold page cache, read_ahead_kb 8192, in a 32 vCPU VM:
-
-                       v7.4-rc2      patched
-  MADV_HUGEPAGE          42.23 s      0.58 s
-  MADV_SEQUENTIAL        52.42 s      0.96 s
-
-The same walk took 0.53 s with MADV_HUGEPAGE just before
-0b9c0aeba938.
-
-Forward walks take the same time, and a fault on an uncached 2 MiB hole
-between two cached ranges of a MADV_HUGEPAGE mapping is still mapped
-with a PMD, 300 out of 300 times with and without the series. Megabytes
-read and major faults for other access patterns over a 16 GiB file:
-
-                                    v7.4-rc2           patched
-  1% random, MADV_NORMAL         1002 MB, 39617      1013 MB, 39617
-  1% random, MADV_HUGEPAGE       1584 MB, 38760      1587 MB, 38756
-  1% stride 64 pages            10503 MB, 2          10496 MB, 2
-  5% random in 2 GiB memcg,
-    MADV_HUGEPAGE                2205 MB, 187416     2225 MB, 187402
-
-The walk above, run as "revwalk FILE" for MADV_HUGEPAGE and "revwalk FILE
-seq" for MADV_SEQUENTIAL, is below. I can turn it into a selftest if that
-is wanted.
-
-  /* revwalk FILE [seq]: read each page of FILE, last page first */
-  #include <fcntl.h>
-  #include <stdio.h>
-  #include <string.h>
-  #include <sys/mman.h>
-  #include <sys/resource.h>
-  #include <sys/stat.h>
-  #include <unistd.h>
-
-  int main(int argc, char **argv)
-  {
-  	long ps = sysconf(_SC_PAGESIZE);
-  	int fd = open(argv[1], O_RDONLY);
-  	struct rusage ru;
-  	struct stat st;
-  	size_t i;
-  	char *p;
-
-  	fstat(fd, &st);
-  	posix_fadvise(fd, 0, 0, POSIX_FADV_DONTNEED);
-  	p = mmap(NULL, st.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
-  	madvise(p, st.st_size, argc > 2 && !strcmp(argv[2], "seq") ?
-  		MADV_SEQUENTIAL : MADV_HUGEPAGE);
-  	for (i = st.st_size / ps; i > 0; i--)
-  		(void)*(volatile char *)(p + (i - 1) * ps);
-  	getrusage(RUSAGE_SELF, &ru);
-  	printf("major faults: %ld\n", ru.ru_majflt);
-  	return 0;
-  }
+Move the check into filemap_mmap_hit() and the decrement into
+filemap_count_mmap_hit().
 
 Signed-off-by: Qiliang Yuan <qiliang.yuan@linux.dev>
 ---
-V1 -> V2:
-- Split the mmap hit helpers out of the fix into patch 1
-- Patch 2: take a fault as descending only when the folio below it is
-  not cached either, so a hole between two cached ranges is still read
-  as one large folio (Sashiko review)
-- Rebase onto v7.4-rc2 and remeasure
-- Send from my linux.dev address
+ mm/filemap.c | 57 +++++++++++++++++++++++++++++++++++----------------------
+ 1 file changed, 35 insertions(+), 22 deletions(-)
 
-v1: https://lore.kernel.org/r/20261022-bug-mm-mmap-readahead-descending-v1-0-6d08b34862f2@gmail.com
+diff --git a/mm/filemap.c b/mm/filemap.c
+index b04be64a5069f..c38f0e4cf6123 100644
+--- a/mm/filemap.c
++++ b/mm/filemap.c
+@@ -3914,6 +3914,39 @@ static vm_fault_t filemap_map_order0_folio(struct vm_fault *vmf,
+ 	return ret;
+ }
+ 
++/*
++ * Whether mapping @folio at the faulting address counts as an mmap hit,
++ * which lowers mmap_miss in do_sync_mmap_readahead().
++ */
++static bool filemap_mmap_hit(struct vm_fault *vmf, struct folio *folio)
++{
++	/* Skip the retry of a fault, which maps the folio its miss read */
++	if (vmf->flags & FAULT_FLAG_TRIED)
++		return false;
++	/*
++	 * If there are too many folios that are recently evicted in a file,
++	 * they will probably continue to be evicted. In such situation,
++	 * read-ahead is only a waste of IO. Don't decrease mmap_miss in this
++	 * scenario to make sure we can stop read-ahead.
++	 */
++	if (folio_test_workingset(folio))
++		return false;
++	/*
++	 * VM_SEQ_READ and VM_EXEC mappings skip the mmap_miss increment in
++	 * do_sync_mmap_readahead(), so skip the decrement as well to keep
++	 * the counter symmetric.
++	 */
++	return !(vmf->vma->vm_flags & (VM_SEQ_READ | VM_EXEC));
++}
++
++static void filemap_count_mmap_hit(struct file *file)
++{
++	unsigned short mmap_miss = READ_ONCE(file->f_ra.mmap_miss);
++
++	if (mmap_miss)
++		WRITE_ONCE(file->f_ra.mmap_miss, mmap_miss - 1);
++}
++
+ vm_fault_t filemap_map_pages(struct vm_fault *vmf,
+ 			     pgoff_t start_pgoff, pgoff_t end_pgoff)
+ {
+@@ -3986,28 +4019,8 @@ vm_fault_t filemap_map_pages(struct vm_fault *vmf,
+ 		}
+ 		ret |= map_ret;
+ 
+-		/*
+-		 * If there are too many folios that are recently evicted
+-		 * in a file, they will probably continue to be evicted.
+-		 * In such situation, read-ahead is only a waste of IO.
+-		 * Don't decrease mmap_miss in this scenario to make sure
+-		 * we can stop read-ahead.
+-		 *
+-		 * VM_SEQ_READ and VM_EXEC mappings skip the mmap_miss
+-		 * increment in do_sync_mmap_readahead(), so skip the
+-		 * decrement here as well to keep the counter symmetric.
+-		 */
+-		if ((map_ret & VM_FAULT_NOPAGE) &&
+-		    !(vmf->flags & FAULT_FLAG_TRIED) &&
+-		    !folio_test_workingset(folio) &&
+-		    !(vma->vm_flags & (VM_SEQ_READ | VM_EXEC))) {
+-			unsigned short mmap_miss;
+-
+-			mmap_miss = READ_ONCE(file->f_ra.mmap_miss);
+-			if (mmap_miss)
+-				WRITE_ONCE(file->f_ra.mmap_miss,
+-					   mmap_miss - 1);
+-		}
++		if ((map_ret & VM_FAULT_NOPAGE) && filemap_mmap_hit(vmf, folio))
++			filemap_count_mmap_hit(file);
+ 
+ 		folio_unlock(folio);
+ 	} while ((folio = next_uptodate_folio(&xas, mapping, end_pgoff)) != NULL);
 
----
-Qiliang Yuan (3):
-      mm/filemap: move the mmap hit check of filemap_map_pages() into helpers
-      mm/filemap: read ahead downwards on descending VM_HUGEPAGE faults
-      mm/filemap: extend VM_SEQ_READ readahead below descending faults
-
- mm/filemap.c | 119 ++++++++++++++++++++++++++++++++++++++++++++---------------
- 1 file changed, 89 insertions(+), 30 deletions(-)
----
-base-commit: 7475ea8b58616b33c04afb976cf0fbaad9dd63fb
-change-id: 20261022-bug-mm-mmap-readahead-descending-9cab86703bbb
-
-Best regards,
 -- 
-Qiliang Yuan <qiliang.yuan@linux.dev>
+2.43.0
 
