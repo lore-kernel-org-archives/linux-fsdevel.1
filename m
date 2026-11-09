@@ -1,56 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.4
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794215469;
-	b=b+u6K6KaVt/v0gIfUXQOOBTmwzuMZGeZ3ptQ/GMB897HK68K/GTlCStjwZpXx778Oj5Z
-	 ZjiFR9HR/ZxuVuWc/6F4qcp4tqNkWhHRJZkROFDc7zfuPZvTlYLLu84Yx+BlxMH3K9yQH
-	 cDugRly3qc2YUMYFPQWy8Bcq4648A9TOPsONKcEs/2lWrztASO/oF18lazBxPVq2oJeqC
-	 S2xyriEOk2KQo9jepKK4BKhRDiTTeZpr9IQ9IWc1MhQ39BLfP7Ejt1p2fXaeRiGGgGs5F
-	 a+ddtsGXlr5gat7mckAOcAvO1Mn15AF957iRr3rFSnLsCgDqcMp6nQBkzV4xBUVZlJQ==
+	t=1794215732;
+	b=Ee8l1yCODy/FlExoizVq9J40fUvywPzlITclwv0Jli6FOz3pWwhwBnt9/x1F2fMyIdI5
+	 uSpJpmPCWmhe13wz6Z9XGtdC34W8i+Ohs5D6DCKr7nYcvEeJn+kW6yX0WgDQLPA8l4VDj
+	 mJeE2u7NxtH2Na6m5yfCxXqogypbAAIbWvA3fGnE5rgqc8AkMmFjtg61NKGw4IDCqbHET
+	 od1yWMMtKnUCraTYlM8wE8YKhfQzClyQPWVCllT2bOZYubOv84BICt3MyK50GQXHSWfE2
+	 lXU0hTEVSfQ+4jRngH480AGimb/VRJhHOs9ltx7X3euCHpRLTiJB/UpkfJ8UWLwjEjA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794215469;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:From:Date:Subject:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Message-Id:X-B4-Tracking:To:Cc:
-	 X-Mailer;
-	bh=ceETPs2UDE7IxIJ30l+uzPMCZetkCltzW9DlghrZCVE=;
-	b=bAucF14WuJ0hdAmijaJXdRR0rHkkD1hWMPfHq9GgclhGAIq3+r7jlnpXtz101t17Vq4D
-	 lHvZwH9HjBefflpWx2aQFiXiWhAbPBizqQsNsYWbQWa2Uc/lJFkwbLgbTic78Nsad7fgk
-	 rX+WepboRYeVJvCHSMd+b4VkoEPCw4r+Qq7RvKAATaj3F5LtiTpYUxRaXhvXu5nqMSo21
-	 80wipxzOWVIaRw6nDwnQ2INLLw33GyKxh6Qv7+CHlBYmMHxnm5ATdapuap4pRHhJ5GVjX
-	 QFZxfRMrA5J6guQIL+WxUwbR6o10DC9xtME5x8+wmJe3Q09R43vwX7rRMeg8VXCfulg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794215732;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=nAZcXDlQZddbY3M/muInvcNY1JTv1MgI/C6goEt1No4=;
+	b=fErj76YJYh/TnFW7KJXzUxVlvT+0legNLlDqtLX7g1D4u7xsgZaoTjYt+cT6qzyjd43k
+	 wLFX1pNQML1v7xUZ94e87Q9l7W2xG0MR33vECfnhqyPB/UKRJWcs5rF6xV4vEYkqtXCV4
+	 X5kPPChbUp9ZsBoYgMn1ivIPPUETs28rn3d4piT7S7C0wsl2czytsJoKAOWhppgijg4+M
+	 Ei90Oz4kcyB3e5xkedpGSdarhyGrV661dDoZpRJzz9ZBaNcbyub6UzfjR5jYIX0ZVcVmF
+	 WAbZvexl6vzteyoJslaE5wzUY7oFvRFqHaecbIEzzg6Y2wo9oUboqz73hjLWxsbegXw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=aeYA9o7I;
-	arc=none smtp.remote-ip=91.218.175.4
-Received: from mta0.migadu.com (out-4.mta0.migadu.com [91.218.175.4])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=EumOcsGU;
+	arc=none smtp.remote-ip=74.125.82.48
+Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A48A6606A321
-	for <linux-fsdevel@vger.kernel.org>; Mon,  9 Nov 2026 09:11:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A48A6606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16F83606D832
+	for <linux-fsdevel@vger.kernel.org>; Mon,  9 Nov 2026 09:15:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 16F83606D832
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=aeYA9o7I
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=WUpuYALlic5UCEqO8xHXvlvF5G6I45TQIvrJRccV9iY=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794215465; v=1; x=1794820265;
- b=aeYA9o7IOM94e2cddbedQ0jaEEsGvDhlYUHbUfwWiOOH9ry/IOxTxIS/0F3pD1frKABfbmO8
- tv7wXc7yWTWMdQkPwj3fxNY6evbj2c/01Xsy8kTbwlVxbErsBoYttk3lmIdsifCb4nBVyJwvvUS
- 04QCLOxvVk7Lkagrou1LA3Ks=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id f507b16f9208fe5c;
-	Mon, 09 Nov 2026 09:11:05 +0000
-X-Mizu-Trace-ID: f507b16f9208fe5c
-X-Migadu-Flow: FLOW_OUT
-From: Qiliang Yuan <qiliang.yuan@linux.dev>
-Date: Mon, 09 Nov 2026 04:10:55 -0500
-Subject: [PATCH v2] mm/readahead: look two windows ahead for the hole on a
- marker hit
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=EumOcsGU
+Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-14394530ec6so740805c88.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 09 Nov 2026 01:15:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794215731; x=1794820531; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=nAZcXDlQZddbY3M/muInvcNY1JTv1MgI/C6goEt1No4=;
+        b=EumOcsGUVgvV6f4EIH+ss1Yo0OuOX2Lpnk3VvwxNMWYoLWsAbpCyFZAEUxaiJGfm+c
+         34QwvxyCf+23hcUVfaIHJDmgVm0XoqZiNbgTZ5TUn/mLejXnDp1MO+SgBB66yCsEUVKu
+         96+aPOeNGOaR0Nn/W7Xzr1BvqfFtScUfIhDfa0P673LMDBqZ84oLuk1jSwSeDSwPQ7D3
+         NC/jq2knesGuifhSLeY7+1mEf335ndDq28JT8tcAcHVCjf7hXuBq/547XOl502ngw1Cs
+         W/FXfsvSERSAIeHHrTGkDnsbbVywHUyVCTv+57PhzoRpgj4x6/vHXC7xMJFkK5ROj0HX
+         xQtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794215731; x=1794820531;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=nAZcXDlQZddbY3M/muInvcNY1JTv1MgI/C6goEt1No4=;
+        b=CbI0xQdazv2irtYV+6cqzEL+eOjeHFgfs5hXqvTDgUaWMslwQ0ewXD8XUYNJoZ4wPm
+         hS5x08O921oW+Ara1qDe5p4azwgHD4RjNUtEj0twy2De92WNx8TYC93aRWro1eEYo0Kn
+         WIYPeYy+1BJ/jZbPluO/rWef+9iCMju4I/JynN3fMwTLEuzRh1Oxn5UNc5KeoE1O3fei
+         ktLdKRQDVQDTJB4mU1qv6VZjIZjSMKjDw7CnFvQ+Ii1nwf5mMqC3KjxWIcbsh60gQDMS
+         6FvH6wOuvgxLn+v850PzP/Q1FkyK020ASSiptY29Xk9udkuHLSRCIrjR7S6EVwJycArI
+         +TvQ==
+X-Forwarded-Encrypted: i=1; AL+hErFsNwxmFujoUEkG96evmusDnDA8iSn7mgqR1lunJ6zohmKHRVhUOx/TD3Af2BecbLYUtNUXUF6cZC7HLmGw@vger.kernel.org
+X-Gm-Message-State: APuU4Z8jhS5Mhr6gISlUXkIkqfK23RJ+N3ZAwlbpIOxndjZUnsOfFeua
+	gGk+4huPKupSXYmN2YROzyYk7YNM4Bwooj8NpnmpBy+T9NOI9B2ElrLh
+X-Gm-Gg: AYBFou0tZ1ddb1FWS6xn9+weaTXvW54cuobLiYociSPMyULODi4SZyLqw60ErkGItoi
+	N/Tsg5cCJyv29EzAhnmhJrUe3FBlmjuJZ/xv4eBcZS9qojBSIIGsXT6T2ynW44lbY0gaM/d6t7q
+	dzSr4GM5Ka+XQlZVFvDh3QVuCjaFidjKhQFn3NrgMBrJvLIhyKWNIJsM1hfmilfTwV3ATs69YBZ
+	xrOroEO1aNeC4jO0LAUZ6ZPZmhRc0PJ2LyhO10qgMyhbKohXoTVqB+8m7Mx7xQd3+Vqxx5W9xAS
+	ks//2A7y4AAkCi77S4lY9jfO3XF2RP+ZidNSdlQSKHG8FgZfMiZxgQdaJT1tArkNOTfk1KcHSZL
+	zmTUZaQHPcqTtaQxqCaHvFAeBiVoMb6vklqr+x9XENDhO/R5gPOyknAqhQ88pZZtnW9HGviBjES
+	E5vRnAokMKD35RUCzKBNba02jU4xgWnEX49GZAxns1UanGdea7EfD683UBK/pMXb0cSKcNUYjC9
+	3FDK1Ydlg7dMpxLgPwaqs7MkxJg/xT9wGTv3E01qJK2TbLvL12PbZukDar3SWkU1RWP4zkiXF0u
+	17l8oXxWUchJwYz0vQIehDzQdWMyh8LLz6/R7OGDfmR31alChlUr1eA5n+QBaOgIrQ==
+X-Received: by 2002:a05:7022:e803:b0:1ad:4ef5:ffed with SMTP id a92af1059eb24-1b39fefb9e8mr5783381c88.38.1794215730818;
+        Mon, 09 Nov 2026 01:15:30 -0800 (PST)
+Received: from LAPTOP-KD1TH5BD.tail375eb4.ts.net ([47.11.106.86])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b375604109sm14379505c88.10.2026.11.09.01.15.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Nov 2026 01:15:30 -0800 (PST)
+From: Gopal Malaviya <gopalmalaviya53@gmail.com>
+To: akpm@linux-foundation.org,
+	willy@infradead.org,
+	jack@suse.cz
+Cc: linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	regressions@lists.linux.dev,
+	fujunjie1@qq.com,
+	vishal.moola@gmail.com,
+	roman.gushchin@linux.dev,
+	Trace <tracekotae@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] mm/filemap: restart mmap readahead on sequential faults after many misses
+Date: Mon,  9 Nov 2026 09:14:44 +0000
+Message-ID: <20261109091444.128521-1-gopalmalaviya53@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261105192517.228523-1-tracekotae@gmail.com>
+References: <20261105192517.228523-1-tracekotae@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -60,152 +106,121 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261109-bug-mm-readahead-async-overtaken-v2-1-06ead50562a2@linux.dev>
-X-B4-Tracking: v=1; b=H4sIAB+O8WoC/5WNQQrCMBBFr1Jm7UgzUCmuvId0MUmmbdAkktRgK
- b27sTdw8+H9xXsbZElOMlybDZIUl10MFejUgJk5TILOVgZq6aJaItTvCb3HJGx5roOc12AwFkk
- LPySgJjN2WqwwKaiaV5LRfY7Efag8u7zEtB7Fon7vH/KiUKFpO93bXluyfJs8u+fZRA/Dvu9fy
- lw4OdAAAAA=
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
- Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>
-Cc: Joanne Koong <joannelkoong@gmail.com>, linux-fsdevel@vger.kernel.org, 
- linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
- Qiliang Yuan <qiliang.yuan@linux.dev>
-X-Mailer: b4 0.13.0
+Content-Transfer-Encoding: 8bit
 
-When a reader hits a folio marked for readahead that the readahead
-state does not expect, page_cache_async_ra() starts the next readahead
-at the first hole within one window after the folio. If that window is
-fully cached, it reads nothing.
+Since commit 9b0fcac3cfe7 ("mm/filemap: do not count FAULT_FLAG_TRIED
+retries as mmap hits"), about a hundred sparse mmap faults push
+mmap_miss over MMAP_LOTSAMISS and turn off mmap read-around, as
+intended. But mmap_miss only comes down on hits on pages that
+read-around brought in, and with read-around off there are none. A file
+that is then read sequentially gets a synchronous single-page read for
+every page until it is opened again.
 
-memcpy() in glibc loads the end of a large source before copying it
-forward, so a loader that copies a file mapping out in pieces of a few
-megabytes faults at the end of each piece first. mmap read-around then
-reads a window centered on that fault, which reaches more than one
-window past the readahead marker the copy has yet to hit. When the copy
-reaches the marker, there is no hole within a window, no readahead is
-issued, and the next piece faults on its end again. Every piece then
-gets a synchronous read-around of order-0 folios, and threads copying
-parts of one file also contend on the i_pages lock to insert them. A
-copy from offset 0 avoids this as its first read-around is clamped to
-the start of the file.
+When a miss above the limit is on the page right after the previous
+miss, start readahead the way a sequential read() miss does, with
+page_cache_sync_ra(), and keep mmap_miss at its cap so that hits on
+that small first window do not bring back full read-around for random
+access.
 
-Look up to two windows ahead for the hole, which reaches past such a
-read-around, so the reader keeps an asynchronous window and its folio
-order keeps ramping up.
+Tested in a KVM guest (x86_64, 2 vCPUs, 3 GiB) with ext4 on virtio-blk.
+"base" is mm-hotfixes-unstable. "95b8e" is commit 95b8e432265f ("mm: use
+zone lock guard in __offline_isolated_pages()"), the last one before the
+series of 9b0fcac3cfe7. Commit 0b9c0aeba938 ("mm/filemap: count only the
+faulting address as a mmap hit"), the first of that series, gives the
+same results as 95b8e for the reproducer.
 
-Copying a 16 GiB file out of a private mapping with memcpy() in 8 MiB
-pieces, read_ahead_kb 8192, cold page cache, 32 vCPU VM, mean of two
-runs:
+Reproducer from the report, read_ahead_kb 128, major faults:
 
-                                  before    after
-  1 thread from offset 2 GiB     7.62 s    2.00 s
-  8 threads, one range each      3.26 s    1.08 s
-  32 threads, one range each     4.05 s    1.34 s
+                                         95b8e    base  patched
+  sequential only                            1       1        1
+  sparse pass, then sequential               1   16384        2
+  sparse, MADV_SEQUENTIAL, sequential      512     512      512
+  sparse, close and reopen, sequential       1       1        1
 
-Random touches read the same amount, and pread() copies and copies that
-interleave 7 MiB chunks across threads take the same time within
-run-to-run noise.
+Touching 1% of the pages of a cold 20 GiB file, larger than memory,
+MiB read from disk:
 
-Signed-off-by: Qiliang Yuan <qiliang.yuan@linux.dev>
+                       read_ahead_kb 128        read_ahead_kb 8192
+                      95b8e  base patched     95b8e   base patched
+  random               5656   215     215    344731   1032    1032
+  stride 2053 pages    6545   216     216    419003    992     992
+  random 2-page runs   2992   215     528    173093   1099    2248
+  random 4-page runs   1570   216     594     86797   1266    2301
+
+After the sparse pass, reading 32 regions of 2 MiB in turn takes 512
+major faults per region on base and 2 with this patch.
+
+Not tested: NFS, the GPU workload from the report, and other
+architectures and page sizes.
+
+An AI assistant (Claude) helped with the analysis and the approach, and
+wrote the test programs and drafts of the comment and this changelog.
+I reviewed, implemented, built and tested the change.
+
+Fixes: 9b0fcac3cfe7 ("mm/filemap: do not count FAULT_FLAG_TRIED retries as mmap hits")
+Reported-by: Trace <tracekotae@gmail.com>
+Closes: https://lore.kernel.org/all/20261105192517.228523-1-tracekotae@gmail.com/
+Cc: stable@vger.kernel.org
+Signed-off-by: Gopal Malaviya <gopalmalaviya53@gmail.com>
 ---
-The program below copies FILE out of a mapping in 8 MiB pieces, each
-thread taking one range. With a cold page cache, run as "pcopy FILE 1
-2048" (one thread starting at 2 GiB) and "pcopy FILE 8" on a 16 GiB file:
+Notes, not for the changelog:
 
-                        7be4bc52fd9e    patched
-  1 thread from 2 GiB      6.92 s        1.57 s
-  8 threads                4.00 s        1.04 s
+- Keeping mmap_miss at its cap is the least obvious part. Without it,
+  hits on each small window keep mmap_miss near the limit: random 4-page
+  runs at read_ahead_kb 8192 read 25896 MiB instead of 2301. A cap of
+  MMAP_LOTSAMISS * 2 gave the same results as the full cap in all tests,
+  since each new run sets it again. The cost: a reader that jumps
+  between sequential runs stays at 2 faults per region, where without
+  the cap it is back to 1 after 16 regions.
+- A full read-around on the adjacent miss instead of page_cache_sync_ra()
+  also fixes the report, but random 2-page runs on a 2600 MiB file at
+  read_ahead_kb 128 read 379 MiB instead of 76 (38 on base).
+- At read_ahead_kb 8192, this guest's default, the reproducer shows 1
+  fault for "sparse pass, then sequential" even on base: the 8 MiB
+  windows reach the next sparse pages.
+- Patched results matched within 1% over two runs (the 32-region test
+  ran once). checkpatch is clean; mm/filemap.o builds without warnings
+  with W=1 for x86_64 and i386.
+- I can send the test programs if useful.
 
-  /* pcopy FILE THREADS [SKIP_MB]: copy FILE out of a mapping */
-  #include <fcntl.h>
-  #include <pthread.h>
-  #include <stdio.h>
-  #include <stdlib.h>
-  #include <string.h>
-  #include <sys/mman.h>
-  #include <sys/stat.h>
-  #include <time.h>
+ mm/filemap.c | 20 +++++++++++++++++++-
+ 1 file changed, 19 insertions(+), 1 deletion(-)
 
-  #define PIECE (8UL << 20)
-
-  static char *map;
-  static size_t skip, per;
-
-  static void *copy(void *arg)
-  {
-  	size_t off = skip + (long)arg * per, end = off + per;
-  	char *buf = malloc(PIECE);
-
-  	for (; off < end; off += PIECE) {
-  		memcpy(buf, map + off, PIECE);
-  		asm volatile("" : : "r" (buf) : "memory");
-  	}
-  	free(buf);
-  	return NULL;
-  }
-
-  int main(int argc, char **argv)
-  {
-  	int fd = open(argv[1], O_RDONLY), n = atoi(argv[2]);
-  	struct timespec t0, t1;
-  	pthread_t th[64];
-  	struct stat st;
-
-  	fstat(fd, &st);
-  	skip = argc > 3 ? atol(argv[3]) << 20 : 0;
-  	per = (st.st_size - skip) / n / PIECE * PIECE;
-  	map = mmap(NULL, st.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
-  	posix_fadvise(fd, 0, 0, POSIX_FADV_DONTNEED);
-  	clock_gettime(CLOCK_MONOTONIC, &t0);
-  	for (long i = 0; i < n; i++)
-  		pthread_create(&th[i], NULL, copy, (void *)i);
-  	for (int i = 0; i < n; i++)
-  		pthread_join(th[i], NULL);
-  	clock_gettime(CLOCK_MONOTONIC, &t1);
-  	printf("%.2f s\n", t1.tv_sec - t0.tv_sec + (t1.tv_nsec - t0.tv_nsec) / 1e9);
-  	return 0;
-  }
----
-V1 -> V2:
-- Rebase onto v7.4-rc2, the patch is unchanged; the numbers are from
-  the v1 base, mm/readahead.c has not changed since
-- Send from my linux.dev address
-
-v1: https://lore.kernel.org/r/20261022-bug-mm-readahead-async-overtaken-v1-1-c05b8d8bd2da@gmail.com
----
- mm/readahead.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/mm/readahead.c b/mm/readahead.c
-index 6e5563290287e..d7a511a9fdcbf 100644
---- a/mm/readahead.c
-+++ b/mm/readahead.c
-@@ -696,12 +696,15 @@ void page_cache_async_ra(struct readahead_control *ractl,
- 	 * E.g. interleaved reads.
- 	 * Query the pagecache for async_size, which normally equals to
- 	 * readahead size. Ramp it up and use it as the new readahead size.
-+	 * Look up to two windows ahead: read-around for a fault further on,
-+	 * such as from a memcpy() that touches the end of its source first,
-+	 * may already have filled the next one.
- 	 */
- 	rcu_read_lock();
--	start = page_cache_next_miss(ractl->mapping, index + 1, max_pages);
-+	start = page_cache_next_miss(ractl->mapping, index + 1, 2 * max_pages);
- 	rcu_read_unlock();
+diff --git a/mm/filemap.c b/mm/filemap.c
+index 371a4bbd06..1548021472 100644
+--- a/mm/filemap.c
++++ b/mm/filemap.c
+@@ -3398,9 +3398,27 @@ static struct file *do_sync_mmap_readahead(struct vm_fault *vmf)
+ 		/*
+ 		 * Do we miss much more than hit in this file? If so,
+ 		 * stop bothering with read-ahead. It will only hurt.
++		 *
++		 * But without read-around no hits are left to bring
++		 * mmap_miss down again, so a file that turns sequential
++		 * would stay without read-ahead. Remember where we missed,
++		 * and treat a miss on the next page like a sequential
++		 * read() miss: page_cache_sync_ra() starts with a small
++		 * window and only grows it while access stays sequential.
++		 * Keep mmap_miss at its limit, so that hits on that window
++		 * do not bring back full read-around for random access.
+ 		 */
+-		if (mmap_miss > MMAP_LOTSAMISS)
++		if (mmap_miss > MMAP_LOTSAMISS) {
++			pgoff_t prev_index = (unsigned long long)ra->prev_pos >> PAGE_SHIFT;
++
++			ra->prev_pos = (loff_t)vmf->pgoff << PAGE_SHIFT;
++			if (vmf->pgoff - prev_index != 1)
++				return fpin;
++			WRITE_ONCE(ra->mmap_miss, MMAP_LOTSAMISS * 10);
++			fpin = maybe_unlock_mmap_for_io(vmf, fpin);
++			page_cache_sync_ra(&ractl, 1);
+ 			return fpin;
++		}
+ 	}
  
--	if (!start || start - index > max_pages)
-+	if (!start || start - index > 2 * max_pages)
- 		return;
- 
- 	ra->start = start;
+ 	if (force_thp_readahead) {
 
----
-base-commit: 7475ea8b58616b33c04afb976cf0fbaad9dd63fb
-change-id: 20261022-bug-mm-readahead-async-overtaken-b2cf5bedea21
-
-Best regards,
+base-commit: 09f140d2cb078edfcd08a40a23ead0bdceea30a4
 -- 
-Qiliang Yuan <qiliang.yuan@linux.dev>
+2.43.0
 
