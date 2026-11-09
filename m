@@ -1,44 +1,44 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794268280;
-	b=XzLTRhlcjge2pXDCkFQLw746tixVgxOxPVn4mynla1EB+G9NSH5Z9HLlzePPsH8IELg7
-	 7IRMwFaF2VKEU0Q3bYFqRu+Ge9CG/d5C8vpb1qzmXLYaFlvILFh+90872kgQi4fDmzAGT
-	 ul1RmaAgkzRc2lHTo+TBFn/j3puWGGH/gVh5If4MRqFUzO7w9JQarcer0s3z6XxB13eWc
-	 FzSYcq/4CDpSwzZpkKqhuBhJdbFtFswOYPvQ7TIMjp9c3Q9zczexZhLUjNJdsej6hj8Il
-	 XYXWFPQwpEb9HpeDvYnklvfWpT+2hw68Drd7bV0MZ+e9R/DoGhTjI99ZuRgcmxXnDsw==
+	t=1794268275;
+	b=c2C/47uU24NyqRigSdjP5KzomaFfcvjgHmc0mivA1eegjeXyG1tH4rd0vL/VDQmPFu40
+	 6mUjY1BOakGbw2atxKJAou+jmWqoRJldtK83BbXoFPWo0rmqQ59qnQmjLbI5ajQevVe7h
+	 Fh82HGRotw5wI7DzURtm5w/Gr+LRhLG5gV9AfMqa4a+7xD8zWO/s2ow7HURtVQqitbMpc
+	 ukfPIYs4F4TiBv7yG0NT6Ba7swT9ohWwLhtgfdpXdvkXXqdcBpEQrwh1QHmqDcnZQw0hm
+	 MP9tuFvt2b9R/SS6F8ir9eozZss9bXupIpEeaqo4OkhacSNpSM0+ds3UkwNkOoKT9HA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794268280;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794268275;
 	h=Received:DKIM-Signature:From:To:Subject:Date:Message-ID:In-Reply-To:
 	 References:MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=ojny3GXsnm0Ra2ohVZXS1/GltzxL9d5vHYkxIh98clU=;
-	b=q79QBctmE8g7f9UUKFlkPl5uDig8rRKzEgi2aZLKZInXYcbzwiEqrw9cf+GMUgZad9iF
-	 sj2rGm3r9peyQvJ0GW6VBpoQkJUdmJbkp44hnRUZ6kHKhpSCa0vhot2QB4mtzoRxy6EmQ
-	 hcX68yTejENna2vNMHc2r02HWhe7Z+WoUIpvOVRtFe/VTuutwwYRKmUkhZQVUpCTBW/bp
-	 WoOr4znM92VRmm/DC7R2Im0wO8TWvgaE0BZF+fJL4GLA2iryC+Mlnul9R/iqbstB50+e9
-	 rEcF+fGXrMQ+BFBaTlbbRDl1+h1jk5nm8o+7s4a6hFx74I/VYXrdRpFDkipP4CHiPlQ==
+	bh=p2+AdEQAI1mdAG1uwf6Uu9KN9NfYUJ185+AlLbO9WrI=;
+	b=zXthoOd/R8jNn/UQzaXLRAq2mPtDLR9q11753+RtPhUFIdW+if2U68AjLK9r79tEi8oW
+	 qwoikZxvbUBSgjciTm+pueOQAeMOhu9K0Iz4ZHcT6LB3cef3znIfnLXIc2+WGDMBLVxuK
+	 223d5f2Z/WgFbx1A/eDs8ohGCM07FL6FcIkFA0AHkULFRSTruONXM+fOHwU4/jBcAK4e+
+	 QjsnoD7nMUwRHRGDsPBucytwMN1WsY8+TdNqWveGHZAzw3RWq124kR4vlW7pDJvQDKmUO
+	 nx0CVgVb14Hx88aorfI+ZeBwefnLj8tRhIjhdFnLR0uSaD6JjFtZPK9OpREzklwHCTA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VxXDNdjA;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="bcjTV0/a";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6A5060A2601;
-	Mon,  9 Nov 2026 23:51:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CF41606A333;
+	Mon,  9 Nov 2026 23:51:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VxXDNdjA
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69C561F008A2;
-	Mon,  9 Nov 2026 23:51:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bcjTV0/a
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 047181F008A1;
+	Mon,  9 Nov 2026 23:51:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794268279;
-	bh=ojny3GXsnm0Ra2ohVZXS1/GltzxL9d5vHYkxIh98clU=;
+	s=k20260515; t=1794268275;
+	bh=p2+AdEQAI1mdAG1uwf6Uu9KN9NfYUJ185+AlLbO9WrI=;
 	h=From:To:Subject:Date:In-Reply-To:References;
-	b=VxXDNdjA4AKWy+6M0ZAKo2BYcqeDlDiUrK6o+E3uLIreFU7JVVXQ4SN0sogbBTaLb
-	 4yqhLW8S1YJAj2hDeczXr5DIfAN3W1nMUdZAaoWAD+2wqFoE8DlJ2FFWfAnFHlGhgY
-	 C0E2SCEE7LcetmjuepUZu1SRB23JEiftkMqVOf1Lce1JAGaUSYu6g6OwycnaNmhcMh
-	 2k60lrPy6r36RBEM9A4t22Ea3dvASElMUSVdX8CD4xfGAa3yH0mHk6d3/PMCizQwLe
-	 z+NsDEBkg1C0aYG2o7XlyWybP3xIuAzjzO2IM8tF1sdMK2BE87G04vj0zYoNV8+SM4
-	 JdMKDPk88sdJw==
+	b=bcjTV0/aIQSq7H1u9y5QbV1pVnhjOAj8ZYgU+jKNxaewElqahK8fnPooRv3oLvnf5
+	 GGlm8yEOKe6cLuSvSgTZWDcU5Jz/VnFeIAGrPlRoIV64ZeLU62nlMtI9S242AZ/2gK
+	 Q2ANqiw8pID5/DnSZ6c0yRsuHwwpXEcZFYzUgqfsP+93PHpVawi3N1tjf9jeecDAdG
+	 wP/F+0evLUo8x7r+1UK/amFasmme31ROa4Z6H5ls/Jv7ZJwXxnPgfl79qcx0c8XN5W
+	 /BIJEZLeZ8+KqMhn6OPIQj8vO1d9gEhfmqQSWvOr9IeA8ASaiqmwNliVodY8Z8vuh6
+	 ZZyoJSNSVncpA==
 From: Chris Mason <mason@kernel.org>
 To: mason@kernel.org,
 	tytso@mit.edu,
@@ -50,9 +50,9 @@ To: mason@kernel.org,
 	hch@lst.de,
 	linux-xfs@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org
-Subject: [PATCH v6 04/10] iomap: don't punch delalloc under a dirty EOF block
-Date: Mon, 09 Nov 2026 18:51:15 -0500
-Message-ID: <20261109235111.14129-5-mason@kernel.org>
+Subject: [PATCH v6 01/10] xfs: don't skip the flush before shifting extents
+Date: Mon, 09 Nov 2026 18:51:12 -0500
+Message-ID: <20261109235111.14129-2-mason@kernel.org>
 In-Reply-To: <20261109235111.14129-1-mason@kernel.org>
 References: <20261109235111.14129-1-mason@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
@@ -67,85 +67,42 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-After a failed buffered write, writeback on XFS can write in place to
-the shared block that contains EOF, and corrupt the other file that
-shares it.
+On an XFS file larger than 4 EiB, collapse range and insert range can
+drop dirty data without writing it back, and then fail with
+EFSCORRUPTED.
 
-After a failed buffered write, iomap_write_delalloc_release() punches
-the delalloc reservation of the write, except under dirty folios, which
-still need it. It looks for dirty folios only up to i_size, and punches
-the rest unconditionally. But XFS rounds that punch down to a block
-boundary, so the block that contains EOF loses its COW fork reservation,
-and writeback goes to the shared block:
+xfs_prepare_shift() flushes the page cache from its offset to EOF, but
+passes i_size as the length. Above 4 EiB the end of that range can
+overflow and turn negative. filemap_write_and_wait_range() then writes
+nothing, but truncate_pagecache_range() takes the end as unsigned and
+drops every folio from the start of the range onward.
 
-    block size 4096, i_size 5000, reservation 4096 to 8192
-    searched for dirty folios:  4096 to 5000
-    punched unconditionally:    5000 to 8192
-    rounded to blocks by XFS:   4096 to 8192
+A delalloc extent under a dropped folio stays in the data fork, and the
+shift returns -EFSCORRUPTED for it.
 
-The fix used here is to look for dirty folios up to the end of the block
-that contains EOF.
+The fix used here is to pass i_size - offset as the length.
 
-Fixes: f43dc4dc3eff ("iomap: buffered write failure should not truncate the page cache")
-Fixes: f6f91d290c8b ("xfs: punch delalloc extents from the COW fork for COW writes")
+Fixes: 7f9f71be84bc ("xfs: extent shifting doesn't fully invalidate page cache")
+Fixes: feeb9b269523 ("filemap: skip write and wait if end offset precedes start")
 Signed-off-by: Chris Mason <mason@kernel.org>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 ---
- fs/iomap/buffered-io.c | 34 ++++++++++++++++++++++++++++++----
- 1 file changed, 30 insertions(+), 4 deletions(-)
+ fs/xfs/xfs_bmap_util.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-index d6e2f1ded5ca..d0980a7f27d1 100644
---- a/fs/iomap/buffered-io.c
-+++ b/fs/iomap/buffered-io.c
-@@ -1495,9 +1495,34 @@ static void iomap_write_delalloc_scan(struct inode *inode,
-  * mapping_seek_hole_data() will return it, and we will skip the punch because
-  * the folio is dirty. THis is incorrect - we always need to punch out delalloc
-  * beyond EOF in this case as writeback will never write back and covert that
-- * delalloc block beyond EOF. Hence we limit the cached data scan range to EOF,
-- * resulting in always punching out the range from the EOF to the end of the
-- * range the iomap spans.
-+ * delalloc block beyond EOF. Hence we limit the cached data scan range, and
-+ * always punch out the range from the end of the scan to the end of the range
-+ * the iomap spans.
-+ *
-+ * The scan cannot simply end at EOF, because EOF is a byte offset and a
-+ * delalloc reservation covers whole blocks. If EOF lies inside a block, it
-+ * splits that block in two:
-+ *
-+ *	[block start, EOF)	File data. If it is dirty it will be written
-+ *				back, so the block must keep its delalloc
-+ *				backing.
-+ *	[EOF, block end)	Beyond EOF. By the rule above, this would always
-+ *				be punched out.
-+ *
-+ * Both parts share one reservation, and it cannot be split: a punch of a part
-+ * of a block takes away the reservation for the whole block. If the scan ended
-+ * at EOF, we would skip the punch for the first part because it is dirty, and
-+ * then punch the second part, which takes the reservation away from under the
-+ * dirty data in the first part. On XFS, writeback that has lost a COW fork
-+ * reservation like this writes in place, over a block that is shared with
-+ * another file.
-+ *
-+ * Hence we treat the EOF block as a whole, and let the cached data over it
-+ * decide: the scan range is rounded up to the end of the block that EOF lies
-+ * in. If the data over the EOF block is dirty, the scan moves the punch start
-+ * past the block. If it is clean, the block is punched like any other block in
-+ * the range. Only blocks that start at or beyond EOF are punched
-+ * unconditionally. If EOF is block aligned, the round up changes nothing.
-  *
-  * Intervals are of the form [start_byte, end_byte) (i.e. open ended) because it
-  * matches the intervals returned by mapping_seek_hole_data(). i.e. SEEK_DATA
-@@ -1511,7 +1536,8 @@ void iomap_write_delalloc_release(struct inode *inode, loff_t start_byte,
- 		iomap_punch_t punch)
- {
- 	loff_t punch_start_byte = start_byte;
--	loff_t scan_end_byte = min(i_size_read(inode), end_byte);
-+	loff_t scan_end_byte = min_t(u64, end_byte,
-+			round_up((u64)i_size_read(inode), i_blocksize(inode)));
+diff --git a/fs/xfs/xfs_bmap_util.c b/fs/xfs/xfs_bmap_util.c
+index 865aec3ae5ab..537c6b29417c 100644
+--- a/fs/xfs/xfs_bmap_util.c
++++ b/fs/xfs/xfs_bmap_util.c
+@@ -980,7 +980,7 @@ xfs_prepare_shift(
+ 	 * Writeback and invalidate cache for the remainder of the file as we're
+ 	 * about to shift down every extent from offset to EOF.
+ 	 */
+-	error = xfs_flush_unmap_range(ip, offset, XFS_ISIZE(ip));
++	error = xfs_flush_unmap_range(ip, offset, XFS_ISIZE(ip) - offset);
+ 	if (error)
+ 		return error;
  
- 	/*
- 	 * The caller must hold invalidate_lock to avoid races with page faults
 -- 
 2.55.0
 
