@@ -1,59 +1,115 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794315598;
-	b=WbHbPaT7+2UILpsHkLSbRRTgunrY8pBhqTKVPLxhwmC3GaFgRcT/gskrvhiSZeuI93Es
-	 0mZyFJBgOHsp26KhYE7eXOfpXsR7TjFSO51OvK18CiyT2t9Ey4NcsPy/r/Ox2bY8aQhii
-	 PszKytDTtmBkpKunsEgPw1UBeoBJ5XKkQg0a4jKuiHNJy36xaoWE51Qa36KlV+UDNM21v
-	 6Tgaf2ueNVBE5mAb6OFxnTdG4nsLktV5IXkDsvk3PemnD3EmcqYBhxrWEXDD40n/e4K0y
-	 /4AQQkbzcXcbLjdLKlHOeHz+YoEYb35oy/LL5oloyElQBcr/wP1if+VeYqY2B/+mjmQ==
+	t=1794315688;
+	b=tBw7CRsXZNtMBCjivWzQYNbaLaLfeGiT1boaIct/z1eNjw5NwC1K+9he1eAupH/cZhRg
+	 Wy8CPyJh/pSknu2hZGtjZ9tg7m4s57EIFT6W2BaDJe5p4IVfrWju1QEDxc3AfMp9HARIT
+	 PzVIXU64pdnAZidN9fowV0Q6E4IAAhWGawkLx3JaeyWahTgZ7KE4wVexZ6On1WNH0MLLH
+	 VJNiEE+obZ0Areb11VDoWyeXUAWeycDfw4LS3Ew5oM2seoKlSJCeTYEuVCHAk8JLf8Tt5
+	 +TR9L4dRPGcx/tXP1jPITlu1+pDgNY9lc4+FOqYgYua+1JaDrVER5tIU+SCNxuQcV+Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794315598;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=wnyy6heljadaRgfxt4wb4lOJGOZWSfcR9An36HYEP3o=;
-	b=sWKrc1L2gXGafp73i3nYVnWPyXRVD3CRADweCmKQwnw6XufE2bkLDKhWc5r6pyf6rUWU
-	 ZfndiIH6n2qax6z9xEHVXc41DR89+QLAkdT0dlzr+ACnObxu1OBftMdC4NyiDIODr+ddI
-	 iLmcgj07bW+SASeO7VNW5dbJ//hbPnjpNLGfZjWUQpSsGcXmkUGtJvpsKvk29H0iTFdvQ
-	 +DJi/fUVYKk5dL8DNaopXppEL6f4zl2c8zKULTzfpuN+BXgb9Xb0hrbrKhePyVzhNNTfB
-	 Qv6Q5uo9LREFKdcRj4e4jqNzCx2Wi6VVzTIRMVTpC+zVSPPqTXHDs1Z8Ci9x/1vaLJA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794315688;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
+	bh=D2v39D546EgtBEUxd0H/nXHWdpp+WjM1EXJHBDXXhZg=;
+	b=QpsvXZ0JkcT37OM1AxTHk3owpL0bv8SMqvhmJVMsqqJ+bKjS+5l93ZqyOQ2gEkqWbonW
+	 /kpG2QeHvm/n/SPpouVuszkOzPbKrR4g12TQssUkYjWIQvMDhgatNiio3UQQF6maoT1s+
+	 92k8gjupB7tL7K6WPJHcjMW/X9eQW8nF4jFyfNgCociVoyZ7h5vQZSZr/mYMserDPkz8R
+	 UwqIW2nUkRSWdxRzZT3itp3xF8PZ7Ppry1SkbI/uqPyLpsrfEhA0ZF6BeHE9C1SXDodwX
+	 0Yf+Iz2sdMBCKDMgMigW0gAVx31KnYLNwvqx4RqbEkPIQj2kiMYUT95tRbhYHKMF05Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NEWiJYgo;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=suse.cz;
+	spf=pass smtp.mailfrom=suse.cz;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=RB4Gi6He;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=QMFLKGZG;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=RB4Gi6He;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=QMFLKGZG;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1219606D5D6;
-	Tue, 10 Nov 2026 12:59:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B34A606A7D6;
+	Tue, 10 Nov 2026 13:01:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2B34A606A7D6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NEWiJYgo
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B218D1F0089F;
-	Tue, 10 Nov 2026 12:59:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794315597;
-	bh=wnyy6heljadaRgfxt4wb4lOJGOZWSfcR9An36HYEP3o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=NEWiJYgoZ3M06iOwuPgwQNC6xnFZeGa8MtJTqrAh7BDOeh3ctwW7p34DOYRA52Lj9
-	 KYLHjX3Xy4oCgODSgpfn+PM9Ul7YUdFwLrvJ6hH7IIwo5Rr+KID0ZTC5VYvpqJyCr/
-	 DvjcGWIj3rlMcFBmeZSzhzlXDPfpT9U6z//Fw28JowMWY+8TT6nf6IDBCV13KEclgB
-	 toyMCyhJVHOwm2ydP43nBNyV8BxJpn1LYc4bwBM69mWHIVxJlZtakBcxY7MZznfMO2
-	 KIkWuxKYlIPOB6i37L5tkDWXMciTEa2O50u6im9c3uBicYDiGE6sUDfCQtnCXec2uj
-	 oqdAR4Ap+LMiw==
-Date: Tue, 10 Nov 2026 12:59:50 +0000
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Pedro Falcato <pfalcato@suse.de>
-Cc: Seunghyun An <san55@wisc.edu>, linux-mm@kvack.org, 
-	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, "Liam R . Howlett" <liam@infradead.org>, 
-	Jann Horn <jannh@google.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, Suren Baghdasaryan <surenb@google.com>, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 1/2] mm/rmap: use vm_pgoff for anonymous VMAs in
- linear_anon_page_index()
-Message-ID: <avMS8RyqNQ89a9hP@gremlin>
-References: <20261110000002.1834454-1-san55@wisc.edu>
- <20261110000002.1834454-2-san55@wisc.edu>
- <avL5C_w-wo6bJJTj@pedro-suse.tail5790ac.ts.net>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=RB4Gi6He;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=QMFLKGZG;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=RB4Gi6He;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=QMFLKGZG
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 5BDE721EA6;
+	Tue, 10 Nov 2026 13:01:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1794315686; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=D2v39D546EgtBEUxd0H/nXHWdpp+WjM1EXJHBDXXhZg=;
+	b=RB4Gi6He2tOUNMy6bJ00Z+v0V8KBcoceupgbTjR0W9JRUotJXCO22uGnREICS5iWEx7X0U
+	0IVV7m7jzO3SjxV/YRQ64cvorbwE4hatCdNNKs+HWfoWzBZSpCG4wvirvsVGvpDlswb0vl
+	KcHcL0cPLfF1+mgGlKlCLvj6g90mp8U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1794315686;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=D2v39D546EgtBEUxd0H/nXHWdpp+WjM1EXJHBDXXhZg=;
+	b=QMFLKGZG2/0yvUwt73PA3Kt1faHu2V/ZbQg11OX2y8poQHVD2y2CgIBv6al9zzMKJr2g2c
+	lv9nmQzfSnMd0CCQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1794315686; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=D2v39D546EgtBEUxd0H/nXHWdpp+WjM1EXJHBDXXhZg=;
+	b=RB4Gi6He2tOUNMy6bJ00Z+v0V8KBcoceupgbTjR0W9JRUotJXCO22uGnREICS5iWEx7X0U
+	0IVV7m7jzO3SjxV/YRQ64cvorbwE4hatCdNNKs+HWfoWzBZSpCG4wvirvsVGvpDlswb0vl
+	KcHcL0cPLfF1+mgGlKlCLvj6g90mp8U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1794315686;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=D2v39D546EgtBEUxd0H/nXHWdpp+WjM1EXJHBDXXhZg=;
+	b=QMFLKGZG2/0yvUwt73PA3Kt1faHu2V/ZbQg11OX2y8poQHVD2y2CgIBv6al9zzMKJr2g2c
+	lv9nmQzfSnMd0CCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3299E1339F;
+	Tue, 10 Nov 2026 13:01:26 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id pQ1HBqYV82oESQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 10 Nov 2026 13:01:26 +0000
+Received: by quack.suse.cz (Postfix, from userid 1000)
+	id C0977224F3; Tue, 10 Nov 2026 14:01:25 +0100 (CET)
+Date: Tue, 10 Nov 2026 14:01:25 +0100
+From: Jan Kara <jack@suse.cz>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>, 
+	Chris Mason <mason@kernel.org>, Josef Bacik <josef@toxicpanda.com>, 
+	Christoph Hellwig <hch@lst.de>, linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Jan Kara <jack@suse.cz>, linux-scsi@vger.kernel.org, target-devel@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-mm@kvack.org, bpf@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, apparmor@lists.ubuntu.com, 
+	linux-nfs@vger.kernel.org, netdev@vger.kernel.org, fuse-devel@lists.linux.dev, 
+	linux-efi@vger.kernel.org, xen-devel@lists.xenproject.org, ocfs2-devel@lists.linux.dev, 
+	linux-s390@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-usb@vger.kernel.org, 
+	Amir Goldstein <amir73il@gmail.com>, linux-erofs@lists.ozlabs.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH RFC 28/41] ocfs2: use fc_init_pseudo() for dlmfs
+Message-ID: <ubsk5hvk6rl3woji3mwix2l4hwfcp3s2q3m2g7llo4yozmi4qf@vnfosiawowxo>
+References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
+ <20261110-work-loop-pseudo-v1-28-4c998976c6c7@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -65,43 +121,74 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <avL5C_w-wo6bJJTj@pedro-suse.tail5790ac.ts.net>
+In-Reply-To: <20261110-work-loop-pseudo-v1-28-4c998976c6c7@kernel.org>
+X-Spamd-Result: default: False [-12.80 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[31];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,google.com,kernel.org,toxicpanda.com,lst.de,lists.infradead.org,zeniv.linux.org.uk,suse.cz,lists.linux.dev,kvack.org,lists.ubuntu.com,lists.xenproject.org,lists.ozlabs.org,gmail.com];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:email,suse.com:email]
+X-Spam-Score: -12.80
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-On Tue, Nov 10, 2026 at 11:25:13AM +0000, Pedro Falcato wrote:
-> I trust Lorenzo knows more about his plans to use anon_pgoff than I do,
-> so I'll let him reply. A comment though:
+On Tue 10-11-26 10:14:44, Christian Brauner wrote:
+> Initialize dlmfs as a pseudo filesystem. This raises SB_I_PSEUDO and
+> also SB_I_NOEXEC and SB_I_NODEV. dlmfs never holds executables or
+> device nodes.
+> 
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-Thanks.
+Looks good. Feel free to add:
 
-I'm taking over the series rather than replying further, as is general practice
-with this kind of submission.
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-Will post something in a little while.
+								Honza
 
->
-> > Measured on an AMD EPYC 9634 (84 cores, 12 CCDs, CONFIG_DEBUG_VM=n), on
-> > mainline after v7.4-rc1 (the base of this series). Threads share one
-> > anonymous VMA, each faults its own slice and zaps it with MADV_DONTNEED;
-> > faults/s, median of 3:
-> >
-> >   CPUs                      base      patched
-> >   1 CCD,   7 threads        2.360M    2.369M   +0.4%
-> >   7 CCDs,  1 thread each    1.738M    1.982M  +14.0%
->
-> This is not particularly surprising. CCDs have their own L3 cache. I'm not
-> surprised the coherency penalty is much higher cross-CCD.
-
-Right. And a lot of these workloads seem to work backwards from the problem
-'let's find the worst possible scenario for this, then microbenchmark it,
-surprise it turns out it performs badly'.
-
-Even the real-world usecase (no citation as to _actually_ encountering it) seems
-to follow the same pattern.
-
-I expect we'll continue to see more of this stuff over time, sigh.
-
-In any case, the solution seems to be the same in general - don't do this check
-in non-debug.
-
---
-Cheers, Lorenzo
+> ---
+>  fs/ocfs2/dlmfs/dlmfs.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/fs/ocfs2/dlmfs/dlmfs.c b/fs/ocfs2/dlmfs/dlmfs.c
+> index d3bfcada3e3b..1789ec96dc13 100644
+> --- a/fs/ocfs2/dlmfs/dlmfs.c
+> +++ b/fs/ocfs2/dlmfs/dlmfs.c
+> @@ -21,6 +21,7 @@
+>  #include <linux/module.h>
+>  #include <linux/fs.h>
+>  #include <linux/fs_context.h>
+> +#include <linux/pseudo_fs.h>
+>  #include <linux/pagemap.h>
+>  #include <linux/types.h>
+>  #include <linux/slab.h>
+> @@ -563,6 +564,7 @@ static const struct fs_context_operations dlmfs_context_ops = {
+>  
+>  static int dlmfs_init_fs_context(struct fs_context *fc)
+>  {
+> +	fc_init_pseudo(fc);
+>  	fc->ops = &dlmfs_context_ops;
+>  
+>  	return 0;
+> 
+> -- 
+> 2.53.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
