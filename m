@@ -1,88 +1,129 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794320705;
-	b=AckJS9S+0vXHmpeoar9nwLm7XXNGYHGAfnUkonil/rF/4Iko6uJTtlWX9MoXlh1ISSoE
-	 AzeydktE0nAvzK2txiSuDcKaJChKOjl6MtXdBWSW0IX4FLTlaIP5Lsm176Coni1rk1hIU
-	 t6wMRMPNnME5oIH8Lt80LGWPnAyR/tbkseRsPk78gPQfDtycHuUBETHHJoKtHTwcm87GJ
-	 po9CgBg7X7g5aysyPIj775RyLprQM0xB7KVm7YO3fKH9Gn5zI1GTayMeeUE869z+2oR6t
-	 iPSgUAScebk7eVZPh6j7tnRdYw4fiwGKyB9Kh7mMJipruROLwajg0lUIMj0oldMyPbg==
+	t=1794320707;
+	b=MnLugNZUPFcjT+t5Pid/vGqFBmeW/8BBrt4QntWrwFmU6QkvAOe4x0z036OhQVTaROCX
+	 +PRa26ExMsOv0kQ1fIS4E1sAz8asd9JenJe3wGPrX9LZ8xwyhi5latuZxp9zT7d/p4/MT
+	 SH3cb8VIzJ/NV73krrUJJme/mt1oSGf5Ce3/5CgQgZ/rdkmoJfzoZhdrQ3vLk38Rf2zdo
+	 arZXBhgJ2xwQcBc2AjWBKZrMgga8JWlHxhfJH73561hs553wOLS14UZFbre5tMSDj3J0i
+	 fnACo7F8gEDKYB12iXTWMWlrfGqBPtW2imID/KXKLrkUmo0B2CeB7y5MT7R0M7OFCJA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794320705;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key;
-	bh=AECngfj1kAfXiTFqlbWklHQFFBTR9hHj+ExNCNNt7RY=;
-	b=wCSr6cQqfZ+LLDgZTKprxL1UBFoj6hXYcB7CBAZRmrNZnXS3qGZ/PBtK3uyr1I3Jo439
-	 mfjHqbad48zjeZNoskA6xXHtuP8pRrkRvMV6YmTuNvyktUejbwTTwsCiWOUcVsSXzeyh7
-	 zFwLJ0AU1Nl3k3RqbUYv3VwFvGGJTczsKoGvXRcn3HS2ThNNPQP8iqKcbRbfJQ9v4xV3o
-	 mPui+UPYIQOndbEE6TmV78YmRrXV+vnTJ9NwVXYfCikIBswB5/sdzZLtSPP8pmJELxo3r
-	 zHuAE4PDY8ezcf6CJ0+veL5d9Icl+oGIDmGeyB0OdW1ZCNDNvsk0jov5XPBhRFX282Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794320707;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:
+	 X-Spam-Flag:X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
+	bh=vFU8SLB5yQFXTKmgyVP3p6vbPpLP3uckbwzKSwj5Zbg=;
+	b=lkoczamsdELe405gDE7OFxffnvJt2CQ3OB2Go9bN+60QvDnVWC8M0nkYDEv+TXPafvn0
+	 ft7ldf8Wn5qO/i3TLlY0qfVOptcraVtbiDqHSOctm7vZ3eGvZBIPC0hmwWLl7tG+kj5aI
+	 1NWus5WcGv6W6PfXAMwiIdnN59pMlXW+6m6/woNJ0LBIBjD/gcqIGyhYTMWmkYgNFRFEA
+	 pzIo/I6QGeHTPC6/VfYjriXjLS+AIqBgdBDas/e8RPKcl35K30jO5g0YfJZO2hvywOYqo
+	 ZkS1vzOrDuA8Lc5lBGN+Cx1kRNeJUdH2lX4c5XZliXP48jz3gBBNgu7e187pwTy9//g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=toxicpanda.com;
-	spf=pass smtp.mailfrom=toxicpanda.com;
-	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=hRBR0pqS;
-	arc=none smtp.remote-ip=209.85.160.176
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=none header.from=suse.cz;
+	spf=pass smtp.mailfrom=suse.cz;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=bjk4WUGs;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=DcZW88hG;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=bjk4WUGs;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=DcZW88hG;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DFAD60A2600
-	for <linux-fsdevel@vger.kernel.org>; Tue, 10 Nov 2026 14:25:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9DFAD60A2600
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47EF460A2613;
+	Tue, 10 Nov 2026 14:25:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 47EF460A2613
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=hRBR0pqS
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-5364042eecfso25708891cf.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 10 Nov 2026 06:25:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toxicpanda.com; s=google; t=1794320703; x=1794925503; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=AECngfj1kAfXiTFqlbWklHQFFBTR9hHj+ExNCNNt7RY=;
-        b=hRBR0pqSkrnFTH4GqUj4zzmhaASAKnAa1PUmTZzju/+YyUBw+UAreKVFSnRRHt35jr
-         NaoYDzyrc70DgK8aa2l9XtSHuebxWl//C76ZtGTGsrHAuCCW+BgqlpaNrhow/PqpR1ky
-         kQw2X9JPjWwbG8Vsf81+EfSK/wX7rTvCQ1wtNEaNzgRsYzRVnI221q07YpGPc52Ky0w/
-         fuYjbroMkFdnAV5BvyPBqzhVFpvuUcvKxiuY1bWSSvnQTA8rgpUdFxT73dAMhsHZxfq1
-         a1jildRfxReUl9kz6N7Y6aZgRMhbPcA1n3UMaBtRpvV729G0kfX07LmgoXjJq6yVj30b
-         64Cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794320703; x=1794925503;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=AECngfj1kAfXiTFqlbWklHQFFBTR9hHj+ExNCNNt7RY=;
-        b=SOtqikDW5uxjCEeJrWueqKkYfvSmI9Ck+mLFdBWZzvkamgRL3X4LpM2Y8WoNvPqQja
-         g/jlnc1Qb4Ivxa59jzg2Nrz8n361myMy3xzS1LkmTGUpEamH8tJ6ax0KS1pNZbt90OaN
-         1OMMPZ5OP9NH31S1hY1NrYZbuqDJ5QLkM6VSUod97P6eFmlChC3t3cmrptYhXoZQsq9n
-         sq0R/1tSa2XrKsNltu3d9g/Bn04KWfpgBYGrUeE/zXfdf/5vTTxTNy2SggBQEMPJgZqD
-         phdS57ZkoqcfLrzL2d9YNH231cbdrJIa540JiUnd7gN5Qp2CuU6mEpivwondl/xolip/
-         amqw==
-X-Forwarded-Encrypted: i=1; AL+hErGm2tvcYShC20SCO6wSqS06YFNzCfyRF1nDuSw8P6QMJ/qZXIMfZMD95Nab62eaQFtT0MJzARlOMWSLm/ML@vger.kernel.org
-X-Gm-Message-State: APuU4Z82yoCYFjZ2pF6aKJKTj1ebTVb2+bWrGNila4SaOnQvS3rLWG6W
-	Q0oR4aQ3jVJQazBXMP115/71S1jeOQKX+xnvfwuCrTi7Bo4fmScIl2GXpXPEn0UkH4o=
-X-Gm-Gg: AYBFou2r6hDIdWWhWX1loTR9y/bQc9V8Q+3RYgjQfYtC4+npYnV6b93P2qyYm9dIIjN
-	enc9P+/O/6h4bHL49okgFuVwI4TiB21rSS17bUzUJDDzbCwqdTha/B+yJLhxoVehSVAS+oE8Lyc
-	C5v21oHVgrEkzAUy8ylf6ObkMGnuqmHXj4r6zGg2x5RF/oUC7WPxwQVjmBL+GgJCZdQTDVQI25a
-	mWzotbbIA/hET6gI96mkHjN4XeJ2CMnLCEMmYr+dp3I6Pk6ckhYDaQgrgpo18oyrxKIzYP1DiKX
-	d95sm1ttqFS9kIynWpO7A78I3KCcuy7c/Lm+FErbF1OWlZORQcGG4wxgSlY7s3+FIa90nOZtDTK
-	NbsW8XFPhezTaZGW3dA2xKSZz17mYn+wB1KHYhSNT+oWNlKMLDFDokksi0VYGXN8apJa0lyrOLW
-	0Y+sk0eMEVmUEIXh8uKrf1Rz2yZT1+MOENMiveRhoJtqrjcw0DUPr4NHlVGD3qVzORnXrPsrh+x
-	YU2x+Vx43XquThsc7tUYMGxTarnEYKA4jfqWhTXKuSpBQiV4pMNIIJGQf7H02sZbL3O5Bp6ztHK
-	1I/z1QB/KxoN7I2MMxhQ2aW+R1DXaLMxzL9c6HHg215Q/A==
-X-Received: by 2002:a05:622a:653:b0:535:15a9:2516 with SMTP id d75a77b69052e-555291c2894mr41649641cf.53.1794320703461;
-        Tue, 10 Nov 2026 06:25:03 -0800 (PST)
-Received: from toxicpanda.com ([153.61.196.243])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5550c21e1fbsm24834331cf.27.2026.11.10.06.25.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 06:25:02 -0800 (PST)
-From: Josef Bacik <josef@toxicpanda.com>
-Date: Tue, 10 Nov 2026 14:24:50 +0000
-Subject: [PATCH v6 2/9] fs: add sync_fs_and_bdev()
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=bjk4WUGs;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=DcZW88hG;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=bjk4WUGs;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=DcZW88hG
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A263621E96;
+	Tue, 10 Nov 2026 14:25:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1794320704; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vFU8SLB5yQFXTKmgyVP3p6vbPpLP3uckbwzKSwj5Zbg=;
+	b=bjk4WUGsRYs0sP8E0ONkDW8hyxwCcqK6F/Z+No2aVyfis1MlyWmiOhtWAdfYs7F/8CipUe
+	M6ChAxycGmD+5TO2yaDPV3YEJYRhQ7n9jG4KZpA9RGENMEDcySYwTh7Zpl9Q1XnchbyaQz
+	9csObL3BU5hnSJHNTzbwr+PQnEnCSJ4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1794320704;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vFU8SLB5yQFXTKmgyVP3p6vbPpLP3uckbwzKSwj5Zbg=;
+	b=DcZW88hGUmkolX453pml7rhjUnXP/geJBXTnLO3CcrhsdfC+rAH/ij69WBdSoxJA/XOD03
+	2vl1fFNAf7DiXYCQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=bjk4WUGs;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=DcZW88hG
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1794320704; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vFU8SLB5yQFXTKmgyVP3p6vbPpLP3uckbwzKSwj5Zbg=;
+	b=bjk4WUGsRYs0sP8E0ONkDW8hyxwCcqK6F/Z+No2aVyfis1MlyWmiOhtWAdfYs7F/8CipUe
+	M6ChAxycGmD+5TO2yaDPV3YEJYRhQ7n9jG4KZpA9RGENMEDcySYwTh7Zpl9Q1XnchbyaQz
+	9csObL3BU5hnSJHNTzbwr+PQnEnCSJ4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1794320704;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vFU8SLB5yQFXTKmgyVP3p6vbPpLP3uckbwzKSwj5Zbg=;
+	b=DcZW88hGUmkolX453pml7rhjUnXP/geJBXTnLO3CcrhsdfC+rAH/ij69WBdSoxJA/XOD03
+	2vl1fFNAf7DiXYCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 737AB13479;
+	Tue, 10 Nov 2026 14:25:04 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id yxLEE0Ap82qXIAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 10 Nov 2026 14:25:04 +0000
+Received: by quack.suse.cz (Postfix, from userid 1000)
+	id A39EC2253A; Tue, 10 Nov 2026 15:24:59 +0100 (CET)
+Date: Tue, 10 Nov 2026 15:24:59 +0100
+From: Jan Kara <jack@suse.cz>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Jann Horn <jannh@google.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, 
+	Eric Dumazet <edumazet@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Al Viro <viro@zeniv.linux.org.uk>, Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
+	Greg Kroah-Hartman <gregkh@suse.de>, Joel Granados <joel.granados@kernel.org>, 
+	Kees Cook <kees@kernel.org>, Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
+	linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, linux-acpi@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	netdev@vger.kernel.org, ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
+	coreteam@netfilter.org, kexec@lists.infradead.org, linux-pci@vger.kernel.org, 
+	linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net, 
+	linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org, 
+	linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, 
+	linux-sh@vger.kernel.org, linux-usb@vger.kernel.org, samba-technical@lists.samba.org, 
+	sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org, 
+	linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net, 
+	Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
+	linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, linux-debuggers@vger.kernel.org, 
+	Chuck Lever <cel@kernel.org>, stable@vger.kernel.org
+Subject: Re: [PATCH v2 14/51] proc: sysctl: don't stop readdir at an entry
+ that is being unregistered
+Message-ID: <efix7fc3j7xbogyb3zaotsi3bwl4s4p6nvwrnlpbue5khrlf43@orqtyoglh5b7>
+References: <20261104-work-procfs-bugfixes-v2-0-bbf7d5546809@kernel.org>
+ <20261104-work-procfs-bugfixes-v2-14-bbf7d5546809@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -92,144 +133,94 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261110-b4-ovl-containerized-sync-v6-2-43d1be16a4d6@toxicpanda.com>
-References: <20261110-b4-ovl-containerized-sync-v6-0-43d1be16a4d6@toxicpanda.com>
-In-Reply-To: <20261110-b4-ovl-containerized-sync-v6-0-43d1be16a4d6@toxicpanda.com>
-To: Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>, 
- Christian Brauner <brauner@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
- Christoph Hellwig <hch@infradead.org>, Chris Mason <mason@kernel.org>, 
- Chengguang Xu <cgxu519@mykernel.net>, linux-unionfs@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Josef Bacik <josef@toxicpanda.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openssh-sha256; t=1794320698; l=3481;
- i=josef@toxicpanda.com; h=from:subject:message-id;
- bh=cFXSmoX1EdwKarrdrXPJnOWTPV4jjSodNuQRhzCnuDg=;
- b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgUBr36M/n0nWN0DNbnxwzIiCZez6MG
- JiruuNaSCI/zXsAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QJ7Xh6/QCyzvojjwCLy3DO4GMiUz+R8OGkR0vYdjGesZqw+SMpDnXvivajMC5tvY86ahnHIHU3e
- WVsd64FGGzgY=
-X-Developer-Key: i=josef@toxicpanda.com; a=openssh;
- fpr=SHA256:C8kOX2QUJCMqnCX+KEeoqRAjLo9L+ELOSH2NSAJHqGA
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261104-work-procfs-bugfixes-v2-14-bbf7d5546809@kernel.org>
+X-Spamd-Result: default: False [-11.51 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	R_RATELIMIT(0.00)[to_ip_from(RLpnapcpkwxdkc5mopt1ezhhna)];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[60];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,suse.cz:dkim,suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -11.51
+X-Spam-Level: 
+X-Rspamd-Queue-Id: A263621E96
 
-sync_filesystem() writes the inodes, calls ->sync_fs() and writes the block
-device, first without waiting and then with.
+On Wed 04-11-26 18:47:00, Christian Brauner wrote:
+> proc_sys_fill_cache() creates the inode of an entry that has no dentry
+> yet. Since ace0c791e6c3 ("proc/sysctl: Don't grab i_lock under
+> sysctl_lock.") proc_sys_make_inode() refuses to do that once the table
+> is being unregistered and fails with -ENOENT. readdir takes every table
+> it lists into use and unregister_sysctl_table() marks the table as
+> being unregistered before it waits for readdir to let go of it. So an
+> entry that is unregistered right then makes proc_sys_fill_cache() fail,
+> proc_sys_readdir() stops there and returns 0. If that getdents64() call
+> hadn't emitted anything before that entry userspace sees the end of the
+> directory and never gets the entries behind it. A listing of
+> /proc/sys/net/ipv6/conf can end early that way while a device goes
+> away.
+> 
+> So skip an entry whose table is being unregistered, like readdir
+> already skips a link it can't follow. Lookup treats such an entry as
+> gone too since ea5751ccd665 ("proc/sysctl: don't return ENOMEM on
+> lookup when a table is unregistering").
+> 
+> Fixes: ace0c791e6c3 ("proc/sysctl: Don't grab i_lock under sysctl_lock.")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-overlayfs is about to write the inodes of its upper filesystem by itself,
-only those that were modified through the overlay, and needs the other two
-steps as they are.  Move them to a helper so that overlayfs does not have
-to know what they are.
+Looks sane. Feel free to add:
 
-sync_filesystem() calls the inner helper, so it still tests for a read-only
-filesystem and for s_umount once.  The exported function does both tests
-for its callers.
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-No functional change intended.
+								Honza
 
-Suggested-by: Christian Brauner <brauner@kernel.org>
-Signed-off-by: Josef Bacik <josef@toxicpanda.com>
----
- fs/sync.c          | 52 +++++++++++++++++++++++++++++++++++++++-------------
- include/linux/fs.h |  1 +
- 2 files changed, 40 insertions(+), 13 deletions(-)
-
-diff --git a/fs/sync.c b/fs/sync.c
-index 0681bfcb2da6..c5e49914918a 100644
---- a/fs/sync.c
-+++ b/fs/sync.c
-@@ -22,6 +22,42 @@
- #define VALID_FLAGS (SYNC_FILE_RANGE_WAIT_BEFORE|SYNC_FILE_RANGE_WRITE| \
- 			SYNC_FILE_RANGE_WAIT_AFTER)
- 
-+static int __sync_fs_and_bdev(struct super_block *sb, bool wait)
-+{
-+	int ret;
-+
-+	if (sb->s_op->sync_fs) {
-+		ret = sb->s_op->sync_fs(sb, wait);
-+		if (ret)
-+			return ret;
-+	}
-+	if (!wait)
-+		return sync_blockdev_nowait(sb->s_bdev);
-+	return sync_blockdev(sb->s_bdev);
-+}
-+
-+/**
-+ * sync_fs_and_bdev - call ->sync_fs() and write the block device
-+ * @sb: the superblock, the caller holds s_umount
-+ * @wait: wait for the I/O to complete
-+ *
-+ * These are the steps of sync_filesystem() that follow the writing of the
-+ * inodes.  This is for a caller that has already written the inodes it cares
-+ * about.  Like sync_filesystem() it does nothing on a read-only filesystem.
-+ *
-+ * Return: 0 on success, a negative error code otherwise.
-+ */
-+int sync_fs_and_bdev(struct super_block *sb, bool wait)
-+{
-+	WARN_ON(!rwsem_is_locked(&sb->s_umount));
-+
-+	if (sb_rdonly(sb))
-+		return 0;
-+
-+	return __sync_fs_and_bdev(sb, wait);
-+}
-+EXPORT_SYMBOL_GPL(sync_fs_and_bdev);
-+
- /*
-  * Write out and wait upon all dirty data associated with this
-  * superblock.  Filesystem data as well as the underlying block
-@@ -29,7 +65,7 @@
-  */
- int sync_filesystem(struct super_block *sb)
- {
--	int ret = 0;
-+	int ret;
- 
- 	/*
- 	 * We need to be protected against the filesystem going from
-@@ -52,22 +88,12 @@ int sync_filesystem(struct super_block *sb)
- 	 * at a time.
- 	 */
- 	writeback_inodes_sb(sb, WB_REASON_SYNC);
--	if (sb->s_op->sync_fs) {
--		ret = sb->s_op->sync_fs(sb, 0);
--		if (ret)
--			return ret;
--	}
--	ret = sync_blockdev_nowait(sb->s_bdev);
-+	ret = __sync_fs_and_bdev(sb, false);
- 	if (ret)
- 		return ret;
- 
- 	sync_inodes_sb(sb);
--	if (sb->s_op->sync_fs) {
--		ret = sb->s_op->sync_fs(sb, 1);
--		if (ret)
--			return ret;
--	}
--	return sync_blockdev(sb->s_bdev);
-+	return __sync_fs_and_bdev(sb, true);
- }
- EXPORT_SYMBOL(sync_filesystem);
- 
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index b5485f2c1f2b..094a4be6828c 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -2617,6 +2617,7 @@ extern void __init vfs_caches_init(void);
- 
- void emergency_thaw_all(void);
- extern int sync_filesystem(struct super_block *);
-+int sync_fs_and_bdev(struct super_block *sb, bool wait);
- extern const struct file_operations def_blk_fops;
- extern const struct file_operations def_chr_fops;
- 
-
+> ---
+>  fs/proc/proc_sysctl.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/fs/proc/proc_sysctl.c b/fs/proc/proc_sysctl.c
+> index 6c0859c66563..b4a309d49698 100644
+> --- a/fs/proc/proc_sysctl.c
+> +++ b/fs/proc/proc_sysctl.c
+> @@ -704,6 +704,9 @@ static bool proc_sys_fill_cache(struct file *file,
+>  			if (unlikely(res)) {
+>  				dput(child);
+>  
+> +				/* skip an entry whose table is being unregistered */
+> +				if (res == ERR_PTR(-ENOENT))
+> +					return true;
+>  				if (IS_ERR(res))
+>  					return false;
+>  
+> 
+> -- 
+> 2.53.0
+> 
 -- 
-2.55.0
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
