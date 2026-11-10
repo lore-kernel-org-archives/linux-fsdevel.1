@@ -1,72 +1,73 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794322371;
-	b=oj3LKglf12Hty0CYt1rwXtCygofxuKaguTx5kGYA3XIn0oHTeuugQ9WfS2joli+P2KKA
-	 949dkSILE3JU8JuPyP98CdHZr8hUNIemowFKw2WWf93FI1Jc1oyFmh5jDKoHbY17wiCE5
-	 I1NoCiD2Dfm4OGE/QZA9049Er0OOqr0DgP6NKoP1WtkLspXKdKt5JwSwyWU0czURuNUZb
-	 PF2VzMP6D+AYEMdJRF5itldiH5s9SZMrSsTh6VuhygIxNSBxtyenIJCNcZ+s+030H+Qvf
-	 KkAeVx4dlBpkOY39WPX6KWkEZ5JeB8XUrUFqRlWmrcmPAXH49nMBiJEMDuZp362Z00g==
+	t=1794322387;
+	b=XRCgspX/d04Ov86psr08bzyCVlfrTfFeJ84Jeg6c5CjDSyH6QHj1DEHYaa2L22T3ZJQS
+	 zzJYOqKi+ihP2D5l6V1CqWwYek5KZ3o4HdNBJeVcLPWZfyU9GMCAc5sXHbcOAPLY+ujtg
+	 qzjAOTLcV04Nd0caRYWDd4Wfa2/XJhemJr1zOrENnUd9ARhSxXhbWfYxRv6ZF0wWawhwp
+	 T1v2ZyAiwN+yPqQf3LtVW1vie/qqFaheCiIDVOKhttcrIMr/mWtq92FaN9Ax+dZIiYtB6
+	 RHGmlyKEF6R3G0L7ASx33tvcc7G9JPyNWg7K5l+MCpETFgLan19ECAbuMOcZ+s1ZpmQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794322371;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794322387;
 	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:X-ME-Received:
 	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=6N4yimoRtRyrI1TQXjE1WplbXHKcJsyASw66CLWCFAw=;
-	b=AF3qLY5S/bdx81pHvr/PJXpYLm0fmJL6pid09+MIXV+kCTkSpbmBPOsQ+J524Hs5O+8F
-	 S1E/gNFuAlqXkjExEUppOOKM3RPdNNbImTgRyOY0oef8E53ou7dWVzcSHMMAAE5DMJlHp
-	 ul2OmJtuwnc1/SSsuRR7ug+NlIaXXMF7r23cD6Ct0ss5651zLt63pWEZZwb+Ji0TdNG5k
-	 mnGwWfN0MeLiVn0IXQj//X3lqZJ5yZjWG+ik8CBEVZKgbjs//v8bLs2/mMIJCswwQeIvg
-	 NpWaLUiZmosBRLO5k3FLI0wPopAKlrVb2Q0rjSgikLQxvpVtg2evqBRL7Nt/qNFkjOQ==
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=vXJnmnfnsr5eWSeHa0K3etqyrfF8UK36NYjgCdOCC6k=;
+	b=08d8lSCKnyd/uEfsHp325ZI9WpEQjBkJSHTt61NWBfxlNNZLtpO5+H2Bhe+T2uWQfGPC
+	 gRK1oKGxip/Ik66l1ICemA3tuokuU5aRK5v9uO2t9NF9FLanV5lvJL6vhK/iFrvhM6m32
+	 OW8HJF/O8aqT4K/dGncVDlBrztCMjZ6jDUlamwA+3ddMVP8x2Q3zC69YthOs33KM75asc
+	 w38i3wP81CYLBFmFm9Uv/VHkxHfA7XqWKDlaxxilWxJpB+XivmxMN/lWwaspmuBlwBtI0
+	 qgOoQNziLtbzL4StuY4IVMwnS5+HmjIySKicnvtpycEYo5A9jN8KOWjvkq0jk+HwT7w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="ggpvu9w/";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Cj+3Vrm5;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E087E606A33F;
-	Tue, 10 Nov 2026 14:52:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B65D60A260F
+	for <linux-fsdevel@vger.kernel.org>; Tue, 10 Nov 2026 14:53:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ggpvu9w/
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 281AC1F008A1;
-	Tue, 10 Nov 2026 14:52:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Cj+3Vrm5
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DE831F0089F;
+	Tue, 10 Nov 2026 14:53:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794322370;
-	bh=6N4yimoRtRyrI1TQXjE1WplbXHKcJsyASw66CLWCFAw=;
-	h=From:To:Cc:Subject:Date;
-	b=ggpvu9w/K6Vk1WvmYnVI0Uq0KhIYEbmQ4aoArPEh+SzrR7qa/+hmDIsPvuAXPHUDw
-	 /uif667CqhjMBKrR05NhTNtuq5x9jQoSGHUGnPIr+UbTdVUZ2CYwAKDe7HwF9AsjFZ
-	 g+ABJ6YtaOaJSE7/Epg0NejhDm2SY8+fISKQn6uIyEud4FdNcPvNP9M3Xbtsn5wIec
-	 z9uqdI2K0sm6pFIvvxXlM2j0+GvoZFegpt7UzK3vMOq7i/AD+hFEMYzdg+5dAKlrOJ
-	 /3xCmBBbYUxi2vBAwaT5fbkmiZd3ygKqxr6nZdWKy8U3H3061+efX6INmUVacx9ht+
-	 ePU/4xDjNviwg==
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfauth.ams.internal (Postfix) with ESMTP id 7194E198003A;
-	Tue, 10 Nov 2026 09:52:45 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Tue, 10 Nov 2026 09:52:47 -0500
-X-ME-Sender: <xms:vC_zamIrxbPFlMqmqdH87bJ8oVb5OH4j-5QKaD2odtGRa378W4aMGw>
-    <xme:vC_zau7iG6U6GWcxc4P6mny-A7p4SJoQZrrZvLs_mDvoGLiGsjZdk7uYTCRpA3s_1
-    1pDVm15b8ig9mTHOvvB25nR04H1HdRS1wor-wiM5JgX1_RSKuuh0TDA>
-X-ME-Received: <xmr:vC_zaqiyHoZbN0j8GQiEZphmP5JdoK7rL96QJ0IeJMI6ShVZYYp7Y01GchU>
-X-ME-Proxy-Cause: dmFkZTGWr3Bol1il49kOQEDKgAYHsyZ47Yj7fzpOlw8TiM0gPuvQ5jH8a26arj7fWVWo8c
-    uYSQI4gF+J/q2fS951R4MAEK6NSyHihCKPc8gs/Smt0oEHe2/ZNkgA1wFpTMe1NCyEh3Js
-    2sOQFQl2u0oaCfgohyCrCmhrDmMmEdzNJMC3F6GAOQKLThCibPUBlYSTA6wtUNMKpaxtaj
-    dGOb/Rq6NmezBvNu+QpQUTiCikoSwAPnJ0sPDBsm+TwW/3NvGIqVnTQzL+rnl9P96FOaud
-    9QVmodzVH6f2pAiYKwBUmVjS32P99W7X/ARoxC9GGJiRXhxnK3ET71I2aLak1E7ScHgDGB
-    Br2DNeeEux/MRQtpQWpWckTmepF25FWbH2zpcxILcX3v8zdpDpYA0mKU3vXWDmGveVY8nP
-    Jm3J83mZ9Lzll07xzIjyxfcPXPgd0/Nl+jFRI2+Ps8w1WUGCVSC+Ut/B8cfsovYNhH4FfM
-    k/Da/LpZE9KdncQ/IkxzRgPzAfcg2vDaR6C/9iYGSWEekPdaxHtpQSOVK/9sa+vHbA7FJH
-    s4s9wxDy2pCNAajnA0e1t+EjuXIj13ZxLczwVQd1kW2RXOeKrM2qibYR+HQPyAAkmPdBjS
-    nHeTjt+6RUR2pf7R3gO/B/J8SGsz4FV0ldaAoXhphfAKjj/wvDFOSNFZBPAA
-X-ME-Proxy: <xmx:vC_zas-vjmx1sNJQtDUEDCM8_lWziIyZYE-z3yUvQdabh6AxgB9Tag>
-    <xmx:vC_zasfIDq80AsPowkfGGXRBwH16uZwrkWAbUbUZRtxhVWFNuI1ChA>
-    <xmx:vC_zagltlF42Dg5urBmLLPqDKIpm3LcoDVOkzIAZZ9nRyQsHR1qlxQ>
-    <xmx:vC_zamyEB-uOy-v3wawnd3EFx3P_SgwV_COkCOJlzzDK6HB-7NVFeg>
-    <xmx:vS_zalEVfRoL663tcZdP2A-__TD09DaIKUUbjs8zEKw0ZUSkCtuNvFAc>
+	s=k20260515; t=1794322386;
+	bh=vXJnmnfnsr5eWSeHa0K3etqyrfF8UK36NYjgCdOCC6k=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=Cj+3Vrm5kvSua6V2U2cL4St3RhJdVfzhqG54qpL0oyEldkpXlG4E+6EcJNdXSP8EE
+	 XtegV95DLkiX/Vpxe09gQ0wcFqixlsMxsUMG1aBX75KzI338VfT+arnJ680e3n1zgL
+	 gyu8aEBmr4Sdha/GZaXpJ7OA2xRK5V9Gayrj+W1cKylR8LKu41UBydtgoVDv4+POp9
+	 FAW0EBbLOX3HsYqfkL0P0sF+w71GF1K8uR98DrK26LK+bUzuLLrP1vj/UrXRC1NpfN
+	 6k8dh0R1ehFfknNMQHaH+9MIY1/LAZmzUrIXNf4yxDb5h9phebmbzwcS8xwOmIPZus
+	 4RTwz34bYbUJQ==
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfauth.ams.internal (Postfix) with ESMTP id 7977D198003A;
+	Tue, 10 Nov 2026 09:53:01 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Tue, 10 Nov 2026 09:53:03 -0500
+X-ME-Sender: <xms:zC_zaqZXFU9ML_bS7mx31XWkHiww2uG0JAbjFyQbB-NPJhHKaDFCbQ>
+    <xme:zC_zathV5QfNoiX2k2VV96fpe4j3dOyTFM5jvc-e4ePAodG6M2Wp7Stv5q-JWq1Bu
+    -UZJBNsXnA1ubHmTSDJrjpo9x4AGsesjnh0EPj-g-2sBruOCcU_FGTK>
+X-ME-Received: <xmr:zC_zaiz7u9XI2O067oEfveMVTpu4dBPddCS_TM-NaqhBPi6IzlLG7jWzO6o>
+X-ME-Proxy-Cause: dmFkZTGD2sTgrJUeTY5UcgQtCaOBePSxscDWD3Hg3oyfWkWZonwghfagdzUPwpVCo6p+ah
+    RPmbT5HJNOBS1cmURZXQtNYzp7RHrFIqZQP96bnLeib/vXY8/REq7nsdxdpuBWCbMDGPTb
+    FktBomwyaihaoKdDGEcRKsKGV+6EYT3RxVWJHcIW3Q3ySxF0ktWMVgCokqtSVFi27eYANM
+    a8zLiO3aRBy/cKXa+4f1bKxtIEOKQb9XFI0nrKxhax8VK6C0orRCguRo9T3MAbkGZcM/hW
+    mAxjBlTWoBm0WeONWPq1dKUqXpH2G9SamTboeusXlryn9XtW7zeqoRzwm3wi+AVgZZ5EdV
+    6wlWwJRjBZ61I9QlU8hJxshsh34VH1K+iczyhZTmKB3d6ZEFJgcUVZNJ8rPfemQNpbTJ2F
+    2HiOp3YNEt6353xL8uicY7nOWs/T4bqkD4BGuMV2nvfr3gnWAqgzu+zf2GrYGqzwQG+HbI
+    FPVG41GeoSMDQRm03XwJKHk1994K9HdlITbbse4N7vOnz0+PhTqfjxDjUaPBv7divmc1C4
+    X6gTBJFDV6vNcPfGBL76ldBsZCWNnYAEeXxQNsf6tCv6qnDgmqeD05sPAvXsASLGlbF6Li
+    lMXbNKJ85kQH1bySDDxpiHkdrh4obfRB16fQZ+MLohXdq6MPSY+uiTyqMIyQ
+X-ME-Proxy: <xmx:zC_zag65OC2Ibj5MLnzk8YnSMXHK8DjYWaEtOiR88dOVvBWSOyrZtg>
+    <xmx:zC_zaj0Na04-fv6euV9fuOyHoExP76s_xkq16RfsNbyiGudeYAKAag>
+    <xmx:zC_zap1kO1t5IxSA7yo_NL68nk-U8gav2ioSHHb1gwIp7Lqwkdo2kw>
+    <xmx:zC_zaicL3f4ZAzh49E22639SWmm-YQLSfvmhfsMOUJ9dAYYCqstOhA>
+    <xmx:zS_zajLLqS8rB4BMbxqVzg7ON77bvaADrtHgPbRcI67m0Xo0qRq6lWtf>
 Feedback-ID: i10464835:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 10 Nov 2026 09:52:44 -0500 (EST)
+ 10 Nov 2026 09:53:00 -0500 (EST)
 From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
 To: Christian Brauner <brauner@kernel.org>,
 	Alexander Viro <viro@zeniv.linux.org.uk>,
@@ -96,10 +97,12 @@ Cc: "Kiryl Shutsemau (Meta)" <kas@kernel.org>,
 	linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
 	kernel-team@meta.com
-Subject: [PATCH 0/4] splice: remove pipe buffer stealing
-Date: Tue, 10 Nov 2026 14:52:35 +0000
-Message-ID: <20261110145241.536019-1-kas@kernel.org>
+Subject: [PATCH 3/4] splice: remove pipe buffer stealing
+Date: Tue, 10 Nov 2026 14:52:38 +0000
+Message-ID: <20261110145241.536019-4-kas@kernel.org>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20261110145241.536019-1-kas@kernel.org>
+References: <20261110145241.536019-1-kas@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -111,73 +114,366 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-->try_steal() lets the consumer of a pipe buffer take its page instead
-of copying the data.  Two consumers use it:
+Nothing calls pipe_buf_try_steal() any more.  Remove ->try_steal() from
+struct pipe_buf_operations, its implementations and the exported
+generic_pipe_buf_try_steal().
 
-  - fuse, when a server splices a read reply into /dev/fuse with
-    SPLICE_F_MOVE: the page goes into the fuse file's page cache;
-  - virtio_console, which passes the page to the host.
+PIPE_BUF_FLAG_LRU and PIPE_BUF_FLAG_GIFT were set only for stealing, and
+go too.  page_cache_pipe_buf_release() did nothing but drop the page and
+the LRU flag, so page cache and user page buffers use
+generic_pipe_buf_release().
 
-The page can come from the page cache of another file, from a write()
-into the pipe, or from vmsplice(SPLICE_F_GIFT).  Stealing it takes page
-cache folios out of their files, and turns pages into page cache folios
-and back.  That gets in the way of reading the page cache without folio
-references [1] and of telling folios apart with a PG_folio flag.  It
-works only on pages that nothing else holds, for fuse only on clean,
-unmapped, order-0 ones, and it has needed fixes again and again:
+vmsplice() still accepts SPLICE_F_GIFT, and splice() SPLICE_F_MOVE.
+Both were hints, and nothing acts on them now.
 
-  32f98877c57b ("fuse: don't check refcount after stealing page")
-  b89ecd60d38e ("fuse: ignore PG_workingset after stealing")
-  712a951025c0 ("fuse: fix page stealing")
-  59ba47b6be9c ("fuse: Check for large folio with SPLICE_F_MOVE")
-  15c20483d915 ("fuse: validate folio state before pipe_buf_try_steal() in fuse_try_move_folio()")
+Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
+Signed-off-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
+---
+ fs/pipe.c                 | 43 ------------------
+ fs/splice.c               | 96 +++------------------------------------
+ include/linux/pipe_fs_i.h | 36 ---------------
+ kernel/watch_queue.c      |  4 --
+ mm/shmem.c                |  7 ---
+ 5 files changed, 6 insertions(+), 180 deletions(-)
 
-Linus and David suggested removing it [2].  Both consumers already copy
-when a steal fails; with this series they always do.  vmsplice() and
-splice() still accept SPLICE_F_GIFT and SPLICE_F_MOVE, and fuse still
-advertises FUSE_SPLICE_MOVE, so that servers which ask for it mount as
-before.
-
-Miklos, Amit: do you know of users of the fuse move, or of virtio_console
-splice, that depend on the copy being avoided?
-
-Without ->try_steal(), nosteal_pipe_buf_ops is the same as
-default_pipe_buf_ops, and the last patch keeps only the latter.
-
-Tested on x86_64 with a FUSE server that answers reads by splicing the
-page cache pages of a backing file into /dev/fuse with SPLICE_F_MOVE.  On
-v7.4-rc1 how much moves depends on folio sizes: with order-0 folios on
-both sides, one read of a 16M fuse file took 3968 of the backing file's
-4096 pages out of its page cache.  With the series nothing moves, and the
-data read through fuse is the same, also when the server reads its
-requests with splice().  A virtio-serial port fed by splice() from a pipe
-and from a file, and vmsplice(SPLICE_F_GIFT), SPLICE_F_MOVE, tee() and
-AF_UNIX socket splice checks also give the same data before and after.
-
-[1] https://lore.kernel.org/all/20261104130118.2507513-1-kas@kernel.org/
-[2] https://lore.kernel.org/all/CAHk-=whhp=Q8qR+wPoM9+mxYPQ_OXMOEoKmT7J0JZikFZusuqw@mail.gmail.com/
-
-Kiryl Shutsemau (Meta) (4):
-  virtio_console: copy pipe buffers in splice_write()
-  fuse: don't move pipe buffers into the page cache
-  splice: remove pipe buffer stealing
-  splice: replace nosteal_pipe_buf_ops with default_pipe_buf_ops
-
- drivers/char/virtio_console.c |  39 ++++-----
- fs/fuse/args.h                |   1 -
- fs/fuse/dev.c                 | 146 +---------------------------------
- fs/fuse/file.c                |   1 -
- fs/fuse/fuse_dev_i.h          |   1 -
- fs/pipe.c                     |  43 ----------
- fs/splice.c                   | 104 ++----------------------
- include/linux/pipe_fs_i.h     |  38 ---------
- kernel/watch_queue.c          |   4 -
- mm/shmem.c                    |   7 --
- net/core/skbuff.c             |   2 +-
- 11 files changed, 26 insertions(+), 360 deletions(-)
-
-
-base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+diff --git a/fs/pipe.c b/fs/pipe.c
+index 4fa69192e6fb..4c1122597a3c 100644
+--- a/fs/pipe.c
++++ b/fs/pipe.c
+@@ -222,48 +222,6 @@ static void anon_pipe_buf_release(struct pipe_inode_info *pipe,
+ 	anon_pipe_put_page(pipe, page);
+ }
+ 
+-static bool anon_pipe_buf_try_steal(struct pipe_inode_info *pipe,
+-		struct pipe_buffer *buf)
+-{
+-	struct page *page = buf->page;
+-
+-	if (page_count(page) != 1)
+-		return false;
+-	memcg_kmem_uncharge_page(page, 0);
+-	__SetPageLocked(page);
+-	return true;
+-}
+-
+-/**
+- * generic_pipe_buf_try_steal - attempt to take ownership of a &pipe_buffer
+- * @pipe:	the pipe that the buffer belongs to
+- * @buf:	the buffer to attempt to steal
+- *
+- * Description:
+- *	This function attempts to steal the &struct page attached to
+- *	@buf. If successful, this function returns 0 and returns with
+- *	the page locked. The caller may then reuse the page for whatever
+- *	he wishes; the typical use is insertion into a different file
+- *	page cache.
+- */
+-bool generic_pipe_buf_try_steal(struct pipe_inode_info *pipe,
+-		struct pipe_buffer *buf)
+-{
+-	struct page *page = buf->page;
+-
+-	/*
+-	 * A reference of one is golden, that means that the owner of this
+-	 * page is the only one holding a reference to it. lock the page
+-	 * and return OK.
+-	 */
+-	if (page_count(page) == 1) {
+-		lock_page(page);
+-		return true;
+-	}
+-	return false;
+-}
+-EXPORT_SYMBOL(generic_pipe_buf_try_steal);
+-
+ /**
+  * generic_pipe_buf_get - get a reference to a &struct pipe_buffer
+  * @pipe:	the pipe that the buffer belongs to
+@@ -297,7 +255,6 @@ EXPORT_SYMBOL(generic_pipe_buf_release);
+ 
+ static const struct pipe_buf_operations anon_pipe_buf_ops = {
+ 	.release	= anon_pipe_buf_release,
+-	.try_steal	= anon_pipe_buf_try_steal,
+ 	.get		= generic_pipe_buf_get,
+ };
+ 
+diff --git a/fs/splice.c b/fs/splice.c
+index e6d43329ed3f..ba8f6f9aa3f0 100644
+--- a/fs/splice.c
++++ b/fs/splice.c
+@@ -55,63 +55,6 @@ static noinline void pipe_clear_nowait(struct file *file)
+ 	} while (!try_cmpxchg(&file->f_mode, &fmode, fmode & ~FMODE_NOWAIT));
+ }
+ 
+-/*
+- * Attempt to steal a page from a pipe buffer. This should perhaps go into
+- * a vm helper function, it's already simplified quite a bit by the
+- * addition of remove_mapping(). If success is returned, the caller may
+- * attempt to reuse this page for another destination.
+- */
+-static bool page_cache_pipe_buf_try_steal(struct pipe_inode_info *pipe,
+-		struct pipe_buffer *buf)
+-{
+-	struct folio *folio = page_folio(buf->page);
+-	struct address_space *mapping;
+-
+-	folio_lock(folio);
+-
+-	mapping = folio_mapping(folio);
+-	if (mapping) {
+-		WARN_ON(!folio_test_uptodate(folio));
+-
+-		/*
+-		 * At least for ext2 with nobh option, we need to wait on
+-		 * writeback completing on this folio, since we'll remove it
+-		 * from the pagecache.  Otherwise truncate wont wait on the
+-		 * folio, allowing the disk blocks to be reused by someone else
+-		 * before we actually wrote our data to them. fs corruption
+-		 * ensues.
+-		 */
+-		folio_wait_writeback(folio);
+-
+-		if (!filemap_release_folio(folio, GFP_KERNEL))
+-			goto out_unlock;
+-
+-		/*
+-		 * If we succeeded in removing the mapping, set LRU flag
+-		 * and return good.
+-		 */
+-		if (remove_mapping(mapping, folio)) {
+-			buf->flags |= PIPE_BUF_FLAG_LRU;
+-			return true;
+-		}
+-	}
+-
+-	/*
+-	 * Raced with truncate or failed to remove folio from current
+-	 * address space, unlock and return failure.
+-	 */
+-out_unlock:
+-	folio_unlock(folio);
+-	return false;
+-}
+-
+-static void page_cache_pipe_buf_release(struct pipe_inode_info *pipe,
+-					struct pipe_buffer *buf)
+-{
+-	put_page(buf->page);
+-	buf->flags &= ~PIPE_BUF_FLAG_LRU;
+-}
+-
+ /*
+  * Check whether the contents of buf is OK to access. Since the content
+  * is a page cache page, IO may be in flight.
+@@ -154,24 +97,12 @@ static int page_cache_pipe_buf_confirm(struct pipe_inode_info *pipe,
+ 
+ const struct pipe_buf_operations page_cache_pipe_buf_ops = {
+ 	.confirm	= page_cache_pipe_buf_confirm,
+-	.release	= page_cache_pipe_buf_release,
+-	.try_steal	= page_cache_pipe_buf_try_steal,
++	.release	= generic_pipe_buf_release,
+ 	.get		= generic_pipe_buf_get,
+ };
+ 
+-static bool user_page_pipe_buf_try_steal(struct pipe_inode_info *pipe,
+-		struct pipe_buffer *buf)
+-{
+-	if (!(buf->flags & PIPE_BUF_FLAG_GIFT))
+-		return false;
+-
+-	buf->flags |= PIPE_BUF_FLAG_LRU;
+-	return generic_pipe_buf_try_steal(pipe, buf);
+-}
+-
+ static const struct pipe_buf_operations user_page_pipe_buf_ops = {
+-	.release	= page_cache_pipe_buf_release,
+-	.try_steal	= user_page_pipe_buf_try_steal,
++	.release	= generic_pipe_buf_release,
+ 	.get		= generic_pipe_buf_get,
+ };
+ 
+@@ -400,7 +331,6 @@ EXPORT_SYMBOL(copy_splice_read);
+ 
+ const struct pipe_buf_operations default_pipe_buf_ops = {
+ 	.release	= generic_pipe_buf_release,
+-	.try_steal	= generic_pipe_buf_try_steal,
+ 	.get		= generic_pipe_buf_get,
+ };
+ 
+@@ -1469,12 +1399,10 @@ static ssize_t __do_splice(struct file *in, loff_t __user *off_in,
+ }
+ 
+ static ssize_t iter_to_pipe(struct iov_iter *from,
+-			    struct pipe_inode_info *pipe,
+-			    unsigned int flags)
++			    struct pipe_inode_info *pipe)
+ {
+ 	struct pipe_buffer buf = {
+ 		.ops = &user_page_pipe_buf_ops,
+-		.flags = flags
+ 	};
+ 	size_t total = 0;
+ 	ssize_t ret = 0;
+@@ -1564,10 +1492,6 @@ static ssize_t vmsplice_to_pipe(struct file *file, struct iov_iter *iter,
+ {
+ 	struct pipe_inode_info *pipe;
+ 	ssize_t ret = 0;
+-	unsigned buf_flag = 0;
+-
+-	if (flags & SPLICE_F_GIFT)
+-		buf_flag = PIPE_BUF_FLAG_GIFT;
+ 
+ 	pipe = get_pipe_info(file, true);
+ 	if (!pipe)
+@@ -1578,7 +1502,7 @@ static ssize_t vmsplice_to_pipe(struct file *file, struct iov_iter *iter,
+ 	pipe_lock(pipe);
+ 	ret = wait_for_space(pipe, flags);
+ 	if (!ret)
+-		ret = iter_to_pipe(iter, pipe, buf_flag);
++		ret = iter_to_pipe(iter, pipe);
+ 	pipe_unlock(pipe);
+ 	if (ret > 0) {
+ 		wakeup_pipe_readers(pipe);
+@@ -1839,11 +1763,7 @@ static int splice_pipe_to_pipe(struct pipe_inode_info *ipipe,
+ 			}
+ 			*obuf = *ibuf;
+ 
+-			/*
+-			 * Don't inherit the gift and merge flags, we need to
+-			 * prevent multiple steals of this page.
+-			 */
+-			obuf->flags &= ~PIPE_BUF_FLAG_GIFT;
++			/* The page is shared with ipipe: don't append to it */
+ 			obuf->flags &= ~PIPE_BUF_FLAG_CAN_MERGE;
+ 
+ 			obuf->len = len;
+@@ -1956,11 +1876,7 @@ static ssize_t link_pipe(struct pipe_inode_info *ipipe,
+ 
+ 		*obuf = *ibuf;
+ 
+-		/*
+-		 * Don't inherit the gift and merge flag, we need to prevent
+-		 * multiple steals of this page.
+-		 */
+-		obuf->flags &= ~PIPE_BUF_FLAG_GIFT;
++		/* The page is shared with ipipe: don't append to it */
+ 		obuf->flags &= ~PIPE_BUF_FLAG_CAN_MERGE;
+ 
+ 		if (obuf->len > len)
+diff --git a/include/linux/pipe_fs_i.h b/include/linux/pipe_fs_i.h
+index 6402930282e5..fb6570e80d01 100644
+--- a/include/linux/pipe_fs_i.h
++++ b/include/linux/pipe_fs_i.h
+@@ -4,9 +4,7 @@
+ 
+ #define PIPE_DEF_BUFFERS	16
+ 
+-#define PIPE_BUF_FLAG_LRU	0x01	/* page is on the LRU */
+ #define PIPE_BUF_FLAG_ATOMIC	0x02	/* was atomically mapped */
+-#define PIPE_BUF_FLAG_GIFT	0x04	/* page is a gift */
+ #define PIPE_BUF_FLAG_PACKET	0x08	/* read() as a packet */
+ #define PIPE_BUF_FLAG_CAN_MERGE	0x10	/* can merge buffers */
+ #define PIPE_BUF_FLAG_WHOLE	0x20	/* read() must return entire buffer or error */
+@@ -127,16 +125,6 @@ struct pipe_inode_info {
+ #endif
+ };
+ 
+-/*
+- * Note on the nesting of these functions:
+- *
+- * ->confirm()
+- *	->try_steal()
+- *
+- * That is, ->try_steal() must be called on a confirmed buffer.  See below for
+- * the meaning of each operation.  Also see the kerneldoc in fs/pipe.c for the
+- * pipe and generic variants of these hooks.
+- */
+ struct pipe_buf_operations {
+ 	/*
+ 	 * ->confirm() verifies that the data in the pipe buffer is there
+@@ -153,16 +141,6 @@ struct pipe_buf_operations {
+ 	 */
+ 	void (*release)(struct pipe_inode_info *, struct pipe_buffer *);
+ 
+-	/*
+-	 * Attempt to take ownership of the pipe buffer and its contents.
+-	 * ->try_steal() returns %true for success, in which case the contents
+-	 * of the pipe (the buf->page) is locked and now completely owned by the
+-	 * caller. The page may then be transferred to a different mapping, the
+-	 * most often used case is insertion into different file address space
+-	 * cache.
+-	 */
+-	bool (*try_steal)(struct pipe_inode_info *, struct pipe_buffer *);
+-
+ 	/*
+ 	 * Get a reference to the pipe buffer.
+ 	 */
+@@ -304,19 +282,6 @@ static inline int pipe_buf_confirm(struct pipe_inode_info *pipe,
+ 	return buf->ops->confirm(pipe, buf);
+ }
+ 
+-/**
+- * pipe_buf_try_steal - attempt to take ownership of a pipe_buffer
+- * @pipe:	the pipe that the buffer belongs to
+- * @buf:	the buffer to attempt to steal
+- */
+-static inline bool pipe_buf_try_steal(struct pipe_inode_info *pipe,
+-		struct pipe_buffer *buf)
+-{
+-	if (!buf->ops->try_steal)
+-		return false;
+-	return buf->ops->try_steal(pipe, buf);
+-}
+-
+ /* Differs from PIPE_BUF in that PIPE_SIZE is the length of the actual
+    memory allocation, whereas PIPE_BUF makes atomicity guarantees.  */
+ #define PIPE_SIZE		PAGE_SIZE
+@@ -335,7 +300,6 @@ void free_pipe_info(struct pipe_inode_info *);
+ 
+ /* Generic pipe buffer ops functions */
+ bool generic_pipe_buf_get(struct pipe_inode_info *, struct pipe_buffer *);
+-bool generic_pipe_buf_try_steal(struct pipe_inode_info *, struct pipe_buffer *);
+ void generic_pipe_buf_release(struct pipe_inode_info *, struct pipe_buffer *);
+ 
+ extern const struct pipe_buf_operations nosteal_pipe_buf_ops;
+diff --git a/kernel/watch_queue.c b/kernel/watch_queue.c
+index 453dcf613205..e2bdd5fb0db1 100644
+--- a/kernel/watch_queue.c
++++ b/kernel/watch_queue.c
+@@ -77,13 +77,9 @@ static void watch_queue_pipe_buf_release(struct pipe_inode_info *pipe,
+ 	generic_pipe_buf_release(pipe, buf);
+ }
+ 
+-// No try_steal function => no stealing
+-#define watch_queue_pipe_buf_try_steal NULL
+-
+ /* New data written to a pipe may be appended to a buffer with this type. */
+ static const struct pipe_buf_operations watch_queue_pipe_buf_ops = {
+ 	.release	= watch_queue_pipe_buf_release,
+-	.try_steal	= watch_queue_pipe_buf_try_steal,
+ 	.get		= generic_pipe_buf_get,
+ };
+ 
+diff --git a/mm/shmem.c b/mm/shmem.c
+index af21a89abb0f..4a9440a1e1f8 100644
+--- a/mm/shmem.c
++++ b/mm/shmem.c
+@@ -3655,15 +3655,8 @@ static void zero_pipe_buf_release(struct pipe_inode_info *pipe,
+ {
+ }
+ 
+-static bool zero_pipe_buf_try_steal(struct pipe_inode_info *pipe,
+-				    struct pipe_buffer *buf)
+-{
+-	return false;
+-}
+-
+ static const struct pipe_buf_operations zero_pipe_buf_ops = {
+ 	.release	= zero_pipe_buf_release,
+-	.try_steal	= zero_pipe_buf_try_steal,
+ 	.get		= zero_pipe_buf_get,
+ };
+ 
 -- 
 2.54.0
 
