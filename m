@@ -1,129 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.181
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1794320707;
-	b=MnLugNZUPFcjT+t5Pid/vGqFBmeW/8BBrt4QntWrwFmU6QkvAOe4x0z036OhQVTaROCX
-	 +PRa26ExMsOv0kQ1fIS4E1sAz8asd9JenJe3wGPrX9LZ8xwyhi5latuZxp9zT7d/p4/MT
-	 SH3cb8VIzJ/NV73krrUJJme/mt1oSGf5Ce3/5CgQgZ/rdkmoJfzoZhdrQ3vLk38Rf2zdo
-	 arZXBhgJ2xwQcBc2AjWBKZrMgga8JWlHxhfJH73561hs553wOLS14UZFbre5tMSDj3J0i
-	 fnACo7F8gEDKYB12iXTWMWlrfGqBPtW2imID/KXKLrkUmo0B2CeB7y5MT7R0M7OFCJA==
+	b=KVhjj8v7dCgmCGfhMtF17gsrjrQh3SvZLmcq/B0f3X2gqDnz1XZRQfRyrsypk3fDwMqN
+	 XOY+R1UnX1OlJuCuU6NF85mi53+p5B4tH2v3kBpqw8auJ+8SBMD9XOuUg/3dPCnZBtON4
+	 JlmrCD5o85Hpam77N+j8FihlFtvcZJZdIAEDlz7yONfDRSe2l96YjmDa9Qob5pTAaB+uM
+	 5FHaXP0Ton1CwOpofsioTGfBRZpA4HbwRDqe5aEKxLjx80f2zbTreEYURRTw210zQ31Y5
+	 R1EzvyEaAbhVz7sUgDfyu4aoBNohL0h56FYqXI5GmTvMGkLV+Fvi7ATxAQRmfU0pB0Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794320707;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:
-	 X-Spam-Flag:X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
-	bh=vFU8SLB5yQFXTKmgyVP3p6vbPpLP3uckbwzKSwj5Zbg=;
-	b=lkoczamsdELe405gDE7OFxffnvJt2CQ3OB2Go9bN+60QvDnVWC8M0nkYDEv+TXPafvn0
-	 ft7ldf8Wn5qO/i3TLlY0qfVOptcraVtbiDqHSOctm7vZ3eGvZBIPC0hmwWLl7tG+kj5aI
-	 1NWus5WcGv6W6PfXAMwiIdnN59pMlXW+6m6/woNJ0LBIBjD/gcqIGyhYTMWmkYgNFRFEA
-	 pzIo/I6QGeHTPC6/VfYjriXjLS+AIqBgdBDas/e8RPKcl35K30jO5g0YfJZO2hvywOYqo
-	 ZkS1vzOrDuA8Lc5lBGN+Cx1kRNeJUdH2lX4c5XZliXP48jz3gBBNgu7e187pwTy9//g==
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key;
+	bh=/Yf/4ABv93USUAVj2AnEM7i9aTJoeg8A5XrLmuUcGSA=;
+	b=wmOgNWVrsJ/tfjagowEYcPUNiWsS/amNY0iciOvV3Z4fhG7q/e46EDl51Qi7vwFb7PaQ
+	 32PNJ6KISh9YaI5DD7VqdUIQjyAzl666ykHWT1n/F3/hijajGelxJZyxtqb9oM6+F1i74
+	 anj/GMX/szjzfiOTTt4IfWkkm4OERv8yPJTm3HoGa1qt9L3F8RATRKPdb7hxMX7lpucP+
+	 Jiau+t7eYT5zdxUyE8bd5zpqedoDvFPuK3/UrcNpW1zRtQHeHytej13Iy3yvaifYoH18l
+	 M8kNgbxl6Car/IbMYSZ+xo/VMTsAt3BWf5cVOaSTbDJTpVgcyVaHc7EZkY4O3uevz+w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=bjk4WUGs;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=DcZW88hG;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=bjk4WUGs;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=DcZW88hG;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=none header.from=toxicpanda.com;
+	spf=pass smtp.mailfrom=toxicpanda.com;
+	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b="SdThXX/X";
+	arc=none smtp.remote-ip=209.85.222.181
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47EF460A2613;
-	Tue, 10 Nov 2026 14:25:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 47EF460A2613
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4749860A263B
+	for <linux-fsdevel@vger.kernel.org>; Tue, 10 Nov 2026 14:25:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4749860A263B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=bjk4WUGs;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=DcZW88hG;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=bjk4WUGs;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=DcZW88hG
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A263621E96;
-	Tue, 10 Nov 2026 14:25:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794320704; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vFU8SLB5yQFXTKmgyVP3p6vbPpLP3uckbwzKSwj5Zbg=;
-	b=bjk4WUGsRYs0sP8E0ONkDW8hyxwCcqK6F/Z+No2aVyfis1MlyWmiOhtWAdfYs7F/8CipUe
-	M6ChAxycGmD+5TO2yaDPV3YEJYRhQ7n9jG4KZpA9RGENMEDcySYwTh7Zpl9Q1XnchbyaQz
-	9csObL3BU5hnSJHNTzbwr+PQnEnCSJ4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794320704;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vFU8SLB5yQFXTKmgyVP3p6vbPpLP3uckbwzKSwj5Zbg=;
-	b=DcZW88hGUmkolX453pml7rhjUnXP/geJBXTnLO3CcrhsdfC+rAH/ij69WBdSoxJA/XOD03
-	2vl1fFNAf7DiXYCQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=bjk4WUGs;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=DcZW88hG
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794320704; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vFU8SLB5yQFXTKmgyVP3p6vbPpLP3uckbwzKSwj5Zbg=;
-	b=bjk4WUGsRYs0sP8E0ONkDW8hyxwCcqK6F/Z+No2aVyfis1MlyWmiOhtWAdfYs7F/8CipUe
-	M6ChAxycGmD+5TO2yaDPV3YEJYRhQ7n9jG4KZpA9RGENMEDcySYwTh7Zpl9Q1XnchbyaQz
-	9csObL3BU5hnSJHNTzbwr+PQnEnCSJ4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794320704;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vFU8SLB5yQFXTKmgyVP3p6vbPpLP3uckbwzKSwj5Zbg=;
-	b=DcZW88hGUmkolX453pml7rhjUnXP/geJBXTnLO3CcrhsdfC+rAH/ij69WBdSoxJA/XOD03
-	2vl1fFNAf7DiXYCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 737AB13479;
-	Tue, 10 Nov 2026 14:25:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id yxLEE0Ap82qXIAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 10 Nov 2026 14:25:04 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id A39EC2253A; Tue, 10 Nov 2026 15:24:59 +0100 (CET)
-Date: Tue, 10 Nov 2026 15:24:59 +0100
-From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Jann Horn <jannh@google.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, 
-	Eric Dumazet <edumazet@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Al Viro <viro@zeniv.linux.org.uk>, Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
-	Greg Kroah-Hartman <gregkh@suse.de>, Joel Granados <joel.granados@kernel.org>, 
-	Kees Cook <kees@kernel.org>, Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
-	linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	netdev@vger.kernel.org, ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
-	coreteam@netfilter.org, kexec@lists.infradead.org, linux-pci@vger.kernel.org, 
-	linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net, 
-	linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org, 
-	linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, 
-	linux-sh@vger.kernel.org, linux-usb@vger.kernel.org, samba-technical@lists.samba.org, 
-	sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org, 
-	linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net, 
-	Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
-	linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, linux-debuggers@vger.kernel.org, 
-	Chuck Lever <cel@kernel.org>, stable@vger.kernel.org
-Subject: Re: [PATCH v2 14/51] proc: sysctl: don't stop readdir at an entry
- that is being unregistered
-Message-ID: <efix7fc3j7xbogyb3zaotsi3bwl4s4p6nvwrnlpbue5khrlf43@orqtyoglh5b7>
-References: <20261104-work-procfs-bugfixes-v2-0-bbf7d5546809@kernel.org>
- <20261104-work-procfs-bugfixes-v2-14-bbf7d5546809@kernel.org>
+	dkim=pass (2048-bit key) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=SdThXX/X
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-945ae2daa68so249766085a.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 10 Nov 2026 06:25:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=toxicpanda.com; s=google; t=1794320706; x=1794925506; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=/Yf/4ABv93USUAVj2AnEM7i9aTJoeg8A5XrLmuUcGSA=;
+        b=SdThXX/XvWC9iOLb5cweprXm8p8lbV9keIXzQHaWNn2oqo4ovzGvnfwDSniy3BJ+ZF
+         Ki8eVuer4TH1cZYDxoebOYr6iOY4/IaxJKchmlI8qm9xsVP094OPrc8deQ1jLlPO3nMz
+         woJgTvD0Z4hGW0X3p9NAwnpBwlAUv5pNMGWL9fHb5UXEM2tBftLuPzCSEWJQZ/mNLy7u
+         QG58vUn3tLBa9lqpOmtKVdAYnofLazFnpl/Jtde/q3+uyir4U40/C26f5CTe8ODtSvOl
+         LqprqlHztzKF9u2u8uOcE5ZB5/nACXf2nPvD+mVJty+1ECJ3ia/KcLq330lknq1+JCfX
+         GxMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794320706; x=1794925506;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/Yf/4ABv93USUAVj2AnEM7i9aTJoeg8A5XrLmuUcGSA=;
+        b=jQOcWTvHqxiI+uuPgt+prdsIgWJsBnMRAKoZgIX0E7Mzhf66qcwlgMD44g0zFRO4VZ
+         0VRkeYSaTOEUlFSoIMDFXXLCoRDOd246N63wnciAnVr32v396/jEbieSb8w6Br4UAwbM
+         +hI7OwemEE373yThU8YaC2OSZHCtMh3Bn2XF8PK1CHFyiPhb5Y2r/NCCXOAJxGQyDk6n
+         NLd166zFYxnqCNjrlTXN7IHQCTMmax4h8RgKZHkDxRL6REJHaVpmgJejfzzy0aLxhOgw
+         8vrC05J+/yAYWEbPOtRPAvblLAk6WDYka1JCSNRZnF5hsPLJZpcocwyZCxRQZ7V7Dt70
+         GE7Q==
+X-Forwarded-Encrypted: i=1; AL+hErGfYq2sZU26iHVtVidYbzA5cJLbaAH9pG8b2UI1uYpDMLyBQAdgqgAF0DXebIl79DK7hBtt29BG4+nxy/l/@vger.kernel.org
+X-Gm-Message-State: APuU4Z8aUzmujxREDZvVlCjMwOYkvaTX6cWlHCDKySw7uIXbAqndonRa
+	cEz6I6riWLmQ2ckznOlNt1b9Oj3BScLym5i9p2GVustU/P+W5X8vqz3H+SBv2LOV9jxlwtaZ2j/
+	hwnYkp2c=
+X-Gm-Gg: AYBFou3+6ewpvkCtObOGIkYcaltWdMqUGVQtKcGNZaLDP8nm5aCGFZzkBRVLN/EQu/i
+	SmVuq6UdIn7yU0frEfaXFlNf/G7b+QxsR+Bc+sN7uCeU1+HzcMyCfEdmYXCgKsy5/U1MzCHTVJu
+	me3F7xGrnO5I6Tfx4fvD4f+FCepMDfWvoG4g5DapTU81Cew/MXvsaRAz1qFDjacLNdmXh0YJFjH
+	MBifHGw0D6vjyu3LXi4aoNufy661og223oYl/UyKypqQXEDNP+Kqf35U5JbG6kJZHavqyloq5Nq
+	4SBDFxY+ye1nu91VHBw6aUKwaRme/72Q8PrwBrMaS/RMFa/tV7XZqSoq6Eti7r/xV5oJQ0OYQs5
+	wEltHM8bDxU4X3Td9zk8mL+B9jbHYN+zH2LXYWuSbbbJPVGf3PPS4x5YfUslxu1WhlMKf1elm4i
+	VvB4KA5cYS/u9HJCLv2Ep+QB/Ls/DbotknrPj1emJ7V1GFbv84+1oBIi81tMY/5Pe6tncEFiYc6
+	eOMKRKH5vzNYCOwSIMmikdHT3vR0/tHtfJh9JF2sU+jerykzfS4i9ZdbR77ffkBpufyy7KMeARW
+	CHDW5N2joYlPbv7FD5HKFl3KQGvudLuSChsT26mjFUDWBoy/4EhOoxM4Dub+/WOAX40=
+X-Received: by 2002:a05:620a:2a04:b0:93e:5677:317b with SMTP id af79cd13be357-9479f20ce46mr451524885a.25.1794320706134;
+        Tue, 10 Nov 2026 06:25:06 -0800 (PST)
+Received: from toxicpanda.com ([153.61.196.243])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9479e61a7easm235416185a.5.2026.11.10.06.25.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Nov 2026 06:25:05 -0800 (PST)
+From: Josef Bacik <josef@toxicpanda.com>
+Date: Tue, 10 Nov 2026 14:24:52 +0000
+Subject: [PATCH v6 4/9] ovl: mark the overlay inode dirty on modification
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -133,94 +93,269 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261104-work-procfs-bugfixes-v2-14-bbf7d5546809@kernel.org>
-X-Spamd-Result: default: False [-11.51 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	R_RATELIMIT(0.00)[to_ip_from(RLpnapcpkwxdkc5mopt1ezhhna)];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[60];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,suse.cz:dkim,suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -11.51
-X-Spam-Level: 
-X-Rspamd-Queue-Id: A263621E96
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261110-b4-ovl-containerized-sync-v6-4-43d1be16a4d6@toxicpanda.com>
+References: <20261110-b4-ovl-containerized-sync-v6-0-43d1be16a4d6@toxicpanda.com>
+In-Reply-To: <20261110-b4-ovl-containerized-sync-v6-0-43d1be16a4d6@toxicpanda.com>
+To: Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>, 
+ Christian Brauner <brauner@kernel.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ Christoph Hellwig <hch@infradead.org>, Chris Mason <mason@kernel.org>, 
+ Chengguang Xu <cgxu519@mykernel.net>, linux-unionfs@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Josef Bacik <josef@toxicpanda.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openssh-sha256; t=1794320698; l=9192;
+ i=josef@toxicpanda.com; h=from:subject:message-id;
+ bh=ou5XGwlSrGDmJzRWNj5Nri9TL3HAVDhsUzU4tRBA/GY=;
+ b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgUBr36M/n0nWN0DNbnxwzIiCZez6MG
+ JiruuNaSCI/zXsAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
+ QM7p/GXHsPzXklpYrqEBoQ6fizk1gVVbYwRPMujBKMKAuHk/66jWwIfK6TL9wtFMf/lAlGyR5TT
+ 5XtVAw0nwRgg=
+X-Developer-Key: i=josef@toxicpanda.com; a=openssh;
+ fpr=SHA256:C8kOX2QUJCMqnCX+KEeoqRAjLo9L+ELOSH2NSAJHqGA
 
-On Wed 04-11-26 18:47:00, Christian Brauner wrote:
-> proc_sys_fill_cache() creates the inode of an entry that has no dentry
-> yet. Since ace0c791e6c3 ("proc/sysctl: Don't grab i_lock under
-> sysctl_lock.") proc_sys_make_inode() refuses to do that once the table
-> is being unregistered and fails with -ENOENT. readdir takes every table
-> it lists into use and unregister_sysctl_table() marks the table as
-> being unregistered before it waits for readdir to let go of it. So an
-> entry that is unregistered right then makes proc_sys_fill_cache() fail,
-> proc_sys_readdir() stops there and returns 0. If that getdents64() call
-> hadn't emitted anything before that entry userspace sees the end of the
-> directory and never gets the entries behind it. A listing of
-> /proc/sys/net/ipv6/conf can end early that way while a device goes
-> away.
-> 
-> So skip an entry whose table is being unregistered, like readdir
-> already skips a link it can't follow. Lookup treats such an entry as
-> gone too since ea5751ccd665 ("proc/sysctl: don't return ENOMEM on
-> lookup when a table is unregistering").
-> 
-> Fixes: ace0c791e6c3 ("proc/sysctl: Don't grab i_lock under sysctl_lock.")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+To sync only what was written through an overlay, we have to know which
+upper inodes were modified through it.  Mark the overlay inode dirty when
+its upper inode is modified, which puts it on the dirty list of the
+overlay's bdi.
 
-Looks sane. Feel free to add:
+Nearly every modification ends in ovl_copyattr(), so do it there.  These do
+not, so they mark the inode themselves:
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+ - copy up, for the inode and for its parent
+ - ovl_instantiate(), for a new inode and for a new hard link
+ - atime updates
+ - shared writable mappings
+ - the removal of a stale "impure" xattr in readdir
+ - the "origin" and "impure" xattrs that lookup sets on a merge directory
+   and on its parent
 
-								Honza
+Do not mark an unhashed inode.  __mark_inode_dirty() would set its dirty
+flags without queueing it, and every later call would return early.  The
+inode of a lower hardlink is unhashed until ovl_inode_update() hashes it.
+The root inode is never hashed, a later patch takes care of it.
 
-> ---
->  fs/proc/proc_sysctl.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/fs/proc/proc_sysctl.c b/fs/proc/proc_sysctl.c
-> index 6c0859c66563..b4a309d49698 100644
-> --- a/fs/proc/proc_sysctl.c
-> +++ b/fs/proc/proc_sysctl.c
-> @@ -704,6 +704,9 @@ static bool proc_sys_fill_cache(struct file *file,
->  			if (unlikely(res)) {
->  				dput(child);
->  
-> +				/* skip an entry whose table is being unregistered */
-> +				if (res == ERR_PTR(-ENOENT))
-> +					return true;
->  				if (IS_ERR(res))
->  					return false;
->  
-> 
-> -- 
-> 2.53.0
-> 
+Based on work by Chengguang Xu.
+
+Link: https://lore.kernel.org/r/20211122030038.1938875-1-cgxu519@mykernel.net
+Suggested-by: Amir Goldstein <amir73il@gmail.com>
+Suggested-by: Miklos Szeredi <miklos@szeredi.hu>
+Signed-off-by: Josef Bacik <josef@toxicpanda.com>
+---
+ fs/overlayfs/copy_up.c   |  9 +++++++++
+ fs/overlayfs/dir.c       |  3 +++
+ fs/overlayfs/file.c      |  7 ++++++-
+ fs/overlayfs/inode.c     |  4 +++-
+ fs/overlayfs/namei.c     | 10 ++++++++--
+ fs/overlayfs/overlayfs.h | 20 ++++++++++++++++++++
+ fs/overlayfs/readdir.c   |  1 +
+ fs/overlayfs/util.c      | 12 +++++++++++-
+ 8 files changed, 61 insertions(+), 5 deletions(-)
+
+diff --git a/fs/overlayfs/copy_up.c b/fs/overlayfs/copy_up.c
+index e963701b4c87..44bc96aa3d5d 100644
+--- a/fs/overlayfs/copy_up.c
++++ b/fs/overlayfs/copy_up.c
+@@ -1199,6 +1199,15 @@ static int ovl_copy_up_one(struct dentry *parent, struct dentry *dentry,
+ 			err = ovl_link_up(&ctx);
+ 		if (!err && ovl_dentry_needs_data_copy_up_locked(dentry, flags))
+ 			err = ovl_copy_up_meta_inode_data(&ctx);
++		/*
++		 * All three write to the upper inode, and there may be no later
++		 * write that would mark the overlay inode dirty.  The first two
++		 * also add an entry to the upper inode of the parent, set its
++		 * "impure" xattr and restore its timestamps.
++		 */
++		ovl_mark_inode_dirty(d_inode(dentry));
++		if (parent)
++			ovl_mark_inode_dirty(d_inode(parent));
+ 		ovl_copy_up_end(dentry);
+ 	}
+ 	do_delayed_call(&done);
+diff --git a/fs/overlayfs/dir.c b/fs/overlayfs/dir.c
+index 1194ccf981c3..a24326446659 100644
+--- a/fs/overlayfs/dir.c
++++ b/fs/overlayfs/dir.c
+@@ -331,6 +331,9 @@ static int ovl_instantiate(struct dentry *dentry, struct inode *inode,
+ 		inc_nlink(inode);
+ 	}
+ 
++	/* The upper inode was just created, or has got a new link */
++	ovl_mark_inode_dirty(inode);
++
+ 	if (tmpfile)
+ 		d_mark_tmpfile(tmpfile, inode);
+ 
+diff --git a/fs/overlayfs/file.c b/fs/overlayfs/file.c
+index 7433220d4ad6..53c5131a0482 100644
+--- a/fs/overlayfs/file.c
++++ b/fs/overlayfs/file.c
+@@ -472,8 +472,13 @@ static int ovl_mmap(struct file *file, struct vm_area_struct *vma)
+ 		.cred = ovl_creds(file_inode(file)->i_sb),
+ 		.accessed = ovl_file_accessed,
+ 	};
++	int err;
+ 
+-	return backing_file_mmap(of->realfile, vma, &ctx);
++	err = backing_file_mmap(of->realfile, vma, &ctx);
++	/* Stores through the mapping go straight to the upper inode */
++	if (!err && vma_is_shared_maywrite(vma))
++		ovl_mark_inode_dirty(file_inode(file));
++	return err;
+ }
+ 
+ static long ovl_fallocate(struct file *file, int mode, loff_t offset, loff_t len)
+diff --git a/fs/overlayfs/inode.c b/fs/overlayfs/inode.c
+index 63906b3dafcb..9a4bf7c2502b 100644
+--- a/fs/overlayfs/inode.c
++++ b/fs/overlayfs/inode.c
+@@ -587,6 +587,7 @@ int ovl_update_time(struct inode *inode, enum fs_update_time type,
+ 			touch_atime(&upperpath);
+ 			inode_set_atime_to_ts(inode,
+ 					      inode_get_atime(d_inode(upperpath.dentry)));
++			ovl_mark_inode_dirty(inode);
+ 		}
+ 	}
+ 	return 0;
+@@ -898,7 +899,8 @@ void ovl_inode_init(struct inode *inode, struct ovl_inode_params *oip,
+ 	oi->lowerdata_redirect = oip->lowerdata_redirect;
+ 
+ 	realinode = ovl_inode_real(inode);
+-	ovl_copyattr(inode);
++	/* Nothing was changed, the inode is only being looked up */
++	__ovl_copyattr(inode);
+ 	ovl_copyflags(realinode, inode);
+ 	ovl_map_ino(inode, ino, fsid);
+ }
+diff --git a/fs/overlayfs/namei.c b/fs/overlayfs/namei.c
+index ca899fdfaafd..647992c95284 100644
+--- a/fs/overlayfs/namei.c
++++ b/fs/overlayfs/namei.c
+@@ -944,11 +944,13 @@ static int ovl_fix_origin(struct ovl_fs *ofs, struct dentry *dentry,
+ 	err = ovl_set_origin_fh(ofs, fh, upper);
+ 	if (!err)
+ 		err = ovl_set_impure(dentry->d_parent, upper->d_parent);
++	ovl_mark_inode_dirty(d_inode(dentry->d_parent));
+ 
+ 	ovl_drop_write(dentry);
+ out:
+ 	kfree(fh);
+-	return err;
++	/* Tell the caller that @upper was modified, it has no inode yet */
++	return err ? err : 1;
+ }
+ 
+ static int ovl_maybe_validate_verity(struct dentry *dentry)
+@@ -1099,6 +1101,7 @@ static int ovl_lookup_layers(struct ovl_lookup_ctx *ctx, struct ovl_lookup_data
+ 	struct dentry *origin = NULL;
+ 	bool upperopaque = false;
+ 	bool uppermetacopy = false;
++	bool origin_fixed = false;
+ 	int metacopy_size = 0;
+ 	unsigned int i;
+ 	int err;
+@@ -1178,10 +1181,11 @@ static int ovl_lookup_layers(struct ovl_lookup_ctx *ctx, struct ovl_lookup_data
+ 		 */
+ 		if (ctx->upperdentry && !ctx->ctr && !ofs->noxattr && d->is_dir) {
+ 			err = ovl_fix_origin(ofs, dentry, this, ctx->upperdentry);
+-			if (err) {
++			if (err < 0) {
+ 				dput(this);
+ 				return err;
+ 			}
++			origin_fixed = err;
+ 		}
+ 
+ 		/*
+@@ -1367,6 +1371,8 @@ static int ovl_lookup_layers(struct ovl_lookup_ctx *ctx, struct ovl_lookup_data
+ 			return PTR_ERR(inode);
+ 
+ 		ctx->inode = inode;
++		if (origin_fixed)
++			ovl_mark_inode_dirty(inode);
+ 		if (ctx->upperdentry && !uppermetacopy)
+ 			ovl_set_flag(OVL_UPPERDATA, ctx->inode);
+ 
+diff --git a/fs/overlayfs/overlayfs.h b/fs/overlayfs/overlayfs.h
+index 5b1a097ce543..d82c4bed5af2 100644
+--- a/fs/overlayfs/overlayfs.h
++++ b/fs/overlayfs/overlayfs.h
+@@ -691,6 +691,25 @@ static inline bool ovl_should_sync_upper_fs(struct ovl_fs *ofs)
+ 	return ovl_should_sync(ofs) && !ovl_tracks_dirty(ofs);
+ }
+ 
++/*
++ * The upper inode was modified through this overlay.  Put the overlay inode on
++ * the dirty list of the overlay, where syncfs() and unmount find it.
++ *
++ * Do not look at the dirty flags of the upper inode here.  They are cleared
++ * when the writeback of the upper inode starts, not when it completes.
++ *
++ * Do not mark an inode that is not hashed.  __mark_inode_dirty() would set its
++ * dirty flags without putting it on a dirty list, and once the flags are set,
++ * later calls return early.  The overlay inode of a lower hardlink is unhashed
++ * until ovl_inode_update() hashes it, and ovl_copy_up_one() marks it after
++ * that.  The root inode is never hashed, so it is not tracked.
++ */
++static inline void ovl_mark_inode_dirty(struct inode *inode)
++{
++	if (ovl_tracks_dirty(OVL_FS(inode->i_sb)) && !inode_unhashed(inode))
++		mark_inode_dirty(inode);
++}
++
+ /*
+  * To avoid regressions in existing setups with overlay lower offline changes,
+  * we allow lower changes only if none of the new features are used.
+@@ -878,6 +897,7 @@ bool ovl_lookup_trap_inode(struct super_block *sb, struct dentry *dir);
+ struct inode *ovl_get_trap_inode(struct super_block *sb, struct dentry *dir);
+ struct inode *ovl_get_inode(struct super_block *sb,
+ 			    struct ovl_inode_params *oip);
++void __ovl_copyattr(struct inode *to);
+ void ovl_copyattr(struct inode *to);
+ 
+ /* vfs fileattr flags read from overlay.protattr xattr to ovl inode */
+diff --git a/fs/overlayfs/readdir.c b/fs/overlayfs/readdir.c
+index 7d6f7f6022eb..f02c37600df6 100644
+--- a/fs/overlayfs/readdir.c
++++ b/fs/overlayfs/readdir.c
+@@ -724,6 +724,7 @@ static struct ovl_dir_cache *ovl_cache_get_impure(const struct path *path)
+ 		if (!ovl_want_write(dentry)) {
+ 			ovl_removexattr(ofs, ovl_dentry_upper(dentry),
+ 					OVL_XATTR_IMPURE);
++			ovl_mark_inode_dirty(inode);
+ 			ovl_drop_write(dentry);
+ 		}
+ 		ovl_clear_flag(OVL_IMPURE, inode);
+diff --git a/fs/overlayfs/util.c b/fs/overlayfs/util.c
+index 521717209b2e..a260c5a350e2 100644
+--- a/fs/overlayfs/util.c
++++ b/fs/overlayfs/util.c
+@@ -1492,7 +1492,7 @@ int ovl_sync_status(struct ovl_fs *ofs)
+  * map any lower or upper inode owned by id 1001 to id 1000. These mapping
+  * helpers are nops when the relevant layer isn't idmapped.
+  */
+-void ovl_copyattr(struct inode *inode)
++void __ovl_copyattr(struct inode *inode)
+ {
+ 	struct path realpath;
+ 	struct inode *realinode;
+@@ -1516,3 +1516,13 @@ void ovl_copyattr(struct inode *inode)
+ 	i_size_write(inode, i_size_read(realinode));
+ 	spin_unlock(&inode->i_lock);
+ }
++
++/*
++ * The attributes are copied because the real inode was modified through the
++ * overlay, so this is also where the overlay inode is marked dirty.
++ */
++void ovl_copyattr(struct inode *inode)
++{
++	__ovl_copyattr(inode);
++	ovl_mark_inode_dirty(inode);
++}
+
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.55.0
+
