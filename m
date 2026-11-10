@@ -1,58 +1,58 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794319961;
-	b=h3Pfr5+FHkr/APDZlFqFUlKSVVGekLqxYljeFS+w2wpBRhd0VPP4zGr0cyADz/T33Vwb
-	 gA2KjE8tg5K0cP3Y79snXEsxh4nEVsmASe1BwhM+BQfhUZwdz+n5YwF0iSv64wQArstTn
-	 rkp/2BkpbTwU33cLE7GCVXDkeRQMSnUzXSCu6+Hcq27qT6JuKm580kjP4QjNturP97/fi
-	 L4hC1KI7bvox7L9w5QudjzmCwHDaFGrapN4RKXk02YumJ40bGmJv/OIVgv+Xdcf0ebjn9
-	 b2r+YS4Nyk+9T47+WUhl3YGX2oVrqDa0GlGZCiJYrTrSiLssh05jtU3vAsMde/J3hZA==
+	t=1794320368;
+	b=BmW/qJdLOpajh7qMw+qZUXwly0t4SvLrEciYRPnZjO6glYcgXUB4izSSWHucXjE0MCVt
+	 mKC0VB8yS7Gawl8oVf7JTvMijvOFK3jeMN/VbYqASoq/6EqG+AahCPxPURxq7NR3gIOSl
+	 P5QgPg8ggyTDDeG5ctuKdj0dV2c2ASNVdZCXrkvote6B33aoNF6CALK3j/WTPAL1nUrPn
+	 UxyxN0eYvFy5Y/p6cX9ZdEEQjhgTCUjLfBwlCizhQObQkbvhNsYavqgMqBpa3Ozi8znN7
+	 A3lc/2jEv6GFfy5MVsemWdmkFwQC14ZqT0cD9FsSNFG9JGJJ/gNmr4Ri4bH5wFa8B/A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794319961;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794320368;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:
 	 Content-Transfer-Encoding:In-Reply-To;
-	bh=6VgY6UdWu9zLmnF3aLHQsmOuzao3PITWEgw/5e5KuwU=;
-	b=DJIb1TY4IGqkSSB2Q1S+UjwycKCAyBZoVlUG40wuv7+WaIIKm342qPSFv56WueZdvBe9
-	 QWeFeq4EyPkZ+PyD5XHOSJIwrVyR+gPTLVwA2LelgsgUA2aVtxBAopCuyKL2TM66zJobe
-	 UVBoxS0aICRusJt54vOQAAdJIq1fqg1sWtpb6f6IcU2vKWKBR81KtMeVzBZpUuHMPuYAG
-	 Cnz2MWEobZHz7lNJ6QyUjvQ/9uQNh9w1WkQj/GgFCq/WNHNzr6k4OvGQvJCd7Utml22Qi
-	 fn0Dk/eu8cysHbnW7Vr2+PB6RAjoeArrAlDh5tOmFMEHRWDcOLQtvG0z9UFji79hTtA==
+	bh=rTBUIEs6ouEm6gFVWs5zgJQtIAZwsuHyVb8X2AjSH94=;
+	b=NQQLrgYEYBH1X2KIEdBUsM0Zj0pzqQPgkezDf7WN3FWepMkn45YZqjZG0w2kF2xIAWSi
+	 jNvscW+8rfzTFCqUoB4rN8jkJjKIP/sM0WKEtU6SZIMPgGbVIiI8s5vbvGiviWtxJV1F1
+	 9KqWWeJNxnAiOYyLXuws7OBKAiYxj94jYilUVOuXkoeer1cIFcA4gOkXbGVEUTb5FErYm
+	 oBzvkB1GhzkRUMAEoEDfOsbD4ANIBTzNI+zZIGehoo+Uj2qLdkaTf6pSmbIs3O3sDIvKW
+	 GLMOpGMOEKQoNsJgPcaVKc/G7vXCLndS17rza+AOoTJIQw4Ne00bjI3e7AtJYJjCOcQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Qm0sZ2Fq;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WMe6IWuz;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE47C606A31C;
-	Tue, 10 Nov 2026 14:12:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA1CF606A321;
+	Tue, 10 Nov 2026 14:19:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Qm0sZ2Fq
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43CB61F008A1;
-	Tue, 10 Nov 2026 14:12:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WMe6IWuz
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F29C71F0089F;
+	Tue, 10 Nov 2026 14:19:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794319960;
-	bh=6VgY6UdWu9zLmnF3aLHQsmOuzao3PITWEgw/5e5KuwU=;
+	s=k20260515; t=1794320367;
+	bh=rTBUIEs6ouEm6gFVWs5zgJQtIAZwsuHyVb8X2AjSH94=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Qm0sZ2Fq4qPY1DKIKav6pqo7ACprob1rUv8p319SW6KFEx+TBxE4TRzcyKCZevuDw
-	 0cS3uXOaW2KCkoqT8UtoX0z0uLH+IlOzbaDYK1NJ2eUKWPbwmLU9//qxzJMoLkU6cJ
-	 z+KJzWh7p3OU9AP5hvCXIM/QjG9Y3VXFoWkP5jvm1xaEGEiE2FDCVIKdchuCWU6LB5
-	 A+OF2in0nAygQ2p7Rnv2xCqKveTl1hrNC5jmHhshuWoo7YxUYQdDBoW+TUzrER2nUx
-	 S+UYgfQUl1O5/x03wPgGptiG2nqhteMr27xLsPeRmuMu0yZxubY3OoAAJWJlzyUjXT
-	 ogs7KmUEotdnQ==
-Date: Tue, 10 Nov 2026 15:12:36 +0100
+	b=WMe6IWuz6RSl2oWDeCvTmq2AwMHnOUtZE3+45ZoasIZO5gRYR47j6+YK/Q+r2Qc71
+	 Oynj7cycBSCuBdt8KkwX56cq+rCF8kX9Zzb5xI3P9bsXLaWOV4P8f3pHjQOtbS4Tg0
+	 CGkKuCYIGAlPSmPbmEagI8zZZw1sBZh4bHwnptq2ZznUUFMBvdahE8aTUrqlIwhf/F
+	 Ht3foWksmT8HKlJuImlG5f2peLz8nkfL2laxeybA+NE5dgHPVlHiGQ/NnbabozguCw
+	 TT8uIeer0qrWFhEuotb+keRYw3Lv47vT4jSxpdsAUBOUXXhsDZENanCsrb8jGTDHRj
+	 zMPaXkLyFY0oA==
+Date: Tue, 10 Nov 2026 15:19:22 +0100
 From: Christian Brauner <brauner@kernel.org>
-To: Jan Kara <jack@suse.cz>
-Cc: =?utf-8?B?TcOpdmVu?= Car <meven29@gmail.com>, 
-	Jens Axboe <axboe@kernel.dk>, io-uring@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Hugh Dickins <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, =?utf-8?B?TcOpdmVu?= Car <meven@kde.org>
-Subject: Re: [RFC PATCH v2 1/3] fs: add filename_utimensat()
-Message-ID: <20261110-ohrfeigen-broschen-quartal-28599cd8e172@brauner>
+To: =?utf-8?B?TcOpdmVu?= Car <meven29@gmail.com>
+Cc: Jens Axboe <axboe@kernel.dk>, io-uring@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Jan Kara <jack@suse.cz>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	=?utf-8?B?TcOpdmVu?= Car <meven@kde.org>
+Subject: Re: [RFC PATCH v2 3/3] io_uring: set times inline when the
+ filesystem cannot sleep
+Message-ID: <20261110-winkt-kennung-geadelt-75390f787646@brauner>
 References: <20261104110604.126717-1-meven29@gmail.com>
- <20261104110604.126717-2-meven29@gmail.com>
- <35n54rrx6qq67j4fpxlvh67hal7zhmke2g5zcuhs5sbvxy22ez@nnnt4r4xng4r>
+ <20261104110604.126717-4-meven29@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -65,31 +65,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <35n54rrx6qq67j4fpxlvh67hal7zhmke2g5zcuhs5sbvxy22ez@nnnt4r4xng4r>
+In-Reply-To: <20261104110604.126717-4-meven29@gmail.com>
 
-On Mon, Nov 09, 2026 at 12:05:18PM +0100, Jan Kara wrote:
-> On Wed 04-11-26 12:06:02, Méven Car wrote:
-> > From: Méven Car <meven@kde.org>
-> > 
-> > Copy utilities that preserve timestamps, like cp -p or a file manager,
-> > set the times of every copy after its last write. To do that through
-> > io_uring, the request needs the utimensat() lookup on a name that was
-> > imported at submission time.
-> > 
-> > io_uring takes the path of a request when it is submitted and looks it
-> > up later, from a worker thread. The path ops it already has call the
-> > filename_*() helpers of fs/namei.c with a struct filename. utimensat(2)
-> > had no such helper: do_utimes_path() took the user pointer and imported
-> > the name itself.
-> > 
-> > Split the lookup and the vfs_utimes() call out of do_utimes_path() into
-> > filename_utimensat(), declared in fs/internal.h next to the other
-> > filename_*() helpers. do_utimes_path() now only imports the name.
-> > 
-> > Signed-off-by: Méven Car <meven@kde.org>
+On Wed, Nov 04, 2026 at 12:06:04PM +0100, Méven Car wrote:
+> From: Méven Car <meven@kde.org>
 > 
-> Looks ok. Feel free to add:
+> IORING_OP_UTIMENSAT always went to io-wq. On tmpfs the setattr only
+> changes the inode in memory, so the handoff to a worker cost more than
+> the work: 2000 files took 7 ms with utimensat(2) and 20 ms through the
+> ring.
 > 
-> Reviewed-by: Jan Kara <jack@suse.cz>
+> Try the request inline first. The lookup uses LOOKUP_CACHED, and the
+> freeze protection and the inode lock are only tried, the former with
+> the new mnt_want_write_trylock(). A filesystem whose ->setattr() never
+> sleeps for a change of times alone says so with
+> FS_SETATTR_TIMES_NOWAIT, which tmpfs sets. Any other filesystem, an
+> uncached path, a contended lock or a delegation returns -EAGAIN, and
+> io_uring sends the request to io-wq as before.
+> 
+> Signed-off-by: Méven Car <meven@kde.org>
+> ---
+>  fs/internal.h      |  5 ++++-
+>  fs/namespace.c     | 20 ++++++++++++++++++++
 
-Seems fine.
+We do not add a bunch of generic APIs in a io_uring patch.
+
+What exactly is the the idea here? for tmpfs io-wq handoff costs three
+times the setattr.
+
+So it tries the request inline with LOOKUP_CACHED, inode_trylock(), a
+new mnt_want_write_trylock(), no delegation breaking, and bails with
+EAGAIN unless the filesystem type sets a new FS_SETATTR_TIMES_NOWAIT
+fs_flags bit. Bah.. and then only tmpfs. ext4, xfs and btrfs can't
+because ->setattr() starts a transaction.
+
+The inline path still runs the whole notify_change()
+security_inode_setattr(), fsnotify_change(), and
+security_inode_post_setattr(). That's all blocking material.
+
+Every request on a filesystem without the bit does a cached lookup with
+d_weak_revalidate() and audit_inode() side effects, fails in __vfs_utimes(),
+and then io-wq looks the path up again. Eew.
+
+Not acceptable in this form and for sure not with all this new
+machinery.
