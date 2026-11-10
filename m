@@ -1,107 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=82.195.75.108
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794313677;
-	b=cFAqbD5Gpcgzo2+u29z7edcvRi3Cd95B1Z7psnqB0W/ApRqmOUFTaQy8UMG5xuWNC9p8
-	 XHFs1g+0irkchulBUSRN88/9i7d0+j5wTIq5ZXPauZ8E62dHnewNG50L724glIBU16pY1
-	 W8jgpXww1paNSC+3cK3oXW3k2vqrj0jURzUB2rFJs9c8klqoWz0m/DWORMLndCjfSiLlM
-	 jPsROHAH/6fTQcuLkMTtgmYQl1qT1Lpsi3rWRdKHmeu3sA4S2M5kY7rMCJrS82vMts2Yi
-	 v0A926uMjLponcmwX8Pi8CbqpAwbT3/0z6DnVq9QIZ0fxbdZ1YkeWjwK0Mc8613iDSQ==
+	t=1794314794;
+	b=aRaI0IPvX9fyzGNU8z4rhW6vsYmUikMSuIZ9wiS3ylxHTqTH3yyhfChTCoWroWl29FbI
+	 AWRgRL5f4iHpPJH5CXv72rHjcJE3gIUH8STUQ/IVxUW7c6H544KJsozh045diO53jJze5
+	 G5VquAFz2ShpvKhVLJZ1heY+ENwkf4eSNfTyecuFCEF4o/YzmnxqxYzCINPwcu/c8MjTK
+	 vRZ+Zyyd1dUU7TnzIr+0MVeMVI2u+MHXC2jmD6Poeu9epctVHA0u2NVQqPtV/g2+FryCW
+	 yVEQ8OaF0dD29MbHdj1wJrW8ULgAfbn3YJ7/4nKwelEWcNMvGvB2rrzMMKz5S4qCXYA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794313677;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
+	a=rsa-sha256; c=relaxed/relaxed; t=1794314794;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
 	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
-	bh=ODg2UFDqxMR4SMBKAdSOXIf/FKBdj9ahq9IsfjbokI0=;
-	b=jb1kyYCZtWmogq6tlOtF9A37aGV1cg5IVs8epzxzbywy0DTqwmWOgd4CYRmDcCZVdksA
-	 fC37E+t9/wC0g4MVbOW+SCOeyUKnQmezV8wst+P+SW/kw5KUY+4znDg1QJre3oy1x7zsr
-	 dwk7lDo8KbCeAlXh5pjf8DLbNF7Tbm+TKcuiy3Y2CT0EG+9sKpFv1vOL5eoBSTnw/4Xvj
-	 JxDNuezTMfpov9q/7Qrthasp/BfrnfEVertv70FNqPh9S1Mfm9mOXgGo9s38sMIU3p1GW
-	 Ye2wYdjzt1BHGHiz7hKd5lThaolFd5uIMlPgnlB13WE9pl8QY8bYJAyO1ndFln2mXuQ==
+	 In-Reply-To:X-Debian-User;
+	bh=74G19pmPKgFskXMMqzM3YOhI7qcVhKFNeIMLbYsSlng=;
+	b=UXnvbmZyx2FN5clTFm9aIQVbYaBk4xiErY5kIVks7Z3PL6EiVLR97fNSIhqGxD//ooQH
+	 XPtxVF4JS9YNBE/CHqr3uzNGw44UPfQI0CAyfFjvY8kqqM+/4hK678lEYJqbFsfdU2XG6
+	 YFrVySLnCVa7aNaEJE+Bgdc8fnK4hDYd9rid0anxzwsEyrHdwwx1WvRJMsbCUPMD7vuis
+	 Zy57U2kJeOwE6L+NV3ts8xosJ445hCGLlEHRwQkuF40gnQNssI5QaqqVwUsNPHXeRGlbm
+	 YAIBmKusDZkPsMzaMr72xRf/Q9XzrKc3wbVrE573gJGovV7a5WWIlqmCJ5/0Q6ddMkw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=cleAenUy;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ICAGaDTX;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=tbbT67pL;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="nKlZx/FD";
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dmarc=pass header.from=debian.org;
+	spf=pass smtp.mailfrom=debian.org;
+	dkim=pass header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=VgZih2zJ;
+	arc=none smtp.remote-ip=82.195.75.108
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F112606A31C;
-	Tue, 10 Nov 2026 12:27:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4F112606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1477B606A326;
+	Tue, 10 Nov 2026 12:46:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1477B606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=cleAenUy;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ICAGaDTX;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=tbbT67pL;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=nKlZx/FD
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 37BE61F461;
-	Tue, 10 Nov 2026 12:27:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794313675; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ODg2UFDqxMR4SMBKAdSOXIf/FKBdj9ahq9IsfjbokI0=;
-	b=cleAenUyu82p7GD2IkbdhyP20bEeHiv9MCWGsm0Aiv/f8LEImD1EvWdBTTdO9JhtisjXHR
-	ExxdXPXAeV8I+EnWyEpZiiorURtwH2Wm4odZQtTfPPreXAa67LmxZ1HmvN9E3BM7QNtDcU
-	4KeMJBseUJizkUTYAQLMFuz3T3EOtBI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794313675;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ODg2UFDqxMR4SMBKAdSOXIf/FKBdj9ahq9IsfjbokI0=;
-	b=ICAGaDTXmuJrmJVNM+1/WwP4pezIcgwixY/McCKZSI7w0N2Fyl80B71aqLiIo0zpyBKBbr
-	jXzswycp8CRKgmDw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794313674; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ODg2UFDqxMR4SMBKAdSOXIf/FKBdj9ahq9IsfjbokI0=;
-	b=tbbT67pLRwGjbhPH67eiBvLFjHHgj9x2wstTb9NBa9OaUxb37D7EZAkGnDI14lQO6x7v5E
-	fyUNB0q5BkqRx+7qHhfpoALjnq2e6piJEK/U+4PaTMI1QhVIgyyPNKVx/yJNRXaq9+In+Z
-	FgKHeymPfWh+iDjotDpzeRlK2dmWcko=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794313674;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ODg2UFDqxMR4SMBKAdSOXIf/FKBdj9ahq9IsfjbokI0=;
-	b=nKlZx/FDPCcSP2B+uAAFIXqbyoTZqWoQrwC//XF2bdGeUsQy78M9To25spcjkF10avjXfa
-	d4YharWvNjkfutDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 05DAC1339F;
-	Tue, 10 Nov 2026 12:27:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id h7E8M8kN82oVJwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 10 Nov 2026 12:27:54 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id 7C0D2224C5; Tue, 10 Nov 2026 13:27:53 +0100 (CET)
-Date: Tue, 10 Nov 2026 13:27:53 +0100
-From: Jan Kara <jack@suse.cz>
-To: Andrea Righi <arighi@nvidia.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Quan Liu <qualiu@nvidia.com>, 
-	Lee Trager <ltrager@nvidia.com>, Seth Forshee <sforshee@nvidia.com>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH] pipe: Prefer mempolicy node for metadata allocations
-Message-ID: <hbkxlhc5y2jkvuov5o2kjgpisx2pavuo3ad4c4ydixeic7vaq6@mpzzfmhjvtof>
-References: <20261110065219.894219-1-arighi@nvidia.com>
+	dkim=pass (2048-bit key, unprotected) header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=VgZih2zJ
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=74G19pmPKgFskXMMqzM3YOhI7qcVhKFNeIMLbYsSlng=; b=VgZih2zJbpE1+7Mmc0TTYtTGde
+	yt+WciGHO2YL1gnkpV2goaaJOv2m76RK0+5th2x5guoX1uFGRADRIwwNLjUQBH0eZYfOi8KVCul1E
+	/qgjMfgOVl9APNaIs41yW6iHw9lFfg+JHBgIfyus+flyyuAd44g6c6e+idAot0F02DMhCHzL75HSn
+	v+jpx7YPWeO664rjxkTg6oBIToGyHZuRiZAd9OKgYPd40OAA0W3/NYCHjmKiUzah38MCx/GwHvnfr
+	Hm7RtwHbMNe6Vd9prr2PXTNCH5j93+YLCGhLNF+L2Z1Q3sM/CENbm73EecPrMs2JUknVqa3fdCrKl
+	G3s4o0vQ==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1xQlF3-00CPQj-0Q;
+	Tue, 10 Nov 2026 12:46:25 +0000
+Date: Tue, 10 Nov 2026 04:46:21 -0800
+From: Breno Leitao <leitao@debian.org>
+To: Mateusz Guzik <mjguzik@gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>, 
+	kernel test robot <yi1.lai@intel.com>, oe-lkp@lists.linux.dev, lkp@intel.com, 
+	linux-kernel@vger.kernel.org, Oleg Nesterov <oleg@redhat.com>, linux-fsdevel@vger.kernel.org
+Subject: Re: [linus:master] [fs/pipe] f7f4665dc5:
+ lmbench3.PIPE.bandwidth.MB/sec 18.5% regression
+Message-ID: <avMQxhpHhIPM_6HP@gmail.com>
+References: <202611041404.befe64cd-lkp@intel.com>
+ <20261105-trommeln-einspannen-radius-ccb4e174e407@brauner>
+ <auygOHcuBba_o132@gmail.com>
+ <CAGudoHFpNbxL13ZOWiyyLSPpmzXcB=e=RBZ8ZGk+Oc58Aad9pA@mail.gmail.com>
+ <au2vjpu_yqNa83pN@gmail.com>
+ <CAGudoHF3de_55YvdztPs7QiYs25u6nPEV=uMOzfr=bWmwof69g@mail.gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -113,170 +75,255 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261110065219.894219-1-arighi@nvidia.com>
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spamd-Result: default: False [-12.80 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,nvidia.com:email,suse.com:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -12.80
+In-Reply-To: <CAGudoHF3de_55YvdztPs7QiYs25u6nPEV=uMOzfr=bWmwof69g@mail.gmail.com>
+X-Debian-User: leitao
 
-On Tue 10-11-26 07:52:19, Andrea Righi wrote:
-> Generic slab allocations can reuse partial slabs from another NUMA node,
-> even when a pipe workload is bound to one node. Pipe metadata is shared
-> between senders and receivers and accessed throughout the pipe lifetime.
-> Reusing remote metadata can therefore make an IPC workload pay remote
-> access and coherence costs on every exchange.
+On Fri, Nov 06, 2026 at 02:44:54PM +0100, Mateusz Guzik wrote:
+> > 6) Any other idea?
 > 
-> The target use case is a workload that binds its workers and memory to
-> one NUMA node with numactl. The policy node is then a useful placement
-> hint for shared pipe metadata.
+> The SMAP stuff is the primary problem right now. To reiterate: every
+> single buffer read/write takes a SMAP trip, which is very expensive
+> even on modern uarchs. Refactoring this into i/o under one SMAP round
+> would provide a visible speed up. It also happens to not pose a
+> tradeoff in terms of memory usage and would be my first avenue of
+> attack if I was working on this.
 > 
-> Allocate pipe_inode_info and its descriptor array on the node selected
-> by the caller's memory policy. Apply the same preference when replacing
-> slab-sized descriptor arrays during ring resizing. An explicit node lets
-> SLUB try local allocations before reusing remote partial slabs.
-> 
-> For descriptor arrays larger than KMALLOC_MAX_CACHE_SIZE, pass
-> NUMA_NO_NODE to keep the policy-aware page allocation path. An explicit
-> node would otherwise lose the MPOL_BIND nodemask on fallback. Select the
-> policy node only for slab-sized arrays, avoiding an extra advance of an
-> interleave policy for large allocations.
-> 
-> Moving a pipe's users to another node doesn't migrate its existing
-> metadata, so migration can still result in remote accesses regardless of
-> this change. Generic allocations may reuse remote partial slabs, making
-> initial placement dependent on allocator state. In contrast, preferring
-> the policy node leverages the workload's placement hint to improve
-> locality when users remain on the intended node.
-> 
-> Testing has been performed on a dual-socket NVIDIA Vera system, covering
-> hackbench, pipe transfers, pipe creation and resizing, pipe_bench, and
-> targeted stress tests.
-> 
-> The primary hackbench reproducer is:
-> 
->   $ numactl --physcpubind=0-87 --membind=0 \
->       hackbench -P -p -g 10 -f 20 -s 100 -l 100000
-> 
-> Results (over 10 measured runs per case):
-> 
->               avg       stdev
->    before     9.811s    0.130s
->    after      5.770s    0.058s
-> 
-> Before this change, allocations could reuse remote pipe metadata. With
-> this change, both pipe objects and descriptor arrays are allocated on
-> the requested node, improving locality and reducing hackbench runtime by
-> approximately 41%.
-> 
-> Reported-by: Quan Liu <qualiu@nvidia.com>
-> Signed-off-by: Andrea Righi <arighi@nvidia.com>
+> All that said, one reader vs one writer scenario definitely makes
+> sense to optimize.
 
-To me this makes sense so feel free to add:
+I've spent some tokens on it, and it seems to give ~5% improvement on
+the pipe bench. Is this what you had in mind (in a single patch format)?
 
-Acked-by: Jan Kara <jack@suse.cz>
+commit 724fa7def2700d51a7f0427d0de06c123b3bf8e9
+Author: Breno Leitao <leitao@debian.org>
+Date:   Mon Nov 9 05:04:45 2026 -0800
 
-But IMHO it deserves a look from MM guys since this is more of an MM thing
-than a filesystem one... Added to CC.
+    x86/uaccess, fs/pipe: copy a run of pipe buffers in one user access section
+    
+    Mateusz has been constantly suggesting that The SMAP stuff is the
+    primary problem right now in the pipe code, which summarizes to
+    anon_pipe_read() copying one pipe_buffer per copy_page_to_iter() call.
+    
+    On x86 every call opens and closes its own user access section, so a 64
+    KiB read that drains a full default pipe executes 16 STAC/CLAC pairs.
+    
+    The pipe's pages are not contiguous, so the copies stay separate.
+    
+    Move the body of copy_user_generic() into unsafe_copy_user_generic(),
+    which leaves STAC/CLAC to the caller's user access section, and turn
+    copy_user_generic() into a STAC/CLAC wrapper around it. The existing
+    callers get the same code. (This will eventually be a second patch if/once
+    this becomes an non-PoC)
+    
+    When the destination is a plain user buffer (ITER_UBUF, which is what
+    read(2) passes), copy up to PIPE_DEF_BUFFERS consecutive anonymous
+    buffers that the read consumes whole inside one scoped user write access
+    with unsafe_copy_user_generic(), then release them. The buffers are
+    looked up before the section starts, so that only the copies run with
+    user access enabled.
+    
+    What this buys depends on what SMAP costs the CPU. With the buffer by
+    buffer loop, booting with clearcpuid=smap speeds pipe_bench up by 4-14%
+    on a Sapphire Rapids Xeon Gold 6450C.
+    
+    pipe_bench from the pipe selftests runs 1, 2 or 5 writers against 1, 5
+    or 10 readers on one 1 MiB pipe, with 64 KiB writes and reads.
+    Throughput change from this patch, median of 2 boots x 5 runs, SMAP on:
+    
+                                   Sapphire Rapids
+      1 writer, 1 reader                  +5.2%
+      5 writers, 10 readers               +8.0%
+      all 9 mixes                    +5% to +15%
+    
+    Suggested-by: Mateusz Guzik <mjguzik@gmail.com>
+    Link: https://lore.kernel.org/all/CAGudoHF3de_55YvdztPs7QiYs25u6nPEV=uMOzfr=bWmwof69g@mail.gmail.com/
+    Signed-off-by: Breno Leitao <leitao@debian.org>
 
-								Honza
+diff --git a/arch/x86/include/asm/uaccess_64.h b/arch/x86/include/asm/uaccess_64.h
+index 20de34cc9aa6e7..28208db6132c27 100644
+--- a/arch/x86/include/asm/uaccess_64.h
++++ b/arch/x86/include/asm/uaccess_64.h
+@@ -115,10 +115,13 @@ static inline bool __access_ok(const void __user *ptr, unsigned long size)
+ __must_check unsigned long
+ rep_movs_alternative(void *to, const void *from, unsigned len);
+ 
++/*
++ * copy_user_generic() without the STAC/CLAC, for several copies inside one
++ * user access section. Returns the number of bytes not copied.
++ */
+ static __always_inline __must_check unsigned long
+-copy_user_generic(void *to, const void *from, unsigned long len)
++unsafe_copy_user_generic(void *to, const void *from, unsigned long len)
+ {
+-	stac();
+ 	/*
+ 	 * If CPU has FSRM feature, use 'rep movs'.
+ 	 * Otherwise, use rep_movs_alternative.
+@@ -131,6 +134,16 @@ copy_user_generic(void *to, const void *from, unsigned long len)
+ 		_ASM_EXTABLE_UA(1b, 2b)
+ 		:"+c" (len), "+D" (to), "+S" (from), ASM_CALL_CONSTRAINT
+ 		: : "memory", "rax");
++	return len;
++}
++
++#define unsafe_copy_user_generic unsafe_copy_user_generic
++
++static __always_inline __must_check unsigned long
++copy_user_generic(void *to, const void *from, unsigned long len)
++{
++	stac();
++	len = unsafe_copy_user_generic(to, from, len);
+ 	clac();
+ 	return len;
+ }
 
-> ---
->  fs/pipe.c | 26 ++++++++++++++++++++++----
->  1 file changed, 22 insertions(+), 4 deletions(-)
-> 
-> diff --git a/fs/pipe.c b/fs/pipe.c
-> index 4fa69192e6fba..2a8f9e9f70f84 100644
-> --- a/fs/pipe.c
-> +++ b/fs/pipe.c
-> @@ -24,6 +24,7 @@
->  #include <linux/syscalls.h>
->  #include <linux/fcntl.h>
->  #include <linux/memcontrol.h>
-> +#include <linux/mempolicy.h>
->  #include <linux/watch_queue.h>
->  #include <linux/sysctl.h>
->  #include <linux/sort.h>
-> @@ -874,6 +875,16 @@ bool pipe_is_unprivileged_user(void)
->  	return !capable(CAP_SYS_RESOURCE) && !capable(CAP_SYS_ADMIN);
->  }
->  
-> +/* Prefer the policy node over remote partial slabs, retaining fallback. */
-> +static int pipe_slab_node(void)
-> +{
-> +#ifdef CONFIG_NUMA
-> +	return mempolicy_slab_node();
-> +#else
-> +	return NUMA_NO_NODE;
-> +#endif
-> +}
-> +
->  struct pipe_inode_info *alloc_pipe_info(void)
->  {
->  	struct pipe_inode_info *pipe;
-> @@ -881,8 +892,9 @@ struct pipe_inode_info *alloc_pipe_info(void)
->  	struct user_struct *user = get_current_user();
->  	unsigned long user_bufs;
->  	unsigned int max_size = READ_ONCE(pipe_max_size);
-> +	int node = pipe_slab_node();
->  
-> -	pipe = kzalloc_obj(struct pipe_inode_info, GFP_KERNEL_ACCOUNT);
-> +	pipe = kzalloc_node(sizeof(*pipe), GFP_KERNEL_ACCOUNT, node);
->  	if (pipe == NULL)
->  		goto out_free_uid;
->  
-> @@ -899,8 +911,8 @@ struct pipe_inode_info *alloc_pipe_info(void)
->  	if (too_many_pipe_buffers_hard(user_bufs) && pipe_is_unprivileged_user())
->  		goto out_revert_acct;
->  
-> -	pipe->bufs = kzalloc_objs(struct pipe_buffer, pipe_bufs,
-> -				  GFP_KERNEL_ACCOUNT);
-> +	pipe->bufs = kcalloc_node(pipe_bufs, sizeof(*pipe->bufs),
-> +				  GFP_KERNEL_ACCOUNT, node);
->  
->  	if (pipe->bufs) {
->  		init_waitqueue_head(&pipe->rd_wait);
-> @@ -1375,12 +1387,18 @@ int pipe_resize_ring(struct pipe_inode_info *pipe, unsigned int nr_slots)
->  {
->  	struct pipe_buffer *bufs;
->  	unsigned int head, tail, mask, n;
-> +	int node = NUMA_NO_NODE;
->  
->  	/* nr_slots larger than limits of pipe->{head,tail} */
->  	if (unlikely(nr_slots > (pipe_index_t)-1u))
->  		return -EINVAL;
->  
-> -	bufs = kzalloc_objs(*bufs, nr_slots, GFP_KERNEL_ACCOUNT | __GFP_NOWARN);
-> +	/* Keep the policy nodemask for allocations that bypass slab caches. */
-> +	if (nr_slots <= KMALLOC_MAX_CACHE_SIZE / sizeof(*bufs))
-> +		node = pipe_slab_node();
-> +
-> +	bufs = kcalloc_node(nr_slots, sizeof(*bufs),
-> +			    GFP_KERNEL_ACCOUNT | __GFP_NOWARN, node);
->  	if (unlikely(!bufs))
->  		return -ENOMEM;
->  
-> -- 
-> 2.56.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+diff --git a/fs/pipe.c b/fs/pipe.c
+index 4fa69192e6fba1..6f6041c94abefa 100644
+--- a/fs/pipe.c
++++ b/fs/pipe.c
+@@ -340,6 +340,115 @@ static inline unsigned int pipe_update_tail(struct pipe_inode_info *pipe,
+ 	return tail;
+ }
+ 
++#ifdef unsafe_copy_user_generic
++/* One buffer of a batched read, looked up before the user access section. */
++struct pipe_copy_src {
++	void *kaddr;
++	size_t len;
++};
++
++/*
++ * Fill @run with the anonymous buffers from @tail on that the read consumes
++ * whole. Returns how many, with their total length in @lenp.
++ */
++static unsigned int anon_pipe_batch_lookup(struct pipe_inode_info *pipe,
++					   unsigned int head, unsigned int tail,
++					   size_t total_len,
++					   struct pipe_copy_src *run,
++					   size_t *lenp)
++{
++	struct pipe_buffer *buf;
++	size_t len = 0;
++	unsigned int n;
++
++	for (n = 0; n < PIPE_DEF_BUFFERS && tail + n != head; n++) {
++		buf = pipe_buf(pipe, tail + n);
++		if (buf->ops != &anon_pipe_buf_ops ||
++		    (buf->flags & PIPE_BUF_FLAG_PACKET) ||
++		    buf->len > total_len - len)
++			break;
++		run[n].kaddr = page_address(buf->page) + buf->offset;
++		run[n].len = buf->len;
++		len += buf->len;
++	}
++	*lenp = len;
++	return n;
++}
++
++/*
++ * Copy the @n buffers in @run, @len bytes in all, to @to inside one user
++ * access section. All or nothing: @to only advances if no copy faults.
++ */
++static bool anon_pipe_batch_copy(struct iov_iter *to,
++				 const struct pipe_copy_src *run,
++				 unsigned int n, size_t len)
++{
++	const struct pipe_copy_src *r, *end = run + n;
++	char __user *dst = to->ubuf + to->iov_offset;
++	size_t off;
++
++	if (should_fail_usercopy())
++		return false;
++	might_fault();
++	for (r = run, off = 0; r < end; off += r->len, r++)
++		instrument_copy_to_user(dst + off, r->kaddr, r->len);
++	scoped_user_write_access_size(dst, len, fault) {
++		for (r = run, off = 0; r < end; off += r->len, r++)
++			if (unsafe_copy_user_generic((__force void *)dst + off,
++						     r->kaddr, r->len))
++				goto fault;
++	}
++	iov_iter_advance(to, len);
++	return true;
++
++fault:
++	return false;
++}
++
++/* Release the @n buffers from @tail on, which a read consumed whole. */
++static unsigned int anon_pipe_batch_release(struct pipe_inode_info *pipe,
++					    unsigned int head,
++					    unsigned int tail, unsigned int n,
++					    bool *wake_writer)
++{
++	*wake_writer |= pipe_full(head, tail, pipe->max_usage);
++	while (n--)
++		tail = pipe_update_tail(pipe, pipe_buf(pipe, tail), tail);
++	return tail;
++}
++
++/*
++ * Copy a run of anonymous buffers that the read consumes whole to a plain
++ * user buffer inside one user access section, instead of one STAC/CLAC pair
++ * per buffer. Returns the bytes consumed, or 0 to go buffer by buffer.
++ */
++static ssize_t anon_pipe_read_batch(struct pipe_inode_info *pipe,
++				    struct iov_iter *to, size_t total_len,
++				    unsigned int head, unsigned int *tailp,
++				    bool *wake_writer)
++{
++	struct pipe_copy_src run[PIPE_DEF_BUFFERS];
++	unsigned int n;
++	size_t len;
++
++	if (!iter_is_ubuf(to))
++		return 0;
++	n = anon_pipe_batch_lookup(pipe, head, *tailp, total_len, run, &len);
++	if (n < 2 || !anon_pipe_batch_copy(to, run, n, len))
++		return 0;
++	*tailp = anon_pipe_batch_release(pipe, head, *tailp, n, wake_writer);
++	return len;
++}
++#else
++static ssize_t anon_pipe_read_batch(struct pipe_inode_info *pipe,
++				    struct iov_iter *to, size_t total_len,
++				    unsigned int head, unsigned int *tailp,
++				    bool *wake_writer)
++{
++	return 0;
++}
++#endif
++
+ static ssize_t
+ anon_pipe_read(struct kiocb *iocb, struct iov_iter *to)
+ {
+@@ -347,7 +456,7 @@ anon_pipe_read(struct kiocb *iocb, struct iov_iter *to)
+ 	struct file *filp = iocb->ki_filp;
+ 	struct pipe_inode_info *pipe = filp->private_data;
+ 	bool wake_writer = false, wake_next_reader = false;
+-	ssize_t ret;
++	ssize_t ret, batched;
+ 
+ 	/* Null read succeeds. */
+ 	if (unlikely(total_len == 0))
+@@ -393,7 +502,16 @@ anon_pipe_read(struct kiocb *iocb, struct iov_iter *to)
+ 		}
+ #endif
+ 
+-		if (!pipe_empty(head, tail)) {
++		batched = anon_pipe_read_batch(pipe, to, total_len, head,
++					       &tail, &wake_writer);
++		if (batched) {
++			ret += batched;
++			total_len -= batched;
++			if (!total_len)
++				break;	/* common path: read succeeded */
++			if (!pipe_empty(head, tail))	/* More to do? */
++				continue;
++		} else if (!pipe_empty(head, tail)) {
+ 			struct pipe_buffer *buf = pipe_buf(pipe, tail);
+ 			size_t chars = buf->len;
+ 			size_t written;
+
+
+
