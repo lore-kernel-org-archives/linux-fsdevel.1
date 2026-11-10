@@ -1,58 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.180
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794351835;
-	b=PAel/PIlIoffLTWvXgutBcxiBOpEW5WgbRKtldr+7JyHz3DocLKp/v+xIv7+K8kQy73u
-	 w8XdOJvf96rMdDyhFFiayvjLkJUfF5mITg33WnfGQs6NCaJZp8nIFGRMoLt5eJh0m/2kH
-	 nmtc3ie9624m0YbSsDhE+HfS4ySwOJYOTKIFGbOxBKHiC3F0OctrPYGIZMz2xNNpWE+Zr
-	 i42Q5M0KZ4vRqXfnCGQlOd/UbS6AlIyp3a2EszdNCYR5sQj6qBqbEX6fjxUWfxgwdG5AB
-	 rSyhclHx/mCwggK9HGtNTbsLtJW28/kuwgmt8tcvWzcSQnfUZ4eRBBNn5VFpNVKIFjg==
+	t=1794353777;
+	b=hhYxie6HeJw0suUCHT0M5Bs0QdM0oxK1awP12+WOFolfCCc4g1o8RZtHsZQxCDJ2pENy
+	 tgnQUbbX3+FEM/SkWF3uwweVBlxNxW/Zyip3C3/qez+BFGoSlLL/5orHUhyCPhITWGJz2
+	 1Z0lpmgazD9wWh5JuTGerVEyHZLqV3QWqQlX3MXQC1T89fbk+0Rm6AoX6pDJZf8RA8L+j
+	 2sPyrwPJ7ZQ4SCp8C+Ol0Miz/Yal3RDnSaDQIi/VaqBux8qyo0RwWXzF1FETG76EXpqTh
+	 lGg11bp0YQS+JntKZTQlhgJnp8qRMV+O2JsRNVjPdNaZA+Cpx6SPh0BETnx4kaWa80Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794351835;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=2pIaRdIwsMurNh146HSaQSteAZp0sNsCvcBlMEMyjn0=;
-	b=DGqZ+Hm4bFVRk/RMt39s8X1LEYjZMByZlc0eBXu8aT8wFGmfZfDnbgiA55j7Oh4HatSx
-	 sfr9ys0pvRkHe+tvRppusTNvQueyBOaXWSmS/Awpjr6n5lgpachyG77/e/zJteBWbEgyV
-	 /H3jUsD0m3ommG7GUIBjJYmoPbnS3uD4GIIKWHrYEECObVdm0057p+77UtG3rTZmoGHuU
-	 EAN130lV8yabJBaQoVYj/G9OfzHpNrnQ+O95dE2jb+UjkUnAXCZKfUt4N+eHDFFWupLEB
-	 AmHcBE6t+DyEdo8WlvwewUBoZPI8TpEeANFvwOp8j9FAv0Mm9MQAAQ1PBImr2OYmcRg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794353777;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=9j40vAAQxWU/iVBPss+tYuSkGZovCJ/UyhmWEuObdcw=;
+	b=2ViaoMNH5sa57LaDCb9qyQE7r74cRkF3Mxk6IUDSMRpsPf18v56BC5IvEhNIG5VsFndw
+	 Sj5a/iRKduKvQxjqvRkx5DXsIvP6iMhy8QEmGbW5gn0FNiwolTDcmu0zkGx/8zwPdAnet
+	 5lK6++v8phJe2HX/4OaS7Nk2Ocu09uZAQY9kGAjVGWmtAvNBEvOzG+jdU3outBahANjfs
+	 kobg4lzF3XJ7kbzJfaNXXDA1bsrC6zm+Ul2pZqsb+6O1Rft4Z0rjXwbn4Fh7ZuqLMqINC
+	 WC1t/bxa3tHqIAJ5zE4mQpW3xaAe8ELAfIiFszAKbNw0/sW3517eUq8SUzrCvwv0Wbw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kBTW1rxq;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=none header.from=dubeyko.com;
+	spf=pass smtp.mailfrom=dubeyko.com;
+	dkim=pass header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=Y4wSKttz;
+	arc=none smtp.remote-ip=209.85.128.180
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30CD2606A32A;
-	Tue, 10 Nov 2026 23:03:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6A28606A320
+	for <linux-fsdevel@vger.kernel.org>; Tue, 10 Nov 2026 23:36:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A6A28606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kBTW1rxq
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62AB91F00A04;
-	Tue, 10 Nov 2026 23:03:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794351834;
-	bh=2pIaRdIwsMurNh146HSaQSteAZp0sNsCvcBlMEMyjn0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=kBTW1rxq9WZhdtKSM6ZrjLcJDA8KX7zpquW0WCtTZj93ht9JZWcFZTmPvobJNFp5p
-	 W7fw8ONKkd7a9uW9Mg/qf4xDHmOd8hlnRbFF4foksH2xX7qk3QGzGbJYkAa75ekFwJ
-	 OzRNYXI4MvxDD+4HZGPSx2NnRi9PmevHAGdVkVYZRdLMTwDjyRsnAHYGk68OvDDay8
-	 rDnhbCiAaL/Brr0qiCC6247tRAhK2n7XP0yf/xOtZuuMjJqM4qWjPWN7jzk4Svxfvw
-	 pqYkF6OUqIPT5t0qg/xeybx0vaHstfPqOrvFTHTSgBMM/vz9TsD1LPwReRhbFj1B84
-	 7XfdQtupW+l0w==
-Date: Tue, 10 Nov 2026 15:03:53 -0800
-From: Eric Biggers <ebiggers@kernel.org>
-To: Andrey Albershteyn <aalbersh@kernel.org>
-Cc: hch@lst.de, fsverity@lists.linux.dev, dsterba@suse.com,
-	linux-xfs@vger.kernel.org, linux-btrfs@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net, linux-ext4@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, brauner@kernel.org,
-	viro@zeniv.linux.org.uk, jaegeuk@kernel.org, chao@kernel.org,
-	tytso@mit.edu
-Subject: Re: [PATCH v2 5/5] f2fs: use I_VERITY_BUILDING instead of private
- flags
-Message-ID: <20261110230353.GI1907@quark>
-References: <20261105115532.613467-1-aalbersh@kernel.org>
- <20261105115532.613467-6-aalbersh@kernel.org>
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=Y4wSKttz
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-8b30ff12f84so20102047b3.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 10 Nov 2026 15:36:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dubeyko-com.20260707.gappssmtp.com; s=20260707; t=1794353775; x=1794958575; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=9j40vAAQxWU/iVBPss+tYuSkGZovCJ/UyhmWEuObdcw=;
+        b=Y4wSKttzb+XEpQBmS61mROvznHqsOvQ0mrkGAHS39dCaYJWPbf+rFxjRL31CCiKuTh
+         vy0jsr6bEAFdm4Q++G/3C8V+U/OwhTkLhAJYxhuych6NwDvvnTWZMbL77DIZnppTOT/+
+         nBdfg0Ui72qiqCimp+6RjMMSnTzWjUjiwYJstvgQOtHyNjfy4p8SSchlzJMlHGdo2FPn
+         HyQq0OOAjz+rmn7j7N0Md5GTIF6GQX8PsPc9AJfjLH9J5qTjS5UzFhfDnq3H1RHy2Ed2
+         Ewa6pkYLECxPdXw5yGnQfCWEpgCfx6SRUUYoeJd60DdiCGUDp+OQn6FUOOpHbf9/aOMl
+         vgqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794353775; x=1794958575;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=9j40vAAQxWU/iVBPss+tYuSkGZovCJ/UyhmWEuObdcw=;
+        b=D/0TI4Pdnz39TXqNA8kfRLwFZPT8kSfFsqz4mCEWke11AkzhKpLm7ax01xmuaZ7P1G
+         VSVNzYz7g3pxZkRVzVL1Ca/RYy+psG1OLkjBvrQJpy064yHXKw1V/Et6UScQnSh/jT2v
+         S1aCDZX3bUf/jK8XN98pp+W1o+OUh1FGGV0+d77On9s5VqNKGtp+syMh3GHW8xpYs+ap
+         H6KeD4cxrI/aeLQQBZ+KeFcIuzslhjWKZfOWKP+qIDffTceyOQ1YGYvmC68qT8NsirZ8
+         n7RyG+nbTXPqfBmNPgemeM6yF6YUbzW2EpYsfVqrv9P1A+PjRvfjRzaOvXjnmfUTqE7q
+         YmXg==
+X-Gm-Message-State: APuU4Z9jGJFLlLrIIz46shVW4922rFOY/veAUATQnBfrwu39POsCbu1V
+	nzLDPhrv8eUch1ruVv21LmRo9eplxIZ/YIA2ggND+0KdAyxyjPgfpFSUpunFZfw8Xt8=
+X-Gm-Gg: AYBFou1UUWc8SFkHhp97N56x8ze+b1CxI4IiV4d/3h6hB49111BIWk9bxnL+63BjRAu
+	aeEsJTwAE+/XDvh9KnIsOM3WJjuKC37vdHlFqaxh+3cVV8pUpgw2qYfkdd28sGs3zHnCj84zX6u
+	wDrq9gSO90grBpjmglr1kAjvrV1zFGkQczRxzohrvrxD1BNotFoGH4K9Y2MdfpzPiwydiHok8Nk
+	n6tGJ3SQm5H8M01CWgtjElffIS039lRXKGrdQATG6fqwz1dM7LjGWTPpTW+VyUM/YMDRq+m2OKY
+	0ActD2Uch2pFwSVvbaIbtmhfbSMPc83bLrewo6wdTkAq9M4BrF76PMGLMA2nLKV0m2EpCqtM+CM
+	AK8u+L47x54Q/QkMw2ozTGw0lB3qc2/SoM2WYGQSCwrdbK96xcyuW39nqpeaytC4ZFOD/i8xNQZ
+	oiHTbKIvZT15RQb6F2ZSksTlae677FddGIOrVWB5M+rHX130mzxan0fjEbSXxSE8FQAHA3YTP/T
+	AHGkHUy+qesP/wgX8pXiEXxN0SeGsTUR+oAlmVWoH3dalRVLkdqUhGWcIowN/iETR0u6zG7Ixb4
+	mWAVclWmwMk35/61EAtZ4FJEDEoDhVmNDxsvw4e0UI+E8Xy62XiBqIembVdZEe9f6UB/256XO9X
+	NYffSR5UYeY2+wKvxvZCwpSpUs+TvaNeNJAAp3T9rlhED/cBG6qJ5cZ78GM1E/ihJDpbrkncJtD
+	L/AHBKd5K4m0aCCcWQ
+X-Received: by 2002:a05:690c:ec2:b0:8b3:361f:5d77 with SMTP id 00721157ae682-8b3a8120d7cmr8569287b3.26.1794353775437;
+        Tue, 10 Nov 2026 15:36:15 -0800 (PST)
+Received: from system76-laptop.attlocal.net ([2600:1700:6476:1430:1541:987e:e160:f038])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b3933d1047sm31652577b3.19.2026.11.10.15.36.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Nov 2026 15:36:14 -0800 (PST)
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: glaubitz@physik.fu-berlin.de,
+	frank.li@vivo.com
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	vdubeyko@coreweave.com,
+	Viacheslav Dubeyko <slava@dubeyko.com>
+Subject: [PATCH 0/2] hfs/hfsplus: release preallocated blocks on truncate
+Date: Tue, 10 Nov 2026 15:36:07 -0800
+Message-ID: <20261110233609.561557-1-slava@dubeyko.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -62,24 +97,40 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261105115532.613467-6-aalbersh@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Nov 05, 2026 at 12:55:30PM +0100, Andrey Albershteyn wrote:
->  	/*
-> -	 * Write all pages (both data and verity metadata).  Note that this must
-> -	 * happen before clearing FI_VERITY_IN_PROGRESS; otherwise pages beyond
-> -	 * i_size won't be written properly.  For crash consistency, this also
-> -	 * must happen before the verity inode flag gets persisted.
-> +	 * Write all pages (both data and verity metadata). For crash
-> +	 * consistency, this also must happen before the verity inode flag gets
-> +	 * persisted.
->  	 */
+HFS and HFS+ extend a fork in whole clumps, and when an inode
+is loaded the number of allocated blocks comes from the on-disk
+physical size of the fork, while i_size and phys_size come from
+the logical size. So the fork can hold more blocks than i_size
+needs even when phys_size equals i_size.
 
-Same as ext4 patch: the deleted sentence (which wasn't deleted properly,
-as it left the "this also must happen" clause dangling) actually still
-applies.  Just it should be updated to use the new flag name, or else
-refer to ->end_enable_verity() returning instead.
+hfs_file_truncate() and hfsplus_file_truncate() return early when
+i_size equals phys_size, before comparing the required block
+count with the allocated one. This logic has been added
+to avoid dirtying an unchanged inode, but it also skips
+releasing the extra blocks:
 
-- Eric
+ - a file whose size is aligned on the block size keeps its clump
+   preallocation after the last close;
+
+ - the catalog delete path does not free the data fork and relies
+   on truncating the inode to zero size, so a file with zero
+   logical size but allocated blocks leaves those blocks marked
+   as used in the bitmap after it has been deleted.
+
+Make the early return happen only when neither the
+size nor the allocation needs to be trimmed, which keeps the
+original intent of not dirtying an unchanged inode.
+
+Viacheslav Dubeyko (2):
+  hfsplus: release preallocated blocks in hfsplus_file_truncate()
+  hfs: release preallocated blocks in hfs_file_truncate()
+
+ fs/hfs/extent.c      | 13 +++++++++++--
+ fs/hfsplus/extents.c | 11 +++++++++--
+ 2 files changed, 20 insertions(+), 4 deletions(-)
+
+-- 
+2.43.0
+
