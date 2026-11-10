@@ -1,66 +1,53 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=178.63.66.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794323305;
-	b=lfo2Q+HG3QkhUhYyDJqTHg6WRgw86YYyhDTIzf8KzGnh5Rlv+LdbOhO7i44vfvCCmZxy
-	 Lvze39yJMcvUFzzgNLdHMPu3Y27ztmCasDr5ADd+vZexRxyxfuVIg5Vgz11DzAQwNnLiM
-	 mE+Kv3Im8Xu0KMn9H2gBqPABJtJ3xFadHvB7eHc8st+kWFTm1eWvWPKpVQd1g7GHSmwu6
-	 8Pc6ituv7vbC2flLsn9jKjNSlpO5rS3B1VRMHaOgbt8ziDF6xBaSIitpxJ0c4qFje4CyR
-	 hGUbRrsa0+Io29KuLXLrDqIL4eh/5FdvtYN7suU5Fa5UlpqMB9maJpq3FBbxr2I673w==
+	t=1794323525;
+	b=miYs7FnTh+B3FqOLpEUPuQJ8EHiazBVCbg0kMdBILaH7WqJ8JCSMYi0HdAFfokw5ZIri
+	 d+kT9BTI/Q0DZjPHaWI8Kaf3VEYuJa8d6g3dVbrdnq4cIcto6ZnYvm7iJ/KaBY8GSvOSD
+	 F6BIhlqK1ICzGnmqlH8h48hH+AAB6vdxBb1Tc2WhlZ4RzJfNlwfyomFtkFbEB8Pf7zMHA
+	 BtqQj58SJNEpklScWqWQ+woyBm8Ee//78X3A5BIDslUzhaSXL7bo+icUjnDLzqNdZqza5
+	 NfC5DY8nmfhPdYKtSPSxQoquZmO1hDbNEpkcHRzGhGyN/Ma6GHInzoHNr38WX79+TBQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794323305;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=oNJivVoyu72FnMBjVSxRk6wu/Gu0bKPbs3QhyQ9DWfg=;
-	b=BStRR1mFblwqh03zGoPPtTD0O8/LPhNdwZ97bZ81mPxoKoiijF/v953Ll8+ep7LVSYr4
-	 GoJIh9bYoVzUrWnH4Jytk3HjdWhGn06vjLi7A02X2TflLbFbKY6gHZud3ODpe8jlpze6k
-	 qzJTjYBfjCSBbjTrg69HsIl2zbDU6ufvX5xfOXcUglI/YJTi7YGXkZh+qA50e8SWtwRD5
-	 2tpjRk5z8Oxty5Cjxq3bj9/Bn3NG8gKAYIq/plxs4NlfYNZ9p4HbM+x4ucrQK3ejJu4bi
-	 OldDHABWoSU4zo/6IyBz04A1XN/8KL+LCYTonRNACV0s4xatHnTylsVAfrmEpj555LQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794323525;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=BpOu03mqe8+569yMnc1nFjJQYuHWTZsW9Ql7tSErufw=;
+	b=sjSAR+nDpjVCg/BKBhFGqnYL4PjJPxD8aI8UhF+HsoNV/aoMXg3tqeszeWrZggzjJpkK
+	 0OMEJMDU3UvDl+Dy14ilGq+3dX5vQ++6aQLg3X8HouY8erzKUUfFUeZHeYs6GSrBuAdb9
+	 l07qkjvjZshebBasIWMyN2iTTYryeTTn53GZZewXMQzgblZpT3FFXWAB9a9wakHpPsNsV
+	 c9TWzHIKnLjgZb743I9oF03MrV9yuqzHov7vhFrTXJ+mXmNn9dg0M27s6+cLNjY1a2GPZ
+	 5xGWNxmlGZzbMjwdM7LsK/ANZLMDRDamH22TmPMxyCd5d5E6K5STk3MHf6O1gxn3fAQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=hallyn.com;
-	spf=pass smtp.mailfrom=hallyn.com;
-	dkim=pass header.d=hallyn.com header.i=@hallyn.com header.a=rsa-sha256 header.s=mail header.b=HWgPx+fv;
-	arc=none smtp.remote-ip=178.63.66.53
-Received: from mail.hallyn.com (mail.hallyn.com [178.63.66.53])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Zbkcrahi;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9CC160A261D;
-	Tue, 10 Nov 2026 15:08:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A9CC160A261D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hallyn.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hallyn.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04FFB606A323;
+	Tue, 10 Nov 2026 15:12:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=hallyn.com header.i=@hallyn.com header.a=rsa-sha256 header.s=mail header.b=HWgPx+fv
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=hallyn.com; s=mail;
-	t=1794323295; bh=Qz+w3E0S12c7+sHbC0P9fK29CvHuxPv8rvnaxSZT5zw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HWgPx+fvvfFib1CNriCjnI36iA/b84xCbNNyxfpT6hVh0vsn7OiCK/EyxreyK9QNk
-	 /dmakTsTu2cjWkjKMxpAEIUFwSb+AnMvvICwuJFLB0GMHjo0p+SUFvFG/StwDjQGN7
-	 19Pg/xCnAJY2pzId5Ag5DIBsTvWBDmENz8aGFaqp/4PBQ6rnexOEfHbiaGc58cQu19
-	 M2Y76k/E3ckIgp9uiyuMeps+EzlTU0TPZPGR10GLTvFmD7lOYD8ZFMWVxpfw6cZPpr
-	 M/RFMXy7uZcOEGWwrqormEB9GuIBA5mhlviGToUfBki47triargnIqDNAjD5B21CL7
-	 Yy+tDYdTZJbEA==
-Received: by mail.hallyn.com (Postfix, from userid 1001)
-	id 9907E800; Tue, 10 Nov 2026 09:08:15 -0600 (CST)
-Date: Tue, 10 Nov 2026 09:08:15 -0600
-From: "Serge E. Hallyn" <serge@hallyn.com>
-To: =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
-Cc: Josef Bacik <josef@toxicpanda.com>, Paul Moore <paul@paul-moore.com>,
-	Christian Brauner <brauner@kernel.org>,
-	James Morris <jmorris@namei.org>,
-	David Howells <dhowells@redhat.com>,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	"Andrew G. Morgan" <morgan@kernel.org>,
-	Serge Hallyn <sergeh@kernel.org>,
-	linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org,
-	keyrings@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	Bradley Morgan <brads@mainlining.org>, stable@vger.kernel.org
-Subject: Re: [PATCH] userns: Let LSMs deny the CAP_SETFCAP snapshot for
- mapping uid 0
-Message-ID: <avMzX2WfnUK+wBxj@hallyn.com>
-References: <20261110144205.2404088-1-mic@digikod.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Zbkcrahi
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E1801F0089F;
+	Tue, 10 Nov 2026 15:12:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794323524;
+	bh=BpOu03mqe8+569yMnc1nFjJQYuHWTZsW9Ql7tSErufw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Zbkcrahik8+xSqRYTnEkm0yVJv/vFX8mkNhSvcPWBqwOomUnPFnkUindh22AZ8j49
+	 8p1HIrSabX8EyDFryCW8/k/e04Vh4P9JMZKKzYiFGQZmNiPkIC9ASdk++bn5M8X1tx
+	 js5tzmbaRXs7J9tFZNAgi4H+G5SLU8IJkpbOWbBGHy/ySpUdlUr4+xpgAFKCfZ5/vz
+	 I9v2QOXQgcXRevgFmMwFZ9ahtg5/LGYGvQ6RQcJfwHWhbNhuGCy8uCSGIYvhhY+/zR
+	 wDc9HR/Oza4R6tipqA4fePWYGWf+ALX0TMArDkrFWMi8DMPr+wG9vjmv3tC9vnB/e2
+	 vuAmwwZ15e7Qg==
+Date: Tue, 10 Nov 2026 16:12:00 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Cheng Yongkang <teel4res@gmail.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, Kees Cook <kees@kernel.org>, 
+	Joel Granados <joel.granados@kernel.org>
+Subject: Re: [PATCH] fs/splice: clamp an over-reported write_iter result
+Message-ID: <20261110-verfechten-gastarbeiter-wehten-bc206354fcb0@brauner>
+References: <179328314072.648427.13388575162083843840@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -70,93 +57,20 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20261110144205.2404088-1-mic@digikod.net>
+In-Reply-To: <179328314072.648427.13388575162083843840@gmail.com>
 
-On Tue, Nov 10, 2026 at 03:42:04PM +0100, Mickaël Salaün wrote:
-> Commit db2e718a4798 ("capabilities: require CAP_SETFCAP to map uid 0")
-> records in parent_could_setfcap whether the creator of a user namespace
-> had CAP_SETFCAP, because a creator writing its own uid_map only has
-> capabilities in the new namespace.  The snapshot uses cap_raised(), so a
-> task whose LSM policy denies CAP_SETFCAP can still map uid 0 in a
-> namespace it creates.
-> 
-> Use security_capable() against the parent namespace instead: the
-> creator's credentials still belong to it at this point, so commoncap
-> returns the same result, and only LSM denials are added.
-> 
-> Do not audit this check: creating a user namespace does not use
-> CAP_SETFCAP, and most namespaces never map uid 0.  The uid_map write
-> that later fails has no LSM audit record.
-> 
-> Checking CAP_SETFCAP when the map is written would not work: the
-> writer's credentials then belong to the new namespace, where commoncap
-> grants the creator all capabilities.
-> 
-> Cc: Christian Brauner <brauner@kernel.org>
-> Cc: Josef Bacik <josef@toxicpanda.com>
-> Cc: Paul Moore <paul@paul-moore.com>
-> Cc: Serge Hallyn <serge@hallyn.com>
+On Thu, Oct 29, 2026 at 07:12:20AM -0700, Cheng Yongkang wrote:
+> Commit a3de58b12ce0 ("netfs: Fix unbuffered write error handling")
+> added the warning for this condition but only reports it.  Clamp the
+> return value to the size of the iterator that was actually handed to
+> ->write_iter(), so the pipe accounting stays consistent even when a
+> producer violates the iterator contract.
 
-Reviewed-by: Serge Hallyn <serge@hallyn.com>
+The actual bug is probably that proc_sys_call_handler() returning
+whatever length the bpf sysctl hook put into count. That's fixed by [1].
 
-I wonder whether parent_could_setfcap should be renamed
-creator_could_setfcap, as now, years later, the name makes me think "the
-user namespace's parent ns could do it".
+I'll probably take this on top.
 
-> Cc: stable@vger.kernel.org
-> Fixes: db2e718a4798 ("capabilities: require CAP_SETFCAP to map uid 0")
-> Signed-off-by: Mickaël Salaün <mic@digikod.net>
-> ---
-> 
-> This is independent from Josef Bacik's series, which reworks this code
-> to close other ways around the CAP_SETFCAP rule:
-> https://patch.msgid.link/20261027-b4-setfcap-userns-v8-0-2674adc63f3c@toxicpanda.com
-> 
-> That series still computes the creator's CAP_SETFCAP with cap_capable()
-> and cap_raised() in cap_setfcap_level(), so it would need the same
-> change.
-> ---
->  include/linux/user_namespace.h | 5 +++--
->  kernel/user_namespace.c        | 8 +++++++-
->  2 files changed, 10 insertions(+), 3 deletions(-)
-> 
-> diff --git a/include/linux/user_namespace.h b/include/linux/user_namespace.h
-> index 91232053775d..370961fde45f 100644
-> --- a/include/linux/user_namespace.h
-> +++ b/include/linux/user_namespace.h
-> @@ -86,8 +86,9 @@ struct user_namespace {
->  	kgid_t			group;
->  	struct ns_common	ns;
->  	unsigned long		flags;
-> -	/* parent_could_setfcap: true if the creator if this ns had CAP_SETFCAP
-> -	 * in its effective capability set at the child ns creation time. */
-> +	/* parent_could_setfcap: true if the creator of this ns could use
-> +	 * CAP_SETFCAP in the parent ns at the child ns creation time.
-> +	 */
->  	bool			parent_could_setfcap;
->  
->  #ifdef CONFIG_KEYS
-> diff --git a/kernel/user_namespace.c b/kernel/user_namespace.c
-> index cd748e1cbace..57b7f10be74e 100644
-> --- a/kernel/user_namespace.c
-> +++ b/kernel/user_namespace.c
-> @@ -128,7 +128,13 @@ int create_user_ns(struct cred *new)
->  	if (!ns)
->  		goto fail_dec;
->  
-> -	ns->parent_could_setfcap = cap_raised(new->cap_effective, CAP_SETFCAP);
-> +	/*
-> +	 * verify_root_map() relies on this once the creator only has
-> +	 * capabilities in the new namespace.  Let LSMs deny it, but do not
-> +	 * audit: the creator may never map uid 0.
-> +	 */
-> +	ns->parent_could_setfcap =
-> +		!security_capable(new, parent_ns, CAP_SETFCAP, CAP_OPT_NOAUDIT);
->  
->  	ret = ns_common_init(ns);
->  	if (ret)
-> -- 
-> 2.56.0
+[1]: https://lore.kernel.org/r/179328314073.648427.7892850166511253762@gmail.com
