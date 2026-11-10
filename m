@@ -1,77 +1,72 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.50.34
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794338381;
-	b=YAAidrFI/Oqw5I0Bz0G0peH/oXSGihWhKtOhTqQbuUGVo4NHWg9cHLQujJi2e51Wv+V7
-	 HeuwYkbBQIlpYrDpwFAXot3GyI1D1oPz493Ohg457xHVXmpTobc5q3B3M5eUfK1/hHRlj
-	 a1luZu9qcv6HowpYs4U6k8/9gqWU8AE2ogaGIfEfQYrIRV1t+uV96DS5Qu35BE3N10xbX
-	 0ElfV1/GEMpdFxdYGvIzgishp05KTnotIbPpAY/uHl1pVYRLXQIh8y6dG0kgc3WKUcWO+
-	 x1xW3O6s+RkXTC87tkEBT6kKHwVAj/utu+uWwiYJgZj+ESVMSPFEqJT+k4sjRWxxh+Q==
+	t=1794338753;
+	b=oMxN5u37X2tJjuYY+FJdKg9L8GFW9PRukoL7WjtPDJme4rUTKS2TPaNeu6rZFBy1RowP
+	 og5GSWwUPpAZbSaQ+jnDHReDLjNqd4pgmWAEbKp+xXhBBHK/x4C5NEeEgUYln9A36R+aM
+	 oslR3JnDL+7jMTz2Da1lMXZuef/OQGJgF0hRVBt79lm9YUMWGq6HkTEZobh7B6hUbNV23
+	 d7gQPTfT67yU0Xazl03RbjcRt8lF/6kuQUkkTxTjytAQOYroHqTijplOlrnvrvA7lrgS9
+	 5rlvd3Crlvj/Bb4a3qIsPjN0xTjgo5BAI1+1+M/RZiFu1/EWD+REvxOZ9fdH1YI9SXQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794338381;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794338753;
 	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
 	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
 	 In-Reply-To;
-	bh=lgBsX/4ajBlOSJuEQTW3U4syAbk3rWHkGnOmGP2zj/M=;
-	b=Ih/q6wIGBNQB1xvNeq/XPmkfeVxKmoDjlcSQGZrqagC91EbQPzg3hRjQpOpnHlvqk16q
-	 wJCfBosWJQmpz7T1odgjKVoyGpep2WgnAn17NIaFl2p4sKqCC9XS/2T/2Axy7glpUuQ1g
-	 mYl9AEVYoa312z5Di5y0DGfy6H+FstgUkR3Eq4WZoix0AXSC8rfGu9/1AUxENMOGjy59n
-	 pdReKri4+5ET5J4kB6D0OglxgK2bk1muicGNsEkk4Z3OylnFrSPbqU+SBVeRYJ3hmEyJW
-	 xzUz2m+Z7DNRdrg0XdNWAiNKikNEFI31Urvfa7vBbkSkj/Gy7JzMv9c4VlMNr93CF/A==
+	bh=ExSFRNBdpFZqpaarK7S24/veHyaXPw+cAkj34YFoUsg=;
+	b=Nv2yHB4mK9TVE3Bai9gIrs5wijfsh2rxB5inqTBuwmWRwtBvPV0B9t1UEctLA+o/fm/H
+	 Sa2YGjqCFOFrXKqrA6xjNnwn60q+KP96+Bquvtxb/JPr+ywgyLlblm9GJGM2QxhpNx1bp
+	 00pD+K3aqt8A5W9vb7oqDpLRA4bpMdlRUCli1+KSq+3hvAUFsjn0y6cp94Fbjox/CqA2E
+	 SiceaTlvnZhKsWSxCmP+0Ru2J3/Du63F5xsRGKIhnuyH/l5q1EyGuzr/S6EZc5kmMjdmt
+	 0GAZac4RPZ3KeOUF1hZmCv/XSp9Njp3ZRTHtSWUNq5uwJoiS92XQ9zeSskm5YoG4B+A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=infradead.org;
 	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=b8wcirio;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=mga3BmeB;
 	arc=none smtp.remote-ip=90.155.50.34
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A848A606A320;
-	Tue, 10 Nov 2026 19:19:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A848A606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09D2D606A320;
+	Tue, 10 Nov 2026 19:25:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 09D2D606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=b8wcirio
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=mga3BmeB
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=lgBsX/4ajBlOSJuEQTW3U4syAbk3rWHkGnOmGP2zj/M=; b=b8wcirioktk1V+I6cLxgnytfHt
-	s+1gNzt+oNaj/8v1dB/y2ooHBs+sOIEHLV1guXHLK59Y0ipc+WH3YGXTdpmoCXAVaPIlKaFOebP9x
-	Q5IjU/RAw03kchBuA4YhIuHn67fv4DvrG7GM8mSEoFF6gG8Ec3W2gJu2wrjCdEdxI6RsFxbL/xc8a
-	rV8WT7MV79m+BKLbPEao/T/+olEtQaSWrcoxh4kWVD6r5loEe6lhcQZCaufTxfC9qjGpluQcQn8/D
-	cRSHrQc9aTr9kcCKqogmnDRYf/CTOej2gLRp010jpVxxjtaJOi3Fc/5efWuKRC+T0KSc9Jq8nypQT
-	BOKCuF3A==;
+	bh=ExSFRNBdpFZqpaarK7S24/veHyaXPw+cAkj34YFoUsg=; b=mga3BmeBgZ2RPvRZvXlBQ7Q9tz
+	XouFPDsqvq8SAEQvaqGMv7iU2O+VEH9MG23DJWzJJzD+yrCHWUvM2L8PjOs9b5feXZXH4rEGw14rY
+	ZQ8X5cwp1Q4/g4sMooNR7ciLkpZqwN8zkW4at7wmvuvY1+F144VSMQlZn9QZW9aE72mlMJaeY8kVj
+	m8kRJbfcnClHz5IhKU8P5KjpVTb2yhuCvGELCXhuujyOho6cVXAlv87ukRNnq+P59eUjN5INC+SZU
+	EvQC8rPJfUWhs4w77LHL2DajB6bVUHL2EIJtSZyYCvNMUnwodQOCI7xx9XfanOhzIiU0qnTtCdEcq
+	yYulOyNw==;
 Received: from willy by casper.infradead.org with local (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQrNT-00000000PMy-0Ax1;
-	Tue, 10 Nov 2026 19:19:31 +0000
-Date: Tue, 10 Nov 2026 19:19:30 +0000
+	id 1xQrTV-00000000TR9-2wpr;
+	Tue, 10 Nov 2026 19:25:45 +0000
+Date: Tue, 10 Nov 2026 19:25:45 +0000
 From: Matthew Wilcox <willy@infradead.org>
-To: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Miklos Szeredi <miklos@szeredi.hu>, Amit Shah <amit@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
+To: Kiryl Shutsemau <kas@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
 	"David Hildenbrand (Arm)" <david@kernel.org>,
-	Zi Yan <ziy@nvidia.com>, Bernd Schubert <bschubert@ddn.com>,
-	Hugh Dickins <hughd@google.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, linux-fsdevel@vger.kernel.org,
-	fuse-devel@lists.linux.dev, virtualization@lists.linux.dev,
-	netdev@vger.kernel.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH 1/4] virtio_console: copy pipe buffers in splice_write()
-Message-ID: <avNuQqLf9CG9dSsE@casper.infradead.org>
-References: <20261110145241.536019-1-kas@kernel.org>
- <20261110145241.536019-2-kas@kernel.org>
+	Pedro Falcato <pfalcato@suse.de>, Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Hugh Dickins <hughd@google.com>,
+	Chris Mason <mason@kernel.org>, linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel-team@meta.com, Sashiko <sashiko-bot@kernel.org>
+Subject: Re: [PATCH v2 1/2] mm/memory: recheck PG_uptodate after
+ ->page_mkwrite()
+Message-ID: <avNvufn4HLIhVm2k@casper.infradead.org>
+References: <20261109120403.82361-1-kas@kernel.org>
+ <20261109120403.82361-2-kas@kernel.org>
+ <avItd6rDqP3GB6pL@casper.infradead.org>
+ <avLzpIM1VdE31a-B@thinkstation>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -83,29 +78,30 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261110145241.536019-2-kas@kernel.org>
+In-Reply-To: <avLzpIM1VdE31a-B@thinkstation>
 
-On Tue, Nov 10, 2026 at 02:52:36PM +0000, Kiryl Shutsemau (Meta) wrote:
-> +	page = alloc_page(GFP_KERNEL);
-> +	if (!page)
-> +		return -ENOMEM;
->  
-> +	offset = sd->pos & ~PAGE_MASK;
->  
-> +	len = sd->len;
-> +	if (len + offset > PAGE_SIZE)
-> +		len = PAGE_SIZE - offset;
->  
-> +	src = kmap_local_page(buf->page);
-> +	memcpy(page_address(page) + offset, src + buf->offset, len);
-> +	kunmap_local(src);
+On Tue, Nov 10, 2026 at 10:38:34AM +0000, Kiryl Shutsemau wrote:
+> On Mon, Nov 09, 2026 at 08:30:47PM +0000, Matthew Wilcox wrote:
+> > On Mon, Nov 09, 2026 at 12:04:01PM +0000, Kiryl Shutsemau (Meta) wrote:
+> > > do_shared_fault() unlocks the folio around ->page_mkwrite(). Writeback
+> > > can lock it in that window, fail, and clear PG_uptodate with the folio
+> > > left in the page cache. ecryptfs_writepages() does this when encryption
+> > > fails. filemap_page_mkwrite() relocks the folio and checks only
+> > > ->mapping, so the fault maps a folio that is not uptodate:
+> > 
+> > Filesystems that do this are buggy.  They shuld be fixed, not worked
+> > around like this.
+> 
+> Fair. What is your take on the way out?
+> 
+> Is there a timeline for the filesystem fixes?
+> 
+> Until they land, mm should still not map a folio that is not uptodate.
+> 
+> Would WARN_ON_ONCE() and SIGBUS, like the other checks in 2/2, work for
+> you? It flags the buggy filesystem instead of hiding it.
 
-	memcpy_from_page(page_address(page) + offset, buf->page, buf->offset,
-			len);
-
-> +	sg_set_page(&sgl->sg[sgl->n], page, len, offset);
->  	sgl->n++;
->  	sgl->len += len;
->  
->  	return len;
->  }
+It doesn't matter which way round the race ends up; if a filesystem marks
+a mapped folio as !uptodate, there are other VM assertions that will
+trip eventually.  This is one of those cases where we should ignore the
+bot because it doesn't quite know enough.
