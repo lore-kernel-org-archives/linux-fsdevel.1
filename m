@@ -1,129 +1,178 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794321302;
-	b=a7XC4qqDWK7mpzOkNExW7PktXTWI5eO8swhFA5SIFls+BThUE9+dcOnQj8P27fPilknk
-	 sAQvB5RSXpyo43trXlnfLycUkBCuoBZWKM/pCNjouQsPB2ZW67eiA+AwzoLzSiJ+rmnn6
-	 9OsG59B+CgZJbwFqcJARxM0p4Ksa/1EX0tJSqe5FQm9noxjrgbFLqCTIVwM6Pfc6Hgaws
-	 zL4HabihMg8FWSDsxkVbJl1RdvWc/sCNJeDErTrEhSvLkylhM8ilXRsAavdCATev7n6k7
-	 qD9uvcsDjaVtdH4r0wuLNJzLgo1dY0BGKU33xjSx7a+C4NQxXCQYIU6AVMA+WHLeMWQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794321302;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:
-	 X-Rspamd-Action:X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
-	bh=8GztbmdPIq1W7yvyzWknacNZFNOoqhx0Fy+nAHd0FJc=;
-	b=Xqy9jEbMC/RpNd7ScJUIrEuKUt5JHsmgQEAxcRZwOVZ/JYn48uI55UdpXy3a9L3jpzzL
-	 zdGoDFHWq2Q9fX843GXKxvZq6/s8QEpMk5dRrsCKfdoB8eWvDMizoMfZV4jO9p7Y/Vrif
-	 sgz0MrPiPM50fUjVcLlH0Z+O5wNTroeElLOF7/fIoenAyfkBF1WBPSJW8hofvW1I+mLv3
-	 GtxWGhfwZ8SidgT96bpYHOvxMFsFZCcdryBPllJYVMCrQSHWnM9p7LvRDA8wLZ+WLx1Jo
-	 tEMN9VNFBk4aGAwwfGavx8jVLUb3R1DNCAs23OjjDtgE5V11Q2qbh0HowsQcmIJEcBw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b="Kf4/V3k7";
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=0sClAhd5;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b="Kf4/V3k7";
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=0sClAhd5;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=205.220.177.71
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794321312;
+	b=bwd5rwSVdDW4JVgwDHROw1aquHcqsyElarWAun0Uv0WSZhdR5cB/S8WWIo0+9vyOJBOS
+	 +gNNohaHfnhxLiaBjr8mkxcNhgpR9WkyNjad4QmeKyLrnRDEP9XnAA7CRJGn6Ol5gZjO0
+	 hyofBTkp1BSEqqQg9DSZrz7Q1rkovERpKBuaBven4Vx77a4GapNFgHv7YP/Hk15EEQVq+
+	 xSb0TkYK30hKpXIMx9ZpLYt84qUr00eIn/tbRlXOCYy6/DqHbcPA5mGU9jOVGB7/XjYkP
+	 uGQYsD8siNK/wQw6GAgtOjyCOvngEHShBLRIhmySgdYeOTLAi//bPmUe/7R7GY3I4uQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794321312;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:DKIM-Signature:
+	 Received:Received:From:To:CC:Subject:Thread-Topic:Thread-Index:Date:
+	 Message-ID:References:In-Reply-To:Accept-Language:Content-Language:
+	 X-MS-Has-Attach:X-MS-TNEF-Correlator:x-ms-publictraffictype:
+	 x-ms-traffictypediagnostic:x-ms-office365-filtering-correlation-id:
+	 x-ms-exchange-senderadcheck:x-ms-exchange-antispam-relay:
+	 x-microsoft-antispam:x-microsoft-antispam-message-info:
+	 x-forefront-antispam-report:
+	 x-ms-exchange-antispam-messagedata-chunkcount:
+	 x-ms-exchange-antispam-messagedata-0:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version:
+	 X-Exchange-RoutingPolicyChecked:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-originalarrivaltime:
+	 X-MS-Exchange-CrossTenant-fromentityheader:
+	 X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
+	 X-MS-Exchange-CrossTenant-userprincipalname:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:
+	 X-Proofpoint-ORIG-GUID:X-Authority-Analysis:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-GUID:X-Proofpoint-Spam-Details-Enc:X-Wisc_ValidFrom:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=NiQk8tAV9LuQfK6s+DJHNXi/HjTDMAGW6iC6KuL/XDw=;
+	b=simUUhlysHf5VqN6JKqjd4dC60Abv+9rtoCfAkkny8oUeIyE2yPcmuwvOipTPFv65Cli
+	 GZvmgeRtNEjEvoNXiy12IFzVi+vJfJDC8nTYcYNLfaCC6GdSQNEPR8spLmbb8HeUzy1/4
+	 kkMKdrKwKis11NsHJl16IR+XZjNSLsFtIe0ZTAro191VlkrrfbxkF04Kd0ZW0jATXP79H
+	 cakhGcm/62VqRIu2PIS4lMkuOdApB4u5ZKNXRa/XoFURHxO5ZhzioSfGphxcT0VhqxXGs
+	 jlPTHM+HZcO8FZsdNVarspJUa17wJwCJLcxZ3bpxwLbWTgHvDXQmmubz9n3bvkAaupA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=wisc.edu;
+	spf=pass smtp.mailfrom=wisc.edu;
+	dkim=pass header.d=wisc.edu header.i=@wisc.edu header.a=rsa-sha256 header.s=pps1 header.b=sbAQqNqC;
+	dkim=pass header.d=wisc.edu header.i=@wisc.edu header.a=rsa-sha256 header.s=selector1 header.b="Rk/XAOSe";
+	arc=pass header.oldest-pass=0 smtp.remote-ip=205.220.177.71
+Received: from mx0b-007b0c01.pphosted.com (mx0b-007b0c01.pphosted.com [205.220.177.71])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4ED9606A331;
-	Tue, 10 Nov 2026 14:35:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E4ED9606A331
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E73F2606A32A;
+	Tue, 10 Nov 2026 14:35:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E73F2606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wisc.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wisc.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=Kf4/V3k7;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=0sClAhd5;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=Kf4/V3k7;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=0sClAhd5
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0F2F11F7E9;
-	Tue, 10 Nov 2026 14:35:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794321300; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8GztbmdPIq1W7yvyzWknacNZFNOoqhx0Fy+nAHd0FJc=;
-	b=Kf4/V3k7uJ3/e8gJIc8Yq2RfTu9sqtfttw7+/XtgLjAgzqpseC8KVY0cIt3vE7gewsFtgS
-	Ul25YQuPGcy+MdjCiZ01nYNZL6oIl9h+7CtWLxqD0DCE7dLCT4LVtl2+MaCEOzBnO5VmYl
-	TqvBQPF83X/L0SH3n0hrFLzjLD0A3pk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794321300;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8GztbmdPIq1W7yvyzWknacNZFNOoqhx0Fy+nAHd0FJc=;
-	b=0sClAhd5uG01XGSIXIU41VEvI9NfiuUN4ZK34eq4spWakFMk8sOp9e0DDfiJbg/Z9APkfg
-	hTmYlGV16kkIijCQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b="Kf4/V3k7";
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=0sClAhd5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794321300; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8GztbmdPIq1W7yvyzWknacNZFNOoqhx0Fy+nAHd0FJc=;
-	b=Kf4/V3k7uJ3/e8gJIc8Yq2RfTu9sqtfttw7+/XtgLjAgzqpseC8KVY0cIt3vE7gewsFtgS
-	Ul25YQuPGcy+MdjCiZ01nYNZL6oIl9h+7CtWLxqD0DCE7dLCT4LVtl2+MaCEOzBnO5VmYl
-	TqvBQPF83X/L0SH3n0hrFLzjLD0A3pk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794321300;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8GztbmdPIq1W7yvyzWknacNZFNOoqhx0Fy+nAHd0FJc=;
-	b=0sClAhd5uG01XGSIXIU41VEvI9NfiuUN4ZK34eq4spWakFMk8sOp9e0DDfiJbg/Z9APkfg
-	hTmYlGV16kkIijCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CBD091339F;
-	Tue, 10 Nov 2026 14:34:59 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id eH+6KJMr82prKwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 10 Nov 2026 14:34:59 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id 5190222543; Tue, 10 Nov 2026 15:34:59 +0100 (CET)
-Date: Tue, 10 Nov 2026 15:34:59 +0100
-From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Jann Horn <jannh@google.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, 
-	Eric Dumazet <edumazet@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Al Viro <viro@zeniv.linux.org.uk>, Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
-	Greg Kroah-Hartman <gregkh@suse.de>, Joel Granados <joel.granados@kernel.org>, 
-	Kees Cook <kees@kernel.org>, Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
-	linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	netdev@vger.kernel.org, ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
-	coreteam@netfilter.org, kexec@lists.infradead.org, linux-pci@vger.kernel.org, 
-	linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net, 
-	linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org, 
-	linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, 
-	linux-sh@vger.kernel.org, linux-usb@vger.kernel.org, samba-technical@lists.samba.org, 
-	sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org, 
-	linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net, 
-	Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
-	linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, linux-debuggers@vger.kernel.org, 
-	Chuck Lever <cel@kernel.org>, stable@vger.kernel.org
-Subject: Re: [PATCH v2 32/51] proc: resume readdir after the last name it
- returned
-Message-ID: <67qeb525vqah4cjisunzwemua7rf2xj4esnlo2xl3t6crnqmzc@lsuqyjwenpx4>
-References: <20261104-work-procfs-bugfixes-v2-0-bbf7d5546809@kernel.org>
- <20261104-work-procfs-bugfixes-v2-32-bbf7d5546809@kernel.org>
+	dkim=pass (2048-bit key) header.d=wisc.edu header.i=@wisc.edu header.a=rsa-sha256 header.s=pps1 header.b=sbAQqNqC;
+	dkim=pass (2048-bit key, unprotected) header.d=wisc.edu header.i=@wisc.edu header.a=rsa-sha256 header.s=selector1 header.b=Rk/XAOSe
+Received: from pps.filterd (m0316046.ppops.net [127.0.0.1])
+	by mx0b-007b0c01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AAE6PUS1206432;
+	Tue, 10 Nov 2026 08:34:33 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wisc.edu; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pps1; bh=NiQk8
+	tAV9LuQfK6s+DJHNXi/HjTDMAGW6iC6KuL/XDw=; b=sbAQqNqCptQSlKDlqjKws
+	if+yrjajg7KdJGNATreS+KzKnDYPGcwddjmUzM/HkViQZ8xBSp/FghlMFNJSsEVa
+	VDCeOZ+av5AJimDFG8otCIUBL61PRl+AvDwBt3GHb1+qTyQCxcQk/vGyvAPTevs6
+	9BdDhSh1mKu9sGXylTuE8v7b+8wvlVw7vV/h0xFrRCtJEGMvxJ+/dMGZHMXd5Whd
+	i6jV3BJifxCjYIC1kh+5K0d3PFPTg2gXLpjkRxl+wfcDpT+A84d+gUoguP93Nn1g
+	0S3PKplFw4nD7W1ZputtoSIR5Z3vv9f4IDwGwRwA3C98ZsNveseSOTuGZYMcXDpv
+	A==
+Received: from sn4pr2101cu001.outbound.protection.outlook.com (mail-southcentralusazon11012066.outbound.protection.outlook.com [40.93.195.66])
+	by mx0b-007b0c01.pphosted.com (PPS) with ESMTPS id 4hv4r7g8j6-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 10 Nov 2026 08:34:32 -0600 (CST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=AeLqQQl6xdOVUWOEFhTEXwvOffg9cW8LxiAqmcV0UkYERCAxYrKUUfpG8XXtMeQY0TPP2IPltx1KcSU08gNJyQuM3nMzSP46idDYEaMdqfBhbHR3RThbVZSe/IgcoePR5/WRTiwAzjaGRkdOhzogUjK7FWXzBIFmVc4Pf/dnazHlNC+xom8wDv0OAKip9tbIn6qsgquJfOm4qbIlYsUagbvM8TycGjmd/IRhRDuWOsVUrSDhx/9MHJw+S9lR1FEFuITAoOTKquIj/0f23dbH3M2htjzt73S+/1b+KTbLjNFhVULAMf3RdLYOU88UjdlrH5sNpScspRqDxJCXCETrgQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NiQk8tAV9LuQfK6s+DJHNXi/HjTDMAGW6iC6KuL/XDw=;
+ b=Qbb81LTGXVSMaax42d2zljyvd696zj2OoDa3IaUGpbxTaxxMZRZMMRgzLRnKd2eAJitZ6EDAr5Yp8Z0bHxN/eyZ6TuXLCVbV55XpoTMB2z8d6idtd++8ky1OmzpuNu6OkGQukVtJipVE7DtZq7WXlgCdKxzwnGZbmkMIMReTDrDsjHB5gluHDdE3koqEvl7/EpsQB/BVHFtR7LuXjeZYEekB1rz5iK1R2DAFtoYgSgPiiv6tiwmXp9ihlAzSu26sTzS3eKo9y/I/VVVvbk8b4q1GrwXkX7Uo7qjoQyyq6mleGUOb8yjVGWXN7sYH4QsIQwJcr0hvAMH1PC89hSj3qQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wisc.edu; dmarc=pass action=none header.from=wisc.edu;
+ dkim=pass header.d=wisc.edu; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wisc.edu; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NiQk8tAV9LuQfK6s+DJHNXi/HjTDMAGW6iC6KuL/XDw=;
+ b=Rk/XAOSeQ/e36kZyPrIMtpnnv983VdYA/bfN7OuQ6etaxEDc/oGCUvsOWqLlEPWKb5xOg6k3myGRZxs98jlgVQbSBMYGy2njw+11nv3ao9FhcP1N4/DNzEcYNYyr5alhTPOLU0JS2GPLybTBH/3tKRU3i83dmryIN/McxUkdSkhiWF9JiHYIEApGmsNENrVn6ibqD7oN2NClf5ZczcOuvm+GxFyBYxkeXgkJ6AL+XRb9I/gI/CFZ1lvmAMgjcA1eXfaPSIAHcvlFTeJWWzEXQDTowEHM4mHi4Kwkx/My8nCMoADqeJz7xNr1ym7jCwToQ3dsMVDZiEi/jrgPRoDDmQ==
+Received: from MN2PR06MB6639.namprd06.prod.outlook.com (2603:10b6:208:20a::22)
+ by SA1PR06MB999793.namprd06.prod.outlook.com (2603:10b6:806:4f2::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.11; Tue, 10 Nov
+ 2026 14:34:31 +0000
+Received: from MN2PR06MB6639.namprd06.prod.outlook.com
+ ([fe80::c7c1:6e17:5f9d:1245]) by MN2PR06MB6639.namprd06.prod.outlook.com
+ ([fe80::c7c1:6e17:5f9d:1245%4]) with mapi id 15.21.0615.007; Tue, 10 Nov 2026
+ 14:34:31 +0000
+From: Seunghyun An <san55@wisc.edu>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+CC: "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        Andrew Morton
+	<akpm@linux-foundation.org>,
+        David Hildenbrand <david@kernel.org>,
+        Vlastimil
+ Babka <vbabka@kernel.org>,
+        "Liam R . Howlett" <liam@infradead.org>, Jann Horn
+	<jannh@google.com>,
+        Pedro Falcato <pfalcato@suse.de>,
+        Matthew Wilcox
+	<willy@infradead.org>, Jan Kara <jack@suse.cz>,
+        Dave Hansen
+	<dave.hansen@linux.intel.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Subject: RE: [PATCH 0/2] mm: avoid redundant reads of the vm_refcnt cacheline
+ in anonymous faults
+Thread-Topic: [PATCH 0/2] mm: avoid redundant reads of the vm_refcnt cacheline
+ in anonymous faults
+Thread-Index: AQHdcKZz6DuTj3OKQkaTRRr2umEtsrcnJNgAgAA7DYQ=
+Date: Tue, 10 Nov 2026 14:34:31 +0000
+Message-ID:
+ <MN2PR06MB66398F39E876279DA2CA8A52D2722@MN2PR06MB6639.namprd06.prod.outlook.com>
+References: <20261110000002.1834454-1-san55@wisc.edu>
+ <avLxcf8KaFP_XPnM@gremlin>
+In-Reply-To: <avLxcf8KaFP_XPnM@gremlin>
+Accept-Language: en-US, ko-KR
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wisc.edu;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MN2PR06MB6639:EE_|SA1PR06MB999793:EE_
+x-ms-office365-filtering-correlation-id: 1244c720-f880-4543-5eff-08df3f37bbc7
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|786006|7416014|376014|1800799024|23010399003|366016|38070700021|261028144727099003|4143699003|56012099006|261026140227099003|261022105027099003|261021121427099003|261102123227099003|11063799006|10067099003|18002099003|22082099003|6133799003;
+x-microsoft-antispam-message-info:
+ iBLxEkB6mmolGktQyS6h87eFFRYf5FZib1Gw68Ipy8QQUQAlVTq2TOGJbWBMXW6GRXj8EwZcuyIV/VAtP+ktjKRX7FeS5IIcU4LLJ4bw5xV6BPhWEPEXmQFFcZji+PZ8Usi+tPPjKCYB9ksfWrBXmxqFeRdoLgR0rsmycVXueQbp4B+38qY91wRsqixZ9MOziQRhG1FBwl5zNXdhoVjqjeSXhgbGF/1PfuGrmEGUy5whwnTP5SdCBlPvx7a01ekkCpW3OCqeklR6B7P3y5BaveyoYIlV5NtIRhd52KMRlDiy5ekgn2ixjFrc+xiTfNxTbtjLoCn8qytaVTY+JihAkgObs1K1IUjfEkCwUzzp28HXf/UdZ3oTUdDmIwomSud0A0BXbM3kjbbz0zfo4VKwnuq7BHnp7mqppXpzowe8lXytoXHrwLtZomoSfGFdamDe+kojj8s3iFk53E/RCy3S0z3HytHda+sk7I3pbkJd6n1zMvSn+164wwZw1eiaUI0gvyZP1VecTWKL01tDHy/PVdUahLGjisKpSzdN6c1mIeaHWsUrkCPQ98LnbODYo9NoPEU4oEwa0R0iIKBeg3dvd7quHCf0J5gz3vhpb/SHomgmiUYDDsxKtn27GR8iFN0nJq4ZbMA/LDufdG9v5esoCtlWDbcfnux2sOWmmEoN3fK4ijBbTDfzjEHJ9vfqmb1uUUxb9z+wLsN3UHvRQS0a+UlNVtbEGPhXi3ITupRZYn8=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR06MB6639.namprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(786006)(7416014)(376014)(1800799024)(23010399003)(366016)(38070700021)(261028144727099003)(4143699003)(56012099006)(261026140227099003)(261022105027099003)(261021121427099003)(261102123227099003)(11063799006)(10067099003)(18002099003)(22082099003)(6133799003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?SpzyJkQuTi9rLpgzpw4+ZfAMTbxMrOSoBtLoqqElFi+VGYe5mnclxNuvh6de?=
+ =?us-ascii?Q?19pzZXu4V4/rjLkvE1CXdLacLjAaC7TCpwBAX791rexx3li5MUMTxpp8IdkE?=
+ =?us-ascii?Q?MHfZMzG96P2U1O8mnXq9KFB00OQw6bKEuSsuiO8xOZ03kpZkXOvmRseOi3zs?=
+ =?us-ascii?Q?ZtZg5S9HjIJlCYqhMK9fRd5mNLSyGxGUVmbc9Os0GeFGGg8TkSoIpl03GmE5?=
+ =?us-ascii?Q?IAMRNlvf7UsVuOXe1f808D/VCDV011pdtQDe+tOaTntxys+9GyYjRlEQatOk?=
+ =?us-ascii?Q?mCxzkZzoKooVTm5UIkeUS1xQL2/V2jhrOtUupDYKyYNiEa+SA9XXFnjfdcXy?=
+ =?us-ascii?Q?L28AVn5SpT18h1zINHfGkKsvs08VL6C12EKMaZK6y2AJDYVOulz/gQiMIWLd?=
+ =?us-ascii?Q?dnl17NdeHkT7WPSDHixus8vaGowNEz72TE5lAh2VOjUgYCa4chGnqxKynSvx?=
+ =?us-ascii?Q?g834ZQ28bfuOta9VDxV8r1NQFfEYLG0JOqCghzi9UKR4HcDMh5CgtFuvWOPZ?=
+ =?us-ascii?Q?aRivnwYjava4LyHQrU0wd202TF+vEMqA5GRkDJ90xeHZbpBR6/nhId4ikPzE?=
+ =?us-ascii?Q?DiBmugJVYn2otVJmoL71MFaalUkKz3kix5s8qGWnZgotTnsHn6u/C+LDQc6K?=
+ =?us-ascii?Q?BDXdfq+LvKp4T9SKHbhvdaIquba04NjPaVXD6e64zjOzWS3gMpxa4/9bqAGt?=
+ =?us-ascii?Q?SWfroUKt5G9B3jEGjey46+8lXZ4y5sAGztVTxHXVZHwJRxEDw0LbgPc0RUWF?=
+ =?us-ascii?Q?GleQPW5UYZ/nd1KjV319Tmth71cG0tLalV+FLWInrLPjqqK3DL/7A6dxXT8w?=
+ =?us-ascii?Q?sjrlLztkRRGxODmooWws/Bn6ZJBOLG4X7t7gnBaJ39kLOFT43060JAVbnJte?=
+ =?us-ascii?Q?3y4oGgXKeMyuuZYGV1Z53OmjqXkeNlCM70Pg9NQgDl3PLes8DINzYzNJWNYz?=
+ =?us-ascii?Q?QlSjb3haa0e0TAfj6RTiFcVQoB1mSNUIxyn/PisYZpN1y58HZfdwAm4vm/y2?=
+ =?us-ascii?Q?IfYtEfVH0NMe3ve/tcCCUXkf2gZdhKjKbOXUNaPD7TVblF2mklfWExsZzEEi?=
+ =?us-ascii?Q?M/vBCxxUpZn4EYspeF0Og6y0sIsqZ0SmMYkpGr0FgDdb5vRRClsSmcw/a8c6?=
+ =?us-ascii?Q?TqiWHNcWdTXYoQLgNUPe64yAYhuNF908KHSrcqigNfDWlBo/R5u3DQFl6bl+?=
+ =?us-ascii?Q?ltu1rJrVDABpSsoP+psn9lYjN1l6Y8WORgAE6J72t3c8xpNKKrM3kMFXgQId?=
+ =?us-ascii?Q?Ttvt0hxsMa10AjIYYeD8QM7ZUiYyJ/4VHo0ntFSVkHFJgFbAnC+r+KMFNhij?=
+ =?us-ascii?Q?lALRY+iWcyJgIa0IYBzojvOUYVYghmpXVkcRGAYIrrs8IfST6vlyfFU+8oiW?=
+ =?us-ascii?Q?88hnO0kCE2jgYh+55HNoZfcuCJBjKGFKyzPo1atTqn6xDWPE8G7LQiwLQ/xU?=
+ =?us-ascii?Q?UuQkLrhCB3jXbnpV5+Dtfcn8t+akSnKgK2jJV72xnIfKeSQHiDq/yk0iScD2?=
+ =?us-ascii?Q?cYP5t+wbXAnZuEIeI/BcD2t/thW2s3FZ+qGNk2m8IujNzA1Vyu+CrmZtXmbz?=
+ =?us-ascii?Q?Tr9CfUUMYhmMVkRM3yoP6Foq5ZeE67dup8gUAew+NfOhBb67Q2srHVR9vE5s?=
+ =?us-ascii?Q?oeHvBJkkTFcapLbfw6FPr0Rw2cy/PzzZiiI/CAnCvjes4eZlaBuNummL+Mm0?=
+ =?us-ascii?Q?E+94umAFtvN+7kSOzfnLl9RXTnpqJS2kKZlpHrrLb4ZQYIIj?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -133,261 +182,64 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261104-work-procfs-bugfixes-v2-32-bbf7d5546809@kernel.org>
-X-Rspamd-Queue-Id: 0F2F11F7E9
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-11.51 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	R_RATELIMIT(0.00)[to_ip_from(RLpnapcpkwxdkc5mopt1ezhhna)];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[60];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:email,suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -11.51
+X-Exchange-RoutingPolicyChecked:
+	yzVoNSGdY9WxwHQYtAm3PDgeLB4V3hWIE5sRi/1LiIZl/o2Nu1ejsJCeaw0hXO17KRdlZutIRiDTxP0Gs8NFaGp+VcJLg4v8ekRa6idrE5RpdBx7otT+ZPIDk4Y9Ug6aJfaQjroiTuSANeiReOx44nggB4POcHsAldhx0Db7ZIcU/6DSdwQjwIuIIsSHnwxlUHfOS/HeiUwpn1eJ+E4/oCFX2UbJIzhftDSgXiM2+kV/XagXMph/vM5j8WJsAj9XG+smV3d+9xDVJzXEEgoNIujkXUgQnmMeS8Fgnm8FyrC7ZI2M5vqEKeUjMX5cH7Tg/pqkQeE7Z8bH7tNsmYayQA==
+X-OriginatorOrg: wisc.edu
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR06MB6639.namprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1244c720-f880-4543-5eff-08df3f37bbc7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Nov 2026 14:34:31.5783
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 2ca68321-0eda-4908-88b2-424a8cb4b0f9
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: I06JqEMVzORZ6imTP9mKrNFjrBGcqbNUNrGmJAgT6gd6pDNTqOQX9P2OQvxUdvw/
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR06MB999793
+X-Proofpoint-ORIG-GUID: KP7bZAJHTvrpesbUP7aJsCc99Z1yLYWY
+X-Authority-Analysis: v=2.4 cv=C9p8WgP+ c=1 sm=1 tr=0 ts=6af32b78 cx=c_pps
+ a=T5SYj2RWWwK9pVLeGBda9g==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=zJRp6_cAMcgA:10 a=x7bEGLp0ZPQA:10 a=U-hppK1rdbEA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=ZyELlZqCvD1aXIDzc3I-:22 a=XiWqTFSM81oo9FNMAQdw:22
+ a=E6StuLRLpgRRZcBR-4wA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTEwMDA1NyBTYWx0ZWRfX2S4IY42dl/eo
+ Bo9zcQhILoooI/S/YJ8SjSNP2cPx++UwLYHg2zFtm2afyAfguc9FGgYyuY22cd2irxR1nzGoaoX
+ jbVKUQefIfJMfMIswTD+SRIUJUg/UJs=
+X-Proofpoint-GUID: KP7bZAJHTvrpesbUP7aJsCc99Z1yLYWY
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTEwMDA1NyBTYWx0ZWRfXwvkKeUCq7+x4
+ Nr5N546vyxICt7+n37UHTWtaKy2SPLC4yzfOB9fxkjuGj1N3qcsDJwNXLpoMgu4UGCgvtvzxFMp
+ vInomQMwqnpjDdJW0zvroBUWK1pvMCTpExhKVy8X6ayzqHzPWNJd9N5TEqCXseVTSIJzIfOH4s9
+ xflHlZ+ipxOiF6zpre38fnL66ScM1jT8sXA2X5XCvUHdwIqgi0UeXt134TnGXQWGp0uk1hFrBZ5
+ O8j6Pq1T7xBPA90H/W+NFXd1qhBkrXGmCDlppNQ78HB1ZUa2IKGwQPVmkwdFD5BM4JDd9BUMErZ
+ YCUexcktUacwgWN4WW2KvPe/Zmi5tbBZLfOZTNRTFjone33ThYR+XUuqV8Zytn5dqwJleO+UJ6v
+ +eEOwBr1+J3A0dDILGI5a8EMprnyj6eBGvmBfJsq3rvyy8CoKPvaqRlIOLx84jiqPIcheczmL4N
+ 9nu/TuhZ+ljBoARqvUw==
+X-Wisc_ValidFrom: true
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-10_04,2026-11-06_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 lowpriorityscore=0 priorityscore=1501 malwarescore=0
+ impostorscore=0 spamscore=0 adultscore=0 phishscore=0 bulkscore=0
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
+ definitions=main-2611100057
 
-On Wed 04-11-26 18:47:18, Christian Brauner wrote:
-> proc_readdir_de() counts the entries of a directory and resumes a
-> listing at the number getdents64() stopped at. The entries are sorted
-> by name, so one that is added or removed in between shifts everything
-> behind it by one. Listing /proc/net/dev_snmp6 with a buffer that holds
-> ".", ".." and "lo" and adding a device whose name sorts before "lo"
-> makes the next call return "lo" a second time. Removing one that sorted
-> before the position makes the next call skip an entry instead.
-> 
-> Since commit 895b4c0c79b0 ("fs/proc: fix uaf in proc_readdir_de()") an
-> entry that is removed while it is being emitted also ends the listing
-> right there. pde_subdir_next() finds nothing after an erased entry, so
-> proc_readdir_de() reports the end of the directory and the next call
-> resumes by number, skipping another entry. For /proc itself
-> proc_root_readdir() takes that as the end of the static entries and
-> moves on to the pids, so the rest of the static entries is missing.
-> And if the position is behind the last entry when a call starts
-> proc_readdir_de() returns 0, so /proc then lists no pids at all.
-> 
-> So remember the name of the last entry a call emitted in the file and
-> resume at the first entry after it, like kernfs resumes after the node
-> it stopped at. An entry that was removed while it was emitted is
-> continued after by its name as well. If the position was moved by a
-> seek in between the listing counts from the start like before.
-> 
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Fixes: 895b4c0c79b0 ("fs/proc: fix uaf in proc_readdir_de()")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-
-Looks good to me. Feel free to add:
-
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
-
-> ---
->  fs/proc/generic.c  | 89 ++++++++++++++++++++++++++++++++++++++++++++++--------
->  fs/proc/internal.h |  1 +
->  fs/proc/proc_net.c |  1 +
->  fs/proc/root.c     |  1 +
->  4 files changed, 80 insertions(+), 12 deletions(-)
-> 
-> diff --git a/fs/proc/generic.c b/fs/proc/generic.c
-> index 9e59796349e1..588999058e66 100644
-> --- a/fs/proc/generic.c
-> +++ b/fs/proc/generic.c
-> @@ -87,6 +87,28 @@ static struct proc_dir_entry *pde_subdir_find(struct proc_dir_entry *dir,
->  	return NULL;
->  }
->  
-> +/* The first entry of @dir that sorts after @name. */
-> +static struct proc_dir_entry *pde_subdir_after(struct proc_dir_entry *dir,
-> +					       const char *name,
-> +					       unsigned int len)
-> +{
-> +	struct rb_node *node = dir->subdir.rb_node, *after = NULL;
-> +
-> +	while (node) {
-> +		struct proc_dir_entry *de = rb_entry(node,
-> +						     struct proc_dir_entry,
-> +						     subdir_node);
-> +
-> +		if (proc_match(name, de, len) < 0) {
-> +			after = node;
-> +			node = node->rb_left;
-> +		} else {
-> +			node = node->rb_right;
-> +		}
-> +	}
-> +	return rb_entry_safe(after, struct proc_dir_entry, subdir_node);
-> +}
-> +
->  static bool pde_subdir_insert(struct proc_dir_entry *dir,
->  			      struct proc_dir_entry *de)
->  {
-> @@ -278,6 +300,40 @@ struct dentry *proc_lookup(struct inode *dir, struct dentry *dentry,
->  	return proc_lookup_de(dir, dentry, PDE(dir));
->  }
->  
-> +/*
-> + * Where the next readdir resumes. The entries are counted, so one that is
-> + * added or removed in front of the position would shift what the next call
-> + * returns. The name of the last entry emitted doesn't move.
-> + */
-> +struct proc_dir_cursor {
-> +	loff_t pos;			/* the position behind the entry */
-> +	unsigned int len;
-> +	char name[NAME_MAX + 1];
-> +};
-> +
-> +/* If this can't remember the entry the next call counts from the start. */
-> +static void proc_dir_cursor_set(struct file *file, struct proc_dir_entry *de,
-> +				loff_t pos)
-> +{
-> +	struct proc_dir_cursor *cursor = file->private_data;
-> +
-> +	if (!cursor) {
-> +		cursor = kmalloc(sizeof(*cursor), GFP_KERNEL);
-> +		if (!cursor)
-> +			return;
-> +		file->private_data = cursor;
-> +	}
-> +	cursor->pos = pos;
-> +	cursor->len = de->namelen;
-> +	memcpy(cursor->name, de->name, de->namelen);
-> +}
-> +
-> +int proc_dir_release(struct inode *inode, struct file *file)
-> +{
-> +	kfree(file->private_data);
-> +	return 0;
-> +}
-> +
->  /*
->   * This returns non-zero if at EOF, so that the /proc
->   * root directory can use this and check if it should
-> @@ -290,23 +346,26 @@ struct dentry *proc_lookup(struct inode *dir, struct dentry *dentry,
->  int proc_readdir_de(struct file *file, struct dir_context *ctx,
->  		    struct proc_dir_entry *de)
->  {
-> +	struct proc_dir_cursor *cursor = file->private_data;
-> +	struct proc_dir_entry *dir = de;
->  	int i;
->  
->  	if (!dir_emit_dots(file, ctx))
->  		return 0;
->  
-> -	i = ctx->pos - 2;
->  	read_lock(&proc_subdir_lock);
-> -	de = pde_subdir_first(de);
-> -	for (;;) {
-> -		if (!de) {
-> -			read_unlock(&proc_subdir_lock);
-> -			return 0;
-> -		}
-> -		if (!i)
-> -			break;
-> -		de = pde_subdir_next(de);
-> -		i--;
-> +	if (cursor && cursor->pos == ctx->pos) {
-> +		/* Resume after the last entry emitted, wherever it is now. */
-> +		de = pde_subdir_after(dir, cursor->name, cursor->len);
-> +	} else {
-> +		/* Moved by a seek, count from the start like always. */
-> +		de = pde_subdir_first(dir);
-> +		for (i = ctx->pos - 2; de && i; i--)
-> +			de = pde_subdir_next(de);
-> +	}
-> +	if (!de) {
-> +		read_unlock(&proc_subdir_lock);
-> +		return 1;
->  	}
->  
->  	do {
-> @@ -319,8 +378,13 @@ int proc_readdir_de(struct file *file, struct dir_context *ctx,
->  			return 0;
->  		}
->  		ctx->pos++;
-> +		proc_dir_cursor_set(file, de, ctx->pos);
->  		read_lock(&proc_subdir_lock);
-> -		next = pde_subdir_next(de);
-> +		/* Removed in the meantime, go on after its name. */
-> +		if (RB_EMPTY_NODE(&de->subdir_node))
-> +			next = pde_subdir_after(dir, de->name, de->namelen);
-> +		else
-> +			next = pde_subdir_next(de);
->  		pde_put(de);
->  		de = next;
->  	} while (de);
-> @@ -348,6 +412,7 @@ static const struct file_operations proc_dir_operations = {
->  	.llseek			= generic_file_llseek,
->  	.read			= generic_read_dir,
->  	.iterate_shared		= proc_readdir,
-> +	.release		= proc_dir_release,
->  };
->  
->  static int proc_net_d_revalidate(struct inode *dir, const struct qstr *name,
-> diff --git a/fs/proc/internal.h b/fs/proc/internal.h
-> index df873df9afc5..04f7ce2b24ed 100644
-> --- a/fs/proc/internal.h
-> +++ b/fs/proc/internal.h
-> @@ -287,6 +287,7 @@ extern struct dentry *proc_lookup(struct inode *, struct dentry *, unsigned int)
->  struct dentry *proc_lookup_de(struct inode *, struct dentry *, struct proc_dir_entry *);
->  extern int proc_readdir(struct file *, struct dir_context *);
->  int proc_readdir_de(struct file *, struct dir_context *, struct proc_dir_entry *);
-> +int proc_dir_release(struct inode *, struct file *);
->  
->  static inline void pde_get(struct proc_dir_entry *pde)
->  {
-> diff --git a/fs/proc/proc_net.c b/fs/proc/proc_net.c
-> index b1f5eafb069a..dbcf87a257e1 100644
-> --- a/fs/proc/proc_net.c
-> +++ b/fs/proc/proc_net.c
-> @@ -351,6 +351,7 @@ const struct file_operations proc_net_operations = {
->  	.llseek		= generic_file_llseek,
->  	.read		= generic_read_dir,
->  	.iterate_shared	= proc_tgid_net_readdir,
-> +	.release	= proc_dir_release,
->  };
->  
->  static __net_init int proc_net_ns_init(struct net *net)
-> diff --git a/fs/proc/root.c b/fs/proc/root.c
-> index 7fbbe92bf73a..dfee1caa26f7 100644
-> --- a/fs/proc/root.c
-> +++ b/fs/proc/root.c
-> @@ -441,6 +441,7 @@ static const struct file_operations proc_root_operations = {
->  	.read		 = generic_read_dir,
->  	.iterate_shared	 = proc_root_readdir,
->  	.llseek		= generic_file_llseek,
-> +	.release	= proc_dir_release,
->  };
->  
->  /*
-> 
-> -- 
-> 2.53.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Thanks for taking this on.=0A=
+=0A=
+I should have disclosed the LLM involvement up front, and I'm sorry=0A=
+I didn't. I came across this while researching the performance of the=0A=
+anonymous fault path and worked with Claude to investigate and quantify=0A=
+it. Claude also drafted the code and changelogs.=0A=
+=0A=
+My main aim was to report the findings to the community. In hindsight,=0A=
+a plain report would have been a better way to raise it. I wanted to share=
+=0A=
+the measured effects, especially on EPYC given the higher cross-CCD=0A=
+coherency penalty, and offer a possible way to address them.=0A=
+=0A=
+I'd be glad to collaborate on measurements for your series and any=0A=
+follow-up work in this area.=0A=
+=0A=
+Thanks,=0A=
+Seunghyun=0A=
