@@ -1,64 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.155
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794325885;
-	b=MZYCaQXUnJF78NrVlP6VoF1tYkWPamXj56+9q06ggEmFKpWTNh5/zFtWHD0y+rVONxA9
-	 /S9l0ddXk0WrzLebO5HDl10IV3L7Jb9h85YSJ3I9bTM2fFEF2zGusQQKyo1m1ODh8ZyFu
-	 tuZeImWv/11110gRdgOaEdRh1J4Vd7TVfTVScQ92MfnzWgIh+M6Vo6373yHARh48MyRBP
-	 fz0a2tI76xpe+GhVVupZAEI0LpFkZavOosNf5N/3RmjbKW9CM4Fi87JC7YdUOg8Zo/iiP
-	 Ba+qRoOP19np8iYInrQjWpwPpaDGWVhLAEn9LBB6kMOGVrzLG//MHFkmB0RlLu9KW4g==
+	t=1794326138;
+	b=DTaQuXnm3Ze04WFzxSIBebVBk9DhwuN6U9VJWOQr4RmHPPCQ0TloESphV/4Tz3OH1MUa
+	 l/hyjErqDHGmKxJA8cwjI2n4j1/D4xAwRu51dnwxo23UAImQYZ0egtl4BTDo/jpmonhpE
+	 UZJCNRxgZEeRW2WBers/A2QwqtzfG55DJ1W6mS1YKG8WoFN8SS/nCmmJw3cHtBpC5rIga
+	 y7JzZTXRh/71hD0TES8rRhhIqoI3tZk05eZo5PEvGQT16Kxt7InCrDBp4adkfxewxoBle
+	 1Hu/dDx5c/zOKhG1zW1pfI46L8vjG+QMwppLJQGGTXsuvK/gb+kPknhJGBuQOpwVLhg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794325885;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:CC:Subject:In-Reply-To:
-	 Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=S+yaxY1IOkbr2hblsylEbiBouEaLkWRredpFXFNGEPs=;
-	b=U+EWF5JwRJG2qtnnq6KFE4PYKQ5nb5g31INPM6iAuSiSrnVvlh6oA6t61CDrVuRuPdEw
-	 Wu8LUwHoJbKjVfJRUQgEQf3DFT4NeV/nt2Jp0TC5Az12/W9ezz77BFXuDycRxnp4HQu52
-	 hAXpKzGscTjyUYi9vPbM75gIUKE4FDCTvLAf2F10HjVxTO21rE/ND3fWCzHBU2b2P4WGU
-	 ceHDkHix7oMLEOHX8eXXpT/8APKacI7FZWU2MLoeyimjEJR2gWHe17vVWh8j2cV9Sg4LL
-	 bgsMrwvTMGigKsmFUOZg3peX5wTBt1eYBkxHt/d1osXTK+MFOckwjWkpIpJQSboOYtw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794326138;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=SvIe1dTA5bgP0oOOky8Z1uVZhZTsydnSnODkTILXkXw=;
+	b=p/g4jx9xwtDMDKuklICSM6fK0KcGcKByPt/CKqep6ufHRILEuHHScLXikD0VZ2UWQgwl
+	 7EAjNOWq8LyMJSBX+ChtXJINOj0lmO13LoX5ncqan22r3M/W+qm/I6JZN3kFa+DxWC684
+	 4Ee8NDFFxmEVh2fiWqdq6iFMLhNTKQvEzxHG9QiknyLv0KSHblhZV1Np45wpzFzy4FujL
+	 SpWVg2110lz4JY1inmTUSNP0Mdo3UUx8eW1xpsfWwX0t5WEt8hCxiiGP/QIkIPl097SN8
+	 bIG8E6+Mx4oxYNzvxme86Ukcj2sRlgFILQqvot5VhGqbUKDJXDEr+3/3RBobsm4Ok7A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=rld116DC;
-	arc=none smtp.remote-ip=95.215.58.155
-Received: from mta1.migadu.com (out-155.mta1.migadu.com [95.215.58.155])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hxozIhHm;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E274606A323
-	for <linux-fsdevel@vger.kernel.org>; Tue, 10 Nov 2026 15:51:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5E274606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 370BB606A323;
+	Tue, 10 Nov 2026 15:55:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=rld116DC
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=ekUbTVzeA1JNlzfG7xd+5633WBpvGDfH+mmSDR5DYLM=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794325882; v=1; x=1794930682;
- b=rld116DCyefpF4HY6HzebCbZOPxDgtBgxSsjhBvC1bllJIxpyyrQhJq+P+PzvTn4OLH4t74n
- Mc9IMqMWy0YdoXmgUVTTIjmZC8DOoFaUD6ZduG7QNFZskXgOx/QcJ0nYRCt6F/hu0SpO1Vr+WNN
- IOz/Hc+sRP6qee1SHukxIaG4=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id ef20ab98b7ec7150;
-	Tue, 10 Nov 2026 15:51:22 +0000
-X-Mizu-Trace-ID: ef20ab98b7ec7150
-X-Migadu-Flow: FLOW_OUT
-Date: Tue, 10 Nov 2026 15:51:18 +0000
-From: Bradley Morgan <bradley.morgan@linux.dev>
-To: mic@digikod.net
-CC: brads@mainlining.org, brauner@kernel.org, dhowells@redhat.com,
- jarkko@kernel.org, jmorris@namei.org, josef@toxicpanda.com,
- keyrings@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org,
- morgan@kernel.org, paul@paul-moore.com, serge@hallyn.com, sergeh@kernel.org,
- stable@vger.kernel.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH=5D_userns=3A_Let_LSMs_deny_the_?=
- =?US-ASCII?Q?CAP=5FSETFCAP_snapshot_for_mapping_uid_0?=
-In-Reply-To: <20261110144205.2404088-1-mic@digikod.net>
-Message-ID: <80A558D7-7DC3-4780-91F5-990E4917E8A4@linux.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hxozIhHm
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD06D1F0089F;
+	Tue, 10 Nov 2026 15:55:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794326138;
+	bh=SvIe1dTA5bgP0oOOky8Z1uVZhZTsydnSnODkTILXkXw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=hxozIhHmmpI0orJHynU5GErfujgQcajB7c5xDfVJaCwJou8oudZLuQk/PhicbS0K7
+	 XNmgvLHiXxVpurT9ttEcApD8O0aIbqdrPmJHZNjpuRaLyqXmSQ5+Uf32xSIiKjIic0
+	 Ic5+0xgvDdFUuxitJ/dzD6YM7jV20SLaKKRi2ebOQPBPACLThIMab3dl3LbKXvLZUz
+	 5irq6W8mI0FPPZB7SGVHrNurymQtdA7AXHGWGNoomKzVQFgiiPkAq4bW2qx7B3fFcs
+	 pkwz/3s/25vWVBP7mKxlgp5d8PcnhH6WqiIQkZRln0vpFOV8I/KugDXhXFIZ9Qc4qc
+	 SvD8pzcRJX39Q==
+Date: Tue, 10 Nov 2026 16:55:32 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Eneshan Karaca <Eneshan-Karaca@yandex.com>
+Cc: kees@kernel.org, rostedt@goodmis.org, viro@zeniv.linux.org.uk, 
+	jack@suse.cz, mhiramat@kernel.org, mathieu.desnoyers@efficios.com, 
+	jkoolstra@xs4all.nl, farid.m.zakaria@gmail.com, linux-fsdevel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	bpf@vger.kernel.org
+Subject: Re: [RFC PATCH v2] binfmt_misc: add binfmt_misc_select tracepoint
+Message-ID: <20261110-gefruchtet-singt-allabendlich-ff8653eb8631@brauner>
+References: <20261029185849.8016-1-Eneshan-Karaca@yandex.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -68,92 +60,39 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261029185849.8016-1-Eneshan-Karaca@yandex.com>
 
-On 10 November 2026 14:42:04 GMT, "Mickaël Salaün" <mic@digikod.net> wrote:
->Commit db2e718a4798 ("capabilities: require CAP_SETFCAP to map uid 0")
->records in parent_could_setfcap whether the creator of a user namespace
->had CAP_SETFCAP, because a creator writing its own uid_map only has
->capabilities in the new namespace.  The snapshot uses cap_raised(), so a
->task whose LSM policy denies CAP_SETFCAP can still map uid 0 in a
->namespace it creates.
->
->Use security_capable() against the parent namespace instead: the
->creator's credentials still belong to it at this point, so commoncap
->returns the same result, and only LSM denials are added.
->
->Do not audit this check: creating a user namespace does not use
->CAP_SETFCAP, and most namespaces never map uid 0.  The uid_map write
->that later fails has no LSM audit record.
->
->Checking CAP_SETFCAP when the map is written would not work: the
->writer's credentials then belong to the new namespace, where commoncap
->grants the creator all capabilities.
->
->Cc: Christian Brauner <brauner@kernel.org>
->Cc: Josef Bacik <josef@toxicpanda.com>
->Cc: Paul Moore <paul@paul-moore.com>
->Cc: Serge Hallyn <serge@hallyn.com>
-
-Reviewed-by: Bradley Morgan <bradley.morgan@linux.dev>
-
-I'm logging out of mainlining.org (sigh) anything meant to be cc'ing me,
-e.g: get maintainers should cc the linux.dev email instead, annoying brr.
-
->Cc: stable@vger.kernel.org
->Fixes: db2e718a4798 ("capabilities: require CAP_SETFCAP to map uid 0")
->Signed-off-by: Mickaël Salaün <mic@digikod.net>
->---
->
->This is independent from Josef Bacik's series, which reworks this code
->to close other ways around the CAP_SETFCAP rule:
->https://patch.msgid.link/20261027-b4-setfcap-userns-v8-0-2674adc63f3c@toxicpanda.com
->
->That series still computes the creator's CAP_SETFCAP with cap_capable()
->and cap_raised() in cap_setfcap_level(), so it would need the same
->change.
->---
-> include/linux/user_namespace.h | 5 +++--
-> kernel/user_namespace.c        | 8 +++++++-
-> 2 files changed, 10 insertions(+), 3 deletions(-)
->
->diff --git a/include/linux/user_namespace.h b/include/linux/user_namespace.h
->index 91232053775d..370961fde45f 100644
->--- a/include/linux/user_namespace.h
->+++ b/include/linux/user_namespace.h
->@@ -86,8 +86,9 @@ struct user_namespace {
-> 	kgid_t			group;
-> 	struct ns_common	ns;
-> 	unsigned long		flags;
->-	/* parent_could_setfcap: true if the creator if this ns had CAP_SETFCAP
->-	 * in its effective capability set at the child ns creation time. */
->+	/* parent_could_setfcap: true if the creator of this ns could use
->+	 * CAP_SETFCAP in the parent ns at the child ns creation time.
->+	 */
-> 	bool			parent_could_setfcap;
+On Thu, Oct 29, 2026 at 09:58:49PM +0300, Eneshan Karaca wrote:
+> From: Eneshan Erdoğan Karaca <BoxStrikesTeam@proton.me>
 > 
-> #ifdef CONFIG_KEYS
->diff --git a/kernel/user_namespace.c b/kernel/user_namespace.c
->index cd748e1cbace..57b7f10be74e 100644
->--- a/kernel/user_namespace.c
->+++ b/kernel/user_namespace.c
->@@ -128,7 +128,13 @@ int create_user_ns(struct cred *new)
-> 	if (!ns)
-> 		goto fail_dec;
+> A binfmt_misc entry can select an interpreter for an exec.  With a BPF
+> 'B' handler, that selection can be made by a BPF struct_ops program.
+> The kernel commits the decision in bprm->interp and bprm->flags, but it
+> does not emit an event at the selection point.
 > 
->-	ns->parent_could_setfcap = cap_raised(new->cap_effective, CAP_SETFCAP);
->+	/*
->+	 * verify_root_map() relies on this once the creator only has
->+	 * capabilities in the new namespace.  Let LSMs deny it, but do not
->+	 * audit: the creator may never map uid 0.
->+	 */
->+	ns->parent_could_setfcap =
->+		!security_capable(new, parent_ns, CAP_SETFCAP, CAP_OPT_NOAUDIT);
+> Existing observers have to reconstruct the decision from
+> /proc/PID/exe, AT_EXECFD, AT_FLAGS, or /proc/PID/maps.  These sources
+> are mode-dependent: a transparent dispatch still reports the original
+> binary in /proc/PID/exe, and a short-lived process can exit before the
+> observer reads it.  A classic dispatch reports the interpreter, but
+> not which handler selected it or which invocation flags were used.
 > 
-> 	ret = ns_common_init(ns);
-> 	if (ret)
->
+> Add a tracepoint after the interpreter and the invocation flags are
+> selected.  The caller passes the matched entry and the raw flags; the
+> trace event resolves the handler name and masks the flags with
+> MISC_FMT_INVOCATION_FLAGS.  The event reports the binary filename, the
+> selected interpreter, the handler name, the invocation flags, and the
+> pid.
+> 
+> The tracepoint is observability only; it does not change exec
+> behavior.
+> 
+> Assisted-by: LLM
+> Signed-off-by: Eneshan Erdoğan Karaca <BoxStrikesTeam@proton.me>
+> ---
 
---- Thanks!
+This is whitespace damaged. So Sashiko can't look at it.
+Resend it properly, please.
