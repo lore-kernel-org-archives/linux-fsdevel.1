@@ -1,73 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794322550;
-	b=dsDblc8maMhUxWkIHBpiqZeo5+8IGtg0MoWm+ZIP5+Z+XlFpIhldJvamKbl9ZKYBaRWL
-	 ToNBSXUlQGRokO0hgzUgy3EsX8EC6EQ9kIF/LH1sp2sfsX59nlhCgUhzG3oVyMc3SL5tj
-	 n2S/id8K8YLv/zSLnYTAMnRs5YequrcX0ugiiIou37/s/3bUaqRFIJ8gkOCAbJWIBQSX0
-	 YTeEdJ09FCK0sQgwu3aOFkvmen0Rj7F5MKhz1X5UTe+Q4wfGAgadvG7f9LJ6BK87bA7Nt
-	 ucYJYVmWodKY91oVuYcTaZd36aj/kzKALSfM6a78YcAMKMyDP8cyddjgTFJ5GUEcCcA==
+	t=1794322728;
+	b=RmS3z1RdsyEj35peIAX872awEhgcsEetpSN9XEbY3E7Ksv96XwGnMpOE4XXDvwL9MG8b
+	 rN1YVVfLJm/B7dEH50g+rxvuJdWzcJdn/NN/8X1ge6croQNMMxzrtz8+iV4/eDv+uj+HG
+	 M0sqwE+wMWfFD1jnSlVD5mjS/F8+Zu+lDGPuwPI+Xa76PT/TX8sIHpyhVhueZBGLiQo5z
+	 luDDYBn0UO9ArSUxgSX74dpAFDGadFgBQc6loDlZpgB/1mgibK3owevN4yTj1n0lK/BYC
+	 L/ObowgJr6nRJsZSVN7gxuW+EhlDIFTtuR0c45J/bEMHnjpYWBuCX5ZJrJvoOiV0ftQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794322550;
-	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:
-	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
-	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
-	 References:Subject:Content-Type:Content-Transfer-Encoding;
-	bh=zSjXnOetE5oKa5v8S9LBrUhcmgizc8ch93AeD/W6gEI=;
-	b=sjS33hfS4+h+r28VKZdEwQbpSJqKu7nqrcUjvTo7k13tbqBXXDkMwcB9Lhi+Gnqt6lXl
-	 NdHzbCU+5mdYY6Ki6cI16KmUVjJ7QAgIuXLKpJqq0tumLjM0RmlEJaRG6paQPpCjRYeRf
-	 BS3Nl0udRY8OE/8GrjvZ9Y9/E3h77nJq9Mu1RfVtq0xmEKb6oMYC47Y3tWo9Iywzgusaw
-	 xD5VK4dOvXaHNJIwI+ncTJQ0IjauO5AULXxZbeLT8Cog5PcYU1rO4sWJiv27NEj3iDZ7D
-	 9VTJM4drB8h7jOinhSYG93VVnG+2dN2TSwNZUKqcNeWvPk6PmiCuWE6sgHNmQU9soUQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794322728;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer;
+	bh=bJyBkipq/8VnHVmxuZdWoeSnkdnAYGFqTisHEUQIoBA=;
+	b=Kxlt7dFRF8ELOyfNDvqWCVJQAXCw1mwgF1PnOt35r/Ffhp2uVJ69DMdtkDd1BYFX/qMQ
+	 MoS9OY2YYxVXfH8Gaoxjw0HK4AMH9SBNBqf43/QQkHoZ4RPK7HXgQkRCj/owjVP4wClhs
+	 PrwZ045GpzkVApdewFTQWU4IN5SAQg8m4XeXV7w/Ap5lfL6nOzgGSjIYUwItaGWAnXCEV
+	 for2/u1ikJkByGMcfyi3CfJUVKDbGGAyA3lz8Vwi+gLL//5rjepMCfG+VPcv4hnBMPqsu
+	 4TyIC/lbAQ6lN8bGPKIqECRfAkeUPAbBvlNb4QupE49ldQ0Gb+W7QLUqiAuAvZmRc/g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Tcwd7Q8/";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=A6jI6pro;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B32DB606A326;
-	Tue, 10 Nov 2026 14:55:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45A01606A333;
+	Tue, 10 Nov 2026 14:58:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Tcwd7Q8/
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D8D71F008A2;
-	Tue, 10 Nov 2026 14:55:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=A6jI6pro
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C7FC1F0089F;
+	Tue, 10 Nov 2026 14:58:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794322549;
-	bh=zSjXnOetE5oKa5v8S9LBrUhcmgizc8ch93AeD/W6gEI=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=Tcwd7Q8/BgCZr0AJA+q53XtkaEXHNBQAptcCIoE3INOkDT8T++JPLwFgnijhu6LIp
-	 QoJCfJqeBNhK26M7LL9xd4MzXxKVISVDOEW1cYrYEyBiFKRmR2hdLsioEex6m+2Rc5
-	 2AgfVzjCsuMDtAVvAKOrFX1qXAfAYeUYjVl2rownrESZ29DXkmWTHYRM7alPMZLQ6M
-	 DZH727vPlYTYzZb+oco6o/Bkhlk4m5LBSezhlvCb0bhHHiXIMbUlIMDObU3PIfYN46
-	 k7napT6YlagBuXnh78UDBF3WtFBwiJfcd2zG9H8WTZ7Zkc62YNaLopDBhwYuzfc472
-	 iPuH2WgxnRVeQ==
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id B2761F40069;
-	Tue, 10 Nov 2026 09:55:47 -0500 (EST)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Tue, 10 Nov 2026 09:55:47 -0500
-X-ME-Sender: <xms:czDzahOxHA_IGoa_FJdwV0BFPQw-nSdKO6kKGUN5puCfrxj2G2sK_w>
-    <xme:czDzauxKYck9zKSqhpZaTHxPL9lIOi42MPCnrNTR7eaQqnpkmbe8dEx0PuhUogQkg
-    tb2W38kOzksOJlDJ4uTGR7-rkbiwtctKuF5oVtOm556TqS1yjjUw9U>
-X-ME-Proxy-Cause: dmFkZTE8jIcOTzT9axQiHwEjJScKTRkNH3ZVhgYbwXrBMnGwr/PZk5kUfGxy+RC0ezRM03
-    2Axgl1A3kstcvJQqQJ+tEirxS634eXBQm2b+wwk+7byJnMoEdYYw7Lfb7185Bnwoliq1Mt
-    XZ8lliUhOZ8AACZwbl4T2Tc7NYRy4GvnOujvSweRGBGAD4OQXGjTipshhA5n2cB6RQlk4p
-    zmTRFZMOMjoY8cueG7e24ndoN2R/gq/lSNUbCVZu/PUOrAg9f6aovYYa9SSKBBYGtgXYMN
-    0qbpFOi4S4kwXDcxuFcZlmK43Jt2p3+0W9uSzX8U3QJynW/odwma6a1hhpAbc8zEaSnbtk
-    CFI/IAk8YwHJ0hyg7qaH8oiiVC3V/1ZiobIhoPO231VrqQk5oaP4jl+jS7yMnBbNxynDhF
-    /tTsfxMaF/A9xwJBu4sKm+3lzwzMEEbqt79mE4Lq/VAgowI2/Z3gVdFMTE48DIB1KcUvAe
-    gGFx1Bx/tQmWXfeE09uUSkiQ2KYN+OrlgTMnrepjVRxO73rY2t7sodPh2AhJIAG1ZYT5ga
-    3nwb3G0mQrnmFOm4Qa4C2JwbajMdJBWMeam4uZKQraajbqcBHzCXvMtQm1fQbm3S2rexTo
-    KA6wW/vDabSoXlut9Nm5uKTSjp20eGQ9lpLOxOz31c8eLm8Mlp10sjOYDNZA
-X-ME-Proxy: <xmx:czDzaoanLMdLTFqhzMhrxv5H09chgFe3GMMhc1XBCkfiMJQ_ckta8Q>
-    <xmx:czDzauzWTK7EYc76X_4JSXvP7e9Yqejr2yggz6O-tuvCpsEWBQGUaQ>
-    <xmx:czDzasWQEDY8T3p3eaJhPzKDKFxYGPCQnFb1-n-prg7tBs3f0gJpWA>
-    <xmx:czDzaqbpJaYjvNkk5zy3xoww5EsXMA5_awnvU25FYCgSdhgQQ41Hfg>
-    <xmx:czDzavOKwCwywHfR1JNgdmNe33GAeUXrw31wmu_3YBRbMsucyl2ChD_t>
-Feedback-ID: ifa6e4810:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 7D2B9780070; Tue, 10 Nov 2026 09:55:47 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=k20260515; t=1794322727;
+	bh=bJyBkipq/8VnHVmxuZdWoeSnkdnAYGFqTisHEUQIoBA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=A6jI6procODsK7CeA6/g4xeAEWNpqcON0ofARkE55EJ2hB1JdvmLmKKoFakGh63q0
+	 Wk5DMd+w91TKjwQYD9uXZuDPqt5Jhep0B/CMAOySR3NlwmaY1Og3ygrdvKUV8xYGHw
+	 qLZ7fmPtWFMw2CmChiunRs7uE5dw+qscmLBQpyYUrtk3/BpmbKujthYqm+kiW61sAT
+	 ITbmLeOVUPO2H+7xzIw1mtjqb6dizzdUaaClCg/ZeYLvwLIbGSTmPhOZIlTu+6SpIR
+	 D1h+Ew4jEeOiIxevjnUPig5D8kAQ+0HZvSo2slFq8aGREYPKwhHBJPnjaUWd8bRphm
+	 KLVV3AgHsnYyQ==
+From: Christian Brauner <brauner@kernel.org>
+To: jaharkes@cs.cmu.edu, Hungyu Lin <dennylin0707@gmail.com>
+Cc: coda@cs.cmu.edu, codalist@coda.cs.cmu.edu, viro@zeniv.linux.org.uk, 
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org
+In-Reply-To: <20261105051406.52442-1-dennylin0707@gmail.com>
+References: <20261105051406.52442-1-dennylin0707@gmail.com>
+Subject: Re: [PATCH v2] coda: honor the append state of each write
+Message-Id: <20261110-finte-gebiss-human-e05dd6b47c78@brauner>
+Date: Tue, 10 Nov 2026 15:58:44 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -77,71 +59,38 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-ThreadId: AKCAcWHxcB8B
-Date: Tue, 10 Nov 2026 09:55:27 -0500
-From: "Chuck Lever" <cel@kernel.org>
-To: "Christian Brauner" <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
-Cc: "Jann Horn" <jannh@google.com>, "Chris Mason" <mason@kernel.org>,
- "Josef Bacik" <josef@toxicpanda.com>, "Christoph Hellwig" <hch@lst.de>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- "Alexander Viro" <viro@zeniv.linux.org.uk>, "Jan Kara" <jack@suse.cz>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- target-devel@vger.kernel.org, driver-core@lists.linux.dev,
- linux-mm@kvack.org, bpf@vger.kernel.org,
- linux-security-module@vger.kernel.org, selinux@vger.kernel.org,
- apparmor@lists.ubuntu.com, linux-nfs@vger.kernel.org, netdev@vger.kernel.org,
- fuse-devel@lists.linux.dev, linux-efi@vger.kernel.org,
- xen-devel@lists.xenproject.org, ocfs2-devel@lists.linux.dev,
- linux-s390@vger.kernel.org, "Linuxppc Dev" <linuxppc-dev@lists.ozlabs.org>,
- linux-usb@vger.kernel.org, "Amir Goldstein" <amir73il@gmail.com>,
- linux-erofs@lists.ozlabs.org, linux-kselftest@vger.kernel.org
-Message-Id: <47b8b8cb-aadb-4f84-aa5c-c5a74d73fac1@app.fastmail.com>
-In-Reply-To: <20261110-work-loop-pseudo-v1-21-4c998976c6c7@kernel.org>
-References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
- <20261110-work-loop-pseudo-v1-21-4c998976c6c7@kernel.org>
-Subject: Re: [PATCH RFC 21/41] nfsd: use fc_init_pseudo()
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev-ce4c1
 
-
-
-On Tue, Nov 10, 2026, at 4:14 AM, Christian Brauner wrote:
-> Initialize the nfsd filesystem as a pseudo filesystem. This raises
-> SB_I_PSEUDO and also SB_I_NOEXEC and SB_I_NODEV. It never holds
-> executables or device nodes.
->
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-> ---
->  fs/nfsd/nfsctl.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/fs/nfsd/nfsctl.c b/fs/nfsd/nfsctl.c
-> index f32311f2d7cf..ce2666deddbd 100644
-> --- a/fs/nfsd/nfsctl.c
-> +++ b/fs/nfsd/nfsctl.c
-> @@ -9,6 +9,7 @@
->  #include <linux/namei.h>
->  #include <linux/ctype.h>
->  #include <linux/fs_context.h>
-> +#include <linux/pseudo_fs.h>
+On Thu, 05 Nov 2026 05:14:06 +0000, Hungyu Lin wrote:
+> coda_open() adds O_APPEND to the container file's f_flags after it has
+> been opened, without updating its cached f_iocb_flags. An O_APPEND write
+> can therefore overwrite existing data instead of appending. For example,
+> writing "Z" to a file containing "abc" produces "Zbc" rather than "abcZ".
 > 
->  #include <linux/sunrpc/cache.h>
->  #include <linux/sunrpc/svcsock.h>
-> @@ -1375,6 +1376,7 @@ static int nfsd_init_fs_context(struct fs_context *fc)
->  {
->  	put_user_ns(fc->user_ns);
->  	fc->user_ns = get_user_ns(fc->net_ns->user_ns);
-> +	fc_init_pseudo(fc);
->  	fc->ops = &nfsd_fs_context_ops;
->  	return 0;
->  }
->
-> -- 
-> 2.53.0
+> Pass RWF_APPEND or RWF_NOAPPEND to vfs_iter_write() according to the
+> incoming IOCB_APPEND state. This also honors changes made with F_SETFL
+> and per-write append overrides instead of relying on the container's
+> open-time flags.
+> 
+> [...]
 
-Acked-by: Chuck Lever <cel@kernel.org>
+Applied to the vfs.fixes branch of the vfs/vfs.git tree.
+Patches in the vfs.fixes branch should appear in linux-next soon.
 
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
--- 
-Chuck Lever (Come to NFS bake-a-thon! https://nfsv4bat.org)
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs.fixes
+
+[1/1] coda: honor the append state of each write
+      https://git.kernel.org/vfs/vfs/c/644cf7b4af68
+
