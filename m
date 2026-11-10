@@ -1,70 +1,70 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=216.71.154.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794306972;
-	b=c3HsOHXc1+8g19oVRtmA9CXXBOy+ptEcC+n2zhT0wwku670RVNRWjv1JS33mWnC2Rop7
-	 /eHVy53rZy67mH4UV5902T2Kx/SSNwn2yaeRG1Z3dt2oYkvimUcYZH10qzLlf9xT/dsHF
-	 Ym8Mn601R5FvjKf8ntBAisXYkaEcdqMbfhFJwGbjsd6O+vbhBDKfa/PmTCkqc2uznIlqH
-	 GJ620sJiPRCQaJETvvExcMDZGv6mVWr+uELXTjoQEOyHgGrnyri2PpNkIAZyKrbfpnyzM
-	 LDioeT7bkvNvtSxjfyPJHetQb7eEMqmEixRPIi1xLv93R1hkvSANobxg+oYpF2oF4wQ==
+	t=1794306956;
+	b=g5tTkZJRDKCR7+r8Q1nc6ctaQtM8q8EltRvRcnogS3CTz17UQhcbtlMeCMZ0Zl29JTCF
+	 0e97okuEyBEnKlNzUnoNaIf7ExO0UNVgzNZFWYYXvnocLXMGtSAJzNumcYQpBajIGEGaj
+	 u7ulPxXcT5gfccOpgaWqeyWz55Em55cZNyyYP25BwP5Rqqo0tLVd23Od7eSF0cId4SY+A
+	 RpVrO5Qo5WMK9sQYGUOCDs83D8Ne+08vE8wAfk+kQJeFHdKkuSgwFRBWYeBdiJGu7wRKi
+	 pn1eIvadWPf1F9DlD2g8Ss+ZPdL2hFm+b1acs++fFPhVPXMf4zSRfstNV6/yVnXkLAw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794306972;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794306956;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:Received:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 IronPort-SDR:Received:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 WDCIronportException:Received:From:To:Cc:Subject:Date:Message-ID:
 	 X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=XYwABPfbmroIa4YRcnOkhIiosnqF4rCxl1hDk4FSaGQ=;
-	b=o8eLPeTh8KKz3AkWv8v7Ih52pdPXSmer+5UP09cyRkOAbxuavS9I0hJURD4SHmOqQ5C6
-	 65G94tz/pXbesknYKquQ8kxTZcOP2wmiIG92nCAe88nN/DFX2Gck4yWJCc18uvQ9/3P/V
-	 lUg8BeGE5Y7tOVPQIX0i3Mld84QQ/Di4h8wdH3i/EssYsziwNC88WRWd7No/BhkPrc7Yn
-	 mMiT4RRpebFU8+7LaMWOuG3MsyNwmbBx1BV6yqEuG+OPy/lPpI1h1ogi0xDy+6zdRICXd
-	 f/QRHN2YnlYiL08swmkT97TNRuW/Zh2DT7DmII0Uf8K4DvgQwuUIIPnBXxGxmHJ2gTA==
+	bh=Onpt/kc6syzXjX13IXxBzAglaNbMY4EH6w0Is3yyCQ8=;
+	b=ULs42ePxrSB4Mj+T+GET3lB9bD9goAIAd1I4k60TKOyEmQsnw5kQkkT01iqu0mNdPZH1
+	 tmj9kyG4Xwc9xyOexJNLkF/JRsBX2e4RZHysAx4FeCwu11IhwnIxstajj4HcT70UAe1kR
+	 YQ5HYHJPeL+dA41qTj8LtHrTj43+aeRBo8pvRpYYZHVf3Lwc24Q2DdRM/1R6W69zSVIPK
+	 30A50h+F5ADIb9vzhuWj2nLrR94nBO3d/DF57sYnjrCa4vOWPMWh53v7vFWliNHeYl5VN
+	 ga5JR5OeYf9WvGWnpgRZ4ktDMC4aQ7VHoQu3bH3nE7gFJQOra9E3kQdFpdOOroIoXtA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=wdc.com;
 	spf=pass smtp.mailfrom=wdc.com;
-	dkim=pass header.d=wdc.com header.i=@wdc.com header.a=rsa-sha256 header.s=dkim.wdc.com header.b=QadSDwrZ;
+	dkim=pass header.d=wdc.com header.i=@wdc.com header.a=rsa-sha256 header.s=dkim.wdc.com header.b=moJEQxPK;
 	arc=none smtp.remote-ip=216.71.154.45
 Received: from esa6.hgst.iphmx.com (esa6.hgst.iphmx.com [216.71.154.45])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 864AE606A337;
-	Tue, 10 Nov 2026 10:36:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 864AE606A337
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37BC3606A31C;
+	Tue, 10 Nov 2026 10:35:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 37BC3606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wdc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wdc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wdc.com header.i=@wdc.com header.a=rsa-sha256 header.s=dkim.wdc.com header.b=QadSDwrZ
+	dkim=pass (2048-bit key, unprotected) header.d=wdc.com header.i=@wdc.com header.a=rsa-sha256 header.s=dkim.wdc.com header.b=moJEQxPK
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1794306971; x=1825842971;
+  t=1794306956; x=1825842956;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=iz2f8xQz4gPqHPdAtljMrs8ExPm5zLmDKifU62Y59PY=;
-  b=QadSDwrZF8kNiIaX/sVVeBFgyS+IFOvTdNEoMKNL0ZBRzomhLt15qAHc
-   ZYh0p3Qn9wkSKbI+QfpZiSeSDq/Y7mSSKqe4aZX8lzLAOBOFw6ixsCP0f
-   Y4AdxcWZebTc2VOAB4r184trirzK850Ln9BqnsutH9Hg6Ku6R28+apnn/
-   u/uxV44mTK2vMrLa4F1XbuELnLRAXqN9deATN2q+EsF6W1dPG/Zlk/XBr
-   NfxPMujJ3OEptnX5w7ORe6sJNjBuKjHngEltgSeHH7tTeP82vQlMLrVWK
-   trz9hjA/0mEhJN5TJUvAKlItRZdWlUOS4FcL3v4GAfKRsRhX8d+cVIBxO
-   Q==;
-X-CSE-ConnectionGUID: AlCjkcWXTSWxsEnVPtQjAQ==
-X-CSE-MsgGUID: y8hmQ9psS72oraoyZw6JBQ==
+  bh=CdF9G5iRxtadVVsQ/XSoafHoMH+3wgdwnd/2yxaC3/w=;
+  b=moJEQxPKzdjiZ61uhtDKuOyP3BenP7vRjMKppE80/n/HP4xzpyPf5O7i
+   Pyg5cb2zZBP7mz6IVFFWW0w54HjwoCouofQ+rz6m4YmF398cLS0rY87o1
+   WIaptf9fDRrpU78LBSwG7nkGuCYowpEnFVgeweD5lY3N+uiAglsjbhXzf
+   cTzuwk7Gie8DzDZKj40uoC/N8K5FC9moZjksQHXdEGX7ps3TAkJzH4T66
+   sP0pse+pH0u9xpjJhK6AVcqT9rs/+TOjkR8xtCY+0BdaGnP1ajuShHOIh
+   iAiFENgSlkT45bjLNTRA5hOHR31RqoOsit0Se86AkaU/3+kC40fOiQE7h
+   w==;
+X-CSE-ConnectionGUID: NB/LsZUjSwCtTowSBeeRZg==
+X-CSE-MsgGUID: 9cpyHknoSI61XlatcZ+QBg==
 X-IronPort-AV: E=Sophos;i="6.27,205,1786982400"; 
-   d="scan'208";a="158891413"
+   d="scan'208";a="158891389"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-esad1-o.wdc.com) ([199.255.45.14])
-  by ob1.hgst.iphmx.com with ESMTP; 10 Nov 2026 18:36:10 +0800
-X-CSE-ConnectionGUID: np1NyKr4RzqSthCPAkYJUQ==
-X-CSE-MsgGUID: uMLqGR+YT/uVoeC3HAHdgg==
-IronPort-SDR: 6af2f39b_h1QnecO4bxLB5HncjifrjaeuxkiAxnEamNtja4ghApxZE/j
- KzSt1Kd1LHKfj0DtjX4pUik51rqpq2OrAN8hBCQ==
+  by ob1.hgst.iphmx.com with ESMTP; 10 Nov 2026 18:35:55 +0800
+X-CSE-ConnectionGUID: Bxo5IlWLSYuHuoWemGuq/w==
+X-CSE-MsgGUID: uY3gEw7cQpyCoMC1bMwHVw==
+IronPort-SDR: 6af2f38b_hSHUAdvYeTM2+G6TG5NY3RB5MPH6Wt0KmjPtbYbKGInsIrH
+ rZ7YailVGKbMUqIomjLEaA+pOEoTL1Sa5MsocJA==
 Received: from uls-op-esai1-o.wdc.com ([10.248.3.45])
-  by uls-op-esad1-o.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 10 Nov 2026 02:36:11 -0800
-X-CSE-ConnectionGUID: hIPmb7BIRBqx8siv3GacCg==
-X-CSE-MsgGUID: MVrKvjkYRIy4PnAJny6Rsg==
+  by uls-op-esad1-o.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 10 Nov 2026 02:35:55 -0800
+X-CSE-ConnectionGUID: 2lxAYeObQVGkYuzreCFsUg==
+X-CSE-MsgGUID: V1NOW0/nRrixVP1dibvVpg==
 WDCIronportException: Internal
 Received: from unknown (HELO gcv.wireless.wdc) ([10.224.5.251])
-  by uls-op-esai1-o.wdc.com with ESMTP; 10 Nov 2026 02:36:08 -0800
+  by uls-op-esai1-o.wdc.com with ESMTP; 10 Nov 2026 02:35:52 -0800
 From: Hans Holmberg <hans.holmberg@wdc.com>
 To: brauner@kernel.org,
 	hch@lst.de,
@@ -81,13 +81,12 @@ Cc: dlemoal@kernel.org,
 	Anuj Gupta <anuj20.g@samsung.com>,
 	Kanchan Joshi <joshi.k@samsung.com>,
 	Hans Holmberg <hans.holmberg@wdc.com>
-Subject: [RFC 4/4] xfs: add a nostreamalloc mount option
-Date: Tue, 10 Nov 2026 11:35:40 +0100
-Message-ID: <20261110103540.46876-5-hans.holmberg@wdc.com>
+Subject: [RFC 0/4] Zoned XFS stream based data placement PoC
+Date: Tue, 10 Nov 2026 11:35:36 +0100
+Message-ID: <20261110103540.46876-1-hans.holmberg@wdc.com>
 X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261110103540.46876-1-hans.holmberg@wdc.com>
+In-Reply-To: <20261103110640.1000095-1-anuj20.g@samsung.com>
 References: <20261103110640.1000095-1-anuj20.g@samsung.com>
- <20261110103540.46876-1-hans.holmberg@wdc.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -99,127 +98,77 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a mount option to disable write stream based data placement in the
-zone allocator, so that the effect of write streams can be compared
-easily in benchmarks.  Write streams can still be queried, allocated
-and assigned to files, but the allocator ignores them.
+This is my first stab at stream-based data placement for zoned devices,
+co-locating data with the same stream id.
 
-Signed-off-by: Hans Holmberg <hans.holmberg@wdc.com>
----
- Documentation/admin-guide/xfs.rst | 10 ++++++++++
- fs/xfs/xfs_mount.h                |  2 ++
- fs/xfs/xfs_super.c                | 15 +++++++++++++++
- fs/xfs/xfs_zone_alloc.c           |  2 ++
- 4 files changed, 29 insertions(+)
+It applies on top of v7 Anuj's/Kanchan's xfs write stream series.
 
-diff --git a/Documentation/admin-guide/xfs.rst b/Documentation/admin-guide/xfs.rst
-index acdd4b65964c..10dfaa75af5d 100644
---- a/Documentation/admin-guide/xfs.rst
-+++ b/Documentation/admin-guide/xfs.rst
-@@ -110,6 +110,16 @@ When mounting an XFS filesystem, the following options are accepted.
- 
- 	These options are only available for zoned rt file systems.
- 
-+  streamalloc (default) or nostreamalloc
-+	Enable data placement based on write streams assigned by the
-+	user.  Data written to a write stream is placed in open zones
-+	dedicated to that stream.  With nostreamalloc, write streams
-+	can still be queried, allocated and assigned to files, but
-+	the allocator ignores them.  This is intended for debugging
-+	and benchmarking.
-+
-+	These options are only available for zoned rt file systems.
-+
-   logbsize=value
- 	Set the size of each in-memory log buffer.  The size may be
- 	specified in bytes, or in kilobytes with a "k" suffix.
-diff --git a/fs/xfs/xfs_mount.h b/fs/xfs/xfs_mount.h
-index 216a38a354e7..0bc3d15927fa 100644
---- a/fs/xfs/xfs_mount.h
-+++ b/fs/xfs/xfs_mount.h
-@@ -398,6 +398,7 @@ typedef struct xfs_mount {
- 
- /* Mount features */
- #define XFS_FEAT_NOLIFETIME	(1ULL << 47)	/* disable lifetime hints */
-+#define XFS_FEAT_NOSTREAMALLOC	(1ULL << 48)	/* disable stream placement */
- #define XFS_FEAT_NOALIGN	(1ULL << 49)	/* ignore alignment */
- #define XFS_FEAT_ALLOCSIZE	(1ULL << 50)	/* user specified allocation size */
- #define XFS_FEAT_LARGE_IOSIZE	(1ULL << 51)	/* report large preferred
-@@ -452,6 +453,7 @@ __XFS_HAS_FEAT(exchange_range, EXCHANGE_RANGE)
- __XFS_HAS_FEAT(metadir, METADIR)
- __XFS_HAS_FEAT(zoned, ZONED)
- __XFS_HAS_FEAT(nolifetime, NOLIFETIME)
-+__XFS_HAS_FEAT(nostreamalloc, NOSTREAMALLOC)
- 
- static inline bool xfs_has_rtgroups(const struct xfs_mount *mp)
- {
-diff --git a/fs/xfs/xfs_super.c b/fs/xfs/xfs_super.c
-index 5c92f8ebd8a7..ae47488251ff 100644
---- a/fs/xfs/xfs_super.c
-+++ b/fs/xfs/xfs_super.c
-@@ -116,6 +116,7 @@ enum {
- 	Opt_uqnoenforce, Opt_gqnoenforce, Opt_pqnoenforce, Opt_qnoenforce,
- 	Opt_discard, Opt_nodiscard, Opt_dax, Opt_dax_enum, Opt_max_open_zones,
- 	Opt_lifetime, Opt_nolifetime, Opt_max_atomic_write, Opt_errortag,
-+	Opt_streamalloc, Opt_nostreamalloc,
- };
- 
- #define fsparam_dead(NAME) \
-@@ -173,6 +174,8 @@ static const struct fs_parameter_spec xfs_fs_parameters[] = {
- 	fsparam_u32("max_open_zones",	Opt_max_open_zones),
- 	fsparam_flag("lifetime",	Opt_lifetime),
- 	fsparam_flag("nolifetime",	Opt_nolifetime),
-+	fsparam_flag("streamalloc",	Opt_streamalloc),
-+	fsparam_flag("nostreamalloc",	Opt_nostreamalloc),
- 	fsparam_string("max_atomic_write",	Opt_max_atomic_write),
- 	fsparam_string("errortag",	Opt_errortag),
- 	{}
-@@ -202,6 +205,7 @@ xfs_fs_show_options(
- 		{ XFS_FEAT_DAX_ALWAYS,		",dax=always" },
- 		{ XFS_FEAT_DAX_NEVER,		",dax=never" },
- 		{ XFS_FEAT_NOLIFETIME,		",nolifetime" },
-+		{ XFS_FEAT_NOSTREAMALLOC,	",nostreamalloc" },
- 		{ 0, NULL }
- 	};
- 	struct xfs_mount	*mp = XFS_M(root->d_sb);
-@@ -1164,6 +1168,11 @@ xfs_finish_flags(
- "nolifetime mount option only supported on zoned file systems.");
- 			return -EINVAL;
- 		}
-+		if (mp->m_features & XFS_FEAT_NOSTREAMALLOC) {
-+			xfs_warn(mp,
-+"nostreamalloc mount option only supported on zoned file systems.");
-+			return -EINVAL;
-+		}
- 	}
- 
- 	return 0;
-@@ -1611,6 +1620,12 @@ xfs_fs_parse_param(
- 	case Opt_nolifetime:
- 		parsing_mp->m_features |= XFS_FEAT_NOLIFETIME;
- 		return 0;
-+	case Opt_streamalloc:
-+		parsing_mp->m_features &= ~XFS_FEAT_NOSTREAMALLOC;
-+		return 0;
-+	case Opt_nostreamalloc:
-+		parsing_mp->m_features |= XFS_FEAT_NOSTREAMALLOC;
-+		return 0;
- 	case Opt_max_atomic_write:
- 		if (suffix_kstrtoull(param->string, 10,
- 				     &parsing_mp->m_awu_max_bytes)) {
-diff --git a/fs/xfs/xfs_zone_alloc.c b/fs/xfs/xfs_zone_alloc.c
-index 8b2838239325..6161dd7ea61c 100644
---- a/fs/xfs/xfs_zone_alloc.c
-+++ b/fs/xfs/xfs_zone_alloc.c
-@@ -695,6 +695,8 @@ static inline enum rw_hint xfs_inode_write_hint(struct xfs_inode *ip)
- 
- static inline u16 xfs_inode_write_stream(struct xfs_inode *ip)
- {
-+	if (xfs_has_nostreamalloc(ip->i_mount))
-+		return WRITE_STREAM_NOT_SET;
- 	return READ_ONCE(VFS_I(ip)->i_write_stream);
- }
- 
+The support is limited to ZNS/SMR devices, but could be extended with
+support for FDP drives as well. We had an earlier prototype for this,
+where we allocated as many open zones as there are hardware streams
+minus the GC zones, which should work just fine.
+
+I've done some benchmarks with Anuj's patched RocksDB branch
+write-streams-v7 from [1] with streams added vs. the base write
+lifetime hint support on ZNS.
+
+For RocksDB, zoned XFS hints-based placement, which favors separating
+data for long-lived files, gives the best overall result when the SST
+file size matches the zone capacity, separating files into different
+zones (144 GB moved by GC vs. 206-623 GB for the other modes at that
+file size). This is likely because SST file lifetime in lower levels
+doesn't correlate strongly enough with level for finer-grained
+separation to pay off.
+
+If a workload produces files that are a fraction of the zone capacity,
+stream-based placement is better: with 16M-512M SST files, streams cut
+GC by 26-32% vs. 4-12% for hints. It should also help workloads that
+can use more streams than the write lifetime hints provide, so I think
+it's worth including in the zoned allocator.
+
+It would be great to have more sample workloads to benchmark streams
+based file data placement, so if there is anything out there, let
+me know.
+
+Benchmarks:
+
+Overwrite throughput and data moved by GC with hints and streams, each
+disabled (nolifetime / nostreamalloc) and enabled (XFS zoned, ~1 GiB
+zones on a 200G FS, fill + 1x random overwrite, single run per
+configuration) 70-90% fs usage.
+
+      |      overwrite MB/s       |  GC GB (from xfs stats)
+      |    hints    |   streams   |    hints    |   streams
+ SST  |   off    on |   off    on |   off    on |   off    on
+ -----+-------------+-------------+-------------+-------------
+ 16M  |  27.3  28.4 |  27.1  32.0 |  1922  1777 |  1934  1314
+ 32M  |  29.0  29.5 |  28.8  34.1 |  1769  1685 |  1790  1211
+ 64M  |  31.0  31.8 |  30.9  36.4 |  1593  1534 |  1613  1113
+ 256M |  44.9  46.3 |  46.0  52.5 |  1026   935 |   972   714
+ 512M |  58.8  60.9 |  59.7  63.7 |   488   428 |   474   352
+ 1G   |  74.9  81.1 |  76.7  62.1 |   233   144 |   206   623
+
+[1] https://github.com/anuj7781/rocksdb.git
+
+Hans Holmberg (4):
+  xfs: report write streams for zoned realtime inodes
+  xfs: place zoned data by write stream in open zones
+  xfs: report zoned write streams on realtime inheriting directories
+  xfs: add a nostreamalloc mount option
+
+ Documentation/admin-guide/xfs.rst |  10 +++
+ fs/xfs/xfs_inode.c                |  33 ++++---
+ fs/xfs/xfs_inode.h                |   2 +
+ fs/xfs/xfs_ioctl.c                |   6 +-
+ fs/xfs/xfs_iomap.c                |   8 +-
+ fs/xfs/xfs_mount.h                |   2 +
+ fs/xfs/xfs_super.c                |  15 ++++
+ fs/xfs/xfs_zone_alloc.c           | 140 +++++++++++++++++++++---------
+ fs/xfs/xfs_zone_alloc.h           |   7 ++
+ fs/xfs/xfs_zone_info.c            |   3 +-
+ fs/xfs/xfs_zone_priv.h            |  14 +++
+ 11 files changed, 185 insertions(+), 55 deletions(-)
+
 -- 
 2.43.0
 
