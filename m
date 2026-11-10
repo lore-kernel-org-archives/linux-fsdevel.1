@@ -1,82 +1,112 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=210.171.160.6
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794306628;
-	b=lsGpiA2NXR/6ZFiYLayJqXQm5rIjJVPk8NSfDGV4N57WRuvwygtgCYQEuwIB1+l9bBqq
-	 35UH305eg/4fuaDMBPQwGfCsatOXR2VmWebNMTjDRbm4CqVnWNmHdz9/VIf69iPyPQpMd
-	 Ykq6/gsAeePvRmvNkazg+ytv/Jo6yzi3AQudMqLQZW68hA5KvDbMJuPwHeS9i1vZAVm3V
-	 AdnuOVp77QxzB6A2shPfTsK+X8YKIHqf9fZWJgLAmHPKJOayG/M1i7inkqA6sytGftQdK
-	 g/8MyOEvhX6bBkfg0+FAcyE1q6CQIddyLP3o9KNK+cEoOmFOeWytc6cR67ApiRqoyEw==
+	t=1794306790;
+	b=BPk8sIE1izJeQEktHr8x9U3/jpAtzlOfjEPBpg20UMZ6oZeclRl3HYx0ltxu2PQXHCEe
+	 M6WerZ7U/kZNL7jVU3tB8qoshWrY6x/qaNZzaVkbEMQ3RjoAGlFx9SS/LA0TM0QixNCU5
+	 C9S9lwB1t4F7+b5rw9bnpLKYvdkSznydPRUhBg5SCH8VnScoINNW+BWhXfDsDOtFwMDXa
+	 EVvsKk/t748kGR4miYu2IFUO0JeOJ8KFoSQy/nNhSaBCeponsH+DwZT3pIdLJcuFqa8mr
+	 js7NcOv7HaugbXi328qpxmmreucq0hRlPgzFyayIwEAMNZdbbefl7PtOjpsaCaw/KWw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794306628;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:Received:
-	 Received:From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 User-Agent:MIME-Version:Content-Type;
-	bh=3E34M28HzYoZvsTeEKolT2k8nmKkmFu85l0DW5vC3rg=;
-	b=QDyczlCr0efrlrrKNbSO9LVFN5nTu4T0GUZKTBkPbLBv/fCcTVyOrmY7pUsZCTEzedLS
-	 I+nqIQkWRCvG9BczsI/MaCTzwPXHK8znbsudCBEMTWE18Sklg0Z+Wi9aY7iqc0yUb+0DK
-	 F26JgrXkX3QidT1HuOdKMCenzSjEqBJZ4GdAJD+QZDkdBoHHVaSCdEV+b7PTPRbJqX1uu
-	 TBatzmGMKDZjVU8pKYJra2z0EK/rtKggLjOr6f0tXdhASRHlqpTiZqzKdJsNsiO9tDdb1
-	 ESwBn3KyH793yGrKW4N1U4XFvPRumJKxuHKq2xSitGHDUeh4gDcO8KzhZKVgRO7NzPA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794306790;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:
+	 X-Spam-Flag:X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
+	bh=6ch4xXQ7StUnbjm3wHzXSplK8uCVJPHj9zvM+WcPtS8=;
+	b=lugDJVL8AOlx/OuEBzSJXHTcPgFRuqXR1xoza2eop3cwQuJwmmGD7OAj91pTfiv6T7p5
+	 cQJRYGXHkGn+7kx/GAKdFnrcpq4eE6GJ2t6cJxsa3S8srSnxxLL9cdV5O9pmWLVtiu778
+	 jdIFoXTshoRFGOCbuBet7tQQkVikv3M8CVYuKPkyVEsjOBcex305oGfA6bO+Rj7ks5GO+
+	 qgwkosV8gt/6Rr/JO2vr3anWzmhe4zbsafloD9HeCnN6+awz74w/+S7BCRT3wGNxLz9Rg
+	 mFwsgoTzZQA/9X0pXmZlbC6j9TsVxUvWwHDZ8Bv+mccBm++Iwf1IJROEnbUAqD8+4rQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mail.parknet.co.jp;
-	spf=pass smtp.mailfrom=parknet.co.jp;
-	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=rsa-sha256 header.s=20250114 header.b=RRckdDSE;
-	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=ed25519-sha256 header.s=20250114-ed25519 header.b=iQPFP+Xc;
-	arc=none smtp.remote-ip=210.171.160.6
-Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=none header.from=suse.cz;
+	spf=pass smtp.mailfrom=suse.cz;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=Ea3pU+9l;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=LfEvdBOH;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=Ea3pU+9l;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=LfEvdBOH;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 125F7606A330;
-	Tue, 10 Nov 2026 10:30:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 125F7606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38A7A606A33C;
+	Tue, 10 Nov 2026 10:33:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 38A7A606A33C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=parknet.co.jp header.i=@parknet.co.jp header.a=rsa-sha256 header.s=20250114 header.b=RRckdDSE;
-	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=ed25519-sha256 header.s=20250114-ed25519 header.b=iQPFP+Xc
-Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
-	by mail.parknet.co.jp (Postfix) with ESMTPSA id 4653E20BD28D;
-	Tue, 10 Nov 2026 19:30:17 +0900 (JST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114; t=1794306617;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=Ea3pU+9l;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=LfEvdBOH;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=Ea3pU+9l;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=LfEvdBOH
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 2128B21E04;
+	Tue, 10 Nov 2026 10:33:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1794306788; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3E34M28HzYoZvsTeEKolT2k8nmKkmFu85l0DW5vC3rg=;
-	b=RRckdDSEMhoY6crIxF5wOG1kXyhs++xcmVtsl0EcsI7s04cFMRZ9FLpYKK+o/+aArqWp4M
-	kECZVDDKA2vWFMO1PymH5WG+rM755KfrY5s7pJVig8uddXzYUgZ4n7LlKE4Uebl7Qqhqpq
-	tpEJfWRagr6IcOFdXjSzBHGYRYIQKBSXjL5rZi6HPLgtzUo1d/Xu/CAWa1Cr+t1M304b/g
-	ZzZHinNCBovW1sP4pbg/7IYw4CHiKkadDhCGaH2iJ5IG/OW7ieyjVaIDunErZxH/eWApr9
-	o83Gi2Cs1STeXy8mHSiuhiJbWnrjbc+tHF64GFgQXGaMazloCMPz4XiY28e3yg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114-ed25519; t=1794306617;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	bh=6ch4xXQ7StUnbjm3wHzXSplK8uCVJPHj9zvM+WcPtS8=;
+	b=Ea3pU+9ly03VW1w2imW7KzCHztcdJNFMUhpnUlaos4f8qlZlK2Iyf7nOmwmBsXBqob9T+t
+	8Cui50ntHFw3yF5Z0C7lmk6hykto8fJsA6tf0sWPwCgN1mBJ7aC51SApbx8gUc5h9nYtqe
+	+KsjvFMX5CwhkzBc64PXczkNvx0CNBs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1794306788;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3E34M28HzYoZvsTeEKolT2k8nmKkmFu85l0DW5vC3rg=;
-	b=iQPFP+XcHKbSuV4FRUJWopQ49GXEaFBT8aoIWoOrHCrfZW9ZklKCWXz8fo1zybm+FzoRNL
-	nKj2ErHgyh9U0+AA==
-Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
-	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id B9FABE000DE;
-	Tue, 10 Nov 2026 19:30:16 +0900 (JST)
-Received: by devron.myhome.or.jp (Postfix, from userid 1000)
-	id AFF1922000A0; Tue, 10 Nov 2026 19:30:16 +0900 (JST)
-From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-To: Bryanna Marihugh <bryannamarihugh@manhattantech.edu>
-Cc: Andrew Morton <akpm@linux-foundation.org>,  Jan Kara <jack@suse.cz>,
-  linux-fsdevel@vger.kernel.org,  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC] fat: use write_inode_now() on flush to avoid racing
- the flusher
-In-Reply-To: <9ced619f-58bd-41fa-b8fb-863bd49d5dbb@manhattantech.edu>
-References: <20261029-fat-flush-isync-v1-1-69c02c258d0c@manhattantech.edu>
-	<878q3gth64.fsf@mail.parknet.co.jp>
-	<457c34c8-b52f-41c6-8b58-ed334b0dc483@manhattantech.edu>
-	<87ik2jsp9n.fsf@mail.parknet.co.jp>
-	<87a4nvso7w.fsf@mail.parknet.co.jp>
-	<9ced619f-58bd-41fa-b8fb-863bd49d5dbb@manhattantech.edu>
-Date: Tue, 10 Nov 2026 19:30:16 +0900
-Message-ID: <87cxsd6ksn.fsf@mail.parknet.co.jp>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	bh=6ch4xXQ7StUnbjm3wHzXSplK8uCVJPHj9zvM+WcPtS8=;
+	b=LfEvdBOHdpNmcCrxSpDK/TCe23UdXe0e4qifp9xJNNRY++c569uAGTCEPITc4fy2cSB07K
+	q6uQOla7sO6xzyCA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=Ea3pU+9l;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=LfEvdBOH
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1794306788; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6ch4xXQ7StUnbjm3wHzXSplK8uCVJPHj9zvM+WcPtS8=;
+	b=Ea3pU+9ly03VW1w2imW7KzCHztcdJNFMUhpnUlaos4f8qlZlK2Iyf7nOmwmBsXBqob9T+t
+	8Cui50ntHFw3yF5Z0C7lmk6hykto8fJsA6tf0sWPwCgN1mBJ7aC51SApbx8gUc5h9nYtqe
+	+KsjvFMX5CwhkzBc64PXczkNvx0CNBs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1794306788;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6ch4xXQ7StUnbjm3wHzXSplK8uCVJPHj9zvM+WcPtS8=;
+	b=LfEvdBOHdpNmcCrxSpDK/TCe23UdXe0e4qifp9xJNNRY++c569uAGTCEPITc4fy2cSB07K
+	q6uQOla7sO6xzyCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EA7FF1339F;
+	Tue, 10 Nov 2026 10:33:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id B5ZuMOPy8mr4LwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 10 Nov 2026 10:33:07 +0000
+Received: by quack.suse.cz (Postfix, from userid 1000)
+	id 7843822483; Tue, 10 Nov 2026 11:33:07 +0100 (CET)
+Date: Tue, 10 Nov 2026 11:33:07 +0100
+From: Jan Kara <jack@suse.cz>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, Jan Kara <jack@suse.cz>, 
+	Josef Bacik <josef@toxicpanda.com>, Chris Mason <mason@kernel.org>, linux-ext4@vger.kernel.org, 
+	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, Andreas Dilger <adilger.kernel@dilger.ca>, 
+	Baokun Li <libaokun@linux.alibaba.com>, Ojaswin Mujoo <ojaswin@linux.ibm.com>, 
+	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>, Namjae Jeon <namjae.jeon@samsung.com>, stable@vger.kernel.org
+Subject: Re: [PATCH RFC v3 08/14] fs: set I_METADATA_WRITEBACK in
+ mmb_mark_buffer_dirty()
+Message-ID: <32pdmqc6zljbhiz2zvci5phqnzlh4ej2jeoymqepdggiwoatse@3xzb226r2au3>
+References: <20261109-work-inode-metadata_writeback-v3-0-91ac6c024018@kernel.org>
+ <20261109-work-inode-metadata_writeback-v3-8-91ac6c024018@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -86,210 +116,98 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261109-work-inode-metadata_writeback-v3-8-91ac6c024018@kernel.org>
+X-Spamd-Result: default: False [-11.51 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,suse.cz,toxicpanda.com,kernel.org,mail.parknet.co.jp,dilger.ca,linux.alibaba.com,linux.ibm.com,gmail.com,samsung.com];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:email,suse.cz:dkim,suse.com:email]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -11.51
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 2128B21E04
 
-Bryanna Marihugh <bryannamarihugh@manhattantech.edu> writes:
+On Mon 09-11-26 17:51:23, Christian Brauner wrote:
+> ext2, ext4 without a journal, fat, udf and minix track the metadata
+> buffers of an inode in a mapping_metadata_bhs list and sync them from
+> ->sync_inode_metadata() and ->evict_inode(). The inode block itself is
+> only tracked by I_METADATA_WRITEBACK which ->write_inode() sets after
+> copying the inode into its buffer.
+> 
+> Set the bit in mmb_mark_buffer_dirty() as well so that it covers all
+> the metadata an inode may still have to write out. Set it after the
+> buffer is on the list. An fsync() that sees the bit then also finds the
+> buffer when it walks the list, and one that cleared the bit before we
+> set it leaves it set for the next one.
+> 
+> The inode itself may never have been dirtied. fat for example tracks
+> the FAT buffers on a private inode that nothing marks dirty. So attach
+> the inode to a wb before setting the bit, the way ext4_mark_iloc_dirty()
+> does, or writeback_single_inode() has no wb to lock once evict() syncs
+> it.
+> 
+> That lets evict() write out everything the bit tracks in one place
+> instead of every ->evict_inode() calling mmb_sync() itself.
+> 
+> Suggested-by: Jan Kara <jack@suse.cz>
+> Cc: stable@vger.kernel.org # v7.3
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-> OGAWA Hirofumi <hirofumi@mail.parknet.co.jp> writes:
->
->> > Bryanna Marihugh <bryannamarihugh@manhattantech.edu> writes:
->> >
->> >> There is some regression with small files on the uas drives from the
->> >> wait.
->> >
->> > Is this wait=1? The flush should just be early flush, no guarantee to
->> > flush completely. So I think it should be wait=0.
->
-> Everything I have posted so far is wait=1. I just wanted to provide the
-> benchmarks for my existing patch. I have a wait=0 one I have been
-> testing now. I labeled it in the benchmarks.
->
->> > And the flush is assuming basically for removable media though, we can't
->> > choose. I think we need to check the result of such HDD/SSD.
->
-> I did tests with this machine's dirty_background_ratio=5 (the kernel
-> default is 10), which results in a 3.4-4 GiB threshold, and with a
-> 256 MB threshold (dirty_background_bytes=256M,
-> dirty_writeback_centisecs=100) to test what a more RAM constrained
-> device might do. I set FSINFO next_cluster before each HDD run so all
-> three kernels write to the same part of the disk.
->
-> WD Blue 500G 5400RPM HDD SATA
-> copying a 4 GiB file 3x, then sync, MB/s
-> (requests and average size are from the third run, which was traced)
->
->   5% threshold
->     stock:  89.4, 86.9, 87.8  (8,913 requests, avg 471 KB)
->     wait=1: 97.9, 97.3, 95.2  (2,168 requests, avg 1,951 KB)
->     wait=0: 96.2, 95.7, 98.7  (1,626 requests, avg 2,580 KB)
->
->   256 MB threshold
->     stock:  81.0, 88.1, 81.4  (16,291 requests, avg 258 KB)
->     wait=1: 100.7, 99.7, 98.4 (2,257 requests, avg 1,859 KB)
->     wait=0: 101.9, 100.5, 98.7 (1,532 requests, avg 2,738 KB)
->
-> WD Blue 500G, copying 1000 x 1 MiB files 2x, then sync, MB/s
->
->   5% threshold
->     stock:  9.44, 9.45
->     wait=1: 9.34, 9.32
->     wait=0: 9.55, 9.58
->
->
-> Samsung SSD 870 EVO SATA, copying a 4 GiB file 3x, then sync, MB/s
-> (requests and average size are from the third run, which was traced)
->
-> The wait=0 runs were on a different day.
->
->   5% threshold
->     stock:  338, 340, 341     (1,460 requests, avg 2,874 KB)
->     wait=1: 333, 339, 339     (1,366 requests, avg 3,071 KB)
->     wait=0: 313, 313, 313     (1,792 requests, avg 2,441 KB)
->
->   256 MB threshold
->     stock:  377, 378, 377     (11,476 requests, avg 366 KB)
->     wait=1: 378, 378, 378     (1,675 requests, avg 2,505 KB)
->     wait=0: 346, 344, 345     (2,278 requests, avg 1,938 KB)
->
-> 870 EVO, copying 1000 x 1 MiB files 2x, then sync, MB/s
->
->   5% threshold
->     stock:  9.61, 9.61
->     wait=1: 8.92, 8.92
->     wait=0: 9.61, 9.61
->
-> PNY 32G USB 3.0 (usb-storage), copying a 3 GiB file 3x, then sync, MB/s
-> (requests and average size are from the third run, which was traced)
->
->   5% threshold
->     stock:  6.4, 6.9, 6.9     (12,481 requests, avg 252 KB)
->     wait=1: 17.5, 17.9, 18.0  (3,720 requests, avg 846 KB)
->     wait=0: 17.9, 13.7, 16.4  (3,809 requests, avg 827 KB)
->
->   256 MB threshold
->     stock:  5.8, 6.1, 6.0     (13,996 requests, avg 225 KB)
->     wait=1: 17.9, 16.4, 14.7  (3,575 requests, avg 881 KB)
->     wait=0: 18.0, 18.2, 17.9  (3,663 requests, avg 860 KB)
->
->
-> PNY 32G stick, copying 1000 x 1 MiB files 2x, then sync, MB/s
->
->   5% threshold
->     stock:  5.49, 5.62
->     wait=1: 5.82, 5.62
->     wait=0: 5.66, 5.65
->
-> Samsung 64G USB stick (usb-storage),
-> copying a 4 GiB file 3x, then sync, MB/s
-> (requests and average size are from the third run, which was traced)
->
->   5% threshold
->     stock:  33.0, 33.0, 33.1  (12,725 requests, avg 330 KB)
->     wait=1: 33.2, 33.1, 33.2  (4,521 requests, avg 928 KB)
->     wait=0: 33.1, 33.2, 33.2  (4,583 requests, avg 915 KB)
->
->   256 MB threshold
->     stock:  33.3, 33.3, 33.3  (15,757 requests, avg 266 KB)
->     wait=1: 33.3, 33.5, 33.5  (4,534 requests, avg 925 KB)
->     wait=0: 33.5, 33.6, 33.5  (4,645 requests, avg 903 KB)
->
->
-> Samsung 64G stick, copying 1000 x 1 MiB files 2x, then sync, MB/s
->
->   5% threshold
->     stock:  7.34, 7.34
->     wait=1: 7.33, 7.34
->     wait=0: 7.32, 7.35
->
-> I was a bit surprised by the improvement on the HDD. I will see if I
-> can find a high end HDD.
->
-> With the SSD the 870 EVO I did the wait=0 test on a different day.
-> Not sure why but it seemed to be slower on the wait=0 test, I am
-> blaming the run being on a different day. I think performance is
-> probably mostly flat with the fix.
->
->> And maybe it needs to check unmount time (check how many dirty was
->> missing to flush).
->
-> wait=0 does come with that downside. If the flusher is already writing
-> the file at close, wait=0 skips it and unmount has to write the rest.
-> At 5% the 3 GiB file on the PNY stays under the threshold, so the
-> flusher doesn't start until the 30 second expiry. That's why stock is
-> still slow there and wait=0 behaves like wait=1. The 4 GiB files go
-> over it.
->
-> PNY 32G stick, 3 GiB file, cp then umount right away,
-> average of 3 runs (5% threshold) and 5 runs (256 MB):
->
-> 5% threshold   cp returns  dirty at close  umount   total
-> stock               485 s            3 MB   0.6 s   485 s
-> wait=1              184 s            3 MB   0.8 s   185 s
-> wait=0              180 s            3 MB   0.6 s   180 s
->
-> 256 MB         cp returns  dirty at close  umount   total
-> stock               513 s            3 MB   0.6 s   514 s
-> wait=1              176 s            2 MB   0.8 s   176 s
-> wait=0              2.6 s        3,004 MB   172 s   174 s
->
->
-> WD Blue 500G 5400RPM HDD SATA, 4 GiB file, cp then umount right away,
-> average of 3 runs (5% threshold) and 5 runs (256 MB):
->
-> 5% threshold   cp returns  dirty at close  umount   total
-> stock              47.4 s            3 MB   0.8 s  48.2 s
-> wait=1             43.5 s            3 MB   1.2 s  44.7 s
-> wait=0              2.2 s        4,064 MB  42.3 s  44.5 s
->
-> 256 MB         cp returns  dirty at close  umount   total
-> stock              51.3 s            3 MB   0.8 s  52.1 s
-> wait=1             44.0 s            2 MB   1.3 s  45.2 s
-> wait=0              2.0 s        4,021 MB  43.2 s  45.2 s
->
->
-> 870 EVO SSD (internal SATA), 4 GiB file, cp then umount right away,
-> average of 3 runs (5% threshold) and 5 runs (256 MB):
->
-> 5% threshold   cp returns  dirty at close  in flight  umount   total
-> stock              11.9 s            2 MB     362 MB   1.1 s  13.0 s
-> wait=1             12.2 s            2 MB       0 MB   0.9 s  13.0 s
-> wait=0              1.5 s        4,006 MB      22 MB  12.3 s  13.8 s
->
-> 256 MB         cp returns  dirty at close  in flight  umount   total
-> stock              11.9 s            3 MB     112 MB   1.0 s  12.9 s
-> wait=1             11.9 s            2 MB       0 MB   0.9 s  12.8 s
-> wait=0              1.7 s        3,350 MB     180 MB   9.7 s  11.4 s
->
->
-> I can type up an actual patch with wait=0 and removing the helper
-> that Matheus suggested.
+Looks good, just one nit below. Feel free to add:
 
-Hm, wait=0 looks like affect umount more than expected. The following is
-untested and not perfect though, how about something like this?
-(I'm not sure if this is acceptable as generic function though)
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-Thanks.
+> @@ -641,6 +644,15 @@ void mmb_mark_buffer_dirty(struct buffer_head *bh,
+>  		list_move_tail(&bh->b_assoc_buffers, &mmb->list);
+>  		spin_unlock(&mmb->lock);
+>  	}
+> +	/*
+> +	 * The inode itself may never have been dirtied, so attach it to a wb
+> +	 * before setting the bit or writeback_single_inode() has nothing to
+> +	 * lock when evict() syncs it.
+> +	 */
+> +	spin_lock(&inode->i_lock);
+> +	inode_attach_wb(inode, NULL);
+> +	inode_state_set(inode, I_METADATA_WRITEBACK);
+> +	spin_unlock(&inode->i_lock);
+>  }
 
+I'd wrap this all in:
 
-/* This want to flush dirty without waiting write completion. */
-int writeback_inode(struct inode *inode)
-{
-	struct writeback_control wbc = {
-		.nr_to_write = LONG_MAX,
-		.sync_mode = WB_SYNC_ALL,
-		.range_start = 0,
-		.range_end = LLONG_MAX,
-                .for_sync = 1,	/* purpose: don't wait write completion */
-	};
+	if (!(inode_state_read_once(inode) & I_METADATA_WRITEBACK))
 
-	if (!mapping_can_writeback(inode->i_mapping))
-		wbc.nr_to_write = 0;
+so that we save i_lock round-trip for the common case where
+I_METADATA_WRITEBACK is already set.
 
-	might_sleep();
-	return writeback_single_inode(inode, &wbc);
-}
-EXPORT_SYMBOL(writeback_inode);
-
-
+								Honza
 -- 
-OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
