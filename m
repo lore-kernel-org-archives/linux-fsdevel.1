@@ -1,55 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=82.195.75.108
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794322728;
-	b=RmS3z1RdsyEj35peIAX872awEhgcsEetpSN9XEbY3E7Ksv96XwGnMpOE4XXDvwL9MG8b
-	 rN1YVVfLJm/B7dEH50g+rxvuJdWzcJdn/NN/8X1ge6croQNMMxzrtz8+iV4/eDv+uj+HG
-	 M0sqwE+wMWfFD1jnSlVD5mjS/F8+Zu+lDGPuwPI+Xa76PT/TX8sIHpyhVhueZBGLiQo5z
-	 luDDYBn0UO9ArSUxgSX74dpAFDGadFgBQc6loDlZpgB/1mgibK3owevN4yTj1n0lK/BYC
-	 L/ObowgJr6nRJsZSVN7gxuW+EhlDIFTtuR0c45J/bEMHnjpYWBuCX5ZJrJvoOiV0ftQ==
+	t=1794322796;
+	b=5RrQcqtlsQq6zWElVNAvfhwHeDJOJ28ff4qlYy8vR6haeQY0XpBEdbVSGRqvTWjx4jEb
+	 lvTcWHgynQtqHV3wN36GTpktk/BESybKwbL5/nlAVqj+1tuT132/NLWHnbz6lf/pflP6l
+	 MkxglowqPNsvezMuzK179HZtrfs8gZzeBFkOc9TH9RLUa1/yBZgqw+XzGcef/X/Yho6ge
+	 fAc0R1P0dWc/Nzs73FvdqbV9sy16Xkyk/EcvbxmS+Ba3x5+GmoWuZ1gEIL6evZUAPczWF
+	 X2E4Qm9H3lV0UNkTTuVerYgzqwet820SnN3hhhnjaKEkh1rmxRE/1Juw/JFRCcDqYVw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794322728;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer;
-	bh=bJyBkipq/8VnHVmxuZdWoeSnkdnAYGFqTisHEUQIoBA=;
-	b=Kxlt7dFRF8ELOyfNDvqWCVJQAXCw1mwgF1PnOt35r/Ffhp2uVJ69DMdtkDd1BYFX/qMQ
-	 MoS9OY2YYxVXfH8Gaoxjw0HK4AMH9SBNBqf43/QQkHoZ4RPK7HXgQkRCj/owjVP4wClhs
-	 PrwZ045GpzkVApdewFTQWU4IN5SAQg8m4XeXV7w/Ap5lfL6nOzgGSjIYUwItaGWAnXCEV
-	 for2/u1ikJkByGMcfyi3CfJUVKDbGGAyA3lz8Vwi+gLL//5rjepMCfG+VPcv4hnBMPqsu
-	 4TyIC/lbAQ6lN8bGPKIqECRfAkeUPAbBvlNb4QupE49ldQ0Gb+W7QLUqiAuAvZmRc/g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794322796;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To:X-Debian-User;
+	bh=nk5n+KGNUb4vC/tI/kwaF+NJ3eYzXA4Qv23194hGaG8=;
+	b=naNJyieyFnbP5VZGTWJ4oD0I/jAIrFBFUhidkqVvTf5cwzQH+yrSEYXNYdQkUNleclmU
+	 jelGktTZVEnqj1vrFkMIrKynGFikAElsR0lmMBq2X5fjp8j0kDTeVUPxdlEXrVedDlU22
+	 /Qh0GdbB6TV0BNzmT2gd4/0uGJPExD2QHQhnhqO8T03MHHNFKJPCumbKTZ2WlFNL3YrM3
+	 WShTfolETgsc1SVcgsht+skHI1CsIDnOCViOtnDbH8DRUTWkgVEPS/tH72GiDag600/tb
+	 rMUPvwKSNM1iWbsO+utGvGhqXwgdkrPsKlLY+hzlXh8ut2eiMAilI7o3A561PeOZT6g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=A6jI6pro;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=debian.org;
+	spf=pass smtp.mailfrom=debian.org;
+	dkim=pass header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=B1RNKiIN;
+	arc=none smtp.remote-ip=82.195.75.108
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45A01606A333;
-	Tue, 10 Nov 2026 14:58:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F8AF606A332;
+	Tue, 10 Nov 2026 14:59:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3F8AF606A332
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=A6jI6pro
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C7FC1F0089F;
-	Tue, 10 Nov 2026 14:58:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794322727;
-	bh=bJyBkipq/8VnHVmxuZdWoeSnkdnAYGFqTisHEUQIoBA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=A6jI6procODsK7CeA6/g4xeAEWNpqcON0ofARkE55EJ2hB1JdvmLmKKoFakGh63q0
-	 Wk5DMd+w91TKjwQYD9uXZuDPqt5Jhep0B/CMAOySR3NlwmaY1Og3ygrdvKUV8xYGHw
-	 qLZ7fmPtWFMw2CmChiunRs7uE5dw+qscmLBQpyYUrtk3/BpmbKujthYqm+kiW61sAT
-	 ITbmLeOVUPO2H+7xzIw1mtjqb6dizzdUaaClCg/ZeYLvwLIbGSTmPhOZIlTu+6SpIR
-	 D1h+Ew4jEeOiIxevjnUPig5D8kAQ+0HZvSo2slFq8aGREYPKwhHBJPnjaUWd8bRphm
-	 KLVV3AgHsnYyQ==
-From: Christian Brauner <brauner@kernel.org>
-To: jaharkes@cs.cmu.edu, Hungyu Lin <dennylin0707@gmail.com>
-Cc: coda@cs.cmu.edu, codalist@coda.cs.cmu.edu, viro@zeniv.linux.org.uk, 
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
- stable@vger.kernel.org
-In-Reply-To: <20261105051406.52442-1-dennylin0707@gmail.com>
-References: <20261105051406.52442-1-dennylin0707@gmail.com>
-Subject: Re: [PATCH v2] coda: honor the append state of each write
-Message-Id: <20261110-finte-gebiss-human-e05dd6b47c78@brauner>
-Date: Tue, 10 Nov 2026 15:58:44 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=B1RNKiIN
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Reply-To:Content-ID:Content-Description;
+	bh=nk5n+KGNUb4vC/tI/kwaF+NJ3eYzXA4Qv23194hGaG8=; b=B1RNKiINUFSEj+uDwF9/8AKB/c
+	jf+zU0SbRDz1P9XyW0wk/aC7Z9ziZ5KxBgVqy4PKNUcfuOMxcTv3kyaddNzyj3R4KS/bFtEE0zNIP
+	cBWlGNn7NAiVTs6THBwh7GqAC2UL8NHyO3kwsZAzCXVJHyMb63Pw8hlUYr6Q6lLDUn2AHJ2J/ApMX
+	fEF5x8HmRaLKSyUYsWdgS/8ZvW3aKXEg4SEfYB8j0weDtT7bx+CGTnXM7A+gLQzBNMHcDGJXOFKqN
+	Sit2N+oUeC7reMR5vNZlhtChDamSWIIz1gIZGJnCB88EdPz8RncU4F4y8kDOCgsk0V4U0U24TYHXO
+	wIf7Tg0Q==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1xQnK8-00CU9c-2S;
+	Tue, 10 Nov 2026 14:59:48 +0000
+Date: Tue, 10 Nov 2026 06:59:43 -0800
+From: Breno Leitao <leitao@debian.org>
+To: Mateusz Guzik <mjguzik@gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>, 
+	kernel test robot <yi1.lai@intel.com>, oe-lkp@lists.linux.dev, lkp@intel.com, 
+	linux-kernel@vger.kernel.org, Oleg Nesterov <oleg@redhat.com>, linux-fsdevel@vger.kernel.org
+Subject: Re: [linus:master] [fs/pipe] f7f4665dc5:
+ lmbench3.PIPE.bandwidth.MB/sec 18.5% regression
+Message-ID: <avMxCN0yayzLh2p1@gmail.com>
+References: <202611041404.befe64cd-lkp@intel.com>
+ <20261105-trommeln-einspannen-radius-ccb4e174e407@brauner>
+ <auygOHcuBba_o132@gmail.com>
+ <CAGudoHFpNbxL13ZOWiyyLSPpmzXcB=e=RBZ8ZGk+Oc58Aad9pA@mail.gmail.com>
+ <au2vjpu_yqNa83pN@gmail.com>
+ <CAGudoHF3de_55YvdztPs7QiYs25u6nPEV=uMOzfr=bWmwof69g@mail.gmail.com>
+ <avMQxhpHhIPM_6HP@gmail.com>
+ <CAGudoHFe8XgtKZohfn0Q=EH0EeXozTZq+UPJKN0BEmLnEG2s=Q@mail.gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -59,38 +75,46 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev-ce4c1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAGudoHFe8XgtKZohfn0Q=EH0EeXozTZq+UPJKN0BEmLnEG2s=Q@mail.gmail.com>
+X-Debian-User: leitao
 
-On Thu, 05 Nov 2026 05:14:06 +0000, Hungyu Lin wrote:
-> coda_open() adds O_APPEND to the container file's f_flags after it has
-> been opened, without updating its cached f_iocb_flags. An O_APPEND write
-> can therefore overwrite existing data instead of appending. For example,
-> writing "Z" to a file containing "abc" produces "Zbc" rather than "abcZ".
+On Tue, Nov 10, 2026 at 03:44:36PM +0100, Mateusz Guzik wrote:
+> On Tue, Nov 10, 2026 at 1:46 PM Breno Leitao <leitao@debian.org> wrote:
+> >
+> > On Fri, Nov 06, 2026 at 02:44:54PM +0100, Mateusz Guzik wrote:
+> > > > 6) Any other idea?
+> > >
+> > > The SMAP stuff is the primary problem right now. To reiterate: every
+> > > single buffer read/write takes a SMAP trip, which is very expensive
+> > > even on modern uarchs. Refactoring this into i/o under one SMAP round
+> > > would provide a visible speed up. It also happens to not pose a
+> > > tradeoff in terms of memory usage and would be my first avenue of
+> > > attack if I was working on this.
+> > >
+> > > All that said, one reader vs one writer scenario definitely makes
+> > > sense to optimize.
+> >
+> > I've spent some tokens on it, and it seems to give ~5% improvement on
+> > the pipe bench. Is this what you had in mind (in a single patch format)?
+> >
 > 
-> Pass RWF_APPEND or RWF_NOAPPEND to vfs_iter_write() according to the
-> incoming IOCB_APPEND state. This also honors changes made with F_SETFL
-> and per-write append overrides instead of relying on the container's
-> open-time flags.
+> The resulting behavior matches.
 > 
-> [...]
+> A clean implementation escapes me and that's part of a reason I did
+> not do the work myself.
+> 
+> The proposed patch is on the uglier side, but AFAICS that was never a
+> blocker in Linux.
 
-Applied to the vfs.fixes branch of the vfs/vfs.git tree.
-Patches in the vfs.fixes branch should appear in linux-next soon.
+Agree, the implementation is not beatiful. Another approach is to open
+code and have a single function to do the whole copying, and simplify it
+a bit, but, that makes the code even harder to digest.
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+Let me try to come up with something a bit more digestible and see where
+I will end up.
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs.fixes
-
-[1/1] coda: honor the append state of each write
-      https://git.kernel.org/vfs/vfs/c/644cf7b4af68
-
+thanks,
+--breno
