@@ -1,109 +1,105 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794318801;
-	b=HZ5RIF81ax8EYr6rpwPp+JZxebPAXKjwFLY3iTnP2sQ1Fnp8uN/EmUwch41jO5786Tom
-	 a/LCyrDDB6AEi0vMSW/4pgZsdOYYwYc4+dBzdJLzfbIUJrdyrwMrHdtevnkmX6CnIaTJX
-	 RpihIm1WwXskWe32ZiE5Xpk7wmJH5ATNaLqxLxmUWAjuljAspsulY+8bGGUXWk7vwOdYQ
-	 TLkoDQOvSrZjmClxa+pvk4dgKqvVH+4TTZfk8QDWJV75JpvsQD0kNzHPv+bnGHVPkxNCo
-	 LLF3I9trO5FLNGnCInvBt/O2Sv/AWI7BMwt/y1BUZFo2Nz7xRyhfHQR6sJA1fpnu28Q==
+	t=1794319109;
+	b=i6gjOMvyl/Gm9ezhHuZptti+sPLdBhvvhmcljyvz+kgxe1GJABe49FUgn9XiAHuRA8QV
+	 7FrYZcQ+Tr8cbaGRO4KeMFRDsxAJnJuEH8cjscpBlU2UoC8ZH7Eomsmoyo5OajywJhjkG
+	 LKR5yCoSmpZfY0nFHzuTHJ919Xo+wC9+FlXhORADdZsJyWaAz+bZNSLF5sEuEm3ixo3d6
+	 +p8CNnQGeBxgQVQkCLAMunGnofnbOHQXRnEq3/hNlyz0yveob5OhEEVOiT+bndFvUFWBg
+	 bfakX1674/oCkmql40jHIeDEpyMa8Ot+ABAtLMWnhNEmqpQRG2dzjo1UCa6JnjTQTHw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794318801;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
-	bh=jcmj2mRiryRprIj9Gr9aUDtuxY0NQ+ycYiPJC0rulso=;
-	b=h/wymOxk0jqLL8H30tCrzm2TPGLUCOAo+CMX1kyb6MaiOPUh2s+KZIy1t89bbfr5pCtp
-	 AsE2LkQp9Ywi1SDWl9RcuRGZOL8nUc6UJEnNSkG5Nubu02okQ+PWZPdgu8mHMTYUpnCDr
-	 NtBFOOpvg7ZBDWm6gIfeawfx5SoSJwHfD39hJ+GpSPWdF1SbpRnHFA92m2DD7WoABndUd
-	 51ZHc01MQ5YNW6VaCZF4kr7Lccq9E9Z8335NHqFtxzMGWQWdsJ58kpF+0NtcuQfGeX3Mh
-	 bd7mSP0PZhDi/Lcxr6IR3zb86Q87+it4EypwIGe9PmO8Iu1Wgt6G18N1ghnuIGplrDw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794319109;
+	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:X-ME-Received:
+	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=orVp3ApNNefs+rNNkVjfyAq6zPjWdcnnxM9afsnR6Aw=;
+	b=ZuZsYsPhlBi2emObRThVlm78S6KoKUaMTGkZhbbczcUaGlpBZlgyvWTdN1qjJ9pkwXnq
+	 3t+a0+BKG9T/HEM4WLbtmysyT0W71Z6MDZBiFoD+U11FerlGU6t4JI60eKq0gP73YYhzY
+	 LudjNxd0uqxXPxz58XyrRHc+SFvGG9RROB2x9rP6M2RzhieHtr99kfRGcQVasKz0yiItV
+	 LzOvNNxE+A9yYkUgnPCmArX4KuZGlTLWxf0Pc3eAJ6OOGcMvaRltDZ0LN715JXXeE+9qR
+	 KDdQ87Hy1I2YDXoqYDoW1gPnt4L+63se8zH4v9XvtPQzWTxX6Aw4cabSAzTD2yH1KPw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=QgUUViqV;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=DTFvvSvR;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=swYBA4Ja;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ujMwJ2Ho;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AA1vinJI;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2C56606A33C;
-	Tue, 10 Nov 2026 13:53:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F2C56606A33C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6613E606A321;
+	Tue, 10 Nov 2026 13:58:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=QgUUViqV;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=DTFvvSvR;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=swYBA4Ja;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ujMwJ2Ho
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C461021E68;
-	Tue, 10 Nov 2026 13:53:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794318799; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jcmj2mRiryRprIj9Gr9aUDtuxY0NQ+ycYiPJC0rulso=;
-	b=QgUUViqViWCMY15ugNChFv3abQjhR0uVHD/mNm2xAI6hXizLOON7KbCxBRMn+Q7qx1Zd/+
-	3qxHP6EzoKtTueeVE9Z+gQRnx96xpDn8BlwYqAfVSUVpXc54rN+klU8AqSHZo+OnsWxvLa
-	R6W4nNqX/hdq9yBvnn5xvzixKZK6QVk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794318799;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jcmj2mRiryRprIj9Gr9aUDtuxY0NQ+ycYiPJC0rulso=;
-	b=DTFvvSvRIVl0YFEtqQr5KB4edvgx8y6PdCUR48rHCmH2cDjd82wBkfA7lpwefWONspUH4N
-	JjMCaDYCoX/xCrCw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794318798; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jcmj2mRiryRprIj9Gr9aUDtuxY0NQ+ycYiPJC0rulso=;
-	b=swYBA4JaEWYZe6/pZZCl2ZydZAx+XJLdjEntlW7iIabs9RFjPiEcIup8fyTHn71UupdCxf
-	AxUIfuYOX3Q3MPmzP2tAirCTHRiPS++/CKbUkf3LPJQcmKL1/7kcUUd+vG0W/bEDBh60Bv
-	SeQXZBeVzjMSLyPtYg0APXwT/UW/npg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794318798;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jcmj2mRiryRprIj9Gr9aUDtuxY0NQ+ycYiPJC0rulso=;
-	b=ujMwJ2HoR7JnVj9DpENaei73/ZLgzQaEOocb2UseRJBKNMbQEP5DWJzT2SBTtRDVGi8sYH
-	cIp78rA38DQHsrCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9A68713479;
-	Tue, 10 Nov 2026 13:53:18 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id LOSuGc4h82oXfgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 10 Nov 2026 13:53:18 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id 1ED802251E; Tue, 10 Nov 2026 14:53:14 +0100 (CET)
-Date: Tue, 10 Nov 2026 14:53:14 +0100
-From: Jan Kara <jack@suse.cz>
-To: Gopal Malaviya <gopalmalaviya53@gmail.com>
-Cc: akpm@linux-foundation.org, willy@infradead.org, jack@suse.cz, 
-	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	regressions@lists.linux.dev, fujunjie1@qq.com, vishal.moola@gmail.com, 
-	roman.gushchin@linux.dev, Trace <tracekotae@gmail.com>, stable@vger.kernel.org
-Subject: Re: [PATCH] mm/filemap: restart mmap readahead on sequential faults
- after many misses
-Message-ID: <jwg2p4bjzkacnx6fkifkb5jbe7ah6btuecpcpulbkym6e23v6x@mh35p6yafmqi>
-References: <20261105192517.228523-1-tracekotae@gmail.com>
- <20261109091444.128521-1-gopalmalaviya53@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AA1vinJI
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75A381F00901;
+	Tue, 10 Nov 2026 13:58:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794319109;
+	bh=orVp3ApNNefs+rNNkVjfyAq6zPjWdcnnxM9afsnR6Aw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=AA1vinJIhvA/xD1ksnQDVsNbJR0/awVLE6PgYIUd8vQ7vR/oalJ2OIH+fmabHu72b
+	 OiTMjEKVxBWJvoU3jNTOFlETxe+OGUA2+aTEQITv2VR7ewDjOxFKCaKAwL0ucuKKkC
+	 08PdPzlGPM5YWQbojOAccf/WXkzKqhuxJ5k0BZ++oEUpSOdS+C+SoMzHotjwrdn/4J
+	 0dwpLnzAWICuZ4z6FXnOxvEENn1NuBHn2FBX0g8WVqjVpS+KHphJFX5ohApspeSju4
+	 7cvgEemo9Sa2SjmzeA/Ed6RmmPgzIukLLLKbUJIFvoIltXDXxmMeeiVxxmg/C1AnTz
+	 ZpKglsvUfFQHg==
+Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
+	by mailfauth.ams.internal (Postfix) with ESMTP id ACD30198004A;
+	Tue, 10 Nov 2026 08:58:16 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-12.internal (MEProxy); Tue, 10 Nov 2026 08:58:23 -0500
+X-ME-Sender: <xms:-CLzagBeJARgeMLf_AG1ZJxLWV7pXJvKtEujKAeHF-qU0ZgZahvXDQ>
+    <xme:-CLzasUmXYyQI_4Kzu2urBoZSwhgaeUxAuYaxeZeMTPEPzj40JN7OENU70Yv1QZ9E
+    8eVRBGU7vognCqG-HCvaxvKp1snVIVpumK5-aRpazwewn8rv2HvP7Qj>
+X-ME-Received: <xmr:-CLzanS21aqSr3PrUHjqcZmw9HJRdMvrLz4f2ydWzqiPf8k28qSVd-UB7KU>
+X-ME-Proxy-Cause: dmFkZTFIrSr6WV+Dg7Z+NBxEpMfqoBwddCoGa3uKS9U+WaQ7VCSq3x3/qhdKUI4sicrwe5
+    XsU3w+Onhv/HvxlEPQ6YXBYZGU/VhK6rUbihfync9gvp/4ShlTVe0p1/zW8qoCPx3SKgGD
+    GO7S+eklzUpLBJRzZgMK34ExeR4OFEJyH2Lkiu8SUiXGft0HwZTGZqyjjpAOwIry/UgW/2
+    X2vosI4M9da4dCEEWVXBJisH+CEcZ6UbkZ6D6YgwHV11U1sou1O4FLAgEGApThR6gYJeq+
+    Q0RFnb+VFAKg4YMYrUPBpHEjPv+s3c4+bUEHZ3TGaeNYtoabjfi6jx6GFodIz3c+75K3lE
+    qb1lJ9VNKgt7KG2ZKMcaRendvZQArzUkKJwKZCR4BLncfR3dL80bH4DLJ92/qSIR78Wwm4
+    81Eerg8K/GV30+Iwpf3SgqqkzY21VRAqvxZOa+Q3mLfpfV8am3whC4LiHxE9LZVUGhO/21
+    sXQvl5MzPGXZByiEkjADH9y2y/qD/16/IsNVqlfmn0uNJYXFdDONwmbGY4xKumRGqAsXLO
+    qC9OAoAqPTQsWg2oRkklIsJtBmWyJ8bGO418N9R9e4aDkTSGyh2lXYNmYckvFaVtdEhGgS
+    BlE93cQTmCq+9u0F0PrUzsjQmARFZPyvxRqzL3gWYEiJsFfCIEb1mBbqw3Mg
+X-ME-Proxy: <xmx:-CLzahvzYDYfEADC-hvobgDBBptNxmlVWngJHh_7jWtk03nRkGUF5w>
+    <xmx:-CLzahOUnXioD5TC7srSG1JGTFybjRskA9JMVZlQgHkqrwLx2yrJ-Q>
+    <xmx:-CLzasR3drxSIli0gLY1vjsUTqHZnEirlNgoen0lRMtjEsO-AxnXXw>
+    <xmx:-CLzama6nXk8Sqakzv-yXPCIdkodjMzoRRZNqQfvLzq2NMHrC3EPjw>
+    <xmx:-CLzaq0r-Kg2fOCTwo5Xh0Dzxhtg0iMd4lJqiwyRQcdljsiHnTAUtDnM>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 10 Nov 2026 08:58:14 -0500 (EST)
+Date: Tue, 10 Nov 2026 13:58:13 +0000
+From: Kiryl Shutsemau <kas@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Matthew Wilcox <willy@infradead.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Hugh Dickins <hughd@google.com>, Christian Brauner <brauner@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Harry Yoo <harry@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Miaohe Lin <linmiaohe@huawei.com>, Naoya Horiguchi <nao.horiguchi@gmail.com>, 
+	Oscar Salvador <osalvador@suse.de>, "Liam R. Howlett" <liam@infradead.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Brendan Jackman <brendan.jackman@linux.dev>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Pedro Falcato <pfalcato@suse.de>, 
+	Luis Chamberlain <mcgrof@kernel.org>, Ilya Gladyshev <ilya.gladyshev@linux.dev>, 
+	Jaegeuk Kim <jaegeuk@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev, kernel-team@meta.com
+Subject: Re: [RFC PATCH v2 03/18] fuse: don't move a folio with PG_rcu_free
+ into a fuse file
+Message-ID: <avMi1E8a7uepqMW9@thinkstation>
+References: <20261104130118.2507513-1-kas@kernel.org>
+ <20261104130118.2507513-4-kas@kernel.org>
+ <f21433af-afc6-4a8f-8d2d-3a377cd3bd6e@kernel.org>
+ <CAHk-=whn=xc9J3qApHWRGTaBpwVRtGbvJ0LURGF=dqC9B3swUw@mail.gmail.com>
+ <CAHk-=whhp=Q8qR+wPoM9+mxYPQ_OXMOEoKmT7J0JZikFZusuqw@mail.gmail.com>
+ <befbf3e1-d25d-42fc-86df-e4b695b017a2@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -115,97 +111,42 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261109091444.128521-1-gopalmalaviya53@gmail.com>
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spamd-Result: default: False [-11.30 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,qq.com];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[linux-foundation.org,infradead.org,suse.cz,kvack.org,vger.kernel.org,lists.linux.dev,qq.com,gmail.com,linux.dev];
-	RCVD_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email]
-X-Spam-Score: -11.30
+In-Reply-To: <befbf3e1-d25d-42fc-86df-e4b695b017a2@kernel.org>
 
-On Mon 09-11-26 09:14:44, Gopal Malaviya wrote:
-> Since commit 9b0fcac3cfe7 ("mm/filemap: do not count FAULT_FLAG_TRIED
-> retries as mmap hits"), about a hundred sparse mmap faults push
-> mmap_miss over MMAP_LOTSAMISS and turn off mmap read-around, as
-> intended. But mmap_miss only comes down on hits on pages that
-> read-around brought in, and with read-around off there are none. A file
-> that is then read sequentially gets a synchronous single-page read for
-> every page until it is opened again.
+On Mon, Nov 09, 2026 at 06:48:39PM +0100, David Hildenbrand (Arm) wrote:
+> On 11/9/26 17:35, Linus Torvalds wrote:
+> > On Mon, 9 Nov 2026 at 08:28, Linus Torvalds
+> > <torvalds@linux-foundation.org> wrote:
+> >>
+> >> On Mon, 9 Nov 2026 at 06:46, David Hildenbrand (Arm) <david@kernel.org> wrote:
+> >>>
+> >>> Could we get rid of fuse_try_move_folio() entirely?
+> >>
+> >> Please. That would be great.
+> > 
+> > .. and in a similar vein, we should get rid of splice doing the same entirely.
+> > 
+> > Kirly's patch to just remove page_cache_pipe_buf_try_steal() entirely
+> > (ok, it was originally mine, but Kiryl took ownership of that series:
+> > "Tag, you're it") is worth doing, but I think worth doubling down on.
+> > I think we sh ould just get rid of 'try_steal' entirely. I don't think
+> > anybody really uses it. I think it exists in fuse and in the virtio
+> > console, and neither is worth it.
+> > 
+> > Removing pipe_buf_try_steal() would basically remove all of
+> > fuse_try_move_folio().
+> > 
+> > Conversely, removing fuse_try_move_folio() would make
+> > pipe_buf_try_steal() even less useful than it is now.
+> > 
+> > Just remove them both. Good riddance.
 > 
-> When a miss above the limit is on the page right after the previous
-> miss, start readahead the way a sequential read() miss does, with
-> page_cache_sync_ra(), and keep mmap_miss at its cap so that hits on
-> that small first window do not bring back full read-around for random
-> access.
-> 
-> Tested in a KVM guest (x86_64, 2 vCPUs, 3 GiB) with ext4 on virtio-blk.
-> "base" is mm-hotfixes-unstable. "95b8e" is commit 95b8e432265f ("mm: use
-> zone lock guard in __offline_isolated_pages()"), the last one before the
-> series of 9b0fcac3cfe7. Commit 0b9c0aeba938 ("mm/filemap: count only the
-> faulting address as a mmap hit"), the first of that series, gives the
-> same results as 95b8e for the reproducer.
-> 
-> Reproducer from the report, read_ahead_kb 128, major faults:
-> 
->                                          95b8e    base  patched
->   sequential only                            1       1        1
->   sparse pass, then sequential               1   16384        2
->   sparse, MADV_SEQUENTIAL, sequential      512     512      512
->   sparse, close and reopen, sequential       1       1        1
-> 
-> Touching 1% of the pages of a cold 20 GiB file, larger than memory,
-> MiB read from disk:
-> 
->                        read_ahead_kb 128        read_ahead_kb 8192
->                       95b8e  base patched     95b8e   base patched
->   random               5656   215     215    344731   1032    1032
->   stride 2053 pages    6545   216     216    419003    992     992
->   random 2-page runs   2992   215     528    173093   1099    2248
->   random 4-page runs   1570   216     594     86797   1266    2301
-> 
-> After the sparse pass, reading 32 regions of 2 MiB in turn takes 512
-> major faults per region on base and 2 with this patch.
-> 
-> Not tested: NFS, the GPU workload from the report, and other
-> architectures and page sizes.
-> 
-> An AI assistant (Claude) helped with the analysis and the approach, and
-> wrote the test programs and drafts of the comment and this changelog.
-> I reviewed, implemented, built and tested the change.
-> 
-> Fixes: 9b0fcac3cfe7 ("mm/filemap: do not count FAULT_FLAG_TRIED retries as mmap hits")
-> Reported-by: Trace <tracekotae@gmail.com>
-> Closes: https://lore.kernel.org/all/20261105192517.228523-1-tracekotae@gmail.com/
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Gopal Malaviya <gopalmalaviya53@gmail.com>
+> Yes, that would be very nice.
 
-I think this [1] looks like a nicer solution to your problem.
+Agreed.  I will post a separate series that removes ->try_steal and its
+users (fuse_try_move_folio(), virtio_console's pipe_to_sg()), with
+SPLICE_F_MOVE, SPLICE_F_GIFT and FUSE_SPLICE_MOVE left as no-ops, and
+drop patches 2-3 from this series on top of it.
 
-[1] https://lore.kernel.org/all/20261109-mmap-miss-v1-1-8b44b33f3358@it.uu.se/
-
-								Honza
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+  Kiryl Shutsemau / Kirill A. Shutemov
