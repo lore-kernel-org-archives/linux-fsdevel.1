@@ -1,72 +1,48 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794338753;
-	b=oMxN5u37X2tJjuYY+FJdKg9L8GFW9PRukoL7WjtPDJme4rUTKS2TPaNeu6rZFBy1RowP
-	 og5GSWwUPpAZbSaQ+jnDHReDLjNqd4pgmWAEbKp+xXhBBHK/x4C5NEeEgUYln9A36R+aM
-	 oslR3JnDL+7jMTz2Da1lMXZuef/OQGJgF0hRVBt79lm9YUMWGq6HkTEZobh7B6hUbNV23
-	 d7gQPTfT67yU0Xazl03RbjcRt8lF/6kuQUkkTxTjytAQOYroHqTijplOlrnvrvA7lrgS9
-	 5rlvd3Crlvj/Bb4a3qIsPjN0xTjgo5BAI1+1+M/RZiFu1/EWD+REvxOZ9fdH1YI9SXQ==
+	t=1794342806;
+	b=S3Xd5tDMRUonanrFquR0A6vYoDaEweaH5RwUfFx10kcK98imi+QtgGnae/5SPqpu+imU
+	 CczOL+tMHovhFFdEJo89Fg9NuhxovoTY4qO0tViOefHog3gYIjxC2FbvOmSRf3Kez+yoW
+	 56lbvLQ1nVbvTqWFC7E+OEsqaqLNj0mzw8wEpat+xIkJBVsrqs9cZ91zpBx+IHSlnSlvd
+	 G3racVT0BLlR0iq6cBGvudU9Jl6U0yta2Wt4ADg0nDTqBLfKpdjvQrO0BnslyS6eqq3DN
+	 KRPc2jUuBsvact8vtDlE4yjTShNsuubjrhaCahu8Lyvn9+iGLID/LnTWS+0zQVi0BBw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794338753;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=ExSFRNBdpFZqpaarK7S24/veHyaXPw+cAkj34YFoUsg=;
-	b=Nv2yHB4mK9TVE3Bai9gIrs5wijfsh2rxB5inqTBuwmWRwtBvPV0B9t1UEctLA+o/fm/H
-	 Sa2YGjqCFOFrXKqrA6xjNnwn60q+KP96+Bquvtxb/JPr+ywgyLlblm9GJGM2QxhpNx1bp
-	 00pD+K3aqt8A5W9vb7oqDpLRA4bpMdlRUCli1+KSq+3hvAUFsjn0y6cp94Fbjox/CqA2E
-	 SiceaTlvnZhKsWSxCmP+0Ru2J3/Du63F5xsRGKIhnuyH/l5q1EyGuzr/S6EZc5kmMjdmt
-	 0GAZac4RPZ3KeOUF1hZmCv/XSp9Njp3ZRTHtSWUNq5uwJoiS92XQ9zeSskm5YoG4B+A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794342806;
+	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=HNkHh8576R9yenj6hZR3ukTbtfxm+sK5xBh0AHQFgqo=;
+	b=nXNQDXbnUpUXsHlkpU+QvjDkxzY/jDs6OQJn6b6j++t1zNWyAFsYPeO3M+rzmEfAwdCQ
+	 qsOQo9mGtCKiyIHujHAR72FgDi4iu9VxP8acHKKJI6UZGhc9SwrtzcEdDTDfrFBmHnhNU
+	 DU0uuz2ydUcc3Ls2DI4ZIegbd9KxWgFn239O4/mbGAe8LN2lZ1FxnI3fYTQuH9JwOasvu
+	 D/WNX/vXrkke6mmFuvUQFjccuM/dYN2hDyFmLh6ZLdllaUD3qqlslG+aetO9g+5/x0DoG
+	 drI5y/VJJ2iec1x/8eeG8e8+jSC0E+iVhFZSnRSP8Rj/XSOB7Zt7P/HXRSJEFfm0eGA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=mga3BmeB;
-	arc=none smtp.remote-ip=90.155.50.34
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=faMHSEj8;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09D2D606A320;
-	Tue, 10 Nov 2026 19:25:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 09D2D606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FFCE606A88C;
+	Tue, 10 Nov 2026 20:33:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=mga3BmeB
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=ExSFRNBdpFZqpaarK7S24/veHyaXPw+cAkj34YFoUsg=; b=mga3BmeBgZ2RPvRZvXlBQ7Q9tz
-	XouFPDsqvq8SAEQvaqGMv7iU2O+VEH9MG23DJWzJJzD+yrCHWUvM2L8PjOs9b5feXZXH4rEGw14rY
-	ZQ8X5cwp1Q4/g4sMooNR7ciLkpZqwN8zkW4at7wmvuvY1+F144VSMQlZn9QZW9aE72mlMJaeY8kVj
-	m8kRJbfcnClHz5IhKU8P5KjpVTb2yhuCvGELCXhuujyOho6cVXAlv87ukRNnq+P59eUjN5INC+SZU
-	EvQC8rPJfUWhs4w77LHL2DajB6bVUHL2EIJtSZyYCvNMUnwodQOCI7xx9XfanOhzIiU0qnTtCdEcq
-	yYulOyNw==;
-Received: from willy by casper.infradead.org with local (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQrTV-00000000TR9-2wpr;
-	Tue, 10 Nov 2026 19:25:45 +0000
-Date: Tue, 10 Nov 2026 19:25:45 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Kiryl Shutsemau <kas@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	"David Hildenbrand (Arm)" <david@kernel.org>,
-	Pedro Falcato <pfalcato@suse.de>, Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Hugh Dickins <hughd@google.com>,
-	Chris Mason <mason@kernel.org>, linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel-team@meta.com, Sashiko <sashiko-bot@kernel.org>
-Subject: Re: [PATCH v2 1/2] mm/memory: recheck PG_uptodate after
- ->page_mkwrite()
-Message-ID: <avNvufn4HLIhVm2k@casper.infradead.org>
-References: <20261109120403.82361-1-kas@kernel.org>
- <20261109120403.82361-2-kas@kernel.org>
- <avItd6rDqP3GB6pL@casper.infradead.org>
- <avLzpIM1VdE31a-B@thinkstation>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=faMHSEj8
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D423A1F008A1;
+	Tue, 10 Nov 2026 20:33:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794342806;
+	bh=HNkHh8576R9yenj6hZR3ukTbtfxm+sK5xBh0AHQFgqo=;
+	h=From:Date:Subject:To:Cc;
+	b=faMHSEj8UOEq56lelMECdxXPosfoDrSmgupOG1ETLfm4s/3RSRQbWnwEO2YuWM/7o
+	 dmvKVtzQ6CUh3/qK0bKxwIxZ4CxZnXNghLCj/+N5VKaXGQ+S6vb48mZc+rCQaovFzA
+	 fKHHKewXX3EiL693xJoDj4nixSbxG+ILn5SFAPqTt6yCBbW2M9pj8sJvfQkDwrknjN
+	 lqKgQ1wb5erbceCc9bmLoWvqgj0SOf0MZ4iPOqdaZ8BHNYWRLB0jIBXJEqO2dmIsoh
+	 w7r1dGCWLtOSxfhnYv7h5R7wm+yc8RMvKwInddNOaWkifRhKkkT2xfUXMGCOBJ+svQ
+	 r/GWXEbl0wTOQ==
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Date: Tue, 10 Nov 2026 21:33:12 +0100
+Subject: [PATCH RFC] mm/filemap: fix lseek() skipping a new large folio
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -76,32 +52,143 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <avLzpIM1VdE31a-B@thinkstation>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261110-lseek_hole-v1-1-c089c960b846@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAId/82oC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzNDQ0MD3Zzi1NTs+Iz8nFRdk0TL1CQTU4MUE3NjJaCGgqLUtMwKsGHRSkF
+ uzkqxEMHi0qSs1OQSkDFKtbUAZorfanMAAAA=
+X-Change-ID: 20261110-lseek_hole-4a9eb450d473
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+ Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>, 
+ William Kucharski <william.kucharski@oracle.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+ linux-kernel@vger.kernel.org, Chris Mason <mason@kernel.org>, 
+ "David Hildenbrand (Arm)" <david@kernel.org>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4173; i=david@kernel.org;
+ h=from:subject:message-id; bh=X++bvNWUrEFTrfv+bufHFUKamza572buPbl4/CTqBK0=;
+ b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLI+1/cxbPvE+j1D/eEZu9grzhmFD/alMGdsl37QLiJZ/
+ KjVd+6ljlIWBjEOBlkxRZag4PsGL1+uq61242OGmcPKBDaEi1MAJiJ5heF/+M5Zfhv1b05LfcKm
+ d/eLrM6M5ByjxT+W6nftT4teeoCnm5HhqOm8SHsngVql4xs2W/y/IaU0Sdjs8xGZ5Obpdtsagrz
+ 4AQ==
+X-Developer-Key: i=david@kernel.org; a=openpgp;
+ fpr=1BD9CAAD735C4C3A460DFCCA4DDE10F700FF835A
 
-On Tue, Nov 10, 2026 at 10:38:34AM +0000, Kiryl Shutsemau wrote:
-> On Mon, Nov 09, 2026 at 08:30:47PM +0000, Matthew Wilcox wrote:
-> > On Mon, Nov 09, 2026 at 12:04:01PM +0000, Kiryl Shutsemau (Meta) wrote:
-> > > do_shared_fault() unlocks the folio around ->page_mkwrite(). Writeback
-> > > can lock it in that window, fail, and clear PG_uptodate with the folio
-> > > left in the page cache. ecryptfs_writepages() does this when encryption
-> > > fails. filemap_page_mkwrite() relocks the folio and checks only
-> > > ->mapping, so the fault maps a folio that is not uptodate:
-> > 
-> > Filesystems that do this are buggy.  They shuld be fixed, not worked
-> > around like this.
-> 
-> Fair. What is your take on the way out?
-> 
-> Is there a timeline for the filesystem fixes?
-> 
-> Until they land, mm should still not map a folio that is not uptodate.
-> 
-> Would WARN_ON_ONCE() and SIGBUS, like the other checks in 2/2, work for
-> you? It flags the buggy filesystem instead of hiding it.
+mapping_seek_hole_data() walks the page cache under RCU and only calls
+xas_set() after entries larger than a page. Between base-page entries,
+it continues the walk with xas_find(), which skips sibling entries
+to return each multi-index entry only once. If a large folio replaces
+small folio entries between iterations, the slot holding the new folio
+can lie behind the cursor. Skipping its sibling entries then skips data
+that has not yet been examined.
 
-It doesn't matter which way round the race ends up; if a filesystem marks
-a mapped folio as !uptodate, there are other VM assertions that will
-trip eventually.  This is one of those cases where we should ignore the
-bot because it doesn't quite know enough.
+On tmpfs, SEEK_HOLE can then return an offset inside existing data.
+SEEK_DATA can skip data after a fallocated page that is not uptodate.
+
+For example, assume a 2 MiB tmpfs file backed by 4 KiB pages on x86-64,
+with page index 63 fallocated but not uptodate and all other pages
+uptodate. Index 63 occupies the last slot in the old xarray leaf. A
+SEEK_DATA starting there can skip that page, then race with collapse of
+pages 0-511 into one 2 MiB folio. The next xas_find() moves past the old
+leaf and skips the new folio's sibling entries in the parent, returning
+-ENXIO instead of finding data at page index 64, or 256 KiB.
+
+The inode lock held by lseek() does not exclude collapse or swapin.
+
+Restarting the xarray walk after every entry fixes this, but increases
+SEEK_HOLE time about 24%, when scanning a fully written 1 GiB memfd backed
+by base-page folios in an x86-64 microbenchmark.
+
+Instead, use xas_next() for adjacent indices. Restart the lookup from the
+root at the requested index if it returns an empty slot or an internal
+entry, including a sibling entry. Also restart for nonadjacent indices,
+invalid iterator state, or failed folio validation. This avoids skipping
+unexamined data without restarting each lookup during base-page scans.
+
+Fixes: 6b24ca4a1a8d ("mm: Use multi-index entries in the page cache")
+Reported-by: Chris Mason <mason@kernel.org>
+Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+---
+I'll be more than happy if someone of the pagecache folks wants to take
+over ;)
+---
+ mm/filemap.c | 38 +++++++++++++++++++++++++++++++++++---
+ 1 file changed, 35 insertions(+), 3 deletions(-)
+
+diff --git a/mm/filemap.c b/mm/filemap.c
+index 648f783454c3..87c583509567 100644
+--- a/mm/filemap.c
++++ b/mm/filemap.c
+@@ -3233,6 +3233,40 @@ static inline size_t seek_folio_size(struct xa_state *xas, struct folio *folio)
+ 	return folio_size(folio);
+ }
+ 
++static inline struct folio *seek_get_entry(struct xa_state *xas, pgoff_t index,
++					   pgoff_t max)
++{
++	struct folio *folio;
++
++	if (!xas_valid(xas) || xas->xa_index + 1 != index)
++		goto restart;
++
++	/*
++	 * A lookup within a multi-index entry can leave xa_offset at its
++	 * first slot. Restore the slot corresponding to xa_index before
++	 * advancing.
++	 */
++	xas_advance(xas, xas->xa_index);
++	folio = xas_next(xas);
++
++	/*
++	 * A concurrent collapse can replace the next slot with a sibling entry
++	 * referring back to the slot holding the folio.
++	 */
++	if (!folio || xa_is_internal(folio))
++		goto restart;
++	if (xa_is_value(folio))
++		return folio;
++	if (!folio_try_get(folio))
++		goto restart;
++	if (folio == xas_reload(xas))
++		return folio;
++	folio_put(folio);
++restart:
++	xas_set(xas, index);
++	return find_get_entry(xas, max, XA_PRESENT);
++}
++
+ /**
+  * mapping_seek_hole_data - Seek for SEEK_DATA / SEEK_HOLE in the page cache.
+  * @mapping: Address space to search.
+@@ -3263,7 +3297,7 @@ loff_t mapping_seek_hole_data(struct address_space *mapping, loff_t start,
+ 		return -ENXIO;
+ 
+ 	rcu_read_lock();
+-	while ((folio = find_get_entry(&xas, max, XA_PRESENT))) {
++	while ((folio = seek_get_entry(&xas, start >> PAGE_SHIFT, max))) {
+ 		loff_t pos = (u64)xas.xa_index << PAGE_SHIFT;
+ 		size_t seek_size;
+ 		u64 next;
+@@ -3286,8 +3320,6 @@ loff_t mapping_seek_hole_data(struct address_space *mapping, loff_t start,
+ 			goto unlock;
+ 		if (start >= end)
+ 			break;
+-		if (seek_size > PAGE_SIZE)
+-			xas_set(&xas, pos >> PAGE_SHIFT);
+ 		if (!xa_is_value(folio))
+ 			folio_put(folio);
+ 	}
+
+---
+
+base-commit: 93d7a816a2df3e907e2719bd12b0073f1285fc5c
+
+change-id: 20261110-lseek_hole-4a9eb450d473
+
+--
+
+Cheers,
+
+David
+
