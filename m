@@ -1,62 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794348560;
-	b=YGqCPDMSRRtr02XPU/SCLYIoYBxRi6FFVJligIhAQZCbkFZoIZykDCGtN4ILOpLSFZh5
-	 L1rschjFxUSinB6IqYdP10S6NxU225PACQnS4p23Nk8AqyAILVhrs9T2REEtcozs/IJSe
-	 Sy/Wwd325VGTYaEcmDgTDYmqLpfrd89Wlfnf6ZO83wOhwzc1qg8uwua+/3BtVfmEdFXkI
-	 4Byoh7kHkRFHA0kTejoxO6vPSuhaKfn2iirb941ozcMGgy9pHZeUDHV8l4JtqtsRF/YzE
-	 y74vtULnmI/W9Rh+WXPrYJ/STgo3fx63GqCbRhD6nFm0FL+9OJjgIKc2/1BrEpISMKg==
+	t=1794349966;
+	b=kfcg18JM6qlrBxhuZaxztJnPGSN2swNOKLOM4mtrgJtjZa949pcsUdoqfYUanlV9behe
+	 BEdw+2F3+j/a7+xMNvxXfmDDVKWbFZxXX73yzaf0hJd2ESrYNAklIOVo08aePKcr4NCYP
+	 pF1BUvl1o53JeT0753bfdhwlCJA2RsPxfU650KRkl8Ut84TJ5xQSobScP7FNPds7pU+0D
+	 aZN6b6TvvgRWvD2lISYcn45V938vs9rV/C+RPeV5nTyMLb9tNK4lUf+bzCjK91uyzZQxf
+	 JymysBfbkd6liwvyVYwLzkVffE78Hd6HsH6V/a9+LmcTxLy3GvARxlYhDq/vNdFgu7w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794348560;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794349966;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=yCNYyB1e6mPY3KPv5YE8b5u6D+UcPYwLF6+CATlptOI=;
-	b=GpZQRH2WrsBOemWfxwv/F4hkOQCrWLZhzsKKiksiR+hXZJEzCEUhp/oYea+NYE9rfePs
-	 dzvn8lPW/sjlENVCpCiIqpopBNi5WbBRX8MJbHBUanRrQ6Nky/tS2rjYThqNc0rq8PFS4
-	 e/xeyprodvzhDl9uAqypPxQ7UAN+rbg6qDDXaJ1KQDG4cmqddCFM8KtCTeg2IEJcZa1F9
-	 yZkVXGeEQM6pZ5c/qD9GOJAwHg+vKY4VeerxHRaOafxeKXIInkuZYQnpIUTChZ7AxLrVB
-	 UDcjnb2k6rYnwdLwEfUFdrDdy5z+9bYT8XvNEnMwPMjAL46ZMISaiFDBt3nwwr1WILQ==
+	bh=HQ7x/TllQKscfko1enh7ZEudM21vFfhSSI8zpxm9WxU=;
+	b=Qd1YSopRV81/T0nK7B51k0/Qf/Rs/otdeZBxR0LfnpSe6IAOu/Vmm/u881e00Uzev5yj
+	 hFGIN9AypDfBqEhF056OWTLn3TfG3vJt823QTS9PG1zl3Wac9DPeFVoBdTh5D75+eYtWV
+	 C7qXyV9FUNG8C3khsuPC21g060sEl1VT9R0jqxVT3P9y9ObY6lmxzg7lki3vh8Nh0mm9c
+	 jfXw6XF4kI4RrGMsFWd3VTWryQH+Sx1u4PmGI1Vissnp1a0aXQkxoZ6pFzpVv+8K780ks
+	 NzVEZexbPrBx+tYoQKa364G2L4+LO3yBPNZaFn7jRHKRV6VTH2dOCODXvUDqiutQI8g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LntIx4kd;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DNij6F7O;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C164606FFC2;
-	Tue, 10 Nov 2026 22:09:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30914606A31C;
+	Tue, 10 Nov 2026 22:32:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LntIx4kd
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C95A1F008A5;
-	Tue, 10 Nov 2026 22:09:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DNij6F7O
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48A5B1F008A2;
+	Tue, 10 Nov 2026 22:32:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794348559;
-	bh=yCNYyB1e6mPY3KPv5YE8b5u6D+UcPYwLF6+CATlptOI=;
+	s=k20260515; t=1794349965;
+	bh=HQ7x/TllQKscfko1enh7ZEudM21vFfhSSI8zpxm9WxU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=LntIx4kdGcmJSWf5RBTTiBeJKxc1bNdZxIie5RsSU1+PBGV9iOcAOaTJiL+kjm/n6
-	 FWPasirHjGM32twIctZQbHTdsMIIhgERzNj3eiQkuL5bKF8WKhx5psXRPWH0cAXgwF
-	 xBxCaA25f2S/y3iv2V+B0w9NfjioCdNmBIzOkAM6y1QJffRS+OdAqeRoOzBsZopHOL
-	 v6mcRRoidX3XDuxACq/P9q69ob21R3wXslR4jjOa6/ANOIS/v/OlLovN6+shc5pQYM
-	 J6kwi0g4nKJInt3fM6QjWyPdWZstTrri3XsnZekbjcA7bqvMfXQRQCDWraVhP/BTf+
-	 rX0+PtWHoFZKw==
-Date: Tue, 10 Nov 2026 23:09:15 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Al Viro <viro@zeniv.linux.org.uk>, Jann Horn <jannh@google.com>, 
-	Christoph Hellwig <hch@lst.de>, Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, 
-	Josef Bacik <josef@toxicpanda.com>, Chris Mason <mason@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND v2 00/30] proc: convert the fs, kernel and mm
- entries (Part 5/7)
-Message-ID: <20261110-schornstein-rustikal-obigen-6f6c4a495c0e@brauner>
-References: <20261104-work-procfs-fs-v2-0-319e0f9a8aae@kernel.org>
- <CAHk-=wj9Y9NcOesBBm+jhPjYa7qO00fD7g7uwX+H-k0-R2difA@mail.gmail.com>
- <20261104-allein-bepacken-hitzig-5e517d3c129f@brauner>
- <20261105-genehm-dachrinnen-infusion-9cdf4868d32e@brauner>
- <CAHk-=wgLpWDjmcNWphCMkKXKwuZsa8KWRPvJ4j=C_ktCL4gBzg@mail.gmail.com>
- <CAHk-=wi-B--TBQuYjz6J6vKtEMpNSm4_wVRzTP_vE=uTLb7P5g@mail.gmail.com>
- <20261109-hackfleisch-lohnt-konkret-02b5f3dde4f6@brauner>
- <20261110-goldkette-zugzwang-woher-1d6f21b4ddca@brauner>
+	b=DNij6F7OuI5XOtcmTJS7mQ74EjScBg5KrzI5SF+tcsu2XCZXUAdVGJd+QGxFFhk43
+	 pte2jeJ3BU/3vPPeTE+1dmBTTbYGgf8fpCwOETFKxsyWxbYU78iE98lrc3OtVcnuVk
+	 bsBTIJbuvu9iTKP2FRHZYizKxaylLy+JMRBIUX+QsL4+WxMt25yiBz/XSVXsMgpxBt
+	 3A+hlDqapoXwRa2TwXu+dl6mEzo6U0+yKmfX6mLWvLnK0/JJr9FPB11EaxUxVaraEU
+	 xQE86hHfcG1vNEg3MPDiblk4WTR6NeLEv4RWMypBMM+24R1EeuOgIHwmpTFT+GIJDF
+	 Fh6I5KRsXxuXw==
+Date: Tue, 10 Nov 2026 14:32:44 -0800
+From: Eric Biggers <ebiggers@kernel.org>
+To: Andrey Albershteyn <aalbersh@kernel.org>
+Cc: hch@lst.de, fsverity@lists.linux.dev, dsterba@suse.com,
+	linux-xfs@vger.kernel.org, linux-btrfs@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net, linux-ext4@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, brauner@kernel.org,
+	viro@zeniv.linux.org.uk, jaegeuk@kernel.org, chao@kernel.org,
+	tytso@mit.edu, Boris Burkov <boris@bur.io>
+Subject: Re: [PATCH v2 1/5] fsverity: strip FS_VERITY_FL from FS_IOC_SETFLAGS
+Message-ID: <20261110223244.GC1907@quark>
+References: <20261105115532.613467-1-aalbersh@kernel.org>
+ <20261105115532.613467-2-aalbersh@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -66,23 +61,14 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261110-goldkette-zugzwang-woher-1d6f21b4ddca@brauner>
+In-Reply-To: <20261105115532.613467-2-aalbersh@kernel.org>
 
-On Tue, Nov 10, 2026 at 11:07:05PM +0100, Christian Brauner wrote:
-> On Mon, Nov 09, 2026 at 12:26:23PM +0100, Christian Brauner wrote:
-> > On Fri, Nov 06, 2026 at 12:19:45PM -0800, Linus Torvalds wrote:
-> > > Ahh, this all goes away in "scsi: core: let procfs copy in writes", so
-> > > never mind.
-> 
-> I updated the tree incorporating all the review items I acked on-list:
-> 
->     https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git/log/?h=work.procfs.cleanup
-> 
-> The overview is in the umbrella:
-> 
->     https://patch.msgid.link/20261104-work-procfs-v2-0-b45cd5789ac5@brauner
+On Thu, Nov 05, 2026 at 12:55:26PM +0100, Andrey Albershteyn wrote:
+> [PATCH v2 1/5] fsverity: strip FS_VERITY_FL from FS_IOC_SETFLAGS
 
-Oh, I think it'd be good if I get this into -next soon so it has long
-exposure there.
+Should use the "fs:" prefix for this one, since it only changes
+fs/file_attr.c.
+
+- Eric
