@@ -1,106 +1,73 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.195.2
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794327923;
-	b=c2dKcxZbZ/GGMJGhJaqin0DrHkt6fcCWIABkHAlAtJWIJ7aeKF1ofJAbFezx2jYzyQKj
-	 +DWyTTgeGTFZCMZ6sKpb4UVTSgDwh3zK2FXxFIw2CXXJM7Vtt630V+L7AY6h4eYD62tSj
-	 I9TEJtCU7lKDSNbZhYjuxkp22UsFEjdZqtICSek9fc35S8xG+y+jZxGODUo1WvGEIYpES
-	 UzexAsnGNRTYykZP0NiO7o5DnrfsHGy5qrWEQmOa+gABcJWUzS/QEG+FpCNPyfal4AYQR
-	 GGeRF2WBshp+ji7TXChFh863De+weh6eF/Afm6ySwIWcebfD2gGT5ygxxBPVAxFnDVA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794327923;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
-	 Date:X-Mailer:Message-ID:In-Reply-To:References:Content-Type:
-	 X-MS-Reactions:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=xVQ1Gad4wlBLHpJLvsZR8WLtZuc4RJ1B9UQYRoHfJAU=;
-	b=rjlxfXLCW0TiS7lmn3St4k1jufTzzsn8lIckttjtFvmpimKu3BN2pSnwLRr+ZTEJ/STh
-	 59LQopKyVcqXHRbAijaoMB1vKR45ntF3z9GNXbermi/+yENU8QMk6ZWAc7PAgCT2IPp10
-	 SYee2aNeppQOhOzkGwUqjOvqD4VifFYIBamTPOTOzfI0qJrF1UihK4U3Y5BdLEdIiZf+E
-	 UWp9d6FhotNMMbPEa+2puYHS6D9jVSCxoNlQmlw3ZN+ZFAV3qjAIjYZkJpvjFR+3IdsV8
-	 edWCCUkzDxn0nuUXk1XdPGoYSOm+UWeRqvPPpWF+x4tAK3J8Tie/iwGuoLaaZSEVYNA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=nvidia.com;
-	spf=fail smtp.mailfrom=nvidia.com;
-	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=aPF037iZ;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.195.2
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012002.outbound.protection.outlook.com [40.93.195.2])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794328393;
+	b=Bug+OVMKJTqaSr4Ek45ZvXBB2C443Yezmv0XWxiHeh2fipPZjRWAND7AWfzdgU7yr9bR
+	 tTvTpAOXpmISoyMXSv93sBrKZYmzwkEIF5Gn+uKUWM7f0GGVEfvs5JNAoTMdIlK92WiPh
+	 ox0n7n9RNdMp59rnRskchDTlAKmw1NgGL7jVqcV6Gf2HonvyE7O4XU62IjLwkDg1dJX1N
+	 cjK4TEg7uuYsR+B2MRzlBPoGgV+pj54JDrREMxdDSmVly5Y/UnJutQPNl6xhnrHba730k
+	 IaEoo7JbRkp5q2lxf7/MNgu3fG6A8jm9bsCOjqeUukVuohXV7pywDfnHndk9ntb02pQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794328393;
+	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:
+	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
+	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
+	 References:Subject:Content-Type:Content-Transfer-Encoding;
+	bh=AJ5izWwEcghLnwFB0rq0l2TOCwIQeTAsERFK0CERwEc=;
+	b=Ji1MjPzL1+nFDxxjmwnxhxIqjxjTcuFJ/VpbTwa6aoSZfbz3a6SHQM6RfPmlS0Vti3xb
+	 eKe3cVzpswW1XtGEWwIPDpDEiHzlJO0XfTGQ3kjqolNKPP4DWoOxNPfI85lNMIb/b9dAI
+	 8Q2Tq1Uv5a3t320YGkKb4GsDba3keRRoLWQOw5yQp9kkl0AtEpL3+E0rn3z8V3GfdBeeo
+	 hj2B9jLxLlV7bO6pjUv6pl/5cZiqvPqrkWIg9tQibhbiiHmjcrhIiqgJRw3Kb6WBUtg7z
+	 ilTH3HbqGzd/TLqTB9KmNGSaYtDetvhu9a+t95jjJyypFj0mWY1N2GANRZEZWpd7NRg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QCU1XqxN;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8E70606A32E;
-	Tue, 10 Nov 2026 16:25:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E8E70606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9B41606A228;
+	Tue, 10 Nov 2026 16:33:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=aPF037iZ
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=M0s5h6IXB7Bv/3+tU1/t17p8hZBu/lsYf4AIP0WqX2ip+XdqG9yDRq7PFIJjWBdOZTlc7BjjJ4BJ75s35QFHcaH5OkBQaCkd+3kPgw4OOK0rxnwtLcdaFfvB+3KAIhgwbuze+r9XUTJ2C4tP1v9NbpzfohxvnSrUpQFwfysZAfA+/RdLxwsBNiKIzYDaIoHj5zH+R/fL4Ly52IbOb4WZ58nl+uNHprAjryG96oKHfW4lQZ/VeGkBzq+hlZiWDk1qr807WFu5aOK1THOpUKJ4gkBGfn0RDRhRbOseXYbK/LWAszWQazEJEQzgCWzb2EyD6r6qc+pSl4lNTKEm8D6o/g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xVQ1Gad4wlBLHpJLvsZR8WLtZuc4RJ1B9UQYRoHfJAU=;
- b=eG6CPPFc03BYtPOGLbuv4B51q7nNhhIwOa18ACKnSqhxWij5gkLQt7+kuhoPhkYG5+L3IrVAmFK+lJ5Lu/RZrxRN5b+/GPVIvmc42CRX78HzJGbEKpYewU8Cn1D7PSB0oi2hoiZyIjDH/ev5xHyR5JJbqga8YQEwvzbZO+s33GozVqmaeGVhW3VRqorXgSbxPiaB2MCOF2gOsooiMx5VnAhhiwFk/8EOMB5fZt4v8OyQ36RzTMn4uBtJYrKRiTk5YfagHAcSoTf3u0XszAM54OVU6poXs6uN2IluHNuKqbD6zeCrOJnFkeEV9ce8hsMCcXFvpcc+xmQcAklbBiYMWQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xVQ1Gad4wlBLHpJLvsZR8WLtZuc4RJ1B9UQYRoHfJAU=;
- b=aPF037iZgw11r4OYxU+Yjc5IvwEDLIFPYJ0qmaymBA+Do/IqC2LCMkxQ8DgRRpqIg5nb171ypW2RAOmMZtrRNtqwowyWvEMexQue4eUJJwu66HMyir04Cnos/R6ZmTVc2ZGg4E/uYHTjrpOOUmrYhEktOTS3ZiDH49PK+T8SgefsItKiLelr2yZY1UFq/UTZfD3d8YHpVT+G2WhvFA5eFx2Htl/uA80eQUrjjRTwzKelfH+OiDluPuKVwl8h6k6FRbbI2VF2yLToAQejXaLNSRpa0UZXbtcbOkjWkYnmNBn5U2NjOBWnfoti0/U53DAUXePnC3wxE7IUT3hx5gDw4A==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
- by SA3PR12MB7860.namprd12.prod.outlook.com (2603:10b6:806:307::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.10; Tue, 10 Nov
- 2026 16:25:16 +0000
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16%6]) with mapi id 15.21.0615.007; Tue, 10 Nov 2026
- 16:25:16 +0000
-From: Zi Yan <ziy@nvidia.com>
-To: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
-Cc: Christian Brauner <brauner@kernel.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>, Miklos Szeredi <miklos@szeredi.hu>,
- Amit Shah <amit@kernel.org>, Jan Kara <jack@suse.cz>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- "David Hildenbrand (Arm)" <david@kernel.org>,
- Matthew Wilcox <willy@infradead.org>, Bernd Schubert <bschubert@ddn.com>,
- Hugh Dickins <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
- Andrew Morton <akpm@linux-foundation.org>, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, linux-fsdevel@vger.kernel.org,
- fuse-devel@lists.linux.dev, virtualization@lists.linux.dev,
- netdev@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- kernel-team@meta.com
-Subject: Re: [PATCH 2/4] fuse: don't move pipe buffers into the page cache
-Date: Tue, 10 Nov 2026 11:25:14 -0500
-X-Mailer: MailMate (3.0r7038)
-Message-ID: <E2659C58-E0CE-4078-B959-D3F61C042AD3@nvidia.com>
-In-Reply-To: <20261110145241.536019-3-kas@kernel.org>
-References: <20261110145241.536019-1-kas@kernel.org>
- <20261110145241.536019-3-kas@kernel.org>
-Content-Type: text/plain
-X-MS-Reactions: disallow
-X-ClientProxiedBy: MN0PR02CA0014.namprd02.prod.outlook.com
- (2603:10b6:208:530::19) To IA0PR12MB8374.namprd12.prod.outlook.com
- (2603:10b6:208:40e::7)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QCU1XqxN
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EC451F008A2;
+	Tue, 10 Nov 2026 16:33:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794328392;
+	bh=AJ5izWwEcghLnwFB0rq0l2TOCwIQeTAsERFK0CERwEc=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=QCU1XqxNnBDD+4G8vgc9C84PODlEPcvy40zY0Je3WRyjHXluW/GTCX7wgVc00A2NC
+	 EX10ISVu1XvkCA7BhB9SXiDjq8+0znFmISFrbTFxuBdHjnGBIsG5i4BY7+anZ8hf+C
+	 NWNBcEK7Qtx8sgBorBv4sANf9bHkVvBybAoJtqq1cpORpPpnWPxb3ImPekWO5RDNJH
+	 WZyIyBK959e7pV9JyVigJxQs+UyNR23X+Fi1P4YGj1K7f7fTSeuQrYUPEpm/FGVZAg
+	 SU4PnJJpXiRpi5/LwgXZ4YF6+IrajUvyz7buJdj5Di9/RfC13+/kJPmdl7UyaZa6ad
+	 11Y0NkAmjL+hA==
+Received: from stl-compute-04.internal (stl-compute-04.internal [10.204.2.64])
+	by mailfauth.stl.internal (Postfix) with ESMTP id C5915780043;
+	Tue, 10 Nov 2026 11:33:11 -0500 (EST)
+Received: from stl-imap-13 ([10.204.2.104])
+  by stl-compute-04.internal (MEProxy); Tue, 10 Nov 2026 11:33:11 -0500
+X-ME-Sender: <xms:R0fzatIo4SKoLqCBVRS65Y4l8ROu234W9Gnkr8WB-fH2Cgiic049Wg>
+    <xme:R0fzaj_hsb0uSaCA8oJVXsa5cmkpvLoa6xZ9_EIz9hpacjTwAxTyKR4vYYti9oWcd
+    02Re9cdPddxi4hpw0oSEZPizGF4YQIIbDlmijk6BtGQYG7SwcTR1sY6>
+X-ME-Proxy-Cause: dmFkZTEiOEjn35+erx13C0qM6OnUluF3rZwvBY/fe9xOpotiIOC41DGTOibGmFH26g0mmR
+    gHclO16+bwtDmvs/1P5rckqhtRBAQzdqxku7aZa8ATmM1mhuw/J+7Ebn5fb/o4/trApXVm
+    zhS43RXXXApTUiCC9ayIVCBv3f9j6Qk3VZngSrR2qQQwxQEo4ekEjkT2EO5uIkhbxO/XA9
+    p6y9HNUKd+cuYa3bDoPiSFLrEocCbP1x0830SoxqIwX+HddIZAsIxcUyOQEbVB0TWxA7mz
+    ahan1HEpjm8X43czwgwY9PQUx46Szctb8WW9AWtgWuy7s58m7tXLhaVoTKKuaGnPFBq5mM
+    Cn/RPackoz45B7jsHFTpMYcgqZXd0CWlNLM3/6g18UyP6DUp7ZklNl0tAJtPG6PCaq2nLv
+    555AzKEflGlV1vIpNkda/orjzmGs+uwdG7uGLohmLvK4xhJ3tjSbprP+o2xIDoLLOKfIZd
+    eC9UWsehcRLNh2KhR3mse9+U0Yb0bn/ul2PUrmvED36OnvJX0z/F4LVsnVIYA7iZkwbqjq
+    y/Tve6bgzG9XGgSbpzAHr6kxt6HkoSl/cpEKjKnRQRuqTIq3chd3hwER3faIjG7eyrY5iN
+    xKwhQx2yuKXWltpOeOEkRwctT9p8u7Ko6tPYiyswsXvbtoA26+HV3YHexH8Q
+X-ME-Proxy: <xmx:R0fzasaIv3xdB49GWosqaHKnAz_VSf5rUPHZikL_zNAnuLsxBPYMzw>
+    <xmx:R0fzan3WmA6KhdFQjN85TNg70e1cAS--nfOrLTxHvz20sVahoD_8fw>
+    <xmx:R0fzanqdCnKKPISHMge0lWnAxPSvCCg7pgAC2q8WGTwlxcJUex_PsQ>
+    <xmx:R0fzauOPRIhPmoW23COVL7HYUvWv6eYUmGcIVJ1q1yFBIv4CfJ6Vaw>
+    <xmx:R0fzaopuYZG3dJSlTOueMgn8TLU1wmhoc6Mgc3MTOm8zNjlvw7dynA1F>
+Feedback-ID: iccae4b50:Fastmail
+Received: by mailuser.stl.internal (Postfix, from userid 501)
+	id 69C62F60082; Tue, 10 Nov 2026 11:33:11 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -110,89 +77,73 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|SA3PR12MB7860:EE_
-X-MS-Office365-Filtering-Correlation-Id: 49400587-862d-4c08-5d9c-08df3f473439
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|23010399003|1800799024|366016|261026140227099003|11063799006|4143699003|261028144727099003|56012099006|261102123227099003|261021121427099003|261021123027099003|261022105027099003|261009223027099003|261026121527099003|18002099003|22082099003|10067099003;
-X-Microsoft-Antispam-Message-Info:
-	W8jYALF9ssjT0fsNS0CZBUJ2glyIS6t1HyIO1llcVWYQeWoUCqODyJyGE34rYjBnFLt5RT0x0RP1wFLx0PWUwUr1REVs6diz9SbhJ/E5+UGgVpWjyeIpSJ9HbmJraO+nMnLNSGYIAFsrb89Jka4X1s41W22ZqjE1A5EshvxJPRoihglqLXkF4LihjLgEI+uLKoy7/setGr6oUiNyTBw30Sys2xyNiS/Nuh9RthO4UDfyBvNWvLGFp3FHR25I3Q/KMCA+AgEfkMVnPlvgzyu9kZfj5HbzVkUsg+J5E5xC/6Fa3zN0K1M5BeD7kfF2tw3ia8Y21xfY1lA/KrHMdsg9FZnTacDw8ielEzPMIj7o3PmTVxgkdMZCY9bhzS6DsnGMoAprgL5fhvEdaMQNRQDQiNBEA2LAX8mz5BThBFMdUfKlHh1o2SMgcSbKPtQQ1PHQyx9z5jGBPOclsK52fvW2/DNWYloXOolNhsGBIVykq2J7lcx/Tnpy8RkFkiAezbfE4X/+9iD0Bw7ixZUpGm5NVQ9yByByc30uriRWcCepbj8PUNMMCLncKUHxmyWo8H/4g7V91se2WsKPHHrHk6cWDyoBu/LDJCqCcYUnuAXiVBX9vbiSl0f59EJwQlt2PwEU+XfBDHcGhYXLaumQEzRlF2002TDoFOlFPdLY2q2iA9o=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(23010399003)(1800799024)(366016)(261026140227099003)(11063799006)(4143699003)(261028144727099003)(56012099006)(261102123227099003)(261021121427099003)(261021123027099003)(261022105027099003)(261009223027099003)(261026121527099003)(18002099003)(22082099003)(10067099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?rFtCxfcRNL3ntni4crmxqyWedXy+I39g5w3t2/tEctBCFrhqWUCokcFM7X6H?=
- =?us-ascii?Q?UDtyF7i5LTDK6ZQRcL0zV6Znh3l1HwQrB85BK6sG8JuKeJb+vCpzv6s+9qgc?=
- =?us-ascii?Q?xBDJaHVKFszejptUPmSo9XiiFEjC8s+cjB3soviJYVqZHtjyxuKv9nK8niUC?=
- =?us-ascii?Q?UQJ8Xpm7z/yY5h08c9p9JwIUs9lyLQYXlNlioEEop9GTcUZZywgalrU5CM93?=
- =?us-ascii?Q?SpGrx4IP/8s7QbOZx/4ov534h90p+Cy5yp2RDF3JfgFO1pth1kMsRKt/Jdys?=
- =?us-ascii?Q?g0Ccf32lNA4sXP88BoyLyWWqQWpRcNEIOgzwZ7tof272M/QehgeJkrGRrg1f?=
- =?us-ascii?Q?hQn1OW10W5ug20yzQkRSVxmc8GeaBw+TwRtyHZEKsjPoyjOYx+NV+RaDfo7G?=
- =?us-ascii?Q?idKs/C2eSSXuQtjUtlb/PtDyR/Shwb955ui4RuUUEeH4fhg05B7o4ILesMmt?=
- =?us-ascii?Q?5LKZHmNQ4Lf4xhncNHXt3x6xyaDQmpSYklUvgaeBC2K2MUIHvWj9rKOZGjkr?=
- =?us-ascii?Q?mIKO+7M5vYzNILFiHUpcF1XB1mM286P5NMuQiprP7xCtCIDGULEO2IH2yPlZ?=
- =?us-ascii?Q?/lHJiHjNhVKVtlgpPZ+BsF8WGecFuoCCiRtda7z+zXxCcQkNctXZZnUL5qeE?=
- =?us-ascii?Q?KDKQfRmcFdTH3cy+3tLNkg7ddOcguXK9H9qfDa7BNVyqUDRs5+AVurMU0Cy1?=
- =?us-ascii?Q?S2mYwehcGRrIaaBcWo8yMBJIRsU1wbmaT3Yedp3hc8bqBUohBM0OrPgWdT4K?=
- =?us-ascii?Q?/oSNjqmNS/pflqY/P6Yt8NGMi4qo8Wh3KCPLcsi7g78XTu4lgxMW/b5vx6qZ?=
- =?us-ascii?Q?ap4L3zS01uzfCbt/IzYF0D83kLt7DX1C/02dx1VmBJ26P/MJcUlOGsQVXpa+?=
- =?us-ascii?Q?bgoyGRswnXK8saJ0S9lI0nrwITAINjEgiFuhzE5owXo6tWnWzd//GImH4BBs?=
- =?us-ascii?Q?HiyhOfBm7VZuSC9bOTCMKczA3vHnDYzDeEK+9CiIVwVTf/3AJDBhrx/ovwJ8?=
- =?us-ascii?Q?P5n3dMabyX1sg+kceJ11XGSZfcw+voTh1FpFGXtBdLfj7+f8rUyrc8nlID3d?=
- =?us-ascii?Q?lDIu2LBSKPvUzFz6QjLOrxxh6hOM+o/aOKR4n928FJ0/7tv+t/tPogrI3w2Y?=
- =?us-ascii?Q?lvIFK5RPVuwDHIUBtKOhmMuggoI/H0dbkYhdzMl37MZJTAsQfeh0vg1fQQcb?=
- =?us-ascii?Q?Yts5VbUBy4L26h3oOuHFcBcXxOtU2qPHKKMwAhCl3V+Z0QNGNCQlMKLqt19N?=
- =?us-ascii?Q?2+VIJid0QBualFqg5p1uspYVh9OLRW7hfF290pBpXx3kyVbdg+BlFF1UjXyI?=
- =?us-ascii?Q?id0V55gozLmJBCp0xOWD/nTeeI4br5oc0Qthri5J/xmvrOx0jdihRbD/9HHH?=
- =?us-ascii?Q?BW4MT0CleugMremID87dXyU1UjYCoXRT+JQEVD0qVhD92c2Hyzp5omicclfB?=
- =?us-ascii?Q?KEsPzv1i2jzLo1Id4g65JKFcXUtMCVVJdlt4RczB9M/nktxytkKs63ajdhw5?=
- =?us-ascii?Q?bDtnSzX0OpJQkq7BHdodKEOyXTwsG7amIdwsiUo8LguytD7tdrLQQEsZ1z3Y?=
- =?us-ascii?Q?hs9srQp6044ZeyoZ0+Kwe/OFdgYLlIhA9/IvPHaFfg5BM7Me/ZO9haApnreM?=
- =?us-ascii?Q?JTlMYQiaj5W40GX/nTDezT0oZeieW3euVTy1UBG9AHQoe5s24pJItQ/oF4gm?=
- =?us-ascii?Q?+62JS5JSV7sSgjLEKeOAaZD9Tp0KCqdoMGbBqFwrBTbW4BzR?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 49400587-862d-4c08-5d9c-08df3f473439
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2026 16:25:16.2389
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Nr5Yvu7Kb0f77kzVIez6qS/+Ii0p5BP8RyCsATwfi5hLqNOyFdbxovJcstW5EhEi
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB7860
+X-ThreadId: AeoJN5SNNGX3
+Date: Tue, 10 Nov 2026 11:32:51 -0500
+From: "Chris Mason" <mason@kernel.org>
+To: "Carlos Maiolino" <cem@kernel.org>
+Cc: "Theodore Tso" <tytso@mit.edu>, "Dave Chinner" <david@fromorbit.com>,
+ "Jan Kara" <jack@suse.cz>, "Darrick J. Wong" <djwong@kernel.org>,
+ "Josef Bacik" <josef@toxicpanda.com>, "Christoph Hellwig" <hch@lst.de>,
+ linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Message-Id: <5bf88df7-a231-4013-9127-156b58241094@app.fastmail.com>
+In-Reply-To: <avNEiPY9D2ItmEMu@nidhogg.toxiclabs.cc>
+References: <20261109235111.14129-1-mason@kernel.org>
+ <avLnU46F6YZckcbo@nidhogg.toxiclabs.cc>
+ <d17350c0-0b93-4421-8bab-8266419fbd77@app.fastmail.com>
+ <avNEiPY9D2ItmEMu@nidhogg.toxiclabs.cc>
+Subject: Re: [PATCH v6 00/10] reflink and atomic write bugs
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On 10 Nov 2026, at 9:52, Kiryl Shutsemau (Meta) wrote:
+On Tue, Nov 10, 2026, at 11:22 AM, Carlos Maiolino wrote:
+> On Tue, Nov 10, 2026 at 10:56:34AM -0500, Chris Mason wrote:
+>> On Tue, Nov 10, 2026, at 4:45 AM, Carlos Maiolino wrote:
+>> > On Mon, Nov 09, 2026 at 06:51:11PM -0500, Chris Mason wrote:
+>> >> Hi everyone,
+>> >> 
+>> >> This series did a few rounds privately, but looks ready for the list
+>> >> now.  Except for Christoph's patch, these were all found and fixed
+>> >> by an LLM.
+>> >> 
+>> >> The meat of the series is fixing reflink corner cases that incorrectly
+>> >> let you write into the source of a reflink.  LLMs also tripped over a
+>> >> few ways to use atomic writes to expose stale blocks on the drive, and a
+>> >> few races with realtime flag manipulations.
+>> >> 
+>> >> Carlos and Christoph ran these through fstests (thanks guys).
+>> >> 
+>> >> Chris Mason (9):
+>> >>   xfs: don't skip the flush before shifting extents
+>> >>   xfs: flush the shifted range before changing the file
+>> >>   xfs: don't change the block map under a dirty folio
+>> >>   iomap: don't punch delalloc under a dirty EOF block
+>> >>   fs: validate atomic writes after O_APPEND and limits
+>> >>   xfs: recheck direct write alignment after write checks
+>> >>   xfs: test for reflink after the dio write checks
+>> >>   xfs: refuse fallocate racing with realtime flag changes
+>> >>   xfs: restart faults racing with realtime flag changes
+>> >> 
+>> >> Christoph Hellwig (1):
+>> >>   xfs: refuse writes to files racing with realtime inode flag changes
+>> >
+>> > Sashiko found a few issues that I believe are worth looking at. If there
+>> > are no objections though, I'll pull in the first 4 patches which are the
+>> > most critical ones so far until we figure out the other ones. If there
+>> > are objections please let me know and I'll revert them back.
+>> 
+>> I'm generating fixes for the rest of sashiko's comments.  Looks like they
+>> all existed before the series, but might as well fix them while we're here.
+>> 
+>> For sashiko's complaint about patch 6, the patch intentionally creates
+>> the behavior sashiko mentioned.  We were inconsistently falling back
+>> to buffered before so the behavior is new but the writes are correct.
+>
+> FWIW, I pushed the initial 4 patches to xfs-linux/xfs-7.4-fixes, of
+> course I didn't push them yet to for-next as it depends on you if you
+> are ok with me pulling them first before you deal with Sashiko failures.
 
-> A splice() into /dev/fuse with SPLICE_F_MOVE lets the reply to a read
-> request steal full pages from the pipe.  Each stolen page replaces, in
-> the fuse file's page cache, the folio that the request allocated.  The
-> page can be a page cache folio of another file, a page written into the
-> pipe, or a gifted user page.
->
-> Always copy.  The server sees the same data, and the move was a hint
-> that splice() never promised to honour.
->
-> Keep advertising FUSE_SPLICE_MOVE.  libfuse fails the mount of a
-> filesystem that asks for a capability the kernel does not offer.
->
-> Preparation for removing ->try_steal() from pipe buffers.
->
-> Suggested-by: David Hildenbrand (Arm) <david@kernel.org>
-> Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
-> Signed-off-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
-> ---
->  fs/fuse/args.h       |   1 -
->  fs/fuse/dev.c        | 144 +------------------------------------------
->  fs/fuse/file.c       |   1 -
->  fs/fuse/fuse_dev_i.h |   1 -
->  4 files changed, 3 insertions(+), 144 deletions(-)
->
-LGTM.
+Thanks, taking the first 4 for now works for me.  I'll keep them unchanged
+in the next version just so things keep applying, but will assume they are
+all set.
 
-Acked-by: Zi Yan <ziy@nvidia.com>
-
-Best Regards,
-Yan, Zi
+-chris
