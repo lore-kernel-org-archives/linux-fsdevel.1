@@ -1,56 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.176
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794327754;
-	b=vS6+wVaFy3QdzaH41eMiCdScuknVvk8T47ZB0+DCKfHKeb/oG1cBzybUX+GEJLj4XUy4
-	 0Q73HVsRxigfNe3VA4QLWjfLabU9hnqnFsdJsmAXzAQc9hsH1hB+x3YUYWWcg2XYuR/zZ
-	 LbUKPqRgKyEVHsWN9fKHXkApMm59l+es9Ynmi+MRScnNRb+qVJtawXn0guG95qJPCsaaH
-	 XvTJ2Scjh03XF39FvNbLw+fkJq7mlajvYulhh56/YZv50OkYf/dYFBdDHBOwMOAbCrRoG
-	 6jrij7EFbhPS0Hd2pNQ+O8AsgTCZP6oU3RVoznyPeqYB2GsXk2equOWvUMgz9FRQ17A==
+	t=1794327794;
+	b=KwSEfbqrsPFp2n1FpxdgsvtE4wqdB2Bmt7hcKOaqIBcMEjRSMYYFo5U4E8nnWbfN4RXG
+	 a+ViJb8wbaQMcgBmjxEUNigWepmduAf9vyeo2w347SyOij0+TrNrB+DhUR03N9YXtP72n
+	 pTKJODlYh3RZGQCQK6CHTiuk7tc13GQYjoGKXbGzlo/5fGqbPc+CiglpvxeVas+hQr1jy
+	 hRrwwT8+57hTL2YkEcn5tLcEQOzcgJkr2zyd8pDZiEWR1rCE2AgbGJT4+0wqb1o/02hl8
+	 PmNJi/LHs0wXBRW/XGP+yK7i5Dh74rYNN5Yo2xes3nD3nMQZho2IGAQ0NYAs8FhegHg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794327754;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=TAzU2GMT3C22UAXmvxHpngiY/xaBbQP4pL/5peBRgpE=;
-	b=OuPBuPPBIAZXjY6riiRhbZbL+aBLxfrIYmBMAKXdScKFDfUAx2BSlHb7IiplKAbDs8o8
-	 3+6sKGCp6EEsFMuDxJLmVrBddQeccDqS3OJwwNWEI0CjVghSCXpRpV/vAzJ42tywWh/q9
-	 M6VoHrWUVGHhdsywsqR/BHjFq+gAJvqJQEFmm6WKjmgppX7GLCDbcRJw/DP2KLAEonn+0
-	 GUhPMuECUPv3arVoJBljs0P12htEGm9UseuM8kvNzPfaRDLQ2mXItc1U3ekCnV9lIGGmp
-	 3tv7Ma91BoUj4RvvtcvjFHjtmKFLhBA6iiQVtUKuxGoeSSIjTFNJ7eqPPkYrPifTnGw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794327794;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=9YuRkRGnxp0vWQ1dHMpnKuM8tkA2uFdXTQzJ8jzW5DI=;
+	b=bD0mTh1eEMYFAkZmDZePujMzCQG8+B9ZA2w1uQvPtP/TU5fQXHzExijEjzBKszA5Bcaq
+	 Fazk9jI3KR99UgAQVLV/A1vqDquMlpLBQHUTyB66mekOdsUocnWl5TbbfOCklyXA1cxeV
+	 ZQ9+4R0eOu1cyMzBXkJ74nRWr1ma06KjFLUWGjAEn0DVTC3j9s0lNBTSrdReQz94Tu32N
+	 3nXKEmrDP2nYjh1HyqbN33HeTiebCslP/kpbx3u560qzZ2uDEim4eFyjBFI1JU8S247jG
+	 Ib5pn55TXbwv/q7imRtqNoqkFa2vJs85xz090BU2f1S1hL+bDGuo7imipqT0Rqopsxg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QafUKl1R;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=fail header.from=debian.org;
+	spf=pass smtp.mailfrom=gmail.com;
+	arc=none smtp.remote-ip=209.85.128.176
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8208B606A320;
-	Tue, 10 Nov 2026 16:22:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QafUKl1R
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B56C1F0089F;
-	Tue, 10 Nov 2026 16:22:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794327754;
-	bh=TAzU2GMT3C22UAXmvxHpngiY/xaBbQP4pL/5peBRgpE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=QafUKl1R8c388noCv38EBBSU2fhsBJOSiYRTywushhDAc4SWd+01X6Hmm28Ftwsvw
-	 tgplyjiVHQQCKjl1rD0At1A70HC/VUxuSXscwFHvqI2nvAX1gG1Rg4a+9vIwStJryI
-	 UnDonbCoo0A9iJCn1Gsefh5rUWa4qahnCIwcgOi3+6hAVuOfhPfPCNfiTWFNcLMCT+
-	 o0F5Ge60BT9r8z4tUVmgQF+sj2oQb6YQH77vkMi3DVETWh7AFLMRxoaXl3hN8Fs9aF
-	 4jiByaTAAaX5sWWbGAis1tZ5ZcmFJnLkyK9kGGgi+vt7RcoKppvZST54XYhec1juAE
-	 w3Fmzm2Yr3wDg==
-Date: Tue, 10 Nov 2026 17:22:29 +0100
-From: Carlos Maiolino <cem@kernel.org>
-To: Chris Mason <mason@kernel.org>
-Cc: Theodore Tso <tytso@mit.edu>, Dave Chinner <david@fromorbit.com>, 
-	Jan Kara <jack@suse.cz>, "Darrick J. Wong" <djwong@kernel.org>, 
-	Josef Bacik <josef@toxicpanda.com>, Christoph Hellwig <hch@lst.de>, linux-xfs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v6 00/10] reflink and atomic write bugs
-Message-ID: <avNEiPY9D2ItmEMu@nidhogg.toxiclabs.cc>
-References: <20261109235111.14129-1-mason@kernel.org>
- <avLnU46F6YZckcbo@nidhogg.toxiclabs.cc>
- <d17350c0-0b93-4421-8bab-8266419fbd77@app.fastmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4EF2606A33D
+	for <linux-fsdevel@vger.kernel.org>; Tue, 10 Nov 2026 16:23:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D4EF2606A33D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-8b300713befso18808507b3.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 10 Nov 2026 08:23:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794327793; x=1794932593;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=9YuRkRGnxp0vWQ1dHMpnKuM8tkA2uFdXTQzJ8jzW5DI=;
+        b=y/1z5lvgihE4zV3GYmNRT7bc8myD1oAlUE8le5ebbkyd2SSmqP5VT0WsudBHyjEanv
+         RZiT//IylmbTfWOyO4FVVYqcX+nzqYIlTUrToD3AmVSqkgjtXpoL5Fe/9dljLoPxS8/c
+         5aL1AFsHdwJAeUqUH0aFh0o3/1OO99WRH+mnKk2KRl/KVEjYM8jNONooa1l8nMsxv0iB
+         ZxK+wb0W3/F8qrCgG74OLGpLWD9LkZ4PR/UE+pefMzOxWfDUG8dd5FNywNnqz3uqMjiz
+         e3tmQSaNTcNoMLV9P0+reiAJksCnhTzkvv46pQ1oFL7T/SoxWeXiWfS9FqneBKFSwgHs
+         HscQ==
+X-Forwarded-Encrypted: i=1; AL+hErGiukdC53qaupAvIwkxCfND7bHY+h8v7d9UEYjmSrz1aDZjC1qbdHx+1oXI7HyHFbjtaVt3ZGffc2sTufm4@vger.kernel.org
+X-Gm-Message-State: APuU4Z9KYTbsU++C3krdb8h5wjoM9pXvBKt3jjN0LRLz+gwqa0SD8YMo
+	hxTtnjFcsg0NNMDZHHlbWLYiX00tcWBmtZt5LreRqIUG+MRgvrEixbiM
+X-Gm-Gg: AYBFou38tk+s/XiNasb5JxlYzNm9PBBjNG4EEN9bTgpXduygFicB/R+zWx5fzFPodel
+	Or2Lk7TKGZQoZT6Coq8tQ6o8ckpdIg3cMWwnnuXz4vt9A8mzHCIChMGrMfRer/c8wzzX/NxGA8m
+	e28qF2qqDbwmV03VfxYNMsYbifJYfDF9RDdEz2gSVZnnYkVlgU4F7ePXfeyGvzQhvbaB4LDc9kn
+	V0N91FefRkVD0UrBrrDRUHPvI4K8p6X6H+Fyi9AI4NfC8ig9rPVKUpe06UPAxkr6PG07M727bab
+	NTuab0qbNaxEdUSuU6haQ5yaItYngfaoQDws3Mp1IuG2jDood5jRLnlSDJPBU8QzDc0QcscnRHn
+	OS+RE8EQcGh72BDZP93MeqKcd8Rzns3a8LLvGGNp0hzPeYW4fLSSFDf/9O3f8VhStyu3P7PX6Gp
+	M7PmTimGN0r76hvFuhA2or7ImeJ96jXOU5cog0fCx2NmxK5/Vi5xi0MGvbWDepWFmCahrRC6IBn
+	zbTm+60efdJEmlSryspVSYsxiyiIe/zNR8b3daU6mHZfrsfpAJ6SG+QeswuT4ZrqQV85LdD0zO8
+	OB8fp0XVSeU8LU7RX50=
+X-Received: by 2002:a05:690c:6607:b0:8b1:901:b9ee with SMTP id 00721157ae682-8b392a58fdcmr20600847b3.13.1794327792882;
+        Tue, 10 Nov 2026 08:23:12 -0800 (PST)
+Received: from gmail.com ([2a03:2880:24ff:6::])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b39324bbf5sm22932117b3.1.2026.11.10.08.23.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Nov 2026 08:23:12 -0800 (PST)
+Date: Tue, 10 Nov 2026 08:23:11 -0800
+From: Breno Leitao <leitao@debian.org>
+To: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, Lorenzo Stoakes <ljs@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, David Hildenbrand <david@kernel.org>, stable@vger.kernel.org, 
+	Sashiko AI review <sashiko-bot@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	=?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>, Muhammad Usama Anjum <usama.anjum@arm.com>, 
+	Stephen Rothwell <sfr@canb.auug.org.au>, Arnd Bergmann <arnd@arndb.de>, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 1/6] fs/proc/task_mmu: fix make_uffd_wp_huge_pte()
+ prot-update race
+Message-ID: <avNEgmvYdoukt6MS@gmail.com>
+References: <20260529172331.356655-1-kas@kernel.org>
+ <20260529172331.356655-2-kas@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -62,55 +90,32 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d17350c0-0b93-4421-8bab-8266419fbd77@app.fastmail.com>
+In-Reply-To: <20260529172331.356655-2-kas@kernel.org>
 
-On Tue, Nov 10, 2026 at 10:56:34AM -0500, Chris Mason wrote:
-> On Tue, Nov 10, 2026, at 4:45 AM, Carlos Maiolino wrote:
-> > On Mon, Nov 09, 2026 at 06:51:11PM -0500, Chris Mason wrote:
-> >> Hi everyone,
-> >> 
-> >> This series did a few rounds privately, but looks ready for the list
-> >> now.  Except for Christoph's patch, these were all found and fixed
-> >> by an LLM.
-> >> 
-> >> The meat of the series is fixing reflink corner cases that incorrectly
-> >> let you write into the source of a reflink.  LLMs also tripped over a
-> >> few ways to use atomic writes to expose stale blocks on the drive, and a
-> >> few races with realtime flag manipulations.
-> >> 
-> >> Carlos and Christoph ran these through fstests (thanks guys).
-> >> 
-> >> Chris Mason (9):
-> >>   xfs: don't skip the flush before shifting extents
-> >>   xfs: flush the shifted range before changing the file
-> >>   xfs: don't change the block map under a dirty folio
-> >>   iomap: don't punch delalloc under a dirty EOF block
-> >>   fs: validate atomic writes after O_APPEND and limits
-> >>   xfs: recheck direct write alignment after write checks
-> >>   xfs: test for reflink after the dio write checks
-> >>   xfs: refuse fallocate racing with realtime flag changes
-> >>   xfs: restart faults racing with realtime flag changes
-> >> 
-> >> Christoph Hellwig (1):
-> >>   xfs: refuse writes to files racing with realtime inode flag changes
-> >
-> > Sashiko found a few issues that I believe are worth looking at. If there
-> > are no objections though, I'll pull in the first 4 patches which are the
-> > most critical ones so far until we figure out the other ones. If there
-> > are objections please let me know and I'll revert them back.
-> 
-> I'm generating fixes for the rest of sashiko's comments.  Looks like they
-> all existed before the series, but might as well fix them while we're here.
-> 
-> For sashiko's complaint about patch 6, the patch intentionally creates
-> the behavior sashiko mentioned.  We were inconsistently falling back
-> to buffered before so the behavior is new but the writes are correct.
+Hello Kiryl,
 
-FWIW, I pushed the initial 4 patches to xfs-linux/xfs-7.4-fixes, of
-course I didn't push them yet to for-next as it depends on you if you
-are ok with me pulling them first before you deal with Sashiko failures.
+On Fri, May 29, 2026 at 06:23:25PM +0100, Kiryl Shutsemau (Meta) wrote:
+> The non-hugetlb sibling make_uffd_wp_pte() does this correctly via
+> ptep_modify_prot_start() / ptep_modify_prot_commit(). Mirror that
+> pattern for the present-PTE branch. The migration case stays as-is --
+> migration entries are non-present, so there's no hardware update to
+> race against.
 
+I am  seeing this on next-20261109 (arm64, PAGE_TABLE_CHECK) while the
+pagemap_ioctl kselftest runs next to a workload that migrates pages:
 
-> 
-> -chris
-> 
+    WARNING: mm/page_table_check.c:206 at __page_table_check_ptes_set+0x168/0x178, CPU#21: pagemap_ioctl/894691
+    Call trace:
+     __page_table_check_ptes_set+0x168/0x178 (P)
+     __set_ptes_anysz+0x50/0x240
+     make_uffd_wp_pte+0x104/0x1c8
+     pagemap_scan_pmd_entry+0x1b98/0x1df8
+     walk_pgd_range+0x7b4/0xd00
+     __walk_page_range+0x108/0x510
+     walk_page_range_mm_unsafe+0x150/0x3e8
+     do_pagemap_cmd+0x418/0x7d0
+     __arm64_sys_ioctl+0xc08/0x1338
+
+given you've touched this recently, I am wondering if you've seen it.
+
+--breno
