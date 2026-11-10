@@ -1,116 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794322062;
-	b=X3z9XaFvtc+y8l0in0qEi4oCB64skGqX9Qe77qblMXdy6TN8w5Et+hdSSZ2+/bOnjo55
-	 BOUoMEoz9ULxgVClTFgpc441AYGpQ2JPtpnspaD5pmed6+Mr9WBnWMK+cjcZoFjbPf4LO
-	 huXrdhSHfwMnvLPE+gsXCt72ES1ty4kG9uh5EVpISAhcNR0l2kLuYOCNWWXAI66UGtK/Z
-	 x0N/R1Dv7pD6P/A3Fa3vmadgEOzdwWfUpD3jfvdFMlbWpPX1IAXKb9Am7xAK3BFLhyYU0
-	 HgEjYpxY3b8BnmAuNqT12T/Bd9HXeAMND2mMD2ndxi6SxE6sGmgMnEgX3/c2FxDq/bw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794322062;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To:X-Rspamd-Queue-Id:X-Spam-Level:
-	 X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:X-Spamd-Result:
-	 X-Spam-Score;
-	bh=c6aeEJtxAqyQgEFeDwf7Lm2f5Q9ThHSvxWzcKmuaieo=;
-	b=n3fo+T1E0uUTrrGhpZPMhR8ZmeVkntevp2Li04+uug51fuV5PuIx97n/b/EwkIkXKkAx
-	 arR08UYbSODE4S6SIQlXbefvkqLzBZrqGciaUEY80GGkWqukU/rq7tZh4eZ2RlMsSyNsi
-	 POREGTerICL6X23mlqb9dZZCPpWBcBGHHGifaUm1XNjivSkL+foUp2/xIpFfcSpJIljBT
-	 RqhtYTF/NWP3uWmSY5mQgY1vRlR0HggxbWY0XaS5To1Dtkhia59bQjRxV3xYfkqu0vruN
-	 d8Z4nVEJvtSu5TtcW/bqg15J27qZ2wBz/8g8Lsvnli3NTJk+5goGwuPGmYkeGZBx+1Q==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b="jPv/J9zO";
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=nXDjaYp1;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b="jPv/J9zO";
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=nXDjaYp1;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.216.50
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794322304;
+	b=PCLX2euoFXFy9ivRU4suD75hHditfp+9D0QdWKwQfNzUtcPk7weVwCqhXDD0XNpy9XQz
+	 AIViYxJZSqXxTJQWeB6XAEkKPFVO1FKZ90DvKWdGaGQLg7Eb+eDiVcYHe+s78o7VbYR9G
+	 JCUxBMQHxMGpySJWsAsf4yb6f1IX18HK+X9MlsDnPigrEJppV9jXnUJaeKGFYpBESmcAi
+	 3X5/MPImjTMT88nlagQJOMqB9IwQYNbRJLxWn9C2e7J7MJfkQCMbCE6pOWSnEpMwolIn4
+	 yBKjD2n3XdUpEC7++DHjK0j8B1gQuuUAnXePoK454svgqEOEhvDHBK/CCW8ACIBa2yA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794322304;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=PXqi9+oAKFvDZXDHBvU0pPg5upNM7EyCnjhoXmEOydk=;
+	b=LK4nfax+Hg9WEwNXQEnyfsYFzl9FbCjiro5v0sQgP16uBHM2EhRdt0Gfqu//j4xrvRHc
+	 rP4agIL2jL5rDGAmrZRnuj/edfdC5ZMf1hqYYNtCyKFuuP51mM62m67UZEcz2W/zkdK50
+	 zprgTEZwOmRaeFNi8fHsBvYq4dwD6HGJFnizYs/C7arp3BTpwY4+MPqum0hx81U3gEXdX
+	 9fiyFw24qrGmOoMoWDuHKTxGUJD2DbxADb+rgD906QSn5T6RjUQnnmoumCTKXlcNZ0iwj
+	 GZ9TXNtlSC+Y66JvXQKsLqa8vcuSUcSY5EBfJ5FH6J/m9BhJW5cw7DavWzciYt4n8aQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=paul-moore.com;
+	spf=pass smtp.mailfrom=paul-moore.com;
+	dkim=pass header.d=paul-moore.com header.i=@paul-moore.com header.a=rsa-sha256 header.s=google header.b=IL+8xDhW;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.216.50
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 000AD60A2612
-	for <linux-fsdevel@vger.kernel.org>; Tue, 10 Nov 2026 14:47:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 000AD60A2612
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E85E606A32A
+	for <linux-fsdevel@vger.kernel.org>; Tue, 10 Nov 2026 14:51:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9E85E606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=jPv/J9zO;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=nXDjaYp1;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=jPv/J9zO;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=nXDjaYp1
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1BD2921F09;
-	Tue, 10 Nov 2026 14:47:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794322060; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=c6aeEJtxAqyQgEFeDwf7Lm2f5Q9ThHSvxWzcKmuaieo=;
-	b=jPv/J9zOazjRnbjGqGAEtJ3O4FxOoaSBc7/49CizUnSuk/uHa+eTjL5sxjZU9rwmqPma6y
-	DYlXPEwMDPABt1bQu/Qcl1zpefU6NyyYuHYc3AbdjMqJgRdDFtpI9JZvKLuCnXoU20rjTj
-	O/6aXfy2d+ltLmvMX2paV847tvOrdOo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794322060;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=c6aeEJtxAqyQgEFeDwf7Lm2f5Q9ThHSvxWzcKmuaieo=;
-	b=nXDjaYp1+Vre0D1Vx2L3I6QoELYukN3gxsVeU6jWpC3vqvfz9ZzbE2wPMd/x34uyr6Ckn7
-	kL3gwO1BSNUC22DQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b="jPv/J9zO";
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=nXDjaYp1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794322060; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=c6aeEJtxAqyQgEFeDwf7Lm2f5Q9ThHSvxWzcKmuaieo=;
-	b=jPv/J9zOazjRnbjGqGAEtJ3O4FxOoaSBc7/49CizUnSuk/uHa+eTjL5sxjZU9rwmqPma6y
-	DYlXPEwMDPABt1bQu/Qcl1zpefU6NyyYuHYc3AbdjMqJgRdDFtpI9JZvKLuCnXoU20rjTj
-	O/6aXfy2d+ltLmvMX2paV847tvOrdOo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794322060;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=c6aeEJtxAqyQgEFeDwf7Lm2f5Q9ThHSvxWzcKmuaieo=;
-	b=nXDjaYp1+Vre0D1Vx2L3I6QoELYukN3gxsVeU6jWpC3vqvfz9ZzbE2wPMd/x34uyr6Ckn7
-	kL3gwO1BSNUC22DQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DCC101339F;
-	Tue, 10 Nov 2026 14:47:39 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id jkvxK4su82omOAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 10 Nov 2026 14:47:39 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id 386EC22552; Tue, 10 Nov 2026 15:47:39 +0100 (CET)
-Date: Tue, 10 Nov 2026 15:47:39 +0100
-From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Hongyu Jin <hongyu.jin.cn@gmail.com>, jack@suse.cz, 
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2] writeback: Avoid postponing periodic data writeback
- indefinitely
-Message-ID: <eyag6z2asfxp3tdsfffkjlljacpfuwcruh47e3pek5osc6p3y6@b3klggyow7e7>
-References: <azdwnedsaesxdsp6vxjxgzg6ynrszveibmqkpznn3yuqyttlcj@5lz4p2aw5hxk>
- <20261029015217.840177-1-hongyu.jin@unisoc.com>
- <CAMQnb4MVyDMnS039hE1A=2jp6y2WF1zQFw1DfDzeEYsT0tKk3g@mail.gmail.com>
- <20261110-replizieren-drehmoment-sukzessiv-800c7a61bfdf@brauner>
+	dkim=pass (2048-bit key, unprotected) header.d=paul-moore.com header.i=@paul-moore.com header.a=rsa-sha256 header.s=google header.b=IL+8xDhW
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-3b12cb3c37bso1101959a91.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 10 Nov 2026 06:51:43 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794322303; cv=none;
+        d=google.com; s=arc-20260327;
+        b=aofhI22weVIBntVKQlpdDiZEXXd+c04hCrf+WfLoMPV1hH/HJ24mG2+DfUxJWRTnYG
+         qse5qtLx6DlKZ7PCVbfDYQOHpbEaEChL8Je2Q8znLuQ9nOLfcJbkAyrE6dV73nBGUp2H
+         r4j/s2AgBvxDIY3QXiChnYif7xTkNjoxZdNPq81Hc+/BemHfonOVEn+K+T5ZVO4Nisk/
+         1l3BQh5lgo93SFZw1C2VBH6pC7rAYJLRosWMti2f3cyeGIDaca758+NNwBhi6hkvgAtp
+         ZkY6CavPOeijh1I5OG/WNy5U1F3g4HTf2qMxr04GB2OXVwmtGWWrVW8tdk74NtQHWcy1
+         NaMQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=PXqi9+oAKFvDZXDHBvU0pPg5upNM7EyCnjhoXmEOydk=;
+        fh=uTpibHH/rTUkKZD8f0UYpFQjGpfXp/g9E/adUZbYDpU=;
+        b=hoJ0MKVDeY7r7R/VAU/8J3i+w69vt8kq/irQd4eEjvBEqcCh/p+chJ8FAdsNRIq332
+         7Nz/uyAq6KpKyRc6oNJ8i+Dgxrohxj4Prw9fjMbJJ7gM97Jw8zRt71QGb8PM/FnhSwo4
+         1VAbQaLXn2itf0ol3svZtFOvEhbPxys3f8VzxTdFUFoC6IwARbax3RAcWBE1b20DXx0d
+         CQ10ymGPljIhZT5sgtC0lqhj+q2mkC0Y3u8yg0FUs/bgva0pNB0j9+gak02k3zKopJNw
+         TtUcSYYiOrnouqustzU9iMlDCbGhyKUCQ/ufFIzItb/g+uz9JkHDE3uAmi26J6RTt32w
+         8b0Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1794322303; x=1794927103; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=PXqi9+oAKFvDZXDHBvU0pPg5upNM7EyCnjhoXmEOydk=;
+        b=IL+8xDhWvbsY97lbmrxhet0Jxm/GEejFE1wA+kHdDdoy3r2HY0qfy9+Zo5tDyA1HCU
+         92dTAWSC18xJKt+nqY3o9ZEOwugPfnvfyKVxgXTJccL+yGQZq3uA5w6FcKOdBgNjQCVS
+         07UkwU1Ush9oWU9aQSyczjXfKDIKK13bz1vvPKKKZnAAbDJNUxO90oBj9mzTVwalm6uJ
+         MzZxNoOFc+uElONJCp/htKG7NEjYziL9FbA761f4NJZqOMyMijk6azV7Si9VVAUAXV+J
+         Tep1WbavDGNkRYBusn+me12VrKAKvlJoaba+qozCGl1bDCWa2Ghni1rfY8UzwuCjm2U4
+         /4Fg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794322303; x=1794927103;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=PXqi9+oAKFvDZXDHBvU0pPg5upNM7EyCnjhoXmEOydk=;
+        b=d/6TelXuH2vZgHMBnU9G8DSeslTiIxd6llVxKIOJzEQzNeQVJ4QiolkYlXZznlmucJ
+         ywG8nTLWEH56EvS6n1dni7DUWJYcw7OkPqGuso9BP6z3bSgsD5zT7AwXXjjg51fcnr/h
+         ah1IX/OB0lUTj8QX3KfWGcT7asDqT7JMhh+Ekkucqp3pzEzE12zJFs4jNPN8zPgB7b08
+         BYSMOB2FJC38cJFwm3ZHHxkiclE9gE9JRAiwhUC/SF2tNjI6eMElFclpnSRxPqOjm4S1
+         htNAzF2yiUykJIuGxdtNq/+tckJz3Kfkv2nhNHon0FZDRFk89MPVcrNRYoxL5/p24AhT
+         oiRA==
+X-Forwarded-Encrypted: i=1; AL+hErHnM7kUw8huWYf8Gu5Zk4qTohPn0uuoz8QbKYaegb5/8P8nrqzRLBagFOnoPmgT+X+mYLAKyqY1SupgjzTF@vger.kernel.org
+X-Gm-Message-State: APuU4Z+ayvopL5dINPzlwDfQPt/SyN8lzAave1tZOl5tSXLbd6C2or8X
+	XyWopvSWJDdSrkvp8JNdnmupIzxgNtZY7FuB2kkawqGasuTVz0wOAhTYwuofg/8u0fb7cY65p2T
+	dCz6ZH6VvAkynFVYkHJufQDC6tsKDIcPsbOGpkIRH
+X-Gm-Gg: AYBFou2ookAPJ1w4R88taqDE7TNbKI3RnSPH5+t29Q5uzqOszZFboIA2JvQ7BcdSNfe
+	Q1e/Z4CGQ0fSMZJVSpEWWbht8OW0TvX6SIjAIeH0iMszJXS00Xi/GXRXt7t5+jap2blZ0ejzxTz
+	TsHIzuZijh4dgH+SA7nX8Jlo6Y8vGeltMcqXGkXEz9MnxzUUppJLUAOknHZwGPsBMziDJf/5xmN
+	WYl1K359Na2x4af2nQYMDaLIvoK/fg5Pwqk4rcdVyF0eqB/fpAXbCjmEz66KBuJQg4W9wAtHUhN
+	dJV+nSdv0xufsXVylVllRvVxjM991wuz73MBZdiwfuRcxuH99WfA6b0g2X20SAqiKcGhRSjuIYE
+	GcyOyu+SDwWbW+4esgqTR3hGzvgokZt8ehxI1OKO4lYp5hCXhP9bj+YSchX5xGqdxqxyf
+X-Received: by 2002:a17:90b:4a47:b0:3ac:17c:6e89 with SMTP id
+ 98e67ed59e1d1-3b166cd4924mr2650628a91.19.1794322302909; Tue, 10 Nov 2026
+ 06:51:42 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -120,94 +104,72 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20261110-replizieren-drehmoment-sukzessiv-800c7a61bfdf@brauner>
-X-Rspamd-Queue-Id: 1BD2921F09
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-11.51 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_COUNT_THREE(0.00)[3];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,suse.cz,vger.kernel.org];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:email,suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -11.51
+References: <20261110144205.2404088-1-mic@digikod.net>
+In-Reply-To: <20261110144205.2404088-1-mic@digikod.net>
+From: Paul Moore <paul@paul-moore.com>
+Date: Tue, 10 Nov 2026 09:51:31 -0500
+X-Gm-Features: AclHuK9azAwCWCYb7rf35P_Qkz1YTwRFSpYVlH2tFTGhGa4I1jRp_1554UKlQOk
+Message-ID: <CAHC9VhQ7xMe8J+wRYK98Lw-Ff8dg=wJNEWgJp-MOqFixeZkiZQ@mail.gmail.com>
+Subject: Re: [PATCH] userns: Let LSMs deny the CAP_SETFCAP snapshot for
+ mapping uid 0
+To: =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
+Cc: Josef Bacik <josef@toxicpanda.com>, Serge Hallyn <serge@hallyn.com>, 
+	Christian Brauner <brauner@kernel.org>, James Morris <jmorris@namei.org>, 
+	David Howells <dhowells@redhat.com>, Jarkko Sakkinen <jarkko@kernel.org>, 
+	"Andrew G. Morgan" <morgan@kernel.org>, Serge Hallyn <sergeh@kernel.org>, 
+	linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	keyrings@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	Bradley Morgan <brads@mainlining.org>, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue 10-11-26 15:08:26, Christian Brauner wrote:
-> On Fri, Nov 06, 2026 at 01:50:49PM +0800, Hongyu Jin wrote:
-> > Hongyu Jin <hongyu.jin.cn@gmail.com> 于2026年10月29日周四 09:52写道：
-> > >
-> > > From: Jan Kara <jack@suse.cz>
-> > >
-> > > f2fs periodically calls sync_inode_metadata() for some inodes. The logic
-> > > in writeback_single_inode() thus periodically calls to redirty_tail() and
-> > > the inode's dirtied_when timestamp never gets old enough for the inode
-> > > to be eligible for periodic data writeback. Thus dirty data from it is
-> > > only ever written on explicit request (fsync(2), sync(2), unmount) or
-> > > on dirty limit pressure.
-> > >
-> > > The redirty_tail() logic in writeback_single_inode() actually should not
-> > > be necessary. Since this function is used only for once-off writeback,
-> > > there's no need for any livelock protection among inodes and
-> > > writeback_single_inode() is only responsible for demoting inode to "less
-> > > dirty" list based on dirty bits cleared as a result of writeback. So
-> > > remove the redirty_tail() logic and add a comment explaining the rules.
-> > >
-> > > The redirty_tail() did hide a race though, the one fixed by
-> > > commit 846a3351ddfe ("writeback: Avoid skipping inode writeback").
-> > > __writeback_single_inode() sets I_DIRTY_PAGES again when the mapping
-> > > is still tagged dirty. If the inode had no I_DIRTY bits (e.g.
-> > > write_inode_now(inode, 0) or sync_inode_metadata(inode, 0) of an inode
-> > > with only I_DIRTY_TIME), the dirty pages come from a racing writer,
-> > > whose __mark_inode_dirty() then finds I_DIRTY_PAGES set and does not
-> > > queue the inode, leaving it on b_dirty_time or b_attached. Call
-> > > __mark_inode_dirty() in that case instead, so that the inode gets queued
-> > > on b_dirty.
-> > >
-> > > Fixes: 846a3351ddfe ("writeback: Avoid skipping inode writeback")
-> > > Reported-by: Hongyu Jin <hongyu.jin.cn@gmail.com>
-> > > Link: https://lore.kernel.org/all/20261023023707.263101-1-hongyu.jin@unisoc.com
-> > > Cc: stable@vger.kernel.org
-> > > Signed-off-by: Jan Kara <jack@suse.cz>
-> > > [hongyu.jin: let __mark_inode_dirty() queue an inode whose pages were
-> > >  dirtied while it had no I_DIRTY bits, update comments]
-> > > Signed-off-by: Hongyu Jin <hongyu.jin@unisoc.com>
-> 
-> Jan, you're good with this fix?
+On Tue, Nov 10, 2026 at 9:42=E2=80=AFAM Micka=C3=ABl Sala=C3=BCn <mic@digik=
+od.net> wrote:
+>
+> Commit db2e718a4798 ("capabilities: require CAP_SETFCAP to map uid 0")
+> records in parent_could_setfcap whether the creator of a user namespace
+> had CAP_SETFCAP, because a creator writing its own uid_map only has
+> capabilities in the new namespace.  The snapshot uses cap_raised(), so a
+> task whose LSM policy denies CAP_SETFCAP can still map uid 0 in a
+> namespace it creates.
+>
+> Use security_capable() against the parent namespace instead: the
+> creator's credentials still belong to it at this point, so commoncap
+> returns the same result, and only LSM denials are added.
+>
+> Do not audit this check: creating a user namespace does not use
+> CAP_SETFCAP, and most namespaces never map uid 0.  The uid_map write
+> that later fails has no LSM audit record.
+>
+> Checking CAP_SETFCAP when the map is written would not work: the
+> writer's credentials then belong to the new namespace, where commoncap
+> grants the creator all capabilities.
+>
+> Cc: Christian Brauner <brauner@kernel.org>
+> Cc: Josef Bacik <josef@toxicpanda.com>
+> Cc: Paul Moore <paul@paul-moore.com>
+> Cc: Serge Hallyn <serge@hallyn.com>
+> Cc: stable@vger.kernel.org
+> Fixes: db2e718a4798 ("capabilities: require CAP_SETFCAP to map uid 0")
+> Signed-off-by: Micka=C3=ABl Sala=C3=BCn <mic@digikod.net>
+> ---
+>
+> This is independent from Josef Bacik's series, which reworks this code
+> to close other ways around the CAP_SETFCAP rule:
+> https://patch.msgid.link/20261027-b4-setfcap-userns-v8-0-2674adc63f3c@tox=
+icpanda.com
+>
+> That series still computes the creator's CAP_SETFCAP with cap_capable()
+> and cap_raised() in cap_setfcap_level(), so it would need the same
+> change.
+> ---
+>  include/linux/user_namespace.h | 5 +++--
+>  kernel/user_namespace.c        | 8 +++++++-
+>  2 files changed, 10 insertions(+), 3 deletions(-)
 
-Sorry no. It still looks too hacky to me but so far my attempts at coming
-up with something saner were not successful. :-| I'll look more into it
-today or tomorrow at latest.
+Looks reasonable to me.
 
-								Honza
+Acked-by: Paul Moore <paul@paul-moore.com> (LSM)
 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+--=20
+paul-moore.com
