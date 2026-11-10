@@ -1,88 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.176
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794320711;
-	b=uwJgqjq0F1asn7Poh73sl+UeCL/7U03EXHEsw5HL8rL84UKz7LGxXOZouAjhA7cr3Y1d
-	 PHaaPzBMqeZdARGS7Nh667g7aysQhtv63JaKZnd1uAn4kOHOIN1PLar4sz4gGCIpGjGxO
-	 4E4PmVlbpGv5d+UJJHGVpuWj238fluFG+f5jCaG02RCF553eEbm+GxaL0ttubsMdACeyc
-	 6BTUSBnE31NuCyGAvBbQm8CnhFOHjAP55UHNboUnz5L0q3tUhbBbrgT9gXOS9xFIGmZ8q
-	 SFT1LShNpcUKXmmcUmq+bEpopFyQIdAX0bjkaVe4AtYKOn7OxJ8NU7dYnIEXAib3ZsA==
+	t=1794320706;
+	b=e9T0GuB7VXab5d1UgZP5VGiYXit5kLwx92BKAjpmkXo68wmAJ2/Tw01M2ee9uFishfYa
+	 uB1IdtXBzJvSt7QJZfws2MOFR66z+m/jgqVf/KRbsLDGErN88X9S6OGLyGz/yKvajsu/L
+	 Kzd7fpp4+5bSgTaJGN9foGd1G8v+HO1al3ZOvKlbt8U8T3rNdfBa2nDi4KQy0h4DLw8SO
+	 5ywhDc12uOV/9R7xSYF/+F+t3OaGLhCn1+tKE3QesfinK8jo62wx6rbNFffMMN7INy+RO
+	 sNDRV6aR8GqYoG6/Owx39krRY9xKSBaTfunfo+ZRuPL3mFkbCax5P5Vcl3WCPcYUSog==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794320711;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794320706;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key;
-	bh=8zerBigyv9mmzg2Gjo9e2dqqPP6k5FgIy3HAg56oVSI=;
-	b=zcXwx5JH1utMHUPAdwpp/7mcqTQY3MeVN/n5hdxi2dMn1G95lFQUrFeywddlyJH8fJVG
-	 aMJwud7E8pcIevC3mRCa4oZmRdL0kERrg2rW+9KWfFtc5eOK3rOwJY0C410VnhqahG+A/
-	 AVxFjrCMkFCESwBYnf1SbuZMtcGufrgEdv8Jpm1Qf0Ces82B02Xy5mK35P9vJz9xePGay
-	 aq/CFW9dZcDR9Id8mAGz/f6kqdNTA8IbISPnN5BghYeu5V8yRziZ25+w2k9YJE4HXdmZB
-	 pY9e8M6SyAaPGu1nuTa/z+Rfz4zYmBxllVMVfSyxGpKQGhJUyhuDhaXc5EqZZmJf8OA==
+	bh=fsgc145zwHET8lvApLf2hA0PKAQBWP1kvOH0cyQnSe8=;
+	b=NLRKgimcXbmLv0waT5FbBYLdQCy9kzEFZmRIQqjEj1OAMG9yWCSxagbQVnyMb2gHc3M4
+	 DloWFuL2C4/8LF4TYN+4cKvA1uXcw/oF7XbgH1kFoo6s9cI/yOXc25kuuBozKfqrVbTOj
+	 ym7MisMxoJgAuvSey+8dRbDAvIN0BY87CoUSDPhqY5GQjTbbFHUJyM2FyNtu4zir5YB0i
+	 FaOEweVCDxp3O/3DeengGxYkkSi+TPqcPA27tBM/Xs36NXlooceb/vGquen01/EQ/L+gs
+	 QGPD6S0IXbuejQAAXSAsDbqyO5iEIQIyvoeOVMYG1+ww3TPGDzxGrDI04egF0ocVdhQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=toxicpanda.com;
 	spf=pass smtp.mailfrom=toxicpanda.com;
-	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b="gMvp/4tH";
-	arc=none smtp.remote-ip=209.85.222.176
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=KZ4ymSmw;
+	arc=none smtp.remote-ip=209.85.219.48
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAAFD60A6F6B
-	for <linux-fsdevel@vger.kernel.org>; Tue, 10 Nov 2026 14:25:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CAAFD60A6F6B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 052EF60A2611
+	for <linux-fsdevel@vger.kernel.org>; Tue, 10 Nov 2026 14:25:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 052EF60A2611
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=gMvp/4tH
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-93f3c8958d5so235730485a.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 10 Nov 2026 06:25:10 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=KZ4ymSmw
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-91eb5559b34so15770446d6.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 10 Nov 2026 06:25:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toxicpanda.com; s=google; t=1794320710; x=1794925510; darn=vger.kernel.org;
+        d=toxicpanda.com; s=google; t=1794320705; x=1794925505; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=8zerBigyv9mmzg2Gjo9e2dqqPP6k5FgIy3HAg56oVSI=;
-        b=gMvp/4tHZPlWdcSsmWMjI/yNPB0fufeNNrLxVB2i4TwxZDREnjr76w0+nPjrm5vLwi
-         D73U8xUzIq7iEeAKifVdrzICeIAZdmR90LYDol0kkboU4Aoy5mGJrVTiVLiOdLoq3Wk6
-         z11Vdty7lHJiMDF9CZE/Y4eDs7V95i2wlK0hFrVqxS1vt01ZGWaMGd+o4DwQvtetE0J2
-         xDtw8BsuPSAXvc/I08lkJ5DVlSoLJvDOoV1MJi3nE80CTivTmhXDGtZrJeBUGPHFavOV
-         9lg8sPSkdFYX/+uMFzqAafvq4RVusxDTbiD+McY56ltl3YmQ4W+ZAQkie9X5/E/v2Axf
-         +7/A==
+        bh=fsgc145zwHET8lvApLf2hA0PKAQBWP1kvOH0cyQnSe8=;
+        b=KZ4ymSmwGQcTSEAG9tjuCzWtnNUBwSexP7mH4b7HisT1MmvhMnZkOsziIulTO8Zf3G
+         pOAj8szA8/crd1BpkZnk4l7YKy1uaAaXtqsuCS6x2h2EVq2A6voMlZaZr/HuDPczmxEM
+         e1J9Tp2fBo/7qkEOh0jXe345pHG+Qs3yL9m5y/SQUPLP2SMHajDlBC5OgVkAb3V0a1I4
+         zwJMbbTKC3dTad5Cz267m2JvbO+C3FJmLz7UP8CHNCi7DCtNmfYtZ8byKNEPT2F9lxix
+         QYd6KYHJ+qHhlAkSwLgp2vNVyBpg2+FQb1328ZtZaLXxO1mXZ+LX4+JHO2zjlFM4i3I5
+         qrIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794320710; x=1794925510;
+        d=1e100.net; s=20260707; t=1794320705; x=1794925505;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=8zerBigyv9mmzg2Gjo9e2dqqPP6k5FgIy3HAg56oVSI=;
-        b=ia0216Q/ZbmoLnRqql1XjbdEJx44lZgJ2jwEvLv7sp65Bn5MMM4KrKKeC6YnH/bMKD
-         sxst608gPX63kBGEh97NnsWqbcyuVTOaKgwoutrll3cGJ2VY4hnddrsef/rmuZY09TpF
-         xyxWmT67mRquftXpY6iGTIZyBfZS6JOQU+lYBFJfoJCFEw7eDsk0yYDgX119bt6KcZIE
-         8Qv1CqxR1tPlBy25TzjSsijAuEvBqeHpYVXVqq5Ph/EuinznVBb2gpWzTEadAlqEhN0z
-         Apnps3hCHwqNMmxsyscvK3tqx6RLTS/faDp3NfiLi9a2z2QnIxEMvQ6HlJUF+TyaEYhJ
-         vIPQ==
-X-Forwarded-Encrypted: i=1; AL+hErEOokD8VytWGTbDBGItuBwApmnu8tFakGiN3pUWX7EgVslvGdwdoxqil2Z80/+ND/sCKQIE2UIXWq6b8oS+@vger.kernel.org
-X-Gm-Message-State: APuU4Z9oVqvqxWjq1gBHpTyQc2FxB7pvlq+Yydu3sQZX62IQ6Wf50vl6
-	rg0dyFqYBNs4giLUVYDLxZMN0ho0VRPrJBT/79p4SYMbpDg2hBinpVEunTiVhZavVJ0=
-X-Gm-Gg: AYBFou157JsVAmh9uTbJVSLF5NXfiks/3RYeG7JLVnj7kPjUBuyoe0UTjKHuBQE0nJz
-	C/kLJnpyx7lRyufEG6d72esIFh2wlk3l3lh1Eb/O+38frk7LAyodBwIX2ocoJjdNv/DJ5giANIG
-	q35pUriwZIOQCe5I1j8mpWP1zzZsmD1rtb/+3D3lEEwdXxgGDLAt+LO4UF2JIWYIcm4V/hxRYeV
-	ZqRW0nNTHEQlZbA+EEQufOm/A8t5yilvdQReTXzdFC5e0lnLguEYHjLrUF2frcVGlA/2LWBTbHH
-	OQSKpTYxQpt/uST/O221/Qqi3ZLgoUncgVlyC++YiCWpNAwBSp9MuP7gLsa3N0d9E07KeqEEmjJ
-	ZIMhzo95tZDjz5l9Kj6DR1CwuturedlvTPzmrEqM4rsEbsLo8eexw2hPfQpSB+kDi6Flbz2VYWX
-	xd+1N9Ww38BMUC1IWv9rs5QYCJ/BM/4/IJriRPKYciYvaSMG3yoqSVoq3St6PiMGu1iOUeyglTc
-	GgXlD40eDwu4L80Xz5zVmiUFgGGMOwAbOeSAtXakPIIcnjtNSKl/KrgAnVeEMl9ROTEs6q6YNoT
-	+WkB7xcwhaNdvbuB8wJqBA+WYgfR2A/TdmOrWjyVbP0lDxE2a33qBf+Pal3RQDsQTjU=
-X-Received: by 2002:a05:620a:45ac:b0:943:faab:a149 with SMTP id af79cd13be357-9479f38f7d8mr474237285a.63.1794320709592;
-        Tue, 10 Nov 2026 06:25:09 -0800 (PST)
-Received: from toxicpanda.com ([153.61.196.242])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9479e770d7csm235081585a.17.2026.11.10.06.25.08
+        bh=fsgc145zwHET8lvApLf2hA0PKAQBWP1kvOH0cyQnSe8=;
+        b=HYpmrhn0gaNbZvXi+pjs2gNfx5xOEL6E8WBQBeZy2KIl0wV0uAnE44AH+77Yd25IOz
+         eFYnkpCCea2Z/SQ6GyKgGl7yTJNb1tvVVvmm65YJTFMVScGfF/qsX09YXr9wjFQfiyeG
+         FCqUCafVWQc09P2hgWeSF3+8qeA5J1rGqg7u9S65dzSrGlbtH1FrQQ6wJKDC+/74V8Xe
+         WNejvTFCTtVTv6Yzx1JjlohOxh/aFgx8VfbrMkbBoPio8E+t4r9lpZP4GPh4IMks/hEt
+         XAmWIUkEYBIa0I3wn1ZteTDhjqbKHnhHUN8FcuRccK14ioDSszDWB7Py7NvUpZINbO/k
+         Q7Iw==
+X-Forwarded-Encrypted: i=1; AL+hErF3PB8XmPNZdiT7ah1NluzTfYxJQCk+Yw/SV21PT61tSmNnj/XrIcRqLUBly8sSVC/zEH2Ut80BHulfgG3J@vger.kernel.org
+X-Gm-Message-State: APuU4Z/n350oxhZc5XUb0aF7yBgA9h97gTZEGl3brOSKR70nWHF0Muz3
+	ePUUHWx6Js8amFUHlLQjvjaj2M4LqjF4lTNeGesxYxA8uY/dggerj3ke8gg2XrXblLk=
+X-Gm-Gg: AYBFou3fwb0whkpjeJo/Z42VuTU24+zzo88qdbJ5DyIx7Z/ZDuX4cmvKXuEGsmOXrck
+	OkaBDlp24uZl/l42uV4n9P/TUWm+UuWq4jIBuCvEikMz/CuEMdrifnFw3BwGpsssrE73hWXFJNF
+	HIlMfKCWtcwWKpn1AKqMSSxEtWORW6Kc681qgT2K9sr2Xs0THuXEwUJqioe5PLpKboZgwwGjP8S
+	2sz0osseLzwU8kscyxCg2+dSyjA1TMz2Lo5Eq7jHLjskvJfCK/8r/KW9523Wfnpz7VgBw4+kNgS
+	7Wqp8meTVnxL4NQlpUMTbKZT9WyVhc8syUqsMEPc5EPkLGQkwHMNu1nJ1nNHGnlCseBvFDB1TRt
+	idaPGS2C9XhaaEOPViVXLdqGM4zIZd/efIOlXInZqWGHHOyYTzx8zK+wA5HpIm9Z+b3DEofQEGJ
+	DCooCWKq1buwdMZccoxsESRLXrz9AMjqOd0HpcCnQ+gZxFb0cUdZ/W2hcqP2DKVCJ3bwWxt63jE
+	ng/ueVJeiEUhedNwalzetkkqWwAfZeMA/rbucJqfgZJXPxP93j78JKzhFLO/21rSFbhmShGp2Jq
+	17MRnZdx4+AhNs36YI8UhETMUPVt8EHhyKTUYCJanWqV6Q==
+X-Received: by 2002:a05:6214:1d0c:b0:91e:b7fd:b35f with SMTP id 6a1803df08f44-91eef8e19d0mr46530126d6.30.1794320704691;
+        Tue, 10 Nov 2026 06:25:04 -0800 (PST)
+Received: from toxicpanda.com ([153.61.196.252])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91ef04fb5c9sm22263976d6.24.2026.11.10.06.25.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 06:25:08 -0800 (PST)
+        Tue, 10 Nov 2026 06:25:04 -0800 (PST)
 From: Josef Bacik <josef@toxicpanda.com>
-Date: Tue, 10 Nov 2026 14:24:54 +0000
-Subject: [PATCH v6 6/9] ovl: cache dirty overlayfs' inode
+Date: Tue, 10 Nov 2026 14:24:51 +0000
+Subject: [PATCH v6 3/9] ovl: setup overlayfs' private bdi
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -94,7 +94,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261110-b4-ovl-containerized-sync-v6-6-43d1be16a4d6@toxicpanda.com>
+Message-Id: <20261110-b4-ovl-containerized-sync-v6-3-43d1be16a4d6@toxicpanda.com>
 References: <20261110-b4-ovl-containerized-sync-v6-0-43d1be16a4d6@toxicpanda.com>
 In-Reply-To: <20261110-b4-ovl-containerized-sync-v6-0-43d1be16a4d6@toxicpanda.com>
 To: Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>, 
@@ -103,68 +103,51 @@ Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
  Christoph Hellwig <hch@infradead.org>, Chris Mason <mason@kernel.org>, 
  Chengguang Xu <cgxu519@mykernel.net>, linux-unionfs@vger.kernel.org, 
  linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Josef Bacik <josef@toxicpanda.com>
+ Chengguang Xu <charliecgxu@tencent.com>, Josef Bacik <josef@toxicpanda.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openssh-sha256; t=1794320698; l=1773;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1794320698; l=1000;
  i=josef@toxicpanda.com; h=from:subject:message-id;
- bh=4vtTge6/ThBXumR/B3MN7k2/gMZpZtKv00zfzARf7Uc=;
+ bh=oigsy1vUIPeqGe01IWwnaOrpAKAk76udNuQNtC58Mj4=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgUBr36M/n0nWN0DNbnxwzIiCZez6MG
  JiruuNaSCI/zXsAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QHMUwCVvUHJZIqDJQPoatfq/63xIDsZ7l1dryd7bHmkdczxNnDK72RycPGk1V0k6C1rUbAWZrUU
- LCp+SndZgEg0=
+ QM6Qi2Z/vttC+ismRUqZpKJCnEVi+EA1CDQav1wZ91mZcSHpYI4N/AGPLItarZUhdimNLf1Xgkv
+ 0yxrYcudV1gQ=
 X-Developer-Key: i=josef@toxicpanda.com; a=openssh;
  fpr=SHA256:C8kOX2QUJCMqnCX+KEeoqRAjLo9L+ELOSH2NSAJHqGA
 
-From: Chengguang Xu <cgxu519@mykernel.net>
+From: Chengguang Xu <charliecgxu@tencent.com>
 
-Now drop overlayfs' inode will sync dirty data,
-so we change to only drop clean inode.
+Setup overlayfs' private bdi so that we can collect
+overlayfs' own dirty inodes.
 
-The purpose of doing this is to keep compatible
-behavior with before because without this change
-dropping overlayfs inode will not trigger syncing
-of underlying dirty inode.
-
-Signed-off-by: Chengguang Xu <cgxu519@mykernel.net>
-[josef: also keep an inode that is under writeback, rebase]
+Signed-off-by: Chengguang Xu <charliecgxu@tencent.com>
+[josef: only for an overlay that tracks dirty inodes]
 Signed-off-by: Josef Bacik <josef@toxicpanda.com>
 ---
- fs/overlayfs/super.c | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
+ fs/overlayfs/super.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
 diff --git a/fs/overlayfs/super.c b/fs/overlayfs/super.c
-index 41d0d37accda..ccfbaf9d8797 100644
+index 81da70fd53a6..22a8d4eb3b7c 100644
 --- a/fs/overlayfs/super.c
 +++ b/fs/overlayfs/super.c
-@@ -388,11 +388,27 @@ static int ovl_write_inode(struct inode *inode, struct writeback_control *wbc)
- 	return ret;
- }
+@@ -1490,6 +1490,16 @@ static int ovl_fill_super_creds(struct fs_context *fc, struct super_block *sb)
+ 		if (!ofs->workdir)
+ 			sb->s_flags |= SB_RDONLY;
  
-+/*
-+ * In iput_final(), clean inode will drop directly and dirty inode will
-+ * keep in the cache until write back to sync dirty data then add to lru
-+ * list to wait reclaim.
-+ *
-+ * An inode under writeback has had its dirty flags cleared, and only I_SYNC
-+ * pins it.  Such an inode is not clean.  ovl_write_inode() may be about to mark
-+ * it dirty again, and marking an inode dirty that is being freed has no effect.
-+ */
-+static int ovl_drop_inode(struct inode *inode)
-+{
-+	if (!(inode_state_read(inode) & (I_DIRTY_ALL | I_SYNC)))
-+		return 1;
-+	return inode_generic_drop(inode);
-+}
++		/*
++		 * Dirty overlay inodes go on the lists of this bdi.  fsync_mode
++		 * is final once ovl_get_workdir() has returned.
++		 */
++		if (ovl_tracks_dirty(ofs)) {
++			err = super_setup_bdi(sb);
++			if (err)
++				return err;
++		}
 +
- static const struct super_operations ovl_super_operations = {
- 	.alloc_inode	= ovl_alloc_inode,
- 	.free_inode	= ovl_free_inode,
- 	.destroy_inode	= ovl_destroy_inode,
--	.drop_inode	= inode_just_drop,
-+	.drop_inode	= ovl_drop_inode,
- 	.put_super	= ovl_put_super,
- 	.write_inode	= ovl_write_inode,
- 	.sync_fs	= ovl_sync_fs,
+ 		sb->s_stack_depth = upper_sb->s_stack_depth;
+ 		sb->s_time_gran = upper_sb->s_time_gran;
+ 	}
 
 -- 
 2.55.0
