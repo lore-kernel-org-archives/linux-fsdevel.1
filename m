@@ -1,56 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794345641;
-	b=aEuyLT+uxhlFOM9HJk0gV/NJ3ARNyGno5Ls3CDseqql8QcRQNxrsWX769UMKY+8bc6ET
-	 ZPn8yVM4WLIw81FEqVFstDA67a72kNQ89w2w/NFQpjwGRDLofeucf533hEN4918c6CetL
-	 9L/t0Oy48fSkENZmWS8/jGuVCen/o3kIktmwAejs9Gx7IE/0jYJwAfWXexi/zWKc9h8SP
-	 J9TIKY20LMEFITGb4+ab7AGH4KZHOJufydeLy7CxtmAg9UV5UNhBQTNzEQqeX6b2lYrGK
-	 GtzY6VH04rsr3Vvkeyvj1rIMuC44okRQ/aVRFjt8Ivs1TDTwzSwe4AVB73PpE8ZumxQ==
+	t=1794346502;
+	b=g+JqM/tB2A2tl4rFCZ958d0uqi1Wfg9EULE30rXsovIURrU+vrSZbn+fsNzL+1kz8Emt
+	 86hu4296nKWBy4hBWD15bbINKWYsvPwgE7FVv6dWKpTcY5rpmiKUh04ZNZPyX/Xq2w8vc
+	 oFzgpCt5HPjq+/+qn5VzZiackxV6xcU4DWWEK1GzfdMFWn+klHSdjWYQ/NqHWIx4+F0K9
+	 fMO37Nz+Qoul+Akg7WuvIVOGMJuZYYifDMs+3/wO7nohiVeAR7SMkaRvaZ8YIfbv0Nw5M
+	 iZDHd6xTGeKu6IRRGGj/JgPdP3vGqS5i9DRPx+7eDUWJ8BaJ1WbjKBxwQou+1mNC4jA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794345641;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=zUm2BSz9/z2c5sVywXbrw7njT+YA9vwtmg4EG8md0I8=;
-	b=ij96C1KtRQeXb7Q47nI1FbrUizTRRtBPXuiq5z7xFsDTTtyJMhSSUUo4llYOQeDocnb8
-	 iskTnCIWyIJlXuuM1BiQZM1090tF0caU06aWBcOV5pyZFf3ylJ0EDsqUCAPjMA2okGv1O
-	 FxcXBDL+x/frn5cnRB1LpS6tydMarMpPBVEN5tGb8jI3xj5zcesTrPpkySy4RfOpJLSk0
-	 7TNwYhoQauZodZW5E7Dk3iSVUTq8LMH9hJlL0MVoWwKscNFYcwoBN5aU3npdpD9fWFHlV
-	 RXCq+5GQ5CXJ9iNd49pxtcRcPpLzTN7wF/U+z1thHAxXCTn+ZJ8UL0R1xAZDU3u8bCg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794346502;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=mOqbf5f8IOrYsXobBY3T9L29gUMiYe3oysuU/ey3bJU=;
+	b=eCC9p3TXnMGlwS8xMVZB90bGUDcAQHiUrw+XDNhDoKETEw0nn0QoE5YJtk+l0RPOPQSf
+	 U8Vyg+ucA3FSZdZ2cLbdZzu8B6lVj/6Uqg3IA2VnDQsi3v7Gaf5we9c7W4fNQUgkAPsxN
+	 yoil8dWfE08uhYdM0n+UYpIOiLeKmnMU56y7af3PiCOxEW7Zq03SQ97Y4gESl+1stDQHd
+	 HttAMKHnFKFVU97L0++UncT+A/daVQVYz2cSXSm4M0CeLMtssCnuodmshdxE24IzRYkgt
+	 GLJIawVWhMT+xWXyyuPadFTmGXqRZCltVLflvM8CXIJyVWsOAnrOH2s/YzNFXME2sag==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PwdyZiN5;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cQ5xwQ6H;
+	arc=none smtp.remote-ip=209.85.221.44
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1370C606A320;
-	Tue, 10 Nov 2026 21:20:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19C92606A330
+	for <linux-fsdevel@vger.kernel.org>; Tue, 10 Nov 2026 21:35:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 19C92606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PwdyZiN5
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A12DA1F0089F;
-	Tue, 10 Nov 2026 21:20:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794345640;
-	bh=zUm2BSz9/z2c5sVywXbrw7njT+YA9vwtmg4EG8md0I8=;
-	h=From:To:Cc:Subject:Date;
-	b=PwdyZiN59bEIMnx0a/O6kMGUgpCtADsngBdCbawzyhn8NYMQj/yCwkcPGKIR+NLsh
-	 BSQhuVlq1aQ0Z/0J3UkLEZa+xy6U//HmbXNLo+osEXUDtJWlyv7IGMySMKL6SW7DKn
-	 F48hZWLefYEfcQDxuju5Dl5MfY/o5jGMDzpELO7mWJJFX+gVVgf0EmXpgUHfQB5YF/
-	 CA70iuli9k67d7ESEAW8AmUJEjLoffkvd4JBNZdqYCIXYynDFV+kRESBv0XcElDxQV
-	 J4KzpY8HHEf/Wvy4aJxl364dJcPeFBwqQiR3kVFzBdGz3J/pmsR6J/hGai+45Tdx0l
-	 S5xpjwHZuKeAQ==
-From: Eric Biggers <ebiggers@kernel.org>
-To: linux-fscrypt@vger.kernel.org
-Cc: Theodore Ts'o <tytso@mit.edu>,
-	Jaegeuk Kim <jaegeuk@kernel.org>,
-	linux-fsdevel@vger.kernel.org,
-	Eric Biggers <ebiggers@kernel.org>,
-	stable@vger.kernel.org,
-	Ada Smith <adasmithgt@gmail.com>
-Subject: [PATCH] fscrypt: Initialize ->ci_master_key before publication
-Date: Tue, 10 Nov 2026 13:20:11 -0800
-Message-ID: <20261110212011.35487-1-ebiggers@kernel.org>
-X-Mailer: git-send-email 2.56.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cQ5xwQ6H
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-48e1d0e5dafso1705384f8f.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 10 Nov 2026 13:35:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794346500; x=1794951300; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=mOqbf5f8IOrYsXobBY3T9L29gUMiYe3oysuU/ey3bJU=;
+        b=cQ5xwQ6HxvcHCdVO4r6Zx1QKFnlw5WLHnAF1G9hPEgTyBn03UOrvZjE9idlHwO1Ry9
+         Ua4VMMAmZ4MUqxSKUEOgOuNZ8EZlSYLFOQjjxypNvGBlSnE00SnaVz/OC3Yd/f/JKk3d
+         ixozxVkn48kkO2fGlEyzbhH2W2i842magCGSlXzocmY234qZXqjWwV7fXieUZgClA0Fk
+         YKBkqZje0zuORPfMlu7J2D8lQ2b+Dg4ZUacCiwBh8g9bF129dWhdYYppNulvfYEBvGbV
+         0igXXgKVF8NZwyyzVntYU55XI+ye345Kd4eCvg/S9bVkz95mzJRfifF8IZHZaI69Klde
+         HUPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794346500; x=1794951300;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=mOqbf5f8IOrYsXobBY3T9L29gUMiYe3oysuU/ey3bJU=;
+        b=gMxq6NcX1z7vn3kAJyh4Tg6O1M3i/yuBYFPY6NtWEaUrkTmA5/+QP/QhBpsRx3kjhY
+         vqNTOSZVrYj53xHMhn1CDsb7RT0DlzkbjKxpecowtsh67yBRCczBeKVScWilxzvxwWoW
+         o4A/q7bTJ8CnrqyCa80K8M8OrpkF/HF2889Smf/F90KavmRIcb75szNs+N40iiOms7iK
+         kY3PjAIn3ESyfcVOYfQufG253AC8cHVlJTmlwcLDUvM0WNRSDLkiKX9Re5ubVXoG9w15
+         Y7KPuau8BWVtj+RZkj8MyKobzOZ34oVUJ3JElz+clSi7FbC8efVIFlqshM3vf/Mk75Do
+         3HHQ==
+X-Forwarded-Encrypted: i=1; AL+hErG/bi7ZtfxAbFNvTssDUh3EKMn8uSwmiIk2OGBn16BWfSBORH3kZ2N1n07/zakmNC6z/FKNbWjh+RoN9306@vger.kernel.org
+X-Gm-Message-State: APuU4Z8e/+OiUe7I0qE086K9VbOUzvl0QUumwvZgYt7NTKh50oKBUH0j
+	wA1XPX+4Ftfq9N0472/eFtGqjp8OUF1SxDRyYmfizdsS2cKRm2/+dMfY
+X-Gm-Gg: AYBFou3J1Qe50FyCOIOCBpX896b6mk6rFb/WNYOVwj8BHB/LSoGYTu2SIlnoZRPMy6H
+	2YaBXOBkvqI7s9kCgch0dsE80O5vSM7cqskAs4jWFORfgaCcSjDw27Gwu+UUtiZoyG3OTv9RST1
+	U+9hmyWltUvXHlozUtcLG0qbMGKpSFT0fdExrQF0YmTTg7ZMNPGOWwDU6OzKv2mIGHSd+9wiiZb
+	xLv3QI+Va0Ak3g/NsxbmGKc6XpDiIRwojwNjz56S5NJcO9bRCcr5s/KFjMEPdCATOypqCVvfQWG
+	Uw4LdxlokW9abgdwT14s5pPyou2WduTCGAwCexKRLF43Z0nkeM3IkyjkMxjRyoNEyOZq+gvZJBP
+	Aufzt4gzEo91h9+ujeKlfs+NhTR5//IpX5vTkFIZZAina1Yr3qAnpkq4tTxBUrvSr43+eYMJKEk
+	vu5+b5t5d9K5GAjZFiGNWX9H0QVi54E8+fkVr98rjeJiuOi7tZPA5DYKVwbsrfMqtHaBRN1Cz6Z
+	e60hn/Fdl7fFkrvlwnq+1WW8aOLDzDKxa58+ZW6Cj4oOz5+bzyXBSKWx3l/ePjyGbtPxSxhOfNF
+	gop6go+kZ47DXjwSVsJqDf/l
+X-Received: by 2002:a05:600c:364b:b0:4a1:d766:758 with SMTP id 5b1f17b1804b1-4ba08e1f572mr8423245e9.16.1794346500171;
+        Tue, 10 Nov 2026 13:35:00 -0800 (PST)
+Received: from [192.168.1.22] ([83.231.69.9])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-498369a3fd2sm7670526f8f.52.2026.11.10.13.34.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 Nov 2026 13:34:59 -0800 (PST)
+Message-ID: <cbcd04e6-b0c6-4a8b-9f89-4f57a4c50864@gmail.com>
+Date: Tue, 10 Nov 2026 22:34:55 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -60,73 +92,93 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/9] mm: limit pagecache folio refcount when splicing
+ into pipes
+To: "David Hildenbrand (Arm)" <david@kernel.org>,
+ Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
+ Kiryl Shutsemau <kas@kernel.org>, Matthew Brost <matthew.brost@intel.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>,
+ Gregory Price <gourry@gourry.net>, Ying Huang
+ <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
+ Peter Xu <peterx@redhat.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Song Liu <songliubraving@fb.com>, Rik van Riel <riel@surriel.com>,
+ Miklos Szeredi <miklos@szeredi.hu>, Alexander Viro
+ <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
+ Hugh Dickins <hughd@google.com>, Will Deacon <will@kernel.org>,
+ "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin
+ <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>,
+ Arnd Bergmann <arnd@arndb.de>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Kevin Tian <kevin.tian@intel.com>, "Joerg Roedel (AMD)" <joro@8bytes.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Steve Sistare <steven.sistare@oracle.com>, John Hubbard
+ <jhubbard@nvidia.com>, Josef Bacik <josef@toxicpanda.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Neal Cardwell <ncardwell@google.com>,
+ Kuniyuki Iwashima <kuniyu@google.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev,
+ linux-arch@vger.kernel.org, iommu@lists.linux.dev, netdev@vger.kernel.org,
+ stable@vger.kernel.org
+References: <20261110-refcount_overflow_stable-v3-0-318625d63a98@kernel.org>
+ <20261110-refcount_overflow_stable-v3-2-318625d63a98@kernel.org>
+Content-Language: en-US
+From: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
+In-Reply-To: <20261110-refcount_overflow_stable-v3-2-318625d63a98@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-fscrypt_prepare_setflags() assumes that if the key for an inode with a
-v2 encryption policy has been set up, then ->ci_master_key is non-NULL.
-This is a reasonable assumption, but it does not take into account the
-very short gap in fscrypt_setup_encryption_info() between the inode's
-fscrypt_inode_info being set and ->ci_master_key being initialized.
-Thus, a NULL pointer dereference was possible.
+On 11/10/26 9:35 PM, David Hildenbrand (Arm) wrote:
+> Similar to mapping pagecache folios into page tables, let's reject
+> additional references when splicing folios into a pipe if the refcount
+> is at its limit, similar to how we handle it during GUP.
+> 
+> This will prevent more cases of possible folio refcount overflows with
+> large pagecache folios.
+> 
+> Introduce folio_get_checked() for checked reference acquisition when
+> the caller already holds a reference. It warns and fails on a non-positive
+> refcount and rejects additional references at the limit.
+> 
+> Use folio_get_checked() in splice_folio_into_pipe() and
+> fuse_ref_folio(), returning -EFAULT on failure, like we already do for
+> pipe-buffer duplication. Similarly, make try_get_page() use it instead.
+> 
+> Likely try_get_page() should be renamed (or removed) later, as it doesn't
+> match the folio_try_get() semantics and is confusing.
+> 
+> If we hit the limit after splicing some data, return the number of bytes
+> already spliced. Teach the callers to handle errors, and stop
+> filemap_splice_read() if we only spliced part of a folio, so we don't
+> skip ahead to the next folio.
+> 
+> The check in try_get_page() also covers pipe-buffer duplication by tee()
+> and partial pipe-to-pipe splicing.
+> 
+> Note that we deliberately will not fall back to the slow path of copying
+> the folio, particularly as the folio might have an invalid refcount. If
+> it is ever really required, we can revisit.
+> 
+> Fixes: 800d8c63b2e9 ("shmem: add huge pages support")
+> Fixes: 99cb0dbd47a1 ("mm,thp: add read-only THP support for (non-shmem) FS")
+> Fixes: 793917d997df ("mm/readahead: Add large folio readahead")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 
-Fix this by closing the gap: make fscrypt_setup_encryption_info()
-initialize ->ci_master_key before publication.  If it loses the cmpxchg
-race afterwards, set it back to NULL so that put_crypt_info() continues
-to have the same behavior.
+LGTM :)
 
-Fixes: b1c0ec3599f4 ("fscrypt: add FS_IOC_REMOVE_ENCRYPTION_KEY ioctl")
-Cc: stable@vger.kernel.org
-Reported-by: Ada Smith <adasmithgt@gmail.com>
-Signed-off-by: Eric Biggers <ebiggers@kernel.org>
----
+Reviewed-by: Jose A. Perez de Azpillaga <azpijr@gmail.com>
 
-This patch applies to v7.4-rc2, and I'm planning to take it via the
-fscrypt tree.
-
- fs/crypto/keysetup.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
-
-diff --git a/fs/crypto/keysetup.c b/fs/crypto/keysetup.c
-index a77b889d7578c..0beec01c04185 100644
---- a/fs/crypto/keysetup.c
-+++ b/fs/crypto/keysetup.c
-@@ -621,6 +621,13 @@ fscrypt_setup_encryption_info(struct inode *inode,
- 	if (res)
- 		goto out;
- 
-+	/*
-+	 * Preemptively initialize ->ci_master_key, even though we don't know
-+	 * whether we'll win the race below yet, because if we do win the race
-+	 * then other tasks can see it right away and need ->ci_master_key.
-+	 */
-+	crypt_info->ci_master_key = mk;
-+
- 	/*
- 	 * For existing inodes, multiple tasks may race to set the inode's
- 	 * fscrypt info pointer.  So use cmpxchg_release().  This pairs with the
-@@ -634,7 +641,6 @@ fscrypt_setup_encryption_info(struct inode *inode,
- 		 * crypt_info.  Now link it into the master key's inode list.
- 		 */
- 		if (mk) {
--			crypt_info->ci_master_key = mk;
- 			refcount_inc(&mk->mk_active_refs);
- 			spin_lock(&mk->mk_decrypted_inodes_lock);
- 			list_add(&crypt_info->ci_master_key_link,
-@@ -642,6 +648,12 @@ fscrypt_setup_encryption_info(struct inode *inode,
- 			spin_unlock(&mk->mk_decrypted_inodes_lock);
- 		}
- 		crypt_info = NULL;
-+	} else {
-+		/*
-+		 * Lost the race, so we won't be taking an active reference to
-+		 * the master key.  Clear ->ci_master_key accordingly.
-+		 */
-+		crypt_info->ci_master_key = NULL;
- 	}
- 	res = 0;
- out:
-
-base-commit: 7475ea8b58616b33c04afb976cf0fbaad9dd63fb
 -- 
-2.56.0
-
+cheers,
+jose a. p-a
