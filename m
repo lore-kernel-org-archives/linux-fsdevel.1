@@ -1,107 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794305680;
-	b=2Gg81hs3BIx+RfWcV38Qw/fyFwHmVvDOBoZr8ZI4QHz4lfSGMfJ8sknnCec0c/rcf9jC
-	 XHNHu+SMcDTm8ZCRIrkkIZjuyNDixdjX0AzP2B+72A0s1+8CA5mYL+6lWLf28o68qYwAc
-	 FLnDLBxnZK+eTVph27kR+RWbRMKqeULuUzkLLwG68sZ5I9lXj3L2gXyvzB/8saEzxszGQ
-	 1eXvy+opVUlbbrjQTu7bUPQt6NEoiEAQgqcqVq0Eo9MuyMJsgmogSo+kRJngfwUYQ3r1M
-	 DrMOJIQ+WVTaqfUc1oSRXdSHFqJztQ6KNts9kCvf4/+2BXXE7BZrwpZUKacgd4g6yhg==
+	t=1794305796;
+	b=OBQtLRER4K2UlPEBaGGp6+nd1Zqv1Awk6tgBgV93g743yIycrTVEdb40j3Ratzw5MWIB
+	 2rqxVFQsTLkiJ58UtU1qwlQRLx0cSylzFZCiUSDkNuCNra/CxT+ECC80jG+cV8r5n1yPs
+	 h+3UdUww/ReNcncZzrddSANBQKLv4OZPudE9fMyf8DI/5i/1tgqIg9FbQnfi19cY0HANF
+	 nMNb2ReHdSn7+13ckmOrfQsHXPhdxpaskCUI9y151a+oSrtiJXEFPcTT0nWr01DeWAYiR
+	 09TAi5q5OuTUTF0nlfuXsc5FnNdjNWOFniI1QUdasEutkvL1VfKDhnvezWqf+Q/leBQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794305680;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=9WFltYRvNkpM0HMxRLJxGiCTEiP83WtKPHu+oXy3KTg=;
-	b=tt1Vto2JihyXOuZioq1Dp0K5nvUQxHJguUX/bn5vFBR/e0Soys5Am5pW11lB1oZmThxY
-	 1221vfRFsolJhpbhRi0aTnGSq2cX4jdvSqc9oXnANh4ADri+ErshGmxI8B2inIxeEhEBq
-	 lkWursqbJJO0jQ+MGyLGzuPqyDO6vojUt/MjlaVoj+hsgKbxJK4i6nnsxsWx9XbtlxFpg
-	 Yytf7W/A2eaVSE9hIIEvproDLgtBl1qPzifudcJ+IjskYjsdB9skFz2ZwX8iFitj8GjpP
-	 RA+PgH/1Sz1aASEPbPyWkyNoc519z/GoeBgK5+FAzOJqMA6PR2Fge8c/GtkeicqQOVw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794305796;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=MDp3IqGPnUg5d4UvWr85er90NqjbtetB6LOR1Vib6ms=;
+	b=ppdJOHD8RrTfW5O/1LqdrCr87r0hNVaxxI0CvytE9Rv8oEwIw/QOjtfjOHHX3yp4JFXO
+	 7aXpyIB+5/7YxoMaTkcf7EOeAKA3NhVzoHoks22vrKZKUf6A75fIjgLyVlpTt04w+GnWm
+	 6KyAb+1uRS0hYn5Fo0b+Mnr6jQKx5dhCIm34CO61g+e/uIY2uljYiMlyUu38vL0Iw/+s2
+	 BXH83XsONiSFZ5BBFo9ZoSDrqMQUVCP3ENbd2uwB/FWszzsfwYGo09S/06ym9Rqbab2nr
+	 /ZDcmY8Xq6JZdW0AyK/sNeg8+/HcfVb5e16rVaDi5Q65M/CLG9JJdgDIDPyvfsLfNNw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DrlQYRb4;
-	arc=none smtp.remote-ip=209.85.208.45
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Sxzp+Vk8;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EE36606AA46
-	for <linux-fsdevel@vger.kernel.org>; Tue, 10 Nov 2026 10:14:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8EE36606AA46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBB86606A326;
+	Tue, 10 Nov 2026 10:16:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DrlQYRb4
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-6b547d6c07bso2304489a12.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 10 Nov 2026 02:14:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794305678; x=1794910478; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=9WFltYRvNkpM0HMxRLJxGiCTEiP83WtKPHu+oXy3KTg=;
-        b=DrlQYRb4d+FJBQLFk4gip1vdMb9pZcbFm0QRoW/O9nsnnIGk5B/dcI7komCKzkv/uM
-         Uz0TTkL3EB0XOLA2v0TTxwYvqDOvah1wiwbB4uUsiRRXfj1OcdvtnHWnMQS6yfKTNN5Y
-         2S+sbZpFj/oUd6OIfB1K+t4luOgmpm8MRta8dNUBz+XdEb16ui6jztHrAySR2QYDDBtW
-         UcH7ksMk3kyTCuhLg24n4RSbgP43bR1MD63YWBBHbNHKba+s6Adtgd3r0iiTavTYgvkx
-         vCBmyxhjfzRfUpjuhY0K7x1CK/3uUIf/0FzbTbFW5bHu/k5G1xko0Cr6O3LrrObY61iA
-         y+ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794305678; x=1794910478;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=9WFltYRvNkpM0HMxRLJxGiCTEiP83WtKPHu+oXy3KTg=;
-        b=ZTFD3BfIs7mj0J9DnDqLTy35dxFQvjaarkKPBkXI+h+2LfL3iB51aFmMzNdVyY/cCK
-         BcRst/wYGVMA0W1k3yQ/lxzV5vaTU0LfOEEi+Vzu6xxJoQdZnmbxhJRLEi/ZFXwzPXdB
-         TVBcUpGBuWrnMlaoLW0mIXQNhyceDJZhJdiiujI+Nd6F+poyPVOfvhwJ0s/C3B3FFPK5
-         pRqlku9aZelWx9Um9kjpoSeCig/E2N7p6OduvyL2vKM8N5UBCpJtgLgaxfwziUf5UYZf
-         dRt9di4rJ43ODqkDp8cPzxMBVcV36LdSZ/WU1m47dj/X6mcgbN4bcIAf7ir1WgG5AJ9L
-         j5Mw==
-X-Gm-Message-State: APuU4Z/gbNrLPYgT1IZSRztOTNTqh+fm7q2idMZIeaZHJAokdRQFTpBz
-	HDJ9cY23xUSvOGy31faEyZ8dJ/w6OLHKXBZeICmzI+SgR8j/PjoTGQKL
-X-Gm-Gg: AYBFou03mWK+pjnfgOcSP/FVQsv3q5ckq4ygoRkC96m/IBlSNSyFQT/7Idym3GmnyVj
-	S+qieJRUq8NZ+JzhrJzw8QxSBAUfed7fZztEE5cFv0ppQmwJZfeCJsxvX8UQIUYnVu69svE6u7/
-	B9jv4W/VMlIQv3jaH5nODtxUHeUcEFSvv++m1mbUaBnjg3mv9JPdREQmSd9d/Mnws88ZHH/EpyF
-	vbh+QqoA1uiU1ySzAeZs/NJgtSqDpu+zAB6IX8S/xyziVtJaOpO/tiAVcsDRCYvuyL0VMBd/PDW
-	kUOkpi9zJnIEiic9cvp+3C54JBiGt7aTyFLvO845X7ppYXZvd5ae0AfcTc47jv/UeKkSiL+oX2q
-	PUcRYMrm52STKI533K2TQ+WdexWl8ydA/RCMT959/ulG/ut86jrJHOBfi7wC9ANVzwuoLlDdBxW
-	CwITMfJuVACTx/cJ2D4RlLo3FoLX8HDhgc501W/12Fr0Ux3CKOaJXmPf3lYfNs1NwtrPGdWTBsu
-	P/bRwpkR7p5hMTw+hJ/zOAhhxBXY+UewwkH9Co3DraPxykfNCFX0wGquBT2Y5BsNykf6xIRNlzG
-	skPAVI8BCrHgnL/gKPDJ+qS+DPggQCMqfLT/VIivsMyZe6BaD7/q5u25t3BzftaZmVcjeGrrM7I
-	G93IVrtjhXMQ6
-X-Received: by 2002:a17:907:944d:b0:c41:4c20:5a80 with SMTP id a640c23a62f3a-c504963ce05mr189793966b.44.1794305677695;
-        Tue, 10 Nov 2026 02:14:37 -0800 (PST)
-Received: from localhost (178-84-201-199.dynamic.upc.nl. [178.84.201.199])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c504a593eacsm90433466b.36.2026.11.10.02.14.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 02:14:36 -0800 (PST)
-Date: Tue, 10 Nov 2026 11:14:35 +0100
-From: Amir Goldstein <amir73il@gmail.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>,
-	Chris Mason <mason@kernel.org>, Josef Bacik <josef@toxicpanda.com>,
-	Christoph Hellwig <hch@lst.de>, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-mm@kvack.org,
-	bpf@vger.kernel.org, linux-security-module@vger.kernel.org,
-	selinux@vger.kernel.org, apparmor@lists.ubuntu.com,
-	linux-nfs@vger.kernel.org, netdev@vger.kernel.org,
-	fuse-devel@lists.linux.dev, linux-efi@vger.kernel.org,
-	xen-devel@lists.xenproject.org, ocfs2-devel@lists.linux.dev,
-	linux-s390@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-usb@vger.kernel.org, linux-erofs@lists.ozlabs.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RFC 38/41] fuse: refuse files on pseudo filesystems as
- passthrough backing files
-Message-ID: <avLui6Mpf8GbKbtc@amir-ThinkPad-T480>
-References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
- <20261110-work-loop-pseudo-v1-38-4c998976c6c7@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Sxzp+Vk8
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AB011F008A1;
+	Tue, 10 Nov 2026 10:16:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794305795;
+	bh=MDp3IqGPnUg5d4UvWr85er90NqjbtetB6LOR1Vib6ms=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Sxzp+Vk8VglSZ5vV85C7ikwtPz+uz1IRnb3NOrd9Wun8KllMzb2LUbi+i6S0gLMcN
+	 5jXugi37YSIvM3zftdxNZttbrWR8y604vZbxqGJdcnIz6gNkpmozDfKF1jHBgGboZ0
+	 DcGcz+RSyCQJi3bdbkhFl4xPL+IMrYUIlHLE+CUR4GHE1DWdiu+2AsyFGSd+1Rmb6b
+	 pmcE6nCVlxkLCoRYQDlfiqboncz8qtKqB3XFd0hUkPaQZ5jR35v1bgqtrOve73lm8+
+	 rPRXSAbkTAra4IPA0HVOaQx4A0yI8AKrAzEBsuthbisPV/Z7UV7wlm7ln7PcMu+wBs
+	 CPNwrHnTMpM8g==
+Date: Tue, 10 Nov 2026 10:16:26 +0000
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Jiaqi Yan <jiaqiyan@google.com>
+Cc: linmiaohe@huawei.com, william.roche@oracle.com, harry.yoo@oracle.com, 
+	jane.chu@oracle.com, nao.horiguchi@gmail.com, tony.luck@intel.com, 
+	wangkefeng.wang@huawei.com, willy@infradead.org, akpm@linux-foundation.org, 
+	osalvador@suse.de, rientjes@google.com, duenwen@google.com, jthoughton@google.com, 
+	jgg@nvidia.com, ankita@nvidia.com, peterx@redhat.com, sidhartha.kumar@oracle.com, 
+	ziy@nvidia.com, david@redhat.com, dave.hansen@linux.intel.com, 
+	muchun.song@linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v3 0/3] memfd-based Userspace MFR Policy for HugeTLB
+Message-ID: <avLunMb-pVIigmkT@gremlin>
+References: <20260203192352.2674184-1-jiaqiyan@google.com>
+ <ahXI0cK9fsOByvKy@lucifer>
+ <CACw3F51Q9TkMWr4WbnN07q60L6vj72-hFWwpqf0n6rf+drfb0A@mail.gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -111,41 +65,48 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261110-work-loop-pseudo-v1-38-4c998976c6c7@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACw3F51Q9TkMWr4WbnN07q60L6vj72-hFWwpqf0n6rf+drfb0A@mail.gmail.com>
 
-On Tue, Nov 10, 2026 at 10:14:54AM +0100, Christian Brauner wrote:
-> The fuse server can register any regular file as a backing file. procfs
-> and binfmt_misc files are already refused by the stacking depth check as
-> both set s_stack_depth to FILESYSTEM_MAX_STACK_DEPTH. sysfs and the
-> other pseudo filesystems aren't. Reads and writes of the fuse file would
-> then be done on the pseudo file with the fuse server's credentials.
-> Refuse files on pseudo filesystems just like loop does.
-> 
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-> ---
->  fs/fuse/backing.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/fs/fuse/backing.c b/fs/fuse/backing.c
-> index 8c21a8a74efb..4e4fb810ddaa 100644
-> --- a/fs/fuse/backing.c
-> +++ b/fs/fuse/backing.c
-> @@ -147,6 +147,9 @@ static int fuse_backing_open_file(struct fuse_conn *fc, struct fuse_backing *fb,
->  		if (inode->i_sb->s_stack_depth >= fc->max_stack_depth)
->  			return -ELOOP;
->  
-> +		if (file_is_pseudo(file))
-> +			return -EINVAL;
-> +
->  		fb->type = FUSE_BACKING_PATH;
->  		fb->path = file->f_path;
->  		path_get(&fb->path);
-> 
-> -- 
-> 2.53.0
-> 
+On Mon, Nov 09, 2026 at 09:45:24PM -0800, Jiaqi Yan wrote:
+> On Tue, May 26, 2026 at 9:23 AM Lorenzo Stoakes <ljs@kernel.org> wrote:
+> >
+> > Hi Jiaqi,
+> >
+> > It seems this series got stalled on review, wondered if you planned to
+> > respin it at all?
+>
+> Hi Lorenzo,
+>
+> Sorry for the late reply.
+>
+> Yeah, I was stuck on the issue Miaohe pointed out for quite a long time...
+>
+> In offline chat with William <william.roche@oracle.com> he expressed
+> interests in taking over this patch series. However, he seemed busy
+> with something else and couldn't get to it.
+>
+> Fortunately we have more powerful AI now than we did six months ago.
+> While I worked on [1] with an AI assistant since 2 weeks ago, I worked
+> out a solution to the issue Miaohe raised [2] with the help from AI,
+> and now a working draft patch series. I think by the end of this
+> weekend, I can send out a v4 built on [1], the patch series I just
+> posted for freeing high-order folio that has HWPoison subpages.
+>
+> [1] https://lore.kernel.org/linux-mm/20261110053331.2708996-1-jiaqiyan@google.com
+> [2] https://lore.kernel.org/linux-mm/5e0fc743-eb44-b69f-01a2-da7b6f2eca8d@huawei.com/#t
 
-Reviewed-by: Amir Goldstein <amir73il@gmail.com>
+Thanks for the update! Though do note [0], given the current wave of
+AI-generated fixes this cycle is focused on that rather than new features (sorry
+I know I chased this, but nobody anticipated how busy we would be with these!)
 
+And since you mention AI, obligatory disclaimer: as with everything AI - please
+rewrite all commit messages and comments in kernel mm style, and make sure you
+understand every bit of the code when you submit! :)
+
+--
+Cheers, Lorenzo
+
+[0]: https://lore.kernel.org/linux-mm/a2f584f6-e382-4876-aa6d-d5a34de6ee59@kernel.org/
