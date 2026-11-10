@@ -1,76 +1,134 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.69
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794324696;
-	b=O87hjpbB+ZhMLWlsrDtW3kwMEnl8bwURN1GToTesUEVvN15HVluLb8L2gFtWntEm03/X
-	 C3425f0ZzslTEcI4biXk6TkUz4eAi+8pyeYFxesgNM4G6x29IEBBa20Kucl0qhsor6piF
-	 LaFlpkZfXKAyxpAeD+DukYo3+cE0/MMWf4vlDkZ7MHUpTBqWn8LIV215NnPA2nY2sAeQt
-	 WxkAAL3qMIbZI5Pn9Ap5u9ZrVGVA8Th3HdhM9v9hTo3Aht04MAv3mtwIZl4/yBLcmcg+h
-	 bJveJIZaC/5DXPlrJ6g8LUIpFpniP7sEM91FmvbGSsEYPZIE7scJgFzEjU06r/xx4UA==
+	t=1794324902;
+	b=yePmPjqXw5zdRGgr5YpE+JyigiMT10MSvUTjzGxlMoH33LhPiltQzGdy+6oL5we+03qw
+	 b6y6lAD+GcKYdY7FDOUqNvkg1dCNfiQHiibkLX4ksyvUxEMU1LCjcq/HLa04ZaQ0XtAFz
+	 FvGzjf0oNeQRXQ894G7smeHr84mg9l++Nz9D6QTaNg6N1pSJMffGHiCA39EINI7PgXPkR
+	 eUMhJsR0OQVoTALKKUBEWDMiDnsiAZtX8n4eo7lLs4BpjeVFQOc6XAREcFp+SbfT/itOI
+	 ZsJLxBEP268UKBGbxDZ1un2TaCB+qQMYBSdICsgbcPwscj5DM30OY9pOasLvc854xwQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794324696;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
-	 Mime-Version:References:Message-ID:Subject:From:To:Cc:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=SJjtzkP+sBHxUstFA6XSyOLuoy/E3cjaVl7XAdp7TZ4=;
-	b=Vxz+VGra8af1E6+X5s47skodKRihUz/bQXpGNkIlS+lcMy++9+GLzsBg5wNdbvv0Fofc
-	 1lCSZabeUicHKLa6j+gCeyubITNBtsFbJCkhpPKHTV6OVBEuxOnBkt+9ngTrDPMSb0aOI
-	 LqNj3sQZWsNQ9ToC+W5y9PFCrESASPXJS95s/1ogKPmJazR3TVGV1T7nL2e7wMKwIznYd
-	 LR4m9eUjfQqOFYmbZAtg+UTBDKgoKIINGl9cunXxI2n3dD4KWvI8QHBNlKXmWNrpLdOal
-	 z7Foao/lsw2kdilpggJ4KJLvlLz5vCSAQtxtbxuxT79Ep1UJMlltV4nhnKxmJy6yNuQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794324902;
+	h=Received:DKIM-Signature:Message-ID:Subject:From:To:Cc:Date:
+	 In-Reply-To:References:Autocrypt:Content-Type:
+	 Content-Transfer-Encoding:User-Agent:MIME-Version;
+	bh=yiQ/WykeEs4pSbStHIwElRZluiLMvCD6UkzGdVndLK4=;
+	b=xyfhf5icwmaSK5WaC6C3J4lVmPfh9iPmcAJbU3eO9Yu47jMtMGIWTzcPsHNCgZb/Rn2s
+	 w4SQvt+0C6CkarH0jvsOAv1bCGJnMfcEz0znBu4P2H4URbRTWYbHPV+4ZGpnBUCgXRo+o
+	 WABwYzD9zxgWeWZ+7pziQLT5RnjV5zVzjapxh/XnXUAuwMGGC2X9uHGTZe+TK8YAE/gtN
+	 gc5FQD4npqDYEuGuMrLOsVgtS3XMEAzYYu8F4iqKjUVQ1K4DEc5xDJfuAyo6F99vSe3TC
+	 ktIThsLZYrOVHOf7TcGunBpagrPKcIhAQjxjFSOI6HH44yH2yifPMY0KB73f4Mb6MRw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--halg.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=EbaSWAnJ;
-	arc=none smtp.remote-ip=209.85.208.69
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com [209.85.208.69])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NV7TCcUp;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93059606A32E
-	for <linux-fsdevel@vger.kernel.org>; Tue, 10 Nov 2026 15:31:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 93059606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--halg.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 782C160A2616;
+	Tue, 10 Nov 2026 15:35:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=EbaSWAnJ
-Received: by mail-ed1-f69.google.com with SMTP id 4fb4d7f45d1cf-6b570b713cbso2797534a12.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 10 Nov 2026 07:31:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1794324695; x=1794929495; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=SJjtzkP+sBHxUstFA6XSyOLuoy/E3cjaVl7XAdp7TZ4=;
-        b=EbaSWAnJ7A533qGpAvii2NS3I9zxkDKlvnsqDPtzIBKMTuzOPF5jRLHhwfsyK6diIL
-         2En3fr/6Wz2Zy14HVjG0BjTT6HzN+p6NPYlr8unPhlA6m2umktQnoqp2AYSjldSAJssk
-         xHzbOcqVaFfuuKFkgO7UgDfRrsaoBkRPDiUM6rHPYGDOR3M31dOOpz5vbhmi2t4d+DUT
-         jeFEACxiutXh0J7ifsM5tXZOXkDouo9+ARx8MVQmgZYMid1HxFVWY6jc0+kGfKGLmr9K
-         dwtVL5ln+2ptHee8NSHeS1SxVprCYBr2xvsLYm8F3UiIKYeFqvbgvqwm4UzA816ruQV6
-         HNoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794324695; x=1794929495;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=SJjtzkP+sBHxUstFA6XSyOLuoy/E3cjaVl7XAdp7TZ4=;
-        b=m8TGWFQumSIlNoSAJDkHVz3GorvB/KKLHoM0nT0cfBu7dSH/aLY2YnxR80ltQOVIC3
-         p9ipiD+EI0ERh0SgPp7J72MVSm+1Zqv7FGUaPMNH0CqaZ+yY6LjNiRDmB216kg8urV0b
-         lq7l4lmOf5ONXLW47yq1Iq6E3K2JStf1eEIM7hXu7aW1DuQESzPEYKUV8fWofKnChfIo
-         twQRPKsAwdxJZURe213/ezjzK+fv3kLQ+WlRPV8MAlSTvevLRBLUIDaYmKuAyg7xZXvL
-         919/iU/wscLF2Z5Rp23wOLyRM5qMTyq8o0GYxX4iROnUz7Q3FSDfvgvwmcswG+QukHdy
-         Delw==
-X-Forwarded-Encrypted: i=1; AL+hErEvOArP9mRrS0W9J82FwRt8wN3kxqdbSF09qT30jAlFsToqHHBJ5rNXqf7C8S7Td/cQsN7qPY6qALzeaR0M@vger.kernel.org
-X-Gm-Message-State: APuU4Z9Zak2XYQFmrj0ZAc5LeWEtt3n0pskKJC6PTP8FEDudlVraKgTD
-	sGSUwyNUTJIfgBwnE7LPblwPjce7KPjYb9irc5X2rwYiV2fgLdn2lPKMDsv+6qfF/HyjGntn5A=
-	=
-X-Received: from edsw12.prod.google.com ([2002:aa7:da4c:0:b0:6b7:834:31d9])
- (user=halg job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6402:68a:b0:6b7:675e:7a2f
- with SMTP id 4fb4d7f45d1cf-6b7675e7a95mr879624a12.1.1794324694693; Tue, 10
- Nov 2026 07:31:34 -0800 (PST)
-Date: Tue, 10 Nov 2026 15:31:33 +0000
-In-Reply-To: <CALCETrWa1SBLcb5oWjqjgzZvKvCoHjmYFk=Lf5ytEM9uqm5jYA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NV7TCcUp
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25CEE1F0089F;
+	Tue, 10 Nov 2026 15:35:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794324902;
+	bh=yiQ/WykeEs4pSbStHIwElRZluiLMvCD6UkzGdVndLK4=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=NV7TCcUpx3FcXZJiHKoy1IDgR/Y9FUC5E0C99Gj5KhyLKjUKto3Ayg3flRr55Q9Hx
+	 lddPB2gIJhpY5qtBpquO6dVP4k1+l/bSDYg3lkc6HKqKTo2lQh3mFg7+JIUM8pn5wK
+	 vkye4Y1sp2mEEC4l4vioO/rsXncyZFp9kABQb65YraXN7YNiuYbEYgMF84bpqjQ7aL
+	 F9crdjuDM2uL/gW2dRHIXKNI57eVa+efL/mzzKA9gb6MELR2T5UosNm1UnMAjPxLQ7
+	 7B/rycOrgEVVCOP4Xsl37d+hDqcewvWxkBh8tEZlTM7U4Is+K4A9UJ/rw/24netUNT
+	 12LNg4IrwkYsA==
+Message-ID: <7ef1bdb584ddeb5a383f8c2f9fef47ff3fba931f.camel@kernel.org>
+Subject: Re: [PATCH v3 0/8] nfsd: more delegated timestamp fixes
+From: Jeff Layton <jlayton@kernel.org>
+To: Chuck Lever <cel@kernel.org>, NeilBrown <neil@brown.name>, Olga
+ Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, Tom
+ Talpey <tom@talpey.com>, Alexander Viro	 <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara	 <jack@suse.cz>
+Cc: Tom Haynes <loghyr@gmail.com>, linux-nfs@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Date: Tue, 10 Nov 2026 10:34:50 -0500
+In-Reply-To: <20261109-deleg-cb-getattr-times-v3-0-710c7244a6ea@kernel.org>
+References: <20261109-deleg-cb-getattr-times-v3-0-710c7244a6ea@kernel.org>
+Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
+ keydata=mQINBE6V0TwBEADXhJg7s8wFDwBMEvn0qyhAnzFLTOCHooMZyx7XO7dAiIhDSi7G1NPxw
+ n8jdFUQMCR/GlpozMFlSFiZXiObE7sef9rTtM68ukUyZM4pJ9l0KjQNgDJ6Fr342Htkjxu/kFV1Wv
+ egyjnSsFt7EGoDjdKqr1TS9syJYFjagYtvWk/UfHlW09X+jOh4vYtfX7iYSx/NfqV3W1D7EDi0PqV
+ T2h6v8i8YqsATFPwO4nuiTmL6I40ZofxVd+9wdRI4Db8yUNA4ZSP2nqLcLtFjClYRBoJvRWvsv4lm
+ 0OX6MYPtv76hka8lW4mnRmZqqx3UtfHX/hF/zH24Gj7A6sYKYLCU3YrI2Ogiu7/ksKcl7goQjpvtV
+ YrOOI5VGLHge0awt7bhMCTM9KAfPc+xL/ZxAMVWd3NCk5SamL2cE99UWgtvNOIYU8m6EjTLhsj8sn
+ VluJH0/RcxEeFbnSaswVChNSGa7mXJrTR22lRL6ZPjdMgS2Km90haWPRc8Wolcz07Y2se0xpGVLEQ
+ cDEsvv5IMmeMe1/qLZ6NaVkNuL3WOXvxaVT9USW1+/SGipO2IpKJjeDZfehlB/kpfF24+RrK+seQf
+ CBYyUE8QJpvTZyfUHNYldXlrjO6n5MdOempLqWpfOmcGkwnyNRBR46g/jf8KnPRwXs509yAqDB6sE
+ LZH+yWr9LQZEwARAQABtCVKZWZmIExheXRvbiA8amxheXRvbkBwb29jaGllcmVkcy5uZXQ+iQI7BB
+ MBAgAlAhsDBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAUCTpXWPAIZAQAKCRAADmhBGVaCFc65D/4
+ gBLNMHopQYgG/9RIM3kgFCCQV0pLv0hcg1cjr+bPI5f1PzJoOVi9s0wBDHwp8+vtHgYhM54yt43uI
+ 7Htij0RHFL5eFqoVT4TSfAg2qlvNemJEOY0e4daljjmZM7UtmpGs9NN0r9r50W82eb5Kw5bc/r0km
+ R/arUS2st+ecRsCnwAOj6HiURwIgfDMHGPtSkoPpu3DDp/cjcYUg3HaOJuTjtGHFH963B+f+hyQ2B
+ rQZBBE76ErgTDJ2Db9Ey0kw7VEZ4I2nnVUY9B5dE2pJFVO5HJBMp30fUGKvwaKqYCU2iAKxdmJXRI
+ ONb7dSde8LqZahuunPDMZyMA5+mkQl7kpIpR6kVDIiqmxzRuPeiMP7O2FCUlS2DnJnRVrHmCljLkZ
+ Wf7ZUA22wJpepBligemtSRSbqCyZ3B48zJ8g5B8xLEntPo/NknSJaYRvfEQqGxgk5kkNWMIMDkfQO
+ lDSXZvoxqU9wFH/9jTv1/6p8dHeGM0BsbBLMqQaqnWiVt5mG92E1zkOW69LnoozE6Le+12DsNW7Rj
+ iR5K+27MObjXEYIW7FIvNN/TQ6U1EOsdxwB8o//Yfc3p2QqPr5uS93SDDan5ehH59BnHpguTc27Xi
+ QQZ9EGiieCUx6Zh2ze3X2UW9YNzE15uKwkkuEIj60NvQRmEDfweYfOfPVOueC+iFifbQgSmVmZiBM
+ YXl0b24gPGpsYXl0b25AcmVkaGF0LmNvbT6JAjgEEwECACIFAk6V0q0CGwMGCwkIBwMCBhUIAgkKC
+ wQWAgMBAh4BAheAAAoJEAAOaEEZVoIViKUQALpvsacTMWWOd7SlPFzIYy2/fjvKlfB/Xs4YdNcf9q
+ LqF+lk2RBUHdR/dGwZpvw/OLmnZ8TryDo2zXVJNWEEUFNc7wQpl3i78r6UU/GUY/RQmOgPhs3epQC
+ 3PMJj4xFx+VuVcf/MXgDDdBUHaCTT793hyBeDbQuciARDJAW24Q1RCmjcwWIV/pgrlFa4lAXsmhoa
+ c8UPc82Ijrs6ivlTweFf16VBc4nSLX5FB3ls7S5noRhm5/Zsd4PGPgIHgCZcPgkAnU1S/A/rSqf3F
+ LpU+CbVBDvlVAnOq9gfNF+QiTlOHdZVIe4gEYAU3CUjbleywQqV02BKxPVM0C5/oVjMVx3bri75n1
+ TkBYGmqAXy9usCkHIsG5CBHmphv9MHmqMZQVsxvCzfnI5IO1+7MoloeeW/lxuyd0pU88dZsV/riHw
+ 87i2GJUJtVlMl5IGBNFpqoNUoqmvRfEMeXhy/kUX4Xc03I1coZIgmwLmCSXwx9MaCPFzV/dOOrju2
+ xjO+2sYyB5BNtxRqUEyXglpujFZqJxxau7E0eXoYgoY9gtFGsspzFkVNntamVXEWVVgzJJr/EWW0y
+ +jNd54MfPRqH+eCGuqlnNLktSAVz1MvVRY1dxUltSlDZT7P2bUoMorIPu8p7ZCg9dyX1+9T6Muc5d
+ Hxf/BBP/ir+3e8JTFQBFOiLNdFtB9KZWZmIExheXRvbiA8amxheXRvbkBzYW1iYS5vcmc+iQI4BBM
+ BAgAiBQJOldK9AhsDBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRAADmhBGVaCFWgWD/0ZRi4h
+ N9FK2BdQs9RwNnFZUr7JidAWfCrs37XrA/56olQl3ojn0fQtrP4DbTmCuh0SfMijB24psy1GnkPep
+ naQ6VRf7Dxg/Y8muZELSOtsv2CKt3/02J1BBitrkkqmHyni5fLLYYg6fub0T/8Kwo1qGPdu1hx2BQ
+ RERYtQ/S5d/T0cACdlzi6w8rs5f09hU9Tu4qV1JLKmBTgUWKN969HPRkxiojLQziHVyM/weR5Reu6
+ FZVNuVBGqBD+sfk/c98VJHjsQhYJijcsmgMb1NohAzwrBKcSGKOWJToGEO/1RkIN8tqGnYNp2G+aR
+ 685D0chgTl1WzPRM6mFG1+n2b2RR95DxumKVpwBwdLPoCkI24JkeDJ7lXSe3uFWISstFGt0HL8Eew
+ P8RuGC8s5h7Ct91HMNQTbjgA+Vi1foWUVXpEintAKgoywaIDlJfTZIl6Ew8ETN/7DLy8bXYgq0Xzh
+ aKg3CnOUuGQV5/nl4OAX/3jocT5Cz/OtAiNYj5mLPeL5z2ZszjoCAH6caqsF2oLyAnLqRgDgR+wTQ
+ T6gMhr2IRsl+cp8gPHBwQ4uZMb+X00c/Amm9VfviT+BI7B66cnC7Zv6Gvmtu2rEjWDGWPqUgccB7h
+ dMKnKDthkA227/82tYoFiFMb/NwtgGrn5n2vwJyKN6SEoygGrNt0SI84y6hEVbQlSmVmZiBMYXl0b
+ 24gPGpsYXl0b25AcHJpbWFyeWRhdGEuY29tPokCOQQTAQIAIwUCU4xmKQIbAwcLCQgHAwIBBhUIAg
+ kKCwQWAgMBAh4BAheAAAoJEAAOaEEZVoIV1H0P/j4OUTwFd7BBbpoSp695qb6HqCzWMuExsp8nZjr
+ uymMaeZbGr3OWMNEXRI1FWNHMtcMHWLP/RaDqCJil28proO+PQ/yPhsr2QqJcW4nr91tBrv/MqItu
+ AXLYlsgXqp4BxLP67bzRJ1Bd2x0bWXurpEXY//VBOLnODqThGEcL7jouwjmnRh9FTKZfBDpFRaEfD
+ FOXIfAkMKBa/c9TQwRpx2DPsl3eFWVCNuNGKeGsirLqCxUg5kWTxEorROppz9oU4HPicL6rRH22Ce
+ 6nOAON2vHvhkUuO3GbffhrcsPD4DaYup4ic+DxWm+DaSSRJ+e1yJvwi6NmQ9P9UAuLG93S2MdNNbo
+ sZ9P8k2mTOVKMc+GooI9Ve/vH8unwitwo7ORMVXhJeU6Q0X7zf3SjwDq2lBhn1DSuTsn2DbsNTiDv
+ qrAaCvbsTsw+SZRwF85eG67eAwouYk+dnKmp1q57LDKMyzysij2oDKbcBlwB/TeX16p8+LxECv51a
+ sjS9TInnipssssUDrHIvoTTXWcz7Y5wIngxDFwT8rPY3EggzLGfK5Zx2Q5S/N0FfmADmKknG/D8qG
+ IcJE574D956tiUDKN4I+/g125ORR1v7bP+OIaayAvq17RP+qcAqkxc0x8iCYVCYDouDyNvWPGRhbL
+ UO7mlBpjW9jK9e2fvZY9iw3QzIPGKtClKZWZmIExheXRvbiA8amVmZi5sYXl0b25AcHJpbWFyeWRh
+ dGEuY29tPokCOQQTAQIAIwUCU4xmUAIbAwcLCQgHAwIBBhUIAgkKCwQWAgMBAh4BAheAAAoJEAAOa
+ EEZVoIVzJoQALFCS6n/FHQS+hIzHIb56JbokhK0AFqoLVzLKzrnaeXhE5isWcVg0eoV2oTScIwUSU
+ apy94if69tnUo4Q7YNt8/6yFM6hwZAxFjOXR0ciGE3Q+Z1zi49Ox51yjGMQGxlakV9ep4sV/d5a50
+ M+LFTmYSAFp6HY23JN9PkjVJC4PUv5DYRbOZ6Y1+TfXKBAewMVqtwT1Y+LPlfmI8dbbbuUX/kKZ5d
+ dhV2736fgyfpslvJKYl0YifUOVy4D1G/oSycyHkJG78OvX4JKcf2kKzVvg7/Rnv+AueCfFQ6nGwPn
+ 0P91I7TEOC4XfZ6a1K3uTp4fPPs1Wn75X7K8lzJP/p8lme40uqwAyBjk+IA5VGd+CVRiyJTpGZwA0
+ jwSYLyXboX+Dqm9pSYzmC9+/AE7lIgpWj+3iNisp1SWtHc4pdtQ5EU2SEz8yKvDbD0lNDbv4ljI7e
+ flPsvN6vOrxz24mCliEco5DwhpaaSnzWnbAPXhQDWb/lUgs/JNk8dtwmvWnqCwRqElMLVisAbJmC0
+ BhZ/Ab4sph3EaiZfdXKhiQqSGdK4La3OTJOJYZphPdGgnkvDV9Pl1QZ0ijXQrVIy3zd6VCNaKYq7B
+ AKidn5g/2Q8oio9Tf4XfdZ9dtwcB+bwDJFgvvDYaZ5bI3ln4V3EyW5i2NfXazz/GA/I/ZtbsigCFc
+ 8ftCBKZWZmIExheXRvbiA8amxheXRvbkBrZXJuZWwub3JnPokCOAQTAQIAIgUCWe8u6AIbAwYLCQg
+ HAwIGFQgCCQoLBBYCAwECHgECF4AACgkQAA5oQRlWghUuCg/+Lb/xGxZD2Q1oJVAE37uW308UpVSD
+ 2tAMJUvFTdDbfe3zKlPDTuVsyNsALBGclPLagJ5ZTP+Vp2irAN9uwBuacBOTtmOdz4ZN2tdvNgozz
+ uxp4CHBDVzAslUi2idy+xpsp47DWPxYFIRP3M8QG/aNW052LaPc0cedYxp8+9eiVUNpxF4SiU4i9J
+ DfX/sn9XcfoVZIxMpCRE750zvJvcCUz9HojsrMQ1NFc7MFT1z3MOW2/RlzPcog7xvR5ENPH19ojRD
+ CHqumUHRry+RF0lH00clzX/W8OrQJZtoBPXv9ahka/Vp7kEulcBJr1cH5Wz/WprhsIM7U9pse1f1g
+ Yy9YbXtWctUz8uvDR7shsQxAhX3qO7DilMtuGo1v97I/Kx4gXQ52syh/w6EBny71CZrOgD6kJwPVV
+ AaM1LRC28muq91WCFhs/nzHozpbzcheyGtMUI2Ao4K6mnY+3zIuXPygZMFr9KXE6fF7HzKxKuZMJO
+ aEZCiDOq0anx6FmOzs5E6Jqdpo/mtI8beK+BE7Va6ni7YrQlnT0i3vaTVMTiCThbqsB20VrbMjlhp
+ f8lfK1XVNbRq/R7GZ9zHESlsa35ha60yd/j3pu5hT2xyy8krV8vGhHvnJ1XRMJBAB/UYb6FyC7S+m
+ QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.2 (3.60.2-3.fc44) 
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -79,152 +137,109 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-References: <20261028221705.3915340-1-halg@google.com> <CALCETrW9ygriu54gxiHFLEd5+hJminQo0r8Jwd63wR69Dj4W7w@mail.gmail.com>
- <20261106-befreien-addieren-eislauf-e09212803534@brauner> <CALCETrWa1SBLcb5oWjqjgzZvKvCoHjmYFk=Lf5ytEM9uqm5jYA@mail.gmail.com>
-Message-ID: <avM41a80aig2de-R@google.com>
-Subject: Re: [PATCH 0/8] userns: per-namespace capability bounding set and
- opt-in netns loopback
-From: "Hallgrimur H. Gunnarsson" <halg@google.com>
-To: Andy Lutomirski <luto@amacapital.net>
-Cc: Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, Kees Cook <kees@kernel.org>, 
-	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jan Kara <jack@suse.cz>, 
-	James Morris <jmorris@namei.org>, Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jann Horn <jannh@google.com>, "=?utf-8?Q?G=C3=BCnther?= Noack" <gnoack@google.com>, KP Singh <kpsingh@kernel.org>, 
-	Jonathan Calmels <jcalmels@3xx0.net>, Casey Schaufler <casey@schaufler-ca.com>, 
-	linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	linux-api@vger.kernel.org, containers@lists.linux.dev, netdev@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
 
-On Sat, Nov 07, 2026 at 10:47:41AM -0800, Andy Lutomirski wrote:
-> On Fri, Nov 6, 2026 at 5:13=E2=80=AFAM Christian Brauner <brauner@kernel.=
-org> wrote:
-> >
-> > On Wed, Oct 28, 2026 at 03:56:11PM -0700, Andy Lutomirski wrote:
-> > > The whole unshare/clone flag situation is getting out of hand, IMO.
-> > > And this new thing makes logical sense but is really about reducing
-> > > exposure.
-> > >
-> > > Perhaps we should instead have a small list associated with a userns
-> > > (extensible in the future) of things that the ns's admin (i.e. whoeve=
-r
-> > > has CAP_SYS_ADMIN relative to the ns) may do.  That list could
-> > > include:
-> > >
-> > > - Create loopback with sensible defaults for ipv4 and/or ipv6 (i see
-> > > no obvious reason to separate them)
-> > > - Create tun/tap interfaces in that ns (and attach them, etc)
-> > >
-> > > And add a very simple new API to do these things.  Actually, the
-> >
-> > We've had this idea in the past and I think it is reasonable. I had
-> > always thought that we should expose a system call to create empty
-> > namespaces ot any type. Usually I'd be excited about that but I think
-> > that point is a bit moot and I'd really like see whether we can turn
-> > cells (or whatever other name) into a first class api.
-> >
-> > The problem I have with the patchset as written is that adds a lot of
-> > moving parts. And yes, I find the CLONE_* and UNSHARE_* flags plus
-> > sysctl to be suboptimal as well.
-> >
-> > So the TL;DR is that CAP_NET_ADMIN + userns =3D
-> > CAP_NET_PRIVILEGE_ESCALATION 10+ years later. And this patchset wants t=
-o
-> > put it back on a leash.
-> >
-> > So why isn't an aggressively stupid solution to this problem to split a
-> > new capability out of CAP_NET_ADMIN so it covers the absolute minimal
-> > set of things that should be allowed instead of doing effectively the
-> > same thing but split over multiple apis?
+On Mon, 2026-11-09 at 15:36 -0500, Jeff Layton wrote:
+> This version fixes the existing patches and adds some new ones to fix
+> problems that agentic review spotted. Note that there is also a
+> companion client-side series that fixes some related issues.
 >=20
-> Because we don't actually have a clean way to make a list of
-> privileges that are, in theory, harmless but are hazardous from an
-> attack surface perspective and assign them only to tasks that ought to
-> have them.
+> The catch with this version is that we need a fix to
+> inode_set_ctime_deleg(), and that lives in fs/inode.c. We'll either need
+> to get Christian to take that one or get his blessing to merge it via
+> the nfsd tree. It's a pretty small patch, so the latter might be OK.
+>=20
+> Original cover letter follows:
+>=20
+> Chuck recently added a new DELEG27 pynfs test that fails against nfsd.
+> These patches fix the behavior of delegated timestamps (again), such
+> that DELEG27 now passes.
+>=20
+> I also ran some tests with the git regression testsuite which turns out
+> to be very sensitive to timestamp bugs, and that turned up a few more
+> server-side bugs.
+>=20
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> ---
+> Changes in v3:
+> - "Honor delegated timestamps when change and size match":
+>   - record applied times from SETATTR too, so a stale CB_GETATTR reply
+>     can't move them backward
+>   - record ctime from the inode; atime/mtime from the untruncated values
+>   - move the vet/record prototypes to nfs4ctl.h
+> - "don't stamp over an applied delegated mtime at DELEGRETURN":
+>   - share the vetting between SETATTR and CB_GETATTR
+>   - set dl_setattr only after the holder's mtime is applied
+>   - test dl_setattr under inode_lock at DELEGRETURN
+> - "don't vet delegated times against an exclusive-create verifier":
+>   also set the floors for read timestamp delegations
+> - "mark the delegation written on COPY/CLONE instead of stamping c/mtime"=
+:
+>   - look up the nfs4_file for every async COPY
+>   - remove the now-unused nfsd_update_cmtime_attr()
+> - New: fs: check a fine-grained time before clamping a delegated ctime
+> - New: nfsd: check a fine-grained time before clamping a delegated mtime
+> - New: nfsd: raise delegated time floors after a size-changing SETATTR
+> - Kernel-doc, comment and commit message fixes
+> - Link to v2: https://lore.kernel.org/r/20261106-deleg-cb-getattr-times-v=
+2-0-8433618ab9a1@kernel.org
+>=20
+> Changes in v2:
+> - "Honor delegated timestamps when change and size match" reworked:
+>   - set ATTR_FORCE when applying the holder's times
+>   - record applied times in dl_[amc]time; vet and record under inode_lock
+>   - vet SETATTR's delegated times in nfsd_setattr() under inode_lock
+>   - also mark file modified on a holder WRITE whose mtime didn't pass dl_=
+mtime
+>   - always report ncf_initial_cinfo as the change attr for timestamp dele=
+gations
+>   - catch the holder's own server-side changes (SETATTR, xattrs, etc.)
+>     via a change attribute saved at grant
+>   - log, rather than fail the GETATTR, if applying the holder's times fai=
+ls
+> - New: don't stamp over an applied delegated mtime at DELEGRETURN
+> - New: don't vet delegated times against an exclusive-create verifier
+> - New: mark the delegation written on COPY/CLONE instead of stamping c/mt=
+ime
+> - Link to v1: https://lore.kernel.org/r/20261102-deleg-cb-getattr-times-v=
+1-0-ca0326d88623@kernel.org
+>=20
+> ---
+> Jeff Layton (8):
+>       nfsd: Report vetted delegated timestamps in GETATTR replies
+>       nfsd: Honor delegated timestamps when change and size match
+>       nfsd: don't stamp over an applied delegated mtime at DELEGRETURN
+>       nfsd: don't vet delegated times against an exclusive-create verifie=
+r
+>       nfsd: mark the delegation written on COPY/CLONE instead of stamping=
+ c/mtime
+>       fs: check a fine-grained time before clamping a delegated ctime
+>       nfsd: check a fine-grained time before clamping a delegated mtime
+>       nfsd: raise delegated time floors after a size-changing SETATTR
+>=20
+>  fs/inode.c             |  16 ++-
+>  fs/nfsd/nfs4callback.c |   2 +-
+>  fs/nfsd/nfs4ctl.h      |  15 +++
+>  fs/nfsd/nfs4proc.c     | 101 +++++++++--------
+>  fs/nfsd/nfs4state.c    | 292 +++++++++++++++++++++++++++++++++++++------=
+------
+>  fs/nfsd/nfs4xdr.c      |  10 +-
+>  fs/nfsd/state.h        |   6 +-
+>  fs/nfsd/vfs.c          |   6 +
+>  fs/nfsd/vfs.h          |   4 +
+>  fs/nfsd/xdr4.h         |   9 +-
+>  10 files changed, 325 insertions(+), 136 deletions(-)
+> ---
+> base-commit: d692f252c52b8d1b4bc7481554f314df31ed8249
+> change-id: 20261102-deleg-cb-getattr-times-8aa926029b16
+>=20
+> Best regards,
 
-Exactly. Furthermore, even if we split a minimal capability out of
-CAP_NET_ADMIN, create_user_ns() still grants CAP_FULL_SET to new
-unprivileged user namespaces by default. Without a mechanism to
-withhold capabilities that are namespaced in scope but carry high
-attack surface risk (like CAP_NET_ADMIN and CAP_NET_RAW) and only
-selectively grant them to tasks that really need them, an unprivileged
-userns would still receive the full set of capabilities.
+Sashiko found some other problems with this. At this point, I'm fairly
+convinced that we need to just redesign how all of this works to be
+less racy. I'm still working out the details, but hold off on reviewing
+or merging this series for now.
 
-Providing that mechanism is the core goal of the per-userns capability
-bounding set in this series. Even on its own, without any loopback
-changes, it can be configured to prevent unprivileged users from acquiring
-CAP_NET_ADMIN and CAP_NET_RAW when creating a new userns + netns, while
-still supporting sandboxes that use a completely disconnected netns or
-containers whose networking is configured externally.
-
-Finding a solution for loopback simply makes this bounding set more
-practical, as it allows us to also support sandboxes that rely on
-localhost networking without forcing them to retain full CAP_NET_ADMIN.
-
-With a way to withhold CAP_NET_ADMIN from unprivileged userns, splitting
-out a minimal capability (as Christian suggests) is a very appealing way
-to handle the allowed subset for loopback, though the main challenge is
-defining a scope that justifies a capability bit without re-introducing
-LPE risk.
-
-Looking at the CAP_NET_ADMIN LPEs from Google's kernelCTF, most are
-concentrated in netfilter and tc, with a smaller number in virtual
-interfaces and routing. Simply bringing up loopback at netns init
-shouldn't carry any LPE risk, but something like CAP_NET_LOOPBACK_UP
-is obviously too specific to warrant a capability bit. Conversely,
-broadening it into something like CAP_NET_IFCONFIG (allowing link state,
-L3 address and basic route configuration on existing interfaces) might
-justify a bit, but even such a basic subset would still re-introduce
-some LPE risk (see e.g. CVE-2026-53259 / commit f723ccaff2fb),
-although it would drastically reduce the risk by excluding the most
-high-risk components.
-
-Furthermore, I think splitting out a smaller CAP_NET_ADMIN would also
-run into some practical difficulties when it comes to clean enforcement
-in rtnetlink. Currently, rtnetlink_rcv_msg() relies on a coarse
-CAP_NET_ADMIN check at the beginning before any complex message parsing
-occurs. To support more fine-grained capabilities, we would have to push
-these checks much deeper into the stack, spreading security checks
-across many locations, which could easily lead to mistakes.
-
-Given this, I was hoping to have a minimal mechanism to just allow
-bringing up loopback without going for a new capability bit. Ultimately,
-it's a pragmatic judgment call. Maybe something like CAP_NET_IFCONFIG
-offers enough value and risk reduction to be worth the trade-off.
-
-Otherwise, if we want to avoid consuming a capability bit just for
-loopback, we could also consider other alternatives, e.g. a small nsfs
-ioctl on the netns fd (e.g. NS_NET_LOOPBACK_UP). This would align with
-Andy's earlier suggestion of adding a "very simple new API" dedicated
-to these safely scoped operations.
-
-If we drop CLONE_NEWNET_LOOPBACK / UNSHARE_NEWNET_LOOPBACK from this
-series and handle loopback separately, do you think the per-userns
-bounding set is a reasonable approach for withholding capabilities
-(e.g. CAP_NET_ADMIN and CAP_NET_RAW) from unprivileged userns, or
-would you prefer a different mechanism?
-
-I think the single-deep case we were discussing on the other thread
-could also be cleanly built on top of this. The per-userns bounding
-set provides the underlying enforcement mechanism. How we configure
-and trigger that bounding, whether via sysctl and clone3() as proposed
-in this series, or via a per-task securebit to handle single-deep
-containers in init_user_ns as discussed on the other thread, is a
-policy control interface decision that can feed directly into the
-same mechanism.
-
-To address the concern about the number of moving parts, I am also
-happy to simplify the control interfaces. If we decide a per-task
-securebit is the cleanest way to drive this configuration for both
-single-deep and nested cases, we could focus on that and drop the
-clone3() and sysctl from this series entirely, or only expose whatever
-subset you prefer.
-
-Thanks!
-
+Thanks,
+--=20
+Jeff Layton <jlayton@kernel.org>
