@@ -1,57 +1,110 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794308597;
-	b=BqHjYuHJiD5jqYr6D921D47QVVo0uIPv8RwrzNGEOa9J0LMqLgYLaO09O8CTYIPA5tHi
-	 pzaZ44AjS571i0hST1JoZ6R/7Fepvp73fsOJ1sdH8w0urMsUpYIsffzO94n4UdALB3pvh
-	 0hJM4Fur3uZAW+C3XVQQaAVF/3pAsYnG++TlpYwBd3+cg7lMs0mH/Wu6IKvLiQD1jqjd1
-	 GH8KmSdNwUKzS0BImMeT5IGzjOwMWCHTBNF+co4W3ZXzUIzDebmALxyUD/mkMPIbXBNZX
-	 /cvZa/MBRmdy9DWBpsshBOp7aYl6vyd0RtyPBSle45FTnBVR4rBrZJYy2h9lq1vEFgA==
+	t=1794309340;
+	b=Pl14JcVKMudtQF3q/ET2QmJ4MAKZrIyYtISgGOQyLtq7Rv5QEj31FqvCdX2GZKyyNRvJ
+	 HUBqwLsijSofXTvF/+rf3lV2c1CG1nwcf91CNrslOjmineoMa7bFB8rDSlJ/vKRby3/TG
+	 2jQe3L3NcN5EZ2tLBW/a04NTDLgdpQPx3W0AEumy+A6hjzHSnoMl5oynI3BEqpXysu141
+	 AyPDG4yronFkV9w1xIlnOs8d5KLyv3oD58QcyPPpio70YIERFFdzPYl++u6NK2jd2qw8I
+	 22X0bef8T4UXmwZqC0K11Q7Jo5x+ypBobJ0guN8/rpj4mp28WA5iMHZUzcTjLPQ312w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794308597;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=zJqoM5byy7t2oJnrolNTZNqtxc09Si1RLmF8E4lHkmc=;
-	b=OMUthagpJbpQA05IhBFCf1R0ShiYdO5ccO17lKGsLiVJvlcxgTfMh7hXVek3PtTIVpBF
-	 jNukrc69y7tA7IurJy9Z02XJ2ylfByovKgUYfaFH7Q3Vyvdh8fzlK90vvrVirJHaemlrD
-	 1Mt/sBcpm341E+ATccWzj0oGH5i/SpiPZjRdiemdhO1bTSfSDkHcWHrX8ilPl/RcbD7DV
-	 mLYPd9f9PNoGINqn+f9W96shmxftB5DCPAfqz0vIUFlP/+hA3oujvDdzoVDeI5F07EnWz
-	 snnQUpqt4y1IGttRX0MXLsUETLpVc63CwFPcFkIsbDP8JBLo0Zbxrky2nFWSde2uGag==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794309340;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
+	bh=dFY0jRQZRrBQMsSUIeZUMPnBOTgjy9MxfM4UelySjNI=;
+	b=DSWikWVgvfXZFkv+Mb9+iuB6N3KHRfoIcTzQSngPxWx5XueYTUUfCUC4cUTeZDiAc50s
+	 l/StHV4+qDoAamWjbpWnz6tLVOXB0O9XuLZF02dH01qRoBg5NLej5G+KAlRQrdvTAEY4R
+	 S8jJhVKx/WrGTOCtqGP9OVTf4A7qb6LTx2PrAdB5lfKHmCQk2S7uyx2eAjs+/xgjFaFCm
+	 LVnTfqquJqOC0xiu+BClMnkE9VE9pUCdURbBIKRZJmkopC40L1xp2CDhTupdj2RJkNiGR
+	 a/MeX86J6gqHHIJWNFwM9CNjfNihOWsDYrVlO9sxa6djyIwPfDpNrkmr6s+QmesA5fQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YANA8zpl;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=suse.cz;
+	spf=pass smtp.mailfrom=suse.cz;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=bAYas9dc;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="XJ4/qVJi";
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=sTUG0pN6;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=knVRNCiS;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97FEF606A31C;
-	Tue, 10 Nov 2026 11:03:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB2D8606A31C;
+	Tue, 10 Nov 2026 11:15:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CB2D8606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YANA8zpl
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 558691F008A1;
-	Tue, 10 Nov 2026 11:03:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794308597;
-	bh=zJqoM5byy7t2oJnrolNTZNqtxc09Si1RLmF8E4lHkmc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=YANA8zplr5ixeJhh0AM8kWaDEpgWrinnTQE5LawdfgLFWTMxt5ac2dOiWa2uHAMWT
-	 ECRyCaV5UcHiP0DAo950O9Dmg0eiMieX5pblSLm5iCsk5XT3a9DATsrRof7z/6txrQ
-	 mwJ76n3z4xZHT0rB0l8oFErQFtc54rlSYNYJ5NS5nwj6xa1ameGYDGdHgXlRk/01r8
-	 bZANPsfP8Swcja4QTEWwCPFJkEUzh7Fdsp5RiafyRFQLtUGpl5OvmRJugN4TQbo7/U
-	 Q/1lOVg0My+24NrLBHq5Z1LHUVmtllX3g3t3W6cC1YtpP7IgN0+ncBEq4UwiLL9fTs
-	 HUPvecaa/x0jA==
-Date: Tue, 10 Nov 2026 11:03:10 +0000
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Seunghyun An <san55@wisc.edu>
-Cc: linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	"Liam R . Howlett" <liam@infradead.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, Suren Baghdasaryan <surenb@google.com>, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 0/2] mm: avoid redundant reads of the vm_refcnt cacheline
- in anonymous faults
-Message-ID: <avLxcf8KaFP_XPnM@gremlin>
-References: <20261110000002.1834454-1-san55@wisc.edu>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=bAYas9dc;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=XJ4/qVJi;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=sTUG0pN6;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=knVRNCiS
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E97B321F18;
+	Tue, 10 Nov 2026 11:15:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1794309338; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dFY0jRQZRrBQMsSUIeZUMPnBOTgjy9MxfM4UelySjNI=;
+	b=bAYas9dcZLrgsPmE0806WhTQz3ND0ixhvXxGwL7i6ABmAwO0+tsx2vRD3zt0F92M6X2j1C
+	Ik3uDhN3+9Um8mEjHyCwzUBOo08QY8CaUmBfwm42mkUXmJQnA28PIUHvKdVlLtl1oxSOlE
+	7qi7e187v1Rc0/40nE21rsn6VstFikM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1794309338;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dFY0jRQZRrBQMsSUIeZUMPnBOTgjy9MxfM4UelySjNI=;
+	b=XJ4/qVJidWIR/xJdkI/qdo3jzINKfTpZ7aZJc5IuKyvFDewylcRuH6vt5L7udqGzny+VCY
+	sYehvhue0qjAgCAw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1794309337; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dFY0jRQZRrBQMsSUIeZUMPnBOTgjy9MxfM4UelySjNI=;
+	b=sTUG0pN6ERvuSjvhybqSmD+y4o69xtc+0POMXrc5wUjQWvCM0L0Gingd0+jbTYXINkDWfi
+	DoKEPRxoylNUag355PSKSQ0r7ui7HDDzlwNx6QPvMlrzq9k6J+Aox956T2uk4Vd4/mMvKM
+	CLGD8eilA5zOP0lnXRq6hvkR28Kbq64=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1794309337;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dFY0jRQZRrBQMsSUIeZUMPnBOTgjy9MxfM4UelySjNI=;
+	b=knVRNCiS3ifAYzlkim2P1KeLLQHsh8J3gn2UNUYw0Qsy1zKN0yRxBBhPo68hnpmLQ8aYMn
+	jZZTWj9kO/3HOXAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BD49013479;
+	Tue, 10 Nov 2026 11:15:37 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Ce75Jdn88mqJWwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 10 Nov 2026 11:15:37 +0000
+Received: by quack.suse.cz (Postfix, from userid 1000)
+	id 4CE7E2249D; Tue, 10 Nov 2026 12:15:29 +0100 (CET)
+Date: Tue, 10 Nov 2026 12:15:29 +0100
+From: Jan Kara <jack@suse.cz>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Chuck Lever <cel@kernel.org>, NeilBrown <neil@brown.name>, 
+	Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Tom Haynes <loghyr@gmail.com>, linux-nfs@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v3 6/8] fs: check a fine-grained time before clamping a
+ delegated ctime
+Message-ID: <l7cl7zdjmxc6gwlh2dxenkqdkdusllyf2npgohtuejdjxg5vue@ct7o4oth6mwy>
+References: <20261109-deleg-cb-getattr-times-v3-0-710c7244a6ea@kernel.org>
+ <20261109-deleg-cb-getattr-times-v3-6-710c7244a6ea@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -63,28 +116,92 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261110000002.1834454-1-san55@wisc.edu>
+In-Reply-To: <20261109-deleg-cb-getattr-times-v3-6-710c7244a6ea@kernel.org>
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spamd-Result: default: False [-12.80 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,brown.name,redhat.com,oracle.com,talpey.com,zeniv.linux.org.uk,suse.cz,gmail.com,vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,suse.cz:email]
+X-Spam-Score: -12.80
 
-Thanks for the report.
+On Mon 09-11-26 15:36:47, Jeff Layton wrote:
+> inode_set_ctime_deleg() clamps an update later than the coarse time
+> (or mg floor) to that time. An NFS client holding a timestamp delegation
+> stamps at least 1ns after the fine-grained ctime the server last
+> reported. If the delegation comes back within the same coarse tick,
+> that stamp looks like it's in the future: ctime is clamped back, and
+> the ctime the client reported while holding the delegation changes
+> after DELEGRETURN.
+> 
+> When the update is past the coarse time, take a fine-grained time with
+> ktime_get_real_ts64_mg() and clamp only if the update is past that too.
+> That also raises the floor to at least the update, so later coarse
+> stamps can't land before it. This works for non-multigrain filesystems
+> too: their stamps also read the floor.
+> 
+> Fixes: 7f2c86cba3c5 ("fs: handle delegated timestamps in setattr_copy_mgtime")
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
 
-You are a complete newcomer to mm, and you are sending very subtle changes
-to a core part of it, so I am not confident that you have the depth of
-understanding the kernel requires for such work. See
-https://docs.kernel.org/process/generated-content.html
+Looks good to me. Feel free to add:
 
-I'll therefore take over this change and treat this as a bug report.
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-I will give you due credit for reporting the issue of course.
+								Honza
 
-I'd like to collaborate on the perf measurements however, so if you could
-re-run your test results on my series when I send it that'd be appreciated.
-
-In general it seems that the actual issue is the debug assertion, given you
-state only vma_has_anon_rmap() as a problem here.
-
-In general in future - while we're fine with you using LLMs, newcomers
-should work on small, incremental changes to mm to build up understanding
-first.
-
---
-Cheers, Lorenzo
+> ---
+>  fs/inode.c | 16 +++++++++++++---
+>  1 file changed, 13 insertions(+), 3 deletions(-)
+> 
+> diff --git a/fs/inode.c b/fs/inode.c
+> index f63535ee3629..dc744fa39b75 100644
+> --- a/fs/inode.c
+> +++ b/fs/inode.c
+> @@ -2991,9 +2991,19 @@ struct timespec64 inode_set_ctime_deleg(struct inode *inode, struct timespec64 u
+>  
+>  	ktime_get_coarse_real_ts64_mg(&now);
+>  
+> -	/* Clamp the update to "now" if it's in the future */
+> -	if (timespec64_compare(&update, &now) > 0)
+> -		update = now;
+> +	/*
+> +	 * Clamp the update to "now" if it's in the future. The coarse time
+> +	 * can trail an update just past a fine-grained ctime handed out in
+> +	 * the current tick, so check a fine-grained time before clamping.
+> +	 * That also raises the floor past the update, so later coarse
+> +	 * stamps can't land before it.
+> +	 */
+> +	if (timespec64_compare(&update, &now) > 0) {
+> +		ktime_get_real_ts64_mg(&now);
+> +		mgtime_counter_inc(mg_fine_stamps);
+> +		if (timespec64_compare(&update, &now) > 0)
+> +			update = now;
+> +	}
+>  
+>  	update = timestamp_truncate(update, inode);
+>  
+> 
+> -- 
+> 2.56.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
