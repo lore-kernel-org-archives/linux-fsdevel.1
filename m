@@ -1,115 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794315568;
-	b=YkmTU7qTIT+mfhMRuebwy8fX2iAx7YTWAB4Ztf5vh+m41OnXtNKI4U8gp2Nl6CQqXVpX
-	 jNp7d2owYhSbJucF3+kdv5l554O8lhJwGgTqk8ObAL6Hkv04LO7hpCYfbMsV+aFErLyfx
-	 H9R24XCMdzMqd3pxWbzCjla6kv95cEfFbgOH0pEr7/UIquKG/9zNc2+Ckh2L6YD6Tz+9F
-	 va6pZODzvETpeGpiH3njUnou5nuyUmPrhm/a9Kt9HrTJwQxHT/a1UYzL7DOSUHSBP10cD
-	 TFv2/j2RyN3feFzFS8YfLpPZkEegJCIkSAM7wQFFCPJNcnavZhFyyGx57/SwyCKmf6A==
+	t=1794315598;
+	b=WbHbPaT7+2UILpsHkLSbRRTgunrY8pBhqTKVPLxhwmC3GaFgRcT/gskrvhiSZeuI93Es
+	 0mZyFJBgOHsp26KhYE7eXOfpXsR7TjFSO51OvK18CiyT2t9Ey4NcsPy/r/Ox2bY8aQhii
+	 PszKytDTtmBkpKunsEgPw1UBeoBJ5XKkQg0a4jKuiHNJy36xaoWE51Qa36KlV+UDNM21v
+	 6Tgaf2ueNVBE5mAb6OFxnTdG4nsLktV5IXkDsvk3PemnD3EmcqYBhxrWEXDD40n/e4K0y
+	 /4AQQkbzcXcbLjdLKlHOeHz+YoEYb35oy/LL5oloyElQBcr/wP1if+VeYqY2B/+mjmQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794315568;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
-	bh=8KLB44ZvNPPyRXKdiegczIQhHN8ao8apnQUZAyLWj+4=;
-	b=JwTDU22CR4HcypVQcNeas1uaz4eCeQK5ivuYOaY/nzkcpKN0UvMmxkQZrY7Kc1txQtO2
-	 csj7KkBzytP3pvR0DErIkW/TTyrV8U/37Xs+/Sih7YaH3Pq5WfWR3c4ypkFN2lbijGwyt
-	 TXIc3tzCUqTv8V5CUREmPihJg2KaTVJt3p6y9zSuC3BQU99OypSHhtGnXRjHEVZKxI+KJ
-	 ti+H4iKBtU2P755u1hWkBp4tr0xf+U6eb8Mpaf7lDc3+CeWxdxYxAhbOmWYgq/BlxhFmd
-	 BFRmPsfW22bp1xv1wraJc++x5JKLGEmjVyoEDW+rgYQmgzIX8tU5LvhOf7EffWoLWxQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794315598;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=wnyy6heljadaRgfxt4wb4lOJGOZWSfcR9An36HYEP3o=;
+	b=sWKrc1L2gXGafp73i3nYVnWPyXRVD3CRADweCmKQwnw6XufE2bkLDKhWc5r6pyf6rUWU
+	 ZfndiIH6n2qax6z9xEHVXc41DR89+QLAkdT0dlzr+ACnObxu1OBftMdC4NyiDIODr+ddI
+	 iLmcgj07bW+SASeO7VNW5dbJ//hbPnjpNLGfZjWUQpSsGcXmkUGtJvpsKvk29H0iTFdvQ
+	 +DJi/fUVYKk5dL8DNaopXppEL6f4zl2c8zKULTzfpuN+BXgb9Xb0hrbrKhePyVzhNNTfB
+	 Qv6Q5uo9LREFKdcRj4e4jqNzCx2Wi6VVzTIRMVTpC+zVSPPqTXHDs1Z8Ci9x/1vaLJA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=Tg9pxHAG;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=q20vaKKg;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=Tg9pxHAG;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=q20vaKKg;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NEWiJYgo;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A0DF606D5DF;
-	Tue, 10 Nov 2026 12:59:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5A0DF606D5DF
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1219606D5D6;
+	Tue, 10 Nov 2026 12:59:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=Tg9pxHAG;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=q20vaKKg;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=Tg9pxHAG;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=q20vaKKg
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 56C8E1FB86;
-	Tue, 10 Nov 2026 12:59:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794315566; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8KLB44ZvNPPyRXKdiegczIQhHN8ao8apnQUZAyLWj+4=;
-	b=Tg9pxHAGdtgSeS7Qu42jAWrI2LAmSaoDXcdfGHx1tuvTgldlFIm+epZXlZZj79RfQ/uyYs
-	j7aTWHT3+26/dA5zpMh+gCzr5PQEW79hL4QQOyR+4ECdDFeslymvZjZejsnkfxlL2jXCBs
-	ItKgb+Sl0jU9dDgVqfAl/iGxQ3BwU2Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794315566;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8KLB44ZvNPPyRXKdiegczIQhHN8ao8apnQUZAyLWj+4=;
-	b=q20vaKKgsSX1kEDHQVu62VroC195QLudNGL/QIvX4QmdixQN3bbqOd+0xO46gJ/KYR5M2p
-	3Po4KFQU6XBLecCQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794315566; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8KLB44ZvNPPyRXKdiegczIQhHN8ao8apnQUZAyLWj+4=;
-	b=Tg9pxHAGdtgSeS7Qu42jAWrI2LAmSaoDXcdfGHx1tuvTgldlFIm+epZXlZZj79RfQ/uyYs
-	j7aTWHT3+26/dA5zpMh+gCzr5PQEW79hL4QQOyR+4ECdDFeslymvZjZejsnkfxlL2jXCBs
-	ItKgb+Sl0jU9dDgVqfAl/iGxQ3BwU2Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794315566;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8KLB44ZvNPPyRXKdiegczIQhHN8ao8apnQUZAyLWj+4=;
-	b=q20vaKKgsSX1kEDHQVu62VroC195QLudNGL/QIvX4QmdixQN3bbqOd+0xO46gJ/KYR5M2p
-	3Po4KFQU6XBLecCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 22D901339F;
-	Tue, 10 Nov 2026 12:59:26 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id o6G5AC4V82quRgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 10 Nov 2026 12:59:26 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id B65D4224F1; Tue, 10 Nov 2026 13:59:25 +0100 (CET)
-Date: Tue, 10 Nov 2026 13:59:25 +0100
-From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>, 
-	Chris Mason <mason@kernel.org>, Josef Bacik <josef@toxicpanda.com>, 
-	Christoph Hellwig <hch@lst.de>, linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Jan Kara <jack@suse.cz>, linux-scsi@vger.kernel.org, target-devel@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-mm@kvack.org, bpf@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, apparmor@lists.ubuntu.com, 
-	linux-nfs@vger.kernel.org, netdev@vger.kernel.org, fuse-devel@lists.linux.dev, 
-	linux-efi@vger.kernel.org, xen-devel@lists.xenproject.org, ocfs2-devel@lists.linux.dev, 
-	linux-s390@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-usb@vger.kernel.org, 
-	Amir Goldstein <amir73il@gmail.com>, linux-erofs@lists.ozlabs.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RFC 16/41] configfs: use fc_init_pseudo()
-Message-ID: <huxjpffxqk5qugzjbc2mvrdvqab6idnvjqi7zla2far65t3im3@4lilbachmbvw>
-References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
- <20261110-work-loop-pseudo-v1-16-4c998976c6c7@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NEWiJYgo
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B218D1F0089F;
+	Tue, 10 Nov 2026 12:59:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794315597;
+	bh=wnyy6heljadaRgfxt4wb4lOJGOZWSfcR9An36HYEP3o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=NEWiJYgoZ3M06iOwuPgwQNC6xnFZeGa8MtJTqrAh7BDOeh3ctwW7p34DOYRA52Lj9
+	 KYLHjX3Xy4oCgODSgpfn+PM9Ul7YUdFwLrvJ6hH7IIwo5Rr+KID0ZTC5VYvpqJyCr/
+	 DvjcGWIj3rlMcFBmeZSzhzlXDPfpT9U6z//Fw28JowMWY+8TT6nf6IDBCV13KEclgB
+	 toyMCyhJVHOwm2ydP43nBNyV8BxJpn1LYc4bwBM69mWHIVxJlZtakBcxY7MZznfMO2
+	 KIkWuxKYlIPOB6i37L5tkDWXMciTEa2O50u6im9c3uBicYDiGE6sUDfCQtnCXec2uj
+	 oqdAR4Ap+LMiw==
+Date: Tue, 10 Nov 2026 12:59:50 +0000
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Pedro Falcato <pfalcato@suse.de>
+Cc: Seunghyun An <san55@wisc.edu>, linux-mm@kvack.org, 
+	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, "Liam R . Howlett" <liam@infradead.org>, 
+	Jann Horn <jannh@google.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, Suren Baghdasaryan <surenb@google.com>, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 1/2] mm/rmap: use vm_pgoff for anonymous VMAs in
+ linear_anon_page_index()
+Message-ID: <avMS8RyqNQ89a9hP@gremlin>
+References: <20261110000002.1834454-1-san55@wisc.edu>
+ <20261110000002.1834454-2-san55@wisc.edu>
+ <avL5C_w-wo6bJJTj@pedro-suse.tail5790ac.ts.net>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -121,75 +65,43 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261110-work-loop-pseudo-v1-16-4c998976c6c7@kernel.org>
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spamd-Result: default: False [-12.80 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[31];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	R_RATELIMIT(0.00)[to_ip_from(RLdu9otajk16idfrkma9mbkf9b)];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,google.com,kernel.org,toxicpanda.com,lst.de,lists.infradead.org,zeniv.linux.org.uk,suse.cz,lists.linux.dev,kvack.org,lists.ubuntu.com,lists.xenproject.org,lists.ozlabs.org,gmail.com];
-	RCVD_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -12.80
+In-Reply-To: <avL5C_w-wo6bJJTj@pedro-suse.tail5790ac.ts.net>
 
-On Tue 10-11-26 10:14:32, Christian Brauner wrote:
-> Initialize configfs as a pseudo filesystem. This raises SB_I_PSEUDO and
-> also SB_I_NOEXEC and SB_I_NODEV. configfs never holds executables or
-> device nodes.
-> 
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+On Tue, Nov 10, 2026 at 11:25:13AM +0000, Pedro Falcato wrote:
+> I trust Lorenzo knows more about his plans to use anon_pgoff than I do,
+> so I'll let him reply. A comment though:
 
-Makes sense. Feel free to add:
+Thanks.
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+I'm taking over the series rather than replying further, as is general practice
+with this kind of submission.
 
-								Honza
+Will post something in a little while.
 
-> ---
->  fs/configfs/mount.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/fs/configfs/mount.c b/fs/configfs/mount.c
-> index d8cac1cbf3bd..60ba24e7ae2b 100644
-> --- a/fs/configfs/mount.c
-> +++ b/fs/configfs/mount.c
-> @@ -13,6 +13,7 @@
->  #include <linux/module.h>
->  #include <linux/mount.h>
->  #include <linux/fs_context.h>
-> +#include <linux/pseudo_fs.h>
->  #include <linux/pagemap.h>
->  #include <linux/init.h>
->  #include <linux/slab.h>
-> @@ -106,6 +107,7 @@ static const struct fs_context_operations configfs_context_ops = {
->  
->  static int configfs_init_fs_context(struct fs_context *fc)
->  {
-> +	fc_init_pseudo(fc);
->  	fc->ops = &configfs_context_ops;
->  	return 0;
->  }
-> 
-> -- 
-> 2.53.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+>
+> > Measured on an AMD EPYC 9634 (84 cores, 12 CCDs, CONFIG_DEBUG_VM=n), on
+> > mainline after v7.4-rc1 (the base of this series). Threads share one
+> > anonymous VMA, each faults its own slice and zaps it with MADV_DONTNEED;
+> > faults/s, median of 3:
+> >
+> >   CPUs                      base      patched
+> >   1 CCD,   7 threads        2.360M    2.369M   +0.4%
+> >   7 CCDs,  1 thread each    1.738M    1.982M  +14.0%
+>
+> This is not particularly surprising. CCDs have their own L3 cache. I'm not
+> surprised the coherency penalty is much higher cross-CCD.
+
+Right. And a lot of these workloads seem to work backwards from the problem
+'let's find the worst possible scenario for this, then microbenchmark it,
+surprise it turns out it performs badly'.
+
+Even the real-world usecase (no citation as to _actually_ encountering it) seems
+to follow the same pattern.
+
+I expect we'll continue to see more of this stuff over time, sigh.
+
+In any case, the solution seems to be the same in general - don't do this check
+in non-debug.
+
+--
+Cheers, Lorenzo
