@@ -1,47 +1,54 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794307313;
-	b=Z8zwIPKG5k4uR2MiGafbYPi7uX4f2GUz8X+cXwbgKQv9YL/j2c5AYHBRh4kuDR4U02LK
-	 yUCPzo0kAWyqhvJpxnjDwozicbV/KkErIICNkHVYzJilTRNoR45/LtNs5ISUhYci4OdU8
-	 Wy054gZbHh0ShrwfviHEEZ6fP86kRcuSvcGn2cg3My3p5cCC53YSuztd/mGQRt0z84v+D
-	 eQjwZIJVOBlUDp752iZ8yAdaXpCOpSvqARr3Y76wWAkAZ/kI82achYPfgwGTNNMjm7gVf
-	 OqVkxu3qDUHuAyUx9EF6wOegHhq7Od7MchP3RosVC9k/tuc7AGLPJLkZZnUv2sMCj4Q==
+	t=1794307679;
+	b=xt7Ktij95f695t2NLwp7Z72vPPj0k7P79gOlNOGZJyWuBvMuXuD5XsFd1DdDUd4KIeS0
+	 3poBazqlfVK8TrgVpj50vqcTd5FRkMuuV+DEnYZTnQ+CDdkRi/CFUo0mvIqO7NJ30Dyx9
+	 JzChAk0smQfi4fPBRcMP6G7sAmWCr3si+/L/8GqYsVJBwXKfrfObZtycDsWBHKB9+E7ga
+	 XBs0hK9MieKBQxlsXWIIVya2z1Z2VxrNW9mJLDb8slYJgW71ns1BpsAOaRGnXN1FWoRwd
+	 3+qfoAkFOaCxcO69Md2rsj4aF4k/XOQbBYab3UCo3MtRqzae9cs6i18L1ZnQ/qyHl0A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794307313;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=Sf5RKSAxCyExCYozothLzGZn1lg1pz7pfFjhL0ZFBV8=;
-	b=HXZrQj8Lk8dF+/Rcac4uVcPeCPLJ9pmZql9JLO9bFEkCo7shZ3Ul+24spy9ZnUiAooPW
-	 tHXWMdI2hACTP2ueFEbu3BlKqo/cyvfyImzzc0C3ZoSIJrWYcX2Uau9TwiwuLvjb3UBBi
-	 FB8lIqDY2nwGst3GA+Jw2L7onkxd77Tc9fnULw47mO9cTdYt+UCkiHo0HYUaBAY2qZsnM
-	 lH6OpPJFCqptwekoib2nH90L11Qku+gzMeU3yjjrS1TAbYBY8HyTR/PX/SOfYkwXH0xEe
-	 VGlWixOYbwA/OZR/VAUxntKZX5gMdg83gfy8RZFhafn41zLfi6IRBeBIL5h2LJ6fACQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794307679;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:X-Developer-Signature:X-Developer-Key:
+	 Content-Transfer-Encoding;
+	bh=musk+utB1KfWcXDecDGeXhJbvzifsbZCNqbV6Pr8GHE=;
+	b=mS09IpxhfVzduzuy33LIQvkGhvASGM0SgJhLioSmX9ABYaRiYe3Ew58OPXy7FPmUaVG+
+	 mQ61ZU/szRYfV1daAcLIubjneYKSJLCdzZXmjH1vfHDFSqzNHhONN8DfE8JnFfVAKT1aw
+	 IGQ2+DsQi30hLoEaNPXx6hZl2r2YKSKv5GffMcrR1N3x/hAMWWH/aUPYat+U7BfosnFbE
+	 +2hKnagOi5/CMbMEPZDlXt/5Eht5uh4YGfIrq25QOHB9ag2FeWyrDuO56YsTlSG78mVH9
+	 LA/5ozqXRBeuZJXFOcNaRodxlHAV3Y7y0HKJ0GDHy1nS2zxVe2vNpLlawO1dBBmCaEw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JarSwNEh;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Bjd+2Fzf;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3654660A2621;
-	Tue, 10 Nov 2026 10:41:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDEE1606A31C;
+	Tue, 10 Nov 2026 10:47:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JarSwNEh
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65D081F008BF;
-	Tue, 10 Nov 2026 10:41:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Bjd+2Fzf
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FE5E1F0089F;
+	Tue, 10 Nov 2026 10:47:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794307313;
-	bh=Sf5RKSAxCyExCYozothLzGZn1lg1pz7pfFjhL0ZFBV8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=JarSwNEhuqQeqZKuGdrIJZ2QFEC9r1Q+GuCL05G5EOXpRL4aApaecjxjECfVuG2L4
-	 9gIQ33mSV+no5kBy06WsvfHPuas3aEQ+SZC+0QswMKoP9mCluBu6ifOwaRgr+cFonf
-	 Zp2NNlfg1QvVn0TJx7d4SGEwObtJ0ZGdz9d09+UH96uoQfLBNslFnxJDYagNAWORfB
-	 548ACuIGBLIJ7lBGXG9QriuKXYvgRz7Yv9Nl2hI9IFpqELYUD+b/bOUUEnuw3nrHTk
-	 /XYtJqdOdiCGF4WtttMf1Fe9OT6U0jfmsuL59//QckCo8EuWJKAeaQD3IT5KeJc+42
-	 Gxeot/Kvu5IqQ==
-Message-ID: <322e1cec-1435-480c-9d49-d16b366e1173@kernel.org>
-Date: Tue, 10 Nov 2026 11:41:37 +0100
+	s=k20260515; t=1794307678;
+	bh=musk+utB1KfWcXDecDGeXhJbvzifsbZCNqbV6Pr8GHE=;
+	h=From:To:Cc:Subject:Date;
+	b=Bjd+2FzfWgs1r5CaYTKJ2dqdFylBLe36fcIRBVaTnzcc/Pq8lNC++m80t8iQYPXT5
+	 9jdJMi1SU9cnmiQp7qWwFRy13BLSuQGSHcbb+xXThq77LwpMk6NK8hgVFzY9SNiQGS
+	 QliIcWhKRZllitF37MulWnvwPw2uHJynbsG+pqs9ha5oodYn4xaCZAhY8kH5HYIQCs
+	 UwHulAs0kXsrxdy/FqNU/GAMI0tTjH2T4G090wzgwRe6lpgfZz3HfsAq8CB/ApsESY
+	 jJVfnWoORwCwF2mGWY2mjt7/h7rK1un0GDg6awUim6QqyUu5ucFytRAietEOdD5Hpg
+	 OlUxtLV4fqoYg==
+From: Christian Brauner <brauner@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Christian Brauner <brauner@kernel.org>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [GIT PULL for v7.4] vfs fixes
+Date: Tue, 10 Nov 2026 11:47:42 +0100
+Message-ID: <20261110-vfs-7.4-rc3.fixes-a971ed79be85@brauner>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -51,183 +58,259 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/5] mm: limit pagecache folio refcount when mapping
- pages
-To: Zi Yan <ziy@nvidia.com>, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, "Matthew Wilcox (Oracle)"
- <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Andrew Morton <akpm@linux-foundation.org>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Kiryl Shutsemau <kas@kernel.org>, Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>,
- Gregory Price <gourry@gourry.net>, Ying Huang
- <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
- Peter Xu <peterx@redhat.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Song Liu <songliubraving@fb.com>, Rik van Riel <riel@surriel.com>,
- Miklos Szeredi <miklos@szeredi.hu>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
- Hugh Dickins <hughd@google.com>, Will Deacon <will@kernel.org>,
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin
- <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>,
- Arnd Bergmann <arnd@arndb.de>, Jason Gunthorpe <jgg@ziepe.ca>,
- Kevin Tian <kevin.tian@intel.com>, "Joerg Roedel (AMD)" <joro@8bytes.org>,
- Robin Murphy <robin.murphy@arm.com>,
- Steve Sistare <steven.sistare@oracle.com>, John Hubbard
- <jhubbard@nvidia.com>, "Jose A. Perez de Azpillaga" <azpijr@gmail.com>,
- Josef Bacik <josef@toxicpanda.com>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev,
- linux-arch@vger.kernel.org, iommu@lists.linux.dev,
- Chris Mason <mason@kernel.org>, stable@vger.kernel.org
-References: <20261107-refcount_overflow_stable-v2-0-c38f6809b106@kernel.org>
- <20261107-refcount_overflow_stable-v2-1-c38f6809b106@kernel.org>
- <DMR6VVEKW3XN.23D8JAIT65YIU@nvidia.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <DMR6VVEKW3XN.23D8JAIT65YIU@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Developer-Signature: v=1; a=openpgp-sha256; l=11731; i=brauner@kernel.org; h=from:subject:message-id; bh=USaOZFgtrjm7+lXKWZybDrDvfVgr7XHE4Q8JGFPQlvM=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWR9+hbcJvPnyY0F1T9CC4RKXFp8BS6Z2aV+Knywdc6UK VcM7VWLOkpZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACYyN5nhn/WvNRxTZ05OZPl1 c+fZs91K5UKPcyZL1G+PMoyuETbL0mP4p785W5/Npvbkgd/GkzymzT7uMWnavSXma1fL+SkGPCs RZQUA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-On 11/10/26 03:52, Zi Yan wrote:
-> On Sat Nov 7, 2026 at 5:23 PM EST, David Hildenbrand (Arm) wrote:
->> With large file folios, overflowing the folio mapcount and refcount
->> became possible. For anon folios it is currently not really an issue:
->> each large anon folio can only be mapped once into a process; on 4k
->> kernels it would be more processes than usually allowed on a system, and
->> on 16k or 64k kernels the processes alone would consume hundreds of GiB.
->> Something to be sorted out at some point, but it's not as urgent.
->>
->> Being able to overflow the refcount is not really big news, but it's about
->> time that we do something about it because some modern technology might
->> find ways to abuse it :)
->>
->> One of the enablers for that was commit ddc58f27f9ee ("mm: drop tail page
->> refcounting"), however, file thp support was added later.
->>
->> File folios can be mapped multiple times into the same process, allowing
->> for processes to hold many references to the same folio.
->>
->> As a short-term solution, let's introduce two folio refcount limits:
->> one for ordinary consumers and one for admins. Leave some headroom
->> before the refcount goes negative, which we really don't want (having
->> the mapcount go negative is also not expected).
->>
->> Start reporting SIGBUS if we run into limits. When restoring mappings
->> from migration entries, instead zap the pte/pmd entry. We allow for
->> slightly exceeding the limit to keep things simpler.
->>
->> During fork(), prefer not copying page table entries over failing fork.
->> Export __folio_ref_count_over_limit() right away as that will be needed
->> from fuse code next. Use has_capability_noaudit(current, CAP_SYS_RESOURCE),
->> so filesystem credential overrides do not affect access to the admin
->> reserve, and to not generate auditing messages simply because we access
->> optional reserves.
->>
->> This is far from ideal, but better than all easy alternatives we can
->> backport comfortably. For now it fixes the big problem: letting
->> the refcount (+mapcount) go negative and cause trouble.
->>
->> This is only a temporary fix, we'll follow up with something better.
->>
->> Check order 0 folios as well for consistency: each
->> folio_add_file_rmap*() and folio_dup_file_rmap*() needs a prior check.
->>
->> Also, just document -EHWPOISON for copy_present_ptes() while at it.
->>
->> Note: When zapping file migration entries, uffd-wp is preserved using PTE
->> markers, but uffd-rwp protection is lost because there is no corresponding
->> marker. try_to_unmap() already has the same problem when unmapping file
->> folios, so we'll happily ignore it.
->>
->> Note2: For now we don't let migration or PTE table collapse exceed any
->> limits. Admins can always refault, and if we are already operating in
->> admin reserves, something is already off.
->>
->> Reported-by: Chris Mason <mason@kernel.org>
->> Fixes: 800d8c63b2e9 ("shmem: add huge pages support")
->> Fixes: 99cb0dbd47a1 ("mm,thp: add read-only THP support for (non-shmem) FS")
->> Fixes: 793917d997df ("mm/readahead: Add large folio readahead")
->> Cc: stable@vger.kernel.org
->> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
->> ---
->>  include/linux/mm.h | 30 ++++++++++++++++++++++++++++++
->>  mm/filemap.c       |  6 ++++++
->>  mm/huge_memory.c   | 29 +++++++++++++++++++++++++++--
->>  mm/memory.c        | 35 +++++++++++++++++++++++++++++++----
->>  mm/migrate.c       | 11 +++++++++++
->>  mm/userfaultfd.c   |  4 ++++
->>  mm/util.c          | 12 ++++++++++++
->>  7 files changed, 121 insertions(+), 6 deletions(-)
->>
-> 
-> LGTM. I wonder if we want to add a VM_WARN_ON_ONCE() refcount check in
-> __folio_add_file_rmap() and __folio_dup_file_rmap(), so that no new
-> caller will not miss the refcount limit handling. That also requires a
-> reproducer for verification, but it might be hard to trigger all
-> possible code path. Anyway,
-> 
+/* Summary */
 
-As it is valid to expand into the headroom above the limit, we could really only
-check for invalid refcounts (<= 0) there.
+This contains fixes for the current development cycle:
 
-We do have a folio_ref_zero_or_close_to_overflow() check in folio_get(). Likely
-I should just replace that by a check for <= 0, as that's really what we want to
-avoid.
+- libfs: Make readdir on tmpfs walk the offset tree in offset order
+  instead of d_children to avoid skipping entries or relisting the whole
+  directory.
 
-> Acked-by: Zi Yan <ziy@nvidia.com>
+  It's faster too. Listing a million entries takes 114ms instead of
+  146ms, and 113ms instead of 470ms with four processes listing in
+  parallel.
+
+- iomap: Finish the ->iomap_next() conversion that started in v7.3.
+  The nilfs2 and fuse ext_map iomap code added this merge window is
+  converted so now we can remove the ->iomap_begin()/->iomap_end()
+  fallback. We waited until the new iomap users from other trees were in
+  mainline otherwise this would have been very messy.
+
+- errseq: Retry with the current value when the cmpxchg() in
+  errseq_check_and_advance() fails to avoid an old value coming back
+  later hiding the errors.
+
+- aio: Hold an extra count for exit_aio() itself so it can't return
+  before the last free_ioctx_reqs() callback has called complete().
+
+- pidfd: Fail the namespace ioctls with EREMOTE unless the target is
+  visible in the caller's pid namespace like PIDFD_GET_INFO does.
+
+- eventpoll: Wake the next waiter when a woken waiter returns early
+  because of a fatal signal to avoid sleeping forever.
+
+- backing-file: Pass RWF_NOAPPEND on to synchronous writes to the
+  backing file.
+
+- initrd: Flush the deferred fput() of the ramdisk file before mounting
+  root.
+
+- iov_iter: Take an unsigned long segment count in import_iovec(). The
+  upper 32 bits of the count passed to readv(), writev() and friends
+  were dropped before the UIO_MAXIOV check.
+
+- splice: Advance the pipe tail before checking for a full bvec array
+  in splice_to_socket(). The last buffer was counted again, so MSG_MORE
+  was set although the pipe was empty and small TCP transfers waited
+  for the cork timeout.
+
+- vfs:
+
+  * Reject negative offsets for SEEK_DATA and SEEK_HOLE in
+    default_llseek() and use must_set_pos() for its whence handling.
+
+  * Only clear tv_nsec in timestamp_truncate() when clamping changed
+    the seconds. Timestamps whose seconds were exactly at a filesystem
+    time limit lost their subsecond part.
+
+  * Don't leak the kernel-internal STATX_ATTR_CHANGE_MONOTONIC in
+    stx_attributes_mask.
+
+  * Clamp the FIONREAD result to the int range so a file with 4 GiB
+    left isn't reported as empty.
+
+  * Fix the SEEK_CUR f_lock check.
+
+- selftests: Fix the statmount and mount_setattr tests on 32-bit and
+  s390, build the fchmodat2 and openat2 tests without sanitizers when
+  the toolchain lacks the runtimes and fix a clang warning in the
+  mount-notify test.
+
+- docs: Fix a docutils warning in porting.rst.
+
+/* Conflicts */
+
+Merge conflicts with mainline
+=============================
+
+No known conflicts.
+
+Merge conflicts with other trees
+================================
+
+No known conflicts.
+
+The following changes since commit 05441d697f7f9a927264f4058cbbc6a03dfcac9d:
+
+  Merge tag 'cocci-7.4-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/jlawall/linux (2026-11-03 08:36:32 -0800)
+
+are available in the Git repository at:
+
+  git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.4-rc3.fixes
+
+for you to fetch changes up to 1448959fe3d013ffdb8302d17e4a8fdad2d2da95:
+
+  fs: fix the SEEK_CUR f_lock condition (2026-11-09 16:04:55 +0100)
+
+----------------------------------------------------------------
+vfs-7.4-rc3.fixes
+
+Please consider pulling these changes from the signed vfs-7.4-rc3.fixes tag.
 
 Thanks!
--- 
-Cheers,
+Christian
 
-David
+----------------------------------------------------------------
+Abbott Liu (1):
+      initrd: flush deferred fput() before mounting root
+
+Andrea Parri (1):
+      iov_iter: take an unsigned long segment count in import_iovec()
+
+Avi Weiss (2):
+      fs: clamp FIONREAD result to int range
+      splice, net: avoid MSG_MORE when the bvec array fills
+
+Chen Linxuan (1):
+      pidfd: restrict task access ioctls to the caller's pid namespace
+
+Chris Mason (1):
+      backing-file: pass RWF_NOAPPEND to synchronous writes
+
+Christian Brauner (9):
+      libfs: make i_rwsem the lock of the offset tree
+      libfs: walk offset directories in offset order
+      libfs: end offset readdir at positions past DIR_OFFSET_EOD
+      Merge patch series "libfs: fix readdir of offset directories"
+      Merge patch series "iomap: remaining patches for iomap_iter_next conversion"
+      Merge patch series "errseq: fix lost writeback errors in errseq_check_and_advance()"
+      Merge patch series "fs: fix and deduplicate whence handling in default_llseek()"
+      aio: don't let exit_aio() return before complete() is done
+      fs: fix the SEEK_CUR f_lock condition
+
+Hungyu Lin (1):
+      vfs: preserve subsecond timestamps at filesystem time limits
+
+Jeff Layton (1):
+      statx: don't leak STATX_ATTR_CHANGE_MONOTONIC in stx_attributes_mask
+
+Joanne Koong (5):
+      nilfs2: convert iomap ops to ->iomap_next()
+      fuse: convert ext_map iomap ops to ->iomap_next()
+      iomap: remove ->iomap_begin()/->iomap_end() legacy path
+      iomap: pass iomap_iter_next_fn directly instead of struct iomap_ops
+      Documentation: iomap: update docs to reflect iomap_iter_next model
+
+Mani Tofigh (1):
+      eventpoll: wake the next waiter when a woken waiter is killed
+
+Randy Dunlap (1):
+      fs: porting.rst: use literal string to avoid warning
+
+Sasha Levin (4):
+      selftests/statmount: fix format warnings on 32-bit and s390
+      selftests/mount_setattr: build with a 64-bit off_t
+      selftests: probe for sanitizer support in fchmodat2 and openat2
+      selftests/fs/mount-notify: fix the indentation in the fsmount test
+
+Shashank Mohan Jain (2):
+      errseq: don't let errseq_check_and_advance() hide later errors
+      lib/tests: errseq: add a concurrent check_and_advance test
+
+Siddharth Chintamaneni (2):
+      fs: reject negative offsets for SEEK_DATA and SEEK_HOLE in default_llseek()
+      fs: use must_set_pos() in default_llseek()
+
+ Documentation/filesystems/iomap/design.rst         | 140 +++++++++++++++------
+ Documentation/filesystems/iomap/operations.rst     |  68 +++++-----
+ Documentation/filesystems/iomap/porting.rst        |  16 ++-
+ Documentation/filesystems/porting.rst              |   2 +-
+ block/fops.c                                       |  10 +-
+ fs/aio.c                                           |   4 +-
+ fs/backing-file.c                                  |   7 +-
+ fs/btrfs/direct-io.c                               |   8 +-
+ fs/dax.c                                           |  48 +++----
+ fs/erofs/data.c                                    |  28 ++---
+ fs/erofs/internal.h                                |   3 +-
+ fs/erofs/zmap.c                                    |   7 +-
+ fs/eventpoll.c                                     |  11 +-
+ fs/exfat/file.c                                    |  14 +--
+ fs/exfat/inode.c                                   |   6 +-
+ fs/exfat/iomap.c                                   |  22 +---
+ fs/exfat/iomap.h                                   |   6 +-
+ fs/ext2/ext2.h                                     |   3 +-
+ fs/ext2/file.c                                     |   4 +-
+ fs/ext2/inode.c                                    |   9 +-
+ fs/ext4/ext4.h                                     |  10 +-
+ fs/ext4/extents.c                                  |   8 +-
+ fs/ext4/file.c                                     |  22 ++--
+ fs/ext4/inode.c                                    |  58 +++------
+ fs/f2fs/data.c                                     |   6 +-
+ fs/f2fs/f2fs.h                                     |   3 +-
+ fs/f2fs/file.c                                     |   4 +-
+ fs/file.c                                          |  10 +-
+ fs/fuse/dax.c                                      |  10 +-
+ fs/fuse/ext_map.c                                  |  11 +-
+ fs/fuse/file.c                                     |  10 +-
+ fs/fuse/virtio_fs.c                                |   3 +-
+ fs/gfs2/aops.c                                     |   6 +-
+ fs/gfs2/bmap.c                                     |   9 +-
+ fs/gfs2/bmap.h                                     |   2 +-
+ fs/gfs2/file.c                                     |   6 +-
+ fs/gfs2/inode.c                                    |   6 +-
+ fs/hpfs/file.c                                     |   6 +-
+ fs/inode.c                                         |   3 +-
+ fs/internal.h                                      |   1 -
+ fs/ioctl.c                                         |   5 +-
+ fs/iomap/buffered-io.c                             |  40 +++---
+ fs/iomap/direct-io.c                               |   8 +-
+ fs/iomap/fiemap.c                                  |   8 +-
+ fs/iomap/iter.c                                    |  13 +-
+ fs/iomap/seek.c                                    |   8 +-
+ fs/iomap/swapfile.c                                |   4 +-
+ fs/iomap/trace.h                                   |  12 +-
+ fs/libfs.c                                         | 133 ++++++++------------
+ fs/nilfs2/file.c                                   |   2 +-
+ fs/nilfs2/iomap.c                                  |   4 +-
+ fs/nilfs2/iomap.h                                  |   4 +-
+ fs/ntfs/aops.c                                     |   6 +-
+ fs/ntfs/file.c                                     |  20 +--
+ fs/ntfs/inode.c                                    |   2 +-
+ fs/ntfs/iomap.c                                    |  42 ++-----
+ fs/ntfs/iomap.h                                    |  10 +-
+ fs/ntfs3/file.c                                    |  16 +--
+ fs/ntfs3/inode.c                                   |  13 +-
+ fs/ntfs3/ntfs_fs.h                                 |   3 +-
+ fs/pidfs.c                                         |   8 ++
+ fs/read_write.c                                    |  48 +++----
+ fs/remap_range.c                                   |   6 +-
+ fs/splice.c                                        |   2 +-
+ fs/stat.c                                          |   6 +-
+ fs/xfs/xfs_aops.c                                  |   8 +-
+ fs/xfs/xfs_file.c                                  |  53 ++++----
+ fs/xfs/xfs_iomap.c                                 |  55 ++------
+ fs/xfs/xfs_iomap.h                                 |  16 +--
+ fs/xfs/xfs_iops.c                                  |   4 +-
+ fs/xfs/xfs_reflink.c                               |   6 +-
+ fs/zonefs/file.c                                   |  22 ++--
+ include/linux/dax.h                                |  18 ++-
+ include/linux/fs.h                                 |   9 +-
+ include/linux/iomap.h                              |  66 +++++-----
+ include/linux/stat.h                               |   3 +
+ include/linux/uio.h                                |   8 +-
+ init/do_mounts_rd.c                                |   5 +
+ lib/errseq.c                                       |  29 +++--
+ lib/iov_iter.c                                     |   6 +-
+ lib/tests/errseq_kunit.c                           | 110 +++++++++++++++-
+ mm/shmem.c                                         |   2 +-
+ tools/testing/selftests/fchmodat2/Makefile         |  18 ++-
+ .../filesystems/mount-notify/mount-notify_test.c   |   8 +-
+ .../testing/selftests/filesystems/openat2/Makefile |  18 ++-
+ .../filesystems/statmount/statmount_test.c         |   4 +-
+ .../filesystems/statmount/statmount_test_ns.c      |   5 +-
+ tools/testing/selftests/mount_setattr/Makefile     |   2 +-
+ 88 files changed, 776 insertions(+), 732 deletions(-)
