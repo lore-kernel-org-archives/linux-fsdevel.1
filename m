@@ -1,92 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794303527;
-	b=rUwpkZ9OHqPm7RP0GWNmlbvg6E+LG4d1ZQnSfj+UR2rJdA3JxfEbXQ5baPbDRIKNqKv5
-	 a99/OIs1zrNW2UcySPlphmiyuycPY/5RfW3P88QCx8d+4Jhlg0dXpZngJOM5zBVa2/kVz
-	 0L6iwsUn+3v1CZ8NTjK3JPVxKcDBzU7TxpNYsrncdwunGFbwSO3qWoBt9/7MXM1gCGITj
-	 9kK5/DWVqr2WNZxe8YIuAU1wkTanta2QmVVGSH+PMT9AI7tmsuC5tJBKr0I8zsPNCTsqh
-	 eHt21gtksLPqLNYAZQ1PZAzw9jM1FnClZXIKtWeJt/NbjLQtWXXwdD/x9KF1SyrjgqQ==
+	t=1794303702;
+	b=L6RzbJtcjRp5lDe6/ue+ymVDXVYVbLl+7+L04EDdgpHa4c5bljdunpaPinFHsGSmMlJM
+	 EFzs2yYLNYsixlwHvRwTaljXBpwR8Htxuo7m+oma7VuCEV5UxWOZR8DurmCpjk7xUWA2k
+	 5E1N3MsQmywZbo5AAlhw+KpeW8h0tqrSSos73UZagzc9XWrZe/WLjgMNNlFEi0PCOlkV0
+	 m2mYY5TBvvBwrNUFovPEJycAcBNWgBhow1mHu0LcLh5TQu5nglgPaY3cqN8NuI2JZD4CO
+	 C3OXT0PNQrYo4d8i3u5gR5JOTueZy/hwR1F12T/JyJU7rhjPOob2r78VIkL3YyQ9bLA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794303527;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=h+J3J0epLuUim0gFkWCnrvjgBBaMOJi50a7zUOpsEaI=;
-	b=kGZcuf9veytXLCG+iDSTwIGqvyHGRMoAds5/CnDbpCX1ub6zCnJwykjUZzVnm3a6/7wC
-	 VVXyKFFDzH8YF9dF6hsty19iZBRG9mzCz2PKmt23lVF0dtZoVrVcyeYWqgV5jBrgOLb/P
-	 +Sb+d2EXsjZdv0aLRrU1p09jOuHW1aMzAfm+CC5AjS6HMEZL7bHDihe+y7xxES89SWxr9
-	 neYRqjTqCzbdDROAin5w8EZLgb8rTNBaYEkRQCmyfV/sIfmyajbeiuunpHhHYvLLSuDSd
-	 uh1vnPrjNH33oM1cD0LEEvd9wpooOk/TDPgq7PN15qAmpvhlC04bNj269k3M2v7ABCA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794303702;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=6n/yC+liQ+buoND9hqvVFuCxVFLLPdfTSqhfFh/Q6Qw=;
+	b=0Z/Qnb537W/0SsP2HCTRjp4iWL1Fk6G7k/ZzmeKZSA5U160NMJjzDRaAJMhnxVyRmx93
+	 hAij6RAevjuwUb2ydszqxuI78ZduoemqU5IERarwQquPTL2DPlHJsURmLXdYMN7pR5h67
+	 d7ajPAI5kNAqNTnR8NNxAJGpFzFlcrHsYz7dHxppE/KWSeIOS0YgubHEIE0wIwHq5RhCB
+	 7S/qMdBRDBnoKhzdttMw17kX71m1eI5Y2svktaK4677lmWwiNxR0161BrZAjCrcPZnMW/
+	 SC2i7C/fpdQ1l9q7hlp/dBvXOteB0Tg8X3etiLboaR4CaIaM7brCqoBmdo2x6jLQM8A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=aeiS47eX;
-	arc=none smtp.remote-ip=74.125.82.172
-Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BHoOnoIo;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78E56606A99A
-	for <linux-fsdevel@vger.kernel.org>; Tue, 10 Nov 2026 09:38:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 78E56606A99A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 028F2606A933;
+	Tue, 10 Nov 2026 09:41:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=aeiS47eX
-Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-3700ed8dbe3so2664527eec.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 10 Nov 2026 01:38:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794303526; x=1794908326; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=h+J3J0epLuUim0gFkWCnrvjgBBaMOJi50a7zUOpsEaI=;
-        b=aeiS47eX2RAlloEV5TbLKxN8HadOSwzbwZxfrumaatbz9mTX8YhdUMlIVqyh2SZ9zN
-         gHNzBBrJSYM/5iQ8UCoJ1Myhq+WTgi/3nM5+dBl33le91DIY6ChPiene272uJNyGcULt
-         6aaEWz4ScHNiqT4CRS6OW3zUhmZhw5WBrmt5geSwk45+LMRdExhjHo5t8OhQjg/xbjLf
-         YZkwzwvSRfEoDjVyD2uY814yAwBusqCi3tSPBmXY7FCZmnucSgXBCV+1wiXHqUjdB71h
-         4ZJw7EE5VFbTTCpf0/jig1sCt7yEPG2I2fwZsWatIOXFMTXMQDD5hHlVOKntpel8S2Zo
-         8x/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794303526; x=1794908326;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=h+J3J0epLuUim0gFkWCnrvjgBBaMOJi50a7zUOpsEaI=;
-        b=BP6FWRmktmFkAHo3tApxu0vE9Hf01Swd76xydnPQvQxIEZq5cN5lijg1sp89ldkxG3
-         apHUpx0acD79ni6yYDRC5tqd4mjiQYq9y4Yd2oxjrAnc2LrRKYsouA3U3LvL9BvLa8lf
-         aNPqvlCARe0R2wzY/FgeUz7P6kxzM1LBesuaBz/z0624jgl4jGj9hPtLscbq7crJm1EQ
-         T2UQzQgmJHAwAHJwdjLMw8LydJPzNFc1FLRjd1r0rzyWXFT0whnjRVerrU6NGn09g9mq
-         spuotL0XhaKn10xOxzsDTP2IHkKd6d85036K6pSbsZujGADdq1hOd2RJCNA6WZV5JvtP
-         o7RQ==
-X-Forwarded-Encrypted: i=1; AL+hErGSmk7VKkAjYMcuSvqexfHhqNax4JuwlrudyRTIUkq2JTNIeNwmpDHvaQh2o4bNL17UkchsgC+NeYVOMSQY@vger.kernel.org
-X-Gm-Message-State: APuU4Z/eQkE8Glz/mpwJw3fD/cGutosi75wBAtivQ3fA68zw9ir/HYbf
-	yP5oluy0GqSaFJfYFFARGnJ8M5tL37iFsAa6Js06qv7wuwy7UuFJLern
-X-Gm-Gg: AYBFou13nduC+KaGd6cbwal6yPU+SsY/VXcsb/ws00bpaM+0Cfd+l491f3/jWuB9Y6Y
-	JuGGxIWAoIudWUEx9YU3HvK0VOs0TqSbk8CwpUq3b/Ut98Vi66KXMX4Z+rQjkmjQf71TFqwGIQQ
-	kMN2fbucZmP2IOk485O919pNq2fs51SJQiSCVmmI4TnjaZ2Rx4tHeA4sjhe9c7vISrhKifncLiV
-	2AMHCUZVLrTvPDZ3tBlrLiS33kSt85wd31efR+r+6BZauKLXIj+LUhZzaxY067+UqVqIAOAeG6+
-	4DVW74a5fZnHjXEi/0aBI58/KvRihwBO2v5rBiVf5i7BWNebgE+oaiHxzSO0knY6aTE3hkQ8G4D
-	QcEF7o9BAFVjRN0Fw7X/qOZzvON3t6r2B43GYNtxyLrVQudtu3vWa/viIO0wWwmx5319lDk8bau
-	stN+7j2LHcLQs0nTc2L3nbhxt82skUbwwaY1Hwy2x+t4Za03W8UIfPNJWJ+wFoYInilpm8NWLC/
-	9SvfI2us4fV7NxoEqjr9p+4sovik1bTtpwgVg/9zYswfv9EkbdvensBfI/X4mAtTDnbYrhHFLBl
-	LTgBRCoxMECDmDS42WUaVENFVOnWXJ4eJjAa
-X-Received: by 2002:a05:7301:488c:b0:369:ff7d:840 with SMTP id 5a478bee46e88-3751ef7bbefmr3078034eec.21.1794303526196;
-        Tue, 10 Nov 2026 01:38:46 -0800 (PST)
-Received: from hanzj-mi.. ([157.185.136.247])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3751ad6f11csm4996931eec.0.2026.11.10.01.38.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 01:38:45 -0800 (PST)
-From: Zhijian Han <hanzhijian1991@gmail.com>
-To: Dave Kleikamp <shaggy@kernel.org>,
-	jfs-discussion@lists.sourceforge.net,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+6cc93ec9a4035badb85f@syzkaller.appspotmail.com
-Subject: [PATCH] jfs: hold a page reference on log pages while I/O is in flight
-Date: Tue, 10 Nov 2026 17:38:41 +0800
-Message-ID: <20261110093841.2470586-1-hanzhijian1991@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BHoOnoIo
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0BE31F0089F;
+	Tue, 10 Nov 2026 09:41:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794303701;
+	bh=6n/yC+liQ+buoND9hqvVFuCxVFLLPdfTSqhfFh/Q6Qw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=BHoOnoIo3zYriw9BZlqZnLxYeZXwtj9ZcdmVYeD22i+0Kr59SIQT/O+TAgwkivvRV
+	 sD6nkAxEzGaRpktlIq61x5darwC1kJnak7rj90zgqkG84b/p8y/CE7COro4PZm9OnV
+	 sOY6yFPKymVCkEjXReS7kxgTzRecvBoh5A0JUGWEUTvA/WQMp9+zqnINqxnmwlsb/r
+	 JCZwLvBaWzrLdxQAQRyhuzUNeyU/SkrPUBA5AtbQbOHWym7tAJSTOp9dKZoSj7MBMl
+	 WIWdY44FpVyMr7ZNPQrdy2ESBQGlmtTXajx5S+krCJz9SvujPiSqBrDCYgxhEUkaQM
+	 c4qKNokIHu5/A==
+Date: Tue, 10 Nov 2026 10:41:36 +0100
+From: Carlos Maiolino <cem@kernel.org>
+To: Chris Mason <mason@kernel.org>
+Cc: tytso@mit.edu, david@fromorbit.com, jack@suse.cz, djwong@kernel.org, 
+	josef@toxicpanda.com, hch@lst.de, linux-xfs@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v6 05/10] fs: validate atomic writes after O_APPEND and
+ limits
+Message-ID: <avLhEEZjDdQha7ul@nidhogg.toxiclabs.cc>
+References: <20261109235111.14129-1-mason@kernel.org>
+ <20261109235111.14129-6-mason@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -96,85 +59,137 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261109235111.14129-6-mason@kernel.org>
 
-syzbot reports a use-after-free read in copy_folio_from_iter_atomic()
-that has been reproducing for almost a year:
+On Mon, Nov 09, 2026 at 06:51:16PM -0500, Chris Mason wrote:
+> An RWF_ATOMIC write on XFS with reflink can expose stale disk contents
+> if O_APPEND or RLIMIT_FSIZE leaves it sector aligned but not block
+> aligned.
+> 
+> XFS and ext4 call generic_atomic_write_valid() on the range that the
+> caller passed. But generic_write_checks() changes the range later:
+> O_APPEND moves the position, and RLIMIT_FSIZE cuts the length. XFS can
+> then fill only a part of a new block, and still map the whole block into
+> the file:
+> 
+>     block size 4096, i_size 512, O_APPEND
+>     validated:        0 to 4095
+>     written:          512 to 4607
+>     new blocks:       0 to 8191
+>     stale below EOF:  0 to 511
+> 
+> The fix used here is to validate an atomic write in
+> generic_write_checks(), after its range is final, and to refuse one that
+> was cut. XFS no longer picks the path of an atomic write by the
+> alignment of the range that the caller passed.
+> 
+> Fixes: f096207d3276 ("xfs: Validate atomic writes")
+> Fixes: 43c696f9d094 ("ext4: Check for atomic writes support in write iter")
+> Signed-off-by: Chris Mason <mason@kernel.org>
 
-  BUG: KASAN: use-after-free in copy_folio_from_iter_atomic
-  Read of size 4096 by task kworker/u32:9
-  Workqueue: loop0 loop_rootcg_workfn
-    lo_rw_aio
-    shmem_file_write_iter
-    generic_perform_write
-    copy_folio_from_iter_atomic
+Sashiko caught an issue on this patch (and some of the next ones) worth
+investigating in depth.
 
-I reproduced the same KASAN report with the C reproducer from the
-syzbot page: the loop worker reads a log page that jfs has already
-freed.
+In this one it says it may cause ext4 to silently convert an atomic
+write into a buffered non-atomic. I know that ext4 tends to move from
+DIO to buffered IO by default, but silently dropping atomic doesn't seem
+right in this case.
 
-The jfs log code builds one-page bios for its log device in
-lbmStartIO()/lbmRead() and adds the page with __bio_add_page() without
-taking a reference on it.  The lifetime of the page is instead
-guaranteed indirectly: the lbuf that owns the page is kept alive until
-lbmIOWait() observes the lbmDONE flag, which lbmIODone() sets when the
-bio completes.
+Looking through the report and the code it indeed seems a valid
+possibility in some FS configurations as ext4_dio_alignment checks may
+cause ext4_should_use_dio to return false (dio_align == 0 cases).
 
-That guarantee is not sufficient when the log device is an asynchronous
-stacking device such as loop: log writes are pipelined through
-lmGroupCommit(), and lbmStartIO() marks the sync-point write REQ_SYNC.
-The block layer may complete the REQ_SYNC write before an earlier log
-write has been processed by the loop worker, so lmLogShutdown() can
-free all log pages while an earlier bio is still queued inside loop
-and about to read the page it references.
+Giving ext4's special fallback, perhaps just leave the
+generic_atomic_write_valid check in place for ext4?
 
-Fix this by the book: take a page reference before adding the page to
-the bio and drop it in the completion path (lbmIODone()), so the page
-is guaranteed to stay alive for the whole lifetime of the bio.  This
-is the same lifetime rule every other filesystem follows for pages it
-submits.
 
-This bug was found and analyzed with the help of LLM tooling; the fix
-was authored and verified by the signer.
-
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Link: https://syzkaller.appspot.com/bug?extid=2cec257b63d85bb983fc
-Reported-by: syzbot+2cec257b63d85bb983fc@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=2cec257b63d85bb983fc
-Tested-by: Zhijian Han <hanzhijian1991@gmail.com>
-Signed-off-by: Zhijian Han <hanzhijian1991@gmail.com>
----
- fs/jfs/jfs_logmgr.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/fs/jfs/jfs_logmgr.c b/fs/jfs/jfs_logmgr.c
-index 306165e61438..ef9ef11ddb1e 100644
---- a/fs/jfs/jfs_logmgr.c
-+++ b/fs/jfs/jfs_logmgr.c
-@@ -1971,6 +1971,7 @@ static int lbmRead(struct jfs_log * log, int pn, struct lbuf ** bpp)
- 
- 	bio = bio_alloc(file_bdev(log->bdev_file), 1, REQ_OP_READ, GFP_NOFS);
- 	bio->bi_iter.bi_sector = bp->l_blkno << (log->l2bsize - 9);
-+	get_page(bp->l_page);
- 	__bio_add_page(bio, bp->l_page, LOGPSIZE, bp->l_offset);
- 	BUG_ON(bio->bi_iter.bi_size != LOGPSIZE);
- 
-@@ -2117,6 +2118,7 @@ static void lbmStartIO(struct lbuf * bp)
- 	bio = bio_alloc(bdev, 1, REQ_OP_WRITE | REQ_SYNC,
- 			GFP_NOFS);
- 	bio->bi_iter.bi_sector = bp->l_blkno << (log->l2bsize - 9);
-+	get_page(bp->l_page);
- 	__bio_add_page(bio, bp->l_page, LOGPSIZE, bp->l_offset);
- 	BUG_ON(bio->bi_iter.bi_size != LOGPSIZE);
- 
-@@ -2184,6 +2186,7 @@ static void lbmIODone(struct bio *bio)
- 		jfs_err("lbmIODone: I/O error in JFS log");
- 	}
- 
-+	put_page(bp->l_page);
- 	bio_put(bio);
- 
- 	/*
--- 
-2.43.0
-
+> ---
+>  fs/ext4/file.c    |  4 ----
+>  fs/read_write.c   | 13 +++++++++++++
+>  fs/xfs/xfs_file.c | 17 +++++++++++------
+>  3 files changed, 24 insertions(+), 10 deletions(-)
+> 
+> diff --git a/fs/ext4/file.c b/fs/ext4/file.c
+> index 50d3c92709c8..e301d4faf1c3 100644
+> --- a/fs/ext4/file.c
+> +++ b/fs/ext4/file.c
+> @@ -802,10 +802,6 @@ ext4_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
+>  		if (len < EXT4_SB(inode->i_sb)->s_awu_min ||
+>  		    len > EXT4_SB(inode->i_sb)->s_awu_max)
+>  			return -EINVAL;
+> -
+> -		ret = generic_atomic_write_valid(iocb, from);
+> -		if (ret)
+> -			return ret;
+>  	}
+>  
+>  	if (iocb->ki_flags & IOCB_DIRECT)
+> diff --git a/fs/read_write.c b/fs/read_write.c
+> index 676728310899..1b34b7382619 100644
+> --- a/fs/read_write.c
+> +++ b/fs/read_write.c
+> @@ -1775,6 +1775,19 @@ ssize_t generic_write_checks(struct kiocb *iocb, struct iov_iter *from)
+>  	if (ret)
+>  		return ret;
+>  
+> +	/*
+> +	 * O_APPEND has moved the position and the file size limits have
+> +	 * shortened the write by now, so this is the range to validate.  An
+> +	 * atomic write is all or nothing, so refuse it if it got shorter.
+> +	 */
+> +	if (iocb->ki_flags & IOCB_ATOMIC) {
+> +		if (count != iov_iter_count(from))
+> +			return -EINVAL;
+> +		ret = generic_atomic_write_valid(iocb, from);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+>  	iov_iter_truncate(from, count);
+>  	return iov_iter_count(from);
+>  }
+> diff --git a/fs/xfs/xfs_file.c b/fs/xfs/xfs_file.c
+> index be1f775128d1..153f53f964b9 100644
+> --- a/fs/xfs/xfs_file.c
+> +++ b/fs/xfs/xfs_file.c
+> @@ -926,12 +926,21 @@ xfs_file_dio_write(
+>  	if ((iocb->ki_pos | count) & target->bt_logical_sectormask)
+>  		return -EINVAL;
+>  
+> +	/*
+> +	 * An atomic write is at least one block long, and generic_write_checks()
+> +	 * refuses it unless its final position is a multiple of its length.  So
+> +	 * there is no unaligned case to handle for it.
+> +	 */
+> +	if (iocb->ki_flags & IOCB_ATOMIC) {
+> +		if (xfs_is_zoned_inode(ip))
+> +			return xfs_file_dio_write_zoned(ip, iocb, from);
+> +		return xfs_file_dio_write_atomic(ip, iocb, from);
+> +	}
+> +
+>  	if ((iocb->ki_pos | count) & ip->i_mount->m_blockmask)
+>  		return xfs_file_dio_write_unaligned(ip, iocb, from);
+>  	if (xfs_is_zoned_inode(ip))
+>  		return xfs_file_dio_write_zoned(ip, iocb, from);
+> -	if (iocb->ki_flags & IOCB_ATOMIC)
+> -		return xfs_file_dio_write_atomic(ip, iocb, from);
+>  	return xfs_file_dio_write_aligned(ip, iocb, from,
+>  			&xfs_direct_write_iomap_ops, &xfs_dio_write_ops, NULL);
+>  }
+> @@ -1128,10 +1137,6 @@ xfs_file_write_iter(
+>  
+>  		if (ocount > xfs_get_atomic_write_max(ip))
+>  			return -EINVAL;
+> -
+> -		ret = generic_atomic_write_valid(iocb, from);
+> -		if (ret)
+> -			return ret;
+>  	}
+>  
+>  	if (IS_DAX(inode))
+> -- 
+> 2.55.0
+> 
+> 
