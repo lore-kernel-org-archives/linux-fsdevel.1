@@ -1,67 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.139
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794386476;
-	b=lEeLKhid6kTPLKbgHE3Y9aWeEwR88Kmi2CB2HnJLMwG9EdSsHIcC8xV0UxrDw09Ndu+X
-	 OV1gwPAgdBozQrJEN0Ro4ZA0ZowUtjYj2Lkysn764bD/BFglK806iXQqt6Jrk1NW5ADU1
-	 RWsfQqSqCPlc6YkvbjJEQEJ2ogsqp3zwc9MwvZz5YmBPZjuQqRCnXucD1DD776BQmDBcz
-	 ypTU+5adT5DXONUpNUKAQhfUUdW4yLvJm7AeBa1dFmQWUXIsjQqhjGTp9rra8SoeAlwfe
-	 daXLPWJq+5TiM0V27k4s+KrhppYCAt2+XlWmDaLwTdyEp+d8c0CDEdXnmD2eTH8MiOw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794386476;
-	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
-	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
-	 To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=J5UV4bT2yRVrNKueqM3KP5TiKH0C0WlN+zlSkCoDuaQ=;
-	b=dK30iwjvjxqjQMz1AP+bhRac8zGb7miTYMZ8l/n/g+dXyM6/OL96KCRncUEBpcghbBAW
-	 zlMFtuQM+3c7NHGeiYJx7YQ7VzDg2hj9vCDtGqt3UxwNvXk6jKebszuG8JPXQDxXGowrR
-	 ouaP/PCddFbWzKjQkH7CcFiWWRPDnd+8PyxUVl/+ec4XKoNHCEJ7vX4Ca6F7iMMvk4NNV
-	 GFGwsgWgELrAyWEy8/b+ffCcQMAQkd/qyb7xaXIFSmfKkMdoC1rPZDd42dWX6mH3erYzM
-	 Q9pwj9vmjJKhYSAoSwWWO+fJiIxj54u06DyGVgc5mq2+Gw+ITuOZoTl62ijJC5E17Yg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=cmss.chinamobile.com;
-	spf=pass smtp.mailfrom=cmss.chinamobile.com;
-	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b="C3qt/XCn";
-	arc=none smtp.remote-ip=111.22.67.139
-Received: from cmccmta6.chinamobile.com (cmccmta6.chinamobile.com [111.22.67.139])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B06D5606A327;
-	Wed, 11 Nov 2026 08:41:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B06D5606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.170
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794387748;
+	b=Nx4TWoxPeAwW1WTwz74wLuAhfvmil/FTX2s+MVoOd7czDXIM5ngyOFX+z/mTJg0ime+p
+	 vMRauy4sxwl7l7gmSrtiUdjpE20Vm72xJFEqhq4t36EKcBMXncKhlWMvdIH08sHwD9izu
+	 5+k+wnXvrjAlbuEQvsl7cfDaupNqffXVV1sQzicr1v+JVBoJvZLFzd7u8jZOjt8CQ2WqI
+	 3rBSTVQE1i81v2P1QNnhJqtWppKjhYbzjbvWS0S1ShVUiUw6t44K9MBJAPVCEVAPHlcqf
+	 X3MhslC3Nqzpk0v44xlCfOSlnwRdfXunB14DYlT8ZgXkeaDLc2n5LcGZwrGPkLiFPVQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794387748;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=IjyYgf5Mt5Oaaa+hEYrZohiloVo+c5H01zKLrOs5Ypw=;
+	b=kjPf7XcJ/k1dkwHuGuxErLTtCod21YM7pM2+Rz1otrOhNhBhQrSp/Jkgo/SEH2HwQPhx
+	 ZafVeWrOU18F5nyZuhr42nsXi7wqMnzitNVZR4yomqcwE4/49ZvY6H3nsqh3KbbiaONhO
+	 kG2eNzuBA6lEwyFrAWNkLQ5dtDGX6mX5YuXtWYD+KJ69P71L29ib1O/pv5gAUQDTMc6Je
+	 nIidkdK63PS4R/WQVTvCIbAWrbGy02u9zaswwL24wwKU3Ldhyups9OaLmC5tg3Kh2qGyg
+	 t4xYwYoOxC3e/91D95/MYqH3jYc4mRwO6PnQD0cjnl3iEaDNTdZWcXau+96whlPa+6g==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=szeredi.hu;
+	spf=pass smtp.mailfrom=szeredi.hu;
+	dkim=pass header.d=szeredi.hu header.i=@szeredi.hu header.a=rsa-sha256 header.s=google header.b=ZG1wV17q;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.170
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2179606A321
+	for <linux-fsdevel@vger.kernel.org>; Wed, 11 Nov 2026 09:02:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A2179606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=C3qt/XCn
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.a=rsa-sha256 header.s=google header.b=ZG1wV17q
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-54f873cbe2aso29821041cf.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 11 Nov 2026 01:02:27 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794387746; cv=none;
+        d=google.com; s=arc-20260327;
+        b=RY+7143UyDh9iHAXIiqv1RFDjJR0pU8hZy4hYW0czQRUZRQgLN722EW0AF1rsIDr2U
+         2u8kCqavjY3uRVVN+ZUys1oEz+tQzJU3a3n9Ba9s9feBJK7UotAOSNrFeElbpINYdyjx
+         3Cme9WPDyrqMeewNeIl2dGVjR8UzL3mEHpJdZ7O9KnGgNR51J/VxMUn+heJT283CO6wI
+         tHMHkBd7tq4c9AJsHoD5/yikn+goGN+0Jhis5aKyHUDTh9d7cUU5UFRMKjlfFVNHk3SK
+         7qxcoSRTTO+AgxS8oq29nz8X9I7kE7sqFM5FdrIPERGF0JFidUsgm1IU2ryqzHa51uYP
+         8lhQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=IjyYgf5Mt5Oaaa+hEYrZohiloVo+c5H01zKLrOs5Ypw=;
+        fh=wqPIZ0Jm//z4pcF0VWLlRa/3ZQtiLmhr5797Vcp0PcQ=;
+        b=Ck61fNq9syXCYX9rvKhc/FgMBFYa3H84uh5nMhEN7or7xLrmwZLEas9UdFlSGKvwDF
+         vH1vrxVVuYErzuiXAlredhqx9vJ0ks1g4TlHEsSAiz2FLlrhkMdKVGqBUaW1FgUtoPjZ
+         A6Z+eO6U7oPTwoXm7bYu9cgcZHzgL4ZissSIOk7oMjifNHCAwhRK5iEaNv6dguukuZqw
+         DTsUfMaC3i8i+tmdZsXqpJbT/lfM1tNGsVrXeEuG1xZ3fEyew6BI/QPNCnupZuvx5m67
+         g8DLg/v72XP7Evzl4gqksGIZ+lP6V6CDSDj53Id2V/nreBkCsHqXwJVGyRPsnLhzyP63
+         lXbA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=cmss.chinamobile.com; s=default; l=0;
-	h=from:subject:message-id:to:cc:mime-version;
-	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-	b=C3qt/XCnxl+xNOTa/JbIB0y4dwOJszl+S9GMGfu33QZR6Oce9zv+8EOXqcvQJFEFT8/mo1aGX4uAg
-	 zIfs9hrk1SmM+cOo4ZR34KXUMquhsHuacwIWrE6flG1uJrxkYjz2zGGsaoohwCPxXxU9Ksq167DkoG
-	 m+MLrKSUNV3W9eNY=
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
-	by rmmx-syy-dmz-app05-12005 (RichMail) with SMTP id 2ee56af42a29e9e-d44b6;
-	Wed, 11 Nov 2026 16:41:14 +0800 (CST)
-X-RM-TRANSID:2ee56af42a29e9e-d44b6
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from devin-VMware-Virtual-Platform.localdomain (unknown[10.55.1.72])
-	by rmsmtp-syy-appsvr01-12001 (RichMail) with SMTP id 2ee16af42a29ae0-d5c34;
-	Wed, 11 Nov 2026 16:41:14 +0800 (CST)
-X-RM-TRANSID:2ee16af42a29ae0-d5c34
-From: Zhu Jun <zhujun2@cmss.chinamobile.com>
-To: jack@suse.cz
-Cc: brauner@kernel.org,
-	viro@zeniv.linux.org.uk,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+7528a49543144ca596b7@syzkaller.appspotmail.com,
-	Zhu Jun <zhujun2@cmss.chinamobile.com>
-Subject: [PATCH] buffer: Annotate the remote buffer LRU occupancy check
-Date: Wed, 11 Nov 2026 16:41:12 +0800
-Message-ID: <20261111084113.80884-1-zhujun2@cmss.chinamobile.com>
-X-Mailer: git-send-email 2.51.0
+        d=szeredi.hu; s=google; t=1794387746; x=1794992546; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=IjyYgf5Mt5Oaaa+hEYrZohiloVo+c5H01zKLrOs5Ypw=;
+        b=ZG1wV17qi7k3y+OgTB9oJ+Iq3qqKdjhEB6Voe1crPeuwQy0wcDNfv/bdudwdrfdRw3
+         ADLgOcPbh/kgKQc9CUfDrcimVHeDxii9BVyDhy8gtwLRFQrYbBk+hajpv+6KgFLrz+NI
+         al6FswZ2+KsdhNnysas3fU0YuIKpHZj5CWMcc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794387746; x=1794992546;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=IjyYgf5Mt5Oaaa+hEYrZohiloVo+c5H01zKLrOs5Ypw=;
+        b=ZTXetp2DKoCvZRC3K9Rct4iF8H/Zwu2oOxO3fLpFeyEbkjUhjbcILX1owmsIpDe8R4
+         K7i077vl5vz3m77db929PsRS2iyHXSOIbJG2iDtcF0BJ19dxYhBTxdMN8kVhi8bws6Mt
+         47fjymRLBZR7s0mVFeoRmrNemyhNt/w60J+SjD23ma5pjj/eycr6uaypE3ajN8LeqYEA
+         lkHrwb7xPn77u7p1NET3o0eURhXFOZug440tbIxNRXh313TYJPkZFBiTKYIaai3OOJpl
+         Z6Ul9oPnDyboh2td4EpHX5ad1QbrD/1g13D4UhcFLLmKoqvXWh2tcS7gDnjjbSxhWoRx
+         CNcQ==
+X-Forwarded-Encrypted: i=1; AL+hErHGmXJMY7dPhDrAEG8rVNKo3l1jhdrrVUVOHKUnlY6RMBi9bVeqBMJO8sbCZiyFd61m7P1DEBi3oo7biZE1@vger.kernel.org
+X-Gm-Message-State: APuU4Z+r1vCprQAR2ws7mdwYSQ6SlHJpINkGiLFIjdsyUVMrCvNenJ++
+	4K8vAkQnFj3R8GdIB98kb0TG39Yp1SYG3YilOR5AjGLEAt1IDO8bixvr9XZSrEwqQzTzmm0ExAC
+	5eWpzegtfZiS5nYnrJF4zrtAi9sNmi8SDnLv0YQpqpg==
+X-Gm-Gg: AYBFou0gvrtWE57WSV51LEiFXv0+/rGOO73UAYbIG7OQYLhTn0eYcB4KnqtAd756hI6
+	WzhcjDMBWKS9uatPGBXZdekOLgOJRwWJ3oxTv46a+JU4pB/b3P8lyXCGxSoPZsoIqwlAWgdDzcy
+	vlOEGzPQWoFzxUqob60oLgkUMA+NBE8MrDftYtJjLfBuO7Nce4QJN9fDfw1/HaQgeckwSgMMOTL
+	oSk354iRb9Q2mdFwFBctcIyCKLHDYICqgX/W8GtRd22nTjwVbYIVeieynM+TdEeebtBItbXYG2n
+	QOR2GB0rlrrTgJzMIX19G1mcNQUHAoa0Bf17YOwePa1IGJ5VIot3lyjJBEHk4SY+R2grTOcYK23
+	EEd1lN3TvM0b3Ard98d+G4IAtye7Q9/07+TpoLZXuqhNhPS6oPXJT+3Rz/tFWevgM8w==
+X-Received: by 2002:a05:622a:34d:b0:536:8f5a:64a with SMTP id
+ d75a77b69052e-556c222b82bmr24946931cf.63.1794387746372; Wed, 11 Nov 2026
+ 01:02:26 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -71,38 +100,42 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261110145241.536019-1-kas@kernel.org> <20261110145241.536019-3-kas@kernel.org>
+In-Reply-To: <20261110145241.536019-3-kas@kernel.org>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Wed, 11 Nov 2026 10:02:15 +0100
+X-Gm-Features: AclHuK9XqiIqd0G6zWinytDup_EFg0rRz4_cn9sSXLX9jTiH3KRFdGlFPrXk02Q
+Message-ID: <CAJfpegvEeGN073FbaCRnhMeX8RHrckSxmFjkpdoyea2EuRf+zg@mail.gmail.com>
+Subject: Re: [PATCH 2/4] fuse: don't move pipe buffers into the page cache
+To: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Amit Shah <amit@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, 
+	"David Hildenbrand (Arm)" <david@kernel.org>, Matthew Wilcox <willy@infradead.org>, Zi Yan <ziy@nvidia.com>, 
+	Bernd Schubert <bschubert@ddn.com>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev, 
+	virtualization@lists.linux.dev, netdev@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, kernel-team@meta.com
+Content-Type: text/plain; charset="UTF-8"
 
-has_bh_in_lru() reads another CPU's buffer LRU while that CPU may install
-or invalidate entries. The local BH LRU lock does not serialize this
-remote occupancy check, which KCSAN reports as a data race.
+On Tue, 10 Nov 2026 at 15:53, Kiryl Shutsemau (Meta) <kas@kernel.org> wrote:
+>
+> A splice() into /dev/fuse with SPLICE_F_MOVE lets the reply to a read
+> request steal full pages from the pipe.  Each stolen page replaces, in
+> the fuse file's page cache, the folio that the request allocated.  The
+> page can be a page cache folio of another file, a page written into the
+> pipe, or a gifted user page.
+>
+> Always copy.  The server sees the same data, and the move was a hint
+> that splice() never promised to honour.
 
-The check only decides whether to send a drain IPI and never dereferences
-the sampled pointer. Mark it as an intentional race and use READ_ONCE()
-to keep the test to a single load.
+Did some research and looks like this feature is not used by any major project.
 
-Fixes: 42be35d0390b ("fs: only send IPI to invalidate LRU BH when needed")
-Signed-off-by: Zhu Jun <zhujun2@cmss.chinamobile.com>
----
- fs/buffer.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Acked-by: Miklos Szeredi <mszeredi@redhat.com>
 
-diff --git a/fs/buffer.c b/fs/buffer.c
-index 5d3852b726d6..1232f1c086ae 100644
---- a/fs/buffer.c
-+++ b/fs/buffer.c
-@@ -1437,7 +1437,8 @@ bool has_bh_in_lru(int cpu, void *dummy)
- 	int i;
- 	
- 	for (i = 0; i < BH_LRU_SIZE; i++) {
--		if (b->bhs[i])
-+		/* Only test occupancy; the remote CPU owns the references. */
-+		if (data_race(READ_ONCE(b->bhs[i])))
- 			return true;
- 	}
- 
--- 
-2.51.0
-
-
-
+Thanks,
+Miklos
