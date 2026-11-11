@@ -1,96 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.169
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794353780;
-	b=Zh06xtZBZHj5qjwmkbEfFLC4gxXmmy2Cc3CJ6GYEU7nRykvirTX/ssVtSMBRXvRNcwd+
-	 ml4eTvHAKNwVidAwQIvqmR6oES60ePKZtd+Gh90Q9nDaiLZhy8aEUpLXj9ltJNsipT8Kh
-	 mpr1KqvJag95qxMAC4SnGKX1qMrjhuYjEo69Fu8mlSXujPR+krEvCnOr+v1IiLbWTOjbK
-	 YbUYdKqFkbiO0wo0/FJp99C+e4G8Mb9yxycnsVmsqod2y7Lm5SAB/Jgr5Zu9J7e8e+DeG
-	 IW0WFXNPyoY/s6iLzptTTpFzC20ZxXpVJN0+4xduwgThkXkDxgHiDXPYmWufT2gx8dw==
+	t=1794356766;
+	b=eMpepSPtchdRKXcjNOOF4U6iUVv7KGX+ng61C87v3SN0UCW/l+VR+so62vOxx7++b5W5
+	 E4dx+2FycYy9DYq6AVp1t+KbSktPSzkYp/03mdgWkdBl7Igter61VAMxLCKtcJyVH+q5n
+	 yqmXFHnxLF28fjpb/QbcBKFeGU0J3BYzI+5g9VpQj8UXqpKhN201pwWCttt1pZTdimo4x
+	 M7Xs6LMd9UaXauxvM5+0KArMcKmRe+lw6CfsQlhGvk6RmwKhJNnP04Lgbk8X3niB7O8JL
+	 oGC/XAhvF5nTuP/zTQW8j2MCBbHpmWH8OgdrIw1uccWa+BhDWkX8gT61AMfq7NY5iLQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794353780;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=DhyHXjqCuztb63PxZ1O7LhMFys3Q28OminyWGfw7Ef4=;
-	b=W1n4onW90CioL8B1e5KPslm3izQQ7QGNTKXm+NZzBTk+AtvXqcYjDqGEzSRCilgFZHfM
-	 OMqxChS7nDUDajffqLVoLveaUGCtewhqyFuc6dnybWJzeLKslMehzKUZpw4ACIBsbzauI
-	 MINfdEvg1TAQlV26027u4+vm9vq/s7pSmLw7ajrjSuzZ4iHE1dqXFrAxqQF2nWAHa+QWr
-	 D7IIu151ajpKyppQh0qAdsBBO7kQfh3AgX0+OkOvcufAuVorTcB1EE9tSXYBMkvgES4pZ
-	 D1jeEcUWgBxdwuUiKKY8wHIX27179k+PwHP1a4S9Li56csL4xRgTUZlvujGv0e3c5mA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794356766;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=x80Jur2dVbfsH8vBU7Ebsz2GwukQ6rj58JAuvqMVqv8=;
+	b=rr6W6505pxzQTjwjjtwvGRG6irZ80jT2uEprWnCyTUxNYLGOJ3wY4JhPDLajdsaiWCKE
+	 COfE00Zth/AIKCHALcnvK+wb/LsCS5plwP4uyGXR5HCkfLdS19QChc+tDDCOG7+WpGpzL
+	 6j+iBqhj198VPHQnEp0FRsixsSOcTw2fZaUBBUbUqGkHg/BJoFxU2VdWkNNp1RzIzCuL8
+	 ViXDz7WdhIQLxjW8lLbMOBb/VJ6+Ptkw7QVECxt48aFrZ+2qePcG6VisoYRDNPXAIhGAZ
+	 pPX/Uj8/MCF7Mbaw0rUtwLisGQj+4Tc5RQLJ8FyZv60hcoE/zMILP6vCB4Dk2MrOjNg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=dubeyko.com;
-	spf=pass smtp.mailfrom=dubeyko.com;
-	dkim=pass header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=bMBAb0vA;
-	arc=none smtp.remote-ip=209.85.128.169
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=P4vULWk7;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB29660A2608
-	for <linux-fsdevel@vger.kernel.org>; Tue, 10 Nov 2026 23:36:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CB29660A2608
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33028606A332;
+	Wed, 11 Nov 2026 00:26:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=bMBAb0vA
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-8b33de9d2b1so21563357b3.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 10 Nov 2026 15:36:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20260707.gappssmtp.com; s=20260707; t=1794353779; x=1794958579; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=DhyHXjqCuztb63PxZ1O7LhMFys3Q28OminyWGfw7Ef4=;
-        b=bMBAb0vAz941tkfnWeRA0uExGPe39wBJH6mluguoORT1xnehdUqqr6UWpfaiRH05Or
-         DXFHTO3NFeF6S/t8/daPx/d75OTSMqHcAFP89QeqSSh8WLtpURCyh/kU3HyoIVpiioG+
-         gk4fc7qV2HEjzCQ7TqjVNa4RS87dUZ8PGZvGDGr7bhWFuHwapQNLTpvct6xLp705UBA8
-         QcmVWLNMU38K8PSGCfx4OSedpJhxxFHB+tZlCSgNkhiNEfoEZe3BK4MI8CkDFd3J8I/Z
-         lylFWd0DTiEhWdLw+ahLNtzCQVKBJEGzNOnu1zHQenV35hlb60cEC4fvFx2XxlOtn9dI
-         B4zQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794353779; x=1794958579;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=DhyHXjqCuztb63PxZ1O7LhMFys3Q28OminyWGfw7Ef4=;
-        b=ztJlnKiGugQft9DFqC2shcX23KMjkHXu5TQHQva+OyV9/5+yp8Me7lJq8Y3iiGVXpd
-         deVNHiH6SZ5KQ3xCs6A8zsN/iFgFAXIOt1aJ7b6euhMiF0DDQy2ce0jXrebqqfoWNFHh
-         5gc3StaekI0UdXcmUGaaoPDHNrjJkzh6o6NQayxl26jvLwZCagBgUU42zZwgXp30Fdso
-         3e/N6nvxWkO1ISwIuEbfhHuhq24p01d8oQjUJeXvL0L2kaRI/LLka95rTlWgI4Y0NXZN
-         o4qB+dd1B6kPso0xrtRfPADaA+4NSvLDmMy1QfHz2QVWtlKZsQIWltPwedKRW2JoP26b
-         Mxpw==
-X-Gm-Message-State: APuU4Z9AGNbJEpeDFSRXmljBgMtAYflrqZpQ5J9decP7u/zJFQd9Fyw4
-	RPQOqIHToF3vF2TWvMSqUGDhe6+4M8uW2vFM555oqOtPWcP5BsYNb26on3LQfZGjQHE=
-X-Gm-Gg: AYBFou108gQ4Ne53/4lytIxyWM+BRPZhVGhTrv1YviYEe8t9708pvUSapTdWbIRJ0Z2
-	ig8fps75lFfA5rxcKmfb+jHmJ6ZzRvQ0rotRgA8IGJHUkftJalC3h8tldD5IjBqbYzMcsQVJpz9
-	XBZk4mWaKvKviuVeOj0emA25oE6ZPnk9ctBd19eZuTVhGUQZlTjxV621ZMWrSRmPJAr+yJze24A
-	cFS7+h+NZ/hdBCEpJRU/+A8+EmVb3XBtQB01MZ1qogk8bFCxWwH8CLYJ/3P6Sx5n4PUnHXR/k4K
-	ao/POtMTFu7INlrWT/rxuE6S6KiEH2i3svfAUAJaSLHbGXQfM40SH6PSeVsXdBS8U8lo7gJfzNy
-	5bGca5Ihe9ueTCrc6Twfg+P1qVcqb+2IWo8CRFmWJjMdHrNtCTyRywYOD7K6SuBUveX55izf/Lf
-	5pQ7cOpSQeeHNp/XkdQZOMaT0x3d8glxpedpwaXyP+Ph8jXzGVcrXIu+pVYjqa9Wlf3U++Jw4mf
-	IHHeckZkpcvlSM7k3rnjDBiNnuoJytvZZPiLcAZCa2uMTdV1qfpPlJ3CXGzzp/3YWLq360ELW7l
-	b3oUZeoQOfOQ0FA8ZO9MLqYmVhMuqYXc2mT9v0tUHFU4kIK8tAIlTQuNc8/GhtlHfGygvH2y193
-	C6C61F1SX6t7PEKek71Z8jHl4kC2zKJrW/wxCZDzKKimZ6HlwpNsqXYRXuFTybhdf1n5kIf4=
-X-Received: by 2002:a05:690c:e14f:b0:8b3:3a68:f3af with SMTP id 00721157ae682-8b3a805e8c7mr3541447b3.23.1794353778972;
-        Tue, 10 Nov 2026 15:36:18 -0800 (PST)
-Received: from system76-laptop.attlocal.net ([2600:1700:6476:1430:1541:987e:e160:f038])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b3933d1047sm31652577b3.19.2026.11.10.15.36.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 15:36:18 -0800 (PST)
-From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: glaubitz@physik.fu-berlin.de,
-	frank.li@vivo.com
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	vdubeyko@coreweave.com,
-	Viacheslav Dubeyko <slava@dubeyko.com>
-Subject: [PATCH 2/2] hfs: release preallocated blocks in hfs_file_truncate()
-Date: Tue, 10 Nov 2026 15:36:09 -0800
-Message-ID: <20261110233609.561557-3-slava@dubeyko.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261110233609.561557-1-slava@dubeyko.com>
-References: <20261110233609.561557-1-slava@dubeyko.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=P4vULWk7
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D40E1F0089F;
+	Wed, 11 Nov 2026 00:26:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794356765;
+	bh=x80Jur2dVbfsH8vBU7Ebsz2GwukQ6rj58JAuvqMVqv8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=P4vULWk7Lz3JxWoQ1fFiZ1BhFF6mP3QT8MUkw0nM1uczi2dCWxzwTj2/3jymz8p1p
+	 WkU4wHtcNekWZctiFGEwKCWtRaf2gf4zmkF2KtMeiGjvKTlp0fHztgrDb+UHAgtyEM
+	 r+68HkuvbDNZb0WK/EMleuT9LsEO2jaMGfns2vx0CVBBvhgnkT4Lxpg2kFWieUKuPA
+	 9x5WccVA1+oUhvF9GGaXM/xclcu8uBRMaMrf8F22f7F2YjbZH7vKHFRLYDsb9jeWSB
+	 feB66WMI12AvuO+ctXjGtq2FFS8NHRPKneG0GhXjrHn1ddE0aABWamvGuQYlP8evjl
+	 1oJGe+gP4rwOQ==
+Date: Tue, 10 Nov 2026 19:26:04 -0500
+From: Mike Snitzer <snitzer@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Matthew Wilcox <willy@infradead.org>, linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org, Chuck Lever <cel@kernel.org>,
+	Jeff Layton <jlayton@kernel.org>, linux-nfs@vger.kernel.org,
+	NeilBrown <neil@brown.name>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
+	Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v10 0/7] mm, iomap, NFSD: stop uncached writes reading
+ back shared pages
+Message-ID: <avO2HG8_m4v-NYYM@kernel.org>
+References: <20261103211754.35352-1-snitzer@kernel.org>
+ <20261104091740.GB31130@lst.de>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -100,69 +63,79 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261104091740.GB31130@lst.de>
 
-hfs_get_block() extends a fork through hfs_extend_file(),
-which allocates whole clumps. Also, hfs_inode_read_fork()
-initializes alloc_blocks from the on-disk physical EOF,
-while i_size and phys_size are set to the logical EOF.
-As a result, alloc_blocks can be ahead of the number of
-blocks really needed to hold i_size, even when phys_size
-matches i_size.
+[against my better judgement I'm replying, hoping technical discussion
+wins out.. usually does]
 
-hfs_file_truncate() returns early whenever i_size equals
-phys_size, before it compares the required block count with
-alloc_blocks. So, for example, a file whose size is aligned
-on the block size keeps its clump preallocation after the
-last close. Moreover, hfs_cat_delete() does not free the data
-fork and relies on hfs_delete_inode() truncating the file to
-zero size. If a file has zero logical size but allocated
-blocks, the early return skips the truncation, and its blocks
-remain marked as used in the volume bitmap after the file has
-been deleted.
+On Wed, Nov 04, 2026 at 10:17:40AM +0100, Christoph Hellwig wrote:
+> On Tue, Nov 03, 2026 at 04:17:47PM -0500, Mike Snitzer wrote:
+> > Hi,
+> > 
+> > An uncached (RWF_DONTCACHE) buffered write drops each folio it writes
+> > once the folio is written back.  A folio that the write covers only
+> > partly is shared with the neighbouring write.  If it is dropped before
+> > the neighbour writes its part, the neighbour reads it back from disk
+> > first.  32 threads writing interleaved records to one XFS file, 4 KiB
+> > pages, before and after 5/7:
+> 
+> Very colourful terminology here.  Who is "the neighbour".  How do we
+> know a "neighbour" exists and what it wants to do?
 
-Compute the required block count first and return early only
-when neither the size nor the allocation needs to be trimmed.
-This keeps the intent of the original early return of not
-dirtying an unchanged inode. The existing logic further down
-already handles the case of blk_cnt being equal to alloc_blocks.
+"the neighbour" was meant to convey the other write that covers the
+rest of a page that another write covers only partly.  For example,
+with 4 KiB pages, a write of bytes 0 to 5999 covers bytes 4096 to 5999
+of the second page.  A write that starts at byte 6000 covers the rest
+of that page.
 
-Fixes: f76d28d235cf ("[PATCH] hfs: don't dirty unchanged inode")
-cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-cc: Yangtao Li <frank.li@vivo.com>
-cc: linux-fsdevel@vger.kernel.org
-Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
----
- fs/hfs/extent.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+We do not know that such a write will come, and patch 5/7 does not
+assume it.  5/7 looks only at the state of the page:
 
-diff --git a/fs/hfs/extent.c b/fs/hfs/extent.c
-index 26357086517f..42231618f3f1 100644
---- a/fs/hfs/extent.c
-+++ b/fs/hfs/extent.c
-@@ -507,11 +507,20 @@ void hfs_file_truncate(struct inode *inode)
- 		if (res)
- 			inode->i_size = HFS_I(inode)->phys_size;
- 		return;
--	} else if (inode->i_size == HFS_I(inode)->phys_size)
--		return;
-+	}
-+
- 	size = inode->i_size + HFS_SB(sb)->alloc_blksz - 1;
- 	blk_cnt = size / HFS_SB(sb)->alloc_blksz;
- 	alloc_cnt = HFS_I(inode)->alloc_blocks;
-+
-+	/*
-+	 * hfs_extend_file() allocates whole clumps, so alloc_blocks can
-+	 * be ahead of phys_size even when phys_size matches i_size. Return
-+	 * early only if neither the size nor the allocation needs trimming.
-+	 */
-+	if (inode->i_size == HFS_I(inode)->phys_size && blk_cnt == alloc_cnt)
-+		return;
-+
- 	if (blk_cnt == alloc_cnt)
- 		goto out;
- 
--- 
-2.43.0
+- If the page is not uptodate, it is not fully written.  5/7 does not
+  mark it dropbehind.  It stays in the page cache, like a page from a
+  normal buffered write, until a write completes it or reclaim drops
+  it.
+- If the page is uptodate, it already holds the other part, and this
+  write completes it.  5/7 marks it dropbehind, and the writeback that
+  cleans it drops it.
 
+So if no other write comes, at most the first and last page of each
+write stay cached.  If one comes, writeback drops the page after both
+writes, and the second write does not read it from disk.
+
+> In general if the user gave a very clear indication that the data
+> should not be cached, it is a bit awkward to second [g]uess that.
+
+RWF_DONTCACHE does not keep data out of the page cache.  It is buffered
+IO, so all of the data goes through the page cache.  The flag only asks
+the kernel to drop the pages after writeback: "buffered IO that drops
+the cache after reading or writing data" (include/uapi/linux/fs.h).  It
+is also best effort today: an RWF_DONTCACHE write drops only the pages
+that it creates, not the pages that it finds in the cache.
+
+5/7 does not change whether the data goes through the page cache.  It
+changes only when the kernel drops a partially written page.  Today the
+kernel drops the page before another write might get to it.  That write
+must then read the page back from disk into the page cache, to merge its
+own bytes.  So the page cache does not hold less: it holds the same page
+twice, with a disk read between.  In the cover letter test, that is 0.97
+device reads per write, and 831 MiB/s instead of 2281 MiB/s.  The user
+asked for less page cache use, not for a read-modify-write of each
+misaligned write.
+
+> Especially if the expectations are not very clearly documented.
+
+The 5/7 commit message states it: "An edge whose neighbour never writes,
+such as the last page of a file, stays cached until reclaim."  So the
+only change to what the user sees is: an RWF_DONTCACHE write can leave
+the first and last page of the write in the page cache, if no other
+write completes them.  Writeback drops all other pages of the write,
+as before.
+
+Mike
+
+ps. I'll reduce the "colourful terminology" in v11 (e.g. drop
+"neighbour" jargon) and also address the 2 issues sashiko raised
+against v10's 6/7.
