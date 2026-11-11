@@ -1,60 +1,53 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794406989;
-	b=Sdpx+7qrY/LMWktN9HLywxrBKchecUTD2eUQLyXT0MiljNARiXtt8ulCCLcZYlEoiiMt
-	 B7rqBDv5tN/+0Q45q+PK6WNhAb8tPCilp+3ondXcjMXvCOGrJbv0uayhI/uzSdQyiWAYl
-	 gDVYoE6bjGnsP2DWIXjJWbbazlZQl+IWO/rm7HX/hsFdMYbzhGnozT8PvMVOiDIUBFaL8
-	 kxHcFzz8VMthXcKZNsSI7grO+wsIiz8MM2Fe1hKGIvvdcgNGD0aFWqQcg6u9NiqZS1QvW
-	 F3Clw3LkWZjbR1ZrqAKddcaJz9Dt9TJ88CkQbbOtIGXpM07F4att7ARJeCdkMThpTLg==
+	t=1794407428;
+	b=fw4rD61oCfZ2TDsBP85PH4uBNpBqtqMAeN9FvTIvjJki8o/x+jSEF+byZu0yaF0oEDSD
+	 ggDu347fk36iktwMcpGFLgxbmmGVB1WXAdIeeWPcfWFcldjbYwUA60DpAklTbM9rPWpsD
+	 e5mhDBHuuOMnOCZbTgYbOYyyeM7XSWVeTyB6QSi+WssHcl76SXLpXxDKEJecLO1s4b9wf
+	 TlW7eJALc9Gg9z2T4XLS4/f2n9XZtyo67JBsbEvYp9VdWa9ANQjAVQwYZ0SgUw+eiRePI
+	 Ht88KDqyjIftcb6U20axDUXQost3lE+CSEN/WXcRUy5KOez6NDcZSTRyCrFlwTQw57Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794406989;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer;
-	bh=MfK+Ct1wnKvHqvVJNEe4WyjG/GXhOd1P262DUdXiVco=;
-	b=tDFnarIcbMqTA1p49gm/g1C8wJF1/2jx35jHohS2XTBKsFH44I4Z8vVjwzzu26ZLw0Ia
-	 xNF/6BnbwjYfPhP/NcI4WbH13SJx0VMdt7/nIHpgcicNirlJBzZAN/b0bLrDSZigD+AgM
-	 n1D0qxW4ZYqeWiunMfcQYaasDwVMk66xxQRyW871S4KcYNFr6w2UriwlK49GyOpQZGOu8
-	 uDmBsxXBYXhvhXWCd9bzE+bm1/Ff/FUfebQQQPAgObFbYybjjcvff7neqLZ9qno+iCG19
-	 wvAnPXx0WNWzyDcFEbYnIpXa5zMWbn8a9T4+h25EEC3dGZQg9uVkjBmwMyHNuTI3gww==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794407428;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=hl6P/qIPzgssqPnaK+FHoZEtoJEOWAXytEPxMQqQpG8=;
+	b=eJ2IRyyjWnb3QPX/T+FT3SSdHV5tP2HeBPTClm2nKNUbN2LmIx4U+W2qH1K95rKOZc/o
+	 5CdYKJ94x57Y5qdHOtio1o8jaIlvKnYcFX7HzNo9xrkrB/QujCIePj2WOaGoXkO6ECFGI
+	 MImTR/0kkA/OpHi7aNTYwF2OzLd4R/G9l7bqeJN8ozNUFktCLbB9S25ohNlQLOgR5YVXB
+	 aW5ERc51fzbIqfPwqeFWknT6RD3JJnaEN+r0Eae5aYocWb6WdwMUTDzYVVhxOaKT0GYY5
+	 z8fS0kBbONqlvyalSgzOjM/T29kbX0eqJE3WMdkfZOEOF2Zx2SBZbr8e7Kd7/Hgm2uw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HvkiFzwG;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iVGAohVR;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13EFB606A321;
-	Wed, 11 Nov 2026 14:23:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3C9E606A326;
+	Wed, 11 Nov 2026 14:30:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HvkiFzwG
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACCC11F00A06;
-	Wed, 11 Nov 2026 14:23:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iVGAohVR
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06B831F00A05;
+	Wed, 11 Nov 2026 14:30:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794406988;
-	bh=MfK+Ct1wnKvHqvVJNEe4WyjG/GXhOd1P262DUdXiVco=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=HvkiFzwGImnaKNKtYjCIVV+gFBB7XIAz+YJXJdLRYAdfIoGcmJfXWDBvxBjlcJwlf
-	 CeMaM2mj4NdV7AGmzNHXNh8sQe9rVzXiReC5w/JqsIBXdctouFASOe8OaQicgVtoBU
-	 dlVokfIHnHmXhs9ZOQuYRgNfZB3qE9q9Aowh2SrlVEGSCoK6Tjiwuo+hRXUEcfaxs2
-	 2RlxLM9E7Gij9WajaxbX+7tIqxw3dicsSlMJxRqKQfrSh7Mr53cw6HoZc6iaWR7XKg
-	 oz4qFb0d8hRmMIthsq3NQPsStKXGUsUn7v6pBdn8tYzMOHUVq9U+G1tO1YFqlxIgqE
-	 6R/UYIID5zQCw==
+	s=k20260515; t=1794407428;
+	bh=hl6P/qIPzgssqPnaK+FHoZEtoJEOWAXytEPxMQqQpG8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=iVGAohVR/WW8AesjJ4/F4CEf1WLU8bl4pYUgUt991gPtj4Odkyd4qY30lpF07ajnw
+	 s29SHfSJ8wuBjKM4wkU2gGMDIREwWNxgUGYHul9w5fiF1XqRVIT9ed7+egXyxX7UqU
+	 /Kp02xz0crC0LcA5hYdNnYff9I+ltB0OJJEGYU0xS6iRGPfS8fC68DkGb+pG38jjaV
+	 krCl78zEGGsOKc9RxoW8eclQuPj6wLmpbzr9gHxmrXl5EMjqxHawS7TWd2M5CHJr6M
+	 cXpUILzNdIn6h6BxCjJG76muhqQYkE/UmqZQlfvRucBgGZy9in8PR0SpuTsHK/aGUb
+	 kqciCVs60z8CQ==
+Date: Wed, 11 Nov 2026 15:30:24 +0100
 From: Christian Brauner <brauner@kernel.org>
-To: =?utf-8?q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-Cc: Josef Bacik <josef@toxicpanda.com>, Serge Hallyn <serge@hallyn.com>, 
- Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
- David Howells <dhowells@redhat.com>, Jarkko Sakkinen <jarkko@kernel.org>, 
- "Andrew G. Morgan" <morgan@kernel.org>, Serge Hallyn <sergeh@kernel.org>, 
- linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org, 
- keyrings@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- Bradley Morgan <brads@mainlining.org>, stable@vger.kernel.org
-In-Reply-To: <20261110144205.2404088-1-mic@digikod.net>
-References: <20261110144205.2404088-1-mic@digikod.net>
-Subject: Re: [PATCH] userns: Let LSMs deny the CAP_SETFCAP snapshot for
- mapping uid 0
-Message-Id: <20261111-etliche-koala-urzustand-a80a430d8252@brauner>
-Date: Wed, 11 Nov 2026 15:23:03 +0100
+To: Jan Kara <jack@suse.cz>
+Cc: linux-fsdevel@vger.kernel.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, stable@vger.kernel.org
+Subject: Re: [PATCH] fs: fix the SEEK_CUR f_lock condition
+Message-ID: <20261111-aufhalten-erwerben-abmontieren-41386b5caab9@brauner>
+References: <20261106-work-file-seek_f_lock-v1-1-5b9a6c2928d4@kernel.org>
+ <7vzn53nez54u2ps3z7eb2v7vqca3sitzhhu7epk2lrrkt6l32o@hxboo6t23vow>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -64,35 +57,13 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.17-dev-ce4c1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <7vzn53nez54u2ps3z7eb2v7vqca3sitzhhu7epk2lrrkt6l32o@hxboo6t23vow>
 
-On Tue, 10 Nov 2026 15:42:04 +0100, Mickaël Salaün wrote:
-> Commit db2e718a4798 ("capabilities: require CAP_SETFCAP to map uid 0")
-> records in parent_could_setfcap whether the creator of a user namespace
-> had CAP_SETFCAP, because a creator writing its own uid_map only has
-> capabilities in the new namespace.  The snapshot uses cap_raised(), so a
-> task whose LSM policy denies CAP_SETFCAP can still map uid 0 in a
-> namespace it creates.
-> 
-> [...]
+On Fri, Nov 06, 2026 at 03:51:26PM +0100, Jan Kara wrote:
+> Isn't the iterate_shared check moot now? Because all directories will have
+> FMODE_ATOMIC_POS set AFAICS do_dentry_open(). But regardless feel free to
+> add:
 
-Applied to the namespace-7.5.misc branch of the vfs/vfs.git tree.
-Patches in the namespace-7.5.misc branch should appear in linux-next soon.
-
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
-
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: namespace-7.5.misc
-
-[1/1] userns: Let LSMs deny the CAP_SETFCAP snapshot for mapping uid 0
-      https://git.kernel.org/vfs/vfs/c/2397c70f7645
-
+True.
