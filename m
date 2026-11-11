@@ -1,92 +1,109 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.183
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794397168;
-	b=gTe6dhHZd6/oNRI/Z2P1oXkxjfzg/LRdFgvNk7Hj8ZiSDt/QRKyYIhtZubv/SOphFC7k
-	 /9mk8sSYakYxUByPoWY0I3jzTAarqidzuVV0ygCBgxrEx6m+X+gu0m5yru0yit+TqQEUy
-	 ehN+0JYRdLpz/AWTrNuSHr9oxjb1g6hWU6f1tu+3C/TG2r48UX9CZnsFRPJ4EYrOzFWn1
-	 ZtK/v5rPuKe9e+KbFKmf/qq0yuzzVDz81NYkwlrLXoKxNKOpioPa3qimEL/KqfT+TjVaH
-	 bMyOC3F6lWuTOA5N2zTuLUZL0hVufvlwU9OYTZF0PFHhS9m51DpiEPmSDli7aHZjPoQ==
+	t=1794397554;
+	b=RFFOaFd5GUMy4ZJ5t7K9GoZ4q4/vIo4ySiHkvMyVXIQKjWUf8NOBH4UZO1/nYJ/JcKG7
+	 MCn3jWQhHbv0IR9arszZ1WrjKivoYGVppV2rSMxX2SX15wwTkxXTw5EAKLWdVNFs71ofk
+	 Is3t79WgZTz60bT1jVzGoYmy4CWgAs5ghnqPdwbmWEIVnIgFl83R28r5ZMIOdHUDphxw1
+	 Q5WWLHNMegqj3Vwf+/B+ih9mrm867yE2mr0gZZPYVDTKJDAJsIdllAbw73tW064k5l5Nv
+	 uoESg3rZRIp0W/wQtewkjmLJWBLb+x2gx2FA3gx7tBRobDVPg2+aPgFJsr6bYUSjfAg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794397168;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=ss6GPqajhnLoAGvpkwWgAL30Fbn2tVqWEm0t1Mamd/I=;
-	b=0qFaK0ESm6V5kRFEpAHltVGpkxDSDW4H2M27ltAH1uP6rYCK05JzQfMRFUbe+YPMx07s
-	 5ggW2LPLAWdUicZ78Ak5VWQJ/SUXTz1BY9rqCLVm0dL6hoVW6LkNMXHbb691h6X2cbhmY
-	 LrWafQ7J17KjeruTNituuUAkviEYmy3Z6v6vf/v2QCj5wpdKms8yn04ZU2p/8cgNp3nMS
-	 2r643BwZL5v0tnIi0civREg6CoJ9oJlu4Fo8I37ibRNX67sxIc7TsjbEIq9L9BaYossme
-	 CY5IOV1R6XH7DucOj7oU9Sy/JNAPsEk7+sSbhsN4AiXbfHlgKBwjEnTH+wCE5ejqWFw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794397554;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:
+	 X-Spam-Flag:X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
+	bh=FOeckYZLzpTjDlCSMcNe3YCWoDCfaX4IlNVrhqCPTQo=;
+	b=p1C7cqGU3EFHOYUKPryq7aeYSruuvX3UiIF8VBFZTSenqcFTfvQjtNhubjKLZekEog6m
+	 1WhzbXlXKolEiyjURfT9VPCGIPRSleKzXaE+GTXAu96Nc6JOn9PDhAOr0OMnnnaCEFI9E
+	 ksWKRjO1weJXtJ6SjIrdRQEk70u8ZWBHHxSoE5vDq3pk0CvSZyKXWCnR+hePICEkLouFE
+	 aHczc6SdaqVx0A+q42vlQ7w6fmxS0tQdJDNGtFekN47Jn1chKlaVUV5bAp3pizGYfjjAR
+	 kno6XH0kiANJ5Q8q42xg3ihrpLNvIsbVg9dNSmM/O8H46Wqy1JcUI2G9f/zW4/gtfHA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=FYJ36vzk;
-	arc=none smtp.remote-ip=95.215.58.183
-Received: from mta1.migadu.com (out-183.mta1.migadu.com [95.215.58.183])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=none header.from=suse.cz;
+	spf=pass smtp.mailfrom=suse.cz;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=s6BX8a9h;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=uN4oYGZL;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b="p/LYOaxX";
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="qs0l/DFN";
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE39C606A334
-	for <linux-fsdevel@vger.kernel.org>; Wed, 11 Nov 2026 11:39:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AE39C606A334
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72ED4606A31C;
+	Wed, 11 Nov 2026 11:45:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 72ED4606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=FYJ36vzk
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=PxRmG2FWyo+pFqNDGwdneDF6Wr5yBgEA/EARM77L5Wg=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794397165; v=1; x=1795001965;
- b=FYJ36vzksOCCsexC4Nfc0EjBeGRz02DN2aWs5F+SXhhYb1uihrcW4LnX6Z7s7sylG5IMBCBm
- bHF7fJg2UO01tXG8ZRmWqkalW06PF9jYozU3pm4rIsnaV0yGASbqMBLttquRoIJ+iGyHLzqA8Np
- fG5mN9dypHX+/kIKrEZ8vrgc=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by mta10.migadu.com with ESMTPS id 997e08426fbd59bb;
-	Wed, 11 Nov 2026 11:39:25 +0000
-X-Mizu-Trace-ID: 997e08426fbd59bb
-X-Migadu-Flow: FLOW_OUT
-From: Usama Arif <usama.arif@linux.dev>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	apopple@nvidia.com,
-	byungchul@sk.com,
-	david@kernel.org,
-	gourry@gourry.net,
-	jannh@google.com,
-	joshua.hahnjy@gmail.com,
-	liam@infradead.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	ljs@kernel.org,
-	matthew.brost@intel.com,
-	mhocko@suse.com,
-	pfalcato@suse.de,
-	rppt@kernel.org,
-	surenb@google.com,
-	vbabka@kernel.org,
-	ying.huang@linux.alibaba.com,
-	ziy@nvidia.com,
-	kas@kernel.org,
-	hannes@cmpxchg.org,
-	riel@surriel.com,
-	shakeel.butt@linux.dev,
-	kernel-team@meta.com,
-	baolin.wang@linux.alibaba.com,
-	Nico Pache <nico.pache@linux.dev>,
-	ryan.roberts@arm.com,
-	dev.jain@arm.com,
-	baohua@kernel.org,
-	lance.yang@linux.dev
-Cc: Usama Arif <usama.arif@linux.dev>,
-	stable@vger.kernel.org
-Subject: [PATCH 3/3] fs/proc/task_mmu: account device-private PMDs as present in smaps
-Date: Wed, 11 Nov 2026 03:38:31 -0800
-Message-ID: <20261111113904.650722-4-usama.arif@linux.dev>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261111113904.650722-1-usama.arif@linux.dev>
-References: <20261111113904.650722-1-usama.arif@linux.dev>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=s6BX8a9h;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=uN4oYGZL;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=p/LYOaxX;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=qs0l/DFN
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 75B821F458;
+	Wed, 11 Nov 2026 11:45:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1794397551; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FOeckYZLzpTjDlCSMcNe3YCWoDCfaX4IlNVrhqCPTQo=;
+	b=s6BX8a9hyHYJk3Z5UpX3ucmxqVW5naQK2EWnRYF/JMtmoRkByYLUk5tDSYZvmVCSGWX6/P
+	jrCFXRM0CEkSlDISMW2Q+yqOXRteM0VsFqKpkqSti7OkDj5MEr+lvxOlVZ9ipQwecRmh58
+	YURDtKaDb8l65cCYOdmyBrhX7FmpYKc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1794397551;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FOeckYZLzpTjDlCSMcNe3YCWoDCfaX4IlNVrhqCPTQo=;
+	b=uN4oYGZLgkd3IFxs1MztgB9Bh/RKewnj+HvoiAKdUlTPHCRYIXvxuIjTYguaSuY7vrrPmy
+	42ILGHyNz+9AEtDw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b="p/LYOaxX";
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="qs0l/DFN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1794397550; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FOeckYZLzpTjDlCSMcNe3YCWoDCfaX4IlNVrhqCPTQo=;
+	b=p/LYOaxX/ZvF0hJsvCX+detet60BIfid09glgP58k23wnP4rA/a3w5dhXaYGiv/kUOdqOq
+	/h1DCLSOvf7eaVtSfbT1KlwOZAHiWjY2CP/t8wtmWOfp3p400bmiuB+ryaf4nvXb0QsvDs
+	TK1pYPng2R77A39d777twj6U0sLbgGQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1794397550;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FOeckYZLzpTjDlCSMcNe3YCWoDCfaX4IlNVrhqCPTQo=;
+	b=qs0l/DFN/ahzoaaymot81rtIOJjFLzB6z19dAQQ/lmkvX8JJZA6gHl2B6LD2ByU2/n/Qne
+	4GdNozEoBxAmevAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4ADBB1339F;
+	Wed, 11 Nov 2026 11:45:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id tIsdCm5V9GrfZAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 11 Nov 2026 11:45:50 +0000
+Received: by quack.suse.cz (Postfix, from userid 1000)
+	id CBCD5225EE; Wed, 11 Nov 2026 12:45:45 +0100 (CET)
+Date: Wed, 11 Nov 2026 12:45:45 +0100
+From: Jan Kara <jack@suse.cz>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+	Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>, 
+	William Kucharski <william.kucharski@oracle.com>, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, Chris Mason <mason@kernel.org>
+Subject: Re: [PATCH RFC] mm/filemap: fix lseek() skipping a new large folio
+Message-ID: <wkpls4kiwl3ktyu5ekahlchabnaqq45o4tgv26cmrs552ljse4@oczec23ankdt>
+References: <20261110-lseek_hole-v1-1-c089c960b846@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -96,40 +113,172 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261110-lseek_hole-v1-1-c089c960b846@kernel.org>
+X-Spamd-Result: default: False [-13.01 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MISSING_XM_UA(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,suse.cz:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email];
+	RCVD_COUNT_THREE(0.00)[3];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -13.01
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 75B821F458
 
-Device-private PMDs represent mapped pages, but smaps_pmd_entry()
-passes present=false to smaps_account(). That treats them like migration
-entries: mapcounts are ignored, PSS is charged in full, and exclusive
-mappings are accounted as shared.
+On Tue 10-11-26 21:33:12, David Hildenbrand (Arm) wrote:
+> mapping_seek_hole_data() walks the page cache under RCU and only calls
+> xas_set() after entries larger than a page. Between base-page entries,
+> it continues the walk with xas_find(), which skips sibling entries
+> to return each multi-index entry only once. If a large folio replaces
+> small folio entries between iterations, the slot holding the new folio
+> can lie behind the cursor. Skipping its sibling entries then skips data
+> that has not yet been examined.
+> 
+> On tmpfs, SEEK_HOLE can then return an offset inside existing data.
+> SEEK_DATA can skip data after a fallocated page that is not uptodate.
+> 
+> For example, assume a 2 MiB tmpfs file backed by 4 KiB pages on x86-64,
+> with page index 63 fallocated but not uptodate and all other pages
+> uptodate. Index 63 occupies the last slot in the old xarray leaf. A
+> SEEK_DATA starting there can skip that page, then race with collapse of
+> pages 0-511 into one 2 MiB folio. The next xas_find() moves past the old
+> leaf and skips the new folio's sibling entries in the parent, returning
+> -ENXIO instead of finding data at page index 64, or 256 KiB.
+> 
+> The inode lock held by lseek() does not exclude collapse or swapin.
+> 
+> Restarting the xarray walk after every entry fixes this, but increases
+> SEEK_HOLE time about 24%, when scanning a fully written 1 GiB memfd backed
+> by base-page folios in an x86-64 microbenchmark.
+> 
+> Instead, use xas_next() for adjacent indices. Restart the lookup from the
+> root at the requested index if it returns an empty slot or an internal
+> entry, including a sibling entry. Also restart for nonadjacent indices,
+> invalid iterator state, or failed folio validation. This avoids skipping
+> unexamined data without restarting each lookup during base-page scans.
+> 
+> Fixes: 6b24ca4a1a8d ("mm: Use multi-index entries in the page cache")
+> Reported-by: Chris Mason <mason@kernel.org>
+> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+> ---
+> I'll be more than happy if someone of the pagecache folks wants to take
+> over ;)
 
-Match smaps_pte_entry() and mark device-private PMDs as present so
-smaps_account() uses mapcounts for PSS and private/shared accounting.
+This looks good to me. Feel free to add:
 
-Fixes: a30b48bf1b24 ("mm/migrate_device: implement THP migration of zone device pages")
-Cc: stable@vger.kernel.org
-Signed-off-by: Usama Arif <usama.arif@linux.dev>
----
- fs/proc/task_mmu.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-index c0d391186c2b8..ad97532fc1184 100644
---- a/fs/proc/task_mmu.c
-+++ b/fs/proc/task_mmu.c
-@@ -1032,8 +1032,11 @@ static void smaps_pmd_entry(pmd_t *pmd, unsigned long addr,
- 	} else if (unlikely(thp_migration_supported())) {
- 		const softleaf_t entry = softleaf_from_pmd(*pmd);
- 
--		if (softleaf_has_pfn(entry))
-+		if (softleaf_has_pfn(entry)) {
-+			if (softleaf_is_device_private(entry))
-+				present = true;
- 			page = softleaf_to_page(entry);
-+		}
- 	}
- 	if (IS_ERR_OR_NULL(page))
- 		return;
+I just find it unfortunate that we have to play complicated games like
+these for such a simple operation as sequentially iterating over all folios
+in a mapping. And it is not a first bug of this nature trigered by
+compaction. So longer term I believe we need to provide saner apis
+shielding pagecache users from these nasty details.
+
+								Honza
+
+> ---
+>  mm/filemap.c | 38 +++++++++++++++++++++++++++++++++++---
+>  1 file changed, 35 insertions(+), 3 deletions(-)
+> 
+> diff --git a/mm/filemap.c b/mm/filemap.c
+> index 648f783454c3..87c583509567 100644
+> --- a/mm/filemap.c
+> +++ b/mm/filemap.c
+> @@ -3233,6 +3233,40 @@ static inline size_t seek_folio_size(struct xa_state *xas, struct folio *folio)
+>  	return folio_size(folio);
+>  }
+>  
+> +static inline struct folio *seek_get_entry(struct xa_state *xas, pgoff_t index,
+> +					   pgoff_t max)
+> +{
+> +	struct folio *folio;
+> +
+> +	if (!xas_valid(xas) || xas->xa_index + 1 != index)
+> +		goto restart;
+> +
+> +	/*
+> +	 * A lookup within a multi-index entry can leave xa_offset at its
+> +	 * first slot. Restore the slot corresponding to xa_index before
+> +	 * advancing.
+> +	 */
+> +	xas_advance(xas, xas->xa_index);
+> +	folio = xas_next(xas);
+> +
+> +	/*
+> +	 * A concurrent collapse can replace the next slot with a sibling entry
+> +	 * referring back to the slot holding the folio.
+> +	 */
+> +	if (!folio || xa_is_internal(folio))
+> +		goto restart;
+> +	if (xa_is_value(folio))
+> +		return folio;
+> +	if (!folio_try_get(folio))
+> +		goto restart;
+> +	if (folio == xas_reload(xas))
+> +		return folio;
+> +	folio_put(folio);
+> +restart:
+> +	xas_set(xas, index);
+> +	return find_get_entry(xas, max, XA_PRESENT);
+> +}
+> +
+>  /**
+>   * mapping_seek_hole_data - Seek for SEEK_DATA / SEEK_HOLE in the page cache.
+>   * @mapping: Address space to search.
+> @@ -3263,7 +3297,7 @@ loff_t mapping_seek_hole_data(struct address_space *mapping, loff_t start,
+>  		return -ENXIO;
+>  
+>  	rcu_read_lock();
+> -	while ((folio = find_get_entry(&xas, max, XA_PRESENT))) {
+> +	while ((folio = seek_get_entry(&xas, start >> PAGE_SHIFT, max))) {
+>  		loff_t pos = (u64)xas.xa_index << PAGE_SHIFT;
+>  		size_t seek_size;
+>  		u64 next;
+> @@ -3286,8 +3320,6 @@ loff_t mapping_seek_hole_data(struct address_space *mapping, loff_t start,
+>  			goto unlock;
+>  		if (start >= end)
+>  			break;
+> -		if (seek_size > PAGE_SIZE)
+> -			xas_set(&xas, pos >> PAGE_SHIFT);
+>  		if (!xa_is_value(folio))
+>  			folio_put(folio);
+>  	}
+> 
+> ---
+> 
+> base-commit: 93d7a816a2df3e907e2719bd12b0073f1285fc5c
+> 
+> change-id: 20261110-lseek_hole-4a9eb450d473
+> 
+> --
+> 
+> Cheers,
+> 
+> David
+> 
 -- 
-2.53.0-Meta
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
