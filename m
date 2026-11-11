@@ -1,113 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.158.5
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794422727;
-	b=kVFduuHJ1E38eMEhVZS71DVZ2WnQXJoutndOooUwCcV9Nvjh9KvKaIvBJrT2AITeBWJn
-	 l1Q+LfwOAbft22yzakyrRJqLIBwMsDGIwafXyAA876lL3NDHJLsXaw9J+e9Bu8MLhIX32
-	 oLi+LgAnjuYoNg3offJ2W8+GnCaoedkjU+NEtUjKXjVJAyt+AlF2gJ42//pSM0eOC5MC1
-	 YxU5e/w+fP2SVMuDgUPvf3ltDoFNc0dbRVdgQqUgKjjx4Yjn2vD7PWG0cBXk8tRs+AmoK
-	 sHbYXP4ADgNtKXm4X5RQ2o+6d5wtW8ElCfi1A7m1F1k1Hvr144VKFF7eV0jrdc0hiQw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794422727;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
-	 Received:Received:Received:Received:Message-ID:Subject:From:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date:
-	 MIME-Version:User-Agent:X-TM-AS-GCONF:X-Proofpoint-Reinject:
-	 X-Authority-Analysis:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=49MaCQym9slg1wd6k0otIRMRT27LbiHCT0+a1bCeTqo=;
-	b=pV6p6S5jHf2qMnuB/PO7pUbCwC04jpLRIz2GXeZI5hIfQPNUbbMBQ+GRHuc0uwif+piX
-	 i+uxv7O3cTHMQH1KAldyfpumUB2tOmVVZISUpB9jT/TjCFIXA6x+yg92miXm43M2yGe03
-	 PrtHnETMxa+pED2awOKy2tXGYxjYd0cky9yNH9Kg+gA9qBjgS3Uyr3bNcn1+VemyefByY
-	 U0YpXJon1oFnpXydrllDxbzPBmJth7qTaGAzUbSSkp6MN6K3iK4mocS0Zuh6uvzbPx6aX
-	 BAlrN6reb9fB+RE2vH8Cb8EFR2558kf3bZCQEK/jvlMdOOM2Rax7pF2lrLp1wy+bT4Q==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.ibm.com;
-	spf=pass smtp.mailfrom=linux.ibm.com;
-	dkim=pass header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=A4ELrNMy;
-	arc=none smtp.remote-ip=148.163.158.5
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.193.39
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794423039;
+	b=T6jzc24mWcMKmbU2bq3aOY/ulMgsDztYi5ae/m+ySMVHmZlQOqs4+GgJiwvngMU4XoU5
+	 eBBaxx3SKin2rrO8ERJhRDbupeiltEIlrdf7s0hNMrbGODjRJrNO02jQrt8s4wNzUXSK0
+	 eKm33BHdIcwf581sEVfAF6L0lDaUOUSB+RrsVMShu4IfHB7So2KiZaYlXGk0eIJxdAC7I
+	 D9hPoKqmss+yktKJmS4LUKPn0FZc4mgAaosiDt4tiDj2/yO7E7X2lVE/zjC5YScXve2mP
+	 NfXTA5do987IyEZXuBr7/qTe4zGiIIZaEVq5ZMuvYxsHUhAsGy1M0+pOsYYgme2giag==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794423039;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
+	 Date:X-Mailer:Message-ID:In-Reply-To:References:Content-Type:
+	 X-MS-Reactions:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=S9WuI9PTUeiv5O5AStKEefptoT4aWnKBezJfaA7uZAs=;
+	b=WbwbbIZXW+WM48QaQW1uScfV3dJJnbNHssFTv51Cq/PtNK6UDkLS2A7QTOUlcXGwyW7B
+	 A8amalonWegAuiyqbYTSof2Cw6zdzG++8anK8uGnBxNOqoGsq872L0HIC3kmFBIuzewi9
+	 xwJ9JZCCf8jPp8R2K9QOKHgO8ZpQmBMDCk44NjoEDqL+wLIlqFZQ4lY8Ago23B7pc3MtJ
+	 42PYoFCqIX4WBXI/DSMPr37TiZibtQkpHGvNt6xrnYFU+pom4WRfw/GruqtmVdjADV1Nq
+	 FSuPdEbUcHzaDz0kIFXeGlAWhpD9oMeEYvX0B+65zq/9t7dSYY7yhKjG9aAl8MTa7iA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=nvidia.com;
+	spf=fail smtp.mailfrom=nvidia.com;
+	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=Uu5pNF6k;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.193.39
+Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010039.outbound.protection.outlook.com [52.101.193.39])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D1FD606A32D;
-	Wed, 11 Nov 2026 18:45:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5D1FD606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAB30606A324;
+	Wed, 11 Nov 2026 18:50:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EAB30606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=A4ELrNMy
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6ABIiSvi672058;
-	Wed, 11 Nov 2026 18:44:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=49MaCQ
-	ym9slg1wd6k0otIRMRT27LbiHCT0+a1bCeTqo=; b=A4ELrNMySsqqi06Tj8LY/0
-	DvvFAT6UPgCLbtdtzfJXgwwy6V0S+NEyHXU76mKcOPVtRO7KDwnhYUjjT3+7A3xm
-	Yebgqh9q7BLWJOimyJFiS3d9bOw4py/3t4laHmE4e82pajRGlUCh7xfPo6LOGaig
-	NHY2zs4QYPehcixAIt+ipmf0uVk3RLXmAdGMH7wR+0Ch/FfbFwmwYSdxJzW2lz+q
-	Y4QIgTlIhRc2l47lgEHkv2mapSnoAH4G/ZZTgKY+8K4bpVTlvm1HBQUpHc91m+0d
-	jkw3hWhWPF0EDjFvhhiP67XmssSn7gj7uq0RctRm3RFqlO1KbaRuibSzvrngYWkA
-	==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4hstdgb4yu-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 11 Nov 2026 18:44:47 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6ABIJuDi3740537;
-	Wed, 11 Nov 2026 18:44:46 GMT
-Received: from smtprelay06.dal12v.mail.ibm.com ([172.16.1.8])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4hvkq0t7mk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 11 Nov 2026 18:44:46 +0000 (GMT)
-Received: from smtpav06.wdc07v.mail.ibm.com (smtpav06.wdc07v.mail.ibm.com [10.39.53.233])
-	by smtprelay06.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6ABIijIs25625264
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 11 Nov 2026 18:44:45 GMT
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 37C8858060;
-	Wed, 11 Nov 2026 18:44:45 +0000 (GMT)
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B9C4B5804E;
-	Wed, 11 Nov 2026 18:44:42 +0000 (GMT)
-Received: from li-43857255-d5e6-4659-90f1-fc5cee4750ad.ibm.com (unknown [9.61.123.17])
-	by smtpav06.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 11 Nov 2026 18:44:42 +0000 (GMT)
-Message-ID: <eb536f08b27ed28cf490205c57176b7fc8eccfda.camel@linux.ibm.com>
-Subject: Re: [PATCH v6 0/4] initramfs: add support for xattrs in the
- initial ram disk
-From: Mimi Zohar <zohar@linux.ibm.com>
-To: Roberto Sassu <roberto.sassu@huaweicloud.com>,
-        Christian Brauner
-	 <brauner@kernel.org>,
-        Danny Hu <dannyhu@arista.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
-        Roberto Sassu	
- <roberto.sassu@huawei.com>,
-        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-        Eric Snowberg <eric.snowberg@oracle.com>, Jan Kara <jack@suse.cz>,
-        Victor
- Kamensky <kamensky@cisco.com>,
-        Taras Kondratiuk <takondra@cisco.com>,
-        Zheng Zengkai <zhengzengkai@huawei.com>,
-        zhangguangzhi	
- <zhangguangzhi3@huawei.com>,
-        Jason Yan <yanaijie@huawei.com>, silviu.vlasceanu@huawei.com,
-        hpa@zytor.com, arnd@arndb.de, james.w.mcmechan@gmail.com,
-        niveditas98@gmail.com, pierre@arista.com, julien@arista.com,
-        kbharathi@arista.com, alexandr.lobakin@intel.com,
-        linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        initramfs@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org, bug-cpio@gnu.org
-In-Reply-To: <a9edb8a433e8efcba3d11b2a06fa1063df41a24d.camel@huaweicloud.com>
-References: <20261105193743.2654656-1-dannyhu@arista.com>
-		 <20261110-hengst-tontechnik-ausfuhr-265b06d68611@brauner>
-	 <a9edb8a433e8efcba3d11b2a06fa1063df41a24d.camel@huaweicloud.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 11 Nov 2026 13:44:42 -0500
+	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=Uu5pNF6k
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bPi1Dx7GMkpj+qyUXhDxT1t/NwGo8nr1U5AVdZpUGXabB2oV3MKIj0dbUEbrvMAMpF6g1CXZE6O0jAGxeLDonDE83krSVzpJuW3p5rI5GxHdpE9oPzHQFfqtXQruKUHN/MqS+YfLBuYjYjWABeI6qOXS4NzQnUMUxqsS7cVpMOfaVUuCUiUafxGuNQA8D8zaalncDKuoP1jjuusZo49Lrq2YC+IVYLLjhXaM7XO7HxEYKPydip+qc5caKhZSzzUkr6V2rohTYYUYACciTB2owPMduUNoyRHsByxyFua+IJ1vcQVcWB+a67QcVkpxZBgxxzDuNNryt8uowGuIQXOpIg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=S9WuI9PTUeiv5O5AStKEefptoT4aWnKBezJfaA7uZAs=;
+ b=GP4bTd52ZxoU21x4ShcPU4r25+FA3clE2gGoYHS4yOZLW2sbc9x3x5iZKTikJn+coqvQCnBDt79toPjlmLDSXIqeTOvDffYwVTwyTvfCFJpf0SxWzOYO+p52Lq3jlRODLeHN9ZGNCaXfRzNGmvykt0hxqYiJ5rykz9zaQ+yvibPhP3uMZ1sWVLBJl1t+maWxIREK2y/eL4Ndwn9Jiujgjhhbm5o+Dx8Oib7061P6/ySJai0QVKd0JiXo4EZ3bbuOlMS12BlCMvAIHqzOj5F2whNS70GHCyisDEEwZ1VcBCQSjHUxjz/2hCXGXlWSfJK1ThVROn3cWYpkIJZh3Hc9Dg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=S9WuI9PTUeiv5O5AStKEefptoT4aWnKBezJfaA7uZAs=;
+ b=Uu5pNF6k+pWE2vvGyeQF0y/Nb4jfPkn482MR6iTVjk9OES134lLpEMAhuNbo6bYnkWegVymgypVV2S7GEuxULCGcbCGGnp8KVDVcN2oapUHnhq7xm9QvGZORNhUUjI5hB/EeKKxBSkjHkFXsPeA1Amf/AC0W8BzoRvrm+yNxLCq1YWITI6bzvq9q1PT4vN6ZfDbsFytgwrdtKHra1ezlX28YzbJ2T9EA+JAQQa7FkghBPZ6lFd6FGnpQe3EE/XTVsOfjR5FnF9OKcck91jgDtp26mkHPOtzaAwvT/23wTVYMXaHEtYHspJvpEjk27p0YXLY3bp51Ojwt6hGK03ye8g==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
+ by DS5PR12MB610447.namprd12.prod.outlook.com (2603:10b6:8:47e::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.9; Wed, 11 Nov
+ 2026 18:50:32 +0000
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16%6]) with mapi id 15.21.0615.007; Wed, 11 Nov 2026
+ 18:50:31 +0000
+From: Zi Yan <ziy@nvidia.com>
+To: Usama Arif <usama.arif@linux.dev>
+Cc: Andrew Morton <akpm@linux-foundation.org>, apopple@nvidia.com,
+ byungchul@sk.com, david@kernel.org, gourry@gourry.net, jannh@google.com,
+ joshua.hahnjy@gmail.com, liam@infradead.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, ljs@kernel.org,
+ matthew.brost@intel.com, mhocko@suse.com, pfalcato@suse.de, rppt@kernel.org,
+ surenb@google.com, vbabka@kernel.org, ying.huang@linux.alibaba.com,
+ kas@kernel.org, hannes@cmpxchg.org, riel@surriel.com, shakeel.butt@linux.dev,
+ kernel-team@meta.com, baolin.wang@linux.alibaba.com,
+ Nico Pache <nico.pache@linux.dev>, ryan.roberts@arm.com, dev.jain@arm.com,
+ baohua@kernel.org, lance.yang@linux.dev, stable@vger.kernel.org
+Subject: Re: [PATCH 1/3] mm: don't PTE-batch a swap-in over a
+ hardware-poisoned subpage
+Date: Wed, 11 Nov 2026 13:50:29 -0500
+X-Mailer: MailMate (3.0r7038)
+Message-ID: <2214E459-71AA-42FD-AAAD-07C49C81A676@nvidia.com>
+In-Reply-To: <20261111113904.650722-2-usama.arif@linux.dev>
+References: <20261111113904.650722-1-usama.arif@linux.dev>
+ <20261111113904.650722-2-usama.arif@linux.dev>
+Content-Type: text/plain
+X-MS-Reactions: disallow
+X-ClientProxiedBy: BN1PR12CA0018.namprd12.prod.outlook.com
+ (2603:10b6:408:e1::23) To IA0PR12MB8374.namprd12.prod.outlook.com
+ (2603:10b6:208:40e::7)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -117,131 +106,133 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Evolution 3.58.3 (3.58.3-2.fc43) 
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=J+M/fwnS c=1 sm=1 tr=0 ts=6af4b79f cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=V8glGbnc2Ofi9Qvn3v5h:22 a=07d9gI8wAAAA:8
- a=VwQbUJbxAAAA:8 a=oGMlB6cnAAAA:8 a=vpqfxihKAAAA:8 a=pGLkceISAAAA:8
- a=meKO6n-CRK1YFxY-CrEA:9 a=QEXdDO2ut3YA:10 a=e2CUPOnPG4QKp8I52DXD:22
- a=NdAtdrkLVvyUPsUoGJp4:22 a=AULIiLoY-XQsE5F6gcqX:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTExMDA3NCBTYWx0ZWRfX3gn636Rji0NZ
- iSazCfHd8HXcmr4d5jGXXmBYPn05xP83IXxhjJWgXtsiJj2XWUExmGRX/xv9PlqCaHRhCSn2SOe
- j5LtDKi4Rc8DcKEhpP7RcYKWeHaLZ0ecPaQ8gfSJzAT7t9Z4c6W09cS8Jett6BR4fKtlaHvEsgb
- b1kL1SWdkRTVnUBfBRk4HAhckbmQPg21AEdFu5zSOO0Tolp1QTigj02PbtGt/BZEgWn5EDMwyaP
- I6O70FNB873BNEHt0GcnX/O/5ve5Add6ywtZ83eG3LNqs5BwMhpDJCberDh+L/OEKvVGBrJ3m7x
- XIE7gZcvU2G8HXb/HD2OrKyoNo8kTVnYzNpH+nYk9yPJ9l+D5n1vU848ZwY+uhkUOuG1brxZss0
- zUaafrXUOy942LMCUgckXVQfA0yP4oRWn2lDFjYhj1fKI3hmcEdVr2Jaf1nyGSzMURDs2FwyCTv
- s9MeY++t5Ie4lIDFrZg==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTExMDA3NCBTYWx0ZWRfX/y+xAAh94onv
- cLdD7EEkkfO+pTmM/OFNa7h9sGBipx+EUhnDh76AIMXj6ABAP0oRIFN9yeuLUdU7tQbUudaImwI
- 2JwPY1t126ZMmdL6vm9Xbbyj/BLK6vo=
-X-Proofpoint-GUID: CTJhBYIyODsTvXA5TgxC6EstFdV3S_SH
-X-Proofpoint-ORIG-GUID: VeWHy195uGzXlBEJaEaDPnLzgJqp5EgW
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-11_05,2026-11-11_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 phishscore=0 bulkscore=0 adultscore=0 suspectscore=0
- malwarescore=0 clxscore=1011 priorityscore=1501 impostorscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611110074
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|DS5PR12MB610447:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2c32f3b9-35d2-4c90-b82e-08df4024a96b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|376014|7416014|23010399003|18002099003|22082099003|261009223027099003|261022105027099003|261021121427099003|261102123227099003|261028144727099003|261026140227099003|261026121527099003|56012099006|10067099003|4143699003|11063799006;
+X-Microsoft-Antispam-Message-Info:
+	he+ZVwj0+LviejQYdcsw/NGx8lSlMlMk4rBWxVZwpfeX6jP66N3OW7g1QLSQ0LaDBzH3xlnExf+7rK9ZxwsfsyuTlavLYwtcluaOGr7ScHad7E06n/brHAx5c85he99S9eLyi14w9kSNFJYZczCjNvAix2+lYSW4w7QbhLMDy6IDeYYG00X7y07CAXmxLd2GxgrZJ0bPyhxnqRLyMdsBahsX/QxtnOSGY1IPvF5Puwl7f8DMB0n7kCYWeDcvK03xbrISfaDlqCXx5SEoBo3hfHtu5QLYXPfcCnte/fKJbww33YvI+jUHyVzOwnZEqcLIj+61GMeVSzflP5uGx5Z1powqLT8GYbFL34v9c9npFXDwoTlnAY52z3c9/a5sopfdfcAjySVRjML8mef37gXRgklyGygQce0bff8LNhdz94J23J/wP3kh30ROBBVNDgGB2DjousnlZNyNv4o7OFZ68ylKweLhQ5dDFcaVItbaGJP6DnC/b5odPNuWjoiZ81HHKNZT6kWSeml4Xezk0gzDC9HRjgLDDIkohTs2Ph5Ib0nlDSxtwgues9ZOR27sw1KqXubJVpAFhFOTV55Gb6d/XOSajKcJPLT/OPp8J/EWaJU55ik4BY+28mc+pHhp8Eq/tNVTtM1sVCpi8G4BWY6Z5GnpVPeH6MsnpubR9L7C7p0=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(23010399003)(18002099003)(22082099003)(261009223027099003)(261022105027099003)(261021121427099003)(261102123227099003)(261028144727099003)(261026140227099003)(261026121527099003)(56012099006)(10067099003)(4143699003)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?3XsgDbMIkftEZ8P+l+IzJZ71n3bmPtDzXsL5kgnveTOUiBNKWek75Af1XmNN?=
+ =?us-ascii?Q?/mPNpwpG4Oy9+rvXWj5CsN6X0jIQgZm2YcWrlWCa0bvvVLxPpULpJgKzz04M?=
+ =?us-ascii?Q?jVxXcsgoFMStCp6OrcOnMd5ryO7wkC+X/6NWxwyPnHe5zRpqzcO+SxGyMypf?=
+ =?us-ascii?Q?c1WayMcJxgxj+lm1yhzHCUMCmVVmquzIsRAWU5jZruSUwVIqyjUiNe/U1EO5?=
+ =?us-ascii?Q?VNf/FMvU8omcpGjvfvqUmHRi4kV8oyTRykLfXXPAY1RWf95+tbdMZPGoSXdh?=
+ =?us-ascii?Q?WtsVx0E3pDjjqclDvbsIzjvKw5Xad3kEj0RgD1rtB/RlYv4qDhPwD+r7qSWj?=
+ =?us-ascii?Q?3d2vBWBsK3q+y0ww8MH78kwEfLyN4MC6A4i1oAZc3pMekQjpTaDGV5BR7FlZ?=
+ =?us-ascii?Q?N/4NLwn+B/Y7zxd1BvgpfR7YV+XtKnXJ/Dt0LQOoAXpHSUWdg81B8aUGqLSc?=
+ =?us-ascii?Q?SKGrIxV04ZFL1zHDNkfMDMLUdl/+T0LeOzChtCHsHh5u5Psdv2IPCYaCmNUa?=
+ =?us-ascii?Q?WnT3wH11JFX/XCuGua7TXVExxgm8GdQELWjW2BEfCHdrXKVDIuwQOQC6s5jc?=
+ =?us-ascii?Q?nJaMZr9I4OP4XSquie0wPdIcNDHHi3siOWB+haxyBGQ4op8uzX7h+U7bGapX?=
+ =?us-ascii?Q?pAstoUiz+UwlopWCR95f7L+gxgd7pqD8wCS84gyOYd3rgXbrt/1e7H4EOqov?=
+ =?us-ascii?Q?HsYHSG+It+vxMJXgfaOoWGR1kK648yWm/wXCEzUnWf4vAQxNWJ37mux1i40c?=
+ =?us-ascii?Q?G0S32z5RrCn2H3Vp4Ljmbl2T+jOBKJrKkHzf4YHnV/mrfkckt+TBJSm0oNWk?=
+ =?us-ascii?Q?xCc1l0+A8IC4kVmtVqe/LRlNaxDCanVKjaIlE2fitgwvhH828TjGI2/Q2rW4?=
+ =?us-ascii?Q?VGplQIVQdkjvsSskfo5QyufNC1SGl8z3IoSmzoWwACo8QJ7q/wNHVp82OGuM?=
+ =?us-ascii?Q?TUD3T6O3ZTdnpDoHbSaL5Q1ucPp3gymYFKHOJMEA9OnA9yirECFNla0zHEs5?=
+ =?us-ascii?Q?n+8n2g8X0/ZMkYN+Ivi33fN1IomWzGiiUNYSrHu0yAiBWUNeSEmspGondwiL?=
+ =?us-ascii?Q?PdwB5dHvV2wmrhP3WzSRWHHoz91vojtd1P+pqBuiJtJ9ZX2gUP3zI36Rf3MH?=
+ =?us-ascii?Q?h5/d95bD6kkufBUKNOtqJtM7AdFVP+2pMrxiHfoPys3EdHD24XCXRFNR1VQs?=
+ =?us-ascii?Q?Q8wZzQZz+84KnRdqxu6Sd+wh3+foRO4eYq218q5YH34F94XwIp33K4t6x/oA?=
+ =?us-ascii?Q?GB7KxI0oEwHHhZ2K2Y5FjwrnVGrvL35lxhlF98R8XKK5fNmUdB0uE90m9+oW?=
+ =?us-ascii?Q?zS0g4QXGeL1ClBE4+le985Q5yE6wDZq/j+fgQ52MtH6TgcV6QIOOQMtuSkym?=
+ =?us-ascii?Q?wbH3fpjdVdmgjVIyzAc5RdYe/24eBBOBX/CTHkBfs3zXnsj3DmNtGKKXjo6G?=
+ =?us-ascii?Q?cgakHDbrQMZi+87aV20RNpBadLec1aPPU7HZw36sf3SLBrUDBUXu3xKhwkwd?=
+ =?us-ascii?Q?nqRyTajbyH/K6JrzPYsJV0T8Jlxcep9KugWOtjKR3AEd8r3LdMmifTu+Rgxi?=
+ =?us-ascii?Q?0naPQFA6iimerP4mQ11K4sE1Kgbjxo/jsdpaZpJPXskPlUK3NvQ5nggWVB79?=
+ =?us-ascii?Q?hO0bKqpsXNmE7Dmur5Iagp1GMmnFk2rmfVpWoIVwd6KgK6vxinfiqw8UQg9A?=
+ =?us-ascii?Q?KcrDBUHiK/ZxU2RHJWLH2/soE/JA+WQLuZT/KLSRmLrZuhKF?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2c32f3b9-35d2-4c90-b82e-08df4024a96b
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2026 18:50:31.6353
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ilBwrFiuRtmzObXv0uACuKYow2t12J8FndqAWDKi7Yp73c3sNhhHpyV1roZq7OzV
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS5PR12MB610447
 
-On Wed, 2026-11-11 at 14:45 +0100, Roberto Sassu wrote:
-> On Tue, 2026-11-10 at 17:21 +0100, Christian Brauner wrote:
-> > On Thu, Nov 05, 2026 at 11:37:39AM -0800, Danny Hu wrote:
-> > > This proposal consists in including file metadata as additional files=
- named
-> > > METADATA!!!, for each file added to the ram disk. The CPIO parser in =
-the
-> > > kernel recognizes these special files from the file name, and calls t=
-he
-> > > appropriate parser to add metadata to the previously extracted file.
-> >=20
-> > No, sorry. We're not going to do this:
-> >=20
-> > * This is in-band signalling by filename. A METADATA!!! entry changes
-> >   the meaning of whatever came before it in the stream.
->=20
-> Yes, it is a hack, but such an image is backward compatible with
-> previous versions. There is no new format, version bump, etc.
->=20
-> >   Which is just the TRAILER!!! nonsense all over again (cf. [1]).
-> >   No cpio tool knows about it and a kernel without this parser silently
-> >   extracts the metadata as junk files.
->=20
-> METADATA!!! is stored in ramfs/tmpfs if not processed, so it is just a
-> temporary file, like the rest of the initramfs content.
->=20
-> > * It sets whatever xattrs the archive comes with through vfs_setxattr()
-> >   during early boot. Which is insane.
->=20
-> Similarly, the archive can already ship arbitrary binaries that get
-> executed as root. If you want, we could restrict it to security.ima and
-> security.evm only.
->=20
-> >   Not just security.ima but security.capability, security.selinux,
-> >   trusted.* and anything else.
-> >=20
-> >   And we've NAKed this before in 2018 (cf. [2]).
-> >   The magic file name scheme was called a kludge back then too (cf. [3]=
-).
-> >   Nothing about that has changed.
-> >=20
-> > * The initrd is already covered as a whole. Appraising
-> >   individual files inside an image whose integrity is plain weird.
->=20
-> I agree when the image is prebuilt and has a known reference value. As
-> far as I know, there is no reference value when the initial ram disk is
-> dynamically generated on the host. In the latter case, using finer-
-> granularity measurement/appraisal is the only option.
->=20
->=20
-> > * If kernel and initrd are owned by different parties this can be
-> >   done in userspace. A trusted /init can apply xattrs from a manifest
-> >   before it runs anything else. That was pointed out in 2019 already
-> >   (cf. [4], [5], [6]).
->=20
-> Unless the trusted /init is in the kernel image and launched as User-
-> Mode-Driver (UMD), you need to measure/appraise it, which again
-> requires its signature to be carried in the initial ram disk.
->=20
->=20
-> > This has been proposed in some form since 2018 and never found a
-> > maintainer willing to take it. I'm not taking a private cpio extension
-> > into init/initramfs.c either.
->=20
-> I understand. v3 was close to being upstreamed but then got stuck
-> because nobody was willing to take it, despite all review comments
-> being addressed. In its favor, this extension is harmless. If
-> METADATA!!! is not there, nothing happens. If it is there and not
-> supported, it is a junk file removed together with the rest of the
-> initramfs content.
+On 11 Nov 2026, at 6:38, Usama Arif wrote:
 
-At the time, there was no initramfs maintainer.  At LSF/MM 2018, I brought =
-it up
-[1]. AL said he wasn't the maintainer (and if I touched it, I would become =
-the
-de facto maintainer).                                        =20
-                                                                           =
-    =20
-[1] https://lwn.net/Articles/753276/
+> do_swap_page() checks PageHWPoison() on the faulting page, but the
+> large-folio batching path then maps the rest of the folio without looking
+> at the other subpages. A poisoned subpage that is not the one being
+> faulted gets mapped anyway, and the fault that would have reported it
+> never happens.
+>
+> Skip batching for such a folio and let each page take its own fault,
+> where the existing check catches it.
+>
+> Scan the subpages rather than testing the folio-level PG_has_hwpoisoned:
+> memory_failure() sets PageHWPoison() on the subpage first and only sets
+> the folio flag much later, and the bail-outs in between - for example
+> get_hwpoison_page() losing a page lifecycle race - return with the
+> subpage marked and the folio flag never set.
+>
+> Fixes: 508758960b8d ("mm: swap: entirely map large folios found in swapcache")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Usama Arif <usama.arif@linux.dev>
+> ---
+>  mm/internal.h | 15 +++++++++++++++
+>  mm/memory.c   |  4 ++++
+>  2 files changed, 19 insertions(+)
+>
+> diff --git a/mm/internal.h b/mm/internal.h
+> index cd3675c044e0a..e61c02f4019b0 100644
+> --- a/mm/internal.h
+> +++ b/mm/internal.h
+> @@ -28,6 +28,21 @@ struct folio_batch;
+>  int __copy_remote_mm_str(struct mm_struct *mm, unsigned long addr,
+>  		void *buf, int len, unsigned int gup_flags);
+>
+> +/*
+> + * Check every page of the folio for HWPoison, rather than relying on the
+> + * folio-level PG_has_hwpoisoned, which memory_failure() can leave clear.
+> + */
+> +static inline bool folio_has_any_hwpoisoned_page(const struct folio *folio)
+> +{
+> +	long nr = folio_nr_pages(folio);
+> +	long i;
+> +
+> +	for (i = 0; i < nr; i++)
+> +		if (PageHWPoison(folio_page(folio, i)))
+> +			return true;
+> +	return false;
+> +}
 
-Mimi
+It looks almost the same as page_range_has_hwpoisoned() in mm/huge_memory.c.
+Maybe change the function to call page_range_has_hwpoisoned() instead.
 
-> > [1]: https://lore.kernel.org/r/d69f329c-8365-bb0e-69ee-774cbea141b2@zyt=
-or.com
-> > [2]: https://lore.kernel.org/r/3d1bfbd7-7d45-4cf1-32d6-7f6985b42393@sch=
-aufler-ca.com
-> > [3]: https://lore.kernel.org/r/f2886ac7-aff9-94bc-5f65-b3b2e946a6ff@sch=
-aufler-ca.com
-> > [4]: https://lore.kernel.org/r/20190512091748.s6fvy2f5p2a2o6ja@isilmar-=
-4.linta.de
-> > [5]: https://lore.kernel.org/r/20190512194322.GA71658@rani.riverdale.la=
-n
-> > [6]: https://lore.kernel.org/r/CALCETrV3b205L38xqPr6QqwGn6-vxQdPoJGUygJ=
-JpgM-JqqXfQ@mail.gmail.com
-> >=20
->=20
+> +
+>  /* mm/workingset.c */
+>  bool workingset_test_recent(void *shadow, bool file, bool *workingset,
+>  			    bool flush);
+> diff --git a/mm/memory.c b/mm/memory.c
+> index d477a4f986bc8..4b7d456332200 100644
+> --- a/mm/memory.c
+> +++ b/mm/memory.c
+> @@ -5158,6 +5158,10 @@ vm_fault_t do_swap_page(struct vm_fault *vmf)
+>  		    swap_pte_batch(folio_ptep, nr, folio_pte) != nr)
+>  			goto check_folio;
+>
+> +		/* Let a poisoned subpage take its own fault. */
+> +		if (folio_has_any_hwpoisoned_page(folio))
+> +			goto check_folio;
+> +
+>  		page_idx = idx;
+>  		address = folio_start;
+>  		ptep = folio_ptep;
+> -- 
+> 2.53.0-Meta
+
+
+Best Regards,
+Yan, Zi
