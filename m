@@ -1,77 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.167
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794440104;
-	b=zLtHi/uGE+AFxAdbZoMWrhnVCnxlFvFLlZcklGjiEhGuRYYqFdLxjEZ7oVxPWUrlJOgu
-	 r6EQ2rQTNB5PTeYDr1ZC7hN5kOj6ZIP5+yBNXKCYGOloKW4tf1ZLtec4n6+ymEkxxyf/m
-	 FHS3qR2AlVKR/AgzXwFrPnCguRTuGDwYg/dszcNrkWkJooErEwkZTaahmVVzCxHVhm/WP
-	 iGUX4NTNyJ98fE8n5a2xkcvRvhcROY91HugSSRVq/oBy4ad8lzP1VCz1vaQGEEeoN3T9t
-	 MSD4aQEkyACmsIZoxyY0Cy4tvyRrDRoGfRqOuWfOylgh27ap48S+esSwjm3y4WZgOcQ==
+	t=1794440324;
+	b=zl94jTxWqFXWGSzCdxjHnFR9Mt6S/AECbcRhLaoIhMzINrhvM3Yr1O6VzhEAAxFTTbNq
+	 Fyne3jd3m5MOQTFcYXLC8PbOxRR3TRjnYPJokWtbexq4YqqWt0HbnPYgfZXyQxjLK4xbf
+	 ozm6l/hV4LsBsLhQnqFeCyNwSRYggM1BsusYW6mG7jU74Mpg9EMl1Iqksx1aY4o82iDRp
+	 b2nUYTkV6AkpAS/1lsj0Am7s9NQ3rMvrv3LQ/TBm8g7YIaR6Gc5N9xa2/AzR3zmAKW2v4
+	 vvsg6RFAc9bjC5azP25Cw7VJugR6G9bb48Jy8/CPREto6uRbDcZ1XrCT5IjAxg7wFew==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794440104;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:X-Scanned-By;
-	bh=/saIjk+/mSYq8iZPgFXOiIKZ5cwgIKJ/PXOQnMC6enM=;
-	b=mNwxmGs9Aok75m/iAZxxuWbBTgXkJpbIhlJ1zQjZC7s5DjAL8yckY0RN7xFVw5WM5yHj
-	 LZ7C5eKniv5N7Ilw++9Mt0sFlGLTSGw5stoDwJi4hJvJdQkzcVGZUPKM5dZE+tevaVnbY
-	 1nsNz0BTBDMKEE2+DYUW0RyJrgu/1IGF3wm0Oyde+eplo8k0UFuwOvtjQic+lekx5W3h5
-	 GayKKlWDuiHSWaCOJH43nD3JaAYxyWx6S1JMOSrCkGV5V/lVfi9oRigIwVdMcGW8Dtr6S
-	 nxnPuQHbwfEHPRiLGvsdfAuLrDBDeTvPvax5G84KdL3RW2kX/wFIUg+EEQaaDrNsUAQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794440324;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=FBtMya5JHiIoe+mvC9LpyA8nsmCcAGgftQwnt4hAqeI=;
+	b=ZNgm74DPu3luRDcKtSWvkP3wGKNipU2x8iJO1U9FU6iPpaOiUpWtdSlkGjU59mmpzwv7
+	 MVK2Dilgd4Bqard5gItMCbf6o+aWeVQkGhBLvNz2QNdlWzmKfwEUZVA5eekZ2WUEG2Zh3
+	 dOHJSgug70YOSc6/OzIKW09KjIpdD2sG1MPlJA+VQ4W8g6khMChvL8mC91R967mhfVrMu
+	 hdpvw7FURxeaoEy2DVaOBZRO/ZKrYDH52z/+3HDn/1uZDfroOt3Lsws8lqZRBC7JfredP
+	 CD/UbAxNZuNPg7PXQGdtaaWkBnIaHJ9Ku1XgcGSs17e4MZAhMv6cFehQlA97Dhh6gTw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Vfh4mTKb;
-	arc=none smtp.remote-ip=170.10.133.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=UcW47pI+;
+	arc=none smtp.remote-ip=95.215.58.167
+Received: from mta1.migadu.com (out-167.mta1.migadu.com [95.215.58.167])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1388606A31C
-	for <linux-fsdevel@vger.kernel.org>; Wed, 11 Nov 2026 23:35:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C1388606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6B78606A321
+	for <linux-fsdevel@vger.kernel.org>; Wed, 11 Nov 2026 23:38:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D6B78606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Vfh4mTKb
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1794440102;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/saIjk+/mSYq8iZPgFXOiIKZ5cwgIKJ/PXOQnMC6enM=;
-	b=Vfh4mTKb6Rdo0odmsBlJW780CKEnWzhzGTnkUOVwyNRRv/Y6hP7+AqFNdP7Nhs5lCZEfvB
-	V4l4YQumXw2E3NFB/ttRnQrnfw/mtTBdKnTChnWnsLWzm01GMSEECvCcXUO1pr+19jqpCP
-	D64tA1N6ApNXvcZJigoU6YKyYypGWJ4=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-104-pXEQOR1MOveyCYTcvZquSA-1; Wed,
- 11 Nov 2026 18:34:59 -0500
-X-MC-Unique: pXEQOR1MOveyCYTcvZquSA-1
-X-Mimecast-MFC-AGG-ID: pXEQOR1MOveyCYTcvZquSA_1794440097
-Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4670719560B5;
-	Wed, 11 Nov 2026 23:34:57 +0000 (UTC)
-Received: from onestero-thinkpadp1gen7.tpbc.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id BBD27410;
-	Wed, 11 Nov 2026 23:34:54 +0000 (UTC)
-Received: by onestero-thinkpadp1gen7.tpbc.csb (nbSMTP-1.00) for uid 13628
-	oleg@redhat.com; Thu, 12 Nov 2026 00:34:56 +0100 (CET)
-Date: Thu, 12 Nov 2026 00:34:53 +0100
-From: Oleg Nesterov <oleg@redhat.com>
-To: Mani Tofigh via B4 Relay <devnull+mt4022.columbia.edu@kernel.org>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	tz2294@columbia.edu, stable@vger.kernel.org,
-	Mani Tofigh <mt4022@columbia.edu>
-Subject: Re: [PATCH] pipe: keep per-write wakeups for EPOLLEXCLUSIVE consumers
-Message-ID: <avT7nQs7zYseYtMw@redhat.com>
-References: <20261111-pipe-epollexclusive-wakeup-v1-1-0af6283e9fda@columbia.edu>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=UcW47pI+
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=n4XGoevqqrbLPiJf0WVzjodKBgKSfEnOAs+PZZo3dNg=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1794440322; v=1; x=1795045122;
+ b=UcW47pI+o7B6R1pqxtwQhvG5WOhQszMFJtFUpBlvhknMv2nZkDiG9PgJ7cBa37E0/2rC8Jp8
+ u6xfgiLd0Fpbz5bp0QD9bYz8YqkzeABB3IW2qf2hpyAlWMsoE2xXcHOk8doaACqz+V3k6t6Z0Te
+ bDCKxdsPfV3Ut2zjFZbVqR3c=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id b7a6aef2bc15d97d;
+	Wed, 11 Nov 2026 23:38:41 +0000
+X-Mizu-Trace-ID: b7a6aef2bc15d97d
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <9b795d3a-1818-4265-a364-58fba139c651@linux.dev>
+Date: Wed, 11 Nov 2026 23:38:39 +0000
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -81,24 +58,122 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261111-pipe-epollexclusive-wakeup-v1-1-0af6283e9fda@columbia.edu>
-X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 03/13] mm: cachestat: restart the walk after each entry
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
+ David Hildenbrand <david@kernel.org>, "Liam R. Howlett"
+ <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, David Rientjes <rientjes@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>,
+ Andrew Morton <akpm@linux-foundation.org>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Nhat Pham <nphamcs@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>,
+ Gregory Price <gourry@gourry.net>, Ying Huang
+ <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
+ Kairui Song <kasong@tencent.com>, Balbir Singh <balbirs@nvidia.com>,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Kiryl Shutsemau <kas@kernel.org>, Yu-cheng Yu <yu-cheng.yu@intel.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>, Dennis Zhou <dennis@kernel.org>,
+ Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>,
+ Peng Fan <peng.fan@nxp.com>, Josef Bacik <jbacik@fb.com>,
+ Chris Mason <mason@kernel.org>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, "Borislav Petkov (AMD)" <bp@alien8.de>,
+ Mark Brown <broonie@kernel.org>,
+ "Dennis Zhou (Facebook)" <dennisszhou@gmail.com>,
+ Rick Edgecombe <rick.p.edgecombe@intel.com>
+References: <20261111-mason-migrate-et-al-fixes-v1-0-3d2454362e8d@kernel.org>
+ <20261111-mason-migrate-et-al-fixes-v1-3-3d2454362e8d@kernel.org>
+Content-Language: en-US
+From: Usama Arif <usama.arif@linux.dev>
+In-Reply-To: <20261111-mason-migrate-et-al-fixes-v1-3-3d2454362e8d@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 11/11, Mani Tofigh via B4 Relay wrote:
->
-> From: Mani Tofigh <mt4022@columbia.edu>
->
-> A task blocked in read() on a pipe can sleep while the pipe holds data,
-> when an epoll(EPOLLEXCLUSIVE) watcher of the read end was added before
-> it.  The watcher's entry on ->rd_wait is exclusive and sits ahead of the
-> reader, so a write into an empty pipe wakes only the watcher.
 
-I am already sleeping, but at first glance this is already wrong?
 
-I mean, a WQ_FLAG_EXCLUSIVE waiter should not sit ahead of non-exclusive
-waiter, no?
+On 11/11/2026 18:13, Lorenzo Stoakes (ARM) wrote:
+> From: Chris Mason <mason@kernel.org>
+> 
+> cachestat() can leave cached pages out of its counts. This happens if
+> the entry that the call has just counted is replaced by a larger folio
+> that starts in the same XArray slot.
+> 
+> The issue is that filemap_cachestat() walks the page cache under the RCU
+> read lock, so racing concurrent collapse/split is possible.
+> 
+> Thus, an entry can be replaced immediately after the walk has returned
+> it. When that happens, the next xas_find() skips the sibling entries that
+> point to the slot of that entry, since ordinarily they belong to that
+> entry.
+> 
+> However a concurrent collapse_file() or __filemap_add_folio() (when
+> replacing a shadow entry) can store a larger folio in the slot, in which
+> case the sibling entries belong to the new folio and the walk still skips
+> them.
+> 
+> Consider:
+> 
+>     cachestat                         collapse
+>     =========                         ========
+>     count a 64-page folio in slot 8
+>                                       store a 512-page folio in slot 8,
+>                                       with sibling entries in slots 9-15
+>     xas_find() starts at slot 8
+>     and skips slots 9-15
+>       /* 448 pages are never counted */
+> 
+> Also consider:
+> 
+>     filemap_cachestat()                  __filemap_add_folio()
+>     ===================                  =====================
+>     counts the shadow entry in slot 0
+>                                          slot 0: a folio of 32 pages
+>                                          slots 1-31: siblings of slot 0
+>     xas_find() skips slots 1-31
+>       /* 31 pages are never counted */
+> 
+> Essentially the fact that large folios might be present means we cannot
+> safely continue the XArray walk, and must reset the iterator each time.
+> 
+> Fixes: cf264e1329fb ("cachestat: implement cachestat syscall")
+> Signed-off-by: Chris Mason <mason@kernel.org>
+> [ ljs: squashed 2 commits, fixed up comment in code, and commit message ]
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> ---
+>  mm/filemap.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/mm/filemap.c b/mm/filemap.c
+> index 7c05e4fad081..c4e82891767b 100644
+> --- a/mm/filemap.c
+> +++ b/mm/filemap.c
+> @@ -4731,10 +4731,11 @@ static void filemap_cachestat(struct address_space *mapping,
+>  		if (folio_last_index >= last_index)
+>  			break;
+>  
+> -		if (need_resched()) {
+> -			xas_set(&xas, curr_index);
+> +		/* Collapse or new folio spanning shadow entries needs reset. */
+> +		xas_set(&xas, curr_index);
+> +
 
-Oleg.
+I imagine this will be a performance hit for the call, as each entry now
+needs a traversal from the xarray root. Might be good to callout in commit
+message. But is the right thing to do.
+
+Acked-by: Usama Arif <usama.arif@linux.dev>
+
+
+> +		if (need_resched())
+>  			cond_resched_rcu();
+> -		}
+>  	}
+>  	rcu_read_unlock();
+>  }
+> 
 
