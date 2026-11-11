@@ -1,112 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.139.74
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.83
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794439306;
-	b=EavkwpdgGD9kxxmfBtDDCZo8YxGfe3Hc4DXaot0nDA1XMGaW7kdru9MTaY4HGvI/uXFH
-	 D+4UeZ/xfHHtM0IESyz9MQSgdD4GjFa/XF1lGSVcrFl9+oh20DoOy79rwrNo+X/hBH9LK
-	 77XYpOHvNW9y4BZ+MkI9onpU84777FLhajnglKFspGo/hvmB8DJBKo9MLS6KC95ykjRZk
-	 dZj6XfkAPTqm8HvU3qVuY3EgyviDaX0Vj6sOvIZEAlZfLTiQs9riks9PZ1g49SNbCJZu4
-	 LP5OBsP2AJcCx63/RWkbYq0/fhXyphH5R+F+NEITL479T8UrzJXcZgrpdq30ErMQ/uQ==
+	t=1794439607;
+	b=3CyulEk4Eb6s//WnjUQprIEyVFVYGAIVS/IM5AFwUc054jkpJE17kMdRYdsQUbjw6ZA2
+	 A9uoRQqtloys/eRl229kmNR36zPlqWabJUO5D0YtJkySDiWWaQ492fnkBdDom8Cq9Pq8/
+	 BpgZPj8ouf1O+Qllc0Bu+3xf/xJOi3oALZ+aioCohYbq4jGBDw6AnEv0Z6eZcXTtre1MM
+	 UjR+dF+qYNOz5TXYdy//cYS9BQzgiYIsDVN4Qu0TLlkFkHiOFE+23MTO+rzXnBEOozrDK
+	 hUn1LTXaLh5za5rvdRa+AzcnN2m6WQMUd1Xnu6AsxWFGiPl5EZbw681mf2JQ92V14aQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794439306;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:X-Authority-Analysis:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=E2Z2d4ubA/vBybLDW0A3M/dONekPuI7b74giCSqVh1w=;
-	b=iimHgKt16ho0zTttvMlacmKGNLgo0BvDIw4dtYl2e/6OJwFddu0g6fjTcx1FR8pyYdxq
-	 jn7BlxC/wE1EwprjD06DZwjlA/994HXqNBbRs9SEsdlrnlnIW4kF1wExWrD04nqMj1RqA
-	 Fhfna8ld6oKj/uFvkCG4E+2ThJat34PPbKz1vPj+1YwL9pv65iovi9CrfYO0KvldjpLTi
-	 8y7/Ds0b4M+SO10Mu300/ugv1KYoxjm8QE4DdLU24cMtWIkNtB9l3rGrlGxxoENbxW/VQ
-	 Z31Ys/gTTK55ENn+ipIXsv5cZvHpz/O70F44XWxCxXaA0IuOLGLd55r2jx4NGLWPdFA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794439607;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=U1Go9nJGbfGTucdmGG94RDyCyz/Xl64hJ2C69Ad2Aag=;
+	b=CcKTfVf+9nv9Ri1ml+pYfq3/u+LRg4EYNUTDrC4gUt4gV7P0IIpdd+jn4k1AH82P+SFE
+	 fq4v/2Xo848Fyr5k4N1pf4XJbVBUJIKcjrCBLfzerjrTyTddXpb2yyC2gi95+N2vVi3GA
+	 iL4A1kEpjlbQMI3QI1VgjQIv89KHoGQqpX2GwieeWay58Bg9y/iDjsJ9Xtg+KeYNcwhcS
+	 3XBcFPxXM3xMdHX9gTbvzKZqLKKIab4EGG7Mdua/ODlECnBPaDnenvGOIr8ibnBfJAbyX
+	 Zz9U0eYJ7sZtzSlhFSzVEf6jq1xp0b3h0rgc4xFwh9/mHT3eGmNz/gmclMsQrKzKTGw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=columbia.edu;
-	spf=pass smtp.mailfrom=columbia.edu;
-	dkim=pass header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=pps01 header.b=VU36wWCz;
-	dkim=pass header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=lionmail header.b=Cd5Tmp8+;
-	arc=none smtp.remote-ip=148.163.139.74
-Received: from mx0b-00364e01.pphosted.com (mx0b-00364e01.pphosted.com [148.163.139.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=H2OoK787;
+	arc=none smtp.remote-ip=95.215.58.83
+Received: from mta1.migadu.com (out-83.mta1.migadu.com [95.215.58.83])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10780606A321
-	for <linux-fsdevel@vger.kernel.org>; Wed, 11 Nov 2026 23:21:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 10780606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A366606A326
+	for <linux-fsdevel@vger.kernel.org>; Wed, 11 Nov 2026 23:26:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6A366606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=pps01 header.b=VU36wWCz;
-	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=lionmail header.b=Cd5Tmp8+
-Received: from pps.filterd (m0499198.ppops.net [127.0.0.1])
-	by mx0b-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6ABMBrRi1795447
-	for <linux-fsdevel@vger.kernel.org>; Wed, 11 Nov 2026 18:21:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pps01; bh=E2Z2
-	d4ubA/vBybLDW0A3M/dONekPuI7b74giCSqVh1w=; b=VU36wWCzQDQPCDJskRC8
-	GUumOBIPmH3k55QPlp1YNsxNWGQx4zstGDwIkhP9sggGaAtNDOxVNPM+CIQjV7M0
-	d76oIXkhjHWJS6/sJD0V7xwxACCKXbEImyr2R53OJ05AYwSPslCjX6JDP1dkJFLt
-	ZGLE+lAezMF3v+tbabY1FXS8t+DLmwNBkOOjfe50Y+e8kR16R4byD26CbkJ1engs
-	dELYjDkL4R1vzPRAlEtkmGpBtSZPDEYDeCqZDX8LFf2EW4XF+J1pPYC3lE2ZFibP
-	e1E7tig8fu3kP6Kh4QBMujICqMTX3AetkkzRw/0wJjtqfoXr5TsZMDAY2ei2x4fR
-	0Q==
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
-	by mx0b-00364e01.pphosted.com (PPS) with ESMTPS id 4hvyxkgwq9-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-fsdevel@vger.kernel.org>; Wed, 11 Nov 2026 18:21:38 -0500 (EST)
-Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-91e98bada22so70407716d6.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 11 Nov 2026 15:21:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=columbia.edu; s=lionmail; t=1794439298; x=1795044098; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=E2Z2d4ubA/vBybLDW0A3M/dONekPuI7b74giCSqVh1w=;
-        b=Cd5Tmp8+IxlXDjA5tU/GgeRi46Zb3uDPWz+QALmyneKQOujMP94KHDunl7wTrDmO7M
-         yicU1Bfn2b1YUNO7g3+boC/Cw7PN7mTm1MTLHiVRNJ4IK/JFRKDqE9NxF0ihrE4hXjCU
-         383Oy8N9LtvRkxFAMGOk61eAd6JLxQ6AGCDjS4qtQ0ou6A3kbpDRHHJ00ZkQoEYXOoLN
-         0cpw0wPJnYon+Zb2VGLtItmVwo4kBbRFQ8k//L7AlWyfpesHMZ25RCIMLZ5MvOQ/vo2C
-         smUr6ARSSboXegQizc/stiEPiVMiYfoaFneA2YQjjCoCAOWufOiMEHsjWUbAv2vTMr1C
-         1usw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794439298; x=1795044098;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=E2Z2d4ubA/vBybLDW0A3M/dONekPuI7b74giCSqVh1w=;
-        b=NjDDwZq36MksUO0hIQ3oiLs/g6nkC6+QRdVn2r9Xu9JDeB63Orbifsw1dttTSyTZZU
-         d85J+Prsk2Ff4xw1RuDdkOtVPMLE8Zm2WYbHfniBcQNuKI1I0WT6evQS+DEv2mVfDN/f
-         psPy4+WevFJNAn6IPKhujgD6S+ElKHW/r21zZQPsHM9GYOJhzlJNC9bFQy7eH5w+Scia
-         vBxbjJaSQFsvU9vstOVNI6uGADxlO0oS5H0XdulSAQospyroxD/nmdvAsRAtyVEJuDst
-         79rn0veXfrTgy1DlOMkrE9JC21i0vFyctn/H3EspKQ2gX3ajakBotCHzRi7PJqD1GZN1
-         585A==
-X-Forwarded-Encrypted: i=1; AL+hErG59JTbUHo9cEqJxOb6i5L5Yv3q/5RHa//vrG+9ZSPGF/vhKD63t4wnWY73mQqqrahP4D2jXsCxgc3UjD8o@vger.kernel.org
-X-Gm-Message-State: APuU4Z9ptmPYnBTa1kDiHxKOKnfkvJRzrkVNIXrbzvXXZT+DaND4bX90
-	CQL/39wGZId4/nEf3Vp4NA+LjfamyBH8JmgWhrImrH/LvrWpF9PBGwYpPiZw4z1OMK+PNwtsrip
-	JjYr7/heDLKMIs7kF5IzS0oJSf8TvGHjSVIZZCld/wu7LfFQqVUzpnqU9UYqOg7I=
-X-Gm-Gg: AYBFou32Pq94+kAkcDAHXDnjJo/1eibuJOcIuhV/xbkjfZJdT7Dko1Dq6YIPJbzoeJT
-	LCxUMi+rYmg/85T0/uxF7ALDICUtEF5rhLnbcYurDicLq0RGyd+VnTdq4m8BoT4rSU1+BD1Im0b
-	IK/m6x4mntUWYuJq0eqQmprGutjsuTVI1drcUK8ghD7v2ZflxSVHVjkVjI1LCfdaCOkku72RNDq
-	YLKXgSBHVUJQ9bmFoy1SPZvyYdS69/hT7Tjui5uFlN/4Mlke3easGjzfRlpq9eGqOL2lXIimAVW
-	hDN/jJtSGxJI29gNKl2oNVJ7GwDkDvqFD8G451i7KBboBro6yG1gvXXUeY5evnzjWl3eNu7zCbk
-	h/I56tRja3OqEDCCDYMxtcNhCHEd/BUpVdaqXigTrHl6PL8yzqic5GiNsZOUhSsOZbQ1mdItfkV
-	qKM0FdeNKGHpTYQHnp5UjzHsEoaUk=
-X-Received: by 2002:a05:6214:d86:b0:91e:a629:ff92 with SMTP id 6a1803df08f44-91f04196dd4mr71943016d6.42.1794439298036;
-        Wed, 11 Nov 2026 15:21:38 -0800 (PST)
-X-Received: by 2002:a05:6214:d86:b0:91e:a629:ff92 with SMTP id 6a1803df08f44-91f04196dd4mr71942586d6.42.1794439297418;
-        Wed, 11 Nov 2026 15:21:37 -0800 (PST)
-Received: from [10.207.116.169] (nat-128-59-177-239.net.columbia.edu. [128.59.177.239])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91f02fcc4b7sm33094936d6.44.2026.11.11.15.21.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Nov 2026 15:21:36 -0800 (PST)
-Message-ID: <e19f1fff-f1a7-4c2b-8908-2d3ee6a49069@columbia.edu>
-Date: Wed, 11 Nov 2026 18:21:35 -0500
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=H2OoK787
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=1Tgc5aGENKoDFgK3qnx6o5GIsN/BgWLTJWU9rerjYc8=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1794439604; v=1; x=1795044404;
+ b=H2OoK787rAwaaBJrJ8I0ZJj20RiTkWqSW05o2UUZBtr3ne4Qw4fn8GdliKKIQ1/mOxjnEmgF
+ 5ZS91Rgp3rzHgdtwqS7v2lllrzl8xcktQ71vPN0tDqfh5F38ObO2NyTTb3/lE3pbgfAqQgr15g9
+ qBm9Rq8gmERgCYafqqR14U7c=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 2d26b6111cf784ab;
+	Wed, 11 Nov 2026 23:26:44 +0000
+X-Mizu-Trace-ID: 2d26b6111cf784ab
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <5586b128-4402-4fb4-a535-f3766d807042@linux.dev>
+Date: Wed, 11 Nov 2026 23:26:38 +0000
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -117,110 +59,140 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 11/12] mm/madvise: send UFFD_EVENT_REMOVE when installing
- guard regions
-To: Kiryl Shutsemau <kas@kernel.org>,
-        "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-        Mike Rapoport
- <rppt@kernel.org>, Peter Xu <peterx@redhat.com>,
-        James Houghton <jthoughton@google.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Balbir Singh <balbirs@nvidia.com>,
-        "Liam R. Howlett" <liam@infradead.org>,
-        Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>,
-        Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
-        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?=
- <mirq-linux@rere.qmqm.pl>,
-        Andrei Vagin <avagin@gmail.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>, Arnd Bergmann <arnd@arndb.de>,
-        Muhammad Usama Anjum <usama.anjum@arm.com>,
-        David Hildenbrand <david@kernel.org>, Zi Yan <ziy@nvidia.com>,
-        Matthew Brost <matthew.brost@intel.com>,
-        Joshua Hahn <joshua.hahnjy@gmail.com>,
-        Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
-        Ying Huang
- <ying.huang@linux.alibaba.com>,
-        Alistair Popple <apopple@nvidia.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
-        Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
-        Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
-        Chris Down <chris@chrisdown.name>, Muchun Song <muchun.song@linux.dev>,
-        Oscar Salvador <osalvador@suse.de>,
-        =?UTF-8?Q?Miko=C5=82aj_Lenczewski?= <miko.lenczewski@arm.com>,
-        Michal Hocko <mhocko@suse.com>, Mike Kravetz <mike.kravetz@oracle.com>,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-References: <20261111-uffd-state-fixes-v1-0-00713d368976@columbia.edu>
- <20261111-uffd-state-fixes-v1-11-00713d368976@columbia.edu>
- <avTA58zlxJZ69TB8@thinkstation>
+Subject: Re: [PATCH 02/13] mm: cachestat: count each page only once
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
+ David Hildenbrand <david@kernel.org>, "Liam R. Howlett"
+ <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, David Rientjes <rientjes@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>,
+ Andrew Morton <akpm@linux-foundation.org>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Nhat Pham <nphamcs@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>,
+ Gregory Price <gourry@gourry.net>, Ying Huang
+ <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
+ Kairui Song <kasong@tencent.com>, Balbir Singh <balbirs@nvidia.com>,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Kiryl Shutsemau <kas@kernel.org>, Yu-cheng Yu <yu-cheng.yu@intel.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>, Dennis Zhou <dennis@kernel.org>,
+ Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>,
+ Peng Fan <peng.fan@nxp.com>, Josef Bacik <jbacik@fb.com>,
+ Chris Mason <mason@kernel.org>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, "Borislav Petkov (AMD)" <bp@alien8.de>,
+ Mark Brown <broonie@kernel.org>,
+ "Dennis Zhou (Facebook)" <dennisszhou@gmail.com>,
+ Rick Edgecombe <rick.p.edgecombe@intel.com>, stable@vger.kernel.org
+References: <20261111-mason-migrate-et-al-fixes-v1-0-3d2454362e8d@kernel.org>
+ <20261111-mason-migrate-et-al-fixes-v1-2-3d2454362e8d@kernel.org>
 Content-Language: en-US
-From: Tal Zussman <tz2294@columbia.edu>
-In-Reply-To: <avTA58zlxJZ69TB8@thinkstation>
+From: Usama Arif <usama.arif@linux.dev>
+In-Reply-To: <20261111-mason-migrate-et-al-fixes-v1-2-3d2454362e8d@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTExMDA5MyBTYWx0ZWRfX/dMpe/Wm/sTt
- mhL6to6EFDmb1lGaM9JPupQxMQdZBn544ZlwgIITzI5EYXMEpfvLa1UTQBZ5yRX0jn66Lr0WEOj
- sNUXmVzdx7+C1zzmxfTFF2NMWD4xI0kVwMR7YVsc1tJ8dKwJK7Cf9UeanV5YSq8V6b/VlnFZ1gB
- nJU3k3KztiQkkVRlKQ2pBSLC7D1YkDvQ2lJjwChzlkJRY+j4o06EkEx4c53HXpqKDT1WAVXjU7A
- 49aBVjo/q7KaFr9UVvnGFRzzkzrB1Ybt10bfQ5Kln7NupgyNbToBk5mPwTmr/f/vQP25SH8ScTo
- QS9UtrpWbeG9EoU1VxKITbBGngJ5VCENyGE2AsjS0QLzYIGrgxO1ikkTcBb6I4yXd5yNPIjPzod
- 2O4Y4mJE+unxVA+zDTJrQL9802shrwdhOOLv73+8Y0iY1yM5lxxn695hyz1ClEtYJIBa6hVqIp1
- UXRmLHUiD+/mz02mrjg==
-X-Proofpoint-GUID: J_VCK7wd50LwjmppmvdBw7J8WiyB9ivQ
-X-Proofpoint-ORIG-GUID: J_VCK7wd50LwjmppmvdBw7J8WiyB9ivQ
-X-Authority-Analysis: v=2.4 cv=L/yI0OT8 c=1 sm=1 tr=0 ts=6af4f882 cx=c_pps
- a=wEM5vcRIz55oU/E2lInRtA==:117 a=BoHXNMl2GZKy+iVh/K8zVQ==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=x7bEGLp0ZPQA:10 a=A0y_DWxS2BwA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=BpGzv1V74M3SfeTrGa8v:22
- a=eFDYe-PYqAWV_-s2uwYA:9 a=QEXdDO2ut3YA:10 a=OIgjcC2v60KrkQgK7BGD:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTExMDA5MyBTYWx0ZWRfX7UXyvelC7oyt
- FUGA8Tmx+RjkJBh1Xk9+twGt01OKZKVV7e64LZNbeU3urQWMjxXFlPBPMq4B4ENnnA9wHcC+w4x
- uHDVlFExno2eksSwu9WC17J7cmiI8rRnSIR9aMEHWfdSE9t8wKDy
-X-Proofpoint-Virus-Version: vendor=nai engine=6900 definitions=11963
- signatures=596817
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=10 clxscore=1015 bulkscore=10 adultscore=0 impostorscore=10
- priorityscore=1501 malwarescore=0 spamscore=0 phishscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611110093
 
-+ Jose
 
-On 11/11/26 2:25 PM, Kiryl Shutsemau wrote:
-> On Wed, Nov 11, 2026 at 12:55:19PM -0500, Tal Zussman wrote:
->> On an anonymous VMA, the zap drops uffd-wp and RWP protection along with
->> the pages. Writes and accesses to the range after the guard is removed
->> are then not reported, and the manager cannot know that it has to
->> protect the range again.
+
+On 11/11/2026 18:13, Lorenzo Stoakes (ARM) wrote:
+> From: Chris Mason <mason@kernel.org>
 > 
-> For RWP this only holds if the range is registered without MISSING.
+> It turns out that filemap_cachestat() can unwittingly return incorrect
+> page counts, if large folios are present.
 > 
-> The zap frees the pages, so with MISSING the first access after the
-> guard is removed is reported as a missing fault. And there is nothing to
-> protect again: RWP only covers present PTEs, and a page faulted back in
-> shows up as accessed in PAGEMAP_SCAN.
+> This can occur due to underflow - nr_cache is nearly 2^64 on a 64-bit
+> kernel if the input range starts more than 64 pages into a folio that is
+> split during the call.
 > 
-So this makes sense, but I think this gets at the documentation point
-raised in the other thread. It seems that to use sync RWP "properly" it
-needs to be combined with MINOR for shmem and hugetlb (and MISSING for
-holes) and with MISSING for anonymous memory. Is that accurate? If so,
-this should be stated much more explicitly in the documentation + man
-page. I see that co-registering with MISSING is mentioned, but not the
-rest of the points (reclaim, collapse, etc.) The example in
-userfaultfd.rst also registers a MAP_SHARED mapping only with RWP and
-MISSING, no MINOR, so that should be clarified too. Hopefully this will
-make it into Jose's documentation patch.
+> It can also occur due to pages after a large folio being skipped if the
+> range starts in its second or later XArray slot and the call reschedules at
+> that folio.
+> 
+> Finally it can be caused by pages being counted twice due to folios in the
+> range being split or collapsed during the call.
+> 
+> filemap_cachestat() walks the page cache under the RCU read lock only,
+> and for each entry it counts the pages that lie in the range. It does
+> not track how far it has counted, so the counts are only right if the
+> walk returns each index once.
+> 
+> But a large folio can be split during the walk, or small folios can be
+> collapsed into a large one, and the next entries then cover indices that
+> were already counted.
+> 
+> Resolve the issue by tracking the current index as one past the last index
+> in the folio, and explicitly using xas_set() to set the current position in
+> the XArray.
+> 
+> Additionally, add a check for folio_last_index reaching or exceeding
+> last_index and break out of the loop if so.
+> 
+> Fixes: cf264e1329fb ("cachestat: implement cachestat syscall")
+> Cc: <stable@vger.kernel.org>
+> Signed-off-by: Chris Mason <mason@kernel.org>
+> [ ljs: updated to use curr_index, fixed comments, updated commit message ]
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> ---
 
-In any case, this change is also needed for MISSING faults. If a guard
-discards the contents of a page registered with MISSING, the manager
-isn't told. Once the guard is removed and the page is faulted in again,
-the manager may fill it with the old contents, when instead it should
-have discarded them and filled it with zeroes. This is similar to
-MADV_DONTNEED's handling. I'll update the commit message to emphasize
-this point rather than the WP/RWP aspect.
 
-Thanks,
-Tal
+First time I have looked at cachestat, but it makes sense. Tracking curr_index
+makes cachestat skip already counted entries, preventing duplicate counts 
+during folio splits or collapses.
+
+Acked-by: Usama Arif <usama.arif@linux.dev>
+
+
+>  mm/filemap.c | 16 +++++++++++++---
+>  1 file changed, 13 insertions(+), 3 deletions(-)
+> 
+> diff --git a/mm/filemap.c b/mm/filemap.c
+> index b04be64a5069..7c05e4fad081 100644
+> --- a/mm/filemap.c
+> +++ b/mm/filemap.c
+> @@ -4638,6 +4638,7 @@ static void filemap_cachestat(struct address_space *mapping,
+>  {
+>  	XA_STATE(xas, &mapping->i_pages, first_index);
+>  	struct folio *folio;
+> +	pgoff_t curr_index = first_index;
+>  
+>  	/* Flush stats (and potentially sleep) outside the RCU read section. */
+>  	mem_cgroup_flush_stats_ratelimited(NULL);
+> @@ -4667,13 +4668,19 @@ static void filemap_cachestat(struct address_space *mapping,
+>  		folio_first_index = round_down(xas.xa_index, 1 << order);
+>  		folio_last_index = folio_first_index + nr_pages - 1;
+>  
+> +		/* Skip already counted entries, e.g. after a split/collapse. */
+> +		if (folio_last_index < curr_index)
+> +			goto resched;
+> +
+>  		/* Folios might straddle the range boundaries, only count covered pages */
+> -		if (folio_first_index < first_index)
+> -			nr_pages -= first_index - folio_first_index;
+> +		if (folio_first_index < curr_index)
+> +			nr_pages -= curr_index - folio_first_index;
+>  
+>  		if (folio_last_index > last_index)
+>  			nr_pages -= folio_last_index - last_index;
+>  
+> +		curr_index = folio_last_index + 1;
+> +
+>  		if (xa_is_value(folio)) {
+>  			/* page is evicted */
+>  			void *shadow = (void *)folio;
+> @@ -4721,8 +4728,11 @@ static void filemap_cachestat(struct address_space *mapping,
+>  			cs->nr_writeback += nr_pages;
+>  
+>  resched:
+> +		if (folio_last_index >= last_index)
+> +			break;
+> +
+>  		if (need_resched()) {
+> -			xas_pause(&xas);
+> +			xas_set(&xas, curr_index);
+>  			cond_resched_rcu();
+>  		}
+>  	}
+> 
+
