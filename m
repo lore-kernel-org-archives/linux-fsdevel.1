@@ -1,57 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794409928;
-	b=MWPJKmPyp8wx+wGW7VKUKHdaMXkk6tsOcpRoNXGlWeRhpmrfU+LuN/+Fbw0rSmN2giCF
-	 zhUx5VkcGmilppk9o666JBYv8eJva8qD0It9DQ8F97ft/fHSVLj4GS3diqBvcPeFTi/d/
-	 gUl8aap5dMBwOif5ts3ECTXN3w/CwhsOLxKjyPkTCAgC33wYX+50RkAHwrwhahJbSvLsU
-	 XTFQSGheD13JTP19bHaOro5xVetjkD17JcXXuiMOcbz9mUFkFPgUCIXaEDissL/3z/IxR
-	 1GEh9utTXqsBSZ2CjGwkiWDIX/d4lsYs/anBHXm44f8cKvEt2XglCkJBMUPieT2ddKw==
+	t=1794410116;
+	b=PHKr97+x1zekXjHGNUP3sTlccBAHxx6cpSZ4Y2vbkrCy0e/iLSLK0eXh5PFxKeVmiplA
+	 76/1ehPbxMMZBdFD3BYvW401poOMtS7Wn/LtLyzkCh2DX4qYPGPF1yehCi+u4Exn1yESO
+	 FIKMu8M1VvQ1k14BowqfYK639MpB8SiYAl7ULelxcs9tjRpMg0rnHlYA17jDJ9QDlzeJ6
+	 HMg1OlYQ4tpe/vVPgbU9cTld1qNZCpASQJrG3WxInwMlrYKyvKLetXdA7MWcockW0XNf1
+	 VMtOaxE/P46FB4LldudHPMnwqIH0zFBvIkHayLXSIOh0TlPHrE4W7tuQPdkVjl83Yog==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794409928;
-	h=DMARC-Filter:Received:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To:User-Agent;
-	bh=dehBO8Yxo1qlGsyLOmGqdqT0CExk2sS3MX1Vk4oa/6A=;
-	b=DbhAT6FgGRL3UmCOe8v7NLD7ilAdyvziIOjYNx3OXqQf0y1zEOUqvTCitYOphUofvTdU
-	 fvjQBy7iA0nJJ5s1k8s9TYNxV3KWWBMuQtNFCSsPpSLwCKfzV5xk3lojvnD2P69rUW3u4
-	 4hO5Z9dYMOA7KMuaujF2k20ovhu/LVsDvgCcwZP9ICypkUAldvF0vk5uX3FB3/R4I3lgO
-	 10xMB7+vfNUYAwZbSJqZr9DO3uN3Kaj5XIl/m+FpaCq9TSJBiSl/Lai778mLWbBqsW6Ga
-	 sYkATyl8o1KkffkKQNybi0mnoB7kjkOn8R3CoebYoM3ax26NHBWREbsvq5y00q9+o7A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794410116;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-SRS-Rewrite;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=;
+	b=dZ9wHOzmBnq6hnSYf7T/mxsoyeumDHCL723twOr4xDbxiFpKa17VQvMpxfkhEAbeSavO
+	 MEVDSUEOKOFU8jOZSLb0QDTpzZVyLob+Xa4GJX1l48wvx2Ohk02hO/2J3ErOZIcAY4+5P
+	 T8G/KgyMs2xRvgCmBoMITQ/W+dGKXd+92TGRzHIMNOx/1k0+cm9RU9lZyAOvrOMi66b0K
+	 VpR8LVdSkfZJnv/J8NkDz18PE2lk2wys+DaO2uMbXzioIZ0Xtz4eXDXrcIfconi2YrHDn
+	 ari4Brndx4WulyHTiMfU7NhW3tfouu/2QeACcjSIsa3lGYpCVVUKhyIhd20bHEhPBFQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=lst.de;
-	spf=pass smtp.mailfrom=lst.de;
-	arc=none smtp.remote-ip=213.95.11.211
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=infradead.org;
+	spf=none smtp.mailfrom=bombadil.srs.infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=shy7eKLr;
+	arc=none smtp.remote-ip=198.137.202.133
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B90E5606A326;
-	Wed, 11 Nov 2026 15:12:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B90E5606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 52A7668D16; Wed, 11 Nov 2026 16:12:03 +0100 (CET)
-Date: Wed, 11 Nov 2026 16:12:02 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>,
-	Chris Mason <mason@kernel.org>, Josef Bacik <josef@toxicpanda.com>,
-	Christoph Hellwig <hch@lst.de>, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-mm@kvack.org,
-	bpf@vger.kernel.org, linux-security-module@vger.kernel.org,
-	selinux@vger.kernel.org, apparmor@lists.ubuntu.com,
-	linux-nfs@vger.kernel.org, netdev@vger.kernel.org,
-	fuse-devel@lists.linux.dev, linux-efi@vger.kernel.org,
-	xen-devel@lists.xenproject.org, ocfs2-devel@lists.linux.dev,
-	linux-s390@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-usb@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>,
-	linux-erofs@lists.ozlabs.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RFC 38/41] fuse: refuse files on pseudo filesystems as
- passthrough backing files
-Message-ID: <20261111151202.GA11391@lst.de>
-References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org> <20261110-work-loop-pseudo-v1-38-4c998976c6c7@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB81F606A324;
+	Wed, 11 Nov 2026 15:15:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AB81F606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=shy7eKLr
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=; b=shy7eKLrtisqtWDKu/B8UJCAni
+	fsO0MQ5212gAPqahcKIK002nwejZdIXBuQr+7JH+bi7RIVb4cwKkGyqVaLGcIEShQ2h7K1/RpWrEX
+	s8JcTGIHQO/38BGPX0b0WHlP2wJlQ6p+uA6JKFkOWfx75AM1f+vkBd/y/JB84g8P35MloxVY8guBB
+	MTa5mzcgK4JaAXTCTKjmuJGfCMwf1y8Gew2uoc7FyY/NB4M8tdFLX7M5eDzp0jyqVSV8uXblG0Dl4
+	s4cEt7+QlAvKMmaSf44mCnKihYUop6ncNE1d9j4AlWUZIMiYAj+2EPrQQeIHP1ZNM2Zy1lFjHhtpB
+	Yo3MMK0Q==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xRA2a-000000073vw-3lVf;
+	Wed, 11 Nov 2026 15:15:12 +0000
+Date: Wed, 11 Nov 2026 07:15:12 -0800
+From: Christoph Hellwig <hch@infradead.org>
+To: Chris Mason <mason@kernel.org>
+Cc: tytso@mit.edu, cem@kernel.org, david@fromorbit.com, jack@suse.cz,
+	djwong@kernel.org, josef@toxicpanda.com, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
+	tz2294@columbia.edu, brauner@kernel.org
+Subject: Re: [PATCH v7 09/11] xfs: test for always COW after the dio write
+ checks
+Message-ID: <avSGgPbwyXvMvGzp@infradead.org>
+References: <20261110190417.32650-1-mason@kernel.org>
+ <20261110190417.32650-11-mason@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -63,10 +69,10 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261110-work-loop-pseudo-v1-38-4c998976c6c7@kernel.org>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20261110190417.32650-11-mason@kernel.org>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-I've seen setups where people use fuse to mediate access to sysfs
-sysfs in odd ways.  No idea if that's still around, but if so, this
-patch will break it.
+Looks good:
+
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 
