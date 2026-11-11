@@ -1,104 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.229.135
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794402001;
-	b=p9v1Y9D1j8vs5Fu3Ktrh85g4tc/b8BBotc6DA2MCbpr1vN5fqbttw7d0j3ahuNFz+qs0
-	 jZD2+613i3+JW8JQsAnoE/Stn07ywr2an51+5Glxj8yLvADZUCHo1jd3jGHqcSpkdkP8Z
-	 plbqtH7E0vyKBE4CTUSJ+zlWgPuHqTCSA9VsHKm3WVdQz2DoYbxfAeqo38R/kOIhnSKM6
-	 PYxYS8lXnMFFP02xVQvmEhsQlsCupAvIUJAudtQ01w2IZUinymn3xY6ZpxDzHD+dTdMwE
-	 3eotajg9A1PVvpr5SHgsLC/K/i4MnrzoZht3Q8g+rFTPlVY0zZgGJ4ZI3qLKHxVvXAg==
+	t=1794402124;
+	b=UtC1G74iAvdqZcZM2mAxCQpb9lR/+fz1TqrLzqyjbu5lk0bOgcdRhYmpOr1zURVx4vuG
+	 q2mSVzrpE0nio1nAIu39+sX0Iocqn/4J9Tnm2JBJ3Be+gdcuFSJrHNlOgWLFZ9W6i6U7h
+	 b0QvFLsQ7KLUkBUPQ7Qw4erzTa4zaWmQoi7hXFWYlMoztWA5Wh2OA/MPoCZ/VCS3Oriw2
+	 cqwHy+U53FRMiptD5gM94mVdCSkqJGV+nfgbpmaeCDS6BjWJMrHVv2T2qu7654H1XhhfT
+	 nJFFR6/S62Igq0DNar9Zc/rRLH8Vac1Vx0rryotPEWP0nMAM7nAy18czAijVaETX3bQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794402001;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:Autocrypt:
-	 In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Rspamd-Queue-Id:
-	 X-Spam-Level:X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:
-	 X-Spamd-Result:X-Spam-Score;
-	bh=vckRnu8yhYPujC9czlRHD4eY30Ogbh/EdkpZK4P1gpY=;
-	b=h2F++KnOmh7Z7DLAbRqaGSVSr3oKDdEjX7PGbtAPAR/YNrUejRzLldxEp7fprgsNwNEL
-	 w29vePttxInvyUa1ZwZAcNLn1V8S4D024hFb6PmoZZODE+Zsz9nI1mUEUgz8Me2ucQazK
-	 DQyA+gcQhVFGjYzcgDN7zZVRz9mDkxUT1kaoMmFVqs+tLC8AX1RwHqTPbjFYVaviTfaaQ
-	 GQniQulwJ18+E5gG3Gm2nOPp4aoUEcrqdhLDdDaSwnmPc+uGHGwunMJsDK0WTxfYy7gXv
-	 SV7gq4D7/f5rBO9SfQrVvMoG/py9gIDK0fZUjVBiUcnjee+l0aP4iCCRUoISdGqvf2w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794402124;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=w2/+xHZKQ2U7spoWRX9s3/PlBR0bd8B1wNdFaiAbagI=;
+	b=xwv4GvQnhd5Lh+K7cIKp5AEUBjiPtGIZ8w9MBT6XVzCdtJ431qK7HQauXAGDNWJ51RGd
+	 QQyf8EuRELN7Bggk0w/Hr4Cq6p8mg0PX5FTdZfKG4ucYEGWjB/uZYmRjwwpj1nuOODZWl
+	 jdZd/A2hqpDDzqUNUScP6StbrupWyNXPbnwnZpdbBBWvu059zwWZBp3cZm8yOny0G+3nZ
+	 Aztlc1GUnCGbC7jjikBCMvXZgqyM+Yqx06GalLEwUR46657R47QJxWX5x1jjjWNneqsI9
+	 f19mzyKCCL09DJTpvNftMsySYP0DYcxp/QeD42P0fbRB0HZuF3/APDPwxcipbNjc9Iw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=otOxawUx;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Fg+Nrul0;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=EhbSiBds;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=3pIOXjjl;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=HvZBZsK7;
+	arc=none smtp.remote-ip=74.125.229.135
+Received: from mail-dl2-f7.google.com (mail-dl2-f7.google.com [74.125.229.135])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73F31606A331;
-	Wed, 11 Nov 2026 13:00:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 73F31606A331
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F373606A332
+	for <linux-fsdevel@vger.kernel.org>; Wed, 11 Nov 2026 13:02:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3F373606A332
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=otOxawUx;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Fg+Nrul0;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=EhbSiBds;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=3pIOXjjl
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1077822163;
-	Wed, 11 Nov 2026 12:59:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794401998; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=vckRnu8yhYPujC9czlRHD4eY30Ogbh/EdkpZK4P1gpY=;
-	b=otOxawUxw790/QFBjM3l+MFthA3861nlTmYALPAV8UroFCQPTuhWdqQLx2Bc1uIFTNjUSf
-	mnB6pWLs5IMmL/6Nh1C4bBTDNKUwUU7gS0QrpHdV+W4K35O9r7vi4hE7ol2MHfBI5rkx3k
-	JbleWrObvsXGVSk2sYZAGh9tC4q+53o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794401998;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=vckRnu8yhYPujC9czlRHD4eY30Ogbh/EdkpZK4P1gpY=;
-	b=Fg+Nrul0Jyo5LklpxiAuZ0HYrvjr7mnXZnx3MVHOfvH21g/exOhh1s1UL3D/FUe/akkrR2
-	wP4WfFpYZXc1TlDQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=EhbSiBds;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=3pIOXjjl
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794401997; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=vckRnu8yhYPujC9czlRHD4eY30Ogbh/EdkpZK4P1gpY=;
-	b=EhbSiBdsrSVaKSADwnL0R0h2FhNTtiQe8O4S+eqdUQd7Xrl3mwHjJ524yrql/BM+FAIbBh
-	HcAzG0kPGFOJOYhrbr+minyw5ZLHbacQpG6BNn1fmyvfN8AukapPIrVspm4teWxjv0DZBr
-	REDvjtoemSrILrH4izF8HUQ1q72PYZk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794401997;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=vckRnu8yhYPujC9czlRHD4eY30Ogbh/EdkpZK4P1gpY=;
-	b=3pIOXjjlSEb/Dd0pQ3rAW5PfZnnK2WJEDuZe2OvPfIrsqGCueoEmJPkiIgDh+2Aw4Jz8eq
-	hcEUcN+9syH0oIBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E94B11339F;
-	Wed, 11 Nov 2026 12:59:55 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id SHrxKstm9GqAMwAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Wed, 11 Nov 2026 12:59:55 +0000
-Message-ID: <64a26d9d-664b-4443-8d71-b854bb01316d@suse.de>
-Date: Wed, 11 Nov 2026 13:59:55 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=HvZBZsK7
+Received: by mail-dl2-f7.google.com with SMTP id a92af1059eb24-13985f8229aso2850806c88.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 11 Nov 2026 05:02:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794402123; x=1795006923; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=w2/+xHZKQ2U7spoWRX9s3/PlBR0bd8B1wNdFaiAbagI=;
+        b=HvZBZsK7tYvSumdzHkEQb7rSL9q5eY4Hda3xEbtuRJenmpkNB0i+OcZ2Nf8cTbbXKM
+         P+YIMusWBQrxjebN+a+q03WLFO4jkF7MAIlxBBxr62Yth1ABBEZQ+1h6lCWIrKSRAQzw
+         wzsp5iqL/G0DSX5Jtx55GrYYW1RC91+ns/WwXqfwNIz14a/dDqH7YUoSHQW+rf7FmE2C
+         zWiVbdfg9xNAXLgZnMPisZ5hPJj2YPzf897YTf29mJ046Ye8+gYQL9x/xbzjuidhZ4ff
+         n5ufoC0qFsLjkk23MPg2bshtTcHxWcVat8ty+IJLRWA0sQNN0lr4SxanfIpaNODwyppA
+         QCqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794402123; x=1795006923;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=w2/+xHZKQ2U7spoWRX9s3/PlBR0bd8B1wNdFaiAbagI=;
+        b=gIQq0E8QJ/E9AxV6IWywKrHQo4RCzmeeux8FF68PSHbVW143th6kdhU+QEpGpwBwgu
+         cR5nBmwXy+o0Kq5xRgg6jFAA+GVHd/mLr8PGHGdBnr3Gj2rTKxlRz/Aj09YwS8Dze+e1
+         UgeN2ujmYgzpwjJ8x0xl7l5Jj8HWOWwS99tgnT5BqjrWcURd9xCCIUI8gt2qX2BJ9Coz
+         LPUElvl14LSOfFr5xkxfY88W1YzXI+XhdvxVRrymQWbVUAesPAv7VLm9jdeT60X0ouNC
+         gxSDro/lswg9OlMmNvxHCYrojGFCNDWDS/E0M7CNri4GCDP43do40++vV49EfhzIwxGd
+         qK0A==
+X-Forwarded-Encrypted: i=1; AL+hErHa0ehoRbs5JMQ7gu7iQ7NIaU4Ga3Dy5M7RE+ymeAh/bY/By5fj32CQOOSCqW1O6jE4RpL1nC1WHN1AB7IR@vger.kernel.org
+X-Gm-Message-State: APuU4Z/1+WGUdYX/ORr7P3EuSSHyxr8JRfhYBRQoeWk+hBOC0pJ/mv6K
+	Xq5XNSswGXxpRRjaZCv+TRseGubHBf/V7+3L2ZPWIfXuOy0Xg+1Er2nJtye0Jtkfjf77XA==
+X-Gm-Gg: AYBFou1b7sqI7BDZggjNDrsZDlX5OpC+8ZYTRfTiYJMTMQmgEyS4N+N2DHg4532IJHh
+	Z5CaSdUanFom5nGIlIe4sDIJ+7IQ3Fsg948PGsSZYjOpgFbnxG0/1qQdVTBHN4nofYkTEhy7z7c
+	7IAkkN1u+TAq/KxEim3FOG7lO84UZ7pt5fkC2XqyeV45lNxFiRqvZvCEJEbUOX7u9x4gTXNT6JL
+	h3drzRblumFRyWT2rs1ekPuRZkcBYTMpHe2QesmZvekN/U/RlFkp39DSbEMXj8lvhGtBIdreAZY
+	zR1kb7SUXC4vEmNiNfK6Udk+aZb6qgDn2AvMi3pRbj5qZgeajDt3+LDuLm1ORKj2OhB1FGhmbpO
+	nn2QC98uVE8awAzpyx7RXvPkloF8Qay+v0G018MXnfGrl2pTtBW/ri6CkEYZ1/ji0EfA/PCy/Vc
+	Nh6tNeBKXQu8AhkEvl5l0sflKa8/m7a7KfXgOrXZyreiYr7TMq+QfyQhTLx4cjl/Wo/+MkrbQjD
+	jrhCZZfV542yJQCQMnV5aG1A+pMKtf1qruqi3aj4LeZGnGuZmJ+6BbtZi/G45C+NH/Iy3+oo+T5
+	oq/+7t9EHlzItk8Gs10u1/OoB75N/gYeSARxuq1EfthKuOs4x3vqg8sPQinlG5YD7Y0zwsISQEh
+	yPi8GrYtbRzvSvtAIAv2dobvXk5n5JvwNliukyg==
+X-Received: by 2002:a05:701b:450b:20b0:1b3:ba92:145a with SMTP id a92af1059eb24-1b3c0303655mr2388509c88.19.1794402122900;
+        Wed, 11 Nov 2026 05:02:02 -0800 (PST)
+Received: from localhost.localdomain ([98.148.34.5])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3b5b11150sm21696634c88.5.2026.11.11.05.02.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Nov 2026 05:02:02 -0800 (PST)
+From: Hungyu Lin <dennylin0707@gmail.com>
+To: muchun.song@linux.dev
+Cc: osalvador@suse.de,
+	david@kernel.org,
+	akpm@linux-foundation.org,
+	linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	jm5905938@gmail.com,
+	dennylin0707@gmail.com
+Subject: [PATCH v2] hugetlbfs: report inode limits without a memory subpool
+Date: Wed, 11 Nov 2026 13:01:45 +0000
+Message-ID: <20261111130145.96534-1-dennylin0707@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -108,141 +101,47 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/10] drm/gem: Switch to __nonnull_args() macro
-To: Dmitry Ilvokhin <d@ilvokhin.com>, Alex Deucher
- <alexander.deucher@amd.com>, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Lee Jones <lee@kernel.org>,
- Pavel Machek <pavel@kernel.org>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@codeconstruct.com.au>,
- Ryan Chen <ryan_chen@aspeedtech.com>, Billy Tsai
- <billy_tsai@aspeedtech.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Kees Cook <kees@kernel.org>,
- Andy Shevchenko <andy@kernel.org>, Matthew Wilcox <willy@infradead.org>,
- Andrew Morton <akpm@linux-foundation.org>, Andy Whitcroft
- <apw@canonical.com>, Joe Perches <joe@perches.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org, linux-hardening@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-References: <cover.1793027261.git.d@ilvokhin.com>
- <5bfdc1491d297b5e98cf42322c790f06481c28c7.1793027261.git.d@ilvokhin.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <5bfdc1491d297b5e98cf42322c790f06481c28c7.1793027261.git.d@ilvokhin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 1077822163
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-12.00 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	XM_UA_NO_VERSION(0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_TWELVE(0.00)[38];
-	FREEMAIL_TO(0.00)[ilvokhin.com,amd.com,gmail.com,ffwll.ch,linux.intel.com,intel.com,ursulin.net,kernel.org,jms.id.au,codeconstruct.com.au,aspeedtech.com,infradead.org,linux-foundation.org,canonical.com,perches.com,lwn.net,linuxfoundation.org];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,lists.infradead.org,lists.ozlabs.org,kvack.org,gmail.com];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	R_RATELIMIT(0.00)[to_ip_from(RLgosu6qu4h11rje89ht7rjgg5)];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ilvokhin.com:email,suse.de:dkim,suse.com:url,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -12.00
 
+A hugetlbfs mount can limit inodes with nr_inodes independently of size
+or min_size. hugetlbfs_statfs() only fills f_files and f_ffree when a
+memory subpool exists, so an inode-only limit is enforced but its inode
+counts are reported as zero.
 
+For example, a fresh mount with nr_inodes=4 reports zero total and free
+inodes instead of 4 and 3. This hides the inode limit from tools such
+as df -i, even when creating another file fails with ENOSPC.
 
-Am 28.10.26 um 09:19 schrieb Dmitry Ilvokhin:
-> Commit 22302af28d3f ("cleanup: Annotate guard constructors with
-> nonnull") added the macro __nonnull_args() to wrap raw compiler
-> attribute.
->
-> Replace __attribute__((nonnull)) with __nonnull_args() to standardize
-> nonnull attribute usage across the tree and keep the attribute's quirks
-> in one place rather than open-coded at every call site.
->
-> Suggested-by: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-> Signed-off-by: Dmitry Ilvokhin <d@ilvokhin.com>
+Report the inode counters when an inode limit is configured,
+independently of the memory subpool. Preserve the existing zero and -1
+results for unlimited inode counts.
 
-I've added this patch to drm-misc-next
+Fixes: 74a8a65c5261 ("[PATCH] Fix hugetlbfs_statfs() reporting of block limits")
+Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+Reviewed-by: Aveline Noir <jm5905938@gmail.com>
+Tested-by: Aveline Noir <jm5905938@gmail.com>
+---
+Changes in v2:
+- Add Aveline Noir's Reviewed-by and Tested-by.
 
-> ---
->   include/drm/drm_gem.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-> index ed329408acbe..56dd15921c7a 100644
-> --- a/include/drm/drm_gem.h
-> +++ b/include/drm/drm_gem.h
-> @@ -566,7 +566,7 @@ static inline void drm_gem_object_get(struct drm_gem_object *obj)
->   	kref_get(&obj->refcount);
->   }
->   
-> -__attribute__((nonnull))
-> +__nonnull_args()
->   static inline void
->   __drm_gem_object_put(struct drm_gem_object *obj)
->   {
+v1: https://lore.kernel.org/r/20261101122653.53982-1-dennylin0707@gmail.com
 
+ fs/hugetlbfs/inode.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
+index 01c4d6f44ebe..e94ee8e17004 100644
+--- a/fs/hugetlbfs/inode.c
++++ b/fs/hugetlbfs/inode.c
+@@ -1113,6 +1113,8 @@ static int hugetlbfs_statfs(struct dentry *dentry, struct kstatfs *buf)
+ 				- sbinfo->spool->used_hpages;
+ 			buf->f_bavail = buf->f_bfree = free_pages;
+ 			spin_unlock_irq(&sbinfo->spool->lock);
++		}
++		if (sbinfo->spool || sbinfo->max_inodes >= 0) {
+ 			buf->f_files = sbinfo->max_inodes;
+ 			buf->f_ffree = sbinfo->free_inodes;
+ 		}
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Stefan Gaiser, Jochen Jaser, Abhinav Puri, (HRB 36809, AG Nürnberg)
-
+2.43.0
 
