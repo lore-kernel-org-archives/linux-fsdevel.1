@@ -1,62 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.113
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794395182;
-	b=yoqJPtQFFFmA5LQ4MuFd/u+EjNffqZe7W25gcJSsaWIAoNqJWFWxkfcjNj5/HcQPH4rc
-	 1+Y+1ptuBv2BlzIpLZ7O+Anu+wKdCjG1nXJDxzn3l3ngrx88hxN04EGaz0yNoW6Swc+5z
-	 tbq42i/qg84IJARQzmqYdYrnyt71RtZd8FBYR1JmHwzVxgCxlatHkWiO5OZAw3D8nGTr5
-	 C+D3XD6YEfuO9Wg4E6pMOGXTjjAN6wKDYWKvas+17JQ8JR0z55nUDy1ex4UAuJNPRJixM
-	 2gBcl2LKlF33X+gX4ATIqIuojsrI62UCodda76x0zFN43CnDHaqFqFdkxhLj2QGlNXw==
+	t=1794395518;
+	b=CEDXumFQZeL/COs8reJxyODJbeoDsWafnCVju12NK382SpPQb98oSortUly9kzQB378+
+	 Nj0jmCNenkcP+5uM0z+K7gFllHsQ2IDISS54zTOYgSap7oZIjvfD80jsOlz7f9rZdZUkS
+	 yg/X8nfgUN85VUsCBwi4T0mhZqQPzjVjgiBtQmNJA9tUoWlyrSz5j31crP+QOJ0RBatvk
+	 jWu839GdaVS97jJ90Zvm3FcMe3K0wJDl1qkxPOHare5x6EryorAR2RU5Jv0G3ntn2NOM7
+	 LGW5Y5owUhQNNku2BSuQfUkdCxXFpgfbVONX6viqjGlO8apcKUS73iFNoHHeSEeYMhw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794395182;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	a=rsa-sha256; c=relaxed/relaxed; t=1794395518;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=NzHMhcU+vPiMdliqp2dflnrsyBQs8fZSDxc9nDiFNAU=;
-	b=qGZj+K2dRX/FnVE503kkN+UBOtDWv2ihgZRRTw/n1RfJyLCBvhCFSjihFzr/B75TAFHE
-	 P3zwsFkqRdKir8GBjVrnobXujcAmAEE4TSiwei6ZnFWZAQuF6jK4Qsbaxt4PDdKjTqw2E
-	 6B3SGUBkzt1QRwv3y4yjdm9qzxFFANUxnAZLemEUchEDIvKqAHDtwe6PzXF4cgVIY7yFg
-	 57vXywNh+gcXMbSxEu1ur9q2ihfqdFmG3qzkemZDfpnGHIUf42j5UX4y1lJ7u66MFAiy/
-	 E+ALN0A7cfz0frW2w5T8ugIfd4db9PA7obY91ktk5/SYqooDYgXjuEdH6mjpn60Qj3g==
+	bh=nShDP18JigXMYT5zX1D0CYbMVkXJlUs0aEszqP9AdA0=;
+	b=z8bnrh2JzE36KPs8PgZi28DlecVvSwt0N2CEAbUNPlmDSnYHoqgG0943YSX7hSjOsT9s
+	 z5Huk8TUvnLv2CdE3BzEvFDvPQ20J/1TO8bWfb2wdBV+4eHBCFGm8pXhGDuDtkuaSRCwq
+	 CxWX85g5ytP4hcjjw6TU+x6A1VkUcO16ht1mcRpbxYdqGvY/OCnF2oQxTLgqtd2/dyN78
+	 HiEs2EzcjceqEtW6ZC0viQe+hGPMx3LINXkg01kaPFkymoU8pzPlcW1M8G5uc1RaW+XMj
+	 kI6ua7jmENhjXgfh6iQlt5jbSOqCoepfZPWWZ1G0EYhvTHB6Kc377aBlANgzO/ykoig==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f0A+0ObF;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=SpUVYtkJ;
+	arc=none smtp.remote-ip=95.215.58.113
+Received: from mta1.migadu.com (out-113.mta1.migadu.com [95.215.58.113])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ABD5606A334;
-	Wed, 11 Nov 2026 11:06:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6E94606A8A6
+	for <linux-fsdevel@vger.kernel.org>; Wed, 11 Nov 2026 11:11:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A6E94606A8A6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f0A+0ObF
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E55B01F00A05;
-	Wed, 11 Nov 2026 11:06:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794395181;
-	bh=NzHMhcU+vPiMdliqp2dflnrsyBQs8fZSDxc9nDiFNAU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=f0A+0ObFzxtqt5RTDymvHQ0Jgz3VPVvid9hhX0m4CKnMG1ey1riT3j4cfns0YlQbW
-	 /fpWhX2EwvzhDHWSm0r8z9Am+FM6DXMrYUVK7TN04Z7WTtW4YJNKEeOdzBx8PJ6WGA
-	 t3+GwtMKtR0FyHZ2I+ZJJJvWsY34hiefVKerffEkrM1pG7kprb3YZLwraFwi+LM60r
-	 TQhv1XENZwY7v5QhP7Hpd9bFJcLmtceg6ygYkou6jI5FYm9Y4ahtIkorF7zvfaSB5G
-	 0Cng8EjDiFtX2I7MTbNehaDLud9ByNW+awhQmJ7WpzZKy0PKctQbHbx9bdSYbS00E4
-	 P/2wSixuXZzBA==
-Date: Wed, 11 Nov 2026 12:06:11 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: "Kiryl Shutsemau (Meta)" <kas@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Miklos Szeredi <miklos@szeredi.hu>, Amit Shah <amit@kernel.org>, 
-	Jan Kara <jack@suse.cz>, "David Hildenbrand (Arm)" <david@kernel.org>, 
-	Matthew Wilcox <willy@infradead.org>, Zi Yan <ziy@nvidia.com>, Bernd Schubert <bschubert@ddn.com>, 
-	Hugh Dickins <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	fuse-devel@lists.linux.dev, virtualization@lists.linux.dev, netdev@vger.kernel.org, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH 0/4] splice: remove pipe buffer stealing
-Message-ID: <20261111-betrachen-schindel-gefroren-4c01e5f9ca1d@brauner>
-References: <20261110145241.536019-1-kas@kernel.org>
- <CAHk-=wgPq1g-kt_n4-crr0qs3rBNkat5OgLxLLeMjKirevRuSA@mail.gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=SpUVYtkJ
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=mWIKGIZPEaOwQ4LZ6Wr/q8Uww1kSWDcn4ugrc7Q+8sk=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1794395515; v=1; x=1795000315;
+ b=SpUVYtkJvcXFpdZVLLZuqwEq1PTuRhxWVJBJ6CunthERTXhZldhojATDbJ3nrtO+O2830eV1
+ RwHuKeMa7AT34kJOA1B/dL0v4Vk4xOG6gRynxHoQ81vSMiYKNaP+dYDSkvjXpP/kT65WqzkT9w8
+ /xpWR3QuXMJoL6vI7H9hckUI=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 1226d4e79ea8df7c;
+	Wed, 11 Nov 2026 11:11:55 +0000
+X-Mizu-Trace-ID: 1226d4e79ea8df7c
+X-Migadu-Flow: FLOW_OUT
+Date: Wed, 11 Nov 2026 12:11:51 +0100
+From: "Pankaj Raghav (Samsung)" <pankaj.raghav@linux.dev>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Carlos Maiolino <cem@kernel.org>, linux-xfs@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, Wilfred Mallawa <wilfred.opensource@gmail.com>
+Subject: Re: [PATCH 03/25] xfs: always call xfs_update_stable_writes in
+ xfs_ioctl_setattr_xflags
+Message-ID: <avRM1f0Lhw-Y1uxf@quentin>
+References: <20261104085929.317544-1-hch@lst.de>
+ <20261104085929.317544-4-hch@lst.de>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -66,17 +65,46 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAHk-=wgPq1g-kt_n4-crr0qs3rBNkat5OgLxLLeMjKirevRuSA@mail.gmail.com>
+In-Reply-To: <20261104085929.317544-4-hch@lst.de>
 
-On Tue, Nov 10, 2026 at 07:59:47AM -0800, Linus Torvalds wrote:
-> On Tue, 10 Nov 2026 at 06:52, Kiryl Shutsemau (Meta) <kas@kernel.org> wrote:
-> >
-> >  11 files changed, 26 insertions(+), 360 deletions(-)
+On Wed, Nov 04, 2026 at 09:57:07AM +0100, Christoph Hellwig wrote:
+> Currently xfs_update_stable_writes() is never called when the RT flag is
+> flipped because xfs_ioctl_setattr_xflags() updates ip->i_diflags before
+> comparing the rtflag variable to XFS_IS_REALTIME_INODE(ip), and thus
+> the stable flag can be set incorretly when flipping the realtime bit
+> on an existing file.
 > 
-> Ack. Lovely. I'm considering just taking this as-is now, rather than
-> delaying it. Comments?
+> Fix this by unconditionally calling xfs_update_stable_writes for regular
+> files.
+> 
+> Fixes: d528a6c1d4b6 ("xfs: data checksums require stable writes")
 
-I'll pull it into vfs.fixes and send you a pull request today.
-I have more stuff anyway.
+Shouldn't this patch be folded in to the stable writes patches?
+
+> Reported-by: Wilfred Mallawa <wilfred.opensource@gmail.com>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  fs/xfs/xfs_ioctl.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/fs/xfs/xfs_ioctl.c b/fs/xfs/xfs_ioctl.c
+> index f81b6e52ac40..36ba609a2593 100644
+> --- a/fs/xfs/xfs_ioctl.c
+> +++ b/fs/xfs/xfs_ioctl.c
+> @@ -595,7 +595,7 @@ xfs_ioctl_setattr_xflags(
+>  	 * Make the stable writes flag match that of the device the inode
+>  	 * resides on when flipping the RT flag.
+>  	 */
+> -	if (rtflag != XFS_IS_REALTIME_INODE(ip) && S_ISREG(VFS_I(ip)->i_mode))
+> +	if (S_ISREG(VFS_I(ip)->i_mode))
+>  		xfs_update_stable_writes(ip);
+>  
+>  	xfs_trans_ichgtime(tp, ip, XFS_ICHGTIME_CHG);
+> -- 
+> 2.53.0
+> 
+
+-- 
+Pankaj
