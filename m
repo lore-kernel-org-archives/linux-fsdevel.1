@@ -1,48 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794420965;
-	b=KrMV0WKMz6w88cdygYga6dp49hupZ+f77CH4NvMmnzarrO1LnbGZdefh62q7TZQ29zlT
-	 rdowDKZHwHs4kDC1hRaoXNyt4gsKGLZ3Wg6wMgjyxFiyoW2QrjsPYWiopdwhzqWqFy4VS
-	 pzDFzsKLp/DFWrh3vD7SXv425DIXRXO9OpiAmSQkqAnqPEBGut2rfL3sTMCjyWLB8EgVL
-	 ijSVLNv38CRE4OeAuAsiaFH5ZhdAS1Pj+q+zm/UVTA3sXVjnqt9aOqAIeh0InDqXC+L7o
-	 q1VusbFfo3s88mVVaJsgX+6jX2C6iI0LvP/dsXyRANVs8KUhKyu03UzpXaBuOOPqO8w==
+	t=1794420974;
+	b=E4xrNFy/Ax34qhk2Yz7vqGdIgvkqocz6armKOZKH1YNalf0I0pn/yh78K3S7gNN3JALK
+	 yc+VeoMkdIy6w6VtB21ygPbSEcwYdOIj0kj580Vl1lHkF8qyE3L70g3AklwFchdl/op8w
+	 ypFM+HttprS5Jk7gXloFFKq+MkzgE/iv64LfclXRlObeJl+/fQKYosyLSh2m+UipHohN5
+	 CAZMZeNHFp3Gd0g8G0V7C0aT4Pe58RpE3FFTcQqqx/7CJHB7HJ89s8PPaPIKetOBXF3TD
+	 hLfh6W4qI3DaPDHF/rPBYgVBQj9Ft5P8dHLN33RdIJnGtROzdV3SpJFtgzWsyhg//WQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794420965;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794420974;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=gHQXVCC9s15eyiaLxte2ARwnnlUvLG9Bk/OUsLlsEak=;
-	b=YEVYAvcbLjQDoKzUy6vWyrvM9ll4slhMRkp22CvX5DNT2dXDgmpkAcBGzRy6oxCS2HRi
-	 0v9Mjvia7KLG8uS7s9WotZwBIJwghTJvd/BNgfi0gtNSlXAKFFloPp91c+qPjNWnMEajt
-	 UT1nZpuk74FLiAMlEkwCMdANV60KRtPIH+2L6KmnNPFv5vxfgeaP9cJfCWDLjG1WiiG+9
-	 stLFdS1rk6ewLUxp2EtvG8LfKtAgcCJuwm6Qep3nGB7UVttuX+kQcI/ekI5uDauGdKTS3
-	 u0iIYbW2hHcnM0SNUjhrvBKHNcSEyWpeNyhMpln7vnEnLPAOw/MWkVr0BoXdyHT9YNg==
+	bh=W5Kck5YNf4KPNvVOCAM53kpmBQSPtv2CXzpfW0fAD8g=;
+	b=DhXKtU6IyUDMkvEJPl+n6NBGqWNwZ9Lh0ev9iloCZPRpH8qFE2da2DhIUsTev4P+qgvJ
+	 yX3E04z2bdxqMwCcqDyWqSTlwiasMH62j2H7sx3hp1TZR7QgVhcUAXP9oe4kCxz3xjDPf
+	 afg5ZGHD1TJGykCCZI6/JichiYswUGdjQZQNHz7eJkudnktlbXDr3D2qDrYjiuOLu1IqR
+	 6lqZR5kR8pT/WaS7y0BsghuaQqD+l6BO4XU4GJzqSiM5XZ+paha17D832w8FEpo249gOf
+	 NM6Dq2rtYqnDkM848+XoNuKZUWAJvmZsXJFKe5vZMIxzmQyaJFU8FjJlvdfacdc+Urw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oFTd4a9V;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZcvV3dLs;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CDD2606C14F;
-	Wed, 11 Nov 2026 18:16:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EDF0606B7AF;
+	Wed, 11 Nov 2026 18:16:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oFTd4a9V
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02A861F00A05;
-	Wed, 11 Nov 2026 18:15:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZcvV3dLs
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CD2B1F00A06;
+	Wed, 11 Nov 2026 18:16:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794420964;
-	bh=gHQXVCC9s15eyiaLxte2ARwnnlUvLG9Bk/OUsLlsEak=;
+	s=k20260515; t=1794420973;
+	bh=W5Kck5YNf4KPNvVOCAM53kpmBQSPtv2CXzpfW0fAD8g=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=oFTd4a9VLa/XwtT0kQxj7lvpK4i/1fxXPbecoEMAvVIDgYsMPTiVKKBucxg2HEYFp
-	 wUyl6A/5anWyc6q5NthqrAV2XVkBI2tS+r++2MosPsBrOU0VXDkao2WN4QHTgYerij
-	 uXQnryga9lfBQn3+lg59uiJIDMRijhwACUOOz9XE17Hf6BYwM/3a1zN9MTvIvuWJzA
-	 40rswyF/GfrH8DmaYzkUvpMfNbw6Hi2WONuq2sI/BC9FnhJe3L+PhzZsNO49s8u9Qa
-	 Taa5ZzcPou3juDjdpjarC5yG6d9a//zA8fZtrkM1emoNDeCmrm2uenAAkzvtLa3fAq
-	 Qj54gU8+Gb1VQ==
+	b=ZcvV3dLsSQCPwYRfwfBoW9wgX+tlTKex0lW6/HkaY7UnfPnnj+6kUKMoD5rFcH2bF
+	 xP4P67afZJe9pNORZivFELHciaf7tS2Z2TASh9kQDaYY3gDDva/rFJuk+i02Opp1O/
+	 nkkIe2J5MmM35zITdLFLEyxWMSvV/NWY99d7kFrCEAfsLyaxvvmi63S0WTMgZwO8UR
+	 7MBllNME2pvpSio2/CLGLC0oheSYfAeYEP1D4FrbfKa8/l7u0VD+BukRrPvryjEYKX
+	 tHojfGafL1MrUubKAKZgcS383wZJ0qPuCx1gpNeAOLbT1hMzTfoshn4tljEaDTpNy4
+	 v32YuTt84iVTA==
 From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Date: Wed, 11 Nov 2026 18:13:26 +0000
-Subject: [PATCH 12/13] percpu: search the whole reserved chunk
+Date: Wed, 11 Nov 2026 18:13:27 +0000
+Subject: [PATCH 13/13] percpu: queue the balance work on an unbound
+ workqueue
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -54,7 +55,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261111-mason-migrate-et-al-fixes-v1-12-3d2454362e8d@kernel.org>
+Message-Id: <20261111-mason-migrate-et-al-fixes-v1-13-3d2454362e8d@kernel.org>
 References: <20261111-mason-migrate-et-al-fixes-v1-0-3d2454362e8d@kernel.org>
 In-Reply-To: <20261111-mason-migrate-et-al-fixes-v1-0-3d2454362e8d@kernel.org>
 To: David Hildenbrand <david@kernel.org>, 
@@ -83,66 +84,73 @@ Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  Mark Brown <broonie@kernel.org>, 
  "Dennis Zhou (Facebook)" <dennisszhou@gmail.com>, 
  Rick Edgecombe <rick.p.edgecombe@intel.com>, 
- "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, stable@vger.kernel.org
+ "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2037; i=ljs@kernel.org;
- h=from:subject:message-id; bh=NPnEzGMSeLqUdofRcE8Jqf5+1JnDIvID6zGRo42zLpI=;
- b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLK+bMgRf6apwd2T+DEpp6PsRke1ZUEeB9uMRV8+iW348
- tC58bp8RykLgxgXg6yYIsvzL+L7g0TC5nVe8HeDmcPKBDKEgYtTACaivpSR4Ub0pGmOiwQvnmKq
- FSlb03lbp2vFp+nlxZFMl4M3Bck33Gdk2KB7gfv2mpsyWQ5XhX8Wx0bl2PRcKXl76HTAZdVJ3Jt
- suAE=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2070; i=ljs@kernel.org;
+ h=from:subject:message-id; bh=BxMz+HNaCub+x4LAfh02Pe+wON0sxJRzEGhBuO9wXJM=;
+ b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLK+bMg5NH1VhvAmlnkvc+v1WVSan1o9aPq3hkM+e+XDo
+ Ccd/6696ChlYRDjYpAVU2R5/kV8f5BI2LzOC/5uMHNYmUCGMHBxCsBEpOoZ/meIdTzfcvoJ7xa/
+ f/vVvXh+J09bviTWneX55UMKIU4OdcsZGf4yL71fdMNv4dzKrcFxRfs8prTH1vzby6feJ/pmS+F
+ XPxYA
 X-Developer-Key: i=ljs@kernel.org; a=openpgp;
  fpr=E7F417BF5214569E89D04F46CF9DCD8A81E27F14
 
-Loading a module with static percpu data can fail with -ENOMEM even
-though the reserved chunk has a free area that fits the data.
+From: Chris Mason <mason@kernel.org>
 
-pcpu_find_block_fit() does not scan the allocation bitmap, rather it
-tests the request against hints, starting with the contig_hint of the
-chunk, which describes its largest free area. If that area is too small
-once aligned, the search gives up even if a smaller free area fits.
+A burst of small atomic per-CPU allocations can fail with -ENOMEM while the
+machine has free memory and idle CPUs, as atomic per-CPU allocations are
+only served from pages that are already populated, and those can be used up
+before a worker gets to populate more.
 
 Consider:
 
-    request:      256 bytes, aligned to 256 bytes
-    contig_hint:  260 bytes, starts 4 bytes after a 256-byte boundary,
-                  so 8 bytes remain after alignment
-    also free:    256 bytes, starts on a 256-byte boundary
+    caller on CPU 1                     kworker bound to CPU 1
+    ===============                     ======================
+    allocates 8 bytes, which leaves
+    one empty page and 4088 bytes
+      schedule_work()                   woken, waits for CPU 1
+    allocates 8 bytes, 1023 times
+    next allocation: "no space left"
+    gives up CPU 1                      populates pages
 
-Ordinarily this is fine as the allocator moves on to the next chunk or
-creates a new one, but the static percpu data of modules can only come
-from the reserved chunk.
+The allocator keeps a few empty populated pages in reserve, and the work
+item pcpu_balance_work refills them.
 
-Fix this by searching the allocation bitmap of the reserved chunk
-directly rather than using hints.
+pcpu_alloc_noprof() queues the work item using schedule_work(), so only a
+worker bound to the CPU of the caller can run the work item.
 
-Reported-by: Chris Mason <mason@kernel.org>
-Fixes: 13f966373f92 ("percpu: skip chunks if the alloc does not fit in the contig hint")
-Fixes: b4c2116cfae6 ("percpu: update pcpu_find_block_fit to use an iterator")
-Cc: <stable@vger.kernel.org>
+The issue is that the caller keeps that CPU - a task keeps it for the rest
+of its time slice, and a softirq keeps it until the softirq ends.
+
+In that time the caller can use up the reserve, resulting in an atomic
+per-CPU allocation failing.
+
+Fix the issue by queueing the work item on an unbound workqueue so that
+another CPU can populate pages while the caller keeps allocating.
+
+Fixes: 1a4d76076cda ("percpu: implement asynchronous chunk population")
+Signed-off-by: Chris Mason <mason@kernel.org>
+[ ljs: tweaked commit message, comment ]
 Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 ---
- mm/percpu.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ mm/percpu.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/mm/percpu.c b/mm/percpu.c
-index dfd3ff0a1ac0..f87813e6ad73 100644
+index f87813e6ad73..39cba1710383 100644
 --- a/mm/percpu.c
 +++ b/mm/percpu.c
-@@ -1771,8 +1771,11 @@ void __percpu *pcpu_alloc_noprof(size_t size, size_t align, bool reserved,
- 	if (reserved && pcpu_reserved_chunk) {
- 		chunk = pcpu_reserved_chunk;
+@@ -200,8 +200,9 @@ static bool pcpu_atomic_alloc_failed;
  
--		off = pcpu_find_block_fit(chunk, bits, bit_align, is_atomic);
--		if (off < 0) {
-+		/* No other chunk to fall back on, so don't rely on hints. */
-+		off = bitmap_find_next_zero_area(chunk->alloc_map,
-+						 pcpu_chunk_map_bits(chunk), 0,
-+						 bits, bit_align - 1);
-+		if (off >= pcpu_chunk_map_bits(chunk)) {
- 			err = "alloc from reserved chunk failed";
- 			goto fail_unlock;
- 		}
+ static void pcpu_schedule_balance_work(void)
+ {
++	/* Unbound, so another CPU can populate pgs if caller keeps this one. */
+ 	if (pcpu_async_enabled)
+-		schedule_work(&pcpu_balance_work);
++		queue_work(system_dfl_wq, &pcpu_balance_work);
+ }
+ 
+ /**
 
 -- 
 2.56.0
