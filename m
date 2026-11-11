@@ -1,96 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.170
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794387748;
-	b=Nx4TWoxPeAwW1WTwz74wLuAhfvmil/FTX2s+MVoOd7czDXIM5ngyOFX+z/mTJg0ime+p
-	 vMRauy4sxwl7l7gmSrtiUdjpE20Vm72xJFEqhq4t36EKcBMXncKhlWMvdIH08sHwD9izu
-	 5+k+wnXvrjAlbuEQvsl7cfDaupNqffXVV1sQzicr1v+JVBoJvZLFzd7u8jZOjt8CQ2WqI
-	 3rBSTVQE1i81v2P1QNnhJqtWppKjhYbzjbvWS0S1ShVUiUw6t44K9MBJAPVCEVAPHlcqf
-	 X3MhslC3Nqzpk0v44xlCfOSlnwRdfXunB14DYlT8ZgXkeaDLc2n5LcGZwrGPkLiFPVQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794387748;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=IjyYgf5Mt5Oaaa+hEYrZohiloVo+c5H01zKLrOs5Ypw=;
-	b=kjPf7XcJ/k1dkwHuGuxErLTtCod21YM7pM2+Rz1otrOhNhBhQrSp/Jkgo/SEH2HwQPhx
-	 ZafVeWrOU18F5nyZuhr42nsXi7wqMnzitNVZR4yomqcwE4/49ZvY6H3nsqh3KbbiaONhO
-	 kG2eNzuBA6lEwyFrAWNkLQ5dtDGX6mX5YuXtWYD+KJ69P71L29ib1O/pv5gAUQDTMc6Je
-	 nIidkdK63PS4R/WQVTvCIbAWrbGy02u9zaswwL24wwKU3Ldhyups9OaLmC5tg3Kh2qGyg
-	 t4xYwYoOxC3e/91D95/MYqH3jYc4mRwO6PnQD0cjnl3iEaDNTdZWcXau+96whlPa+6g==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=szeredi.hu;
-	spf=pass smtp.mailfrom=szeredi.hu;
-	dkim=pass header.d=szeredi.hu header.i=@szeredi.hu header.a=rsa-sha256 header.s=google header.b=ZG1wV17q;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.170
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=82.195.75.108
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794390418;
+	b=Nhg17AHd9HIsgif4fVjmYtD/xKXR+uvPcs3IYUG3gJChisY2yxpIKMyBa6l0T1/NbsSq
+	 EYYJGywpl7EdxgBl8jYPljIws1lM368Pqk9GPcDVGGI67G44dCXiSZFGmgdVgWoShTCRP
+	 wIrtM6S0f/VLX+QQSIXgFVzoyeoglxgdJRyjtGFjGoZ1SG+Hrr9gjHPlRDNzktmrCt95J
+	 8bBRmZYy2HeXjR+QxNau+0VzK9STPFreHMv90uwyI7klW1CopIxlfUPgEViqIxj1EhRnH
+	 U94oxaU/dZIdfz4QWzSSg1O69Wt6cexCjRZFKveTyhZKPD+rxl+g/HPH8za6UmRWJqw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794390418;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Debian-User;
+	bh=g4FJ8o8UQUtyD0eGI0sUCpicqPvdI4Vdc4LMM0bmn0w=;
+	b=Hswx4nOcAxEn2mYXM+ZJr7H/uWd6tZV0QzCT4hYr1fl+14rNU9s+/ViqQ9z1Ugna1oRS
+	 BFkTk1j+MqQiagMQvynOawuKEKyONjBiV18uaMTwiPLVAq7qzB8keqRfSSA42kc6ODfXz
+	 i1+GfJfXQwnp8403YtvM1/TYnjXvY21mSx2W/lDKVBjpVKjMcIfgQdOpTRQe1RmRd7ZaQ
+	 bXcnFeiSpsBlotq3RK0uh3T+hRiWbt4uovHA8I7iYaz1An7qvtsK2GXwM4oWNwVjWkjHF
+	 06u2vbn8KvnfDrbtUbRfIimbv4xggVXvUlwGDZG1XSbiMUrd1DLUsP0sDl3FiaimEdg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=debian.org;
+	spf=pass smtp.mailfrom=debian.org;
+	dkim=pass header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=cmZW0raJ;
+	arc=none smtp.remote-ip=82.195.75.108
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2179606A321
-	for <linux-fsdevel@vger.kernel.org>; Wed, 11 Nov 2026 09:02:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A2179606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A60BA606A332;
+	Wed, 11 Nov 2026 09:46:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A60BA606A332
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.a=rsa-sha256 header.s=google header.b=ZG1wV17q
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-54f873cbe2aso29821041cf.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 11 Nov 2026 01:02:27 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794387746; cv=none;
-        d=google.com; s=arc-20260327;
-        b=RY+7143UyDh9iHAXIiqv1RFDjJR0pU8hZy4hYW0czQRUZRQgLN722EW0AF1rsIDr2U
-         2u8kCqavjY3uRVVN+ZUys1oEz+tQzJU3a3n9Ba9s9feBJK7UotAOSNrFeElbpINYdyjx
-         3Cme9WPDyrqMeewNeIl2dGVjR8UzL3mEHpJdZ7O9KnGgNR51J/VxMUn+heJT283CO6wI
-         tHMHkBd7tq4c9AJsHoD5/yikn+goGN+0Jhis5aKyHUDTh9d7cUU5UFRMKjlfFVNHk3SK
-         7qxcoSRTTO+AgxS8oq29nz8X9I7kE7sqFM5FdrIPERGF0JFidUsgm1IU2ryqzHa51uYP
-         8lhQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=IjyYgf5Mt5Oaaa+hEYrZohiloVo+c5H01zKLrOs5Ypw=;
-        fh=wqPIZ0Jm//z4pcF0VWLlRa/3ZQtiLmhr5797Vcp0PcQ=;
-        b=Ck61fNq9syXCYX9rvKhc/FgMBFYa3H84uh5nMhEN7or7xLrmwZLEas9UdFlSGKvwDF
-         vH1vrxVVuYErzuiXAlredhqx9vJ0ks1g4TlHEsSAiz2FLlrhkMdKVGqBUaW1FgUtoPjZ
-         A6Z+eO6U7oPTwoXm7bYu9cgcZHzgL4ZissSIOk7oMjifNHCAwhRK5iEaNv6dguukuZqw
-         DTsUfMaC3i8i+tmdZsXqpJbT/lfM1tNGsVrXeEuG1xZ3fEyew6BI/QPNCnupZuvx5m67
-         g8DLg/v72XP7Evzl4gqksGIZ+lP6V6CDSDj53Id2V/nreBkCsHqXwJVGyRPsnLhzyP63
-         lXbA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1794387746; x=1794992546; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=IjyYgf5Mt5Oaaa+hEYrZohiloVo+c5H01zKLrOs5Ypw=;
-        b=ZG1wV17qi7k3y+OgTB9oJ+Iq3qqKdjhEB6Voe1crPeuwQy0wcDNfv/bdudwdrfdRw3
-         ADLgOcPbh/kgKQc9CUfDrcimVHeDxii9BVyDhy8gtwLRFQrYbBk+hajpv+6KgFLrz+NI
-         al6FswZ2+KsdhNnysas3fU0YuIKpHZj5CWMcc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794387746; x=1794992546;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=IjyYgf5Mt5Oaaa+hEYrZohiloVo+c5H01zKLrOs5Ypw=;
-        b=ZTXetp2DKoCvZRC3K9Rct4iF8H/Zwu2oOxO3fLpFeyEbkjUhjbcILX1owmsIpDe8R4
-         K7i077vl5vz3m77db929PsRS2iyHXSOIbJG2iDtcF0BJ19dxYhBTxdMN8kVhi8bws6Mt
-         47fjymRLBZR7s0mVFeoRmrNemyhNt/w60J+SjD23ma5pjj/eycr6uaypE3ajN8LeqYEA
-         lkHrwb7xPn77u7p1NET3o0eURhXFOZug440tbIxNRXh313TYJPkZFBiTKYIaai3OOJpl
-         Z6Ul9oPnDyboh2td4EpHX5ad1QbrD/1g13D4UhcFLLmKoqvXWh2tcS7gDnjjbSxhWoRx
-         CNcQ==
-X-Forwarded-Encrypted: i=1; AL+hErHGmXJMY7dPhDrAEG8rVNKo3l1jhdrrVUVOHKUnlY6RMBi9bVeqBMJO8sbCZiyFd61m7P1DEBi3oo7biZE1@vger.kernel.org
-X-Gm-Message-State: APuU4Z+r1vCprQAR2ws7mdwYSQ6SlHJpINkGiLFIjdsyUVMrCvNenJ++
-	4K8vAkQnFj3R8GdIB98kb0TG39Yp1SYG3YilOR5AjGLEAt1IDO8bixvr9XZSrEwqQzTzmm0ExAC
-	5eWpzegtfZiS5nYnrJF4zrtAi9sNmi8SDnLv0YQpqpg==
-X-Gm-Gg: AYBFou0gvrtWE57WSV51LEiFXv0+/rGOO73UAYbIG7OQYLhTn0eYcB4KnqtAd756hI6
-	WzhcjDMBWKS9uatPGBXZdekOLgOJRwWJ3oxTv46a+JU4pB/b3P8lyXCGxSoPZsoIqwlAWgdDzcy
-	vlOEGzPQWoFzxUqob60oLgkUMA+NBE8MrDftYtJjLfBuO7Nce4QJN9fDfw1/HaQgeckwSgMMOTL
-	oSk354iRb9Q2mdFwFBctcIyCKLHDYICqgX/W8GtRd22nTjwVbYIVeieynM+TdEeebtBItbXYG2n
-	QOR2GB0rlrrTgJzMIX19G1mcNQUHAoa0Bf17YOwePa1IGJ5VIot3lyjJBEHk4SY+R2grTOcYK23
-	EEd1lN3TvM0b3Ard98d+G4IAtye7Q9/07+TpoLZXuqhNhPS6oPXJT+3Rz/tFWevgM8w==
-X-Received: by 2002:a05:622a:34d:b0:536:8f5a:64a with SMTP id
- d75a77b69052e-556c222b82bmr24946931cf.63.1794387746372; Wed, 11 Nov 2026
- 01:02:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=cmZW0raJ
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=g4FJ8o8UQUtyD0eGI0sUCpicqPvdI4Vdc4LMM0bmn0w=; b=cmZW0raJpZImC504fK0B0kMd2h
+	XJQXfLj15TrbtRxuoXIll7+dYj88ZVAl2AayT9vhDBlAQ57+Eho/cFEk5It94wIbKS4EH4G+cdutI
+	0K9jgabrgunrLX95HA3KOWeYRz+hLh5iGe5EyD3w5xx8w9MzCtlstOcNUcfrAtIPd3RxiWEjnELaD
+	hbo41pU2e/eygmvhOngKp7971UVKKEY71/mIvuWf0WfaOur34IyUdpGFowB9/oVJFRm81ZxsZDxLw
+	5M54Kif6OKPedXxyOCO9YpK4/4uqCIxZE2p81NHj3kV9mf9cnMGZSmbBCsLntHmPvgWT1OTOymjci
+	CwvzesXA==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1xR4up-00D5nW-2D;
+	Wed, 11 Nov 2026 09:46:51 +0000
+Date: Wed, 11 Nov 2026 01:46:43 -0800
+From: Breno Leitao <leitao@debian.org>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>, 
+	Chris Mason <mason@kernel.org>, Josef Bacik <josef@toxicpanda.com>, 
+	Christoph Hellwig <hch@lst.de>, linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Jan Kara <jack@suse.cz>, linux-scsi@vger.kernel.org, target-devel@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-mm@kvack.org, bpf@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, apparmor@lists.ubuntu.com, 
+	linux-nfs@vger.kernel.org, netdev@vger.kernel.org, fuse-devel@lists.linux.dev, 
+	linux-efi@vger.kernel.org, xen-devel@lists.xenproject.org, ocfs2-devel@lists.linux.dev, 
+	linux-s390@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-usb@vger.kernel.org, 
+	Amir Goldstein <amir73il@gmail.com>, linux-erofs@lists.ozlabs.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH RFC 16/41] configfs: use fc_init_pseudo()
+Message-ID: <avQ5dv0747H-XKmD@gmail.com>
+References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
+ <20261110-work-loop-pseudo-v1-16-4c998976c6c7@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -100,42 +76,16 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261110145241.536019-1-kas@kernel.org> <20261110145241.536019-3-kas@kernel.org>
-In-Reply-To: <20261110145241.536019-3-kas@kernel.org>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Wed, 11 Nov 2026 10:02:15 +0100
-X-Gm-Features: AclHuK9XqiIqd0G6zWinytDup_EFg0rRz4_cn9sSXLX9jTiH3KRFdGlFPrXk02Q
-Message-ID: <CAJfpegvEeGN073FbaCRnhMeX8RHrckSxmFjkpdoyea2EuRf+zg@mail.gmail.com>
-Subject: Re: [PATCH 2/4] fuse: don't move pipe buffers into the page cache
-To: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
-Cc: Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Amit Shah <amit@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, 
-	"David Hildenbrand (Arm)" <david@kernel.org>, Matthew Wilcox <willy@infradead.org>, Zi Yan <ziy@nvidia.com>, 
-	Bernd Schubert <bschubert@ddn.com>, Hugh Dickins <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev, 
-	virtualization@lists.linux.dev, netdev@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, kernel-team@meta.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261110-work-loop-pseudo-v1-16-4c998976c6c7@kernel.org>
+X-Debian-User: leitao
 
-On Tue, 10 Nov 2026 at 15:53, Kiryl Shutsemau (Meta) <kas@kernel.org> wrote:
->
-> A splice() into /dev/fuse with SPLICE_F_MOVE lets the reply to a read
-> request steal full pages from the pipe.  Each stolen page replaces, in
-> the fuse file's page cache, the folio that the request allocated.  The
-> page can be a page cache folio of another file, a page written into the
-> pipe, or a gifted user page.
->
-> Always copy.  The server sees the same data, and the move was a hint
-> that splice() never promised to honour.
+On Tue, Nov 10, 2026 at 10:14:32AM +0100, Christian Brauner wrote:
+> Initialize configfs as a pseudo filesystem. This raises SB_I_PSEUDO and
+> also SB_I_NOEXEC and SB_I_NODEV. configfs never holds executables or
+> device nodes.
+> 
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-Did some research and looks like this feature is not used by any major project.
-
-Acked-by: Miklos Szeredi <mszeredi@redhat.com>
-
-Thanks,
-Miklos
+Acked-by: Breno Leitao <leitao@debian.org>
