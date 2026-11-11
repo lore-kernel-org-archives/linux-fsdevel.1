@@ -1,54 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.167
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=188.121.53.25
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794440324;
-	b=zl94jTxWqFXWGSzCdxjHnFR9Mt6S/AECbcRhLaoIhMzINrhvM3Yr1O6VzhEAAxFTTbNq
-	 Fyne3jd3m5MOQTFcYXLC8PbOxRR3TRjnYPJokWtbexq4YqqWt0HbnPYgfZXyQxjLK4xbf
-	 ozm6l/hV4LsBsLhQnqFeCyNwSRYggM1BsusYW6mG7jU74Mpg9EMl1Iqksx1aY4o82iDRp
-	 b2nUYTkV6AkpAS/1lsj0Am7s9NQ3rMvrv3LQ/TBm8g7YIaR6Gc5N9xa2/AzR3zmAKW2v4
-	 vvsg6RFAc9bjC5azP25Cw7VJugR6G9bb48Jy8/CPREto6uRbDcZ1XrCT5IjAxg7wFew==
+	t=1794440681;
+	b=wMbitadmSIlvMzWdf3pw9GGQwexD855lQNKfMV76Nr9ZDHLwO+oybkoStP2i70MVeFmx
+	 ZxiwCTkGC7Z4f7Ant4p6Y5CqSRES5a0QaKI+ytUJ/C/Kq89yQ3eKlGf9h69Sj9sNkMEcQ
+	 Bln76Gv9APuc6ZtP/CjSc9+S3mJ+6oyRhrWfNQ2IiB93BopwapU2xQwkL7GfgmNzEIIYW
+	 MOdVfgKlygU6hie0yvVpGuC1nQ9sGPvXBIzRZXTkmJ09TSYimRjl63RrHCQtf3XIydeif
+	 YvTwjBivu47Wvwmx89D6nK0ueYf8QViJxR54d1D0QZV9CtJFpKO+cxs/+xof88NLk1A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794440324;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=FBtMya5JHiIoe+mvC9LpyA8nsmCcAGgftQwnt4hAqeI=;
-	b=ZNgm74DPu3luRDcKtSWvkP3wGKNipU2x8iJO1U9FU6iPpaOiUpWtdSlkGjU59mmpzwv7
-	 MVK2Dilgd4Bqard5gItMCbf6o+aWeVQkGhBLvNz2QNdlWzmKfwEUZVA5eekZ2WUEG2Zh3
-	 dOHJSgug70YOSc6/OzIKW09KjIpdD2sG1MPlJA+VQ4W8g6khMChvL8mC91R967mhfVrMu
-	 hdpvw7FURxeaoEy2DVaOBZRO/ZKrYDH52z/+3HDn/1uZDfroOt3Lsws8lqZRBC7JfredP
-	 CD/UbAxNZuNPg7PXQGdtaaWkBnIaHJ9Ku1XgcGSs17e4MZAhMv6cFehQlA97Dhh6gTw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794440681;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:X-CMAE-Analysis:
+	 Feedback-ID:X-SECURESERVER-ACCT:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding:X-CMAE-Envelope;
+	bh=u+EO2KajcR8rLgZz+Ry4/vTQecm/jaLHNu7Gm6VV60Q=;
+	b=reUEl+Y49zvfs4TwfCFlKV2wnIE8/+/6pyPHB3slaCZqHcsXTj7StAWNz78QmMgvniyZ
+	 IwLtzzfLU6gu7UfBv1axdaAdrc2uWiJy0dparnjZQzkN2lTY88KZ+9V2g9b8pP0trSlDv
+	 ln6lFi3PpL0WgAXm63kwxfg7L2ifFL6TrRJixsJx4Tj3W8w9jM/h9OnQkAJzXY/KMA0KW
+	 sY13C3GB3M8d/Ib6P/8EWvYDFQEVfJyQRubgZI+u83sJPSojcybYbUzKs42l6MINTdp1I
+	 5TwhdIApX0v/ZTdeundA+XzA4kpOWu4oRRDu+YphyVTLYau9LtY1najW4kjAm3UZ0CQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=UcW47pI+;
-	arc=none smtp.remote-ip=95.215.58.167
-Received: from mta1.migadu.com (out-167.mta1.migadu.com [95.215.58.167])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=squashfs.org.uk;
+	spf=pass smtp.mailfrom=squashfs.org.uk;
+	dkim=pass header.d=secureserver.net header.i=@secureserver.net header.a=rsa-sha256 header.s=secureserver2 header.b=rIKw6S7d;
+	dkim=pass header.d=squashfs.org.uk header.i=@squashfs.org.uk header.a=rsa-sha256 header.s=secureserver1 header.b=BnD1cYz1;
+	arc=none smtp.remote-ip=188.121.53.25
+Received: from sxplsmtpa04-03.prod.sxb1.secureserver.net (sxplsmtpa04-03.prod.sxb1.secureserver.net [188.121.53.25])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6B78606A321
-	for <linux-fsdevel@vger.kernel.org>; Wed, 11 Nov 2026 23:38:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D6B78606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87419606A32A
+	for <linux-fsdevel@vger.kernel.org>; Wed, 11 Nov 2026 23:44:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 87419606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=squashfs.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squashfs.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=UcW47pI+
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=n4XGoevqqrbLPiJf0WVzjodKBgKSfEnOAs+PZZo3dNg=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794440322; v=1; x=1795045122;
- b=UcW47pI+o7B6R1pqxtwQhvG5WOhQszMFJtFUpBlvhknMv2nZkDiG9PgJ7cBa37E0/2rC8Jp8
- u6xfgiLd0Fpbz5bp0QD9bYz8YqkzeABB3IW2qf2hpyAlWMsoE2xXcHOk8doaACqz+V3k6t6Z0Te
- bDCKxdsPfV3Ut2zjFZbVqR3c=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id b7a6aef2bc15d97d;
-	Wed, 11 Nov 2026 23:38:41 +0000
-X-Mizu-Trace-ID: b7a6aef2bc15d97d
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <9b795d3a-1818-4265-a364-58fba139c651@linux.dev>
-Date: Wed, 11 Nov 2026 23:38:39 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=secureserver.net header.i=@secureserver.net header.a=rsa-sha256 header.s=secureserver2 header.b=rIKw6S7d;
+	dkim=pass (2048-bit key, unprotected) header.d=squashfs.org.uk header.i=@squashfs.org.uk header.a=rsa-sha256 header.s=secureserver1 header.b=BnD1cYz1
+Received: from avalon.fritz.box ([82.69.79.175])
+	by :SMTPAUTH: with ESMTPA
+	id RHz6xtxIpLwCURHzLxAFXZ; Wed, 11 Nov 2026 23:44:24 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=secureserver.net;
+	s=secureserver2; t=1794440666;
+	bh=u+EO2KajcR8rLgZz+Ry4/vTQecm/jaLHNu7Gm6VV60Q=;
+	h=From:To:Cc:Subject:Date;
+	b=rIKw6S7dnpN0/AP4kxH0ijQhZwE0VCuV0N2du0IIzxwdiviAMRxCKACnE7cOlAtBN
+	 w6gkVus1OqiA4ks1v2HI4c2wUheZBzCbMgnpha1z7sKpol/q9Aax32/LjB8wEqD/2T
+	 6wBO6SWClRmgdeegQdnLiqBmdAyMJ3vayJciWO7Ito8GCyuColEIl1OpMCT3enTGLb
+	 MN3She0lqqZGcJqg1/Ym6ubRigmrW5r+avv7ix3AcBrH5Jm0JOuJ7c3yjpidzTLTxA
+	 1W/Cd0Qf+dpGjAVkZg5fnC17Q+fiDmPK8yq0h4acjDSEjTaBTiF9Len4zz9QHv6lYA
+	 Iyg0d/6H5m4Cg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squashfs.org.uk;
+	s=secureserver1; t=1794440666;
+	bh=u+EO2KajcR8rLgZz+Ry4/vTQecm/jaLHNu7Gm6VV60Q=;
+	h=From:To:Cc:Subject:Date;
+	b=BnD1cYz1ysFFcQgBJxZHfqF5+kNhntL299p7hFN8VdSW5nJMAclbc4a2Z4KHJ980h
+	 6Deik4IXzLEQDLOHeb5FjahDbLYBJUbwFSKFfwer8YgisPO0j9LDAilgsDtfGlaFtn
+	 xwZ+gXH1gk8s8WWCt/XND8y/P/IRsxNGVDgQFBFTICvdkDsYO8wDCC8oaADRGnLvWl
+	 6NLN1EltoeZwwubLm5nPZPMR7ktMfTpC4+kIztQtW7+6dcVP/62fVeySlRKJxHATNT
+	 5vmTRsLJRw4YVmkxM76mPEsNbeOk+YLathr1V0NqDWtBuWji6M8emMQK22u/RuqrSq
+	 xGAaEZzvavFvQ==
+X-CMAE-Analysis: v=2.4 cv=XZYcX455 c=1 sm=1 tr=0 ts=6af4fdd9
+ a=84ok6UeoqCVsigPHarzEiQ==:117 a=84ok6UeoqCVsigPHarzEiQ==:17
+ a=1KwyjEPoHUs1rspk:21 a=axh2pikBN2kqpKA8ZLUA:9
+Feedback-ID: 85b9d5beff298dd9b5d1e668d4768538:squashfs.org.uk:ssnet
+X-SECURESERVER-ACCT: phillip@squashfs.org.uk
+From: Phillip Lougher <phillip@squashfs.org.uk>
+To: linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	akpm@linux-foundation.org
+Cc: Phillip Lougher <phillip@squashfs.org.uk>
+Subject: [PATCH v2 00/22] Squashfs: fix a lot of AI issues and AI style issues
+Date: Wed, 11 Nov 2026 23:43:40 +0000
+Message-ID: <20261111234402.252354-1-phillip@squashfs.org.uk>
+X-Mailer: git-send-email 2.47.3
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -58,122 +81,77 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/13] mm: cachestat: restart the walk after each entry
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
- David Hildenbrand <david@kernel.org>, "Liam R. Howlett"
- <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, David Rientjes <rientjes@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>,
- Andrew Morton <akpm@linux-foundation.org>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Nhat Pham <nphamcs@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>,
- Gregory Price <gourry@gourry.net>, Ying Huang
- <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
- Kairui Song <kasong@tencent.com>, Balbir Singh <balbirs@nvidia.com>,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Kiryl Shutsemau <kas@kernel.org>, Yu-cheng Yu <yu-cheng.yu@intel.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, Dennis Zhou <dennis@kernel.org>,
- Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>,
- Peng Fan <peng.fan@nxp.com>, Josef Bacik <jbacik@fb.com>,
- Chris Mason <mason@kernel.org>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, "Borislav Petkov (AMD)" <bp@alien8.de>,
- Mark Brown <broonie@kernel.org>,
- "Dennis Zhou (Facebook)" <dennisszhou@gmail.com>,
- Rick Edgecombe <rick.p.edgecombe@intel.com>
-References: <20261111-mason-migrate-et-al-fixes-v1-0-3d2454362e8d@kernel.org>
- <20261111-mason-migrate-et-al-fixes-v1-3-3d2454362e8d@kernel.org>
-Content-Language: en-US
-From: Usama Arif <usama.arif@linux.dev>
-In-Reply-To: <20261111-mason-migrate-et-al-fixes-v1-3-3d2454362e8d@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfEMM73upIyMCXWr2Keg0UixUPiYj3YgtoNHIV9RnK7jGrIHGpTe6BbTnoPnfPaXajFBgrRXF1T6Ded/ohgwdEbt6eLWigq6XE7yfVUM/klKMZ3aBLZkT
+ xwLHjrq1H7GUg3YrQHMZROcFukhB7dcJKsDyaDwbzEZUxbGCqpd09UMUorTjyhNmR/rIiuiqRgfVtqOljQ3ZLVhgpIeKjXSpto+TGDmPOaAziorqbA9H7+Ox
+ AshPIJAg6Jaw4FQUZnMkUyryBOp0mfmct5IK9qlpQP7rZPTeEI1FLAHSqU2RpDwPcRMlQeRzMjDK4ycJbV1A0to3vSAVaFbEDTY6NW1QNLQ=
 
+This large patch-set is inspired by the recent spate of AI generated
+code reports.  Four of the patches directly fix AI reported issues, and
+the rest have been found manually by a read-through and testing of the
+code.
 
+In all cases (except patches 17, 18 and 19) the patches deal with
+over-sights relating to variable overflow, arithmetic overflow, variable
+signedness or just lack of sanity checking of data read from disk.
+These can cause the code to fail, and which could be used as a potential
+exploit.  
 
-On 11/11/2026 18:13, Lorenzo Stoakes (ARM) wrote:
-> From: Chris Mason <mason@kernel.org>
-> 
-> cachestat() can leave cached pages out of its counts. This happens if
-> the entry that the call has just counted is replaced by a larger folio
-> that starts in the same XArray slot.
-> 
-> The issue is that filemap_cachestat() walks the page cache under the RCU
-> read lock, so racing concurrent collapse/split is possible.
-> 
-> Thus, an entry can be replaced immediately after the walk has returned
-> it. When that happens, the next xas_find() skips the sibling entries that
-> point to the slot of that entry, since ordinarily they belong to that
-> entry.
-> 
-> However a concurrent collapse_file() or __filemap_add_folio() (when
-> replacing a shadow entry) can store a larger folio in the slot, in which
-> case the sibling entries belong to the new folio and the walk still skips
-> them.
-> 
-> Consider:
-> 
->     cachestat                         collapse
->     =========                         ========
->     count a 64-page folio in slot 8
->                                       store a 512-page folio in slot 8,
->                                       with sibling entries in slots 9-15
->     xas_find() starts at slot 8
->     and skips slots 9-15
->       /* 448 pages are never counted */
-> 
-> Also consider:
-> 
->     filemap_cachestat()                  __filemap_add_folio()
->     ===================                  =====================
->     counts the shadow entry in slot 0
->                                          slot 0: a folio of 32 pages
->                                          slots 1-31: siblings of slot 0
->     xas_find() skips slots 1-31
->       /* 31 pages are never counted */
-> 
-> Essentially the fact that large folios might be present means we cannot
-> safely continue the XArray walk, and must reset the iterator each time.
-> 
-> Fixes: cf264e1329fb ("cachestat: implement cachestat syscall")
-> Signed-off-by: Chris Mason <mason@kernel.org>
-> [ ljs: squashed 2 commits, fixed up comment in code, and commit message ]
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> ---
->  mm/filemap.c | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/mm/filemap.c b/mm/filemap.c
-> index 7c05e4fad081..c4e82891767b 100644
-> --- a/mm/filemap.c
-> +++ b/mm/filemap.c
-> @@ -4731,10 +4731,11 @@ static void filemap_cachestat(struct address_space *mapping,
->  		if (folio_last_index >= last_index)
->  			break;
->  
-> -		if (need_resched()) {
-> -			xas_set(&xas, curr_index);
-> +		/* Collapse or new folio spanning shadow entries needs reset. */
-> +		xas_set(&xas, curr_index);
-> +
+Patches 17, 18, and 19 fix potential excessive memory use exploits.  The
+code in question was written in the early days when Squashfs filesystems
+were small, but with very large filesystems it could try to allocate
+memory in excess of 4 MiB, and up to 64 MiB.   
 
-I imagine this will be a performance hit for the call, as each entry now
-needs a traversal from the xarray root. Might be good to callout in commit
-message. But is the right thing to do.
+The patches can be broken down as follows:
 
-Acked-by: Usama Arif <usama.arif@linux.dev>
+Patches 1 - 6 are preparatory patches.  They convert old fashioned
+#define macros into inline functions.  These being typed make widths and
+signedness explicit, and allow additional checking to be added in later
+patches.
 
+Patch 7 fixes an incorrect offset value in TRACE statements in
+squashfs_read_inode().  This new to this V2 patch-set.
 
-> +		if (need_resched())
->  			cond_resched_rcu();
-> -		}
->  	}
->  	rcu_read_unlock();
->  }
-> 
+Patches 8 - 16 fix various issues relating to variable overflow,
+arithmetic overflow and add additional sanity checking to prevent these
+issues from occurring.
 
+Patches 17 - 19 remove the excessive allocation of memory by introducing
+caches, which limit the maximum usage to 4 pages.
+
+Patches 20 - 21 are new to this V2 patch-set.  They deal with some
+issues Sashiko reported in the original patch-set.
+
+Patch 22 is also new to this V2 patch-set.  It adds an additional belts
+and braces sanity check.
+
+Patches 8 - 20 have reproducers which show how the existing code faults
+can be exploited, in some cases which can allow a Squashfs filesystem
+to be tampered with to make files readable by unprivileged users.
+
+BTW checkpatch.pl complains about the '#' lines in the BASH script
+reproducers. Let me know if that will cause problems.
+
+ fs/squashfs/block.c            |  20 ++-
+ fs/squashfs/cache.c            |   8 +-
+ fs/squashfs/dir.c              |  91 ++++++++---
+ fs/squashfs/export.c           | 146 ++++++++++++-----
+ fs/squashfs/file.c             |  89 ++++++----
+ fs/squashfs/fragment.c         | 113 ++++++++++---
+ fs/squashfs/id.c               |   9 +-
+ fs/squashfs/inode.c            |  73 +++++----
+ fs/squashfs/namei.c            | 116 +++++++++----
+ fs/squashfs/squashfs.h         |   9 +-
+ fs/squashfs/squashfs_fs.h      | 101 ------------
+ fs/squashfs/squashfs_fs_i.h    |   2 +-
+ fs/squashfs/squashfs_fs_sb.h   |  25 ++-
+ fs/squashfs/squashfs_helpers.h | 363 +++++++++++++++++++++++++++++++++++++++++
+ fs/squashfs/super.c            |  96 +++++++----
+ fs/squashfs/xattr.c            |  49 ++++--
+ fs/squashfs/xattr.h            |  21 ++-
+ fs/squashfs/xattr_id.c         | 173 ++++++++++++++------
+ 18 files changed, 1099 insertions(+), 405 deletions(-)
+
+ Phillip
+ ---
+ Squashfs maintainer and author
