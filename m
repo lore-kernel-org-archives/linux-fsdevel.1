@@ -1,106 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794406959;
-	b=doKeV8OTjwYH6UQTRS2OKSOTs1oMfGncBLINlRc5CiQDpsmPzGRCH50dadldecb5m9aH
-	 JnkzxLIBJYIOoB0yeeZ31DS71WVDDJ6FcPsWvfifsXI8Bb2h6le226u/18foYJsJdmQjx
-	 0TY//iuemUDIymt7Kaq+ajZ2nzCMIofjHtyItl9AJ03bW/kgz3xCDiluA5Lo9yrGxQFz5
-	 qw4/eoEu9UPnfVhT4bftgg3W7YkZuMOLqWPN7shTsHU6ZMCRFJQSY8Ge+LhpqYL2d3XWB
-	 oIBr3HgjvdPXOTCqHVow5HgdIt3EMyrdHzW3dh5ux3a+G9iJfyiHIdPbJ0UVum8fF8w==
+	t=1794406989;
+	b=Sdpx+7qrY/LMWktN9HLywxrBKchecUTD2eUQLyXT0MiljNARiXtt8ulCCLcZYlEoiiMt
+	 B7rqBDv5tN/+0Q45q+PK6WNhAb8tPCilp+3ondXcjMXvCOGrJbv0uayhI/uzSdQyiWAYl
+	 gDVYoE6bjGnsP2DWIXjJWbbazlZQl+IWO/rm7HX/hsFdMYbzhGnozT8PvMVOiDIUBFaL8
+	 kxHcFzz8VMthXcKZNsSI7grO+wsIiz8MM2Fe1hKGIvvdcgNGD0aFWqQcg6u9NiqZS1QvW
+	 F3Clw3LkWZjbR1ZrqAKddcaJz9Dt9TJ88CkQbbOtIGXpM07F4att7ARJeCdkMThpTLg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794406959;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
-	bh=JS5qcklH788a3feE2zFJsM5Z3VXXZpwSbc4kU/GZnJQ=;
-	b=RyDJ9Qx0RwGEHYJjL75bJdwQyE1fGvRIxOPeTH5MQh44xP7GsF8TrH/Y3xC22tEnKZes
-	 ZBMBbKw6c5ZSyS92jbCXeo/L8ndoNqC5l/QFGnwOVd54SNDQjvIJCSAYf2GHK641FrYTZ
-	 grORPz97+8hp0koSu9yU9Jl+LCjIlYDejq+MxF/r0Hr8rGsBIfpBuSEgZ7+er5RzT3O7/
-	 BvP2dUbmvbra4g4cfE7DrwIXsECXcBLybLaHCVW9sIZzyHD9JAvTyZOpsCzsYAwEu6vFX
-	 fBCciJ4fWu8uaIZpmm1LnZLUBEpGKxJsNkA9IK7wQHFXXAU+jphQvPcA173aIN0Eovw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794406989;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer;
+	bh=MfK+Ct1wnKvHqvVJNEe4WyjG/GXhOd1P262DUdXiVco=;
+	b=tDFnarIcbMqTA1p49gm/g1C8wJF1/2jx35jHohS2XTBKsFH44I4Z8vVjwzzu26ZLw0Ia
+	 xNF/6BnbwjYfPhP/NcI4WbH13SJx0VMdt7/nIHpgcicNirlJBzZAN/b0bLrDSZigD+AgM
+	 n1D0qxW4ZYqeWiunMfcQYaasDwVMk66xxQRyW871S4KcYNFr6w2UriwlK49GyOpQZGOu8
+	 uDmBsxXBYXhvhXWCd9bzE+bm1/Ff/FUfebQQQPAgObFbYybjjcvff7neqLZ9qno+iCG19
+	 wvAnPXx0WNWzyDcFEbYnIpXa5zMWbn8a9T4+h25EEC3dGZQg9uVkjBmwMyHNuTI3gww==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=s0tZyWPE;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="Hy/odj4k";
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=s0tZyWPE;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="Hy/odj4k";
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HvkiFzwG;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21C45606A327;
-	Wed, 11 Nov 2026 14:22:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 21C45606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13EFB606A321;
+	Wed, 11 Nov 2026 14:23:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=s0tZyWPE;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Hy/odj4k;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=s0tZyWPE;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Hy/odj4k
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3A2DF1FE5C;
-	Wed, 11 Nov 2026 14:22:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794406957; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JS5qcklH788a3feE2zFJsM5Z3VXXZpwSbc4kU/GZnJQ=;
-	b=s0tZyWPEWuLA1iuPJcQqc3Fh2zmGXOwdyxcOEX+tZRm60Owsu9wDvzJypBDvsgaRp6SCps
-	M3VRoixbDr1B4Bf/caubmio8LumrzfxPHGI4YVKZ7HCxgY8WuuMdGtEZARpQvnYYQZyOrO
-	u7hFYlazY8qby6j/jxsUay2cMmhVsbM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794406957;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JS5qcklH788a3feE2zFJsM5Z3VXXZpwSbc4kU/GZnJQ=;
-	b=Hy/odj4kgMLbCiIn5vCkCvcpIqw+0S9hshBkd7LKkwxhnWn4+Qg+oqPF0JBo37lTVRkpx2
-	xMTh7Ijmdkor3rCA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794406957; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JS5qcklH788a3feE2zFJsM5Z3VXXZpwSbc4kU/GZnJQ=;
-	b=s0tZyWPEWuLA1iuPJcQqc3Fh2zmGXOwdyxcOEX+tZRm60Owsu9wDvzJypBDvsgaRp6SCps
-	M3VRoixbDr1B4Bf/caubmio8LumrzfxPHGI4YVKZ7HCxgY8WuuMdGtEZARpQvnYYQZyOrO
-	u7hFYlazY8qby6j/jxsUay2cMmhVsbM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794406957;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JS5qcklH788a3feE2zFJsM5Z3VXXZpwSbc4kU/GZnJQ=;
-	b=Hy/odj4kgMLbCiIn5vCkCvcpIqw+0S9hshBkd7LKkwxhnWn4+Qg+oqPF0JBo37lTVRkpx2
-	xMTh7Ijmdkor3rCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 13810134E5;
-	Wed, 11 Nov 2026 14:22:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 8BZMNyx69GpKCQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 11 Nov 2026 14:22:37 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id A6DCC2293E; Wed, 11 Nov 2026 15:22:36 +0100 (CET)
-Date: Wed, 11 Nov 2026 15:22:36 +0100
-From: Jan Kara <jack@suse.cz>
-To: Andrey Albershteyn <aalbersh@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, ebiggers@kernel.org, hch@lst.de
-Subject: Re: [PATCH] fs: constify inode argument of inode_state_read_once()
-Message-ID: <zzh3sqprta4o7f3ohkq4bsjuretryd7xkmdbjxkgsyhudou32s@ttreqt3jpa6q>
-References: <20261111100148.3665035-2-aalbersh@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HvkiFzwG
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACCC11F00A06;
+	Wed, 11 Nov 2026 14:23:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794406988;
+	bh=MfK+Ct1wnKvHqvVJNEe4WyjG/GXhOd1P262DUdXiVco=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=HvkiFzwGImnaKNKtYjCIVV+gFBB7XIAz+YJXJdLRYAdfIoGcmJfXWDBvxBjlcJwlf
+	 CeMaM2mj4NdV7AGmzNHXNh8sQe9rVzXiReC5w/JqsIBXdctouFASOe8OaQicgVtoBU
+	 dlVokfIHnHmXhs9ZOQuYRgNfZB3qE9q9Aowh2SrlVEGSCoK6Tjiwuo+hRXUEcfaxs2
+	 2RlxLM9E7Gij9WajaxbX+7tIqxw3dicsSlMJxRqKQfrSh7Mr53cw6HoZc6iaWR7XKg
+	 oz4qFb0d8hRmMIthsq3NQPsStKXGUsUn7v6pBdn8tYzMOHUVq9U+G1tO1YFqlxIgqE
+	 6R/UYIID5zQCw==
+From: Christian Brauner <brauner@kernel.org>
+To: =?utf-8?q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+Cc: Josef Bacik <josef@toxicpanda.com>, Serge Hallyn <serge@hallyn.com>, 
+ Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+ David Howells <dhowells@redhat.com>, Jarkko Sakkinen <jarkko@kernel.org>, 
+ "Andrew G. Morgan" <morgan@kernel.org>, Serge Hallyn <sergeh@kernel.org>, 
+ linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ keyrings@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ Bradley Morgan <brads@mainlining.org>, stable@vger.kernel.org
+In-Reply-To: <20261110144205.2404088-1-mic@digikod.net>
+References: <20261110144205.2404088-1-mic@digikod.net>
+Subject: Re: [PATCH] userns: Let LSMs deny the CAP_SETFCAP snapshot for
+ mapping uid 0
+Message-Id: <20261111-etliche-koala-urzustand-a80a430d8252@brauner>
+Date: Wed, 11 Nov 2026 15:23:03 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -110,70 +64,35 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261111100148.3665035-2-aalbersh@kernel.org>
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spamd-Result: default: False [-12.80 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,imap1.dmz-prg2.suse.org:helo,suse.com:email]
-X-Spam-Score: -12.80
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.17-dev-ce4c1
 
-On Wed 11-11-26 11:01:49, Andrey Albershteyn wrote:
-> Constify inode parameter so that callers can pass const inode. Callers
-> do not need a change.
+On Tue, 10 Nov 2026 15:42:04 +0100, Mickaël Salaün wrote:
+> Commit db2e718a4798 ("capabilities: require CAP_SETFCAP to map uid 0")
+> records in parent_could_setfcap whether the creator of a user namespace
+> had CAP_SETFCAP, because a creator writing its own uid_map only has
+> capabilities in the new namespace.  The snapshot uses cap_raised(), so a
+> task whose LSM policy denies CAP_SETFCAP can still map uid 0 in a
+> namespace it creates.
 > 
-> Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
+> [...]
 
-Fine by me. Feel free to add:
+Applied to the namespace-7.5.misc branch of the vfs/vfs.git tree.
+Patches in the namespace-7.5.misc branch should appear in linux-next soon.
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
-								Honza
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
 
-> ---
-> 
-> Notes:
->     I will have a user with const inode in fsverity
->     https://lore.kernel.org/fsverity/20261105115532.613467-3-aalbersh@kernel.org/
-> 
->  include/linux/fs.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/include/linux/fs.h b/include/linux/fs.h
-> index 99caef43ff3c..c5ba625c8ae1 100644
-> --- a/include/linux/fs.h
-> +++ b/include/linux/fs.h
-> @@ -877,7 +877,7 @@ struct inode {
->   *
->   * We hide all of it behind helpers so that we can validate consumers.
->   */
-> -static inline enum inode_state_flags_enum inode_state_read_once(struct inode *inode)
-> +static inline enum inode_state_flags_enum inode_state_read_once(const struct inode *inode)
->  {
->  	return READ_ONCE(inode->i_state.__state);
->  }
-> -- 
-> 2.54.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: namespace-7.5.misc
+
+[1/1] userns: Let LSMs deny the CAP_SETFCAP snapshot for mapping uid 0
+      https://git.kernel.org/vfs/vfs/c/2397c70f7645
+
