@@ -1,54 +1,112 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.135.74
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794436610;
-	b=5JEjH43Qsz9uujsTmXXcg/EvOqPF2n8ulpIc9RS1HiN68fIY46V2bG6X+zqww0Ydc7A6
-	 fz2CV5wZKPZErk5pqLXOvJsfUxeI15hTI1gBtZR+ZxjW/5lBVjy2T55BjIC2mF2rX3nek
-	 pwo0+rOMj1luZ0lgo9mKTydtFcJRuvdtYKZtOR7TYbB9lc6UO6aV3Fe/uWmJbheQVVwr8
-	 Q0Cya66V3PcqsjTstbCzbR5+oiciyWtJsDIPEnGgpto9KdAdwXYzF+gdoMzNL9Rz0/ufF
-	 caXlbHVHaXz0mzrT0tOzjB8Y9tlr1ist062ItI2Kcul092aafToNFsVR/qp3AiZK7kA==
+	t=1794436759;
+	b=xY2ep85Hnlw9Z39NpppqiHg+HvSCUYOA27q52KvPfEMnw846a0/DK4Tc0baXaOaCehjq
+	 KKlLFHPzY/t3+v3llxOJQlet7tGYrpGJ8kbGOTFOBT57cuPlPK3Jtda6ykr+35FBYR6UI
+	 /XDQ0gMXfuEXTJ4GJB70xQLG4bj3a3bHsbiiNn6UFL4gzxeUNmrSnQZyAPb5oq0B98TjE
+	 YeqPSOG9GZlFeb8XqGpLQb8dfATge/2J6ujZ4OR761EIuyRb2QGa/Z1EVH9n5zjdBd1H/
+	 bjy45AicD9UNjQq/b4XM93JS70ysqHxxeQpFxLZI4ieTf0lgeF7FybMMajC19U+MelQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794436610;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:X-Developer-Signature:X-Developer-Key:
-	 Content-Transfer-Encoding;
-	bh=Kp6SWUPzNY3SnuEpqDyDKKx0eQvfF4FFcGru27vjJ+U=;
-	b=G+zRNsJQp5mg83ZR557Meh+M5W5x8Dc5/JFpAhusW7quupZbry1CoQmzCwRP43PCX3xj
-	 aN5608oEuMucHZmBNWG4k6HKpeUnCr14xUNeC52Hm2SEmtPwSl3LCZ8iTQHOQSLd8CCgQ
-	 BFTkLluB+NgwXkOKuJi+xb54cyThpTAmolPoHWntNCMC6z/DGuzAXhcjAmadvGZkQvD5u
-	 ZEFbFOaX0l8mJgwvh+giu4zKc0/uYr2SAtMKs/S/nYxYxdorkMItAOyi/i17Gf6Jahxyd
-	 er/NA6v60cjirjvijVTMQb9ZIzglMd2KDtoWW0jIXKyOprEBFsa/omvJpCyNBvggqHw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794436759;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-Proofpoint-ORIG-GUID:X-Authority-Analysis:
+	 X-Proofpoint-GUID:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=tyB99dES1VWSWEDHCuA5hRT/5p/ujc67VH3aWrgWNkc=;
+	b=pizYyP2cp1RAYR6uEGk8NE02UUQWbEWGJmgsWGu6dGQgB4yqrNgK3El+ppWff4Jenxrf
+	 3yfay8PrRSqTijm4jM8z6keVHlGCx/3sbnnVVoS1kaj6J5W00trfgLF9/9SavSyBt4062
+	 WjLxL+4CwRiCXnduQHBduW4mXY9ZXuMmFN4dE5VTEnpILo+bN9TAVzOFMDY1qnlrx+tw+
+	 kgB8TsizdEz4diP04rUPtEH9OWZY5AVRg7A2d25wlLTWMEruVtxl4vy8qyDUNRdj4REZU
+	 ttelqYSM9iKWNcCDGOlbxFTXg1HvbLUof/4izu8wizsb8PHbxlwGWhBUnvjT5Zm3cJg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bmy0Hz4C;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=columbia.edu;
+	spf=pass smtp.mailfrom=columbia.edu;
+	dkim=pass header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=pps01 header.b="IT/8NHst";
+	dkim=pass header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=lionmail header.b=m2ipMgTt;
+	arc=none smtp.remote-ip=148.163.135.74
+Received: from mx0a-00364e01.pphosted.com (mx0a-00364e01.pphosted.com [148.163.135.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BEE4606A339;
-	Wed, 11 Nov 2026 22:36:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EF2B606A321
+	for <linux-fsdevel@vger.kernel.org>; Wed, 11 Nov 2026 22:39:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9EF2B606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bmy0Hz4C
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87B431F00A05;
-	Wed, 11 Nov 2026 22:36:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794436609;
-	bh=Kp6SWUPzNY3SnuEpqDyDKKx0eQvfF4FFcGru27vjJ+U=;
-	h=From:To:Cc:Subject:Date;
-	b=bmy0Hz4CHiCfKltUIL+muGq5GLu8oWDVbPIrpqBKk7LXdSuR6U6OsK2FZ+L3hipNP
-	 mnxU3iIzDcLeQHM7LJGYRGRuC7fARGa9Ly67gO5rVSTenCgyNsUSmluQ4rZo+668G3
-	 jmkTl47mlI8FHQQsoeAjGRCATiUR+2uUrG4oSLlanq72fnPFFY62NC8hU97Qscmvs3
-	 EWyjtCqrxhvqapVAtLTw8U/k94QDtJZKMSDVGcFZmMeKJI7pbXMUIRUf09isZNM0pb
-	 lpTq1T3/dwupZasMlDUwmX9BHQrB7niHGx/qhoihlTh1PoyveOTE0bcF3PVvGFMtdk
-	 SbsR34/G2W11A==
-From: Christian Brauner <brauner@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Christian Brauner <brauner@kernel.org>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [GIT PULL for v7.4] vfs fixes
-Date: Wed, 11 Nov 2026 23:36:23 +0100
-Message-ID: <20261111-vfs-7.4-rc3.fixes.2-6660a456a8e2@brauner>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=pps01 header.b=IT/8NHst;
+	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=lionmail header.b=m2ipMgTt
+Received: from pps.filterd (m0167069.ppops.net [127.0.0.1])
+	by mx0a-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6ABMBw58474455
+	for <linux-fsdevel@vger.kernel.org>; Wed, 11 Nov 2026 17:39:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pps01; bh=tyB9
+	9dES1VWSWEDHCuA5hRT/5p/ujc67VH3aWrgWNkc=; b=IT/8NHstUgDEGgSQnLX6
+	Vaiv1AWGs/qhkiRKlUcq7D3eR5gJ6ItvRqnKsmZtifCmYF83Etsk6xnSg4ghYtJq
+	E3Nqa0kPb00QkhUF3JRsTPPds/3MgmGm6kO+aDh9nKa4vJnXR2esYIlCFPgPXPSF
+	lDUFil5vp3qkfjAq/6sbqbK9b31ugJ/b+kyU7psmTCLkP66JQr1rsht9NlWn/cmN
+	je7rKgCUnqELG3AW5AuZzJoGUPyEc5DA6apdCCOb7QTWpyxE8PDE5hdqLeYunDsC
+	dTBiuFo0GmbBv8Ls2WN0w0DzSQA2IFSMjQ7cwioWb1nXGym7TLR/jbioy1JwNf9Q
+	0g==
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com [209.85.219.71])
+	by mx0a-00364e01.pphosted.com (PPS) with ESMTPS id 4hvvasau26-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-fsdevel@vger.kernel.org>; Wed, 11 Nov 2026 17:39:17 -0500 (EST)
+Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-91ebb902eebso70098156d6.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 11 Nov 2026 14:39:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=columbia.edu; s=lionmail; t=1794436756; x=1795041556; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=tyB99dES1VWSWEDHCuA5hRT/5p/ujc67VH3aWrgWNkc=;
+        b=m2ipMgTtQ01aPSI3MnlI6+7Ebr6Gg6B6s3/hgBmmCLfHtrrGc6Fht9Xtxn34JDJRSY
+         Wi0Vc5mc0T12XHIiMt3rcJDcK1ciqmQGVKx0NpabmZ6TaNLGVlJuVEZOkzK2XZyWbXLx
+         r+7sbLhztAGJEGbgXUSY/ofSgqYKc+t2UqEjQ85rj3kHh6JB7mxNZg7+UnRkzEat6Olw
+         spsRk0qdEg7xzBFvCLGd4ZPD/TXPwLZHONYzigvtK2ZJ1QTPdG7re/OeXmGFp+oqc2bN
+         GDYpFlfQaehnkb2pA3EAL9UO+NEJXZEcCtChO891xp5rUT8RiY+hTLAbWw2nINzDBTyV
+         fQlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794436756; x=1795041556;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=tyB99dES1VWSWEDHCuA5hRT/5p/ujc67VH3aWrgWNkc=;
+        b=pKm4wmpUTcQftMUBtbC/l200KnvcAZ4oOPIZGhf7AYmHCr+wXpNaA7ee3QFhiKsrSG
+         lvj66kOzkKpX8jS1/0T8GIX/z7Qiba5wJu4Pp5xhY0msGLJ4q2L1sdRkpPuyC/lW8ldB
+         mY5NYvL++AlE0e2AIXPSPBajKx/+h9G04ojZhdkz5nKo+EyZADnB8+RaX/sbWTHnw1E4
+         vMIojTBrCzEte6jG+bFsqvqm3E4ngWSJBK85TtMTvnaZnK7QKWR1qhKy00w+0VjEONzd
+         vxYMUZ82mICTOaDCBANIKDaU8XsL1oCSTYbBIvthViNv7lXRsbdMDaxqq6EUPVTRcac5
+         a8hg==
+X-Forwarded-Encrypted: i=1; AL+hErGpKvHEm2Q4nhs5Tgu8Z9kl6NS4WRDQ+p7dDEq8tU4p1ln9V+0fJaTKSt6O1nGMvy5GXG7et+HIBpUURwpk@vger.kernel.org
+X-Gm-Message-State: APuU4Z+dBDqKnPuaG0YHu0arXd4i07TQGxhuoSDdt1eteBUvxANJhty9
+	Dj30fL9nHdCYDcLbfzKhip2EBEXv2rj0/nXUYTFSO+InoPhQ+g8TEsjmX4WZGPaZ8piihb3OyJP
+	s3bqLMcheBNYq2S0mVm/1ga+Zci3PEW/M3zlim6VYgWNM+CVG0NyWcfbl4crIsr4=
+X-Gm-Gg: AYBFou0DjO1Q//9+6oF0GoiOECN49ajVL34qOJhqSfF+201241jYemuK98wuuYz4bK0
+	obmox/s+AtB1KN2SajRWWTQAsL/rJpijkhAEIiDokp3DtNtQ5UjVEDlxhi0dgkwi7JcqYkW9/Ja
+	WcY3u5LD3Y44W1V+CFWqeuv+ka5kUZ2hG+QcOaPCI7x2fEzAPnmALscIzi9uWSDCq35vuqWVAE0
+	ONg8KvsRih+CbS36vJfBA+zch1q6jwOr3/1ys8YruFaMQXJ7zKjUCvtkqy7u0DjChnGha97sArB
+	6aq6LmbBBAyG2st/V0b4VL++FRJ76+KZlW0DwF50fXoHMOX31c5Y2g8eyvoXLtsi3cuYB8sRLdP
+	+oFJbZay/x+zhyDHLdPY+E97culr/XEeX2/O/G24n9PRq7iuiC2eK+DqZP9nz+RDIr2n1YTosj5
+	Aqzch82XsqF8wel8pI8ORRFoxJIWY=
+X-Received: by 2002:ad4:5943:0:b0:91c:996a:7fc6 with SMTP id 6a1803df08f44-91f03e26d40mr67403386d6.6.1794436756502;
+        Wed, 11 Nov 2026 14:39:16 -0800 (PST)
+X-Received: by 2002:ad4:5943:0:b0:91c:996a:7fc6 with SMTP id 6a1803df08f44-91f03e26d40mr67403156d6.6.1794436756029;
+        Wed, 11 Nov 2026 14:39:16 -0800 (PST)
+Received: from [10.207.116.169] (nat-128-59-177-239.net.columbia.edu. [128.59.177.239])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91ef04d8397sm57802366d6.18.2026.11.11.14.39.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 11 Nov 2026 14:39:15 -0800 (PST)
+Message-ID: <956d86f1-9d8d-4d4a-91a1-00583987c622@columbia.edu>
+Date: Wed, 11 Nov 2026 17:39:13 -0500
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -58,202 +116,95 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8937; i=brauner@kernel.org; h=from:subject:message-id; bh=hk6E6JBWz0x/ihgNONcGmK/Rdj0nRJuwS5nbVG+H++M=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWR9efvDsEN7xuzXh8VlRNqCNyXM4vH5r/nX0GNp1X+F+ RWFcYWvO0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACYydy4jw9xF049tvHnB2vGK zOuQd2xSUZZhLy81n1z5aFHC/oXHZYUY/ge7P+SS1ZihMMveReTi84T+81e0WHvYdQ5NuaphfjJ ChA0A
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 07/12] mm/mremap: resolve uffd state when the context is
+ dropped, not during the move
+To: Kiryl Shutsemau <kas@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport
+ <rppt@kernel.org>, Peter Xu <peterx@redhat.com>,
+        James Houghton <jthoughton@google.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Balbir Singh <balbirs@nvidia.com>,
+        "Liam R. Howlett" <liam@infradead.org>,
+        Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>,
+        Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
+        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?=
+ <mirq-linux@rere.qmqm.pl>,
+        Andrei Vagin <avagin@gmail.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>, Arnd Bergmann <arnd@arndb.de>,
+        Muhammad Usama Anjum <usama.anjum@arm.com>,
+        David Hildenbrand <david@kernel.org>, Zi Yan <ziy@nvidia.com>,
+        Matthew Brost <matthew.brost@intel.com>,
+        Joshua Hahn <joshua.hahnjy@gmail.com>,
+        Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
+        Ying Huang
+ <ying.huang@linux.alibaba.com>,
+        Alistair Popple <apopple@nvidia.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
+        Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+        Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
+        Chris Down <chris@chrisdown.name>, Muchun Song <muchun.song@linux.dev>,
+        Oscar Salvador <osalvador@suse.de>,
+        =?UTF-8?Q?Miko=C5=82aj_Lenczewski?= <miko.lenczewski@arm.com>,
+        Michal Hocko <mhocko@suse.com>, Mike Kravetz <mike.kravetz@oracle.com>,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+References: <20261111-uffd-state-fixes-v1-0-00713d368976@columbia.edu>
+ <20261111-uffd-state-fixes-v1-7-00713d368976@columbia.edu>
+ <avS_43B79K2lUV3Q@thinkstation>
+Content-Language: en-US
+From: Tal Zussman <tz2294@columbia.edu>
+In-Reply-To: <avS_43B79K2lUV3Q@thinkstation>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: qFGeUlD31zvLGcH5c_mp9KqF2EWdEZ-g
+X-Authority-Analysis: v=2.4 cv=YqCa1IYX c=1 sm=1 tr=0 ts=6af4ee95 cx=c_pps
+ a=UgVkIMxJMSkC9lv97toC5g==:117 a=BoHXNMl2GZKy+iVh/K8zVQ==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=x7bEGLp0ZPQA:10 a=A0y_DWxS2BwA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=JR4YdQiviy7OQf72WyZ1:22
+ a=VwQbUJbxAAAA:8 a=kkTTwOaqnXeBwKB4IF8A:9 a=QEXdDO2ut3YA:10
+ a=1HOtulTD9v-eNWfpl4qZ:22
+X-Proofpoint-GUID: qFGeUlD31zvLGcH5c_mp9KqF2EWdEZ-g
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTExMDA5MCBTYWx0ZWRfX+lYf1SC7q0Rd
+ BZ/tudKb217rWl3FxKhiFTMAoxsJy6HsWFVYpHagj67I2GveqmqAFfr2UaSpmV6nXLTK/YeSQQ1
+ GHmaIzTH41frHUwhvL4DusH0w3/qR/OBWZmDwwrIU1fUIgmlfmNy+H9oE1bn6+hT1bvmFt4CHv+
+ ZCoulxBJcpIPkwXiRGNI/9iDNe6TYN0zIWWif3XTn9qTjjNov/03au/ufvydD1yr7UEIAtFcs+o
+ oE46lTheNEBughDLA1/CdDW0lK2XhK9/n41x2z91tQAnFLrCP0H3P+jwgpIT+7U26jlrIlYJ6Ef
+ 6hbG+A6UcwFi+S0+T427XnKokAWr54Xe801c0s4mlhcLGh1+5/MK0qetMfXZ+iQxPLLBwpPg8n2
+ QuY7oiWaNQAuYxxYVKxMB7nP02WJhTmn8k8/I/U3uJTiMlA22Z6nvG8UeWL3P26e4nJDn3U0zB5
+ XwRbXhX+UO456FlBErw==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTExMDA5MCBTYWx0ZWRfXxRHP653tyvnm
+ KbSst+MMrX8vN5/O7I0vZDEO4G7thkGLpnNLJmSDWtL8Tnx8OuLiICkKlv6g/rXnQQcHDBuo8Cf
+ YKcCAyxN4Q+kfMhAi+OuChaucfZq9WrimCQ5vQo1d/2vFo1BEYft
+X-Proofpoint-Virus-Version: vendor=nai engine=6900 definitions=11963
+ signatures=596817
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 adultscore=0 spamscore=0 malwarescore=0 bulkscore=10
+ phishscore=0 priorityscore=1501 impostorscore=10 lowpriorityscore=10
+ clxscore=1015 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
+ definitions=main-2611110090
 
-Hey Linus,
+On 11/11/26 2:20 PM, Kiryl Shutsemau wrote:
+> On Wed, Nov 11, 2026 at 12:55:15PM -0500, Tal Zussman wrote:
+>> However, this adds spurious minor faults on shmem and hugetlb.
+> 
+> "Minor faults" reads as UFFDIO_REGISTER_MODE_MINOR in a uffd changelog.
+> Maybe "write faults"?
+> 
 
-/* Summary */
+Yep, will change for v2. Thanks!
 
-This contains another round of fixes for the current development cycle:
+> The RWP side keeps its behaviour: vm_page_prot does not depend on RWP,
+> so resolving with change_protection() gives the same PTEs as the
+> per-entry code did.
+> 
+> Reviewed-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
+> 
+> -- 
+>    Kiryl Shutsemau / Kirill A. Shutemov
+> 
 
-- inode: Let the shrinker reclaim inodes with I_METADATA_WRITEBACK like
-  any other clean inode and have evict() write out what the bit tracks
-  unless the inode is being deleted.
-
-  Since v7.3 ext2, ext4 without a journal, fat, udf and minix set
-  I_METADATA_WRITEBACK when they copy an inode into its buffer and only
-  fsync() and friends clear it again. inode_lru_isolate() took such
-  inodes off the LRU expecting something to put them back once the bit
-  was gone but nothing ever did. So they couldn't be reclaimed until
-  something fsynced them or the filesystem was unmounted. On ext4
-  without a journal an atime update was enough to pin an inode, and
-  creating 60000 small files in a memory cgroup limited to 96M got the
-  task OOM killed after about 43000 of them. Now all 60000 get created.
-
-- dcache:
-
-  * Give d_set_mounted() a seqlock of its own that d_invalidate() waits
-    on after unhashing the dentry. Since v6.17 d_set_mounted() doesn't
-    bump the seqcount of rename_lock anymore, so a mount racing
-    d_invalidate() could end up below the unhashed directory. Nobody
-    can reach it there and it pins the subtree until the mount
-    namespace goes away. With a FUSE directory 3000 levels deep 151 of
-    200 bind mounts racing FUSE_NOTIFY_INVAL_ENTRY ended up there.
-
-  * Only take busy secondary roots off ->s_roots in do_one_tree() so
-    that umount waits for a racing eviction of an idle one. Since v7.3
-    it didn't, which ended in busy inodes after unmount and an iput()
-    on a dead superblock.
-
-  * Make a disconnected dentry a secondary root when the mount on it
-    goes away so that umount finds it and waits for its eviction. With
-    CAP_DAC_READ_SEARCH such a dentry can be mounted on via
-    open_by_handle_at() and move_mount() and umount racing its eviction
-    ended the same way.
-
-- splice:
-
-  * Remove pipe buffer stealing as you and David suggested. fuse and
-    virtio_console were the only users of ->try_steal() and now always
-    copy, as they already did when a steal failed. Stealing took page
-    cache folios out of their files and turned pages into page cache
-    folios and back. SPLICE_F_GIFT and SPLICE_F_MOVE are still accepted
-    and fuse still advertises FUSE_SPLICE_MOVE so servers that ask for
-    it mount as before.
-
-  * Clamp a ->write_iter() result that is larger than the iterator in
-    iter_file_splice_write() instead of only warning about it.
-    Otherwise the pipe releases buffers past its head.
-
-- ns:
-
-  * Allocate the namespace id before calling the namespace_init LSM hook
-    that was added this merge window. Landlock now logs the allocated id
-    instead of zero when it denies the creation of a namespace.
-
-  * Don't mark the arguments of the namespace_init and namespace_free
-    hooks as trusted for bpf LSM programs. Both see namespaces that are
-    only partially set up or on their way out.
-
-- proc: Don't let proc_sys_call_handler() report more bytes written than
-  it was passed when a cgroup/sysctl bpf program replaced the value with
-  a longer one. A splice() into the sysctl file then walked past the
-  pipe head.
-
-- coda: Pass the append state of each write on to the container file
-  with RWF_APPEND or RWF_NOAPPEND. coda_open() sets O_APPEND on the
-  container file after its iocb flags were cached, so an O_APPEND write
-  overwrote existing data instead of appending.
-
-- adfs: Reject big directory entries in adfs_fplus_getnext() whose name
-  doesn't fit into the name buffer. A crafted image overflowed it on the
-  stack.
-
-/* Conflicts */
-
-Merge conflicts with mainline
-=============================
-
-No known conflicts.
-
-Merge conflicts with other trees
-================================
-
-No known conflicts.
-
-The following changes since commit 1448959fe3d013ffdb8302d17e4a8fdad2d2da95:
-
-  fs: fix the SEEK_CUR f_lock condition (2026-11-09 16:04:55 +0100)
-
-are available in the Git repository at:
-
-  git@gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs tags/vfs-7.4-rc3.fixes.2
-
-for you to fetch changes up to 2cca8a6f6ae690755862f5b633125119dcf6bd0c:
-
-  Merge patch series "ns: fixes identifier fixes" (2026-11-11 12:41:49 +0100)
-
-----------------------------------------------------------------
-vfs-7.4-rc3.fixes.2
-
-Please consider pulling these changes from the signed vfs-7.4-rc3.fixes.2 tag.
-
-Thanks!
-Christian
-
-----------------------------------------------------------------
-Cheng Yongkang (2):
-      fs/proc: fix the write length returned by proc_sys_call_handler()
-      fs/splice: clamp an over-reported write_iter result
-
-Christian Brauner (22):
-      ext2: add ext2_inode_block() helper
-      ext2: don't read the inode block in ext2_sync_inode_metadata()
-      ext4: use sb_find_get_block_nonatomic() in ext4_get_inode_loc_noio()
-      ext4: don't read the inode block in ext4_sync_inode_metadata()
-      minix: add minix_inode_block() helper
-      minix: don't read the inode block in minix_sync_inode_metadata()
-      udf: don't allocate the inode block in udf_sync_inode_metadata()
-      fs: set I_METADATA_WRITEBACK in mmb_mark_buffer_dirty()
-      fs: don't strand I_METADATA_WRITEBACK inodes outside the LRU
-      ext2: drop mmb_sync() from ext2_evict_inode()
-      ext4: drop mmb_sync() from ext4_evict_inode()
-      minix: drop mmb_sync() from minix_evict_inode()
-      udf: drop mmb_sync() from udf_evict_inode()
-      fat: drop mmb_sync() from fat_evict_inode()
-      Merge patch series "fs: reclaim inodes with I_METADATA_WRITEBACK"
-      dcache: let d_invalidate() wait for a d_set_mounted() in flight
-      Merge patch series "dcache: fixes for mountpoints racing d_invalidate() and umount"
-      Merge patch series "splice: remove pipe buffer stealing"
-      bpf: don't mark namespace_init and namespace_free arguments as trusted
-      ns: allocate the namespace id before the namespace_init hook
-      nstree: drop ns_tree_add_raw()
-      Merge patch series "ns: fixes identifier fixes"
-
-Hungyu Lin (1):
-      coda: honor the append state of each write
-
-HyeongJun An (1):
-      fs/adfs: bound directory entry name length in adfs_fplus_getnext()
-
-Josef Bacik (2):
-      dcache: wait for a racing eviction of a secondary root
-      dcache: let umount find a disconnected ex-mountpoint
-
-Kiryl Shutsemau (Meta) (4):
-      virtio_console: copy pipe buffers in splice_write()
-      fuse: don't move pipe buffers into the page cache
-      splice: remove pipe buffer stealing
-      splice: replace nosteal_pipe_buf_ops with default_pipe_buf_ops
-
- Documentation/admin-guide/LSM/landlock.rst |   5 +-
- Documentation/trace/events-landlock.rst    |   5 +-
- drivers/char/virtio_console.c              |  39 +++-----
- fs/adfs/dir_fplus.c                        |   2 +
- fs/buffer.c                                |  16 +++-
- fs/coda/file.c                             |   3 +-
- fs/dcache.c                                |  44 +++++++--
- fs/ext2/inode.c                            |  63 ++++++++-----
- fs/ext4/inode.c                            |  22 ++---
- fs/fat/inode.c                             |   1 -
- fs/fuse/args.h                             |   1 -
- fs/fuse/dev.c                              | 146 +----------------------------
- fs/fuse/file.c                             |   1 -
- fs/fuse/fuse_dev_i.h                       |   1 -
- fs/inode.c                                 |  13 ++-
- fs/minix/bitmap.c                          |  37 +++++---
- fs/minix/inode.c                           |  18 ++--
- fs/minix/minix.h                           |   1 +
- fs/namespace.c                             |   6 +-
- fs/pipe.c                                  |  43 ---------
- fs/proc/proc_sysctl.c                      |   5 +-
- fs/splice.c                                | 113 +++-------------------
- fs/udf/inode.c                             |  33 +++----
- include/linux/fs/super_types.h             |   2 +-
- include/linux/ns_common.h                  |  16 ++--
- include/linux/nstree.h                     |  29 +-----
- include/linux/pipe_fs_i.h                  |  38 --------
- include/trace/events/landlock.h            |   3 +-
- ipc/namespace.c                            |   3 +-
- kernel/bpf/bpf_lsm.c                       |   2 +
- kernel/nscommon.c                          |   7 +-
- kernel/nstree.c                            |   2 +-
- kernel/watch_queue.c                       |   4 -
- mm/shmem.c                                 |   7 --
- net/core/net_namespace.c                   |   4 +-
- net/core/skbuff.c                          |   2 +-
- security/landlock/ns.c                     |   3 +-
- tools/testing/selftests/landlock/ns_test.c |   7 +-
- 38 files changed, 239 insertions(+), 508 deletions(-)
