@@ -1,54 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.86
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794437378;
-	b=AOJKhkj5WvAUVGE37rJN8MNygHJ4IjfbrhND3UtWBFHswx/9VPR9JyHAYB6G5luf/8YO
-	 JYjbPjGBkeXHY79N6CxYtqBOdHaD5W0ZyhcwfjGYMy+9L5sM6LkWCGq7R07n7qR0bu56w
-	 FQFrtMeKzoOuJjInxtNkRE/AwSQUguyKyOi2QcMOCUpeq2sISQWBEALhIZs4LstOhvuCp
-	 fSQrVHCO1H4UEIRMddWOYk/1CXl4TDb/ifLqDxSoipcy3W4LLIY8tOnGQ9TBvlaiJ+dI+
-	 cm2x7ozVbPOIN1ocTUOAviwRx/XIuHGYEflZuBQPgcX3Sx0GK3jQVlSJ+c28X1lCKwg==
+	t=1794438108;
+	b=vF9Dc2P2Vv9EugFyXf1yWZdmjrxOwfCEih7kXdvVmcarWbX1iXgHjdPC/kAix7yYP1JU
+	 S19VVaDDXAYJxKZYZVvKGtdJUCOFk7BijN+T/L5pd+PRCrqFalN79CyjlyhKUxars7/l3
+	 y/Y/55nMYW/Qnhj93MU6MCUb/SmhFdX82NSLY1MTSOuf4tlnYu/7x/RjqwbEVvgVq6bbR
+	 0WAsiE7JcBEVsQSFgsYwifwyGLgjbl42hk0svMnBtVYK8iaWJHUJYZO4g0RfJu+mUTyli
+	 bS1OXMLT181BcBSmeh7CwAZAV7VXZQ8gfvYzgNWlsM08dw2JU6m/dW01sO6yvQHCSxA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794437378;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=vQue7jLFUdSGesUi+3B7mc2JziPrIDnIULtffQJGgvg=;
-	b=La6T3a/7f3U5fMz4xTD20AgSjJQZhEP/HkF/P1mvyCJnjhUS6Vj6kMCxsPWUUPiqzN3M
-	 7FmVae1u9sz6DiZVbTimdEL3lDrWfIlFiIudYDlrRoKZR3+qnR8nWb0xy0VMfH2Isuj85
-	 St2oq5UGEKZDEG1DBoBz9TyhoJB5ENAoJFvtIyyO00ltk01WpjpwfySpXp81EE0XBSPx4
-	 r2fa7vsuAZhU+jwsqnYOCz8qOfiy3NT4jbJGj0vFroK2LsvtHmA+j4anbIw75vxA1yeya
-	 vFKHwRiVrOyvvT6zDMjUAjmQgj7A/cZihAazcbzTBh7dp+wrcA8roFGkae+Q1UnNoMA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794438108;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:X-Scanned-By;
+	bh=wj6qsWXGoJ393cS9Xlx1U/BYTtbd972bohi7Obe4yhA=;
+	b=OLdZQUoSspqnVS1A8ROWQ9Vx1Aaujf6RapTO80cHcvXfW7q3pp9PC1Mszo9kbrl4105f
+	 1zBxP5MH3ld9ghKwAAn9cAQocOKane2IsPYp4IkNga+gtnKVRAhf2cjdlIhVGry8L65kO
+	 JvkXvtRFRxjY2vurYMTfx+qCIpM/JU+xBUuXm6SWFOFoTdrj3epfRinrc9xxNPLhIL5I0
+	 9pZOKnoF8fJ+qGddK2ahyZyQX/cWLFyOniLFzBiCTXOTbJu3hacZMjFd5k4acnUz2npoT
+	 mxDob5ElOzwHmCpcIDqSYEajwlBn458EoJvOg2Jg5KNuhWa0SxKlVl3WUIkK7VCjD+g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=NGOjZg1k;
-	arc=none smtp.remote-ip=95.215.58.86
-Received: from mta1.migadu.com (out-86.mta1.migadu.com [95.215.58.86])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=chsXJctg;
+	arc=none smtp.remote-ip=170.10.133.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43023606A33A
-	for <linux-fsdevel@vger.kernel.org>; Wed, 11 Nov 2026 22:49:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 43023606A33A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED9E460A261A
+	for <linux-fsdevel@vger.kernel.org>; Wed, 11 Nov 2026 23:01:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ED9E460A261A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=NGOjZg1k
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=TJQVUzglty5DBhKdqOJX7Uq+2tUl+AilQ8bRBeO+zoU=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794437375; v=1; x=1795042175;
- b=NGOjZg1kEgy3pz8LKNVfq9xcU6WU08nFKlG0U3hFRV46SsAguTFXlvwzbAckX2UtQ8gBRTcm
- NMTDlX+JyjqrDjKcEJHtHyM1cfA9R1d8DeBSRuQjVllwxhNvPrnGRHsVvVN6RZZ+md/YzcF2nYp
- uImjB4h8am86aMNefRqQVhlo=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 7aea4d3fde09893e;
-	Wed, 11 Nov 2026 22:49:34 +0000
-X-Mizu-Trace-ID: 7aea4d3fde09893e
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <aa4c71b6-f81d-4544-96fa-ed54e78b0de1@linux.dev>
-Date: Wed, 11 Nov 2026 22:49:34 +0000
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=chsXJctg
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1794438105;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wj6qsWXGoJ393cS9Xlx1U/BYTtbd972bohi7Obe4yhA=;
+	b=chsXJctgPogbTRfUNujIwkXmaB3L7X5KKtnnhuun5fEOc6/ZcxxnOVLNh5Up3eJJmAHdTn
+	aqZBIVuTD6ID7j9WCybinV6fXMb3Pe/hSH1JiuoK36PtzxoKNe+quEN96BtM4QojeexBPR
+	Zj17tsknGRjzZgZyYVHC9b78kN5Rq4s=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-20-yazoqcCZMMyfwaVL55ieTA-1; Wed,
+ 11 Nov 2026 18:01:42 -0500
+X-MC-Unique: yazoqcCZMMyfwaVL55ieTA-1
+X-Mimecast-MFC-AGG-ID: yazoqcCZMMyfwaVL55ieTA_1794438100
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 229991801313;
+	Wed, 11 Nov 2026 23:01:40 +0000 (UTC)
+Received: from onestero-thinkpadp1gen7.tpbc.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 01DC41800495;
+	Wed, 11 Nov 2026 23:01:36 +0000 (UTC)
+Received: by onestero-thinkpadp1gen7.tpbc.csb (nbSMTP-1.00) for uid 13628
+	oleg@redhat.com; Thu, 12 Nov 2026 00:01:39 +0100 (CET)
+Date: Thu, 12 Nov 2026 00:01:35 +0100
+From: Oleg Nesterov <oleg@redhat.com>
+To: Mani Tofigh via B4 Relay <devnull+mt4022.columbia.edu@kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Michal Nazarewicz <mina86@mina86.com>,
+	Wen Yang <wen.yang@linux.dev>, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, tz2294@columbia.edu,
+	stable@vger.kernel.org, Mani Tofigh <mt4022@columbia.edu>
+Subject: Re: [PATCH] sched/wait: Queue non-exclusive waiters at the head in
+ do_wait_intr*()
+Message-ID: <avTzzxZvE3HqH3KS@redhat.com>
+References: <20261111-b4-sched-wait-intr-head-v1-1-17cf2af5b964@columbia.edu>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -58,152 +83,36 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/13] mm/mmap: free gathered pages before MMF_OOM_SKIP
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
- David Hildenbrand <david@kernel.org>, "Liam R. Howlett"
- <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, David Rientjes <rientjes@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>,
- Andrew Morton <akpm@linux-foundation.org>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Nhat Pham <nphamcs@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>,
- Gregory Price <gourry@gourry.net>, Ying Huang
- <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
- Kairui Song <kasong@tencent.com>, Balbir Singh <balbirs@nvidia.com>,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Kiryl Shutsemau <kas@kernel.org>, Yu-cheng Yu <yu-cheng.yu@intel.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, Dennis Zhou <dennis@kernel.org>,
- Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>,
- Peng Fan <peng.fan@nxp.com>, Josef Bacik <jbacik@fb.com>,
- Chris Mason <mason@kernel.org>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, "Borislav Petkov (AMD)" <bp@alien8.de>,
- Mark Brown <broonie@kernel.org>,
- "Dennis Zhou (Facebook)" <dennisszhou@gmail.com>,
- Rick Edgecombe <rick.p.edgecombe@intel.com>, stable@vger.kernel.org
-References: <20261111-mason-migrate-et-al-fixes-v1-0-3d2454362e8d@kernel.org>
- <20261111-mason-migrate-et-al-fixes-v1-1-3d2454362e8d@kernel.org>
-Content-Language: en-US
-From: Usama Arif <usama.arif@linux.dev>
-In-Reply-To: <20261111-mason-migrate-et-al-fixes-v1-1-3d2454362e8d@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261111-b4-sched-wait-intr-head-v1-1-17cf2af5b964@columbia.edu>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
+On 11/11, Mani Tofigh via B4 Relay wrote:
+>
+> --- a/kernel/sched/wait.c
+> +++ b/kernel/sched/wait.c
+> @@ -319,8 +319,12 @@ EXPORT_SYMBOL(prepare_to_wait_event);
+>   */
+>  int do_wait_intr(wait_queue_head_t *wq, wait_queue_entry_t *wait)
+>  {
+> -	if (likely(list_empty(&wait->entry)))
+> -		__add_wait_queue_entry_tail(wq, wait);
+> +	if (likely(list_empty(&wait->entry))) {
+> +		if (wait->flags & WQ_FLAG_EXCLUSIVE)
+> +			__add_wait_queue_entry_tail(wq, wait);
+> +		else
+> +			__add_wait_queue(wq, wait);
 
+This look right and matches prepare_to_wait_event(). But it seems there is
+another problem if WQ_FLAG_EXCLUSIVE, see the
+"Exclusive waiter must not fail if it was selected by wakeup" comment in
+prepare_to_wait_event().
 
-On 11/11/2026 18:13, Lorenzo Stoakes (ARM) wrote:
-> The OOM killer can quickly trigger again after having selected a
-> victim. That victim might not have freed its memory yet, but its mm will
-> be marked MMF_OOM_SKIP by this point, so the OOM killer will ignore it.
-> 
-> This can cause the OOM killer to kill an innocent process when the first
-> might have freed enough memory to relieve the memory pressure.
-> 
-> Fix the issue by freeing the memory before marking the mm MMF_OOM_SKIP.
-> 
-> Note that the task which calls mmput() might not be the victim - if it
-> took a reference on the mm (e.g. ptrace), it may hold the last reference
-> and release it when it calls mmput().
-> 
-> Therefore we cannot rely on current to tell whether the mm belongs to an
-> OOM victim. Instead, partially revert commit b3541d912a84 ("mm: delete
-> unused MMF_OOM_VICTIM flag") to reinstate MMF_OOM_VICTIM, which
-> mark_oom_victim() sets on the victim's mm, and check that.
-> 
-> Reported-by: Chris Mason <mason@kernel.org>
-> Fixes: bf3980c85212 ("mm: drop oom code from exit_mmap")
-> Cc: <stable@vger.kernel.org>
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> ---
+Perhaps it makes more sense to simply kill __wait_event_interruptible_locked()
+and reimplement wait_event_interruptible_locked() on top of
+___wait_event(cmd => do_wait_intr) ? This way do_wait_intr() will only need
+to do unlock + schedule + lock.
 
-Makes sense, it will free an OOM victim’s pages before setting MMF_OOM_SKIP,
-avoiding unnecessary additional kills.
-
-Acked-by: Usama Arif <usama.arif@linux.dev>
-
->  include/linux/mm_types.h | 2 ++
->  include/linux/oom.h      | 9 +++++++++
->  mm/mmap.c                | 9 ++++++++-
->  mm/oom_kill.c            | 4 +++-
->  4 files changed, 22 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-> index 1ed35d258d2e..09e63ff12b04 100644
-> --- a/include/linux/mm_types.h
-> +++ b/include/linux/mm_types.h
-> @@ -2030,6 +2030,8 @@ enum {
->  #define MMF_TOPDOWN		31	/* mm searches top down by default */
->  #define MMF_TOPDOWN_MASK	BIT(MMF_TOPDOWN)
->  
-> +#define MMF_OOM_VICTIM		32	/* mm is the oom victim */
-> +
->  #define MMF_INIT_LEGACY_MASK	(MMF_DUMP_FILTER_MASK |\
->  				 MMF_DISABLE_THP_MASK | MMF_HAS_MDWE_MASK |\
->  				 MMF_VM_MERGE_ANY_MASK | MMF_TOPDOWN_MASK)
-> diff --git a/include/linux/oom.h b/include/linux/oom.h
-> index 00da05d227e6..a9390cb70541 100644
-> --- a/include/linux/oom.h
-> +++ b/include/linux/oom.h
-> @@ -76,6 +76,15 @@ static inline bool tsk_is_oom_victim(struct task_struct * tsk)
->  	return tsk->signal->oom_mm;
->  }
->  
-> +/*
-> + * Use this helper if tsk->mm != mm and the victim mm needs a special
-> + * handling. This is guaranteed to stay true after once set.
-> + */
-> +static inline bool mm_is_oom_victim(struct mm_struct *mm)
-> +{
-> +	return mm_flags_test(MMF_OOM_VICTIM, mm);
-> +}
-> +
->  /*
->   * Checks whether a page fault on the given mm is still reliable.
->   * This is no longer true if the oom reaper started to reap the
-> diff --git a/mm/mmap.c b/mm/mmap.c
-> index 7618e72766a5..4cb18b217048 100644
-> --- a/mm/mmap.c
-> +++ b/mm/mmap.c
-> @@ -1313,11 +1313,18 @@ void exit_mmap(struct mm_struct *mm)
->  	/* update_hiwater_rss(mm) here? but nobody should be looking */
->  	/* Use ULONG_MAX here to ensure all VMAs in the mm are unmapped */
->  	unmap_vmas(&tlb, &unmap);
-> +
-> +	/*
-> +	 * Free the memory before marking MMF_OOM_SKIP so a re-triggered OOM
-> +	 * killer will only skip this mm if it's already freed all it can.
-> +	 */
-> +	if (mm_is_oom_victim(mm))
-> +		tlb_flush_mmu(&tlb);
->  	mmap_read_unlock(mm);
->  
->  	/*
->  	 * Set MMF_OOM_SKIP to hide this task from the oom killer/reaper
-> -	 * because the memory has been already freed.
-> +	 * because the memory has been already unmapped.
->  	 */
->  	mm_flags_set(MMF_OOM_SKIP, mm);
->  	mmap_write_lock(mm);
-> diff --git a/mm/oom_kill.c b/mm/oom_kill.c
-> index 5d48bd862c27..9de57a23893c 100644
-> --- a/mm/oom_kill.c
-> +++ b/mm/oom_kill.c
-> @@ -752,8 +752,10 @@ static void mark_oom_victim(struct task_struct *tsk)
->  		return;
->  
->  	/* oom_mm is bound to the signal struct life time. */
-> -	if (!cmpxchg(&tsk->signal->oom_mm, NULL, mm))
-> +	if (!cmpxchg(&tsk->signal->oom_mm, NULL, mm)) {
->  		mmgrab(tsk->signal->oom_mm);
-> +		mm_flags_set(MMF_OOM_VICTIM, mm);
-> +	}
->  
->  	/*
->  	 * Make sure that the process is woken up from uninterruptible sleep
-> 
+Oleg.
 
