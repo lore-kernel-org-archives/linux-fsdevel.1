@@ -1,51 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794429413;
-	b=HNP0p6HVPSjb2I6gNBrTQXbsAwlTV1c8lxO3q2lo+kl+K4n4xaIRAzU2fr6ua99dR7qs
-	 oR3xtTHuoqL67FXc/iKq3AZuEtcebl0226MnzndUaPfWHe1om01n/PcH711SdxQIxwsJf
-	 Av4ezbqcx0K47ZbMVaKVVbtNB89DAVi9suiHIPJ2ai0je0g32nghX8DU2flg7v/REJYmM
-	 Ti6FCRrhKvFl1SM/3tNacaW1gVUaOLegJd8u8jfn9dTuzzT71KEKfNy7U0X5WyWjXFsS5
-	 U4JwwW/LDbcmijfUkGUX7oEtLSF1SsgTzMdtkSrBahNPF0cda//+I3yZ7LLAzZ76ghA==
+	t=1794429414;
+	b=FcOTByFHdxaporbtQRi1GWRksSDjjvVbEjB2q/Q+o1UVo4cVWKWiuKDkomlakwjRIICC
+	 qxCWgrEB6Bg+z3AGJuODALu4mZ2lEqry3CcLUtPNjZTwuCVp8sT8nkT+DeSrV8u8ybIPP
+	 1tRs24TMVFrOXID0XFyUNeM12W1p1YMDLsn9P2X/I41h0qLDS0Apra5lwVjJtdMO7SIVo
+	 oN3ExruF5aAHmew8eT0vQqT/ZE64z6wQJqw3T1h/MVZkqQhXjpnMtREvS8QfLV5iWCYFd
+	 xGQjkZaeEXa7wMVgZaE85N2e5PYffAO29PZkJwdbSpWQ4nLSjTpghsvxICqqoeuomKQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794429413;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794429414;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=TeAzJ/6PxX/EiyOcqhupLSmk0JpHUX7VkQI6aqMHKIk=;
-	b=G9zqQpjyGjOGgwSW68HT98/fLb/Fly8IKVR5pPsBksXK6kaNXVUIUfr86uvOk3BPWsKL
-	 B30XFqj6btz3coLFzZzXrWORz5TL0LDPUq13tgG4DWJAR87iL7y8wH5z8jqtkw7eEyi/G
-	 bF+X+/EP8NiS8MTsASTE+KOwzuAOXRnifpIeZ6wqj4RGFXgwnC4zZJUuTMYvogC0BZE55
-	 WVN44ZE8NddpAqwBV6i5n3b9r2Njnax9RaF3S9x3MrwSxJfEhtfdhpVdi8MlYSf0fxXaA
-	 6RIeAfha4aWWqb5lcqCI+a2Tmtwvo4ZCOOm859fI2AqE9csMuE71/TmRQ0U/VM2AA4g==
+	bh=Y5GmfaraUSzG6I7apP/vydGSTWdg5q1e+3BsITKjagU=;
+	b=ouewfbiERi5R/DvjEcUs2SPvd4LvPx88MdbpxknLkhtVNEgUcb8vzJt8AeqWfm3NjQ46
+	 uipQJUS9UXU45q/nFlrmiCmzmUD4yqgtyRebX5l17mD7eB5Z/0VgXiZnuXGQ9QxG1Jy3C
+	 73p2awQwMo9F+CnHbR2zTV3Z2rDW8okGBiqukAmmj+15ddY5P7S/2zoJ5Bf6xZqyk6fE4
+	 1K3vbYTJLmVNG+h1LjZikBlwx5gENWmxwPr4BXEJo+Ex0w29K9EiaTM8fSzc8WxoN4qIu
+	 plgueHYmIikGgT/4MtG2t72loMjdxCj1LiSxDZa/KHb5llELVZjkTY4lGNwy1yk6dLA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=efficios.com;
 	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=nye2+H3E;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=thMALZNH;
 	arc=none smtp.remote-ip=158.69.130.18
 Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF8C8606A88A;
-	Wed, 11 Nov 2026 20:36:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EF8C8606A88A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 516B5606A89A;
+	Wed, 11 Nov 2026 20:36:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 516B5606A89A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=nye2+H3E
+	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=thMALZNH
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=smtpout1; t=1794429407;
-	bh=TeAzJ/6PxX/EiyOcqhupLSmk0JpHUX7VkQI6aqMHKIk=;
+	s=smtpout1; t=1794429406;
+	bh=Y5GmfaraUSzG6I7apP/vydGSTWdg5q1e+3BsITKjagU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=nye2+H3EJLZJYQ8gB8BHZ0Ydjrp37faimyetkTtdBVAXBXAGpV/kYD06T1Po/lpib
-	 I/pbeFEsup1T/5JidY6tTpr+/4yqrJj7GF1UCcfjW+t+aEpfuS++dnP3lEFXtHA4K7
-	 r1/b5TJiqLW67VhuIV7afNiUhkvbZmY+g+/fw+pqpUWfW9ShU0M+0PKnJ+wHl5FTWw
-	 Ku0GEMDm8MCsiMBe494pe+lw1H3IuXmIrEjtcFuL7vUG4kz1xeda9KRYP8VER4D7SR
-	 LdH0VBcympzIwzV9xWJpP5pqRIfGBGyXUvU8KbqGBlXVzDi+VLkfKfajoTE5KkZsXg
-	 uhSUGV0hfAZLA==
+	b=thMALZNHU/78v+q0Qq3MjVgoqSRM8zhR31a+JUn/DSBtQkui37FCHGhJlq6NoUVN6
+	 Yx9zpJJPMBPf+bZYYPLiBBArQhf2uDNDKPovGkKfXxQz4RxWDZNicSGwXezVsmu4+K
+	 4945/NA8slfdp0feA97lU5B5xbE7QE10Bi0L6oJGTbYo5ZjNcHW1SV8lfrjtdUZa1y
+	 3dmQM8+GjtfyeeyJ2QogQO34b/1kIqYhIjK1L3jgE0sLM5HdNu1Psgadm+4IA/cTfN
+	 2N7BmG5rpmGsVBE/xLZYY3zOxhVM8T8SR0qaDlCUZdsbtQQI7PZZV093nvpC761ZMf
+	 omcgOhY3/sFlQ==
 Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jPwKq5D41zNlm;
-	Wed, 11 Nov 2026 15:36:47 -0500 (EST)
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jPwKp4lFBzNh1;
+	Wed, 11 Nov 2026 15:36:46 -0500 (EST)
 From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To: David Hildenbrand <david@kernel.org>
 Cc: linux-kernel@vger.kernel.org,
@@ -107,9 +107,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Will Deacon <will@kernel.org>,
 	Boqun Feng <boqun@kernel.org>,
 	Hugh Dickins <hughd@google.com>
-Subject: [RFC PATCH v25 14/14] lib: add a benchmark of hierarchical per-cpu counters
-Date: Wed, 11 Nov 2026 15:36:26 -0500
-Message-Id: <20261111203626.95838-15-mathieu.desnoyers@efficios.com>
+Subject: [RFC PATCH v25 10/14] tools/testing/hpcc: add litmus tests of the memory ordering
+Date: Wed, 11 Nov 2026 15:36:22 -0500
+Message-Id: <20261111203626.95838-11-mathieu.desnoyers@efficios.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20261111203626.95838-1-mathieu.desnoyers@efficios.com>
 References: <20261111203626.95838-1-mathieu.desnoyers@efficios.com>
@@ -124,724 +124,1074 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a KUnit benchmark comparing the hierarchical per-cpu counters with
-struct percpu_counter, so their performance can be compared on various
-machines:
+The limit counters rely on memory ordering. So do the carries and the
+publication of the tree by lazy activation. A test on real hardware
+cannot show that an ordering is needed: a missing barrier may never
+fail in practice. The userspace test runs on one thread only.
 
-- update: cost of an update with a kthread on each online CPU, on one
-  shared counter, on one counter per thread, on groups of 4 counters
-  initialized together like the RSS counters of an mm, and on one lazily
-  initialized counter per thread updated by its owner, like a
-  single-threaded process, with increments of +1, alternating +1/-1, and
-  random increments up to 32 and 512.
-- lifecycle: cost of initializing and destroying 4 counters together,
-  like fork and exit of an mm, eagerly or lazily, from one thread or from
-  all online CPUs.
-- churn: like lifecycle, with a few updates, keeping some of the
-  counters alive until the end, like long-lived processes.
+Check each of these orderings with the Linux kernel memory model
+instead. The litmus tests cover:
 
-The batch size of the hierarchical counters is selected with the
-percpu_counter_tree_bench.batch= parameter (32 by default, like the RSS
-counters), and the tree shape with the percpu_counter_tree.arity= boot
-parameter.  The struct percpu_counter variants use their default batch
-size, like the RSS counters before the hierarchical counters.
+- The publication of the tree: the update fast path, the carry slow
+  path, the precise sum and the approximate sum.
+- The carries of percpu_counter_tree_add(), against the precise sum.
+- The limit counters: the carries of the additions, an addition undone,
+  an amount freed on another CPU, and two concurrent checks.
 
-The benchmark reports the accuracy of both counter implementations along
-with the timings.  It runs for a few minutes on large machines, so it
-has its own config option, CONFIG_PERCPU_COUNTER_TREE_BENCH.
-
-For example:
-
-  ./tools/testing/kunit/kunit.py run --arch=x86_64 \
-	--kconfig_add CONFIG_PERCPU_COUNTER_TREE_BENCH=y \
-	--kconfig_add CONFIG_NR_CPUS=256 --qemu_args="-smp 64 -m 8192" \
-	--kernel_args percpu_counter_tree.arity=8,8 \
-	--kernel_args percpu_counter_tree_bench.batch=16 \
-	--timeout 3000 percpu_counter_tree_bench
-
-or, on a running kernel with CONFIG_PERCPU_COUNTER_TREE_BENCH=m:
-
-  modprobe percpu_counter_tree_bench batch=16
+herd7 reports "Never" for the 12 tests of the code as it is. 9 variants
+drop one ordering each, and herd7 reports "Sometimes" for them. This
+shows that these orderings are needed. The README explains how to run
+the tests, and the comments of the library now point at them.
 
 Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 ---
-Changes since v23:
-- Keep the lifecycle and churn sets of counters in struct bench_thread
-  rather than on the stack, where debugobjects warns about a struct
-  percpu_counter. (Reported by Sashiko.)
----
- MAINTAINERS                           |   1 +
- lib/Kconfig                           |  15 +
- lib/tests/Makefile                    |   1 +
- lib/tests/percpu_counter_tree_bench.c | 610 ++++++++++++++++++++++++++
- 4 files changed, 627 insertions(+)
- create mode 100644 lib/tests/percpu_counter_tree_bench.c
+ lib/percpu_counter_tree.c                     |  8 ++-
+ tools/testing/hpcc/litmus/README              | 61 +++++++++++++++++++
+ .../leave-first-precise-sum-relaxed.litmus    | 37 +++++++++++
+ .../litmus/leave-first-precise-sum.litmus     | 41 +++++++++++++
+ .../litmus/limit-arrive-first-acquire.litmus  | 38 ++++++++++++
+ .../limit-arrive-first-unordered.litmus       | 37 +++++++++++
+ .../hpcc/litmus/limit-arrive-first.litmus     | 41 +++++++++++++
+ .../hpcc/litmus/limit-free-level0-nomb.litmus | 40 ++++++++++++
+ .../hpcc/litmus/limit-free-level0.litmus      | 43 +++++++++++++
+ .../hpcc/litmus/limit-free-root.litmus        | 42 +++++++++++++
+ .../litmus/limit-last-checker-nomb.litmus     | 28 +++++++++
+ .../hpcc/litmus/limit-last-checker.litmus     | 33 ++++++++++
+ .../hpcc/litmus/limit-undo-level0.litmus      | 35 +++++++++++
+ .../hpcc/litmus/limit-undo-root-rmb.litmus    | 30 +++++++++
+ .../litmus/limit-undo-root-unordered.litmus   | 29 +++++++++
+ .../hpcc/litmus/limit-undo-root.litmus        | 32 ++++++++++
+ .../litmus/publish-approximate-sum.litmus     | 40 ++++++++++++
+ .../hpcc/litmus/publish-carry-normb.litmus    | 36 +++++++++++
+ .../testing/hpcc/litmus/publish-carry.litmus  | 43 +++++++++++++
+ .../publish-precise-sum-noacquire.litmus      | 38 ++++++++++++
+ .../hpcc/litmus/publish-precise-sum.litmus    | 44 +++++++++++++
+ .../litmus/publish-update-norelease.litmus    | 34 +++++++++++
+ .../testing/hpcc/litmus/publish-update.litmus | 40 ++++++++++++
+ 23 files changed, 848 insertions(+), 2 deletions(-)
+ create mode 100644 tools/testing/hpcc/litmus/README
+ create mode 100644 tools/testing/hpcc/litmus/leave-first-precise-sum-relaxed.litmus
+ create mode 100644 tools/testing/hpcc/litmus/leave-first-precise-sum.litmus
+ create mode 100644 tools/testing/hpcc/litmus/limit-arrive-first-acquire.litmus
+ create mode 100644 tools/testing/hpcc/litmus/limit-arrive-first-unordered.litmus
+ create mode 100644 tools/testing/hpcc/litmus/limit-arrive-first.litmus
+ create mode 100644 tools/testing/hpcc/litmus/limit-free-level0-nomb.litmus
+ create mode 100644 tools/testing/hpcc/litmus/limit-free-level0.litmus
+ create mode 100644 tools/testing/hpcc/litmus/limit-free-root.litmus
+ create mode 100644 tools/testing/hpcc/litmus/limit-last-checker-nomb.litmus
+ create mode 100644 tools/testing/hpcc/litmus/limit-last-checker.litmus
+ create mode 100644 tools/testing/hpcc/litmus/limit-undo-level0.litmus
+ create mode 100644 tools/testing/hpcc/litmus/limit-undo-root-rmb.litmus
+ create mode 100644 tools/testing/hpcc/litmus/limit-undo-root-unordered.litmus
+ create mode 100644 tools/testing/hpcc/litmus/limit-undo-root.litmus
+ create mode 100644 tools/testing/hpcc/litmus/publish-approximate-sum.litmus
+ create mode 100644 tools/testing/hpcc/litmus/publish-carry-normb.litmus
+ create mode 100644 tools/testing/hpcc/litmus/publish-carry.litmus
+ create mode 100644 tools/testing/hpcc/litmus/publish-precise-sum-noacquire.litmus
+ create mode 100644 tools/testing/hpcc/litmus/publish-precise-sum.litmus
+ create mode 100644 tools/testing/hpcc/litmus/publish-update-norelease.litmus
+ create mode 100644 tools/testing/hpcc/litmus/publish-update.litmus
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c9b266a5df54..8392c9ceea0f 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11958,6 +11958,7 @@ S:	Supported
- F:	Documentation/core-api/percpu-counter-tree.rst
- F:	include/linux/percpu_counter_tree.h
- F:	lib/percpu_counter_tree.c
-+F:	lib/tests/percpu_counter_tree_bench.c
- F:	lib/tests/percpu_counter_tree_kunit.c
- F:	tools/testing/hpcc/
+diff --git a/lib/percpu_counter_tree.c b/lib/percpu_counter_tree.c
+index 9c172fc3e4d7..fcffc3d073ca 100644
+--- a/lib/percpu_counter_tree.c
++++ b/lib/percpu_counter_tree.c
+@@ -552,7 +552,9 @@ EXPORT_SYMBOL_GPL(percpu_counter_tree_init_many_lazy);
+  * The read barriers between the levels of the precise sum are unrelated
+  * to the publication: they order carries, see
+  * percpu_counter_tree_precise_sum_unbiased().
+-
++ *
++ * The litmus tests in tools/testing/hpcc/litmus check these orderings
++ * with the Linux kernel memory model, and those of the carries.
+  */
  
-diff --git a/lib/Kconfig b/lib/Kconfig
-index 3921177a0d24..6ab9644a4cb8 100644
---- a/lib/Kconfig
-+++ b/lib/Kconfig
-@@ -53,6 +53,21 @@ config PERCPU_COUNTER_TREE_KUNIT_TEST
+ /**
+@@ -1261,7 +1263,9 @@ EXPORT_SYMBOL_GPL(percpu_counter_tree_batch_for_accuracy);
+  * retries once when the value leaves room for it.
+  *
+  * Both counters wrap around: all the arithmetic is modular.
+-
++ *
++ * The litmus tests in tools/testing/hpcc/litmus check these orderings
++ * with the Linux kernel memory model.
+  */
  
- 	  When in doubt, say N.
- 
-+config PERCPU_COUNTER_TREE_BENCH
-+	tristate "Benchmark of hierarchical per-cpu counters"
-+	depends on KUNIT && SMP
-+	help
-+	  This builds a KUnit benchmark comparing the hierarchical per-cpu
-+	  counters with struct percpu_counter: update cost with all online
-+	  CPUs updating shared and private counters, and init/destroy cost.
-+	  It runs for a few minutes on large machines.
-+
-+	  The batch size and the tree shape can be changed with the
-+	  percpu_counter_tree_bench.batch= and percpu_counter_tree.arity=
-+	  parameters, see lib/tests/percpu_counter_tree_bench.c.
-+
-+	  When in doubt, say N.
-+
- config BITREVERSE
- 	tristate
- 	select GENERIC_BITREVERSE if !HAVE_ARCH_BITREVERSE
-diff --git a/lib/tests/Makefile b/lib/tests/Makefile
-index e98687da8706..d158a8be8a19 100644
---- a/lib/tests/Makefile
-+++ b/lib/tests/Makefile
-@@ -60,5 +60,6 @@ obj-$(CONFIG_RATELIMIT_KUNIT_TEST) += test_ratelimit.o
- obj-$(CONFIG_UUID_KUNIT_TEST) += uuid_kunit.o
- 
- obj-$(CONFIG_PERCPU_COUNTER_TREE_KUNIT_TEST) += percpu_counter_tree_kunit.o
-+obj-$(CONFIG_PERCPU_COUNTER_TREE_BENCH) += percpu_counter_tree_bench.o
- 
- obj-$(CONFIG_TEST_RUNTIME_MODULE)		+= module/
-diff --git a/lib/tests/percpu_counter_tree_bench.c b/lib/tests/percpu_counter_tree_bench.c
+ /*
+diff --git a/tools/testing/hpcc/litmus/README b/tools/testing/hpcc/litmus/README
 new file mode 100644
-index 000000000000..e041ba8ba8c7
+index 000000000000..16c234a76786
 --- /dev/null
-+++ b/lib/tests/percpu_counter_tree_bench.c
-@@ -0,0 +1,610 @@
-+// SPDX-License-Identifier: GPL-2.0+ OR MIT
-+/*
-+ * Benchmark of hierarchical per-CPU counters against struct percpu_counter.
++++ b/tools/testing/hpcc/litmus/README
+@@ -0,0 +1,61 @@
++Litmus tests of lib/percpu_counter_tree.c. They check its memory
++ordering arguments with the Linux kernel memory model. Each test models
++one argument. A test with the result "Sometimes" drops one ordering of
++the code, to show that the argument needs it.
++
++The model has no atomic_long_t: the tests use atomic_t, with the same
++ordering. The per-CPU counters are plain int.
++
++Run them from tools/memory-model, with herd7 installed:
++
++  cd tools/memory-model
++  for f in ../testing/hpcc/litmus/*.litmus; do
++	herd7 -conf linux-kernel.cfg $f | grep Observation
++  done
++
++Each observation must match the "Result" in the comment of its test.
++
++Publication of the tree, see "Publication of the tree":
++
++  publish-update.litmus, publish-update-norelease.litmus
++    The update fast path reads level0, then its per-CPU counter.
++
++  publish-carry.litmus, publish-carry-normb.litmus
++    The carry slow path reads approx_sum after a read barrier.
++
++  publish-precise-sum.litmus, publish-precise-sum-noacquire.litmus
++    The precise sum reads level0 with an acquire.
++
++  publish-approximate-sum.litmus
++    The approximate sum reads the root through approx_sum.
++
++Carries of percpu_counter_tree_add(), see
++percpu_counter_tree_precise_sum_unbiased():
++
++  leave-first-precise-sum.litmus, leave-first-precise-sum-relaxed.litmus
++    A carry leaves each level before it arrives at the next one. The
++    precise sum, read from the root down, never counts it twice.
++
++Limit counters, see "Limit counters":
++
++  limit-arrive-first.litmus, limit-arrive-first-acquire.litmus,
++  limit-arrive-first-unordered.litmus
++    A carry of the additions arrives at each level before it leaves the
++    level below. The precise sum, read from level 0 up, never misses it.
++    The root update must be fully ordered.
++
++  limit-undo-root.litmus, limit-undo-root-rmb.litmus,
++  limit-undo-root-unordered.litmus, limit-undo-level0.litmus
++    An addition undone on the same CPU. The check reads the
++    subtractions, then the additions. It never sees the subtraction
++    without the addition.
++
++  limit-free-root.litmus, limit-free-level0.litmus,
++  limit-free-level0-nomb.litmus
++    An amount added on one CPU and subtracted on another one, which
++    found it through a release and an acquire. The full barrier after
++    the addition orders it before a subtraction which stays in level 0.
++
++  limit-last-checker.litmus, limit-last-checker-nomb.litmus
++    Two concurrent additions, each checked after a full barrier. At
++    least one check sees the other addition.
+diff --git a/tools/testing/hpcc/litmus/leave-first-precise-sum-relaxed.litmus b/tools/testing/hpcc/litmus/leave-first-precise-sum-relaxed.litmus
+new file mode 100644
+index 000000000000..951b7c39bbbc
+--- /dev/null
++++ b/tools/testing/hpcc/litmus/leave-first-precise-sum-relaxed.litmus
+@@ -0,0 +1,37 @@
++C leave-first-precise-sum-relaxed
++
++(*
++ * Result: Sometimes
 + *
-+ * update: ns per percpu_counter_tree_add() per thread, one kthread pinned
-+ *         on each online CPU, on one shared counter, on one counter per
-+ *         thread, or on the counters of a few mm-like groups of 4 counters
-+ *         initialized together. The "single" variant gives each thread a
-+ *         lazily initialized counter updated with
-+ *         percpu_counter_tree_add_owner(), like a single-threaded process.
-+ *         The "percpu_counter" variants use percpu_counter_add() with the
-+ *         default batch, like the RSS counters before hierarchical counters.
-+ * lifecycle: ns per init_many(4) + destroy_many(4), like fork + exit of an
-+ *         mm, from one thread or from all online CPUs at once; "lazy" uses
-+ *         init_many_lazy(4), like a single-threaded process.
-+ * churn: like lifecycle with a few updates, keeping one in @pin_period sets
-+ *         of counters alive until the end, like long-lived processes.
++ * Like leave-first-precise-sum, with a relaxed arrival at the middle
++ * item. The precise sum can then count the carry twice.
++ *)
++
++{
++	l0=1;
++}
++
++P0(int *l0, atomic_t *item, atomic_t *root)
++{
++	int r;
++
++	r = cmpxchg_relaxed(l0, 1, 0);
++	r = atomic_add_return_relaxed(1, item);
++	r = atomic_cmpxchg_relaxed(item, 1, 0);
++	r = atomic_add_return_release(1, root);
++}
++
++P1(int *l0, atomic_t *item, atomic_t *root)
++{
++	int r0;
++	int r1;
++	int r2;
++
++	r2 = atomic_read(root);
++	smp_rmb();
++	r1 = atomic_read(item);
++	smp_rmb();
++	r0 = READ_ONCE(*l0);
++}
++
++exists ((1:r2=1 /\ 1:r1=1) \/ (1:r2=1 /\ 1:r0=1) \/ (1:r1=1 /\ 1:r0=1))
+diff --git a/tools/testing/hpcc/litmus/leave-first-precise-sum.litmus b/tools/testing/hpcc/litmus/leave-first-precise-sum.litmus
+new file mode 100644
+index 000000000000..a80ddb605d4e
+--- /dev/null
++++ b/tools/testing/hpcc/litmus/leave-first-precise-sum.litmus
+@@ -0,0 +1,41 @@
++C leave-first-precise-sum
++
++(*
++ * Result: Never
 + *
-+ * Each result ends with the implementation measured: "tree" for the
-+ * hierarchical counters, "percpu_counter" for struct percpu_counter.
++ * A carry of percpu_counter_tree_add(), from the level 0 counter l0 to
++ * the root through a middle item. It leaves each level before it
++ * arrives at the next one, with a release. The precise sum reads the
++ * root, the item and level 0, with read barriers. It never counts the
++ * carry twice. This also keeps the sum of the subtractions of a limit
++ * counter from being above their value.
++ *)
++
++{
++	l0=1;
++}
++
++P0(int *l0, atomic_t *item, atomic_t *root)
++{
++	int r;
++
++	r = cmpxchg_relaxed(l0, 1, 0);
++	r = atomic_add_return_release(1, item);
++	r = atomic_cmpxchg_relaxed(item, 1, 0);
++	r = atomic_add_return_release(1, root);
++}
++
++P1(int *l0, atomic_t *item, atomic_t *root)
++{
++	int r0;
++	int r1;
++	int r2;
++
++	r2 = atomic_read(root);
++	smp_rmb();
++	r1 = atomic_read(item);
++	smp_rmb();
++	r0 = READ_ONCE(*l0);
++}
++
++exists ((1:r2=1 /\ 1:r1=1) \/ (1:r2=1 /\ 1:r0=1) \/ (1:r1=1 /\ 1:r0=1))
+diff --git a/tools/testing/hpcc/litmus/limit-arrive-first-acquire.litmus b/tools/testing/hpcc/litmus/limit-arrive-first-acquire.litmus
+new file mode 100644
+index 000000000000..f5f06dd0ff08
+--- /dev/null
++++ b/tools/testing/hpcc/litmus/limit-arrive-first-acquire.litmus
+@@ -0,0 +1,38 @@
++C limit-arrive-first-acquire
++
++(*
++ * Result: Sometimes
 + *
-+ * The knobs to try on a given machine are:
-+ * - the batch size: percpu_counter_tree_bench.batch=<2..128> (power of 2),
-+ *   or "modprobe percpu_counter_tree_bench batch=<n>",
-+ * - the tree shape: percpu_counter_tree.arity=<fan-out>,... on the kernel
-+ *   command line, from level 0 to the root. The product of the fan-outs
-+ *   is nr_cpu_ids rounded up to a power of 2, e.g. "16" (flat) or "4,4"
-+ *   when nr_cpu_ids is 16. The shape in use is shown in
-+ *   /sys/module/percpu_counter_tree/parameters/arity.
++ * Like limit-arrive-first, with an acquire add at the root. The acquire
++ * only orders the read of the add. The departures can then be seen
++ * before the arrival at the root, and the sum misses the carry.
++ *)
++
++{
++	l0 = 1;
++}
++
++P0(int *l0, atomic_t *item, atomic_t *root)
++{
++	int r;
++
++	r = atomic_cmpxchg(item, 0, 1);
++	r = atomic_add_return_acquire(1, root);
++	atomic_sub(1, item);
++	WRITE_ONCE(*l0, 0);
++}
++
++P1(int *l0, atomic_t *item, atomic_t *root)
++{
++	int r0;
++	int r1;
++	int r2;
++
++	r0 = READ_ONCE(*l0);
++	smp_rmb();
++	r1 = atomic_read(item);
++	smp_rmb();
++	r2 = atomic_read(root);
++}
++
++exists (1:r0=0 /\ 1:r1=0 /\ 1:r2=0)
+diff --git a/tools/testing/hpcc/litmus/limit-arrive-first-unordered.litmus b/tools/testing/hpcc/litmus/limit-arrive-first-unordered.litmus
+new file mode 100644
+index 000000000000..9d870c2e0aa2
+--- /dev/null
++++ b/tools/testing/hpcc/litmus/limit-arrive-first-unordered.litmus
+@@ -0,0 +1,37 @@
++C limit-arrive-first-unordered
++
++(*
++ * Result: Sometimes
 + *
-+ * For example, in a VM:
-+ *   ./tools/testing/kunit/kunit.py run --arch=x86_64 \
-+ *	--kconfig_add CONFIG_PERCPU_COUNTER_TREE_BENCH=y \
-+ *	--kconfig_add CONFIG_NR_CPUS=256 --qemu_args="-smp 64 -m 8192" \
-+ *	--kernel_args percpu_counter_tree.arity=8,8 \
-+ *	--kernel_args percpu_counter_tree_bench.batch=16 \
-+ *	--timeout 3000 percpu_counter_tree_bench
-+ */
-+#include <kunit/test.h>
-+#include <linux/percpu_counter_tree.h>
-+#include <linux/percpu_counter.h>
-+#include <linux/kthread.h>
-+#include <linux/random.h>
-+#include <linux/slab.h>
-+#include <linux/delay.h>
-+#include <linux/ktime.h>
-+#include <linux/math64.h>
-+#include <linux/sched/task.h>
-+#include <linux/cpuhplock.h>
-+#include <linux/moduleparam.h>
++ * Like limit-arrive-first, with an unordered add at the root. The sum
++ * can miss the carry.
++ *)
 +
-+/* Like the RSS counters by default. */
-+static unsigned int batch = 32;
-+module_param(batch, uint, 0444);
-+MODULE_PARM_DESC(batch, "Batch size of the hierarchical counters (power of 2, 2 to 128)");
-+
-+#define BENCH_MS	300
-+#define LIFECYCLE_NR	4	/* Counters per mm. */
-+#define LIFECYCLE_ITER	2000
-+#define CHURN_ITER	4096
-+
-+enum { W_MONO, W_BOUNCE, W_RAND32, W_RAND512, NR_W };
-+static const char * const wname[] = { "monotonic +1", "bounce +-1", "random +-32", "random +-512" };
-+
-+enum bench_impl { IMPL_TREE, IMPL_PERCPU_COUNTER };
-+static const char * const impl_name[] = { "tree", "percpu_counter" };
-+
-+struct bench_shared {
-+	atomic_t ready;
-+	int wl;
-+	unsigned int pin_period;	/* churn: keep one in pin_period sets, 0: none. */
-+	enum bench_impl impl;
-+	bool go, stop;
-+	bool owner;		/* update: percpu_counter_tree_add_owner(). */
-+	bool lifecycle;
-+	bool lazy;		/* lifecycle: percpu_counter_tree_init_many_lazy(). */
-+};
-+
-+struct bench_thread {
-+	u64 ns;
-+	unsigned long ops;
-+	struct bench_shared *sh;
-+	struct percpu_counter_tree *c;
-+	struct percpu_counter *pc;	/* update: IMPL_PERCPU_COUNTER. */
-+	struct percpu_counter_tree *pinned;	/* churn: IMPL_TREE sets kept alive. */
-+	struct percpu_counter *pinned_pc;	/* churn: IMPL_PERCPU_COUNTER sets kept alive. */
-+	struct task_struct *task;
-+	unsigned int nr_pinned;
-+	u32 seed;
-+	/*
-+	 * lifecycle and churn: sets not kept alive. They are not on the
-+	 * stack, where debugobjects warns about a struct percpu_counter.
-+	 */
-+	struct percpu_counter_tree tmp[LIFECYCLE_NR];
-+	struct percpu_counter tmp_pc[LIFECYCLE_NR];
-+} ____cacheline_aligned_in_smp;
-+
-+/*
-+ * Buffers are allocated through KUnit, which frees them if an assertion
-+ * aborts the test, and are freed explicitly otherwise, since the benchmark
-+ * runs many steps within one test.
-+ */
-+KUNIT_DEFINE_ACTION_WRAPPER(bench_kvfree, kvfree, const void *);
-+
-+static void *bench_kvzalloc(struct kunit *test, size_t size)
 +{
-+	void *p = kvzalloc(size, GFP_KERNEL);
-+
-+	if (p && kunit_add_action_or_reset(test, bench_kvfree, p))
-+		return NULL;
-+	return p;
++	l0 = 1;
 +}
 +
-+static void bench_kvfree_now(struct kunit *test, void *p)
++P0(int *l0, atomic_t *item, atomic_t *root)
 +{
-+	kunit_release_action(test, bench_kvfree, p);
++	int r;
++
++	r = atomic_cmpxchg(item, 0, 1);
++	atomic_add(1, root);
++	atomic_sub(1, item);
++	WRITE_ONCE(*l0, 0);
 +}
 +
-+/* Wait for the start signal; return true if the benchmark is cancelled. */
-+static bool bench_wait_go(struct bench_shared *sh)
++P1(int *l0, atomic_t *item, atomic_t *root)
 +{
-+	atomic_inc(&sh->ready);
-+	/* Pairs with bench_start(): a cancellation sets stop before go. */
-+	while (!smp_load_acquire(&sh->go))
-+		cond_resched();
-+	return READ_ONCE(sh->stop);
++	int r0;
++	int r1;
++	int r2;
++
++	r0 = READ_ONCE(*l0);
++	smp_rmb();
++	r1 = atomic_read(item);
++	smp_rmb();
++	r2 = atomic_read(root);
 +}
 +
-+static int bench_update_fn(void *data)
++exists (1:r0=0 /\ 1:r1=0 /\ 1:r2=0)
+diff --git a/tools/testing/hpcc/litmus/limit-arrive-first.litmus b/tools/testing/hpcc/litmus/limit-arrive-first.litmus
+new file mode 100644
+index 000000000000..9d9f6efdf0aa
+--- /dev/null
++++ b/tools/testing/hpcc/litmus/limit-arrive-first.litmus
+@@ -0,0 +1,41 @@
++C limit-arrive-first
++
++(*
++ * Result: Never
++ *
++ * A carry of the additions of a limit counter, from the level 0 counter
++ * l0 to the root through a middle item, as in
++ * percpu_counter_tree_add_arrive_first(). It arrives at the item with a
++ * fully ordered cmpxchg, and at the root with a fully ordered add. Then
++ * it leaves the item and level 0. The precise sum reads level 0, the
++ * item and the root, with read barriers. It never misses the carry.
++ *)
++
 +{
-+	struct bench_thread *t = data;
-+	struct bench_shared *sh = t->sh;
-+	unsigned long ops = 0;
-+	long sign = -1;
-+	u32 x = t->seed;
-+	int i;
-+
-+	if (bench_wait_go(sh))
-+		return 0;
-+	while (!READ_ONCE(sh->stop)) {
-+		for (i = 0; i < 1024; i++) {
-+			long inc;
-+
-+			switch (sh->wl) {
-+			case W_MONO:
-+				inc = 1;
-+				break;
-+			case W_BOUNCE:
-+				inc = sign;
-+				sign = -sign;
-+				break;
-+			default:
-+				x ^= x << 13;
-+				x ^= x >> 17;
-+				x ^= x << 5;
-+				inc = sh->wl == W_RAND32 ? 32 : 512;
-+				if (x & 1)
-+					inc = -inc;
-+				break;
-+			}
-+			if (sh->impl == IMPL_PERCPU_COUNTER)
-+				percpu_counter_add(t->pc, inc);
-+			else if (sh->owner)
-+				percpu_counter_tree_add_owner(t->c, inc);
-+			else
-+				percpu_counter_tree_add(t->c, inc);
-+		}
-+		ops += 1024;
-+		cond_resched();
-+	}
-+	t->ops = ops;
-+	return 0;
++	l0 = 1;
 +}
 +
-+static int bench_lifecycle_fn(void *data)
++P0(int *l0, atomic_t *item, atomic_t *root)
 +{
-+	struct bench_thread *t = data;
-+	struct percpu_counter_tree *c = t->tmp;
-+	struct percpu_counter *pc = t->tmp_pc;
-+	u64 t0;
-+	int i;
++	int r;
 +
-+	if (bench_wait_go(t->sh))
-+		return 0;
-+	t0 = ktime_get_ns();
-+	for (i = 0; t->sh->impl == IMPL_PERCPU_COUNTER && i < LIFECYCLE_ITER; i++) {
-+		if (percpu_counter_init_many(pc, 0, GFP_KERNEL, LIFECYCLE_NR))
-+			break;
-+		percpu_counter_add(&pc[0], 1);
-+		percpu_counter_add(&pc[0], -1);
-+		percpu_counter_destroy_many(pc, LIFECYCLE_NR);
-+		cond_resched();
-+	}
-+	for (; t->sh->impl == IMPL_TREE && t->sh->lazy && i < LIFECYCLE_ITER; i++) {
-+		if (percpu_counter_tree_init_many_lazy(c, LIFECYCLE_NR, batch))
-+			break;
-+		percpu_counter_tree_add_owner(&c[0], 1);
-+		percpu_counter_tree_add_owner(&c[0], -1);
-+		percpu_counter_tree_destroy_many(c, LIFECYCLE_NR);
-+		cond_resched();
-+	}
-+	for (; t->sh->impl == IMPL_TREE && !t->sh->lazy && i < LIFECYCLE_ITER; i++) {
-+		if (percpu_counter_tree_init_many(c, LIFECYCLE_NR, batch, GFP_KERNEL))
-+			break;
-+		percpu_counter_tree_add(&c[0], 1);
-+		percpu_counter_tree_add(&c[0], -1);
-+		percpu_counter_tree_destroy_many(c, LIFECYCLE_NR);
-+		cond_resched();
-+	}
-+	t->ns = ktime_get_ns() - t0;
-+	t->ops = i;
-+	return 0;
++	r = atomic_cmpxchg(item, 0, 1);
++	r = atomic_add_return(1, root);
++	atomic_sub(1, item);
++	WRITE_ONCE(*l0, 0);
 +}
 +
-+static int bench_churn_fn(void *data)
++P1(int *l0, atomic_t *item, atomic_t *root)
 +{
-+	struct bench_thread *t = data;
-+	unsigned int pin_period = t->sh->pin_period;
-+	struct percpu_counter_tree *c;
-+	struct percpu_counter *pc;
-+	u64 t0;
-+	int i;
++	int r0;
++	int r1;
++	int r2;
 +
-+	if (bench_wait_go(t->sh))
-+		return 0;
-+	t0 = ktime_get_ns();
-+	for (i = 0; t->sh->impl == IMPL_PERCPU_COUNTER && i < CHURN_ITER; i++) {
-+		bool pin = pin_period && !(i % pin_period);
-+
-+		pc = pin ? &t->pinned_pc[t->nr_pinned * LIFECYCLE_NR] : t->tmp_pc;
-+		if (percpu_counter_init_many(pc, 0, GFP_KERNEL, LIFECYCLE_NR))
-+			break;
-+		percpu_counter_add(&pc[0], 100);
-+		percpu_counter_add(&pc[1], -77);
-+		percpu_counter_add(&pc[2], 1);
-+		if (pin)
-+			t->nr_pinned++;
-+		else
-+			percpu_counter_destroy_many(pc, LIFECYCLE_NR);
-+		cond_resched();
-+	}
-+	for (; t->sh->impl == IMPL_TREE && i < CHURN_ITER; i++) {
-+		bool pin = pin_period && !(i % pin_period);
-+
-+		c = pin ? &t->pinned[t->nr_pinned * LIFECYCLE_NR] : t->tmp;
-+		if (percpu_counter_tree_init_many(c, LIFECYCLE_NR, batch, GFP_KERNEL))
-+			break;
-+		percpu_counter_tree_add(&c[0], 100);
-+		percpu_counter_tree_add(&c[1], -77);
-+		percpu_counter_tree_add(&c[2], 1);
-+		if (pin)
-+			t->nr_pinned++;
-+		else
-+			percpu_counter_tree_destroy_many(c, LIFECYCLE_NR);
-+		cond_resched();
-+	}
-+	t->ns = ktime_get_ns() - t0;
-+	t->ops = i;
-+	return 0;
++	r0 = READ_ONCE(*l0);
++	smp_rmb();
++	r1 = atomic_read(item);
++	smp_rmb();
++	r2 = atomic_read(root);
 +}
 +
-+/* List at most @max online CPUs in @cpus, and return their number. */
-+static unsigned int bench_cpus(int *cpus, unsigned int max)
-+{
-+	unsigned int n = 0;
-+	int cpu;
++exists (1:r0=0 /\ 1:r1=0 /\ 1:r2=0)
+diff --git a/tools/testing/hpcc/litmus/limit-free-level0-nomb.litmus b/tools/testing/hpcc/litmus/limit-free-level0-nomb.litmus
+new file mode 100644
+index 000000000000..d220bab401ac
+--- /dev/null
++++ b/tools/testing/hpcc/litmus/limit-free-level0-nomb.litmus
+@@ -0,0 +1,40 @@
++C limit-free-level0-nomb
 +
-+	for_each_online_cpu(cpu) {
-+		if (n == max)
-+			break;
-+		cpus[n++] = cpu;
-+	}
-+	return n;
++(*
++ * Result: Sometimes
++ *
++ * Like limit-free-level0, without the full barrier after the addition.
++ * The release of the page does not order the addition before the
++ * unordered subtraction of CPU 1, for CPU 2. The precise sum can then
++ * see the subtraction without the addition.
++ *)
++
++{}
++
++P0(int *l0p, int *page)
++{
++	WRITE_ONCE(*l0p, 1);
++	smp_store_release(page, 1);
 +}
 +
-+static void bench_stop(struct bench_thread *t, unsigned int n)
++P1(int *l0n, int *page)
 +{
-+	unsigned int i;
++	int r0;
++	int r;
 +
-+	for (i = 0; i < n; i++)
-+		kthread_stop_put(t[i].task);
++	r0 = smp_load_acquire(page);
++	if (r0 == 1)
++		r = cmpxchg_relaxed(l0n, 0, 1);
 +}
 +
-+/*
-+ * Start a thread on each of the @n CPUs of @cpus, waiting for the start
-+ * signal. On failure, cancel and join the threads already started.
-+ */
-+static int bench_start(struct bench_shared *sh, struct bench_thread *t, const int *cpus,
-+		       unsigned int n)
++P2(int *l0p, int *l0n)
 +{
-+	unsigned int i;
++	int r0;
++	int r1;
 +
-+	for (i = 0; i < n; i++) {
-+		t[i].sh = sh;
-+		t[i].task = kthread_create_on_cpu(sh->pin_period != UINT_MAX ? bench_churn_fn :
-+						  sh->lifecycle ? bench_lifecycle_fn :
-+						  bench_update_fn, &t[i], cpus[i], "hpcc_bench/%u");
-+		if (IS_ERR(t[i].task)) {
-+			int ret = PTR_ERR(t[i].task);
-+
-+			WRITE_ONCE(sh->stop, true);
-+			/* Pairs with bench_wait_go(): the threads see stop with go. */
-+			smp_store_release(&sh->go, true);
-+			bench_stop(t, i);
-+			return ret;
-+		}
-+		get_task_struct(t[i].task);
-+		wake_up_process(t[i].task);
-+	}
-+	while (atomic_read(&sh->ready) < n)
-+		usleep_range(1000, 2000);
-+	return 0;
++	r0 = READ_ONCE(*l0n);
++	smp_rmb();
++	r1 = READ_ONCE(*l0p);
 +}
 +
-+enum bench_mode { BENCH_SHARED, BENCH_PRIVATE, BENCH_MM, BENCH_SINGLE };
-+static const char * const mode_name[] = { "shared", "private", "mm", "single" };
++exists (1:r0=1 /\ 2:r0=1 /\ 2:r1=0)
+diff --git a/tools/testing/hpcc/litmus/limit-free-level0.litmus b/tools/testing/hpcc/litmus/limit-free-level0.litmus
+new file mode 100644
+index 000000000000..cb5d6b083ecf
+--- /dev/null
++++ b/tools/testing/hpcc/litmus/limit-free-level0.litmus
+@@ -0,0 +1,43 @@
++C limit-free-level0
 +
-+/*
-+ * BENCH_SHARED: all threads update one counter.
-+ * BENCH_PRIVATE: each thread updates its own counter (a separate mm).
-+ * BENCH_MM: blocks of n / LIFECYCLE_NR threads each update one counter of
-+ * one mm. Its counters share the cache lines of their tree items, and
-+ * CPUs sharing an item are strided, so each line is updated for every
-+ * counter.
-+ * BENCH_SINGLE: each thread owns a lazily initialized counter, like a
-+ * single-threaded process, never activated. Its IMPL_PERCPU_COUNTER
-+ * comparison is BENCH_PRIVATE.
-+ */
-+/* Counters @i of bench_update(), @c_stride and @pc_stride bytes apart. */
-+#define BENCH_C(i)	((struct percpu_counter_tree *)((char *)c + (i) * c_stride))
-+#define BENCH_PC(i)	((struct percpu_counter *)((char *)pc + (i) * pc_stride))
++(*
++ * Result: Never
++ *
++ * CPU 0 adds to its level 0 counter of the additions l0p. The full
++ * barrier of percpu_counter_tree_limit_add() follows. Then CPU 0
++ * publishes the page it charged. CPU 1 finds the page and frees it: the
++ * subtraction stays in its level 0 counter of the subtractions l0n,
++ * without ordering. The precise sum of CPU 2 reads l0n, then l0p after a
++ * read barrier. It never sees the subtraction without the addition.
++ *)
 +
-+static void bench_update(struct kunit *test, enum bench_mode mode, int wl,
-+			 enum bench_impl impl)
++{}
++
++P0(int *l0p, int *page)
 +{
-+	bool shared = mode == BENCH_SHARED || mode == BENCH_MM;
-+	unsigned int n, i, nr_counters, nr_init = 0;
-+	struct bench_shared sh = { .wl = wl, .pin_period = UINT_MAX, .impl = impl,
-+				   .owner = mode == BENCH_SINGLE };
-+	struct percpu_counter_tree *c;
-+	struct percpu_counter *pc;
-+	struct bench_thread *t;
-+	unsigned long ops = 0;
-+	unsigned int *perm;
-+	size_t c_stride, pc_stride;
-+	void *c_mem, *pc_mem;
-+	u64 t0, t1;
-+	int *cpus;
-+	int ret;
-+
-+	cpus = kunit_kcalloc(test, nr_cpu_ids, sizeof(*cpus), GFP_KERNEL);
-+	t = bench_kvzalloc(test, array_size(nr_cpu_ids, sizeof(*t)));
-+	perm = kunit_kcalloc(test, nr_cpu_ids, sizeof(*perm), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, cpus);
-+	KUNIT_ASSERT_NOT_NULL(test, t);
-+	KUNIT_ASSERT_NOT_NULL(test, perm);
-+	/*
-+	 * Set up the counters for the CPUs online now, before taking
-+	 * cpus_read_lock(), which a failed assertion would leave held. The
-+	 * threads then run on the CPUs online under the lock, at most as many.
-+	 */
-+	n = num_online_cpus();
-+	nr_counters = mode == BENCH_SHARED ? 1 : mode == BENCH_MM ? LIFECYCLE_NR : n;
-+	/*
-+	 * Each private counter is written by its own thread: give each its
-+	 * own cache line, as the RSS counters of separate mms, to avoid false
-+	 * sharing. The counters of one mm stay packed, as in mm_struct.
-+	 */
-+	c_stride = shared ? sizeof(*c) : ALIGN(sizeof(*c), SMP_CACHE_BYTES);
-+	pc_stride = shared ? sizeof(*pc) : ALIGN(sizeof(*pc), SMP_CACHE_BYTES);
-+	c_mem = kunit_kzalloc(test, nr_counters * c_stride + SMP_CACHE_BYTES, GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, c_mem);
-+	c = PTR_ALIGN(c_mem, SMP_CACHE_BYTES);
-+	pc_mem = kunit_kzalloc(test, nr_counters * pc_stride + SMP_CACHE_BYTES, GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, pc_mem);
-+	pc = PTR_ALIGN(pc_mem, SMP_CACHE_BYTES);
-+	/*
-+	 * Each private counter stands for a separate mm: initialize them
-+	 * separately so they do not share the cache lines of their tree items.
-+	 */
-+	if (impl == IMPL_PERCPU_COUNTER && mode == BENCH_MM) {
-+		if (!percpu_counter_init_many(pc, 0, GFP_KERNEL, nr_counters))
-+			nr_init = nr_counters;
-+	} else if (impl == IMPL_PERCPU_COUNTER) {
-+		for (; nr_init < nr_counters; nr_init++)
-+			if (percpu_counter_init(BENCH_PC(nr_init), 0, GFP_KERNEL))
-+				break;
-+	} else if (mode == BENCH_MM) {
-+		if (!percpu_counter_tree_init_many(c, nr_counters, batch, GFP_KERNEL))
-+			nr_init = nr_counters;
-+	} else {
-+		for (; nr_init < nr_counters; nr_init++) {
-+			if (mode == BENCH_SINGLE ?
-+			    percpu_counter_tree_init_many_lazy(BENCH_C(nr_init), 1, batch) :
-+			    percpu_counter_tree_init(BENCH_C(nr_init), batch, GFP_KERNEL))
-+				break;
-+		}
-+	}
-+	if (nr_init < nr_counters) {
-+		KUNIT_FAIL(test, "cannot initialize %u counters", nr_counters);
-+		goto destroy;
-+	}
-+	cpus_read_lock();
-+	n = bench_cpus(cpus, n);
-+	/* Random placement of the private counters. */
-+	for (i = 0; i < n; i++)
-+		perm[i] = mode == BENCH_SHARED ? 0 : mode == BENCH_MM ? i * LIFECYCLE_NR / n : i;
-+	for (i = n - 1; !shared && i > 0; i--)
-+		swap(perm[i], perm[get_random_u32_below(i + 1)]);
-+	for (i = 0; i < n; i++) {
-+		t[i].c = BENCH_C(perm[i]);
-+		t[i].pc = BENCH_PC(perm[i]);
-+		t[i].seed = get_random_u32() | 1;
-+	}
-+	ret = bench_start(&sh, t, cpus, n);
-+	if (ret) {
-+		cpus_read_unlock();
-+		KUNIT_FAIL(test, "cannot start the benchmark threads: %d", ret);
-+		goto destroy;
-+	}
-+	t0 = ktime_get_ns();
-+	WRITE_ONCE(sh.go, true);
-+	msleep(BENCH_MS);
-+	WRITE_ONCE(sh.stop, true);
-+	t1 = ktime_get_ns();
-+	bench_stop(t, n);
-+	cpus_read_unlock();
-+	for (i = 0; i < n; i++)
-+		ops += t[i].ops;
-+	for (i = 0; impl == IMPL_TREE && i < nr_counters; i++)
-+		KUNIT_EXPECT_EQ(test, 0, percpu_counter_tree_check_residuals(BENCH_C(i)));
-+	kunit_info(test, "update %-8s %-14s %3u thr %10llu ns/op/thr %s\n",
-+		   mode_name[mode], wname[wl], n,
-+		   ops ? div64_ul((t1 - t0) * n, ops) : 0, impl_name[impl]);
-+destroy:
-+	if (impl == IMPL_PERCPU_COUNTER && mode == BENCH_MM) {
-+		if (nr_init)
-+			percpu_counter_destroy_many(pc, nr_counters);
-+	} else if (impl == IMPL_PERCPU_COUNTER) {
-+		for (i = 0; i < nr_init; i++)
-+			percpu_counter_destroy(BENCH_PC(i));
-+	} else if (mode == BENCH_MM) {
-+		if (nr_init)
-+			percpu_counter_tree_destroy_many(c, nr_counters);
-+	} else {
-+		for (i = 0; i < nr_init; i++)
-+			percpu_counter_tree_destroy(BENCH_C(i));
-+	}
-+	kunit_kfree(test, pc_mem);
-+	kunit_kfree(test, c_mem);
-+	kunit_kfree(test, perm);
-+	bench_kvfree_now(test, t);
-+	kunit_kfree(test, cpus);
++	WRITE_ONCE(*l0p, 1);
++	smp_mb();
++	smp_store_release(page, 1);
 +}
 +
-+static void bench_lifecycle(struct kunit *test, bool all, enum bench_impl impl, bool lazy)
++P1(int *l0n, int *page)
 +{
-+	struct bench_shared sh = { .lifecycle = true, .pin_period = UINT_MAX,
-+				   .impl = impl, .lazy = lazy };
-+	unsigned int n, i;
-+	struct bench_thread *t;
-+	unsigned long ops = 0;
-+	u64 ns = 0;
-+	int *cpus;
-+	int ret;
++	int r0;
++	int r;
 +
-+	cpus = kunit_kcalloc(test, nr_cpu_ids, sizeof(*cpus), GFP_KERNEL);
-+	t = bench_kvzalloc(test, array_size(nr_cpu_ids, sizeof(*t)));
-+	KUNIT_ASSERT_NOT_NULL(test, cpus);
-+	KUNIT_ASSERT_NOT_NULL(test, t);
-+	cpus_read_lock();
-+	n = bench_cpus(cpus, all ? num_online_cpus() : 1);
-+	ret = bench_start(&sh, t, cpus, n);
-+	if (ret) {
-+		cpus_read_unlock();
-+		KUNIT_FAIL(test, "cannot start the benchmark threads: %d", ret);
-+		goto free;
-+	}
-+	WRITE_ONCE(sh.go, true);
-+	bench_stop(t, n);
-+	cpus_read_unlock();
-+	for (i = 0; i < n; i++) {
-+		ops += t[i].ops;
-+		ns += t[i].ns;
-+	}
-+	KUNIT_EXPECT_EQ(test, ops, (unsigned long)n * LIFECYCLE_ITER);
-+	kunit_info(test, "lifecycle init_many%s(%d)+destroy_many %3u thr %10llu ns/op %s\n",
-+		   lazy ? "_lazy" : "", LIFECYCLE_NR, n, ops ? div64_ul(ns, ops) : 0,
-+		   impl_name[impl]);
-+free:
-+	bench_kvfree_now(test, t);
-+	kunit_kfree(test, cpus);
++	r0 = smp_load_acquire(page);
++	if (r0 == 1)
++		r = cmpxchg_relaxed(l0n, 0, 1);
 +}
 +
-+static void bench_churn(struct kunit *test, bool all, unsigned int pin_period,
-+			enum bench_impl impl)
++P2(int *l0p, int *l0n)
 +{
-+	struct bench_shared sh = { .pin_period = pin_period, .impl = impl };
-+	unsigned int n, i, j, max_pinned = pin_period ? DIV_ROUND_UP(CHURN_ITER, pin_period) : 0;
-+	unsigned long ops = 0, live = 0;
-+	unsigned int nr_alloc;
-+	struct bench_thread *t;
-+	u64 ns = 0;
-+	int *cpus;
-+	int ret;
++	int r0;
++	int r1;
 +
-+	cpus = kunit_kcalloc(test, nr_cpu_ids, sizeof(*cpus), GFP_KERNEL);
-+	t = bench_kvzalloc(test, array_size(nr_cpu_ids, sizeof(*t)));
-+	KUNIT_ASSERT_NOT_NULL(test, cpus);
-+	KUNIT_ASSERT_NOT_NULL(test, t);
-+	/* Allocate before taking cpus_read_lock(), as in bench_update(). */
-+	nr_alloc = all ? num_online_cpus() : 1;
-+	for (i = 0; i < nr_alloc; i++) {
-+		t[i].pinned = bench_kvzalloc(test, array_size(max_pinned * LIFECYCLE_NR + 1,
-+							      sizeof(*t[i].pinned)));
-+		t[i].pinned_pc = bench_kvzalloc(test, array_size(max_pinned * LIFECYCLE_NR + 1,
-+								 sizeof(*t[i].pinned_pc)));
-+		KUNIT_ASSERT_NOT_NULL(test, t[i].pinned_pc);
-+		KUNIT_ASSERT_NOT_NULL(test, t[i].pinned);
-+	}
-+	cpus_read_lock();
-+	n = bench_cpus(cpus, nr_alloc);
-+	ret = bench_start(&sh, t, cpus, n);
-+	if (ret) {
-+		cpus_read_unlock();
-+		KUNIT_FAIL(test, "cannot start the benchmark threads: %d", ret);
-+		goto destroy;
-+	}
-+	WRITE_ONCE(sh.go, true);
-+	bench_stop(t, n);
-+	cpus_read_unlock();
-+	for (i = 0; i < n; i++) {
-+		ops += t[i].ops;
-+		ns += t[i].ns;
-+		live += t[i].nr_pinned * LIFECYCLE_NR;
-+	}
-+	KUNIT_EXPECT_EQ(test, ops, (unsigned long)n * CHURN_ITER);
-+	kunit_info(test, "churn pin 1/%-4u %3u thr %8llu ns/op live %6lu %s\n",
-+		   pin_period, n, ops ? div64_ul(ns, ops) : 0, live, impl_name[impl]);
-+destroy:
-+	for (i = 0; i < nr_alloc; i++) {
-+		for (j = 0; j < t[i].nr_pinned; j++) {
-+			if (impl == IMPL_PERCPU_COUNTER)
-+				percpu_counter_destroy_many(&t[i].pinned_pc[j * LIFECYCLE_NR],
-+							    LIFECYCLE_NR);
-+			else
-+				percpu_counter_tree_destroy_many(&t[i].pinned[j * LIFECYCLE_NR],
-+								 LIFECYCLE_NR);
-+		}
-+		bench_kvfree_now(test, t[i].pinned_pc);
-+		bench_kvfree_now(test, t[i].pinned);
-+	}
-+	bench_kvfree_now(test, t);
-+	kunit_kfree(test, cpus);
++	r0 = READ_ONCE(*l0n);
++	smp_rmb();
++	r1 = READ_ONCE(*l0p);
 +}
 +
-+static void hpcc_bench(struct kunit *test)
-+{
-+	static const unsigned int pin_periods[] = { 0, 256, 64, 16, 4 };
-+	struct percpu_counter_tree probe;
-+	unsigned int p;
-+	int wl;
++exists (1:r0=1 /\ 2:r0=1 /\ 2:r1=0)
+diff --git a/tools/testing/hpcc/litmus/limit-free-root.litmus b/tools/testing/hpcc/litmus/limit-free-root.litmus
+new file mode 100644
+index 000000000000..d3f267311411
+--- /dev/null
++++ b/tools/testing/hpcc/litmus/limit-free-root.litmus
+@@ -0,0 +1,42 @@
++C limit-free-root
 +
-+	if (batch < 2 || !is_power_of_2(batch) || batch > PERCPU_COUNTER_TREE_MAX_BATCH)
-+		kunit_skip(test, "invalid batch size %u", batch);
-+	KUNIT_ASSERT_EQ(test, 0, percpu_counter_tree_init(&probe, batch, GFP_KERNEL));
-+	kunit_info(test, "%u CPUs online, nr_cpu_ids %u\n", num_online_cpus(), nr_cpu_ids);
-+	kunit_info(test, "%s batch %u, accuracy +-%lu\n", impl_name[IMPL_TREE], batch,
-+		   percpu_counter_tree_approximate_accuracy(&probe));
-+	kunit_info(test, "%s batch %d, accuracy +-%lu\n", impl_name[IMPL_PERCPU_COUNTER],
-+		   percpu_counter_batch, (unsigned long)nr_cpu_ids * (percpu_counter_batch - 1));
-+	percpu_counter_tree_destroy(&probe);
-+	bench_lifecycle(test, false, IMPL_TREE, false);
-+	bench_lifecycle(test, false, IMPL_TREE, true);
-+	bench_lifecycle(test, false, IMPL_PERCPU_COUNTER, false);
-+	bench_lifecycle(test, true, IMPL_TREE, false);
-+	bench_lifecycle(test, true, IMPL_TREE, true);
-+	bench_lifecycle(test, true, IMPL_PERCPU_COUNTER, false);
-+	for (p = 0; p < ARRAY_SIZE(pin_periods); p++) {
-+		bench_churn(test, false, pin_periods[p], IMPL_TREE);
-+		bench_churn(test, false, pin_periods[p], IMPL_PERCPU_COUNTER);
-+		bench_churn(test, true, pin_periods[p], IMPL_TREE);
-+		bench_churn(test, true, pin_periods[p], IMPL_PERCPU_COUNTER);
-+	}
-+	for (wl = 0; wl < NR_W; wl++) {
-+		bench_update(test, BENCH_SHARED, wl, IMPL_TREE);
-+		bench_update(test, BENCH_SHARED, wl, IMPL_PERCPU_COUNTER);
-+		bench_update(test, BENCH_PRIVATE, wl, IMPL_TREE);
-+		bench_update(test, BENCH_PRIVATE, wl, IMPL_PERCPU_COUNTER);
-+		bench_update(test, BENCH_MM, wl, IMPL_TREE);
-+		bench_update(test, BENCH_MM, wl, IMPL_PERCPU_COUNTER);
-+		bench_update(test, BENCH_SINGLE, wl, IMPL_TREE);
-+	}
++(*
++ * Result: Never
++ *
++ * CPU 0 adds to the root of the additions p, then publishes the page it
++ * charged. CPU 1 finds the page and frees it: its carry reaches the root
++ * of the subtractions n with a release. CPU 2 checks: it reads n with an
++ * acquire, then p. It never sees the subtraction without the
++ * addition.
++ *)
++
++{}
++
++P0(atomic_t *p, int *page)
++{
++	int r;
++
++	r = atomic_add_return(1, p);
++	smp_store_release(page, 1);
 +}
 +
-+static struct kunit_case hpcc_bench_cases[] = {
-+	KUNIT_CASE_SLOW(hpcc_bench),
-+	{}
-+};
++P1(atomic_t *n, int *page)
++{
++	int r0;
++	int r;
 +
-+static struct kunit_suite hpcc_bench_suite = {
-+	.name = "percpu_counter_tree_bench",
-+	.test_cases = hpcc_bench_cases,
-+};
++	r0 = smp_load_acquire(page);
++	if (r0 == 1)
++		r = atomic_add_return_release(1, n);
++}
 +
-+kunit_test_suite(hpcc_bench_suite);
++P2(atomic_t *p, atomic_t *n)
++{
++	int r0;
++	int r1;
 +
-+MODULE_DESCRIPTION("Benchmark for hierarchical per-CPU counters");
-+MODULE_LICENSE("Dual MIT/GPL");
-+MODULE_IMPORT_NS("EXPORTED_FOR_KUNIT_TESTING");
++	r0 = atomic_read_acquire(n);
++	r1 = atomic_read(p);
++}
++
++exists (1:r0=1 /\ 2:r0=1 /\ 2:r1=0)
+diff --git a/tools/testing/hpcc/litmus/limit-last-checker-nomb.litmus b/tools/testing/hpcc/litmus/limit-last-checker-nomb.litmus
+new file mode 100644
+index 000000000000..2690fdf6e868
+--- /dev/null
++++ b/tools/testing/hpcc/litmus/limit-last-checker-nomb.litmus
+@@ -0,0 +1,28 @@
++C limit-last-checker-nomb
++
++(*
++ * Result: Sometimes
++ *
++ * Like limit-last-checker, without the full barrier. Both checks can
++ * miss the other addition, and both pass.
++ *)
++
++{}
++
++P0(int *a, int *b)
++{
++	int r0;
++
++	WRITE_ONCE(*a, 1);
++	r0 = READ_ONCE(*b);
++}
++
++P1(int *a, int *b)
++{
++	int r0;
++
++	WRITE_ONCE(*b, 1);
++	r0 = READ_ONCE(*a);
++}
++
++exists (0:r0=0 /\ 1:r0=0)
+diff --git a/tools/testing/hpcc/litmus/limit-last-checker.litmus b/tools/testing/hpcc/litmus/limit-last-checker.litmus
+new file mode 100644
+index 000000000000..891f20ec86a0
+--- /dev/null
++++ b/tools/testing/hpcc/litmus/limit-last-checker.litmus
+@@ -0,0 +1,33 @@
++C limit-last-checker
++
++(*
++ * Result: Never
++ *
++ * Two CPUs add to their level 0 counters a and b, then check with a
++ * precise sum, which reads the other counter. With a full barrier
++ * between the addition and the check, at least one of them sees the
++ * other addition. Of the additions which pass their check, the one
++ * checked last thus sees all of them.
++ *)
++
++{}
++
++P0(int *a, int *b)
++{
++	int r0;
++
++	WRITE_ONCE(*a, 1);
++	smp_mb();
++	r0 = READ_ONCE(*b);
++}
++
++P1(int *a, int *b)
++{
++	int r0;
++
++	WRITE_ONCE(*b, 1);
++	smp_mb();
++	r0 = READ_ONCE(*a);
++}
++
++exists (0:r0=0 /\ 1:r0=0)
+diff --git a/tools/testing/hpcc/litmus/limit-undo-level0.litmus b/tools/testing/hpcc/litmus/limit-undo-level0.litmus
+new file mode 100644
+index 000000000000..1bda7b3835de
+--- /dev/null
++++ b/tools/testing/hpcc/litmus/limit-undo-level0.litmus
+@@ -0,0 +1,35 @@
++C limit-undo-level0
++
++(*
++ * Result: Never
++ *
++ * An addition which does not fit is undone on the same CPU. Both stay
++ * in the level 0 counters, l0p for the additions and l0n for the
++ * subtractions. The full barrier of percpu_counter_tree_limit_add()
++ * comes between them. The precise sum of the limit counter reads l0n,
++ * then l0p after a read barrier. It never sees the subtraction without
++ * the addition.
++ *)
++
++{}
++
++P0(int *l0p, int *l0n)
++{
++	int r;
++
++	WRITE_ONCE(*l0p, 1);
++	smp_mb();
++	r = cmpxchg_relaxed(l0n, 0, 1);
++}
++
++P1(int *l0p, int *l0n)
++{
++	int r0;
++	int r1;
++
++	r0 = READ_ONCE(*l0n);
++	smp_rmb();
++	r1 = READ_ONCE(*l0p);
++}
++
++exists (0:r=0 /\ 1:r0=1 /\ 1:r1=0)
+diff --git a/tools/testing/hpcc/litmus/limit-undo-root-rmb.litmus b/tools/testing/hpcc/litmus/limit-undo-root-rmb.litmus
+new file mode 100644
+index 000000000000..3b43afbeb8e9
+--- /dev/null
++++ b/tools/testing/hpcc/litmus/limit-undo-root-rmb.litmus
+@@ -0,0 +1,30 @@
++C limit-undo-root-rmb
++
++(*
++ * Result: Never
++ *
++ * Like limit-undo-root, with a read barrier between the two reads
++ * instead of the acquire.
++ *)
++
++{}
++
++P0(atomic_t *p, atomic_t *n)
++{
++	int r;
++
++	r = atomic_add_return(1, p);
++	r = atomic_add_return_release(1, n);
++}
++
++P1(atomic_t *p, atomic_t *n)
++{
++	int r0;
++	int r1;
++
++	r0 = atomic_read(n);
++	smp_rmb();
++	r1 = atomic_read(p);
++}
++
++exists (1:r0=1 /\ 1:r1=0)
+diff --git a/tools/testing/hpcc/litmus/limit-undo-root-unordered.litmus b/tools/testing/hpcc/litmus/limit-undo-root-unordered.litmus
+new file mode 100644
+index 000000000000..65bc0f2900b2
+--- /dev/null
++++ b/tools/testing/hpcc/litmus/limit-undo-root-unordered.litmus
+@@ -0,0 +1,29 @@
++C limit-undo-root-unordered
++
++(*
++ * Result: Sometimes
++ *
++ * Like limit-undo-root, without ordering between the two reads. The
++ * check can then see the subtraction without the addition.
++ *)
++
++{}
++
++P0(atomic_t *p, atomic_t *n)
++{
++	int r;
++
++	r = atomic_add_return(1, p);
++	r = atomic_add_return_release(1, n);
++}
++
++P1(atomic_t *p, atomic_t *n)
++{
++	int r0;
++	int r1;
++
++	r0 = atomic_read(n);
++	r1 = atomic_read(p);
++}
++
++exists (1:r0=1 /\ 1:r1=0)
+diff --git a/tools/testing/hpcc/litmus/limit-undo-root.litmus b/tools/testing/hpcc/litmus/limit-undo-root.litmus
+new file mode 100644
+index 000000000000..72335ee2ee6c
+--- /dev/null
++++ b/tools/testing/hpcc/litmus/limit-undo-root.litmus
+@@ -0,0 +1,32 @@
++C limit-undo-root
++
++(*
++ * Result: Never
++ *
++ * An addition which does not fit is undone on the same CPU. Its carry
++ * reaches the root of the additions p. Then the undo reaches the root of
++ * the subtractions n, with a release. The check reads n with an acquire,
++ * then p. It never sees the subtraction without the addition, which
++ * would take the difference below the value.
++ *)
++
++{}
++
++P0(atomic_t *p, atomic_t *n)
++{
++	int r;
++
++	r = atomic_add_return(1, p);
++	r = atomic_add_return_release(1, n);
++}
++
++P1(atomic_t *p, atomic_t *n)
++{
++	int r0;
++	int r1;
++
++	r0 = atomic_read_acquire(n);
++	r1 = atomic_read(p);
++}
++
++exists (1:r0=1 /\ 1:r1=0)
+diff --git a/tools/testing/hpcc/litmus/publish-approximate-sum.litmus b/tools/testing/hpcc/litmus/publish-approximate-sum.litmus
+new file mode 100644
+index 000000000000..be4396a96ebc
+--- /dev/null
++++ b/tools/testing/hpcc/litmus/publish-approximate-sum.litmus
+@@ -0,0 +1,40 @@
++C publish-approximate-sum
++
++(*
++ * Result: Never
++ *
++ * percpu_counter_tree_activate_many() zeroes the per-CPU counter l0mem
++ * and the root rootmem, which held stale values, then publishes approx_sum
++ * and level0 with releases. See "Publication of the tree" in
++ * lib/percpu_counter_tree.c.
++ *
++ * The approximate sum reads approx_sum, then the root through it. The
++ * address dependency orders the two reads. It never sees the stale
++ * root.
++ *)
++
++{
++	level0=nolevel0;
++	approx_sum=noroot;
++	l0mem=1;
++	rootmem=1;
++}
++
++P0(int **level0, int **approx_sum, int *l0mem, int *rootmem)
++{
++	WRITE_ONCE(*l0mem, 0);
++	WRITE_ONCE(*rootmem, 0);
++	smp_store_release(approx_sum, rootmem);
++	smp_store_release(level0, l0mem);
++}
++
++P1(int **level0, int **approx_sum)
++{
++	int *r0;
++	int r1;
++
++	r0 = READ_ONCE(*approx_sum);
++	r1 = READ_ONCE(*r0);
++}
++
++exists (1:r0=rootmem /\ 1:r1=1)
+diff --git a/tools/testing/hpcc/litmus/publish-carry-normb.litmus b/tools/testing/hpcc/litmus/publish-carry-normb.litmus
+new file mode 100644
+index 000000000000..bc5fa4a6aaad
+--- /dev/null
++++ b/tools/testing/hpcc/litmus/publish-carry-normb.litmus
+@@ -0,0 +1,36 @@
++C publish-carry-normb
++
++(*
++ * Result: Sometimes
++ *
++ * Like publish-carry, without the read barrier. The carry slow path can
++ * then see approx_sum unpublished.
++ *)
++
++{
++	level0=nolevel0;
++	approx_sum=noroot;
++	l0mem=1;
++	rootmem=1;
++}
++
++P0(int **level0, int **approx_sum, int *l0mem, int *rootmem)
++{
++	WRITE_ONCE(*l0mem, 0);
++	WRITE_ONCE(*rootmem, 0);
++	smp_store_release(approx_sum, rootmem);
++	smp_store_release(level0, l0mem);
++}
++
++P1(int **level0, int **approx_sum)
++{
++	int *r0;
++	int *r1;
++	int r2;
++
++	r0 = READ_ONCE(*level0);
++	r1 = READ_ONCE(*approx_sum);
++	r2 = READ_ONCE(*r1);
++}
++
++exists (1:r0=l0mem /\ (1:r1=noroot \/ 1:r2=1))
+diff --git a/tools/testing/hpcc/litmus/publish-carry.litmus b/tools/testing/hpcc/litmus/publish-carry.litmus
+new file mode 100644
+index 000000000000..b316ade6d647
+--- /dev/null
++++ b/tools/testing/hpcc/litmus/publish-carry.litmus
+@@ -0,0 +1,43 @@
++C publish-carry
++
++(*
++ * Result: Never
++ *
++ * percpu_counter_tree_activate_many() zeroes the per-CPU counter l0mem
++ * and the root rootmem, which held stale values, then publishes approx_sum
++ * and level0 with releases. See "Publication of the tree" in
++ * lib/percpu_counter_tree.c.
++ *
++ * The carry slow path has read level0. Then it reads approx_sum after a
++ * read barrier, and the root through it. It never sees approx_sum
++ * unpublished or the stale root.
++ *)
++
++{
++	level0=nolevel0;
++	approx_sum=noroot;
++	l0mem=1;
++	rootmem=1;
++}
++
++P0(int **level0, int **approx_sum, int *l0mem, int *rootmem)
++{
++	WRITE_ONCE(*l0mem, 0);
++	WRITE_ONCE(*rootmem, 0);
++	smp_store_release(approx_sum, rootmem);
++	smp_store_release(level0, l0mem);
++}
++
++P1(int **level0, int **approx_sum)
++{
++	int *r0;
++	int *r1;
++	int r2;
++
++	r0 = READ_ONCE(*level0);
++	smp_rmb();
++	r1 = READ_ONCE(*approx_sum);
++	r2 = READ_ONCE(*r1);
++}
++
++exists (1:r0=l0mem /\ (1:r1=noroot \/ 1:r2=1))
+diff --git a/tools/testing/hpcc/litmus/publish-precise-sum-noacquire.litmus b/tools/testing/hpcc/litmus/publish-precise-sum-noacquire.litmus
+new file mode 100644
+index 000000000000..b3fcfad22a61
+--- /dev/null
++++ b/tools/testing/hpcc/litmus/publish-precise-sum-noacquire.litmus
+@@ -0,0 +1,38 @@
++C publish-precise-sum-noacquire
++
++(*
++ * Result: Sometimes
++ *
++ * Like publish-precise-sum, with a plain read of level0. The precise sum
++ * can then see approx_sum unpublished.
++ *)
++
++{
++	level0=nolevel0;
++	approx_sum=noroot;
++	l0mem=1;
++	rootmem=1;
++}
++
++P0(int **level0, int **approx_sum, int *l0mem, int *rootmem)
++{
++	WRITE_ONCE(*l0mem, 0);
++	WRITE_ONCE(*rootmem, 0);
++	smp_store_release(approx_sum, rootmem);
++	smp_store_release(level0, l0mem);
++}
++
++P1(int **level0, int **approx_sum)
++{
++	int *r0;
++	int *r1;
++	int r2;
++	int r3;
++
++	r0 = READ_ONCE(*level0);
++	r1 = READ_ONCE(*approx_sum);
++	r2 = READ_ONCE(*r1);
++	r3 = READ_ONCE(*r0);
++}
++
++exists (1:r0=l0mem /\ (1:r1=noroot \/ 1:r2=1 \/ 1:r3=1))
+diff --git a/tools/testing/hpcc/litmus/publish-precise-sum.litmus b/tools/testing/hpcc/litmus/publish-precise-sum.litmus
+new file mode 100644
+index 000000000000..0649b75b0bdc
+--- /dev/null
++++ b/tools/testing/hpcc/litmus/publish-precise-sum.litmus
+@@ -0,0 +1,44 @@
++C publish-precise-sum
++
++(*
++ * Result: Never
++ *
++ * percpu_counter_tree_activate_many() zeroes the per-CPU counter l0mem
++ * and the root rootmem, which held stale values, then publishes approx_sum
++ * and level0 with releases. See "Publication of the tree" in
++ * lib/percpu_counter_tree.c.
++ *
++ * The precise sum reads level0 with an acquire, then approx_sum, the
++ * root and the per-CPU counter. It never sees approx_sum unpublished or
++ * a stale value.
++ *)
++
++{
++	level0=nolevel0;
++	approx_sum=noroot;
++	l0mem=1;
++	rootmem=1;
++}
++
++P0(int **level0, int **approx_sum, int *l0mem, int *rootmem)
++{
++	WRITE_ONCE(*l0mem, 0);
++	WRITE_ONCE(*rootmem, 0);
++	smp_store_release(approx_sum, rootmem);
++	smp_store_release(level0, l0mem);
++}
++
++P1(int **level0, int **approx_sum)
++{
++	int *r0;
++	int *r1;
++	int r2;
++	int r3;
++
++	r0 = smp_load_acquire(level0);
++	r1 = READ_ONCE(*approx_sum);
++	r2 = READ_ONCE(*r1);
++	r3 = READ_ONCE(*r0);
++}
++
++exists (1:r0=l0mem /\ (1:r1=noroot \/ 1:r2=1 \/ 1:r3=1))
+diff --git a/tools/testing/hpcc/litmus/publish-update-norelease.litmus b/tools/testing/hpcc/litmus/publish-update-norelease.litmus
+new file mode 100644
+index 000000000000..44a3d387b760
+--- /dev/null
++++ b/tools/testing/hpcc/litmus/publish-update-norelease.litmus
+@@ -0,0 +1,34 @@
++C publish-update-norelease
++
++(*
++ * Result: Sometimes
++ *
++ * Like publish-update, with plain stores instead of the releases. The
++ * update fast path can then see the stale per-CPU counter.
++ *)
++
++{
++	level0=nolevel0;
++	approx_sum=noroot;
++	l0mem=1;
++	rootmem=1;
++}
++
++P0(int **level0, int **approx_sum, int *l0mem, int *rootmem)
++{
++	WRITE_ONCE(*l0mem, 0);
++	WRITE_ONCE(*rootmem, 0);
++	WRITE_ONCE(*approx_sum, rootmem);
++	WRITE_ONCE(*level0, l0mem);
++}
++
++P1(int **level0, int **approx_sum)
++{
++	int *r0;
++	int r1;
++
++	r0 = READ_ONCE(*level0);
++	r1 = READ_ONCE(*r0);
++}
++
++exists (1:r0=l0mem /\ 1:r1=1)
+diff --git a/tools/testing/hpcc/litmus/publish-update.litmus b/tools/testing/hpcc/litmus/publish-update.litmus
+new file mode 100644
+index 000000000000..55603a274b28
+--- /dev/null
++++ b/tools/testing/hpcc/litmus/publish-update.litmus
+@@ -0,0 +1,40 @@
++C publish-update
++
++(*
++ * Result: Never
++ *
++ * percpu_counter_tree_activate_many() zeroes the per-CPU counter l0mem
++ * and the root rootmem, which held stale values, then publishes approx_sum
++ * and level0 with releases. See "Publication of the tree" in
++ * lib/percpu_counter_tree.c.
++ *
++ * The update fast path reads level0, then its per-CPU counter through
++ * it. The address dependency orders the two reads. It never sees the
++ * stale per-CPU counter.
++ *)
++
++{
++	level0=nolevel0;
++	approx_sum=noroot;
++	l0mem=1;
++	rootmem=1;
++}
++
++P0(int **level0, int **approx_sum, int *l0mem, int *rootmem)
++{
++	WRITE_ONCE(*l0mem, 0);
++	WRITE_ONCE(*rootmem, 0);
++	smp_store_release(approx_sum, rootmem);
++	smp_store_release(level0, l0mem);
++}
++
++P1(int **level0, int **approx_sum)
++{
++	int *r0;
++	int r1;
++
++	r0 = READ_ONCE(*level0);
++	r1 = READ_ONCE(*r0);
++}
++
++exists (1:r0=l0mem /\ 1:r1=1)
 -- 
 2.47.3
 
