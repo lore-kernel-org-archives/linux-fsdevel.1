@@ -1,57 +1,61 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794403455;
-	b=QT2hQCHv/CuXl3BaT/8NcgSKbcRMbqSC4zFSJeK780gLgPJN8ct6dmzNg7Vv3GyoKZDM
-	 DtTDOrqBiRHH8PoGnYxo4q1b8ar4oKtNdgZxpGAxxaRZirGXDuT+86iK5Jk7D3xk/yz/u
-	 dEbpOB1QcgPsEuzP0HJgQhJhvS+gIc3ZM/PvK4cDmI6X0rcbC+LtrB7XaPpsClvcGkeGS
-	 kf2SlEP70VeohO/7W17J63GHaXbK23yX1cnRqO0zembZDWsokHYOC6gvMwZWCdvm4gNFz
-	 Vv2qP7RNe7udNVoxkGqUEG0Y4x6qzlpse/Jgbz19URYSe4ajlJg1shSdxLeREoJj2NA==
+	t=1794403691;
+	b=sLDPRrPwgqSUKZVYOOIdr7QUkmTPhAgZG3fwlRlI+USXz5eLNmjhf2XCR2YqmCJ3cuba
+	 pOCJEjuCJ+SWcJMrz7Ewp+oVlkRucB0aK4yoeCCJJz98uD5M3DWCwMOBkZcMTsSIKEL4K
+	 50C91RrZLtOu8FfokEwot3Glbhmo6bN95Ic8Fx6pOQ5exlcmfsZ247SDWOy8/AOqKbgUt
+	 Q00aD8mdaheBCST5H3DUxGV+43xGSCnLqUmFQXaB5LtZE9KrGfMEx1x6HLnwHTupMOvuQ
+	 9A4c1+bP80ot9IMm+JTxAXUrTRfC84p2JjcneCmkH/TfJL++9xTUuJ+03QSrOiZrF0g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794403455;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794403691;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=WjqyAlJjan0qDs/Dphq96bKvjnIcY+Q4s9sNYN1sHWY=;
-	b=P4bHpLI4TApUXXIw1MTfo4Rzuie+Cx6LXUOWaLbEx05e8Hi+Cyio4KhhXu0r0OTlHiTs
-	 O9HYiBCX0ayxmbLY7JEYdsC1oMoGtqU2JrBR8LyKWxTMl8zuq6v1Uv1W90NdXmjbve/fx
-	 cXX6XwhPpzIj2RMiWIJw5DpvnICpQzc8Ij3Yd/+X/DoeRlkomB669Ab3UkxdHr60Lavno
-	 JgICwT02El5QbP72aXlbER0uhv1BGBcehLEDsp4btvlD07BqPZCxsizn7anvXj/1J5oWI
-	 J6xga0NdCDbGP0lHci1peXjGyCDe/B1w+NR3FpTrcwQx3PJRdNsVxP8OInoW5Kcwr7g==
+	bh=9yzvDp9V72dMlAIfM00c1rGjJ9jmhjSG6zJg+AYgebE=;
+	b=wPSMFL7INOqKY/Bi4iImBwKgqxzK+MPsjb6uTPOKiwiZJkJp62Mg6xRJkAfFmmZKtfJ+
+	 YQKAGJks0kJKwNQQnx8LQZE1mCMc9jHvPteMck3gygFcYaGPZTL1SCFUILE8APYU8DHIH
+	 oQayBx3BvjNtOFxbD10frDHEjX7SpyDUNOQ1djLMJav/LACJ+e88yI1rWzU+zFSus0xxp
+	 ghIUb0827uYbPmuLyRJ7O/Hud0ws4JtYOkM14qGhAYXX0GQBh9jBWr1lyVwdthqLeH+Cg
+	 qzOLl9HXRqHwddrWqrWevktNOi4fRrtVcvlFBgbln7QusdNGr1CY2OBEKkMWaYfXtvQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jQrUsOuf;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nqMHcqWN;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CD69606A332;
-	Wed, 11 Nov 2026 13:24:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03291606A321;
+	Wed, 11 Nov 2026 13:28:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jQrUsOuf
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B14251F00A09;
-	Wed, 11 Nov 2026 13:24:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nqMHcqWN
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEC7B1F00A05;
+	Wed, 11 Nov 2026 13:28:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794403455;
-	bh=WjqyAlJjan0qDs/Dphq96bKvjnIcY+Q4s9sNYN1sHWY=;
+	s=k20260515; t=1794403690;
+	bh=9yzvDp9V72dMlAIfM00c1rGjJ9jmhjSG6zJg+AYgebE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=jQrUsOufcslpUY9mVcI9dWSfHj90GazFxzKJMEtlSCoh7PGQRGD7OXBXG+TdhlZMO
-	 U/D/ifFc/dFsNrMXO1DLm6utPKFE7x66LJ359ckEm4Q6YzajhwUbffR5pZ0CGkSEdO
-	 oVOjQpfGr0xgsZNkiQsCKKb1om0GfEZLPMVejOuf7PH+Nd8qaQ/1l5oJeS//JnajGx
-	 C531T4pVpc5HUPysn+KyUI8DHexDRMRVm8WTaIap2hrRv54k/yj1dtg3XOf4+98yCT
-	 ttEm7UgAT506rCn/FQbr9p2piRjSYE9L8FJvLwUnEpSldQxfnmSXm+2ioAu8TWF3Wq
-	 8coq3N1YzcQSA==
-Date: Wed, 11 Nov 2026 14:24:09 +0100
-From: Carlos Maiolino <cem@kernel.org>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Chris Mason <mason@kernel.org>, tytso@mit.edu, david@fromorbit.com, 
-	jack@suse.cz, djwong@kernel.org, josef@toxicpanda.com, hch@lst.de, 
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v6 04/10] iomap: don't punch delalloc under a dirty EOF
- block
-Message-ID: <avRsclSj-Es5AxCf@cronus.toxiclabs.cc>
-References: <20261109235111.14129-1-mason@kernel.org>
- <20261109235111.14129-5-mason@kernel.org>
- <avLnAe4A6EB8Whyg@nidhogg.toxiclabs.cc>
- <20261111-esskultur-nahebringen-beiwerk-4a8a3b77bbf1@brauner>
+	b=nqMHcqWNioXm2Og6tdRJrkWbKwC0ujOefOXYCjxvh+lkZt7of1xvfeQt+q+zjLgQU
+	 BUyh1Sr8huHwHJuA1ivTE7cvYTdM+BgaI2OwUooGuWdAHky+HVMV3xKJViN+hvdkvF
+	 pI3Bqzmra/TY1QWhDj4QwW4e+DtPnkldM+RbLq8OA5GJnYfJ2C4HPyw8lIiaKAqC9F
+	 UE++pRPBavhCP4PL709OT8SVK1uHUyQn48DrdttkxZfWS9yluYKPztivIpKSF51b8K
+	 KM4d9OvPM8RqXr5VPhokRc/U/EA/VHCCii1pyiGbT5ZQPYADURSLCyL7Yt6lLAanPk
+	 EA77fMI7dyxFg==
+Date: Wed, 11 Nov 2026 13:27:59 +0000
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Usama Arif <usama.arif@linux.dev>
+Cc: Andrew Morton <akpm@linux-foundation.org>, apopple@nvidia.com, 
+	byungchul@sk.com, david@kernel.org, gourry@gourry.net, jannh@google.com, 
+	joshua.hahnjy@gmail.com, liam@infradead.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, matthew.brost@intel.com, mhocko@suse.com, 
+	pfalcato@suse.de, rppt@kernel.org, surenb@google.com, vbabka@kernel.org, 
+	ying.huang@linux.alibaba.com, ziy@nvidia.com, kas@kernel.org, hannes@cmpxchg.org, 
+	riel@surriel.com, shakeel.butt@linux.dev, kernel-team@meta.com, 
+	baolin.wang@linux.alibaba.com, Nico Pache <nico.pache@linux.dev>, ryan.roberts@arm.com, 
+	dev.jain@arm.com, baohua@kernel.org, lance.yang@linux.dev, stable@vger.kernel.org
+Subject: Re: [PATCH 2/3] fs/proc/task_mmu: don't read young/dirty from a
+ non-present PMD in smaps
+Message-ID: <avRtKQUdo_oEqyow@gremlin>
+References: <20261111113904.650722-1-usama.arif@linux.dev>
+ <20261111113904.650722-3-usama.arif@linux.dev>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -63,17 +67,72 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261111-esskultur-nahebringen-beiwerk-4a8a3b77bbf1@brauner>
+In-Reply-To: <20261111113904.650722-3-usama.arif@linux.dev>
 
-On Wed, Nov 11, 2026 at 12:21:35PM +0100, Christian Brauner wrote:
-> On Tue, Nov 10, 2026 at 10:43:37AM +0100, Carlos Maiolino wrote:
-> > Christian, is it ok with you if I pull this through xfs tree?
-> 
-> Sure,
-> Acked-by: Christian Brauner <brauner@kernel.org>
+On Wed, Nov 11, 2026 at 03:38:30AM -0800, Usama Arif wrote:
+> smaps_pmd_entry() passes pmd_young(*pmd) and pmd_dirty(*pmd) to
+> smaps_account() for every PMD, including migration and device-private
+> entries, where those bits hold part of the swap offset rather than
+> accessed/dirty state. smaps_pte_entry() only reads them when the entry
+> is present.
 
-Thanks!
+Could say something something softleaf here ;)
 
-> 
-> -- 
-> 
+>
+> On x86_64 the offset is stored inverted across bits 9-58, which overlap
+> _PAGE_SAVED_DIRTY, so pmd_dirty() returns garbage: a clean 2MB
+> device-private mapping is accounted as 2048 kB dirty, and lazyfree
+> accounting is suppressed. pgtable_64.h also warns that the hardware can
+> set the accessed and dirty bits on non-present entries by mistake.
+>
+> Only read the bits when the PMD is present.
+>
+> Fixes: c94b6923fa0a ("/proc/PID/smaps: Add PMD migration entry parsing")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Usama Arif <usama.arif@linux.dev>
+
+Damn, yikes. LGTM so:
+
+Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+
+> ---
+>  fs/proc/task_mmu.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+>
+> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+> index 22361607020d1..c0d391186c2b8 100644
+> --- a/fs/proc/task_mmu.c
+> +++ b/fs/proc/task_mmu.c
+> @@ -1019,13 +1019,15 @@ static void smaps_pmd_entry(pmd_t *pmd, unsigned long addr,
+>  	struct vm_area_struct *vma = walk->vma;
+>  	bool locked = !!(vma->vm_flags & VM_LOCKED);
+>  	struct page *page = NULL;
+> -	bool present = false;
+> +	bool present = false, young = false, dirty = false;
+>  	struct folio *folio;
+>
+>  	if (pmd_none(*pmd))
+>  		return;
+>  	if (pmd_present(*pmd)) {
+>  		page = vm_normal_page_pmd(vma, addr, *pmd);
+> +		young = pmd_young(*pmd);
+> +		dirty = pmd_dirty(*pmd);
+>  		present = true;
+>  	} else if (unlikely(thp_migration_supported())) {
+>  		const softleaf_t entry = softleaf_from_pmd(*pmd);
+> @@ -1045,8 +1047,7 @@ static void smaps_pmd_entry(pmd_t *pmd, unsigned long addr,
+>  	else
+>  		mss->file_thp += HPAGE_PMD_SIZE;
+>
+> -	smaps_account(mss, page, true, pmd_young(*pmd), pmd_dirty(*pmd),
+> -		      locked, present);
+> +	smaps_account(mss, page, true, young, dirty, locked, present);
+>  }
+>  #else
+>  static void smaps_pmd_entry(pmd_t *pmd, unsigned long addr,
+> --
+> 2.53.0-Meta
+>
+
+--
+Cheers, Lorenzo
