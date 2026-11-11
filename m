@@ -1,66 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.139
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.151
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794379641;
-	b=DmuHpN3/7CQ05C2aRSvQSTCntdvc8kLJWY8x3G9iIhAAOHFjC2Ity5knfm8Xhrl/F2+D
-	 ULMTYvEcGBdboL8B9qqciNSMHYLR7TJvjTO/RI2xKJ7lp3KcNxaZBsz+f/E14C5M/JYnm
-	 URVsDpXPrKn8ZTxuAX/huyY2VBbiUYiNjb1M9raS7MTLKytzEqqMDu/P9A+lbVBZ0DEHM
-	 42r80lTbvyJZGZO4YRhETUoLB4FAtGIo/oAiC/oNpKZmAMzjf2z4vCP0wE2RZVuCgBauD
-	 jMAcXvUzz/beTqnnZ3tsYwHu14rGzAGkLcleEL9Q6VULeIliwY75A5Tu5Xyn7IdeuYA==
+	t=1794379655;
+	b=cOvNmWNickAGyf7QsdZ+pYcZE9TL8M2lSF0VJxqYJKGWu+zQQedArpBrRvifz95FrCWI
+	 +cmd5+HD5/+2WAKOo7U3HvrrGyEbyuMjYYpCyYYMin6XK4DnM++zwLclwNx2LtduE29Oh
+	 UzN+Gkc30AEOFy7GX6O2ZfLEerbYDa1V5HgUqgMnDoGvBzC5S6uUcRzKCQ3Aaa6XRn7XK
+	 Loe6uoxgajHVEmdvGPPlD5n3f+LILTL7k5g1iK1dtUTXPiFEz4O1XlhnFzfAtB/SnYlxz
+	 txEqnZVrgCXSEPLARIbidjYaGJwTuWgL/6GaxzCxGCaNBITYQ1jusR0doRDO5WwXIdg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794379641;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794379655;
 	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
 	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
 	 To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=/3b05ApE7UziTlREebkT1yH2k0t+ooDMznf9ZVFrj2M=;
-	b=FyxAa/yBgZc749Kqp2u74G979rM7PJrw6pfaPxrhVGsTJqsbMity8Cyi3JHnu2L9R2QK
-	 Dp7+g8TJitEdt3BVya2YOUUtVDTIUYV8Pt9XSrnhVwJHTEpzfHB/8lSBdZT4NyqjlBMot
-	 myxAJgdFyOGTVjQoSkNjI9amfV5WGrtqciZNTrVTgZ5foJMb1PElNqwwwPgUAjCpH4Mtt
-	 /OZaJCkfEsk2M7q5FMUAD+6zq/JW7/2GzGcEX8ffYMh2AyUC6GM4cm/nTF+mv0K0rsYWi
-	 lklpw4AX2McCLHRo5i1eYDjlGZdKGQ50YLmznKjrNGWx843vZVqNLkHdwVmkJUWLe/Q==
+	bh=T5i3Oi7BJr9v77Dog3Y0vN/1EvTrivH4ao/wIPN6ylk=;
+	b=RjxLO+8eE56f+xkGeEv9ByN1NnXFW0N8jPEp7WDNnnoJTuL2d58QoucWQbVwBDYchJ7+
+	 NEFOVBNz2NPD+TSyWfAmi3Y4lXl3saJoGZsKTIyIV5Fxx31SriVMhvmOKzk96rJvBfy54
+	 LJpJLcj717gS0r2KteGECNhpNx5H4kg33fYOxQK5ijRmXgJ2aHUqMh/ps8snBP7cqLOwO
+	 Bl1JAvhUQXHVupFTW1OAvoSSjSZ2yavOB5t7bi1Oyv47Rb4/d/5+8VOragK6lo6zoDTZc
+	 Ic/8FnhK34p6qaOGLrEa3QqsZ4APVg8Ea5GkDPWKs9jxaQWbuRBqaC7UHcjNnssSjdg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=cmss.chinamobile.com;
 	spf=pass smtp.mailfrom=cmss.chinamobile.com;
-	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=q+2Y+ix+;
-	arc=none smtp.remote-ip=111.22.67.139
-Received: from cmccmta6.chinamobile.com (cmccmta6.chinamobile.com [111.22.67.139])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0414760A2605;
-	Wed, 11 Nov 2026 06:47:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0414760A2605
+	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=TcRqFdLf;
+	arc=none smtp.remote-ip=111.22.67.151
+Received: from cmccmta8.chinamobile.com (cmccmta8.chinamobile.com [111.22.67.151])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 552E960A6F66;
+	Wed, 11 Nov 2026 06:47:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 552E960A6F66
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=q+2Y+ix+
+	dkim=pass (1024-bit key) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=TcRqFdLf
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=cmss.chinamobile.com; s=default; l=0;
 	h=from:subject:message-id:to:cc:mime-version;
 	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-	b=q+2Y+ix+wKEohMDCondptIOYO59miP3IljwZrCn08wUBp67gkT+9aBlT7sE6/FZL5Yf2EG/JOFkr6
-	 P39YWmqF79ZWFJIh5oa1ZrGkwCyCs7GAe6ZthsIVcl+TB30XVZFzQIxQmerpT6toBA7LKMI6iYqeXE
-	 izqnPRr5V86p6hgk=
+	b=TcRqFdLfFLakPtRJOlX8uGiBNsNhYX8CioCeBJ1+7xvaI3561M/wZpF5Er4MxNnGRXWg/LG/fimTq
+	 2jw/tg5fdVdeKRfzY0onxcqmrprDQD5nmAW9nMpWSNaiGiqGF4FyshOR1wL8zLJXqhm3bIib4Zfm1N
+	 sPSY6EB2oAdA0dLA=
 X-RM-TagInfo: emlType=0                                       
 X-RM-SPAM-FLAG:00000000
 Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
-	by rmmx-syy-dmz-app05-12005 (RichMail) with SMTP id 2ee56af40f745cc-d2bbd;
-	Wed, 11 Nov 2026 14:47:18 +0800 (CST)
-X-RM-TRANSID:2ee56af40f745cc-d2bbd
+	by rmmx-syy-dmz-app06-12006 (RichMail) with SMTP id 2ee66af40f82198-a1dc0;
+	Wed, 11 Nov 2026 14:47:32 +0800 (CST)
+X-RM-TRANSID:2ee66af40f82198-a1dc0
 X-RM-TagInfo: emlType=0                                       
 X-RM-SPAM-FLAG:00000000
 Received:from devin-VMware-Virtual-Platform.localdomain (unknown[10.55.1.72])
-	by rmsmtp-syy-appsvr04-12004 (RichMail) with SMTP id 2ee46af40f75d9c-d1e6c;
-	Wed, 11 Nov 2026 14:47:18 +0800 (CST)
-X-RM-TRANSID:2ee46af40f75d9c-d1e6c
+	by rmsmtp-syy-appsvr03-12003 (RichMail) with SMTP id 2ee36af40f81f56-d10f0;
+	Wed, 11 Nov 2026 14:47:32 +0800 (CST)
+X-RM-TRANSID:2ee36af40f81f56-d10f0
 From: Zhu Jun <zhujun2@cmss.chinamobile.com>
 To: brauner@kernel.org
 Cc: viro@zeniv.linux.org.uk,
 	jack@suse.cz,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	syzbot+c4a4cf7debda88305d2b@syzkaller.appspotmail.com,
+	syzbot+a088f9d6bf95dc66a923@syzkaller.appspotmail.com,
 	Zhu Jun <zhujun2@cmss.chinamobile.com>
-Subject: [PATCH] pipe: annotate lockless checks of the file count
-Date: Wed, 11 Nov 2026 14:47:17 +0800
-Message-ID: <20261111064717.17165-1-zhujun2@cmss.chinamobile.com>
+Subject: [PATCH] stat: annotate the lockless inode block count snapshot
+Date: Wed, 11 Nov 2026 14:47:30 +0800
+Message-ID: <20261111064731.17214-1-zhujun2@cmss.chinamobile.com>
 X-Mailer: git-send-email 2.51.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -73,44 +73,34 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-pipe_lock() and pipe_unlock() inspect pipe->files without inode->i_lock,
-while opening or closing a pipe changes the count under that lock. KCSAN
-reports these checks racing with put_pipe_info().
+generic_fillattr() reads i_blocks without inode->i_lock, while concurrent
+space accounting updates it under that lock. KCSAN reports the read
+racing with inode_add_bytes(), for example during a tmpfs write.
 
-Only the zero/nonzero distinction matters here: a caller's file reference
-keeps the count nonzero for a regular pipe or FIFO, and an internal splice
-pipe has no files. Use data_race(READ_ONCE()) to document that distinction
-and take a single snapshot without changing the file-count writers.
+The block count returned by stat is a snapshot taken while file contents
+may change. Annotate this intentional lockless read with data_race(),
+without marking or weakening the locked space-accounting updates.
 
-Fixes: 6447a3cf19da ("get rid of pipe->inode")
+Fixes: 1da177e4c3f41 ("Linux-2.6.12-rc2")
 Signed-off-by: Zhu Jun <zhujun2@cmss.chinamobile.com>
 ---
- fs/pipe.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ fs/stat.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/fs/pipe.c b/fs/pipe.c
-index 4fa69192e6fb..cdca0df67f90 100644
---- a/fs/pipe.c
-+++ b/fs/pipe.c
-@@ -87,14 +87,16 @@ static int pipe_lock_cmp_fn(const struct lockdep_map *a,
+diff --git a/fs/stat.c b/fs/stat.c
+index a2e63c6c45b7..6e6f99aaa628 100644
+--- a/fs/stat.c
++++ b/fs/stat.c
+@@ -103,7 +103,8 @@ void generic_fillattr(const struct mnt_idmap *idmap, u32 request_mask,
+ 	}
  
- void pipe_lock(struct pipe_inode_info *pipe)
- {
--	if (pipe->files)
-+	/* A file reference keeps this nonzero; internal splice pipes stay zero. */
-+	if (data_race(READ_ONCE(pipe->files)))
- 		mutex_lock(&pipe->mutex);
- }
- EXPORT_SYMBOL(pipe_lock);
+ 	stat->blksize = i_blocksize(inode);
+-	stat->blocks = inode->i_blocks;
++	/* The block count is a snapshot and may race with space accounting. */
++	stat->blocks = data_race(inode->i_blocks);
  
- void pipe_unlock(struct pipe_inode_info *pipe)
- {
--	if (pipe->files)
-+	/* As in pipe_lock(), only the stable zero/nonzero distinction matters. */
-+	if (data_race(READ_ONCE(pipe->files)))
- 		mutex_unlock(&pipe->mutex);
- }
- EXPORT_SYMBOL(pipe_unlock);
+ 	if ((request_mask & STATX_CHANGE_COOKIE) && IS_I_VERSION(inode)) {
+ 		stat->result_mask |= STATX_CHANGE_COOKIE;
 -- 
 2.51.0
 
