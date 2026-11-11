@@ -1,128 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.146
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.179
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794413546;
-	b=fww7UJgf5vVV6fDXOyoQnAMNuWs2bS+d98geXMLn4IxN3sSz73Ke2Zl4ircbdmpuCCYi
-	 22Z1vFS97paWuqSIFSg9J2PY8XrqtaRGk0p+rfmtsN6RoVswKCZzy+/ePjt5/dQg90S1T
-	 l5ScINlL5kdzau7Nbp1cM+7C4JksPCq6h1CiEddTWmI7bzIQLK22MY6EcVy7ak65Yd0TX
-	 FklOx0WBzCjiC52FQsf2zWmWk4pZkHH5zkrDmFDFIgqom4w5LnuU/qgBxrdAg/HDlCKQq
-	 mIGuMd4uvKhme7JSdIClZLlwg4XXY1+R+nCkpyXmNu3hQ89bi7wqFhsuLwis75b2c/g==
+	t=1794415458;
+	b=NhOaOs4NOl+IPm+N+t61FmWDMyYCtW8MvpJcjxIcbtILe1TTvUd5dBlPh25ELAY69Ug5
+	 4/LQvbhn44rkGfZ3Y24OUtvbCIeny2WfJXGl3IHHMgxf86IPLI5HJamDoP6bhmQMr9fWu
+	 2gQKt1WbC2Un6TBXxoE7EMMgofyLMOBCCl26QDacG0DD8CpxZk7ISB/uKT/m0zpiNAQOY
+	 8uBjFTUXWzFo93GmQ7Ajw3LrH0FPuLt5I7AdR7m7DxihBTPEPyUp7mwxHqBCO9CeOdKOp
+	 wd8ZldDsFfij/UKz9t/FYNehK+kDAA5Cm2Y/nHxmYyso/Htav6KpztYgf8iteE1iIUg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794413546;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
-	 References:MIME-Version:Content-Transfer-Encoding;
-	bh=4LWIfz0LXniS79CwSXUL1sTo15BzWIHPZTTjWShoiso=;
-	b=e44iFlRlFPyobHuFW4k/mJ0ibp6x3g8clRnjhnuZEYLH601gCG3wHsiGgE7zYm+UowMm
-	 3rvPyABbuSM0zfOBtyiZrJcCmUGSQdZfrSAplOetJ8mJ1/igfOV0AN6heuOuv+vNtSqzo
-	 nyV+VQI5JxqYXa9HISHYJDZmnhd3yd7bPBuwLnT9S1VDGFX97+JOWlMNjc+Ge26+wRRrD
-	 /4WffynLkMg98d6PnnwtlSJ2xhvM0svfjfBJaEw+EFQYkDNje8AqdqZCYBqP2KjLkZ5JM
-	 YPREenLlAALuzft0LMKQBmFF4rUQRZaYGrM2mH8ZC20K1e9WwLJGp3IKVtT6p1uWsGg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794415458;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Received:X-Forwarded-Encrypted:X-Received:MIME-Version:References:
+	 In-Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=eZsD1auAFGH9focpKeQLt7lmstuziSR0maGDEOD7IaE=;
+	b=x+awsCURupn20IaDQkdHQG559pBSZEJsoM/8FAbhXrG7hDAMSlCb8apaE6WGJ0wxoY2g
+	 t/tYqiDVDmnsRBlGYDWY27bT2DgFVCWfmmpxQCo06SPqgzLAP4pT186L8qX/67HfSox7D
+	 MemR0BP+Tw1HCM0fE4N5oS4pFpm3hkcaHPlps22rYjLF+Gt+gd/m1y/CxNqwKoEb8rqCW
+	 5guTEeJGDkfUR96gjZqij1/2ShJK1ZyBbOfBK0Qa3zIZN58Ng25wo3XRSZexUODpt7uOy
+	 i/K3nEt7pTKNfAM+z/dgC4FlUMuN/Qhp/cUvoU6ckoI6t9c4YxNraKaXuQPEBj/Mx8w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=fastmail.org;
-	spf=pass smtp.mailfrom=fastmail.org;
-	dkim=pass header.d=fastmail.org header.i=@fastmail.org header.a=rsa-sha256 header.s=fm3 header.b=0hkJRnZ9;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b="w/NgFr8g";
-	arc=none smtp.remote-ip=103.168.172.146
-Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=none header.from=linux-foundation.org;
+	spf=pass smtp.mailfrom=linuxfoundation.org;
+	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=RlnO6Plk;
+	arc=none smtp.remote-ip=209.85.215.179
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 442CA606A321
-	for <linux-fsdevel@vger.kernel.org>; Wed, 11 Nov 2026 16:12:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 442CA606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7600606A326
+	for <linux-fsdevel@vger.kernel.org>; Wed, 11 Nov 2026 16:44:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B7600606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=fastmail.org header.i=@fastmail.org header.a=rsa-sha256 header.s=fm3 header.b=0hkJRnZ9;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=w/NgFr8g
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfout.phl.internal (Postfix) with ESMTP id 76309EC067D
-	for <linux-fsdevel@vger.kernel.org>; Wed, 11 Nov 2026 11:12:25 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Wed, 11 Nov 2026 11:12:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm3; t=1794413545; x=
-	1794499945; bh=4LWIfz0LXniS79CwSXUL1sTo15BzWIHPZTTjWShoiso=; b=0
-	hkJRnZ9DToq3a1vzW9IdMIRvvetyzWyVmqRC7GIuxQg7Y9z0cAkszPvH/n+csGEr
-	pE3R7fBpzZDE5dGeJ2UIZ0xEP1YiwZjM8KcuwA84O7EhhwKuRuOlYiUYVDsZSNHp
-	D7mdmgdO9TQ9evl1RkybdPRI1aEG9XiqoXLN4bHLtv5Z/RE6siJmmRfc8n9GIZwO
-	bkMK/V3DLKyGuj5dyjAXSXtd8+fTfQfgYMVW9w8996MluFJUeXXkoDKENmMYvG4P
-	+z7ybiCBg/2BPzV6Y/dM7hYupnxtlIbGGJd1RRi54gtTL9gvHpv+ELt1XizHESXV
-	MsV/aB8yd6BMs0v8x5Jnw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm3; t=1794413545; x=1794499945; bh=4
-	LWIfz0LXniS79CwSXUL1sTo15BzWIHPZTTjWShoiso=; b=w/NgFr8gGNS5GQ4rO
-	XXlIGn9PvPizdUPfi7WFXo9FeUVvaw/tjLiJkg6dAL3Ezcqa56URbHD5cLyU/Gwv
-	DioXaNh/8yG7Q/RxCnrg+A8kNCIS36ViwIpdjT4+6hgs8RUkrUWbeAneopnSoUfB
-	X3+I1Y3TS4JJnxG0+wsfan5flmOKfT3Vw6DCAYGXG3sRif8ORqJks99FcV7qEeXq
-	UB65JlgUA69ZA1gIW+ZfGe1+7xvDO9ae25sBkCdXHoagfmLISSNCXuq+H05stgNd
-	QP4mKFNm/fJES0ZYIVWwXbR7Zuh1cEQzADmnGlzR2sqSiSnnkhieJvH6Nit3jcWu
-	TkStw==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=sign d=fastmail.org a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1794413545; d=fastmail.org;
-	mf=PGljYkBmYXN0bWFpbC5vcmc+;
-	rt=PGxpbnV4LWZzZGV2ZWxAdmdlci5rZXJuZWwub3JnPg==;
-	s=fm3:rsa-sha256:lIHuq0EW02FZmK/m3FaJJAFupcHejPwfJR3+sElfT4G2i+K
-	ndKQjxTEL8sqzZHOYDHVMJ7vepor/TBg+TRncKJ5zVERYTCEMVMhzBde7X+YU1KW
-	qTqdTHqUii1LjDLkfMepVExed5tGHFgNanMW8AmU5exLsq2utTRt4A0cx485YoUD
-	+xtZ/Opis2aK09nIqB5X7c+4LVMcefTDkt+OmM9bpMB9NQX9ufrAR8cKt0irMCzs
-	hPb0AGMS77uV+1pbC7j5jM6+fTg13aMYIFC1bZ9KXuparIpkxZ/5p6GHiv8Ini5d
-	QlFlvGdiyMtnAOmJj1SS6L4AUnuR3NgBLGIMTOQ==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=mi-m=1; hc=11;
-	hn=cc,content-transfer-encoding,date,feedback-id,from,
-	in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:jZAot0+yAGnEvPYGis+eFBQ5dZDgM7hmab2s5LnTOIk=:igzaP6AJEXP1a40IWvxYxVxWGW0gJZkrWuBBgHF48YA=;
-X-ME-Sender: <xms:6ZP0agpH1BdyI_c3Y_Hpbp_Cfgp73L4vXnde9uNa0cTFCebxgBRp8w>
-    <xme:6ZP0asqyb9-BmKz2tvFfWOBEQWXuovzcwf3-t2kYxPuZvS9K77g7yUO5LOHbHb-rb
-    AnSKBqML_AZJLT49zuRb4y2xnSl6V5Ty5CP0TYIp6RPIS3Z-AR5_Vhq>
-X-ME-Received: <xmr:6ZP0agAFKQ8QTP6orNapbONeLqycyw4jeOWsLcZKG5TkSfPyh7BwXfWoPIkVZg2C>
-X-ME-Proxy-Cause: dmFkZTEEdbrRFWR0eBKe5v/KfypfLLl/fRZb14YgUijhe01X8oiOT4nHPo8rMe7bc2/Ckq
-    sCGCuwV/iK89RoqtMD+/hj2wVUekqHuNWusm9yUS3FP3mh/Dzsu8iO5RWo+jDsgEDYG2Vu
-    Vhc/k1nrAqISnXm4S67v7t0D+Ix1sNE+1y7OelDhqwkIFG2E0xP0i8OsTKDjqKVRgAB4Yk
-    87DTR7uoK12BdAKefs0htoSFphplUjmmGgDczfWsq93xlzc7hjqcmmoMKIVb7qobZJnIKx
-    k+NOZIiCtqmqRGi83enLRpJm/s183W5wQSVSbrS1PSqCA0GAxxm9f3cCcfZvoaD84wX9aM
-    7dTBnOMn4gliL3OvwY91vsDIAraMp9M0p9V/do8RtotKsZIqVylj0PbcLwinbRcHtwt4Yf
-    4oOCcoR8Lxje3uOaj847if67Pck8pMh6sZ4ZCaNJQy7Dseqmh3D8rxBBKgpOfAedyZFCSo
-    rND4TbnETICVumobqxf0CDQX7OEC13B2emPCuREnnstGq6Tl1IbQczClPaTNaXayvZgNJL
-    1JAf/+xU6MVkDKMPYVlSqfJYXhkRfKh22dbMXvAjyfokbkLWeR3lXv7HqQqKAct7dlK4t8
-    USIMFkF1J+5bq5samcn3/p+TObtQ5rsS+znd+RE+K1zuicV48KDEZz4nwq0Q
-X-ME-Proxy: <xmx:6ZP0aqsxZ61oGGaBr7FLgC6wH1_CSMmGoToVqXikTk9zU8rGTOyHLA>
-    <xmx:6ZP0avKJrijaLqAIdU9YE3cauYNUnOhV3bJF8-Xt5hpHt6SiGxz2OQ>
-    <xmx:6ZP0ahau0IsBkDlihU0DmIxIRAiK9lTvovpS6QQ8XeLbBE2a__wKwg>
-    <xmx:6ZP0ahAn2IsV3QuLL3vsszQsAcj5nEdC_oT7rt6ZQGY_Kz_aodklCw>
-    <xmx:6ZP0ajyJZSg3f1kF6udaxuo-wrN47t6EIHa_Zyy9YCYyg2gOb2ACULCN>
-Feedback-ID: ib53e4b78:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 11 Nov 2026 11:12:23 -0500 (EST)
-From: Ian Bridges <icb@fastmail.org>
-To: jan.koester@tuxist.de
-Cc: linkinjeon@kernel.org,
-	senozhatsky@chromium.org,
-	tom@talpey.com,
-	chenxiaosong@chenxiaosong.com,
-	brauner@kernel.org,
-	linux-cifs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Ian Bridges <icb@fastmail.org>
-Subject: Re: [RFC PATCH 6/6] Documentation: uid_r: describe ksmbd's SID mapping
-Date: Wed, 11 Nov 2026 10:12:17 -0600
-Message-ID: <20261111161217.4128662-1-icb@fastmail.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <ae30e40693d0f8b9f21a27e0@groupi3>
-References: <ae30e40693d0f8b9f21a27e0@groupi3>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=RlnO6Plk
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-cdd89d84521so3714a12.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 11 Nov 2026 08:44:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google; t=1794415457; x=1795020257; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=eZsD1auAFGH9focpKeQLt7lmstuziSR0maGDEOD7IaE=;
+        b=RlnO6Plk7dvbSysvOB/ID3k5DcKiC4/56cqtP22XDbI+b+yOaZOevB/mi0166VHoDE
+         nmMdxqiq9SvORfklvVLg1CJ1UEOt0M7T2bJTudVoPMjMS/yR+3MSHVBRu+FwIAW/VJsb
+         PKaE3E/tj648mENds/a775P4W8FGyNt0it5aE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794415457; x=1795020257;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=eZsD1auAFGH9focpKeQLt7lmstuziSR0maGDEOD7IaE=;
+        b=f9LndSPZi6WLI5IVohOobGb4rRCwvmcqbaMOM2UQ/HTkHBRMj6wWED0FwMBZGP5jUW
+         vhKijeFPGebH2XJEs2E2uCjgr/LVDiqVXSW/7ssnalg/zc99JYlhgK8eodEc4MQRmA/a
+         keIZiyx4z2oWNcVOYhGH02lDL+yAtc9uzsT0d3/uHTVmArhSk9wLXC9CWDI2YSmqcJay
+         PPltzdcxWCG/kpekM9uOB0cCievOu7cTOvtH0KJAlLFmyr8VM4dbVnzDuN88HZFB7TBx
+         g7Z/PZpECqpTsf727vEegpU7gF++75NRJ3eLFBryO9p3NObB5KU9gjfwG7fml6aF29Hz
+         mz3A==
+X-Forwarded-Encrypted: i=1; AL+hErGgkE6XjtvZKGkHCch4xMyELj5iYJ6vIAm1H86UeBasHBazzjJhUPWqNIB4Hg0gbBFOODBzoS2LfSc+IekR@vger.kernel.org
+X-Gm-Message-State: APuU4Z/hV3EGsIMSfKXp94nlmKNvDCBRlZAh5yWYjdV0FadOfqtQwfTK
+	dHL3spJag60wHyOWO03iG2yL8BLtaVo8ewqhE62rjNyOL9ikcZ+0CWZlWvGAE/WDXnaj96YKOzy
+	Nw4vW
+X-Gm-Gg: AYBFou0AvDt+5wzSfK4JwLDwCbd5xA+KeYHhJJL2dOFiGKD0x4XdbF3xs3bnCatWRJ0
+	IMhBaiFKU9XOkEWZDFsTH/k25k+VdNkFE/0ZxKFmVNyKirGmQsyGZx8HHvT27aE+ldMZ/kdF+LO
+	I3c60K+tFxIgfec+Ybby77EYmfxbpv9rRF5bQBUBRzHFCtHTMoN3CGGmh01rNlMQ1ax03h9Ld4F
+	/fiTGbuoQdUnwY9H8YAoRWAPkJZqKZ99HIB6r4wt0TC92veO4lOTel5hzjC7SJdYHO9F0sxR9fS
+	dra5yAjIHFmuahAR8X6WE3eos3CUWuLsxhjiuEZKeut8F+NHcMhjaCQzXzjK9Hh3rHfzeU6+t8K
+	9gftOrlffsTWDGRbag1xyFOcjqDHXBzB4V/uoSlbQY+UUxQlJfOhNyQGjXPhyQdggqZS+3/9iyB
+	2SQLkEcvyxsuYABSq8K2tmYYi7JrvVhXLNpS5WiZOeQPkse5qnoSaL3nojvxnXlzkFEbzRGcvpm
+	Sxf9X0HC1pWEuV7vq7kWXO5vZE3fR7ew/vDbbialjUgXhZCPRfA7To4QDZlGcdwAtZlTp0iXzwF
+	jCEVRXYRvit9Mjsq+7lsaBPZb3VsNmrxOTlhLbI0Xb59O9fI9IcwevslIBR90YM+9LSS4waufiF
+	BLjQ=
+X-Received: by 2002:a17:90b:540f:b0:3b0:9bfa:72ac with SMTP id 98e67ed59e1d1-3b197caa480mr22240a91.21.1794415457134;
+        Wed, 11 Nov 2026 08:44:17 -0800 (PST)
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com. [209.85.216.49])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b197c502bfsm66386a91.8.2026.11.11.08.44.16
+        for <linux-fsdevel@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 11 Nov 2026 08:44:16 -0800 (PST)
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-3ae6b4c669fso16071a91.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 11 Nov 2026 08:44:16 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErE9FFmBsoNbJTqsxrSQezvw5sdOGk80G1LQlBfIISh6rl0uMt5q56JU9I2ZIichQbMKHE7DQ/w+l9ADan4P@vger.kernel.org
+X-Received: by 2002:a17:90b:1d45:b0:3a0:cca0:4a8c with SMTP id
+ 98e67ed59e1d1-3b197c817dbmr35589a91.7.1794415456305; Wed, 11 Nov 2026
+ 08:44:16 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -132,20 +94,60 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261110145241.536019-1-kas@kernel.org> <20261110145241.536019-2-kas@kernel.org>
+ <avNuQqLf9CG9dSsE@casper.infradead.org> <20261111-heimreisen-ungeziefer-empfunden-a892571f2c07@brauner>
+ <20261111-thunfisch-wirbt-waldrand-822275b2d3b1@brauner>
+In-Reply-To: <20261111-thunfisch-wirbt-waldrand-822275b2d3b1@brauner>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Wed, 11 Nov 2026 08:43:53 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wjPY=kfgnmtx4COEQjD5UzKx9m2-=KLGAZP4d=RKEH+pg@mail.gmail.com>
+X-Gm-Features: AclHuK9b6hltBFcCGqxpbtG8UmrJwldogvwXrVDW7-YQ5_XK3IWVlpv59flts7k
+Message-ID: <CAHk-=wjPY=kfgnmtx4COEQjD5UzKx9m2-=KLGAZP4d=RKEH+pg@mail.gmail.com>
+Subject: Re: [PATCH 1/4] virtio_console: copy pipe buffers in splice_write()
+To: Christian Brauner <brauner@kernel.org>
+Cc: Matthew Wilcox <willy@infradead.org>, "Kiryl Shutsemau (Meta)" <kas@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Miklos Szeredi <miklos@szeredi.hu>, Amit Shah <amit@kernel.org>, 
+	Jan Kara <jack@suse.cz>, "David Hildenbrand (Arm)" <david@kernel.org>, Zi Yan <ziy@nvidia.com>, 
+	Bernd Schubert <bschubert@ddn.com>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev, 
+	virtualization@lists.linux.dev, netdev@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, kernel-team@meta.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Jan,
+On Wed, 11 Nov 2026 at 05:42, Christian Brauner <brauner@kernel.org> wrote:
+>
+> So the fix below is what we've done before for pipes and I think it's
+> the right thing to do here too. I put the following on vfs.fixes:
 
-On Tue, Nov 10, 2026 at 09:02:57AM +0000, Jan Koester wrote:
-> +	rather than ignored. A session's user matches ACL entries naming its
-> +	own or its groups' SIDs, mapped or not.
+Please no.
 
-As I read 4/6, the token is built only at login. Would a mapping that
-user space cannot give then stay missing for the whole session, so the
-session does not match ACL entries naming that mapped SID until a new
-login gets the mapping? If so, could the text say that? For a deny
-entry the session could then get access through another allow entry,
-though that part would need a fix in 4/6 rather than in the text.
+> -       src = kmap_local_page(buf->page);
+> -       memcpy(page_address(page) + offset, src + buf->offset, len);
+> -       kunmap_local(src);
 
-Thanks,
-Ian
+This boils down to one memcpy.
+
+HIGHMEM is dead. Nobody sane uses it. It *will* go away. It's already
+effectively never ever used.
+
+There are some broken 32-bit arm setups that use it, and legacy museum
+32-bit x86.
+
+Don't make one memcpy() that can be inlined become this garbage:
+
+> +       /* The buffer can span several pages of a compound page. */
+> +       kv.iov_base = page_address(page) + offset;
+> +       kv.iov_len = len;
+> +       iov_iter_kvec(&to, ITER_DEST, &kv, 1, len);
+> +       if (copy_page_to_iter(buf->page, buf->offset, len, &to) != len) {
+> +               __free_page(page);
+> +               return -EFAULT;
+> +       }
+
+just because of broken shit that nobody has ever complained about or ever hit.
+
+              Linus
