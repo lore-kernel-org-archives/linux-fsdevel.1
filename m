@@ -1,48 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794420947;
-	b=BIVasuBifogIGfQmBR3GMAS9Iegh9YjQr33FkE4s3XCsHuM1GPc2U5rHXuQbVqQl1mR9
-	 ZvvhS3wZDG8NaDzUB5V0hINTRDO8ngoNPYqTbN0SD47w028Vy3lAoUsbtRkfC0m7wMe3u
-	 oMY3W/PY70ngPEC995eWPmkMunHxZkkLxIsFDq8dixyfDbP5pSbvceHKrmL3bug/JBXBz
-	 0AKiTW+vREr/MK3073km+Yme4TqSz7u7WkyTIiFBV6kHvxW+9UU6EpInm3FdKTBTQfPRf
-	 IljnThiPpbt4AgbAp232NEYd83iM7ujaJ5qVWvLCm9NDbDv5PMm4GNaBiIpxSUuHRgQ==
+	t=1794420955;
+	b=H5dAV0AjV1Z+cxazAnsLKcRleI5ja734rEIY3WOpBpUfklsD+8m3/spB3jeQBpewjBce
+	 0YMFwCNgFo65vsWDtucokRF7b2Wspfg1APISTV0aYedyXz0G0wilVy0T3KCk7GS5aBPSQ
+	 ho8IfVKhRR92LF3IOyZOqDhSJKimvDKc3rO+4b5ZyKHh7XgfbGOgD4qR8zXEY5XYfhjpA
+	 +4ZgfqEgKRuAQqILi7JdYcDiPLsBZyOrBE/mzO5uBKC+/In3jLUTeQuXMH2lMYKxoAB8P
+	 M88lRUzMqeDTERT/Js6JmArI0VErxw7yPqYL491oeCED0FqLqQZaMu8ACtL6gPeFs+Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794420947;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794420955;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=h5THLcBMLeSTN5K3PiMki3R6in5uEjKDjlZfoIyutMo=;
-	b=GYvBbL1sPLZ8+WxceeZmz3JSX9KyTJBEQ0KgGmO0DkcudSYG86OqZhrPO6jlMvLa1rQm
-	 PavJZWs0I3VBm2106Xblfjk8U9PUR15e9t+qXN7V7MAGQptquic7cPkgV3qv9buOOKCi/
-	 hI8+5cF48uyvnefblXsUr7/5w+qvhuyeAyscu+1HkLxoR/6lNh2gl1ygo/QBMF4vYKiWQ
-	 cIJnE/kVMstylMYCFctnuyALdCu1DOnTm3nb3LCR7cYpfdFdH1Ok+HWAqxuMIiGxFrXPe
-	 rktnz/ae3mXYmU/ALYxs0xS9vs+QyDxh2SQfA5emj6GfHF3Ag2FB/IFc9Xe+oCPtkbA==
+	bh=mm9n3peio9qUu21qZhqNukBQnTfc4SDNnkRR/crQvhs=;
+	b=zJlEdCXkblkg381jRHcNX0nrqwR37+K9+nao0AJT0MC79m1C09GsuhJaQC0t1bOSUfFN
+	 0Pvdh4+qyeajRcNdiWu0AKImEp47GRIzyk3aU+HRdMUzIi0NZhwTSjYw5yMm/eyu86/TP
+	 fHFnSw/s0hxleENR9T1bmeA0Oo5v1WD1yk5+EuApKxLy2KdlThU28SA0r6KBkGnRrxJ/e
+	 ox2KKIJlHSiD93kUiGPdobLJatPi9OppRD/y8afXHVEeWP8JnZrnwVLjgmbOP45Ztxnso
+	 86l618spTY1XXj0iuhL2GrYlW7ekJVxTDljRUvpWjGwTNvq8Z7zs/Lhgvyt9/3/pgeA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kqUyIhVM;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OrLnn70U;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0982606AE24;
-	Wed, 11 Nov 2026 18:15:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6D7C606B7AB;
+	Wed, 11 Nov 2026 18:15:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kqUyIhVM
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE9AB1F00A06;
-	Wed, 11 Nov 2026 18:15:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OrLnn70U
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 064241F00A05;
+	Wed, 11 Nov 2026 18:15:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794420946;
-	bh=h5THLcBMLeSTN5K3PiMki3R6in5uEjKDjlZfoIyutMo=;
+	s=k20260515; t=1794420955;
+	bh=mm9n3peio9qUu21qZhqNukBQnTfc4SDNnkRR/crQvhs=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=kqUyIhVMNg0ENWRKdyQc8N8j33+TGLGVIncqmNZ+vBtJ+7MWKgecLJZTcRZr0NYzA
-	 EzwRv/U4qhhZNRxt/3BImeIrJ1AO2hWC0D+qCzXomrCIVcETdfHqQWqgclbJ7+RCV8
-	 aNGyS6AgyZbx5pCIwNvZ17pvVbzgKMeZcUZXaLlk2BgjEkN6gJuYQFXZ8JNFDg674B
-	 iUwDMVIrF0bAypSzyKgWOGX64GoQ2eQMO2gs3GWIpiZebajQE9dweskDOIW6toaZIg
-	 cyQT2j5kW6RImC9NpPXIZ5bNkcsoeIb6RKIf01tBXjjLLroIRmYEdSDpG/qhLjUwse
-	 Uaz7aZvEwK2/A==
+	b=OrLnn70UVzKJ27gp/6Hro8tBdsvJ1PvIQWsDLGEXRqEse7iggDwnzSfBJ3KzYI+Ow
+	 tkn8fPWyJDeM3jAKcJhYfXQOzMiLgMK+P6vhV+XPdnL6tV8nAD/sXGqG8DjzJLWEe2
+	 4S1Ixr4i2iRJOjaTJLyWctKzef3qB7j0laoJwgPzcIxPTxGLQPGZUGJGi5XfJIx8pz
+	 +On+lbx9Zd/xwcfC35ZnMD1uhdwr9bEnh6iMh4s/8mCr7X86m+eNXQxLL+h54V1hMr
+	 EoWYT/cOcXuR54AE8W633bF76ZqWNQg8IURzgF3oct9MgeibeF6alTIkJEnTVVYZlD
+	 0P1GR/0wqlA3g==
 From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Date: Wed, 11 Nov 2026 18:13:24 +0000
-Subject: [PATCH 10/13] mm/migrate_device: refuse to migrate shadow stacks
+Date: Wed, 11 Nov 2026 18:13:25 +0000
+Subject: [PATCH 11/13] percpu: fix contig hints that are too low
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -54,7 +54,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261111-mason-migrate-et-al-fixes-v1-10-3d2454362e8d@kernel.org>
+Message-Id: <20261111-mason-migrate-et-al-fixes-v1-11-3d2454362e8d@kernel.org>
 References: <20261111-mason-migrate-et-al-fixes-v1-0-3d2454362e8d@kernel.org>
 In-Reply-To: <20261111-mason-migrate-et-al-fixes-v1-0-3d2454362e8d@kernel.org>
 To: David Hildenbrand <david@kernel.org>, 
@@ -83,52 +83,167 @@ Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  Mark Brown <broonie@kernel.org>, 
  "Dennis Zhou (Facebook)" <dennisszhou@gmail.com>, 
  Rick Edgecombe <rick.p.edgecombe@intel.com>, 
- "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, stable@vger.kernel.org
+ "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1393; i=ljs@kernel.org;
- h=from:subject:message-id; bh=HHmymWLilfGbiIKGsQADYadldeCxqCYd2QRpmZM8e2E=;
- b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLK+bMj5vWSa2KLz1dauO05K6Z3KEtijvmTOfK11z7T4Z
- 3Rt/bZ6UUcpC4MYF4OsmCLL8y/i+4NEwuZ1XvB3g5nDygQyhIGLUwAmwrKB4Z/lU8MZm4x/vDys
- deLU1yeRp+7s9jBJThIPlxf2Eby49zgbw/8aBblFpnmTK9+aPWg48PD07xOpOzbZ9HbYv7YP4vx
- qepMFAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6290; i=ljs@kernel.org;
+ h=from:subject:message-id; bh=1FS7D/GzWO8a0dM988BcDlXUDKyEVksiXk4ExIzzEu8=;
+ b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLK+bMjRkJ6+S4vdPZRp/tTL82cueOcU06i69/+nC/FZP
+ 1Qb69d3d5SyMIhxMciKKbI8/yK+P0gkbF7nBX83mDmsTCBDGLg4BWAihdWMDJ8Kyx2czrIu/uG7
+ 99xMtXlPctL8eI51LDKJz51jamUuPpXhn52usp1aXVht7c2gsOWsvL5n731bx+vOvWlKl1DqHb0
+ /LAA=
 X-Developer-Key: i=ljs@kernel.org; a=openpgp;
  fpr=E7F417BF5214569E89D04F46CF9DCD8A81E27F14
 
-From: Chris Mason <mason@kernel.org>
+pcpu_find_block_fit() skips a chunk or block whose contig_hint is too
+small for the request, so a contig_hint must never be smaller than the
+largest free area.
 
-The kernel blocks ordinary writes to a shadow stack. But pte_write() is
-true for a shadow stack entry, and migrate_vma_setup() sets
-MIGRATE_PFN_WRITE for each page where pte_write() is true.
+If it is, atomic and reserved chunk allocations can fail spuriously, and
+others can create a chunk which is not needed.
 
-Notably, the nouveau GPU driver takes that flag as permission to map its
-copy of the page writable for the GPU, meaning that the next CPU access
-migrates the page back into the shadow stack, and the page then holds what
-the GPU wrote.
+There are three ways in which this can happen:
 
-Be consistent and disallow this for migration.
+Firstly, when an allocation breaks a contig_hint, both
+pcpu_block_refresh_hint() and pcpu_chunk_refresh_hint() promote the
+scan_hint to contig_hint and scan only what follows it. However a free
+can set the scan_hint regardless of what precedes it:
 
-Fixes: 54007f818206 ("mm: Introduce VM_SHADOW_STACK for shadow stack memory")
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Chris Mason <mason@kernel.org>
-[ ljs: removed unnecessary comment, refined commit msg ]
+    free areas    A = 10 bits, then C = 50 bits
+    hints         contig_hint = C
+                  scan_hint = 0, cleared by an earlier allocation
+    free B        5 bits between A and C: scan_hint = B
+    allocate C    contig_hint = B, the scan starts after B
+    result        contig_hint = 5, but A has 10 bits
+
+Secondly, when a free stays within one block,
+pcpu_block_update_hint_free() passes the end of the free area to the
+chunk hints as a block offset rather than a chunk offset, so in any block
+but the first the chunk hints are not updated at all.
+
+Thirdly, that free area stops at the block boundary, even if the free
+bits continue into a neighbouring block.
+
+Fix these by always rescanning when a contig_hint is broken, passing the
+correct offset, and refreshing the chunk hints whenever a free area
+reaches a block boundary.
+
+Reported-by: Chris Mason <mason@kernel.org>
+Fixes: da3afdd5bb54 ("percpu: use block scan_hint to only scan forward")
+Fixes: 92c14cab4326 ("percpu: convert chunk hints to be based on pcpu_block_md")
+Fixes: d33d9f3dd96b ("percpu: use chunk scan_hint to skip some scanning")
 Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 ---
- mm/migrate_device.c | 2 ++
- 1 file changed, 2 insertions(+)
+ mm/percpu.c | 59 +++++++++++++----------------------------------------------
+ 1 file changed, 13 insertions(+), 46 deletions(-)
 
-diff --git a/mm/migrate_device.c b/mm/migrate_device.c
-index 5fe11dd01291..a59864f2e9a6 100644
---- a/mm/migrate_device.c
-+++ b/mm/migrate_device.c
-@@ -759,6 +759,8 @@ int migrate_vma_setup(struct migrate_vma *args)
- 	/* The migrate_vma page walk has no hugetlb support. */
- 	if (!vma_is_mm_backed(vma) || vma_is_hugetlb(vma) || vma_is_dax(vma))
- 		return -EINVAL;
-+	if (vma_test_single_mask(vma, VMA_SHADOW_STACK))
-+		return -EINVAL;
- 	if (nr_pages <= 0)
- 		return -EINVAL;
- 	if (args->start < vma->vm_start || args->start >= vma->vm_end)
+diff --git a/mm/percpu.c b/mm/percpu.c
+index d7883507dc15..dfd3ff0a1ac0 100644
+--- a/mm/percpu.c
++++ b/mm/percpu.c
+@@ -733,30 +733,16 @@ static void pcpu_block_update_scan(struct pcpu_chunk *chunk, int bit_off,
+ /**
+  * pcpu_chunk_refresh_hint - updates metadata about a chunk
+  * @chunk: chunk of interest
+- * @full_scan: if we should scan from the beginning
+  *
+  * Iterates over the metadata blocks to find the largest contig area.
+- * A full scan can be avoided on the allocation path as this is triggered
+- * if we broke the contig_hint.  In doing so, the scan_hint will be before
+- * the contig_hint or after if the scan_hint == contig_hint.  This cannot
+- * be prevented on freeing as we want to find the largest area possibly
+- * spanning blocks.
+  */
+-static void pcpu_chunk_refresh_hint(struct pcpu_chunk *chunk, bool full_scan)
++static void pcpu_chunk_refresh_hint(struct pcpu_chunk *chunk)
+ {
+ 	struct pcpu_block_md *chunk_md = &chunk->chunk_md;
+-	int bit_off, bits;
++	int bit_off = chunk_md->first_free, bits;
+ 
+-	/* promote scan_hint to contig_hint */
+-	if (!full_scan && chunk_md->scan_hint) {
+-		bit_off = chunk_md->scan_hint_start + chunk_md->scan_hint;
+-		chunk_md->contig_hint_start = chunk_md->scan_hint_start;
+-		chunk_md->contig_hint = chunk_md->scan_hint;
+-		chunk_md->scan_hint = 0;
+-	} else {
+-		bit_off = chunk_md->first_free;
+-		chunk_md->contig_hint = 0;
+-	}
++	chunk_md->contig_hint = 0;
++	chunk_md->scan_hint = 0;
+ 
+ 	pcpu_for_each_md_free_region(chunk, bit_off, bits)
+ 		pcpu_block_update(chunk_md, bit_off, bit_off + bits);
+@@ -774,19 +760,10 @@ static void pcpu_block_refresh_hint(struct pcpu_chunk *chunk, int index)
+ {
+ 	struct pcpu_block_md *block = chunk->md_blocks + index;
+ 	unsigned long *alloc_map = pcpu_index_alloc_map(chunk, index);
+-	unsigned int start, end;	/* region start, region end */
+-
+-	/* promote scan_hint to contig_hint */
+-	if (block->scan_hint) {
+-		start = block->scan_hint_start + block->scan_hint;
+-		block->contig_hint_start = block->scan_hint_start;
+-		block->contig_hint = block->scan_hint;
+-		block->scan_hint = 0;
+-	} else {
+-		start = block->first_free;
+-		block->contig_hint = 0;
+-	}
++	unsigned int start = block->first_free, end;
+ 
++	block->contig_hint = 0;
++	block->scan_hint = 0;
+ 	block->right_free = 0;
+ 
+ 	/* iterate over free areas and update the contig hints */
+@@ -938,7 +915,7 @@ static void pcpu_block_update_hint_alloc(struct pcpu_chunk *chunk, int bit_off,
+ 				chunk_md->contig_hint,
+ 				bit_off,
+ 				bit_off + bits))
+-		pcpu_chunk_refresh_hint(chunk, false);
++		pcpu_chunk_refresh_hint(chunk);
+ }
+ 
+ /**
+@@ -952,12 +929,8 @@ static void pcpu_block_update_hint_alloc(struct pcpu_chunk *chunk, int bit_off,
+  * forward and backward to determine the extent of the free area.  This is
+  * capped at the boundary of blocks.
+  *
+- * A chunk update is triggered if a page becomes free, a block becomes free,
+- * or the free spans across blocks.  This tradeoff is to minimize iterating
+- * over the block metadata to update chunk_md->contig_hint.
+- * chunk_md->contig_hint may be off by up to a page, but it will never be more
+- * than the available space.  If the contig hint is contained in one block, it
+- * will be accurate.
++ * The chunk metadata is refreshed if the free area reaches a block boundary,
++ * as it may then extend into neighbouring blocks.
+  */
+ static void pcpu_block_update_hint_free(struct pcpu_chunk *chunk, int bit_off,
+ 					int bits)
+@@ -1042,18 +1015,12 @@ static void pcpu_block_update_hint_free(struct pcpu_chunk *chunk, int bit_off,
+ 	if (nr_empty_pages)
+ 		pcpu_update_empty_pages(chunk, nr_empty_pages);
+ 
+-	/*
+-	 * Refresh chunk metadata when the free makes a block free or spans
+-	 * across blocks.  The contig_hint may be off by up to a page, but if
+-	 * the contig_hint is contained in a block, it will be accurate with
+-	 * the else condition below.
+-	 */
+-	if (((end - start) >= PCPU_BITMAP_BLOCK_BITS) || s_index != e_index)
+-		pcpu_chunk_refresh_hint(chunk, true);
++	if (!start || end == PCPU_BITMAP_BLOCK_BITS || s_index != e_index)
++		pcpu_chunk_refresh_hint(chunk);
+ 	else
+ 		pcpu_block_update(&chunk->chunk_md,
+ 				  pcpu_block_off_to_off(s_index, start),
+-				  end);
++				  pcpu_block_off_to_off(s_index, end));
+ }
+ 
+ /**
 
 -- 
 2.56.0
