@@ -1,50 +1,50 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794429414;
-	b=jSyC4Vm3BgdASA3an8qJ7GBYpGshiS8aRiOX04RHIYd5xuZ2DMav8kpONjyOECnMb4Kv
-	 qy0Jooh+CCteN8MTkJJXlEY6Gfpng0Ju/XPVELNj90XIGOVWG3sHVAJaKKWIheP9VFvcd
-	 +mgN6Zf4ejyz5GnWhbOs6QwtbXc6U2RBRMLnlCHVJxH/7UsYIlz6zwbM66UYjNSgsENx1
-	 gE8UaMniFM8yJJ9KA9knRst0OQoAXtevtlT2JORRmBG+EFgJVEOZNKZp29SqUi4xictA3
-	 YMzoXCZCKL372Kzdc4+Dwhg9SHcy98QZnykC4eAGOhjmxEzEDXHUlh2l2EtjtpcX6Ew==
+	t=1794429415;
+	b=2DPDeCSwHjPskVBSnTu+nLHPiVM1pDnYoN3jY119V1lK7WEEatZ7PP0lt1kTe+JrEMcP
+	 WpTo3Aw0mElTotcj6DKG0nejyTD1ike+4QBxOW4/9sTu3GVP7djjxFC9UhzdgabHNlMkm
+	 PlyLi6bJvMk+HD7thqbWRjk2YCrff5KqTEV3knYvU/3xBco6xwnLN7bIeMhP05043jQHE
+	 VCxcM2kgRvNB37FSLHS2PnXoMTLUllGfX3hv5b1QPXax0TepStEIGNDQZrGSZtcgF8LaR
+	 dZ3RxUrzXVRd5aW+0e0MqGSW1l8hWKkUg1jdzzaZGtKeqNUCbiA625X+dceaeGchoeA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794429414;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794429415;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=uMBcwn1n2dpUHT/6uEIYq3oHlPCno4BFZR7u/G8+ALE=;
-	b=ouwlL1yVs37F/ryVlNT+mOaMK/zzrejw+A55PtgX9CtppMzPuH3SL/n2uI4QCaDb0opi
-	 JVEzckWiDQLJ2xJwoJC7UXCPPPsiX2S2xGe9yH7og7IeTv//kHpBz96PLin5P24QVcVn8
-	 a92U7YMAomMyZosqPY5syXqlc60iQwZdmuHSq9JXio2t9JQXm+zW6yrlLjFlEYTL5ReGM
-	 6jtJZTgss/E+ySsPqBvIQX8aNBGKntkI4Sl+YAzP5uL3k2GKtakms6/UzKE9w6Rlan5K6
-	 TdXLn3zfnQBlppsLOMHddj+IBgaqzqx3V5IkEhZ54UoT8dk/2XiMKvTZVBlZezELtsw==
+	bh=Z3dEdxOCU8nAuYzSvkj6TU4es90N0pl4D5gWfspNko4=;
+	b=3Pi026axNs4VQQG9Yp/IAZaAL5h8xkPuQg/hOt/xRD8XarMBhzscIjp7mgRpNPiMlNz1
+	 unfZ5N0ggn6xuT87WV9YbpNYLCN3J2nNOfSZWbQpvu4PSzG4s9LOyVDCdUShkbFNoS8bG
+	 2phGs2EvXFHQ4XhNtYKe1HFLikYBMFrPa0xFn/1u2dq44zWuZfCwTWWkJVZsSvfIQ8EmX
+	 tPYKR3VZL/gwTAWfyfsfZf3mSyFvbYqfvtf8gZ3FF0drWefVqwemCIp+6hjMm26szF842
+	 q5MuZvh26lL3xUqlPR68jwYyhiCI4vy5qEMpmIz6G8suHOH8mMJ6N92Ja3v0NHK9oag==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=efficios.com;
 	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=bHBzg8Vx;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b="WX4/2Cpm";
 	arc=none smtp.remote-ip=158.69.130.18
 Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FABD606A899;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC8FC60A2601;
 	Wed, 11 Nov 2026 20:36:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4FABD606A899
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DC8FC60A2601
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=bHBzg8Vx
+	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=WX4/2Cpm
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
 	s=smtpout1; t=1794429406;
-	bh=uMBcwn1n2dpUHT/6uEIYq3oHlPCno4BFZR7u/G8+ALE=;
+	bh=Z3dEdxOCU8nAuYzSvkj6TU4es90N0pl4D5gWfspNko4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=bHBzg8Vxmh50pUZdQN5tXZZosoPErK4Ix+6o15lxqI6zCqT20Hy0ad5QfyjgSqjPV
-	 bNpuQSHkxEQnAIF6EWk6kOirLBYbAinwVW6yWUJ6qNAGsOiEiQqw9pDfT4O1Hwi2cw
-	 5uVyusc5KdTi/fk/81A2Hvk4r0B2ysFbRmFJs0GQvHCYj4GW06zSzorcgjULICkbEq
-	 R6bJXUzGoxahC+ZVYSVFLRtJexHpXRDCIKu5s424ctMUD/elqyb0Y/+S7eJfxYzrir
-	 WHZRIpt/3MRbbuyed6borILZDndv0ii+zYyOsqYYboixVj3RxouIlzRJlecs4qNuEo
-	 8XZvnFRXtXTiQ==
+	b=WX4/2CpmsyeknRMizxcafFMF+yp2DSEjulJry4Q7txYEaCedX7FNclABPdu3CZArQ
+	 4EC2SUSp8A8uXalLDeZdkGk/sgFrPMK0CILE/N4+nScfNeXk9kVaCnzZnGAOZTJZUd
+	 8E4q3cKCnAJM4NqNX/jg/j4wl/dWw/7fxulQXVXURXY+JEPhGKNRVvYd4/NX/YUI87
+	 Xm3afTjWE1ovgYx0bYQKWzH8JjrazSnR+wv+5L9aZciJT3oJpZCDzTuvn5wIaoRhGZ
+	 QM1AuIRBMiNTJ5Y/qWjg+5uvvTsatpg/79dWVPdkEFMjjk8CxdUq68quBZeL+YVDHF
+	 Bb/Ja/WQTgwFw==
 Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jPwKp2wqvzNh0;
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jPwKp1HMszNZX;
 	Wed, 11 Nov 2026 15:36:46 -0500 (EST)
 From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To: David Hildenbrand <david@kernel.org>
@@ -107,9 +107,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Will Deacon <will@kernel.org>,
 	Boqun Feng <boqun@kernel.org>,
 	Hugh Dickins <hughd@google.com>
-Subject: [RFC PATCH v25 09/14] lib: percpu_counter_tree: test the limit counters
-Date: Wed, 11 Nov 2026 15:36:21 -0500
-Message-Id: <20261111203626.95838-10-mathieu.desnoyers@efficios.com>
+Subject: [RFC PATCH v25 08/14] lib: percpu_counter_tree: add limit counters
+Date: Wed, 11 Nov 2026 15:36:20 -0500
+Message-Id: <20261111203626.95838-9-mathieu.desnoyers@efficios.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20261111203626.95838-1-mathieu.desnoyers@efficios.com>
 References: <20261111203626.95838-1-mathieu.desnoyers@efficios.com>
@@ -124,657 +124,551 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Test the limit counters of the previous patch. These tests cover them:
+A limit counter keeps a value below a limit. An addition fails rather
+than take the value above it. The tmpfs size limit uses
+percpu_counter_limited_add() for this. It takes no lock while the value
+is more than batch * nr_cpus below the limit. With the default batch
+size, this range grows as nr_cpus^2: 1.1 GB of pages at 384 CPUs.
+Closer to the limit, each addition takes the counter spinlock and sums
+all CPUs.
 
-- The userspace harness checks each decision and the bounds of each
-  counter.
-- The harness also stalls an addition right after its carry fills an
-  item, at each level and at the root. Then the other CPUs of that item
-  add near the limit. An item holding such a carry must take no new
-  arrival. Without this rule, they exceed the limit in 105 of the 191
-  configurations.
-- A harness test makes an addition fail because of another one in
-  flight, and checks that it retries and fits. Another one checks that
-  a large amount which cannot fit is not added.
-- The harness runs these tests again with both counters about to wrap,
-  as unsigned and as signed values. It passes as a 32-bit build too.
-- A KUnit test runs workers on all CPUs near the limit. An exact shadow
-  of the successful additions never exceeds it.
+A tree counter has a smaller error bound. But its carries break a
+strict check. A carry leaves a level before it arrives at the next one.
+A sum taken in between misses it. A carry which arrives first can be
+counted twice instead. This is as bad for a negative carry.
 
-For the stall test, the shim gains a stall hook. It runs a function
-right after the next fully ordered or release update of a chosen item.
+So split the value by sign, into two counters which only grow: the
+additions and the subtractions. Each one errs in one direction only:
+
+- The additions carry to the next level before they leave the level
+  below. A sum read from level 0 up never misses a carry.
+- The subtractions carry as usual. A sum read from the root down never
+  counts a carry twice.
+
+A carry about to leave an item takes what earlier additions left there.
+Until it reaches the root, the check does not see that part. So an item
+holding such a carry takes no new arrival. The next carries go straight
+to the root. The value is then at most:
+
+  root(additions) + accuracy - root(subtractions)
+
+An addition first adds, then checks after a full barrier. If this bound
+is within the limit, it succeeds without a sum or a lock. Within the
+accuracy of the limit, the precise sums decide. An addition which does
+not fit is undone. The last addition checked sees all the others, so
+the limit is never exceeded. Additions must not be made from interrupt
+context, and percpu_counter_tree_limit_add() warns if they are.
+
+An addition about to be undone can make a concurrent one fail,
+although that one fits. So an amount larger than the batch size is
+checked before it is added. If it cannot fit, it fails without being
+added. A smaller failed addition retries once if the value leaves room
+for it.
+
+The API is percpu_counter_tree_limit_init(), _destroy(), _add(), _sub()
+and _precise_sum(). percpu_counter_tree_batch_for_accuracy() chooses
+the batch size from the limit.
+
+The shim of the userspace test gains the primitives which the library
+now uses.
 
 Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 ---
- lib/tests/percpu_counter_tree_kunit.c  | 172 +++++++++++++
- tools/testing/hpcc/include/hpcc_shim.h |  42 ++-
- tools/testing/hpcc/main.c              | 342 +++++++++++++++++++++++++
- 3 files changed, 553 insertions(+), 3 deletions(-)
+ include/linux/percpu_counter_tree.h    |  73 ++++++
+ lib/percpu_counter_tree.c              | 322 +++++++++++++++++++++++++
+ tools/testing/hpcc/include/hpcc_shim.h |  18 +-
+ 3 files changed, 411 insertions(+), 2 deletions(-)
 
-diff --git a/lib/tests/percpu_counter_tree_kunit.c b/lib/tests/percpu_counter_tree_kunit.c
-index 12bd5a4bbb45..bd99ab7ca1c0 100644
---- a/lib/tests/percpu_counter_tree_kunit.c
-+++ b/lib/tests/percpu_counter_tree_kunit.c
-@@ -612,6 +612,177 @@ static void hpcc_test_contended_carries(struct kunit *test)
- 		do_hpcc_test_contended_carries(test, 1UL << batch_size_order);
+diff --git a/include/linux/percpu_counter_tree.h b/include/linux/percpu_counter_tree.h
+index 2c27350ce836..dcdb91660bc0 100644
+--- a/include/linux/percpu_counter_tree.h
++++ b/include/linux/percpu_counter_tree.h
+@@ -130,6 +130,28 @@ long percpu_counter_tree_approximate_sum(struct percpu_counter_tree *counter)
  }
  
-+#define LIMIT_NR_OPS	100000
+ unsigned long percpu_counter_tree_approximate_accuracy(struct percpu_counter_tree *counter);
++unsigned long percpu_counter_tree_batch_for_accuracy(unsigned long accuracy);
 +
-+struct limit_shared {
-+	struct percpu_counter_tree_limit limit;
-+	unsigned long max;
-+	unsigned long target;		/* Amount each worker tries to hold. */
-+	unsigned long batch_size;
-+	atomic_long_t charged;		/* Exact total of the successful additions held. */
-+	atomic_long_t nr_over;		/* Times charged exceeded max. */
-+	atomic_long_t nr_added, nr_failed;
-+	atomic_t nr_ready;
-+	unsigned int nr_workers;
-+	bool started;
++/*
++ * A value kept below a limit, such as the blocks used by a file system
++ * with a size limit. It is split by sign into two counters which only
++ * grow: the additions and the subtractions. Each one carries in the
++ * direction that keeps the limit check strict. See "Limit counters" in
++ * lib/percpu_counter_tree.c.
++ */
++struct percpu_counter_tree_limit {
++	/* [0]: the additions, [1]: the subtractions. */
++	struct percpu_counter_tree counters[2];
 +};
 +
-+struct limit_data {
-+	struct limit_shared *sh;
-+	unsigned long held;
-+	u32 seed;
-+} ____cacheline_aligned_in_smp;
-+
-+static DECLARE_WAIT_QUEUE_HEAD(limit_wq);
-+
-+static u32 limit_rnd(struct limit_data *ld)
++int percpu_counter_tree_limit_init(struct percpu_counter_tree_limit *limit,
++				   unsigned long batch_size, gfp_t gfp_flags);
++void percpu_counter_tree_limit_destroy(struct percpu_counter_tree_limit *limit);
++bool percpu_counter_tree_limit_add(struct percpu_counter_tree_limit *limit,
++				   unsigned long max, unsigned long amount);
++void percpu_counter_tree_limit_sub(struct percpu_counter_tree_limit *limit,
++				   unsigned long amount);
++unsigned long percpu_counter_tree_limit_precise_sum(struct percpu_counter_tree_limit *limit);
+ 
+ #if IS_ENABLED(CONFIG_KUNIT)
+ unsigned int percpu_counter_tree_check_config(void);
+@@ -284,6 +306,57 @@ int percpu_counter_tree_subsystem_init(void)
+ 	return 0;
+ }
+ 
++static inline
++unsigned long percpu_counter_tree_batch_for_accuracy(unsigned long accuracy)
 +{
-+	u32 x = ld->seed;
-+
-+	x ^= x << 13;
-+	x ^= x >> 17;
-+	x ^= x << 5;
-+	ld->seed = x;
-+	return x;
++	return PERCPU_COUNTER_TREE_MAX_BATCH;
 +}
 +
-+/*
-+ * Each worker adds to the limit counter until it holds its target. Then
-+ * it frees part of what it holds. Together, the workers hold about 1.5
-+ * times the limit, so additions fail. A successful addition is added to
-+ * charged after it succeeds. A free subtracts from charged before it
-+ * reaches the limit counter. So charged is never above the value of the
-+ * limit counter. Charged above max means the limit was exceeded.
++/* On UP, the value is a single atomic: the first counter. The second is unused. */
++struct percpu_counter_tree_limit {
++	struct percpu_counter_tree counters[2];
++};
++
++static inline
++int percpu_counter_tree_limit_init(struct percpu_counter_tree_limit *limit,
++				   unsigned long batch_size, gfp_t gfp_flags)
++{
++	return percpu_counter_tree_init(&limit->counters[0], batch_size, gfp_flags);
++}
++
++static inline
++void percpu_counter_tree_limit_destroy(struct percpu_counter_tree_limit *limit)
++{
++}
++
++static inline
++bool percpu_counter_tree_limit_add(struct percpu_counter_tree_limit *limit,
++				   unsigned long max, unsigned long amount)
++{
++	atomic_long_t *count = &limit->counters[0].count;
++	long old = atomic_long_read(count);
++
++	/* Add only an amount which fits. */
++	do {
++		if ((unsigned long)old + amount > max)
++			return false;
++	} while (!atomic_long_try_cmpxchg(count, &old, old + amount));
++	return true;
++}
++
++static inline
++void percpu_counter_tree_limit_sub(struct percpu_counter_tree_limit *limit,
++				   unsigned long amount)
++{
++	atomic_long_sub(amount, &limit->counters[0].count);
++}
++
++static inline
++unsigned long percpu_counter_tree_limit_precise_sum(struct percpu_counter_tree_limit *limit)
++{
++	return atomic_long_read(&limit->counters[0].count);
++}
++
+ #endif	/* CONFIG_SMP */
+ 
+ /**
+diff --git a/lib/percpu_counter_tree.c b/lib/percpu_counter_tree.c
+index 32c4f05d7d7d..9c172fc3e4d7 100644
+--- a/lib/percpu_counter_tree.c
++++ b/lib/percpu_counter_tree.c
+@@ -157,6 +157,7 @@
+ #include <linux/atomic.h>
+ #include <linux/export.h>
+ #include <linux/percpu.h>
++#include <linux/preempt.h>
+ #include <linux/errno.h>
+ #include <linux/slab.h>
+ #include <linux/math.h>
+@@ -551,6 +552,7 @@ EXPORT_SYMBOL_GPL(percpu_counter_tree_init_many_lazy);
+  * The read barriers between the levels of the precise sum are unrelated
+  * to the publication: they order carries, see
+  * percpu_counter_tree_precise_sum_unbiased().
++
+  */
+ 
+ /**
+@@ -1189,6 +1191,326 @@ unsigned long percpu_counter_tree_approximate_accuracy(struct percpu_counter_tre
+ }
+ EXPORT_SYMBOL_GPL(percpu_counter_tree_approximate_accuracy);
+ 
++/**
++ * percpu_counter_tree_batch_for_accuracy() - Largest batch size within an accuracy.
++ * @accuracy: The largest accuracy wanted.
++ *
++ * Return: The largest batch size whose accuracy is at most @accuracy. If
++ * even batch size 2 is above it, return 2.
 + */
-+static int limit_worker_fn(void *data)
++unsigned long percpu_counter_tree_batch_for_accuracy(unsigned long accuracy)
 +{
-+	struct limit_data *ld = data;
-+	struct limit_shared *sh = ld->sh;
-+	unsigned int i;
++	unsigned long batch_size;
 +
-+	/* Pairs with the release of started: max, target and nr_workers are set. */
-+	wait_event(limit_wq, smp_load_acquire(&sh->started));
-+	/* Start together, so that the workers hold their amounts at the same time. */
-+	atomic_inc(&sh->nr_ready);
-+	while (atomic_read(&sh->nr_ready) < sh->nr_workers)
-+		cpu_relax();
-+	for (i = 0; i < LIMIT_NR_OPS; i++) {
-+		u32 x = limit_rnd(ld);
-+		unsigned long amount;
-+
-+		if (ld->held < sh->target) {
-+			/* Mostly small amounts, and one in 16 of a huge page. */
-+			if ((x >> 4) & 15)
-+				amount = 1 + (x >> 8) % (4 * sh->batch_size);
-+			else
-+				amount = 512;
-+			if (percpu_counter_tree_limit_add(&sh->limit, sh->max, amount)) {
-+				unsigned long charged;
-+
-+				charged = atomic_long_add_return(amount, &sh->charged);
-+				if (charged > sh->max)
-+					atomic_long_inc(&sh->nr_over);
-+				ld->held += amount;
-+				atomic_long_inc(&sh->nr_added);
-+			} else {
-+				atomic_long_inc(&sh->nr_failed);
-+			}
-+		} else if (ld->held) {
-+			amount = 1 + (x >> 8) % ld->held;
-+			atomic_long_sub(amount, &sh->charged);
-+			percpu_counter_tree_limit_sub(&sh->limit, amount);
-+			ld->held -= amount;
-+		}
-+		if (!(i & 63))
-+			cond_resched();
-+	}
-+	atomic_long_sub(ld->held, &sh->charged);
-+	percpu_counter_tree_limit_sub(&sh->limit, ld->held);
-+	ld->held = 0;
-+	complete_work();
-+	return 0;
-+}
-+
-+static void do_hpcc_test_limit(struct kunit *test, unsigned long batch_size)
-+{
-+	struct limit_shared *sh;
-+	struct limit_data *ld;
-+	struct task_struct **task;
-+	const struct cpumask *cpus;
-+	unsigned int nr_workers = 0;
-+	unsigned long accuracy;
-+	int ret, cpu;
-+
-+	sh = kzalloc_obj(*sh);
-+	ld = kvcalloc(nr_cpu_ids, sizeof(*ld), GFP_KERNEL);
-+	task = kvcalloc(nr_cpu_ids, sizeof(*task), GFP_KERNEL);
-+	KUNIT_EXPECT_NOT_NULL(test, sh);
-+	KUNIT_EXPECT_NOT_NULL(test, ld);
-+	KUNIT_EXPECT_NOT_NULL(test, task);
-+	if (!sh || !ld || !task)
-+		goto free;
-+	ret = percpu_counter_tree_limit_init(&sh->limit, batch_size, GFP_KERNEL);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	if (ret)
-+		goto free;
-+	accuracy = percpu_counter_tree_approximate_accuracy(&sh->limit.counters[0]);
-+	/* A limit of twice the accuracy, oversubscribed twice: mostly within its accuracy. */
-+	sh->max = 2 * accuracy + 1;
-+	sh->batch_size = batch_size;
-+	init_kthreads();
-+	cpus_read_lock();
-+	cpus = select_worker_cpus();
-+	sh->target = 2 * sh->max / cpumask_weight(cpus) + 512;
-+	for_each_cpu(cpu, cpus) {
-+		ld[cpu].sh = sh;
-+		ld[cpu].seed = get_random_u32() | 1;
-+		task[cpu] = kthread_create_on_cpu(limit_worker_fn, &ld[cpu], cpu,
-+						  "kunit_hpcc_limit/%u");
-+		KUNIT_EXPECT_FALSE(test, IS_ERR(task[cpu]));
-+		if (IS_ERR(task[cpu]))
++	for (batch_size = PERCPU_COUNTER_TREE_MAX_BATCH; batch_size > 2; batch_size >>= 1) {
++		if (batch_size * tree_topology.accuracy_multiplier - nr_cpu_ids <= accuracy)
 +			break;
-+		atomic_inc(&kernel_threads_to_run);
-+		get_task_struct(task[cpu]);
-+		wake_up_process(task[cpu]);
-+		nr_workers++;
 +	}
-+	sh->nr_workers = nr_workers;
-+	/* Start the workers once their number is known, see limit_worker_fn(). */
-+	smp_store_release(&sh->started, true);
-+	wake_up_all(&limit_wq);
-+	fini_kthreads();
-+	for_each_cpu(cpu, cpus) {
-+		if (!IS_ERR_OR_NULL(task[cpu]))
-+			kthread_stop_put(task[cpu]);
-+	}
-+	cpus_read_unlock();
++	return batch_size;
++}
++EXPORT_SYMBOL_GPL(percpu_counter_tree_batch_for_accuracy);
 +
-+	kunit_info(test, "batch_size=%lu workers=%u max=%lu added=%ld failed=%ld over=%ld\n",
-+		   batch_size, nr_workers, sh->max, atomic_long_read(&sh->nr_added),
-+		   atomic_long_read(&sh->nr_failed), atomic_long_read(&sh->nr_over));
-+	KUNIT_EXPECT_EQ(test, atomic_long_read(&sh->nr_over), 0);
-+	KUNIT_EXPECT_GT(test, atomic_long_read(&sh->nr_failed), 0);
-+	KUNIT_EXPECT_EQ(test, percpu_counter_tree_limit_precise_sum(&sh->limit), 0);
-+	percpu_counter_tree_limit_destroy(&sh->limit);
-+free:
-+	kvfree(task);
-+	kvfree(ld);
-+	kfree(sh);
++/*
++ * * Limit counters
++ *
++ * A limit counter keeps a value below a limit: an addition fails rather
++ * than take the value above it. The check must be strict, and fast while
++ * the value is far from the limit.
++ *
++ * A carry in flight breaks a strict check. A carry leaves a level before
++ * it arrives at the next one. A sum taken in between misses it. An
++ * addition could then pass the check while the value is above the limit.
++ * A carry could arrive before it leaves instead, but then a sum could
++ * count it twice, which is as bad for a negative carry.
++ *
++ * The value is therefore split by sign into two counters which only grow:
++ * the additions and the subtractions. Each one only carries positive
++ * amounts, so each one can err in one direction only:
++ *
++ * - The additions carry to the next level before they leave the level
++ *   below. A sum may count a carry twice but never misses it, so it is
++ *   never below the precise value.
++ * - The subtractions carry like any other counter, leaving before they
++ *   arrive. A sum may miss a carry but never counts it twice, so it is
++ *   never above the precise value, and neither is the root.
++ *
++ * A carry about to leave an item above level 0 takes with it what earlier
++ * additions left there. Until it reaches the root, that part is neither in
++ * the root nor within the range of the item. An item holding such a carry
++ * therefore takes no new arrival: the next carries go straight to the
++ * root. Each item holds at most one carry on its way up, and what the
++ * completed additions left in it stays within its range. Their residuals
++ * are never negative, so the completed additions are at most
++ * root + accuracy.
++ *
++ * The value is at most root(additions) + accuracy - root(subtractions).
++ * An addition which keeps this bound within the limit fits without any
++ * sum. Within the accuracy of the limit, the sums of both counters
++ * decide.
++ *
++ * Each addition is added first, then checked after a full barrier, and
++ * undone by a subtraction when it does not fit. Of the additions which
++ * passed their check, the one checked last sees all of them, so their
++ * total never exceeds the limit. This holds if additions are not made from
++ * interrupt context, and only amounts added are subtracted.
++ *
++ * An addition about to be undone can make a concurrent one fail although
++ * it would fit. So an amount larger than the batch size is checked before
++ * it is added. When it cannot fit, it is not added at all. A smaller
++ * amount can still be part of the value briefly. So a failed addition
++ * retries once when the value leaves room for it.
++ *
++ * Both counters wrap around: all the arithmetic is modular.
++
++ */
++
++/*
++ * Add @inc to a counter of additions, with carries which arrive at the
++ * next level before they leave the level below. The level 0 counter of
++ * this CPU must stay stable from its read to its store, because its carry
++ * propagates in between. Preemption is disabled, and the counter must not
++ * be updated from interrupt context. This CPU is then the only writer of
++ * that counter, so a plain store is enough.
++ */
++static
++void percpu_counter_tree_add_arrive_first(struct percpu_counter_tree *counter,
++					  unsigned long inc)
++{
++	unsigned int nr_levels = tree_topology.config->nr_levels, level, level_items,
++		     n_arity_order, stride = counter->items_stride, nr_pending = 0, cpu;
++	unsigned long batch_size = percpu_counter_tree_batch_size(counter);
++	struct {
++		atomic_long_t *count;
++		unsigned long carry;
++	} pending[MAX_NR_LEVELS];
++	unsigned long v, carry0, carry, bit_mask;
++	atomic_long_t *item;
++
++	preempt_disable();
++	cpu = smp_processor_id();
++	/* The residuals of a counter of additions are never negative. */
++	v = (unsigned long)READ_ONCE(*this_cpu_ptr(counter->level0)) + inc;
++	carry0 = v & ~(batch_size - 1);
++	carry = carry0;
++	if (!carry)
++		goto out;
++	item = percpu_counter_tree_items(counter);
++	n_arity_order = tree_topology.config->n_arity_order[0];
++	bit_mask = batch_size << n_arity_order;
++	level_items = 1U << (tree_topology.nr_cpus_order - n_arity_order);
++	for (level = 1; level < nr_levels; level++) {
++		/* A multiple of bit_mask goes through this level unchanged. */
++		if (carry & (bit_mask - 1)) {
++			atomic_long_t *count = &item[(cpu & (level_items - 1)) * stride];
++			long old = atomic_long_read(count);
++
++			/*
++			 * An item at or above bit_mask holds a carry on its
++			 * way up: send this one straight to the root, see
++			 * "Limit counters". Otherwise arrive here, and carry
++			 * the multiples of bit_mask the residual now holds.
++			 * The fully ordered cmpxchg orders the arrival before
++			 * the departures below.
++			 */
++			do {
++				if ((unsigned long)old >= bit_mask)
++					goto root;
++			} while (!atomic_long_try_cmpxchg(count, &old, old + carry));
++			carry = ((unsigned long)old + carry) & ~(bit_mask - 1);
++			if (!carry)
++				goto depart;
++			pending[nr_pending].count = count;
++			pending[nr_pending].carry = carry;
++			nr_pending++;
++		}
++		item += level_items * stride;
++		n_arity_order = tree_topology.config->n_arity_order[level];
++		level_items >>= n_arity_order;
++		bit_mask <<= n_arity_order;
++	}
++root:
++	/*
++	 * Unlike atomic_long_add(), this is fully ordered: the carry arrives
++	 * at the root before it leaves the levels below. Its return value is
++	 * not needed.
++	 */
++	atomic_long_add_return(carry, counter->approx_sum);
++depart:
++	/* Leave each level once the carry arrived at all the levels above. */
++	while (nr_pending--)
++		atomic_long_sub(pending[nr_pending].carry, pending[nr_pending].count);
++out:
++	/* The precise sums read it concurrently. */
++	WRITE_ONCE(*this_cpu_ptr(counter->level0), (s8)(v - carry0));
++	preempt_enable();
 +}
 +
 +/*
-+ * Workers on all the worker CPUs add to and subtract from a limit counter
-+ * held near its limit. The limit is never exceeded, and the value is back
-+ * to 0 once all the workers freed what they held.
++ * Sum a counter of additions from level 0 up to the root. A carry arrives
++ * at the next level before it leaves the level below. So the sum may count
++ * a carry twice. It never misses one, so it is never below the precise
++ * value.
 + */
-+static void hpcc_test_limit(struct kunit *test)
++static
++unsigned long percpu_counter_tree_precise_sum_upper(struct percpu_counter_tree *counter)
 +{
-+	if (num_online_cpus() < 2)
-+		kunit_skip(test, "needs at least 2 online CPUs");
-+	do_hpcc_test_limit(test, 2);
-+	do_hpcc_test_limit(test, 32);
++	unsigned int nr_levels = tree_topology.config->nr_levels, level, level_items, i,
++		     stride = counter->items_stride;
++	atomic_long_t *item = percpu_counter_tree_items(counter);
++	unsigned long sum = 0;
++	int cpu;
++
++	for_each_possible_cpu(cpu)
++		sum += (unsigned long)READ_ONCE(*per_cpu_ptr(counter->level0, cpu));
++	level_items = 1U << tree_topology.nr_cpus_order;
++	for (level = 1; level < nr_levels; level++) {
++		smp_rmb();	/* Read the level below before this one. */
++		level_items >>= tree_topology.config->n_arity_order[level - 1];
++		for (i = 0; i < level_items; i++)
++			sum += (unsigned long)atomic_long_read(&item[i * stride]);
++		item += level_items * stride;
++	}
++	smp_rmb();	/* Read the levels below before the root. */
++	return sum + (unsigned long)atomic_long_read(counter->approx_sum);
 +}
 +
- static void hpcc_test_init_one(struct kunit *test)
- {
- 	struct percpu_counter_tree pct, zeroed = {};
-@@ -1038,6 +1209,7 @@ static struct kunit_case hpcc_test_cases[] = {
- 	KUNIT_CASE(hpcc_test_set),
- 	KUNIT_CASE(hpcc_test_saturated_compare),
- 	KUNIT_CASE(hpcc_test_contended_carries),
-+	KUNIT_CASE_SLOW(hpcc_test_limit),
- 	KUNIT_CASE(hpcc_test_lazy),
- 	KUNIT_CASE(hpcc_test_lazy_activation_race),
- 	{}
++/**
++ * percpu_counter_tree_limit_init() - Initialize a limit counter.
++ * @limit: The limit counter to initialize. Its memory is provided by the caller.
++ * @batch_size: The batch size of both counters, see percpu_counter_tree_init().
++ * @gfp_flags: gfp flags for the per-CPU counters and tree items.
++ *
++ * The two counters share their per-CPU counters and tree item cache lines.
++ * See percpu_counter_tree_batch_for_accuracy() to choose the batch size
++ * from the limit.
++ *
++ * Return: 0 on success, -EINVAL for an invalid @batch_size, -ENOMEM when
++ * out of memory.
++ */
++int percpu_counter_tree_limit_init(struct percpu_counter_tree_limit *limit,
++				   unsigned long batch_size, gfp_t gfp_flags)
++{
++	return percpu_counter_tree_init_many(limit->counters, ARRAY_SIZE(limit->counters),
++					     batch_size, gfp_flags);
++}
++EXPORT_SYMBOL_GPL(percpu_counter_tree_limit_init);
++
++/**
++ * percpu_counter_tree_limit_destroy() - Destroy a limit counter.
++ * @limit: The limit counter to destroy.
++ *
++ * A zeroed limit counter was never initialized and is left as is. Error
++ * paths can thus destroy it unconditionally.
++ */
++void percpu_counter_tree_limit_destroy(struct percpu_counter_tree_limit *limit)
++{
++	if (!limit->counters[0].level0)
++		return;
++	percpu_counter_tree_destroy_many(limit->counters, ARRAY_SIZE(limit->counters));
++}
++EXPORT_SYMBOL_GPL(percpu_counter_tree_limit_destroy);
++
++/**
++ * percpu_counter_tree_limit_precise_sum() - Return the precise value of a limit counter.
++ * @limit: The limit counter.
++ *
++ * Exact when no update runs concurrently. With concurrent updates, it can
++ * be above the precise value. It can count a carry in flight twice. It
++ * also counts the additions which failed and are not undone yet.
++ *
++ * Return: The value: the additions minus the subtractions.
++ */
++unsigned long percpu_counter_tree_limit_precise_sum(struct percpu_counter_tree_limit *limit)
++{
++	/* Subtractions first, see percpu_counter_tree_limit_add(). */
++	unsigned long subtracted = percpu_counter_tree_precise_sum_unbiased(&limit->counters[1]);
++
++	smp_rmb();	/* Read the subtractions before the additions. */
++	return percpu_counter_tree_precise_sum_upper(&limit->counters[0]) - subtracted;
++}
++EXPORT_SYMBOL_GPL(percpu_counter_tree_limit_precise_sum);
++
++/**
++ * percpu_counter_tree_limit_add() - Add to a limit counter, unless it exceeds a limit.
++ * @limit: The limit counter.
++ * @max: The limit: the value never exceeds it.
++ * @amount: The amount to add.
++ *
++ * Far from @max, the check reads the roots of the two counters. Within
++ * the accuracy of @max, it sums them, and retries once when concurrent
++ * failed additions may have made it fail. Must not be called from
++ * interrupt context. See "Limit counters" above
++ * percpu_counter_tree_add_arrive_first().
++ *
++ * Concurrent additions which do not fit can make it fail although
++ * @amount fits. An addition of at most the batch size is part of the
++ * value until it is undone.
++ *
++ * Return: true if @amount was added. false if the value would exceed
++ * @max, or seemed to as above. The value is then unchanged.
++ */
++bool percpu_counter_tree_limit_add(struct percpu_counter_tree_limit *limit,
++				   unsigned long max, unsigned long amount)
++{
++	struct percpu_counter_tree *add = &limit->counters[0], *sub = &limit->counters[1];
++	unsigned long subtracted;
++	bool retried = false;
++
++	WARN_ON_ONCE(!in_task());
++	/*
++	 * Check a large amount before adding it: once added, it makes the
++	 * concurrent additions fail until it is undone. Failing early never
++	 * exceeds the limit.
++	 */
++	if (amount > percpu_counter_tree_batch_size(add)) {
++		/* Acquire: read the subtractions before the additions. */
++		subtracted = (unsigned long)atomic_long_read_acquire(sub->approx_sum);
++		if ((unsigned long)atomic_long_read(add->approx_sum) +
++		    percpu_counter_tree_accuracy(add) - subtracted + amount > max &&
++		    percpu_counter_tree_limit_precise_sum(limit) + amount > max)
++			return false;
++	}
++retry:
++	percpu_counter_tree_add_arrive_first(add, amount);
++	/* Order this addition before the check. Pairs with the other additions. */
++	smp_mb();
++	/*
++	 * Read the subtractions before the additions, with an acquire. An
++	 * amount subtracted was added before. So the additions read after it
++	 * include it, and the difference is not below the value. This is why
++	 * the root of the additions is read again here: the addition rarely
++	 * reaches it, and would read it before the subtractions.
++	 */
++	subtracted = (unsigned long)atomic_long_read_acquire(sub->approx_sum);
++	if ((unsigned long)atomic_long_read(add->approx_sum) +
++	    percpu_counter_tree_accuracy(add) - subtracted <= max)
++		return true;
++	if (percpu_counter_tree_limit_precise_sum(limit) <= max)
++		return true;
++	percpu_counter_tree_add(sub, amount);
++	/* Concurrent additions about to be undone may have made this one fail. */
++	if (!retried && percpu_counter_tree_limit_precise_sum(limit) + amount <= max) {
++		retried = true;
++		goto retry;
++	}
++	return false;
++}
++EXPORT_SYMBOL_GPL(percpu_counter_tree_limit_add);
++
++/**
++ * percpu_counter_tree_limit_sub() - Subtract from a limit counter.
++ * @limit: The limit counter.
++ * @amount: The amount to subtract, previously added.
++ *
++ * Unlike percpu_counter_tree_limit_add(), it can be called from any context.
++ */
++void percpu_counter_tree_limit_sub(struct percpu_counter_tree_limit *limit,
++				   unsigned long amount)
++{
++	percpu_counter_tree_add(&limit->counters[1], amount);
++}
++EXPORT_SYMBOL_GPL(percpu_counter_tree_limit_sub);
++
+ /* Calculate the number of tree items and the accuracy multiplier. */
+ static
+ void __init calculate_topology(void)
 diff --git a/tools/testing/hpcc/include/hpcc_shim.h b/tools/testing/hpcc/include/hpcc_shim.h
-index a455e6432b5c..5d96d68f79bd 100644
+index d321c8363b0b..a455e6432b5c 100644
 --- a/tools/testing/hpcc/include/hpcc_shim.h
 +++ b/tools/testing/hpcc/include/hpcc_shim.h
-@@ -86,9 +86,45 @@ static inline bool atomic_long_try_cmpxchg_relaxed(atomic_long_t *v, long *old,
+@@ -63,12 +63,16 @@ static inline int get_count_order(unsigned int count)
+ }
+ 
+ #define atomic_long_read(v)			READ_ONCE((v)->counter)
++#define atomic_long_read_acquire(v)		READ_ONCE((v)->counter)
+ #define atomic_long_set(v, i)			WRITE_ONCE((v)->counter, (i))
+ #define atomic_long_add(i, v)			((void)((v)->counter += (i)))
+ #define atomic_long_add_return_relaxed(i, v)	((v)->counter += (i))
+-#define atomic_long_add_return_release(i, v)	((v)->counter += (i))
+-#define smp_rmb()				barrier()
++#define atomic_long_sub(i, v)			((void)((v)->counter -= (i)))
+ /* The harness runs on one thread: ordering primitives are plain accesses. */
++#define smp_rmb()				barrier()
++#define smp_mb()				barrier()	/* One thread: no reordering. */
++#define preempt_disable()			barrier()
++#define preempt_enable()			barrier()
+ #define smp_load_acquire(p)			READ_ONCE(*(p))
+ #define smp_store_release(p, v)			WRITE_ONCE(*(p), (v))
+ 
+@@ -82,11 +86,17 @@ static inline bool atomic_long_try_cmpxchg_relaxed(atomic_long_t *v, long *old,
  	return false;
  }
  
--#define atomic_long_add_return(i, v)		((v)->counter += (i))
--#define atomic_long_add_return_release(i, v)	((v)->counter += (i))
--#define atomic_long_try_cmpxchg(v, old, new)	atomic_long_try_cmpxchg_relaxed(v, old, new)
-+/*
-+ * Stall hook. hpcc_stall_fn() runs once, right after the next ordered
-+ * update of hpcc_stall_item. An ordered update is fully ordered or a
-+ * release, not relaxed. This simulates an updater interrupted there while
-+ * the other CPUs keep running.
-+ */
-+extern atomic_long_t *hpcc_stall_item;
-+extern void (*hpcc_stall_fn)(void);
++#define atomic_long_add_return(i, v)		((v)->counter += (i))
++#define atomic_long_add_return_release(i, v)	((v)->counter += (i))
++#define atomic_long_try_cmpxchg(v, old, new)	atomic_long_try_cmpxchg_relaxed(v, old, new)
 +
-+static inline void hpcc_stall(atomic_long_t *v)
-+{
-+	void (*fn)(void) = hpcc_stall_fn;
-+
-+	if (fn && v == hpcc_stall_item) {
-+		hpcc_stall_fn = NULL;
-+		fn();
-+	}
-+}
-+
-+static inline long atomic_long_add_return(long i, atomic_long_t *v)
-+{
-+	long r = (v->counter += i);
-+
-+	hpcc_stall(v);
-+	return r;
-+}
-+
-+static inline long atomic_long_add_return_release(long i, atomic_long_t *v)
-+{
-+	return atomic_long_add_return(i, v);
-+}
-+
-+static inline bool atomic_long_try_cmpxchg(atomic_long_t *v, long *old, long new)
-+{
-+	if (!atomic_long_try_cmpxchg_relaxed(v, old, new))
-+		return false;
-+	hpcc_stall(v);
-+	return true;
-+}
- 
  /* Simulated topology, and CPU on which the current code runs. */
  extern unsigned int nr_cpu_ids;
-diff --git a/tools/testing/hpcc/main.c b/tools/testing/hpcc/main.c
-index 1b86fea543e5..8046fb3a59eb 100644
---- a/tools/testing/hpcc/main.c
-+++ b/tools/testing/hpcc/main.c
-@@ -23,6 +23,12 @@
-  *   counter, exact before its tree is activated halfway, with the same
-  *   checks after each increment.
-  *
-+ * - Limit counters: random additions and subtractions near the limit,
-+ *   which must fit exactly when the value stays within it. Hooks stall an
-+ *   addition in flight to check the cases where the sums race with it.
-+ *   Each test runs again with both counters about to wrap, as unsigned and
-+ *   as signed values.
-+ *
-  * The test is single-threaded, so it only covers settled counters.
-  */
+ extern unsigned int hpcc_current_cpu;
  
-@@ -33,6 +39,8 @@ unsigned int nr_cpu_ids;
- unsigned int hpcc_current_cpu;
- unsigned long hpcc_nr_warnings;
- long hpcc_nr_allocs;
-+atomic_long_t *hpcc_stall_item;
-+void (*hpcc_stall_fn)(void);
+ #define raw_smp_processor_id()		hpcc_current_cpu
++#define smp_processor_id()		hpcc_current_cpu
++#define in_task()			true
+ #define for_each_possible_cpu(cpu)	for ((cpu) = 0; (cpu) < (int)nr_cpu_ids; (cpu)++)
  
- #include "../../../lib/percpu_counter_tree.c"
- 
-@@ -389,6 +397,320 @@ static void test_lazy(unsigned long batch_size, unsigned long nr_steps)
- 	CHECK(hpcc_nr_allocs == nr_allocs);
+ /*
+@@ -193,6 +203,10 @@ static inline bool __hpcc_this_cpu_try_cmpxchg(s8 *pcp, s8 *old, s8 new)
  }
  
-+/*
-+ * Both counters of a limit counter only grow, so they wrap after enough
-+ * updates. The limit tests start both roots at limit_base, which leaves
-+ * the value at 0. When limit_wrap is set, the base is a random distance
-+ * below the wrap point limit_wrap_at, within the range the tests cover.
-+ * A check which compares the roots without taking their difference then
-+ * fails while one side of the comparison has wrapped and the other has
-+ * not.
-+ */
-+static bool limit_wrap;
-+static unsigned long limit_wrap_at, limit_base;
-+
-+static int limit_init(struct percpu_counter_tree_limit *l, unsigned long batch_size)
-+{
-+	unsigned long accuracy;
-+
-+	if (percpu_counter_tree_limit_init(l, batch_size, GFP_KERNEL))
-+		return -ENOMEM;
-+	limit_base = 0;
-+	if (limit_wrap) {
-+		accuracy = percpu_counter_tree_approximate_accuracy(&l->counters[0]);
-+		limit_base = limit_wrap_at - 1 - rnd() % (8 * accuracy);
-+	}
-+	atomic_long_set(l->counters[0].approx_sum, limit_base);
-+	atomic_long_set(l->counters[1].approx_sum, limit_base);
-+	return 0;
-+}
-+
-+/* Each counter of a limit counter errs in one direction only. */
-+static void check_limit(struct percpu_counter_tree_limit *l, unsigned long add_total,
-+			unsigned long sub_total)
-+{
-+	struct percpu_counter_tree *add = &l->counters[0], *sub = &l->counters[1];
-+	unsigned long accuracy = percpu_counter_tree_approximate_accuracy(add);
-+	unsigned long root_add = atomic_long_read(add->approx_sum);
-+	unsigned long root_sub = atomic_long_read(sub->approx_sum);
-+
-+	CHECK(percpu_counter_tree_precise_sum_upper(add) == add_total);
-+	CHECK((unsigned long)percpu_counter_tree_precise_sum(sub) == sub_total);
-+	/* Modulo the wrap: a root above its total gives a huge difference. */
-+	CHECK(add_total - root_add <= accuracy);
-+	CHECK(sub_total - root_sub <= accuracy);
-+	CHECK(percpu_counter_tree_limit_precise_sum(l) == add_total - sub_total);
-+}
-+
-+/*
-+ * Without concurrency, an addition must fit exactly when the value stays
-+ * within the limit. The limit is a few accuracies wide, so the walk often
-+ * runs within the accuracy of the limit, where the precise sums decide.
-+ */
-+static void test_limit(unsigned long batch_size, unsigned long nr_steps)
-+{
-+	unsigned long value = 0, add_total, sub_total, accuracy, max, step, amount;
-+	struct percpu_counter_tree_limit l;
-+	bool added;
-+
-+	if (limit_init(&l, batch_size)) {
-+		CHECK(0);
-+		return;
-+	}
-+	add_total = limit_base;
-+	sub_total = limit_base;
-+	accuracy = percpu_counter_tree_approximate_accuracy(&l.counters[0]);
-+	max = 3 * accuracy + rnd() % (accuracy + 1) + 1;
-+	for (step = 0; step < nr_steps; step++) {
-+		hpcc_current_cpu = rnd() % nr_cpu_ids;
-+		if (value && !(rnd() % 3)) {
-+			amount = 1 + rnd() % value;
-+			percpu_counter_tree_limit_sub(&l, amount);
-+			value -= amount;
-+			sub_total += amount;
-+		} else {
-+			amount = 1 + rnd() % ((rnd() & 1) ? batch_size : 8 * batch_size);
-+			added = percpu_counter_tree_limit_add(&l, max, amount);
-+			CHECK(added == (value + amount <= max));
-+			if (added) {
-+				value += amount;
-+				add_total += amount;
-+			} else if (amount <= batch_size) {
-+				/* Added, then undone by a subtraction. */
-+				add_total += amount;
-+				sub_total += amount;
-+			}	/* A larger amount which cannot fit is not added. */
-+		}
-+		check_limit(&l, add_total, sub_total);
-+	}
-+	/* Fill up: the value stops exactly at the limit. */
-+	while (value < max) {
-+		hpcc_current_cpu = rnd() % nr_cpu_ids;
-+		amount = (max - value + 1) / 2;
-+		CHECK(percpu_counter_tree_limit_add(&l, max, amount));
-+		value += amount;
-+		add_total += amount;
-+	}
-+	CHECK(!percpu_counter_tree_limit_add(&l, max, 1));
-+	add_total++;
-+	sub_total++;
-+	CHECK(value == max);
-+	check_limit(&l, add_total, sub_total);
-+	percpu_counter_tree_limit_destroy(&l);
-+}
-+
-+/* State of test_limit_stall(), shared with its stall hook. */
-+static struct {
-+	struct percpu_counter_tree_limit l;
-+	unsigned long max, value;
-+	unsigned int stalled_cpu, share_mask;
-+} stall;
-+
-+/*
-+ * While one addition is stalled, the CPUs sharing its stalled item add.
-+ * Their carries meet its pending items, and go straight to the root.
-+ */
-+static void stall_others_add(void)
-+{
-+	struct percpu_counter_tree *add = &stall.l.counters[0];
-+	unsigned long batch_size = percpu_counter_tree_batch_size(add);
-+	unsigned long root = atomic_long_read(add->approx_sum);
-+	unsigned int saved = hpcc_current_cpu, cpu, i;
-+	bool others = false;
-+
-+	for (cpu = 0; cpu < nr_cpu_ids; cpu++) {
-+		if (cpu == stall.stalled_cpu ||
-+		    (cpu & stall.share_mask) != (stall.stalled_cpu & stall.share_mask))
-+			continue;
-+		others = true;
-+		hpcc_current_cpu = cpu;
-+		for (i = 0; i < batch_size; i++) {
-+			if (percpu_counter_tree_limit_add(&stall.l, stall.max, 1))
-+				stall.value++;
-+		}
-+		CHECK(stall.value <= stall.max);
-+		CHECK(percpu_counter_tree_limit_precise_sum(&stall.l) >= stall.value);
-+	}
-+	if (others)
-+		CHECK((long)(atomic_long_read(add->approx_sum) - root) > 0);
-+	hpcc_current_cpu = saved;
-+}
-+
-+/*
-+ * Fill each residual of the additions to its largest value. The value is
-+ * then the accuracy, and the root is 0. The limit is set to the value.
-+ * Then an addition on CPU 0 carries up to the root through all the
-+ * levels. Stall it right after it arrives at its item of @stall_level,
-+ * or at the root when @stall_level is nr_levels. Its items below the
-+ * root then hold their carries on the way up. The CPUs sharing the
-+ * stalled item add while it is stalled, and must fail.
-+ */
-+static void test_limit_stall(unsigned long batch_size, unsigned int stall_level)
-+{
-+	unsigned int nr_levels = tree_topology.config->nr_levels, level, level_items, i, cpu;
-+	unsigned long step, bit_mask;
-+	struct percpu_counter_tree *add;
-+	atomic_long_t *item;
-+
-+	if (limit_init(&stall.l, batch_size)) {
-+		CHECK(0);
-+		return;
-+	}
-+	add = &stall.l.counters[0];
-+	stall.max = percpu_counter_tree_approximate_accuracy(add);
-+	stall.value = 0;
-+	/*
-+	 * An amount of bit_mask - step is a multiple of the batch sizes of the
-+	 * levels below. It goes through them and stays in item i of this
-+	 * level. CPU i updates that item.
-+	 */
-+	level_items = 1U << tree_topology.nr_cpus_order;
-+	bit_mask = batch_size;
-+	item = percpu_counter_tree_items(add);
-+	stall.share_mask = 0;		/* At the root, all CPUs share it. */
-+	for (level = 1; level < nr_levels; level++) {
-+		step = bit_mask;
-+		level_items >>= tree_topology.config->n_arity_order[level - 1];
-+		bit_mask <<= tree_topology.config->n_arity_order[level - 1];
-+		if (level == stall_level) {
-+			hpcc_stall_item = item;		/* CPU 0's item. */
-+			stall.share_mask = level_items - 1;
-+		}
-+		for (i = 0; i < level_items; i++) {
-+			hpcc_current_cpu = i;
-+			CHECK(percpu_counter_tree_limit_add(&stall.l, stall.max, bit_mask - step));
-+			stall.value += bit_mask - step;
-+		}
-+		item += level_items * add->items_stride;
-+	}
-+	if (stall_level >= nr_levels)
-+		hpcc_stall_item = add->approx_sum;
-+	for (cpu = 0; cpu < nr_cpu_ids; cpu++) {
-+		hpcc_current_cpu = cpu;
-+		CHECK(percpu_counter_tree_limit_add(&stall.l, stall.max, batch_size - 1));
-+		stall.value += batch_size - 1;
-+	}
-+	CHECK(stall.value == stall.max);
-+	CHECK((unsigned long)atomic_long_read(add->approx_sum) == limit_base);
-+
-+	stall.stalled_cpu = 0;
-+	hpcc_stall_fn = stall_others_add;
-+	hpcc_current_cpu = stall.stalled_cpu;
-+	if (percpu_counter_tree_limit_add(&stall.l, stall.max, 1))
-+		stall.value++;
-+	CHECK(!hpcc_stall_fn);	/* The stall happened. */
-+	hpcc_stall_fn = NULL;
-+	CHECK(stall.value <= stall.max);
-+	CHECK(percpu_counter_tree_limit_precise_sum(&stall.l) == stall.value);
-+	percpu_counter_tree_limit_destroy(&stall.l);
-+}
-+
-+/* State of test_limit_retry(), shared with its stall hook. */
-+static struct {
-+	struct percpu_counter_tree_limit l;
-+	unsigned long in_flight;
-+	unsigned int in_flight_cpu;
-+} retry;
-+
-+/* The concurrent addition in flight fails, and is undone. */
-+static void retry_undo_in_flight(void)
-+{
-+	unsigned int saved = hpcc_current_cpu;
-+
-+	hpcc_current_cpu = retry.in_flight_cpu;
-+	percpu_counter_tree_limit_sub(&retry.l, retry.in_flight);
-+	hpcc_current_cpu = saved;
-+}
-+
-+/*
-+ * With one unit free, CPU 0 adds 1 while another addition of 1 is in
-+ * flight, about to fail. CPU 0 fails, and that addition is undone while
-+ * CPU 0 undoes its own. CPU 0 must then retry, and fit.
-+ */
-+static void test_limit_retry(unsigned long batch_size)
-+{
-+	struct percpu_counter_tree *add = &retry.l.counters[0], *sub = &retry.l.counters[1];
-+	unsigned long max, value = 0, amount;
-+
-+	if (limit_init(&retry.l, batch_size)) {
-+		CHECK(0);
-+		return;
-+	}
-+	max = 2 * percpu_counter_tree_approximate_accuracy(add) + 1;
-+	hpcc_current_cpu = 1 % nr_cpu_ids;
-+	while (value < max - 1) {
-+		amount = max - 1 - value < batch_size ? max - 1 - value : batch_size;
-+		CHECK(percpu_counter_tree_limit_add(&retry.l, max, amount));
-+		value += amount;
-+	}
-+	/* CPU 0's subtractions at batch_size - 1: its undo carries. */
-+	hpcc_current_cpu = 0;
-+	percpu_counter_tree_limit_sub(&retry.l, batch_size - 1);
-+	hpcc_current_cpu = 1 % nr_cpu_ids;
-+	CHECK(percpu_counter_tree_limit_add(&retry.l, max, batch_size - 1));
-+	/* The addition in flight, from another CPU. */
-+	retry.in_flight = 1;
-+	retry.in_flight_cpu = 2 % nr_cpu_ids;
-+	hpcc_current_cpu = retry.in_flight_cpu;
-+	percpu_counter_tree_add_arrive_first(add, retry.in_flight);
-+	/* CPU 0's undo carries to the first item of the subtractions. */
-+	hpcc_stall_item = tree_topology.config->nr_levels > 1 ?
-+			  percpu_counter_tree_items(sub) : sub->approx_sum;
-+	hpcc_stall_fn = retry_undo_in_flight;
-+	hpcc_current_cpu = 0;
-+	CHECK(percpu_counter_tree_limit_add(&retry.l, max, 1));
-+	CHECK(!hpcc_stall_fn);	/* The other addition was undone during the check. */
-+	hpcc_stall_fn = NULL;
-+	CHECK(percpu_counter_tree_limit_precise_sum(&retry.l) == max);
-+	percpu_counter_tree_limit_destroy(&retry.l);
-+}
-+
-+/*
-+ * An amount larger than the batch size which cannot fit fails before it
-+ * is added. The additions do not change, and a fitting amount still fits.
-+ */
-+static void test_limit_precheck(unsigned long batch_size)
-+{
-+	struct percpu_counter_tree_limit l;
-+	unsigned long max, value = 0, amount, before;
-+
-+	if (limit_init(&l, batch_size)) {
-+		CHECK(0);
-+		return;
-+	}
-+	max = 2 * percpu_counter_tree_approximate_accuracy(&l.counters[0]) + 1;
-+	hpcc_current_cpu = 1 % nr_cpu_ids;
-+	while (value < max - batch_size) {
-+		amount = max - batch_size - value;
-+		if (amount > batch_size)
-+			amount = batch_size;
-+		CHECK(percpu_counter_tree_limit_add(&l, max, amount));
-+		value += amount;
-+	}
-+	before = percpu_counter_tree_precise_sum_upper(&l.counters[0]);
-+	hpcc_current_cpu = 0;
-+	CHECK(!percpu_counter_tree_limit_add(&l, max, 2 * batch_size));
-+	CHECK(percpu_counter_tree_precise_sum_upper(&l.counters[0]) == before);
-+	CHECK(percpu_counter_tree_limit_add(&l, max, batch_size));
-+	CHECK(percpu_counter_tree_limit_precise_sum(&l) == max);
-+	percpu_counter_tree_limit_destroy(&l);
-+}
-+
-+/* The batch size chosen for an accuracy is the largest within it. */
-+static void test_batch_for_accuracy(void)
-+{
-+	unsigned long multiplier = tree_topology.accuracy_multiplier, accuracy, batch_size;
-+
-+	for (accuracy = 1; accuracy < 512 * multiplier; accuracy = accuracy * 3 + 1) {
-+		batch_size = percpu_counter_tree_batch_for_accuracy(accuracy);
-+		CHECK(batch_size >= 2 && batch_size <= PERCPU_COUNTER_TREE_MAX_BATCH);
-+		if (batch_size > 2)
-+			CHECK(batch_size * multiplier - nr_cpu_ids <= accuracy);
-+		if (batch_size < PERCPU_COUNTER_TREE_MAX_BATCH)
-+			CHECK(2 * batch_size * multiplier - nr_cpu_ids > accuracy);
-+	}
-+}
-+
- static const unsigned int test_nr_cpus[] = {
- 	1, 2, 3, 4, 5, 8, 9, 16, 17, 32, 33, 64, 65, 100, 128, 256, 512,
- 	1000, 1024, 2048, 4096, 8192, 16384, 32768, 65536,
-@@ -405,6 +727,12 @@ static int test_num;
+ #define this_cpu_read(pcp)	(*per_cpu_ptr(&(pcp), hpcc_current_cpu))
++#define this_cpu_write(pcp, v)	((void)(*per_cpu_ptr(&(pcp), hpcc_current_cpu) = (v)))
++#define this_cpu_ptr(ptr)	per_cpu_ptr(ptr, hpcc_current_cpu)
++#define __this_cpu_read(pcp)	this_cpu_read(pcp)
++#define __this_cpu_write(pcp, v)	this_cpu_write(pcp, v)
+ #define this_cpu_try_cmpxchg(pcp, ovalp, nval)	\
+ 	__hpcc_this_cpu_try_cmpxchg(&(pcp), (ovalp), (nval))
  
- static int run_case(unsigned int nr_cpus, unsigned long batch_size)
- {
-+	/* No wrap, then below the unsigned and the signed wrap points. */
-+	const struct {
-+		bool wrap;
-+		unsigned long at;
-+	} wraps[] = { { false, 0 }, { true, 0 }, { true, 1UL << (BITS_PER_LONG - 1) } };
-+	unsigned int level, i;
- 	/* Each check iterates over all CPUs: bound the random walk cost. */
- 	unsigned long nr_steps = 10000000 / nr_cpus;
- 
-@@ -420,6 +748,20 @@ static int run_case(unsigned int nr_cpus, unsigned long batch_size)
- 	test_saturated(batch_size, -1);
- 	test_random_walk(batch_size, nr_steps);
- 	test_lazy(batch_size, nr_steps / 2);
-+	for (i = 0; i < ARRAY_SIZE(wraps); i++) {
-+		limit_wrap = wraps[i].wrap;
-+		limit_wrap_at = wraps[i].at;
-+		test_limit(batch_size, nr_steps / 2);
-+		/* These fill the tree near the limit, where each addition sums all CPUs. */
-+		if (nr_cpus > 4096)
-+			continue;
-+		for (level = 1; level <= tree_topology.config->nr_levels; level++)
-+			test_limit_stall(batch_size, level);
-+		test_limit_retry(batch_size);
-+		test_limit_precheck(batch_size);
-+	}
-+	limit_wrap = false;
-+	test_batch_for_accuracy();
- 	CHECK(!hpcc_nr_warnings);
- 	printf("%sok %d - nr_cpus=%u batch_size=%lu\n", nr_case_failures ? "not " : "",
- 	       ++test_num, nr_cpus, batch_size);
 -- 
 2.47.3
 
