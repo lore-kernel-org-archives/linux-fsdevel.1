@@ -1,51 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794429413;
-	b=WgRW28NoGjl4mwl/V1biCtbjlw5piIUYPzFk8fTEHAZXZp2CoA7KCdBAxAr8n/sBgB0t
-	 pGWGHppxurN7C/9Tze5Gq6dY4An2GMjN/JC1yLtrusYXYIHu07y+0n3UG4OuMoJvZ09VI
-	 fAB0FdV/eDBwvob9WthL7GfWY8EBhk7EwanhPk67OwZ3LPRxK79p6jzf9GDlW9VCBbTCr
-	 4jeYNxMXElEcxFfx2kLQ8mTX8ABSLLXLaSDpQUSku78NNFmmTPiipvIBmOVdOOgrAkP/r
-	 /Smo/g7wqAmBuY967bz8fJJ8PGBQqf9T7GCWSUnoSqNCKHJJnM5IDdpDxjUh+XrWNcA==
+	t=1794429414;
+	b=jSyC4Vm3BgdASA3an8qJ7GBYpGshiS8aRiOX04RHIYd5xuZ2DMav8kpONjyOECnMb4Kv
+	 qy0Jooh+CCteN8MTkJJXlEY6Gfpng0Ju/XPVELNj90XIGOVWG3sHVAJaKKWIheP9VFvcd
+	 +mgN6Zf4ejyz5GnWhbOs6QwtbXc6U2RBRMLnlCHVJxH/7UsYIlz6zwbM66UYjNSgsENx1
+	 gE8UaMniFM8yJJ9KA9knRst0OQoAXtevtlT2JORRmBG+EFgJVEOZNKZp29SqUi4xictA3
+	 YMzoXCZCKL372Kzdc4+Dwhg9SHcy98QZnykC4eAGOhjmxEzEDXHUlh2l2EtjtpcX6Ew==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794429413;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794429414;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=Dbm0VwL+IAH1JKHDOMy86I/B31ZxYskN+TpiCu+7uLU=;
-	b=cpEOZC6yLvIuGIQF16DJyC3nK111OmWYyU1neRiS4iKM5j8o78UHoky7tpq/KbPwIl1f
-	 wuoCVt2GXAWoWVizO41cVwsUvwfV7DUl9HCjJWu/5icXugCXsH0aM/OnkytZXsArRSPW/
-	 LjOhK+3LPihTFZa//rdNZpqTKXNhL/6o+iIm7HMo2fEKrzJ3T6nOfe19TGu/Ep54YcSka
-	 5PHAQQ3eq8bB6pk05HcKXZ8nRUoMfFI3MM6rO/IzyxlKu81n6SmLAqlH2WP2YgWr887ih
-	 LNcb3F+9Ci/KI7W0WQCEXPULFUxJBEFjT4vRYRp407Wi1vcig6di0EJWWjmwfHFEAXQ==
+	bh=uMBcwn1n2dpUHT/6uEIYq3oHlPCno4BFZR7u/G8+ALE=;
+	b=ouwlL1yVs37F/ryVlNT+mOaMK/zzrejw+A55PtgX9CtppMzPuH3SL/n2uI4QCaDb0opi
+	 JVEzckWiDQLJ2xJwoJC7UXCPPPsiX2S2xGe9yH7og7IeTv//kHpBz96PLin5P24QVcVn8
+	 a92U7YMAomMyZosqPY5syXqlc60iQwZdmuHSq9JXio2t9JQXm+zW6yrlLjFlEYTL5ReGM
+	 6jtJZTgss/E+ySsPqBvIQX8aNBGKntkI4Sl+YAzP5uL3k2GKtakms6/UzKE9w6Rlan5K6
+	 TdXLn3zfnQBlppsLOMHddj+IBgaqzqx3V5IkEhZ54UoT8dk/2XiMKvTZVBlZezELtsw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=efficios.com;
 	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=so2DtaRs;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=bHBzg8Vx;
 	arc=none smtp.remote-ip=158.69.130.18
 Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14AC7606A338;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FABD606A899;
 	Wed, 11 Nov 2026 20:36:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 14AC7606A338
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4FABD606A899
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=so2DtaRs
+	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=bHBzg8Vx
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=smtpout1; t=1794429407;
-	bh=Dbm0VwL+IAH1JKHDOMy86I/B31ZxYskN+TpiCu+7uLU=;
+	s=smtpout1; t=1794429406;
+	bh=uMBcwn1n2dpUHT/6uEIYq3oHlPCno4BFZR7u/G8+ALE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=so2DtaRsE/AuKJbBfAeMAfyEFsV8dglB5hf5iA7/dlqU8H+jwfBZAnDDtlsnsK/EK
-	 NVz44i5hP95Fhm98bDcODZsoPN/x5+V3/yGH9khatqA/fYGCrWA5DEEzMV1yheoaIA
-	 AMz9209135DDL7o0key0OTxs5Pi/9EXQOC8qUDsyyMpN/iz0b18TMxF3qnPc/0+IR5
-	 rZv2kt3HB4KC2Y1kw8c5xgV2csGEeC9ZFZfZAvOuxZPqs+1ktJVcbgN54j4isXKJNc
-	 9VUGQsgEDZT642zS3NKZ1rQZeeNP4YL1Jo7SF0d4TVgKWyFBKFOLq+bSaX/gGHSZfN
-	 nzlcLS5romcqQ==
+	b=bHBzg8Vxmh50pUZdQN5tXZZosoPErK4Ix+6o15lxqI6zCqT20Hy0ad5QfyjgSqjPV
+	 bNpuQSHkxEQnAIF6EWk6kOirLBYbAinwVW6yWUJ6qNAGsOiEiQqw9pDfT4O1Hwi2cw
+	 5uVyusc5KdTi/fk/81A2Hvk4r0B2ysFbRmFJs0GQvHCYj4GW06zSzorcgjULICkbEq
+	 R6bJXUzGoxahC+ZVYSVFLRtJexHpXRDCIKu5s424ctMUD/elqyb0Y/+S7eJfxYzrir
+	 WHZRIpt/3MRbbuyed6borILZDndv0ii+zYyOsqYYboixVj3RxouIlzRJlecs4qNuEo
+	 8XZvnFRXtXTiQ==
 Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jPwKq1cqFzN31;
-	Wed, 11 Nov 2026 15:36:47 -0500 (EST)
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jPwKp2wqvzNh0;
+	Wed, 11 Nov 2026 15:36:46 -0500 (EST)
 From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To: David Hildenbrand <david@kernel.org>
 Cc: linux-kernel@vger.kernel.org,
@@ -107,9 +107,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Will Deacon <will@kernel.org>,
 	Boqun Feng <boqun@kernel.org>,
 	Hugh Dickins <hughd@google.com>
-Subject: [RFC PATCH v25 12/14] lib: percpu_counter_tree: add the arity boot parameter
-Date: Wed, 11 Nov 2026 15:36:24 -0500
-Message-Id: <20261111203626.95838-13-mathieu.desnoyers@efficios.com>
+Subject: [RFC PATCH v25 09/14] lib: percpu_counter_tree: test the limit counters
+Date: Wed, 11 Nov 2026 15:36:21 -0500
+Message-Id: <20261111203626.95838-10-mathieu.desnoyers@efficios.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20261111203626.95838-1-mathieu.desnoyers@efficios.com>
 References: <20261111203626.95838-1-mathieu.desnoyers@efficios.com>
@@ -124,377 +124,657 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The fan-out of each tree level is selected at boot from nr_cpu_ids, the
-highest possible CPU number plus one, using a table tuned for the RSS
-counters on one machine, a 2-socket AMD EPYC 9654 with 192 cores and 384
-logical CPUs.  The best shape depends on the cost of cache line
-transfers on a given machine, which varies with the number of sockets,
-the cache topology and SMT, so it may differ on other hardware.
+Test the limit counters of the previous patch. These tests cover them:
 
-Add the percpu_counter_tree.arity= boot parameter, which overrides the
-tree shape with the fan-out of each level, from the per-cpu counters to
-the root, so the shapes can be compared on other machines, to improve
-the default table.  For example, when nr_cpu_ids is 16, "16" is a flat
-tree and "4,4" a tree with 4 intermediate counters.  Each fan-out is a
-power of 2, and their product must be nr_cpu_ids rounded up to a power
-of 2.  An invalid shape is ignored with a warning.
+- The userspace harness checks each decision and the bounds of each
+  counter.
+- The harness also stalls an addition right after its carry fills an
+  item, at each level and at the root. Then the other CPUs of that item
+  add near the limit. An item holding such a carry must take no new
+  arrival. Without this rule, they exceed the limit in 105 of the 191
+  configurations.
+- A harness test makes an addition fail because of another one in
+  flight, and checks that it retries and fits. Another one checks that
+  a large amount which cannot fit is not added.
+- The harness runs these tests again with both counters about to wrap,
+  as unsigned and as signed values. It passes as a 32-bit build too.
+- A KUnit test runs workers on all CPUs near the limit. An exact shadow
+  of the successful additions never exceeds it.
 
-The shape in use is printed at boot, and can be read from
-/sys/module/percpu_counter_tree/parameters/arity.
-
-Cover the parsing of the parameter in the userspace test, with valid and
-invalid shapes, and run the counter tests on the valid ones.
+For the stall test, the shim gains a stall hook. It runs a function
+right after the next fully ordered or release update of a chosen item.
 
 Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 ---
- .../admin-guide/kernel-parameters.txt         | 14 +++
- .../core-api/percpu-counter-tree.rst          |  3 +-
- lib/percpu_counter_tree.c                     | 96 ++++++++++++++++++-
- tools/testing/hpcc/include/hpcc_shim.h        |  4 +
- .../testing/hpcc/include/linux/moduleparam.h  | 12 +++
- tools/testing/hpcc/main.c                     | 78 ++++++++++++++-
- 6 files changed, 201 insertions(+), 6 deletions(-)
- create mode 100644 tools/testing/hpcc/include/linux/moduleparam.h
+ lib/tests/percpu_counter_tree_kunit.c  | 172 +++++++++++++
+ tools/testing/hpcc/include/hpcc_shim.h |  42 ++-
+ tools/testing/hpcc/main.c              | 342 +++++++++++++++++++++++++
+ 3 files changed, 553 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 0b3c140babd9..c368affa2115 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -5342,6 +5342,20 @@ Kernel parameters
- 			allocator.  This parameter is primarily	for debugging
- 			and performance comparison.
- 
-+	percpu_counter_tree.arity=	[KNL,SMP]
-+			Format: <fan-out>[,<fan-out>...]
-+			Override the shape of the hierarchical per-cpu
-+			counter trees (used for the RSS counters), listing
-+			the fan-out of each tree level from the per-cpu
-+			counters to the root. Each fan-out is a power of 2
-+			and their product must be nr_cpu_ids (the highest
-+			possible CPU number plus one) rounded up to a power
-+			of 2, e.g. "16" (flat) or "4,4" when nr_cpu_ids
-+			is 16. An invalid shape is ignored with a warning.
-+			The shape in use is shown in
-+			/sys/module/percpu_counter_tree/parameters/arity.
-+			This parameter is meant for performance comparison.
-+
- 	pirq=		[SMP,APIC] Manual mp-table setup
- 			See Documentation/arch/x86/i386/IO-APIC.rst.
- 
-diff --git a/Documentation/core-api/percpu-counter-tree.rst b/Documentation/core-api/percpu-counter-tree.rst
-index 87babe2276c4..8aebf91aa133 100644
---- a/Documentation/core-api/percpu-counter-tree.rst
-+++ b/Documentation/core-api/percpu-counter-tree.rst
-@@ -63,7 +63,8 @@ possible CPU, and the tree items, whose number depends on nr_cpu_ids, so
- struct percpu_counter_tree has a fixed size.
- 
- The fan-out of each tree level is selected at boot from nr_cpu_ids, the
--highest possible CPU number plus one.
-+highest possible CPU number plus one. It can be overridden with the
-+percpu_counter_tree.arity= boot parameter for performance comparison.
- 
- The bounded accuracy is a property of the settled tree. While updates are
- in flight the transient error can exceed it, bounded by the number of
-diff --git a/lib/percpu_counter_tree.c b/lib/percpu_counter_tree.c
-index fcffc3d073ca..d1e4f01652d3 100644
---- a/lib/percpu_counter_tree.c
-+++ b/lib/percpu_counter_tree.c
-@@ -151,6 +151,7 @@
- #define pr_fmt(fmt) "percpu_counter_tree: " fmt
- 
- #include <linux/percpu_counter_tree.h>
-+#include <linux/moduleparam.h>
- #include <linux/align.h>
- #include <linux/cache.h>
- #include <linux/cpumask.h>
-@@ -163,6 +164,7 @@
- #include <linux/math.h>
- #include <linux/log2.h>
- #include <linux/args.h>
-+#include <linux/string.h>
- #include <kunit/visibility.h>
- 
- #define MAX_NR_LEVELS 7
-@@ -255,6 +257,8 @@ static_assert(ARRAY_SIZE(per_nr_cpu_order_config) == MAX_NR_CPUS_ORDER + 1);
- static struct {
- 	/* Hierarchical counter configuration for the hardware topology. */
- 	const struct counter_config *config;
-+	/* Tree shape selected with the "arity" boot parameter. */
-+	struct counter_config boot_config;
- 	/* Order of nr_cpu_ids. */
- 	unsigned int nr_cpus_order;
- 	/*
-@@ -273,6 +277,9 @@ static struct {
- 	.nr_items = UINT_MAX,
- };
- 
-+/* Value of the "arity" boot parameter, parsed at subsystem initialization. */
-+static const char *arity_param;
-+
- /*
-  * Size of the items of one tree position for the counters initialized
-  * together by percpu_counter_tree_init_many(), packed in cache lines which
-@@ -1652,7 +1659,10 @@ void percpu_counter_tree_copy_state(struct percpu_counter_tree *dst,
- EXPORT_SYMBOL_IF_KUNIT(percpu_counter_tree_copy_state);
- #endif
- 
--/* Format the fan-out of each level, from level 0 to the root, e.g. "8,2,8". */
-+/* Room for the fan-out of each level, up to 7 digits and a comma, and a NUL. */
-+#define SHAPE_BUF_SIZE	(8 * MAX_NR_LEVELS + 1)
-+
-+/* Format the fan-out of each level, from level 0 to the root, e.g. "8,4,8". */
- static
- int format_shape(char *buf, size_t size, const struct counter_config *config)
- {
-@@ -1665,9 +1675,78 @@ int format_shape(char *buf, size_t size, const struct counter_config *config)
- 	return len;
+diff --git a/lib/tests/percpu_counter_tree_kunit.c b/lib/tests/percpu_counter_tree_kunit.c
+index 12bd5a4bbb45..bd99ab7ca1c0 100644
+--- a/lib/tests/percpu_counter_tree_kunit.c
++++ b/lib/tests/percpu_counter_tree_kunit.c
+@@ -612,6 +612,177 @@ static void hpcc_test_contended_carries(struct kunit *test)
+ 		do_hpcc_test_contended_carries(test, 1UL << batch_size_order);
  }
  
-+static
-+int arity_param_set(const char *val, const struct kernel_param *kp)
-+{
-+	/* Applied once by percpu_counter_tree_subsystem_init(). */
-+	if (tree_topology.config)
-+		return -EBUSY;
-+	arity_param = val;
-+	return 0;
-+}
++#define LIMIT_NR_OPS	100000
 +
-+static
-+int arity_param_get(char *buffer, const struct kernel_param *kp)
-+{
-+	int len;
-+
-+	if (!tree_topology.config)
-+		return sprintf(buffer, "%s\n", arity_param ? : "");
-+	/* The buffer is a page, larger than any shape and its newline. */
-+	len = format_shape(buffer, SHAPE_BUF_SIZE, tree_topology.config);
-+	buffer[len++] = '\n';
-+	return len;
-+}
-+
-+static const struct kernel_param_ops arity_param_ops = {
-+	.set = arity_param_set,
-+	.get = arity_param_get,
++struct limit_shared {
++	struct percpu_counter_tree_limit limit;
++	unsigned long max;
++	unsigned long target;		/* Amount each worker tries to hold. */
++	unsigned long batch_size;
++	atomic_long_t charged;		/* Exact total of the successful additions held. */
++	atomic_long_t nr_over;		/* Times charged exceeded max. */
++	atomic_long_t nr_added, nr_failed;
++	atomic_t nr_ready;
++	unsigned int nr_workers;
++	bool started;
 +};
 +
-+/*
-+ * percpu_counter_tree.arity=<fan-out>[,<fan-out>...] overrides the tree
-+ * shape chosen for nr_cpu_ids, to compare shapes on a given machine.
-+ * Reading the parameter shows the shape in use.
-+ */
-+module_param_cb(arity, &arity_param_ops, NULL, 0444);
-+MODULE_PARM_DESC(arity, "Fan-out of each tree level from level 0 to the root, e.g. 8,4,8");
++struct limit_data {
++	struct limit_shared *sh;
++	unsigned long held;
++	u32 seed;
++} ____cacheline_aligned_in_smp;
 +
-+/*
-+ * Parse a list of fan-outs, from level 0 to the root, into @config. Each
-+ * fan-out is a power of 2 of at least 2, and their product is nr_cpu_ids
-+ * rounded up to a power of 2.
-+ *
-+ * Return: 0 on success, -EINVAL if the list does not describe a tree
-+ * covering the CPU numbers below nr_cpu_ids.
-+ */
-+static
-+int __init parse_arity(const char *str, struct counter_config *config)
++static DECLARE_WAIT_QUEUE_HEAD(limit_wq);
++
++static u32 limit_rnd(struct limit_data *ld)
 +{
-+	int ints[MAX_NR_LEVELS + 2];	/* Count, levels, and one extra to detect overflow. */
-+	unsigned int level, order = 0;
++	u32 x = ld->seed;
 +
-+	if (*get_options(str, ARRAY_SIZE(ints), ints) || ints[0] > MAX_NR_LEVELS)
-+		return -EINVAL;
-+	config->nr_levels = ints[0];
-+	for (level = 0; level < config->nr_levels; level++) {
-+		int fan_out = ints[level + 1];
++	x ^= x << 13;
++	x ^= x >> 17;
++	x ^= x << 5;
++	ld->seed = x;
++	return x;
++}
 +
-+		if (fan_out < 2 || !is_power_of_2(fan_out))
-+			return -EINVAL;
-+		config->n_arity_order[level] = ilog2(fan_out);
-+		order += config->n_arity_order[level];
-+		if (order > tree_topology.nr_cpus_order)
-+			return -EINVAL;
++/*
++ * Each worker adds to the limit counter until it holds its target. Then
++ * it frees part of what it holds. Together, the workers hold about 1.5
++ * times the limit, so additions fail. A successful addition is added to
++ * charged after it succeeds. A free subtracts from charged before it
++ * reaches the limit counter. So charged is never above the value of the
++ * limit counter. Charged above max means the limit was exceeded.
++ */
++static int limit_worker_fn(void *data)
++{
++	struct limit_data *ld = data;
++	struct limit_shared *sh = ld->sh;
++	unsigned int i;
++
++	/* Pairs with the release of started: max, target and nr_workers are set. */
++	wait_event(limit_wq, smp_load_acquire(&sh->started));
++	/* Start together, so that the workers hold their amounts at the same time. */
++	atomic_inc(&sh->nr_ready);
++	while (atomic_read(&sh->nr_ready) < sh->nr_workers)
++		cpu_relax();
++	for (i = 0; i < LIMIT_NR_OPS; i++) {
++		u32 x = limit_rnd(ld);
++		unsigned long amount;
++
++		if (ld->held < sh->target) {
++			/* Mostly small amounts, and one in 16 of a huge page. */
++			if ((x >> 4) & 15)
++				amount = 1 + (x >> 8) % (4 * sh->batch_size);
++			else
++				amount = 512;
++			if (percpu_counter_tree_limit_add(&sh->limit, sh->max, amount)) {
++				unsigned long charged;
++
++				charged = atomic_long_add_return(amount, &sh->charged);
++				if (charged > sh->max)
++					atomic_long_inc(&sh->nr_over);
++				ld->held += amount;
++				atomic_long_inc(&sh->nr_added);
++			} else {
++				atomic_long_inc(&sh->nr_failed);
++			}
++		} else if (ld->held) {
++			amount = 1 + (x >> 8) % ld->held;
++			atomic_long_sub(amount, &sh->charged);
++			percpu_counter_tree_limit_sub(&sh->limit, amount);
++			ld->held -= amount;
++		}
++		if (!(i & 63))
++			cond_resched();
 +	}
-+	if (order != tree_topology.nr_cpus_order)
-+		return -EINVAL;
++	atomic_long_sub(ld->held, &sh->charged);
++	percpu_counter_tree_limit_sub(&sh->limit, ld->held);
++	ld->held = 0;
++	complete_work();
 +	return 0;
 +}
 +
- int __init percpu_counter_tree_subsystem_init(void)
- {
--	char shape[8 * MAX_NR_LEVELS + 1] = "";
-+	const char *origin = "default";
-+	char shape[SHAPE_BUF_SIZE] = "";
- 
- 	tree_topology.nr_cpus_order = get_count_order(nr_cpu_ids);
- 	if (tree_topology.nr_cpus_order >= ARRAY_SIZE(per_nr_cpu_order_config)) {
-@@ -1675,14 +1754,23 @@ int __init percpu_counter_tree_subsystem_init(void)
- 		return -EINVAL;
- 	}
- 	tree_topology.config = &per_nr_cpu_order_config[tree_topology.nr_cpus_order];
-+	if (arity_param && *arity_param) {
-+		if (parse_arity(arity_param, &tree_topology.boot_config)) {
-+			pr_warn("Invalid arity \"%s\" for %u CPUs, using the default\n",
-+				arity_param, nr_cpu_ids);
-+		} else {
-+			tree_topology.config = &tree_topology.boot_config;
-+			origin = "boot parameter";
-+		}
++static void do_hpcc_test_limit(struct kunit *test, unsigned long batch_size)
++{
++	struct limit_shared *sh;
++	struct limit_data *ld;
++	struct task_struct **task;
++	const struct cpumask *cpus;
++	unsigned int nr_workers = 0;
++	unsigned long accuracy;
++	int ret, cpu;
++
++	sh = kzalloc_obj(*sh);
++	ld = kvcalloc(nr_cpu_ids, sizeof(*ld), GFP_KERNEL);
++	task = kvcalloc(nr_cpu_ids, sizeof(*task), GFP_KERNEL);
++	KUNIT_EXPECT_NOT_NULL(test, sh);
++	KUNIT_EXPECT_NOT_NULL(test, ld);
++	KUNIT_EXPECT_NOT_NULL(test, task);
++	if (!sh || !ld || !task)
++		goto free;
++	ret = percpu_counter_tree_limit_init(&sh->limit, batch_size, GFP_KERNEL);
++	KUNIT_EXPECT_EQ(test, ret, 0);
++	if (ret)
++		goto free;
++	accuracy = percpu_counter_tree_approximate_accuracy(&sh->limit.counters[0]);
++	/* A limit of twice the accuracy, oversubscribed twice: mostly within its accuracy. */
++	sh->max = 2 * accuracy + 1;
++	sh->batch_size = batch_size;
++	init_kthreads();
++	cpus_read_lock();
++	cpus = select_worker_cpus();
++	sh->target = 2 * sh->max / cpumask_weight(cpus) + 512;
++	for_each_cpu(cpu, cpus) {
++		ld[cpu].sh = sh;
++		ld[cpu].seed = get_random_u32() | 1;
++		task[cpu] = kthread_create_on_cpu(limit_worker_fn, &ld[cpu], cpu,
++						  "kunit_hpcc_limit/%u");
++		KUNIT_EXPECT_FALSE(test, IS_ERR(task[cpu]));
++		if (IS_ERR(task[cpu]))
++			break;
++		atomic_inc(&kernel_threads_to_run);
++		get_task_struct(task[cpu]);
++		wake_up_process(task[cpu]);
++		nr_workers++;
 +	}
- 	calculate_topology();
- 	tree_topology.items_cachep =
- 		kmem_cache_create("percpu_counter_tree_items",
- 				  tree_topology.nr_items * SMP_CACHE_BYTES,
- 				  SMP_CACHE_BYTES, SLAB_PANIC, NULL);
- 	format_shape(shape, sizeof(shape), tree_topology.config);
--	pr_info("%u CPUs, fan-out %s, %u tree items\n",
--		nr_cpu_ids, tree_topology.nr_cpus_order ? shape : "none",
-+	pr_info("%u CPUs, fan-out %s (%s), %u tree items\n",
-+		nr_cpu_ids, tree_topology.nr_cpus_order ? shape : "none", origin,
- 		tree_topology.nr_items);
- 	return 0;
- }
++	sh->nr_workers = nr_workers;
++	/* Start the workers once their number is known, see limit_worker_fn(). */
++	smp_store_release(&sh->started, true);
++	wake_up_all(&limit_wq);
++	fini_kthreads();
++	for_each_cpu(cpu, cpus) {
++		if (!IS_ERR_OR_NULL(task[cpu]))
++			kthread_stop_put(task[cpu]);
++	}
++	cpus_read_unlock();
++
++	kunit_info(test, "batch_size=%lu workers=%u max=%lu added=%ld failed=%ld over=%ld\n",
++		   batch_size, nr_workers, sh->max, atomic_long_read(&sh->nr_added),
++		   atomic_long_read(&sh->nr_failed), atomic_long_read(&sh->nr_over));
++	KUNIT_EXPECT_EQ(test, atomic_long_read(&sh->nr_over), 0);
++	KUNIT_EXPECT_GT(test, atomic_long_read(&sh->nr_failed), 0);
++	KUNIT_EXPECT_EQ(test, percpu_counter_tree_limit_precise_sum(&sh->limit), 0);
++	percpu_counter_tree_limit_destroy(&sh->limit);
++free:
++	kvfree(task);
++	kvfree(ld);
++	kfree(sh);
++}
++
++/*
++ * Workers on all the worker CPUs add to and subtract from a limit counter
++ * held near its limit. The limit is never exceeded, and the value is back
++ * to 0 once all the workers freed what they held.
++ */
++static void hpcc_test_limit(struct kunit *test)
++{
++	if (num_online_cpus() < 2)
++		kunit_skip(test, "needs at least 2 online CPUs");
++	do_hpcc_test_limit(test, 2);
++	do_hpcc_test_limit(test, 32);
++}
++
+ static void hpcc_test_init_one(struct kunit *test)
+ {
+ 	struct percpu_counter_tree pct, zeroed = {};
+@@ -1038,6 +1209,7 @@ static struct kunit_case hpcc_test_cases[] = {
+ 	KUNIT_CASE(hpcc_test_set),
+ 	KUNIT_CASE(hpcc_test_saturated_compare),
+ 	KUNIT_CASE(hpcc_test_contended_carries),
++	KUNIT_CASE_SLOW(hpcc_test_limit),
+ 	KUNIT_CASE(hpcc_test_lazy),
+ 	KUNIT_CASE(hpcc_test_lazy_activation_race),
+ 	{}
 diff --git a/tools/testing/hpcc/include/hpcc_shim.h b/tools/testing/hpcc/include/hpcc_shim.h
-index 5d96d68f79bd..38407ac7cbbf 100644
+index a455e6432b5c..5d96d68f79bd 100644
 --- a/tools/testing/hpcc/include/hpcc_shim.h
 +++ b/tools/testing/hpcc/include/hpcc_shim.h
-@@ -34,8 +34,12 @@
- #define abs(x) ({ typeof(x) __x = (x); __x < 0 ? -__x : __x; })
+@@ -86,9 +86,45 @@ static inline bool atomic_long_try_cmpxchg_relaxed(atomic_long_t *v, long *old,
+ 	return false;
+ }
  
- #define pr_err(...)		fprintf(stderr, __VA_ARGS__)
-+#define pr_warn(...)		fprintf(stderr, __VA_ARGS__)
- #define pr_info(...)		do { if (0) printf(__VA_ARGS__); } while (0)
+-#define atomic_long_add_return(i, v)		((v)->counter += (i))
+-#define atomic_long_add_return_release(i, v)	((v)->counter += (i))
+-#define atomic_long_try_cmpxchg(v, old, new)	atomic_long_try_cmpxchg_relaxed(v, old, new)
++/*
++ * Stall hook. hpcc_stall_fn() runs once, right after the next ordered
++ * update of hpcc_stall_item. An ordered update is fully ordered or a
++ * release, not relaxed. This simulates an updater interrupted there while
++ * the other CPUs keep running.
++ */
++extern atomic_long_t *hpcc_stall_item;
++extern void (*hpcc_stall_fn)(void);
++
++static inline void hpcc_stall(atomic_long_t *v)
++{
++	void (*fn)(void) = hpcc_stall_fn;
++
++	if (fn && v == hpcc_stall_item) {
++		hpcc_stall_fn = NULL;
++		fn();
++	}
++}
++
++static inline long atomic_long_add_return(long i, atomic_long_t *v)
++{
++	long r = (v->counter += i);
++
++	hpcc_stall(v);
++	return r;
++}
++
++static inline long atomic_long_add_return_release(long i, atomic_long_t *v)
++{
++	return atomic_long_add_return(i, v);
++}
++
++static inline bool atomic_long_try_cmpxchg(atomic_long_t *v, long *old, long new)
++{
++	if (!atomic_long_try_cmpxchg_relaxed(v, old, new))
++		return false;
++	hpcc_stall(v);
++	return true;
++}
  
-+/* Implemented in main.c. */
-+char *get_options(const char *str, int nints, int *ints);
-+
- extern unsigned long hpcc_nr_warnings;
- 
- #define WARN(cond, ...) ({						\
-diff --git a/tools/testing/hpcc/include/linux/moduleparam.h b/tools/testing/hpcc/include/linux/moduleparam.h
-new file mode 100644
-index 000000000000..7e40df4295b2
---- /dev/null
-+++ b/tools/testing/hpcc/include/linux/moduleparam.h
-@@ -0,0 +1,12 @@
-+/* SPDX-License-Identifier: GPL-2.0+ OR MIT */
-+#include "../hpcc_shim.h"
-+
-+struct kernel_param;
-+
-+struct kernel_param_ops {
-+	int (*set)(const char *val, const struct kernel_param *kp);
-+	int (*get)(char *buffer, const struct kernel_param *kp);
-+};
-+
-+#define module_param_cb(name, ops, arg, perm)
-+#define MODULE_PARM_DESC(parm, desc)
+ /* Simulated topology, and CPU on which the current code runs. */
+ extern unsigned int nr_cpu_ids;
 diff --git a/tools/testing/hpcc/main.c b/tools/testing/hpcc/main.c
-index 8046fb3a59eb..bd26dd467acb 100644
+index 1b86fea543e5..8046fb3a59eb 100644
 --- a/tools/testing/hpcc/main.c
 +++ b/tools/testing/hpcc/main.c
-@@ -89,6 +89,27 @@ int scnprintf(char *buf, size_t size, const char *fmt, ...)
- 	return len < (int)size ? len : (int)size - 1;
+@@ -23,6 +23,12 @@
+  *   counter, exact before its tree is activated halfway, with the same
+  *   checks after each increment.
+  *
++ * - Limit counters: random additions and subtractions near the limit,
++ *   which must fit exactly when the value stays within it. Hooks stall an
++ *   addition in flight to check the cases where the sums race with it.
++ *   Each test runs again with both counters about to wrap, as unsigned and
++ *   as signed values.
++ *
+  * The test is single-threaded, so it only covers settled counters.
+  */
+ 
+@@ -33,6 +39,8 @@ unsigned int nr_cpu_ids;
+ unsigned int hpcc_current_cpu;
+ unsigned long hpcc_nr_warnings;
+ long hpcc_nr_allocs;
++atomic_long_t *hpcc_stall_item;
++void (*hpcc_stall_fn)(void);
+ 
+ #include "../../../lib/percpu_counter_tree.c"
+ 
+@@ -389,6 +397,320 @@ static void test_lazy(unsigned long batch_size, unsigned long nr_steps)
+ 	CHECK(hpcc_nr_allocs == nr_allocs);
  }
  
-+/* Comma-separated integers, without the ranges of lib/cmdline.c. */
-+char *get_options(const char *str, int nints, int *ints)
++/*
++ * Both counters of a limit counter only grow, so they wrap after enough
++ * updates. The limit tests start both roots at limit_base, which leaves
++ * the value at 0. When limit_wrap is set, the base is a random distance
++ * below the wrap point limit_wrap_at, within the range the tests cover.
++ * A check which compares the roots without taking their difference then
++ * fails while one side of the comparison has wrapped and the other has
++ * not.
++ */
++static bool limit_wrap;
++static unsigned long limit_wrap_at, limit_base;
++
++static int limit_init(struct percpu_counter_tree_limit *l, unsigned long batch_size)
 +{
-+	char *end;
-+	int i = 0;
++	unsigned long accuracy;
 +
-+	while (i < nints - 1 && *str) {
-+		long v = strtol(str, &end, 0);
-+
-+		if (end == str)
-+			break;
-+		ints[++i] = v;
-+		str = end;
-+		if (*str != ',')
-+			break;
-+		str++;
++	if (percpu_counter_tree_limit_init(l, batch_size, GFP_KERNEL))
++		return -ENOMEM;
++	limit_base = 0;
++	if (limit_wrap) {
++		accuracy = percpu_counter_tree_approximate_accuracy(&l->counters[0]);
++		limit_base = limit_wrap_at - 1 - rnd() % (8 * accuracy);
 +	}
-+	ints[0] = i;
-+	return (char *)str;
++	atomic_long_set(l->counters[0].approx_sum, limit_base);
++	atomic_long_set(l->counters[1].approx_sum, limit_base);
++	return 0;
 +}
 +
- static void hpcc_init_topology(unsigned int nr_cpus)
- {
- 	nr_cpu_ids = nr_cpus;
-@@ -770,6 +791,58 @@ static int run_case(unsigned int nr_cpus, unsigned long batch_size)
- 	return nr_case_failures ? 1 : 0;
- }
- 
-+/* Tree shapes given with the arity boot parameter. */
-+static const struct {
-+	unsigned int nr_cpus;
-+	const char *arity;
-+	const char *shape;	/* Shape in use, NULL if the arity is invalid. */
-+} test_arity[] = {
-+	{ 16, "16", "16" },
-+	{ 16, "4,4", "4,4" },
-+	{ 16, "2,2,2,2", "2,2,2,2" },
-+	{ 16, "4,2", NULL },		/* Covers 8 CPUs. */
-+	{ 16, "4,8", NULL },		/* Covers 32 CPUs. */
-+	{ 16, "4,4,1", NULL },		/* Fan-out of 1. */
-+	{ 16, "4,3", NULL },		/* Not a power of 2. */
-+	{ 16, "4,4x", NULL },		/* Trailing characters. */
-+	{ 16, "-4,-4", NULL },
-+	{ 17, "8,4", "8,4" },
-+	{ 100, "128", "128" },
-+	{ 192, "8,4,8", "8,4,8" },
-+	{ 192, "2,2,2,2,2,2,2,2", NULL },	/* More than MAX_NR_LEVELS. */
-+	{ 1024, "32,32", "32,32" },
-+	{ 1, "2", NULL },
-+};
-+
-+static int run_arity_case(unsigned int i)
++/* Each counter of a limit counter errs in one direction only. */
++static void check_limit(struct percpu_counter_tree_limit *l, unsigned long add_total,
++			unsigned long sub_total)
 +{
-+	const char *expect = test_arity[i].shape;
-+	char buf[SHAPE_BUF_SIZE];
-+	int len;
++	struct percpu_counter_tree *add = &l->counters[0], *sub = &l->counters[1];
++	unsigned long accuracy = percpu_counter_tree_approximate_accuracy(add);
++	unsigned long root_add = atomic_long_read(add->approx_sum);
++	unsigned long root_sub = atomic_long_read(sub->approx_sum);
 +
-+	nr_case_failures = 0;
-+	hpcc_nr_warnings = 0;
-+	tree_topology.config = NULL;
-+	CHECK(!arity_param_set(test_arity[i].arity, NULL));
-+	hpcc_init_topology(test_arity[i].nr_cpus);
-+	arity_param = NULL;
-+	CHECK(arity_param_set("16", NULL) == -EBUSY);
-+	CHECK((tree_topology.config == &tree_topology.boot_config) == !!expect);
-+	len = arity_param_get(buf, NULL);
-+	CHECK(len > 0 && buf[len - 1] == '\n');
-+	buf[len - 1] = '\0';
-+	if (expect) {
-+		CHECK(!strcmp(buf, expect));
-+		test_saturated(2, 1);
-+		test_saturated(32, -1);
-+		test_random_walk(32, 20000);
-+	}
-+	CHECK(!hpcc_nr_warnings);
-+	printf("%sok %d - arity nr_cpus=%u \"%s\" -> \"%s\"\n", nr_case_failures ? "not " : "",
-+	       ++test_num, test_arity[i].nr_cpus, test_arity[i].arity, buf);
-+	return nr_case_failures ? 1 : 0;
++	CHECK(percpu_counter_tree_precise_sum_upper(add) == add_total);
++	CHECK((unsigned long)percpu_counter_tree_precise_sum(sub) == sub_total);
++	/* Modulo the wrap: a root above its total gives a huge difference. */
++	CHECK(add_total - root_add <= accuracy);
++	CHECK(sub_total - root_sub <= accuracy);
++	CHECK(percpu_counter_tree_limit_precise_sum(l) == add_total - sub_total);
 +}
 +
- static int run_check_config(void)
++/*
++ * Without concurrency, an addition must fit exactly when the value stays
++ * within the limit. The limit is a few accuracies wide, so the walk often
++ * runs within the accuracy of the limit, where the precise sums decide.
++ */
++static void test_limit(unsigned long batch_size, unsigned long nr_steps)
++{
++	unsigned long value = 0, add_total, sub_total, accuracy, max, step, amount;
++	struct percpu_counter_tree_limit l;
++	bool added;
++
++	if (limit_init(&l, batch_size)) {
++		CHECK(0);
++		return;
++	}
++	add_total = limit_base;
++	sub_total = limit_base;
++	accuracy = percpu_counter_tree_approximate_accuracy(&l.counters[0]);
++	max = 3 * accuracy + rnd() % (accuracy + 1) + 1;
++	for (step = 0; step < nr_steps; step++) {
++		hpcc_current_cpu = rnd() % nr_cpu_ids;
++		if (value && !(rnd() % 3)) {
++			amount = 1 + rnd() % value;
++			percpu_counter_tree_limit_sub(&l, amount);
++			value -= amount;
++			sub_total += amount;
++		} else {
++			amount = 1 + rnd() % ((rnd() & 1) ? batch_size : 8 * batch_size);
++			added = percpu_counter_tree_limit_add(&l, max, amount);
++			CHECK(added == (value + amount <= max));
++			if (added) {
++				value += amount;
++				add_total += amount;
++			} else if (amount <= batch_size) {
++				/* Added, then undone by a subtraction. */
++				add_total += amount;
++				sub_total += amount;
++			}	/* A larger amount which cannot fit is not added. */
++		}
++		check_limit(&l, add_total, sub_total);
++	}
++	/* Fill up: the value stops exactly at the limit. */
++	while (value < max) {
++		hpcc_current_cpu = rnd() % nr_cpu_ids;
++		amount = (max - value + 1) / 2;
++		CHECK(percpu_counter_tree_limit_add(&l, max, amount));
++		value += amount;
++		add_total += amount;
++	}
++	CHECK(!percpu_counter_tree_limit_add(&l, max, 1));
++	add_total++;
++	sub_total++;
++	CHECK(value == max);
++	check_limit(&l, add_total, sub_total);
++	percpu_counter_tree_limit_destroy(&l);
++}
++
++/* State of test_limit_stall(), shared with its stall hook. */
++static struct {
++	struct percpu_counter_tree_limit l;
++	unsigned long max, value;
++	unsigned int stalled_cpu, share_mask;
++} stall;
++
++/*
++ * While one addition is stalled, the CPUs sharing its stalled item add.
++ * Their carries meet its pending items, and go straight to the root.
++ */
++static void stall_others_add(void)
++{
++	struct percpu_counter_tree *add = &stall.l.counters[0];
++	unsigned long batch_size = percpu_counter_tree_batch_size(add);
++	unsigned long root = atomic_long_read(add->approx_sum);
++	unsigned int saved = hpcc_current_cpu, cpu, i;
++	bool others = false;
++
++	for (cpu = 0; cpu < nr_cpu_ids; cpu++) {
++		if (cpu == stall.stalled_cpu ||
++		    (cpu & stall.share_mask) != (stall.stalled_cpu & stall.share_mask))
++			continue;
++		others = true;
++		hpcc_current_cpu = cpu;
++		for (i = 0; i < batch_size; i++) {
++			if (percpu_counter_tree_limit_add(&stall.l, stall.max, 1))
++				stall.value++;
++		}
++		CHECK(stall.value <= stall.max);
++		CHECK(percpu_counter_tree_limit_precise_sum(&stall.l) >= stall.value);
++	}
++	if (others)
++		CHECK((long)(atomic_long_read(add->approx_sum) - root) > 0);
++	hpcc_current_cpu = saved;
++}
++
++/*
++ * Fill each residual of the additions to its largest value. The value is
++ * then the accuracy, and the root is 0. The limit is set to the value.
++ * Then an addition on CPU 0 carries up to the root through all the
++ * levels. Stall it right after it arrives at its item of @stall_level,
++ * or at the root when @stall_level is nr_levels. Its items below the
++ * root then hold their carries on the way up. The CPUs sharing the
++ * stalled item add while it is stalled, and must fail.
++ */
++static void test_limit_stall(unsigned long batch_size, unsigned int stall_level)
++{
++	unsigned int nr_levels = tree_topology.config->nr_levels, level, level_items, i, cpu;
++	unsigned long step, bit_mask;
++	struct percpu_counter_tree *add;
++	atomic_long_t *item;
++
++	if (limit_init(&stall.l, batch_size)) {
++		CHECK(0);
++		return;
++	}
++	add = &stall.l.counters[0];
++	stall.max = percpu_counter_tree_approximate_accuracy(add);
++	stall.value = 0;
++	/*
++	 * An amount of bit_mask - step is a multiple of the batch sizes of the
++	 * levels below. It goes through them and stays in item i of this
++	 * level. CPU i updates that item.
++	 */
++	level_items = 1U << tree_topology.nr_cpus_order;
++	bit_mask = batch_size;
++	item = percpu_counter_tree_items(add);
++	stall.share_mask = 0;		/* At the root, all CPUs share it. */
++	for (level = 1; level < nr_levels; level++) {
++		step = bit_mask;
++		level_items >>= tree_topology.config->n_arity_order[level - 1];
++		bit_mask <<= tree_topology.config->n_arity_order[level - 1];
++		if (level == stall_level) {
++			hpcc_stall_item = item;		/* CPU 0's item. */
++			stall.share_mask = level_items - 1;
++		}
++		for (i = 0; i < level_items; i++) {
++			hpcc_current_cpu = i;
++			CHECK(percpu_counter_tree_limit_add(&stall.l, stall.max, bit_mask - step));
++			stall.value += bit_mask - step;
++		}
++		item += level_items * add->items_stride;
++	}
++	if (stall_level >= nr_levels)
++		hpcc_stall_item = add->approx_sum;
++	for (cpu = 0; cpu < nr_cpu_ids; cpu++) {
++		hpcc_current_cpu = cpu;
++		CHECK(percpu_counter_tree_limit_add(&stall.l, stall.max, batch_size - 1));
++		stall.value += batch_size - 1;
++	}
++	CHECK(stall.value == stall.max);
++	CHECK((unsigned long)atomic_long_read(add->approx_sum) == limit_base);
++
++	stall.stalled_cpu = 0;
++	hpcc_stall_fn = stall_others_add;
++	hpcc_current_cpu = stall.stalled_cpu;
++	if (percpu_counter_tree_limit_add(&stall.l, stall.max, 1))
++		stall.value++;
++	CHECK(!hpcc_stall_fn);	/* The stall happened. */
++	hpcc_stall_fn = NULL;
++	CHECK(stall.value <= stall.max);
++	CHECK(percpu_counter_tree_limit_precise_sum(&stall.l) == stall.value);
++	percpu_counter_tree_limit_destroy(&stall.l);
++}
++
++/* State of test_limit_retry(), shared with its stall hook. */
++static struct {
++	struct percpu_counter_tree_limit l;
++	unsigned long in_flight;
++	unsigned int in_flight_cpu;
++} retry;
++
++/* The concurrent addition in flight fails, and is undone. */
++static void retry_undo_in_flight(void)
++{
++	unsigned int saved = hpcc_current_cpu;
++
++	hpcc_current_cpu = retry.in_flight_cpu;
++	percpu_counter_tree_limit_sub(&retry.l, retry.in_flight);
++	hpcc_current_cpu = saved;
++}
++
++/*
++ * With one unit free, CPU 0 adds 1 while another addition of 1 is in
++ * flight, about to fail. CPU 0 fails, and that addition is undone while
++ * CPU 0 undoes its own. CPU 0 must then retry, and fit.
++ */
++static void test_limit_retry(unsigned long batch_size)
++{
++	struct percpu_counter_tree *add = &retry.l.counters[0], *sub = &retry.l.counters[1];
++	unsigned long max, value = 0, amount;
++
++	if (limit_init(&retry.l, batch_size)) {
++		CHECK(0);
++		return;
++	}
++	max = 2 * percpu_counter_tree_approximate_accuracy(add) + 1;
++	hpcc_current_cpu = 1 % nr_cpu_ids;
++	while (value < max - 1) {
++		amount = max - 1 - value < batch_size ? max - 1 - value : batch_size;
++		CHECK(percpu_counter_tree_limit_add(&retry.l, max, amount));
++		value += amount;
++	}
++	/* CPU 0's subtractions at batch_size - 1: its undo carries. */
++	hpcc_current_cpu = 0;
++	percpu_counter_tree_limit_sub(&retry.l, batch_size - 1);
++	hpcc_current_cpu = 1 % nr_cpu_ids;
++	CHECK(percpu_counter_tree_limit_add(&retry.l, max, batch_size - 1));
++	/* The addition in flight, from another CPU. */
++	retry.in_flight = 1;
++	retry.in_flight_cpu = 2 % nr_cpu_ids;
++	hpcc_current_cpu = retry.in_flight_cpu;
++	percpu_counter_tree_add_arrive_first(add, retry.in_flight);
++	/* CPU 0's undo carries to the first item of the subtractions. */
++	hpcc_stall_item = tree_topology.config->nr_levels > 1 ?
++			  percpu_counter_tree_items(sub) : sub->approx_sum;
++	hpcc_stall_fn = retry_undo_in_flight;
++	hpcc_current_cpu = 0;
++	CHECK(percpu_counter_tree_limit_add(&retry.l, max, 1));
++	CHECK(!hpcc_stall_fn);	/* The other addition was undone during the check. */
++	hpcc_stall_fn = NULL;
++	CHECK(percpu_counter_tree_limit_precise_sum(&retry.l) == max);
++	percpu_counter_tree_limit_destroy(&retry.l);
++}
++
++/*
++ * An amount larger than the batch size which cannot fit fails before it
++ * is added. The additions do not change, and a fitting amount still fits.
++ */
++static void test_limit_precheck(unsigned long batch_size)
++{
++	struct percpu_counter_tree_limit l;
++	unsigned long max, value = 0, amount, before;
++
++	if (limit_init(&l, batch_size)) {
++		CHECK(0);
++		return;
++	}
++	max = 2 * percpu_counter_tree_approximate_accuracy(&l.counters[0]) + 1;
++	hpcc_current_cpu = 1 % nr_cpu_ids;
++	while (value < max - batch_size) {
++		amount = max - batch_size - value;
++		if (amount > batch_size)
++			amount = batch_size;
++		CHECK(percpu_counter_tree_limit_add(&l, max, amount));
++		value += amount;
++	}
++	before = percpu_counter_tree_precise_sum_upper(&l.counters[0]);
++	hpcc_current_cpu = 0;
++	CHECK(!percpu_counter_tree_limit_add(&l, max, 2 * batch_size));
++	CHECK(percpu_counter_tree_precise_sum_upper(&l.counters[0]) == before);
++	CHECK(percpu_counter_tree_limit_add(&l, max, batch_size));
++	CHECK(percpu_counter_tree_limit_precise_sum(&l) == max);
++	percpu_counter_tree_limit_destroy(&l);
++}
++
++/* The batch size chosen for an accuracy is the largest within it. */
++static void test_batch_for_accuracy(void)
++{
++	unsigned long multiplier = tree_topology.accuracy_multiplier, accuracy, batch_size;
++
++	for (accuracy = 1; accuracy < 512 * multiplier; accuracy = accuracy * 3 + 1) {
++		batch_size = percpu_counter_tree_batch_for_accuracy(accuracy);
++		CHECK(batch_size >= 2 && batch_size <= PERCPU_COUNTER_TREE_MAX_BATCH);
++		if (batch_size > 2)
++			CHECK(batch_size * multiplier - nr_cpu_ids <= accuracy);
++		if (batch_size < PERCPU_COUNTER_TREE_MAX_BATCH)
++			CHECK(2 * batch_size * multiplier - nr_cpu_ids > accuracy);
++	}
++}
++
+ static const unsigned int test_nr_cpus[] = {
+ 	1, 2, 3, 4, 5, 8, 9, 16, 17, 32, 33, 64, 65, 100, 128, 256, 512,
+ 	1000, 1024, 2048, 4096, 8192, 16384, 32768, 65536,
+@@ -405,6 +727,12 @@ static int test_num;
+ 
+ static int run_case(unsigned int nr_cpus, unsigned long batch_size)
  {
- 	unsigned int nr_errors = percpu_counter_tree_check_config();
-@@ -797,12 +870,15 @@ int main(int argc, char **argv)
- 	if (argc == 2)
- 		large = true;
++	/* No wrap, then below the unsigned and the signed wrap points. */
++	const struct {
++		bool wrap;
++		unsigned long at;
++	} wraps[] = { { false, 0 }, { true, 0 }, { true, 1UL << (BITS_PER_LONG - 1) } };
++	unsigned int level, i;
+ 	/* Each check iterates over all CPUs: bound the random walk cost. */
+ 	unsigned long nr_steps = 10000000 / nr_cpus;
  
--	nr_tests = 1 + ARRAY_SIZE(test_nr_cpus) * ARRAY_SIZE(test_batch_sizes);
-+	nr_tests = 1 + ARRAY_SIZE(test_arity) +
-+		   ARRAY_SIZE(test_nr_cpus) * ARRAY_SIZE(test_batch_sizes);
- 	if (large)
- 		nr_tests += ARRAY_SIZE(test_nr_cpus_large) * ARRAY_SIZE(test_batch_sizes);
- 	printf("1..%u\n", nr_tests);
- 
- 	failed += run_check_config();
-+	for (i = 0; i < ARRAY_SIZE(test_arity); i++)
-+		failed += run_arity_case(i);
- 	for (i = 0; i < ARRAY_SIZE(test_nr_cpus); i++)
- 		for (j = 0; j < ARRAY_SIZE(test_batch_sizes); j++)
- 			failed += run_case(test_nr_cpus[i], test_batch_sizes[j]);
+@@ -420,6 +748,20 @@ static int run_case(unsigned int nr_cpus, unsigned long batch_size)
+ 	test_saturated(batch_size, -1);
+ 	test_random_walk(batch_size, nr_steps);
+ 	test_lazy(batch_size, nr_steps / 2);
++	for (i = 0; i < ARRAY_SIZE(wraps); i++) {
++		limit_wrap = wraps[i].wrap;
++		limit_wrap_at = wraps[i].at;
++		test_limit(batch_size, nr_steps / 2);
++		/* These fill the tree near the limit, where each addition sums all CPUs. */
++		if (nr_cpus > 4096)
++			continue;
++		for (level = 1; level <= tree_topology.config->nr_levels; level++)
++			test_limit_stall(batch_size, level);
++		test_limit_retry(batch_size);
++		test_limit_precheck(batch_size);
++	}
++	limit_wrap = false;
++	test_batch_for_accuracy();
+ 	CHECK(!hpcc_nr_warnings);
+ 	printf("%sok %d - nr_cpus=%u batch_size=%lu\n", nr_case_failures ? "not " : "",
+ 	       ++test_num, nr_cpus, batch_size);
 -- 
 2.47.3
 
