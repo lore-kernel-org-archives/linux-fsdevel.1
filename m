@@ -1,94 +1,128 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.159
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794411910;
-	b=z8hgxxzBkCp34bdUIw5PEmOp9zUhyB1HjOhr52GZIwOOp7V7dLRIliIoZRPAm24JTd31
-	 4mFmac0IhIUZNAyO6dnbRz81L7CX6E39l+ioy5Dny+zpONoDvTJEghr2gOr85pbZB9Jl1
-	 ZFHNjKmtrGqSSrq8S595UMWpdrDRPgOdfjfWmfwNiwXgXxLRAk5rE5t6Ct9Rb2wteXgYI
-	 QZ4q9wvu1aHwLvoJZIFT1H2g6bBDNNjxZU9r21R8ehW3D5SIpwdrzOwsFp2Hs+DxaNCQW
-	 zYUQ08ERv71hCuAqRiVhV6wqI8m2KbvFeaWZdUDoUNE1DurR7+6XgozCk8Vmt4tUl3A==
+	t=1794412840;
+	b=UPzijhMGAW5/cgTAiMQvlsPzqc+SmDozWAVz5X/ovZK3n6ir1Bu9a5cddhV58xFte2n/
+	 E35DftxeObPjSzSbO1InoTr4yXobgguzqSUZLkPy/kZz9oGvOXa2mWeKFXfJBqiQVvbnV
+	 zX5Lz3Kymrlr7Ya1aSdqm0Quh5MRFCKFqm78Ri00/jQ9b0N2OANX8tiDbPmAeK24KHZb3
+	 r1FE5W80R/a1oLX7sLU6Ob91e1xyuyzZZnvs/NV3SXrEF7wV+0r7mGOp/SKfCA19ETbnV
+	 UVRfSm7xXL3nuKY5p7NNHgVieAe+D1exsoxiuAJH0cQBqCs+ymXd61elTRXmvsJs1Bg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794411910;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=sJv/vQe3wv4xM1igYaOZea7+QqPV13IlBCEtGrk80JI=;
-	b=iFq9NiS8RvT5AKlndAB4DxHFhbw0s9PSRAfHBDvtHZJPh4IMGznvYiGQjO17zURYfqHT
-	 9iGmYlx6JYFJwU6s2AsgMy9inYr8b69w7xvzzXxmgqgt8Pf471qGXnwWxCIRfzO0AIoUA
-	 fGpkVjhNJLaZjflB7G/5LPHspcez3UYR0bZG+PAhtGPSunOlHRbhqQnQUqORoDMFPqO9c
-	 uaRcKp+O5nlQgqr8ecUL9rD2t9cfWg3lzzvPaRSy637e3Pj0QNTEwDgZOlVSE5txMqrOz
-	 xx3ucKCBVCz+79N9VvV2mDl83F6Fi1/FZ8H1VPvCAIPDdCEINBZotEfmTh52eFCcN8A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794412840;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
+	 References:MIME-Version:Content-Transfer-Encoding;
+	bh=AspvNDGkCkJ3NWLJZ31HBiF8pAd3ckj/t1KcoFiBMNQ=;
+	b=Y0W+uE2yfET0ft0wNLff2zpodwFqFgPVOYLhFaFVXu4vAbM+mkBUPUVODhKL6tHONaOv
+	 4w52/pK9e/gD29E8ol0j+aiZfJaeFLk9gVn4oNqJT3G8QDMxmb6ci1F9BahYzGDS4b5KC
+	 1tOvTwkmcRnuHWBPe70b/9ITEA/PIod8UNo5/LEeY4SPJbPUGn1ZTVgULC6TeT2EC68Ex
+	 sH++sYTqyRxqOxHWajy3hyAJpfuWf0MoSnPZOWaF776wf/GRKcF6tNrmga3jhhyQJUWBS
+	 1oTtN3n3bh2qXT4hwLsMdQl3Pqu/m+EuLO/upOpX932apviuh4r+TTtHyh3KSSCFVEA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ionos.com;
-	spf=pass smtp.mailfrom=ionos.com;
-	dkim=pass header.d=ionos.com header.i=@ionos.com header.a=rsa-sha256 header.s=google header.b=Mz8s7WAp;
-	arc=none smtp.remote-ip=209.85.221.41
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=fastmail.org;
+	spf=pass smtp.mailfrom=fastmail.org;
+	dkim=pass header.d=fastmail.org header.i=@fastmail.org header.a=rsa-sha256 header.s=fm3 header.b=afkDzEHG;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=q1qL97km;
+	arc=none smtp.remote-ip=103.168.172.159
+Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F1DD606A321
-	for <linux-fsdevel@vger.kernel.org>; Wed, 11 Nov 2026 15:45:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4F1DD606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ionos.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ionos.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75E0D606A324
+	for <linux-fsdevel@vger.kernel.org>; Wed, 11 Nov 2026 16:00:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 75E0D606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ionos.com header.i=@ionos.com header.a=rsa-sha256 header.s=google header.b=Mz8s7WAp
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-4922523d1afso1985843f8f.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 11 Nov 2026 07:45:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ionos.com; s=google; t=1794411907; x=1795016707; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=sJv/vQe3wv4xM1igYaOZea7+QqPV13IlBCEtGrk80JI=;
-        b=Mz8s7WAp/GmqYam1kVEfEu9vJKr6shFKC56WHoNHjCDtj9xo92HcnMGNfdlksRkdTL
-         4LaJXIzUzJClzqFK+sCCe7dmQHUHTtIGTUUuhGPBF9hxaDpcDrOsEyyYbw8+wO08Fiu7
-         VtqTx4YcWVw+/EderlIg9oRIZfgrL8xE2m/pALHBrBR8SHkHbXmOSVmll6gQ0p3EGb4P
-         7jHNzqaVDmXl7dpm0hZ4cswlK0zcJDsD/D2Uyu/RrnvnB8g2SOJf8z6+QHtgyd3bC+q3
-         vVJnIc+eQBJpYKQZ0LDQuFywMVapIkDdYckCgbVUFfuNQflwPHq2qe18S1RVW0seFOFL
-         y0Fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794411907; x=1795016707;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=sJv/vQe3wv4xM1igYaOZea7+QqPV13IlBCEtGrk80JI=;
-        b=cifGnj8tBbJQmh9hteR0r7LnWWwb9Ey67IMKAuO7mzaPNGepElxu/6nklAKuR8R9Am
-         ex/Y/BIWyVSJof7/WBQAg7+S6Wu9c+3SVB6ZIa1MD4aA/WPmG5aMPbAf6HA7xB8SL7KS
-         KLrVyuMw3gyzPuNn2L/O+gsP0i1HY8meEnZLTDuqCXTUN6AIPU0OOn2GyzjJibCT6bmb
-         yB82b9EGZzd3sbYxqJGcJS59uMn4EjP93NvahPE5sRFZmSoIk+J3mpoCLkzeqPFozCLJ
-         WFRBH7dunW9bMgGtYUiQ8KN/Biy+JCsF6gMTDu1cwjYzVdD3rzLgGma1t1ruf3zyiYUc
-         KggA==
-X-Forwarded-Encrypted: i=1; AL+hErHo972Vel9HXdtIvyN5jvI03ztLLRJ6e+drXzLBkWu081FZfBufT0IDm29NBLITDORfI5l2yNqVZ1SWGhAO@vger.kernel.org
-X-Gm-Message-State: APuU4Z9d9lDa8fYY64qD9Bk0XSnuC79Hl1EeBRgClfg9CK5v0FIokIw1
-	iJH//cI0UJe0/dc9H8Q9f/WZDVufyT/gCgudWSfVvUlRzCt4Gs3pjHINPbzqG/hRcYo=
-X-Gm-Gg: AYBFou3pHzNsOwAUfV9jVtYTo/SPccmWANg+FsHH9ufCbfcZ0kUTEWtayc3FjkqBmZ9
-	mjX7PQFwBhhqXxyM/ETF/lf8YmN6ggk2sItjHSGBoYTeBfVrmC7kS9wIzW/IWGBDmf06xb8ej22
-	rFcprcn9cJTRCfsayByjti1EVFIJPLI0vv+CZ4ve4PxaaZLzl1qFxZhSIzSKynRbQ+aNp/PS7uC
-	H0sRkTW/dqxXPoE8lYOiKs+wnvKPl7prq+uhCLGqgmTWzC9GanbdmsSCyQ120x3dd3OEiPHSqIR
-	jFUrX123TtjceXF7VhKvZ12N6YJaWirT3xnEg8yEoIHRHGFhAKTOFXyyz11iC9LAYPjg9SsjdCz
-	bUKp1xhBpETQfZWdEOSsxabqfg/g0T2QBEgVwGjjejXyAe9NkUswJKNHqRlndDtVAjbppTU8zSU
-	eUwQJlH/wAtMCDTKbN956pxiHRqvxIDOeWvjfq4crGt5cayfpot6Yprwnq9rpDGTXMYlhZAFHdA
-	GzkFX4Sweb1M1wDMMJTGm8gyNGNW35MBb7AqbbY00UStgLlb8Eo5TO5fvIpcxfSpzXQB+UtZ4HW
-	T2NGVfx+fJmQkG/QyKMmDp/X81OTysfieDA8sDAUjjmQ1cyynPhEminuD5k28+TVbu0qyYn+4gV
-	qIQ2YWrj+nPufAcvWxBmdtoElhgmy4Vw=
-X-Received: by 2002:a05:6000:3ca:b0:498:1a65:50ce with SMTP id ffacd0b85a97d-499c7a24ac2mr4382494f8f.22.1794411907466;
-        Wed, 11 Nov 2026 07:45:07 -0800 (PST)
-Received: from raven.intern.cm-ag (p200300dc6f4cbe00023064fffe740809.dip0.t-ipconnect.de. [2003:dc:6f4c:be00:230:64ff:fe74:809])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-498365cbfc6sm12392832f8f.41.2026.11.11.07.45.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Nov 2026 07:45:06 -0800 (PST)
-From: Max Kellermann <max.kellermann@ionos.com>
-To: David Howells <dhowells@redhat.com>,
-	Paulo Alcantara <pc@manguebit.org>
-Cc: Max Kellermann <max.kellermann@ionos.com>,
-	netfs@lists.linux.dev,
+	dkim=pass (2048-bit key, unprotected) header.d=fastmail.org header.i=@fastmail.org header.a=rsa-sha256 header.s=fm3 header.b=afkDzEHG;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=q1qL97km
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 917F51400182
+	for <linux-fsdevel@vger.kernel.org>; Wed, 11 Nov 2026 11:00:38 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Wed, 11 Nov 2026 11:00:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm3; t=1794412838; x=
+	1794499238; bh=AspvNDGkCkJ3NWLJZ31HBiF8pAd3ckj/t1KcoFiBMNQ=; b=a
+	fkDzEHGaluomPGZP1G8gj9zjI3T0mdhkQwgzY4cNADJdtL8cSxyWlqkM/yFstZVA
+	/8ZL/NUB9M3nR8i29zoqIs3cH5OT2rhQQFz2o+RsyaWD7ZVXx9CKDvK3MDgTac11
+	dabYVnuBqmUXiCy6aNaLxTF934xPoIsBWzSv/hKu4zAUjw1UOxETjX/T+uUDjOFH
+	hLMgg44nNonKyaEmvTgtQ3vZOGmPeoXvGnLT+FY0PR1nzlubTSVxlu6ft5SANRMu
+	cJctJ0uPFOmauJvBaBlowgk4cC0PlO/UFeda8WuFf2l1G3Dxk1eaCdfh4I3KIodX
+	KJYR4oYynyc+G79grV76w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
+	:x-me-sender:x-sasl-enc; s=fm3; t=1794412838; x=1794499238; bh=A
+	spvNDGkCkJ3NWLJZ31HBiF8pAd3ckj/t1KcoFiBMNQ=; b=q1qL97kmPYtBYgYYv
+	5gajvuG6QwFLxISundZuWNkT0QVAoN51D79Xvl7QucJlkxuSaDCf2+IXL2JrmUth
+	SuYJ/tUAfJ8cNMVA/w21Xji1JGcwYoUZvqb5bur/QkGwpkzxZ+2xoyF4Fok06SH4
+	w2Q6BZcoIxq52B2zhAO0XTVKzbl8fZkzpXNnAty1rh/PUWWYIu6xedwD2+fzYhWK
+	xXgzp+82qPXFGnxIYcnOFcQ8CrF46QpgREwdZ+8l0b0BJdbRaRy9l4DKfVXYLQER
+	Zbyd7LcZvWxsbk9yv/KXLHrN+Js8By8TWHbevYbtimg5pCFILUtLZKh7sDr3tO2B
+	HAGiQ==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=fastmail.org a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1794412838; d=fastmail.org;
+	mf=PGljYkBmYXN0bWFpbC5vcmc+;
+	rt=PGxpbnV4LWZzZGV2ZWxAdmdlci5rZXJuZWwub3JnPg==;
+	s=fm3:rsa-sha256:P9lCGZp+42r9eIePPGRSqkWOwm18fyoeHj129DJYRfUgfjb
+	ThKMZrNypgWbhiLVgy5ZVRzKOwB7yiOTB2wBxfJwpJGN0Oeao1YacXMyXkcSxOG2
+	2JabJ7jGb6JqQHvONAd7Uw/t5hltuM/GiWKO5LikwWfUs8kw9/heSQJtX5uWDudY
+	p/bwYwRfr27koEmFYnNKWlUUSSBBoiCyYI0IUdbJjS6OLdQOWWNS9aeWKlf/af7Y
+	KtGF8HFsNY+Pn0dEH0LvPOOhCygajnwXl9n+ylFQcJNYtFyVnw38hDLigR5EIrre
+	gqny0F7AkgWlYl/TAY0Hzmc2hzRuArZ9Sg0jgzQ==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=11;
+	hn=cc,content-transfer-encoding,date,feedback-id,from,
+	in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:/kRDEj1VEaC2NJgaYg5eQF710A1Pe0jHgn6B2QjUp8k=:Mdc/pp8kO3nuThRxpmSdvNYO3j128aXlX78VIoghsJQ=;
+X-ME-Sender: <xms:JZH0athSBlCYFQZVmjPMoniji3lHgnS30OYzj9lHoL7X26vrA6LZ0w>
+    <xme:JZH0aoDNQUmjxedoiLrI1bEjl_-LKxXjMyGNoUh14EAbR9otNL_rh6Am07Ptutu54
+    WQQC9RGUpk7DEP6UIHeOPv2iH6Spt3G1g6gJ9_8xeHVIxNMRBNR9fbE>
+X-ME-Received: <xmr:JZH0an7oZVW8vKsVC5vXFq4ZEEHkT3jCFl-QDeWv4MJytBwhoTGd7BPSQF8BAk4J>
+X-ME-Proxy-Cause: dmFkZTGc6X1pUvRe543ASiFLgXt49mcvnM5Cjqw3BsQ6n9gfX39xWALbbqxtaONqPwhpdE
+    VxOOkeWEEmhA8xFSk8iPWJqb0KILOP7BdvtxP9qS4fo1mQud/wWu3W9F5UuvLayBpvlSLy
+    LKQ5l9jQTj0oj1NL5ie+DDajFzlVWkN4mYkWVI5PrbcB1vgg4vZOQOMh9W8ge6jRihj93k
+    vmMSx2xlv17TpB2ZOwKZgxBV2VfbajR01HJj0W4bcNNAxi5iQMNc0G5xHqOutPsyHzZFsM
+    Z0uNKJLwcAQpfQjKrvKiMKXH+HI7FGJBRAWcY1AQBQnVk3bLX/u9Q+X/5uu+SWO8zyQcMi
+    OfIykN2e6s+Old8Ciu9i9dDQw0JkZeid+qrE8IOVA+BQCq579y+MJR+94rbYxuc9qt40zJ
+    Wb6ucDzjlUiy9rIQTUgoOy8s2EMHraM+7RyZx9A0vvUlXzqGu3vmN+Amd05iMrPu7YKyuJ
+    S3tH8ZVnVYVnRdQFoYz51ZDI+cvnExsmw3/WLKcgumT+we64PYydn1lC0GBWuU26BSobfZ
+    jV091zYKOa6YQl6PER923EZIFQs1SLgK3IMbmr/TnhTDlqFqSWTvmho/IjpLkL9ZYalxkz
+    sntT+UdsXaibJ1JrxWNKg+EWwUsJlYcVsTSx/Q6n9iKf4diQqogBDlB+OXjA
+X-ME-Proxy: <xmx:JZH0alFC30XZ2d7GGkxXDD696K-feC66V3fHxeGqwOuH3hAK8e9t5Q>
+    <xmx:JZH0aqDEyj9dK08pPyPrF0Fg5Y6bzDhEi444r_KA9Ae-ucJnjZrj5g>
+    <xmx:JZH0aiz-9btSnleMKHrInDRGcNW84VDPMFzXfnyU4gufVP6GsdEffw>
+    <xmx:JZH0am4E93nV6zap8iDdEm-73F4xAsl6xHjZNTS3no367A06uA_EFw>
+    <xmx:JpH0anr6Us03r1TcNluJxQQr3xFSRE64yTFDYp2UH2i4Ljj6k19GWu7B>
+Feedback-ID: ib53e4b78:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 11 Nov 2026 11:00:36 -0500 (EST)
+From: Ian Bridges <icb@fastmail.org>
+To: jan.koester@tuxist.de
+Cc: linkinjeon@kernel.org,
+	senozhatsky@chromium.org,
+	tom@talpey.com,
+	chenxiaosong@chenxiaosong.com,
+	brauner@kernel.org,
+	linux-cifs@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] fscache: make the procfs cookie listing optional
-Date: Wed, 11 Nov 2026 16:45:00 +0100
-Message-ID: <20261111154504.1314170-1-max.kellermann@ionos.com>
-X-Mailer: git-send-email 2.53.0
+	linux-kernel@vger.kernel.org,
+	Ian Bridges <icb@fastmail.org>
+Subject: Re: [RFC PATCH 1/6] ksmbd: don't ignore the owner and group of a descriptor without a DACL
+Date: Wed, 11 Nov 2026 10:00:29 -0600
+Message-ID: <20261111160029.4127378-1-icb@fastmail.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <86878858c5973b660bd04a65@groupi3>
+References: <86878858c5973b660bd04a65@groupi3>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -100,134 +134,21 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add FSCACHE_COOKIE_PROC, enabled by default, to omit the diagnostic
-cookie list and its maintenance when not needed.  Caching and counters
-are unaffected.  Disabling it reduces the size of the struct by 16
-bytes.
+Hi Jan,
 
-Signed-off-by: Max Kellermann <max.kellermann@ionos.com>
----
- fs/netfs/Kconfig          | 10 ++++++++++
- fs/netfs/fscache_cookie.c |  8 +++++++-
- fs/netfs/fscache_proc.c   |  2 ++
- fs/netfs/internal.h       |  2 ++
- include/linux/fscache.h   |  2 ++
- 5 files changed, 23 insertions(+), 1 deletion(-)
+On Tue, Nov 10, 2026 at 09:02:27AM +0000, Jan Koester wrote:
+> +	/* parse_sec_desc() rewrites type */
+> +	dacl = le16_to_cpu(pntsd->type) & DACL_PRESENT;
 
-diff --git a/fs/netfs/Kconfig b/fs/netfs/Kconfig
-index d0e7b0971fa3..881b081e3a52 100644
---- a/fs/netfs/Kconfig
-+++ b/fs/netfs/Kconfig
-@@ -44,6 +44,16 @@ config FSCACHE
- 
- 	  See Documentation/filesystems/caching/fscache.rst for more information.
- 
-+config FSCACHE_COOKIE_PROC
-+	bool "List FS-Cache cookies in procfs"
-+	depends on FSCACHE && PROC_FS
-+	default y
-+	help
-+	  Provide the diagnostic /proc/fs/netfs/cookies listing (also
-+	  available through /proc/fs/fscache/cookies). Disabling this saves
-+	  two pointers per cookie and avoids maintaining the global list.
-+	  Caching and statistics remain available.
-+
- config FSCACHE_STATS
- 	bool "Gather statistical information on local caching"
- 	depends on FSCACHE && PROC_FS
-diff --git a/fs/netfs/fscache_cookie.c b/fs/netfs/fscache_cookie.c
-index 5a226f9cbdea..fe0832ec2056 100644
---- a/fs/netfs/fscache_cookie.c
-+++ b/fs/netfs/fscache_cookie.c
-@@ -23,8 +23,10 @@ static void fscache_perform_invalidation(struct fscache_cookie *cookie);
- 
- #define fscache_cookie_hash_shift 15
- static struct hlist_bl_head fscache_cookie_hash[1 << fscache_cookie_hash_shift];
-+#ifdef CONFIG_FSCACHE_COOKIE_PROC
- static LIST_HEAD(fscache_cookies);
- static DEFINE_RWLOCK(fscache_cookies_lock);
-+#endif
- static LIST_HEAD(fscache_cookie_lru);
- static DEFINE_SPINLOCK(fscache_cookie_lru_lock);
- DEFINE_TIMER(fscache_cookie_lru_timer, fscache_cookie_lru_timed_out);
-@@ -68,9 +70,11 @@ static void fscache_free_cookie(struct fscache_cookie *cookie)
- 		return;
- 	}
- 
-+#ifdef CONFIG_FSCACHE_COOKIE_PROC
- 	write_lock(&fscache_cookies_lock);
- 	list_del(&cookie->proc_link);
- 	write_unlock(&fscache_cookies_lock);
-+#endif
- 	if (cookie->aux_len > sizeof(cookie->inline_aux))
- 		kfree(cookie->aux);
- 	if (cookie->key_len > sizeof(cookie->inline_key))
-@@ -363,9 +367,11 @@ static struct fscache_cookie *fscache_alloc_cookie(
- 	INIT_WORK(&cookie->work, fscache_cookie_worker);
- 	__fscache_set_cookie_state(cookie, FSCACHE_COOKIE_STATE_QUIESCENT);
- 
-+#ifdef CONFIG_FSCACHE_COOKIE_PROC
- 	write_lock(&fscache_cookies_lock);
- 	list_add_tail(&cookie->proc_link, &fscache_cookies);
- 	write_unlock(&fscache_cookies_lock);
-+#endif
- 	fscache_see_cookie(cookie, fscache_cookie_new_acquire);
- 	return cookie;
- 
-@@ -1104,7 +1110,7 @@ void __fscache_invalidate(struct fscache_cookie *cookie,
- }
- EXPORT_SYMBOL(__fscache_invalidate);
- 
--#ifdef CONFIG_PROC_FS
-+#ifdef CONFIG_FSCACHE_COOKIE_PROC
- /*
-  * Generate a list of extant cookies in /proc/fs/fscache/cookies
-  */
-diff --git a/fs/netfs/fscache_proc.c b/fs/netfs/fscache_proc.c
-index 874d951bc390..6ab23083cf01 100644
---- a/fs/netfs/fscache_proc.c
-+++ b/fs/netfs/fscache_proc.c
-@@ -27,9 +27,11 @@ int __init fscache_proc_init(void)
- 			     &fscache_volumes_seq_ops))
- 		goto error;
- 
-+#ifdef CONFIG_FSCACHE_COOKIE_PROC
- 	if (!proc_create_seq("fs/netfs/cookies", S_IFREG | 0444, NULL,
- 			     &fscache_cookies_seq_ops))
- 		goto error;
-+#endif
- 	return 0;
- 
- error:
-diff --git a/fs/netfs/internal.h b/fs/netfs/internal.h
-index 6b583152132f..855fc47fbe6d 100644
---- a/fs/netfs/internal.h
-+++ b/fs/netfs/internal.h
-@@ -406,8 +406,10 @@ static inline bool fscache_set_cache_state_maybe(struct fscache_cache *cache,
-  */
- extern struct kmem_cache *fscache_cookie_jar;
- #ifdef CONFIG_PROC_FS
-+#ifdef CONFIG_FSCACHE_COOKIE_PROC
- extern const struct seq_operations fscache_cookies_seq_ops;
- #endif
-+#endif
- extern struct timer_list fscache_cookie_lru_timer;
- 
- extern void fscache_print_cookie(struct fscache_cookie *cookie, char prefix);
-diff --git a/include/linux/fscache.h b/include/linux/fscache.h
-index ecd14d645690..b4aedcfb5945 100644
---- a/include/linux/fscache.h
-+++ b/include/linux/fscache.h
-@@ -109,7 +109,9 @@ struct fscache_cookie {
- 	struct fscache_volume		*volume;	/* Parent volume of this file. */
- 	void				*cache_priv;	/* Cache-side representation */
- 	struct hlist_bl_node		hash_link;	/* Link in hash table */
-+#ifdef CONFIG_FSCACHE_COOKIE_PROC
- 	struct list_head		proc_link;	/* Link in proc list */
-+#endif
- 	struct list_head		commit_link;	/* Link in commit queue */
- 	struct work_struct		work;		/* Commit/relinq/withdraw work */
- 	uoff_t				object_size;	/* Size of the netfs object */
--- 
-2.53.0
+Shouldn't the parts to change come from the SecurityInformation of the
+request rather than from DACL_PRESENT? As far as I can see, the Linux
+cifs client's chown can send OWNER_SECURITY_INFORMATION alone with a
+descriptor that still carries the DACL. It does so when no ACE names
+the old owner. Would this patch then parse that DACL again, rebuild the
+POSIX ACL from it and replace the stored descriptor, though the client
+only asked to change the owner? And in the reverse case, would a
+request for the DACL alone still change the owner when the descriptor
+carries one?
 
+Thanks,
+Ian
