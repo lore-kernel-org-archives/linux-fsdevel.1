@@ -1,89 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794476405;
-	b=38O1/0JD0y/b3cGrhD/w0ixgXHL54ddVlYq3SLiJ8b0zQsbuxL5/sXH0pRsO9f0Y/AWO
-	 nffuFDauq1c4S/0sVKhOrrHjFKd8TVFDSS6opB4pNMqGmlvaa6C30NiKn2iscdQkf2LH5
-	 7uSL0GDHhn1bxjSPLUwf9ea3otKI4Y3I5FR8W8KZLBxlajjRUAeq5xkMrW/H0rsdFN2qv
-	 VU4wZe7gODDcj2I2TjaBI9NKqSfBrZqvCfSAbJI/z1azB6Wo9qiFRvntU3W5eC3YW5wF7
-	 DHWy2U8XiZRXfVaCbizU4WDyCMxPSEcH4QbGuH+dZUIVtvP0aFZMjkCJXcjvuI6ts+g==
+	t=1794476445;
+	b=oQ8azUS3O6OcX2UDtkNU7GbGG4ZNjO4o6GOdu3S1S7D8lPm1oB6m6UJ1HTUEBv5mC8Tu
+	 kbUDovbnaBE4LWBLPZxsOwXgqg2u5UjerPl7uB7Ht63wdQ/HHGY9RJIi4NGnEGCqJPHrC
+	 Ybotcz8OMMIBpS863vf0PQ4BrPYHCDx5Y9wZyW6fU/zEBE+hh8944ojj03v8V7lDCU0W0
+	 hdLqYj+RizsC/+k8OJOfvFet7NAN3L3nKrd2YCM6oStVOXFlfN14OusqPbdDmTvU1Bvnr
+	 2x4gRZr4LxKUfZtPHaE7srq6og4uVfSAxS3R4ABOhS9lc+FTq2T/pEeN0QjtyYyd+Cg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794476405;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer;
-	bh=IfhBgU9bzNjyzCbMLI08qHDpGZfOfIhIVxpnfJz9+gQ=;
-	b=vnvf7V4yKLpYkAJ8AV1sglG+jC4jQ9lRpO0nXIKEGUxyhKnOdzh58/o8jDhdBVtb4ZdX
-	 ghwg3/WpzPi9uLH+0xhqF1t/3xvcSyAfzF8SIlcWGQ/VrmUaRjKjbL6Pd3dtHCH1ioyBU
-	 8behmcXMcujxtQFqxpqTcDbYDd1dTc5LWLsu//UfmzSi4ACiI7Bm6lId/7VTm3SHMEe9O
-	 ZbUiwTvwZIjdu9ADxGrQOnscXd2aQa9vKalNvWu3G/zJcq1A+sKmg81nlbfxQutL7nFW/
-	 QhpiTVYcUtML5007Mc3hxZelTvtRDSyLiDj33HiFSQwolAeLCBlCRBX29luTbWygXYw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794476445;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=hf+uCs+VHDQDVs3psYlyxaAnFaCOs7LnZX6+jXmv1vI=;
+	b=E9PhGdji7ImbKxdNsnOkqyru+54UdpGtJSVh91qdW0RE6FrtaCZx+9FiPvugzNXqrw1K
+	 yNrfbc+JgLNt8puJGNtr/ldgpM3VTiVITwq/vw+XVJfGXoliN8VmXbVV65F2O4RXKPfRf
+	 S16+SCbPwUTtZiv1iuutCGBkTELAk+xiW4U4LwJjRwOhdjh+1dWKEN4h+xMPb0nxYzl0g
+	 7AXpN8jtoociQ9rXeogTYhtArIA5rD25m3s4pu+rs2bt3Ku3LZgAXHiWeRCMiwtrT6egr
+	 Ft3KYO22auFsZXlnfMPwmp9b8zCBLNSM7KIlioa0Ov0zc9bimO5i525vrhysdwY0LGA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VoMrAWhy;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BJbOhjAb;
+	arc=none smtp.remote-ip=209.85.221.45
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0076B606A321;
-	Thu, 12 Nov 2026 09:40:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05EBC606A32E
+	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 09:40:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 05EBC606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VoMrAWhy
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C635B1F00A05;
-	Thu, 12 Nov 2026 09:39:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794476404;
-	bh=IfhBgU9bzNjyzCbMLI08qHDpGZfOfIhIVxpnfJz9+gQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=VoMrAWhyX9Mu8dmXuJL0tzpqovAGH67dTxFbjd4TxmhmE1/c0FPVOzA9Ic0I2dr8O
-	 R1LEPqRDp5AZW1NtPA3Ct7Mk7SEKbgWIVeFl1BNL5iEUe1bTvUvtWIzoKx+CYUZmQy
-	 GE8NIXtSJJ7ZrGaRM5fNNGKitBWEN5/Q6Tq+JK0378GDgv0YZwNQ5bsIqcTjglpUxq
-	 +rRcWDYtIVXhXlC40Ldkc9s2FE3hdEDpugkRygfnLxQixI1iNmJpEI1jDUtJdy6Kj8
-	 Vw/b/Oo7ZPcLQ5a4p4SUexF7KHm5VqcENXFZHkOCDlVpUBNHuwr/mELTYjRHRonOtj
-	 9U2s9/qqKtsKQ==
-From: David Hildenbrand <david@kernel.org>
-To: Lorenzo Stoakes <ljs@kernel.org>, 
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
- Michal Hocko <mhocko@suse.com>, 
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
- Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, 
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
- Kiryl Shutsemau <kas@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
- Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>, 
- Gregory Price <gourry@gourry.net>, 
- Ying Huang <ying.huang@linux.alibaba.com>, 
- Alistair Popple <apopple@nvidia.com>, Peter Xu <peterx@redhat.com>, 
- Johannes Weiner <hannes@cmpxchg.org>, Song Liu <songliubraving@fb.com>, 
- Rik van Riel <riel@surriel.com>, Miklos Szeredi <miklos@szeredi.hu>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Hugh Dickins <hughd@google.com>, 
- Will Deacon <will@kernel.org>, "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, 
- Nick Piggin <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>, 
- Arnd Bergmann <arnd@arndb.de>, Jason Gunthorpe <jgg@ziepe.ca>, 
- Kevin Tian <kevin.tian@intel.com>, "Joerg Roedel (AMD)" <joro@8bytes.org>, 
- Robin Murphy <robin.murphy@arm.com>, 
- Steve Sistare <steven.sistare@oracle.com>, 
- John Hubbard <jhubbard@nvidia.com>, 
- "Jose A. Perez de Azpillaga" <azpijr@gmail.com>, 
- Josef Bacik <josef@toxicpanda.com>, "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
- Neal Cardwell <ncardwell@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, 
- Linus Torvalds <torvalds@linux-foundation.org>, 
- "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev, 
- linux-arch@vger.kernel.org, iommu@lists.linux.dev, netdev@vger.kernel.org, 
- Chris Mason <mason@kernel.org>, stable@vger.kernel.org, 
- Jason Gunthorpe <jgg@ziepe.ca>
-In-Reply-To: <20261110-refcount_overflow_stable-v3-0-318625d63a98@kernel.org>
-References: <20261110-refcount_overflow_stable-v3-0-318625d63a98@kernel.org>
-Subject: Re: (subset) [PATCH v3 0/9] mm: limit pagecache folio refcount
-Message-Id: <179447638951.7244.5228149003624496001.b4-ty@b4>
-Date: Thu, 12 Nov 2026 10:39:49 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BJbOhjAb
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-48e3b22e971so2167524f8f.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 01:40:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794476443; x=1795081243; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=hf+uCs+VHDQDVs3psYlyxaAnFaCOs7LnZX6+jXmv1vI=;
+        b=BJbOhjAbyHoUEoyh3KeGfUaafSU2O52r4CAsPQ5s6Ww0aw/Noeiloy3kxL391sJ2HK
+         pfhm/Fj31A+egDJsjB/IAfjGbP5gP2mFt43WUaFWFKzTd9AkLEJtI87r6A9E3AfMnqn5
+         vyHPwF5SKymu5mEe1AynP/P4Kg0o+o1y80vafiQZ1t1YmVbhrX2g/OlSvmVq75pgwN1G
+         PWa3+wkFp5gEf1Ax3dkB4TIbS8FWE+ktQavOWD6JoekME2D5Ash1MAuMJJEyhim/k6Y3
+         f8mlezsr030nsedCruWVxUiRrsDdFYg2MpHisD3EJ8qpl5UGlGgqC0+Xxv9nc9wYptod
+         BBNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794476443; x=1795081243;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=hf+uCs+VHDQDVs3psYlyxaAnFaCOs7LnZX6+jXmv1vI=;
+        b=Rip5E7P4+mIPSiYAfvv8tsTO9BzGuFBWce+KeKI8dEOeRekCbkqGpk47DbN5VJlOwQ
+         nOXj5eDbGsmymm7jyEdBck+yp9ZGXxwpnVqjIHi57vU7kMHkq8UOYh4b0oI6rXHRfyEd
+         C4ROxNYEu6VSAX3V0IOo6GpznvuVDopT4+iLgDnkEF43DqhsP36XlcwlUM1CuFZFC4yG
+         j/1imW64l8KlSlq20fHHGDh+JtXpKcYy+nth7/A7orVDTibVn837g83vvRa6Z1PDtL5b
+         W2gf8twMoQ4J2uTfbg08wgk3f+5lWkUyIIaWTXLRI2ZCV2GW4cw1sHaVMPhZRcdPBCI+
+         lVyQ==
+X-Forwarded-Encrypted: i=1; AL+hErHCAru7SKPPXFVBW4a49RgJIceBOvkCuhmEQaU+ZCDr5lcI89eQDUgSOJXqAE7gzaPsAWWsmFqmuG7PxRoz@vger.kernel.org
+X-Gm-Message-State: APuU4Z+fd7vaDKpSOYo6kBkhS348US1DHm+JKY3iFreyjym6yB27sVqc
+	aYqzBqoJXuTDa3J3XJqM9Ik4Azo/6zkdFubRrc6z4E+vPnSDOsmdV/BX
+X-Gm-Gg: AYBFou3G1ZFVs3MFiy93BwSRSi1NldZgUVYo42YUD55tLOR1cJ2NeKZ8lkbhKnemQi7
+	8JmFydtA68dnMFGf0FdCgq6yjrbPq72GiwfyuDCR0Q2e8UEQADoyBidXgPDMLSVW8H1V0uORxHY
+	gkkeSk89xJTT5QHQPuTsZ3n4qSWrm5nSMkndsftS6/jzMi87E1Aeavfl7GL2CYPu7jU+CQqbMyc
+	uxyVaLJ36/H4QMU+XiEPCTh+BTQ7+U9LzN7QO4jkdMaoVyBDp2QK2a41fo1T1iXWPd1y/sNXm06
+	DEud5UjjLZGXiOYxjJjAQcIrSlBv5tdmF4FTiaAXzA0V/olZ5xUoMP7Uvv9V05ejvNGi7pYUAQz
+	fJY7lsivrRe2LuN5w8Fe0JexIoQhG99hxLsqoKjbXTxY22RbvRMe5ThtZcms/XfiVhatNT0Bsje
+	A29Da6okAtO5MNhSeI6c6j9Ic16CPyziqpA/kB65i8VNDQ1kRK101IHLig9mh3KPw7OcOu9HCpe
+	ZcUjTAiCsGCclxNZbD8wndsGqZMweAWl9rOMoNhUmSNUc+wcW7bMfJi90Hu40pJp1ESVMDzrr0s
+	rcP9ZQSZuyY2z0VLyGR60IBM
+X-Received: by 2002:a05:6000:25ec:b0:498:1d72:106c with SMTP id ffacd0b85a97d-499c764c9eemr7954310f8f.55.1794476443061;
+        Thu, 12 Nov 2026 01:40:43 -0800 (PST)
+Received: from [192.168.1.22] ([83.231.69.9])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4983284c990sm14867834f8f.3.2026.11.12.01.40.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Nov 2026 01:40:42 -0800 (PST)
+Message-ID: <db9ed03f-0b85-4360-a2e9-f6719773c7eb@gmail.com>
+Date: Thu, 12 Nov 2026 10:40:38 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -93,54 +92,76 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 11/12] mm/madvise: send UFFD_EVENT_REMOVE when installing
+ guard regions
+To: Tal Zussman <tz2294@columbia.edu>, Kiryl Shutsemau <kas@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport
+ <rppt@kernel.org>, Peter Xu <peterx@redhat.com>,
+ James Houghton <jthoughton@google.com>,
+ Andrea Arcangeli <aarcange@redhat.com>,
+ Suren Baghdasaryan <surenb@google.com>, Balbir Singh <balbirs@nvidia.com>,
+ "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>, =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?=
+ <mirq-linux@rere.qmqm.pl>, Andrei Vagin <avagin@gmail.com>,
+ Stephen Rothwell <sfr@canb.auug.org.au>, Arnd Bergmann <arnd@arndb.de>,
+ Muhammad Usama Anjum <usama.anjum@arm.com>,
+ David Hildenbrand <david@kernel.org>, Zi Yan <ziy@nvidia.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>,
+ Gregory Price <gourry@gourry.net>, Ying Huang
+ <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
+ Chris Down <chris@chrisdown.name>, Muchun Song <muchun.song@linux.dev>,
+ Oscar Salvador <osalvador@suse.de>,
+ =?UTF-8?Q?Miko=C5=82aj_Lenczewski?= <miko.lenczewski@arm.com>,
+ Michal Hocko <mhocko@suse.com>, Mike Kravetz <mike.kravetz@oracle.com>,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org
+References: <20261111-uffd-state-fixes-v1-0-00713d368976@columbia.edu>
+ <20261111-uffd-state-fixes-v1-11-00713d368976@columbia.edu>
+ <avTA58zlxJZ69TB8@thinkstation>
+ <e19f1fff-f1a7-4c2b-8908-2d3ee6a49069@columbia.edu>
+Content-Language: en-US
+From: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
+In-Reply-To: <e19f1fff-f1a7-4c2b-8908-2d3ee6a49069@columbia.edu>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16.0
 
-On Tue, 10 Nov 2026 21:35:40 +0100, David Hildenbrand (Arm) wrote:
-> Note: I really would prefer doing something else right now, but this is
-> rather urgent.
+On 11/12/26 12:21 AM, Tal Zussman wrote:
+> + Jose
 > 
-> Users can create a lot of folio references to pagecache folios, making
-> it possible to overflow the refcount of large folios.
-> 
-> While we knew that one could in theory overflow a folio's refcount, we
-> mostly assumed that bad things would happen and it wouldn't go
-> unnoticed.
-> 
-> [...]
+> On 11/11/26 2:25 PM, Kiryl Shutsemau wrote:
+>> On Wed, Nov 11, 2026 at 12:55:19PM -0500, Tal Zussman wrote:
+>>> On an anonymous VMA, the zap drops uffd-wp and RWP protection along with
+>>> the pages. Writes and accesses to the range after the guard is removed
+>>> are then not reported, and the manager cannot know that it has to
+>>> protect the range again.
+>>
+>> For RWP this only holds if the range is registered without MISSING.
+>>
+>> The zap frees the pages, so with MISSING the first access after the
+>> guard is removed is reported as a missing fault. And there is nothing to
+>> protect again: RWP only covers present PTEs, and a page faulted back in
+>> shows up as accessed in PAGEMAP_SCAN.
+>>
+> So this makes sense, but I think this gets at the documentation point
+> raised in the other thread. It seems that to use sync RWP "properly" it
+> needs to be combined with MINOR for shmem and hugetlb (and MISSING for
+> holes) and with MISSING for anonymous memory. Is that accurate? If so,
+> this should be stated much more explicitly in the documentation + man
+> page. I see that co-registering with MISSING is mentioned, but not the
+> rest of the points (reclaim, collapse, etc.) The example in
+> userfaultfd.rst also registers a MAP_SHARED mapping only with RWP and
+> MISSING, no MINOR, so that should be clarified too. Hopefully this will
+> make it into Jose's documentation patch.
 
-Applied, thanks!
-
-tree: mm/core.git
-branch: for-next-fixes
-
-Applied patches will appear soon in mm-next, followed by linux-next.
-
-Please report any outstanding bugs that were missed during review, so we
-can either drop the patch series or decide how to fix it up.
-
-It is encouraged to provide Acked-bys, Reviewed-bys, and Tested-bys even
-though the patches have already been applied. If possible, patch trailers
-will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. Further, this is not a guarantee that the
-patches will go upstream. If in doubt, please check the listed branch.
-
-[1/9] mm: limit pagecache folio refcount when mapping pages
-      https://git.kernel.org/mm/core/c/61351dc9
-[2/9] mm: limit pagecache folio refcount when splicing into pipes
-      https://git.kernel.org/mm/core/c/0ff9a420
-[3/9] mm/mmu_gather: flush pending references early before the folio limit
-      https://git.kernel.org/mm/core/c/bfbf74ba
-[4/9] iommufd: fix cleanup when adding memfd folio pins fails
-      https://git.kernel.org/mm/core/c/6d0d782f
-[5/9] mm/gup: limit pagecache folio refcount when grabbing references
-      https://git.kernel.org/mm/core/c/6d3ff38d
+okay, if Kiryl is okay with that I will add it to my upcoming patch.
 
 -- 
-Cheers,
-
-David
-
+cheers,
+jose a. p-a
