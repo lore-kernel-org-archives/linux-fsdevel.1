@@ -1,54 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.175
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794501884;
-	b=I87AprhOVpW0lpbqNbr5HnBYjt5NyfwikUWT8QSTeeXeZhifpfY3Eb8QptIRWcHr5Kod
-	 cAtOZsTJgypfrNovlv78K/I3nxpehmOPyf9Jd9kSwGwt7K6ODVoELuW6owACGER7oP0qq
-	 NbAp2Cm5WYn2kBMVRcVxiblsL4vyG0zcma6uNFVjIbeFvGNOd2snNTozhl+gXrDaJuRet
-	 jRXfUZdkMZzsTm1GnBZRszcLfkCAEyrsE/reqMflonO36u+4laqamZokiEE+ItP74v1kT
-	 iDDOVLSoD8zaG93f83DDJe6F9bBpgGtBZ1X9PbYMWyV6LNbSfkjgV6V3xE/INIExavg==
+	t=1794502794;
+	b=uEv1FJHBb0rJm9ifsJ5iIfsrc1t8CRpG5Hwxhw7Me8pTv18V/GV7PZnHg2P4FESTE150
+	 9VReeuHANix4scijaPYiyBngRZm/7fTBM6PrbzHTGornFahTq3MRi8U2JN9gEUls5vWnE
+	 gvkIdULQyvRKWYSYIBzDdME+WK9rjxlep+JynZwi3RX+OEqAVBTVZIh+TCSECJFjDrF3d
+	 bGGmvxZlaFF9AdOsbO4/lWS6C9oondmjy2djt8vpozuWDCKZ1mPVCObq9ZBmSh89lzDmU
+	 vAwXvNfsWhNsZD2q99JiJVHgEEtPsQf3/gV4Obds7JLYMYr9xK/eDBxIEaQMNOt5vFQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794501884;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=wH/2gBEdpxp8UBeVAcys5rd13wXemB1O143+nbBPh6o=;
-	b=uldIhjLIvaDAt1sibaGE20ByVu0Y/qNpigxCw1pfmU+c/p8C8p3wMJjs+/LtTBHqF2y9
-	 FRoPf0oU8eoAMPGJmy6UGW/arMP2PAnHim8xgcagvyC0Ee4YLvkW6cAolQ75/wCam+8P1
-	 9x567g6qC6AwXZN80Cy81rEqqX7truhwO4E56YLhvy/bcv9pxOZZ0yK7VG7W3fZfTtjeJ
-	 3VzxIayLAgIDRRRGjU8VCBbE5iBVo9ptslaSzwc93012/AHM7ksGh405AqiLeDI/Goqnw
-	 gI9gaA8j61W2G1+rWjgslmPHX4b5oh02wCXx5WLy8dwWR10N5OCju9j4p1sJG8I1F2Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794502794;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
+	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer;
+	bh=b7AojsWQdmnu8z7CsRmtwQ/iZVkZjTk5+I2/AfHY1s0=;
+	b=woWr6DfnpLhNwDW5aiZsWi95TqZNsCLdBWzKCmAzMyF4gWxd6ETzyw9KAmPz/3YY2/e0
+	 g9W7c16txOj4uLLmUiZLatVjHz8kD0YQDOYSSJID0tA3Nn/tqsDe+kjynhvwDqqQvQyn5
+	 6UpQrnUM1lfxdS+9kWVzHvsxEk5lwfN6Amb31LY9NFmvT6MepryJOWD4IbpHlen5CSAY+
+	 hfPnh82W1V13OymF0jjVcKWMwFgpmUUBQb4+xRcc0I5N8Ueran6eqT31bi5/UByjRNRJ6
+	 Ab1AZi1gvGYvPP0rqDhg00Xedw4BzZSVZGeRVQBWwbma/yXAzb3CasE6SMD6eQCwn2w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=KQnClF0U;
-	arc=none smtp.remote-ip=95.215.58.124
-Received: from mta1.migadu.com (out-124.mta1.migadu.com [95.215.58.124])
+	dmarc=none header.from=gourry.net;
+	spf=pass smtp.mailfrom=gourry.net;
+	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=ZU30IxzG;
+	arc=none smtp.remote-ip=209.85.222.175
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEECD606A32A
-	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 16:44:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CEECD606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C0B7606A321
+	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 16:59:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3C0B7606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=KQnClF0U
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=yuRDaN/g6NhM222+4RRlCyCrWE0jFiozuoxcmO1nhMk=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794501880; v=1; x=1795106680;
- b=KQnClF0U6aNVHl2emoF/U+SxdQmy4deR4rBHqtjlPsesMwQQC2VHjO553AYBMamYl5KYF2/k
- jipr8HO7Alqe4k8pm652MU+V+t5PfsvLPHiQNEcc6CshiEB7uzQ5Wxn8F3JnMxE8nZef/lADEME
- xyB8aMGk9Bocmd8bWsvfcndA=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 50b709560c217e5f;
-	Thu, 12 Nov 2026 16:44:40 +0000
-X-Mizu-Trace-ID: 50b709560c217e5f
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <7ffdabc6-27f3-440b-97e6-94c7f66c807a@linux.dev>
-Date: Fri, 13 Nov 2026 00:44:28 +0800
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=ZU30IxzG
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-9441591aa5cso124856585a.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 08:59:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1794502793; x=1795107593; darn=vger.kernel.org;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=b7AojsWQdmnu8z7CsRmtwQ/iZVkZjTk5+I2/AfHY1s0=;
+        b=ZU30IxzGF8dTAnKh0hg/WW7t2ylFe3MYJYBXubmCf1/k0kqtiBJ0BHFnlPIecHUaEU
+         +IOyPQjcJanpVIfwQEyjiCo6R8ZX6eRq5qe/70rgSGI7XTTUsHeaJdEJ+rt86dO3O4QG
+         IEUiGAj+qbzlD2oBfD0mzrQlpkwUxvBln1wYn9oA8cukVPeDq7dpLvSUXGYb6dXLyEFE
+         vRplzbwFbfz1dfysSc4/vI7lT75Et/sbZuEzEjHfpQS+gx9dYciD/G51J8TE2ue/slis
+         bnZQPk0+xQgbm/k2K/jwW5N5aOs1hrfOWqwRb16xam3/PsiW/U5odSFtLBlksi86RNx9
+         J0SA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794502793; x=1795107593;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=b7AojsWQdmnu8z7CsRmtwQ/iZVkZjTk5+I2/AfHY1s0=;
+        b=2NUyoRFgtDQH/iMA6k9EoKQ3JJVVvbr8+7ICZxoPlyQfYzeRkSdJ2X3S9FV+TQsj/0
+         tu4eYLZUm5PPR90kh3SicLFtkSkzD2mSrKzflSVCLBWWh+ZaFw8hbRLXuZCZnxxpF459
+         lazPlrB5UYLkfUiCrH32dnUIeJH/KIsdEyb32XHG+cr6pRg4uGfbO720uuy2EuZVVNLL
+         qaf9jFZ+XSzlOVX4iqHymfeQPhzssB3ZHt0Z+ELszJFzM5JYlWk0HRjw4qGgfWpb0E2S
+         FMqf+h9NLSqRUg686EgCbEjEIbkOZbHtx8D2FbjP6+hOmol0xuRjJpWY7lvVJLYA6Ekw
+         Cxnw==
+X-Forwarded-Encrypted: i=1; AL+hErGUPZ6Np6h9qQ1zvw7ywR+wYkSZ8fRmXjIKYp6TuhMsWAHHoxDjvIqEApSH9vImFu10K7YnnuE+pLN8ODc/@vger.kernel.org
+X-Gm-Message-State: APuU4Z9oKAhc37NhjQUEeuoKfJ/GCR5+eVPs3u0tfQeCJnK8oBMaMCzr
+	peU6Zzqg447ruGrOQHhaUBfznBl6QshBYTEYsMLn8R4iiEMzGWBAIEQCiHTf0ODpXlk=
+X-Gm-Gg: AYBFou2KrfFP7AFENxeipO3PajBkmMy7xIYmRD4d9qWZ53ssSexxRTeDEa5XmSFB7Yd
+	+pzUojAJUDtVb0UA93prmMTV9XIZY34PwcIcvSiBWNkcqD0C/sGszagL/iRf7ESvu5GTrndheTN
+	wuhDbsbaMqovSaT3XYxe88yfHp3YEO3WfXCo+eZIJVNxFa3ls4ysUs4MAlwulWYSd1KMtMeYLTE
+	LSs/i1F84Plgiho7M4qAYpyAO/CLTuYlGs5HnohcRQpYiQeqx8o0xR7XM09vEMnJD5QrcKnBK9o
+	CLg4PK5+s34Et+9D4EPrxZq45ydYaLh5nev6Bcgb9loeD8PXpD3OB7VWa8GDrAOhF4Ep5+uWrq9
+	PwnazXanQLmeberUzCyA+FFvnFaSozsQkwxOme6Y7nLDzDB5cpZNjtP6K1jlMA+FZWFNNkvPD7V
+	PTczF7TQZmW0NMTDXSSI0dfBJD9FyrCeSKxLheVZI9el6EucT8MtxkD6pjD3NaZw/3QZlb4zdeK
+	pjyqb9J9e++7EuRb0W07Nf4NV0UIeiRjMETtYufyV1VfEDqrzzIUKuVeRQcspCwxK2u+B0b8eB7
+	A86i8XeRtnR0TGVi3bg1MDtC277lkw2aXhrZydwoWbSbgc0WoKR3mJ2LPsnUvrdkH03quipjPBS
+	qTnom3Kw=
+X-Received: by 2002:a05:620a:6088:b0:945:f5c0:a630 with SMTP id af79cd13be357-94932e8795amr549937885a.40.1794502793241;
+        Thu, 12 Nov 2026 08:59:53 -0800 (PST)
+Received: from [192.168.50.231] (pool-71-191-145-202.washdc.fios.verizon.net. [71.191.145.202])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-94935073633sm220651485a.37.2026.11.12.08.59.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Nov 2026 08:59:52 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -58,141 +89,75 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 00/39] sysctl: replace overloaded extra pointers with
- typed bounds and context
-To: Joel Granados <joel.granados@kernel.org>
-Cc: David Laight <david.laight.linux@gmail.com>,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <cover.1793204511.git.wen.yang@linux.dev>
- <20261029105837.2f8bee67@pumpkin>
- <0316f664-d98c-43be-92af-13c30436727a@linux.dev> <au85ISJ2qUsB7y-6@hobbes>
- <20261107170507.0d66cc2e@pumpkin> <avGVyB9erjZl8zIO@hobbes>
- <e3c7bf98-64f9-4c29-b300-f54b7a4813d0@linux.dev> <avRVHIx-6nA1mP2F@hobbes>
-Content-Language: en-US
-From: Wen Yang <wen.yang@linux.dev>
-In-Reply-To: <avRVHIx-6nA1mP2F@hobbes>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 01/13] mm/mmap: free gathered pages before MMF_OOM_SKIP
+From: "Gregory Price (Meta)" <gourry@gourry.net>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: David Hildenbrand <david@kernel.org>, 
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+ Michal Hocko <mhocko@suse.com>, David Rientjes <rientjes@google.com>, 
+ Shakeel Butt <shakeel.butt@linux.dev>, 
+ Andrew Morton <akpm@linux-foundation.org>, Jann Horn <jannh@google.com>, 
+ Pedro Falcato <pfalcato@suse.de>, 
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+ Nhat Pham <nphamcs@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+ Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>, 
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>, 
+ Gregory Price <gourry@gourry.net>, 
+ Ying Huang <ying.huang@linux.alibaba.com>, 
+ Alistair Popple <apopple@nvidia.com>, Usama Arif <usama.arif@linux.dev>, 
+ Kairui Song <kasong@tencent.com>, Balbir Singh <balbirs@nvidia.com>, 
+ =?utf-8?q?J=C3=A9r=C3=B4me_Glisse?= <jglisse@redhat.com>, 
+ Kiryl Shutsemau <kas@kernel.org>, Yu-cheng Yu <yu-cheng.yu@intel.com>, 
+ Dave Hansen <dave.hansen@linux.intel.com>, Dennis Zhou <dennis@kernel.org>, 
+ Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>, 
+ Peng Fan <peng.fan@nxp.com>, Josef Bacik <jbacik@fb.com>, 
+ Chris Mason <mason@kernel.org>, linux-mm@kvack.org, 
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ "Borislav Petkov (AMD)" <bp@alien8.de>, Mark Brown <broonie@kernel.org>, 
+ "Dennis Zhou (Facebook)" <dennisszhou@gmail.com>, 
+ Rick Edgecombe <rick.p.edgecombe@intel.com>, stable@vger.kernel.org
+In-Reply-To: <20261111-mason-migrate-et-al-fixes-v1-1-3d2454362e8d@kernel.org>
+References: <20261111-mason-migrate-et-al-fixes-v1-0-3d2454362e8d@kernel.org>
+ <20261111-mason-migrate-et-al-fixes-v1-1-3d2454362e8d@kernel.org>
+Date: Thu, 12 Nov 2026 11:59:50 -0500
+Message-Id: <179450279073.482102.1691484916250559829.b4-reply@b4>
+X-Mailer: b4 0.17-dev
 
-
-
-On 11/11/26 19:55, Joel Granados wrote:
-> On Wed, Nov 11, 2026 at 01:45:15AM +0800, Wen Yang wrote:
->>
->>
->> On 11/9/26 18:07, Joel Granados wrote:
->>> On Sat, Nov 07, 2026 at 05:05:07PM +0000, David Laight wrote:
->>>> On Sat, 7 Nov 2026 16:27:39 +0100
->>>> Joel Granados <joel.granados@kernel.org> wrote:
->>>>
->>>>> On Mon, Nov 02, 2026 at 11:40:40PM +0800, Wen Yang wrote:
->>>>>>
->>>>>>
->>>>>> On 10/29/26 18:58, David Laight wrote:
->>>>>>> On Thu, 29 Oct 2026 00:34:39 +0800
->>>>>>> wen.yang@linux.dev wrote:
->>>>>>>> From: Wen Yang <wen.yang@linux.dev>
->>>>>>>>
->>>>>>>> struct ctl_table describes an entry with data, maxlen and, until this
->>>>>>>> series, two untyped misc pointers in extra1 and extra2. Those two pointers
->>>>>>>> have accumulated at least seven unrelated jobs: a fixed bound, a bound read
->>>>>>>> through a pointer on every call, an object or namespace pointer, a small
->>>>>>>> integer cookie encoded into the pointer, a lock signal, NULL standing for
->>>>>>>> "no bound", and a value the core itself casts to unsigned int while
->>>>>>>> validating a u8 range. Nothing in the entry says which job applies, so
->>>>>>>> readers infer it from the handler, and the core gets it wrong where it
->>>>>>>> treats extra1 as an unsigned int.
->>>>> <--- snip --->
-> <--- snip --->
->>    for (i = 0; i < head->ctl_table_size; i++) {
->>            entry = sysctl_entry_at(head, i);
->>            node = &head->node[i];
->>            ...
->>    }
->>
->> Insertion/deletion would take the node directly. Readdir would retain
->> its RB-tree node cursor, recovering each entry through that node's header:
->>
->>      entry = sysctl_entry_at(node->header, node - node->header->node);
->>
->> No entry - head->ctl_table, caller slot constants or per-slot wrappers.
->> RB-tree order remains unchanged. Old APIs and generated directory/link
->> tables use sizeof(struct ctl_table).
->>
->> The two mechanisms have existing precedents:
->>
->>    /* include/linux/bsearch.h: explicit element size */
->>    pivot = base + (num >> 1) * size;
->>    result = cmp(key, pivot);
->>
->>    /* include/linux/hwmon-sysfs.h: extended descriptor */
->>    struct sensor_device_attribute {
->>            struct device_attribute dev_attr;
->>            int index;
->>    };
->>
->>    /* drivers/hwmon/adcxx.c: ordinary device_attribute callback */
->>    const struct sensor_device_attribute *attr = to_sensor_dev_attr(devattr);
->>
->> hwmon registers &ad_input[i].dev_attr via device_create_file(); the core
->> passes that same base descriptor to the callback. These are precedents
->> for explicit-size traversal and embedded callback context separately,
->> not an existing strided sysctl registration API.
->>
->> I agree that my fixed-slot solution adds maintenance overhead. Would
->> it make sense to explore this in three small steps?
->>
->>    1. Entry-access helpers, unchanged packed layout.
->>    2. Header stride and compatible registration wrappers.
->>    3. nf_log conversion and code/memory comparison.
->>
->> I would appreciate your thoughts on whether this is worth pursuing.
+On 2026-11-11 18:13 +0000, Lorenzo Stoakes (ARM) wrote:
+> The OOM killer can quickly trigger again after having selected a
+> victim. That victim might not have freed its memory yet, but its mm will
+> be marked MMF_OOM_SKIP by this point, so the OOM killer will ignore it.
 > 
-> Hey Wen
+> This can cause the OOM killer to kill an innocent process when the first
+> might have freed enough memory to relieve the memory pressure.
 > 
-> Without a series, it is hard to see how everything fits. Maybe you can
-> send out an RFC with just the changes to the sysctl core and one or two
-> examples of how it would be used in the more involved users.
+> Fix the issue by freeing the memory before marking the mm MMF_OOM_SKIP.
 > 
-> The rest of the users can be "vibe coded" (so it compiles) and put into
-> one big commit that we will ignore for the first RFC. Just so we get a
-> clear idea of what you mean.
+> Note that the task which calls mmput() might not be the victim - if it
+> took a reference on the mm (e.g. ptrace), it may hold the last reference
+> and release it when it calls mmput().
 > 
-> Tell me what you think
+> Therefore we cannot rely on current to tell whether the mm belongs to an
+> OOM victim. Instead, partially revert commit b3541d912a84 ("mm: delete
+> unused MMF_OOM_VICTIM flag") to reinstate MMF_OOM_VICTIM, which
+> mark_oom_victim() sets on the victim's mm, and check that.
 > 
+> Reported-by: Chris Mason <mason@kernel.org>
+> Fixes: bf3980c85212 ("mm: drop oom code from exit_mmap")
+> Cc: <stable@vger.kernel.org>
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 
-Thanks.
+I was able to reproduce/observe the unfreed batch and the second victim
+issue.  In the base series i could kill a second victim with the
+in-flight oom in about 26/512 attempts, and 0/512 attempts with this
+patch.
 
-That makes total sense. I will prepare a focused RFC series based on
-the next-20261111 structured as follows:
+Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
+Tested-by: Gregory Price (Meta) <gourry@gourry.net>
 
-Patch 1: sysctl: add numeric bounds and core stride infrastructure
-(ctl_table_stride in header, sysctl_entry_at(), register_*_stride())
-
-Patch 2: sysctl: cover numeric bounds and table containers in KUnit
-
-Patch 3: netfilter: embed logger sysctl context using stride
-(demonstrates the use of container_of(), and also eliminating some 
-wrapper functions)
-
-Patch 4: net/ipv4: embed device sysctl context using stride
-(demonstrates the use of container_of(), and also eliminating some 
-wrapper functions)
-
-Patch 5: scripts/coccinelle: add script to detect and convert sysctl bounds
-(provides automatic conversion and proves that no extra1/extra2 fields 
-remain)
-
-
-The ctl_table_stride and type are packed as u16 in struct 
-ctl_table_header, yielding zero size increas.
-
-I will send out this v2 RFC shortly for review.
-
-
-
---
-Best wishes,
-Wen
+-- 
+~Gregory
 
