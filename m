@@ -1,105 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794518331;
-	b=DH/Pmtoa2zFRS8guduYu5QoZnyqIyHOzV9tH9/tV7skKDveMFmp9N84Ys5HwdHkiR4MC
-	 dF7WV3k2Gq0Ht+eT2ixQEzgcd/+n1TBXaeVjcxSi+MG2E1hC2TI/AuQ7lgLR+9GnUEFiP
-	 N8MopdE1HwQOp2QPNcrwjslwTKME7SjO2WyOnep17xrXGdopomvJQ6Mpung/iR9C/VOZE
-	 bbs1nj18McQ4ikZpYFD+1zhwSY1gWkR4qJRZu7+MLjLiZug+p6G0f2ChCRTMdqhq2xHHC
-	 LQOTOwHWiI7elMKqnGCOEOb48e0jKygtcMmYSv7fXD+y8v+J/vjv7i/kSScXUvOtnNQ==
+	t=1794519968;
+	b=0YkWZClwChg0uo7wpUVLBPFXKQ+aGj+ItXfCG9wuW1ifXHfwQTRQPcUflWV6r+mLd7m0
+	 J67ZZ7ATJ6qcQ/MKRd4rk9Y2fEk+/TKhqeNbm+qqzyzXsyMKyWczLrQkkh4jC/W61SqNc
+	 rEajQY3OeOZGtfeewdA/JNbRs85/qY8OfoaBrC0ed6IiIVd+Ca7njFv+HcbhRrd556wMf
+	 h+DOzaN++fgop06QGraSJCXG77wFEjM4vRB9dr8ueYzTZZl/O5IlCNbIvmL0vUT/Vjman
+	 907krWexPFMhtSqsvY5asbs4ObPzKl2fxpAytGQzCtRIaLxnwj2UmuV1gWkWWJ0IJhw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794518331;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
-	bh=oR1ZjXRhUcdoMnMdn9TMY7271yE7yog6gXeZYHWU2oU=;
-	b=yfxEUkIkijxar3SY1YuW9icotsETYQm2ZxXyf7WH0LYLf+NwpOAh6kHTPfEBsUsPP+4G
-	 Hzw8G3VPPq1cV+UHMX9Z26voHtKqYZAejlydEPMiIKQS+KY2Ld/kOrhSqxfYqNLtQIGWa
-	 NaJePScmDdc14csz4p8FU1CMfZEcL7g9mCR+6kl0+47y+Wwd5mN7PYG3egctWp/7oC8AN
-	 eYsxcF/EVJam6YFo8RyZg9p0PHluTOKYcLEl3lZo5Ga5Yw1orZIwFRp78W8e3WdoXcTfF
-	 eTMcWE7lT15vyCSU/+tq4nTQNwIt5lVCm7jSyGWeQL3mwjqkTQ/P6/QFyY3yzn/L+rA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794519968;
+	h=Received:DKIM-Signature:From:To:Subject:Date:Message-ID:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=/5fzotXqq499saxRwEWB8o+Vbe9djwNEj7vMrrb2wmc=;
+	b=hjedfwoVuhx2T6Vv+js0QhWcyq8j/0cyIy1Juw5ClAHOCHZ5Gq8WYW3Gs7ZSDmVkMS0+
+	 sWbiJH/HIUhtvst1POmSI/c0FYHKytJe6uFvKyhx2M5NwX2h0ZqpY4CkZAHo7DIOUULjT
+	 AGUXghpoxXAeGqG3wNI5fO1uncNEWSapW2QmvOfz4d7CoDjFZ8jVFGbGeNDjxiOM/U5Fk
+	 5Er6tqZioNfPZo8VjCZusSlLj3kbC5KLMSj4UCUiFBOK29aa6NSCIMB1kDXAvFEYACanF
+	 dR8EgQKvJSvolmuE7S0CrjxfJIHwCDi9p0OwL25fU3iF1JphqwAv61k1d6arqRaN6lw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=TSGMLEGx;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=1UNwTerQ;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=TSGMLEGx;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=1UNwTerQ;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MEKOqyKG;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98AE1606A327;
-	Thu, 12 Nov 2026 21:18:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 98AE1606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4129606A31C;
+	Thu, 12 Nov 2026 21:46:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=TSGMLEGx;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=1UNwTerQ;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=TSGMLEGx;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=1UNwTerQ
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 6F14922290;
-	Thu, 12 Nov 2026 21:18:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794518328; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oR1ZjXRhUcdoMnMdn9TMY7271yE7yog6gXeZYHWU2oU=;
-	b=TSGMLEGxWuiJ8RKvtKhE60V739Y3gABoW1gbRjIG+5wDLwx8VeZsv6h9bnwgs1bMFC1nX5
-	5P+sgBtdHPPtdwvxAgsW+Vj3b9aAqxYV7LQ1x7oISsRQidB1eW/M8FX5tES2RkMJAFR6sV
-	j+Ax8fxvdQDrvrITnkwolzBA6rC1sqM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794518328;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oR1ZjXRhUcdoMnMdn9TMY7271yE7yog6gXeZYHWU2oU=;
-	b=1UNwTerQ+Bk1aljOcyoL+YElSiCCf6QBTZdK5Am0rzc5vsE0y98QajhTayBgFZ6idK1iIS
-	X5dUXtByg0uBKPCA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794518328; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oR1ZjXRhUcdoMnMdn9TMY7271yE7yog6gXeZYHWU2oU=;
-	b=TSGMLEGxWuiJ8RKvtKhE60V739Y3gABoW1gbRjIG+5wDLwx8VeZsv6h9bnwgs1bMFC1nX5
-	5P+sgBtdHPPtdwvxAgsW+Vj3b9aAqxYV7LQ1x7oISsRQidB1eW/M8FX5tES2RkMJAFR6sV
-	j+Ax8fxvdQDrvrITnkwolzBA6rC1sqM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794518328;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oR1ZjXRhUcdoMnMdn9TMY7271yE7yog6gXeZYHWU2oU=;
-	b=1UNwTerQ+Bk1aljOcyoL+YElSiCCf6QBTZdK5Am0rzc5vsE0y98QajhTayBgFZ6idK1iIS
-	X5dUXtByg0uBKPCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 458CB134A0;
-	Thu, 12 Nov 2026 21:18:48 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ssYHCTgt9mqkZQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 12 Nov 2026 21:18:48 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id B9D4722BD9; Thu, 12 Nov 2026 22:18:43 +0100 (CET)
-Date: Thu, 12 Nov 2026 22:18:43 +0100
-From: Jan Kara <jack@suse.cz>
-To: Zhu Jun <zhujun2@cmss.chinamobile.com>
-Cc: jack@suse.cz, brauner@kernel.org, viro@zeniv.linux.org.uk, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] buffer: Annotate the remote buffer LRU occupancy check
-Message-ID: <dzuz4ea2o4d3nismuvcis56awwl636rnm3ecgbzhb3ylevgheu@5t433wwg45wq>
-References: <20261112015047.114119-1-zhujun2@cmss.chinamobile.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MEKOqyKG
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07F801F000C4;
+	Thu, 12 Nov 2026 21:46:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794519967;
+	bh=/5fzotXqq499saxRwEWB8o+Vbe9djwNEj7vMrrb2wmc=;
+	h=From:To:Subject:Date;
+	b=MEKOqyKG3xHDw8Zb+f8YBCK0gysMLxLSUPoS4gq7UK+8wNuu26CFFVHn0smbpRJqh
+	 F7+ujDX8Nl1prwFO/FBuZKS1LGSWmf96bl3Iyn6XNIiYgRcT4DtYhb7iOwQSU/g+Ng
+	 j/mM+pxkxK8/AAZwvIbAZ31wKTwzn9njJeQi0+uoB2lwXoVN8VHWTV/hurHLAYTK7Y
+	 gmGQT2taq7HWH4bS40tBO9vWDQJ+xslH+UNakRJzBQqAl0STREtEVyB3XNZBFF7lnr
+	 5ZwBvopaKYmO+TOr07k1Cw3FOeIMTQV/FkrvxcVPw/15me+ni7hsq45bRaFqMSP+Hs
+	 hydGklKCuRUwg==
+From: Chris Mason <mason@kernel.org>
+To: mason@kernel.org,
+	tytso@mit.edu,
+	cem@kernel.org,
+	david@fromorbit.com,
+	jack@suse.cz,
+	djwong@kernel.org,
+	josef@toxicpanda.com,
+	hch@lst.de,
+	linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-ext4@vger.kernel.org,
+	tz2294@columbia.edu,
+	brauner@kernel.org
+Subject: [PATCH v9 00/14] reflink and atomic write bugs
+Date: Thu, 12 Nov 2026 16:46:04 -0500
+Message-ID: <20261112214604.67875-1-mason@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -109,77 +65,107 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261112015047.114119-1-zhujun2@cmss.chinamobile.com>
-X-Spamd-Result: default: False [-12.80 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.cz:email]
-X-Spam-Score: -12.80
-X-Spam-Level: 
-X-Spam-Flag: NO
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu 12-11-26 09:50:47, Zhu Jun wrote:
-> has_bh_in_lru() reads another CPU's buffer LRU while that CPU may install
-> or invalidate entries. The local BH LRU lock does not serialize this
-> remote occupancy check, which KCSAN reports as a data race.
-> 
-> The check only decides whether to send a drain IPI and never dereferences
-> the sampled pointer. Mark the occupancy check as an intentional data
-> race with data_race().
-> 
-> Fixes: 42be35d0390b ("fs: only send IPI to invalidate LRU BH when needed")
-> Signed-off-by: Zhu Jun <zhujun2@cmss.chinamobile.com>
+The meat of the series is fixing reflink corner cases that incorrectly
+let you write into the source of a reflink.  LLMs also tripped over a
+few ways to use atomic writes to expose stale blocks on the drive, and a
+few races with realtime flag and extent size hint manipulations.
 
-Looks good. Feel free to add:
+Carlos has accepted patches 1-4, but I've kept them here so the whole
+series can still be tested.
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+Except for Christoph's patch, these were all found and fixed
+by an LLM.
 
-								Honza
+v8->v9:
 
-> ---
-> Changes in v2:
-> - Use data_race() without READ_ONCE().
-> - Drop the added comment, as suggested by Jan Kara.
-> 
->  fs/buffer.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/fs/buffer.c b/fs/buffer.c
-> index 5d3852b726d6..2d2d61495b4d 100644
-> --- a/fs/buffer.c
-> +++ b/fs/buffer.c
-> @@ -1437,7 +1437,7 @@ bool has_bh_in_lru(int cpu, void *dummy)
->  	int i;
->  	
->  	for (i = 0; i < BH_LRU_SIZE; i++) {
-> -		if (b->bhs[i])
-> +		if (data_race(b->bhs[i]))
->  			return true;
->  	}
->  
-> -- 
-> 2.51.0
-> 
-> 
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Christoph suggested taking the MMAPLOCK in xfs_fileattr_set() instead of
+chasing flag and hint changes down in the iomap code.  Page faults only
+hold the MMAPLOCK, so FS_IOC_FSSETXATTR now waits for them.  That's the
+new "xfs: take the MMAPLOCK in xfs_fileattr_set()".
+
+It replaces the two "resample" patches.  It also replaces "xfs: test for
+an extsize hint again under the ILOCK". With the new lock the hint can't
+change between its two tests.
+
+"xfs: restart faults racing with realtime flag changes" is down to one
+test in __xfs_write_fault(), because zoned space is still reserved
+before the lock.  xfs_iomap.c is back to what's in 7.4-rc2, so the
+-EAGAIN and the -EINVAL are both gone.
+
+One more existing pnfs bug fell out, LAYOUTGET can race with a clone and
+hand shared blocks to the client for writing.  The new "xfs: test for
+realtime and reflink under the pNFS locks" deals with that.  That one is
+from reading the code, and I haven't set up a pNFS server to test it.
+
+Christoph also pointed out that DAX doesn't require writing in place,
+the zoned code just doesn't support it.  "xfs: don't enable DAX on zoned
+inodes" has the same code with a new commit log and comments.
+
+v7->v8:
+
+Christoph pointed out that only page faults can cope with the -EAGAIN
+from "xfs: restart faults racing with realtime flag changes".  pNFS is
+the one other caller that can really get there, so now faults get
+-EAGAIN and everyone else gets -EINVAL.
+
+Sashiko had two complaints about the same patch.  The stale reservation
+is fixed by the two "resample" patches.  Those are the rest of the 3
+additional patches I promised in v7, I just managed to leave them out of
+the posting.
+
+The second complaint turned out to be on disk corruption for realtime
+filesystems with extents bigger than one block, with nothing returning
+an error.  That's the new "xfs: test for an extsize hint again under the
+ILOCK".
+
+While checking what a DAX fault does with the -EAGAIN, we found that DAX
+and zoned inodes don't work together at all.  With a zoned filesystem on
+pmem and dax=always, the first store into a mapped file oopses on
+7.4-rc2, and so does ftruncate().  "xfs: don't enable DAX on zoned
+inodes" turns DAX off for zoned inodes.
+
+Added Christoph's review to "xfs: test for always COW after the dio
+write checks".
+
+v6->v7:
+
+Sashiko noticed a few pre-existing corners that I had ignored, so we
+have 3 additional patches dealing with races between FS_IOC_FSSETXATTR
+and decisions about file writes.
+
+"xfs: restart faults racing with realtime flag changes" changed enough
+that I dropped Christoph's review.
+
+Chris Mason (13):
+  xfs: don't skip the flush before shifting extents
+  xfs: flush the shifted range before changing the file
+  xfs: don't change the block map under a dirty folio
+  iomap: don't punch delalloc under a dirty EOF block
+  fs: validate atomic writes after O_APPEND and limits
+  xfs: recheck direct write alignment after write checks
+  xfs: test for reflink after the dio write checks
+  xfs: test for always COW after the dio write checks
+  xfs: refuse fallocate racing with realtime flag changes
+  xfs: take the MMAPLOCK in xfs_fileattr_set()
+  xfs: restart faults racing with realtime flag changes
+  xfs: don't enable DAX on zoned inodes
+  xfs: test for realtime and reflink under the pNFS locks
+
+Christoph Hellwig (1):
+  xfs: refuse writes to files racing with realtime inode flag changes
+
+ fs/ext4/file.c         |   4 -
+ fs/iomap/buffered-io.c |  34 +++++++-
+ fs/read_write.c        |  13 +++
+ fs/xfs/xfs_bmap_util.c |  19 ++++-
+ fs/xfs/xfs_file.c      | 182 ++++++++++++++++++++++++++++++++---------
+ fs/xfs/xfs_inode.c     |   3 +-
+ fs/xfs/xfs_ioctl.c     |  25 ++++--
+ fs/xfs/xfs_iops.c      |   4 +
+ fs/xfs/xfs_pnfs.c      |  32 ++++----
+ fs/xfs/xfs_reflink.c   |   2 +-
+ 10 files changed, 248 insertions(+), 70 deletions(-)
+
