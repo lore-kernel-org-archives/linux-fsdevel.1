@@ -1,97 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.173
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.178
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794516264;
-	b=4G191Ur6LW6RMQgUMUiedM7JWJu4zszF3+iE5Kfb70Pb9gX1u5Fe84KWEha7PfPN74iq
-	 QhQI8Zwo57tMtQzAXKYvLOv2rSdX5Vvsdf/Nb2wYKxfZyHHHN3NmCt8ueMR3Bg8thkbb6
-	 R3dsl8cfiRDmDQVp3/AOtydGXGwpNUa8Dvb+FgplI5J+ONVE9db8ifZeEzCUym6m+Tyj1
-	 91wXKFCnWERG4g55cGGyKJaUz4s2IU8P4oEjDQCp3DhX/uaHVja86wkXHVwKh5jcs2r2u
-	 Wf9pg832Z/ZtK5LHBtMcxbvQm1sJ2ohnJJVfsXZKqgRo0DhD/xjonesy3xMyKXdcHaA==
+	t=1794516325;
+	b=kJF9rhZ3SdT536v3Gf9/bHXErb7SG1n939lgV1TrhKlNf5fDT4gztIHPRwIyZOTBeECl
+	 MnsAEYl25A/RmoO+NZU8UoVIDvdbDlhVtqvTUytgicOOjBrYtQS8EQ6i0pBwRnLffY7+v
+	 2VfT+T6PJfNA4oM4wix7tLw7uOLkE7LtBNaVY9p9nf8Ndt9gm4XqVvxhBV7Jlhm19YpMY
+	 J2RkcDreA3prG91bBqj0e9suY+7nZ1t7YlzvVwfYk5D6l+VPaeLwI2s2eY/L4JirbfsIS
+	 u+osOm2cGZjM6NCiF1jY6xG9XPQS2aVhMb3fHRCjw4plfB7g30XdxZjl8BI8e2uQ2bA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794516264;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794516325;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:Autocrypt:
 	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
-	bh=1x6aqmAQRrynAIsDlQ7a6VDqmeWzlsEVjpZnIZpydcQ=;
-	b=CzQgE1LX7qxfh8ACDgx8MGVZYaJXGBkYf8udSY5mblvzMOfBr459J2GY+KHqLSs+9W9G
-	 dDoYSIu2YSEwZoQMBd6yMVd4z9dyXZ1y5CQDsY56CtaZNa9J5VHuuP+/HAJe4NnUHAUjt
-	 qyxnQ7ZrQTsuAjplNc797j0lYvDKpV+Wh80ecEra+QphD1ZFMtlBzpT3lpPWibdVnA9tf
-	 Wp5rSPJdxrUHEstWnrRXeLvoP5vmQMZbIx8j/J+mJRn2EryYLQsOpbve3DY5kVTHsVKgw
-	 jTKABpWS8bVIj3Nm1pbi8pHYQsJUfElE+m+DsY9jaVl+ROHbn/bFzh+6cDfnSFh86Fw==
+	bh=iXGHywZFNojrHd2KwpmIrJ8ca2HrRHqgEFVKWK/ZGM4=;
+	b=cN1/nEnIVgqsPj/9IxZttzHuHos4rpZwfBYamwU0YUBNsm0/dN11ZHSy16rw/8XHa4Zl
+	 Aus39B3yVz/+Z0aA06HYb6XA5ZmuGIaH+At7w0KIHK/7LBfVLmoRq/9DCC7WQa/zBOTyK
+	 gcSyrLPkfg62QG6y2AgVC9BGhEF28jlSq2TKlvs2LMguKr5TxOP+eQHiEadHnQxlTmbLe
+	 Hb1TEAQLv3awLkiXafNtwUluTfDLGHI6wz3KAQDb476e8znKkL3n8Kbji6/onOS2JOpbQ
+	 30tzpajCsyrQlLYYjAchh6mTslIcNtrG6re5EKwyq29YmMNRAPKMJ9oSICOST2iCZKA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=dubeyko.com;
 	spf=pass smtp.mailfrom=dubeyko.com;
-	dkim=pass header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=BBpdXZel;
-	arc=none smtp.remote-ip=209.85.128.173
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+	dkim=pass header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=Oc7eStj1;
+	arc=none smtp.remote-ip=209.85.128.178
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36B5D606A8A6
-	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 20:44:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 36B5D606A8A6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FB06606A330
+	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 20:45:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1FB06606A330
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=BBpdXZel
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-8b2d14968c9so4375467b3.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 12:44:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=Oc7eStj1
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-8b31448caccso3228657b3.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 12:45:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20260707.gappssmtp.com; s=20260707; t=1794516263; x=1795121063; darn=vger.kernel.org;
+        d=dubeyko-com.20260707.gappssmtp.com; s=20260707; t=1794516324; x=1795121124; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
          :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=1x6aqmAQRrynAIsDlQ7a6VDqmeWzlsEVjpZnIZpydcQ=;
-        b=BBpdXZel5kBePXjqDY0dAG2uVor93zVHv83A9d2dtD22Fvvh7VbD802BQqMtV+zPhX
-         0nThnfnv7QDqRt+LaVCOO8CDqrq4QYTZ2ypKNKkph3Wh5xEjsUbH4zezhpEb8CKaVu+5
-         pIzSzyg5EwUEp5K9iAQ4IYODZYgYiuQ9JkbLGWRxm3uI3MfMfVZyhHXPo/v0FAuQAQ3V
-         e8uico/h6SQx+I2lbc/JDoc80a5Zf7gRlq1uv8Om1IaiuWLlGSg/se8AXn0RGmE7Z3rn
-         rAoON2hOFrLUjmyBwMkQ0fyunO11YE+r4XVjvRHq4yZr0L9V5OC68+Mfr1Sz2LfSk7WY
-         3bnw==
+        bh=iXGHywZFNojrHd2KwpmIrJ8ca2HrRHqgEFVKWK/ZGM4=;
+        b=Oc7eStj1TstmNeupx6yzNDRP13iRRMeE/9vdU4XtbLp466Xx0zvrPfr4sCdY80OA4t
+         3PMSsrITYf39yhgq473pVTnF5X2j4khSR4ukGysWobfSKYTGmRNmRYpayHccg4SfCyWE
+         9P8WgNmkz6x5RxSHPepPFVr2P8hG9Ysnng2KQsccZaUz5qPZnIfX68EWk4CCIXhGJeSO
+         ES43IyZGYVLNfRGGTV3SIhMkm32XvR7aqMyzyrsavH4YBV2m68KnYj+QJytsQuqBiLNP
+         mzLWPZigDsQ0nWtxPoRhtwnh3xSXVu+cMyq9n47rhv3sEz8+4Fbj9mBfhXgU3/b6vGOM
+         bNCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794516263; x=1795121063;
+        d=1e100.net; s=20260707; t=1794516324; x=1795121124;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=1x6aqmAQRrynAIsDlQ7a6VDqmeWzlsEVjpZnIZpydcQ=;
-        b=We868GbD7IyQWdKBowHvX13GqKHvQf8lrJmZ3T/d8iJkAYlaU7boEGR9HFYC4I3Als
-         dNOta/ViDoQJI6bIZRuvsTRO348JfsMkCh0iugKNP6nWSMGo3fNzpxJAwguF/eytFUqc
-         RCY6mtmGpm0e4zNpS1JwB0DjOyERA8I0OoHgjpZVbxXC3epF0GGVrnntRCnpda08Uzqt
-         oqbw5B+tAdYWuY+htHFCJo+YnobzzLqeCwVR7HcEHSCRJgdo2EC0amL62NXsh6e9Q6CQ
-         /LApReZxiUmBy3TIZg3jAkHMlUo+7eM5i2kLw3N6DiLSETj30Sc5kIB9ehdCVRe5PTdu
-         l1mw==
-X-Forwarded-Encrypted: i=1; AL+hErFt4IIqECigd9VmM4fN3x8LnxauyQu+X3JpDkMElCNnU191PgWT6VkxuQW7bZtkbNy0m+GBfCeQaaWw6tkk@vger.kernel.org
-X-Gm-Message-State: APuU4Z+rxaKMUVbxftps/WDNtHeB2NbG7rtI464stmN3LVHSFm9c66D8
-	g6Ah6N7gonS46Dbt0svMs99BxNDQZL4YN4Rd7sqf1iCp/ni0JxppSpuE25bywzzHDYU=
-X-Gm-Gg: AYBFou3kUUq1m6OOTZCT/Kuc7cmIp+17wYZ1kGBIZScteRx1+/ckh2pcr4YxPFP1txw
-	KcJG++oWDIt6OIzzPofM3LXGHLLHryIc3Ib2evQYfk0jcMNo65+3E2CoMAec5u1CZFgV88jPFEU
-	H9irlfTOFWMwHumpwlb+eUbfzfJ3lblx9edgDl9M6a092GVApZiC8YhY+eybVvzU8In7C0i9men
-	HipQGUr3L/LvNASy0SEpeaWdrlMMUvp5M5uf/5qckTNShYtn8WfgLG77aMaXBF527h3lXn1hboz
-	Clvti2sjWaA8A758GIG+Lqd6/Kgc45H3VugU5IwE5ddMD1ItczEKxzU2aFIO82zoMOH6AguLhXE
-	WOkk6FjRKQkfLJOrusQtNBqCjaJD9FW6sq+DH7pAR1XXXMVx/+PbChYbPKadK+u0J+QvDpKEPie
-	us0wgmsvEN3OXfVyCxMignRQyc5TlxYwDteALgqIaNm/OO/QnFrn1Q71dP6e87Ba2wP64DaHTGg
-	NV2lz1IP2Bg/KQ9tTkwun5nKRM4uCTeLexK2d64tyy3JLo2FWUkvjHv7nqGnX59DmdQ36/iEBhe
-	t+mEqsGGtTZBJ24QNgIBno/uPx01KZiDgiG/jqMugGEeBDbhMla3Ii5QnFG6xYde6oclSPSBLZA
-	xj60mGTZZJtA+Gs3Y2ImNqBWLEQ1J5ViB6QOhlQW7YfPpLpeVJQHcGwWdhcQ85wpwootC+To=
-X-Received: by 2002:a05:690e:43cc:20b0:67c:33d9:791d with SMTP id 956f58d0204a3-67d89639442mr211820d50.48.1794516262929;
-        Thu, 12 Nov 2026 12:44:22 -0800 (PST)
+        bh=iXGHywZFNojrHd2KwpmIrJ8ca2HrRHqgEFVKWK/ZGM4=;
+        b=j5JsasxsJiYodwsTJ/6j9rWntHFmX0Y7Nx32Y165KNRPZJCHc0Waos44gDvbzEk+kg
+         WrkMv8zShsp+y7u+7XxfGlyA4yoqMfDFcm7Hn7wujen6x2/JfwgKUwVyD4zaGZ63WmnP
+         BoDH5csT+/lY2n6nsZYx5XwECNnMlXjkoVxhww7dXS3NyQK7eSXfhuaJnnkA1ZQRzQWq
+         +Sf3qUeAoeBmGXYgeEVcRvSJCctjWTS205i8tbsUfgqPDcre/1NDyxP6fskUO/X7gFgS
+         umv31wda/J+87IuSyYHbnvCTpHIWqV23qXmbOKhfInxn9Ji34g7p3wZR+/Q/4KT4TAyw
+         jMrQ==
+X-Forwarded-Encrypted: i=1; AL+hErHWh2PmT20J+wR3XkXTX9C7/HhXe96Lh81NDquUu+bR7HqgsLwSZKpWhTxJdY+lzdMdS8k9l0IRUsuGe2g3@vger.kernel.org
+X-Gm-Message-State: APuU4Z+JY9jAHoLq84Lkxd7niZj/iHrRkcvtJEYbiFed6Lpu9fP4jeJd
+	6++M5pNUwcxkf6dHTwt6OA0nBLr/QqOmTStIJY2KSdq9R/lNk7equXgb7a1jEz8jWaI=
+X-Gm-Gg: AYBFou2R9hquHTcVd0f3VLyhB33+e2I54MUlODC7esTYQKNSh8cq582B4qcxVCvI4La
+	Se0CBX40M/TApMEPk4ZOR5/hQ8wzvGdU5Nur82ICkJIoO7dlzqtD42goYZxxe2+qZ4IY3FYVwbx
+	R4j38fZVmXpd0mwkLsJd5AlV4wkfwuRLKsNBxgPL7h3x9JYhRX8WO22K0DoT6dtoootaGSwEvIg
+	jHaQQx/qqYG+Qzcvmye9XS1bMVlqH7fMSo6IETQV2JGl5vjBrtRhXxvOVVVZ895SqTGiI3bHb2P
+	hzv+sxGuICAu2adye4fTXea8DFHo401pIMeqxAXWWPt5E1bflfpm2nMbO5i89jQ8hJBFPuGM24D
+	Q+0rHVurNabUGJRkgG112M8F3Yp+dkSfQSuOWyNpriwZCKkgc+G3L0rW1XImAWWYYPxBsgKHGRF
+	+YbBxz/5dW3yIupk3J36udJ15lPwxN8u8A2zfKzUJWs6b0e+GrJLu1Z7aKEbUPlfkFB3FYLACOG
+	CKpgvDkG1nqHEutB7Y3psAbLy0tZyDC2DDHT88lMQcxc0SrBnIYXG5E6eXE2z/qrYOLOKi7XvrS
+	FA/Jw6o5sGur+zE8m/trY7nNUDgLuKmd0nkp7v2/anG/ZbjaDrQ7bCQvJjHehiip6L5agBzE6eQ
+	m8C8nWj3OAxtrJ8wzbDwb+01NTiLIHxrChc62BsNLxrvECVPVPyvf+vTN5ATFlSZrM+85gP8=
+X-Received: by 2002:a05:690c:f8a:b0:8b0:e680:616a with SMTP id 00721157ae682-8b4aa32151bmr5071387b3.24.1794516324008;
+        Thu, 12 Nov 2026 12:45:24 -0800 (PST)
 Received: from system76-laptop.attlocal.net ([2600:1700:6476:1430:3a31:6c95:5610:70f6])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b4aa9da90bsm4665597b3.37.2026.11.12.12.44.20
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b4aa99f7a1sm4740207b3.29.2026.11.12.12.45.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2026 12:44:21 -0800 (PST)
-Message-ID: <0205ef88738917a6d307b4e334e2dd1b0851317b.camel@dubeyko.com>
-Subject: Re: [PATCH 2/2] hfsplus: do not end readdir at i_size after an
- unlink
+        Thu, 12 Nov 2026 12:45:22 -0800 (PST)
+Message-ID: <bf79e0f0ba166bef46dc5d196b0877dabe252248.camel@dubeyko.com>
+Subject: Re: [PATCH 1/2] hfs: do not end readdir at i_size after an unlink
 From: Viacheslav Dubeyko <slava@dubeyko.com>
 To: Hengyu Liang <hengyul@cs.unc.edu>
 Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Yangtao Li
 	 <frank.li@vivo.com>, linux-fsdevel@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Date: Thu, 12 Nov 2026 12:44:20 -0800
-In-Reply-To: <20261112111745.4094283-3-hengyul@cs.unc.edu>
+Date: Thu, 12 Nov 2026 12:45:21 -0800
+In-Reply-To: <20261112111745.4094283-2-hengyul@cs.unc.edu>
 References: <20261112111745.4094283-1-hengyul@cs.unc.edu>
-	 <20261112111745.4094283-3-hengyul@cs.unc.edu>
+	 <20261112111745.4094283-2-hengyul@cs.unc.edu>
 Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
  keydata=mQINBGgaTLYBEADaJc/WqWTeunGetXyyGJ5Za7b23M/ozuDCWCp+yWUa2GqQKH40dxRIR
  zshgOmAue7t9RQJU9lxZ4ZHWbi1Hzz85+0omefEdAKFmxTO6+CYV0g/sapU0wPJws3sC2Pbda9/eJ
@@ -139,58 +138,49 @@ Precedence: list
 MIME-Version: 1.0
 
 On Thu, 2026-11-12 at 06:17 -0500, Hengyu Liang wrote:
-> Commit 4b0496432844 ("hfsplus: rework hfsplus_readdir() logic")
-> stopped
+> Commit 7fde7e806657 ("hfs: rework hfsplus_readdir() logic") stopped
 > moving the position of open directories back when an entry is
 > deleted.
 >=20
-> However, hfsplus_readdir() still ends when ctx->pos reaches i_size,
-> and
+> However, hfs_readdir() still ends when ctx->pos reaches i_size, and
 > i_size drops on every delete. As of now, a program that reads a
 > directory and deletes what it read sees the directory end early and
 > leaves files behind.
 >=20
-> The issue can be reproduced with BusyBox rm on a new hfsplus volume:
+> The issue can be reproduced with BusyBox rm on a new hfs volume:
 >=20
 > =C2=A0=C2=A0=C2=A0 mkdir /mnt/d
 > =C2=A0=C2=A0=C2=A0 (cd /mnt/d && for i in $(seq 1500); do : > f$i; done)
 > =C2=A0=C2=A0=C2=A0 rm -r /mnt/d
-
-Frankly speaking, I don't quite follow what is the issue of the fix. Do
-you mean that we create and delete folder in one thread and execute the
-readdir in another one? Or do you mean that application has several
-threads and one thread do readdir but another one delete file by file?
-How this deletion is executed? I mean which files are deleted?
-
-Even if we delete files in folder then i_size is dropping gradually. If
-we traversing the folder's content and ctx->pos >=3D inode->i_size, then
-it sounds that we already showed the existing content. Do you mean that
-if we deleted the range that we already processed, then we miss the
-rest of undeleted items?
-
 >=20
-> Before commit 4b0496432844 ("hfsplus: rework hfsplus_readdir()
-> logic"),
+> Before commit 7fde7e806657 ("hfs: rework hfsplus_readdir() logic"),
 > the directory is removed. After that commit, the result is:
 >=20
 > =C2=A0=C2=A0=C2=A0 rm: can't remove '/mnt/d': Directory not empty
 >=20
 > and 304 files are left.
 >=20
+
+Currently, I don't understand how the issue happens. Could you please
+explain the issue at first?
+
+Thanks,
+Slava.
+
 > This patch will end a walk that continues from the saved key where
 > the
 > records of the directory end, and keep the i_size check for a walk
 > that
 > starts from a position.
 >=20
-> Fixes: 4b0496432844 ("hfsplus: rework hfsplus_readdir() logic")
+> Fixes: 7fde7e806657 ("hfs: rework hfsplus_readdir() logic")
 > Cc: stable@vger.kernel.org
 > Assisted-by: LLM
 > Signed-off-by: Hengyu Liang <hengyul@cs.unc.edu>
 > ---
 > Application impact (Ubuntu 26.04 user space): a folder with 1500
 > files
-> on an HFS+ volume is moved to the trash, then the trash is emptied
+> on an HFS volume is moved to the trash, then the trash is emptied
 > with
 > "gio trash --empty" (the call behind "Empty Trash" in GNOME Files,
 > done
@@ -200,20 +190,20 @@ rest of undeleted items?
 > is
 > not freed.
 >=20
-> =C2=A0fs/hfsplus/dir.c | 27 +++++++++++++++++++--------
+> =C2=A0fs/hfs/dir.c | 27 +++++++++++++++++++--------
 > =C2=A01 file changed, 19 insertions(+), 8 deletions(-)
 >=20
-> diff --git a/fs/hfsplus/dir.c b/fs/hfsplus/dir.c
-> index b3a1193a491f..81fe8a3e07c9 100644
-> --- a/fs/hfsplus/dir.c
-> +++ b/fs/hfsplus/dir.c
-> @@ -135,10 +135,16 @@ static int hfsplus_readdir(struct file *file,
-> struct dir_context *ctx)
-> =C2=A0	char *strbuf;
-> =C2=A0	hfsplus_cat_entry entry;
+> diff --git a/fs/hfs/dir.c b/fs/hfs/dir.c
+> index b6b8945712a9..b0858512f4d2 100644
+> --- a/fs/hfs/dir.c
+> +++ b/fs/hfs/dir.c
+> @@ -51,10 +51,16 @@ static int hfs_readdir(struct file *file, struct
+> dir_context *ctx)
+> =C2=A0	char strbuf[HFS_MAX_NAMELEN];
+> =C2=A0	union hfs_cat_rec entry;
 > =C2=A0	struct hfs_find_data fd;
-> -	struct hfsplus_readdir_data *rd;
-> +	struct hfsplus_readdir_data *rd =3D file->private_data;
+> -	struct hfs_readdir_data *rd;
+> +	struct hfs_readdir_data *rd =3D file->private_data;
 > +	/*
 > +	 * i_size follows the valence and drops on unlink, so it
 > says nothing
@@ -221,29 +211,16 @@ rest of undeleted items?
 > ends where
 > +	 * the records of this directory end.
 > +	 */
-
-I really dislike the comment in the variable declaration section.
-
-> +	bool resume =3D rd && rd->pos =3D=3D file->f_pos;
-
-Is it possible that rd is NULL here?
-
-I don't really follow how the resume variable can help at all.
-Probably, I am missing the case. Could you please explain the issue at
-first?
-
-Thanks,
-Slava.
-
+> +	bool resume =3D rd && rd->pos =3D=3D ctx->pos;
 > =C2=A0	u16 type;
 > =C2=A0
-> -	if (file->f_pos >=3D inode->i_size)
-> +	if (!resume && file->f_pos >=3D inode->i_size)
+> -	if (ctx->pos >=3D inode->i_size)
+> +	if (!resume && ctx->pos >=3D inode->i_size)
 > =C2=A0		return 0;
 > =C2=A0
-> =C2=A0	err =3D hfs_find_init(HFSPLUS_SB(sb)->cat_tree, &fd);
-> @@ -183,10 +189,9 @@ static int hfsplus_readdir(struct file *file,
-> struct dir_context *ctx)
+> =C2=A0	err =3D hfs_find_init(HFS_SB(sb)->cat_tree, &fd);
+> @@ -93,10 +99,9 @@ static int hfs_readdir(struct file *file, struct
+> dir_context *ctx)
 > =C2=A0			goto out;
 > =C2=A0		ctx->pos =3D 2;
 > =C2=A0	}
@@ -254,28 +231,29 @@ Slava.
 > -	if (rd && rd->pos =3D=3D ctx->pos) {
 > +	if (resume) {
 > =C2=A0		memcpy(fd.search_key, &rd->key, sizeof(struct
-> hfsplus_cat_key));
-> =C2=A0		err =3D hfs_brec_find(&fd, hfs_find_rec_by_key);
+> hfs_cat_key));
+> =C2=A0		err =3D hfs_brec_find(&fd);
 > =C2=A0		if (err =3D=3D -ENOENT)
-> @@ -195,9 +200,11 @@ static int hfsplus_readdir(struct file *file,
+> @@ -105,10 +110,12 @@ static int hfs_readdir(struct file *file,
 > struct dir_context *ctx)
 > =C2=A0		err =3D hfs_brec_goto(&fd, ctx->pos - 1);
 > =C2=A0	}
 > =C2=A0	if (err)
 > -		goto out;
 > +		goto end_walk;
+> =C2=A0
 > =C2=A0	for (;;) {
-> =C2=A0		if (be32_to_cpu(fd.key->cat.parent) !=3D inode->i_ino)
+> =C2=A0		if (be32_to_cpu(fd.key->cat.ParID) !=3D inode->i_ino)
 > {
 > +			if (resume)
 > +				goto out;
 > =C2=A0			pr_err("walked past end of dir\n");
 > =C2=A0			err =3D -EIO;
 > =C2=A0			goto out;
-> @@ -263,11 +270,11 @@ static int hfsplus_readdir(struct file *file,
+> @@ -146,11 +153,11 @@ static int hfs_readdir(struct file *file,
 > struct dir_context *ctx)
+> =C2=A0			goto out;
 > =C2=A0		}
-> =C2=A0next:
 > =C2=A0		ctx->pos++;
 > -		if (ctx->pos >=3D inode->i_size)
 > +		if (!resume && ctx->pos >=3D inode->i_size)
@@ -286,17 +264,17 @@ Slava.
 > +			goto end_walk;
 > =C2=A0	}
 > =C2=A0	if (!rd) {
-> =C2=A0		rd =3D kmalloc_obj(struct hfsplus_readdir_data);
-> @@ -279,6 +286,10 @@ static int hfsplus_readdir(struct file *file,
-> struct dir_context *ctx)
+> =C2=A0		rd =3D kmalloc_obj(struct hfs_readdir_data);
+> @@ -162,6 +169,10 @@ static int hfs_readdir(struct file *file, struct
+> dir_context *ctx)
 > =C2=A0	}
 > =C2=A0	rd->pos =3D ctx->pos;
-> =C2=A0	memcpy(&rd->key, fd.key, sizeof(struct hfsplus_cat_key));
+> =C2=A0	memcpy(&rd->key, &fd.key->cat, sizeof(struct hfs_cat_key));
 > +end_walk:
 > +	/* This directory can hold the last records of the catalog.
 > */
 > +	if (resume && err =3D=3D -ENOENT)
 > +		err =3D 0;
 > =C2=A0out:
-> =C2=A0	kfree(strbuf);
 > =C2=A0	hfs_find_exit(&fd);
+> =C2=A0	return err;
