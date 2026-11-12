@@ -1,85 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.176
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794508418;
-	b=ejvmmWV/AYMykHZiWwOerZoG7jm6UKA2byKkvHhYbW2Ol2Oe4XdQixna8WV0OigRcl4e
-	 fsbQDsw1iuTDvZ02Nx3tYFvjDWsUV5SXSFK35CPfxfpu+CDoGCMmuyzasooqhQuIFdlfp
-	 xXGhZLowoz6gPi2jhepJq82LI6UWKRVBpQ4jitBNx+znAQsdyq7suiIwlUC7wAePpzQzz
-	 PSRPmDHL3mTG/Sl4e/LdDjJqyNS9q8UpwxWWWEgkpSID0OblnSeRfH7HNTWdUtbUY1JZ2
-	 XDxMjhs64YtOiLMFlQDucuAeXcllqE+S9fDOdKNEThrP1IgfIieORlV74T47vtH8v2Q==
+	t=1794508457;
+	b=haWL8BdoQfautMBOId8mXymUL0sQH+kCB50ltp26Tt8xk8P+gMamlHV1MB7R0OBcPrnY
+	 IR15pGxbJDjq9B9VbaLmsiqypi8PAL0LenTSqGdcQ3LVBVzWgb1IBJjnWaSRBtvJ/muhA
+	 b7SPwrPtgbTjiUO2zcqe4SaycjDIojX/0Pt3dQFOgRU+mkYtwzq5+IaRSVasF0cVLaX6D
+	 QMZxBr4VoE8PyJE6DyeIhtS03vgk9CwdB6dBWIhihetwQoYq1xbKH0FCdnGqCKJDCC/N7
+	 CxghROejH0sz1j2DZYQF5JLdc9EovVAyQccn1t3JGV0BB0kgerWI3cUaooJeQ1PPyBg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794508418;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
-	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer;
-	bh=E0X/oBNSd837oq8qemdGMRW3gOZl3XdynAbQm9FPXsA=;
-	b=KlCIjrfAcQ5uZwLwfuABdZrPEA/8oERlSUuCVF8vHKw1zSOV+roJnB5BGA5iC/Vrn1h8
-	 95klAcAQiAruQ0DdiPzBsv7lw58cLmqB7iUaR7bMu3uu1BuBQYXc1YbaBG3zR0DCCQ8QI
-	 CVHcYBEzBu0ZExrm5a9T0AbHtTZ8jzmdXE8BEFzhd6h64QBXOVPsRjVD7Q0wUeTPZhkk0
-	 oVyddjBo1sdJ7bPLuZHnWedIzvLh7fo1yU4HY97uohh/3RbG9SOeaYb4YSQnzPQ+WTIQQ
-	 GjinXhtIn9e94QZoDcT78NU2/eMZFQIamnprSoalQxFoZDS8LOMJva20IVQnRuV33yA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794508457;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=S83ufdCuikPlcGyicMt7mpw+fBC8MVplA5DoPA/0lZw=;
+	b=P4aj9+N/NzEJ6uFM5RcN3il46NY4kkyS+QnLCqeI/fidxglUm9lW9Fa6+uxhMnz3H9TQ
+	 kB8CRZF8Oug00H0nluk3+O1xeYU5joRhPjmDVrpf7Hk90gQ8IH0avQoEcuYzsLNr1l8vX
+	 Qu0cY45DWc+bP7ykVGDxjXvkzeTNIV2RSXtJNfiEUKT9scwFoheDuonoMgkI19J6HExwp
+	 M/o4m+KL4MQHPdPu6ssjVKxGm7wuST9uoLl8wO5NtGy/x124jzXiVGoaCmWKQtE1SuGMA
+	 6sIj4gCX2AQEcmnnGIjc+WZyEYHsUf+DBjyJYAaN/Yw8pvYFwiGig5SCjOLvWmiC3FQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=gourry.net;
-	spf=pass smtp.mailfrom=gourry.net;
-	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=vOr2VvyR;
-	arc=none smtp.remote-ip=209.85.222.176
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="ijVUa1/3";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3995606A884
-	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 18:33:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E3995606A884
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA4E3606A32A;
+	Thu, 12 Nov 2026 18:34:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=vOr2VvyR
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-93f079a63b8so3176885a.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 10:33:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1794508417; x=1795113217; darn=vger.kernel.org;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=E0X/oBNSd837oq8qemdGMRW3gOZl3XdynAbQm9FPXsA=;
-        b=vOr2VvyRtP+KBt6PNgpsroLYuZ2WDXRyTOc5i95zgwooIsYRcxqQzqiTLUmi/IXsxY
-         hHwNRJhCrscdVv/HsHUP4QAcTt1cJdndeVKPMDxbJ861WXUxNdUDlH6/AnX5mNWc7Ok7
-         gz1LKAJ7k9EX0GE3xjhFTEeo+pTWtrYXtUOm92dteko0p+d/6NHk9jVtPuT8NDgnPWvg
-         XtxTBeTZ4wwWnSR7wfGblG7vb8M3uTKovXED6EyA5tN4BZTkv+jChVYvxAiFXwAYGK8k
-         e0QYgsMMPmx9nO2Garn9QvjiEbljM9VzEiJMpYxfNqtFGezq9HjbZijLAU2AbIeA4Mjf
-         wCtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794508417; x=1795113217;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=E0X/oBNSd837oq8qemdGMRW3gOZl3XdynAbQm9FPXsA=;
-        b=PHlf292RHKJsRw9FdS1sqs7gihSG2cKikQ9JDIqNCNWJo5AS9jFxLoNBlMlmriuu8x
-         OCLFWQY8VBysVGpJn/eNH1wyXsFLACCxP2T+fCT2cmdXU+2X8U6DvPYlojUHOCGYS7rB
-         HKksQmh10xcuAIgFEMeUpC5GSwCPRBItxF0aDJfXO+aksZfG+h77jccA9C2iFnI6k94P
-         4JbTQNMcta35NODCTCkmJyl3NA4XwpExOxdxreWekcVewje7w+rQgwL12Qr3OMBlOOBz
-         s0wMeA6m09m4zBB9+9dORVZ0uO12KLduvU82v46ACukemyKmLxBk+WAtvqrE482HVnbf
-         rqug==
-X-Forwarded-Encrypted: i=1; AL+hErGMnJMlcQAotqZ1I0JP6VmQqSFe3fl5ELRX+9tP3o/x5X3tFs+swyneqCPE7FSRv5IFI+pvWwJD1fkch0H1@vger.kernel.org
-X-Gm-Message-State: APuU4Z9+am4O+dpic/icYv0zw8vofxSNzIp2Lqvu7nqkv4oPV4rlADjq
-	4E5mXm3ct2KA8cVfa4ddj7dGozaj84Pvg6EoeywkEaer/vBw0tSiCK6X0ISipe4seWo=
-X-Gm-Gg: AYBFou30qmWkkKFwAD2/1Fqsp4wxZB6Y/syByozHncTeLnCYBTulS9Xsl/k8dnqcVdU
-	IJfJhsQm7gVHIwZEsO1k/rX/H+88S87XZrbWMgE427wuPuZfCLrQi09DFbl1rvljgwYVh8zsUe5
-	NhdFoFw6TKnEjmVJKyh21OFqizKPQRiZhd9jX/aBuOD+doKOJDeWCY33eoS2DOLyUHt8NM3MnD7
-	6wxvMMp7SaNQRaFPWQV5/wYSotZ0hztllLPpzPHtH0bhotQcEPE6gwaxClZt4gILK353VdMZW6K
-	BLjZkhXiHrI/ieVl1nBI042f/9y9L4aJsPA/F30dgZNo7kUQ/wXgvDdvd+PpdQzMpRDsEhBfi9s
-	g4UQO9CCOgBjRPG9ndqEhEHCBvxBVcwAo1jDOMtA+uIxcfMehyeLznge1jZyen58Pz9FCsACbGd
-	3oOlt1JDJBdlpr0FuwlvD3E2jGtVCzavUDjmlQN7h4LY8Pf93GMGugwTtHqRuYCgOXotXBKHncI
-	8e12rIlSRhRDUgigUBuWjOkujTLh50x6Al3ymFxFfYiU2BDrdbFXC2+8qsy2JzzBPwl1ycz9Ccw
-	dd+1qgv5lAhXRoLAPBhFbXbh2sw5vpPWxgt8Lxwcjo3iPpF2petffIlnCPAIxSqus0JIAds8xOp
-	7s+Bx068=
-X-Received: by 2002:a05:620a:27d0:b0:945:ad43:1d59 with SMTP id af79cd13be357-9494bbef3b9mr40481685a.75.1794508416926;
-        Thu, 12 Nov 2026 10:33:36 -0800 (PST)
-Received: from [192.168.50.231] (pool-71-191-145-202.washdc.fios.verizon.net. [71.191.145.202])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91f23d456b2sm2035036d6.12.2026.11.12.10.33.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2026 10:33:36 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ijVUa1/3
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 877AC1F000C4;
+	Thu, 12 Nov 2026 18:34:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794508457;
+	bh=S83ufdCuikPlcGyicMt7mpw+fBC8MVplA5DoPA/0lZw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ijVUa1/34L3eHye3zw1zN/jAyO3526dLl8D+nYyREiy4hhDzOFJpJrb4r8+nEaUUx
+	 JBE0foYCokhvT3BCWxqXX2EMxkzVL6UklJzacnsibjmkOF7aAe6VjVcfSaixmhDat5
+	 xSEAZ92rm5t0S9ncbxiexT0z/XgwndpFr92CPMNhSCW5HIlziX+SNQjKmgdSWHicyt
+	 brSJvjlB+BP0Lgm8J16kaGtiezulqMucdc69bfguxXhXtWHsfXqv5K7UBRRbGM6JCy
+	 ADXCLZ3sWbMHVZuXxhQOivf3FZj+tl7zhkdQ8DHsio+K27kcFvUG64TnK0YU8zKulU
+	 y753u/meLtukA==
+Date: Thu, 12 Nov 2026 18:34:05 +0000
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Tal Zussman <tz2294@columbia.edu>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Mike Rapoport <rppt@kernel.org>, Peter Xu <peterx@redhat.com>, 
+	James Houghton <jthoughton@google.com>, Andrea Arcangeli <aarcange@redhat.com>, 
+	Suren Baghdasaryan <surenb@google.com>, Balbir Singh <balbirs@nvidia.com>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	=?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>, Andrei Vagin <avagin@gmail.com>, 
+	Stephen Rothwell <sfr@canb.auug.org.au>, Arnd Bergmann <arnd@arndb.de>, 
+	Muhammad Usama Anjum <usama.anjum@arm.com>, David Hildenbrand <david@kernel.org>, Zi Yan <ziy@nvidia.com>, 
+	Matthew Brost <matthew.brost@intel.com>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
+	Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
+	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Chris Down <chris@chrisdown.name>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	=?utf-8?Q?Miko=C5=82aj?= Lenczewski <miko.lenczewski@arm.com>, Michal Hocko <mhocko@suse.com>, 
+	Mike Kravetz <mike.kravetz@oracle.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 03/12] fs/proc/task_mmu: downgrade writable migration
+ entries in PAGEMAP_SCAN write-protect
+Message-ID: <avYApSoRMz7IZSox@gremlin>
+References: <20261111-uffd-state-fixes-v1-0-00713d368976@columbia.edu>
+ <20261111-uffd-state-fixes-v1-3-00713d368976@columbia.edu>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -89,77 +76,194 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH 12/13] percpu: search the whole reserved chunk
-From: "Gregory Price (Meta)" <gourry@gourry.net>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: David Hildenbrand <david@kernel.org>, 
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
- Michal Hocko <mhocko@suse.com>, David Rientjes <rientjes@google.com>, 
- Shakeel Butt <shakeel.butt@linux.dev>, 
- Andrew Morton <akpm@linux-foundation.org>, Jann Horn <jannh@google.com>, 
- Pedro Falcato <pfalcato@suse.de>, 
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
- Nhat Pham <nphamcs@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>, 
- Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>, 
- Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>, 
- Gregory Price <gourry@gourry.net>, 
- Ying Huang <ying.huang@linux.alibaba.com>, 
- Alistair Popple <apopple@nvidia.com>, Usama Arif <usama.arif@linux.dev>, 
- Kairui Song <kasong@tencent.com>, Balbir Singh <balbirs@nvidia.com>, 
- =?utf-8?q?J=C3=A9r=C3=B4me_Glisse?= <jglisse@redhat.com>, 
- Kiryl Shutsemau <kas@kernel.org>, Yu-cheng Yu <yu-cheng.yu@intel.com>, 
- Dave Hansen <dave.hansen@linux.intel.com>, Dennis Zhou <dennis@kernel.org>, 
- Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>, 
- Peng Fan <peng.fan@nxp.com>, Josef Bacik <jbacik@fb.com>, 
- Chris Mason <mason@kernel.org>, linux-mm@kvack.org, 
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- "Borislav Petkov (AMD)" <bp@alien8.de>, Mark Brown <broonie@kernel.org>, 
- "Dennis Zhou (Facebook)" <dennisszhou@gmail.com>, 
- Rick Edgecombe <rick.p.edgecombe@intel.com>, stable@vger.kernel.org
-In-Reply-To: <20261111-mason-migrate-et-al-fixes-v1-12-3d2454362e8d@kernel.org>
-References: <20261111-mason-migrate-et-al-fixes-v1-0-3d2454362e8d@kernel.org>
- <20261111-mason-migrate-et-al-fixes-v1-12-3d2454362e8d@kernel.org>
-Date: Thu, 12 Nov 2026 13:33:35 -0500
-Message-Id: <179450841509.482102.2272758511939089806.b4-reply@b4>
-X-Mailer: b4 0.17-dev
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261111-uffd-state-fixes-v1-3-00713d368976@columbia.edu>
 
-On 2026-11-11 18:13 +0000, Lorenzo Stoakes (ARM) wrote:
-> Loading a module with static percpu data can fail with -ENOMEM even
-> though the reserved chunk has a free area that fits the data.
-> 
-> pcpu_find_block_fit() does not scan the allocation bitmap, rather it
-> tests the request against hints, starting with the contig_hint of the
-> chunk, which describes its largest free area. If that area is too small
-> once aligned, the search gives up even if a smaller free area fits.
-> 
-> Consider:
-> 
->     request:      256 bytes, aligned to 256 bytes
->     contig_hint:  260 bytes, starts 4 bytes after a 256-byte boundary,
->                   so 8 bytes remain after alignment
->     also free:    256 bytes, starts on a 256-byte boundary
-> 
-> Ordinarily this is fine as the allocator moves on to the next chunk or
-> creates a new one, but the static percpu data of modules can only come
-> from the reserved chunk.
-> 
-> Fix this by searching the allocation bitmap of the reserved chunk
-> directly rather than using hints.
-> 
-> Reported-by: Chris Mason <mason@kernel.org>
-> Fixes: 13f966373f92 ("percpu: skip chunks if the alloc does not fit in the contig hint")
-> Fixes: b4c2116cfae6 ("percpu: update pcpu_find_block_fit to use an iterator")
-> Cc: <stable@vger.kernel.org>
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+On Wed, Nov 11, 2026 at 12:55:11PM -0500, Tal Zussman wrote:
+> PAGEMAP_SCAN with PM_SCAN_WP_MATCHING write-protects pages in a VMA
+> registered for async uffd-wp, and sets the uffd bit on non-present
+> entries as they are. An entry with the uffd bit set must not be
+> writable, so that the page is write-protected once it is mapped again.
+> change_protection() therefore downgrades writable migration and
+> device-private entries to readable ones first, but PAGEMAP_SCAN does
+> not.
+>
+> For a writable migration entry at the PTE level,
+> remove_migration_pte() restores a writable PTE without the uffd bit. So
+> if a page is under migration while PAGEMAP_SCAN write-protects it, the
+> write protection is lost. A user tracking writes with async uffd-wp
+> sees the page reported as written on the next scan although nothing
+> wrote to it.
+>
+> With CONFIG_PAGE_TABLE_CHECK, setting the uffd bit on a writable
+> non-present PTE or PMD also triggers a warning.
+>
+> To fix it, downgrade writable migration and device-private entries
+> before setting the uffd bit, as change_protection() does, at the PTE,
+> PMD, and hugetlb levels.
+>
+> Fixes: 52526ca7fdb9 ("fs/proc/task_mmu: implement IOCTL to get and optionally clear info about PTEs")
+> Signed-off-by: Tal Zussman <tz2294@columbia.edu>
+> ---
+>  fs/proc/task_mmu.c | 54 +++++++++++++++++++++++++++++++++++++++++++++++++++---
+>  1 file changed, 51 insertions(+), 3 deletions(-)
+>
+> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+> index 22361607020d..53780a454432 100644
+> --- a/fs/proc/task_mmu.c
+> +++ b/fs/proc/task_mmu.c
+> @@ -2395,6 +2395,38 @@ static unsigned long pagemap_page_category(struct pagemap_scan_private *p,
+>  	return categories;
+>  }
+>
+> +/* Downgrade a writable migration or device-private entry to a readable one. */
+> +static softleaf_t make_readable_softleaf(softleaf_t entry)
+> +{
+> +	if (softleaf_is_device_private_write(entry))
+> +		return make_readable_device_private_entry(swp_offset(entry));
+> +	if (!softleaf_is_migration_write(entry))
+> +		return entry;
+> +	if (folio_test_anon(softleaf_to_folio(entry)))
 
-Reproduced the exact issue.
+Hmm _seems_ a bit dubious. You identify a readable exclusive migration entry by
+checking whether its folio is anon?
 
-Tested-by: Gregory Price (Meta) <gourry@gourry.net>
-Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
+But I guess because a writable migration entry can only come from a writable
+PTE, that implies anonexclusive. But you do need to explicitly say that.
 
--- 
-~Gregory
+Also we really do have to break this out as a helper. I see it's open coded in
+change_softleaf_pte(), change_non_present_huge_pmd() and
+hugetlb_change_protection().
 
+But maybe that can be a follow up...
+
+
+
+> +		return make_readable_exclusive_migration_entry(swp_offset(entry));
+> +	return make_readable_migration_entry(swp_offset(entry));
+
+This is all super compressed.
+
+I'd say add to leafops.h but break it up:
+
+	static inline softleaf_t softleaf_migration_mkreadable(softleaf_t entry)
+	{
+		const pgoff_t offset = swp_offset(entry);
+
+		VM_WARN_ON_ONCE(!softleaf_is_migration_write(entry));
+
+		/* A writable anon migration entry implies AnonExclusive. */
+		if (folio_test_anon(softleaf_to_folio(entry)))
+			return make_readable_exclusive_migration_entry(offset);
+		return make_readable_migration_entry(offset);
+	}
+
+	static inline softleaf_t softleaf_mkreadable(softleaf_t entry)
+	{
+		switch (softleaf_type(entry)) {
+		case SOFTLEAF_DEVICE_PRIVATE_WRITE:
+			return make_readable_device_private_entry(swp_offset(entry));
+		case SOFTLEAF_MIGRATION_WRITE:
+			return softleaf_migration_mkreadable(entry);
+		default:
+			return entry;
+		}
+	}
+
+> +}
+> +
+> +/*
+> + * An armed entry must not come back writable, so downgrade a writable
+> + * migration or device-private entry before giving it the bit, as
+> + * change_softleaf_pte() does.
+> + */
+> +static pte_t set_uffd_wp_swp_pte(pte_t pte)
+
+This is a contradictory name, you're interacting with softleaves, there's no such
+thing as a uffd swap entry :)
+
+I/we obviously have to go and fixup the naming (I didn't _quite_ finish the
+softleaf conversions I guess) but let's not propagate it.
+
+> +{
+> +	softleaf_t entry = softleaf_from_pte(pte);
+> +	pte_t newpte;
+> +
+> +	if (!softleaf_is_migration_write(entry) &&
+> +	    !softleaf_is_device_private_write(entry))
+> +		return pte_swp_mkuffd(pte);
+> +
+> +	newpte = softleaf_to_pte(make_readable_softleaf(entry));
+> +	if (pte_swp_soft_dirty(pte))
+> +		newpte = pte_swp_mksoft_dirty(newpte);
+> +	return pte_swp_mkuffd(newpte);
+> +}
+> +
+>  static void make_uffd_wp_pte(struct vm_area_struct *vma,
+>  			     unsigned long addr, pte_t *pte, pte_t ptent)
+>  {
+> @@ -2408,7 +2440,7 @@ static void make_uffd_wp_pte(struct vm_area_struct *vma,
+>  		set_pte_at(vma->vm_mm, addr, pte,
+>  			   make_pte_marker(PTE_MARKER_UFFD_WP));
+>  	} else {
+> -		ptent = pte_swp_mkuffd(ptent);
+> +		ptent = set_uffd_wp_swp_pte(ptent);
+>  		set_pte_at(vma->vm_mm, addr, pte, ptent);
+>  	}
+>  }
+> @@ -2467,6 +2499,22 @@ static unsigned long pagemap_thp_category(struct pagemap_scan_private *p,
+>  	return categories;
+>  }
+>
+> +/* Same as set_uffd_wp_swp_pte(), for a non-present PMD. */
+
+No need to say non-present. Naming it with 'softleaf' somewhere in there implies
+that. E.g. set_u
+
+> +static pmd_t set_uffd_wp_swp_pmd(pmd_t pmd)
+
+Same comment here, this is just hugely confusing.
+
+> +{
+> +	softleaf_t entry = softleaf_from_pmd(pmd);
+> +	pmd_t newpmd;
+> +
+> +	if (!softleaf_is_migration_write(entry) &&
+> +	    !softleaf_is_device_private_write(entry))
+> +		return pmd_swp_mkuffd(pmd);
+> +
+> +	newpmd = softleaf_to_pmd(make_readable_softleaf(entry));
+> +	if (pmd_swp_soft_dirty(pmd))
+> +		newpmd = pmd_swp_mksoft_dirty(newpmd);
+> +	return pmd_swp_mkuffd(newpmd);
+> +}
+> +
+>  static void make_uffd_wp_pmd(struct vm_area_struct *vma,
+>  			     unsigned long addr, pmd_t *pmdp)
+>  {
+> @@ -2477,7 +2525,7 @@ static void make_uffd_wp_pmd(struct vm_area_struct *vma,
+>  		pmd = pmd_mkuffd(old);
+>  		set_pmd_at(vma->vm_mm, addr, pmdp, pmd);
+>  	} else if (pmd_is_migration_entry(pmd)) {
+> -		pmd = pmd_swp_mkuffd(pmd);
+> +		pmd = set_uffd_wp_swp_pmd(pmd);
+>  		set_pmd_at(vma->vm_mm, addr, pmdp, pmd);
+>  	}
+>  }
+> @@ -2547,7 +2595,7 @@ static void make_uffd_wp_huge_pte(struct vm_area_struct *vma,
+>
+>  	if (softleaf_is_migration(entry)) {
+>  		set_huge_pte_at(vma->vm_mm, addr, ptep,
+> -				pte_swp_mkuffd(ptent), psize);
+> +				set_uffd_wp_swp_pte(ptent), psize);
+>  	} else {
+>  		pte_t old_pte, new_pte;
+>
+>
+> --
+> 2.39.5
+>
+
+--
+Cheers, Lorenzo
