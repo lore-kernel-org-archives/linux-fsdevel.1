@@ -1,108 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.156.1
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794486419;
-	b=IEZRSQFyKEu3QtNVGrMTCSzmoqlLoaZBXdcB1M/uDX+pqZyLBfqCtydMtoxVgyW2n+h5
-	 +vRFKOobZ2uKgjiaFhx3T3IWR2ewxk/CUvaBOqzmgomeMM6uldbQ/qfB7OMokMUGAWZq5
-	 xJyq/3UmG1xmUqYIdtzQx9Ik1X4vtpInMXY/mrJszTbVZ+8VIgN01b0Hdos1hRQncn6Ky
-	 Bzb1hPtWhYAO8LSf6bMvm4A5SQ2vGmtMFmPyfDpFJjeFBO/Saw9NA7Najtv/L7AhcRZAu
-	 r6sydiBXsQA/yM1YnX3n+yFeKe+lZB5RENqpXoePJ6twc3aTj/qWcbk5dj+wS/8xKlA==
+	t=1794486456;
+	b=bpjSAhP9LM3yOyV3mQ+XDBYHE46+6mjoSQNbPituxoVVOiCfC+Y+VLOWSgpInz/PVpw6
+	 syANIsKcpqvFX1vyErlawD6HCN6OppJ9hBHe6mSJP5vKSqN0lnU/XmcwXf2FCP1uO2zMx
+	 uHrh+BYW2EJUYui0NSFfNPlLACDXOnDGwKLi8T/gTFpCcZ8e/hY1oH8ZhOfBAK6q8sbxT
+	 l2o3JfjS7EDRkjKaO8sgmfJ3yMo3Ezhl+RmphyzR0+4hHqH1Hwu1idrE+9TyOxFaJlv/3
+	 9NELCbV9FSw6NgHS+nXEr9JQJ4pED6EBFw1MdqQemKTQUN3E5lGmgGbcpap0caRvYKw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794486419;
-	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:X-ME-Received:
-	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=cJhPJ9QxlCMYKnJHbj5QGEB8cls6tku/kkim/ICGTdM=;
-	b=MFFZMPO2ExFC/wZduyVCwB5sXbSpRN3NxenL+ONYPAEhIfHQC/gqyKCF3m+J+nLzU/MG
-	 ctl6J37L/TZpricRaLeRaUnxCyIV58n5hGJU8Eju9/djACCbDguyu+FvcN1MYtnmZq+PR
-	 z+WtIs6okEACD9Irbj8Yg+GTX+NlhRW8DSD+Hoi9N9QcwQw9eR8RG15mkWksuPIQJgQuf
-	 xLm8G0R5vdUsqeKWRgGvC9E3RL4lqA789tUmk4KdJORyrK2cZyc3U4nAZz6cqglJeU+DA
-	 7xdaLKbIqj9Yx4dPFW0Bi8DvVFwNoynpL2QwCwW7rGSAIGb/RREM/3KJUHcNcV3DodQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794486456;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
+	 Received:Received:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Content-Language:To:Cc:From:Subject:Content-Type:
+	 Content-Transfer-Encoding:X-TM-AS-GCONF:X-Proofpoint-Reinject:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Info:X-Authority-Analysis:X-Proofpoint-GUID:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=6zIF2mscWWNdqPdPpywMELCgP+4wYM3ffEmTeqpAw4o=;
+	b=gJxC8K3DxM+CGAXXd0i8wyL6ugN0aEQfejTbhHUulFCkHFYUPolk06t8KewyOhZSttq3
+	 jE11kufLzhA9Bw5b/HuNzRIzPWVRJmWaeWoqPNLzQsTHv3tZusf+VCK8QMTpl6fZVxww/
+	 QNaLg622WW+BCHUB6TBcx1ghpNLRodSJlMuNva/DCMlVgLTwmp+sX4Es/k+qKWvM74/0R
+	 n8borNMidRr0AUduoUzC/H2amLO9t8UgwmA8hkt2hMCQBKNojdhoCLz+5xTBIbySf7X6U
+	 g/gnx71om0gJKeUNgV/+X5fKvwy6T/uhKWgqDihln14BdbqyHrIPrhFZI7+vmNhdUuA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mcczPaQ5;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=linux.ibm.com;
+	spf=pass smtp.mailfrom=linux.ibm.com;
+	dkim=pass header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=kHiIB1bW;
+	arc=none smtp.remote-ip=148.163.156.1
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9F91606A323
-	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 12:26:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 583A3606A31C;
+	Thu, 12 Nov 2026 12:27:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 583A3606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mcczPaQ5
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B87A11F00A05;
-	Thu, 12 Nov 2026 12:26:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794486419;
-	bh=cJhPJ9QxlCMYKnJHbj5QGEB8cls6tku/kkim/ICGTdM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=mcczPaQ58aAb1rfRKTe/YtC+ViwTegkpULQ8u7jPgNu4w8ULPY0fEEQMtMrNnRHh4
-	 dVyn1UBMJ7eViQisnHWWiCWpbaj7kqLfWQv8lGWBvauJLv8r9an9AdZ1HkZeT58Lu9
-	 aXxlLxiWl5NkfR3uHLa0PI0/0xlDrRq2xz4HtiEUjaduaGywPYdQb0+yt+ndVNFIEH
-	 Q+EHVE5+3QpLK4Bg5j4FSvifbqtDxYxH3OsBsjzjerHsB7IMAA/+ggMy1ECTQXmYvR
-	 Y0D6fIzNUtgMGaZ6hFKsXjC0sUK7+djUzog6qQKdq55kwiprbFeVh6mYMx0oKeZRcA
-	 KzdjT08LKb/QQ==
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfauth.ams.internal (Postfix) with ESMTP id 091A4198003A;
-	Thu, 12 Nov 2026 07:26:47 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Thu, 12 Nov 2026 07:26:55 -0500
-X-ME-Sender: <xms:h7D1ammO0rKMCciio5QD56XBjmBAkxCiBo5C3j2sA3mRlG9XgaOMNA>
-    <xme:h7D1anoZ0ho_z4Tyt6M2DpHMwTxVgfT0VtSfMENH9XF7BgkXNFIzypBlgVjlkKGUK
-    giR6uayFz1TRV2QL20a8ToDSeOz-hvHkqcORz2wzD-8xVLsG1Ef3Mpl>
-X-ME-Received: <xmr:h7D1aoWrixkc6hliMPT2GEmykw8XA4EBFs0DDJJP40AuzYSECxKlUiyfjGk>
-X-ME-Proxy-Cause: dmFkZTFE5a305T5AvmRmPUwWLwOgcXGbZ3P1c12I/woA7+e8YrvsknZPdP8WZpfw246QMq
-    OTRU3+6Lvu/IAHI1shixRO9xTgIeSA8hf3hHWj1aHcL/j21Z+Cf7LwC7MrmMwSloB+cGlY
-    8kKb05M4kGFDS1NVc/2QFUdwZf0agaAkZqqCeJPWZUdDGCkfPa4iUGV+eITEfuDdPT9o8c
-    zuxGx92elDCuS1bPus21iDiuOU4YvAibcPgzCNQOyJQ/lEFzr5NvdEPzh2TVRuq/OiRhha
-    LitCVwW41aas+CwKg1ef6W8ju0frrYJPvhBk22yQcZ85VaCK5ToTFTj/G/h+SS7rvZSYNs
-    2tZgICNFvMNjuLr2msd8kRuJmvkyM8cVV0Un7d6TH1S0wdcha4qugi1ngQSBZnjer2FIWa
-    RwDcf8iUE3rGrOAADB7ESLBIzoFFMvbO/IyaQI+aJj/QKdOFgdJLEJ4+bn6QfDurcsBoP8
-    YXDsFP8TNMsTqBSp0zlcVGiZCmGbTUXRT/aXQGB63xlQ4lpsKVN74izURY7qcRFHYFEBzH
-    GXyW5yVDNrbEe3Dm2H+wwXNNL+stMUneebE6H5Y3yvPGbPDOJgRzpTe0h81zjrz+1B+Var
-    x3C9grCqv/+LAGkUoVBDVu+ES6xk96eannkxPCTUtgDrZZVTvmos/Kjhz3AQ
-X-ME-Proxy: <xmx:h7D1aliRs30a-qe-0fFG6wq2VW7atkq33GvtUcb2ejmKJ2NcQNy3_w>
-    <xmx:h7D1agzCMdeNLM5uFldG051iOpjuZXde5PO6R9gH-BmCwJ8ERFsvxg>
-    <xmx:h7D1asnAZ3Lt0b-U9GrTBQfCPqlvIzSr0gDd0FypANxxBebpccaiTA>
-    <xmx:h7D1aodPkF9xSqKMRo_jTT3u4AYmed8jknd9OktHFPsV7K6q1RtJ5g>
-    <xmx:h7D1arpQqZt55lDjcqN6QqIqOLUYWBmnduE9xi0TZ2xLeyiEF9aTgjU4>
-Feedback-ID: i10464835:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 12 Nov 2026 07:26:46 -0500 (EST)
-Date: Thu, 12 Nov 2026 12:26:45 +0000
-From: Kiryl Shutsemau <kas@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Matthew Wilcox <willy@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Hugh Dickins <hughd@google.com>, Christian Brauner <brauner@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Harry Yoo <harry@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Miaohe Lin <linmiaohe@huawei.com>, Naoya Horiguchi <nao.horiguchi@gmail.com>, 
-	Oscar Salvador <osalvador@suse.de>, "Liam R. Howlett" <liam@infradead.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Brendan Jackman <brendan.jackman@linux.dev>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, Pedro Falcato <pfalcato@suse.de>, 
-	Luis Chamberlain <mcgrof@kernel.org>, Ilya Gladyshev <ilya.gladyshev@linux.dev>, 
-	Jaegeuk Kim <jaegeuk@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev, kernel-team@meta.com
-Subject: Re: [RFC PATCH v2 01/18] mm: free PG_rcu_free folios only after an
- RCU grace period
-Message-ID: <avWv-0LafPyo90ln@thinkstation>
-References: <20261104130118.2507513-1-kas@kernel.org>
- <20261104130118.2507513-2-kas@kernel.org>
- <ecad7b3c-7244-425a-9413-04d49f221057@kernel.org>
- <au2lsbDkyWt-To0C@thinkstation>
- <aa2a1e32-9b1d-4545-b2e0-03d213593023@kernel.org>
- <CAHk-=whnH5qLJH3Wd3bOxv--Ei6674Jo4iifGD_MqzyJg2Jm4g@mail.gmail.com>
- <8504e28f-faeb-41e3-842e-0cb74d1a25ad@kernel.org>
- <CAHk-=wihE=ioLKrwzz=WQSJg6HhB-syu4hqZ2QFwgnwYmmLEgg@mail.gmail.com>
- <f39a0ec3-be81-43f0-91e8-145ec139b1bc@kernel.org>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=kHiIB1bW
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AC2iL0A1214781;
+	Thu, 12 Nov 2026 12:27:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=pp1; bh=6zIF2mscWWNdqPdPpywMELCgP+4w
+	YM3ffEmTeqpAw4o=; b=kHiIB1bWyrkRYoH21DvGNfwM6coLugLCAeOYLOo+0O6I
+	MSRSgK+Eb0gb7F9h3zi336apegwmAMLE1efwDWvP3D5plkxNxy6CKrC1VisMoz40
+	4QuDUsxiBwYjOrAbQPOSHZSaU9Q8/wjXf6gEPzfuZZ1W4K+hEubHrTVXQowhdIys
+	ZNnIy2KjW2NDm30seSVwjYETbJpam8hTWn05YoG99D1kvIfJiudEDy6ROUwHU3+L
+	IfBerHM3bvrMI4hv4HOHOaFjtlteTKORAGBhNxsVY4Y80msceYTTnB+Gk2XiQyj/
+	ttCvSNJILlFas7/Gqdm/wFYt0WT10a4ezX5PNLffEw==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4hsuntfdu4-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 12 Nov 2026 12:27:26 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6AC8Lvmf097884;
+	Thu, 12 Nov 2026 12:27:25 GMT
+Received: from smtprelay07.dal12v.mail.ibm.com ([172.16.1.9])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4hvkq0w7sr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 12 Nov 2026 12:27:25 +0000 (GMT)
+Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com [10.241.53.105])
+	by smtprelay07.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6ACCRPWQ26346036
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 12 Nov 2026 12:27:25 GMT
+Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id F066D58059;
+	Thu, 12 Nov 2026 12:27:24 +0000 (GMT)
+Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 31E5058055;
+	Thu, 12 Nov 2026 12:27:22 +0000 (GMT)
+Received: from [9.61.240.49] (unknown [9.61.240.49])
+	by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Thu, 12 Nov 2026 12:27:21 +0000 (GMT)
+Message-ID: <bc84cb05-55fe-43e7-9a6e-e6bbf2f5a9ff@linux.ibm.com>
+Date: Thu, 12 Nov 2026 17:57:20 +0530
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -112,39 +84,94 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f39a0ec3-be81-43f0-91e8-145ec139b1bc@kernel.org>
+User-Agent: Mozilla Thunderbird
+Content-Language: en-GB
+To: mszeredi@redhat.com, Shuah Khan <shuah@kernel.org>
+Cc: luis@igalia.com, amir73il@gmail.com, linux-fsdevel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, nandinih@linux.ibm.com
+From: Venkat Rao Bagalkote <venkat88@linux.ibm.com>
+Subject: [BUG / BUILD FAILURE] selftests/fuse: build failure with libfuse <
+ 3.17.0 (RHEL 10 / fuse3-3.16.2)
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTEyMDA0OCBTYWx0ZWRfX0JfJ6hzcRhBo
+ 3pYzaJxWCP83/cPc0kLSsIDPYdNyeWt8FbyWRuQat9/3XZ2iKw95G177cPiCqpYJ2tf8vfzAK1v
+ BHUHeQT9VgxLgGwtPrIW9XG86dP5iBk9B5urNmoApmLLUyRuMn+HNtbu02fmAG5TY2vp3OPZqyA
+ lYbrdVyHDqkVjH2vWQDVu6H23HDWtNhzb+wKoKn4jLPSWu5ZvcMgejzDYz+SR0mbaEx7jrcqXhV
+ 59ToqtEZ+KD40OVTp6DTSbo9QFxaACTg/HYhdMyfuKZdrqJq5wIe1mnBmLOdocp+3QsK9gpkciT
+ Q5yZPCcCbmMUVabGdk38GTXGmzNZgPgByNPKrbZJD+Jprcfmtf96OjG/LhIVdEODuP1oKOi907q
+ y5OBDT7ZhqsQ25ZZfoXeJWd5zdFXoTALrJ1PwmK98nNgaS83KhJSo8fqYHSY4ku91IJ9Dmgim4J
+ N7wmogzN8iSjaOwOHgg==
+X-Proofpoint-ORIG-GUID: 5QlD2gsgulIE-MaNq1rxj5110MS0lzWu
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTEyMDA0OCBTYWx0ZWRfX1UvpJ0LrrdRE
+ OpEqesTwMy+Eh2HcYAyPJoXqePAAbBSe49rAX4i57i0CGqUSXarIJFXCqGxB9WRn6sNrcEGJ+5A
+ CYKwysiMIwfglqKSSzW7MubjHd6u080=
+X-Authority-Analysis: v=2.4 cv=euZKXYpX c=1 sm=1 tr=0 ts=6af5b0af cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=VnNF1IyMAAAA:8
+ a=G8bnuFaaA9ZLbBnholgA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: ADQL8XVHLD3II553328d1E9yRtxsIZum
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-12_01,2026-11-11_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 clxscore=1011 suspectscore=0 spamscore=0 priorityscore=1501
+ lowpriorityscore=0 bulkscore=0 impostorscore=0 adultscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611120048
 
-On Wed, Nov 11, 2026 at 11:03:38AM +0100, David Hildenbrand (Arm) wrote:
-> So I might be completely off, but what I imagine is that the memdescs will get
-> RCU-freed (these are not pages), and once they are then getting freed, they will
-> probably take the physical page with them.
-> 
-> And freeing memdescs through RCU will likely be memdesc specific.
-> 
-> I really don't know, Willy might know more about these plans.
 
-Right: once the folio is allocated separately, the lockless read
-dereferences it too, so it has to wait for the grace period along with
-its pages.  The per-CPU batching and the waits in the allocator later
-in the series do not depend on where the check sits.
+Hi Miklos, Luis,
 
-Until then the folio is the struct page, and __free_pages_prepare() is
-the one place every page cache folio passes, so v3 keeps the check
-there.  That function already takes page_folio() for the mlock and anon
-checks, so making page_folio() fail for non-folios has to handle it
-anyway.
 
-Willy, is there a plan for how a folio memdesc gets freed after a grace
-period?
+IBM CI has reported a build failure, while building selftests/fuse, due 
+to missing definitions in libfuse3 headers.
 
-The rest of v3 for this patch: CONFIG_FOLIO_RCU_FREE with help text for
-what it adds, and FOLIO_SPLIT_FLAGS as a #define in a preparatory patch,
-on top of Zi's PG_waiters fix.
+Environment:
 
-I will not post v3 for a while: mm has enough traffic right now.
-Unless you say I should.
+OS: RHEL 10 (ppc64le)
+Kernel: upstream (linux-next / mainline)
+libfuse package: fuse3-devel-3.16.2-5.el10.ppc64le (pkg-config 
+--modversion fuse3 -> 3.16.2)
 
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+Build Errors:
+
+In fuse_acl_cache_test.c & fuse_symlink_cache_test.c:
+
+fuse_acl_cache_test.c: In function ‘fs_init’:
+fuse_acl_cache_test.c:105:17: error: implicit declaration of function 
+‘fuse_set_feature_flag’ [-Wimplicit-function-declaration]
+   105 |                 fuse_set_feature_flag(conn, FUSE_CAP_POSIX_ACL);
+       |                 ^~~~~~~~~~~~~~~~~~~~~
+make: *** [../../lib.mk:226: 
+/home/upstreamci/linux/tools/testing/selftests/filesystems/fuse/fuse_acl_cache_test] 
+Error 1
+
+In fuse_mnt.c:
+
+fuse_mnt.c: In function ‘test_readdir’:
+fuse_mnt.c:51:35: error: ‘FUSE_FILL_DIR_DEFAULTS’ undeclared (first use 
+in this function); did you mean ‘FUSE_FILL_DIR_PLUS’?
+    51 |         filler(buf, ".", NULL, 0, FUSE_FILL_DIR_DEFAULTS);
+       |                                   ^~~~~~~~~~~~~~~~~~~~~~
+       |                                   FUSE_FILL_DIR_PLUS
+make: *** [../../lib.mk:226: 
+/home/upstreamci/linux/tools/testing/selftests/filesystems/fuse/fuse_mnt] 
+Error 1
+
+
+If you happen to fix this, please add below tag.
+
+
+Reported-by: Venkat Rao Bagalkote <venkat88@linux.ibm.com>
+
+Regards,
+
+Venkat.
+
+
+
