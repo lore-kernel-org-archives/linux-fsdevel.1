@@ -1,61 +1,61 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=143.54.11.23
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794456599;
-	b=we/+TbesmS5vasSrdxLbcKoH3ejlJQn7mW3rH+Izwe4/4rsUa2rfG3Lrr/SRbVUHINsW
-	 eHRxsvl0QN+nDB9Ii5fepbkYW9qXHRlCQ5titvrbxixfcCzLRWuvHkbEzi9O8wF7ivZFa
-	 JiiXQwvGegEyie2Z8qhkMpfaBawOp3/mujOGrcYc5em0VaDoXn6u7upy1YCGMQhbLAcgS
-	 a3Q1gWcvk5IZfrPIGi8BQ13avhql23qqKHZUbB8RZ0fuHySjrfiFu3hM8PTYqoB8geX/+
-	 va14Z2t+C/q51P1LDYB25Xpv1zLwdSceT4sgWVsUAuj6HVFTWk5MFe4Ud77rmx/STEA==
+	t=1794457101;
+	b=YQvRpmzt9v56NTZBGUkJPtrCYT9TNCJ6bEhRzEu//Af1G+cQp+RZMd++17WFeIPTljyP
+	 PcjnI82rhU/R+zgKPFcyBLev+zlYLCZAEcnjfyrzbLs8hpmccoD3ft0mskgdA77lADDbi
+	 K8ACtXdROSNMctJQgmVBMaFV9W+CtZEpYG/xtKftJpQQgHHdVXTTIaxaDW37Myvcc1c2t
+	 6ayuY/Ehs07I2/W9i59Jf/WJsvKTPXOyw2izKZuQ3IYnA3DdNNvbnpg5ACSCRn5xbupiV
+	 uvAwVNMRmavit6KtnkoGqlKK/xgmt3yeBKSLWNSyXZK2mHFiO1xPRyQXyWmdj+UZtXA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794456599;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794457101;
 	h=DMARC-Filter:Received:DKIM-Signature:Date:From:To:Cc:Subject:
 	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
 	 In-Reply-To;
-	bh=hMPF3ZU2VriMPfR+JRpvYYp1KVjv+Kz7L/UjnD7aATE=;
-	b=XHVo2sghjCfDn+szlvc9qWHKDpm2I3L/2rC2LGu1jmogeKloT0d8owJcoZ1S89ha1W1W
-	 Nn8KAxYxhK8rcX+7LIPx9RmHRyguaRs2VbUeAR3z/9HohgYiqSC4zZcGlOA13GVWmid6T
-	 ysXaIW0APVRN1s8BchBvlmDSG84K2KK3TYdbe4lCkdADd2xBx9zHs1+lVUZiFMUVXT2Dw
-	 v/+4a9iwWw0qHof1PY/w1vNwbNFiwUXCReoCiBFsLodVahVgR/zsnvQYIYz/tEs4XoyjN
-	 jPN5BdxfTsaP8F+31gazGa+32QjQ/TwdQeguY82rgFmELcZp/LHKJOeFoDQLekVFz7A==
+	bh=yCfTtI14G/Vzuyv7Ege9XSl7pbk+Nk+u+9gtE9F07qk=;
+	b=MUM+twq3p7evp3yZqq/KEDDhA2QBKMzuMHRjUBUL92hzc7e2jLoi23QPI2QHLI0TCElw
+	 H8Hneq9s3RY1CPH/XyhYYI8eNir6PbyTVE4eD6piyv1JlQU1jTIQ+36hyXbzjBceelNCy
+	 7nC2AcBvvyw9mSOP8e5loNZFm0kXR/a12O6FLTyzjAKHrbr1pL4SWslWFtqxHAYWH7DM6
+	 qU9S0KuUnBGqsVviahjdCA6lsUNlzQPvhFXwWqS4zG2VfyWghPSok+iqLiLSbh6x6cWzH
+	 S6yVz636B9y6gcBYLUXEjO8Mg19dBTG0uXPmZyDHdLGFIZ+NS1pjtGUrLbTQo0klFeg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=inf.ufrgs.br;
 	spf=pass smtp.mailfrom=inf.ufrgs.br;
-	dkim=pass header.d=inf.ufrgs.br header.i=@inf.ufrgs.br header.a=rsa-sha256 header.s=dkim2026 header.b=K2iOREdI;
+	dkim=pass header.d=inf.ufrgs.br header.i=@inf.ufrgs.br header.a=rsa-sha256 header.s=dkim2026 header.b=YBdfyQUQ;
 	arc=none smtp.remote-ip=143.54.11.23
 Received: from smtp.inf.ufrgs.br (smtp.inf.ufrgs.br [143.54.11.23])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 386AC606A31C;
-	Thu, 12 Nov 2026 04:09:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 386AC606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EA0F606A32A;
+	Thu, 12 Nov 2026 04:18:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4EA0F606A32A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inf.ufrgs.br
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inf.ufrgs.br
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=inf.ufrgs.br header.i=@inf.ufrgs.br header.a=rsa-sha256 header.s=dkim2026 header.b=K2iOREdI
+	dkim=pass (2048-bit key, unprotected) header.d=inf.ufrgs.br header.i=@inf.ufrgs.br header.a=rsa-sha256 header.s=dkim2026 header.b=YBdfyQUQ
 Received: from DESKTOP-PJTTJ93.localdomain (unknown [189.6.233.4])
-	by smtp.inf.ufrgs.br (Postfix) with ESMTPSA id 448B0121113;
-	Thu, 12 Nov 2026 01:09:46 -0300 (-03)
+	by smtp.inf.ufrgs.br (Postfix) with ESMTPSA id D7E9B12110C;
+	Thu, 12 Nov 2026 01:18:17 -0300 (-03)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inf.ufrgs.br;
-	s=dkim2026; t=1794456588;
+	s=dkim2026; t=1794457097;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hMPF3ZU2VriMPfR+JRpvYYp1KVjv+Kz7L/UjnD7aATE=;
-	b=K2iOREdIkPpQGXtGkeeQ5wnq2mknumCielaUAVeMwBZKuPkDFvqyLbuUmwzgfqdccu/Now
-	X97PsKA6L+cyc85kW0ETdBbRGhIzZVH3KU9HLQunt5ShNKwrQyFnZ2XzqxTsUNAUKUJ2m8
-	oG3/6FWWgzAQCOcnsBjCd5+m3XuxXhT4q/XDOpkV3aKSqnGOT82QjvSSkNZ/OkBzipsL9D
-	ZyxP6i0vTYEQjfXi3+29I8TvwUQy3ZtOKOsdERbQCX7bB00YGjEZesTd4rIpb9sOFdvGZn
-	+5ymDUOjsPJPfvV44E4CbVl0CvezSZhH7EKcZonlDHih6n+R+KxMqm9oLDWpKA==
-Date: Thu, 12 Nov 2026 01:09:42 -0300
+	bh=yCfTtI14G/Vzuyv7Ege9XSl7pbk+Nk+u+9gtE9F07qk=;
+	b=YBdfyQUQvxyoPWF4HGondRpa05gA85Tx2D/y80SsJEBGy9Rwfj+n0rNWV6yT2EeS8mkyrt
+	4hSVa03QHTrMZF5e2hZtu7W8tHkJJAhltjiriMKwpPEd1dqWlQlhKQAey1VrNeNJgMbf3z
+	WxHbRxktIy46r50hk1Xm1DotEKx75AhW/8ElXr3hJxGFINKb0JVbQiyC+BPZ6piWpndsW3
+	K4qk/SgtsLKc4cSyAdQK/7MFWF08nLNiBhkz53dVLSg9wQb8pN/xo1tSuUJgtoXZw/9vRJ
+	hfJXD8ZU5NazY7zO+Mc56oCTLbFs8OwAD3Amjwq5Cz9ajF6Gwp46s43fyzjxMg==
+Date: Thu, 12 Nov 2026 01:18:14 -0300
 From: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
 To: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
 Cc: linux-fsdevel@vger.kernel.org, brauner@kernel.org, djwong@kernel.org, 
 	hch@lst.de, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 1/8] fat: support FIEMAP
-Message-ID: <avU3IRmswObU2pH6@DESKTOP-PJTTJ93.localdomain>
+Subject: Re: [RFC PATCH 3/8] fat: add iomap direct I/O support
+Message-ID: <avU8K4W5iEwss9iQ@DESKTOP-PJTTJ93.localdomain>
 References: <20261031164326.278125-1-matheus.aalmeida@inf.ufrgs.br>
- <20261031164326.278125-2-matheus.aalmeida@inf.ufrgs.br>
- <87tslrtlyu.fsf@mail.parknet.co.jp>
+ <20261031164326.278125-4-matheus.aalmeida@inf.ufrgs.br>
+ <87mrrjtlro.fsf@mail.parknet.co.jp>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -67,108 +67,70 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87tslrtlyu.fsf@mail.parknet.co.jp>
+In-Reply-To: <87mrrjtlro.fsf@mail.parknet.co.jp>
 
-On Sun, Nov 08, 2026 at 11:51:53PM +0900, OGAWA Hirofumi wrote:
+On Sun, Nov 08, 2026 at 11:56:11PM +0900, OGAWA Hirofumi wrote:
 >Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br> writes:
 >
->> Implement support for ->fiemap() using iomap_fiemap(). Add a read-only
->> fat_iomap_begin() and a fat_get_cont_clusters() helper for finding
->> contiguous clusters.
->
->Not fully reviewed and I'm not understanding iomap fully though.
->
+>> Replace the deprecated ->direct_IO() path with ->{read,write}_iter() and
+>> iomap_dio_rw(). Add fat_file_open() to advertise direct I/O support.
+>>
 >> Signed-off-by: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
 >> ---
->>  fs/fat/Kconfig  |  1 +
->>  fs/fat/Makefile |  2 +-
->>  fs/fat/cache.c  | 80 ++++++++++++++++++++++++++++++++++++++-----------
->>  fs/fat/fat.h    |  5 ++++
->>  fs/fat/file.c   | 12 ++++++++
->>  fs/fat/iomap.c  | 71 +++++++++++++++++++++++++++++++++++++++++++
->>  6 files changed, 152 insertions(+), 19 deletions(-)
->>  create mode 100644 fs/fat/iomap.c
+>>  fs/fat/Kconfig |   1 -
+>>  fs/fat/fat.h   |   1 +
+>>  fs/fat/file.c  | 119 ++++++++++++++++++++++++++++++++++++++++++++++++-
+>>  fs/fat/inode.c |  36 ---------------
+>>  fs/fat/iomap.c |  24 ++++++++++
+>>  5 files changed, 142 insertions(+), 39 deletions(-)
 >>
 >
 >[...]
 >
->> diff --git a/fs/fat/cache.c b/fs/fat/cache.c
->> index 1b87354e24ba..f545e1db1d47 100644
->> --- a/fs/fat/cache.c
->> +++ b/fs/fat/cache.c
->> @@ -76,7 +76,7 @@ static int fat_cache_lookup(struct inode *inode, int fclus,
->>  			    struct fat_cache_id *cid,
->>  			    int *cached_fclus, int *cached_dclus)
->>  {
->> -	static struct fat_cache nohit = { .fcluster = 0, };
->> +	static struct fat_cache nohit = { .fcluster = -1, };
->
->Maybe this change is pointless?
->
-
-It is needed for the cache_init() change, as otherwise it would not find
-an entry at cluster 0. See below for the rationale as to why I was trying
-to do it.
-
->>  	struct fat_cache *hit = &nohit, *p;
->>  	int offset = -1;
->> @@ -217,14 +217,16 @@ static inline void cache_init(struct fat_cache_id *cid, int fclus, int dclus)
->>  	cid->nr_contig = 0;
+>> diff --git a/fs/fat/file.c b/fs/fat/file.c
+>> index c27d4e7f698c..177a26186ddc 100644
+>> --- a/fs/fat/file.c
+>> +++ b/fs/fat/file.c
+>> @@ -201,11 +201,126 @@ int fat_file_fsync(struct file *filp, loff_t start, loff_t end, int datasync)
+>>  	return blkdev_issue_flush(inode->i_sb->s_bdev);
 >>  }
 >>  
->> -int fat_get_cluster(struct inode *inode, int cluster, int *fclus, int *dclus)
->> +static int __fat_get_cluster(struct inode *inode, int cluster, int *fclus,
->> +			     int *dclus, int *nr_cont)
->>  {
->>  	struct super_block *sb = inode->i_sb;
->>  	struct msdos_sb_info *sbi = MSDOS_SB(sb);
->>  	const int limit = sb->s_maxbytes >> sbi->cluster_bits;
->>  	struct fat_entry fatent;
->>  	struct fat_cache_id cid;
 >
 >[...]
 >
->>  
->>  	if (fat_cache_lookup(inode, cluster, &cid, fclus, dclus) < 0) {
->> -		/*
->> -		 * dummy, always not contiguous
->> -		 * This is reinitialized by cache_init(), later.
->> -		 */
->> -		cache_init(&cid, -1, -1);
->> +		/* Cache the contiguous prefix from the known first cluster. */
->> +		cache_init(&cid, 0, *dclus);
->
->Doesn't this add a needless cache? 0 is cached in the inode itself,
->isn't it? (and can be waste small fatent cache slots?)
->
-
-This is mostly for caching the number of contiguous clusters starting
-from 0. i_start only really tells us the first cluster of the file. I'm
-not exactly sure of the best way to approach this, though. I guess we
-can skip caching when its a one cluster range in this case?
-
-What do you think?
-
->>  	}
->>  
->> +	fcluster = *fclus;
->> +	dcluster = *dclus;
->>  	fatent_init(&fatent);
->> -	while (*fclus < cluster) {
->> +	while (fcluster < last) {
->> +		if (nr_cont && fcluster == cluster && cid.fcluster != -1) {
->
->cid.fcluster == -1 is possible with this patch?
->
-
-Good catch.
-
->> +			fcluster = min(last, cid.fcluster + cid.nr_contig);
->> +			dcluster = cid.dcluster + fcluster - cid.fcluster;
->> +			if (fcluster == last)
->> +				break;
->> +		}
+>> +static ssize_t fat_file_write_iter(struct kiocb *iocb, struct iov_iter *iter)
+>> +{
+>> +	ssize_t ret;
 >> +
+>> +	if ((iocb->ki_flags & IOCB_DIRECT) == 0)
+>> +		return generic_file_write_iter(iocb, iter);
+>> +
+>> +	ret = fat_file_dio_write_iter(iocb, iter);
+>> +	if (ret == -ENOTBLK)
+>> +		ret = 0;
+>> +	else if (ret < 0)
+>> +		return ret;
+>> +
+>> +	/* Fall back to buffered I/O if we could not do DIO */
+>> +	if (iov_iter_count(iter)) {
+>> +		ssize_t done;
+>> +
+>> +		done = fat_file_write_iter_buffered_fallback(iocb, iter);
+>> +		if (done < 0)
+>> +			return done;
+>
+>If fat_file_dio_write_iter() wrote some, this should return ret (how
+>many written), instead of the error? Or it never happen?
+>
+
+While I don't think it can currently happen, I will fix it in v2 for
+future correctness. Good catch.
+
+>> +		ret += done;
+>> +	}
+>> +
+>> +	return ret;
+>> +}
 
 Thanks,
 Matheus
