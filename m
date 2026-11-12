@@ -1,53 +1,54 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794485685;
-	b=JDFrptrgciNAwYGDPdCEEvfPjzupnSHnHxKQd70Npmce0yewFa2/fX749agmgVroNAwg
-	 cBVxeahOfMgB2IEkkzwWI3ki4kRFTWSVBnHlRa4p2BNQuxXk6cbUzU9hIWFGrynf9i+Pg
-	 KSYr8OBt6V8FGSEPzOgKBVzII0/OMbOwTVZTJUsChULYXYTG3wuK2ooSJfEbWVaELRS+g
-	 A8A2yiQl2NPEC9vCfa62KQqEnhU/+iTKVsA8nxEB8MwcAGeMtmL+sHZN3vmePGsxOLyY7
-	 SLPgVcwzIJUzzdKERgXL0/JEX9JfGtne4nCpymAxrpGrckNgWVzb9O4gcCFKH9DffuA==
+	t=1794485853;
+	b=PuC45sRi5zFAi/J31b829Efjp2FnA92XquCw34wluBMnFmJMKgcTuluPY3BwW+UcwZd/
+	 xQiFRZPaHdbL2pKMkc1aoj8ThR8eQuyFqVzraQ/asRq6ag/yAF/G8NKU+Tij91sqvIeyO
+	 UnSLbl8BbMTz5c88E6YLDqayWdl4qgWuMtPPR6C+SpSVFIbIIk2qAJ3yBd+ai98U1NkL2
+	 MkrzvsuphK9623XUgZ8RasAoNFBMHfjSGXFClMonmZEpXdnR1ucHZM7m1rs1iaG/LVQrJ
+	 vm3wdpyIi97dBX1zGGWnfot1h5aUu2161XVeyHDAwsidlTaOq/7GExMrQ0/dkFuwy6w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794485685;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794485853;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=wSnWAvHtOMLFz4uzS2KYZ1SGi9EBgJHHln4xOPRtuRk=;
-	b=P7PLIz7WUthiDfmf/ZKRYt4wsjfiYclbOtz9lrpm4AULHc3v8BTf9orD+glb/pRkneHO
-	 wwQUMNNXgOjtg94vxL+Khp3yivIKjJoYvb34Q/fna2cnkcwPY3oZOA0tpiZeo/6H2hWmD
-	 6GOieVBzBXPpa3TUgYX5aqCZLsJAbaCIDwu7XT8tCGxbXJvR/CNqv12Rar2C8UnDuRfL9
-	 yu25AoR94zLX6qg3NqLQcIto3x3xwtOY6WUxj4b8uxwTkdTlO+GA3mXIYGZqeINee1c73
-	 W0L4RG8mNKdbVoOujNwpJQyC3XU3Iv/s5idZwCSKMr/jUgJyIaBdbE9cpXp6VqnDApA==
+	bh=egNOu/7Vf2X7W7uluAYTFo+WYTwOy0dGXa9yzgt6ZV4=;
+	b=4QimI0uiCpfJTuyHA3mls1nHTRBxe3kZIWZrcHne0DW2Cw3EovBAuTZed3E4UbgmQyNA
+	 Uq6c0DWOagZ61dsCGHAmi5uqmwLVNBOA3W4h1gzOVjMTUfGrEIzbk7UBmXW+Fe/Gq1wqF
+	 UQt95JvzWf/3pfot1lL27s5KAo/M7Wqk3zQ0BtxHS16/Ti8hpqtHG7eDUqDg5TYj85i5V
+	 /5DvpXZ55C5tITUTsOKQvY2ECtdITVHIzxItOj6riLADTUX/nLHE3PmJ1/1ulkA5nFrsx
+	 1oev7IX7LSKY4JXyAGZFBRoY742qLSqlJTj++hq+h8J8OfwoCd7J3z414yyY9HldaBQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CsCxIx0m;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CYRNQDKY;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EA10606A31C;
-	Thu, 12 Nov 2026 12:14:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7065D606A31C;
+	Thu, 12 Nov 2026 12:17:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CsCxIx0m
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F2E41F00A05;
-	Thu, 12 Nov 2026 12:14:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CYRNQDKY
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 715601F00A05;
+	Thu, 12 Nov 2026 12:17:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794485684;
-	bh=wSnWAvHtOMLFz4uzS2KYZ1SGi9EBgJHHln4xOPRtuRk=;
+	s=k20260515; t=1794485853;
+	bh=egNOu/7Vf2X7W7uluAYTFo+WYTwOy0dGXa9yzgt6ZV4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=CsCxIx0mR38bvlIFQiBxk6+Y9l6TgU4JRu2TXLPxpT1XJ38vOTZZbnd1ZUZe8XzPb
-	 dZATWSN8bWSnf0qiSj/ZV8qjWjo38tSH971twZOTE//E6H7RuMnWH6EZ83OrW7/kDw
-	 oid/SOUPKzABd6rrkVbxx5EYkuvgwW81uSn/A2OeHHZgYBQSEKwKF3jpQt8pHj+z3D
-	 HXyrC3HAd8WA+VnndLLwi9Oflq7MJ58ptZ+ulVlE2e/x1xoHcHSjCAVGIUAC4hxQGo
-	 4MqCwGhcqHsaFME19gmDjPiewxeNNV7+idvhLMxcj7jTNhpL7vEnW4qPnCkPZYmhwq
-	 ZmrmnDDcAZhlw==
-Date: Thu, 12 Nov 2026 12:14:32 +0000
+	b=CYRNQDKYwSNE75OEpsjDv9dNjJDH/9wXWcwkCgRl1QqXE62f4uONxtXX5dc0wsQs0
+	 WbCx16kboXxBlB/B0vsnb5k03ky8z3i9dC9u0iLcFuSE+DKSeVNQJbZ6jceq38gQM+
+	 qClCIRgvLECQGDxobOp51GqtjVLU4bNoIhY+asA/hxdLcGHuJqvg4TnLEhAFmGvmTZ
+	 wEtb2rgiHZDLfVRt2osxfliQTOGWmbK41tGCAp+eIHjHnaVIZiFkTdH6xWp5LQtArj
+	 FZvbiFaDY52nL/ZO4W05TXfdFxXIfIlMagq48ev+KEKfMAxYYWNy2VJEFaZHE/O2Ki
+	 zNMvaBxoDQWaw==
+Date: Thu, 12 Nov 2026 12:17:21 +0000
 From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Michal Hocko <mhocko@suse.com>
+To: Pedro Falcato <pfalcato@suse.de>
 Cc: David Hildenbrand <david@kernel.org>, 
 	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
 	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	David Rientjes <rientjes@google.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Andrew Morton <akpm@linux-foundation.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Nhat Pham <nphamcs@gmail.com>, 
+	Michal Hocko <mhocko@suse.com>, David Rientjes <rientjes@google.com>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
+	Jann Horn <jannh@google.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+	Jan Kara <jack@suse.cz>, Nhat Pham <nphamcs@gmail.com>, 
 	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>, 
 	Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>, 
 	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
@@ -62,10 +63,10 @@ Cc: David Hildenbrand <david@kernel.org>,
 	"Dennis Zhou (Facebook)" <dennisszhou@gmail.com>, Rick Edgecombe <rick.p.edgecombe@intel.com>, 
 	stable@vger.kernel.org
 Subject: Re: [PATCH 01/13] mm/mmap: free gathered pages before MMF_OOM_SKIP
-Message-ID: <avWsG-zmuniUFio7@gremlin>
+Message-ID: <avWtxdIHSJJ_uNwG@gremlin>
 References: <20261111-mason-migrate-et-al-fixes-v1-0-3d2454362e8d@kernel.org>
  <20261111-mason-migrate-et-al-fixes-v1-1-3d2454362e8d@kernel.org>
- <avWmfXu39vtp0DM9@tiehlicka>
+ <avWgulaWoKBfIFlo@pedro-suse.tail5790ac.ts.net>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -77,75 +78,26 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <avWmfXu39vtp0DM9@tiehlicka>
+In-Reply-To: <avWgulaWoKBfIFlo@pedro-suse.tail5790ac.ts.net>
 
-On Thu, Nov 12, 2026 at 12:43:57PM +0100, Michal Hocko wrote:
-> On Wed 11-11-26 18:13:15, Lorenzo Stoakes (ARM) wrote:
-> > The OOM killer can quickly trigger again after having selected a
-> > victim. That victim might not have freed its memory yet, but its mm will
-> > be marked MMF_OOM_SKIP by this point, so the OOM killer will ignore it.
-> >
-> > This can cause the OOM killer to kill an innocent process when the first
-> > might have freed enough memory to relieve the memory pressure.
-> >
-> > Fix the issue by freeing the memory before marking the mm MMF_OOM_SKIP.
-> >
-> > Note that the task which calls mmput() might not be the victim - if it
-> > took a reference on the mm (e.g. ptrace), it may hold the last reference
-> > and release it when it calls mmput().
->
-> I do not follow the reasoning here. MMF_OOM_SKIP is called after the
-> address space has been unmapped either by the last mmput or the
-> oom_reaper (or both when they are racing). Now all your patch does is to
-> call tlb_flush_mmu which I suspect is to release batched pages. But why
-> is that needed only for the oom victim and why there was no final flush
-> in unmap_vmas?
+On Thu, Nov 12, 2026 at 11:21:38AM +0000, Pedro Falcato wrote:
+> Reviewed-by: Pedro Falcato <pfalcato@suse.de>
 
-Sorry maybe commit message isn't clear enough. I did have to pare these down
-from really massive ones.
+Thanks!
 
-And yeah tlb_flush_mmu() is about freeing the batches.
-
-unmap_vmas() doesn't have a final flush, it relies on the caller to figure that
-out, and just batches up.
-
-And currently tlb_finish_mmu() comes after MMF_OOM_SKIP is set (in
-exit_mmap()), so at that point the memory is unmapped but whatever the last
-batch is isn't freed yet, and the batch can be large (PMDs are single
-entries if I recall correctly for e.g.).
-
-This only matters for the OOM victim, hence reinstating MMF_OOM_VICTIM, which
-made the patch _way_ smaller than the one proposed :)
-
->
 > > diff --git a/mm/mmap.c b/mm/mmap.c
 > > index 7618e72766a5..4cb18b217048 100644
 > > --- a/mm/mmap.c
 > > +++ b/mm/mmap.c
 > > @@ -1313,11 +1313,18 @@ void exit_mmap(struct mm_struct *mm)
-> >  	/* update_hiwater_rss(mm) here? but nobody should be looking */
-> >  	/* Use ULONG_MAX here to ensure all VMAs in the mm are unmapped */
-> >  	unmap_vmas(&tlb, &unmap);
-> > +
-> > +	/*
-> > +	 * Free the memory before marking MMF_OOM_SKIP so a re-triggered OOM
-> > +	 * killer will only skip this mm if it's already freed all it can.
-> > +	 */
+[ ... ]
 > > +	if (mm_is_oom_victim(mm))
 > > +		tlb_flush_mmu(&tlb);
-> >  	mmap_read_unlock(mm);
-> >
-> >  	/*
-> >  	 * Set MMF_OOM_SKIP to hide this task from the oom killer/reaper
-> > -	 * because the memory has been already freed.
-> > +	 * because the memory has been already unmapped.
-> >  	 */
-> >  	mm_flags_set(MMF_OOM_SKIP, mm);
-> >  	mmap_write_lock(mm);
 >
-> --
-> Michal Hocko
-> SUSE Labs
+> I see there's a different tlb_flush_mmu() call below (in the actual function).
+> Is tlb_flush_mmu() idempotent?
+
+No, tlb_flush_mmu() is cromulent.
 
 --
 Cheers, Lorenzo
