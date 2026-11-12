@@ -1,100 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.52
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794505265;
-	b=HIalQW5zK1Ur5dUbtPWKdV/QbTVFAy1Voykgj6P4nbBv5s4Pkx32LCpx8qrQG0pmsc/2
-	 G29bvX0E9n1jxUPIq80IIlASZE3sKUbdul6Agas0DZybKq/jJdYPl1Ldq3T/SbTNWwS8W
-	 2ksyYlW88mpSANLyfr21aQZBw7ljEtgz9RpLpoojA3azqN2IFl+ZxXOordyjUepUQAkzZ
-	 tFwe9ilkP3p+OMqpEu2prIuDjzwtLiqZP+aAOWzinYielS0b8n/l3E8KBakzy8GWk9U9Y
-	 izXiSa99/qBI96dLN8JIZKctR6JHxb1mhlyfFKwXoCfjnIDiHx2MkH1jB0DrFrx4qig==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794505265;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.51
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794506187;
+	b=N3VNsDEZweUaiGAVf9ThKXGYeOS38laNiQnRq3EnZcAANuDdSVymKWZtbC7KoqDJIuUf
+	 4TTsVLtr37gDql2sc4g+dGb/CfwPhjZZSzos/qsnBVwvvT/8OQVIqFldOBZPUUSnXkf8a
+	 tBRGAfRIW5RU2IAU5SQAYDogOooTxWzCDQaNDR6MTTqTpT36Wz9sEWDmmzm+O+pZkdJ/r
+	 Xr287pCPKdBoDuk3aU2xm37Gjh8/B04z0IAfg+oCteXKqfkPJMAvjw1xvuic2sZEuQdY2
+	 ImQ9+OBDcvB2oASdjvAxsfwGHVRkDB6Bi+sSoFpnHh1E30fQa21+Q0Tzr4Y0v4+N/Nw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794506187;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 MIME-Version:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
-	 Content-Type;
-	bh=gulIbZCmS0C3qCKYVEzdG6nvB054k2W20/UwIzcuJw8=;
-	b=SBA1cig4iGjCfaAXzSVi2A8V7hD9Mo/O1rPpFJgb6VarQgcEnlxa6PyDsZ/pI16IbHrR
-	 htZMH+7OJ8VIzaK8ihXM3Nj2w2bXI7kCUK9YFUl+S3hOFA+bBYwSILmkHTGva1rXxipWA
-	 GhyR+hOU4K4b1tJUzCPPdZqt+++6I22Eq7I2JU/2XfjCBaGr/88Cp9FyVEv87HN7g10cg
-	 n56US8jJw+eckTRYz07/GD3QailPxh2wb9iNphVl3kSwWpe0tw8OhXcfH3mwbRRTq+dZy
-	 QwpWIiionu6uWbFzUjMEUiSAiKh5PzlY6RoNgmo+zp+nnZzwYIINSjKGLvNPruvtSjQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=sc7BXgws;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.52
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
+	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer;
+	bh=oX1FfxSvKmY7PUz36O/ZliPw6+lwphICskypKstU3eM=;
+	b=AsKN+A6zFzMXFTTNAtRMiQlvKpoIEpq5kgCqGMZjDni94pyvdoNlUCe+Fvp/GlO7m9CE
+	 PEqZGAy0WrdzQ0oQZgzs835dFYmnrPhLpydmtDPMa66i1mwb9qD9vTto3RdxwEi0HsN7I
+	 7Maix8TVMtjIv688ewAIHGrU0QJpKbndIme56XKhbztzjog6mRzs7a85GePbzLd1N1trr
+	 WLJGcNr7Yuv/3qc0WvvcvtRrt7i0j1+PN1wFr0vqcPqyJQnGy9jtdXlLbqgTXsIx1YJ3T
+	 /XpLAiwzvDMvNYK7utMFDOAeh1XCBQ0wAU61CqoAOe0Q9mHpVmT/u3HMElAxm6ymoDA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=none header.from=gourry.net;
+	spf=pass smtp.mailfrom=gourry.net;
+	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=EHevdXBn;
+	arc=none smtp.remote-ip=209.85.219.51
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C09A606A220
-	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 17:41:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6C09A606A220
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 319FE606A321
+	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 17:56:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 319FE606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=sc7BXgws
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-6b7bffb5b8fso73681a12.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 09:41:05 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794505264; cv=none;
-        d=google.com; s=arc-20260327;
-        b=F/34MgNvRRJzigFbfTvgGb+9Kp+LZmpUyRJfGVzR7dinosuSOTenggFflzfsFBMJOB
-         bRlVVodsFNCjKHFK95rrYdro5Pdm1RNy0sr8SKN8X3lQZnjCirE79C6vQYUJUDbxUbEp
-         zErs5WOfOhPUZ9x48oyHkVTUYsRXBBaVhSczx2lnMhGH9r5yx2NIdIrQPGXsxkl3/Abr
-         mTxkcSu/ThR8QV6pE4fTE4S5kZL2+h7nxDbg4hLywcAWh40+7Mr7xvgPpKTZA6B5y0Cx
-         6A9qx1W+iqaJheUWt6L0oEM6qC7hzTVLqkUABMrUxgKRMnZsMxqK3+5yUkl6TvJXsXts
-         6EQA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=gulIbZCmS0C3qCKYVEzdG6nvB054k2W20/UwIzcuJw8=;
-        fh=R6Th/FU61XvohfnTX7ZpZglwiV6AOSksxkFvbqGt0UY=;
-        b=ByfXWjkYtUYGjfhYTYVkhya3DrDJqLQIsYDEV9jbBsFtGaHVQNos00c4AAkmoNUU6C
-         6YmUj0GCsdHHpwSZxEqp95+Koaa2QpX3Fk8EX9TaHpkYx/IlrbwHDLEQeMi80kzlzxPe
-         7u6nAAtTFFuW/z8nYGjzOpHEYOarchoRYMoCjymEL/SiKxSj55FvCHmONdgjfIQLya87
-         6lTBfP9GPBNtf/9BTJfS/8tUXwNxWX+IjrpXX+qarCXhAW3BwIQ0bIB0iOKZsAofwnoF
-         wSA2o+9YL+OlVIbCpCbTdzf9QOZPLrZ8U5gWQcJOuSK6olVr7E+2Zu5k68orEu8/lpQW
-         JK4w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=EHevdXBn
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-91ea0c05c92so668526d6.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 09:56:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794505264; x=1795110064; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=gulIbZCmS0C3qCKYVEzdG6nvB054k2W20/UwIzcuJw8=;
-        b=sc7BXgwsB5JZBO86kgULdAnyoeKRHiO1bT0dST06bJxLHTE1zKiyi0diPhAoS76dPH
-         Xfdwx1EYriLeCp+wgu6fTHPhnJK7FPUC2LWtlecK5u+c1aepeVCT1DQMdNr/0qPlRw4i
-         YcTJOw26JAxt7QO3cXUj3jm07IERGMmilxTPNTs/6HkAPhdk6Q4MD62uoKmtQH2QEQHQ
-         9UO7Hl4ZwnV7mAbX0mDG6TLKCgcnw5CkaQwXlrI8A6CnLp4uFsnqzPZiUix6N501VP4j
-         Qvm9+ZHAtb+oc+E4joACDNBKoOwGTpp2mfMwucnh6PRh+J64qU6WBmYCZyavrVEFu6dE
-         wF7g==
+        d=gourry.net; s=google; t=1794506186; x=1795110986; darn=vger.kernel.org;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=oX1FfxSvKmY7PUz36O/ZliPw6+lwphICskypKstU3eM=;
+        b=EHevdXBnV4anAfSLKj5v8q2Iozg9+kJRetotcX6QAbpiWWKdfn3IwKbW+VaI2GAaZx
+         1qceClnVl1GgIdWydNamNGFCl6PY/+1OUnJMCW2CqU0QDuIPdyY9QU1jxAV89RBRTHa1
+         2lDsok4KB59SozZzLSpNfWCAD3Y0iYPpXq7vW2m1lZn8Cq3AXVNVdH/2L6JA+JVoVdAu
+         QcT9Fv3EfNxygDjKYfo3ZKS4vQHT0eITMDOGpHaFNElXyCqjANHZeWKD2J2h0dWNDT2v
+         rG89HgkXOJhxDBWcCS6c7h7an2NxYuBSUXIJhH5YT8eEJRaMSDwGmCuuaRJUFI87lodq
+         3phw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794505264; x=1795110064;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=gulIbZCmS0C3qCKYVEzdG6nvB054k2W20/UwIzcuJw8=;
-        b=PqqEvg41TGGcwlTHx058jmRQREn2eDrmfkqTyWld+9UD87mC44c+Vx4Ox1ocOHy3t0
-         +QnZJsKUjhAHOlP4WJjtCc4v9OAD5111JAU/QIKStYyPXfBHnqRMVV3vQaKcH3/T6YM+
-         b/XTxBlmEbJ6xIcfj1U/XSWGuq4eqxuqLUu4QGU2kbKsBVGuGnwSP5TcL3zeHmXDa0fu
-         et1ZUrpc0qyFep2/2Y5s5MJKC+i5Tz2+ARJS0XU6DgJn2IlT+72wuimygc+2Rj5kEzmc
-         5/coqKoBuWFgLbG13t3wMWKqi5jqAwTQpbVZj89ETwQpsmrDpzz3lIqfCiQiehZ6AIUx
-         sq3g==
-X-Forwarded-Encrypted: i=1; AL+hErFdIxtYbYbkNkIopeLU/o1i3hcL9iIsEVXlPgfRprlYxBmNgM8/WWKDA6s8sMZyWamxSFv2PRKh5pCxnGFM@vger.kernel.org
-X-Gm-Message-State: APuU4Z98LIZvZluNsFqk9eMxaytzEzJb3N6Y+rbrlB8ydCbJx7JccRBT
-	ZjsPBxYN1XvEbjF7sl7tx/A8HVXenrHmJdfx56VNbPmG8lqv/KOv+vz2OL9DbVy7OhD1HcQ5ai2
-	7gfXi37wjYDyowMq1/MR7BctQ6lb+4K39V4Q/
-X-Gm-Gg: AYBFou2kCvnZvkm/+KZs/eUxQPzlmcF0mI+c1vbuBMlXgfCqeyY+QppLUwebhHL98c1
-	+R4iwc4B+LPr+MkeWooWSuqRZM0IEKQmNPvQDskqJh3FMACDaiVEluER+tLCuwN25bI2IHSobg3
-	crRkoGngblDeA8cj9BM4cYfuxViguR93jH5ht6nN4jU1NIcF/ookPrfdCAC9evwFD9tH7+ZXVPZ
-	aKeH9G7uEAzX1upShABMr2fSIdwbIH1bJU297x83LOz5SCoXru6Z2EZOXunqhm41YWVWW1SDEhm
-	O2dON6xnAmgixDzfsi3+XmZ4/75AcIXw3g8AWEQlfwVQaooMq5vzozqlxLPW1imtKecziQp6AAA
-	eSWJfYt9dVE/RFZzZPrn9I2mVGI8t8VItitFpLAAT39BZ11vzLfTDCwGKOOvWoQWEaGy9y4N+DV
-	1Vv71/d02NpA==
-X-Received: by 2002:aa7:cb59:0:b0:6b5:767e:f030 with SMTP id
- 4fb4d7f45d1cf-6b7c088f8b8mr247576a12.2.1794505263516; Thu, 12 Nov 2026
- 09:41:03 -0800 (PST)
-Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
- Thu, 12 Nov 2026 12:41:02 -0500
+        d=1e100.net; s=20260707; t=1794506186; x=1795110986;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=oX1FfxSvKmY7PUz36O/ZliPw6+lwphICskypKstU3eM=;
+        b=APVrHTH8C8qH+SZxA1jpD+cUae0y23jVTTf14x9zHUihgymALYcoWfXr8fN0jdHYz5
+         +G9iHodXD06onR5VZ5NPdTjdD0VV1jNFc0rGQ07NXmegkBhGzIalWClPocROgYYlLNzS
+         kfloDtoypFw3LI08LE5N5FmozUYWs4t7QZTnoa3w6yBOTZLCWrs0Zqu205fsXs/rTWt2
+         JAtEpCO1MdDB/+GNuIdw7LWQUrNOm4IMrkatl3dcZ8dXMBxaueaYKO0druLACpzvm12B
+         +Ns06xOOxkZH/KEe3luz+otBFaJITs5a+TlEk5vguBJPjlv4ui7VS9f/glBYk0rFbk8k
+         Rd2w==
+X-Forwarded-Encrypted: i=1; AL+hErGcwb/rHWX1L07JUKtjJpPsQb+IOksf++SUb76h7VkwAaZODJHGeFMbdSoB4BDWZCZ3qlXBn+fpjpDG3G/9@vger.kernel.org
+X-Gm-Message-State: APuU4Z/CXUmkPkXnI1FRBnojUCs/7vFOZkAdJTsrIgw+foGRW0ehDv4+
+	DRNvpfoucZ22nFWzMg/UMopIph9sM4RhQ/0kv+Jl8IHNdtsin6zdssvtS2EPtdA+dMA=
+X-Gm-Gg: AYBFou2cWA5dgZt9baVzV2FTlMRTtvpUtKv2ZRmy5dpv4/Shmtgaqa8a7Ku/0dzcXim
+	ue5NgaUu2ISZowC8nL/6F+cXoHYH+N//+XLk/1ofShijGuwnDRZWP9rU6qzAiCppuBahMNTdl7H
+	Nz4HO8xiKUudB9gP7KDfPU4e3xd4l5ouoNsxfk2yk37N28YkKXFJdKHd78MNQUFXkksSWmIrIr5
+	dMjjDiSd+r/ZyInxkkJVBgGd6a3Y6loNy9TXQv4JiKr/BBxz8Nek9i3m+dwx+Z0S5hirNMl1ztl
+	3p66pN/kRVBlslJz122IQDhVCCa+SwXUlZCdLKAIzmAiOzE7hVpngKsIZXidlNNqF903VsVSnTz
+	SVuD02Vi5yrKcZ0SDSWdecz4maigH6ob0wIpv0hLkDdbSsMCjsBC/+dy/rrtGJJs8tMqWZ3+Yhe
+	5RrFmPTUHAugaVy38k+yLAZXoOMF3UkBGDLrSM+kCeJ5spclUGJ21mqeg3GEcz3klK070qzYVkl
+	iOHIwXiCyombCkHm75HJcbzoSlVMq3YMAX/AXfqTVaO+INhLcvnRZbCMjz/FNUnWOakeqE4YUXR
+	TqfmjDWFGAq1VI0aJYlX5Ty19o9GFQmKRzvXd4xDvdZrvag56P8Dc2WgqvYa3chxXyDpBwXXpzd
+	OHCNeOWM=
+X-Received: by 2002:a05:6214:858d:20b0:91e:9b17:2be9 with SMTP id 6a1803df08f44-91f24203591mr468026d6.36.1794506186056;
+        Thu, 12 Nov 2026 09:56:26 -0800 (PST)
+Received: from [192.168.50.231] (pool-71-191-145-202.washdc.fios.verizon.net. [71.191.145.202])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91f23d70489sm1212506d6.21.2026.11.12.09.56.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Nov 2026 09:56:25 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,63 +89,88 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-From: Matt Salsamendi <matthewsalsamendi@gmail.com>
-Date: Thu, 12 Nov 2026 12:41:02 -0500
-X-Gm-Features: AclHuK-rzhfZstrK9oYTveQMuv2rKMtHi1eKCo_ucxE8NDs7sn-o7nsC2VQ7AeE
-Message-ID: <CAMPWk9NE_epOdOCbs1PGh8OQP4wjTObvjU-1Wopmu7SSNAMXhw@mail.gmail.com>
-Subject: [PATCH] fs/proc/task_mmu: fix stale walk_end after a completed scan
-To: Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>
-Cc: Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, 
-	Pedro Falcato <pfalcato@suse.de>, Muhammad Usama Anjum <usama.anjum@arm.com>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 06/13] mm/migrate_device: don't let go of the fault
+ page
+From: "Gregory Price (Meta)" <gourry@gourry.net>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: David Hildenbrand <david@kernel.org>, 
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+ Michal Hocko <mhocko@suse.com>, David Rientjes <rientjes@google.com>, 
+ Shakeel Butt <shakeel.butt@linux.dev>, 
+ Andrew Morton <akpm@linux-foundation.org>, Jann Horn <jannh@google.com>, 
+ Pedro Falcato <pfalcato@suse.de>, 
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+ Nhat Pham <nphamcs@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+ Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>, 
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>, 
+ Gregory Price <gourry@gourry.net>, 
+ Ying Huang <ying.huang@linux.alibaba.com>, 
+ Alistair Popple <apopple@nvidia.com>, Usama Arif <usama.arif@linux.dev>, 
+ Kairui Song <kasong@tencent.com>, Balbir Singh <balbirs@nvidia.com>, 
+ =?utf-8?q?J=C3=A9r=C3=B4me_Glisse?= <jglisse@redhat.com>, 
+ Kiryl Shutsemau <kas@kernel.org>, Yu-cheng Yu <yu-cheng.yu@intel.com>, 
+ Dave Hansen <dave.hansen@linux.intel.com>, Dennis Zhou <dennis@kernel.org>, 
+ Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>, 
+ Peng Fan <peng.fan@nxp.com>, Josef Bacik <jbacik@fb.com>, 
+ Chris Mason <mason@kernel.org>, linux-mm@kvack.org, 
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ "Borislav Petkov (AMD)" <bp@alien8.de>, Mark Brown <broonie@kernel.org>, 
+ "Dennis Zhou (Facebook)" <dennisszhou@gmail.com>, 
+ Rick Edgecombe <rick.p.edgecombe@intel.com>, 
+ Josef Bacik <josef@toxicpanda.com>, stable@vger.kernel.org
+In-Reply-To: <20261111-mason-migrate-et-al-fixes-v1-6-3d2454362e8d@kernel.org>
+References: <20261111-mason-migrate-et-al-fixes-v1-0-3d2454362e8d@kernel.org>
+ <20261111-mason-migrate-et-al-fixes-v1-6-3d2454362e8d@kernel.org>
+Date: Thu, 12 Nov 2026 12:56:24 -0500
+Message-Id: <179450618409.482102.8556965317179106876.b4-reply@b4>
+X-Mailer: b4 0.17-dev
 
-From: Matthew Salsamendi <matthewsalsamendi@gmail.com>
+On 2026-11-11 18:13 +0000, Lorenzo Stoakes (ARM) wrote:
+> From: Josef Bacik <josef@toxicpanda.com>
+> 
+> When migrate_vma_split_folio() has split the folio of the fault page,
+> the lock and the reference which the fault handler has taken are at the
+> former head page.
+> 
+> It then moves them to the folio which now holds the fault page, by
+> taking a reference on and locking that folio, then unlocking and putting
+> the former head.
+> 
+> split_folio() has unlocked the new folio and has dropped its own
+> reference on it, so until folio_get() nothing but the page table entry
+> holds it.
+> 
+> Only the mmap lock is held for read, which does not prevent another thread
+> from zapping the entry with MADV_DONTNEED.
+> 
+> If this happens the folio is freed which results in folio_get() taking a
+> reference on a free device page, which the driver can hand out again at any
+> time.
+> 
+> In addition, folio_lock() can sleep here with the lock of the head page
+> held.
+> 
+> Utilise split_huge_page() which will leave the lock and reference at the
+> fault page correctly.
+> 
+> Fixes: 022a12deda53 ("mm/migrate_device: handle partially mapped folios during collection")
+> Cc: <stable@vger.kernel.org>
+> Signed-off-by: Josef Bacik <josef@toxicpanda.com>
+> [ ljs: tweaked commit message ]
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 
-After PAGEMAP_SCAN fills its internal buffer, a successful final walk can
-leave walk_end at the earlier stopping point. On x86-64, 513 disjoint
-written pages return 513 ranges with the last range beyond walk_end.
-This trips a bounds assertion in a userspace dirty-page tracker.
+I was able to reproduce/observe the ownership gap trivially.
 
-Update walk_end on successful completion before replacing ret with the
-range count. Preserve the stopping address for partial scans.
+With some effort i was able to generate folio_get()'s zero-ref BUG()
 
-Codex assisted with diagnosis, code, validation and this message.
+Can't say I understand the change well enough to give an R-by, but
+the patch does resolve the issue.
 
-Fixes: 52526ca7fdb9 ("fs/proc/task_mmu: implement IOCTL to get and
-optionally clear info about PTEs")
-Cc: stable@vger.kernel.org
-Signed-off-by: Matthew Salsamendi <matthewsalsamendi@gmail.com>
----
-Validated on x86-64 v7.4-rc2 in KVM: all 12 scan cases and all 119
-pagemap_ioctl selftests pass. The unpatched kernel reproduces the bug.
+Tested-by: Gregory Price (Meta) <gourry@gourry.net>
 
- fs/proc/task_mmu.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+-- 
+~Gregory
 
-diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-index b87d3e864..14996d0ba 100644
---- a/fs/proc/task_mmu.c
-+++ b/fs/proc/task_mmu.c
-@@ -3176,13 +3176,14 @@ static long do_pagemap_scan(struct mm_struct
-*mm, unsigned long uarg)
- 			break;
- 	}
-
-+	/* A completed walk may follow an earlier full bounce buffer. */
-+	if (!ret || !p.arg.walk_end)
-+		p.arg.walk_end = p.arg.end;
-+
- 	/* ENOSPC signifies early stop (buffer full) from the walk. */
- 	if (!ret || ret == -ENOSPC)
- 		ret = n_ranges_out;
-
--	/* The walk_end isn't set when ret is zero */
--	if (!p.arg.walk_end)
--		p.arg.walk_end = p.arg.end;
- 	if (pagemap_scan_writeback_args(&p.arg, uarg))
- 		ret = -EFAULT;
-
-
-base-commit: 7475ea8b58616b33c04afb976cf0fbaad9dd63fb
