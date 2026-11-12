@@ -1,44 +1,44 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794510560;
-	b=fHlR/F/6aQHw+BABG5MmrFeDEnowIuwCKDNKDAPofHu2zcXwqMkec9bwhZEEmg0kpfT1
-	 h5/eOQ+cNkjAv1hNmRWnv3axiCfEdwH8YnuwR7R+aU3F+h7bXfpgG8iIFNp7dhBSV70WN
-	 2Rt1T+PAgiRyVF60p5tLJS7WxUgaw2S5JjVTMIKnNQ+JtEYd3sPa/LizeRWoIDv8Py4wE
-	 yV6Wwed0DAPVjKpzZ+Dmuoktukhd0WAUkEAi93g61jnkov+/aZ7mrssK/xvn9+UZPcUb2
-	 Gbu0uXZeE2E0jNZ5ciKGyf8f0tyq4mbhM+BIaH2jx9wJMkWysKUdRqLuAsCDGtqQoWw==
+	t=1794510561;
+	b=2tkdhGf+jxoJVml/QQl1mRoqonvMtIQ9/PIdIqSlGM7qNQTHvWf7ST7ehxkWvV8eRew1
+	 9KPxTDQXDxG7t7Hm9sR20fd3PCOF+gqpOUmAyOapkUuvJzq/KAccEwepUX6OEKicRlv/7
+	 VYEjmW6K+FLY1D7ztpWRvsps3kNyB9Rd0it0y7PHtUeGz2gKLRGAWZMu7jMTQmeU9aCiG
+	 9vlACoHjj4gSm4JdtqrB1xbG9oOblt48KVZLRcY52tGyNVCNclWZRK1jWKtgDOgFdvGRj
+	 JdwTbsedevzFJ0/9Gt3sq+moDnUpyejc5nOdpTct4zpv/Pb03cpP0eomKTjr3DQ7xkQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794510560;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794510561;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=1+SeaVehwt396QnIHnWRn5MKZzC9W7QYhwhH8JQg6As=;
-	b=eXIuXPvn81kYzuB/4v1AK4rEZFGdsqshxms6h4Cw891jD9CchpAnRFvdwRVV4B6Edazo
-	 JknHJWqbTAhCkDr+mn7qpkg79i8q/xf8PhpEyLzuq/6QQr8+GbGvz1f2YrBrikN1/oZB8
-	 6aVMe2Vn3bE/ZGD1SoRcHNRBKC8s3A/FWVFGjbdDXm/Acw59NUx3QWdYd3TdR6TskU+rA
-	 8R8V4CrsSEkDwNyEusjmp2flvFgbIN1umXmZrct++0/c+m3EA7daXxeaMB4XEfqN/vP47
-	 0Fwq4IcV1ed3SyRXFgGUNg9o0Wkbu9XJqeNxiE5+u7JbnRzSD8FmAh0E/bLj/sN5HTQ==
+	bh=wPQ8Y1tJWbMJwqCQRFYzmTJx7xn37wY+MUSLgJe0EEA=;
+	b=Ir02Jf+2iNzE2iloPAzM3n8xMNFg9aabNAOYlpCGUwn3WLhWlDpvFLCVus+QGQbCb46+
+	 m/sJGpoXKaPQtspeyKIMGEi5l74fSZ5DYR69QZotpqz6I+8gvk69F6DQtAiyAJWbRuv0T
+	 F9xGKTlAZRj5vx6RmsO8qAi5rXC/5N7SGtrfDs9UBxRhYHExqr9KfCNZlnvuVUlxcEXCq
+	 qI6NvLpBNGTDL3A5vmOty4MPBtoZ2RLnmOb8wcf9bh4PBebeFfzbaJDAXYFoBcsS+Z5le
+	 XbPPmg+HALFwZYTwJFDSs64UNh8Z8EBVPcarJJ2Vtv2JCZG3iWBJ1TV45Bsh3XYr0EA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mRRNG3IF;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VF+IHUbS;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 205E7606A882;
-	Thu, 12 Nov 2026 19:09:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 915B2606A882;
+	Thu, 12 Nov 2026 19:09:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mRRNG3IF
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE0F61F000D4;
-	Thu, 12 Nov 2026 19:09:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VF+IHUbS
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE9721F000D4;
+	Thu, 12 Nov 2026 19:09:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794510560;
-	bh=1+SeaVehwt396QnIHnWRn5MKZzC9W7QYhwhH8JQg6As=;
+	s=k20260515; t=1794510561;
+	bh=wPQ8Y1tJWbMJwqCQRFYzmTJx7xn37wY+MUSLgJe0EEA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=mRRNG3IF7VudZcwh4cqiVMNCUHH4sOIQkPODFYxjF6VVdN7Amv/1OT00M2ftUcuF9
-	 EFIXVnWWcEt+0eXCmmNU8X+r2RnDVzuG6yfSf5Y/0M7ojHrS2yk8U239QZnI3qZ+Lk
-	 6pR8RzV8tcebiPECs+5iBFoFf0yiyGcwr1ZghoutBg8hSmDyncKS27mRUTmnWqroyj
-	 L/SKZp0FA859Q4W+eJP7ekc/fe9Mw8RBwFkiWG+xfjE6VToljzYbMiRZ6pDFU+2y4h
-	 LF5KAJ8o2RQKKRtLOVtjbnm9D6+NC8KZTufBiQ30mbO0rgBhiX2YtfyO7SQvePeTqc
-	 u45+zU/l1rX5Q==
+	b=VF+IHUbScSaLRVacGJckMquVnUyYPaCb/piZVssWyyDGWspFF6vPzpYTnxW8MVLea
+	 Qc2eSaEmNkF4oO/zzuVs0PMaP5ZLFLDq9WOO+tsOgVrjtGE3Bue7U+wmnzhixVarZJ
+	 kGabJeo5njfhO1zwzt97lpVXtMS0H5SEgmH/3LzguT/oaI53FY4/SHoGaUTSmNhIVH
+	 rYayNhFbjql5VaCq0nZ+0In1jfVwONKG5v/Q5Nnf7VvqSyCTNbuTuUc2SBllP+AqWG
+	 bWqwTApZ6E6vpU7+iy56QRNFpFRHRLOy50lBkzXpJ+9rmIR1VvbSGZsf0hzDqk4N+L
+	 6KFAK7AV5cKfA==
 From: Mike Snitzer <snitzer@kernel.org>
 To: Matthew Wilcox <willy@infradead.org>,
 	Jan Kara <jack@suse.cz>,
@@ -49,9 +49,9 @@ Cc: Mike Snitzer <snitzer@kernel.org>,
 	Chuck Lever <cel@kernel.org>,
 	Jeff Layton <jlayton@kernel.org>,
 	linux-nfs@vger.kernel.org
-Subject: [PATCH v12 3/7] mm: expose WB_DONTCACHE_DIRTY in bdi debugfs stats
-Date: Thu, 12 Nov 2026 14:09:06 -0500
-Message-ID: <20261112190911.84702-4-snitzer@kernel.org>
+Subject: [PATCH v12 4/7] mm: add folio_mark_dropbehind() to mark a folio dropbehind and account it
+Date: Thu, 12 Nov 2026 14:09:07 -0500
+Message-ID: <20261112190911.84702-5-snitzer@kernel.org>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20261112190911.84702-1-snitzer@kernel.org>
 References: <20261112190911.84702-1-snitzer@kernel.org>
@@ -66,76 +66,109 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The per-bdi_writeback WB_DONTCACHE_DIRTY counter drives how much the
-flusher writes back in response to an IOCB_DONTCACHE kick, but it is
-not reported anywhere, so the DONTCACHE dirty backlog can only be
-inferred from MemFree/Cached movement.
+WB_DONTCACHE_DIRTY counts the dirty folios that are marked dropbehind.
+When a dropbehind folio is dirtied, folio_account_dirtied() adds it to
+the counter.  When the folio is cleaned, folio_clear_dirty_for_io() or
+folio_account_cleaned() subtracts it again.  This balances only if the
+folio is marked before it is dirtied, as it is for the folios that an
+RWF_DONTCACHE write creates.
 
-Report it as BdiDontcacheDirty in /sys/kernel/debug/bdi/<dev>/stats
-and as WbDontcacheDirty in the per-wb stats, next to the
-Reclaimable line.  Use wb_stat_sum() rather than wb_stat() to fold in
-the per-cpu batches: the flusher targets the summed value and small
-backlogs would otherwise read as zero.
+To prepare for NFSD to mark a folio dropbehind once both writes that
+share it have written their parts, handle a folio that is already dirty
+when it is marked.  folio_set_dropbehind() only sets the flag.  With it,
+the clean would subtract the folio from WB_DONTCACHE_DIRTY although it
+was never added, and the counter would go negative.
 
-Fixes: 88d6f128d06d ("mm: track DONTCACHE dirty pages per bdi_writeback")
-Reviewed-by: Jeff Layton <jlayton@kernel.org>
+Add folio_mark_dropbehind(), the inverse of filemap_clear_dropbehind().
+With the folio locked, it sets PG_dropbehind.  Under the i_pages lock,
+it adds the folio to WB_DONTCACHE_DIRTY if both PG_dirty and the dirty
+tag are set.  A dirtier that has set PG_dirty but not yet counted the
+folio finds the flag set and counts the folio itself.
+
+Leave a mapped folio unmarked.  Through its page table, a mapped folio
+can be dirtied without the folio lock: zap_present_folio_ptes() sets
+PG_dirty before the folio is counted.  __folio_cancel_dirty() can leave
+a stale dirty tag on a folio.  Then PG_dirty and the tag are both set in
+that window, and the folio would be counted twice.  The folio lock keeps
+an unmapped folio unmapped.  The dirtiers of an unmapped folio hold the
+folio lock, except mark_buffer_dirty() on a file system with buffer
+heads.  filemap_end_dropbehind() does not drop a mapped folio either, so
+nothing is lost.
+
+The name follows folio_set_dirty() and folio_mark_dirty(): the set
+variant only sets the flag, the mark variant also accounts for it.
+
 Signed-off-by: Mike Snitzer <snitzer@kernel.org>
 ---
- mm/backing-dev.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ include/linux/pagemap.h |  1 +
+ mm/filemap.c            | 42 +++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 43 insertions(+)
 
-diff --git a/mm/backing-dev.c b/mm/backing-dev.c
-index fad1495d3b200..a09c21759fb9f 100644
---- a/mm/backing-dev.c
-+++ b/mm/backing-dev.c
-@@ -46,6 +46,7 @@ struct wb_stats {
- 	unsigned long nr_dirty_time;
- 	unsigned long nr_writeback;
- 	unsigned long nr_reclaimable;
-+	unsigned long nr_dontcache_dirty;
- 	unsigned long nr_dirtied;
- 	unsigned long nr_written;
- 	unsigned long dirty_thresh;
-@@ -78,6 +79,7 @@ static void collect_wb_stats(struct wb_stats *stats,
+diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
+index 73af18a373670..3f5295d6fd73b 100644
+--- a/include/linux/pagemap.h
++++ b/include/linux/pagemap.h
+@@ -1306,6 +1306,7 @@ void end_page_writeback(struct page *page);
+ void folio_end_writeback(struct folio *folio);
+ void folio_end_writeback_no_dropbehind(struct folio *folio);
+ void folio_end_dropbehind(struct folio *folio);
++void folio_mark_dropbehind(struct folio *folio);
+ void folio_wait_stable(struct folio *folio);
+ void __folio_mark_dirty(struct folio *folio, struct address_space *, int warn);
+ void folio_account_cleaned(struct folio *folio, struct bdi_writeback *wb);
+diff --git a/mm/filemap.c b/mm/filemap.c
+index 98ce955404127..196c385f29801 100644
+--- a/mm/filemap.c
++++ b/mm/filemap.c
+@@ -1654,6 +1654,48 @@ void folio_end_dropbehind(struct folio *folio)
+ }
+ EXPORT_SYMBOL_GPL(folio_end_dropbehind);
  
- 	stats->nr_writeback += wb_stat(wb, WB_WRITEBACK);
- 	stats->nr_reclaimable += wb_stat(wb, WB_RECLAIMABLE);
-+	stats->nr_dontcache_dirty += wb_stat_sum(wb, WB_DONTCACHE_DIRTY);
- 	stats->nr_dirtied += wb_stat(wb, WB_DIRTIED);
- 	stats->nr_written += wb_stat(wb, WB_WRITTEN);
- 	stats->wb_thresh += wb_calc_thresh(wb, stats->dirty_thresh);
-@@ -125,6 +127,7 @@ static int bdi_debug_stats_show(struct seq_file *m, void *v)
- 	seq_printf(m,
- 		   "BdiWriteback:       %10lu kB\n"
- 		   "BdiReclaimable:     %10lu kB\n"
-+		   "BdiDontcacheDirty:  %10lu kB\n"
- 		   "BdiDirtyThresh:     %10lu kB\n"
- 		   "DirtyThresh:        %10lu kB\n"
- 		   "BackgroundThresh:   %10lu kB\n"
-@@ -139,6 +142,7 @@ static int bdi_debug_stats_show(struct seq_file *m, void *v)
- 		   "state:              %10lx\n",
- 		   K(stats.nr_writeback),
- 		   K(stats.nr_reclaimable),
-+		   K(stats.nr_dontcache_dirty),
- 		   K(stats.wb_thresh),
- 		   K(dirty_thresh),
- 		   K(background_thresh),
-@@ -163,6 +167,7 @@ static void wb_stats_show(struct seq_file *m, struct bdi_writeback *wb,
- 		   "WbCgIno:           %10lu\n"
- 		   "WbWriteback:       %10lu kB\n"
- 		   "WbReclaimable:     %10lu kB\n"
-+		   "WbDontcacheDirty:  %10lu kB\n"
- 		   "WbDirtyThresh:     %10lu kB\n"
- 		   "WbDirtied:         %10lu kB\n"
- 		   "WbWritten:         %10lu kB\n"
-@@ -179,6 +184,7 @@ static void wb_stats_show(struct seq_file *m, struct bdi_writeback *wb,
- #endif
- 		   K(stats->nr_writeback),
- 		   K(stats->nr_reclaimable),
-+		   K(stats->nr_dontcache_dirty),
- 		   K(stats->wb_thresh),
- 		   K(stats->nr_dirtied),
- 		   K(stats->nr_written),
++/**
++ * folio_mark_dropbehind - mark an existing folio dropbehind
++ * @folio: the folio, locked by the caller
++ *
++ * Mark @folio so that the writeback that cleans it drops it.  If the folio
++ * is already counted as dirty, which with the i_pages lock held means both
++ * PG_dirty and the dirty tag are set, add it to WB_DONTCACHE_DIRTY so that
++ * the clean that subtracts it leaves the counter balanced.  A mapped folio
++ * is left unmarked.
++ */
++void folio_mark_dropbehind(struct folio *folio)
++{
++	struct address_space *mapping = folio->mapping;
++	unsigned long flags;
++
++	VM_WARN_ON_ONCE_FOLIO(!folio_test_locked(folio), folio);
++
++	if (folio_test_dropbehind(folio))
++		return;
++	/*
++	 * Through its page table, a mapped folio can be dirtied without the
++	 * folio lock, and PG_dirty set before the folio is counted: with a
++	 * stale dirty tag it would be counted twice.  The folio lock keeps
++	 * an unmapped folio unmapped.  filemap_end_dropbehind() does not drop
++	 * a mapped folio either.
++	 */
++	if (folio_mapped(folio))
++		return;
++	if (!mapping || !mapping_can_writeback(mapping)) {
++		folio_set_dropbehind(folio);
++		return;
++	}
++	xa_lock_irqsave(&mapping->i_pages, flags);
++	folio_set_dropbehind(folio);
++	if (folio_test_dirty(folio) &&
++	    xa_get_mark(&mapping->i_pages, folio->index, PAGECACHE_TAG_DIRTY))
++		wb_stat_mod(inode_to_wb(mapping->host), WB_DONTCACHE_DIRTY,
++			    folio_nr_pages(folio));
++	xa_unlock_irqrestore(&mapping->i_pages, flags);
++}
++EXPORT_SYMBOL_GPL(folio_mark_dropbehind);
++
+ /**
+  * folio_end_writeback_no_dropbehind - End writeback against a folio.
+  * @folio: The folio.
 -- 
 2.52.0
 
