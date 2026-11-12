@@ -1,62 +1,71 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794484901;
-	b=bmDDCcw77wIxWcFvO2VZsmtypk3dBAY68z1q5/YO/KXz9bZgorLr5x4PUnyx++QGF2Kx
-	 4lfBBKQl0LP5jhx0Jfn2UFMk90O5IfMagFW4rFSOvc4Sh5PaMdXdn6bCHOWn78palPH2J
-	 UobA+bOjXZSY2sHQyRbzeVmAGKDdV6bJUa6UVhHYApoXxe8VbnS3FlNUFYGNb3w+Uiqae
-	 AqHLu6eDCeuuPzn04luG9VJgsX3sKW8xkDur03hmXB7BxdJr4xVHS5CKt94Y9XmFuYdfb
-	 LuYzotHiM3GbX6UYzlGnBc3x1Bg3yeTWAu9acgdaZD9GwrE+K/SUV406qHNrHNmv1AQ==
+	t=1794485685;
+	b=JDFrptrgciNAwYGDPdCEEvfPjzupnSHnHxKQd70Npmce0yewFa2/fX749agmgVroNAwg
+	 cBVxeahOfMgB2IEkkzwWI3ki4kRFTWSVBnHlRa4p2BNQuxXk6cbUzU9hIWFGrynf9i+Pg
+	 KSYr8OBt6V8FGSEPzOgKBVzII0/OMbOwTVZTJUsChULYXYTG3wuK2ooSJfEbWVaELRS+g
+	 A8A2yiQl2NPEC9vCfa62KQqEnhU/+iTKVsA8nxEB8MwcAGeMtmL+sHZN3vmePGsxOLyY7
+	 SLPgVcwzIJUzzdKERgXL0/JEX9JfGtne4nCpymAxrpGrckNgWVzb9O4gcCFKH9DffuA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794484901;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794485685;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=54I5bKtP4WSw79RGADSyevDuBquelpIbRaI3K1RVgo8=;
-	b=SRdLbN+3Cdgn7G6uU6Wy5X/mMytQ0PVlRRGvvyzwEvlrwK3LCpuwXLf5AiEjlIDRHpEQ
-	 28EFvUZmSiH862dBo56Ij/dFwcwJsPw0ukS5uJoG4ogVoE5a50kuwUH/RJIvzZ+zKt+iE
-	 +q1LXx52aQIvRwhY/EL6oEor1I8UGSk4Jx4Ba+1BDJcFo16wBBBqCpuho05pyzjQQmFMR
-	 AJ5uBJ0gDGtitPZaFIVjEGTbX4J8WeLtboI0IeoSvTpyzdQW51wlmoibI7HFQLp2DhHp+
-	 /duaZWrejqy4h36Ma3Xer0Js3HwvW/I44CEirOzwZWdYAEjaBWYHfhSkX9viXij5Crw==
+	bh=wSnWAvHtOMLFz4uzS2KYZ1SGi9EBgJHHln4xOPRtuRk=;
+	b=P7PLIz7WUthiDfmf/ZKRYt4wsjfiYclbOtz9lrpm4AULHc3v8BTf9orD+glb/pRkneHO
+	 wwQUMNNXgOjtg94vxL+Khp3yivIKjJoYvb34Q/fna2cnkcwPY3oZOA0tpiZeo/6H2hWmD
+	 6GOieVBzBXPpa3TUgYX5aqCZLsJAbaCIDwu7XT8tCGxbXJvR/CNqv12Rar2C8UnDuRfL9
+	 yu25AoR94zLX6qg3NqLQcIto3x3xwtOY6WUxj4b8uxwTkdTlO+GA3mXIYGZqeINee1c73
+	 W0L4RG8mNKdbVoOujNwpJQyC3XU3Iv/s5idZwCSKMr/jUgJyIaBdbE9cpXp6VqnDApA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QprEbjuf;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CsCxIx0m;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77299606A896;
-	Thu, 12 Nov 2026 12:01:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EA10606A31C;
+	Thu, 12 Nov 2026 12:14:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QprEbjuf
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFA7E1F00A06;
-	Thu, 12 Nov 2026 12:01:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CsCxIx0m
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F2E41F00A05;
+	Thu, 12 Nov 2026 12:14:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794484900;
-	bh=54I5bKtP4WSw79RGADSyevDuBquelpIbRaI3K1RVgo8=;
+	s=k20260515; t=1794485684;
+	bh=wSnWAvHtOMLFz4uzS2KYZ1SGi9EBgJHHln4xOPRtuRk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=QprEbjufNb+tvrOa7rBrGmxplqbmNy39Rmf2KUfr+AHg8IrdqKnppWAi/6c1jQ5lw
-	 1qQwMsR8fpHwFmAmOjHt6xx/GSD6lfIfUEbOqwxFxYqpUqqxaGguK/FgeQ9b4yse7n
-	 X5Gu+V8HvIKolxJnQl0GAY0dMopIoY1Zswfa1hVJnxH54H1V2CcTIR0C3XNIO1kYQQ
-	 jb08MOlodWLAKvfmxQBVrfP5uY0qBjF050j5MxuY9KrdgN1iuTLU+0ziIbWc5XAA1N
-	 31t4iwXyBD3El+zm85fqmePh/BsB9Y9+wkUwIt81ymt+t2A7BgUdE1+/gxOp3PTE+D
-	 sGRcdsQZ5uAtA==
-Date: Thu, 12 Nov 2026 13:01:34 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Jan Kara <jack@suse.cz>
-Cc: linux-fsdevel@vger.kernel.org, Jan Kara <jack@suse.com>, 
-	Al Viro <viro@zeniv.linux.org.uk>, ecryptfs@vger.kernel.org, linux-ext4@vger.kernel.org, 
-	jfs-discussion@lists.sourceforge.net, linux-nilfs@vger.kernel.org, exfat@lists.linux.dev, 
-	linux-mm@kvack.org, ntfs@lists.linux.dev, ocfs2-devel@lists.linux.dev, 
-	linux-btrfs@vger.kernel.org, gfs2@lists.linux.dev, linux-efi@vger.kernel.org, 
-	linux-mtd@lists.infradead.org, linux-xfs@vger.kernel.org, 
-	Karl Mehltretter <kmehltretter@gmail.com>, Dave Kleikamp <shaggy@kernel.org>
-Subject: Re: [PATCH v2 04/34] ext2: don't set SB_RDONLY after filesystem
- errors
-Message-ID: <20261112-wohncontainer-saurier-wonnen-91f30c3b3ae2@brauner>
-References: <20261029-work-fs-sb_rdonly-v2-0-2f44f64f0b66@kernel.org>
- <20261029-work-fs-sb_rdonly-v2-4-2f44f64f0b66@kernel.org>
- <5qefa4mracb3x2z4vsdejmkyyfrhdcrixmmnooz4rzwcdfoejm@mqkvixj6afwp>
- <20261110-kargheit-impfen-pausieren-881763d28b19@brauner>
- <za33axmgzmuzsj3zmfeh43fkphtcsqtkhhrauwuvs7aiftelgp@dzl6z322st5f>
+	b=CsCxIx0mR38bvlIFQiBxk6+Y9l6TgU4JRu2TXLPxpT1XJ38vOTZZbnd1ZUZe8XzPb
+	 dZATWSN8bWSnf0qiSj/ZV8qjWjo38tSH971twZOTE//E6H7RuMnWH6EZ83OrW7/kDw
+	 oid/SOUPKzABd6rrkVbxx5EYkuvgwW81uSn/A2OeHHZgYBQSEKwKF3jpQt8pHj+z3D
+	 HXyrC3HAd8WA+VnndLLwi9Oflq7MJ58ptZ+ulVlE2e/x1xoHcHSjCAVGIUAC4hxQGo
+	 4MqCwGhcqHsaFME19gmDjPiewxeNNV7+idvhLMxcj7jTNhpL7vEnW4qPnCkPZYmhwq
+	 ZmrmnDDcAZhlw==
+Date: Thu, 12 Nov 2026 12:14:32 +0000
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Michal Hocko <mhocko@suse.com>
+Cc: David Hildenbrand <david@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	David Rientjes <rientjes@google.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Andrew Morton <akpm@linux-foundation.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Nhat Pham <nphamcs@gmail.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Usama Arif <usama.arif@linux.dev>, 
+	Kairui Song <kasong@tencent.com>, Balbir Singh <balbirs@nvidia.com>, 
+	=?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>, Kiryl Shutsemau <kas@kernel.org>, 
+	Yu-cheng Yu <yu-cheng.yu@intel.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>, 
+	Peng Fan <peng.fan@nxp.com>, Josef Bacik <jbacik@fb.com>, Chris Mason <mason@kernel.org>, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	"Borislav Petkov (AMD)" <bp@alien8.de>, Mark Brown <broonie@kernel.org>, 
+	"Dennis Zhou (Facebook)" <dennisszhou@gmail.com>, Rick Edgecombe <rick.p.edgecombe@intel.com>, 
+	stable@vger.kernel.org
+Subject: Re: [PATCH 01/13] mm/mmap: free gathered pages before MMF_OOM_SKIP
+Message-ID: <avWsG-zmuniUFio7@gremlin>
+References: <20261111-mason-migrate-et-al-fixes-v1-0-3d2454362e8d@kernel.org>
+ <20261111-mason-migrate-et-al-fixes-v1-1-3d2454362e8d@kernel.org>
+ <avWmfXu39vtp0DM9@tiehlicka>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -66,51 +75,77 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <za33axmgzmuzsj3zmfeh43fkphtcsqtkhhrauwuvs7aiftelgp@dzl6z322st5f>
+In-Reply-To: <avWmfXu39vtp0DM9@tiehlicka>
 
-On Wed, Nov 11, 2026 at 03:15:11PM +0100, Jan Kara wrote:
-> OK, so instead of BUGing in jfs_evict_inode(), shouldn't JFS just do
-> something like:
+On Thu, Nov 12, 2026 at 12:43:57PM +0100, Michal Hocko wrote:
+> On Wed 11-11-26 18:13:15, Lorenzo Stoakes (ARM) wrote:
+> > The OOM killer can quickly trigger again after having selected a
+> > victim. That victim might not have freed its memory yet, but its mm will
+> > be marked MMF_OOM_SKIP by this point, so the OOM killer will ignore it.
+> >
+> > This can cause the OOM killer to kill an innocent process when the first
+> > might have freed enough memory to relieve the memory pressure.
+> >
+> > Fix the issue by freeing the memory before marking the mm MMF_OOM_SKIP.
+> >
+> > Note that the task which calls mmput() might not be the victim - if it
+> > took a reference on the mm (e.g. ptrace), it may hold the last reference
+> > and release it when it calls mmput().
 >
-> -	BUG_ON(!list_empty(&ji->anon_inode_list));
-> +	if (!list_empty(&ji->anon_inode_list)) {
-> +		WARN_ON_ONCE(!sb_emergency_ro(inode->i_sb));
-> +		/* This needs helper in fs/jfs/jfs_txnmgr.c */
-> +		TXN_LOCK();
-> +		list_del_init(&ji->anon_inode_list);
-> +		TXN_UNLOCK();
-> +	}
+> I do not follow the reasoning here. MMF_OOM_SKIP is called after the
+> address space has been unmapped either by the last mmput or the
+> oom_reaper (or both when they are racing). Now all your patch does is to
+> call tlb_flush_mmu which I suspect is to release batched pages. But why
+> is that needed only for the oom victim and why there was no final flush
+> in unmap_vmas?
 
-Fwiw, this leaks the inode's anonymous tlocks. They're from TxLock which
-is shared by all jfs mounts. txLock() also sets mp->lid and pinned the
-metapages with metapage_nohomeok().
+Sorry maybe commit message isn't clear enough. I did have to pare these down
+from really massive ones.
 
-So the helper would have to tear all of that down like txAbort() does
-and drop the pins. Doable, I guess not sure if this belongs into the
-series.
+And yeah tlb_flush_mmu() is about freeing the batches.
 
-> So that JFS doesn't block everybody else? Because conceptually, once sb is
-> marked as emergency read-only, we really want to stop writeback so letting
-> sync_inodes() run seems moot.
+unmap_vmas() doesn't have a final flush, it relies on the caller to figure that
+out, and just batches up.
 
-Meh, but a check in sync_filesystem() doesn't stop writeback? The
-flusher doesn't know about the emergency state and keeps calling
-->writepages() and ->write_inode().
+And currently tlb_finish_mmu() comes after MMF_OOM_SKIP is set (in
+exit_mmap()), so at that point the memory is unmapped but whatever the last
+batch is isn't freed yet, and the batch can be large (PMDs are single
+entries if I recall correctly for e.g.).
 
-And kill_block_super() calls sync_blockdev() after
-generic_shutdown_super() so everything in the bdev mapping
-(FAT, bitmaps, inode table blocks) gets writeback anyway. All the check
-does is make syncfs() return without writing anything and make unmount
-drop whatever the flusher hasn't gotten to yet. Which might be the goal
-you're after?
+This only matters for the OOM victim, hence reinstating MMF_OOM_VICTIM, which
+made the patch _way_ smaller than the one proposed :)
 
-> Argh, also NFS I assume. OK, that won't be easy to get rid of AFAICT (we
-> generally don't have mount available there).
+>
+> > diff --git a/mm/mmap.c b/mm/mmap.c
+> > index 7618e72766a5..4cb18b217048 100644
+> > --- a/mm/mmap.c
+> > +++ b/mm/mmap.c
+> > @@ -1313,11 +1313,18 @@ void exit_mmap(struct mm_struct *mm)
+> >  	/* update_hiwater_rss(mm) here? but nobody should be looking */
+> >  	/* Use ULONG_MAX here to ensure all VMAs in the mm are unmapped */
+> >  	unmap_vmas(&tlb, &unmap);
+> > +
+> > +	/*
+> > +	 * Free the memory before marking MMF_OOM_SKIP so a re-triggered OOM
+> > +	 * killer will only skip this mm if it's already freed all it can.
+> > +	 */
+> > +	if (mm_is_oom_victim(mm))
+> > +		tlb_flush_mmu(&tlb);
+> >  	mmap_read_unlock(mm);
+> >
+> >  	/*
+> >  	 * Set MMF_OOM_SKIP to hide this task from the oom killer/reaper
+> > -	 * because the memory has been already freed.
+> > +	 * because the memory has been already unmapped.
+> >  	 */
+> >  	mm_flags_set(MMF_OOM_SKIP, mm);
+> >  	mmap_write_lock(mm);
+>
+> --
+> Michal Hocko
+> SUSE Labs
 
-So nfsd_setxattr() takes write access to the export's mount via
-fh_want_write(). So this would get EROFS from the VFS. Afaict it's
-ecryptfs and IMA? ima_fix_xattr() only checks IS_RDONLY().
-
--- 
+--
+Cheers, Lorenzo
