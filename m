@@ -1,134 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794492369;
-	b=H2WczsOkDEAUBiIEBboTEQDnOV3iQyoGmcAd+HbMwcilufhek5dqKLNqzmueRm/zqvVG
-	 TMr6pmpP1p8vR28slZ6OA5EQvIC2bKnYQhOlRgkFQbdtbyJ84tyD5vGCGdibQZVvTQY4d
-	 p5FXgbvX3JZAlog0QR/SFWNDLysT8dkatjzPspYs+oKRtEZaeYnPT0IBYIfv63EnI17cd
-	 uCkMHoFpGdJzZYQaKsddczJoEclXyoDHkEXcip0jrBTq12gG6mMrWMgYCnY0KKmLXeb4R
-	 5fZNKVfEMjaBOOMnVEotoL/2oZ+p0hlPuP07lyXaIhg4tvI/BflABL3hqqq4KtZ0BEA==
+	t=1794492397;
+	b=th7pHhv79a1p7o3N09BvR5YKlLrOb8WMX4Gf6TPAP2NHzK5hIkTWz85ZHCYjkET2VJRc
+	 wsXGPLBSkP5YBcf4NZj3TMCa4l9u0GjyUfwmqzl2afcybV8UY6/TdJh52VrGd0tMtjOok
+	 dMqFssIQjcS6oEvxRviwJlvPp7BhQzmiqX2BBxNISRIuEiZj89LfUA1e7R9zczQIHrY0p
+	 qw+ixNi/BlRwD6dkJgIzcdKel4SXILRAVR3gZ4wBs/PCMlYoHiGDPE2FA7ybGuizwf5dw
+	 1egwDH85XKtbCmrkQ0AFnBbwQ/dFZZBAb9YgBT7eASHcxhfuhp+wCl3eWLuUVB+Y/AA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794492369;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
-	bh=d26nC76YLz1Hx0CSfgosaWHEU4xoea2lRNFaxDZwsTA=;
-	b=awCkj8on/q+N1HyChJQVl9B+7+sr/zwHfLoe6Rm8Ma7/UzV4HeBHdIPo0b5TWx/cfC9P
-	 1K7Y8jotQ/83D6jP0gqRGk46W/f3OVKN3l9dAISTkauE0WxPXnNRaWYsd7pGRIvYXf/oS
-	 6zM7vutqbFDAit1gy+9uT/1gEAC4mVRGv4HoabEhPK7YdfJcRn7EXrk0FCwl7Bp7JnpNB
-	 +jhxddlD7sh27Ncy76GVz1qOsJMVKPushPyONxlgDCm4oSWn2LKgDnnFcXDGzX117pBwY
-	 4d67JNqfySds5aPFEZmUA5hzENjCSy+SpcvZ9ocMUvp54deF4FdB0QxgHN5s69XwCHw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794492397;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=LXIm36iFMZ8kOBujPBh4eH/qjfWvYnVfBxH0cH6iwsM=;
+	b=lLEkfeMa1y3iuQqVrQsGXZ/GWhytLdtKtN2t1UG7ccMNsHntZjVCDW6Kk6vvaH7zTA+f
+	 +foQRoURl58zew08IdauTo2F07/2wwyuzU+m+VHSumq70HQb3zJ/P7apIn8XPLET+MgLW
+	 +csLsuePP2wOPQ3ARX9XwBikaq6mqzeVA0kBpA5P0JC8VwRCwMuVMNvoMhMqS6do/QQ+g
+	 4QdP8cTWG7T3ivQR8kTRMNercz2RTXP5NUaZFkkDATmqpIuq/VLzJs1jp8Z8ziNnItisj
+	 pYrBUXlAS1hH7A4tKBon78YLZ5TqIfoYVwpWw7ma6pNBvf0RxgT4JLzemfRqC9gOaiQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=MePUV0PJ;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=tYPab8lG;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=MePUV0PJ;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=tYPab8lG;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=iJ0O8ptU;
+	arc=none smtp.remote-ip=209.85.218.52
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BCDC606A8AB;
-	Thu, 12 Nov 2026 14:06:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5BCDC606A8AB
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 231E960A2625
+	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 14:06:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 231E960A2625
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=MePUV0PJ;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=tYPab8lG;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=MePUV0PJ;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=tYPab8lG
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 5912F1F890;
-	Thu, 12 Nov 2026 14:06:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794492366; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=d26nC76YLz1Hx0CSfgosaWHEU4xoea2lRNFaxDZwsTA=;
-	b=MePUV0PJPVg6e87V3rI/oBHU/WVNpeN9fAmgxCGLxENx35oKrb0iEmR3T18rtLtVz1Vf+O
-	1G6UmmBLJXvaA1WYhfqBFsQOBOJ7IA2iBvpEpvVmXn/Cmsa4Thr80o0Lq+TtDYhKs5Kyab
-	qpmF+O8fmKXKFCYmnkRlnrBsSmTsSBg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794492366;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=d26nC76YLz1Hx0CSfgosaWHEU4xoea2lRNFaxDZwsTA=;
-	b=tYPab8lGc7bR6d9kEE9FN38yDhbA+TLnfbS8qBFT3Rs/vxGIU/l099dpGQkmH3U6mcvPbG
-	SX8CzvRsGMGv8qBw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794492366; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=d26nC76YLz1Hx0CSfgosaWHEU4xoea2lRNFaxDZwsTA=;
-	b=MePUV0PJPVg6e87V3rI/oBHU/WVNpeN9fAmgxCGLxENx35oKrb0iEmR3T18rtLtVz1Vf+O
-	1G6UmmBLJXvaA1WYhfqBFsQOBOJ7IA2iBvpEpvVmXn/Cmsa4Thr80o0Lq+TtDYhKs5Kyab
-	qpmF+O8fmKXKFCYmnkRlnrBsSmTsSBg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794492366;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=d26nC76YLz1Hx0CSfgosaWHEU4xoea2lRNFaxDZwsTA=;
-	b=tYPab8lGc7bR6d9kEE9FN38yDhbA+TLnfbS8qBFT3Rs/vxGIU/l099dpGQkmH3U6mcvPbG
-	SX8CzvRsGMGv8qBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8DBA813432;
-	Thu, 12 Nov 2026 14:06:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id RScNEcrH9WqvKgAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Thu, 12 Nov 2026 14:06:02 +0000
-Date: Thu, 12 Nov 2026 14:06:00 +0000
-From: Pedro Falcato <pfalcato@suse.de>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Lorenzo Stoakes <ljs@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>, 
-	Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
-	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
-	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
-	Matthew Brost <matthew.brost@intel.com>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
-	Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
-	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
-	Peter Xu <peterx@redhat.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Song Liu <songliubraving@fb.com>, Rik van Riel <riel@surriel.com>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Hugh Dickins <hughd@google.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Arnd Bergmann <arnd@arndb.de>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Kevin Tian <kevin.tian@intel.com>, "Joerg Roedel (AMD)" <joro@8bytes.org>, 
-	Robin Murphy <robin.murphy@arm.com>, Steve Sistare <steven.sistare@oracle.com>, 
-	John Hubbard <jhubbard@nvidia.com>, "Jose A. Perez de Azpillaga" <azpijr@gmail.com>, 
-	Josef Bacik <josef@toxicpanda.com>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Neal Cardwell <ncardwell@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev, linux-arch@vger.kernel.org, 
-	iommu@lists.linux.dev, netdev@vger.kernel.org, Chris Mason <mason@kernel.org>, 
-	stable@vger.kernel.org
-Subject: Re: [PATCH v3 1/9] mm: limit pagecache folio refcount when mapping
- pages
-Message-ID: <avXGtysfRk3uQpNu@pedro-suse.tail5790ac.ts.net>
-References: <20261110-refcount_overflow_stable-v3-0-318625d63a98@kernel.org>
- <20261110-refcount_overflow_stable-v3-1-318625d63a98@kernel.org>
- <avW0HGjF6wuqn12T@pedro-suse.tail5790ac.ts.net>
- <86206f64-fefa-4a13-95bc-eddf756eecc8@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=iJ0O8ptU
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-c4cb6834eaaso698274066b.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 06:06:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794492396; x=1795097196; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=LXIm36iFMZ8kOBujPBh4eH/qjfWvYnVfBxH0cH6iwsM=;
+        b=iJ0O8ptUFgqzUF0HS2nnVTaNoVhPcmUF74R8wDy41neP7vq8HMRXJc7K5zqFIyWN50
+         OQ2Kui+CINP4jSWel6CZfma+s5yUJ+g0EH99NZ3Zvfld8OwRHv88d2jr1L/vA3RSM74J
+         HPRGuwMFgZ4DHsxcYpPV1O/i31el9yT2KWGfyqtInfS9sidP7NwZ60CxiXUOCROqoaka
+         Dbs35OKCAs+OEVnFzQb2wsESoXa2IW/ATT6rBkW+P+HhV76RoMgrIgmiMR5kdb1KUQN+
+         fmR3iGk+RPAT7sBQAKFNlKkqseCiRLmBwx64KRd2OABz+/XaX/jJSLMVvxItD5VFNZyW
+         6qYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794492396; x=1795097196;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=LXIm36iFMZ8kOBujPBh4eH/qjfWvYnVfBxH0cH6iwsM=;
+        b=gzBRSH4oTsVdyuoPVHivFv3r5aVX1NueqwhC4Oqup2TtwuYvKJ6R7Kx5WoKFxJSFRz
+         T5DXB6aoV1NVpkbBsI0EhHUPdd2iVac7OUhBBj5gAWCBZe+RoL4yO6Ii0hScThY3UZo3
+         TjQ+HH/K3P1yVNjmoLf8oy7bnDdKkt2PQZUwO7QpGUGHqvdP7CstIe1/FC/qlPWaOmpP
+         ovT5lv7msdEi+FenffZqg9Ss7EVVMXaGsqX4RQm4TmMSvF0xMhP26XgumusAcjBpR/x0
+         nAndrDCkCWKDuzsTD/mdUO8FHwxSt1Dg3Fa8N93mCa1pAKvC9dgdVp/RAdBfqdvKZJwi
+         eZIw==
+X-Forwarded-Encrypted: i=1; AL+hErFDq4emVU/lRfnjkrRtivXW1y0xrdsRz4zx0HJqqkniJaAwXz6iugUn9DBT+Dda3mvbHB9cqAHZrCa+9NOU@vger.kernel.org
+X-Gm-Message-State: APuU4Z9cSgZr+TaScT1DUAtqgO8rUH2saMwEdNCiEP90UIwLKTTaKn2D
+	m01vDzAr8pbPOUyqqbr1JxiLMMthZzDb6OIH2ZGTgJ89TpDC+Nui9pHg
+X-Gm-Gg: AYBFou3SgCL1Bmp79KiFCWLJzT+jvK4IWRoYrg2HaTEqKoDtOK8ldjfTiCPaNEL7aKO
+	xppD9O5zPsZll53JdZXy3dc+xXObxApepFW6ioegnB2edXaEQY/h4XgbOCQiAWdZG3enxlFaIr5
+	emutBlNTsYsWTrsTMq8q7Xyt24gBojZ5PNgzD/G937AuYzLivjhxDDzpULI10mFNO4jvYSK2rSe
+	n4AXPNL95/6rZqckZj8Adn9e7/TC1yTIES/zCKfGkBeBnj15NQ88W4UiCnxrxCGmUOMV6izJShb
+	6RkkrooEcFW9MzBV6w4wheKBNy9QBrWBSoV5JWKZgSOoTs7loi1hLcDitzu6WDSVEOJMT8UHmbo
+	pFXwMulrr0yj1GRHrOaof1XhOeKKiaoYOif+YEIv4afgGTmOy4+lMy8CDN2V9TK32rmpO0TX52W
+	TI1EGdY1qtFohc3AZendtJH/XybPwNIIka3vUBreyDZ+arRhDliJZHBQTzLHutHmrIFz/y/vlwF
+	b41DuiaeyHVvWgr74kZQG40McsMYvm2jqsSRVko9gEJkMRIuZjxUrcjCyvDK+W1DIwWjzPbExyh
+	Js7zaPv9xMOGJR/eVCfAKQsLFmV0Ow5YoAyTrSqNjDpnKEvCyg3d7p3z01lLN8Utuk1qLd8c9Hf
+	rLvLSvuLw5nenQ1vC5XB4/X1/3EpiGu9tMk+6ImFvSvMx3sA31o9B16W+FtqqTa6bD563PufnFM
+	yB2WzyhYhYx/rM0WGN3CjhVq+UO3dcAdwB4iob+AWcJP4eYfKUBvW0d0F0ntWaqj1z3Z4b3B1rr
+	GL8mNgW85IcVg==
+X-Received: by 2002:a17:907:1b1d:b0:c4d:31c5:e30 with SMTP id a640c23a62f3a-c5066d3db13mr442488966b.49.1794492395421;
+        Thu, 12 Nov 2026 06:06:35 -0800 (PST)
+Received: from [192.168.100.100] (87-205-15-91.static.ip.netia.com.pl. [87.205.15.91])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c504a593b5esm363017266b.34.2026.11.12.06.06.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Nov 2026 06:06:34 -0800 (PST)
+Message-ID: <c1af6845-bfa6-480d-a240-7b918331234f@gmail.com>
+Date: Thu, 12 Nov 2026 15:06:33 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -138,152 +95,61 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <86206f64-fefa-4a13-95bc-eddf756eecc8@kernel.org>
-X-Spamd-Result: default: False [-11.80 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MISSING_XM_UA(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,infradead.org,google.com,suse.com,suse.cz,linux-foundation.org,nvidia.com,linux.alibaba.com,linux.dev,arm.com,intel.com,gmail.com,sk.com,gourry.net,redhat.com,cmpxchg.org,fb.com,surriel.com,szeredi.hu,zeniv.linux.org.uk,arndb.de,ziepe.ca,8bytes.org,oracle.com,toxicpanda.com,davemloft.net,kvack.org,vger.kernel.org,lists.linux.dev];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[63];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -11.80
-X-Spam-Level: 
-X-Spam-Flag: NO
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/2] kernfs, sysfs: refuse splice on /sys/power/resume
+To: Tejun Heo <tj@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Ian Kent <raven@themaw.net>,
+ Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
+ Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ driver-core@lists.linux.dev, linux-pm@vger.kernel.org,
+ autofs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ syzbot+002fb7b2d0bc53bf7e75@syzkaller.appspotmail.com
+References: <cover.1793715774.git.krystianmkaniewski@gmail.com>
+ <c943b8e768ef766b0f6563b6085e99fe@kernel.org>
+Content-Language: en-US
+From: Krystian Kaniewski <krystianmkaniewski@gmail.com>
+In-Reply-To: <c943b8e768ef766b0f6563b6085e99fe@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Nov 12, 2026 at 02:16:33PM +0100, David Hildenbrand (Arm) wrote:
-> > Mostly LGTM, with some comments:
-> > 
-> > Reviewed-by: Pedro Falcato <pfalcato@suse.de>
+On 11/3/26 16:51, Tejun Heo wrote:
+> Hello, Krystian.
 > 
-> Thanks for the review, Pedro!
+> On Tue, Nov 03, 2026 at 03:57:41PM +0100, Krystian Kaniewski wrote:
+>> Patch 1 adds SYSFS_LOOKUP and kernfs_ops->may_lookup. Writable opens of a
+>> marked file refuse both splice directions. Their of->mutex and seq_file lock
+>> use separate classes. Read-only opens retain splice support.
 > 
-> > 
-> >> ---
-> >>  include/linux/mm.h | 35 +++++++++++++++++++++++++++++++----
-> >>  mm/filemap.c       |  6 ++++++
-> >>  mm/huge_memory.c   | 29 +++++++++++++++++++++++++++--
-> >>  mm/memory.c        | 33 +++++++++++++++++++++++++++++----
-> >>  mm/migrate.c       | 11 +++++++++++
-> >>  mm/userfaultfd.c   |  4 ++++
-> >>  mm/util.c          | 18 ++++++++++++++++++
-> >>  7 files changed, 126 insertions(+), 10 deletions(-)
-> >>
-> >> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-> >> index 4608540e40d46..439cfe446cea4 100644
-> >> --- a/mm/huge_memory.c
-> >> +++ b/mm/huge_memory.c
-> >> @@ -1626,6 +1626,7 @@ static vm_fault_t insert_pmd(struct vm_area_struct *vma, unsigned long addr,
-> >>  {
-> >>  	struct mm_struct *mm = vma->vm_mm;
-> >>  	pgtable_t pgtable = NULL;
-> >> +	vm_fault_t ret = VM_FAULT_NOPAGE;
-> >>  	spinlock_t *ptl;
-> >>  	pmd_t entry;
-> >>  
-> >> @@ -1662,6 +1663,10 @@ static vm_fault_t insert_pmd(struct vm_area_struct *vma, unsigned long addr,
-> >>  		if (is_huge_zero_folio(fop.folio)) {
-> >>  			entry = pmd_mkspecial(entry);
-> >>  		} else {
-> >> +			if (unlikely(folio_ref_count_over_limit(fop.folio))) {
-> >> +				ret = VM_FAULT_SIGBUS;
-> >> +				goto out_unlock;
-> >> +			}
-> >>  			folio_get(fop.folio);
-> > 
-> > I see you use this pattern often. Would it make sense to have a
-> > bool folio_get_unless_overflow()?
+> Can we be explicit and name the flag after what it does, e.g.
+> SYSFS_NO_SPLICE and kernfs_ops->no_splice?
 > 
-> I commented somewhere (in v2 I think) that I played with using
-> folio_get_checked() from #2, but didn't quite like it so I discarded it as
-> 
-> (a) it cannot be used everywhere here, as I'd need more functions to add
-> multiple references. next_uptodate_folio() also could use it as I would need yet
-> another temporary helper for a try_get().
-> 
-> (b) these changes here are going to get reverted fairly soon once I change the
-> way how mappings are refcounted (which is, unfortunately, not suitable for
-> stable, otherwise I wouldn't be throwing in this temporary change in the first
-> place)
-> 
-> So everything that is expected to stay in later patches uses the proper helper.
 
-Alright.
+Yes, that is clearer. I renamed the flag to SYSFS_NO_SPLICE and the
+kernfs_ops member to no_splice in v3.
 
+>> The new property cannot be combined with mmap or preallocated buffers.
+>> Kernfs rejects those combinations for direct callers, and sysfs rejects
+>> SYSFS_LOOKUP together with SYSFS_PREALLOC before selecting operations.
+>> Binary attributes do not support SYSFS_LOOKUP and reject it at creation.
 > 
-> [...]
+> Can we keep the rest minimal? With /sys/power/resume the only user, I don't
+> think things like the mmap and prealloc combination checks or the binary
+> attribute rejections are needed.
 > 
-> >>  
-> >> +		if (unlikely(folio_ref_count_over_limit(folio))) {
-> >> +			/* Skip this PUD; it can be faulted in later. */
-> >> +			ret = (dst_vma->vm_flags & VM_MIXEDMAP) ? -ENOMEM : 0;
-> > 
-> > A comment as to what's going on here with VM_MIXEDMAP would be useful. I guess
-> > the idea is that faulting on a mixedmap later will not necessarily hand you the
-> > exact same page fault result?
+> Thanks.
 > 
-> I can throw in a comment, yes.
-> 
-> [...]
-> 
-> >> +bool __folio_ref_count_over_limit(unsigned int ref_count)
-> >> +{
-> >> +	if (ref_count >= FOLIO_REF_COUNT_ADMIN_LIMIT)
-> >> +		return true;
-> >> +	/* Background threads must not consume admin reserves. */
-> >> +	if (current->flags & PF_KTHREAD)
-> >> +		return true;
-> >> +	/* Neither must interrupt contexts on behalf of the interrupted task. */
-> >> +	if (!in_task())
-> >> +		return true;
-> >> +	/* Capability checks are not safe with IRQs disabled. */
-> >> +	if (irqs_disabled())
-> >> +		return true;
-> >> +	/* Use the task's credentials, which filesystem overrides cannot change. */
-> >> +	return !has_capability_noaudit(current, CAP_SYS_RESOURCE);
-> >> +}
-> > 
-> > In case this function ever returns over limit, we probably want to log this
-> > in the kernel log. If this function gets the folio you could even print
-> > the problematic file offset/inode/filesystem/etc. Ratelimited of course.
-> 
-> You mean, if this function returns "true", right? Is printing always fine?
-> (e.g., irqs disabled?)
+> --
+> tejun
 
-Yes. As far as I know, it's always fine, even under NMI. But definitely fine
-with IRQs disabled.
+Agreed. I dropped the mmap and prealloc combination checks and the binary
+attribute rejections. /sys/power/resume remains the only user.
 
-> 
-> > 
-> >> +EXPORT_SYMBOL_GPL(__folio_ref_count_over_limit);
-> > 
-> > I'm fairly sure this will break the build for a number of non-GPL drivers
-> > when calling folio_get() with CONFIG_DEBUG_VM=y.
-> 
-> You mean, breaking OOT drivers, right? I can switch to EXPORT_SYMBOL if that's a
-> concern.
+I'll send v3 shortly with these changes.
 
-I had the impression we had some stuff in-tree that isn't marked as GPL. But a quick
-grep shows that everything is either GPL or dual-licensed.
-
-In any case, yes, this will quite possibly break debug builds for people OOT.
-I think folio_get() might be a bit too ubiquitous to do this to.
-
+Thanks,
 -- 
-Pedro
+Krystian Kaniewski
