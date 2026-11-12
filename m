@@ -1,61 +1,54 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794510565;
-	b=3wMTBuPqoYlrsn6F0MRHKJSm+dC4fWO0tOkynvHG+ftvLJnZH80ub0RcAVT9Yt4UYbKx
-	 +o45JdzGrti6X+ij8ab2qMe9T19SYqbh6tj7g5pmSFHg/K0HIgi6wSonv8XSpg/BfHaed
-	 c/sNTBEPj1JPGFWspxlMlLC/tvSa6CmhItw2x6vrNs/LaGoFII/nKsX78yPQni2ujOZu8
-	 IIvWsUYXm9VjFQolW0qDb9Xfr/P5ttfM+FthKQ8j217hXrsopQYYbouYk2NHqlYCnH0az
-	 CPHLtpOXDFeUb/w7AlSsSYvrH/WbOKpmuXXU/2cyxWDvEH3Rl5jNRSMfYVLfIHez74Q==
+	t=1794510568;
+	b=n5XaIqI9apzBzh/f2vyv/jx+JktzFFW7T9zMTViFdsF2T/dp8NSjhL3VA8Iyky1i1I8Z
+	 oyBTeGVS8ontXD27X+28u0y3LNA4Z5k0+FFDwpywa97dJt7YTxWDwZI86tbMEglhuESQJ
+	 lPk/M3O36qyYQnN26krN8FoxQWiahwEYjkaZHMz6oM8qQh5Fnzm1bh65QCxe6sAfGz2jr
+	 Gh86qKxVQQgmv1diNReZQvSD687swENj8UPsXttjnQeNH1L63A3vUhkAAtf8F7bLZnyyo
+	 Z7Zi+FWYiBLJLzUc5vAkqibpsiytZhVT2aIe5qzusgMKYGhAvSvv//ED7L2KVjgXa6A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794510565;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=5Xh7OUWxH7/Z2MjS4LsAa9wrkIt4sMqjtGquIPmbAwY=;
-	b=ziIxBhop9DF7pXHq+L9cgEtzmRmKAoi7rksRbTpwdTjbEfQlKuB1iTMoj5dAw/H7f2XU
-	 Vuf/uY+3zCUmqGZgI7ARFJmD0qO0lkeDXgVyWT4QRLvDowhCN8QPbBuW5WFFoW/Vv/GmF
-	 RbBl+Y6LdNEUWU0jNYqQEyEEeEZbHgOeaUcJ0Uf/+S7DW8pSSHT6VN39/hMtylgWeQKpw
-	 7N81CtvoP1BqBRJYq6uBLKfj9SQGuum5JmPrV2Sc6WrKwM4iaO9kN8brcbxX1Z3+ZyjI2
-	 fBQKWVmp7Rzuk0abM1zPJaSwnyK26av9n58BtrD/HLq0HKkF3Wgmfrj54u6gsJUuqzg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794510568;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-Id:
+	 In-Reply-To:References:X-Mailer:Mime-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=X4RkaRO34zwhb3y2ZY0P2m2fdXJ0xGr/34bmaboHeu4=;
+	b=xhae8qtGTqy/6wlWaukfPXw4UGG2nzyekO/C+iuryQ0TUodujugTxOX1CnuPocWbi5od
+	 9Ad7gtrMvUXbJpYOZJoVP/GRLdZbb/Cguy8UDHYjTAjfIi11HtVNNurUxud8jbJzLmJM9
+	 NScJ/Mr3W7b6hwdj5eMzvFsAwNy846759B4lB35SfnhmwIGfIvgiYRameWSHnHTujs63t
+	 l+mgrHmn2EvXRzlKph1V76czlRwGMxMn0ubEIPIuNO3lxw43Q/Wj9SQeozBUkYoFUdT9J
+	 /0f7sSQhKq3vVRWFhGdbGIPyLBrrHh9bRpo9Zm4YCwlhh0+tTlVkrBFqiyzix9ZTEYQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VPtcIKMQ;
+	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=S2gujuqj;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 046F9606A881;
-	Thu, 12 Nov 2026 19:09:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F8E360A2603;
+	Thu, 12 Nov 2026 19:09:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VPtcIKMQ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A60E51F00934;
-	Thu, 12 Nov 2026 19:09:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794510564;
-	bh=5Xh7OUWxH7/Z2MjS4LsAa9wrkIt4sMqjtGquIPmbAwY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=VPtcIKMQJCty8E1gJW+4pBjqbJ4pE+xqWEZYfqs5lEAvsmCRwKcLOzrTIDpBxH8dF
-	 Q0I6fYazf6E3ycfjpWX20yR4/W4uFZsnF81MFjmCqh5xP6UtGkCiapGRPnAetR7FcM
-	 aViX7wjl5AHFfgoPelLYuMeaGB8UqoaLEiZRspNLjQPLANfw3tCTKQKLIhQjJvwNGh
-	 CxcTS1ut0cm9ynKACGiSO10MW1G2Wm8kZQtvbVEK/Er/LSX0D3XuoY5+zYJG0SLxuI
-	 gr1hFh4MiwNGDaaVtR/upg1eY7LPkfZ98dROCzOQLHU6W19Ryl/mTb/9pu9O3jCcWg
-	 iqSH9uv0FKIwQ==
-From: Mike Snitzer <snitzer@kernel.org>
-To: Matthew Wilcox <willy@infradead.org>,
-	Jan Kara <jack@suse.cz>,
-	linux-mm@kvack.org,
-	Christian Brauner <brauner@kernel.org>,
-	linux-fsdevel@vger.kernel.org
-Cc: Mike Snitzer <snitzer@kernel.org>,
-	Chuck Lever <cel@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	linux-nfs@vger.kernel.org,
-	Jonathan Flynn <jonathan.flynn@hammerspace.com>
-Subject: [PATCH v12 7/7] NFSD: drop a shared boundary page only once both WRITEs have written it
-Date: Thu, 12 Nov 2026 14:09:10 -0500
-Message-ID: <20261112190911.84702-8-snitzer@kernel.org>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20261112190911.84702-1-snitzer@kernel.org>
-References: <20261112190911.84702-1-snitzer@kernel.org>
+	dkim=pass (1024-bit key, unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=S2gujuqj
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E2571F000D0;
+	Thu, 12 Nov 2026 19:09:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux-foundation.org; s=korg; t=1794510567;
+	bh=X4RkaRO34zwhb3y2ZY0P2m2fdXJ0xGr/34bmaboHeu4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=S2gujuqjXs2blV+0XNHq59fKnWACZiB0i6K46vLyBMO/cIx0epicB10t6biaJ9RHb
+	 KgesT8UlQAAJvF1/fmi/0MmHOopQ5FSK45vM4NfLxi/uzUnieX4vgafxyDxzrtVDk0
+	 +brVPx8wr0M6i0K4FwtKi7AaSZ63+65M1meJZVaw=
+Date: Thu, 12 Nov 2026 11:09:27 -0800
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Phillip Lougher <phillip@squashfs.org.uk>
+Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, Christian
+ Loehle <christian.loehle@arm.com>
+Subject: Re: [PATCH v2 17/22] Squashfs: don't store large export table
+ indexes in memory
+Message-Id: <20261112110927.6add17b0552922c5b6b93515@linux-foundation.org>
+In-Reply-To: <20261111234402.252354-18-phillip@squashfs.org.uk>
+References: <20261111234402.252354-1-phillip@squashfs.org.uk>
+	<20261111234402.252354-18-phillip@squashfs.org.uk>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -64,252 +57,213 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-NFSD splits a misaligned direct-mode WRITE into a direct middle and
-buffered DONTCACHE ends.  Each end covers its first or last unit, the
-smallest folio the mapping allows, only partially.  The other WRITE that
-covers the rest of that unit shares it.
+On Wed, 11 Nov 2026 23:43:57 +0000 Phillip Lougher <phillip@squashfs.org.uk> wrote:
 
-Issue the buffered ends with IOCB_DONTCACHE_DEFER.  Before writing an
-end, ask filemap_dontcache_edge_completes() whether the other WRITE has
-written its part of each shared unit.  Once the WRITE is done, complete
-those units with filemap_dontcache_edge_complete().  If the client sent
-the WRITE as FILE_SYNC or DATA_SYNC, that is after the one
-vfs_fsync_range() that NFSD runs over the whole WRITE.  An UNSTABLE
-WRITE has no fsync, so its units are completed while still dirty.  A
-short write completes a unit only if it wrote its own part of it.
+> When mounting a Squashfs filesystem, the code reads the entire
+> export table indexes into memory.  Their size is determined by the
+> number of inodes in the filesystem.  For the maximum inode
+> count of 2^32, this will allocate and read 32 MiB.
+> 
+> This is an excessive and unnecessary amount of memory because the
+> indexes do not need to be read into memory in their entirety.  In
+> addition kmalloc() is used to allocate memory, and this can fail when
+> large amounts of memory are requested.  Kmalloc() on modern kernels is
+> usually limited to 4096 KiB.  If panic-on-warn is set, then failure to
+> allocate memory will result in a kernel panic.
+> 
+> This commit uses a 4 page cache if the size of the export table indexes
+> are 4 pages in size or larger.  A simple and fast lookup array is
+> retained where the total index size is less than 4 pages in size, which
+> is the vast majority of Squashfs filesystems.
 
-With this commit, 32 interleaved writers of 47008-byte records through
-NFSD DIRECT read 0.0001 to 0.0002 blocks per WRITE.  Before, they read
-0.99 blocks per WRITE.  FILE_SYNC WRITEs no longer wake the DONTCACHE
-writeback kick, where they woke it 23,000 to 65,000 times a run without
-IOCB_DONTCACHE_DEFER.  On a four-server pNFS flexfiles rig, the page
-cache grew by 2.9 GiB during the write phase instead of about 11 GiB.
+Thanks.  This patch didn't anticipate the presence of Christian's
+"squashfs: identify device in mount errors".  To make life easier I've
+staged Christian's patch behind this 22-patch series.
 
-47008 bytes is the transfer size of IO500's ior-hard, in which each rank
-writes interleaved records to one shared file with O_DIRECT.  The Linux
-client sends an O_DIRECT write that fits in one WRITE as FILE_SYNC.
+This required a bit of rework of Christian's patch.  While in there I
+filled in a few more places which needed Christian's treatment and I
+made the whole thing more 80-column friendly where that made sense.
 
-Reported-by: Jonathan Flynn <jonathan.flynn@hammerspace.com>
-Reviewed-by: Jeff Layton <jlayton@kernel.org>
-Signed-off-by: Mike Snitzer <snitzer@kernel.org>
+Please check:
+
+From: Christian Loehle <christian.loehle@arm.com>
+Subject: squashfs: identify device in mount errors
+Date: Sat, 12 Sep 2026 15:53:14 +0100
+
+Squashfs mount failures reported through fs_context do not identify the
+backing device, fix this by printing the block device.
+
+Repeated automount failures used to be ambiguous, for example:
+  Filesystem uses "xz" compression. This is not supported
+
+All of the affected errors occur after get_tree_bdev() has opened the
+block device and setup_bdev_super() has assigned sb->s_bdev.  Use it to
+identify the failing Squashfs image even when the mount is retried.  For
+example, the error above now reads:
+  Filesystem on loop0 uses "xz" compression. This is not supported
+
+Link: https://lore.kernel.org/20260912145314.788588-1-christian.loehle@arm.com
+Signed-off-by: Christian Loehle <christian.loehle@arm.com>
+Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+Reviewed-by: Phillip Lougher <phillip@squashfs.org.uk>
 ---
- .../filesystems/nfs/nfsd-io-modes.rst         |  18 +++
- fs/nfsd/vfs.c                                 | 107 ++++++++++++++++--
- 2 files changed, 113 insertions(+), 12 deletions(-)
 
-diff --git a/Documentation/filesystems/nfs/nfsd-io-modes.rst b/Documentation/filesystems/nfs/nfsd-io-modes.rst
-index 28235eceb0c7d..9fd3b929a240c 100644
---- a/Documentation/filesystems/nfs/nfsd-io-modes.rst
-+++ b/Documentation/filesystems/nfs/nfsd-io-modes.rst
-@@ -197,6 +197,24 @@ Misaligned WRITE:
-     above. Set it to N for a workload that reads back or rewrites what
-     it just wrote.
- 
-+    The page holding a start or end segment is shared with the other
-+    WRITE that covers the rest of the page, which may arrive before,
-+    after or at the same time, from any client. So that the second WRITE
-+    to such a page does not have to read it back from disk, the page
-+    cache keeps a page a DONTCACHE write covers only partially,
-+    unmarked, for the write that completes it. NFSD asks, immediately
-+    before writing a start or end segment, whether the other WRITE has
-+    already written its part; if it has, NFSD marks the page DONTCACHE
-+    once its own WRITE, including its fsync, is complete, and the page
-+    is dropped. A page that no other WRITE completes, or that the other
-+    WRITE writes at the same time, stays cached until it is reclaimed.
-+    The first and last pages of a WRITE that is not split are handled
-+    the same way.
-+
-+    None of this applies when the start and end segments are normal
-+    buffered IO, or for a filesystem that does not use iomap for
-+    buffered writes.
-+
- Tracing:
-     The nfsd_read_direct trace event marks a READ that NFSD issues as
-     O_DIRECT. It records the offset and length the client requested.
-diff --git a/fs/nfsd/vfs.c b/fs/nfsd/vfs.c
-index b0d754142eab5..2ebee92f28da6 100644
---- a/fs/nfsd/vfs.c
-+++ b/fs/nfsd/vfs.c
-@@ -1437,6 +1437,7 @@ static int wait_for_concurrent_writes(struct file *file)
- struct nfsd_write_dio_seg {
- 	struct iov_iter			iter;
- 	int				flags;
-+	bool				claim;		/* completes shared pages */
- };
- 
- static unsigned long
-@@ -1456,6 +1457,79 @@ nfsd_write_dio_seg_init(struct nfsd_write_dio_seg *segment,
- 		iov_iter_advance(&segment->iter, start);
- 	iov_iter_truncate(&segment->iter, len);
- 	segment->flags = iocb->ki_flags;
-+	segment->claim = false;
-+}
-+
-+/* The shared pages a segment completes, and how much of it was written. */
-+struct nfsd_write_dio_hold {
-+	loff_t	first, last;
-+	size_t	first_len;	/* the segment's bytes in its first unit */
-+	bool	complete_first, complete_last;
-+	size_t	written;
-+};
-+
-+/*
-+ * A page that a buffered DONTCACHE segment covers only partially is shared
-+ * with the other WRITE that covers the rest of the page.  The page cache keeps
-+ * it, unmarked, for the write that completes it; the segment is issued
-+ * IOCB_DONTCACHE_DEFER so that this WRITE, not the page cache, marks it, once
-+ * the whole WRITE, its fsync included, is complete.  Ask whether the other
-+ * WRITE has already written its part immediately before writing @seg: asking
-+ * earlier gives the other WRITE time to write its part and find this WRITE's
-+ * part missing.
-+ */
-+static void
-+nfsd_write_dio_seg_hold(struct file *file, const struct nfsd_write_dio_seg *seg,
-+			loff_t pos, size_t len, struct nfsd_write_dio_hold *hold)
-+{
-+	struct address_space *mapping = file->f_mapping;
-+	size_t unit, last_len;
-+	loff_t mask, last_unit;
-+	bool one_unit, head, tail;
-+
-+	hold->first = pos;
-+	hold->last = pos + len - 1;
-+	hold->complete_first = false;
-+	hold->complete_last = false;
-+	hold->written = 0;
-+	if (!seg->claim || !len)
-+		return;
-+
-+	/* The shared unit is the smallest folio the mapping allows. */
-+	unit = mapping_min_folio_nrbytes(mapping);
-+	mask = ~(loff_t)(unit - 1);
-+	one_unit = (hold->first & mask) == (hold->last & mask);
-+	head = hold->first & (unit - 1);
-+	tail = (hold->last + 1) & (unit - 1);
-+	last_unit = hold->last & mask;
-+	last_len = (hold->last & (unit - 1)) + 1;
-+
-+	hold->first_len = min_t(size_t, len,
-+				unit - (hold->first & (unit - 1)));
-+	if (head || (one_unit && tail))
-+		hold->complete_first =
-+			filemap_dontcache_edge_completes(mapping, hold->first,
-+							 hold->first_len);
-+	if (!one_unit && tail)
-+		hold->complete_last =
-+			filemap_dontcache_edge_completes(mapping, last_unit,
-+							 last_len);
-+}
-+
-+/* Drop the shared pages this WRITE was the second of two to write. */
-+static void
-+nfsd_write_dio_seg_release(struct file *file,
-+			   const struct nfsd_write_dio_hold *hold)
-+{
-+	struct address_space *mapping = file->f_mapping;
-+
-+	/* A short write may have stopped inside the first unit. */
-+	if (hold->complete_first && hold->written >= hold->first_len)
-+		filemap_dontcache_edge_complete(mapping, hold->first);
-+	/* A short write did not reach the last unit. */
-+	if (hold->complete_last &&
-+	    hold->written == hold->last - hold->first + 1)
-+		filemap_dontcache_edge_complete(mapping, hold->last);
+ fs/squashfs/super.c |   48 ++++++++++++++++++++++++------------------
+ 1 file changed, 28 insertions(+), 20 deletions(-)
+
+--- a/fs/squashfs/super.c~squashfs-identify-device-in-mount-errors
++++ a/fs/squashfs/super.c
+@@ -151,26 +151,26 @@ static int squashfs_parse_param(struct f
  }
  
- static unsigned int
-@@ -1478,7 +1552,9 @@ nfsd_write_dio_iters_init(struct svc_rqst *rqstp, struct svc_fh *fhp,
- 
- 	if (nf->nf_file->f_op->fop_flags & FOP_DONTCACHE)
- 		dontcache_flags = IOCB_DONTCACHE;
--	buffered_flags = nfsd_direct_misaligned_dontcache ? dontcache_flags : 0;
-+	/* NFSD marks their shared pages itself, see nfsd_write_dio_seg_hold() */
-+	buffered_flags = nfsd_direct_misaligned_dontcache && dontcache_flags ?
-+			 dontcache_flags | IOCB_DONTCACHE_DEFER : 0;
- 
- 	/*
- 	 * Check if direct I/O is feasible for this write request.
-@@ -1532,7 +1608,8 @@ nfsd_write_dio_iters_init(struct svc_rqst *rqstp, struct svc_fh *fhp,
- 	if (prefix) {
- 		nfsd_write_dio_seg_init(&segments[nsegs], bvec,
- 					nvecs, total, 0, prefix, iocb);
--		segments[nsegs++].flags |= buffered_flags;
-+		segments[nsegs].flags |= buffered_flags;
-+		segments[nsegs++].claim = !!buffered_flags;
- 	}
- 
- 	nfsd_write_dio_seg_init(&segments[nsegs], bvec, nvecs,
-@@ -1565,7 +1642,8 @@ nfsd_write_dio_iters_init(struct svc_rqst *rqstp, struct svc_fh *fhp,
- 	if (suffix) {
- 		nfsd_write_dio_seg_init(&segments[nsegs], bvec, nvecs, total,
- 					prefix + middle, suffix, iocb);
--		segments[nsegs++].flags |= buffered_flags;
-+		segments[nsegs].flags |= buffered_flags;
-+		segments[nsegs++].claim = !!buffered_flags;
- 	}
- 	return nsegs;
- 
-@@ -1574,6 +1652,7 @@ nfsd_write_dio_iters_init(struct svc_rqst *rqstp, struct svc_fh *fhp,
- 	nfsd_write_dio_seg_init(&segments[0], bvec, nvecs, total, 0,
- 				total, iocb);
- 	segments[0].flags |= buffered_flags;
-+	segments[0].claim = !!buffered_flags;
- 	return 1;
- }
- 
-@@ -1582,12 +1661,13 @@ nfsd_direct_write(struct svc_rqst *rqstp, struct svc_fh *fhp,
- 		  struct nfsd_file *nf, unsigned int nvecs,
- 		  unsigned long *cnt, struct kiocb *kiocb)
+ static const struct squashfs_decompressor *supported_squashfs_filesystem(
+-	struct fs_context *fc,
++	struct super_block *sb, struct fs_context *fc,
+ 	short major, short minor, short id)
  {
-+	struct nfsd_write_dio_hold holds[3];
- 	struct nfsd_write_dio_seg segments[3];
- 	struct file *file = nf->nf_file;
- 	loff_t start = kiocb->ki_pos;
--	unsigned int nsegs, i;
-+	unsigned int nsegs, nheld = 0, i;
-+	ssize_t host_err = 0;
- 	int sync_flags;
--	ssize_t host_err;
- 	size_t expected;
+ 	const struct squashfs_decompressor *decompressor;
  
- 	nsegs = nfsd_write_dio_iters_init(rqstp, fhp, nf, rqstp->rq_bvec,
-@@ -1617,23 +1697,26 @@ nfsd_direct_write(struct svc_rqst *rqstp, struct svc_fh *fhp,
- 					kiocb->ki_flags);
- 
- 		expected = iov_iter_count(&segments[i].iter);
--
-+		nfsd_write_dio_seg_hold(file, &segments[i], kiocb->ki_pos,
-+					expected, &holds[nheld]);
- 		host_err = vfs_iocb_iter_write(file, kiocb, &segments[i].iter);
- 		if (host_err < 0)
--			return host_err;
-+			break;
-+		holds[nheld++].written = host_err;
- 		*cnt += host_err;
- 		if (host_err < (ssize_t)expected)
- 			break;	/* partial write */
+ 	if (major < SQUASHFS_MAJOR) {
+-		errorf(fc, "Major/Minor mismatch, older Squashfs %d.%d "
+-		       "filesystems are unsupported", major, minor);
++		errorf(fc, "Unsupported older Squashfs %d.%d filesystem on %pg",
++		       major, minor, sb->s_bdev);
+ 		return NULL;
+ 	} else if (major > SQUASHFS_MAJOR || minor > SQUASHFS_MINOR) {
+-		errorf(fc, "Major/Minor mismatch, trying to mount newer "
+-		       "%d.%d filesystem", major, minor);
++		errorf(fc, "Major/Minor mismatch, trying to mount newer %d.%d filesystem on %pg",
++		       major, minor, sb->s_bdev);
+ 		errorf(fc, "Please update your kernel");
+ 		return NULL;
  	}
  
--	if (sync_flags && *cnt) {
-+	if (host_err >= 0 && sync_flags && *cnt)
- 		host_err = vfs_fsync_range(file, start, start + *cnt - 1,
- 					   !(sync_flags & IOCB_SYNC));
--		if (host_err < 0)
--			return host_err;
--	}
+ 	decompressor = squashfs_lookup_decompressor(id);
+ 	if (!decompressor->supported) {
+-		errorf(fc, "Filesystem uses \"%s\" compression. This is not supported",
+-		       decompressor->name);
++		errorf(fc, "Filesystem on %pg uses \"%s\" compression. This is not supported",
++		       sb->s_bdev, decompressor->name);
+ 		return NULL;
+ 	}
  
--	return 0;
-+	/* Complete the shared units once the WRITE and its fsync are done. */
-+	for (i = 0; i < nheld; i++)
-+		nfsd_write_dio_seg_release(file, &holds[i]);
-+
-+	return host_err < 0 ? host_err : 0;
- }
+@@ -217,7 +217,8 @@ static int squashfs_fill_super(struct su
+ 	TRACE("Entered squashfs_fill_superblock\n");
  
- /**
--- 
-2.52.0
+ 	if (!devblksize) {
+-		errorf(fc, "squashfs: unable to set blocksize\n");
++		errorf(fc, "squashfs: unable to set blocksize on %pg\n",
++		       sb->s_bdev);
+ 		return -EINVAL;
+ 	}
+ 
+@@ -246,7 +247,8 @@ static int squashfs_fill_super(struct su
+ 	sblk = squashfs_read_table(sb, SQUASHFS_START, sizeof(*sblk));
+ 
+ 	if (IS_ERR(sblk)) {
+-		errorf(fc, "unable to read squashfs_super_block");
++		errorf(fc, "unable to read squashfs_super_block on %pg",
++		       sb->s_bdev);
+ 		err = PTR_ERR(sblk);
+ 		sblk = NULL;
+ 		goto failed_mount;
+@@ -271,7 +273,7 @@ static int squashfs_fill_super(struct su
+ 
+ 	/* Check the MAJOR & MINOR versions and lookup compression type */
+ 	msblk->decompressor = supported_squashfs_filesystem(
+-			fc,
++			sb, fc,
+ 			le16_to_cpu(sblk->s_major),
+ 			le16_to_cpu(sblk->s_minor),
+ 			le16_to_cpu(sblk->compression));
+@@ -295,8 +297,8 @@ static int squashfs_fill_super(struct su
+ 	 * block size (by default 128K).  This is currently not supported.
+ 	 */
+ 	if (PAGE_SIZE > msblk->block_size) {
+-		errorf(fc, "Page size > filesystem block size (%d).  This is "
+-		       "currently not supported!", msblk->block_size);
++		errorf(fc, "Page size > filesystem block size (%d) on %pg is not supported",
++		       msblk->block_size, sb->s_bdev);
+ 		goto failed_mount;
+ 	}
+ 
+@@ -355,7 +357,8 @@ static int squashfs_fill_super(struct su
+ 	msblk->read_page = squashfs_cache_init("data",
+ 		SQUASHFS_READ_PAGES, msblk->block_size);
+ 	if (IS_ERR(msblk->read_page)) {
+-		errorf(fc, "Failed to allocate read_page block");
++		errorf(fc, "Failed to allocate read_page block for %pg",
++		       sb->s_bdev);
+ 		err = PTR_ERR(msblk->read_page);
+ 		goto failed_mount;
+ 	}
+@@ -394,7 +397,8 @@ static int squashfs_fill_super(struct su
+ 	err = squashfs_read_xattr_id_table(sb, msblk->xattr_id_table,
+ 				&msblk->xattr_table, &msblk->xattr_ids);
+ 	if (err < 0) {
+-		errorf(fc, "unable to read xattr id index table");
++		errorf(fc, "unable to read xattr id index table on %pg",
++		       sb->s_bdev);
+ 		if (err != -ENOTSUPP)
+ 			goto failed_mount;
+ 	}
+@@ -405,7 +409,7 @@ allocate_id_index_table:
+ 	msblk->id_table = squashfs_read_id_index_table(sb,
+ 		le64_to_cpu(sblk->id_table_start), next_table, msblk->ids);
+ 	if (IS_ERR(msblk->id_table)) {
+-		errorf(fc, "unable to read id index table");
++		errorf(fc, "unable to read id index table on %pg", sb->s_bdev);
+ 		err = PTR_ERR(msblk->id_table);
+ 		msblk->id_table = NULL;
+ 		goto failed_mount;
+@@ -421,13 +425,15 @@ allocate_id_index_table:
+ 	err = squashfs_read_inode_lookup_table(sb, msblk->lookup_table,
+ 			next_table, msblk->inodes);
+ 	if (err < 0) {
+-		errorf(fc, "unable to read inode lookup table");
++		errorf(fc, "unable to read inode lookup table on %pg",
++		       sb->s_bdev);
+ 		goto failed_mount;
+ 	}
+ 
+ 	err = squashfs_inode_lookup_start(sb, 1);
+ 	if (err < 0) {
+-		errorf(fc, "unable to read inode lookup table");
++		errorf(fc, "unable to read inode lookup table on %pg",
++		       sb->s_bdev);
+ 		goto failed_mount;
+ 	}
+ 	next_table = msblk->lookup_table_start = err;
+@@ -450,13 +456,15 @@ handle_fragments:
+ 	err = squashfs_read_fragment_index_table(sb, msblk->fragment_table,
+ 			next_table, fragments);
+ 	if (err < 0) {
+-		errorf(fc, "unable to read fragment index table");
++		errorf(fc, "unable to read fragment index table on %pg",
++		       sb->s_bdev);
+ 		goto failed_mount;
+ 	}
+ 
+ 	err = squashfs_frag_lookup_start(sb, 0);
+ 	if (err < 0) {
+-		errorf(fc, "unable to read fragment index table");
++		errorf(fc, "unable to read fragment index table on %pg",
++		       sb->s_bdev);
+ 		goto failed_mount;
+ 	}
+ 	next_table = msblk->fragment_table_start = err;
+@@ -502,7 +510,7 @@ check_directory_table:
+ 	return 0;
+ 
+ insanity:
+-	errorf(fc, "squashfs image failed sanity check");
++	errorf(fc, "squashfs image on %pg failed sanity check", sb->s_bdev);
+ failed_mount:
+ 	squashfs_cache_delete(msblk->block_cache);
+ 	squashfs_cache_delete(msblk->fragment_cache);
+_
 
