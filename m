@@ -1,124 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.225.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794500145;
-	b=HlCDgO1Jx+tyawbbMxhIeuepSoP8iS7aD5jXlXuZ8LkXmya4D2KLSYA1VTElGekrliAh
-	 bGQkTf6JkwZhDsR9QaiI28RKyUgJoV88N2Rk9Os/heScOaA62o8VZgSOf7FwphgegP9oo
-	 4v67A4EvwKjvLR3TRxMc5VqeUdN/tR/B0nWgLDPXoyT6VrLTHSOH5DR2m4zjCjC493Gwp
-	 a/mbCIu8MwDFTx9TetUey4bp3AOlO9zMVQACImCE2LHMaRkYvXk3l84vFFsCjOiZsLD7I
-	 NGN1pPTv86hfkGqGU6MGwJAyL1KSKjpXA/thiyof75nGe9/LmnU/JKKNJ54IjjJkz3A==
+	t=1794500512;
+	b=ocOhaRQ4zpMwGAkFVGuUdBkzFlc0vAW7xR9//PA5Lk1FqiNcgSuFKWXkRH6IlEmXG127
+	 DTF+e0+qASuwWyS0CLSsohR3SH0y9cSrPrEjFTgDcH4F5/ivJrUQYFF6qJZkK0QfFZ3HZ
+	 6FD689NqozKNN/TDzlqgZXh7IKcoA/w5kKBDRLnX4W85nI7rQIKlpsIthu5y2+J+Co+NV
+	 Gx8rdX49IYUvz4/rrBUWMfeOFgMZxoS2Fm8Siixe0uVp8TgxPl3Ts8HkwUCWVJEuQeWMp
+	 xz/80H3ZG+NHsmVykK6QCGR/kYb2ShEr0UOhW22NT/7dXBPjUXy9OphXwiWUriITNLw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794500145;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794500512;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=VnUBdoc3KTMUe7EeR2rhTTEffXeqsYq/yZz8D3wwCd8=;
-	b=xH3TTXVetUSuxyHnc9m0Fx2epSxlTeFHc+UXfHUV819MDzjuFpdPTXiCjmVuz3eV3FX8
-	 nZetIBhhBhGuABsDlB3VRNyVs+Wi62VB4G2Axtq43fB5+kzlQPV2BEkLhNZzp4Dk54njS
-	 mwqPVR+c5Elp8Srv9B2RicvwD3oBTY9nuG5t/c8Z+Onf/TL7/VAC4FuOQLyrliSOGjcen
-	 s/J3UvI/pMzIBycdEygKCgcrxWJz8cQ8cM+UOOyBaymwtcBR5t4P35otjU+vYsqnZJ3QG
-	 mqOG0gpRtlxCKQHAnWiL38O1hWUVyPLnt/1sfz65/Tcxl4bPiu1vukM1MXkb3DNW+Vw==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=jvGNkEQXxpCGRnxugPg2OroUq4ixAzACPllCORFjj2w=;
+	b=A+CqNXWUwDk40Q/7LTbhruJO1Mj3ggXNl1Jw9fGj5Z68vkFBAwkjkbifG7lQm7QAelDo
+	 lWCshGWdiZgJEU+tGMgnBoxtkIf3asDia5XIAn2mC+0fmUUCJjpTr8oNbW00KCgAiqzdr
+	 70hwo/k6cHTf5NG9rM/2v4RjjhKvFzKD2JKJcow10M6hMO87UM+Yej8uBgJ+CkKKAdDUK
+	 XqcuzSYAv+YYt3B5coF4xasL2lMK5QMv2d8Pc8MfO0XVebyad9rHsAipqK+09qP3Hyoh1
+	 /rUCMOsLKLOh9pSr1NbGwn9CixkAXZ3uFPAalLnFBeBW3rY1TdEX9GwOX2I2bimCIfg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=cmpxchg.org;
-	spf=pass smtp.mailfrom=cmpxchg.org;
-	dkim=pass header.d=cmpxchg.org header.i=@cmpxchg.org header.a=rsa-sha256 header.s=google header.b=CIR02JeM;
-	arc=none smtp.remote-ip=209.85.128.172
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=eXwROFE+;
+	arc=none smtp.remote-ip=74.125.225.130
+Received: from mail-wm2-f2.google.com (mail-wm2-f2.google.com [74.125.225.130])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD881606A88A
-	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 16:15:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DD881606A88A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B805606A32A
+	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 16:21:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9B805606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.a=rsa-sha256 header.s=google header.b=CIR02JeM
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-8b3a332105bso11202877b3.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 08:15:44 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=eXwROFE+
+Received: by mail-wm2-f2.google.com with SMTP id 5b1f17b1804b1-4a21339d376so1821075e9.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 08:21:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg.org; s=google; t=1794500144; x=1795104944; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=VnUBdoc3KTMUe7EeR2rhTTEffXeqsYq/yZz8D3wwCd8=;
-        b=CIR02JeMUeqiwaNu8adwhYsGO94jwgFq4bTAnht1vJREgKSPzbmZSb2EZd+sWeLUVp
-         7nF3EEqCyqWAuRi8HgQEGY5lyD0SPNb6/UBKozHjSVdha6RjiG6JYWwWEL3IKIC7F1/X
-         wAJPMJcEDMSck6TcKQEiChSYxGgraYKPQAVb7rQDacU5lZyuqyoBuZrnAbRpzQ5+JP+c
-         25ewY62SYqnw4fwQeYGOHEwPM8mA898RdWmCh3SlxFXJBIjIGTZ5gs/7XqdUfDNrlLJR
-         2ImpPBJIaEGYOlC28uXL/ZS7iozms9kF1K5tFd+BPM7pgRIw/gYQlgOKW0ucyU4eUb8K
-         tiUw==
+        d=gmail.com; s=20260707; t=1794500510; x=1795105310; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=jvGNkEQXxpCGRnxugPg2OroUq4ixAzACPllCORFjj2w=;
+        b=eXwROFE+hg2htu4HuRIHEzizvRbOQ6hiaEWuBxRWFWrxLT65V2weXKbRZuAEie+pUQ
+         Os+sFbGNkpcgd/vblW/O0GCJldJFliHi3CSGtCfTHsMZcGhhVHVZD/aexg0++FzU2KHW
+         oTmCn+6c2AhTFXX3GmeSuKM44yttafHv0zZIoLw+suMhx6wtjrce+qE3BLyTH2XY4dvM
+         T3Z+u1vhBkTquvStFlarKzSMupg0x/bCnPAGk0DnPKHbEJ/LlN7T4c/Jh4FHJuNGKUuA
+         nhTwz9SnPT/bG5ub5K4jCGqMbDIzsNa+0/8YkPcA8sc7/hoNrq8QqcfUhvWApV3uSiaM
+         uQcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794500144; x=1795104944;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=VnUBdoc3KTMUe7EeR2rhTTEffXeqsYq/yZz8D3wwCd8=;
-        b=H6K3nVeFc5be+LcFtN0NLfhJj2QafMsX0X2cNT31tWk7/zwjYqdwCZx+97Z3lt56b9
-         3Ltzo/BXxw8R9n9lDVBjU06SaN4dlQuKmxEsEUcln/zAu47MfgzWDViWawvcqwZve063
-         RAXL11GcPLu35D5IXpb3GbAnVJVmfY01JfN/C+X94YrMszfIH+yxJiCHMOqEWuVBt6P9
-         LOqD8cpvlEgMX+b9YVOWPW9fAUQjK1IyhfFNM/14LVHlPodTyiqGmj2i2mlceAYcMsHu
-         mOQunM4vBAl8K7fdl5qOY7E5+iXmLGiZ+WlZ3Jiv4JFA0w59WQSUjqDpMJA3b7YUuI02
-         Od1w==
-X-Forwarded-Encrypted: i=1; AL+hErHIMhw41uiv6IEovh0HZqMPJ7xKF86tzBu74vSW4CTUzxkzO7Ca0li0UwCs3zqOym77CTdWkJ3kXkzflyFk@vger.kernel.org
-X-Gm-Message-State: APuU4Z8XZ/G+TdkDLXqto4YCKGPBXyK4ONAnhmQLrmrf4quEPjBm1U0Y
-	4oMZMNc7peTcZtTkFGHYVr1q6UiQdnEcQPGmTXIZXsFRD2bFYSfrXZhvb5pRxeezc5Q=
-X-Gm-Gg: AYBFou0PHFzPl2u58cmDhYLus+L1+DTFuRY3lxsxHKrlbwTp2CwMTzVVYV7Rlz8Hnqx
-	0iHmNe8SQCjO5jLmNBjVyQaeq6GT9TvO5SOvxFygy0cLk5c4Ev4KfS0V9bspUn2/FB2PYorynKY
-	NH9DOuvhzHQ8o85GrYavwOgRJ4BzOl8mbPDm5a7DuZeuqkkaMDOBssM4OfUKHYhcy/wp3oKHYK2
-	ifOHdFbJ5BLbTgsVLI2UqQp5LaCAS7uyUgyrWEUBXqWpixBc/2bNx3k6jhm5/j1XoQYC+shTiQI
-	qWYMs0K03PKMJe4BmGlHiAhyYRT3FL3D/oGgMe7Me0h6cQmFholnu/1lxDm6rLzA/mnxcyzFHkG
-	URVrH+G/yQJMSamqDn5VeJOMgtMvMDsw0qBk2Ng4A6X1IEonjRBGIAUtYk1q1/bwdOQUoQBEA3K
-	ircQ3OdulRmqs06j2/pZAgqyIO20L8BJFEXgz8UPutCz5JTS5doaQQFicZN62ckA5/WreA8HFMC
-	BbpoXTquoOmxcLMdi1qQv09JZTDksjg7g/mBN5p9ezTFhSmkLC1x8dmNOSU6mRbGT1W7NNKCR1q
-	kAa8Of2a5WKGuhHmDJiITv6gNFdf
-X-Received: by 2002:a05:690c:97:b0:8aa:e4e7:c5a with SMTP id 00721157ae682-8b3badcc919mr23037017b3.5.1794500143784;
-        Thu, 12 Nov 2026 08:15:43 -0800 (PST)
-Received: from localhost ([2605:8600:200:14e3:365a:60ff:fe62:ff29])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b3933d4317sm73615477b3.21.2026.11.12.08.15.42
+        d=1e100.net; s=20260707; t=1794500510; x=1795105310;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=jvGNkEQXxpCGRnxugPg2OroUq4ixAzACPllCORFjj2w=;
+        b=XB9xrDDV3MyDpXZPvSUeF8QnVbVFJrraJSRQ64wJXa7RnYysvKorq9PZCDMurlt+Q5
+         oHs16j3So3LCSHDqVrKQkv5x49ZltrgCGBbWw9yJDVd/0IaDkMcDGkDCV6Uj6yAiaFu7
+         Uwj0Pz8PVSLOX9ZuIjoCXIqdtFvSqZV3rKruJclOMGkZFE3TeQowi+vadBvzNjgjFyoK
+         MGfvpbWzeMYFwWS6ABJOuuMa1XMNiCVtzxvlxvPn4QDaRl5gOyqSN3SOLd6/D7tOGRyM
+         b9tvyreZid6OTfwtkCJl44Cknaw4pUHD+6GS/IzSDq2OKHkEJv9gHxjIhJtG1zYsGuu3
+         75jg==
+X-Forwarded-Encrypted: i=1; AL+hErGx+fTUDbxJ4GGVITY0jicH/BkyN5k14HNG3dc9XrF5L8n5uNmr4bOtFNW3h7OEu+hx4YBpCLXlS9iduXQT@vger.kernel.org
+X-Gm-Message-State: APuU4Z+qom7N61T6PTnCm5e5C0WwZlWK35mtDgf7XAmB2o9I20HR3NOu
+	Tlg/LQUEwa6Af8JMyUasOc7b0WudAbJ7IjP2btBnLuGC92p+bWvwqK/V
+X-Gm-Gg: AYBFou16PplsryggD3QsZtXCM86GhwBnx/yGPbKAC6awXZl71V2uvjoDacmnVPT+pIx
+	ARkIgo4pZLP3vWPXxCA6q48UaLlN7jG5uEIEU4ep7XJ4+FGSTh8qxYhgrbBUxd62bE4aHHU+cGJ
+	g0qd/TGbOM49iojd0szu/qwHfdFX/+A6tha41bJ5xNx5m+iyJXUq7XxRYO8r62AQ95Xh300SAwO
+	m3hmwLtf7r/AUQ1sLDsa9rBJxJG0hLIKPh9fbqAHPWTmPfbAP4AqaGBq9SnxCsW/i6zHuhkC4ax
+	9aMitsfXmvgjAqhtISsH19uvQsIzALakyjWkfC1xKLnfiOCkc6OOyCUFu4eTDLoD2Tdiy3Or4iJ
+	bkCdQIY3oXgmOhFkDJV49SCteaa0nmVoAsV2fqX1vVEFTZLffYsAPZVXMdazoJBTCyIRMD/hap0
+	4lfQ3a8WvE4s754acQsbM/RPgsumkLjjRjV01DNSg710o0+eUNQ049Gvlwi0X+Hpj/u0a7Z0GRk
+	azXFzk2wzTugbOGIqiFVZlZssQcUJCRqC0y/b1+yl/Ly9L10kbcDDYCOMLI/zUhRyz89WSc16xT
+	6iiSupXrgMX7EsSnq0ntUdXedZsIpCRM2LCzlHsU8bc6ag8wIrreNlPvcIGIHYPiE47sRBhQ5zK
+	IOw==
+X-Received: by 2002:a05:600c:37c8:b0:4a1:88df:8a2a with SMTP id 5b1f17b1804b1-4bb4e28d48emr67944075e9.13.1794500509593;
+        Thu, 12 Nov 2026 08:21:49 -0800 (PST)
+Received: from localhost.localdomain ([196.178.27.147])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb4e28c882sm83116425e9.6.2026.11.12.08.21.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2026 08:15:42 -0800 (PST)
-Date: Thu, 12 Nov 2026 11:15:41 -0500
-From: Johannes Weiner <hannes@cmpxchg.org>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: David Hildenbrand <david@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	David Rientjes <rientjes@google.com>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Jan Kara <jack@suse.cz>, Nhat Pham <nphamcs@gmail.com>,
-	Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>,
-	Joshua Hahn <joshua.hahnjy@gmail.com>,
-	Byungchul Park <byungchul@sk.com>,
-	Gregory Price <gourry@gourry.net>,
-	Ying Huang <ying.huang@linux.alibaba.com>,
-	Alistair Popple <apopple@nvidia.com>,
-	Usama Arif <usama.arif@linux.dev>, Kairui Song <kasong@tencent.com>,
-	Balbir Singh <balbirs@nvidia.com>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Kiryl Shutsemau <kas@kernel.org>,
-	Yu-cheng Yu <yu-cheng.yu@intel.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
-	Christoph Lameter <cl@gentwo.org>, Peng Fan <peng.fan@nxp.com>,
-	Josef Bacik <jbacik@fb.com>, Chris Mason <mason@kernel.org>,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        Thu, 12 Nov 2026 08:21:49 -0800 (PST)
+From: mohamedalibouhaouala@gmail.com
+To: willy@infradead.org,
+	jack@suse.cz,
+	corbet@lwn.net
+Cc: skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
 	linux-fsdevel@vger.kernel.org,
-	"Borislav Petkov (AMD)" <bp@alien8.de>,
-	Mark Brown <broonie@kernel.org>,
-	"Dennis Zhou (Facebook)" <dennisszhou@gmail.com>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>
-Subject: Re: [PATCH 03/13] mm: cachestat: restart the walk after each entry
-Message-ID: <avXmLaznzWy27g5K@cmpxchg.org>
-References: <20261111-mason-migrate-et-al-fixes-v1-0-3d2454362e8d@kernel.org>
- <20261111-mason-migrate-et-al-fixes-v1-3-3d2454362e8d@kernel.org>
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	Mohamed Ali Bouhaouala <mohamedalibouhaouala@gmail.com>
+Subject: [PATCH v2] docs: filesystems: update VFS locking documentation
+Date: Thu, 12 Nov 2026 17:21:29 +0100
+Message-ID: <20261112162129.77610-1-mohamedalibouhaouala@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261111160516.30458-1-mohamedalibouhaouala@gmail.com>
+References: <20261111160516.30458-1-mohamedalibouhaouala@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -128,57 +104,109 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261111-mason-migrate-et-al-fixes-v1-3-3d2454362e8d@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 11, 2026 at 06:13:17PM +0000, Lorenzo Stoakes (ARM) wrote:
-> From: Chris Mason <mason@kernel.org>
-> 
-> cachestat() can leave cached pages out of its counts. This happens if
-> the entry that the call has just counted is replaced by a larger folio
-> that starts in the same XArray slot.
-> 
-> The issue is that filemap_cachestat() walks the page cache under the RCU
-> read lock, so racing concurrent collapse/split is possible.
-> 
-> Thus, an entry can be replaced immediately after the walk has returned
-> it. When that happens, the next xas_find() skips the sibling entries that
-> point to the slot of that entry, since ordinarily they belong to that
-> entry.
-> 
-> However a concurrent collapse_file() or __filemap_add_folio() (when
-> replacing a shadow entry) can store a larger folio in the slot, in which
-> case the sibling entries belong to the new folio and the walk still skips
-> them.
-> 
-> Consider:
-> 
->     cachestat                         collapse
->     =========                         ========
->     count a 64-page folio in slot 8
->                                       store a 512-page folio in slot 8,
->                                       with sibling entries in slots 9-15
->     xas_find() starts at slot 8
->     and skips slots 9-15
->       /* 448 pages are never counted */
-> 
-> Also consider:
-> 
->     filemap_cachestat()                  __filemap_add_folio()
->     ===================                  =====================
->     counts the shadow entry in slot 0
->                                          slot 0: a folio of 32 pages
->                                          slots 1-31: siblings of slot 0
->     xas_find() skips slots 1-31
->       /* 31 pages are never counted */
-> 
-> Essentially the fact that large folios might be present means we cannot
-> safely continue the XArray walk, and must reset the iterator each time.
-> 
-> Fixes: cf264e1329fb ("cachestat: implement cachestat syscall")
-> Signed-off-by: Chris Mason <mason@kernel.org>
-> [ ljs: squashed 2 commits, fixed up comment in code, and commit message ]
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+From: Mohamed Ali Bouhaouala <mohamedalibouhaouala@gmail.com>
 
-Reviewed-by: Johannes Weiner <hannes@cmpxchg.org>
+Update outdated VFS operation prototypes in locking.rst to
+match their current definitions.
+
+Add the missing d_prune and sync_inode_metadata callbacks,
+and correct the signatures of existing operations.
+
+Update the locking table to include sync_inode_metadata.
+
+Signed-off-by: Mohamed Ali Bouhaouala <mohamedalibouhaouala@gmail.com>
+---
+v2:
+- Use the contributor's full name in the author and sign-off fields.
+ Documentation/filesystems/locking.rst | 18 +++++++++++-------
+ 1 file changed, 11 insertions(+), 7 deletions(-)
+
+diff --git a/Documentation/filesystems/locking.rst b/Documentation/filesystems/locking.rst
+index f7363ad770c7..a6a011858ada 100644
+--- a/Documentation/filesystems/locking.rst
++++ b/Documentation/filesystems/locking.rst
+@@ -26,6 +26,7 @@ prototypes::
+ 	int (*d_delete)(struct dentry *);
+ 	int (*d_init)(struct dentry *);
+ 	void (*d_release)(struct dentry *);
++	void (*d_prune)(struct dentry *);
+ 	void (*d_iput)(struct dentry *, struct inode *);
+ 	char *(*d_dname)(struct dentry *dentry, char *buffer, int buflen);
+ 	struct vfsmount *(*d_automount)(struct path *path);
+@@ -80,8 +81,8 @@ prototypes::
+ 	int (*getattr) (const struct mnt_idmap *, const struct path *, struct kstat *, u32, unsigned int);
+ 	ssize_t (*listxattr) (struct dentry *, char *, size_t);
+ 	int (*fiemap)(struct inode *, struct fiemap_extent_info *, u64 start, u64 len);
+-	void (*update_time)(struct inode *inode, enum fs_update_time type,
+-			    int flags);
++	int (*update_time)(struct inode *inode, enum fs_update_time type,
++			    unsigned int flags);
+ 	void (*sync_lazytime)(struct inode *inode);
+ 	int (*atomic_open)(struct inode *, struct dentry *,
+ 				struct file *, unsigned open_flag,
+@@ -173,6 +174,7 @@ prototypes::
+ 	void (*destroy_inode)(struct inode *);
+ 	void (*dirty_inode) (struct inode *, int flags);
+ 	int (*write_inode) (struct inode *, struct writeback_control *wbc);
++	int (*sync_inode_metadata)(struct inode *inode, struct writeback_control *wbc);
+ 	int (*drop_inode) (struct inode *);
+ 	void (*evict_inode) (struct inode *);
+ 	void (*put_super) (struct super_block *);
+@@ -196,6 +198,7 @@ free_inode:				called from RCU callback
+ destroy_inode:
+ dirty_inode:
+ write_inode:
++sync_inode_metadata:
+ drop_inode:				!!!inode->i_lock!!!
+ evict_inode:
+ put_super:		write
+@@ -255,7 +258,7 @@ prototypes::
+ 				loff_t pos, unsigned len, unsigned copied,
+ 				struct folio *folio, void *fsdata);
+ 	sector_t (*bmap)(struct address_space *, sector_t);
+-	void (*invalidate_folio) (struct folio *, size_t start, size_t len);
++	void (*invalidate_folio) (struct folio *, size_t offset, size_t len);
+ 	bool (*release_folio)(struct folio *, gfp_t);
+ 	void (*free_folio)(struct folio *);
+ 	int (*direct_IO)(struct kiocb *, struct iov_iter *iter);
+@@ -265,7 +268,7 @@ prototypes::
+ 	bool (*is_partially_uptodate)(struct folio *, size_t from, size_t count);
+ 	int (*error_remove_folio)(struct address_space *, struct folio *);
+ 	int (*swap_activate)(struct swap_info_struct *sis, struct file *f, sector_t *span)
+-	int (*swap_deactivate)(struct file *);
++	void (*swap_deactivate)(struct file *);
+ 
+ locking rules:
+ 	All except dirty_folio and free_folio may block
+@@ -455,14 +458,15 @@ prototypes::
+ 	ssize_t (*write) (struct file *, const char __user *, size_t, loff_t *);
+ 	ssize_t (*read_iter) (struct kiocb *, struct iov_iter *);
+ 	ssize_t (*write_iter) (struct kiocb *, struct iov_iter *);
+-	int (*iopoll) (struct kiocb *kiocb, bool spin);
++	int (*iopoll)(struct kiocb *kiocb, struct io_comp_batch *,
++			unsigned int flags);
+ 	int (*iterate_shared) (struct file *, struct dir_context *);
+ 	__poll_t (*poll) (struct file *, struct poll_table_struct *);
+ 	long (*unlocked_ioctl) (struct file *, unsigned int, unsigned long);
+ 	long (*compat_ioctl) (struct file *, unsigned int, unsigned long);
+ 	int (*mmap) (struct file *, struct vm_area_struct *);
+ 	int (*open) (struct inode *, struct file *);
+-	int (*flush) (struct file *);
++	int (*flush) (struct file *, fl_owner_t id);
+ 	int (*release) (struct inode *, struct file *);
+ 	int (*fsync) (struct file *, loff_t start, loff_t end, int datasync);
+ 	int (*fasync) (int, struct file *, int);
+@@ -475,7 +479,7 @@ prototypes::
+ 			size_t, unsigned int);
+ 	ssize_t (*splice_read)(struct file *, loff_t *, struct pipe_inode_info *,
+ 			size_t, unsigned int);
+-	int (*setlease)(struct file *, long, struct file_lock **, void **);
++	int (*setlease)(struct file *, int, struct file_lease **, void **);
+ 	long (*fallocate)(struct file *, int, loff_t, loff_t);
+ 	void (*show_fdinfo)(struct seq_file *m, struct file *f);
+ 	unsigned (*mmap_capabilities)(struct file *);
+-- 
+2.43.0
+
