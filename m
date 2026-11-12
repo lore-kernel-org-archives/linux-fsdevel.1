@@ -1,127 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794492738;
-	b=iejcJMcbK6yUPTOHtPQ7RxR1/UcEofHFNiRqMahFXZnEg4kLZ9HM136JUiuajgv2TG1y
-	 +SlsGcIZDMXhss1+9XAGGUkjBnCL+EjYwUOjbAa6y5XOCprzF/+cSt6GY6En3gFLjmun3
-	 rkEv0C/qerOaXLPEADO7EkRfLWqy9AXAvIeX4cP+Vxna92m/W1GnB3oyxAw15S6IQz9CD
-	 RdBgQig9HSVAyOhdzY8/k+MSsmbC8+r9aAG5oGkKHVyJ+KCIIXav7OT1/9oNfpCfRqdcO
-	 NiH9v/yBQzDCQiouIj+L9rmhx4wmetGprS2Bib3tQRTwZ9YQWC53b2qZKlq6uOEGh4Q==
+	t=1794492986;
+	b=huUjEPggLMhwl9o/Du0YFRqAk8QPu9wYvAuEY/PWpMpz0G4ftSRoxWJjEy80w2iruUFE
+	 lzz+YgIB0HT7e0Jt+h7DmfTT0PR99u9HwJpPo+ssWF7tvGERj0aM588QDYiYeSdy4y9T/
+	 KBkKHTsf0kiK1V/zEQh8K+ikUDAwTl34FAXZxgXG3roOrCUue8GWTs0ojmDz0jihWxjYT
+	 OoGhV8q6xmyQfalx61/VWK3lRMiiuqHGg3AAQi/APsj1KHZKIMi0v5RTG1GQyH6raLBiV
+	 dkTvz3t56czsPo9wBnv9McU7gGJrlVUrKvC6F9MKtClPfF6EwIHUE2GzfIFp4s5DB7g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794492738;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=uM02Fg1gjU3NBZSPcxHW5Rd4yGFYmOd1Ea0CS7gM/Ms=;
-	b=wShzo61FU7C3FVjvZ0oKfm/RfzRYIP2D0jviXoInL5r+7HXiGZ3IDZd0LzTd4cAxpjPN
-	 OQZ6gt1Rw+3HKovI8DM2LRVPXGYEkOKbqF3qhB0XGppGBqvZ54ZxflxUPJvgfM9joNmwj
-	 40fYpRO8p2FIn+BGkztv4AFl8F8bIMXOAdkIoVg8aC18VtYcjPdzWV0xF/xRWwe6CHT/B
-	 mRskUW4T0/57t6nD1/UzFLO9M09Lx6fA8219WDadIaM4V0WOTYpyxrq/RXjwMvKBkFPNu
-	 iHm6AEto8BzObxX2VnBwgXPiy0tHMBbMQz3+MDCewkHAeoJY5VQFt2AkmKXlCHTxmxg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794492986;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=H8yidXqYxb8+FTcip6WkrxcfhGiKCGC6uWz8jObdA/A=;
+	b=D2M8OO6xdz59dEXxHZKb4oxaEGIT119XDMSQlw8B/M2l/GNt4WINgVIRkLti+goQqQvy
+	 pO7kCAGJU73UYeiUxtUONY1e2XOiklT29vOD44a2ZQK8DNDyQxH8l8PLA8d2ppqrI/vNh
+	 ZEzfKkKNnR/VRjFd9xPQ0AYAuc0g9HC/lBsXP1hFpohO5QnlcYsJdpu8fwqbNYHWhkYO3
+	 99QGiWEbwoXYuCKTBQEMLfTF+hc+K5G7Tegzx55BMgG/tfWq6iktFiYmQn32tF5O2G3+4
+	 mRMcVZeHutN36gMrp8/PTS4sKLMi8K0OKGyZ8+MKsUjBIqUeOb1lN3eEWA7CGwGhlTA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.com;
-	spf=pass smtp.mailfrom=suse.com;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=gAM4oD6u;
-	arc=none smtp.remote-ip=209.85.128.43
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SbnU2x9z;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D61DB606A327
-	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 14:12:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D61DB606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40C9B606A321;
+	Thu, 12 Nov 2026 14:16:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=gAM4oD6u
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4a35a60499eso34053135e9.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 06:12:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1794492736; x=1795097536; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=uM02Fg1gjU3NBZSPcxHW5Rd4yGFYmOd1Ea0CS7gM/Ms=;
-        b=gAM4oD6uTHicKnz9f6XcRMaEiose74RSU+22HtrUNTVYwp1z4E+0jsTVXhaopMJhuT
-         pjs4A65NOnqmzswNjZyNhEselwzTsfg+DahHBo3oXTJoc0kQ/aoomF0w/MnekRyv/0cV
-         CCxrtZxViKMXI3LNnyKnDxqhPmzivgpxsBCnS8d2L74xih/EW5CodlRtaM23ZtLqYkXv
-         m/OAVrSVnx/aSsd3jAruqfNVGYJvlp8Un5NBSNi4cFxU0OV6uxzoDBD8L5S66G7WMZob
-         8Gfo1jphMoQx20P3Qs6ZvBIsuaBUWw7P099WzOZENsx5TTGTQt3eXcWPUOrCWT/0c/pO
-         p2oA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794492736; x=1795097536;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=uM02Fg1gjU3NBZSPcxHW5Rd4yGFYmOd1Ea0CS7gM/Ms=;
-        b=kmK6kuoJWREmf+mAIzdRbzdL7mMgm4XgtugEdU+GOKUMljUAcpl29gAnVUpQc89XAj
-         Mydh5ApfqJ1IkLTuBBEejDafIcxzPFnPxzFkCPSLHnMnk6qTW2BrfVt3oOyQTSuYflSL
-         FRl4nK2ZFN+E3BpY6AlWP2nE3q3R5X5i+3WAo82wT55UdX0hQUXdprFY7ws4e90MqeqI
-         fjYVtH/Sjxh7ToEe84jKIoOEO1MS4VaV7e6RkqC6hOVTQCBYBCn9HRiiTR/8ZmNkrp0c
-         TqDtZv0IsiYH4mxuPmUU7EzkR+VzYK6SEsLHO7WRlX/T4buTBpjgAELCTF/K0VLO++7O
-         HxWA==
-X-Forwarded-Encrypted: i=1; AL+hErFEj7i/KI7FS8Xx4Z/3yxs7HTmaFqk3HyrNg4LDlSppOtV6QVZPB36vbxAkQNkj+YQP3pzH4i7fHVu9+IHZ@vger.kernel.org
-X-Gm-Message-State: APuU4Z9rsIMxaBZTgFbn0qqOifZOsBbwSUDolwfsFI9dGR8gTww9s8pM
-	5ATNPVMFW4hp6VDaoUJLTkVz4RyaZ2ITypf/fjnaG76kG4OK6x23I+yuUF+U104avo0=
-X-Gm-Gg: AYBFou3rx2IVuymq6Tf+qRx42BJObXKUC/K+MiI3QL+ggDajHvtUihJOkN/w81zJpVW
-	1aVfYiraifTuz/n5WVCSbxS0v9f+BtYqDwYTASIYDgCQiLpaHcHN5GSkCMoW2KXPvg5/7PeZJAO
-	dUXiqcDuYMVKrlreelRtdsXm9CndRX/RztyeHvY5A1+U958aoVnKH2nKFxReWdwGPV2QErDAfwh
-	6kl51mSUbBG3F6952W2AnH/Ig0neLPTaFwKSQ2ZPl10FhipU8lZUv6z2Wx5xlF655sCe6mvmcQq
-	qQWSBffrh64QUKzxjTm/j5b5Py4TRg2L6P7IFl/QJ8njmJl5XLJHibBbcgI3lfJV6Tsp8eqXAdG
-	ZbuT7cigHXAuOYOWoghD2lrpAn+nz99yihmPd4xU1HEEE5biFUdp/e4LoYYt2iLRf7u/AY8we9a
-	WK6GSlE/xA84xmxzHaUSt1nDFn4N+/N2OQ6zVEGpK302O++Nwa/jNj25Sa3wAa9SKm0tYDaU6EA
-	t+oqXQeMvUWpPYFF+/YgvtO6tkasKJNV10Eiv5FiBy3GWbgB34ItqD7a6yp2PTiCULpIixOq1yH
-	0X15bvwSWwj6O2h4sCZZ0cpX2qBHPwJPLKD/9rzTbBQw
-X-Received: by 2002:a05:600c:8b31:b0:4a1:dadf:9876 with SMTP id 5b1f17b1804b1-4ba0938e3aamr97570525e9.23.1794492736131;
-        Thu, 12 Nov 2026 06:12:16 -0800 (PST)
-Received: from localhost (109-81-94-245.rct.o2.cz. [109.81.94.245])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb4e2776casm105702275e9.14.2026.11.12.06.12.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2026 06:12:15 -0800 (PST)
-Date: Thu, 12 Nov 2026 15:12:15 +0100
-From: Michal Hocko <mhocko@suse.com>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: David Hildenbrand <david@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	David Rientjes <rientjes@google.com>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Jan Kara <jack@suse.cz>, Nhat Pham <nphamcs@gmail.com>,
-	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Joshua Hahn <joshua.hahnjy@gmail.com>,
-	Byungchul Park <byungchul@sk.com>,
-	Gregory Price <gourry@gourry.net>,
-	Ying Huang <ying.huang@linux.alibaba.com>,
-	Alistair Popple <apopple@nvidia.com>,
-	Usama Arif <usama.arif@linux.dev>, Kairui Song <kasong@tencent.com>,
-	Balbir Singh <balbirs@nvidia.com>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Kiryl Shutsemau <kas@kernel.org>,
-	Yu-cheng Yu <yu-cheng.yu@intel.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
-	Christoph Lameter <cl@gentwo.org>, Peng Fan <peng.fan@nxp.com>,
-	Josef Bacik <jbacik@fb.com>, Chris Mason <mason@kernel.org>,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	"Borislav Petkov (AMD)" <bp@alien8.de>,
-	Mark Brown <broonie@kernel.org>,
-	"Dennis Zhou (Facebook)" <dennisszhou@gmail.com>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>, stable@vger.kernel.org
-Subject: Re: [PATCH 01/13] mm/mmap: free gathered pages before MMF_OOM_SKIP
-Message-ID: <avXJPw17fWvLtCO8@tiehlicka>
-References: <20261111-mason-migrate-et-al-fixes-v1-0-3d2454362e8d@kernel.org>
- <20261111-mason-migrate-et-al-fixes-v1-1-3d2454362e8d@kernel.org>
- <avWmfXu39vtp0DM9@tiehlicka>
- <avWsG-zmuniUFio7@gremlin>
- <avW1s2wvz1PB0-Ln@tiehlicka>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SbnU2x9z
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B6271F00A05;
+	Thu, 12 Nov 2026 14:16:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794492985;
+	bh=H8yidXqYxb8+FTcip6WkrxcfhGiKCGC6uWz8jObdA/A=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=SbnU2x9zL0m0SFEEjVy7sSyzOLdbuObzbbAZ+CCaTjfsoj2fSZ7Abf/OlBeei5Uzx
+	 0rp2zSoYw1lcmyH3WdzT9hOf7vaBSjoD3eeXt0tH5jf078JpO410TAyg6V1m+V3lk7
+	 d6tnBAA0Epfa8h7aHhOtU2Ulz1QmiFToeb6uY70EPLB7FdaZeturZSfjCvkCS+I2Gr
+	 X6RfvPgrB3OfORjlbzJ7KQLRdLJEhhnCUsB6bJTYE1pPf3NbI7lPX56sUAzSJ3DmHi
+	 Od7H/EP+ijkE/szicKCwCAE7sGAL/1HobVIjXQg2OtNk6x2KBxK3U5DYAmns2i9Lnf
+	 Uxkey4rw08LdA==
+Message-ID: <2f9b90fd-fe50-4afa-ab59-0c4a00e5e276@kernel.org>
+Date: Thu, 12 Nov 2026 15:16:00 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -131,28 +51,171 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <avW1s2wvz1PB0-Ln@tiehlicka>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/9] mm: limit pagecache folio refcount when mapping
+ pages
+To: Pedro Falcato <pfalcato@suse.de>
+Cc: Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
+ Kiryl Shutsemau <kas@kernel.org>, Matthew Brost <matthew.brost@intel.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>,
+ Gregory Price <gourry@gourry.net>, Ying Huang
+ <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
+ Peter Xu <peterx@redhat.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Song Liu <songliubraving@fb.com>, Rik van Riel <riel@surriel.com>,
+ Miklos Szeredi <miklos@szeredi.hu>, Alexander Viro
+ <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
+ Hugh Dickins <hughd@google.com>, Will Deacon <will@kernel.org>,
+ "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin
+ <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>,
+ Arnd Bergmann <arnd@arndb.de>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Kevin Tian <kevin.tian@intel.com>, "Joerg Roedel (AMD)" <joro@8bytes.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Steve Sistare <steven.sistare@oracle.com>, John Hubbard
+ <jhubbard@nvidia.com>, "Jose A. Perez de Azpillaga" <azpijr@gmail.com>,
+ Josef Bacik <josef@toxicpanda.com>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Neal Cardwell <ncardwell@google.com>, Kuniyuki Iwashima <kuniyu@google.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ fuse-devel@lists.linux.dev, linux-arch@vger.kernel.org,
+ iommu@lists.linux.dev, netdev@vger.kernel.org, Chris Mason
+ <mason@kernel.org>, stable@vger.kernel.org
+References: <20261110-refcount_overflow_stable-v3-0-318625d63a98@kernel.org>
+ <20261110-refcount_overflow_stable-v3-1-318625d63a98@kernel.org>
+ <avW0HGjF6wuqn12T@pedro-suse.tail5790ac.ts.net>
+ <86206f64-fefa-4a13-95bc-eddf756eecc8@kernel.org>
+ <avXGtysfRk3uQpNu@pedro-suse.tail5790ac.ts.net>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <avXGtysfRk3uQpNu@pedro-suse.tail5790ac.ts.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu 12-11-26 13:48:53, Michal Hocko wrote:
-> > This only matters for the OOM victim, hence reinstating MMF_OOM_VICTIM, which
-> > made the patch _way_ smaller than the one proposed :)
+On 11/12/26 15:06, Pedro Falcato wrote:
+> On Thu, Nov 12, 2026 at 02:16:33PM +0100, David Hildenbrand (Arm) wrote:
+>>> Mostly LGTM, with some comments:
+>>>
+>>> Reviewed-by: Pedro Falcato <pfalcato@suse.de>
+>>
+>> Thanks for the review, Pedro!
+>>
+>>>
+>>>
+>>> I see you use this pattern often. Would it make sense to have a
+>>> bool folio_get_unless_overflow()?
+>>
+>> I commented somewhere (in v2 I think) that I played with using
+>> folio_get_checked() from #2, but didn't quite like it so I discarded it as
+>>
+>> (a) it cannot be used everywhere here, as I'd need more functions to add
+>> multiple references. next_uptodate_folio() also could use it as I would need yet
+>> another temporary helper for a try_get().
+>>
+>> (b) these changes here are going to get reverted fairly soon once I change the
+>> way how mappings are refcounted (which is, unfortunately, not suitable for
+>> stable, otherwise I wouldn't be throwing in this temporary change in the first
+>> place)
+>>
+>> So everything that is expected to stay in later patches uses the proper helper.
 > 
-> Should we simply do that flushing unconditionally before setting MMF_OOM_VICTIM
-> then?
+> Alright.
+> 
+>>
+>> [...]
+>>
+>>>
+>>> A comment as to what's going on here with VM_MIXEDMAP would be useful. I guess
+>>> the idea is that faulting on a mixedmap later will not necessarily hand you the
+>>> exact same page fault result?
+>>
+>> I can throw in a comment, yes.
+>>
+>> [...]
+>>
+>>>
+>>> In case this function ever returns over limit, we probably want to log this
+>>> in the kernel log. If this function gets the folio you could even print
+>>> the problematic file offset/inode/filesystem/etc. Ratelimited of course.
+>>
+>> You mean, if this function returns "true", right? Is printing always fine?
+>> (e.g., irqs disabled?)
+> 
+> Yes. As far as I know, it's always fine, even under NMI. But definitely fine
+> with IRQs disabled.
+> 
+>>
+>>>
+>>>
+>>> I'm fairly sure this will break the build for a number of non-GPL drivers
+>>> when calling folio_get() with CONFIG_DEBUG_VM=y.
+>>
+>> You mean, breaking OOT drivers, right? I can switch to EXPORT_SYMBOL if that's a
+>> concern.
+> 
+> I had the impression we had some stuff in-tree that isn't marked as GPL. But a quick
+> grep shows that everything is either GPL or dual-licensed.
+> 
+> In any case, yes, this will quite possibly break debug builds for people OOT.
+> I think folio_get() might be a bit too ubiquitous to do this to.
 
-Sorry, I was caught in calls and didn't get much time to think about
-this.  I have only now found some time to look into that and to do the
-above we would need to make tlb_batch_list_free visible and conditional.
-Which is a bit of undertaking, not anything major but still kind of
-ugly. So your solution seems better in the end.
+Thinking again, folio_get() should not be affected, it rightfully only checks
+for a refcount underflow (when we exceed the limit + headroom). So only
+try_get_page() is affected, which OOT very likely doesn't use.
 
-Please clarify the changelog wording to be really about this and with
-that
-Acked-by: Michal Hocko <mnhocko@suse.com
-
-Thanks!
 -- 
-Michal Hocko
-SUSE Labs
+Cheers,
+
+David
