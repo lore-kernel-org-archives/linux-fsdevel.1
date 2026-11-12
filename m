@@ -1,89 +1,132 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.169
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.179
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794521326;
-	b=aLhrtEPDl1XE10cYKgpVxdyhJUqDbqQB2vuVkgUfo7UcIKf8jKGF6yVvOsivgVY+3TYB
-	 /jwqhcyfNJfFgJVsCk8U84WCaiXbYMN6jj+ouYSlRtPhC/47FTyiyi6b9bnqPanr+el/h
-	 Jstyp4odYuuS2D+pa6CKTeuoiPn+dI1hTj44UtfH6OmyTHc4mpJ8m6LPrraiZ4AtvS1sg
-	 fg1nDZW6IEgVC1bGOljslXx+opWx3IEqKzZkquN0Uuyw5JFK/zDtc9eBhlAla+uJBvSrC
-	 fnPOUyNySNhamWY6Lye0dccFHX9xJ7ObhbJvftzcPx1uS9e4JqEUseCW+nFxF7JuGxw==
+	t=1794522898;
+	b=jm+dX99ZCy3m7JAH44ivsOh8EjvUaoScY1L42nkBi3BVmVuABZvUW0xKqPaOih7ujbcd
+	 ST1g3Sx65FHgMBbdgj9OjF0GrJmD07mZfgBhzbsTHNni7QMXjaMupEaggJUDE5uinFisn
+	 Dy2bJk5X9uov5z51KqNiLw5LfBrS+C+vzEnLhWCcvnVl43L8asimBqrecF7fuFM2C5DKQ
+	 oU7OozVj31rm1GUmsLYHpqhkpBQ4K65QcV6IDMRVO/AAfuG5WoE7TYQ5wbk/Ijko4COdZ
+	 8rXxDV89mUQaeEWGxPmCF/EKCgRkzlXPC4sT4yLcVacMaTjbsO0SFh2192UWe/+9zYg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794521326;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794522898;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key;
-	bh=3yGL7Y7LsUqcUfOnBJgwpH86TQ2mSRVVzjodSWn8N7c=;
-	b=iE4l1cmOW1bSnJ4jRCTifiQl/2c7KD+xRyZ0hzrZ/Ih5su5ZW4NQoE9vULd9z2c0y0cf
-	 3zf2hE2fCM8ITfcfSaGIF6feyZwgVy6tSU0Urf+oCo57qUccPmuROZKMJ/EWlUgeTYYTx
-	 h3YtkWqy8YolBaC8Rvpo3XlWe7lXqn2Xz4fsg3W61kMbJBbqC3ngFpRE32QM5QkETXWT5
-	 euDgsKjsU3SsZQElH4bN/QcvNyZIp79tZoDGDvbWItSwvPMXtqWv7qV447gq79DRRllwz
-	 ftNe5OuG7GQ9/ou4Z4VJKu4DDs1cU1kytigaTrFV0fK+2ow0SvZDKGkD0FxK9x7g52g==
+	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:Autocrypt:
+	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
+	bh=EUqndJKkZWBlXkpKUYPZ1RPcFFDTFG/c/PdODQVDwpg=;
+	b=LF4YncRaoP9C8Ry23BpdV+CYGAt5jPz/NCkf1BNpncIy5sUnb7xu0y/MMSkaZxgjbuEo
+	 TDea2m3rzqda2YTAnDTjR8BO8w5zZlBU7XAwwlpPWSnfnX2VtpJEIaI7UFs+gbjBMgP2u
+	 Jcin8RegdXo3Z8DeHVhdr881e5P42+iVakkumr5KIMZ4UcNKIaGKNntvqSqO134EB7QmJ
+	 fSMcptz2pUge44hM/LNOn1Oummtv1DIIRZvuK7hWwe93umJnElopflX9QQbE3E03yId4h
+	 DMci5AR2ON8/XKAGMcG6jGrwmNTruFinzIP4oUKCCXMQZYllhlUq6uXarMKMjAqE1TQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=toxicpanda.com;
-	spf=pass smtp.mailfrom=toxicpanda.com;
-	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=IxBXjUyM;
-	arc=none smtp.remote-ip=209.85.160.169
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+	dmarc=none header.from=dubeyko.com;
+	spf=pass smtp.mailfrom=dubeyko.com;
+	dkim=pass header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=H8u81ErG;
+	arc=none smtp.remote-ip=209.85.128.179
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2B52606A8BB
-	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 22:08:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D2B52606A8BB
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE3F8606A327
+	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 22:34:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CE3F8606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=IxBXjUyM
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-533861a59b8so4617121cf.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 14:08:44 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=H8u81ErG
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-8b336de3d38so3219407b3.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 14:34:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toxicpanda.com; s=google; t=1794521324; x=1795126124; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=3yGL7Y7LsUqcUfOnBJgwpH86TQ2mSRVVzjodSWn8N7c=;
-        b=IxBXjUyMGcw+6TYkiEHuOOAuFQu3bafol7rYtPvlaIyuztkGMUszyOELiQjmmAvcZJ
-         8/No6R6T2IKf/zN/2l10FFi3NnMie1NchpQDso2Oz7LIIuojB3JHdrAJn4DU9Cckwqgg
-         YXmx5TTvi11M8BYR07S3BuD+yG+izH26eeh0cebsbNghpoW8/ZBXyYi+7Bj94Yxa4G4G
-         KDSGZ+VkVbx02pHz3xVhh/1OgC7tlRjqLgHb+ts2rqPBxSwGV6K0al+AuR2zLvpQgSWT
-         2eeGmXO0RA9RyGWHYC4ui7t7L0TF8AmtIT6I4rJSisN+eYHtm40bh9mE1SMXMJPvQmps
-         oqxQ==
+        d=dubeyko-com.20260707.gappssmtp.com; s=20260707; t=1794522897; x=1795127697; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=EUqndJKkZWBlXkpKUYPZ1RPcFFDTFG/c/PdODQVDwpg=;
+        b=H8u81ErG0KhGbni1jUNu2P3ZuKKfb5s5mip06xVLPZkbwjR571G9dzFXZ6saKrwG6d
+         TnzDhDYD1zHS1lUEGplG7cHb44BbqsxwKf0+ORR/ic2Rs13vFt26QlGNc04xnJTzVe7z
+         x6gqFDeS1DozeqfksJna6WtbTBUdAMVBZDipI9E6W0x1ZS5Ko1E89R/AN/oO1N8ooIWD
+         DR2QcMxAGbciytuLlcgiIs1tcl+OdsEiPKvugJ83IKsqfCIvG3kTWg+Qna23iWyz2YQ3
+         c3cd56WIpJSr6wrgKcWv5MmHSAdAv0DeUwjIg8+eOxlTnHl+LDM694g0RbWNd2SAYPl/
+         /pPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794521324; x=1795126124;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=3yGL7Y7LsUqcUfOnBJgwpH86TQ2mSRVVzjodSWn8N7c=;
-        b=KN4ps3S7srfeptY0UQ4nrqj4xekHl9s5FjQ0PPNFAmiNzgCNVpqlERnak/NWh6cUI+
-         5VAu0xwx6Hbrrqu6neaaeUJ1d1ofZbXAYM5qT7FY8J/XLkWDJf9oNU7pgpgeaVboxoGf
-         wTzZ7IM/mT8YEPdLLlNaFk8C8jnpVlfIAaXYiJRuHDgXujRbEYX2T6stpfQ99oBy+yEP
-         8TdoRTql7ld0nN/fN39H0NmonIQ0nUlPovIY5Gp0JzrJzgDZARZVJAekT7OipRCGUFlV
-         eOkBA6jMN4wB3XJrxJQ5Trasxrlz1WAavTBHHWz043O/B+nBqr0v/sKxkm9+0M6SMIEQ
-         AufA==
-X-Forwarded-Encrypted: i=1; AL+hErFvcOlcpfDJWpu9CzfqCGiIOJYIbo0MCzk9eyJG9IPAEzIN8ZujGN4Qzk1gH8umQthM8usMNYgc8nn5fI5k@vger.kernel.org
-X-Gm-Message-State: APuU4Z/4hD+x/CqX9TIrfgUTLmXkGa8Gy5blnAc3+jICYUA+6Q+pC+kA
-	40D5dtr2In3ifuVqywkhtbum/qyim5GP27vCmlflvHsUvDjinzg2krriWasviaYPkEI=
-X-Gm-Gg: AYBFou2kyXHNRMN9+HTjIPnGIA+b5tMmEVy9VJ4/ltrr2+mCQ7k3pXp1Q6neR0fD0Gs
-	u12nC7PEsqgW9XbSOfQrtFX/UuiESAwuRPavHFXGgdQQ09tlsbKll86MwwD9POtmlN81Ob8fCT3
-	qgPe/KKJqxLR0fzuzfZjJ752fMAOZd02wLtVSqLzojdmlKFtUtXtS/F25s9fPBfLCEL0/1Z6UUJ
-	hInoYciOBTMPwmcJqJh8zDdIORWkGkZjYJtV3zGs+bF/XRub437+uQLdcTjqfW3WKbgoNbN6DbJ
-	CUUZChdC8VER3ExQdijOOG+QaOXq9jTrLGs2K4cPhIPbJhLG4YcwTc05FKLAxbSRDB5UMoM4CKe
-	dMZqnYmBedbJllNxJnQr19R6225b4rl25VP4PamSnxXdputgeTKFAj4Rlg2saz5i+v7k1BqrrpL
-	Rp2TmTGmvNV+vWO6KF5rShc4s8ByrrK2Lony8ND6vj1Z3i/MDwATB64Q2bNLvQHlJX0oCxqpiA0
-	n3VofyJWiOAd9s2H0x9IyNODg3NEpkbqon1we3D539GpQs8FzEKppzYvBTGKVxPskU8LkjPBSAD
-	UJh/MhAIB860oLal9lsqj3ZZSaEeLti+xs6b6XoUVkNadA==
-X-Received: by 2002:a05:622a:1b1d:b0:536:cda:d3b0 with SMTP id d75a77b69052e-55aca0672c5mr11040441cf.75.1794521323635;
-        Thu, 12 Nov 2026 14:08:43 -0800 (PST)
-Received: from toxicpanda.com ([153.61.196.252])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91f23d5e579sm5876786d6.17.2026.11.12.14.08.42
+        d=1e100.net; s=20260707; t=1794522897; x=1795127697;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=EUqndJKkZWBlXkpKUYPZ1RPcFFDTFG/c/PdODQVDwpg=;
+        b=iCLacLmTrdawNlhob48Y4yU4iBEGsmLJlcOSm+H+OoDukbUFUZxqyc7ylZ3DksSAMu
+         m7bm/oqUbNIgYO7tDmGSFNI/YwVBdmW3adJbSoMjqlZTL6olAFo1ECL73fTCJljCp9oR
+         yRryBaMfGe9/ZtDhXhgl29/CwC1WqQf7xI/rnvC3eNFel8aKRuX3nX5DaVEH3npMglAW
+         x9IN4tKVZE1iEA6VQgI0eY4vxrDHfUKr0i/uJTVIHB1x8hNsAT6anJqg4avG6a3Nsg9b
+         e0DhEe6nyytDNJLJMqv7NI97hEXQx0Ws4+SmvDJbCtGDWKgxt7QUkPCzkNMcfrnxPJaD
+         Tpng==
+X-Forwarded-Encrypted: i=1; AL+hErF+1MTr5YUiEH945q690LSoCJ+3Nw+1vu1bcwLjrphX6gpXWCu/HqrJTIVQK6Iig7i4I+bsXHgzx3JvrdRd@vger.kernel.org
+X-Gm-Message-State: APuU4Z8xHyUHBLpo4jgRSp4WYO7li8+H/1ZHKYbv25+Q+DUScBrkAtPm
+	8u3Fem541m0889Ca1Da6IbPyQqFiNDy9dorZdKnUw4VREi7wOg+/+D9jP9vMaILfDLM=
+X-Gm-Gg: AYBFou2SdQYu0rQ/rFwcGZKL9g/MtirKMQTbxPywJk4cbbF9i6ET1yQDFNonWvsF5YM
+	1b5NNXP/yEnNl52+/Pq9trUB+tTj05mV6UFLL0zGi9+/AFp2xF3YS4QzI5oRtc7eI4zhNUj57UH
+	fqYuCTEUnGj1e9qraIWAdNh2weH8/ofeRr+rZHhALyCqmArVwt/IAOqer81H+TmwVVaICoaJ5hZ
+	3LkCA3JFuwU1ZcTjSoQE3r5bOCjocGoDrMtyaHmsmS5SFoyl7hPZdWuqyFjv+8K5HJgauvdEgfZ
+	w2xx14V36f/j6BJ3r0tdJuGfNuNkn5FbNL0A8PEv3+WAVjH6jmmw/bQiAtQCUcNUpz3bh49zLiZ
+	9uAoeX/0AzGC0DI1nDbd4F4t+NWGw9FY6qj/bejHu1T+vvgDUbhJOQlh18PrUX/c5A8ik5DF+bH
+	7IHSVZCDtL2HtLXS28uoiGW7oGFIG+xXRC22SZ2H+Yuru1DHqfp9VoAr5jD4sPR0KtB1X9GmLQC
+	gmUoyoPK0aZyxzZLYbvztqvDvA3kGOcTonO/RvlWSlebH6GBv952Z8seuXNqTkrv6yQhlXrH8uF
+	XJYY3nJJ/OMPbF7DtXywe+yw8+DiowVMowS6HaN/bR6f2sItQEFpLQo+J8UYiLX0GAv8yF7YsVp
+	p2u24zzpKIoCdJ/6mkXkHjnRE73/HCub5HmpDA3i07ylKWkOpRMIdBRfOU+Vbi9u8WMjNOty9sF
+	UjZjILjpJfq2JaSLUQ/Js=
+X-Received: by 2002:a05:690c:f13:b0:8b3:6d4e:3f54 with SMTP id 00721157ae682-8b4aa317c64mr5393057b3.62.1794522896727;
+        Thu, 12 Nov 2026 14:34:56 -0800 (PST)
+Received: from ?IPv6:2600:1700:6476:1430:3a31:6c95:5610:70f6? ([2600:1700:6476:1430:3a31:6c95:5610:70f6])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b4aa92db7dsm6825367b3.17.2026.11.12.14.34.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2026 14:08:43 -0800 (PST)
-From: Josef Bacik <josef@toxicpanda.com>
-Date: Thu, 12 Nov 2026 22:08:24 +0000
-Subject: [PATCH v10 3/3] selftests/namespaces: test the CAP_SETFCAP rule
- for user namespaces
+        Thu, 12 Nov 2026 14:34:55 -0800 (PST)
+Message-ID: <2bbc10eb1dd5ee69329a9307f14fd15b1815b898.camel@dubeyko.com>
+Subject: Re: [PATCH v2] hfs: avoid reusing occupied CNIDs after deletion
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: Hengyu Liang <hengyul@cs.unc.edu>
+Cc: glaubitz@physik.fu-berlin.de, frank.li@vivo.com, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
+Date: Thu, 12 Nov 2026 14:34:54 -0800
+In-Reply-To: <20261112110128.4082071-1-hengyul@cs.unc.edu>
+References: <20261112110128.4082071-1-hengyul@cs.unc.edu>
+Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
+ keydata=mQINBGgaTLYBEADaJc/WqWTeunGetXyyGJ5Za7b23M/ozuDCWCp+yWUa2GqQKH40dxRIR
+ zshgOmAue7t9RQJU9lxZ4ZHWbi1Hzz85+0omefEdAKFmxTO6+CYV0g/sapU0wPJws3sC2Pbda9/eJ
+ ZcvScAX2n/PlhpTnzJKf3JkHh3nM1ACO3jzSe2/muSQJvqMLG2D71ccekr1RyUh8V+OZdrPtfkDam
+ V6GOT6IvyE+d+55fzmo20nJKecvbyvdikWwZvjjCENsG9qOf3TcCJ9DDYwjyYe1To8b+mQM9nHcxp
+ jUsUuH074BhISFwt99/htZdSgp4csiGeXr8f9BEotRB6+kjMBHaiJ6B7BIlDmlffyR4f3oR/5hxgy
+ dvIxMocqyc03xVyM6tA4ZrshKkwDgZIFEKkx37ec22ZJczNwGywKQW2TGXUTZVbdooiG4tXbRBLxe
+ ga/NTZ52ZdEkSxAUGw/l0y0InTtdDIWvfUT+WXtQcEPRBE6HHhoeFehLzWL/o7w5Hog+0hXhNjqte
+ fzKpI2fWmYzoIb6ueNmE/8sP9fWXo6Av9m8B5hRvF/hVWfEysr/2LSqN+xjt9NEbg8WNRMLy/Y0MS
+ p5fgf9pmGF78waFiBvgZIQNuQnHrM+0BmYOhR0JKoHjt7r5wLyNiKFc8b7xXndyCDYfniO3ljbr0j
+ tXWRGxx4to6FwARAQABtCpWaWFjaGVzbGF2IER1YmV5a28gPFNsYXZhLkR1YmV5a29AaWJtLmNvbT
+ 6JAlQEEwEKAD4WIQRVwwtrZ87KC0La2wQ5XNnC34RAdQUCaBpd7AIbAQUJA8JnAAULCQgHAgYVCgk
+ ICwIEFgIDAQIeAQIXgAAKCRA5XNnC34RAdYjFEACiWBEybMt1xjRbEgaZ3UP5i2bSwayDwYDvgWW5
+ EbRP7JcqOcZ2vkJwrK3gsqC3FKpjOPh7ecE0I4vrabH1Qobe2N8B2Y396z24mGnkTBbb16Uz3PC93
+ nFN1BA0wuOjlr1/oOTy5gBY563vybhnXPfSEUcXRd28jI7z8tRyzXh2tL8ZLdv1u4vQ8E0O7lVJ55
+ p9yGxbwgb5vXU4T2irqRKLxRvU80rZIXoEM7zLf5r7RaRxgwjTKdu6rYMUOfoyEQQZTD4Xg9YE/X8
+ pZzcbYFs4IlscyK6cXU0pjwr2ssjearOLLDJ7ygvfOiOuCZL+6zHRunLwq2JH/RmwuLVmWWSbgosZ
+ D6c5+wu6DxV15y7zZaR3NFPOR5ErpCFUorKzBO1nA4dwOAbNym9OGkhRgLAyxwpea0V0ZlStfp0kf
+ VaSZYo7PXd8Bbtyjali0niBjPpEVZdgtVUpBlPr97jBYZ+L5GF3hd6WJFbEYgj+5Af7CUjbX9DHwe
+ GQ/tdXWRnJHRzorxzjOS3003ddRnPtQDDN3Z/XzdAZwQAs0RqqXrTeeJrLppFUbAP+HZTyOLVJcAA
+ lVQROoq8PbM3ZKIaOygjj6Yw0emJi1D9OsN2UKjoe4W185vamFWX4Ba41jmCPrYJWAWHfAMjjkInI
+ Pg7RLGs8FiwxfcpkILP0YbVWHiNAabQmVmlhY2hlc2xhdiBEdWJleWtvIDxzbGF2YUBkdWJleWtvL
+ mNvbT6JAlcEEwEKAEECGwEFCQPCZwAFCwkIBwIGFQoJCAsCBBYCAwECHgECF4AWIQRVwwtrZ87KC0
+ La2wQ5XNnC34RAdQUCaBpeTwIZAQAKCRA5XNnC34RAdew7D/48vw8dfTLcVjp4j6qUH9rOuXp5A2b
+ jCEPeI0oOwRdqkyiGzUfUprHM48owvvye5u1mUZnKp8BWDDsjX4ddmhdloY0+6ecRAG73xlWMFKVK
+ 4P5XGnHU9A2JOtRhnOWQfPTgFhy69BSYyOeG3e5J+xPyUUBeHajbMVPKnD10NMCx8Ux1D2bv8OWbv
+ 3DvpUNx9D46UhBmkwIfrQWBkr0OGD2AXFfPqo08c3jcJMOAEc2vBI08Fij9o1gHwP2suFaG0X6jUN
+ sy6KPOKg7TVMXtMzxNsKGyFxC1pG7lv+oaEBT6TJSVs/pm71ZrOezQANRzvBeXNUixWienTdAEG8a
+ x4uOf3EF5WvYUhDiY8XBJyRv2ZnKJmBxZ3jPStadSuh3Bmo4mNgRVpFXrfb7h8oJC1l1WGdJa9aWi
+ xUedku0/nH+nZMTqrtWYkXoLxaMswVM5S4f3pYKd7VlHxtlZiQ95RqQd5uWYcEN6xaSvAO3Cs4Co8
+ D6etTHtKPcx1+d0x6BvkBvqNJ5yCiuzPPnKE6E0ss52KKvQt3injPyfe8ffofbW4s2nlEL1s0DoBv
+ JslCebuQ6+Orb/Sl6zictIsv3XMq3jGFeZcDg2hXzngOC255+b0Z/To7jINTxYQot8jCOJQOLplxc
+ NFdvziOa4FgUBC4X71upsZIoZJeii2V/Jtc3B4g==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-9 
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -93,1623 +136,493 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261112-b4-setfcap-userns-v10-3-84f6f7faa903@toxicpanda.com>
-References: <20261112-b4-setfcap-userns-v10-0-84f6f7faa903@toxicpanda.com>
-In-Reply-To: <20261112-b4-setfcap-userns-v10-0-84f6f7faa903@toxicpanda.com>
-To: Serge Hallyn <serge@hallyn.com>, Paul Moore <paul@paul-moore.com>, 
- Christian Brauner <brauner@kernel.org>
-Cc: James Morris <jmorris@namei.org>, David Howells <dhowells@redhat.com>, 
- Jarkko Sakkinen <jarkko@kernel.org>, "Andrew G. Morgan" <morgan@kernel.org>, 
- Serge Hallyn <sergeh@kernel.org>, linux-security-module@vger.kernel.org, 
- linux-kernel@vger.kernel.org, keyrings@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, Shuah Khan <shuah@kernel.org>, 
- linux-kselftest@vger.kernel.org, Bradley Morgan <brads@mainlining.org>, 
- Josef Bacik <josef@toxicpanda.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openssh-sha256; t=1794521317; l=39698;
- i=josef@toxicpanda.com; h=from:subject:message-id;
- bh=J0awhMQldmwbshL3UZS7BWnltUPHhDq3XhypHkJa2oc=;
- b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgUBr36M/n0nWN0DNbnxwzIiCZez6MG
- JiruuNaSCI/zXsAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QEhrxd9ii2/dEFzjpTetUSzAlHynwyedSK3nBwlY3dYEhdJhYXNnWHxQZef4nM1mTDpiOgUM+UY
- 8M9I96NOBHQ4=
-X-Developer-Key: i=josef@toxicpanda.com; a=openssh;
- fpr=SHA256:C8kOX2QUJCMqnCX+KEeoqRAjLo9L+ELOSH2NSAJHqGA
 
-Add tests for whether a uid 0 task that gave up CAP_SETFCAP gets it back
-by joining a user namespace whose tasks can write file capabilities for
-its root user, or by attaching to such a task.
+On Thu, 2026-11-12 at 06:01 -0500, Hengyu Liang wrote:
+> Commit a06ec283e125 ("hfs: add logic of correcting a next unused
+> CNID")
+> made hfs_correct_next_unused_CNID() lower the next CNID after the
+> newest file or directory is deleted. It takes the CNID of the last
+> file or directory record in the catalog as the largest CNID in use.
+>=20
+> However, catalog records are sorted by parent ID and name, not by
+> CNID, so the next CNID can be one that is still in use. As of now,
+> creating a file after deleting the newest one can fail with EEXIST.
+> Commit 6592287869bf ("hfs: fix incorrect inode ID assignment in
+> hfs_new_inode()") exposed this issue.
+>=20
+> The issue can be reproduced on a freshly formatted HFS volume with:
+>=20
+> =C2=A0=C2=A0=C2=A0 mkdir z
+> =C2=A0=C2=A0=C2=A0 touch a b
+> =C2=A0=C2=A0=C2=A0 rm b
+> =C2=A0=C2=A0=C2=A0 touch c
+>=20
+> Without this change, the result is:
+>=20
+> =C2=A0=C2=A0=C2=A0 touch: cannot touch 'c': File exists
+>=20
+> With it, c is created.
+>=20
+> Keep the largest CNID of the records in and below each catalog node
+> in memory, in leaf nodes and in index nodes, so that the root node
+> gives the largest CNID in use. Adding a record raises it in the nodes
+> above, and removing the record with the largest CNID makes them
+> compute it again.
 
-Each case runs as root in a private mount namespace with a tmpfs on
-/tmp.  It sets up everything but the step it tests and fails if any of
-that goes wrong, so a refusal comes from that step.
+I am still not sure that this approach could work. If we haven't the
+thread records in the b-tree, then we sort records by parent CNID. But
+folder can contain child with any CNID. So, if we keep the largest CNID
+in use, then, technically speaking largest CNID - 1 can be located at
+any node (it doesn't matter if it is used or not). Even if we found
+node #1 with largest CNID, then it doesn't mean that largest CNID - 1
+is located at the same node #1. And even if we cannot find the largest
+CNID - 1 value, then it doesn't mean that this value hasn't been
+allocated already as child CNID of some parent CNID (because records
+are ordered by parent CNID). Are you sure that this approach will
+finally work? This is why I started to guess that maybe we need to
+think about Red-Black tree that can keep deleted CNIDs (however, it
+could be not efficient way).
 
-The ones that must be refused:
+So, I would like to be convinced that this approach can definitely work
+before taking a deeper code review. I suspect that we still is not good
+shape yet.=20
 
-- setns() and PTRACE_ATTACH into namespaces that map host uid 0, at
-  uid 0 or another uid, or that have no uid_map yet and whose tasks can
-  still map it, and the same one level down among tasks of an
-  unprivileged user
-- setns() into a namespace without a uid_map under one that maps host
-  uid 0 at uid 5, and setns() after moving the euid away from 0
-- setns() and then writing file capabilities that uid 1000 runs with
-  CAP_SYS_ADMIN, end to end
-- pidfd_getfd(), PTRACE_ATTACH to targets that gave up CAP_SETFCAP but
-  can get it back, and PTRACE_TRACEME towards a parent without
-  CAP_SETFCAP
-- joiners and tracers that kept CAP_SYS_PTRACE
+>=20
+> Fixes: a06ec283e125 ("hfs: add logic of correcting a next unused
+> CNID")
+> Cc: stable@vger.kernel.org
+> Suggested-by: Viacheslav Dubeyko <slava@dubeyko.com>
+> Assisted-by: LLM
+> Signed-off-by: Hengyu Liang <hengyul@cs.unc.edu>
+> ---
+> Changes in v2:
+> - Keep the largest CNID in memory in every catalog node, leaf and
+> =C2=A0 index, as Viacheslav Dubeyko suggested. v1 walked the leaf nodes.
+> - Rebase on hfs for-next.
+> - v1:
+> https://lore.kernel.org/r/20261015110114.1649059-1-hengyul@cs.unc.edu
+>=20
+> Tested in KVM with KASAN on 34ee5f8c2198, without and with this
+> patch.
+> All fstests on HFS: 24 failures without the patch, 20 with it, no new
+> failures. Deleting 8000 files:
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unpatched=C2=A0=C2=A0 patched
+> =C2=A0=C2=A0=C2=A0 newest first=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 11 s=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 0.36 s
+> =C2=A0=C2=A0=C2=A0 odd ones, then even ones
+> =C2=A0=C2=A0=C2=A0 newest first=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 3.8 s=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 0.19 s
+>=20
+> Creating the files (0.54 s and 0.55 s) and deleting them oldest first
+> (0.37 s and 0.38 s) take about the same time.
+>=20
+> =C2=A0fs/hfs/brec.c=C2=A0=C2=A0=C2=A0 | 172
+> +++++++++++++++++++++++++++++++++++++++++++++++
+> =C2=A0fs/hfs/btree.h=C2=A0=C2=A0 |=C2=A0=C2=A0 5 ++
+> =C2=A0fs/hfs/catalog.c |=C2=A0 96 +++-----------------------
+> =C2=A03 files changed, 186 insertions(+), 87 deletions(-)
+>=20
+> diff --git a/fs/hfs/brec.c b/fs/hfs/brec.c
+> index 1ca1ee9f73ef..318bbee43529 100644
+> --- a/fs/hfs/brec.c
+> +++ b/fs/hfs/brec.c
+> @@ -62,6 +62,174 @@ u16 hfs_brec_keylen(struct hfs_bnode *node, u16
+> rec)
+> =C2=A0	return retval;
+> =C2=A0}
+> =C2=A0
+> +/* Get the CNID of a file or directory record of the catalog tree */
+> +static u32 hfs_brec_cnid(struct hfs_bnode *node, u32 off)
+> +{
+> +	__be32 cnid;
+> +
+> +	switch (hfs_bnode_read_u8(node, off)) {
+> +	case HFS_CDR_DIR:
+> +		off +=3D offsetof(struct hfs_cat_dir, DirID);
+> +		break;
+> +	case HFS_CDR_FIL:
+> +		off +=3D offsetof(struct hfs_cat_file, FlNum);
+> +		break;
+> +	default:
+> +		return 0;
+> +	}
+> +	hfs_bnode_read(node, &cnid, off, sizeof(cnid));
+> +	return be32_to_cpu(cnid);
+> +}
+> +
+> +/* Forget max_cnid of all nodes of the tree */
+> +static void hfs_btree_drop_max_cnid(struct hfs_btree *tree)
+> +{
+> +	struct hfs_bnode *node;
+> +	int i;
+> +
+> +	spin_lock(&tree->hash_lock);
+> +	for (i =3D 0; i < NODE_HASH_SIZE; i++) {
+> +		for (node =3D tree->node_hash[i]; node; node =3D node-
+> >next_hash)
+> +			clear_bit(HFS_BNODE_MAX_CNID, &node->flags);
+> +	}
+> +	spin_unlock(&tree->hash_lock);
+> +}
+> +
+> +/*
+> + * The record at @off has been added to the catalog leaf @node, or
+> is about
+> + * to be removed from it. Update max_cnid of the node and of its
+> parents:
+> + * a new CNID can only raise it, and after the largest CNID is gone
+> it has
+> + * to be computed again.
+> + */
+> +static void hfs_brec_update_max_cnid(struct hfs_bnode *node, u32
+> off,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0 bool insert)
+> +{
+> +	struct hfs_btree *tree =3D node->tree;
+> +	u32 nidx =3D node->this;
+> +	u32 cnid;
+> +	bool done;
+> +
+> +	if (tree->cnid !=3D HFS_CAT_CNID || node->type !=3D
+> HFS_NODE_LEAF)
+> +		return;
+> +	cnid =3D hfs_brec_cnid(node, off);
+> +	if (!cnid)
+> +		return;
+> +
+> +	for (;;) {
+> +		node =3D hfs_bnode_find(tree, nidx);
+> +		if (IS_ERR(node))
+> +			break;
+> +
+> +		done =3D nidx =3D=3D tree->root;
+> +		if (test_bit(HFS_BNODE_MAX_CNID, &node->flags)) {
+> +			if (insert && node->max_cnid < cnid)
+> +				node->max_cnid =3D cnid;
+> +			else if (!insert && node->max_cnid <=3D cnid)
+> +				clear_bit(HFS_BNODE_MAX_CNID, &node-
+> >flags);
+> +			else
+> +				done =3D true;	/* the parents do
+> not change */
+> +		}
+> +		nidx =3D node->parent;
+> +		hfs_bnode_put(node);
+> +
+> +		if (done)
+> +			return;
+> +		if (!nidx)
+> +			break;
+> +	}
+> +
+> +	/* a parent could not be reached */
+> +	hfs_btree_drop_max_cnid(tree);
+> +}
+> +
+> +/*
+> + * Compute max_cnid of a catalog node: the largest CNID of the file
+> and
+> + * directory records of a leaf node, or the largest max_cnid of the
+> children
+> + * of an index node. If a child has no max_cnid yet, return the
+> number of
+> + * that child in @child instead.
+> + */
+> +static int hfs_brec_calc_max_cnid(struct hfs_bnode *node, u32
+> *child)
+> +{
+> +	struct hfs_bnode *cnode;
+> +	u32 max_cnid =3D 0;
+> +	u16 off, len, keylen;
+> +	__be32 data;
+> +	int i;
+> +
+> +	for (i =3D 0; i < node->num_recs; i++) {
+> +		len =3D hfs_brec_lenoff(node, i, &off);
+> +		keylen =3D hfs_brec_keylen(node, i);
+> +		if (!keylen || keylen + sizeof(data) > len)
+> +			return -EIO;
+> +		off +=3D keylen;
+> +
+> +		if (node->type =3D=3D HFS_NODE_LEAF) {
+> +			max_cnid =3D max(max_cnid, hfs_brec_cnid(node,
+> off));
+> +			continue;
+> +		}
+> +
+> +		hfs_bnode_read(node, &data, off, sizeof(data));
+> +		cnode =3D hfs_bnode_find(node->tree,
+> be32_to_cpu(data));
+> +		if (IS_ERR(cnode))
+> +			return PTR_ERR(cnode);
+> +		if (cnode->height !=3D node->height - 1) {
+> +			hfs_bnode_put(cnode);
+> +			return -EIO;
+> +		}
+> +		if (!test_bit(HFS_BNODE_MAX_CNID, &cnode->flags)) {
+> +			cnode->parent =3D node->this;
+> +			*child =3D cnode->this;
+> +			hfs_bnode_put(cnode);
+> +			return 0;
+> +		}
+> +		max_cnid =3D max(max_cnid, cnode->max_cnid);
+> +		hfs_bnode_put(cnode);
+> +	}
+> +
+> +	node->max_cnid =3D max_cnid;
+> +	set_bit(HFS_BNODE_MAX_CNID, &node->flags);
+> +	return 0;
+> +}
+> +
+> +/*
+> + * hfs_btree_max_cnid()
+> + *
+> + * Find the largest CNID of the file and directory records of the
+> catalog
+> + * tree. It is max_cnid of the root node. max_cnid is not stored on
+> disk,
+> + * so walk down to the nodes that do not have it and compute it from
+> the
+> + * bottom up.
+> + */
+> +int hfs_btree_max_cnid(struct hfs_btree *tree, u32 *max_cnid)
+> +{
+> +	struct hfs_bnode *node;
+> +	u32 nidx =3D tree->root;
+> +	u32 child;
+> +	int res =3D 0;
+> +
+> +	*max_cnid =3D 0;
+> +	while (nidx && !res) {
+> +		node =3D hfs_bnode_find(tree, nidx);
+> +		if (IS_ERR(node))
+> +			return PTR_ERR(node);
+> +
+> +		child =3D 0;
+> +		if (!test_bit(HFS_BNODE_MAX_CNID, &node->flags))
+> +			res =3D hfs_brec_calc_max_cnid(node, &child);
+> +
+> +		if (res || child) {
+> +			nidx =3D child;
+> +		} else if (nidx =3D=3D tree->root) {
+> +			*max_cnid =3D node->max_cnid;
+> +			nidx =3D 0;
+> +		} else {
+> +			/* a node that was read again has lost its
+> parent */
+> +			nidx =3D node->parent ? node->parent : tree-
+> >root;
+> +		}
+> +		hfs_bnode_put(node);
+> +	}
+> +	return res;
+> +}
+> +
+> =C2=A0int hfs_brec_insert(struct hfs_find_data *fd, void *entry, u32
+> entry_len)
+> =C2=A0{
+> =C2=A0	struct hfs_btree *tree;
+> @@ -131,6 +299,7 @@ int hfs_brec_insert(struct hfs_find_data *fd,
+> void *entry, u32 entry_len)
+> =C2=A0skip:
+> =C2=A0	hfs_bnode_write(node, fd->search_key, data_off, key_len);
+> =C2=A0	hfs_bnode_write(node, entry, data_off + key_len, entry_len);
+> +	hfs_brec_update_max_cnid(node, data_off + key_len, true);
+> =C2=A0	hfs_bnode_dump(node);
+> =C2=A0
+> =C2=A0	/*
+> @@ -183,6 +352,7 @@ int hfs_brec_remove(struct hfs_find_data *fd)
+> =C2=A0
+> =C2=A0	tree =3D fd->tree;
+> =C2=A0	node =3D fd->bnode;
+> +	hfs_brec_update_max_cnid(node, fd->entryoffset, false);
+> =C2=A0again:
+> =C2=A0	rec_off =3D tree->node_size - (fd->record + 2) * 2;
+> =C2=A0	end_off =3D tree->node_size - (node->num_recs + 1) * 2;
+> @@ -322,6 +492,8 @@ static struct hfs_bnode *hfs_bnode_split(struct
+> hfs_find_data *fd)
+> =C2=A0	}
+> =C2=A0	new_node->num_recs =3D node->num_recs - num_recs;
+> =C2=A0	node->num_recs =3D num_recs;
+> +	/* the records that move to the new node may hold the
+> largest CNID */
+> +	clear_bit(HFS_BNODE_MAX_CNID, &node->flags);
+> =C2=A0
+> =C2=A0	new_rec_off =3D tree->node_size - rec_size;
+> =C2=A0	new_off =3D node_desc_size;
+> diff --git a/fs/hfs/btree.h b/fs/hfs/btree.h
+> index 1f703f2c53d8..21f69cddc683 100644
+> --- a/fs/hfs/btree.h
+> +++ b/fs/hfs/btree.h
+> @@ -62,6 +62,9 @@ struct hfs_bnode {
+> =C2=A0	u8 type;
+> =C2=A0	u8 height;
+> =C2=A0
+> +	/* catalog tree: largest CNID in the records in and below
+> the node */
+> +	u32 max_cnid;
+> +
+> =C2=A0	struct hfs_bnode *next_hash;
+> =C2=A0	unsigned long flags;
+> =C2=A0	wait_queue_head_t lock_wq;
+> @@ -73,6 +76,7 @@ struct hfs_bnode {
+> =C2=A0#define HFS_BNODE_ERROR		0
+> =C2=A0#define HFS_BNODE_NEW		1
+> =C2=A0#define HFS_BNODE_DELETED	2
+> +#define HFS_BNODE_MAX_CNID	3	/* max_cnid is valid */
 
-The ones that must keep working are the mapping rule of commit
-db2e718a4798 ("capabilities: require CAP_SETFCAP to map uid 0") itself,
-unprivileged users nesting namespaces, joiners and tracers with
-CAP_SETFCAP, namespaces created without CAP_SETFCAP,
-namespaces without a uid_map owned by another user, containers that
-don't map host uid 0, idmapped mounts of a container's rootfs,
-PTRACE_MODE_READ, and file capabilities written in a namespace of one's
-own, after setns() with CAP_SETFCAP, by unprivileged users and through
-an idmapped mount.
+Why do we need this flag? If node is created, then it should have valid
+max_cnid.
 
-Everything skips when the test doesn't run as root with a full
-capability set in the initial user namespace, root or uid 1000 can't
-create user namespaces, or there is no tmpfs or no security.capability
-on it.  The ptrace cases also skip when Yama forbids ptrace.  The
-idmapped mount cases also skip when tmpfs can't be idmapped.
+Thanks,
+Slava.
 
-Signed-off-by: Josef Bacik <josef@toxicpanda.com>
----
- tools/testing/selftests/namespaces/.gitignore     |    1 +
- tools/testing/selftests/namespaces/Makefile       |    3 +-
- tools/testing/selftests/namespaces/config         |    2 +
- tools/testing/selftests/namespaces/setfcap_test.c | 1505 +++++++++++++++++++++
- 4 files changed, 1510 insertions(+), 1 deletion(-)
-
-diff --git a/tools/testing/selftests/namespaces/.gitignore b/tools/testing/selftests/namespaces/.gitignore
-index 995b082357fa..f7d1867113e8 100644
---- a/tools/testing/selftests/namespaces/.gitignore
-+++ b/tools/testing/selftests/namespaces/.gitignore
-@@ -11,3 +11,4 @@ stress_test
- listns_pagination_bug
- regression_pidfd_setns_test
- uid_map_range_test
-+setfcap_test
-diff --git a/tools/testing/selftests/namespaces/Makefile b/tools/testing/selftests/namespaces/Makefile
-index 9b22d12708e1..0455b6544869 100644
---- a/tools/testing/selftests/namespaces/Makefile
-+++ b/tools/testing/selftests/namespaces/Makefile
-@@ -14,7 +14,8 @@ TEST_GEN_PROGS := nsid_test \
- 		  stress_test \
- 		  listns_pagination_bug \
- 		  regression_pidfd_setns_test \
--		  uid_map_range_test
-+		  uid_map_range_test \
-+		  setfcap_test
- 
- include ../lib.mk
- 
-diff --git a/tools/testing/selftests/namespaces/config b/tools/testing/selftests/namespaces/config
-index d09836260262..2a1fa144398e 100644
---- a/tools/testing/selftests/namespaces/config
-+++ b/tools/testing/selftests/namespaces/config
-@@ -5,3 +5,5 @@ CONFIG_USER_NS=y
- CONFIG_PID_NS=y
- CONFIG_NET_NS=y
- CONFIG_CGROUPS=y
-+CONFIG_TMPFS=y
-+CONFIG_TMPFS_XATTR=y
-diff --git a/tools/testing/selftests/namespaces/setfcap_test.c b/tools/testing/selftests/namespaces/setfcap_test.c
-new file mode 100644
-index 000000000000..8fb7286428ab
---- /dev/null
-+++ b/tools/testing/selftests/namespaces/setfcap_test.c
-@@ -0,0 +1,1505 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * A uid 0 task that gave up CAP_SETFCAP must not get it back by joining a
-+ * user namespace whose tasks can write file capabilities for its root user,
-+ * or by attaching to such a task.  Mapping and file capabilities in the
-+ * namespaces involved have to keep working.
-+ *
-+ * "R" is a task with uid 0 and all capabilities in the initial namespace,
-+ * "X" one with uid 0 that gave up CAP_SETFCAP and CAP_SYS_PTRACE in its
-+ * permitted, effective and bounding sets, and "U" is uid 1000.
-+ *
-+ * Every test runs in a private mount namespace with a tmpfs on /tmp.
-+ */
-+#define _GNU_SOURCE
-+#include <endian.h>
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <sched.h>
-+#include <signal.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <unistd.h>
-+#include <sys/mount.h>
-+#include <sys/prctl.h>
-+#include <sys/ptrace.h>
-+#include <sys/stat.h>
-+#include <sys/syscall.h>
-+#include <sys/wait.h>
-+#include <sys/xattr.h>
-+#include <linux/capability.h>
-+#include <linux/mount.h>
-+
-+#include "kselftest_harness.h"
-+
-+#ifndef __NR_pidfd_open
-+#define __NR_pidfd_open 434
-+#endif
-+#ifndef __NR_pidfd_getfd
-+#define __NR_pidfd_getfd 438
-+#endif
-+#ifndef __NR_open_tree
-+#define __NR_open_tree 428
-+#endif
-+#ifndef __NR_move_mount
-+#define __NR_move_mount 429
-+#endif
-+#ifndef __NR_mount_setattr
-+#define __NR_mount_setattr 442
-+#endif
-+
-+/* Exit codes of a copy of this program run with SETFCAP_TEST_CAPS set. */
-+#define CAPS_HAS_SYS_ADMIN	42
-+#define CAPS_NO_SYS_ADMIN	43
-+
-+/* A step that wasn't the one under test went wrong. */
-+#define SETUP_ERROR		(-1000)
-+
-+static int capget_v3(struct __user_cap_data_struct d[2])
-+{
-+	struct __user_cap_header_struct h = { _LINUX_CAPABILITY_VERSION_3, 0 };
-+
-+	return syscall(SYS_capget, &h, d);
-+}
-+
-+__attribute__((constructor)) static void report_caps(void)
-+{
-+	struct __user_cap_data_struct d[2];
-+
-+	if (!getenv("SETFCAP_TEST_CAPS"))
-+		return;
-+	if (capget_v3(d))
-+		_exit(1);
-+	_exit(d[0].effective & (1u << CAP_SYS_ADMIN) ?
-+	      CAPS_HAS_SYS_ADMIN : CAPS_NO_SYS_ADMIN);
-+}
-+
-+/* X: uid 0 without CAP_SETFCAP and CAP_SYS_PTRACE */
-+static void restrict_root(void)
-+{
-+	struct __user_cap_header_struct h = { _LINUX_CAPABILITY_VERSION_3, 0 };
-+	struct __user_cap_data_struct d[2];
-+	unsigned int drop = (1u << CAP_SETFCAP) | (1u << CAP_SYS_PTRACE);
-+
-+	if (prctl(PR_CAPBSET_DROP, CAP_SETFCAP) ||
-+	    prctl(PR_CAPBSET_DROP, CAP_SYS_PTRACE) || capget_v3(d))
-+		_exit(99);
-+	d[0].effective &= ~drop;
-+	d[0].permitted &= ~drop;
-+	if (syscall(SYS_capset, &h, d))
-+		_exit(99);
-+}
-+
-+/* Give up CAP_SETFCAP only in the permitted and effective set. */
-+static void drop_setfcap_keep_bset(void)
-+{
-+	struct __user_cap_header_struct h = { _LINUX_CAPABILITY_VERSION_3, 0 };
-+	struct __user_cap_data_struct d[2];
-+
-+	if (capget_v3(d))
-+		_exit(99);
-+	d[0].effective &= ~(1u << CAP_SETFCAP);
-+	d[0].permitted &= ~(1u << CAP_SETFCAP);
-+	if (syscall(SYS_capset, &h, d))
-+		_exit(99);
-+}
-+
-+/* Keep CAP_SETFCAP only in the inheritable set. */
-+static void keep_setfcap_inheritable(void)
-+{
-+	struct __user_cap_header_struct h = { _LINUX_CAPABILITY_VERSION_3, 0 };
-+	struct __user_cap_data_struct d[2];
-+
-+	if (capget_v3(d))
-+		_exit(99);
-+	d[0].inheritable |= 1u << CAP_SETFCAP;
-+	if (syscall(SYS_capset, &h, d) || prctl(PR_CAPBSET_DROP, CAP_SETFCAP))
-+		_exit(99);
-+	d[0].effective &= ~(1u << CAP_SETFCAP);
-+	d[0].permitted &= ~(1u << CAP_SETFCAP);
-+	if (syscall(SYS_capset, &h, d))
-+		_exit(99);
-+}
-+
-+/* Give up CAP_SETFCAP only, keep CAP_SYS_PTRACE. */
-+static void drop_setfcap(void)
-+{
-+	struct __user_cap_header_struct h = { _LINUX_CAPABILITY_VERSION_3, 0 };
-+	struct __user_cap_data_struct d[2];
-+
-+	if (prctl(PR_CAPBSET_DROP, CAP_SETFCAP) || capget_v3(d))
-+		_exit(99);
-+	d[0].effective &= ~(1u << CAP_SETFCAP);
-+	d[0].permitted &= ~(1u << CAP_SETFCAP);
-+	if (syscall(SYS_capset, &h, d))
-+		_exit(99);
-+}
-+
-+static void become_user(void)
-+{
-+	if (setresgid(1000, 1000, 1000) || setresuid(1000, 1000, 1000))
-+		_exit(99);
-+	prctl(PR_SET_DUMPABLE, 1);
-+}
-+
-+static long wr(int fd, const char *s)
-+{
-+	long r = write(fd, s, strlen(s));
-+
-+	return r < 0 ? -errno : 0;
-+}
-+
-+static long write_file(int pid, const char *name, const char *s)
-+{
-+	char path[64];
-+	long r;
-+	int fd;
-+
-+	if (pid)
-+		snprintf(path, sizeof(path), "/proc/%d/%s", pid, name);
-+	else
-+		snprintf(path, sizeof(path), "/proc/self/%s", name);
-+	fd = open(path, O_WRONLY);
-+	if (fd < 0)
-+		return -errno;
-+	r = wr(fd, s);
-+	close(fd);
-+	return r;
-+}
-+
-+static long write_map(int pid, const char *map)
-+{
-+	return write_file(pid, "uid_map", map);
-+}
-+
-+/* both maps, as the setup for a test rather than its subject */
-+static long map_both(int pid, const char *map)
-+{
-+	if (write_map(pid, map) || write_file(pid, "setgroups", "deny") ||
-+	    write_file(pid, "gid_map", map))
-+		return SETUP_ERROR;
-+	return 0;
-+}
-+
-+/* what an unprivileged user does after unshare(CLONE_NEWUSER) */
-+static long map_user(void)
-+{
-+	return map_both(0, "0 1000 1\n");
-+}
-+
-+static int userns_fd(int pid)
-+{
-+	char path[64];
-+
-+	snprintf(path, sizeof(path), "/proc/%d/ns/user", pid);
-+	return open(path, O_RDONLY);
-+}
-+
-+/* setns() into the user namespace fd refers to, and close it */
-+static long join_fd(int fd)
-+{
-+	long r;
-+
-+	if (fd < 0)
-+		return SETUP_ERROR;
-+	r = setns(fd, CLONE_NEWUSER) ? -errno : 0;
-+	close(fd);
-+	return r;
-+}
-+
-+static long join(int pid)
-+{
-+	return join_fd(userns_fd(pid));
-+}
-+
-+/* security.capability with CAP_SYS_ADMIN in permitted and effective; v2 if rootid < 0 */
-+static long set_fcap(const char *path, int rootid)
-+{
-+	struct vfs_ns_cap_data d;
-+	int v3 = rootid >= 0;
-+
-+	memset(&d, 0, sizeof(d));
-+	d.magic_etc = htole32((v3 ? VFS_CAP_REVISION_3 : VFS_CAP_REVISION_2) |
-+			      VFS_CAP_FLAGS_EFFECTIVE);
-+	d.data[0].permitted = htole32(1u << CAP_SYS_ADMIN);
-+	d.rootid = htole32(rootid);
-+	if (setxattr(path, "security.capability", &d,
-+		     v3 ? XATTR_CAPS_SZ_3 : XATTR_CAPS_SZ_2, 0))
-+		return -errno;
-+	return 0;
-+}
-+
-+/* a copy of this program, owned by uid */
-+static int new_file(const char *path, int uid)
-+{
-+	char buf[65536];
-+	int in, out, ret = -1;
-+	ssize_t n;
-+
-+	unlink(path);
-+	in = open("/proc/self/exe", O_RDONLY);
-+	if (in < 0)
-+		return -1;
-+	out = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0755);
-+	if (out < 0)
-+		goto out_in;
-+	while ((n = read(in, buf, sizeof(buf))) > 0)
-+		if (write(out, buf, n) != n)
-+			goto out;
-+	if (!n && !fchown(out, uid, uid) && !fchmod(out, 0755))
-+		ret = 0;
-+out:
-+	close(out);
-+out_in:
-+	close(in);
-+	return ret;
-+}
-+
-+/*
-+ * Does U get CAP_SYS_ADMIN from the file capabilities of path?  1 if it
-+ * does, 0 if not, -1 if the file didn't run.
-+ */
-+static int user_gets_sys_admin(const char *path)
-+{
-+	int pid, st;
-+
-+	pid = fork();
-+	if (pid < 0)
-+		return -1;
-+	if (!pid) {
-+		become_user();
-+		setenv("SETFCAP_TEST_CAPS", "1", 1);
-+		execl(path, path, NULL);
-+		_exit(1);
-+	}
-+	if (waitpid(pid, &st, 0) != pid || !WIFEXITED(st))
-+		return -1;
-+	if (WEXITSTATUS(st) == CAPS_HAS_SYS_ADMIN)
-+		return 1;
-+	return WEXITSTATUS(st) == CAPS_NO_SYS_ADMIN ? 0 : -1;
-+}
-+
-+/* run fn in a child and return what it returns */
-+static long in_child(long (*fn)(void *), void *arg)
-+{
-+	int p[2], pid;
-+	long r = SETUP_ERROR;
-+
-+	if (pipe(p))
-+		return SETUP_ERROR;
-+	pid = fork();
-+	if (!pid) {
-+		close(p[0]);
-+		r = fn(arg);
-+		if (write(p[1], &r, sizeof(r)) != sizeof(r))
-+			_exit(1);
-+		_exit(0);
-+	}
-+	close(p[1]);
-+	if (pid < 0 || read(p[0], &r, sizeof(r)) != sizeof(r))
-+		r = SETUP_ERROR;
-+	close(p[0]);
-+	if (pid > 0)
-+		waitpid(pid, NULL, 0);
-+	return r;
-+}
-+
-+/* A task that unshares a user namespace and waits. */
-+struct holder {
-+	int pid, go;
-+};
-+
-+enum holder_kind {
-+	HOLDER_ROOT,		/* R */
-+	HOLDER_RESTRICTED,	/* X */
-+	HOLDER_USER,		/* U, maps "0 1000 1" itself */
-+};
-+
-+/*
-+ * Fork a task that runs setup(arg), says it is ready and waits until it is
-+ * reaped.  Its pid is -1 if any of that fails.
-+ */
-+static struct holder spawn(int (*setup)(const void *), const void *arg)
-+{
-+	struct holder h = { -1, -1 };
-+	int ready[2], go[2];
-+	char c;
-+
-+	if (pipe(ready))
-+		return h;
-+	if (pipe(go)) {
-+		close(ready[0]);
-+		close(ready[1]);
-+		return h;
-+	}
-+	h.pid = fork();
-+	if (!h.pid) {
-+		close(ready[0]);
-+		close(go[1]);
-+		if (setup(arg) || write(ready[1], "r", 1) != 1)
-+			_exit(1);
-+		if (read(go[0], &c, 1) < 0)
-+			_exit(1);
-+		_exit(0);
-+	}
-+	close(ready[1]);
-+	close(go[0]);
-+	h.go = go[1];
-+	if (h.pid > 0 && read(ready[0], &c, 1) != 1) {
-+		kill(h.pid, SIGKILL);
-+		waitpid(h.pid, NULL, 0);
-+		h.pid = -1;
-+	}
-+	close(ready[0]);
-+	if (h.pid <= 0) {
-+		close(h.go);
-+		h.go = -1;
-+	}
-+	return h;
-+}
-+
-+struct holder_setup {
-+	enum holder_kind kind;
-+	int map_fd_at;
-+};
-+
-+static int holder_setup(const void *a)
-+{
-+	const struct holder_setup *s = a;
-+	int fd;
-+
-+	if (s->kind == HOLDER_RESTRICTED)
-+		restrict_root();
-+	if (s->kind == HOLDER_USER)
-+		become_user();
-+	if (unshare(CLONE_NEWUSER))
-+		return -1;
-+	if (s->kind == HOLDER_USER && map_user())
-+		return -1;
-+	if (s->map_fd_at) {
-+		fd = open("/proc/self/uid_map", O_WRONLY);
-+		if (fd < 0 || dup2(fd, s->map_fd_at) != s->map_fd_at)
-+			return -1;
-+		close(fd);
-+	}
-+	return 0;
-+}
-+
-+static struct holder spawn_holder(enum holder_kind kind, int map_fd_at)
-+{
-+	struct holder_setup s = { kind, map_fd_at };
-+
-+	return spawn(holder_setup, &s);
-+}
-+
-+static void reap_holder(struct holder h)
-+{
-+	if (h.pid <= 0)
-+		return;
-+	close(h.go);
-+	kill(h.pid, SIGKILL);
-+	waitpid(h.pid, NULL, 0);
-+}
-+
-+/* ... whose maps are written from the parent namespace by the caller */
-+static struct holder spawn_mapped(enum holder_kind kind, const char *map)
-+{
-+	struct holder h = spawn_holder(kind, 0);
-+
-+	if (h.pid > 0 && map_both(h.pid, map)) {
-+		reap_holder(h);
-+		h.pid = -1;
-+	}
-+	return h;
-+}
-+
-+/*
-+ * ... that joins the user namespace of pid instead, runs prep there and, if
-+ * new_ns is set, unshares another one
-+ */
-+struct joined_setup {
-+	int pid;
-+	void (*prep)(void);
-+	int new_ns;
-+};
-+
-+static int joined_setup(const void *a)
-+{
-+	const struct joined_setup *s = a;
-+
-+	if (join(s->pid))
-+		return -1;
-+	if (s->prep)
-+		s->prep();
-+	if (s->new_ns && unshare(CLONE_NEWUSER))
-+		return -1;
-+	return 0;
-+}
-+
-+static struct holder spawn_joined(int pid, void (*prep)(void), int new_ns)
-+{
-+	struct joined_setup s = { pid, prep, new_ns };
-+
-+	return spawn(joined_setup, &s);
-+}
-+
-+#define PID(a) (((struct holder *)(a))->pid)
-+
-+static long attach_only(int pid)
-+{
-+	if (ptrace(PTRACE_ATTACH, pid, 0, 0))
-+		return -errno;
-+	waitpid(pid, NULL, 0);
-+	ptrace(PTRACE_DETACH, pid, 0, 0);
-+	return 0;
-+}
-+
-+/*
-+ * /tmp idmapped with the user namespace of pid, at /tmp/mnt.  Returns 1 if
-+ * tmpfs can't be idmapped, -1 if anything else goes wrong.
-+ */
-+static int idmap_tmp(int pid)
-+{
-+	struct mount_attr attr = { .attr_set = MOUNT_ATTR_IDMAP };
-+	int tfd = -1, nsfd, ret = -1;
-+	char path[64];
-+
-+	snprintf(path, sizeof(path), "/proc/%d/ns/user", pid);
-+	nsfd = open(path, O_RDONLY);
-+	if (nsfd < 0)
-+		return -1;
-+	tfd = syscall(__NR_open_tree, AT_FDCWD, "/tmp",
-+		      OPEN_TREE_CLONE | OPEN_TREE_CLOEXEC);
-+	if (tfd < 0) {
-+		if (errno == ENOSYS)
-+			ret = 1;
-+		goto out;
-+	}
-+	attr.userns_fd = nsfd;
-+	if (syscall(__NR_mount_setattr, tfd, "", AT_EMPTY_PATH, &attr,
-+		    sizeof(attr))) {
-+		if (errno == EINVAL || errno == EOPNOTSUPP || errno == ENOSYS)
-+			ret = 1;
-+		goto out;
-+	}
-+	if (syscall(__NR_move_mount, tfd, "", AT_FDCWD, "/tmp/mnt",
-+		    MOVE_MOUNT_F_EMPTY_PATH))
-+		goto out;
-+	ret = 0;
-+out:
-+	if (tfd >= 0)
-+		close(tfd);
-+	close(nsfd);
-+	return ret;
-+}
-+
-+/* Each test: private mounts, a tmpfs on /tmp with copies of this program */
-+static void prepare(struct __test_metadata *_metadata)
-+{
-+	ASSERT_EQ(unshare(CLONE_NEWNS), 0);
-+	ASSERT_EQ(mount(NULL, "/", NULL, MS_REC | MS_PRIVATE, NULL), 0);
-+	ASSERT_EQ(mount("tmpfs", "/tmp", "tmpfs", 0, "mode=1777"), 0);
-+	ASSERT_EQ(new_file("/tmp/x", 0), 0);
-+	ASSERT_EQ(new_file("/tmp/u", 1000), 0);
-+	ASSERT_EQ(mkdir("/tmp/mnt", 0755), 0);
-+}
-+
-+/* What keeps the tests from running here, or NULL */
-+static const char *missing(void)
-+{
-+	struct __user_cap_data_struct d[2];
-+	unsigned long a, b, c;
-+	int i, pid, st, last;
-+	FILE *f;
-+
-+	if (geteuid())
-+		return "needs root";
-+	f = fopen("/proc/self/uid_map", "r");
-+	if (!f)
-+		return "no /proc/self/uid_map";
-+	i = fscanf(f, "%lu %lu %lu", &a, &b, &c);
-+	fclose(f);
-+	if (i != 3 || a || b || c != 4294967295UL)
-+		return "not in the initial user namespace";
-+	f = fopen("/proc/sys/kernel/cap_last_cap", "r");
-+	if (!f)
-+		return "no /proc/sys/kernel/cap_last_cap";
-+	i = fscanf(f, "%d", &last);
-+	fclose(f);
-+	if (i != 1 || capget_v3(d))
-+		return "can't read the capability sets";
-+	for (i = 0; i <= last; i++)
-+		if (!(d[i / 32].effective & (1u << (i % 32))) ||
-+		    prctl(PR_CAPBSET_READ, i) != 1)
-+			return "needs a full capability set";
-+	pid = fork();
-+	if (!pid)
-+		_exit(unshare(CLONE_NEWUSER) ? 1 : 0);
-+	if (pid < 0 || waitpid(pid, &st, 0) != pid || !WIFEXITED(st))
-+		return "fork() failed";
-+	if (WEXITSTATUS(st))
-+		return "can't create user namespaces";
-+	pid = fork();
-+	if (!pid) {
-+		become_user();
-+		_exit(unshare(CLONE_NEWUSER) ? 1 : 0);
-+	}
-+	if (pid < 0 || waitpid(pid, &st, 0) != pid || !WIFEXITED(st))
-+		return "fork() failed";
-+	if (WEXITSTATUS(st))
-+		return "uid 1000 can't create user namespaces";
-+	pid = fork();
-+	if (!pid) {
-+		if (unshare(CLONE_NEWNS) ||
-+		    mount(NULL, "/", NULL, MS_REC | MS_PRIVATE, NULL) ||
-+		    mount("tmpfs", "/tmp", "tmpfs", 0, NULL))
-+			_exit(2);
-+		if (new_file("/tmp/x", 0))
-+			_exit(3);
-+		_exit(set_fcap("/tmp/x", -1) == -EOPNOTSUPP ? 4 : 0);
-+	}
-+	if (pid < 0 || waitpid(pid, &st, 0) != pid || !WIFEXITED(st))
-+		return "fork() failed";
-+	switch (WEXITSTATUS(st)) {
-+	case 0:
-+		break;
-+	case 2:
-+		return "can't mount a tmpfs on /tmp";
-+	case 4:
-+		return "no security.capability on tmpfs";
-+	default:
-+		return "can't copy the test program to tmpfs";
-+	}
-+	return NULL;
-+}
-+
-+FIXTURE(setfcap) {};
-+
-+FIXTURE_SETUP(setfcap)
-+{
-+	const char *why = missing();
-+
-+	if (why)
-+		SKIP(return, "%s", why);
-+	prepare(_metadata);
-+}
-+
-+FIXTURE_TEARDOWN(setfcap) {}
-+
-+/* ---------------------------------------------------------------------- */
-+/* Mapping uid 0 of the parent                                           */
-+
-+static long x_maps_from_parent(void *a)
-+{
-+	restrict_root();
-+	return write_map(PID(a), "0 0 1\n");
-+}
-+
-+TEST_F(setfcap, map_from_parent_without_setfcap)
-+{
-+	struct holder h;
-+
-+	h = spawn_holder(HOLDER_ROOT, 0);
-+	ASSERT_GT(h.pid, 0);
-+	EXPECT_EQ(in_child(x_maps_from_parent, &h), -EPERM);
-+	reap_holder(h);
-+}
-+
-+static long x_maps_own(void *a)
-+{
-+	restrict_root();
-+	if (unshare(CLONE_NEWUSER))
-+		return SETUP_ERROR;
-+	return write_map(0, "0 0 1\n");
-+}
-+
-+TEST_F(setfcap, map_own_without_setfcap)
-+{
-+	EXPECT_EQ(in_child(x_maps_own, NULL), -EPERM);
-+}
-+
-+/* What has to keep working. */
-+
-+static long r_maps_own(void *a)
-+{
-+	if (unshare(CLONE_NEWUSER))
-+		return SETUP_ERROR;
-+	return write_map(0, "0 0 1\n");
-+}
-+
-+TEST_F(setfcap, map_own)
-+{
-+	EXPECT_EQ(in_child(r_maps_own, NULL), 0);
-+}
-+
-+static long r_maps_from_parent(void *a)
-+{
-+	return write_map(PID(a), "0 0 1000\n");
-+}
-+
-+TEST_F(setfcap, map_from_parent)
-+{
-+	struct holder h;
-+
-+	h = spawn_holder(HOLDER_ROOT, 0);
-+	ASSERT_GT(h.pid, 0);
-+	EXPECT_EQ(in_child(r_maps_from_parent, &h), 0);
-+	reap_holder(h);
-+}
-+
-+static long child_maps(void *a)
-+{
-+	return write_map(0, "0 0 1\n");
-+}
-+
-+static long r_child_maps(void *a)
-+{
-+	if (unshare(CLONE_NEWUSER))
-+		return SETUP_ERROR;
-+	return in_child(child_maps, NULL);
-+}
-+
-+TEST_F(setfcap, map_by_child_of_creator)
-+{
-+	EXPECT_EQ(in_child(r_child_maps, NULL), 0);
-+}
-+
-+static long r_joins_and_maps(void *a)
-+{
-+	long r = join(PID(a));
-+
-+	if (r)
-+		return r;
-+	return write_map(0, "0 0 1\n");
-+}
-+
-+TEST_F(setfcap, map_after_setns_with_setfcap)
-+{
-+	struct holder h;
-+
-+	h = spawn_holder(HOLDER_ROOT, 0);
-+	ASSERT_GT(h.pid, 0);
-+	EXPECT_EQ(in_child(r_joins_and_maps, &h), 0);
-+	reap_holder(h);
-+}
-+
-+static long r_joins_writes_fd(void *a)
-+{
-+	void **v = a;
-+	long r = join(PID(v[0]));
-+
-+	if (r)
-+		return r;
-+	return wr(*(int *)v[1], "0 0 1\n");
-+}
-+
-+TEST_F(setfcap, map_opened_in_parent_written_inside)
-+{
-+	struct holder h;
-+	char path[64];
-+	void *v[2];
-+	int fd;
-+
-+	h = spawn_holder(HOLDER_ROOT, 0);
-+	ASSERT_GT(h.pid, 0);
-+	snprintf(path, sizeof(path), "/proc/%d/uid_map", h.pid);
-+	fd = open(path, O_WRONLY);
-+	ASSERT_GE(fd, 0);
-+	v[0] = &h;
-+	v[1] = &fd;
-+	EXPECT_EQ(in_child(r_joins_writes_fd, v), 0);
-+	close(fd);
-+	reap_holder(h);
-+}
-+
-+static long u_nested_maps_own(void *a)
-+{
-+	become_user();
-+	if (unshare(CLONE_NEWUSER) || map_user())
-+		return SETUP_ERROR;
-+	return in_child(r_maps_own, NULL);
-+}
-+
-+TEST_F(setfcap, map_unprivileged_nested)
-+{
-+	EXPECT_EQ(in_child(u_nested_maps_own, NULL), 0);
-+}
-+
-+static long u_nested_maps_child(void *a)
-+{
-+	struct holder h;
-+	long r;
-+
-+	become_user();
-+	if (unshare(CLONE_NEWUSER) || map_user())
-+		return SETUP_ERROR;
-+	h = spawn_holder(HOLDER_ROOT, 0);
-+	if (h.pid <= 0)
-+		return SETUP_ERROR;
-+	r = write_map(h.pid, "0 0 1\n");
-+	reap_holder(h);
-+	return r;
-+}
-+
-+TEST_F(setfcap, map_unprivileged_nested_from_parent)
-+{
-+	EXPECT_EQ(in_child(u_nested_maps_child, NULL), 0);
-+}
-+
-+/* ---------------------------------------------------------------------- */
-+/* File capabilities                                                       */
-+
-+/* What has to keep working. */
-+
-+static long r_maps_sets_fcap(void *a)
-+{
-+	if (unshare(CLONE_NEWUSER) || map_both(0, "0 0 1\n"))
-+		return SETUP_ERROR;
-+	return set_fcap("/tmp/x", -1);
-+}
-+
-+TEST_F(setfcap, fcap_own_ns)
-+{
-+	EXPECT_EQ(in_child(r_maps_sets_fcap, NULL), 0);
-+	EXPECT_EQ(user_gets_sys_admin("/tmp/x"), 1);
-+}
-+
-+static long r_joins_sets_fcap(void *a)
-+{
-+	long r = join(PID(a));
-+
-+	if (r)
-+		return r;
-+	return set_fcap("/tmp/x", -1);
-+}
-+
-+TEST_F(setfcap, fcap_after_setns_with_setfcap)
-+{
-+	struct holder h;
-+
-+	h = spawn_mapped(HOLDER_ROOT, "0 0 1\n");
-+	ASSERT_GT(h.pid, 0);
-+	EXPECT_EQ(in_child(r_joins_sets_fcap, &h), 0);
-+	reap_holder(h);
-+}
-+
-+static long u_sets_fcap(void *a)
-+{
-+	become_user();
-+	if (unshare(CLONE_NEWUSER) || map_user())
-+		return SETUP_ERROR;
-+	return set_fcap("/tmp/u", -1);
-+}
-+
-+TEST_F(setfcap, fcap_unprivileged)
-+{
-+	EXPECT_EQ(in_child(u_sets_fcap, NULL), 0);
-+}
-+
-+static long u_nested_sets_fcap_inner(void *a)
-+{
-+	if (unshare(CLONE_NEWUSER) || map_both(0, "0 0 1\n"))
-+		return SETUP_ERROR;
-+	return set_fcap("/tmp/u", -1);
-+}
-+
-+static long u_nested_sets_fcap(void *a)
-+{
-+	become_user();
-+	if (unshare(CLONE_NEWUSER) || map_user())
-+		return SETUP_ERROR;
-+	return in_child(u_nested_sets_fcap_inner, NULL);
-+}
-+
-+TEST_F(setfcap, fcap_unprivileged_nested)
-+{
-+	EXPECT_EQ(in_child(u_nested_sets_fcap, NULL), 0);
-+}
-+
-+static long u_joins_own_sets_fcap(void *a)
-+{
-+	long r;
-+
-+	become_user();
-+	r = join(PID(a));
-+	if (r)
-+		return r;
-+	return set_fcap("/tmp/u", -1);
-+}
-+
-+TEST_F(setfcap, fcap_unprivileged_after_setns)
-+{
-+	struct holder h;
-+
-+	h = spawn_holder(HOLDER_USER, 0);
-+	ASSERT_GT(h.pid, 0);
-+	EXPECT_EQ(in_child(u_joins_own_sets_fcap, &h), 0);
-+	reap_holder(h);
-+}
-+
-+/* ---------------------------------------------------------------------- */
-+/* Idmapped mounts: a container's rootfs can make its root host uid 0, so  */
-+/* that file capabilities written through it are honoured on the host.    */
-+/* That is up to whoever sets up the mount, so X may still join a         */
-+/* container that doesn't map host uid 0 and write them.                  */
-+
-+struct idmap_case {
-+	const char *ns_map, *idmap_map;
-+	int file_uid, restricted;
-+};
-+
-+struct idmap_join {
-+	int pid, restricted;
-+};
-+
-+/* join the namespace from a sibling of its holder and write the xattr */
-+static long idmap_joins_sets_fcap(void *a)
-+{
-+	const struct idmap_join *j = a;
-+
-+	if (j->restricted)
-+		restrict_root();
-+	return join(j->pid) ? SETUP_ERROR : set_fcap("/tmp/mnt/x", 0);
-+}
-+
-+/* returns 1 to skip: no idmapped mounts on tmpfs */
-+static int idmap_case(const struct idmap_case *c, long *r)
-+{
-+	struct holder ns, im = { -1, -1 };
-+	struct idmap_join j;
-+	int ret = -1;
-+
-+	ns = spawn_mapped(HOLDER_ROOT, c->ns_map);
-+	if (ns.pid <= 0)
-+		return -1;
-+	if (c->idmap_map) {
-+		im = spawn_mapped(HOLDER_ROOT, c->idmap_map);
-+		if (im.pid <= 0)
-+			goto out;
-+	}
-+	if (new_file("/tmp/x", c->file_uid))
-+		goto out;
-+	ret = idmap_tmp(c->idmap_map ? im.pid : ns.pid);
-+	if (ret)
-+		goto out;
-+	j.pid = ns.pid;
-+	j.restricted = c->restricted;
-+	*r = in_child(idmap_joins_sets_fcap, &j);
-+	umount2("/tmp/mnt", MNT_DETACH);
-+	ret = 0;
-+out:
-+	reap_holder(ns);
-+	reap_holder(im);
-+	return ret;
-+}
-+
-+FIXTURE(idmap) {};
-+
-+FIXTURE_VARIANT(idmap) {
-+	struct idmap_case c;
-+	long expect;
-+};
-+
-+/* R in its container writes through the container's own idmapped rootfs */
-+FIXTURE_VARIANT_ADD(idmap, container_root) {
-+	.c = { "0 100000 1000\n", NULL, 0, 0 },
-+	.expect = 0,
-+};
-+
-+/* left to the admin: the container doesn't map host uid 0 */
-+FIXTURE_VARIANT_ADD(idmap, container_without_host_root) {
-+	.c = { "0 100000 1000\n", NULL, 0, 1 },
-+	.expect = 0,
-+};
-+
-+FIXTURE_VARIANT_ADD(idmap, unrelated_idmap) {
-+	.c = { "0 100000 1000\n", "200000 100000 1\n", 200000, 1 },
-+	.expect = 0,
-+};
-+
-+FIXTURE_SETUP(idmap)
-+{
-+	const char *why = missing();
-+
-+	if (why)
-+		SKIP(return, "%s", why);
-+	prepare(_metadata);
-+}
-+
-+FIXTURE_TEARDOWN(idmap) {}
-+
-+TEST_F(idmap, fcap)
-+{
-+	long r = SETUP_ERROR;
-+	int ret;
-+
-+	ret = idmap_case(&variant->c, &r);
-+	ASSERT_GE(ret, 0);
-+	if (ret == 1)
-+		SKIP(return, "no idmapped mounts on tmpfs");
-+	EXPECT_EQ(r, variant->expect);
-+}
-+
-+/* ---------------------------------------------------------------------- */
-+/* setns()                                                                 */
-+/*                                                                         */
-+/* A task that joins gets a full capability set in the namespace, so      */
-+/* mapping uid 0 or writing file capabilities afterwards has no check of  */
-+/* its own: setns() is the one.                                           */
-+
-+static long x_joins(void *a)
-+{
-+	restrict_root();
-+	return join(PID(a));
-+}
-+
-+static long r_joins(void *a)
-+{
-+	return join(PID(a));
-+}
-+
-+TEST_F(setfcap, setns_ns_mapping_host_root)
-+{
-+	struct holder h;
-+
-+	h = spawn_mapped(HOLDER_ROOT, "0 0 1\n");
-+	ASSERT_GT(h.pid, 0);
-+	EXPECT_EQ(in_child(x_joins, &h), -EPERM);
-+	reap_holder(h);
-+}
-+
-+/* the root user can be mapped at any uid */
-+TEST_F(setfcap, setns_ns_mapping_host_root_at_nonzero_uid)
-+{
-+	struct holder h;
-+
-+	h = spawn_mapped(HOLDER_ROOT, "5 0 1\n");
-+	ASSERT_GT(h.pid, 0);
-+	EXPECT_EQ(in_child(x_joins, &h), -EPERM);
-+	reap_holder(h);
-+}
-+
-+TEST_F(setfcap, setns_ns_without_map_yet)
-+{
-+	struct holder h;
-+
-+	h = spawn_holder(HOLDER_ROOT, 0);
-+	ASSERT_GT(h.pid, 0);
-+	EXPECT_EQ(in_child(x_joins, &h), -EPERM);
-+	reap_holder(h);
-+}
-+
-+/* the same one level down, among tasks of an unprivileged user */
-+static long u_nested_x(long (*step)(void *))
-+{
-+	struct holder h;
-+	long r;
-+
-+	become_user();
-+	if (unshare(CLONE_NEWUSER) || map_user())
-+		return SETUP_ERROR;
-+	/* R-like: full set in the user's namespace */
-+	h = spawn_holder(HOLDER_ROOT, 0);
-+	if (h.pid <= 0)
-+		return SETUP_ERROR;
-+	r = in_child(step, &h);
-+	reap_holder(h);
-+	return r;
-+}
-+
-+static long u_nested_x_joins(void *a)
-+{
-+	return u_nested_x(x_joins);
-+}
-+
-+TEST_F(setfcap, setns_nested_unprivileged)
-+{
-+	EXPECT_EQ(in_child(u_nested_x_joins, NULL), -EPERM);
-+}
-+
-+/* host uid 0 is uid 5 of the parent, which the owner may map without it */
-+static long x_joins_unmapped_under_nonzero_root(void *a)
-+{
-+	struct holder p, n;
-+	long r;
-+
-+	p = spawn_mapped(HOLDER_ROOT, "5 0 1\n");
-+	if (p.pid <= 0)
-+		return SETUP_ERROR;
-+	n = spawn_joined(p.pid, restrict_root, 1);
-+	r = n.pid > 0 ? in_child(x_joins, &n) : SETUP_ERROR;
-+	reap_holder(n);
-+	reap_holder(p);
-+	return r;
-+}
-+
-+TEST_F(setfcap, setns_ns_without_map_yet_root_at_nonzero_uid)
-+{
-+	EXPECT_EQ(in_child(x_joins_unmapped_under_nonzero_root, NULL), -EPERM);
-+}
-+
-+/* X moves its euid away from 0 and takes back its other capabilities */
-+static long x_with_other_euid_joins(void *a)
-+{
-+	struct __user_cap_header_struct h = { _LINUX_CAPABILITY_VERSION_3, 0 };
-+	struct __user_cap_data_struct d[2];
-+	int fd;
-+
-+	restrict_root();
-+	fd = userns_fd(PID(a));
-+	if (fd < 0 || setresuid(-1, 1000, -1) || capget_v3(d))
-+		return SETUP_ERROR;
-+	d[0].effective = d[0].permitted;
-+	d[1].effective = d[1].permitted;
-+	if (syscall(SYS_capset, &h, d))
-+		return SETUP_ERROR;
-+	return join_fd(fd);
-+}
-+
-+TEST_F(setfcap, setns_with_other_euid)
-+{
-+	struct holder h;
-+
-+	h = spawn_mapped(HOLDER_ROOT, "0 0 1\n");
-+	ASSERT_GT(h.pid, 0);
-+	EXPECT_EQ(in_child(x_with_other_euid_joins, &h), -EPERM);
-+	reap_holder(h);
-+}
-+
-+/* ... and the end result: file capabilities that uid 1000 runs with */
-+static long x_joins_sets_fcap(void *a)
-+{
-+	long r;
-+
-+	restrict_root();
-+	r = join(PID(a));
-+	return r ? r : set_fcap("/tmp/x", -1);
-+}
-+
-+TEST_F(setfcap, setns_then_fcap_for_host_root)
-+{
-+	struct holder h;
-+
-+	h = spawn_mapped(HOLDER_ROOT, "0 0 1\n");
-+	ASSERT_GT(h.pid, 0);
-+	EXPECT_EQ(in_child(x_joins_sets_fcap, &h), -EPERM);
-+	EXPECT_EQ(user_gets_sys_admin("/tmp/x"), 0);
-+	reap_holder(h);
-+}
-+
-+/* CAP_SYS_PTRACE doesn't stand in for CAP_SETFCAP */
-+static long ptracer_joins(void *a)
-+{
-+	drop_setfcap();
-+	return join(PID(a));
-+}
-+
-+TEST_F(setfcap, setns_with_sys_ptrace)
-+{
-+	struct holder h;
-+
-+	h = spawn_mapped(HOLDER_ROOT, "0 0 1\n");
-+	ASSERT_GT(h.pid, 0);
-+	EXPECT_EQ(in_child(ptracer_joins, &h), -EPERM);
-+	reap_holder(h);
-+}
-+
-+/*
-+ * Its creator is uid 1000 with CAP_SETFCAP, so tasks in there can only map
-+ * uid 1000.  X keeps CAP_SYS_PTRACE to see a namespace of another user.
-+ */
-+static int capable_user_unshares(const void *a)
-+{
-+	struct __user_cap_header_struct h = { _LINUX_CAPABILITY_VERSION_3, 0 };
-+	struct __user_cap_data_struct d[2];
-+
-+	if (prctl(PR_SET_KEEPCAPS, 1) || setresgid(1000, 1000, 1000) ||
-+	    setresuid(1000, 1000, 1000) || capget_v3(d))
-+		return -1;
-+	d[0].effective = d[0].permitted;
-+	d[1].effective = d[1].permitted;
-+	if (syscall(SYS_capset, &h, d))
-+		return -1;
-+	return unshare(CLONE_NEWUSER) ? -1 : 0;
-+}
-+
-+TEST_F(setfcap, setns_ns_without_map_yet_of_another_owner)
-+{
-+	struct holder h;
-+
-+	h = spawn(capable_user_unshares, NULL);
-+	ASSERT_GT(h.pid, 0);
-+	EXPECT_EQ(in_child(ptracer_joins, &h), 0);
-+	reap_holder(h);
-+}
-+
-+/* its creator had no CAP_SETFCAP, so nobody in there can map uid 0 */
-+TEST_F(setfcap, setns_ns_created_without_setfcap)
-+{
-+	struct holder h;
-+
-+	h = spawn_holder(HOLDER_RESTRICTED, 0);
-+	ASSERT_GT(h.pid, 0);
-+	EXPECT_EQ(in_child(x_joins, &h), 0);
-+	reap_holder(h);
-+}
-+
-+/* a container that doesn't map host uid 0 */
-+TEST_F(setfcap, setns_container)
-+{
-+	struct holder h;
-+
-+	h = spawn_mapped(HOLDER_ROOT, "0 100000 1000\n");
-+	ASSERT_GT(h.pid, 0);
-+	EXPECT_EQ(in_child(x_joins, &h), 0);
-+	reap_holder(h);
-+}
-+
-+TEST_F(setfcap, setns_unprivileged_ns)
-+{
-+	struct holder h;
-+
-+	h = spawn_holder(HOLDER_USER, 0);
-+	ASSERT_GT(h.pid, 0);
-+	EXPECT_EQ(in_child(r_joins, &h), 0);
-+	reap_holder(h);
-+}
-+
-+/* ---------------------------------------------------------------------- */
-+/* ptrace                                                                  */
-+
-+FIXTURE(ptrace) {};
-+
-+FIXTURE_SETUP(ptrace)
-+{
-+	const char *why = missing();
-+	FILE *f;
-+	int scope;
-+
-+	if (why)
-+		SKIP(return, "%s", why);
-+	f = fopen("/proc/sys/kernel/yama/ptrace_scope", "r");
-+	if (f) {
-+		if (fscanf(f, "%d", &scope) == 1 && scope == 3) {
-+			fclose(f);
-+			SKIP(return, "Yama doesn't allow ptrace");
-+		}
-+		fclose(f);
-+	}
-+	prepare(_metadata);
-+}
-+
-+FIXTURE_TEARDOWN(ptrace) {}
-+
-+static long x_attaches(void *a)
-+{
-+	restrict_root();
-+	return attach_only(PID(a));
-+}
-+
-+static long r_attaches(void *a)
-+{
-+	return attach_only(PID(a));
-+}
-+
-+TEST_F(ptrace, into_ns_without_map_yet)
-+{
-+	struct holder h;
-+
-+	h = spawn_holder(HOLDER_ROOT, 0);
-+	ASSERT_GT(h.pid, 0);
-+	EXPECT_EQ(in_child(x_attaches, &h), -EPERM);
-+	reap_holder(h);
-+}
-+
-+static long x_takes_fd(void *a)
-+{
-+	int pfd, fd;
-+
-+	restrict_root();
-+	pfd = syscall(__NR_pidfd_open, PID(a), 0);
-+	if (pfd < 0)
-+		return SETUP_ERROR;
-+	fd = syscall(__NR_pidfd_getfd, pfd, 100, 0);
-+	if (fd < 0)
-+		return -errno;
-+	close(fd);
-+	return 0;
-+}
-+
-+/* pidfd_getfd() checks for PTRACE_MODE_ATTACH */
-+TEST_F(ptrace, pidfd_getfd)
-+{
-+	struct holder h;
-+
-+	h = spawn_holder(HOLDER_ROOT, 100);
-+	ASSERT_GT(h.pid, 0);
-+	EXPECT_EQ(in_child(x_takes_fd, &h), -EPERM);
-+	reap_holder(h);
-+}
-+
-+TEST_F(ptrace, into_ns_mapping_host_root)
-+{
-+	struct holder h;
-+
-+	h = spawn_mapped(HOLDER_ROOT, "0 0 1\n");
-+	ASSERT_GT(h.pid, 0);
-+	EXPECT_EQ(in_child(x_attaches, &h), -EPERM);
-+	reap_holder(h);
-+}
-+
-+/* the root user can be mapped at any uid */
-+TEST_F(ptrace, into_ns_mapping_host_root_at_nonzero_uid)
-+{
-+	struct holder h;
-+
-+	h = spawn_mapped(HOLDER_ROOT, "5 0 1\n");
-+	ASSERT_GT(h.pid, 0);
-+	EXPECT_EQ(in_child(x_attaches, &h), -EPERM);
-+	reap_holder(h);
-+}
-+
-+static long u_nested_x_attaches(void *a)
-+{
-+	return u_nested_x(x_attaches);
-+}
-+
-+TEST_F(ptrace, nested_unprivileged)
-+{
-+	EXPECT_EQ(in_child(u_nested_x_attaches, NULL), -EPERM);
-+}
-+
-+/* X attaches to a task that joined the namespace and ran prep there */
-+struct joined_target {
-+	int pid;
-+	void (*prep)(void);
-+};
-+
-+static long x_attaches_joiner(void *a)
-+{
-+	const struct joined_target *j = a;
-+	struct holder t;
-+	long r;
-+
-+	t = spawn_joined(j->pid, j->prep, 0);
-+	if (t.pid <= 0)
-+		return SETUP_ERROR;
-+	r = in_child(x_attaches, &t);
-+	reap_holder(t);
-+	return r;
-+}
-+
-+/* an execve() as uid 0 gives the target CAP_SETFCAP back from its bset */
-+TEST_F(ptrace, target_with_setfcap_in_bset)
-+{
-+	struct joined_target j = { 0, drop_setfcap_keep_bset };
-+	struct holder h;
-+
-+	h = spawn_mapped(HOLDER_ROOT, "0 0 1\n");
-+	ASSERT_GT(h.pid, 0);
-+	j.pid = h.pid;
-+	EXPECT_EQ(in_child(x_attaches_joiner, &j), -EPERM);
-+	reap_holder(h);
-+}
-+
-+/*
-+ * The target's own capabilities don't matter: it gets CAP_SETFCAP back from
-+ * its inheritable set on execve(), or takes it from another task of its
-+ * namespace with CAP_SYS_PTRACE.
-+ */
-+TEST_F(ptrace, target_with_setfcap_inheritable)
-+{
-+	struct joined_target j = { 0, keep_setfcap_inheritable };
-+	struct holder h;
-+
-+	h = spawn_mapped(HOLDER_ROOT, "0 0 1\n");
-+	ASSERT_GT(h.pid, 0);
-+	j.pid = h.pid;
-+	EXPECT_EQ(in_child(x_attaches_joiner, &j), -EPERM);
-+	reap_holder(h);
-+}
-+
-+TEST_F(ptrace, target_with_sys_ptrace)
-+{
-+	struct joined_target j = { 0, drop_setfcap };
-+	struct holder h;
-+
-+	h = spawn_mapped(HOLDER_ROOT, "0 0 1\n");
-+	ASSERT_GT(h.pid, 0);
-+	j.pid = h.pid;
-+	EXPECT_EQ(in_child(x_attaches_joiner, &j), -EPERM);
-+	reap_holder(h);
-+}
-+
-+/* ... or writes "0 0 1" while its namespace has no uid_map yet */
-+TEST_F(ptrace, target_without_setfcap_ns_without_map_yet)
-+{
-+	struct joined_target j = { 0, restrict_root };
-+	struct holder h;
-+
-+	h = spawn_holder(HOLDER_ROOT, 0);
-+	ASSERT_GT(h.pid, 0);
-+	j.pid = h.pid;
-+	EXPECT_EQ(in_child(x_attaches_joiner, &j), -EPERM);
-+	reap_holder(h);
-+}
-+
-+/*
-+ * PTRACE_TRACEME from a child that joined a namespace mapping host uid 0,
-+ * with a parent that gave up CAP_SETFCAP and CAP_SYS_PTRACE after the fork
-+ */
-+struct traceme {
-+	int pid, restricted;
-+};
-+
-+static long parent_of_traceme(void *a)
-+{
-+	const struct traceme *t = a;
-+	int p[2], go[2], pid;
-+	long r = SETUP_ERROR;
-+	char c;
-+
-+	if (pipe(p) || pipe(go))
-+		return SETUP_ERROR;
-+	pid = fork();
-+	if (!pid) {
-+		close(p[0]);
-+		close(go[1]);
-+		if (read(go[0], &c, 1) != 1)
-+			_exit(1);
-+		if (join(t->pid))
-+			r = SETUP_ERROR;
-+		else
-+			r = ptrace(PTRACE_TRACEME, 0, 0, 0) ? -errno : 0;
-+		if (write(p[1], &r, sizeof(r)) != sizeof(r))
-+			_exit(1);
-+		_exit(0);
-+	}
-+	close(p[1]);
-+	close(go[0]);
-+	if (pid < 0) {
-+		r = SETUP_ERROR;
-+	} else {
-+		if (t->restricted)
-+			restrict_root();
-+		if (write(go[1], "g", 1) != 1 ||
-+		    read(p[0], &r, sizeof(r)) != sizeof(r))
-+			r = SETUP_ERROR;
-+	}
-+	close(go[1]);
-+	close(p[0]);
-+	if (pid > 0) {
-+		kill(pid, SIGKILL);
-+		waitpid(pid, NULL, 0);
-+	}
-+	return r;
-+}
-+
-+TEST_F(ptrace, traceme_by_restricted_parent)
-+{
-+	struct traceme t = { 0, 1 };
-+	struct holder h;
-+
-+	h = spawn_mapped(HOLDER_ROOT, "0 0 1\n");
-+	ASSERT_GT(h.pid, 0);
-+	t.pid = h.pid;
-+	EXPECT_EQ(in_child(parent_of_traceme, &t), -EPERM);
-+	reap_holder(h);
-+}
-+
-+TEST_F(ptrace, traceme_by_parent_with_setfcap)
-+{
-+	struct traceme t = { 0, 0 };
-+	struct holder h;
-+
-+	h = spawn_mapped(HOLDER_ROOT, "0 0 1\n");
-+	ASSERT_GT(h.pid, 0);
-+	t.pid = h.pid;
-+	EXPECT_EQ(in_child(parent_of_traceme, &t), 0);
-+	reap_holder(h);
-+}
-+
-+TEST_F(ptrace, into_container)
-+{
-+	struct holder h;
-+
-+	h = spawn_mapped(HOLDER_ROOT, "0 100000 1000\n");
-+	ASSERT_GT(h.pid, 0);
-+	EXPECT_EQ(in_child(x_attaches, &h), 0);
-+	reap_holder(h);
-+}
-+
-+TEST_F(ptrace, ns_mapping_only_user)
-+{
-+	struct holder h;
-+
-+	h = spawn_mapped(HOLDER_ROOT, "0 1000 1\n");
-+	ASSERT_GT(h.pid, 0);
-+	EXPECT_EQ(in_child(x_attaches, &h), 0);
-+	reap_holder(h);
-+}
-+
-+TEST_F(ptrace, between_restricted)
-+{
-+	struct holder h;
-+
-+	h = spawn_holder(HOLDER_RESTRICTED, 0);
-+	ASSERT_GT(h.pid, 0);
-+	EXPECT_EQ(in_child(x_attaches, &h), 0);
-+	reap_holder(h);
-+}
-+
-+TEST_F(ptrace, with_setfcap)
-+{
-+	struct holder h;
-+
-+	h = spawn_holder(HOLDER_ROOT, 0);
-+	ASSERT_GT(h.pid, 0);
-+	EXPECT_EQ(in_child(r_attaches, &h), 0);
-+	reap_holder(h);
-+}
-+
-+/* CAP_SYS_PTRACE doesn't stand in for CAP_SETFCAP */
-+static long ptracer_attaches(void *a)
-+{
-+	drop_setfcap();
-+	return attach_only(PID(a));
-+}
-+
-+TEST_F(ptrace, with_sys_ptrace)
-+{
-+	struct holder h;
-+
-+	h = spawn_mapped(HOLDER_ROOT, "0 0 1\n");
-+	ASSERT_GT(h.pid, 0);
-+	EXPECT_EQ(in_child(ptracer_attaches, &h), -EPERM);
-+	reap_holder(h);
-+}
-+
-+static long x_reads_environ(void *a)
-+{
-+	char path[64];
-+	int fd;
-+
-+	restrict_root();
-+	snprintf(path, sizeof(path), "/proc/%d/environ", PID(a));
-+	fd = open(path, O_RDONLY);
-+	if (fd < 0)
-+		return -errno;
-+	close(fd);
-+	return 0;
-+}
-+
-+/* PTRACE_MODE_READ is unchanged */
-+TEST_F(setfcap, ptrace_read_mode_unchanged)
-+{
-+	struct holder h;
-+
-+	h = spawn_holder(HOLDER_ROOT, 0);
-+	ASSERT_GT(h.pid, 0);
-+	EXPECT_EQ(in_child(x_reads_environ, &h), 0);
-+	reap_holder(h);
-+}
-+
-+TEST_HARNESS_MAIN
-
--- 
-2.55.0
-
+> =C2=A0
+> =C2=A0struct hfs_find_data {
+> =C2=A0	btree_key *key;
+> @@ -140,6 +144,7 @@ extern u16 hfs_brec_lenoff(struct hfs_bnode
+> *node, u16 rec, u16 *off);
+> =C2=A0extern u16 hfs_brec_keylen(struct hfs_bnode *node, u16 rec);
+> =C2=A0extern int hfs_brec_insert(struct hfs_find_data *fd, void *entry,
+> u32 entry_len);
+> =C2=A0extern int hfs_brec_remove(struct hfs_find_data *fd);
+> +extern int hfs_btree_max_cnid(struct hfs_btree *tree, u32
+> *max_cnid);
+> =C2=A0
+> =C2=A0/* bfind.c */
+> =C2=A0extern int hfs_find_init(struct hfs_btree *tree, struct
+> hfs_find_data *fd);
+> diff --git a/fs/hfs/catalog.c b/fs/hfs/catalog.c
+> index 490c5e130da3..ead094e44c9a 100644
+> --- a/fs/hfs/catalog.c
+> +++ b/fs/hfs/catalog.c
+> @@ -271,102 +271,24 @@ void hfs_set_next_unused_CNID(struct
+> super_block *sb,
+> =C2=A0static
+> =C2=A0int hfs_correct_next_unused_CNID(struct super_block *sb, u32 cnid)
+> =C2=A0{
+> -	struct hfs_btree *cat_tree;
+> -	struct hfs_bnode *node;
+> -	s64 leaf_head;
+> -	s64 leaf_tail;
+> -	s64 node_id;
+> +	u32 max_cnid;
+> +	int res;
+> =C2=A0
+> =C2=A0	hfs_dbg("cnid %u, next_id %lld\n",
+> =C2=A0		cnid, atomic64_read(&HFS_SB(sb)->next_id));
+> =C2=A0
+> -	if ((cnid + 1) < atomic64_read(&HFS_SB(sb)->next_id)) {
+> +	if ((cnid + 1) !=3D atomic64_read(&HFS_SB(sb)->next_id)) {
+> =C2=A0		/* next ID should be unchanged */
+> =C2=A0		return 0;
+> =C2=A0	}
+> =C2=A0
+> -	cat_tree =3D HFS_SB(sb)->cat_tree;
+> -	leaf_head =3D cat_tree->leaf_head;
+> -	leaf_tail =3D cat_tree->leaf_tail;
+> -
+> -	if (leaf_head > leaf_tail) {
+> -		pr_err("node is corrupted: leaf_head %lld, leaf_tail
+> %lld\n",
+> -			leaf_head, leaf_tail);
+> -		return -ERANGE;
+> -	}
+> -
+> -	node =3D hfs_bnode_find(cat_tree, leaf_tail);
+> -	if (IS_ERR(node)) {
+> -		pr_err("fail to find leaf node: node ID %lld\n",
+> -			leaf_tail);
+> -		return -ENOENT;
+> -	}
+> -
+> -	node_id =3D leaf_tail;
+> -
+> -	do {
+> -		int i;
+> -
+> -		if (node_id !=3D leaf_tail) {
+> -			node =3D hfs_bnode_find(cat_tree, node_id);
+> -			if (IS_ERR(node))
+> -				return -ENOENT;
+> -		}
+> -
+> -		hfs_dbg("node %lld, leaf_tail %lld, leaf_head
+> %lld\n",
+> -			node_id, leaf_tail, leaf_head);
+> -
+> -		hfs_bnode_dump(node);
+> -
+> -		for (i =3D node->num_recs - 1; i >=3D 0; i--) {
+> -			hfs_cat_rec rec;
+> -			u16 off, len, keylen;
+> -			int entryoffset;
+> -			int entrylength;
+> -			u32 found_cnid;
+> -
+> -			len =3D hfs_brec_lenoff(node, i, &off);
+> -			keylen =3D hfs_brec_keylen(node, i);
+> -			if (keylen =3D=3D 0) {
+> -				pr_err("fail to get the keylen: "
+> -					"node_id %lld, record index
+> %d\n",
+> -					node_id, i);
+> -				return -EINVAL;
+> -			}
+> -
+> -			entryoffset =3D off + keylen;
+> -			entrylength =3D len - keylen;
+> -
+> -			if (entrylength > sizeof(rec)) {
+> -				pr_err("unexpected record length: "
+> -					"entrylength %d\n",
+> -					entrylength);
+> -				return -EINVAL;
+> -			}
+> -
+> -			hfs_bnode_read(node, &rec, entryoffset,
+> entrylength);
+> -
+> -			if (rec.type =3D=3D HFS_CDR_DIR) {
+> -				found_cnid =3D
+> be32_to_cpu(rec.dir.DirID);
+> -				hfs_dbg("found_cnid %u\n",
+> found_cnid);
+> -				hfs_set_next_unused_CNID(sb, cnid,
+> found_cnid);
+> -				hfs_bnode_put(node);
+> -				return 0;
+> -			} else if (rec.type =3D=3D HFS_CDR_FIL) {
+> -				found_cnid =3D
+> be32_to_cpu(rec.file.FlNum);
+> -				hfs_dbg("found_cnid %u\n",
+> found_cnid);
+> -				hfs_set_next_unused_CNID(sb, cnid,
+> found_cnid);
+> -				hfs_bnode_put(node);
+> -				return 0;
+> -			}
+> -		}
+> -
+> -		node_id =3D node->prev;
+> -		hfs_bnode_put(node);
+> -
+> -	} while (node_id >=3D leaf_head);
+> +	res =3D hfs_btree_max_cnid(HFS_SB(sb)->cat_tree, &max_cnid);
+> +	if (res)
+> +		return res;
+> =C2=A0
+> -	return -ENOENT;
+> +	hfs_dbg("max_cnid %u\n", max_cnid);
+> +	hfs_set_next_unused_CNID(sb, cnid, max_cnid);
+> +	return 0;
+> =C2=A0}
+> =C2=A0
+> =C2=A0/*
+>=20
+> base-commit: 34ee5f8c2198db9585da6c181c50869d2eb43c3a
