@@ -1,47 +1,126 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794486844;
-	b=WLWQckYLh898RZJWg79qXXda/gFrsyC80GkHEGB4gj31XOK6WBBjrfccyvVSg73MLLCv
-	 2E2xaydmJC/zib+QH218IU4iMUf1srpzyETl/BEPSWY6xE00vYwoWH+UlFz05DA2IRjqc
-	 P/z3NopRYFR7VicO71h3QKVHv6ztkUa8JZ8rW1CwNwx2uHOzkaa5zKR/r+pvv107bLW0a
-	 iadbMR/t8MZWPTc5bp9ES3C7VsFp0GdCeTNdAnp6FSD67dxagc/b25s6ByK8ICLfPXHph
-	 9uGODHfexfT7l1cyev4UvoTPqUuyIFCvVKdCyRgp7me/WqQxn5v0jal1U+jNmK0x+PQ==
+	t=1794487735;
+	b=k8HqOLrnpgTNby1ftljDpCIiZa1Hk1xHy1Ry6GBeerM3G4w7tHWs+ZYha+f57mF8HZdJ
+	 hgsXA11+tXw4P9Sc2xpJ88/X9woPTBqI6lMiuWfygr4ke+N6uWOeKBNqTSni/onSwLHO5
+	 iJpIpQcwFPnyx5QreuehXA5R4J+uzj/p2jihFappIpOVm2YpXepfOEXSBPsrsRAFzbIMO
+	 9RlHLvbqmtwYwR+tevgGRu5MbGdouRKyEx1FrawJ9ARi8OxShoWgURJO8sZD5vc/Fv+un
+	 vi+RDj3OkFVuRAf4umkM6pqVrrbxZxlU4x9jlOMuWt8mbYAllO1g9bueocs5XiJP+Aw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794486844;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=NLfvAl+y+GjjcH9CNw/4ElIGTmELHExYwuG632+gsLo=;
-	b=jVAB+pkcI9aGXE7CQ1EW3YcKp9sy6QBXMVpkBaC5UIKhYPMGaUvXEJEcxwf0OC3iUKk4
-	 byfR/JadGept9ecndchlxHgq8T+BSXYcWP/CfJAWPKPAo1IUg1tH1qKHU4ilc0bL+tZwr
-	 jf2E9xZJ471js4LyvsgxYDkGwcqWq2u75/9Q/u+ixWkpZUuKdeYlk8LBiMGc9IVYLKCq7
-	 I0V1+CvuHpC9+0nw4EcIuiyIOQkQyUEq7WIX8Ax1UjYBo7XqWs9zcKsyRiRzFJogcshpx
-	 YKY5bqcmWkiLNwicMZjDf5W6QaX9CTBEMNTqgzz2NQJ/hBdx+ygAO1edW433LaRGfag==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794487735;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=fpPYP3LwQ7UH65N0IOsMYcszMsGFfM1KkS0iQ4klOAA=;
+	b=sGJUV6AypQP1CVoH76m9PsXRtuPSWCCZINrwbYjcVJjmOuXZ/PqI8clb7behV2dt/FPV
+	 cYVJiLU6I5s/YGqanflX+uDq0ezy3MuG0JKXtc7y8t/KkOFvF0lzDvxlfgyj9fCphGXvm
+	 6wpA9+LaheIzz8KXsuCh+tBnddyaMyw6rikq/pHewOnh4BWCxOAsxHmm6jlxMWmdNa5dg
+	 ytlYZCEpirjbYG65cJUhz8HdDIxZrmY74Nns2Hz/ubqIio6eMw6MF8FXTF13DQnmEjvbt
+	 OWci7BEQnGYlbmF7rMcXC9a71UQKwNfBFkN7Q9rz2i4uuwWclgD8odbyISVm658pvAg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mNl2+90y;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=suse.com;
+	spf=pass smtp.mailfrom=suse.com;
+	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=IFFBVctA;
+	arc=none smtp.remote-ip=209.85.128.43
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42D32606A31C
-	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 12:34:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 939CD606A32A
+	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 12:48:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 939CD606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mNl2+90y
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5D2D1F00A05;
-	Thu, 12 Nov 2026 12:33:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794486844;
-	bh=NLfvAl+y+GjjcH9CNw/4ElIGTmELHExYwuG632+gsLo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=mNl2+90yrOnioBRhxRyXJL0FYDN2ojhE2hQJmHGJhO120AvUHPL9+18HhuJPScpkr
-	 3rOnCv3yR3j3k5V5XXExWDKfShv+OWRKf2FvQqtW7ckfxRp5OxpY5BjSPcSsEDHIOI
-	 8LNA7XaAaenbCfO+lIDQtFXgGlIwl+HNGqUR28hdRP3wM9FCAxNSalihFtn3X+byuA
-	 yXdgdq1MCSYltVqooCuakopVO/xe7D7fpcjG/D+gItfFGUaCfSSwIOhGtmZf8qLgT0
-	 arCGIH27msFG+pfhcuGQY5S/Ytb3YIxkI6oVeHTVEAw0y6zz3TOFJzm6E3Jd3mvulD
-	 ABZfMy26eYUQA==
-Message-ID: <fe58d4ad-0410-4525-a1dc-2cfb2ce1d52f@kernel.org>
-Date: Thu, 12 Nov 2026 13:33:56 +0100
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=IFFBVctA
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4a2d6d01ecbso27287235e9.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 04:48:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1794487733; x=1795092533; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=fpPYP3LwQ7UH65N0IOsMYcszMsGFfM1KkS0iQ4klOAA=;
+        b=IFFBVctA9vvTAyP/0s3JWanNwy1/EcxnDhkd8zecNe2Zf+clmKb89wyzJ05R1YSHXV
+         LGyoa0dx5KRbjIqfPaeosKW4FG/S/TZ/bOzWAK3XQumO0htQZJfFTt/F2klbSUyWCNaQ
+         UF3hx3dzAKtUu0xqzCsfpxy72op0flc9e0fgdTlwX5B2PNNljnzfTa0/Pt/1WbbZVmge
+         r8OGw1wv49O1zcCNCHah1dBqI4xROCfQEeTbiMp5bcSXoRt6mPDtJAQRrwLu1ozcKZ/P
+         qVAa+0BOCYHl6xriwV51z631YJ8BDLYVDO+Y6ZTTfdCoWZSV4i63QxofQ/Bzjzx/XaHi
+         LCvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794487733; x=1795092533;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=fpPYP3LwQ7UH65N0IOsMYcszMsGFfM1KkS0iQ4klOAA=;
+        b=TkDm7cIc4Mm+OLr58VVU8JUYwVMFikk1CQlho141MVCZ/iap+AR4a0k7BbuSrpzk5T
+         lUf85VM4C8UvnSBnHYm6m8buaEybX5j3GPDluNU1NjYdx5DD2cnEMeJAIz2t82JrtCd0
+         a6U4sCi0LxjI9Yhy1Z6oGobbIwaEpk9+dkJu8EYmLyvCDSjR6UM0tqwhqEIqr077GP6U
+         UMCn2+6b9Nze0SXeSKZZV6VRgjOYXRPEKVH2fdXHv7cLRO83HKJwZR+hOu7sO6REXn9J
+         iPLjHlneOpWYUdrBzIQeQzEXt51p7y0Ho9Jxf/Dx52D/2PhQK1P1A5z8CbQhvdYDdP69
+         4e2Q==
+X-Forwarded-Encrypted: i=1; AL+hErGf9Jo3uZ6AdA+2lrSEMB9tXBej0p37E7+ZjozKcl+g92m+dGZZ7BTL7jwF1T27dm+kL0HyLcBUVUefYplE@vger.kernel.org
+X-Gm-Message-State: APuU4Z8F7aYflC1o1r0PGPj/qZDDeOttJVwF3rYD/18axAuRGFfRxsYw
+	My9yUMm9qupgKK9U4WzTp265MZvYE8cz661So15totXg7woLunH+FWLXAwitAWZKMSc=
+X-Gm-Gg: AYBFou2WoPGh2zzbHjCtid6HdWRveaTD2oGhQZc/Nlwdshz9mZSRxDxjdJN7IvJRCs9
+	ZhF16Ivc9cx9/orrciZTgpg1gtZCt6Jzm8oqRJBe3EHw0zbKs1gdbvQtUloVdCNhw0QkfK7h8vd
+	q4fLXSYHG54BrqA56jeN7fMAoJPsq4mqmbGQrI6rcYXRsvvInLEQ/8A9pgZ1T7h/16CffH63eD6
+	JrY/RYTcT8/889LRKJk6ZDR31FGEw7vQ3acvXQ8wbK3+4/RmJJx4o6Y9aWDU1sv21JvYtdsr+wo
+	StyMwb54zURSXY5dRZUpq10RxKSP2gFL+zjQhgkKl2s3/SI7zXooWqj2ILusm1AKIHKv/69aRlZ
+	5xVqyXyQBQzDROPFFLLamQzRCG2H72AtAMg5JGp+J+Iivgr5h0ZeDRvlo19BkLt65R4ndsagFJH
+	UKGLZo0bB07eWrwbp8PjPyF0kyuK8Ra12xV+MqzWo92yIpo0on4vbzu4v0YcnLYL929p9M3/rXH
+	xYntUkvZAUT7M+EJeetOlSGeGBLmsreRTNh4OkTDKn+s68PGj+KxpD60IsedIez7k4osM5hfiVY
+	YPiuBiPsqtNELxeHjtB/NfVla8d0h1Maqip08fEFOpQ=
+X-Received: by 2002:a05:600c:190a:b0:4a7:9006:b176 with SMTP id 5b1f17b1804b1-4ba0936c8bfmr102512485e9.7.1794487732984;
+        Thu, 12 Nov 2026 04:48:52 -0800 (PST)
+Received: from localhost (109-81-94-245.rct.o2.cz. [109.81.94.245])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb4e251491sm71286495e9.2.2026.11.12.04.48.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Nov 2026 04:48:52 -0800 (PST)
+Date: Thu, 12 Nov 2026 13:48:51 +0100
+From: Michal Hocko <mhocko@suse.com>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: David Hildenbrand <david@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	David Rientjes <rientjes@google.com>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>, Nhat Pham <nphamcs@gmail.com>,
+	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Joshua Hahn <joshua.hahnjy@gmail.com>,
+	Byungchul Park <byungchul@sk.com>,
+	Gregory Price <gourry@gourry.net>,
+	Ying Huang <ying.huang@linux.alibaba.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	Usama Arif <usama.arif@linux.dev>, Kairui Song <kasong@tencent.com>,
+	Balbir Singh <balbirs@nvidia.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Kiryl Shutsemau <kas@kernel.org>,
+	Yu-cheng Yu <yu-cheng.yu@intel.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
+	Christoph Lameter <cl@gentwo.org>, Peng Fan <peng.fan@nxp.com>,
+	Josef Bacik <jbacik@fb.com>, Chris Mason <mason@kernel.org>,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	"Borislav Petkov (AMD)" <bp@alien8.de>,
+	Mark Brown <broonie@kernel.org>,
+	"Dennis Zhou (Facebook)" <dennisszhou@gmail.com>,
+	Rick Edgecombe <rick.p.edgecombe@intel.com>, stable@vger.kernel.org
+Subject: Re: [PATCH 01/13] mm/mmap: free gathered pages before MMF_OOM_SKIP
+Message-ID: <avW1s2wvz1PB0-Ln@tiehlicka>
+References: <20261111-mason-migrate-et-al-fixes-v1-0-3d2454362e8d@kernel.org>
+ <20261111-mason-migrate-et-al-fixes-v1-1-3d2454362e8d@kernel.org>
+ <avWmfXu39vtp0DM9@tiehlicka>
+ <avWsG-zmuniUFio7@gremlin>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -51,106 +130,53 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/6] mm: drop HIGHPTE support altogether
-To: Mike Rapoport <rppt@kernel.org>, Arnd Bergmann <arnd@kernel.org>
-Cc: linux-mm@kvack.org, Arnd Bergmann <arnd@arndb.de>,
- Andrew Morton <akpm@linux-foundation.org>,
- Andreas Larsson <andreas@gaisler.com>,
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
- Dave Hansen <dave.hansen@linux.intel.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Linus Walleij <linus.walleij@linaro.org>,
- "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
- Matthew Wilcox <willy@infradead.org>, Malin Jonsson
- <malin.jonsson@est.tech>, Richard Weinberger <richard@nod.at>,
- Russell King <linux@armlinux.org.uk>, linux-arm-kernel@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, x86@kernel.org
-References: <20261112112528.1116405-1-arnd@kernel.org>
- <20261112112528.1116405-5-arnd@kernel.org> <avWo4NrAPX8BisCY@kernel.org>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <avWo4NrAPX8BisCY@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <avWsG-zmuniUFio7@gremlin>
 
-On 11/12/26 12:54, Mike Rapoport wrote:
-> On Thu, Nov 12, 2026 at 12:25:26PM +0100, Arnd Bergmann wrote:
->> From: Arnd Bergmann <arnd@arndb.de>
->>
->> With both x86 and arm having dropped CONFIG_HIGHPTE support, no
->> architecture is left using it, so remove the remnants in common code.
->>
->> It is likely that further cleanups are possible in the page table
->> code but those are not obvious from the config options.
->>
->> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
->> ---
->>  include/linux/hugetlb.h | 5 +----
->>  include/linux/mm.h      | 1 -
->>  include/linux/pgtable.h | 9 ---------
->>  3 files changed, 1 insertion(+), 14 deletions(-)
+On Thu 12-11-26 12:14:32, Lorenzo Stoakes (ARM) wrote:
+> On Thu, Nov 12, 2026 at 12:43:57PM +0100, Michal Hocko wrote:
+> > On Wed 11-11-26 18:13:15, Lorenzo Stoakes (ARM) wrote:
+> > > The OOM killer can quickly trigger again after having selected a
+> > > victim. That victim might not have freed its memory yet, but its mm will
+> > > be marked MMF_OOM_SKIP by this point, so the OOM killer will ignore it.
+> > >
+> > > This can cause the OOM killer to kill an innocent process when the first
+> > > might have freed enough memory to relieve the memory pressure.
+> > >
+> > > Fix the issue by freeing the memory before marking the mm MMF_OOM_SKIP.
+> > >
+> > > Note that the task which calls mmput() might not be the victim - if it
+> > > took a reference on the mm (e.g. ptrace), it may hold the last reference
+> > > and release it when it calls mmput().
+> >
+> > I do not follow the reasoning here. MMF_OOM_SKIP is called after the
+> > address space has been unmapped either by the last mmput or the
+> > oom_reaper (or both when they are racing). Now all your patch does is to
+> > call tlb_flush_mmu which I suspect is to release batched pages. But why
+> > is that needed only for the oom victim and why there was no final flush
+> > in unmap_vmas?
 > 
-> With this and arm HIGHPTE patches applied there are still a few leftovers:
+> Sorry maybe commit message isn't clear enough. I did have to pare these down
+> from really massive ones.
 > 
-> $ git grep  HIGHPTE
-> arch/arm/configs/vt8500_v6_v7_defconfig:CONFIG_HIGHPTE=y
-> mm/memory.c:     * Dumping the PTE would be nice, but it's tricky with CONFIG_HIGHPTE,
-> mm/pgtable-generic.c: * kmapped if necessary (when CONFIG_HIGHPTE), and locked against concurrent
-> mm/userfaultfd.c:        * index ordering when CONFIG_HIGHPTE is enabled. We mapped dst_pte
+> And yeah tlb_flush_mmu() is about freeing the batches.
 > 
-> Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> unmap_vmas() doesn't have a final flush, it relies on the caller to figure that
+> out, and just batches up.
 > 
+> And currently tlb_finish_mmu() comes after MMF_OOM_SKIP is set (in
+> exit_mmap()), so at that point the memory is unmapped but whatever the last
+> batch is isn't freed yet, and the batch can be large (PMDs are single
+> entries if I recall correctly for e.g.).
 
+OK, this makes more sense.
 
-With these gone
+> This only matters for the OOM victim, hence reinstating MMF_OOM_VICTIM, which
+> made the patch _way_ smaller than the one proposed :)
 
-Acked-by: David Hildenbrand (Arm) <david@kernel.org>
-
+Should we simply do that flushing unconditionally before setting MMF_OOM_VICTIM
+then?
 -- 
-Cheers,
-
-David
+Michal Hocko
+SUSE Labs
