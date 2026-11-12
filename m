@@ -1,96 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794482274;
-	b=w7lN7vkNGo9nj45zS9l65SwyHfGSBKQ0Lm+28zTPO13EhDCKKGLzTE7TuFsIlRe09ETb
-	 jUydT9mHd1fMYwlALP3VWJ8PN3IA3nvn9sp2Di37Tc27YKLVp8N84mk09TF2r18OjjAWj
-	 UhY2MgBdJHgHthqAYQ6Bkt40JUwUOl1wUJl0wIHVPZAV9lzZTpYtLEZEqRFsPgLHf9a76
-	 tQJbOFiiwAshEdeuPHsOBRj4Qcszh7C6aqlvkNu03hMKIWwlpFH1vkbMU36BeIaT1K7V9
-	 zNY8CVzJOYoX3gJL1szRUrHJK5ECWiHVJEdFHTec3p44pV4ZkJFrS7NUhItfzWU8nRg==
+	t=1794482496;
+	b=AecnSzMQKCje9qVDmv02ykI1Cnub0rbIUCx6Ot6U68f7dMoULWWKiYfWlWiQqfF6mJ5x
+	 8rgaVPkWNxD/hyp7pabjKDOO1LMuFes5rpRODOijJ74JWJSITZ3XfPjmCl7XYyHNqHeL4
+	 g58h7Szgj2WtyeKhtT61VDU73LFyDyHWcBWNHx8D67sRveSYBLSb1MFSFjoPWHxGrBo/W
+	 0hl118ET8li72/YRwfQQmsYTItJDPSlIC/MUemAkRBQvfPAYTEmGOXvHDlsQbCB/rlMzL
+	 y4dhgvaJSoRKv5p3XsjOHc1IOHlmwcwYL6X3MFM36qfQ0RWm/y2ugAGoye9cYh4ciEw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794482274;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=tOaR3H7k5OmOapzitXVwDOMX6LeeOcetR9gDymis4sg=;
-	b=VjGldL6APOoVJGX1oKQjRJzyvzYzXPyUYvjmIe8OM4ZDrmQVoLgt3HyAuugYlmhgOLX2
-	 cmLcxk4GuVWtrcGB9wIrtkseO8INlJQMCiVXW27va9oul7j7CZCT9FIdgY4DMQSPC+sA7
-	 B2atjWn1yLMsyS/+/HEC0YAa2PwqZXMpMqiIEqy9oM+7fqHk9t/AK949jRN/YhSDaJ1rh
-	 DjrpzoCGKqXcJDk6C1KGXaBCQa0S1vtAxBYHeuOnu4FSF6lJnGJ7Q3y79bCLh+7UwJUs2
-	 dbMEwywR7GIevrc4t5j0D5+ptTeoMkTkEgfJSwoTs2AWFT4tNMLoRKEMIBoMWkdCziA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794482496;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=k0NaPbrNMApl+0OhCvZtbmHgHjDNgBdnGMkilCDmB9c=;
+	b=Z3L90NBQL4t8aFWSGYJp3iA/jqNtJ13Kwhg13Mdxd2joV79/Lm8WMY93x+oiVhPPNgc1
+	 I6fmufoFOge0oJhzpn7cRfySmvJ5yVGyOEoPfqE+AxAOpxMJtSEBGG1is0Iv48QCNB8OL
+	 kNwYuBGGlWlsxj3vZUbKLluc/J+iTqvOsZ1jIpFvXVTYQRTWsVbFHY3XI5RfKgf/AecR6
+	 4Pe0DLug65yVOlqSgB7WVwUdtvVfW5Hy1OxceUD+crGku5LvLYOJYIeEMSK9bzaeNPl9S
+	 6SS8rWunE0oWQzcHkOl6CHqSxsjv1dHgfBNR6MbQ8f+DECV9fqORyo4L1flezGEeP6g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=cs.unc.edu;
-	spf=pass smtp.mailfrom=cs.unc.edu;
-	dkim=pass header.d=cs.unc.edu header.i=@cs.unc.edu header.a=rsa-sha256 header.s=google header.b=lMaSgk62;
-	arc=none smtp.remote-ip=209.85.222.182
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b5UKayYn;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 650F3606A8A6
-	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 11:17:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 650F3606A8A6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cs.unc.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cs.unc.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EA9460A5BDA;
+	Thu, 12 Nov 2026 11:21:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cs.unc.edu header.i=@cs.unc.edu header.a=rsa-sha256 header.s=google header.b=lMaSgk62
-Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-93f259cdc86so369048985a.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 03:17:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cs.unc.edu; s=google; t=1794482273; x=1795087073; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=tOaR3H7k5OmOapzitXVwDOMX6LeeOcetR9gDymis4sg=;
-        b=lMaSgk62QClSs2cDettt3zL+4JrB+p8oqo+GkBrqpR+xjK5gkZY3PRUAm0Dm8PjcEh
-         9cNRr5Eme9k/QDrnigEem5F/q3jGXW/woWdoIqPy7NmotvmOysDhM0dFtrNpfvmXyzmO
-         i6c3V0/pMLLQarWO451oZWvhvxRzBAPOE5db43wo+5hX01kO5oTH5UPxCJLEJA3HAOO8
-         2123B/oxj1VkzOu85ERJEmE9G3/9SuyokuS6+8FaDTNSU2LziDuvkIrgHYctyIUiWGra
-         /pPvUU29APYBlSmz5P68i76B0fMJ90qDTX4Wq9Oh2zlciJP4fj8g3YtG/FtjDgwefIyd
-         lAxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794482273; x=1795087073;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=tOaR3H7k5OmOapzitXVwDOMX6LeeOcetR9gDymis4sg=;
-        b=GzLatMonsMm7u2+kGbHKAz4KYfna5tpl/mfeni9dLAAYAb0uVaaJGEeaNmymdqSgSX
-         3FhsENhrPyAm0IuNshf3rxHByCIpAWbimhkBgjZhcDfYSySk+nVtAuR/Pyq12MRs/ZnY
-         o5jNrJJZgiluB4dSVg78ovVT/0Z+9nQ+X379IhYr4ZGBlVLth0U5QZs09R+4vuyTHwEz
-         WCN5j83v8M2u/S7dYACbajMNJ3IrE+61loZQ59ip97ow2LgySLbtGO0Z+jCsclcbQfRL
-         RZd8vJF52wUMSA1P35rLZsjVwxRUhYDnGmQKI1TQbyREj8hO+1i5p073LxvcMTPYWIhw
-         Hmgg==
-X-Forwarded-Encrypted: i=1; AL+hErGypzHzXiosVrSJNderjSjkbG8UyyNVS2m3cVgZOP+nawdXGj121SIAMD/4JlVFiAxjzd0RUdYzUWno9010@vger.kernel.org
-X-Gm-Message-State: APuU4Z+d8N/NJrAlNE7rm+j/BN3q7kG0jZcCfvq/aM3H8cc0qkpXgVxc
-	rJQ/Nh2YynUCUBlhKNoaCZT+0hf5OTEdIHcftwrqohFpiac39ZnrjggKk7NzD6jGug==
-X-Gm-Gg: AYBFou1r9IsugxnpQ/E+PETUi3gA+78oJ0f1adMoxT4X8fJePA8CIPh2sicaOZXjQMz
-	Xxhk5xtt9gSffMvXcrpDKvfJwniYvJdR0lQ7az/eUkpXxe5jCipyoKcK7rvlkD4yT6GT7AmjldN
-	BatH3Br5QtmEv1i/NxPI1H7EUeqO9RBwhJdZOwpZdFaHY0oIQ4Qi7oyvAhBKBluNAPhbIkQ0ryh
-	+CnCMGFU2sGtD4Y3OzblwZj9vfANti1O5OynO7KlpogcWjXNp6xNDLBA0kTQJw7sRnS8tQQ+Of+
-	GeHSo9xRdOFNqYTDE5KphxCrXGwDs+4/o6sv0fNWSUVw+OmURdb3mXIMWO7FHFOgS/jLMJOmZz1
-	2uu1tKnQjpcrXX++6UsPhxcpKd6mV5WWE6qlZNzgHk+Rd0mFlR+5MrjyN9wgKAfKxHyCYjYHY5b
-	sUAd5kvWhC5Ew2efVM9494U/HzfZ9Zr5rKy/j0mflV618g34TKot7V03lBdpANcpW0W0yRLuVwo
-	WcWrPNoFuOymIJyA3BtOl73cIBYAuXXb5pU5Y5zJcv51/nOvQTx2Ex1jMZ283EPszQyxH0c43EI
-	mpmS92xBcn6qTfn/nyN9x61bLO7xBfHoPgkJVrmlLVlXk0HaX/vj
-X-Received: by 2002:a05:620a:470e:b0:93e:c12c:f124 with SMTP id af79cd13be357-947b00c9938mr879475585a.80.1794482273450;
-        Thu, 12 Nov 2026 03:17:53 -0800 (PST)
-Received: from cobra01.cs.unc.edu (cobra01.cs.unc.edu. [152.2.130.143])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9479e73c3ddsm710100585a.15.2026.11.12.03.17.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2026 03:17:53 -0800 (PST)
-From: Hengyu Liang <hengyul@cs.unc.edu>
-To: Viacheslav Dubeyko <slava@dubeyko.com>
-Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Yangtao Li <frank.li@vivo.com>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH 2/2] hfsplus: do not end readdir at i_size after an unlink
-Date: Thu, 12 Nov 2026 06:17:45 -0500
-Message-ID: <20261112111745.4094283-3-hengyul@cs.unc.edu>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261112111745.4094283-1-hengyul@cs.unc.edu>
-References: <20261112111745.4094283-1-hengyul@cs.unc.edu>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b5UKayYn
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3AFD1F00A07;
+	Thu, 12 Nov 2026 11:21:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794482495;
+	bh=k0NaPbrNMApl+0OhCvZtbmHgHjDNgBdnGMkilCDmB9c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=b5UKayYnIwJr4nFQ84cbShH/GDU3AKLrS6KouggcNT0KChdHpzhV/o+TxoMI45ALS
+	 YFk6VMmmVC3BCLFpncQHyYnM15y+f19drcHGndjbZRIWDdVVqKJDFnr28dECNIw/Rl
+	 g6ktlL+g6s8RYyKnh6Kafl1bkBU2Mj9B3Y/n4vWwFuxlLe29iadqVZpUIL4OdIdpgA
+	 3/pW4ekBW50oNHtowAkFSQtejR7MTKXESA7FsIUcNimG/Tg1gqdxblZfi0K00VyWSZ
+	 4anAwm7q8+0j9VGxNcvRzWJfmU+HsSSDBmnS0XMQ+HReN4K12o3UJOJ1h53djv+Fqk
+	 oX7ts/LkjE64w==
+Date: Thu, 12 Nov 2026 11:21:24 +0000
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Tal Zussman <tz2294@columbia.edu>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Mike Rapoport <rppt@kernel.org>, Peter Xu <peterx@redhat.com>, 
+	James Houghton <jthoughton@google.com>, Andrea Arcangeli <aarcange@redhat.com>, 
+	Suren Baghdasaryan <surenb@google.com>, Balbir Singh <balbirs@nvidia.com>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	=?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>, Andrei Vagin <avagin@gmail.com>, 
+	Stephen Rothwell <sfr@canb.auug.org.au>, Arnd Bergmann <arnd@arndb.de>, 
+	Muhammad Usama Anjum <usama.anjum@arm.com>, David Hildenbrand <david@kernel.org>, Zi Yan <ziy@nvidia.com>, 
+	Matthew Brost <matthew.brost@intel.com>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
+	Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
+	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Chris Down <chris@chrisdown.name>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	=?utf-8?Q?Miko=C5=82aj?= Lenczewski <miko.lenczewski@arm.com>, Michal Hocko <mhocko@suse.com>, 
+	Mike Kravetz <mike.kravetz@oracle.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 09/12] mm/madvise: let a guard marker carry the uffd-wp
+ bit
+Message-ID: <avWeNRMIU2QPGZ4w@gremlin>
+References: <20261111-uffd-state-fixes-v1-0-00713d368976@columbia.edu>
+ <20261111-uffd-state-fixes-v1-9-00713d368976@columbia.edu>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -100,122 +76,169 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261111-uffd-state-fixes-v1-9-00713d368976@columbia.edu>
 
-Commit 4b0496432844 ("hfsplus: rework hfsplus_readdir() logic") stopped
-moving the position of open directories back when an entry is deleted.
+On Wed, Nov 11, 2026 at 12:55:17PM -0500, Tal Zussman wrote:
+> MADV_GUARD_INSTALL can only install guard markers in a range without
+> populated entries. It zaps the range and retries, restarting the syscall
+> if the range still isn't clear. On a file-backed VMA registered for
+> uffd-wp, the zap keeps uffd-wp markers and converts write-protected PTEs
+> into new markers, as the pages are still in the page cache and must stay
+> write-protected. The range never becomes clear, and installing a guard
+> region in write-protected shmem keeps restarting the madvise() call.
+> Signal handlers still run, but the call does not return until the task
+> is killed.
+>
+> An entry that is write-protected must stay write-protected while a guard
+> is installed on it and after the guard is removed. PTE markers are a bit
+> mask, so a marker can be a guard marker and a uffd-wp marker at the same
+> time. To fix it, let a guard marker carry the uffd-wp bit:
+>
+>  - guard install adds the guard bit to an existing uffd-wp marker
+>  - guard removal clears only the guard bit
+>  - unprotecting or unregistering clears the uffd-wp bit of a guard
+>    marker
+>
+> The fault path, zap, fork, and pagemap already handle a marker with both
+> bits set. However, pte_is_uffd_marker() would let UFFDIO_COPY overwrite
+> the guard, so make it ignore guard markers. Anonymous VMAs drop uffd-wp
+> markers on zap and never get the combined marker.
+>
+> MADV_GUARD_INSTALL on a uffd-wp shmem range now succeeds instead of
+> hanging. When the guard region is removed again, its pages are still
+> write-protected. While the guard is in place, pagemap reports both
+> PM_GUARD_REGION and PM_UFFD_WP for them.
+>
+> There are two simpler alternatives, but neither works. Zapping with
+> ZAP_FLAG_DROP_MARKER fixes the hang but drops the write protection: the
+> page is still in the page cache once the guard is removed, and writes to
+> it are not reported. Refusing guard install on uffd-wp file VMAs in
+> is_valid_guard_vma() would break a combination that works on anonymous
+> memory, by adding a new -EINVAL for it.
+>
+> Fixes: f807123d578d ("mm: allow guard regions in file-backed and read-only mappings")
+> Signed-off-by: Tal Zussman <tz2294@columbia.edu>
 
-However, hfsplus_readdir() still ends when ctx->pos reaches i_size, and
-i_size drops on every delete. As of now, a program that reads a
-directory and deletes what it read sees the directory end early and
-leaves files behind.
+Please drop this patch too.
 
-The issue can be reproduced with BusyBox rm on a new hfsplus volume:
+With my patch disallowing guard marker install on uffd-armed VMAs this goes
+away (and doesn't make sense anyway.)
 
-    mkdir /mnt/d
-    (cd /mnt/d && for i in $(seq 1500); do : > f$i; done)
-    rm -r /mnt/d
+I really feel these guard region ones should have been sent separately, btw.
 
-Before commit 4b0496432844 ("hfsplus: rework hfsplus_readdir() logic"),
-the directory is removed. After that commit, the result is:
+You're establishing a bunch of interlocking dependencies of different changes in
+this series that makes life hard for reviewers, especially given backports etc.
 
-    rm: can't remove '/mnt/d': Directory not empty
+And now I'm having to essentially inverse cherry pick stuff :)
 
-and 304 files are left.
+> ---
+>  include/linux/leafops.h |  4 ++++
+>  mm/madvise.c            | 28 ++++++++++++++++++++++++++--
+>  mm/mprotect.c           | 23 +++++++++++++++++++++--
+>  3 files changed, 51 insertions(+), 4 deletions(-)
+>
+> diff --git a/include/linux/leafops.h b/include/linux/leafops.h
+> index 4c1476ae3234..add4968ded44 100644
+> --- a/include/linux/leafops.h
+> +++ b/include/linux/leafops.h
+> @@ -578,6 +578,10 @@ static inline bool pte_is_uffd_marker(pte_t pte)
+>  	if (!softleaf_is_marker(entry))
+>  		return false;
+>
+> +	/* A guard marker stays a guard, even with the uffd-wp bit set. */
+> +	if (softleaf_is_guard_marker(entry))
+> +		return false;
+> +
+>  	/* UFFD WP, poisoned swap entries are UFFD-handled. */
+>  	if (softleaf_is_uffd_wp_marker(entry))
+>  		return true;
+> diff --git a/mm/madvise.c b/mm/madvise.c
+> index 0214efd2a014..e2c6b0f26672 100644
+> --- a/mm/madvise.c
+> +++ b/mm/madvise.c
+> @@ -1123,6 +1123,23 @@ static int guard_install_pte_entry(pte_t *pte, unsigned long addr,
+>  		return 0;
+>  	}
+>
+> +	/*
+> +	 * Zapping keeps uffd-wp markers on file-backed VMAs, so add the guard
+> +	 * to the marker instead. The slot stays write-protected once the guard
+> +	 * is removed.
+> +	 */
+> +	if (!vma_is_anonymous(walk->vma) && pte_is_uffd_wp_marker(pteval)) {
+> +		const softleaf_t entry = softleaf_from_pte(pteval);
+> +
+> +		set_pte_at(walk->mm, addr, pte,
+> +			   make_pte_marker(softleaf_to_marker(entry) |
+> +					   PTE_MARKER_GUARD));
+> +		update_mmu_cache(walk->vma, addr, pte);
+> +		(*nr_pages)++;
+> +
+> +		return 0;
+> +	}
+> +
+>  	/* If populated return >0 so we abort the operation + zap. */
+>  	return 1;
+>  }
+> @@ -1259,8 +1276,15 @@ static int guard_remove_pte_entry(pte_t *pte, unsigned long addr,
+>  	pte_t ptent = ptep_get(pte);
+>
+>  	if (is_guard_pte_marker(ptent)) {
+> -		/* Simply clear the PTE marker. */
+> -		pte_clear(walk->mm, addr, pte);
+> +		const softleaf_t entry = softleaf_from_pte(ptent);
+> +		const pte_marker marker = softleaf_to_marker(entry) &
+> +					  ~PTE_MARKER_GUARD;
+> +
+> +		/* Clear the guard bit and keep the uffd-wp bit, if set. */
+> +		if (marker)
+> +			set_pte_at(walk->mm, addr, pte, make_pte_marker(marker));
+> +		else
+> +			pte_clear(walk->mm, addr, pte);
+>  		update_mmu_cache(walk->vma, addr, pte);
+>  	}
+>
+> diff --git a/mm/mprotect.c b/mm/mprotect.c
+> index ef4e7188e24d..6cc5b99b4185 100644
+> --- a/mm/mprotect.c
+> +++ b/mm/mprotect.c
+> @@ -249,9 +249,28 @@ static long change_softleaf_pte(struct vm_area_struct *vma,
+>  		 * because any access should sigbus/sigsegv
+>  		 * anyway.
+>  		 */
+> -		if (softleaf_is_poison_marker(entry) ||
+> -		    softleaf_is_guard_marker(entry))
+> +		if (softleaf_is_poison_marker(entry))
+>  			return 0;
+> +
+> +		/*
+> +		 * A guard marker on a file-backed VMA carries the
+> +		 * uffd-wp state of the slot for when the guard is
+> +		 * removed.
+> +		 */
+> +		if (softleaf_is_guard_marker(entry)) {
+> +			const pte_marker old = softleaf_to_marker(entry);
+> +			pte_marker marker = old;
+> +
+> +			if (uffd_prot_resolve)
+> +				marker &= ~PTE_MARKER_UFFD_WP;
+> +
+> +			if (marker == old)
+> +				return 0;
+> +			set_pte_at(vma->vm_mm, addr, pte,
+> +				   make_pte_marker(marker));
+> +			return 1;
+> +		}
+> +
+>  		/*
+>  		 * If this is uffd-wp pte marker and we'd like
+>  		 * to unprotect it, drop it; the next page
+>
+> --
+> 2.39.5
+>
 
-This patch will end a walk that continues from the saved key where the
-records of the directory end, and keep the i_size check for a walk that
-starts from a position.
-
-Fixes: 4b0496432844 ("hfsplus: rework hfsplus_readdir() logic")
-Cc: stable@vger.kernel.org
-Assisted-by: LLM
-Signed-off-by: Hengyu Liang <hengyul@cs.unc.edu>
----
-Application impact (Ubuntu 26.04 user space): a folder with 1500 files
-on an HFS+ volume is moved to the trash, then the trash is emptied with
-"gio trash --empty" (the call behind "Empty Trash" in GNOME Files, done
-by gvfsd-trash 1.60). On v7.1, all files are removed. On v7.2, the trash
-looks empty, but 478 files stay in .Trash-0/expunged and their space is
-not freed.
-
- fs/hfsplus/dir.c | 27 +++++++++++++++++++--------
- 1 file changed, 19 insertions(+), 8 deletions(-)
-
-diff --git a/fs/hfsplus/dir.c b/fs/hfsplus/dir.c
-index b3a1193a491f..81fe8a3e07c9 100644
---- a/fs/hfsplus/dir.c
-+++ b/fs/hfsplus/dir.c
-@@ -135,10 +135,16 @@ static int hfsplus_readdir(struct file *file, struct dir_context *ctx)
- 	char *strbuf;
- 	hfsplus_cat_entry entry;
- 	struct hfs_find_data fd;
--	struct hfsplus_readdir_data *rd;
-+	struct hfsplus_readdir_data *rd = file->private_data;
-+	/*
-+	 * i_size follows the valence and drops on unlink, so it says nothing
-+	 * about a walk that continues from a saved key. That walk ends where
-+	 * the records of this directory end.
-+	 */
-+	bool resume = rd && rd->pos == file->f_pos;
- 	u16 type;
- 
--	if (file->f_pos >= inode->i_size)
-+	if (!resume && file->f_pos >= inode->i_size)
- 		return 0;
- 
- 	err = hfs_find_init(HFSPLUS_SB(sb)->cat_tree, &fd);
-@@ -183,10 +189,9 @@ static int hfsplus_readdir(struct file *file, struct dir_context *ctx)
- 			goto out;
- 		ctx->pos = 2;
- 	}
--	if (ctx->pos >= inode->i_size)
-+	if (!resume && ctx->pos >= inode->i_size)
- 		goto out;
--	rd = file->private_data;
--	if (rd && rd->pos == ctx->pos) {
-+	if (resume) {
- 		memcpy(fd.search_key, &rd->key, sizeof(struct hfsplus_cat_key));
- 		err = hfs_brec_find(&fd, hfs_find_rec_by_key);
- 		if (err == -ENOENT)
-@@ -195,9 +200,11 @@ static int hfsplus_readdir(struct file *file, struct dir_context *ctx)
- 		err = hfs_brec_goto(&fd, ctx->pos - 1);
- 	}
- 	if (err)
--		goto out;
-+		goto end_walk;
- 	for (;;) {
- 		if (be32_to_cpu(fd.key->cat.parent) != inode->i_ino) {
-+			if (resume)
-+				goto out;
- 			pr_err("walked past end of dir\n");
- 			err = -EIO;
- 			goto out;
-@@ -263,11 +270,11 @@ static int hfsplus_readdir(struct file *file, struct dir_context *ctx)
- 		}
- next:
- 		ctx->pos++;
--		if (ctx->pos >= inode->i_size)
-+		if (!resume && ctx->pos >= inode->i_size)
- 			goto out;
- 		err = hfs_brec_goto(&fd, 1);
- 		if (err)
--			goto out;
-+			goto end_walk;
- 	}
- 	if (!rd) {
- 		rd = kmalloc_obj(struct hfsplus_readdir_data);
-@@ -279,6 +286,10 @@ static int hfsplus_readdir(struct file *file, struct dir_context *ctx)
- 	}
- 	rd->pos = ctx->pos;
- 	memcpy(&rd->key, fd.key, sizeof(struct hfsplus_cat_key));
-+end_walk:
-+	/* This directory can hold the last records of the catalog. */
-+	if (resume && err == -ENOENT)
-+		err = 0;
- out:
- 	kfree(strbuf);
- 	hfs_find_exit(&fd);
--- 
-2.53.0
-
+--
+Cheers, Lorenzo
