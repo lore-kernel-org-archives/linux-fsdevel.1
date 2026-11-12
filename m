@@ -1,85 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.171
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794461789;
-	b=LjDCY8Yh7TWFoWHMR5CKmoMsz8eMW5XQ4xR/azDesbXmOPk7QKebL+ONFYxSY61U3F3s
-	 kiQIWxSGUOmi7ORW+cNfrm/MA9EEi1sxzg/xwzpsPpF0dhHd6iF6MeoyX5xjwyCuvXdz9
-	 84a9MwWTujdBSmiWnbTh7abiMfKp1gpLxIvi4rq9p6U271FWEJKzkKhBUdb9COFkYS/t8
-	 jlQ/+t0/8dgTmaRDG5DtUgvmHY222UEC9qb8RaltmOMY0w85V361NjuVZoFH+g1edMzTg
-	 eIQc04afw11NSIpGZDW9JV/0Bs1N/C/s4llKIts164+r5GTnBnMnPpI3pHha7Nep15A==
+	t=1794465930;
+	b=ZF9O0rBg+Gwx+9jQxNNH7vLLE9esh/XOPgH0nu5lqWgrujECeAIuw3pJ1c5mntABn8uA
+	 ftW2AiAMnrbljxhwDvtD+qiaG6XVGXTNS8v2znmUXD074AelJN0rITqVftOsOsN505kae
+	 v5Dhdpk2E3JKBLOc34V1+yBlDRdznD3hzdqKOfpqlRaIyWhF+hqi8KNcICxSYtpihCUgX
+	 T0WIO8MwU4FF1UxKPn2cWRMC04tEkHq26ioC3Yfuy/d0+Is+yR2ujAEbE+v3p++mtTFzL
+	 8NmumazTD/VY1RBTec8irMl7gi8KTMRFsKdu25aixK7HtrJNERtdu+usIyZtdxqeZvQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794461789;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
-	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer;
-	bh=e2soeXJ852281gC+OC2yZSX9G2s4v3lG9pbKt+VP0DM=;
-	b=1XQm2ovCHbA3QC2UFI5Cw3f+RmJM8p9PWLVP34B/zOIouzj3Mko0aeyhir/qWYo2Gzsv
-	 glinlyZEEyqANeNGS8vnuQ0wK+sYiwceeIWzVSvUI2GtXu7XtIFnXjuDmorVQjyvi1PsI
-	 Hlh/YHjLqjIaS8dCPIwQi6Z1njXJJ5HLOnHGE3Tv46GSJ8LLvYjCxDo0M3XHT7GsIc9vI
-	 4jOLZJXEWz/mQ/T+yINuNpTVh1EKUrXPKc8LuAeXiCHI/FUq/noIphBRfAZtWZQAW4LuL
-	 cZDNP2eb/LosyY8N23INbGeS33P7UOI9cJlFISSolLnuTTjm5doOJYoJZ3BHCnX3oYg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794465930;
+	h=DMARC-Filter:X-UUID:X-CID-P-RULE:X-CID-O-INFO:X-CID-META:X-CID-BVR:
+	 X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=9rH+QHGG1hI3dNzLf5B98rCFYXMdN76eY5FQVLDUIlw=;
+	b=v7mivpJWiLmgPiDs+tRoYbL4/ULq26GxA+Ten5wv0rZVsDUnnVkRvEbyp16SYpmXNVni
+	 6Phg4CgzDoja2dKXUYjkN3KS8dKouHlAyFlDjeag5yndkvsfU0qrAckuhO3TLbGzT7B9M
+	 aie/+U3Q3Z0OUU9u7xYpafczmoKKDI7IcKtZ/kCv/quq083mEmcgq6pxxuC8mxWcM6avk
+	 Qj5DLY4HHUEy+Kl9Hk2xZlCteMIzvuK74bOgv6AHa/0kGgw4y9tHaX+DHaGzQu44DCYhc
+	 PRqTWQoMYco2lkYn3yoRyplyZGAV2aMjjcIVYquSEFv5eD28LW5dQgBlnNO6hohEMGA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=gourry.net;
-	spf=pass smtp.mailfrom=gourry.net;
-	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=EzLeINlq;
-	arc=none smtp.remote-ip=209.85.222.171
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=none header.from=kylinos.cn;
+	spf=pass smtp.mailfrom=kylinos.cn;
+	arc=none smtp.remote-ip=124.126.103.232
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46F53606A886
-	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 05:36:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 46F53606A886
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=EzLeINlq
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-93e55db58cfso352339585a.1
-        for <linux-fsdevel@vger.kernel.org>; Wed, 11 Nov 2026 21:36:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1794461788; x=1795066588; darn=vger.kernel.org;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=e2soeXJ852281gC+OC2yZSX9G2s4v3lG9pbKt+VP0DM=;
-        b=EzLeINlqWKLSrVyAYeG69cub/PpkhXEpvLI85c2/Wn4DBrX36De6eOjOc825yh2/s8
-         /BMocYYbFGCIGlSENImF1edskqevAV/Kuf1SeaFnM5vAAp8DG8IO1FgayCsUEWs73OHL
-         1RmURtZJc9D4dd17Nf7TyLA18R4yata5cpiLNB4SZ3wXp+wb6mfksV9V6NYOJLevPnzx
-         KS0lFdrtd+eUvcxCI5cIGAuAdA3+x/lK/g0n6XOLpuLtAwXE7FSdI5GYz16DwRhEZcI+
-         e0xi/xTmcXSNKhZMTs2dmsnafffo4Jcsb0EhR1rdi49ZUTTTqLCosCyqFBij3UK+VNvA
-         tckg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794461788; x=1795066588;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=e2soeXJ852281gC+OC2yZSX9G2s4v3lG9pbKt+VP0DM=;
-        b=FJ5jV7fLkcz6Z5P8fWmfpREzbWk1/tryvbrcZkUPEgm0GTlETo2kGplS+5njJpduOs
-         L0qX6BkQ8wnzm94DNb8P4YP//YeK0fiO8u2zn6s7BLzhIQlbsiun41a9R5Xs061cur6N
-         gNVIvkPrIiBe8suG1XSvpLVQ+MszwZA+KGiCbPdX55L1FdM1eNUo8I1LIkE55gx+o+q9
-         x1mM7Tbw1MJ4VHtATKvolil3oArd7fdd4DLIhcU0QX62AlVHOgi2qHKJhvKQ4nx3GYbC
-         J/ny6W70HwA30I5VeMfj1e0UZ0gcR4ghCxMRgfeOHTk7+ZUTxlwZ50136/macu6kuxqC
-         /7dQ==
-X-Forwarded-Encrypted: i=1; AL+hErHa5m5MSKDMNgscYyyy3uTDERz825+j//MhHsnZuhBewAkCkk+NjJYgiIkxcaAAvVbudhEklOX2LeFq0FHG@vger.kernel.org
-X-Gm-Message-State: APuU4Z9TCpKAfLeiCiV9Ppf0xnwEj2cTN9eOh/tmbFUmKLV4mVRh9KgQ
-	MPOiKdGy86K4cmmskwL4FupkaIaWibysZkMbsnVGyTghAEG5bCFrtEKZUrdN9ayogOA=
-X-Gm-Gg: AYBFou06soZguMQ3rNLcrF9WHupgr07jjGpoybnDtjiva8ZMkbwamKgsCTtDjvoNl13
-	fVl6Q7c+cXtWHG0SjXUgjUFDSdXXPO1YED1GauCYfFVQ74zXsWohHEvosKhWcgbpq9AXqUBpdD/
-	BEY80nJROTpqidKaBj9VkFqotF9cL9nYanHXJvYM9LIDxOF0JZAeN1hzIYA9S5Uami4P74yQqU6
-	AQG/6eDdYHtYS7ODgOVN9gkThbxyCPBcXav4mLZDS3Q1D0Qd+d+3XQCVaeoPp8iheG8VNDHDape
-	1WSJ06ZdhWU37GkCWklUUD86v6AUmlOCfCm9IEJuYqR74tNBB+uhLEP90ImZ2gVJpiRCgaCDVmG
-	leWAWSukVy+117Eh+zQijSUg5YMXEHCPJRGmpuZuLOg+Ow0qsMM3y555eSTmonJNsr0dio9Po7Q
-	64L0OUTOnwMNORDxw2Fs2G+1/r7iRACwsX8b6vc3nNiE+aRoi0wdIAXtAoOurDGS/A3+GT0yVOC
-	dYBjcjyCrtuy8WsHLoV01UADGy2dd30ffaLHcOYWY6lb9RhGIDoh59aJw5Ir7fEKEZ7zHx8oihe
-	8wvwFcQdTCjGTqqD7+HZfwWqBS0IhA1JsShV2eWJbkk9LwfAi0gMb0JeEppBdWPxWv1pqHPCpSD
-	jGL+zKHE=
-X-Received: by 2002:a05:620a:4481:b0:93c:c2c2:40eb with SMTP id af79cd13be357-947b0046fb4mr764496385a.66.1794461787830;
-        Wed, 11 Nov 2026 21:36:27 -0800 (PST)
-Received: from [192.168.50.231] (pool-71-191-145-202.washdc.fios.verizon.net. [71.191.145.202])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9479e4fa312sm647786285a.0.2026.11.11.21.36.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Nov 2026 21:36:27 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66A7F606A888;
+	Thu, 12 Nov 2026 06:45:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 66A7F606A888
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: a09ee23ede6411f19a56ed5b684f684d-20261112
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:3e25d55a-35bc-44a9-a24c-fb5988da5f1e,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:7db8b62,CLOUDID:ef66694e734ea29c88e66421930224fb,BulkI
+	D:nil,BulkQuantity:0,SF:80|81|82|83|102|136|865|898,TC:nil,Content:0|15|50
+	|99,EDM:-3|-100,IP:nil,URL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+	,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: a09ee23ede6411f19a56ed5b684f684d-20261112
+X-User: liwang@kylinos.cn
+Received: from [10.42.16.85] [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <liwang@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
+	with ESMTP id 1954828798; Thu, 12 Nov 2026 14:45:19 +0800
+Message-ID: <ce113884-82ae-4f3d-8f0e-c4499b8f1dfd@kylinos.cn>
+Date: Thu, 12 Nov 2026 14:45:17 +0800
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -89,85 +62,94 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] fuse: Don't use request timeouts on virtiofs
+To: Yuho Choi <oss.patchbox@gmail.com>, Miklos Szeredi <miklos@szeredi.hu>
+Cc: Joanne Koong <joannelkoong@gmail.com>, Jeff Layton <jlayton@kernel.org>,
+ Vivek Goyal <vgoyal@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ German Maglione <gmaglione@redhat.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
+ <eperezma@redhat.com>, fuse-devel@lists.linux.dev,
+ virtualization@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20261112052208.1248312-2-oss.patchbox@gmail.com>
+Content-Language: en-GB
+From: Li Wang <liwang@kylinos.cn>
+In-Reply-To: <20261112052208.1248312-2-oss.patchbox@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH 08/13] mm: convert miscellaneous VMA flag tests to use
- vma_flags_t
-From: "Gregory Price (Meta)" <gourry@gourry.net>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
- David Hildenbrand <david@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, 
- John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
- Rik van Riel <riel@surriel.com>, "Liam R. Howlett" <liam@infradead.org>, 
- Vlastimil Babka <vbabka@kernel.org>, Harry Yoo <harry@kernel.org>, 
- Jann Horn <jannh@google.com>, Lance Yang <lance.yang@linux.dev>, 
- Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>, 
- Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>, 
- Gregory Price <gourry@gourry.net>, 
- Ying Huang <ying.huang@linux.alibaba.com>, 
- Alistair Popple <apopple@nvidia.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, 
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
- Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
- Xu Xin <xu.xin@linux.dev>, Chengming Zhou <chengming.zhou@linux.dev>, 
- Madhavan Srinivasan <maddy@linux.ibm.com>, 
- Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>, 
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
- "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>, 
- Shrikanth Hegde <sshegde@linux.ibm.com>, Pedro Falcato <pfalcato@suse.de>, 
- Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>, 
- Shakeel Butt <shakeel.butt@linux.dev>, 
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
- Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>, 
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
- Michal Hocko <mhocko@suse.com>, Leon Romanovsky <leon@kernel.org>, 
- SJ Park <sj@kernel.org>, Rakie Kim <rakie.kim@sk.com>, 
- David Rientjes <rientjes@google.com>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, 
- Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
- Arnaldo Carvalho de Melo <acme@kernel.org>, 
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
- Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
- Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
- Adrian Hunter <adrian.hunter@intel.com>, 
- James Clark <james.clark@linaro.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
- John Johansen <john.johansen@canonical.com>, 
- Georgia Garcia <georgia.garcia@canonical.com>, 
- Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
- "Serge E. Hallyn" <serge@hallyn.com>, Mimi Zohar <zohar@linux.ibm.com>, 
- Roberto Sassu <roberto.sassu@huawei.com>, 
- Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
- Eric Snowberg <eric.snowberg@oracle.com>, Fan Wu <wufan@kernel.org>, 
- Stephen Smalley <stephen.smalley.work@gmail.com>, 
- =?utf-8?q?Ondrej_Mosn=C3=A1=C4=8Dek?= <omosnacek@gmail.com>, 
- linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
- kvm@vger.kernel.org, damon@lists.linux.dev, 
- linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, 
- apparmor@lists.ubuntu.com, linux-security-module@vger.kernel.org, 
- linux-integrity@vger.kernel.org, selinux@vger.kernel.org
-In-Reply-To: <20261105-late-2026-vma-flags-v1-8-0d3cd15ab75f@kernel.org>
-References: <20261105-late-2026-vma-flags-v1-0-0d3cd15ab75f@kernel.org>
- <20261105-late-2026-vma-flags-v1-8-0d3cd15ab75f@kernel.org>
-Date: Thu, 12 Nov 2026 00:36:24 -0500
-Message-Id: <179446178440.482102.12362401790016415292.b4-reply@b4>
-X-Mailer: b4 0.17-dev
 
-On 2026-11-05 21:30 +0000, Lorenzo Stoakes (ARM) wrote:
-> Replace use of the legacy vm_flags_t flags with vma_flags_t values in the
-> remaining straightforward VMA flag tests scattered throughout core mm, HMM
-> (and its test module), DAMON and the OOM reaper.
+Hi Yuho,
+
+On 12/11/2026 13:21, Yuho Choi wrote:
+> virtiofs cannot abort a request once it has been added to a virtqueue,
+> because the device owns its buffers until it returns them on the used
+> ring. This is why virtiofs sets no_control and no_force_umount; see
+> commit 15c8e72e88e0 ("fuse: allow skipping control interface and
+> forced unmount"), which says that "virtio-fs does not support aborting
+> requests which are being processed".
 > 
-> No functional change intended.
+> The request timeout added by commit 0f6439f61a6e ("fuse: add
+> kernel-enforced timeout option for requests") aborts them anyway. When
+> a request takes longer than the timeout, fuse_check_timeout() calls
+> fuse_chan_abort(), which moves the requests on each virtqueue's
+> fpq->processing list to its end list and ends them, so they are freed.
+> The device can then still write the reply into the freed request and
+> its pages, and virtio_fs_requests_done_work() later gets the freed
+> request back from virtqueue_get_buf().
 > 
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> The timeout is armed when the server sets FUSE_REQUEST_TIMEOUT in its
+> INIT reply, or when the fs.fuse.default_request_timeout or
+> fs.fuse.max_request_timeout sysctl is set, for example for other FUSE
+> mounts on the same system. A slow host is then enough to hit it.
+> 
+> Don't arm the request timeout, and don't offer FUSE_REQUEST_TIMEOUT, on
+> connections that set no_force_umount.
+> 
+> Fixes: 0f6439f61a6e ("fuse: add kernel-enforced timeout option for requests")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Yuho Choi <oss.patchbox@gmail.com>
+> ...
+> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+> index 1341b681d0ed..f1aae9b5475c 100644
+> --- a/fs/fuse/inode.c
+> +++ b/fs/fuse/inode.c
+> @@ -1451,7 +1451,14 @@ static void process_init_reply(struct fuse_args *args, int error)
+>  			fc->no_flock = 1;
+>  		}
+>  
+> -		fuse_init_server_timeout(fc->chan, timeout);
+> +		/*
+> +		 * A request timeout aborts the connection, which ends the
+> +		 * requests that are still in flight. A transport that cannot
+> +		 * take back requests it has handed to the device, such as
+> +		 * virtiofs, sets no_force_umount for the same reason.
+> +		 */
+> +		if (!fc->no_force_umount)
+> +			fuse_init_server_timeout(fc->chan, timeout);
+>  
+>  		fm->sb->s_bdi->ra_pages =
+>  				min(fm->sb->s_bdi->ra_pages, ra_pages);
+> @@ -1502,8 +1509,10 @@ static struct fuse_init_args *fuse_new_init(struct fuse_mount *fm)
+>  		FUSE_HANDLE_KILLPRIV_V2 | FUSE_SETXATTR_EXT | FUSE_INIT_EXT |
+>  		FUSE_SECURITY_CTX | FUSE_CREATE_SUPP_GROUP |
+>  		FUSE_HAS_EXPIRE_ONLY | FUSE_DIRECT_IO_ALLOW_MMAP |
+> -		FUSE_NO_EXPORT_SUPPORT | FUSE_HAS_RESEND | FUSE_ALLOW_IDMAP |
+> -		FUSE_REQUEST_TIMEOUT;
+> +		FUSE_NO_EXPORT_SUPPORT | FUSE_HAS_RESEND | FUSE_ALLOW_IDMAP;
+> +	/* See process_init_reply() */
+> +	if (!fm->fc->no_force_umount)
+> +		flags |= FUSE_REQUEST_TIMEOUT;
+>  #ifdef CONFIG_FUSE_VDAX
+>  	if (fm->fc->vdax)
+>  		flags |= FUSE_MAP_ALIGNMENT;
 
-Acked-by: Gregory Price (Meta) <gourry@gourry.net>
+Miklos has already posted a patch addressing the same issue [1]. Personally, 
+I feel it would be better to introduce a separate parameter to avoid semantic 
+confusion with whether forced unmount is allowed.
 
--- 
-~Gregory
+[1] https://lore.kernel.org/fuse-devel/16a0bf8f-8c30-415e-a35e-9551c78b8dcc@
+    kylinos.cn/T/#m34d62acd7887a86ec32e9091145e4b19fdbb3fc3
+
+Thanks,
+Li Wang
 
