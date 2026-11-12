@@ -1,49 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=115.124.30.111
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.173
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794469221;
-	b=IpD9kzwZvwkKApuPVXZv4lv3zOIyRnSuJWNweCF3BsK39QTo+wky5Knia0UC1E8AlATj
-	 hiFwJdDqzufb3W64DqMOLy0Y2G+ao0DHcKjmro3BKrWfKs8poxJoWcBjSMr4plmErYOYM
-	 jBjesG3kA3N1DE7mBgPpR/U3rLr+dS+jZP2R8wcmsH03zUnGT8jhhyy7ToP4CujzPkUfr
-	 tXRKnW3+LcvLGpwRXN5PjVxS2ul+Voe0kVzFZvdKLc9qM+yerAkh+n0kgLR1IJK+NMHl/
-	 8Ih4XUKqfbTI+EVKFM2FjJGSjHiUsn6SYrbdpua+yixr9oOZBziOnmdPcfSTVask3bQ==
+	t=1794469286;
+	b=iSv7uWcaVeSGp8Y5NK+QGgAF5G9PGJDOxcJ8hkYxUmL71KgEuQRMoBFRKg4uYJ2Qf6kS
+	 RBpmmM0VVZmMAODEYrsMFWysdtav93GUX3JhslHep6YNCpEeYWBVqdPz3ncXyBf3KcXIJ
+	 y8mNfn9LUXSYp1PjgO4ufdg81fNl19Tw3UBa+Z63RiYvaQzPA6At7bXBaH0FtYVu1VMLX
+	 D9E3kLCnvYUjAsW+ZHe95uq8t1qwd9Nm1qM8E5fAhU/YvvJtYO9YqXvaQak3Eh/0BN7G+
+	 n7Jm4GwUM2HxDBjD49kR3SxrioZkt5qWVw80YwkGfHxRCs88u3AfU7l6wsT3Iq3UplQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794469221;
-	h=DMARC-Filter:DKIM-Signature:X-Alimail-AntiSpam:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=K4R2hK0snJM7f5RU+CVLzgyyCzxkNvFTXNS07H9UUHI=;
-	b=3h210U33qAgXn3yROJ8TMtxJ07JkHYSSQu4/BwGi3SeRTlwDDx5ejvzPROVMTqpQNmOS
-	 KV4atDCX6M0R6g4Kb4Dny3KD6Ps0YVqogGE9ok3AEX0LJln3m2/EqgocLiv5nOgx4u2Oa
-	 9K2YuVHcm+1LjNWiIIZwJIf0t2kXZQN/pHRSCXgPYCvzRTO15dqZBQM+z9qckTefmJGk3
-	 bxxG82znpRenynhuzmuvqwr8vddJDiXYEl4jPllXipzN1swUNchkdjMAIaXP0p7Sktjzb
-	 MCe7Of7D7QE20oxJkT+A9GPjmB4y8DazIyLnt4j48IZ3ZF9c90QCeCa3JhejI3d397w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794469286;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=Bj8oIOvi/lnWkTPHPdsw8/wbnTz5MyWHkyXyWXbRMxc=;
+	b=S4VqxSQICNb0O8Ufpp4G+sRp+7KxkCfCHDig73uOvY6gEDwpLLpJmvInmw3cJqOT9ZfG
+	 D2vAjYEceu9cDrLzCwGa1iNf6FdZ3uXYZl1eN/Wq5+nqtX1D5WFkvnjEkRrTyqA09kM4+
+	 yx+Yk7Y3zk4AunMy8iWJi2tXVI5RDoBJwpk/4/hcieF2BS/HlqkZqqz9K06QC0HzTWmQ+
+	 TItbFTbLTi/QfKDsAvDbx/TIu7sH4iKwgjZKanqiBrv7z6wgoXaALlsOJ0qAiCN5nQbYe
+	 EdvyaULgcOw2sY2V4Sw8bYwnJP3PMugEw5TnQof2094pTSj3ZvnKQ5JR77eYhLY89aw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.alibaba.com;
-	spf=pass smtp.mailfrom=linux.alibaba.com;
-	dkim=pass header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=NnFb3ZDC;
-	arc=none smtp.remote-ip=115.124.30.111
-Received: from out30-111.freemail.mail.aliyun.com (out30-111.freemail.mail.aliyun.com [115.124.30.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ixO1nhek;
+	arc=none smtp.remote-ip=74.125.82.173
+Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A532606A31C;
-	Thu, 12 Nov 2026 07:40:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4A532606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85F97606A323
+	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 07:41:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 85F97606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.a=rsa-sha256 header.s=default header.b=NnFb3ZDC
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1794469215; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=K4R2hK0snJM7f5RU+CVLzgyyCzxkNvFTXNS07H9UUHI=;
-	b=NnFb3ZDChKFrrGDk7uliamI91PduZwoYT1lbfS6P6c2M1Amkobiqg1Li5FbHxIBY+jK2ar4ANQu+zPUUqKj+e/NNduqXMID1gWb+/S44dBfq7YF2X7OEr12xu3Uu1ee64LcRLZo094Y7mUYZQEZ/XMgnQDdi3f+SuvxFR5mmBzI=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R831e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam011083073210;MF=baolin.wang@linux.alibaba.com;NM=1;PH=DS;RN=32;SR=0;TI=SMTPD_---0XEbHbqg_1794469212;
-Received: from 30.74.144.134(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0XEbHbqg_1794469212 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Thu, 12 Nov 2026 15:40:13 +0800
-Message-ID: <c92a3132-da7d-46f7-bd06-6beffa3d2e34@linux.alibaba.com>
-Date: Thu, 12 Nov 2026 15:40:11 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ixO1nhek
+Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-33bf40b0c8bso3341884eec.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 11 Nov 2026 23:41:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794469286; x=1795074086; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Bj8oIOvi/lnWkTPHPdsw8/wbnTz5MyWHkyXyWXbRMxc=;
+        b=ixO1nhekxxalDWG1zHEJb0jw0LoiXRRtkCZWQtv7VflFG+Cib6Wh1X74S0IJjB3zx8
+         Np4eNPgIUE+eioJwZQlGWpo/iiRjTQz/8EYuFQraeRzjVaApRPFku3F+vzl35LKFPKJi
+         GpxGzM0aLgpIBhIeGxorOTSaNwv34fXIeU9pjlrLr//YxyFFSIZubaC0lFF2jdN+wqk/
+         3SAKHwoIvuRt+VN+3IhadgJ2b+iQicFYyDXRnfNa6ZhQfMmZv25YJ3qyMnJbrVs0UkVk
+         DuH97m49qr9h0DNUpUhBJmT/ZHvJO+gaVYOo7eCOa02f5mw5WIYE+BckK7AQa5lGF3mt
+         pBDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794469286; x=1795074086;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Bj8oIOvi/lnWkTPHPdsw8/wbnTz5MyWHkyXyWXbRMxc=;
+        b=srdvGXT+qKkG1oI398qwycIWZ38Cas+Dd3C3wk5B+CRTLu40Mr39dp9unk9a+CKMde
+         xMQTjF7oIORnIJ4e4JqQ4oY7BatfoN1JCMZb28tdtNdPpWVddT7x8h5ab3zGH6Xb5j1m
+         nLLwz2M0Maa3WP3R/FYlGHanBhwrupe6/tggoNzbdRBuVL31TI010uahSo1iyDvO29Ux
+         Ar75+AKxAqoGmrreFmMbphMaVsDu+C5T/gwr4J4URAdFdagTHs3ZKZf6srEZwDWkZXxZ
+         yAmrZLXJlakTszGGhaKlvWY/24FYmeDX3CpllolHpGtI7BhAHBR1pDsuyB8V5Lr+JQ8c
+         i3Kw==
+X-Forwarded-Encrypted: i=1; AL+hErH379ETpq1KRZexjEyeHYU4Gi3JFJcxLPSvzwy9wsysiPSeJv6cL7I0VJPQUWQpRvSK64gyeI4/uSuBNvti@vger.kernel.org
+X-Gm-Message-State: APuU4Z94a0EqERsQUVrWjURujOcEXsTxGu3xkMS14iu0+ffsM6hutjge
+	n6mJPN5jqIy+v7wxkSrQKUVUBlzBlHc+p9D2dRbwcb6FEY5soRPGGN0Y
+X-Gm-Gg: AYBFou0wFrH5GdT6j6XGBjDvnJxIlY4QczM0aXL8s5ziYp0A2t55XeYBeNXvw/L0Lcl
+	ONatWTSry+x4s2BrLBdICFQSvIuIwZEVrdrlkGR7PN68N5+DKKmI6LBM9HFOLemOkiMTUa1eIVf
+	OnuQbOTJUeulEelqU3XY6I8BqDjiP2SF8+SuqZoeMsoSNej9smut0nUOSpYFXSAq4MOEbEeqyu1
+	kl69WJWGv0nU6BsWxN5oaKMvAQMxqJ8JgigugQCD8UA7zWikbt0H7/jn3dyihKvflYq1canFt89
+	8SPUjCbO4fDsDFK7DlU7N8Vy7mdrVBnd+34ra5hK2ozAfekPLsMXyWii/6QoQP1nQ30jQQ3l7XD
+	idbe76X31mneUve2/+Rmm3aSu1KOtt6DUfye0/vGlS5oivVsrFimjWNxaspI4pK0Z8tNSEbPSjK
+	j5WgIX5rQhhggvb+6pEB2/2pAhbdRwej91EzGA8KcWjWuHWhoCOUHBYJnrML/ld8YhPoIwjZ7pK
+	OE4LtBoumN1IxZJ28yqAzGDKaGv6ysTvqEzCfqobM8aBFuXFDAfCx8wu/vL3blw9WDtiuGHxkiP
+	h6RHBCRx8ejIS2srPYlOVVKyBg2WsVURzeNOE7B8VKT4Lw7t6B9WDbRT1JXdBo2/mA==
+X-Received: by 2002:a05:693c:2582:b0:378:314:4042 with SMTP id 5a478bee46e88-37803144bbdmr1486709eec.14.1794469285344;
+        Wed, 11 Nov 2026 23:41:25 -0800 (PST)
+Received: from anon-laptop ([103.187.196.132])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-375212e9d78sm25594848eec.25.2026.11.11.23.41.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Nov 2026 23:41:24 -0800 (PST)
+From: Wahid Khan <wahidzk0091@gmail.com>
+To: linkinjeon@kernel.org
+Cc: hyc.lee@gmail.com,
+	ntfs@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8] ntfs: convert a named $DATA stream safely when making room in a record
+Date: Thu, 12 Nov 2026 13:10:55 +0530
+Message-ID: <20261112074055.1876311-1-wahidzk0091@gmail.com>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <CAKYAXd-n+zGBq4i7rfLyX+_Y6zEMLTCCqb2vAgcnmavqKxtiHA@mail.gmail.com>
+References: <CAKYAXd-n+zGBq4i7rfLyX+_Y6zEMLTCCqb2vAgcnmavqKxtiHA@mail.gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -53,49 +99,25 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] fs/proc/task_mmu: don't read young/dirty from a
- non-present PMD in smaps
-To: Usama Arif <usama.arif@linux.dev>,
- Andrew Morton <akpm@linux-foundation.org>, apopple@nvidia.com,
- byungchul@sk.com, david@kernel.org, gourry@gourry.net, jannh@google.com,
- joshua.hahnjy@gmail.com, liam@infradead.org, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, ljs@kernel.org,
- matthew.brost@intel.com, mhocko@suse.com, pfalcato@suse.de, rppt@kernel.org,
- surenb@google.com, vbabka@kernel.org, ying.huang@linux.alibaba.com,
- ziy@nvidia.com, kas@kernel.org, hannes@cmpxchg.org, riel@surriel.com,
- shakeel.butt@linux.dev, kernel-team@meta.com,
- Nico Pache <nico.pache@linux.dev>, ryan.roberts@arm.com, dev.jain@arm.com,
- baohua@kernel.org, lance.yang@linux.dev
-Cc: stable@vger.kernel.org
-References: <20261111113904.650722-1-usama.arif@linux.dev>
- <20261111113904.650722-3-usama.arif@linux.dev>
-From: Baolin Wang <baolin.wang@linux.alibaba.com>
-In-Reply-To: <20261111113904.650722-3-usama.arif@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Hi Namjae,
 
+-EAGAIN must not leave ntfs_resident_attr_resize(). The callers return
+it as is, so a normal blocking write() or setxattr() would get EAGAIN
+for a "would block" that never was, and index.c already uses -EAGAIN
+internally as its "redo the insert" code (ntfs_ib_insert() ->
+resplit), so a stray one from ntfs_attr_truncate() could be taken for
+that.
 
-On 11/11/26 7:38 PM, Usama Arif wrote:
-> smaps_pmd_entry() passes pmd_young(*pmd) and pmd_dirty(*pmd) to
-> smaps_account() for every PMD, including migration and device-private
-> entries, where those bits hold part of the swap offset rather than
-> accessed/dirty state. smaps_pte_entry() only reads them when the entry
-> is present.
-> 
-> On x86_64 the offset is stored inverted across bits 9-58, which overlap
-> _PAGE_SAVED_DIRTY, so pmd_dirty() returns garbage: a clean 2MB
-> device-private mapping is accounted as 2048 kB dirty, and lazyfree
-> accounting is suppressed. pgtable_64.h also warns that the hardware can
-> set the accessed and dirty bits on non-present entries by mistake.
-> 
-> Only read the bits when the PMD is present.
-> 
-> Fixes: c94b6923fa0a ("/proc/PID/smaps: Add PMD migration entry parsing")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Usama Arif <usama.arif@linux.dev>
-> ---
+-ENOSPC is what this function already returns when the attribute does
+not fit and cannot be made non-resident, so callers already pass it up
+as a normal error.
+It is not exactly true here, it is a short lived "busy" and not a full
+record, but there is no way to wait for folio 0 at that point without
+the deadlock (the reader holds it and waits for mrec_lock), and no
+errno fits better. I can use -EBUSY or add a comment saying so if you
+prefer.
 
-Make sense to me.
-Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+Thanks,
+Wahid
