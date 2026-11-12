@@ -1,54 +1,73 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794510568;
-	b=n5XaIqI9apzBzh/f2vyv/jx+JktzFFW7T9zMTViFdsF2T/dp8NSjhL3VA8Iyky1i1I8Z
-	 oyBTeGVS8ontXD27X+28u0y3LNA4Z5k0+FFDwpywa97dJt7YTxWDwZI86tbMEglhuESQJ
-	 lPk/M3O36qyYQnN26krN8FoxQWiahwEYjkaZHMz6oM8qQh5Fnzm1bh65QCxe6sAfGz2jr
-	 Gh86qKxVQQgmv1diNReZQvSD687swENj8UPsXttjnQeNH1L63A3vUhkAAtf8F7bLZnyyo
-	 Z7Zi+FWYiBLJLzUc5vAkqibpsiytZhVT2aIe5qzusgMKYGhAvSvv//ED7L2KVjgXa6A==
+	t=1794510621;
+	b=ME9ZC7xsTlcDq35y2p+EO3syilfnZ+gu44OSecIMnHeYNYKzqiGX12yNICHXMYudh1qQ
+	 NC2xOG6gFYhe44XNwSaCYfpUeH41A/Hhhe3w+hqghnsZ1RCzhU2A6L+x9c6ef4lAujBUE
+	 f/HfSRG0vgM/OmjhOHUvwF+pAdWvtOsnb/kvg49FMRBmEE38xAgSmfOoAbFWRhJT0JymK
+	 zObmD0RBhIfWpZji0i9s357eSgKCCUQ4vPEat55UtkKvWH8yL+2HjUKAsLC8lNFJyVUrk
+	 b40F0AlJF8MGf5juUXfbHYq8WPnq1dBcX0JHp2HnewQYYIo6EQAEebnmOiumbMINESQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794510568;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-Id:
-	 In-Reply-To:References:X-Mailer:Mime-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=X4RkaRO34zwhb3y2ZY0P2m2fdXJ0xGr/34bmaboHeu4=;
-	b=xhae8qtGTqy/6wlWaukfPXw4UGG2nzyekO/C+iuryQ0TUodujugTxOX1CnuPocWbi5od
-	 9Ad7gtrMvUXbJpYOZJoVP/GRLdZbb/Cguy8UDHYjTAjfIi11HtVNNurUxud8jbJzLmJM9
-	 NScJ/Mr3W7b6hwdj5eMzvFsAwNy846759B4lB35SfnhmwIGfIvgiYRameWSHnHTujs63t
-	 l+mgrHmn2EvXRzlKph1V76czlRwGMxMn0ubEIPIuNO3lxw43Q/Wj9SQeozBUkYoFUdT9J
-	 /0f7sSQhKq3vVRWFhGdbGIPyLBrrHh9bRpo9Zm4YCwlhh0+tTlVkrBFqiyzix9ZTEYQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794510621;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Gm-Message-State:
+	 X-Gm-Gg:X-Received:Received:Received:X-Received:MIME-Version:
+	 References:In-Reply-To:From:Date:X-Gmail-Original-Message-ID:
+	 X-Gm-Features:Message-ID:Subject:To:Cc:Content-Type;
+	bh=BiDOWQWnXjiTVlwWz8It4XU8j0IkMRXtLOxSJ2sBmUk=;
+	b=QOoMg69OCxc//YbsHfwqivehovleP7NcKOXqfWkoKeOCy+JyxPu+iKXbkQ0IxmcVDxEX
+	 Of622bM8vmKhL4LuR3QXyiIKWpaldaMNJM1UEpfKxMc0pnitjn3DK9VcTqEhl8v40IxnG
+	 4yR6xDpfUBnWQZVe55I1WNGu3Y9wOE+I6eMvjM6wIxnH2Yu5qiUSgawzXoMqNA8v6oXXL
+	 4aZS+FounB/jOnLUwYxSVOnq7icRBQKcyYCWDBCfCQvjdKz2ydocTlIVJq5FaVYXrVu2v
+	 JLldbMFDvQIoTrYV6KiWTOHFn3e6V0d0ol2+hnw5vFwJJJbg1UvHybFpzSUo1r7c0sg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=S2gujuqj;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=none header.from=linux-m68k.org;
+	spf=pass smtp.mailfrom=gmail.com;
+	arc=none smtp.remote-ip=209.85.222.53
+Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com [209.85.222.53])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F8E360A2603;
-	Thu, 12 Nov 2026 19:09:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=S2gujuqj
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E2571F000D0;
-	Thu, 12 Nov 2026 19:09:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1794510567;
-	bh=X4RkaRO34zwhb3y2ZY0P2m2fdXJ0xGr/34bmaboHeu4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=S2gujuqjXs2blV+0XNHq59fKnWACZiB0i6K46vLyBMO/cIx0epicB10t6biaJ9RHb
-	 KgesT8UlQAAJvF1/fmi/0MmHOopQ5FSK45vM4NfLxi/uzUnieX4vgafxyDxzrtVDk0
-	 +brVPx8wr0M6i0K4FwtKi7AaSZ63+65M1meJZVaw=
-Date: Thu, 12 Nov 2026 11:09:27 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Phillip Lougher <phillip@squashfs.org.uk>
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, Christian
- Loehle <christian.loehle@arm.com>
-Subject: Re: [PATCH v2 17/22] Squashfs: don't store large export table
- indexes in memory
-Message-Id: <20261112110927.6add17b0552922c5b6b93515@linux-foundation.org>
-In-Reply-To: <20261111234402.252354-18-phillip@squashfs.org.uk>
-References: <20261111234402.252354-1-phillip@squashfs.org.uk>
-	<20261111234402.252354-18-phillip@squashfs.org.uk>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB26D60A2623
+	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 19:10:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BB26D60A2623
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-97ccbba8e86so67346241.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 11:10:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794510620; x=1795115420;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=BiDOWQWnXjiTVlwWz8It4XU8j0IkMRXtLOxSJ2sBmUk=;
+        b=plYIg4yw2Q9ohfJtbunZ86noLBL0jZCnIvnyUOoryFFc9l5sNaRMwMfNyvfdpELyzD
+         SdIhei/JB+vy6DXS2Hx7h/4EBN3lk9kSWDW0cCrg8jMid0XfpeMGL4MIjmbkrRaBL/gN
+         DTwaC7K5N6Uzha1mQ9lGGlxJ7au/khdTOMEHDsi1bgOPI0xD1kBprHJ9gLWkRHjiCdE1
+         rCPIBWdxwRhgClj0j86t/N91ViUKxxvJfpMf+944r6zGSU19GCQcJBokYLZhobL38Kk9
+         X6RjPcuLsD5E5qjd1F/OrSp3QG0XChNfjcQi6hVY2xXsXGeiFrnqPOAf06Kv31ZU+nrZ
+         NtKg==
+X-Gm-Message-State: APuU4Z8DHzmP/VP5tuaSUmr4uMT8g5OTuXy2MPSt3lisy0SS/2EXCnaU
+	faU717QehCdbTP0PVx42brrd0wIGUaq43BXiPEkb0dRI7k5XscFNVEivEPDn5PRDdJQ=
+X-Gm-Gg: AYBFou0eUlpeU7+9Kv1ibHQeDlXgAV5F67cF8JqyXFrSSU3AVgypxUwnvBCd2ESX498
+	3DkEwcy007pMq/lP1mG/47B9qPOvoA9krW1MlGvny8yqjBv4Oe+E/EYdo2hRtAICpVLQs1h0Su+
+	KfoohTkO6O/8w+uZCeiKOcXMkl0X/HSDWx4PShIftA/T7dH1c3XXnoEKyGhdDc983ppDJvXMWN7
+	YSad6RekF6kzZtz4zgA6L3JGNo+EOjDnXzs8tRxkQjBbQXZEANK1lBew0y3ZbvquV5R989e/1l2
+	0I3AUgBIHCTERI8EFPXQL6Ty0UvOO6rv4pjsBLk7RpRnxe4ZrMSDMmmwiOnBq/TcEWXRGhT63Wx
+	pCS3tr40BygCuWBfQTx4SrPexEBT2yzPqMnTHxrUU1RRCs6pXgeKryMyjlAhsvEwSgDP2l3OSu1
+	DihT3yaCF12l38YjeJKzrnD/Zl+/LhWzIBnNLTw2mvxBjop6SliTfSpc6rATG8CXwQYMj1fALqm
+	HXSMCO7BYD9wesf9Y5yk/zZX3ReDDvc9/5CclLnqBbSch+AtzYob+8NAqW33DsPSsinQM35sKGv
+	btKgcTQY/2ff+vEhv9IADYsiFwRn3zXXG32VO+ub9buj+kIvP9tyrOy2BmRPph2/b1U=
+X-Received: by 2002:a05:6102:2c85:b0:7cc:232b:f5a9 with SMTP id ada2fe7eead31-7d64d80d3b9mr53383137.24.1794510619664;
+        Thu, 12 Nov 2026 11:10:19 -0800 (PST)
+Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com. [209.85.217.42])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7d64c4c4fa5sm228915137.8.2026.11.12.11.10.18
+        for <linux-fsdevel@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Nov 2026 11:10:18 -0800 (PST)
+Received: by mail-vs1-f42.google.com with SMTP id ada2fe7eead31-7cc91ddf447so28273137.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 11:10:18 -0800 (PST)
+X-Received: by 2002:a05:6102:5ccb:b0:7ce:5952:125d with SMTP id
+ ada2fe7eead31-7d64db29605mr42432137.36.1794510618289; Thu, 12 Nov 2026
+ 11:10:18 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -57,213 +76,51 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+References: <20261112-work-procfs-oldmem-v1-0-ecdcafd99265@kernel.org> <20261112-work-procfs-oldmem-v1-1-ecdcafd99265@kernel.org>
+In-Reply-To: <20261112-work-procfs-oldmem-v1-1-ecdcafd99265@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 12 Nov 2026 20:10:05 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXgM_TMX7HrpsvDaQi96Ht-K6KTBu5PPRRBpcCegf3Q9g@mail.gmail.com>
+X-Gm-Features: AclHuK-k7G9fpVKu6BhCbcWfXavvnldoQZhCl9e2eioRf49lg5T7xpzAfc2z5gM
+Message-ID: <CAMuHMdXgM_TMX7HrpsvDaQi96Ht-K6KTBu5PPRRBpcCegf3Q9g@mail.gmail.com>
+Subject: Re: [PATCH RFC 1/4] powerpc/crash_dump: check ioremap_cache() in copy_oldmem_page()
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Breno Leitao <leitao@debian.org>, 
+	Chris Mason <mason@kernel.org>, Thomas Gleixner <tglx@kernel.org>, x86@kernel.org, 
+	kexec@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, 
+	linux-arm-kernel@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	loongarch@lists.linux.dev, linux-mips@vger.kernel.org, 
+	linux-sh@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	David Hildenbrand <david@kernel.org>, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 11 Nov 2026 23:43:57 +0000 Phillip Lougher <phillip@squashfs.org.uk> wrote:
+On Thu, 12 Nov 2026 at 17:39, Christian Brauner <brauner@kernel.org> wrote:
+> copy_oldmem_page() maps a page of the old kernel that isn't in the
+> linear mapping with ioremap_cache() and copies from it without checking
+> whether the mapping worked. If it didn't, the copy reads from an offset
+> into the NULL page. That oopses unless the copy happens to be a user
+> copy, whose exception table entries turn the fault into a short copy.
+>
+> Return -ENOMEM like the other architectures do. read_from_oldmem()
+> turns that into -EFAULT like any other short copy.
+>
+> Reported-by: Chris Mason <mason@kernel.org>
+> Fixes: 54c32021eb6f ("[PATCH] powerpc: Add arch-dependent copy_oldmem_page")
+> Cc: stable@vger.kernel.org
+> Reviewed-by: Breno Leitao <leitao@debian.org>
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-> When mounting a Squashfs filesystem, the code reads the entire
-> export table indexes into memory.  Their size is determined by the
-> number of inodes in the filesystem.  For the maximum inode
-> count of 2^32, this will allocate and read 32 MiB.
-> 
-> This is an excessive and unnecessary amount of memory because the
-> indexes do not need to be read into memory in their entirety.  In
-> addition kmalloc() is used to allocate memory, and this can fail when
-> large amounts of memory are requested.  Kmalloc() on modern kernels is
-> usually limited to 4096 KiB.  If panic-on-warn is set, then failure to
-> allocate memory will result in a kernel panic.
-> 
-> This commit uses a 4 page cache if the size of the export table indexes
-> are 4 pages in size or larger.  A simple and fast lookup array is
-> retained where the total index size is less than 4 pages in size, which
-> is the vast majority of Squashfs filesystems.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Thanks.  This patch didn't anticipate the presence of Christian's
-"squashfs: identify device in mount errors".  To make life easier I've
-staged Christian's patch behind this 22-patch series.
+Gr{oetje,eeting}s,
 
-This required a bit of rework of Christian's patch.  While in there I
-filled in a few more places which needed Christian's treatment and I
-made the whole thing more 80-column friendly where that made sense.
+                        Geert
 
-Please check:
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-From: Christian Loehle <christian.loehle@arm.com>
-Subject: squashfs: identify device in mount errors
-Date: Sat, 12 Sep 2026 15:53:14 +0100
-
-Squashfs mount failures reported through fs_context do not identify the
-backing device, fix this by printing the block device.
-
-Repeated automount failures used to be ambiguous, for example:
-  Filesystem uses "xz" compression. This is not supported
-
-All of the affected errors occur after get_tree_bdev() has opened the
-block device and setup_bdev_super() has assigned sb->s_bdev.  Use it to
-identify the failing Squashfs image even when the mount is retried.  For
-example, the error above now reads:
-  Filesystem on loop0 uses "xz" compression. This is not supported
-
-Link: https://lore.kernel.org/20260912145314.788588-1-christian.loehle@arm.com
-Signed-off-by: Christian Loehle <christian.loehle@arm.com>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-Reviewed-by: Phillip Lougher <phillip@squashfs.org.uk>
----
-
- fs/squashfs/super.c |   48 ++++++++++++++++++++++++------------------
- 1 file changed, 28 insertions(+), 20 deletions(-)
-
---- a/fs/squashfs/super.c~squashfs-identify-device-in-mount-errors
-+++ a/fs/squashfs/super.c
-@@ -151,26 +151,26 @@ static int squashfs_parse_param(struct f
- }
- 
- static const struct squashfs_decompressor *supported_squashfs_filesystem(
--	struct fs_context *fc,
-+	struct super_block *sb, struct fs_context *fc,
- 	short major, short minor, short id)
- {
- 	const struct squashfs_decompressor *decompressor;
- 
- 	if (major < SQUASHFS_MAJOR) {
--		errorf(fc, "Major/Minor mismatch, older Squashfs %d.%d "
--		       "filesystems are unsupported", major, minor);
-+		errorf(fc, "Unsupported older Squashfs %d.%d filesystem on %pg",
-+		       major, minor, sb->s_bdev);
- 		return NULL;
- 	} else if (major > SQUASHFS_MAJOR || minor > SQUASHFS_MINOR) {
--		errorf(fc, "Major/Minor mismatch, trying to mount newer "
--		       "%d.%d filesystem", major, minor);
-+		errorf(fc, "Major/Minor mismatch, trying to mount newer %d.%d filesystem on %pg",
-+		       major, minor, sb->s_bdev);
- 		errorf(fc, "Please update your kernel");
- 		return NULL;
- 	}
- 
- 	decompressor = squashfs_lookup_decompressor(id);
- 	if (!decompressor->supported) {
--		errorf(fc, "Filesystem uses \"%s\" compression. This is not supported",
--		       decompressor->name);
-+		errorf(fc, "Filesystem on %pg uses \"%s\" compression. This is not supported",
-+		       sb->s_bdev, decompressor->name);
- 		return NULL;
- 	}
- 
-@@ -217,7 +217,8 @@ static int squashfs_fill_super(struct su
- 	TRACE("Entered squashfs_fill_superblock\n");
- 
- 	if (!devblksize) {
--		errorf(fc, "squashfs: unable to set blocksize\n");
-+		errorf(fc, "squashfs: unable to set blocksize on %pg\n",
-+		       sb->s_bdev);
- 		return -EINVAL;
- 	}
- 
-@@ -246,7 +247,8 @@ static int squashfs_fill_super(struct su
- 	sblk = squashfs_read_table(sb, SQUASHFS_START, sizeof(*sblk));
- 
- 	if (IS_ERR(sblk)) {
--		errorf(fc, "unable to read squashfs_super_block");
-+		errorf(fc, "unable to read squashfs_super_block on %pg",
-+		       sb->s_bdev);
- 		err = PTR_ERR(sblk);
- 		sblk = NULL;
- 		goto failed_mount;
-@@ -271,7 +273,7 @@ static int squashfs_fill_super(struct su
- 
- 	/* Check the MAJOR & MINOR versions and lookup compression type */
- 	msblk->decompressor = supported_squashfs_filesystem(
--			fc,
-+			sb, fc,
- 			le16_to_cpu(sblk->s_major),
- 			le16_to_cpu(sblk->s_minor),
- 			le16_to_cpu(sblk->compression));
-@@ -295,8 +297,8 @@ static int squashfs_fill_super(struct su
- 	 * block size (by default 128K).  This is currently not supported.
- 	 */
- 	if (PAGE_SIZE > msblk->block_size) {
--		errorf(fc, "Page size > filesystem block size (%d).  This is "
--		       "currently not supported!", msblk->block_size);
-+		errorf(fc, "Page size > filesystem block size (%d) on %pg is not supported",
-+		       msblk->block_size, sb->s_bdev);
- 		goto failed_mount;
- 	}
- 
-@@ -355,7 +357,8 @@ static int squashfs_fill_super(struct su
- 	msblk->read_page = squashfs_cache_init("data",
- 		SQUASHFS_READ_PAGES, msblk->block_size);
- 	if (IS_ERR(msblk->read_page)) {
--		errorf(fc, "Failed to allocate read_page block");
-+		errorf(fc, "Failed to allocate read_page block for %pg",
-+		       sb->s_bdev);
- 		err = PTR_ERR(msblk->read_page);
- 		goto failed_mount;
- 	}
-@@ -394,7 +397,8 @@ static int squashfs_fill_super(struct su
- 	err = squashfs_read_xattr_id_table(sb, msblk->xattr_id_table,
- 				&msblk->xattr_table, &msblk->xattr_ids);
- 	if (err < 0) {
--		errorf(fc, "unable to read xattr id index table");
-+		errorf(fc, "unable to read xattr id index table on %pg",
-+		       sb->s_bdev);
- 		if (err != -ENOTSUPP)
- 			goto failed_mount;
- 	}
-@@ -405,7 +409,7 @@ allocate_id_index_table:
- 	msblk->id_table = squashfs_read_id_index_table(sb,
- 		le64_to_cpu(sblk->id_table_start), next_table, msblk->ids);
- 	if (IS_ERR(msblk->id_table)) {
--		errorf(fc, "unable to read id index table");
-+		errorf(fc, "unable to read id index table on %pg", sb->s_bdev);
- 		err = PTR_ERR(msblk->id_table);
- 		msblk->id_table = NULL;
- 		goto failed_mount;
-@@ -421,13 +425,15 @@ allocate_id_index_table:
- 	err = squashfs_read_inode_lookup_table(sb, msblk->lookup_table,
- 			next_table, msblk->inodes);
- 	if (err < 0) {
--		errorf(fc, "unable to read inode lookup table");
-+		errorf(fc, "unable to read inode lookup table on %pg",
-+		       sb->s_bdev);
- 		goto failed_mount;
- 	}
- 
- 	err = squashfs_inode_lookup_start(sb, 1);
- 	if (err < 0) {
--		errorf(fc, "unable to read inode lookup table");
-+		errorf(fc, "unable to read inode lookup table on %pg",
-+		       sb->s_bdev);
- 		goto failed_mount;
- 	}
- 	next_table = msblk->lookup_table_start = err;
-@@ -450,13 +456,15 @@ handle_fragments:
- 	err = squashfs_read_fragment_index_table(sb, msblk->fragment_table,
- 			next_table, fragments);
- 	if (err < 0) {
--		errorf(fc, "unable to read fragment index table");
-+		errorf(fc, "unable to read fragment index table on %pg",
-+		       sb->s_bdev);
- 		goto failed_mount;
- 	}
- 
- 	err = squashfs_frag_lookup_start(sb, 0);
- 	if (err < 0) {
--		errorf(fc, "unable to read fragment index table");
-+		errorf(fc, "unable to read fragment index table on %pg",
-+		       sb->s_bdev);
- 		goto failed_mount;
- 	}
- 	next_table = msblk->fragment_table_start = err;
-@@ -502,7 +510,7 @@ check_directory_table:
- 	return 0;
- 
- insanity:
--	errorf(fc, "squashfs image failed sanity check");
-+	errorf(fc, "squashfs image on %pg failed sanity check", sb->s_bdev);
- failed_mount:
- 	squashfs_cache_delete(msblk->block_cache);
- 	squashfs_cache_delete(msblk->fragment_cache);
-_
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
