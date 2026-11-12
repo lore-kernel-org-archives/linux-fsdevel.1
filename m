@@ -1,52 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794478959;
-	b=5ewTl2oj/uHVSVhm5GdijW2wNgcRpLT6C1r2fAX2EBvITN8UBwOqEKDSVGa4HF7orsmQ
-	 oY7r66G3RpmZZdk+j+4eaWcdBIgTggQiGf6hrStRBOhPkE/X4PZj8TTPu1jrGb4UiDs9i
-	 Vu0z4pCIopQajPCzz1nySvIzcbsH+K8UqEUFPBzPmxeDG/9txkUpCqJ/UF+X74hPrsWYa
-	 Pe9HcVvKdWkLB/HTzHuuB5LmOoBRen3gLa6wRQYymGswZwt06s56EoECp+UTDEDt/GYeo
-	 J87YnmjBB8XLyCF4H9AVH1rNvclQmGxP+78KTXYx9IGldNf39nRqrRmuSkxxuhmckmA==
+	t=1794479210;
+	b=0+0N/eWxcbkX+IuM6t69Pwg09g0xxsPP+phnSrPTikKbJibCYZc/8wJ0/r0U56RIN68s
+	 934Acn83rc+LHhhiJwvId3fF1J6jimSzISZRQ0uVS7prqfH+3YddezgArEJmUv4jon8h2
+	 TXwe7ZJfhY5jxoMpMf86WDghHI7xUxHPv4X2KP4QLISA+yUmMel0xpgh/BXZVpXr0r/rf
+	 lJGEVP1mBoXmVf/YodutYWy0IwWyGRHhKFPMSecOVYCF+DvIkce5m9nqE+ybj88MKonzF
+	 RDPGwk0s2T1kdhn8DrlOD9MAXBRSj4g/lFKs/sZLMozTWv7QWz6kNIdoeQe0VHspQ2g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794478959;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=eszEeUmzyGQ9L5uzbk8VgNcgdcYzrPgBruu7pdfNjtg=;
-	b=n+wiIbNA7yWRdEXussjtY8VsHculo+ewgOGoCwUTcQ7KyIG55Gb5wf7SOiUfsS9HTzWd
-	 SUvuwzWYY8yfTdPciEhqniGCfg0y6uUc+28ArjaRn1+iq/HZUvTbg09ql/i71MG5nEORp
-	 XHjS5AHh54ljBt28jvReUT0jEbSeRAEG8+w8qpQEUfAiy8iCXdOMCNLZ/ASd2UiwBeGnK
-	 fo18y8v+Rj+tpSB3bG4UKq3U8joPyaoJ3nV0B1utY2Zh/wIxv7IhAeGqpAC9Qfxu+96N7
-	 ixTmtt1Q6ib1uChc6vcKkq43iniWSVOHjcv/A2UyC0/WUEvRX1xihpm3y6OF0mVReEA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794479210;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:X-Scanned-By;
+	bh=6llOWqJeYAhUICeHCBAXdna4LLIajW03GC3elOBHvx4=;
+	b=kP5v3EaDSWzp2XOPJ+yRyewwtMbF4yAYWgjU+0oyQwmxF9l5PGJE4+5PgRqm9fubawew
+	 JQcxiwiLrM4yTsXc9D6dbu1w7wirL8sa6TXvsfumEC73biiylQFP7uM4I3KjI0v6eAClI
+	 XDNlTQfsNx3m5pdmnuAOqKNEMKIT32gBY1HqVkux5Olbl05OStWGyhOjnPiCGUOYF/w3z
+	 i/ws145o7Qt4PeNMPNDSSuDf7XNAm1goLI/BvJ/BF6dX652ZW57ZnRAfDjhY57WzcR+1E
+	 rKRv72AlTloNF/rTSQYF29UwSCbmOWbeDNBBfDkZoOQu+oFKHb08A6KD+oSvJg0vmAA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gUz2sOBj;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=euDFcGry;
+	arc=none smtp.remote-ip=170.10.129.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9385D606A33A;
-	Thu, 12 Nov 2026 10:22:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CE0F606A32A
+	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 10:26:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1CE0F606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gUz2sOBj
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85C361F00A05;
-	Thu, 12 Nov 2026 10:22:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794478959;
-	bh=eszEeUmzyGQ9L5uzbk8VgNcgdcYzrPgBruu7pdfNjtg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=gUz2sOBjSDTwchLsNEYBkp4I5dyt9I+nuMCr0Q7eCujVvfcWdwn/8SNoBRoZmrgIZ
-	 cWBSnisEgNB6IRiGLisImDhvdYBOImpNx2AHZ2vAvMtr3641S2E98KZymjyRwLORnK
-	 FbKUgwML5qrMds4g8/ujJJEdhtzlxMwoqpkY5bh7Ey6wZyRdT+dYSjBiZfdCakSF2E
-	 kQjmhQ6mHRjtDeihWwVJveCb7GdWlm+8vqYM6MMowkncNJZSjSDgdhnsBiZT1rhSo8
-	 ctGvRoY59IYgvFfqxAp9Zg0iJxmHwL16oDUUuUzgCKHNlSmkmnPf/pdrMttUiYQPBQ
-	 vhjIIIPMG8CMg==
-Date: Thu, 12 Nov 2026 11:22:33 +0100
-From: Joel Granados <joel.granados@kernel.org>
-To: wen.yang@linux.dev
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 00/39] sysctl: replace overloaded extra pointers with
- typed bounds and context
-Message-ID: <avWTAV9Xt-x2iNvR@hobbes>
-References: <cover.1793204511.git.wen.yang@linux.dev>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=euDFcGry
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1794479209;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6llOWqJeYAhUICeHCBAXdna4LLIajW03GC3elOBHvx4=;
+	b=euDFcGryuEgQLLHmExN8Ukx8Xome8BESCk6f2ahfOs5TRrjhD9mwUPvzAbAep5q0SxhJWc
+	zKd+qsCxTr2BH4kyzzmzideMj+zz1yC0gZqGXY/2B0O0nUs97wQw/GwNVMPRgljPoABbJz
+	1Eaj6EODFhChq2Io+TtthgxZIPPnrsc=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-551-u-i_fN6cN0-B-vlmLwz4og-1; Thu,
+ 12 Nov 2026 05:26:43 -0500
+X-MC-Unique: u-i_fN6cN0-B-vlmLwz4og-1
+X-Mimecast-MFC-AGG-ID: u-i_fN6cN0-B-vlmLwz4og_1794479201
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 489C71882607;
+	Thu, 12 Nov 2026 10:26:41 +0000 (UTC)
+Received: from onestero-thinkpadp1gen7.tpbc.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 4D73C1956087;
+	Thu, 12 Nov 2026 10:26:38 +0000 (UTC)
+Received: by onestero-thinkpadp1gen7.tpbc.csb (nbSMTP-1.00) for uid 13628
+	oleg@redhat.com; Thu, 12 Nov 2026 11:26:40 +0100 (CET)
+Date: Thu, 12 Nov 2026 11:26:37 +0100
+From: Oleg Nesterov <oleg@redhat.com>
+To: Mani Tofigh via B4 Relay <devnull+mt4022.columbia.edu@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	tz2294@columbia.edu, stable@vger.kernel.org,
+	Mani Tofigh <mt4022@columbia.edu>
+Subject: Re: [PATCH] pipe: keep per-write wakeups for EPOLLEXCLUSIVE consumers
+Message-ID: <avWUXRywbUFuLm0S@redhat.com>
+References: <20261111-pipe-epollexclusive-wakeup-v1-1-0af6283e9fda@columbia.edu>
+ <avT7nQs7zYseYtMw@redhat.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -56,94 +82,31 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="kbkfmlx46zbzof22"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1793204511.git.wen.yang@linux.dev>
+In-Reply-To: <avT7nQs7zYseYtMw@redhat.com>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
+On 11/12, Oleg Nesterov wrote:
+>
+> On 11/11, Mani Tofigh via B4 Relay wrote:
+> >
+> > From: Mani Tofigh <mt4022@columbia.edu>
+> >
+> > A task blocked in read() on a pipe can sleep while the pipe holds data,
+> > when an epoll(EPOLLEXCLUSIVE) watcher of the read end was added before
+> > it.  The watcher's entry on ->rd_wait is exclusive and sits ahead of the
+> > reader, so a write into an empty pipe wakes only the watcher.
+>
+> I am already sleeping, but at first glance this is already wrong?
+>
+> I mean, a WQ_FLAG_EXCLUSIVE waiter should not sit ahead of non-exclusive
+> waiter, no?
 
---kbkfmlx46zbzof22
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [RFC PATCH 00/39] sysctl: replace overloaded extra pointers with
- typed bounds and context
-MIME-Version: 1.0
+Ah, I forgot that anon_pipe_read() uses wait_event_exclusive(), and it
+assumes that this wait-event is the only reason to set wake_next_reader...
 
-On Thu, Oct 29, 2026 at 12:34:39AM +0800, wen.yang@linux.dev wrote:
-> From: Wen Yang <wen.yang@linux.dev>
->=20
-> struct ctl_table describes an entry with data, maxlen and, until this
-> series, two untyped misc pointers in extra1 and extra2. Those two pointers
-> have accumulated at least seven unrelated jobs: a fixed bound, a bound re=
-ad
-> through a pointer on every call, an object or namespace pointer, a small
-> integer cookie encoded into the pointer, a lock signal, NULL standing for
-> "no bound", and a value the core itself casts to unsigned int while
-> validating a u8 range. Nothing in the entry says which job applies, so
-> readers infer it from the handler, and the core gets it wrong where it
-> treats extra1 as an unsigned int.
->=20
-> The numeric half of this change is the direction Eric Biederman asked for:
-<... snip ...>
->=20
->  net/ipv6/ndisc.c                              |    3 +-
->  net/ipv6/netfilter/nf_conntrack_reasm.c       |   30 +-
->  net/ipv6/reassembly.c                         |   30 +-
->  net/ipv6/route.c                              |   11 +-
->  net/ipv6/sysctl_net_ipv6.c                    |   53 +-
->  net/mpls/af_mpls.c                            |   58 +-
->  net/mptcp/ctrl.c                              |   29 +-
->  net/netfilter/ipvs/ip_vs_ctl.c                |  157 +-
->  net/netfilter/nf_conntrack_standalone.c       |   45 +-
->  net/netfilter/nf_hooks_lwtunnel.c             |    4 +-
->  net/netfilter/nf_log.c                        |   67 +-
->  net/phonet/sysctl.c                           |    6 +-
->  net/rds/ib_sysctl.c                           |   23 +-
->  net/rds/sysctl.c                              |   32 +-
->  net/rds/tcp.c                                 |   11 +-
->  net/rxrpc/sysctl.c                            |   51 +-
->  net/sctp/sysctl.c                             |  148 +-
->  net/smc/smc_sysctl.c                          |   42 +-
->  net/sunrpc/xprtrdma/svc_rdma.c                |   39 +-
->  net/sunrpc/xprtrdma/transport.c               |   27 +-
->  net/sunrpc/xprtsock.c                         |   26 +-
->  net/tipc/sysctl.c                             |   18 +-
->  net/vmw_vsock/af_vsock.c                      |    4 +-
->  net/x25/sysctl_net_x25.c                      |   23 +-
->  security/keys/sysctl.c                        |   25 +-
->  security/loadpin/loadpin.c                    |    4 +-
->  security/yama/yama_lsm.c                      |   10 +-
->  134 files changed, 3075 insertions(+), 1525 deletions(-)
->=20
-> --=20
-> 2.25.1
->=20
+I seem to understand, let me think about it.
 
-Hey Wen
+Oleg.
 
-What is the base of this series?
-
-And please add a base for your future series.
-
-Best
-
---kbkfmlx46zbzof22
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmr1k2IACgkQupfNUreW
-QU+h+gv9G5IMKAyI9ruQg9M16SDqprbhEzJYUItQ53Ig0T8Bi1y06QYCHMRaDMeI
-BkCc+Hl/p8Kdm5BKgDFoNV5KOyhowEVPbcmwZY6MSOe45vw+2YPprDmELsIoeTZI
-o4nv76iqK/TN8sjxkA2CwSzNoqZAT+aI6j2CeZkFZRnPqjYeytHFkeYEUT1OWOJj
-Hyn7/f8xrV2kySxhlb/WLYpMFDJ+d3aoCkcFgCOJYaOYcgWy5v2hOsjhYxFhrv1a
-mOHqf5o0cAi7LPu2hAisBwb977x3TDqtP7J92akgPatS1l/kATm/hA1YUuO5JOOs
-S/XOHSCdmfCbKdX+F9Z0pISx2y4AOxQKSiHh887aPCcskNDLvY3LRlWOltDRjDn8
-Ul5gXQhSIchZbJ4iW2BpYJcYdY2VWvYkK/kFdn3ibtlYNUYr8fGvXvt1em69rzJ6
-IlWZNgmVDaA54RGryCMqet8PIrs5bWU92GjMcCFlhwd/cGd5j3EFStxjd3mXwP5G
-6QpbkY2P
-=2Cuw
------END PGP SIGNATURE-----
-
---kbkfmlx46zbzof22--
