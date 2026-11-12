@@ -1,110 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.144
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794491309;
-	b=IcHJg0HEKxk/MQ9xFoWEJO3r51dzaVXZ7eDyk2qWcOr+XuRoAcQRzeD1foqtiGpWPGCY
-	 QH6NN5OPfeoWugOM4cpFQDocjMJd/N4kc1I+yL9SX2CHiHUIjpG632YkrTf/XE4CigoGf
-	 fshhT9DQXikzIgSPzA9cXnTY0D0lTvv55Dr0pQg5Nsr/OnqBv3qcXgGy3FoUQiEEo+z9q
-	 RNHSN6eAb5PJzuS6RTbDp/hTVDfoNrbtkFqFHr76FvZwACC6ba6tEb9zg5QbN1hTptjV9
-	 Mn7Ww2OAj9+4JoBC2HQiZbd32pscVgxcufblG0zzfub+ZNaq162ZGn7LD5PH/wWLBdQ==
+	t=1794491388;
+	b=KNWxvvJDaIezPPq87tbruK/l44tiS2miWfdZacrc11O8XI2jh5w5Bz+2wIS0JrI2T74I
+	 tW42nzLcMF9VINo2aGsPyq5fr+Rh6sGPX1kQEvt+douf+sZOd0bhokoo+yNGgdzmES89e
+	 rxUykpWYSgR712AWKZ0rg9VsYeeOMYPcnw8sRoJJfsygUcxi+uz3dWNSd1Xvs8NQk3igC
+	 np1Q/teUfF0WunccMjmxsNCgdiqv0HRdw+8hj+25yE/iNWVNeSNZ8lQNW6mN7+p0cwPOy
+	 d2bgGayb1c0r+ZmIYsr08nZDQ5z2sqjI4EBcFAh+KqCCMVASFR5myZpUI2rv728QYhA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794491309;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
+	a=rsa-sha256; c=relaxed/relaxed; t=1794491388;
+	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:
+	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
 	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
 	 References:Subject:Content-Type:Content-Transfer-Encoding;
-	bh=VRT7mJ1HJtli90asQUPZL0I86WWZMiU/wK7Ix1+t7eg=;
-	b=N22nqFpLrJdJDQBaINISutoI4meMg5nXV3Y5/5iPyxYdnF60lz31pEYHnRZaPb1uhlME
-	 UcUFMQkNaQEBKfdu+TMfSmi6MG2B3tCJXZ52SO/AzpkDE9fNwkmFgSnjK6y9k8yLyZjP5
-	 18TRUNf2p8MYm054C/+Mp6PRtxv3arymFWk42yrTEeTVWgi8BO/4cSgvtxoV9MP5IGLSm
-	 ZKrAax92BtRBFkSlEoUTPdhuaBNWaKOGmrT4zGhRZDO+0QW+NMVgPjUQntTr/Fe/NtV4e
-	 SUkv/YQWBdvtwxB4xdjBQd1RltWWqF/i99udVpr1WrYVI3gCGPv6d8XDgQZnE2dnQsQ==
+	bh=XJqHaA+Lr6uyDKV49/9jNpG7MBF6VeHh5SiagRGqoAE=;
+	b=pYFAhsZfVGrg+VTRp+TiNvY9XbTx9nsnhx/bP44iEU+aKw7MnKV4O+af/P656MwetHcM
+	 mHkyE+m/K9bAFbgJB6UbjtGp/DvpVWYj1bQPpcZ1hsCajpyFG6S+HJCE6+bBMZVWQ1QmE
+	 rd/XxzO2tia4I2he1bcRUCR8ELmyTxOC0R+StXhb1MHkZOZa+JOdqjslYPpXjKFIRJ98L
+	 bjZT5HTu6ym9QBVIBupFtmwP5N0FNmSCvAOkJq0Oky9GiYQNOJU6WLMPC0IeFua7fmswQ
+	 nZomNF19c97570munaNmmKP4+j+otJuq/9Wi1pKZ/MdaJWMkkT0JDpSCs9ubKwOh40g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arndb.de;
-	spf=pass smtp.mailfrom=arndb.de;
-	dkim=pass header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=ZFg7XYud;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=1uQLCPUh;
-	arc=none smtp.remote-ip=202.12.124.144
-Received: from fout-b1-smtp.messagingengine.com (fout-b1-smtp.messagingengine.com [202.12.124.144])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b1tPCf1V;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEA74606A321
-	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 13:48:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EEA74606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15CE8606A32D
+	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 13:49:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=ZFg7XYud;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=1uQLCPUh
-Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
-	by mailfout.stl.internal (Postfix) with ESMTP id 094F91D00133
-	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 08:48:27 -0500 (EST)
-Received: from ams-imap-03 ([10.64.2.23])
-  by ams-compute-02.internal (MEProxy); Thu, 12 Nov 2026 08:48:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1794491296;
-	 x=1794577696; bh=VRT7mJ1HJtli90asQUPZL0I86WWZMiU/wK7Ix1+t7eg=; b=
-	ZFg7XYud8u3ZU3Vkr/1+eIliGEe+kQpH74nnhHWI7Eqc+HTavuuK9CUC1l9eKjDl
-	jxu0OB8wXxkeLLbJv/9cSzU6GZc5Ct1v5d2nKsqHPbE2eB7l1wEap3sBTnrNH9fd
-	tHE/oZj3+liNdFO1FR9C/XEbBMz1bm3QTqTsv9uWf9GEn4OB+UsPYx+LzAu+UJJO
-	kRuyewpUP8qR94gZ5U+ZiVkd7Y8gPbDaB1GcbLOwO/p6es1saLOgeIvtTtKfXkxI
-	VUfs+tVFBkTtn2Hro2xBsdP2fIs8DZ3ubGeDC4d+RPucAlx2znFsP1S5Gpq2O/wS
-	nD0UZ6mz4iqcRJlx1HrjTQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1794491296; x=
-	1794577696; bh=VRT7mJ1HJtli90asQUPZL0I86WWZMiU/wK7Ix1+t7eg=; b=1
-	uQLCPUhfpBkq2Q22QgeuW9H5rrij5v+JMSy5FM2Wn+bVtVQBLeosNDVadLXZzukT
-	3ouV7DnyvuyiCjMHoXchkZDUIAQ5TNEOLM8fzzVTzUmtwfczTeK2Z9KzWhjwH51f
-	yDnw4gyc+K0fXZmrcuW80+VEyvEIDtNjgrjgvRYEjyryAv/MZzVXs4TEY03/oaGO
-	0ZFAdG+NCCE6y9SCvV2bOMdPwpuvyjJJWHehPsHJjVpsttWDo2kiTwmWwwreEe5S
-	85mDPA3PfONLF0QXnmwQletEi95k4tT3wPna+QS8PYV+oeL/9yPHQJP+K4xyjoxj
-	ibh6+VdtoW1xNp2Vd7e3A==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=sign d=arndb.de a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1794491296; d=arndb.de;
-	mf=PGFybmRAYXJuZGIuZGU+;
-	rt=PGxpbnV4LWZzZGV2ZWxAdmdlci5rZXJuZWwub3JnPg==;
-	s=fm2:rsa-sha256:XiDHob7y/eS+aHBetBv6xGyQ9LXt/Uc3PPHzUWzRxPoPbtj
-	4w70Km0KwsKyBQPMmviBsGXlfchZYb30ggSOrWz6REuPW5b8VwNXGLjqU5MvmkHe
-	liz7Ij4NsTICQ2+9V2jNpBzrxktSO9ofYfp/ll2DbOhKg/LuEqrtlgbiLoX7inhA
-	4IGGD6ZJn3kl3x6VylzRjicM1G6TrVrCY93XNeXnLrtCbUvBf7BJ5oFcKkE72kdY
-	uJRYEzV6Po6t13X9h1agsTsq0hGefYStDTS0Ry9V8+jL7pRZBxJKZXlJ6P3DQUIx
-	EF4YIiYHrnADhfHXtMLQNt5bvE2Cwj1FLEXqoRg==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=mi-m=1; hc=12;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:cDV/QukbB05DRWJQW1ny9Aplo0b9qlgUV7WG7RUjw10=:QpFJvCcS58Sd3l/liFWB5KOxe2KSj2H6oM6J00vPM5M=;
-X-ME-Sender: <xms:mMP1aiXThfwsuTrckyvDNGaYKe-apvviZAyhg0Ae8AMVYARi_onkow>
-    <xme:mMP1apb4WFgdoJcRw59RSXVmyyuJBI2enov0nwdM4Ezb_w-TOtmg7uEroPc3LUZ3H
-    ayaSunT543I9lWRFx4LIM8LWal-iabylMdGB5cCQE1D66Elz8C01tE>
-X-ME-Proxy-Cause: dmFkZTFSmrUQX6bVW+lydj2wLsCuvaSKIx7UJ4HZRXOwisKCAL64G7eTFeLIwxo2T5imjf
-    E1T6qbM/BpAj3rqGX7z/WvswXxFcRdzeCXGFLaUKXMMCfRQjNd1u0uFGorpgeWiaCcwvut
-    z3Yv2eiVJdW58Aeq1cotcHaZ52EAnYL87aE6+8qn7JtG48eGsTjG5u4OA3wp7Sfct0hPl6
-    SJDUdXRl9Cp8oPKmtjGBmtHsBuFdoplTXhuvisAGQwC1Vl4MnT6XIgyth+NfI4Td55nldD
-    Gyc31cN9GH9jT3czwpKGByIajJOn4jOEuqZDft6XCP0PJ1RDN5ohH/x11Qe4XbGdlpD9Bi
-    D56KnFCMSvcirQwaOYWvKT3yEGTRCa2GXjvhrXOyUbOtNJhcYJmv/mZdKsc0omGFwtHoL1
-    ZkKG/RRWMfHUFxSWX1ntYPunZlC++v21L/7td61gFdlBMiQIgffRJiD4V6POoDLDEgTFUQ
-    qLkBCOWSAKbdoishupBjm/gVDsjPbYVtEFSRUCDHEOb1xpXvwmyd1YcBXdVJHQO5JfUhsl
-    HbYFkwCvwU7fLtFehoAetiILiInkyZX35SSJZx3I+2ihzpc1jP5mRs09gVazpURvT131hO
-    5MSiT4pcVHLXcLK6h8mKLFX/3Z8vTZd+SuwiYcvj5SIZIjvgFSDgssRisahw
-X-ME-Proxy: <xmx:nMP1ak-egndCZ57bWUj3sKD_G9xgJaCR7wv7-Th42nK5bwH2bvZN8Q>
-    <xmx:nMP1akoYo7PrCKZAkPmeWaoUQZXQtHTMUgGLRbP4QtbRmof8uDNWrQ>
-    <xmx:nMP1ahPdIaqFM8xIN7rde2bXAYz3_nLjAgCk8jEliTPnIkGGn51udg>
-    <xmx:nMP1aq6QcTmNrtWmoW4WwRUC7OR_XhZlbvh63W9H89hpDWjtKomLVg>
-    <xmx:oMP1aiZgXBRRtMTvaCTvs1d8MGU9Z8LHyeZ9oDKxj_7O-wQc2k1st61T>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.ams.internal (Postfix, from userid 501)
-	id 6C4DC32A0099; Thu, 12 Nov 2026 08:48:08 -0500 (EST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b1tPCf1V
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85AAF1F00A06;
+	Thu, 12 Nov 2026 13:49:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794491387;
+	bh=XJqHaA+Lr6uyDKV49/9jNpG7MBF6VeHh5SiagRGqoAE=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=b1tPCf1VxzXiNnJMh6LIZf2IORpr0Dh7m5q2wMKD3cUzVoBBLXXJu9VWHMpK4ija3
+	 g3X2GddW4aWHIE5k3eEswKf+0IZz+B3TOqC6ZGmQMA8jh9Loz/qLltzitvti8s0BDJ
+	 TisNh/NnoL0iablhiZxonjLK0InZC5SquaC+0eOTnGK5D8gkQuLsR1NuMxfE3ZrnzB
+	 qTP95fzqC6ARPoB4dbEo0kjtJTu367ekqu+lLB17pmbMlnvCXsO1Q38fRd0Qg1ybht
+	 NtLLOMUh71cYdxzQsWgsqfR4bsZdkzxOWZWemCReNtXGVQVtTJLKkfSeKxo66bkT3F
+	 jTWi7S8HpQzbQ==
+Received: from stl-compute-04.internal (stl-compute-04.internal [10.204.2.64])
+	by mailfauth.stl.internal (Postfix) with ESMTP id E4F01780043;
+	Thu, 12 Nov 2026 08:49:46 -0500 (EST)
+Received: from stl-imap-13 ([10.204.2.104])
+  by stl-compute-04.internal (MEProxy); Thu, 12 Nov 2026 08:49:46 -0500
+X-ME-Sender: <xms:-sP1arbnQ8vrUBzxhL5ZL_QdoZ8hvOPk1yXi7QaKCHgqy5x1dX4f9w>
+    <xme:-sP1alMAbtn37yFwAS8RbgpqKHwj10JWYFDRz1JhOc9ly8C01CiQM6EJzvnpbw9Oq
+    k1rD3U88C_xdrJKQlFGACvQ_kmq9YZ-9sZh91o7NuWAnXNSe7gVF_Tl>
+X-ME-Proxy-Cause: dmFkZTF7Teehb4i+tE2VRse8X8CSV5y16KOINGMs2bfeu4Buft52gdF/iP0EmGw5gcGxlF
+    WeWYCIwThVVpPLZDOg6TFwR9LuZCcj0eL/waoShAXXvs4yPhZ3BMgh5ocROVlUoRaewptI
+    9aE1SJ/or7/cBJBgPjp1d+dn7+ppMefsJCKATl/nZTc9JkDJOdctvha8kS8EPbzr7jTQOR
+    OZhgKn0OxKUndMw3jg+VdPNobrX0iASnGiP2qFgNwu1fXhTjA/q2OHnlA6MIH1T0w1OpL8
+    yRoOD+gELg2190E+LxuwkIpdg4reNKGCgO4vMD1229T2sX8Krvj1q0xx9xChTmSZPCfYNt
+    Y9kdCRdCJUz8QtschlLU83pnRXyMk+vtaUS4sx/JqCpHDSXnN0XnmEzdUrXmqP02ybvrcM
+    hd0O+J+6O6LNEUCplZiunr0fHXLpoA2xqguRpmmAOHEviOHQNV6BV1pw2b8MYox0ec6PEM
+    FS+v1dDAigxi1woP6V4cbZ2OjYJogTSIosaJEDSglVvo1tG6PIUmrLbuh5FU5wubQ3yLPH
+    AS4x1ymSfYX9ylqgP+3iSexG7EnJO/Q0NTt8UU22clsUbLVFk0FOgWKX2nSLELd0q32v6P
+    IDTNp2BlHv5iiYRovLdwjN2DUzXe/kDZePXgMyKIh53KPPWOHUh17iliVh8A
+X-ME-Proxy: <xmx:-sP1anVY0CPrqxcZFQ3PkhHfHmcZn5NPDHFHPMbSQ1HZ6p_OSIQqGA>
+    <xmx:-sP1al9GdcMV5QtCQwEqPCDrhQUk459trMI8y5dMJqzB60e2YoXQfA>
+    <xmx:-sP1avpxrFTtwtMkDdt6zvzjOwCoYwDPiAYrhzhBhj77dfkzbtWxOw>
+    <xmx:-sP1agLDuD-2DgwDXh7BsYRAo6USrUvCJfSWDkLUhBVxyPb3dJY26Q>
+    <xmx:-sP1aqPeoDtd3EeyKz3Pry-POGYG6HPKZIkfSduWTBU3dL9s1dJd8D06>
+Feedback-ID: iccae4b50:Fastmail
+Received: by mailuser.stl.internal (Postfix, from userid 501)
+	id 9A381F60084; Thu, 12 Nov 2026 08:49:46 -0500 (EST)
 X-Mailer: MessagingEngine.com Webmail Interface
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -115,45 +77,41 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-ThreadId: An903QizF2Ds
-Date: Thu, 12 Nov 2026 14:47:28 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Arnd Bergmann" <arnd@kernel.org>, linux-mm@kvack.org
-Cc: "Andrew Morton" <akpm@linux-foundation.org>,
- "Andreas Larsson" <andreas@gaisler.com>,
- "Christophe Leroy" <chleroy@kernel.org>,
- "Dave Hansen" <dave.hansen@linux.intel.com>,
- "David Hildenbrand (Red Hat)" <david@kernel.org>,
- "Jason Gunthorpe" <jgg@nvidia.com>,
- "Linus Walleij" <linus.walleij@linaro.org>,
- "Lorenzo Stoakes" <ljs@kernel.org>, "Matthew Wilcox" <willy@infradead.org>,
- "Malin Jonsson" <malin.jonsson@est.tech>,
- "Richard Weinberger" <richard@nod.at>,
- "Russell King" <linux@armlinux.org.uk>, linux-arm-kernel@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, x86@kernel.org
-Message-Id: <ae1a379b-89be-4284-b65e-4a6cf6aeaabe@app.fastmail.com>
-In-Reply-To: <20261112112528.1116405-2-arnd@kernel.org>
-References: <20261112112528.1116405-1-arnd@kernel.org>
- <20261112112528.1116405-2-arnd@kernel.org>
-Subject: Re: [PATCH v2 1/6] ARM: remove support for highmem on VIVT
+X-ThreadId: A7TH_TkPFIbc
+Date: Thu, 12 Nov 2026 08:49:26 -0500
+From: "Chris Mason" <mason@kernel.org>
+To: "Christoph Hellwig" <hch@lst.de>
+Cc: "Theodore Tso" <tytso@mit.edu>, "Carlos Maiolino" <cem@kernel.org>,
+ "Dave Chinner" <david@fromorbit.com>, "Jan Kara" <jack@suse.cz>,
+ "Darrick J. Wong" <djwong@kernel.org>, "Josef Bacik" <josef@toxicpanda.com>,
+ linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-ext4@vger.kernel.org, "Tal Zussman" <tz2294@columbia.edu>,
+ "Christian Brauner" <brauner@kernel.org>
+Message-Id: <b1d12342-ea96-4a4e-9049-af5345fe9b30@app.fastmail.com>
+In-Reply-To: <20261112133555.GC22165@lst.de>
+References: <20261112010229.51029-1-mason@kernel.org>
+ <20261112010229.51029-14-mason@kernel.org> <20261112133555.GC22165@lst.de>
+Subject: Re: [PATCH v8 13/15] xfs: resample the extsize hint after taking the ILOCK
 Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
 
-On Thu, Nov 12, 2026, at 12:25, Arnd Bergmann wrote:
-> --- a/arch/arm/mach-omap2/Kconfig
-> +++ b/arch/arm/mach-omap2/Kconfig
-> @@ -135,7 +135,7 @@ config ARCH_OMAP2PLUS_TYPICAL
->  	bool "Typical OMAP configuration"
->  	default y
->  	select AEABI
-> -	select HIGHMEM
-> +	select HIGHMEM if !CPU_CACHE_VIVT
->  	select I2C
->  	select I2C_OMAP
->  	select MENELAUS if ARCH_OMAP2
+On Thu, Nov 12, 2026, at 8:35 AM, Christoph Hellwig wrote:
+> On Wed, Nov 11, 2026 at 08:02:42PM -0500, Chris Mason wrote:
+>> A write fault on a file with an extent size hint can overrun its block
+>> reservation and shut down the filesystem, if it races with a change of
+>> the hint or of the realtime flag.
+>> 
+>> xfs_iomap_write_direct() sizes the reservation from the hint and the
+>> flag before xfs_trans_alloc_inode() takes the ILOCK, and the allocator
+>> reads both again under it. But a write fault only holds the MMAPLOCK,
+>> and FS_IOC_FSSETXATTR changes both on a file with no blocks without it:
+>> 
+>
+> ... and my previous suggestion of taking the mmlock in fileattr_set
+> would take care of this as well.
 
-I'm not sure where this comes from, it was probably a mistake during
-rebasing. None of the V6/V7 CPUs can be built with CPU_CACHE_VIVT, so
-I've dropped this part.
+Yes, it would simplify a lot of this.  I went this route because I thought it was
+nicer to have just the ILOCK control these things, but it would be easy to respin
+with the mmlock.
 
-     Arnd
+-chris
