@@ -1,80 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=66.163.188.212
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.135
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794448238;
-	b=girU+3DcvTI8a65hIfXTw/B+m2vX3ki+j8AdVd7wd7hpfLSFvYVDefuejUp/CsMrMYQS
-	 yPDZjnWJ837Cwxue4GDiFpW2op3x6nWDbo49+du6LDs/6n7TZO9Zs4rzSQawC3Nwsh7Al
-	 2a9C4bVGNmWr8Xqe/wDm3hqfupqprsx8iMaGEhu+vYki80h8WZfvgHJ3MCLnC9Z1zPfxu
-	 ahb5okKpFgaZ1oxD2asHhJOR62wo4zjnXIrXncC7ZMyQaKEUjGgeCzNpPjZu1+B8fCx9B
-	 Zlu8yyHhiM9bej3lMqbivxbV2g5JeG2Ggkrj8yMScBnlK+he3xPPkQBeH4KrmHZOkTQ==
+	t=1794448251;
+	b=UbAA8kMldlUB/pd9rVhK2xxo3X31Pftl3Uh8FUe005vtrnZLOa6iMZDVjcl376odHDuO
+	 6fN79LoJMuZ5aCn8GL0ais09exJymin5iXXCnyGfEwhS3KpYJi6iPDC7wXjBDQ0E57/s8
+	 C6+zJkUdoQqIBP9zbe+NCcn7+H0dJ0mOuvBSZ2oWXbRzwzk/YOXIUEbXCVOSFbBlXFF2L
+	 vVjQQuregVtgl6tHXcfXxiRc07uRIRvw+rj11ICD/sNW6B6mdMsICeUUIikrgRYWK/zQl
+	 J3SsN2z8oj3Ma0ylbAmATE7KXPhzCCmMNK39Dv60VGE4mqN1c6G4xBH2dwVTOKTWHJw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794448238;
-	h=DMARC-Filter:DKIM-Signature:X-SONIC-DKIM-SIGN:X-YMail-OSG:X-Sonic-MF:
-	 X-Sonic-ID:Received:Received:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-Mailer;
-	bh=O8h9fybdyu+Al7CdWlfRBQ6LgqQutaBSF+Rc2HGjCVE=;
-	b=EYG9wxRluSUfZ4EDIw/+q07MlBjW5WYUyxi0Yl/wJ9FVRudR8oXkTalpWUzbpezpTWoJ
-	 7wd7RJ4P4RIUphLWyBD/fqzbzXrdDW0S5+NAf6jVKKyUAxMoXFGAj/7vVb6bbZRjZiT57
-	 35FMx7nlwFGMIq4D6RWiOFALP4yomUY/f9mCBwhdYZHOXukGpLh2Rc7dQGXIbtKNCqpbY
-	 i9J2O9QysQbm9xOFymgAQ9M549uHjdJNsUsTt7GvKjEgUdDaTkYCYCZz0SBQd1oYecSv5
-	 bGZRj2o3Rq6EpSAm4RFp7wST1MW7AZri55pX3i4ZD1H07DjLTIREBaXI5gFTywhPj5g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794448251;
+	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
+	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
+	 To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=rbhcvAWt3CVbL8hbLS8Z2xAzLk3XxwJpiSswVlOIL/g=;
+	b=WEcmdEUyu9uBQlwv6raTxxb+mYVXxvu6Q8T9PyQnHmaueQO7b3YgIEXSPwrEtDHiEM2u
+	 W9CT/FmgQP/Sz0KcTXRpWKXOVuILPzAlbB++kwEJgWNMnbhDd3eCArFI/9e9kf35weNA2
+	 T50JGpwUCcOQwkfHRjksHVy7FTwV0niS6HEHNwqckG/AiJzfv3IUViUXELhbIhIUT2IK1
+	 Ty1Bo4GtNUCnaWSxK+GoFIRQ3voZsaYKy7AdiU5sf6kvEO2ejJO/nCup6TGloWRjFHY2T
+	 9BhZgCvP5ad/BN+j2ILSLQdx0vmDaiFzRnBtM4DyekW9U8xVkRaW60wp7nPs6lSaKIg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=schaufler-ca.com;
-	spf=pass smtp.mailfrom=schaufler-ca.com;
-	dkim=pass header.d=yahoo.com header.i=@yahoo.com header.a=rsa-sha256 header.s=s2048 header.b=F+m434hx;
-	arc=none smtp.remote-ip=66.163.188.212
-Received: from sonic311-31.consmr.mail.ne1.yahoo.com (sonic311-31.consmr.mail.ne1.yahoo.com [66.163.188.212])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1404606A337
-	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 01:50:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B1404606A337
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=schaufler-ca.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=schaufler-ca.com
+	dmarc=pass header.from=cmss.chinamobile.com;
+	spf=pass smtp.mailfrom=cmss.chinamobile.com;
+	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=MlW83o4r;
+	arc=none smtp.remote-ip=111.22.67.135
+Received: from cmccmta2.chinamobile.com (cmccmta2.chinamobile.com [111.22.67.135])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C432606A32D;
+	Thu, 12 Nov 2026 01:50:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7C432606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.a=rsa-sha256 header.s=s2048 header.b=F+m434hx
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1794448235; bh=O8h9fybdyu+Al7CdWlfRBQ6LgqQutaBSF+Rc2HGjCVE=; h=Date:Subject:To:Cc:References:From:In-Reply-To:Content-Type:From:Subject:Reply-To:Content-Type; b=F+m434hxnazo+znIsDN87b1q6q2BjDXrSK85l4sPO4/7/Nv6ouklEMGBpfrTHUnO8eGiNQoV5Bbw/uB3JZACliQBg8PtdTRYRP97HHZoegx3ArYwH69kAdVaUPkV7WcyNd89YKs91cZCwmWeziNsUM+FCRLahqzZW3a6Ku8pvIiJlMO/7XaKbdkzRicymfmmSk9XFsFNG+fkHI8UO70pZ1hFT9v2XQiwRrAslvpHUFbDR+3rpTT4Ikh/N/oSBL0qRMnhxDrBkdI0Mmku6tTsyJWpgcJjSTSvBuepznmh0kGiP8yElqSHRAm6ov8qvVTBbZJZj+71HtVfmpD+WAp7XA==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1794448235; bh=cB6ms4YZu3OSr7Oj5Ktyy9vRYllWqlKKBSjCDtAOhd3=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=Wh5tO+A7k6l9RAB9CmF+7nFPpV+s7vwQOvHRCpB836zmpk+EmZdiT1obFQYb3eEYUV/ZZrDMNSGrpqiSFrVBvEAP1+BcX3bVXL8AkZe5aM0djERGyxVy+oivb40ItIA89tHRP/kW5BzO7GaPGZrOTfFkDQF1HHnKQVH/ifoH5PYTL/BXjLkbPViq5JKecTMlRIryhz3iU6NkOHkP1F3oliaijdeTD+Tk00HCA4w802Q1PFZvsZSndMk6hlb4A1wMRPh3z4tVeu12oZckS5JIJR1ywCFknBKWBE+hVxojbZ57Qr3RCaKJrua5vLBD1s/SnsdmRZ+/JLOhUlVDaAQyJw==
-X-YMail-OSG: zqmnDtkVM1n5t6ueog55b_vkFHSYM5E1qoECEJywzBr3UwiKAfUIVI_o6w7R9SH
- CQ1t93f4qyBpZEcVGjU2OBO9C0Of8.lRAD_UtcVdUMSf6_GiG98G7rNXb1ZhUGsyYLDyJE5oLG69
- MPpknxdoviNcfunvMa.q1ATsxUiRNZaaYFEtaSi7o3ARz3uzFbYwa4zXUFVTxVNR1M4yEm8E_vMu
- CX3lc6b1b0MWbnmh3DAeGebLmTpZwI12LuF9QH7MRRpV.Y7YkiPkkooycQl42qWPa_ZCsKSCVnTi
- cfYjzn7ZtEqmGYVjYEY1kEbVCA4JoS5GMMDKMoO39G5YhBugROnX2jrgGh0AwdwAby30.ZBxmd.l
- S62hS2hlPvIDoPxGhzS2whxCcIZrt8XbiUGRsBq2lfu8t9x.TIubZ4wIiRqzfDYoZIwioLDCjm6k
- .cljRFJEOnSix_ImX_sSyVP7eQAAEJ1GsHeUHb7atzAIHDlw0lV7YT_EQZaDbjuCghjYyGwMa7FJ
- LxdRDFOXlr05WMcbROqV0a4sd0J7UyT01rGVa2p8mqlfg_ZPSk1p0.zKLMJDr5A1o8n0sxe4LbiR
- qbREBgT6XAwECEJNbNHKO1YTM4iOmevp8GvnGDd6MDNapigfFoPwfu59SMy7zYd9LO3Z8_0VkIJt
- aPlGTgcyxBF.v1wQggIdb30_WaSmydGJlcGPdQ03irHq2wrwxiCoQO6IJUZEr0jypo3mUQnAGyDG
- k9vUUntKtCsyi.w0t_vFjR1T1M3Z6Xk5RLKDL9njS7LNW.CupQSEmNQ1GkX7kSwPFQP21HwmyMsp
- i9SdJowJ0s5y.bw2SrHxrP7sM6YbNToNL5ZVELMODpe5VuCBtDWl7VcCxYMmahr5455.ZE_hGmHs
- LrmFJx1uQ46OcZ2Ii956498sukETOy0INQsrtoq.ypS01I6QTO8GSI7rVFeq81ZNfcHhvUGJ06ME
- B8yJmeeVBase_8cBDx_Yk7y0xRppCWZz9S9bNwiHzQcmhSHJ99JaTf4E0zOIsgLWqU5tZh4wLZKp
- MnYneLIuBkBNwjBcYTuKXcpCwff8fTcsfan2g9ag6_HRqbKvb3lqTrnQRPIG.IGMBIXdu4D1HB2r
- Ygn65JHFmN1QF2ROBGshwilsGajQNSqHXHgx.co9RO5Evfjv8vx67t__1ew7rn3sc1C.7W_m4N4M
- cSR8SYdV43PcknGSee9yB1x8pWannWLYRUROzisZnoPLwDPX1S0a5pIeYojUo9jnHaAdfaOw5IJs
- bc0nB3tQZQ.0b782FrYX_n_pf05DxifKK1hrJ0OqXSo23BlRt.p63_4auT8X4tq9HTs9fxQLg0OA
- ydi2BtTIKopjFdQtWH0NOUC1U6_wILbgtZfZnlVsbVhHJ7Tk.UZGmAVff_vQl8b4id5D4T9jwtS9
- 8nKfk1Ghey2tqeZDF9SgVACRH_x6kJa81R1e4J_83TMyBY4Ays_MTt39YbFzXRfBMRqG0I92h9IS
- Xl4i4wMK_gUqmjpP0P_oaDsTzptxLp7NMOmOY3T81w3i60pQpmuYMvggEU3dv.ebRC4Brat.KcXq
- ZyjrZ4BouQUvapbNSNNP1Y253sBId7Ys37DryRT0fCsyFp6LIN0DYA1xElaICSH34S2v84muDGZe
- .CGRnjEo0Q2679LeUfRrG7eDmdHtGbtXa02kyQjntuOc7VrR9y8jRUHqkLiiITgSdxH1QGB5PWuQ
- ARpFP1xjX3OHKFGeQd7o8WX3xDhKeppcWAPJEhIosno79RY0IQ4.4JX7WCaXgDYbj6BL4okuPPnu
- 9CEiWKr_A1oRBHcXo_t2XyX1N2Jd1tPqjLAB1WY0vIGe1SVdGRdRloM6.RT24mU1pbFP4DjeRn1w
- _aXrAymHoztvd7BVNk78MI6f1URU2iBFJ6msmP6JgXQac5cfrtvlS9yn2eohnwEPfv__IKNy26n1
- mYs7i0yOvj6LH9jEvBJfejsFOAeuf8LBdL.MbTk8ZZiVorhzaxO81Zf4PRAQwZfM29CLtP5dAKbb
- klVicXy3HgsPrMZiM94qTb2yOlO2WSLEgrPS_2Vx31FNEHJNJpuKXHkfgTtKgjLPmpCr4Taq44yO
- KB8vbaoDybAHzNwFN22pWQG3NDp.x8aciLmMT8fUQgwMgW8NlLKb6ErL7ChYlwsHUhzhzMbUfvnT
- 2bA6QlHpoN4OcRsGeb2ygbIpUCMhvL1tqClAnkg41oGlCJa3crNRCKKeXXqZBarf9KzLHJa8i581
- 0YgHHROuHzbtZ8GRm6ggBoLbsrITMfTGKIshO9uwpGYYxl6nVscbC6LtZUsxlV5iP8t8XsYi.ga0
- EDsRWYHlK
-X-Sonic-MF: <casey@schaufler-ca.com>
-X-Sonic-ID: 4e6572e0-628c-4102-8309-f6caa349ac8e
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic311.consmr.mail.ne1.yahoo.com with HTTP; Thu, 12 Nov 2026 01:50:35 +0000
-Received: by hermes--production-gq1-fd7994565-9vhlr (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 15d81e1a8a6348ae9dcd84771e3b8196;
-          Thu, 12 Nov 2026 01:50:33 +0000 (UTC)
-Message-ID: <41617b0a-90d9-484e-a143-78e2a92e872c@schaufler-ca.com>
-Date: Wed, 11 Nov 2026 17:50:30 -0800
+	dkim=pass (1024-bit key) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=MlW83o4r
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=cmss.chinamobile.com; s=default; l=0;
+	h=from:subject:message-id:to:cc:mime-version;
+	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+	b=MlW83o4rpQT+1iNfi0HAKP18lvZftuAym7sDu1vdKye3nzV9XGU5CeMNyV3IFHcn6XNY/MsQ05Wd3
+	 XiFJns6F0LjjSrNFKe59WFhuoLkpX4H/BDRtGNWaU2H0Z8eVTMy+eG75zeKl1nYovPp+EWcKfYwDSG
+	 YZJHE5+uOsRd2C6U=
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
+	by rmmx-syy-dmz-app03-12003 (RichMail) with SMTP id 2ee36af51b74691-a7fc5;
+	Thu, 12 Nov 2026 09:50:48 +0800 (CST)
+X-RM-TRANSID:2ee36af51b74691-a7fc5
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from devin-VMware-Virtual-Platform (unknown[10.55.1.72])
+	by rmsmtp-syy-appsvr04-12004 (RichMail) with SMTP id 2ee46af51b76d7b-ee05d;
+	Thu, 12 Nov 2026 09:50:48 +0800 (CST)
+X-RM-TRANSID:2ee46af51b76d7b-ee05d
+From: Zhu Jun <zhujun2@cmss.chinamobile.com>
+To: jack@suse.cz
+Cc: brauner@kernel.org,
+	viro@zeniv.linux.org.uk,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Zhu Jun <zhujun2@cmss.chinamobile.com>
+Subject: [PATCH v2] buffer: Annotate the remote buffer LRU occupancy check
+Date: Thu, 12 Nov 2026 09:50:47 +0800
+Message-ID: <20261112015047.114119-1-zhujun2@cmss.chinamobile.com>
+X-Mailer: git-send-email 2.51.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -84,68 +70,41 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [apparmor] [PATCH RFC 19/41] smack: use fc_init_pseudo() for
- smackfs
-To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
-Cc: linux-efi@vger.kernel.org, Jan Kara <jack@suse.cz>,
- Amir Goldstein <amir73il@gmail.com>, linux-nvme@lists.infradead.org,
- fuse-devel@lists.linux.dev, linux-mm@kvack.org,
- target-devel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- Chris Mason <mason@kernel.org>, Christoph Hellwig <hch@lst.de>,
- linux-s390@vger.kernel.org, linux-erofs@lists.ozlabs.org,
- linux-scsi@vger.kernel.org, xen-devel@lists.xenproject.org,
- driver-core@lists.linux.dev, Jann Horn <jannh@google.com>,
- selinux@vger.kernel.org, apparmor@lists.ubuntu.com,
- Josef Bacik <josef@toxicpanda.com>, linux-block@vger.kernel.org,
- ocfs2-devel@lists.linux.dev, Alexander Viro <viro@zeniv.linux.org.uk>,
- linux-nfs@vger.kernel.org, netdev@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-security-module@vger.kernel.org, bpf@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, Casey Schaufler <casey@schaufler-ca.com>
-References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
- <20261110-work-loop-pseudo-v1-19-4c998976c6c7@kernel.org>
-Content-Language: en-US
-From: Casey Schaufler <casey@schaufler-ca.com>
-In-Reply-To: <20261110-work-loop-pseudo-v1-19-4c998976c6c7@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Mailer: WebService/1.1.26943 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
+Content-Transfer-Encoding: 8bit
 
-On 11/10/2026 1:14 AM, Christian Brauner via AppArmor wrote:
-> Initialize smackfs as a pseudo filesystem. This raises SB_I_PSEUDO and
-> also SB_I_NOEXEC and SB_I_NODEV. smackfs never holds executables or
-> device nodes.
->
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+has_bh_in_lru() reads another CPU's buffer LRU while that CPU may install
+or invalidate entries. The local BH LRU lock does not serialize this
+remote occupancy check, which KCSAN reports as a data race.
 
-Please include me at least as a CC on Smack patches.
-I ain't dead yet. Nonetheless,
+The check only decides whether to send a drain IPI and never dereferences
+the sampled pointer. Mark the occupancy check as an intentional data
+race with data_race().
 
-Acked-by: Casey Schaufler <casey@schaufler-ca.com>
+Fixes: 42be35d0390b ("fs: only send IPI to invalidate LRU BH when needed")
+Signed-off-by: Zhu Jun <zhujun2@cmss.chinamobile.com>
+---
+Changes in v2:
+- Use data_race() without READ_ONCE().
+- Drop the added comment, as suggested by Jan Kara.
 
-> ---
->  security/smack/smackfs.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/security/smack/smackfs.c b/security/smack/smackfs.c
-> index a72bc7fabea9..4a56bbeaeca3 100644
-> --- a/security/smack/smackfs.c
-> +++ b/security/smack/smackfs.c
-> @@ -25,6 +25,7 @@
->  #include <linux/magic.h>
->  #include <linux/mount.h>
->  #include <linux/fs_context.h>
-> +#include <linux/pseudo_fs.h>
->  #include "smack.h"
->  
->  #define BEBITS	(sizeof(__be32) * 8)
-> @@ -2880,6 +2881,7 @@ static const struct fs_context_operations smk_context_ops = {
->   */
->  static int smk_init_fs_context(struct fs_context *fc)
->  {
-> +	fc_init_pseudo(fc);
->  	fc->ops = &smk_context_ops;
->  	return 0;
->  }
->
+ fs/buffer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/fs/buffer.c b/fs/buffer.c
+index 5d3852b726d6..2d2d61495b4d 100644
+--- a/fs/buffer.c
++++ b/fs/buffer.c
+@@ -1437,7 +1437,7 @@ bool has_bh_in_lru(int cpu, void *dummy)
+ 	int i;
+ 	
+ 	for (i = 0; i < BH_LRU_SIZE; i++) {
+-		if (b->bhs[i])
++		if (data_race(b->bhs[i]))
+ 			return true;
+ 	}
+ 
+-- 
+2.51.0
+
+
+
