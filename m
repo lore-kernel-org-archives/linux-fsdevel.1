@@ -1,73 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.177
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794481610;
-	b=k+y0U94yDwqFtTN5NtdYB8heHqzeY13oyHdKyY/cXpnzQ/5NfOS0BIgCGFKSVnhab40H
-	 6u+YdSs9L/1bCL2pvi9LzYq7e5iM0hgJFRKnDKpBU0ht6RDxFODI3feQHcgljk+cUNKlN
-	 if1AAVKaYETSUReRJ3gK0e98z+/Zt+pku+eKWiZAVJaEN9rdFYHaAd9/OGqRvnuL9AtLG
-	 1sPZWh/fWURxJnpruHGBASAxm+GzrLrHfL8iu6ENFB5xNVnaIwlkXvwF8kW4ctmBWCnJC
-	 uGAAKjWDW9bSnfh5Jm5b5WeSiNBM2LU/gP6A+FThyJJYJhqAedSP1NKCFetV/xYGx/Q==
+	t=1794482271;
+	b=hitSKmXpvnhfuNG2Oj/JCd8+bsmx8NSsddQScijEeh7pPBF6rfoPSWcU7/UuMabLCjHj
+	 SLRE8mYHlREtbK0vGVWFnw8kEFgLrl6yfPPm0dGFWAvRne38ZHverBmXIkpmhQ2guAZqw
+	 pQxsOkFE6RKRD7c1PINSe2uFUOjbj9LbsNqUx8nFfFIhHS3rVtJqELTMz3enyY4B4A98q
+	 Re+z5e7nE9nc4+vn0LiDYJWDSVg2s0MyDnjqoB3+9i0j87DsU1+Br0tE1miD633pExB1g
+	 nQq/qZjXP7EGcRyOjltAC6rsLhYRMWeJIjABEAzR2wPJl7Vibt/SdMBY5BGvyq6ZgaA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794481610;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=vSq1qT4UA/SFFJR/GJu5ROIhm9ZxkHbbkGrHiDg+96o=;
-	b=IO5P5OD5xQJZhtFM+ZW01ToFGe3IMRHsnmXSSPOJ+PDlQPU1OKPA3fUdnl6j21Yx5f8V
-	 CIZtZ+DXgzGgo30V+hFtNjCzxdrbTg/KUgMi+iiZtCqP6EMLhPkoYpSx/GGzxRWvFlqZh
-	 iJ+eUdy3W0W5TmBNvzWn3xR0Y7zUsyKwwNX8IjNsEMfgfKfaX3CH6HngpEpEa1zXyHrFr
-	 Bcli+mq7fVzYMuc89u1JMoHzAzeN7gI8wQNR3WeTW7arnC9//8k30i93vsERRlRb2XDJ1
-	 tvyHPqkKcE5A8b4pNYe7ZLVfdIe8yOL2fHAJk7y7iGxPlct8gTvu6FFGXOtADoS4OfA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794482271;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=tR3skobAr2sMjA6rolhmHaYXFJaHuy9h+iD9zoIL62I=;
+	b=3ElVIkwX2X1mT07w5FTERTbt+K7ODNojOcNTb/tMDznKTv62n+USVgiJCY1JP/YN7RSV
+	 Z+H4sHMNEMmxWpN2pKOhYXgH6dNIb+NVJG/nJ+z3fvE72ynp/mArXVusjHLbeWn44ZJmG
+	 5WP0v4MQrB0OXKrE4ovxnCGTIiwPMJIH9mjAoygLD0mjGzf8XzD5gfuAp/lFqB4Ablnmw
+	 F3HyWXhc9r/fFqWmavk/c6zNVnVeU19NR+p2LbhlIdNwZGRCv40laGPYD1UPfNZDNkH/U
+	 ULkjky3WQNLiIQeBt4s4ZP8v1mdlyPedi5r1Ji3e/OLExo3Z/ZQTwrJn5drz7wQyLFQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CgL6tMTt;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=cs.unc.edu;
+	spf=pass smtp.mailfrom=cs.unc.edu;
+	dkim=pass header.d=cs.unc.edu header.i=@cs.unc.edu header.a=rsa-sha256 header.s=google header.b=GPZHYsQn;
+	arc=none smtp.remote-ip=209.85.222.177
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86CBB606A321;
-	Thu, 12 Nov 2026 11:06:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F4ED606A321
+	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 11:17:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5F4ED606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cs.unc.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cs.unc.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CgL6tMTt
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 007A81F00A05;
-	Thu, 12 Nov 2026 11:06:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794481610;
-	bh=vSq1qT4UA/SFFJR/GJu5ROIhm9ZxkHbbkGrHiDg+96o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=CgL6tMTtg/S8q8yyQ/zzYtg9kJGnRqNf4TdTF0m8ZeWqRXWL2/Oi+iirLh3VdN7KX
-	 /0rI4Xhikgv+80DYB8hHzH+HE7Xd9l/cKADhJoww7yeq2yT0f8VkH7WvzEaS01VtF0
-	 0/yy+UxDZIbqt1F516bbUZckJ69oh7MkXOYItH/jk6t+E+yJ3BOZlGS0lSAubIMpYk
-	 YpVBtER2Ihm5gyMIDsO72fULol91zd9fILGJjGhutuKzecoleh+Rg2ePnBFDYcI6OQ
-	 aDRCDVlVxM9EnkeradPkM0L/mqk6J/1bSht5CcFMsbZPb3GgmQ4bFfavYVN9z5mRQM
-	 eixxs/EhIbtRQ==
-Date: Thu, 12 Nov 2026 11:06:38 +0000
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Tal Zussman <tz2294@columbia.edu>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Mike Rapoport <rppt@kernel.org>, Peter Xu <peterx@redhat.com>, 
-	James Houghton <jthoughton@google.com>, Andrea Arcangeli <aarcange@redhat.com>, 
-	Suren Baghdasaryan <surenb@google.com>, Balbir Singh <balbirs@nvidia.com>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	=?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>, Andrei Vagin <avagin@gmail.com>, 
-	Stephen Rothwell <sfr@canb.auug.org.au>, Arnd Bergmann <arnd@arndb.de>, 
-	Muhammad Usama Anjum <usama.anjum@arm.com>, David Hildenbrand <david@kernel.org>, Zi Yan <ziy@nvidia.com>, 
-	Matthew Brost <matthew.brost@intel.com>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
-	Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
-	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Chris Down <chris@chrisdown.name>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	=?utf-8?Q?Miko=C5=82aj?= Lenczewski <miko.lenczewski@arm.com>, Michal Hocko <mhocko@suse.com>, 
-	Mike Kravetz <mike.kravetz@oracle.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 11/12] mm/madvise: send UFFD_EVENT_REMOVE when installing
- guard regions
-Message-ID: <avWdmdtniATARDTX@gremlin>
-References: <20261111-uffd-state-fixes-v1-0-00713d368976@columbia.edu>
- <20261111-uffd-state-fixes-v1-11-00713d368976@columbia.edu>
- <avWW5t1BiD7pbzIZ@gremlin>
+	dkim=pass (2048-bit key) header.d=cs.unc.edu header.i=@cs.unc.edu header.a=rsa-sha256 header.s=google header.b=GPZHYsQn
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-93f3c616c84so390155685a.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 03:17:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cs.unc.edu; s=google; t=1794482269; x=1795087069; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=tR3skobAr2sMjA6rolhmHaYXFJaHuy9h+iD9zoIL62I=;
+        b=GPZHYsQnIlFOia1laiYlcQuWc76+tu+NFBvZ1ns75K1PPcu6dRv7LfhFgko9dOLLf5
+         SON1kfue0V47sPzCBPIKn60Ylres9661af56ioKIc90wQmwD690Vhdfk5dtvlIfcrQg/
+         mCSW5cI1hS+0tO8PfqjVupgz26ygMR/GOEvPYCrzcuVyndSjPOkOyl8hwIkXt5z86ZFL
+         xfeN1fgWP3vnDczTdrtUpLere4HvHit33PbUMBicCF7VDrFZW20QTm2jiSMBYfSXFif2
+         Vz0CrH1p+I1vWQPUScHbHfPmp1il+5/NiuMDjM13usmJY6jIfYlxLPEUIGL/TKdlVlUT
+         cVPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794482269; x=1795087069;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=tR3skobAr2sMjA6rolhmHaYXFJaHuy9h+iD9zoIL62I=;
+        b=CffChZHwv2ApO0EV8QvZNwQtq3Pr5ADMHA9ONwjgcWT8ZPZXN2pZmmynVwRoBQncEW
+         ku6j4ou/tUTbUiurrFeIP2W34EzPZhpwHshb8ikwF/fAnw6TdOHzQh4t2NrKj8z7wqR2
+         2paXhS4NGJlmG9GYZVK6JOQh2CmM/Uz3ntrl2pVD4Ya3Cku8mTyWeKbLkK6Qj5gqyBjl
+         sdpV5qdF9cxeUHzPwuWwnyp02OxRW3NEIB1pOkBHMoIMNd0t4dsvunxIhKBepapICIdO
+         QYmGWy9y5dMyvJYjxHJD7DJY/xUhhYwo8VqIVIfra1ieActZ2BTPADp7I6kyuXVTOE1+
+         mrig==
+X-Forwarded-Encrypted: i=1; AL+hErEbcPVlA8NgWRS8u1SqQAzH0WyhZqjcNnsIFLdyRhJPLk7xD5CAhKEqvnuGYF6YS8I0tia4xKFOu+Lnk3cp@vger.kernel.org
+X-Gm-Message-State: APuU4Z9UWnTqcbU6FB0o9aNLmZb3H/1qQ/5Ag4bVP/U6jIt55gYNFpC1
+	CQ7H7Q1zLOP8dj8VDbpm2FlJDvdX100D83LJ8baKFem6f9ebAGCjxvVhjrkbuzO02GkoiSWcHK5
+	mojlEyg==
+X-Gm-Gg: AYBFou28jFN2UnhioUaz/bd7zo7+uDotBcrCasWJI+8qI95s1maiMd10kMCSj3xAj4i
+	U6cr34XYcnFFoBrWH5mLLHOQHWAhej50lHThzku/xoUZBRE9dRgD7n0y0GEi9WvqEvKTJDcugeG
+	Yuvk4wmZaizT2s5iis1CvFgfXA05lT4JNCwhKnKOctKIBtPTGll3JGxlAaiGG7lWjuRpSLNgJiS
+	CulYuQIeMBRAXR+/OK+PYukBgXgR9dtPvC2H0KJWIKdFmDDkXb1LFw7wRw9LibdiWkPZmsmnb8h
+	4YlfxTuP29YPZXQnDPGFQYClCErm+gDpCDfLdhy0mhteg7yS6eE7nT+PfVkczSb5dUoQr7+LeFt
+	UUJKcgmLi41wENOW2s6+xGYXWRGpl2d0/v2dO8Fs821E5EMyiiciThJKq8IzHhG6dWuhhwvv/dl
+	MXeHP8hH1twh8pt5jcsxNCeKkAbGp0kXfvOnKYuC5JZmiCDswEsbBBGHJOp5S/TmQJMR+G7Dy6+
+	d0NUk3lB/U7/9evFUCml5BsF00QyXkEIQhTgD7ynH5ArBkzEmQXHPjCy1q6ekwvPe+KeTVhOu+J
+	Fod1hjIE8rzTnrdxVvQZE4DiJSSQgWrvJWUj1w25R650W0/LieDz
+X-Received: by 2002:a05:620a:4712:b0:93e:c12c:9dd0 with SMTP id af79cd13be357-947b000ce09mr893234785a.80.1794482269108;
+        Thu, 12 Nov 2026 03:17:49 -0800 (PST)
+Received: from cobra01.cs.unc.edu (cobra01.cs.unc.edu. [152.2.130.143])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9479e73c3ddsm710100585a.15.2026.11.12.03.17.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Nov 2026 03:17:48 -0800 (PST)
+From: Hengyu Liang <hengyul@cs.unc.edu>
+To: Viacheslav Dubeyko <slava@dubeyko.com>
+Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Yangtao Li <frank.li@vivo.com>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH 0/2] hfs, hfsplus: do not end readdir early after an unlink
+Date: Thu, 12 Nov 2026 06:17:43 -0500
+Message-ID: <20261112111745.4094283-1-hengyul@cs.unc.edu>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -77,19 +98,29 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <avWW5t1BiD7pbzIZ@gremlin>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Nov 12, 2026 at 11:03:29AM +0000, Lorenzo Stoakes (ARM) wrote:
-> > Fixes: 662df3e5c376 ("mm: madvise: implement lightweight guard page mechanism")
-> > Closes: https://lore.kernel.org/linux-mm/3f4b0d1b.bbf84.1a1c55cb666.Coremail.18670333770@163.com/
->
-> This report was super-synthetic AI slop
->
+Since the readdir rework in v7.2, HFS and HFS+ end a directory walk
+early when the caller deletes the entries it has read. Both filesystems
+got the same change, so the two patches make the same fix.
 
-Oops, let me finish this thought... it was super-synthetic AI slop to the point
-that I am not sure it's even worth referencing.
+Tested on hfs for-next with KASAN and lockdep. The reproducers pass and
+generic/637 still passes on both filesystems. A run of 30 generic tests
+gives the same results with and without the patches on HFS+. On HFS,
+fsck finds the test volume inconsistent also without the patches, so I
+ran generic/013, 028 and 637 on fresh volumes six times each: 013 fails
+and the other two pass, with and without the patches.
 
---
-Cheers, Lorenzo
+Hengyu Liang (2):
+  hfs: do not end readdir at i_size after an unlink
+  hfsplus: do not end readdir at i_size after an unlink
+
+ fs/hfs/dir.c     | 27 +++++++++++++++++++--------
+ fs/hfsplus/dir.c | 27 +++++++++++++++++++--------
+ 2 files changed, 38 insertions(+), 16 deletions(-)
+
+
+base-commit: 34ee5f8c2198db9585da6c181c50869d2eb43c3a
+-- 
+2.53.0
+
