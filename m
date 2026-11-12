@@ -1,80 +1,125 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794486456;
-	b=bpjSAhP9LM3yOyV3mQ+XDBYHE46+6mjoSQNbPituxoVVOiCfC+Y+VLOWSgpInz/PVpw6
-	 syANIsKcpqvFX1vyErlawD6HCN6OppJ9hBHe6mSJP5vKSqN0lnU/XmcwXf2FCP1uO2zMx
-	 uHrh+BYW2EJUYui0NSFfNPlLACDXOnDGwKLi8T/gTFpCcZ8e/hY1oH8ZhOfBAK6q8sbxT
-	 l2o3JfjS7EDRkjKaO8sgmfJ3yMo3Ezhl+RmphyzR0+4hHqH1Hwu1idrE+9TyOxFaJlv/3
-	 9NELCbV9FSw6NgHS+nXEr9JQJ4pED6EBFw1MdqQemKTQUN3E5lGmgGbcpap0caRvYKw==
+	t=1794486537;
+	b=h1vO7ols53JtS06gSusi36bOyGK3hYCmZTLsgVLZdttOb4GBL3Anw20gsCLY6iH4RaOO
+	 4i/s1PvH9C27X67n9fwMTLJ8zAxnrbclBqK3N18h0TjjmTeLF7+OdPfDi+zD1SDj07EDs
+	 FiUTaDpOFRAPdwQKKsmWd9DmPYGko8xMcTHozhgq9WlFfUSpdOLuLeLNFjCi5lM/wzsez
+	 ztGU8PvN97x9b65yHZmLC6PKfc3a1PKPo27tcj1CROKD4dlata3JM7Yga2TQgZJ+fENdA
+	 6X+yLUAA7HwNqmk/1qkbxIbVQGE2p/RPEtiskKYjnvrnpYIkBKpbDiNh2fDYokX/2ig==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794486456;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
-	 Received:Received:Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Content-Language:To:Cc:From:Subject:Content-Type:
-	 Content-Transfer-Encoding:X-TM-AS-GCONF:X-Proofpoint-Reinject:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Spam-Info:X-Authority-Analysis:X-Proofpoint-GUID:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=6zIF2mscWWNdqPdPpywMELCgP+4wYM3ffEmTeqpAw4o=;
-	b=gJxC8K3DxM+CGAXXd0i8wyL6ugN0aEQfejTbhHUulFCkHFYUPolk06t8KewyOhZSttq3
-	 jE11kufLzhA9Bw5b/HuNzRIzPWVRJmWaeWoqPNLzQsTHv3tZusf+VCK8QMTpl6fZVxww/
-	 QNaLg622WW+BCHUB6TBcx1ghpNLRodSJlMuNva/DCMlVgLTwmp+sX4Es/k+qKWvM74/0R
-	 n8borNMidRr0AUduoUzC/H2amLO9t8UgwmA8hkt2hMCQBKNojdhoCLz+5xTBIbySf7X6U
-	 g/gnx71om0gJKeUNgV/+X5fKvwy6T/uhKWgqDihln14BdbqyHrIPrhFZI7+vmNhdUuA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794486537;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
+	 X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
+	bh=qGWIy9jrwH5t2YwM/1gqH/yjp5nXKZYTPr3EnVErx6Q=;
+	b=BqQpRhZrWmKfBY1CvFAjj0JVMlpKl6L8aXK+4BaUgO46do7nMYx5XCTOOkk++500C0uN
+	 PnKjRZAVXvbWmsCvgQY/FNoAv3EDQBYwtDnBR54+AQB4o+voN0M7kGKuINzjFW9nyvGEm
+	 Ya5o6rT2CXJmTb+7dOBXp6Ghec4Rgwd29KHUUI1lZLJVkpZXmF2Je/EpScG0E9ZUww5LF
+	 2m0q5/sal/eg+y3uWOMmcmUvbplNVsnHalgK49EYVCbGM0aVFIew9xjj9mX/oMCAGpqNJ
+	 pytZSrv3l0V8sHG5dxPey2waUJiTzuPHZN8Sunee/ww6rkfymQZYtAjD8iBICj9nQww==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.ibm.com;
-	spf=pass smtp.mailfrom=linux.ibm.com;
-	dkim=pass header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=kHiIB1bW;
-	arc=none smtp.remote-ip=148.163.156.1
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=cpLtdDDm;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=SDOOkIMu;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=cpLtdDDm;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=SDOOkIMu;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 583A3606A31C;
-	Thu, 12 Nov 2026 12:27:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 583A3606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1CC8606A327;
+	Thu, 12 Nov 2026 12:28:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D1CC8606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=kHiIB1bW
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AC2iL0A1214781;
-	Thu, 12 Nov 2026 12:27:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=pp1; bh=6zIF2mscWWNdqPdPpywMELCgP+4w
-	YM3ffEmTeqpAw4o=; b=kHiIB1bWyrkRYoH21DvGNfwM6coLugLCAeOYLOo+0O6I
-	MSRSgK+Eb0gb7F9h3zi336apegwmAMLE1efwDWvP3D5plkxNxy6CKrC1VisMoz40
-	4QuDUsxiBwYjOrAbQPOSHZSaU9Q8/wjXf6gEPzfuZZ1W4K+hEubHrTVXQowhdIys
-	ZNnIy2KjW2NDm30seSVwjYETbJpam8hTWn05YoG99D1kvIfJiudEDy6ROUwHU3+L
-	IfBerHM3bvrMI4hv4HOHOaFjtlteTKORAGBhNxsVY4Y80msceYTTnB+Gk2XiQyj/
-	ttCvSNJILlFas7/Gqdm/wFYt0WT10a4ezX5PNLffEw==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4hsuntfdu4-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 12 Nov 2026 12:27:26 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6AC8Lvmf097884;
-	Thu, 12 Nov 2026 12:27:25 GMT
-Received: from smtprelay07.dal12v.mail.ibm.com ([172.16.1.9])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4hvkq0w7sr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 12 Nov 2026 12:27:25 +0000 (GMT)
-Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com [10.241.53.105])
-	by smtprelay07.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6ACCRPWQ26346036
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 12 Nov 2026 12:27:25 GMT
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id F066D58059;
-	Thu, 12 Nov 2026 12:27:24 +0000 (GMT)
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 31E5058055;
-	Thu, 12 Nov 2026 12:27:22 +0000 (GMT)
-Received: from [9.61.240.49] (unknown [9.61.240.49])
-	by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Thu, 12 Nov 2026 12:27:21 +0000 (GMT)
-Message-ID: <bc84cb05-55fe-43e7-9a6e-e6bbf2f5a9ff@linux.ibm.com>
-Date: Thu, 12 Nov 2026 17:57:20 +0530
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=cpLtdDDm;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=SDOOkIMu;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=cpLtdDDm;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=SDOOkIMu
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id BDD531F388;
+	Thu, 12 Nov 2026 12:28:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1794486534; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qGWIy9jrwH5t2YwM/1gqH/yjp5nXKZYTPr3EnVErx6Q=;
+	b=cpLtdDDmyE3zufzafwIxz2avs3IEH+P9VxuhjgmnooAzAhIFht1q11S8RNbPG+tWFkMs1X
+	p0Yo8uTA5MjM0fcTXKw7hJYRXDHwxC8SZYUWXtZ/FGR9IUBlBe0eO0FIyNdU5n9bSJnB8e
+	OMosXMbCLf0WBdQvC+SSCCoa7y9jJuI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1794486534;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qGWIy9jrwH5t2YwM/1gqH/yjp5nXKZYTPr3EnVErx6Q=;
+	b=SDOOkIMuS+3Vq06vEb82CmSuINp9k+XDhDTnLMbqnXQzXgjOB+7GC+fw9pvWIgwKVdQwxq
+	/vQYWUOBmpmHVABQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1794486534; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qGWIy9jrwH5t2YwM/1gqH/yjp5nXKZYTPr3EnVErx6Q=;
+	b=cpLtdDDmyE3zufzafwIxz2avs3IEH+P9VxuhjgmnooAzAhIFht1q11S8RNbPG+tWFkMs1X
+	p0Yo8uTA5MjM0fcTXKw7hJYRXDHwxC8SZYUWXtZ/FGR9IUBlBe0eO0FIyNdU5n9bSJnB8e
+	OMosXMbCLf0WBdQvC+SSCCoa7y9jJuI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1794486534;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qGWIy9jrwH5t2YwM/1gqH/yjp5nXKZYTPr3EnVErx6Q=;
+	b=SDOOkIMuS+3Vq06vEb82CmSuINp9k+XDhDTnLMbqnXQzXgjOB+7GC+fw9pvWIgwKVdQwxq
+	/vQYWUOBmpmHVABQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2AC1C13432;
+	Thu, 12 Nov 2026 12:28:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id lxSfOgOx9Wo5RAAAD6G6ig
+	(envelope-from <pfalcato@suse.de>); Thu, 12 Nov 2026 12:28:52 +0000
+Date: Thu, 12 Nov 2026 12:28:50 +0000
+From: Pedro Falcato <pfalcato@suse.de>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: David Hildenbrand <david@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, David Rientjes <rientjes@google.com>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
+	Jann Horn <jannh@google.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+	Jan Kara <jack@suse.cz>, Nhat Pham <nphamcs@gmail.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Usama Arif <usama.arif@linux.dev>, 
+	Kairui Song <kasong@tencent.com>, Balbir Singh <balbirs@nvidia.com>, 
+	=?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>, Kiryl Shutsemau <kas@kernel.org>, 
+	Yu-cheng Yu <yu-cheng.yu@intel.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>, 
+	Peng Fan <peng.fan@nxp.com>, Josef Bacik <jbacik@fb.com>, Chris Mason <mason@kernel.org>, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	"Borislav Petkov (AMD)" <bp@alien8.de>, Mark Brown <broonie@kernel.org>, 
+	"Dennis Zhou (Facebook)" <dennisszhou@gmail.com>, Rick Edgecombe <rick.p.edgecombe@intel.com>, 
+	stable@vger.kernel.org
+Subject: Re: [PATCH 01/13] mm/mmap: free gathered pages before MMF_OOM_SKIP
+Message-ID: <avWw2I3Or0z1OmqE@pedro-suse.tail5790ac.ts.net>
+References: <20261111-mason-migrate-et-al-fixes-v1-0-3d2454362e8d@kernel.org>
+ <20261111-mason-migrate-et-al-fixes-v1-1-3d2454362e8d@kernel.org>
+ <avWgulaWoKBfIFlo@pedro-suse.tail5790ac.ts.net>
+ <avWtxdIHSJJ_uNwG@gremlin>
+ <avWunRPQJQctsvYl@gremlin>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -84,94 +129,64 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-GB
-To: mszeredi@redhat.com, Shuah Khan <shuah@kernel.org>
-Cc: luis@igalia.com, amir73il@gmail.com, linux-fsdevel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, nandinih@linux.ibm.com
-From: Venkat Rao Bagalkote <venkat88@linux.ibm.com>
-Subject: [BUG / BUILD FAILURE] selftests/fuse: build failure with libfuse <
- 3.17.0 (RHEL 10 / fuse3-3.16.2)
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTEyMDA0OCBTYWx0ZWRfX0JfJ6hzcRhBo
- 3pYzaJxWCP83/cPc0kLSsIDPYdNyeWt8FbyWRuQat9/3XZ2iKw95G177cPiCqpYJ2tf8vfzAK1v
- BHUHeQT9VgxLgGwtPrIW9XG86dP5iBk9B5urNmoApmLLUyRuMn+HNtbu02fmAG5TY2vp3OPZqyA
- lYbrdVyHDqkVjH2vWQDVu6H23HDWtNhzb+wKoKn4jLPSWu5ZvcMgejzDYz+SR0mbaEx7jrcqXhV
- 59ToqtEZ+KD40OVTp6DTSbo9QFxaACTg/HYhdMyfuKZdrqJq5wIe1mnBmLOdocp+3QsK9gpkciT
- Q5yZPCcCbmMUVabGdk38GTXGmzNZgPgByNPKrbZJD+Jprcfmtf96OjG/LhIVdEODuP1oKOi907q
- y5OBDT7ZhqsQ25ZZfoXeJWd5zdFXoTALrJ1PwmK98nNgaS83KhJSo8fqYHSY4ku91IJ9Dmgim4J
- N7wmogzN8iSjaOwOHgg==
-X-Proofpoint-ORIG-GUID: 5QlD2gsgulIE-MaNq1rxj5110MS0lzWu
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTEyMDA0OCBTYWx0ZWRfX1UvpJ0LrrdRE
- OpEqesTwMy+Eh2HcYAyPJoXqePAAbBSe49rAX4i57i0CGqUSXarIJFXCqGxB9WRn6sNrcEGJ+5A
- CYKwysiMIwfglqKSSzW7MubjHd6u080=
-X-Authority-Analysis: v=2.4 cv=euZKXYpX c=1 sm=1 tr=0 ts=6af5b0af cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=VnNF1IyMAAAA:8
- a=G8bnuFaaA9ZLbBnholgA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: ADQL8XVHLD3II553328d1E9yRtxsIZum
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-12_01,2026-11-11_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 clxscore=1011 suspectscore=0 spamscore=0 priorityscore=1501
- lowpriorityscore=0 bulkscore=0 impostorscore=0 adultscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611120048
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <avWunRPQJQctsvYl@gremlin>
+X-Spamd-Result: default: False [-11.80 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[43];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RL3mhzhn45zpqpmgqn4z7synfm)];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,infradead.org,google.com,suse.com,linux.dev,linux-foundation.org,suse.cz,gmail.com,cmpxchg.org,nvidia.com,intel.com,sk.com,gourry.net,linux.alibaba.com,tencent.com,redhat.com,linux.intel.com,gentwo.org,nxp.com,fb.com,kvack.org,vger.kernel.org,alien8.de];
+	TAGGED_RCPT(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email]
+X-Spam-Score: -11.80
+X-Spam-Level: 
+X-Spam-Flag: NO
 
+On Thu, Nov 12, 2026 at 12:18:46PM +0000, Lorenzo Stoakes (ARM) wrote:
+> On Thu, Nov 12, 2026 at 12:17:21PM +0000, Lorenzo Stoakes (ARM) wrote:
+> > On Thu, Nov 12, 2026 at 11:21:38AM +0000, Pedro Falcato wrote:
+> > > Reviewed-by: Pedro Falcato <pfalcato@suse.de>
+> >
+> > Thanks!
+> >
+> > > > diff --git a/mm/mmap.c b/mm/mmap.c
+> > > > index 7618e72766a5..4cb18b217048 100644
+> > > > --- a/mm/mmap.c
+> > > > +++ b/mm/mmap.c
+> > > > @@ -1313,11 +1313,18 @@ void exit_mmap(struct mm_struct *mm)
+> > [ ... ]
+> > > > +	if (mm_is_oom_victim(mm))
+> > > > +		tlb_flush_mmu(&tlb);
+> > >
+> > > I see there's a different tlb_flush_mmu() call below (in the actual function).
+> > > Is tlb_flush_mmu() idempotent?
+> >
+> > No, tlb_flush_mmu() is cromulent.
 
-Hi Miklos, Luis,
+Naturally.
 
+> 
+> (kidding, yes it's idempotent :P)
 
-IBM CI has reported a build failure, while building selftests/fuse, due 
-to missing definitions in libfuse3 headers.
+Great! Thanks for the cromulent reply.
 
-Environment:
-
-OS: RHEL 10 (ppc64le)
-Kernel: upstream (linux-next / mainline)
-libfuse package: fuse3-devel-3.16.2-5.el10.ppc64le (pkg-config 
---modversion fuse3 -> 3.16.2)
-
-Build Errors:
-
-In fuse_acl_cache_test.c & fuse_symlink_cache_test.c:
-
-fuse_acl_cache_test.c: In function ‘fs_init’:
-fuse_acl_cache_test.c:105:17: error: implicit declaration of function 
-‘fuse_set_feature_flag’ [-Wimplicit-function-declaration]
-   105 |                 fuse_set_feature_flag(conn, FUSE_CAP_POSIX_ACL);
-       |                 ^~~~~~~~~~~~~~~~~~~~~
-make: *** [../../lib.mk:226: 
-/home/upstreamci/linux/tools/testing/selftests/filesystems/fuse/fuse_acl_cache_test] 
-Error 1
-
-In fuse_mnt.c:
-
-fuse_mnt.c: In function ‘test_readdir’:
-fuse_mnt.c:51:35: error: ‘FUSE_FILL_DIR_DEFAULTS’ undeclared (first use 
-in this function); did you mean ‘FUSE_FILL_DIR_PLUS’?
-    51 |         filler(buf, ".", NULL, 0, FUSE_FILL_DIR_DEFAULTS);
-       |                                   ^~~~~~~~~~~~~~~~~~~~~~
-       |                                   FUSE_FILL_DIR_PLUS
-make: *** [../../lib.mk:226: 
-/home/upstreamci/linux/tools/testing/selftests/filesystems/fuse/fuse_mnt] 
-Error 1
-
-
-If you happen to fix this, please add below tag.
-
-
-Reported-by: Venkat Rao Bagalkote <venkat88@linux.ibm.com>
-
-Regards,
-
-Venkat.
-
-
-
+-- 
+Pedro
