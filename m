@@ -1,72 +1,73 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794510323;
-	b=sDrcID2HRxr1XYHjPk1SByCKuqa8dFfceLZdpb9UkqLtB6xQu6SyG+Js2fWZYEvqwopl
-	 m3Hg4/xvFiaVYJjZGpMb9ZNRfPGg3wGyix5SjQwxQld8/J0Y0ps3bPCST9Uyab5jWmxw/
-	 O49XBQbedFc1E7C0Q2UtfBC24Cxh+iNBhpWzQ1vBziHDP8/1PlLRld22UpIeZxOO/IkgF
-	 sK+cBLUrcpSzUP3MkowDa7C+5ySewihgR3KH5AxtoiKZ1Jx01TyPzOaNFa1flPO2mlEnT
-	 pYHEHe5Bk+F6Z74x7DvhHZzpCc6sI7nnEQQwNZB14ISeBUOqup5uh9T5vP/XkG0mcdQ==
+	t=1794510501;
+	b=Wt0OVlJiE8ZHPuyjRTuscn38KWX6HSlZGdmukN+QbZbvmljQarv+/cCtS9rMwe98gV2H
+	 o92/og//Psqwkw+nL8wm2hKp44PrUl61OPehveoyEPwlw70RkswF5tmPwgHLqN0HyOqOd
+	 UnNEd7KN25/ak/x6aNkI9VASTAg7VK/NePqn7QltabVrYskfA2wq2BHcIvoBjFEEIb708
+	 CeXqq4dRsoWOftw+fNT7weXjBEd0y5CU7ylsZBDpW85uvdEG6kOzPh9h1CHZw6EIZOof2
+	 b+LAZDCJHSw9jqWeSWeiD6qDJrwSakH2JlaEf1TJRSpwCTA0ChDE1eGBvhjnxnz7cGA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794510323;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=DlAcOR69Sgyo6744hoqwcMZzZ6mU9x3ks7Z3NCbX8Wc=;
-	b=jtHLtWDoGvp8KFcAHlN6BwSVi9VYRmPcm7pp159L0+iuX3r5hQEiuxn1IwBMFU/cVtxW
-	 wM/AKuDVVkYVX+jyVyvQdm9HAhY2nhUYPGwzka7eVIzwXaS74HEFKDUeeSEClpVRP4TEc
-	 unATa8z1NkXVJFGIXcfwve8DU4+WeL5KKbhbUP5TA44vs+lSVTcxiLj2E2edz9VEk+NMT
-	 54Tw0lCdhiHFrahbOD7PS0kW/A0TPEnrA4BmsAOCjOp7QeGihn9LEJ4+vMBfRhRUSAk+X
-	 Kef5Jqw6aZDX5PfM128KZ4B3p8MZh3r8eK3vK7ec7KTWSRulVYYpNh2xeWKR3eQt0zA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794510501;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Gm-Message-State:
+	 X-Gm-Gg:X-Received:Received:Received:X-Received:MIME-Version:
+	 References:In-Reply-To:From:Date:X-Gmail-Original-Message-ID:
+	 X-Gm-Features:Message-ID:Subject:To:Cc:Content-Type;
+	bh=x7avfF8CE7MQkedzx8waSCJsEYoj4qczcsv6b4mLDHA=;
+	b=x1bV+2htJT1Ya5k3VX71WhZWKwtb/qb97IpFvc8WI7Tt2n1CAKqn/NV2B5l5cJVEHY15
+	 6+lCMQNyVFYCINk03wkcZ+iyyMQRarrTBB3QYvJPjK0HIcUbMFH9QDnRpCUhRDreEHJB9
+	 5ZiB/rVTSfYpI7crL4esMIhqELiiqEV9UtvTFDhCZkuc4K6P1jVg5Fp/qu827OTOh+lfd
+	 9TTMkKT76Sr2FB79JsfdU1serxl3FsS3VGsLQH/OvC9QTdCO0HmgqO8ZPKB5FNiejrNZ+
+	 zDQ1nW+/IGSpAVHoUsWA1rWtkBKz2TvQNfn/j0BnHScAunpWV8zTGSKilZVclQ3DE0A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CXqmFHQT;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=none header.from=linux-m68k.org;
+	spf=pass smtp.mailfrom=gmail.com;
+	arc=none smtp.remote-ip=209.85.221.172
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D144606A31C;
-	Thu, 12 Nov 2026 19:05:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CXqmFHQT
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2C601F000C4;
-	Thu, 12 Nov 2026 19:05:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794510323;
-	bh=DlAcOR69Sgyo6744hoqwcMZzZ6mU9x3ks7Z3NCbX8Wc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=CXqmFHQTRmv1gRj1r+pYbCbA8wHqWEzRRHyS8pfqO0TTrL+uMJ68pW9Cw4rMuUyUQ
-	 IQZ9fs14ahUAid+leUsj9RpRJ3nno9JfuWnrJf4xVpTNsMk6APV19c/Q1+165+I4h8
-	 ZxKs1t5LsuvSNVmLJBrQUR3oxP4IvIwsU5WrY1GAKrRnW+J+EVEOAX/lHFdmqjhZsI
-	 6jmKil9NC8S0AXK83iEBO4AJd/1BRLpkrYX/+CH20b3dlAyQyC9hb6P/XGpm2c56Q/
-	 UGCnYKdK5A1ZJVoOO8bVctfLnV9Abu+lwPO5ibRHJYTWAUxoWJEimxjpYDdVwNDiI6
-	 Zke8B84mfEeDA==
-Date: Thu, 12 Nov 2026 19:05:11 +0000
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Alistair Popple <apopple@nvidia.com>
-Cc: David Hildenbrand <david@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, David Rientjes <rientjes@google.com>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Nhat Pham <nphamcs@gmail.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>, 
-	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
-	Usama Arif <usama.arif@linux.dev>, Kairui Song <kasong@tencent.com>, 
-	Balbir Singh <balbirs@nvidia.com>, =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>, 
-	Kiryl Shutsemau <kas@kernel.org>, Yu-cheng Yu <yu-cheng.yu@intel.com>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, 
-	Christoph Lameter <cl@gentwo.org>, Peng Fan <peng.fan@nxp.com>, Josef Bacik <jbacik@fb.com>, 
-	Chris Mason <mason@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, "Borislav Petkov (AMD)" <bp@alien8.de>, 
-	Mark Brown <broonie@kernel.org>, "Dennis Zhou (Facebook)" <dennisszhou@gmail.com>, 
-	Rick Edgecombe <rick.p.edgecombe@intel.com>, stable@vger.kernel.org
-Subject: Re: [PATCH 09/13] mm/migrate_device: fix use-after-free of the anon
- rmap
-Message-ID: <avYNv-bmQAGE0ktf@gremlin>
-References: <20261111-mason-migrate-et-al-fixes-v1-0-3d2454362e8d@kernel.org>
- <20261111-mason-migrate-et-al-fixes-v1-9-3d2454362e8d@kernel.org>
- <avTzHDlCiaNSzhtX@nvdebian.thelocal>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 082DE606A333
+	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 19:08:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 082DE606A333
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-5c9e7731b34so175085e0c.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 11:08:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794510500; x=1795115300;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=x7avfF8CE7MQkedzx8waSCJsEYoj4qczcsv6b4mLDHA=;
+        b=cDsdJWcWj5YbgQ0L0vWiOI7ReGML4DJqh+LuKkf2jKwnKjErX+gvgi2UHfbF/nosQS
+         JEIJdXWlQq6Rbv2z2q/nhhuDor3PxcWEbRGq6s5Y6F7OKGyfki5zvMGYuESgdxeGoVVE
+         dI8/9wnRZGEQBygeQWtxZdIE0mvpfw2mAjuqQrJOWIyM7bNNJm3OiBGYdWv0Z7DIRe1/
+         nfuKI2hS1sp2AIsD/sILqpBuGMIXC6Fv7R/F4E2gCYt3Occycm+O37mFAV6VUbmVvlz2
+         3x7LKXCt27BpHWiptLrq6g0sJrEaBVxB6F9Km6YzMH4wFyiTD9/iX+UkNRz8Yf1Oas/p
+         1nhw==
+X-Gm-Message-State: APuU4Z+Tb2MqqA1XbEL6UPTGWgZLKGwHIwB2y0Kk+AuCqT77Gy8eAmaq
+	4goQRlGop5cDqNXdBtGEqob20TVIqi1E3Li925Pm0bHE5p1CozAzBgvyKp09kNJnZ8k=
+X-Gm-Gg: AYBFou2y4TPy9OGcaJauDI35zQAABbWBJkXsinFnNucXopE5q91TTY+SSC+GuliyMaM
+	Q8mP0YjrCaswQg0afJ6KfuOBGD5PkCdeq7M5jj1RKZ3zCTsIfwqZZf5yhYMtBR/bGnwIJqtO61l
+	JiAgNsMCKrA34GvWG7gG7ipqOkw91I2w9ElTG4Zw+RHo1fOsr3lSZhECbGTI5t8FCxVZmZ99K3Z
+	Lyr66KoiDSQhcmbfLYHtCkkmFjKOkxiv9iyxikpskUTNi9RXzQdRKO/l9w5BASBFlcEp2WKBO84
+	7UiYq5QOTBoUna0IugJ/vx6J2LrOBnnrgaPvNWpHzEUVBIHaTd2Wm9WWTH8oOQoiO1ZZIScQryb
+	dohFJOFtUFQE2PLoN7f1DWrxU21LWJ7u0k4zfqkZCWyTTaNGA5yhMPBOq5gDPXLleQ7lZXWbT5R
+	RjZjBpCKO3iOvbwmEL1NwQ2rrNfgarg2g7k3SZjGWsiFRP2OqJzjz9JbucJiYZkLHHiGxD+Yyg8
+	g3LWp1Mq9ZoU/Qa/SqfJD/QQrD1KpELf8gRGvZrmLQGK/Kk0oF2vhUG7r/Ztxe3/n6WdxY1q/0I
+	e1dRfgFYG5eVeaR9X3dHsqlrMkFKZ9xjMC+G1TAgjGm4W42kWGT6I7vglHlwXtPmvCk=
+X-Received: by 2002:a05:6122:311c:b0:5ec:c186:d22b with SMTP id 71dfb90a1353d-5ee34aef024mr38598e0c.22.1794510500086;
+        Thu, 12 Nov 2026 11:08:20 -0800 (PST)
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com. [209.85.222.42])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5ee341b5ce6sm84377e0c.4.2026.11.12.11.08.02
+        for <linux-fsdevel@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Nov 2026 11:08:07 -0800 (PST)
+Received: by mail-ua1-f42.google.com with SMTP id a1e0cc1a2514c-99075306daaso157006241.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 11:08:02 -0800 (PST)
+X-Received: by 2002:a05:6102:c15:b0:7d2:8dd0:2eb with SMTP id
+ ada2fe7eead31-7d64d6ed886mr73919137.8.1794510481935; Thu, 12 Nov 2026
+ 11:08:01 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -76,21 +77,47 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <avTzHDlCiaNSzhtX@nvdebian.thelocal>
+References: <20261112-work-procfs-oldmem-v1-0-ecdcafd99265@kernel.org> <20261112-work-procfs-oldmem-v1-2-ecdcafd99265@kernel.org>
+In-Reply-To: <20261112-work-procfs-oldmem-v1-2-ecdcafd99265@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 12 Nov 2026 20:07:50 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUgOGjwOUMxSabUgtaVeKZW1wx78XOJL8joGKkZEj7RZw@mail.gmail.com>
+X-Gm-Features: AclHuK8l5OcVstuPYNpoHJ657hIuMQK5i9ySH9sE9lHb16H-lVuh0fnzCqi0JCs
+Message-ID: <CAMuHMdUgOGjwOUMxSabUgtaVeKZW1wx78XOJL8joGKkZEj7RZw@mail.gmail.com>
+Subject: Re: [PATCH RFC 2/4] sh/crash_dump: check ioremap() in copy_oldmem_page()
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Breno Leitao <leitao@debian.org>, 
+	Chris Mason <mason@kernel.org>, Thomas Gleixner <tglx@kernel.org>, x86@kernel.org, 
+	kexec@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, 
+	linux-arm-kernel@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	loongarch@lists.linux.dev, linux-mips@vger.kernel.org, 
+	linux-sh@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	David Hildenbrand <david@kernel.org>, stable@vger.kernel.org, 
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Nov 12, 2026 at 10:04:10AM +1100, Alistair Popple wrote:
-> > Resolve this by pinning the anon rmap of each folio which possesses one in
-> > migrate_device_range(), migrate_device_pfns() and
-> > migrate_device_coherent_folio() before its PTEs are replaced, and
-> > unpinning it once the walk is done.
+On Thu, 12 Nov 2026 at 17:43, Christian Brauner <brauner@kernel.org> wrote:
+> copy_oldmem_page() maps a page of the old kernel with ioremap() and
+> copies from it without checking whether the mapping worked. If it
+> didn't, the copy reads from an offset into the NULL page.
 >
-> I was going to ask why this wouldn't also be an issue for migrate_vma_setup()
-> which does something similar. But in that case mmap_lock is held across setup
-> and finalize which I guess is what saves us there?
+> Return -ENOMEM like the other architectures do. read_from_oldmem() turns
+> that into -EFAULT like any other short copy.
+>
+> Fixes: 4d5ade5b29c6 ("sh: kdump support.")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-Yeah, exactly.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
---
-Cheers, Lorenzo
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
