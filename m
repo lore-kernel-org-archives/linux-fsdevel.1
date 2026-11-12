@@ -1,85 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.175
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794502794;
-	b=uEv1FJHBb0rJm9ifsJ5iIfsrc1t8CRpG5Hwxhw7Me8pTv18V/GV7PZnHg2P4FESTE150
-	 9VReeuHANix4scijaPYiyBngRZm/7fTBM6PrbzHTGornFahTq3MRi8U2JN9gEUls5vWnE
-	 gvkIdULQyvRKWYSYIBzDdME+WK9rjxlep+JynZwi3RX+OEqAVBTVZIh+TCSECJFjDrF3d
-	 bGGmvxZlaFF9AdOsbO4/lWS6C9oondmjy2djt8vpozuWDCKZ1mPVCObq9ZBmSh89lzDmU
-	 vAwXvNfsWhNsZD2q99JiJVHgEEtPsQf3/gV4Obds7JLYMYr9xK/eDBxIEaQMNOt5vFQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794502794;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.195
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794502912;
+	b=YZIZtyxe4zZb1IwvR1kTYAtIX2AtF68aCgQ2HxYPFCWNfuYF4h2t4ahAOtnXnu1QXjCW
+	 z9qCj/0uDlfGOUNic0Gx5DFJJEEPBTncMArgBf9WUXGaTZcMUcqvS/1WbGyfFijJA5lin
+	 wpBIJwvi8L/qITaPkPPH7+hOKo7Xc3o61Pqekmuva+jmsgELWuhju9tN/t9tuQB5zcPkf
+	 owG90jnyFuCs6kcBYT8aRF+2zmY+yqG/yuFPpcffjN8/qI008po+uF6UZjdh227rCHJMN
+	 eFJLqk9YW84LVG8f4+TaZ6Z43DFIvqfkgJdzIW7/74aj53JbFgr+BYHBAYMwLJIT7sg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794502912;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
-	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer;
-	bh=b7AojsWQdmnu8z7CsRmtwQ/iZVkZjTk5+I2/AfHY1s0=;
-	b=woWr6DfnpLhNwDW5aiZsWi95TqZNsCLdBWzKCmAzMyF4gWxd6ETzyw9KAmPz/3YY2/e0
-	 g9W7c16txOj4uLLmUiZLatVjHz8kD0YQDOYSSJID0tA3Nn/tqsDe+kjynhvwDqqQvQyn5
-	 6UpQrnUM1lfxdS+9kWVzHvsxEk5lwfN6Amb31LY9NFmvT6MepryJOWD4IbpHlen5CSAY+
-	 hfPnh82W1V13OymF0jjVcKWMwFgpmUUBQb4+xRcc0I5N8Ueran6eqT31bi5/UByjRNRJ6
-	 Ab1AZi1gvGYvPP0rqDhg00Xedw4BzZSVZGeRVQBWwbma/yXAzb3CasE6SMD6eQCwn2w==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=gourry.net;
-	spf=pass smtp.mailfrom=gourry.net;
-	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=ZU30IxzG;
-	arc=none smtp.remote-ip=209.85.222.175
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
+	 Content-Type;
+	bh=LE1pJkJzQmD4KHZy3KibAk6pagP6QWSp8ER9p+DD6nk=;
+	b=oLUsMiNI5Hr8bDKAvKuBSrYO0CyqOoIg6KLxe2cmN6F/AZ8kjMavLEbCSw6yau+zq+lr
+	 g/Wv68/tJw4GhSBEEYuVJkSFHvR5f2DuYbovd1aBxp1728cpxM04w3WDOxBmTCz2QCPAG
+	 2tL3I+ATAbqYdpZ6pUxgBdBOY+FESD8oV7hZfg6mayeIPTDinClxtEZFKU8wkVtYoDOi3
+	 fxmZEEkUcKF90Ff92S7LM7xqVzmvPq1NGV/G2bLGj2tQiaAsAkHxRxc2U3ygw2ouL0HdO
+	 df8+ZR37cvIEKTg2jfyINB+N7aWH0G4quIDjpjtNKE12dR84EU4s8UImM2zSz+xj9ug==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rklWZWfh;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.195
+Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com [209.85.208.195])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C0B7606A321
-	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 16:59:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3C0B7606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99E7F606A327
+	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 17:01:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 99E7F606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=ZU30IxzG
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-9441591aa5cso124856585a.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 08:59:54 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rklWZWfh
+Received: by mail-lj1-f195.google.com with SMTP id 38308e7fff4ca-3adf9b1f5aeso10470301fa.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 09:01:51 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794502910; cv=none;
+        d=google.com; s=arc-20260327;
+        b=MHpsS+XIE2f9EvnHVc2duMjQIVCxxwpfEz2q4bVl5r3fby4bRmnFnwDkVf53jN9i9i
+         fOlxrjuSaVc6svGX2qFon1NabB+YgWC8lIaHyifgnXUWYuOI/V4LGKB4M5e4yAm0leO6
+         IH8Ch1lDTmv8iWY+y5V/x3ysugzc/azo4w8LXUohhGXfzSrvDZPsClQxVN2IYddWIyk5
+         XtFvq+lh4FolcDCxVoq1KdSshX7z33OunJM5f39uZxfSnRhU3y6nYFnVD1OdO32myXaK
+         +AZl5gR7MmS6okG/KP8CTHADWHm0K/JKJ4SM7h8dnJpuGYhPhdlIAPaYOspcrHduk7FG
+         Q4wA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=LE1pJkJzQmD4KHZy3KibAk6pagP6QWSp8ER9p+DD6nk=;
+        fh=XPG4UNuME41aciJge0TpC3LCJ+y3sbuuVzyHt+31FUk=;
+        b=A6PJSHBgb8R8kkfuMVbcMlb+weao/JEAB1aWThngqs6gVgcrFrHdfflv6OLrxa7KqH
+         1dFpwcxAVwItEoi1MxbUM1g9Y2P/5lGP0XolXdY/0VQJPj6gwVIo9+KfUBuY7vG6Cxh9
+         WsTIk2wzC1hzsGqaBoGh7LJMfOn21XuUYp4c44Hihe64jIH1dTRujz7hbHBVeawX8gDH
+         pGOAcoZva6jBRrBT+MqRXj00/ORdCxBSf8vBkGL5nirmDLTBHoUJ7UIYRrwSTh6K9UvB
+         iswYYdycbeOh1SWuieUtTPkUZjE1ncDtMt/47AA3j8tP8BJR3v6gR4p/dI690/6TwytV
+         PzHw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1794502793; x=1795107593; darn=vger.kernel.org;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=b7AojsWQdmnu8z7CsRmtwQ/iZVkZjTk5+I2/AfHY1s0=;
-        b=ZU30IxzGF8dTAnKh0hg/WW7t2ylFe3MYJYBXubmCf1/k0kqtiBJ0BHFnlPIecHUaEU
-         +IOyPQjcJanpVIfwQEyjiCo6R8ZX6eRq5qe/70rgSGI7XTTUsHeaJdEJ+rt86dO3O4QG
-         IEUiGAj+qbzlD2oBfD0mzrQlpkwUxvBln1wYn9oA8cukVPeDq7dpLvSUXGYb6dXLyEFE
-         vRplzbwFbfz1dfysSc4/vI7lT75Et/sbZuEzEjHfpQS+gx9dYciD/G51J8TE2ue/slis
-         bnZQPk0+xQgbm/k2K/jwW5N5aOs1hrfOWqwRb16xam3/PsiW/U5odSFtLBlksi86RNx9
-         J0SA==
+        d=gmail.com; s=20260707; t=1794502910; x=1795107710; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=LE1pJkJzQmD4KHZy3KibAk6pagP6QWSp8ER9p+DD6nk=;
+        b=rklWZWfhrj53wAWPR76QmBFXjRMLzzHCqWJHEJSHWW99JHS6GvghPeQlUSoKCL2A7D
+         Jsbb8ETKSOAmmbgYrs0YY8bpo/A2qTDgn/8ruyBhyAVT85kpAyt/M396lR3BJF62g5i2
+         KSKrO+vOXl4dGMsbUd5L23VbxY2eYTJzbp6IxQqrAr+ckfFHpyzYez0a9nNbxkbKkjSC
+         s8vh/xYn3AG5VLJObz/zutqVI8+oe0PEdReZxXGNiwznYP/o85Nmq1UCCsO2AN43eXNj
+         X0xB6YIeB+qcfWSZGA9T+EoGHgMGarhxiydvLT1K1RfUc1bZf5wzecYf2yqmLFcIUvL2
+         2WNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794502793; x=1795107593;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=b7AojsWQdmnu8z7CsRmtwQ/iZVkZjTk5+I2/AfHY1s0=;
-        b=2NUyoRFgtDQH/iMA6k9EoKQ3JJVVvbr8+7ICZxoPlyQfYzeRkSdJ2X3S9FV+TQsj/0
-         tu4eYLZUm5PPR90kh3SicLFtkSkzD2mSrKzflSVCLBWWh+ZaFw8hbRLXuZCZnxxpF459
-         lazPlrB5UYLkfUiCrH32dnUIeJH/KIsdEyb32XHG+cr6pRg4uGfbO720uuy2EuZVVNLL
-         qaf9jFZ+XSzlOVX4iqHymfeQPhzssB3ZHt0Z+ELszJFzM5JYlWk0HRjw4qGgfWpb0E2S
-         FMqf+h9NLSqRUg686EgCbEjEIbkOZbHtx8D2FbjP6+hOmol0xuRjJpWY7lvVJLYA6Ekw
-         Cxnw==
-X-Forwarded-Encrypted: i=1; AL+hErGUPZ6Np6h9qQ1zvw7ywR+wYkSZ8fRmXjIKYp6TuhMsWAHHoxDjvIqEApSH9vImFu10K7YnnuE+pLN8ODc/@vger.kernel.org
-X-Gm-Message-State: APuU4Z9oKAhc37NhjQUEeuoKfJ/GCR5+eVPs3u0tfQeCJnK8oBMaMCzr
-	peU6Zzqg447ruGrOQHhaUBfznBl6QshBYTEYsMLn8R4iiEMzGWBAIEQCiHTf0ODpXlk=
-X-Gm-Gg: AYBFou2KrfFP7AFENxeipO3PajBkmMy7xIYmRD4d9qWZ53ssSexxRTeDEa5XmSFB7Yd
-	+pzUojAJUDtVb0UA93prmMTV9XIZY34PwcIcvSiBWNkcqD0C/sGszagL/iRf7ESvu5GTrndheTN
-	wuhDbsbaMqovSaT3XYxe88yfHp3YEO3WfXCo+eZIJVNxFa3ls4ysUs4MAlwulWYSd1KMtMeYLTE
-	LSs/i1F84Plgiho7M4qAYpyAO/CLTuYlGs5HnohcRQpYiQeqx8o0xR7XM09vEMnJD5QrcKnBK9o
-	CLg4PK5+s34Et+9D4EPrxZq45ydYaLh5nev6Bcgb9loeD8PXpD3OB7VWa8GDrAOhF4Ep5+uWrq9
-	PwnazXanQLmeberUzCyA+FFvnFaSozsQkwxOme6Y7nLDzDB5cpZNjtP6K1jlMA+FZWFNNkvPD7V
-	PTczF7TQZmW0NMTDXSSI0dfBJD9FyrCeSKxLheVZI9el6EucT8MtxkD6pjD3NaZw/3QZlb4zdeK
-	pjyqb9J9e++7EuRb0W07Nf4NV0UIeiRjMETtYufyV1VfEDqrzzIUKuVeRQcspCwxK2u+B0b8eB7
-	A86i8XeRtnR0TGVi3bg1MDtC277lkw2aXhrZydwoWbSbgc0WoKR3mJ2LPsnUvrdkH03quipjPBS
-	qTnom3Kw=
-X-Received: by 2002:a05:620a:6088:b0:945:f5c0:a630 with SMTP id af79cd13be357-94932e8795amr549937885a.40.1794502793241;
-        Thu, 12 Nov 2026 08:59:53 -0800 (PST)
-Received: from [192.168.50.231] (pool-71-191-145-202.washdc.fios.verizon.net. [71.191.145.202])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-94935073633sm220651485a.37.2026.11.12.08.59.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2026 08:59:52 -0800 (PST)
+        d=1e100.net; s=20260707; t=1794502910; x=1795107710;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=LE1pJkJzQmD4KHZy3KibAk6pagP6QWSp8ER9p+DD6nk=;
+        b=glEgyenLeXixNVkoCbzUaHRWuFVYBrWYfbQ7wBmF2WJG4F0gLIi14v/3lOWuH8oWFk
+         sTbInfX3ACirBuqce+b3d52pSoLadhcSsOizILAWNBDCTl6kZChujUCtCZVotLVi6geK
+         AKCOlceFHMF0PY7o3nlEpBHi4g43TNQAkOCiK433Kn9ZWEbdGE3yjK2T7+DN4mB+LXa7
+         97GbIiozyZ2sbkJYU+pqWk122RfFv5/xCBD+Ltx6LKAewXz2WOx5e9vw8LJ+0U/Y+09a
+         ic3i+GDPfVFuR9MrJhlLC+GrE5mbopIedo7wIsAskaMP1v3UtRg7ArjwNlBj/IdcxNAI
+         TLLg==
+X-Forwarded-Encrypted: i=1; AL+hErEsjFgsQGZMksr0MVCCyLNgQ9yVaPZoI8FDbJM+7wnTnxpMRMChnwgGpQGEKFH6egALQK4oK2a1n8kY1H7x@vger.kernel.org
+X-Gm-Message-State: APuU4Z/6r6mU++k6ogNWjbNWxcCdVTQueXfHd1PCghWe8c7QZDEEj1hL
+	Px3m8Ggt8z95mvioFJPrdtGIZq7zE7pI1GP2rKxmoPGRQiTmhGRQorr756gEX4QN71jipoGkU00
+	OWbWKgUrUDpvr5qOFxRetB5vrUnUIx77bvF+rOqIaBFXK
+X-Gm-Gg: AYBFou1apvSD/uIQmx2t4ibwXE9+mksY7PZL5UphMQ8aTJ+OhNS9Xx5WfAdNLYAcI4U
+	7a4TAz6bflMDCyB8rEg3CPHK4T31blyFRCt3u09JEE5/JMrB7RwMsodA0aD2cH47bykH9keA0bj
+	MI8svNnVmt4vOn/hTubjAMWrSSfo18rW5o0QIG5XCAj+9Tt8GZwS9tin1F3n09E64cxZ/QVamu1
+	Oq88LG0xvuNFCKSS4IBvQJCsUlYii4mcxDwyatovRpApZGWsNw6KQJjF+E9LnbQ05x/G7ql5NAJ
+	og0gkvtod+Zc034Uqt7wygCVEnCpuZUB15/nCqDV/IW+sbryIcn+6Xp2tiYo6JtzjfLG50Meg5S
+	BoSIfDD/V46dIXWOJrLtY0+TWspGzVED8GZUR0lm010ESSvHlQfDx3yEg7W5aLDwhveyiEe+H7z
+	hDIzNvevi7qbsuXg==
+X-Received: by 2002:a2e:a543:0:b0:3ad:fd26:fd2a with SMTP id
+ 38308e7fff4ca-3ae1bfb8004mr8647671fa.7.1794502909765; Thu, 12 Nov 2026
+ 09:01:49 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -89,75 +102,79 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH 01/13] mm/mmap: free gathered pages before MMF_OOM_SKIP
-From: "Gregory Price (Meta)" <gourry@gourry.net>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: David Hildenbrand <david@kernel.org>, 
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
- Michal Hocko <mhocko@suse.com>, David Rientjes <rientjes@google.com>, 
- Shakeel Butt <shakeel.butt@linux.dev>, 
- Andrew Morton <akpm@linux-foundation.org>, Jann Horn <jannh@google.com>, 
- Pedro Falcato <pfalcato@suse.de>, 
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
- Nhat Pham <nphamcs@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>, 
- Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>, 
- Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>, 
- Gregory Price <gourry@gourry.net>, 
- Ying Huang <ying.huang@linux.alibaba.com>, 
- Alistair Popple <apopple@nvidia.com>, Usama Arif <usama.arif@linux.dev>, 
- Kairui Song <kasong@tencent.com>, Balbir Singh <balbirs@nvidia.com>, 
- =?utf-8?q?J=C3=A9r=C3=B4me_Glisse?= <jglisse@redhat.com>, 
- Kiryl Shutsemau <kas@kernel.org>, Yu-cheng Yu <yu-cheng.yu@intel.com>, 
- Dave Hansen <dave.hansen@linux.intel.com>, Dennis Zhou <dennis@kernel.org>, 
- Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>, 
- Peng Fan <peng.fan@nxp.com>, Josef Bacik <jbacik@fb.com>, 
- Chris Mason <mason@kernel.org>, linux-mm@kvack.org, 
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- "Borislav Petkov (AMD)" <bp@alien8.de>, Mark Brown <broonie@kernel.org>, 
- "Dennis Zhou (Facebook)" <dennisszhou@gmail.com>, 
- Rick Edgecombe <rick.p.edgecombe@intel.com>, stable@vger.kernel.org
-In-Reply-To: <20261111-mason-migrate-et-al-fixes-v1-1-3d2454362e8d@kernel.org>
-References: <20261111-mason-migrate-et-al-fixes-v1-0-3d2454362e8d@kernel.org>
- <20261111-mason-migrate-et-al-fixes-v1-1-3d2454362e8d@kernel.org>
-Date: Thu, 12 Nov 2026 11:59:50 -0500
-Message-Id: <179450279073.482102.1691484916250559829.b4-reply@b4>
-X-Mailer: b4 0.17-dev
+From: =?UTF-8?B?6ZOu?= <fengaojigui88@gmail.com>
+Date: Fri, 13 Nov 2026 01:01:37 +0800
+X-Gm-Features: AclHuK-drOWyFhSlQjdMJ_5Q4lK9tj9u39cXrmTuwnolZTO9jGZH0B97pKhU-6M
+Message-ID: <CAO-4RZ0x1FLMRWHV5pE+oxf1ttPLQLzaJfLqKcacXyNSdXVOmA@mail.gmail.com>
+Subject: [BUG] xfs: WARNING in inc_nlink (fs/inode.c:465) via mkdir on crafted
+ XFS image (v7.4-rc2)
+To: Carlos Maiolino <cem@kernel.org>
+Cc: linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 2026-11-11 18:13 +0000, Lorenzo Stoakes (ARM) wrote:
-> The OOM killer can quickly trigger again after having selected a
-> victim. That victim might not have freed its memory yet, but its mm will
-> be marked MMF_OOM_SKIP by this point, so the OOM killer will ignore it.
-> 
-> This can cause the OOM killer to kill an innocent process when the first
-> might have freed enough memory to relieve the memory pressure.
-> 
-> Fix the issue by freeing the memory before marking the mm MMF_OOM_SKIP.
-> 
-> Note that the task which calls mmput() might not be the victim - if it
-> took a reference on the mm (e.g. ptrace), it may hold the last reference
-> and release it when it calls mmput().
-> 
-> Therefore we cannot rely on current to tell whether the mm belongs to an
-> OOM victim. Instead, partially revert commit b3541d912a84 ("mm: delete
-> unused MMF_OOM_VICTIM flag") to reinstate MMF_OOM_VICTIM, which
-> mark_oom_victim() sets on the victim's mm, and check that.
-> 
-> Reported-by: Chris Mason <mason@kernel.org>
-> Fixes: bf3980c85212 ("mm: drop oom code from exit_mmap")
-> Cc: <stable@vger.kernel.org>
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+Hi Carlos,
 
-I was able to reproduce/observe the unfreed batch and the second victim
-issue.  In the base series i could kill a second victim with the
-in-flight oom in about 26/512 attempts, and 0/512 attempts with this
-patch.
+We found a reproducible XFS warning on v7.4-rc2 with syzkaller. Creating a
+directory on a crafted XFS image trips the VFS link-count sanity check:
 
-Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
-Tested-by: Gregory Price (Meta) <gourry@gourry.net>
+  WARNING: fs/inode.c:465 at inc_nlink+0x168/0x180, CPU#2: syz.0.17/25512
+  RIP: 0010:inc_nlink+0x168/0x180 fs/inode.c:465
+  Call Trace:
+   xfs_bumplink+0x94/0x1e0 fs/xfs/libxfs/xfs_inode_util.c:687
+   xfs_dir_create_child+0x340/0x3a0 fs/xfs/libxfs/xfs_dir2.c:872
+   xfs_create+0x8bb/0xb80 fs/xfs/xfs_inode.c:728
+   xfs_generic_create+0x650/0x800 fs/xfs/xfs_iops.c:216
+   xfs_vn_mkdir+0x36/0x50 fs/xfs/xfs_iops.c:308
 
--- 
-~Gregory
+The warning indicates that inc_nlink() was called with
+inode->i_nlink == 0 while I_LINKABLE was not set, via the XFS mkdir path
+(xfs_vn_mkdir -> xfs_create -> xfs_dir_create_child -> xfs_bumplink).
+The underlying cause of this inode state has not yet been determined.
+Our guest runs with panic_on_warn=1, which escalates this warning to a
+kernel panic.
 
+Kernel/config: 7.4.0-rc2-kernsight-kasan #1, built from v7.4-rc2 with
+CONFIG_KASAN=y, CONFIG_PROVE_LOCKING=y, CONFIG_XFS_FS=y, booted with
+oops=panic and panic_on_warn=1.
+
+The reproducer contains a set of 83 state-reconstruction programs and
+triggering operations. The programs are replayed repeatedly with 8
+parallel workers. The warning is reached through the XFS mkdir path:
+
+  syz-execprog -procs=8 -threaded -repeat=0 -executor ./syz-executor
+repro.kernsight.prog
+
+Verified on a fresh VM: the warning fires 230.6 s after guest boot and
+panic_on_warn escalates it to a kernel panic (full console in the
+repository).
+
+A full write-up, the reproducer and the verified console log are available
+at https://github.com/Zheng-zheng-codes/xfs-inc-nlink-warning.
+
+Repository contents:
+  - README.md                      full bug report: phenomenon, stack trace,
+                                   mechanism, reproduction steps, timings
+  - reproducer/repro.kernsight.prog
+                                   pipeline-verified reproducer (83-program
+                                   ordered set + triggering mkdir)
+  - reproducer/repro.prog          original syzkaller-extracted program
+                                 (pipeline evidence; not a standalone
+reproducer)
+  - reproducer/repro.priming.prog  state-priming program set (pipeline recipe)
+  - kernel.config                  kernel configuration used
+  - environment.txt                kernel image info (sha256), QEMU command
+                                   line, syzkaller commit, reproducer command
+  - logs/log-*.txt, logs/report-*.txt
+                                   original syzkaller execution logs and crash
+                                   reports from the fuzzing pipeline
+  - logs/machineInfo-*.txt, logs/title-stat.json
+                                   guest environment info and title statistics
+  - logs/external-verification/    external standalone verification artifacts
+                                   (serial console of the verified run)
+
+
+Happy to provide the kernel image, the crafted XFS image, additional crash
+instances or raw artifacts if useful.
+
+Best regards,
+Zheng Zheng
