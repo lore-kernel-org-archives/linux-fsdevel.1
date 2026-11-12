@@ -1,81 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.121.94.183
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.79.88.28
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794494626;
-	b=TutIZpcmZazp6Lf7X0/qTToiwB42j2cKHDDKep+RArkqnb200BphbQXsOS58n5wpYqrA
-	 j9d3YTPX1kTQ+hwoeYU+GEoj1Qb8vWejddj78YMQ62UGt53JTpufxHX5zIt4UHo3/wUuQ
-	 kq67XHHYfSkXk2oD4GWwVqSMAgcb3CNsNSYu/wk+4mX3a7KLKs9W4iz8VEB0KK2ihrtaI
-	 rQZfhSRKEabNHSDFNKWzcZQ5dcmczdwhS/xf8rpKSX4cpw9MUFBVhAwyzoIKQAqID7pCf
-	 avbEw9xjJV2OXtfTj/CzWG24/NIfcze0cZ828xB5MGN+yt1Q8G18nsk+NxP4IpJp0Jw==
+	t=1794495489;
+	b=hYethVi/9827oTjvSpz0eOoku0TV6TrzY/0iqfQNwZs8A1HnAm29SqgtY4FMcCiHOPPr
+	 WTl/ucpsYHW9qNphOmgzkgYCldR5UasfTCDJDHfE7UQzlVRbqzXOfRArkhRSsPDL0TC/G
+	 1sunUwSc6HHRjsA3/JsDoXiZqQqIc9DlOgjOaMx4n+RSYqe96sQ+az/4pkj65yOWEOoUV
+	 QWpFXBqdHXzBmjrRU6Nbflo1g1lhtkF1f3wBImiIz6Z5V2xHdTogLWbLyRCQ37Mejufax
+	 YPdgsNdeJ9upspKeh3WJxZz76a9/+h2nfObqg/7FIFwVMq1bkLzCcNPxQEu/mBx1Xqw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794494626;
-	h=DMARC-Filter:X-KPN-MessageId:Received:Received:DKIM-Signature:
-	 X-KPN-MID:X-CMASSUN:X-KPN-VerifiedSender:Received:Date:From:To:Cc:
-	 Message-ID:In-Reply-To:References:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-Priority:Importance:X-Originating-IP;
-	bh=od0sDb61Vyxn7jJRWeS+kkhSMP4jrGQol+QTMNRF7m0=;
-	b=B3bJfME+KwgeNjMFWKpxd7ufLy+X4i1WYzAF4Wpq3wyh1B97cnbxcVRo0FMRAqaX9hhv
-	 yWUQQg2bvBcQfyqQep7EjjDb2Il7s6Xr/sX3XrTFNAwqx/X+jc5v9Dt7lAIvuFUE6Nw+8
-	 hOr5g7ENZZeRycybbvPF0fzJuxZPBjzf+yvhHnCS//avmymgTzyL5vrO71lITPQGewiYJ
-	 qy3EAAKvLWF37giZl+UHCXPVtPoRPiKgDKFwxvRR4L5z9ZlEhiXxVk7vxn9asO4xmrj45
-	 IBcv1xHUwP7ivJ1L1GHUM5vGvb+ROTN6yLudyPpVEB3oXr8o1vkKIeYsEEjd0Cw2Q0Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794495489;
+	h=DMARC-Filter:DKIM-Filter:DKIM-Signature:Received:From:To:Cc:Subject:
+	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type;
+	bh=mJiAcVKGt20rwDbtZ267Ib5ukUoWE5uGUXiOfLnifSI=;
+	b=QsJuuvSXtqNThSHejACT+ZD/iFqxY6BaGhffH8aW+hNDEuTqe8HdjXliShGT5W8OUBum
+	 /c1VZyLpFn3N/r/+SawZMoMUxCHg9j676l1xg8sFGJdVOaeQO75PpGtUqFctYRByonw1r
+	 epyxqbTON3hV720qEtVFsxGBV9azQw9zsHGyn2LEMx0nbGEPC/S1iEVlgr1CTH9B9tsjR
+	 bZcnJhtu4ii5mXcAsm2aPVujFPYwY6qDcYCaG5gbqTFkWm8dnONLTQKltA5wW0wIm5ubZ
+	 xI4eCG6yNI6Ga3r3WHGRdR39e7HufiHIhSMDQHxWjM9rSfvnquunIc9r/l2WG3wTJ+A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=xs4all.nl;
-	spf=pass smtp.mailfrom=xs4all.nl;
-	dkim=pass header.d=xs4all.nl header.i=@xs4all.nl header.a=rsa-sha256 header.s=xs4all01 header.b=YfRkTgqQ;
-	arc=none smtp.remote-ip=195.121.94.183
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
+	dmarc=pass header.from=lwn.net;
+	spf=pass smtp.mailfrom=lwn.net;
+	dkim=pass header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=ofZudNUj;
+	arc=none smtp.remote-ip=45.79.88.28
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38F97606A332
-	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 14:43:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 38F97606A332
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3351D606A321;
+	Thu, 12 Nov 2026 14:58:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3351D606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=xs4all.nl header.i=@xs4all.nl header.a=rsa-sha256 header.s=xs4all01 header.b=YfRkTgqQ
-X-KPN-MessageId: 709a0b30-dea7-11f1-b91f-005056992ed3
-Received: from mta.kpnmail.nl (unknown [10.31.161.188])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 709a0b30-dea7-11f1-b91f-005056992ed3;
-	Thu, 12 Nov 2026 15:43:35 +0100 (CET)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id 70af84d2-dea7-11f1-b812-00505699693e;
-	Thu, 12 Nov 2026 15:43:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=od0sDb61Vyxn7jJRWeS+kkhSMP4jrGQol+QTMNRF7m0=;
-	b=YfRkTgqQnxqO/91/hesLveZ2fxSQYJIVkiuLMlFK1lFxqTncAH8zPh0DrbgwooXF7fNBiy7rGuYho
-	 6PITkBDfNSHF4N0a3OkYGKHAC6Q6o5efJ1GtFoEDxennrNFbU3Xc++kI4msAnUrANP9QbE8tF5wg7g
-	 vucwqAsKttr2stkKZdIAY7FfhNVv0gPafvaL06ahN6HIzxZfyFnEM2m/5T+ltrIlPCfZAz1MBdjQwn
-	 MZizqm4RKr5CcZuRUGO8UTFpNo/SSgHR6Kwt9g4XnTQMc4VQgDmYqtCibj6SsfrRz7REssiPwZDkVw
-	 lhH0irhvOC5FPT2IDuqlwsThcbEvO3g==
-X-KPN-MID: 33|Z4TXQhp2FhjmyMaCgy2XBZaHAdldqYiNjPl9y4mPDO44gTKe8JIT2wnKoKoBYPN
- GwIUJyoYWnRjmhD2gg/+EX1KhFsn1F10Qsp5rVZCSvx0=
-X-CMASSUN: 33|TYSEE/PoiuTVLIcD3FbHwsz030mnYA/ltY768Pm9Tl8kBX5hGQ2AKg2dW7NwY36
- impqVpoWNsqdJIrmumzrJhA==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh04 (cpxoxapps-mh04.personalcloud.so.kpn.org [10.128.135.210])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 70a4d10a-dea7-11f1-aa48-005056995d6c;
-	Thu, 12 Nov 2026 15:43:35 +0100 (CET)
-Date: Thu, 12 Nov 2026 15:43:35 +0100 (CET)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Shakeel Butt <shakeel.butt@linux.dev>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Tejun Heo <tj@kernel.org>, Meta kernel team <kernel-team@meta.com>,
-	linux-fsdevel@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Message-ID: <186109292.1132834.1794494615590@kpc.webmail.kpnmail.nl>
-In-Reply-To: <avW_E0stwo6e-y58@linux.dev>
-References: <20261111215058.1837351-1-shakeel.butt@linux.dev>
- <1984940723.1098701.1794483492769@kpc.webmail.kpnmail.nl>
- <avW_E0stwo6e-y58@linux.dev>
-Subject: Re: [PATCH v4] kernfs: allocate inodes and dentry outside
- kernfs_rwsem
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=ofZudNUj
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7A40140E3D
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1794495488; bh=mJiAcVKGt20rwDbtZ267Ib5ukUoWE5uGUXiOfLnifSI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=ofZudNUjfxzIuc9YnHvCSMNP3UdhwIEUjeA4Qksu4oSV+kcM2Zkdw0VZqr+bnMNoQ
+	 8sGZX0i2YEdZVE4tgmRCyk8os5+9sSkmT2qP01AXr9+rDeoaLCypLarG9JLbctGmR4
+	 oSlhUO3rwjREHzNMlo7L/D3l6TTO8Lk0UJqMkYkir5EDJuTvdXUDelPVFZ36TS+piu
+	 to2OPMtqoH34RZiQt531jjc2Glmh2phGWbqzitA55enpGpOmmtGkDdNChOeBpQh+oP
+	 EGLEAolGcdJirv0Onhhoi0aajMz114GBmM1JQQbtGbNOsambcbftbkfVDP9lu6j0xd
+	 yWJ5CH3/s8y7w==
+Received: from localhost (unknown [151.38.237.230])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 7A40140E3D;
+	Thu, 12 Nov 2026 14:58:07 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>, Jaegeuk Kim <jaegeuk@kernel.org>,
+ Chao Yu <chao@kernel.org>, linux-f2fs-devel@lists.sourceforge.net,
+ linux-fsdevel@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH] f2fs: fix various ABI documentation issues
+In-Reply-To: <20261103033713.2709978-1-rdunlap@infradead.org>
+References: <20261103033713.2709978-1-rdunlap@infradead.org>
+Date: Thu, 12 Nov 2026 07:58:04 -0700
+Message-ID: <874idm6qrn.fsf@trenco.lwn.net>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -85,55 +67,34 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
+Content-Type: text/plain
 
+Randy Dunlap <rdunlap@infradead.org> writes:
 
-> Op 12-11-2026 08:29 EST schreef Shakeel Butt <shakeel.butt@linux.dev>:
-> 
->  
-> On Thu, Nov 12, 2026 at 12:38:12PM +0100, Jori Koolstra wrote:
-> > 
-> > > Op 11-11-2026 16:50 EST schreef Shakeel Butt <shakeel.butt@linux.dev>:
-> > > 
-> > >  
-> [...]
-> > > +	new = new_inode(sb);
-> > > +	if (!new)
-> > > +		return -ENOMEM;
-> > >  	down_read(&kf_root->kernfs_rwsem);
-> > > -	inode = kernfs_get_inode(sb, info->root->kn);
-> > > +	inode = kernfs_get_inode_locked(new, info->root->kn);
-> > >  	up_read(&kf_root->kernfs_rwsem);
-> > >  	if (!inode) {
-> > >  		pr_debug("kernfs: could not get root inode\n");
-> > > 
-> > > base-commit: ecdfc51a6a78aaf1c4ac1d8b6ea199cc2ed020ac
-> > > -- 
-> > > 2.53.0-Meta
-> > 
-> > Does this compile? I added a bool parameter to kernfs_get_inode_locked(),
-> > for this patch to be able to do a lookup first, but you haven't added that.
-> > I think you want to set lookup=true everywhere, right?
-> > 
-> 
-> Yes, it builds on vfs-7.5.directory (base-commit ecdfc51a6a78).
-> Christian's fixup there dropped @lookup, so kernfs_get_inode_locked()
-> now takes just (inode, kn).
+> Clean up the f2fs sysfs ABI documentation:
+> - use "number" instead of "#"
+> - use "seconds" instead of "secs"
+> - remove an extraneous period ('.')
+> - add a space for better readability
+> - fix grammar, spelling, & punctuation
+> - break up comma splices
+> - use a list for "gc_urgent"
+> - add a blank line for the list in "extension_list" &
+>   "effective_lookup_mode"
+>
+>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> ---
+> Cc: Jaegeuk Kim <jaegeuk@kernel.org>
+> Cc: Chao Yu <chao@kernel.org>
+> Cc: linux-f2fs-devel@lists.sourceforge.net
+> Cc: linux-fsdevel@vger.kernel.org
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Shuah Khan <skhan@linuxfoundation.org>
+>
+>  Documentation/ABI/testing/sysfs-fs-f2fs |  114 +++++++++++-----------
+>  1 file changed, 61 insertions(+), 53 deletions(-)
 
-Ah, I didn't notice that.
+Applied, thanks.
 
-> 
-> I don't think this patch needs @lookup.  inode_insert5() already
-> returns an inode that is already hashed, so an ilookup() first only
-> changes things for an inactive node.
-
-Fair enough, I was thinking you added it on purpose becasue ilookup() does
-not get the inode_hash_lock lock. But if you see no regression by always
-taking the lock, it's cleaner to get rid of the lookup flag.
-
-At any rate, feel free to add:
-
-Reviewed-by: Jori Koolstra (CIQ) <jkoolstra@xs4all.nl>
+jon
