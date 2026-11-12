@@ -1,109 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794508866;
-	b=qVwEo7tvciiypbUgzklBT2AZt0e94wg6VKPp/cNWz73X0Z+V7pJZkBf5kgkS2dqUIEoh
-	 Bc0f+Ov0rnUNui/68y8aCIEe1PTPglZjUdJmTzZDW2uQvUmIwKXGehZRk1EPQG92mZn2R
-	 mNadKSXU0HErK2pTZfHiRONO1kzb4hdiy8CcPrWumboWOPath6Xdzw8+ahphnJkw/2DWd
-	 PXA9b0VbJXToR2yLeAqWuAtFo5Vr1slmaDkhEXhRTBjodRxkY8f841awEqL6GKEhN8hsb
-	 TrY3kdUMa4GwPrUvxOryDvBONjdbBIv19VRleycZcndnie3OLsJsNC5t2ZAvOhc4d+Q==
+	t=1794508879;
+	b=hi2WAjkwcGdz55huFu5rxR/j8TSvKOstlr7XQ1J5Ea9/iOsLmSV812C0U+znEEPkZyFM
+	 f50yms9NGv0kEBPxIcIiS29M7bE4NKJXib9E8AoeqUswieTj8qZjrW62lxj95ut1PcB3U
+	 5qPTfmLr5ATxa/8MnZvvycUCTHgcrCiRsrAmIk0WM8k8Vl5YlvLrqF++zDdSWjq9jgJbr
+	 c84A7TvuMTUxGtFnlJgxlZJiUiTEsmgSRIsLoc0Ddtp+ZY+rL4y47i1P8WWCvb/tJj4BO
+	 6t+0QUdv9o7/BghqmlIIrF9kw78vqw3H7G8rMdlBflcZ6SVmVOcNqh4f+a73spVu1Sg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794508866;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:
-	 X-Spam-Flag:X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
-	bh=znMZ7NR6/YszQuPkJzBKuINXsXo8b7XNMf7NgTqswQM=;
-	b=jsVJWVOFPNT+xfCXWOcxfUmCbQ6RRHp3zl2vdIXLjZbWu+vZN4CvJCJCI+czSqG3w976
-	 BXK3tLw85Wfgo4rSGdEh4CsvINRei/Zq1CqlYEAo0p+NiWxP+eONmyNjnwcVkU4tOPhHm
-	 tbA9qDmr22VQbYXW2UyKRKqY5GH6h9Z+etfIDYe6RhU+LKS3qSXHYXZGe2qyCkDuPUFu1
-	 LGcZWLTZJpMQwzVX8PAyTcAcSCfdkSMRlXb3kzUp/xi1swOChOIhfb5/EJdfXy1SvfvZu
-	 XVd8XIAobVC8KhUpCgwo6Vv9WV7i+3XogSQcuC56PH6txPY/OVbhJAosH/6Co3I9hzQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794508879;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
+	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer;
+	bh=UiA1ssc1fM8eBuo2DnRY95RNeWhnyd0r69dfKPpEwvw=;
+	b=BUKfDBxSsKRTqY07+9kYCCp9QX9mXPBgILbSZpbYrP6k0FEMJM4y1bRyw8bQ+wmDaAyc
+	 ezoT+2D5z8QjB71vPdcgX63h3F2u6uGCqaiczdZlAJ8lVkNsCyDvjgpfprypgATpFq65N
+	 ++laPaJ3mNneYJAyNKpONv3Kz2hXj+mvoSdls0GNhuuoMoWNVvjLgfgwRw9vnoz94fZnN
+	 Kp2C6w4KpAQzychAFu7b/62jCtD59kb6QUxNWF21sc2IKwLuI7j9h8qkrfr0NTaS75kr/
+	 eJE/P9QGbU5ebe4giQQnXeLrWmC6OVjQpISYcMxrhDvF3aXS8AP0/5MVgCN7i5iGdcg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=Xer+SKnf;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="ABAXOl/I";
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=n2Uq6tBL;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="/IYPJ4AW";
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=none header.from=gourry.net;
+	spf=pass smtp.mailfrom=gourry.net;
+	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=kWdD8O8D;
+	arc=none smtp.remote-ip=209.85.222.172
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D807606A31C;
-	Thu, 12 Nov 2026 18:41:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2D807606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E8A3606A32E
+	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 18:41:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5E8A3606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=Xer+SKnf;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ABAXOl/I;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=n2Uq6tBL;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=/IYPJ4AW
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 16EE321F6F;
-	Thu, 12 Nov 2026 18:41:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794508864; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=znMZ7NR6/YszQuPkJzBKuINXsXo8b7XNMf7NgTqswQM=;
-	b=Xer+SKnfXtKA0r2HBJMEwYrkKmiTMQlvHLYwnj7DWg7E639+BPuNRUj6xja+KuuiDKEtiQ
-	iRVToRsEy0XZ1+nbrIGT/DkfxtRvAZXEGferZBlSCjI/kAtbHwYICgjvD6d8+NrHogs8T7
-	6To5ZO3HSUP7ONT/pGVd0g5Sm02LDQE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794508864;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=znMZ7NR6/YszQuPkJzBKuINXsXo8b7XNMf7NgTqswQM=;
-	b=ABAXOl/IBFMv8A6QcWIqId6viw0hK4qpYIOTYUS8OFeUKJw694QzNLqBGaoYfv1zHWK2Zh
-	hFYccdVV/wxWFGDg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=n2Uq6tBL;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="/IYPJ4AW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794508862; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=znMZ7NR6/YszQuPkJzBKuINXsXo8b7XNMf7NgTqswQM=;
-	b=n2Uq6tBLVztNF4B/wsNj0QDn8VmW/gpUgKe56S+ix8oOenI3lvIfQtsgN7pALFLOUOGfUY
-	DXFG+rvwCr/1DbtiLNl/USvtb/oIfi/M+5pCZNRa+QLiWGs3hk509kr6dYTzW6RvG7S4Ml
-	L0bW0y6ViRwxSQtJbHYZaGZcnKoFahw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794508862;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=znMZ7NR6/YszQuPkJzBKuINXsXo8b7XNMf7NgTqswQM=;
-	b=/IYPJ4AWbcndQSjG1CUMvpOXlmc0P4EgiEOWcieSTerKH3MlaTda6rEmL9pQk3RDY/Pmyv
-	Zhq4z3ZWPft5GWAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CD25413432;
-	Thu, 12 Nov 2026 18:41:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 7Ub7KT0I9mrURwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 12 Nov 2026 18:41:01 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id 3ABCE22B88; Thu, 12 Nov 2026 19:40:53 +0100 (CET)
-Date: Thu, 12 Nov 2026 19:40:53 +0100
-From: Jan Kara <jack@suse.cz>
-To: mohamedalibouhaouala@gmail.com
-Cc: willy@infradead.org, jack@suse.cz, corbet@lwn.net, 
-	skhan@linuxfoundation.org, rdunlap@infradead.org, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] docs: filesystems: update VFS locking documentation
-Message-ID: <3aaboixwh6lpo4s67dv7lssqj2vwlp4qp5cq2ysimqi36r3bm2@fb5lmoo33ktf>
-References: <20261111160516.30458-1-mohamedalibouhaouala@gmail.com>
- <20261112162129.77610-1-mohamedalibouhaouala@gmail.com>
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=kWdD8O8D
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-93cc1ab5f6cso7536485a.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 10:41:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1794508878; x=1795113678; darn=vger.kernel.org;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=UiA1ssc1fM8eBuo2DnRY95RNeWhnyd0r69dfKPpEwvw=;
+        b=kWdD8O8Dg9JjRQF49RLM+2ucMyabFJdaYcTF6OjPoyCSEQ2RDViJMttopDyTewO1RJ
+         Ytd0HE/vu/f8ayqUFYOKPyPHfWzXjy/qGNztZmNLXo78HZUbd3KMih/KClPN8/BDCWl2
+         nvak9hgggY7vBZ/rbu3AuQo05ZZ1yxrfOA3IhpLavJy8vl8/lX+IKcmz/sGjlvoqajvH
+         tO7IVVnJxCwFmin96jhUpcmSMBUdww4tcAFRgdc7LbGXxgk9OIHzFMdtugcvx9d/3fsD
+         N6SACfLuC9Xdsxs8jieSzt4qfCZUo10AebNgTsiw6i1dPJe0W7YIufXdVnNLkqVaN5sv
+         PQMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794508878; x=1795113678;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=UiA1ssc1fM8eBuo2DnRY95RNeWhnyd0r69dfKPpEwvw=;
+        b=MxPRwWPeeXW9JigyW1VJUl7jxSR143ZVKJjodqPyG16YSaMM1ZRQ/6o+jxJ1/a0nQ3
+         swjRevzMYny9KG3+8RWhQ/b+ZpjQc3IRPQeYyZDd2ASJgOOMsNWD4ao5yb9WWGl2gsL1
+         QUk0YDtldqna+PQbtXp6GwR1Cx5NkrmYfXF0rVpRvGwyK53G3wBIQmFtxS81zp/O6bgu
+         U1bqqbSb9GQzlTGyUkeixNw2Z7Uneg1t2shCSoJeNe1Wqt8m0148ARXgIW8xGjmq39JN
+         NML8bH/ICLI0OxrU1LhQY2Y+uMOQxkjDNnSP/6G50SCJZbM+WWL7zoyJ8M9UNcSPnG2c
+         Ab7w==
+X-Forwarded-Encrypted: i=1; AL+hErHg7XrxMH++Ljr3NvlSwriv1yWIXdaRFRBN6hTmhQAV8L+pNnAudLxZGJNvHx0fo27cVP0tDr59OzqzTRB5@vger.kernel.org
+X-Gm-Message-State: APuU4Z9fPuAUB4FvFn4E6/q9Zu5z4wi0xKNZ22EeNVTRYvOSLgvBCkSI
+	n9qNsYa1VngMLhDmQdpcCUFWsi4neBImaPcm5AIpFqYANh9hJ9dOJYvA6Nd3CZ2Y/Pk=
+X-Gm-Gg: AYBFou1PWrUeNugT8sD0PUi/CT/Ll6EmLdSaWoWxLuEZK8jPzSdB9P5dmK9wREneUA1
+	bXKrp7r3CXn29sTsGiAY1SQGBfvQ4hLatfNVFuxQBAYVawqIJp1z0YBQsdz60bIRdkJ3hFTGjA/
+	tUa+Z/cs6K++vXHRAbLDCiTI+R6t4KHEtTjIt3Sgo4TxkXRR0WyICseQd/+sAxyBhoV+NtHgQiS
+	6pyuKkp+ZxTfJGQt5A7NUQme6MgNDECCriUxVli6lTFdHm3KQEUg7/lmENjztbJl0q4VwdtCvWO
+	GNTSt73lELRpbcvSDBvvMY02RlNh864JcmNZAXLammTRkpTkgHR7/D7ciBdrNvfzwHDZOls2vZB
+	G0QItN+GyqmLxzQC7kpXeZtVdEgmUZnc6SDQnhgXUr66YEsqxnp2WTSCLc0b1I5NJrIZ+L0MAUQ
+	JbDOjFapIY27leNVH748DkzN5x2ryqL+FbfvKaPcLRmCgphXuvUYFh1oCdzmWwRQzPa1AEmOgeV
+	OJKM4wWE2Jby5rjpmTyrcnS+d3k5h9Y+VgsCctjcDcfMpwD30U9vkMYAhdILt69e/SBaYwJId2I
+	ov1UlOAZx4vcgW91yS9iIKv1bU048nG0yfzdzi/NuwNdmnz/41zp0GL7oh1NOElKC6/UXdJ2Xxg
+	TGIu4oLs=
+X-Received: by 2002:a05:620a:472b:b0:93e:f9ba:690f with SMTP id af79cd13be357-9494bc84c75mr45006885a.73.1794508878117;
+        Thu, 12 Nov 2026 10:41:18 -0800 (PST)
+Received: from [192.168.50.231] (pool-71-191-145-202.washdc.fios.verizon.net. [71.191.145.202])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9494c3600adsm4935085a.42.2026.11.12.10.41.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Nov 2026 10:41:17 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -113,156 +89,99 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261112162129.77610-1-mohamedalibouhaouala@gmail.com>
-X-Spamd-Result: default: False [-13.01 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.cz:email,suse.cz:dkim];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_NONE(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:email,suse.cz:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -13.01
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 16EE321F6F
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 13/13] percpu: queue the balance work on an unbound
+ workqueue
+From: "Gregory Price (Meta)" <gourry@gourry.net>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: David Hildenbrand <david@kernel.org>, 
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+ Michal Hocko <mhocko@suse.com>, David Rientjes <rientjes@google.com>, 
+ Shakeel Butt <shakeel.butt@linux.dev>, 
+ Andrew Morton <akpm@linux-foundation.org>, Jann Horn <jannh@google.com>, 
+ Pedro Falcato <pfalcato@suse.de>, 
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+ Nhat Pham <nphamcs@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+ Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>, 
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>, 
+ Gregory Price <gourry@gourry.net>, 
+ Ying Huang <ying.huang@linux.alibaba.com>, 
+ Alistair Popple <apopple@nvidia.com>, Usama Arif <usama.arif@linux.dev>, 
+ Kairui Song <kasong@tencent.com>, Balbir Singh <balbirs@nvidia.com>, 
+ =?utf-8?q?J=C3=A9r=C3=B4me_Glisse?= <jglisse@redhat.com>, 
+ Kiryl Shutsemau <kas@kernel.org>, Yu-cheng Yu <yu-cheng.yu@intel.com>, 
+ Dave Hansen <dave.hansen@linux.intel.com>, Dennis Zhou <dennis@kernel.org>, 
+ Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>, 
+ Peng Fan <peng.fan@nxp.com>, Josef Bacik <jbacik@fb.com>, 
+ Chris Mason <mason@kernel.org>, linux-mm@kvack.org, 
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ "Borislav Petkov (AMD)" <bp@alien8.de>, Mark Brown <broonie@kernel.org>, 
+ "Dennis Zhou (Facebook)" <dennisszhou@gmail.com>, 
+ Rick Edgecombe <rick.p.edgecombe@intel.com>
+In-Reply-To: <20261111-mason-migrate-et-al-fixes-v1-13-3d2454362e8d@kernel.org>
+References: <20261111-mason-migrate-et-al-fixes-v1-0-3d2454362e8d@kernel.org>
+ <20261111-mason-migrate-et-al-fixes-v1-13-3d2454362e8d@kernel.org>
+Date: Thu, 12 Nov 2026 13:41:15 -0500
+Message-Id: <179450887590.482102.12180028123925629664.b4-reply@b4>
+X-Mailer: b4 0.17-dev
 
-On Thu 12-11-26 17:21:29, mohamedalibouhaouala@gmail.com wrote:
-> From: Mohamed Ali Bouhaouala <mohamedalibouhaouala@gmail.com>
+On 2026-11-11 18:13 +0000, Lorenzo Stoakes (ARM) wrote:
+> From: Chris Mason <mason@kernel.org>
 > 
-> Update outdated VFS operation prototypes in locking.rst to
-> match their current definitions.
+> A burst of small atomic per-CPU allocations can fail with -ENOMEM while the
+> machine has free memory and idle CPUs, as atomic per-CPU allocations are
+> only served from pages that are already populated, and those can be used up
+> before a worker gets to populate more.
 > 
-> Add the missing d_prune and sync_inode_metadata callbacks,
-> and correct the signatures of existing operations.
+> Consider:
 > 
-> Update the locking table to include sync_inode_metadata.
+>     caller on CPU 1                     kworker bound to CPU 1
+>     ===============                     ======================
+>     allocates 8 bytes, which leaves
+>     one empty page and 4088 bytes
+>       schedule_work()                   woken, waits for CPU 1
+>     allocates 8 bytes, 1023 times
+>     next allocation: "no space left"
+>     gives up CPU 1                      populates pages
 > 
-> Signed-off-by: Mohamed Ali Bouhaouala <mohamedalibouhaouala@gmail.com>
+> The allocator keeps a few empty populated pages in reserve, and the work
+> item pcpu_balance_work refills them.
+> 
+> pcpu_alloc_noprof() queues the work item using schedule_work(), so only a
+> worker bound to the CPU of the caller can run the work item.
+> 
+> The issue is that the caller keeps that CPU - a task keeps it for the rest
+> of its time slice, and a softirq keeps it until the softirq ends.
+> 
+> In that time the caller can use up the reserve, resulting in an atomic
+> per-CPU allocation failing.
+> 
+> Fix the issue by queueing the work item on an unbound workqueue so that
+> another CPU can populate pages while the caller keeps allocating.
+> 
+> Fixes: 1a4d76076cda ("percpu: implement asynchronous chunk population")
+> Signed-off-by: Chris Mason <mason@kernel.org>
+> [ ljs: tweaked commit message, comment ]
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 
-Looks good. Feel free to add:
+Reproduced with a cpu hammering atomic percpu allocations with preempt
+disabled. Results are pretty cool.
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+In about 1 second of hammering allocations with the full 13 patch series:
 
-								Honza
+                        Base       Patch
+Successful Allocs      1,188      131,072 
+Failed allocs          4,097         0
+balance worker runs      0          169     
+successful retries       0         4,096
 
-> ---
-> v2:
-> - Use the contributor's full name in the author and sign-off fields.
->  Documentation/filesystems/locking.rst | 18 +++++++++++-------
->  1 file changed, 11 insertions(+), 7 deletions(-)
-> 
-> diff --git a/Documentation/filesystems/locking.rst b/Documentation/filesystems/locking.rst
-> index f7363ad770c7..a6a011858ada 100644
-> --- a/Documentation/filesystems/locking.rst
-> +++ b/Documentation/filesystems/locking.rst
-> @@ -26,6 +26,7 @@ prototypes::
->  	int (*d_delete)(struct dentry *);
->  	int (*d_init)(struct dentry *);
->  	void (*d_release)(struct dentry *);
-> +	void (*d_prune)(struct dentry *);
->  	void (*d_iput)(struct dentry *, struct inode *);
->  	char *(*d_dname)(struct dentry *dentry, char *buffer, int buflen);
->  	struct vfsmount *(*d_automount)(struct path *path);
-> @@ -80,8 +81,8 @@ prototypes::
->  	int (*getattr) (const struct mnt_idmap *, const struct path *, struct kstat *, u32, unsigned int);
->  	ssize_t (*listxattr) (struct dentry *, char *, size_t);
->  	int (*fiemap)(struct inode *, struct fiemap_extent_info *, u64 start, u64 len);
-> -	void (*update_time)(struct inode *inode, enum fs_update_time type,
-> -			    int flags);
-> +	int (*update_time)(struct inode *inode, enum fs_update_time type,
-> +			    unsigned int flags);
->  	void (*sync_lazytime)(struct inode *inode);
->  	int (*atomic_open)(struct inode *, struct dentry *,
->  				struct file *, unsigned open_flag,
-> @@ -173,6 +174,7 @@ prototypes::
->  	void (*destroy_inode)(struct inode *);
->  	void (*dirty_inode) (struct inode *, int flags);
->  	int (*write_inode) (struct inode *, struct writeback_control *wbc);
-> +	int (*sync_inode_metadata)(struct inode *inode, struct writeback_control *wbc);
->  	int (*drop_inode) (struct inode *);
->  	void (*evict_inode) (struct inode *);
->  	void (*put_super) (struct super_block *);
-> @@ -196,6 +198,7 @@ free_inode:				called from RCU callback
->  destroy_inode:
->  dirty_inode:
->  write_inode:
-> +sync_inode_metadata:
->  drop_inode:				!!!inode->i_lock!!!
->  evict_inode:
->  put_super:		write
-> @@ -255,7 +258,7 @@ prototypes::
->  				loff_t pos, unsigned len, unsigned copied,
->  				struct folio *folio, void *fsdata);
->  	sector_t (*bmap)(struct address_space *, sector_t);
-> -	void (*invalidate_folio) (struct folio *, size_t start, size_t len);
-> +	void (*invalidate_folio) (struct folio *, size_t offset, size_t len);
->  	bool (*release_folio)(struct folio *, gfp_t);
->  	void (*free_folio)(struct folio *);
->  	int (*direct_IO)(struct kiocb *, struct iov_iter *iter);
-> @@ -265,7 +268,7 @@ prototypes::
->  	bool (*is_partially_uptodate)(struct folio *, size_t from, size_t count);
->  	int (*error_remove_folio)(struct address_space *, struct folio *);
->  	int (*swap_activate)(struct swap_info_struct *sis, struct file *f, sector_t *span)
-> -	int (*swap_deactivate)(struct file *);
-> +	void (*swap_deactivate)(struct file *);
->  
->  locking rules:
->  	All except dirty_folio and free_folio may block
-> @@ -455,14 +458,15 @@ prototypes::
->  	ssize_t (*write) (struct file *, const char __user *, size_t, loff_t *);
->  	ssize_t (*read_iter) (struct kiocb *, struct iov_iter *);
->  	ssize_t (*write_iter) (struct kiocb *, struct iov_iter *);
-> -	int (*iopoll) (struct kiocb *kiocb, bool spin);
-> +	int (*iopoll)(struct kiocb *kiocb, struct io_comp_batch *,
-> +			unsigned int flags);
->  	int (*iterate_shared) (struct file *, struct dir_context *);
->  	__poll_t (*poll) (struct file *, struct poll_table_struct *);
->  	long (*unlocked_ioctl) (struct file *, unsigned int, unsigned long);
->  	long (*compat_ioctl) (struct file *, unsigned int, unsigned long);
->  	int (*mmap) (struct file *, struct vm_area_struct *);
->  	int (*open) (struct inode *, struct file *);
-> -	int (*flush) (struct file *);
-> +	int (*flush) (struct file *, fl_owner_t id);
->  	int (*release) (struct inode *, struct file *);
->  	int (*fsync) (struct file *, loff_t start, loff_t end, int datasync);
->  	int (*fasync) (int, struct file *, int);
-> @@ -475,7 +479,7 @@ prototypes::
->  			size_t, unsigned int);
->  	ssize_t (*splice_read)(struct file *, loff_t *, struct pipe_inode_info *,
->  			size_t, unsigned int);
-> -	int (*setlease)(struct file *, long, struct file_lock **, void **);
-> +	int (*setlease)(struct file *, int, struct file_lease **, void **);
->  	long (*fallocate)(struct file *, int, loff_t, loff_t);
->  	void (*show_fdinfo)(struct seq_file *m, struct file *f);
->  	unsigned (*mmap_capabilities)(struct file *);
-> -- 
-> 2.43.0
-> 
+Micro-bench obviously, but pretty stark difference.
+
+Tested-by: Gregory Price (Meta) <gourry@gourry.net>
+Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
+
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+~Gregory
+
