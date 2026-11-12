@@ -1,72 +1,74 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794509135;
-	b=xWZR41ewLilerXJFTuHPlcBjKh2P7KOuwFIfawKCqTndBAYcRF+/tmQ2yhaUCYqJ+1c2
-	 6WV15+VYroVWMAhmb4IOLhudW8XrUW1oAi8M9j5R/T1uZyKoF+9IdvaYHrQspBfTNP11r
-	 4zeFn4SC8xuvjPlGe19ONPN4DPVyu8dv2y6dAre1eykwl8n4mcwoKBBiLeZHR+p/hTaaE
-	 dXPxpzRRKV0d0tzllAhqqS4sBbmthcqq4YRV8TJjoAEUAuAWV2o4t0r9sWogBhcAb9bLF
-	 JuwSjXU+bC6zLU6EX2crak9ua4BoaahLQav220CrthkieHAEo5zVUUNDnhStV6TupOg==
+	t=1794509895;
+	b=KyWaMHzUvtkyVpRv/NN/OgPUIjglqzviAH9MvDo116Efw71EcbEP+sU8GjjdCJwt0VyO
+	 OEQ99XLzMTJeFl6G0M9oSSvaAAarRJ2+vihsrC3EyFec2rwxEqBWiPhOEgbsvivaZIWAN
+	 +CUz+6Ak93REbiDRwbqh8hXBK8ypfwaAtXWyxLmRfTzCX3KgHA7QBlhCZuvO92xFzExS2
+	 MkXIhMzRfuM3j2Ic7WtnLl7pZjw0zAYDAWyto212Hd433NLr97wUa1x64f7loEW3ODiCu
+	 mKq1OF5ydGEJ57petbLUMB0+3dHF6MH9Z0wkOdVO4B/1WDaPsy6fJL9r/J5oS742UzQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794509135;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=1QMrnQVo4O5SnIGabJN3wrTnW6MusZ0h5giYV4GIf1o=;
-	b=n2RrhcIM1b+bN/r7scmG1JXgz0qe0bB08JeYCsIP/hhYngMY5eyg5+Tyx3Nr8VvKXi/J
-	 0gn17o6kOMEhq3zyTsVH2QbK9co1MsDv5xEMvF5XvKp2I8X7jzcOsTmIe9ajmsvRXYEBZ
-	 6YnyJS5Ard1Z+NnSCxxBPgpLAfF3La7hlqM7IqsiAukKArnVnC1A75P2DbSCJ8YEAiiOG
-	 X3ZluiXVIY7HqXIvLFfi5+qw8MpUpN30vPCT51yAS8Ku+Yy0OMzTabY9HR8rsctDDUelK
-	 QLf3b1W7eTbS7Fv1HPxTbZn+7jh9BoN5LQo4zFuUvz2SW/WBQDkzleUcPWKBvF0ShOA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794509895;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=elwXiRCfgreMBRymobwx3IbDMUTz5KC/o5TzRKRmPAk=;
+	b=0vXwOGuo+kTO6+ULT5wxFHRZfEeH4awjOgAhIK4zApa1z7VebvUqOt4P9z+ooa/MilrW
+	 mYh5D5RRwR6wIqLCPxBUpMhNJ20uUl65lgBMcx7T8mUPwo+oRBceuRPow9QC60bqs6Uok
+	 XK2Kj2GxM14oQBTI08chrCm2nBB6eYliQir4JfF2l1z4vfBh1O0xN/XdZUdWB5+YU388C
+	 vhko0xPplzAJcwuSXdzb+2vTkBOhYWILgmMH0lI6Fv+qz8PlkNaLg96lJNi+P53pEVjZ7
+	 7dUf1iZPjM8rkBT0tqqOX05+yZBCbz3BEH4MElJvVc6neG54sqYSYB6g4C3+6LD63VA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IHTOA7me;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KC+yUsDl;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72629606A327;
-	Thu, 12 Nov 2026 18:45:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73102606A31C;
+	Thu, 12 Nov 2026 18:58:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IHTOA7me
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1E451F000C4;
-	Thu, 12 Nov 2026 18:45:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KC+yUsDl
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CEB41F000C4;
+	Thu, 12 Nov 2026 18:58:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794509135;
-	bh=1QMrnQVo4O5SnIGabJN3wrTnW6MusZ0h5giYV4GIf1o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=IHTOA7mej2k1aqlGQe0o2vMpa5Gw7UtlZwRhFQLZhUTCPvjZO46VWVXtxm6J6aWPb
-	 3DA2ss0NGpmaXuWwx3qDKIjM/7mIIpHQUFiHQ7rul2sbAYCgDUI/bRmUDwuzf6EvuP
-	 9APyFHKZhwk3J4J7QsFpl5djiJQLpgor+vvJZ35Xmo8RtVotrYFuFGP8WmlO7kgFsU
-	 8X4wJpKybcr5WqKLmdjUpPSVvmZv4My+ZLM1BpHQEc0/E/ehaBGmkKGVt/Vt1V711D
-	 /4XVd6l+Os/5iSG4YtWxiiYY5FJ7ra3yGPlaTOAxvcFVzd0T1aJKMtBVEoGPFQqmlU
-	 d2sk8BPTykwBQ==
-Date: Thu, 12 Nov 2026 18:45:23 +0000
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: "Gregory Price (Meta)" <gourry@gourry.net>
-Cc: David Hildenbrand <david@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, David Rientjes <rientjes@google.com>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Nhat Pham <nphamcs@gmail.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>, 
-	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
-	Usama Arif <usama.arif@linux.dev>, Kairui Song <kasong@tencent.com>, 
-	Balbir Singh <balbirs@nvidia.com>, =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>, 
-	Kiryl Shutsemau <kas@kernel.org>, Yu-cheng Yu <yu-cheng.yu@intel.com>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, 
-	Christoph Lameter <cl@gentwo.org>, Peng Fan <peng.fan@nxp.com>, Josef Bacik <jbacik@fb.com>, 
-	Chris Mason <mason@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, "Borislav Petkov (AMD)" <bp@alien8.de>, 
-	Mark Brown <broonie@kernel.org>, "Dennis Zhou (Facebook)" <dennisszhou@gmail.com>, 
-	Rick Edgecombe <rick.p.edgecombe@intel.com>
-Subject: Re: [PATCH 13/13] percpu: queue the balance work on an unbound
- workqueue
-Message-ID: <avYJKR8fiETjd9sy@gremlin>
-References: <20261111-mason-migrate-et-al-fixes-v1-0-3d2454362e8d@kernel.org>
- <20261111-mason-migrate-et-al-fixes-v1-13-3d2454362e8d@kernel.org>
- <179450887590.482102.12180028123925629664.b4-reply@b4>
+	s=k20260515; t=1794509895;
+	bh=elwXiRCfgreMBRymobwx3IbDMUTz5KC/o5TzRKRmPAk=;
+	h=From:To:Cc:Subject:Date;
+	b=KC+yUsDlDrOUZnIP1c9RvMynURJqoWO6B6KAUPOiDK5SQnFLN9x2aiGnfR68DTvYH
+	 F89dXdqnJyLAPkOBRAlhhQfE3om4e5dFexkJ4zLBfAphUW3lkLAVkDpkKe473wYZyg
+	 VFHHum6zxzRbdyZNgRNqq8KsOkEU+A3XQ+BL6v4pVv5eFaJhC7H0ebExtWrf3bSuAy
+	 wCpPqcjsJjU9/nh4YTLsIH6LMm9OOmbw/7NkGPdKK9lqD0KoJ9NxP2m7hr8upDhaTS
+	 36KNyQpre3MPyxT9eRAAt8d9UrY1MRwxGfqVoKypQKi+UQlR5hggg9McMpUIo16E/I
+	 cGXJbKCzDTmmQ==
+From: Daniel Gomez <da.gomez@kernel.org>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: Daniel Gomez <da.gomez@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Julia Lawall <Julia.Lawall@inria.fr>,
+	Corinn Tiffany <corinn.tiffany@inria.fr>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Philipp Stanner <pstanner@redhat.com>,
+	linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Samsung GOST <gost.dev@samsung.com>
+Subject: [GIT PULL] Rust XArray for v7.5
+Date: Thu, 12 Nov 2026 19:57:45 +0100
+Message-ID: <20261112185748.8877-1-da.gomez@kernel.org>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -76,74 +78,72 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <179450887590.482102.12180028123925629664.b4-reply@b4>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Nov 12, 2026 at 01:41:15PM -0500, Gregory Price (Meta) wrote:
-> On 2026-11-11 18:13 +0000, Lorenzo Stoakes (ARM) wrote:
-> > From: Chris Mason <mason@kernel.org>
-> >
-> > A burst of small atomic per-CPU allocations can fail with -ENOMEM while the
-> > machine has free memory and idle CPUs, as atomic per-CPU allocations are
-> > only served from pages that are already populated, and those can be used up
-> > before a worker gets to populate more.
-> >
-> > Consider:
-> >
-> >     caller on CPU 1                     kworker bound to CPU 1
-> >     ===============                     ======================
-> >     allocates 8 bytes, which leaves
-> >     one empty page and 4088 bytes
-> >       schedule_work()                   woken, waits for CPU 1
-> >     allocates 8 bytes, 1023 times
-> >     next allocation: "no space left"
-> >     gives up CPU 1                      populates pages
-> >
-> > The allocator keeps a few empty populated pages in reserve, and the work
-> > item pcpu_balance_work refills them.
-> >
-> > pcpu_alloc_noprof() queues the work item using schedule_work(), so only a
-> > worker bound to the CPU of the caller can run the work item.
-> >
-> > The issue is that the caller keeps that CPU - a task keeps it for the rest
-> > of its time slice, and a softirq keeps it until the softirq ends.
-> >
-> > In that time the caller can use up the reserve, resulting in an atomic
-> > per-CPU allocation failing.
-> >
-> > Fix the issue by queueing the work item on an unbound workqueue so that
-> > another CPU can populate pages while the caller keeps allocating.
-> >
-> > Fixes: 1a4d76076cda ("percpu: implement asynchronous chunk population")
-> > Signed-off-by: Chris Mason <mason@kernel.org>
-> > [ ljs: tweaked commit message, comment ]
-> > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
->
-> Reproduced with a cpu hammering atomic percpu allocations with preempt
-> disabled. Results are pretty cool.
->
-> In about 1 second of hammering allocations with the full 13 patch series:
->
->                         Base       Patch
-> Successful Allocs      1,188      131,072
-> Failed allocs          4,097         0
-> balance worker runs      0          169
-> successful retries       0         4,096
->
-> Micro-bench obviously, but pretty stark difference.
->
-> Tested-by: Gregory Price (Meta) <gourry@gourry.net>
-> Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
+Hi Matthew,
 
-Thanks, that's great!
+As mentioned in [1], this replaces the earlier v7.4 PULL, which missed
+the merge window. This PR is rebased onto v7.4-rc2 (no changes), for the
+next merge window (v7.5). It has been in linux-next since next-20261102.
 
-I will include that in commit msg on respin.
+Could you let me know by v7.4-rc5 whether you can pick it up?
 
->
-> --
-> ~Gregory
->
+[1] https://lore.kernel.org/all/20261030101626.0-da.gomez@kernel.org/
 
---
-Cheers, Lorenzo
+Thanks
+
+The following changes since commit 7475ea8b58616b33c04afb976cf0fbaad9dd63fb:
+
+  Linux 7.4-rc2 (2026-11-08 16:22:20 -0800)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/da.gomez/linux.git tags/rxarray-v7.5
+
+for you to fetch changes up to 29f1617aa1dbd0803736403cd63c4965873fa621:
+
+  rust: rxarray: add rust xarray support (2026-11-12 10:14:36 +0100)
+
+----------------------------------------------------------------
+Rust XArray for v7.5
+
+Add a Rust implementation of the XArray (rust/kernel/rxarray.rs),
+introduced as an experimental Rust reference implementation [1] of
+lib/xarray.c, as discussed at LPC26 [2]. This lets Rust users, such as
+the null block driver and possibly Tyr (under evaluation), experiment
+with and evaluate both implementations.
+
+The goal is to evaluate whether Rust helps with the most common class of
+XArray bugs, misuse of the API by its callers, such as the long-dormant
+page cache corruption that almost blocked the LBS work [3]. The RFC v1
+cover letter has the full motivation, benchmark baseline and
+roadmap [4].
+
+This initial version supports store, load, load_mut and erase. It has
+been tested with the included KUnit tests and doctests on v7.4-rc2, and
+has been in linux-next since next-20261102.
+
+Outside of rust/kernel/rxarray.rs, this touches:
+ - MAINTAINERS: new XARRAY [RUST] entry, maintained by Daniel Gomez and
+   Matthew Wilcox, with Andreas Hindborg as reviewer.
+ - lib/Kconfig: new XARRAY_RUST option.
+ - rust/kernel/lib.rs: register the rxarray module.
+The C XArray implementation is unchanged.
+
+Link: https://rust-for-linux.com/rust-reference-drivers/ [1]
+Link: https://lore.kernel.org/all/20261009212431.0-da.gomez@kernel.org/ [2]
+Link: https://lore.kernel.org/all/A5A976CB-DB57-4513-A700-656580488AB6@flyingcircus.io/ [3]
+Link: https://lore.kernel.org/all/20260923-rxarray-next-v1-0-92eedf185649@samsung.com/ [4]
+
+Signed-off-by: Daniel Gomez <da.gomez@samsung.com>
+
+----------------------------------------------------------------
+Daniel Gomez (1):
+      rust: rxarray: add rust xarray support
+
+ MAINTAINERS            |   12 +
+ lib/Kconfig            |   11 +
+ rust/kernel/lib.rs     |    2 +
+ rust/kernel/rxarray.rs | 1407 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 1432 insertions(+)
+ create mode 100644 rust/kernel/rxarray.rs
