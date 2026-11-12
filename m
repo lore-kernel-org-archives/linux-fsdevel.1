@@ -1,133 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794492068;
-	b=3v5QZ3cKZlAbjQ2sF+pNBrNp0iQqa+E9Qe+7s0lia6IfYmHEh1NAHUKPW5NvanpHGnjr
-	 NSc/MaBb3fNs+7j9pfgDc32/D2DWOVxgu6VGcVl1a/QXbZtQqscC56obN32avhh8GQxv7
-	 r5infZ9oTbwg7XfXfXfATVMTdIXXpXmVHRyrLCArC1z0PICOTpvzLKN0pMxbflEohaO8C
-	 6pYHZAqg0StQp2AMB49UjrI7Znu80b6OrmpLy0lkC3K7dhNMk4P0NXPCjSiFrtzE9bxFs
-	 YqwYXJgkD/93BPoErwk47qV8g8GxThiiwGwfL5HFhMWjbLbLfT51kRMyQIXtlLAC7gA==
+	t=1794492094;
+	b=KGi/f4fLaou6kXrBkedHsXUvD4ZZ/jqjGj9bXcvYrLasbwy3ZOtcV127y9EqzGFfL1Y5
+	 3ikmc7PqjEIyb6d2XFBKLjZAO4VWaE6XU1g/eFPg2AWQG++C9x8P2PKwLPV8iRiCzNp5g
+	 Wg6RUWzknTVAvlGyoijD2mMAj7nEEG2pEZHFZRKVBurXOSGT1SD+tfvjxJWmDG5d63Fuj
+	 vrRyTksyJxQO2ynu8oB7/6vVq3xT+xml0KI0HcZjF+HDGOXQ0qkS5B0jLq97huaCOkksX
+	 OHWF3OylJqFd50z4COXaw1w2mRI3X3cUOBHJX72BhRu29S/6gdXQoVLAsHEjVsgPQVw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794492068;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
-	bh=WTNMIFQg7vEsr/bVsx6max9Hp2mlrFDIwp0Z0arBhBY=;
-	b=yWMWibeJlnSaQE2XRNJxPo6/VNBPzKArSOEuqpACewRmP0lb8I8QKd4g5cpve1EiGO/p
-	 awJoX/2HzitPhpeuLDUTwCRxpejVXWfXMvqVyeFgh/eJqwrLvxOY3Mp4hPhVszZBkP6lD
-	 ZBF0vKIaoZt4bfqjatH7tfXK/KqbXF80x84feJtyuHagIZCLXsUQurbtBKSfx8yXyxDFR
-	 SyrJynZ16gjABqu+Bacbkik7od61SLNplePF8Xn8P5mlu8HTXBbTlO80jNVdblIQ1iTL7
-	 J4IWoP1Fv+7xjniVXbY7nNYjKGcmiM59JSmvGzwXH+oGpCM0qOj7mwWi9V4jKmCYVlA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794492094;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-Id:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=+d+2w/kP1HSpx1Wuo82bePoixwqF95UhUQrN/Uv14yk=;
+	b=LYNDOmKQ/ieb8EkOsOAsqOrpuTCl4owcGrUdrrP1Dinh5G/hnj92swlr23adV8wdbMkg
+	 WlwB+EDbxRUdwh4q/9Auf8v9wHVSSVtcA8iamrK9kGQd/9asOVfAEhJsbHYf7E9RJdOl9
+	 HCM7R0LywHileNClYOQyk4uzNBXjOCW8t/HuE/aePc8/n4YAdAUAJcIX4xZTjnygbTGwL
+	 qXIi6Z4qqfQVxa7+PrSFjphGA9Z1M02cogP51SkHCK6LhyqVLO1MJqPBPkgT7o98wwAGE
+	 2j99EDYsffV3e8PAWFeC3yO7X7SS2YWUvww5G9V0ycchO7iDhQ8959hQGXEtUJlygYA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=gJlFM33D;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="LisWq/Fp";
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=gJlFM33D;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="LisWq/Fp";
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="Fltq/LZE";
+	arc=none smtp.remote-ip=74.125.82.48
+Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 876E8606C73C;
-	Thu, 12 Nov 2026 14:01:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 876E8606C73C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24DED60A6F66
+	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 14:01:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 24DED60A6F66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=gJlFM33D;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=LisWq/Fp;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=gJlFM33D;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=LisWq/Fp
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 0FF2C21E41;
-	Thu, 12 Nov 2026 14:01:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794492065; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WTNMIFQg7vEsr/bVsx6max9Hp2mlrFDIwp0Z0arBhBY=;
-	b=gJlFM33DOlLsXo/fMz8rj/qpJNd1/LAfw06dbMqIfLoc4IuQh9/RzMXaHgeNvRN5r4o0B4
-	DgqDCnXzADpLagRmMbfxO/HW+Bg9xItuDkWUO82GFfItmNejFrXZhBUW2oHpytiyUlvPP+
-	TNvMTYoYQXGAiLUv3uBgb7s2eQv/WNU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794492065;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WTNMIFQg7vEsr/bVsx6max9Hp2mlrFDIwp0Z0arBhBY=;
-	b=LisWq/Fpj8SqT6u2xIBros+39GjGe1Tr75xCt4eKCv/fmjYu3CJDOJW1YNVOTyGrVDIuJq
-	vZrJ+kiUtvHXFUCg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794492065; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WTNMIFQg7vEsr/bVsx6max9Hp2mlrFDIwp0Z0arBhBY=;
-	b=gJlFM33DOlLsXo/fMz8rj/qpJNd1/LAfw06dbMqIfLoc4IuQh9/RzMXaHgeNvRN5r4o0B4
-	DgqDCnXzADpLagRmMbfxO/HW+Bg9xItuDkWUO82GFfItmNejFrXZhBUW2oHpytiyUlvPP+
-	TNvMTYoYQXGAiLUv3uBgb7s2eQv/WNU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794492065;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WTNMIFQg7vEsr/bVsx6max9Hp2mlrFDIwp0Z0arBhBY=;
-	b=LisWq/Fpj8SqT6u2xIBros+39GjGe1Tr75xCt4eKCv/fmjYu3CJDOJW1YNVOTyGrVDIuJq
-	vZrJ+kiUtvHXFUCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5F9A4134A0;
-	Thu, 12 Nov 2026 14:01:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id M0T5C53G9WrPJQAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Thu, 12 Nov 2026 14:01:01 +0000
-Date: Thu, 12 Nov 2026 14:00:59 +0000
-From: Pedro Falcato <pfalcato@suse.de>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Lorenzo Stoakes <ljs@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>, 
-	Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
-	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
-	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
-	Matthew Brost <matthew.brost@intel.com>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
-	Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
-	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
-	Peter Xu <peterx@redhat.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Song Liu <songliubraving@fb.com>, Rik van Riel <riel@surriel.com>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Hugh Dickins <hughd@google.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Arnd Bergmann <arnd@arndb.de>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Kevin Tian <kevin.tian@intel.com>, "Joerg Roedel (AMD)" <joro@8bytes.org>, 
-	Robin Murphy <robin.murphy@arm.com>, Steve Sistare <steven.sistare@oracle.com>, 
-	John Hubbard <jhubbard@nvidia.com>, "Jose A. Perez de Azpillaga" <azpijr@gmail.com>, 
-	Josef Bacik <josef@toxicpanda.com>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Neal Cardwell <ncardwell@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev, linux-arch@vger.kernel.org, 
-	iommu@lists.linux.dev, netdev@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v3 2/9] mm: limit pagecache folio refcount when splicing
- into pipes
-Message-ID: <avXFlI_5fhUvFyct@pedro-suse.tail5790ac.ts.net>
-References: <20261110-refcount_overflow_stable-v3-0-318625d63a98@kernel.org>
- <20261110-refcount_overflow_stable-v3-2-318625d63a98@kernel.org>
- <avW3v-oLxcHXXNQD@pedro-suse.tail5790ac.ts.net>
- <4ae22b7a-c160-4003-a029-8a20381d196f@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Fltq/LZE
+Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-1b3ada81853so4000145c88.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 06:01:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794492093; x=1795096893; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=+d+2w/kP1HSpx1Wuo82bePoixwqF95UhUQrN/Uv14yk=;
+        b=Fltq/LZEr/fWUfnOsLQk6D3tBL6ZwkW63axHxR4iInnMNMChKAn34xiYZVdxZKTlRh
+         VDpd/AZSpMzwb1jhHKccGpEfSHEYqrZZahTrdQ2xfqwsoS551lXHebGu20EnskGqvvFU
+         7lgRPrHpapf6MuewHtr1saEbGU48WaQ/xl8Zd6hI///4zoXaNi27V8Tkj1gCn0Nt2pyH
+         iVDiH19P9naDiw9ofnR2Biro8pMSkqT4Hum/CsALabzVDRvBOAqK9PcodQyx+iGl0v6w
+         lLbhTn4edlCLPyikLmFaBtVMsATzVfS9zBmBKH0IeYMhGg1qcDQt+m5RsffLX/Gc15FZ
+         GRhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794492093; x=1795096893;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=+d+2w/kP1HSpx1Wuo82bePoixwqF95UhUQrN/Uv14yk=;
+        b=pXFNK19m0SSm7tujGTPIvjymwqGkBTSeElpdveaNaA87bLfK/IKSAootybFqp89HEM
+         VrW8gNV++Sndny9eCTZGm1CBuHfN8RlqzgX24XBi4JjMzx6rAeCifm/Gb6dNjKhSvYSn
+         mi/V6EQ8wzl720J2rKjDmfq2/q1DW9n0dXK8bnlSo8PaCnCfQUYfB4wDqu7m+jl/BSDO
+         4kqWQ8SQE+BLyN58FKu6zjYeKc6IManp3LXJeJq56g0MlHLTNVIVmHf6sUkkT0WMfwnr
+         449KJCB6L057B94OHn4vLoyx88SUTiWhQBD1itcyyFXvMUyqGQfk9gd0s3kqlCPLvS2A
+         OWzg==
+X-Forwarded-Encrypted: i=1; AL+hErEAp5+OX4cx/UGO3N/JB8RcSZ1vFBuMrw45Bw2KXYrC8jYiWEgSVMtYwORLtVAGwDHiBVrRAOrcmwsiVbi4@vger.kernel.org
+X-Gm-Message-State: APuU4Z+99+DntqIFxUGpktIKlwjqILR7bCfHMe4WzkrcNAwRJw9YL7i4
+	OymeZ7A1vfyts7ZXENaNFS4J63dLsOYxZTkEKmV83cCnk47gcUsgRZX8
+X-Gm-Gg: AYBFou04ev3CnFdW/6ffLaGl52/604pBk+h5IYyRUF7S9jILOnjjBQ++1QKLl+tPme3
+	58qYfWmeGbLmIfeAgdkDfenj76Ls/Mcdhhznb5WXQAs+vXJZ+e5K3ifoSwWlT+d1ESvBr3Wmml5
+	rE4nmts0eolMjWa/8bc5sdurX36hKf1ZTdkqUh6Dfw+ginWh981m/3vDzrPiLm/pXY91t7INKAe
+	ClMp736oNyKSmFiCiQP0efWKvVpQK3+JSIKGWh89QkEokAdW1XGBVivu91K27liAocV9KlXy5YM
+	q6Cd9oi/L0T1A2W/1cw+71Pc7DnV/xxhcS8CDfpmIfPUgRGn/mTYzZd8N6EsXgAeZ4rylPEiBVv
+	dk3x09YKhiV5B/Z/0QgxFSuK5CcOxN/TjaP5KF8ibpeNbXGVz3lje0zeaI8rUoQwmgIAppKVLPI
+	GOYMOiSYlbTJoN8K4r4wq+rhcBeeCTFcayZPyQLylqYnUC2laGdTWFUG7XsZ0KFzW81xxtkMsLk
+	dyO+Yfws+gOo8f24BxVpONuhv1/KcoPuqn9zQZbZG8mx0qQcxNU1uk+ktCk9rJlCPO+kR3CqxA8
+	mOOtch/v4i0c6qs55lYWD+pDZ/vbHMbUy4hto/FQzjGy2x1jRNtPld4PePJ7czIpHRIHZL0kWbY
+	vRn5TjldDSuO5EBRJnC5QA05o6zg5Hg==
+X-Received: by 2002:a05:7022:c93:b0:176:a225:e364 with SMTP id a92af1059eb24-1b3c0342f80mr4576641c88.35.1794492092808;
+        Thu, 12 Nov 2026 06:01:32 -0800 (PST)
+Received: from AHUANG12-3ZHH9X.lenovo.com (static-ip-5-78-56-61.rev.dyxnet.com. [61.56.78.5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-37520cfdfadsm31478659eec.19.2026.11.12.06.01.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Nov 2026 06:01:32 -0800 (PST)
+From: "Adrian Huang (Lenovo)" <adrianhuang0701@gmail.com>
+To: Suren Baghdasaryan <surenb@google.com>,
+	Lorenzo Stoakes <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	"Liam R . Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Jann Horn <jannh@google.com>,
+	Pedro Falcato <pfalcato@suse.de>,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	ahuang12@lenovo.com,
+	"Adrian Huang (Lenovo)" <adrianhuang0701@gmail.com>
+Subject: [PATCH mm-unstable 1/1] fs/proc/task_mmu: advance seq_file position on interrupted VMA lookup
+Date: Thu, 12 Nov 2026 22:01:01 +0800
+Message-Id: <20261112140101.647-1-adrianhuang0701@gmail.com>
+X-Mailer: git-send-email 2.25.1
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -137,192 +104,54 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4ae22b7a-c160-4003-a029-8a20381d196f@kernel.org>
-X-Spamd-Result: default: False [-11.80 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MISSING_XM_UA(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,infradead.org,google.com,suse.com,suse.cz,linux-foundation.org,nvidia.com,linux.alibaba.com,linux.dev,arm.com,intel.com,gmail.com,sk.com,gourry.net,redhat.com,cmpxchg.org,fb.com,surriel.com,szeredi.hu,zeniv.linux.org.uk,arndb.de,ziepe.ca,8bytes.org,oracle.com,toxicpanda.com,davemloft.net,kvack.org,vger.kernel.org,lists.linux.dev];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[62];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email]
-X-Spam-Score: -11.80
-X-Spam-Level: 
-X-Spam-Flag: NO
+Content-Transfer-Encoding: 8bit
 
-On Thu, Nov 12, 2026 at 02:24:09PM +0100, David Hildenbrand (Arm) wrote:
-> On 11/12/26 14:09, Pedro Falcato wrote:
-> > On Tue, Nov 10, 2026 at 09:35:42PM +0100, David Hildenbrand (Arm) wrote:
-> >> Similar to mapping pagecache folios into page tables, let's reject
-> >> additional references when splicing folios into a pipe if the refcount
-> >> is at its limit, similar to how we handle it during GUP.
-> >>
-> >> This will prevent more cases of possible folio refcount overflows with
-> >> large pagecache folios.
-> >>
-> >> Introduce folio_get_checked() for checked reference acquisition when
-> >> the caller already holds a reference. It warns and fails on a non-positive
-> >> refcount and rejects additional references at the limit.
-> >>
-> >> Use folio_get_checked() in splice_folio_into_pipe() and
-> >> fuse_ref_folio(), returning -EFAULT on failure, like we already do for
-> >> pipe-buffer duplication. Similarly, make try_get_page() use it instead.
-> >>
-> >> Likely try_get_page() should be renamed (or removed) later, as it doesn't
-> >> match the folio_try_get() semantics and is confusing.
-> >>
-> >> If we hit the limit after splicing some data, return the number of bytes
-> >> already spliced. Teach the callers to handle errors, and stop
-> >> filemap_splice_read() if we only spliced part of a folio, so we don't
-> >> skip ahead to the next folio.
-> >>
-> >> The check in try_get_page() also covers pipe-buffer duplication by tee()
-> >> and partial pipe-to-pipe splicing.
-> >>
-> >> Note that we deliberately will not fall back to the slow path of copying
-> >> the folio, particularly as the folio might have an invalid refcount. If
-> >> it is ever really required, we can revisit.
-> >>
-> >> Fixes: 800d8c63b2e9 ("shmem: add huge pages support")
-> >> Fixes: 99cb0dbd47a1 ("mm,thp: add read-only THP support for (non-shmem) FS")
-> >> Fixes: 793917d997df ("mm/readahead: Add large folio readahead")
-> >> Cc: stable@vger.kernel.org
-> >> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
-> >> ---
-> 
-> [...]
-> >> index 0f6d57432a7e5..e6e73e37f3ea4 100644
-> >> --- a/mm/filemap.c
-> >> +++ b/mm/filemap.c
-> >> @@ -3047,10 +3047,11 @@ generic_file_read_iter(struct kiocb *iocb, struct iov_iter *iter)
-> >>  EXPORT_SYMBOL(generic_file_read_iter);
-> >>  
-> >>  /*
-> >> - * Splice subpages from a folio into a pipe.
-> >> + * Splice subpages from a folio into a pipe. Return the number of bytes spliced,
-> >> + * or -EFAULT if we cannot splice from the folio.
-> > 
-> > -EFAULT is a weird error code to return from splice, et al.
-> 
-> We might be able to use ETOOMANYREFS (have to check if that could confuse
-> callers), but IMHO EFAULT is good enough.
-> 
-> What would be your suggestion?
+Commit 5631da56c9a8 ("fs/proc/task_mmu: read proc/pid/maps under
+per-vma lock") introduced the possibility of returning -EINTR
+from proc_get_vma() when the VMA lookup is interrupted.
 
-ETOOMANYREFS I think is good, also EBUSY, EMLINK (though this would be weird)
-or even a generic -EIO.
+When this happens in m_next(), proc_get_vma() returns an error
+pointer without updating the position index. Consequently,
+seq_read_iter() reports:
 
-> 
-> > 
-> >>   */
-> >> -size_t splice_folio_into_pipe(struct pipe_inode_info *pipe,
-> >> -			      struct folio *folio, loff_t fpos, size_t size)
-> >> +ssize_t splice_folio_into_pipe(struct pipe_inode_info *pipe,
-> >> +			       struct folio *folio, loff_t fpos, size_t size)
-> >>  {
-> >>  	struct page *page;
-> >>  	size_t spliced = 0, offset = offset_in_folio(folio, fpos);
-> >> @@ -3063,13 +3064,15 @@ size_t splice_folio_into_pipe(struct pipe_inode_info *pipe,
-> >>  		struct pipe_buffer *buf = pipe_head_buf(pipe);
-> >>  		size_t part = min_t(size_t, PAGE_SIZE - offset, size - spliced);
-> >>  
-> >> +		if (!folio_get_checked(folio))
-> >> +			return spliced ? spliced : -EFAULT;
-> > 			return spliced ?: -EFAULT;
-> > 
-> > I don't know if there's much kernel code out there doing this, but I like
-> > the trick :)
-> 
-> There are a couple of thousands, but yes, one doesn't encounter it that often.
-> 
-> > 
-> >> +
-> >>  		*buf = (struct pipe_buffer) {
-> >>  			.ops	= &page_cache_pipe_buf_ops,
-> >>  			.page	= page,
-> >>  			.offset	= offset,
-> >>  			.len	= part,
-> >>  		};
-> >> -		folio_get(folio);
-> >>  		pipe->head++;
-> >>  		page++;
-> >>  		spliced += part;
-> >> @@ -3094,9 +3097,10 @@ size_t splice_folio_into_pipe(struct pipe_inode_info *pipe,
-> >>   * Return: On success, the number of bytes read will be returned and *@ppos
-> >>   * will be updated if appropriate; 0 will be returned if there is no more data
-> >>   * to be read; -EAGAIN will be returned if the pipe had no space, and some
-> >> - * other negative error code will be returned on error.  A short read may occur
-> >> - * if the pipe has insufficient space, we reach the end of the data or we hit a
-> >> - * hole.
-> >> + * other negative error code will be returned on error; -EFAULT will be returned
-> >> + * if acquiring a folio reference fails and no data has been spliced.
-> >> + * A short read may occur if the pipe has insufficient space, we reach the
-> >> + * end of the data, hit a hole or hit a folio refcount limit.
-> >>   */
-> >>  ssize_t filemap_splice_read(struct file *in, loff_t *ppos,
-> >>  			    struct pipe_inode_info *pipe,
-> >> @@ -3154,7 +3158,7 @@ ssize_t filemap_splice_read(struct file *in, loff_t *ppos,
-> >>  
-> >>  		for (i = 0; i < folio_batch_count(&fbatch); i++) {
-> >>  			struct folio *folio = fbatch.folios[i];
-> >> -			size_t n;
-> >> +			ssize_t n;
-> >>  
-> >>  			if (folio_pos(folio) >= end_offset)
-> >>  				goto out;
-> >> @@ -3170,13 +3174,15 @@ ssize_t filemap_splice_read(struct file *in, loff_t *ppos,
-> >>  
-> >>  			n = min_t(loff_t, len, isize - *ppos);
-> >>  			n = splice_folio_into_pipe(pipe, folio, *ppos, n);
-> >> -			if (!n)
-> >> +			if (n <= 0) {
-> >> +				error = n;
-> >>  				goto out;
-> >> +			}
-> >>  			len -= n;
-> >>  			total_spliced += n;
-> >>  			*ppos += n;
-> >>  			in->f_ra.prev_pos = *ppos;
-> >> -			if (pipe_is_full(pipe))
-> >> +			if (pipe_is_full(pipe) || *ppos < folio_next_pos(folio))
-> > 
-> > I'm confused. Why does this need to be done here?
-> >  
-> 
-> I have above:
-> 
-> "stop filemap_splice_read() if we only spliced part of a folio, so we don't
-> skip ahead to the next folio"
+  seq_file: buggy .next function m_next did not update position index
 
-Yes, but is this a separate fix? A folio could be partially spliced previously
-as well, no?
+The above buggy message is reproduced by the following command:
 
-> 
-> Thanks a lot for the review!
+  # stress-ng --vma 0 -t 60
 
-You're welcome! :)
+Update the position index when VMA lookup fails, as required by
+the seq_file interface. Also save the original position in
+priv->last_pos so that subsequent iteration can restart from
+the correct address without skipping or repeating a VMA.
 
-FWIW, you can add my
+Fixes: 5631da56c9a8 ("fs/proc/task_mmu: read proc/pid/maps under per-vma lock")
+Signed-off-by: Adrian Huang (Lenovo) <adrianhuang0701@gmail.com>
+---
+ fs/proc/task_mmu.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-Reviewed-by: Pedro Falcato <pfalcato@suse.de>
-
-to whatever comes out of these nits :)
-
+diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+index 22361607020d..164b4efc5e09 100644
+--- a/fs/proc/task_mmu.c
++++ b/fs/proc/task_mmu.c
+@@ -221,6 +221,16 @@ static struct vm_area_struct *proc_get_vma(struct seq_file *m, loff_t *ppos)
+ 		if (PTR_ERR(vma) == -EAGAIN && fallback_to_mmap_lock(priv, *ppos))
+ 			goto retry;
+ 
++		/*
++		 * seq_file checks that the position advanced before it looks at
++		 * the returned pointer, so an error return that leaves *ppos
++		 * alone is reported as a buggy ->next. Advance it, and keep
++		 * last_pos at the pending position so m_start() would resume
++		 * the lookup from there.
++		 */
++		priv->last_pos = *ppos;
++		(*ppos)++;
++
+ 		return vma;
+ 	}
+ 
 -- 
-Pedro
+2.43.0
+
