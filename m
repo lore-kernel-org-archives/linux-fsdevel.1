@@ -1,86 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.171
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.169
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794503243;
-	b=KFG17AmjJr2x/Mgrq1gylZMhlQd+bTTCBYBQN5j8BpzZU8VogVjG/1XKQfQy8/r710yP
-	 5WFmEoPkGrbJmOwrj+M/VbAIRB5ZK7kQJjKlYlrTFKwksoRDcJ2yFneRwyrIsp0+vWnbP
-	 tWA8OmmTOw9QxK/hgvOgyhBGGzvFqV/B+pfNF+37OyfMBBmnQ9WJ+XDSpygU4hPDc38Io
-	 h0wRoaPxBcD/DgeGdG3hbbvxUnRLJTWG0o7Q/V8xsYBAKQpdmsHmpWicUWb6P+ju7NW7W
-	 yOCihnj8pAxmwBXdmlbrWFwRunStoFz+HW29oy/rgmyGEWYhL9Lv3GV1eumSOr88rwA==
+	t=1794503704;
+	b=2CWln176IG7ZYKwmrduEVKFiGJboA4CQ2rfRULKEFdDv3QXjmHx+0wU/IP4ezlpnVNvk
+	 4zdRhJucC3eXTWYapqKNvS3R46xsLBKunkKUXN4pbnk6N/oBfiLLTybY1dqNXmW1MBgYq
+	 qbhIGvzEjuHIKvvRrZTQh2L++5JA51sF47l/lbFaW2CSGJqdnUWzPhAN9RhFKwYEzzA/B
+	 UcHTbgy4VoHNeDQoWOcsCM0twSErNwav9h8TbyxxsA/2gzjxBkW8FVWiOtfeT/19LrkZy
+	 D/PWexAabXS6cnRnrcNnnsFZ2XL3SL9O56AnR/L8vstqg2flrLFUgloo5WGR4mfYiEA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794503243;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794503704;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
 	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer;
-	bh=KhfyBc//VTsBjqGcAjilygXZyjWzwwcnsTJakX/xnqg=;
-	b=fV2EPrsz89CCMQpD/BtmN+dBEmXqS5t6KCORCVAyBWtmGqVY/XMRyRPfKtYRSKqRc1eP
-	 HVZHRRZr6InNo0jeKbW9m6M7o+i3CNFKLAwl3tJUaSeVWkTJksTYsMHd+zTnoWbT6VZCy
-	 VkMOsXwrtKFWto/9lJ1WwC4c8baLqlnEyVoFEy8RTbsJpeApUqmauc1LKLNutRg/z0D1H
-	 s7jLrb3dEYJV+SY2UccEmoEr4ptktiDje3aHX6yYZoYY1I4okifumUj0pnqHNIg2Usi8v
-	 1lj4B//mpIxnii4Mc1isCzDuC8qP5Kn31HiGpXS3RzPn2FNVQho+zuUrjPNhil6irmg==
+	bh=pkUNJy/G/i2yr1NWN9oiSB6swWvpLvuFtnABa0SM57s=;
+	b=Fx1dMyoopqkyRgGoM86OhDQalpc1M3zjQouycdxC8rTrwOS0gczBrVYzZODDc6aR/rKY
+	 iEb9g2hvN6hCSsD86rA45YF6t3rtFgpqkR/IDec++Up/MAEV6jdB5lwt/wCpYtuc6Wyjx
+	 L7/KR0rtLwkmKI2qUy6/pkTNzSSjUg+w7Sx++u+YcwDEbBOPPeoI0fDZKPuIBDGsZ5eTT
+	 obB2+nRVMVjAljyeTvCvYZYQeCOKCDjZLU9EJKwZhhgLdfgMHsV2AsVAeBB5kDD2n9dEB
+	 wPL79NQBk+nPXO1y992JZVWWM0ej5UcWraHVoCe/yy6nD2kqdXOVoUJO6UgQPloQi1w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=gourry.net;
 	spf=pass smtp.mailfrom=gourry.net;
-	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=XxxT1kWh;
-	arc=none smtp.remote-ip=209.85.160.171
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=pmyoi0DA;
+	arc=none smtp.remote-ip=209.85.160.169
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47557606A333
-	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 17:07:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 47557606A333
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B33B4606A887
+	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 17:15:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B33B4606A887
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=XxxT1kWh
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-5363c8de563so46343981cf.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 09:07:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=pmyoi0DA
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-53669f7b518so45421801cf.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 09:15:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1794503242; x=1795108042; darn=vger.kernel.org;
+        d=gourry.net; s=google; t=1794503703; x=1795108503; darn=vger.kernel.org;
         h=message-id:date:references:in-reply-to:cc:to:from:subject
          :content-transfer-encoding:content-type:mime-version:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=KhfyBc//VTsBjqGcAjilygXZyjWzwwcnsTJakX/xnqg=;
-        b=XxxT1kWhf77k5HWqZd5kSrqa9TenqWzfTradsETOEJAdqwv5kPkm0YFAc3mX+F37IW
-         1+OIKlYSvTjKdGZQIoIFNycQRdshGBKzSLwaeC3xje+Rkrey59b/rRuJgxLtsESLtKO4
-         fVWG/05n08TabWyxSrBJEGHgNJOaxevdOavw6rdXW33g2qgVFOyhrVMQNIPDgYxyBNOj
-         2Sq8DODDDCLwWpRKQfxahhMapheQX0LjT+is2oM2+S/96qVC+UBHAXoB/dIaiPzzbGzD
-         yM8k8ffsmtFewc5wlZ76cXuEnxlW5NNd8lrp6aiYPxKuJhlQsaEgK9Cy3UNScEKqkmnv
-         IQYg==
+        bh=pkUNJy/G/i2yr1NWN9oiSB6swWvpLvuFtnABa0SM57s=;
+        b=pmyoi0DAQQlNFzltCnW5ORgDwnPgssF9tc5Yb41egpqJgqO1bCD46e5CH1aNeekBwW
+         zNHDZbnO+IlIj94erHAXPMOAM++MXQqoXuZCMU4A5rLvl3ueWGShLAmTxgxlGbCB3/gG
+         ZHjvXlyYIqd6r+/SuPQvrTTCMPGpgZUnR+AgV5/jt45EQ2tyGvJM+kMslERvdjYJbMT1
+         9TMAzYgSYsdtz2+/xGf4uEOHM3MHtE71s0/etNjpd1b+uuTHQYTAfstQQM6azn5B8XfM
+         Jrp4nZhrib4IHL3HIQOCPoXU85VZDXpBpYjP8UIEY8bs1f3sG0zr3OlkX5wrMUEsI0qf
+         ujQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794503242; x=1795108042;
+        d=1e100.net; s=20260707; t=1794503703; x=1795108503;
         h=message-id:date:references:in-reply-to:cc:to:from:subject
          :content-transfer-encoding:content-type:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=KhfyBc//VTsBjqGcAjilygXZyjWzwwcnsTJakX/xnqg=;
-        b=wjBRza+2ul6P4z0avDFPGS0vi0iilcalu4zx0IBha2bUKGxdTTuV/9qBpVNbgaxfcC
-         2w2pkxxw+QSnKq52ERiy/vpa1sNwrSIaIK+TWTEsEROIxiDTmPZt+s6y+O52AoeI6pq/
-         OWHSMSi8OKbpRWIbK0b6dIy+Bhs3U8O/q1ou6+2GOUEBhZq0YMbnXXFxNR0wiKzA6F9+
-         421N+hKE6oXakQ5vtD/JjchGbNalhc2JORZt8XMdH95cGoQuk/4NC+FHmxaFyzrpAQ3o
-         7Jnvwu8P4NMsAFHpDvtAhUy3ocbeLohQW868IlPQp6w1gUooyU+ohr7/9VvTJkcGat8q
-         wgsA==
-X-Forwarded-Encrypted: i=1; AL+hErGA24zk2CGPBvl4Mdt+FVlM25pBDqawD2AvVZ6TRioNwocNFcBNN3y70FzA01FRKYLV7PXcD8cxNy4/QzPI@vger.kernel.org
-X-Gm-Message-State: APuU4Z8PzXyW723XtCUcNN7SBL+l4x3ubguh+Bg4OVKuLH2ocWDoLDed
-	GbtM7ad2sG6WChPwmeByVahQwxNloE6x0TJb0Q2xG/KqifDtff6Q3FEC/5+tH6ndCfEMHjN6QQo
-	LiFqk
-X-Gm-Gg: AYBFou3JvC7bK+xdeivq1HmR51b1FV3K3+NQ9aPczp5nXKk9sJgzoZWiJH314/o7CFk
-	usb41Vcb67jtfx5m+k8Pbv2HEtvZC2kKG1pmYM1FyTD+x27ZZUAaCIH3nYsaGyyJz4iknl/69mj
-	7hOFD3A11eMv71nO7EkudEJT/zIUaN2ntT+doYEVUBhfvsJUb95nSWrMkaSe+JM3TdEhwSd+KTo
-	lD5wK+874nCf/0Ef8LnXZIkl8x0fltY4BEx+ulKcMsc79D3QjDNqBfLf9Q3MEetv4FBAtfDcQ96
-	+x5SBModBWsbiqfhgocg3Zo11fS5kZqEtnp5WA80Cg53BiB2uUAFYsMfjeb1xFFLIWRXm55L/0K
-	4GdwVYRzQwh1CsA5DAUrkFkJ2x9Mjxrt/TnmKnvlIkqBDCPEDNqxEfoojZACEqYfQNecBDWpi7c
-	iEuRI21iiLtq2XlZ3UDIJ6Rd2tiWraqYiZcp0UFgEhTmK5wu13YcZRt48X2dUHfcKN476AIxdpo
-	7Q+xKUgQ0SQ8AoGUyvtJIPEt85ITFJGgZ/n2WRjLLQ3AmjydcArzHyfeUK8aHnuab8KEPRsKm1+
-	ygAVbuevjpAmlSDLU5efYghXKPv2/dXpNHztFZCWrF1yNUUKJKppcWBXJT3U6zqsExxTXufufXG
-	qsZpFUeU=
-X-Received: by 2002:a05:622a:684a:10b0:535:70b4:3f7b with SMTP id d75a77b69052e-55aaaefd128mr5760821cf.65.1794503242102;
-        Thu, 12 Nov 2026 09:07:22 -0800 (PST)
+        bh=pkUNJy/G/i2yr1NWN9oiSB6swWvpLvuFtnABa0SM57s=;
+        b=KkgpOXnO815EXv2Ulu13wdTxG8+8UfaeTg4w3Oc/aTt4FkmpCfsTLfMqrEqa5xs9+3
+         fs3XIw84517mXbKKXS3SIHpxYj4+5pZY5Ijd8k6fnKE6GUET0vGzA5DSiVs3EmdLccgJ
+         14PXCp2+JrQ+WtWElX1QQhtzAyZQkSy55U44jVveJZ12e+iqUmbW4oqDA5TnQz+LOGml
+         S2KX2IQldxHtkm5U55zrI5q6aodsl45bdFw0MznOgdytm+6B8RY2DZW0Kkc6QGw1sBSR
+         ciQlNDpvcTb1dBYDnD2l+3QdcXaYkNG87X6S5e4b8WgX2quxWsjt4C5GoXmQcEtzqxvu
+         FDiA==
+X-Forwarded-Encrypted: i=1; AL+hErGJBlf73ITUtJxXhQSWCjDi5cBocY7PPjZ0LKhf9Z8CnxSkP3ta5inE8RR9cnV0x1LjkNT1x1IdUkbMTWE7@vger.kernel.org
+X-Gm-Message-State: APuU4Z9MbamOkqjUEyroMsqS4L6LPQmQ6seUfVdNJguj1iyp9YOnEOp5
+	8gcSLUyfuPXnPcXamqeggAAMVaA9S7y7yvFJHut4yj507VznWDU26DcbZHzm/6nTY5A=
+X-Gm-Gg: AYBFou3LbRWdQQnUaKyKK7cVKVAIy6qdRn0TRM2DzVcASVsdjoaOnypKs94e/v87FhI
+	ZWNxi/nSAUZworb2s0Uf4otj/ePYDqw+LOTjawPYRk2lzHl2cs5w7HkbwBT44mEI3tQpILNWU8F
+	2fY5mihSEAWwU02zV4fVWWcs4g60K61QP8K8uxCr6Gq+o0xm4bBZxSXJwp74rJctQrepce+W+IE
+	esiw/sE38/oq1uHbR8HFJ1ALBjw/AzQlynJzh7bUlhbwCX5g8Ty7r7yfZtOaDyVc3hRgNWU+X3a
+	l7AqlbwC8pR3oVsjA3NgsLXkJnz3PVkYAlWBvoPVq91OLBb8G91lJa2H7LtshYu2FwDHk0QlsbQ
+	xecOf9g/6EZV4tovkubr2CXxvHhN3SRS+Qeo5O7ckG7hjvJ7UvGaFNmaBRGPO0QV2z/La7Y3EMp
+	9ssh90hFVOR6kwLbutKndx5YJaoTcSX5HiV4tsWZZAfvDYrE/2vEa/z2VPLSJaefUznHw345UeU
+	3Txtb1xTiU4OS65DcY55wypUqV+6x7aFuWPKWd+qrCEvoPdks+7oYNk4xRkyHa88LvHu2yBIqxK
+	FRkE1DzIqxJSAMVT+wdkz9DyjTcaZUgRgiAnWPMINMEa0ol16sJy9/b0bSSDnjMklsz2khFv4b9
+	St0NavmM=
+X-Received: by 2002:a05:622a:5793:b0:54f:863d:92c7 with SMTP id d75a77b69052e-55ac786019emr462181cf.41.1794503702764;
+        Thu, 12 Nov 2026 09:15:02 -0800 (PST)
 Received: from [192.168.50.231] (pool-71-191-145-202.washdc.fios.verizon.net. [71.191.145.202])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5550bd33340sm78278751cf.21.2026.11.12.09.07.19
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5550af5f339sm78250641cf.9.2026.11.12.09.15.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2026 09:07:21 -0800 (PST)
+        Thu, 12 Nov 2026 09:15:02 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -92,8 +91,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH 04/13] mm/migrate_device: allocate THP deferred split
- heads
+Subject: Re: [PATCH 05/13] mm/migrate_device: don't collect a range twice
 From: "Gregory Price (Meta)" <gourry@gourry.net>
 To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
 Cc: David Hildenbrand <david@kernel.org>, 
@@ -122,46 +120,46 @@ Cc: David Hildenbrand <david@kernel.org>,
  "Dennis Zhou (Facebook)" <dennisszhou@gmail.com>, 
  Rick Edgecombe <rick.p.edgecombe@intel.com>, 
  Josef Bacik <josef@toxicpanda.com>, stable@vger.kernel.org
-In-Reply-To: <20261111-mason-migrate-et-al-fixes-v1-4-3d2454362e8d@kernel.org>
+In-Reply-To: <20261111-mason-migrate-et-al-fixes-v1-5-3d2454362e8d@kernel.org>
 References: <20261111-mason-migrate-et-al-fixes-v1-0-3d2454362e8d@kernel.org>
- <20261111-mason-migrate-et-al-fixes-v1-4-3d2454362e8d@kernel.org>
-Date: Thu, 12 Nov 2026 12:07:19 -0500
-Message-Id: <179450323943.482102.10332650234844298705.b4-reply@b4>
+ <20261111-mason-migrate-et-al-fixes-v1-5-3d2454362e8d@kernel.org>
+Date: Thu, 12 Nov 2026 12:15:01 -0500
+Message-Id: <179450370120.482102.8019443935242743968.b4-reply@b4>
 X-Mailer: b4 0.17-dev
 
 On 2026-11-11 18:13 +0000, Lorenzo Stoakes (ARM) wrote:
 > From: Josef Bacik <josef@toxicpanda.com>
 > 
-> A THP that device migration maps into an empty PMD can end up on the wrong
-> deferred split list when it is later queued for a deferred split.
+> migrate_vma_collect_pmd() drops the page table lock to split a large folio
+> which it finds in the middle of a page table, and then starts over at the
+> "again" label. The entries for [start, addr) are in migrate->src[] and
+> migrate->dst[] by then.
 > 
-> This occurs if the memcg has no heads yet (resulting in a warning if
-> CONFIG_DEBUG_VM is set), where deferred_split_folio() will then queue the
-> folio on the parent's list.
+> While the page table lock is dropped the page table can go away, in which
+> case the restarted walk invokes migrate_vma_collect_huge_pmd(). However
+> this is passed start rather than addr, so [start, addr) is collected a
+> second time.
 > 
-> Once a later THP fault in the same memcg allocates the heads,
-> __folio_unqueue_deferred_split() and the split path resolve folio_memcg()
-> to the memcg's own, now existing, list and take its lock.  They then
-> list_del_init() a folio that is linked on the parent's list, racing with
-> anything holding the parent's lock, and both lists' nr_items counts go
-> wrong.
+> This can result in migrate->npages exceeding the number of pages the
+> caller asked for, and therefore in writes past the end of the
+> migrate->src[] and migrate->dst[] arrays.
 > 
-> Resolve the issue by calling folio_memcg_alloc_deferred() after the charge
-> in migrate_vma_insert_huge_pmd_page() and falling back like a failed charge
-> if that fails, as __do_huge_pmd_anonymous_page() does.
+> Fix this by only handing over what has not yet been collected,
+> page-by-page, and flush the TLB for those entries which have been
+> previously replaced, similar to the other returns in the function.
 > 
-> This was originally discovered by code inspection.
-> 
-> Fixes: fafaeceb89a5 ("mm: switch deferred split shrinker to list_lru")
+> Fixes: 022a12deda53 ("mm/migrate_device: handle partially mapped folios during collection")
 > Cc: <stable@vger.kernel.org>
 > Signed-off-by: Josef Bacik <josef@toxicpanda.com>
-> [ ljs: tweak commit message, remove unnecessary comment ]
+> [ ljs: cleanup commit message ]
 > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 
-Was able to reproduce the warn this spits under CONFIG_DEBUG_VM
-and see it relieved with the patch.
+Reproduced and observed the out of bounds condition with a KASAN kernel.
+
+Fix looks reasonable to me.
 
 Tested-by: Gregory Price (Meta) <gourry@gourry.net>
+Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
 
 -- 
 ~Gregory
