@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794475709;
-	b=4cX8j2A36OZYzMSQbKC+mZc47RNwbWR3qCcpPSdTTvtI6MOYc8sliB+EXCvyOyi0GiQY
-	 E/VTFAAUoBHvvQQfPSkpniYtC0psTniZwMA7NrDxWm7Yq312gGh8WnBN44SgUSdmZTA4c
-	 /KXp3LggJdHgstxK7wi6ECivA9d7/GGz4XRUIM2rgdH5SwEBNb7Yr0BSbk4AzFRrETNu2
-	 MCP40TNa4n5umiJ7T4QTYIarSTu6XmpWCnQvWfNb5cIjbVQzYbYUPgusMOyWb26r4llWz
-	 BuaXTWXasH661hc31zVLEigkOIvRtd7PvFvBzc9CBCautNBfF0Jm95mE40WvR3buxIQ==
+	t=1794475836;
+	b=wf96KN/l6or46/V/4riBzmwEm6qQbSDCfzbsgssWHYLlz7CL+EmgnQKQ24Iu4QkAEJEq
+	 ZJt9lpnJUGTqO9v63y+s6W97o95cRJ1ze+89n8+LpmK1H9a84lmi0rAYfCvxllqs6L888
+	 mxNETmvaWA61COyEWDkZRTSot3lr+k7hwWOueOHVQrZYz6YzeLqmpCcK+/zZsir08QeMa
+	 cZNWhYQsSQOjjPtISr1mLr0fmf49M1RTkUf41qOYVmhRtXP9AeCZm4QbpHE4K7YFMvP6Y
+	 c/zk8VNl6MbpPjzt2gb+8NwASeACGkVa6/mZq5b+Twa3daIsTrVS15StKd3uAupPIUg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794475709;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794475836;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=qhziwyxwKo5hta1/ka+DLwPNn82EMgx5i212ZpmjGxc=;
-	b=G6ti5OFYgv1tVXCrFZ5zaIrZlHale9ApshUTSZ4s1Ki7kxKY65uydzbKAZ+yy7ZJesCS
-	 3w75HV4T5vM2j8204SEl4qpgcuQ6W5BccVeB4UfgM+KZaQ3UFyXIp2kVDApb4sarDTmHS
-	 +5ymJMTOf0Z+Vw278K8lGN4/xLf2qH7kKhxzeJJQjean2XjUdD+OO0He6Tfx3/aBQOpP6
-	 /o4cESu8COEDvw+j4BA5YQGYBziZzo4ofy3DORD2j16AEGx15UeKsCtJBSSgu4mtMQYOQ
-	 Cry9ER/a1u5Bf3BKYez6sFonJCcD1LvxtxNiJ5cmENyrzO5u9AGhaYCQzVSJMx3u4eQ==
+	bh=0e9G5NVEpupIHAFHHKTSoDANySvZv3eOPYAS0FitsYQ=;
+	b=sQxPL4yu0LlgO+Yq1jR90iziAy7NjYyz4P4+gx2ElM/kidyHe9uoADLGnMpZaiIeIAyH
+	 tVbwk2Yg6J/zGEDsgU7qYNJgqqPJkUCtWd2/uILSsGMv+pOZypYWsnS0YYL0IwKchWeWF
+	 mjbY9K4faAxq9268HdtGOjHJTvUa9XLQJBdH6enLXjeEKWpPWDRXJNYjreUPAq85kP7mo
+	 mtEdmJDgzkWFhnWKEG6hvf9T5IL32P6i4p/0RFYKC3Do3+SVBC1L5n69iRMq5Mqe9TZKv
+	 uk2N8Byrp+2hSavZwwYRfHLj4kxqQxVUZUw4RXZJEyXjudi9U28uAqmegDHboE9FxnQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="ig67/Q5U";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fo4I2LHA;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 088C7606A321;
-	Thu, 12 Nov 2026 09:28:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDD43606A31C;
+	Thu, 12 Nov 2026 09:30:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ig67/Q5U
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D3221F00A05;
-	Thu, 12 Nov 2026 09:28:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fo4I2LHA
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E6AC1F00A05;
+	Thu, 12 Nov 2026 09:30:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794475708;
-	bh=qhziwyxwKo5hta1/ka+DLwPNn82EMgx5i212ZpmjGxc=;
+	s=k20260515; t=1794475836;
+	bh=0e9G5NVEpupIHAFHHKTSoDANySvZv3eOPYAS0FitsYQ=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=ig67/Q5UyR7u+l7reMcBd+/6d+1hZBrZuflvI8fVlnKGwRPGSovuLhYFlD2XwshDx
-	 k4tWIwIpZxgVS+CnHDuNFmwz2y0IQR3KTMb/WgVe+IP5VJD50E8CqJuLwUg4OFGy7J
-	 /TdABenpbG+NFE26X1Tm6gzyn6qutTdeFFLriGI/xhqj9QTek90gHYvZIWgj/2lFXG
-	 2LildKJmwvPv8iFpkgWQS+ehmyT34Fvl+PtVOquGQFCrgIzpmgEXqq5UL/M8eqPCDe
-	 GBAG5HSArBfaL5Jmk6mQ/h0lgMQxHl0tiz5Vcr7wEwYGUgZ9RYFsQdEK4W/u5oxatR
-	 EKcCPEcC8JG7g==
-Message-ID: <4d6a3d68-3fc7-446e-9f59-f61d7475e22e@kernel.org>
-Date: Thu, 12 Nov 2026 10:28:17 +0100
+	b=fo4I2LHA0zZl3knSLUeE0hRwvNc8XGv3Rg43/4BSErdYyntyj/sQ6Ouwk/u11bS7I
+	 lsd8aAtZ5KVuS/TOcdCMY1l0D5xG2QF+dCvVihKbdwVK7N3JRwqwfW8KsjxGkZySse
+	 4ZA7s454jngOb6cVLoif5+oUxq5/+u6K0dDYnCtCYqw1Hs4zUpg7/RFD1oObuBjR0M
+	 Fl9uqQEooRA7IxoJdZ9McqawAogG/BgIM4ZH1/dZy2b/SAlSMkuvf6BagIu1seecRL
+	 RiyMUUys9qpxM0hUIK0qtH3POk8zrhtTFEap/7Ahh/fFFPfBz0fig0/ImKOB2KxQhy
+	 clRzy5PKMQUKw==
+Message-ID: <cb492eeb-62d8-4a31-9b67-1ef2ac77c381@kernel.org>
+Date: Thu, 12 Nov 2026 10:30:29 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -52,38 +52,19 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] virtio_console: copy pipe buffers in splice_write()
-To: Arnd Bergmann <arnd@arndb.de>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Christian Brauner <brauner@kernel.org>
-Cc: Matthew Wilcox <willy@infradead.org>, "Kirill A. Shutemov"
- <kas@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Miklos Szeredi <miklos@szeredi.hu>, Amit Shah <amit@kernel.org>,
- Jan Kara <jack@suse.cz>, Zi Yan <ziy@nvidia.com>,
- Bernd Schubert <bschubert@ddn.com>, Hugh Dickins <hughd@google.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "David S . Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev,
- virtualization@lists.linux.dev, Netdev <netdev@vger.kernel.org>,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org, kernel-team@meta.com,
- Malin Jonsson <malin.jonsson@est.tech>, Richard Weinberger <richard@nod.at>,
- Geert Uytterhoeven <geert+renesas@glider.be>, Nishanth Menon <nm@ti.com>,
- Frank Li <frank.li@nxp.com>
-References: <20261110145241.536019-1-kas@kernel.org>
- <20261110145241.536019-2-kas@kernel.org>
- <avNuQqLf9CG9dSsE@casper.infradead.org>
- <20261111-heimreisen-ungeziefer-empfunden-a892571f2c07@brauner>
- <20261111-thunfisch-wirbt-waldrand-822275b2d3b1@brauner>
- <CAHk-=wjPY=kfgnmtx4COEQjD5UzKx9m2-=KLGAZP4d=RKEH+pg@mail.gmail.com>
- <20261111-stumpf-montag-miterleben-c4e2feac8090@brauner>
- <CAHk-=wjGXBnme-N+HvbzHH40ftb7Suc=kZVT5cuintQWyMHJ7Q@mail.gmail.com>
- <e94bdf7c-eae6-4f64-bf93-0aeedca1a22e@app.fastmail.com>
- <32ad880e-5946-4703-9c6f-43ff59da39af@kernel.org>
- <3eb60948-8fc9-4682-87c2-c113e54e7d4e@app.fastmail.com>
+Subject: Re: [PATCH v3] mm/memory: refuse to map page cache folios that are
+ not uptodate
+To: "Kiryl Shutsemau (Meta)" <kas@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Pedro Falcato <pfalcato@suse.de>,
+ Lorenzo Stoakes <ljs@kernel.org>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: "Liam R. Howlett" <liam@infradead.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Hugh Dickins <hughd@google.com>, Chris Mason <mason@kernel.org>,
+ linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kernel-team@meta.com
+References: <20261111182445.656620-1-kas@kernel.org>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -130,36 +111,45 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <3eb60948-8fc9-4682-87c2-c113e54e7d4e@app.fastmail.com>
+In-Reply-To: <20261111182445.656620-1-kas@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 11/12/26 10:25, Arnd Bergmann wrote:
-> On Thu, Nov 12, 2026, at 10:09, David Hildenbrand (Arm) wrote:
->> On 11/12/26 09:55, Arnd Bergmann wrote:
->>>
->>> I tried to push for what I thought was an aggressive timeline
->>> last year, but that would still keep the Arm bits for a couple more
->>> LTS releases and only gradually reduce the scope of highmem in the
->>> meantime, removing support from architectures, file systems, and
->>> drivers where possible. See https://lwn.net/Articles/1051010/
->>> for a summary of my talk in Tokyo, including the slides and
->>> a link to the video for anyone wanting more details.
->>>
->>> I also prepared a number of patches towards this, but have so
->>> far not been great at following up to get them merged, sorry
->>> about that.
->>
->> I think we can already start at removing CONFIG_HIGHPTE now, right?
+On 11/11/26 19:24, Kiryl Shutsemau (Meta) wrote:
+> A page cache folio that is not uptodate holds data that was never read
+> in or cleared. shmem fallocate(2), for one, adds such folios and clears
+> them only on first use. Mapping one hands userspace whatever the memory
+> held before.
 > 
-> Yes, I think my patch from two years ago still applies, see
+> Each path that maps page cache checks for this itself: fault-around in
+> next_uptodate_folio(), a fault in filemap_fault() or shmem_get_folio().
+> Nothing in the mapping code does, so a caller that misses the check
+> leaks stale memory silently. MADV_COLLAPSE did exactly that with
+> fallocated shmem THPs until recently.
 > 
-> https://lore.kernel.org/all/20241210160556.2341497-4-arnd@kernel.org/
-> https://lore.kernel.org/all/20241210160556.2341497-5-arnd@kernel.org/
+> Warn and refuse the mapping in __do_fault() and do_set_pmd().
 > 
-> If not, I can send you an updated version.
+> __do_fault() checks the folio ->fault() returned while it is still
+> locked. For CoW, that is the page cache folio that do_cow_fault()
+> copies from. do_set_pmd() covers MADV_COLLAPSE, which maps without a
+> fault.
+> 
+> do_shared_fault() then unlocks the folio for ->page_mkwrite(). A
+> filesystem that clears PG_uptodate on a folio in the page cache is
+> buggy, so that window gets no check of its own.
+> 
+> The fault gets SIGBUS, as for a folio that fails to read in.
+> MADV_COLLAPSE fails and leaves the range to be faulted in.
+> 
+> Suggested-by: David Hildenbrand (Arm) <david@kernel.org>
+> Signed-off-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
+> ---
 
-yes, please, that also brings it up to reviewer's attention :)
+Thanks!
+
+I'll wait a bit for more review brefore applying.
+
+Reviewed-by: David Hildenbrand (Arm) <david@kernel.org>
 
 -- 
 Cheers,
