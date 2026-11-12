@@ -1,63 +1,53 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794495489;
-	b=hYethVi/9827oTjvSpz0eOoku0TV6TrzY/0iqfQNwZs8A1HnAm29SqgtY4FMcCiHOPPr
-	 WTl/ucpsYHW9qNphOmgzkgYCldR5UasfTCDJDHfE7UQzlVRbqzXOfRArkhRSsPDL0TC/G
-	 1sunUwSc6HHRjsA3/JsDoXiZqQqIc9DlOgjOaMx4n+RSYqe96sQ+az/4pkj65yOWEOoUV
-	 QWpFXBqdHXzBmjrRU6Nbflo1g1lhtkF1f3wBImiIz6Z5V2xHdTogLWbLyRCQ37Mejufax
-	 YPdgsNdeJ9upspKeh3WJxZz76a9/+h2nfObqg/7FIFwVMq1bkLzCcNPxQEu/mBx1Xqw==
+	t=1794496287;
+	b=U4BQWeLjjMn+KM5n5aCQFGiZ819UHM2a5bKpRo7JovpJ0ZRnVXIsf+BUB74n83qxgV6V
+	 tnX2zyaeIYZDQCU8lj7MnYUFfypx23SYAhFL9SZjmYc/pv/rZFLBGfkM8l0oP31HqHj8v
+	 xOH0JH0LnC5BmCGiOJi9HOiSXQwSZOdFFIHVe4Nl+xl+g6kD8Hp404vyJaM/3OsJuUP2n
+	 uA4CyAWjLHeWiX30EGqpjcmypusIAAdVq0Fxn5c10rPi2PnjveGvlvpTVdHwX+YFI1jgh
+	 yhgo5pxJUlNKrgTefcdjN1ec4CsEYoRM61scRo7mb/J5cRxbiJlNjwu6WOq9hAxPIiw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794495489;
-	h=DMARC-Filter:DKIM-Filter:DKIM-Signature:Received:From:To:Cc:Subject:
-	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type;
-	bh=mJiAcVKGt20rwDbtZ267Ib5ukUoWE5uGUXiOfLnifSI=;
-	b=QsJuuvSXtqNThSHejACT+ZD/iFqxY6BaGhffH8aW+hNDEuTqe8HdjXliShGT5W8OUBum
-	 /c1VZyLpFn3N/r/+SawZMoMUxCHg9j676l1xg8sFGJdVOaeQO75PpGtUqFctYRByonw1r
-	 epyxqbTON3hV720qEtVFsxGBV9azQw9zsHGyn2LEMx0nbGEPC/S1iEVlgr1CTH9B9tsjR
-	 bZcnJhtu4ii5mXcAsm2aPVujFPYwY6qDcYCaG5gbqTFkWm8dnONLTQKltA5wW0wIm5ubZ
-	 xI4eCG6yNI6Ga3r3WHGRdR39e7HufiHIhSMDQHxWjM9rSfvnquunIc9r/l2WG3wTJ+A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794496287;
+	h=Received:DKIM-Signature:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=pOPUMS1h+yW9+Q5c6aClYkFvTD4eoG+32Raw8LpRQxc=;
+	b=fHt40/vJxCfrCuNqLEdbYdXrosNUeWsmwlO1bXaX6mGBO1jAaUXO3ZAsVsNgXn2lD4Gj
+	 j9CBFiFV1a/nUB+Bz1hM3jgMqSnt02TLxohjETp1NCqETGRyMeZpvnqV/gezXmWkxikXd
+	 DscxS5EFsE95xg0vvyTcfs01pqY9tRrnJ3sWeMjuED+Z2L0KcqbmiK+nZa1OE6K+KBBMa
+	 ol9X6EkgWd9r0srfWsCDrWuAr6pKwfUMkr0MvoDb3glYHSVyphpN4MfU9FkwpJ3H783Hy
+	 WggjLqBJAxjgD8mUlEnM50swEZhgAmDlCAVgW7xVG2Xdzncjn36ICedNNVOqXLk7ljQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=lwn.net;
-	spf=pass smtp.mailfrom=lwn.net;
-	dkim=pass header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=ofZudNUj;
-	arc=none smtp.remote-ip=45.79.88.28
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JSAUGzyE;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3351D606A321;
-	Thu, 12 Nov 2026 14:58:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3351D606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1843606A323;
+	Thu, 12 Nov 2026 15:11:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=ofZudNUj
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7A40140E3D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1794495488; bh=mJiAcVKGt20rwDbtZ267Ib5ukUoWE5uGUXiOfLnifSI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=ofZudNUjfxzIuc9YnHvCSMNP3UdhwIEUjeA4Qksu4oSV+kcM2Zkdw0VZqr+bnMNoQ
-	 8sGZX0i2YEdZVE4tgmRCyk8os5+9sSkmT2qP01AXr9+rDeoaLCypLarG9JLbctGmR4
-	 oSlhUO3rwjREHzNMlo7L/D3l6TTO8Lk0UJqMkYkir5EDJuTvdXUDelPVFZ36TS+piu
-	 to2OPMtqoH34RZiQt531jjc2Glmh2phGWbqzitA55enpGpOmmtGkDdNChOeBpQh+oP
-	 EGLEAolGcdJirv0Onhhoi0aajMz114GBmM1JQQbtGbNOsambcbftbkfVDP9lu6j0xd
-	 yWJ5CH3/s8y7w==
-Received: from localhost (unknown [151.38.237.230])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 7A40140E3D;
-	Thu, 12 Nov 2026 14:58:07 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>, Jaegeuk Kim <jaegeuk@kernel.org>,
- Chao Yu <chao@kernel.org>, linux-f2fs-devel@lists.sourceforge.net,
- linux-fsdevel@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH] f2fs: fix various ABI documentation issues
-In-Reply-To: <20261103033713.2709978-1-rdunlap@infradead.org>
-References: <20261103033713.2709978-1-rdunlap@infradead.org>
-Date: Thu, 12 Nov 2026 07:58:04 -0700
-Message-ID: <874idm6qrn.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JSAUGzyE
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 665EB1F00A05;
+	Thu, 12 Nov 2026 15:11:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794496287;
+	bh=pOPUMS1h+yW9+Q5c6aClYkFvTD4eoG+32Raw8LpRQxc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=JSAUGzyE7QbNMXTzQkx3wbfn1l6eP4DyrrbcIGYYG73188OznI9AFrCfXf2WpaLXs
+	 beGesy/cnPPXqaHEDO4586sbHZyiX4NKky7+fXZ4gbQ9f1TTIPk10L5TBSUxnnouFi
+	 nWrT3IFhNL1NG8NfYlhvb3sYc591FkhDPoVsqfUVBUtx6SlKYoGZ3StwcW8xRK/3Qu
+	 9kk6inbYUUbdpvnWZNaww3tHbbNWd+mAhjLOWt/CwRePwxmr2rgHAAnvT/R85eL7rq
+	 4PgmAuJjIC8j4FbYTZjLv9m3zVKwNA+58CgZEFXkz4U4Wq8zVPL3M38pLito2Lz9+t
+	 e8HROA+MZJ8MQ==
+Date: Thu, 12 Nov 2026 05:11:26 -1000
+Message-ID: <07d063ef8ebcfc7f4e05c7318a423728@kernel.org>
+From: Tejun Heo <tj@kernel.org>
+To: Krystian Kaniewski <krystianmkaniewski@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Ian Kent <raven@themaw.net>, Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>, Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>, Jens Axboe <axboe@kernel.dk>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, driver-core@lists.linux.dev, linux-pm@vger.kernel.org, autofs@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, syzbot+002fb7b2d0bc53bf7e75@syzkaller.appspotmail.com
+Subject: Re: [PATCH v3 1/2] kernfs, sysfs: add SYSFS_NO_SPLICE to refuse splice on writable opens
+In-Reply-To: <f9f3df7a60ecbbacc3186b700deb947d7dc23e9f.1794479968.git.krystianmkaniewski@gmail.com>
+References: <cover.1794479968.git.krystianmkaniewski@gmail.com> <f9f3df7a60ecbbacc3186b700deb947d7dc23e9f.1794479968.git.krystianmkaniewski@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -67,34 +57,23 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
-Randy Dunlap <rdunlap@infradead.org> writes:
+Hello, Krystian.
 
-> Clean up the f2fs sysfs ABI documentation:
-> - use "number" instead of "#"
-> - use "seconds" instead of "secs"
-> - remove an extraneous period ('.')
-> - add a space for better readability
-> - fix grammar, spelling, & punctuation
-> - break up comma splices
-> - use a list for "gc_urgent"
-> - add a blank line for the list in "extension_list" &
->   "effective_lookup_mode"
->
->
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> ---
-> Cc: Jaegeuk Kim <jaegeuk@kernel.org>
-> Cc: Chao Yu <chao@kernel.org>
-> Cc: linux-f2fs-devel@lists.sourceforge.net
-> Cc: linux-fsdevel@vger.kernel.org
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Shuah Khan <skhan@linuxfoundation.org>
->
->  Documentation/ABI/testing/sysfs-fs-f2fs |  114 +++++++++++-----------
->  1 file changed, 61 insertions(+), 53 deletions(-)
+On Thu, Nov 12, 2026 at 03:17:01PM +0100, Krystian Kaniewski wrote:
+> Read-only opens keep splice support because they cannot reach
+> ->write().
 
-Applied, thanks.
+The patch looks fine to me, but I'm not sure whether the read-only
+exemption is necessary. Is it addressing an actual problem? busybox, for
+example, just falls back to regular reads when sendfile() fails with
+-EINVAL, and refusing splice reads on read-write opens while allowing them
+on read-only ones seems more confusing than anything else. Would it be
+simpler to refuse splice for all opens of the file?
 
-jon
+Thanks.
+
+--
+tejun
