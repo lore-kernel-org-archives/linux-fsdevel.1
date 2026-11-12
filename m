@@ -1,93 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794506212;
-	b=eqZkviap1FK3jt9UKB4Tu4lpkryIXO8v7qdicq9su6NxQnDXWzAW9Su+D2meZReHuGQH
-	 B4nKl6TUt3xekTAfhbxRTaJ0HMEOxixsUbdJjvz0p6bnpxQYBfoaS3ohpT3Mx31FdwMZs
-	 j8DPqHM/P8GAG7OoGlZXP+VuoZPCefG4Vu1nQz/T02Pb/ghGNs2Hr2gLwTL94s6SknzEu
-	 zTFJ3NAJIECN+hG0/+cleP8O/G5KWIlytv4ffMCIt1LimtWcQVXi7hTkyl6L6NQshKIle
-	 59AKtRxLqw0kL1ctZsPfQv1IoknENjAyFLzYHkwD3SGRpzhOG25Tos8tBss1j+NLVmw==
+	t=1794506732;
+	b=s7UML3Hhp5BWnoOtXRfm/Rylm8m0G1yNIYy8tscZ7cHVrl9LEhjEH/W3UwByfxaGJlDz
+	 7O2y6MVBNOv48zi7PBU1ZS1td6U99FEGMYdNk852j/+ieRQ4rF3x85nBPjDiVuW6yEmGG
+	 Hu8BVp5M+pDgGtnNAlYg5OvjcXR8D4savHwpIaW7tX9+ezESM3DPZCiEsLIg1X/h1Bjz3
+	 3WMk7WJeesmpTbyqk/wK4g1Yv+haoADBmMiZW9IgJLcI9L+nVBQl3bAAFtA2wDIHzISym
+	 PqYMySHUQuf6+pVuZW6e+UmhhpjuSblRhOk76qaJt6s0gayNiJ+GgZUqOqYzFKbzDMQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794506212;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=QMQK5/Ga5zlr52AaPH9o6uVLJ1IT8a65QapD4mFEmG0=;
-	b=ln9q8ccsQ8GT7TI8MhoN9KI54JZwUQD+h7aFKKqCodruul/4tt90MKpc4kPpTjmDmp0M
-	 GxkfBt3S0pCWj5CP/gg+fGaHf6Pocl0q8c70VX3+vLQaKUApsws00IANtfLrf6SvXsgiV
-	 sDv2oKb4+6BNgH8euQVCuj+yJ4fw2AokVNtx2vOjGSet6zSHaJduar6w0KGn6uf+iAM4i
-	 ILQs7lCbz1xrqA4EBdGdu+9kICsqshkD6gfrs28sIrYhAqF5RjyIZG6BXH+BznsLLWQBt
-	 hZrSAL0jkV9J7jYnNY3Mw4f7hYylyxi9l2atGZT8Vu/3esLNnrDmc5PHNPCJ0gIb2jw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794506732;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=cG8SYyf7w3dlGbNaL5P0O22CIF0Qp5uX3wBmRgVBppY=;
+	b=eomSZpo+dFax9UUnfbEV9Ujl3Pm5zCF2w8XHduFBqVSA/bS4Ob1hb7aymhufl32bMM+E
+	 bhpuxWCuE4rlEGzc0MQo2qRb9UtXdI++K7Hg+sPaOFNgHx/ewWfT+unHUPdqpDC5I48Ns
+	 Ce19CgduzU21ZlB1xxBO3n1311TUIKh/3EHcmSj52iKaZnhRnwapF/97YnIihQ9oPIRDm
+	 RxDfOam5WqDTRvWkUm5jpwZ+BviD8EGy1xASHKyzI9ME1b9JKUbb1PvDlkOlKH4tk7BoN
+	 Wzp9X19mqr7Jq/iJWBe928bAYx3eFfJVJ96kt+oqbLIbH8SaLn9LPrEemL2F18QkoGw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=toxicpanda.com;
-	spf=pass smtp.mailfrom=toxicpanda.com;
-	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=GMLDkSOi;
-	arc=none smtp.remote-ip=209.85.219.52
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=an6rnEFH;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 149FC606A8AA
-	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 17:56:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 149FC606A8AA
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FB13606A886;
+	Thu, 12 Nov 2026 18:05:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=GMLDkSOi
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-91befbcad6dso861846d6.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 09:56:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toxicpanda.com; s=google; t=1794506211; x=1795111011; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=QMQK5/Ga5zlr52AaPH9o6uVLJ1IT8a65QapD4mFEmG0=;
-        b=GMLDkSOi35pb7b/8IUfDSIIuqcDlZx2QBaL2QdtcNaTTmNbEgxlZfp0iumV1Orc7le
-         igNhglznQ0se6+rd1lwonMXmAykcEzPLvmmY/rLnAJ0Jk0vvu4dDip3qJaoSEqWAoDKt
-         coEZWu03f/UhTImKV1PokYwBvQAfon4J7Tb5XFVCS1fjPteDm4aWTPLaoS0A9ShRnUa+
-         MqCu8yTPOzywxO1VEKJT+RoIa5XVchkVDuSQToFaz0Uqk6ityVTiJfeKITv1SgphMrVR
-         sqG5Q+vS3v86b7M23DO4OlqsoKfWNzAB8SCGZsdSreMkSwwYsZFMtLK9BjdErY4jXx+y
-         +Atw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794506211; x=1795111011;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=QMQK5/Ga5zlr52AaPH9o6uVLJ1IT8a65QapD4mFEmG0=;
-        b=t0a6WtYTlxki+6c++8snpW6UObb7ZBpMMqgQ0XL7zbR+Ue4/bReXjYMNN5ZOaW2Dso
-         vcMVz7caGeqRxiSmKDWfay26wPZ76Hln1IBYFlW/b7xqO0yB0biPLSiGnP5HkG+dVUmQ
-         7xh9RTp560o5GlxBQYdtaLhONsGUqNthVzNt5KfGxl0ZbzidJDVH26aPVjKUE+oq0b2e
-         RsFRKugj7e5Rd73WoPYfIfG5HwY9CpYyRCUYjSkYKOQfZxjcBpmizx8KTLstS5rcniKt
-         ZqA3JO7lx3f59l3J3ErkIJDvy5euqdnbouTX7KW0rQyVVbBUMEKuSEF/YHOvzua6WjdS
-         FUaQ==
-X-Forwarded-Encrypted: i=1; AL+hErGySV+cvwWmXk1KAC/BDRJX/jjsHFHcRB7KkAFL5HqCnLW0Qwfo1vNifGpl3AI8/uTOeUdCKgqZ/rGc8tWO@vger.kernel.org
-X-Gm-Message-State: APuU4Z+NNtNYpSJE0PeB1/zI676J9IPmC4lG1pb9EQo5zL9guQAPpNB/
-	+Yv3uSv74Z7epe9LrCHxEGdkpyHJZu9IXnOemAv6ZPQNrYblScm+rl0DlE3OSkGVE3I=
-X-Gm-Gg: AYBFou2LxOUxhrzhoulyTjcwu0N6u0YVGloAGCiY+oEy+4wpJ3I6SL67Qy/GZBfRagq
-	uDd8dWKnis7yoDxOPHpJWVDMnddhiCkftOTDbaK58MSl7zzUYY0HJIjyahlg0eA5OMSE9I3SYbu
-	TqZO1YRw4g3852eRBEreFQkAg1kWaNrVAHWd1LinSRJXtwYgerKmsbBJTW0NQHXalT/bSJMDPZ5
-	7yceUljPm0EhYTP4yb+1hJKSpFJdWYPQD213VbFoSOzcIwC0c9pIHHKHKCClSCRY/T6oAPMJlrR
-	jkBsXkOuDtTQHYkITQOZC7fYAALayyywR88ZRQUdfV/8LPGXlUzlec1hxWYr8y0kS30nRhOID6r
-	/2TUDa7MMd4NTn7B86VWE0iwheCP+5oOANsFzW/hjR4dY6yTCzPhPwTfKZ/aUmJmCz/HPW31LEb
-	Vwo+GhCsAT2S4gE6dvcz0nSkVQCbNRp7hehrE8fcqQlVcdoDFnLsJK+RrM6raw1pbZN6+mxuZ/y
-	VbKAj4Y9HJjdXLfd/qtThcFJU6IKy6Qwo4CwwXG5ysB531iBRR6+ol0Ce5lh6s8//yyu2328es+
-	VoAjGQ7HtHTnaEo7VH0Tdk0ksoIrTHSKZmHdXbcbwxXYSw==
-X-Received: by 2002:ad4:5ca2:0:b0:91e:8160:55b3 with SMTP id 6a1803df08f44-91f2423de34mr511396d6.53.1794506210743;
-        Thu, 12 Nov 2026 09:56:50 -0800 (PST)
-Received: from toxicpanda.com ([153.61.196.250])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91f23d93f10sm1193356d6.30.2026.11.12.09.56.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2026 09:56:50 -0800 (PST)
-Date: Thu, 12 Nov 2026 17:56:37 +0000
-From: Josef Bacik <josef@toxicpanda.com>
-To: Ye Bin <yebin@huaweicloud.com>
-Cc: viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, 
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] fs: hold freeze protection across writable regular file
- ->open()
-Message-ID: <sxlubqvhlkeg4ukyxakquv4e72o4ib7u2o2jtak4qqs6gz5haw@uoty23uvtlf3>
-References: <20261112135245.3347102-1-yebin@huaweicloud.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=an6rnEFH
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 229B61F000C4;
+	Thu, 12 Nov 2026 18:05:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794506732;
+	bh=cG8SYyf7w3dlGbNaL5P0O22CIF0Qp5uX3wBmRgVBppY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=an6rnEFHIEQfMD7hb2IewvTV/EyagK+WFjhHhGs/7elOcrogcIsxGsV7IEc9I16wr
+	 cANtce9G2vgpUy5lhY17FNcwQneKEIcYIY+W5IJ0slGgd16Qk/Qh3Wvfb0zV4chVhc
+	 IWjf74UV4A1kTN4ldOCaeItZJzfYiJbdziIksaMS+AIHq/71swxVE3OezZ1iatBt1x
+	 mY6EFh67QqtG015uZu6gP3MiS82xe2OjWemIl7CKMV8h3i1bYCNpH9tYb/TROWIPLE
+	 piSdwUrsYtmEhsz/5LVnzo3yxJqT7rc1ZXvFCJsvQ/MIJ7Bb3Se55tS3K7ruw2DYyY
+	 auQZ8KPUL8o4Q==
+Date: Thu, 12 Nov 2026 18:05:20 +0000
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Tal Zussman <tz2294@columbia.edu>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Mike Rapoport <rppt@kernel.org>, Peter Xu <peterx@redhat.com>, 
+	James Houghton <jthoughton@google.com>, Andrea Arcangeli <aarcange@redhat.com>, 
+	Suren Baghdasaryan <surenb@google.com>, Balbir Singh <balbirs@nvidia.com>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	=?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>, Andrei Vagin <avagin@gmail.com>, 
+	Stephen Rothwell <sfr@canb.auug.org.au>, Arnd Bergmann <arnd@arndb.de>, 
+	Muhammad Usama Anjum <usama.anjum@arm.com>, David Hildenbrand <david@kernel.org>, Zi Yan <ziy@nvidia.com>, 
+	Matthew Brost <matthew.brost@intel.com>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
+	Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
+	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Chris Down <chris@chrisdown.name>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	=?utf-8?Q?Miko=C5=82aj?= Lenczewski <miko.lenczewski@arm.com>, Michal Hocko <mhocko@suse.com>, 
+	Mike Kravetz <mike.kravetz@oracle.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH 01/12] userfaultfd: use anonymous memory for
+ UFFDIO_ZEROPAGE on private file mappings
+Message-ID: <avX_qlthMqypxHm0@gremlin>
+References: <20261111-uffd-state-fixes-v1-0-00713d368976@columbia.edu>
+ <20261111-uffd-state-fixes-v1-1-00713d368976@columbia.edu>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -99,98 +78,143 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261112135245.3347102-1-yebin@huaweicloud.com>
+In-Reply-To: <20261111-uffd-state-fixes-v1-1-00713d368976@columbia.edu>
 
-On Thu, Nov 12, 2026 at 09:52:45PM +0800, Ye Bin wrote:
-> From: Ye Bin <yebin10@huawei.com>
-> 
-> A writable open of a regular file reaches the filesystem's ->open()
-> callback without holding any superblock write (freeze) protection.
-> ->open() can nevertheless write to the filesystem: ext4_file_open() ->
-> dquot_file_open() -> dquot_initialize() may acquire a dquot and write
-> the quota file, which starts a jbd2 transaction.  If the filesystem
-> reaches SB_FREEZE_COMPLETE in that window, ext4_journal_check_start()
-> hits
-> 
-> 	WARN_ON(sb->s_writers.frozen == SB_FREEZE_COMPLETE);
-> 
-> and the open then sleeps in jbd2 until the filesystem is thawed.
-> 
-> The hole was created over time:
-> 
->   - Commit 907f4554e252 ("dquot: move dquot initialization responsibility
->     into the filesystem") moved quota initialization into ->open() and
->     introduced dquot_file_open(), making ->open() a potentially writing
->     operation for writable opens.
-> 
->   - Commit eb04c28288bb ("fs: Add freezing handling to mnt_want_write() /
->     mnt_drop_write()") added sb_start_write() to mnt_want_write() but
->     deliberately kept the write reference held by an open file on the
->     non-freezing __mnt_want_write() variant, so the file's own write
->     reference does not protect its ->open().
-> 
->   - Commit 64894cf84327 ("simplify lookup_open()/atomic_open() - do the
->     temporary mnt_want_write() early") moved the temporary write count
->     into do_last() and dropped it before finish_open(), so a writable
->     open that is not O_TRUNC reaches ->open() with no sb write count at
->     all.
-> 
-> Since then only O_TRUNC opens take mnt_want_write() in do_open().
-> 
-> Fix this by taking mnt_want_write() for any writable open of a regular
-> file and holding it across vfs_open()/->open().  Regular files are
-> checked explicitly so that opening device nodes on a read-only mount is
-> not newly rejected.  Read-only opens are unaffected.
-> 
-> Fixes: eb04c28288bb ("fs: Add freezing handling to mnt_want_write() / mnt_drop_write()")
-> Signed-off-by: Ye Bin <yebin10@huawei.com>
+On Wed, Nov 11, 2026 at 12:55:09PM -0500, Tal Zussman wrote:
+> If the mm cannot map the shared zero page, UFFDIO_ZEROPAGE falls back to
+> mfill_atomic_pte_zeroed_folio(), which allocates a zeroed folio and
+> installs it through vma_uffd_ops(), no matter what kind of mapping it
+> is. An s390 KVM guest with storage keys or protected virtualization is
+> such an mm.
+>
+> For a MAP_PRIVATE shmem mapping, that adds the zeroed folio to the page
+> cache of the file. That is wrong: a private mapping must never modify
+> the file it maps, and the file might even be mapped from a read-only fd.
+>
+> The ioctl can also fail where it should succeed. A missing fault is only
+> delivered for a hole in the file, but UFFDIO_ZEROPAGE can be called on
+> an address that did not fault, or can race with a write to the file. If
+> the file has a page at that offset by then, inserting the zeroed folio
+> fails and the ioctl returns -EEXIST although nothing is mapped at the
+> destination address.
+>
+> What we want is what UFFDIO_ZEROPAGE does on a private mapping when the
+> shared zero page can be used, and what UFFDIO_COPY does: only check that
+> nothing is mapped at the destination address, map zeroed memory there,
+> and leave the page cache alone. The zeroed folio path did that before it
+> was moved to vm_uffd_ops.
+>
+> To fix it, pick the ops in the common folio path, as
+> mfill_atomic_pte_copy() did for UFFDIO_COPY: anon_uffd_ops for a private
+> mapping, the ops of the VMA otherwise. That makes
+> mfill_atomic_pte_copy() and mfill_atomic_pte_zeroed_folio() redundant,
+> so remove them and rename __mfill_atomic_pte() to
+> mfill_atomic_pte_folio().
+>
+> UFFDIO_ZEROPAGE no longer modifies the file, and only fails with -EEXIST
+> if something is already mapped at the destination address.
+>
+> Fixes: f74991b4e383 ("shmem, userfaultfd: implement shmem uffd operations using vm_uffd_ops")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Tal Zussman <tz2294@columbia.edu>
+
+Looks sensible (also another cleanup in disguise which I like ;):
+
+Acked-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+
 > ---
->  fs/namei.c | 16 ++++++++++++++--
->  1 file changed, 14 insertions(+), 2 deletions(-)
-> 
-> diff --git a/fs/namei.c b/fs/namei.c
-> index f573fd0aacaf..0ee4cf282cf5 100644
-> --- a/fs/namei.c
-> +++ b/fs/namei.c
-> @@ -4906,6 +4906,7 @@ static int do_open(struct nameidata *nd,
->  	const struct mnt_idmap *idmap;
->  	int open_flag = op->open_flag;
->  	bool do_truncate;
-> +	bool got_write;
->  	int acc_mode;
->  	int error;
->  
-> @@ -4935,12 +4936,23 @@ static int do_open(struct nameidata *nd,
->  		return -ENOTDIR;
->  
->  	do_truncate = false;
-> +	got_write = false;
->  	acc_mode = op->acc_mode;
->  	if (file->f_mode & FMODE_CREATED) {
->  		/* Don't check for write permission, don't truncate */
->  		open_flag &= ~O_TRUNC;
->  		acc_mode = 0;
->  	} else if (d_is_reg(nd->path.dentry) && open_flag & O_TRUNC) {
-> +		do_truncate = true;
-> +	}
-> +
+>  mm/userfaultfd.c | 46 ++++++++++++++++------------------------------
+>  1 file changed, 16 insertions(+), 30 deletions(-)
+>
+> diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
+> index d65184d9a480..61a712e1f9f5 100644
+> --- a/mm/userfaultfd.c
+> +++ b/mm/userfaultfd.c
+> @@ -531,15 +531,27 @@ static int mfill_copy_folio_retry(struct mfill_state *mfill_state,
+>  	return 0;
+>  }
+>
+> -static int __mfill_atomic_pte(struct mfill_state *state,
+> -			      const struct vm_uffd_ops *ops)
+> +static int mfill_atomic_pte_folio(struct mfill_state *state)
+>  {
+> +	const struct vm_uffd_ops *ops = vma_uffd_ops(state->vma);
+>  	unsigned long dst_addr = state->dst_addr;
+>  	unsigned long src_addr = state->src_addr;
+>  	uffd_flags_t flags = state->flags;
+>  	struct folio *folio;
+>  	int ret;
+>
 > +	/*
-> +	 * ->open() can write to the filesystem, e.g. when it initializes
-> +	 * quota, so writable opens of regular files need freeze protection
-> +	 * as well.  O_TRUNC opens already need it for handle_truncate().
+> +	 * The normal page fault path for a MAP_PRIVATE mapping in a
+> +	 * file-backed VMA will invoke the fault, fill the hole in the file and
+> +	 * COW it right away. The result generates plain anonymous memory.
+> +	 * So when we are asked to fill a hole in a MAP_PRIVATE mapping, we'll
+> +	 * generate anonymous memory directly without actually filling the
+> +	 * hole. For the MAP_PRIVATE case the robustness check only happens in
+> +	 * the pagetable (to verify it's still none) and not in the page cache.
 > +	 */
-> +	if (do_truncate ||
-> +	    (d_is_reg(nd->path.dentry) && (file->f_mode & FMODE_WRITE))) {
+> +	if (!(state->vma->vm_flags & VM_SHARED))
+> +		ops = &anon_uffd_ops;
+> +
+>  	if (!ops) {
+>  		VM_WARN_ONCE(1, "UFFDIO_COPY for unsupported VMA");
+>  		return -EOPNOTSUPP;
+> @@ -597,32 +609,6 @@ static int __mfill_atomic_pte(struct mfill_state *state,
+>  	return ret;
+>  }
+>
+> -static int mfill_atomic_pte_copy(struct mfill_state *state)
+> -{
+> -	const struct vm_uffd_ops *ops = vma_uffd_ops(state->vma);
+> -
+> -	/*
+> -	 * The normal page fault path for a MAP_PRIVATE mapping in a
+> -	 * file-backed VMA will invoke the fault, fill the hole in the file and
+> -	 * COW it right away. The result generates plain anonymous memory.
+> -	 * So when we are asked to fill a hole in a MAP_PRIVATE mapping, we'll
+> -	 * generate anonymous memory directly without actually filling the
+> -	 * hole. For the MAP_PRIVATE case the robustness check only happens in
+> -	 * the pagetable (to verify it's still none) and not in the page cache.
+> -	 */
+> -	if (!(state->vma->vm_flags & VM_SHARED))
+> -		ops = &anon_uffd_ops;
+> -
+> -	return __mfill_atomic_pte(state, ops);
+> -}
+> -
+> -static int mfill_atomic_pte_zeroed_folio(struct mfill_state *state)
+> -{
+> -	const struct vm_uffd_ops *ops = vma_uffd_ops(state->vma);
+> -
+> -	return __mfill_atomic_pte(state, ops);
+> -}
+> -
+>  static int mfill_atomic_pte_zeropage(struct mfill_state *state)
+>  {
+>  	struct vm_area_struct *dst_vma = state->vma;
+> @@ -634,7 +620,7 @@ static int mfill_atomic_pte_zeropage(struct mfill_state *state)
+>
+>  	if (mm_forbids_zeropage(dst_vma->vm_mm) ||
+>  	    (dst_vma->vm_flags & VM_SHARED))
+> -		return mfill_atomic_pte_zeroed_folio(state);
+> +		return mfill_atomic_pte_folio(state);
+>
+>  	_dst_pte = pte_mkspecial(pfn_pte(zero_pfn(dst_addr),
+>  					 dst_vma->vm_page_prot));
+> @@ -927,7 +913,7 @@ static __always_inline ssize_t mfill_atomic_pte(struct mfill_state *state)
+>  	if (uffd_flags_mode_is(flags, MFILL_ATOMIC_POISON))
+>  		return mfill_atomic_pte_poison(state);
+>  	if (uffd_flags_mode_is(flags, MFILL_ATOMIC_COPY))
+> -		return mfill_atomic_pte_copy(state);
+> +		return mfill_atomic_pte_folio(state);
+>  	if (uffd_flags_mode_is(flags, MFILL_ATOMIC_ZEROPAGE))
+>  		return mfill_atomic_pte_zeropage(state);
+>
+>
+> --
+> 2.39.5
+>
 
-This is convoluted, you can get rid of the do_truncate flag altogether,
-just do
-
-if (d_is_reg(nd->path.dentry) &&
-    ((open_flag & O_TRUNC) || (file->f_mode & FMOD_WRITE))) {
-	// mntwrite thing
-	go_write = true;
-}
-
-And the delete the extra else if block. Thanks,
-
-Josef
+--
+Cheers, Lorenzo
