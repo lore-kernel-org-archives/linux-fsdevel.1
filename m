@@ -1,102 +1,46 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=209.85.221.44
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
-	t=1794490257;
-	b=R2P4mHJnH9N/Az+49LDzRdCaaLk5ZGh4Nl9ttu2Nax8EzCaHSgwc9fi+w4Kg28CrNkoq
-	 9TQr38PkdeyTpGPgpxbH5O4sgyJUdV8oYIIB36Q6QhMx/lXgh/PyPS66hRiNDK69Kn7CK
-	 Vg9lm5sfH/RP4mV5Y5G7JTeZrg0OfmH7+zoINVaTPrNpycEec++bKRLJkpSWWyXJMDy8s
-	 YllMFPH3lRy3kF+Ib8pbPS7NFs9Iu/ILAxgmla5Aw+0Gg34wJHhbGAzghezYH3Q0wcapE
-	 3suAubv/caxE73G36V6Dxcd/b1nFoh7LmMDymnExqT/YgoryAJfRCFZH48KaHpNHqJQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794490257;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=S1xZYGW3sp4V9GD5hAamXepdrQgJ2mYyugoBZizhATM=;
-	b=bqZs6xfJ4rkiUqQ/E3aBTNc36SKUsy+/KihPPUhE6y5zGj6gaSQeqN5YdlX7zoDoKbyY
-	 QppQXFTp9NhmCbZzgcGyzn6qHsB3J5yzAYSP5/9QkZ/H8rtb//60IQuWBEdiG9jJ5hzAp
-	 WSEpSI19dQg8n0KTuUX+Wx8pwgGM7vAYXSk6I3f7MG5k7YcpvlUMInejqeMnOUHn3cBAM
-	 g9DmJt9nhZawbVXjX0OtVm4eEj8Uz7gVH8JzS2+kEYycuMyMu4TU3F/2YlIcePdIACwof
-	 AuU+ObX2hnS8Eqt46rFMIoXPS05pAxZciW15UrpMhq55XFhU4insatn/5r2uNo/jtlw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=OAMZCKUT;
-	arc=fail smtp.remote-ip=209.85.221.44
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.95.11.211
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794490450;
+	b=2n6Ssjo6jBep5OTRtHjGnAoNaAAfzopdEupB2prE2O9RNGrPXawIt4i5RyxOuOmKAvOJ
+	 sa1AcItfrxIQ1sQngeW7zSPK2z9KhspJCZ0HA2Q9AXWItckNOCZ82Q1jdnZbNy3PFjauD
+	 /P1r/V627sYHUCtN2KCwlkyFao633RmFii6GAopmX9vZLK7anBVeLAdmreSh20t0qaF6+
+	 dx/LY6dbz1t/8gvrR9n68RptpKVpiJUw2UHpbNFtWXWNpqxe1+kLFte8IX170vi57chvx
+	 5JDMvEkkDwuQ31p314fvp6KBtBn04jgYND5Bus2EplaACmpn2GY8UNIRyjCNGW25MmA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794490450;
+	h=DMARC-Filter:Received:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To:User-Agent;
+	bh=CBKekYMv1yODu1Hhni9YQMRnZ2R0/Puj1Zsf+AAfSZg=;
+	b=VQgJnhCTr2F2LhT6ehMEv5U+J1MuYC1ecpV0jV1muphfo099TvqO0EVnbYAK6XJpFMld
+	 +ju+GCyGjvmicoibSwBdOwoUwKxRaqGgQURL5I9jwsyk4WFwj//TWInHqFytN1LrxA9PK
+	 M3CW2XKHJN1QZMV9A0obh3/qaeq46i59qlcIHC6YeMvyxyt2frfaJ88Cgmg2OKvTVLeuE
+	 Xl3aJCIRQm2+Hv2RNz0PU4QjTXxx17dSq6hJRxt525NqRbqdTJBf8j0+Bido9J9Ner4rZ
+	 Pp0aKfEYNWnlteGP6Obox+2YmtV3hi45Iggs+aI+eSuz86v55Ax1SCJi5RsbCct+qSw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=lst.de;
+	spf=pass smtp.mailfrom=lst.de;
+	arc=none smtp.remote-ip=213.95.11.211
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B592606A330
-	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 13:30:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3B592606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=OAMZCKUT
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-490d59c3edaso671951f8f.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 05:30:57 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794490256; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ZHYXGkMmzk6QJQuYSvtiEC0sghJ9hDS+5uksSTYZwt0tl4TUBetEohzd6E0qxjxDgv
-         QRrgFfINkWqlVcUndwlgeXs1zWiQlPlYRnHJLERyVhUvYuapouMwo4Q2jjwpL8sRXvg5
-         gdpiRNjfAiZZY6wfyc8xRRqYDKUid/rI5edlYn5lYn/YMA+Cgpm1OqFAwalvNVJySP0x
-         z8xp8ixtLACnGOjLeVCKnjNRYfRoGTlpQomh5WqVdtYO/dkNa9p7OEKtIjGSFBmrteFI
-         QJnhJSek9wW5fFN0Q0xfxujYY+e6gJXTdru2lm6rHCAfID2U/VHyMFvIIe9RctVz9c1n
-         5XhQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=S1xZYGW3sp4V9GD5hAamXepdrQgJ2mYyugoBZizhATM=;
-        fh=mYmtTR0/KR2fWGJ4bdvsWVWWa47cP/UnlUiL+leEd40=;
-        b=I/KUySltROd3mB6xrZ085k87UqD4JzVGnCfuloC51DsZdgyHhOo5ieT925MxvFMXdl
-         h2Qu6bFzSTtAoWgjiEGZ92tXafpLwstGy5XkVUmUolSUpajwd9w7XqslzObGLn5Jnc4o
-         g/fAYxciOlIitfax7JQM8mZqLFMKanV5JpDMf1csafIK3w2KAsC1LYyX1592CjwQTmpW
-         NcqOY0P4BKqb2nY9K5MVd16jF8o8cKHjfCATpuYcmLWJkwvdx/nZ9GwXaU0v7ad/ogCu
-         +V7LVb1T14SzZFR1ZzXfrvXEzAXa3ziUkkDH7cLi3uPz4bJdF9tjIyUuS+2S2pAIgBfH
-         XlrA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794490256; x=1795095056; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=S1xZYGW3sp4V9GD5hAamXepdrQgJ2mYyugoBZizhATM=;
-        b=OAMZCKUTw3l6QKgGiSX8VX6jr2xJ0IvEcRr9aN8o+RSKzS0Ud1802z5BmqWJ9NxpS9
-         o3yLiXe7EpfLOU8AotMwhaxYDX4IYn1kaXcRWUjxRNpbsVVTbOoX65nZtlh4BRg7T78D
-         MTxgNivkTdUXHnu2V/QGcXltawmwZRgBJaZ0sSaelhIj00Pme/vMlmyVyUawmp6C3OCW
-         1iC+F2PRLrkgfuby5NfOjvtseFVMYZdoGPviqrzEx0yJTu2zE9Qu083p+IxoE7l30IGw
-         8rESjm9DJhyoCPUVWYMRKsEyZzYzcOZZZkiu1d81jda1IdrKguAiClSkm1H9k/aPdZ6l
-         hBig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794490256; x=1795095056;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=S1xZYGW3sp4V9GD5hAamXepdrQgJ2mYyugoBZizhATM=;
-        b=ICBgzUFH2apBmXt0SifLvt8mIc3PZQQ5Q8VsiwJDZMAscX0L3r4rOjhzs7XCh/O0no
-         i7fT0miVRS5MOZj1gY34x9uI7ZGj6JwUtAW0N9/6OTDqgami4s3eNdfa3ETkWAL9H7Aq
-         ViauSaLaSNIjWQX5rzZtiCHSzLF3LsaWdPiV5Vdwgi/TO3nTJp5+jMj0hzfQP/EwNEMC
-         KLeRrxkDsapd1ftMFdN36QxyvmDDFxKJ3ZFcaXHN2NpgaUuzephyW/3NekggY/WdOBM+
-         SFCHaqxEIohFgmRKGXs0z24WCBR03hfXsyDIw1+CXSRaWx90w656ud1pjAyTdwyrBOCT
-         +8Ig==
-X-Forwarded-Encrypted: i=1; AL+hErHZieueaO+3RRp4y0p9gvxFA4aMOIBH6034YEWQPltkgrlPg+lDGCkw+73rHzOKarky4YKgjObTt/TbYnDK@vger.kernel.org
-X-Gm-Message-State: APuU4Z9BjkPX75BgEOWju9ct90kFzyx81UOOswTzCKapOVWFKBAMg9bt
-	BClWbM/Pg4bX02HRckORGo+fE2/ys9HEyiJYstoyUO24qlj1m7oxa7fl2LLpPv5UAPiPdqbxuOv
-	tdCpRSjWZ4Fdjnf8EscD36tAmyLNiBcA=
-X-Gm-Gg: AYBFou3ShsHyb6Dzza+Tse/Q56blEo1m4mT5pW3b2ykfhJqUQUFKF4QFwtkpO1BNKUW
-	DO+Mgn+s2CIpHOHcmtjtHvjY0nXnvvomBAbUWP3YKrGqUoQUVLO/1RMgtcCHXXLimurMfROqHpZ
-	kJXlMyINqvYNP/Lh4Nzcuzno/YyoxMvOBbN83VVvaezkAtbfyDJPUpNbRdxru6l7ALkSbKS2xlC
-	FBtVJO+J/1Zzf5bG2P2OLVkCOrLnCIrmcVoWsVrwarpW5X+GxVFuJhXeAfFwxQtwcfm8ZkMcJsj
-	EgaM5wfzhXjyFllXPXXqLlY9bnWLZLPRLV5evmFPw6D0AlojGzcJrPmGqVnYVbHdeCoIFH1Qe9R
-	uP+94hlzH4DgBaNZI8zrBdQ3NEQ7PGrhElcPon7Thqdhaj+f6Y0b3TuRhvJ6GUFOT47/pQjuYpt
-	eZkzxmW+Oom1/FuNtNHejVqami2rk+8cWe0W8dJIs8ySRrsQUSwnleBvYJ0l0IdQPacSTJyoLa3
-	Q==
-X-Received: by 2002:adf:e00e:0:20b0:491:632f:2c8f with SMTP id
- ffacd0b85a97d-49afe168872mr4263229f8f.2.1794490255492; Thu, 12 Nov 2026
- 05:30:55 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A74D606A31C;
+	Thu, 12 Nov 2026 13:34:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3A74D606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 7C4E06732A; Thu, 12 Nov 2026 14:34:03 +0100 (CET)
+Date: Thu, 12 Nov 2026 14:34:03 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Chris Mason <mason@kernel.org>
+Cc: tytso@mit.edu, cem@kernel.org, david@fromorbit.com, jack@suse.cz,
+	djwong@kernel.org, josef@toxicpanda.com, hch@lst.de,
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-ext4@vger.kernel.org, tz2294@columbia.edu, brauner@kernel.org
+Subject: Re: [PATCH v8 11/15] xfs: restart faults racing with realtime flag
+ changes
+Message-ID: <20261112133403.GA22165@lst.de>
+References: <20261112010229.51029-1-mason@kernel.org> <20261112010229.51029-12-mason@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -106,83 +50,167 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261111-mason-migrate-et-al-fixes-v1-0-3d2454362e8d@kernel.org> <20261111-mason-migrate-et-al-fixes-v1-2-3d2454362e8d@kernel.org>
-In-Reply-To: <20261111-mason-migrate-et-al-fixes-v1-2-3d2454362e8d@kernel.org>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Thu, 12 Nov 2026 06:30:43 -0700
-X-Gm-Features: AclHuK_EMQbfmXamV3TaIqS6catb5--28CKUD5GkvfpyfyoaKenoCKPieGjScZg
-Message-ID: <CAKEwX=MDNW=tj5cfSrAN=VG-NEd2cax6f7QHcPfGDc1vTix+TQ@mail.gmail.com>
-Subject: Re: [PATCH 02/13] mm: cachestat: count each page only once
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: David Hildenbrand <david@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	David Rientjes <rientjes@google.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Andrew Morton <akpm@linux-foundation.org>, Jann Horn <jannh@google.com>, 
-	Pedro Falcato <pfalcato@suse.de>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
-	Matthew Brost <matthew.brost@intel.com>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
-	Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
-	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
-	Usama Arif <usama.arif@linux.dev>, Kairui Song <kasong@tencent.com>, 
-	Balbir Singh <balbirs@nvidia.com>, =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>, 
-	Kiryl Shutsemau <kas@kernel.org>, Yu-cheng Yu <yu-cheng.yu@intel.com>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, Dennis Zhou <dennis@kernel.org>, 
-	Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>, Peng Fan <peng.fan@nxp.com>, 
-	Josef Bacik <jbacik@fb.com>, Chris Mason <mason@kernel.org>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	"Borislav Petkov (AMD)" <bp@alien8.de>, Mark Brown <broonie@kernel.org>, 
-	"Dennis Zhou (Facebook)" <dennisszhou@gmail.com>, Rick Edgecombe <rick.p.edgecombe@intel.com>, 
-	stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261112010229.51029-12-mason@kernel.org>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Wed, Nov 11, 2026 at 11:14=E2=80=AFAM Lorenzo Stoakes (ARM) <ljs@kernel.=
-org> wrote:
->
-> From: Chris Mason <mason@kernel.org>
->
-> It turns out that filemap_cachestat() can unwittingly return incorrect
-> page counts, if large folios are present.
->
-> This can occur due to underflow - nr_cache is nearly 2^64 on a 64-bit
-> kernel if the input range starts more than 64 pages into a folio that is
-> split during the call.
->
-> It can also occur due to pages after a large folio being skipped if the
-> range starts in its second or later XArray slot and the call reschedules =
-at
-> that folio.
->
-> Finally it can be caused by pages being counted twice due to folios in th=
-e
-> range being split or collapsed during the call.
->
-> filemap_cachestat() walks the page cache under the RCU read lock only,
-> and for each entry it counts the pages that lie in the range. It does
-> not track how far it has counted, so the counts are only right if the
-> walk returns each index once.
->
-> But a large folio can be split during the walk, or small folios can be
-> collapsed into a large one, and the next entries then cover indices that
-> were already counted.
->
-> Resolve the issue by tracking the current index as one past the last inde=
-x
-> in the folio, and explicitly using xas_set() to set the current position =
-in
-> the XArray.
->
-> Additionally, add a check for folio_last_index reaching or exceeding
-> last_index and break out of the loop if so.
->
-> Fixes: cf264e1329fb ("cachestat: implement cachestat syscall")
-> Cc: <stable@vger.kernel.org>
+On Wed, Nov 11, 2026 at 08:02:40PM -0500, Chris Mason wrote:
+> On a zoned XFS, a store through a shared mapping can dereference a NULL
+> pointer, or corrupt the free block counter, if the realtime flag of the
+> file changes during the write fault.
+> 
+> xfs_write_fault() reserves zoned space only for a zoned inode, and tests
+> for that with no lock held. xfs_buffered_write_iomap_begin() tests again
+> before it takes the ILOCK. FS_IOC_FSSETXATTR can change the flag of a
+> file with no blocks between the two tests, since a fault never takes the
+> IOLOCK:
+> 
+>     write fault                           FS_IOC_FSSETXATTR
+>     ===========                           =================
+>     xfs_write_fault()
+>       sees that the inode is not zoned
+>                                           sets the realtime flag
+>     xfs_buffered_write_iomap_begin()
+>       sees that the inode is zoned
+>       /* ac is NULL */
+> 
+> If the flag is cleared instead, xfs_zoned_buffered_write_iomap_begin()
+> can be waiting for the ILOCK at that time. It then reserves blocks the
+> zoned way on a regular inode, and the free block counter ends up too
+> high.
+> 
+> The fix used here is to test again under the ILOCK, before blocks are
+> reserved or allocated, and to make the fault start over if the flag has
+> changed. Any other caller that gets there fails, as a write does.
+> 
+> Fixes: 058dd70c65ab ("xfs: implement buffered writes to zoned RT devices")
 > Signed-off-by: Chris Mason <mason@kernel.org>
-> [ ljs: updated to use curr_index, fixed comments, updated commit message =
-]
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> ---
+> 
+> Notes:
+>     v7->v8:
+>     - Only a page fault gets -EAGAIN. Any other caller that gets to one of
+>       the tests fails with -EINVAL, as a write and an fallocate do. pNFS can
+>       get there: xfs_fs_map_blocks() tests the flag before it takes its
+>       locks (Christoph Hellwig).
+>     - The warning now says "during block mapping".
+>     - The helper reads the inode number with I_INO(), and its comment no
+>       longer says that the flag is stable once the inode has blocks.
+>     - Was 11/11.
+>     
+>     v6->v7:
+>     - xfs_direct_write_iomap_begin() tests the flag too, as soon as it holds
+>       the ILOCK. It could allocate blocks for a COW fork extent before it
+>       got to the test in xfs_iomap_write_direct().
+>     - The assert on the extent size hint in
+>       xfs_zoned_buffered_write_iomap_begin() moved below the test of the
+>       flag.
+>     - Dropped the Reviewed-by of Christoph Hellwig, since the patch changed.
+>     - Was 10/10.
+> 
+>  fs/xfs/xfs_iomap.c | 42 ++++++++++++++++++++++++++++++++++++++++--
+>  1 file changed, 40 insertions(+), 2 deletions(-)
+> 
+> diff --git a/fs/xfs/xfs_iomap.c b/fs/xfs/xfs_iomap.c
+> index c3465204b8d5..d36650450cbb 100644
+> --- a/fs/xfs/xfs_iomap.c
+> +++ b/fs/xfs/xfs_iomap.c
+> @@ -264,6 +264,25 @@ xfs_iomap_eof_align_last_fsb(
+>  	return end_fsb;
+>  }
+>  
+> +/*
+> + * A write fault picks the zoned or the regular path before it takes a lock, and
+> + * it never takes the IOLOCK.  The realtime flag cannot change under the ILOCK,
+> + * so look at it again there, before reserving or allocating blocks.  Only a
+> + * fault can start over, so refuse any other caller, as the write path does.
+> + */
+> +static int
+> +xfs_iomap_rtflag_changed(
+> +	struct xfs_inode	*ip,
+> +	unsigned int		flags)
+> +{
+> +	xfs_warn_ratelimited(ip->i_mount,
+> +		"RT flag modifying during block mapping for inode 0x%llx.",
+> +		I_INO(ip));
+> +	if (flags & IOMAP_FAULT)
+> +		return -EAGAIN;
+> +	return -EINVAL;
+> +}
+> +
+>  int
+>  xfs_iomap_write_direct(
+>  	struct xfs_inode	*ip,
+> @@ -334,6 +353,11 @@ xfs_iomap_write_direct(
+>  	if (error)
+>  		return error;
+>  
+> +	if (xfs_is_zoned_inode(ip)) {
+> +		error = xfs_iomap_rtflag_changed(ip, flags);
+> +		goto out_trans_cancel;
+> +	}
+> +
+>  	error = xfs_iext_count_extend(tp, ip, XFS_DATA_FORK, nr_exts);
+>  	if (error)
+>  		goto out_trans_cancel;
+> @@ -919,6 +943,11 @@ xfs_direct_write_iomap_begin(
+>  	if (error)
+>  		return error;
+>  
+> +	if (xfs_is_zoned_inode(ip)) {
+> +		error = xfs_iomap_rtflag_changed(ip, flags);
+> +		goto out_unlock;
+> +	}
+> +
+>  	/*
+>  	 * The reflink iflag could have changed since the earlier unlocked
+>  	 * check, check if it again and relock if needed.
+> @@ -1666,9 +1695,7 @@ xfs_zoned_buffered_write_iomap_begin(
+>  	struct xfs_iext_cursor	icur;
+>  	int			error = 0;
+>  
+> -	ASSERT(!xfs_get_extsz_hint(ip));
+>  	ASSERT(!(flags & IOMAP_UNSHARE));
+> -	ASSERT(ac);
+>  
+>  	if (xfs_is_shutdown(mp))
+>  		return -EIO;
+> @@ -1682,6 +1709,12 @@ xfs_zoned_buffered_write_iomap_begin(
+>  	if (error)
+>  		return error;
+>  
+> +	if (!xfs_is_zoned_inode(ip) || !ac) {
+> +		error = xfs_iomap_rtflag_changed(ip, flags);
+> +		goto out_unlock;
+> +	}
 
-Thanks, Chris and Lorenzo, for taking a look at this!
+For actual writes this can't happens as we're under the IOLOCK (i_rwsem)
+taken in xfs_file_buffered_write here, and the only way to change
+the REALTIME flag is through vfs_fileattr_set which also takes
+i_rwsem in exclusive mode.  So this should probably assert that
+IOMAP_FAULT is set.
 
-Acked-by: Nhat Pham <nphamcs@gmail.com>
+Given that the MMAPLOCK (invalidate_lock) nests inside the IOLOCK,
+it might makes sense to also take the MMAPLOCK exclusive in
+xfs_fileattr_set and just check for the rtflag check early in
+__xfs_write_fault instead of leaking this into iomap for buffered
+I/O.  This would also remove the need for the extra ac check.
+
+> @@ -1865,6 +1898,11 @@ xfs_buffered_write_iomap_begin(
+>  	if (error)
+>  		return error;
+>  
+> +	if (xfs_is_zoned_inode(ip)) {
+> +		error = xfs_iomap_rtflag_changed(ip, flags);
+> +		goto out_unlock;
+> +	}
+
+Same here.
+
+>  	if (XFS_IS_CORRUPT(mp, !xfs_ifork_has_extents(&ip->i_df)) ||
+>  	    XFS_TEST_ERROR(mp, XFS_ERRTAG_BMAPIFORMAT)) {
+>  		xfs_bmap_mark_sick(ip, XFS_DATA_FORK);
+> -- 
+> 2.55.0
+---end quoted text---
