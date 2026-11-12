@@ -1,72 +1,124 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794482496;
-	b=AecnSzMQKCje9qVDmv02ykI1Cnub0rbIUCx6Ot6U68f7dMoULWWKiYfWlWiQqfF6mJ5x
-	 8rgaVPkWNxD/hyp7pabjKDOO1LMuFes5rpRODOijJ74JWJSITZ3XfPjmCl7XYyHNqHeL4
-	 g58h7Szgj2WtyeKhtT61VDU73LFyDyHWcBWNHx8D67sRveSYBLSb1MFSFjoPWHxGrBo/W
-	 0hl118ET8li72/YRwfQQmsYTItJDPSlIC/MUemAkRBQvfPAYTEmGOXvHDlsQbCB/rlMzL
-	 y4dhgvaJSoRKv5p3XsjOHc1IOHlmwcwYL6X3MFM36qfQ0RWm/y2ugAGoye9cYh4ciEw==
+	t=1794482505;
+	b=vutuLT08S5rISoT7fuySzxIHYLKgYJocE3Rdd5GEwrAHaUwwTcpFNC3W40noVqDjT0h8
+	 FcaeapwzJBHhR/Xb0YAPG5Fu8cmHIUHpWcIRHkbbOIsobjabeBGfJzyQablik1oXzqBfb
+	 pKa+kdTLOBp7SNcEhgFjZSgNiLp7dIwUrvsPRcAP4nTey+xVRXtsDUE7sqFs8T3ABs4Uu
+	 khgmBn5eG+/6Ft1817cZtuHHVBnGu/EPadKJNnQFXWjHP7m6p65K7rYwal+eZsqwLnTIZ
+	 EJcaQum8hXefypztuTVHVoSDvnHW2HX6IH3cQR/scIIwZu23TssPL4GEHu1crRKAs3w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794482496;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=k0NaPbrNMApl+0OhCvZtbmHgHjDNgBdnGMkilCDmB9c=;
-	b=Z3L90NBQL4t8aFWSGYJp3iA/jqNtJ13Kwhg13Mdxd2joV79/Lm8WMY93x+oiVhPPNgc1
-	 I6fmufoFOge0oJhzpn7cRfySmvJ5yVGyOEoPfqE+AxAOpxMJtSEBGG1is0Iv48QCNB8OL
-	 kNwYuBGGlWlsxj3vZUbKLluc/J+iTqvOsZ1jIpFvXVTYQRTWsVbFHY3XI5RfKgf/AecR6
-	 4Pe0DLug65yVOlqSgB7WVwUdtvVfW5Hy1OxceUD+crGku5LvLYOJYIeEMSK9bzaeNPl9S
-	 6SS8rWunE0oWQzcHkOl6CHqSxsjv1dHgfBNR6MbQ8f+DECV9fqORyo4L1flezGEeP6g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794482505;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
+	 X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:
+	 X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
+	bh=b68hR85FMy64ZLKPI+SkETJKcoWTtrleDFFCwxd3C7E=;
+	b=KOLReikNhv2tPhVpuKFyY+bRaHrtRp7k8buRDdr6a5EG1AUaL3Mx/KDipEjMzrNj4Hl5
+	 Cji5CGAW5bdscN2T6YwbOkr5qVfYCG/cfR/1ZA4tFGSxIgMPyXiwctTCaxkHuNl+va7BP
+	 cJz9hdZ9/622ZWxHu823iBx8ESAG+zeoTLlGLSRyXdANMIv6dRwWW63aZbB/rMaA3nKsQ
+	 dAp3WNRQbkjysnhzEab3lCN4cllntoK7e3L5VgKVcqy6r18N7dwgAehvFSqU9lrxLbDMq
+	 BgFVth+dPZiW3gzhOHBfcdd+stL+xOCVpZ4VZG/T40DG1x6CAHPAN11TWXquSU9X8eQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b5UKayYn;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=f8PKmcO3;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Qc8cqb2R;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=f8PKmcO3;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Qc8cqb2R;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EA9460A5BDA;
-	Thu, 12 Nov 2026 11:21:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68859606F407;
+	Thu, 12 Nov 2026 11:21:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 68859606F407
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b5UKayYn
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3AFD1F00A07;
-	Thu, 12 Nov 2026 11:21:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794482495;
-	bh=k0NaPbrNMApl+0OhCvZtbmHgHjDNgBdnGMkilCDmB9c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=b5UKayYnIwJr4nFQ84cbShH/GDU3AKLrS6KouggcNT0KChdHpzhV/o+TxoMI45ALS
-	 YFk6VMmmVC3BCLFpncQHyYnM15y+f19drcHGndjbZRIWDdVVqKJDFnr28dECNIw/Rl
-	 g6ktlL+g6s8RYyKnh6Kafl1bkBU2Mj9B3Y/n4vWwFuxlLe29iadqVZpUIL4OdIdpgA
-	 3/pW4ekBW50oNHtowAkFSQtejR7MTKXESA7FsIUcNimG/Tg1gqdxblZfi0K00VyWSZ
-	 4anAwm7q8+0j9VGxNcvRzWJfmU+HsSSDBmnS0XMQ+HReN4K12o3UJOJ1h53djv+Fqk
-	 oX7ts/LkjE64w==
-Date: Thu, 12 Nov 2026 11:21:24 +0000
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Tal Zussman <tz2294@columbia.edu>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Mike Rapoport <rppt@kernel.org>, Peter Xu <peterx@redhat.com>, 
-	James Houghton <jthoughton@google.com>, Andrea Arcangeli <aarcange@redhat.com>, 
-	Suren Baghdasaryan <surenb@google.com>, Balbir Singh <balbirs@nvidia.com>, 
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=f8PKmcO3;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Qc8cqb2R;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=f8PKmcO3;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Qc8cqb2R
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 83E481F74D;
+	Thu, 12 Nov 2026 11:21:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1794482502; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=b68hR85FMy64ZLKPI+SkETJKcoWTtrleDFFCwxd3C7E=;
+	b=f8PKmcO3THEm97E0clNHriq4Z64U95UVpQJKVzAHSFQsf2uA8U5cIRr+Kz2zuNFySoOqlP
+	3/9gmJ7WZkgL7nmxglnkqVcbIcqwyepaDSFJL9+m2XXYD4mn0Yp/i1+4uEaZ+yUYK3bBAO
+	Z/Zk+ThUwR6EC8Xo9kGfRh86noaXH6Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1794482502;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=b68hR85FMy64ZLKPI+SkETJKcoWTtrleDFFCwxd3C7E=;
+	b=Qc8cqb2RCIXsDmnVlLXr1Rg/oe9HO72E9kGX41HXI6G+yK09O6MWVLkmK8wuduiymKcucb
+	szOlGWoh9SGsTfDw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=f8PKmcO3;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Qc8cqb2R
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1794482502; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=b68hR85FMy64ZLKPI+SkETJKcoWTtrleDFFCwxd3C7E=;
+	b=f8PKmcO3THEm97E0clNHriq4Z64U95UVpQJKVzAHSFQsf2uA8U5cIRr+Kz2zuNFySoOqlP
+	3/9gmJ7WZkgL7nmxglnkqVcbIcqwyepaDSFJL9+m2XXYD4mn0Yp/i1+4uEaZ+yUYK3bBAO
+	Z/Zk+ThUwR6EC8Xo9kGfRh86noaXH6Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1794482502;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=b68hR85FMy64ZLKPI+SkETJKcoWTtrleDFFCwxd3C7E=;
+	b=Qc8cqb2RCIXsDmnVlLXr1Rg/oe9HO72E9kGX41HXI6G+yK09O6MWVLkmK8wuduiymKcucb
+	szOlGWoh9SGsTfDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D635A134A0;
+	Thu, 12 Nov 2026 11:21:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id fxoaJEOh9WodfQAAD6G6ig
+	(envelope-from <pfalcato@suse.de>); Thu, 12 Nov 2026 11:21:39 +0000
+Date: Thu, 12 Nov 2026 11:21:38 +0000
+From: Pedro Falcato <pfalcato@suse.de>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: David Hildenbrand <david@kernel.org>, 
 	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	=?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>, Andrei Vagin <avagin@gmail.com>, 
-	Stephen Rothwell <sfr@canb.auug.org.au>, Arnd Bergmann <arnd@arndb.de>, 
-	Muhammad Usama Anjum <usama.anjum@arm.com>, David Hildenbrand <david@kernel.org>, Zi Yan <ziy@nvidia.com>, 
-	Matthew Brost <matthew.brost@intel.com>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
-	Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
-	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Chris Down <chris@chrisdown.name>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	=?utf-8?Q?Miko=C5=82aj?= Lenczewski <miko.lenczewski@arm.com>, Michal Hocko <mhocko@suse.com>, 
-	Mike Kravetz <mike.kravetz@oracle.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 09/12] mm/madvise: let a guard marker carry the uffd-wp
- bit
-Message-ID: <avWeNRMIU2QPGZ4w@gremlin>
-References: <20261111-uffd-state-fixes-v1-0-00713d368976@columbia.edu>
- <20261111-uffd-state-fixes-v1-9-00713d368976@columbia.edu>
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, David Rientjes <rientjes@google.com>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
+	Jann Horn <jannh@google.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+	Jan Kara <jack@suse.cz>, Nhat Pham <nphamcs@gmail.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Usama Arif <usama.arif@linux.dev>, 
+	Kairui Song <kasong@tencent.com>, Balbir Singh <balbirs@nvidia.com>, 
+	=?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>, Kiryl Shutsemau <kas@kernel.org>, 
+	Yu-cheng Yu <yu-cheng.yu@intel.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>, 
+	Peng Fan <peng.fan@nxp.com>, Josef Bacik <jbacik@fb.com>, Chris Mason <mason@kernel.org>, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	"Borislav Petkov (AMD)" <bp@alien8.de>, Mark Brown <broonie@kernel.org>, 
+	"Dennis Zhou (Facebook)" <dennisszhou@gmail.com>, Rick Edgecombe <rick.p.edgecombe@intel.com>, 
+	stable@vger.kernel.org
+Subject: Re: [PATCH 01/13] mm/mmap: free gathered pages before MMF_OOM_SKIP
+Message-ID: <avWgulaWoKBfIFlo@pedro-suse.tail5790ac.ts.net>
+References: <20261111-mason-migrate-et-al-fixes-v1-0-3d2454362e8d@kernel.org>
+ <20261111-mason-migrate-et-al-fixes-v1-1-3d2454362e8d@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -78,167 +130,129 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261111-uffd-state-fixes-v1-9-00713d368976@columbia.edu>
+In-Reply-To: <20261111-mason-migrate-et-al-fixes-v1-1-3d2454362e8d@kernel.org>
+X-Spamd-Result: default: False [-12.01 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_TWELVE(0.00)[43];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[kernel.org,infradead.org,google.com,suse.com,linux.dev,linux-foundation.org,suse.cz,gmail.com,cmpxchg.org,nvidia.com,intel.com,sk.com,gourry.net,linux.alibaba.com,tencent.com,redhat.com,linux.intel.com,gentwo.org,nxp.com,fb.com,kvack.org,vger.kernel.org,alien8.de];
+	DKIM_TRACE(0.00)[suse.de:+];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RLziudqfrzo6b7hzgpxksh1d9i)];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -12.01
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 83E481F74D
 
-On Wed, Nov 11, 2026 at 12:55:17PM -0500, Tal Zussman wrote:
-> MADV_GUARD_INSTALL can only install guard markers in a range without
-> populated entries. It zaps the range and retries, restarting the syscall
-> if the range still isn't clear. On a file-backed VMA registered for
-> uffd-wp, the zap keeps uffd-wp markers and converts write-protected PTEs
-> into new markers, as the pages are still in the page cache and must stay
-> write-protected. The range never becomes clear, and installing a guard
-> region in write-protected shmem keeps restarting the madvise() call.
-> Signal handlers still run, but the call does not return until the task
-> is killed.
->
-> An entry that is write-protected must stay write-protected while a guard
-> is installed on it and after the guard is removed. PTE markers are a bit
-> mask, so a marker can be a guard marker and a uffd-wp marker at the same
-> time. To fix it, let a guard marker carry the uffd-wp bit:
->
->  - guard install adds the guard bit to an existing uffd-wp marker
->  - guard removal clears only the guard bit
->  - unprotecting or unregistering clears the uffd-wp bit of a guard
->    marker
->
-> The fault path, zap, fork, and pagemap already handle a marker with both
-> bits set. However, pte_is_uffd_marker() would let UFFDIO_COPY overwrite
-> the guard, so make it ignore guard markers. Anonymous VMAs drop uffd-wp
-> markers on zap and never get the combined marker.
->
-> MADV_GUARD_INSTALL on a uffd-wp shmem range now succeeds instead of
-> hanging. When the guard region is removed again, its pages are still
-> write-protected. While the guard is in place, pagemap reports both
-> PM_GUARD_REGION and PM_UFFD_WP for them.
->
-> There are two simpler alternatives, but neither works. Zapping with
-> ZAP_FLAG_DROP_MARKER fixes the hang but drops the write protection: the
-> page is still in the page cache once the guard is removed, and writes to
-> it are not reported. Refusing guard install on uffd-wp file VMAs in
-> is_valid_guard_vma() would break a combination that works on anonymous
-> memory, by adding a new -EINVAL for it.
->
-> Fixes: f807123d578d ("mm: allow guard regions in file-backed and read-only mappings")
-> Signed-off-by: Tal Zussman <tz2294@columbia.edu>
+On Wed, Nov 11, 2026 at 06:13:15PM +0000, Lorenzo Stoakes (ARM) wrote:
+> The OOM killer can quickly trigger again after having selected a
+> victim. That victim might not have freed its memory yet, but its mm will
+> be marked MMF_OOM_SKIP by this point, so the OOM killer will ignore it.
+> 
+> This can cause the OOM killer to kill an innocent process when the first
+> might have freed enough memory to relieve the memory pressure.
+> 
+> Fix the issue by freeing the memory before marking the mm MMF_OOM_SKIP.
+> 
+> Note that the task which calls mmput() might not be the victim - if it
+> took a reference on the mm (e.g. ptrace), it may hold the last reference
+> and release it when it calls mmput().
+> 
+> Therefore we cannot rely on current to tell whether the mm belongs to an
+> OOM victim. Instead, partially revert commit b3541d912a84 ("mm: delete
+> unused MMF_OOM_VICTIM flag") to reinstate MMF_OOM_VICTIM, which
+> mark_oom_victim() sets on the victim's mm, and check that.
+> 
+> Reported-by: Chris Mason <mason@kernel.org>
+> Fixes: bf3980c85212 ("mm: drop oom code from exit_mmap")
+> Cc: <stable@vger.kernel.org>
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 
-Please drop this patch too.
+Looks good, thank you!
 
-With my patch disallowing guard marker install on uffd-armed VMAs this goes
-away (and doesn't make sense anyway.)
-
-I really feel these guard region ones should have been sent separately, btw.
-
-You're establishing a bunch of interlocking dependencies of different changes in
-this series that makes life hard for reviewers, especially given backports etc.
-
-And now I'm having to essentially inverse cherry pick stuff :)
+Reviewed-by: Pedro Falcato <pfalcato@suse.de>
 
 > ---
->  include/linux/leafops.h |  4 ++++
->  mm/madvise.c            | 28 ++++++++++++++++++++++++++--
->  mm/mprotect.c           | 23 +++++++++++++++++++++--
->  3 files changed, 51 insertions(+), 4 deletions(-)
->
-> diff --git a/include/linux/leafops.h b/include/linux/leafops.h
-> index 4c1476ae3234..add4968ded44 100644
-> --- a/include/linux/leafops.h
-> +++ b/include/linux/leafops.h
-> @@ -578,6 +578,10 @@ static inline bool pte_is_uffd_marker(pte_t pte)
->  	if (!softleaf_is_marker(entry))
->  		return false;
->
-> +	/* A guard marker stays a guard, even with the uffd-wp bit set. */
-> +	if (softleaf_is_guard_marker(entry))
-> +		return false;
+>  include/linux/mm_types.h | 2 ++
+>  include/linux/oom.h      | 9 +++++++++
+>  mm/mmap.c                | 9 ++++++++-
+>  mm/oom_kill.c            | 4 +++-
+>  4 files changed, 22 insertions(+), 2 deletions(-)
+> 
+> diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+> index 1ed35d258d2e..09e63ff12b04 100644
+> --- a/include/linux/mm_types.h
+> +++ b/include/linux/mm_types.h
+> @@ -2030,6 +2030,8 @@ enum {
+>  #define MMF_TOPDOWN		31	/* mm searches top down by default */
+>  #define MMF_TOPDOWN_MASK	BIT(MMF_TOPDOWN)
+>  
+> +#define MMF_OOM_VICTIM		32	/* mm is the oom victim */
 > +
->  	/* UFFD WP, poisoned swap entries are UFFD-handled. */
->  	if (softleaf_is_uffd_wp_marker(entry))
->  		return true;
-> diff --git a/mm/madvise.c b/mm/madvise.c
-> index 0214efd2a014..e2c6b0f26672 100644
-> --- a/mm/madvise.c
-> +++ b/mm/madvise.c
-> @@ -1123,6 +1123,23 @@ static int guard_install_pte_entry(pte_t *pte, unsigned long addr,
->  		return 0;
->  	}
->
-> +	/*
-> +	 * Zapping keeps uffd-wp markers on file-backed VMAs, so add the guard
-> +	 * to the marker instead. The slot stays write-protected once the guard
-> +	 * is removed.
-> +	 */
-> +	if (!vma_is_anonymous(walk->vma) && pte_is_uffd_wp_marker(pteval)) {
-> +		const softleaf_t entry = softleaf_from_pte(pteval);
-> +
-> +		set_pte_at(walk->mm, addr, pte,
-> +			   make_pte_marker(softleaf_to_marker(entry) |
-> +					   PTE_MARKER_GUARD));
-> +		update_mmu_cache(walk->vma, addr, pte);
-> +		(*nr_pages)++;
-> +
-> +		return 0;
-> +	}
-> +
->  	/* If populated return >0 so we abort the operation + zap. */
->  	return 1;
+>  #define MMF_INIT_LEGACY_MASK	(MMF_DUMP_FILTER_MASK |\
+>  				 MMF_DISABLE_THP_MASK | MMF_HAS_MDWE_MASK |\
+>  				 MMF_VM_MERGE_ANY_MASK | MMF_TOPDOWN_MASK)
+> diff --git a/include/linux/oom.h b/include/linux/oom.h
+> index 00da05d227e6..a9390cb70541 100644
+> --- a/include/linux/oom.h
+> +++ b/include/linux/oom.h
+> @@ -76,6 +76,15 @@ static inline bool tsk_is_oom_victim(struct task_struct * tsk)
+>  	return tsk->signal->oom_mm;
 >  }
-> @@ -1259,8 +1276,15 @@ static int guard_remove_pte_entry(pte_t *pte, unsigned long addr,
->  	pte_t ptent = ptep_get(pte);
->
->  	if (is_guard_pte_marker(ptent)) {
-> -		/* Simply clear the PTE marker. */
-> -		pte_clear(walk->mm, addr, pte);
-> +		const softleaf_t entry = softleaf_from_pte(ptent);
-> +		const pte_marker marker = softleaf_to_marker(entry) &
-> +					  ~PTE_MARKER_GUARD;
+>  
+> +/*
+> + * Use this helper if tsk->mm != mm and the victim mm needs a special
+> + * handling. This is guaranteed to stay true after once set.
+> + */
+> +static inline bool mm_is_oom_victim(struct mm_struct *mm)
+> +{
+> +	return mm_flags_test(MMF_OOM_VICTIM, mm);
+> +}
 > +
-> +		/* Clear the guard bit and keep the uffd-wp bit, if set. */
-> +		if (marker)
-> +			set_pte_at(walk->mm, addr, pte, make_pte_marker(marker));
-> +		else
-> +			pte_clear(walk->mm, addr, pte);
->  		update_mmu_cache(walk->vma, addr, pte);
->  	}
->
-> diff --git a/mm/mprotect.c b/mm/mprotect.c
-> index ef4e7188e24d..6cc5b99b4185 100644
-> --- a/mm/mprotect.c
-> +++ b/mm/mprotect.c
-> @@ -249,9 +249,28 @@ static long change_softleaf_pte(struct vm_area_struct *vma,
->  		 * because any access should sigbus/sigsegv
->  		 * anyway.
->  		 */
-> -		if (softleaf_is_poison_marker(entry) ||
-> -		    softleaf_is_guard_marker(entry))
-> +		if (softleaf_is_poison_marker(entry))
->  			return 0;
+>  /*
+>   * Checks whether a page fault on the given mm is still reliable.
+>   * This is no longer true if the oom reaper started to reap the
+> diff --git a/mm/mmap.c b/mm/mmap.c
+> index 7618e72766a5..4cb18b217048 100644
+> --- a/mm/mmap.c
+> +++ b/mm/mmap.c
+> @@ -1313,11 +1313,18 @@ void exit_mmap(struct mm_struct *mm)
+>  	/* update_hiwater_rss(mm) here? but nobody should be looking */
+>  	/* Use ULONG_MAX here to ensure all VMAs in the mm are unmapped */
+>  	unmap_vmas(&tlb, &unmap);
 > +
-> +		/*
-> +		 * A guard marker on a file-backed VMA carries the
-> +		 * uffd-wp state of the slot for when the guard is
-> +		 * removed.
-> +		 */
-> +		if (softleaf_is_guard_marker(entry)) {
-> +			const pte_marker old = softleaf_to_marker(entry);
-> +			pte_marker marker = old;
-> +
-> +			if (uffd_prot_resolve)
-> +				marker &= ~PTE_MARKER_UFFD_WP;
-> +
-> +			if (marker == old)
-> +				return 0;
-> +			set_pte_at(vma->vm_mm, addr, pte,
-> +				   make_pte_marker(marker));
-> +			return 1;
-> +		}
-> +
->  		/*
->  		 * If this is uffd-wp pte marker and we'd like
->  		 * to unprotect it, drop it; the next page
->
-> --
-> 2.39.5
->
+> +	/*
+> +	 * Free the memory before marking MMF_OOM_SKIP so a re-triggered OOM
+> +	 * killer will only skip this mm if it's already freed all it can.
+> +	 */
+> +	if (mm_is_oom_victim(mm))
+> +		tlb_flush_mmu(&tlb);
 
---
-Cheers, Lorenzo
+I see there's a different tlb_flush_mmu() call below (in the actual function).
+Is tlb_flush_mmu() idempotent?
+
+-- 
+Pedro
