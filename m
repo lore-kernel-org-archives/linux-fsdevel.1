@@ -1,71 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.154
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794486186;
-	b=sWHpSi2LnwGlADtum/E1C+BJDrRX9iOgqF5msuiKlDcPZtWfqO9MM5vjEOY5aO8w9yJR
-	 7Z1JQieMIH1Ya+nM3FbY4jjCyoRMbOXgpYv+WtRhlbJDZGfrKkpn9ObcEggkw7Z0cTXl2
-	 19ilR+bT1ituyRY3u2UXsSgJVAIEDyv72Dn8HuhHPz43rICU8AEsrFvF428MVaguto7mN
-	 JdZGnkXWNGYs82H/yanZunSfbHx/vVP3yGIw4mBVdfV5paFea1yHuIg3bjMqUXVv2z6gO
-	 tvctr/N4mkUi4M4m4Zu2Yq4CKmIJJrbacWr0NE1ovtJmBgciqx7jo5EsGerxqKDLEyA==
+	t=1794486198;
+	b=FDVKldnlmMJXL3iPeBmWkPUpAJllmXEEImIsABcOai+qfTre/hVfLTIggVsXQHmVJwTk
+	 ulv0+mgiGzSKIHXyIQ6C2baz6AKo/ktfhKLxedyXIlQ+Ej/19uRdCqE2YRfLmyorepW4Z
+	 iXpKXsqkjyxVvs+7yN6VOFh86qUnlJDjx4zFbI9D4778KBlLFWGr5rdfpjqyZN+/bfP8R
+	 irJhqplR3375accLWCLY5KMomep/Kv/zsmJtQE0ZGJzzE0pM12vc97efRZUvNw6R5Vzxj
+	 qrbWy9D7wmY7Zv17QyY5XXb30MjgeYIerN584JFWFKoFKsUV6V1JLsoTMq5LHNCk4lQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794486186;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=lWlw4c7qfDg3OW28iHlk8qt/mvenvwkeKIlZQ1FC3mw=;
-	b=ro8JeXxczWnk77UIlGa+qhWsMueB95FylGxeeYro3xEuE+jsncwomnneIlP3icdlwup3
-	 60jWy+Xo8yRcuYmDAdjxTlQ9QfbUqMucyjmuNrcfRESxRHCDBqrYGTQvYSf4szpqmd2ZS
-	 v8pb6fE4OtN+ChhunsXLnps65m21Ap8/erE1PFzTSsDAWYzbhIGaiQV7g2nyG9A3ycqyc
-	 qb40Xl0SiDFhxp+cfSKK3CuUzsW6xZCeXqio2lClFp7YHT9YyFXgmA3unL0w/6IaWCOoE
-	 Ai/2toPpSDmHp06rhRHowAoB+Q/TEweQ2VNFqH7DI+YyrtjdDSVxs0jJHOEWUWPxIEw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794486198;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
+	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
+	 References:Subject:Content-Type:Content-Transfer-Encoding;
+	bh=pQQOtAWIajuSIjlpRm2vXAuyWpPNUiVztPgT4AugiJU=;
+	b=vgOFvSKY3HSHls2bFrg/D0I/XAH25afTRz/PE87tfJV5jW+PimedmoFB1In/8ledz6km
+	 RkjQH0EdDL9PgpGFdvVY80lO1YGUUaqA/B6IEruA3fXmjdpwmr3U3wI7nkp+PZIO4PexR
+	 /xYxFMhWTZAtQ4MlN0VCZOOKVcExHWQIG+RsnmgB94ZamFpBSO9C9gYkwYVDXw97nia5G
+	 ODDM69RdfLCA1hzYqYI/byxKdc5c3TTKCW6jB/7BfHh6RUCvW7xD9Uqmv0qWzWiGixqFZ
+	 VUNw+XcVXH/vLywJxWQK5V2KzCZ0O4vXHjqA+Sqc/kSICna5cHgK0Qwg2yZ1V3e6TAA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Xd6pqgjh;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=arndb.de;
+	spf=pass smtp.mailfrom=arndb.de;
+	dkim=pass header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=P3crDTR2;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=fSUUtdbR;
+	arc=none smtp.remote-ip=202.12.124.154
+Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 642FA606A330;
-	Thu, 12 Nov 2026 12:23:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D852606A889
+	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 12:23:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7D852606A889
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Xd6pqgjh
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 997111F00A05;
-	Thu, 12 Nov 2026 12:22:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794486185;
-	bh=lWlw4c7qfDg3OW28iHlk8qt/mvenvwkeKIlZQ1FC3mw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Xd6pqgjhgMlhQ6hVKaJF/N4Xr+guaVNesjZMxo7k+RkYUnsVMo6cJ6/c0pqj++MDS
-	 pVvLZn6pkeYtDjLQKco9aekFMAmLwm20qtCrLZ9kC/eRWl+eYHt1zRS7k3/RIXJ8kW
-	 2AhCyeove+V3rQfwaTpi6OusY4wQ0uEm2t0GBfn5AnKyK6V3npnOBQt51dmbXUr3Iy
-	 mtOwE1wCrPpQmzQbToI82zpMgHTTEOc61a7IXFohHd6biYeQQa5PXzx2W95jcw+b00
-	 XU2cuBNNUi6df+ytz5N024IKdrObe2Ad0NsLLpypl+ozGtsFGvlk/9Q3jx7s+ozcbD
-	 N6OzO+ESTJbQw==
-Date: Thu, 12 Nov 2026 12:22:54 +0000
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Usama Arif <usama.arif@linux.dev>
-Cc: David Hildenbrand <david@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, David Rientjes <rientjes@google.com>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Nhat Pham <nphamcs@gmail.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>, 
-	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
-	Alistair Popple <apopple@nvidia.com>, Kairui Song <kasong@tencent.com>, 
-	Balbir Singh <balbirs@nvidia.com>, =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>, 
-	Kiryl Shutsemau <kas@kernel.org>, Yu-cheng Yu <yu-cheng.yu@intel.com>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, 
-	Christoph Lameter <cl@gentwo.org>, Peng Fan <peng.fan@nxp.com>, Josef Bacik <jbacik@fb.com>, 
-	Chris Mason <mason@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, "Borislav Petkov (AMD)" <bp@alien8.de>, 
-	Mark Brown <broonie@kernel.org>, "Dennis Zhou (Facebook)" <dennisszhou@gmail.com>, 
-	Rick Edgecombe <rick.p.edgecombe@intel.com>
-Subject: Re: [PATCH 03/13] mm: cachestat: restart the walk after each entry
-Message-ID: <avWuxs25RmC6PvVZ@gremlin>
-References: <20261111-mason-migrate-et-al-fixes-v1-0-3d2454362e8d@kernel.org>
- <20261111-mason-migrate-et-al-fixes-v1-3-3d2454362e8d@kernel.org>
- <9b795d3a-1818-4265-a364-58fba139c651@linux.dev>
+	dkim=pass (2048-bit key, unprotected) header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=P3crDTR2;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=fSUUtdbR
+Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 6F9CF7A012D
+	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 07:23:16 -0500 (EST)
+Received: from ams-imap-03 ([10.64.2.23])
+  by ams-compute-02.internal (MEProxy); Thu, 12 Nov 2026 07:23:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1794486184;
+	 x=1794572584; bh=pQQOtAWIajuSIjlpRm2vXAuyWpPNUiVztPgT4AugiJU=; b=
+	P3crDTR2QrE3mDKXA0pzvG/J0bybuc/GE0R2+MUdZp264RpkSMcQVZUcYrDDpZgb
+	IF+xz7OFlA2tZ1mPVXTCRlHno9SutFrCMpp0k51JBZDEbv0keJE4XFc7UCBBsbu1
+	z5onelRGFLzhRVe4TDGTEy+caDsXmV/0vQkR9L3QcLqzqVWjjRtJV/GZsPcOQArg
+	TFVocEfVeZn3ldcZG9Zw+36qsWWQweFRqkf561gT/9CziFep7xz+6ynjjfATsBE0
+	dDxnnAdPXLtTWCfAR5HvCihTN1MenKC3qxdhalWsDf9cehT8iPjbkvssqTUmP8Ca
+	rixYuPIXf6Edl8S85rwsgQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1794486184; x=
+	1794572584; bh=pQQOtAWIajuSIjlpRm2vXAuyWpPNUiVztPgT4AugiJU=; b=f
+	SUUtdbR4HBO45/mk5eu0YAqBeAKShi7GKHdQyo/BWkb825A8Zi9EIqwWRVSs1pcN
+	2shVokvXjHddAXp7isok9lwDLIHuHWfHz6MNmkmQtn9hidGG8xcTZrxrxLs4ERmj
+	nnVUzsilTXAPPOFMD/tFoVHWYowqJS6SM+jBC74dDQt6d6doMt0uaYne/4RzxYm/
+	89EbxzKiZzolJ3h7lYx/Ky2Cl1+SZPPNnWFwJxKLaG7R284peEknvZBcSlslGRzw
+	5132kjSPejun9DRxwYozg+HXZkI0d5PX085EOoASVy5d7xZ1sJCrtlCPdoVwB7q1
+	IGZa0lXrdLbZFFX1aXggQ==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=arndb.de a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1794486184; d=arndb.de;
+	mf=PGFybmRAYXJuZGIuZGU+;
+	rt=PGxpbnV4LWZzZGV2ZWxAdmdlci5rZXJuZWwub3JnPg==;
+	s=fm2:rsa-sha256:IYwwx1P6wzPGyHS8u2sEqHqgIofDp2qesGCSP424aU3ZRTU
+	FqCnNU0S//m1fahyYU3iX375C5w8OZvr+LrPAFtvBHnPn+J7MjhO0PiacgEzMw3k
+	zUG9Y/IBLrb/YBTk6k7dynOnLHYDTVU5cAZ5AtXW3vjnbLvvttZYnw45DRgEGDsh
+	n8Wxd//rCdP3FdjzEyRdXG1PFZjwyWo2+8iqxdl66sweDtC04AmRRQCTkRQOGxIo
+	n5ZPFG4mCWXpxnIZpj1L7b7ulCLlhhBeCfWjrfm9dEFJem8QSgILwAdvusCLp1cs
+	NW4F+gFbxN6cXPfZrZ8QNGLwNCsL8lwdDy3PXIQ==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:70yQGtggowVYDRHL6YKfPxDiilpVHlWmnUJX12t/gPs=:O91qDgHCDp/h71v8TAj9HM3/MV9+IU2QNkfmjp6XH8o=;
+X-ME-Sender: <xms:n6_1al4q7t8sPbNHk9ZcDabDfZWI--PS3yobCtKgM18RJUCK6pIt8Q>
+    <xme:n6_1attRr8BlRCZWHT1U2n7s_V_y0dEuMhbW4yU00VZPFcT55_MhPxgRjZRP0LOYJ
+    6l7M0RT8hyR_0q_RtCQItOEBMp-FqCFbVSgk_l-UUC_MGSuMH9MnC0X>
+X-ME-Proxy-Cause: dmFkZTENDWCLZ1AsP1BwOxKngdvuCCtkQqE4MZA6iiupg9JFXObYdnXpxnrsIceDQ9snZR
+    PmdDa3QNSvwQc2VnXG8kK3uQ1fnh26r6EfLM4tXSRfWOEQqnKY9QII707R7oHHunYlR01g
+    GM8ofyASf4KacOR/q5T8wLVy3McGB/LL6qJQykGIUi+PLyL3GEZNkdC7swMBvRvdaUSHOa
+    M6JzuiMhYCBPCJMgSaZEwSMVRz1tUEnOxeRtP65pSti3rsT7bpdM3lDN4Cj8hM9B2GWc3F
+    gYdQn21QY9Vm2bWRWZGFAt8nRliVdU80mdPzxWLE6QfIrmj+LKKjwBinE059J3TaxrezFd
+    z+ptb/+kggG/4zwdHsIjICNOsvzsn93x8woktqYPxE5S138aWckanjQhcqqD3Xz5I3QGwZ
+    HyaIy4NSEFB3rZpP65nB+MFiBId3H/KnEp59m+ePZJsd888ZbLhkbYQZBeCeRGpIjbN/rN
+    xFntOBhfjEJQcdR2QVwqMwq3LV//Yn2vUarjPKtXnJF8ZmzxZS26D454NlUS8+eCVnL8WG
+    j1LYpBLCtx3CXLg73JmvkDA+JkFH5xFnfEXNtSuMu37pKYM8585zicLTLL57nFdGvPMTk0
+    Dqe4DgJjMPnlK4WgoG4UoRPv8KB5d+hbDv2o2t79uWli2h6kBR+54AW77UpA
+X-ME-Proxy: <xmx:oq_1apRThMMkkNGJOzyUpycDUFHQQE4INZFdKrFWfr2OWu8HTU-TLQ>
+    <xmx:oq_1anplsAN-TbH3FxxNXMyiawEjF_2FUQ0eKkV3FpIIPUs0FEFGpw>
+    <xmx:oq_1anYZC5n6m5Iqm1LV-oAHoxmb1zzdOln3kyIuaSt5-UeCt-vtNA>
+    <xmx:oq_1aiQqZcsE9b5m0AGqWLb_c4i5j2hdZ504PsPdpJkby3ByOXXBsw>
+    <xmx:qK_1alc9eIARixlfcZspNkIdgxoj4uKJOu89rmelOEnZi-d-kZjREk4z>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.ams.internal (Postfix, from userid 501)
+	id 79EFA32A0099; Thu, 12 Nov 2026 07:22:55 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -75,98 +115,45 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9b795d3a-1818-4265-a364-58fba139c651@linux.dev>
+X-ThreadId: AfXj_ROFnIdR
+Date: Thu, 12 Nov 2026 13:22:35 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Mike Rapoport" <rppt@kernel.org>, "Arnd Bergmann" <arnd@kernel.org>
+Cc: linux-mm@kvack.org, "Andrew Morton" <akpm@linux-foundation.org>,
+ "Andreas Larsson" <andreas@gaisler.com>,
+ "Christophe Leroy" <chleroy@kernel.org>,
+ "Dave Hansen" <dave.hansen@linux.intel.com>,
+ "David Hildenbrand (Red Hat)" <david@kernel.org>,
+ "Jason Gunthorpe" <jgg@nvidia.com>,
+ "Linus Walleij" <linus.walleij@linaro.org>,
+ "Lorenzo Stoakes" <ljs@kernel.org>, "Matthew Wilcox" <willy@infradead.org>,
+ "Malin Jonsson" <malin.jonsson@est.tech>,
+ "Richard Weinberger" <richard@nod.at>,
+ "Russell King" <linux@armlinux.org.uk>, linux-arm-kernel@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, x86@kernel.org
+Message-Id: <219f5451-1cb7-4a2a-8423-3a071f8ad42e@app.fastmail.com>
+In-Reply-To: <avWnS7MLyPaJLaLR@kernel.org>
+References: <20261112112528.1116405-1-arnd@kernel.org>
+ <20261112112528.1116405-4-arnd@kernel.org> <avWnS7MLyPaJLaLR@kernel.org>
+Subject: Re: [PATCH v2 3/6] ARM: drop CONFIG_HIGHPTE support
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 11, 2026 at 11:38:39PM +0000, Usama Arif wrote:
+On Thu, Nov 12, 2026, at 12:47, Mike Rapoport wrote:
+> On Thu, Nov 12, 2026 at 12:25:25PM +0100, Arnd Bergmann wrote:
+
+>>  	if (!pte)
+>>  		return NULL;
+>>  	if (!PageHighMem(pte))
 >
+> With HIGHPTE out this can be 
 >
-> On 11/11/2026 18:13, Lorenzo Stoakes (ARM) wrote:
-> > From: Chris Mason <mason@kernel.org>
-> >
-> > cachestat() can leave cached pages out of its counts. This happens if
-> > the entry that the call has just counted is replaced by a larger folio
-> > that starts in the same XArray slot.
-> >
-> > The issue is that filemap_cachestat() walks the page cache under the RCU
-> > read lock, so racing concurrent collapse/split is possible.
-> >
-> > Thus, an entry can be replaced immediately after the walk has returned
-> > it. When that happens, the next xas_find() skips the sibling entries that
-> > point to the slot of that entry, since ordinarily they belong to that
-> > entry.
-> >
-> > However a concurrent collapse_file() or __filemap_add_folio() (when
-> > replacing a shadow entry) can store a larger folio in the slot, in which
-> > case the sibling entries belong to the new folio and the walk still skips
-> > them.
-> >
-> > Consider:
-> >
-> >     cachestat                         collapse
-> >     =========                         ========
-> >     count a 64-page folio in slot 8
-> >                                       store a 512-page folio in slot 8,
-> >                                       with sibling entries in slots 9-15
-> >     xas_find() starts at slot 8
-> >     and skips slots 9-15
-> >       /* 448 pages are never counted */
-> >
-> > Also consider:
-> >
-> >     filemap_cachestat()                  __filemap_add_folio()
-> >     ===================                  =====================
-> >     counts the shadow entry in slot 0
-> >                                          slot 0: a folio of 32 pages
-> >                                          slots 1-31: siblings of slot 0
-> >     xas_find() skips slots 1-31
-> >       /* 31 pages are never counted */
-> >
-> > Essentially the fact that large folios might be present means we cannot
-> > safely continue the XArray walk, and must reset the iterator each time.
-> >
-> > Fixes: cf264e1329fb ("cachestat: implement cachestat syscall")
-> > Signed-off-by: Chris Mason <mason@kernel.org>
-> > [ ljs: squashed 2 commits, fixed up comment in code, and commit message ]
-> > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-
-Oops I didn't even include a 'fix this by' even...
-
-David/Andrew - as per Usama, could you add this to the end of the commit msg:
-
-	Fix this by resetting the walk in each loop. This incurs a performance
-	penalty, but given that only the RCU lock is held here, it can't be
-	avoided.
-
-> > ---
-> >  mm/filemap.c | 7 ++++---
-> >  1 file changed, 4 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/mm/filemap.c b/mm/filemap.c
-> > index 7c05e4fad081..c4e82891767b 100644
-> > --- a/mm/filemap.c
-> > +++ b/mm/filemap.c
-> > @@ -4731,10 +4731,11 @@ static void filemap_cachestat(struct address_space *mapping,
-> >  		if (folio_last_index >= last_index)
-> >  			break;
-> >
-> > -		if (need_resched()) {
-> > -			xas_set(&xas, curr_index);
-> > +		/* Collapse or new folio spanning shadow entries needs reset. */
-> > +		xas_set(&xas, curr_index);
-> > +
+> 	if (pte)
+> 		clean_pte_table(pte);
 >
-> I imagine this will be a performance hit for the call, as each entry now
-> needs a traversal from the xarray root. Might be good to callout in commit
-> message. But is the right thing to do.
+> 	return pte;
+>
 
-Yeah good point and I did try to find a way not to do that. But it's apparently
-(says AI overlords) less bad than an xa_for_each() implementation :P
+Makes sense, changed now.
 
-> Acked-by: Usama Arif <usama.arif@linux.dev>
-
-Thanks!
-
---
-Cheers, Lorenzo
+     Arnd
