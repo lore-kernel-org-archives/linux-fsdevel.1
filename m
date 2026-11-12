@@ -1,72 +1,72 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794509070;
-	b=YwrFkcBxBc8kT3IaxsiK7QirzYuA3ZNlaKizS4vXRF2s3YXGuJwvaV6OU12JhSLfi0OQ
-	 Bv/RRXtu8BlQzB8io5PvWwJrq3y1LSXBMP25wNv2zQHh2zk8u9h/I8k39Ibge53vshges
-	 9xTaYY8xW9ikAtlxg4H920p+yPTSAhyrMYDEc9nxF0BTk21ChrH1bT0FXWB7/Iyj8ID5/
-	 B1oqz1F+ButMnqC6Yz8eLQJYJY41+pDxK2iXJM7X9VtE3AKuk95bMpNvnlpRaxcmZFIqT
-	 5fI6z0OtgiEkzGgQKhG2aEsQjVOlVVlCI37sjIVqqZpvQ0hHTb8UqDUolY6DI/AKxlA==
+	t=1794509135;
+	b=xWZR41ewLilerXJFTuHPlcBjKh2P7KOuwFIfawKCqTndBAYcRF+/tmQ2yhaUCYqJ+1c2
+	 6WV15+VYroVWMAhmb4IOLhudW8XrUW1oAi8M9j5R/T1uZyKoF+9IdvaYHrQspBfTNP11r
+	 4zeFn4SC8xuvjPlGe19ONPN4DPVyu8dv2y6dAre1eykwl8n4mcwoKBBiLeZHR+p/hTaaE
+	 dXPxpzRRKV0d0tzllAhqqS4sBbmthcqq4YRV8TJjoAEUAuAWV2o4t0r9sWogBhcAb9bLF
+	 JuwSjXU+bC6zLU6EX2crak9ua4BoaahLQav220CrthkieHAEo5zVUUNDnhStV6TupOg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794509070;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794509135;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=RVyxm9yaGZWP8LbX6unRU3C9T3kyos1eNHeAHWcUH10=;
-	b=Kuz4LicAkiziVX0a/6Y1AhEcojy6HFVeMIKTMveZcd18AR/TSjle8B9LLvTUZXGzxkQQ
-	 ho6HAm3HXh/3lLXYROKv4qRuEGuBZUUyZbLfABJcf2EulUOa9AySVgwxxiQSjl1gvcX0T
-	 IqbbcK4CjGtBruKkEkkhEYkX+rpzs8RqBKY04NqbQ5pjvzIqm6TDyxDObF3I4X0t8+tZP
-	 QSwnjGxe+OEQDXQgDqu5O3cYPa8UCb1TlzUCKJVJxxPfH7TeGPduE3pNHWmZ8gYIYjIBo
-	 UHT9b5ySu11JQrMWot3DrPOpEzDhdTGK2NgOGuiyPppHvLmJbSQbvTuZEttddj3rUkA==
+	bh=1QMrnQVo4O5SnIGabJN3wrTnW6MusZ0h5giYV4GIf1o=;
+	b=n2RrhcIM1b+bN/r7scmG1JXgz0qe0bB08JeYCsIP/hhYngMY5eyg5+Tyx3Nr8VvKXi/J
+	 0gn17o6kOMEhq3zyTsVH2QbK9co1MsDv5xEMvF5XvKp2I8X7jzcOsTmIe9ajmsvRXYEBZ
+	 6YnyJS5Ard1Z+NnSCxxBPgpLAfF3La7hlqM7IqsiAukKArnVnC1A75P2DbSCJ8YEAiiOG
+	 X3ZluiXVIY7HqXIvLFfi5+qw8MpUpN30vPCT51yAS8Ku+Yy0OMzTabY9HR8rsctDDUelK
+	 QLf3b1W7eTbS7Fv1HPxTbZn+7jh9BoN5LQo4zFuUvz2SW/WBQDkzleUcPWKBvF0ShOA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IfekWsu3;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IHTOA7me;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C83BB606A31C;
-	Thu, 12 Nov 2026 18:44:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72629606A327;
+	Thu, 12 Nov 2026 18:45:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IfekWsu3
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 290661F000C4;
-	Thu, 12 Nov 2026 18:44:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IHTOA7me
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1E451F000C4;
+	Thu, 12 Nov 2026 18:45:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794509070;
-	bh=RVyxm9yaGZWP8LbX6unRU3C9T3kyos1eNHeAHWcUH10=;
+	s=k20260515; t=1794509135;
+	bh=1QMrnQVo4O5SnIGabJN3wrTnW6MusZ0h5giYV4GIf1o=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=IfekWsu39i1JQlysaLelamEDce3mX/T7a+MM6jLQ23+ntbG4nbY0G5S/Lv4HVkhb8
-	 hANWWpY4XTjPFEj3opi/JbeRPS5SEAFmg8zTDptkYUJq7aeaOULxWSvaTxhnsRlm90
-	 CMO4SkFhguxwYJTQvhELQzwZHqcDrOpHeBHrkfNaeNu2KlfTNfW5VbPkUPn9tovxzp
-	 it55e/HuR5X/w88jMgBdYZjxKr2A16hdeczwJeF+FGxBsmewlBwKwhwpP8JzCTzWuo
-	 MVVy99BtjxSiUbQyAdl0bEID+QtaMXFY55LZHLd30/BnwjGy+QubFLS5yOIjpH7RI7
-	 eHg0AiNXWaZUg==
-Date: Thu, 12 Nov 2026 18:44:18 +0000
+	b=IHTOA7mej2k1aqlGQe0o2vMpa5Gw7UtlZwRhFQLZhUTCPvjZO46VWVXtxm6J6aWPb
+	 3DA2ss0NGpmaXuWwx3qDKIjM/7mIIpHQUFiHQ7rul2sbAYCgDUI/bRmUDwuzf6EvuP
+	 9APyFHKZhwk3J4J7QsFpl5djiJQLpgor+vvJZ35Xmo8RtVotrYFuFGP8WmlO7kgFsU
+	 8X4wJpKybcr5WqKLmdjUpPSVvmZv4My+ZLM1BpHQEc0/E/ehaBGmkKGVt/Vt1V711D
+	 /4XVd6l+Os/5iSG4YtWxiiYY5FJ7ra3yGPlaTOAxvcFVzd0T1aJKMtBVEoGPFQqmlU
+	 d2sk8BPTykwBQ==
+Date: Thu, 12 Nov 2026 18:45:23 +0000
 From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Tal Zussman <tz2294@columbia.edu>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Mike Rapoport <rppt@kernel.org>, Peter Xu <peterx@redhat.com>, 
-	James Houghton <jthoughton@google.com>, Andrea Arcangeli <aarcange@redhat.com>, 
-	Suren Baghdasaryan <surenb@google.com>, Balbir Singh <balbirs@nvidia.com>, 
+To: "Gregory Price (Meta)" <gourry@gourry.net>
+Cc: David Hildenbrand <david@kernel.org>, 
 	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, David Rientjes <rientjes@google.com>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
 	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	=?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>, Andrei Vagin <avagin@gmail.com>, 
-	Stephen Rothwell <sfr@canb.auug.org.au>, Arnd Bergmann <arnd@arndb.de>, 
-	Muhammad Usama Anjum <usama.anjum@arm.com>, David Hildenbrand <david@kernel.org>, Zi Yan <ziy@nvidia.com>, 
-	Matthew Brost <matthew.brost@intel.com>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
-	Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Nhat Pham <nphamcs@gmail.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>, 
 	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Chris Down <chris@chrisdown.name>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	=?utf-8?Q?Miko=C5=82aj?= Lenczewski <miko.lenczewski@arm.com>, Michal Hocko <mhocko@suse.com>, 
-	Mike Kravetz <mike.kravetz@oracle.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 04/12] mm/migrate: keep the uffd bit when restoring a
- writable migration entry
-Message-ID: <avYG7CtQ52v3I8tF@gremlin>
-References: <20261111-uffd-state-fixes-v1-0-00713d368976@columbia.edu>
- <20261111-uffd-state-fixes-v1-4-00713d368976@columbia.edu>
+	Usama Arif <usama.arif@linux.dev>, Kairui Song <kasong@tencent.com>, 
+	Balbir Singh <balbirs@nvidia.com>, =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>, 
+	Kiryl Shutsemau <kas@kernel.org>, Yu-cheng Yu <yu-cheng.yu@intel.com>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, 
+	Christoph Lameter <cl@gentwo.org>, Peng Fan <peng.fan@nxp.com>, Josef Bacik <jbacik@fb.com>, 
+	Chris Mason <mason@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, "Borislav Petkov (AMD)" <bp@alien8.de>, 
+	Mark Brown <broonie@kernel.org>, "Dennis Zhou (Facebook)" <dennisszhou@gmail.com>, 
+	Rick Edgecombe <rick.p.edgecombe@intel.com>
+Subject: Re: [PATCH 13/13] percpu: queue the balance work on an unbound
+ workqueue
+Message-ID: <avYJKR8fiETjd9sy@gremlin>
+References: <20261111-mason-migrate-et-al-fixes-v1-0-3d2454362e8d@kernel.org>
+ <20261111-mason-migrate-et-al-fixes-v1-13-3d2454362e8d@kernel.org>
+ <179450887590.482102.12180028123925629664.b4-reply@b4>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -78,83 +78,71 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261111-uffd-state-fixes-v1-4-00713d368976@columbia.edu>
+In-Reply-To: <179450887590.482102.12180028123925629664.b4-reply@b4>
 
-On Wed, Nov 11, 2026 at 12:55:12PM -0500, Tal Zussman wrote:
-> remove_migration_pte() makes the restored PTE writable for a writable
-> migration entry, and only looks at the uffd bit of the entry otherwise.
-> A writable migration entry that has the uffd bit set is therefore
-> restored as a writable PTE without the uffd bit, and the page is no
-> longer write-protected.
-
-The UFFD WP bit is such a terrible, invasive, broken piece
-of... engineering :)
-
-Notice, again, the hallmark of an utterly broken abstraction - every user
-just has to happen to know to handle each of your weird edge cases every
-single time they happen to interact with anything that touches it.
-
-I do hope we never merge something as bad as this again.
-
+On Thu, Nov 12, 2026 at 01:41:15PM -0500, Gregory Price (Meta) wrote:
+> On 2026-11-11 18:13 +0000, Lorenzo Stoakes (ARM) wrote:
+> > From: Chris Mason <mason@kernel.org>
+> >
+> > A burst of small atomic per-CPU allocations can fail with -ENOMEM while the
+> > machine has free memory and idle CPUs, as atomic per-CPU allocations are
+> > only served from pages that are already populated, and those can be used up
+> > before a worker gets to populate more.
+> >
+> > Consider:
+> >
+> >     caller on CPU 1                     kworker bound to CPU 1
+> >     ===============                     ======================
+> >     allocates 8 bytes, which leaves
+> >     one empty page and 4088 bytes
+> >       schedule_work()                   woken, waits for CPU 1
+> >     allocates 8 bytes, 1023 times
+> >     next allocation: "no space left"
+> >     gives up CPU 1                      populates pages
+> >
+> > The allocator keeps a few empty populated pages in reserve, and the work
+> > item pcpu_balance_work refills them.
+> >
+> > pcpu_alloc_noprof() queues the work item using schedule_work(), so only a
+> > worker bound to the CPU of the caller can run the work item.
+> >
+> > The issue is that the caller keeps that CPU - a task keeps it for the rest
+> > of its time slice, and a softirq keeps it until the softirq ends.
+> >
+> > In that time the caller can use up the reserve, resulting in an atomic
+> > per-CPU allocation failing.
+> >
+> > Fix the issue by queueing the work item on an unbound workqueue so that
+> > another CPU can populate pages while the caller keeps allocating.
+> >
+> > Fixes: 1a4d76076cda ("percpu: implement asynchronous chunk population")
+> > Signed-off-by: Chris Mason <mason@kernel.org>
+> > [ ljs: tweaked commit message, comment ]
+> > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 >
-> An entry with the uffd bit set must be restored write-protected, whether
-> the entry is writable or not. remove_migration_pmd() gets this right: it
-
-Sigh :)
-
-> makes the PMD writable and sets the uffd bit as two independent steps,
-> and pmd_mkuffd() write-protects the result. To fix it, do the same at
-> the PTE level, where pte_mkuffd() write-protects the PTE as well.
+> Reproduced with a cpu hammering atomic percpu allocations with preempt
+> disabled. Results are pretty cool.
 >
-> The only known path that created such entries is PAGEMAP_SCAN. Now that
-
-Wait what? :)
-
-How does a read-only scan of entries create softleaf entries?
-
-I think this should be explained in the commit message :)
-
-> PAGEMAP_SCAN downgrades them like change_protection() does, we should no
-> longer see them, so this change alone should not be visible to
-> userspace. If another path ever creates a writable migration entry with
-> the uffd bit set, the page now stays write-protected instead of losing
-> the uffd bit.
+> In about 1 second of hammering allocations with the full 13 patch series:
 >
-> Fixes: 52526ca7fdb9 ("fs/proc/task_mmu: implement IOCTL to get and optionally clear info about PTEs")
-
-This seems like a super-weird fixes target.
-
-BTW I've noticed you've not been cc'ing stable, is that on purpose? No
-autosel in mm so we do need to do that on stuff intended to get backported.
-:)
-
-> Signed-off-by: Tal Zussman <tz2294@columbia.edu>
-
-The change itself seems reasonable, as cursed as the reason for it is, so
-with the fixes target confirmed + commit message updated:
-
-Acked-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-
-> ---
->  mm/migrate.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>                         Base       Patch
+> Successful Allocs      1,188      131,072
+> Failed allocs          4,097         0
+> balance worker runs      0          169
+> successful retries       0         4,096
 >
-> diff --git a/mm/migrate.c b/mm/migrate.c
-> index 28a8d7734735..d200f64b5f98 100644
-> --- a/mm/migrate.c
-> +++ b/mm/migrate.c
-> @@ -399,7 +399,7 @@ static bool remove_migration_pte(struct folio *folio,
+> Micro-bench obviously, but pretty stark difference.
 >
->  		if (softleaf_is_migration_write(entry))
->  			pte = pte_mkwrite(pte, vma);
-> -		else if (pte_swp_uffd(old_pte))
-> +		if (pte_swp_uffd(old_pte))
->  			pte = pte_mkuffd(pte);
->
->  		/* See do_swap_page(): restore PAGE_NONE for RWP */
+> Tested-by: Gregory Price (Meta) <gourry@gourry.net>
+> Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
+
+Thanks, that's great!
+
+I will include that in commit msg on respin.
+
 >
 > --
-> 2.39.5
+> ~Gregory
 >
 
 --
