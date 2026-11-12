@@ -1,95 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.173
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.147
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794469286;
-	b=iSv7uWcaVeSGp8Y5NK+QGgAF5G9PGJDOxcJ8hkYxUmL71KgEuQRMoBFRKg4uYJ2Qf6kS
-	 RBpmmM0VVZmMAODEYrsMFWysdtav93GUX3JhslHep6YNCpEeYWBVqdPz3ncXyBf3KcXIJ
-	 y8mNfn9LUXSYp1PjgO4ufdg81fNl19Tw3UBa+Z63RiYvaQzPA6At7bXBaH0FtYVu1VMLX
-	 D9E3kLCnvYUjAsW+ZHe95uq8t1qwd9Nm1qM8E5fAhU/YvvJtYO9YqXvaQak3Eh/0BN7G+
-	 n7Jm4GwUM2HxDBjD49kR3SxrioZkt5qWVw80YwkGfHxRCs88u3AfU7l6wsT3Iq3UplQ==
+	t=1794473813;
+	b=y1W0ejDaT6OucA1wu1vlYBER+pAkQ94+hfD0SrH31DoNtRagd2QXBIccwOPWWzDXeIED
+	 RoaaGCiiTELViitDiq08MIMUVbGRH2+wUg/X1zq6+Ktijj+MxTwWGpOOu9HGKMN0qkeau
+	 hunfMHe8/S164p3JlOkrEYyH8m5vJmhbAnnggloUQYXsUZ3drIIEvqC5gf9FOK38Ay5WJ
+	 cidoRG21c27lVtxkqfZZNQ/xpxtILXmubCXukbll/5i879r6x/QWVqPh+vNuQgCNbqfJd
+	 u2xDU6/zUyVLRPT04fyUFrrs6pzFkNePrQdcyFCR09eXuVSdM+52fOB0CnG1gMli5Ag==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794469286;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=Bj8oIOvi/lnWkTPHPdsw8/wbnTz5MyWHkyXyWXbRMxc=;
-	b=S4VqxSQICNb0O8Ufpp4G+sRp+7KxkCfCHDig73uOvY6gEDwpLLpJmvInmw3cJqOT9ZfG
-	 D2vAjYEceu9cDrLzCwGa1iNf6FdZ3uXYZl1eN/Wq5+nqtX1D5WFkvnjEkRrTyqA09kM4+
-	 yx+Yk7Y3zk4AunMy8iWJi2tXVI5RDoBJwpk/4/hcieF2BS/HlqkZqqz9K06QC0HzTWmQ+
-	 TItbFTbLTi/QfKDsAvDbx/TIu7sH4iKwgjZKanqiBrv7z6wgoXaALlsOJ0qAiCN5nQbYe
-	 EdvyaULgcOw2sY2V4Sw8bYwnJP3PMugEw5TnQof2094pTSj3ZvnKQ5JR77eYhLY89aw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794473813;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
+	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
+	 References:Subject:Content-Type:Content-Transfer-Encoding;
+	bh=rEDyzDvctiKMCWHEwGxzSSTUsEjyrAP4XO5pemqaf/w=;
+	b=KU11ORQJm+re3OnhYYBNandJ5YoqcAR6qTXyjkUySUto9u60jl4+AWTyUMnuK11dn6Id
+	 b94oorfJi0jazFGT1Q2I6jFkU5xZWG5Qz4QCZczXigTOoq8V8V/wIUGW2ibiVha7uIdpQ
+	 GInDDjChDAY2lTI1N+TwOKFDlXmM/5FhmjlkP+PRktcgBiJdGMf9PrPOrEoBqlj98bFNb
+	 oUeGbkAjZL2kRKSxJQ0Oy3fUTZ4aYXB6TnFYQwN4KoNCbvC+Jz50S5rf7MtHEzmU3swt9
+	 MI5ibu6DBRSCAdx2Pjw1EJwm4ThLGY/MhW2ckdfpZOK0w+PtSUwPcConuRMGouhCR9w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ixO1nhek;
-	arc=none smtp.remote-ip=74.125.82.173
-Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=arndb.de;
+	spf=pass smtp.mailfrom=arndb.de;
+	dkim=pass header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=B3knZGFb;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=1UQSHGCM;
+	arc=none smtp.remote-ip=202.12.124.147
+Received: from fout-b4-smtp.messagingengine.com (fout-b4-smtp.messagingengine.com [202.12.124.147])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85F97606A323
-	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 07:41:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 85F97606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A481260A2617
+	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 08:56:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A481260A2617
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ixO1nhek
-Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-33bf40b0c8bso3341884eec.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 11 Nov 2026 23:41:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794469286; x=1795074086; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Bj8oIOvi/lnWkTPHPdsw8/wbnTz5MyWHkyXyWXbRMxc=;
-        b=ixO1nhekxxalDWG1zHEJb0jw0LoiXRRtkCZWQtv7VflFG+Cib6Wh1X74S0IJjB3zx8
-         Np4eNPgIUE+eioJwZQlGWpo/iiRjTQz/8EYuFQraeRzjVaApRPFku3F+vzl35LKFPKJi
-         GpxGzM0aLgpIBhIeGxorOTSaNwv34fXIeU9pjlrLr//YxyFFSIZubaC0lFF2jdN+wqk/
-         3SAKHwoIvuRt+VN+3IhadgJ2b+iQicFYyDXRnfNa6ZhQfMmZv25YJ3qyMnJbrVs0UkVk
-         DuH97m49qr9h0DNUpUhBJmT/ZHvJO+gaVYOo7eCOa02f5mw5WIYE+BckK7AQa5lGF3mt
-         pBDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794469286; x=1795074086;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Bj8oIOvi/lnWkTPHPdsw8/wbnTz5MyWHkyXyWXbRMxc=;
-        b=srdvGXT+qKkG1oI398qwycIWZ38Cas+Dd3C3wk5B+CRTLu40Mr39dp9unk9a+CKMde
-         xMQTjF7oIORnIJ4e4JqQ4oY7BatfoN1JCMZb28tdtNdPpWVddT7x8h5ab3zGH6Xb5j1m
-         nLLwz2M0Maa3WP3R/FYlGHanBhwrupe6/tggoNzbdRBuVL31TI010uahSo1iyDvO29Ux
-         Ar75+AKxAqoGmrreFmMbphMaVsDu+C5T/gwr4J4URAdFdagTHs3ZKZf6srEZwDWkZXxZ
-         yAmrZLXJlakTszGGhaKlvWY/24FYmeDX3CpllolHpGtI7BhAHBR1pDsuyB8V5Lr+JQ8c
-         i3Kw==
-X-Forwarded-Encrypted: i=1; AL+hErH379ETpq1KRZexjEyeHYU4Gi3JFJcxLPSvzwy9wsysiPSeJv6cL7I0VJPQUWQpRvSK64gyeI4/uSuBNvti@vger.kernel.org
-X-Gm-Message-State: APuU4Z94a0EqERsQUVrWjURujOcEXsTxGu3xkMS14iu0+ffsM6hutjge
-	n6mJPN5jqIy+v7wxkSrQKUVUBlzBlHc+p9D2dRbwcb6FEY5soRPGGN0Y
-X-Gm-Gg: AYBFou0wFrH5GdT6j6XGBjDvnJxIlY4QczM0aXL8s5ziYp0A2t55XeYBeNXvw/L0Lcl
-	ONatWTSry+x4s2BrLBdICFQSvIuIwZEVrdrlkGR7PN68N5+DKKmI6LBM9HFOLemOkiMTUa1eIVf
-	OnuQbOTJUeulEelqU3XY6I8BqDjiP2SF8+SuqZoeMsoSNej9smut0nUOSpYFXSAq4MOEbEeqyu1
-	kl69WJWGv0nU6BsWxN5oaKMvAQMxqJ8JgigugQCD8UA7zWikbt0H7/jn3dyihKvflYq1canFt89
-	8SPUjCbO4fDsDFK7DlU7N8Vy7mdrVBnd+34ra5hK2ozAfekPLsMXyWii/6QoQP1nQ30jQQ3l7XD
-	idbe76X31mneUve2/+Rmm3aSu1KOtt6DUfye0/vGlS5oivVsrFimjWNxaspI4pK0Z8tNSEbPSjK
-	j5WgIX5rQhhggvb+6pEB2/2pAhbdRwej91EzGA8KcWjWuHWhoCOUHBYJnrML/ld8YhPoIwjZ7pK
-	OE4LtBoumN1IxZJ28yqAzGDKaGv6ysTvqEzCfqobM8aBFuXFDAfCx8wu/vL3blw9WDtiuGHxkiP
-	h6RHBCRx8ejIS2srPYlOVVKyBg2WsVURzeNOE7B8VKT4Lw7t6B9WDbRT1JXdBo2/mA==
-X-Received: by 2002:a05:693c:2582:b0:378:314:4042 with SMTP id 5a478bee46e88-37803144bbdmr1486709eec.14.1794469285344;
-        Wed, 11 Nov 2026 23:41:25 -0800 (PST)
-Received: from anon-laptop ([103.187.196.132])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-375212e9d78sm25594848eec.25.2026.11.11.23.41.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Nov 2026 23:41:24 -0800 (PST)
-From: Wahid Khan <wahidzk0091@gmail.com>
-To: linkinjeon@kernel.org
-Cc: hyc.lee@gmail.com,
-	ntfs@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8] ntfs: convert a named $DATA stream safely when making room in a record
-Date: Thu, 12 Nov 2026 13:10:55 +0530
-Message-ID: <20261112074055.1876311-1-wahidzk0091@gmail.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <CAKYAXd-n+zGBq4i7rfLyX+_Y6zEMLTCCqb2vAgcnmavqKxtiHA@mail.gmail.com>
-References: <CAKYAXd-n+zGBq4i7rfLyX+_Y6zEMLTCCqb2vAgcnmavqKxtiHA@mail.gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=B3knZGFb;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=1UQSHGCM
+Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
+	by mailfout.stl.internal (Postfix) with ESMTP id C41B71D001EE
+	for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 03:56:51 -0500 (EST)
+Received: from ams-imap-03 ([10.64.2.23])
+  by ams-compute-02.internal (MEProxy); Thu, 12 Nov 2026 03:56:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1794473793;
+	 x=1794560193; bh=rEDyzDvctiKMCWHEwGxzSSTUsEjyrAP4XO5pemqaf/w=; b=
+	B3knZGFbJoyqxhvAjg5ey4pgvXQ0+dX+2yrqxypUpfmLl52FvtNsp7+AX8SbQ/eD
+	QB4o9/31f8xFXCXe56hraiMz96Up0KKZvOb2Y5C65VShVM0pPaDafBjDrSUg42VY
+	tu9bgejyvmqkt1Sc9Y32autzBDXmungVYOYMmKlWzY8ke9h7yX3aXbw7wQqSIKs3
+	owqqHduQlPeKvwCMeJG/2LJco0+TSA+EyuE40Mo+9A/AlkXjnBpb4ObaqIe0Doxc
+	7R11bWCv4vRYIh1QpCl5N1NsJgYyvfBQVk0IZtDm5jfVeuHETVudImiaPHrGdr9O
+	vc7/hsrU2ooBu9I+vxQIQA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1794473793; x=
+	1794560193; bh=rEDyzDvctiKMCWHEwGxzSSTUsEjyrAP4XO5pemqaf/w=; b=1
+	UQSHGCMZ2A3z8bSIkkWxeq6RnxTXCPrxpPWHAyytgP+bJFnjHFjyYHqv4hm0qCHi
+	QYj5WIQxDSWITpVoqdkvKqOQ6WfVb701r08hcNQLu5c31R4jKN1xLVhnaNofI2HX
+	7FdlCq7ohwLhQBbrPhAF/DBKK326jQC/kxRtegHB3eLgHLY3PWtxVOOFT5sBaYxH
+	iEXrIpL7ps7Vq4atKdHaQMjAWH1A1hydNB2gIjGap0JgIebeP6f+c/OshDqYw/Jr
+	vUJZRxhTpwPPzneK6Bk38wsyBQPOmtYPcLegI1AUZjxz+ntB7H/oAx/pXKxLSRwD
+	hopHAfS59cof80uyciXMg==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=arndb.de a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1794473793; d=arndb.de;
+	mf=PGFybmRAYXJuZGIuZGU+;
+	rt=PGxpbnV4LWZzZGV2ZWxAdmdlci5rZXJuZWwub3JnPg==;
+	s=fm2:rsa-sha256:PMdvEhz+k209YJHWusW/pVZ3gOSaadAx72dIggZBTnJa3Uo
+	UWe3gxX8f9SevTj2SFfcML3rJLa5tvO0hliDZFVffNZ+ET2md4bdLbtP/O5Mt5EG
+	3wUy/rMbQRExKHnLg3RA/yXTbqOEuNy14qfCawb4H5IU6meZ3tpNo2qSkbjqNlUN
+	QPtE+I1AAM2ReRIPlNln5vTEOPHqB33fifExpdg+XLIjgys4/cxPdDAb8Sz1Ic4I
+	lwhpznkRbRHGm17EK5pSjPTIdoljvqp9iFs/A6MueA2atnw/iN9DHH4heWljS988
+	xPM7TOjdwDbfgP2TEhyYv4wUycLINlae2bjJMKQ==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:bxT2HtsddpIKccxw7D1EmmeuIKfYJp+MJ2nSGobHrHU=:sEmA3MCn6JLrIUaQkRNBmsF7Hz02Y0iwntBVDLMI0ZY=;
+X-ME-Sender: <xms:NH_1asWKISFAZPfViYwtF0t1h1O_t_TUK-yUOcamOFfpOmsJjSP4yg>
+    <xme:NH_1arbnH92k8S1-bT0BlraQyd9qZk0y0Sn00uORJAF8vwlxDDfIbDO0bjykC8awK
+    bmkq2V7jpdyyeJMnsesd2PBlWQc6-IxQ5LTwSVYBMhTPwlK8kfbKFQb>
+X-ME-Proxy-Cause: dmFkZTE3ND7a5+W1Z07eormEvJEB+XP9yRNxmJWlhqo4nFZBM2kAyJQF7ZgJlr2V+yFcEa
+    l9MRmavypBJJ+1A3waVwnEHhrM4U0pZpCmMYKIXvfnZkXMGbKdecZtrxLKkn6LEq19o5fE
+    gPq8WxneDUi3v4xiFBdFxJqhhRjF9l4qFHfKxbM/8/kEKMzoow8MOCqc8EgLK/YGye/NOx
+    vJ+BeW0pJ1MEvAjPtKHXRRQgaz1GtmTJKeuhP2oScGxUjAxi6NvtA3CvTfeHnIQJVEo9ZV
+    dg2D6P1vG5wAmVpHBLy1jTDsA3jHwbynxf2/c8p8S1vmmHEGJ6xAPZTTV5Umrrj1UI3Khs
+    rJijqRdX01D2IUPunT3qBzgERFBVZ8jYBYw1H3yAWZItZ9j4airbtb5XjMvlG++YM1xjMj
+    nmYen9siqd5jtfWF+5rxuSCWu//0CHbbjZOuheK/lwuiWNnUidGYUvyWOFd9E2OfMRQyJo
+    NHUJLrgFmF/YLzCIRd6QgoB46bEjyL4va2ECLKod74mkfUM9Bt3nKjoMZsBw6FKGE9i6pb
+    kcdlCi+42mrcvNt9/oRYrgd7nZbADhLRxQvbPjTXfqJ8XvHIJ7OuVZ6HyNF9xugO4WyMQv
+    IHitba4dtlHe8UFBYfWm9s4Tizbuv07yoIS03Wj6UhMEjI5BgOKm5i1NzONA
+X-ME-Proxy: <xmx:OX_1atJeGP10qV3r_BB9LlbDWvzjzAT8IKY6g0XHpnMofHCEovQSTw>
+    <xmx:OX_1ajjzmcyTWNa03jroLuvYNjQrc-9N6_xxwGxAK_v1HHphOwD9Lg>
+    <xmx:OX_1ahRgitGd4zqX3yfmA8xLG4zFwqJjTP381SaWrv0nOrdNocAf6w>
+    <xmx:OX_1aoabTMJLtPTZZWDyERW41w-hFW-0kPrJfUFDo4kw2bxAwi0xvA>
+    <xmx:QX_1apsoJxByQcSYtOm475IyTqWu9-y7wuRQ59vqRM_Lw5w34HoWDLYb>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.ams.internal (Postfix, from userid 501)
+	id 1A43C32A0099; Thu, 12 Nov 2026 03:56:20 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -99,25 +115,113 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-ThreadId: AD8wiEBgakfZ
+Date: Thu, 12 Nov 2026 09:55:48 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Linus Torvalds" <torvalds@linux-foundation.org>,
+ "Christian Brauner" <brauner@kernel.org>
+Cc: "Matthew Wilcox" <willy@infradead.org>,
+ "Kirill A. Shutemov" <kas@kernel.org>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Miklos Szeredi" <miklos@szeredi.hu>, "Amit Shah" <amit@kernel.org>,
+ "Jan Kara" <jack@suse.cz>, "David Hildenbrand (Red Hat)" <david@kernel.org>,
+ "Zi Yan" <ziy@nvidia.com>, "Bernd Schubert" <bschubert@ddn.com>,
+ "Hugh Dickins" <hughd@google.com>,
+ "Baolin Wang" <baolin.wang@linux.alibaba.com>,
+ "Andrew Morton" <akpm@linux-foundation.org>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "David S . Miller" <davem@davemloft.net>,
+ "Eric Dumazet" <edumazet@kernel.org>, "Jakub Kicinski" <kuba@kernel.org>,
+ "Paolo Abeni" <pabeni@redhat.com>, "Simon Horman" <horms@kernel.org>,
+ linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev,
+ virtualization@lists.linux.dev, Netdev <netdev@vger.kernel.org>,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org, kernel-team@meta.com,
+ "Malin Jonsson" <malin.jonsson@est.tech>,
+ "Richard Weinberger" <richard@nod.at>,
+ "Geert Uytterhoeven" <geert+renesas@glider.be>, "Nishanth Menon" <nm@ti.com>,
+ "Frank Li" <frank.li@nxp.com>
+Message-Id: <e94bdf7c-eae6-4f64-bf93-0aeedca1a22e@app.fastmail.com>
+In-Reply-To: 
+ <CAHk-=wjGXBnme-N+HvbzHH40ftb7Suc=kZVT5cuintQWyMHJ7Q@mail.gmail.com>
+References: <20261110145241.536019-1-kas@kernel.org>
+ <20261110145241.536019-2-kas@kernel.org>
+ <avNuQqLf9CG9dSsE@casper.infradead.org>
+ <20261111-heimreisen-ungeziefer-empfunden-a892571f2c07@brauner>
+ <20261111-thunfisch-wirbt-waldrand-822275b2d3b1@brauner>
+ <CAHk-=wjPY=kfgnmtx4COEQjD5UzKx9m2-=KLGAZP4d=RKEH+pg@mail.gmail.com>
+ <20261111-stumpf-montag-miterleben-c4e2feac8090@brauner>
+ <CAHk-=wjGXBnme-N+HvbzHH40ftb7Suc=kZVT5cuintQWyMHJ7Q@mail.gmail.com>
+Subject: Re: [PATCH 1/4] virtio_console: copy pipe buffers in splice_write()
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-Hi Namjae,
+On Wed, Nov 11, 2026, at 20:26, Linus Torvalds wrote:
+> On Wed, 11 Nov 2026 at 10:53, Christian Brauner <brauner@kernel.org> wrote:
+>>
+>> If that's the official new stance than I'm very happy.
+>
+> I definitely want to remove HIGHMEM entirely in the not too distant
+> future. And before we remove it, we can most definitely document the
+> fact that we will not be worried about insane users.
+>
+> And things like security issues count as "insane user": if you use
+> HIGHMEM outside of controlled embedded setups or museum pieces you get
+> to keep both pieces when it breaks.
+>
+> IOW, it's legacy. We should aim to not introduce *new* bugs to it, but
+> if there are pre-existing bugs they very much count as "don't care",
+> this will be removed soon.
 
--EAGAIN must not leave ntfs_resident_attr_resize(). The callers return
-it as is, so a normal blocking write() or setxattr() would get EAGAIN
-for a "would block" that never was, and index.c already uses -EAGAIN
-internally as its "redo the insert" code (ntfs_ib_insert() ->
-resplit), so a stray one from ntfs_attr_truncate() could be taken for
-that.
+Agreed. There is also the option of adding Kconfig dependencies to
+mark things that are known broken with highmem when we either know
+that it is buggy, or we have a good reason to break something that
+none of those remaining users should be using.
 
--ENOSPC is what this function already returns when the attribute does
-not fit and cannot be made non-resident, so callers already pass it up
-as a normal error.
-It is not exactly true here, it is a short lived "busy" and not a full
-record, but there is no way to wait for folio 0 at that point without
-the deadlock (the reader holds it and waits for mrec_lock), and no
-errno fits better. I can use -EBUSY or add a comment saying so if you
-prefer.
+> I think the only reason it wasn't removed a couple of years ago
+> already is basically a few old 32-bit ARM platforms that still used
+> it.
+>
+> Those platforms still exist, and I predict that they'll still exist
+> next year, but if those users have to stay at the current LTS kernel,
+> that's fine.
 
-Thanks,
-Wahid
+I tried to push for what I thought was an aggressive timeline
+last year, but that would still keep the Arm bits for a couple more
+LTS releases and only gradually reduce the scope of highmem in the
+meantime, removing support from architectures, file systems, and
+drivers where possible. See https://lwn.net/Articles/1051010/
+for a summary of my talk in Tokyo, including the slides and
+a link to the video for anyone wanting more details.
+
+I also prepared a number of patches towards this, but have so
+far not been great at following up to get them merged, sorry
+about that.
+I definitely still want to revisit this soon, in particular the
+bits about defaulting to VMSPLIT_2G_OPT, and probably my patch
+to allow having (limited) discontiguous lowmem on Arm systems
+with a large MMIO hole.
+
+Scope-wise I think we absolutely need zsmalloc (zram/zswap)
+on arm32 to work with GFP_HIGHUSER, but enough people have told me
+that they still expect to need anonymous memory and ext4 page
+cache for a while, and probably powerpc32. The majority
+of __GFP_HIGHMEM allocations can probably just be converted
+to use lowmem, which would eliminate a good chunk of kmap()
+calls as well. In my attempts to do that, I came across two
+problems I'd have to solve though:
+
+ - Movable allocations (GFP_HIGHUSER_MOVABLE) imply highmem.
+   while I think only 64-bit architectures support movable
+   pages today, we cannot currently express an allocation
+   that should be movable on 64-bit but lowmem on 32-bit.
+
+ - Internal users of tmpfs (in particular DRM/GEM) usually
+   don't want highmem or movable pages, but actual tmpfs
+   does default to GFP_HIGHUSER_MOVABLE. Separating the two
+   is complicated.
+
+I added a few people to Cc here that I believe care about
+having several more LTS releases with some highmem support
+because of existing customer requirements.
+
+     Arnd
