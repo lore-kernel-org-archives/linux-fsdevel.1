@@ -1,45 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794610554;
-	b=fEqlrFhyMmReRur5+2plCN4woxzBSXgLRH/7LA+6AU/253DTWsVsrBgADUXCT1Yj/TO4
-	 cvC/DZsYsezERDGhwtCdNLAC8Vp6qMHtIu+kmOPDEkEiSA6EDZ+g5Hn/V4UW7btTTi6mG
-	 D0LJi9DIzwgBnl8yhFhCRktYI72NBsPp3OIcHxBwExILLsOrvd6Mt3deB34ojQXdowiZP
-	 dpIg2EULUSs+3KwvbcH01ZQxsshPrv6rOM9J4r8vlRlHRA0gm9rEguVX39G+puo0mCyr0
-	 sws7ZN7WIouQSAxnbG+C4IbVawE7jkmPxJK8msBBz3oCJ4z5rAPBA9xh3EVz8eHYlnw==
+	t=1794614146;
+	b=EvO9NJd1mdcgbSZSgkuVEUbN5Wz1QVrUBWbJOdbO47LLt/tvV56+Ex07BAkkmuMkefEn
+	 eti3k5TPzhPpHX1Bfpoe+wx/0wDe+csN1HNlxv6Tgwrg4Qoa6keP2ue/XQLj3rL8TaBS6
+	 sUxZ55qPVdayfSfxc+iRbFgvewcDJZHlH7LqeKMof8Emo08LL/T+2oBU9lXbHTGXvvu4V
+	 HfvretxMXrNGBuA8uHw0s7G/p8pvNV2B9I06rXaSpQpc0Ke0iDSP/fiPSNQqbkUXumK90
+	 YQXLIfZo6ic+0AgVURnIUYPXigGiBmi3WsnL8BsWlN7OSMje1kENcUsuD7DQiRoZ/+g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794610554;
-	h=Received:DKIM-Signature:Content-Type:MIME-Version:Message-Id:
-	 In-Reply-To:References:Subject:From:To:Cc:Date;
-	bh=KN3BAQQz6V4aWs3TRbBIzGlNzQXPAP/3NN2RobaOAEE=;
-	b=zxCeSbP0hzMqacB75PoePZi38buWIDrC8WVxO99/B0g44g6sY+qEQ4yg/5ft9T/W2jtV
-	 X9/zjYchkYvFsTHaG5NwuOz6nu4i7vLFjX3O5yxH/+kyypiMf2xCRxjEbwcFVXhR9lA+f
-	 6B7NsTEhuFIAvlUBYkxQojbTN5V8RVzbx/8726pAhJGJpQzyceBG/pW6tHVZjebN6Hu9L
-	 6BxW5JGBZY5QwcEnelekz/5WATTvqLaK09szve7YsR/GoWpUAE/qkGiBJfslhwa4sRzgY
-	 T/IprHqfxCg9dm6+TLjDgbfFD6Yvx8/Pr0sMAUYhbQvUvX33+h+YnfeKHcpisTfnPaQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794614146;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 MIME-Version:Content-Type:Content-Disposition;
+	bh=/wHlDXhGpogQsiezmZhcDfowx6jzRaWm0ETUcfvu/zw=;
+	b=EY7WH50leJnjiQJJAKI+ux3n1eQehqmxIU3ZMeVrOiEUXviuMMv3oknLONW3nl3hEa51
+	 FQw9Hjl9gE8gyRMZaGdBA8g+r3hqHWpMch4S4HQaweVqKIWcj9pLH2nVtW7CdLro+vYUB
+	 tPPQOEaaX4JR+PW9cN1oZYAx3FXfazEa6mcX+fvfSgas+PDWRjNSVmQzWNaweVkeRpuYn
+	 TAtA803LfdfedqtmmKC62nwy+NZMrwTNS9JOYJNnITqJSsaeH+N+Kk2i63XpLGFqLYcem
+	 fRKJcbR8a6mfRIQ8+m7Vf7obOrYVFzQB06zyJC1lDNpq5TP8hhOjZXTGDeX//a5bWHQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Zr/r1yff";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="WrgcfJ4/";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EA19606A890;
-	Fri, 13 Nov 2026 22:55:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9075606A882;
+	Fri, 13 Nov 2026 23:55:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Zr/r1yff
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4053A1F000C4;
-	Fri, 13 Nov 2026 22:55:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WrgcfJ4/
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D867B1F000C4;
+	Fri, 13 Nov 2026 23:55:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794610554;
-	bh=KN3BAQQz6V4aWs3TRbBIzGlNzQXPAP/3NN2RobaOAEE=;
-	h=In-Reply-To:References:Subject:From:To:Cc:Date;
-	b=Zr/r1yffsWfgcq3GiAScelw76p+OkyQYD2uH4hI/pcXZT/7E7x2Do+HBZm7e8OFNx
-	 c1oIKY+cvZEYv2sTZiX8+jnO5YqRpoKeiMbazqRw1aa4yUaQNbK7Mb95zvfQKKK1ig
-	 mxTFsa/RQhH/hCyvaswWfMYIpbiYkjjf2EiN/QQuWlfHGZB+EWhPT+tIC3Q4Mu5j8o
-	 t3lv1MPLpzLCUm09+TGX/ieOrJzoVKxT/z452fFm5NUzwDYL01fzfKWTbIMccvSMuj
-	 9FGL0SOXawyhCSF1WGLngab9+y6SU5rYrE3XlyC8yaZy7Xut3XdxIC/7rV4CX8ZWVe
-	 haNQtCPugcyAw==
-Content-Type: multipart/mixed; boundary="===============8280819268335858825=="
+	s=k20260515; t=1794614145;
+	bh=/wHlDXhGpogQsiezmZhcDfowx6jzRaWm0ETUcfvu/zw=;
+	h=Date:From:To:Cc:Subject;
+	b=WrgcfJ4/B9LvqbnXF3HQ2VVvoyCVurvOKnY6FMGUYurW3tIZY7/H00/zGNk+icrdZ
+	 LJ0Pn+ykF4Gk6KVzg6AeQcsSC9hVsdyb8WbiVgfkO1+TbhMLp6lnuqILNVtK0ZdkpG
+	 FMCmd3hC8pWJtbtWAfP6iBwvwTjDRo9sNiy/4VSeBLUf9H3+wQdD4L5jbOzViOmJe/
+	 NcjSJOl4rlnZuingLq6ZvIOQKbPqXEg5mw9HmW3AKffNpQMVpbHQCh2npXLUje5Jxb
+	 1iYuktw2lzBAESupZvK7rux5V+UtmCKKraDgHTmbVEqf7D3qzzu7nSCl4jYU6VcNz2
+	 z50UMOMwSz9/Q==
+Date: Sat, 14 Nov 2026 00:55:40 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Mimi Zohar <zohar@linux.ibm.com>, 
+	Roberto Sassu <roberto.sassu@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
+	Eric Snowberg <eric.snowberg@oracle.com>
+Cc: Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Jan Kara <jack@suse.cz>, linux-integrity@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: ima/evm: security.ima and security.evm get written to frozen
+ filesystems
+Message-ID: <20261114-erstmal-vererben-leibhaftig-63db6f0c66ba@brauner>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -49,139 +59,98 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Message-Id: <2f27a1ffca14cd87a744c447c5fded67459c1497ebafe05350f4721ef994c3f0@mail.kernel.org>
-In-Reply-To: <20261113221248.3535369-14-wusamuel@google.com>
-References: <20261113221248.3535369-14-wusamuel@google.com>
-Subject: Re: [PATCH bpf-next v3 3/9] kallsyms: Add KALLSYMS_QUERY_BY_NAME ioctl to /proc/kallsyms
-From: bot+bpf-ci@kernel.org
-To: wusamuel@google.com,corbet@lwn.net,skhan@linuxfoundation.org,rdunlap@infradead.org,mcgrof@kernel.org,petr.pavlu@suse.com,da.gomez@kernel.org,samitolvanen@google.com,atomlin@atomlin.com,viro@zeniv.linux.org.uk,brauner@kernel.org,jack@suse.cz,ast@kernel.org,daniel@iogearbox.net,andrii@kernel.org,eddyz87@gmail.com,memxor@gmail.com,martin.lau@linux.dev,song@kernel.org,yonghong.song@linux.dev,jolsa@kernel.org,emil@etsalapatis.com,ihor.solodrai@linux.dev,nathan@kernel.org,ndesaulniers@google.com,morbo@google.com,justinstitt@google.com
-Cc: akpm@linux-foundation.org,pmladek@suse.com,david.laight.linux@gmail.com,wusamuel@google.com,kernel-team@android.com,linux-kernel@vger.kernel.org,linux-fsdevel@vger.kernel.org,linux-doc@vger.kernel.org,linux-modules@vger.kernel.org,bpf@vger.kernel.org,linux-kselftest@vger.kernel.org,llvm@lists.linux.dev,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,mason@kernel.org,ihor.solodrai@linux.dev
-Date: Fri, 13 Nov 2026 22:55:50 +0000 (UTC)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
---===============8280819268335858825==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Hey,
 
-> kallsyms: Add KALLSYMS_QUERY_BY_NAME ioctl to /proc/kallsyms
+I'm working on some freeze protection fixes that plague the tree.
+IMA and EVM update security.ima and security.evm without freeze
+protection. IOW, they modify filesystems that are frozen. On ext4 that
+trips the WARN_ON() in ext4_journal_check_start().
 
-TL;DR:
-- KALLSYMS_QUERY_BY_NAME may scan BPF ksyms quadratically in one syscall with
-  no cond_resched(), possibly cancelling the speedup
-- module_filter may return -ENOENT for init symbols that the unfiltered query
-  finds via the ftrace section
+The update on the last close:
 
-> diff --git a/kernel/kallsyms.c b/kernel/kallsyms.c
-> --- a/kernel/kallsyms.c
-> +++ b/kernel/kallsyms.c
+__fput()
+-> security_file_release()
+   -> ima_file_free()
+      -> ima_check_last_writer()                  # iint->mutex
+         -> ima_update_xattr()                    # inode lock
+            -> ima_fix_xattr()
+               -> __vfs_setxattr_noperm(security.ima)
+                  -> evm_inode_post_setxattr()
+                     -> evm_update_evmxattr()
 
-[ ... ]
+Nothing on that path holds sb_writers. Write to a file covered by an
+appraise policy, freeze the filesystem, close the file.
 
-> +static int kallsyms_find_name_other(unsigned int sec, unsigned int *idx,
-> +				    const struct kallsyms_name_query *q,
-> +				    struct kallsyms_sym_match *m)
-> +{
+The same happens when files are appraised:
 
-[ ... ]
+- fix mode: ima_appraise_measurement() -> ima_fix_xattr() and
+  evm_fix_hmac()
+- evm_verify_hmac() converting a digsig into an HMAC
 
-> +	do {
-> +		if (sec == KSYM_SEC_BPF)
-> +			err = bpf_get_kallsym(*idx, &m->addr, &type, m->name);
-> +		else if (sec == KSYM_SEC_KPROBE)
-> +			err = kprobe_get_kallsym(*idx, &m->addr, &type, m->name);
-> +		else
-> +			err = ftrace_mod_get_kallsym(*idx, &m->addr, &type,
-> +						     m->name, m->modname,
-> +						     &exported);
-> +		if (!err && !strncmp(m->name, q->name, q->cmp_len))
-> +			return 0;
-> +		(*idx)++;
-> +	} while (!err);
+for open, exec, mmap and kernel_read_file(). Only an O_TRUNC open of an
+existing file holds sb_writers there.
 
-Is this loop quadratic in the number of BPF ksyms, with no reschedule point?
+Reproducer on v7.4-rc1, booted with ima_appraise=fix, ext4 on /dev/vdb:
 
-bpf_get_kallsym() restarts from the list head on every call and walks
-forward to the index:
+    mount /dev/vdb /mnt
+    echo "appraise fsuuid=$(blkid -s UUID -o value /dev/vdb)" > /sys/kernel/security/ima/policy
+    echo a > /mnt/f; sync
+    exec 3>>/mnt/f; echo b >&3
+    fsfreeze -f /mnt
+    exec 3>&-
 
-    list_for_each_entry_rcu(ksym, &bpf_kallsyms, lnode) {
-        if (it++ != symnum)
-            continue;
+The close rewrites security.ima on the frozen filesystem:
 
-So one ioctl that scans the BPF section without a match does n(n+1)/2 list
-steps inside a single syscall.  Every exhaustive query gets there, since
-even a query whose matches are all in vmlinux or modules still scans the
-ftrace, BPF and kprobe sections on the call that returns -ENOENT.
+  WARNING: fs/ext4/ext4_jbd2.c:90 at ext4_journal_check_start+0x1f6/0x2d0, CPU#0: bash/280
+  Call Trace:
+   __ext4_journal_start_sb+0x7a/0x470
+   ext4_xattr_set+0x20d/0x380
+   __vfs_setxattr+0x10f/0x170
+   __vfs_setxattr_noperm+0xf4/0x5e0
+   ima_update_xattr+0x1bb/0x2a0
+   ima_file_free+0x2a7/0x3c0
+   security_file_release+0x55/0x60
+   __fput+0x2d6/0xab0
+   fput_close_sync+0xf2/0x1c0
+   filp_close_sync+0x5c/0x90
+   __x64_sys_close+0x71/0xe0
+   do_syscall_64+0x10e/0x5e0
 
-The uapi comment tells users to keep calling with pos + 1 until -ENOENT,
-and the libbpf user later in this series (822e9da9a9b7 "libbpf: Resolve
-typeless ksyms via KALLSYMS_QUERY_BY_NAME ioctl") does this twice per
-typeless extern, once for the exact name and once for the "<name>.llvm."
-prefix.
+Removing security.ima from a file and opening it while frozen does the
+same from the appraisal:
 
-With read() of /proc/kallsyms the same getter cost is spread across
-syscalls, because seq_read fills at most one seq_file buffer per call.  Here
-all of it lands in each call that reaches the BPF section.  On hosts with
-thousands of BPF programs and trampolines, does this cancel the speedup the
-commit message describes?
+   __vfs_setxattr_noperm+0xf4/0x5e0
+   ima_appraise_measurement+0x2d2/0x36a0
+   process_measurement+0x15b8/0x2120
+   ima_file_check+0xbc/0x110
+   security_file_post_open+0x3f/0x90
+   path_openat+0x4ab/0x2300
 
-On kernels without ARCH_HAS_PREEMPT_LAZY, or with ARCH_NO_PREEMPT, it is
-also a long run with no reschedule, whereas kallsyms_on_each_symbol() and
-kallsyms_on_each_match_symbol() in this file call cond_resched().
+I don't think this has a trivial fix. iint->mutex nests inside
+sb_writers: do_open() holds mnt_want_write() for O_TRUNC across
+security_file_post_open() -> ima_file_check() -> process_measurement().
 
-Would a helper that walks bpf_kallsyms once from a start index be better,
-or at least a cond_resched() in this loop?  ftrace_mod_get_kallsym() has the
-same restart-from-the-beginning pattern, although its lists are usually
-small.
+So taking sb_start_write() under iint->mutex or under the inode lock
+inverts the order and deadlocks against a pending freeze:
 
-[ ... ]
+- close holds iint->mutex and waits in sb_start_write()
+- an O_TRUNC open holds sb_writers and waits for iint->mutex
+- the freezer waits for the open
 
-> +	if (karg.module_filter) {
-> +		len = kallsyms_copy_str_from_user(bufs->module_filter,
-> +						  sizeof(bufs->module_filter),
-> +						  karg.module_filter);
-> +		if (len < 0)
-> +			return len;
-> +		if (!strcmp(bufs->module_filter, "vmlinux")) {
-> +			end_sec = KSYM_SEC_VMLINUX + 1;
-> +		} else {
-> +			first_sec = KSYM_SEC_MODULE;
-> +			end_sec = KSYM_SEC_MODULE + 1;
-> +			q.modname = bufs->module_filter;
-> +		}
+Skipping the update while frozen isn't great either.
+ima_check_last_writer() has already cleared IMA_UPDATE_XATTR by then and
+nothing redoes the update, so the next open in enforce mode fails with
+-EACCES on the stale hash.
 
-Can module_filter return -ENOENT for a symbol that the unfiltered query
-finds in the same module?
+For close the only thing I see is taking sb_start_write() before
+iint->mutex when an update may be needed. That makes close() block
+while the filesystem is frozen, which xfs_file_release() goes out of
+its way to avoid.
 
-When a module name is given, only KSYM_SEC_MODULE is searched.  But
-/proc/kallsyms also lists entries for a loaded module from the ftrace
-section.  ftrace_free_mem(), called from do_init_module() for the module's
-init text, runs allocate_ftrace_mod_map() when any ftrace_ops is registered,
-and ftrace_mod_get_kallsym() returns those entries with
-strscpy(module_name, mod_map->mod->name, ...).  They appear as, for example:
+The appraisal-time fixups can use sb_start_write_trylock() and skip when
+frozen since they're best effort anyway.
 
-    ffffffffc0a01000 T foo_init [foo]
-
-and remain until the module is unloaded, because ftrace_release_mod() frees
-the map then.  After init, mod->kallsyms has switched to core_kallsyms, so
-these init symbols are no longer in the module section.  That gives:
-
-    BY_NAME("foo_init", module_filter = NULL)  -> match, sym_module = "foo"
-    BY_NAME("foo_init", module_filter = "foo") -> -ENOENT
-
-The uapi comment says the ioctl finds a symbol "in the entries of
-/proc/kallsyms", so the filtered result does not look like the unfiltered
-result limited to [foo].  kallsyms_find_name_other() does not check
-q->modname for the ftrace section, so extending end_sec alone would not be
-enough.
-
-Should the filtered case also search KSYM_SEC_FTRACE and skip entries whose
-m->modname differs from q->modname, or should the uapi comment document that
-module_filter only covers the module's own symbol table?
-
-
----
-AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
-See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
-
-CI run summary: https://github.com/kernel-patches/bpf/actions/runs/43520044354
---===============8280819268335858825==--
+This goes back to 2fe5d6def167 ("ima: integrity appraisal extension").
