@@ -1,63 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.122
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794563518;
-	b=riRPqEpoaO+UD7ve3RTbrBLux0d4T4UyY4J29lsMQCjSjAAoN8MTHcgnIla04BAS/HEw
-	 xdxeAdr1SeScVozhLDS9jmLNPA69h010cKpoTU/hkmhgYU++QRRlKjFPeIGuhxfRoCTN+
-	 UrFDy70aqubAU6rUAJJYQylRjxF99s7DQJdj1pH/oLXlmIpz2W3YQVxrYUPoAX+QWOf+l
-	 0JUvgxmyez/I6eHpbAnKIZK+tHCsJm1dnJ2tp+FgRxTDtDRflLUkgGC3YFGguAzl3gUAG
-	 Nc2jf7AK1gKhKqP/g2/YlPfYOptneVGQzQ1oIkb0L+3S1otnpFJeEf9sBlLFJormc6w==
+	t=1794563585;
+	b=SZuF+cOu4Mc7sgQW2BbddCzUe9Pzai/GFecTJuz5+5Zds3cWRjcDe6IXnTptL1jLixwm
+	 1j6fytr1NVo4pGSBeOSwt0u/h57t0B6md/7+cEdXmWmsAZCwliH+oHwxLPr/qQlZ2Cbsl
+	 CmiB0KTMl+osyjjtf4chYkjL6xpjVY68A4tvhDlBP0Rbl/duAt3rUNY3T1x5rsvLhUsaU
+	 JQtl6cEu/+BoWGGlwmG6nJHHp2NtBZVxLwo2t8vCZFGQHdLWNtB7CFfCKWUjG80M7ONvJ
+	 bZxUhGE2uJlknpHSyajSMM6lMNAAydS5rVfTxEU3qQ+lveUhW7VdvMXzTjdRROXWhTg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794563518;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer;
-	bh=f4FQDKbejT3J1n5vJtGKFu4K5+PWNmUP6Rk+a9iJRqo=;
-	b=wdnhlWyeH5TvE6duq3kljQz/0xKnkrIgM3sAPmLnlvhWcp8nt+0VQOEgn2mrijkopdVh
-	 KnwxooJC+SkWHOvALmQpkqiivWtFgBwbjpBVx5CV3+hZGWq2eMZKdAvCsGcv8Z5zuWvHq
-	 1ffPhdIfP4DSYReWHNS7sEAVGQvwtdTGwvVTEYhx5cpTXw6LgHVrftlogZ/ekmIM2lcQN
-	 XSgCcX/IwKn5RUfllGnAhmc6jkdWI0LjvM9WTWZq+718217oV55JM0sR5TTnscN9h7ytV
-	 P2J2Vsohlac6ZJl0WBqlpdzJo/M2Ki+IBDb4Z/jzSNZVtrHjC2c07iyDMF/wC7JiQLQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794563585;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=CdowJsXk/55EEpEsAWxQxcRytgso60wJrBMLIWLRJ3s=;
+	b=jUkNypKGYf6M0Lp85SMF3orZMLMYTWSE+YRbyaqqneIi4qr8CCr0wy1jCPyaYg2M+Szh
+	 BYMXopB6eTkvaJ+9UyxAugEsCOhMgweMKHhpcKGlMDFX+mRp1qc9UBWCbTuStuY6Hxach
+	 Gwh2HgCTft9wt2qvyOdlMTNwE0Ddn6oqVqcSR4qAlsBVrpTT26wuP8cRu+f89U6j6XOHy
+	 S1mZnFqNgkf3KSvXoUrMijaK8qpwUFAMa5m1avTxaSJM01Q6/DBsHwQS6MSeqg9JHdcRQ
+	 BdZGKBde7Egst7lLlzt2l7cgbOwepGkIAYeIRU3VbwTh4delyEPl/uAdaYKZMu3bi/A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Bfqf14KD;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=mVjfUS8N;
+	arc=none smtp.remote-ip=91.218.175.122
+Received: from mta0.migadu.com (out-122.mta0.migadu.com [91.218.175.122])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C78C606A31C;
-	Fri, 13 Nov 2026 09:51:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3FAC606A321
+	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Nov 2026 09:53:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C3FAC606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Bfqf14KD
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 796FB1F000C4;
-	Fri, 13 Nov 2026 09:51:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794563518;
-	bh=f4FQDKbejT3J1n5vJtGKFu4K5+PWNmUP6Rk+a9iJRqo=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=Bfqf14KD2OgZDu86Z/9aV8o4CIRH0r8OahYXT0TKwNcziKzrzdOLXoTAuoYlVGbx7
-	 pfgaSnNXw4J4gKWSz3NfG4AmnVizFOTOUtX5VUBwyPSnwRVd/IxOIkD3QNFOAvr7DO
-	 7i+U4rAXiFfeOsXzW6MCVh6mgiRN8nJEJ2PIk0O4d18zjcuQ78R6WDZfvLVksXSBuv
-	 P25IM8Gp4K5zOe50DJEWq5UCxBUWkQZKXb4fCZPvguf372n9zDOO6cVxeqEuYBMZ4N
-	 IeRF1SkqeYixgTjc83/xHzbtEqEG2ETWEZ5zheXeg6drve1ZzHS5E8eQgVHHhu7mbz
-	 A8Y0NGmPcugDg==
-From: David Hildenbrand <david@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>, 
- Andrew Morton <akpm@linux-foundation.org>, Pedro Falcato <pfalcato@suse.de>, 
- Lorenzo Stoakes <ljs@kernel.org>, 
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
- "Kiryl Shutsemau (Meta)" <kas@kernel.org>
-Cc: "Liam R. Howlett" <liam@infradead.org>, 
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
- Hugh Dickins <hughd@google.com>, Chris Mason <mason@kernel.org>, 
- linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
- linux-kernel@vger.kernel.org, kernel-team@meta.com
-In-Reply-To: <20261111182445.656620-1-kas@kernel.org>
-References: <20261111182445.656620-1-kas@kernel.org>
-Subject: Re: [PATCH v3] mm/memory: refuse to map page cache folios that are
- not uptodate
-Message-Id: <179456351421.3136.15619726484550572099.b4-ty@b4>
-Date: Fri, 13 Nov 2026 10:51:54 +0100
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=mVjfUS8N
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=CdowJsXk/55EEpEsAWxQxcRytgso60wJrBMLIWLRJ3s=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1794563582; v=1; x=1795168382;
+ b=mVjfUS8NmV4pon9WzY71EIZ6BbrEYYF61PwHr2Z6qhbQL1+EHI0smpPWGm4wF5/hwepLIN5m
+ MY0+/Wevs0pqqBfLJXq9AjpNkfVDwTSKmiluDzdH5TxGzgDczejpLl4FUKt2TX02w8DK22lTTIE
+ Vf7XjrJkUp2zp8tleviGwutc=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 7be960e5f0abbd69;
+	Fri, 13 Nov 2026 09:53:02 +0000
+X-Mizu-Trace-ID: 7be960e5f0abbd69
+X-Migadu-Flow: FLOW_OUT
+From: Fuad Tabba <fuad.tabba@linux.dev>
+To: gregkh@linuxfoundation.org,
+	ilpo.jarvinen@linux.intel.com
+Cc: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+	brauner@kernel.org,
+	viro@zeniv.linux.org.uk,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] fs/nls: Add codepage 720 (Arabic)
+Date: Fri, 13 Nov 2026 09:52:57 +0000
+Message-ID: <20261113095257.2034926-1-fuad.tabba@linux.dev>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <87ld72f9rf.fsf@mail.parknet.co.jp>
+References: <20261108200141.383158-1-fuad.tabba@linux.dev> <20261108200141.383158-2-fuad.tabba@linux.dev> <87ld72f9rf.fsf@mail.parknet.co.jp>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -67,47 +70,20 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16.0
+Content-Transfer-Encoding: 8bit
 
-On Wed, 11 Nov 2026 18:24:43 +0000, Kiryl Shutsemau (Meta) wrote:
-> A page cache folio that is not uptodate holds data that was never read
-> in or cleared. shmem fallocate(2), for one, adds such folios and clears
-> them only on first use. Mapping one hands userspace whatever the memory
-> held before.
-> 
-> Each path that maps page cache checks for this itself: fault-around in
-> next_uptodate_folio(), a fault in filemap_fault() or shmem_get_folio().
-> Nothing in the mapping code does, so a caller that misses the check
-> leaks stale memory silently. MADV_COLLAPSE did exactly that with
-> fallocated shmem THPs until recently.
-> 
-> [...]
+Hi Greg, Ilpo,
 
-Applied, thanks!
+On Mon, 09 Nov 2026 12:51:32 +0000, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp> wrote:
 
-tree: mm/core.git
-branch: core-7.5.misc
+[...]
 
-Applied patches will appear soon in mm-next, followed by linux-next.
+> Looks good. However, maybe no maintainer in this area, so I'm not sure
+> who handle...
 
-Please report any outstanding bugs that were missed during review, so we
-can either drop the patch series or decide how to fix it up.
+fs/nls doesn't have a maintainer, and Ilpo took the last fixes there.
+Would either of you be able to pick up this series? It adds the Arabic
+code pages CP720 and CP1256.
 
-It is encouraged to provide Acked-bys, Reviewed-bys, and Tested-bys even
-though the patches have already been applied. If possible, patch trailers
-will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. Further, this is not a guarantee that the
-patches will go upstream. If in doubt, please check the listed branch.
-
-[1/1] mm/memory: refuse to map page cache folios that are not uptodate
-      https://git.kernel.org/mm/core/c/2b2a2b86
-
--- 
 Cheers,
-
-David
-
+/fuad
