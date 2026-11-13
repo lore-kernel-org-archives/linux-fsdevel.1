@@ -1,56 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=220.197.31.4
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=210.171.160.6
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794540724;
-	b=plTiUYPtCJUW3r0x+cXNhlzqv/jNcEqFaGCZ3G+8ixAhqMUxEupE7/2eqmMl5Q1b47bf
-	 eJfBUDK66/jplnNCNifE8Xw+Hp5eCJLjNPhYA/9JAjYda1b1Rcdz+sTvaLTvfMqFFR5I6
-	 D8O5dejunpQTeNWh5SGAcaeZYiMjXj+UFnDT1YuCKgHfvYecbP1NTiriqtRwWBOoPJXAS
-	 f7YzGsQ8Zp9TUUGOR1cfyKGODRRbVWgD1qK9zat6LWgVRJ1D2n6xkovzwSGgbRa1dBKWg
-	 1VTSgQlI3UDMrg5VtSJVXQETLFwjCkeqjKXdt8B3qByNCo7b3wbKAyO0WdHyVhHAmXQ==
+	t=1794542004;
+	b=4fiauxfg49Y+joaC4nQypmZYzm4wlr+bDbwgvFEgmowUGLPmlPf9J7pbv2CeGNoBMbhC
+	 lAbbDA9EtG6ygLhgt9ivHTmHTi30xfNpo6fH9Gqx3rwsSgbr/yqEoXsHpazDtWFKhzhsf
+	 x4nEC/l45I1qLKsveydLLYmNxGrlhnZAbyW6T55BRu/nj1GwiF5Y9DkeQlaqKxUC2ZRor
+	 kgRs9/fUT6c/8jQpnL0sz0q6bbYNVLN/IQIOJImzl9k6MhxRIntWev6CKGoDYn02rXBcd
+	 SwVSxfLc+Bz8pZk3MSnJUnhT85UOGw8IAuPpzT5ClztaxHqYmZsFuqsjfBFXwR351JA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794540724;
-	h=DMARC-Filter:DKIM-Signature:Date:From:To:Cc:Subject:X-Priority:
-	 X-Mailer:X-NTES-SC:Content-Transfer-Encoding:Content-Type:
-	 MIME-Version:Message-ID:X-Coremail-Locale:X-CM-TRANSID:
-	 X-CM-SenderInfo:X-Coremail-Antispam;
-	bh=aD4ZZT8V9BMEpEpjteO0aAWzTPsp1nwTppO6+HHX6/g=;
-	b=WWD+Z/5VcxgFyhkcHKlunZLtV9zF7dQeK3Cv9G+XrkkX51CaMjZlYlDfJGnXuI/XR/z3
-	 KRsSFb0ItQ71QvpHfM6j56vm3QNasBXLn/8q2Kh0xdeH/yR1pg5ARYGPG7gIQUtbK9bzY
-	 hTBjPxoMBdFWWT1eNSghlp3BMI2KOsS46mOcGGpqBjLfjHBW2ICiH7txQYkFFWq1Teie4
-	 ea1Wxh2oL+J+HU0yKSjsAjQEw9Y9n7t3q15TDyTXhNMKx6AjMvRHcEjQuayZcN1hMTjNa
-	 /6OOfhM2CX+7TY0yesd2/FIBauQ7xmHgg3L8HYzzt917C/B5iCSeh8ZCBhxikXFx5Og==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794542004;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:Received:
+	 Received:From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 User-Agent:MIME-Version:Content-Type;
+	bh=WOL1Pzs+vLk1dTn0v2qm2WPGTBXeQlLGRYfNPm6pFlo=;
+	b=BfQuUkw28vg39tUphWT4FYq/9L0En/hHKMCanT5+vhk3pslklKtgAcf6VT/5yTiuEPl8
+	 F3V0lgVWw1/gRL95FNfFzh5AsuBt4CUQnBbV6yzOxLhr0yZg5GZ99u56ynzWXczxMdDk6
+	 OiOCaZ6t1RQK760SfFSW1Csxpoj3e2QztlfQDZLKs7AWNlr9KTwVdXQNb5cfG5EV9anSd
+	 oCCoq4ZGAJa4KK+out5lFNTi4Rjuuf3Alf6Bg/OPbTwBN4hyMevbIxbU7qljv/duaue9G
+	 ZL8AXv0NvdEh3g7A8VoC9vkVjDJ66YiFjumtJIfuCIxL08HAjj6alA8rEsFifXMEndw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=163.com;
-	spf=pass smtp.mailfrom=163.com;
-	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=pxE1P6zo;
-	arc=none smtp.remote-ip=220.197.31.4
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=mail.parknet.co.jp;
+	spf=pass smtp.mailfrom=parknet.co.jp;
+	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=rsa-sha256 header.s=20250114 header.b=Zj7U1TY4;
+	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=ed25519-sha256 header.s=20250114-ed25519 header.b=EX7627Bj;
+	arc=none smtp.remote-ip=210.171.160.6
+Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDBB0606A31C;
-	Fri, 13 Nov 2026 03:32:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DDBB0606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62F70606A31C;
+	Fri, 13 Nov 2026 03:53:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 62F70606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=pxE1P6zo
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
-	Message-ID; bh=aD4ZZT8V9BMEpEpjteO0aAWzTPsp1nwTppO6+HHX6/g=; b=p
-	xE1P6zo4D2dCRVO7hkrXOAeongr+VKpqx0GfrEhELjTIM4PtAJZ3EEtigzK4MSFP
-	3aDTRBHO4gN/9RySV+1IEvVoHopBCYtdSCV75svMgyuqgwlnSIbqJUm0MOcLmsMV
-	hJGHU3LPrcA7S2KI9HN6cTycW88Ips0xU8JoCEgawI=
-Date: Fri, 13 Nov 2026 11:31:55 +0800 (CST)
-From: CJ <firefly0158@163.com>
-To: viro@zeniv.linux.org.uk
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: INFO: task hung in evict on v7.3-rc2
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version 2023.4-cmXT build
- 20260511(2e539873) Copyright (c) 2002-2026 www.mailtech.cn 163com
-X-NTES-SC: AL_Qu2SBvmfv08q4yaQY+kdmEsTju82UcS4ufQl245Xc98Fnj/m0QAgUkVjHWLvy8SkMRGyrhS9cglw1fpzYbBylhgr8HL6+LPCOJ3BvpnopQ==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+	dkim=pass (2048-bit key, unprotected) header.d=parknet.co.jp header.i=@parknet.co.jp header.a=rsa-sha256 header.s=20250114 header.b=Zj7U1TY4;
+	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=ed25519-sha256 header.s=20250114-ed25519 header.b=EX7627Bj
+Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
+	by mail.parknet.co.jp (Postfix) with ESMTPSA id E6C9120BD282;
+	Fri, 13 Nov 2026 12:53:20 +0900 (JST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
+	s=20250114; t=1794542001;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WOL1Pzs+vLk1dTn0v2qm2WPGTBXeQlLGRYfNPm6pFlo=;
+	b=Zj7U1TY4mcGtqkcsA0dYLXeO3Utxj8CpUyvyaOWTpj0MBnWD9ehYntofMvk6BeigSK9keN
+	3Z8wnhnZEyW23oWlDXhT7hbieYa1EuDjPKCPFuh/tV3LK6E/2RCmdE0iAR8+px7s67niPi
+	DCF6/DMYOEWX6VH8g0X7zPj1U3nyJa9RFBUNFOpC6mn5js3iOv5ArRqHlFmqZ9vN3h0gRt
+	1f/dvQE93QMU3TaWIKmgVOgzUkz7rkQlZwjl8bYEKPj3h6NhsxraBmIfR5irX/DVgUT6+G
+	8JM5z1KFyrTYo0wUPG/jBybC2y966ZemarntKHeOhZ3hL/F7VKgxTqK16xr2Lw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
+	s=20250114-ed25519; t=1794542001;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WOL1Pzs+vLk1dTn0v2qm2WPGTBXeQlLGRYfNPm6pFlo=;
+	b=EX7627BjwPXS/UEqZjjR48ioBHGAkRUpmYFw5boXP5eGG8UH1Dg4VH2d0ZFg0GsHpOrZY8
+	fPE6og3/H6rfZgDw==
+Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
+	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id 73733E0007F;
+	Fri, 13 Nov 2026 12:53:20 +0900 (JST)
+Received: by devron.myhome.or.jp (Postfix, from userid 1000)
+	id 652CE2200082; Fri, 13 Nov 2026 12:53:20 +0900 (JST)
+From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+To: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
+Cc: linux-fsdevel@vger.kernel.org,  brauner@kernel.org,  djwong@kernel.org,
+  hch@lst.de,  linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 1/8] fat: support FIEMAP
+In-Reply-To: <avZoxGZC5VxiPJtV@DESKTOP-PJTTJ93.localdomain>
+References: <20261031164326.278125-1-matheus.aalmeida@inf.ufrgs.br>
+	<20261031164326.278125-2-matheus.aalmeida@inf.ufrgs.br>
+	<87tslrtlyu.fsf@mail.parknet.co.jp>
+	<avU3IRmswObU2pH6@DESKTOP-PJTTJ93.localdomain>
+	<87cxsaabf2.fsf@mail.parknet.co.jp>
+	<avZoxGZC5VxiPJtV@DESKTOP-PJTTJ93.localdomain>
+Date: Fri, 13 Nov 2026 12:53:20 +0900
+Message-ID: <87h5hl75fz.fsf@mail.parknet.co.jp>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -60,30 +85,56 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Message-ID: <40539074.308b.1a1d2f63eb0.Coremail.firefly0158@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:hygvCgD3H7qrhPZqlVg2AA--.1614W
-X-CM-SenderInfo: piluvw1o1qikqy6rljoofrz/xtbC+QujVWr2hKsJLwAA3R
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: text/plain
 
-CkhpLAoKCnN5emJvdCByZXBvcnRlZCAiSU5GTzogdGFzayBodW5nIGluIGV2aWN0IiBvbiBsaW51
-eC02LjEuIFRoZSBzYW1lCmZhaWx1cmUgaXMgc3RpbGwgcmVwcm9kdWNpYmxlIG9uIHY3LjMtcmMy
-IHdpdGggdGhlIHJlcHJvZHVjZXIgYmVsb3cuCgoKVGVzdGVkIGtlcm5lbDoKwqAgTGludXggdjcu
-My1yYzIKwqAgSEVBRCBkZjI5MDgwOTBjZGEzNjhiMDFmZjQzNzA5ZjUxODkwMDc2YzU2MTU3CgoK
-T2JzZXJ2ZWQgZmFpbHVyZToKX19maWxlbWFwX2dldF9mb2xpb19tcG9sKzB4NzFjLzB4MTE2MAp0
-cnVuY2F0ZV9pbm9kZV9wYWdlc19yYW5nZSsweDMzMy8weGRmMApldmljdCsweDdiNi8weDk3MApk
-aXNwb3NlX2xpc3QrMHgxMjQvMHgyMTAKZXZpY3RfaW5vZGVzKzB4NWI3LzB4NjkwCmdlbmVyaWNf
-c2h1dGRvd25fc3VwZXIrMHhjNC8weDQwMApraWxsX2Jsb2NrX3N1cGVyKzB4MzgvMHhhMApkZWFj
-dGl2YXRlX2xvY2tlZF9zdXBlcisweGI3LzB4MTMwCmRlYWN0aXZhdGVfc3VwZXIrMHhiMC8weGQw
-CmNsZWFudXBfbW50KzB4Mzc4LzB4NTEwCnRhc2tfd29ya19ydW4rMHgxNmUvMHgyNzAKZXhpdF90
-b191c2VyX21vZGVfbG9vcCsweDFmZC8weDY2MApkb19zeXNjYWxsXzY0KzB4NGY3LzB4NzAwCmVu
-dHJ5X1NZU0NBTExfNjRfYWZ0ZXJfaHdmcmFtZSsweDc2LzB4N2UKUklQOiAwMDMzOjB4N2Y5NzI3
-OWFmZWJiCjwvVEFTSz4KCgpUaGUgY29uc29sZSBkb2VzIG5vdCBpZGVudGlmeSB0aGUgbG9jayBv
-ciBwYWdlIG93bmVyLCBzbyB0aGlzIGlzIGEgcmVwb3J0IG9mIGEgc3RpbGwtcmVwcm9kdWNpYmxl
-IGhhbmcgcmF0aGVyIHRoYW4gYSBiaXNlY3RlZCByb290IGNhdXNlLgoKClRoaXMgaXMgYSByZXBv
-cnQgb2YgYSBzdGlsbC1yZXByb2R1Y2libGUgZmFpbHVyZSwgbm90IGEgYmlzZWN0ZWQgcm9vdCBj
-YXVzZS4KCgpSZXByb2R1Y2VyOgrCoCBTWVogcmVwcm9kdWNlcjogaHR0cHM6Ly9wYXN0ZWJpbi5j
-b20vcmF3L0hYWExLRWFHCgoKQXJ0aWZhY3RzOgrCoCBjb25zb2xlOiBodHRwczovL3Bhc3RlYmlu
-LmNvbS9yYXcvTUU4bUdoUHkKwqAga2VybmVsIGNvbmZpZzogaHR0cHM6Ly9zeXprYWxsZXIuYXBw
-c3BvdC5jb20vdGV4dD90YWc9S2VybmVsQ29uZmlnJng9NmE1Y2JkMjY4NDA2YmY0MwoKClRoYW5r
-cy4KCg==
+Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br> writes:
+
+> On Thu, Nov 12, 2026 at 02:03:45PM +0900, OGAWA Hirofumi wrote:
+>>Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br> writes:
+>>
+>>
+>>[...]
+>>
+>>>>>  	if (fat_cache_lookup(inode, cluster, &cid, fclus, dclus) < 0) {
+>>>>> -		/*
+>>>>> -		 * dummy, always not contiguous
+>>>>> -		 * This is reinitialized by cache_init(), later.
+>>>>> -		 */
+>>>>> -		cache_init(&cid, -1, -1);
+>>>>> +		/* Cache the contiguous prefix from the known first cluster. */
+>>>>> +		cache_init(&cid, 0, *dclus);
+>>>>
+>>>>Doesn't this add a needless cache? 0 is cached in the inode itself,
+>>>>isn't it? (and can be waste small fatent cache slots?)
+>>>>
+>>>
+>>> This is mostly for caching the number of contiguous clusters starting
+>>> from 0. i_start only really tells us the first cluster of the file. I'm
+>>> not exactly sure of the best way to approach this, though. I guess we
+>>> can skip caching when its a one cluster range in this case?
+>>>
+>>> What do you think?
+>>
+>>Ah, sure. I think because it is fat_cache_lookup() and stuff are
+>>implemented for nr_cont == 1. So I think better way would be supporting
+>>the range lookup in whole cache stuff. (however, it can be relatively
+>>complex)
+>>
+>>Thanks.
+>>
+>
+> It seems like exfat had to solve a similar problem a while back:
+> https://lore.kernel.org/linux-fsdevel/20260114121250.615064-1-chizhiling@163.com/
+>
+> Maybe I can work on porting some of that to fat. Would you rather it be
+> in a separate series or just add it to the iomap series?
+
+It would be good to add with introducing nr_cont, so iomap is fine.
+
+Maybe looks like exfat implementation doesn't handle rare case. It would
+be assuming next cache is not contiguous. Actually next cache can be
+contiguous.
+
+Thanks.
+-- 
+OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
