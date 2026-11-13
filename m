@@ -1,100 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.45
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794594073;
-	b=WC3tcRTa0lP2M+pS0JxSxRzGS/uE4wcMRDIe+BMJv/D7JQ+xxEYcWdvg3nz6HLgXJgfZ
-	 64B8uCbNI66nvdzEaMCSCrgKk62Vsp7piyi/p//QOsXrnWuNq9FiSiq7KskKiWv1UFt3V
-	 DsmuF4VpRO29f+M//siro5RHLsPMrxIGrwxhaKqP26nIckeQV4mBG8KdgJ8Qzq6ECUzaX
-	 WmhRw4hSv7NbgEdaRm2t1l7L13zfc5oA3cjlnltUgiJjJU+iaf9TcJ9q0WJcb9jJ0hARD
-	 yZzYuu479rFIi24nt+t48LUDlfTyeaoZl6fOHI237Jb64Cna5v5x36k6YTNnq2xYPiQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794594073;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=54eDC8uXlfRGhMfZUiK757c5spN/BrnlZsySaiQPqbI=;
-	b=x9Uklt+CzPcwg6vuClvek+jnQTJMK9cbEPocjMmLPX55n1tYgqO6uZ9YrPXPXEF9FNcH
-	 +OS1E8QXOFXE46MKR9V5DuxLJufGE0bCcQB+uvhFIB+VEQVZh2H2+QKjI2/3LHXCD05mH
-	 EY0geCsBrbkISxgEHVkHdM8EQFVSFe3Y2EdUkGggNjVQqg/HHuMtiPTsnaZV6FxuJvdW5
-	 tadSM4XTXeXjNIZxTClrDQ0qbSu005n3uDUP2RwMuY+/k63ak7Xi/fT4clM/ruLRetlu6
-	 x/EimgJ090vi2An40z6ubGAxKdJx2DqpBF33+krOi4NQQrIOriNPNZLANvMdQLW9YqA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=bzlshJGu;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.45
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794594545;
+	b=q7oE96ok8oEbZ72NZKcjIS1YuQe+sqBwuS5swhT0+uulkWBq6jkgwvGQfc6/l5xIaeT3
+	 bVkNrIpXAdtKy3ew9MrYjImSFHsyz12pfxOzXVrCFPnUQKYszIaClTO9T+Hagi8zIVMU+
+	 1ahyKgEpkzA6ckt3Nf+reuU6iiSA3k2cdZHTveThO7y3HhTP8Ar8YhVgKiGtYOkcJqMZ8
+	 TuTe1Vw1KlTXH5TNFQsxP1oH0OfP13S2dp1rLuRRo4mYCkhv7HLx+HhGGj04SHClwvnMZ
+	 eCcps1+d4XUsnNw7tz/D1nfxB2802y0ifPz8NnQlchbWQgmZzMNnyqWl8Gv8OIpN5wA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794594545;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=VA8bk9ERwXuNEDBoJnHNSRw6hKUgevqXTx1c8nNVso8=;
+	b=M8eCPb8ZBvvIy6ZqmB/IJSdEMxBPsLXdCVi2As8ILspwKhMoBt1kOUDb+YgmjoQq2fQl
+	 FktPu2cWAeirzLJSy9dz+D/efIIolcSV1jE16avRhR2OeCgWwLXqSIgMz28pUilefteC1
+	 VOD/Jl25VPlVcYS8i1RRmG4Iq6Rc+dc6txrah0gD5fgYd/KEw5030Uvf2hag50+jojp90
+	 GSbP5NKZlJ3yJ/DEefZuFWBJjDDVE/DwGbPffJuhuCHSc7AjTfhlm35AMtc/XtRokwqa6
+	 ySwgjDYRr4WuFrSKLglQN6libmcePn916tdPfAZXPu113JcuDWQ2Ht6kr20fT9IQlQQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IVa1pdaT;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0DD6606A323
-	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Nov 2026 18:21:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D0DD6606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E3C5606A327
+	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Nov 2026 18:29:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=bzlshJGu
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-6b757029223so1923165a12.0
-        for <linux-fsdevel@vger.kernel.org>; Fri, 13 Nov 2026 10:21:12 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794594071; cv=none;
-        d=google.com; s=arc-20260327;
-        b=dJgCPsiI3ek+0jL30k4W052qIUvMJiF2T/cBSPMpGeAaLPBoyv2e6hUmUYV6QfdIEq
-         wvkIBCJxi271uTQZN9kK2sfRWI2dRPJTsb7ZVrMjOpFWgQLXDfuuR6oMfEDfC3AH362b
-         +CZfhU0C3RlvCj5/O3G9T/StHFy/+e8IL3kqhpBLytbUaz2dKJz0FFmY+49us72BPwUJ
-         4UO8Qdc17Y9uoxmR6TPF63+q7AG8WoSDn3yUYODdrEzOAZaxWcjHC7mLkhyf+NZKJ21N
-         8LJPRuFOv8IuP3P6m1OHInVjvdUjGFNALzF7qb+Y7i8pMl/Z/dsGCvdRmG2dR+nm0zZ6
-         tEFA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=54eDC8uXlfRGhMfZUiK757c5spN/BrnlZsySaiQPqbI=;
-        fh=2qVpsI1b8fYJiOsOjMAckCHWcweQ2MPbd459o7bw1+4=;
-        b=PiKkhAzHkkYmPyrJEQnVXx7hV6LrrxBdMb8DDru8mpIRsRH6ooCNqhoX891qR7S4Dn
-         tB2GdmBOp7J7atmXWXSMhnMJnJUV5DNLG/3anLwyeWHQ2NFaWJkJBfxQH+wNprGKvyvH
-         ERlJedLgEZJ0OePpZc7vxA2touLC+DHGRBKVtKVyImA4sbbZ/B0tw0kPIECwPYxWMyzX
-         mRILmtbm/mM5fqjBEMakMrySYdhcmQ2ihliIYEQwAZauWl7f5qneAoyszdhPPGi8QnEh
-         gMzWdhm0MvPgpPP/NtF5d5UZ3l4JH3Xjxv1qOJUUNQGW8nr6vcX3yIupCR2xFCxfLCBh
-         r3Jg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794594071; x=1795198871; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=54eDC8uXlfRGhMfZUiK757c5spN/BrnlZsySaiQPqbI=;
-        b=bzlshJGuEZXIycAFYX1mYd05iI+/Izgfmz+50e4WjeeRavo76Blx1Gh7QyMElCUu7Y
-         keqVzTwcdHnt7C6N+Bhh0D1nHg6tsuG5ACPurYgjZlW74WDCSYSs/YNtzZw4aDHt7jGT
-         v2Z9rbQNtkrY8+T9mhhKMcWDsS1q2N8X5tOTm+R2axSUoyY5bE1GsUqbSmOMEyhlfQdT
-         GPB7SS2M+l68v57Kh6NdRb9AGWpmCrX+FI6Hc9VrtiqpaAyVmuRTKqSsbkZV390MRLzk
-         ty2X1EAFcjSDsWrm12wKyDZu54jF+TCnzynfbTyeV81KmkkR8mBv3zaH88u7N48AT3Jr
-         mAeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794594071; x=1795198871;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=54eDC8uXlfRGhMfZUiK757c5spN/BrnlZsySaiQPqbI=;
-        b=m54XOMfKS+iPWdOacgbpRIKOkFM9HCAp44CdbITAKibv+tSm+cxQALDtVrz+Z54ue7
-         +wPEWgw4YNQkivq14DVIGGPxWA5zMGWTQNos5u1GSmwGb9A+t3CQI7xZijkxscciIiea
-         C1cLQFxhm007Mj9oRn5XIgo/KiAXBP8Bn/QEHXQAS5NWW6H3iOLmeEWJE0JMfcwz3dHk
-         vcg3/j2HEG4SRWoFLzWJlwwo3gbh+DNRpoFxdqTZEzF6J9Wx3AvlJNB5doGymbVK42yE
-         tzlbjlIhmOpchf7/yqXlzYaLjCptg21Q5/94kpWArOH6IV5TBGAEb09FNuTMqzdVZjgf
-         KpkQ==
-X-Forwarded-Encrypted: i=1; AL+hErHMQKZ23lMwPqvWVHnAtqjSfPTiHALZXR7MDA3ywBqzgCjbXaP/SAJwqPEMw32QBjThwy0h1PbxMvJNOW+F@vger.kernel.org
-X-Gm-Message-State: APuU4Z+hpW1bPIXSOU27DDa73X14h/j1Xd1OdrIqwIl6MPw+JndVZy5O
-	jZnJXgpfPHLJu9cXwaYcWYu7MXbtc1Gvo4kS70CIxyD51MUZTOu2thP+SFbiN7uTb06eXN14Ulc
-	EskeNPWgVeIXLGU6D0KZqP2tppoFwV18=
-X-Gm-Gg: AYBFou3VLrbVPgsKffHQmOdmQLsr0GEA1u7LQJZBNJcPa8HU/JXElkmRzHT1Z8X8HM2
-	Kyj+oEdkYei1IlZ3/pdHBG1nJBKfDJoNfeTtVjU5ELSNidaUEHJ6SrxBWMdlX+89v/+skLr8t5t
-	4JOZRA2bEwPCWWi6z6OmolhnIuIjJn8VDyRapNAYP3cXShJj6aC2Oz40WE2EO/3oNLValAc+93l
-	vx4JFjw9qdwJheJvz56jUobEvlM06oYmhyu//sN8Prio2LY0TcrTN3/G6QvGjT2YIsyx1i1eVW/
-	TbcxU9v2lPENzp/nlhrZPWUGShH8wPx3j7g+P1Rh0AH1NtXgd3RTPuhYjEZGwLws/V31F1ofnMl
-	FZc/Qc0vFebk9jOOxsIdVBUW/ezL0JWktJo3SopLKIFaMBnAG4j/1V/7umBZmTifGJOmfFA==
-X-Received: by 2002:a05:6402:1e91:b0:6b3:f81f:927d with SMTP id
- 4fb4d7f45d1cf-6b7c08b4b99mr3140320a12.6.1794594070836; Fri, 13 Nov 2026
- 10:21:10 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IVa1pdaT
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B26B1F000C5;
+	Fri, 13 Nov 2026 18:29:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794594545;
+	bh=VA8bk9ERwXuNEDBoJnHNSRw6hKUgevqXTx1c8nNVso8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=IVa1pdaTdvJPJW//quHT797JAknHetwTWP7XqIoxrHXy3p4kDfkDlbx/DJJxbKsog
+	 rVFaQbg1Xck2HGSyWeu56XkGjrKwJPV0lS+xf5BDNqkkNmvShfyS2sbc1jFKZIOewA
+	 dJiBcGQ9c5b79av0BG88cuTvdQG51W4RdcMPeVA/yOq6gfQ9JazFJwgKGV1TsFFpez
+	 G3/qzHYX9Fsiu09GVI+/44p89d/EhN8NqzC+7WCjmY2yfIdF6US3wYkdAj9qcHtMmW
+	 ulHbdzl8VNIr0omw2Ava7FxqFWAvagnGxDQdCSQB/MMZ6HIsYv3Bza2BR2Dz0h2hSV
+	 Lt4YVL9fVueKA==
+Date: Fri, 13 Nov 2026 18:28:58 +0000
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: linux-mm@kvack.org, Arnd Bergmann <arnd@arndb.de>, 
+	Andrew Morton <akpm@linux-foundation.org>, Andreas Larsson <andreas@gaisler.com>, 
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	"David Hildenbrand (Arm)" <david@kernel.org>, Jason Gunthorpe <jgg@nvidia.com>, 
+	Linus Walleij <linus.walleij@linaro.org>, Matthew Wilcox <willy@infradead.org>, 
+	Malin Jonsson <malin.jonsson@est.tech>, Richard Weinberger <richard@nod.at>, 
+	Russell King <linux@armlinux.org.uk>, linux-arm-kernel@lists.infradead.org, 
+	linux-fsdevel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, x86@kernel.org
+Subject: Re: [PATCH v2 1/6] ARM: remove support for highmem on VIVT
+Message-ID: <avdWJOWX3X2KlZfr@gremlin>
+References: <20261112112528.1116405-1-arnd@kernel.org>
+ <20261112112528.1116405-2-arnd@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,107 +63,444 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261015143601.2095784-1-amir73il@gmail.com>
-In-Reply-To: <20261015143601.2095784-1-amir73il@gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Fri, 13 Nov 2026 19:20:58 +0100
-X-Gm-Features: AclHuK9NOBMQ9uZ6tHtgWdIUN2ujkm7xaWSiBCvYS9muR6Awhd6jpK96RhqZqws
-Message-ID: <CAOQ4uxh7oEQ_BzzN23C87+LN1SLoNz2PNYi=k3fNn-NHG4P-5Q@mail.gmail.com>
-Subject: Re: [PATCH v3 00/14] Partition the fanotify watchers by type
-To: Jan Kara <jack@suse.cz>
-Cc: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261112112528.1116405-2-arnd@kernel.org>
 
-On Thu, Oct 15, 2026 at 4:36=E2=80=AFPM Amir Goldstein <amir73il@gmail.com>=
- wrote:
+On Thu, Nov 12, 2026 at 12:25:23PM +0100, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 >
-> Jan,
+> As Jason Gunthorpe noticed, supporting VIVT caches adds some complications
+> to highmem that can be avoided these days:
 >
-> As discussed on the "namespace monitoring" patch set [1], the proposed
-> namespace events do not need to be mixed on the same group with legacy
-> fanotify filesystem events.
+> While all ARMv4 and ARMv5 CPUs use virtually indexed caches, they no
+> longer really need highmem because we have practically discontinued
+> support for large-memory configurations already.  The only machines I
+> could find anywhere for memory on ARMv5 are:
 >
-> The mount events are already not mixable with filesystem events, but we
-> want to be able to mix them with the new namespace events.
+>  - The Intel IOP platform was used on relatively large memory
+>    configurations but we dropped kernel support in 2019 and 2022,
+>    respectively.
 >
-> Therefore, introduce the concept of "watcher type" where all the legacy
-> events belong to the filesystem watcher type and the new mount events
-> belong to a new namespace watcher type.
+>  - The Marvell mv78xx0 platform was the initial user of Arm highmem,
+>    with the DB-78x00-BP supporting 2GB of memory. The only remaining
+>    board file is for Buffalo WLX (Terastation Duo), which has only
+>    512MB and is going to be removed soon.
 >
-> The new watcher type is free to reuse most of the 32bit mask space that
-> we have internally in fsnotify for event masks.
+>  - The Kirkwood platform supports 2GB, and there are actually boards
+>    with that configuration that can still work. However, there are
+>    no known users of the OpenBlocks A7, and the Freebox V6 is already
+>    using CONFIG_VMSPLIT_2G to avoid enabling highmem.
 >
-> The prep patch set only does the partitioning by watcher type.
-> Followup namepsace events work in available for review in my tree [2].
+> Remove the Arm specific portions here, making CONFIG_HIGHMEM conditional
+> on modern caches. Since the cache type is enforced by Kconfig, no
+> boot time check is needed here.
 >
-> If you are fine with this plan and have time to review the patches,
-> perhaps it is not too late to stage this prep series for next cycle?
->
-> Otherwise, we could aim for merging this together with the namespace
-> events for the following cycle.
->
+> Link: https://lore.kernel.org/all/20251219171412.GG254720@nvidia.com/
+> Suggested-by: Jason Gunthorpe <jgg@nvidia.com>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-Hi Jan,
+Really lovely! All looks reasonable AFAICT so:
 
-I suppose with the firehose of bugs you had not had a chance to look
-at this yet.
+Acked-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 
-Just making sure it didn't fall between the cracks.
-
-Thanks,
-Amir.
-
+> ---
+>  arch/arm/Kconfig                    |  1 +
+>  arch/arm/configs/gemini_defconfig   |  1 -
+>  arch/arm/configs/multi_v5_defconfig |  1 -
+>  arch/arm/configs/mvebu_v5_defconfig |  1 -
+>  arch/arm/include/asm/highmem.h      | 56 ++---------------------------
+>  arch/arm/mach-omap2/Kconfig         |  2 +-
+>  arch/arm/mm/cache-feroceon-l2.c     | 31 ++--------------
+>  arch/arm/mm/cache-xsc3l2.c          | 47 +++---------------------
+>  arch/arm/mm/dma-mapping.c           | 12 ++-----
+>  arch/arm/mm/flush.c                 | 19 +++-------
+>  10 files changed, 17 insertions(+), 154 deletions(-)
 >
-> [1] https://lore.kernel.org/linux-fsdevel/20260424170503.2096847-1-amir73=
-il@gmail.com/
-> [2] https://github.com/amir73il/linux/commits/fan_mark_userns
+> diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
+> index 0cc289a7184a..fd01ccab9c12 100644
+> --- a/arch/arm/Kconfig
+> +++ b/arch/arm/Kconfig
+> @@ -1208,6 +1208,7 @@ config ARCH_SPARSEMEM_ENABLE
+>  config HIGHMEM
+>  	bool "High Memory Support"
+>  	depends on MMU
+> +	depends on !CPU_CACHE_VIVT
+>  	select KMAP_LOCAL
+>  	select KMAP_LOCAL_NON_LINEAR_PTE_ARRAY
+>  	help
+> diff --git a/arch/arm/configs/gemini_defconfig b/arch/arm/configs/gemini_defconfig
+> index 5860b2fe7d1f..95debf46581b 100644
+> --- a/arch/arm/configs/gemini_defconfig
+> +++ b/arch/arm/configs/gemini_defconfig
+> @@ -11,7 +11,6 @@ CONFIG_KEXEC=y
+>  CONFIG_ARCH_MULTI_V4=y
+>  # CONFIG_ARCH_MULTI_V7 is not set
+>  CONFIG_ARCH_GEMINI=y
+> -CONFIG_HIGHMEM=y
+>  CONFIG_CMDLINE="console=ttyS0,115200n8"
+>  CONFIG_PM=y
+>  CONFIG_PARTITION_ADVANCED=y
+> diff --git a/arch/arm/configs/multi_v5_defconfig b/arch/arm/configs/multi_v5_defconfig
+> index a0d2fb2fcf9a..bc34b6026e37 100644
+> --- a/arch/arm/configs/multi_v5_defconfig
+> +++ b/arch/arm/configs/multi_v5_defconfig
+> @@ -27,7 +27,6 @@ CONFIG_MACH_D2NET_DT=y
+>  CONFIG_MACH_MSS2_DT=y
+>  CONFIG_ARCH_SUNXI=y
+>  CONFIG_ARCH_VERSATILE=y
+> -CONFIG_HIGHMEM=y
+>  CONFIG_ARM_APPENDED_DTB=y
+>  CONFIG_ARM_ATAG_DTB_COMPAT=y
+>  CONFIG_CPU_FREQ=y
+> diff --git a/arch/arm/configs/mvebu_v5_defconfig b/arch/arm/configs/mvebu_v5_defconfig
+> index dbc6c511e70b..5adf6c75304e 100644
+> --- a/arch/arm/configs/mvebu_v5_defconfig
+> +++ b/arch/arm/configs/mvebu_v5_defconfig
+> @@ -13,7 +13,6 @@ CONFIG_MACH_RD88F5182_DT=y
+>  CONFIG_MACH_LINKSTATION_MINI=y
+>  CONFIG_MACH_D2NET_DT=y
+>  CONFIG_MACH_MSS2_DT=y
+> -CONFIG_HIGHMEM=y
+>  CONFIG_ARM_APPENDED_DTB=y
+>  CONFIG_ARM_ATAG_DTB_COMPAT=y
+>  CONFIG_CPU_FREQ=y
+> diff --git a/arch/arm/include/asm/highmem.h b/arch/arm/include/asm/highmem.h
+> index bdb209e002a4..67ed46d1922b 100644
+> --- a/arch/arm/include/asm/highmem.h
+> +++ b/arch/arm/include/asm/highmem.h
+> @@ -11,66 +11,14 @@
+>  #define PKMAP_NR(virt)		(((virt) - PKMAP_BASE) >> PAGE_SHIFT)
+>  #define PKMAP_ADDR(nr)		(PKMAP_BASE + ((nr) << PAGE_SHIFT))
 >
-> Amir Goldstein (14):
->   fsnotify: rename fsnotify group flag macros
->   fsnotify: introduce fsnotify group types
->   fsnotify: separate the events bitmask macros by group type
->   fanotify: test event->type instead of event mask when possible
->   fsnotify: do not report mount events with fsnotify()
->   fanotify: gate filesystem event classification by group type
->   fanotify: define event mask constants as 64bit
->   fanotify: define new FAN_NS_MNT_* constants
->   fanotify: gate event mask in fanotify_mark() by group type
->   fanotify: introduce FAN_REPORT_MNTID
->   fanotify: introduce FAN_EVENT_MATCH() macro
->   selftests/filesystems: create fanotify test dir
->   selftests/fanotify: update the uapi tools header copy
->   selftests/fanotify: test the FAN_REPORT_MNTID mode
+> -#define flush_cache_kmaps() \
+> -	do { \
+> -		if (cache_is_vivt()) \
+> -			flush_cache_all(); \
+> -	} while (0)
+> +#define flush_cache_kmaps() do { } while (0)
 >
->  fs/notify/fanotify/fanotify.c                 | 186 +++++++++-----
->  fs/notify/fanotify/fanotify.h                 |  38 ++-
->  fs/notify/fanotify/fanotify_user.c            | 230 ++++++++++++------
->  fs/notify/fsnotify.c                          | 106 +++++---
->  fs/notify/group.c                             |  15 +-
->  fs/notify/inotify/inotify_user.c              |   2 +-
->  fs/notify/mark.c                              |   2 +-
->  include/linux/fanotify.h                      |  45 +++-
->  include/linux/fsnotify.h                      |   6 +-
->  include/linux/fsnotify_backend.h              |  83 +++++--
->  include/trace/misc/fsnotify.h                 |   4 +-
->  include/uapi/linux/fanotify.h                 | 100 +++++---
->  kernel/audit_fsnotify.c                       |   2 +-
->  tools/include/uapi/linux/fanotify.h           | 100 +++++---
->  tools/testing/selftests/Makefile              |   2 +-
->  .../{mount-notify =3D> fanotify}/.gitignore     |   0
->  .../{mount-notify =3D> fanotify}/Makefile       |   0
->  .../mount-notify_test.c                       |  51 +++-
->  .../mount-notify_test_ns.c                    |  54 +++-
->  19 files changed, 707 insertions(+), 319 deletions(-)
->  rename tools/testing/selftests/filesystems/{mount-notify =3D> fanotify}/=
-.gitignore (100%)
->  rename tools/testing/selftests/filesystems/{mount-notify =3D> fanotify}/=
-Makefile (100%)
->  rename tools/testing/selftests/filesystems/{mount-notify =3D> fanotify}/=
-mount-notify_test.c (90%)
->  rename tools/testing/selftests/filesystems/{mount-notify =3D> fanotify}/=
-mount-notify_test_ns.c (90%)
+>  extern pte_t *pkmap_page_table;
+>
+> -/*
+> - * The reason for kmap_high_get() is to ensure that the currently kmap'd
+> - * page usage count does not decrease to zero while we're using its
+> - * existing virtual mapping in an atomic context.  With a VIVT cache this
+> - * is essential to do, but with a VIPT cache this is only an optimization
+> - * so not to pay the price of establishing a second mapping if an existing
+> - * one can be used.  However, on platforms without hardware TLB maintenance
+> - * broadcast, we simply cannot use ARCH_NEEDS_KMAP_HIGH_GET at all since
+> - * the locking involved must also disable IRQs which is incompatible with
+> - * the IPI mechanism used by global TLB operations.
+> - */
+> -#define ARCH_NEEDS_KMAP_HIGH_GET
+> -#if defined(CONFIG_SMP) && defined(CONFIG_CPU_TLB_V6)
+> -#undef ARCH_NEEDS_KMAP_HIGH_GET
+> -#if defined(CONFIG_HIGHMEM) && defined(CONFIG_CPU_CACHE_VIVT)
+> -#error "The sum of features in your kernel config cannot be supported together"
+> -#endif
+> -#endif
+> -
+> -/*
+> - * Needed to be able to broadcast the TLB invalidation for kmap.
+> - */
+> -#ifdef CONFIG_ARM_ERRATA_798181
+> -#undef ARCH_NEEDS_KMAP_HIGH_GET
+> -#endif
+> -
+> -#ifdef ARCH_NEEDS_KMAP_HIGH_GET
+> -extern void *kmap_high_get(const struct page *page);
+> -
+> -static inline void *arch_kmap_local_high_get(const struct page *page)
+> -{
+> -	if (IS_ENABLED(CONFIG_DEBUG_HIGHMEM) && !cache_is_vivt())
+> -		return NULL;
+> -	return kmap_high_get(page);
+> -}
+> -#define arch_kmap_local_high_get arch_kmap_local_high_get
+> -
+> -#else /* ARCH_NEEDS_KMAP_HIGH_GET */
+> -static inline void *kmap_high_get(const struct page *page)
+> -{
+> -	return NULL;
+> -}
+> -#endif /* !ARCH_NEEDS_KMAP_HIGH_GET */
+> -
+>  #define arch_kmap_local_post_map(vaddr, pteval)				\
+>  	local_flush_tlb_kernel_page(vaddr)
+>
+> -#define arch_kmap_local_pre_unmap(vaddr)				\
+> -do {									\
+> -	if (cache_is_vivt())						\
+> -		__cpuc_flush_dcache_area((void *)vaddr, PAGE_SIZE);	\
+> -} while (0)
+> +#define arch_kmap_local_pre_unmap(vaddr) do { } while (0)
+>
+>  #define arch_kmap_local_post_unmap(vaddr)				\
+>  	local_flush_tlb_kernel_page(vaddr)
+> diff --git a/arch/arm/mach-omap2/Kconfig b/arch/arm/mach-omap2/Kconfig
+> index 79f8afe3a6bf..f0f1d7a8640c 100644
+> --- a/arch/arm/mach-omap2/Kconfig
+> +++ b/arch/arm/mach-omap2/Kconfig
+> @@ -135,7 +135,7 @@ config ARCH_OMAP2PLUS_TYPICAL
+>  	bool "Typical OMAP configuration"
+>  	default y
+>  	select AEABI
+> -	select HIGHMEM
+> +	select HIGHMEM if !CPU_CACHE_VIVT
+>  	select I2C
+>  	select I2C_OMAP
+>  	select MENELAUS if ARCH_OMAP2
+> diff --git a/arch/arm/mm/cache-feroceon-l2.c b/arch/arm/mm/cache-feroceon-l2.c
+> index 2bfefb252ffd..1316b6ab295a 100644
+> --- a/arch/arm/mm/cache-feroceon-l2.c
+> +++ b/arch/arm/mm/cache-feroceon-l2.c
+> @@ -12,7 +12,6 @@
+>  #include <linux/init.h>
+>  #include <linux/of.h>
+>  #include <linux/of_address.h>
+> -#include <linux/highmem.h>
+>  #include <linux/io.h>
+>  #include <asm/cacheflush.h>
+>  #include <asm/cp15.h>
+> @@ -38,30 +37,6 @@
+>   * between which we don't want to be preempted.
+>   */
+>
+> -static inline unsigned long l2_get_va(unsigned long paddr)
+> -{
+> -#ifdef CONFIG_HIGHMEM
+> -	/*
+> -	 * Because range ops can't be done on physical addresses,
+> -	 * we simply install a virtual mapping for it only for the
+> -	 * TLB lookup to occur, hence no need to flush the untouched
+> -	 * memory mapping afterwards (note: a cache flush may happen
+> -	 * in some circumstances depending on the path taken in kunmap_atomic).
+> -	 */
+> -	void *vaddr = kmap_atomic_pfn(paddr >> PAGE_SHIFT);
+> -	return (unsigned long)vaddr + (paddr & ~PAGE_MASK);
+> -#else
+> -	return __phys_to_virt(paddr);
+> -#endif
+> -}
+> -
+> -static inline void l2_put_va(unsigned long vaddr)
+> -{
+> -#ifdef CONFIG_HIGHMEM
+> -	kunmap_atomic((void *)vaddr);
+> -#endif
+> -}
+> -
+>  static inline void l2_clean_pa(unsigned long addr)
+>  {
+>  	__asm__("mcr p15, 1, %0, c15, c9, 3" : : "r" (addr));
+> @@ -78,14 +53,13 @@ static inline void l2_clean_pa_range(unsigned long start, unsigned long end)
+>  	 */
+>  	BUG_ON((start ^ end) >> PAGE_SHIFT);
+>
+> -	va_start = l2_get_va(start);
+> +	va_start = __phys_to_virt(start);
+>  	va_end = va_start + (end - start);
+>  	raw_local_irq_save(flags);
+>  	__asm__("mcr p15, 1, %0, c15, c9, 4\n\t"
+>  		"mcr p15, 1, %1, c15, c9, 5"
+>  		: : "r" (va_start), "r" (va_end));
+>  	raw_local_irq_restore(flags);
+> -	l2_put_va(va_start);
+>  }
+>
+>  static inline void l2_clean_inv_pa(unsigned long addr)
+> @@ -109,14 +83,13 @@ static inline void l2_inv_pa_range(unsigned long start, unsigned long end)
+>  	 */
+>  	BUG_ON((start ^ end) >> PAGE_SHIFT);
+>
+> -	va_start = l2_get_va(start);
+> +	va_start = __phys_to_virt(start);
+>  	va_end = va_start + (end - start);
+>  	raw_local_irq_save(flags);
+>  	__asm__("mcr p15, 1, %0, c15, c11, 4\n\t"
+>  		"mcr p15, 1, %1, c15, c11, 5"
+>  		: : "r" (va_start), "r" (va_end));
+>  	raw_local_irq_restore(flags);
+> -	l2_put_va(va_start);
+>  }
+>
+>  static inline void l2_inv_all(void)
+> diff --git a/arch/arm/mm/cache-xsc3l2.c b/arch/arm/mm/cache-xsc3l2.c
+> index d20d7af02d10..477077387039 100644
+> --- a/arch/arm/mm/cache-xsc3l2.c
+> +++ b/arch/arm/mm/cache-xsc3l2.c
+> @@ -5,7 +5,6 @@
+>   * Copyright (C) 2007 ARM Limited
+>   */
+>  #include <linux/init.h>
+> -#include <linux/highmem.h>
+>  #include <asm/cp15.h>
+>  #include <asm/cputype.h>
+>  #include <asm/cacheflush.h>
+> @@ -55,34 +54,6 @@ static inline void xsc3_l2_inv_all(void)
+>  	dsb();
+>  }
+>
+> -static inline void l2_unmap_va(unsigned long va)
+> -{
+> -#ifdef CONFIG_HIGHMEM
+> -	if (va != -1)
+> -		kunmap_atomic((void *)va);
+> -#endif
+> -}
+> -
+> -static inline unsigned long l2_map_va(unsigned long pa, unsigned long prev_va)
+> -{
+> -#ifdef CONFIG_HIGHMEM
+> -	unsigned long va = prev_va & PAGE_MASK;
+> -	unsigned long pa_offset = pa << (32 - PAGE_SHIFT);
+> -	if (unlikely(pa_offset < (prev_va << (32 - PAGE_SHIFT)))) {
+> -		/*
+> -		 * Switching to a new page.  Because cache ops are
+> -		 * using virtual addresses only, we must put a mapping
+> -		 * in place for it.
+> -		 */
+> -		l2_unmap_va(prev_va);
+> -		va = (unsigned long)kmap_atomic_pfn(pa >> PAGE_SHIFT);
+> -	}
+> -	return va + (pa_offset >> (32 - PAGE_SHIFT));
+> -#else
+> -	return __phys_to_virt(pa);
+> -#endif
+> -}
+> -
+>  static void xsc3_l2_inv_range(unsigned long start, unsigned long end)
+>  {
+>  	unsigned long vaddr;
+> @@ -92,13 +63,11 @@ static void xsc3_l2_inv_range(unsigned long start, unsigned long end)
+>  		return;
+>  	}
+>
+> -	vaddr = -1;  /* to force the first mapping */
+> -
+>  	/*
+>  	 * Clean and invalidate partial first cache line.
+>  	 */
+>  	if (start & (CACHE_LINE_SIZE - 1)) {
+> -		vaddr = l2_map_va(start & ~(CACHE_LINE_SIZE - 1), vaddr);
+> +		vaddr = __phys_to_virt(start & ~(CACHE_LINE_SIZE - 1));
+>  		xsc3_l2_clean_mva(vaddr);
+>  		xsc3_l2_inv_mva(vaddr);
+>  		start = (start | (CACHE_LINE_SIZE - 1)) + 1;
+> @@ -108,7 +77,7 @@ static void xsc3_l2_inv_range(unsigned long start, unsigned long end)
+>  	 * Invalidate all full cache lines between 'start' and 'end'.
+>  	 */
+>  	while (start < (end & ~(CACHE_LINE_SIZE - 1))) {
+> -		vaddr = l2_map_va(start, vaddr);
+> +		vaddr = __phys_to_virt(start);
+>  		xsc3_l2_inv_mva(vaddr);
+>  		start += CACHE_LINE_SIZE;
+>  	}
+> @@ -117,13 +86,11 @@ static void xsc3_l2_inv_range(unsigned long start, unsigned long end)
+>  	 * Clean and invalidate partial last cache line.
+>  	 */
+>  	if (start < end) {
+> -		vaddr = l2_map_va(start, vaddr);
+> +		vaddr = __phys_to_virt(start);
+>  		xsc3_l2_clean_mva(vaddr);
+>  		xsc3_l2_inv_mva(vaddr);
+>  	}
+>
+> -	l2_unmap_va(vaddr);
+> -
+>  	dsb();
+>  }
+>
+> @@ -135,13 +102,11 @@ static void xsc3_l2_clean_range(unsigned long start, unsigned long end)
+>
+>  	start &= ~(CACHE_LINE_SIZE - 1);
+>  	while (start < end) {
+> -		vaddr = l2_map_va(start, vaddr);
+> +		vaddr = __phys_to_virt(start);
+>  		xsc3_l2_clean_mva(vaddr);
+>  		start += CACHE_LINE_SIZE;
+>  	}
+>
+> -	l2_unmap_va(vaddr);
+> -
+>  	dsb();
+>  }
+>
+> @@ -178,14 +143,12 @@ static void xsc3_l2_flush_range(unsigned long start, unsigned long end)
+>
+>  	start &= ~(CACHE_LINE_SIZE - 1);
+>  	while (start < end) {
+> -		vaddr = l2_map_va(start, vaddr);
+> +		vaddr = __phys_to_virt(start);
+>  		xsc3_l2_clean_mva(vaddr);
+>  		xsc3_l2_inv_mva(vaddr);
+>  		start += CACHE_LINE_SIZE;
+>  	}
+>
+> -	l2_unmap_va(vaddr);
+> -
+>  	dsb();
+>  }
+>
+> diff --git a/arch/arm/mm/dma-mapping.c b/arch/arm/mm/dma-mapping.c
+> index fb2eb0ed7bb8..917a546af0b9 100644
+> --- a/arch/arm/mm/dma-mapping.c
+> +++ b/arch/arm/mm/dma-mapping.c
+> @@ -647,18 +647,10 @@ static void dma_cache_maint_page(phys_addr_t phys, size_t size,
+>  			if (len + offset > PAGE_SIZE)
+>  				len = PAGE_SIZE - offset;
+>
+> -			if (cache_is_vipt_nonaliasing()) {
+> -				vaddr = kmap_atomic_pfn(pfn);
+> +			vaddr = kmap_atomic(phys_to_page(phys));
+> +			if (vaddr) {
+>  				op(vaddr + offset, len, dir);
+>  				kunmap_atomic(vaddr);
+> -			} else {
+> -				struct page *page = phys_to_page(phys);
+> -
+> -				vaddr = kmap_high_get(page);
+> -				if (vaddr) {
+> -					op(vaddr + offset, len, dir);
+> -					kunmap_high(page);
+> -				}
+>  			}
+>  		} else {
+>  			phys += offset;
+> diff --git a/arch/arm/mm/flush.c b/arch/arm/mm/flush.c
+> index 66270904f874..e21c5af6f34c 100644
+> --- a/arch/arm/mm/flush.c
+> +++ b/arch/arm/mm/flush.c
+> @@ -208,21 +208,10 @@ void __flush_dcache_folio(struct address_space *mapping, struct folio *folio)
+>  					folio_size(folio));
+>  	} else {
+>  		unsigned long i;
+> -		if (cache_is_vipt_nonaliasing()) {
+> -			for (i = 0; i < folio_nr_pages(folio); i++) {
+> -				void *addr = kmap_local_folio(folio,
+> -								i * PAGE_SIZE);
+> -				__cpuc_flush_dcache_area(addr, PAGE_SIZE);
+> -				kunmap_local(addr);
+> -			}
+> -		} else {
+> -			for (i = 0; i < folio_nr_pages(folio); i++) {
+> -				void *addr = kmap_high_get(folio_page(folio, i));
+> -				if (addr) {
+> -					__cpuc_flush_dcache_area(addr, PAGE_SIZE);
+> -					kunmap_high(folio_page(folio, i));
+> -				}
+> -			}
+> +		for (i = 0; i < folio_nr_pages(folio); i++) {
+> +			void *addr = kmap_local_folio(folio, i * PAGE_SIZE);
+> +			__cpuc_flush_dcache_area(addr, PAGE_SIZE);
+> +			kunmap_local(addr);
+>  		}
+>  	}
 >
 > --
-> 2.55.0
+> 2.53.0
 >
+
+--
+Cheers, Lorenzo
