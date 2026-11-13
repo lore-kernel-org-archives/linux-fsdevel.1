@@ -1,98 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=52.26.1.71
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.176
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794585072;
-	b=DypaR7+DUI0aujEunej1lGGUbIyD0vAcrvtoN+73hmTC/P+WPOopg5asT4tKnBgeN2jx
-	 318VyUs3gZorL1O9CNl1ti6WOIJPZymOEETZJJznsljtgxONc03Ek4gawrgkU6bH0dmGC
-	 3cNuxsSVeUCbJQFufUgG8fILIe5cqj8S9n7yvXpMylQshJlUrYB2UIZ4JCijH8gBMSBem
-	 I+So1LnM3qc0TEH1fYzdsL38HK/PARpKZCyBw3/EvF4YG3vGtQxjutEYyOz+9jcCn8fqK
-	 ZGuwLpK00cBi7FmmvD6Ez+8NkOUrkn+050QydRqGesSH9EzlV31ZgBsWJLC8qZdjrrg==
+	t=1794590606;
+	b=Vr5Hc15ny1j1cOukBF6hpEUkLYylDbLei0lvxtpmYRpzaLhUIhbWfoCSyvf3w5qTyRsk
+	 nAZGoxEbAKBmoAYq4YWTbjJYy7s6h3Oxin9QDm5tJRlAjqJE2BdLaFn173d0Lm1uxjhGr
+	 1NAUX/uYdGxwaZ+NuoePSomZGGhDGS877OmhuCY6Ncl5EPy3x9TChlrkQOb8TQkH9pf6H
+	 g+lnBjo1vpLdpknibbfk6hCaRwblJTTOcCM1l+SQMACwpWs6FRov3ysSDq4+pDJWSq9GJ
+	 LcoutMSCuXDYmC81oEeJstGW4pWQVZtTMuaY9iUmEkrOd3rCgU+ZnMsi58Qzn1wpzbA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794585072;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:Received:Received:X-Farcaster-Flow-ID:Received:Received:
-	 From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:X-Originating-IP:X-ClientProxiedBy:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=ttqAfDxUfq10cMBrxuj6822Y6w4QHwk60wHnUr65sec=;
-	b=ZWSSbdP1EbVTI9KVE47zCO8nRHV8U/NTla7QPlFUclmk0CwNdqu3fJiELMh26PJLu5BC
-	 r+rtHD/ALks+SJwMgw27Wg04prtt3Jdttxnfp0aK5ah04Yn0qsIqCiLo4R2JW4DS0RAW1
-	 Sk7yCQIGsSTQDs6v288E5YMDDBYR+02Vk3IsP8au8IkfA5OWOV34U9jHBud2fjnK+Gb6p
-	 OxMec+M6BoeGt4lY5H9e7wNoZ5kPCDMHErqmdwfKt9Xbftwhr2wvnF8MH8TzXt7LkgPEI
-	 Lkiekn5ZjPOzvfpetUP9PtnNHgUU9lpKQEBk68nhnGO/+aBV6jpN2KaqAG3KhGIReiw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794590606;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:In-Reply-To:References:MIME-Version:
+	 Content-Type:Content-Disposition:Message-ID:User-Agent;
+	bh=yu5QMzc3QXUklBl5GRmDPmTAJYce2ooMnlaR9b715Do=;
+	b=J7H2Ik+6P8IODPb+PQF7Hmj5w7gow4baNL31Dk8+IN9Ee9yL2O0eeR1SI9wpD73+Hnt/
+	 3T+l32kob3exKMHi5KTqpDsvV9ULmXxp/a4lkRvBfmou5K91Lrtsiv84t2C7WagXz7Hh2
+	 63B29v+10LGamnQYQe4STEyOM1ioLXl7dWp3UUkh7v4sj7nDZdJV36oMX73nYlzd8i5a4
+	 0GjWEa8lOp4NxQPNOVWx6ik4FTzl9AGHDgiGN6an/8+vZcxvTAfsA5j3Hr9NRgFu9biVL
+	 iMBWwJYZ2ujCph5Ft84ggJnZhJHb3rwei1l2XMTasP3yjbGaBKzZhoR+uStiqQtzDWw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=amazon.com;
-	spf=pass smtp.mailfrom=amazon.it;
-	dkim=pass header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=A2YWGP1F;
-	arc=none smtp.remote-ip=52.26.1.71
-Received: from pdx-out-006.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-006.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.26.1.71])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=chrisdown.name;
+	spf=pass smtp.mailfrom=chrisdown.name;
+	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b="xkc+l/Ri";
+	arc=none smtp.remote-ip=209.85.214.176
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EB69606A330;
-	Fri, 13 Nov 2026 15:51:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2EB69606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.it
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD0926075E07
+	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Nov 2026 17:23:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BD0926075E07
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chrisdown.name
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chrisdown.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=A2YWGP1F
+	dkim=pass (1024-bit key) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=xkc+l/Ri
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2ede7cb02daso16932335ad.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 13 Nov 2026 09:23:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1794585065; x=1826121065;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=ttqAfDxUfq10cMBrxuj6822Y6w4QHwk60wHnUr65sec=;
-  b=A2YWGP1Fpk2ennvvIVzm+5gKtGrHfZqwO3k6Fac3QUJHHaNGlbsKOe82
-   ZZT5fkrCxezz3MVrW43yrWb+Thpo+s410hHAHtwrwQiXvwIMWaQdrhI9B
-   ud6B5Er5bzUSFGIOKZscALODbNt+OsQLk8ngsDzgwIg//uYfWcp5lxkQS
-   t4/foga8HVDruCDogUljFI93EI6AzEX3ugqCqmXbZCPv5LDIfCGi1xMD0
-   Jp6EUnskndoCjsiyMUi45J+zod9wAL4o653QwfVWt5HvBj+pBjyG3qBsR
-   6bnGlnGZoHjLk1m2hj3Z7BXb74iDvQ1p3vdKDPYSlgNgEILjNZc5ogMwo
-   A==;
-X-CSE-ConnectionGUID: mEzGvvEbQ/eZvW+yJkWFSA==
-X-CSE-MsgGUID: 726PIJdYTv201+SXclxh0w==
-X-IronPort-AV: E=Sophos;i="6.27,211,1787011200"; 
-   d="scan'208";a="33924868"
-Received: from ip-10-5-6-203.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.6.203])
-  by internal-pdx-out-006.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2026 15:50:57 +0000
-Received: from EX19MTAUWA001.ant.amazon.com [205.251.233.236:27372]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.10.61:2525] with esmtp (Farcaster)
- id 06ade6d6-3062-4e83-9e5f-28bb5c92f1e7; Fri, 13 Nov 2026 15:50:57 +0000 (UTC)
-X-Farcaster-Flow-ID: 06ade6d6-3062-4e83-9e5f-28bb5c92f1e7
-Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWA001.ant.amazon.com (10.250.64.204) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
- Fri, 13 Nov 2026 15:50:55 +0000
-Received: from dev-dsk-dipiets-1b-77b833da.eu-west-1.amazon.com
- (10.253.66.177) by EX19D001UWA001.ant.amazon.com (10.13.138.214) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56; Fri, 13 Nov 2026
- 15:50:49 +0000
-From: Salvatore Dipietro <dipiets@amazon.com>
-To: <jack@suse.cz>
-CC: <abuehaze@amazon.com>, <agruenba@redhat.com>, <akpm@linux-foundation.org>,
-	<alisaidi@amazon.com>, <almaz.alexandrovich@paragon-software.com>,
-	<apopple@nvidia.com>, <blakgeof@amazon.com>, <brauner@kernel.org>,
-	<byungchul@sk.com>, <cem@kernel.org>, <david@kernel.org>,
-	<dipietro.salvatore@gmail.com>, <dipiets@amazon.it>, <djwong@kernel.org>,
-	<dlemoal@kernel.org>, <exfat@lists.linux.dev>, <fuse-devel@lists.linux.dev>,
-	<gfs2@lists.linux.dev>, <gourry@gourry.net>, <hyc.lee@gmail.com>,
-	<joshua.hahnjy@gmail.com>, <jth@kernel.org>, <liam@infradead.org>,
-	<linkinjeon@kernel.org>, <linux-fsdevel@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
-	<linux-xfs@vger.kernel.org>, <ljs@kernel.org>, <matthew.brost@intel.com>,
-	<mhocko@suse.com>, <miklos@szeredi.hu>, <naohiro.aota@wdc.com>,
-	<ntfs3@lists.linux.dev>, <ntfs@lists.linux.dev>, <pfalcato@suse.de>,
-	<rakie.kim@sk.com>, <ritesh.list@gmail.com>, <rppt@kernel.org>,
-	<rvvandan@amazon.com>, <ryan.roberts@arm.com>, <sj1557.seo@samsung.com>,
-	<surenb@google.com>, <vbabka@kernel.org>, <viro@zeniv.linux.org.uk>,
-	<willy@infradead.org>, <ying.huang@linux.alibaba.com>,
-	<yuezhang.mo@sony.com>, <ziy@nvidia.com>, <kirill@shutemov.name>,
-	<dgc@kernel.org>
-Subject: Re: [PATCH 0/2] mm, iomap: account dirty at page granularity for per-block dirty folios
-Date: Fri, 13 Nov 2026 15:50:15 +0000
-Message-ID: <20261113155015.516481-1-dipiets@amazon.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <mcskrz2zbav5r3xtlwqytyotgjcmmi3wapeibkqornuhb3qp5y@qk22j77kvkqx>
-References: <mcskrz2zbav5r3xtlwqytyotgjcmmi3wapeibkqornuhb3qp5y@qk22j77kvkqx>
+        d=chrisdown.name; s=google; t=1794590605; x=1795195405; darn=vger.kernel.org;
+        h=user-agent:message-id:content-disposition:content-type:mime-version
+         :references:in-reply-to:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=yu5QMzc3QXUklBl5GRmDPmTAJYce2ooMnlaR9b715Do=;
+        b=xkc+l/Ric1gBL/XJaF/g07pdXD3EjnqX30zCqgLh5dnb/W3Y3Q9ZzcPLGVnPIEW8I5
+         i6wkzU4MylRS147v7U//alMndB9TXpOJXn0KrJJ/w0VKZJ/QDLctzKQtDx2FUPMqQGe9
+         f89nfb9NApy3X0lORFb/a89MIDaaSpv1Mp310=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794590605; x=1795195405;
+        h=user-agent:message-id:content-disposition:content-type:mime-version
+         :references:in-reply-to:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=yu5QMzc3QXUklBl5GRmDPmTAJYce2ooMnlaR9b715Do=;
+        b=ULUUJDVI/zs+vC1DUFc+AeQl39VpV/P5dPO6F6vACgiJzs/fx/5l7JeXDWUub2+uTv
+         oYuX/3VPTzJz+JDglTgDPSk4pHN78MukBYtp1KuSFzREJLnmzI1nKrYUA4bLxK2FetCW
+         jPbJGIBOvK7w4NE8g7nKmnvsTG3uM2GmJbiTMwvOMGGSaZuqnkDQkTRQMx3AJVV6+VJW
+         2WNMfMTRTcNE0PL3eomeaJLpXGnUdI4ZLk704Oco9hr1K3DB8q31Bi9IGKI4UWTKsKAU
+         VUjzjMvU2nN4feT9fQPVHiZVWobG19LBEatnNlGw+BHwkLvZojYxLJI96EynjK3WfD1W
+         WxFw==
+X-Forwarded-Encrypted: i=1; AL+hErGqSGWOpLFmlslQTmHJP3EB0SpJOOv4rQ5cWLDSNmjrs5AU2TzV/rCf5muYIjuC8pPuaRnSvvX11fDLCfO1@vger.kernel.org
+X-Gm-Message-State: APuU4Z/GtRkFKb/yczyPwLu0filLsRpOmi9n0HLfEb4cyFbiWgg6gjyd
+	FkzCl4bXTVhalNKIR8aSBhAQKpxYUjLFH9P64a+M8P+7BS8EATpv3KH1Ma+h9u2cywE=
+X-Gm-Gg: AYBFou19YO8zfccmIp/7zxGBSdf5Go4N1etG6QVdtzTLCsZwvR+ZCsfJz3SN1n/c/LR
+	4HoIoHgJ/IHwuN0DrK58ozunSfAAo0DWaHM+XcVTdbHPm1GWEmwkLqhEoOXZEOrPGDbJiNdbOBe
+	oTkZMk0fZ4VyOBHS6EboVK33C6jej63HLI+K7r6aMMpEme69sjZn1gZlq9SihzYN2KXWVHKqAU5
+	vWRVxhCAWb5CFA1xDolwKxNIgJbOV0aZm1iNCRpDLbbwdVNKUARedkTVxVgBK01vViQWpXieCag
+	BOCPxSw359FJvnyNNQ601ICQvikvG134F6JGXCk60BNX49wT65BDpzr1llfvCFPgXDdqLYEwphF
+	nYVTSzZi5FjPmP76IS+kC5SBkrpNvvstJ3GLUkR7Rc+brRGpIC1JxdZW6junQ9ghGsiuvobZ2qv
+	FiRdSLfp21NomtM0ZyiTuh4LytvFQulSOijGMYJ+OvssUk8hCm3YGmHJ0Px8dEDOr+qC+yrW5Ln
+	mw1h1cTl9PnRLw8vHS2Y0Yepb32GcUb8p2bOnQQaXFcBx3OOuDkf9XPNGIFjUss1lD7wnUCUkLI
+	LQ0giF74GXuZLYf0fbUVM3kfzuKYgREIOW8JHcGmGvCi0XQ7J9Ilkc4wxGPw+vC81sNVTgwiWjf
+	Wr7Mv9iuxfoAAs2hFX+KILPt3R9EKeUvzDsg3DE3ImabKTP8XgR0kBS3LJfx+v4VcrOrO0pDFRb
+	N3UV+0qW5o3FMU1q952rQ1ePfdhrm+cmU5mED9H5iD3aWipHPGWAIEDJLLp6o=
+X-Received: by 2002:a17:90a:c88b:b0:3ac:a6a5:5757 with SMTP id 98e67ed59e1d1-3b1b0b5beadmr2012590a91.11.1794590605026;
+        Fri, 13 Nov 2026 09:23:25 -0800 (PST)
+Received: from [172.22.0.2] ([50.175.87.158])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b1ae98151dsm5319144a91.2.2026.11.13.09.23.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Nov 2026 09:23:24 -0800 (PST)
+Date: Fri, 13 Nov 2026 09:23:19 -0800
+From: Chris Down <chris@chrisdown.name>
+To: Breno Leitao <leitao@debian.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Julian Sun <sunjunchao@bytedance.com>, Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Johannes Weiner <hannes@cmpxchg.org>, Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, cgroups@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH v2 4/4] writeback: report a slow writeback wait once per timeout
+In-Reply-To: <20261110-writeback_stall_report-v2-4-9e0ed75074ca@debian.org>
+References: <20261110-writeback_stall_report-v2-0-9e0ed75074ca@debian.org> <20261110-writeback_stall_report-v2-4-9e0ed75074ca@debian.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -102,160 +94,49 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-ClientProxiedBy: EX19D031UWA001.ant.amazon.com (10.13.139.88) To
- EX19D001UWA001.ant.amazon.com (10.13.138.214)
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Message-ID: <20261113092319.f975912d92c98651@chrisdown.name>
+User-Agent: Mutt/2.4.3 (cc9e3943) (2026-10-09)
 
-Hi all,
+Hi Breno,
 
-Thanks Jan, Pedro, Dave, David and Kiryl for the feedback.
+Breno Leitao writes:
+>The flusher only checks for progress between inodes, so the wakeups now
+>land on the first inode boundary past the timeout, a bit more than a
+>timeout apart. The hung task detector scans once per timeout, so it can
+>catch the waiter between two wakeups.
 
-Following Dave's question about how PostgreSQL gets large folios on
-files it writes 8 KiB at a time, we looked deeper and found a
-reproducer that needs only fio and a single disk.
+This does happen in practice. With your null_blk setup and the timeout at
+5 seconds, the waiter gets woken every 5.0 to 6.1 seconds. khungtaskd
+reported sync as "blocked for more than 5 seconds" in one of five 40
+second syncs with the default check interval, and twice in a single sync
+with hung_task_check_interval_secs=1. With hung_task_panic set, that
+panics a machine whose writeback is making progress. Stopping these
+warnings is what 1888635532fb ("writeback: Wake up waiting tasks when
+finishing the writeback of a chunk.") was for, so as Jan said, the wakeups
+have to stay below the timeout.
 
-What happens:
+>-	done->progress_stamp = jiffies;
+>-	if (left && timeout && (waited_secs > timeout))
+>+	if (left && timeout &&
+>+	    time_after(jiffies, done->progress_stamp + timeout * HZ))
 
-  1. A buffered sequential read (VACUUM, a backup, a scan) builds large
-     folios through readahead.  They stay large in the page cache until
-     they are evicted.
-  2. The first small write into one of these clean folios charges the
-     whole folio as dirty: a 4 KiB write into a 256 KiB folio charges
-     256 KiB, while writeback only writes the dirty 4 KiB.
-  3. With random writes, most writes land in a different clean folio,
-     so the dirty count reaches the limits with little real data.
-     balance_dirty_pages() then throttles the writers, and they end up
-     paced by how many folios writeback can clean per second rather
-     than by the bytes to write.
+But this check can't stay as it is once that's done. progress_stamp is
+reset on every wakeup, so if the flusher wakes the waiter every half
+timeout, this is only true when a single inode holds up the flusher for
+more than the other half. With the threshold in writeback_sb_inodes() put
+back to timeout / 2 and the rest of this patch kept, the same test prints
+no "has been waiting" reports at all, only the "waited N seconds" line
+from patch 3. Going by the code, three quarters of the timeout would
+mostly have the same problem.
 
-Reproducer: XFS on one EBS gp3 volume (3000 IOPS), m8g.8xlarge
-(32 CPUs, 128 GiB), default read_ahead_kb=128. fio's 1 MiB reads grow
-the readahead window up to the device's max_sectors_kb (256 KiB), so
-the read builds 256 KiB folios.
+The report_stamp you had in v1 keeps the reports apart without touching
+the wakeups, so maybe go back to that and leave writeback_sb_inodes()
+alone? That also gets rid of the duplicate from wait_event() checking
+twice. With v1's report_stamp on top of patches 1-3, I get one report per
+timeout and no hung task warnings.
 
-  ; create.fio: 16 x 3 GiB files, direct I/O so nothing is cached
-  [global]
-  directory=/mnt/xfs/fio
-  filename_format=f.$jobnum
-  size=3072m
-  numjobs=16
-  group_reporting=1
-  [create]
-  rw=write
-  bs=1m
-  direct=1
-  ioengine=libaio
-  iodepth=16
+Thanks!
 
-  ; load.fio: buffered sequential read; builds the large folios
-  [global]
-  directory=/mnt/xfs/fio
-  filename_format=f.$jobnum
-  size=3072m
-  numjobs=16
-  group_reporting=1
-  [load]
-  rw=read
-  bs=1m
-  direct=0
-  ioengine=psync
-
-  ; randwrite.fio: random 4 KiB buffered writes, 32 x 312 = ~10k IOPS
-  ; invalidate=0 keeps the cached folios when fio opens the files
-  [randwrite]
-  directory=/mnt/xfs/fio
-  filename=f.0:f.1:f.2:f.3:f.4:f.5:f.6:f.7:f.8:f.9:f.10:f.11:f.12:f.13:f.14:f.15
-  rw=randwrite
-  bs=4k
-  direct=0
-  ioengine=psync
-  invalidate=0
-  numjobs=32
-  rate_iops=312
-  time_based=1
-  runtime=120
-  group_reporting=1
-
-To reproduce it, run (as root):
-
-  fio create.fio
-  sync; echo 3 > /proc/sys/vm/drop_caches
-  fio load.fio          # skip this step for the control run
-  fio randwrite.fio
-
-fio asks for ~10k write IOPS, more than the volume's 3000, so dirty
-data builds up in both runs.  In the control run (no load step) each
-4 KiB write creates a 4 KiB folio: after 120 s only 3.3G is dirty,
-below the 12.2G background threshold, and nothing is throttled.  After
-the load step the same writes land in 256 KiB folios, and each write
-into a clean folio is charged 256 KiB: the dirty count passes the
-background threshold after 6 s and writers are throttled from 13 s.
-
-Results on v7.4-rc2, one run per kernel, each on a fresh instance.
-Writer sleep is the total balance_dirty_pages() pause time over the
-32 writers during the 120 s write phase:
-
-                         write   p99 / max   writer   max    folio
-                          IOPS     lat ms    sleep s  dirty  size
-  baseline, control      9,984  0.01 / 0.30      0    3.3G    -
-  baseline               4,061    60 / 160     179   23.5G   256K
-  v1 (this series)       9,984  0.01 / 0.67      0    3.6G   256K
-  max order cap 64K      7,071    50 / 280      73   22.3G    64K
-  max order cap 16K      9,984  0.02 / 0.05      0   11.9G    16K
-  split on write         9,984  0.02 / 0.17      0    3.6G   256K
-  evict on write         9,984  0.03 / 0.19      0    3.3G   256K
-  POSIX_FADV_RANDOM      9,984  0.02 / 0.05      0    3.3G     4K
-
-The control run gave 9,984 IOPS and max latency up to 0.30 ms on every
-kernel.
-
-  - max order cap: the global cap in mapping_max_folio_order() that Jan
-    suggested trying.  At 64 KiB a 4 KiB write still charges 16x and is
-    throttled.  At 16 KiB this run is not throttled, but dirty reached
-    11.9G, just below the 12.2G background threshold.  The cap that
-    avoids throttling depends on the write size, and it removes large
-    folios for every file, including ones that never see small writes.
-  - split on write: when a buffered write (iomap opts in, not for
-    zeroing or unshare) finds a clean, uptodate, unmapped folio at least
-    4x the write size, folio_split() it down to the write's order before
-    dirtying it.  The rest of the folio stays cached in large folios.
-    On the concerns Jan raised about splitting [1]: split on write only
-    splits clean, uptodate, unmapped folios, so it needs no new
-    filesystem state beyond an opt-in flag in iomap, and if
-    folio_split() fails the write simply proceeds as today; evict on
-    write avoids splitting altogether.
-  - evict on write: same trigger, but mapping_evict_folio() the folio
-    instead of splitting it (~40 lines).  This discards the folio's
-    other cached data; nothing reads it back in this test, so the read
-    cost does not show here.
-  - POSIX_FADV_RANDOM (Dave's question): fio's fadvise_hint=random on
-    the load job.  It avoids the problem without a kernel change, but
-    only where the application opts in: the hint is per open file, so
-    every process that reads a file must issue it, and a reader that
-    doesn't (a backup or copy tool, for example) still builds large
-    folios.  Every application that reads files sequentially and then
-    rewrites them in place would have to adopt it, and keeps the
-    regression until it does.  It also turns readahead off for those
-    files, so their sequential reads lose readahead.
-
-Split and evict on write keep whole-folio accounting and act at write
-time, so they also cover large folios already in the page cache,
-whoever built them, without each application having to opt in.  Both
-only touch clean, uptodate, unmapped folios at least 4x the write
-size, and only on iomap buffered writes.  Split keeps the rest of the
-folio cached at the cost of the split; evict is simpler but drops it.
-I'd appreciate your opinion on these options, or any other direction
-you think is more appropriate.
-
-Thanks,
-Salvatore
-
-[1] https://lore.kernel.org/all/oocwnxqgd4klrem6hkya3sddqoxkosml4ysz23if4j7wj2qdwi@5skgc4ftu7io/
-
-
-
-AMAZON DEVELOPMENT CENTER ITALY SRL, viale Monte Grappa 3/5, 20124 Milano, Italia, Registro delle Imprese di Milano Monza Brianza Lodi REA n. 2504859, Capitale Sociale: 10.000 EUR i.v., Cod. Fisc. e P.IVA 10100050961, Societa con Socio Unico
-
-
-
+Chris
