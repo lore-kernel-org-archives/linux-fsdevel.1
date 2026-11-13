@@ -1,73 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.205.221.209
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.224
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794535032;
-	b=IbJR6G8GF3QzQO6MBUn5Jr+ibE1tskwc42BMwaQ6qlirIjg1nZ8V28t9L9JFRJlhhXt7
-	 M5Y+MLHRFvvRjkcQYHkVEBqsXfEJSb/rDL1w3lArcIIrt0Egi8osHPviKP4yI/aRh4+ER
-	 4CGcG17SzHEz+UhJT8qhdU559qWrZHRnV+EOi8/5WW9Vl9vV2oqS5TOzpEChEC7FhjV9P
-	 xSWyPHCZJqoinXvVJ6zBT3ox6cqAT9S5yG6hpmqwzkKqy2YMPAMwQpNIFWPhLmTpgsmVm
-	 IeHApwqExJvlEd40mJIAwgy46Xlzu4Y5iUVXwBUQBUIatR8DB7B4T0r3zLURfWY0Pzg==
+	t=1794535692;
+	b=p+OCAdGyQTluAMXM2IMjhPqoDssF3k0v9cXs1PByJ8sQNTntlLl32u9gYFwRGQxoMsuF
+	 FpPG/uNtz8O8rMCukKoRuiXR90YdYwVEEHfhh616wlsW0OR8aRmepRvL3T0vJ7Oe+/PoU
+	 4h70MG50RqjBv4F69D6wB4lIn6PTxbuH6sLiTBTRz4YpwRIpEBaGqe7Y3kjI0ldcuXT2y
+	 RE7GRQphiYobnV4CB8aXdO9qtkyzxFSD4zKhKBTSTYrGSWn8nrhPQ784N5tWBWXnkSx6L
+	 cm/ce2LhWJlRj8jWTXMnlBy6cZxSt34FRzAUDB4jMReP09fSxH6cKHxxTMlSsaXEyKQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794535032;
-	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
-	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:X-OQ-MSGID:Date:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	bh=5uBavx2aBPdhiYJJvhZpvQRBtTzABPSffRIiryI8U3w=;
-	b=W6h+qeRVjkGT+JvG1OyYUro/CEHKc0mCh3FCo05Zh64nT5pIu+qjKSGXnOWOfJBFCcD3
-	 XGyfOdzuFWVztcRzzUk7sSnP2V2fo8GFzrhN3PefeTV7D7bmkl8ukoLxDd4IEXGNGv+41
-	 3qWu68wY1FHJx5n22Mp8pWXJh8qJgQeRy5z4ITomFvRxpMjnB6c2ZQYcRENxJ264sZ+SJ
-	 FPKzjnoyI5Ms5kkGleRd/Ro2NZp/+8GqM8+qpjDF0KsJoECfLcSBFE8FbdDrFTGKE/sBY
-	 k0PGSQUK0q5W+TvsTDSzNANMy2HB5loSicqt6zYtryyXn+mAxOqjT+h8Veak/M7UoVA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794535692;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:CC:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
+	bh=fRlFnEwOyhCsf6bntFNWmv0q3cjwumqt5gvXEY0j99s=;
+	b=h/zV89+qLgaCReHEGqt6Yz7QuMFLau76PrUC64xyupskVtNCPQ+nmxOMNmYpHzOqslFo
+	 kgKw5ZY2wbzhJd0lF+zjKrlPUCmjb5IgsUFtoQqhIVm9cnGfBBQV27Zmw0SOuawfTJrqj
+	 COUDeteeu91XQma3e/4ndW4VEdrl3CeyYA6qLcmmNoBHr88AeGjUDrznix08ey7CkL7dN
+	 ATYbiJ85jaQA4TqrEF0OxrluHBWYxqRn9fPvtPMnNG9q6tAJkXdtwGsMyPUdrjdmiatZM
+	 Nm2oKKg5nghW9PZOToKPGBNxCtDI6DTaPEoBLZidyMqSogmB9o3taotFsdyv1n5vU6w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=qq.com;
-	spf=pass smtp.mailfrom=qq.com;
-	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=BGNnhB6A;
-	arc=none smtp.remote-ip=203.205.221.209
-Received: from out203-205-221-209.mail.qq.com (out203-205-221-209.mail.qq.com [203.205.221.209])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=tgB76D+u;
+	arc=none smtp.remote-ip=113.46.200.224
+Received: from canpmsgout09.his.huawei.com (canpmsgout09.his.huawei.com [113.46.200.224])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60B71606A33E;
-	Fri, 13 Nov 2026 01:57:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 60B71606A33E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81167606A31C;
+	Fri, 13 Nov 2026 02:08:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 81167606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=BGNnhB6A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1794535022; bh=5uBavx2aBPdhiYJJvhZpvQRBtTzABPSffRIiryI8U3w=;
-	h=From:To:Cc:Subject:Date;
-	b=BGNnhB6AwyM7+P6jM8rDG8BqafGTsRTgi44KkKaKVIPc6OSPOIZP4/qlTfwItxtbG
-	 ZkR7vfgPO1X6wvJAwZ+p49Eg2ery3JvT3pzOJPW2Hy5+62RZ+Iwom0iUYaz4CCdTNt
-	 vYINE7OkAvV7DT0VImxV1p3g0fxFPXO55iZgCYAU=
-Received: from [172.18.4.77] ([202.113.185.209])
-	by newxmesmtplogicsvrszc50-0.qq.com (NewEsmtp) with SMTP
-	id E40A70EF; Fri, 13 Nov 2026 09:57:00 +0800
-X-QQ-mid: xmsmtpt1794535020tfwxgqqm8
-Message-ID: <tencent_8E7D477A9CDC4C75A3647C6EA270526FBF09@qq.com>
-X-QQ-XMAILINFO: MJf32pulH481ojJCZe+fvGHXBbTYL9OmnpKR5Kb3VJteL+JotDvx1z/IqKWtr3
-	 RVUdJ4yQljlGLyBJCiamn+VlYcs4wGlbPjHhx6MkuZuBYgoEOKv+kTy43uo4b1IlFgaP9cQBFQAM
-	 jUhknJnejQF5jCFKlaeJYWIYCUhbZeU4wZTxiJi85J7Vc6LPFzZb3FDeDpfFxX5wi4arKHE7OYDV
-	 8/KRS6GrypyR32AVd9h8YBDtPRIcEiPDpafhOJAZrKHJD+Xgwm6telEB4ex3nLpWX4rg2xUC2AsF
-	 W0CtkTYuulnwpNQj19fL3hRDQPo2gm+eCpEbsnuqwcUXznHf+jk00SAIExbfxHWfsBXOplstZHxN
-	 lrAPmObKZweThBLMnocotCh3OOnQD61BNTETuDgaMoSL/UbjFejvFFhP1TdJN0KTeAc7F7kn41I/
-	 FvUAvp3jKF9GqG3Kw/nHJVhyXEzR/M1pVAkMyRBgPyerbNlWcLQ/Yo90RZOMG4G0pOIVQfenb3e6
-	 ceLen7PEg2hUp3SjHzFskL+3Um5PhNEIN9KL0BJRucPaxf0d8KA7ogYtX28nsl8M53MiPN0uJodU
-	 js/olSmLLs47BqZcskaoMnsfoe5FiJl9hh72OtLjdzlPEwYvTM7zVLmG91wRM3Nm13rgw5lLHYLB
-	 keDEF56s0jybS1ZcyURPheuH3GapBsTGYg4b86dEIBdR825V2RKq0u0cujko996G9LO+WJAAdJD0
-	 16rGKCtXZtfNBlBvKdiCyrtVi/EKay1k2isY771kDbUtuMYtrmNXHuT9ayWO2truK21Wrw9DbAfo
-	 DoyRA/L3xMWPD0iDWzQyjo6hVhVJMp+fizawZ6a47tS7TIo4nzjWFxZzJYPfmd+zRTs0QMPSOED1
-	 hjj6Kvyo++XmeOq3bFu5ku1mr0SPMpGqWhK6SMrV1Q2EbswCtB+YbbBcG3++NqLO0J45JDKU0BXK
-	 HKwlGF+/TdBy0d+3wOipkJZKblZTtM46qx0MnjG4OeMYJHlG1gWr6SDBtLtB0jJWMXMyOO1EjB1d
-	 OSIRReHHfg4NFbZjYuGmu+manuXqc2ZKbNfF1c5DAlq3ukqbRd
-X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
-From: Guikun Yang <yangguikun19@qq.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [Bug report] ufs: five unvalidated cylinder-group offsets index bh[8]
- past the ucpi allocation - wild-pointer RMW on first write
-X-OQ-MSGID: <ufs-cg-btotoff-20261112@qq.com>
-Date: Thu, 12 Nov 2026 23:30:00 +0800
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=tgB76D+u
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=fRlFnEwOyhCsf6bntFNWmv0q3cjwumqt5gvXEY0j99s=;
+	b=tgB76D+uPHT+xoP/MsIq5QT99tPRFyjCjYAa5bPvS0n/BLMW7GmhAJphWd0AaFaCXwNcxc4Ka
+	dPjWkV3Gm+TFWMTFawukI93MmREL5xwGs2ILp3CVZdJ2RNXEKTgDHIK4mZDlwgvononmGVpnLul
+	eI6cXevbd8zNABceS1BMSf4=
+Received: from mail.maildlp.com (unknown [172.19.163.127])
+	by canpmsgout09.his.huawei.com (SkyGuard) with ESMTPS id 4jQgdL6LlBz1cyTG;
+	Fri, 13 Nov 2026 10:07:50 +0800 (CST)
+Received: from whupemk100010.china.huawei.com (unknown [7.152.184.41])
+	by mail.maildlp.com (Postfix) with ESMTPS id 63B8C40572;
+	Fri, 13 Nov 2026 10:08:07 +0800 (CST)
+Received: from [10.67.110.140] (10.67.110.140) by
+ whupemk100010.china.huawei.com (7.152.184.41) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Fri, 13 Nov 2026 10:08:00 +0800
+Message-ID: <2dbd365b-eac5-448b-b6c2-4ed8754551a7@huawei.com>
+Date: Fri, 13 Nov 2026 10:07:59 +0800
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -77,126 +62,95 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 -next 00/18] landlock: Add READ_METADATA and
+ WRITE_METADATA access rights
+To: Christian Brauner <brauner@kernel.org>
+CC: <mic@digikod.net>, <gnoack@google.com>, <paul@paul-moore.com>,
+	<jmorris@namei.org>, <serge@hallyn.com>, <corbet@lwn.net>,
+	<skhan@linuxfoundation.org>, <utilityemal77@gmail.com>, <ast@kernel.org>,
+	<daniel@iogearbox.net>, <andrii@kernel.org>, <eddyz87@gmail.com>,
+	<memxor@gmail.com>, <martin.lau@linux.dev>, <song@kernel.org>,
+	<yonghong.song@linux.dev>, <jolsa@kernel.org>, <emil@etsalapatis.com>,
+	<ihor.solodrai@linux.dev>, <rdunlap@infradead.org>,
+	<gregkh@linuxfoundation.org>, <rafael@kernel.org>, <dakr@kernel.org>,
+	<johan@kernel.org>, <dlemoal@kernel.org>, <hch@lst.de>, <axboe@kernel.dk>,
+	<viro@zeniv.linux.org.uk>, <jack@suse.cz>, <dhowells@redhat.com>,
+	<code@tyhicks.com>, <linkinjeon@kernel.org>, <sj1557.seo@samsung.com>,
+	<yuezhang.mo@sony.com>, <hirofumi@mail.parknet.co.jp>, <cel@kernel.org>,
+	<jlayton@kernel.org>, <neil@brown.name>, <okorniev@redhat.com>,
+	<Dai.Ngo@oracle.com>, <tom@talpey.com>, <hyc.lee@gmail.com>,
+	<miklos@szeredi.hu>, <amir73il@gmail.com>, <senozhatsky@chromium.org>,
+	<chenxiaosong@chenxiaosong.com>, <dsterba@suse.com>, <mason@kernel.org>,
+	<kpsingh@kernel.org>, <matt@bobrowski.net>, <rostedt@goodmis.org>,
+	<mhiramat@kernel.org>, <mathieu.desnoyers@efficios.com>,
+	<john.johansen@canonical.com>, <georgia.garcia@canonical.com>,
+	<zohar@linux.ibm.com>, <roberto.sassu@huawei.com>,
+	<dmitry.kasatkin@gmail.com>, <eric.snowberg@oracle.com>,
+	<stephen.smalley.work@gmail.com>, <omosnacek@gmail.com>,
+	<casey@schaufler-ca.com>, <takedakn@nttdata.co.jp>,
+	<penguin-kernel@i-love.sakura.ne.jp>, <xiujianfeng@huawei.com>,
+	<nanx95726@gmail.com>, <djwong@kernel.org>, <lujialin4@huawei.com>,
+	<bpf@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-security-module@vger.kernel.org>,
+	<driver-core@lists.linux.dev>, <linux-block@vger.kernel.org>,
+	<linux-btrfs@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+	<netfs@lists.linux.dev>, <ecryptfs@vger.kernel.org>, <exfat@lists.linux.dev>,
+	<linux-nfs@vger.kernel.org>, <ntfs@lists.linux.dev>,
+	<linux-unionfs@vger.kernel.org>, <linux-cifs@vger.kernel.org>,
+	<linux-trace-kernel@vger.kernel.org>, <apparmor@lists.ubuntu.com>,
+	<linux-integrity@vger.kernel.org>, <selinux@vger.kernel.org>,
+	<linux-kselftest@vger.kernel.org>
+References: <20261027121151.1887650-1-caixinchen1@huawei.com>
+ <20261110-rekonstruieren-erbfolge-vollversammlung-26be74966211@brauner>
+Content-Language: en-US
+From: Cai Xinchen <caixinchen1@huawei.com>
+In-Reply-To: <20261110-rekonstruieren-erbfolge-vollversammlung-26be74966211@brauner>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
+ whupemk100010.china.huawei.com (7.152.184.41)
 
-Hi Christian,
+You are right, and thanks for catching it.
 
-Following up on the fs_cgsize report from October 31: the same
-cylinder-group load path reads five more offsets from disk without
-any bound, and they are used as indices into the fixed bh[8] array
-inside the 136-byte ucpi allocation. A crafted 44bsd image with
-cg_btotoff = 0x3200 reaches bh[25] on the first block allocation and
-does a read-modify-write through whatever pointer it finds there.
+I have been working on these modifications over the past two weeks and 
+have deployed sashiko locally. However, my current changes are still 
+being flagged for some bugs by my local sashiko, and I am still in the 
+process of fixing them. I expect to release v4 in a few days. Regarding 
+these issues, my current fixes are as follows: - AT_EMPTY_PATH: v4 will 
+use CLASS(fd_raw, f)(dfd), the   same lookup path_init() does for an 
+empty path, so O_PATH descriptors   work again.  do_utimes_fd() 
+(futimens(2)) intentionally keeps   CLASS(fd, f), matching 
+fchmod(2)/fchown(2); AT_EMPTY_PATH returns   -EINVAL there anyway.  The 
+same patch rejects a NULL pathname with   -EFAULT before 
+CLASS(filename_maybe_null) can turn it into an empty   path relative to 
+AT_FDCWD, and adds the missing audit_file() on the   do_utimes_path() fd 
+branch. - __nullable (patches 5-9, 11-13): v4 will extend 
+kernel/bpf/bpf_lsm_proto.c (the existing   strong-override file used for 
+mmap_file) with strong definitions for   all 11 hooks that gained a file 
+argument, each declared   file__nullable, so the verifier sees 
+PTR_MAYBE_NULL and a program must   check before dereferencing. - ntfs 
+named stream setattr (patch 1): v3 forwarded with   
+__notify_change(idmap, base_dentry, ...).  v4 will use   
+notify_change_target(idmap, attr->ia_path, base_dentry, ...), so the   
+hook is checked against the path the syscall used while the attributes   
+still land on the base inode. - overlayfs fileattr (patch 8): v3 removed 
+the ovl_security_fileattr()   workaround but then called the unchecked 
+__vfs_fileattr_get()/_set()   on the real dentry, which bypasses the 
+hooks.  v4 will call the checked   vfs_fileattr_get()/_set() with the 
+real upper/lower path, so the hooks   also run for the underlying layer; 
+ecryptfs is switched the same way.
 
-  UBSAN: array-index-out-of-bounds in fs/ufs/balloc.c:55:17
-  index 25 is out of range for type 'buffer_head *[8]'
-   adjust_free_blocks
-   ufs_alloccg_block
-   ufs_alloc_fragments
-   ufs_new_fragments
-   ufs_inode_getfrag
-   ufs_getfrag_block
-   __block_write_begin_int
-  BUG: KASAN: slab-out-of-bounds in adjust_free_blocks+0x23aa/0x2460
-  Read of size 8 at addr ffff888006083ad8 by task init/1
-  which belongs to the cache kmalloc-192 of size 192
-  allocated 136-byte region [ffff888006083a00, ffff888006083a88)
-  Kernel panic - not syncing: kasan.fault=panic set ...
+Best regards.
 
-The 136-byte allocation is struct ufs_cg_private_info: the embedded
-ufs_buffer_head (fragment, count, bh[8]) is 80 bytes, the scalars
-24, the offsets 32.
+Cai
 
-## The gap
-
-c9d263be26 ("ufs: validate cylinder group metadata before caching
-it") added this check to ufs_read_cylinder() (fs/ufs/cylinder.c):
-
-  /* these on-disk values become array and bitmap indices */
-  if (ucpi->c_cgx != cgno ||
-      ucpi->c_rotor >= uspi->s_fpg ||
-      ucpi->c_frotor >= uspi->s_fpg ||
-      ucpi->c_irotor >= uspi->s_ipg) {
-          ...
-          goto failed;
-  }
-
-The comment is right about the class of values, but the seven lines
-immediately above it read seven more offsets of exactly that class,
-and none of them is checked:
-
-  ucpi->c_btotoff       = fs32_to_cpu(sb, ucg->cg_btotoff);
-  ucpi->c_boff          = fs32_to_cpu(sb, ucg->cg_boff);
-  ucpi->c_iusedoff      = fs32_to_cpu(sb, ucg->cg_iusedoff);
-  ucpi->c_freeoff       = fs32_to_cpu(sb, ucg->cg_freeoff);
-  ucpi->c_nextfreeoff   = fs32_to_cpu(sb, ucg->cg_nextfreeoff);
-  ucpi->c_clustersumoff = fs32_to_cpu(sb, ucg->cg_u.cg_44.cg_clustersumoff);
-  ucpi->c_clusteroff    = fs32_to_cpu(sb, ucg->cg_u.cg_44.cg_clusteroff);
-
-The first consumer is adjust_free_blocks() (fs/ufs/balloc.c:55):
-
-  fs32_add(sb, &ubh_cg_blktot(ucpi, cylno), delta);
-
-which expands through ubh_get_addr8() (fs/ufs/util.h:310):
-
-  (u8*)(ubh)->bh[(begin) >> uspi->s_fshift]->b_data + ...
-
-with begin = c_btotoff + cylno*4. bh[] has UFS_MAXFRAG (8) entries.
-With s_fshift = 9 and c_btotoff = 0x3200 the index is 25, i.e.
-ucpi + 200, past the 136-byte object. The load returns a wild
-buffer_head pointer and fs32_add() then does a read-modify-write
-through it - an arbitrary-address RMW, not just an out-of-bounds
-read.
-
-The same expansion applies to cg_boff (ubh_cg_blks) and cg_iusedoff
-(ubh_cg_iused); cg_clustersumoff/cg_clusteroff are gated by
-s_contigsumsize but the offsets themselves are still unchecked.
-cg_freeoff/cg_nextfreeoff have a separate public patch in flight
-and are not part of this report.
-
-## Reproduction
-
-A valid 44bsd image (magic, clean state, legal directory and inode
-tables) with every other known surface kept legal: cg_cgx = 0 and
-rotors 0 (passes c9d263be26), cg_freeoff = 176 with a fitting
-bitmap, s_contigsumsize = 0 (cluster accounting early-returns),
-fs_cgsize = 512 (the count=1 path from the previous report).
-
-The only difference between the positive and negative image is
-cg_btotoff: 0x3200 versus 432.
-
-  positive: mount -> open -> write(2) -> UBSAN + KASAN + panic, 3/3
-  negative: mount -> 0, open -> 3, write -> 4096, no report
-
-Each run regenerates from the base image (the write updates the
-filesystem state).
-
-## Suggested fix
-
-Bound the offsets where they are read, next to the existing check,
-against the cylinder-group buffer length they index into:
-
-  /* these on-disk values become array and bitmap indices */
-  if (ucpi->c_cgx != cgno || ... ) { ... }
-+ if (ucpi->c_btotoff >= uspi->s_cgsize ||
-+     ucpi->c_boff >= uspi->s_cgsize ||
-+     ucpi->c_iusedoff >= uspi->s_cgsize ||
-+     ucpi->c_clustersumoff >= uspi->s_cgsize ||
-+     ucpi->c_clusteroff >= uspi->s_cgsize) {
-+         ufs_error(sb, __func__,
-+                   "inconsistent offsets in cylinder group %u\n", cgno);
-+         goto failed;
-+ }
-
-(The per-cylinder table sizes give tighter bounds - btotoff needs
-room for s_ncyl * 4 bytes, boff for the block-position table - but
-the buffer-length bound already removes the out-of-object access.)
-
-Reproducer (image builder for both cases, serial logs) available on
-request. Happy to send this as a patch as well.
-
-Tested on 7.3.0; fs/ufs/cylinder.c is unchanged in mainline since
-c9d263be26 (2026-08-01).
-
-Thanks,
-Guikun Yang
-
+On 11/11/2026 12:52 AM, Christian Brauner wrote:
+> This regresses AT_EMPTY_PATH. fchmodat2(), fchownat() and utimensat()
+> with an empty path now go through CLASS(fd) which is fdget() and that
+> refuses O_PATH file descriptors. IOW, this is very very broken.
+>
+> Please also go through Sashiko's review of v3 (cf. [1]). The new struct
+> file arguments need __nullable or bpf programs can dereference NULL,
+> and the ntfs3 stream setattr and overlayfs fileattr paths that bypass
+> the hooks need treatment.
