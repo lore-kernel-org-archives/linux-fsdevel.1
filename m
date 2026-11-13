@@ -1,59 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794582182;
-	b=KXPGUwvcC0ia9rs6GAHyLsfPNEvQ//6jPRdNUdOnw9//DgRAcesJ1lFkMfHLYWGg12ys
-	 A65zEBsxtmCIPastNoAc1gDHJyQH1kDdSmhjdu3L3188e8HdMcjaWplLwTruqDt1r4ZfZ
-	 c2hYuaEv9/l8lvDi1jsNLEJMC/6PP1ZA4ZtU0MydLBQKixkWV+ciwPkjMtKOvowusJa8I
-	 VCdw8lQQSSRKBdKPDnfzdtqXBMVBZrLMrIxCnK/rOzwJEBh+0PQWUSv89061t7C6wWC8H
-	 hSa54+omOBHe/VolfhCRtg0PxZIHY8N8Z0CMQUY/KAkINvqO7xCtZWljMWARtLLF37g==
+	t=1794583207;
+	b=cyGVUbn6NFqI5+RCDTzCC6EDhcs5vzZ4lOg/5DuWaPUT1on8FybEo8XNXYXgwnVUOWEI
+	 Nsa1OEKfxot8+vJOfCKtbLTF713HnFv77rJ6psr0RpWh1Ryy0OYez93jTh2FCyxzEO/w/
+	 uWE/y2irpoKeJpfDVDsalwTkDq+oGSFYwdYwYm6R0bSeusHIdnfv69YUj5ZoCB1KpjyzD
+	 j/pYIEfTY2kviZAl+hjS5MulEZgXx1jVwtkzUbgumqv2E1h1SnEEyHGuiDtHuPCnzeZzO
+	 Pg+juKvg8h2W1HiOM/RiEONAQYK2joKnUp0ONhWRBI0dd4pl3YvEDRl9qa7q0anUvdQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794582182;
-	h=DMARC-Filter:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Message-Id:X-B4-Tracking:
-	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 X-Debian-User;
-	bh=pyCq0NqkWUNbbpN2bi3/AvWqxCKTwLjFR2xE9UGzNYg=;
-	b=PlzZPEKQ/lwykyktQTdvbKMjmzEliWvMKa9qVfwHN6lgfvlDpUP6IbSM8l7ebH3tJmCs
-	 HvUrg1/MjgBSLJiWOsj7i3APt3qHkENdI4cy6RRbqllRg86O/A3CAfHo+OVrpEWCeCRvt
-	 vPbD+8FbwQgZzx+xFfwtNVy5ZA/S9vujlnreifCwrSw0CvHvZi4lylQNFKblpIufYzfLN
-	 vKTjYFkyHXfSRrpgFIkGTUkl6YWZNqyUtOr4QQMvYSlc6XT8AVYlBCv0jkCjzg6dvdJML
-	 L8qq7cwwNX8sw9iq1l3F2J71e1Th/ekHNDWljuj5+AC/5Fioon1MdQBs65cqmus3qSw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794583207;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=6dIw/cEasDaTMuxY4JqRIaZBNhw3B2/VuC8Ktx1d1fI=;
+	b=xtSYFRq6HmbFpstB+AhP4Vik9g96nTizi1aKpElZiyKgDGFwVEikYd7KKckIhu0DIhp2
+	 0qe0/x/JqMI2hFOBUBMQs8QCMBmv9i1nkxG5kQdiWkWPkBfprN8xSSaDlhaQpwEpF6UKZ
+	 LHI3ZfaecuBfuPuN5KJi9+sCWkLrA0KQCQYoafHCe4/M++/ZOk/JzWlst9f5drJriVFhq
+	 ZiOkQYcnD+eL2wAT45fZJMhB+vFZaloIsgEm9L4r/vKpwNMpkA9YD7iKvomQ2vjpdD+sa
+	 vEsDmXDVKhDtIuwFwgh33LsNg18fnSTXC1Z+UHpW1ZQsV9HqSDy5P+oGympBu7kIHeQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=debian.org;
-	spf=pass smtp.mailfrom=debian.org;
-	dkim=pass header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=plJ3a7SK;
-	arc=none smtp.remote-ip=82.195.75.108
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=sFcMT75e;
+	arc=none smtp.remote-ip=209.85.128.42
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BD5C606A323;
-	Fri, 13 Nov 2026 15:03:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3BD5C606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A260606A33B
+	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Nov 2026 15:20:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1A260606A33B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=plJ3a7SK
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:Message-Id:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:
-	Reply-To:Content-ID:Content-Description:In-Reply-To:References;
-	bh=pyCq0NqkWUNbbpN2bi3/AvWqxCKTwLjFR2xE9UGzNYg=; b=plJ3a7SKuHDKsijoOtYJLNzd4B
-	SJHg8Gi/AqZkN3WGUS4n8El3WbYaRU/XAfhDGmwtNbjw6HVUx1ZWRuzbOCyI7yiOXiSIucgECMW08
-	l5AqewP/loZED/u7oP1h5rcrNXl611bMsV99CKEeft75Y4EkD5RpVOU/x5S8Vx5RRP8K6I+3tDbTj
-	BzneIzYYZj00JXhPVwWge8OjBy4dXrJ83g6sU59yMU14FKH+tk9UbOLo/hhjvhG0lCimjzTViDbWQ
-	pJISlA9grtvfcsHsUqPppgjP+u91s+dMp/zh7XYA0pZ9KPGQEt8fTX1XuyfMAfsWN5HHb5Qf6jdnT
-	o1R6W30w==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1xRsnp-00EpoX-0E;
-	Fri, 13 Nov 2026 15:02:57 +0000
-From: Breno Leitao <leitao@debian.org>
-Date: Fri, 13 Nov 2026 07:02:17 -0800
-Subject: [PATCH] iomap: don't update i_size of block devices on buffered
- write
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=sFcMT75e
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4a35d5d4a20so19891845e9.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 13 Nov 2026 07:20:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794583205; x=1795188005; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=6dIw/cEasDaTMuxY4JqRIaZBNhw3B2/VuC8Ktx1d1fI=;
+        b=sFcMT75ewHSGlHNFmaIaCzRv51RyA+AmoclO+Wvr0qj7IRgdft+YPwpD9jRP6WK6c/
+         JYnz5nY7tp8rDhhxRl839jDRSaCdOFEO37y9omk6Y6bTMpvUdRVO3sHs40wFUzQoK49R
+         KDfhcSnlxOwqISdXag2i2HeczyJwl3JciKS1IO4IueILgI43L1Jav1Ck2sEsLOvdW8YJ
+         xsnD0k9f1YMungKWzdWfs/wgCnEVQku2SHGreep9hdKIBeljPxLy6tKl9GtdE53m1rK+
+         tr1h/mPnq09YX6erwWu4ZIbwvv7uEDWKwAiALSZofPGlkAv/kiWcyL4UzspYLPPPopZN
+         ldpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794583205; x=1795188005;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=6dIw/cEasDaTMuxY4JqRIaZBNhw3B2/VuC8Ktx1d1fI=;
+        b=fFX7nfVlTHer2G7xsZuex40FPqAUFinTpZ+P6ZIZsnXXks7Doa94s8/YHVnssMGyU3
+         oasFh6R4ojzn3mrSrkp12GGL2NWxfmpaMLZUKOy7pe06B9+xCSmT917zXybmpkUD9vM3
+         Cwv/Hc780EeBH66D5Rb19VREbcmoAu2MboZg04cbtIlPp/rTxOyov5P1YaWNTijTJtNW
+         i/Vg18Unr0pKyvhIbGp1SZmv5Q3JlxlC1xMfz2svy0uTqOmcIm1c75Ny5/yO8clzepGJ
+         K62btPzEOiVas9Y13NQAHWwfY4Jg0mzXw0rdUzptR+EG3mwqEe5n5EKs9HPS90Zr6ebU
+         2now==
+X-Forwarded-Encrypted: i=1; AL+hErHG9cD01jBP7oEkq2i4D6HHc3L3oK2Ow1I1Szt+XwY2N0OFXxiLCD2zDGmgFum6nMiX9ZvQw7c15fbD4a12@vger.kernel.org
+X-Gm-Message-State: APuU4Z+fL75uw0TyVTQMBqCvYof29qUPynF3XzC9dB+Ah4yAE/CxkzxL
+	i/Vud1shS5+4DL3J94jReAptpBWee5j2peNketAnrXlSKHPhQPoC//mY
+X-Gm-Gg: AYBFou2R+hgoVMIyzdfPDE8+/ywNo4gkNWdCdfV44a0MHAif3atRCwSwIBwXgXwpFRe
+	GTdlPCykPsrSbFHUeXVZwALm0HrCkQBjL6ayPoKk6Jy+n/lV71rfqZJDq5pAcXCecoepHjFb6DB
+	Xvax3cAROHc31u/BMncErqyDoMeMDjksg9iApFDHv9BX7aefLuuaHL0CZN0epCNpAcOUyhv7xZt
+	7yMdBj+CtFI+4rwvnQC2krGIAXjItR0GYcpd0EBgFDn5MEVRC20LaaaGRn55UTMdxVKU3G5Y9yg
+	MM4Lyy8SHea/i+RcZi+E3F1xue4eoSNlAFSRPMxcGEeRBEPuzK5Pd8qFQ2SUjJt6w3vsPlM0R6b
+	Uw9WkRqKqUU9vPnHMbdSma4JcsM0aPoxxzsHOjTx24N+dprwjEcnrcvPb93Khwoe56G/3z33Rzl
+	ijnX/RJknWaWzluI4bmMFE4BRwTgamLK67n95jfxYHWsAnPcP0MFP1FqdBgiBa6GYLlokETgvcD
+	a4h0nLAbW74tiL1HIvwkxYkLc57jLt4AiaHxi3AEo+1xKtqbpeFEX1+m7frWa/dPmA/k6ACkBHG
+	eLWtc3eQ8v8wIcyEanA7NQr/0tTo+8zasXWMDa+o/6XtUsjWZXyRYLZ7tq0RN5hrrjHDuoPvtQn
+	jU/3AopY07fs48EyWyo+2F2xjAw7Zs4+A3vbtOdK0RVNWLLWOMgc9DG95d2FTMiPMU9dcbwBGjJ
+	dGDjX/yXbih5x6RxL82XL63OZmRUTc+ab9CEl0ztplxfBrQW8vYL+KzbqrcmF37Q64tgWXhNxSN
+	Q2Q5OzRQb0Y+g==
+X-Received: by 2002:a05:600c:1d03:b0:4b1:4017:c4f4 with SMTP id 5b1f17b1804b1-4bb55a58e1amr67471255e9.20.1794583205214;
+        Fri, 13 Nov 2026 07:20:05 -0800 (PST)
+Received: from [192.168.100.100] (87-205-15-91.static.ip.netia.com.pl. [87.205.15.91])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb4e2adf53sm159789845e9.15.2026.11.13.07.20.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 13 Nov 2026 07:20:04 -0800 (PST)
+Message-ID: <a0a6a72f-0ed5-4f1a-a93e-30bb99338045@gmail.com>
+Date: Fri, 13 Nov 2026 16:20:02 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -63,103 +95,57 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/2] kernfs, sysfs: add SYSFS_NO_SPLICE to refuse
+ splice on writable opens
+To: Tejun Heo <tj@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Ian Kent <raven@themaw.net>,
+ Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
+ Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ driver-core@lists.linux.dev, linux-pm@vger.kernel.org,
+ autofs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ syzbot+002fb7b2d0bc53bf7e75@syzkaller.appspotmail.com
+References: <cover.1794479968.git.krystianmkaniewski@gmail.com>
+ <f9f3df7a60ecbbacc3186b700deb947d7dc23e9f.1794479968.git.krystianmkaniewski@gmail.com>
+ <07d063ef8ebcfc7f4e05c7318a423728@kernel.org>
+Content-Language: en-US
+From: Krystian Kaniewski <krystianmkaniewski@gmail.com>
+In-Reply-To: <07d063ef8ebcfc7f4e05c7318a423728@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261113-iomap-bdev-isize-v1-1-699603b589da@debian.org>
-X-B4-Tracking: v=1; b=H4sIAHgm92oC/x2MQQqAIBAAvyJ7bqEtUOor0UFzqz1UohCR+Pek4
- 8DMZEgchROMKkPkW5JcZwVqFCy7PTdG8ZWhaztNRD3KddiAzvONVX4ZrTak9TIYcgZqFiKv8vz
- LaS7lA0NDnTliAAAA
-X-Change-ID: 20261113-iomap-bdev-isize-a67166c971b7
-To: Christian Brauner <brauner@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
- Hannes Reinecke <hare@suse.de>, Pankaj Raghav <p.raghav@samsung.com>, 
- Johannes Thumshirn <johannes.thumshirn@wdc.com>
-Cc: Luis Chamberlain <mcgrof@kernel.org>, linux-xfs@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
- kernel-team@meta.com, Breno Leitao <leitao@debian.org>
-X-Mailer: b4 0.15-dev-47773
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2852; i=leitao@debian.org;
- h=from:subject:message-id; bh=M/pgn12mnH/26a7TA8n6ANx9y8OZg9GkxYYG2atBOgA=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBq9yadmRLzrxGKs3AoxKma8P6Rf6CCENNLueOJ3
- SxRRHnDzNKJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCavcmnQAKCRA1o5Of/Hh3
- bQOwD/937/2daeq15i60vn65fr4oiPKmWDWI7sY9PA/Kuv55RKc8PFrkaRTUSTQKIE01OQZTUtQ
- ak5NkoEnG9x0MyXJywaTKDGeQZc1q0yNNtgIVpbilYGIhx74DtZBo7E7l2arH7/EPYyM/crEtxc
- QSP9L0CjvOe1NRxOoZIXXZUEjWylEdpzCf8TLLsYtvgimwg+qhxw767NtmEjjelyCO8x9y7+Xa6
- DxyV/9/vZ8GRzUUPSsWPXoODByN1knw/SSZolCyljgzduCSMiucrKMWM1xVLjtiv+2owvq/XnJj
- RkbBe4JCAw8rXu3l2jFEXdeiyqMml5FST3JSccNdcUCxncaKt1BDRQzY82HlAl2LjspjgUzKPoo
- 5f25nhwxLtj1a3uOCgrrtdhnBm7rc/a/x9wzSQrg4qWPlI7EtTfOKXVHwR/OFq9yibBmki3veRE
- PMuhVZuskItjMgD2KzcvAFGL6DcvinvEAIT3wC8NSS99WP7RrnvXCHwHQ1uY21rz0yHuobL9rot
- 0VRwzJSobQ8e1ZkGeh6Ku3RoklH5hZO2QnxEvwHKrmtEg9/xH5iWtf4S0qMuTJtE60RyUWByhVb
- nSNb0lCRJj1NJ6eJVQIpZu5UF0nUa5TkCgOmNcxpu5QxJRN9dmy8RYN4glYGzZBF1+wSNA6dHGs
- GNWvfubNmvLQabg==
-X-Developer-Key: i=leitao@debian.org; a=openpgp;
- fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
-X-Debian-User: leitao
 
-We are seeing this warning on an arm64 linux-next host while the ublk
-selftests run (stress_01 deletes the ublk disks under fio buffered
-writes):
+On 11/12/26 16:11, Tejun Heo wrote:
 
-  WARNING: mm/truncate.c:902 at pagecache_isize_extended+0x37c/0x490, CPU#40: iou-wrk-3496756/3497370
-  Call trace:
-   pagecache_isize_extended+0x37c/0x490 (P)
-   iomap_file_buffered_write+0x38c/0x5d0
-   blkdev_buffered_write+0xcc/0x138
-   blkdev_write_iter+0x32c/0x4e0
-   io_write+0x77c/0xff8
+Hello Tejun,
 
-The theory is that the disk shrank under the write. del_gendisk() sets
-the capacity to 0, which writes the bdev inode's i_size under
-bd_size_lock only. A writer whose mapping predates that reads
-old_size == 0 in iomap_write_iter(), sets i_size to pos + written and
-calls pagecache_isize_extended(inode, 0, pos). blkdev_buffered_write()
-holds i_rwsem shared, so a writer at a lower offset can store a smaller
-i_size in between, and WARN_ON(to > inode->i_size) fires. Even without
-the warning, the write path regrows the size of a dead disk. The block
-layer owns that size (bdev_set_nr_sectors()), and blkdev_write_end()
-never touched it before the switch to iomap.
+> Hello, Krystian.
+> 
+> On Thu, Nov 12, 2026 at 03:17:01PM +0100, Krystian Kaniewski wrote:
+>> Read-only opens keep splice support because they cannot reach
+>> ->write().
+> 
+> The patch looks fine to me, but I'm not sure whether the read-only
+> exemption is necessary. Is it addressing an actual problem? busybox, for
+> example, just falls back to regular reads when sendfile() fails with
+> -EINVAL, and refusing splice reads on read-write opens while allowing them
+> on read-only ones seems more confusing than anything else. Would it be
+> simpler to refuse splice for all opens of the file?
+> 
+> Thanks.
+> 
+> --
+> tejun
 
-A reproducer on linux-next supports the theory: 128 threads doing 64K
-buffered writes to a loop device, while another thread flips its
-capacity between 1M and 1G with LOOP_SET_STATUS64, hit the warning 6
-to 18 times per 30 second run (4 runs). With this patch it never fires,
-and data written through the page cache still reads back intact.
+The read-only exemption was only intended to minimize the behavior
+change. It is not addressing a known user or regression.
 
-Skip the size update and pagecache_isize_extended() for block devices.
+I agree that refusing splice for all opens would be simpler and give
+SYSFS_NO_SPLICE consistent semantics. I can make that change in v4.
 
-Fixes: 487c607df790 ("block: use iomap for writes to block devices")
-Signed-off-by: Breno Leitao <leitao@debian.org>
----
- fs/iomap/buffered-io.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-index 6d843b168d5f7d..3a171a70e6adde 100644
---- a/fs/iomap/buffered-io.c
-+++ b/fs/iomap/buffered-io.c
-@@ -1256,14 +1256,15 @@ static int iomap_write_iter(struct iomap_iter *iter, struct iov_iter *i,
- 		 * unlock and release the folio.
- 		 */
- 		old_size = iter->inode->i_size;
--		if (pos + written > old_size &&
-+		if (pos + written > old_size && !S_ISBLK(iter->inode->i_mode) &&
- 		    !(iter->iomap.flags & IOMAP_F_FSVERITY)) {
- 			i_size_write(iter->inode, pos + written);
- 			iter->iomap.flags |= IOMAP_F_SIZE_CHANGED;
- 		}
- 		__iomap_put_folio(iter, write_ops, written, folio);
- 
--		if (old_size < pos && !(iter->iomap.flags & IOMAP_F_FSVERITY))
-+		if (old_size < pos && !S_ISBLK(iter->inode->i_mode) &&
-+		    !(iter->iomap.flags & IOMAP_F_FSVERITY))
- 			pagecache_isize_extended(iter->inode, old_size, pos);
- 
- 		cond_resched();
-
----
-base-commit: 6d582d78fad9d828e575ca0cdcff8ea47a77220b
-change-id: 20261113-iomap-bdev-isize-a67166c971b7
-
-Best regards,
---  
-Breno Leitao <leitao@debian.org>
-
+Thanks,
+-- 
+Krystian Kaniewski
