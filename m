@@ -1,55 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=143.54.11.23
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794534486;
-	b=JosLRU80rbKzpZ/6iR3bYzFR9/+3sI46XoIPsrobGY2KVzDb/d4BtBD2KSk27PTO29mf
-	 7P9mZgpxDvAIen+y8kXOZ/G0XOkFaEc6GG9L52CI9IlycVdOQo9vKItqfGkU3V02f3+78
-	 knsP2c/Ox5IS1POz2YsVI1eJb3KLVzuLtDEF2WxyEK8kXPluUOZHmhCN2Vu4s86lwLHZ4
-	 +0l/3W9ANzpKLhdr9RiKKCoaVhFZrnjoLS+z20+K7VjSb3Ku/IzWGTJgFYXVemE4NJf1V
-	 JNavqAnvYxB1auP4bC7W742VdBS8IwpsPizEfe0KaAU51FiHQqlHbOsnOzMcNl4Bwqw==
+	t=1794534583;
+	b=pZz/Ve4ZZEbQr9DNKyOzkKoAm0pzN2mtD9CefnyRq3Pf4oMXFh0CUAaS1mL3f7LoHy7z
+	 SmtmVS+lBPfu0xRBKFk3tkpyeRN6D7G98cCks4kkrhpEQan8B3k0d1LyJrXTsF5JpF+5a
+	 XlZoFleDcl9kvu7JzWu5C8S0fPWx3dG1B9+a+Qu0R4HTEQkP6gmZbgOF8Z/er1BvaMrKF
+	 mwlkdTTv84B4MYqa89OqOwd2HApjfqnxmhulOhfbROUHjzv8iwESfya4NXujWVifrSEeC
+	 PLacLtJGmpbt0WEkhA8TpzN461kb3uva2cLi2PvcDNVPp4RNeDCQCTCPN7d+mZKI3/g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794534486;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=kIHGiaaw+w7x9/tbZ/OjYKBZiL9aSPInsuX+o8D0KRs=;
-	b=ZObUpv+fZIR1Af/kuViXwmHhxaBBK+0SWbUI22K4InZtOwwivSsAghWSUBSCwmm8m/k/
-	 utbq9ntBmnZ+epNfwV2uFVYAXLmcgrXju594vXn5l1mgRqyx+3VMliDbMXXosm1iwrf0d
-	 gpYZ2b8uP1YpK5G7me13a4hoeoU6kpD+N/C1urkd88+x7SdIZCNByaAP6w84l4yFBzC80
-	 GYa0c1R86NL1tyIchH99mT3khGN4LEyR5x2OT+ZJ4zPSkWM9nr1BL8SqrwHxT0yH3yAdc
-	 N3FPhR8w4UuoN//811TlSA1t1Kq3MgTb34oYqvEMdmXMHRWK0tvs2/slRjbUb6N2hHw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794534583;
+	h=DMARC-Filter:Received:DKIM-Signature:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=m9EQ9AqcRYXv3YcRpptxp+HixtfQsEg44OaJxaIMFkw=;
+	b=QBguprel9gOwaE0LHQ2HMKtTFZcrEsH+Lgr9wDUXZyaoCpVmIe9jL/Jg0J4lLwjFPTWT
+	 pwdRz9mHys7Wr+9elzoqkvsvWDHFQLXF5MjfNrwKIy4seROtNBmIaw09Wvi+WJqm83ZJO
+	 GRPpB3BDa08RuoutyBXPi8QMl3bD8Ys+zf9ylMcO6L+LW9Q8QSWQhuEv5Bi6oH0j+m4XF
+	 2lR77NJiqp+qaqNJQaHmbnhdSvrdh5ccrl4vTSag5tVwUC4y/b822eYGMxm2+2VZQNGIj
+	 r/0XCT9Q1b2hxhwj3qDzYm9Z6oGx58o7Yg/48/wGmjcqUfCJzYDxWe+YE2/Jdmo28MQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OHUYgW7A;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=inf.ufrgs.br;
+	spf=pass smtp.mailfrom=inf.ufrgs.br;
+	dkim=pass header.d=inf.ufrgs.br header.i=@inf.ufrgs.br header.a=rsa-sha256 header.s=dkim2026 header.b=EU2G10y2;
+	arc=none smtp.remote-ip=143.54.11.23
+Received: from smtp.inf.ufrgs.br (smtp.inf.ufrgs.br [143.54.11.23])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33F6B606A327
-	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Nov 2026 01:48:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6747B606A31C;
+	Fri, 13 Nov 2026 01:49:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6747B606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inf.ufrgs.br
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inf.ufrgs.br
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OHUYgW7A
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 106971F000C8
-	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Nov 2026 01:48:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794534486;
-	bh=kIHGiaaw+w7x9/tbZ/OjYKBZiL9aSPInsuX+o8D0KRs=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=OHUYgW7AIGgFutxiMjaHHJ2arZeFjSzsUnaf3dN22QKu2WwCAXjyEIoUtO3xyDgGF
-	 Lsgetcqg8fwSwsbc132jCsn2Z5oqltgpnSj7QWcufnDQw3yUWCDmNAxQQ7dAoWVm8x
-	 /q/AOMYBYAeVeYi0dt++1vbJiU7qBjuenNN4PA00zVORC4kbSr67bcEeBybQpe3c5z
-	 HPphIMc6Y0yTBS28i6keUBk9FI89QMrhv2ucijh61KFZF4HHbZ37sNEj7/rVr0/A3n
-	 iW+tjnKoZvTl47lGK+O1EpkiOg1YfFljGMUq7LbYDX+8rZJf2qcn2Fwf0rwj1DFTKM
-	 8xDiO2eMbW/9w==
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-c40e30c26a4so80540166b.0
-        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 17:48:05 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErE3DnL8zW+MGvjC2dvOLa3YG2WpKJE5ZoIoF7ueW2fugOTi8bTQaX15CxhSixHPvhisSxhO2oKpPI/mlL+/@vger.kernel.org
-X-Gm-Message-State: APuU4Z/IM1BUwyidzTzLpxlwOEkGQQptkYRKeDihj9pcVm5yIu/rDlU/
-	uR4wpCLDmN2t0e1hIyjuHpSsVKycobKPfFzKrh6m9RXkHGbVGxLBYfySs3j0XMToWyk6jgzu+0e
-	IMBK7driLzVua1I8jM5nhNIdM+CgdWAU=
-X-Received: by 2002:a17:907:72cb:b0:c42:fc8b:6c6a with SMTP id
- a640c23a62f3a-c50963841e5mr68070266b.14.1794534484673; Thu, 12 Nov 2026
- 17:48:04 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=inf.ufrgs.br header.i=@inf.ufrgs.br header.a=rsa-sha256 header.s=dkim2026 header.b=EU2G10y2
+Received: from DESKTOP-PJTTJ93.localdomain (unknown [189.6.233.4])
+	by smtp.inf.ufrgs.br (Postfix) with ESMTPSA id B1410120351;
+	Thu, 12 Nov 2026 22:49:39 -0300 (-03)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inf.ufrgs.br;
+	s=dkim2026; t=1794534579;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=m9EQ9AqcRYXv3YcRpptxp+HixtfQsEg44OaJxaIMFkw=;
+	b=EU2G10y2Ue0rZMQ/jJYVSuglcP2P/o4s73iOCQd3J4TWeWfqg6eIt2nO+x42nl4qDKibIr
+	/xZ4gl71ihJqJ6wqOPn/mWOiiGIOdF/3djYgaqt+izNQlyvwocMTvYmiKVmKT4VE9J2S+E
+	F2J3W3FEVK2Um0YEwCId0kNdpp9NdZ3Gc0yA9wZPqcm42pzycFhW+h0t5c7ETf59d9sXBW
+	QKCPn/R3Ru5t98Zw+dp2zpiLcuPdn35i8+sNCpEK565Ppz5N+iz31swQGYhQLP9vyP5JE2
+	3byHWgUAha1L0PP/dI7WYjn0ZzzwesnLycp99P2mt/EPGeqlbgzEjlK+sthycQ==
+Date: Thu, 12 Nov 2026 22:49:37 -0300
+From: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
+To: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+Cc: linux-fsdevel@vger.kernel.org, brauner@kernel.org, djwong@kernel.org, 
+	hch@lst.de, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 6/8] fat: add iomap buffered I/O support
+Message-ID: <avZrAxczb507gDls@DESKTOP-PJTTJ93.localdomain>
+References: <20261031164326.278125-1-matheus.aalmeida@inf.ufrgs.br>
+ <20261031164326.278125-7-matheus.aalmeida@inf.ufrgs.br>
+ <87a4njtlgb.fsf@mail.parknet.co.jp>
+ <avVAmq-ntuzsJzXA@DESKTOP-PJTTJ93.localdomain>
+ <878q2yaba4.fsf@mail.parknet.co.jp>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -59,41 +67,88 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <CAKYAXd-n+zGBq4i7rfLyX+_Y6zEMLTCCqb2vAgcnmavqKxtiHA@mail.gmail.com>
- <20261112074055.1876311-1-wahidzk0091@gmail.com>
-In-Reply-To: <20261112074055.1876311-1-wahidzk0091@gmail.com>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Fri, 13 Nov 2026 10:47:52 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd8YHe4AcSM3Ch+8PseXAXxqzLvB_njNgqGCUuyVe4prOw@mail.gmail.com>
-X-Gm-Features: AclHuK9nAzXNzVpFrAKkcdAMUN1l4AwVNbPKXYvvHImRlz9ZPtI6TOIlea6DG_A
-Message-ID: <CAKYAXd8YHe4AcSM3Ch+8PseXAXxqzLvB_njNgqGCUuyVe4prOw@mail.gmail.com>
-Subject: Re: [PATCH v8] ntfs: convert a named $DATA stream safely when making
- room in a record
-To: Wahid Khan <wahidzk0091@gmail.com>
-Cc: hyc.lee@gmail.com, ntfs@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <878q2yaba4.fsf@mail.parknet.co.jp>
 
-On Thu, Nov 12, 2026 at 4:41=E2=80=AFPM Wahid Khan <wahidzk0091@gmail.com> =
-wrote:
+On Thu, Nov 12, 2026 at 02:06:43PM +0900, OGAWA Hirofumi wrote:
+>Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br> writes:
 >
-> Hi Namjae,
+>> On Mon, Nov 09, 2026 at 12:03:00AM +0900, OGAWA Hirofumi wrote:
+>>>Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br> writes:
+>>>
+>>>> Use iomap for buffered I/O, replacing buffer_heads. Remove
+>>>> fat_get_block(), fat_write_begin(), fat_write_failed() as the iomap path
+>>>> makes them unnecessary.
+>>>>
+>>>> Signed-off-by: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
+>>>> ---
+>>>>  fs/fat/fat.h   |   4 +-
+>>>>  fs/fat/file.c  |  72 +++++++++++++++++++----
+>>>>  fs/fat/inode.c | 157 +++++--------------------------------------------
+>>>>  fs/fat/iomap.c |  84 ++++++++++++++++++++++++++
+>>>>  4 files changed, 164 insertions(+), 153 deletions(-)
+>>>>
+>>>
+>>>[...]
+>>>
+>>>> diff --git a/fs/fat/file.c b/fs/fat/file.c
+>>>> index 8689cbbdad13..723b671d5b4b 100644
+>>>> --- a/fs/fat/file.c
+>>>> +++ b/fs/fat/file.c
+>>>
+>>>[...]
+>>>
+>>>> +static int fat_cont_expand(struct inode *inode, loff_t new_size);
+>>>> +
+>>>> +static ssize_t fat_file_write_iter_buffered(struct kiocb *iocb,
+>>>> +					    struct iov_iter *iter)
+>>>> +{
+>>>> +	struct inode *inode = file_inode(iocb->ki_filp);
+>>>> +	struct msdos_sb_info *sbi = MSDOS_SB(inode->i_sb);
+>>>> +	loff_t offset, old_size, old_alloc, keep_alloc;
+>>>> +	ssize_t ret;
+>>>> +
+>>>> +	inode_lock(inode);
+>>>> +	ret = generic_write_checks(iocb, iter);
+>>>> +	if (ret <= 0)
+>>>> +		goto out;
+>>>> +
+>>>> +	ret = file_modified(iocb->ki_filp);
+>>>> +	if (ret)
+>>>> +		goto out;
+>>>> +
+>>>> +	offset = iocb->ki_pos;
+>>>> +	old_size = i_size_read(inode);
+>>>> +	if (offset > old_size) {
+>>>> +		/* We need to fill this hole */
+>>>> +		ret = fat_cont_expand(inode, offset);
+>>>> +		if (ret)
+>>>> +			goto out;
+>>>> +	}
+>>>> +
+>>>> +	inode_dio_wait(inode);
+>>>> +	old_alloc = inode_get_bytes(inode);
+>>>> +	ret = iomap_file_buffered_write(iocb, iter, &fat_iomap_write_ops,
+>>>> +					NULL, NULL);
+>>>> +	keep_alloc = max(old_alloc, round_up(i_size_read(inode),
+>>>> +					     sbi->cluster_size));
+>>>> +	if (inode_get_bytes(inode) > keep_alloc)
+>>>> +		fat_truncate_blocks(inode, keep_alloc);
+>>>
+>>>What is doing by this fat_truncate_blocks?
+>>>
+>>
+>> It's trimming the clusters past EOF and keeping the fallocate KEEP_SIZE
+>> preallocation. I can add a comment stating this.
 >
-> -EAGAIN must not leave ntfs_resident_attr_resize(). The callers return
-> it as is, so a normal blocking write() or setxattr() would get EAGAIN
-> for a "would block" that never was, and index.c already uses -EAGAIN
-> internally as its "redo the insert" code (ntfs_ib_insert() ->
-> resplit), so a stray one from ntfs_attr_truncate() could be taken for
-> that.
+>Hm, I wonder mostly why this truncate without checking "ret"...
 >
-> -ENOSPC is what this function already returns when the attribute does
-> not fit and cannot be made non-resident, so callers already pass it up
-> as a normal error.
-> It is not exactly true here, it is a short lived "busy" and not a full
-> record, but there is no way to wait for folio 0 at that point without
-> the deadlock (the reader holds it and waits for mrec_lock), and no
-> errno fits better. I can use -EBUSY or add a comment saying so if you
-> prefer.
-Okay, please use it here.
-Thanks.
+>Thanks.
+>
+
+It is meant as a cleanup for a failed or short write, serving the same
+role as fat_write_failed(). I'll add a ret check for readability.
+
+Thanks,
+Matheus
