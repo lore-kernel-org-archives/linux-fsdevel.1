@@ -1,108 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=82.195.75.108
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794581898;
-	b=Nkn3Tu75wD9O+zOVkf0gYpDr6bwHXnqlhEDvgAevqkZUz02hudoR8RsoZ+W1hyew4FJ8
-	 XlgUpRVDOS1sCI+W9clebB0Wotlol13v4Itd+eV7ccxVmNV5BgxRz2VSW9twtTbh39ujf
-	 WixYU79She27FE2zqmrMTxDfv/qsl0Q2oE0E0CE7tQhCpPamDNMFB/PxsDm0l9YWwhoGI
-	 XvM2dQI/Rq2EX04BvpplBZ/T/65MFBQyZ60obkplqfABVELNOQvsqbat7dFcyRd/kyk2m
-	 EHr2+iCdgfU4/7qnW4V82c9NSrybO9xCmPpnv7OET2LUWHFoQAjWJ2CoMvOymRMtA4Q==
+	t=1794582182;
+	b=KXPGUwvcC0ia9rs6GAHyLsfPNEvQ//6jPRdNUdOnw9//DgRAcesJ1lFkMfHLYWGg12ys
+	 A65zEBsxtmCIPastNoAc1gDHJyQH1kDdSmhjdu3L3188e8HdMcjaWplLwTruqDt1r4ZfZ
+	 c2hYuaEv9/l8lvDi1jsNLEJMC/6PP1ZA4ZtU0MydLBQKixkWV+ciwPkjMtKOvowusJa8I
+	 VCdw8lQQSSRKBdKPDnfzdtqXBMVBZrLMrIxCnK/rOzwJEBh+0PQWUSv89061t7C6wWC8H
+	 hSa54+omOBHe/VolfhCRtg0PxZIHY8N8Z0CMQUY/KAkINvqO7xCtZWljMWARtLLF37g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794581898;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:
-	 X-Spam-Flag:X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
-	bh=bfZQmsdhJIpQZNYSTid621IeXFm9G9f02QDBgP6tqw4=;
-	b=3AMVpdpQDByVH0DIMB12v6RvREVJKVF+16/uEkqoJyRRiBUW09YJHkNfV+w5vU2zM3x5
-	 /5kisaCzAI7cjuNkrXHrk7+Jhy5llvr3UIqZcfR4/YS5RnpiZ+WTQlQJJ/leDHawxQaEc
-	 dtdTrmvjG6K894eJxGjppCrrJjbApPSnHyjgardrxUUEWEWgfP75YqjqQa7nGlY+v24/5
-	 icNBrKv4991KIERPg7L0QImXuuRsVfSX4mFE1j96/tgBVWk8dQpeMj2/LfJMqILnQvD9K
-	 EoFO0xCysoUKXa0pT+r5I5CxmCY6n6LvdBUWiNNMuLnalgHssViSys/kRp0Pt/UeeCw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794582182;
+	h=DMARC-Filter:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:Message-Id:X-B4-Tracking:
+	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-Debian-User;
+	bh=pyCq0NqkWUNbbpN2bi3/AvWqxCKTwLjFR2xE9UGzNYg=;
+	b=PlzZPEKQ/lwykyktQTdvbKMjmzEliWvMKa9qVfwHN6lgfvlDpUP6IbSM8l7ebH3tJmCs
+	 HvUrg1/MjgBSLJiWOsj7i3APt3qHkENdI4cy6RRbqllRg86O/A3CAfHo+OVrpEWCeCRvt
+	 vPbD+8FbwQgZzx+xFfwtNVy5ZA/S9vujlnreifCwrSw0CvHvZi4lylQNFKblpIufYzfLN
+	 vKTjYFkyHXfSRrpgFIkGTUkl6YWZNqyUtOr4QQMvYSlc6XT8AVYlBCv0jkCjzg6dvdJML
+	 L8qq7cwwNX8sw9iq1l3F2J71e1Th/ekHNDWljuj5+AC/5Fioon1MdQBs65cqmus3qSw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=xCGPpeGe;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=d9eUna6G;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=xCGPpeGe;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=d9eUna6G;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	dmarc=pass header.from=debian.org;
+	spf=pass smtp.mailfrom=debian.org;
+	dkim=pass header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=plJ3a7SK;
+	arc=none smtp.remote-ip=82.195.75.108
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A2C2606A323;
-	Fri, 13 Nov 2026 14:58:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4A2C2606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BD5C606A323;
+	Fri, 13 Nov 2026 15:03:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3BD5C606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=xCGPpeGe;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=d9eUna6G;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=xCGPpeGe;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=d9eUna6G
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 495F321FE8;
-	Fri, 13 Nov 2026 14:58:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794581896; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bfZQmsdhJIpQZNYSTid621IeXFm9G9f02QDBgP6tqw4=;
-	b=xCGPpeGeMePjZFz9QXfGl1axM4lN72C+KMsYup0NprQAkefK6U3wt2NJZz4hCbU6E0ClZE
-	WOlehpD9BFu2DfehxQhCDK58euPrDS4pD1NPcPiK2jIwgpP2IEaw1aL+vjvQDL8ccC+J+6
-	6Kuz1UzAm44Mfc6N7lN9rt5lvLA+ja4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794581896;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bfZQmsdhJIpQZNYSTid621IeXFm9G9f02QDBgP6tqw4=;
-	b=d9eUna6G19i2gQTUd1eQemJ/vNb7x5BooT6IxFZTdI4q8rGMU+hGcQ73xy8H1JE0ejadLJ
-	zYjV01ePlEYNstAA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=xCGPpeGe;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=d9eUna6G
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794581896; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bfZQmsdhJIpQZNYSTid621IeXFm9G9f02QDBgP6tqw4=;
-	b=xCGPpeGeMePjZFz9QXfGl1axM4lN72C+KMsYup0NprQAkefK6U3wt2NJZz4hCbU6E0ClZE
-	WOlehpD9BFu2DfehxQhCDK58euPrDS4pD1NPcPiK2jIwgpP2IEaw1aL+vjvQDL8ccC+J+6
-	6Kuz1UzAm44Mfc6N7lN9rt5lvLA+ja4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794581896;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bfZQmsdhJIpQZNYSTid621IeXFm9G9f02QDBgP6tqw4=;
-	b=d9eUna6G19i2gQTUd1eQemJ/vNb7x5BooT6IxFZTdI4q8rGMU+hGcQ73xy8H1JE0ejadLJ
-	zYjV01ePlEYNstAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1B9F0134C3;
-	Fri, 13 Nov 2026 14:58:16 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id KNTQAIgl92pjGQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Fri, 13 Nov 2026 14:58:16 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id AC53223970; Fri, 13 Nov 2026 15:58:15 +0100 (CET)
-Date: Fri, 13 Nov 2026 15:58:15 +0100
-From: Jan Kara <jack@suse.cz>
-To: Max Kellermann <max.kellermann@ionos.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] fs: pack fields `i_state` and `i_fsnotify_mask`
-Message-ID: <ug55ajsadz4cyusrzxw7ytci4upco36v5x32ohq7ilmor6e2ln@vcu4f3kcpmlr>
-References: <20261113114427.1845888-1-max.kellermann@ionos.com>
+	dkim=pass (2048-bit key, unprotected) header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=plJ3a7SK
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:Message-Id:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:
+	Reply-To:Content-ID:Content-Description:In-Reply-To:References;
+	bh=pyCq0NqkWUNbbpN2bi3/AvWqxCKTwLjFR2xE9UGzNYg=; b=plJ3a7SKuHDKsijoOtYJLNzd4B
+	SJHg8Gi/AqZkN3WGUS4n8El3WbYaRU/XAfhDGmwtNbjw6HVUx1ZWRuzbOCyI7yiOXiSIucgECMW08
+	l5AqewP/loZED/u7oP1h5rcrNXl611bMsV99CKEeft75Y4EkD5RpVOU/x5S8Vx5RRP8K6I+3tDbTj
+	BzneIzYYZj00JXhPVwWge8OjBy4dXrJ83g6sU59yMU14FKH+tk9UbOLo/hhjvhG0lCimjzTViDbWQ
+	pJISlA9grtvfcsHsUqPppgjP+u91s+dMp/zh7XYA0pZ9KPGQEt8fTX1XuyfMAfsWN5HHb5Qf6jdnT
+	o1R6W30w==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1xRsnp-00EpoX-0E;
+	Fri, 13 Nov 2026 15:02:57 +0000
+From: Breno Leitao <leitao@debian.org>
+Date: Fri, 13 Nov 2026 07:02:17 -0800
+Subject: [PATCH] iomap: don't update i_size of block devices on buffered
+ write
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -112,102 +63,103 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261113114427.1845888-1-max.kellermann@ionos.com>
-X-Spamd-Result: default: False [-13.01 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_COUNT_THREE(0.00)[3];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:email,suse.cz:dkim]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -13.01
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 495F321FE8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261113-iomap-bdev-isize-v1-1-699603b589da@debian.org>
+X-B4-Tracking: v=1; b=H4sIAHgm92oC/x2MQQqAIBAAvyJ7bqEtUOor0UFzqz1UohCR+Pek4
+ 8DMZEgchROMKkPkW5JcZwVqFCy7PTdG8ZWhaztNRD3KddiAzvONVX4ZrTak9TIYcgZqFiKv8vz
+ LaS7lA0NDnTliAAAA
+X-Change-ID: 20261113-iomap-bdev-isize-a67166c971b7
+To: Christian Brauner <brauner@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+ Hannes Reinecke <hare@suse.de>, Pankaj Raghav <p.raghav@samsung.com>, 
+ Johannes Thumshirn <johannes.thumshirn@wdc.com>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, linux-xfs@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ kernel-team@meta.com, Breno Leitao <leitao@debian.org>
+X-Mailer: b4 0.15-dev-47773
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2852; i=leitao@debian.org;
+ h=from:subject:message-id; bh=M/pgn12mnH/26a7TA8n6ANx9y8OZg9GkxYYG2atBOgA=;
+ b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBq9yadmRLzrxGKs3AoxKma8P6Rf6CCENNLueOJ3
+ SxRRHnDzNKJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCavcmnQAKCRA1o5Of/Hh3
+ bQOwD/937/2daeq15i60vn65fr4oiPKmWDWI7sY9PA/Kuv55RKc8PFrkaRTUSTQKIE01OQZTUtQ
+ ak5NkoEnG9x0MyXJywaTKDGeQZc1q0yNNtgIVpbilYGIhx74DtZBo7E7l2arH7/EPYyM/crEtxc
+ QSP9L0CjvOe1NRxOoZIXXZUEjWylEdpzCf8TLLsYtvgimwg+qhxw767NtmEjjelyCO8x9y7+Xa6
+ DxyV/9/vZ8GRzUUPSsWPXoODByN1knw/SSZolCyljgzduCSMiucrKMWM1xVLjtiv+2owvq/XnJj
+ RkbBe4JCAw8rXu3l2jFEXdeiyqMml5FST3JSccNdcUCxncaKt1BDRQzY82HlAl2LjspjgUzKPoo
+ 5f25nhwxLtj1a3uOCgrrtdhnBm7rc/a/x9wzSQrg4qWPlI7EtTfOKXVHwR/OFq9yibBmki3veRE
+ PMuhVZuskItjMgD2KzcvAFGL6DcvinvEAIT3wC8NSS99WP7RrnvXCHwHQ1uY21rz0yHuobL9rot
+ 0VRwzJSobQ8e1ZkGeh6Ku3RoklH5hZO2QnxEvwHKrmtEg9/xH5iWtf4S0qMuTJtE60RyUWByhVb
+ nSNb0lCRJj1NJ6eJVQIpZu5UF0nUa5TkCgOmNcxpu5QxJRN9dmy8RYN4glYGzZBF1+wSNA6dHGs
+ GNWvfubNmvLQabg==
+X-Developer-Key: i=leitao@debian.org; a=openpgp;
+ fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
+X-Debian-User: leitao
 
-On Fri 13-11-26 12:44:26, Max Kellermann wrote:
-> Both were 32 bit fields followed by a 32 bit hole.  This reduces size
-> of `struct inode` by 8 bytes.
-> 
-> Moving `i_fsnotify_marks` there as well so they can be in the same
-> cacheline.
-> 
-> Signed-off-by: Max Kellermann <max.kellermann@ionos.com>
+We are seeing this warning on an arm64 linux-next host while the ublk
+selftests run (stress_01 deletes the ublk disks under fio buffered
+writes):
 
-Looks good. Feel free to add:
+  WARNING: mm/truncate.c:902 at pagecache_isize_extended+0x37c/0x490, CPU#40: iou-wrk-3496756/3497370
+  Call trace:
+   pagecache_isize_extended+0x37c/0x490 (P)
+   iomap_file_buffered_write+0x38c/0x5d0
+   blkdev_buffered_write+0xcc/0x138
+   blkdev_write_iter+0x32c/0x4e0
+   io_write+0x77c/0xff8
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+The theory is that the disk shrank under the write. del_gendisk() sets
+the capacity to 0, which writes the bdev inode's i_size under
+bd_size_lock only. A writer whose mapping predates that reads
+old_size == 0 in iomap_write_iter(), sets i_size to pos + written and
+calls pagecache_isize_extended(inode, 0, pos). blkdev_buffered_write()
+holds i_rwsem shared, so a writer at a lower offset can store a smaller
+i_size in between, and WARN_ON(to > inode->i_size) fires. Even without
+the warning, the write path regrows the size of a dead disk. The block
+layer owns that size (bdev_set_nr_sectors()), and blkdev_write_end()
+never touched it before the switch to iomap.
 
-								Honza
+A reproducer on linux-next supports the theory: 128 threads doing 64K
+buffered writes to a loop device, while another thread flips its
+capacity between 1M and 1G with LOOP_SET_STATUS64, hit the warning 6
+to 18 times per 30 second run (4 runs). With this patch it never fires,
+and data written through the page cache still reads back intact.
 
-> ---
-> v1->v2: move `i_fsnotify_marks` up as well because "should better be
->   in the same cacheline because these two are accessed on some
->   performance sensitive paths" (Jan Kara)
-> ---
->  include/linux/fs.h | 15 +++++++--------
->  1 file changed, 7 insertions(+), 8 deletions(-)
-> 
-> diff --git a/include/linux/fs.h b/include/linux/fs.h
-> index 5b3a100aba77..fec047cc3327 100644
-> --- a/include/linux/fs.h
-> +++ b/include/linux/fs.h
-> @@ -813,7 +813,13 @@ struct inode {
->  
->  	/* Misc */
->  	struct inode_state_flags i_state;
-> -	/* 32-bit hole */
-> +
-> +#ifdef CONFIG_FSNOTIFY
-> +	__u32			i_fsnotify_mask; /* all events this inode cares about */
-> +
-> +	struct fsnotify_mark_connector __rcu	*i_fsnotify_marks;
-> +#endif
-> +
->  	struct rw_semaphore	i_rwsem;
->  
->  	/* Timestamp for writeback list ordering and age checks (jiffies). */
-> @@ -863,13 +869,6 @@ struct inode {
->  		unsigned		i_dir_seq;
->  	};
->  
-> -
-> -#ifdef CONFIG_FSNOTIFY
-> -	__u32			i_fsnotify_mask; /* all events this inode cares about */
-> -	/* 32-bit hole reserved for expanding i_fsnotify_mask */
-> -	struct fsnotify_mark_connector __rcu	*i_fsnotify_marks;
-> -#endif
-> -
->  	void			*i_private; /* fs or device private pointer */
->  } __randomize_layout;
->  
-> -- 
-> 2.53.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Skip the size update and pagecache_isize_extended() for block devices.
+
+Fixes: 487c607df790 ("block: use iomap for writes to block devices")
+Signed-off-by: Breno Leitao <leitao@debian.org>
+---
+ fs/iomap/buffered-io.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
+index 6d843b168d5f7d..3a171a70e6adde 100644
+--- a/fs/iomap/buffered-io.c
++++ b/fs/iomap/buffered-io.c
+@@ -1256,14 +1256,15 @@ static int iomap_write_iter(struct iomap_iter *iter, struct iov_iter *i,
+ 		 * unlock and release the folio.
+ 		 */
+ 		old_size = iter->inode->i_size;
+-		if (pos + written > old_size &&
++		if (pos + written > old_size && !S_ISBLK(iter->inode->i_mode) &&
+ 		    !(iter->iomap.flags & IOMAP_F_FSVERITY)) {
+ 			i_size_write(iter->inode, pos + written);
+ 			iter->iomap.flags |= IOMAP_F_SIZE_CHANGED;
+ 		}
+ 		__iomap_put_folio(iter, write_ops, written, folio);
+ 
+-		if (old_size < pos && !(iter->iomap.flags & IOMAP_F_FSVERITY))
++		if (old_size < pos && !S_ISBLK(iter->inode->i_mode) &&
++		    !(iter->iomap.flags & IOMAP_F_FSVERITY))
+ 			pagecache_isize_extended(iter->inode, old_size, pos);
+ 
+ 		cond_resched();
+
+---
+base-commit: 6d582d78fad9d828e575ca0cdcff8ea47a77220b
+change-id: 20261113-iomap-bdev-isize-a67166c971b7
+
+Best regards,
+--  
+Breno Leitao <leitao@debian.org>
+
