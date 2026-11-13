@@ -1,103 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.27.42.4
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794558477;
-	b=kurh3oy3/lhwvrD/uAt0Mz2ZWSDxoCCCtQUjkxUilga5oM3wz+fLXRKLY2eZ35W0OD3x
-	 VQ0Hgen6j/OYaT9nshbFC1CxH4R74VxdYFtVDG3YWoejKZXqjLJj6aIhvSkc5hJTFUium
-	 qJYOk+5dasgT42Tm+MN4Zj0QuFlzQaCNMMsJf+qR004AYbAZfSVTtHHeXobni0qy1bSQe
-	 LUfXC5DDe1l55nsCUFz3+pZMgoRkRXCTxdLo+tF0tdWS21gyHDCGkZhTr9pisWzVRdECh
-	 Wf1DBy+mpp9Y/wZNfVk6fAf+l8vU9U8woHterod8SIki/uoGds7J4H5oVFlQ4e897mg==
+	t=1794558938;
+	b=d8/2E/jpAWgv/0nYVNdybdkR7jhAaeuWgQ3wCGRNVkln1HxU7TGJxHUl6OQfyW+Uvjiq
+	 7dAzX29L7bzGTJvX1eishAAZbPO70/CfDgihkS8yeq9b9NYwxmmnXpztpnkyFEmakWx+U
+	 7zYi8Rm4f9pJjg1nkboTG/PHbaml5M7SFROQT1PosHufCOjyBVN/ukDMkqC3cJh0e/1dT
+	 +KkAPWcxc1t1R3zzugTf9M82lBiDoWrLwYkfBHEPA06qNxxni/DDJ417R4HzqTzido1XK
+	 nIm6i3W6TFJT7FF1ZeL6Fgs2NzKPaQRlG2JsqtssFMFOcBVUQ2T87XCmhKWrRg6c3tg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794558477;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:MIME-Version:X-Developer-Signature:
-	 X-Developer-Key:Content-Transfer-Encoding:X-Spam-Flag:X-Spam-Level:
-	 X-Spamd-Result:X-Spam-Score;
-	bh=IrI6hUt0g2I57Vj4T8BErsew5Omk26HDFgucMHVWLkQ=;
-	b=sNIcYoHRZ6w4WQCovMDuJO8rDr6+ATUyduMCbCMUzgeVCi48dzAiVyXSBxqHJFV7R0fH
-	 pvZ7IWUtPdXgIW9x2UnAhIcG+uP3MWyErzicuNVwCqvXaIHPHcZ5Yux81gl7zxVA958wP
-	 VmRjGdts8pnQ+f5a+kYwCdAL7AtE74nVzm8Bpx/IWQj65i2XTKTVJVsuiTicF234HAH6s
-	 uSNCriUDwmLtU+NDFE/3WzGq9SAZF+UYtyBrAdebYXo+y28xDrvCgiAjstaP1E1iWDEDC
-	 sUkqZw73WkuSbi51kOqrpK63flMSt6ICC06Rd/G/iKZKB2Dy5blGjlU4Wh59sPwblmA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794558938;
+	h=DMARC-Filter:Received:DKIM-Signature:From:To:Cc:Subject:In-Reply-To:
+	 References:Date:Message-ID:Content-Type:Content-Transfer-Encoding:
+	 MIME-Version;
+	bh=h1CW13lpZYVm0wmdDSJrVvfHw1mdjy5FAwj4xQLmKNs=;
+	b=DpsxGI3OkdX5Ma6ql5tNAlhFRLBAZRv/59T5n4z9i+xX0XsLE8iEncv/aXrGSUppLpfj
+	 w5X2obvdDgviBuDCFFuhjrDYn45mcXQo+L7F4JIj5gbQYvXr8XJi/nkwF4DhbyxESKJZT
+	 jBmONHHXYp+Nsb1jtVfEgXyZJ9pSlsE9GPD4R8S36B26d0bEZPzRR4YbfH2KQMGxW/5e/
+	 eMVTPbwkaOVrI9qe7/jGM0IsFHwWFLg9mfImXTjmi/yjDQpOuS6pUgH3vQWq3Z8I+kHfI
+	 aDzWPF2EeqJIhP7TXE3ggFQ7mUTBuYTkaZRRBCLCGb5LSc7Vdq/n7d/jKpM5CEpZQ9w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=LIKHGlXN;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Y5XB2d13;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=LIKHGlXN;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Y5XB2d13;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dmarc=pass header.from=free.fr;
+	spf=pass smtp.mailfrom=free.fr;
+	dkim=pass header.d=free.fr header.i=@free.fr header.a=rsa-sha256 header.s=smtp-20201208 header.b=aH3LPVz6;
+	arc=none smtp.remote-ip=212.27.42.4
+Received: from smtp4-g21.free.fr (smtp4-g21.free.fr [212.27.42.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ED07606A337
-	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Nov 2026 08:27:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3ED07606A337
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D598606A8B6;
+	Fri, 13 Nov 2026 08:35:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8D598606A8B6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=free.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=free.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=LIKHGlXN;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Y5XB2d13;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=LIKHGlXN;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Y5XB2d13
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3CF7B1F7B5;
-	Fri, 13 Nov 2026 08:27:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794558474; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=IrI6hUt0g2I57Vj4T8BErsew5Omk26HDFgucMHVWLkQ=;
-	b=LIKHGlXN9GtIVZWotiVUdsHgmjbQ9Xl6SxkqmAPaPj9s/jO7FBDM5qI3gLbjDtgRpclqrS
-	WElHnqT5uqUCf5+5GgbFPqNBSuTgJzFsd0S8/9XK/9EyEY1LJPg6qQuWCmdQU9Wc+sy8Ku
-	VzMr6oH5Ybz9b8rdshGUkQ31GeoXoC8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794558474;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=IrI6hUt0g2I57Vj4T8BErsew5Omk26HDFgucMHVWLkQ=;
-	b=Y5XB2d13i/aP/K21zajq1fd0NuYyYK1XYEt5F02u1nwyR5sAlc18TI9GnQnj57KXeSc0JQ
-	gwnt/9iQkT6LMWAQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794558474; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=IrI6hUt0g2I57Vj4T8BErsew5Omk26HDFgucMHVWLkQ=;
-	b=LIKHGlXN9GtIVZWotiVUdsHgmjbQ9Xl6SxkqmAPaPj9s/jO7FBDM5qI3gLbjDtgRpclqrS
-	WElHnqT5uqUCf5+5GgbFPqNBSuTgJzFsd0S8/9XK/9EyEY1LJPg6qQuWCmdQU9Wc+sy8Ku
-	VzMr6oH5Ybz9b8rdshGUkQ31GeoXoC8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794558474;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=IrI6hUt0g2I57Vj4T8BErsew5Omk26HDFgucMHVWLkQ=;
-	b=Y5XB2d13i/aP/K21zajq1fd0NuYyYK1XYEt5F02u1nwyR5sAlc18TI9GnQnj57KXeSc0JQ
-	gwnt/9iQkT6LMWAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 123D4134C3;
-	Fri, 13 Nov 2026 08:27:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id UukjOAnK9mpGAwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Fri, 13 Nov 2026 08:27:54 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id 92D2E22C21; Fri, 13 Nov 2026 09:27:53 +0100 (CET)
-From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: <linux-fsdevel@vger.kernel.org>,
-	Hongyu Jin <hongyu.jin.cn@gmail.com>,
-	Jan Kara <jack@suse.cz>
-Subject: [PATCH v3] writeback: Avoid postponing periodic data writeback indefinitely
-Date: Fri, 13 Nov 2026 09:27:45 +0100
-Message-ID: <20261113082744.737189-2-jack@suse.cz>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.a=rsa-sha256 header.s=smtp-20201208 header.b=aH3LPVz6
+Received: from reply-fuse-freeze-v3.eml (unknown [195.154.25.110])
+	(Authenticated sender: test75@free.fr)
+	by smtp4-g21.free.fr (Postfix) with ESMTPSA id 7636519F744;
+	Fri, 13 Nov 2026 09:35:22 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=free.fr;
+	s=smtp-20201208; t=1794558930;
+	bh=xSHknQ9ZUP7jZdL/cJzlcRIMwVR4CszQSFP2C1kwJ74=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=aH3LPVz6thNZPJqM2Cr1TyDKxdY5idurjG9T1p+j/xi1F3mi8zasW8F/66Ykv0toH
+	 nfkZqSGVfv8OYqGwwTMh7Y63ZwffqbxqLwABBRnHUbnwQb7lJJyR7eSsIu1bTDNeEK
+	 +o41Wo1mjX6q+85SAMppAzs4Dhzpd+4qxvjQFINLZjGN/CbkqwZ00rbUDCgTTrEkpB
+	 BEFiG3M+2GVHLLSu4rfQ814FikOpXxC9FhK+YjS4EnMizv76MKN+ExeMQwytpAIh0E
+	 D2YdhJ8v4yfw98du5KkilGGx8LtcLOrxezgGqtL9W+Ax0pj4Pe1fToizTrxJHSpfBT
+	 Y6V8CcmpceHaw==
+From: test75@free.fr
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Peter Zijlstra <peterz@infradead.org>, Sergey Senozhatsky <senozhatsky@chromium.org>, "Rafael J. Wysocki" <rafael@kernel.org>, fuse-devel@lists.linux.dev, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-pm@vger.kernel.org
+Subject: Re: [PATCH v2] fuse: permit freezing while waiting for request answer
+In-Reply-To: <CAJfpegtv6=40SEsbeVU3RpmjwZSY-FLvCg7mcxf6k7djFZrPHA@mail.gmail.com>
+References: <20260819023542.561653-1-senozhatsky@chromium.org> <20260820084933.GA4036497@noisy.programming.kicks-ass.net> <aobDGgivy43cz7xQ@google.com> <20260820091018.GA4120091@noisy.programming.kicks-ass.net> <aobGRjc7SE1rwIHu@google.com> <20260820093402.GB1837346@noisy.programming.kicks-ass.net> <aobKfyGHkdMcleoc@google.com> <20260820104111.GC1837346@noisy.programming.kicks-ass.net> <CAJfpegsSzOqs1zkhB9GZxsT5HT1zXDbHsZNEbA7P7mxe0w2dng@mail.gmail.com> <20260821083000.GF687043@noisy.programming.kicks-ass.net> <CAJfpegvRw0Emd=2hsEeg3AvYaLgRBUbMdo-=eUMa3FRFfnetgA@mail.gmail.com> <20260821145752.GG687043@noisy.programming.kicks-ass.net> <CAJfpegtv6=40SEsbeVU3RpmjwZSY-FLvCg7mcxf6k7djFZrPHA@mail.gmail.com>
+Date: Fri, 13 Nov 2026 09:33:50 +0100
+Message-ID: <179455883014.1731541.16877509095558539853@free.fr>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -107,177 +66,62 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6364; i=jack@suse.cz; h=from:subject; bh=ozTjbqsnkDY+3ZL4TV5O6d73qWCQRmT2ACLzJbeTmKA=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBq9soAQIjOYHg95O3TGAg/FWEiOsNrW75/2x+4Q VHo/BVF4raJATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCavbKAAAKCRCcnaoHP2RA 2eeUB/49PrfrL3NRg/eBQZc8T7goYXE7ezK3ImGuAAc6ceoHFgYZwEGA+fSFEaoTWQ689cXh/Jg W0vDIZ1e581UPLUzs51EPfT/BAlgO6usR7RO4pB5GprA3g+r/FxJ+rYdWNpkn2wjcfQGOlcjtnP 1AhuL2m36M6dWwRIcy1Wi5fMT4YgH6TBPkan5v4tKHiW9/BFEV0Vgo+qmRtLZXa7oGzxjKYb9rA OOMLOkqmgGlDv4MIQa3LkX+fP8SvVZOVhf9EcVxLt22gxfGRWXr2Y4VbOEfE5XborN1sCwa9gRF vrN97lazEtztsuE/N3t/I2cvP41TxnH7zIJcSw95Yp/sUo60
-X-Developer-Key: i=jack@suse.cz; a=openpgp; fpr=93C6099A142276A28BBE35D815BC833443038D8C
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spamd-Result: default: False [-10.30 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,suse.cz];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:email];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Spam-Score: -10.30
 
-Hongyu Jin has reported that f2fs periodically calls
-sync_inode_metadata() for some inodes. The logic in
-writeback_single_inode() thus periodically calls to redirty_tail() and
-the inode's dirtied_when timestamp never gets old enough for the inode
-to be eligible for periodic data writeback. Thus dirty data from it is
-only ever written on explicit request (fsync(2), sync(2), unmount) or
-on dirty limit pressure.
+Hi Miklos,
 
-The redirty_tail() logic in writeback_single_inode() is only needed do
-place inode in the dirty list when the setting of I_DIRTY_PAGES in
-__writeback_single_inode() raced with filemap_dirty_folio(). So be more
-careful in __writeback_single_inode() to make sure __mark_inode_dirty()
-always places in the inode in the proper list and modify
-writeback_single_inode() to only demote inode to "less dirty" list based
-on dirty bits cleared as a result of writeback.
+(Resending in-thread; my first attempt on Oct 23 lost its threading
+headers and missed fuse-devel. Sorry for the noise.)
 
-Link: https://lore.kernel.org/all/20261023023707.263101-1-hongyu.jin@unisoc.com
-Reported-by: Hongyu Jin <hongyu.jin.cn@gmail.com>
-Signed-off-by: Jan Kara <jack@suse.cz>
----
- fs/fs-writeback.c | 74 ++++++++++++++++++++++++++++++-----------------
- 1 file changed, 48 insertions(+), 26 deletions(-)
+A field report on the contended case you raised, with one
+data point for the "optionally freezable VFS locks" idea.
 
-Changes since v2:
-- fix I_DIRTY_PAGES handling race leading to dirty inode not placed in the
-  dirty list
+Setup: Ubuntu 26.04, 7.0.0-38-generic, Framework 13 (AMD, s2idle),
+systemd 259, rclone 1.60 FUSE mounts (Google Drive, SMB, SFTP).
 
-diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
-index 15260cf2a29b..79e642aa45da 100644
---- a/fs/fs-writeback.c
-+++ b/fs/fs-writeback.c
-@@ -1800,6 +1800,7 @@ __writeback_single_inode(struct inode *inode, struct writeback_control *wbc)
- 	struct address_space *mapping = inode->i_mapping;
- 	long nr_to_write = wbc->nr_to_write;
- 	unsigned dirty;
-+	bool pages_cleared = false;
- 	int ret;
- 
- 	WARN_ON(!(inode_state_read_once(inode) & I_SYNC));
-@@ -1839,30 +1840,42 @@ __writeback_single_inode(struct inode *inode, struct writeback_control *wbc)
- 	 * after handling timestamp expiration, as that may dirty the inode too.
- 	 */
- 	spin_lock(&inode->i_lock);
--	dirty = inode_state_read(inode) & I_DIRTY;
-+	dirty = inode_state_read(inode) & I_DIRTY_INODE;
- 	inode_state_clear(inode, dirty);
-+	if (inode_state_read(inode) & I_DIRTY_PAGES &&
-+	    !mapping_tagged(mapping, PAGECACHE_TAG_DIRTY)) {
-+		inode_state_clear(inode, I_DIRTY_PAGES);
-+		pages_cleared = true;
-+	}
- 
- 	/*
- 	 * Paired with smp_mb() in __mark_inode_dirty().  This allows
- 	 * __mark_inode_dirty() to test i_state without grabbing i_lock -
- 	 * either they see the I_DIRTY bits cleared or we see the dirtied
--	 * inode.
-+	 * inode or folio tag.
- 	 *
--	 * I_DIRTY_PAGES is always cleared together above even if @mapping
--	 * still has dirty pages.  The flag is reinstated after smp_mb() if
--	 * necessary.  This guarantees that either __mark_inode_dirty()
--	 * sees clear I_DIRTY_PAGES or we see PAGECACHE_TAG_DIRTY.
-+	 * I_DIRTY_PAGES handling is hairy. The clearing above can race with
-+	 * filemap_dirty_folio() so we don't see dirty tag yet but
-+	 * __mark_inode_dirty() doesn't see I_DIRTY_PAGES cleared either. So we
-+	 * have to recheck after smp_mb() and possibly reinstate I_DIRTY_PAGES.
-+	 * We have to be careful with reinstating and only do that if we really
-+	 * cleared I_DIRTY_PAGES. Only in that case we are guaranteed the inode
-+	 * is already in the dirty list and so it doesn't need to be (nor
-+	 * should be) moved. If we didn't clear I_DIRTY_PAGES, then either the
-+	 * inode is already in the dirty list or we race with
-+	 * filemap_dirty_folio() which will eventually call
-+	 * __mark_inode_dirty() to set I_DIRTY_PAGES and place inode in
-+	 * appropriate dirty list.
- 	 */
- 	smp_mb();
- 
--	if (mapping_tagged(mapping, PAGECACHE_TAG_DIRTY))
-+	if (pages_cleared && mapping_tagged(mapping, PAGECACHE_TAG_DIRTY))
- 		inode_state_set(inode, I_DIRTY_PAGES);
--	else if (unlikely(inode_state_read(inode) & I_PINNING_NETFS_WB)) {
--		if (!(inode_state_read(inode) & I_DIRTY_PAGES)) {
--			inode_state_clear(inode, I_PINNING_NETFS_WB);
--			wbc->unpinned_netfs_wb = true;
--			dirty |= I_PINNING_NETFS_WB; /* Cause write_inode */
--		}
-+	if (unlikely(inode_state_read(inode) & I_PINNING_NETFS_WB) &&
-+	    !(inode_state_read(inode) & I_DIRTY_PAGES)) {
-+		inode_state_clear(inode, I_PINNING_NETFS_WB);
-+		wbc->unpinned_netfs_wb = true;
-+		dirty |= I_PINNING_NETFS_WB; /* Cause write_inode */
- 	}
- 
- 	spin_unlock(&inode->i_lock);
-@@ -1955,22 +1968,31 @@ static int writeback_single_inode(struct inode *inode,
- 	 * as it can be finally deleted at this moment.
- 	 */
- 	if (!(inode_state_read(inode) & I_FREEING)) {
-+		enum inode_state_flags_enum istate = inode_state_read(inode);
-+
- 		/*
--		 * If the inode is now fully clean, then it can be safely
--		 * removed from its writeback list (if any). Otherwise the
--		 * flusher threads are responsible for the writeback lists.
-+		 * __mark_inode_dirty() is responsible for promoting inode to
-+		 * the proper list (b_attached -> b_dirty_time -> b_dirty).
-+		 * Here we are responsible for demoting inode after some dirty
-+		 * bits were cleared.
-+		 *
-+		 * If the inode is now fully clean, then it can be safely moved
-+		 * to b_attached list. If the inode is dirty, we don't want to
-+		 * touch it - it should be already put to the dirty list by
-+		 * __mark_inode_dirty() and we'd just unnecessarily clobber the
-+		 * dirtied_when stamp (which is particularly problematic when
-+		 * we were called from sync_inode_metadata()). We also cannot
-+		 * touch the dirty list association when I_SYNC_QUEUED is set
-+		 * and flush worker is responsible for it. Otherwise move the
-+		 * inode to b_dirty_time list as that's the only remaining
-+		 * possibility.
- 		 */
--		if (!(inode_state_read(inode) & I_DIRTY_ALL))
-+		if (!(istate & I_DIRTY_ALL))
- 			inode_cgwb_move_to_attached(inode, wb);
--		else if (!(inode_state_read(inode) & I_SYNC_QUEUED)) {
--			if ((inode_state_read(inode) & I_DIRTY))
--				redirty_tail_locked(inode, wb);
--			else if (inode_state_read(inode) & I_DIRTY_TIME) {
--				inode->dirtied_when = jiffies;
--				inode_io_list_move_locked(inode,
--							  wb,
--							  &wb->b_dirty_time);
--			}
-+		else if (!(istate & I_SYNC_QUEUED) && !(istate & I_DIRTY)) {
-+			WARN_ON_ONCE(!(istate & I_DIRTY_TIME));
-+			inode->dirtied_when = jiffies;
-+			inode_io_list_move_locked(inode, wb, &wb->b_dirty_time);
- 		}
- 	}
- 
--- 
-2.53.0
+On lid close, a gvfs backend thread was in statx() on an rclone mount.
+The rclone server was not frozen. It was waiting on the network, and
+NetworkManager takes the Wi-Fi down as part of the sleep sequence, so
+the request never completed (the same hidden dependency as the
+sshfs/ssh example upthread). With the lid closed, logind retried every
+~100 s for 6 hours, about 210 failed cycles:
 
+  Freezing user space processes failed after 20.003 seconds (3 tasks refusing to freeze, wq_busy=0):
+  task:pool-906  state:D  pid:153003 tgid:6222 ppid:4922
+   request_wait_answer+0xd8/0x280
+   __fuse_simple_request+0x11f/0x370
+   fuse_lookup_name+0xd6/0x260
+   fuse_lookup+0x9d/0x1e0
+   __lookup_slow+0x86/0x150
+   lookup_slow+0x3c/0x60
+   link_path_walk+0x348/0x410
+   path_lookupat / filename_lookup / vfs_statx / do_statx
+  task:pool-907  state:D  pid:171158 tgid:6222 ppid:4922
+   request_wait_answer+0xd8/0x280
+   __fuse_simple_request+0x11f/0x370
+   fuse_dentry_revalidate+0x146/0x410
+   lookup_fast+0x15c/0x170
+   link_path_walk / ... / do_statx
+  task:pool-908  state:D  pid:197388 tgid:6222 ppid:4922
+   d_alloc_parallel+0x37b/0x460
+   __lookup_slow+0x5d/0x150
+   lookup_slow+0x3c/0x60
+   link_path_walk / ... / do_statx
+
+pool-906 and pool-907 would be covered by v2. pool-906 holds the
+parent's i_rwsem shared at freeze time, which is your contended case.
+
+pool-908 is the one I wanted to point out. It does not wait on
+i_rwsem: it waits in d_alloc_parallel() for the in-lookup dentry
+owned by pool-906, and as far as I can tell d_wait_lookup() sleeps
+TASK_UNINTERRUPTIBLE. So making i_rwsem and s_vfs_rename_mutex
+freezable for fuse would still leave this suspend failing; the
+in-lookup wait would need the same treatment.
+
+This pattern looks common on desktops: indexers and trash/thumbnail
+daemons stat the same directory from several threads. The same
+signature appears 1,000+ times in this machine's journal since April
+(gvfsd-trash, localsearch-extractor as clients). Full logs available
+on request, and I am happy to test patches on this machine.
+
+Thanks,
+Phil
