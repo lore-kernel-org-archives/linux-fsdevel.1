@@ -1,90 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.176
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794590606;
-	b=Vr5Hc15ny1j1cOukBF6hpEUkLYylDbLei0lvxtpmYRpzaLhUIhbWfoCSyvf3w5qTyRsk
-	 nAZGoxEbAKBmoAYq4YWTbjJYy7s6h3Oxin9QDm5tJRlAjqJE2BdLaFn173d0Lm1uxjhGr
-	 1NAUX/uYdGxwaZ+NuoePSomZGGhDGS877OmhuCY6Ncl5EPy3x9TChlrkQOb8TQkH9pf6H
-	 g+lnBjo1vpLdpknibbfk6hCaRwblJTTOcCM1l+SQMACwpWs6FRov3ysSDq4+pDJWSq9GJ
-	 LcoutMSCuXDYmC81oEeJstGW4pWQVZtTMuaY9iUmEkrOd3rCgU+ZnMsi58Qzn1wpzbA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794590606;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.45
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794594073;
+	b=WC3tcRTa0lP2M+pS0JxSxRzGS/uE4wcMRDIe+BMJv/D7JQ+xxEYcWdvg3nz6HLgXJgfZ
+	 64B8uCbNI66nvdzEaMCSCrgKk62Vsp7piyi/p//QOsXrnWuNq9FiSiq7KskKiWv1UFt3V
+	 DsmuF4VpRO29f+M//siro5RHLsPMrxIGrwxhaKqP26nIckeQV4mBG8KdgJ8Qzq6ECUzaX
+	 WmhRw4hSv7NbgEdaRm2t1l7L13zfc5oA3cjlnltUgiJjJU+iaf9TcJ9q0WJcb9jJ0hARD
+	 yZzYuu479rFIi24nt+t48LUDlfTyeaoZl6fOHI237Jb64Cna5v5x36k6YTNnq2xYPiQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794594073;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:In-Reply-To:References:MIME-Version:
-	 Content-Type:Content-Disposition:Message-ID:User-Agent;
-	bh=yu5QMzc3QXUklBl5GRmDPmTAJYce2ooMnlaR9b715Do=;
-	b=J7H2Ik+6P8IODPb+PQF7Hmj5w7gow4baNL31Dk8+IN9Ee9yL2O0eeR1SI9wpD73+Hnt/
-	 3T+l32kob3exKMHi5KTqpDsvV9ULmXxp/a4lkRvBfmou5K91Lrtsiv84t2C7WagXz7Hh2
-	 63B29v+10LGamnQYQe4STEyOM1ioLXl7dWp3UUkh7v4sj7nDZdJV36oMX73nYlzd8i5a4
-	 0GjWEa8lOp4NxQPNOVWx6ik4FTzl9AGHDgiGN6an/8+vZcxvTAfsA5j3Hr9NRgFu9biVL
-	 iMBWwJYZ2ujCph5Ft84ggJnZhJHb3rwei1l2XMTasP3yjbGaBKzZhoR+uStiqQtzDWw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=chrisdown.name;
-	spf=pass smtp.mailfrom=chrisdown.name;
-	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b="xkc+l/Ri";
-	arc=none smtp.remote-ip=209.85.214.176
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=54eDC8uXlfRGhMfZUiK757c5spN/BrnlZsySaiQPqbI=;
+	b=x9Uklt+CzPcwg6vuClvek+jnQTJMK9cbEPocjMmLPX55n1tYgqO6uZ9YrPXPXEF9FNcH
+	 +OS1E8QXOFXE46MKR9V5DuxLJufGE0bCcQB+uvhFIB+VEQVZh2H2+QKjI2/3LHXCD05mH
+	 EY0geCsBrbkISxgEHVkHdM8EQFVSFe3Y2EdUkGggNjVQqg/HHuMtiPTsnaZV6FxuJvdW5
+	 tadSM4XTXeXjNIZxTClrDQ0qbSu005n3uDUP2RwMuY+/k63ak7Xi/fT4clM/ruLRetlu6
+	 x/EimgJ090vi2An40z6ubGAxKdJx2DqpBF33+krOi4NQQrIOriNPNZLANvMdQLW9YqA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=bzlshJGu;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.45
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD0926075E07
-	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Nov 2026 17:23:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BD0926075E07
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chrisdown.name
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chrisdown.name
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0DD6606A323
+	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Nov 2026 18:21:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D0DD6606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=xkc+l/Ri
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2ede7cb02daso16932335ad.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 13 Nov 2026 09:23:25 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=bzlshJGu
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-6b757029223so1923165a12.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 13 Nov 2026 10:21:12 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794594071; cv=none;
+        d=google.com; s=arc-20260327;
+        b=dJgCPsiI3ek+0jL30k4W052qIUvMJiF2T/cBSPMpGeAaLPBoyv2e6hUmUYV6QfdIEq
+         wvkIBCJxi271uTQZN9kK2sfRWI2dRPJTsb7ZVrMjOpFWgQLXDfuuR6oMfEDfC3AH362b
+         +CZfhU0C3RlvCj5/O3G9T/StHFy/+e8IL3kqhpBLytbUaz2dKJz0FFmY+49us72BPwUJ
+         4UO8Qdc17Y9uoxmR6TPF63+q7AG8WoSDn3yUYODdrEzOAZaxWcjHC7mLkhyf+NZKJ21N
+         8LJPRuFOv8IuP3P6m1OHInVjvdUjGFNALzF7qb+Y7i8pMl/Z/dsGCvdRmG2dR+nm0zZ6
+         tEFA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=54eDC8uXlfRGhMfZUiK757c5spN/BrnlZsySaiQPqbI=;
+        fh=2qVpsI1b8fYJiOsOjMAckCHWcweQ2MPbd459o7bw1+4=;
+        b=PiKkhAzHkkYmPyrJEQnVXx7hV6LrrxBdMb8DDru8mpIRsRH6ooCNqhoX891qR7S4Dn
+         tB2GdmBOp7J7atmXWXSMhnMJnJUV5DNLG/3anLwyeWHQ2NFaWJkJBfxQH+wNprGKvyvH
+         ERlJedLgEZJ0OePpZc7vxA2touLC+DHGRBKVtKVyImA4sbbZ/B0tw0kPIECwPYxWMyzX
+         mRILmtbm/mM5fqjBEMakMrySYdhcmQ2ihliIYEQwAZauWl7f5qneAoyszdhPPGi8QnEh
+         gMzWdhm0MvPgpPP/NtF5d5UZ3l4JH3Xjxv1qOJUUNQGW8nr6vcX3yIupCR2xFCxfLCBh
+         r3Jg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chrisdown.name; s=google; t=1794590605; x=1795195405; darn=vger.kernel.org;
-        h=user-agent:message-id:content-disposition:content-type:mime-version
-         :references:in-reply-to:subject:cc:to:from:date:from:to:cc:subject
+        d=gmail.com; s=20260707; t=1794594071; x=1795198871; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=yu5QMzc3QXUklBl5GRmDPmTAJYce2ooMnlaR9b715Do=;
-        b=xkc+l/Ric1gBL/XJaF/g07pdXD3EjnqX30zCqgLh5dnb/W3Y3Q9ZzcPLGVnPIEW8I5
-         i6wkzU4MylRS147v7U//alMndB9TXpOJXn0KrJJ/w0VKZJ/QDLctzKQtDx2FUPMqQGe9
-         f89nfb9NApy3X0lORFb/a89MIDaaSpv1Mp310=
+        bh=54eDC8uXlfRGhMfZUiK757c5spN/BrnlZsySaiQPqbI=;
+        b=bzlshJGuEZXIycAFYX1mYd05iI+/Izgfmz+50e4WjeeRavo76Blx1Gh7QyMElCUu7Y
+         keqVzTwcdHnt7C6N+Bhh0D1nHg6tsuG5ACPurYgjZlW74WDCSYSs/YNtzZw4aDHt7jGT
+         v2Z9rbQNtkrY8+T9mhhKMcWDsS1q2N8X5tOTm+R2axSUoyY5bE1GsUqbSmOMEyhlfQdT
+         GPB7SS2M+l68v57Kh6NdRb9AGWpmCrX+FI6Hc9VrtiqpaAyVmuRTKqSsbkZV390MRLzk
+         ty2X1EAFcjSDsWrm12wKyDZu54jF+TCnzynfbTyeV81KmkkR8mBv3zaH88u7N48AT3Jr
+         mAeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794590605; x=1795195405;
-        h=user-agent:message-id:content-disposition:content-type:mime-version
-         :references:in-reply-to:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20260707; t=1794594071; x=1795198871;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=yu5QMzc3QXUklBl5GRmDPmTAJYce2ooMnlaR9b715Do=;
-        b=ULUUJDVI/zs+vC1DUFc+AeQl39VpV/P5dPO6F6vACgiJzs/fx/5l7JeXDWUub2+uTv
-         oYuX/3VPTzJz+JDglTgDPSk4pHN78MukBYtp1KuSFzREJLnmzI1nKrYUA4bLxK2FetCW
-         jPbJGIBOvK7w4NE8g7nKmnvsTG3uM2GmJbiTMwvOMGGSaZuqnkDQkTRQMx3AJVV6+VJW
-         2WNMfMTRTcNE0PL3eomeaJLpXGnUdI4ZLk704Oco9hr1K3DB8q31Bi9IGKI4UWTKsKAU
-         VUjzjMvU2nN4feT9fQPVHiZVWobG19LBEatnNlGw+BHwkLvZojYxLJI96EynjK3WfD1W
-         WxFw==
-X-Forwarded-Encrypted: i=1; AL+hErGqSGWOpLFmlslQTmHJP3EB0SpJOOv4rQ5cWLDSNmjrs5AU2TzV/rCf5muYIjuC8pPuaRnSvvX11fDLCfO1@vger.kernel.org
-X-Gm-Message-State: APuU4Z/GtRkFKb/yczyPwLu0filLsRpOmi9n0HLfEb4cyFbiWgg6gjyd
-	FkzCl4bXTVhalNKIR8aSBhAQKpxYUjLFH9P64a+M8P+7BS8EATpv3KH1Ma+h9u2cywE=
-X-Gm-Gg: AYBFou19YO8zfccmIp/7zxGBSdf5Go4N1etG6QVdtzTLCsZwvR+ZCsfJz3SN1n/c/LR
-	4HoIoHgJ/IHwuN0DrK58ozunSfAAo0DWaHM+XcVTdbHPm1GWEmwkLqhEoOXZEOrPGDbJiNdbOBe
-	oTkZMk0fZ4VyOBHS6EboVK33C6jej63HLI+K7r6aMMpEme69sjZn1gZlq9SihzYN2KXWVHKqAU5
-	vWRVxhCAWb5CFA1xDolwKxNIgJbOV0aZm1iNCRpDLbbwdVNKUARedkTVxVgBK01vViQWpXieCag
-	BOCPxSw359FJvnyNNQ601ICQvikvG134F6JGXCk60BNX49wT65BDpzr1llfvCFPgXDdqLYEwphF
-	nYVTSzZi5FjPmP76IS+kC5SBkrpNvvstJ3GLUkR7Rc+brRGpIC1JxdZW6junQ9ghGsiuvobZ2qv
-	FiRdSLfp21NomtM0ZyiTuh4LytvFQulSOijGMYJ+OvssUk8hCm3YGmHJ0Px8dEDOr+qC+yrW5Ln
-	mw1h1cTl9PnRLw8vHS2Y0Yepb32GcUb8p2bOnQQaXFcBx3OOuDkf9XPNGIFjUss1lD7wnUCUkLI
-	LQ0giF74GXuZLYf0fbUVM3kfzuKYgREIOW8JHcGmGvCi0XQ7J9Ilkc4wxGPw+vC81sNVTgwiWjf
-	Wr7Mv9iuxfoAAs2hFX+KILPt3R9EKeUvzDsg3DE3ImabKTP8XgR0kBS3LJfx+v4VcrOrO0pDFRb
-	N3UV+0qW5o3FMU1q952rQ1ePfdhrm+cmU5mED9H5iD3aWipHPGWAIEDJLLp6o=
-X-Received: by 2002:a17:90a:c88b:b0:3ac:a6a5:5757 with SMTP id 98e67ed59e1d1-3b1b0b5beadmr2012590a91.11.1794590605026;
-        Fri, 13 Nov 2026 09:23:25 -0800 (PST)
-Received: from [172.22.0.2] ([50.175.87.158])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b1ae98151dsm5319144a91.2.2026.11.13.09.23.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 09:23:24 -0800 (PST)
-Date: Fri, 13 Nov 2026 09:23:19 -0800
-From: Chris Down <chris@chrisdown.name>
-To: Breno Leitao <leitao@debian.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Julian Sun <sunjunchao@bytedance.com>, Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Johannes Weiner <hannes@cmpxchg.org>, Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, cgroups@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH v2 4/4] writeback: report a slow writeback wait once per timeout
-In-Reply-To: <20261110-writeback_stall_report-v2-4-9e0ed75074ca@debian.org>
-References: <20261110-writeback_stall_report-v2-0-9e0ed75074ca@debian.org> <20261110-writeback_stall_report-v2-4-9e0ed75074ca@debian.org>
+        bh=54eDC8uXlfRGhMfZUiK757c5spN/BrnlZsySaiQPqbI=;
+        b=m54XOMfKS+iPWdOacgbpRIKOkFM9HCAp44CdbITAKibv+tSm+cxQALDtVrz+Z54ue7
+         +wPEWgw4YNQkivq14DVIGGPxWA5zMGWTQNos5u1GSmwGb9A+t3CQI7xZijkxscciIiea
+         C1cLQFxhm007Mj9oRn5XIgo/KiAXBP8Bn/QEHXQAS5NWW6H3iOLmeEWJE0JMfcwz3dHk
+         vcg3/j2HEG4SRWoFLzWJlwwo3gbh+DNRpoFxdqTZEzF6J9Wx3AvlJNB5doGymbVK42yE
+         tzlbjlIhmOpchf7/yqXlzYaLjCptg21Q5/94kpWArOH6IV5TBGAEb09FNuTMqzdVZjgf
+         KpkQ==
+X-Forwarded-Encrypted: i=1; AL+hErHMQKZ23lMwPqvWVHnAtqjSfPTiHALZXR7MDA3ywBqzgCjbXaP/SAJwqPEMw32QBjThwy0h1PbxMvJNOW+F@vger.kernel.org
+X-Gm-Message-State: APuU4Z+hpW1bPIXSOU27DDa73X14h/j1Xd1OdrIqwIl6MPw+JndVZy5O
+	jZnJXgpfPHLJu9cXwaYcWYu7MXbtc1Gvo4kS70CIxyD51MUZTOu2thP+SFbiN7uTb06eXN14Ulc
+	EskeNPWgVeIXLGU6D0KZqP2tppoFwV18=
+X-Gm-Gg: AYBFou3VLrbVPgsKffHQmOdmQLsr0GEA1u7LQJZBNJcPa8HU/JXElkmRzHT1Z8X8HM2
+	Kyj+oEdkYei1IlZ3/pdHBG1nJBKfDJoNfeTtVjU5ELSNidaUEHJ6SrxBWMdlX+89v/+skLr8t5t
+	4JOZRA2bEwPCWWi6z6OmolhnIuIjJn8VDyRapNAYP3cXShJj6aC2Oz40WE2EO/3oNLValAc+93l
+	vx4JFjw9qdwJheJvz56jUobEvlM06oYmhyu//sN8Prio2LY0TcrTN3/G6QvGjT2YIsyx1i1eVW/
+	TbcxU9v2lPENzp/nlhrZPWUGShH8wPx3j7g+P1Rh0AH1NtXgd3RTPuhYjEZGwLws/V31F1ofnMl
+	FZc/Qc0vFebk9jOOxsIdVBUW/ezL0JWktJo3SopLKIFaMBnAG4j/1V/7umBZmTifGJOmfFA==
+X-Received: by 2002:a05:6402:1e91:b0:6b3:f81f:927d with SMTP id
+ 4fb4d7f45d1cf-6b7c08b4b99mr3140320a12.6.1794594070836; Fri, 13 Nov 2026
+ 10:21:10 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -94,49 +104,107 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Message-ID: <20261113092319.f975912d92c98651@chrisdown.name>
-User-Agent: Mutt/2.4.3 (cc9e3943) (2026-10-09)
+References: <20261015143601.2095784-1-amir73il@gmail.com>
+In-Reply-To: <20261015143601.2095784-1-amir73il@gmail.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Fri, 13 Nov 2026 19:20:58 +0100
+X-Gm-Features: AclHuK9NOBMQ9uZ6tHtgWdIUN2ujkm7xaWSiBCvYS9muR6Awhd6jpK96RhqZqws
+Message-ID: <CAOQ4uxh7oEQ_BzzN23C87+LN1SLoNz2PNYi=k3fNn-NHG4P-5Q@mail.gmail.com>
+Subject: Re: [PATCH v3 00/14] Partition the fanotify watchers by type
+To: Jan Kara <jack@suse.cz>
+Cc: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Breno,
+On Thu, Oct 15, 2026 at 4:36=E2=80=AFPM Amir Goldstein <amir73il@gmail.com>=
+ wrote:
+>
+> Jan,
+>
+> As discussed on the "namespace monitoring" patch set [1], the proposed
+> namespace events do not need to be mixed on the same group with legacy
+> fanotify filesystem events.
+>
+> The mount events are already not mixable with filesystem events, but we
+> want to be able to mix them with the new namespace events.
+>
+> Therefore, introduce the concept of "watcher type" where all the legacy
+> events belong to the filesystem watcher type and the new mount events
+> belong to a new namespace watcher type.
+>
+> The new watcher type is free to reuse most of the 32bit mask space that
+> we have internally in fsnotify for event masks.
+>
+> The prep patch set only does the partitioning by watcher type.
+> Followup namepsace events work in available for review in my tree [2].
+>
+> If you are fine with this plan and have time to review the patches,
+> perhaps it is not too late to stage this prep series for next cycle?
+>
+> Otherwise, we could aim for merging this together with the namespace
+> events for the following cycle.
+>
 
-Breno Leitao writes:
->The flusher only checks for progress between inodes, so the wakeups now
->land on the first inode boundary past the timeout, a bit more than a
->timeout apart. The hung task detector scans once per timeout, so it can
->catch the waiter between two wakeups.
+Hi Jan,
 
-This does happen in practice. With your null_blk setup and the timeout at
-5 seconds, the waiter gets woken every 5.0 to 6.1 seconds. khungtaskd
-reported sync as "blocked for more than 5 seconds" in one of five 40
-second syncs with the default check interval, and twice in a single sync
-with hung_task_check_interval_secs=1. With hung_task_panic set, that
-panics a machine whose writeback is making progress. Stopping these
-warnings is what 1888635532fb ("writeback: Wake up waiting tasks when
-finishing the writeback of a chunk.") was for, so as Jan said, the wakeups
-have to stay below the timeout.
+I suppose with the firehose of bugs you had not had a chance to look
+at this yet.
 
->-	done->progress_stamp = jiffies;
->-	if (left && timeout && (waited_secs > timeout))
->+	if (left && timeout &&
->+	    time_after(jiffies, done->progress_stamp + timeout * HZ))
+Just making sure it didn't fall between the cracks.
 
-But this check can't stay as it is once that's done. progress_stamp is
-reset on every wakeup, so if the flusher wakes the waiter every half
-timeout, this is only true when a single inode holds up the flusher for
-more than the other half. With the threshold in writeback_sb_inodes() put
-back to timeout / 2 and the rest of this patch kept, the same test prints
-no "has been waiting" reports at all, only the "waited N seconds" line
-from patch 3. Going by the code, three quarters of the timeout would
-mostly have the same problem.
+Thanks,
+Amir.
 
-The report_stamp you had in v1 keeps the reports apart without touching
-the wakeups, so maybe go back to that and leave writeback_sb_inodes()
-alone? That also gets rid of the duplicate from wait_event() checking
-twice. With v1's report_stamp on top of patches 1-3, I get one report per
-timeout and no hung task warnings.
-
-Thanks!
-
-Chris
+>
+> [1] https://lore.kernel.org/linux-fsdevel/20260424170503.2096847-1-amir73=
+il@gmail.com/
+> [2] https://github.com/amir73il/linux/commits/fan_mark_userns
+>
+> Amir Goldstein (14):
+>   fsnotify: rename fsnotify group flag macros
+>   fsnotify: introduce fsnotify group types
+>   fsnotify: separate the events bitmask macros by group type
+>   fanotify: test event->type instead of event mask when possible
+>   fsnotify: do not report mount events with fsnotify()
+>   fanotify: gate filesystem event classification by group type
+>   fanotify: define event mask constants as 64bit
+>   fanotify: define new FAN_NS_MNT_* constants
+>   fanotify: gate event mask in fanotify_mark() by group type
+>   fanotify: introduce FAN_REPORT_MNTID
+>   fanotify: introduce FAN_EVENT_MATCH() macro
+>   selftests/filesystems: create fanotify test dir
+>   selftests/fanotify: update the uapi tools header copy
+>   selftests/fanotify: test the FAN_REPORT_MNTID mode
+>
+>  fs/notify/fanotify/fanotify.c                 | 186 +++++++++-----
+>  fs/notify/fanotify/fanotify.h                 |  38 ++-
+>  fs/notify/fanotify/fanotify_user.c            | 230 ++++++++++++------
+>  fs/notify/fsnotify.c                          | 106 +++++---
+>  fs/notify/group.c                             |  15 +-
+>  fs/notify/inotify/inotify_user.c              |   2 +-
+>  fs/notify/mark.c                              |   2 +-
+>  include/linux/fanotify.h                      |  45 +++-
+>  include/linux/fsnotify.h                      |   6 +-
+>  include/linux/fsnotify_backend.h              |  83 +++++--
+>  include/trace/misc/fsnotify.h                 |   4 +-
+>  include/uapi/linux/fanotify.h                 | 100 +++++---
+>  kernel/audit_fsnotify.c                       |   2 +-
+>  tools/include/uapi/linux/fanotify.h           | 100 +++++---
+>  tools/testing/selftests/Makefile              |   2 +-
+>  .../{mount-notify =3D> fanotify}/.gitignore     |   0
+>  .../{mount-notify =3D> fanotify}/Makefile       |   0
+>  .../mount-notify_test.c                       |  51 +++-
+>  .../mount-notify_test_ns.c                    |  54 +++-
+>  19 files changed, 707 insertions(+), 319 deletions(-)
+>  rename tools/testing/selftests/filesystems/{mount-notify =3D> fanotify}/=
+.gitignore (100%)
+>  rename tools/testing/selftests/filesystems/{mount-notify =3D> fanotify}/=
+Makefile (100%)
+>  rename tools/testing/selftests/filesystems/{mount-notify =3D> fanotify}/=
+mount-notify_test.c (90%)
+>  rename tools/testing/selftests/filesystems/{mount-notify =3D> fanotify}/=
+mount-notify_test_ns.c (90%)
+>
+> --
+> 2.55.0
+>
