@@ -1,63 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=143.54.11.23
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794534122;
-	b=i0aqtcWc8p2AUUrSTB62XEcB3szHq1Anhtt9l+wG1fAJXwqISRmqsiITK1Q45ErqaML1
-	 WhonIjj5S+zjcj75o3D+FrbKjhkNmisL02adZpcE1oJETVrnN++aO/x3zWHR/oL0tl6yo
-	 bXMFbYyci+q++9lhlwqXlyF+HzWCWPuoRwcLyZCZHF8ZOURPuUPXlKHCAtpm6iucBXEp8
-	 nCzb+Tq18BxoG3oEznUbL0raY9sQMAnTGLSWTCn10yVhYz3bViOYEXI124yX/14g6CDuE
-	 dLSFO58vHjGTL+LWz8yZgqqcNHw8Y3dob4pwscxLD2bh2J16tj3h/nqpr8rUZjAWujw==
+	t=1794534486;
+	b=JosLRU80rbKzpZ/6iR3bYzFR9/+3sI46XoIPsrobGY2KVzDb/d4BtBD2KSk27PTO29mf
+	 7P9mZgpxDvAIen+y8kXOZ/G0XOkFaEc6GG9L52CI9IlycVdOQo9vKItqfGkU3V02f3+78
+	 knsP2c/Ox5IS1POz2YsVI1eJb3KLVzuLtDEF2WxyEK8kXPluUOZHmhCN2Vu4s86lwLHZ4
+	 +0l/3W9ANzpKLhdr9RiKKCoaVhFZrnjoLS+z20+K7VjSb3Ku/IzWGTJgFYXVemE4NJf1V
+	 JNavqAnvYxB1auP4bC7W742VdBS8IwpsPizEfe0KaAU51FiHQqlHbOsnOzMcNl4Bwqw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794534122;
-	h=DMARC-Filter:Received:DKIM-Signature:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=KDwwklYe33EzWMSHF4Ad0iaKalV4NE49Bz6sRigU9Sg=;
-	b=ltSIXjmleci3QblVvX0+BC+3pmLJNcez5owrxwNIkbiVvysjn0yUhjgU7J8BpXfsDRs6
-	 5oMl9KtS+cIqL4kGDozQS4HbFxP8As8kbemtvf0suB4ay0pga6gJfkb5AcsO24hqxbyZ5
-	 tdj8se2NT7VCCrkRUAWXjR+BHSMIF3aHaJkuuw8zNW68VfM5Su4m+IlnaXrTX8EZtM1ui
-	 4AE/JZRBV4H17fBoXVKgsGlrvriy7xdifJcV7vpj4GK1f5xt8NGuIn2xbjirxXpahRPr1
-	 Y0EnBQAHh0DV5we/YZTQTGwCjLJxWesCdruvdw/t2rzL8W3LS1Ad0xJmRst8IvgqRFA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794534486;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=kIHGiaaw+w7x9/tbZ/OjYKBZiL9aSPInsuX+o8D0KRs=;
+	b=ZObUpv+fZIR1Af/kuViXwmHhxaBBK+0SWbUI22K4InZtOwwivSsAghWSUBSCwmm8m/k/
+	 utbq9ntBmnZ+epNfwV2uFVYAXLmcgrXju594vXn5l1mgRqyx+3VMliDbMXXosm1iwrf0d
+	 gpYZ2b8uP1YpK5G7me13a4hoeoU6kpD+N/C1urkd88+x7SdIZCNByaAP6w84l4yFBzC80
+	 GYa0c1R86NL1tyIchH99mT3khGN4LEyR5x2OT+ZJ4zPSkWM9nr1BL8SqrwHxT0yH3yAdc
+	 N3FPhR8w4UuoN//811TlSA1t1Kq3MgTb34oYqvEMdmXMHRWK0tvs2/slRjbUb6N2hHw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=inf.ufrgs.br;
-	spf=pass smtp.mailfrom=inf.ufrgs.br;
-	dkim=pass header.d=inf.ufrgs.br header.i=@inf.ufrgs.br header.a=rsa-sha256 header.s=dkim2026 header.b=FbPFMVuw;
-	arc=none smtp.remote-ip=143.54.11.23
-Received: from smtp.inf.ufrgs.br (smtp.inf.ufrgs.br [143.54.11.23])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OHUYgW7A;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92CAE606A323;
-	Fri, 13 Nov 2026 01:42:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 92CAE606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inf.ufrgs.br
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inf.ufrgs.br
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33F6B606A327
+	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Nov 2026 01:48:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=inf.ufrgs.br header.i=@inf.ufrgs.br header.a=rsa-sha256 header.s=dkim2026 header.b=FbPFMVuw
-Received: from DESKTOP-PJTTJ93.localdomain (unknown [189.6.233.4])
-	by smtp.inf.ufrgs.br (Postfix) with ESMTPSA id 49275120368;
-	Thu, 12 Nov 2026 22:41:57 -0300 (-03)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inf.ufrgs.br;
-	s=dkim2026; t=1794534117;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KDwwklYe33EzWMSHF4Ad0iaKalV4NE49Bz6sRigU9Sg=;
-	b=FbPFMVuw6AwZQWAxS1RwrpSzw2176yo7/8d5rwQiOJs77vyA6pDDaG5n+vw7OEVEifEZ/N
-	wvtDzyOZr1zE+wsjxzagZUXoPubHaEvzj7zIq6XeyhlV6X2/ujtre+drH8t8ZexEzX8Efv
-	Zd20ccD85lca7tukxEAkeZrKZLfcJVj4mYhCKfMv4CGkjoheahf62TreHjwxVaGS21YqkI
-	Q3oIA5EG24Q+yQLI652shAtKM3uscN+/lZYn+iRJ8oWl5Oi3z4XsjNy0I9igyHNBtcCizb
-	cCZmKMd9E3zKQKIv98mNFe4BsqqaBCM0+Ux6bUCOwOZPT5I03g9Qq9tmtSCHbw==
-Date: Thu, 12 Nov 2026 22:41:51 -0300
-From: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
-To: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-Cc: linux-fsdevel@vger.kernel.org, brauner@kernel.org, djwong@kernel.org, 
-	hch@lst.de, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 1/8] fat: support FIEMAP
-Message-ID: <avZoxGZC5VxiPJtV@DESKTOP-PJTTJ93.localdomain>
-References: <20261031164326.278125-1-matheus.aalmeida@inf.ufrgs.br>
- <20261031164326.278125-2-matheus.aalmeida@inf.ufrgs.br>
- <87tslrtlyu.fsf@mail.parknet.co.jp>
- <avU3IRmswObU2pH6@DESKTOP-PJTTJ93.localdomain>
- <87cxsaabf2.fsf@mail.parknet.co.jp>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OHUYgW7A
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 106971F000C8
+	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Nov 2026 01:48:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794534486;
+	bh=kIHGiaaw+w7x9/tbZ/OjYKBZiL9aSPInsuX+o8D0KRs=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=OHUYgW7AIGgFutxiMjaHHJ2arZeFjSzsUnaf3dN22QKu2WwCAXjyEIoUtO3xyDgGF
+	 Lsgetcqg8fwSwsbc132jCsn2Z5oqltgpnSj7QWcufnDQw3yUWCDmNAxQQ7dAoWVm8x
+	 /q/AOMYBYAeVeYi0dt++1vbJiU7qBjuenNN4PA00zVORC4kbSr67bcEeBybQpe3c5z
+	 HPphIMc6Y0yTBS28i6keUBk9FI89QMrhv2ucijh61KFZF4HHbZ37sNEj7/rVr0/A3n
+	 iW+tjnKoZvTl47lGK+O1EpkiOg1YfFljGMUq7LbYDX+8rZJf2qcn2Fwf0rwj1DFTKM
+	 8xDiO2eMbW/9w==
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-c40e30c26a4so80540166b.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 17:48:05 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErE3DnL8zW+MGvjC2dvOLa3YG2WpKJE5ZoIoF7ueW2fugOTi8bTQaX15CxhSixHPvhisSxhO2oKpPI/mlL+/@vger.kernel.org
+X-Gm-Message-State: APuU4Z/IM1BUwyidzTzLpxlwOEkGQQptkYRKeDihj9pcVm5yIu/rDlU/
+	uR4wpCLDmN2t0e1hIyjuHpSsVKycobKPfFzKrh6m9RXkHGbVGxLBYfySs3j0XMToWyk6jgzu+0e
+	IMBK7driLzVua1I8jM5nhNIdM+CgdWAU=
+X-Received: by 2002:a17:907:72cb:b0:c42:fc8b:6c6a with SMTP id
+ a640c23a62f3a-c50963841e5mr68070266b.14.1794534484673; Thu, 12 Nov 2026
+ 17:48:04 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -67,49 +59,41 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87cxsaabf2.fsf@mail.parknet.co.jp>
+References: <CAKYAXd-n+zGBq4i7rfLyX+_Y6zEMLTCCqb2vAgcnmavqKxtiHA@mail.gmail.com>
+ <20261112074055.1876311-1-wahidzk0091@gmail.com>
+In-Reply-To: <20261112074055.1876311-1-wahidzk0091@gmail.com>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Fri, 13 Nov 2026 10:47:52 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd8YHe4AcSM3Ch+8PseXAXxqzLvB_njNgqGCUuyVe4prOw@mail.gmail.com>
+X-Gm-Features: AclHuK9nAzXNzVpFrAKkcdAMUN1l4AwVNbPKXYvvHImRlz9ZPtI6TOIlea6DG_A
+Message-ID: <CAKYAXd8YHe4AcSM3Ch+8PseXAXxqzLvB_njNgqGCUuyVe4prOw@mail.gmail.com>
+Subject: Re: [PATCH v8] ntfs: convert a named $DATA stream safely when making
+ room in a record
+To: Wahid Khan <wahidzk0091@gmail.com>
+Cc: hyc.lee@gmail.com, ntfs@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 12, 2026 at 02:03:45PM +0900, OGAWA Hirofumi wrote:
->Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br> writes:
+On Thu, Nov 12, 2026 at 4:41=E2=80=AFPM Wahid Khan <wahidzk0091@gmail.com> =
+wrote:
 >
+> Hi Namjae,
 >
->[...]
+> -EAGAIN must not leave ntfs_resident_attr_resize(). The callers return
+> it as is, so a normal blocking write() or setxattr() would get EAGAIN
+> for a "would block" that never was, and index.c already uses -EAGAIN
+> internally as its "redo the insert" code (ntfs_ib_insert() ->
+> resplit), so a stray one from ntfs_attr_truncate() could be taken for
+> that.
 >
->>>>  	if (fat_cache_lookup(inode, cluster, &cid, fclus, dclus) < 0) {
->>>> -		/*
->>>> -		 * dummy, always not contiguous
->>>> -		 * This is reinitialized by cache_init(), later.
->>>> -		 */
->>>> -		cache_init(&cid, -1, -1);
->>>> +		/* Cache the contiguous prefix from the known first cluster. */
->>>> +		cache_init(&cid, 0, *dclus);
->>>
->>>Doesn't this add a needless cache? 0 is cached in the inode itself,
->>>isn't it? (and can be waste small fatent cache slots?)
->>>
->>
->> This is mostly for caching the number of contiguous clusters starting
->> from 0. i_start only really tells us the first cluster of the file. I'm
->> not exactly sure of the best way to approach this, though. I guess we
->> can skip caching when its a one cluster range in this case?
->>
->> What do you think?
->
->Ah, sure. I think because it is fat_cache_lookup() and stuff are
->implemented for nr_cont == 1. So I think better way would be supporting
->the range lookup in whole cache stuff. (however, it can be relatively
->complex)
->
->Thanks.
->
-
-It seems like exfat had to solve a similar problem a while back:
-https://lore.kernel.org/linux-fsdevel/20260114121250.615064-1-chizhiling@163.com/
-
-Maybe I can work on porting some of that to fat. Would you rather it be
-in a separate series or just add it to the iomap series?
-
-Thanks,
-Matheus
+> -ENOSPC is what this function already returns when the attribute does
+> not fit and cannot be made non-resident, so callers already pass it up
+> as a normal error.
+> It is not exactly true here, it is a short lived "busy" and not a full
+> record, but there is no way to wait for folio 0 at that point without
+> the deadlock (the reader holds it and waits for mrec_lock), and no
+> errno fits better. I can use -EBUSY or add a comment saying so if you
+> prefer.
+Okay, please use it here.
+Thanks.
