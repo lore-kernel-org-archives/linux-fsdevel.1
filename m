@@ -1,111 +1,105 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794563700;
-	b=ByElRqEhKMTlqg7eGmonrAnMf97qctHMKg+BUKZET0s7msGODO1tfcQAPd8IPjzs1cYC
-	 Ps6wdn4BWuK+ieM1ZOK4qJg6laYNWi5Ky134GK5IUMfrHy5gK3UpVIlYttNPXcP/KT3W3
-	 f33XGU5/pVnCCr/RyKFBRzSfs1ed7iifEwilMMRxRh0tqlRe7J9yss/eajlSS52b9IvuU
-	 +cVdVjM3OR+Q2qCK0RjtDq7JiI7WygwnWEWdOFmbOWzdupyW94SQshPMsiyGN5ppT6J0a
-	 G+WitNKna4PEld6o6OMEklbLlh6Z9sF3sYyZR1+WrWxVQ3k0jG1ABX69hxKr/0JhyGg==
+	t=1794563838;
+	b=O2H02nG/X6vY6j3Wejd3c9hgQ2ICmFrefyL2UopO+Re4Uk4Z7nNaIeWVcvqiX1epnUtJ
+	 su3SMv4OYMeQlNdMVsrfrRxIzBddkj6CEl9p5yUmsCRoWqrWRZwrnS+HlQMrIm6b1exon
+	 Lv61g3yGKQqDxkKpRBUEczjWYl+Xv/gA0AwbnZB8ylajYX9oW8Q3LiU0xQBDryHkYHVM+
+	 fy8U6qFecnO9XHZFUnDjoSjDxPAyCFcxqIMyvJywtaVBp2zIqMw4LFZ7zM+F6r1RffKe9
+	 DOLf1dwRrwcCh+GveVR0plusX8IgT13chLM8MWxs65gc6+BMdw9coLMsgP6DpsU75eg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794563700;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
-	bh=G8DmFU4pJwAPCJlqHBF8SKasEEThxtJNlC1sg/CSkLw=;
-	b=uelMYzsvg2udbQd3wkX+88yvo/vam0EqaPSAbLd/8QplViN9K9uHXhXpe1ZSD0n4eu3f
-	 RZW6d7xN9O2bVOq1oRcr7sjkgIs/SLONH06SrfI6sAUdhbCBnwT+STo4M6mva7hC7A+me
-	 nI4AP91DvUylrEhjAMBhe5cc15+2+hXv7Le+Dp3ABSzQfscTSEs4bpxmMqkQ/C8N6yowz
-	 nf7HodlH7BE207lSHJzP8/DZl2cYLx2Pstc59PhjMzUbCjW2TK0Yrk6NQJBF1fp+h5+KH
-	 WPchYMBCW/rP6kaS/KHLhyRpv0hR0LrBZqhb3UhUW4aJjygkn1CAYkqydU2Tzd8XPTA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794563838;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
+	bh=qevJKKt9AdENPu2sz0SerhnvIVfDVH7XwpJ2scdcBAA=;
+	b=Yw1aTxTbPc1n2pNSDzeiyngC9Ju6aWAPMecah0zKPhh5oABrwQ7EpdyRJSKNC2PIODMg
+	 /vnXn9ADT91zp9kuDkbBtP1a63B/XsqHYg0r8E78j1mJUyTtvnKiP4NkB7XtDzcphnd34
+	 /j2wNWEgbhk3UwOtmTLMrYOMN5yj+UTMgbqU1D5HmkiuNS32sNVrLz5yKqdGFJs4f8Z8g
+	 g0RPAa8QZass0QICIlxO+DT+GxQXA++fZ1QRgOhROKt6sVASl7X2OgMY9jYBVeMlA9pn/
+	 51OxFop5zpu9W1j0Qnk+hjObxetl+B+P87EdV6Gke7Wbxpf5hm3VWbqwCoyS8273Pow==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=amutable.com;
-	spf=pass smtp.mailfrom=amutable.com;
-	dkim=pass header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=sk58W6sW;
-	arc=none smtp.remote-ip=209.85.218.41
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=none header.from=suse.cz;
+	spf=pass smtp.mailfrom=suse.cz;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=khX0GR6E;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=kR2FEpc1;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=s83j7XjY;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=mKkZihpV;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45DA160A2608
-	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Nov 2026 09:55:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 45DA160A2608
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amutable.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD7F0606A327
+	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Nov 2026 09:57:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DD7F0606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=sk58W6sW
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-c4203bbb1e9so171534466b.3
-        for <linux-fsdevel@vger.kernel.org>; Fri, 13 Nov 2026 01:54:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amutable-com.20260707.gappssmtp.com; s=20260707; t=1794563698; x=1795168498; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=G8DmFU4pJwAPCJlqHBF8SKasEEThxtJNlC1sg/CSkLw=;
-        b=sk58W6sWmN4ERo+6S+koVh/BM/TVuc998Smvb7+dAHAHasLoIxA1PyH7SpTb2sphTs
-         qaL8BceJIK/C5zTluK59TXAg0t7i18MIhSXKzAc74GDtFkVBtJ5XexxofTn2ErTCpEyw
-         wBL0ZIwSoD+QdFLNUYuAtp3uhttIIU+8CcgeY50Q9BuPcdVkRSxffNnvhBi5q+TOT3Z0
-         N0fPVcnw8avDa7R0wdKzwUNoVC/3vPRCD1SmgKjZfrkNv7BBIugYP8aqCryl3mRTzhIm
-         nyzLSOhSkS/Bye+QA00IM2MsjhnUA408QIyungJaHYxvuyXbuTeC6K0dJcKnUnQNsCLo
-         BJGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794563698; x=1795168498;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=G8DmFU4pJwAPCJlqHBF8SKasEEThxtJNlC1sg/CSkLw=;
-        b=t+mf3u+z3UO91yIzs7xOV1b/g1YEsVa++BG7mXwHsUmpqFuEd0o7DNsYTjeGFIPSq2
-         8MhPbncnaIMYBARZ7K4UkaWgnl7aQs7zBWwZht2XbvPqq4i2SuoZKFUbzXdXvhdEzo50
-         HKyeV52rQLQJ401uX09WS8YqyV3GeIOz9UETm+dfhWzsnbIZHq2BENpEJc+7DdtWPTOB
-         g1HSytwK3s2D0CquJ1gx4fKxcM1owgVUP8aXGzHG1TZ11ty2Rew53P1i0ME9xWpk6ZQ7
-         e6EU0mHWWyJ0PG0MGUhYjjLB+ES/KwLqid5GIMQBzNi3zob7pqnWmDhyNbOj74YFE4eD
-         f98A==
-X-Forwarded-Encrypted: i=1; AL+hErHX3R+0YNbVsPFSN8keT80ViaQuULpLb0usifEtLHE1M47q+CWjg753mm90fwf8l8pP7TCdLxQIAoY87I+S@vger.kernel.org
-X-Gm-Message-State: APuU4Z9zpcLi7oNAe+cKhak991YblellO/43cbRzQ207edMLA67t4Q9/
-	pRnfYgzitwnmMy0IBueJ+RAXzomtmDgd4jFGJABmssJ1JOGdMIRH6kj/hgDe+m4hbO51
-X-Gm-Gg: AYBFou2ZJ7t+JJAhmaxKIk/e8IkUpCd6KSLNgQ9mIEBgPGAjGU20szL7LbC6NaBVYg0
-	w8Vg8M2gsMr72bzds4dvL/xsqU2iV01jXX223DUMgKpN0mfmAK90OGowtiE6OiwTFT5dXEAuSCd
-	JsGCTU81hvn/ylqHa1Y63vbaJVriXP9UbBKSbAl8XUQ19emWTl1ha0IdJzIzQnsSmYaK7VrVd8+
-	KMkV316VSILZRJz/bEbQWKdgbHHOg95OZY83XF+cIhNFXu9g877Uh1L5OGu7BaNL+cDpOfmTR18
-	yZU8hZnnvVf76fQzmYU+Gs4bQIa8A0Kuf+OhIL6Cev7az5GKwbaZcC7qbh9Gn8HhxHddzUYSuLu
-	JhTSKgPMCJndk+MwqBJpLTIpZdDTBWJZaYQfticr9OUXr00CQVLyqpqExd0JmQZ7e4yZwpyXTC5
-	MD2mxwCEE+j9dL3ItgOYt9YyXxt731gW/vieXMN3Qi4SLlNOGiLBpAbownSByA7s7nBTZ6Ut6D1
-	EOeibKj1Ma6HK2OCx/wbz7dSG5YUWYIiSSNz5QSo31BWtn+LDGu+kPzEMFWn+yc1cKFOqVMaE2M
-	zYnZVc/bIPkNyLAMEcSZh1lKG2NtB/sMzhgrCfZ/KVvg3nNPYPouPthoMx1l2cc=
-X-Received: by 2002:a17:907:ea93:b0:c41:4c20:5a80 with SMTP id a640c23a62f3a-c50963bdb9bmr198299566b.44.1794563698514;
-        Fri, 13 Nov 2026 01:54:58 -0800 (PST)
-Received: from [10.0.0.233] (tmo-086-54.customers.d1-online.com. [80.187.86.54])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c50957c6c1fsm75151566b.0.2026.11.13.01.54.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 01:54:58 -0800 (PST)
-Message-ID: <b42c9f4d29a9cbea66929c95cc8f736f12703c72.camel@amutable.com>
-Subject: Re: [PATCH RFC 01/41] loop: refuse backing files that aren't open
- for reading
-From: Alexander Mikhalitsyn <alex@amutable.com>
-To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
-Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>, Josef
- Bacik	 <josef@toxicpanda.com>, Christoph Hellwig <hch@lst.de>, 
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, Alexander Viro <viro@zeniv.linux.org.uk>,
- Jan Kara <jack@suse.cz>, linux-scsi@vger.kernel.org,
- target-devel@vger.kernel.org, 	driver-core@lists.linux.dev,
- linux-mm@kvack.org, bpf@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
-	apparmor@lists.ubuntu.com, linux-nfs@vger.kernel.org,
- netdev@vger.kernel.org, 	fuse-devel@lists.linux.dev,
- linux-efi@vger.kernel.org, 	xen-devel@lists.xenproject.org,
- ocfs2-devel@lists.linux.dev, 	linux-s390@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, 	linux-usb@vger.kernel.org, Amir Goldstein
- <amir73il@gmail.com>, 	linux-erofs@lists.ozlabs.org,
- linux-kselftest@vger.kernel.org, 	stable@vger.kernel.org
-Date: Fri, 13 Nov 2026 10:54:56 +0100
-In-Reply-To: <20261110-work-loop-pseudo-v1-1-4c998976c6c7@kernel.org>
-References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
-	 <20261110-work-loop-pseudo-v1-1-4c998976c6c7@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-0+deb13u1 
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=khX0GR6E;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=kR2FEpc1;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=s83j7XjY;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=mKkZihpV
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id AB8AC1F863;
+	Fri, 13 Nov 2026 09:57:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1794563835; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qevJKKt9AdENPu2sz0SerhnvIVfDVH7XwpJ2scdcBAA=;
+	b=khX0GR6E6FIZA53QjNbXduKxHV+kafIkyjv/Wfz2MLuFW+Fq+xoIwIuQP3iDzQbjQR8d2i
+	7dAuyGHlTT8k6oWSSUvJejnvu8lMTnlaIB+c3C4RteEcQZ00931vCOhdTFZNglwhM1MiYT
+	9LYQUvvoyYAdleXOb1GTOhct6HWVxh4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1794563835;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qevJKKt9AdENPu2sz0SerhnvIVfDVH7XwpJ2scdcBAA=;
+	b=kR2FEpc1pVlZv2UdkYBcJl6qyvYtWIcxN84+u6IoARccPHsBDs1eLZgnqHqvnExQUbdhLh
+	ofGuG6L7jHWOSDCw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1794563834; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qevJKKt9AdENPu2sz0SerhnvIVfDVH7XwpJ2scdcBAA=;
+	b=s83j7XjYvZ4yqU7+dWSzfj/ElEcmuVMZMkYc+9X0BACDMcM5JHtJ9i1gbnd6krT/88hcIV
+	B1YZlenZVhp+stNUD87RaWrMA18SIf3bdpY8x5J9umFpGkZ1r8+LR1Sm84WBNxvTR4JNC4
+	uL52B0kqYO3Z3pt/LPdbIbXOnbXs7Uw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1794563834;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qevJKKt9AdENPu2sz0SerhnvIVfDVH7XwpJ2scdcBAA=;
+	b=mKkZihpV+gEFWIt8Ewzrw54dmXpx72u62aZ3orDBke/ks+NDJp9cqfbWLiedalC6iMUV68
+	nT8TaKgLoNJZwWDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7402F134F4;
+	Fri, 13 Nov 2026 09:57:14 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Ja2GFfre9moXXwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Fri, 13 Nov 2026 09:57:14 +0000
+Received: by quack.suse.cz (Postfix, from userid 1000)
+	id 0AA1B22C6A; Fri, 13 Nov 2026 10:57:06 +0100 (CET)
+Date: Fri, 13 Nov 2026 10:57:06 +0100
+From: Jan Kara <jack@suse.cz>
+To: Scott Carter <bscarter11@gmail.com>
+Cc: jack@suse.com, linux-fsdevel@vger.kernel.org
+Subject: Re: udf: readdir loops forever re-emitting the last entry when a
+ directory's final FID straddles EOF
+Message-ID: <viedwv4i5w2oxld2mjzxmqa6kwtutt6olhir6sc3756niya74z@tkvglz6rr7i7>
+References: <CA+UmNqbcPPegp=x8rsV8t3mbOsseknKo54=fsru6gb3PQjg+Dw@mail.gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -115,58 +109,146 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+UmNqbcPPegp=x8rsV8t3mbOsseknKo54=fsru6gb3PQjg+Dw@mail.gmail.com>
+X-Spamd-Result: default: False [-12.80 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email];
+	RCVD_COUNT_THREE(0.00)[3];
+	RCPT_COUNT_THREE(0.00)[3];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,repro.sh:url,suse.com:email]
+X-Spam-Score: -12.80
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-On Tue, 2026-11-10 at 10:14 +0100, Christian Brauner wrote:
-> loop_configure() takes any file as long as it implements -
-> >read_iter().
-> Loop itself never checked whether the file was actually opened for
-> reading. Buffered I/O went through vfs_iter_read() which refuses
-> files
-> without FMODE_READ. Direct I/O has called ->read_iter() of the
-> backing
-> file directly ever since loop grew support for it.
->=20
-> Since commit f2fed441c69b ("loop: stop using vfs_iter_{read,write}
-> for
-> buffered I/O") buffered I/O calls ->read_iter() directly as well.
-> That
-> commit was about O_DIRECT handling and the FMODE_READ check went away
-> as a side effect.
->=20
-> So whoever can set up a loop device can read a file it was only
-> allowed
-> to open for writing. Open the file O_WRONLY, configure a loop device
-> with it and read the contents through the loop device.
->=20
-> Refuse backing files that aren't open for reading. Loop always reads
-> from its backing file so a write-only backing file never made sense
-> in
-> the first place.
->=20
-> Fixes: bc07c10a3603 ("block: loop: support DIO & AIO")
-> Fixes: f2fed441c69b ("loop: stop using vfs_iter_{read,write} for
-> buffered I/O")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+Hi!
 
-Reviewed-by: Alexander Mikhalitsyn <alex@amutable.com>
+On Tue 27-10-26 19:32:18, Scott Carter wrote:
+> When a UDF directory's information length leaves a tail shorter than
+> sizeof(struct fileIdentDesc) after its last FID, readdir never
+> terminates. Each getdents64() call returns the last entry again.
+> 
+> Seen on 7.2.11 (Fedora/Nobara 7.2.11-200.nobara.fc44.x86_64) with a
+> pressed DVD-Video disc (UDF bridge), mounted read-only. "ls" on the
+> root grew to 15 GB RSS in two minutes. A capped os.scandir() of the
+> root returned the same name 491 times in 500 entries. The kernel log
+> repeats:
+> 
+> UDF-fs: error (device sr0): udf_copy_fi: directory (ino 667) has
+> entry straddling EOF
 
-> ---
-> =C2=A0drivers/block/loop.c | 3 +++
-> =C2=A01 file changed, 3 insertions(+)
->=20
-> diff --git a/drivers/block/loop.c b/drivers/block/loop.c
-> index a3325ceab484..c96e35c3ef42 100644
-> --- a/drivers/block/loop.c
-> +++ b/drivers/block/loop.c
-> @@ -528,6 +528,9 @@ static void loop_assign_backing_file(struct
-> loop_device *lo, struct file *file)
-> =C2=A0
-> =C2=A0static int loop_check_backing_file(struct file *file)
-> =C2=A0{
-> +	if (!(file->f_mode & FMODE_READ))
-> +		return -EBADF;
-> +
-> =C2=A0	if (!file->f_op->read_iter)
-> =C2=A0		return -EINVAL;
-> =C2=A0
+Thanks for report and the reproducer! I've just sent out a fix (similar to
+your proposal) to avoid looping for such directories and I'll merge it
+through my tree. I was considering gracefully handling such situation
+without reporting corruption and it is easy enough for readdir but it would
+complicate the code when adding new entries to the directory (when we treat
+this as a corruption, attempt to add entry to such directory just fails) so
+I'm inclined to keep reporting errors for such directories. If such
+incorrect directories would be widespread, then I guess I could convince
+myself to complicate the directory append code for it but for now I don't
+think it's worth it.
+
+								Honza
+
+> 
+> The code involved is unchanged in current mainline (line numbers
+> below are from master as of 744e5400b36f):
+> 
+> 1. fs/udf/dir.c:89, udf_readdir() sets ctx->pos = (iter.pos >> 2) + 1
+> for the current entry before dir_emit() at line 114.
+> 
+> 2. The loop's udf_fiiter_advance() (dir.c:79) moves iter->pos past the
+> last FID (directory.c:298). udf_copy_fi() (directory.c:317) then
+> fails at directory.c:79-84 with -EFSCORRUPTED, because fewer than
+> 38 bytes remain.
+> 
+> 3. dir.c:118 updates ctx->pos only when ret == 0, so it still points
+> at the entry that was just emitted. The error is returned at
+> dir.c:129.
+> 
+> 4. fs/readdir.c:407-415: getdents64() has already filled entries, so
+> it returns the byte count and drops the error.
+> 
+> 5. The next getdents64() resumes at the last emitted entry, emits it
+> again and fails again, and so on.
+> 
+> Reproducer: repro.sh and repro.img.xz are attached (2552 bytes; it
+> decompresses to a 2 MiB UDF 1.02 image with 2048-byte blocks). The
+> image is mkudffs plus 60 empty files in the root. The root directory's
+> informationLength and its last extent length were then grown by 4
+> bytes, with the descriptor CRC and checksum fixed up, which leaves 4
+> bytes after the last FID. "./repro.sh build" recreates the image. Do
+> not list the image without a memory cap:
+> 
+> sudo mount -o loop,ro repro.img /mnt
+> systemd-run --user --scope -p MemoryMax=256M -p MemorySwapMax=0 \
+> timeout 10 ls -f /mnt 2>&1 | head -5000 | sort | uniq -c | \
+> sort -rn | head -3
+> 
+> On stock 7.2.11, "timeout 5 ls -f | head -5000" printed 5000 lines,
+> 4939 of them the last name (FILE_060), and the kernel logged the
+> "straddling EOF" line once per getdents64 call.
+> 
+> Suggested fix, not a formal patch. I tested it on 7.2.11 by building
+> fs/udf out of tree with the diff below and swapping it for the stock
+> udf.ko. On the same image, "ls -f" printed each of the 62 entries once
+> and then exited with "reading directory: Structure needs cleaning"
+> (EUCLEAN). A valid mkudffs image with 60 files listed all 60 under the
+> patched module.
+> 
+> On an error, iter.pos already points at the entry that could not be
+> read, so store it as the position. The next call then starts at the
+> corrupt entry, emits nothing, and returns the error to userspace. The
+> emit_pos check keeps the position from moving backwards when the
+> error happens during the rescan after an lseek or a directory change.
+> The "buffer full" and ".." exits jump to out_iter and are not
+> affected.
+> 
+> diff --git a/fs/udf/dir.c b/fs/udf/dir.c
+> --- a/fs/udf/dir.c
+> +++ b/fs/udf/dir.c
+> @@ -115,7 +115,12 @@ static int udf_readdir(struct file *file, struct
+> dir_context *ctx)
+> goto out_iter;
+> }
+> 
+> - if (!ret) {
+> + /*
+> + * On error iter.pos points at the entry we failed to read. Store it so
+> + * that the next call reports the error instead of emitting again the
+> + * entries we have already returned.
+> + */
+> + if (!ret || iter.pos >= emit_pos) {
+> ctx->pos = (iter.pos >> 2) + 1;
+> pos_valid = true;
+> }
+> 
+> Separately, you may want to consider whether a short tail after the
+> last FID should be ignored rather than treated as corruption. The disc
+> above is a commercially pressed title.
+> 
+> Found by Scott Carter; reproduced and validated with Claude (Anthropic).
+
+
+
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
