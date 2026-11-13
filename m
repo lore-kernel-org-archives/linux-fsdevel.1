@@ -1,74 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.198
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.197
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794608083;
-	b=yobg+LKFXfxw0owYhvAUTnQIx1eKsKxuqIGSqP5xJw6R/siH+ZAI7ClZnlGryqiPCnIM
-	 FZkb8Hg+npJRK95w32HioPQKAu6QLV4pcWpA/POeb2hjC8gxY7kQROWB9VWQseHskF5gW
-	 ZCmJC8k4tfhdOnnyxo6lcLgIE2mWr9fXMJtXcO1rvLdg1s/DE93c4BTygTYxAEDJvFB6N
-	 oPi9mnLkZ6mRVODn61tQc130oMWgXAVymnBJIl44XyDQstASCo1B++3MaEHWU9mSxC6cF
-	 NwZunpHSSMCtjcZlkzOLM/XsuNkk7mv/RH6Gn41jkjEpzyLV8MTkK/LLURBisvYDIbw==
+	t=1794608089;
+	b=wkmyd8JOImPlzdTXnPltg4vZ+znZzCEtPWfNETGab7PcFGpleYnlfoWIXKevdLew0cjv
+	 h7Q+nuu0LI37WOWM1l2vl0c6ZV1DtiAyksqWblwxxEbiElABF0whDq9OkBvuAvrTppS8G
+	 vGW0FwFN2byzvSln/YfOLXdp03MrJL3LX0Jd3sD+wQvT+rphGPFMMsr3I0v0YScx5Xx8y
+	 atn+sKFKvbo0UKavmpHCUO6AcmEl7H8kYOr1sVN8OKfuFwGQRWHUR2BW8T4icECzSplk1
+	 l3ZjuX/3aFCKdaKSvvIcKsuqMRsiTptvKZg2CJ1mwF4OTp+FqQzaGgQLMgoLkmVSxLg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794608083;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794608089;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
 	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
 	 Content-Type;
-	bh=inhYO7njBxxxz63wglLKDs7vlAYadf0cFHKmRlMoUnM=;
-	b=LIli0aTCZ5v31qgru9IX3/e2KRLpEwKTmN7zSER85WVmCa+Jcov+N555atmPrmyOA6rg
-	 6XdL7IlYZLiA6HqZgHO1wnESj1Lhr+cllaO2BBFAMsQqsF0nKt07h3GK8mSiT8GO6sCXi
-	 m0+CbXkddTrKa9zSNs6BbdwE04+yNfMeBphzPypeMUGtXhV9p67EqJEVu7NCMA1shSigz
-	 tQwoO+wFDNavjojjg5pXphUeco311Bsq1+hCI5JN/iyYtVqTs/xCFY/svUF9VV1bs9qpu
-	 RcNy6dePAAx5L022mXoVoetdA5zbGX8XqFW259XGB9tbTZI9i2FndX74IS2RNogou2A==
+	bh=ggQ4FFC8Bi0XuOsjCC8PKsr9I1n0o4RHBwZ93v/svPs=;
+	b=dNma+mxiELZN9PpAWAj/AdExpyIRCAqzi11d7hG/TLKvqDgIw0k3utzVblWoRiavMK8Q
+	 Vde/PvBk/D53CFGAB3J7MEz7Yxx8Oxn/An1Zw+zApo6DYJsNjZ9nPiq9rH36v4+Tpi4Tf
+	 GsZZ27p6uF4Jeq9JA9lRWA2jUyBAoFw8CWcKx6DIX3uOkqC9qy5FwYjaK4GS2yP+VCbMD
+	 eXQJgD0eqf703a+hdGkvx9DgZfBVHYDoORime2vYf42RyTdXTrx0D0Ju5GSLiRLryBOx9
+	 Bt8Ayd3wEKnQEpjQOQ4x4N2Rxb/TPxNuLNbUeoMjnJp9VY/QHTWGXGUhY7uwUBSUMmQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--wusamuel.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b="RldI8/Ss";
-	arc=none smtp.remote-ip=74.125.82.198
-Received: from mail-dy1-f198.google.com (mail-dy1-f198.google.com [74.125.82.198])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b="F0h/yyOj";
+	arc=none smtp.remote-ip=74.125.82.197
+Received: from mail-dy1-f197.google.com (mail-dy1-f197.google.com [74.125.82.197])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC0C260A2603
-	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Nov 2026 22:14:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CC0C260A2603
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4347460A2615
+	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Nov 2026 22:14:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4347460A2615
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--wusamuel.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=RldI8/Ss
-Received: by mail-dy1-f198.google.com with SMTP id 5a478bee46e88-33c35f5ca6cso2144560eec.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 13 Nov 2026 14:14:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=F0h/yyOj
+Received: by mail-dy1-f197.google.com with SMTP id 5a478bee46e88-378722fd4a3so1706811eec.0
+        for <linux-fsdevel@vger.kernel.org>; Fri, 13 Nov 2026 14:14:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1794608082; x=1795212882; darn=vger.kernel.org;
+        d=google.com; s=20260707; t=1794608087; x=1795212887; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=inhYO7njBxxxz63wglLKDs7vlAYadf0cFHKmRlMoUnM=;
-        b=RldI8/SsSqY8lw2cvRAiwU7cqvnlV6q0Ztry9wKAhokqvlb76Pt9cdaCLElZ740qHj
-         //Ktdtbj8XJ+zeSCkj7OdC1RnbPKS7jXn1fqqm84tpjmWbrkZXbKtvOQbXvLg2kkdFTa
-         5wIhhBT/dodbhK6Q+Rq4QtxyTR0nzpB+rCwcU0DeVVI+jAKuIp1UoS7V9QSzswdtSJjz
-         hV76Kz5l2w0emhEpHe2qo2Ov1wVEuxQOD1ICntHvPYZZj0/rv5UUCIcM9Ler8/e9/SVy
-         QAYmOx4lTFa59kkP9Qlubitqbz+GYRJ73Wckam2i63LobxIWM4tci6GccKHlZx4w8loE
-         tN3Q==
+        bh=ggQ4FFC8Bi0XuOsjCC8PKsr9I1n0o4RHBwZ93v/svPs=;
+        b=F0h/yyOjK9Z89u9J7XgnC5+HYvJukeUSvtRdGdXRYSd6FxItb0m1DCbjnB/F8XGPiH
+         u0Mx0HpIawZ/cpcc/qnj3KgRo6EAPV6vOXXLFYrKpg11VGzUbKeGpr+4CsbKgKd2Ax9v
+         +1zrwsDOILL2dwtp+1vvlgb337Ta7aiDugkCNuzIGsYnXD5XDmv5t4wuwiCajtILk88n
+         LNrHiI4lH+GNFBraZ8z0cwAcBVqjXaoqhujdEUYZisLVg2gj7H76h8O6jAixSP+D0tvv
+         W+59YnqWcvMgH6qBfwQxFVFP3Epi+pArc1N0NAkUQSfQ64jH56UgbBzEPYYpE6uwDJii
+         ASLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794608082; x=1795212882;
+        d=1e100.net; s=20260707; t=1794608087; x=1795212887;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=inhYO7njBxxxz63wglLKDs7vlAYadf0cFHKmRlMoUnM=;
-        b=WyMyihAKYOmumrIIj5Tg6/wkkPdAbuG/bIrfVnqOAEFIYg793SlGsB63JK8OsGiHWg
-         gNq+C4KekidYx3KfRN/hgjJIKWApmupRnOL962HN1oGirwmTw6LbxNb2G4xIzm445RXX
-         DwjdCa4MtW5d8oH5TouyjqE51FE6LlrECmdEuvAK4Nf/HEkh8W70d36vN5GqP2ICh3RC
-         inq72gQ9OANu7URAJZVj2sRn3a0L053oXUSVIlbDuuZqO6+jgiqkdIiKard27dzSs56p
-         Am7aYPd9PnQDtJqqBkj8nKZhYSoOSEwuleF7lZQBDxECgSDm6lOXPlaN+j+SyxC2Mh5d
-         CImw==
-X-Forwarded-Encrypted: i=1; AL+hErEOn7+xKYN8S//8leb6g9P29J2wXLTOr2bDbZ7a2vK4LLu5Jv/EHKpbXDfmG97j6LFZt2s61zkWdndQCbcG@vger.kernel.org
-X-Gm-Message-State: APuU4Z+ZpqqlmizuMQMi4JS19bQPpej7GLUgu2Kz13XtPdnVr7OpD2VF
-	9EaSwSd3X/ly474gDi0G2QY2ql/43Ef9ebuBYE9aXUrxOpHCPDAzuJckzz8QmNLo86Kfb2I+VSV
-	99QHk5B5tovcxHg==
-X-Received: from dyrp21.prod.google.com ([2002:a05:693c:69d5:b0:343:520f:7a80])
+        bh=ggQ4FFC8Bi0XuOsjCC8PKsr9I1n0o4RHBwZ93v/svPs=;
+        b=bxQ/AXySuywcCnyRBbvsc/zAHhPOwKEakrIMbIDOwObF3oY29mZtVbA5BP/S/HqCYG
+         2iEEie4HCLWKH2KknYOHYeWi6wtW9QktUY3NzpwvhftYtStsDWLaB/Czdv+msXsspo0j
+         fI6V+osrGX2tVOlrgVJXoC9u93OpAR7V3NS8iXkgoHLgaAOVv7tSn+89+utuRgZdH4s6
+         ZtKilNQYuHrnLhnoCIPbt1Sm13yk9uKKfTMgr0VdU+sikQHmOJByRMlVumygQ4nwopwp
+         OKpP0vOCJFxvZ2gYWLELVv++r2IIBIEnveU66RtqHXfGx1oRSydVvltgjg0K6NmPd2iX
+         pNrQ==
+X-Forwarded-Encrypted: i=1; AL+hErHHq/gik3+xpBIbyASnOCHTvqHVGKqyZBxYZnkwMRHOgQNuwMtluSYROXXg2iKKqfC117ytOJr9znT6tRnb@vger.kernel.org
+X-Gm-Message-State: APuU4Z8McXi6/S8CrLhhPeGJvutzrUqlKh9i12eb3okFBV0oimyXdNrp
+	ioBb2Uqai4jBCaZOPUd2LmqsgTA4IYtI6+m1Xv4bN+AXH/q3e2GyCTctwLPQ6CrAQnVD/XalrZy
+	7e2jTKglLaRdN/w==
+X-Received: from dlbph19.prod.google.com ([2002:a05:7022:3713:b0:195:8b4e:20b7])
  (user=wusamuel job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:7301:d189:b0:36e:e349:f2cb with SMTP id 5a478bee46e88-3796628e28amr3392731eec.19.1794608081264;
- Fri, 13 Nov 2026 14:14:41 -0800 (PST)
-Date: Fri, 13 Nov 2026 14:12:53 -0800
+ 2002:a05:7022:b905:b0:1a9:d04f:1b55 with SMTP id a92af1059eb24-1b50311e3efmr3121638c88.26.1794608087024;
+ Fri, 13 Nov 2026 14:14:47 -0800 (PST)
+Date: Fri, 13 Nov 2026 14:12:54 -0800
 In-Reply-To: <20261113221248.3535369-11-wusamuel@google.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -81,9 +81,8 @@ Precedence: list
 Mime-Version: 1.0
 References: <20261113221248.3535369-11-wusamuel@google.com>
 X-Mailer: git-send-email 2.56.0.679.gc527c65306-goog
-Message-ID: <20261113221248.3535369-19-wusamuel@google.com>
-Subject: [PATCH bpf-next v3 8/9] libbpf: Resolve typeless ksyms via
- KALLSYMS_QUERY_BY_NAME ioctl
+Message-ID: <20261113221248.3535369-20-wusamuel@google.com>
+Subject: [PATCH bpf-next v3 9/9] selftests/bpf: Test typeless module ksym resolution
 From: Samuel Wu <wusamuel@google.com>
 To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
 	Randy Dunlap <rdunlap@infradead.org>, Luis Chamberlain <mcgrof@kernel.org>, 
@@ -106,146 +105,79 @@ Cc: Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>,
 	linux-kselftest@vger.kernel.org, llvm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-libbpf parses all of /proc/kallsyms to resolve typeless ksyms.
-
-Use KALLSYMS_QUERY_BY_NAME instead: exact names, plus "<name>.llvm."
-prefix matches. Ambiguous matches at different addresses fail the load.
-A missing strong extern still fails and a missing weak extern is 0,
-without a text scan.
-
-On any other error (e.g. -ENOTTY on older kernels, or -EPERM), fall back
-to the text parser.
+The module ksym tests use typed ksyms, which libbpf resolves through
+BTF. Add a weak typeless module ksym to the ksyms test, to cover the
+module path of KALLSYMS_QUERY_BY_NAME.
 
 Signed-off-by: Samuel Wu <wusamuel@google.com>
 ---
- tools/lib/bpf/libbpf.c | 99 +++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 97 insertions(+), 2 deletions(-)
+ tools/testing/selftests/bpf/prog_tests/ksyms.c | 9 +++++++++
+ tools/testing/selftests/bpf/progs/test_ksyms.c | 4 ++++
+ 2 files changed, 13 insertions(+)
 
-diff --git a/tools/lib/bpf/libbpf.c b/tools/lib/bpf/libbpf.c
-index 44134421bd7d..f3f3475a64d3 100644
---- a/tools/lib/bpf/libbpf.c
-+++ b/tools/lib/bpf/libbpf.c
-@@ -59,6 +59,34 @@
- #define BPF_FS_MAGIC		0xcafe4a11
- #endif
+diff --git a/tools/testing/selftests/bpf/prog_tests/ksyms.c b/tools/testing/selftests/bpf/prog_tests/ksyms.c
+index dc7aab532fb1..801d38560473 100644
+--- a/tools/testing/selftests/bpf/prog_tests/ksyms.c
++++ b/tools/testing/selftests/bpf/prog_tests/ksyms.c
+@@ -11,6 +11,7 @@ void test_ksyms(void)
+ 	struct test_ksyms *skel;
+ 	struct test_ksyms__data *data;
+ 	__u64 link_fops_addr, per_cpu_start_addr;
++	__u64 testmod_ksym_addr = 0;
+ 	struct stat st;
+ 	__u64 btf_size;
+ 	int err;
+@@ -27,6 +28,12 @@ void test_ksyms(void)
+ 	if (!ASSERT_NEQ(err, -ENOENT, "__per_cpu_start: ksym_find"))
+ 		return;
  
-+#ifndef KALLSYMS_QUERY_BY_NAME
-+/* 'f' is PROCFS_IOCTL_MAGIC */
-+#define KALLSYMS_QUERY_BY_NAME	_IOC(_IOC_READ | _IOC_WRITE, 'f', 48, 0)
++	if (env.has_testmod &&
++	    !ASSERT_OK(kallsyms_find("bpf_testmod_ksym_percpu",
++				     &testmod_ksym_addr),
++		       "bpf_testmod_ksym_percpu: kallsyms_find"))
++		return;
 +
-+enum kallsyms_query_flags {
-+	KALLSYMS_QUERY_NAME_PREFIX = 0x01,
-+};
-+
-+struct kallsyms_query_sym {
-+	__u64 sym_addr;
-+	__u64 sym_size;
-+	__u64 sym_name;
-+	__u64 sym_name_len;
-+	__u64 sym_module;
-+	__u64 sym_module_len;
-+};
-+
-+struct kallsyms_query_by_name {
-+	__u64 size;
-+	__u64 query_flags;
-+	__u64 query_name;
-+	__u64 module_filter;
-+	__u64 pos;
-+	__u64 sym;
-+	__u64 sym_struct_size;
-+};
-+#endif
-+
- #define MAX_EVENT_NAME_LEN	64
+ 	if (!ASSERT_OK(stat(btf_path, &st), "stat_btf"))
+ 		return;
+ 	btf_size = st.st_size;
+@@ -47,6 +54,8 @@ void test_ksyms(void)
+ 	ASSERT_EQ(data->out__bpf_link_fops1, 0, "bpf_link_fops1");
+ 	ASSERT_EQ(data->out__btf_size, btf_size, "btf_size");
+ 	ASSERT_EQ(data->out__per_cpu_start, per_cpu_start_addr, "__per_cpu_start");
++	ASSERT_EQ(data->out__bpf_testmod_ksym_percpu, testmod_ksym_addr,
++		  "bpf_testmod_ksym_percpu");
  
- #define BPF_FS_DEFAULT_PATH "/sys/fs/bpf"
-@@ -9421,8 +9449,75 @@ static int kallsyms_cb(unsigned long long sym_addr, char sym_type,
+ cleanup:
+ 	test_ksyms__destroy(skel);
+diff --git a/tools/testing/selftests/bpf/progs/test_ksyms.c b/tools/testing/selftests/bpf/progs/test_ksyms.c
+index 6c9cbb5a3bdf..0506bb574c4a 100644
+--- a/tools/testing/selftests/bpf/progs/test_ksyms.c
++++ b/tools/testing/selftests/bpf/progs/test_ksyms.c
+@@ -9,6 +9,7 @@ __u64 out__bpf_link_fops = -1;
+ __u64 out__bpf_link_fops1 = -1;
+ __u64 out__btf_size = -1;
+ __u64 out__per_cpu_start = -1;
++__u64 out__bpf_testmod_ksym_percpu = -1;
+ 
+ extern const void bpf_link_fops __ksym;
+ extern const void __start_BTF __ksym;
+@@ -16,6 +17,8 @@ extern const void __stop_BTF __ksym;
+ extern const void __per_cpu_start __ksym;
+ /* non-existing symbol, weak, default to zero */
+ extern const void bpf_link_fops1 __ksym __weak;
++/* module symbol, weak, zero if bpf_testmod is not loaded */
++extern const void bpf_testmod_ksym_percpu __ksym __weak;
+ 
+ SEC("raw_tp/sys_enter")
+ int handler(const void *ctx)
+@@ -25,6 +28,7 @@ int handler(const void *ctx)
+ 	out__per_cpu_start = (__u64)&__per_cpu_start;
+ 
+ 	out__bpf_link_fops1 = (__u64)&bpf_link_fops1;
++	out__bpf_testmod_ksym_percpu = (__u64)&bpf_testmod_ksym_percpu;
+ 
  	return 0;
  }
- 
--static int bpf_object__read_kallsyms_file(struct bpf_object *obj)
-+static int query_ksym_by_name(int fd, struct extern_desc *ext, bool lto_prefix)
-+{
-+	struct kallsyms_query_sym sym = {};
-+	struct kallsyms_query_by_name q = {
-+		.size = sizeof(q),
-+		.query_flags = lto_prefix ? KALLSYMS_QUERY_NAME_PREFIX : 0,
-+		.query_name = ptr_to_u64(ext->name),
-+		.sym = ptr_to_u64(&sym),
-+		.sym_struct_size = sizeof(sym),
-+	};
-+	char prefix_buf[512];
-+	int n;
-+
-+	if (lto_prefix) {
-+		n = snprintf(prefix_buf, sizeof(prefix_buf), "%s.llvm.", ext->name);
-+		if (n < 0 || n >= sizeof(prefix_buf))
-+			return 0;
-+		q.query_name = ptr_to_u64(prefix_buf);
-+	}
-+
-+	while (!ioctl(fd, KALLSYMS_QUERY_BY_NAME, &q)) {
-+		if (!ext->is_set) {
-+			ext->is_set = true;
-+			ext->ksym.addr = sym.sym_addr;
-+			pr_debug("extern (ksym) '%s': set to 0x%llx\n",
-+				 ext->name, ext->ksym.addr);
-+		} else if (sym.sym_addr != ext->ksym.addr) {
-+			pr_warn("extern (ksym) '%s': resolution is ambiguous: 0x%llx or 0x%llx\n",
-+				ext->name, ext->ksym.addr,
-+				(unsigned long long)sym.sym_addr);
-+			return -EADDRNOTAVAIL;
-+		}
-+		q.pos++;
-+	}
-+
-+	return errno == ENOENT ? 0 : -errno;
-+}
-+
-+static int bpf_object__resolve_typeless_ksyms(struct bpf_object *obj)
- {
-+	struct extern_desc *ext;
-+	int err = 0;
-+	int fd;
-+	int i;
-+
-+	fd = open("/proc/kallsyms", O_RDONLY | O_CLOEXEC);
-+	if (fd < 0) {
-+		err = -errno;
-+		pr_warn("failed to open /proc/kallsyms: %s\n", errstr(err));
-+		return err;
-+	}
-+
-+	for (i = 0; i < obj->nr_extern && !err; i++) {
-+		ext = &obj->externs[i];
-+		if (ext->type != EXT_KSYM || ext->ksym.type_id)
-+			continue;
-+
-+		/* Check exact name and then LTO .llvm.<hash> prefix */
-+		err = query_ksym_by_name(fd, ext, false);
-+		if (!err)
-+			err = query_ksym_by_name(fd, ext, true);
-+	}
-+	close(fd);
-+	if (!err || err == -EADDRNOTAVAIL)
-+		return err;
-+
-+	/* Other errors (e.g. -ENOTTY, -EPERM): parse the text file */
-+	pr_debug("KALLSYMS_QUERY_BY_NAME failed (%s), falling back to /proc/kallsyms\n",
-+		 errstr(err));
- 	return libbpf_kallsyms_parse(kallsyms_cb, obj);
- }
- 
-@@ -9699,7 +9794,7 @@ static int bpf_object__resolve_externs(struct bpf_object *obj,
- 			return -EINVAL;
- 	}
- 	if (need_kallsyms) {
--		err = bpf_object__read_kallsyms_file(obj);
-+		err = bpf_object__resolve_typeless_ksyms(obj);
- 		if (err)
- 			return -EINVAL;
- 	}
 -- 
 2.56.0.679.gc527c65306-goog
 
