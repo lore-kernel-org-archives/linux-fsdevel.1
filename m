@@ -1,85 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.180
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794546631;
-	b=Om+jeFyb5tJPhDd6alvx6T2qyS5agt+Nxr5wUUyBEqanoo5M39Jih8x15Ri3fcOFaanK
-	 R0gjIIvaFHK4HPwdNQwe8dL8eXmqnxVJRbiFLGf4d05aJuLcJZdkbUxmfWFquh5yg7DAy
-	 fsZoPafm1wcz9Hw2qzXFj59rVBMQgxOSTu6DvQNIXBiEwNpGVM9Qn55nKNhPL/rPK7Hlk
-	 4VQwDWmH8HIoba6Lnqyx+egCoK0vUWdCUidyACjFO/W0ez+FSnWvxw+uDJsSzXTCzoEE0
-	 wwpjjmiLTjQtPdVvCm43QoT6gtOkihYGGpJ0oELB7jzGcc608WhXSB9iV6mvZdkUMjg==
+	t=1794547146;
+	b=wJXm8lSk2YoA43ii0Jvxb1RL+UwmdF5y9wvJ8Hpmr/4FqG20kOpfAbPKcSSqPsFfGw4V
+	 pF20RQp53xuN4ATcVqbS67khOXMzFlmEEr0e+bnPR9Y6Bpw2uKfgdBq8GgylxAK8rDlQH
+	 K7xga0BeF1cW+HcLULz6X3uosl5asjpBvCO7gVNnC+nw80QiAN1Vsmu7EAFdT972DDhdK
+	 wulLe8AyqK5bYRp7KyR6xj5CLsseQnuVWJJ/d4w2BMxciSw91k4iCUWBvCaXSGDROy+Vp
+	 qHA3GrQplJ3HHV1hJ3rGjiE7A3wnFU+1kSHqUB/uaytVbR03NQBFGz2CX0+9/McCCeA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794546631;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794547146;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
 	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer;
-	bh=mgkN7zfne8CxcStcMwaH53uuXOvKnVLzfMEVlic0so8=;
-	b=hjyoudAqOhiK81xZ8vraeh7sidByIBJU2peuCR1dTfAUlP92TWaVYkdA2Kld5KohLNhj
-	 Xe66OUOf2IPMpY0gQvLIz1Gbwy0TL44yPP8GsSDUMZvWWFbWFwRQzbZ6Srl7oHRrm7cej
-	 evs932ZFdzfxrtGXS9IHCnnfB8M59KTSM1lptl4ZWPNFoanF5IuwBpv8wCgc1DaRdOkZq
-	 xA12QwHRg4vzb6Z5Jiu3JQdqqq6Xz2YAVNwK/WqqXms7b6eHL6/+UOobRQJ4taa3tFwmY
-	 znPsF/IwmzlpGqn6vVoLEA/8f9GbzpGFxhsYHnPirJivUjfXdC2OJdT82AkepSekxxA==
+	bh=SZ/WoExpnJ8hrgM/hl6NJJrxD86AhGkO6OAXDjbXUhM=;
+	b=SCAv4TLW28iRXbtCnJ6jhGFq29H9gAf1HWfcDQXUJXlMmj8uP3s8MQcjw85vu/RqTAaj
+	 cxPJevq1MDU1fDy3uvHUyxtOsUpOFzNcgjtw8LeYtska5eTvQOp0XNkmRWEGYN2Qu99tc
+	 bpT8OotWvW4E38qNJDSUjYuy358V8BpLSb7iPEQTebu4EoV6VLOgYtJZ0HBZSR2GIQD0N
+	 sRSLpUvxadEpIwfecuw3eoq+URvf6iZn4b0z2KssO5nB3T/XhdS1s6qQwN9Rj5szsN0+X
+	 WT2/CkI7MVYxUke+Olu1lA0dzfk4HazSOrnH82rQIhtFGKiNd4Klh41ieg2oqtpZdlQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=gourry.net;
 	spf=pass smtp.mailfrom=gourry.net;
-	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=OIjEQYM2;
-	arc=none smtp.remote-ip=209.85.222.180
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=EmDt9IgY;
+	arc=none smtp.remote-ip=209.85.222.172
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65E6E606A323
-	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Nov 2026 05:10:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 65E6E606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82C15606A321
+	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Nov 2026 05:19:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 82C15606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=OIjEQYM2
-Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-93f079a63b8so88728285a.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 21:10:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=EmDt9IgY
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-93f269e335eso132676585a.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 21:19:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1794546630; x=1795151430; darn=vger.kernel.org;
+        d=gourry.net; s=google; t=1794547144; x=1795151944; darn=vger.kernel.org;
         h=message-id:date:references:in-reply-to:cc:to:from:subject
          :content-transfer-encoding:content-type:mime-version:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=mgkN7zfne8CxcStcMwaH53uuXOvKnVLzfMEVlic0so8=;
-        b=OIjEQYM2AbvD7QM9TAR0tLg4L1oJc35+b1F4MoifxY7eXYBQ+KEPJLpPBOEANDYP5g
-         kxqNKD+dVu6bAcIcU3FBv2VZxmUXB7eOLSD/Z5Qeo2WKctkL1xQ+g0Wv7nm9jP1FCDEH
-         PQEgjk1nUYo1hA/DrieotJAmBd8Rat8VKIbcdOMOnxU+W3TRM9Q2TPFBlrUjJS3uofff
-         gL6wsydLRY86jsPdbXHxO0sT8SWJY4iNx39eHkz5cFSKe225IdWJz9HnWUJbvRDmVe0H
-         LaY/kQzdki4vuo6l2LdExbc+GG1bug0Em2JGwmzTUqICZ90ycLFTqsHNwcUJzEJwHpwo
-         WDVA==
+        bh=SZ/WoExpnJ8hrgM/hl6NJJrxD86AhGkO6OAXDjbXUhM=;
+        b=EmDt9IgYiZiLNjvWSV+IAK+VJTXs4hMTZg5NFCXaQX8h2/IzPDuscZQ4Non8MU01Xx
+         eo21TqkqMDN2DKSqYsyiXZH40khVAsbr09nKuKeUZ+YfYLlvTyU5dmm4mXQCC2OicICq
+         +WBbgzEkMZzfdz9lZL2WJQuJm+kRfmWApuAz0BO4odG18lX64PqtoZPIOSMTXa7qtWvC
+         iFJSmZxtEs1GS9ds62eUUV9IpBP5NwH64gURgK697+GOZue+3wYrm1Q4z4N+C0tSC48P
+         PcibbF65Bq8SiEVUp3lm6JxVA/r40lxFCgyZczt13RA3b3Cb0tFwQx80N9FA2A6LWEGv
+         ygSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794546630; x=1795151430;
+        d=1e100.net; s=20260707; t=1794547144; x=1795151944;
         h=message-id:date:references:in-reply-to:cc:to:from:subject
          :content-transfer-encoding:content-type:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=mgkN7zfne8CxcStcMwaH53uuXOvKnVLzfMEVlic0so8=;
-        b=uesgUzX+8mpsieeBGojh06PXLQysUHINSQCOTb5W1gKosDIs1w645WiWEwjZwb35Ah
-         1u+KN2mhWLOgiOZY33KqPCyDsmhV0eH4pjRzO6CNk3LQbjECSEZW3sHlmDtnne4DmGDB
-         XZxe5tQFdYN68LTqqDe6fMdM8vYst39+HMx4onVgS5Qe0PtAig1xr6KNUvl/YFopf2Fv
-         9JClGmISgjaGwAgyQc23x7A02gmU+oP22mYaW8y/xib/me1ohWbhrqPzFmP/hp1+DTZr
-         7d8MYgvfqyYZKDUJ4Hn82X6WiQ2F7/JVCvqOaVAHDDwzUA2aEa91YFOd7ZbquAZiYqRS
-         zx8A==
-X-Forwarded-Encrypted: i=1; AL+hErGgAPzjPOPZEGxNZQH+UG1NobroVTEQqOk34CrMwUuJS7GyHR9wuyTlWib2iBNYl2HvD9O9iFumW7xJ376m@vger.kernel.org
-X-Gm-Message-State: APuU4Z+8QpwbJ9as6B8Y0SIEJII+vzY0KC6GAarK93vR7SVh415EDapi
-	omBWWuxh0IdLqZkgFlwsErbhCTv1xEm8B8kVIcBi9mLZwYnXXFxrdMjutU3lBydT2Uk=
-X-Gm-Gg: AYBFou2FoFY/TlrDX7+ooFLEWzJCdR+ap/GiezWwzR01kelUxrDElt7a0xTB47wo3as
-	ixS7nrFnl0yitUI1OJ1i2mf3z33Ioh15o8PfWFtIO6sYuuGr5nGmLhWFGgnXpmWNx8+fSFbG/yT
-	Gb0zaSvOuEu4R+J/9RZSLlIjmfPP5625qTKCYpthyaE1R8ODaKx/Qq2aQCie6vMKLvd5SUk/bac
-	Gu+r78WKaTq/ohUf3YxIE7WGwq00FguC9eBtUW7tG4H5O+XhX6/CkBOFhqJAh0X2K5HIjBT0dcB
-	ZJR1EN4nvk2Idh0bKECAV01+EZSEDc5T8tKn+Q2C0enKVFS8bL9d9nt3Pmn7RUF/mCTuMJ5ECV7
-	cW9xPMenblw+/OINcucSTSh8CzT8A2FCyHpHHAHWwsDxkxnWlZgK8+503UhiR31g2rw/FWQDgjn
-	gYV7nM1eWtA3Vk4AvQawkE6+k4tKCqieSeQ4m1fU93Na3033uFAP9/v4bxH9PNt2PKaIBVwgNBq
-	i7uPYgKKVl4iW+FAJNY4h9XmfFq/Ku4J4Yp9J8j71vyk5l4H6feuXDHOyOt5bsvQlUIJCsxfvOO
-	W7equO8WWkryFrfY0YTV1nu9n1gA2IMQ2J+To/aBXf+nGzYwtV7UePMAY93ppjYFCQYwHVXWRSM
-	YOT/c4qE=
-X-Received: by 2002:a05:620a:684a:b0:945:f6b0:db0 with SMTP id af79cd13be357-9494bb3103bmr245366785a.30.1794546630191;
-        Thu, 12 Nov 2026 21:10:30 -0800 (PST)
+        bh=SZ/WoExpnJ8hrgM/hl6NJJrxD86AhGkO6OAXDjbXUhM=;
+        b=M18tKY3HU5HOr+olJ/uz2Y+VyhCpzprgz5hgm6oi0ndMUFtDWW2lBRobnPLX0q64t7
+         /NLI7kClw4mdGo62FIk0aTcMAGUfRMJJuPZY6xnfWQbe6m/X95QBiL+9KUNCzosXuAGK
+         rmu6fcjKNusysIfC4rzDXpY8sx66+tmKqLTUNYsyrK+IR5TV4E6RNDZwDQOX0rb+PIlP
+         ZJOTJitD2o3girnlhDezuF0LzW0n7s62WZX1SphkVyv9UbX2uEYtGRcbU4FdAIatS7/a
+         74kCjRrM0x6ShvqIFfAP/wJj7rM1Hsxy3m+ljKHgsr4qTUF56NoR+pJHTGm4BS9mKiWN
+         40vw==
+X-Forwarded-Encrypted: i=1; AL+hErGMrEIDqtUte72jnptO8KYRfgMCWzC8XbygDWDnUVOiqqEhlFnjamSCLl/FOOX+OHXtGXyeM8ZO8opcwhEo@vger.kernel.org
+X-Gm-Message-State: APuU4Z/xbaojTXrPiSSO3wRCPNcXezKGTKH+Z793BKtttIjmKkJIyWQv
+	DhObH8KbY37npyXIP5p3f4zkaALz/mlFAAMM1BeMtUQMQI6JZ4vjz30sdCk3i/GMwbQ=
+X-Gm-Gg: AYBFou1eQjB9jl06aY21w+Y0ScTaELHwGP93KXB1JTjOGfzBXqxzckGyzdQKIPyl23O
+	ayaxNpm6pzzE6K831q9P241PjQxAi2+BahltmmyBRAK9vi7lzdCrhq+zWjeqw7fFYSnvghSfzpK
+	4kSNzCaDq5i0YwZRzWFDK6gQEU7AYGwPvPIPKSuR7pIiApUoBZMCbf+NoKm1an0YDWcqsan6WEx
+	fU5HLH3bn3xNhe7M130KakKN3awcWdOahonu+KNL9OUMCKvimYfSQAaOwGg7KuLtJ0Wk2M63lsn
+	Bkhc+aRrBrhNSCuvxvZqWta0pYqs8nzK44FN+COTeRme+wCNt5rEMJ8cCpS4iJiQCEI0YyGFgTs
+	zJy/XDmlJsngaweGq1chJrsI4/mNN+5NnqgX/dFYFrcehkt+R1JP4NlywKGzZrwFe+Cr3GNXl3W
+	gKo7GcUOnEnBAqeTOjL57rE7jO7IfLQe9mjL4aaIztFh/bf9BMFFDSfVZZTCe9r+493pk99dL0B
+	7lMZsXw1OJlkhvYSBOPMB6Zhya7qn/IUheuPYN/wMSLib7C+bkpo3l3P3e/2xd9QmE/JuvoxkE6
+	dk0CkUFUjmkz5TJeEZOo7K/kxc7+cbUCM12Bme/CJP7cQHt0lcvhzDdX1JToag5hyr7evCB/RvL
+	SpVnWtV4=
+X-Received: by 2002:a05:620a:4713:b0:93e:646c:9133 with SMTP id af79cd13be357-9494bc53dd7mr281919185a.64.1794547144420;
+        Thu, 12 Nov 2026 21:19:04 -0800 (PST)
 Received: from [192.168.50.231] (pool-71-191-145-202.washdc.fios.verizon.net. [71.191.145.202])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9494c836079sm103580385a.18.2026.11.12.21.10.28
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9494c6025f5sm106509685a.5.2026.11.12.21.19.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2026 21:10:29 -0800 (PST)
+        Thu, 12 Nov 2026 21:19:04 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -91,8 +91,8 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH 05/12] fs/proc/task_mmu: write-protect device-private
- THPs in PAGEMAP_SCAN
+Subject: Re: [PATCH 06/12] mm/huge_memory: build the moved huge zero PMD
+ from the destination VMA
 From: "Gregory Price (Meta)" <gourry@gourry.net>
 To: Tal Zussman <tz2294@columbia.edu>
 Cc: Andrew Morton <akpm@linux-foundation.org>, 
@@ -122,41 +122,40 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
  Michal Hocko <mhocko@suse.com>, Mike Kravetz <mike.kravetz@oracle.com>, 
  linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
  linux-fsdevel@vger.kernel.org
-In-Reply-To: <20261111-uffd-state-fixes-v1-5-00713d368976@columbia.edu>
+In-Reply-To: <20261111-uffd-state-fixes-v1-6-00713d368976@columbia.edu>
 References: <20261111-uffd-state-fixes-v1-0-00713d368976@columbia.edu>
- <20261111-uffd-state-fixes-v1-5-00713d368976@columbia.edu>
-Date: Fri, 13 Nov 2026 00:10:28 -0500
-Message-Id: <179454662851.482102.356362894816988437.b4-reply@b4>
+ <20261111-uffd-state-fixes-v1-6-00713d368976@columbia.edu>
+Date: Fri, 13 Nov 2026 00:19:02 -0500
+Message-Id: <179454714288.482102.7776276516691241493.b4-reply@b4>
 X-Mailer: b4 0.17-dev
 
 On 2026-11-11 12:55 -0500, Tal Zussman wrote:
-> PAGEMAP_SCAN with PM_SCAN_WP_MATCHING write-protects a huge PMD through
-> make_uffd_wp_pmd(), which handles a present THP and a migration entry
-> but does nothing for a device-private THP. The PMD never gets the uffd
-> bit.
+> move_pages_huge_pmd() builds the destination PMD for the huge zero page
+> by copying the source PMD and clearing its uffd bit, so the destination
+> keeps the protection of the source.
 > 
-> pagemap_thp_category() reports a non-present PMD without the uffd bit as
-> written. A user tracking writes with async uffd-wp therefore sees every
-> page of a device-private THP as written on every scan, whether it was
-> written to or not. This requires a driver that migrates THPs to device
-> memory.
+> A source VMA registered for RWP can map the huge zero page with a
+> PAGE_NONE PMD, and UFFDIO_MOVE does not check how the source is
+> registered. The destination then gets a PAGE_NONE PMD without the uffd
+> bit, although nothing asked for that in the destination VMA.
 > 
-> A device-private PMD must be write-protected like any other huge PMD. To
-> fix it, pass it to set_uffd_wp_swp_pmd() as well, which downgrades a
-> writable entry and sets the uffd bit. When the THP migrates back,
-> set_pmd_migration_entry() carries the uffd bit over to the migration
-> entry, so the write protection is kept.
+> The next access fixes it up through the NUMA hinting fault path. Until
+> then, the first access to the destination takes a spurious fault and GUP
+> has to take the fault path. The impact on userspace is small.
 > 
-> Fixes: a30b48bf1b24 ("mm/migrate_device: implement THP migration of zone device pages")
+> The moved entry must have the protection of the destination VMA. To fix
+> it, build the entry from the vm_page_prot of the destination VMA, as
+> move_zeropage_pte() does for the small zero page, and keep marking it
+> soft-dirty. A destination VMA registered for RWP still gets its PMD
+> re-armed afterwards.
+> 
+> Fixes: 763f43865fc4 ("mm: preserve RWP marker across PTE rewrites")
 > Signed-off-by: Tal Zussman <tz2294@columbia.edu>
 
-reproduced the issue by observing we fail to carry back the write
-protect bit after migration.
-
-Implementation details i'll leave to Lorenzo's feedback, i don't feel
-strongly about it, it's gonna look bad either way i think :\
+Reproduced the spurious fault.  Change looks reasonable.
 
 Tested-by: Gregory Price (Meta) <gourry@gourry.net>
+Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
 
 -- 
 ~Gregory
