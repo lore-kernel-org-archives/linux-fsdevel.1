@@ -1,78 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794605197;
-	b=pwliVGOhaaQzCYw+gMD8kzEAgyZxQcCjRnLhzTla8VIEv9dT0lKlfsZmQZudtXnvZwva
-	 ih9kVFzCLVnZUOFvrKvIGZD4lGOrDKq/4WQH27H92xYJloyu4OWymBEPP/rheIGLSHEym
-	 +r8f1wabLWjuQVBIZryAagVlkQje1an3mXth6u238EZudsntj2G4ttbqKRk4t1Yfw9+33
-	 wqNQPYiX8A82hI+lf8xg+V+82sCXcTshxL0xGuNbZ/u3TlGJGYS82zIVRtKjA4mRzzwXI
-	 2wib1oT8Q+nT2GUqlLq8Om51DQKFoR0SY+LsKcVDAxquNV4ZJEh3RcvGkBaNnIr+70Q==
+	t=1794605198;
+	b=saS/JAZfw5mKMSa/NNT23tecu4YAAYcxmEMYzBSPvVdEzufkK+5Hi5/KFlBg/zy//xq1
+	 mX8O1LqgSLtQjIF6NUPjQIL9wnJuJ9iriQbSKVCuA1wmflVm2zklKeb1aCHYj9drLCr4v
+	 Bb6aXqIuVjH3rf5SmFmM4B0S5tjoISkrGgF87j3++L/9lhbuL6cBYjJp+K3nRlVBIHAZa
+	 JtlVJq838k/rqik/EFqpK7uARBupFcWYktYiyaXhTKfOLaR8N9DbA5ExvWlVgDhyTtSzB
+	 6R7qBkIu7jUQGDk5pSqEGJ8rT8R7NiV96hx4aC0/egtHXqlTbJG7U+StwdFQrTFzeHw==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794605197;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794605198;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=E8yCXp8faGSQwgD+KEglK48bXByCKj/OR8JWpMaiRFw=;
-	b=1uo8JUOpHJhwU/hK5ZyqqixCjqcZtSUzm1Yf+Q7TeYcxWYNQ/ssX6ZQsUge3XcurgKbj
-	 xbKK30inL9ke0nR3xiXhImQYdMqSCOOB05zh49ZYs/iUg1imGniY5zFVKHLZtwXgJgVY+
-	 a2xEJ1OfPI2f/7xCThPS4ryS15Gbx3i1QUDpqw25LGBWWwtJs5m7wOhEM8CoaAd4r07V2
-	 GmYp1EbyIE3oWIgojAgAhKaTPVknfD3GePIqwowbRLc7sPDcJGG8pUHXgR5MF9H7BIbeg
-	 0o4eKtvhyH/h3UXoTDIaVrJAD+RemJN1Rvy8eA0u3h4P0J3457tY4//w8WGTULnivXQ==
+	bh=e3++s3veCOvuSG66GMLIoHWuPEpo+kSr6b68ALtiz4s=;
+	b=etKyujUAz+q0XqVLfcs7/RNcQ/Yjwh1h4sAylpEQKk6nR8Upiffb7c6HHloP9vJd8U1w
+	 jBlI50nCOre7nLEzGzxX57TFcwj/F8kjYsP4gZsx2rNSsUSvVP9U1e08sStel71IUAHBE
+	 7ztnBO0IAO8FluILcxG4H40RfTenAs3p+q7T/GvPSgud9CyzIj2a5ofON7iApLo3mm/R/
+	 wpgK9kJxiQrc1Zpp30ecn47PnN48NH1uO0HC4xhVg+h7xCzZEHhOk3XFO8sFEjlmw+Pxr
+	 tNJf1uuBtQ5FT5mn2o2wN3HbqKBvYCofRMaI/KtH4donT3VuJX6kS900iGNNjENpgKw==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=L1gtGWuH;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZSatrfhB;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95E9F606A332;
-	Fri, 13 Nov 2026 21:26:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2D38606A88F;
+	Fri, 13 Nov 2026 21:26:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=L1gtGWuH
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZSatrfhB
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794605197;
-	b=a697GhvWXyWYo62oODXnwbBQOUtmrcRFi48G9JCW96l1OpieO+XnKIFXdzJ/aJBhwXh0
-	 oeFemGp5rGUMi9GzAUq7ynbOjsalS6g/k46lb8ZeijRgPs5nGRKftVYidkcXnvRd2cKsY
-	 TZ+nQI7b2+EZQY4Tq7bCdAAEWdDXhs6RhSyOjr+nDhTlTqR8q7xMbX2+ZMrMfKpIVRoGG
-	 DeiSmAOhoea4pNeMFS/37mU/wPHEkwA5w+00qf1IC8VNPs8GnVa21OcP1xsUpO7KxRwUK
-	 ZxmVWpt+IKCSaeLRlTLjw1vf5AWphf5G9uGWei+A5yeqauada5ThYrRTPpUxevV7l4w==
+	t=1794605198;
+	b=wPujZV01OzoxTQF+Mb7rklM8iSgCLNJ5ngwNtK477usfzlJNTJxepNIQRFxzJ65fFVEK
+	 B8mwjXmtIIBKqID6g292/UDZL+NvN0EtHK64FFmBtBler8cQwOEEvRLuMI6k7sDcjQlp+
+	 9+wYHz7Um+nx1mVgjmDHKqusZrL9ruBeJUEjG2tS2eXQMrsSOZNaR/6hNy4SpZC7c9LKl
+	 1Y1yEpFO11dKg0kZZb+pTi0iRV9bu4myt0pgZBYVGm/p6eNf76EkIQj5U90G9tkJjZxvA
+	 FAcmeNGMGz64gbED7mOOqK57QS04fg99gJvPX6OHqlV6HTzQ8KEQanzK8QCuOLaW93g==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794605197;
+	c=relaxed/relaxed; t=1794605198;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=E8yCXp8faGSQwgD+KEglK48bXByCKj/OR8JWpMaiRFw=;
-	b=e18Ixe42YfyNxK32sgeaciGU92dKM/AzgzLWi9SMng9lh2CpYPQEzpmuI2MIdTZRgayE
-	 ec+xuLiplkTQhJMMFlFBsHJv1NPhu6mCb4G47Uz5ZqJ1d2CKbmGLhepDWKYh6u5qC7V/T
-	 wDdAfrVJjJzTFwF594uKDbYhwnw9A1N0Po2TSI0q7twRU3TaBr088wqBmedQ9yL1nf4d4
-	 SDv96IrQDv5G5L2vYwBiwmyeMEYic0+rTMYHr16hq6ueisvIfXpyL5LKyCgd3ylhovV8O
-	 DeVL4fWxDr/MFXiGZPItpDX6DHbsmlWgZWH4RM7RRkwKrRxzBjGfbFV5Ld8H9GsxfrQ==
+	bh=e3++s3veCOvuSG66GMLIoHWuPEpo+kSr6b68ALtiz4s=;
+	b=m1XPXh/Fxj83kPv/+v+tZPogJxpBKNRXzqGxJv833dFIKnyw0b5vyqxWkILSXXTas9+4
+	 PEpdShw8W7agSaCZpAtwSlLckEkqmDXe/Bn9DcROVeCE0eUpqMMK0O14wljoJs4HMRSfp
+	 YeOlH+wV3v2UCbne1xUcAQALbWVkoaiElwkyv8/lXFi6SKgUU6kxlewQg5XVLSzMXyl+1
+	 wN0V5k7lR8XmIPONZww0D7RbMb1JNn3BCH5Fj4rQ+4idaE3xbxNXbEPlO6wIzqFn6C/g4
+	 MippUpkbDULIigBITnUji0gQm4D7srbytabHjf4bmMmsLueSTim232pssdarLuugH2Q==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 7707D1F000C6;
-	Fri, 13 Nov 2026 21:26:36 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id A38641F000CA;
+	Fri, 13 Nov 2026 21:26:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794605197;
-	bh=E8yCXp8faGSQwgD+KEglK48bXByCKj/OR8JWpMaiRFw=;
+	s=k20260515; t=1794605198;
+	bh=e3++s3veCOvuSG66GMLIoHWuPEpo+kSr6b68ALtiz4s=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=L1gtGWuHMldpnkv1B2eRqRSgMVyDyp6RKjdRYbOYqRBauBvsYdpbzzUonAeO18572
-	 EC5QuTdn0cL7c6+/RQF3txYeFEWwGb0HcvPnPKHq0CHl3A+CzlVd8VzBix8YvVm00o
-	 TKID0ahqEqnj7lA88M/nu3KNXoNyn+f/8KoVoSjcPYaU51JkVJkNSjgdRJMSK73Xmn
-	 /FV256jN942QZnT2jPEu5XMYKB36oUTKjfUm4QREMSzIprYO9h5mj5sCGIrynhqwfR
-	 6S1knQWqO7Q5kwO8Li1Y5bypWZTQQTIye3grqMNTJ8hC+OLL2XRQUNWQX+4nAshgK+
-	 SOWBjc6r1xu5g==
+	b=ZSatrfhB5vChYsYtYb6zRdq80aXdh+L0GdDQC8st85gRm7/ah2tEOEWl88JPBoQvp
+	 11JAmIshEH88oLRRM0c7ymKWlpUOS2NaPnypfvhsvigjfpGwRw83raOGSZucv3zTnM
+	 Q4qbZ5tipwLVHnoX+ydEi7457tDWjmUC+a3+IhXUGDPtfjNLI4BURol9htkfW1/iLc
+	 /7j4mX2IHrndph6fh/kRZtUH3qC8tfMqVLOB1nYTxSNdgMBE7512evLf74guB0PjOP
+	 ydfQq3BmIMCzTklypdLl6OqS/bvr9ImYVbnIT0Nf2gn6e6THcbJHxM0l1bBsist9pW
+	 aWAgVVPUs+rvA==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 039D949B16;
+	by lkml.kernel.org (Postfix) with ESMTP id 5DF2049B26;
 	Fri, 13 Nov 2026 21:26:36 +0000 (UTC)
 From: Kairui Song via B4 Relay <devnull+kasong.tencent.com@kernel.org>
-Date: Sat, 14 Nov 2026 05:26:18 +0800
-Subject: [PATCH RFC 2/8] xarray: add xas_prev_canonical()
+Date: Sat, 14 Nov 2026 05:26:22 +0800
+Subject: [PATCH RFC 6/8] mm/huge_memory: rearrange split routine handling
+ for better optimization
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -83,7 +84,7 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261114-swap-thp-split-v1-2-dfa8d4fa448d@tencent.com>
+Message-Id: <20261114-swap-thp-split-v1-6-dfa8d4fa448d@tencent.com>
 References: <20261114-swap-thp-split-v1-0-dfa8d4fa448d@tencent.com>
 In-Reply-To: <20261114-swap-thp-split-v1-0-dfa8d4fa448d@tencent.com>
 To: linux-mm@kvack.org
@@ -104,11 +105,11 @@ Cc: David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
  linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
  Kairui Song <kasong@tencent.com>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794605194; l=8119;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794605194; l=2082;
  i=kasong@tencent.com; s=kasong-sign-tencent; h=from:subject:message-id;
- bh=F1Xh8X4E0iUXFanXwmpaX6dnEVbj5dOQIdvLxxlmNoQ=;
- b=l5BlWayWK/H3mc/6q/UJE4gWzCpMxj2+G0VExlA1+S1X0md5aFyGgy37Sayjtiec9Kjgx0f8C
- etPS5lgKfU/BWase7XmBFH+du30T8Fs+gRYkvZo1+UtwN/H3Wep4hfG
+ bh=Ywh5u6CH0UvNagiKhU1WNU9qFNY87IWayR40Afi6yCI=;
+ b=5BjTzAVdQpgSdWyC+wp+tXTzTaCfmBLbicy3sBWh0+gsjfSSveiCBn0OAOViPC/pMoDHBKNFM
+ dILf8SHbE2BB1NmVgVtErkw8dzv+fl3VR5SvpYPPSoY5MiKaULg5b9m
 X-Developer-Key: i=kasong@tencent.com; a=ed25519;
  pk=kCdoBuwrYph+KrkJnrr7Sm1pwwhGDdZKcKrqiK8Y1mI=
 X-Endpoint-Received: by B4 Relay for kasong@tencent.com/kasong-sign-tencent
@@ -119,224 +120,57 @@ Content-Transfer-Encoding: 7bit
 
 From: Kairui Song <kasong@tencent.com>
 
-xas_prev() moves one index at a time, so stepping backwards into a
-multi-index entry can stop on a sibling slot. The new xas_prev_canonical()
-steps back over an entry as a whole: it leaves the state on the slot
-holding the entry and on the first index that entry covers, so
-xas_get_order() also reports its order.
+Anonymous folios never use a mapping or an xarray, so combine the is_anon
+and xas conditions into a single if/else-if chain.  The compiler cannot do
+this on its own because the xarray split calls sit between the two
+conditions and the anon mTHP stat update comes after the split helpers.
 
-A cursor already inside an entry reports it instead of stepping off.
-
-Cover it in the test suite too.
+./scripts/bloat-o-meter on mm/huge_memory.o (x86-64 KVM test config) shows
+__split_frozen_folio() shrinking from 1077 to 996 bytes.
 
 Signed-off-by: Kairui Song <kasong@tencent.com>
 ---
- include/linux/xarray.h | 49 +++++++++++++++++++++++++
- lib/test_xarray.c      | 97 ++++++++++++++++++++++++++++++++++++++++++++++++++
- lib/xarray.c           |  8 -----
- 3 files changed, 146 insertions(+), 8 deletions(-)
+ mm/huge_memory.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/include/linux/xarray.h b/include/linux/xarray.h
-index be850174e802..b76d24e7a46b 100644
---- a/include/linux/xarray.h
-+++ b/include/linux/xarray.h
-@@ -1502,6 +1502,15 @@ static inline bool xas_top(struct xa_node *node)
- 	return node <= XAS_RESTART;
- }
+diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+index 7270baa20d80..e16b93318613 100644
+--- a/mm/huge_memory.c
++++ b/mm/huge_memory.c
+@@ -3929,13 +3929,17 @@ static int __split_frozen_folio(struct folio *folio, int new_order,
+ 	for (split_order = start_order;
+ 	     split_order >= new_order;
+ 	     split_order--) {
+-		int nr_new_folios = 1UL << (old_order - split_order);
++		if (is_anon) {
++			int nr_new_folios = 1UL << (old_order - split_order);
  
-+/* Move the index either forwards (find) or backwards (sibling slot) */
-+static inline void xas_move_index(struct xa_state *xas, unsigned long offset)
-+{
-+	unsigned int shift = xas->xa_node->shift;
-+
-+	xas->xa_index &= ~XA_CHUNK_MASK << shift;
-+	xas->xa_index += offset << shift;
-+}
-+
- /**
-  * xas_reset() - Reset an XArray operation state.
-  * @xas: XArray operation state.
-@@ -1883,6 +1892,46 @@ static inline void *xas_prev(struct xa_state *xas)
- 	return xa_entry(xas->xa, node, xas->xa_offset);
- }
+-		/* order-1 anonymous folio is not supported */
+-		if (is_anon && split_order == 1)
+-			continue;
++			/* order-1 anonymous folio is not supported */
++			if (split_order == 1)
++				continue;
  
-+/**
-+ * xas_prev_canonical() - Move iterator to the previous entry, onto the slot
-+ * which stores it.
-+ * @xas: XArray operation state.
-+ *
-+ * Same as xas_prev(), but it steps back over a multi-index entry as a
-+ * whole: the state is left on the slot which stores the entry and on its
-+ * first index, so xas_get_order() reports its order.  A cursor already
-+ * inside an entry reports that entry instead of stepping off it.
-+ *
-+ * Context: Any context.  Hold the xa_lock or the RCU lock across the
-+ * whole walk; xas_pause() is forward-only.
-+ * Return: The entry at the new position, or %NULL (empty slot, error
-+ * state, or the end of the walk).  The result may be an internal entry,
-+ * which needs xas_retry().
-+ */
-+static inline void *xas_prev_canonical(struct xa_state *xas)
-+{
-+	void *entry = NULL;
-+
-+	/* step back unless @xas is already inside an entry */
-+	if (!xas_is_node(xas) ||
-+	    xas->xa_offset >= XA_CHUNK_SIZE ||
-+	    xas->xa_offset == ((xas->xa_index >> xas->xa_node->shift) &
-+			       XA_CHUNK_MASK))
-+		entry = xas_prev(xas);
-+	if (!xas_is_node(xas))
-+		return entry;
-+	if (xa_is_sibling(entry))
-+		xas->xa_offset = xa_to_sibling(entry);
-+
-+	entry = xa_entry(xas->xa, xas->xa_node, xas->xa_offset);
-+	/* a concurrent store or split can leave a sibling or a node here */
-+	if (xa_is_sibling(entry) ||
-+	    (xas->xa_node->shift && xa_is_node(entry)))
-+		return XA_RETRY_ENTRY;
-+	xas_move_index(xas, xas->xa_offset);
-+	return entry;
-+}
-+
- /**
-  * xas_next() - Move state to next index.
-  * @xas: XArray operation state.
-diff --git a/lib/test_xarray.c b/lib/test_xarray.c
-index 615f7730a5bd..ad4507982b5b 100644
---- a/lib/test_xarray.c
-+++ b/lib/test_xarray.c
-@@ -2011,6 +2011,101 @@ static noinline void check_split(struct xarray *xa)
- static void check_split(struct xarray *xa) { }
- #endif
+-		if (xas) {
++			/* Split can't fail at this point, update counters now */
++			mod_mthp_stat(old_order, MTHP_STAT_NR_ANON, -1);
++			mod_mthp_stat(split_order, MTHP_STAT_NR_ANON, nr_new_folios);
++		} else if (xas) {
+ 			/*
+ 			 * uniform split has xas_split_alloc() called before
+ 			 * irq is disabled to allocate enough memory, whereas
+@@ -3960,10 +3964,6 @@ static int __split_frozen_folio(struct folio *folio, int new_order,
+ 		pgalloc_tag_split(folio, old_order, split_order);
+ 		__split_folio_to_order(folio, old_order, split_order);
  
-+/* Only the head holds an entry, and there is no node to walk */
-+static noinline void check_prev_canonical_no_walk(struct xarray *xa)
-+{
-+	XA_STATE(xas, xa, 0);
-+
-+	xa_store(xa, 0, xa_mk_value(0x123), GFP_KERNEL);
-+	xas_lock(&xas);
-+	XA_BUG_ON(xa, xas_prev_canonical(&xas) != xa_mk_value(0x123));
-+	XA_BUG_ON(xa, xas.xa_index != 0);
-+	xas_unlock(&xas);
-+	xa_destroy(xa);
-+}
-+
-+static noinline void check_prev_canonical(struct xarray *xa)
-+{
-+	XA_STATE(xas, xa, 0);
-+	void *entry;
-+	unsigned long index;
-+
-+	/* Order 0 entries at [XA_CHUNK_SIZE / 2, XA_CHUNK_SIZE * 3 / 2 - 1] */
-+	for (index = XA_CHUNK_SIZE / 2; index < XA_CHUNK_SIZE * 3 / 2; index++)
-+		xa_store(xa, index, xa_mk_value(index), GFP_KERNEL);
-+	/* A single order 0 entry at the very end */
-+	xa_store(xa, XA_CHUNK_SIZE * 17 / 4, xa_mk_value(0xef), GFP_KERNEL);
-+
-+#ifdef CONFIG_XARRAY_MULTI
-+	/* Entry A at [XA_CHUNK_SIZE * 3 / 2, XA_CHUNK_SIZE * 2 - 1] */
-+	xa_store_order(xa, XA_CHUNK_SIZE * 3 / 2, XA_CHUNK_SHIFT - 1,
-+		       xa_mk_value(0x123), GFP_KERNEL);
-+	/* Entry B at [XA_CHUNK_SIZE * 2, XA_CHUNK_SIZE * 4 - 1] */
-+	xa_store_order(xa, 2 * XA_CHUNK_SIZE, XA_CHUNK_SHIFT + 1,
-+		       xa_mk_value(0x456), GFP_KERNEL);
-+	/* Entry C at [XA_CHUNK_SIZE * 4, XA_CHUNK_SIZE * 17 / 4 - 1] */
-+	xa_store_order(xa, 4 * XA_CHUNK_SIZE, XA_CHUNK_SHIFT - 2,
-+		       xa_mk_value(0x789), GFP_KERNEL);
-+#endif
-+
-+	xas_lock(&xas);
-+#ifdef CONFIG_XARRAY_MULTI
-+	/* A cursor inside the entry A reports it */
-+	xas_set_order(&xas, 2 * XA_CHUNK_SIZE - 1, 0);
-+	xas_load(&xas);
-+	XA_BUG_ON(xa, xas_prev_canonical(&xas) != xa_mk_value(0x123));
-+	XA_BUG_ON(xa, xas.xa_index != XA_CHUNK_SIZE * 3 / 2);
-+	XA_BUG_ON(xa, xas_get_order(&xas) != XA_CHUNK_SHIFT - 1);
-+	/* Replacing it to 0xABC: an order 0 store keeps its siblings */
-+	XA_BUG_ON(xa, xas_store(&xas, xa_mk_value(0xABC)) !=
-+		       xa_mk_value(0x123));
-+#endif
-+
-+	/* A bounded walk over the last leaf ends past its last slot */
-+	xas_set(&xas, 4 * XA_CHUNK_SIZE);
-+	xas_for_each(&xas, entry, 5 * XA_CHUNK_SIZE - 1) { }
-+	XA_BUG_ON(xa, xas.xa_offset != XA_CHUNK_SIZE);
-+	XA_BUG_ON(xa, xas_prev_canonical(&xas) != NULL);
-+	XA_BUG_ON(xa, xas.xa_index != 5 * XA_CHUNK_SIZE - 1);
-+
-+	/* Walk, and every step lands one entry back */
-+	xas_set_order(&xas, XA_CHUNK_SIZE * 17 / 4, 0);
-+
-+	/* Read back the ending order 0 entry */
-+	XA_BUG_ON(xa, xas_prev_canonical(&xas) != xa_mk_value(0xef));
-+	XA_BUG_ON(xa, xas.xa_index != XA_CHUNK_SIZE * 17 / 4);
-+	XA_BUG_ON(xa, xas_get_order(&xas) != 0);
-+
-+#ifdef CONFIG_XARRAY_MULTI
-+	/* Read entry C */
-+	XA_BUG_ON(xa, xas_prev_canonical(&xas) != xa_mk_value(0x789));
-+	XA_BUG_ON(xa, xas.xa_index != 4 * XA_CHUNK_SIZE);
-+	XA_BUG_ON(xa, xas_get_order(&xas) != XA_CHUNK_SHIFT - 2);
-+	/* Read entry B */
-+	XA_BUG_ON(xa, xas_prev_canonical(&xas) != xa_mk_value(0x456));
-+	XA_BUG_ON(xa, xas.xa_index != 2 * XA_CHUNK_SIZE);
-+	XA_BUG_ON(xa, xas_get_order(&xas) != XA_CHUNK_SHIFT + 1);
-+	/* Read entry A, holding the value stored above */
-+	XA_BUG_ON(xa, xas_prev_canonical(&xas) != xa_mk_value(0xABC));
-+	XA_BUG_ON(xa, xas.xa_index != XA_CHUNK_SIZE * 3 / 2);
-+	XA_BUG_ON(xa, xas_get_order(&xas) != XA_CHUNK_SHIFT - 1);
-+#endif
-+
-+	/* The order 0 entries, in the leaf below entry A */
-+	xas_set_order(&xas, XA_CHUNK_SIZE * 3 / 2 - 1, 0);
-+	for (index = XA_CHUNK_SIZE * 3 / 2; index > XA_CHUNK_SIZE / 2; index--) {
-+		XA_BUG_ON(xa, xas_prev_canonical(&xas) !=
-+			       xa_mk_value(index - 1));
-+		XA_BUG_ON(xa, xas_store(&xas, xa_mk_value(2)) !=
-+			       xa_mk_value(index - 1));
-+	}
-+
-+	/* The hole ends the walk */
-+	XA_BUG_ON(xa, xas_prev_canonical(&xas) != NULL);
-+	xas_unlock(&xas);
-+	xa_destroy(xa);
-+}
-+
- static void check_align_1(struct xarray *xa, char *name)
- {
- 	int i;
-@@ -2328,6 +2423,8 @@ static int xarray_checks(void)
- 	check_store_iter(&array);
- 	check_align(&xa0);
- 	check_split(&array);
-+	check_prev_canonical_no_walk(&array);
-+	check_prev_canonical(&array);
- 
- 	check_workingset(&array, 0);
- 	check_workingset(&array, 64);
-diff --git a/lib/xarray.c b/lib/xarray.c
-index 48f440d114e1..1c295b9404dc 100644
---- a/lib/xarray.c
-+++ b/lib/xarray.c
-@@ -152,14 +152,6 @@ static void xas_set_offset(struct xa_state *xas)
- 	xas->xa_offset = get_offset(xas->xa_index, xas->xa_node);
- }
- 
--/* move the index either forwards (find) or backwards (sibling slot) */
--static void xas_move_index(struct xa_state *xas, unsigned long offset)
--{
--	unsigned int shift = xas->xa_node->shift;
--	xas->xa_index &= ~XA_CHUNK_MASK << shift;
--	xas->xa_index += offset << shift;
--}
--
- static void xas_next_offset(struct xa_state *xas)
- {
- 	xas->xa_offset++;
+-		if (is_anon) {
+-			mod_mthp_stat(old_order, MTHP_STAT_NR_ANON, -1);
+-			mod_mthp_stat(split_order, MTHP_STAT_NR_ANON, nr_new_folios);
+-		}
+ 		/*
+ 		 * If uniform split, the process is complete.
+ 		 * If non-uniform, continue splitting the folio at @split_at
 
 -- 
 2.56.1
