@@ -1,69 +1,104 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794562714;
-	b=aXoDrqRT9xGU2cC237yM8Wklz4uAJkfokUOYHVuSbOYBfdfjTRV/ZdJskOlWRKovVoRe
-	 Lq1MbueWmhsCNfV6kGMB2skGV/oYGMJjkemy8SkrQtMw/y9/CIRtzZm7nWb10RFxxWe/H
-	 +L3lngc1L5Ixc+4MfIuaEEQtyqzf78AgqtUCUel13xgRE+396JAOkj2zvnQYfz8M3A3VR
-	 PWP8k6hHhNZbgLHB10/0LeikJEIqWATrHBkZBQeimCpXU0xrhQPFDC6voS3O5UetATcbh
-	 BqLl6hF2KK+cS3pQiGRbjIOtr4w/ryVFXBrze0oNiUm/HAoZTmk5mAL2rXCRnuzXolg==
+	t=1794563431;
+	b=IwJk6C+Zy9+H8PIHd5y4SBIJ0phh+uzGGSsWB7hkUg/TNYdbsfJMeZzgePd8arPaPTFt
+	 MOfNxbgDIPZF8x3C0HtgxQqBO+pHIMduBh0mk85ux24UW97+D4UyEasUCLXtsVL9Em4sc
+	 oSyC7pT53R1sD6SY4i2mOyhDFg6CiV+HravlMwe6DG7pIZhky3dCnUWwFPXLFj0rFdC99
+	 yrDphsX586L+HcvIa4NNqkxPgpCt9ZIVakgnK4xHgsMj4KwrjrCPlbd7pQcS4hTJsXBy0
+	 zQBa5mQW3AiPHiMk86xVh39Z2t5mchSnf9Jz+E2h1O0dNPV1eZ0O7wyOBJBFuhFhz6Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794562714;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Debian-User;
-	bh=8Pc1VZfIDVGJzZNtwuo8QG46Hbc/13m3DgBGkiUdd+o=;
-	b=ngNnkuWzP+fVmJA9dZVzJ0Qrp19C/0WtELAvUfR2GngU59w9hTtCxaM2O+hUC3fu/vDG
-	 MYucPeXAF9bIoAx+qtOxKIstrp+m/FF3B+p2nbA71ZucWnbMUAOBloh6nacfbzHiD9NFy
-	 dpvEvgGnjVrnumhxPHEqUopJYv6+4pPnsTo0N2dsMy4HIoTtlVPesCznZW+65yuHyiuNU
-	 P0UrcaDTW7bhdBItOCRN4zi8sHksoqf44QIeBA/iL4OuqOH+SKOVlCfPh3ZtxESM2v0U8
-	 lReck9Ra8H8oRha7w+OT+M3zoG+KfSkBWUsRxZH9+jXEkODG/GuSHzVX/PpUi3SQEQw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794563431;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Received:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:MIME-Version:X-Developer-Signature:
+	 X-Developer-Key:Content-Transfer-Encoding:X-Spamd-Result:
+	 X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:X-Spam-Score:X-Spam-Level:
+	 X-Rspamd-Queue-Id;
+	bh=+x/VYLgCoLJr18NIJjZRU3DhBViNeKWdWZfDkLyeYg0=;
+	b=WcrPspuT36ZbcLTpmc6dovyJ2/g0TKzv/lmXxND6fvc/ulmRB5x1V9WIxXIkrrOK6cwB
+	 ykWKvP0SyptO2wStRg3JK/qmySduIl3U1H3jDWUMocjCFRedwt+o7Q9HMyh2IraF5oco9
+	 5k/nOrTFmZdLGZ9n17xM0yNK5/o2dQtkR0iotVe7FZWUBsdqlbecq97gw0XWKg4MPiZcO
+	 ucGWkKydYWDttFPjv76kqyp81UfHbyVAmyVJWnanC7krfn4lCElo/Sllo676saw8kYkMc
+	 vyu9LTEsphb8E2sNJFFExZLT/hPTq8MBPE3wgCLZ60ntniF2odQs92yRq+cVsHYnF7A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=debian.org;
-	spf=pass smtp.mailfrom=debian.org;
-	dkim=pass header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=UpCRHb2K;
-	arc=none smtp.remote-ip=82.195.75.108
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+	dmarc=none header.from=suse.cz;
+	spf=pass smtp.mailfrom=suse.cz;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=C+bO4QLz;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=vPiS3x0b;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b="lO/pR8Df";
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=1Hu2fRdO;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3227606A33D;
-	Fri, 13 Nov 2026 09:38:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F3227606A33D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6DC4606A330
+	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Nov 2026 09:50:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C6DC4606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=UpCRHb2K
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=8Pc1VZfIDVGJzZNtwuo8QG46Hbc/13m3DgBGkiUdd+o=; b=UpCRHb2KbmBJPwtI+DbP0LaL8d
-	sOk0q8WFr88S3iAMSHj2p/NnbWVzQGiNdZN3nNdO1zLyJsTHzDT2AYpDsszvlBsPXovwNFHmP0hr1
-	SY9lV829yFxFIN3zvj63ln8CFFNj2wJUNMYIHBmKmY/JsW4XoVGlDKbDaDwxxN5mWJ+s4cUXlOuR/
-	42UfaRA1qiSu2ICNxybe2yLc35tfTycNpZWbHnjQ/jcxlqy6tYUcS/Bi6fkLYSwXtlLGPpV1jMI8t
-	xnhOZeXq4yQ0FVHQXpu6b4xvxJ6oAklL5bw8J+RqC+cFo9eyWVg+5AE204arB4mOGXs0IEiF0Nobe
-	Yc0NfHCw==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1xRnjp-00Eeb5-2V;
-	Fri, 13 Nov 2026 09:38:30 +0000
-Date: Fri, 13 Nov 2026 01:38:22 -0800
-From: Breno Leitao <leitao@debian.org>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Chris Mason <mason@kernel.org>, 
-	Thomas Gleixner <tglx@kernel.org>, x86@kernel.org, kexec@lists.infradead.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, 
-	linux-riscv@lists.infradead.org, loongarch@lists.linux.dev, linux-mips@vger.kernel.org, 
-	linux-sh@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	David Hildenbrand <david@kernel.org>, stable@vger.kernel.org
-Subject: Re: [PATCH RFC 3/4] crash_dump: recover from a machine check in
- copy_oldmem_page()
-Message-ID: <avbagwxWrmFrjrtV@gmail.com>
-References: <20261112-work-procfs-oldmem-v1-0-ecdcafd99265@kernel.org>
- <20261112-work-procfs-oldmem-v1-3-ecdcafd99265@kernel.org>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=C+bO4QLz;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=vPiS3x0b;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=lO/pR8Df;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=1Hu2fRdO
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id BC33A221B5;
+	Fri, 13 Nov 2026 09:50:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1794563429; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=+x/VYLgCoLJr18NIJjZRU3DhBViNeKWdWZfDkLyeYg0=;
+	b=C+bO4QLzGfTxrlHPCH2lNqSusvLaAL+aDzhxPcWIxOFPl+Eh1aZ1WF0dAr7t5FRkgVEjMF
+	ciRp1JDLb/peKCIEqnihIiJH5i0BqlN3ujGj695VEC9tVXWEP36dRGw0ICuW2B5WyAGo2N
+	JMpMCDFNFaO3D3eOuVvLQgSOe3Jtz4s=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1794563429;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=+x/VYLgCoLJr18NIJjZRU3DhBViNeKWdWZfDkLyeYg0=;
+	b=vPiS3x0bepFTXUFD8Ct7kxvgO18i1V8++GQZTs00An4HvXfj1Tt4z4BSUNGH5rPzmpfwVB
+	9jemuCgGndgOvNDw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b="lO/pR8Df";
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=1Hu2fRdO
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1794563427; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=+x/VYLgCoLJr18NIJjZRU3DhBViNeKWdWZfDkLyeYg0=;
+	b=lO/pR8DfpqaCWxCT+Us8TWpsJTyIIfHkhRYNmtirUjMt8aGxIMfENDQ45ftgd4SS9oPoQJ
+	xYWf7E+llu5tg9Cfst3gv76193QZh+Z3FnUjjV5DT64txi/6e+FZWaQKCwKJEnb5eXfpDa
+	nx9ofpl5YTiaNnb0FooPlz0XRXnxfes=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1794563427;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=+x/VYLgCoLJr18NIJjZRU3DhBViNeKWdWZfDkLyeYg0=;
+	b=1Hu2fRdOhSaXGgkG1CGQGwGt55sLoivE50XiOzAXTOCcdoDJeBlK+1n4YHvMqJ6cKfU+aC
+	X+AUNQtfwwRx2kCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 823551344A;
+	Fri, 13 Nov 2026 09:50:27 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ghNGEWPd9movWAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Fri, 13 Nov 2026 09:50:27 +0000
+Received: by quack.suse.cz (Postfix, from userid 1000)
+	id E4D9722C63; Fri, 13 Nov 2026 10:50:18 +0100 (CET)
+From: Jan Kara <jack@suse.cz>
+To: <linux-fsdevel@vger.kernel.org>
+Cc: Scott Carter <bscarter11@gmail.com>,
+	Jan Kara <jack@suse.cz>
+Subject: [PATCH] udf: fix udf_readdir() to not loop on corrupted entry
+Date: Fri, 13 Nov 2026 10:50:15 +0100
+Message-ID: <20261113095014.744206-2-jack@suse.cz>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -73,100 +108,78 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261112-work-procfs-oldmem-v1-3-ecdcafd99265@kernel.org>
-X-Debian-User: leitao
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1212; i=jack@suse.cz; h=from:subject; bh=vS6ZOrT86yPU2Cz8FdWk1JFwc0gqGLrbTrk1WSdhYJI=; b=owGbwMvMwME4Z+4qdvsUh5uMp9WSGLK+3Q2LKHJ23ZLTGp3K3nwv/zxT9un1ik/1rLa9e8p4T f+uwPyaTkZjFgZGDgZZMUWW1ZEXta/NM+raGqohAzOIlQlkCgMXpwBM5Jgf+/9KmbxUjoWTDRRn yPXcCU0Md9IoOyxkPavgo5Za2SfhukIPbbvYlUXvHrRXH9XU0u6U/Gt1m/v6K8f0L8dPWAVwhbJ LR++TS7QKXngzfI6t6trulrVW+kdun/GSXenTEjux6Vu7wqmpCWL9FgqVS7kYGgWFr+XJXiyu1Z oqJmFqeWDP8r8nTjcpiHCWSzAYcl02V9h5iVuYu7xHjVG4rPOi20QOhsmdy9cJ2S5tUigJONMaz lP9IKwqdVXqhMPHfXgOHm3y3Nm7RK5pWr7+pYx9yzP31u783OB9NPuiaHRjTXe3hndXhuCypH0b rJbt2/4wa01kjsQ9kUknfrzWYdjW8YZv/qcCx8k9W6UB
+X-Developer-Key: i=jack@suse.cz; a=openpgp; fpr=93C6099A142276A28BBE35D815BC833443038D8C
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-12.01 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_CC(0.00)[gmail.com,suse.cz];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:email,suse.cz:dkim];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_THREE(0.00)[3];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -12.01
+X-Spam-Level: 
+X-Rspamd-Queue-Id: BC33A221B5
 
-On Thu, Nov 12, 2026 at 05:37:09PM +0100, Christian Brauner wrote:
-> A capture kernel reads the memory of the crashed kernel, and that memory
-> may well have uncorrectable errors. That is after all what the first
-> kernel often died of. Every architecture that maps a page of the old
-> kernel and copies it out does so with copy_to_iter(), and a machine
-> check in that copy takes the capture kernel down.
-> 
-> On x86 a machine check in the kernel is only recovered from if the
-> instruction that took it has a machine check safe exception table entry
-> or copies from userspace (cf. error_context()). The copy of an old page
-> is neither. Its source is kernel memory, whether it goes to the buffer
-> of a read() or, since commit 4a22fd20379c ("vmcore: convert
-> __read_vmcore to use an iov_iter"), into a kernel page for splice(),
-> sendfile() and copy_file_range(). So a read of /proc/vmcore that runs
-> into a poisoned page panics the capture kernel, and so do vmcore's own
-> reads of the ELF headers and notes. Breno sees the result on a fleet:
-> the first kernel dies of a machine check and the capture kernel produces
-> no usable vmcore at all (cf. [1]).
-> 
-> On book3s64 a machine check in the kernel is recovered from if the
-> instruction that took it has an exception table entry (cf.
-> mce_common_process_ue()). The user copy has them, so a read() comes up
-> short there and read_from_oldmem() returns -EFAULT. The copies into
-> kernel pages have none and panic the same way. Other powerpc platforms
-> don't recover from a machine check in such a copy at all.
-> 
-> Copy with _copy_mc_to_iter() instead. x86_64 and PPC64 select
-> ARCH_HAS_COPY_MC, and on x86_64 and book3s64 the machine check safe copy
-> turns the machine check into a short copy, which read_from_oldmem()
-> turns into -EFAULT like any other short copy. On x86 that holds for the
-> fragile and the enhanced fast string variant, a CPU with neither gets
-> the plain copy it has today. Everywhere else _copy_mc_to_iter() is
-> _copy_to_iter(). Put the call into a helper, copy_oldmem_to_iter(), so
-> that the copy of a page of the old kernel lives in one place and an
-> architecture that gains a machine check safe copy later gets this for
-> free. The helper does the same check_copy_size() as copy_to_iter(), so
-> hardened usercopy keeps checking the copy.
-> 
-> With a v7.4-rc1 capture kernel reading /proc/vmcore and a machine check
-> injected into the copy of an old page the capture kernel is gone. A
-> machine check panic prints no trace of its own, this one comes from
-> panic_sys_info=all_bt:
-> 
-> [    0.580568] mce: [Hardware Error]: CPU 0: Machine Check Exception: 7 Bank 1: bd80000000000134
-> [    0.580574] mce: [Hardware Error]: RIP 10:<ffffffff81909b11> {_copy_to_iter+0x81/0x850}
-> [    0.580584] mce: [Hardware Error]: TSC 202f2117f ADDR 10000000 MISC 8c
-> [    0.580587] mce: [Hardware Error]: PROCESSOR 2:aa0f02 TIME 1794493617 SOCKET 0 APIC 0 microcode aa0021c
-> [    0.580589] mce: [Hardware Error]: Machine check: Uncorrected unrecoverable error in kernel context
-> [    0.580591] Kernel panic - not syncing: Fatal local machine check
-> [    0.582587] CPU: 0 UID: 0 PID: 1 Comm: init Not tainted 7.4.0-rc1-g6628e7d4c6b2 #1 PREEMPT(lazy)
-> [    0.583101] Call Trace:
-> [    0.583198]  <#MC>
-> [    0.583279]  dump_stack_lvl+0x4d/0x70
-> [    0.583419]  nmi_cpu_backtrace.cold+0x18/0x6e
-> [    0.583584]  ? __pfx_nmi_raise_cpu_backtrace+0x10/0x10
-> [    0.583772]  nmi_trigger_cpumask_backtrace+0xba/0xf0
-> [    0.583955]  sys_info+0x83/0xb0
-> [    0.584075]  vpanic+0x1b4/0x303
-> [    0.584197]  panic+0x66/0x70
-> [    0.584488]  mce_panic+0x19e/0x290
-> [    0.584799]  do_machine_check+0x627/0x9a0
-> [    0.584953]  ? _copy_to_iter+0x81/0x850
-> [    0.585099]  exc_machine_check+0x68/0xb0
-> [    0.585246]  asm_exc_machine_check+0x1e/0x40
-> [    0.587747]  </#MC>
-> [    0.587831]  <TASK>
-> [    0.588092]  ? iomem_map_sanity_check+0x98/0xb0
-> [    0.588430]  ? __ioremap_caller.isra.0+0x1a9/0x300
-> [    0.588604]  ? __copy_oldmem_page+0x3d/0xb0
-> [    0.588928]  __copy_oldmem_page+0x5e/0xb0
-> [    0.589079]  read_from_oldmem.part.0+0xe3/0x140
-> [    0.589247]  read_vmcore+0x137/0x280
-> [    0.589381]  proc_reg_read_iter+0x49/0x90
-> [    0.589533]  vfs_read+0x348/0x490
-> [    0.589666]  ksys_read+0x76/0x100
-> [    0.589792]  do_syscall_64+0xde/0x4b0
-> [    0.590103]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> 
-> With this patch the same injection ends the read() with -EFAULT, the
-> capture kernel logs the machine check and keeps running.
-> 
-> [1]: https://lore.kernel.org/all/avRXzzCSzT9Qj2FC@gmail.com/
-> 
-> Reported-by: Chris Mason <mason@kernel.org>
-> Suggested-by: Breno Leitao <leitao@debian.org>
-> Fixes: 4ae362be5093 ("[PATCH] kdump: read previous kernel's memory")
-> Fixes: 54c32021eb6f ("[PATCH] powerpc: Add arch-dependent copy_oldmem_page")
-> Fixes: 4a22fd20379c ("vmcore: convert __read_vmcore to use an iov_iter")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+When UDF directory entry is invalid, udf_fiiter_advance() will first
+update iter->pos to point to it and then report error. However
+udf_readdir() will not store iter->pos to ctx->pos in this case and
+hence next udf_readdir() call will again emit the last correct directory
+entry and fail again thus looping indefinitely. Store the current
+position in ctx->pos whenever it was determined as valid, even if the
+current entry is corrupted to ensure progress beyond the last correct
+entry.
 
-Reviewed-by: Breno Leitao <leitao@debian.org>
+Reported-by: Scott Carter <bscarter11@gmail.com>
+Link: https://lore.kernel.org/all/CA+UmNqbcPPegp=x8rsV8t3mbOsseknKo54=fsru6gb3PQjg+Dw@mail.gmail.com
+Signed-off-by: Jan Kara <jack@suse.cz>
+---
+ fs/udf/dir.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+- I plan to merge this fix through my tree
+
+diff --git a/fs/udf/dir.c b/fs/udf/dir.c
+index 425e3c162935..12869b19acfa 100644
+--- a/fs/udf/dir.c
++++ b/fs/udf/dir.c
+@@ -115,10 +115,8 @@ static int udf_readdir(struct file *file, struct dir_context *ctx)
+ 			goto out_iter;
+ 	}
+ 
+-	if (!ret) {
++	if (pos_valid)
+ 		ctx->pos = (iter.pos >> 2) + 1;
+-		pos_valid = true;
+-	}
+ out_iter:
+ 	udf_fiiter_release(&iter);
+ out:
+-- 
+2.53.0
+
