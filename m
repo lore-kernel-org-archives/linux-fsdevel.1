@@ -1,59 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=101.204.27.37
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794570852;
-	b=wGdROqicAKbBXvBT1feg4UvY7dXe9FLtoFbrtd8lDNxH2KgE45/YSJSNI6hpumty2d7E
-	 f+gmhqKsXGF2gglcfzuWml7buxWP8pVtog1R7sWgxKOSG8OvaAg10uR+3cQYs2yfbbhcd
-	 xTynbuo3mFiBHp5cqqNzWARBbzWL0w5MnFgIDi6uYOME6oHSpHQQ1dAZP+AF+/9mbWJjs
-	 /cEHLSwkh+U97h3E+0tGqdrXocjnbDq4s+mG5mH4LY/UFm3pNr2fTwlh3Owq/zciuMTGt
-	 mW+lynZyTlcgCpNivhTxn+lf1nseQUEOWc3J3+0tVH7k/8XuF7NzlxvZozZJaVIrL0Q==
+	t=1794571062;
+	b=M1PAkO6Ov5CBOGk/XQ6NSDvJM9MapwalCk5bbSKSxjXuulFZgvEt7uqOQrsscbpQzA0P
+	 gV0ggmgH36D5UiKMoMlymmkwrFZjECjgII7ytaBs9QIRve6G7jCfBMqJ9hfP4XfCHIKid
+	 zEQihR04UK8SAJrMo8nqqGb9p/jWRAARQ4IQq9ajT+xYtN+yV6JLN+HKOa9pKaYQQqQHF
+	 Lmb8IBLFmMtaTT30IBHsHTDGgQZ581664zqKVLKjbwtJl2/6hapK50vRnV9/2Pc79c7oO
+	 rFYshjS57bSSOpJJrHCnj51pHx/ZJQJhkpTDMNMm4dNwDspso6X1+1zL5rnvJolE2Sw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794570852;
-	h=DMARC-Filter:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
-	 In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 X-Debian-User;
-	bh=pbRQNC/WVjBouGeYLgSvMlHUmzi6srpGnSSFR5pP+sg=;
-	b=H2/fkXE3/rx6jiwp0TZ84bIdliN/ctjOW1ODst9QXSQrI07Oe8NAv8n1hKWH8KyhO8/m
-	 /w5nR0B7lqH3nAJngjquaXuS+AoERG3R7BqeajCEj1wfWtFZEBv7eVAHjhl4Sd0yqBtL5
-	 rdWN7sWZcJEl4p98aPe/CTk6ORzSdTPsWeaiN4MplGZ+ksd6Kdd9YQJBb1A85erAa0KKg
-	 nvCT3SxbSWn5+n4kXlOuuYbTDiYIIhrrzXN0qw3/ODP7eJupaTVf7sQ1owP4uoammxEJ2
-	 HoXJktnX6izoI0syPTlfPj3kWBV2Udo8tAFc4qMQ7RVFxZBJWMd6hQyv2oLUlkofQTg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794571062;
+	h=DMARC-Filter:Received:Received:Received:Received:From:To:CC:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 Content-Type:X-Originating-IP:X-ClientProxiedBy;
+	bh=YHpzHEdUDZ5SvCxvkjenerDSoX95H+RemwkThqVSCZg=;
+	b=GeHz1fQrcrUCjvU3l4qyZ67J50xB3Odi6FfpmhmTb5BCxyEaHD3cPnUsAshKonI362Dk
+	 89mcpmncxvqz31plg7KZa4qPxckpFZHt8vfa0//oM3jBhQL+vPz0oUu8qCKSzu6lJDK+h
+	 Y7YGR8F6lxowCGw0LqHmoVLYveBFJav8MKhJ/GDDGRoJ2in3OBzpn/E/B2oZyfZAqAPli
+	 Pq7GOAwcWf0OEW5+FPPFPkjuUOqu9wp46VB+b83HrK9OH0YbHydQtcJeQCV380J0ttZdI
+	 mZTP1hxbbU6i+boCcZqxYaMyl+W7uSMg9A4jitqWZj9FDEM2QQsOmeEeIHKrp0xXSrw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=debian.org;
-	spf=pass smtp.mailfrom=debian.org;
-	dkim=pass header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=UGTY1T68;
-	arc=none smtp.remote-ip=82.195.75.108
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59BBF606A323;
-	Fri, 13 Nov 2026 11:54:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 59BBF606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=UGTY1T68
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:In-Reply-To:References:
-	Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
-	From:Reply-To:Content-ID:Content-Description;
-	bh=pbRQNC/WVjBouGeYLgSvMlHUmzi6srpGnSSFR5pP+sg=; b=UGTY1T68C7djX9oqmTNd4tz9cJ
-	96++LtaAb2E9nxp98Hu8cbMQY00U58HX7Fo5RFNb+OopMGTEXRKQa+6QVT8D4rEqwfN6oY3cr+dJn
-	d9LAIfXHg0gIHs1kl6Y9LNs/yQm/U/5RFvp9N7/yOvUyNQHH9RX8EpckTNxIoFkY0tmFr7u9O4gxw
-	VzzI+eoOpkIzwMyyqX7Xdotp00buJzqTo2C8OQbwZ7dWG2NLCKLEFPJsc6ql25mznXoVAYqiDF4K6
-	kN66Pc+GOUDTe36kEuknPZ4yh3y9vrX/3Edydqg8K0P+oVZPtfOxzW/rWw0izN97rv8NzYYDtZJBG
-	jrdRHHag==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1xRpr7-00EjS0-24;
-	Fri, 13 Nov 2026 11:54:09 +0000
-From: Breno Leitao <leitao@debian.org>
-Date: Fri, 13 Nov 2026 03:51:46 -0800
-Subject: [PATCH RFC 3/3] fs/pipe: copy a run of anonymous buffers in one
- user access section
+	dmarc=pass header.from=hygon.cn;
+	spf=pass smtp.mailfrom=hygon.cn;
+	arc=none smtp.remote-ip=101.204.27.37
+Received: from spam01.hygon.cn (unknown [101.204.27.37])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 873CF606A32D;
+	Fri, 13 Nov 2026 11:57:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 873CF606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hygon.cn
+Received: from maildlp2.hygon.cn (unknown [127.0.0.1])
+	by spam01.hygon.cn (Postfix) with ESMTP id 4jQwjg2LbCzVcB5;
+	Fri, 13 Nov 2026 19:57:27 +0800 (CST)
+Received: from maildlp2.hygon.cn (unknown [172.23.18.61])
+	by spam01.hygon.cn (Postfix) with ESMTP id 4jQwjf25jzzVcB5;
+	Fri, 13 Nov 2026 19:57:26 +0800 (CST)
+Received: from cncheex04.Hygon.cn (unknown [172.23.18.114])
+	by maildlp2.hygon.cn (Postfix) with ESMTPS id AFA0C30004D3;
+	Fri, 13 Nov 2026 19:56:35 +0800 (CST)
+Received: from hsj-2U-Workstation.hygon.cn (172.19.24.226) by
+ cncheex04.Hygon.cn (172.23.18.114) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.36; Fri, 13 Nov 2026 19:57:24 +0800
+From: Huang Shijie <huangsj@hygon.cn>
+To: <axboe@kernel.dk>, <viro@zeniv.linux.org.uk>, <brauner@kernel.org>,
+	<jack@suse.cz>
+CC: <zhongyuan@hygon.cn>, <fangbaoshun@hygon.cn>, <yingzhiwei@hygon.cn>,
+	<agruenba@redhat.com>, <mic@digikod.net>, <gnoack@google.com>,
+	<paul@paul-moore.com>, <jmorris@namei.org>, <serge@hallyn.com>,
+	<aleksa@amutable.com>, <legion@kernel.org>, <david@kernel.org>,
+	<sandeen@redhat.com>, <ebiggers@kernel.org>, <linux-block@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+	<gfs2@lists.linux.dev>, <linux-security-module@vger.kernel.org>,
+	<sunjunchao@bytedance.com>, <shijie8@gmail.com>, Huang Shijie
+	<huangsj@hygon.cn>
+Subject: [PATCH v2 0/3] vfs: add inode iteration methods
+Date: Fri, 13 Nov 2026 19:56:59 +0800
+Message-ID: <20261113115702.586594-1-huangsj@hygon.cn>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -63,155 +65,88 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261113-pipe-pool-regression-smap-v1-3-b0dc69558ab3@debian.org>
-References: <20261113-pipe-pool-regression-smap-v1-0-b0dc69558ab3@debian.org>
-In-Reply-To: <20261113-pipe-pool-regression-smap-v1-0-b0dc69558ab3@debian.org>
-To: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- linux-block@vger.kernel.org, Breno Leitao <leitao@debian.org>, 
- kernel-team@meta.com, Mateusz Guzik <mjguzik@gmail.com>
-X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4331; i=leitao@debian.org;
- h=from:subject:message-id; bh=jgyWomR4BFoO7Iiko0cteVrZz1ICwBdTp4pqsFhxR8A=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBq9vpOprtwASD+S+AEDvCNdfixL2p7XamcAWZ12
- K9ozaNJCFmJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCavb6TgAKCRA1o5Of/Hh3
- bUslEACC3Q7BorrYuYXYpcylKDokvFOViVhUo9TTA9vNNMA5kmJIoL/fLRpjJ+V8hILWA/LZLNP
- 5zJNHteqTmxeKpXk4udKkx1ucHMBT+xlrdWjV75YAfSRE3EeMwH4JmW7LwSw7I0q9uvb/Ij0eFZ
- FBsQZkZFOPxTYStIx5IYr3ql/q3bvk3YX49omqC58c9ZoQkmotb39BguPR1pSRFN2M6k/lh2OJQ
- 5H9MsUbIOyREc8FJzbHfocnE6Zq7HB4VyTTk1s9a9bmvuomBCPp9UYBQiCPyb8wXFO31pZ1j051
- tWLqYRm0iNsO5myN4gCaj6iPJBsDUo8qTT03VykL3epXNcpGBsuH1rj43WQuktmYAVZBCUdsXRX
- YK8WM2qHkZsaaMucCs5LEZjyWwO1DiM6E3I+fA++YBK2B9sL9K0qxZtEr2ZjK5zJzuXJF1e71N4
- aRUyLyx8H4/OaiETwdDyiX2hVJIMTCZ4110FAd2SE3dx4RU9VIel1Te84DxIyCzyiqMtHIGqQFG
- zGxb2P4urDKGYlLYy8IkQ/WQT4XCHAZwCFfwrzivCee3Dpca/eILcmWcnklc6ABDADC7nyuDvKX
- nr5ihai+oFcRwtHcl7IZHdTzfEhZIWaBlDk1euXGtyVl+XGfBWdXnoT0p1i6/4NQ+04qTP10wdR
- HRVnx2kaTnlBElA==
-X-Developer-Key: i=leitao@debian.org; a=openpgp;
- fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
-X-Debian-User: leitao
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: cncheex05.Hygon.cn (172.23.18.115) To cncheex04.Hygon.cn
+ (172.23.18.114)
 
-anon_pipe_read() copies one pipe_buffer per copy_page_to_iter() call.
-On x86 every call opens and closes its own user access section, so a
-64 KiB read that drains a full default pipe executes 16 STAC/CLAC pairs.
+This series adds two superblock inode iteration helpers:
+super_iter_inodes()/super_iter_inodes_unsafe(), and converts the open-coded
+sb->s_inodes walks in the VFS to it. The design is based on Dave Chinner's
+patch set:
+  "vfs: improving inode cache iteration scalability"
+  https://lore.kernel.org/all/20241002014017.3801899-1-david@fromorbit.com/
 
-Hand up to PIPE_DEF_BUFFERS consecutive anonymous buffers that the read
-consumes whole to copy_bvecs_to_iter_full(), then release them. That
-includes buffers that splice() or tee() took from another pipe, which
-keep anon_pipe_buf_ops.
+About the two helpers:  
+  int super_iter_inodes(struct super_block *sb,
+                        struct inode_iter_context *ctx);
 
-A last buffer that the read takes only part of, packet buffers, and
-buffers with other pipe_buf_operations, such as watch queue notes, page
-cache pages and vmsplice()d pages, keep the buffer by buffer loop.
+  int super_iter_inodes_unsafe(struct super_block *sb,
+                               struct inode_iter_context *ctx);
 
-A fault inside the batch consumes nothing and leaves the buffers to the
-existing loop, so short reads and -EFAULT behave as before. An injected
-usercopy fault takes the same way out.
+  - super_iter_inodes() runs @ctx->iter_fn() with a referenced inode
+    and with sb->s_inode_list_lock dropped, so the callback is free to
+    block and to do whatever it wants with the inode except drop the
+    reference the iterator holds.  
+    It is exported because GFS2 can be built as a module.
 
-What this buys depends on what SMAP costs the CPU. With the buffer by
-buffer loop, booting with clearcpuid=smap speeds pipe_bench up by 4-14%
-on a Sapphire Rapids Xeon Gold 6450C.
+  - super_iter_inodes_unsafe() keeps sb->s_inode_list_lock and
+    rcu_read_lock() held for the whole walk and takes no inode
+    references at all.  Its callback therefore only has an existence
+    guarantee: it must not block and must do its own inode state
+    checks and its own reference handling.  
+    It is internal to the VFS, being declared in fs/internal.h.
 
-pipe_bench from the pipe selftests runs 1, 2 or 5 writers against 1, 5
-or 10 readers on one 1 MiB pipe, with 64 KiB writes and reads.
+  - %INO_ITER_F_REFERENCED additionally restricts the safe iterator to
+    inodes that still have a reference.  This preserves the "only
+    handle referenced inodes" rule of landlock's sb-delete walk.
 
-The numbers below come from an earlier version of this patch, which did
-the copies in fs/pipe.c and left runs of a single buffer to the old
-loop. Throughput change, median of 2 boots x 5 runs, SMAP on:
+  - @ctx->prev is the resume point of the unsafe iterator: a caller
+    which has to drop the list lock in the middle of a walk stores the
+    inode to continue from, and the next call starts after that inode
+    instead of at the head.
 
-  writers  readers  Sapphire Rapids
-        1        1           +5.2%
-        1        5           +9.7%
-        1       10           +8.7%
-        2        1          +15.3%
-        2        5           +8.4%
-        2       10           +8.6%
-        5        1          +11.9%
-        5        5           +9.8%
-        5       10           +8.0%
+   Patch 1 adds the two iterators.
 
-Suggested-by: Mateusz Guzik <mjguzik@gmail.com>
-Link: https://lore.kernel.org/all/CAGudoHF3de_55YvdztPs7QiYs25u6nPEV=uMOzfr=bWmwof69g@mail.gmail.com/
-Signed-off-by: Breno Leitao <leitao@debian.org>
----
- fs/pipe.c | 44 +++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 43 insertions(+), 1 deletion(-)
+   Patch 2 converts the callers that cannot use referenced inodes
+           (dquot removal, inode eviction, nr_blockdev_pages() and the
+           generic_shutdown_super() poisoning loop) to
+           super_iter_inodes_unsafe().
 
-diff --git a/fs/pipe.c b/fs/pipe.c
-index 29ae6c4a6c642c..a0d4c8b2f685bb 100644
---- a/fs/pipe.c
-+++ b/fs/pipe.c
-@@ -297,6 +297,40 @@ static inline unsigned int pipe_update_tail(struct pipe_inode_info *pipe,
- 	return tail;
- }
- 
-+/*
-+ * Read the anonymous buffers at @tail that the read consumes whole with one
-+ * copy_bvecs_to_iter_full() call, which can copy them to a user buffer in one
-+ * user access section. Returns the bytes read, or 0 to go buffer by buffer.
-+ */
-+static size_t anon_pipe_read_batch(struct pipe_inode_info *pipe,
-+				   struct iov_iter *to, size_t total_len,
-+				   unsigned int head, unsigned int *tailp,
-+				   bool *wake_writer)
-+{
-+	struct bio_vec bv[PIPE_DEF_BUFFERS];
-+	unsigned int tail = *tailp, n;
-+	size_t len = 0;
-+
-+	for (n = 0; n < PIPE_DEF_BUFFERS && !pipe_empty(head, tail + n); n++) {
-+		struct pipe_buffer *buf = pipe_buf(pipe, tail + n);
-+
-+		if (buf->ops != &anon_pipe_buf_ops ||
-+		    (buf->flags & PIPE_BUF_FLAG_PACKET) ||
-+		    buf->len > total_len - len)
-+			break;
-+		bvec_set_page(&bv[n], buf->page, buf->len, buf->offset);
-+		len += buf->len;
-+	}
-+	if (!n || !copy_bvecs_to_iter_full(bv, n, to))
-+		return 0;
-+
-+	*wake_writer |= pipe_full(head, tail, pipe->max_usage);
-+	while (n--)
-+		tail = pipe_update_tail(pipe, pipe_buf(pipe, tail), tail);
-+	*tailp = tail;
-+	return len;
-+}
-+
- static ssize_t
- anon_pipe_read(struct kiocb *iocb, struct iov_iter *to)
- {
-@@ -304,7 +338,7 @@ anon_pipe_read(struct kiocb *iocb, struct iov_iter *to)
- 	struct file *filp = iocb->ki_filp;
- 	struct pipe_inode_info *pipe = filp->private_data;
- 	bool wake_writer = false, wake_next_reader = false;
--	ssize_t ret;
-+	ssize_t ret, batched;
- 
- 	/* Null read succeeds. */
- 	if (unlikely(total_len == 0))
-@@ -350,6 +384,14 @@ anon_pipe_read(struct kiocb *iocb, struct iov_iter *to)
- 		}
- #endif
- 
-+		batched = anon_pipe_read_batch(pipe, to, total_len, head,
-+					       &tail, &wake_writer);
-+		if (batched) {
-+			ret += batched;
-+			total_len -= batched;
-+			if (!total_len)
-+				break;	/* common path: read succeeded */
-+		}
- 		if (!pipe_empty(head, tail)) {
- 			struct pipe_buffer *buf = pipe_buf(pipe, tail);
- 			size_t chars = buf->len;
+   Patch 3 converts the remaining callers (sync_bdevs,
+           drop_pagecache_sb, gfs2_kill_sb, add_dquot_ref and
+           landlock's hook_sb_delete).
+
+
+BTW:
+  This patch set depends a small patch:
+  "fs/drop_caches: skip filesystems without fs writeback"
+  https://lkml.org/lkml/2026/9/23/675
+
+v1-->v2:
+   -split the super_iter_inodes_unsafe from super_iter_inodes.
+   -add ->eligible() before calling the __iget().
+   -others
+   
+   v1: https://lore.kernel.org/all/20261015093854.2082600-1-huangsj@hygon.cn/
+
+Huang Shijie (3):
+  vfs: add inode iteration methods
+  vfs: convert inode iterators to super_iter_inodes_unsafe()
+  vfs: convert sb->s_inodes iteration to super_iter_inodes()
+
+ block/bdev.c                   | 111 ++++++++++++------------
+ fs/drop_caches.c               |  49 +++++------
+ fs/gfs2/ops_fstype.c           |  33 +++----
+ fs/inode.c                     |  83 ++++++++++--------
+ fs/internal.h                  |  34 ++++++++
+ fs/quota/dquot.c               | 149 +++++++++++++++++---------------
+ fs/super.c                     |  88 +++++++++++++++++--
+ include/linux/fs/super_types.h |  25 ++++++
+ security/landlock/fs.c         | 153 +++++++++++++--------------------
+ 9 files changed, 413 insertions(+), 312 deletions(-)
 
 -- 
-2.53.1-Meta
+2.53.0
+
 
