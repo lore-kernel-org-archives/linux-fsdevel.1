@@ -1,107 +1,107 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794567319;
-	b=HMZWKhz1hFsOOn1d80xECJvyylAVE0nsKKVQO8kIaNFkEz2mQ1tIsmjZ4sibpFelbgyO
-	 6uW6xGYSYmFVgaL93ZlV5UdkFIKG5gBaO4WtPTzg43bsHLBzTIBX/X++SSeBkRkanZptV
-	 to0Owblewmf2m1vpR285wZOh24HToD2aIEmpHGHYyk8LhQwciLZ1XtY7phQRQQskZP/iw
-	 3UJhVVNpGk7Tqa3NIC3LZppCU4l0WqvQSVh2vLRf/ERT1X1nNeY8f2jQsA2ukgyt93yKa
-	 bndxrWL1kcRzOu2LhyOa10pnE/6RB5KFWIrZGF4O98QlkqR9tOTZVgD/RClpQ8W/InQ==
+	t=1794569176;
+	b=zTY9rInRRxzbcU4sYKenKVvn5IMrdnweHTm+JnvQHAkekolivP8PVtF4UZTJx+9vxdMM
+	 TooEpZvpUg0yxpNbXRqk7H1sfPIwzngx1ohSsfi8mmvqh/PXp5KbuxMsLFNTHjwePBtJn
+	 mgWUNSnYY3wJM6+GIciico8kD0fsmm6LdRJdR5OBaAZozLIgPqOuECV6y4YTmrODEVHtL
+	 ax4AM185dMYupUnl/cKR1PMzk2XoIZd0iISwXuzyAfTZ3K1cwbUQtQmfkjIewYmn490CV
+	 PgGva7NS0Uv9dVE2bsX19ICb2LIOlCMJfgwL9g2h9jk5n12kUdf64LNCfchWQNW+LDA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794567319;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794569176;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
 	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
-	bh=oBrh96JneCB85QRwSH0ue44D5aaTmYW0dbY0hlT+9E0=;
-	b=Gc6cTQ8s4+2TUCw39pWVDjvGhmRtJhrHoujg3SLhURKvLsb7lRio5us4kE0McFF7ZLT7
-	 wP/ZnEad5QnVkHTHHT6OF02sqNN1TMvHlWbm53DqPbfJLPG0uVlU4z2JlFCY5dtY/9hYk
-	 gnYJHn01PN8xXg0xIqB6ymoLZm2H9vNhS9R+dRy2EmBA+YR0HGp43FUJ4FqV2OnztL43i
-	 hRacdrYoki8os1c2FhPPbmOqRDkGiA1AeR3/GvncAiIUMjQdbEeEby6aumiuRwR3420NM
-	 I1jx3rg6qdpviyVidik3C66+isaDqeQOhmpFdPAGAIfGiriLpc9Bct4vkzqI3ZkQeIw==
+	 In-Reply-To:X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
+	bh=4x8nFWCpdcxb4NpnUFWgKTMy110gq5tD1D2+ep/FdgM=;
+	b=GjJfTEKIuHzMyHGdxW122DmGMjD8iTugC3yOUTZAPhBuPbSMROTCPHczcDqF0ibljVte
+	 0QlGFrbgP2PscqDhkRbX10OVG5mKwS0uiHkb0aVUumPgvCADBIXsxgnTuaaYSHuNcKQf+
+	 77JchoUinHAeh+WDGyp1HAUtBtqTGnEsBSf6b6SYKTQA74miGarNgu6PDyThYVNVnwmDy
+	 6GGpZ4VsKPZO2nbauuHTfyZIHSDC9E/mSbcTF86Un2i6craKAlIuBTljvAPj5ZOfKHt8/
+	 KBjCs1rkYI811XCLwgz4bXISdiRRy4a91N3h+PHY+y8XuSzYlTPJUHff1sCXC3sjTiQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=suse.cz;
 	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=umgMFbRV;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="TlBq/+CO";
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=umgMFbRV;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="TlBq/+CO";
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b="iDajg/Er";
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=CBoZeyLQ;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b="iDajg/Er";
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=CBoZeyLQ;
 	arc=none smtp.remote-ip=195.135.223.131
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1028F606BDAF;
-	Fri, 13 Nov 2026 10:55:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1028F606BDAF
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5712C606A321;
+	Fri, 13 Nov 2026 11:26:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5712C606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=umgMFbRV;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=TlBq/+CO;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=umgMFbRV;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=TlBq/+CO
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=iDajg/Er;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=CBoZeyLQ;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=iDajg/Er;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=CBoZeyLQ
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0F3351F88E;
-	Fri, 13 Nov 2026 10:55:17 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 714071F76B;
+	Fri, 13 Nov 2026 11:26:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794567317; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1794569174; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=oBrh96JneCB85QRwSH0ue44D5aaTmYW0dbY0hlT+9E0=;
-	b=umgMFbRVOQPm7ehXwpvWXZpEFAs863cWC/2ZQwGrgu0F7Vcaar4nmsQ5kvPZk7l7K5rw/A
-	yRxIm/BZccK4dRlCtO565LhfAab2lGF0Y4kvjIQ66bDesY1sioh5A3u0Bd9Z5X5mUzTXMu
-	fDm/Ha4bbSr8PEme402AnjzFpzuBHB0=
+	bh=4x8nFWCpdcxb4NpnUFWgKTMy110gq5tD1D2+ep/FdgM=;
+	b=iDajg/Ermjj/jmrnAiLhe05hC+gvgRafrJTvokoMfsoiabU0wr3lRLf5i9oEtU/Vk/fMk5
+	BLrck70s9oishGkIlDzWJmNUZdh8a6ZwblF3Y6+ij6bzMkhDQho/uUxdBJvQDeseNREfBC
+	cXzlOFfrE8Mnftxr/VNMkjdRs570He8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794567317;
+	s=susede2_ed25519; t=1794569174;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=oBrh96JneCB85QRwSH0ue44D5aaTmYW0dbY0hlT+9E0=;
-	b=TlBq/+COzaMY0uiXRfDSQGdNPyu/YjLzQKM37Jd2LmZKy0L85wS+kQxNPWDodjKFJhXiOE
-	+XLddAk3tkl9C0Cw==
+	bh=4x8nFWCpdcxb4NpnUFWgKTMy110gq5tD1D2+ep/FdgM=;
+	b=CBoZeyLQqbD8/JtPqJ6i1lqu0QaDC5GCc9Vcdoj/CMihrXuTV9s/gURR4YVY4yz2FHZmlp
+	oDL14eW6LMWcqhBg==
 Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794567317; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1794569174; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=oBrh96JneCB85QRwSH0ue44D5aaTmYW0dbY0hlT+9E0=;
-	b=umgMFbRVOQPm7ehXwpvWXZpEFAs863cWC/2ZQwGrgu0F7Vcaar4nmsQ5kvPZk7l7K5rw/A
-	yRxIm/BZccK4dRlCtO565LhfAab2lGF0Y4kvjIQ66bDesY1sioh5A3u0Bd9Z5X5mUzTXMu
-	fDm/Ha4bbSr8PEme402AnjzFpzuBHB0=
+	bh=4x8nFWCpdcxb4NpnUFWgKTMy110gq5tD1D2+ep/FdgM=;
+	b=iDajg/Ermjj/jmrnAiLhe05hC+gvgRafrJTvokoMfsoiabU0wr3lRLf5i9oEtU/Vk/fMk5
+	BLrck70s9oishGkIlDzWJmNUZdh8a6ZwblF3Y6+ij6bzMkhDQho/uUxdBJvQDeseNREfBC
+	cXzlOFfrE8Mnftxr/VNMkjdRs570He8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794567317;
+	s=susede2_ed25519; t=1794569174;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=oBrh96JneCB85QRwSH0ue44D5aaTmYW0dbY0hlT+9E0=;
-	b=TlBq/+COzaMY0uiXRfDSQGdNPyu/YjLzQKM37Jd2LmZKy0L85wS+kQxNPWDodjKFJhXiOE
-	+XLddAk3tkl9C0Cw==
+	bh=4x8nFWCpdcxb4NpnUFWgKTMy110gq5tD1D2+ep/FdgM=;
+	b=CBoZeyLQqbD8/JtPqJ6i1lqu0QaDC5GCc9Vcdoj/CMihrXuTV9s/gURR4YVY4yz2FHZmlp
+	oDL14eW6LMWcqhBg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DA095134C3;
-	Fri, 13 Nov 2026 10:55:16 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 416461344A;
+	Fri, 13 Nov 2026 11:26:14 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id SbO5K5Ts9mpIHQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Fri, 13 Nov 2026 10:55:16 +0000
+	id 0GgxB9bz9mpqPQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Fri, 13 Nov 2026 11:26:14 +0000
 Received: by quack.suse.cz (Postfix, from userid 1000)
-	id 67FD522C8E; Fri, 13 Nov 2026 11:55:08 +0100 (CET)
-Date: Fri, 13 Nov 2026 11:55:08 +0100
+	id BD11C22CA0; Fri, 13 Nov 2026 12:26:13 +0100 (CET)
+Date: Fri, 13 Nov 2026 12:26:13 +0100
 From: Jan Kara <jack@suse.cz>
-To: Gopal Malaviya <gopalmalaviya53@gmail.com>
-Cc: akpm@linux-foundation.org, willy@infradead.org, jack@suse.cz, 
-	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	p.raghav@samsung.com
-Subject: Re: [PATCH] mm/readahead: don't skip the fallback after aligning
- index down
-Message-ID: <ks3uy5pvacectdtlbqnz2bmchocfw2atkx6cvvfrjxsx47i4qe@rhnp4qu3ayhs>
-References: <20261113072711.235264-1-gopalmalaviya53@gmail.com>
+To: Mikhail Dmitrichenko <mdmitrichenko@astralinux.ru>
+Cc: Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	Xiang Mei <xmei5@asu.edu>, linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
+	lvc-project@linuxtesting.org
+Subject: Re: [PATCH] isofs: limit empty zisofs blocks to their uncompressed
+ size
+Message-ID: <it7eawzslh3dw6podnkacs47lwghp5iidovj3kbwjago6wnsra@vgr56wuuifw4>
+References: <20261112143541.269-1-mdmitrichenko@astralinux.ru>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -113,9 +113,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261113072711.235264-1-gopalmalaviya53@gmail.com>
-X-Spam-Flag: NO
-X-Spam-Level: 
+In-Reply-To: <20261112143541.269-1-mdmitrichenko@astralinux.ru>
 X-Spamd-Result: default: False [-12.80 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
@@ -124,107 +122,88 @@ X-Spamd-Result: default: False [-12.80 / 50.00];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
+	URIBL_BLOCKED(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,sashiko.dev:url,astralinux.ru:email];
 	RCVD_COUNT_THREE(0.00)[3];
 	TO_DN_SOME(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sashiko.dev:url,imap1.dmz-prg2.suse.org:helo,suse.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,sashiko.dev:url]
 X-Spam-Score: -12.80
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-On Fri 13-11-26 07:27:11, Gopal Malaviya wrote:
-> page_cache_ra_order() rounds the start of the readahead window down to
-> the minimum folio size of the mapping, so on a file system with blocks
-> larger than the page size, index can end up below start. If adding the
-> first folio then fails, for example with -EEXIST because that folio is
-> already cached, the loop stops with index still below start, and the
-> check before the fallback
+On Thu 12-11-26 17:35:40, Mikhail Dmitrichenko wrote:
+> When a zisofs block is smaller than a page, the empty-block path in
+> zisofs_uncompress_block() zeroes the rest of the page and returns that
+> length. zisofs_fill_pages() then advances past the page without reading
+> the remaining blocks, returning zeros instead of their contents.
 > 
-> 	if (ra->size > index - start)
+> For example, with 64 KiB pages and 32 KiB zisofs blocks, an empty first
+> block should zero only the first half of the page. Instead, it zeroes
+> the entire page and returns 64 KiB, so the second block is never read.
 > 
-> wraps around, so do_page_cache_ra() is not called and nothing of the
-> window is read.
+> Commit 68d4d3e78150 ("isofs: fix out-of-bounds page array access on empty
+> zisofs block") accounted for poffset but left this older problem in
+> place. It was pointed out by Sashiko while reviewing a 5.10 backport.
 > 
-> For example, with read_ahead_kb 128 and 16 KiB blocks, the mmap
-> read-around window for a fault on page 1042 starts at page 1026, index
-> becomes 1024, and if pages 1024-1027 are cached, pages 1028-1057 are
-> not read ahead.
+> Limit the zeroed range and returned length to one uncompressed block
+> and the available output space. Only mark a folio uptodate when the
+> range reaches its end. zisofs_fill_pages() already zeroes the tail and
+> marks the partially filled folio uptodate at EOF.
 > 
-> Compare with the end of the window instead. Where index is not below
-> start, this is the same check and the same number of pages as before.
-> 
-> Tested in a KVM guest (x86_64, 2 vCPUs, 3 GiB) on mm-hotfixes-unstable,
-> with XFS with 16 KiB blocks and with ext4 on virtio-blk, read_ahead_kb
-> 128. A test caches page 1026 of a file with pread() on a
-> POSIX_FADV_RANDOM descriptor, then faults page 1042 through a mapping,
-> and counts the cached pages of the window [1026, 1058) with mincore():
-> 
->                                        before   after
->   XFS, 16 KiB blocks                      6       32
->   XFS, 16 KiB blocks, nothing cached     32       32
->   ext4                                   32       32
-> 
-> Tracing shows the fallback now running after the -EEXIST, as
-> page_cache_ra_unbounded with index=1024 and nr_to_read=34.
-> 
-> Touching 1% of the pages of a cold 20 GiB file on XFS with 16 KiB
-> blocks, at random, at a stride of 2053 pages, or as random runs of 2
-> or 4 adjacent pages, reads the same amount before and after, within
-> 5% over two runs each, at read_ahead_kb 128 and 8192.
-> 
-> Not tested: other block sizes, other file systems with large blocks,
-> and other architectures (built for i386 only).
-> 
-> The problem was pointed out by the Sashiko AI review of an unrelated
-> patch [1]. An AI assistant (Claude) helped with the analysis and the
-> test, and drafted this changelog. I reviewed, implemented, built and
-> tested the change.
-> 
-> [1] https://sashiko.dev/#/bug/linux-da6e8836-f808-4b39-9f04-de52995a0162
-> 
-> Fixes: d5ea5e5e50df ("readahead: properly shorten readahead when falling back to do_page_cache_ra()")
-> Signed-off-by: Gopal Malaviya <gopalmalaviya53@gmail.com>
+> Fixes: 59bc055211b8 ("zisofs: Implement reading of compressed files when PAGE_CACHE_SIZE > compress block size")
+> Cc: stable@vger.kernel.org
+> Link: https://sashiko.dev/#/patchset/20261105083209.922-1-mdmitrichenko%40astralinux.ru
+> Signed-off-by: Mikhail Dmitrichenko <mdmitrichenko@astralinux.ru>
 
-Looks good. Feel free to add:
-
-Reviewed-by: Jan Kara <jack@suse.cz>
+Thanks. I've added this to my tree.
 
 								Honza
 
 > ---
->  mm/readahead.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
+>  fs/isofs/compress.c | 16 ++++++++++++----
+>  1 file changed, 12 insertions(+), 4 deletions(-)
 > 
-> diff --git a/mm/readahead.c b/mm/readahead.c
-> index 6e55632902..afcde18316 100644
-> --- a/mm/readahead.c
-> +++ b/mm/readahead.c
-> @@ -552,10 +552,12 @@ void page_cache_ra_order(struct readahead_control *ractl,
->  fallback:
->  	/*
->  	 * ->readahead() may have updated readahead window size so we have to
-> -	 * check there's still something to read.
-> +	 * check there's still something to read. Compare with the end of the
-> +	 * window, as index may have been rounded down below start to the
-> +	 * minimum folio size.
->  	 */
-> -	if (ra->size > index - start)
-> -		do_page_cache_ra(ractl, ra->size - (index - start),
-> +	if (index < start + ra->size)
-> +		do_page_cache_ra(ractl, start + ra->size - index,
->  				 ra->async_size);
->  }
+> diff --git a/fs/isofs/compress.c b/fs/isofs/compress.c
+> index 2d23abaeb874..c471007a76ed 100644
+> --- a/fs/isofs/compress.c
+> +++ b/fs/isofs/compress.c
+> @@ -64,16 +64,24 @@ static loff_t zisofs_uncompress_block(struct inode *inode, loff_t block_start,
+>  	}
+>  	/* Empty block? */
+>  	if (block_size == 0) {
+> -		for ( i = 0 ; i < pcount ; i++ ) {
+> +		unsigned int bytes = min_t(loff_t, 1U << zisofs_block_shift,
+> +					  (((loff_t)pcount) << PAGE_SHIFT) - poffset);
+> +		unsigned int remaining = bytes;
+> +
+> +		for (i = 0; i < pcount; i++) {
+>  			unsigned int off = i ? 0 : poffset;
+> +			unsigned int len = min_t(unsigned int, remaining,
+> +						 PAGE_SIZE - off);
+>  			struct folio *folio = folios[i];
 >  
-> 
-> base-commit: 76f5384740b2fd9ee5d71da9d49b271d37c5a51b
+> +			remaining -= len;
+>  			if (!folio)
+>  				continue;
+> -			folio_zero_range(folio, off, folio_size(folio) - off);
+> -			folio_mark_uptodate(folio);
+> +			folio_zero_range(folio, off, len);
+> +			if (off + len == folio_size(folio))
+> +				folio_mark_uptodate(folio);
+>  		}
+> -		return (((loff_t)pcount) << PAGE_SHIFT) - poffset;
+> +		return bytes;
+>  	}
+>  
+>  	/* Because zlib is not thread-safe, do all the I/O at the top. */
 > -- 
 > 2.43.0
 > 
