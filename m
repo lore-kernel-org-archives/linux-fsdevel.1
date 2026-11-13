@@ -1,81 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=210.171.160.6
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.47
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794542004;
-	b=4fiauxfg49Y+joaC4nQypmZYzm4wlr+bDbwgvFEgmowUGLPmlPf9J7pbv2CeGNoBMbhC
-	 lAbbDA9EtG6ygLhgt9ivHTmHTi30xfNpo6fH9Gqx3rwsSgbr/yqEoXsHpazDtWFKhzhsf
-	 x4nEC/l45I1qLKsveydLLYmNxGrlhnZAbyW6T55BRu/nj1GwiF5Y9DkeQlaqKxUC2ZRor
-	 kgRs9/fUT6c/8jQpnL0sz0q6bbYNVLN/IQIOJImzl9k6MhxRIntWev6CKGoDYn02rXBcd
-	 SwVSxfLc+Bz8pZk3MSnJUnhT85UOGw8IAuPpzT5ClztaxHqYmZsFuqsjfBFXwR351JA==
+	t=1794543932;
+	b=nyHGROlQKpzw8/igPP0CkQZNEh1ByGbr+4YMYuMyPYBda2vSvym0g+Mjagn8DFbD4A36
+	 qUGwb0NhQ2mGzj/224wz6OfpjbTKHTcNgzZdE4x27SCZyaFd07tF29I4xnQPensYpuqPK
+	 SkdpJdjj2w7Oit7RJwtpnZVpbu42VfghGzZIKf1ufsD+qpHh5JvCYjq4CNVNfOh12HJDl
+	 zBX7tvAyTOVFQ6W+I0ZMzcebbFDvtFmAKmG4l1YZlffd9IQ3rEZVJyU86Zr97L4yy87zC
+	 Uo7m/e/Ivx4yvDPL3glHWRZLYqIHaBLSpIxmyn4i8SJkO0RdhEvLbs3NKbbbPpFNlyQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794542004;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:Received:
-	 Received:From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 User-Agent:MIME-Version:Content-Type;
-	bh=WOL1Pzs+vLk1dTn0v2qm2WPGTBXeQlLGRYfNPm6pFlo=;
-	b=BfQuUkw28vg39tUphWT4FYq/9L0En/hHKMCanT5+vhk3pslklKtgAcf6VT/5yTiuEPl8
-	 F3V0lgVWw1/gRL95FNfFzh5AsuBt4CUQnBbV6yzOxLhr0yZg5GZ99u56ynzWXczxMdDk6
-	 OiOCaZ6t1RQK760SfFSW1Csxpoj3e2QztlfQDZLKs7AWNlr9KTwVdXQNb5cfG5EV9anSd
-	 oCCoq4ZGAJa4KK+out5lFNTi4Rjuuf3Alf6Bg/OPbTwBN4hyMevbIxbU7qljv/duaue9G
-	 ZL8AXv0NvdEh3g7A8VoC9vkVjDJ66YiFjumtJIfuCIxL08HAjj6alA8rEsFifXMEndw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794543932;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
+	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer;
+	bh=IkIvwF8HYTYAvXNQ1Vf3vJhW/UWoUX7BTMENFsGTE9A=;
+	b=aJuXzKKZAHCiwTcn+pvTSrtjqN5Y2UFeOc5T6AWqwVQ8jDqVdVpjrFUdZlw5qj0x4Irt
+	 y4ELLJFAdtj4wOH9AvwGrAvEbYjm7cmlJ3F2CcSyzxF4aQoZqvYUalRdag8aK69nZYpVq
+	 KukKIXIQbr4Mw73lCD7RAhoaAitHWhTaeuXFM5OPoKp6PasHKwmJhKKjuHTDZvMQSLeTu
+	 7qxSJypcgCprD1Xf0FKuwzrknTfXWAHkv3Eg5qvtdDyZzBcjhL8vBHvbuf+of2CKO1PZv
+	 963wnmhGyZkTZorDZqReZJs87ck4EMBM9+2kCL3NBNf6K/JYcnsktU7kwpue+dXz8pg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mail.parknet.co.jp;
-	spf=pass smtp.mailfrom=parknet.co.jp;
-	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=rsa-sha256 header.s=20250114 header.b=Zj7U1TY4;
-	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=ed25519-sha256 header.s=20250114-ed25519 header.b=EX7627Bj;
-	arc=none smtp.remote-ip=210.171.160.6
-Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=none header.from=gourry.net;
+	spf=pass smtp.mailfrom=gourry.net;
+	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=B1OG4Hxl;
+	arc=none smtp.remote-ip=209.85.219.47
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62F70606A31C;
-	Fri, 13 Nov 2026 03:53:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 62F70606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.parknet.co.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parknet.co.jp
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2334606A31C
+	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Nov 2026 04:25:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F2334606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=parknet.co.jp header.i=@parknet.co.jp header.a=rsa-sha256 header.s=20250114 header.b=Zj7U1TY4;
-	dkim=pass header.d=parknet.co.jp header.i=@parknet.co.jp header.a=ed25519-sha256 header.s=20250114-ed25519 header.b=EX7627Bj
-Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
-	by mail.parknet.co.jp (Postfix) with ESMTPSA id E6C9120BD282;
-	Fri, 13 Nov 2026 12:53:20 +0900 (JST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114; t=1794542001;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WOL1Pzs+vLk1dTn0v2qm2WPGTBXeQlLGRYfNPm6pFlo=;
-	b=Zj7U1TY4mcGtqkcsA0dYLXeO3Utxj8CpUyvyaOWTpj0MBnWD9ehYntofMvk6BeigSK9keN
-	3Z8wnhnZEyW23oWlDXhT7hbieYa1EuDjPKCPFuh/tV3LK6E/2RCmdE0iAR8+px7s67niPi
-	DCF6/DMYOEWX6VH8g0X7zPj1U3nyJa9RFBUNFOpC6mn5js3iOv5ArRqHlFmqZ9vN3h0gRt
-	1f/dvQE93QMU3TaWIKmgVOgzUkz7rkQlZwjl8bYEKPj3h6NhsxraBmIfR5irX/DVgUT6+G
-	8JM5z1KFyrTYo0wUPG/jBybC2y966ZemarntKHeOhZ3hL/F7VKgxTqK16xr2Lw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=parknet.co.jp;
-	s=20250114-ed25519; t=1794542001;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WOL1Pzs+vLk1dTn0v2qm2WPGTBXeQlLGRYfNPm6pFlo=;
-	b=EX7627BjwPXS/UEqZjjR48ioBHGAkRUpmYFw5boXP5eGG8UH1Dg4VH2d0ZFg0GsHpOrZY8
-	fPE6og3/H6rfZgDw==
-Received: from devron.myhome.or.jp (devron.myhome.or.jp [192.168.0.3])
-	by ibmpc.myhome.or.jp (Postfix) with ESMTPS id 73733E0007F;
-	Fri, 13 Nov 2026 12:53:20 +0900 (JST)
-Received: by devron.myhome.or.jp (Postfix, from userid 1000)
-	id 652CE2200082; Fri, 13 Nov 2026 12:53:20 +0900 (JST)
-From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-To: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
-Cc: linux-fsdevel@vger.kernel.org,  brauner@kernel.org,  djwong@kernel.org,
-  hch@lst.de,  linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 1/8] fat: support FIEMAP
-In-Reply-To: <avZoxGZC5VxiPJtV@DESKTOP-PJTTJ93.localdomain>
-References: <20261031164326.278125-1-matheus.aalmeida@inf.ufrgs.br>
-	<20261031164326.278125-2-matheus.aalmeida@inf.ufrgs.br>
-	<87tslrtlyu.fsf@mail.parknet.co.jp>
-	<avU3IRmswObU2pH6@DESKTOP-PJTTJ93.localdomain>
-	<87cxsaabf2.fsf@mail.parknet.co.jp>
-	<avZoxGZC5VxiPJtV@DESKTOP-PJTTJ93.localdomain>
-Date: Fri, 13 Nov 2026 12:53:20 +0900
-Message-ID: <87h5hl75fz.fsf@mail.parknet.co.jp>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=B1OG4Hxl
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-91befbcad6dso11139156d6.3
+        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 20:25:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1794543931; x=1795148731; darn=vger.kernel.org;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=IkIvwF8HYTYAvXNQ1Vf3vJhW/UWoUX7BTMENFsGTE9A=;
+        b=B1OG4Hxl38/BpIuzCGtNlDw2GD8mt487C5mv8lJQX4OTX2am2+Kkp3gfikdgAb9+Y/
+         1ZKgPsiJivd+Mba4vOf3m0igPUUMTO9YSAf+1VyppPpn8UV7aBmsZIq3W4kAW8gz3K7/
+         5Mr7o9YZnWVNQygQQz84uL2CrfsS90hiLVrtWRpFy2JFFR+NjpM+SJ+5EaWwydv8oM5b
+         ZNFPctnZSkYg5hOeV7uqrbFp9XhRVKpyZRLM7m11rvzFi8eXGfOI/h+0ipyI0SyEFkvR
+         LBqQAeJnZOg0CRLQx952LGQyQImcTolSqD9OoZTTcrVpdr55SSk2Y836a5aWfgqgM5KE
+         wUtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794543931; x=1795148731;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=IkIvwF8HYTYAvXNQ1Vf3vJhW/UWoUX7BTMENFsGTE9A=;
+        b=y9iiK+N/qcGobexRfgxnwUYNL8MubP6swBWmEOXrVOhOfc8ywpwg8YjpD/Lz6lF+bn
+         zs8UqQoLhW4We73rqNC7M2B7U8xpDwrrCDJeylsvoGNTY9Ogj6Wh/GnvvXP65HnqTvfz
+         Qb+blc/iiE3S+5kuZyfq5bkCtACTjnRoxukjZbdfloyP78/eCO1h1hH/zM7rHLl518FD
+         B09hwfQOO5Yt/vdf1nXxVAcYjp7ddNWfBsCEHdt7UoXDrU7GA7oxQgDFLyz8phACBX6L
+         hpi5qto+YLD3GtpOsCcqFbUKzGs8OIK7cm8ik9KHZA4qU+snb258GXQfVt/gBKZHeoUP
+         VSJg==
+X-Forwarded-Encrypted: i=1; AL+hErHyKiay9iygmoNt/xoDipuinVDTu1XETD5u1WGBLjm9he+R7vyRgazWufJ7w6V96lr4xbbKYbL3I4YTKtak@vger.kernel.org
+X-Gm-Message-State: APuU4Z/x6azAGpxMrzpPBmlz6oRNP8lS5CZ4nFsjqUE0up5WYvPWBcng
+	AHGPj8eW06emms6ftudkoodsftuE11/O5XTY6eNi9KIZKTa1V0PL4Of9mq7glz95RNA=
+X-Gm-Gg: AYBFou02+7FU7up4vGK+urJJWC8jtW0TC1Fyy/rqzLudCZlKv7yuf2OHnds/RIjYBqa
+	xDEoAg5X8kuSX2Xt9Vzcogn6w9Igyus/MgAZ3jsxVY1ayleySCTxMNyoeyb0ykzu/xEff4Hsieg
+	Wd7/8cGBCvWFxOF8fGrrefgP/j/7or1kxuEMGpDxPRhUVuxEXdGfOlF3CaZF7YZRZsMpH9XxNx3
+	SZmMlYwRu3oLPUZTKJIHzTRV7C/1fRkzMZXHdf8eR7rq2tz4QgiXWmtfIgXILcBoRW6nWvqTwtx
+	WFDZ4odtV8KFzstq8CxUpTAMItGJskl2/DSiihdAJSDdvNBMbS1pWUNVNY0mYHmXKGwP/8R7whn
+	U3r6P0g/VbqPonYFFcNFUv68zkbB5TBa4eHl/9Xm89eet7Z1vXHn56xoKI3Z20t87nlX72LReem
+	ZJa6FjF/HslX/selPYSB++UtiqOPi1sRGboBXovdFCS2YJCB/5QWE6hQSEfa5BAWFSBFvefSbBv
+	0Ph7n7OFZ6KDNcpbr47QPvBItHbL2tvd2mEP49B6kdYkA5I/0/4NG79MlyKdbHSblV2OchROrQd
+	/HxiV6moaF9a+iQ/Nl6J43hM4OaCrt9icMA62SYBKofr2QAlIU0HbCiGtKQsDSniofAvEmJLCnn
+	kffbBc8E=
+X-Received: by 2002:a05:6214:2f03:b0:91c:aadc:5725 with SMTP id 6a1803df08f44-91f241e0e43mr23498046d6.34.1794543930772;
+        Thu, 12 Nov 2026 20:25:30 -0800 (PST)
+Received: from [192.168.50.231] (pool-71-191-145-202.washdc.fios.verizon.net. [71.191.145.202])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91f23d458fdsm11668876d6.9.2026.11.12.20.25.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Nov 2026 20:25:30 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -85,56 +89,76 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 02/12] userfaultfd: refuse UFFDIO_MOVE into a
+ non-present huge destination PMD
+From: "Gregory Price (Meta)" <gourry@gourry.net>
+To: Tal Zussman <tz2294@columbia.edu>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+ Mike Rapoport <rppt@kernel.org>, Peter Xu <peterx@redhat.com>, 
+ James Houghton <jthoughton@google.com>, 
+ Andrea Arcangeli <aarcange@redhat.com>, 
+ Suren Baghdasaryan <surenb@google.com>, Balbir Singh <balbirs@nvidia.com>, 
+ "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+ Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, 
+ Pedro Falcato <pfalcato@suse.de>, 
+ =?utf-8?q?Micha=C5=82_Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>, 
+ Andrei Vagin <avagin@gmail.com>, Stephen Rothwell <sfr@canb.auug.org.au>, 
+ Arnd Bergmann <arnd@arndb.de>, Muhammad Usama Anjum <usama.anjum@arm.com>, 
+ David Hildenbrand <david@kernel.org>, Zi Yan <ziy@nvidia.com>, 
+ Matthew Brost <matthew.brost@intel.com>, 
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>, 
+ Gregory Price <gourry@gourry.net>, 
+ Ying Huang <ying.huang@linux.alibaba.com>, 
+ Alistair Popple <apopple@nvidia.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, 
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+ Kiryl Shutsemau <kas@kernel.org>, Chris Down <chris@chrisdown.name>, 
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+ =?utf-8?q?Miko=C5=82aj_Lenczewski?= <miko.lenczewski@arm.com>, 
+ Michal Hocko <mhocko@suse.com>, Mike Kravetz <mike.kravetz@oracle.com>, 
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, stable@vger.kernel.org
+In-Reply-To: <20261111-uffd-state-fixes-v1-2-00713d368976@columbia.edu>
+References: <20261111-uffd-state-fixes-v1-0-00713d368976@columbia.edu>
+ <20261111-uffd-state-fixes-v1-2-00713d368976@columbia.edu>
+Date: Thu, 12 Nov 2026 23:25:28 -0500
+Message-Id: <179454392848.482102.8479698323718468757.b4-reply@b4>
+X-Mailer: b4 0.17-dev
 
-Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br> writes:
+On 2026-11-11 12:55 -0500, Tal Zussman wrote:
+> move_pages() refuses to move into a destination PMD that already maps a
+> THP, but checks for that with pmd_trans_huge(), which is only true for a
+> present THP. A device-private THP or a THP under migration is a
+> non-present huge PMD leaf and is not refused.
+> 
+> The destination PMD is then treated as if it pointed to a PTE table. It
+> is not empty, so pte_alloc() leaves it alone, and move_pages_ptes()
+> fails to map a PTE table from it and returns -EAGAIN. move_pages()
+> retries on -EAGAIN, with both VMA read locks held. If the source is a
+> THP, it is split first for nothing.
+> 
+> For a THP under migration, the loop ends once the migration finishes.
+> A device-private THP can remain in device memory indefinitely, so the
+> caller of UFFDIO_MOVE hangs until it receives a fatal signal, and
+> anything in the mm that needs to write-lock one of the VMAs blocks along
+> with it. This requires a driver that migrates THPs to device memory.
+> 
+> To fix it, check the destination with pmd_is_huge(), which is true for
+> any huge leaf, present or not. UFFDIO_MOVE now fails with -EEXIST in
+> these cases, as it already does for a present THP.
+> 
+> Fixes: adef440691ba ("userfaultfd: UFFDIO_MOVE uABI")
+> Fixes: a30b48bf1b24 ("mm/migrate_device: implement THP migration of zone device pages")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Tal Zussman <tz2294@columbia.edu>
 
-> On Thu, Nov 12, 2026 at 02:03:45PM +0900, OGAWA Hirofumi wrote:
->>Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br> writes:
->>
->>
->>[...]
->>
->>>>>  	if (fat_cache_lookup(inode, cluster, &cid, fclus, dclus) < 0) {
->>>>> -		/*
->>>>> -		 * dummy, always not contiguous
->>>>> -		 * This is reinitialized by cache_init(), later.
->>>>> -		 */
->>>>> -		cache_init(&cid, -1, -1);
->>>>> +		/* Cache the contiguous prefix from the known first cluster. */
->>>>> +		cache_init(&cid, 0, *dclus);
->>>>
->>>>Doesn't this add a needless cache? 0 is cached in the inode itself,
->>>>isn't it? (and can be waste small fatent cache slots?)
->>>>
->>>
->>> This is mostly for caching the number of contiguous clusters starting
->>> from 0. i_start only really tells us the first cluster of the file. I'm
->>> not exactly sure of the best way to approach this, though. I guess we
->>> can skip caching when its a one cluster range in this case?
->>>
->>> What do you think?
->>
->>Ah, sure. I think because it is fat_cache_lookup() and stuff are
->>implemented for nr_cont == 1. So I think better way would be supporting
->>the range lookup in whole cache stuff. (however, it can be relatively
->>complex)
->>
->>Thanks.
->>
->
-> It seems like exfat had to solve a similar problem a while back:
-> https://lore.kernel.org/linux-fsdevel/20260114121250.615064-1-chizhiling@163.com/
->
-> Maybe I can work on porting some of that to fat. Would you rather it be
-> in a separate series or just add it to the iomap series?
+Tested-by: Gregory Price (Meta) <gourry@gourry.net>
+Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
 
-It would be good to add with introducing nr_cont, so iomap is fine.
-
-Maybe looks like exfat implementation doesn't handle rare case. It would
-be assuming next cache is not contiguous. Actually next cache can be
-contiguous.
-
-Thanks.
 -- 
-OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+~Gregory
+
