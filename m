@@ -1,51 +1,51 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.32
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794553724;
-	b=a25uLb+KOLN7riW1eWGrnlJ7z5Dsnk7Uj7Y5L3c5FQ2PhfC6zAalemEXOXGRI5bma5wY
-	 Nto3tuuYjKKLdWWyw5gIrvxo8QRIspIxQKBlYeOYMMOLHC4eWWY/012ptP6B5A1ZPJOdb
-	 S8jfvwTwB4VUEtSNvAELEDQ8EXPEEvVyazKKH774VhKfyFkH335JBYHkOFzk8hLBEgPXF
-	 HeXzQy/t8qw12E5o7LnB2ga9gscZzHmgOgTzXfIe6yiBpUhfwpqPU8O4mRcV7r8RXh2t9
-	 8t4KodhD7as8kcJnZ4SKS/9Ba6jCIUVA659qEOUl/idqJA2hneFh0weqnSEEXVUhvWQ==
+	t=1794553740;
+	b=qQ3KahxT0Z7NLUgxgA03IKsW5BdPg6RC5TiLTmVaEUvxfrOgGvb0RoMsYbklZieCZXae
+	 aNRQC5qXlDq2MsauqWlw9+3ddE4mjb/IExAphuDMujmwtobxngh2zVolzsLzlR9R1pV/6
+	 vJnY9ZUSoUB/Sw8kJn+YnOLh71GfOiWBPQJG0WW6kU+O74dlMdTJ1r3GOnIyCGK33X2ka
+	 9yuv1SEv67UiciVRe97Qu2IMh1x81Jxw5RBVWA9h81E1vcaLfSxNwSXZV5RktUd/jh03P
+	 f2wc900vMsZnM3Rxy1lw733eAtWHLN5IyTnoLr/pQDYtpTxsJQNURkqTodUz2T8DY5Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794553724;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794553740;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
 	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
 	 X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=XYDjtxaf0lVfH8OsewVAiM2b9d3+k+o70NuMLB1ofvM=;
-	b=3AjzJ9OWEVgDxWcf1lrU7RylQ7TNes5Ev8jgde8ozzCXej8aDOU53yYIIXJ9Xl75Q23M
-	 LbMabIzPohJnVGWu2d1pK6JzZdw+uWA94t3Pyvk7ekCVfEMJeQ7DqB35YEMguWTyq7vKP
-	 5IQeKDLbRZAJdWDcCql1nMDz9qOoFjIGb3dQAeFV0wSrT7fLP+EmNBwkJ3tQ8ADuZvk/j
-	 Vh8abVRXoyJGqEqUCnOjS2jq5YCZKpuESaobIUIczDGTpF8kMx7+zqEqQr+cdVXvAs3wk
-	 XoHXegKl8uT2oTy/ITsI0Vzxuui+/8S7KX4FUQSYEvVpcjYw7/J3u66sptdS8IPfItg==
+	bh=SYhdRBfbhOCrZODwMof2LJJutjMOsW3pk0k9wT+4x1s=;
+	b=YrLBRcs28LAfZFsFjdvGwWAD/+Zx7UCzcBeFD4OKYRi1awYYAa0B2lqZ/gk1M+G82UoC
+	 X++JTUcNdx1XJZ39KuULtQkVrsBL3+1gCJynMKtfiNg/v1fcG3p8DiTypVJIA2c+pVv9C
+	 3LvvwzGAGGONWxmi+XdlrKkW8lGEWx/DHvK8oTC8pjV50owiRM5CFwn/TqOh/3jHUnpKh
+	 bjSng5rtSi/F7XQX1LgYaEqjok06IWXOusxSvRiCPTdAvnuuq5pX/8t53W6IAwlJp/Tx+
+	 M12g2hvufl8Vux00Wdh3bhWbMv/xWR/ZbcucuHfTzfHjwodUi8NOqrghP1hN8DUHQHQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=Og0Gdirg;
-	arc=none smtp.remote-ip=95.215.58.17
-Received: from mta1.migadu.com (out-17.mta1.migadu.com [95.215.58.17])
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b="Dp9/6ycq";
+	arc=none smtp.remote-ip=95.215.58.32
+Received: from mta1.migadu.com (out-32.mta1.migadu.com [95.215.58.32])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 649B1606A885
-	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Nov 2026 07:08:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 649B1606A885
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1745360A2614
+	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Nov 2026 07:08:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1745360A2614
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=Og0Gdirg
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=Dp9/6ycq
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=CjYG6lLCB1BYJrLcL7BR63FCu2vQ5oxiLdcSaVMwGGM=;
+DKIM-Signature: a=rsa-sha256; bh=ePA00gWH1MMaJNHfq4j4NnI+p0p7J/Mr89Hwy2EXwkk=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794553721; v=1; x=1795158521;
- b=Og0GdirgiW0AJtxt7oGJ07VLbw8+sRWSKE2NEOI4lZcL7S4iJoMFw1LSb2a+qpOS8krcn8Ek
- BcDTgAG0DLCYfWO0wkYKq1Glqf6hpSpX4Bvg7zpGjw0M768W47l0FvXzSHCnhbuGRamQdrOCT3E
- 97xeAo/3WPtOdFXdC6WMXsCM=
+ t=1794553738; v=1; x=1795158538;
+ b=Dp9/6ycq2YWXiQ6b4AiPtsFaJAAG7cErPS8EDzt4qVA6R6GQkKRwJudQmlf7LPL9q5LTxVew
+ XcOsQdZ2T2QoIlXmthGFUc4CkwoDua3I53Newym883kisoCTBE/pi44tegesqzL8SvBnD/2rjiO
+ W/5O4s3f/zHv7QPdPPW9/80Q=
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 0eecb32ce231a7d3;
-	Fri, 13 Nov 2026 07:08:41 +0000
-X-Mizu-Trace-ID: 0eecb32ce231a7d3
+Received: by smtp.migadu.com with ESMTPS id 60ee62a93959a5fb;
+	Fri, 13 Nov 2026 07:08:57 +0000
+X-Mizu-Trace-ID: 60ee62a93959a5fb
 X-Migadu-Flow: FLOW_OUT
 From: Mengmeng Zhao <mengmeng.zhao@linux.dev>
 To: Christoph Hellwig <hch@lst.de>,
@@ -82,9 +82,9 @@ Cc: linux-block@vger.kernel.org,
 	linaro-mm-sig@lists.linaro.org,
 	Li Wang <liwang@kylinos.cn>,
 	Mengmeng Zhao <zhaomengmeng@kylinos.cn>
-Subject: [RFC PATCH v2 7/8] dax: refuse dma-buf iterators in dax_iomap_rw()
-Date: Fri, 13 Nov 2026 15:06:20 +0800
-Message-ID: <20261113070621.273953-8-mengmeng.zhao@linux.dev>
+Subject: [RFC PATCH v2 8/8] ext4: support dma-buf registered buffers for direct I/O
+Date: Fri, 13 Nov 2026 15:06:21 +0800
+Message-ID: <20261113070621.273953-9-mengmeng.zhao@linux.dev>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261113070621.273953-1-mengmeng.zhao@linux.dev>
 References: <20261113070621.273953-1-mengmeng.zhao@linux.dev>
@@ -101,32 +101,172 @@ Content-Transfer-Encoding: 8bit
 
 From: Mengmeng Zhao <zhaomengmeng@kylinos.cn>
 
-DAX copies data through the CPU, so a dma-buf iterator has no meaning
-in the DAX I/O path and must be refused.  A DAX inode does not get
-FMODE_CAN_DMABUF_IO at open time, but DAX can be enabled later, so
-check per I/O.
+Advertise FMODE_CAN_DMABUF_IO for inodes that can support dma-buf I/O
+and implement ->init_dma_buf_io_ctx() by registering the buffer against
+the filesystem's block device.  The capability follows
+ext4_dio_alignment(), so an inode that can never do direct I/O -
+fs-verity, data=journal or inline data - is refused at open, and
+encrypted inodes are refused on the inode flag, which is set even
+without CONFIG_FS_ENCRYPTION.  The inode is rechecked at registration
+because DAX can be enabled after the file was opened.
+
+A dma-buf iterator has no pages to copy from, so it must never reach the
+page cache.  ext4_buffered_read_iter() and ext4_buffered_write_iter() are
+the single sinks of the buffered fallbacks and refuse it there; a short
+direct I/O write still reports its progress, and the DAX write path
+refuses at its entry instead of after starting a journal handle.
 
 Signed-off-by: Mengmeng Zhao <zhaomengmeng@kylinos.cn>
 Signed-off-by: Li Wang <liwang@kylinos.cn>
 ---
- fs/dax.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ fs/ext4/ext4.h | 11 +++++++++++
+ fs/ext4/file.c | 44 +++++++++++++++++++++++++++++++++++++++++---
+ 2 files changed, 52 insertions(+), 3 deletions(-)
 
-diff --git a/fs/dax.c b/fs/dax.c
-index 94ba41273347..84d24db5ed35 100644
---- a/fs/dax.c
-+++ b/fs/dax.c
-@@ -1752,6 +1752,10 @@ dax_iomap_rw(struct kiocb *iocb, struct iov_iter *iter,
- 	if (!iomi.len)
- 		return 0;
+diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
+index f38fec3167fb..028b2e5ddc8b 100644
+--- a/fs/ext4/ext4.h
++++ b/fs/ext4/ext4.h
+@@ -4135,6 +4135,17 @@ static inline bool ext4_inode_can_atomic_write(struct inode *inode)
+ 		EXT4_SB(inode->i_sb)->s_awu_min > 0;
+ }
  
-+	/* a dma-buf iterator has no CPU-visible pages to copy through */
-+	if (iov_iter_is_dmabuf_map(iter))
++/*
++ * dma-buf I/O needs an inode that supports direct I/O without the page cache.
++ * IS_ENCRYPTED() tests the inode flag, which is set even without
++ * CONFIG_FS_ENCRYPTION.
++ */
++static inline bool ext4_inode_can_dmabuf_io(struct inode *inode)
++{
++	return !IS_DAX(inode) && !IS_ENCRYPTED(inode) &&
++	       ext4_dio_alignment(inode) != 0;
++}
++
+ extern int ext4_block_write_begin(handle_t *handle, struct folio *folio,
+ 				  loff_t pos, unsigned len,
+ 				  get_block_t *get_block);
+diff --git a/fs/ext4/file.c b/fs/ext4/file.c
+index 50d3c92709c8..5a8481637da5 100644
+--- a/fs/ext4/file.c
++++ b/fs/ext4/file.c
+@@ -30,6 +30,7 @@
+ #include <linux/uio.h>
+ #include <linux/mman.h>
+ #include <linux/backing-dev.h>
++#include <linux/blkdev.h>
+ #include "ext4.h"
+ #include "ext4_jbd2.h"
+ #include "xattr.h"
+@@ -66,6 +67,15 @@ static bool ext4_should_use_dio(struct kiocb *iocb, struct iov_iter *iter)
+ 	return IS_ALIGNED(iocb->ki_pos | iov_iter_alignment(iter), dio_align);
+ }
+ 
++static ssize_t ext4_buffered_read_iter(struct kiocb *iocb, struct iov_iter *to)
++{
++	/* a dma-buf iterator has no pages for the page cache to copy into */
++	if (iov_iter_is_dmabuf_map(to))
 +		return -EOPNOTSUPP;
 +
- 	if (iov_iter_rw(iter) == WRITE) {
- 		lockdep_assert_held_write(&iomi.inode->i_rwsem);
- 		iomi.flags |= IOMAP_WRITE;
++	return generic_file_read_iter(iocb, to);
++}
++
+ static ssize_t ext4_dio_read_iter(struct kiocb *iocb, struct iov_iter *to)
+ {
+ 	ssize_t ret;
+@@ -88,7 +98,7 @@ static ssize_t ext4_dio_read_iter(struct kiocb *iocb, struct iov_iter *to)
+ 		 * taken.
+ 		 */
+ 		iocb->ki_flags &= ~IOCB_DIRECT;
+-		return generic_file_read_iter(iocb, to);
++		return ext4_buffered_read_iter(iocb, to);
+ 	}
+ 
+ 	ret = iomap_dio_read_simple(iocb, to, ext4_iomap_begin);
+@@ -119,7 +129,7 @@ static ssize_t ext4_dax_read_iter(struct kiocb *iocb, struct iov_iter *to)
+ 	if (!IS_DAX(inode)) {
+ 		inode_unlock_shared(inode);
+ 		/* Fallback to buffered IO in case we cannot support DAX */
+-		return generic_file_read_iter(iocb, to);
++		return ext4_buffered_read_iter(iocb, to);
+ 	}
+ 	ret = dax_iomap_rw(iocb, to, &ext4_iomap_ops);
+ 	inode_unlock_shared(inode);
+@@ -146,7 +156,7 @@ static ssize_t ext4_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
+ 	if (iocb->ki_flags & IOCB_DIRECT)
+ 		return ext4_dio_read_iter(iocb, to);
+ 
+-	return generic_file_read_iter(iocb, to);
++	return ext4_buffered_read_iter(iocb, to);
+ }
+ 
+ static ssize_t ext4_file_splice_read(struct file *in, loff_t *ppos,
+@@ -354,6 +364,10 @@ static ssize_t ext4_buffered_write_iter(struct kiocb *iocb,
+ 	if (iocb->ki_flags & IOCB_NOWAIT)
+ 		return -EOPNOTSUPP;
+ 
++	/* a dma-buf iterator cannot be handled by buffered I/O */
++	if (iov_iter_is_dmabuf_map(from))
++		return -EOPNOTSUPP;
++
+ 	inode_lock(inode);
+ 
+ 	/*
+@@ -688,6 +702,10 @@ static ssize_t ext4_dio_write_iter(struct kiocb *iocb, struct iov_iter *from)
+ 		ssize_t err;
+ 		loff_t endbyte;
+ 
++		/* a dma-buf iterator cannot fall back to buffered I/O */
++		if (iov_iter_is_dmabuf_map(from))
++			return ret;
++
+ 		/*
+ 		 * There is no support for atomic writes on buffered-io yet,
+ 		 * we should never fallback to buffered-io for DIO atomic
+@@ -731,6 +749,10 @@ ext4_dax_write_iter(struct kiocb *iocb, struct iov_iter *from)
+ 	bool extend = false;
+ 	struct inode *inode = file_inode(iocb->ki_filp);
+ 
++	/* a dma-buf iterator cannot be handled by DAX either */
++	if (iov_iter_is_dmabuf_map(from))
++		return -EOPNOTSUPP;
++
+ 	if (iocb->ki_flags & IOCB_NOWAIT) {
+ 		if (!inode_trylock(inode))
+ 			return -EAGAIN;
+@@ -1014,6 +1036,8 @@ static int ext4_file_open(struct inode *inode, struct file *filp)
+ 		filp->f_mode |= FMODE_CAN_ATOMIC_WRITE;
+ 
+ 	filp->f_mode |= FMODE_NOWAIT | FMODE_CAN_ODIRECT;
++	if (ext4_inode_can_dmabuf_io(inode))
++		filp->f_mode |= FMODE_CAN_DMABUF_IO;
+ 	return dquot_file_open(inode, filp);
+ }
+ 
+@@ -1050,10 +1074,24 @@ loff_t ext4_llseek(struct file *file, loff_t offset, int whence)
+ 	return vfs_setpos(file, offset, maxbytes);
+ }
+ 
++static int ext4_file_init_dma_buf_io_ctx(struct file *file,
++					 struct dma_buf_io_ctx *ctx)
++{
++	struct inode *inode = file_inode(file);
++
++	/* DAX can be enabled after the file was opened */
++	if (!ext4_inode_can_dmabuf_io(inode))
++		return -EOPNOTSUPP;
++
++	/* all file data lives on s_bdev, which never changes for ext4 */
++	return bdev_init_dma_buf_io_ctx(inode->i_sb->s_bdev, ctx);
++}
++
+ const struct file_operations ext4_file_operations = {
+ 	.llseek		= ext4_llseek,
+ 	.read_iter	= ext4_file_read_iter,
+ 	.write_iter	= ext4_file_write_iter,
++	.init_dma_buf_io_ctx = ext4_file_init_dma_buf_io_ctx,
+ 	.iopoll		= iocb_bio_iopoll,
+ 	.unlocked_ioctl = ext4_ioctl,
+ #ifdef CONFIG_COMPAT
 -- 
 2.43.0
 
