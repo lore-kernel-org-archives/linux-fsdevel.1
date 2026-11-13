@@ -1,74 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.71
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.72
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794608041;
-	b=DNE6rp/RbvqTXpxUVhmKztpYjG3P4vy5NN/LF2xKIu35JZuNVLMbNBsXpEq7d9LZRKLc
-	 IuL6/ObAl1a4yMzB7Yl264eZQvxmbUxJJzohgW5DEWHJzrrHC+dwT6ty4pSL66uO5CxCN
-	 XeheC0JcLTJIIj5nhTuvc2VY2baCS/B9OcaJ7s1GgRSwCLVBFDbUKI5HVNqEgEKmoLWO8
-	 EABlR3ElbmjdXzQX6CTh56Dvb5C/s6fzUEbHo0fyHKjamC4KaSzRu+3K6JZdz2/WNYixJ
-	 rP8G4A5qlzgrg/jsQOrR7/y6O0grYdxwsMIaMjc7PPIoRBjcxSYnyTztQZ09vHKNAaw==
+	t=1794608047;
+	b=L80/JqSvdE+wXmtsz70QD0yLQZBqASVMb3kJ0fcyNmql4r6kQR0KY+NS0lDyL1B40knR
+	 2ZmtfDxhytzvvC0yK+so21bmYASKQUqkpnKzO5RM8M/IkB+7fNZ+3nqg/nhEeBOaRn/hy
+	 ThoOqnTKZntiflFZTUGF5D3I2qKJMqmw6HLSKFkfFzt78t75kZ7Ii6VEqEElC6bF+zEef
+	 tEuyBSHZwVmTZWOAohFjkqf2MatVEiSRA5wa10bSW3z1hNd7ATRLsHXzhRgoORvsYiM8A
+	 QEP4YLSX04HIzpnDYwyAGY+SP/uqSKuZ6vDEzPCj4mixoD+Z/4uCV6XtSDI3DFVYRHw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794608041;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794608047;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
 	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
 	 Content-Type;
-	bh=EfW5r72ztIVpTPsFjdHYnm3oK6ZY2qO8ZM5ubM8gZAk=;
-	b=mWniZ13g56JV8wjUXLgpTwJfL5/xyqi3y04lCeoixtqxObwq3eJtQsDJ06bUO0yS6IIA
-	 LLnVCCINux3ovGELVWZdyxljel631u1K3mamZ7QHERDkxLUWBokmhKcE857lFZS6lWM0U
-	 axvOT5vvZ+xvuygHGLzQXV++r9wuMf11WoKIgjUJG+PkpdH8P8JFW5G2SH5+f4VuGNfIU
-	 ZNF8P2AxRPGaGI7ZyHglg1XNd+DhVtsyZT90zGu6xdalED/auH+6tMvqS5bjZVBXMu9n1
-	 +FeSMCPq9VpEY/qYEo0qjrPUQ9aaii5V0Urxy2IDPM6hN3ahnXmwiBB0MDv7YSlmovg==
+	bh=xRGclsVYgihn8KXrg7MdwsYc+zBVAwEON65aAassTFM=;
+	b=oZCNK+ZfHj72/MS1xfDBfVA6pzYj1OZjXkpKfm4tKBclDwSLEm8GQo17ZU3e3bzoQAy1
+	 T7nujmHAX03cFLXxJN4OItxK1Pv9ut7i1pLnZOiS3xTBcDj1cD/w9NvaMaFmDle8kLPNQ
+	 fVwZJmaBSqc9VOM2DJvoj27NACwCFOTUCnMuCrO7Z0FHwfoz+cthilZIrASy0bbLi11zv
+	 0b+5paVlkuEaBTaRSBk1dtEptM2uRrSUsSWEYBL0TEUrMsNP+7aRHlTpOl04UrG6wCuVm
+	 QYHNCRfb48YebRrfPMCTjCKb16qKdJAVfMSlV7CFehTW7y2RC34no4pk5zSA/6zq0XA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--wusamuel.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=Gp3+oZfi;
-	arc=none smtp.remote-ip=74.125.82.71
-Received: from mail-dl1-f71.google.com (mail-dl1-f71.google.com [74.125.82.71])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=gp5vQMux;
+	arc=none smtp.remote-ip=209.85.160.72
+Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com [209.85.160.72])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 106FD606A336
-	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Nov 2026 22:14:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 106FD606A336
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 796EE606A891
+	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Nov 2026 22:14:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 796EE606A891
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--wusamuel.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=Gp3+oZfi
-Received: by mail-dl1-f71.google.com with SMTP id a92af1059eb24-1b25d977b91so1234611c88.1
-        for <linux-fsdevel@vger.kernel.org>; Fri, 13 Nov 2026 14:14:00 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=gp5vQMux
+Received: by mail-oa1-f72.google.com with SMTP id 586e51a60fabf-458326d2d9aso1826061fac.2
+        for <linux-fsdevel@vger.kernel.org>; Fri, 13 Nov 2026 14:14:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1794608040; x=1795212840; darn=vger.kernel.org;
+        d=google.com; s=20260707; t=1794608046; x=1795212846; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=EfW5r72ztIVpTPsFjdHYnm3oK6ZY2qO8ZM5ubM8gZAk=;
-        b=Gp3+oZfipAwpCv6RQBf3lDsHT0qEp1qD0xIU57NwQdPHacBufI3y/HY7/OzAFWbLjK
-         COC86LQPt+kgTBoKHOH3z6liqUMbnRcvtWkBB8WIqiXDeiT4yGTVjFMACF1ENKsDRbjx
-         C3I0ki9/tkmtjMMKA7wp0aKqDyg0qSYa2CbrM2wVKFsFljYWzj+9s9c16NYqeljycZwO
-         iVGH7QDXUWto3Mg/o5+eK2TJvkhs9meOk57rJhHmcN6kCEqi48DpXJcEWMzNJ5yGHuUx
-         jDmPg41tRHpFxTCOlMTfPNin1c89BrbkTIVqWmod8KAvcs1ZMcaLvN+715sxpWXF+n3Q
-         1aaw==
+        bh=xRGclsVYgihn8KXrg7MdwsYc+zBVAwEON65aAassTFM=;
+        b=gp5vQMux2ymaiEi6tOh1fDOWEJUHLLWas0pVdwpyWkI3ugCjixVnBW7K3Dj5N2smUk
+         GHjoawG0WKaKqO4sSfsvHKCal3PN/B53sn2McNHh89YQOIo9c7/9TKX+u7RdsA+0qkig
+         DOpj35xWtFQnN7xCdUqmaSTYJx8wUdBisznQodXYjxsDEB4U6JEfSgt7yBlrJeuRRFW6
+         1oE8NzfGd7gGS9D7WLOr3kkjtM1xe1ARmQUrdMT0K4365LghPSC0X1hONAj0qXZjwcqy
+         gj8Pk6KqazJAyUztxqEGZiUHtYNFFsR8GKcgf9ebC8SHoGuEcL63JfOyjx2v0uBVN64w
+         CETg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794608040; x=1795212840;
+        d=1e100.net; s=20260707; t=1794608046; x=1795212846;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=EfW5r72ztIVpTPsFjdHYnm3oK6ZY2qO8ZM5ubM8gZAk=;
-        b=ykamI9vqqhQjVKchm0E3UaBnLcuGjwnh1k2bqFHecnHvMboryH4DstZ15kBaxtNkxu
-         XZbyxP/QyR7OycGsv1papZSk8oQ8P5SGbhf8ZH/9+GLdYc0pZthx3Mg1VmzHncPTM0zz
-         UqZBqZVLIPPS8jPRQYPC8Epn5Hpd9TkXR3xryeLQH1TvFN96TOPRr4XEnQR0Yv+/Qa1c
-         d2rAYuQ3KbwvSd5D29X+PZbp6sL21pEdEy4m4ktzPbCxrXse6pX3ZBE3g2n/xWN2B9/1
-         eWJC6ibj7rzzMO1Nwp+o3SidUAIBOviKgMhil1erPhB0Evi+ZCOk88F0Dp6KI8eS2k0S
-         ecXw==
-X-Forwarded-Encrypted: i=1; AL+hErFdkcvEnnawnSyWjVBgKNQPQGhNxEvc8+UqlrLar2BOSrpamjczzy8NwGNBMpImnuu86mx36VkwWguvpdXx@vger.kernel.org
-X-Gm-Message-State: APuU4Z8tiDUZ1D05WGIY8EaGO4UJTgMBOLStEqQlFBuvSGvstDxPGASY
-	oW+pAQQoB4spjiigXS3gaXVWckPpqyO/sRVMeW2ZoNJrOirZ4gGXyrYMgwdt449FzoxtsGAoTUG
-	9JcxCgR0PPtGITg==
-X-Received: from dltt2.prod.google.com ([2002:a05:701a:c962:b0:1b2:3bcd:9068])
+        bh=xRGclsVYgihn8KXrg7MdwsYc+zBVAwEON65aAassTFM=;
+        b=J/r75IZuS4+2NjWr3mfcW79hrVL0F3+g2E+bnkTe0KFeRF6e5yuRII3rPPYE58sURJ
+         Bz0dppDqDWRLU83zh6Gw8xyT/1J2If6oNUmJJVz6meFXqDDLKVGE43tiJFwd9rQ108zr
+         FqRVimYgsBHKADMaPqWk5vVdGtZ/4tDyrcq4PUFCocs9zhusnyNWH+bvfLsAV8zkuMxn
+         IF0u/UQbIshddQ7Jl24JUuPgXiL82xuC58oG+uE16PULjWCe7yZrgDDzKazF+VqP+SlF
+         B2gklxXCPR/zhJTc9NikN4Wp8AhpyJwypY8cTBn8Y8DRkO3r2nBfpTzGMI8aFrNr4siC
+         xVnQ==
+X-Forwarded-Encrypted: i=1; AL+hErE1YET/w494eO269dEVchMrjHNoRKyBwuBmH6kOa8kWgI6u+PqdEPe+rLd/6PR22rKJtk1/ipcBwgzlD1k6@vger.kernel.org
+X-Gm-Message-State: APuU4Z9QNVTNS0HysXyh1PF1F+y28iy8/sTj6Q1auQ9Wc20JMCEzE23R
+	e+78fQsoZRJRg8yNpgOqYH7AeAn9EQBiJG2JPBBmuMgoebDZ17uaBr8UQkvH+rW22ablIP5Tjbw
+	xHQs+pmKdc9H1Lg==
+X-Received: from oaoo3-n2.prod.google.com ([2002:a05:6870:c443:20b0:4ae:45bb:afee])
  (user=wusamuel job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:7022:b88c:b0:1b5:58e:b547 with SMTP id a92af1059eb24-1b5058eb73fmr2722892c88.22.1794608039776;
- Fri, 13 Nov 2026 14:13:59 -0800 (PST)
-Date: Fri, 13 Nov 2026 14:12:46 -0800
+ 2002:a05:6870:c0a:b0:494:7af4:954a with SMTP id 586e51a60fabf-4afdf1706bdmr3442581fac.8.1794608045968;
+ Fri, 13 Nov 2026 14:14:05 -0800 (PST)
+Date: Fri, 13 Nov 2026 14:12:47 -0800
 In-Reply-To: <20261113221248.3535369-11-wusamuel@google.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -81,9 +81,8 @@ Precedence: list
 Mime-Version: 1.0
 References: <20261113221248.3535369-11-wusamuel@google.com>
 X-Mailer: git-send-email 2.56.0.679.gc527c65306-goog
-Message-ID: <20261113221248.3535369-12-wusamuel@google.com>
-Subject: [PATCH bpf-next v3 1/9] Documentation: ioctl-number: Add
- PROCFS_IOCTL_MAGIC range 0x10-0x11
+Message-ID: <20261113221248.3535369-13-wusamuel@google.com>
+Subject: [PATCH bpf-next v3 2/9] module: Add module_kallsyms_find_name()
 From: Samuel Wu <wusamuel@google.com>
 To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
 	Randy Dunlap <rdunlap@infradead.org>, Luis Chamberlain <mcgrof@kernel.org>, 
@@ -105,28 +104,145 @@ Cc: Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>,
 	linux-kselftest@vger.kernel.org, llvm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-PAGEMAP_SCAN (0x10) and PROCMAP_QUERY (0x11) use PROCFS_IOCTL_MAGIC.
-ext4 uses the same numbers on other files, so mark the row as a
-conflict.
+KALLSYMS_QUERY_BY_NAME, added later in this series, needs to find a
+symbol name or prefix across module symbols in one pass.
+module_get_kallsym() walks the module list from the head and runs an
+export bsearch() for every symbol index.
 
-Suggested-by: Randy Dunlap <rdunlap@infradead.org>
+Add module_kallsyms_find_name(), and put the shared query struct in
+linux/kallsyms.h, so we have a more efficient linear walk.
+
 Signed-off-by: Samuel Wu <wusamuel@google.com>
 ---
- Documentation/userspace-api/ioctl/ioctl-number.rst | 1 +
- 1 file changed, 1 insertion(+)
+ include/linux/kallsyms.h |  7 +++++
+ include/linux/module.h   | 13 +++++++++
+ kernel/module/kallsyms.c | 57 ++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 77 insertions(+)
 
-diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
-index dbe462040999..fbc3537fc9ee 100644
---- a/Documentation/userspace-api/ioctl/ioctl-number.rst
-+++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
-@@ -248,6 +248,7 @@ Code  Seq#    Include File                                             Comments
- 'f'   00-0F  fs/ext4/ext4.h                                            conflict!
- 'f'   00-0F  linux/fs.h                                                conflict!
- 'f'   00-0F  fs/ocfs2/ocfs2_fs.h                                       conflict!
-+'f'   10-11  linux/fs.h                                                conflict! procfs ioctls (PROCFS_IOCTL_MAGIC)
- 'f'   13-27  linux/fscrypt.h
- 'f'   81-8F  linux/fsverity.h
- 'g'   00-0F  linux/usb/gadgetfs.h
+diff --git a/include/linux/kallsyms.h b/include/linux/kallsyms.h
+index d5dd54c53ace..d31f2f436159 100644
+--- a/include/linux/kallsyms.h
++++ b/include/linux/kallsyms.h
+@@ -24,6 +24,13 @@
+ struct cred;
+ struct module;
+ 
++/* Exact or prefix name query, optionally in one module. */
++struct kallsyms_name_query {
++	const char *name;
++	size_t cmp_len;		/* bytes to compare; includes NUL if exact */
++	const char *modname;	/* NULL matches any module */
++};
++
+ static inline int is_kernel_text(unsigned long addr)
+ {
+ 	if (__is_kernel_text(addr))
+diff --git a/include/linux/module.h b/include/linux/module.h
+index 76f4f3596477..07d5a74ecfcc 100644
+--- a/include/linux/module.h
++++ b/include/linux/module.h
+@@ -42,6 +42,7 @@ struct modversion_info {
+ 
+ struct module;
+ struct exception_table_entry;
++struct kallsyms_name_query;
+ 
+ struct module_kobject {
+ 	struct kobject kobj;
+@@ -978,6 +979,10 @@ int lookup_module_symbol_attrs(unsigned long addr,
+  */
+ int module_get_kallsym(unsigned int symnum, unsigned long *value, char *type,
+ 		       char *name, char *module_name, int *exported);
++int module_kallsyms_find_name(unsigned int *symnum,
++			      const struct kallsyms_name_query *q,
++			      unsigned long *value, char *name,
++			      char *module_name);
+ 
+ /* Look for this name: can be of form module:name. */
+ unsigned long module_kallsyms_lookup_name(const char *name);
+@@ -1016,6 +1021,14 @@ static inline int module_get_kallsym(unsigned int symnum, unsigned long *value,
+ 	return -ERANGE;
+ }
+ 
++static inline int module_kallsyms_find_name(unsigned int *symnum,
++					    const struct kallsyms_name_query *q,
++					    unsigned long *value, char *name,
++					    char *module_name)
++{
++	return -ENOENT;
++}
++
+ static inline unsigned long module_kallsyms_lookup_name(const char *name)
+ {
+ 	return 0;
+diff --git a/kernel/module/kallsyms.c b/kernel/module/kallsyms.c
+index 1ff8ce857d92..72006c9bad42 100644
+--- a/kernel/module/kallsyms.c
++++ b/kernel/module/kallsyms.c
+@@ -406,6 +406,63 @@ int module_get_kallsym(unsigned int symnum, unsigned long *value, char *type,
+ 	return -ERANGE;
+ }
+ 
++/**
++ * module_kallsyms_find_name - Find a module symbol by name or prefix
++ * @symnum: in: index to start at; out: index of the match. The index
++ *          counts the symbols of the searched modules in list order.
++ * @q: name query; if @q->modname is set, only that module is searched
++ * @value: set to the symbol address
++ * @name: set to the symbol name (KSYM_NAME_LEN bytes)
++ * @module_name: set to the module name (MODULE_NAME_LEN bytes)
++ *
++ * Undefined (SHN_UNDEF) symbols are skipped.
++ *
++ * Return: 0 on a match, or -ENOENT.
++ */
++int module_kallsyms_find_name(unsigned int *symnum,
++			      const struct kallsyms_name_query *q,
++			      unsigned long *value, char *name,
++			      char *module_name)
++{
++	unsigned int start = *symnum;
++	unsigned int sym_base = 0;
++	struct module *mod;
++
++	guard(rcu)();
++	list_for_each_entry_rcu(mod, &modules, list) {
++		struct mod_kallsyms *kallsyms;
++		unsigned int i = 0;
++
++		if (mod->state == MODULE_STATE_UNFORMED)
++			continue;
++		if (q->modname && strcmp(q->modname, mod->name))
++			continue;
++
++		kallsyms = rcu_dereference(mod->kallsyms);
++		if (start > sym_base)
++			i = start - sym_base;
++		for (; i < kallsyms->num_symtab; i++) {
++			const Elf_Sym *sym = &kallsyms->symtab[i];
++			const char *symname = kallsyms_symbol_name(kallsyms, i);
++
++			if (sym->st_shndx == SHN_UNDEF)
++				continue;
++			if (strncmp(symname, q->name, q->cmp_len))
++				continue;
++
++			*value = kallsyms_symbol_value(sym);
++			strscpy(name, symname, KSYM_NAME_LEN);
++			strscpy(module_name, mod->name, MODULE_NAME_LEN);
++			*symnum = sym_base + i;
++			return 0;
++		}
++		if (q->modname)
++			break;
++		sym_base += kallsyms->num_symtab;
++	}
++	return -ENOENT;
++}
++
+ /* Given a module and name of symbol, find and return the symbol's value */
+ static unsigned long __find_kallsyms_symbol_value(struct module *mod, const char *name)
+ {
 -- 
 2.56.0.679.gc527c65306-goog
 
