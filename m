@@ -1,95 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.171
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794554849;
-	b=jv6jUM9MqvGJYknUVcMOFvZTjQTxU0N5VI2Es70WH88gBBqW/YhZtod8QpAcqEo/Ug+y
-	 zyk7IRJ+HQ2L27ptCtenf2CDlOC87s0PXXWr6ERADe3AQ6UR1TwgKuazLCK6IVsfOjst8
-	 QcAKGfRI1f6aCSB0IlKxNfr/MwDx70GeG5q5qYOeBI66ok9g5CNf4wbatetnc0l8I1czf
-	 VFC744Fp8T74i7ei9t//H/AEX6Kjgyoxv3ORBzuakcNirxADPLgKMfwUqaTR7VcWOoUhi
-	 DtI7ZkHiulMkRtu1kriEtAcJ0JjeE4/i18S5qJBemRhOvCczuhiey6dcAkV2wYv0Eqg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794554849;
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=209.85.218.45
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
+	t=1794557277;
+	b=enmTrQ929T7KaMaIx/QjLGRwTgQ2Fndrq1eS0IBwXAyUVexplNZlq8WLSRsksNPd/eni
+	 3nRqZgoLgVoXw4qIP3gDvzaPReE296onPQFViogMcaNyIyVJINNezQ9kHgULVNrbEsq8G
+	 fvOUdDp17piSIIQ3XDNKGZy8pgh6Cmuh9oAcMCt+rjDHkMBPP6Ew0fJ8v1WWLmmPTmDEV
+	 X3CYnYqDe1HwgjAKX03BoUIYS0oXFC3cXqRueTvYFNqQ2BNyycscb/VqeXgWUose+AMaU
+	 7rKX7WHu7ZcMBJoW31qbs6dlYxacMAD3b9u+r/f7sPaBKuCGzCeqbDmP30B6msoyrcA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794557277;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=hbenJVq9I5uwkDNPOZUGRpBZdFROzQQvvi7cvGqBcJI=;
-	b=wlQErL3jHkLQO59CjglRVE9/6W+Bw4Xaht9lD3axfPQIhJZABtoQHPpMzCeNGtgRV1V9
-	 hkesvpGf3+/F2TI5iEJ7gJEohEcfq53Pg8QvHx7HcprgKoCx2O6W5pUUyVt8gb8LkolRg
-	 zdXRRdVxD+jQ+SOjIwV5+M+VWUpzNbNyLGzpwL5FJpPy6fPyOno5dSGfseSR6xgvjwdOP
-	 bK/DWgTbmHq5X7O+Qh05kyhqv9ye5+aTWG0UUENPVtXFKg4EPKO4QATXksVRsNCX3FOjv
-	 07i3ksnCvdlocdMVMz7ix+0Z42kOZNSUb8LGECllM0s1odrw6TE6dQl3oTtuwESC5zg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=lmHcn2iB;
-	arc=none smtp.remote-ip=74.125.82.171
-Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=RJeDyy2z7kkHFWLo9C+DbCGPGNpT15WcYw9vAIT2GC8=;
+	b=RHJg8iEXMd0Cyp6soVSk4axoHHTmHCt/nzOj0EDetGlGbsKUR6n2p0WvBZ27La988hNH
+	 Co42psm9v8MxS2RI91475cDnUZ37/9KJE+OAzMlxm0qHtYjis94odp/YSfof0A6xxwpeH
+	 SR7h5f8eNOngpu/SKKg4xFirqafI5VrZ4iG8ivcNupBzlovwB2H4J1HvkUCuYh9iUsHGq
+	 W1aWV3ax+hy6mDvpMo1k/2P3c5TdOgSIeEjRUPTy0yKAE9tf+P6jzWTllEqv3onOO87UY
+	 cOVWKnTE0DRGWhT56wsC8fr4ZNrhCRzolhMv+BWxvTYcqcBaObsfAaBSoGga+LUWAmg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=ionos.com;
+	spf=pass smtp.mailfrom=ionos.com;
+	dkim=pass header.d=ionos.com header.i=@ionos.com header.a=rsa-sha256 header.s=google header.b=QH6Jarga;
+	arc=fail smtp.remote-ip=209.85.218.45
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9C35606A321
-	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Nov 2026 07:27:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B9C35606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22079606A32E
+	for <linux-fsdevel@vger.kernel.org>; Fri, 13 Nov 2026 08:07:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 22079606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ionos.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ionos.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=lmHcn2iB
-Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-37000e7234bso707259eec.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 12 Nov 2026 23:27:28 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=ionos.com header.i=@ionos.com header.a=rsa-sha256 header.s=google header.b=QH6Jarga
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c169ae1cb26so143178366b.1
+        for <linux-fsdevel@vger.kernel.org>; Fri, 13 Nov 2026 00:07:56 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794557275; cv=none;
+        d=google.com; s=arc-20260327;
+        b=dpKcUw8sL3snvO0Yp8w5aYJ+zBdxEWxq2kKp15y5lvjVsUcclHjPndUzckDuNdiY91
+         cq+qzRzfcXNTh+Plvb9ITP7jjKK3XjvQm7GGJdose2ndDJXNdpsnUifylqZ4poNDWN7p
+         Q3exUDxDoxbpzKqyLSyMetZQOsJiY+nHWLobzysNJ4so05VIkyPc9X5vhKGn9cOyESii
+         ZMMUgO1ScnMLqetMzrY70BpI5ewxIMmEsly7JrcZdJ6gPlu/l/yvNCNE3zSxhi2sxwxc
+         WUEaRyphSxF4iwcqJHxbRPd8z7b2ANShMzqcIbANXbpM0d2JWy7Z1eHEHnt0ARK3dRHF
+         rM3A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=RJeDyy2z7kkHFWLo9C+DbCGPGNpT15WcYw9vAIT2GC8=;
+        fh=ixnBgc2r51Bqmgx4sEaLx7gHRw0rLDOcpq7HoYg9sRk=;
+        b=d2mEsaN/Eas7xEW/jlBTd8On9V/JvsUlhEidirXfn1VHvBMWY3h4t3dSG4iPJjPleY
+         nBX3GagRbJFRvu22iRKutvNs9ZWHtkGkyXcB0oyWy5/bQ/qnG65rOdFGl6r4QqBOFors
+         YXhMPX+nofzOatL0lA/fbb2xvYF6lfal3/GtnSfnJZiJVPdSaHANjR3iYLiUiVCD60bx
+         x+piBN3REjKfJrKwNECn2iLANNml1yYYwJl0F2yZllSbnZhiKpJSA/GzOCFB1DEKljJ+
+         W59/B1zKU9SZS+n0rlu/jFrppNV/a+iBgWt6duo4+lgmRoYb9EgR1ij0ymVi293T2qBW
+         GCCg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794554848; x=1795159648; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=hbenJVq9I5uwkDNPOZUGRpBZdFROzQQvvi7cvGqBcJI=;
-        b=lmHcn2iBDfK/BEp8FbnWHVMIMWkAXFhf2+kKIrYPqhaPm2jkgLq8rlqYsTFU5B8x35
-         ONmCydGkPIDiOPHZlMGJ+buRFq1okRBfcUo0goVfGScG9+hdeWYkAFuECIx91mnk5K7G
-         bq6zlUkBc3uz/vduCikWfdKTsqLW6vy+pPk+3UjyovI+m7prOW0NnfG09SrILp265YK1
-         tf8tN6fvj36I+IXcRE5Db88fPGSiGD51+jU6EEMR3zChhozReFDGmAqvOCovWxaxiqdh
-         viPfWVSGwmzyCyYULIttrBU6Tr7G5OUzaU0hCn1Ka7dntjVSwBcvPoDqsg63PUUoGwCq
-         wnOQ==
+        d=ionos.com; s=google; t=1794557275; x=1795162075; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=RJeDyy2z7kkHFWLo9C+DbCGPGNpT15WcYw9vAIT2GC8=;
+        b=QH6JargaMxC4CdhJPH4dsQNGCIbw4+vTz+kGh9LSh3mPAtUV4bfoo/2GVax3xGeHNU
+         ouD9UL51e9WWuR/E6DWrHmndvAzJDQnCs7mspeAPBuhiyvMFai+Ll8X7VRj7l1lJOjaV
+         xdQrIhCwSBuj4WCyai9Ob5f+E5797mfoySukKn68nUMPGNy0LQwvznlritJqc7ncFkyz
+         ZGxCGLSon9hJmrv88rXn7z712MRY5b2uDxfcSnK5yDnBla6Fmn345Ue0LzraJX3Jzfmf
+         /4zQ9Pb2n6mDG0JuA6ylzkOsT6G5ATn1etq8WdsuKDMEArebn3rqaZXe/9DRZAhl9ne3
+         FQtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794554848; x=1795159648;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=hbenJVq9I5uwkDNPOZUGRpBZdFROzQQvvi7cvGqBcJI=;
-        b=iyBBaXxCrap4447QjCGYr+a5zFHDZU6yYdKOejBpszZgkF5zrHgNKmSVWbdixvpTvX
-         jr9AICO+lc4aI9QlgeSHeTncB1765p3xPWyuym2EdyvnSSxPlUAs4WoIvaG9v7MponNO
-         xrL3nDViHJl0Ay0zLRyp/82HBnGVBoV6G6AiVzYIEKrpcMoXK9eCloIrGmfomrWXJr1f
-         EKOLkzcmq3Dj0YPJ8Dmz9r7Ok7Fer71zOoynLtXzrNDXbfLzhOsLastlhyoFFsjqxcCk
-         +2Hnm8He2Znq+thBCp/m988SP4h3syi9SAC0qsHn2zQBO9QUafWltPq8/QG6s4QuMTXU
-         bIjQ==
-X-Forwarded-Encrypted: i=1; AL+hErHQ7CzGr0CNrI7NENMMcHav/s5WwVElDieb+0dZERWdxWa/WubsWS+WeZH9Csrj/roDN6baXGrIEAtyKbA9@vger.kernel.org
-X-Gm-Message-State: APuU4Z9uTxPfnrlylpP3AZp3Mp3eb4LZPpCc8pkZFh5Dtfomx+7bsnRg
-	FaDBs4SUa+iyOgVAqAq7pOyPTKdtjbc2CS66pLAD0+VteaYCK6MZ9y9V
-X-Gm-Gg: AYBFou3aLqDV+9tJFCpYcMANB1iSLwR+xQZw2q00tMlepq31vxtqpefhL8cl2xLwDJg
-	8XK5xTm8z2zyGiWRa4QUrKFbAlxOSVHNSNeGhxZNZx9SBPFCiTpC22XWWdwu3j0TfoAHX2jjWBi
-	j3DUPSSkZyGYtJKjbEE9zclmZMMdByyOYx05nWKt4BBlZoMQa7Sa+EYm6aQKHQVZQp+2NAnlYbO
-	cRCoTLg3tp5eruBDWXPNp1x5rLB4LpwnJ8B+gvU5Y6GUcq6ylKi28YF9EBfX45uzboK0bwZG62J
-	N8A6CJypYNDT4R7aDlpyWaa8VkTYd8JVMxGSbPlsQN/dTGN4KORoS9cWbkGj9r7p+i2FatlTi38
-	jK6bXgFOP4u0DKcPJFnWtjkI8iRe3Kmsdu8grIvsj+eg+WkZCmEL1Je5GpIm+U1bvr+uz/YWBEs
-	9TecfEbd89QM1kGXjaQyUAg8aq8pccD+b8FXj/NGXBep2aKkmUrKEwEpu+b0ojAdE62E9vh5xu2
-	wMlPzJXElD82rvmqPKhkq2jDr0U7DpmYixwTw4S7lve2CbM6fvklm6CULWUzOWAF0RRvLQcB60t
-	Uqk1ZaYhcSL/Jj6WTHH0sCa9usf0h+g5KtkQeQrWhdEutRKeCAq3SjUYoSsZnAfh0gcTIBKvGOb
-	81rUILofabjPt
-X-Received: by 2002:a05:7300:828e:b0:375:dbeb:b363 with SMTP id 5a478bee46e88-37966a575camr1303312eec.28.1794554847648;
-        Thu, 12 Nov 2026 23:27:27 -0800 (PST)
-Received: from LAPTOP-KD1TH5BD.tail375eb4.ts.net ([47.11.114.36])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3795378c2fesm4906698eec.1.2026.11.12.23.27.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2026 23:27:27 -0800 (PST)
-From: Gopal Malaviya <gopalmalaviya53@gmail.com>
-To: akpm@linux-foundation.org,
-	willy@infradead.org,
-	jack@suse.cz
-Cc: linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	p.raghav@samsung.com
-Subject: [PATCH] mm/readahead: don't skip the fallback after aligning index down
-Date: Fri, 13 Nov 2026 07:27:11 +0000
-Message-ID: <20261113072711.235264-1-gopalmalaviya53@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20260707; t=1794557275; x=1795162075;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=RJeDyy2z7kkHFWLo9C+DbCGPGNpT15WcYw9vAIT2GC8=;
+        b=NAKAmWTUGMitRdssRlQodgcP0W8jlv9QIbdG0myOd/OPlG33nreCtW86wx+oMrhyDx
+         yZzVBRoZOA967w5pRJJ78QsvukgZlUt5OkyCv2PpIAj848/jFICQP4vSTqJnTkOCMapX
+         7/tS14+2OZdHKhxo/axt/BnxlI6K42e/wEhvKBzd/QMBFc2Wt+X2T4hsmlhIaWziWyIx
+         0mK4OkCjxanWfYqA/ksF1kMxuXz66SYrJ9Lp96062CqwTdkHe58DQvDY2k0wIMrrxUB/
+         yZfowpIqnZ3Z4kgR9vxdNx2rR2/JtPRXGCvg+l0g27nq2X5iEbcYQ9JdMXOkXavDg8tx
+         o61g==
+X-Forwarded-Encrypted: i=1; AL+hErFwjUsXIuyydekvXl+CKlGZtMlPwPemTLizBBvk+ArpVvrjTyzUUJaD8S/a20bVCbJuWe2cETu9on93w257@vger.kernel.org
+X-Gm-Message-State: APuU4Z+TPup+gCw29YuRUZqOwEyGCX5YRUD6QQnhTSojqDatvNy0JW2X
+	aCYRNGt/WIUvlVkj3n7T7VPzoonZvX9z0SjHJ2uQ0PmRApsGBJ9wrh8XQNJDgzbB/BBpc7goFZG
+	hYhYOPwQsqkCYcMdynPNc9dii74DnihdkvAhjMzmjdw==
+X-Gm-Gg: AYBFou2EVwUecVYf02e57pxYiQjr8/nHgXe1wico4KA6XBh1X86h+JgefCpzuqnGSIo
+	1s4mlatYOQsyZCHMLrMoumerz7nScRgQDxPBjKkQS0j6jJhG8Y23D345X/l15ad3YsTQD0K3SvD
+	Pimrs4EC5s0HD7sd0aPL4pYxnoUBNmkHDAVOitmVPw3rHzhoy9yCjTm69sWRg7qBMX+4j3yYyz/
+	XkKoqvyyBeygD1LHDpTVcBAu0nlfAYztg6etps9dZzhkGqT11qApGtXGxJlerCP8DitomsbH9Vc
+	zAUK+UrHSDSwpXvlDoOCdIkFWR59SGVBkBlaJRaFl3wizRTa/Ys3l42z0lgboljneaGAgxJCqB0
+	lIyFhREw1bi+9Cg245TQNheheWREqcmcK7XDN3LwtKbejdZWn0ZLl2S8ZMoXTB7F3j8wCGa/4ty
+	evELYtXD4BVKs=
+X-Received: by 2002:a17:907:2d14:b0:c46:9711:e30e with SMTP id
+ a640c23a62f3a-c507c46b13cmr451895266b.29.1794557275408; Fri, 13 Nov 2026
+ 00:07:55 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -99,85 +105,44 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261111153631.1309838-1-max.kellermann@ionos.com> <mvh4ekf6iyfijuqggxhpl7kwxdyysx2zqdrp65bxitucxikwpm@6bkppgjyhsoj>
+In-Reply-To: <mvh4ekf6iyfijuqggxhpl7kwxdyysx2zqdrp65bxitucxikwpm@6bkppgjyhsoj>
+From: Max Kellermann <max.kellermann@ionos.com>
+Date: Fri, 13 Nov 2026 09:07:44 +0100
+X-Gm-Features: AclHuK9zR7kzmKYvs_047uhc-z1BRlEn56R2GSk6_IjDFBx3cCWd0_4I6VnEDCo
+Message-ID: <CAKPOu+91dBHnssGbHRi2BhwLPU_aoR71Bybh2ddGHeg_G=j4rg@mail.gmail.com>
+Subject: Re: [PATCH] fs: pack fields `i_state` and `i_fsnotify_mask`
+To: Jan Kara <jack@suse.cz>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-page_cache_ra_order() rounds the start of the readahead window down to
-the minimum folio size of the mapping, so on a file system with blocks
-larger than the page size, index can end up below start. If adding the
-first folio then fails, for example with -EEXIST because that folio is
-already cached, the loop stops with index still below start, and the
-check before the fallback
+On Thu, Nov 12, 2026 at 7:38=E2=80=AFPM Jan Kara <jack@suse.cz> wrote:
+> When moving i_fsnotify_mask please move it along with i_fsnotify_marks. I=
+t
+> should better be in the same cacheline because these two are accessed on
+> some performance sensitive paths.
 
-	if (ra->size > index - start)
+Tried that, but:
 
-wraps around, so do_page_cache_ra() is not called and nothing of the
-window is read.
+        struct inode_state_flags   i_state;              /*   120     4 */
+        __u32                      i_fsnotify_mask;      /*   124     4 */
+        /* --- cacheline 2 boundary (128 bytes) --- */
+        struct fsnotify_mark_connector * i_fsnotify_marks; /*   128     8 *=
+/
 
-For example, with read_ahead_kb 128 and 16 KiB blocks, the mmap
-read-around window for a fault on page 1042 starts at page 1026, index
-becomes 1024, and if pages 1024-1027 are cached, pages 1028-1057 are
-not read ahead.
+The cacheline happened to end after "i_state" (and now
+"i_fsnotify_mask"). I could move "i_state" down instead, or move other
+fields around - but you're a better expert here, please advise what
+you believe is best.
 
-Compare with the end of the window instead. Where index is not below
-start, this is the same check and the same number of pages as before.
+--=20
+Max Kellermann
+Principal Architect
+Hosting Technology
 
-Tested in a KVM guest (x86_64, 2 vCPUs, 3 GiB) on mm-hotfixes-unstable,
-with XFS with 16 KiB blocks and with ext4 on virtio-blk, read_ahead_kb
-128. A test caches page 1026 of a file with pread() on a
-POSIX_FADV_RANDOM descriptor, then faults page 1042 through a mapping,
-and counts the cached pages of the window [1026, 1058) with mincore():
-
-                                       before   after
-  XFS, 16 KiB blocks                      6       32
-  XFS, 16 KiB blocks, nothing cached     32       32
-  ext4                                   32       32
-
-Tracing shows the fallback now running after the -EEXIST, as
-page_cache_ra_unbounded with index=1024 and nr_to_read=34.
-
-Touching 1% of the pages of a cold 20 GiB file on XFS with 16 KiB
-blocks, at random, at a stride of 2053 pages, or as random runs of 2
-or 4 adjacent pages, reads the same amount before and after, within
-5% over two runs each, at read_ahead_kb 128 and 8192.
-
-Not tested: other block sizes, other file systems with large blocks,
-and other architectures (built for i386 only).
-
-The problem was pointed out by the Sashiko AI review of an unrelated
-patch [1]. An AI assistant (Claude) helped with the analysis and the
-test, and drafted this changelog. I reviewed, implemented, built and
-tested the change.
-
-[1] https://sashiko.dev/#/bug/linux-da6e8836-f808-4b39-9f04-de52995a0162
-
-Fixes: d5ea5e5e50df ("readahead: properly shorten readahead when falling back to do_page_cache_ra()")
-Signed-off-by: Gopal Malaviya <gopalmalaviya53@gmail.com>
----
- mm/readahead.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
-
-diff --git a/mm/readahead.c b/mm/readahead.c
-index 6e55632902..afcde18316 100644
---- a/mm/readahead.c
-+++ b/mm/readahead.c
-@@ -552,10 +552,12 @@ void page_cache_ra_order(struct readahead_control *ractl,
- fallback:
- 	/*
- 	 * ->readahead() may have updated readahead window size so we have to
--	 * check there's still something to read.
-+	 * check there's still something to read. Compare with the end of the
-+	 * window, as index may have been rounded down below start to the
-+	 * minimum folio size.
- 	 */
--	if (ra->size > index - start)
--		do_page_cache_ra(ractl, ra->size - (index - start),
-+	if (index < start + ra->size)
-+		do_page_cache_ra(ractl, start + ra->size - index,
- 				 ra->async_size);
- }
- 
-
-base-commit: 76f5384740b2fd9ee5d71da9d49b271d37c5a51b
--- 
-2.43.0
-
+cm4all | Im Mediapark 6a | 50670 K=C3=B6ln | Germany
+General information about the company can be found here:
+https://www.cm4all.com/impressum
+A member of the IONOS Group
