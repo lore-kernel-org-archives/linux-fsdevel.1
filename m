@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794670213;
-	b=3Smug9MCyvrs9pdu7xMkdPAFDhuBZyYV8ZL+nACS491SaRTOzlhZ1IKxn/Mubygvaac2
-	 CbKrmTKG+OQz2l+p0B1mW7XUTiXiSXecPQiMISQQapMKDgemQk3CLq2HFqsCpZd98o2BI
-	 +s8NJxKTk33nn4IPAsivuveRclBGOAMeyLb/2mUesMaShNBM8Ugjd2S06IZ5B57xx5vaL
-	 Ql0EcPB1QT+FnINbZ7qE8BoquHpWnqQHj/uFcvXgvvqnTeleXEFI0c9jDjeBTu9kygwQZ
-	 /0PKSm9lBIazPzM6adPhXq+UolUQ9HOCedFMY5onyoAcSlUFRqViWPkGaMgI5o5NE3Q==
+	t=1794670795;
+	b=cXEvFr6kHZBkhVwXmqhs1FdkM3u2T4tlqGTDc8pg5ocANL9B0IYc1AszVDyd/kt2kUhG
+	 kf51aP55ngOw/PTJ8WRofho1fKy5jcwrpigCW2jQZ/2A0ZqWesNrUJVNBmErE/k9hpqhu
+	 zeQWt5LDSI20IoYIndukdAEuy9P7MJcfiE7oueyldHRRvPTe5roJlQzPQ/hdwebEQT3aR
+	 +XoBtnFGixvlixDmtRQUhHVylRsi+DAds+sPA6f5MHHzT/6EHIzU7PJNjN6qTrlQB2brB
+	 pfkNLAy+/LfsGWq3/Z9o/hmM8tRk1v/WxVw3E35yBcjs3zcQTbhbE2eCan4BEn4eaeg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794670213;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794670795;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=/CaF/dW7GT+ZrmvxDzq7Ic0oGysgXTuvqm7cExj2OFs=;
-	b=bV5jwxJKPLe7JcxHz77h7xpWEsYKskgdqPAmCzrJi1qKVnVnsBpRBNp+16TUS6sYtd8c
-	 PBEcMCZBJwVQJgZiYnzLnZISyZQaSEqvyUsx75Txi3WeM8mNn7NpZmn00Eu2ot6S+oVCT
-	 Fv8Qpt+r0cnACLkk9EDgXcYiUYzZjjxPBKt2lNhhDvclsHN92BQWz9u+kQlaNPfHetp7y
-	 fcQksgqgMbREmrOLR40fgLdIRE55hqaRBrtVrqJqiubg8KaLMeh44pqOu1IVG+ZDCL4AE
-	 0zrReWSq0P1A/YJ9A/UTltHPfV8/BaMTfT9QZTTyLxF0uzAlKvJydJosIk+1vcR/pJg==
+	bh=X5eNB7t15oqibkYLEbf3vFkeTE0MI+KiGdQxvQFH3vg=;
+	b=rYNCqleqNxSliQY8tjYHsgoSJN+zw6cowe2/KkradpiXiVQeaEeearVr6pFHW1w6x2Vi
+	 J4VQAoFVuJKt1DAm68dKLg7sdpTGQhHLSwn9QqTKJRJEc/v0Emv1sjhBm2GfYkMZluJef
+	 sdkTA2MfYVxDDAXAZo7N5SVBGaCapMXakjTBzRbL95Sm7m9aYiFdRsWPVFan2Byu5Nior
+	 GhXGRTXTzkcf675iWUPwmyM0Gio9YowQleHVnWj1oQrlu/AbPzuSVtm9ooAIOm1+76CA5
+	 wfahHmMmYhKVOqdLeqGQ4Tbu0pTi7twi4/38pLf7e9qgvo+BNLKiScTZGfjq6GkY4MA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i+aUZtMR;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=R9IZPu56;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9779C606A327;
-	Sat, 14 Nov 2026 15:30:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC790606A327;
+	Sat, 14 Nov 2026 15:39:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i+aUZtMR
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C3C61F000C4;
-	Sat, 14 Nov 2026 15:29:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=R9IZPu56
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E2E61F000C4;
+	Sat, 14 Nov 2026 15:39:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794670213;
-	bh=/CaF/dW7GT+ZrmvxDzq7Ic0oGysgXTuvqm7cExj2OFs=;
+	s=k20260515; t=1794670795;
+	bh=X5eNB7t15oqibkYLEbf3vFkeTE0MI+KiGdQxvQFH3vg=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=i+aUZtMRmMOBNXRqSIDbEiKG4TPzDUf9FBBuOfX1hLk+/UMOfEspx76/idXZdkTRQ
-	 cEHGiWZAV8Fhautj1kgxTSscEygG9RYcPg4k4yHtuDiRp6JMWil1CGIqq0yKLnObVB
-	 tc0qomhVBwL+MCFLGYPWZWqjxEQqi/id7QDNMwE/DHzAfases6bt60v5kldjFoGxgd
-	 tMu6mjX4k/eXmE0mIDULY47ZSmE6SWtk6xMjdLxUP9uG3WJjBa/3oP70L5vu1sBxLE
-	 u3or5uDPmHABtKwFnb8LIKXvJ00fMDmvGBlnPGRJ7WKGoyur84qvsKn+3zuurFXR6n
-	 QuD3RXY0HMZEw==
-Message-ID: <2e6b3b24-a901-4147-a01b-a8da0e7c5ebb@kernel.org>
-Date: Sat, 14 Nov 2026 16:29:53 +0100
+	b=R9IZPu56rcOtuEEtMLDxI46lPqueOi50zstru67q8h5p5BHM4vSyaZe8p+7nnG0YW
+	 emOitgZWSXZvi8MHAANezIPSoH3rzGObtF177H/gG6ZNm7/YVnUiz1F+sZlxrCBYz1
+	 g+9auJWpWmSQl9aqTQ89LdUUAn1z891utpLgCvPVv3qA49q5tAeKchWnfA7bLERAOi
+	 IttAJOudp9wQXqLoJAl9jTG7Iii+j1yjJj29ptRwWcvMDu8v7UbP6qrpNm3fAPNqyK
+	 /wJt08rgmxK1t2GfhYxADkh6MrDnRhOINHy4qyNxenT9MncKmBRn6Qif3nRxJtV71K
+	 mF2G5t7uBO2mQ==
+Message-ID: <822c1c7e-bfdf-4570-bf30-08f187e7253d@kernel.org>
+Date: Sat, 14 Nov 2026 16:39:44 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -52,44 +52,27 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/9] mm: limit pagecache folio refcount when mapping
- pages
-To: Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+Subject: Re: [PATCH 1/2] mm/userfaultfd: prevent poison marker loss
+To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>, Mike Rapoport <rppt@kernel.org>,
  Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>,
+ Peter Xu <peterx@redhat.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Zi Yan <ziy@nvidia.com>,
  Baolin Wang <baolin.wang@linux.alibaba.com>,
  Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
  Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
  Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Kiryl Shutsemau <kas@kernel.org>, Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>,
- Gregory Price <gourry@gourry.net>, Ying Huang
- <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
- Peter Xu <peterx@redhat.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Song Liu <songliubraving@fb.com>, Rik van Riel <riel@surriel.com>,
- Miklos Szeredi <miklos@szeredi.hu>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
- Hugh Dickins <hughd@google.com>, Will Deacon <will@kernel.org>,
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin
- <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>,
- Arnd Bergmann <arnd@arndb.de>, Jason Gunthorpe <jgg@ziepe.ca>,
- Kevin Tian <kevin.tian@intel.com>, "Joerg Roedel (AMD)" <joro@8bytes.org>,
- Robin Murphy <robin.murphy@arm.com>,
- Steve Sistare <steven.sistare@oracle.com>, John Hubbard
- <jhubbard@nvidia.com>, "Jose A. Perez de Azpillaga" <azpijr@gmail.com>,
- Josef Bacik <josef@toxicpanda.com>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Neal Cardwell <ncardwell@google.com>, Kuniyuki Iwashima <kuniyu@google.com>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev,
- linux-arch@vger.kernel.org, iommu@lists.linux.dev, netdev@vger.kernel.org,
- Chris Mason <mason@kernel.org>, stable@vger.kernel.org,
- Pedro Falcato <pfalcato@suse.de>
-References: <20261112-refcount_overflow_stable-v4-0-ad3deef0bd23@kernel.org>
- <20261112-refcount_overflow_stable-v4-1-ad3deef0bd23@kernel.org>
+ Kiryl Shutsemau <kas@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>
+Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-mm@kvack.org,
+ linux-trace-kernel@vger.kernel.org
+References: <20261107-b4-uffd_marker_loss-v1-0-82926b22704c@kernel.org>
+ <20261107-b4-uffd_marker_loss-v1-1-82926b22704c@kernel.org>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -136,193 +119,39 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20261112-refcount_overflow_stable-v4-1-ad3deef0bd23@kernel.org>
+In-Reply-To: <20261107-b4-uffd_marker_loss-v1-1-82926b22704c@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 11/12/26 23:53, David Hildenbrand (Arm) wrote:
-> With large file folios, overflowing the folio mapcount and refcount
-> became possible more easily. For anon folios it is currently not really
-> an issue: each large anon folio can only be mapped once into a process; on
-> 4k kernels it would be more processes than usually allowed on a system,
-> and on 16k or 64k kernels the processes alone would consume hundreds of
-> GiB. Something to be sorted out at some point, but it's not as urgent.
+On 11/7/26 00:51, David Hildenbrand (Arm) wrote:
+> Unregistering userfaultfd leaves poison markers in the page tables.
+> However, once unregistered, hugetlb PMD tables can be shared again.
 > 
-> Being able to overflow the refcount is not really big news, but it's about
-> time that we do something about it because some modern technology might
-> find ways to abuse it :)
+> Further, shmem page-table retraction can discard poison markers even
+> while registered in missing mode, and fork() can skip copying page
+> tables containing poison markers.
 > 
-> One of the enablers for that was commit ddc58f27f9ee ("mm: drop tail page
-> refcounting"), however, file thp support was added later.
+> To fix it, add VM_MAYBE_UFFD_POISON and set it before installing poison
+> markers. Preserve it across unregistration, splits, merges and fork(),
+> just like we do with guard markers.
 > 
-> File folios can be mapped multiple times into the same process, allowing
-> for processes to hold many references to the same folio.
+> Use the new atomic VMA flag to disable PMD sharing and page-table
+> retraction, and to force page-table copying during fork().
 > 
-> As a short-term solution, let's introduce two folio refcount limits:
-> one for ordinary consumers and one for admins. Leave some headroom
-> before the refcount goes negative, which we really don't want (having
-> the mapcount go negative is also not expected).
+> Move VM_UFFD_WP to bit 44 and make HAVE_ARCH_USERFAULTFD_WP depend on
+> 64BIT, freeing bit 12 for the new flag on both 32-bit and 64-bit systems.
+> Expose the flag as "up" in smaps.
 > 
-> Start reporting SIGBUS and a ratelimited warning if we run into limits.
-> When restoring mappings from migration entries, instead zap the pte/pmd
-> entry. We allow for slightly exceeding the limit to keep things simpler.
+> Losing poison markers, while unpleasant, is not really fatal, and the
+> use case is rather a niche thing. In addition, we rely on the atomic
+> VMA flags infrastructure ... so let's not CC stable.
 > 
-> During fork(), prefer not copying page table entries over failing fork.
-> For fault-around, check in next_uptodate_folio() before trying to lock
-> the folio.
-> 
-> Export folio_ref_count_over_limit_slowpath() using EXPORT_SYMBOL_GPL
-> right away so modules can use it through try_get_page(), where we will
-> use it next.
-> 
-> Use has_capability_noaudit(current, CAP_SYS_RESOURCE),
-> so filesystem credential overrides do not affect access to the admin
-> reserve, and to not generate auditing messages simply because we access
-> optional reserves.
-> 
-> Don't grant access to the admin reserve from kernel threads, from
-> interrupt context, where "current" is just the interrupted task, or with
-> IRQs disabled, as even unaudited capability checks can take locks.
-> 
-> This is far from ideal, but better than all easy alternatives we can
-> backport comfortably. For now it fixes the big problem: letting
-> the refcount (+mapcount) go negative and cause trouble.
-> 
-> This is only a temporary fix. Keep the mapping checks explicit and
-> separate from reference acquisition: most are expected to disappear when
-> we rework the underlying refcounting.
-> 
-> Check order 0 folios as well for consistency: each
-> folio_add_file_rmap*() and folio_dup_file_rmap*() needs a prior check.
-> 
-> Adjust the check in folio_get() to just check for invalid refcounts and
-> drop folio_ref_zero_or_close_to_overflow(): we really don't want
-> negative refcounts or negative mapcounts. Convert to VM_WARN_ON_FOLIO as
-> we touch it.
-> 
-> Also, just document -EHWPOISON for copy_present_ptes() while at it.
-> 
-> Note: When zapping file migration entries, uffd-wp is preserved using PTE
-> markers, but uffd-rwp protection is lost because there is no corresponding
-> marker. try_to_unmap() already has the same problem when unmapping file
-> folios, so we'll happily ignore it.
-> 
-> Reported-by: Chris Mason <mason@kernel.org>
-> Fixes: 800d8c63b2e9 ("shmem: add huge pages support")
-> Fixes: 99cb0dbd47a1 ("mm,thp: add read-only THP support for (non-shmem) FS")
-> Fixes: 793917d997df ("mm/readahead: Add large folio readahead")
-> Cc: stable@vger.kernel.org
-> Reviewed-by: Jose A. Perez de Azpillaga <azpijr@gmail.com>
-> Acked-by: Zi Yan <ziy@nvidia.com>
-> Reviewed-by: Pedro Falcato <pfalcato@suse.de>
+> Fixes: fc71884a5f59 ("mm: userfaultfd: add new UFFDIO_POISON ioctl")
+> Fixes: 8a13897fb0da ("mm: userfaultfd: support UFFDIO_POISON for hugetlbfs")
 > Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 > ---
 
-I'll squash the following into the applied patch.
-
-I will not print the PFN for now; it's something that can be
-forced by a user so exposing the PFN makes me a bit uneasy. If we
-are ever sure that exposing the PFN is ok we can easily add it.
-
-As I replied, for these stable fixes I will leave the refcount
-handling as it is right now. We don't expect negative refcounts 
-r mapcount (folio_mapped() is a prime example). I especially don't
-want that in stable kernels where we might have older code that
-dependes on that.
-
-That part will be reworked and optimized as I'll change the refcount
-handling for page table mappings; then we'll be able to drop the
-admin reserve and the limits, and just cap+warn once the refcount goes
-negative.
-
-From 423c4226789587ee4aa3e0e34760dab9a52e2947 Mon Sep 17 00:00:00 2001
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Date: Sat, 14 Nov 2026 16:27:17 +0100
-Subject: [PATCH] fixup
-
-Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
----
- mm/folio.c | 26 ++++++++++++++++++++++++++
- mm/util.c  | 26 --------------------------
- 2 files changed, 26 insertions(+), 26 deletions(-)
-
-diff --git a/mm/folio.c b/mm/folio.c
-index dc2c796a4ea74..1cafa45a6a834 100644
---- a/mm/folio.c
-+++ b/mm/folio.c
-@@ -151,6 +151,32 @@ void __folio_put(struct folio *folio)
- }
- EXPORT_SYMBOL(__folio_put);
- 
-+bool folio_ref_count_over_limit_slowpath(const struct folio *folio,
-+		unsigned int ref_count)
-+{
-+	if (ref_count >= FOLIO_REF_COUNT_ADMIN_LIMIT)
-+		goto over_limit;
-+	/* Background threads must not consume admin reserves. */
-+	if (current->flags & PF_KTHREAD)
-+		goto over_limit;
-+	/* Neither must interrupt contexts on behalf of the interrupted task. */
-+	if (!in_task())
-+		goto over_limit;
-+	/* Capability checks are not safe with IRQs disabled. */
-+	if (irqs_disabled())
-+		goto over_limit;
-+	/* Use the task's credentials, which filesystem overrides cannot change. */
-+	if (has_capability_noaudit(current, CAP_SYS_RESOURCE))
-+		return false;
-+
-+over_limit:
-+	pr_warn_ratelimited("folio:%p refcount:%d mapcount:%d mapping:%p index:%#lx reached refcount limit\n",
-+			    folio, (int)ref_count, folio_mapcount(folio),
-+			    folio_mapping(folio), folio->index);
-+	return true;
-+}
-+EXPORT_SYMBOL_GPL(folio_ref_count_over_limit_slowpath);
-+
- typedef void (*move_fn_t)(struct lruvec *lruvec, struct folio *folio);
- 
- /*
-diff --git a/mm/util.c b/mm/util.c
-index c9c3dc4b490fa..80f6c714844f2 100644
---- a/mm/util.c
-+++ b/mm/util.c
-@@ -791,32 +791,6 @@ int folio_mc_copy(struct folio *dst, struct folio *src)
- }
- EXPORT_SYMBOL(folio_mc_copy);
- 
--bool folio_ref_count_over_limit_slowpath(const struct folio *folio,
--		unsigned int ref_count)
--{
--	if (ref_count >= FOLIO_REF_COUNT_ADMIN_LIMIT)
--		goto over_limit;
--	/* Background threads must not consume admin reserves. */
--	if (current->flags & PF_KTHREAD)
--		goto over_limit;
--	/* Neither must interrupt contexts on behalf of the interrupted task. */
--	if (!in_task())
--		goto over_limit;
--	/* Capability checks are not safe with IRQs disabled. */
--	if (irqs_disabled())
--		goto over_limit;
--	/* Use the task's credentials, which filesystem overrides cannot change. */
--	if (has_capability_noaudit(current, CAP_SYS_RESOURCE))
--		return false;
--
--over_limit:
--	pr_warn_ratelimited("folio:%p refcount:%d mapcount:%d mapping:%p reached refcount limit\n",
--			    folio, (int)ref_count, folio_mapcount(folio),
--			    folio_mapping(folio));
--	return true;
--}
--EXPORT_SYMBOL_GPL(folio_ref_count_over_limit_slowpath);
--
- int sysctl_overcommit_memory __read_mostly = OVERCOMMIT_GUESS;
- static int sysctl_overcommit_ratio __read_mostly = 50;
- static unsigned long sysctl_overcommit_kbytes __read_mostly;
--- 
-2.56.0
-
+Ping on this one.
 
 -- 
 Cheers,
