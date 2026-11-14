@@ -1,102 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.70
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794665613;
-	b=TI0D3/hLl7n6NmPiNFGeV97WKYK8tUy4Tg7ucLh/Tt8SU1TX7XaZx77lOiP802hFCQH6
-	 meuIo0TAoyC+IsJLAyN1Ez2UcN0bF24xMAuw+oF9BVDpioijqKmMLef0mwOzMbsUGaNOk
-	 2kvoFFxY4ZCmYteC47xJDe4J/1mKU9SjBkenF8uWnp+GClGllK5+NOPCuFKRw4LPY6T7d
-	 Vct+q5+z87RMVzcuSKbj6f5LCB6IkfD2VTyP5dS7WAJVHwCGWIUSGu1GlHz7jyF1T8As5
-	 PetrikQk6bVf/ipFOFVwoIE655uahbDIDsu5uVgHmk/HddMg6nxwvKTi/93STYAyykw==
+	t=1794666453;
+	b=C9zUJKmGX3iQSjQc9O24nUDsu/RBX7nPC9PdaBBKtqqVuWQGH/FU4gWNXPNmNaQECKqM
+	 cLD4BxG5SUy3m2/P0u4miLbgFfCgZXGNS1v4Vv+rjSfyRgrSQPj7ZN/A03nsMOy/FNGtL
+	 jQo1cOptwGoZmoPhdHZDHpl5a0jjdkabI6x7H6sHcFXRH+4vEP5cdZ0xofb6MQp2wqBgD
+	 kSkrPyxxyf9H1cqnC4rF1dP6L8p02HWXZoMamg3buhCRizdqjN9vKwEbPbLxaaIej9t/Y
+	 S8wKZk6VeMAPwoUOis1M7dMCWw3JrduRuHYd5A+x/qsvyeuNVSYL3aWQ0k2jXhUwJAg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794665613;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=uxgyh6i/oWZUfGjNhOfAz/zPxc/xSTYW7KM0UR47m2k=;
-	b=fQmK3yLBTxSSswh3vSMSoUKNuqUekMOx6kQNqSBFcnkeLMs4IO9dRKq2g3QTRwjk4/8a
-	 ju5SYBfnA9rvhFEVbs17XjmiZtQfZCiezD5o+0Lmtwyxl60noMELfD7DHvqNW5cIFL7dN
-	 EOZLzUC/u4rREkBio++Yh/+mCroKkf8R92nOH8xyaGMtR+Nbw1LjxxM4j9Bua4e2P+Y3u
-	 R/VZV5M9HPqKg/r5cWJQtov0Ail4piG+GfKusr3dqBncchLB8/KRD6+sYI5XLo2PfPYWN
-	 CYIzWbT0psYIm/8fElM9PxdTFsa9QqVDA47Hot8AdBJFaV96Rn0PVngegSu4OLOClVQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794666453;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:MIME-Version:X-Received:Date:
+	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
+	 Subject:From:To:Content-Type;
+	bh=YfG/qSQI5pTIdG2JUWK/8TRtadRGl682+LLoIQ+5zow=;
+	b=tSCu0VYNBZ+jWEH6+OBsUFOua239mtIU9QsdVh4NVBXLAapsY1Qv4e79yR2A0742IF8F
+	 LLQXdOlJRrH73W7T7wwD6ZFn/5k82l5N4zd7pEFo1l44oNcXX47R5KP5UjwYkjnszbw/O
+	 Yzsz53D+2eFglTcIaiHqVp27rkohU+WQFiEE1f73nuZBBoumjzid8Ud9pBk/fH/ZDbM7d
+	 i/oXDKP3unlD8yuMgsvq91qta90LVV/FCQjgH92K0uw8KoNJfJ8ucOUWpbgmvHH0T/ruA
+	 vfGJichj3koq7R+OjBVcVbqfejg62oEp1Atvc5SgzCxu+5eb7M8GJhHcWCihz9BG8lg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=yMeAkMAr;
-	arc=none smtp.remote-ip=209.85.216.51
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	dmarc=fail header.from=syzkaller.appspotmail.com;
+	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
+	arc=none smtp.remote-ip=209.85.210.70
+Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com [209.85.210.70])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84590606A333
-	for <linux-fsdevel@vger.kernel.org>; Sat, 14 Nov 2026 14:13:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 84590606A333
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=yMeAkMAr
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-3b0a519049aso2497766a91.1
-        for <linux-fsdevel@vger.kernel.org>; Sat, 14 Nov 2026 06:13:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794665612; x=1795270412; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=uxgyh6i/oWZUfGjNhOfAz/zPxc/xSTYW7KM0UR47m2k=;
-        b=yMeAkMArubHR4DSJuBnOkE7Qh6AkLnwz04oh3s89COwiQzFY5xBgPxpEQN9ipD1koo
-         iw0DQ1LHb2HMpmR9YPsWCdO8fGNfiG9aNQfs2evwHEXyeRq+a32i+qS6jcxGP8/GKNsL
-         zxTjYXZitfPyNvlbH1OBbM04m5Zs9zla1eyrTrnUbxN3GMIMCVXcvnKLU3pZie9s9Soo
-         djZfcFN1qye4NirJiSb83s489KRzsa+3xTeXS4qwXU5yXIdmI6CzuF3tqzHci4hEwP/O
-         13S5mQYBdZhbNwojuKI68msROTMmHiBjoliq7WMt/y4JGZaP50xkGiMks8sp6JoAU823
-         J96g==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35EDD606A32E
+	for <linux-fsdevel@vger.kernel.org>; Sat, 14 Nov 2026 14:27:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 35EDD606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-ot1-f70.google.com with SMTP id 46e09a7af769-8628955a085so2730578a34.3
+        for <linux-fsdevel@vger.kernel.org>; Sat, 14 Nov 2026 06:27:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794665612; x=1795270412;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=uxgyh6i/oWZUfGjNhOfAz/zPxc/xSTYW7KM0UR47m2k=;
-        b=rGsKrPgByV0Uyk9iLeK9NJ7K+nG/+ocL8sWa6+GEliSJc9J3nHAwco5sqMDWn1bpvG
-         0DR3laW4AmpiUFUdYKIvRQDKONMhCwK4VM5FftFofj2f+RPyZ/FtHl1j+t5rVtqjsYgn
-         SoQKdpzSEPn2lP0p6gb6TaFNr1MpDad5EzZJB7hvxILBbb5VRHAkdHUln8IQZ1fc5jpj
-         PRKHg2U7PJHM3trfeoPk4o7UpL5UvA0XMXexDXWKCsCBvhHDMT1xO07Y7E0RvXTgzT/z
-         Rt1wBFTyFyO+cMXpDhfF05e2wbMN6LJNNpViH0CTro1bVsC5qn0LloRk8GIs7aUbYaua
-         voog==
-X-Forwarded-Encrypted: i=1; AL+hErEBienJ/Tz9FttStzgwN2puhBfxRdD01aN7flMtWEGn1nJRcEIL2CzwUL+GTrsVah3LkujBowb1UXQVDQuj@vger.kernel.org
-X-Gm-Message-State: APuU4Z8wj43Zci6cISm1ICm/iP2h17Qa2wh32RngX8ShL9mcIknWOWj0
-	FE0UtGysijDjlcxz0yN5TXsauzPgQUkh5aJmOd+6jB0izr02hWg+bbxG7N/MKEsmg5g=
-X-Gm-Gg: AYBFou08lrWg3NZC2KY5esmQ+f9l05FMezjQZ0Ht0kMSE5/wJ/DatxO6egoyz/yaXwO
-	zj0CCQEO1BNhTu5gHsF/g3WKMbB+mXFvUGt4i6esRBJxJioM5KokP4rGMTQ3UoiAGHkvaIvrPef
-	CVtuQi0BuZUveU0DPX17wHGDgqS1S02C+B1JPvEN+u6Y0y52NJPhb8lq0BeClByastQ2Khi7FfE
-	wCK9lAj94bibD9B9v9t6nX/kYp2ZnYSGBa4w7lQnDdqZufWyRAfk7NGFrlAyiHnADfV5RGQSFur
-	zNJ2KYscEHYkcTXtm0JWLry2sfdp5w3szn09MAVrRMHwETvXwCWc5MGlaLtAM9Jo8n/7ZbBP1Lw
-	H8gIwG8uPoxSxoIw82fUJRL6AekeHv5lCO0djg/Ru8nTjKuP3EFYsUAH/Q5Zqf0DnWuPeLnIJB0
-	JL9YpnyVIb5CosAMKVVsZD6zTonnpMKld6wKptXWpw+FBWv6914wbTi71OXf6XScLHmA0MlYqZ9
-	RDTDpIat4qrADwwl2ExABh38svxfGQkE6gkWdSViWa7rDX+IOvlBj0lqeqZ/JVPXKUS33Mzuij8
-	noglOT5Rwwn3lwFYcoaf7ENvLlqypx/QUeIl3jqVZvCKrQmw5MkfMU0YyTAc8MKMkNLdDe5LhzH
-	e
-X-Received: by 2002:a17:90b:4c49:b0:3ab:4f1:4f7e with SMTP id 98e67ed59e1d1-3b1b0b8ef0fmr5424088a91.28.1794665612491;
-        Sat, 14 Nov 2026 06:13:32 -0800 (PST)
-Received: from LDYT9Q2G2M ([2a09:bac1:7680:450::1c:35f])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b197d0f6e0sm14221601a91.9.2026.11.14.06.13.26
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 14 Nov 2026 06:13:30 -0800 (PST)
-From: Zhiqi Zhang <zhiqizhangg@gmail.com>
-To: Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>
-Cc: Jan Kara <jack@suse.cz>,
-	=?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
-	=?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack@google.com>,
-	Paul Moore <paul@paul-moore.com>,
-	James Morris <jmorris@namei.org>,
-	"Serge E . Hallyn" <serge@hallyn.com>,
-	David Sterba <dsterba@suse.com>,
-	linux-fsdevel@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	linux-btrfs@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ns: skip namespace_init LSM hook for internal namespaces
-Date: Sat, 14 Nov 2026 22:13:23 +0800
-Message-ID: <20261114141323.19029-1-zhiqizhangg@gmail.com>
-X-Mailer: git-send-email 2.54.0
+        d=1e100.net; s=20260707; t=1794666452; x=1795271252;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=YfG/qSQI5pTIdG2JUWK/8TRtadRGl682+LLoIQ+5zow=;
+        b=yPjfoAJ/jrYTRfm2G0Iu9JjITTRXDl4NORl7Vvgo5KqZcGuV54uTDkiU/x3kXHslxL
+         XKskL8ozO6HkKHpNnRiX50oeyUBCsB/XkNqjdwVINjt+oR6F/2WKqMHe1MjsI7909cAp
+         ipoj9cZtY7uCW+6nBOdTrgtYaZHpFb74eDSim52/kLBI/whuu92TGzwwRc90DhmH/tHi
+         +Zj4CGeV6CksREKdWE23i143AeHjsWbH1nCtpFhu7GrSMFiM9cYQ/cIZWjorjxlx8HK3
+         NnaAAvTc9EuLcg5jFJY2IPwW3JYaJ4SPD6+n9d0rMLHYGLYiWlk9YvXcgJh4Mc276WdB
+         pR1w==
+X-Forwarded-Encrypted: i=1; AL+hErGqAA1sP/LeJzyba8FQ3Z6w+cNUNtpr/SfaiCVLNcNA4p2DMprkEoLTcqpLOmhWVXzVf9BHTJ1+/xDxLqbV@vger.kernel.org
+X-Gm-Message-State: APuU4Z91wVREiHUwdJtT0Xps72ffW4+9C737dgD1eGD8NdB7n5qR/Pm0
+	xRhxojKfKd15ywujuNsJpup6V3qCg70kN7zEcSKZ1F4CglVRlcgZWVo7UovyclC9UmVWBMJNdxQ
+	q5L0XC3abPWv95/gb9+4tdLrImH3SxFSNjberGUsKTH8zqFbWVhgW815d/d8=
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -106,244 +58,127 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6808:2208:b0:572:d0fb:ae57 with SMTP id
+ 5614622812f47-572d10afe15mr174078b6e.28.1794666452208; Sat, 14 Nov 2026
+ 06:27:32 -0800 (PST)
+Date: Sat, 14 Nov 2026 06:27:32 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6af86fd4.07d0a7c9.39b765.0005.GAE@google.com>
+Subject: [syzbot] [squashfs?] kernel BUG in vfs_get_tree (3)
+From: syzbot <syzbot+7b1d0ea11475e857d063@syzkaller.appspotmail.com>
+To: brauner@kernel.org, jack@suse.cz, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, phillip@squashfs.org.uk, 
+	squashfs-devel@lists.sourceforge.net, syzkaller-bugs@googlegroups.com, 
+	viro@zeniv.linux.org.uk
+Content-Type: text/plain; charset="UTF-8"
 
-mount_subtree() allocates a temporary mount namespace while resolving a
-path inside a detached mount.  btrfs mounts use this path on every mount
-(btrfs_get_tree() -> btrfs_get_tree_subvol() -> mount_subvol() ->
-mount_subtree()), as does NFS for referrals.  The namespace is private to
-mount_subtree(): it is never installed in an nsproxy, is not reachable
-from user space, and is freed before mount_subtree() returns.
+Hello,
 
-__ns_common_init() calls security_namespace_init() for every namespace,
-which runs the LSM namespace_init hook.  Landlock implements
-LANDLOCK_PERMISSION_NAMESPACE_USE through that hook, so a task in a
-domain that handles the permission, allows every namespace type except
-CLONE_NEWNS, and is otherwise allowed to mount gets -EPERM from a btrfs
-mount.  mount(2) is not covered by the permission and the task never
-acquires a namespace.
+syzbot found the following issue on:
 
-Skip LSM initialization for kernel-internal namespaces.
-__ns_common_init() gains an lsm parameter, and a new
-ns_common_init_inum_internal() passes false.  It is used by
-mount_subtree() only; user-visible namespace allocations (clone,
-unshare, setns, open_tree, fsmount) keep calling the hook.
+HEAD commit:    84abb955b101 Add linux-next specific files for 20261113
+git tree:       linux-next
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=149b45be580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=d9d5eeb0ba036071
+dashboard link: https://syzkaller.appspot.com/bug?extid=7b1d0ea11475e857d063
+compiler:       Debian clang version 22.1.8 (1~deb13u4), Debian LLD 22.1.8
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17da103d580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1352844d580000
 
-Reproduced on 7.4-rc2 with a loop-mounted btrfs image and a Landlock
-domain that handles NAMESPACE_USE and allows every CLONE_NEW* type except
-CLONE_NEWNS:
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/ffae1d4a717e/disk-84abb955.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/fd2a35a63abf/vmlinux-84abb955.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/039ccf647778/bzImage-84abb955.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/dbda48ecccdc/mount_0.gz
 
-  mount("/dev/loop0", "/mnt", "btrfs", 0, NULL);   -> -EPERM
+AI-generated root cause summary:
+In squashfs_read_inode(), reading directory metadata via
+squashfs_read_metadata() returns the positive number of bytes read (32 for
+SQUASHFS_DIR_TYPE and 40 for SQUASHFS_LDIR_TYPE). When the directory size sanity
+check fails (inode->i_size < 3), the code jumps to failed_read without setting
+err to a negative errno such as -EINVAL. Consequently, squashfs_read_inode()
+returns positive 40 (or 32), which propagates up through squashfs_fill_super()
+and get_tree_bdev() to vfs_get_tree(). Because vfs_get_tree() only checks for
+error < 0, it observes a positive return value without fc->root being populated,
+triggering an explicit kernel BUG().
 
-The mount succeeds when CLONE_NEWNS is also allowed, and succeeds under
-the first domain with this fix.  With the first domain,
-unshare(CLONE_NEWNS) and open_tree(OPEN_TREE_CLONE) remain denied.
+full analysis:  https://syzkaller.appspot.com/x/ai_root_cause?x=7b1d0ea11475e857d063
 
-Fixes: f675d2e95569 ("lsm: add LSM blob and hooks for namespaces")
-Signed-off-by: Zhiqi Zhang <zhiqizhangg@gmail.com>
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+7b1d0ea11475e857d063@syzkaller.appspotmail.com
+
+loop0: detected capacity change from 0 to 8
+SQUASHFS error: Unable to read inode 0x11f
+Filesystem squashfs get_tree() didn't set fc->root, returned 40
+------------[ cut here ]------------
+kernel BUG at fs/super.c:2174!
+Oops: invalid opcode: 0000 [#1] SMP KASAN PTI
+CPU: 0 UID: 0 PID: 5645 Comm: syz-executor247 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 11/06/2026
+RIP: 0010:vfs_get_tree+0x29c/0x2a0 fs/super.c:2174
+Code: 1b 48 89 d8 48 c1 e8 03 42 80 3c 28 00 74 08 48 89 df e8 07 2b eb ff 48 8b 33 48 c7 c7 00 6b 40 8c 44 89 f2 e8 85 81 c9 fe 90 <0f> 0b 66 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f
+RSP: 0018:ffffc90003a67c88 EFLAGS: 00010246
+RAX: 000000000000003f RBX: ffffffff903c9a60 RCX: f236a142641ab000
+RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000000
+RBP: ffffc90003a67df0 R08: ffffffff9014d12b R09: 1ffffffff2029a25
+R10: dffffc0000000000 R11: fffffbfff2029a26 R12: 1ffff11003b5f455
+R13: dffffc0000000000 R14: 0000000000000028 R15: 0000000000000000
+FS:  0000555561a2d400(0000) GS:ffff8881233cd000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007ffd3ab27000 CR3: 000000007b7a8000 CR4: 00000000003526f0
+Call Trace:
+ <TASK>
+ fc_mount fs/namespace.c:1300 [inline]
+ do_new_mount_fc fs/namespace.c:4030 [inline]
+ do_new_mount+0x325/0xb00 fs/namespace.c:4106
+ do_mount fs/namespace.c:4470 [inline]
+ __do_sys_mount fs/namespace.c:4683 [inline]
+ __se_sys_mount+0x31d/0x420 fs/namespace.c:4660
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x171/0x540 arch/x86/entry/syscall_64.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x00007f7481046aca
+Code: 56 53 b8 9d 00 00 00 0f 05 83 f8 ea 75 a2 c7 05 c4 ff 08 00 00 00 00 00 eb 96 e8 51 05 00 00 90 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 d8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffd3ab26658 EFLAGS: 00000206 ORIG_RAX: 00000000000000a5
+RAX: ffffffffffffffda RBX: 00007ffd3ab26680 RCX: 00007f7481046aca
+RDX: 00002000000001c0 RSI: 0000200000000200 RDI: 00007ffd3ab26680
+RBP: 00002000000001c0 R08: 00007ffd3ab266c0 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000206 R12: 0000200000000200
+R13: 00007ffd3ab266c0 R14: 0000000000000003 R15: 0000000000000000
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:vfs_get_tree+0x29c/0x2a0 fs/super.c:2174
+Code: 1b 48 89 d8 48 c1 e8 03 42 80 3c 28 00 74 08 48 89 df e8 07 2b eb ff 48 8b 33 48 c7 c7 00 6b 40 8c 44 89 f2 e8 85 81 c9 fe 90 <0f> 0b 66 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f
+RSP: 0018:ffffc90003a67c88 EFLAGS: 00010246
+RAX: 000000000000003f RBX: ffffffff903c9a60 RCX: f236a142641ab000
+RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000000
+RBP: ffffc90003a67df0 R08: ffffffff9014d12b R09: 1ffffffff2029a25
+R10: dffffc0000000000 R11: fffffbfff2029a26 R12: 1ffff11003b5f455
+R13: dffffc0000000000 R14: 0000000000000028 R15: 0000000000000000
+FS:  0000555561a2d400(0000) GS:ffff8881233cd000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007ffd3ab27000 CR3: 000000007b7a8000 CR4: 00000000003526f0
+
+
 ---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-AI assistance:
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
-- DeepSeek (deepseek-flash) generated the code change.
-- I wrote the tests and reviewed the code.
-- I wrote the documentation and the changelog, and used DeepSeek to
-  polish the wording.
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
- fs/namespace.c            | 24 ++++++++++++++++--------
- include/linux/ns_common.h | 20 +++++++++++++++++---
- kernel/nscommon.c         | 18 ++++++++++++------
- security/security.c       |  7 ++++++-
- 4 files changed, 51 insertions(+), 18 deletions(-)
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
 
-diff --git a/fs/namespace.c b/fs/namespace.c
-index aecd05ac0..622f5094b 100644
---- a/fs/namespace.c
-+++ b/fs/namespace.c
-@@ -2353,7 +2353,7 @@ void drop_collected_paths(const struct path *paths, const struct path *prealloc)
- 		kfree(paths);
- }
- 
--static struct mnt_namespace *alloc_mnt_ns(struct user_namespace *, bool);
-+static struct mnt_namespace *alloc_mnt_ns(struct user_namespace *, bool, bool);
- 
- /* Consumes the caller's reference to @mnt. */
- void dissolve_on_fput(struct vfsmount *mnt)
-@@ -3149,7 +3149,7 @@ static struct mnt_namespace *get_detached_copy(const struct path *path, unsigned
- 	struct user_namespace *user_ns = mnt_ns->user_ns;
- 	struct mount *mnt, *p;
- 
--	ns = alloc_mnt_ns(user_ns, true);
-+	ns = alloc_mnt_ns(user_ns, true, true);
- 	if (IS_ERR(ns))
- 		return ns;
- 
-@@ -3230,7 +3230,7 @@ static struct mnt_namespace *create_new_namespace(struct path *path,
- 	if (foreign)
- 		copy_flags |= CL_SLAVE | CL_COPY_UNBINDABLE;
- 
--	new_ns = alloc_mnt_ns(user_ns, false);
-+	new_ns = alloc_mnt_ns(user_ns, false, true);
- 	if (IS_ERR(new_ns))
- 		return ERR_CAST(new_ns);
- 
-@@ -4369,7 +4369,7 @@ static void free_mnt_ns(struct mnt_namespace *ns)
- 	mnt_ns_tree_remove(ns);
- }
- 
--static struct mnt_namespace *alloc_mnt_ns(struct user_namespace *user_ns, bool anon)
-+static struct mnt_namespace *alloc_mnt_ns(struct user_namespace *user_ns, bool anon, bool lsm)
- {
- 	struct mnt_namespace *new_ns;
- 	struct ucounts *ucounts;
-@@ -4385,7 +4385,9 @@ static struct mnt_namespace *alloc_mnt_ns(struct user_namespace *user_ns, bool a
- 		return ERR_PTR(-ENOMEM);
- 	}
- 
--	if (anon)
-+	if (!lsm)
-+		ret = ns_common_init_inum_internal(new_ns, MNT_NS_ANON_INO);
-+	else if (anon)
- 		ret = ns_common_init_inum(new_ns, MNT_NS_ANON_INO);
- 	else
- 		ret = ns_common_init(new_ns);
-@@ -4422,7 +4424,7 @@ struct mnt_namespace *copy_mnt_ns(u64 flags, struct mnt_namespace *ns,
- 
- 	old = ns->root;
- 
--	new_ns = alloc_mnt_ns(user_ns, false);
-+	new_ns = alloc_mnt_ns(user_ns, false, true);
- 	if (IS_ERR(new_ns))
- 		return new_ns;
- 
-@@ -4509,7 +4511,13 @@ struct dentry *mount_subtree(struct vfsmount *m, const char *name)
- 	struct path path;
- 	int err;
- 
--	ns = alloc_mnt_ns(&init_user_ns, true);
-+	/*
-+	 * Private to mount_subtree() and never exposed to user space: skip
-+	 * the LSM namespace_init hook, which authorizes a task acquiring
-+	 * access to a namespace.  btrfs mounts and NFS referrals use this
-+	 * path.
-+	 */
-+	ns = alloc_mnt_ns(&init_user_ns, true, false);
- 	if (IS_ERR(ns)) {
- 		mntput(m);
- 		return ERR_CAST(ns);
-@@ -4699,7 +4707,7 @@ SYSCALL_DEFINE3(fsmount, int, fs_fd, unsigned int, flags,
- 		return FD_ADD((flags & FSMOUNT_CLOEXEC) ? O_CLOEXEC : 0,
- 			      open_new_namespace(&new_path, MOUNT_COPY_NEW));
- 
--	ns = alloc_mnt_ns(current->nsproxy->mnt_ns->user_ns, true);
-+	ns = alloc_mnt_ns(current->nsproxy->mnt_ns->user_ns, true, true);
- 	if (IS_ERR(ns))
- 		return PTR_ERR(ns);
- 	mnt = real_mount(new_path.mnt);
-diff --git a/include/linux/ns_common.h b/include/linux/ns_common.h
-index e8b2bf0da..a21fc1a9b 100644
---- a/include/linux/ns_common.h
-+++ b/include/linux/ns_common.h
-@@ -10,7 +10,7 @@
- 
- bool is_current_namespace(struct ns_common *ns);
- int __ns_common_init(struct ns_common *ns, u32 ns_type, const struct proc_ns_operations *ops,
--		     int inum, u64 ns_id);
-+		     int inum, u64 ns_id, bool lsm);
- void __ns_common_free(struct ns_common *ns);
- struct ns_common *__must_check ns_owner(struct ns_common *ns);
- 
-@@ -47,13 +47,27 @@ static __always_inline bool is_ns_init_id(const struct ns_common *ns)
- 			 ns_common_type(__ns),				\
- 			 to_ns_operations(__ns),			\
- 			 (((__ns) == ns_init_ns(__ns)) ? ns_init_inum(__ns) : 0), \
--			 (((__ns) == ns_init_ns(__ns)) ? ns_init_id(__ns) : 0))
-+			 (((__ns) == ns_init_ns(__ns)) ? ns_init_id(__ns) : 0), \
-+			 true)
- 
- #define ns_common_init_inum(__ns, __inum)        \
- 	__ns_common_init(to_ns_common(__ns),     \
- 			 ns_common_type(__ns),   \
- 			 to_ns_operations(__ns), \
--			 __inum, 0)
-+			 __inum, 0, true)
-+
-+/*
-+ * Like ns_common_init_inum(), but for namespaces that stay kernel-internal and
-+ * are never exposed to user space (e.g. mount_subtree()'s temporary mount
-+ * namespace).  The LSM namespace_init hook authorizes a task acquiring access
-+ * to a namespace; these allocations are not such acquisitions and skip LSM
-+ * initialization.
-+ */
-+#define ns_common_init_inum_internal(__ns, __inum) \
-+	__ns_common_init(to_ns_common(__ns),          \
-+			 ns_common_type(__ns),        \
-+			 to_ns_operations(__ns),      \
-+			 __inum, 0, false)
- 
- #define ns_common_free(__ns) __ns_common_free(to_ns_common((__ns)))
- 
-diff --git a/kernel/nscommon.c b/kernel/nscommon.c
-index 4438c6b66..78e1b6d32 100644
---- a/kernel/nscommon.c
-+++ b/kernel/nscommon.c
-@@ -55,7 +55,7 @@ static void ns_debug(struct ns_common *ns, const struct proc_ns_operations *ops)
- #endif
- 
- int __ns_common_init(struct ns_common *ns, u32 ns_type, const struct proc_ns_operations *ops,
--		     int inum, u64 ns_id)
-+		     int inum, u64 ns_id, bool lsm)
- {
- 	int ret = 0;
- 
-@@ -85,11 +85,17 @@ int __ns_common_init(struct ns_common *ns, u32 ns_type, const struct proc_ns_ope
- 	/* Allocate the id before the LSM hook so it can track the namespace by it. */
- 	__ns_tree_gen_id(ns, ns_id);
- 
--	ret = security_namespace_init(ns);
--	if (ret) {
--		if (!inum)
--			proc_free_inum(ns->inum);
--		return ret;
-+	/*
-+	 * Kernel-internal namespaces (lsm == false) are never exposed to
-+	 * user space and are not reported to the namespace_init LSM hook.
-+	 */
-+	if (lsm) {
-+		ret = security_namespace_init(ns);
-+		if (ret) {
-+			if (!inum)
-+				proc_free_inum(ns->inum);
-+			return ret;
-+		}
- 	}
- 
- 	/*
-diff --git a/security/security.c b/security/security.c
-index 4727b8347..454ceebcc 100644
---- a/security/security.c
-+++ b/security/security.c
-@@ -3387,6 +3387,10 @@ int security_create_user_ns(const struct cred *cred)
-  * is available via ns->ns_type, and the owning user namespace (if any)
-  * via ns->ops->owner(ns).
-  *
-+ * Kernel-internal namespaces that are never exposed to user space (e.g. the
-+ * temporary mount namespace of mount_subtree()) skip this function: they have
-+ * no LSM security blob and are not reported to the namespace_init hook.
-+ *
-  * Return: Returns 0 if successful, otherwise < 0 error code.
-  */
- int security_namespace_init(struct ns_common *ns)
-@@ -3409,7 +3413,8 @@ int security_namespace_init(struct ns_common *ns)
-  * @ns: the namespace being freed
-  *
-  * Release security data attached to the namespace. Called before the
-- * namespace structure is freed.
-+ * namespace structure is freed.  Kernel-internal namespaces skipped by
-+ * security_namespace_init() have no blob, so this is a no-op for them.
-  */
- void security_namespace_free(struct ns_common *ns)
- {
--- 
-2.54.0 (Apple Git-157)
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
 
+If you want to undo deduplication, reply with:
+#syz undup
