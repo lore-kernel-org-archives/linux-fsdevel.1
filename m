@@ -1,54 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.205.221.221
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794622966;
-	b=r/Ifrk3WHVaiUTAlpg/2k+4qE83/DOk71AN6y8Cm5rL2Y+XExkv55w2ml1fUcJKW46+F
-	 fBDp4TeUPETnG2ed2OjAxrmeMZpth4J5+L9EFqEV+SlTsey9kKi24SNi+0hLyC8dZUq+E
-	 hynIwvy/e1AThMdmEFsBPPb5goNi3nJvyRX6BZRjX9qfx10LekqnHgvMW3bCHCYYPvTk8
-	 BenvfnP4XMmYAaFOYR/rP9sFnx9KZy3bUIO6ZAEGlXX+ASOC1m+JTVadUvkCoyVD2zuHq
-	 zRqdoQkV7pO5LQ1fQTrgSJC2jMY55GQMkx0NOM9aaAeyn00b4SEwc9G0XKYdf7FMrfw==
+	t=1794628267;
+	b=fpB5VhZ9sMKlHlHVaUDCl23MpMZ8OHTp6jOrWuHVAJHnuGFkgIgS4agVYy82i44zM2e6
+	 8cpL2f8D2SZzYrP0uJbvmdtOYT+NzxaL7jk0KuIthn214nM67WuwXZge5RABo5jaSX6IB
+	 vQD4ZJ/kEvcHmu5AzGope6xGURJW9VwmzEIt6XBCnbKkh9ZcTz/o4FloAimVXX6Y6xVIV
+	 gnBKZk5KO+nbxgSyrySiEEKOutPF9UJwiHhs3LDuIM1nDlPDdWmYR6wpYaz/He6p/B50V
+	 vvBaxEqEEVX/i0aNliG+4nVdzyBhR/4KQhqav1v10YNPA6px3+z+93Ps2sXI0JlEj6g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794622966;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=KYH8GK+3gKCbe8AFviicg/gKMInfl4KxsgkMklQwI0I=;
-	b=Nm7SN5UuX0G+dsnNz599PQETxz/3YgPK7jJsRHhk2tgyVn+sn3UP/bff2v1J2ZBNdlxV
-	 5ZtQfdcWo986+K6zs8YWEB7N1b2xxuHOiX5GpOZyRbjFJpjlwNNMbJPYyIbIAMp5HKZqQ
-	 O71xwTnbEAG4Q+PEua5VGcAP4EpyIG8vWb6Q97TUbQ9slSuvnV85KbouykOEcdKdP6QV0
-	 hzbAw86gtuY3fkaMdryo2jKxZK3C6wMYaD8CAF7fan1PZLJuR/qzoQBZZs1QHAnOtXlYV
-	 DeZVrBxwf/M7bup8CZPF4UuTDGCLa2mcVZYmDeo2HCZLniy9psJ/tmkfom+goY2rR0Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794628267;
+	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
+	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:Date:X-OQ-MSGID:
+	 In-Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=O6jpi8Un7nxjf1XAfzWP32okLkYI9qZxL3LDVspsjAk=;
+	b=LpppscaYi7tcj+3DM4RZ2cbJqJN4XW/AV2Ab7Qzn5KyXbxt8EiGZRR8wOQ1CpZQxG7/Z
+	 WVMBj8ouIQKVC8xxkN6fkKrJdaQbPvx4rikvyuRehgqTCLa85gGKHfX1cNC11kBIISEnO
+	 Qe9w0gIMZjdHR9tFJSQ68ql7c5Gig+O+QZHrhOydpx+otR1iInrIvKwZ6nK1joP9zgsFM
+	 wM83T6HEqwkFFx9XJdS5Sx6d8yNImApYSKBkKOLfKPnNzGZ8K0Uk6ClWCjael1X1rTbbK
+	 VWHpxlHYNkbaHLQVn6DuLTDgaGu5e351+vXk9aVE63j6fEQS46wNVGFEXXFp65dRPzw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=rMuN7IjH;
-	arc=none smtp.remote-ip=198.137.202.133
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=qq.com;
+	spf=pass smtp.mailfrom=qq.com;
+	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=chSAElFI;
+	arc=none smtp.remote-ip=203.205.221.221
+Received: from out203-205-221-221.mail.qq.com (out203-205-221-221.mail.qq.com [203.205.221.221])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F2CB606A323;
-	Sat, 14 Nov 2026 02:22:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3F2CB606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D24FD606A327;
+	Sat, 14 Nov 2026 03:51:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D24FD606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=rMuN7IjH
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=KYH8GK+3gKCbe8AFviicg/gKMInfl4KxsgkMklQwI0I=; b=rMuN7IjHqau/xc2v+L3+j7J4jB
-	17LlIfCgQ9gZKjdEwR0HXIgEkj3NXbY5xvNTsPXiBiBfWA7YMTlJ7vBYcuHX96ZzfRi0CTxMs86wl
-	szbPVi6oRy0+B+JhKwwaPFbRr0o0r2J9sBRAnfvxJ9HqKtDTT0ekYY8C0ExAavytJEuPy3UAsP/+H
-	jtp3ovKisKoc+9HBVJkeYRwch5zTVe0ensOeH+7US5c+8EmqjHPgOFqeEtk9N0MQMUEAjwUvcWpoB
-	UyCXCYk39aCtWB0QK+nkmZcnkxvlWVz0csE1AnKnDzudY0naphVcLgXLHfs6Kf163UQupHv8uGenu
-	cBJGZsIw==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xS3Pd-0000000F6qc-1hxV;
-	Sat, 14 Nov 2026 02:22:41 +0000
-Message-ID: <43fb0823-e3c7-4946-98f1-7d0b2b0a1f01@infradead.org>
-Date: Fri, 13 Nov 2026 18:22:36 -0800
+	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=chSAElFI
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1794628256; bh=O6jpi8Un7nxjf1XAfzWP32okLkYI9qZxL3LDVspsjAk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To;
+	b=chSAElFIaGEYOP9+CqOm3YuS+bn9f5SGL6ntPNK5+3851Fbqg5+xedhrwpcfcBw3f
+	 G6UhdsECsm4Am1fePQjGH+SdnKQk1HLdoaWN9h3x9swMCtZ7trKS2LwhcR3/1BUXpr
+	 AK9Q9L80cogYcEqxbWKAVLXd4xGUrU07oM1ruQ1g=
+Received: from [172.18.4.77] ([202.113.185.209])
+	by newxmesmtplogicsvrszb51-0.qq.com (NewEsmtp) with SMTP
+	id CB62D434; Sat, 14 Nov 2026 11:50:54 +0800
+X-QQ-mid: xmsmtpt1794628254tjwmrzbkn
+Message-ID: <tencent_EA39F5EE5B6CC4D989CDD435CACC4731AA05@qq.com>
+X-QQ-XMAILINFO: MllZffuBkEb50UofCUAfNsjV2FwHxsX3E/H2idLAef6tTTqwXW/MQz9Ft8J2H9
+	 s7dSyEb6t+4eL1RaSLLuvzGKBxBb9wUBK9+uETPy+hOstECATqSbAY7Esu+1VB5JSg7a1KNncfXc
+	 G/wRjbr55K1nVWNfvLDMI7vLJt6NcwsWQRW3fV4nAHAshVV//lstVZ/ObenYVO+ykGagAdlNvDIp
+	 WNnnGl+C7n+Qh/JLBYtqCSOVGCAWtwE9GNR9r088G1IWEXAisLWfyF8QtMrXEOQV2LO6HuBrc6pa
+	 QrtYXOrkUzAH46qUACnuYX/ulpN7yYXgAUvx0caVblIygZg0JMAvPfoPohTjf8LujX7DYgGp/+aJ
+	 uMWzBr8s6DLSXh2qrFfiuWmqv4Heut4wt5QqnUZ19+7lyDk49HH44Vq4dfGCUxQFuSb6rEXeRK6p
+	 YhMprES1Skpun9ZTaRZSG26DzySmCeTy9WtAafivGA6pQjbBpiR/fHZugwpV62XlxpBTj6YA9b4S
+	 6eruCgh/9bTKPzErJW+3VJnk03xGXH0O6EOf7xrRKqYUUl7Hg8mEKTBa6eU+7qYQYi+jndjniucV
+	 1hMEdMAm/xdPbjJIEvpXzgR/cnV+7goDnwoGMJUo9gXoaJZnIwFH+q6HvdajSHBIn4WjLsRGAN8x
+	 ZBlv0sckROFpPg9ja4oTW2C6B7MgqFKJwuQq3xmI5jQUq+1Xc4rb58pB/mYzbrj31cXiMnZ0kV3Y
+	 qi+Soi85QGj6zfhI3KIsZoj4uIw9Fg8t+Ik/ISK9S/otn+pitjbB6pd3395xUUa/dz9nuLQtvP3U
+	 GBXTBVd2+KikOqJwe1RWBRNeNLAzIMoJXv19FhaumKCpr51IbLWl9T0K1IN9H8fIr/20bVIx3MKU
+	 VSlw/IAEy5qlPbcAc1NLOxF1S4P3D+ixL1xQAOPnEtjraH5RFOKhsaZ/849Snku8V/h3s0h8kjwW
+	 IqEZ7o7Bte9UfwX/l9uni4n0UO8IDJC8vF8S3Kw0BNxHWlQ5ej4XguUneojQTZNQ3cscGIgv11wf
+	 S/rVOOT/PYkXAwGjCCAvPms/CsAdzcc9kyy5rl0UFILYjZFci/dAknkE9tQ5w=
+X-QQ-XMRINFO: MPJ6Tf5t3I/ylTmHUqvI8+Wpn+Gzalws3A==
+From: Guikun Yang <yangguikun19@qq.com>
+To: Viacheslav Dubeyko <slava@dubeyko.com>
+Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Yangtao Li <frank.li@vivo.com>, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] hfsplus: bound hfs_bnode_read_key() against the per-tree key
+ buffer size
+Date: Sat, 14 Nov 2026 18:00:00 +0800
+X-OQ-MSGID: <patch-hfsplus-readkey-bound-20261114@qq.com>
+In-Reply-To: <tencent_F85118A9AFDF9B230D4E8FA672510A3E2F08@qq.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -58,69 +78,68 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH bpf-next v3 1/9] Documentation: ioctl-number: Add
- PROCFS_IOCTL_MAGIC range 0x10-0x11
-To: Samuel Wu <wusamuel@google.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Luis Chamberlain
- <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
- Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>,
- Aaron Tomlin <atomlin@atomlin.com>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
- Jan Kara <jack@suse.cz>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Eduard Zingerman <eddyz87@gmail.com>,
- Kumar Kartikeya Dwivedi <memxor@gmail.com>,
- Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>,
- Emil Tsalapatis <emil@etsalapatis.com>,
- Ihor Solodrai <ihor.solodrai@linux.dev>,
- Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
- <morbo@google.com>, Justin Stitt <justinstitt@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Petr Mladek
- <pmladek@suse.com>, David Laight <david.laight.linux@gmail.com>,
- kernel-team@android.com, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-modules@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, llvm@lists.linux.dev
-References: <20261113221248.3535369-11-wusamuel@google.com>
- <20261113221248.3535369-12-wusamuel@google.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20261113221248.3535369-12-wusamuel@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
+hfs_find_init() sizes the per-tree key buffers from max_key_len:
 
+	ptr = kzalloc(tree->max_key_len * 2 + 4, GFP_KERNEL);
 
-On 11/13/26 2:12 PM, Samuel Wu wrote:
-> PAGEMAP_SCAN (0x10) and PROCMAP_QUERY (0x11) use PROCFS_IOCTL_MAGIC.
-> ext4 uses the same numbers on other files, so mark the row as a
-> conflict.
-> 
-> Suggested-by: Randy Dunlap <rdunlap@infradead.org>
-> Signed-off-by: Samuel Wu <wusamuel@google.com>
+which is 24 bytes for the extents tree (max_key_len 10) and 1036 for
+the catalog tree. hfs_bnode_read_key() however bounds both the copy
+and the reject-path memset against the generic key union:
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Thanks.
+	if (key_len > sizeof(hfsplus_btree_key) || key_len < 1) {
+		memset(key, 0, sizeof(hfsplus_btree_key));
+		pr_err("hfsplus: Invalid key length: %u\n", key_len);
+		return;
+	}
 
-> ---
->  Documentation/userspace-api/ioctl/ioctl-number.rst | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> index dbe462040999..fbc3537fc9ee 100644
-> --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
-> +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> @@ -248,6 +248,7 @@ Code  Seq#    Include File                                             Comments
->  'f'   00-0F  fs/ext4/ext4.h                                            conflict!
->  'f'   00-0F  linux/fs.h                                                conflict!
->  'f'   00-0F  fs/ocfs2/ocfs2_fs.h                                       conflict!
-> +'f'   10-11  linux/fs.h                                                conflict! procfs ioctls (PROCFS_IOCTL_MAGIC)
->  'f'   13-27  linux/fscrypt.h
->  'f'   81-8F  linux/fsverity.h
->  'g'   00-0F  linux/usb/gadgetfs.h
+	hfs_bnode_read(node, key, off, key_len);
 
--- 
-~Randy
+sizeof(hfsplus_btree_key) is 518 (the catalog key size; the union of
+cat/ext/attr keys). For the extents tree the bound is larger than the
+24-byte buffer it protects, so the check is inert there: an on-disk
+key length between 10 and 516 passes it and the memcpy overflows the
+allocation, and a "rejected" key length takes the memset path, which
+writes 518 bytes into the same 24-byte allocation. Both paths were
+observed as KASAN slab-out-of-bounds writes on the writeback path of
+a crafted image:
+
+  BUG: KASAN: slab-out-of-bounds in hfsplus_bnode_read+0x30/0x5f0
+  Write of size 502 at addr ... by task init/1
+   hfsplus_bnode_read -> hfs_bnode_read_key
+   hfs_brec_insert -> __hfsplus_ext_write_extent
+   hfsplus_ext_write_extent -> hfsplus_write_inode -> hfsplus_file_fsync
+  allocated 24-byte region (kmalloc-32) by hfsplus_find_init
+
+Bound both the copy and the memset against the actual buffer size,
+tree->max_key_len + 2, which is the natural limit for every tree
+(the extents tree can never see a key above HFSPLUS_EXT_KEYLEN on a
+well-formed volume; the catalog and attribute trees already allocate
+buffers that cover their full key sizes).
+
+Tested with the reproducer from the bug report: the extents-tree
+image that previously wrote 502 bytes into the 24-byte allocation now
+fails the bound and logs "Invalid key length"; the negative control
+(NUL-terminated short key) still parses and writes normally.
+
+Reported-by: Guikun Yang <yangguikun19@qq.com>
+Signed-off-by: Guikun Yang <yangguikun19@qq.com>
+---
+diff --git a/fs/hfsplus/bnode.c b/fs/hfsplus/bnode.c
+index 3a1a1fa6f..0774b945c 100644
+--- a/fs/hfsplus/bnode.c
++++ b/fs/hfsplus/bnode.c
+@@ -84,8 +84,8 @@ void hfs_bnode_read_key(struct hfs_bnode *node, void *key, u32 off)
+ 	else
+ 		key_len = tree->max_key_len + 2;
+ 
+-	if (key_len > sizeof(hfsplus_btree_key) || key_len < 1) {
+-		memset(key, 0, sizeof(hfsplus_btree_key));
++	if (key_len > tree->max_key_len + 2 || key_len < 1) {
++		memset(key, 0, tree->max_key_len + 2);
+ 		pr_err("hfsplus: Invalid key length: %u\n", key_len);
+ 		return;
+ 	}
+
