@@ -1,84 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794653191;
-	b=JeDoi49ovKFJruEB8Nmb2HAFMJkDLFXAkMNZCITP7aTPsaTNKzfz9rl1IPkZPiiB1YrR
-	 6JbDxDaKTRfTmcfOcPqwwrj3BBZPb3QivOHYccKwUvIprSAqlcU5nif51lLgZCTe4mf6k
-	 qzeEQpTFHIwUjUKuh/hcXWtFe2hWCFBdiZiaQKsfY7SUpLu9e/2FWGmCaYOxMtFPwIVS9
-	 qa07XhxOdYXwWgu2cYQRab2HIRO6j/BYugvILONuWg6n1pQZ8d2cBhDRbqHvdhu+pWb2H
-	 VuUft64U/EOAKSB1JLx4sJgJAEHsae5AZAhSHYR8vTIJ1ef2BiE4U7ej9uHMNQ4DhXg==
+	t=1794653192;
+	b=rzSFNkIl6Melrq4J8BRWzEy+XaUy6mEjL47JPrSm+RZxW9U7Ojm1UOJa5kxLHZ4AXNO5
+	 dy0mVjrTynSCJXIogo/9AGsGEivtHEhIZ+wOoj8zRptyOsnwAKCrpP+m1AepyRzytdIl2
+	 J40cdKPJOBrUlpSkPsaPryNr2dbynsvgIrfLxRZcCzp4YRbF3jbny3CVGf6839G0Xr+fn
+	 dREj0iRGxJA28RJyKJfCi+xAvrZar4E29fVRK+O4qnPSqTaGUDBUPdLQruC8bS9ypXlyH
+	 pi0+aXxl9bNb//kS7dRJKl95JkiiwJgEs5Y4eJQXVBPJfbGHGcSzL0AXkOWC+LZo8JA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794653191;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794653192;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=xUPXt6+031qiozoXWsb66axAJcXyAWzq4gSy4ytIzBk=;
-	b=ZlELFAEw733RELsjQ8GEiMxJkYV2Dv7FiVm6JDPyTlFEfXLbrChKBzYj7hB/GLFWTkFe
-	 woSfUENanXgFRRgrEtZh6LXiX9lNrAsOB7zIf3la1xFgnjGYs0Da1CWhMl8zgKZnweU8P
-	 tCHWWul1cD+YsPJdCikCL5i3YxcZP2MdMy0AfHtb+ehbF5rMreGoA4FhWUgTKuhJxRz4s
-	 IT/MBzjci2dEeaVxR04cv1bCEBKEjC02ALahQE9oWi7Ifm64EjGuj86RWp9v5WAXdQH0F
-	 zGyTxjk4le8CC/LwHNxMUyzdRKpBL6TUBvwWWAr3wTCla1k2Qr3SIIEC5n/6ywKOTvg==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=BXrUhRGEqRiEVKCb5fpntove8ZFq2YMexNeI4JURA+A=;
+	b=kUHuuEQt+agaJokQzfYKehNr5Pe4LCxv5LpDZFQihc+fts3LsluaxSlUiu3oOkHtKuGG
+	 QJT62ag8aRMq82rfL79lCoyDxOz7Xc5pKJs4ZwGN1LtLBYhv+21GBWIasM3ukj4VG155d
+	 C1j+gjQMU4rwXNjkAr0UrHfAoXJu0zJqUWgRa2Pv+BZlF9GjG2lAKfzSsjUufcr+Boluo
+	 m7dPNZ0yi7nMDTHbS1x3HQiag6azaNo6cwWH/o15H1g8sF/LfC3eqs63tRMkk32SAXqaz
+	 7XemWuPE8k3X9tO2N1HT0h+ry0bdzoaCFSArtOxoUOzsdyDO7MDS683XmtqcyPfBQNg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DCmxw6fh;
-	arc=none smtp.remote-ip=209.85.128.49
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=IfU99Qqs;
+	arc=none smtp.remote-ip=209.85.128.46
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68AAF606A323
-	for <linux-fsdevel@vger.kernel.org>; Sat, 14 Nov 2026 10:46:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 68AAF606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C21B606A333
+	for <linux-fsdevel@vger.kernel.org>; Sat, 14 Nov 2026 10:46:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9C21B606A333
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DCmxw6fh
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4a60f9474c4so25798335e9.0
-        for <linux-fsdevel@vger.kernel.org>; Sat, 14 Nov 2026 02:46:30 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=IfU99Qqs
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4a35ac4475dso10751065e9.2
+        for <linux-fsdevel@vger.kernel.org>; Sat, 14 Nov 2026 02:46:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794653189; x=1795257989; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=xUPXt6+031qiozoXWsb66axAJcXyAWzq4gSy4ytIzBk=;
-        b=DCmxw6fh9MXaDQMP7rB9DPUCr1tNfLMBcAY2ON8nDWb0GmAzf5/YNhfQXDdTzv5iqf
-         n6dHS/sq5azJ8p40Wxt25yCIeYf0UsQbV3crKd7nvpJvblB6h/SVl6g6Pns83tzI3Cb0
-         t0XOQpSed7uWjbv2S2zn/d2IRqMgoOp+LKdISIwRX3s9nSzBpniQZQBuMtC3t0YjbI0F
-         smcfgQ8X6Vn/VPMhY0aRnGmz4iHL34j7V/PJ3FGTaBmwUl/osB09t6RgHzLEtZEbSS3L
-         BqahWLHHuQzuavBorzuMmq12B9juiTEdARy1dCDXs9GHSy+k/7xLOsSoH9N4yFG/0hVU
-         IopA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794653189; x=1795257989;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+        d=gmail.com; s=20260707; t=1794653190; x=1795257990; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=xUPXt6+031qiozoXWsb66axAJcXyAWzq4gSy4ytIzBk=;
-        b=dK5eChz/Cjuu/YyWgWiaNvr86p6J7dr0/Y7e3AjGDK/IRYmu3nSUIvYHwscB1/ei64
-         61av2UfOgZ427nVk2AKkvfutvELbM1479kPUMBG067y8D9dVei117OK35/S2JWMoo+bQ
-         cVO39hBKhyOXyyHs3clBNP5xXiNtMB0XfNVDNqzFAX5PnnB3Vy6/oR5IQIRDiQlbwXID
-         LKS/Q3Dgzo30eFEzN+pI1LJEEcHpGnAqG55naEiPumwahnD7xxmd71mEDJLOONwKN41F
-         l6jD6nZJ87iAX4h+sxBI63CsL4t2KG1d2fgDd6IyXhlIJXS8gRqET9n7jeQbpkgSohv/
-         2UxQ==
-X-Forwarded-Encrypted: i=1; AL+hErE8a21CP0BCl0rCgx95toB01sBrFoOEoWlndVy/ghwV7AOIgMZlWAtRNoytWT81wnfbDDBs/aNh0tGK3oLB@vger.kernel.org
-X-Gm-Message-State: APuU4Z9eRYuiCXj6B/kTdJh8HuhmV3tD1WCvxtWOdOWiaWmZi3jaR8+S
-	owiOQ1s3WgNvcEMRF4dntGLyWFuFIJ90doxz7a71UEOBmOqX/j1Vi7cg
-X-Gm-Gg: AYBFou18T5FTepbTrIZZQ2otcH3nPYazpqNQdmrPgX2gN76CJW342455cRfYciMgVH6
-	d9CHRYbc5zrzcVxiRcuOlHzSPMaIfxV1jJF5N2KTOHaEXWXlbp1t+3zw2RR8SaxjoSf9kbfcg1O
-	mzlWwgmh8nkIqPdXK+2M6guYFwoAoZUthZFU6x8200/iv/GeE+xfQmVv3Qqxt1MWp1fnvhviHm5
-	fGc2/soOfzCHPppUq3GWAslyhQ8Nx/hgxO/AUNM9RfDGNDxjhUGlPEgLSlxCXFzBlUMHOGO4q0I
-	LrPkdoCcCrA66+/UXwPfNag7kT/4kfKGhgo+Aahkdc+rSNGVHqltibSOX9RhvNJongOHrEspILF
-	4uZxD9x8I+aCRHXJ6oIhY/aiho3Db3r+PXDagwo3YNYP1lVPkPXB6p4NR2uGZ13O63b9XBs+dG0
-	KLiZi07nmCy9IzZAIymLSLQXdZJp4M2k4YayzsgGZh4S5u1PSLhAd+zLKzxLcuSQ8GVqT4vBgQk
-	x2fHrxCCkP1QeqiB7ZOkL3bqwzDRkP/1PR6mEqrtOYaWrVhoYSFaJ0WfaBKo0IK28wURVm4yNr4
-	DUAI5H1Rkbc9i1Je+H+er/zXeL0M+Fj/vWmBfL5fCkuo2B3P8Gn4kRwTPhFMGnKCwpf2bvoEpNv
-	eBvEXvV250xYiqxyC5R8F457hoeIY9d5i68MKkugvmHjraA==
-X-Received: by 2002:a05:600c:6309:b0:4a2:5267:3cd4 with SMTP id 5b1f17b1804b1-4bb559f3bb9mr104453325e9.3.1794653188808;
-        Sat, 14 Nov 2026 02:46:28 -0800 (PST)
+        bh=BXrUhRGEqRiEVKCb5fpntove8ZFq2YMexNeI4JURA+A=;
+        b=IfU99QqsLimfFIj/tpqViHRfnDQAgeXQJsdqQHIT5fnuZAvJ0qusAcx9NDmSRauERi
+         bL2/i+CU/gizAdHVDEsHElIaOXdp/sgWV8vjZmhAJhziosurOg6QxBPbEawTv0epcJ4D
+         NMcXT8Q/CtUDSsop8vFqb5GRkALQYFC4L1Z5KaHrA3sZAWv/s2olfJOabW9S3HwP2Mbg
+         HJtDDT4rt4BqVH/WVaMnsH5ItkWasNi0czkgXUZi58sCasFJDdsIklzomPerdkp/SKBs
+         C49UgN4qvdcOV5yw1EW01qiovQyiR4nKx/ScYhNiQYlXa1T2wFSbjQjLA3shKz1wmYuO
+         aRiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794653190; x=1795257990;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=BXrUhRGEqRiEVKCb5fpntove8ZFq2YMexNeI4JURA+A=;
+        b=pS8q5p/nuFJrJoW9ZVNKSLCVKJw5sebbSJh8/csRVA6RAXJoLYKc16SZlmPicv4/P+
+         i/ZiPwU+/qyfLTH/s7X6myr+0mOLWtYuBQBu0pRoRozalAh+mxkrkTd5MlTvPDXj+yHS
+         RCbZGGfosL6usXFm1K3f+Su+ESOZLjNQIAV/WBCfuJcr/ISXAEFm7UiMWxrrVOO0uHzv
+         YV1BV5W4Lx1Rji6Fmvmv42H3dijwR+FkaiRH+k0rYNXC3WRy/kO6zycURyOoEup2feqd
+         Bjz1RGfYwl0udAtlRh7GnpDpXMnQm0sL6lSjoV5GMC4N/7DDYFhkD604Nl4BZuvTV0PH
+         RIpw==
+X-Forwarded-Encrypted: i=1; AL+hErGz3xksbdt6vN045bkRad7r7UiB3YkT2CUIru1rxmkbCRcJxp1VaXdoVs4IIEIzMSpG2yXJUDizQann+8xy@vger.kernel.org
+X-Gm-Message-State: APuU4Z8TdZTcdif3Jx1LU3qpGQaYnVQYwzpPahrCRcW1H176/Q8/ynv1
+	UErxLoVgYh7TS4Qk4WjqCOKfE4v5VTxfh7TXGVT+W3eCE4b9d6axgdBy
+X-Gm-Gg: AYBFou3Gd2xc1nqOFYQcbPq+3K6ccs23zEuHazufaJncOMSeRNutSWh20j6b2ruxogV
+	hBAHLLQO/CoZJ7fyUhTyFBfyNsQafAuM5bBcPZ3EXO5AfN4oTtcUHZL5t+clzt51AQ3rs58Ip5/
+	+RYGLCjRnyrfJBU8lQW01DV1Q5BWaZRZiUIaf+eCr2ehSIhy0ip5IId1naDjPZSKJLmk2RbYDWI
+	AOaecgeZTncCoPAweiQX1ZN7LWQingCYUB6jUOU4d3uBdNb88BsvtCBUpT3U90CGJy3CcinzeLx
+	52tRbNpDoG/QoifaofYX3Vo3G5xRdLXekKpFdpvLIjnO5JIdD99QDZA+ROXuvIv5rEQPALCjfsk
+	+yGp6dKnnmxI2C/W7eRIkgdzuhCxGJyFlMjyacwo+CwG8/CdV6CvUCicb5QXqDRWnwO3AVMFLoQ
+	eMCCjvRJ4OeAmURKGG8aEg7nRcVpzePh+ao0IzfAVyQarlYPn3H5/wNgxw5YnsvUV8FLh/Kdn2w
+	QK0kP23QjjLfGdfX816/M811TwUx4JEnwG7if3TgIAWuhwYYaqYx5eamz99K8zxcF7jCr6v346s
+	ZPeS6FaMNweu3GdDGpnovM39SWElajv3yiBHOskBIZ8Mh4Xq3IVvyJ4Kr27fsTu0CFYdPU3LUuK
+	gLYJn8wC/GsJwQkFSOtBRUVBN
+X-Received: by 2002:a05:600c:6096:b0:4bb:5de1:e923 with SMTP id 5b1f17b1804b1-4bb5de1f26dmr62906435e9.4.1794653190135;
+        Sat, 14 Nov 2026 02:46:30 -0800 (PST)
 Received: from meven-thinkpad.home (2a01cb088745e00090de407b41070a01.ipv6.abo.wanadoo.fr. [2a01:cb08:8745:e000:90de:407b:4107:a01])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb609cc1b2sm45447055e9.11.2026.11.14.02.46.27
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb609cc1b2sm45447055e9.11.2026.11.14.02.46.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Nov 2026 02:46:28 -0800 (PST)
+        Sat, 14 Nov 2026 02:46:29 -0800 (PST)
 From: =?UTF-8?q?M=C3=A9ven=20Car?= <meven29@gmail.com>
 To: Jens Axboe <axboe@kernel.dk>
 Cc: io-uring@vger.kernel.org,
@@ -87,10 +88,12 @@ Cc: io-uring@vger.kernel.org,
 	Christian Brauner <brauner@kernel.org>,
 	Jan Kara <jack@suse.cz>,
 	=?UTF-8?q?M=C3=A9ven=20Car?= <meven@kde.org>
-Subject: [RFC PATCH v3 0/2] io_uring: add IORING_OP_UTIMENSAT
-Date: Sat, 14 Nov 2026 11:46:19 +0100
-Message-ID: <20261114104621.1186744-1-meven29@gmail.com>
+Subject: [RFC PATCH v3 2/2] io_uring: add support for utimensat
+Date: Sat, 14 Nov 2026 11:46:21 +0100
+Message-ID: <20261114104621.1186744-3-meven29@gmail.com>
 X-Mailer: git-send-email 2.56.1
+In-Reply-To: <20261114104621.1186744-1-meven29@gmail.com>
+References: <20261114104621.1186744-1-meven29@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -105,74 +108,198 @@ Content-Transfer-Encoding: 8bit
 
 From: Méven Car <meven@kde.org>
 
-A file manager or cp -p that copies many files sets the times of every
-copy after its last write. KDE's KIO does not use io_uring yet, but
-could in the future. In a KIO prototype that copies batches of small
-files through io_uring, open, create, read and write run in the ring,
-but the metadata of each copy is set outside the ring, with futimens()
-and, when needed, fchmod() and fchown(). On NFS and SMB each of these
-calls is a round trip to the server.
+A program that copies many files sets the times of every copy after
+its last write. On NFS and SMB each of those calls is a round trip to
+the server, and with io_uring it is one of the steps of the copy that
+still have to leave the ring and run one file at a time.
 
-In that prototype, setting the metadata from a pool of 16 threads
-instead of one file at a time cut the copy of 200 files of 4 KiB by 22%
-on NFS and 45% on SMB. The test copied from ext4 to an NFS 4.2 and an
-SMB mount of the same machine, over loopback with a netem delay of 2 ms
-each way. An opcode would give the same parallelism from the ring, and
-would let a copy be one linked chain per file: WRITE, UTIMENSAT, CLOSE.
+IORING_OP_UTIMENSAT behaves like utimensat(2). sqe->fd is the directory
+fd, sqe->addr the path, sqe->addr2 a pointer to two struct
+__kernel_timespec, and sqe->utimes_flags takes AT_SYMLINK_NOFOLLOW and
+AT_EMPTY_PATH. An addr2 of zero sets both times to the current time, as
+a NULL times argument does. The times and the path are copied at
+submission.
 
-Patch 1 splits filename_utimensat() out of do_utimes_path(), so that
-io_uring can pass a name imported at submission time, as it does for
-mkdirat and the other path ops.
+As with utimensat(2), a NULL path sets the times of the file that
+sqe->fd refers to, without a lookup, and takes no flags. Two UTIME_OMIT
+times complete with 0 without a lookup.
 
-Patch 2 adds IORING_OP_UTIMENSAT with the semantics of utimensat(2).
-Like the other path ops it runs from io-wq.
+Like the other path ops, the request is issued from io-wq, apart from
+the no-op, because the lookup and notify_change() can sleep. A fixed
+file is not accepted as the directory fd. A failed request fails the
+rest of its link.
 
-IORING_OP_FCHMOD was proposed in 2024 [1] and not merged. The same
-questions apply to fchmod and fchown, which a copy also needs, and a
-single setattr opcode could set the mode, owner and times in one
-->setattr() call. I started with the times because a copy always sets
-them.
-
-Testing: a userspace test of 30 cases (paths, AT_EMPTY_PATH on O_PATH
-fds, NULL path, UTIME_OMIT, permission and read-only errors, links, copy
-at submission, punt to io-wq on tmpfs and ramfs) passes in a qemu guest
-on for-7.4/io_uring. A liburing helper, test and man page will follow
-if the interface is acceptable.
-
-[1] https://lore.kernel.org/io-uring/e291085644e14b3eb4d1c3995098bf4e@huawei.com/
-
-Changes in v3:
-- Drop patch 3, the inline attempt with FS_SETATTR_TIMES_NOWAIT and
-  mnt_want_write_trylock(). It added generic VFS API for one filesystem,
-  still ran the blocking parts of notify_change(), and looked the path
-  up twice on every other filesystem. (Christian Brauner)
-- Patch 1: add Jan Kara's Reviewed-by.
-
-Changes in v2:
-- A NULL path now sets the times through the fd itself, like
-  do_utimes_fd(), instead of a lookup of an empty name. As with
-  utimensat(2), it takes no flags (-EINVAL), an O_PATH fd gives -EBADF,
-  and an open file that was unlinked needs no revalidation. (Sashiko)
-- Patch 2 message: drop the wrong claim that AT_EMPTY_PATH on an O_PATH
-  fd differs from the syscall.
-
-v2: https://lore.kernel.org/io-uring/20261104110604.126717-1-meven29@gmail.com/
-v1: https://lore.kernel.org/io-uring/20261030123945.1704118-1-meven@kde.org/
-
-Méven Car (2):
-  fs: add filename_utimensat()
-  io_uring: add support for utimensat
-
- fs/internal.h                 |  2 +
- fs/utimes.c                   | 12 +++--
+Signed-off-by: Méven Car <meven@kde.org>
+---
  include/uapi/linux/io_uring.h |  2 +
  io_uring/fs.c                 | 97 +++++++++++++++++++++++++++++++++++
  io_uring/fs.h                 |  4 ++
  io_uring/opdef.c              |  8 +++
- 6 files changed, 122 insertions(+), 3 deletions(-)
+ 4 files changed, 111 insertions(+)
 
-
-base-commit: ecb6817b769fd7d71af2c9f446188649020b2e53
+diff --git a/include/uapi/linux/io_uring.h b/include/uapi/linux/io_uring.h
+index b42b66b424a7..6a98c9282e0b 100644
+--- a/include/uapi/linux/io_uring.h
++++ b/include/uapi/linux/io_uring.h
+@@ -76,6 +76,7 @@ struct io_uring_sqe {
+ 		__u32		install_fd_flags;
+ 		__u32		nop_flags;
+ 		__u32		pipe_flags;
++		__u32		utimes_flags;
+ 	};
+ 	__u64	user_data;	/* data to be passed back at completion time */
+ 	/* pack this to avoid bogus arm OABI complaints */
+@@ -319,6 +320,7 @@ enum io_uring_op {
+ 	IORING_OP_PIPE,
+ 	IORING_OP_NOP128,
+ 	IORING_OP_URING_CMD128,
++	IORING_OP_UTIMENSAT,
+ 
+ 	/* this goes last, obviously */
+ 	IORING_OP_LAST,
+diff --git a/io_uring/fs.c b/io_uring/fs.c
+index 26ea841a22e7..71164bddd958 100644
+--- a/io_uring/fs.c
++++ b/io_uring/fs.c
+@@ -304,3 +304,100 @@ void io_link_cleanup(struct io_kiocb *req)
+ 	dismiss_delayed_filename(&sl->oldpath);
+ 	dismiss_delayed_filename(&sl->newpath);
+ }
++
++/* Internal flags, above the AT_ flags of the SQE */
++#define IO_UTIMENSAT_NOOP	BIT(30)	/* both times UTIME_OMIT */
++#define IO_UTIMENSAT_NO_PATH	BIT(31)	/* NULL path: the dfd itself */
++
++struct io_utimensat {
++	struct file			*file;
++	int				dfd;
++	unsigned int			flags;
++	struct delayed_filename		filename;
++	/* NULL sets both times to the current time */
++	struct timespec64		*times;
++	struct timespec64		ts[2];
++};
++
++int io_utimensat_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe)
++{
++	struct io_utimensat *ut = io_kiocb_to_cmd(req, struct io_utimensat);
++	struct __kernel_timespec __user *uts;
++	const char __user *fname;
++	int err;
++
++	if (sqe->len || sqe->buf_index || sqe->splice_fd_in || sqe->addr3 ||
++	    sqe->__pad2[0])
++		return -EINVAL;
++	if (unlikely(req->flags & REQ_F_FIXED_FILE))
++		return -EBADF;
++
++	ut->dfd = READ_ONCE(sqe->fd);
++	ut->flags = READ_ONCE(sqe->utimes_flags);
++	if (ut->flags & ~(AT_SYMLINK_NOFOLLOW | AT_EMPTY_PATH))
++		return -EINVAL;
++
++	uts = u64_to_user_ptr(READ_ONCE(sqe->addr2));
++	ut->times = NULL;
++	if (uts) {
++		if (get_timespec64(&ut->ts[0], &uts[0]) ||
++		    get_timespec64(&ut->ts[1], &uts[1]))
++			return -EFAULT;
++		ut->times = ut->ts;
++		if (ut->ts[0].tv_nsec == UTIME_OMIT &&
++		    ut->ts[1].tv_nsec == UTIME_OMIT) {
++			ut->flags |= IO_UTIMENSAT_NOOP;
++			return 0;
++		}
++	}
++
++	fname = u64_to_user_ptr(READ_ONCE(sqe->addr));
++	if (!fname) {
++		if (ut->dfd == AT_FDCWD)
++			return -EFAULT;
++		if (ut->flags)
++			return -EINVAL;
++		ut->flags |= IO_UTIMENSAT_NO_PATH;
++		goto out;
++	}
++	err = delayed_getname_uflags(&ut->filename, fname, ut->flags);
++	if (unlikely(err))
++		return err;
++	req->flags |= REQ_F_NEED_CLEANUP;
++out:
++	req->flags |= REQ_F_FORCE_ASYNC;
++	return 0;
++}
++
++int io_utimensat(struct io_kiocb *req, unsigned int issue_flags)
++{
++	struct io_utimensat *ut = io_kiocb_to_cmd(req, struct io_utimensat);
++	int ret = 0;
++
++	WARN_ON_ONCE((issue_flags & IO_URING_F_NONBLOCK) &&
++		     !(ut->flags & IO_UTIMENSAT_NOOP));
++
++	if (ut->flags & IO_UTIMENSAT_NO_PATH) {
++		CLASS(fd, f)(ut->dfd);
++
++		ret = -EBADF;
++		if (!fd_empty(f))
++			ret = vfs_utimes(&fd_file(f)->f_path, ut->times);
++	} else if (!(ut->flags & IO_UTIMENSAT_NOOP)) {
++		CLASS(filename_complete_delayed, name)(&ut->filename);
++		ret = filename_utimensat(ut->dfd, name, ut->times, ut->flags);
++	}
++
++	req->flags &= ~REQ_F_NEED_CLEANUP;
++	if (ret < 0)
++		req_set_fail(req);
++	io_req_set_res(req, ret, 0);
++	return IOU_COMPLETE;
++}
++
++void io_utimensat_cleanup(struct io_kiocb *req)
++{
++	struct io_utimensat *ut = io_kiocb_to_cmd(req, struct io_utimensat);
++
++	dismiss_delayed_filename(&ut->filename);
++}
+diff --git a/io_uring/fs.h b/io_uring/fs.h
+index 0bb5efe3d6bb..2812dc3b4b2f 100644
+--- a/io_uring/fs.h
++++ b/io_uring/fs.h
+@@ -18,3 +18,7 @@ int io_symlinkat(struct io_kiocb *req, unsigned int issue_flags);
+ int io_linkat_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe);
+ int io_linkat(struct io_kiocb *req, unsigned int issue_flags);
+ void io_link_cleanup(struct io_kiocb *req);
++
++int io_utimensat_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe);
++int io_utimensat(struct io_kiocb *req, unsigned int issue_flags);
++void io_utimensat_cleanup(struct io_kiocb *req);
+diff --git a/io_uring/opdef.c b/io_uring/opdef.c
+index cf3aa2242cd7..383a9b9d1df4 100644
+--- a/io_uring/opdef.c
++++ b/io_uring/opdef.c
+@@ -591,6 +591,10 @@ const struct io_issue_def io_issue_defs[] = {
+ 		.prep			= io_uring_cmd_prep,
+ 		.issue			= io_uring_cmd,
+ 	},
++	[IORING_OP_UTIMENSAT] = {
++		.prep			= io_utimensat_prep,
++		.issue			= io_utimensat,
++	},
+ };
+ 
+ const struct io_cold_def io_cold_defs[] = {
+@@ -849,6 +853,10 @@ const struct io_cold_def io_cold_defs[] = {
+ 		.sqe_copy		= io_uring_cmd_sqe_copy,
+ 		.cleanup		= io_uring_cmd_cleanup,
+ 	},
++	[IORING_OP_UTIMENSAT] = {
++		.name			= "UTIMENSAT",
++		.cleanup		= io_utimensat_cleanup,
++	},
+ };
+ 
+ const char *io_uring_get_opcode(u8 opcode)
 -- 
 2.56.1
 
