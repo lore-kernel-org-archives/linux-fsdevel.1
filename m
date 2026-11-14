@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794686219;
-	b=duJVJGPgJ2zkPfWiuHa+IFV7RHCv2P2cqlpwR0sp8+gcgO/XXYyW1AVxkQWSyk2Tn+Kj
-	 V4zBB2uQJFYoMEIOdfqbD7K/cRw8KVharxNoOZxj8eqUtDpjFz66GI0SV5QjQ1dG3AS2L
-	 nxeWxiW4tqCM7OPMifVd9bbuMxhGa1aLg6ZQ3mSdoqTul/t4/mZOIOej11MpnhLlapwJk
-	 YhjZ/kEZ7epU7P08/6RqkgZ/wAI2kJTJ7dJmWKMYKbsyiISOETjq7OopH0lFuw/0VVRSC
-	 nPydE1ufTgzIPutvtoapsmlTQwdroyXcVc9fUb/59Fs3otQ/CxcjlWvXj4ZuYeFpl4A==
+	t=1794686223;
+	b=5E6Ohs8YpJyLLqkEdCds9bDqIzGJnQMj9f8aZb5gPtAuPjCsIC0M0peNCB6qnCtNN4iK
+	 WZApOM9I5sKrfCDYkgOQlzojVuWztAHDW2NRJ8QmAbDLvPfz3E9HmwCzJqERXCiJJrewg
+	 /8SXiTiy6igKq4Nsoo5wOImHbOLN5tjshguu7wrAZYkC+vppb/6IDysAr4IrMrh2ypIyt
+	 /WVEmLdHblDTHSV92O4oMDnUH0okv2yvRH9BsuHxd8xrLU1ZftAZgLuMT/IpW2DMHPMnM
+	 C/24FPsExjjmfq0yvu7HsfofN7ZpfoQQZqV8A6JM26lF4uNugeNjrJJ4rmYgp8kzTQw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794686219;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794686223;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Date:From:To:Cc:Subject:In-Reply-To:References:MIME-Version:
 	 Content-Type:Content-Disposition:Message-ID:User-Agent;
-	bh=YJV/kOno9dtsXAkcAOQfE/oQzfJxocwLJi3WPYE6qNI=;
-	b=YuDpw0CHJYp3eLYmfY4KKrTRGX/Iya9RgHrv4sVE14M0hAXJtwuBIjFAzSvOm5+0vEnz
-	 qhYBRDgnMumJLC4Mb2I48EIJXtB3ynDpIeG7zz6WwJc1V5UFKk3D+R84F3L3XkymXep9l
-	 WI7HEmHoXS3NoLyQYuFYmayMo8Vsek3xUkdYb7QoZrCum/krBoIV2bIjYe2Kqbw8kd7YQ
-	 A/sG99lJdxvl7YvkiXEe8DA7AzihM4nu9C1YuKLN8zxzOddRRdM4MZS+2kP2V/tWUhGso
-	 bzg1aeRs6PpexQR19NBX0elIBXrK1jmg95YL005TPx40dFB9LUHMkEvZsSac15dauUQ==
+	bh=ZCi4ttrWWQASeF1sPChkoEBldIkxl44ii+iYdI68IA8=;
+	b=S8l9SGfFMBRlwpIIaLpcHyBxduQ5DdtpHP++XbdVfJ+D8yW08BiBdQo3kMRxmYJUjPJJ
+	 IAn6kIBImIeiLD1xnKR9NOUqoHC12FC8SHwmIhal4NONfx2ibEaqFPEz8Z6cut8Ko8ftK
+	 hTJwkp1xW3QHBch+Hj8PYQHv5KYCcANLC+0RhuSQ4ixu8C8U1Lzzvb2/zy6nYrXkvXQMr
+	 P3orHAsoMXTtEaWc3rsT2xN7BR1+Ib0pz0bY4vdJdzc+KTA+Tu9HW5as4l0B08RqXJm4z
+	 KhwTeohAfo9QUSBC0lzHQMmwMkxlJ46qgcy2tBnkrv3+aZU+ISWXWv3ceMNgjnRXO/A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=chrisdown.name;
 	spf=pass smtp.mailfrom=chrisdown.name;
-	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=vCIej0PX;
-	arc=none smtp.remote-ip=209.85.214.181
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=M5pSj2rL;
+	arc=none smtp.remote-ip=209.85.216.49
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCE9960A2627
-	for <linux-fsdevel@vger.kernel.org>; Sat, 14 Nov 2026 19:56:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BCE9960A2627
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CE3A606A8AA
+	for <linux-fsdevel@vger.kernel.org>; Sat, 14 Nov 2026 19:57:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8CE3A606A8AA
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chrisdown.name
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chrisdown.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=vCIej0PX
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2e987a2ba0cso11747355ad.3
-        for <linux-fsdevel@vger.kernel.org>; Sat, 14 Nov 2026 11:56:58 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=M5pSj2rL
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-3b0e0e65adbso1010200a91.3
+        for <linux-fsdevel@vger.kernel.org>; Sat, 14 Nov 2026 11:57:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chrisdown.name; s=google; t=1794686218; x=1795291018; darn=vger.kernel.org;
+        d=chrisdown.name; s=google; t=1794686222; x=1795291022; darn=vger.kernel.org;
         h=user-agent:message-id:content-disposition:content-type:mime-version
          :references:in-reply-to:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=YJV/kOno9dtsXAkcAOQfE/oQzfJxocwLJi3WPYE6qNI=;
-        b=vCIej0PX9dOhvVI1XQrPg3zB8HDYKWUKJUfIIUezj8rzlKXOq0OMq3pe4wQ6XpdOmS
-         NYBcf2KVLtwBMAKAy6dCSHE3G6Ij1MQMaxPUZxuqz0NduffBv7xLdt4vIZKfYghEMKCw
-         nsMry00kZ+7KCUIo2gRoP8PU2opDqLwVR/xnk=
+        bh=ZCi4ttrWWQASeF1sPChkoEBldIkxl44ii+iYdI68IA8=;
+        b=M5pSj2rL7/XmHVxGodQIkRrkhyJGom7e+lrSa8Tc4r65/JOyvj2hfEOUFEVsxY2zkR
+         y3Bm64q+qYfbc1jkOgXAN5XLm4oTPYuS/f8qLvwJ28JiuN4OvREKsD4VRCBE9X+SQMWT
+         EDC676u3b689aBT9Gyyg239YFPDYLCEsgeU1E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794686218; x=1795291018;
+        d=1e100.net; s=20260707; t=1794686222; x=1795291022;
         h=user-agent:message-id:content-disposition:content-type:mime-version
          :references:in-reply-to:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=YJV/kOno9dtsXAkcAOQfE/oQzfJxocwLJi3WPYE6qNI=;
-        b=M0fYs5+8YY8Ex74mSGfebrDsIWF/CFGK8a6qjkRDDR49AAiWKklvZg58pqF9hlV2Gv
-         xY3pl1qwd7LXwBFPwdseCzQYj87QUgK9J/X+u0ouJ3WkQb84SiGK+N5v0jxk3thU/JEM
-         6hmc0Ec7K9N1GO8pc7z89uWmZhwN/vYxFAu/n0SDF1E4/9OfAonbNP/MMVAxVRiyKDm5
-         PaT4zRJjOKp80LylK482tni2YJvvuRjZ+Ykla5bnQun6CFDa7kK4r++uVY+5Ui2Yles2
-         jIbRbGmwfhSec0vZXC6OTHCjPKVkyq7Rtal3C6ZjLh1uNeRuf/h4OTuv3NLWfLETNu9j
-         ne+Q==
-X-Forwarded-Encrypted: i=1; AL+hErHCQ5jGfF6glQWNidZRO26/UEr0crvJnJVKjixzjKhBuqxwGmoj3f140t7w2sIGGUyQXXlCHUKSDjgdC+BI@vger.kernel.org
-X-Gm-Message-State: APuU4Z/pV2F/eSbc3Mv+4xgI3PwDnIM/Z168tUtePyavO6x+tjdEuMjB
-	i5Zeetenq13ZfS8hdPedcFtRphXUTZtLYiNTZKopjbAhb/UhP/hst48cVzWSoOPudyI=
-X-Gm-Gg: AYBFou2L64tMqS/H0rAt941FnSD8slDczyieyFVOR+nguzEqjWIZFsAZ6HC+sjLnQP1
-	ygCE9fVoP9aCGMImwN7hRjSZ1JrH6HI4DsNfoTN+F/ORZepAN8r764j6m4B/lnA4R4mR1u8Em4U
-	HPjrabmlb6LiDvYC1fl8pbzg7yWcjawlQZIWSiFTlm+kXuHvzPAjDAXuUSC3H757LkW90j+U0AO
-	GUVmRbZRyWlsyREh5ipYDFhgoOWowBxXPd3QIP7KG+x6o0t/bpKIp4tzzNDbw4JVzF8kBezs9Dc
-	k/BBzdAdG55FgJg1OBKVtAzj5dQJTT5VnOrQfygBSxcCvSPw7W1zICu/bSLeh6IzhA76CcOPt38
-	9pNn36rfgiY3HhWm4UqlmSq1E1OGHyZObLx7NSPc/xqGzPri1pBNKGhefPG1JWzOVzXzkbXqEd0
-	h6ejAgWiFIj+X+YHwNoooZzmBdPSpPEucer4sqPzmfrPhongDxauoT1tBU4+pgKYDNzT6TApW2i
-	zAbgUS69wRz8olbOzi9HKnsG7q7gRpW2zG28qzJuD6lsa/1dY/2e9jRgLjH1EDqfdg+KMihuVvC
-	EuFPBoB7a2zgsSguIclDPzNyxzT+Y2y/byJHhJ1sK4F4FhE7zu+m8QoYsKP26ZKZ7ajQmC5mj5q
-	siCMqzr/m/SsYZM+XRoIpZQ4X3mXaZ+38m+cBRNvnnRR6P9AvwH5TOIS/ABUFh5awlBemW34Zis
-	cKV6NKDECC12BVNMvvkQFd/7vyNAWz3pfS0RJ13wfSzFFHmWOQwTPTgg==
-X-Received: by 2002:a17:903:2b04:b0:2e9:4d43:d58a with SMTP id d9443c01a7336-2ee0d65fb59mr62764435ad.1.1794686218088;
-        Sat, 14 Nov 2026 11:56:58 -0800 (PST)
+        bh=ZCi4ttrWWQASeF1sPChkoEBldIkxl44ii+iYdI68IA8=;
+        b=zmrzi9/9p1Zz26LDr0vTmGdNLBeJ5wVQkygmc8MtGd9PX2hDlUvPK+ZU8Yqh/hODnP
+         FJG9u7NyejpQTFOPOGH90HRM8VtlqfrqHOdOSaJ3SniK0m2WAy6JB4jZ3JA1QccT6/uL
+         uUg/vYsjqN+85wqDIcGWTXGzhcr/d/oBLE/fIfzDGoKo/z/9As1OH5uicThzy3VXZenT
+         fz6XGcw71RVjJc1c6l6xW/7aGJR+fsXmg2cso4Dbhx4ohxiI5NJQo9owcTEO+hrk2bzj
+         ePBYUjR6gnc6qf0LOh3CQaBOZ9pmFs3a3FygAiXyac6iSqhe0Xvf7SrRQHHgV1CiLvjG
+         QbXw==
+X-Forwarded-Encrypted: i=1; AL+hErHLQ/XbXgsorvyygEA97q+5D+imnlwHkmEoo1NvYY2Kgqm3LIC7nTe7VBO1vE07CsWc+Jduq7RYsK1L/xLj@vger.kernel.org
+X-Gm-Message-State: APuU4Z8mYEWPfecjNoD8KKT6eBKURmMAGhXX3yCWIdGb54p0HE9JSZty
+	7njxIyd426bwMc1J9aGSkmRAK7U0O+Mu/bVZOhURLvuo90AU5IXvG1/ZLhciaDLXl6E=
+X-Gm-Gg: AYBFou1L5U8frrSLSeUC87Zko2Px7NXjfs0Axxyi+8/BHB7e5ef2BoQZ57gSVrfu3U7
+	jYQpjcaHTigloXaquzrJGe8NTkXLokkGEhVPD621auS0RKCo2AQ9Ambep/XgSDDHD7pblyLnx/C
+	GzLlmOFUzsU/1FI4EYp+l2hLI+u+eANReSLY9pIrqGLnC2L6S0jytOEEQe0vfTD8pxYAc58tKsm
+	cA2BUcYqeUWco5AMYLt1GvfYCle80o7T3mzR6ATK2a9oRsUK7WTBbMfEpMkVknOHdeTuP7Moagu
+	hqEp3DK9vgCk7g0CrwlDZydpg+1WurVEqWG7HYVGOiDVbInG01gXlZLHXIS2m+INx6u0J1nQlRu
+	ksTFhETNYmIg0zCWQE6kmLIo6/JA9BLIkg1xVFEx55NDVGfwT7Js4nP7FCyIezR+fnxkQuAhni5
+	7m6PrkmeRKBFSQ1DvK/j60skQhXVy5DakP+W7ZTqOyWsyJLp+WWmIzbPVBxoXwSIoGCuxIvPM9X
+	ZPP25Yesb8MY/HL/CW0XS/DIgcWdw2u/pj5rJ8F8deryLNDhpiO7EBEJ422OqZ5IZ9jBnMKYOVX
+	b5P/Ri16+Z08hhOdohHZbXc2YmczqEBq/FKmed++Q4Iu3rcFKvFPdSAnqPQBIJFFM5RdHUgWPYn
+	0RxhK9Uf3wPsOW+4+Ch8TPNyGCa8F9GL/6byVqp3ZkNZz62RJZO2fTL4Jzu1VQytRViXYl8Rl0m
+	UL67kYys8XZzhBv0kiJE5eS76TecvilaPhhS3uAR8KTEQ+tfyQc1E/8g==
+X-Received: by 2002:a17:90b:2642:b0:3ab:2737:3396 with SMTP id 98e67ed59e1d1-3b1b0b9cb54mr5682263a91.65.1794686221931;
+        Sat, 14 Nov 2026 11:57:01 -0800 (PST)
 Received: from [172.22.0.2] ([4.16.0.251])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ee0f8dc955sm22202275ad.62.2026.11.14.11.56.55
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b197ce460csm14709280a91.5.2026.11.14.11.56.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Nov 2026 11:56:57 -0800 (PST)
-Date: Sat, 14 Nov 2026 11:56:51 -0800
+        Sat, 14 Nov 2026 11:57:00 -0800 (PST)
+Date: Sat, 14 Nov 2026 11:56:57 -0800
 From: Chris Down <chris@chrisdown.name>
 To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
 Cc: David Hildenbrand <david@kernel.org>,
@@ -104,13 +104,12 @@ Cc: David Hildenbrand <david@kernel.org>,
 	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
 	"Borislav Petkov (AMD)" <bp@alien8.de>, Mark Brown <broonie@kernel.org>,
 	"Dennis Zhou (Facebook)" <dennisszhou@gmail.com>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>,
-	Josef Bacik <josef@toxicpanda.com>, stable@vger.kernel.org
-Subject: Re: [PATCH v2 07/13] mm/migrate_device: look up fault folio after a
-	split
-In-Reply-To: <20261113-mason-migrate-et-al-fixes-v2-7-50a2ed382b61@kernel.org>
+	Rick Edgecombe <rick.p.edgecombe@intel.com>, stable@vger.kernel.org
+Subject: Re: [PATCH v2 08/13] mm/migrate_device: fix ksmd oops on a migrated
+	KSM page
+In-Reply-To: <20261113-mason-migrate-et-al-fixes-v2-8-50a2ed382b61@kernel.org>
 References: <20261113-mason-migrate-et-al-fixes-v2-0-50a2ed382b61@kernel.org>
-	<20261113-mason-migrate-et-al-fixes-v2-7-50a2ed382b61@kernel.org>
+	<20261113-mason-migrate-et-al-fixes-v2-8-50a2ed382b61@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -122,13 +121,25 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-Message-ID: <20261114115651.2b3100f5d9444151@chrisdown.name>
+Message-ID: <20261114115657.f63de4714929f7af@chrisdown.name>
 User-Agent: Mutt/2.4.3 (cc9e3943) (2026-10-09)
 
 Hi Lorenzo,
 
-Thanks! I've tested this along with 06/13 with the HMM selftests that
-split the fault folio, and it works well.
+Lorenzo Stoakes (ARM) writes:
+>[ ljs: tweak commit message, comment, also refuse device coherent ]
+
+Alistair's Reviewed-by on v1 came with the argument that KSM pages should
+still be able to go to device coherent memory [1], which is the opposite of
+what this does now, so it's probably worth checking that he's happy for it
+to be carried over. Going by what ksmd does with zone device pages, the
+change itself looks right to me.
+
+I've tested the device private case. Without this the process hangs the
+next time it touches one of the pages, and with it the migration is
+refused and the pages stay merged.
+
+[1] https://lore.kernel.org/r/avTu3LmscsttRVRp@nvdebian.thelocal
 
 Reviewed-by: Chris Down <chris@chrisdown.name>
 Tested-by: Chris Down <chris@chrisdown.name>
