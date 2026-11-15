@@ -1,136 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.71
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794716871;
-	b=xB6Zw8Jq00NHHD8ITre3PohT9EaK0KuT4l6Lo2QfInstQr21h0FLaxC0ozoDEk+gSUtg
-	 YiWuUEVWSGjLwRZVxxBmBDd/vq7MiYFDlr95BCSiW0w95a6oNssaO+inraXf/QDj7Mfdm
-	 j/8fF1xiiaMx+17mRMcdF57HjvX3V2uWSS/oaPRH0pXDwjUeiKW5C+5+IECQ/Uqua6svN
-	 TrFXm9Vgyt5Smu1raZfoUapi9s7cLf7M1n5diMTWEaqOt6SKmTOpXbXkIX9tTiAtrYzXk
-	 L14bChtmuZ2peeWtpShqH4BcgKOXfLQ/PYlUNthNeN3ZYraj0pr8/pOvO1ObixfT0IQ==
+	t=1794717633;
+	b=Mysg/R3STrsMR7n21M0D6ncz+Xdb4lrQg/WWaDHDL26Sf3ellKnzO4RvbTLNfBbaOU4z
+	 jFPrvD15B4KVktCCwT66AlRnAluZ810u1Bpbbe326+g9fnl0IhJvOY0bZL4nvq+056IGA
+	 Shz8jUTt4XazJFv+pDeVKoC9fnG1kT1lmf5RA4mifksHaUBw5zCpjJmH/QkBdr1m2us/l
+	 ciVzhpUrZF3K6SfX04pel8KhxfNkuKhNID0z3L/Do5W6yRf4OUD8ZMxgSR3p++z1zmxWN
+	 h4+UJIC6es3dx84dHHtNL7m/kjOgDqprXZLNXB+wb0MxzW0kyP5mLhqGf4THqq8qVCA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794716871;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References:
-	 MIME-Version:Content-Type;
-	bh=lBVnC2BKavV2mvXAWvVCtFrvsJ4cH4FcPMsK31plLKI=;
-	b=ls2urC0zK6GqmUnGAFlBsxUn2FdD39F5IQV7HvQPUfEBEzA1eHgJJBXQJM2zUqPwYxuO
-	 A6XwvFbR/htf+iZ4n7a6SehcfdSqfepoQfkiUG0UwzGDXsJB2N+v3C+R06sy1nWoGYCxK
-	 zjDutlhA0hBRl07u9x9v7Z+SOUkZPL7zQWoPKCGy7tVjTFoZy1sJzsGiSadIwyCJ1EUuj
-	 coFI10UCQZfPCa2FGdsoRNw3rA6Spw2GD6ouozq+HiCXO0No7vXMwDm3BYwtQsgAp4OBS
-	 uO4Jz4Rrzav5gj9rOf2+7SwGFw7OVsyGB20PtHsl0lGm1uo/N+/1yahu5o77Tyw7VWw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794717633;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:MIME-Version:X-Received:Date:
+	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
+	 Subject:From:To:Content-Type;
+	bh=+xVaVVikLy+i7lGQcU+vgz316lZEoUcwUpm3JtqBoD8=;
+	b=EWGqzAH8JnI9pslYtyJEquuF7/YA+YUr4xWOMFOHrFBno23dHMVdLpUPBXZ78776Inpk
+	 bm3ukRjbMCT19pKFgKDSJGD+TsIL71cVaIKqhX6dgMoLqdjNsVz4U1dUMRNGV19YJCMpJ
+	 tEZNjPYjMGz15aYpLcAPbZx3sOF5bb6hkaai4yUzskTsGS+33NnQUHNo1vx/On0z+ZeGw
+	 eRUfipt5RrOYsDFNlka+zR5dQ6Y+qQWuK72oRkZXIhUpZJqaTFWVoE6ETB79lmVaiZQBD
+	 Umzi2VCakf2vPtROtf1Ga7rt74ToTjpdrrtAG8fwQXIgdtjsTiNBGkr6vpxwDY2kq6w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rrlCOM14;
-	arc=none smtp.remote-ip=74.125.82.45
-Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
+	dmarc=fail header.from=syzkaller.appspotmail.com;
+	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
+	arc=none smtp.remote-ip=209.85.160.71
+Received: from mail-oa1-f71.google.com (mail-oa1-f71.google.com [209.85.160.71])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48789606A32C
-	for <linux-fsdevel@vger.kernel.org>; Sun, 15 Nov 2026 04:27:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 48789606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rrlCOM14
-Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-15ea896ddc8so3364578c88.0
-        for <linux-fsdevel@vger.kernel.org>; Sat, 14 Nov 2026 20:27:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794716870; x=1795321670; darn=vger.kernel.org;
-        h=content-type:mime-version:references:message-id:date:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=lBVnC2BKavV2mvXAWvVCtFrvsJ4cH4FcPMsK31plLKI=;
-        b=rrlCOM14U7o+M+TZUPRKm/0B5X33KfTWozBYOwW7G1T5mICv5uiTGRDZ8N/E/WkgPs
-         Slt3WdfVhPxLW/Dfkkb7/xGjvq8CIoTpYPwhvbdCG6Yvw1BgA2N1EVe8mN0kEHKHXyef
-         8tQmPjoZ87TzHMHH5DbiUhIVkAX/fu7oGi34+wAuHuH/TAi5YSfzTR1lg6qENJCTh/vf
-         bWlX56f+34OBBzkIC9iYt9wgmDyB8Cq+Fbc85HrZX5UgurcmY8nnkwgd3auzrRPvQadc
-         V+9t/jgoM5TmoX0d5ZETJARldRFhGcH0iXCu8yq6U0k0i+/1+kk//+frMRudpsSSkh05
-         Ua9g==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DE0E606A32E
+	for <linux-fsdevel@vger.kernel.org>; Sun, 15 Nov 2026 04:40:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0DE0E606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oa1-f71.google.com with SMTP id 586e51a60fabf-4943ed99826so208838fac.3
+        for <linux-fsdevel@vger.kernel.org>; Sat, 14 Nov 2026 20:40:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794716870; x=1795321670;
-        h=content-type:mime-version:references:message-id:date:in-reply-to
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=lBVnC2BKavV2mvXAWvVCtFrvsJ4cH4FcPMsK31plLKI=;
-        b=yLDkB74m9HNQIO4v/X0+1HcxNF7hZI196Uk/cfbycQ8pWS7fbCdkkSzkiM54JoooGl
-         ZG+kfK7Y/5fzICnu2FytY1PqMVxULNwOWBqgiEGnd1qHOrbD2zMTSme49TIHu64jwxvF
-         6sCfnVCQ/mIlSAhxq/iagBje4EOHfSr5DUiPLQv1EPzgYd7CMzT0eaEkdGZgU3PkqchT
-         T8BzO/gjIf9pbvF/iZhl8d96fmdZmv8eCHrChclnCXeSQOVAvS7mn6vxbSLyrYDC5id4
-         RTRyy+bfYLZbbtxl6FgeWcPLBtXVq+oN0mVAS/gzmzRxERtdIJnUJA8fy8fWIW5a9J/2
-         Tq7w==
-X-Forwarded-Encrypted: i=1; AL+hErEPDCfar8IoKEKHY6eu3uTb5mcAhGXTssYdS3cuR0mCFosCaAp6nBFn5tJO9Tr54dU4hhWd0lXI5qVOCktC@vger.kernel.org
-X-Gm-Message-State: APuU4Z/d5cj1fcyrgwNueP7CJPbKKrRCy9nJllMpque/TB16+cHx6vM0
-	kx7RaPewljo6sK1nQdIcWgR14XmneHlmmxKlApRhz9VL3nxdL+JBiUxm
-X-Gm-Gg: AYBFou0RDcIe/barCsN3Kj/p2YfcY7DH0f6BjRjOQZ0odDfX5pCtZK9JLkeTxK54ftS
-	5v1KvM149ErQq8cYPyGB8uJGIZ6/pJRv2snsY8TV0edhulxPhCwZRw3PMqwoPGulcZl3utQClfD
-	xDxdTiS23ILSYNX5uMXT26PEzT8LqrLJGDYynsvhhngURIevJRCiCDwnkMJsLfXjpFDpf4m5CBP
-	DaRK6OEz0+MGjQn9XmDQy1sLZ9TvX/b00JlsBDZYJ2V8Hm9/a1NUrn6I7DafFtvD/o/VegoA1MZ
-	K31GRa0fg0EBMhkC3OJ4+j/RTOpFPvuToSjCC/OE49R97xB0DEHtBC5X9vfkgn1ciCntGO0Tu9O
-	/jkhMa8T/Hcl/riylYo24lFZFoUlR1ply1z/jYhsgaQ+VzN5Kz7L8fhGMJ2ZbMu15ujtVQ+jhfj
-	zoWj4GK2R76sZYY6UTvUnCFsCu5rEHSOCk69b0tAj5ZlqJjOjb+za24w48ftkgan+nF6+G/KtA8
-	VAQb8/1luhuVEwzNzwBHfNb9HAV1YCbj1k3T6044KTWo3HnheW6ZOYxI2O0bGXPi9cFhKutLphw
-	rr5tVy3+NXekLyTJPy/RWSjQInU=
-X-Received: by 2002:a05:7300:ff46:b0:37b:c89d:1d56 with SMTP id 5a478bee46e88-37bc89d354bmr1627673eec.12.1794716870280;
-        Sat, 14 Nov 2026 20:27:50 -0800 (PST)
-Received: from pve-server ([49.205.216.49])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3797f98b9b2sm20640706eec.6.2026.11.14.20.27.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Nov 2026 20:27:49 -0800 (PST)
-From: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Jason Gunthorpe
- <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>, Peter Xu
- <peterx@redhat.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan
- Kara <jack@suse.cz>, Rik van Riel <riel@surriel.com>, "Liam R. Howlett"
- <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Harry Yoo
- <harry@kernel.org>, Jann Horn <jannh@google.com>, Lance Yang
- <lance.yang@linux.dev>, Zi Yan <ziy@nvidia.com>, Matthew Brost
- <matthew.brost@intel.com>, Joshua Hahn <joshua.hahnjy@gmail.com>,
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, Ying
- Huang <ying.huang@linux.alibaba.com>, Alistair Popple
- <apopple@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, Nico
- Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, Dev
- Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, Usama Arif
- <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, Xu Xin
- <xu.xin@linux.dev>, Chengming Zhou <chengming.zhou@linux.dev>, Madhavan
- Srinivasan <maddy@linux.ibm.com>, Nicholas Piggin <npiggin@gmail.com>,
- Michael Ellerman <mpe@ellerman.id.au>, "Christophe Leroy (CS GROUP)"
- <chleroy@kernel.org>, Shrikanth Hegde <sshegde@linux.ibm.com>, Pedro
- Falcato <pfalcato@suse.de>, Kairui Song <kasong@tencent.com>, Qi Zheng
- <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, Axel
- Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
- Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>, Mike
- Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal
- Hocko <mhocko@suse.com>, Leon Romanovsky <leon@kernel.org>, SJ Park
- <sj@kernel.org>, Rakie Kim <rakie.kim@sk.com>, David Rientjes
- <rientjes@google.com>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian
- Brauner <brauner@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Ingo
- Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa
- <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, Adrian Hunter
- <adrian.hunter@intel.com>, James Clark <james.clark@linaro.org>, Masami
- Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, John
- Johansen <john.johansen@canonical.com>, Georgia Garcia
- <georgia.garcia@canonical.com>, Paul Moore <paul@paul-moore.com>, James
- Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, Mimi
- Zohar <zohar@linux.ibm.com>, Roberto Sassu <roberto.sassu@huawei.com>,
- Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, Eric Snowberg
- <eric.snowberg@oracle.com>, Fan Wu <wufan@kernel.org>, Stephen Smalley
- <stephen.smalley.work@gmail.com>, Ondrej =?utf-8?B?TW9zbsOhxI1law==?=
- <omosnacek@gmail.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- kvm@vger.kernel.org, damon@lists.linux.dev,
- linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
- apparmor@lists.ubuntu.com, linux-security-module@vger.kernel.org,
- linux-integrity@vger.kernel.org, selinux@vger.kernel.org
-Subject: Re: [PATCH 00/13] mm: continue vma_flags_t conversion
-In-Reply-To: <au-DXpEi4wHwsz0r@gremlin>
-Date: Sun, 15 Nov 2026 09:50:28 +0530
-Message-ID: <7bie914j.ritesh.list@gmail.com>
-References: <20261105-late-2026-vma-flags-v1-0-0d3cd15ab75f@kernel.org> <d0ea7929-7c12-4245-ba3f-6dd5c0269e6b@kernel.org> <au3r0-geuwtRYPiC@gremlin> <1c0b1368-a381-4b25-bba9-7a4f8e92b764@kernel.org> <au-DXpEi4wHwsz0r@gremlin>
+        d=1e100.net; s=20260707; t=1794717632; x=1795322432;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=+xVaVVikLy+i7lGQcU+vgz316lZEoUcwUpm3JtqBoD8=;
+        b=OG2hxJyA+w5SJFAoy0SpVTZem2CvNAvI6TdvE7z1aqpyo7hVYm5rOyejFV9bZaex33
+         SiXH1bkEyH/lrBquG0DMcJuTrDQRW125SG7q4zhSwCqLcr6+XFulVx1WzvRl/tXDdfdf
+         4yrIKtQ3RDpH7G6xDOfEIc3CvflU3UXDrHk8lP678/refKcoLHnh639541OIwXDs9evf
+         AQqFRDTbwqtWe63SMRo+/YzTx5RcgvTAWfytRRtSOt1IIebCHqOWNUia3S3mJvDa7mxi
+         YMv6fEv6W91QkmyF4TxNrQmQGyoz++xGupoT5ZQh/cnp7viKP3OqyBi9mX/U/M0X3u35
+         cNgg==
+X-Forwarded-Encrypted: i=1; AL+hErFovYgjufw4U/aU/YauiEUAtQVgJ0WouNRQ8fttSy+TH/0RRjrWRtggBICvDg7Z7WWo1KL5dO1hDnhJuCMT@vger.kernel.org
+X-Gm-Message-State: APuU4Z+BLVDD+URh2yMkWYeqEbfUQcZ0IrVS4UhIgsUMwObcRik7H8J0
+	4rmQ26ATmN80z6dMrVas9FIH2TP75Y+peslgO8G7wpKPrmu2EIUb7aMsoBLoBnwIiFxk8wKrLbK
+	UNImCiqH3kTYLmoNgUKCVA+xMgaF5UCDxnC1sPg367CgpPtB6hAp5RUq+pKk=
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -140,29 +58,150 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+X-Received: by 2002:a05:6808:3083:b0:53a:2f73:29ff with SMTP id
+ 5614622812f47-56e5fd452cemr7012411b6e.6.1794717632125; Sat, 14 Nov 2026
+ 20:40:32 -0800 (PST)
+Date: Sat, 14 Nov 2026 20:40:32 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6af937c0.094600b6.347106.0007.GAE@google.com>
+Subject: [syzbot] [squashfs?] general protection fault in lookup_one_qstr_excl
+From: syzbot <syzbot+03fdf84c0915fd48f361@syzkaller.appspotmail.com>
+To: brauner@kernel.org, jack@suse.cz, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, phillip@squashfs.org.uk, 
+	squashfs-devel@lists.sourceforge.net, syzkaller-bugs@googlegroups.com, 
+	viro@zeniv.linux.org.uk
+Content-Type: text/plain; charset="UTF-8"
 
-"Lorenzo Stoakes (ARM)" <ljs@kernel.org> writes:
+Hello,
+
+syzbot found the following issue on:
+
+HEAD commit:    84abb955b101 Add linux-next specific files for 20261113
+git tree:       linux-next
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=10a329ad580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=d9d5eeb0ba036071
+dashboard link: https://syzkaller.appspot.com/bug?extid=03fdf84c0915fd48f361
+compiler:       Debian clang version 22.1.8 (1~deb13u4), Debian LLD 22.1.8
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12db8d3d580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=140eebfd580000
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/ffae1d4a717e/disk-84abb955.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/fd2a35a63abf/vmlinux-84abb955.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/039ccf647778/bzImage-84abb955.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/d95c1baa8012/mount_0.gz
+
+AI-generated root cause summary:
+In squashfs_lookup() (fs/squashfs/namei.c), squashfs_read_metadata() returns the
+positive number of bytes read on success, which is stored in err. When a
+subsequent squashfs_dir_space() check fails, execution branches directly to
+read_failure without setting err to a negative errno like -EIO, causing
+squashfs_lookup() to return ERR_PTR(err) where err is a positive integer (e.g.,
+6). The VFS caller lookup_one_qstr_excl() treats this positive pointer as a
+valid struct dentry pointer because IS_ERR() evaluates to false, and immediately
+dereferences dentry->d_flags (offset 0), causing a near-NULL pointer dereference
+crash.
+
+full analysis:  https://syzkaller.appspot.com/x/ai_root_cause?x=03fdf84c0915fd48f361
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+03fdf84c0915fd48f361@syzkaller.appspotmail.com
+
+loop0: detected capacity change from 0 to 8
+SQUASHFS error: Unable to read directory block [0:26]
+Oops: general protection fault, probably for non-canonical address 0xdffffc0000000000: 0000 [#1] SMP KASAN PTI
+KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
+CPU: 0 UID: 0 PID: 5646 Comm: syz-executor151 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 11/06/2026
+RIP: 0010:__d_entry_type include/linux/dcache.h:452 [inline]
+RIP: 0010:d_is_miss include/linux/dcache.h:457 [inline]
+RIP: 0010:d_is_negative include/linux/dcache.h:503 [inline]
+RIP: 0010:lookup_one_qstr_excl+0x155/0x360 fs/namei.c:1847
+Code: ff d3 48 85 c0 0f 85 8f 01 00 00 e8 a5 a6 66 ff 49 81 fe 01 f0 ff ff 72 0a e8 97 a6 66 ff e9 86 00 00 00 4c 89 f0 48 c1 e8 03 <0f> b6 04 28 84 c0 0f 85 b6 01 00 00 bd 00 00 38 00 41 23 2e 41 89
+RSP: 0018:ffffc90003c57cb0 EFLAGS: 00010247
+RAX: 0000000000000000 RBX: 0000000000060000 RCX: ffff8880269a1f40
+RDX: 0000000000000000 RSI: 0000000000000004 RDI: 00000000ffffffff
+RBP: dffffc0000000000 R08: ffff88807705343b R09: 1ffff1100ee0a687
+R10: dffffc0000000000 R11: ffffed100ee0a688 R12: ffff888077053380
+R13: ffff888079bb7240 R14: 0000000000000006 R15: 0000000000000006
+FS:  00005555603cd400(0000) GS:ffff8881233cd000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000000000000 CR3: 0000000026d50000 CR4: 00000000003526f0
+Call Trace:
+ <TASK>
+ __start_dirop fs/namei.c:2971 [inline]
+ start_dirop fs/namei.c:2993 [inline]
+ filename_create+0x20e/0x370 fs/namei.c:5214
+ filename_symlinkat+0xe8/0x430 fs/namei.c:5913
+ __do_sys_symlink fs/namei.c:5946 [inline]
+ __se_sys_symlink+0x4d/0x2b0 fs/namei.c:5942
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x171/0x540 arch/x86/entry/syscall_64.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x00007fe4baeb7c49
+Code: c0 79 93 eb d5 48 8d 7c 1d 00 eb 99 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 d8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffe25a11318 EFLAGS: 00000246 ORIG_RAX: 0000000000000058
+RAX: ffffffffffffffda RBX: 00007ffe25a11340 RCX: 00007fe4baeb7c49
+RDX: 00007fe4baeb7c49 RSI: 0000000000000000 RDI: 0000000000000000
+RBP: 00007fe4baf170b0 R08: 00005555603ce060 R09: 00005555603ce060
+R10: 0000000000000000 R11: 0000000000000246 R12: 00007ffe25a11340
+R13: 0000000000000002 R14: 431bde82d7b634db R15: 00007fe4baf1704b
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:__d_entry_type include/linux/dcache.h:452 [inline]
+RIP: 0010:d_is_miss include/linux/dcache.h:457 [inline]
+RIP: 0010:d_is_negative include/linux/dcache.h:503 [inline]
+RIP: 0010:lookup_one_qstr_excl+0x155/0x360 fs/namei.c:1847
+Code: ff d3 48 85 c0 0f 85 8f 01 00 00 e8 a5 a6 66 ff 49 81 fe 01 f0 ff ff 72 0a e8 97 a6 66 ff e9 86 00 00 00 4c 89 f0 48 c1 e8 03 <0f> b6 04 28 84 c0 0f 85 b6 01 00 00 bd 00 00 38 00 41 23 2e 41 89
+RSP: 0018:ffffc90003c57cb0 EFLAGS: 00010247
+RAX: 0000000000000000 RBX: 0000000000060000 RCX: ffff8880269a1f40
+RDX: 0000000000000000 RSI: 0000000000000004 RDI: 00000000ffffffff
+RBP: dffffc0000000000 R08: ffff88807705343b R09: 1ffff1100ee0a687
+R10: dffffc0000000000 R11: ffffed100ee0a688 R12: ffff888077053380
+R13: ffff888079bb7240 R14: 0000000000000006 R15: 0000000000000006
+FS:  00005555603cd400(0000) GS:ffff8881234cd000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007ffe25a12000 CR3: 0000000026d50000 CR4: 00000000003526f0
+----------------
+Code disassembly (best guess):
+   0:	ff d3                	call   *%rbx
+   2:	48 85 c0             	test   %rax,%rax
+   5:	0f 85 8f 01 00 00    	jne    0x19a
+   b:	e8 a5 a6 66 ff       	call   0xff66a6b5
+  10:	49 81 fe 01 f0 ff ff 	cmp    $0xfffffffffffff001,%r14
+  17:	72 0a                	jb     0x23
+  19:	e8 97 a6 66 ff       	call   0xff66a6b5
+  1e:	e9 86 00 00 00       	jmp    0xa9
+  23:	4c 89 f0             	mov    %r14,%rax
+  26:	48 c1 e8 03          	shr    $0x3,%rax
+* 2a:	0f b6 04 28          	movzbl (%rax,%rbp,1),%eax <-- trapping instruction
+  2e:	84 c0                	test   %al,%al
+  30:	0f 85 b6 01 00 00    	jne    0x1ec
+  36:	bd 00 00 38 00       	mov    $0x380000,%ebp
+  3b:	41 23 2e             	and    (%r14),%ebp
+  3e:	41                   	rex.B
+  3f:	89                   	.byte 0x89
 
 
->> > It's not really all over the place, it's converting vm_flags_t to
->> > vma_flags_t across madvise.c, which involves changing a few function
->> > signatures, whose callers must be updated.
->>
->> Ah, yeah. What on earth does arch/powerpc/kvm/book3s_hv_uvmem.c do with madvise :(
->
-> Yeah it's quite worrying that... :)
->
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-Thanks David & Lorenzo, for pointing this out. I have changed this to
-use ksm_disable() instead [1], which then also removes vm_flags_t usage
-from there.
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
-Please take a look at it whenever you can. Since it also removes the
-EXPORT of ksm_madvise(), I think we will anyways need an Acked-by there.
-(note that: looking at those changes, it seems like it should go via
-powerpc tree)
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
-[1]: https://lore.kernel.org/linuxppc-dev/0500fbfbb98776091c89584155368610095b4dd5.1794537345.git.ritesh.list@gmail.com/
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
 
--ritesh
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
