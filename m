@@ -1,75 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.198
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794758476;
-	b=L9Rv5RVuwJR/CImxFTHNSlRwk9SNr64iDhcRqF2xesFbhabGcA1opTbZdKyCfg5MuwOK
-	 30Rv+HQoMdsG4fAWqgserCjVpdTrVGYOVkC9N5irGHHgBYjFJLjT6iwUtE1WratYTVhdB
-	 d5gfVDXb9vYRCBjo7hO5pCQCARBC6/h7329+bSBugbsspb+L4jVpr2gWw+O3xoNoU84P3
-	 SsiYTXQ+XQxd+k0wsvOSGfvtMO4aJR8guieAVIXwKMqCIdB/hRJ3/lPJMEjmr+ilT48h1
-	 6j7CyCnJtJjBReMKZWsRPDG0VgH26AtKOpWJ2hW74dOQmdnPP+DC9sX8AlyBicnMEaw==
+	t=1794760589;
+	b=I4iNplmbV1XV/YYxMws0r8g1Q1QnNeoKWAMBp+NtyD+4lRIGElDdIz58DldK76F0OkZb
+	 UBLVtuC1H/Ti9P3msMhM3K1d15FieSPTeW2YRPki/dgwG9dy/7spOaEFmlayWKZm8Y8ek
+	 i7zRBFCV5/Hlt7wJslGcrUrPF5Z8axxl8xrJ31+VBxwaEX32MQ/ryx/slfYZzD1E917OF
+	 5F4+WytW7cqD2UoVwy46YdUJpOgRy1J6nojsYwlxRmJ/01FhYAUtydWG9u2+ELv9Yu9DT
+	 2t6cFSbYanXD/+eBvXiROXa+5uzhdtl6STHdSJfwGMjSTcO9OYmIDE5Yfs2ZZIqhHKw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794758476;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794760589;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
-	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
-	 Content-Type;
-	bh=PEtMxT4PROaXkntuICK0I1QFQe5PSnm2qJpCmGFKExY=;
-	b=RLArcAM1DJV3fIv1unRl0z4StMuT3M9/bdpaJMFUHruqSXE2WROz2LuaxV3PEtRe5393
-	 uj4FSu96vlhL8BES4WXghBH3215WErMUA2346nCogtEiySyeBlVJJnvy+Ho2mI7j+WLHm
-	 pK+j5IZv8PqP/iW7QPyDFq7d9ocHTmnurvr35V4TEOy+fQJYBMaudQXyPZFxcJBlhQ7A3
-	 gx9XDA6LTr1TkthJNm4REq1x3vssTUfOLc2uY2A1SAZKqDCfa2cEJBuqBbU7jv4SOWXGD
-	 VFFESxnhE/w3aS/yfB9xvfr7N8hxk69g5Q/bzYfi0ovsE9A5qwgd9ogv324YdB1QySw==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-Id:X-Mailer:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=tmP0MrFrcAmuuhTA1131QnIkXEUazkJUfQgIKsBWJ2w=;
+	b=CvMTtczHD2RiiBNyX6Bkdr/OAiGm7J8rY6VOLf1Td37u1nzRbtshVBCMbO26B8X0XjsT
+	 jUoHRWz9a3elQGMi7BBXv2BWJfTXmi1RErVC9RWbwnbujWW1bVaRQyPNBHTyV7UWHX4Lo
+	 qb33znmvyrG+6DBQ/2P07W+rnMJnrBa6DupXUUt5/VhmTwwMCUCpVO3YDGZR731crooZx
+	 nQXTcJG+KEPeGnF9mAL7opBrcWTkRBWdFq38kfTxcIrwM0T/Wj+W/DPZF7mneoCPUFlAz
+	 t0Tad3XomoDuf6T3Uq8PTVEqH1F9Yfn7Y9DWaawcUMvDEwk4V+1xG9Xz3anY0QTOyYA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--jiaqiyan.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=nsKyyuvV;
-	arc=none smtp.remote-ip=209.85.214.198
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=JlrNgr19;
+	arc=none smtp.remote-ip=74.125.82.52
+Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFA16606A897
-	for <linux-fsdevel@vger.kernel.org>; Sun, 15 Nov 2026 16:01:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AFA16606A897
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jiaqiyan.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E83BF606A31D
+	for <linux-fsdevel@vger.kernel.org>; Sun, 15 Nov 2026 16:36:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E83BF606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=nsKyyuvV
-Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2ea381ce04fso37200565ad.0
-        for <linux-fsdevel@vger.kernel.org>; Sun, 15 Nov 2026 08:01:15 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=JlrNgr19
+Received: by mail-dl1-f52.google.com with SMTP id a92af1059eb24-1b3ada81853so2324064c88.0
+        for <linux-fsdevel@vger.kernel.org>; Sun, 15 Nov 2026 08:36:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1794758475; x=1795363275; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20260707; t=1794760588; x=1795365388; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=PEtMxT4PROaXkntuICK0I1QFQe5PSnm2qJpCmGFKExY=;
-        b=nsKyyuvVzpf4mEt0LAHbwEkBvfrLoEFPzZVHIcM9v4SHt+x9AnvvvAThxlWrqN9TjX
-         1I01/UOnOEqK8y+ksqIeybbchY2UZCv8nEjSbjwAc6+EwcWv1kw9TGpeki6P3tDiQsXl
-         zYebv8nVCO0CJRlZdHpUejaNs6GmXYhS9Nmcbl6/eUmnw3OCk9QRij8FpBwz8lVxzgaM
-         EGKHO3Nn0IvAlRT7gR373iv124Tm4LDX3HYdMqxtlhXtfJkZ8UnikO021H6daijT4NIq
-         iQVZSausiUWFoFtNudvY3FFKjgPXw0QufUNdr1ilo8QtV+F4D50H/iWTtqL7XK3JPey6
-         TeJQ==
+        bh=tmP0MrFrcAmuuhTA1131QnIkXEUazkJUfQgIKsBWJ2w=;
+        b=JlrNgr19qouTdtB1fx8LtqYf5Rts+F8e6aG6lxQP1cD2O1n2YYUWEcW1kszo/Cw3fK
+         V5NkbOkZ38vr0E/2v2t8tXY9wALoKMgJQSDLoTQHXECefXkgOClfLL0j2TA1+hhY+cY9
+         Fxw0YOLcW4sfpoUQIApBTitHY9L0ZePiuDF4kxOvLDVJlrqagOC/LleIAn348/hFyKg8
+         LKIza/HMGRv3gmBGOv+CIuo9FCaIZ/iMDuLdeb1AXBH0kt6T4+66DJYakhQnSLeIH5xo
+         qlK4qfRtCki02eK2L2K/+VOWxkaS/snckBp+g2FNsINI/SH8YR50tWrMX+Gu2F4Sd+ep
+         iLeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794758475; x=1795363275;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=PEtMxT4PROaXkntuICK0I1QFQe5PSnm2qJpCmGFKExY=;
-        b=OrPhdjhCL5MV8cOzMAHfhAM98xhc0x/Nzb1X98PZjWglQt+H7BaDPD9z50SMo3/H+w
-         tPLx0H8qzcgjlcnEhIi5X1NN/3TKi+B30qkTsIKnnSQ9vy0K1r8Kn1UXKHTW565HmQAC
-         z3lO5aBXBa+dr7IrUegsyI8VYLNQ3t7wuYcX+VByldDbk2UXlp9rfvf9B1ql1A8XTbNW
-         r93EdLF5SLcG5442gSHoUmw7pzvSXmo0X8KaxY9egNaowKhuae4ST4Z9ROgzufMiEHV8
-         oq/e2XjUMosfPyWHu8HgazTdhPKv0iv/ThwwZgMa6LYAGOeA1mZwB0PgLUOBHkj+q+Rf
-         xaBA==
-X-Forwarded-Encrypted: i=1; AL+hErHno2thPvO+OjFzyp6gAoW/KwgRiMvk41IpXEXIztdNHm5pDTLDc1u3etqS20ZoO6hPMivk3vVgijbd9ntF@vger.kernel.org
-X-Gm-Message-State: APuU4Z80AncdaNkDhKr0LdWzVYagecuLQqKYx1Sno61bFTET57fsW4zL
-	YiVWwxugJBNz+45gxPXH3au/ia1NeqcitWEPevh7jMH0oUIBKp47FxL1YVFHbq89/qTz2w7QfN8
-	Du0DLrs2+wNilMg==
-X-Received: from plbkf3.prod.google.com ([2002:a17:903:5c3:b0:2e9:7e8e:b72e])
- (user=jiaqiyan job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:903:3c2c:b0:2e9:93b7:23fc with SMTP id d9443c01a7336-2edf1ed96a2mr76147275ad.17.1794758474742;
- Sun, 15 Nov 2026 08:01:14 -0800 (PST)
-Date: Sun, 15 Nov 2026 16:01:05 +0000
-In-Reply-To: <20261115160105.2507650-1-jiaqiyan@google.com>
+        d=1e100.net; s=20260707; t=1794760588; x=1795365388;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=tmP0MrFrcAmuuhTA1131QnIkXEUazkJUfQgIKsBWJ2w=;
+        b=xmkzSoazYNpGPw0hWmFAhOkOKtTtQvs4DrmbcRJserFVn9GUzhVrfvtChd51u+ZsLA
+         0EgDBu7B86HzyaOa6pS+MGql1cLd1aAMcMUovIoCXhB8l4l4/L9v3OaWxHUbOdPkg2FH
+         SQFz7CuYCsDqcdAwHcjdliN4kXCTKz63s3Ad3Z6O3IIblGCfe+7os3m0yveV+p4ir7YN
+         RXGzcjHRy9+ZGrr1MJNGV4HnZOe62fdn4AeyrYfM+DEqbLcbpqmuO62h0gdrfEp1jXoM
+         FtxeDrVqw9TNFXLWhX7N/dou0cDdDzbKKMtQhj9USurfnKZnQDhKSebSHCMj561eMnea
+         v/AA==
+X-Forwarded-Encrypted: i=1; AL+hErHAH9Xg7vrJeVoYND4QrDE8aTjpGUvZ9/eFt0lVk6kEmmXcIMiq7T1HHebr4LzYMTzwR3W7bB24fOleh75F@vger.kernel.org
+X-Gm-Message-State: APuU4Z9Lxpq1QjcmX5h0i6XliceBKGI3BVggrAMHUMn1vJlD9yM5akig
+	YL1CekMgbQ7wMKx2MAAA3MLNHH/rVJI7ohCk19Kq2fXlBInie3Gki1Pv
+X-Gm-Gg: AYBFou0hGei+jWIaP0xEhYnNQgmbNjcWkWud2cPwq4PvD/vzoNNEuhR2hm6GvFMIi+J
+	E/HVxPCxx82evySX3t2iZjP8RIAxOwacHqCYYp7t+SPgBd/0v/XG6RZ98jjD9WwZFkGYT22n+Hh
+	Lj1wWTd0SiGdIi9xATGx+LzEbiR5J3Pj4ogKj+NpACRh7QSq327dOELuJv/dKZLD8jMgzVHY4g7
+	Al4ToBM44T26seOMTXzbAY/Dg8UT0rwJKoFzVJfgHfCj70Cj7G9DfElMmLN14iRxrWnkzchDXVb
+	SUgFRFFbN2BsnbSRcMWeVoy77IqAp+ZL/bnLtXWCFTsFgCDiL4nELagjaaiFd7Q942O4qe7mdb3
+	UC27NKbsjPXCHFQoWKv8+qZGzE25sj35wd0hA8pLZ/7YzBwNxh9x2m3NN1HhoshqQXG+FKqlsgr
+	nSYa9iQyNxhjBEyS3xWQ6TjlR39TlNT2LBZCLiXFhbEcN19mhmYL1uvi0tcZWf0YvhfTjZfAB9n
+	nqfbeP6FKWHHg10cTmZTVIXfN6x05NG/dlGUjELZbh2LSXtw3am9kJ5eo2zLLXI7F/aVy2V7EDR
+	GXtNnAgHdJAlbI1A7p5je+HuMwRn11XO5lJnUvHvi8TrLiUL9REjTnFydfvMc/suHPDj
+X-Received: by 2002:a05:7022:7f0f:b0:176:a225:e364 with SMTP id a92af1059eb24-1b50312eb89mr7083533c88.35.1794760587827;
+        Sun, 15 Nov 2026 08:36:27 -0800 (PST)
+Received: from youngkk-vm.localdomain (67.216.200.102.16clouds.com. [67.216.200.102])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b5031468b7sm29298232c88.5.2026.11.15.08.36.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Nov 2026 08:36:27 -0800 (PST)
+From: Cheng Yongkang <teel4res@gmail.com>
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>
+Cc: Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [BUG] devpts: lookup racing with devpts_pty_new() can return ENOENT
+Date: Sun, 15 Nov 2026 08:36:20 -0800
+Message-Id: <20261115163620.225761-1-teel4res@gmail.com>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -78,131 +96,59 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-References: <20261115160105.2507650-1-jiaqiyan@google.com>
-X-Mailer: git-send-email 2.56.0.611.g1030f0b940-goog
-Message-ID: <20261115160105.2507650-4-jiaqiyan@google.com>
-Subject: [PATCH v4 3/3] Documentation: add documentation for MFD_MF_KEEP_UE_MAPPED
-From: Jiaqi Yan <jiaqiyan@google.com>
-To: linmiaohe@huawei.com, muchun.song@linux.dev
-Cc: nao.horiguchi@gmail.com, william.roche@oracle.com, ljs@kernel.org, 
-	vbabka@kernel.org, tony.luck@intel.com, wangkefeng.wang@huawei.com, 
-	willy@infradead.org, akpm@linux-foundation.org, osalvador@suse.de, 
-	rientjes@google.com, duenwen@google.com, jthoughton@google.com, 
-	jgg@nvidia.com, ankita@nvidia.com, peterx@redhat.com, 
-	sidhartha.kumar@oracle.com, ziy@nvidia.com, skhan@linuxfoundation.org, 
-	corbet@lwn.net, david@kernel.org, dave.hansen@linux.intel.com, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Jiaqi Yan <jiaqiyan@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Document its motivation, userspace API, behaviors, and limitations.
+Hi Al, Christian,
 
-Signed-off-by: Jiaqi Yan <jiaqiyan@google.com>
----
- Documentation/userspace-api/index.rst         |  1 +
- .../userspace-api/mfd_mfr_policy.rst          | 81 +++++++++++++++++++
- 2 files changed, 82 insertions(+)
- create mode 100644 Documentation/userspace-api/mfd_mfr_policy.rst
+I hit a narrow race in devpts. It needs a lookup of /dev/pts/N at the
+same moment pty N is created, and the result is a short-lived ENOENT,
+so it may not matter much in practice.
 
-diff --git a/Documentation/userspace-api/index.rst b/Documentation/userspace-api/index.rst
-index a68b1bea57a8..9c40445ea354 100644
---- a/Documentation/userspace-api/index.rst
-+++ b/Documentation/userspace-api/index.rst
-@@ -69,3 +69,4 @@ Everything else
-    futex2
-    perf_ring_buffer
-    ntsync
-+   mfd_mfr_policy
-diff --git a/Documentation/userspace-api/mfd_mfr_policy.rst b/Documentation/userspace-api/mfd_mfr_policy.rst
-new file mode 100644
-index 000000000000..a5441bfbe78b
---- /dev/null
-+++ b/Documentation/userspace-api/mfd_mfr_policy.rst
-@@ -0,0 +1,81 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+==================================================
-+Userspace Memory Failure Recovery Policy via memfd
-+==================================================
-+
-+:Author:
-+    Jiaqi Yan <jiaqiyan@google.com>
-+
-+
-+Motivation
-+==========
-+
-+When a userspace process is able to recover from memory failures (MF)
-+caused by uncorrected memory error (UE) in the DIMM, especially when it is
-+able to avoid consuming known UEs, keeping the memory page mapped and
-+accessible is beneficial to the owning process for a couple of reasons:
-+
-+- The memory pages affected by UE have a large smallest granularity, for
-+  example 1G hugepage, but the actual corrupted amount of the page is only
-+  several cachelines. Losing the entire hugepage of data is unacceptable to
-+  the application.
-+
-+- In addition to keeping the data accessible, the application still wants
-+  to access with a large page size for the fastest virtual-to-physical
-+  translations.
-+
-+Memory failure recovery for 1G or larger HugeTLB is a good example. With
-+memfd userspace process can control whether the kernel hard offlines its
-+hugepages that backs the in-RAM file created by memfd.
-+
-+
-+User API
-+========
-+
-+``int memfd_create(const char *name, unsigned int flags)``
-+
-+``MFD_MF_KEEP_UE_MAPPED``
-+
-+	When ``MFD_MF_KEEP_UE_MAPPED`` bit is set in ``flags``, MF recovery
-+	in the kernel does not hard offline memory due to UE until the
-+	returned ``memfd`` is released. IOW, the HWPoison-ed memory remains
-+	accessible via the returned ``memfd`` or the memory mapping created
-+	with the returned ``memfd``. Note the affected memory will be
-+	immediately isolated and prevented from future use once the memfd
-+	is closed. By default ``MFD_MF_KEEP_UE_MAPPED`` is not set, and
-+	kernel hard offlines memory having UEs.
-+
-+Notes about the behavior and limitations
-+
-+- Even if the page affected by UE is kept, a portion of the (huge)page is
-+  already lost due to hardware corruption, and the size of the portion
-+  is the smallest page size that kernel uses to manage memory on the
-+  architecture, i.e. PAGE_SIZE. Accessing a virtual address within any of
-+  these parts results in a SIGBUS (BUS_MCEERR_AR or BUS_MCEERR_AO) with
-+  si_addr_lsb = PAGE_SHIFT. Accessing virtual address outside these
-+  parts is good until it is corrupted by new UEs.
-+
-+- ``MFD_MF_KEEP_UE_MAPPED`` currently only works for HugeTLB, so
-+  ``MFD_HUGETLB`` must also be set when setting ``MFD_MF_KEEP_UE_MAPPED``.
-+  Otherwise ``memfd_create`` returns EINVAL.
-+
-+- For ``MAP_PRIVATE`` mappings, even with ``MFD_MF_KEEP_UE_MAPPED``,
-+  the first write anywhere in a hugepage that has memory error fails
-+  for the whole hugepage, because the copy-on-write must copy the
-+  entire hugepage and inevitably consumes the UEs. The result is
-+  likely a SIGBUS BUS_MCEERR_AR with si_addr_lsb = 30 for 1G hugepage,
-+  as modern x86 hardware usually supports CONFIG_ARCH_HAS_COPY_MC to
-+  recover various in-kernel memcpy routines from memory error.
-+
-+- ``MFD_MF_KEEP_UE_MAPPED`` works with ``MFD_ALLOW_SEALING``, and file
-+  seals work as usual. Seals, including ``F_SEAL_WRITE``, can still be
-+  added after hugepage having UEs, since memory failure recovery doesn't
-+  hold extra references on the kept hugepages.
-+
-+- Truncate, hole punch, and close operations from userspace all dissolve
-+  the hugepage. If dissolving fails, the HWPoison-ed HugeTLB page stays
-+  out of use. Note that ``F_SEAL_SHRINK``, ``F_SEAL_WRITE`` and
-+  ``F_SEAL_FUTURE_WRITE`` prevent truncating or punching holes in the
-+  memfd, so a HWPoison-ed hugepage in a sealed memfd is only dissolved
-+  when the memfd is finally released.
--- 
-2.56.0.611.g1030f0b940-goog
+bacdf1d70bbe ("primitives for maintaining persisitency") says that
+d_make_persistent() "is always called in strong locking environment
+(parent held exclusive, or, in some cases, dentry coming from
+d_alloc_name())". devpts_pty_new() is the d_alloc_name() case, but it
+does not hold the parent, and the d_alloc_name() dentry never goes
+through the in-lookup hash or i_dir_seq. A lookup of the same name
+that missed the dcache just before can then finish in simple_lookup()
+and add a negative dentry:
 
+  lookup                           devpts_pty_new()
+  d_alloc_parallel(root, "N")
+    miss
+                                   d_alloc_name(root, "N")
+                                   d_make_persistent()  -> positive
+  simple_lookup()
+    d_splice_alias(NULL)           -> negative, same name
+
+Both dentries are hashed under the same name, the negative one first,
+so stat() or open() of the new pty returns ENOENT until that lookup
+drops it. As far as I can tell, the old d_add() code before
+b4a76faf9d96 ("convert devpts") had the same window.
+
+On v7.3 I ran one thread that opens ptmx and immediately stats the new
+/dev/pts/N, and 16 threads that stat the same path. In 120 seconds the
+opening thread got ENOENT for its own pty 13 times, and the other
+threads saw ENOENT for a pty that existed before and after the call
+26,372 times out of 6.5 million lookups. __d_add() and
+d_alloc_parallel() have changed since v7.3, but the same window is
+still there in next-20261113.
+
+The same commit message says what d_make_persistent() would need if
+it were ever used with the parent held shared and a dentry from
+d_alloc_parallel(): the in-lookup logic of __d_add(). I tried that
+direction for devpts: devpts_pty_new() takes its dentry from
+d_alloc_parallel(), and d_make_persistent() does start_dir_add(),
+__d_lookup_unhash(), end_dir_add() and wakes the waiters when the
+dentry is in-lookup. It takes no parent lock at all, which is weaker
+than what the commit message assumes. With it both counts went to
+zero, and basic pty tests still passed.
+
+You may prefer a different fix, for example creating the dentry with
+simple_start_creating() as mknod_ptmx() does, which I have not tried.
+I can send my version as a patch if you want it.
+
+Thanks,
+Cheng Yongkang
