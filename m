@@ -1,48 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794751357;
-	b=OFBBSkr/yokJvVm9OeAJ133Yt9Dop5xrcp3Ng+BGE5qHCtWg9hZYlWNDVn+P7NoWsiDk
-	 j3K2UIT4gEFEhKWXBbCGHW9M5TfR7nQGbGt1lQJ38MOk3KAnYfgLnIauFBdSoP/tK/cU9
-	 XiF2hIAkH0Fg5ix5GMqxLaKBQ063EJEZ73P58BLMdjFvg2brZp2g6+8Cfyjft+07ysGbi
-	 vyDaCdViRKIoZmUE04zxT2AUk1yw8YnJs87CL80b9ER8cE2T6/EnyGJCshIatnBlLib8b
-	 8DpllAc4SqM9P1u8xQt10vea6geHRtVW2CsAKUDf6Kl9dlloN1eHc11HtJKGjXvPt+w==
+	t=1794751348;
+	b=1AxZcQi37imuqE7GLL92/RPgoPUPHlru0kysMErdrDm7ZloDZZYUb66YKJv42LCiKium
+	 7bEfN+begTQyk3saswoffsbknyIlGF8yhi1ZDR6IjnNi05Twz+ffKHwdW6f5tleyVSCZY
+	 oc8gcbROj2xGbdvR1MiUbxAawULtMx+T44RPOsetMcfGDZ5cA/8bjKAUDB1dnkU7hlqpm
+	 3gVhBbaupt3OsDpqxiZtThEHri7L8c/NjjoPR8ArXzgY4qU5OxEC1D0+MxuVQJKZX6PUW
+	 RqHwOlo6e7SuY8ZXmYlsIbCOGt+2ymH2o1WIUe/pLCKKNaXwbcCm5v4uvWqt1/+kE9w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794751357;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794751348;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=qJ0EchGlVA269SbkEhgc06ZWAj446vqDrn2p8jAuv/E=;
-	b=nRUkhFd0WVcScxo4hvwYLrADQDR6UMR5Ldlc8QJUbBiu2Dd0V84rau1o89SRSxviUwuy
-	 KpI3cySjEJ8pFuqNLc+Ui187lT6h2YN6PdPlQMJP/Wn/HvzFYdXIqaiMmZbfm1l6TT+EW
-	 OuJC2rSmqns/nKKPOnDzeh1ez3X6XawcPUYycwMKgagaj3Z/OJN6NkleT0MiLILjfjCna
-	 Y43L3Zf7bzY0yFGVD+ojNnyBJ83MlQ7QWPAi9AEh8OTkPXC7rpJUpy+U76FHI0QSRRhHh
-	 FbWE468lZAjwHn8L5el24ZR4HH3FNkdnjf980owz57Sbotb8SS2cOXPoNjUciRlEKrQ==
+	bh=exSQh+ckYaGqDXTdGKRk/DINSz+CEfauTHf2mGVm1qs=;
+	b=krrdUDvirjqgspGCHCbZ19Y16+iQK7IsiCk3gEQzFF3fBQr34iJ5GMvEJYwYWZW1l9vN
+	 fMrH82HGXrSFmdF3vnti6eiksJObScIdevIn0j+IVy4t5E/Mm0j05bJfs2O4MMOm8lGHn
+	 gO9dkXHEqAxDknqwfG9K1Tgs+F8ct0beiyxYSAvOr7TTR2k3xvwTjeP4X+4GTlRiYFnMi
+	 esOeB+f8r7iBNHZblDoX+sUu+f1UwYA1VANwopZraSWCwbUh0qZSzzVWyJIPQHpQbf6hU
+	 9IHqC32TYjJFcPPSbkVioS2f3paIm4z2RS+89C6IPAaFO3Nm25IvZK3wapY1L7b+xhw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=j9ddginL;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mVDBwAAm;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59390606A327;
-	Sun, 15 Nov 2026 14:02:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E37E606A8BF;
+	Sun, 15 Nov 2026 14:02:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=j9ddginL
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE30F1F000CD;
-	Sun, 15 Nov 2026 14:02:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mVDBwAAm
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB31C1F000C5;
+	Sun, 15 Nov 2026 14:02:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794751357;
-	bh=qJ0EchGlVA269SbkEhgc06ZWAj446vqDrn2p8jAuv/E=;
+	s=k20260515; t=1794751348;
+	bh=exSQh+ckYaGqDXTdGKRk/DINSz+CEfauTHf2mGVm1qs=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=j9ddginL1G0GxAHDpTjszI0GOWTyBzsRGUoqoOS/Eq8EtiggIDFzkrpgaY+H2IhoP
-	 F7aqPREaqPHqyq4OWyMq1EFrAlM4QIX3S8k4pDFGQwI7QWeE2U5nOf8pNR8VpggXuZ
-	 MA1gn14DoMP0a7WU8bqRZ5MQCZCUhB45HgWBLR4H9dxZ/IXff8SUQG8rNjQahgLXg4
-	 +AH8yGJ424iNwn3m70UcEEcndFSWEe99TefI+eeanISs9IGtZvBjIwrADK98N4ryJF
-	 q2PksGa1dCMIgZ8X9dxuC9g1esWHbuQWvX3PpeLUnne4rIxIyHyBSgOQ0Z859r9Hh8
-	 T/9hROhAfl1nQ==
+	b=mVDBwAAmMMfoI07kdlegIgj6TgxNBrmadzij2h6L+/SAceIm4g1BJTXFeH0ULv6Ii
+	 MPoimMgdje5DxfoVdFo/7BqRAQGTsQhv7It1+6irZXYWHEXZ/IzNq4GP/O0V9HGLtg
+	 6rQFM0ffCCWzBpHlPrBmQN9XBNtRjC4D+i+pFgXM44MQRmgC05j/CSzPHmoN4wJnfl
+	 R9SepAKc2/vo6FRAm246FMyCPUTXU7d9DXT4Ql136WAN1hFOWQQcczRtkn9BTJcjYs
+	 uy1P6CM3r9DEp47qWwldVtxy/IzyZElL1ervdfnyBqFpt5CZ/2GmyBJR3A92OdCw4R
+	 /TqtG5CUfs3Xw==
 From: Christian Brauner <brauner@kernel.org>
-Date: Sun, 15 Nov 2026 15:01:38 +0100
-Subject: [PATCH 08/13] ipe: handle errors from resolving the real inode
+Date: Sun, 15 Nov 2026 15:01:35 +0100
+Subject: [PATCH 05/13] selftests/bpf: handle d_real_data_inode() errors in
+ bpf_testmod
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -54,7 +55,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261115-work-ovl-d_real-v1-8-ca155efbcb2e@kernel.org>
+Message-Id: <20261115-work-ovl-d_real-v1-5-ca155efbcb2e@kernel.org>
 References: <20261115-work-ovl-d_real-v1-0-ca155efbcb2e@kernel.org>
 In-Reply-To: <20261115-work-ovl-d_real-v1-0-ca155efbcb2e@kernel.org>
 To: Amir Goldstein <amir73il@gmail.com>, linux-fsdevel@vger.kernel.org
@@ -64,87 +65,57 @@ Cc: Chris Down <chris@chrisdown.name>, Miklos Szeredi <mszeredi@redhat.com>,
  linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org, 
  linux-mm@kvack.org, "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2633; i=brauner@kernel.org;
- h=from:subject:message-id; bh=5DKvK6nh9WS+g3ryQ++IdJj14tjmxK81GaGi01tWosw=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT93B05rfno6g8PCtlUrx64aLL53fxOYZOOh/+aGYKkd
- 4cJLlAW7ChlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZjIFmNGhjtnWnuNPd2FTQ9o
- zxPitZL93r+hRG6BfmmXsTpLMrvvPIb/Hjr7DYQrrr/flR1urazf7bq6ZpaMxQb+LiuRs/v4roj
- wAAA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1590; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=8ojyWSbSgAy9/5Lt4D7/0d3uAgnyMk/lTnwvRHMWeIQ=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT93B3q9z78x+8L37QlfDfd/xpzriLxjHO/uMxytjg93
+ U+L72xW6ShlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZhI+ROG/84TY99yZnBb1Hzf
+ rbrBVdn1Q2DcbIv7EvejegKfntz2Pprhn9prvXMcX0qPHJebwriM0ev68+tK155UXfQNusKZnbM
+ rkgEA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
 d_real() is about to be able to fail for D_REAL_DATA. So switch
-ipe_build_eval_ctx() from d_real_inode() to d_real_data_inode() and deal
-with the error.
+testmod_register_uprobe() from d_real_inode() to d_real_data_inode()
+and drop the path again if the data of /proc/self/exe can't be
+resolved.
 
-Currently, if overlayfs fails to resolve the data of a file it hands
-back the overlayfs inode and IPE evaluates the policy against that. The
-overlayfs inode has neither a block device nor any fs-verity state so
-none of the properties of the file hosting the data are visible.
-
-Remember the error in the evaluation context and if a policy is loaded
-refuse the operation with -EACCES without looking at the rules. That's
-what IPE returns for every denial and what IMA returns when it can't
-appraise a file. Permissive mode allows it like any other denial and
-without a policy IPE still allows everything.
-
-Note that the operation wouldn't necessarily fail on its own. overlayfs
-doesn't verify the data again on mmap() so a file whose data can't be
-resolved could otherwise be mapped executable.
-
-This is a no-op until d_real() can actually fail.
+That's hard to hit in practice because exec opened the file already but
+it is the only modular user and d_real_inode() is going away.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- security/ipe/eval.c | 15 ++++++++++++++-
- security/ipe/eval.h |  1 +
- 2 files changed, 15 insertions(+), 1 deletion(-)
+ tools/testing/selftests/bpf/test_kmods/bpf_testmod.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/security/ipe/eval.c b/security/ipe/eval.c
-index 4a7be96c84f03..3751963509df4 100644
---- a/security/ipe/eval.c
-+++ b/security/ipe/eval.c
-@@ -102,7 +102,11 @@ void ipe_build_eval_ctx(struct ipe_eval_ctx *ctx,
+diff --git a/tools/testing/selftests/bpf/test_kmods/bpf_testmod.c b/tools/testing/selftests/bpf/test_kmods/bpf_testmod.c
+index 76fbe64755ef9..9d065a800f655 100644
+--- a/tools/testing/selftests/bpf/test_kmods/bpf_testmod.c
++++ b/tools/testing/selftests/bpf/test_kmods/bpf_testmod.c
+@@ -948,6 +948,7 @@ static struct testmod_uprobe uprobe = {
  
- 	if (file) {
- 		build_ipe_sb_ctx(ctx, file);
--		ino = d_real_inode(file->f_path.dentry);
-+		ino = d_real_data_inode(file->f_path.dentry);
-+		if (IS_ERR(ino)) {
-+			ctx->file_err = PTR_ERR(ino);
-+			return;
-+		}
- 		build_ipe_bdev_ctx(ctx, ino);
- 		build_ipe_inode_ctx(ctx, ino);
- 	}
-@@ -335,6 +339,15 @@ int ipe_evaluate_event(const struct ipe_eval_ctx *const ctx)
- 		return 0;
- 	}
+ static __always_inline int testmod_register_uprobe(loff_t offset)
+ {
++	struct inode *inode;
+ 	int err = -EBUSY;
  
-+	/*
-+	 * Without the inode hosting the data none of the properties of the
-+	 * file can be evaluated. Refuse it unless IPE is permissive.
-+	 */
-+	if (ctx->file_err) {
-+		rcu_read_unlock();
-+		return READ_ONCE(enforce) ? -EACCES : 0;
+ 	if (uprobe.uprobe)
+@@ -962,8 +963,14 @@ static __always_inline int testmod_register_uprobe(loff_t offset)
+ 	if (err)
+ 		goto out;
+ 
+-	uprobe.uprobe = uprobe_register(d_real_inode(uprobe.path.dentry),
+-					offset, 0, &uprobe.consumer);
++	inode = d_real_data_inode(uprobe.path.dentry);
++	if (IS_ERR(inode)) {
++		err = PTR_ERR(inode);
++		path_put(&uprobe.path);
++		goto out;
 +	}
 +
- 	if (ctx->op == IPE_OP_INVALID) {
- 		if (pol->parsed->global_default_action == IPE_ACTION_INVALID) {
- 			WARN(1, "no default rule set for unknown op, ALLOW it");
-diff --git a/security/ipe/eval.h b/security/ipe/eval.h
-index b26d1147d0708..58ca50987b2b5 100644
---- a/security/ipe/eval.h
-+++ b/security/ipe/eval.h
-@@ -42,6 +42,7 @@ struct ipe_eval_ctx {
- 	enum ipe_hook_type hook;
- 
- 	const struct file *file;
-+	int file_err;
- 	bool initramfs;
- #ifdef CONFIG_IPE_PROP_DM_VERITY
- 	const struct ipe_bdev *ipe_bdev;
++	uprobe.uprobe = uprobe_register(inode, offset, 0, &uprobe.consumer);
+ 	if (IS_ERR(uprobe.uprobe)) {
+ 		err = PTR_ERR(uprobe.uprobe);
+ 		path_put(&uprobe.path);
 
 -- 
 2.53.0
