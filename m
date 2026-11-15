@@ -1,101 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.42
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794757115;
-	b=1CizDAvdS116EGZswjQmtkfIx+Ph2yg8uuu5BqDlspoglqOX0GwWnZwpmZqIUC3miJtW
-	 wpQmOa2FTE618kgsU0AUkavrVfaonq6piROVk4l0tE0tICOGtT1gQ3O3aJ2dbAyG0g+l4
-	 +U1Qu+a9XneA5Y4s5b1tEvIVCTRJcjxOlNWWoFXnZrByyDbq49MmLwadAvMMqLMYz8iU1
-	 qgaoNFHyC6EdMTRz+d8izEZkuUfH4U0Y4+S3FuDyEOs2iyYf7N/T4af+vaSgBULS9TcP8
-	 RVLlZJGIRRzeFDRUeQJzJ9dEppKYRjiHXv+qfrmXofZ9XyrZmvEb6Mwo58F6cWigyyw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794757115;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.200
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794758470;
+	b=diQ7bJ1gt2UzFWxlXv9h91xlg0i/8TCy+6p6j8fgg/l8Nmv1X0oM+6+AZq+Nj31kbGZb
+	 6NX9X5RElVTSCNCM48RkSlW8KyprQTbcq9RMSCIHaIl0aoCtxnh0hiH3DW0W5GMmc79Fi
+	 guw3cp7jzXEVxqkwiodzc1912UhD8qrg53KJ9S0hV8PHJOYPM8lcl/WQ+4kIqzY5FDATm
+	 T9OGUPn6wtK9JIMfuOYPNMOyUIdkhY5rOvFlc37I6THvyKc7kqwulEcX3Uy4BI5B+Wc4R
+	 sz1VHnffMN0Nrq6x0cIz6rveg1KeqQwQCStdUA1+wGEju2qwFmxw7tl6RX4Uz+50gKA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794758470;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=43TKtnAFPmjk4ebFbbqKjDRdAPGhXSebrdUtk/jZxo4=;
-	b=An9V2piu2Ur39CCpRH/FFWOYZR0QNsPQKj0EIZdj8kVIpjzzeSlB88Cl5AUwF8WAEfhA
-	 00LJWljaW2pxBR+E3Rabv54blUm72FGY699rqrcx8Gep4rAxZB37xeO38U033TsaE11rO
-	 NiFka/ie6osApJCNzASrhUQXi3HleLH3aNsigf8TrjgxfBdT9kVYwCAt4Xhwf8zxDKwwC
-	 P4s+vqedul9XX5LEA2WG2RQwI//R1JEONk5pms0ignm4thstxx/02FeX1QbtrqEUAgoA/
-	 N9D+LKAXLDjvkV91cyNWtYFaOnyRaqSNrYWYtWB6odPck0udCE0/mUOXLZT7Nry4PGA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Qa8HlHqm;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.42
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:Mime-Version:
+	 X-Mailer:Message-ID:Subject:From:To:Cc:Content-Type;
+	bh=ibQv6e4ma9853gmSuuOGNJ4JeAgmIc7WO/anZOkJjs0=;
+	b=uYvL42satnHSLLrGkA4bXRjLcFBfoOXuqeoJBM0WosE66b8o07AxOOUsdHquQAAZyMcB
+	 Fz03Jy8TFHv5Z4TlTj2eXYRGFTAGK+fGE1773/bCQwKmaimv6UJ2U8a7lKKRADyCvrcVa
+	 J9PMVo1xCDhBl8sCUmOGbfB9blYF905syIx++l//mK6Tgao9ktFQj87cROr4qns9Cc+b9
+	 WJaXfksCj7BeqnqYof9vvyVJ18lWpAYzOlrhKXL6jOO6LAnAZXrHRfOHDVtqLuD6iUr80
+	 2vNf7RsXd2MfS6mJf/WwhPVWm4LGbP5YDabYEiWRMeQpZignjqin+hpZeUxz7XW2xvQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--jiaqiyan.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b="JY/hNjv+";
+	arc=none smtp.remote-ip=209.85.214.200
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9909E606A31A
-	for <linux-fsdevel@vger.kernel.org>; Sun, 15 Nov 2026 15:38:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9909E606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7733C606A327
+	for <linux-fsdevel@vger.kernel.org>; Sun, 15 Nov 2026 16:01:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7733C606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jiaqiyan.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Qa8HlHqm
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-6b587538a37so3928374a12.2
-        for <linux-fsdevel@vger.kernel.org>; Sun, 15 Nov 2026 07:38:34 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794757113; cv=none;
-        d=google.com; s=arc-20260327;
-        b=rAigeepgVh3zQHHHfkxkR3u+Z+HBZkJkDdAd1Z77YLGLZ3lEV9S3A39HZppGqpc66b
-         uqv/8W4VT5V6ktWF/nXuiEeLkWcRfJcmDeOzlrolcDqkyoggMvW0zcJQROY/xhYYV1Yw
-         6lKQedUCqOCuRRmLRzxTBYCDXlUKAZTDtN4OLTIpB9uN7vyQCpGGpRaDISUCuhuDs9Nx
-         rI+LBB8NzC04HoN44+Sl64rMHqCRCqdpHh2IPKVdfSrOV4MIamL6xQUQgjL2NVL/Ep7S
-         xhpMLiQdlDfnW5U7LptL6oT3W67F1qDsNyumifvBwDoaXqBaFShmZdTU+UknZ5Uxohku
-         TrMA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=43TKtnAFPmjk4ebFbbqKjDRdAPGhXSebrdUtk/jZxo4=;
-        fh=qtZxAndXb/85UDvhLOKPnK6KpJuMrC8EodS6n6wPOSI=;
-        b=TVFEoCdWQVf2Gs0An9eTFCb/86doh4R8veUmSLyRjbPzVjfNkOkPQD6ocJosrtAWNn
-         kM2rlpViqh/Neohzqwrg+VrOyOozM3110xEGaRyIsrp1vCBUl0M9X09ZynPxF6ErTs7z
-         L6/8qAIEh3kkpGC0Yaqf/gxgmK3A8nbV+u3RhwUVP8SJMAztgAXlmmKUslRCos5aQASW
-         trsMmC24k1PSdhZqJPGi4OX4baLANEmqoYxruVHGOXU/Gh3JAACAbdWsajFyU1Phla9w
-         EujklaT4pwZASLygnGTe25/IJoGn8qaCJjDPnsw/k+DaHwwfiLaKrNKsjCOlRLh8lZoE
-         qj+A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=JY/hNjv+
+Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2efa9aea3c0so9637495ad.1
+        for <linux-fsdevel@vger.kernel.org>; Sun, 15 Nov 2026 08:01:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794757113; x=1795361913; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=43TKtnAFPmjk4ebFbbqKjDRdAPGhXSebrdUtk/jZxo4=;
-        b=Qa8HlHqm9AmXqHs1ltdkYRPJexFyF07kHWlTDrWk/ImAzQx4k4eDdLiMPB5t19gFNg
-         YYP8Q+8WQTYBG1TbQQerTvkl3IZqAjCBeQGs61oMk2fLncD8QXZpjy0KaLGxM/5yfpvB
-         8qmUlOfhEiBFI8f4FuwhBfIGOGvK39Ag9qX6dveZwBUoRVUgTCokF+mNH1qllhX9bsPC
-         7yJ3xINylvso9k9Zu9ve2i4hIM66uhPhodmv0GPNWPo/AyeqIe4+A28Td0Ahfg4FHL9+
-         rrQfNDP0uyfoqeI/QBZWvGMmhtVSoBMLjao2IkTh+nDqdFNVfwHFgNl4XyteEHmL1Jdr
-         V5PA==
+        d=google.com; s=20260707; t=1794758469; x=1795363269; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ibQv6e4ma9853gmSuuOGNJ4JeAgmIc7WO/anZOkJjs0=;
+        b=JY/hNjv+qVJeQ3su1ml/wlv9KEOYSg6JEju+WWPhOnIUah6TxBjn/EfzzyiHe9fwyJ
+         mPlt0i4RCHI/oaLbAp7yBp0Z9aDnXNLbnUEAVyWBlN2AV2Ap9TqGbgxKXsLNqLqkjgnc
+         4Zrr7IilNH2ok4aJnuI4zHHY3dz4CEJ92eB6dYOkGmxizTG7iAf5BzVgmGRF09SB1Jp+
+         KCJu6qZm4GTrCdFIrAxAiJflBWhT/vK511ESFYW8MbO4C6DuH59QsFtUR1ZYK0CODwf+
+         ZTc5mFFrUjmAq/yL6UZuscfDmRcuQJYMeSlVP8Yy5muYIxcluBFogttiHzd/brEGRn3y
+         J75g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794757113; x=1795361913;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20260707; t=1794758469; x=1795363269;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=43TKtnAFPmjk4ebFbbqKjDRdAPGhXSebrdUtk/jZxo4=;
-        b=Zi8Z58wFBBpmk9PZUcRKO1SZ5pl3O2sjpma/zE23bYcZBcpefO21+7I95uDP7CegYQ
-         MZN8ObJlmBcfNS6LezNw5tdv9ES8ZbZtxGb/fBSgX3E0gq5hgnP32TVflLHenNfMnHCh
-         damscjmZ73S60shx6UPYL+95T6vpWLoXxzCQydLAMm63/ImakZPEmn8jP5x9qxkS7rUB
-         ZiUeUwo/vEO3lW0PhNwsreBe49Jby9vauBTNQ+h8sodLqq/gAZETHBrO1jy+sId9I/CK
-         +9omrv82Niw1FD3v9q5BFYkinxBek+sy7dMLohrYIiveUv7MF6McO6gHsmvgNKP7jVTS
-         SnPA==
-X-Forwarded-Encrypted: i=1; AL+hErEx43CPvkXHRMPVTihwCd7HZOaGAjZtSvYz66cMDVP6NWjjJB0gh7AJmqwFOun7zdySqQRnNTGgM4gXEdzA@vger.kernel.org
-X-Gm-Message-State: APuU4Z/sqizDRUZ/mVTiiE7+e4GJe4XYzPkwYWbSKdvuktT/vjVlKOLs
-	2XKKf9golQaxvdbaQ7Xnvk6kpeql/IR0GZPo/YMaBvB4z7Au63x4SDdhhgHea2mgoYRbFk2m7y9
-	WRl1RMeAfnYTEgqaIGqw9D2clXrv+Krg=
-X-Gm-Gg: AYBFou05Yqjw2q5jUqc1T9TqIb7BILv0Isp9IEeA01HtGZOXUQAtTHBh6bx50svuI91
-	iYAASZffTnOz+coONzlMk3PZnY4Zls2PdhTAg3TopSxgKhCDfSRI1gHxBRkYOb928lkgTK/4dv0
-	JHxmXQmdLfCenUZMm5LFgdvDsifTkBIty3qJNL7M/Poq+qLCOZVGL1DIR7msoCwxWs7Q0UJi8sJ
-	f+OJtDTu/b/C/apBwxlmOJPwSSvdP1bKXY0XvulUwvJ3Z1hSy+qvCDTcQvpjcmHIs7pCyAUYqTG
-	ukayL6avWj7R02aJHLeW7n8y7yBUYEiIIMbtbMrXyTtbdtRIydvefI9934/pJn1+inRcP2ciERd
-	glDJ/A73rG/+mtgiVDrQgO+5ERJ2ldMA8/migkl6gt6SC3SyoHtrnP3hwMq3REgL98lYcAGWoEz
-	MSLCns6icnhWV45Sg=
-X-Received: by 2002:a05:6402:c51b:10b0:6b4:2aa6:2c07 with SMTP id
- 4fb4d7f45d1cf-6b7c0bc4ecbmr4490181a12.14.1794757112869; Sun, 15 Nov 2026
- 07:38:32 -0800 (PST)
+        bh=ibQv6e4ma9853gmSuuOGNJ4JeAgmIc7WO/anZOkJjs0=;
+        b=eWYntiTFvEo0duRThVxBge3mm6AAEM0UtBri8XdQ7SugLISXkjOW2o15Y0fxYx/e88
+         6BPofGetAY1hf0SwF5PJ/1GbMw3ZM7hkQvRQkv2E94arCoYG5zX7tFIk6VVwJCbG0xji
+         8R/snrr6uGiEVMRNtsjzCIlgEr3+1PJB6xqsQtcXM9Trowei9Sb0tpCq+fz/AVT5ysQV
+         ORMA5aB0ucURB4D/7NgUp8tFek08xjxzTCBQpfWlvh3VcO1bJnb214QTkjBQVskTRMVg
+         1lmEcMFuQNfGluKrD92wiF9tFFhU/djryJmMeF5mgLrhPxiq/zhS3Te9wVtpqmDTnADE
+         2+OA==
+X-Forwarded-Encrypted: i=1; AL+hErF7XFwJK1E+bhdEjQXX98ZK7OMLJf/wIKs8lHmDec+uP9SC51Ty8ln+bd+R8KobbRlJp+8ls5ndDIV5wCEv@vger.kernel.org
+X-Gm-Message-State: APuU4Z+S0fvYrMkNl1CyP9YdtK7cgYVrTBUbc0zhgr1kphVLuU7DUsYt
+	xEE5rh1s/1DwRPawzxhZMnY8JgMhrusmCKfbQt3a0vR9KuKQkQU8dfc2rpswJPGHX1eieZx+dXt
+	F99/BjF5BE/ARyA==
+X-Received: from plhd18.prod.google.com ([2002:a17:903:2312:b0:2ed:aa39:f232])
+ (user=jiaqiyan job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:903:22c3:b0:2e9:6788:9369 with SMTP id d9443c01a7336-2ee0dad1a75mr79804185ad.34.1794758468510;
+ Sun, 15 Nov 2026 08:01:08 -0800 (PST)
+Date: Sun, 15 Nov 2026 16:01:02 +0000
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,65 +75,312 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-References: <20261015143601.2095784-1-amir73il@gmail.com> <CAOQ4uxh7oEQ_BzzN23C87+LN1SLoNz2PNYi=k3fNn-NHG4P-5Q@mail.gmail.com>
-In-Reply-To: <CAOQ4uxh7oEQ_BzzN23C87+LN1SLoNz2PNYi=k3fNn-NHG4P-5Q@mail.gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Sun, 15 Nov 2026 16:38:21 +0100
-X-Gm-Features: AclHuK_1yuu7Y3LFUYSMeOSSzZK_Xr_ZVO-xEJaYMS6fCcxVigFstp9yh7r5ado
-Message-ID: <CAOQ4uxi-6trYv2PR3PAVeX2Sg9X8uv3dz5xi=o0dYKBFbw+PAw@mail.gmail.com>
-Subject: Re: [PATCH v3 00/14] Partition the fanotify watchers by type
-To: Jan Kara <jack@suse.cz>
-Cc: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.56.0.611.g1030f0b940-goog
+Message-ID: <20261115160105.2507650-1-jiaqiyan@google.com>
+Subject: [PATCH v4 0/3] memfd-based Userspace MFR Policy for HugeTLB
+From: Jiaqi Yan <jiaqiyan@google.com>
+To: linmiaohe@huawei.com, muchun.song@linux.dev
+Cc: nao.horiguchi@gmail.com, william.roche@oracle.com, ljs@kernel.org, 
+	vbabka@kernel.org, tony.luck@intel.com, wangkefeng.wang@huawei.com, 
+	willy@infradead.org, akpm@linux-foundation.org, osalvador@suse.de, 
+	rientjes@google.com, duenwen@google.com, jthoughton@google.com, 
+	jgg@nvidia.com, ankita@nvidia.com, peterx@redhat.com, 
+	sidhartha.kumar@oracle.com, ziy@nvidia.com, skhan@linuxfoundation.org, 
+	corbet@lwn.net, david@kernel.org, dave.hansen@linux.intel.com, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Jiaqi Yan <jiaqiyan@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 13, 2026 at 7:20=E2=80=AFPM Amir Goldstein <amir73il@gmail.com>=
- wrote:
->
-> On Thu, Oct 15, 2026 at 4:36=E2=80=AFPM Amir Goldstein <amir73il@gmail.co=
-m> wrote:
-> >
-> > Jan,
-> >
-> > As discussed on the "namespace monitoring" patch set [1], the proposed
-> > namespace events do not need to be mixed on the same group with legacy
-> > fanotify filesystem events.
-> >
-> > The mount events are already not mixable with filesystem events, but we
-> > want to be able to mix them with the new namespace events.
-> >
-> > Therefore, introduce the concept of "watcher type" where all the legacy
-> > events belong to the filesystem watcher type and the new mount events
-> > belong to a new namespace watcher type.
-> >
-> > The new watcher type is free to reuse most of the 32bit mask space that
-> > we have internally in fsnotify for event masks.
-> >
-> > The prep patch set only does the partitioning by watcher type.
-> > Followup namepsace events work in available for review in my tree [2].
-> >
-> > If you are fine with this plan and have time to review the patches,
-> > perhaps it is not too late to stage this prep series for next cycle?
-> >
-> > Otherwise, we could aim for merging this together with the namespace
-> > events for the following cycle.
-> >
->
-> Hi Jan,
->
-> I suppose with the firehose of bugs you had not had a chance to look
-> at this yet.
->
-> Just making sure it didn't fall between the cracks.
+Note: I understand mm is in "firefighting mode" this cycle [6]
+and prioritizes fixes over new features, so there is no rush on
+this series. I'm happy to wait until things settle down, and can
+rebase and resend if that's easier.
 
-Anyway, I addressed some review comments from AI tools.
-Besides some issues that I already mentioned on specific patches,
-fixed sparse warnings reported by the kbuild robot and some other
-minor cleanups and pushed to fsnotify_group_type branch on github.
+Problem
+=======
 
-I won't send v4 for those minor changes because I first want to know
-that you are ok with the shape that this took since your v2 review.
+This patchset is a follow-up for the userspace memory failure
+recovery (MFR) policy proposed in [1] and [2], but focused on
+a smaller scope: HugeTLB.
 
-Thanks,
-Amir.
+To recap the problem for HugeTLB discussed in [1] and [2]:
+Cloud providers like Google and Oracle usually serve capacity-
+and performance-critical guest memory with 1G HugeTLB
+hugepages, as this significantly reduces the overhead
+associated with managing page tables and TLB misses. However,
+the kernel's current MFR behavior for HugeTLB is not ideal.
+Once a byte of memory in a hugepage is hardware corrupted, the
+kernel discards the whole hugepage, including the healthy
+portion, from the HugeTLB system. Customer workload running in
+the VM can hardly recover from such a great loss of memory.
+
+[1] and [2] proposed the idea that the decision to keep or
+discard a large chunk of contiguous memory exclusively owned
+by a userspace process due to a recoverable uncorrected
+memory error (UE) should be controlled by userspace. What this
+means in the Cloud case is that, since a virtual machine
+monitor (VMM) has taken host memory to exclusively back the
+guest memory for a VM, the VMM can keep holding the memory
+even after memory errors occur.
+
+MFD_MF_KEEP_UE_MAPPED for HugeTLB
+=================================
+
+[2] proposed a solution centered around the memfd associated
+with the memory exclusively owned by userspace.
+
+A userspace process must opt into the MFD_MF_KEEP_UE_MAPPED
+policy when it creates a new HugeTLB-backed memfd:
+
+  #define MFD_MF_KEEP_UE_MAPPED	0x0020U
+  int memfd_create(const char *name, unsigned int flags);
+
+For any hugepage associated with the MFD_MF_KEEP_UE_MAPPED
+enabled memfd, whenever it runs into a UE, MFR doesn't hard
+offline the HWPoison huge folio. In other words, the
+HWPoison memory remains accessible via the returned memfd
+or the memory mapping created with that memfd. MFR still sends
+SIGBUS to the userspace process as required, with si_addr_lsb
+set to PAGE_SHIFT. MFR also still maintains HWPoison metadata
+on the hugepage having the UE.
+
+A HWPoison hugepage is dissolved once userspace truncates it
+or punches a hole on it via the memfd, or the owning memfd is
+finally released. Its healthy raw pages go back to the buddy
+allocator, while its HWPoison raw pages are isolated.
+
+MFD_MF_KEEP_UE_MAPPED works with MFD_ALLOW_SEALING, and file
+seals work as usual. For example, the owner of a base image
+can seal the memfd and then share it with MAP_PRIVATE. A
+sealed memfd that blocks truncate and hole punch only
+dissolves its HWPoison hugepage when it is finally released.
+
+By default MFD_MF_KEEP_UE_MAPPED is not set, and MFR hard
+offlines hugepages having UEs.
+
+Implementation
+==============
+
+Part 1: When hugepages owned by an MFD_MF_KEEP_UE_MAPPED
+enabled memfd run into a UE:
+
+* MFR defers hard offline operations, i.e., unmapping and
+  dissolving. MFR still sets the HWPoison flag, records the raw
+  HWPoison page in the folio's raw_hwp_list, and sends SIGBUS
+  to the consuming thread with si_addr_lsb reduced to
+  PAGE_SHIFT. The result is reported as MF_DELAYED.
+
+* MFR doesn't hold any refcount on the hugepage after
+  memory_failure() returns; the page cache keeps the hugepage
+  alive. Every memory_failure() on such a hugepage takes exactly
+  one refcount, and me_huge_page() drops it. Since the 1st error
+  clears the hugepage's migratable flag,
+  get_huge_page_for_hwpoison() treats an already HWPoison
+  hugepage of an MFD_MF_KEEP_UE_MAPPED memfd as in use, so that
+  the 2nd and later errors are handled the same as the 1st.
+
+* If the memory was not faulted in yet, the fault handler also
+  allows faulting in the HWPoison folio.
+
+Part 2: When an MFD_MF_KEEP_UE_MAPPED enabled memfd is being
+released, or when a userspace process truncates or punches
+holes in its hugepages:
+
+* When the HugeTLB in-memory file system removes the filemap's
+  folios one by one, it asks MFR to deal with HWPoison folios
+  on the fly, implemented by filemap_offline_hwpoison_folio().
+
+* MFR drops only the refcount taken by filemap_get_folios(), so
+  that the HWPoison folio becomes free, then dissolves it.
+  dissolve_free_hugetlb_folio() moves the HWPoison flags to the
+  raw pages after restoring vmemmap, and with [4], only the
+  healthy raw pages are freed to the buddy allocator. If the
+  dissolve fails (e.g. someone else holds a refcount), the folio
+  stays HWPoison and is never allocated from the HugeTLB pool
+  again.
+
+Limitation
+==========
+
+For a MAP_PRIVATE mapping of the memfd, the first write fault
+anywhere in a HWPoison hugepage copies the whole hugepage, and
+the copy consumes the UEs. With CONFIG_ARCH_HAS_COPY_MC, the
+writer gets SIGBUS with si_addr_lsb of the hugepage size.
+
+Dependency
+==========
+
+This patchset is based on mm-unstable commit 0ea6dc8c4a21
+("fs/proc/task_mmu: fix lost maps entries above 2^63") with
+v7 of [4] applied, which frees only the healthy pages of a
+high-order folio having HWPoison pages.
+
+Testing
+=======
+
+Tested with the new selftest hugetlb-mfr in patch 2/3, with
+
+* HVO (hugetlb_optimize_vmemmap) on and off.
+* 2M and 1G hugepages.
+* errors injected with MADV_HWPOISON and hwpoison_inject's
+  corrupt-pfn. corrupt-pfn covers the code paths in
+  get_huge_page_for_hwpoison() that MADV_HWPOISON skips with
+  MF_COUNT_INCREASED.
+* hugepages released by truncation, and by closing a memfd
+  sealed before and after injecting errors.
+
+AI Disclosure
+=============
+
+I used an AI assistant (Antigravity with Claude) to review the
+code and help debug, to reword the commit messages and this
+cover letter, and to rewrite the selftest. Each patch has an
+Assisted-by tag. I wrote the kernel code, and have reviewed and
+tested everything in this patchset.
+
+Changelog
+=========
+
+v4 -> v3 [5]
+
+- Rebase onto mm-unstable commit 0ea6dc8c4a21
+  ("fs/proc/task_mmu: fix lost maps entries above 2^63")
+  with v7 of [4].
+
+- Rework the refcount handling to address the issues pointed out
+  by Miaohe Lin <linmiaohe@huawei.com> [7]. In v3, MFR held one
+  refcount per raw HWPoison page, and dropped one refcount per
+  raw_hwp_list entry when releasing the folio. This drops too
+  many, since get_huge_page_for_hwpoison() takes at most one
+  refcount per folio, and it may drop the refcount held by
+  someone else. In v4:
+  - MFR holds no refcount after memory_failure() returns.
+    me_huge_page() drops the refcount taken by
+    get_huge_page_for_hwpoison() or passed in with
+    MF_COUNT_INCREASED. A folio under isolation is not HWPoison
+    yet and has its migratable flag cleared, so memory_failure()
+    neither takes a refcount on it nor reaches me_huge_page().
+  - filemap_offline_hwpoison_folio() drops only the refcount
+    taken by filemap_get_folios(). It returns whether it has
+    consumed that refcount, so that remove_inode_hugepages()
+    doesn't release it again.
+  - get_huge_page_for_hwpoison() treats a HWPoison folio of an
+    MFD_MF_KEEP_UE_MAPPED memfd as in use. Without this, the 2nd
+    and later errors of a folio went to MF_HUGETLB_RETRY and
+    ended up MF_IGNORED.
+
+- Merge with hugetlb_update_hwpoison() from commit a148a2040191
+  ("mm/memory-failure: fix missing ->mf_stats count in hugetlb poison").
+  If hugetlb_update_hwpoison() sees a new raw HWPoison page in a
+  kept-mapped folio, it returns MF_HUGETLB_IN_USED, so that
+  try_memory_failure_hugetlb() handles the new error the same
+  as the 1st one.
+
+- Don't touch raw_hwp_list in filemap_offline_hwpoison_folio().
+
+- hugetlbfs_error_remove_folio() returns MF_DELAYED for an
+  MFD_MF_KEEP_UE_MAPPED memfd, so the result is reported as
+  "Delayed" instead of "Recovered".
+
+- Use folio_mapping() instead of folio->mapping.
+
+- Remove the comment saying MFD_MF_KEEP_UE_MAPPED is not
+  seal-able. Since MFR no longer holds refcounts, F_SEAL_WRITE
+  can be added after a hugepage has UEs.
+
+- Rewrite selftest hugetlb-mfr:
+  - Set up and restore HugeTLB pages with hugepage_settings.h,
+    and unpoison raw pages at the end, as suggested by William
+    Roche <william.roche@oracle.com>.
+  - Keep the nr_hwp_pages argument for debugging, but default to
+    poisoning all 8 raw pages.
+  - Add corrupt-pfn injection (the default) besides MADV_HWPOISON.
+  - Add a seal mode that seals the memfd before and after injecting
+    errors, and releases it by close.
+  - Check HardwareCorrupted and KPF_HWPOISON of the raw pages.
+  - Add it to run_vmtests.sh under the memory-failure category.
+  - Keep it a separate test instead of folding into
+    memory-failure.c as suggested by Miaohe Lin
+    <linmiaohe@huawei.com>, because it needs its own HugeTLB
+    setup and a multi-step memfd lifecycle.
+
+- Document the MAP_PRIVATE copy-on-write limitation, hole punch,
+  and how MFD_MF_KEEP_UE_MAPPED works with seals.
+
+- Drop Tested-by and Reviewed-by from William and Jane Chu, since
+  patches changed a lot.
+
+v3 -> v2 [3]
+
+- Rebase onto [4] to simplify filemap_offline_hwpoison_folio_hugetlb().
+  With free_has_hwpoisoned() rejecting HWPoison subpages in a HugeTLB
+  folio, there is no need to take_page_off_buddy() after
+  dissolve_free_hugetlb_folio().
+
+- Address comments from William Roche <william.roche@oracle.com> and
+  Jane Chu <jane.chu@oracle.com>.
+
+- Update size_shift in kill_accessing_process() if MFD_MF_KEEP_UE_MAPPED
+  is enabled. Thanks William Roche <william.roche@oracle.com> for providing
+  his patch on this.
+
+- Add a new tunable to hugetlb-mfr to control the number of pages within
+  the 1st hugepage to MADV_HWPOISON.
+
+v2 -> v1 [2]
+
+- Rebase onto commit 6da43bbeb6918 ("Merge tag 'vfio-v6.18-rc6' of
+  https://github.com/awilliam/linux-vfio").
+
+- Remove populate_memfd_hwp_folios() and offline_memfd_hwp_folios() so
+  that no memory allocation is needed during releasing HWPoison memfd.
+
+- Insert filemap_offline_hwpoison_folio() into remove_inode_single_folio().
+  Now dissolving and offlining HWPoison huge folios is done on the fly.
+
+- Fix the bug pointed out by William Roche <william.roche@oracle.com>:
+  call take_page_off_buddy() no matter HWPoison page is buddy page or not.
+
+- Remove update_per_node_mf_stats() when dissolve failed.
+
+- Make hugetlb-mfr allocate 4 1G hugepages to cover new code introduced
+  in remove_inode_hugepages().
+
+- Make hugetlb-mfr support testing both 1GB and 2MB HugeTLB hugepages.
+
+- Fix some typos in documentation.
+
+[1] https://lwn.net/Articles/991513
+[2] https://lore.kernel.org/lkml/20250118231549.1652825-1-jiaqiyan@google.com
+[3] https://lore.kernel.org/linux-mm/20251116013223.1557158-3-jiaqiyan@google.com
+[4] https://lore.kernel.org/linux-mm/20261110053331.2708996-1-jiaqiyan@google.com
+[5] https://lore.kernel.org/linux-mm/20260203192352.2674184-1-jiaqiyan@google.com
+[6] https://lore.kernel.org/linux-mm/a2f584f6-e382-4876-aa6d-d5a34de6ee59@kernel.org
+[7] https://lore.kernel.org/linux-mm/5e0fc743-eb44-b69f-01a2-da7b6f2eca8d@huawei.com
+
+Jiaqi Yan (3):
+  mm: memfd/hugetlb: memfd-based userspace HugeTLB MFR policy
+  selftests/mm: test userspace MFR for HugeTLB hugepage
+  Documentation: add documentation for MFD_MF_KEEP_UE_MAPPED
+
+ Documentation/userspace-api/index.rst         |   1 +
+ .../userspace-api/mfd_mfr_policy.rst          |  81 ++
+ fs/hugetlbfs/inode.c                          |  42 +-
+ include/linux/pagemap.h                       |  24 +
+ include/uapi/linux/memfd.h                    |   6 +
+ mm/hugetlb.c                                  |   8 +-
+ mm/memfd.c                                    |   9 +-
+ mm/memory-failure.c                           | 119 ++-
+ tools/testing/selftests/mm/Makefile           |   1 +
+ tools/testing/selftests/mm/hugetlb-mfr.c      | 704 ++++++++++++++++++
+ tools/testing/selftests/mm/run_vmtests.sh     |   1 +
+ 11 files changed, 977 insertions(+), 19 deletions(-)
+ create mode 100644 Documentation/userspace-api/mfd_mfr_policy.rst
+ create mode 100644 tools/testing/selftests/mm/hugetlb-mfr.c
+
+-- 
+2.56.0.611.g1030f0b940-goog
+
