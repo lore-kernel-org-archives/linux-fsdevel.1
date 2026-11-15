@@ -1,113 +1,45 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794752676;
-	b=G5dUVlHMf1N+j/HCqxjccfudBe8Z+yfaGtNMrNY78Q5xdq69GQBsK7ZwUueNvuh2XE18
-	 kE9k54H/Jt/UTpIhGNNlfd0zEJfPchI0iQINYIhwH9zGDoPV+i2mPT2kmIUmOT51nUleK
-	 xyNHuMotjUmoIt2PU//8zF1jwkhEpv3xd+Z4pARTNXfapwQVdTfvvFrauectbQC8pYX7L
-	 4mgrKb64iWzoS6NTJORzM6XBlCAYED3ublES7UANyWXvP1B+vjgGxz0I8GAC/S3GaUMVh
-	 LJYe+rONyFONW0I0ptjYtZHpcfKRTHN1B1RgPaLmrK5KmhHtyHCvinwoIHbWbJolbIw==
+	t=1794753468;
+	b=kP2wCI7ZUcroYv1JifOCnC2P2RPx48pQvTvtijmUs/0KpVmXiqkS7fq4gbpmlnqWWSOH
+	 4715I/0E08v3/I+NUSbbQNP3YNAohU1I/QsKGm37hayyynbxS6lsaVQ3M9DSbyt8S792C
+	 krWQNBa1wsd4WEZKXzOcXuyy9a+x0SzCDDiJ1eF6GZFxJ53oy5WzO+LoHQFGpcq47aa7H
+	 dWGoB8u5ICxkZ2jPOVQjkFRMAFhJUZCO/RdrsCivB+vjLBYfY9Lr+sYMdJ69R4hlhV6f4
+	 G8ilyW1eVXEBwL6UA42jVVLIm10y1E8M23T7GOjRixtCCIzbHng+8Ms56VSVdIcFOSg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794752676;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:X-Mailer:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=7QzzvIBZ5m85jb8a3T2vbOcaHxM8nqWRH2JKBq6oOx8=;
-	b=nSyJeKeuNZZLl0jWgLdYGHYP/7gcRYHRJBEN85Q0U3mb1gYS/PmL+18qLqcSLCjfVYJC
-	 2ea2E2fhegwNJhc5zHBbhXljciFb8yyQQUoN99ZWZTD234+fh1D2KHB47Xo5Mr+OEGKkp
-	 4NpiXnKssaJ8pk/3U17arab/q1X4oVzIP/46t944FKa/wybvt42KDIAxdFREik+pbvOqX
-	 W289cwhvJSPLrK3M/ZNHEMWDibm2h9jtVxUYq3O+JYfUd3C9C/Hc1VL/HKAXh6tyTdSXz
-	 o7b7rw7vhR9O+6FiaKNNndubbnz/LpE7/SY1bul8fUBADRsoeWRBoouoOPSVMGhqXWg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794753468;
+	h=Received:DKIM-Signature:Content-Type:MIME-Version:Message-Id:
+	 In-Reply-To:References:Subject:From:To:Cc:Date;
+	bh=2aQpD+5wOwFw2m2I7/vgi2Nycby2o3K9U9x+kyRBQZ4=;
+	b=Bz1jCZ9ZUB3HbYsayh/qjIw/0GBFzyJmtQLS3rx/xeJeGFV9EmOcNh384eer9LV96Vfh
+	 YgX0/CajRg107YrWBhc2vOV4R8IHwbuuWmWBtC6TRu2+2+p5fFDAZcBe1QmPnwEm0i7/q
+	 hvVBiNzIKuSnJJZucrxcOzVKosezIjeNwwmDLCfZUpBPhTNu8qskeVAXf3foNBcBqJ8AA
+	 eTHk+5ScdegOyEXy+agGI5jENO2YG+j97rJdEE7sRs9KvLOrlUwpAoFXjxUZU+/aCF4zt
+	 HHUSrzkLrAyrayBKRKC3sZtu2mRb9bRVar0jf3eL8HnjmSFAU+Lt1W2n/Yd11ltidlg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jxVes4fN;
-	arc=none smtp.remote-ip=209.85.128.50
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="F/8qSbuo";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B873606A8A7
-	for <linux-fsdevel@vger.kernel.org>; Sun, 15 Nov 2026 14:24:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9B873606A8A7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93337606A31D;
+	Sun, 15 Nov 2026 14:37:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jxVes4fN
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4a2000d5fb1so11746495e9.1
-        for <linux-fsdevel@vger.kernel.org>; Sun, 15 Nov 2026 06:24:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794752674; x=1795357474; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=7QzzvIBZ5m85jb8a3T2vbOcaHxM8nqWRH2JKBq6oOx8=;
-        b=jxVes4fNS9TSgGvlHsTT80+9II9XinvC4prossPItwxQmdIh/ly0jdC/cdyT55vVR6
-         dxr87FlrY8HaEzKWL1k6AkuqQTejZzqNuP03IkWn/1QKMcHCGusJm7Uzh90VmKNatLHN
-         /Ur+ln5v7C1S9XPfNu7fKUrI1pDdBwtHp9o72Tv8ddrZYc02/UP04z5Cj9qKvnMUiuBc
-         AKlR1i85YUHuEqLhR+nPnOGxB8gyhi3BmtQiXq42P2XoLdScRFWDqb++9b0P9t/EHP1y
-         PjbWv5kEkbF943EnXhorY4a6wJ2J69Bqn/WcjcubzUA5IRKt9NLekdoBKWqKwl/hWu6c
-         NQpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794752674; x=1795357474;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=7QzzvIBZ5m85jb8a3T2vbOcaHxM8nqWRH2JKBq6oOx8=;
-        b=x+dS71dy3ZKe1bKKcRm5Ianf23kdrvQYEby3psQZnOfpqWe9JPoySCvw7OWKirXU7T
-         JPSGJuGdge7RD6yL+f3wtB3d729sktBffjIk68av5jFX4Dc01ywh86HosztyAFN1+/4j
-         Wkrz7E1Ve4TrGPGE7esU6W/myzHYmJiUZnQlncaNpoPzYcwLqn+UxA7iCW1Yhkrn+kmf
-         vRyk1YL2B76935aVyj8U9BYVwoIE+S0KkQmb9awMVLgkST28DgfN42CqiwrEZh3nZUoD
-         jK+lDI9ihzOvXoCsmjQz2u1QmXhM8n1sDiASuj793ICKPldtumbOTVctwswM7Z9I9xxz
-         6Puw==
-X-Forwarded-Encrypted: i=1; AL+hErFc/D3Rvdpf8lAE2vk2x83WlIH/9qgEXFDEYS0ZVAXZmKyzuuT8I6fqOIO3ervVX58rNLa2QakSAeBk6LxL@vger.kernel.org
-X-Gm-Message-State: APuU4Z+GDFdxnGkmNXnlY5GD4j37ZjN8kxqAquPPtOnUDHgQrMWS1RtW
-	rQ/RhIZaeo0Z0jUiWFggPl3fmDnosgtKljTKbkOMAtmh6wd0HBu3NjoS
-X-Gm-Gg: AYBFou14NjgnYBP4v5KOSw6PHBtRQDn7+999PWhx6lTg9O5JQff0RsT1xnBBQn6GAHr
-	KIcTp51mcxP94cPAD4r9nhWkPFJ05do2E8iOOR4VExiHMp0ep7Ub9PHqcHwIJR7u3pcO33n7siE
-	SiD7bNfRgwg3mWmoynT/WkziTIOfYzF0UdYJ+U2Dgxi1ZT97zloPyrTbYmJTTatPFZT+V8gPxmC
-	LdtIQxMaiNv0x3drEc/cG2RL91RhbzS6PjvJIsghbcEX4T2Y9YjCq9vC8rMMpdSkj4ArA6gk9aF
-	PQEj8cFKC0mCGTOZVN+l2ZtFpuZivx9LWSuykHLN2BO5HwG8dHXf59DXF7atx9eCPwBIoI4rvsk
-	WKHnUGZ0Y+Gbq4iVaAgsdZGSKRdY9BINq7NNUFL7OTS8qVYtRMMlfeFsca08mIir5oBvIcnZ3Ql
-	K0vMs6EZ8EcBF7m0n/DijnZIImrfQkFH99wHLm73n9jB4/dRKIv6+g7N38R7fLOJPJXIzWvmTCq
-	HMOC+6Zg08kXBVNAM/TCK2JQu/Q8jOvdT/SNIgu525Vt1w9iYuqJhKTYn63WgQc0iZhB06PurTS
-	erIo37lLZRc0fyxLcpFfa3XLioiQBZPazBKQ4KbcYeBaQLfsJDMMiWcfnfUo+1eSeXF8veDBnAF
-	qD4DspYABLxc=
-X-Received: by 2002:a05:600c:c0c5:b0:4a1:cef3:fb3a with SMTP id 5b1f17b1804b1-4bb55a6602amr130912825e9.9.1794752673813;
-        Sun, 15 Nov 2026 06:24:33 -0800 (PST)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb4e2adf53sm318854915e9.15.2026.11.15.06.24.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Nov 2026 06:24:33 -0800 (PST)
-Date: Sun, 15 Nov 2026 14:24:31 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: Samuel Wu <wusamuel@google.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Luis
- Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, Daniel
- Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, Aaron
- Tomlin <atomlin@atomlin.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Alexei
- Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>,
- Kumar Kartikeya Dwivedi <memxor@gmail.com>, Martin KaFai Lau
- <martin.lau@linux.dev>, Song Liu <song@kernel.org>, Yonghong Song
- <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, Emil Tsalapatis
- <emil@etsalapatis.com>, Ihor Solodrai <ihor.solodrai@linux.dev>, Nathan
- Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>,
- kernel-team@android.com, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-modules@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH bpf-next v3 0/9] kallsyms: Add KALLSYMS_QUERY_BY_NAME
- and KALLSYMS_QUERY_BY_ADDR ioctls
-Message-ID: <20261115142431.1587690a@pumpkin>
-In-Reply-To: <20261113221248.3535369-11-wusamuel@google.com>
-References: <20261113221248.3535369-11-wusamuel@google.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=F/8qSbuo
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78A461F000C5;
+	Sun, 15 Nov 2026 14:37:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794753468;
+	bh=2aQpD+5wOwFw2m2I7/vgi2Nycby2o3K9U9x+kyRBQZ4=;
+	h=In-Reply-To:References:Subject:From:To:Cc:Date;
+	b=F/8qSbuoGQZGQtgBxIr6B2ueFpU95+7qJMwmm8INX1xDHRlTUaSD8BFdbq4CbOxrR
+	 ox1qNccLa8/HK300SOpQmBbk5Qvso5s0ej0nnLzfaw7woW9fsTRsB3fn8XKtg4GZi2
+	 mkIHuNrdV77fS3AS7HGyBsRW6r1I1TVsLts0dAY635e5VsCW997Apri30eUILQ8DE8
+	 6QT8gY4VS7IF4+z6kjL7VWLQ7z0W25C7ZhfXYsY6RHZAfw5JKq52esd/VilnzZerDm
+	 yfh9vV8t3VLyXsXWrgdekBNeTMfP6B4g7EKPziGoUoo9vqTOsFrf/z8rys1tdDFec/
+	 iXGUcM50BmJSQ==
+Content-Type: multipart/mixed; boundary="===============5766711597295612734=="
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -117,29 +49,96 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Message-Id: <9bacf710b101058735f399d44953a18d1630aec3b6b176fe96215cdd2f0eb7ac@mail.kernel.org>
+In-Reply-To: <20261115-work-ovl-d_real-v1-8-ca155efbcb2e@kernel.org>
+References: <20261115-work-ovl-d_real-v1-8-ca155efbcb2e@kernel.org>
+Subject: Re: [PATCH 08/13] ipe: handle errors from resolving the real inode
+From: bot+bpf-ci@kernel.org
+To: brauner@kernel.org,amir73il@gmail.com,linux-fsdevel@vger.kernel.org
+Cc: chris@chrisdown.name,mszeredi@redhat.com,linux-unionfs@vger.kernel.org,linux-kernel@vger.kernel.org,bpf@vger.kernel.org,linux-trace-kernel@vger.kernel.org,linux-integrity@vger.kernel.org,linux-security-module@vger.kernel.org,linux-mm@kvack.org,brauner@kernel.org,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,mason@kernel.org,ihor.solodrai@linux.dev
+Date: Sun, 15 Nov 2026 14:37:46 +0000 (UTC)
+
+--===============5766711597295612734==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 
-On Fri, 13 Nov 2026 14:12:45 -0800
-Samuel Wu <wusamuel@google.com> wrote:
+> ipe: handle errors from resolving the real inode
 
-> /proc/kallsyms is the primary interface for userspace to query the kernel
-> symbol table. However, resolving even a handful of symbols or addresses
-> requires reading and parsing the entire text file, which is often several
-> megabytes and takes thousands of read() syscalls.
+TL;DR: Behaviour question: the new ipe_evaluate_event() early return for an
+unresolvable real inode skips ipe_audit_match(), so enforce-mode -EACCES and
+permissive-mode allows may leave no IPE audit record. Should it audit?
 
-Separate from this, I've wondered about separating out the /proc/kallsyms
-code from the code that actually handles the symbol table itself.
-The two parts are pretty much separate.
-IIRC it uses a static function to get the symbol type (which does most
-of the work of getting the name - which it also wants) so it isn't
-completely trivial.
+> diff --git a/security/ipe/eval.c b/security/ipe/eval.c
+> --- a/security/ipe/eval.c
+> +++ b/security/ipe/eval.c
 
-I'm pretty sure all (well almost all) the changes will be lower down
-the file than my changes and won't cause (hard) conflicts.
+[ ... ]
 
-I've been compiling kernel/kallsyms.c and kernel_kallsyms_selftests.c
-in userspace for testing both, but had to cut the bottom off kallsyms.c
-to get it to compile with a sane number of definitions.
+> @@ -335,6 +339,15 @@ int ipe_evaluate_event(const struct ipe_eval_ctx *const ctx)
+>  		return 0;
+>  	}
+>  
+> +	/*
+> +	 * Without the inode hosting the data none of the properties of the
+> +	 * file can be evaluated. Refuse it unless IPE is permissive.
+> +	 */
+> +	if (ctx->file_err) {
+> +		rcu_read_unlock();
+> +		return READ_ONCE(enforce) ? -EACCES : 0;
+> +	}
+> +
 
-David
+Should this path emit an AUDIT_IPE_ACCESS record?
+
+This early return skips the eval: label, so ipe_audit_match() is never
+called.  Every other way ipe_evaluate_event() ends in a denial goes through:
+
+eval:
+	ipe_audit_match(ctx, match_type, action, rule);
+	rcu_read_unlock();
+
+	if (action == IPE_ACTION_DENY)
+		rc = -EACCES;
+
+	if (!READ_ONCE(enforce))
+		rc = 0;
+
+With this patch, in permissive mode a file whose data cannot be resolved
+returns 0 and leaves no record at all, even though
+Documentation/admin-guide/LSM/ipe.rst says that in permissive mode policy
+violations are logged.  In enforce mode the -EACCES has no IPE audit record
+to explain it.  The commit message says "Permissive mode allows it like any
+other denial", but other denials are audited and this one is not.
+
+This path can be reached for an already open file.  ovl_open() verifies
+lowerdata and sets OVL_VERIFIED_DIGEST, but a metacopy copy-up clears that
+flag (ovl_clear_flag(OVL_VERIFIED_DIGEST, inode) in fs/overlayfs/copy_up.c).
+A later mmap(PROT_EXEC) on the open fd then goes:
+
+vm_mmap_pgoff()
+  security_mmap_file()
+    ipe_mmap_file()
+      ipe_build_eval_ctx()
+        d_real_data_inode()
+          ovl_d_real()
+            ovl_verify_lowerdata()
+              ovl_maybe_validate_verity()
+
+which can fail with -EINTR from ovl_inode_lock_interruptible() or with an
+error from ovl_validate_verity(), setting ctx->file_err.  The IMA patch in
+this series (c9952f8fed84) describes the same scenario, and its error path
+in ima_collect_measurement() still calls integrity_audit_msg().
+
+Could this set action = IPE_ACTION_DENY with a suitable match type and jump
+to eval:, or use a dedicated audit helper that records the error, so that
+denials and permissive-mode would-be denials are still logged?  No later
+commit in the series touches security/ipe.
+
+
+---
+AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
+See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
+
+CI run summary: https://github.com/kernel-patches/bpf/actions/runs/43723438893
+--===============5766711597295612734==--
