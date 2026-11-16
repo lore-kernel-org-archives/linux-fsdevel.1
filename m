@@ -1,94 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794837579;
-	b=v0zCN5oZS0Iy7a51n7QMgsY1O2/Unq87ESTxrmEgw04PJ6N0iq/mDuHdY0PT1CAu+KNO
-	 uR3lqs078lkI1FLx082DobjRaVRoTkXUN4ELmE0X9cXOUj6bSB0axfMeb667KKXPqEZXC
-	 /hVGgRza5wkMmOLJw1XGR3GyOaRxqtzlHneuctxxMuLfsD/y24ZEsx8E+RjHiFAyv6psA
-	 c2p+UavirfEtRYdNwy6nI6+Rbj2Re326+PX8W50CHnZUYtZR7MHsOsdd5Cu6uhNTdU1WJ
-	 +eqRKpnB+xpF7ZSXphUjDn44TrFYyH7iMjp+vsfHuE9llN7aeiUkTlIYwvlB/2E2RsQ==
+	t=1794838896;
+	b=1T1JqLXIiaTlgMoAolrGF6kQy1JF0qMbo0wXihpDwNhDJMFzETfPE6cSqI18RDh/yQSn
+	 7loKAqr8llufmAxIPZl09xhqAJcSo7hN+a0zIEOFW+f6RB4Lsnj+W338U2R8n0xTgqYXm
+	 DYD/bCZmBGKTbJ6+KEudQNddJjM1wJKASzsiuEVm+ITiWDXPeqQEDFTWiW/Mgoudie0/O
+	 6jZC9ccopP1tfzwhiQmg537VO0/3sYZRpgAcb50nbzkTEwrHYeoVqSb3ouIYg0z/WD4OM
+	 u/A8q27nXVIozRu2+uYndY1JdJZ8EuFaQFYUe51nxkVfq25YT1u3R+SuPI7sfRC4oIA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794837579;
-	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:X-ME-Received:
-	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=+0F/BYp4W2Rhn1Nomgj2rP/Jj1y5yUU++uEAdL1QZkk=;
-	b=UGwjC2yosH4Rr4bglW+7DRMQMuaLXeL9fxgDI1aX+eeiOPjBKYXXlIDA4EfMWYxPIRN1
-	 4che1iEJukdOfgNP/NegE8Q9Nw0JJJ80gSIp5fmsSmZclmKP32dswImu70TYDEdXSDNSA
-	 b/XDB4gGV0TcaxQs2ANvFUfDaXwDlp+QUF2/ltKUGzO6IOfNOfeNls2ziW5NnZxML3gxt
-	 iiNSWMXrnJ+bBZyzgy+7k3fsCeiynG2dDlC99vl9K1CN0LHFiCvGlNZA/J8kDBjtAHcdB
-	 O9BxhME/9JByL+jRi+2FpzZr0f/yJ1v8i/qC2e3opMVWOUcg3VTLTXUIYvHA7CKCdvA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794838896;
+	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=avroJVXI7FYPP9BX1mpXsZCBZ9F8Uq429Emp0GZBvxk=;
+	b=ameqZ8NH880NrTIpqBG5WzWhx7kfBLWv5F16oK+qprArPu4bw9ctv7l4O+UUg2u/GJei
+	 NmxsVaWOXVSW0JApTYlAqHk9ZftjbB52x3HQ1lCiwbwn7uLEwJA+dEfBqwkR67EBxbr4S
+	 n4b6Pnm4fsq7QCc33+KCiwGkrT9sabfoHV+24kyW1hccUE/1QRds9vxnooCkIz7XxAonN
+	 dhW5C3xxRJoh/vFMZ34W00O7a5tBTR2EYEwhaC06Za7Clf9dQdhUGdKhUEk+E/ObuBiTU
+	 Cuisrwmmq5/KMyyAFVPHxm+eJUhJGWg82ZgiSoKvg3b3iSdpq3+YzeEUMe+OslivN0Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="ad6JLZi/";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YU0t6OjF;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78181606A888
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 13:59:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C950606A31C;
+	Mon, 16 Nov 2026 14:21:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ad6JLZi/
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 043DA1F000C6;
-	Mon, 16 Nov 2026 13:59:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YU0t6OjF
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7252A1F000C4;
+	Mon, 16 Nov 2026 14:21:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794837579;
-	bh=+0F/BYp4W2Rhn1Nomgj2rP/Jj1y5yUU++uEAdL1QZkk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ad6JLZi/9/bL58prXRETP/G6UDvQC51DcwZ9YedzBDHfRS8lIdTCzGoNmhiW2GQEw
-	 /aSnNCr7xLeLGcwcuVHHKjHJJJ0gWuIagIky16dvjoensJg2yhfinHV8891lvckpwy
-	 xS2uMM3xU+EEEFvngPxS3vjY4XpGkH9EK5Fp8D6Q8oHgaOzbWZ0qePIcaWFrkgtN/Y
-	 vimEzAmjSDCG7us4M2PmVgBopDZkWwzY2QFSCP4Q8ZT09qyxyz+4qwSsHY97055bpb
-	 Xqfi3jJ3tNEHdQBCupkqnbtFeqm0Hitdm6qb6/wGsxqgeAzNyErcrbDMsevZz/f8kY
-	 txcLDTtijySvA==
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfauth.ams.internal (Postfix) with ESMTP id 39564198004A;
-	Mon, 16 Nov 2026 08:59:30 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Mon, 16 Nov 2026 08:59:35 -0500
-X-ME-Sender: <xms:QQz7aqj1qeMiPG-z-Dgb1cG-n7hCkX50jw3cTnX1khXuV-tvPJ7u3g>
-    <xme:QQz7airZTcMK3nJvnmcrfLb8eDJIqIzjj_rdu3AkWA3TybTsQbroaSapMunU3ocP7
-    v4p2BTTeaYv5_mOijVpsuNfRdo-viWHof7_n-FoMDNRr6dblbh_qTY3>
-X-ME-Received: <xmr:QQz7apdBVAiNyAF_et2VScCAMJZA0xxSw6C2vOqEILECRiZShYaN2tlxNLY>
-X-ME-Proxy-Cause: dmFkZTGw7Ek27OkttPtA0Uz12TIRY+fdCmOBGTdrDghB0eLcttPx19DupuImOjFBtxaU6o
-    JpeXLrgoMfTu/lRKHCIbMj8TzWKHmfHCUY1G1XUscv97+KfE4ZgUv3URbsjMgtUtdZeyxZ
-    SgpYcwu9pXmzrr5EJzFIwQG92uYZOBq7pK07CTnxZhIOY2LLT1RQ4TYNmjWVB5mI/QlLrd
-    lgMB1n608lO6GGOFzonO3YCxKtuKcIqa2yW4weia5Qzv8gyUD2hS5o7CzQGTr7cuwDbUa0
-    lJoWxHsuV1AHsxtoMgIcDdVvIbsfeBRmZr2ToyOJqhisBH0S/Tg40BJ9RANd8a+DCyuOEi
-    hn098RuATgD8qEKVgtdPugOq0uT6bGPyrMOntKLKkq+ZkA01R44yfH+YH0c9YDbYmzrQIA
-    Iopzse1Ct7eMKJwAWqXgcNivcm0iyHT2OhWNgV+VWC0Q82FfCdXJRs/ieaQi7IDVGGntxr
-    2IHkGaGTAT12B8bkGtjQix6jaqugDGh3lm423/jNh60ZAHjmjuCDYvMBwXk5+ytJbrwnWB
-    7dMtlkUuY/1t0syakAczXa7L80fTrhVuFAPUFWNIqdlWtI7V0N8u5qe93gMfQIbb2CGwXy
-    M0D8RdnYRzDAUCTOKXcrl+5HZfFQvkzD95yUO5jtbnlC2gt1X6l6UfYs85/A
-X-ME-Proxy: <xmx:QQz7atyEKDj06BUWZSenI9BcQjUGATvIgsIXq027hGWgFApDfXXGkg>
-    <xmx:QQz7avTOcYMA16LqFIE-4PZjPp6l7Sfra25M7fhVcGDr_O5nYkk8sQ>
-    <xmx:QQz7arlAtzq6xhRodDWJnvXKtlxZGt6D7-GsazYmLfD-SWfZxg7NNQ>
-    <xmx:QQz7aqeKOk5ehpHc2ZTy-jLZG_fiZ1OP4vKyP4CZ9R_qovBM46JmsQ>
-    <xmx:QQz7ajyqGivGQB206Ld8BHvW9UTez-MXUa_VwzqnnC6fvXEdvu6kRNI0>
-Feedback-ID: i10464835:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 16 Nov 2026 08:59:28 -0500 (EST)
-Date: Mon, 16 Nov 2026 13:59:27 +0000
-From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Peter Xu <peterx@redhat.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Axel Rasmussen <axelrasmussen@google.com>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] mm/userfaultfd: prevent poison marker loss
-Message-ID: <avsLuMTVBFfDwfsw@shutemov.name>
-References: <20261107-b4-uffd_marker_loss-v1-0-82926b22704c@kernel.org>
- <20261107-b4-uffd_marker_loss-v1-1-82926b22704c@kernel.org>
+	s=k20260515; t=1794838895;
+	bh=avroJVXI7FYPP9BX1mpXsZCBZ9F8Uq429Emp0GZBvxk=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=YU0t6OjFrvjgkDDvOuuKnQWnjekr+xxSg16q9vPrkImGDCbn83dqyPNqFv3qxxNR5
+	 PqGdB4hyPeN8vKZM9TMClVa9zrVFeVMdStgn/w6FsWiFsYEtwvas/FpLblwu6NjmJV
+	 deO7Kzzs4mspJZo+TFxUHMy9EmBcQYPpTBv3ixAq15LH2YKdp3KlQMOSf9t7QofZtK
+	 a8c1VfGYV5BYm03eznfItWSdAbeampwj6gSVV6gDC9C4eQ+Z2je8dhxtp/q9VE9F9a
+	 UNxy4wOW4nK4zjryOzmqYBDmc99ysNZI4gRC90BtHx9DP8Fo/Fblf4P7wX3xv3c1PA
+	 05TY6YhW2AAUQ==
+From: Andreas Hindborg <a.hindborg@kernel.org>
+Date: Mon, 16 Nov 2026 15:21:00 +0100
+Subject: [PATCH v22 3/5] rust: implement `ForeignOwnable` for `Owned`
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -98,53 +52,156 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261107-b4-uffd_marker_loss-v1-1-82926b22704c@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261116-unique-ref-v22-3-12029383206d@kernel.org>
+References: <20261116-unique-ref-v22-0-12029383206d@kernel.org>
+In-Reply-To: <20261116-unique-ref-v22-0-12029383206d@kernel.org>
+To: Danilo Krummrich <dakr@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+ Vlastimil Babka <vbabka@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+ Uladzislau Rezki <urezki@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, 
+ Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Trevor Gross <tmgross@umich.edu>, 
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ Tamir Duberstein <tamird@kernel.org>, 
+ Alexandre Courbot <acourbot@nvidia.com>, 
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+ Lyude Paul <lyude@redhat.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Christian Brauner <brauner@kernel.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Dave Ertman <david.m.ertman@intel.com>, Leon Romanovsky <leon@kernel.org>, 
+ Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+ Igor Korotin <igor.korotin@linux.dev>, Viresh Kumar <vireshk@kernel.org>, 
+ Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, 
+ Bjorn Helgaas <bhelgaas@google.com>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+ Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, 
+ Michal Wilczynski <m.wilczynski@samsung.com>, Ira Weiny <iweiny@kernel.org>, 
+ Matthew Brost <matthew.brost@intel.com>, 
+ =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+ Johan Hovold <johan@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Dave Jiang <dave.jiang@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+ Saeed Mahameed <saeedm@nvidia.com>, Zhi Wang <zhiw@nvidia.com>, 
+ Jonathan Cameron <jic23@kernel.org>, 
+ Markus Probst <markus.probst@posteo.de>, Ira Weiny <iweiny@kernel.org>
+Cc: Andreas Hindborg <a.hindborg@kernel.org>, 
+ Philipp Stanner <phasta@kernel.org>, rust-for-linux@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+ driver-core@lists.linux.dev, linux-block@vger.kernel.org, 
+ linux-security-module@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-fsdevel@vger.kernel.org, linux-pm@vger.kernel.org, 
+ linux-pci@vger.kernel.org, linux-pwm@vger.kernel.org, 
+ linux-usb@vger.kernel.org, linux-media@vger.kernel.org, 
+ linaro-mm-sig@lists.linaro.org, linux-serial@vger.kernel.org
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3413; i=a.hindborg@kernel.org;
+ h=from:subject:message-id; bh=yxSwAMf1WCPKfeJBxmCTAk/DQrKQubqT1B9hug50/gI=;
+ b=owEBbQKS/ZANAwAKAfpQKQiqxb3QAcsmYgBq+xFS+9cTttA9+oADXGC7GEWmmDosjg6s4Ao7a
+ qKVHkrzi2yJAjMEAAEKAB0WIQRXitnI2WZ2JirAaob6UCkIqsW90AUCavsRUgAKCRD6UCkIqsW9
+ 0O3jD/49Splh6UzX1b0EokN7/Bp9lpjcX/DWmN5abF8blBytH3yV6+s4lAYrTuN4IbwrH6lGWP+
+ G0TE5WjwSJMFPIGikWQ+VuqTHmrYBgy34ckfY3sgSCgpLZe1Ulq4aeRUqc6LPTBcW/PcxZzctJc
+ SMWpuB9vMTCEX7wCDBCFIGA0I7XZKRZ+sT2eSleHRevwnmQ5qG/k7uG6qot2gWi5xWFi67AH29M
+ 39V8/VIFeNaKaGWj5FcEUAYL0i/c3GHNiDONnKhPkzRsBspNENw1A1ljRP1a/aP6vCE1yaIOxWF
+ u/eWmPlBAvD1DN3JxG2QHn89Lb3tvpETyGuXRfp/vExtaQhPcK6hhjI8glNSy+taBQUhUciaZ7o
+ HbMhLvYLOZ+DI187LcoitByoRm7L5ZpQZxwB6mmIvcrL2kBLNVD3WueR9xrMAGTmBItRXInawml
+ lVoE/5RXApo+8R3y903FvVcx1P79l9P/KRf+DEmo/S1yyd84RPEvWjD6rBnZDZ2atX8zB/AhAw4
+ Lv4hSHlmrR//tO9SiqOnLgWhiw0S8YrY502KaW0j7zpyoGvQzn6cJq1dsO7xsw1KockvDh597lr
+ xBMInACeni6dtSLhueSr4IqgRIC9vD9lUhfcvQNA0/JX3iA2+U0UpmEc3526Y2BUhOsLgth0g+Y
+ FZT/S29GIWWp2GQ==
+X-Developer-Key: i=a.hindborg@kernel.org; a=openpgp;
+ fpr=3108C10F46872E248D1FB221376EB100563EF7A7
 
-On Sat, Nov 07, 2026 at 12:51:05AM +0100, David Hildenbrand (Arm) wrote:
-> Unregistering userfaultfd leaves poison markers in the page tables.
-> However, once unregistered, hugetlb PMD tables can be shared again.
-> 
-> Further, shmem page-table retraction can discard poison markers even
-> while registered in missing mode, and fork() can skip copying page
-> tables containing poison markers.
-> 
-> To fix it, add VM_MAYBE_UFFD_POISON and set it before installing poison
-> markers. Preserve it across unregistration, splits, merges and fork(),
-> just like we do with guard markers.
-> 
-> Use the new atomic VMA flag to disable PMD sharing and page-table
-> retraction, and to force page-table copying during fork().
-> 
-> Move VM_UFFD_WP to bit 44 and make HAVE_ARCH_USERFAULTFD_WP depend on
-> 64BIT, freeing bit 12 for the new flag on both 32-bit and 64-bit systems.
-> Expose the flag as "up" in smaps.
-> 
-> Losing poison markers, while unpleasant, is not really fatal, and the
-> use case is rather a niche thing. In addition, we rely on the atomic
-> VMA flags infrastructure ... so let's not CC stable.
-> 
-> Fixes: fc71884a5f59 ("mm: userfaultfd: add new UFFDIO_POISON ioctl")
-> Fixes: 8a13897fb0da ("mm: userfaultfd: support UFFDIO_POISON for hugetlbfs")
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
-> ---
->  Documentation/filesystems/proc.rst |  1 +
->  fs/proc/task_mmu.c                 |  3 +++
->  include/linux/mm.h                 | 45 ++++++++++++++++++++++++--------------
->  include/linux/userfaultfd_k.h      |  7 ++++--
->  include/trace/events/mmflags.h     |  9 +++++++-
->  mm/Kconfig                         |  1 +
->  mm/khugepaged.c                    |  9 ++++----
->  mm/userfaultfd.c                   |  3 +++
->  tools/testing/vma/include/dup.h    | 20 ++++++++++++-----
->  9 files changed, 70 insertions(+), 28 deletions(-)
+Implement `ForeignOwnable` for `Owned<T>`. This allows use of `Owned<T>` in
+places such as the `XArray`.
 
-Oh, that's a lot of boilerplate for what it worth...
+Note that `T` does not need to implement `ForeignOwnable` for `Owned<T>` to
+implement `ForeignOwnable`.
 
-Anyways,
+Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
+---
+ rust/kernel/owned.rs | 57 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 57 insertions(+)
 
-Acked-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
+diff --git a/rust/kernel/owned.rs b/rust/kernel/owned.rs
+index 51da9bc7e1f4..c255420f8383 100644
+--- a/rust/kernel/owned.rs
++++ b/rust/kernel/owned.rs
+@@ -15,6 +15,8 @@
+     ptr::NonNull, //
+ };
+ 
++use kernel::types::ForeignOwnable;
++
+ /// Types that specify their own way of performing allocation and destruction. Typically, this trait
+ /// is implemented on types from the C side.
+ ///
+@@ -272,3 +274,58 @@ fn drop(&mut self) {
+         unsafe { T::release(self.ptr) };
+     }
+ }
++
++// SAFETY: We derive the pointer to `T` from a valid `T`, so the returned
++// pointer satisfy alignment requirements of `T`.
++unsafe impl<T: Ownable> ForeignOwnable for Owned<T> {
++    const FOREIGN_ALIGN: usize = core::mem::align_of::<T>();
++
++    type Borrowed<'a>
++        = &'a T
++    where
++        Self: 'a;
++    type BorrowedMut<'a>
++        = Pin<&'a mut T>
++    where
++        Self: 'a;
++
++    #[inline]
++    fn into_foreign(self) -> *mut kernel::ffi::c_void {
++        Owned::into_raw(self).as_ptr().cast()
++    }
++
++    #[inline]
++    unsafe fn from_foreign(ptr: *mut kernel::ffi::c_void) -> Self {
++        // SAFETY: By function safety contract, `ptr` came from `into_foreign` and cannot be null.
++        let ptr = unsafe { NonNull::new_unchecked(ptr.cast()) };
++
++        // SAFETY: By the function safety contract, `ptr` was returned by `into_foreign`, which
++        // consumed an `Owned<T>` without calling `T::release`. The requirements that were upheld
++        // for that `Owned<T>` are still upheld, as the ownership it represented was only held by
++        // the foreign pointer in the meantime. We retake that ownership here.
++        unsafe { Owned::from_raw(ptr) }
++    }
++
++    #[inline]
++    unsafe fn borrow<'a>(ptr: *mut kernel::ffi::c_void) -> Self::Borrowed<'a> {
++        // SAFETY: By function safety requirements, `ptr` came from `into_foreign` and the
++        // `Owned<T>` it was created from is not reconstructed or mutably borrowed during `'a`. By
++        // the type invariants of that `Owned<T>`, `ptr` points to a valid `T` and it is sound to
++        // create a shared reference to the `T` for `'a`.
++        unsafe { &*ptr.cast() }
++    }
++
++    #[inline]
++    unsafe fn borrow_mut<'a>(ptr: *mut kernel::ffi::c_void) -> Self::BorrowedMut<'a> {
++        // SAFETY: By function safety requirements, `ptr` came from `into_foreign` and the
++        // `Owned<T>` it was created from is not reconstructed or otherwise borrowed during `'a`. By
++        // the type invariants of that `Owned<T>`, `ptr` points to a valid `T` and it is sound to
++        // create a mutable reference to the `T` for `'a`, given that we only hand it out as a
++        // `Pin<&mut T>` below.
++        let inner = unsafe { &mut *ptr.cast() };
++
++        // SAFETY: We never move out of inner, and we do not hand out mutable
++        // references when `T: !Unpin`.
++        unsafe { Pin::new_unchecked(inner) }
++    }
++}
 
 -- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+2.54.0
+
+
