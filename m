@@ -1,112 +1,142 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.135.74
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794870033;
-	b=RshW0BB5XdeHjiN6jgRl8mxI6K2Zgu8k+gC3/rDwRx9Aq/i6+UaiUxJL4D4HVh63BZji
-	 hAF94UC41YfEWJzHQGRIOY7Dj64I6iee5GhM7apDb4B88Bk6Y352861spkxVMlm4Z8Imn
-	 8puNSnyTILauGezlfi5K7oT3FrCzkRZjq0UGrgXu/8Aj8R9kg5JpOvWtejVpvIiPJ5gPK
-	 AgGyTyHaoo6tO7zD58RhLj3RjV2nrO3gmlfrDJybAdiAZB0KolTGftga0o9G59TNIEgxL
-	 mxUg0Fl8zuo72Jb3m9JI+S2G9CPg0iu3NoRHUn5yw/AjPOaOI5ETuPXgoKmJAXeAEjg==
+	t=1794870407;
+	b=3YFXDp8GusxY7dRprN2LRn1/6iAGzZqFBRVHY4WYLDWENDXCAbGNHjNHrFWNR5b3/s5E
+	 nlUzyJr5nISFvbWkz3qj8zS4OS+fTtNmjyMPUi10hjOB6y0Pg1w/kdaEjx/mHSbE3LFTH
+	 Y250JCs1lOPEi9Ssuz2YwsynSALT3G356keNnluH416PR2SmLtsH82dfq+1LEmntlNWa9
+	 HB7j6cypS9FGiI7dffxc+JXKtRWNwvdjrEg4AT4gCeY//rF3bqeyikFac8Y1k4FZZ5HaW
+	 YLymFMAdcIx8pVtqoNNVdEKONIDvZsd5ZEjrcCpUsCTdKFbG9eg24FGnpCbWnNPkuqA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794870033;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-GUID:
-	 X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=DrgpmsI4pZAgdTESjomnSbj/5rvp+0MEGWpwnCYEqBw=;
-	b=fi4b1G3tpqHeNFDNd0/pE5mM6VFO08N1jgjthIDr8RzdFei+ZFNS6JtI0b3BXBm/CfAv
-	 fBbLqg+hMtFhL8Lh/nTPsrolEXGLfBmzCQ3hJNtEPThYiYYH7wFi/I8CGW6xjhbeZfwgl
-	 9cvqF8I47Vh3jHGswENYrj54J1Iu7i77nB4+cVjPABbu9K7GYO1lnsKlPf/0XIC2Mb/ZU
-	 QY/SQX18e8glEyYtqNPGJQ6Irs82TC1UYSmFKHxyk8acmdI5HeOkoYXheTv60nwtvc6vm
-	 5DvPQsSH90v3Gvmrwe61PwnRMU/iAFiovymW+/98rQ3C8WAL+s9S0I4faSeTkMYgHtw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794870407;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=TIKThpPDZ4NJSXYRfFfOL841Z/zWYVoqxjZupCxQAek=;
+	b=VaUrM/fJ6xgvkzbBckaby6KShnbpw1jdOqdSTKBp7x5mmer9AQqJecwSnHz6ADPLU8Qq
+	 qHDt2dDJrnbWkmbzOmb3FFNgjzeShYKsiDRFdnz4lTkOZ0ZpRHeFu/jnJSJfqm2CM3e+e
+	 T4NDW9SSxrtiJyI58KOyjfokgWLlQcTxkBRjpX+oh3vPBYHOtyypovj9nikcARwZGAdUJ
+	 szPvEiM3nRLVTlVAcc9lVHwb5+OChEuZVSvr/GtNRBOHy54lR1xovuXIKOiPgtUrSTsH3
+	 EqAZ2gllyBYymt2P1ltmBK6E8a5M7QIdQMZffJ2bozpZ4M6f4xNlyZkxj7SYoZGYLIg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=columbia.edu;
-	spf=pass smtp.mailfrom=columbia.edu;
-	dkim=pass header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=pps01 header.b=h8wEBqzH;
-	dkim=pass header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=lionmail header.b=BFjhHK4l;
-	arc=none smtp.remote-ip=148.163.135.74
-Received: from mx0a-00364e01.pphosted.com (mx0a-00364e01.pphosted.com [148.163.135.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=chromium.org;
+	spf=pass smtp.mailfrom=chromium.org;
+	dkim=pass header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=nB6j1neL;
+	arc=none smtp.remote-ip=209.85.216.46
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D3BA606A323
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 23:00:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0D3BA606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69891606A33D
+	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 23:06:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 69891606A33D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=pps01 header.b=h8wEBqzH;
-	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=lionmail header.b=BFjhHK4l
-Received: from pps.filterd (m0499199.ppops.net [127.0.0.1])
-	by mx0a-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AGLZ3Gw1764936
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 18:00:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pps01; bh=Drgp
-	msI4pZAgdTESjomnSbj/5rvp+0MEGWpwnCYEqBw=; b=h8wEBqzH/LUQm2YIPDam
-	ND7PzYl7uX5hIzo2H0E8IKDCqczu8OQeKthgNbyHKXTJfqvSE1AtX7AAH2ET3Pu9
-	oUi+s/Tw/pGr6XbXNsOFIHyuqVr/eymttT+JD9lfGEIFvEU+t68KaAfZMGuvgZGC
-	EPqnwVbxA1e/RV0HrgZFSYEQGufXuJyADNwvF7rXlwqDTv6a9rxCno3HtH35BVqu
-	dNoCsC/C52eCB/S5mqu0BE1pEp+1BE45cBw9QnZZM9wJfJxApwozwjL0m2qnxzYi
-	h3Bmq/eFSDsyc8J6WMJK8ptkqkrqft3msvZ/6IPtZShkIH+QA63FRoOsRbuLRZ3q
-	ng==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
-	by mx0a-00364e01.pphosted.com (PPS) with ESMTPS id 4j059hkg59-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 18:00:31 -0500 (EST)
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-93f26dd2165so1210717585a.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 15:00:31 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=nB6j1neL
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-3b0d0f38abdso725608a91.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 15:06:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=columbia.edu; s=lionmail; t=1794870031; x=1795474831; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=DrgpmsI4pZAgdTESjomnSbj/5rvp+0MEGWpwnCYEqBw=;
-        b=BFjhHK4ljRVRILIbwHroulBB2Wr9dUUGiqSgPkAFrEvHKoLi9D20Z4F14LpfHNb2+2
-         MU5lAddgpnmIy9lgmmLNSgPwZeDsxXpNTLFEP8c+7vt/hAWUtWjgiHTPnZcmcmI7p8kt
-         LO0RJ2eRebxQDIGulXlC5d5dXy1xjr/SnJHh6/JYOzxBYeBMvCAUYk+t3Q99Zt5xTgYU
-         RLnZnM+8tdJg/VpgDS1BT6YF7skzh5jB7xwAURHM1sfd5u7ZY3UaIHiHrW/Gv3biAp8u
-         xNZCtTHVBCNZ90iMncQch0kRoRKTvNksohnWDPjJVcXQv2ss0AJJh6EE2pt6WNx1EH6t
-         Sfow==
+        d=chromium.org; s=google; t=1794870405; x=1795475205; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=TIKThpPDZ4NJSXYRfFfOL841Z/zWYVoqxjZupCxQAek=;
+        b=nB6j1neLP6BTtlE9eLU58Dg5+zZMn4yWSoSY1E5fQMLVTWZoksrY3sjPGHmbYPREpg
+         ytJ+72GHTehAS6Wr+r8k22lsqzsa628Lo4lNDr8CXApne874lOtsHkT8m5QllOm67Lh2
+         7S6cydkvakpwx9YFJkw3cPcJyo2mAAFXh34Cw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794870031; x=1795474831;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20260707; t=1794870405; x=1795475205;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=DrgpmsI4pZAgdTESjomnSbj/5rvp+0MEGWpwnCYEqBw=;
-        b=hG6B9HIGuTFev5pxHobUleEZfZIU0uGtThIW9w6eSz4B+fBH7dFvNjJrxNT1Akhlei
-         8bInxnPwdf96DgZM6FgQPSJO4csHsxS/I7SvW9/O6d/7X6is7JpShBY+KS/2Lwq0HyUn
-         74HnlWnPjwG1JLwCCFFvLnp7TqzufSytKB1I7xG307vbualsSjw2L+tkHwtIY7fEJCVJ
-         fJwyvqmKODz/fzqvTOhMdHnxV3hw9cuBy+tP4LaxBUJH/aViyP2TpAXuFRZnWLcxQ/CE
-         v1vHxxps0bTtkE8NIw5XWWhjVBzivZJmHXSQeePq5Tl7K4WwYY96hGPN6b+VT2vAymwB
-         9Big==
-X-Forwarded-Encrypted: i=1; AL+hErFV43Da0atKN7c/KkCLQqL61HO+wuaP/h7vMePUFNwTmQn3M3sefAnoqGIeOzErCA75av5/by1xmFCKT8XK@vger.kernel.org
-X-Gm-Message-State: APuU4Z/9K/69wUcI7Hs89MV/PCAsy430l7u41t2houG+1kmEbtDehbqf
-	ZG+mWypatYoO3RgsuSUqTXRBdjhjP4lNIlFPZyLwMZdVWHc9X4S/z25WcV4u6z4PYU7ZJYrl7fg
-	ipAJVjIXsAy4ufsNCRrGbMVeEjyU6z7HCq08vclsiv3X4st3TuNgFXN5MNez0AR4=
-X-Gm-Gg: AYBFou3PJdJY5W0/mxqm/am7p0cxQ5Plhu9jCroHh0peYAq4BiTFDX3+wfrSdPqgl7L
-	dQ8qVP2xbmDLvW5XW7JarrsrA3Bp9GVbaFAPkZlx2t99b1GY7xBbGzkz3ddfIBssC3FGY8e6r7K
-	28WUrDNLxukJoFQJvnUcx7i7q5Tdk1emzALhIPDrh2idm2E21IDr2Dg7gqRSJWrNJsYutVQ5e5W
-	Sv6JPBAgoz7OZ+SFKZqX1boe5j9Yp+4J9g8D+0enF/xarDZeWKM+LMGogHBh7kmtqzO1P7kpoOe
-	bzyXpGBx2fEgz/ZlCQydskHlRWNWJP+7RweSe9SWiDtvbEQbn5vuBS1i6GfQnh9n/a99V+mr6uQ
-	weFRjEHBVw756WyKtkwjzln2ZRbZLxltz7I/4FayRvNJm7sebu5WdukHkRHvKBXwZi/NpmEr+RX
-	GxhiSdkAzOGXWKUePh4AOVp2TX
-X-Received: by 2002:a05:620a:2a04:b0:949:733e:dde5 with SMTP id af79cd13be357-949733ee773mr1059319585a.66.1794870030829;
-        Mon, 16 Nov 2026 15:00:30 -0800 (PST)
-X-Received: by 2002:a05:620a:2a04:b0:949:733e:dde5 with SMTP id af79cd13be357-949733ee773mr1059311385a.66.1794870030135;
-        Mon, 16 Nov 2026 15:00:30 -0800 (PST)
-Received: from [10.207.2.125] (nat-128-59-176-174.net.columbia.edu. [128.59.176.174])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9494c831b7dsm952569585a.20.2026.11.16.15.00.28
+        bh=TIKThpPDZ4NJSXYRfFfOL841Z/zWYVoqxjZupCxQAek=;
+        b=jBaWbT0Uk0jWvDgO6owIz6mZooIEYKVTFQ7BFOooYWWTGaN/N/jpp6crj+jl/cxNbT
+         L/ck9Yy7lVvfvKeg1QWU/472wEwJvrxCMKu3zZjpybmQ5yXaqkaIax9o1iAXNrG84N4d
+         3ggu1yq9th6Zxxl8SgIZUYb2CrIY5ih2v9bvxjXYPZ7ZKKNaymVc+8MtXkQ+aaD7Bk82
+         VpuJZyt1gB+udFtqz4i7coG7uWC0QrpTOoDSW71v8mBzXPpAQDVGizZaA16DG0EZndSJ
+         ewt20rEZftL7H50AlcAqG3NFxbzlXPIhUqZzJC1FyTB/Js/1dCkRvQCvnRgbZG1M4MSN
+         Lz2Q==
+X-Forwarded-Encrypted: i=1; AL+hErFjt/fc0AndYgPG/z03RgSseOma89ova3wvaLj8Bz0OMctd8WyXQXKDQmrK+eTNdcq8qWnjMAYDQ9p6myxw@vger.kernel.org
+X-Gm-Message-State: APuU4Z900bTYr7OJYxxWWg6WSuCS3xfUCjL6LaFcfEzT911QIyS3NdZW
+	b6ulngnbiL6Kl6gWyzRQMDKwofAJ8+xR7UCwyYp4DPqXFK9Jo0H7HsMXJYM5prKUGg==
+X-Gm-Gg: AZFdTZfuqCSu7z/YDc19BW6NZdRYuPrbg3yInrJMsRshjyJ3QDZ848EtXrvmJDQ0u8T
+	GLsM1/M48hbnD1txFvRIajb1YeI/l0CKKjWrPzSttqpPr4F+FtY9VD+Qoq+ZGvtzGxlf9Q496ti
+	qvNd/TTHoKU2pnsq6qKtAS3XVBaPzejd6kLNT3uRy3ZCV9UrbrdGDPxPK3QDEdWiwE+QgPpO2Az
+	3eZQuymIgDzSnZ8lA1ZpSd+1j82kNbcg1ICjpJuqmkBJRkiTO6uYyXVDAfKCPLpExvE4Nvb21bu
+	S7wpfEoKnNkaTr8tjuPOeQDhVvEQsWgUSXtNB7xXm76v/TW0int+K0/a9iHVPtZbnp5bukDnYP5
+	fDVjN+Tcsvgh9jbxTuypXQ6RuVDNkySof4Bi4hk1y29F3zs/zo3RRUXrH4PVAamIbEHaDa2oWhi
+	mdgEmwTWrOFIItzHNLLSqvaip4Orlg3ynn/ZjjLTaXH75zasqzbs1D6KzMezytVBnVWLmxWHVSg
+	GMF7SIC0fzqAnw2cBYQdjEbCmxaAzr5myUzezdvjQV6CM6FMuufROYfCwS5Wt7axgMa1oCVgKCc
+	CZ6YGb351z9l1I68DAX+Ko2X/LWLpXEYwGgggyVc5ys4KIRYLVzJZ37RF9A3MOMooHg2WxwFCSX
+	LD5XTm8PyY7oTstut
+X-Received: by 2002:a17:90b:5546:b0:3a0:238b:db4d with SMTP id 98e67ed59e1d1-3b1b0a49be1mr17581397a91.5.1794870405500;
+        Mon, 16 Nov 2026 15:06:45 -0800 (PST)
+Received: from localhost (221.247.125.34.bc.googleusercontent.com. [34.125.247.221])
+        by smtp.gmail.com with UTF8SMTPSA id 98e67ed59e1d1-3b1b3b110c0sm9530818a91.3.2026.11.16.15.06.43
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Nov 2026 15:00:29 -0800 (PST)
-Message-ID: <c9d616f3-d442-4db7-8010-82aa052baaf7@columbia.edu>
-Date: Mon, 16 Nov 2026 18:00:28 -0500
+        Mon, 16 Nov 2026 15:06:45 -0800 (PST)
+From: Jeff Xu <jeffxu@chromium.org>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>
+Cc: Jeff Xu <jeffxu@chromium.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R . Howlett" <liam@infradead.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Brendan Jackman <brendan.jackman@linux.dev>,
+	Zi Yan <ziy@nvidia.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Marco Elver <elver@google.com>,
+	Boris Brezillon <boris.brezillon@collabora.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Chia-I Wu <olvaffe@gmail.com>,
+	Dev Jain <dev.jain@arm.com>,
+	Evgenii Stepanov <eugenis@google.com>,
+	Ian Rickards <ian.rickards@arm.com>,
+	Jann Horn <jannh@google.com>,
+	Jeff Vander Stoep <jeffv@google.com>,
+	Jeff Xu <jeffxu@google.com>,
+	Kees Cook <kees@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Peter Collingbourne <peter@pcc.me.uk>,
+	=?UTF-8?q?Pierre-Cl=C3=A9ment=20Tosi?= <ptosi@google.com>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Tomasz Figa <tfiga@chromium.org>,
+	Will Deacon <will@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Baoquan He <baoquan.he@linux.dev>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Allison Henderson <achender@kernel.org>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	linux-mm@kvack.org,
+	kasan-dev@googlegroups.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org,
+	fuse-devel@lists.linux.dev,
+	kexec@lists.infradead.org,
+	netdev@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	rds-devel@oss.oracle.com,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v1 0/7] mm: kasan: skip KASAN for GFP_HIGHUSER
+Date: Mon, 16 Nov 2026 15:06:20 -0800
+Message-ID: <20261116230627.3537051-1-jeffxu@chromium.org>
+X-Mailer: git-send-email 2.56.0.679.gc527c65306-goog
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -116,128 +146,126 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 7/9] mm/mremap: resolve uffd state when the context is
- dropped, not during the move
-To: "David Hildenbrand (Arm)" <david@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mike Rapoport <rppt@kernel.org>, Peter Xu <peterx@redhat.com>,
-        James Houghton <jthoughton@google.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Balbir Singh <balbirs@nvidia.com>,
-        "Liam R. Howlett" <liam@infradead.org>,
-        Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>,
-        Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
-        Michal Hocko <mhocko@suse.com>,
-        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-        Andrei Vagin <avagin@gmail.com>,
-        Muhammad Usama Anjum <usama.anjum@arm.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>, Arnd Bergmann <arnd@arndb.de>,
-        Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>,
-        Joshua Hahn <joshua.hahnjy@gmail.com>,
-        Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
-        Ying Huang
- <ying.huang@linux.alibaba.com>,
-        Alistair Popple <apopple@nvidia.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
-        Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
-        Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
-        Kiryl Shutsemau <kas@kernel.org>, Muchun Song <muchun.song@linux.dev>,
-        Oscar Salvador <osalvador@suse.de>,
-        =?UTF-8?Q?Miko=C5=82aj_Lenczewski?= <miko.lenczewski@arm.com>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-References: <20261116-uffd-state-fixes-v2-0-4397a0196479@columbia.edu>
- <20261116-uffd-state-fixes-v2-7-4397a0196479@columbia.edu>
- <20f100af-c831-4e37-8077-50f6366f323a@kernel.org>
-Content-Language: en-US
-From: Tal Zussman <tz2294@columbia.edu>
-In-Reply-To: <20f100af-c831-4e37-8077-50f6366f323a@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: sGBUWHCoIkYWnufRdgsoSkZRAnVU8M6B
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE2MDA5MSBTYWx0ZWRfXxQtl++K47rDz
- ku43QLa0B1xfWzY8/FQ0t0iooowjXFx+CSUOUpBURwDDujVPUvdu1vIFgxns0qofyJbWdokGh5K
- NLf1hgdzahnXVDqI9LL5SETaRbByF4uLJglwcrtR15Yyter/WMrC
-X-Proofpoint-GUID: sGBUWHCoIkYWnufRdgsoSkZRAnVU8M6B
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE2MDA5MSBTYWx0ZWRfXxluwWEDNcIvv
- D2phKdFLEL6KBhK7srKoxACTpFtgJ/Lis1I5xVkEop4VKJWh9C/mmXRM0aS4ishxht1/zvQmiPF
- R39Zbecs3eabgKBaifFhYaqDHT88psMJtRzTWGhuOuvBoKtzbRV9Q2g3mBPVwmOvvkqE9D2z12u
- 7ZH3D2hvKrlI4MOIgIKVxLRLtVsuENqLUy7DaX6OlBJHvBt1tsPDEHROubt4kLjHQaJ51UTlTtB
- iLnS0pJs44S/9hOTfdR9P4ZbCPB3CfPhKZAEEqoc3A7VKdFdhqWZfKPBcgPV8cSkJjwYBbMAKIJ
- FVs3fFEX96seYPouvEWpi21in485PnIAPP8K4v/JrVP/sZ+Q4eid81LoO2tA4ei5JDRs0AWQyJt
- /ayL5ljNRK+pMKNQYG4TcOImxXBiJiGh+Qn/ZkauqpHS2XlhMWyD2tPAUcdOohOPCmkUhCHrzGs
- T17kJ6CGgWARYpCU8NA==
-X-Authority-Analysis: v=2.4 cv=NLlAaE6g c=1 sm=1 tr=0 ts=6afb8b10 cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=KPY1cyGZ6h6m4ASiENTC8Q==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=x7bEGLp0ZPQA:10 a=A0y_DWxS2BwA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=G--0XuH5328wxK7v7Suf:22
- a=VwQbUJbxAAAA:8 a=tHa68p0SAAAA:8 a=7zGzU32CvNdQK9yYqCEA:9 a=QEXdDO2ut3YA:10
- a=NFOGd7dJGGMPyQGDc5-O:22 a=ufIsyHvWW7FwcMbVRpPq:22
-X-Proofpoint-Virus-Version: vendor=nai engine=6900 definitions=11968
- signatures=596817
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 adultscore=0 impostorscore=10 clxscore=1015 spamscore=0
- suspectscore=0 bulkscore=10 lowpriorityscore=10 malwarescore=0
- priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
- definitions=main-2611160091
+Content-Transfer-Encoding: 8bit
 
-On 11/16/26 3:41 PM, David Hildenbrand (Arm) wrote:
-> On 11/16/26 21:02, Tal Zussman wrote:
->> Without UFFD_FEATURE_EVENT_REMAP, the new VMA of an mremap() is not
->> registered with userfaultfd, so the uffd state of its entries is cleared
->> while they are moved. If the move fails halfway, the entries are moved
->> back into the old VMA, which is still registered, without their uffd
->> state. Writes and accesses to them are then no longer reported.
->> 
->> To fix it, leave the entries alone during the move and clear the uffd
->> state of the new VMA in mremap_userfaultfd_prep(), right before dropping
->> the context, like unregistering does. This walks the page tables of the
->> new VMA a second time.
->> 
->> This is done with userfaultfd_clear_ptes(), which also makes the PTEs
->> writable again where that is safe. That removes a spurious write fault
->> per protected page on private anonymous memory, but adds spurious write
->> faults on shmem and hugetlb, as change_protection() makes writable pages
->> that were never protected read-only. UFFDIO_UNREGISTER and
->> UFFDIO_WRITEPROTECT already behave this way. This will be fixed in
->> change_protection() separately.
->> 
->> The entries no longer need per-entry handling during the move, so drop
->> uffd_supports_page_table_move() and clear_uffd_wp_pmd(). Whole page
->> tables of these VMAs can be moved again.
->> 
->> Fixes: 0cef0bb836e3 ("mm: clear uffd-wp PTE/PMD state on mremap()")
->> Fixes: 763f43865fc4 ("mm: preserve RWP marker across PTE rewrites")
->> Reviewed-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
->> Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
->> Tested-by: Gregory Price (Meta) <gourry@gourry.net>
->> Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
->> Signed-off-by: Tal Zussman <tz2294@columbia.edu>
->> ---
-> 
-> VMAs should be write-locked, so nobody should stumble over it and walk page tables.
-> 
-> Rmap walkers can stumble over entries, because only the page table locks protect
-> us here. With your change, that's now actually consistent while doing the move.
-> 
-> I assume there is now a short period in time where the PTE bits don't match the
-> VMA flags for an RMAP point of view, essentially in-between clearing uffd state
-> from the VMA and clearing uffd-wp bits.
-> 
+Hi all,
 
-Yep, there's a brief window where the VMA is registered but PTEs are clear,
-but that's fine. That's the same state as a registered but not-yet-protected
-VMA.
+Currently, GFP_HIGHUSER_MOVABLE includes __GFP_SKIP_KASAN (commits
+c275c5c6d50a, 70c248aca9e7, and 0a54864f8dfb), allowing movable
+userspace page allocations to skip KASAN page unpoisoning on allocation
+and poisoning on free under CONFIG_KASAN_HW_TAGS (ARM64 MTE). However,
+GFP_HIGHUSER does not include __GFP_SKIP_KASAN, even though it shares
+the same kernel-accessibility contract in include/linux/gfp_types.h
+("for userspace allocations that may be mapped to userspace, do not need
+to be directly accessible by the kernel but that cannot move once in
+use") and differs only by !__GFP_MOVABLE.
 
-> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
-> 
-> -- 
-> Cheers,
-> 
-> David
-> 
+Moving __GFP_SKIP_KASAN to GFP_HIGHUSER addresses the performance issue
+below (following up on the earlier drm/panthor discussion [1, 2]). The
+swap issue from that discussion is not addressed by this series:
 
+1. Performance: For every 4 KB page without __GFP_SKIP_KASAN,
+   mte_set_mem_tag_range() tags all 256 16-byte MTE granules (via
+   STG/STZG and DC GVA/GZVA) on allocation and again on free. In
+   graphics and UI workloads, DMA-BUF (system_heap) and DRM/GPU
+   (shmem/TTM) buffers use GFP_HIGHUSER; while steady-state rendering
+   reuses buffers, window resizes, surface transitions, and app launches
+   synchronously allocate and free tens to hundreds of megabytes (~32 MB
+   per 4K RGBA frame) on UI/compositor/render threads. That takes a
+   significant share of the 8.3 ms (120 Hz) / 16.7 ms (60 Hz) frame
+   budget and thrashes CPU data/MTE tag caches (especially on
+   cold-cache free). On Armv9.2-A, skipping KASAN cuts ~32 MB DMA-BUF
+   alloc+free latency by ~80% (~98% faster close()) and improves the
+   OpenGL score of an app-loading benchmark by 15-23%.
+
+2. False-positive KASAN report after shmem swap-in readahead [1] (not
+   addressed here): when a shmem page is swapped in,
+   swap_cluster_readahead() also reads the neighboring swap slots and
+   allocates their swap-cache folios with the gfp mask of that shmem
+   mapping. A neighboring slot can hold an unrelated page that
+   userspace maps with PROT_MTE. If the mask lacks __GFP_SKIP_KASAN,
+   that page's folio gets a KASAN tag in page->flags. When its owner
+   faults it in, arch_swap_restore() writes the saved userspace tags to
+   the memory, but page->flags keeps the KASAN tag. Later kernel
+   accesses through page_address() then use a tag that does not match
+   the memory and are reported by KASAN.
+
+   This series does not fix the readahead path. It only removes one
+   way to hit it: shmem mappings that use GFP_HIGHUSER (e.g.
+   drm_gem_shmem_helper / panthor) now pass __GFP_SKIP_KASAN to
+   readahead, so the neighboring folios no longer get a KASAN tag.
+   Shmem mappings with other gfp masks that lack __GFP_SKIP_KASAN
+   (e.g. GFP_KERNEL) can still trigger the report. That issue should
+   be followed up separately, for example in [1].
+
+What changes for users of GFP_HIGHUSER pages under CONFIG_KASAN_HW_TAGS
+(other KASAN modes are not affected):
+
+- Access through vmap(): nothing changes. Those pointers already carry
+  the match-all tag and are not checked today.
+- Access through kmap_local_page() or page_address() (for example
+  ramfs): accesses are no longer checked by KASAN, as is already the
+  case for GFP_HIGHUSER_MOVABLE pages.
+- Buffers that the kernel itself fills (pipe, FUSE, kexec, RDS) keep
+  KASAN checking by using the new GFP_HIGHUSER_KASAN (patches 1-4).
+
+GFP_KERNEL, GFP_USER, slab and vmalloc() allocations are not affected.
+
+Patch 1 adds GFP_HIGHUSER_KASAN, and Patches 2-4 use it for the pipe
+buffer pages of pipe and FUSE, kexec segment pages and RDS message
+pages, with no functional change. Patch 5 then moves __GFP_SKIP_KASAN
+from GFP_HIGHUSER_MOVABLE to GFP_HIGHUSER. Patch 6 adds a KUnit test
+(page_alloc_skip_kasan) verifying the __GFP_SKIP_KASAN page allocation
+contract under CONFIG_KASAN_HW_TAGS, and Patch 7 adds one for
+GFP_HIGHUSER_KASAN (page_alloc_highuser_kasan).
+
+The conversions come first so that these buffers keep their KASAN
+checking at every commit of the series.
+
+Testing: on arm64 with CONFIG_KASAN_HW_TAGS under QEMU (virt,mte=on),
+every commit builds and boots, and the KASAN KUnit suite was run with
+kasan.mode=sync, async and asymm. The two new tests pass, and each
+fails when the property it checks is broken on purpose. vmalloc_oob
+and kasan_strings (async and asymm) fail there with or without this
+series, and a few other tests fail intermittently under QEMU. The
+changed files also build on arm64 with generic and software tag-based
+KASAN and without KASAN, and on x86_64 with generic KASAN and without.
+The FUSE, kexec and RDS changes are build tested only, and the KUnit
+tests were not run on real hardware.
+
+Tooling: an AI coding assistant was used under the author's direction
+to audit GFP_HIGHUSER callers, draft GFP_HIGHUSER_KASAN (patch 1),
+the subsystem conversions (patches 2-4), the page_alloc_highuser_kasan
+test (patch 7), and the revised skip-test helper (patch 6), and revise
+patch 5's changelog and this cover letter. It also scripted and ran the
+builds and QEMU KUnit tests above.
+
+Feedback and thoughts -- particularly on whether any other bare
+GFP_HIGHUSER caller using kmap_local_page() would prefer opting back
+into KASAN via GFP_HIGHUSER_KASAN -- are very welcome.
+
+Link: https://lore.kernel.org/r/20260519-panthor-kasan-v2-1-b7384458f076@gmail.com/ [1]
+Link: https://lore.kernel.org/r/20260521105148.5497c281@fedora/ [2]
+
+Jeff Xu (7):
+  mm: add GFP_HIGHUSER_KASAN
+  pipe, fuse: use GFP_HIGHUSER_KASAN for pipe buffer pages
+  kexec: use GFP_HIGHUSER_KASAN for segment pages
+  net/rds: use GFP_HIGHUSER_KASAN for message pages
+  mm: kasan: skip KASAN for GFP_HIGHUSER
+  mm/kasan/kunit: add page_alloc_skip_kasan test
+  mm/kasan/kunit: add page_alloc_highuser_kasan test
+
+ fs/fuse/dev.c             |  2 +-
+ fs/pipe.c                 |  4 +--
+ include/linux/gfp_types.h | 15 ++++++--
+ kernel/kexec_core.c       |  2 +-
+ mm/kasan/kasan_test_c.c   | 72 +++++++++++++++++++++++++++++++++++++++
+ net/rds/ib_recv.c         |  2 +-
+ net/rds/message.c         |  2 +-
+ 7 files changed, 91 insertions(+), 8 deletions(-)
+
+
+base-commit: 4b028d0cedf95f66b8c5294fde2d7d698bf830da
+-- 
+2.56.0.611.g1030f0b940-goog
