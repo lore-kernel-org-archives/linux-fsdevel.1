@@ -1,65 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=220.197.31.2
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794819567;
-	b=5kaqhd03gyCoqkYJKjfb8Te/J+y/wv4IwiUQq7hWFeEjHv5vAvxSYgKIIvl9lY5Dogj+
-	 J7bxeGgRc67CzfTTj1lrFYQ3NRh9hxpPKz7dfgtixEFLiLpU5BfUkoViPmCc0jBpnwqcZ
-	 Dbx8Y0Y6SEjXrjE7aEvQyqsaU2WmDLFJFzfE+NbD3gRmQ7k1T0WyxHUSRosiqg1G6t0X5
-	 nvvI2AIfiVgv7UlYR5xAJ/IJfpZW6aHfm6VEuSEzGoF6sK+8hOVGdD8F6/pp7TLEQPkMC
-	 vHtaNJum01j9WxlzEaQEB9hksCqhLpGM/rA7WI4P+LyIGYHSoF1xFVSi56YInBnRMww==
+	t=1794822116;
+	b=5Ev03nY4/0uSQ6H/ARijX1NCxcvNyjCBEAnIlYe1PYK4LbbHEblB5ZzpG22ojKEK3IQS
+	 V3zAQ4Rr7cCC/zP88Xq7vGHC3a6YIrwZf59xAKxHRQp/8I+av11yF1wYE94WqrFR85KRO
+	 N/PVKnyd033NIi1RPqWJ84o8yzhdYCHSOfuWr2DFcV2IcVFF1zwiVCjxDwzGCOnD3Gz2T
+	 D1HaNhbMo9EUxjGcJhd4MQRPUVEz6gMKTwxqzCxRGmW+2VcPyM7C4UZipBiJPWoIXkqwf
+	 Sz+nNJs0aXbRILgoMkfnDcA8QNw32M1B0a9CyCtrTXmtWClANat8e/TiKGXIktH5VNQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794819567;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
-	 X-CM-SenderInfo;
-	bh=U2saAtZWcXBIwZFXVYwyAX+JkhAmBRTGW/WXX2GuG1c=;
-	b=wd5PStG/VXEQmP1S/xaXrOGoTUGCmy19QlczQrqcBZSDoRuo06G0H8xwkmkLHt6F6dzO
-	 q4uqqkfJPlYShgoX6AcnjrXxeSq9lKyJyTmh0SMfAA5pJYi+ZzsxSNvmlIj5t6XI8l0Xb
-	 oHzA04p8GygB3dA6LgCsBg/WKM0mZIHkh+rW2h3OEN6+cKI6nwv+EtNyr6ZeWM1b/KZSL
-	 V08T8idxlOp9ZycnOXI8a3RaHuPkLWXwIMnrZwlVniHvD/+8bBFp0GedSiQM+g6wpUpE7
-	 XDfH/EJhMuRAT3jHF7SfV0m8FCP9AItwICxAoc0NUcutRk4KtHFoaIbzToiaxivrXtQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794822116;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=hXng9hYJH3diUcfIm+3EkeLNi/DrI5XwE9hJbmJZ9MI=;
+	b=oUierVuHroArdb2avcHbgg00z1/++vjuSRFkaEhrt2R8Gh9cFowsD7nKYUNx1l6aBsv1
+	 Ls/1ZJvVOdTnAQkm/k0LFdKjYZHovybI9Nt/4oWC52TDAxQcjK5zWTAnrVf/ZHilN3XVh
+	 vHCstgcUlugf6yZKaY8FNZJw4aFamHtG7IZKUQ+DHfu/tqtNE5sWggMfS0zCPnCcA7629
+	 iNbdpaozy/aQytQG0ArBTa6zUGSV7iUGa2cmBnTyJ0afkDWT39CO6dA7fsZw4fAh6WsAh
+	 po6H9u4aoBp4rfILauspuhaC3beTYR0U4664m9br/ypLwVeu2yG7+ufwjAnIBED14+w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=163.com;
-	spf=pass smtp.mailfrom=163.com;
-	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=kqZ28SZt;
-	arc=none smtp.remote-ip=220.197.31.2
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kzkbn6tP;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AE24606A88E;
-	Mon, 16 Nov 2026 08:59:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9AE24606A88E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3138C606A329;
+	Mon, 16 Nov 2026 09:41:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=kqZ28SZt
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=U2
-	saAtZWcXBIwZFXVYwyAX+JkhAmBRTGW/WXX2GuG1c=; b=kqZ28SZtn2ATvdNReJ
-	NXcUpbgVMPr7pTuli8tzOHozXmWOJDYENOA7HX7Fklrjb+pnL6FQhZ1+iZsm5iPT
-	nSMm21quO7oHkLvCfhNvJcSn64rUSsnIApwmYxwvc6xJf7CI22aEGiQLQQXV8ZXE
-	fv49z2smWxVXLRcCjJLScyI0s=
-Received: from czl-pc (unknown [])
-	by gzga-smtp-mtada-g0-2 (Coremail) with SMTP id _____wAH5iLPxfpqqlTnHw--.59228S6;
-	Mon, 16 Nov 2026 16:58:59 +0800 (CST)
-From: Chi Zhiling <chizhiling@163.com>
-To: linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	exfat@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Namjae Jeon <linkinjeon@kernel.org>,
-	Sungjong Seo <sj1557.seo@samsung.com>,
-	Yuezhang Mo <yuezhang.mo@sony.com>,
-	Christian Brauner <brauner@kernel.org>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Chi Zhiling <chizhiling@kylinos.cn>
-Subject: [PATCH v4 4/5] exfat: serialize file expansion with mmap write faults
-Date: Mon, 16 Nov 2026 16:57:51 +0800
-Message-ID: <20261116085752.3908082-5-chizhiling@163.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261116085752.3908082-1-chizhiling@163.com>
-References: <20261116085752.3908082-1-chizhiling@163.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kzkbn6tP
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5A231F000C5;
+	Mon, 16 Nov 2026 09:41:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794822116;
+	bh=hXng9hYJH3diUcfIm+3EkeLNi/DrI5XwE9hJbmJZ9MI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=kzkbn6tPB2bS/Zn/Pn5gXJRXwYUjckO+3EyZRv12Tme1m2pQkOlyS27Q2NJx0bLjq
+	 iAF35/8jh5WK0aPjealgqEWqPtYQ2eIjwus2l7uEA6Rw6F/DzFARz9BZlmZeeRX4IA
+	 a8T9Xm8NCDxJP3dX2atLlDz9ZBm8mqYBsqZVK7vDVaxJ/ohv+LFKZYXH6eS5lGqyub
+	 cuo0dCjJOQ9Cm7L88ZJ23RQ4pRGG9KOeHzD56rkH8lmKmPt3M3ylorww7aaA+S2CPt
+	 kiO/myHptFlIERKjXIXwXpMeNSX+FLQjdkTiW70P+l/3Lf4R8ggQC98SE8Kxc70N4V
+	 A+Zhh9qKrjqLA==
+Date: Mon, 16 Nov 2026 10:41:49 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jan Kara <jack@suse.cz>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jens Axboe <axboe@kernel.dk>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, io-uring@vger.kernel.org, linux-block@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org, target-devel@vger.kernel.org, 
+	linux-unionfs@vger.kernel.org, bpf@vger.kernel.org, linux-nfs@vger.kernel.org, 
+	stable@vger.kernel.org
+Subject: Re: [PATCH 07/12] zloop: take freeze protection when recording write
+ pointers
+Message-ID: <20261116-biegen-flaute-flanke-cebddae97444@brauner>
+References: <20261114-work-fs-frozen_writes-v1-0-f5ae61c898b1@kernel.org>
+ <20261114-work-fs-frozen_writes-v1-7-f5ae61c898b1@kernel.org>
+ <20261116064820.GB2964@lst.de>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -69,61 +63,129 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wAH5iLPxfpqqlTnHw--.59228S6
-X-Coremail-Antispam: 1Uf129KBjvJXoW7WFWrWr4UWFWUXrWfGr15Jwb_yoW8Ar15pr
-	W5Gws5JFs8X34rur1v93WDZw1Y9a4xWFZrZa4Svan3AF95tr109an5tryjyFWUtws7Gr4j
-	qFs0qFy7W3WDGw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07je_M3UUUUU=
-X-CM-SenderInfo: hfkl6xxlol0wi6rwjhhfrp/xtbC+BP+nGr6xdOQtgAA3p
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261116064820.GB2964@lst.de>
 
-From: Namjae Jeon <linkinjeon@kernel.org>
+On Mon, Nov 16, 2026 at 07:48:20AM +0100, Christoph Hellwig wrote:
+> Looks good:
+> 
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> 
+> Can we get some kind of debug check into vfs_setxattr to enforce
+> callers have taken the write protection?
 
-File expansion changes allocation and i_size while mmap write faults
-can initialize the invalid range. Cleaning only the old EOF folio does
-not serialize the whole expansion with those faults.
+I considered that and decided against it becuase it will mean everyone
+starts splatting which means everyone needs to get their act together by
+7.5.
 
-Wait for direct I/O and hold invalidate_lock exclusively across cluster
-allocation, EOF cleanup and the i_size update. Apply this to the common
-expansion path used by ftruncate and fallocate.
+You might not have seen it but I sent out a bunch of bug reports for
+subsystems that suffer from the same bug class but that need way more
+invasive fixes than anything I'm doing here.
 
-Fixes: 98431d2cd1eb ("exfat: mark straddling folio RO and zero the post-EOF range")
-Signed-off-by: Namjae Jeon <linkinjeon@kernel.org>
+But I guess we can do it if we use the VFS_* macros which are compiled
+out unless CONFIG_DEBUG_FS is set. This will still mean that syzbot will
+start splatting at these subsystems. If we're fine with that I'm good to
+go with this.
+
+Fwiw, the check can't go into __vfs_setxattr(), __vfs_setxattr_noperm()
+or __vfs_removexattr(). cap_inode_killpriv(), IMA and EVM call those
+from ->write_iter() via file_remove_privs() and kiocb_start_write()
+hides the freeze protection from lockdep for aio and io_uring. I have
+not bothered to figure out why. Maybe you already know? In any case,
+until that's fixed we can't place it there which means this doesn't
+catch IMA/EVM at which point this patch becomes pointless.
+
+So that kiocb_start_write() stuff needs to be sorted first by someone.
+I'm about 300+ patches or more deep into various tree-wide cleanups. I'm
+going to defer this as this seems minor to all the other sh*it that's
+waiting to be cleaned up.
+
+-- >8 --
+Subject: [PATCH] fs: assert freeze protection for xattr and acl writes
+
+Writing an xattr or a POSIX ACL modifies the filesystem but
+vfs_setxattr() and friends leave freeze protection to the caller. Most
+callers get it from mnt_want_write(). Some in-kernel callers forgot
+about it. zloop and overlayfs are fixed earlier in this series and
+ecryptfs and ksmbd have been reported. Christoph asked for a debug check
+to catch the next one (cf. [1]).
+
+So warn in __vfs_setxattr_locked(), __vfs_removexattr_locked(),
+vfs_set_acl(), vfs_remove_acl() and set_posix_acl() if SB_FREEZE_WRITE
+isn't held. This only does something with CONFIG_DEBUG_VFS and lockdep.
+Without lockdep sb_write_started() can't tell and claims it's held.
+Until ecryptfs and ksmbd are fixed this will warn for them.
+
+Note that __vfs_setxattr(), __vfs_setxattr_noperm() and
+__vfs_removexattr() don't get the check. They're also called from
+->write_iter() via file_remove_privs() -> notify_change() for
+security.capability and by IMA and EVM. aio, io_uring and the in-kernel
+async writers call kiocb_start_write() which hides the freeze protection
+from lockdep before ->write_iter() is called. So the check would fire
+for writes that are perfectly fine.
+
+[1]: https://lore.kernel.org/r/20261116064820.GB2964@lst.de
+
+Suggested-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/exfat/file.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ fs/posix_acl.c | 6 ++++++
+ fs/xattr.c     | 4 ++++
+ 2 files changed, 10 insertions(+)
 
-diff --git a/fs/exfat/file.c b/fs/exfat/file.c
-index 47e95b14d570..0d1eeeeffa76 100644
---- a/fs/exfat/file.c
-+++ b/fs/exfat/file.c
-@@ -81,7 +81,7 @@ static void exfat_pagecache_isize_extended(struct inode *inode, loff_t from,
- 	folio_put(folio);
- }
- 
--static int exfat_cont_expand(struct inode *inode, loff_t size)
-+static int __exfat_cont_expand(struct inode *inode, loff_t size)
+diff --git a/fs/posix_acl.c b/fs/posix_acl.c
+index fe77934ea8f20..61de6f105ff4f 100644
+--- a/fs/posix_acl.c
++++ b/fs/posix_acl.c
+@@ -942,6 +942,8 @@ set_posix_acl(const struct mnt_idmap *idmap, struct dentry *dentry,
  {
- 	int ret;
- 	unsigned int num_clusters, new_num_clusters, last_clu;
-@@ -158,6 +158,17 @@ static int exfat_cont_expand(struct inode *inode, loff_t size)
- 	return -EIO;
- }
+ 	struct inode *inode = d_inode(dentry);
  
-+static int exfat_cont_expand(struct inode *inode, loff_t size)
-+{
-+	int ret;
++	VFS_WARN_ON_ONCE(!sb_write_started(inode->i_sb));
 +
-+	inode_dio_wait(inode);
-+	filemap_invalidate_lock(inode->i_mapping);
-+	ret = __exfat_cont_expand(inode, size);
-+	filemap_invalidate_unlock(inode->i_mapping);
-+	return ret;
-+}
+ 	if (!IS_POSIXACL(inode))
+ 		return -EOPNOTSUPP;
+ 	if (!inode->i_op->set_acl)
+@@ -1099,6 +1101,8 @@ int vfs_set_acl(const struct mnt_idmap *idmap, struct dentry *dentry,
+ 	struct inode *inode = d_inode(dentry);
+ 	struct delegated_inode delegated_inode = { };
+ 
++	VFS_WARN_ON_ONCE(!sb_write_started(inode->i_sb));
 +
- /*
-  * Preallocate space for a file. This implements exfat's fallocate file
-  * operation, which gets called from sys_fallocate system call. User space
--- 
-2.53.0
+ 	acl_type = posix_acl_type(acl_name);
+ 	if (acl_type < 0)
+ 		return -EINVAL;
+@@ -1220,6 +1224,8 @@ int vfs_remove_acl(const struct mnt_idmap *idmap, struct dentry *dentry,
+ 	struct inode *inode = d_inode(dentry);
+ 	struct delegated_inode delegated_inode = { };
+ 
++	VFS_WARN_ON_ONCE(!sb_write_started(inode->i_sb));
++
+ 	acl_type = posix_acl_type(acl_name);
+ 	if (acl_type < 0)
+ 		return -EINVAL;
+diff --git a/fs/xattr.c b/fs/xattr.c
+index 0705801a62cc5..715d04111c274 100644
+--- a/fs/xattr.c
++++ b/fs/xattr.c
+@@ -302,6 +302,8 @@ __vfs_setxattr_locked(const struct mnt_idmap *idmap, struct dentry *dentry,
+ 	struct inode *inode = dentry->d_inode;
+ 	int error;
+ 
++	VFS_WARN_ON_ONCE(!sb_write_started(inode->i_sb));
++
+ 	error = xattr_permission(idmap, inode, name, MAY_WRITE);
+ 	if (error)
+ 		return error;
+@@ -564,6 +566,8 @@ __vfs_removexattr_locked(const struct mnt_idmap *idmap,
+ 	struct inode *inode = dentry->d_inode;
+ 	int error;
+ 
++	VFS_WARN_ON_ONCE(!sb_write_started(inode->i_sb));
++
+ 	error = xattr_permission(idmap, inode, name, MAY_WRITE);
+ 	if (error)
+ 		return error;
 
+-- 
