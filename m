@@ -1,92 +1,115 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794857322;
-	b=DAfZvqyKmtDvKevOr6LuNXGfDfcPHkvWfwP8mPpwvOMWrL66FnTRhj1s5mah5d97fVHl
-	 ytxBJEHdskmhTh22fBYqZf0V/ezCYoaVwQ+4ZU1OckjOjaPfxXOfI9dRePQsaKHQNUhPw
-	 1pO+omw3qE3SF4eI7kqqXrBzSj43lw6rMfPf7MfbofHtZMgw2DKWy8RDSPU+/8GAmFDaX
-	 sbg9Qngnlsbj4qEZIZuq8xVQuagq0ne0p1tIN7g5ExF/Yae3iacXo+fulgHOPIFPj8Mao
-	 NI1BSJ7/NbtoybhVVWx/Nn3iTXmV/Ub6Fv0UUxGT310604l9jQSrksbBIFTv9i78XaA==
+	t=1794857395;
+	b=nVbxgKL4jjXLXnvCEJ0KUiqbWyvwI6ULK3nXx4epeAAJIzH1hDNvrTM7ymQnrHRA8Wwh
+	 t/Maja+qI4yJQ8Ci63+GT2OPq9pVkMBJ+wWDkrBM3QUEbp0gFTSb9d7XbSKiv8qXF3Wvi
+	 5w69p9cMq0d9q0cKKk1ZJrJzwWzJGrxilQDWOLxCqARID/nhoOCO04d+MEYLmQZBzyDrc
+	 Iz6ziRAWbxpRt5Xs4l6dF7yD/fRA/ytGTLOZbhElrWEVgMKOkyMjRFN4rqOOIM62Y1kwW
+	 PZVKspQcxWdaQbE8ZHcRx2eQBR3uUd/IwEvwkU3N+qkl00mcmVd60wQ/lBbGikIHVYg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794857322;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=lTGurxI/Bgu5ZJqbmAvAIEQWhn+vjtZ691Mnb5crEUo=;
-	b=3Dkx7PvgugM+738VJYy5bBXFYbUZpFOXe5kcOGwFU88jST+BM69dkn/77N8CWMeLv6Ia
-	 UwNo7IMMW3n1dR/cT/vn3AU5+4nyiUBQj3mvy2pFGemWvpfMG+TpfaoYUO6rHN3CLzdMa
-	 SfO1I8WqW/awMUHIaf6lADEV56u9FqkAyxFuuEtWbXcanRzDXeKfT1i0bjsNNjpyCyGNY
-	 uzcUnj3/r5QjWecsx5b7YINDmSBOqo/aOJU9Xfz6Kddts+skjsPaEZQave5QOeVSzn7GQ
-	 FF0S6tzJ9gOH9uWuE4xVFV2BkDBM3JB7F+PWnrL9TXVULvfR+0Y81r/KFZQMCk8RxMQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794857395;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:
+	 X-Rspamd-Action:X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
+	bh=KJA2GvSpYZLMZAaP8dh4hPK5n7cYdKglW9fWbUBcSwQ=;
+	b=5Lzkaevo5sutPFh0VWDjsvzrcWn3dY5xqzDeR94ndb1WS7akuGJ2OXOP0fzz1fZ5nHEx
+	 7iHJHETobg0Ulcw4rDx9iewhwWhIwuyZnfdJGcoorUlFNvd8C/mmfrpbv/L7dGr3e5Xvq
+	 zbGk0Dmz94pz0OQOZKKoXlqbHE2It5/8W/EqOQDz9SnRPkCv25uAeTeo5YfMV5H7mUkho
+	 4OKQFgmROvWj7tNjRjhWV72cLvv9Fj35A4MJatXhr3aDTFE4mIRs6EVWoQia+VMwF0lvW
+	 yT8oPQCjJW3QVOj6jlQ8GS9oG8Kpj+L9ifpbJrKvrM9qfCQftipRqZN1dBmxJ/UZReg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=IWS+vIYN;
-	arc=none smtp.remote-ip=209.85.128.45
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=none header.from=suse.cz;
+	spf=pass smtp.mailfrom=suse.cz;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=CTrWRcTc;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=houOkACd;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=CTrWRcTc;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=houOkACd;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 587E4606A322
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 19:28:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 587E4606A322
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA346606A31C;
+	Mon, 16 Nov 2026 19:29:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EA346606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=IWS+vIYN
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4bb64ef5a00so13705985e9.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 11:28:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794857320; x=1795462120; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=lTGurxI/Bgu5ZJqbmAvAIEQWhn+vjtZ691Mnb5crEUo=;
-        b=IWS+vIYNTdhfojIsC97vmpuRmjoqNqaaD6dn7mB9xk5io9JNRFmzZghkuwUnVpqQQ0
-         WfeOmKu2DY+luQqUS0yj1HuneQrBma3nmlMpAXgyXs8XQVh5ub7kXZFpxDmPCd1pO876
-         0N0YqA64VlXu5TdlNugP8LAU0gUxWzfGHFqP5YxeDDjCuoaPIeYVdLJSAyewCrNZYbmR
-         fmnL4UKq6YQds7/Ced+7TaG7ugcVIO3YJs/ZsuNQQoLFnwVtzHHPiriR5RCKi7BsO/FB
-         1/w6xhVDPsl+qlPiphNEZVFdXUnyu2ISr7eVX8V4LEwYTOgCLK7o5HEUmsMZ1/uPjoTG
-         B2Gw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794857320; x=1795462120;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=lTGurxI/Bgu5ZJqbmAvAIEQWhn+vjtZ691Mnb5crEUo=;
-        b=ntTAwiHwgi0Pm3TJW4ryQewRODprVvoMtKifDDLvOhiDcC6p1iQp/4UAy1XjlVGTKm
-         rt/f58KEYI1wXtrMpW4UFdwm2SQ0LMzDeqtCggYhYgLYMRgRJlr46T/2Ij1hh+6TsBrA
-         JLAY1pJ94r7Ec3DsyYybUOMeJ2gkw5ZuUhuAOizJS+k3DdR4LsOvIIJjzPnarVmtpFHG
-         E13OT+QQwSyPZCoVlP8r4YxvbYGcDcaxyvqXqR/fY3fayntpMOYgx2HdIz5gvqLDYB+9
-         I3j3P++K7LePQ8zIB56kCfJsdOJST+jcbaHVk7FyHRkpdiNVQTbjkkDIqhDGneYoFg32
-         jQ0Q==
-X-Forwarded-Encrypted: i=1; AL+hErGND/eGsoQnq8qSOW8DyiClpPAmXyFWJDCtnGJukYPEtVXOSlCFev3DlDjr9hCFqEgbp9A4NcaXYTZBUfvT@vger.kernel.org
-X-Gm-Message-State: APuU4Z+Acp3g8lrTobmRopYdc4M/qPZszGjV+8o+xH5WlcHGe48KVRlp
-	js0EkhVYrIOzZA7Bb6kj5p18fktiAD7kq4jSrApH7/z0/WHbgFHOVNAH
-X-Gm-Gg: AYBFou0PWYraZYNGVegaMxrhSk/uvmr+wiyLvq/ocoQR8h/PKaRxAT8vNCkJsxqwvl1
-	w+Gz2krQjFkpfy2vktywnnGonaN6v+/x3IjfxKhKS/XN/AiRAYZlIoJf8mhmZqhYeEm2V1e5Rf3
-	74HGqm1kFr5DFhMHCu6F/e82TSD95ATY7wFih/fqp2OXivFJgbZCdfl8Wxlsl05Hn5+MD01vAM8
-	Na67sBXzfongOUEGIx6WCdx7Cau9cI1Dsjgm2HSfhvya5/aHzVId7HZBrxIRDLBQRoqclX3Yu+p
-	+Ngxc7PMoaof8aGS+9g8HLIQ1duxPVnp0D9CYz65gXYF5jztX2ZfpI9uf+IjVfB1okhqpdhh3/i
-	iGVFjXtRkcrq2HJ1uaVkgd/23tyb+rtjxZPfROgME5xBtZTQYIG7pwrm8npyjSA7YmpIb55pLBg
-	eYzL37q0UA97AWDcg/0/cv440v998Uq3JNgSMoiv6I6QOxhzK2Ld0DJ8orkD7dJnon1ByNKpSu3
-	hDLNuWgLXoXpRkNlHj99xcTpWVD0e0d+Bu8zxCRx90GN9/zkGznuplS4eO8TjvWbJ7+J6cIbUFq
-	2Nez9id7gcvIKvwDIP3fEEPKKdmwY+JfRUwaX15Ls/wxd6mTATOy1lBXs60sqnPZeKFSqG9OhJL
-	Mpwns8dygj6bt
-X-Received: by 2002:a05:600c:8b65:b0:4bb:6a5a:783d with SMTP id 5b1f17b1804b1-4bb6a5a795dmr112896865e9.18.1794857319492;
-        Mon, 16 Nov 2026 11:28:39 -0800 (PST)
-Received: from localhost (178-84-201-199.dynamic.upc.nl. [178.84.201.199])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb783965c8sm9641515e9.9.2026.11.16.11.28.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Nov 2026 11:28:39 -0800 (PST)
-From: Amir Goldstein <amir73il@gmail.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Miklos Szeredi <miklos@szeredi.hu>,
-	linux-unionfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH] ovl: refuse pseudo filesystem layers in some setups
-Date: Mon, 16 Nov 2026 20:28:37 +0100
-Message-ID: <20261116192837.937852-1-amir73il@gmail.com>
-X-Mailer: git-send-email 2.56.1
+	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=CTrWRcTc;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=houOkACd;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=CTrWRcTc;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=houOkACd
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A18271FCDB;
+	Mon, 16 Nov 2026 19:29:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1794857392; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KJA2GvSpYZLMZAaP8dh4hPK5n7cYdKglW9fWbUBcSwQ=;
+	b=CTrWRcTcJ8vQKTlflZ6YUpKn//w/EQWkg28SSgLSZvWDRSNNlK43WIVE1PQyY4fAdAP7fO
+	6lXsPqpuCV2swgcAf7RTlOwdopcE8KZdY3VF2PXdPYTnabAJPGy8i+GSSebAJ9AUOW5s5Z
+	yVEYg+mELO8QaqH5UvZ6u1aQen+1rcs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1794857392;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KJA2GvSpYZLMZAaP8dh4hPK5n7cYdKglW9fWbUBcSwQ=;
+	b=houOkACdAiMGElhVmKOwlaEK+neGnMc4VB8Vn+eniGyJev51CfkweWU/08KhStPfKDFtDW
+	gLzLOYmRSo2tkcBQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=CTrWRcTc;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=houOkACd
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1794857392; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KJA2GvSpYZLMZAaP8dh4hPK5n7cYdKglW9fWbUBcSwQ=;
+	b=CTrWRcTcJ8vQKTlflZ6YUpKn//w/EQWkg28SSgLSZvWDRSNNlK43WIVE1PQyY4fAdAP7fO
+	6lXsPqpuCV2swgcAf7RTlOwdopcE8KZdY3VF2PXdPYTnabAJPGy8i+GSSebAJ9AUOW5s5Z
+	yVEYg+mELO8QaqH5UvZ6u1aQen+1rcs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1794857392;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KJA2GvSpYZLMZAaP8dh4hPK5n7cYdKglW9fWbUBcSwQ=;
+	b=houOkACdAiMGElhVmKOwlaEK+neGnMc4VB8Vn+eniGyJev51CfkweWU/08KhStPfKDFtDW
+	gLzLOYmRSo2tkcBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 520B713408;
+	Mon, 16 Nov 2026 19:29:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id P7noCrBZ+2qELAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 16 Nov 2026 19:29:52 +0000
+Received: by quack.suse.cz (Postfix, from userid 1000)
+	id CF5D624EDA; Mon, 16 Nov 2026 20:29:51 +0100 (CET)
+Date: Mon, 16 Nov 2026 20:29:51 +0100
+From: Jan Kara <jack@suse.cz>
+To: Partha Satapathy <partha.satapathy@oracle.com>
+Cc: Jan Kara <jack@suse.cz>, amir73il@gmail.com, viro@zeniv.linux.org.uk, 
+	brauner@kernel.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [External] : Re: [PATCH 0/1] fsnotify: Check parent watches
+ without child dentry flags
+Message-ID: <b62exxlmsls7hj7uj26mdq7djlabmtor7f6m6lhbcbysq5c3v7@xvzn2nhtejim>
+References: <cover.1791373689.git.partha.satapathy@oracle.com>
+ <qlw6x3hyky5yoievlkd6ylz3ov432hdjlzkcyboswqktnk43il@fvccpqnil5sp>
+ <9499fb1a-85f2-41da-88b7-5e7de6fdff0a@oracle.com>
+ <gnntcprg4f7ag7ictugnfza24nwfdmyubkuqac7plxbwtedfrz@xgxyvks3h2uv>
+ <2528e790-8913-45dc-a8d5-cc22908a441e@oracle.com>
+ <f9164f65-1a99-425d-b216-326de0eaee69@oracle.com>
+ <4ed59752-f01b-457b-81de-be1c446f18f6@oracle.com>
+ <z3mdow3nbrj7tvch2akviandhv5n44lqh5phb5udumhbczsnx7@7vex7u7bdg3w>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -96,108 +119,104 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <z3mdow3nbrj7tvch2akviandhv5n44lqh5phb5udumhbczsnx7@7vex7u7bdg3w>
+X-Rspamd-Queue-Id: A18271FCDB
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-13.01 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.cz:dkim];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_CC(0.00)[suse.cz,gmail.com,zeniv.linux.org.uk,kernel.org,vger.kernel.org];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:dkim,suse.com:email]
+X-Spam-Score: -13.01
 
-From: Christian Brauner <brauner@kernel.org>
+On Mon 16-11-26 18:16:41, Jan Kara wrote:
+> On Fri 06-11-26 12:10:50, Partha Satapathy wrote:
+> > On 22-10-2026 13:17, Partha Satapathy wrote:
+> > > On 13-10-2026 12:08, Partha Satapathy wrote:
+> > >> Please compile : fsnotify_parent_ref_bench.c -o
+> > >> fsnotify_parent_ref_bench. After that
+> > >> run the script ./run_parent_ref_scale.sh
+> > >>
+> > >> Thanks
+> > >> Partha
+> > > 
+> > > Hi Honza,
+> > > 
+> > > A gentle ping on the benchmark program, Have you had a chance to try it
+> > > on your setup? Please let me know if any further tests or information
+> > > would be helpful.
+> > > 
+> > > Thanks,
+> > > Partha
+> > 
+> > 
+> > 
+> > Hi Honza,
+> > 
+> > Have you had a chance to try the benchmark on your setup? Please let me
+> > know if you need any further tests from my side to move this patch forward.
+> 
+> I'm sorry for the delay. I didn't get to this yet because with the firehose
+> of LLM generated reports & fixes things get postponed. But I'm looking into
+> this now.
 
-Using pseudo filesystems as overlayfs layers is a questionable practice.
-Copy up requires that the size of the lower file correctly represents
-the expected data size, which is not always the case with pseudo
-filesystems.
+So I did the benchmarking with your benchmark (thank you for that!). I was
+running it like:
 
-None of the pseudo filesystems can act as a functional upper layer.
-Most of them fail to create the work dir and the overlayfs mount falls
-back to read-only (e.g. sysfs, cgroup, debugfs). Others (bpffs, configfs,
-tracefs) create the work dir, but fail the mount later on. So let's stop
-pretending and explicitly deny pseudo fs as upper layer. Setups that
-used to fall back to a read-only mount now fail to mount.
+./fsnotify_benchmark /dev/shm/benchmark/ 64 1000000 none
 
-Pseudo filesystems should have probably been classified as
-ovl_dentry_weird() and disallowed as any overlayfs layer, but until the
-introduction of the SB_I_PSEUDO flag, there was no way to identify them,
-so we do not know if existing setups are using them as overlayfs layers.
+and what I'm seeing (avg of 10 runs) is:
 
-Data-only layers were introduced to facilitate the setup of images
-built with the composefs tool.  The data-only layer is expected to
-be a filesystem backed by real storage and the lower layers are
-expected to be loop mounted read-only images, typically erofs.
+			writes per second
+vanilla 7.4-rc2:	79.75m 
+7.4-rc2 + your patch:	 5.47m
 
-In a composefs setup, pseudo filesystems do not make sense and there
-is no reason at all that those setups would exist in the wild.
-So let's refuse overlayfs mount with data-only layers if any of the
-lower layers are pseudo filesystems.
+and perf for the kernel with the patch applied clearly shows vast majority
+of time spent in lockref manipulations as I expected. The reason why you
+didn't see a difference is likely that fsnotify_parent() has this guard:
 
-Data-only layers can be added via the "::" separator in "lowerdir=" and
-via "datadir+" by path or by file descriptor. All of them end up at the
-end of ctx->lower. So a single check in ovl_get_lowerstack() covers all
-of them.
+        if (!fsnotify_sb_has_watchers(inode->i_sb))
+                return 0;
 
-Note that regular lower layers on pseudo filesystems are left alone.
-Stacking overlayfs on top of sysfs without data-only layers keeps working
-(for now).
+which avoids even looking at the parent if nobody watches anything in the
+filesystem. So to really benchmark changed fsnotify code I had to do:
 
-Co-developed-by: Amir Goldstein <amir73il@gmail.com>
-Signed-off-by: Amir Goldstein <amir73il@gmail.com>
-Link: https://lore.kernel.org/all/CAOQ4uxhGxpBtMZ5kfuzR1tQAewiecoX7UjXQRo91QjJHH9T_Yw@mail.gmail.com
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
----
+tail -f /dev/shm/watchfile
 
-Christian,
+before running the benchmark to neutralize this shortcut. I guess now you
+see why PARENT_WATCHED flag is really essential in keeping decent
+performance when inotify is *not* used for some directory in a filesystem.
 
-This patch applies on top of your patch to ban pseudo datadir [1]
-and expands the ban to more setups.
+							Honza
 
-I got carried away and did a survey of the pseudo fs as upper fs and
-found that it is worth banning a pseudo upper fs early on, regardless
-of datadir.
-
-Note that the selftest will now fail for some setups that used to
-be acceptable (e.g. pseudo_lower::datadir in lowerdir_sysfs) and it
-does not test for rejection of a pseudo upperdir.
-
-I will send you a patch for the test shortly.
-
-Thanks,
-Amir.
-
-[1] https://lore.kernel.org/linux-fsdevel/20261116-work-loop-pseudo-v3-33-8cbbea1cf34f@kernel.org/
-
- fs/overlayfs/params.c | 3 ++-
- fs/overlayfs/super.c  | 6 +++---
- 2 files changed, 5 insertions(+), 4 deletions(-)
-
-diff --git a/fs/overlayfs/params.c b/fs/overlayfs/params.c
-index d1ca4a9094f28..496f4daa7f750 100644
---- a/fs/overlayfs/params.c
-+++ b/fs/overlayfs/params.c
-@@ -347,7 +347,8 @@ static int ovl_mount_dir_check(struct fs_context *fc, const struct path *path,
- 	 * as the mount attributes could change.
- 	 */
- 	if (upper) {
--		if (path->dentry->d_flags & DCACHE_OP_REAL)
-+		if ((path->dentry->d_flags & DCACHE_OP_REAL) ||
-+		    (path->dentry->d_sb->s_iflags & SB_I_PSEUDO))
- 			return invalfc(fc, "filesystem on %s not supported as upperdir", name);
- 		if (__mnt_is_readonly(path->mnt))
- 			return invalfc(fc, "filesystem on %s is read-only", name);
-diff --git a/fs/overlayfs/super.c b/fs/overlayfs/super.c
-index 990a470112c5c..f2c484b45b509 100644
---- a/fs/overlayfs/super.c
-+++ b/fs/overlayfs/super.c
-@@ -1259,10 +1259,10 @@ static struct ovl_entry *ovl_get_lowerstack(struct super_block *sb,
- 	for (i = 0; i < ctx->nr; i++) {
- 		l = &ctx->lower[i];
- 
--		/* Pseudo filesystems don't hold data for metacopy files. */
--		if (i >= ctx->nr - ctx->nr_data &&
-+		/* Pseudo filesystems don't belong in composefs setup */
-+		if (ctx->nr_data &&
- 		    (l->path.dentry->d_sb->s_iflags & SB_I_PSEUDO)) {
--			pr_err("filesystem on %s not supported as data-only layer\n",
-+			pr_err("pseudo filesystem on %s not supported along with data-only layers\n",
- 			       l->name);
- 			return ERR_PTR(-EINVAL);
- 		}
 -- 
-2.56.1
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
