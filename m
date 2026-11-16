@@ -1,44 +1,44 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794833339;
-	b=2G6IbLjH2xjySLTU9CBz26DXgvAt1+kQdk5cpx4+8NYzpejUB/JhqJqeH8kg1wNCbZnY
-	 PGmAiFmwcfsAv83Zx5sQzh0v2JK4AIPkio7E7EOuVxbpg2J3busWldO9zT/vGbEKE6Fpo
-	 XQEVqJXGbhnlOhR3mY0+flWjIbGLDsXWPb7+8CGpeI2XUEJCUoyyNfcln4Hw31PzOc4cd
-	 IavDQH5ZWPB2vQ3MeeK2IEP4eRbDmeVS0b/lEPz2MgRDZPW1HAbr35cEYVGaHduOvEM5r
-	 SiKVpfuod23cmbGAdVuz6EpajLALHNIVN+q9Pr7Lf8H2yKR/TN/RT7QC5Lif7YhPbow==
+	t=1794833346;
+	b=U0a41fZRJQM5bjjTnkHMtLmaUbiGCLOY2NouUWXr9hPtEvg4qxi7haK/rTUU68HrlSZM
+	 HQOgQGn5ZThnE64EWPjidOt3AcY9913Xw+sTUXG8QgPqiQjO5E04KnzfzuVdbAwS74BlP
+	 0iys3F8x7llM4nldRDdHBg59d4GxEsftrrai2+G8ncOA8eloxePLLh6GpMv6GJn4T+iVO
+	 Q0C4CvOJdtNw6H9Emw4f8CPBat1f2TU9AsyDssW/jku2y0pfCIW3bZf/NokYjwVIeAyoT
+	 ij3CGEx6YdOtjQkKufrMqJCnjJwFbU2bzgOc8XMzpX6GH6potNnCXeSr2FES0mzFpSw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794833339;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794833346;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=4F6U5hwvw8gwNmHBNKQhCDls4ausjqIT8kXPov+zDoA=;
-	b=VySQd2GWQgrGzaXutR+HLerluX/RsxXBQ2D2TzbnZ+umHg8Xq8F7A7bpp6lviD419sJ9
-	 wwdGXNoVV4uO8Fg2dpA2C6BvY6lUIhj6XhdP75+l3clemfmWH5ehjNlpGXY1N2vmMeEen
-	 cS9BH2vwy0uFj+tHUC4zPXPDa2v1QE/tYL9H+c4CpwGU279WePPiFI1nNjz2yPX1eQZgp
-	 lh6VRj3Jued1oleBMdwknHlw+tHPjObz1CyzfTJ6qOGgRbhkaQc3ugoQ3+dT2MGITkti3
-	 sSJFQiQlw8OwPc1IqcxybcwA9HxlIQQ6GSi4B3G4FCcalcG3QKgY9uzWEw/vTdg/9Gw==
+	bh=T+kkEjnaw2ySVd4lLiujiWW53ZRBsmmAWW3cy3wlJjw=;
+	b=DwVZJtV14ZFLTIoaHPUzwNLAZYmKRhZBbw82Vq6Pnhtd2QaEGa4CXA/9fiU54mYw2hP9
+	 eU//TneK3bJCrK0BKdfMJbyb29PE/w81ZkV3Q0vI36EGKvUUj+8OPoE3Wd4uFUxSZNnPv
+	 Bk333BijKXUnWBt7/QW/2ZzIlDyaz41NN3tyoKh7OMxSgOOo1EHsrxzcANf2CNWJ5cc2W
+	 MPt2IV//lFNPcdnQyw+GkJpiRwxsOVhCUyvZuYEwAJVhJztRzv7rmMam/mkl8HQSbYxNL
+	 QxNgcildvr5QvVakPCsD/kpqS2nlzTiqlz6TxJQpFHBHgpQs50eIXTVfW6bVRpsktbw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iSdNGUDn;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=J1iRwSzP;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFCBE606A323;
-	Mon, 16 Nov 2026 12:48:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 227CA606A31C
+	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 12:49:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iSdNGUDn
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9A251F000C4;
-	Mon, 16 Nov 2026 12:48:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=J1iRwSzP
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29FCF1F000C4;
+	Mon, 16 Nov 2026 12:48:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794833339;
-	bh=4F6U5hwvw8gwNmHBNKQhCDls4ausjqIT8kXPov+zDoA=;
+	s=k20260515; t=1794833345;
+	bh=T+kkEjnaw2ySVd4lLiujiWW53ZRBsmmAWW3cy3wlJjw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=iSdNGUDnUPPi4pJnAYBKNnCGTaI+y4qb3uN/K5lIkcESpOPrpKPgqoRvuRlqXEFp/
-	 D22TIAOQoLnM4fj+lgCWae9ef+MQKYOaeqrQgq0dhWWtnjfAThJNwLHjtsfOcC5RbD
-	 Np0pFfdb5cSXXXZAUynvQxQrYr1pxZBp6UXANT9o7ZTogMmpoIoohw9lcwxG03mhpX
-	 Oy2/oEtzbGj0awkxpXQl7L8affCM3OatgSUKikQvjQ8lVdfzBbeLPTvGwJaiSqc/fS
-	 78SKOIgyWd1tcz2HtBmGbx4T2VjGTdAtXLoFfYLGAeU5FNyhXMeNcrhwM2xy6db58r
-	 GhZKMPeccyxAg==
+	b=J1iRwSzPkXkJExltWHVg0O8oGOL+tawW+ZmYEGgM1jmGAKgXx8sy7HnmkDQVv80Ss
+	 yg4kn+EGjPt1JGKZYyWmr96BKjuswmbOXfgaSRJVySsDYEtOeJ/ovVXA3/PGYaEEQg
+	 e3V7fokGmh+Jawesd3SW+NFvr+/7WMp05FEXbQ8wK0id5O9GLzTl/BNPOe8HMP9wyx
+	 SXMkzQFD+Nl7UMGApCdcv5Ze+xW2cYq4ISMrZw9YTpwVIzOyl4tI/WGNsQAg4Yn1Op
+	 xm4CxP/9WVSS9d5AIaFwkOz7gzndFMorMFu1XaBI6AixyyII7UmWDW9Dxmurqq67j6
+	 wYW15Z/uOQhDA==
 From: Arnd Bergmann <arnd@kernel.org>
 To: linux-mm@kvack.org
 Cc: Arnd Bergmann <arnd@arndb.de>,
@@ -67,12 +67,10 @@ Cc: Arnd Bergmann <arnd@arndb.de>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-fsdevel@vger.kernel.org,
 	linuxppc-dev@lists.ozlabs.org,
-	x86@kernel.org,
-	sashiko-bot@kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH v3 03/10] ARM: pxa: support arbitrary PAGE_OFFSET
-Date: Mon, 16 Nov 2026 13:48:25 +0100
-Message-ID: <20261116124832.662455-4-arnd@kernel.org>
+	x86@kernel.org
+Subject: [PATCH v3 04/10] powerpc: kvm: allow flexible PAGE_OFFSET
+Date: Mon, 16 Nov 2026 13:48:26 +0100
+Message-ID: <20261116124832.662455-5-arnd@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261116124832.662455-1-arnd@kernel.org>
 References: <20261116124832.662455-1-arnd@kernel.org>
@@ -89,35 +87,61 @@ Content-Transfer-Encoding: 8bit
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-The pxa3xx_cpu_pm_suspend() implementation hardcodes the default
-PAGE_OFFSET value for CONFIG_VMSPLIT_3G. This has always been broken
-for other configurations but becomes much worse now that the default
-is changing.
+As described by the Sashiko bot, the KVM code on powerpc has multiple
+hardcoded PAGE_OFFSET values. In order to change the default, make these
+compute the correct register values from configuration symbols.
 
-Fix this to use the correct compile-time constant instead.
-
-Reported-by: sashiko-bot@kernel.org
-Fixes: c4d1fb627ff3 ("[ARM] pxa: add preliminary suspend/resume code for pxa3xx")
-Cc: stable@vger.kernel.org
-Link: https://lore.kernel.org/all/sashiko-outbox-212719@kernel.org/
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- arch/arm/mach-pxa/pxa3xx.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/powerpc/kvm/book3s_32_sr.S     | 4 ++--
+ arch/powerpc/kvm/booke_interrupts.S | 4 ++--
+ arch/powerpc/kvm/e500_mmu_host.c    | 3 ++-
+ 3 files changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/arch/arm/mach-pxa/pxa3xx.c b/arch/arm/mach-pxa/pxa3xx.c
-index 06c578ea658e..253770075a8b 100644
---- a/arch/arm/mach-pxa/pxa3xx.c
-+++ b/arch/arm/mach-pxa/pxa3xx.c
-@@ -103,7 +103,7 @@ static void pxa3xx_cpu_standby(unsigned int pwrmode)
-  */
- static void pxa3xx_cpu_pm_suspend(void)
- {
--	volatile unsigned long *p = (volatile void *)0xc0000000;
-+	volatile unsigned long *p = (volatile void *)PAGE_OFFSET;
- 	unsigned long saved_data = *p;
- #ifndef CONFIG_IWMMXT
- 	u64 acc0;
+diff --git a/arch/powerpc/kvm/book3s_32_sr.S b/arch/powerpc/kvm/book3s_32_sr.S
+index 6cfcd20d4668..0d8a7857f2bd 100644
+--- a/arch/powerpc/kvm/book3s_32_sr.S
++++ b/arch/powerpc/kvm/book3s_32_sr.S
+@@ -113,8 +113,8 @@
+ 
+         li      r0, 4
+         mtctr   r0
+-	LOAD_REG_IMMEDIATE(r3, 0x20000000 | (0x111 * 0xc))
+-        lis     r4, 0xc000
++	LOAD_REG_IMMEDIATE(r3, 0x20000000 | (0x111 * (PAGE_OFFSET >> 28)))
++        lis     r4, (PAGE_OFFSET >> 16)
+ 3:      mtsrin  r3, r4
+         addi    r3, r3, 0x111     /* increment VSID */
+         addis   r4, r4, 0x1000    /* address of next segment */
+diff --git a/arch/powerpc/kvm/booke_interrupts.S b/arch/powerpc/kvm/booke_interrupts.S
+index 205545d820a1..ede394f3f63f 100644
+--- a/arch/powerpc/kvm/booke_interrupts.S
++++ b/arch/powerpc/kvm/booke_interrupts.S
+@@ -230,8 +230,8 @@ _GLOBAL(kvmppc_resume_host)
+ #endif
+ 
+ 	/* Restore host IVPR before re-enabling interrupts. We cheat and know
+-	 * that Linux IVPR is always 0xc0000000. */
+-	lis	r3, 0xc000
++	 * that Linux IVPR is always PAGE_OFFSET. */
++	lis	r3, PAGE_OFFSET >> 16
+ 	mtspr	SPRN_IVPR, r3
+ 
+ 	/* Switch to kernel stack and jump to handler. */
+diff --git a/arch/powerpc/kvm/e500_mmu_host.c b/arch/powerpc/kvm/e500_mmu_host.c
+index fa6128119874..9edad9bed589 100644
+--- a/arch/powerpc/kvm/e500_mmu_host.c
++++ b/arch/powerpc/kvm/e500_mmu_host.c
+@@ -115,7 +115,8 @@ static u32 get_host_mas0(unsigned long eaddr)
+ 	mtspr(SPRN_MAS6, 0);
+ 	mas4 = mfspr(SPRN_MAS4);
+ 	mtspr(SPRN_MAS4, mas4 & ~MAS4_TLBSEL_MASK);
+-	asm volatile("tlbsx 0, %0" : : "b" (eaddr & ~CONFIG_PAGE_OFFSET));
++	asm volatile("tlbsx 0, %0" :
++		: "b" (eaddr & (rounddown_pow_of_two(PAGE_OFFSET)-1)));
+ 	mas0 = mfspr(SPRN_MAS0);
+ 	mtspr(SPRN_MAS4, mas4);
+ 	local_irq_restore(flags);
 -- 
 2.53.0
 
