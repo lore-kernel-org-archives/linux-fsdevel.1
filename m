@@ -1,47 +1,53 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794861695;
-	b=waMMgw+ccMVvhucbyVdx17aINJ51j7uvu1ZVoRQcNBYzjK7xVKJysqpwOMJWttLCzFjj
-	 QYGqVfbgrfFixcz9rJFDDMOTBr31ayhzSC7g8mkU0x/wMQoZG9Efu2HbISZ71c0uX6BNO
-	 vdb1t39NKUsPQRMbM1a1x5L6RqtLufjCgvFbrW2AT5v4z91sYlCnxRBVVF+StkRHDsm+R
-	 76Bl8Hrgp+mAO9mjH6RyYR2hBshAAJPS6mRTiabBXmNf/EN0v65Da2fpSo0idekcynpYI
-	 xS+XlZAoEZneKb0W10KDMUuSSe5SOhvdqEHQfVgZYKHqO6HocUcSfMDKXLdRwrJGdQA==
+	t=1794861832;
+	b=kkXjvb2zDPbzO64ytCp+AKImuDBG/1gkTuZ/n5vWtwAdtTaeEdH8salm20de47+ZhVzN
+	 2WQ7/EW04Yrwt8ZZww7hXcUevatWUeTzi9PFNT/txdtt9FjQim8M8djmYHm5KnFK+Prtg
+	 hbXu5SX2SILGfp+JJu+Y0izH4yLDc4S37Da9LVlXGZ7+QCEoQCNIoL/2toRA7a1V10lLv
+	 p+5tKLzNdFnfkxQYjy9RuM2fMbgq5iXylWAsUWxtyKWncLJuYlEvYIJ033++6F0HqG8uF
+	 /2at9yyAqAmx8uSvIB8O+23DCkD6xhS8VcalrReYDtg20sIAG+8rX8mWIADXO8lwJWg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794861695;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=42gPF7+Sqfz7dUAfpkhFkb2az57AMCqoFi+goWrCla4=;
-	b=tI3uup1tBPgyLMqb7C17u9nAfVemKGSo5Y2hcWgN8z//XBEa8cDOCYk177+B6aq05fp1
-	 gmn3oz1LAywgzcfATE9YcDchER/ey8tOqA6YgT2vMSucpANvDqWgAZGcT8IpcRSDVtrFq
-	 5uj7AbO7a+mt/wgY9HrJxHd12fu00eRTf4xjb5DtHi+Lek/woNoacchMhObPqWwn9lTpl
-	 yCEA6nCYFL9cASkim/HFw05nvK9ROympMN+tCmj5l1Rv7ffbacDiUvBEvTK+7VZi28FLQ
-	 6xecbJmc0LtKR2HF5sdy20Zwy19XfXHuqB0yPc8bXT8PoMFTN0j845zGsl83XcHbAeg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794861832;
+	h=Received:DKIM-Signature:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=BxNFQbTamgc7alF+rPcrzpTgPxts8CviBsaz5BE8TK0=;
+	b=m/T6Nhi3XQHDT4QnTnsp0DT9w4wwI7RKZVzd99GDVu9BXVrKxBeSEav7kiMch2DaRdNh
+	 yORE8QEQmRb+jI94nZr7aLp/zJoX26zL4m0YQETApW2VwdThMIHgimFUW9N/xKlGmbzyh
+	 mJe9wnDkys14go7OMkKvV9hcTeaDd9WdDvcrBm8ndL/XufhUWMJwmVB5/1NAcqzDgn+ee
+	 HnCRfLuEuRSe8I/Cxa5UiDHxS6wS0sXyNngg9fWJ8cTtX9zpwqex1dshtDTsk2FskTe9D
+	 QN0+BUsbZZIr/XOXYYAVCLBoRH011k/ALnGAGECIXxAXjey3MkaNH9dlWiPOg/PAz/Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XZR+Yzdz;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HKjqeqQW;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D6FB606A32A;
-	Mon, 16 Nov 2026 20:41:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17984606A33D;
+	Mon, 16 Nov 2026 20:43:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XZR+Yzdz
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB67D1F000C4;
-	Mon, 16 Nov 2026 20:41:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HKjqeqQW
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6E811F000CA;
+	Mon, 16 Nov 2026 20:43:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794861694;
-	bh=42gPF7+Sqfz7dUAfpkhFkb2az57AMCqoFi+goWrCla4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=XZR+YzdzGO8kVm1OoLFC+f+Dc95f7eCsQkumaGTHmg46QgC1RHKc55NADhs5GT8xe
-	 h1G7GZsdMliehYDsulEjZdhbQOJzr+jQfOoq4CXYuOTz7ZpI3IrTzB3E8WtiEyeCND
-	 brq71AhDljpkwZvMPQjgVtqfOSbjmpBoE+mghLi23aNhR9keyfcgozSmkmi9I4qRoY
-	 qomtiIQ4mg0hnrCh8+YwwJSvl8oq6czuT/JJFq1Xh4uUQzGB4p6rsyijFjBKXMdDbT
-	 oCqWv4pZh7+5gE21Rso7ENLYh30obWrZF/K28c2ExWTKosNjVbePQOnZAFn3I+oatl
-	 RA9rGyx5oJ7qQ==
-Message-ID: <20f100af-c831-4e37-8077-50f6366f323a@kernel.org>
-Date: Mon, 16 Nov 2026 21:41:22 +0100
+	s=k20260515; t=1794861831;
+	bh=BxNFQbTamgc7alF+rPcrzpTgPxts8CviBsaz5BE8TK0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=HKjqeqQWFxGwj7EDg/ni0jdWrbNwpo79l38NwFVywziERT6YIO/+lvbteFewAqmcl
+	 5inoyYjw8RNYvhY395lk2dLjaz9wcP8R37/kENWttRgVACBkRUQFRlo+evW3iixTYQ
+	 is6fchW2m4vMMokmzmZCvbkX0549nPqRVNU+dpziKYSrKrfjRYIED66vzb6rbIGGlO
+	 DuAxep+L6nLjV7OgHFenDw1ARSiqD14gbKtF2J7npLIu99pL56VxPbW5M/z903AxBK
+	 HOh7JPKe0IPNqUsiCP2XIEkPDsZm+Ce0OiZf2XVQKqbxbAeZGJtZKs5R4ah36ECpDM
+	 T6GJngPCyeM6Q==
+Date: Mon, 16 Nov 2026 10:43:50 -1000
+Message-ID: <205dcc9b8e4926d9ae447ded1a452330@kernel.org>
+From: Tejun Heo <tj@kernel.org>
+To: Krystian Kaniewski <krystianmkaniewski@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Ian Kent <raven@themaw.net>, Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>, Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>, Jens Axboe <axboe@kernel.dk>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, driver-core@lists.linux.dev, linux-pm@vger.kernel.org, autofs@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, syzbot+002fb7b2d0bc53bf7e75@syzkaller.appspotmail.com
+Subject: Re: [PATCH v4 0/2] kernfs, sysfs: refuse splice on /sys/power/resume
+In-Reply-To: <20261116133903.400202-1-krystianmkaniewski@gmail.com>
+References: <20261116133903.400202-1-krystianmkaniewski@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -51,130 +57,19 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 7/9] mm/mremap: resolve uffd state when the context is
- dropped, not during the move
-To: Tal Zussman <tz2294@columbia.edu>,
- Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
- Peter Xu <peterx@redhat.com>, James Houghton <jthoughton@google.com>,
- Andrea Arcangeli <aarcange@redhat.com>,
- Suren Baghdasaryan <surenb@google.com>, Balbir Singh <balbirs@nvidia.com>,
- "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>, Michal Hocko <mhocko@suse.com>,
- =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
- Andrei Vagin <avagin@gmail.com>, Muhammad Usama Anjum <usama.anjum@arm.com>,
- Stephen Rothwell <sfr@canb.auug.org.au>, Arnd Bergmann <arnd@arndb.de>,
- Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>,
- Gregory Price <gourry@gourry.net>, Ying Huang
- <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Kiryl Shutsemau <kas@kernel.org>, Muchun Song <muchun.song@linux.dev>,
- Oscar Salvador <osalvador@suse.de>,
- =?UTF-8?Q?Miko=C5=82aj_Lenczewski?= <miko.lenczewski@arm.com>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org
-References: <20261116-uffd-state-fixes-v2-0-4397a0196479@columbia.edu>
- <20261116-uffd-state-fixes-v2-7-4397a0196479@columbia.edu>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20261116-uffd-state-fixes-v2-7-4397a0196479@columbia.edu>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
 
-On 11/16/26 21:02, Tal Zussman wrote:
-> Without UFFD_FEATURE_EVENT_REMAP, the new VMA of an mremap() is not
-> registered with userfaultfd, so the uffd state of its entries is cleared
-> while they are moved. If the move fails halfway, the entries are moved
-> back into the old VMA, which is still registered, without their uffd
-> state. Writes and accesses to them are then no longer reported.
-> 
-> To fix it, leave the entries alone during the move and clear the uffd
-> state of the new VMA in mremap_userfaultfd_prep(), right before dropping
-> the context, like unregistering does. This walks the page tables of the
-> new VMA a second time.
-> 
-> This is done with userfaultfd_clear_ptes(), which also makes the PTEs
-> writable again where that is safe. That removes a spurious write fault
-> per protected page on private anonymous memory, but adds spurious write
-> faults on shmem and hugetlb, as change_protection() makes writable pages
-> that were never protected read-only. UFFDIO_UNREGISTER and
-> UFFDIO_WRITEPROTECT already behave this way. This will be fixed in
-> change_protection() separately.
-> 
-> The entries no longer need per-entry handling during the move, so drop
-> uffd_supports_page_table_move() and clear_uffd_wp_pmd(). Whole page
-> tables of these VMAs can be moved again.
-> 
-> Fixes: 0cef0bb836e3 ("mm: clear uffd-wp PTE/PMD state on mremap()")
-> Fixes: 763f43865fc4 ("mm: preserve RWP marker across PTE rewrites")
-> Reviewed-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
-> Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> Tested-by: Gregory Price (Meta) <gourry@gourry.net>
-> Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
-> Signed-off-by: Tal Zussman <tz2294@columbia.edu>
-> ---
+On Mon, Nov 16, 2026 at 02:39:01PM +0100, Krystian Kaniewski wrote:
+> This series refuses splice on /sys/power/resume and gives writable
+> opens of that file separate lockdep classes, as Tejun suggested in the
+> v1 discussion.
 
-VMAs should be write-locked, so nobody should stumble over it and walk page tables.
+For the series,
 
-Rmap walkers can stumble over entries, because only the page table locks protect
-us here. With your change, that's now actually consistent while doing the move.
+Acked-by: Tejun Heo <tj@kernel.org>
 
-I assume there is now a short period in time where the PTE bits don't match the
-VMA flags for an RMAP point of view, essentially in-between clearing uffd state
-from the VMA and clearing uffd-wp bits.
+Thanks.
 
-Acked-by: David Hildenbrand (Arm) <david@kernel.org>
-
--- 
-Cheers,
-
-David
+--
+tejun
