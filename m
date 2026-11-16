@@ -1,83 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794862438;
-	b=Kufq2tzFuHps/wq19iOjjUrFHXxCoAfoE8fAQVSZnU5DRaZSBnZrl1saD3P8KTfpcHxE
-	 8FbdwF23QJcl6uayZOxRXlfz9hHLkD4dvWZo8+5cLhSAALj9bmCXj6uUD1l4kAjZrGORN
-	 RnW34NMTXzoM6cStzXHZq9Rqx6Yh5bygyI89A/ZYaMZyT75xjKSb/dZboVOlFyPkc298c
-	 rrGSQvDsznLmv6qM4vonq9J++pwZkrDEYuLHFIPwBx8AA2XbRGNoZF5UfJ4xUV52DuYk8
-	 qcTtRtwXDEg+we0AhEoap8+vlcHWgHsTq49YDnZUVAc/OWkhkSwcy+52EVYnPp6UVwA==
+	t=1794862622;
+	b=jV2XgSwioICfi2ZfV/20u8eg4arSPZJdBl6oQlg4XtiHu2I1s7/GQCAxMv9DBgaTzSnJ
+	 1YG3a5Jyl0OPrQx50OnGmiVkyMEKpqVVPlm2/rE06pw3IAnqihB/HkpWM1hmPvrtGqxIG
+	 4V/5FH4+uSUNoTiZKdf5SI9MWTkMQ5v9ntsTYkHQkuT6fXbJUIZ9IP8E3ASW4w/viAJPh
+	 A/ypr0KJyGLMzkpEnZiBBzIyerEgCyx71Db2kGRQlpIx9+REClyMUbNMnndAPQqOIM+Z4
+	 cE3x1Io/PtNEQ5UYneERMGtXx+nf7+8ChTk/nboGR5JQeYgAFLG24wfqRpomqjglQFg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794862438;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:X-Mailer:
-	 References:In-Reply-To;
-	bh=tzdH03fxvdHG/WP+ISnD29s1t0jRH5uKJ+YnULP8Tr0=;
-	b=BD8ILwZjDA8diV/6O/M1tmo7bg9wI9HwJ5Jq4EnsN+qoIV95Te8QuC59dKSrR/rnsulm
-	 RQyYIz2xBK6KgKz0k/k6VxEJKC4bYB8g0Mb4JtB8TmBJCWk6ksge4WjS6sqNCxbQvVFyS
-	 iW6Ape+zRappfYhlMU2/CKWeiUYVTeKcTwtUT55wFy96WzSlLwICXK+xdR7rV0lXrHZwR
-	 KFJ8L7SfeSeNWM6QmdpRct+lVs34k3Ax7GaMYFOtNQKQ7+bX+73K70lAUey0XUQiQpToZ
-	 uMSjBlEF5CjSH4OMrV8BPIMxBEDhiOjUVez0e7q+W821hvqXjQ9H4GQty11/GAyPJQQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794862622;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=MtRGWIC2vir7npOOqtBcJjVE7mLonnCdITKCBiWXfn8=;
+	b=bQ42/vaFmjnN+o8E8HQQ3d3gseT2oN8nHt8czNkPgGGZAFoi4Pp1w+JQnz6HmKzmRoXx
+	 jLstxCidwSrsnPZgOI/J/r2BKJSoiM+uC20O0lxvM/EF/Rkgu+EKp3lWWlKRgkZm3S6wX
+	 6eFZZFjqTb2UM+g49qUYM/3K+IcFxXk1nMgvM+dc2RJISytZGCfaMcAOpCNfK29cSORue
+	 CsjpqpQFXq8PtkEZRsMXHJARiWZI/qAHTGqvsblxK9I23qull1E0Xy0JmHjsJZE6TiFjc
+	 0l4QYvfqsLDihtSUE6U7Vb8q6VrUTKpV5W1NoB6ErTKl8jNd/gDwKX/Rg6C0MUT7JdQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=L5sm9T50;
-	arc=none smtp.remote-ip=209.85.128.41
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="ZIrd9/0w";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2992606A329
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 20:53:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D2992606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C11C606A329;
+	Mon, 16 Nov 2026 20:57:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=L5sm9T50
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4bb72b44a97so9679125e9.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 12:53:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794862436; x=1795467236; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:mime-version:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=tzdH03fxvdHG/WP+ISnD29s1t0jRH5uKJ+YnULP8Tr0=;
-        b=L5sm9T50a7sqt8w6n5QqMCx2guZ/ceCCaSawY3J0jxqzahZ/LN4bt26KoGHp/uxFmk
-         WolNlyKBnyZ1ec/7ZBJ64TpLAMa5GpOCqE5CcwXsF6xR2eT/T77xWEVoGtvYUuScpPgN
-         oz4iIqpqxQDYdqVGkZ6S56sYlTHUsvde9FjQULBdQwu+w/8a71UaoF3qQ3EF1S6gzVuf
-         dgE0P/WOfZoYnPuKsQQ5Jt//NJN4mC5iRbQCozXEE4yB0v0DbLjq7YCnC1TvPdkKeY89
-         THDwEB3iExsY9Ok3aiSiUawJk00aXtPKjGcx+g+wp9cCLgujF5NkMGxtzDgjbUuRcBOa
-         A6iw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794862436; x=1795467236;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=tzdH03fxvdHG/WP+ISnD29s1t0jRH5uKJ+YnULP8Tr0=;
-        b=wpO2K1iV/p/wkaEl3QZXwHqbx3+32uXKaoRX/PdfjO0Vhsm6s3ss38ppNQBaIcSubI
-         FWjvzbNWsxGYo4nLp6NvMcytnfH+wJpZrFWaNiaeNYEB9RpSSriHaoDxjgwS76N1V1XM
-         9kBKUI9T/to1fwS3PLc4A+sNWYx1Czhh4A8CkrezvkH9G6sGOy2yN+nwxwuYXlcCN6tF
-         aflr4m64uqgGOy3HSyfiVo+Yajs72mWW3RpfGWBld0PbL32/0c6znTcvAQCfk+bMb3dw
-         F5PbYQJMeFrCuzEFMAJPegc4m9/DHulTH1pBIoBeluHZEtHYHEdVGcQSQSU7iGTGsSq1
-         5kGA==
-X-Forwarded-Encrypted: i=1; AL+hErH4YQBeVV5QD/hpagVTT5kVEnzw/ZF7T8b8sI64zvbXdKOuSHOSA0/O3wkoos9ogw22xOcgDGj88k+qzLpr@vger.kernel.org
-X-Gm-Message-State: APuU4Z8mZLyDBkV0eCTRKzyOgGTjrnVrAFobB7H9MMiG75TmjSuqdeiV
-	5NJ78LyvVn1+xoV2ff1omEZUm3UKT2X1Di7Rw4/p1xSg/aEaUDNmu04I
-X-Gm-Gg: AYBFou1gety2VIHdsQUcuX52RXv7+4+nDevhtrmlaeZaqHtrvJQL2OMtfHHb6clfEz9
-	QGYGofqzG7tKeO9cg3K8kTnjY1V0IntOJMqMMT431t9iBdM5S39szXYzlomYPQUYjEQRG3lP81+
-	iNltLZdvQNlQ/Ce7oe26wc1QCPsUac86Cs7dvOlHXB8NFJNEtgquSAzD6bh83tbDObsn4z8z1n3
-	tbglc6Wadm2MH/qZ4ZyDBw8aw2Cjqwte8UDsHjailaNHNKWPIcxyLLQs4ygTCDRjKPQSaakY0ll
-	JmnsgKnDIuNdcMRK2ixxnMyCw1re88pj4aC7Veh8JeV8mf/WmZi/kBVlt7aHB9IoxQyoserMT55
-	cLk5mn0F4akI2SCDSaag6D4ddrjwD5G7AFVVjlIu5CWfS04shPpFZnd4qv0B/2iqwPtYl42xrFF
-	JEYdlLZSGz7vzzaegbJcANkFwihGU9OPobFtYp71TaDp1nchV2mJurJNEANSr/RuezziDfFjMZ/
-	BnXY+IhiprCg4jdxrZuMO7NDnc7zwcGpLNvDkjYUDjx3pA5+zwsYejJdGrf1FHcX1FHhyoUxxi4
-	Sa5wGGgCqo3kGLlrYdLT7qgHDw==
-X-Received: by 2002:a05:600c:3b2a:b0:4a8:9a2f:d27 with SMTP id 5b1f17b1804b1-4bb55aabdf9mr263187925e9.25.1794862436065;
-        Mon, 16 Nov 2026 12:53:56 -0800 (PST)
-Received: from localhost ([2001:b07:5d26:7a6a:365a:60ff:fe0d:cfc6])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c5d22394esm24799165f8f.3.2026.11.16.12.53.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Nov 2026 12:53:55 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZIrd9/0w
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBD351F000C4;
+	Mon, 16 Nov 2026 20:56:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794862622;
+	bh=MtRGWIC2vir7npOOqtBcJjVE7mLonnCdITKCBiWXfn8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=ZIrd9/0ww/GnH4ovEs2bI18NsQ4JxS4tZCjL+VYVz8r8SGlJu1vI/1l8v8zlq8gyf
+	 FToW6J2hOXKZ6WGMKc9ht5LWZ+edDkQBGfH5wI/3ypkQaSTiaFNZCU3fhCEk4xPp3/
+	 7DacL0Cj3337gnbrXJdYJr8gmvvJ4P9gvuPu8uxbx1zPyphV2OocCXkPMtynM76xn1
+	 lAnsQC3bf3vMJ9woYr2+NIfQmBx0iQs4jDwOccZ/8pqUlS3TA01EDoH8gCAjY54n7h
+	 9Awd+h4xGPj2Vc2/+pkbMhaQpB8LYbfkc6NAZwzNSBSvl2apCDGwqhcqBor1dVpH0j
+	 8bwl0Z9qf+/qA==
+Message-ID: <2837958f-5a9d-46ad-b6ff-5a922b09e81a@kernel.org>
+Date: Mon, 16 Nov 2026 21:56:48 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -86,299 +50,253 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Type: multipart/signed;
- boundary=37fc961d2ca56be80f03ddce209a59446815f2f70d142ce639c6d949d73f;
- micalg=pgp-sha512; protocol="application/pgp-signature"
-Date: Mon, 16 Nov 2026 21:53:49 +0100
-Message-Id: <DMWXMP61YXEH.1W32ZFF7A7Y5H@gmail.com>
-Cc: "David Sterba" <dsterba@suse.com>, "Namjae Jeon"
- <linkinjeon@kernel.org>, "Sungjong Seo" <sj1557.seo@samsung.com>,
- "Alexander Viro" <viro@zeniv.linux.org.uk>, "Christian Brauner"
- <brauner@kernel.org>, "Trond Myklebust" <trondmy@kernel.org>, "Anna
- Schumaker" <anna@kernel.org>, "Chuck Lever" <cel@kernel.org>, "Jeff Layton"
- <jlayton@kernel.org>, "Konstantin Komarov"
- <almaz.alexandrovich@paragon-software.com>, "Paulo Alcantara"
- <pc@manguebit.org>, "Chris Mason" <mason@kernel.org>, "Yuezhang Mo"
- <yuezhang.mo@sony.com>, "Jan Kara" <jack@suse.cz>, "NeilBrown"
- <neil@brown.name>, "Olga Kornievskaia" <okorniev@redhat.com>, "Dai Ngo"
- <Dai.Ngo@oracle.com>, "Tom Talpey" <tom@talpey.com>, "Ronnie Sahlberg"
- <ronniesahlberg@gmail.com>, "Shyam Prasad N" <sprasad@microsoft.com>,
- "Bharath SM" <bharathsm@microsoft.com>, "Sergey Senozhatsky"
- <senozhatsky@chromium.org>, "ChenXiaoSong" <chenxiaosong@chenxiaosong.com>,
- "Darrick J . Wong" <djwong@kernel.org>, "Sean Smith"
- <defendthedisabled@gmail.com>, "Andrey Albershteyn" <aalbersh@kernel.org>,
- "Pedro Falcato" <pfalcato@suse.de>, =?utf-8?q?Pali_Roh=C3=A1r?=
- <pali@kernel.org>, <linux-btrfs@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
- <exfat@lists.linux.dev>, <ntfs3@lists.linux.dev>,
- <linux-cifs@vger.kernel.org>, <linux-nfs@vger.kernel.org>,
- <linux-api@vger.kernel.org>
-Subject: Re: [RFC PATCH v4 01/10] vfs: add provenance time (ptime)
-From: "koraynilay" <koray.fra@gmail.com>
-To: "Amir Goldstein" <amir73il@gmail.com>, "koraynilay"
- <koray.fra@gmail.com>
-X-Mailer: aerc 0.22.0-0-gc2f86b7abde3
-References: <20261115180343.576773-1-koray.fra@gmail.com>
- <20261115180343.576773-2-koray.fra@gmail.com>
- <CAOQ4uxi+50NU8qzg+Owvr8gFZ4vYF5FqWg4Hr9vB6ONUpPsFwg@mail.gmail.com>
-In-Reply-To: <CAOQ4uxi+50NU8qzg+Owvr8gFZ4vYF5FqWg4Hr9vB6ONUpPsFwg@mail.gmail.com>
-
---37fc961d2ca56be80f03ddce209a59446815f2f70d142ce639c6d949d73f
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 9/9] mm/userfaultfd: check hugetlb end alignment in
+ UFFDIO_UNREGISTER pre-scan
+To: Tal Zussman <tz2294@columbia.edu>,
+ Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
+ Peter Xu <peterx@redhat.com>, James Houghton <jthoughton@google.com>,
+ Andrea Arcangeli <aarcange@redhat.com>,
+ Suren Baghdasaryan <surenb@google.com>, Balbir Singh <balbirs@nvidia.com>,
+ "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>, Michal Hocko <mhocko@suse.com>,
+ =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+ Andrei Vagin <avagin@gmail.com>, Muhammad Usama Anjum <usama.anjum@arm.com>,
+ Stephen Rothwell <sfr@canb.auug.org.au>, Arnd Bergmann <arnd@arndb.de>,
+ Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>,
+ Gregory Price <gourry@gourry.net>, Ying Huang
+ <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
+ Kiryl Shutsemau <kas@kernel.org>, Muchun Song <muchun.song@linux.dev>,
+ Oscar Salvador <osalvador@suse.de>,
+ =?UTF-8?Q?Miko=C5=82aj_Lenczewski?= <miko.lenczewski@arm.com>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org
+References: <20261116-uffd-state-fixes-v2-0-4397a0196479@columbia.edu>
+ <20261116-uffd-state-fixes-v2-9-4397a0196479@columbia.edu>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20261116-uffd-state-fixes-v2-9-4397a0196479@columbia.edu>
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon Nov 16, 2026 at 9:10 PM CET, Amir Goldstein wrote:
-> On Sun, Nov 15, 2026 at 7:04=E2=80=AFPM koraynilay <koray.fra@gmail.com> =
-wrote:
->>
->> Add provenance time (ptime), indicating the time when a file or
->> directory was created. This is user-settable via file_setattr() and
->> retrievable via statx(2) (using STATX_PTIME) or file_getattr().
->>
->> The semantics of when to preserve this new timestamp are the same as
->> mtime, the idea being that there is a correspondence like this:
->>
->> ctime <-> btime
->> mtime <-> ptime
->>
->> so every operation (copying, moving, ...) that currently preserves mtime
->> should also preserve ptime.
->>
->> Also add fa_xflags_mask to struct file_attr (and equivalent
->
-> That is a very big "Also" part
-> This is a significant UAPI change that needs to be delivered and
-> explained with a patch on its own.
+On 11/16/26 21:02, Tal Zussman wrote:
+> UFFDIO_REGISTER and UFFDIO_UNREGISTER both scan the VMAs of the range
+> before changing anything. For a hugetlb VMA, userfaultfd_register()
+> rejects a range whose start or end is not huge page aligned there.
+> However, userfaultfd_unregister() only checks the start.
+> 
+> An unaligned end only fails later, when vma_modify_flags_uffd() cannot
+> split the VMA there. At that point, userfaultfd_clear_vma() already
+> cleared the WP or RWP protection. The ioctl returns -EINVAL and the VMA
+> stays registered, but accesses to its pages are no longer reported. This
+> requires a caller passing a misaligned range.
+> 
+> To fix it, check the end of a registered VMA in the pre-scan as well.
+> The ioctl still returns -EINVAL, but no longer unregisters the VMAs
+> before the misaligned one first.
+> 
+> Fixes: cab350afcbc9 ("userfaultfd: hugetlbfs: allow registration of ranges containing huge pages")
+> Fixes: f369b07c8614 ("mm/uffd: reset write protection when unregister with wp-mode")
+> Signed-off-by: Tal Zussman <tz2294@columbia.edu>
 
-Right, that definitely makes more sense, I didn't think of that lol.
+Okay, I assume it's not a stable kernel, so we can fix this in a cleaner way.
 
->> fsx_xflags_mask to struct file_kattr) to let the filesystems advertise
->> their support for specific xflags and users advertise what they want to
->> change, behaving like statx.stx_attributes_mask:
->> - on GET (file_getattr): each filesystem fills the mask according to
->>   their supported xflags, e.g. FS_XFLAG_PTIME or FS_XFLAG_COWEXTSIZE,
->>   and provides the values in the corresponding struct fields;
->> - on SET (file_setattr): userspace fills the mask according to which
->>   xflags it wants to change, VFS validates this and preserves xflags
->>   that were not specified in the mask;
->> - if xflags_mask =3D=3D 0, use legacy full-struct replacement to keep
->>   compatibility with older programs.
->>
->> Furthermore, in order to avoid the legacy FS_IOC_FSSETXATTR accepting
->> FS_XFLAG_PTIME, add an FS_FILE_ATTR_XFLAGS_MASK mask to support new
->> xflags and use it in fileattr_to_file_attr()/file_attr_to_fileattr() to
->> validate that the xflags passed in xflags and xflags_mask fields are
->> valid.
->>
->> Finally, add the missing FS_XFLAG_PROJID flag, to allow userspace to set
->> the projid using file_[sg]etattr().
->
-> This part also belongs with the xflags_mask patch
+> ---
+>  mm/userfaultfd.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
+> index bf42fabb5afd..d8abc24353e1 100644
+> --- a/mm/userfaultfd.c
+> +++ b/mm/userfaultfd.c
+> @@ -3960,6 +3960,8 @@ static int userfaultfd_unregister(struct userfaultfd_ctx *ctx,
+>  	found = false;
+>  	cur = vma;
+>  	do {
+> +		const struct userfaultfd_ctx *vma_ctx = cur->vm_userfaultfd_ctx.ctx;
+> +
+>  		cond_resched();
+>  
+>  		VM_WARN_ON_ONCE(!!cur->vm_userfaultfd_ctx.ctx ^
+> @@ -3983,6 +3985,15 @@ static int userfaultfd_unregister(struct userfaultfd_ctx *ctx,
+>  		if (!vma_can_userfault(cur, cur->vm_flags, wp_async))
+>  			goto out_unlock;
+>  
+> +		/* See the check in userfaultfd_register(). */
+> +		if (vma_ctx && vma_is_hugetlb(cur) &&
 
-Ok.
+I'm not sure if we really need the vma_ctx. I'd just fail this consistently if
+someone passes hugetlb VMAs, independent of if they are registered or not.
 
->>
->> [ This is a re-implementation of the initial patch[1] by Sean Smith
->>   <defendthedisabled@gmail.com>, following the advice[2] from Darrick J.
->>   Wong <djwong@kernel.org> of using file_setattr() instead of updating
->>   utimensat() ]
->>
->> [1]: https://lore.kernel.org/20260405195007.1306-2-DefendTheDisabled@gma=
-il.com
->> [2]: https://lore.kernel.org/20260407014129.GC6192@frogsfrogsfrogs
->>
->> Assisted-by: Gemini:3.8-flash-high antigravity-cli-1.4.7
->> Signed-off-by: koraynilay <koray.fra@gmail.com>
->> ---
->>  fs/file_attr.c            | 75 +++++++++++++++++++++++++++++++++++++--
->>  fs/stat.c                 |  2 ++
->>  include/linux/fileattr.h  |  6 ++++
->>  include/linux/stat.h      |  1 +
->>  include/uapi/linux/fs.h   |  9 ++++-
->>  include/uapi/linux/stat.h |  7 +++-
->>  6 files changed, 95 insertions(+), 5 deletions(-)
->>
->> diff --git a/fs/file_attr.c b/fs/file_attr.c
->> index 833e03810b24..12610fb6a751 100644
->> --- a/fs/file_attr.c
->> +++ b/fs/file_attr.c
->> @@ -102,14 +102,23 @@ EXPORT_SYMBOL(vfs_fileattr_get);
->>  static void fileattr_to_file_attr(const struct file_kattr *fa,
->>                                   struct file_attr *fattr)
->>  {
->> -       __u32 mask =3D FS_XFLAGS_MASK;
->> +       /*
->> +        * fsx_xflags_mask contains only flags added after the
->> +        * file_[gs]etattr() API, so we need to tell userspace the files=
-ystem
->> +        * actually supports all legacy and new advertised flags
->> +        */
->> +       __u32 mask =3D (FS_XFLAGS_MASK | fa->fsx_xflags_mask) &
->> +                    FS_FILE_ATTR_XFLAGS_MASK;
->>
->>         memset(fattr, 0, sizeof(struct file_attr));
->>         fattr->fa_xflags =3D fa->fsx_xflags & mask;
->> +       fattr->fa_xflags_mask =3D mask;
->>         fattr->fa_extsize =3D fa->fsx_extsize;
->>         fattr->fa_nextents =3D fa->fsx_nextents;
->>         fattr->fa_projid =3D fa->fsx_projid;
->>         fattr->fa_cowextsize =3D fa->fsx_cowextsize;
->> +       fattr->fa_ptime_sec =3D fa->fsx_ptime.tv_sec;
->> +       fattr->fa_ptime_nsec =3D fa->fsx_ptime.tv_nsec;
->>  }
->>
->>  /**
->> @@ -141,15 +150,23 @@ EXPORT_SYMBOL(copy_fsxattr_to_user);
->>  static int file_attr_to_fileattr(const struct file_attr *fattr,
->>                                  struct file_kattr *fa)
->>  {
->> -       __u64 mask =3D FS_XFLAGS_MASK;
->> +       __u64 mask =3D fattr->fa_xflags_mask ?: FS_XFLAGS_MASK;
->> +
->> +       if (fattr->fa_xflags_mask & ~FS_FILE_ATTR_XFLAGS_MASK)
->> +               return -EINVAL;
->>
->>         if (fattr->fa_xflags & ~mask)
->>                 return -EINVAL;
->>
->>         fileattr_fill_xflags(fa, fattr->fa_xflags & ~FS_XFLAG_RDONLY_MAS=
-K);
->> +       fa->fsx_xflags_mask =3D fattr->fa_xflags_mask;
->>         fa->fsx_extsize =3D fattr->fa_extsize;
->>         fa->fsx_projid =3D fattr->fa_projid;
->>         fa->fsx_cowextsize =3D fattr->fa_cowextsize;
->> +       if (fattr->fa_xflags_mask & FS_XFLAG_PTIME) {
->> +               fa->fsx_ptime.tv_sec =3D fattr->fa_ptime_sec;
->> +               fa->fsx_ptime.tv_nsec =3D fattr->fa_ptime_nsec;
->> +       }
->>
->>         return 0;
->>  }
->> @@ -232,6 +249,23 @@ static int fileattr_set_prepare(struct inode *inode=
-,
->>             !S_ISREG(inode->i_mode) && !S_ISDIR(inode->i_mode))
->>                 return -EINVAL;
->>
->> +       if (fa->fsx_xflags_mask & FS_XFLAG_PTIME) {
->> +               if (!(old_ma->fsx_xflags_mask & FS_XFLAG_PTIME))
->> +                       return -EOPNOTSUPP;
->> +
->> +               if (!(fa->fsx_xflags & FS_XFLAG_PTIME))
->> +                       return -EINVAL;
->> +
->> +               if ((unsigned long)fa->fsx_ptime.tv_nsec >=3D NSEC_PER_S=
-EC)
->> +                       return -EINVAL;
->> +
->> +               fa->fsx_ptime =3D timestamp_truncate(fa->fsx_ptime, inod=
-e);
->> +
->> +               if (!timespec64_equal(&old_ma->fsx_ptime, &fa->fsx_ptime=
-) &&
->> +                   (fa->flags & old_ma->flags) & (FS_APPEND_FL | FS_IMM=
-UTABLE_FL))
->> +                       return -EPERM;
->
-> I don't know what this is but it looks strange.
+> +		    end <= cur->vm_end && end > cur->vm_start) {
+> +			const unsigned long vma_hpagesize = vma_kernel_pagesize(cur);
 
-That's for preserv- ok nevermind it's probably not needed anymore
-since adding fsx_xflags_mask. I'll check that too for v5.
+vma_kernel_pagesize(), yuk. :)
 
->
->> +       }
->> +
->>         /*
->>          * It is only valid to set the DAX flag on regular files and
->>          * directories on filesystems.
->> @@ -288,13 +322,41 @@ int vfs_fileattr_set(const struct mnt_idmap *idmap=
-, struct dentry *dentry,
->>         if (!err) {
->>                 /* initialize missing bits from old_ma */
->>                 if (fa->flags_valid) {
->> -                       fa->fsx_xflags |=3D old_ma.fsx_xflags & ~FS_XFLA=
-G_COMMON;
->> +                       /* FS_IOC_SETFLAGS */
->> +                       fa->fsx_xflags |=3D (old_ma.fsx_xflags & FS_XFLA=
-GS_MASK) &
->> +                                         ~FS_XFLAG_COMMON;
->>                         fa->fsx_extsize =3D old_ma.fsx_extsize;
->>                         fa->fsx_nextents =3D old_ma.fsx_nextents;
->>                         fa->fsx_projid =3D old_ma.fsx_projid;
->>                         fa->fsx_cowextsize =3D old_ma.fsx_cowextsize;
->> +                       fa->fsx_ptime =3D old_ma.fsx_ptime;
->>                 } else {
->> +                       /*
->> +                        * Preserve unmasked xflags when running file_se=
-tattr()
->> +                        * with a mask, which doesn't need a read-modify=
--write
->> +                        * so these attributes would be set to 0.
->> +                        *
->> +                        * With FS_IOC_FSSETXATTR or mask =3D=3D 0 (lega=
-cy mode)
->> +                        * this is not needed as userspace does
->> +                        * read-modify-write already.
->> +                        */
->> +                       if (fa->fsx_xflags_mask) {
->> +                               fa->fsx_xflags |=3D old_ma.fsx_xflags &
->> +                                                 ~fa->fsx_xflags_mask;
->> +                               fileattr_fill_xflags(fa, fa->fsx_xflags =
-&
->> +                                                    ~FS_XFLAG_RDONLY_MA=
-SK);
->> +                               if (!(fa->fsx_xflags_mask & FS_XFLAG_EXT=
-SIZE))
->> +                                       fa->fsx_extsize =3D old_ma.fsx_e=
-xtsize;
->> +                               if (!(fa->fsx_xflags_mask & FS_XFLAG_PRO=
-JID))
->> +                                       fa->fsx_projid =3D old_ma.fsx_pr=
-ojid;
->> +                               if (!(fa->fsx_xflags_mask & FS_XFLAG_COW=
-EXTSIZE))
->> +                                       fa->fsx_cowextsize =3D old_ma.fs=
-x_cowextsize;
->> +                       }
->>                         fa->flags |=3D old_ma.flags & ~FS_COMMON_FL;
->> +
->> +                       /* xflags not present in fsxattr */
->> +                       if (!(fa->fsx_xflags_mask & FS_XFLAG_PTIME))
->> +                               fa->fsx_ptime =3D old_ma.fsx_ptime;
->>                 }
->>
->
-> This whole flags/xflags duality needs a closer look
-> This looks a bit too complicated right now.
+> +
+> +			if (!IS_ALIGNED(end, vma_hpagesize))
+> +				goto out_unlock;
+> +		}
+> +
+>  		found = true;
+>  	} for_each_vma_range(vmi, cur, end);
+>  	VM_WARN_ON_ONCE(!found);
 
-Yes, I agree.
 
-> I don't have time to do the full review so wanted to give you the
-> main feedback first.
->
-> I'll try to get to it this week.
+Can we clean all this up into something simple like:
 
-Of course, no problem, I also still have a few kinda unrelated patches
-to work on and a fairly long list of bugs to fix (found by sashiko), so
-v5 will probably be ready this weekend/next week anyway.
+--- a/mm/userfaultfd.c
++++ b/mm/userfaultfd.c
+@@ -3669,6 +3669,19 @@ static __always_inline int validate_range(struct
+mm_struct *mm,
+ 	return validate_unaligned_range(mm, start, len);
+ }
 
-Thank you again very much.
++static bool vma_uffd_range_aligned(struct vm_area_struct *vma,
++	unsigned long start, unsigned long end)
++{
++	unsigned long size;
++
++	if (!vma_is_hugetlb(vma))
++		return true;
++
++	size = huge_page_size(hstate_vma(vma));
++	return IS_ALIGNED(max(start, vma->vm_start), size) &&
++	       IS_ALIGNED(min(end, vma->vm_end), size);
++}
++
+ static int userfaultfd_register(struct userfaultfd_ctx *ctx,
+ 				unsigned long arg)
+ {
+@@ -3747,17 +3760,6 @@ static int userfaultfd_register(struct userfaultfd_ctx *ctx,
+ 	if (!vma)
+ 		goto out_unlock;
 
-Best,
-koraynilay
+-	/*
+-	 * If the first vma contains huge pages, make sure start address
+-	 * is aligned to huge page size.
+-	 */
+-	if (vma_is_hugetlb(vma)) {
+-		unsigned long vma_hpagesize = vma_kernel_pagesize(vma);
+-
+-		if (start & (vma_hpagesize - 1))
+-			goto out_unlock;
+-	}
+-
+ 	/*
+ 	 * Search for not compatible vmas.
+ 	 */
+@@ -3774,6 +3776,8 @@ static int userfaultfd_register(struct userfaultfd_ctx *ctx,
+ 		ret = -EINVAL;
+ 		if (!vma_can_userfault(cur, vm_flags, wp_async))
+ 			goto out_unlock;
++		if (!vma_uffd_range_aligned(cur, start, end))
++			goto out_unlock;
 
-> Thanks,
-> Amir.
+ 		/*
+ 		 * RWP uses protnone as an access-tracking marker. PROT_NONE
+@@ -3797,20 +3801,6 @@ static int userfaultfd_register(struct userfaultfd_ctx *ctx,
+ 		ret = -EPERM;
+ 		if (unlikely(!(cur->vm_flags & VM_MAYWRITE)))
+ 			goto out_unlock;
+-
+-		/*
+-		 * If this vma contains ending address, and huge pages
+-		 * check alignment.
+-		 */
+-		if (vma_is_hugetlb(cur) && end <= cur->vm_end &&
+-		    end > cur->vm_start) {
+-			unsigned long vma_hpagesize = vma_kernel_pagesize(cur);
+-
+-			ret = -EINVAL;
+-
+-			if (end & (vma_hpagesize - 1))
+-				goto out_unlock;
+-		}
+ 		if ((vm_flags & VM_UFFD_WP) && !(cur->vm_flags & VM_MAYWRITE))
+ 			goto out_unlock;
 
---37fc961d2ca56be80f03ddce209a59446815f2f70d142ce639c6d949d73f
-Content-Type: application/pgp-signature; name="signature.asc"
+@@ -3920,17 +3910,6 @@ static int userfaultfd_unregister(struct userfaultfd_ctx
+*ctx,
+ 	if (!vma)
+ 		goto out_unlock;
 
------BEGIN PGP SIGNATURE-----
+-	/*
+-	 * If the first vma contains huge pages, make sure start address
+-	 * is aligned to huge page size.
+-	 */
+-	if (vma_is_hugetlb(vma)) {
+-		unsigned long vma_hpagesize = vma_kernel_pagesize(vma);
+-
+-		if (start & (vma_hpagesize - 1))
+-			goto out_unlock;
+-	}
+-
+ 	/*
+ 	 * Search for not compatible vmas.
+ 	 */
+@@ -3959,6 +3938,8 @@ static int userfaultfd_unregister(struct userfaultfd_ctx *ctx,
+ 		 */
+ 		if (!vma_can_userfault(cur, cur->vm_flags, wp_async))
+ 			goto out_unlock;
++		if (!vma_uffd_range_aligned(cur, start, end))
++			goto out_unlock;
 
-iHUEABYKAB0WIQSgVimKafU5DQMcjcDmj22qf5IGXAUCavttXQAKCRDmj22qf5IG
-XLKyAQDUbIPDnr/fz9a76CKxleC/LzaQMjyuAgz3koP+G7YFrwD/QwnPpap95GR9
-4QZordaDbvLNae5E2c5s96XsV/AKmAA=
-=1jPB
------END PGP SIGNATURE-----
+ 		found = true;
+ 	} for_each_vma_range(vmi, cur, end);
 
---37fc961d2ca56be80f03ddce209a59446815f2f70d142ce639c6d949d73f--
+-- 
+Cheers,
+
+David
