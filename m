@@ -1,54 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=101.204.27.37
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794811168;
-	b=z0faBIrRXmXP32IJrdeLl62T+o8KOHi74u4vTzX7M9MYDxvzhuOAZ0eEONy58tB8mxdN
-	 m052WQjFJY+TVhPc+i81iUo82CkLlD0oNgKGHgMaQ2oSOmVP6zOrHGDuAupT6dgNIkiWK
-	 HLVoda1GJp39EJpBltO3TuH+Yt9F66zuvMKFbwn/EPO0wavz8joRTpWN34tiWzInOxlYf
-	 UD0U08XHYmbw1hXlcFAtwb+AhMc7k2eL5DY619BFFpvfgLEMD4GFMbWpGjC2efqCWBCcN
-	 Pg49oRx7UYx8XtZWx9nyY3otZo2EIZku47PDP02raH8khaJcehB6bk4yf+QZk+On5dg==
+	t=1794811563;
+	b=SB49wEbAfgErLe/KBvaFT/Nt+T0DQRbdWZXeGfoBlbdQIVetjP7oC/QTO+FPk/YuSkxb
+	 INb3WPvbpWlmAED9vezCG0naFjiK4GcP5c68RPD5rU42Pcgijak+r87kcQuVyGxvimWhm
+	 Gopg7XuuDp6MQJCjZqxioM8R/uTxhD9BAArrBo0kd/hJtPY//dc5CynqVTdp812V9nXZt
+	 HMlGBkKMaF8afAYqXBFxpiSfj8BsxgV8BbeVOs8pWEgYwO1uUcRyPRMWJ0pXhIOtVIIZZ
+	 12Yvu8Wu7oUXesp8JeMLkwenhBBQcfzI7vWQwpZpJkzCAv/PJuIGWeuOf8T2B8/P94w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794811168;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=8+iR4niHczic0KzJmA8oF+7h1DwHaTXrdYECxI6T5P4=;
-	b=0v0PGu1aqvLBvp3g2LI6fDuHxEd1TYfX+nqWGcaujfoS/SsZzGsyyE+CDIyi9JEG4+f7
-	 FEDXbflJtH+01xTVplNmvffB09s6Xywr4ActETgK7KNr3EQJ/jRykv+AlAI/+J3Oq7qJC
-	 T/e+P4V1H6iBLhoQC3VVL8MmeQKeJqqHQgRbfO3gh+qDpCVQo9wjuvANw8GXFWRslUxBv
-	 1aHNomr0SbVrLmiDYxcGQNxFIbLItgeNBGr+jiY34FptT4BAHw93r7K47kXPniCw7eRdk
-	 J/W4vyYR7A13hh67mtqDHQCiAm09Gp0O3+29qPQipBat+YfUxxQJyN4DT9/UQ61IP3Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794811563;
+	h=DMARC-Filter:Received:Received:Received:Received:Date:From:To:CC:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To:
+	 X-Originating-IP:X-ClientProxiedBy;
+	bh=Y1QRMBakR36puGC50kkOYilGUR+cqqph7fCXotl+ai4=;
+	b=ofpI9b4XjuKPjGeymnuslO3L+MNUdEeoPdZ0Vl9+pjXGO+hPAI67jVspl+dNF/uhMQv/
+	 FOy8H7J41xE0aobl/FesX98lL0b9XUm15g7bSSYdZsr9V5dBvRNYbUkpMc2Ofp86GcTbL
+	 kebFQL2aMZmHm+Vu4jMvr/UaN5t2qCtkmNvjE9PeDQauDchG5aytVOL7/6ILzllAXYGP3
+	 DOXh+KNCpJEwH05wFcWH4awOrHqAGoh+qYCia7QJxfRXf0f+IrV2rKzJgUgTGO9un5RZe
+	 ab1qJiqwv+6kMTA7zFT3u089q0F1zxZJLT2gJrjRjZ0v3Rlz6YMcRpezra4Z80MNw+Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=MwblwEnl;
-	arc=none smtp.remote-ip=198.137.202.133
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A72A606A323;
-	Mon, 16 Nov 2026 06:39:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9A72A606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=MwblwEnl
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=8+iR4niHczic0KzJmA8oF+7h1DwHaTXrdYECxI6T5P4=; b=MwblwEnliTeyRsI0YjRVZgrHXR
-	yyQ7pmXkqc87VxwqOih58LWjUOrBxr2VQk190xsc7NakZFA8OOC4O+i4wwihOKjSCYu7IDRVctoMd
-	J2gQUXEasYYAfa81tHtXXCIa8U5iTXPOMTYv+Uxpvcv8+QDTCowl9PS+voUUTZLbU5S2oJFJj4fAR
-	Esdaq4ai2ndU6SsXRoTGtVUWrBmQux+1TZ9omxmhDNKuJIQGgX4gThBrMw6g/yLu9E27gkuFmLrZ7
-	TmWJmG2oSry9UfrJFGoM4XjZ7tVyg2EoV4P/hVkCl5kW0BGubx5srlpMquD4f0Bwc3UK8qjpldVt7
-	jEOaKbmw==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSqNC-00000001K0W-15xT;
-	Mon, 16 Nov 2026 06:39:26 +0000
-Message-ID: <2571c5d4-f7c9-43af-b6ef-12f7414d4709@infradead.org>
-Date: Sun, 15 Nov 2026 22:39:24 -0800
+	dmarc=pass header.from=hygon.cn;
+	spf=pass smtp.mailfrom=hygon.cn;
+	arc=none smtp.remote-ip=101.204.27.37
+Received: from spam01.hygon.cn (unknown [101.204.27.37])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9F8C606A323;
+	Mon, 16 Nov 2026 06:45:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B9F8C606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hygon.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hygon.cn
+Received: from maildlp1.hygon.cn (unknown [127.0.0.1])
+	by spam01.hygon.cn (Postfix) with ESMTP id 4jSdfh6B84zVcB6;
+	Mon, 16 Nov 2026 14:45:48 +0800 (CST)
+Received: from maildlp1.hygon.cn (unknown [172.23.18.60])
+	by spam01.hygon.cn (Postfix) with ESMTP id 4jSdfh1YmVzVhfS;
+	Mon, 16 Nov 2026 14:45:48 +0800 (CST)
+Received: from cncheex04.Hygon.cn (unknown [172.23.18.114])
+	by maildlp1.hygon.cn (Postfix) with ESMTPS id 8B3987756;
+	Mon, 16 Nov 2026 14:45:45 +0800 (CST)
+Received: from hsj-2U-Workstation (172.19.24.226) by cncheex04.Hygon.cn
+ (172.23.18.114) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Mon, 16 Nov
+ 2026 14:45:46 +0800
+Date: Mon, 16 Nov 2026 14:45:44 +0800
+From: Huang Shijie <huangsj@hygon.cn>
+To: Christoph Hellwig <hch@infradead.org>
+CC: <axboe@kernel.dk>, <viro@zeniv.linux.org.uk>, <brauner@kernel.org>,
+	<jack@suse.cz>, <zhongyuan@hygon.cn>, <fangbaoshun@hygon.cn>,
+	<yingzhiwei@hygon.cn>, <agruenba@redhat.com>, <mic@digikod.net>,
+	<gnoack@google.com>, <paul@paul-moore.com>, <jmorris@namei.org>,
+	<serge@hallyn.com>, <aleksa@amutable.com>, <legion@kernel.org>,
+	<david@kernel.org>, <sandeen@redhat.com>, <ebiggers@kernel.org>,
+	<linux-block@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>, <gfs2@lists.linux.dev>,
+	<linux-security-module@vger.kernel.org>, <sunjunchao@bytedance.com>,
+	<shijie8@gmail.com>
+Subject: Re: [PATCH v2 1/3] vfs: add inode iteration methods
+Message-ID: <avqmmP4dbwu4ziKz@hsj-2U-Workstation>
+References: <20261113115702.586594-1-huangsj@hygon.cn>
+ <20261113115702.586594-2-huangsj@hygon.cn>
+ <avcBTMvzFWuCkwkn@infradead.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -58,50 +68,90 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fs: porting.rst: use literal string to avoid warning
-To: Bagas Sanjaya <bagasdotme@gmail.com>, Jan Kara <jack@suse.cz>
-Cc: linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-doc@vger.kernel.org
-References: <20260924183915.400588-1-rdunlap@infradead.org>
- <hyk4puvpheleitf4kt74aamqex2ytuxpda2iki5bgzoteldf23@pccvy6sdmerx>
- <avpzSippbZRkaki9@archie.me>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <avpzSippbZRkaki9@archie.me>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <avcBTMvzFWuCkwkn@infradead.org>
+X-ClientProxiedBy: cncheex05.Hygon.cn (172.23.18.115) To cncheex04.Hygon.cn
+ (172.23.18.114)
 
-Hi Bagas,
-
-On 11/15/26 7:06 PM, Bagas Sanjaya wrote:
-> On Fri, Sep 25, 2026 at 11:32:43AM +0200, Jan Kara wrote:
->> On Thu 24-09-26 11:39:15, Randy Dunlap wrote:
->>> Avoid the docutils warning:
->>>
->>> Documentation/filesystems/porting.rst:1417: WARNING: Inline emphasis start-string without end-string. [docutils]
->>>
->>> by quoting the const pointer in literal quotation marks.
->>> (Adding a space between the '*' and the '.' also works but it looks odd.)
->>>
->>> Reported-by: kernel test robot <lkp@intel.com>
->>> Closes: https://lore.kernel.org/oe-kbuild-all/202609231806.ILZP6Fy0-lkp@intel.com/
->>> Fixes: 025756ee7b47 ("fs: port mnt_idmap() and file_mnt_idmap() to const mnt_idmap")
->>> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
->>
->> Thanks! Looks good. Feel free to add:
->>
->> Reviewed-by: Jan Kara <jack@suse.cz>
+在 Fri, Nov 13, 2026 at 04:23:40AM -0800，Christoph Hellwig 写道：
+> On Fri, Nov 13, 2026 at 07:57:00PM +0800, Huang Shijie wrote:
+> > +/*
+> > + * Unsafe iteration for internal VFS use only:
+> > + *   @ctx->iter_fn runs in atomic context with only
+> > + *   an inode existence guarantee, so it must not block
+> > + *   and must perform its own inode state checks.
+> > + *
+> > + * Return INO_ITER_RET_ABORT if the iteration stops early.
+> > + * Return INO_ITER_RET_DONE if the iteration runs to the end.
+> > + */
+> > +static inline int super_iter_inodes_unsafe(struct super_block *sb,
+> > +				struct inode_iter_context *ctx)
+> > +{
+> > +	struct inode *inode;
+> > +	int ret = INO_ITER_RET_NEXT;
+> > +
+> > +	rcu_read_lock();
+> > +	spin_lock(&sb->s_inode_list_lock);
+> > +	inode = list_prepare_entry(ctx->prev, &sb->s_inodes, i_sb_list);
+> > +
+> > +	list_for_each_entry_continue(inode, &sb->s_inodes, i_sb_list) {
 > 
-> I still see the warning on current docs-next, though. Has the patch not
-> been applied yet?
+> This is a really odd way to write a list iteration.  I also don't see
+This is for the evict_inodes() which will break and then resume the iteration.
 
-This patch went thru the filesystem tree and was merged into mainline
-today (Sunday) - Linux v7.4-rc3.
+> how the RCU lock is needed when you already hold the spinlock.
+okay. I will remove the rcu_read_lock in future.
 
--- 
-~Randy
+> 
+> I honestly don't get this "iterator.  It is trivial, the _unsafe is
+> wrong naming.  What is the point?
+What about super_iter_inodes_locked()? ore super_iter_inodes_noref()?
+
+We use this function to hide the fs systems to use the sb->s_inode_list_lock
+directly. Then we can add more code to optimize the iteration. 
+
+> 
+> > +/**
+> > + * super_iter_inodes - iterate all the cached inodes on a superblock
+> > + * @sb: superblock to iterate
+> > + * @ctx: the context which has the metadata
+> > + *
+> > + * This function iterates all cached inodes on a superblock that are not in
+> > + * the process of being initialised or torn down. It will run @ctx->iter_fn()
+> > + * with a valid, referenced inode, so it is safe for the caller to do
+> > + * anything it wants with the inode except drop the reference the iterator
+> > + * holds.
+> > + *
+> > + * Return INO_ITER_RET_DONE if the iteration runs to the end.
+> > + * Return other value if the iteration breaks.
+> > + */
+> > +int super_iter_inodes(struct super_block *sb, struct inode_iter_context *ctx)
+> 
+> This one makes a lot more sense, but the callback pattern is a bit
+> annoying as it requires to stuff all information into the context.
+> Im much of the core kernel we're slowly switching to an iterator
+> model that allows the caller to keep the state.  In this case something
+> like
+> 
+> 	struct inode_iter_contex ctx = INODE_ITER_CTX_INIT;
+> 
+> 	while ((inode = sb_inode_iter()))) {
+> 		/* do stuff */
+> 	}
+> 
+How to manage the sb->s_inode_list_lock in this code?
+
+I have no idea how to hide the sb->s_inode_list_lock in this code.
+
+
+> which should be easily possibly with this model.
+> 
+> You probably also want to split the core iterator and switching each
+> user into separate patches.
+no problem. I can split them later.
+
+Thanks
+Huang Shijie
 
