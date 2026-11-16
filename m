@@ -1,114 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794849404;
-	b=M+pYbFO2Gya75FbwT+p8bsZpGuOfgiE2W3q5RVZD1/Wu7+RzLzQABUw+yBVo6WZnXfxb
-	 iPDFmd9ziPzvoVdGBcnyH/9jFoLiqaX6EQestLL8Ey1CmiB0S0xRrrimGurNfuqdSWqhX
-	 w7ulmbG/KPXl07X33fMC88nrgt4bzUTl0aVB1M0f9ENIEdW8y00ynDaG9odgYac3XtZ5b
-	 4h9/GZK1qIjv3LPouO/BTloafbl00bQiPo2L/eRANY9ht6cULYfR8LXeV3M6aJnyMX/p2
-	 36FP6KwlqYZTeb8HUiowrjat2a5cBW/PdpbwpQ3qEy89sDOqQkEpKTEFEa/J+gVycTA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794849404;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:
-	 X-Spam-Flag:X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
-	bh=2jNZLjz45UiZbFRBgtvkN5VBQQyio25/owAOWwzhQ9Q=;
-	b=PvI/2QfiDdgpzBK4Kv6lvXMbpID+FbUDVwm4VdB3hdMifPUDbDrr17oNwljywrTC/goj
-	 5KRkVAMFS+UJYzC14O8yuv7NV1tRvMGnxE/UWfgxuwz2YTed8b9mdE3T/It5ju7YxXjHn
-	 VszvLDuJ4hnYX13uQRFERfNXO7wLQrIcN+yuNPH8anWQi/L6RpCH1zGeyyig9jLzivJY5
-	 yJPdzh/HZPFZU4Y0pfELsnt5Lpbl8WVlQp04bx3FGqHwy32vC89KFxgeZwJ1XWyw5mxHb
-	 0dN64BnLkrpDhgCAocmtVWuzlVnugRvEn/2MrxVY9tCQk1ew1NkWWgSKnkNV54G3EoQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=iVO1Jzjz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Fuo+nyMQ;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=iVO1Jzjz;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Fuo+nyMQ;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.42
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794849421;
+	b=UE06Qnrzm9gm/Z0UOiOqJLsIiGf7EtUFPnyr4DOFnHg8yb2vqg5lGmYRblsDJzUyWfsq
+	 P/QPeKDbG9bYDNWxhBWtp4/+1Bp30bw6OUHOA/vaJngXaZvXTuzKvgDQfjkEb3wlmLHbE
+	 dwzEEBSIjOXeiEMxsdG/yIWIyBmFejuRX02x9HlAbksy+1kGv8XgLgxsqJw+z6HAE2ceC
+	 1N1hkwOFvPWEONTIVsTIhJ1QMLNHB9FkdANoJq1Kr1nOuH/UgoADUBj+DhUnp/VnmwePj
+	 gr3b4YwCB0c6g5tipa4gtr+rCo2NepEMiwEkMOd8unPQXDppEYagfyBkVX0T3IdB6hQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794849421;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
+	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=cvhlwTnVB5qObUR1donDWKQFcI5lhmN3ZPbArGLp5LQ=;
+	b=yU91Vl4ZC+ZaBQYB2K+uiPpB3U0xJ6vf7Jd3AZJbLTjaXWsuWJF5X7sJQQPyiK22Fcbi
+	 W8ZxQ62xnlp9R4TlOgFjqegqMWgPt3c4b/BaPvdMiddMvM7icTGRPzbZVR56UDVaEX2rt
+	 GEi3SQNblrLPQ0wAphsLpzX85JGbC728rywhfo9cQRcdrm/0e64O7SUTwxhzeQo99Qss+
+	 FmCke9y8q1xxP+FgIVRPNtR735MCKSZFvQSN7OB4HXgCbPQGtAnWmGAEsdKvbllkiOsK1
+	 r3B4UDj5SEVkn0luVOPWY5ekiX06scOP/OPztnt6U7NDNRrXodaNBoXtVFESuR+Cw7w==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=muR038w6;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.42
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D643606A338;
-	Mon, 16 Nov 2026 17:16:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3D643606A338
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8918606A898
+	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 17:16:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D8918606A898
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=iVO1Jzjz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Fuo+nyMQ;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=iVO1Jzjz;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Fuo+nyMQ
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 2317F1F7C4;
-	Mon, 16 Nov 2026 17:16:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794849402; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2jNZLjz45UiZbFRBgtvkN5VBQQyio25/owAOWwzhQ9Q=;
-	b=iVO1JzjzibxZjBZngNFXSq6nsEm2L+NUjdtxqfB5/pA7XOKvI4Bt64FRnYqG8safLgFYaL
-	PcYRJEPxAem1s+Y9tM7Kk9EL6KsDedpBKTN122fmauqmcwB7LzQeyj2eXmfthdc3Ho+T8+
-	L1lWmWxdzChl44dJQGsFiARQSU2W9vM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794849402;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2jNZLjz45UiZbFRBgtvkN5VBQQyio25/owAOWwzhQ9Q=;
-	b=Fuo+nyMQhGcL5D1zj0ZN6TXnEvL1VhJ0seX7AwBbVWpbEksS/ILsnUD/sj24DsaY/Lp5d7
-	0LCxOgwrYmSSy6Dg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=iVO1Jzjz;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=Fuo+nyMQ
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794849402; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2jNZLjz45UiZbFRBgtvkN5VBQQyio25/owAOWwzhQ9Q=;
-	b=iVO1JzjzibxZjBZngNFXSq6nsEm2L+NUjdtxqfB5/pA7XOKvI4Bt64FRnYqG8safLgFYaL
-	PcYRJEPxAem1s+Y9tM7Kk9EL6KsDedpBKTN122fmauqmcwB7LzQeyj2eXmfthdc3Ho+T8+
-	L1lWmWxdzChl44dJQGsFiARQSU2W9vM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794849402;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2jNZLjz45UiZbFRBgtvkN5VBQQyio25/owAOWwzhQ9Q=;
-	b=Fuo+nyMQhGcL5D1zj0ZN6TXnEvL1VhJ0seX7AwBbVWpbEksS/ILsnUD/sj24DsaY/Lp5d7
-	0LCxOgwrYmSSy6Dg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EF75713408;
-	Mon, 16 Nov 2026 17:16:41 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Nw5EMnk6+2poIwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Mon, 16 Nov 2026 17:16:41 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id 7C19224E95; Mon, 16 Nov 2026 18:16:41 +0100 (CET)
-Date: Mon, 16 Nov 2026 18:16:41 +0100
-From: Jan Kara <jack@suse.cz>
-To: Partha Satapathy <partha.satapathy@oracle.com>
-Cc: Jan Kara <jack@suse.cz>, amir73il@gmail.com, viro@zeniv.linux.org.uk, 
-	brauner@kernel.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [External] : Re: [PATCH 0/1] fsnotify: Check parent watches
- without child dentry flags
-Message-ID: <z3mdow3nbrj7tvch2akviandhv5n44lqh5phb5udumhbczsnx7@7vex7u7bdg3w>
-References: <cover.1791373689.git.partha.satapathy@oracle.com>
- <qlw6x3hyky5yoievlkd6ylz3ov432hdjlzkcyboswqktnk43il@fvccpqnil5sp>
- <9499fb1a-85f2-41da-88b7-5e7de6fdff0a@oracle.com>
- <gnntcprg4f7ag7ictugnfza24nwfdmyubkuqac7plxbwtedfrz@xgxyvks3h2uv>
- <2528e790-8913-45dc-a8d5-cc22908a441e@oracle.com>
- <f9164f65-1a99-425d-b216-326de0eaee69@oracle.com>
- <4ed59752-f01b-457b-81de-be1c446f18f6@oracle.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=muR038w6
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-6b577addee9so5914739a12.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 09:16:59 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794849418; cv=none;
+        d=google.com; s=arc-20260327;
+        b=P9oE8XNEhp8Y9RxnK6CmY6NxKOgjUJfIfksFrNq85TNddzWSZrj+R5DfwViBv60LSN
+         AmW4X4t8ompDtSIlwOjkI1fRCAvNq6j3M3iLfaP+HI4hQ/Rl7x+CrqD1JY9Keee/vKBf
+         xAmUnl1N1dYwVfSEzMCSyJtBWMaVuzsUgcILhgpcKuIbY8WJ5rihf6j0CVTeSL94xBc6
+         l88SktQiLqpef99cC1+T4hHmo/qJy3XU4LvGTUayd2HlPwCPSzwQOxIHpDTBOXL8+WLN
+         qpuj0CQ8QjxaXf5jC8mqpo50jY5H0Z7wkYXfbsjANNnMRiTzmHlHm7Q5Nm3q7r38sFqP
+         Krkg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=cvhlwTnVB5qObUR1donDWKQFcI5lhmN3ZPbArGLp5LQ=;
+        fh=zNOPFOYcy+lfk4SBVKebUUYq1DkP4u2beQIW2hZQyLA=;
+        b=jMfeIUK6c5VEjd2PSsF7D3gkUwls7LFhm2QE+FKBftIddYBhDvUha67owZk4vSCd4s
+         K8JyTfCd+5WWC4+hTrInKv7qRiWpvVPNiab0BlW6J3/dW/ofWUw+wAUroFXbevlDZ0DV
+         JatYx5kpIazuVor881ZIYx7/EGf3u+5WoCMSnRvKde8BnUbM6fIQjkArpk/1+qAOEKYY
+         qOHy02NRSjT8aJ+asJ0YEoPJaq0/sqGo0/vl2sUs/XrUpvHigqf37KyDninyCZW1lqgV
+         Fo02ouDbNtv5jLFzsbO2FaDnuCFahooEYfT06ToaE6d6NXeQiD6vZXZveMrlQoOv0fPv
+         YhlA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794849418; x=1795454218; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=cvhlwTnVB5qObUR1donDWKQFcI5lhmN3ZPbArGLp5LQ=;
+        b=muR038w65/upa4T3A8TQUgAZPPu00HSp8IEYxLeziP5g7EOqEdvXR4kRn7l7HqC4oM
+         V/H7jmVddckf4li4Y0IfO1NYwf6mTpnVcEibSiDpSUGa4rmH8J48GG/AdleQHZhCXsRY
+         RKMQZVymvxJl7k97IWLEoqvjx7NjiZbQg2uAM4mR3pJQKz5WqOab8nzYhREPb/6gAZ9i
+         pBA6UOQY1B36uqzP1y0SScadwu/L0Druqoe1fQdOxwb3sdGBUZ1ThrB2CqjVL4+PzHGX
+         wt9TbJGmNBshQby+yMN9+pQ2Lz5tWQc68vsAD3w5jK3lYbmvcjKJb74HqwwAi+/L+rlV
+         RvOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794849418; x=1795454218;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=cvhlwTnVB5qObUR1donDWKQFcI5lhmN3ZPbArGLp5LQ=;
+        b=q2hQ1VxMuEa372iEjSgYEd+36wzgngNeZp8OwmMKMX7LKBUvU6BHeWtkLC363QFIqw
+         UOuwFFb/VtR8TIUHPp78pyVanRrv3jU8jLHoTiRbGPiYxuL7RLQVspwSB0t3ibcwYsdg
+         4Gadbov4wyItNv1RfV6twXy+jLV1krgvSBewSpiawH1IKm4afyE2ie4gfINQr7dePp+F
+         wh7h3/394QYFAK7FF83FG5b8p2XzfgcdJ1IjtiaGh3BH2W/pSXB82tz+f4TYgqhEGKYK
+         vE/4U9Jwzk+EhDvqRkuwxmnFBHFKKnztReYcxVoUjMgJrIiYD7kOgV84DHwVRUT/XCTS
+         cjIg==
+X-Gm-Message-State: APuU4Z8RfXUTtoGYFetTNW2nhs/8pfzspfGftFE8rp/Erq8ahaOkYNpG
+	1q+XLg4Nn6b7U5fAvlwxfMwZqKn2kX3cKgDOmI1rlfN7HXysxeCbApcyM5zDsTR/yf1RdCgT6YX
+	MwbH7tUBrn8CvviYhqSVJRhzGYQNeDu4=
+X-Gm-Gg: AYBFou027FUkXfcvwXXi0uf1TJ+5cGKzs1ybsbBlk5R3q3sdm/wL2F+c2fzE8ddCa4e
+	PMKpv4OdvQMSbZffrQYVDMUfzzrm07xdOBqS6zqeiP8uEplWsJDlQ6uG36FdGvJocWM+KBbigZz
+	5h7nQknXW4OnTz+BZcXA7TSj53ibqZXuJ1Gr9GZnb1Pu953rHmzPpsjpWtNLrzKVR0THegf6Mcf
+	nzbYtqAZyb9r5JXdeLhLulOMwAOvyEKqM7Bg6ci9FhRlSp/yegrK/F7YN+DA2GOfC0w2BgnRlqS
+	jM4I9LhOfQYNPYXwqMR6XDUaEB06gQ0KhGxqH6ip1LOiw964LAu9Z2lIGP47TW/4Id6pBtnZvCr
+	Sq88t56G5ELgTmUkFeanlRMfsuVk4P+AFowuIZcnce6282ksEiSAQE7iGXmfzNR9JtgvV/rHX7M
+	K89vGGWzt09hEIw3Y=
+X-Received: by 2002:aa7:c258:0:b0:6b7:d69a:a3d3 with SMTP id
+ 4fb4d7f45d1cf-6b7d69aa8fbmr5089335a12.39.1794849418257; Mon, 16 Nov 2026
+ 09:16:58 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -118,75 +104,224 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4ed59752-f01b-457b-81de-be1c446f18f6@oracle.com>
-X-Spamd-Result: default: False [-13.01 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_COUNT_THREE(0.00)[3];
-	ARC_NA(0.00)[];
-	URIBL_BLOCKED(0.00)[suse.cz:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_CC(0.00)[suse.cz,gmail.com,zeniv.linux.org.uk,kernel.org,vger.kernel.org];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -13.01
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 2317F1F7C4
+References: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org> <20261116-work-loop-pseudo-v3-34-8cbbea1cf34f@kernel.org>
+In-Reply-To: <20261116-work-loop-pseudo-v3-34-8cbbea1cf34f@kernel.org>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Mon, 16 Nov 2026 18:16:46 +0100
+X-Gm-Features: AclHuK_s2Kpb4OdbgPngYJl9gLHjfhlAmiJMqLtxRnpTDibz-Ni4SZJspSV9laM
+Message-ID: <CAOQ4uxjJVgy-skUbbScfz=eAEATf=iMpqRHNshX=eKu3oiwnrA@mail.gmail.com>
+Subject: Re: [PATCH RFC v3 34/44] selftests/ovl: test data-only layers on
+ pseudo filesystems
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>, 
+	Chris Mason <mason@kernel.org>, Josef Bacik <josef@toxicpanda.com>, Christoph Hellwig <hch@lst.de>, 
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Jan Kara <jack@suse.cz>, linux-scsi@vger.kernel.org, target-devel@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-mm@kvack.org, bpf@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
+	apparmor@lists.ubuntu.com, linux-nfs@vger.kernel.org, netdev@vger.kernel.org, 
+	fuse-devel@lists.linux.dev, linux-efi@vger.kernel.org, 
+	xen-devel@lists.xenproject.org, ocfs2-devel@lists.linux.dev, 
+	linux-s390@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	linux-usb@vger.kernel.org, linux-erofs@lists.ozlabs.org, 
+	linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri 06-11-26 12:10:50, Partha Satapathy wrote:
-> On 22-10-2026 13:17, Partha Satapathy wrote:
-> > On 13-10-2026 12:08, Partha Satapathy wrote:
-> >> Please compile : fsnotify_parent_ref_bench.c -o
-> >> fsnotify_parent_ref_bench. After that
-> >> run the script ./run_parent_ref_scale.sh
-> >>
-> >> Thanks
-> >> Partha
-> > 
-> > Hi Honza,
-> > 
-> > A gentle ping on the benchmark program, Have you had a chance to try it
-> > on your setup? Please let me know if any further tests or information
-> > would be helpful.
-> > 
-> > Thanks,
-> > Partha
-> 
-> 
-> 
-> Hi Honza,
-> 
-> Have you had a chance to try the benchmark on your setup? Please let me
-> know if you need any further tests from my side to move this patch forward.
+On Mon, Nov 16, 2026 at 12:10=E2=80=AFPM Christian Brauner <brauner@kernel.=
+org> wrote:
+>
+> Add tests that overlayfs refuses data-only layers on pseudo filesystems:
+>
+> - sysfs and procfs via the "::" separator in "lowerdir=3D"
+> - sysfs and procfs via "datadir+" by path
+> - sysfs and procfs via "datadir+" by file descriptor
+> - tmpfs as data-only layer
+> - sysfs as regular lower layer
+>
+> The last two must keep mounting.
+>
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-I'm sorry for the delay. I didn't get to this yet because with the firehose
-of LLM generated reports & fixes things get postponed. But I'm looking into
-this now.
+Reviewed-by: Amir Goldstein <amir73il@gmail.com>
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> ---
+>  .../selftests/filesystems/overlayfs/.gitignore     |   1 +
+>  .../selftests/filesystems/overlayfs/Makefile       |   1 +
+>  .../filesystems/overlayfs/pseudo_datadir.c         | 131 +++++++++++++++=
+++++++
+>  3 files changed, 133 insertions(+)
+>
+> diff --git a/tools/testing/selftests/filesystems/overlayfs/.gitignore b/t=
+ools/testing/selftests/filesystems/overlayfs/.gitignore
+> index b343cc430051d..e1410fee2269d 100644
+> --- a/tools/testing/selftests/filesystems/overlayfs/.gitignore
+> +++ b/tools/testing/selftests/filesystems/overlayfs/.gitignore
+> @@ -3,3 +3,4 @@ dev_in_maps
+>  set_layers_via_fds
+>  idmapped_mounts
+>  automount_in_layer
+> +pseudo_datadir
+> diff --git a/tools/testing/selftests/filesystems/overlayfs/Makefile b/too=
+ls/testing/selftests/filesystems/overlayfs/Makefile
+> index 382a59bda5e70..ace75f5627e0f 100644
+> --- a/tools/testing/selftests/filesystems/overlayfs/Makefile
+> +++ b/tools/testing/selftests/filesystems/overlayfs/Makefile
+> @@ -10,6 +10,7 @@ TEST_GEN_PROGS :=3D dev_in_maps
+>  TEST_GEN_PROGS +=3D set_layers_via_fds
+>  TEST_GEN_PROGS +=3D idmapped_mounts
+>  TEST_GEN_PROGS +=3D automount_in_layer
+> +TEST_GEN_PROGS +=3D pseudo_datadir
+>
+>  include ../../lib.mk
+>
+> diff --git a/tools/testing/selftests/filesystems/overlayfs/pseudo_datadir=
+.c b/tools/testing/selftests/filesystems/overlayfs/pseudo_datadir.c
+> new file mode 100644
+> index 0000000000000..3b59fd3e9f5c2
+> --- /dev/null
+> +++ b/tools/testing/selftests/filesystems/overlayfs/pseudo_datadir.c
+> @@ -0,0 +1,131 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +#define _GNU_SOURCE
+> +
+> +#include <errno.h>
+> +#include <fcntl.h>
+> +#include <sched.h>
+> +#include <stdbool.h>
+> +#include <stdio.h>
+> +#include <sys/mount.h>
+> +#include <sys/stat.h>
+> +#include <unistd.h>
+> +
+> +#include "kselftest_harness.h"
+> +#include "../wrappers.h"
+> +
+> +static int setup_tmp(void)
+> +{
+> +       if (unshare(CLONE_NEWNS))
+> +               return -errno;
+> +       if (sys_mount(NULL, "/", NULL, MS_REC | MS_PRIVATE, NULL))
+> +               return -errno;
+> +       if (sys_mount("tmpfs", "/tmp", "tmpfs", 0, NULL))
+> +               return -errno;
+> +       if (mkdir("/tmp/lower", 0755) || mkdir("/tmp/data", 0755) ||
+> +           mkdir("/tmp/merged", 0755))
+> +               return -errno;
+> +       return 0;
+> +}
+> +
+> +/* Mount an overlayfs with the legacy "lowerdir=3D" option. */
+> +static int mount_lowerdir(const char *lowerdir)
+> +{
+> +       char opts[256];
+> +
+> +       snprintf(opts, sizeof(opts), "lowerdir=3D%s", lowerdir);
+> +       if (sys_mount("overlay", "/tmp/merged", "overlay", MS_RDONLY, opt=
+s))
+> +               return -errno;
+> +       if (umount2("/tmp/merged", 0))
+> +               return -errno;
+> +       return 0;
+> +}
+> +
+> +static int set_layer(int fd_context, const char *key, const char *path,
+> +                    bool by_fd)
+> +{
+> +       int fd, ret =3D 0;
+> +
+> +       if (!by_fd) {
+> +               if (sys_fsconfig(fd_context, FSCONFIG_SET_STRING, key, pa=
+th, 0))
+> +                       return -errno;
+> +               return 0;
+> +       }
+> +
+> +       fd =3D open(path, O_DIRECTORY | O_CLOEXEC);
+> +       if (fd < 0)
+> +               return -errno;
+> +       if (sys_fsconfig(fd_context, FSCONFIG_SET_FD, key, NULL, fd))
+> +               ret =3D -errno;
+> +       close(fd);
+> +       return ret;
+> +}
+> +
+> +/* Create an overlayfs with "lowerdir+" and "datadir+" through fsconfig.=
+ */
+> +static int fsmount_layers(const char *lower, const char *data, bool by_f=
+d)
+> +{
+> +       int fd_context, fd_mnt, ret;
+> +
+> +       fd_context =3D sys_fsopen("overlay", FSOPEN_CLOEXEC);
+> +       if (fd_context < 0)
+> +               return -errno;
+> +
+> +       ret =3D set_layer(fd_context, "lowerdir+", lower, by_fd);
+> +       if (ret)
+> +               goto out;
+> +       ret =3D set_layer(fd_context, "datadir+", data, by_fd);
+> +       if (ret)
+> +               goto out;
+> +
+> +       if (sys_fsconfig(fd_context, FSCONFIG_CMD_CREATE, NULL, NULL, 0))=
+ {
+> +               ret =3D -errno;
+> +               goto out;
+> +       }
+> +
+> +       fd_mnt =3D sys_fsmount(fd_context, FSMOUNT_CLOEXEC, 0);
+> +       if (fd_mnt < 0)
+> +               ret =3D -errno;
+> +       else
+> +               close(fd_mnt);
+> +out:
+> +       close(fd_context);
+> +       return ret;
+> +}
+> +
+> +TEST(datadir_sysfs)
+> +{
+> +       ASSERT_EQ(setup_tmp(), 0);
+> +
+> +       EXPECT_EQ(mount_lowerdir("/tmp/lower::/sys/kernel"), -EINVAL);
+> +       EXPECT_EQ(fsmount_layers("/tmp/lower", "/sys/kernel", false), -EI=
+NVAL);
+> +       EXPECT_EQ(fsmount_layers("/tmp/lower", "/sys/kernel", true), -EIN=
+VAL);
+> +}
+> +
+> +TEST(datadir_procfs)
+> +{
+> +       ASSERT_EQ(setup_tmp(), 0);
+> +
+> +       EXPECT_EQ(mount_lowerdir("/tmp/lower::/proc"), -EINVAL);
+> +       EXPECT_EQ(fsmount_layers("/tmp/lower", "/proc", false), -EINVAL);
+> +       EXPECT_EQ(fsmount_layers("/tmp/lower", "/proc", true), -EINVAL);
+> +}
+> +
+> +TEST(datadir_tmpfs)
+> +{
+> +       ASSERT_EQ(setup_tmp(), 0);
+> +
+> +       EXPECT_EQ(mount_lowerdir("/tmp/lower::/tmp/data"), 0);
+> +       EXPECT_EQ(fsmount_layers("/tmp/lower", "/tmp/data", false), 0);
+> +       EXPECT_EQ(fsmount_layers("/tmp/lower", "/tmp/data", true), 0);
+> +}
+> +
+> +TEST(lowerdir_sysfs)
+> +{
+> +       ASSERT_EQ(setup_tmp(), 0);
+> +
+> +       EXPECT_EQ(mount_lowerdir("/sys/kernel:/tmp/lower"), 0);
+> +       EXPECT_EQ(mount_lowerdir("/sys/kernel::/tmp/data"), 0);
+> +       EXPECT_EQ(fsmount_layers("/sys/kernel", "/tmp/data", false), 0);
+> +       EXPECT_EQ(fsmount_layers("/sys/kernel", "/tmp/data", true), 0);
+> +}
+> +
+> +TEST_HARNESS_MAIN
+>
+> --
+> 2.53.0
+>
