@@ -1,34 +1,34 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=46.30.189.100
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794869015;
-	b=mkHYwcBDiKyeB72fC57wvUc8ABx9Juz/ZLdJ4ACcxm8BNRuRpUx1RiCVx8SGtK9wyKHE
-	 4rXTAzGnWXKGh5LMMiyyj9ia25cDXtcdQFSDPEd0yccvaUhwKiMkL7hIE7uxR+rs83FlB
-	 bAdsfqyPdj0bVi3fdOI3pwMqcxbvOaoLReDR8cCo06xI2ULvHVRi1NB2GR14EGe85yAYL
-	 dGerL8BigoJCKwrcXy1BNMD0PTxgxIXhf2+Dc7I1vJtn6WjyVRdjvcRhomkilERtSXaje
-	 S8eBcTnHEauNob/+0ohrszCLCJRwoCkIhhS26rgTpvI9U2pxPgkO5CXUTCCd+xPuxcQ==
+	t=1794869016;
+	b=4h3V9GKiLkgFdMMHXEGNEnLq/G14KERPDJX7hk6BCv3OzTAKdpoYsX7r/Vb4WxaBPrjS
+	 8z1gZ2PzAZp85AM4vKakZ0meW4+uZUcSUkNLO59hv7A5NUqEfRXhPl7hWr4vKBFjLb+8R
+	 LS+gtQ9k5/XBOrKuMB+vXGNCoby5hw9JOLFkT7uewLXZw7Ssdh0nu3UjQ5hZiAtqPbCK5
+	 Rz4rHtQHqnGsvy50JLaGIIELNaP+jX35R+vgqGjuzEm78lamE0ub2nLA/Qtms5tKYVUcq
+	 IaXrrg8tOUW9MG3ow7m6JTI9vJzwKehgOtOQ4BoDJIivz9aR7imhtBsLZBfELYpbF/w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794869015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794869016;
 	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=RI2I0K6jbVCh/K449T6prvNDKlTyoHgfMjf3B13RKuY=;
-	b=HIkCw7pyd/xEDm6tAw2IznS2ZQRfqVrkkn1QRAKG1I8uLae2gAGs5Wax/089wnbteTZy
-	 0E/U7fZ2ONh3j5kRoBOpAE5nS82+86J0qEESgrNmQQYulXSxRL+KzTenkZq8Pr9qy7PB/
-	 KP7zESvxGp5o3h7ZkHuPN/CKt/jHvn6euM2eYIvjj32mUd4axaxmFKiQDOwOcvoDSyw2S
-	 14WMH5A56+jtGFhL1xz0oZkQz1D1kxtYlaoZ+b5AfXuGriAJMofBSXHeyndXcDCMEYR76
-	 hQDNct7W43HMiWS7uAN7Gs++LkP7H8M29V25RzPy43u218PkLkUJjvTz4PiB9+zI7RQ==
+	bh=6KY2FKP+FBfUQwA57M/uE9a8s4UDJI0J/zaSKYPKyLc=;
+	b=GJ3EZ0dt8CS5MIdnDNXL20KKFFtnLaR8bKuVoPqAAOHrY8+iMlJSGn2TUhdiR2nnU91M
+	 oFnMfnSth6ym8VKGgOR4N5rJzz34GCDzXzF5elFVA7cb6r5XhGr8aRpTUVRgrNJp0pLAZ
+	 wQm1Pntp5ABL8frOw/F1JWWIvLU/KPjQUvZR9f8fXXc72+6DqcpBlCj4P7M9IziHN1OYR
+	 YIGNSS8zhtm3GZdCRbiLDmE6Te2JFhp6XTHJuWWvGpfhEc/H1Si7lkipeRXZ/TwH1ztaU
+	 yOyahfME83Nl93kgwhjfiYAmBmZuUVwPU4l6hM5F+tUsbKIBzct4JPlJbMQxkRqKzig==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=iodev.co.uk;
 	spf=pass smtp.mailfrom=iodev.co.uk;
 	arc=none smtp.remote-ip=46.30.189.100
 Received: from iodev.co.uk (iodev.co.uk [46.30.189.100])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47B21606A332;
-	Mon, 16 Nov 2026 22:43:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 47B21606A332
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 657E4606A329;
+	Mon, 16 Nov 2026 22:43:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 657E4606A329
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=iodev.co.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iodev.co.uk
 Received: from localhost (unknown [79.116.217.174])
-	by iodev.co.uk (Postfix) with ESMTPSA id 85E525E22D5;
-	Mon, 16 Nov 2026 23:43:34 +0100 (CET)
+	by iodev.co.uk (Postfix) with ESMTPSA id B31B05E22D3;
+	Mon, 16 Nov 2026 23:43:29 +0100 (CET)
 From: Ismael Luceno <ismael@iodev.co.uk>
 To: linux-kernel@vger.kernel.org
 Cc: Ismael Luceno <ismael@iodev.co.uk>,
@@ -37,9 +37,9 @@ Cc: Ismael Luceno <ismael@iodev.co.uk>,
 	Christian Brauner <brauner@kernel.org>,
 	Jan Kara <jack@suse.cz>,
 	linux-fsdevel@vger.kernel.org (open list:FILESYSTEMS (VFS and infrastructure))
-Subject: [PATCH 3/8] init: let filesystems ask whether they are mounting the root device
-Date: Mon, 16 Nov 2026 23:43:19 +0100
-Message-ID: <20261116224316.11237-13-ismael@iodev.co.uk>
+Subject: [PATCH 2/8] init: mount devtmpfs before the root filesystem
+Date: Mon, 16 Nov 2026 23:43:18 +0100
+Message-ID: <20261116224316.11237-12-ismael@iodev.co.uk>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261116224316.11237-10-ismael@iodev.co.uk>
 References: <20261116224316.11237-10-ismael@iodev.co.uk>
@@ -54,90 +54,52 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-A filesystem that wants to treat the root mount differently from any
-other mount has no way to tell which one it is being asked for, and no
-way to find out how long the user is willing to wait for it.  Expose
-both.
+devtmpfs is mounted after the root filesystem, which leaves the root
+mount with no /dev nodes to look devices up by.  A filesystem that has
+to open block devices other than the one it was given has nothing to
+open them by, and without an initrd there is no userspace around to
+create the nodes either.
 
-root_wait becomes a global so a filesystem can read the value the user
-gave rootwait=, and is_root_dev() reports whether a device is the one
-the root filesystem is being mounted from.  mount_root() is the only
-thing that mounts from /dev/root, and that name exists for the root
-mount alone, so a filesystem handed that device is being asked to be
-the root filesystem.
+Mount it on the initial root before the root filesystem is mounted, so
+the root filesystem can resolve device paths.  This is what lets a
+multi-device btrfs root assemble itself with no initrd to run the
+device scanner.
 
-No behaviour changes.  This is here so a filesystem can act on the
-root mount, which btrfs does next.
+This mount is on the initial root and goes away with it at the pivot,
+so the existing mount after mount_root() is kept: that is the one that
+ends up in the new root.
+
+This is only needed by the btrfs root device scan, so it is done only when
+CONFIG_BTRFS_ROOT_SCAN is set; without it boot is unchanged.
 
 Signed-off-by: Ismael Luceno <ismael@iodev.co.uk>
 Signed-off-by: Ismael Luceno <iluceno@suse.de>
 ---
- include/linux/root_dev.h | 14 ++++++++++++++
- init/do_mounts.c         | 18 +++++++++++++++++-
- 2 files changed, 31 insertions(+), 1 deletion(-)
+ init/do_mounts.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/include/linux/root_dev.h b/include/linux/root_dev.h
-index 847c9a06101b..b5a0181d1967 100644
---- a/include/linux/root_dev.h
-+++ b/include/linux/root_dev.h
-@@ -15,4 +15,18 @@ #define _ROOT_DEV_H_
- 
- extern dev_t ROOT_DEV;
- 
-+/*
-+ * Milliseconds to wait for the root device, from the rootwait= parameter.
-+ * Negative means wait indefinitely, zero means do not wait.
-+ */
-+extern int root_wait;
-+
-+/*
-+ * True if @dev is the device the root filesystem is being mounted from, or
-+ * was mounted from.  The root mount names the device /dev/root, which is
-+ * created for it alone, so a filesystem can tell the root mount from any
-+ * other it is asked to do.
-+ */
-+bool is_root_dev(dev_t dev);
-+
- #endif
 diff --git a/init/do_mounts.c b/init/do_mounts.c
-index febcc37f9128..f1dcb18201eb 100644
+index b088021b1546..febcc37f9128 100644
 --- a/init/do_mounts.c
 +++ b/init/do_mounts.c
-@@ -30,9 +30,9 @@
+@@ -480,6 +480,20 @@ #define CIFSROOT_RETRY_MAX	5
  
- int root_mountflags = MS_RDONLY | MS_SILENT;
- static char __initdata saved_root_name[64];
--static int root_wait;
- 
- dev_t ROOT_DEV;
-+int root_wait;
- 
- static int __init readonly(char *str)
- {
-@@ -372,10 +372,26 @@ #define CIFSROOT_RETRY_MAX	5
- 		pr_emerg("Failed to create /dev/root: %d\n", err);
- 	mount_root_generic("/dev/root", root_device_name, root_mountflags);
- }
+ 	if (root_wait)
+ 		wait_for_root(saved_root_name);
 +
-+/*
-+ * Was the filesystem on @dev mounted as the root filesystem?  mount_root()
-+ * above is the only thing that mounts from /dev/root, and that name is given
-+ * to the root mount alone, so a filesystem being handed that device is being
-+ * asked to be the root filesystem.
-+ */
-+bool is_root_dev(dev_t dev)
-+{
-+	return dev && dev == ROOT_DEV;
-+}
- #else
- static inline void mount_block_root(char *root_device_name)
- {
- }
++	/*
++	 * Mount devtmpfs before the root filesystem, so that the filesystem
++	 * mounting it can look devices up by path.  A multi-device btrfs root
++	 * needs this: it has to open its other devices to assemble the
++	 * filesystem, and there is no userspace around to create the nodes.
++	 *
++	 * This one is on the initial root and goes away with it below; the
++	 * mount after mount_root() is the one that sticks around.  Only the
++	 * btrfs root device scan needs it.
++	 */
++	if (IS_ENABLED(CONFIG_BTRFS_ROOT_SCAN))
++		devtmpfs_mount();
 +
-+static inline bool is_root_dev(dev_t dev)
-+{
-+	return false;
-+}
- #endif /* CONFIG_BLOCK */
+ 	mount_root(saved_root_name);
+ 	devtmpfs_mount();
  
- void __init mount_root(char *root_device_name)
