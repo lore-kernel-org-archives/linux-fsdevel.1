@@ -1,67 +1,74 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794839957;
-	b=bB6PZVcmSYCTCZ7ErwOwn4sgsi9FyqKtnL+Og9PSXxKxioFoldp0IZIm5NMygL4ey4Iv
-	 eV5U1rRqO+Jqu+s2f8q6QUDNNGEy1YTLzBqtO95blbIqkMPooYEyPFl4t1E85m/+AFGcX
-	 JK/Eujqk7Zp6VQLUrFCuYwcXDijNVABKubTZA0yEoKNpcwU4JigoxlgGK/VmKryFcQxVD
-	 JNg/l//4cB6N2sJuzgMXWvtSBp66r8ZNvwbE1/eyenBX7SXkzZVZO9zpqQ/mCbd+q1ScD
-	 +m4DnLnMqtmP46FoTkuNh4Ctj3f94IBe3ytgLG00HglnP328fh1dspLxycvLpqSf7Kg==
+	t=1794840117;
+	b=D+AqMbuSDM2/58JjJmfq8wpUHc2VXn+3yvglAeC6EJUTNu+QlheiGJGjDNzkiK/XKDmv
+	 R9GNJOOvF+rKyC5Mx9UNeAZexBzKCkXLONIK/6/deKohdRESPEsR03Kdb463OutyChULy
+	 S6MLtPSyLUAUkzu82ZOMH8BA8RJNN2xZlVxcrOjC8oXLZktp3vLN1zA3tB+cEPB1yzPQW
+	 IvelvFVbSAInANgzE4G5TBQhU2zG9eXKXO3nYJ/iEZvKd46r6jWx2oVMkTZY/BRj/ldyQ
+	 5kOGGGGaPbRvu76opIiU5Zz4NRC75gwRnBCRmOwnb6FV5p2RVU302q58/ihOMCzUpUw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794839957;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794840117;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=zaV0Mc91b6CKg4KWF+urKTxUfs1lgeRdWbePAyfuXo0=;
-	b=LppS89trjOfodwzfesnUmX7RB5CvC0knPJpzPmcz6D9QnNrZt1heYlaYBUJkIGfGnSSL
-	 7yirqFly8URy7vQHWjXPrCwJKWuhLyeZ7NTCUHT9fzhj9BCELjTZVEqDCKs+H9KuWVefj
-	 ZcKu8HUvmSwFXpf1wG4mgF+VvdOyMO8g/kwFjeBaP3mm2U/bhlBmSvDT1YOhKkZqzeBOn
-	 JtMW39Ckvgve/95nk049SE1u3IVgnx2L495v61DF+obwGnb7qEsjf9I0sJww3d1SgYN+w
-	 iMbOql7LTisKZs5w+PJ0LmHpgLn4WbjFGalC8nY57AY7rQE/MB4t53gXYRz30DI4yyw==
+	bh=d2rB/nwDdGI8ixOlr0EOUE2EFObaBqdL/DrhKi+letk=;
+	b=LllKCkzhZwf/D0hmHSzwx9iQxrXgpjoFGDZFAtIItHczATZvCBf+KcVWdttD7hwDwRQ1
+	 MNhUkTflVIermMAG/qyXNnzWCZXRMGa6DwUR8D47yk17JqIzw9FOqlnRZmcCIGpJkz2rz
+	 nWZXX2b6XBwICmqnHcBefXVWaamXGk9f0ZP8/UJYkjflpeWsaddbKQovI7Pc/B0L2AYSZ
+	 Kver/rrd+suhQC73Ly7Yl2qONZOs2NkPWd4QGt/eZnG3JQS008HhzVuJmY7folEvniHhq
+	 B4DfCQBStfV/5xjK7sRKOoTqvvOE8UhiO5P7DWactcoLGUdvAf6/QxblFoJ1AM4yHqg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EaRMq2m2;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XJTL9SJk;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9017F606A323;
-	Mon, 16 Nov 2026 14:39:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46C8F606A31C;
+	Mon, 16 Nov 2026 14:41:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EaRMq2m2
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B5801F000C4;
-	Mon, 16 Nov 2026 14:39:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XJTL9SJk
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4CBD1F000C4;
+	Mon, 16 Nov 2026 14:41:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794839957;
-	bh=zaV0Mc91b6CKg4KWF+urKTxUfs1lgeRdWbePAyfuXo0=;
+	s=k20260515; t=1794840117;
+	bh=d2rB/nwDdGI8ixOlr0EOUE2EFObaBqdL/DrhKi+letk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=EaRMq2m2x8jWy+QEyQwyoS2VonziEIMIjWzpXQWDwpLWOJn/6DOF5tMKcwGpB0Noa
-	 cKc4RmY6MsAZk6g0G6xWmKeYYu9ZA6RsEvHqXJqUyy8jKT5WpjCn5oeN2i6DS8vOep
-	 muS1n3gDgb24Jja8D0CiDdJ2RO9rLtoNho73cQAfnTYaDcYnHjRY/J6jRPrRbutbZN
-	 dC0GpBwgWC0Erd+9bfYNTNQmIS4CrcDZzbMh2tgBZerpm7IxNBI077/33U3a/R02Nn
-	 eD3cCvMsJM7eXAUgC+LCTBg/bIu1wDOyOhz/kyqtqfANErgbwxe/2W65Nuy4ZauM63
-	 HcuuRoxdJuRIw==
-Date: Mon, 16 Nov 2026 14:39:07 +0000
+	b=XJTL9SJk+Cy08wdednhz6VQ6SSMcVaNLKQlMBd67ucoGoTl40lG4v55tbaFyENQVL
+	 IP5IlAucXgH1SN08irBinexfvsJNx8ulpjPdGehXaNGAUDw3rRgTfy2lQ/blIeTUmv
+	 nw7td/3MFFkpqEV9Zq7s6xMTyWiy6BaBDSMs8/I6nZ2Tk/XF5q6BjKpMEeI+6zjRXg
+	 2ye3z7v4ATUn2RU9QoMSWaGiJWdNcR8h0jGtKhHwc2OpI0wsMnE3Y7Xk8NeMl7aOqn
+	 Uvf/Tt+q/62nl1bK8/w95YiTDDq0AVWsV7PL/SyiS7OOA502VghnC9aqOOgcx4oJUD
+	 z8HweZmET6MLw==
+Date: Mon, 16 Nov 2026 14:41:45 +0000
 From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Peter Xu <peterx@redhat.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Zi Yan <ziy@nvidia.com>, 
+To: Tal Zussman <tz2294@columbia.edu>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Mike Rapoport <rppt@kernel.org>, Peter Xu <peterx@redhat.com>, 
+	James Houghton <jthoughton@google.com>, Andrea Arcangeli <aarcange@redhat.com>, 
+	Suren Baghdasaryan <surenb@google.com>, Balbir Singh <balbirs@nvidia.com>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	=?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>, Andrei Vagin <avagin@gmail.com>, 
+	Stephen Rothwell <sfr@canb.auug.org.au>, Arnd Bergmann <arnd@arndb.de>, 
+	Muhammad Usama Anjum <usama.anjum@arm.com>, David Hildenbrand <david@kernel.org>, Zi Yan <ziy@nvidia.com>, 
+	Matthew Brost <matthew.brost@intel.com>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
+	Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
+	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
 	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
 	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
 	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] mm/userfaultfd: prevent poison marker loss
-Message-ID: <avsVP96p3EeK4TBZ@gremlin>
-References: <20261107-b4-uffd_marker_loss-v1-0-82926b22704c@kernel.org>
- <20261107-b4-uffd_marker_loss-v1-1-82926b22704c@kernel.org>
- <avij463DZ_tSwgKy@gremlin>
- <02e6240c-78ac-48a2-8bf8-36a2327e9de8@kernel.org>
+	Kiryl Shutsemau <kas@kernel.org>, Chris Down <chris@chrisdown.name>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	=?utf-8?Q?Miko=C5=82aj?= Lenczewski <miko.lenczewski@arm.com>, Michal Hocko <mhocko@suse.com>, 
+	Mike Kravetz <mike.kravetz@oracle.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 04/12] mm/migrate: keep the uffd bit when restoring a
+ writable migration entry
+Message-ID: <avsV68cP0rp5mWSf@gremlin>
+References: <20261111-uffd-state-fixes-v1-0-00713d368976@columbia.edu>
+ <20261111-uffd-state-fixes-v1-4-00713d368976@columbia.edu>
+ <avYG7CtQ52v3I8tF@gremlin>
+ <f28dc841-f664-4f97-9dd7-bffd2825115e@columbia.edu>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -73,147 +80,114 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <02e6240c-78ac-48a2-8bf8-36a2327e9de8@kernel.org>
+In-Reply-To: <f28dc841-f664-4f97-9dd7-bffd2825115e@columbia.edu>
 
-On Mon, Nov 16, 2026 at 03:26:33PM +0100, David Hildenbrand (Arm) wrote:
-> On 11/14/26 19:40, Lorenzo Stoakes (ARM) wrote:
-> > On Sat, Nov 07, 2026 at 12:51:05AM +0100, David Hildenbrand (Arm) wrote:
-> >> Unregistering userfaultfd leaves poison markers in the page tables.
-> >> However, once unregistered, hugetlb PMD tables can be shared again.
-> >>
-> >> Further, shmem page-table retraction can discard poison markers even
-> >> while registered in missing mode, and fork() can skip copying page
-> >> tables containing poison markers.
-> >>
-> >> To fix it, add VM_MAYBE_UFFD_POISON and set it before installing poison
-> >> markers. Preserve it across unregistration, splits, merges and fork(),
-> >> just like we do with guard markers.
-> >>
-> >> Use the new atomic VMA flag to disable PMD sharing and page-table
-> >> retraction, and to force page-table copying during fork().
-> >>
-> >> Move VM_UFFD_WP to bit 44 and make HAVE_ARCH_USERFAULTFD_WP depend on
-> >> 64BIT, freeing bit 12 for the new flag on both 32-bit and 64-bit systems.
-> >> Expose the flag as "up" in smaps.
-> >>
-> >> Losing poison markers, while unpleasant, is not really fatal, and the
-> >> use case is rather a niche thing. In addition, we rely on the atomic
-> >> VMA flags infrastructure ... so let's not CC stable.
-> >>
-> >> Fixes: fc71884a5f59 ("mm: userfaultfd: add new UFFDIO_POISON ioctl")
-> >> Fixes: 8a13897fb0da ("mm: userfaultfd: support UFFDIO_POISON for hugetlbfs")
+On Fri, Nov 13, 2026 at 04:59:39PM -0500, Tal Zussman wrote:
+> On 11/12/26 1:44 PM, Lorenzo Stoakes (ARM) wrote:
+> > On Wed, Nov 11, 2026 at 12:55:12PM -0500, Tal Zussman wrote:
+> >> remove_migration_pte() makes the restored PTE writable for a writable
+> >> migration entry, and only looks at the uffd bit of the entry otherwise.
+> >> A writable migration entry that has the uffd bit set is therefore
+> >> restored as a writable PTE without the uffd bit, and the page is no
+> >> longer write-protected.
 > >
-> > Are we looking to cc: stable or this something for newer kernels only?
->
-> Per above:
->
-> "Losing poison markers, while unpleasant, is not really fatal, and the
-> use case is rather a niche thing. In addition, we rely on the atomic
-> VMA flags infrastructure ... so let's not CC stable."
->
-> We cannot really backport to the pre MADV_GUARD fixes that handle the atomic flag correctly.
-
-True!
-
->
-> We could easily backport to stable kernels that have it.
->
-> Thoughts?
-
-Yeah, I think it's fine not to cc: stable on the basis of the above, but if we
-do we can limit to ones that have that fix.
-
-OTOH this is adding an entirely new thing (new atomic VMA flag etc.) that
-probably isn't best suited to a stable backport anyway.
-
-So I am fine with it not being cc-stable at all, thanks!
-
->
->
-> [...]
->
-> >>  #define VM_LOCKED	INIT_VM_FLAG(LOCKED)
-> >>  #define VM_IO		INIT_VM_FLAG(IO)
-> >>  #define VM_SEQ_READ	INIT_VM_FLAG(SEQ_READ)
-> >> @@ -502,13 +508,17 @@ enum {
-> >>  #endif
-> >>
-> >>  /*
-> >> - * vma_flags_t masks for the userfaultfd VMA flags. The two high-bit modes are
-> >> - * gated on the same configs as their VM_* flags above -- both of which imply
-> >> + * vma_flags_t masks for the userfaultfd VMA flags. The three high-bit modes are
-> >> + * gated on the same configs as their VM_* flags above -- all of which imply
-> >>   * 64BIT -- so an out-of-range bit is never fed to mk_vma_flags() on a build
-> >>   * whose bitmap cannot hold it.
-> >>   */
-> >>  #define VMA_UFFD_MISSING	mk_vma_flags(VMA_UFFD_MISSING_BIT)
-> >> +#ifdef CONFIG_HAVE_ARCH_USERFAULTFD_WP
-> >>  #define VMA_UFFD_WP		mk_vma_flags(VMA_UFFD_WP_BIT)
-> >> +#else
-> >> +#define VMA_UFFD_WP		EMPTY_VMA_FLAGS
-> >> +#endif
+> > The UFFD WP bit is such a terrible, invasive, broken piece
+> > of... engineering :)
 > >
-> > Could you just move these up to the block above to match the convention here?
+> > Notice, again, the hallmark of an utterly broken abstraction - every user
+> > just has to happen to know to handle each of your weird edge cases every
+> > single time they happen to interact with anything that touches it.
+> >
+> > I do hope we never merge something as bad as this again.
+> >
+> >>
+> >> An entry with the uffd bit set must be restored write-protected, whether
+> >> the entry is writable or not. remove_migration_pmd() gets this right: it
+> >
+> > Sigh :)
+> >
+> >> makes the PMD writable and sets the uffd bit as two independent steps,
+> >> and pmd_mkuffd() write-protects the result. To fix it, do the same at
+> >> the PTE level, where pte_mkuffd() write-protects the PTE as well.
+> >>
+> >> The only known path that created such entries is PAGEMAP_SCAN. Now that
+> >
+> > Wait what? :)
+> >
+> > How does a read-only scan of entries create softleaf entries?
+> >
+> > I think this should be explained in the commit message :)
 > >
 >
-> Did you have the following change on top of my changes in mind?
+> Will add a sentence... unfortunately not a read-only scan...
 
-Yes LGTM thanks!
+Thanks! Yeah I realised later the true horrors of what PAGEMAP_SCAN can do
+with uffd flags (ugh).
 
 >
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index 6cd9d86f7adac..fa56d9e9f3ebd 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -410,8 +410,10 @@ enum {
->  #define VM_MAYBE_UFFD_POISON   INIT_VM_FLAG(MAYBE_UFFD_POISON)
->  #ifdef CONFIG_HAVE_ARCH_USERFAULTFD_WP
->  #define VM_UFFD_WP     INIT_VM_FLAG(UFFD_WP)
-> +#define VMA_UFFD_WP    mk_vma_flags(VMA_UFFD_WP_BIT)
->  #else
->  #define VM_UFFD_WP     VM_NONE
-> +#define VMA_UFFD_WP    EMPTY_VMA_FLAGS
->  #endif
->  #define VM_LOCKED      INIT_VM_FLAG(LOCKED)
->  #define VM_IO          INIT_VM_FLAG(IO)
-> @@ -508,17 +510,12 @@ enum {
->  #endif
+> >> PAGEMAP_SCAN downgrades them like change_protection() does, we should no
+> >> longer see them, so this change alone should not be visible to
+> >> userspace. If another path ever creates a writable migration entry with
+> >> the uffd bit set, the page now stays write-protected instead of losing
+> >> the uffd bit.
+> >>
+> >> Fixes: 52526ca7fdb9 ("fs/proc/task_mmu: implement IOCTL to get and optionally clear info about PTEs")
+> >
+> > This seems like a super-weird fixes target.
+> >
 >
->  /*
-> - * vma_flags_t masks for the userfaultfd VMA flags. The three high-bit modes are
-> - * gated on the same configs as their VM_* flags above -- all of which imply
-> + * vma_flags_t masks for the userfaultfd VMA flags. The two high-bit modes are
-> + * gated on the same configs as their VM_* flags above -- both of which imply
->   * 64BIT -- so an out-of-range bit is never fed to mk_vma_flags() on a build
->   * whose bitmap cannot hold it.
->   */
->  #define VMA_UFFD_MISSING       mk_vma_flags(VMA_UFFD_MISSING_BIT)
-> -#ifdef CONFIG_HAVE_ARCH_USERFAULTFD_WP
-> -#define VMA_UFFD_WP            mk_vma_flags(VMA_UFFD_WP_BIT)
-> -#else
-> -#define VMA_UFFD_WP            EMPTY_VMA_FLAGS
-> -#endif
->  #ifdef CONFIG_HAVE_ARCH_USERFAULTFD_MINOR
->  #define VMA_UFFD_MINOR         mk_vma_flags(VMA_UFFD_MINOR_BIT)
->  #else
-> diff --git a/include/linux/userfaultfd_k.h b/include/linux/userfaultfd_k.h
-> index b8b7cc2f00388..75c3e9270b62a 100644
-> --- a/include/linux/userfaultfd_k.h
-> +++ b/include/linux/userfaultfd_k.h
-> @@ -201,7 +201,7 @@ static inline bool userfaultfd_missing(struct vm_area_struct *vma)
+> So this piece of code was added in f45ec5ff16a7, but the issue derives
+> from PAGEMAP_SCAN, which is the commit above. I think 52526ca7fdb9 is
+> the right target, but can change it.
 >
->  static inline bool userfaultfd_wp(struct vm_area_struct *vma)
->  {
-> -       return vma_test_any_mask(vma, VMA_UFFD_WP);
-> +       return vma_test_single_mask(vma, VMA_UFFD_WP);
->  }
+> > BTW I've noticed you've not been cc'ing stable, is that on purpose? No
+> > autosel in mm so we do need to do that on stuff intended to get backported.
+> > :)
+> >
 >
->  static inline bool userfaultfd_minor(struct vm_area_struct *vma)
+> I added stable for patches 1 and 2, but for this one and the previous patch
+> the impact is PAGEMAP_SCAN reporting a page as written when it wasn't, which
+> over-reports but doesn't lose anything, so I left it off. Maybe I'm being
+> too conservative though.
+
+No that's fine, if it's sensible not to then let's not.
+
+Was just checking to make sure it was intentional ;)
+
 >
-> --
-> Cheers,
+> >> Signed-off-by: Tal Zussman <tz2294@columbia.edu>
+> >
+> > The change itself seems reasonable, as cursed as the reason for it is, so
+> > with the fixes target confirmed + commit message updated:
+> >
+> > Acked-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> >
+> >> ---
+> >>  mm/migrate.c | 2 +-
+> >>  1 file changed, 1 insertion(+), 1 deletion(-)
+> >>
+> >> diff --git a/mm/migrate.c b/mm/migrate.c
+> >> index 28a8d7734735..d200f64b5f98 100644
+> >> --- a/mm/migrate.c
+> >> +++ b/mm/migrate.c
+> >> @@ -399,7 +399,7 @@ static bool remove_migration_pte(struct folio *folio,
+> >>
+> >>  		if (softleaf_is_migration_write(entry))
+> >>  			pte = pte_mkwrite(pte, vma);
+> >> -		else if (pte_swp_uffd(old_pte))
+> >> +		if (pte_swp_uffd(old_pte))
+> >>  			pte = pte_mkuffd(pte);
+> >>
+> >>  		/* See do_swap_page(): restore PAGE_NONE for RWP */
+> >>
+> >> --
+> >> 2.39.5
+> >>
+> >
+> > --
+> > Cheers, Lorenzo
+> >
 >
-> David
 
 --
 Cheers, Lorenzo
