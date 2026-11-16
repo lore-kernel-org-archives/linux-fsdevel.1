@@ -1,49 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794827131;
-	b=3xTys3C1Rjw2AFXYTqn9tDTFQUzVnvlHnXTEsiswbZtsApoRVMO+TVFiSacWg8p6uQtt
-	 7O4S2IQSYVesaw0j+ep6j6GF/fpOHRtO08lcdUUjGGK39EATBLR66guCs2NoKTnRa8ssQ
-	 TCIkKEXtEzM5K1lLIxXHzbHGLAt/tyiEa7C3tBaLb3RUB+kjA9wYnYJapLamI3mFEtK1U
-	 CHo+koLrFHwgIDSh1vEWkr065zdLjtrrUMGGp7gnGkyIVX8aSfcx/pQgb1cm7AydHlNHA
-	 UvvRh0uekEj7gfyV7V1iCPRb4U7IvrkQGXLz6dFb5+GsxRqlsROGarZPxRIaSR679Hw==
+	t=1794827132;
+	b=l5MQoNdFhpiShAn/IDGpToReM12WZnUADdzpXkHt9y682E7H6Laf9I1up5tfNnEhvpp7
+	 zUbmBUYDonwJn6dFzvY6P0CHvx/gpZyOQNxXEum4UyfKgpIgH8bNAeEZJAAaobsce0eln
+	 QPg+rTUyfGbLU1tLZwYZld8TClqoZb0EKluuZ0wR7fU8iuvccRfjLPobjIJtG0wPpOGuj
+	 1gfEQ3dKaxrH/wrojxp3EmKBJHBkBLqDc+O3IijlO8Q3YcgSl910CI8qljYIf3fUSLWIs
+	 luZYnathe2Sx3cMk4/vu1Vy+UrlaM0GnRlmZkigxDSb3JWl5rhKG3dQvb40L10LkZcA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794827131;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=Up4QcDgioDZqUrec7no2Sv6eS8z1skBOes4Nvk8uSaY=;
-	b=kjY53zj/FVL2422I4/doWGVRvAb+3TAN/KOZxjIPAZ4h0oFSdgjRwo+9wuiiTT/1R+vM
-	 O/iO4goNWS9OlJC3xJm+X5M5poGGVBgOTcUPInQqDOiKcnM2BgN97/I/DfuWqChRGZ2M4
-	 Zx1jxfsiEyczcpOIaA0Y8Qqh7dnhnlGMRlR0tRHpQ1g07WwOCGlsJdYC3pWzOGGBFjUuO
-	 NxXhlST0sAzDpRpR2dQ4FhICgW1WNDCO2gJcQh2Ew2ti60CU/d2joO5vnGMKqMCGVqtmG
-	 +1EWySmYb2LkwHAnISnxQXgoI0e5poUx1Pp823G1joSCP3Dp7hhRtGIWNxw26DTxEng==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794827132;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=6m7pNiFJP9GDQ5q5Qguwm4pP6n0KJNKNJUw997q7JCE=;
+	b=oJfQcf0GbljuHuI1+3wcKvqLgAPljg77RAHXmDpNgekr1y30JwzvmjYtHL7l57h/SvqZ
+	 uHyU3C+ULiqzqnOaHvleaRcBxrVxFL8T0lzmJthPM8wsjkdAGvzpaNZSKTD33jC36gibH
+	 CnTG/nriTHWiCvshGFDlyoWlV0duqAGv+ia3FJL0hCr3FLRFJ2MqXQVhS9IU40Y9vRFVN
+	 pk98qbaCHAJyLlk8NgZ01eeWltNZmF26F5WHgq40Ddd/XPtHUYtifujn5x7VkU8xoRzph
+	 EO6sT7nF+0wmyn/BScbXTRXtWHpIi/LI7j930ZmbrO8Kd8SMkV4YmXbctCqSb13aVjw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="UJf/sVnW";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=l+5jSjm1;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A433F60A263D;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBAC76073C4D;
 	Mon, 16 Nov 2026 11:05:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UJf/sVnW
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7DAB1F00926;
-	Mon, 16 Nov 2026 11:05:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=l+5jSjm1
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AB211F000CB;
+	Mon, 16 Nov 2026 11:05:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1794827131;
-	bh=Up4QcDgioDZqUrec7no2Sv6eS8z1skBOes4Nvk8uSaY=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=UJf/sVnWA5PbX7ZnzaL5uM5WD2CNUwQM2ooXztogsWbtOE1shubZUqTcSwkLkRFQq
-	 FAhnv2rRmOrIR9n6e15wIFY5690R32XIGNOE5nneN5BsA/53klUD4O2b3SjyXye+2l
-	 tFOKWD662r/pcXHsBEn5J7I8x7L37ljUXyU3b7esgv4TQdDYtYBaDDuxpiAUlOutx4
-	 hfico32rbTfgNCKvOCfMnwrZIHczpPeZC4/trq8cZ2uwAzDdy103/i+3g4/bF3ydnq
-	 PvCytT/H66q3RwtTUpQh2d9/XVkkHy2eBh4HCZ8X90WETLxPbZgmuIzsEVrV79ouWe
-	 cBtvTC9Ei56Cw==
-From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 16 Nov 2026 12:03:56 +0100
-Subject: [PATCH v2 16/17] fs: use kiocb_write_iter() in
- vfs_iocb_iter_write()
+	bh=6m7pNiFJP9GDQ5q5Qguwm4pP6n0KJNKNJUw997q7JCE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=l+5jSjm1IFe81iQ/yNkb7eD/+1iKPUj/IepRtMoXO3ddKeFntCTQctHbDqPEi1cEw
+	 tcDahbr3Yqts0gD6DjIBXOqwwg2kaKWP8NfKJWjSQs/EWAFH1i+M2bHSBDoUVR6Ihq
+	 AN95Uv+3GZipwZ06OiDmFn0GzLhmG5sAo7Av/o98Ar6AbUWu3hJ1sKHvgH36rk+ILU
+	 155OFEUmUG+rt8YZLCwdE++jslfklSvJrDkyxLtQyvG/qZ5g3Sr6j6IZolEUSxcQ7j
+	 shv6iY++0sD7t4ixad3P9w7CVlxF4G4QS2n4LHIGwV2u6Nji2KKJcdjRCnkwfxavft
+	 ZDwtei9al43DQ==
+Date: Mon, 16 Nov 2026 12:05:26 +0100
+From: Carlos Maiolino <cem@kernel.org>
+To: Chris Mason <mason@kernel.org>
+Cc: tytso@mit.edu, david@fromorbit.com, jack@suse.cz, djwong@kernel.org, 
+	josef@toxicpanda.com, hch@lst.de, linux-xfs@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org, tz2294@columbia.edu, 
+	brauner@kernel.org
+Subject: Re: [PATCH v9 05/14] fs: validate atomic writes after O_APPEND and
+ limits
+Message-ID: <avrjDb576l8Eup5s@nidhogg.toxiclabs.cc>
+References: <20261112214604.67875-1-mason@kernel.org>
+ <20261112214604.67875-6-mason@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -53,71 +60,132 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261116-work-fs-frozen_writes-v2-16-ecc4a2aac40e@kernel.org>
-References: <20261116-work-fs-frozen_writes-v2-0-ecc4a2aac40e@kernel.org>
-In-Reply-To: <20261116-work-fs-frozen_writes-v2-0-ecc4a2aac40e@kernel.org>
-To: Jan Kara <jack@suse.cz>
-Cc: Shakeel Butt <shakeel.butt@linux.dev>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, Jens Axboe <axboe@kernel.dk>, 
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
- io-uring@vger.kernel.org, Christoph Hellwig <hch@lst.de>, 
- linux-block@vger.kernel.org, linux-nvme@lists.infradead.org, 
- linux-scsi@vger.kernel.org, target-devel@vger.kernel.org, 
- linux-unionfs@vger.kernel.org, bpf@vger.kernel.org, 
- linux-nfs@vger.kernel.org, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>
-X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1463; i=brauner@kernel.org;
- h=from:subject:message-id; bh=MCaMNnJkL9G2ZH6ZyKJ0L2XRF9HMQi7Wd1t5jXBxpyk=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9emxwMOyM8JrvK5ZdNFvFsuCiy8fCH8/Wpcn/1vXM/
- Dw5Ush4d0cpC4MYF4OsmCKLQ7tJuNxynorNRpkaMHNYmUCGMHBxCsBE0qQYGdpNBeuZ5rlJmD4p
- SHz5Yu19p9yF99dum3W/kEe8ipXliTMjwy652s4dFQEfzqgFmQnbOc7+1+OT/fVc45rT9tvjp1m
- +YQIA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261112214604.67875-6-mason@kernel.org>
 
-vfs_iocb_iter_write() open-codes what kiocb_write_iter() does. Use it.
-The kiocb is marked with IOCB_WRITE now so the caller can drop freeze
-protection with kiocb_end_write_iter().
+On Thu, Nov 12, 2026 at 04:46:09PM -0500, Chris Mason wrote:
+> An RWF_ATOMIC write on XFS with reflink can expose stale disk contents
+> if O_APPEND or RLIMIT_FSIZE leaves it sector aligned but not block
+> aligned.
+> 
+> XFS and ext4 call generic_atomic_write_valid() on the range that the
+> caller passed. But generic_write_checks() changes the range later:
+> O_APPEND moves the position, and RLIMIT_FSIZE cuts the length. XFS can
+> then fill only a part of a new block, and still map the whole block into
+> the file:
+> 
+>     block size 4096, i_size 512, O_APPEND
+>     validated:        0 to 4095
+>     written:          512 to 4607
+>     new blocks:       0 to 8191
+>     stale below EOF:  0 to 511
+> 
+> The fix used here is to validate an atomic write in
+> generic_write_checks(), after its range is final, and to refuse one that
+> was cut. XFS no longer picks the path of an atomic write by the
+> alignment of the range that the caller passed.
+> 
+> Fixes: f096207d3276 ("xfs: Validate atomic writes")
+> Fixes: 43c696f9d094 ("ext4: Check for atomic writes support in write iter")
+> Signed-off-by: Chris Mason <mason@kernel.org>
 
-This also means that an IOCB_NOWAIT write fails with -EAGAIN instead of
-waiting for a frozen filesystem. No caller passes IOCB_NOWAIT today.
-overlayfs and fuse passthrough don't set FMODE_NOWAIT and cachefiles
-and nfsd don't ask for it.
+FWIW, this is another patch that would normally go through Brauner's
+branch, so just in case once we get it settled...
 
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
----
- fs/read_write.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+Chris, Ted, Jan. Are you guys fine if I merge this patch through xfs's
+tree?
 
-diff --git a/fs/read_write.c b/fs/read_write.c
-index 6767283108991..eca0aa73e5a4d 100644
---- a/fs/read_write.c
-+++ b/fs/read_write.c
-@@ -923,7 +923,7 @@ ssize_t vfs_iter_read(struct file *file, struct iov_iter *iter, loff_t *ppos,
- EXPORT_SYMBOL(vfs_iter_read);
- 
- /*
-- * Caller is responsible for calling kiocb_end_write() on completion
-+ * Caller is responsible for calling kiocb_end_write_iter() on completion
-  * if async iocb was queued.
-  */
- ssize_t vfs_iocb_iter_write(struct file *file, struct kiocb *iocb,
-@@ -946,10 +946,7 @@ ssize_t vfs_iocb_iter_write(struct file *file, struct kiocb *iocb,
- 	if (ret < 0)
- 		return ret;
- 
--	kiocb_start_write(iocb);
--	ret = file->f_op->write_iter(iocb, iter);
--	if (ret != -EIOCBQUEUED)
--		kiocb_end_write(iocb);
-+	ret = kiocb_write_iter(iocb, iter);
- 	if (ret > 0)
- 		fsnotify_modify(file);
- 
 
--- 
-2.53.0
-
+> ---
+> 
+> Notes:
+>     v6->v9: no change
+> 
+>  fs/ext4/file.c    |  4 ----
+>  fs/read_write.c   | 13 +++++++++++++
+>  fs/xfs/xfs_file.c | 17 +++++++++++------
+>  3 files changed, 24 insertions(+), 10 deletions(-)
+> 
+> diff --git a/fs/ext4/file.c b/fs/ext4/file.c
+> index 50d3c92709c8..e301d4faf1c3 100644
+> --- a/fs/ext4/file.c
+> +++ b/fs/ext4/file.c
+> @@ -802,10 +802,6 @@ ext4_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
+>  		if (len < EXT4_SB(inode->i_sb)->s_awu_min ||
+>  		    len > EXT4_SB(inode->i_sb)->s_awu_max)
+>  			return -EINVAL;
+> -
+> -		ret = generic_atomic_write_valid(iocb, from);
+> -		if (ret)
+> -			return ret;
+>  	}
+>  
+>  	if (iocb->ki_flags & IOCB_DIRECT)
+> diff --git a/fs/read_write.c b/fs/read_write.c
+> index 676728310899..1b34b7382619 100644
+> --- a/fs/read_write.c
+> +++ b/fs/read_write.c
+> @@ -1775,6 +1775,19 @@ ssize_t generic_write_checks(struct kiocb *iocb, struct iov_iter *from)
+>  	if (ret)
+>  		return ret;
+>  
+> +	/*
+> +	 * O_APPEND has moved the position and the file size limits have
+> +	 * shortened the write by now, so this is the range to validate.  An
+> +	 * atomic write is all or nothing, so refuse it if it got shorter.
+> +	 */
+> +	if (iocb->ki_flags & IOCB_ATOMIC) {
+> +		if (count != iov_iter_count(from))
+> +			return -EINVAL;
+> +		ret = generic_atomic_write_valid(iocb, from);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+>  	iov_iter_truncate(from, count);
+>  	return iov_iter_count(from);
+>  }
+> diff --git a/fs/xfs/xfs_file.c b/fs/xfs/xfs_file.c
+> index be1f775128d1..153f53f964b9 100644
+> --- a/fs/xfs/xfs_file.c
+> +++ b/fs/xfs/xfs_file.c
+> @@ -926,12 +926,21 @@ xfs_file_dio_write(
+>  	if ((iocb->ki_pos | count) & target->bt_logical_sectormask)
+>  		return -EINVAL;
+>  
+> +	/*
+> +	 * An atomic write is at least one block long, and generic_write_checks()
+> +	 * refuses it unless its final position is a multiple of its length.  So
+> +	 * there is no unaligned case to handle for it.
+> +	 */
+> +	if (iocb->ki_flags & IOCB_ATOMIC) {
+> +		if (xfs_is_zoned_inode(ip))
+> +			return xfs_file_dio_write_zoned(ip, iocb, from);
+> +		return xfs_file_dio_write_atomic(ip, iocb, from);
+> +	}
+> +
+>  	if ((iocb->ki_pos | count) & ip->i_mount->m_blockmask)
+>  		return xfs_file_dio_write_unaligned(ip, iocb, from);
+>  	if (xfs_is_zoned_inode(ip))
+>  		return xfs_file_dio_write_zoned(ip, iocb, from);
+> -	if (iocb->ki_flags & IOCB_ATOMIC)
+> -		return xfs_file_dio_write_atomic(ip, iocb, from);
+>  	return xfs_file_dio_write_aligned(ip, iocb, from,
+>  			&xfs_direct_write_iomap_ops, &xfs_dio_write_ops, NULL);
+>  }
+> @@ -1128,10 +1137,6 @@ xfs_file_write_iter(
+>  
+>  		if (ocount > xfs_get_atomic_write_max(ip))
+>  			return -EINVAL;
+> -
+> -		ret = generic_atomic_write_valid(iocb, from);
+> -		if (ret)
+> -			return ret;
+>  	}
+>  
+>  	if (IS_DAX(inode))
+> -- 
+> 2.55.0
+> 
+> 
