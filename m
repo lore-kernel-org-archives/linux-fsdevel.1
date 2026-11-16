@@ -1,51 +1,51 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.39
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.73
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794810999;
-	b=yF1EqnvTmnDQu8qpiPYPX2QYHfYgIkLdWRXMKcW9i48Z3fggzV5IhZVfF1YbXw5wM9A+
-	 MYRAa1uqIXPVzCAUzvA77QbuZAvKI1VHr/5e04uQdiYdp4zhIfTUod9KDyRwYDoQJbYb9
-	 lqn2DJp7vgC5hv6usOahORH3CbCCUVwvmT7SBysRqrT9m9W/m1IlWDEDeFLPdvXeDk6+f
-	 JynG8hQlOyzGUGb7ChJE//6g7uKxbKx+nAcDmxGGDrP07naLfz+WYROwEBhp053aLJYBn
-	 BKbYIGZopLGjq20+IDXYsZuhgHkAHFqZTW3wXkTt9fcMcT6EUnIqkou12KVlFB44S8g==
+	t=1794811002;
+	b=zS1NrzvOd3BYeQQCw/tTedV7w++CYi+1iGmLlDP9LfFb68c3ROG6qGLCdbAPcNBc7UOP
+	 2KLiDUB1wQ53LFJall4A3UWk4ELLKY0SYr4QTFXE3AYLboVFDziUKPFeurXLJ1tZYUvOL
+	 KvgS1tu/kXZOW5TnUM6S6sjR0VRAO+zWYVQ6zHM8C7q9SO2pYGEaorTeuquxIPEfiLwEp
+	 WNud4b2ojEDgUZvlwOrTfAhjLNuNcUrNX+yLDIWvUzlhoveZEynF28zqNr8aTru05FLiE
+	 vhp6G/rUO5N449cxUunv1kJXiMEWVs73kA/mJgc9ST8Hw8ouT57Xp0sgUul7W4nIdZQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794810999;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794811002;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
 	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
 	 X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=bGG8fJWiVLN4rBloB6l6LP9fwezC9+FtgrPy8Y99xzo=;
-	b=x6h8DbQxYa/VIC00i+WpSdhLFiZkBJXbQHAC8/wLmKF3zmM6tT8w78qR7x0TC6wEmuQQ
-	 Ig1HmR59Od2SSlKE0gjz3wijuoyTu4n3/0Km8joV4mytcMfrSaJJXMuAaUVKGOwKv1JKV
-	 lvXPIS7hnJv/HOdDM5Heei+pBPGt3uq29CF07nz0auPS3KoG37nGoP4Nd4X14l6TJtDhQ
-	 aQbub4AR24vTzrXWmEc+nDizJgkvyC5lSHfUs4oNXVfLGjpmrfZvp/6JRyBi9n3ypiIOl
-	 Dc+xbxxAb4Pr0n924fk+CU0N/7y8i8M/dlKoh/Zfj3aREc+SvnNvlZwYA8rPj+MXUSg==
+	bh=y5zoxUgTuZ5PnFPOT8698Pc92IH4J9fnPH5OLYH4+2E=;
+	b=z/RC1JbAFCm9iYqNJPSTNhG75XEMGctGae1FovY4913iEkn3SjYOq3vjyYEa0l09wFts
+	 Ljcp5In9nXJxci2K+qOw73Ll0PDxFQfB7WjF4xzNNPytquPT+E/0Gi3TkNLUZyp7wyO2D
+	 RXdIy9wG31DytwGOKj1cfFp3WnXl5t4egf8teEJ+ffRfNh+dQa0zBE0d84a5Bu8iKhiWK
+	 ah3MtSkogZARytqz5mZIUIF7IYhQPL6nWW/0CcXrmie9TzyFgKImXzI/TezADUhi1O7p6
+	 wwVI9qkhLFOsXltn4B9L9rqd7sXNn75XMrMiY7ylDsjusPX38/xkqzSfGVgCl+st9GA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=KLMNlCQY;
-	arc=none smtp.remote-ip=95.215.58.39
-Received: from mta1.migadu.com (out-39.mta1.migadu.com [95.215.58.39])
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=nnFTOXXp;
+	arc=none smtp.remote-ip=91.218.175.73
+Received: from mta0.migadu.com (out-73.mta0.migadu.com [91.218.175.73])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47C53606A888
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 06:36:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 47C53606A888
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91206606A33F
+	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 06:36:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 91206606A33F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=KLMNlCQY
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=nnFTOXXp
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=X9w4h4OFbGo7OVBtANSE6gWeEcgqw70QG2tZixDGK8g=;
+DKIM-Signature: a=rsa-sha256; bh=/734QEm9p6S53bt1CqBXUyRtO6uKUnd0BWySzLsj+7U=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794810996; v=1; x=1795415796;
- b=KLMNlCQYhmLCVnrnszOFfT+rMJ46gPccZaFkEkubwn4U2M+vgPiciINABWPKugWKs14mhBIH
- ij75iSZRLFHNteZ6AlN6T6Is4aXESdL39gkVwAKWZU59oGNVU+OQB1+AW8N7+aEJXFGCTF7u7lQ
- ADpFOIQs50WBkNU46ymyF01A=
+ t=1794810999; v=1; x=1795415799;
+ b=nnFTOXXprSw+7ZkZJXRX+5kba0sYilWNw+7bwX0Ohs6tX5jQ3mdwGHSmVNDV/LaczhXs7XlR
+ I0w3zwV4zVicP/wQIFybiUu8y4+8tTvRPi8jCUwP/2ttRUOVupTPYCsoy5kpfe+JUnUx9dJo/zQ
+ z/tsDJ2dWcoFE7OUkN+iSU5I=
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by mta12.migadu.com with ESMTPS id c888f79b8281b000;
-	Mon, 16 Nov 2026 06:36:36 +0000
-X-Mizu-Trace-ID: c888f79b8281b000
+Received: by mta11.migadu.com with ESMTPS id d552c4ece8e63456;
+	Mon, 16 Nov 2026 06:36:39 +0000
+X-Mizu-Trace-ID: d552c4ece8e63456
 X-Migadu-Flow: FLOW_OUT
 From: Usama Arif <usama.arif@linux.dev>
 To: Andrew Morton <akpm@linux-foundation.org>,
@@ -81,9 +81,9 @@ To: Andrew Morton <akpm@linux-foundation.org>,
 	lance.yang@linux.dev
 Cc: Usama Arif <usama.arif@linux.dev>,
 	stable@vger.kernel.org
-Subject: [PATCH v2 1/4] mm/migrate_device: avoid leaking folio references during THP splitting
-Date: Sun, 15 Nov 2026 22:34:55 -0800
-Message-ID: <20261116063624.1382944-2-usama.arif@linux.dev>
+Subject: [PATCH v2 2/4] mm: don't PTE-batch a swap-in of a folio with a hardware-poisoned page
+Date: Sun, 15 Nov 2026 22:34:56 -0800
+Message-ID: <20261116063624.1382944-3-usama.arif@linux.dev>
 X-Mailer: git-send-email 2.53.1
 In-Reply-To: <20261116063624.1382944-1-usama.arif@linux.dev>
 References: <20261116063624.1382944-1-usama.arif@linux.dev>
@@ -98,53 +98,44 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-migrate_vma_split_unmapped_folio() takes an extra folio reference because
-split_huge_pmd_address(..., true) drops one when it splits a PMD.
+do_swap_page() checks PageHWPoison() on the faulting page, but the
+large-folio batching path then maps the rest of the folio without
+looking at its other pages. A poisoned page that is not the one being
+faulted gets mapped anyway, and the fault that would have reported it
+never happens.
 
-However, migrate_vma only holds mmap_lock for reading. A concurrent
-MADV_DONTNEED can clear the migration PMD, or split it into PTE migration
-entries, before the split helper takes the PMD lock. The helper then does
-nothing and leaves the extra reference behind. folio_split_unmapped()
-fails with -EAGAIN due to the unexpected reference, and the reference is
-never dropped, so the source THP is leaked.
+Skip batching for such an anon folio and let each page take its own
+fault, where the existing check catches it. do_set_pmd() already backs
+off the same way.
 
-If a THP is faulted in at the same address inside that window it is
-worse: freeze = true replaces the new folio's mappings with migration
-entries that nothing will ever remove, and drops a reference the caller
-never took.
+Leave a freshly read folio alone: it is not anon yet and can only be
+mapped as a whole, and falling back would free it with the poisoned
+page still in it, which the retried fault can then get back from the
+page allocator.
 
-An existing migration PMD is expanded into PTE migration entries even
-with freeze = false. Use that mode and remove the extra folio_get(). The
-reference already held by migration keeps the source folio alive whether
-or not its PMD migration entry still exists.
-
-Reported-by: Zi Yan <ziy@nvidia.com>
-Closes: https://lore.kernel.org/all/DLZ48KMS7YG8.3BTM0UUU8CTU2@nvidia.com/
-Fixes: 4265d67e405a ("mm/migrate_device: add THP splitting during migration")
+Fixes: 508758960b8d ("mm: swap: entirely map large folios found in swapcache")
 Cc: stable@vger.kernel.org
 Signed-off-by: Usama Arif <usama.arif@linux.dev>
 ---
- mm/migrate_device.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ mm/memory.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/mm/migrate_device.c b/mm/migrate_device.c
-index 9e19fadfa65c6..3286bb8a4b73e 100644
---- a/mm/migrate_device.c
-+++ b/mm/migrate_device.c
-@@ -920,12 +920,7 @@ static int migrate_vma_split_unmapped_folio(struct migrate_vma *migrate,
- 	unsigned long flags;
- 	int ret = 0;
+diff --git a/mm/memory.c b/mm/memory.c
+index d477a4f986bc8..51e72fb40655f 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -5158,6 +5158,11 @@ vm_fault_t do_swap_page(struct vm_fault *vmf)
+ 		    swap_pte_batch(folio_ptep, nr, folio_pte) != nr)
+ 			goto check_folio;
  
--	/*
--	 * take a reference, since split_huge_pmd_address() with freeze = true
--	 * drops a reference at the end.
--	 */
--	folio_get(folio);
--	split_huge_pmd_address(migrate->vma, addr, true);
-+	split_huge_pmd_address(migrate->vma, addr, false);
- 	ret = folio_split_unmapped(folio, 0);
- 	if (ret)
- 		return ret;
++		/* A poisoned page in the folio must take its own fault. */
++		if (folio_test_anon(folio) &&
++		    folio_contain_hwpoisoned_page(folio))
++			goto check_folio;
++
+ 		page_idx = idx;
+ 		address = folio_start;
+ 		ptep = folio_ptep;
 -- 
 2.53.1-Meta
 
