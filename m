@@ -1,98 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.178
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.177
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794798424;
-	b=AJcShA7vHGBcoUw53lkB7/euxgGM5aWD7Fn2znQ1BR3+hAH0SETiUf1ujKNzsTZZ0KMC
-	 O+GDsanP9vR5Xaz936uT5KgZriX/QV/9Jv8nApZpoGelb7CGneca97aAMZztI4x4CyjIA
-	 kqNWbRaGVrRSzMPY7SOVI0qKrnWcEDONxSu4nanlXrEFo/IEc/vg0h/3bE1Os639AlYjP
-	 vksUbPakH5LpN+X08C+/RW47DSTLnjcBy6735w5KXuqfbX42QZX5EBPZFgnpQIAL3lny0
-	 Sh6dEd52KHSd0dh3xya5Xv9+5yU9eBj7UWIP7xuuYU4CSl4yCJ6+zAsJGu0aTeq6c+Q==
+	t=1794800001;
+	b=QRDQnZWT7JfLgp61EWFZnJ5BzFBOLA/zf5aFxBAuWikzAgkGeGDbIv0NtHgKu6dgtsmk
+	 qy/zJcXp+SPc1AHiMyoi/KXj7KwlhRHvOWph25jn6UNC6hiar0GRHMYqB9kMhd3gZB8O3
+	 cH+HntsHhcBzm5fezsH8DhbhysaKGzlSkv+fpswdvgXzyaxGiqXBTnaqPeYKHHb2Uk64X
+	 jlWwIQbWTl5A1jkl3tMgtGxjOhKuBGl3Nn+dzWtvO5RdsvuXGfkOr7dIn4fuvZkLm9Xn6
+	 55sMMTNtAJDC8lP9gt8ZvetdL7jET9y/FKeKktEGWGVR0VRkfH9kPDLP6j8L/aDh/3w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794798424;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794800001;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=DfVzAJ8JYr3tOeyUpGtQ08wEF3tJXXOK1aQTqHdgZsE=;
-	b=Pva278K4E/FYYXOtF83EeQiBB1QVSFe+rjTEiu6wFbs+/KztEQD2+4FU10vr57HNP9Yi
-	 TODBNdrI1Mt6hxJZsr7D14jYUcCFv8aJg5MOgzRCxYTuzHkdwhtmt7RrZtA3lVqrYMzaj
-	 iAaJAKCnYVfxxq6G2VwrlR46mo8BpVkyQQUwbNRMhq288tkX7/bU8uXoLrNlUOFphIL5i
-	 KpAH+j/Nf2g7CfcAVdhcYKWPeD9NbQUZwdd5U4U1j35Jxa6rdCZn65dg9eKyPKvuG0Djv
-	 akCZkoeVdF4pMIQPIbzFfD5EugAE0a7yJ6pOk8fefPi53NR1fWc/+NDmsac+pBmDZxw==
+	 From:To:Cc:Subject:Date:Message-ID:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type;
+	bh=nlTtnR+wCpHl9FSCHLEGv7xGmXmxOT2nZcPf4/lr2y4=;
+	b=lJOkWAk2hTpCCT7pqAoYcKy9GFMfql2rR8stRGnSe/NiezZJM5jVxLZxrqF2sdMt56T8
+	 0I6QQHKeQYiSsH/l6+s96URFdDy9NbV9M+1plrHDWQmCe3J4zNKv8z+jbnUsNatCvWBKF
+	 2MOv6/32EKMsa6neObKIi5i9KXqxYlOfb595EH6JhuLZzF+kX+J6KrIOKBgiqaMZSTMOX
+	 1C4wcjvymivdD20/xSIHf4fFUHE4YpyVUzgIEtjtKGI2JQGknq1+KMCYljwi2PgiDjGhb
+	 WAVrIMPzV/3lwMVnpw18PJI9FuhJ1fGZZe+QCDPvul7a+wAClOM9bRUXf/l9Az+UxbQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=kaqr0bjN;
-	arc=none smtp.remote-ip=209.85.215.178
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=hgaUM0ak;
+	arc=none smtp.remote-ip=209.85.222.177
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA604606A31F
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 03:07:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BA604606A31F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4E6B606A31F
+	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 03:33:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B4E6B606A31F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=kaqr0bjN
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-cdac6d19ddaso1195370a12.2
-        for <linux-fsdevel@vger.kernel.org>; Sun, 15 Nov 2026 19:07:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=hgaUM0ak
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-94961ed97bcso234008985a.1
+        for <linux-fsdevel@vger.kernel.org>; Sun, 15 Nov 2026 19:33:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794798423; x=1795403223; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=DfVzAJ8JYr3tOeyUpGtQ08wEF3tJXXOK1aQTqHdgZsE=;
-        b=kaqr0bjN+QHNZOPTQJ2d0gdtYA5vBPiqzZjkPR3gzLC/zAlsFH7Dd5VLunDlMve6mh
-         m/+tPJ2oXxfrm6ah/ZOBKfKMB/AK1QyfTjV0SSZQJ6QvP6PAoQ7ndUVzPbCTJhObF+a4
-         euxOdqg+nVo3UpwlpWc3+BlSsZW6mzMZpzHzneuntMiQRsYl1thsjuk+t2CNmH1QI2Bp
-         w7lj0D6kZ+WCTWUd534xL7Xx8UDAPM6BQ52NDMRIRaJX++lwOUKfwP7hMOYdcQhVYyhv
-         4ok84pCIKmUsj8pon+pT70i13BLxPHBMqb8/nGy5CsiKYLoBLesG3FM2cYBXpiicSX+p
-         xE8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794798423; x=1795403223;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20260707; t=1794799999; x=1795404799; darn=vger.kernel.org;
+        h=content-type:content-transfer-encoding:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=DfVzAJ8JYr3tOeyUpGtQ08wEF3tJXXOK1aQTqHdgZsE=;
-        b=z0Qh0aKh6k/sj72/zicQgwM0a/PsUqZiRdv/8zrNSkyWriobfSWSf3vNPLaVepabkK
-         Z0cQamUGpok0YcW5SIOvXWC7alqAAut0sX4AylltyTWnb2EFzdcHQe2WirMMME0I2hFv
-         61YkLyM3dNWTB5Xk+TrJi1lgJpLflw7RwupKvDHs7Da4NoWyhhpm6l6Y0W+ysaCSnkCn
-         ek5c7aADuN5QDbyq2DiNwiPpMWn7jJ9zfgiuBd9OiNBopSOKDLWyzqyDgY8J334Z/4I6
-         I4Ksh5EFna0MHN4JqUBovQyfTu/kpk6K4AwZ/xmDTa6J4pBwyisEexkJXvYwxUsnesqI
-         PAlQ==
-X-Forwarded-Encrypted: i=1; AL+hErFXQCB8xzkdCZKovd8/6Oke7eoxHisi0DAGt+0GiatkIcTxwdwMT5djHp/GEWI7s07J7R/+w/miSH1o8Mde@vger.kernel.org
-X-Gm-Message-State: APuU4Z9LVAl0Eodrhot77cqx9IlRmohDBb8PAe50wG5Bm93SrsBr1Lgi
-	LHsr/sM5FJ6fH8VgVAi9744jWgaUUc6/ou/fXDBQ20Ei+8c+enTcc8Xw
-X-Gm-Gg: AYBFou3vnCfU4yHMGV0aNobPSLqqc2RHhxOnWKJuRh34IrrkBn+8CtqrGvwTHniZq3s
-	MQ1rFTjDmkfVpER8XYsBqGIqBQxv0iayrCDzkkWQ8TAMtxqsJ7TsXLFlh6qqvh9NEkJv8CQEpxE
-	KE0Zpx8a6W8xbEG7Yp/SQUb44Q9UtbFHNNbtmyRZmN5SbW5G66CJ1WzM0hFRxkXNC2bOKFmz2iz
-	92ob5osofilXnfBvw9mLJ8v+ikyDHfFfamPvwlFek6gQx+hEemKKEuYXKVWqTgl8OxXHDkV0Lnp
-	4nv3nkiMI/VSv59fRlvdpp6roL3cTPw5wmkyi4PXiHKLamtwcT+TK75/tMuCkprCNiQbx1AxJEZ
-	J4063+lUppdikOpzezjrjReoIc4DsQfOvzV9TaboYLCN6BcQnLu6lCYN4GrfcwTS8cxZJwzlLkq
-	uLPW/4s2M7MBfteAlqQOe8GEV2YwQfj2IDPo4i5+uTc4ekaQTQz+5/i6SLl0ISrrrcHUBEy09mm
-	d3MjPmiSerngJGFoMCJ9At9B8yuNvH5wleBuVXd6nJFN/SLGwjOYeROTpioYOjRIRAlqt8Xs3Wb
-	MUHOmgUrvaRF/BmPJrryzH5ku4jBdka1o8TaPW3QZQ+X7uuVyA==
-X-Received: by 2002:a17:90b:5627:b0:3ab:189b:6980 with SMTP id 98e67ed59e1d1-3b1b0a37140mr9756701a91.39.1794798422744;
-        Sun, 15 Nov 2026 19:07:02 -0800 (PST)
-Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b1aeb18b73sm14150263a91.3.2026.11.15.19.07.01
+        bh=nlTtnR+wCpHl9FSCHLEGv7xGmXmxOT2nZcPf4/lr2y4=;
+        b=hgaUM0akhfIblJZRHS1um/ResgJtAxAoSHYbf4DebsNzZSgSEOTK2PUUFJYr46ycbO
+         SvWxtAghL3ugAZ9pai5SU6+wNpu+O9I3gK3N1i5RZMuiWf+59EDoF67X+yQGTmWaDo6c
+         8V4HYkdesumvwLnYssRCdcJB25yQNTfhnma7NQNRpRzsoCt4MLeF7Ia7ZMEC5YYn8fUm
+         UoEHspP2YPaP2rFpG2KWdLg/f2d2n41NxSjOdw9txt8/iddqYt9CxJQhpzGFzhZE+RSM
+         o6aXlJjWDz/vL1egZ6Y7tUMkgakD0MUgVXKktRggv0cn7BZ88ASPRxmwXt/9bEeu2vQW
+         qQWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794799999; x=1795404799;
+        h=content-type:content-transfer-encoding:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=nlTtnR+wCpHl9FSCHLEGv7xGmXmxOT2nZcPf4/lr2y4=;
+        b=uC70cM2j/BOGZMaIK6WAqXYJBv65FFK1nwWJEDvIAk3X9QFoB2t9GCw8u4ITmy+76h
+         ctHio/lI/yy4fdhqNja/VgiHgA2vrPzm3A+MLeVCZlsf1i8g+HXLJd8YfxlD2+oq1qG6
+         01I7W7oRCEEHzbNvoCfpzRdqi62EuNBI3iSUKjvEfBTEJZlSrYS4HhURKBwNn9WHP6lK
+         5+uYy//cEljFPV6kvC7YCP17NN4L14BcFDkb77WsAvGyaowY65ZtY8FoNLcv5gjl+NJq
+         OYL80OMVtK3aKFakAfGu5VoZpQRbw1JtVwQt7rVsjinrQGbtY+vF+2xi56qAbsgPgtZJ
+         F0JA==
+X-Forwarded-Encrypted: i=1; AL+hErEHqd9Fszbn1tL2UZZszClwHrMvn0e1kfqdkt8BlYDLA82sgpum3T883IiPnSVRLzxR3ep/maW5/SQdqmro@vger.kernel.org
+X-Gm-Message-State: APuU4Z9yixVwSmxejgGsBJkW4s7/xWmd7nU1hOLezdHcarrqcvuUM5MN
+	Vsdu+oWU6KyrfZXNm8jauGWJYbxdmrLwPYOAxAWJcEW1aifKvr9vJU7X
+X-Gm-Gg: AYBFou2E7BY8v1vRuEwjWganQtS3+N2n8IOruKn8zml6ezNjlCN09eWGX+GAjiJlEla
+	zHZYgDq0OVGZPqGgmgVJJp/gQA9wBJCoXScqeJqO7/B/GkYeJkS9rhti8L1b01k3IbaNyzKrcQm
+	7d2qpl9ETK7S+HZ0QlK0d5qvCMivwJreNdnsT6KxT4NmS4Ok+O+JS+FXuVU+51pukIieV8oDa7l
+	nAaLVeAihsjFKsNFK8YvfTES3LDjQROH3Dst7v3s3asw9TXWhJZMMVb/SYqzBoeIQG36DFCBxbF
+	MAgR9PR1vxckoeUmctNqtW6VqzuQ5l8wL1pumgwAJ6eYU65xNBOKzETUBHzoz3feipkOvIDCA0W
+	Pp36Iqa7yy9URZWNYBNkoDgtp0t/gpRWrdxIYj7ECbPCub8zXG7u3a9X0mHv+XZpj7xlNOaJDzz
+	jfH5fPOCPDNfpYKZxwEEiVNyvZLuOdwngcNi3rianWd5Q47vCSH0B/aq3enb4wEuaANg6tdNF/K
+	i+HkZ14teJfItLi95cCb2BhyuW9gP63HLmCdSHyLMyH78+VbmBCeX1+V5a0qkQAx/Zbl+FyJPPX
+	2D1pB7YdhENgcCUwPpgmtOIPEHKRn42EmFdggD4KtVY87erJV0p1dXlKYFg=
+X-Received: by 2002:a05:620a:40d2:b0:949:76ed:591f with SMTP id af79cd13be357-94976ed5e0emr393702685a.8.1794799999296;
+        Sun, 15 Nov 2026 19:33:19 -0800 (PST)
+Received: from daniel-desktop3.localnet ([204.48.77.170])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9494c836f62sm753411885a.23.2026.11.15.19.33.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Nov 2026 19:07:01 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id A907E423BF1B; Mon, 16 Nov 2026 10:06:57 +0700 (WIB)
-Date: Mon, 16 Nov 2026 10:06:57 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Jan Kara <jack@suse.cz>, Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	linux-fsdevel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] fs: porting.rst: use literal string to avoid warning
-Message-ID: <avpzSippbZRkaki9@archie.me>
-References: <20260924183915.400588-1-rdunlap@infradead.org>
- <hyk4puvpheleitf4kt74aamqex2ytuxpda2iki5bgzoteldf23@pccvy6sdmerx>
+        Sun, 15 Nov 2026 19:33:18 -0800 (PST)
+From: Daniel Tang <danielzgtg.opensource@gmail.com>
+To: linux-man@vger.kernel.org,
+ Christian Brauner <christian.brauner@ubuntu.com>,
+ Alejandro Colomar <alx.manpages@gmail.com>,
+ Michael Kerrisk <mtk.manpages@gmail.com>, Aleksa Sarai <cyphar@cyphar.com>
+Cc: Christoph Hellwig <hch@infradead.org>, linux-fsdevel@vger.kernel.org,
+ linux-api@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] mount_setattr.2: Fix nonexistent perf_setattr
+Date: Sun, 15 Nov 2026 22:33:16 -0500
+Message-ID: <6099049.DvuYhMxLoT@daniel-desktop3>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -102,53 +97,37 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="2aSM361HPXJ12lPa"
-Content-Disposition: inline
-In-Reply-To: <hyk4puvpheleitf4kt74aamqex2ytuxpda2iki5bgzoteldf23@pccvy6sdmerx>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
---2aSM361HPXJ12lPa
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The problematic reference had been copied from openat2.2, where it was
+fixed in bbed82c0693a ("openat2.2: tfix: fix minor reference typo"). I
+performed the same fix for mount_setattr.2.
 
-On Fri, Sep 25, 2026 at 11:32:43AM +0200, Jan Kara wrote:
-> On Thu 24-09-26 11:39:15, Randy Dunlap wrote:
-> > Avoid the docutils warning:
-> >=20
-> > Documentation/filesystems/porting.rst:1417: WARNING: Inline emphasis st=
-art-string without end-string. [docutils]
-> >=20
-> > by quoting the const pointer in literal quotation marks.
-> > (Adding a space between the '*' and the '.' also works but it looks odd=
-=2E)
-> >=20
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Closes: https://lore.kernel.org/oe-kbuild-all/202609231806.ILZP6Fy0-lkp=
-@intel.com/
-> > Fixes: 025756ee7b47 ("fs: port mnt_idmap() and file_mnt_idmap() to cons=
-t mnt_idmap")
-> > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
->=20
-> Thanks! Looks good. Feel free to add:
->=20
-> Reviewed-by: Jan Kara <jack@suse.cz>
+Fixes: f3a5ba3f0151 ("mount_setattr.2: New manual page documenting the mount_setattr() system call")
+Link: https://lore.kernel.org/linux-man/20200929223509.11783-2-cyphar@cyphar.com/
+Link: https://lore.kernel.org/linux-man/20191003145542.17490-1-cyphar@cyphar.com/
+Link: https://lore.kernel.org/linux-man/20210730094121.3252024-1-brauner@kernel.org/
+Signed-off-by: Daniel Tang <danielzgtg.opensource@gmail.com>
+---
+ man2/mount_setattr.2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I still see the warning on current docs-next, though. Has the patch not
-been applied yet?
+diff --git a/man2/mount_setattr.2 b/man2/mount_setattr.2
+index 77233f589..5f26119cc 100644
+--- a/man2/mount_setattr.2
++++ b/man2/mount_setattr.2
+@@ -786,7 +786,7 @@ acting as an implicit version number.
+ (Because new extension fields will always
+ be appended, the structure size will always increase.)
+ This extensibility design is very similar to other system calls such as
+-.BR perf_setattr (2),
++.BR sched_setattr (2),
+ .BR perf_event_open (2),
+ .BR clone3 (2)
+ and
+-- 
+2.53.0
 
---=20
-An old man doll... just what I always wanted! - Clara
 
---2aSM361HPXJ12lPa
-Content-Type: application/pgp-signature; name=signature.asc
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCavpzSgAKCRD2uYlJVVFO
-o2fxAP0awLC/NOAhUdn3hqtAYhGUjdvzKU295bC5dTxWWiP9pwD/c/ih5Jvt+/xO
-1xbWcqLtQkEpyne9Ow5zvgkmhh7JTQc=
-=tb6M
------END PGP SIGNATURE-----
-
---2aSM361HPXJ12lPa--
