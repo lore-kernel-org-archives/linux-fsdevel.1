@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794861138;
-	b=NBlGwS5YZvs7yuOZTaDCyyQ+0rM/l1FEUJw8eG3r/tui9+K+miICp2H6g8wP/KzSEpzb
-	 /f3eFb+L+sBRBdGm/G4THt0T5R337RHIBEC1B1ESmpSXzDbp9koFqvmdgBAEBD8Imidh9
-	 4qX/if3rHCWLm9fscFWxB1LWRK2fGfaxKd64qTRol0AaldsieiHMeLgZ+9UoAP0zgc9oq
-	 LW/65nK3j+nBv0uUCPsl9SR37dhD5Nw3jXeesdnw4bwP01iMqV9SxcX+wnSVyofZyE4Ke
-	 LV3w2hNXmLR6BS3fcladLZemIdnvYrP6DBpRlsgxzsYobDLqB5U1W8RG/20iz7qmF3A==
+	t=1794861695;
+	b=waMMgw+ccMVvhucbyVdx17aINJ51j7uvu1ZVoRQcNBYzjK7xVKJysqpwOMJWttLCzFjj
+	 QYGqVfbgrfFixcz9rJFDDMOTBr31ayhzSC7g8mkU0x/wMQoZG9Efu2HbISZ71c0uX6BNO
+	 vdb1t39NKUsPQRMbM1a1x5L6RqtLufjCgvFbrW2AT5v4z91sYlCnxRBVVF+StkRHDsm+R
+	 76Bl8Hrgp+mAO9mjH6RyYR2hBshAAJPS6mRTiabBXmNf/EN0v65Da2fpSo0idekcynpYI
+	 xS+XlZAoEZneKb0W10KDMUuSSe5SOhvdqEHQfVgZYKHqO6HocUcSfMDKXLdRwrJGdQA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794861138;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794861695;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=cSymAHtSTg9MrbbuavNs8edEjM4tR6Glt6TgXdMzi/A=;
-	b=dBwx8Fi/0JgCQwtcx3el4asgtqbXVsXIZqenbQzi/fjcz/vn07sI0HOwrBbXz2ZPVgx7
-	 lxe1tEmf6fXhoHREC3324T3HXY4pGG0xRX805XLnogjVUuYi49lNWfAvFc72JdLUmahpa
-	 MtnFdtxZgqZ2WkWCWlLfXggDgGjsx7zBTGS6PJh6dbl/aQio0udj2zC7LVmqezyq6nxru
-	 1Ggn0IV2w03MzKbbpNNv7wI+396I8YGYvJjX5jsxY7Mq7Mggco9mxBpk1iGTw1ZCQwNQs
-	 fIrjoIqJenaUe6aECxpCLzbNF2KSAQ12dSSCO0PuQWIQPQRc0hIVeD5Ujdb/IM2a5vA==
+	bh=42gPF7+Sqfz7dUAfpkhFkb2az57AMCqoFi+goWrCla4=;
+	b=tI3uup1tBPgyLMqb7C17u9nAfVemKGSo5Y2hcWgN8z//XBEa8cDOCYk177+B6aq05fp1
+	 gmn3oz1LAywgzcfATE9YcDchER/ey8tOqA6YgT2vMSucpANvDqWgAZGcT8IpcRSDVtrFq
+	 5uj7AbO7a+mt/wgY9HrJxHd12fu00eRTf4xjb5DtHi+Lek/woNoacchMhObPqWwn9lTpl
+	 yCEA6nCYFL9cASkim/HFw05nvK9ROympMN+tCmj5l1Rv7ffbacDiUvBEvTK+7VZi28FLQ
+	 6xecbJmc0LtKR2HF5sdy20Zwy19XfXHuqB0yPc8bXT8PoMFTN0j845zGsl83XcHbAeg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Vbv6Njp2;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XZR+Yzdz;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AB49606A31C;
-	Mon, 16 Nov 2026 20:32:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D6FB606A32A;
+	Mon, 16 Nov 2026 20:41:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Vbv6Njp2
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49E0F1F000C4;
-	Mon, 16 Nov 2026 20:32:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XZR+Yzdz
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB67D1F000C4;
+	Mon, 16 Nov 2026 20:41:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794861137;
-	bh=cSymAHtSTg9MrbbuavNs8edEjM4tR6Glt6TgXdMzi/A=;
+	s=k20260515; t=1794861694;
+	bh=42gPF7+Sqfz7dUAfpkhFkb2az57AMCqoFi+goWrCla4=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Vbv6Njp2KLEJHIydFEEfCotyeJuqayD9Sy+dYVwcC9Qj/OoLscJ0W+s8Iy26p3DDA
-	 6KFtMZhtKJC8zGtC3E+gUdJ403cN81FSz4W65tr/Jv6q6xbEXGWaggjYEv+/r9vXnM
-	 NMi2QPIv0uUu5p+fiORRAgn5DugWKFefEAzh852mRS439hc9djnHcPPeTgGRZDlPqe
-	 HTNxMLSvKgKLZzTq9/xtQhPrJ357+1dLguwZXVZwbF+S9QUFLn2dd8ClOxmziRgPOW
-	 Jz77F5RiulDKG5if0VtPTDOn4pNyHMLMKVLYKeVTBXzP+9h2gs2mIQ09w7wnxg2ZmI
-	 Os+woIRAQQW2g==
-Message-ID: <19f00f83-070c-44b0-a842-dc2fa6dd668e@kernel.org>
-Date: Mon, 16 Nov 2026 21:32:04 +0100
+	b=XZR+YzdzGO8kVm1OoLFC+f+Dc95f7eCsQkumaGTHmg46QgC1RHKc55NADhs5GT8xe
+	 h1G7GZsdMliehYDsulEjZdhbQOJzr+jQfOoq4CXYuOTz7ZpI3IrTzB3E8WtiEyeCND
+	 brq71AhDljpkwZvMPQjgVtqfOSbjmpBoE+mghLi23aNhR9keyfcgozSmkmi9I4qRoY
+	 qomtiIQ4mg0hnrCh8+YwwJSvl8oq6czuT/JJFq1Xh4uUQzGB4p6rsyijFjBKXMdDbT
+	 oCqWv4pZh7+5gE21Rso7ENLYh30obWrZF/K28c2ExWTKosNjVbePQOnZAFn3I+oatl
+	 RA9rGyx5oJ7qQ==
+Message-ID: <20f100af-c831-4e37-8077-50f6366f323a@kernel.org>
+Date: Mon, 16 Nov 2026 21:41:22 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -52,8 +52,8 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 6/9] mm/huge_memory: build the moved huge zero PMD from
- the destination VMA
+Subject: Re: [PATCH v2 7/9] mm/mremap: resolve uffd state when the context is
+ dropped, not during the move
 To: Tal Zussman <tz2294@columbia.edu>,
  Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
  Peter Xu <peterx@redhat.com>, James Houghton <jthoughton@google.com>,
@@ -79,7 +79,7 @@ To: Tal Zussman <tz2294@columbia.edu>,
 Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  linux-fsdevel@vger.kernel.org
 References: <20261116-uffd-state-fixes-v2-0-4397a0196479@columbia.edu>
- <20261116-uffd-state-fixes-v2-6-4397a0196479@columbia.edu>
+ <20261116-uffd-state-fixes-v2-7-4397a0196479@columbia.edu>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -126,55 +126,51 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20261116-uffd-state-fixes-v2-6-4397a0196479@columbia.edu>
+In-Reply-To: <20261116-uffd-state-fixes-v2-7-4397a0196479@columbia.edu>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 11/16/26 21:02, Tal Zussman wrote:
-> move_pages_huge_pmd() builds the destination PMD for the huge zero page
-> by copying the source PMD and clearing its uffd bit, so the destination
-> keeps the protection of the source.
+> Without UFFD_FEATURE_EVENT_REMAP, the new VMA of an mremap() is not
+> registered with userfaultfd, so the uffd state of its entries is cleared
+> while they are moved. If the move fails halfway, the entries are moved
+> back into the old VMA, which is still registered, without their uffd
+> state. Writes and accesses to them are then no longer reported.
 > 
-> A source VMA registered for RWP can map the huge zero page with a
-> PAGE_NONE PMD, and UFFDIO_MOVE does not check how the source is
-> registered. The destination then gets a PAGE_NONE PMD without the uffd
-> bit, although nothing asked for that in the destination VMA.
+> To fix it, leave the entries alone during the move and clear the uffd
+> state of the new VMA in mremap_userfaultfd_prep(), right before dropping
+> the context, like unregistering does. This walks the page tables of the
+> new VMA a second time.
 > 
-> The next access fixes it up through the NUMA hinting fault path. Until
-> then, the first access to the destination takes a spurious fault and GUP
-> has to take the fault path. The impact on userspace is small.
+> This is done with userfaultfd_clear_ptes(), which also makes the PTEs
+> writable again where that is safe. That removes a spurious write fault
+> per protected page on private anonymous memory, but adds spurious write
+> faults on shmem and hugetlb, as change_protection() makes writable pages
+> that were never protected read-only. UFFDIO_UNREGISTER and
+> UFFDIO_WRITEPROTECT already behave this way. This will be fixed in
+> change_protection() separately.
 > 
-> The moved entry must have the protection of the destination VMA. To fix
-> it, build the entry from the vm_page_prot of the destination VMA, as
-> move_zeropage_pte() does for the small zero page, and keep marking it
-> soft-dirty. A destination VMA registered for RWP still gets its PMD
-> re-armed afterwards.
+> The entries no longer need per-entry handling during the move, so drop
+> uffd_supports_page_table_move() and clear_uffd_wp_pmd(). Whole page
+> tables of these VMAs can be moved again.
 > 
+> Fixes: 0cef0bb836e3 ("mm: clear uffd-wp PTE/PMD state on mremap()")
 > Fixes: 763f43865fc4 ("mm: preserve RWP marker across PTE rewrites")
 > Reviewed-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
+> Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 > Tested-by: Gregory Price (Meta) <gourry@gourry.net>
 > Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
 > Signed-off-by: Tal Zussman <tz2294@columbia.edu>
 > ---
->  mm/huge_memory.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-> index 5e2629602221..a2b1ac11e7dd 100644
-> --- a/mm/huge_memory.c
-> +++ b/mm/huge_memory.c
-> @@ -3003,9 +3003,9 @@ int move_pages_huge_pmd(struct mm_struct *mm, pmd_t *dst_pmd, pmd_t *src_pmd, pm
->  		/* Follow mremap() behavior and treat the entry dirty after the move */
->  		_dst_pmd = pmd_mkwrite(pmd_mkdirty(_dst_pmd), dst_vma);
->  	} else {
-> -		src_pmdval = pmdp_huge_clear_flush(src_vma, src_addr, src_pmd);
-> -		_dst_pmd = move_soft_dirty_pmd(src_pmdval);
-> -		_dst_pmd = clear_uffd_wp_pmd(_dst_pmd);
-> +		pmdp_huge_clear_flush(src_vma, src_addr, src_pmd);
-> +		_dst_pmd = folio_mk_pmd(huge_zero_folio, dst_vma->vm_page_prot);
-> +		_dst_pmd = move_soft_dirty_pmd(pmd_mkspecial(_dst_pmd));
 
-Yeah, mostly what we do in set_huge_zero_folio().
+VMAs should be write-locked, so nobody should stumble over it and walk page tables.
+
+Rmap walkers can stumble over entries, because only the page table locks protect
+us here. With your change, that's now actually consistent while doing the move.
+
+I assume there is now a short period in time where the PTE bits don't match the
+VMA flags for an RMAP point of view, essentially in-between clearing uffd state
+from the VMA and clearing uffd-wp bits.
 
 Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
