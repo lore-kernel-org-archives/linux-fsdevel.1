@@ -1,112 +1,134 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.139.74
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794868038;
-	b=kneN9QSYVTqxfz5yUfIzgJfPZVruw/SCqbHX4Q2SqjFkEZXy5u8/zKz+Ojre+zZlLRiY
-	 JN8cHEEkfWF9HZ2hA/C2AVG3CN07Dq17NHmihJPIsOJ62GyPjdHBLybXFoN8zT9BlG22b
-	 FrVS9rAJKImP82dgBzai91f+Xmnh++uiULqUsoaag+q4+2dZCQ/PV/RRI4OiSZldW0SyU
-	 +EpL3LCcZNoc3Aoj0DR+M2QVUSBBPdYEv3AVcMmtv6rb7lNFoTxt0GYEdDdXGN93pUXpZ
-	 oXqEIytfKDPzOWGxPQyJO2kkPpZcwc0l64EOyVQoLj2YJ+mqYucoEAyC85kxpx0SdLQ==
+	t=1794868233;
+	b=jW9NpMEoQZV0LtdqfnhIZ3KggPNgWdccNV8nV0+fLHMlPToF5SkVmz/Oq9kG5L4W/MgB
+	 FYr4wdLPGVdNkMu++1tvnMvMoAazyZETHalVuKe556/EwfFU7MTw9Xf7Q4sjNnp+neH5i
+	 qu49BpKw4yw/iPJvs6G0sA4fjbAm6R8C00eaHs0KZXvl+T2OT2eatgxh+4l0hqfWtGKxk
+	 AqFxObjWx7Ccwchl5nua6tp1PuIUJSsI6DR0m2umL6LSjpnFg8suUlKMUzbq6J4v6L8e6
+	 ndnp7yN47P4jsOFeTyooresQ3iifEowS2bU1Mi+eUv4w5QuaiyY7hR1fT89XLKWPYfA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794868038;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-GUID:X-Authority-Analysis:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=4vyYjn5UPo/7vDc4ZQ9k3Cq0mbqo2jzpmjoiYSVxIwk=;
-	b=1y7VHbhxDOhqzY6TNwkmMLLJ5wswsWcvrngbLQRw2xXtY7SkDvanBaP7dyYCbD8QUYV4
-	 lVlSU+qwSBDbOjyAKNDLV8aLXhF6SVCTEu1NQ9DQ/gol/ilbGkjnryT9wcmKEQRNxtrvr
-	 DKffnYDgIxuqVhZtwMqhrivKpfhXHY1zhggO+7y/IRvhrH3kysomPB/Foiyd9wTc4mdpa
-	 rACYd3NiGR7XXGMmtfEMG2reJOYLNlC5jAh+Sf6iIkZFz98zPCgTKwQwHbW04FpA8E1pv
-	 ssHtD5rJp3LTmBRbcTW2Gjhq008HqI411WQ2QrJigSVwPYSgtSi9rii0XjKtwKE2NqA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794868233;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:Autocrypt:
+	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
+	bh=rW3ESA/Pw6NBRNjjr1CoW7LIwEGVqJDSBwtIbvXI1MI=;
+	b=kcgEn71y64BcXTbM5EvJmhj1KQTEedjrlXRug4e5qdaxNStq7ZXTU+KMSHpTK/1NA0X6
+	 gWrJ0vGVUJgKenLVS6+Y04m5n273dSy1mWwPzxoCY0d2AR3ICpUzoYRpEMIfZgo4g6uif
+	 5O/YtnL+poyMw4xz+FXTuAydxeNZzEl4jIAKvfsZhiaSTzUDSKy/KWL4ca10LtVMkcXBf
+	 2lY5fnaRRLTRlweyIAI1GoNSJRYGaoN9Mn37KRG0kKCiWUHHpFHVbDBBHDswgwQj9Fbqf
+	 YVMvazuSG9CPVXnM1tHMoY+1PXgaBBCMBOStxQD6zO/TUHignnLVKs7JBPFzSZ+XWAQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=columbia.edu;
-	spf=pass smtp.mailfrom=columbia.edu;
-	dkim=pass header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=pps01 header.b=X90VZJBR;
-	dkim=pass header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=lionmail header.b=OqjQShhK;
-	arc=none smtp.remote-ip=148.163.139.74
-Received: from mx0b-00364e01.pphosted.com (mx0b-00364e01.pphosted.com [148.163.139.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=none header.from=dubeyko.com;
+	spf=pass smtp.mailfrom=dubeyko.com;
+	dkim=pass header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=ePEMFT1J;
+	arc=none smtp.remote-ip=74.125.224.45
+Received: from mail-yx1-f45.google.com (mail-yx1-f45.google.com [74.125.224.45])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5C8D606A896
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 22:27:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E5C8D606A896
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8853606A31C
+	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 22:30:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E8853606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=pps01 header.b=X90VZJBR;
-	dkim=pass (2048-bit key, unprotected) header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=lionmail header.b=OqjQShhK
-Received: from pps.filterd (m0167074.ppops.net [127.0.0.1])
-	by mx0b-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AGLYgxg4118750
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 17:27:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pps01; bh=4vyY
-	jn5UPo/7vDc4ZQ9k3Cq0mbqo2jzpmjoiYSVxIwk=; b=X90VZJBRvXvcQtWvtSML
-	cYnBp83zg3R4X+C8UXFrR/0ste+aFkHEr5U77ylXLx4BUEcLYtTW6B1yLY5tikag
-	7hbIrco84ujOdJmB2/epEniEGsLrXYXe1ogsWavEfw24C3fPqOCdzA4WKEAhAoyl
-	W+BiUtmuvDa6x3vhdpUGfQ5zewpasoXg2DTVzpK9IPd5mjYO/hG+kBfhrQrDAV0h
-	TUtAwtC3EWjhSAGNAofYPlS0P3Hgb+oa8+ffNiiYvUKtYpZ8PZri4s2OAy1x1STh
-	BOsI2Jk34RJ5O2MDTpfuwmsMD70Zy63yJ+SR5N0pc/kQZMhE9m5dnWGWEc5XOo47
-	cw==
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com [209.85.219.70])
-	by mx0b-00364e01.pphosted.com (PPS) with ESMTPS id 4j0598ufmh-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 17:27:16 -0500 (EST)
-Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-91f1b3070f2so33598976d6.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 14:27:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=ePEMFT1J
+Received: by mail-yx1-f45.google.com with SMTP id 956f58d0204a3-67c246c0c60so373056d50.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 14:30:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=columbia.edu; s=lionmail; t=1794868036; x=1795472836; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=4vyYjn5UPo/7vDc4ZQ9k3Cq0mbqo2jzpmjoiYSVxIwk=;
-        b=OqjQShhKdsOzCEp9sDHRO07pMjPNWkhEsx5D9hKW4kZheIOMb36jRTMc0L6Bqe//Ix
-         iftZ7ACLorkN1cC+x3lModR96EeXDIMQmNlssDAivIm7xwEBJRBakvSxealfGnpLw8yA
-         jpC/fUhORfKNP5xoxMVYgTjOZLcMGEqNvHSb09jtOP3J367nOTh8rVAT+/ggq0642FSb
-         Tg+VZvLepva5YrgLaXV/zDo2CURzn3tBpMki+mjgjQxqkRRj5XT9zYQBCBr4DCmr2I4f
-         rnEclJLdHDRCXy2OxQtXvH8bW2+p4neBZc2SIFa/BN5OS9ElMNZLdlIKoXBSlHk10bKF
-         0Niw==
+        d=dubeyko-com.20260707.gappssmtp.com; s=20260707; t=1794868232; x=1795473032; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=rW3ESA/Pw6NBRNjjr1CoW7LIwEGVqJDSBwtIbvXI1MI=;
+        b=ePEMFT1JbNVEwg8trrBH6LbistNfZoq4UZzQY1bT0hce648cBczz0Ti/xGHKUvrQVG
+         EuaTGBAsBmuOKGx1w+BHeX+9o9ToDDHUPjbHmHsUTHgW1RXlRcrnO1S8oVOFbDyKVj1Y
+         cSq+u476iZJ7MipyrMKpSznWqpSuiZkJ7AvSsMebnb2RBgtS5ey/skjjvoak+jmRvI+X
+         JTLm1uZiOoigpTgjmteSC54C6MdFnQX2dlTyBpUC71bg2tQl/x3ge3ec+MlILkYZkmvb
+         0wDVV1H7i6ir8o9Z1ze52/ejit7OuyHp9kvcpQI+ZiHMcZzCZwi4DoWuWOl9vak03PCb
+         4ncg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794868036; x=1795472836;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=4vyYjn5UPo/7vDc4ZQ9k3Cq0mbqo2jzpmjoiYSVxIwk=;
-        b=p49AZQW1541E38dPaxXBSDXW4rA6QNXn1/NkfyVnPaDHJHW25yV2p35SKarOjMxssU
-         9rlx7r5RphCghbpcCwuoPI+A4oDrnPSJ5ZJ+Vp0XR6uUajvBgf1N54ozlKfBMXZjIqXk
-         RndUfKh5LabsvPa60+xIAhQvZvFovPkIn0fRGSemi8RtvP0qoMtci9JiPRX+HOgGLmXI
-         O8ZSkY6yO6ktjRzV9f7k1296YzGGFRY6zLm+4Ne9oIRdEXEHU+tAULvKUHaKEiSk3k0i
-         s6j8wii0d/ZxOUjS5Xwi7LEapXrDkZOtGpGP7t+8otfEs13yDAEC1Ion46qQiOPzPeoB
-         AXvA==
-X-Forwarded-Encrypted: i=1; AL+hErHDGbjDfs6hXKihDt01N8IcXpjPyLyPg8mW8fwMqp4GKnp9dnZ9USlIBw6ClcwpKegl0wVc+mHxBue76V2f@vger.kernel.org
-X-Gm-Message-State: APuU4Z9C9MJ6Li5awp/DsFCLCngPdYLX/cxjJMKaD4Hf4tZfHSDXZfIN
-	atdf22kq2/m3+7vmfVyiOwM8v2gqO9iQ510I9RwnVsxg70g5xLU4rGxfADcbvQCfW9+b3EIOjq6
-	ZYqvw94NyA16mcLMeoiNLi7+0ijadPtumOj8SlIyjQ+NQ4+JW8vFIlqtgODTC7gs=
-X-Gm-Gg: AYBFou0b0jrn+57F7DTGGx8VlOR7DbrCSVcEhns43KevhR4+9ExHNZUEKGK5Rbhe69e
-	4LCthYUIcp7pjceOKIMWayHIFP3F/EWObMWAFG2SKFVIJPlEeOkaiJv9Xx8YU17rfb95Emsx6DI
-	4NQsMZvwrWpRwY2UG1KQr5vwo3Z69XTr9ctJJveEqvms7UHoYnlKto8w14aP9XZBnXnoGis0iSN
-	UfeAUemlesp/W+24ZM9GqB7wOoqCsPaTWAr3aSDTeyhMOjOhZM29nILZ07WDslqOx66MbuF+8nV
-	UCj7foN4D1muijleAnIUILIPZoH65kvDbpoLbZ5mjQkqlPOFRhj7cJpKZLhsIckwkrOhIBS6F04
-	yljSRRZ5C6fbtEwkNUU6SaoGf/yVD0hhYdWxZr4uY93C4vX5rbjd1R8cRDbfzD0FIsdjy/U6KEt
-	8F8136/opRIc54l1Hmw4y40rvn
-X-Received: by 2002:a05:622a:4188:b0:55d:34d4:12f1 with SMTP id d75a77b69052e-55d34d41f99mr93205881cf.34.1794868036000;
-        Mon, 16 Nov 2026 14:27:16 -0800 (PST)
-X-Received: by 2002:a05:622a:4188:b0:55d:34d4:12f1 with SMTP id d75a77b69052e-55d34d41f99mr93205151cf.34.1794868035325;
-        Mon, 16 Nov 2026 14:27:15 -0800 (PST)
-Received: from [10.207.2.125] (nat-128-59-176-174.net.columbia.edu. [128.59.176.174])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-55c3b7a4adbsm66513611cf.19.2026.11.16.14.27.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Nov 2026 14:27:14 -0800 (PST)
-Message-ID: <eba4fb71-6baa-455f-8899-87567af898aa@columbia.edu>
-Date: Mon, 16 Nov 2026 17:27:13 -0500
+        d=1e100.net; s=20260707; t=1794868232; x=1795473032;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=rW3ESA/Pw6NBRNjjr1CoW7LIwEGVqJDSBwtIbvXI1MI=;
+        b=PWP8oMDZ9mXOTOIdUiCxuxBYNn1sd7tyGUCzLoUMTLoJJ4fK6tduF8EUyEP3rnPzhj
+         OTPtDson0uF2fjfrvyB+0YUt5qnvST6VIepmGOmJA/LkSgJwUZ9rLFSUvwfL+u4iegxw
+         CyKqIe/QcRt3bq+WGWD132YAKkzFk7LjFoEfAOhl3P7zn2vrar+8staQnE8jZuSVuje1
+         FgowC9Xoydc4jaxzprzJLvSfbJsXBdaajsDChXevpSHGfEwTEMTIzHXxunHOubqJ0wCx
+         KX883/tktT4M8VpdzbTZf2PsLV64BQUa50dM96XkbxFe6vvxGeL2LceGmUi5Byp8SwAl
+         FWtg==
+X-Forwarded-Encrypted: i=1; AL+hErFszgLofgc2feQ/JCX86KCYTLkFe+AFJGpc/gzDLpXWBZyGpJiwf4tky+b+9I5zVzTjaAf7U1uO6nZtFUMP@vger.kernel.org
+X-Gm-Message-State: APuU4Z+9ditLqnRK7Jg5v8nmsoHzpwKX6duujBHLlGh+mRuoNPgbIanD
+	NttM4x0+NGW+Vj2rhzEh3WdKQn5Ft3UmqI7WqGvhe0AdmIETTqkG5E8HWjAgdJ9feTCJA4/DtPm
+	oX/4+eOI=
+X-Gm-Gg: AZFdTZcyVv7cgGKe8tR4QTtb1r7kp9DUT7+CC8IYRomR9tdwGRXgfpf5ZZBeT9duu1L
+	JIbTlxXNwFjmGlYoE7M5jWrPjxL8nYwP5nRf2CQCWyDcNF0MTZeD+2DYF0LipYfBEjeXxBc5Hww
+	pPMS9AiACou5erY4L6iXNWNAQn+qK9qujdtdZIjipM4cu+V0NIVZvtSOi7dDNiLPEDvyZET5pCX
+	oJiORKlHZ8je1nRXhsCFcIVCBzkb2BTVWte2OqZGOWOwrdVscz9OyWoxeqNISHB3Iu1gAtBB/si
+	YiCg2ypQ0fJI5fbzSxX0OsWAMLNBBMreNhF9uXykbQ/YBhXUHuvmPYU2EdvQxj6hbfflbklzIux
+	tn+pSZvBaSh/3JhsewEQsFp8iGE7NIi0+hmrGT1CllyJVOHwKYPTpYlqmn9GBCuibnzwxDavhj/
+	VbWUpgZ1GM7MtMYapEwme3S1JP/H62SThJImD90EFL1xFCgc4IEXuD+ugR0zEnLq8OB0UcsIvJz
+	DMOEsT/w0VCtHKOLHzN69tuMKru6frKefH0N3OeYRtnDAg+7/gVs/W0WFdIsoGzesXLaYVpMc/b
+	F1r905NwTmCTOJgnA9RAroC3zjI/LX7/gZbfWYf/GaywxaGFvaGayf0F07BOGV5rXildcvqaCv2
+	eUNK1+lUN37WDO9BL7UFXnylwmLGr5gHVBj1YZSdsSiEmnzcQJTPEdCBQSSf0uofOrtjOT/w=
+X-Received: by 2002:a05:690e:e8f:b0:677:c281:d685 with SMTP id 956f58d0204a3-67dc79787a7mr469334d50.34.1794868231774;
+        Mon, 16 Nov 2026 14:30:31 -0800 (PST)
+Received: from system76-laptop.attlocal.net ([2600:1700:6476:1430:48ee:a3ac:5a4b:3831])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67d8a55b08fsm11136160d50.7.2026.11.16.14.30.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Nov 2026 14:30:31 -0800 (PST)
+Message-ID: <446748647839fd554246a78d72be728069b44b7a.camel@dubeyko.com>
+Subject: Re: [PATCH 2/2] hfsplus: do not end readdir at i_size after an
+ unlink
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: Hengyu Liang <hengyul@cs.unc.edu>
+Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Yangtao Li
+	 <frank.li@vivo.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Date: Mon, 16 Nov 2026 14:30:29 -0800
+In-Reply-To: <20261114125045.466604-1-hengyul@cs.unc.edu>
+References: <0205ef88738917a6d307b4e334e2dd1b0851317b.camel@dubeyko.com>
+	 <20261114125045.466604-1-hengyul@cs.unc.edu>
+Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
+ keydata=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
+ NFdvziOa4FgUBC4X71upsZIoZJeii2V/Jtc3B4g==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-9 
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -116,164 +138,115 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/9] userfaultfd: use anonymous memory for
- UFFDIO_ZEROPAGE on private file mappings
-To: "David Hildenbrand (Arm)" <david@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mike Rapoport <rppt@kernel.org>, Peter Xu <peterx@redhat.com>,
-        James Houghton <jthoughton@google.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Balbir Singh <balbirs@nvidia.com>,
-        "Liam R. Howlett" <liam@infradead.org>,
-        Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>,
-        Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
-        Michal Hocko <mhocko@suse.com>,
-        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-        Andrei Vagin <avagin@gmail.com>,
-        Muhammad Usama Anjum <usama.anjum@arm.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>, Arnd Bergmann <arnd@arndb.de>,
-        Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>,
-        Joshua Hahn <joshua.hahnjy@gmail.com>,
-        Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
-        Ying Huang
- <ying.huang@linux.alibaba.com>,
-        Alistair Popple <apopple@nvidia.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
-        Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
-        Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
-        Kiryl Shutsemau <kas@kernel.org>, Muchun Song <muchun.song@linux.dev>,
-        Oscar Salvador <osalvador@suse.de>,
-        =?UTF-8?Q?Miko=C5=82aj_Lenczewski?= <miko.lenczewski@arm.com>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, stable@vger.kernel.org
-References: <20261116-uffd-state-fixes-v2-0-4397a0196479@columbia.edu>
- <20261116-uffd-state-fixes-v2-1-4397a0196479@columbia.edu>
- <cc865bc8-b96f-4385-97b1-976de4465ca1@kernel.org>
-Content-Language: en-US
-From: Tal Zussman <tz2294@columbia.edu>
-In-Reply-To: <cc865bc8-b96f-4385-97b1-976de4465ca1@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE2MDA4OSBTYWx0ZWRfXzGxW/D430FPL
- t0+/Kh5QOSQBDrpjqvM/Jk4B99BdIbVy0FMrKCjeUee4YiC4/6GpyUbTZ/Ej7lpcIDfwAAS9gkc
- 0aTbhHbg6zv+Wkq6Hm2xgBAIbdgMINEb2z2ip/9WTBPzwiM0xx1v
-X-Proofpoint-ORIG-GUID: OzzshCq0ZOw6Mdn2U8NrH8w2fU2D2i03
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE2MDA4OSBTYWx0ZWRfXwRHHqA0OpUXO
- +7Syx61WEU/c+pP0sCRbnaTWg/r/Dq4WaVkrpzm0DwayaNGIN+veog+nHjMTJFgVkhqr1pIlzIR
- rYv9kM5CyNbQB5i13yg8kgdjfdqDELUn6ESWek2Y0P6G/tuH8JT2F+5GSwGoTj/7kpVxeuj9oyp
- Cby709NKzySH+sBIUOb9gTc326sNmkfnFL4lD58GmlFEdVd9PLzOxQi6M8cXtAc21mJH2SBb834
- 2zJuyQ1Sfdi/IAyzI7pJPqbY1+UESLk0IBkhQ/PUIENpUQuSTu449duaTMLeDArk93AwxUzsFbr
- TgtqT5NdINHKfNfjFa3FJbbmzDhbZEgi9hGXLs6fWhdkumBGCd6nLmekVhykLYFLeys4+zBkt7p
- LVx8Z9/jRfsDxPcjg9kcvN9lya6C0BxWwHjrv6O4xNwFJVo9Dc3DQJMrjEAcluO3McWvAJFROZP
- 2fvKOiocZj9+er7KGmQ==
-X-Proofpoint-GUID: OzzshCq0ZOw6Mdn2U8NrH8w2fU2D2i03
-X-Authority-Analysis: v=2.4 cv=R/aWitRX c=1 sm=1 tr=0 ts=6afb8344 cx=c_pps
- a=oc9J++0uMp73DTRD5QyR2A==:117 a=KPY1cyGZ6h6m4ASiENTC8Q==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=x7bEGLp0ZPQA:10 a=A0y_DWxS2BwA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=azVShVRs0zEubeQ0wG0L:22
- a=VwQbUJbxAAAA:8 a=U30RilsMMHCo0eZBjZ0A:9 a=QEXdDO2ut3YA:10
- a=iYH6xdkBrDN1Jqds4HTS:22
-X-Proofpoint-Virus-Version: vendor=nai engine=6900 definitions=11968
- signatures=596817
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=10 clxscore=1015 adultscore=0 phishscore=0 suspectscore=0
- priorityscore=1501 bulkscore=10 malwarescore=0 spamscore=0
- lowpriorityscore=10 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
- definitions=main-2611160089
 
-On 11/16/26 3:16 PM, David Hildenbrand (Arm) wrote:
-> On 11/16/26 21:02, Tal Zussman wrote:
->> If the mm cannot map the shared zero page, UFFDIO_ZEROPAGE falls back to
->> mfill_atomic_pte_zeroed_folio(), which allocates a zeroed folio and
->> installs it through vma_uffd_ops(), no matter what kind of mapping it
->> is. An s390 KVM guest with storage keys or protected virtualization is
->> such an mm.
->> 
->> For a MAP_PRIVATE shmem mapping, that adds the zeroed folio to the page
->> cache of the file. That is wrong: a private mapping must never modify
->> the file it maps, and the file might even be mapped from a read-only fd.
->> 
->> The ioctl can also fail where it should succeed. A missing fault is only
->> delivered for a hole in the file, but UFFDIO_ZEROPAGE can be called on
->> an address that did not fault, or can race with a write to the file. If
->> the file has a page at that offset by then, inserting the zeroed folio
->> fails and the ioctl returns -EEXIST although nothing is mapped at the
->> destination address.
->> 
->> What we want is what UFFDIO_ZEROPAGE does on a private mapping when the
->> shared zero page can be used, and what UFFDIO_COPY does: only check that
->> nothing is mapped at the destination address, map zeroed memory there,
->> and leave the page cache alone. The zeroed folio path did that before it
->> was moved to vm_uffd_ops.
->> 
->> To fix it, pick the ops in the common folio path, as
->> mfill_atomic_pte_copy() did for UFFDIO_COPY: anon_uffd_ops for a private
->> mapping, the ops of the VMA otherwise. That makes
->> mfill_atomic_pte_copy() and mfill_atomic_pte_zeroed_folio() redundant,
->> so remove them and rename __mfill_atomic_pte() to
->> mfill_atomic_pte_folio().
->> 
->> UFFDIO_ZEROPAGE no longer modifies the file, and only fails with -EEXIST
->> if something is already mapped at the destination address.
->> 
->> Fixes: f74991b4e383 ("shmem, userfaultfd: implement shmem uffd operations using vm_uffd_ops")
->> Cc: stable@vger.kernel.org
->> Acked-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
->> Signed-off-by: Tal Zussman <tz2294@columbia.edu>
->> ---
->>  mm/userfaultfd.c | 46 ++++++++++++++++------------------------------
->>  1 file changed, 16 insertions(+), 30 deletions(-)
->> 
->> diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
->> index d65184d9a480..61a712e1f9f5 100644
->> --- a/mm/userfaultfd.c
->> +++ b/mm/userfaultfd.c
->> @@ -531,15 +531,27 @@ static int mfill_copy_folio_retry(struct mfill_state *mfill_state,
->>  	return 0;
->>  }
->>  
->> -static int __mfill_atomic_pte(struct mfill_state *state,
->> -			      const struct vm_uffd_ops *ops)
->> +static int mfill_atomic_pte_folio(struct mfill_state *state)
->>  {
->> +	const struct vm_uffd_ops *ops = vma_uffd_ops(state->vma);
->>  	unsigned long dst_addr = state->dst_addr;
->>  	unsigned long src_addr = state->src_addr;
->>  	uffd_flags_t flags = state->flags;
->>  	struct folio *folio;
->>  	int ret;
->>  
->> +	/*
->> +	 * The normal page fault path for a MAP_PRIVATE mapping in a
->> +	 * file-backed VMA will invoke the fault, fill the hole in the file and
->> +	 * COW it right away. The result generates plain anonymous memory.
->> +	 * So when we are asked to fill a hole in a MAP_PRIVATE mapping, we'll
->> +	 * generate anonymous memory directly without actually filling the
->> +	 * hole. For the MAP_PRIVATE case the robustness check only happens in
->> +	 * the pagetable (to verify it's still none) and not in the page cache.
->> +	 */
->> +	if (!(state->vma->vm_flags & VM_SHARED))
->> +		ops = &anon_uffd_ops;
-> 
-> Oh, but one comment: why not check for actual cow mappings?
-> 
-> 	vma_is_cow_mapping()
-> 
-> is your friend :)
-> 
+On Sat, 2026-11-14 at 07:50 -0500, Hengyu Liang wrote:
+> On Thu, 2026-11-12 at 12:44 -0800, Viacheslav Dubeyko wrote:
+> > Frankly speaking, I don't quite follow what is the issue of the
+> > fix. Do
+> > you mean that we create and delete folder in one thread and execute
+> > the
+> > readdir in another one? Or do you mean that application has several
+> > threads and one thread do readdir but another one delete file by
+> > file?
+> > How this deletion is executed? I mean which files are deleted?
+>=20
+> Sorry, the commit message was too short. There is only one thread. It
+> reads a part of the directory with getdents64(), deletes the files
+> that
+> this call returned, and then calls getdents64() again on the same fd.
+> This is what "rm -r" of BusyBox does.
+>=20
+> > Even if we delete files in folder then i_size is dropping
+> > gradually. If
+> > we traversing the folder's content and ctx->pos >=3D inode->i_size,
+> > then
+> > it sounds that we already showed the existing content. Do you mean
+> > that
+> > if we deleted the range that we already processed, then we miss the
+> > rest of undeleted items?
+>=20
+> Yes, exactly. ctx->pos counts the entries returned since the start,
+> and
+> i_size is the number of entries that exist now (valence + 2). When
+> the
+> entries that were already returned are deleted, ctx->pos stays and
+> i_size drops, so ctx->pos can reach i_size while entries are still
+> unread.
+>=20
+> A small example is a directory with 4 files and a buffer that takes 4
+> entries:
+>=20
+> =C2=A0 getdents64() returns ".", "..", f1, f2=C2=A0=C2=A0 ctx->pos =3D 4,=
+ i_size =3D 6
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rd->pos =3D 4, rd->key =3D f3
+> =C2=A0 unlink(f1)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 i_size =3D 5
+> =C2=A0 unlink(f2)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 i_size =3D 4
+> =C2=A0 getdents64() returns 0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 f_pos (4=
+) >=3D i_size (4)
+>=20
+> f3 and f4 were never returned. Before commit 4b0496432844,
+> hfsplus_delete_cat() moved f_pos back for every deleted entry before
+> the saved key, so the second call started with f_pos =3D 2 and returned
+> f3 and f4.
+>=20
+> With 1500 files and a 32768 byte buffer, the first call returns 1022
+> files. After they are deleted, i_size is 480 and f_pos is 1024, so
+> the
+> second call returns 0 and 478 files are left.
+>=20
+> > > +	bool resume =3D rd && rd->pos =3D=3D file->f_pos;
+> >=20
+> > Is it possible that rd is NULL here?
+>=20
+> Yes. file->private_data is allocated at the end of the first
+> hfsplus_readdir() call that stops in the middle of the directory, so
+> it
+> is NULL before that. The current code has the same check
+> ("if (rd && rd->pos =3D=3D ctx->pos)").
+>=20
+> > I don't really follow how the resume variable can help at all.
+> > Probably, I am missing the case. Could you please explain the issue
+> > at
+> > first?
+>=20
+> resume tells apart the two ways the function finds the next record:
+> from the key that the previous call saved (rd->key), or by counting
+> records from the start of the directory with ctx->pos. It is the
+> condition the current code already uses to choose between them, only
+> computed at the start of the function.
+>=20
+> When the call continues from the saved key, ctx->pos no longer says
+> where the walk is in the directory, because entries returned by
+> earlier calls may have been deleted. So comparing it with i_size
+> cannot tell if the directory has ended. The patch skips the three
+> i_size checks for such a call, and ends the walk when the next record
+> belongs to another parent or the catalog has no more records.
+>=20
+> A call that finds its position with ctx->pos (the first call, or a
+> call after lseek()) keeps the i_size checks and the "walked past end
+> of dir" error as they are.
+>=20
+>=20
 
-Probably because I didn't know about it :)
+Frankly speaking, I dislike the resume variable way. It looks really
+confusing. And, as far as I can see, you used it in two/three different
+contexts. If I understood correctly, we are checking three conditions:
+(1) Is current position correct? -> rd->pos =3D=3D file->f_pos;
+(2) Has directory content processed? -> ctx->pos >=3D inode->i_size;
+(3) Is it last directory's item? -> err =3D=3D -ENOENT.
+Could we introduce dedicated inline functions for these checks? The
+code will be more clear and easy to understand then. What do you think?
 
-This is already equivalent since uffd registration rejects VMAs without
-VM_MAYWRITE, but I can switch it over for consistency.
+And, please, explain the problem with more details in the commit
+message.
 
-> -- 
-> Cheers,
-> 
-> David
-> 
-
+Thanks,
+Slava.
