@@ -1,65 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.254.224.33
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794808908;
-	b=MdjJFKyAr2uARHGM5nVDcgse6oO2J4UP2HhdS9YYOZ2wf2KN7Y8tW+l6u5lvCniOmAU4
-	 lRnNWtwVsp1EFCZDBk+8aS5tXJEjtTZ59J9PNoBCLs+Xh8ip0ZmHs35qnOBBG7TK9NHyi
-	 o/AJFzbwB3ZVevZoaaT0FaDZeq9wn4m9okkls9Bq9axFgXQ8BxI3C7mUGV4UWD0XFRg5i
-	 7zBN32+WN/a9/hpbe3G4Fi0ry4SUzyTciYZRNTe71p4ZXsi1JFbakWeJIlIs65N5xxNPY
-	 78QuUAwr65ejnu8cNZGmp3j8QppsQXZyyXrwnFltEe98qV7dbj1G0Lc0/q/rMA2Krpg==
+	t=1794809055;
+	b=J1fBPOdT/LwuAVMBT39qQsucGhA3uQlOLFJOlDocnZ+IachGFKdTvIGRJDJPRd5bn38F
+	 Ikjg2IKL5W53+CMlSB4TAUxCLFopgMj4E3ExRtO74WicZ0MxuNgUJvgp0hmSkq+36Wj2h
+	 sbMZgRAbOQh4iKlAuDLQ2uAXULwchJn3fS6I65UpuvPj++gIjXvTLpmpqkAWyXepeJZIW
+	 gptW//sYZFkgvpU7y0O+7rrCgowPRUPtDut6hzWf9v01IsAgtjVSqZHeefH4crvDUJ3yD
+	 Vo2bttoo9IFIOreDAikDGhyiiEF9/WO+Jth6jJcOV8tIOfTJ/XiTK7clIgYtDRwo1nQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794808908;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-SRS-Rewrite;
-	bh=f1ONLJ0Ih5Ss8RqWcX7BFA1NKCceyjCJxFaWFPNB+nc=;
-	b=fPm9/RhI3bCPEAIKfYRkPj0y4ygl922l+tAY9vkEXxPXS1Hk6UeR5gD4VZF4K+QUi0PE
-	 uuoUUCf4xDtT/+a0jrzLYxayjUEj8cgG4fIHjFoVCdP9m/yU3TPiJRzkPLjSPiLu1Oe34
-	 H4nf59X1U310zfU4tSWg2sqH9Jq+4W368Wi9UmX9E/XhEg9aoJLxIvbYNiS0K4oMlFeOE
-	 +VNQP54j9BtXclK3L075mlbxZi3mA6M0KrKexnl55t9+OcMrp9rFNb8mNIGxBDzHPWqG+
-	 QKIC9Con5itmkJBN4Zf+XcHhHRf3B7npsz5ClHq6ZCEX4nSYwF4fRKNQj6zbdRGbeqw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794809055;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Received:Received:
+	 Received:Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:
+	 Cc:Content-Language:From:In-Reply-To:Content-Transfer-Encoding:
+	 X-CMS-MailID:X-Msg-Generator:Content-Type:X-Sendblock-Type:CMS-TYPE:
+	 cpgsPolicy:X-CFilter-Loop:X-CMS-RootMailID:References;
+	bh=H7xrcC5hwu+0yEElMphAO/Ot/SJCVLBsU/hVZPg1pME=;
+	b=WgSmgJoD53zkoc4yaLCHAZ19EaSOlCr3ShLPVku3GSafII5336ozKaFzysNRJ7eUsvfq
+	 QBG99Lpc98WVEbpU+Il973V7yap8wgFEc8+6dTGOpc70puguukxKUX4unLzPdegylNlc4
+	 0wNN6C5J4GC4nJsqpH/55/WD9/qP7ICFupIZCaq8zC3MWVUlCQN8MTrxGtuk3KupyqfZl
+	 RP/D5XcoH+Aj5m+BCMKPVi1aS5fw1vnpY+YEFbSIyTPWafeldUs+EURBJAY0Kwknsx+0B
+	 DwEViUw/H8T2vO/Vcn4+DqCfRo2mD7A41xzxlAwdRC1/NE1d9rIB/2y/aMjbB88iUVQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=none smtp.mailfrom=bombadil.srs.infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=FhGCTeAB;
-	arc=none smtp.remote-ip=198.137.202.133
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=samsung.com;
+	spf=pass smtp.mailfrom=samsung.com;
+	dkim=pass header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=G9fJsEJF;
+	arc=none smtp.remote-ip=203.254.224.33
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97928606A323;
-	Mon, 16 Nov 2026 06:01:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 97928606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DC8B606A884
+	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 06:04:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3DC8B606A884
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=FhGCTeAB
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=f1ONLJ0Ih5Ss8RqWcX7BFA1NKCceyjCJxFaWFPNB+nc=; b=FhGCTeAB7H92RKxMbcl4qDCqdC
-	eZuEJNYOjeRRFPmQiVrEqFWrrG0Ga51/jo1NpkvUEvopbDGvN3r/CLS/zAO85IynW/e6cqAJUF9a1
-	GWs2fvJ102UZQU/owYTdNWlI6VaGHsOEw3u9mU9MZU0G/cvm8W2YsJ8DrRgDRdNmiznbEvSc8eDjQ
-	bXSXRvKu15ilmmENs8hCRAe+gsqbxEGQ2bJP/x83fpzv0RbEf0GLYIT7NOeHL/7+NzB3elk3OMQ6k
-	b470a48IamAVipT7j8hlPzcrkI8A7lS2MTtURohzqOADbFMrGYlKZpii24b6C1MqL0TRDfLYjAFeY
-	ndP1WQmg==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSpmk-00000001Ca6-1hnv;
-	Mon, 16 Nov 2026 06:01:46 +0000
-Date: Sun, 15 Nov 2026 22:01:46 -0800
-From: Christoph Hellwig <hch@infradead.org>
-To: Breno Leitao <leitao@debian.org>
-Cc: Christian Brauner <brauner@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Hannes Reinecke <hare@suse.de>,
-	Pankaj Raghav <p.raghav@samsung.com>,
-	Johannes Thumshirn <johannes.thumshirn@wdc.com>,
-	Luis Chamberlain <mcgrof@kernel.org>, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel-team@meta.com
-Subject: Re: [PATCH] iomap: don't update i_size of block devices on buffered
- write
-Message-ID: <avqcSintiX4fhNUB@infradead.org>
-References: <20261113-iomap-bdev-isize-v1-1-699603b589da@debian.org>
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=G9fJsEJF
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20261116060412epoutp03b07dec97786883ceda95d0b3f087411f~ocVLaFEAd1355413554epoutp03l
+	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 06:04:12 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20261116060412epoutp03b07dec97786883ceda95d0b3f087411f~ocVLaFEAd1355413554epoutp03l
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1794809052;
+	bh=H7xrcC5hwu+0yEElMphAO/Ot/SJCVLBsU/hVZPg1pME=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=G9fJsEJFVYkdthaI9CLk3cwfU6ERMSkI5fa5+IOEuks5sLCrHkkhSLmXV9Q7CGaUr
+	 v/EouUU+9fVEzFQAld9V9hKmp+TMcQHzP1f49idBUogaGtKzs9ulAtZ+YxtXSwM4Zt
+	 Pe3SFb+VDyVseNywLC/lRdf9GYBcWgdGZsp1zqKE=
+Received: from epsnrtp02.localdomain (unknown [182.195.42.154]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPS id
+	20261116060411epcas5p4f0931d035187129266222d789488caad~ocVK4bShX0467004670epcas5p4p;
+	Mon, 16 Nov 2026 06:04:11 +0000 (GMT)
+Received: from epcas5p4.samsung.com (unknown [182.195.38.87]) by
+	epsnrtp02.localdomain (Postfix) with ESMTP id 4jSckf5WCzz2SSKs; Mon, 16 Nov
+	2026 06:04:10 +0000 (GMT)
+Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+	20261116055714epcas5p2320c9165ed0817d0785bf8b1de6bbdda~ocPGc5QD60734207342epcas5p2t;
+	Mon, 16 Nov 2026 05:57:14 +0000 (GMT)
+Received: from [107.122.10.194] (unknown [107.122.10.194]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20261116055711epsmtip274752e558afe0bba931f5cc6431889e2~ocPD6NEY31263312633epsmtip2A;
+	Mon, 16 Nov 2026 05:57:11 +0000 (GMT)
+Message-ID: <96c91d01-98b5-4b00-a20c-c3cbc4c1ebca@samsung.com>
+Date: Mon, 16 Nov 2026 11:27:01 +0530
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -69,24 +71,53 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261113-iomap-bdev-isize-v1-1-699603b589da@debian.org>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 0/8] xfs write streams
+To: Hans Holmberg <hans.holmberg@wdc.com>, brauner@kernel.org, hch@lst.de,
+	djwong@kernel.org, dgc@kernel.org, cem@kernel.org, jack@suse.cz,
+	axboe@kernel.dk, kbusch@kernel.org
+Cc: linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	gost.dev@samsung.com
+Content-Language: en-US
+From: Anuj Gupta/Anuj Gupta <anuj20.g@samsung.com>
+In-Reply-To: <896f049c-ca48-4c2e-9c2a-934f106b465c@wdc.com>
+Content-Transfer-Encoding: 7bit
+X-CMS-MailID: 20261116055714epcas5p2320c9165ed0817d0785bf8b1de6bbdda
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+cpgsPolicy: CPGSC10-542,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20261103111022epcas5p4df6a10b70dd9a92992c117669c7227fc
+References: <CGME20261103111022epcas5p4df6a10b70dd9a92992c117669c7227fc@epcas5p4.samsung.com>
+	<20261103110640.1000095-1-anuj20.g@samsung.com>
+	<896f049c-ca48-4c2e-9c2a-934f106b465c@wdc.com>
 
-On Fri, Nov 13, 2026 at 07:02:17AM -0800, Breno Leitao wrote:
-> -		if (pos + written > old_size &&
-> +		if (pos + written > old_size && !S_ISBLK(iter->inode->i_mode) &&
->  		    !(iter->iomap.flags & IOMAP_F_FSVERITY)) {
->  			i_size_write(iter->inode, pos + written);
->  			iter->iomap.flags |= IOMAP_F_SIZE_CHANGED;
->  		}
->  		__iomap_put_folio(iter, write_ops, written, folio);
->  
-> -		if (old_size < pos && !(iter->iomap.flags & IOMAP_F_FSVERITY))
-> +		if (old_size < pos && !S_ISBLK(iter->inode->i_mode) &&
-> +		    !(iter->iomap.flags & IOMAP_F_FSVERITY))
+On 11/12/2026 4:18 PM, Hans Holmberg wrote:
+> Is the base using write life time hints?
+> 
+> I had to cherry-pick this upstream patch on top of your stream branch
+> to be able compare against life time hints (as it was broken before)
+> 
+>   b8400c9fa Make linux file write life time hinting work (#12595)
+> 
 
-Please add a function scope "update_isize" variable instead of
-duplicating these checks.  Otherwise looks good.
 
+No, the base did not use hints. But for this setup (i.e., non-zoned 
+xfs), it would change nothing.
+All other xfs allocators ignore write-hints.
+And NVMe driver ignores bio->bi_write_hint.
+
+> I think it's worth highlighting that CAP_SYS_ADMIN is required for
+> allocating streams. CAP_SYS_ADMIN is very limiting, so are you
+> planning follow-up work to relax this? Christoph suggested a per-user
+> rlimit on the number of streams as the nicer long-term option back in
+> v4:https://lore.kernel.org/all/20260819071137.GD1541@lst.de/
+
+Yes, agree that it is limiting.
+Per-user limit is scheduled as a follow-up.
+Relaxing the check later does not break existing users, and with the 
+checks moved to
+common code (as you suggested) it will be done in one place for all 
+filesystems.
