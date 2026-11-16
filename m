@@ -1,101 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.48
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794837180;
-	b=eJ6a1l9JuRZrrAntKvmMQfd43wEEbefSByRC1dA2PuGxVrDeO+qoDmZt8+PVBqUNga8c
-	 +lwGZRSt/hBn4vcxbAoDW0RQc/q5b8o/K8cgP0E/FQO0g1ZIPFrKdiWQ1rUbjjEWCHtsc
-	 Os8oKh0IFoq0RSgU1JccWvg+tHtlDcJbkDIbFtFxQ7CVFNOhdlCmkQYQIQgSuIscYRC8n
-	 QsmFlrHyy8xoqbPRQMneLVGmJoltW1DBAklWlUCSrcGZ28BlcVY/Y12c3PURvw5R9wi5v
-	 i3tkGKsMAW56cl0dAbC56GftGbAGsd4WJSLshuuxEI6/cGNuOXulxyJFkEVPVnkOh3g==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794837180;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=yjMfJPlhmwgFldHvOAN6a+VpaF8LquFmHlpLZaL46tQ=;
-	b=VewijosMqatgiJgJY610MpTQUKIlDZvcMgHoNcZKnNux0SVhcX2nZrFLb2ktYEWRHG4T
-	 /4kUDRqAlW9w8sFWQXl3YHwLtTMixnQit3vPBgiB+SGNXJEKPo3G57XYjsMtg7onjystz
-	 VajBJbMbCZoRiuAaXrgTrUfo4MIe168LNDuFfOTGMqg4obw2o1WZlKDNnFxiYKO2BkWg7
-	 0xtFt1CS//ifReugYNeS5EMRAHW2yhK/HtTG87rHVeZuAl3PZA9yddBx5mZUJOBVRbtm6
-	 uI8F8sHSRQx9PCLbyJpYR/soL454ASYTdjm2p8p2ApdjBGnRDKGHUOXRg0D7E0Po9iA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="dK/KA/kv";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.48
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794837579;
+	b=v0zCN5oZS0Iy7a51n7QMgsY1O2/Unq87ESTxrmEgw04PJ6N0iq/mDuHdY0PT1CAu+KNO
+	 uR3lqs078lkI1FLx082DobjRaVRoTkXUN4ELmE0X9cXOUj6bSB0axfMeb667KKXPqEZXC
+	 /hVGgRza5wkMmOLJw1XGR3GyOaRxqtzlHneuctxxMuLfsD/y24ZEsx8E+RjHiFAyv6psA
+	 c2p+UavirfEtRYdNwy6nI6+Rbj2Re326+PX8W50CHnZUYtZR7MHsOsdd5Cu6uhNTdU1WJ
+	 +eqRKpnB+xpF7ZSXphUjDn44TrFYyH7iMjp+vsfHuE9llN7aeiUkTlIYwvlB/2E2RsQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794837579;
+	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:X-ME-Received:
+	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=+0F/BYp4W2Rhn1Nomgj2rP/Jj1y5yUU++uEAdL1QZkk=;
+	b=UGwjC2yosH4Rr4bglW+7DRMQMuaLXeL9fxgDI1aX+eeiOPjBKYXXlIDA4EfMWYxPIRN1
+	 4che1iEJukdOfgNP/NegE8Q9Nw0JJJ80gSIp5fmsSmZclmKP32dswImu70TYDEdXSDNSA
+	 b/XDB4gGV0TcaxQs2ANvFUfDaXwDlp+QUF2/ltKUGzO6IOfNOfeNls2ziW5NnZxML3gxt
+	 iiNSWMXrnJ+bBZyzgy+7k3fsCeiynG2dDlC99vl9K1CN0LHFiCvGlNZA/J8kDBjtAHcdB
+	 O9BxhME/9JByL+jRi+2FpzZr0f/yJ1v8i/qC2e3opMVWOUcg3VTLTXUIYvHA7CKCdvA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="ad6JLZi/";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 714B4606A31C
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 13:53:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 714B4606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78181606A888
+	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 13:59:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dK/KA/kv
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-6b571979178so5421732a12.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 05:53:00 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794837179; cv=none;
-        d=google.com; s=arc-20260327;
-        b=B5rRrGX7ptGpNPmu9Pd5FLxtlj4ZHoWxlnk7vY1DzV6YDFZcrqyfLdtFJ9nLamrgbl
-         6PyZwMc5tW4azweLF0PrEbqRJuZjaBVvKLBg/hKHgqD5j0afxign6cyO8M+ux5CROXjS
-         bcb0Tq/pX4yHLVbgHkJGURYVsNKCjiWXEsZEYK8dE/ETNPko2HpSvkmma9G0esU5OtVD
-         ZIlbH/TaIJpS/qPI189Yj4p/cieYee5l4yvwPqVx8mBbxw5EKUb4NGfw/k01ZWyPkGOZ
-         JnxHZacpkhqUgC9apdsD5g162JcI/vI7zDZn0spoOi9hcbaFZMPI5RBOedsNsV2NfkLC
-         CEmA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=yjMfJPlhmwgFldHvOAN6a+VpaF8LquFmHlpLZaL46tQ=;
-        fh=0lf5LCBgDSn9cX4RPwGY8cLhQcxj6wQN2d820Ot7Lgg=;
-        b=WpB7S37qCr3pF2ZSwE20sp2Rs4J1jZkB1ETvpk+9jkDK3ZLzNmfd1fPgKd2whOMO59
-         jPVHqf+6bphGuEswxzlHn8nkGN0K4nTSp5zQ5EJjk9JAuEyyGk4PgrSoRQ7pHqC9u+LE
-         Nh9Xk2Tzfuh+O1LrT7ox/XN3YGU1ijtH/QvUVKCUr+3FQ2E+3U6zj7qYRppnTEZ8z+Et
-         raIBSa5DPxDpSe7gtmmOfuboWWAkWkG7xHQD9GbNVQ33C7gi/6iCBHfj50dsvmJ/iq6V
-         AXTVHQGgD2CPvOQbU9HdHyPt3joJ16faPzcuW2gKVDN0azOd1Z508chTQSemPZ6B6218
-         7ZbQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794837179; x=1795441979; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=yjMfJPlhmwgFldHvOAN6a+VpaF8LquFmHlpLZaL46tQ=;
-        b=dK/KA/kvNf02H9lgvhJ9SX+K6MYeWK9M1fnYgWdH0M9139sPFVZ2MSJBb+KvARkYDp
-         +llJl5308g7eiJ577RRpidL75pEbAwYLzuKEfLU8jiwVJitm0j1keV+ZnLweDyDJqGiw
-         o+h0sgYST7P6Klkrz/KNkKuiOQJ2W0H/+1nWjuTpkbE9Sa4OhHYjpGZRCW97CHyOQO/o
-         d47FcrMXj6zFKTboDVyKDCq5AQh6sy/dr41qvT2En5S0oLxlZ0d6ROvg8WuKj3Sum1JE
-         0/iDbhFDfPBrZWJzc9jA6TIgZkrc51YDcHlH5luO/i1DVaM1PScPohVfeo9sxhJKe6Er
-         X+TA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794837179; x=1795441979;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=yjMfJPlhmwgFldHvOAN6a+VpaF8LquFmHlpLZaL46tQ=;
-        b=QSRolMLm8DrL871GHVlNmZcgKAcdUTY0itfmYSuf/qOU6VZu3rzFPMU3kTLkLO/6an
-         LMJ8NKpOACTR5aa6JGE6ASVO/8bMdkagdwOxc6FAmSCA9gBEATN3P4y2UyWNpJNR+loP
-         IyzNd3ON4PaVkccp9Gew6sFExMaVhQ2Vy0Bue4nkeP0eqm3QRQJqD7e1IUpeqBZXw29P
-         y6o3jMg22QqCaYZFg0KtjBgbVLobn8iDPNffozcg8gqCbAkWmsRP+QgytExMaDGM27qE
-         krBFx1Q3caOsMJdVfkYuoA9pF+6tCczHj/uhVwQ8Gr08HpIyfkz7kbeAvMfdPyLBCXyE
-         MHfw==
-X-Forwarded-Encrypted: i=1; AL+hErGZcapgYPO7qyV04DkRVk2VVJFK4m6b7NjRMcEiibEelsgomYoI3Y2yvjL4FBR0Sg0tzqARWjJaQlO4NQrX@vger.kernel.org
-X-Gm-Message-State: APuU4Z/UeG/faL4EFMIbxdHZfJ6l/xsPUkstPM9EppOHEZyczBT0z37l
-	dagfFMjGOxaHWI+TfpNJdy5Uxms8RptgC3KnYyPn3W27/6INtOHgGNXEeKJvW9nod9ByvNEGayq
-	8B8z8QKcu2+6DiSBYrNWUjGeZkYnngIc=
-X-Gm-Gg: AYBFou2WfSw97W4xdG9YHkHbSY/EhVGQK/8JlTTentviykuBCt8W0DClzNMDqSZTXmz
-	e4l0oM87uBg3ZvWSCWAHSciR+eCwjYeZz5OoeXwL3CCodNOZxX24lqhAyTJ0bgsepztf/kv6utH
-	f2NVuA01Zwb/RNa4AVPOipn+CnYp7FZP+ax/mRrLckZX75kK5kOke5jEi9BedBPFaHqbFXU/pQI
-	mYuDun4fwYaY4bpcvjZJEFBPej72Qts27Vegnpmcgv9dhu7VkM7Tf2BAgMkzIHywOoAuc8cyKSh
-	w1/UH7LZ5CA9xjNa+twdFdEbhgjd1vzMAUrT5bBH6OWl/DZc1zMjrbdLWJ4XnsOCMjZiF766tnC
-	inoo9U58+1OLCi61kEKPaflbncS+BKq3N02p1P03yp3Xc+VyFykq+TQbKOWvBYPlIsk10PqdEsY
-	ZcrwU2NEBxe6xkmIo=
-X-Received: by 2002:a05:6402:1948:b0:6b7:a180:61da with SMTP id
- 4fb4d7f45d1cf-6b7c0c6fc36mr8419375a12.28.1794837178579; Mon, 16 Nov 2026
- 05:52:58 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ad6JLZi/
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 043DA1F000C6;
+	Mon, 16 Nov 2026 13:59:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794837579;
+	bh=+0F/BYp4W2Rhn1Nomgj2rP/Jj1y5yUU++uEAdL1QZkk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ad6JLZi/9/bL58prXRETP/G6UDvQC51DcwZ9YedzBDHfRS8lIdTCzGoNmhiW2GQEw
+	 /aSnNCr7xLeLGcwcuVHHKjHJJJ0gWuIagIky16dvjoensJg2yhfinHV8891lvckpwy
+	 xS2uMM3xU+EEEFvngPxS3vjY4XpGkH9EK5Fp8D6Q8oHgaOzbWZ0qePIcaWFrkgtN/Y
+	 vimEzAmjSDCG7us4M2PmVgBopDZkWwzY2QFSCP4Q8ZT09qyxyz+4qwSsHY97055bpb
+	 Xqfi3jJ3tNEHdQBCupkqnbtFeqm0Hitdm6qb6/wGsxqgeAzNyErcrbDMsevZz/f8kY
+	 txcLDTtijySvA==
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfauth.ams.internal (Postfix) with ESMTP id 39564198004A;
+	Mon, 16 Nov 2026 08:59:30 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-06.internal (MEProxy); Mon, 16 Nov 2026 08:59:35 -0500
+X-ME-Sender: <xms:QQz7aqj1qeMiPG-z-Dgb1cG-n7hCkX50jw3cTnX1khXuV-tvPJ7u3g>
+    <xme:QQz7airZTcMK3nJvnmcrfLb8eDJIqIzjj_rdu3AkWA3TybTsQbroaSapMunU3ocP7
+    v4p2BTTeaYv5_mOijVpsuNfRdo-viWHof7_n-FoMDNRr6dblbh_qTY3>
+X-ME-Received: <xmr:QQz7apdBVAiNyAF_et2VScCAMJZA0xxSw6C2vOqEILECRiZShYaN2tlxNLY>
+X-ME-Proxy-Cause: dmFkZTGw7Ek27OkttPtA0Uz12TIRY+fdCmOBGTdrDghB0eLcttPx19DupuImOjFBtxaU6o
+    JpeXLrgoMfTu/lRKHCIbMj8TzWKHmfHCUY1G1XUscv97+KfE4ZgUv3URbsjMgtUtdZeyxZ
+    SgpYcwu9pXmzrr5EJzFIwQG92uYZOBq7pK07CTnxZhIOY2LLT1RQ4TYNmjWVB5mI/QlLrd
+    lgMB1n608lO6GGOFzonO3YCxKtuKcIqa2yW4weia5Qzv8gyUD2hS5o7CzQGTr7cuwDbUa0
+    lJoWxHsuV1AHsxtoMgIcDdVvIbsfeBRmZr2ToyOJqhisBH0S/Tg40BJ9RANd8a+DCyuOEi
+    hn098RuATgD8qEKVgtdPugOq0uT6bGPyrMOntKLKkq+ZkA01R44yfH+YH0c9YDbYmzrQIA
+    Iopzse1Ct7eMKJwAWqXgcNivcm0iyHT2OhWNgV+VWC0Q82FfCdXJRs/ieaQi7IDVGGntxr
+    2IHkGaGTAT12B8bkGtjQix6jaqugDGh3lm423/jNh60ZAHjmjuCDYvMBwXk5+ytJbrwnWB
+    7dMtlkUuY/1t0syakAczXa7L80fTrhVuFAPUFWNIqdlWtI7V0N8u5qe93gMfQIbb2CGwXy
+    M0D8RdnYRzDAUCTOKXcrl+5HZfFQvkzD95yUO5jtbnlC2gt1X6l6UfYs85/A
+X-ME-Proxy: <xmx:QQz7atyEKDj06BUWZSenI9BcQjUGATvIgsIXq027hGWgFApDfXXGkg>
+    <xmx:QQz7avTOcYMA16LqFIE-4PZjPp6l7Sfra25M7fhVcGDr_O5nYkk8sQ>
+    <xmx:QQz7arlAtzq6xhRodDWJnvXKtlxZGt6D7-GsazYmLfD-SWfZxg7NNQ>
+    <xmx:QQz7aqeKOk5ehpHc2ZTy-jLZG_fiZ1OP4vKyP4CZ9R_qovBM46JmsQ>
+    <xmx:QQz7ajyqGivGQB206Ld8BHvW9UTez-MXUa_VwzqnnC6fvXEdvu6kRNI0>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 16 Nov 2026 08:59:28 -0500 (EST)
+Date: Mon, 16 Nov 2026 13:59:27 +0000
+From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Peter Xu <peterx@redhat.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Axel Rasmussen <axelrasmussen@google.com>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] mm/userfaultfd: prevent poison marker loss
+Message-ID: <avsLuMTVBFfDwfsw@shutemov.name>
+References: <20261107-b4-uffd_marker_loss-v1-0-82926b22704c@kernel.org>
+ <20261107-b4-uffd_marker_loss-v1-1-82926b22704c@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -105,250 +98,53 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261115180343.576773-1-koray.fra@gmail.com> <20261115180343.576773-7-koray.fra@gmail.com>
-In-Reply-To: <20261115180343.576773-7-koray.fra@gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Mon, 16 Nov 2026 14:52:46 +0100
-X-Gm-Features: AclHuK-FBjjEu-Z1sMzcEnpiCJ9rezp8HfxV_QrUdctxQDdJI-5IhWzN560a-40
-Message-ID: <CAOQ4uxgm+JEu2MGnqQrJ00nTJ45S2ECQ7CBOC2QrgniOfkLYAQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v4 06/10] vfs: add __vfs_fileattr_set_locked() for
- inode_lock()'d callers
-To: koraynilay <koray.fra@gmail.com>
-Cc: David Sterba <dsterba@suse.com>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Sungjong Seo <sj1557.seo@samsung.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Trond Myklebust <trondmy@kernel.org>, 
-	Anna Schumaker <anna@kernel.org>, Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
-	Paulo Alcantara <pc@manguebit.org>, Chris Mason <mason@kernel.org>, Yuezhang Mo <yuezhang.mo@sony.com>, 
-	Jan Kara <jack@suse.cz>, NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, 
-	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
-	Ronnie Sahlberg <ronniesahlberg@gmail.com>, Shyam Prasad N <sprasad@microsoft.com>, 
-	Bharath SM <bharathsm@microsoft.com>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	ChenXiaoSong <chenxiaosong@chenxiaosong.com>, "Darrick J . Wong" <djwong@kernel.org>, 
-	Sean Smith <defendthedisabled@gmail.com>, Andrey Albershteyn <aalbersh@kernel.org>, 
-	Pedro Falcato <pfalcato@suse.de>, =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>, 
-	linux-btrfs@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, exfat@lists.linux.dev, ntfs3@lists.linux.dev, 
-	linux-cifs@vger.kernel.org, linux-nfs@vger.kernel.org, 
-	linux-api@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261107-b4-uffd_marker_loss-v1-1-82926b22704c@kernel.org>
 
-On Sun, Nov 15, 2026 at 7:04=E2=80=AFPM koraynilay <koray.fra@gmail.com> wr=
-ote:
->
-> Currently there is no way for a caller to invoke vfs_fileattr_set()
-> while holding an inode lock without having the kernel go into deadlock.
->
-> Fix this by moving the vfs_fileattr_set() logic into
-> __vfs_fileattr_set_locked() and making vfs_fileattr_set() a simple
-> wrapper that only handles the inode lock.
->
-> Assisted-by: Gemini:3.8-flash-high antigravity-cli-1.5.7
-> Signed-off-by: koraynilay <koray.fra@gmail.com>
+On Sat, Nov 07, 2026 at 12:51:05AM +0100, David Hildenbrand (Arm) wrote:
+> Unregistering userfaultfd leaves poison markers in the page tables.
+> However, once unregistered, hugetlb PMD tables can be shared again.
+> 
+> Further, shmem page-table retraction can discard poison markers even
+> while registered in missing mode, and fork() can skip copying page
+> tables containing poison markers.
+> 
+> To fix it, add VM_MAYBE_UFFD_POISON and set it before installing poison
+> markers. Preserve it across unregistration, splits, merges and fork(),
+> just like we do with guard markers.
+> 
+> Use the new atomic VMA flag to disable PMD sharing and page-table
+> retraction, and to force page-table copying during fork().
+> 
+> Move VM_UFFD_WP to bit 44 and make HAVE_ARCH_USERFAULTFD_WP depend on
+> 64BIT, freeing bit 12 for the new flag on both 32-bit and 64-bit systems.
+> Expose the flag as "up" in smaps.
+> 
+> Losing poison markers, while unpleasant, is not really fatal, and the
+> use case is rather a niche thing. In addition, we rely on the atomic
+> VMA flags infrastructure ... so let's not CC stable.
+> 
+> Fixes: fc71884a5f59 ("mm: userfaultfd: add new UFFDIO_POISON ioctl")
+> Fixes: 8a13897fb0da ("mm: userfaultfd: support UFFDIO_POISON for hugetlbfs")
+> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 > ---
->  fs/file_attr.c           | 139 +++++++++++++++++++++++----------------
->  include/linux/fileattr.h |   2 +
->  2 files changed, 86 insertions(+), 55 deletions(-)
->
-> diff --git a/fs/file_attr.c b/fs/file_attr.c
-> index 12610fb6a751..063c81fbfa6a 100644
-> --- a/fs/file_attr.c
-> +++ b/fs/file_attr.c
-> @@ -288,6 +288,89 @@ static int fileattr_set_prepare(struct inode *inode,
->         return 0;
->  }
->
-> +/**
-> + * __vfs_fileattr_set_locked - change miscellaneous file attributes whil=
-e
-> + * holding the inode lock
-> + *
-> + * @idmap:     idmap of the mount
-> + * @dentry:    the object to change
-> + * @fa:                fileattr pointer
-> + *
-> + * Same as vfs_fileattr_set(), but caller must hold the inode lock.
-> + *
-> + * Return: 0 on success, or a negative error on failure.
-> + */
-> +int __vfs_fileattr_set_locked(const struct mnt_idmap *idmap, struct dent=
-ry *dentry,
-> +                             struct file_kattr *fa)
-> +{
-> +       struct inode *inode =3D d_inode(dentry);
-> +       struct file_kattr old_ma =3D {};
-> +       int err;
-> +
-> +       if (!inode->i_op->fileattr_set)
-> +               return -ENOIOCTLCMD;
-> +
-> +       if (!inode_owner_or_capable(idmap, inode))
-> +               return -EPERM;
-> +
-> +       err =3D vfs_fileattr_get(dentry, &old_ma);
-> +       if (err)
-> +               return err;
-> +
-> +       /* initialize missing bits from old_ma */
-> +       if (fa->flags_valid) {
-> +               /* FS_IOC_SETFLAGS */
-> +               fa->fsx_xflags |=3D (old_ma.fsx_xflags & FS_XFLAGS_MASK) =
-&
-> +                                 ~FS_XFLAG_COMMON;
-> +               fa->fsx_extsize =3D old_ma.fsx_extsize;
-> +               fa->fsx_nextents =3D old_ma.fsx_nextents;
-> +               fa->fsx_projid =3D old_ma.fsx_projid;
-> +               fa->fsx_cowextsize =3D old_ma.fsx_cowextsize;
-> +               fa->fsx_ptime =3D old_ma.fsx_ptime;
-> +       } else {
-> +               /*
-> +                * Preserve unmasked xflags when running file_setattr()
-> +                * with a mask, which doesn't need a read-modify-write
-> +                * so these attributes would be set to 0.
-> +                *
-> +                * With FS_IOC_FSSETXATTR or mask =3D=3D 0 (legacy mode)
-> +                * this is not needed as userspace does
-> +                * read-modify-write already.
-> +                */
-> +               if (fa->fsx_xflags_mask) {
-> +                       fa->fsx_xflags |=3D old_ma.fsx_xflags &
-> +                                         ~fa->fsx_xflags_mask;
-> +                       fileattr_fill_xflags(fa, fa->fsx_xflags &
-> +                                            ~FS_XFLAG_RDONLY_MASK);
-> +                       if (!(fa->fsx_xflags_mask & FS_XFLAG_EXTSIZE))
-> +                               fa->fsx_extsize =3D old_ma.fsx_extsize;
-> +                       if (!(fa->fsx_xflags_mask & FS_XFLAG_PROJID))
-> +                               fa->fsx_projid =3D old_ma.fsx_projid;
-> +                       if (!(fa->fsx_xflags_mask & FS_XFLAG_COWEXTSIZE))
-> +                               fa->fsx_cowextsize =3D old_ma.fsx_cowexts=
-ize;
-> +               }
-> +               fa->flags |=3D old_ma.flags & ~FS_COMMON_FL;
-> +
-> +               /* xflags not present in fsxattr */
-> +               if (!(fa->fsx_xflags_mask & FS_XFLAG_PTIME))
-> +                       fa->fsx_ptime =3D old_ma.fsx_ptime;
-> +       }
-> +
-> +       err =3D fileattr_set_prepare(inode, &old_ma, fa);
-> +       if (err)
-> +               return err;
-> +       err =3D security_inode_file_setattr(dentry, fa);
-> +       if (err)
-> +               return err;
-> +       err =3D inode->i_op->fileattr_set(idmap, dentry, fa);
-> +       if (err)
-> +               return err;
-> +       fsnotify_xattr(dentry);
-> +
-> +       return 0;
-> +}
-> +EXPORT_SYMBOL(__vfs_fileattr_set_locked);
-> +
->  /**
->   * vfs_fileattr_set - change miscellaneous file attributes
->   * @idmap:     idmap of the mount
-> @@ -308,7 +391,6 @@ int vfs_fileattr_set(const struct mnt_idmap *idmap, s=
-truct dentry *dentry,
->                      struct file_kattr *fa)
->  {
->         struct inode *inode =3D d_inode(dentry);
-> -       struct file_kattr old_ma =3D {};
->         int err;
->
->         if (!inode->i_op->fileattr_set)
-> @@ -318,60 +400,7 @@ int vfs_fileattr_set(const struct mnt_idmap *idmap, =
-struct dentry *dentry,
->                 return -EPERM;
->
->         inode_lock(inode);
-> -       err =3D vfs_fileattr_get(dentry, &old_ma);
-> -       if (!err) {
-> -               /* initialize missing bits from old_ma */
-> -               if (fa->flags_valid) {
-> -                       /* FS_IOC_SETFLAGS */
-> -                       fa->fsx_xflags |=3D (old_ma.fsx_xflags & FS_XFLAG=
-S_MASK) &
-> -                                         ~FS_XFLAG_COMMON;
-> -                       fa->fsx_extsize =3D old_ma.fsx_extsize;
-> -                       fa->fsx_nextents =3D old_ma.fsx_nextents;
-> -                       fa->fsx_projid =3D old_ma.fsx_projid;
-> -                       fa->fsx_cowextsize =3D old_ma.fsx_cowextsize;
-> -                       fa->fsx_ptime =3D old_ma.fsx_ptime;
-> -               } else {
-> -                       /*
-> -                        * Preserve unmasked xflags when running file_set=
-attr()
-> -                        * with a mask, which doesn't need a read-modify-=
-write
-> -                        * so these attributes would be set to 0.
-> -                        *
-> -                        * With FS_IOC_FSSETXATTR or mask =3D=3D 0 (legac=
-y mode)
-> -                        * this is not needed as userspace does
-> -                        * read-modify-write already.
-> -                        */
-> -                       if (fa->fsx_xflags_mask) {
-> -                               fa->fsx_xflags |=3D old_ma.fsx_xflags &
-> -                                                 ~fa->fsx_xflags_mask;
-> -                               fileattr_fill_xflags(fa, fa->fsx_xflags &
-> -                                                    ~FS_XFLAG_RDONLY_MAS=
-K);
-> -                               if (!(fa->fsx_xflags_mask & FS_XFLAG_EXTS=
-IZE))
-> -                                       fa->fsx_extsize =3D old_ma.fsx_ex=
-tsize;
-> -                               if (!(fa->fsx_xflags_mask & FS_XFLAG_PROJ=
-ID))
-> -                                       fa->fsx_projid =3D old_ma.fsx_pro=
-jid;
-> -                               if (!(fa->fsx_xflags_mask & FS_XFLAG_COWE=
-XTSIZE))
-> -                                       fa->fsx_cowextsize =3D old_ma.fsx=
-_cowextsize;
-> -                       }
-> -                       fa->flags |=3D old_ma.flags & ~FS_COMMON_FL;
-> -
-> -                       /* xflags not present in fsxattr */
-> -                       if (!(fa->fsx_xflags_mask & FS_XFLAG_PTIME))
-> -                               fa->fsx_ptime =3D old_ma.fsx_ptime;
-> -               }
-> -
-> -               err =3D fileattr_set_prepare(inode, &old_ma, fa);
-> -               if (err)
-> -                       goto out;
-> -               err =3D security_inode_file_setattr(dentry, fa);
-> -               if (err)
-> -                       goto out;
-> -               err =3D inode->i_op->fileattr_set(idmap, dentry, fa);
-> -               if (err)
-> -                       goto out;
-> -               fsnotify_xattr(dentry);
-> -       }
-> -
-> -out:
-> +       err =3D __vfs_fileattr_set_locked(idmap, dentry, fa);
->         inode_unlock(inode);
->         return err;
->  }
-> diff --git a/include/linux/fileattr.h b/include/linux/fileattr.h
-> index ba7ed3b387d8..7ff62ee27e58 100644
-> --- a/include/linux/fileattr.h
-> +++ b/include/linux/fileattr.h
-> @@ -97,6 +97,8 @@ static inline bool fileattr_has_fsx(const struct file_k=
-attr *fa)
->  int vfs_fileattr_get(struct dentry *dentry, struct file_kattr *fa);
->  int vfs_fileattr_set(const struct mnt_idmap *idmap, struct dentry *dentr=
-y,
->                      struct file_kattr *fa);
-> +int __vfs_fileattr_set_locked(const struct mnt_idmap *idmap, struct dent=
-ry *dentry,
-> +                             struct file_kattr *fa);
+>  Documentation/filesystems/proc.rst |  1 +
+>  fs/proc/task_mmu.c                 |  3 +++
+>  include/linux/mm.h                 | 45 ++++++++++++++++++++++++--------------
+>  include/linux/userfaultfd_k.h      |  7 ++++--
+>  include/trace/events/mmflags.h     |  9 +++++++-
+>  mm/Kconfig                         |  1 +
+>  mm/khugepaged.c                    |  9 ++++----
+>  mm/userfaultfd.c                   |  3 +++
+>  tools/testing/vma/include/dup.h    | 20 ++++++++++++-----
+>  9 files changed, 70 insertions(+), 28 deletions(-)
 
-There is no reason for __ prefix here and I think it should be discouraged =
-for
-global scope if possible.
+Oh, that's a lot of boilerplate for what it worth...
 
-Thanks,
-Amir.
+Anyways,
+
+Acked-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
+
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
