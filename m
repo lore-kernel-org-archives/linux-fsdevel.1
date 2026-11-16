@@ -1,54 +1,109 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794789923;
-	b=qLqWPv57iyDayy7LXtSsRn+XmtOBrnpDwjV42ld8lBV02gRBbksqAGqSjVND5Vx2xa7V
-	 NFMciI/hKh0eqD95V/2VEv5E8+yvyn347EWhO/Aip7kBk/heJ3TZSjRQlrcObo1GrsJPx
-	 +BeVud5sYggfDiTi+bvYUYSLUjhBtlxD1/ofgppL32Yv7rQh8Hhe+jJoJTrswuobvxdjq
-	 7IyJ60vpC0Kzl0wCGmNSpte1WqVzHkgRil+5usMKNJULFreSXyWh7gGNpnGgpFnN/84GL
-	 3IfzocYyAhDWwOFFjBP5wpN5KDoW+MX7e1dqVYivxn3eCcXqz+ojhvRvy29zy2b06nA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794789923;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=nEPXf1cG5J+Lghgn3UQeDfptX1Hk+zVJPSj0Zk2IzFQ=;
-	b=XA8jO1bImAyQq652g+O9ysgTK9J0LNpAnQUCF6P0+KREaZyDH97zgP0cbZgKW4QBrVzh
-	 0Szb5+liCTrpnniEQpam4TQzQiTdyPwgIetNUM9e4tp1kPMxcqWFH0c28PXNjacbrUwsE
-	 NrEoBQbjRGB0e4L4wkn8WlGuSvRzbsDtErzZd7ZxcYyMgDPnpeiDYfljqMxAet5pOtv96
-	 cLqrf0F+eYXXk0fH05px2IeetyTx8Dj1dyuHWoOJ4XWJ01Q66b8KC9SyJu8ixbF7dWKfl
-	 T6WkWVOEKaypXGwxu+wOStxtQF8PEqc9/NrnbSp9BZUU3iC23HAQuZnqTYjLOkOYrFw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Ov44YrtP;
-	arc=none smtp.remote-ip=198.137.202.133
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.43.68
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794794004;
+	b=Fhyy9RaVk0U5Kj1wuFXpg9zExZOLqNv6TFu0bQzfLGQ1Am7EQPSOQxiD6Y3Nh2qtUG9b
+	 +YJAKMXBWdZvZzYtW0msZ+HQpE8f5DiJBLJ8b+TYpAPhcDfCLw9upGSP1uM4nFzPxlyUP
+	 B6YrShPFNc6iY5KDL1TfpiWIMHLXOFtYMpI9HYIRoFK+nfLD9m6z9hIMNBJAjfMr90TU/
+	 kKEu9VwjZ/LAjbrJH4eJb+oAruHyrXrUddWBB21knA/fwMWuCdVNsUxKTQXWeD1kz3pm8
+	 SvhvJ4lSbJILi/kg8Hm8/U86eH2O+6pcdLJiskZ8BIXIaZZpPYzZBjOSmQlQXigMFlA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794794004;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:Content-Type:Content-Disposition:
+	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=a8H3m3yWaEGF3JkwOlbMG7d0QM4c1Yx65Q3QKHkV8vk=;
+	b=BqFFvhL3NzyKyGalpGS8rYLAi8YvT9NONxKkxQb0Z39c1Da52kx4lEKc5s8ARLu8k62R
+	 abG18Qf3zF09Xynvzek3TvgdiLw/OFtyuGuscopdBg51GHNNo70hay7ebw/Mtt1TmMl3x
+	 HNiWpuHaGolwW0HSAwlJEO/RvNDVNZdgok+08aSdxatBKpDDbt/UVJYMRoJx7TsVVvAAK
+	 jjF2nNswX0pmWsHY9380UD2SRrMA6DZAa+WWDkhAWC7vmoygVZR8Jv+Cc8Km3QQZqRaew
+	 TX5urm3nk1nE7k8Mn4uRQHKrH6sshouUjFn5kilDnOMWaki/o9wBa3qgykBuQsVYDng==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=nvidia.com;
+	spf=fail smtp.mailfrom=nvidia.com;
+	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=FKIL3XaP;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.43.68
+Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012068.outbound.protection.outlook.com [52.101.43.68])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A57606A31F;
-	Mon, 16 Nov 2026 00:45:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 91A57606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED671606A31C;
+	Mon, 16 Nov 2026 01:53:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ED671606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Ov44YrtP
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=nEPXf1cG5J+Lghgn3UQeDfptX1Hk+zVJPSj0Zk2IzFQ=; b=Ov44YrtPxUC++hYRNDHSdmdpGW
-	JaxLbFR1NnGayLi7FHLtyTi+He4ZYSfoC7yWmGobJ7E/AIaLAiwDiqmK+og7vdQvnP4EzvIpr462x
-	EDmrhZM3u/N2SWbcqZV+o7jR7R+AN7ZLDYmWxP5FpNx3G+I1qCrQflyake80HiJ9rMKVM/x4eT782
-	9JEn4jhTrQPKUH9n7ugwPApkYe7cQrElzRWPUKP8gRVT9cQSw9rpPJq9AX3iS6GqmzfQn0wqcsM7f
-	leTLxbzdojuK+f/LSdN/KzQKSZ97Y6xYotP0eKRTTUizqT5t8J7W/n/cd6b1FIlVQIvCGZw4VHm9P
-	KD0dlVWg==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSkqM-00000000pP7-2dPd;
-	Mon, 16 Nov 2026 00:45:10 +0000
-Message-ID: <bbdb3140-dc5f-4ae1-a5a9-c2e25387409a@infradead.org>
-Date: Sun, 15 Nov 2026 16:45:07 -0800
+	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=FKIL3XaP
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=SP8x7gPjBCn+620tQIB+hw8Z8015O4Vq4AtHYRmsxLdA6t+H8kyYM/PkhsNw0XAQc0mnJHNwem52mA2VfehfM8D50S/rC6WhOVawmiQF47mD+7vaHEaPypZLlaMwzKfHIA1BsmF4vDMdD8BoK96kewzyOADSLA6j9dSs8qMRU278M0iwf1zaI3JvuuaPnDESHd3RkiwSmb+UtddtIC9/XymMbS/I2iWUJGjDroDM++iGC9iyDioAVhZghsxnlKc8EM0aYT7UV/jOZRHP538tnmP5Rkc8MZlXfOF/cCRjKsZN9neoHu9UShz0q/StHDjl9nzCGUAbeUNQRNwuVZkcnQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=a8H3m3yWaEGF3JkwOlbMG7d0QM4c1Yx65Q3QKHkV8vk=;
+ b=S9zM+diuypjhYi0sZrEa87wFn4EuqpXFZ6hPVEu1F6KrmqP07GxhjAIZpO0auKBTzA1AutVOBZ3/Au3TTto+k5ObiZohWmeR7lRLD085X9cjsPrp1egfxt1f86pCWabbMy+ETKbn4129RQRKKK26q8vMrKcMTMPq9rr4jfeN8C60oIHrE3Kgv6eDjZ0m4Thz6uLCcXG5Y52O6AnSM+WBjyNKmxuyHloDqDLk7eliPEHCSy06mYa2V+Q7rT1+nvcWWYnEpsVHR4ujB9KEZUXsAEJ3/GkFZw018bAkqYOaFLycfPc9vyB8CNWsd8PeooVZkpkt1XH2kA9bNV85lOYX5g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=a8H3m3yWaEGF3JkwOlbMG7d0QM4c1Yx65Q3QKHkV8vk=;
+ b=FKIL3XaPHfrTIG/zzNJgHhDN0UEHffa3EY+xj3RBlThocH7nwGMmp2/pycK5WFmvc5DXBhoaHH+o4uh86lApqHs6SZ5LQ0FfUauj8r7OH2IaODyaBzi7U/TVUHP/sHT6kzIyF+C2PUD+Phm1vr8EuiBIy3VhGFU/fhLPUbGumEzy8aOVrd3qfGr0jGHO8PX4yXU2dEn7MPkH9JcWKoMaNlnbGOKYn5woQ5upOoAkJf5OB4v1mxcMCceF5auT/D585ReHkTz5ANSyaNGjYYWtFl73iGizE1cOiODbWJK26apT8PMy9/TwxLfKlZHMq6L6nOCiwD48xQQGpgtSP/+JBA==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB9730.namprd12.prod.outlook.com (2603:10b6:610:253::9)
+ by BN5PR12MB9512.namprd12.prod.outlook.com (2603:10b6:408:2ab::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.13; Mon, 16 Nov
+ 2026 01:53:19 +0000
+Received: from CH3PR12MB9730.namprd12.prod.outlook.com
+ ([fe80::843d:c1f0:b2ed:4128]) by CH3PR12MB9730.namprd12.prod.outlook.com
+ ([fe80::843d:c1f0:b2ed:4128%4]) with mapi id 15.21.0615.013; Mon, 16 Nov 2026
+ 01:53:19 +0000
+Date: Mon, 16 Nov 2026 12:53:13 +1100
+From: Balbir Singh <balbirs@nvidia.com>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: David Hildenbrand <david@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, David Rientjes <rientjes@google.com>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
+	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Nhat Pham <nphamcs@gmail.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Usama Arif <usama.arif@linux.dev>, 
+	Kairui Song <kasong@tencent.com>, =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>, 
+	Kiryl Shutsemau <kas@kernel.org>, Yu-cheng Yu <yu-cheng.yu@intel.com>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, 
+	Christoph Lameter <cl@gentwo.org>, Peng Fan <peng.fan@nxp.com>, Josef Bacik <jbacik@fb.com>, 
+	Chris Mason <mason@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, "Borislav Petkov (AMD)" <bp@alien8.de>, 
+	Mark Brown <broonie@kernel.org>, "Dennis Zhou (Facebook)" <dennisszhou@gmail.com>, 
+	Rick Edgecombe <rick.p.edgecombe@intel.com>, stable@vger.kernel.org
+Subject: Re: [PATCH v2 01/13] mm/mmap: free gathered pages before MMF_OOM_SKIP
+Message-ID: <avpbxk6pzvh4hoLG@parvat>
+References: <20261113-mason-migrate-et-al-fixes-v2-0-50a2ed382b61@kernel.org>
+ <20261113-mason-migrate-et-al-fixes-v2-1-50a2ed382b61@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261113-mason-migrate-et-al-fixes-v2-1-50a2ed382b61@kernel.org>
+X-ClientProxiedBy: MEWPR01CA0133.ausprd01.prod.outlook.com
+ (2603:10c6:220:1d3::6) To CH3PR12MB9730.namprd12.prod.outlook.com
+ (2603:10b6:610:253::9)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -58,87 +113,185 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/12] docs: ioctl-number: update MM entries
-To: "David Hildenbrand (Arm)" <david@kernel.org>, linux-kernel@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-doc@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- Jason Gunthorpe <jgg@nvidia.com>, Leon Romanovsky <leonro@nvidia.com>,
- linux-mm@kvack.org, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
- Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
- Marcel Holtmann <marcel@holtmann.org>,
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
- linux-bluetooth@vger.kernel.org,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jason Wang <jasowangio@gmail.com>, David Heidelberg <david@ixit.cz>,
- oe-linux-nfc@lists.linux.dev, Chas Williams <3chas3@gmail.com>,
- linux-atm-general@lists.sourceforge.net,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- netdev@vger.kernel.org, Helge Deller <deller@gmx.de>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- MPT-FusionLinux.pdl@broadcom.com,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- "Martin K. Petersen" <mkp@kernel.org>, linux-scsi@vger.kernel.org,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Zhihao Cheng <chengzhihao1@huawei.com>, linux-mtd@lists.infradead.org,
- Neill Kapron <nkapron@google.com>, Andrey Konovalov <andreyknvl@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- Juergen Gross <jgross@suse.com>, Stefano Stabellini
- <sstabellini@kernel.org>, xen-devel@lists.xenproject.org,
- Hans de Goede <hansg@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- "Michael S. Tsirkin" <mst@redhat.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
- <eperezma@redhat.com>, Sean Christopherson <seanjc@google.com>,
- Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
- virtualization@lists.linux.dev, Jan Kara <jack@suse.cz>,
- linux-fsdevel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
- linux-ext4@vger.kernel.org, Mike Marshall <hubcap@omnibond.com>,
- devel@lists.orangefs.org, Paulo Alcantara <pc@manguebit.org>,
- Namjae Jeon <linkinjeon@kernel.org>, linux-cifs@vger.kernel.org,
- Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
- linux-f2fs-devel@lists.sourceforge.net,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- Tzung-Bi Shih <tzungbi@kernel.org>, Benson Leung <bleung@chromium.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- amd-gfx@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, intel-gfx@lists.freedesktop.org,
- Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- intel-xe@lists.freedesktop.org
-References: <20261114202653.3113381-1-rdunlap@infradead.org>
- <20261114202653.3113381-2-rdunlap@infradead.org>
- <f37ccd71-8e1d-4dd4-b11a-e22b9e617dea@kernel.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <f37ccd71-8e1d-4dd4-b11a-e22b9e617dea@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB9730:EE_|BN5PR12MB9512:EE_
+X-MS-Office365-Filtering-Correlation-Id: b2f6afa2-fd97-48bd-e0f3-08df4384633a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|7416014|376014|366016|1800799024|10067099003|56012099006|11063799006|4143699003|261026121527099003|261026140227099003|261028144727099003|261022105027099003|261022075727099003|261021123027099003|261021121427099003|261102123227099003|261009223027099003|18002099003|22082099003|6133799003;
+X-Microsoft-Antispam-Message-Info:
+	wfk02XWPyNsbgYnSIPycK1MaVCo2P4iLpQvBBA7RaZleDWjp/oQkAOMdOyKYtBCJ1YyfUTnEH4C+qXl1SoMLjQ8m7xd03WkuXDxEHlj1aJr0VV16SRpITW1dx9zdEydDtVJ7mAZt3v/nYaxA2s/gRGX1pkSrXsSREUm5q0G/yWnVswQmxzlwmUOxBqPa6Dwts+Yh7YrvVCUCvglr+zHckmGNuLpkxULWOrHQNExf+fq18hN0IJpyOqvpVl8eqySyJT0BdnsLZKDxxE1QENe676FUzqqyoPKxd7cgNZUzObCCTjDlA2svx0oDKPsyc7lXV2jRRMOw+N33paDrFXEC44q81QGBYYZzj0XxwRSfrILBNfXHo8GRIXQNQPX6lnfMTaXdWrt5KZifl7cPgFIGFEkBJTL5wmXreurLDtPV243Pnp1Hc6K/aCJ9Cbpmmhbp9NNGkFhchDQuCtRM4UT+xEYyxiyvIRC5cXKPnmIHu1mcWtpsEg8OJw2MjjD8rrIpPiS6ussPQnGzxHXXte/YqdeIjbzrmillVhaa+uZgvvYOJsnf7ULR8DL4Jx/Vqda/dGn06LqEYpR/+XarKyZhUBcCO/eldJSGfuzDSU9yelLsh0pGigknymK6i5h1ZZ0zcRJBGqtqXdp1WYd7kOi430ZMyvYqX/da9Gka3eRv6S0=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB9730.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(376014)(366016)(1800799024)(10067099003)(56012099006)(11063799006)(4143699003)(261026121527099003)(261026140227099003)(261028144727099003)(261022105027099003)(261022075727099003)(261021123027099003)(261021121427099003)(261102123227099003)(261009223027099003)(18002099003)(22082099003)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?SUtqQTN4NWFJaWhlOVlVYXVYdE5YZmpJanNzVjhnTUFJWkxEVTd2V09ka081?=
+ =?utf-8?B?WHlKdktMTUttVlFaMExxRGNlOHE2cWlseFNDTEh1VjJPUGZsOHQrMlBidERP?=
+ =?utf-8?B?RmRzaEp4MmxBK2NUaHBhU3FaWmE1RVNLUFgrMXZXdmd5cWtoSGRoWjAvb2JY?=
+ =?utf-8?B?VHh5Mi8vRjNuS1NCRTRoRHRhWkRFVHpBMytUcldIam5ib04rQktQUk9SelBK?=
+ =?utf-8?B?UjBNdUJjaFdQVGF3eWphL1d4TTVxQkVpbjhIRG9KMWpFUnZUQTU4M3I1ZzNN?=
+ =?utf-8?B?dGFCdDJiNXJJTUlCc21VN21NcTBOM3VqUlBCRWZqcFJmM3ZCNjZNb3MyRW01?=
+ =?utf-8?B?Qytrek5TVXhiTkczQS92bW5HOWg0YVBMN2txNncydlVWVU9SSWc2NlFMT3lB?=
+ =?utf-8?B?aXNXdy9xVjlBM3ZtMS9CMlhpUnlzekFwb01QbTJXakJEb29XYWZNbDhBRk95?=
+ =?utf-8?B?K1dKM1Q3SXJ2bVAxdVBuUDkyb0Rkc2lOL3RTU1p0V2JCbVJQR0V0b1Z1ZTBD?=
+ =?utf-8?B?T0U3UWhKTHNWY2dXcE5lVmkwTFpMc1hWWDhwaFIvYXM4L1ZZUTlvaTVLNWpi?=
+ =?utf-8?B?NVlKU3g4OGNGRjFTUmRkK3hzTVRsbG10ZjBJQmxTMVNLS2ZFODZDbmNCOWNr?=
+ =?utf-8?B?cnRxWEd2OGpwYlY0VEswb0NaREVtT1puMHk3aDVlN0lIbForT3I1bFk0OFlJ?=
+ =?utf-8?B?NjcvS0dlNktMMGZtaUJMNVhoTTJyNDRhWVNHaHVXSGwyejVydlhibTJyZTdE?=
+ =?utf-8?B?U0praXdsUkpIdW9ySlJ6R1g4TVFkM3hoQWtOWXJwN2FEQm9yYlRqK20zek55?=
+ =?utf-8?B?NGNnb0xKampUYVNwa2lFRHpwWDNoVmQ2N0sydWV3a0hYNHlDamRoalpFa2xy?=
+ =?utf-8?B?UkVtdmNFQWNkU0VST3RQd0prRTZmSVZqTXhZVnkyNzM2TjB1RXNLS09qVmEz?=
+ =?utf-8?B?RDAwR1JITmJLUzlMYmw5ZTNMckJFRWJlQTRnN0RGS0N4cHpTWU16dXA5OW9X?=
+ =?utf-8?B?TS85WUFwcGJDTXQxZ0k1RE9YdFB1aUFyU09sZ1d3QWZBM1Y3OW1UM1lncDB5?=
+ =?utf-8?B?WDRmSEVMTHhBQ2hMbStDOExNV29ldlg0MHhlS0lONmRBbEpjeHV2Q3FQSnNj?=
+ =?utf-8?B?alpXMk0xMHNWRU5IRzk1aEs2NTBzMmJHN205SHNGMUpSNzhxMnhobzFaS2xS?=
+ =?utf-8?B?OGd6U3BjTVZMWFZrNjRvZnh3bENrUXZpVVpEQ0lLT1E1Q3F1SmNpQUVZckJR?=
+ =?utf-8?B?dkxPcHl1a2IwZ0J6NnpuMG9HY3h2T3dWc3M5eE1KbHZkcmhzVTloT3BDVFdK?=
+ =?utf-8?B?ZVhaczRLL2QwMmtVZCs0Y0NybzNNbldZdkwrYTBZc3hVbjYzWFAzSXBWZnMz?=
+ =?utf-8?B?UThlNUVDcE9SS21aKzExa3pUR3pRWFVRNk11Uk9ieGpLU085UW82K21sd1BE?=
+ =?utf-8?B?RHNUVW03UC9kczNNWUViRk9yY3QzSlVWeUpCRlRBZVdOM1Bsbkc1dmZDSU8w?=
+ =?utf-8?B?Z3ZrOThGaVdvTlZDY0xVS1NqRm52azBONWJGWXJGemZXWmtySDUxZVhGWnp6?=
+ =?utf-8?B?VWc0cWZ3UCt1dmNlSnhlZzl3L1Yyald6VE1xeEhVN1JyNUQ0RGxnM09FZUMr?=
+ =?utf-8?B?MHpmY1NnWXMrNGU3ZCtSdzcwLzFrMmF1MW91K3NwbEVLYnhFajg3Z2NOdE5y?=
+ =?utf-8?B?NzFLNEphN1g3a094V2tjY2VlbUZaYzBiT3hOZHZzMTVKVG1LQzgyeVpvTEJs?=
+ =?utf-8?B?eWF0dzhWak43NzFueHNIdzhjRHk3MmZja0I2UUhuYmRBbkxwdEVNYWtwVldq?=
+ =?utf-8?B?M0hWUGNHZmo5ZnBuejNRREl5VkNBQTU2ZERWWnB2MGpwSHZaRVh3K1hJWHB3?=
+ =?utf-8?B?OFJVbjdlYzR4Y1gxR2lkWHFCZ01lbjhzNWxqNjJWVUFzTXR4UmM0Yyt1OTlP?=
+ =?utf-8?B?NUx3dVFBSVNmbStXZTNBTUlGMkp2QWxHdmU5cTV2alBPeERiV2JpbFR0OU5K?=
+ =?utf-8?B?MHNTemk4ZzFudmRlN3pnMWdpTFoyQk1nVlR6VGswNnc0M1V6d2t2TGRHNllL?=
+ =?utf-8?B?MXNZVWY4eDBENExmc1RHVUREak82VzdCd2dIeEtYZkxGZFpWS1hmWWJJanh3?=
+ =?utf-8?B?L1Z6VjI2VDBDRHlMQ3RWT3FUZWQ4dldUOUs1UWpkUVIyK210VFdzZXo1di8r?=
+ =?utf-8?B?UXFzcW5pK0RNYWZiL2ZJK1lIMmNxTzl6blhpUkpONlYxWTc1c2ZhZEk0WkpL?=
+ =?utf-8?B?UlEyZnZXT3BFRFAxSUNQQmxMZzAwd2xBeGJHRmNMTWhQL3U3S2VJbDdvNEVj?=
+ =?utf-8?B?V1JUa3hTeHJsRlhkeFRtL0FxS1NYdWtHaE5UeE0rSWdld3o1QXoxZz09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b2f6afa2-fd97-48bd-e0f3-08df4384633a
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB9730.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2026 01:53:19.2267
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 72VXu7G5GZDjm7ABoH4uMFw4qqnxYrUtiB8b25XgXllM8tFUU7D0bsIgFj/FKa+8rm7C0BZSTRUkQI40vS33vA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN5PR12MB9512
 
-
-
-On 11/15/26 8:58 AM, David Hildenbrand (Arm) wrote:
-> On 11/14/26 21:26, Randy Dunlap wrote:
->> Add ioctl number entries for test_hmm_uapi and gup_test.
+On Fri, Nov 13, 2026 at 09:45:19PM +0000, Lorenzo Stoakes (ARM) wrote:
+> The OOM killer can quickly trigger again after having selected a
+> victim. That victim might not have freed its memory yet, but its mm will
+> be marked MMF_OOM_SKIP by this point, so the OOM killer will ignore it.
 > 
-> Just curious, why do we care about uapi for test interfaces that never see the
-> light of day in production kernels and their sole purpose is to go a long a
-> dedicated selftest?
+> This can cause the OOM killer to kill an innocent process when the first
+> might have freed enough memory to relieve the memory pressure.
+> 
+> exit_mmap() marks the mm MMF_OOM_SKIP once unmap_vmas() returns.
+> However unmap_vmas() does not free the last batch of pages it
+> gathered. That is left to tlb_finish_mmu(), which runs after
+> MMF_OOM_SKIP is set, and the batch can be large.
+> 
+> Fix the issue by freeing the gathered pages of an OOM victim before
+> marking the mm MMF_OOM_SKIP.
+> 
+> Note that the task which calls mmput() might not be the victim - if it
+> took a reference on the mm (e.g. ptrace), it may hold the last reference
+> and release it when it calls mmput().
+> 
+> Therefore we cannot rely on current to tell whether the mm belongs to an
+> OOM victim. Instead, partially revert commit b3541d912a84 ("mm: delete
+> unused MMF_OOM_VICTIM flag") to reinstate MMF_OOM_VICTIM, which
+> mark_oom_victim() sets on the victim's mm, and check that.
+> 
+> Reported-by: Chris Mason <mason@kernel.org>
+> Fixes: bf3980c85212 ("mm: drop oom code from exit_mmap")
+> Cc: stable@vger.kernel.org
+> Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
+> Tested-by: Gregory Price (Meta) <gourry@gourry.net>
+> Acked-by: Michal Hocko <mhocko@suse.com>
+> Reviewed-by: Pedro Falcato <pfalcato@suse.de>
+> Acked-by: Usama Arif <usama.arif@linux.dev>
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> ---
+>  include/linux/mm_types.h | 2 ++
+>  include/linux/oom.h      | 9 +++++++++
+>  mm/mmap.c                | 9 ++++++++-
+>  mm/oom_kill.c            | 4 +++-
+>  4 files changed, 22 insertions(+), 2 deletions(-)
+> 
+> diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+> index 1ed35d258d2e..09e63ff12b04 100644
+> --- a/include/linux/mm_types.h
+> +++ b/include/linux/mm_types.h
+> @@ -2030,6 +2030,8 @@ enum {
+>  #define MMF_TOPDOWN		31	/* mm searches top down by default */
+>  #define MMF_TOPDOWN_MASK	BIT(MMF_TOPDOWN)
+>  
+> +#define MMF_OOM_VICTIM		32	/* mm is the oom victim */
+> +
+>  #define MMF_INIT_LEGACY_MASK	(MMF_DUMP_FILTER_MASK |\
+>  				 MMF_DISABLE_THP_MASK | MMF_HAS_MDWE_MASK |\
+>  				 MMF_VM_MERGE_ANY_MASK | MMF_TOPDOWN_MASK)
+> diff --git a/include/linux/oom.h b/include/linux/oom.h
+> index 00da05d227e6..a9390cb70541 100644
+> --- a/include/linux/oom.h
+> +++ b/include/linux/oom.h
+> @@ -76,6 +76,15 @@ static inline bool tsk_is_oom_victim(struct task_struct * tsk)
+>  	return tsk->signal->oom_mm;
+>  }
+>  
+> +/*
+> + * Use this helper if tsk->mm != mm and the victim mm needs a special
+> + * handling. This is guaranteed to stay true after once set.
+> + */
+> +static inline bool mm_is_oom_victim(struct mm_struct *mm)
+> +{
+> +	return mm_flags_test(MMF_OOM_VICTIM, mm);
+> +}
+> +
+>  /*
+>   * Checks whether a page fault on the given mm is still reliable.
+>   * This is no longer true if the oom reaper started to reap the
+> diff --git a/mm/mmap.c b/mm/mmap.c
+> index 7618e72766a5..4cb18b217048 100644
+> --- a/mm/mmap.c
+> +++ b/mm/mmap.c
+> @@ -1313,11 +1313,18 @@ void exit_mmap(struct mm_struct *mm)
+>  	/* update_hiwater_rss(mm) here? but nobody should be looking */
+>  	/* Use ULONG_MAX here to ensure all VMAs in the mm are unmapped */
+>  	unmap_vmas(&tlb, &unmap);
+> +
+> +	/*
+> +	 * Free the memory before marking MMF_OOM_SKIP so a re-triggered OOM
+> +	 * killer will only skip this mm if it's already freed all it can.
+> +	 */
+> +	if (mm_is_oom_victim(mm))
+> +		tlb_flush_mmu(&tlb);
+>  	mmap_read_unlock(mm);
+>  
+>  	/*
+>  	 * Set MMF_OOM_SKIP to hide this task from the oom killer/reaper
+> -	 * because the memory has been already freed.
+> +	 * because the memory has been already unmapped.
+>  	 */
+>  	mm_flags_set(MMF_OOM_SKIP, mm);
+>  	mmap_write_lock(mm);
+> diff --git a/mm/oom_kill.c b/mm/oom_kill.c
+> index 5d48bd862c27..9de57a23893c 100644
+> --- a/mm/oom_kill.c
+> +++ b/mm/oom_kill.c
+> @@ -752,8 +752,10 @@ static void mark_oom_victim(struct task_struct *tsk)
+>  		return;
+>  
+>  	/* oom_mm is bound to the signal struct life time. */
+> -	if (!cmpxchg(&tsk->signal->oom_mm, NULL, mm))
+> +	if (!cmpxchg(&tsk->signal->oom_mm, NULL, mm)) {
+>  		mmgrab(tsk->signal->oom_mm);
+> +		mm_flags_set(MMF_OOM_VICTIM, mm);
+> +	}
+>  
+>  	/*
+>  	 * Make sure that the process is woken up from uninterruptible sleep
+> 
 
-a. We don't control who builds/runs these tests.
-b. There might be some USB gadget or HID driver running at the same time
-   as these tests.
-c. It's preferable not to have conflicts, so any additions to this file
-   should try to avoid these documented ioctls.
 
--- 
-~Randy
-
+Acked-by: Balbir Singh <balbirs@nvidia.com>
