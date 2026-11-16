@@ -1,64 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794835257;
-	b=RNQMIb3w01lzLp2WACTSX6SQnebuI+4B7HYClxgieVBBTsg8S/kQiU+T29iB7HeA9GRw
-	 kpuN6spCF3aWtIKEnUKBSbOFB9m2+v0CfrWH3UNysJYuDtyENI+Yl0uK16Zvayek2iXgG
-	 Ws9PiS9jarGGGhgEikywgIa2749AO0YCWd0YCBkLTxMvnHZOxmUwjz1pGoDUO/Pz7gQk7
-	 HH+Mx365UryoKQMSurrw/Tw7gHo/G4fGTDzMQkWvoSnRrib79nXApKR7SFMsn/tu/gdEt
-	 UfoyIlJexR1GxRTZpmWKfSbiwk0JEl07Nt+VZaw6v2gO9zyBYYs1Jv8WjyyWQOtZgvA==
+	t=1794836348;
+	b=Ah53TzM4cPk4cIMbOekvUgLU4d0OVSj07+6NRSpXXw9DknJpETkLSb4FP0d7X9aeb4Oq
+	 dOt7MlscGlrDabhqs0Z6l2M4vkPzHiQvYf+5O8JTckB2Q5CoKYFNtvwnQyuu4kFnngroB
+	 SkVso2JLO2UrrbRIy5NUoyouc86W5iFgt2ENm/7bS6GXfj4fogY8NNJqFsobFg0ixBUeV
+	 2VseTIDu+BOZREWpWg0A9n3UeRznr+W4Vg7bKlc2RznygyBv0vU9xehnF1HI1ccFcnRgn
+	 WiczCtJ3iELF2jqqH6FoK8fc+ipCApOmGwQv16wUmzLXgJAUACOyT6gfWsiYAyzRJlw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794835257;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=Zwp/b2OseRP/BP0MRnYEMv10Xx5652k/ysAi77DyTUk=;
-	b=NFCUE3XMe0UyCZhEGLrokSfcFWi5Iat1D+Qz+s3xnLC9zxlmzbF+1aEtCS2AUbAHMA3o
-	 FPJVfzREblqlqgzoKdLbYaFdHt4sy5r0fwk93YdutF6npCpYKm0xcSxRrO1fU5ownOqZh
-	 OZXf7aT5ouNYQWBaxprZALPMFrfBXHxnShhqF2SiCRqG6a7yccJTCFm4ZbjxteF69k7cz
-	 +39vhbv6gPJ+oBR9hBDfUxNM1f6J4znWx9UhxnCtWlD4i9dtpNhjm7Swbo9OThejo+MnH
-	 T44FTqk1YOmzJYMe7P1poalloVrewnUIB2mPjPL3JMq8OBl965HXPwL+1fDkooNXsnA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794836348;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=v+u8WOi6enSXf9p1uj17AxTmnZ64Z9UB12nhM5b0wBk=;
+	b=Nqfran0aWHQFJdq19BUmaQpZPOimmB7sIF0Xv8P3Esdil+F3Lnj9jlVhWdeHqv4AKpel
+	 v0iVp9D/9bxH6XlzusKyYtOA8e8XLNOHMN8mcovD6MbaVm3t4EGszuiX0GJfprO9E+YeO
+	 6QCtgiQXR9R2imE0Q/pQIxrk2jw0ECYPAN0vvIls4XAPJcBT0hoAIJ2ng4DGTrn55Cv9I
+	 sD91cLtlg86X+g0sltkNFGje5JNlanVRZaBn4PVHPsVeiAIo5lfEIyzhdn5Ki7ab9iOyW
+	 XluZd8cicuTlAh8neOtGNOvzJOW+2D3uLiZh8j9H09IEcpdStzT/UozHbhKk7vTYtQA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MhEMPzkS;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lPgY3ZKm;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FA5B606A331;
-	Mon, 16 Nov 2026 13:20:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89562606A31C
+	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 13:39:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MhEMPzkS
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 287C11F000C4;
-	Mon, 16 Nov 2026 13:20:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lPgY3ZKm
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 809881F000C9;
+	Mon, 16 Nov 2026 13:39:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794835256;
-	bh=Zwp/b2OseRP/BP0MRnYEMv10Xx5652k/ysAi77DyTUk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=MhEMPzkS8ELyUuZJvWfSoeeWuf7By4IL/aj2kb/a2OV4l4EgVqKXjiioyUz2RieNk
-	 XgpnwYQk+l7IQUQIb2TJG9rqwlNZZd2t4tSSz2FIOFgSK4qv3MUw+KnfbEysg8x4iS
-	 RMX98jFDrMhGiTX7izqJwsUslncHgd0fLN7Yyo0X4gX89YKFy614i608nuofc5428F
-	 SfK4Vb1AO45G7cvMjjgv1ixrvwKqD7DXpAnyYbrMZDnbnAmpR0a9mRVyF+s9eImB9m
-	 jgQn4Dmx1KWjFDTc0G8bS5OCGFot8PkE1fqYZHJngkkRDFtxZNJw9/svWtFGNRWRiW
-	 sc42i9H1mtjtg==
-Date: Mon, 16 Nov 2026 14:20:45 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: bot+bpf-ci@kernel.org, linux-fsdevel@vger.kernel.org
-Cc: jannh@google.com, mason@kernel.org, josef@toxicpanda.com, hch@lst.de, 
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, 
-	viro@zeniv.linux.org.uk, jack@suse.cz, linux-scsi@vger.kernel.org, 
-	target-devel@vger.kernel.org, driver-core@lists.linux.dev, linux-mm@kvack.org, 
-	bpf@vger.kernel.org, linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
-	apparmor@lists.ubuntu.com, linux-nfs@vger.kernel.org, netdev@vger.kernel.org, 
-	fuse-devel@lists.linux.dev, linux-efi@vger.kernel.org, xen-devel@lists.xenproject.org, 
-	ocfs2-devel@lists.linux.dev, linux-s390@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-usb@vger.kernel.org, amir73il@gmail.com, linux-erofs@lists.ozlabs.org, 
-	linux-kselftest@vger.kernel.org, chris@chrisdown.name, ast@kernel.org, andrii@kernel.org, 
-	daniel@iogearbox.net, martin.lau@kernel.org, eddyz87@gmail.com, 
-	yonghong.song@linux.dev, ihor.solodrai@linux.dev
-Subject: Re: [PATCH RFC v3 38/44] nvmet: refuse files on pseudo filesystems
- as namespace backing files
-Message-ID: <20261116-geplagt-gemein-zufrieden-72c3817de2c6@brauner>
-References: <20261116-work-loop-pseudo-v3-38-8cbbea1cf34f@kernel.org>
- <cb28f09c85a473a23f14c9bd6ef135950197c9fbf966c1f7055d791977d29286@mail.kernel.org>
+	s=k20260515; t=1794836348;
+	bh=v+u8WOi6enSXf9p1uj17AxTmnZ64Z9UB12nhM5b0wBk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=lPgY3ZKmD+AWK6OsqmvR2cCzK6j6u/WxfP3iaSyX9l+sr/3pxKSwrPdAxFUmB9xHS
+	 Te4LG33kqlHxat/w0CkHdvZDbte0OMXN6muIL0x7x/arXg19Oq+TkrYgugukT86AIP
+	 fBQDoHj+srBScbYERGJVtYGkySVWbQmNxiPyppwSnff8r1Gg1X48YTJ0M5spgri9sZ
+	 cgtJFF25gMSdEn28dVFmDAaN0XSm5PAYY5CqRCitHfF55dnu7PV8zepEY0Q/zX8K79
+	 MrjkPdaIuSw/y1vNQhJjd47gBkODFnoQwepsvQQyFNRel7sOC5ngZ+n7SoMLX7mQHl
+	 QgBPPOdHcj0UQ==
+Message-ID: <afebfaf5-f3ee-4234-875d-e5ebf1ee64fd@kernel.org>
+Date: Mon, 16 Nov 2026 14:38:58 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -68,13 +51,119 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <cb28f09c85a473a23f14c9bd6ef135950197c9fbf966c1f7055d791977d29286@mail.kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 04/10] powerpc: kvm: allow flexible PAGE_OFFSET
+To: Arnd Bergmann <arnd@kernel.org>, linux-mm@kvack.org
+Cc: Arnd Bergmann <arnd@arndb.de>, Andreas Larsson <andreas@gaisler.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ "David Hildenbrand (Arm)" <david@kernel.org>, "H. Peter Anvin"
+ <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+ Jason Gunthorpe <jgg@nvidia.com>, Linus Walleij <linusw@kernel.org>,
+ "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Malin Jonsson <malin.jonsson@est.tech>, Matthew Wilcox
+ <willy@infradead.org>, Michael Ellerman <mpe@ellerman.id.au>,
+ Michal Simek <monstr@monstr.eu>, Mike Rapoport <rppt@kernel.org>,
+ Nicholas Piggin <npiggin@gmail.com>, Nishanth Menon <nm@ti.com>,
+ Richard Weinberger <richard@nod.at>, Russell King <linux@armlinux.org.uk>,
+ Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, x86@kernel.org
+References: <20261116124832.662455-1-arnd@kernel.org>
+ <20261116124832.662455-5-arnd@kernel.org>
+Content-Language: fr-FR
+From: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
+In-Reply-To: <20261116124832.662455-5-arnd@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 16, 2026 at 12:00:14PM +0000, bot+bpf-ci@kernel.org wrote:
-> Is a prerequisite patch adding d_real_data_inode() missing from the series?
+Hi Arnd,
 
-No. d_real_data_inode() comes from "fs: let d_real() fail" which is in
-the base-commit of this series (vfs-7.5.lookup). This was applied to
-bpf-next instead.
+Le 16/11/2026 à 13:48, Arnd Bergmann a écrit :
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> As described by the Sashiko bot, the KVM code on powerpc has multiple
+> hardcoded PAGE_OFFSET values. In order to change the default, make these
+> compute the correct register values from configuration symbols.
+> 
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>   arch/powerpc/kvm/book3s_32_sr.S     | 4 ++--
+>   arch/powerpc/kvm/booke_interrupts.S | 4 ++--
+>   arch/powerpc/kvm/e500_mmu_host.c    | 3 ++-
+>   3 files changed, 6 insertions(+), 5 deletions(-)
+> 
+> diff --git a/arch/powerpc/kvm/book3s_32_sr.S b/arch/powerpc/kvm/book3s_32_sr.S
+> index 6cfcd20d4668..0d8a7857f2bd 100644
+> --- a/arch/powerpc/kvm/book3s_32_sr.S
+> +++ b/arch/powerpc/kvm/book3s_32_sr.S
+> @@ -113,8 +113,8 @@
+>   
+>           li      r0, 4
+>           mtctr   r0
+> -	LOAD_REG_IMMEDIATE(r3, 0x20000000 | (0x111 * 0xc))
+> -        lis     r4, 0xc000
+> +	LOAD_REG_IMMEDIATE(r3, 0x20000000 | (0x111 * (PAGE_OFFSET >> 28)))
+> +        lis     r4, (PAGE_OFFSET >> 16)
+
+This is not enough I think. You need to load ctr with the number of 
+segments you want to populate. Here above it is hardcoded to 4.
+
+>   3:      mtsrin  r3, r4
+>           addi    r3, r3, 0x111     /* increment VSID */
+>           addis   r4, r4, 0x1000    /* address of next segment */
+> diff --git a/arch/powerpc/kvm/booke_interrupts.S b/arch/powerpc/kvm/booke_interrupts.S
+> index 205545d820a1..ede394f3f63f 100644
+> --- a/arch/powerpc/kvm/booke_interrupts.S
+> +++ b/arch/powerpc/kvm/booke_interrupts.S
+> @@ -230,8 +230,8 @@ _GLOBAL(kvmppc_resume_host)
+>   #endif
+>   
+>   	/* Restore host IVPR before re-enabling interrupts. We cheat and know
+> -	 * that Linux IVPR is always 0xc0000000. */
+> -	lis	r3, 0xc000
+> +	 * that Linux IVPR is always PAGE_OFFSET. */
+> +	lis	r3, PAGE_OFFSET >> 16
+
+Maybe use PAGE_OFFSET@h instead of PAGE_OFFSET >> 16.
+
+>   	mtspr	SPRN_IVPR, r3
+
+That's probably valid but wouldn't it be more correct to use 
+interrupt_base@h as in head_44x.S and head_85xx.S :
+
+	lis	r4,interrupt_base@h	/* IVPR only uses the high 16-bits */
+	mtspr	SPRN_IVPR,r4
+
+>   
+>   	/* Switch to kernel stack and jump to handler. */
+> diff --git a/arch/powerpc/kvm/e500_mmu_host.c b/arch/powerpc/kvm/e500_mmu_host.c
+> index fa6128119874..9edad9bed589 100644
+> --- a/arch/powerpc/kvm/e500_mmu_host.c
+> +++ b/arch/powerpc/kvm/e500_mmu_host.c
+> @@ -115,7 +115,8 @@ static u32 get_host_mas0(unsigned long eaddr)
+>   	mtspr(SPRN_MAS6, 0);
+>   	mas4 = mfspr(SPRN_MAS4);
+>   	mtspr(SPRN_MAS4, mas4 & ~MAS4_TLBSEL_MASK);
+> -	asm volatile("tlbsx 0, %0" : : "b" (eaddr & ~CONFIG_PAGE_OFFSET));
+> +	asm volatile("tlbsx 0, %0" :
+> +		: "b" (eaddr & (rounddown_pow_of_two(PAGE_OFFSET)-1)));
+
+I think this is not valid.
+
+With PAGE_OFFSET equal to 0xc0000000,
+
+Before:
+
+eaddr & 0x3fffffff
+
+Now:
+
+eaddr & (0x80000000 - 1) = eaddr & 0x7fffffff
+
+>   	mas0 = mfspr(SPRN_MAS0);
+>   	mtspr(SPRN_MAS4, mas4);
+>   	local_irq_restore(flags);
+
+Christophe
