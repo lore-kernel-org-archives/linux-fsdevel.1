@@ -1,76 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.198
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794839186;
-	b=YByR9UhubLFDn4TDQXjE/8/akKpBWiriy3TsT8RWSfmxuuIRjVB5YK2FXlZSZZ1P0UhI
-	 ixvKpmitxQlK0h26RwKvg9sLBt/o2KC1EIAP4161UZEKt2XpgYgsIJL1qJnND7oyG1XTF
-	 lHPlHNX6Ayyc5wdpMmh4Y4HM5tG9RQZmQlFB6Tx43ba9wc8fg1kNFhLLTV2a87sx02mMu
-	 5vZap/ouqJdR3ASthotTzpDL96thI0t2J6HBOfaS3SbLZMvtGcodlvNs0KSJrKwM6owf7
-	 QNkemMhp3n7qDiVljGjepp15jtOAgSZIs7XAk647BrKrQswC2nPTHV9jeb2SD+E4wMw==
+	t=1794839203;
+	b=0UNPUie76Rmz7FHS8D02JgFsIudfUIeflUryxX+n6w3hHsWf+bB2SSRb2MjYpF/WOlmd
+	 GuGvkYxu/9zSZhO/MwLkXyjnRrHTNXzz4DMr9OYjnM6uonqwsFe8Nm1X4iSWtPobsBO4L
+	 pbtkwdTARn5bowvstrj2/WGcM7l66GE8Ij3h0jZAoiaiNFavxHTX6fmwaR73yR+5m5U6m
+	 3LtqpaRTwRwxNhgtcNAXCR/ljayzIeIMXH2kWSzZk9yyfKWwNgunJ4yZMhdvangTmukWk
+	 yFiO7NKjfRjVFztF65CwqWkCnLg07RtbT/QIQ92YalhANu83ujpPOHD2wFRGHjCjEXA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794839186;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
-	 Mime-Version:References:Message-ID:Subject:From:To:Cc:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=Julx96UTlwUpy/yEEb6XKUMDaihQ6nHqBxqUTRWWoDs=;
-	b=XHZxo69y0uWRXsKwQXQveg/zDlVioWLQn7xv7uc+l4wUx/KnWuyV9pZ9V52v5UTt+4MV
-	 mwgZfJq275ffpRxsucusOitKwiLyeSbwHCSBdOc0KsZqRIrMsK0fGi56YcPZdpYEI88xl
-	 3Cn/5RGAPrnnMZ7TjyKho96i3lFDm0Y76h569J+kcuxdRUyzZs4VoKeJs6gi5OXCN9Ex2
-	 WEc6guElDGsx5VzVFIg8W98B9zAHnz34uDZnyILkHKkmZThyKIS1dJrWtq4tJha4jMLik
-	 YugQRL6eMZuaAkpnFaVa7KZNBF5cko/RF5Jts3I7prUggmA1U6dqInwY7KkkeLKgN2A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794839203;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=j/cDML+T26sdQopeF9JOcLeFrLc7HBAnzv/NOTzn5RY=;
+	b=nEN/QBAEpS+jpHoq2hkk6F6KfVEIH4p+PdpyjaTyEIIxDm9Wdu/Z9hdq47rMy8v4LkWz
+	 BaJ6mJMyTekleEg8CMTkOOqD1DKNChBx0V0fWh0Baq+3yEFVZKSq+kS6bMjQdbQGdTIj/
+	 4rOdX9tAgtbr3gDTK7R12u6RwDRFoy5HKso3QA+2fl1KilyvItaq8RGw6WJ6E6aCap29y
+	 YEBXMqXqA14Ba8AIvbUmR3jCVU6STAvaw15GqB9HICx7+CYjNDRKe4Dpx7jEFFEr3UO+l
+	 MpfUpZLt4Ndb2yXu5aK33L+tF0ecj5biiuUUvqSupQSDPSjXQ3ZfWI3f9G/7mYCYDaQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=o04lO8GG;
-	arc=none smtp.remote-ip=209.85.210.198
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com [209.85.210.198])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mQPqyhx7;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28A23606A339
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 14:26:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 28A23606A339
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9802606A31C;
+	Mon, 16 Nov 2026 14:26:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=o04lO8GG
-Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-8b930598cf0so4840201b3a.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 06:26:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1794839184; x=1795443984; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=Julx96UTlwUpy/yEEb6XKUMDaihQ6nHqBxqUTRWWoDs=;
-        b=o04lO8GGgXrESFKdzPFhg+2CZ66oWV/D9RCdkmGQv5zmRx4ocR7cMj49UAZWLzQ08p
-         Exgjw5nzv+VU/noSZj1qNSRM42Efhd5UU9M4zYhj9hYL33RguWZjEdRIwhZZKtjjmAWK
-         CZHQW0LenzCeV4Az+D9oYTYe1+JdnXTThTdnyyA0qyK3iEfA5CNu2rFJPxjCMaEbDPPa
-         4GWRcxQfsKciv2s2Xnp6TE4BCnhHiUeXbt2eHpPmzKjfbnT06BfdZVvWfMuXAZ4NfG2z
-         lvfm/r/kXhSPWJ2Thy+3cctCZhv0qphjwQepT6O3eDBYyRmyUCFE1kDkMxO3F8tlJaEg
-         ursQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794839184; x=1795443984;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Julx96UTlwUpy/yEEb6XKUMDaihQ6nHqBxqUTRWWoDs=;
-        b=yeMtCoKXUyhpIPIOPpZdVSwGqinGPmK4NnUrevNr5ZxvfBLVfrw9qXaimxzJLuTb2G
-         BIeP2IOJH3TIvCIlqnKsO/VuI8EPmY+deToGEY55HTGKQvbq9RclFHcfb+trH5pNDUKc
-         ULH5INj554+mXxNY9fn3Z7GHgftNoiAcETV9WDbcm4TW8ebzpJFa9NU6XKa08e+QM9e7
-         E4od0F5Fg2GWbIRaOPD5S32g1qyMmAPGhTmFOzXXCN576XhOYcjcHk744jDSSoHGT3Xq
-         3AqyjULZjOtITa1/oEllUc90yilZuKKgs2PxmMBQ8AMevbLDxVSlpR5DULwWBt+qOzP1
-         2NLg==
-X-Forwarded-Encrypted: i=1; AL+hErEct5JcmZP5mY3cBNVAmL3oIBaECcFpA55cfg/9pOOGikm3Wyl7YaDKjAM/p1woGc2ZI6f/dMwJ6UeYDTsx@vger.kernel.org
-X-Gm-Message-State: APuU4Z+B3dRziwEzSoPnK7Wzv76+JCjcEaLZ25R76t7a3veBHaR//Xg5
-	+Ljwzpr1vrDwJgvwR4/HLWSTF+Vzx42dZ03RX4WN95ktLN16QGh3kE0qRmwRfJGJb/LC0DEpewb
-	VkbteCw==
-X-Received: from pffm4-n2.prod.google.com ([2002:a05:6a00:c304:20b0:8a0:70d8:a2ef])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:4fc3:b0:89f:b166:bde6
- with SMTP id d2e1a72fcca58-8beb8cc8ad6mr9720424b3a.54.1794839183449; Mon, 16
- Nov 2026 06:26:23 -0800 (PST)
-Date: Mon, 16 Nov 2026 06:26:22 -0800
-In-Reply-To: <20261114202653.3113381-10-rdunlap@infradead.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mQPqyhx7
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C70F71F000C7;
+	Mon, 16 Nov 2026 14:26:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794839203;
+	bh=j/cDML+T26sdQopeF9JOcLeFrLc7HBAnzv/NOTzn5RY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=mQPqyhx7ZPLZTQfXvRc7983IUMX1IFW5Nh8Az9s/0fDxDHzrRyTckj6/jlUz9PNSx
+	 Ajg2Ajy5EAkH34N0p7lF8V3Ze6POz4mAmfRq9R4NPFSooDUyExHjKqeJEMfq3Kn2Or
+	 /6IiFXfNQtVWUPxSp0MCl1REJCIBvkA7ZEEG40hwncFFnxBjttPU8JFPWflyD7UFl9
+	 hqnkavPOKEg5AI4lZsQFO18q/ReLgQMHhS6XQNwIy4qGPK3rGm8m+8okUcjH+ufxxs
+	 D7HrfeEhkJ0bMylk7JCWy0VE+W1VibRzG6MCMqzyKie3cFrqV3QB1TVSc+wkQT8+cN
+	 /pzC4U2mRrWKw==
+Message-ID: <02e6240c-78ac-48a2-8bf8-36a2327e9de8@kernel.org>
+Date: Mon, 16 Nov 2026 15:26:33 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -79,222 +50,200 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-References: <20261114202653.3113381-1-rdunlap@infradead.org> <20261114202653.3113381-10-rdunlap@infradead.org>
-Message-ID: <avsSjioXqbCOn834@seanjc-mac.roam.internal>
-Subject: Re: [PATCH 09/12] docs: ioctl-number: update virtualization entries
-From: Sean Christopherson <seanjc@google.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org, 
-	David Hildenbrand <david@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Jason Gunthorpe <jgg@nvidia.com>, Leon Romanovsky <leonro@nvidia.com>, linux-mm@kvack.org, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
-	Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org, 
-	Marcel Holtmann <marcel@holtmann.org>, Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
-	linux-bluetooth@vger.kernel.org, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jason Wang <jasowangio@gmail.com>, 
-	David Heidelberg <david@ixit.cz>, oe-linux-nfc@lists.linux.dev, 
-	Chas Williams <3chas3@gmail.com>, linux-atm-general@lists.sourceforge.net, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org, 
-	Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, MPT-FusionLinux.pdl@broadcom.com, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <mkp@kernel.org>, linux-scsi@vger.kernel.org, 
-	Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, 
-	Vignesh Raghavendra <vigneshr@ti.com>, Zhihao Cheng <chengzhihao1@huawei.com>, linux-mtd@lists.infradead.org, 
-	Neill Kapron <nkapron@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, 
-	Juergen Gross <jgross@suse.com>, Stefano Stabellini <sstabellini@kernel.org>, xen-devel@lists.xenproject.org, 
-	Hans de Goede <hansg@kernel.org>, Arnd Bergmann <arnd@arndb.de>, "Michael S. Tsirkin" <mst@redhat.com>, 
-	"Eugenio =?utf-8?B?UMOpcmV6?=" <eperezma@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org, 
-	virtualization@lists.linux.dev, Jan Kara <jack@suse.cz>, 
-	linux-fsdevel@vger.kernel.org, "Theodore Ts'o" <tytso@mit.edu>, linux-ext4@vger.kernel.org, 
-	Mike Marshall <hubcap@omnibond.com>, devel@lists.orangefs.org, 
-	Paulo Alcantara <pc@manguebit.org>, Namjae Jeon <linkinjeon@kernel.org>, linux-cifs@vger.kernel.org, 
-	Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>, 
-	linux-f2fs-devel@lists.sourceforge.net, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
-	linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	Tzung-Bi Shih <tzungbi@kernel.org>, Benson Leung <bleung@chromium.org>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Alex Deucher <alexander.deucher@amd.com>, 
-	"Christian =?utf-8?B?S8O2bmln?=" <christian.koenig@amd.com>, amd-gfx@lists.freedesktop.org, 
-	Jani Nikula <jani.nikula@linux.intel.com>, 
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Tvrtko Ursulin <tursulin@ursulin.net>, intel-gfx@lists.freedesktop.org, 
-	Matthew Brost <matthew.brost@intel.com>, 
-	"Thomas =?utf-8?Q?Hellstr=C3=B6m?=" <thomas.hellstrom@linux.intel.com>, intel-xe@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] mm/userfaultfd: prevent poison marker loss
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Peter Xu <peterx@redhat.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
+ Kiryl Shutsemau <kas@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-mm@kvack.org,
+ linux-trace-kernel@vger.kernel.org
+References: <20261107-b4-uffd_marker_loss-v1-0-82926b22704c@kernel.org>
+ <20261107-b4-uffd_marker_loss-v1-1-82926b22704c@kernel.org>
+ <avij463DZ_tSwgKy@gremlin>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <avij463DZ_tSwgKy@gremlin>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sat, Nov 14, 2026, Randy Dunlap wrote:
-> Update the list of files where virtualization ioctls are defined.
->=20
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> ---
-> [Since having multiple maintainers trying to merge these would
-> cause some conflicts, it would be more manageable for Jon to
-> take all of these through the docs-next tree.]
->=20
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Shuah Khan <skhan@linuxfoundation.org>
-> Cc: linux-doc@vger.kernel.org
-> Cc: Juergen Gross <jgross@suse.com>
-> Cc: Stefano Stabellini <sstabellini@kernel.org>
-> Cc: xen-devel@lists.xenproject.org
-> Cc: Hans de Goede <hansg@kernel.org>
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: "Michael S. Tsirkin" <mst@redhat.com>
-> Cc: Jason Wang <jasowangio@gmail.com>
-> Cc: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> Cc: Sean Christopherson <seanjc@google.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: kvm@vger.kernel.org
-> Cc: virtualization@lists.linux.dev
->=20
->  Documentation/userspace-api/ioctl/ioctl-number.rst |    6 ++++++
->  1 file changed, 6 insertions(+)
->=20
-> --- linux-next-20261113.orig/Documentation/userspace-api/ioctl/ioctl-numb=
-er.rst
-> +++ linux-next-20261113/Documentation/userspace-api/ioctl/ioctl-number.rs=
-t
-> @@ -200,6 +200,7 @@ Code  Seq#    Include File
->  'M'   01-03  drivers/scsi/megaraid/megaraid_sas.h
->  'M'   00-03  drivers/video/fbdev/mb862xx/mb862xxfb.h
->  'M'   00-0F  drivers/video/fsl-diu-fb.h                                c=
-onflict!
-> +'M'   01-03  xen/interface/xen-mca.h                                   c=
-onflict!
->  'N'   00-1F  drivers/usb/scanner.h
->  'N'   40-7F  uapi/linux/nvme_ioctl.h
->  'N'   80-83  uapi/linux/ntsync.h and uapi/linux/nvme_ioctl.h           c=
-onflict!
-> @@ -239,6 +240,7 @@ Code  Seq#    Include File
->  'U'   64     drivers/usb/misc/usbtest.c                                c=
-onflict!
->  'V'   all    linux/vt.h                                                c=
-onflict!
->  'V'   all    linux/videodev2.h                                         c=
-onflict!
-> +'V'   00-1F  linux/vboxguest.h                                         c=
-onflict!
->  'V'   C0     linux/ivtvfb.h                                            c=
-onflict!
->  'V'   C0     linux/ivtv.h                                              c=
-onflict!
->  'V'   C0     media/si4713.h                                            c=
-onflict!
-> @@ -357,6 +359,7 @@ Code  Seq#    Include File
->  '|'   80-9F  samples/                                                  A=
-ny sample and example drivers
->  0x80  00-1F  linux/fb.h
->  0x81  00-1F  linux/vduse.h
-> +             drivers/vdpa/vdpa_user/vduse_dev.c
->  0x89  00-07  asm-generic/sockios.h
->  0x89  06-07  linux/sockios.h
->  0x89  0B-DF  linux/sockios.h
-> @@ -398,8 +401,11 @@ Code  Seq#    Include File
->                                                                         <=
-mailto:kvm@vger.kernel.org>
->  0xAE  40-FF  linux/kvm.h                                               K=
-ernel-based Virtual Machine
->                                                                         <=
-mailto:kvm@vger.kernel.org>
-> +0xAE  C6     arch/x86/kvm/x86.c                                        X=
-86 KVM
+On 11/14/26 19:40, Lorenzo Stoakes (ARM) wrote:
+> On Sat, Nov 07, 2026 at 12:51:05AM +0100, David Hildenbrand (Arm) wrote:
+>> Unregistering userfaultfd leaves poison markers in the page tables.
+>> However, once unregistered, hugetlb PMD tables can be shared again.
+>>
+>> Further, shmem page-table retraction can discard poison markers even
+>> while registered in missing mode, and fork() can skip copying page
+>> tables containing poison markers.
+>>
+>> To fix it, add VM_MAYBE_UFFD_POISON and set it before installing poison
+>> markers. Preserve it across unregistration, splits, merges and fork(),
+>> just like we do with guard markers.
+>>
+>> Use the new atomic VMA flag to disable PMD sharing and page-table
+>> retraction, and to force page-table copying during fork().
+>>
+>> Move VM_UFFD_WP to bit 44 and make HAVE_ARCH_USERFAULTFD_WP depend on
+>> 64BIT, freeing bit 12 for the new flag on both 32-bit and 64-bit systems.
+>> Expose the flag as "up" in smaps.
+>>
+>> Losing poison markers, while unpleasant, is not really fatal, and the
+>> use case is rather a niche thing. In addition, we rely on the atomic
+>> VMA flags infrastructure ... so let's not CC stable.
+>>
+>> Fixes: fc71884a5f59 ("mm: userfaultfd: add new UFFDIO_POISON ioctl")
+>> Fixes: 8a13897fb0da ("mm: userfaultfd: support UFFDIO_POISON for hugetlbfs")
+> 
+> Are we looking to cc: stable or this something for newer kernels only?
 
-I'd rather omit this entry.  0xAE C6 is covered by the entry above, and the=
- horror
-in arch/x86/kvm/x86.c is purely a 32-bit compatibility alias for an ioctl t=
-hat is
-defined in kvm.h (the structure payload defines an pointer instead of a __u=
-64).
+Per above:
 
-If it's a sticking point, e.g. this will trip automated tooling over and ov=
-er, then
-I vote to move the relevant definitions to uapi headers, e.g.
+"Losing poison markers, while unpleasant, is not really fatal, and the
+use case is rather a niche thing. In addition, we rely on the atomic
+VMA flags infrastructure ... so let's not CC stable."
 
-diff --git a/arch/x86/include/uapi/asm/kvm.h b/arch/x86/include/uapi/asm/kv=
-m.h
-index 00ce265391e1..e02ef7a39f7c 100644
---- a/arch/x86/include/uapi/asm/kvm.h
-+++ b/arch/x86/include/uapi/asm/kvm.h
-@@ -230,6 +230,18 @@ struct kvm_msr_filter {
- 	struct kvm_msr_filter_range ranges[KVM_MSR_FILTER_MAX_RANGES];
- };
+We cannot really backport to the pre MADV_GUARD fixes that handle the atomic flag correctly.
 
-+struct kvm_msr_filter_range_compat {
-+	__u32 flags;
-+	__u32 nmsrs;
-+	__u32 base;
-+	__u32 bitmap;
-+};
-+
-+struct kvm_msr_filter_compat {
-+	__u32 flags;
-+	struct kvm_msr_filter_range_compat ranges[KVM_MSR_FILTER_MAX_RANGES];
-+};
-+
- struct kvm_cpuid_entry {
- 	__u32 function;
- 	__u32 eax;
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index 0771efaf94c8..ef9f92cba589 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -4260,21 +4260,6 @@ int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
+We could easily backport to stable kernels that have it.
+
+Thoughts?
+
+
+[...]
+
+>>  #define VM_LOCKED	INIT_VM_FLAG(LOCKED)
+>>  #define VM_IO		INIT_VM_FLAG(IO)
+>>  #define VM_SEQ_READ	INIT_VM_FLAG(SEQ_READ)
+>> @@ -502,13 +508,17 @@ enum {
+>>  #endif
+>>
+>>  /*
+>> - * vma_flags_t masks for the userfaultfd VMA flags. The two high-bit modes are
+>> - * gated on the same configs as their VM_* flags above -- both of which imply
+>> + * vma_flags_t masks for the userfaultfd VMA flags. The three high-bit modes are
+>> + * gated on the same configs as their VM_* flags above -- all of which imply
+>>   * 64BIT -- so an out-of-range bit is never fed to mk_vma_flags() on a build
+>>   * whose bitmap cannot hold it.
+>>   */
+>>  #define VMA_UFFD_MISSING	mk_vma_flags(VMA_UFFD_MISSING_BIT)
+>> +#ifdef CONFIG_HAVE_ARCH_USERFAULTFD_WP
+>>  #define VMA_UFFD_WP		mk_vma_flags(VMA_UFFD_WP_BIT)
+>> +#else
+>> +#define VMA_UFFD_WP		EMPTY_VMA_FLAGS
+>> +#endif
+> 
+> Could you just move these up to the block above to match the convention here?
+> 
+
+Did you have the following change on top of my changes in mind?
+
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index 6cd9d86f7adac..fa56d9e9f3ebd 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -410,8 +410,10 @@ enum {
+ #define VM_MAYBE_UFFD_POISON   INIT_VM_FLAG(MAYBE_UFFD_POISON)
+ #ifdef CONFIG_HAVE_ARCH_USERFAULTFD_WP
+ #define VM_UFFD_WP     INIT_VM_FLAG(UFFD_WP)
++#define VMA_UFFD_WP    mk_vma_flags(VMA_UFFD_WP_BIT)
+ #else
+ #define VM_UFFD_WP     VM_NONE
++#define VMA_UFFD_WP    EMPTY_VMA_FLAGS
+ #endif
+ #define VM_LOCKED      INIT_VM_FLAG(LOCKED)
+ #define VM_IO          INIT_VM_FLAG(IO)
+@@ -508,17 +510,12 @@ enum {
+ #endif
+
+ /*
+- * vma_flags_t masks for the userfaultfd VMA flags. The three high-bit modes are
+- * gated on the same configs as their VM_* flags above -- all of which imply
++ * vma_flags_t masks for the userfaultfd VMA flags. The two high-bit modes are
++ * gated on the same configs as their VM_* flags above -- both of which imply
+  * 64BIT -- so an out-of-range bit is never fed to mk_vma_flags() on a build
+  * whose bitmap cannot hold it.
+  */
+ #define VMA_UFFD_MISSING       mk_vma_flags(VMA_UFFD_MISSING_BIT)
+-#ifdef CONFIG_HAVE_ARCH_USERFAULTFD_WP
+-#define VMA_UFFD_WP            mk_vma_flags(VMA_UFFD_WP_BIT)
+-#else
+-#define VMA_UFFD_WP            EMPTY_VMA_FLAGS
+-#endif
+ #ifdef CONFIG_HAVE_ARCH_USERFAULTFD_MINOR
+ #define VMA_UFFD_MINOR         mk_vma_flags(VMA_UFFD_MINOR_BIT)
+ #else
+diff --git a/include/linux/userfaultfd_k.h b/include/linux/userfaultfd_k.h
+index b8b7cc2f00388..75c3e9270b62a 100644
+--- a/include/linux/userfaultfd_k.h
++++ b/include/linux/userfaultfd_k.h
+@@ -201,7 +201,7 @@ static inline bool userfaultfd_missing(struct vm_area_struct *vma)
+
+ static inline bool userfaultfd_wp(struct vm_area_struct *vma)
+ {
+-       return vma_test_any_mask(vma, VMA_UFFD_WP);
++       return vma_test_single_mask(vma, VMA_UFFD_WP);
  }
 
- #ifdef CONFIG_KVM_COMPAT
--/* for KVM_X86_SET_MSR_FILTER */
--struct kvm_msr_filter_range_compat {
--	__u32 flags;
--	__u32 nmsrs;
--	__u32 base;
--	__u32 bitmap;
--};
--
--struct kvm_msr_filter_compat {
--	__u32 flags;
--	struct kvm_msr_filter_range_compat ranges[KVM_MSR_FILTER_MAX_RANGES];
--};
--
--#define KVM_X86_SET_MSR_FILTER_COMPAT _IOW(KVMIO, 0xc6, struct kvm_msr_fil=
-ter_compat)
--
- long kvm_arch_vm_compat_ioctl(struct file *filp, unsigned int ioctl,
- 			      unsigned long arg)
- {
-diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-index 8dff2fc1972e..54dbdabd0e9b 100644
---- a/include/uapi/linux/kvm.h
-+++ b/include/uapi/linux/kvm.h
-@@ -1477,6 +1477,7 @@ struct kvm_enc_region {
+ static inline bool userfaultfd_minor(struct vm_area_struct *vma)
 
- /* Available with KVM_CAP_X86_MSR_FILTER */
- #define KVM_X86_SET_MSR_FILTER	_IOW(KVMIO,  0xc6, struct kvm_msr_filter)
-+#define KVM_X86_SET_MSR_FILTER_COMPAT _IOW(KVMIO, 0xc6, struct kvm_msr_fil=
-ter_compat)
+-- 
+Cheers,
 
- /* Available with KVM_CAP_DIRTY_LOG_RING */
- #define KVM_RESET_DIRTY_RINGS		_IO(KVMIO, 0xc7)
-
->  0xAE  20-3F  linux/nitro_enclaves.h                                    N=
-itro Enclaves
->  0xAF  00-1F  linux/fsl_hypervisor.h                                    F=
-reescale hypervisor
-> +0xAF  00-8F  linux/vhost.h                                             c=
-onflict!
-> +0xAF  31-32  drivers/vhost/test.h                                      c=
-onflict!
->  0xB0  all                                                              R=
-ATIO devices in development:
->                                                                         <=
-mailto:vgo@ratio.de>
->  0xB1  00-1F                                                            P=
-PPoX
+David
