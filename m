@@ -1,82 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794824553;
-	b=RQjaQVr/nSMHlFhulmdW/77EvvMzBo43wstEA1ZF/8cbpL8dEKsaXbjKf11+YHdWvuDo
-	 yKL/E3BX7LrNnpA/Ma2d90IRSmE/7GcSzvTGRiIKgD4lFyG75usMVTp6sugLn/xX+h3zb
-	 jhM/vtrnfIHfHzgMHxvYzCX9MCkxFGuE1yyZkWD1pc3Oet5dHqTuBJZjA0oqoo1sM3Bh7
-	 H8MZuJt+gJf2mOqfOAtqKMVOjdYVANoBNrlSfGJMLt8iwtmqjuFbjsjtheS0ugzZIX6b1
-	 oB9m77W39rStnhw3USqUyYOyzPYiMY83WL4FQ2Xn36e+8mwHNvtOxZN5ZP9BEVHe98w==
+	t=1794824592;
+	b=DqJw6a1cg0uyzm1NcRJUNpAc4b6RPD57Ki76uy7lsc5ICpVGilhUJj1+cEA1lEZk+Gp1
+	 Ibg4r+7gefGrlvzv7mdo1qEad9plC2D7Hf07gxWBsecPdPZl8/bq6TuGIT7fgTSEr1ZEg
+	 ZHjXBqTy4/1YEgIDgco9OUrCGoqBc7MlnPCVp4CdIhZmWH1+Ilawy3BoO+kBHeY7BMo5a
+	 gdMwoeei+hQzsX0TssgiM8dZVcc2BaNW/lY2mZHGZ/cS4LPPEojfYb8uQuyCJb0MVSbep
+	 i65dwQ++nxZ6Wj3oJcRg86jYrD/VeTfJ+5eXGEGbehTVcRRUBrGx4+4PKLCk4WhMFVg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794824553;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794824592;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=e4Et5WMZaz3LvBfh2jlwetoJpjp7/FMRj/wZQ24Y5ac=;
-	b=5hDgWC1HwmSdJQwrZtVKlvszDIat2XOxyyG/BoFbwgmhJx4xgo8yTm/Fow8TQD0TkRrK
-	 lMyeI0rWGyibucW24e5nOM9l4QjkWzhefzRlf0DrEU3DHnnbXbvT0tFm2yLy37sP+tVgw
-	 ZR9ZHmTeYCYo8cpn30A0ZSwTOXVlSNEE7lORcVSOpcC0h8Hki8pOiAZNpyOXg7gFt4kRg
-	 Nh6U55nf+CnDSCHhxjlXkWAeEIqdbc4FTO2YPi8xz43YTV+rowA3UGri9QVWHXyrEIGjN
-	 5q4LdpDk3kODUBWUgQmegFIeCRB1tXiEZJUjTL2WApbiKjBW9IMpeL3XfGsu/UAY9AQ==
+	bh=+Z+9Ajv3xyJmoB5H/8jTZN0dMUeUUYatOho4V13GL9o=;
+	b=nRdDwPBVgcDTjdDzuGvYo/HRiv5xQF+A6ImtTMakqlPj2piXogyokFBv87Sg6kLQ2RDi
+	 Kk4JWsGZwog+VcreGjiCg/ZYQqQADTc9pVL8FvJMYJ6VsYt6avcaINr27wy1vnl95GGlp
+	 6eT/LLz+vEpPZGQs4EOgy8jPR/V4tcwz13m4VTDyc9JLTpjp4uvp1YYzje+WKOA1iGvys
+	 5zeE7ZIB43KbNuPLlKoQUX54ytW6dNXBW7EV3UoqBCtwxrzYVwaAtCxw3ghGynUYPiUAo
+	 SkQDElcmU1GiCv/stqDXsP8T378fFYbq9xHY9J/ocixueLAjBN22i1Qpd/oKKJ3aHKw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="s/kR0OQn";
-	arc=none smtp.remote-ip=209.85.128.51
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Ev6u7bg8;
+	arc=none smtp.remote-ip=209.85.221.43
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 730CD606A329
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 10:22:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 730CD606A329
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE9AB606A332
+	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 10:23:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AE9AB606A332
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=s/kR0OQn
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4bb72b44a97so4442805e9.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 02:22:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Ev6u7bg8
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-49134c8509fso3228395f8f.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 02:23:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794824552; x=1795429352; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1794824590; x=1795429390; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=e4Et5WMZaz3LvBfh2jlwetoJpjp7/FMRj/wZQ24Y5ac=;
-        b=s/kR0OQnus/ELVQiXFewd4uRT1KvhI1DQz+VqaFQGfniIyQMOR1o5uLW2K8BMtcALB
-         ZIL1cVqva+DwH+G3fXeg+CDR2u7QUVRzeG0ru8KZ4WBQhUdvVT46fHws81P+V+cEQ8pa
-         Z3UvjQpJ180F0y26nlY8U5/nab+Hnq/c77dCza1EnXDbyNirk3maJ/xV3uIRZrOFPlA4
-         xcE6rBIYl1v8qEqEhwY7mSuE/q8oOzQWXB3N9xgO5KQ8Kn6+q2RRIiemb3Y1haPJLFuQ
-         ZRRtjb+oETeTgM7wFR66EYF9YSfRzphGrW/bDPwsibAAYPq9tbZeiG1tB08/MJeQpv4X
-         DIOA==
+        bh=+Z+9Ajv3xyJmoB5H/8jTZN0dMUeUUYatOho4V13GL9o=;
+        b=Ev6u7bg8Rg6ax0mUmXVgVdgStOD9C02I6qEPYaG4s5jtP3kBSQusRYR8OpFgMtqrJk
+         SHmmYBCTGWQEkdqzKDbfOxUQVyRN06eWBZ3f/Q51vxVY3uG8G63Ez1X5Ak1gqv+wavEN
+         Ef9Rmo2JStYusMZhkn6y86mEkoDtW2xTpc3qyYnaMCRFFNFa0V3B5AoaHQHR+4mhlT2d
+         V0iOsCk10x+roDEejTdSyoyWmUlaXfMITEFfybEp+sd2hMZCyrQBa7arMdYGUkfS/7M3
+         A2O8SkGvGrsd+zNB8NVJqrUTumuwU9aVa3sZxX3Fn1VZlWrC8CsgaZ6gCDFR8n4XmNQf
+         MOYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794824552; x=1795429352;
+        d=1e100.net; s=20260707; t=1794824590; x=1795429390;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=e4Et5WMZaz3LvBfh2jlwetoJpjp7/FMRj/wZQ24Y5ac=;
-        b=hVC5BsuBzyo3sgtVu/ch+M+f1S/IEFTRD71gQBPjBPLMiFdxTvmBx+9hlkrYKWiOh2
-         INE2IN6702SVz8BLKEhENfGfiimRR27NLH8c58AAa4MZ01dzTWVbODqSLHtg271rP2l5
-         vsSCdMQpkiO0R2SkRLO3UtL3r8JWM2jLJ4CjlfXiFvmaG6i/sjrnWPO31MQw3LFHM9pX
-         gdsjmEGNYFhAKbrnkATBt7ybCozGaAAeUsobWSwUKH8lXzH4saeLGLuDt8/jORny2vCR
-         SxVJg8tSMBxZSIGS3RjDpGhhp/iaWZtr/PJGb84mEbwNkb+hatDFy2ezGggQOH+wL7Iz
-         yveQ==
-X-Forwarded-Encrypted: i=1; AL+hErH7iej/AT8u2z5rUFzKOqRWl81uWVcEYxg8QkqYyltXoExe3W2c4z08yeV1/I2h+WvxGwEwFXcuPOvlslYQ@vger.kernel.org
-X-Gm-Message-State: APuU4Z+jI10+jayCCIut+frjXQnYLUOtg5Ia+3RFGDSqGslK6kXbZZm1
-	gMJWdjpkFhJGg6cCC9EG5wiGlbfpwRrcUQqV5G3gLfLFpme5H1yi/0QF
-X-Gm-Gg: AYBFou0cg75IASCgpxC5wT1lwRaxlN5oh10LZymxHclPWaf4VZd3YdNCHz608fA6snv
-	pZ+I+95cyrIgHMXUP6bngqjuTmt2bPym5lSg/RPrA+WBGkj4hsSjs8pnZZeIZw/hNuurSAi2EI0
-	UcT2m/teBeU7xwfuh5czJxqHcFWT3qOiSfJ8sxQwSfPjxJ3ly3YjULvtq7/fmU3QJe/3JCeYv5Z
-	vcExytiCl0Jf4lMioaTTWy7sNf9lrP2rfKUdaxv3aZf4zgemQA1DTf5cf+8RhmT6N4Ry17tcOSY
-	FxEJQgHDqpKvF8ePUk7xEZ571or6ttx61iZjkKyn+MH89of1pnQk50zHdrLjoNQdYS8fRdifRL9
-	AqSAxx5PpmDjq6FaVEYwz9/OSZSHFAdnUNIoRyMU9bsgIi4VV8vM8TRp3BZLNyEYMjJhtiDdD6l
-	ddn8++6HWlpyKfF043RKiEorhsYWeDk2A+Aw++fu3BKC36N1pvyRYElKTuHv8xJQm7A+HlqJ3TG
-	IX2sbU4Vi065SpsLP4OsTfKOWybfSpYONYI1KBdB0G9+GphtDG+3bgOxCkklXBq0ufiYv770hva
-	GvR/pHIzAwcQMPhHhFWk
-X-Received: by 2002:a05:600c:34d2:b0:4a1:fa27:df7c with SMTP id 5b1f17b1804b1-4bb55ac6cabmr206158025e9.34.1794824551582;
-        Mon, 16 Nov 2026 02:22:31 -0800 (PST)
+        bh=+Z+9Ajv3xyJmoB5H/8jTZN0dMUeUUYatOho4V13GL9o=;
+        b=F37QiIxh1AXW0LlQfYyBesWEBiTBPpU5OicgtBBy/kev7Z1VvQYf+px6QUUU6pSGoi
+         FbwDAjtlxditYIQUK0CU5rxb1PcidxTRXw50V7LQPMlP7GBgA4uYic/ustfePrjYEti6
+         hfEYDMrsAbbDHf/g8VzLoHjygoNrF20LWYNvcwQ7+pSnGJ1vTq3IgnGw2f/Yr6D+BxtM
+         OnIp5M2/fdT5XIEa69YFQpNuIhab97zPxOwrhwCIqpo2TOiOZtccx6J4AmvGLHi4jLfN
+         7gTmnsJYPQTTgK1jRVarcczPFGaEWlT4nir8hjoPxvsdPV48tSsvGiRNVI4nTRMEd9G0
+         6RHA==
+X-Forwarded-Encrypted: i=1; AL+hErH25eiPqMAsuy0JolMVYkDq4NqZ8evBbWz/ZyPSBO1blAUySJd1+xfh2qWn1X7HhD0zDHPpgiu4EcdPPMWy@vger.kernel.org
+X-Gm-Message-State: APuU4Z92sjWvknUqwft4IbRPQzd5TS4scc/+Pd32WcvQP5eCOblF9DP8
+	eUsu/w1Sn5JMyndIflwHywi29ZjLg5TwKMuouU1DmEodEaAAgsCbYPaj5jN4vEBe
+X-Gm-Gg: AZFdTZd+6hJjy8p0cACrBbwLiRQ0ITOwUYongsDVzALOgS5ETUfXT63mBGIt3YBgRve
+	VCTaUpuzR9M6NvTXwlmuDiCEyrbSwTq7/EMpbqIpQ/0gUiQoqM3j1E8/+CgrkYOaUW+W/1d7nTc
+	ESrnOzu6i0z0AX6qn9MTUqWaoQ9eO+0t6vvdEOSCswzNB9Heowu14V5M/WQhF3318MA6Wn5Oi2Q
+	6F1kW4tNLDfwRoNUE9q4VbOeIP8//ebcRGuMbaO8+PcYwSz8CJOBCMq1WwriLosbn7ti9UHratx
+	rCAmo3IiBnA1ai+hKinfHFrRfUrez68fBxd6BSXnEMbXxKDObTk/322upGcPDLulRJQbGTaZMpj
+	SB1Rn9xppY/G+sSKgmQNxJEjsM9ef+KbdSA2NYp8K8HVfVsMlkrM/zQ2EJztGhiURVefsDPvNq+
+	ybYKob/S4PPQEIn4ZKzCjQK47oorRYaww6XCfPTSfsXdcObOW958zhb36k4AGTijlEUtNBxHy9y
+	q0pvcHW73KHKubg6rl3JNGCU5+9dhWiEz1N6/A87bPYkW3qKjRJvKTP3IOo1/hWvBG9o5MWwG1y
+	rkCpwI0ln9n7E5CkGuLlcDquPxWoU1LYRnQzN4pBK20=
+X-Received: by 2002:a05:6000:144d:b0:492:880f:494e with SMTP id ffacd0b85a97d-49c72c9c630mr23730288f8f.40.1794824589695;
+        Mon, 16 Nov 2026 02:23:09 -0800 (PST)
 Received: from fedora ([5.131.7.59])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb4e2adf53sm388703845e9.15.2026.11.16.02.22.29
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c608c5debsm20788426f8f.42.2026.11.16.02.23.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Nov 2026 02:22:31 -0800 (PST)
+        Mon, 16 Nov 2026 02:23:09 -0800 (PST)
 From: Petr Vaganov <petrvaganoff@gmail.com>
 To: stable@vger.kernel.org,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -88,9 +88,9 @@ Cc: Petr Vaganov <petrvaganoff@gmail.com>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	lvc-project@linuxtesting.org
-Subject: [PATCH 6.6] fs/stat.c: avoid harmless garbage value problem in vfs_statx()
-Date: Mon, 16 Nov 2026 17:21:58 +0700
-Message-ID: <20261116102217.80740-1-petrvaganoff@gmail.com>
+Subject: [PATCH 6.1] fs/stat.c: avoid harmless garbage value problem in vfs_statx()
+Date: Mon, 16 Nov 2026 17:22:55 +0700
+Message-ID: <20261116102255.80986-1-petrvaganoff@gmail.com>
 X-Mailer: git-send-email 2.55.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
@@ -134,10 +134,10 @@ Signed-off-by: Petr Vaganov <petrvaganoff@gmail.com>
  1 file changed, 3 insertions(+)
 
 diff --git a/fs/stat.c b/fs/stat.c
-index 5375be5f97cc..9d3f1b276c86 100644
+index ef50573c72a2..bc2b1f3a3860 100644
 --- a/fs/stat.c
 +++ b/fs/stat.c
-@@ -246,6 +246,8 @@ static int vfs_statx(int dfd, struct filename *filename, int flags,
+@@ -231,6 +231,8 @@ static int vfs_statx(int dfd, struct filename *filename, int flags,
  		goto out;
  
  	error = vfs_getattr(&path, stat, request_mask, flags);
@@ -146,7 +146,7 @@ index 5375be5f97cc..9d3f1b276c86 100644
  
  	stat->mnt_id = real_mount(path.mnt)->mnt_id;
  	stat->result_mask |= STATX_MNT_ID;
-@@ -262,6 +264,7 @@ static int vfs_statx(int dfd, struct filename *filename, int flags,
+@@ -247,6 +249,7 @@ static int vfs_statx(int dfd, struct filename *filename, int flags,
  			bdev_statx_dioalign(inode, stat);
  	}
  
