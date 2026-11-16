@@ -1,90 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794858273;
-	b=P8DWUUB0ihlBidpJpd224xMLF2j/WvvIBUaaGo4BCCl8Y/4kOXwWr1/R7A/c25qQxPEI
-	 iz0MI6f2ZI31MRDte00zRoPK1b5AHIKktZ+NPfkpVTt/y3GNwC5fFmRthtvv3k0vRDnJ5
-	 3MP1mv9KtiPGcaUDhotBv72hWELIVz0CZy9fV/N54XyILp7XNgSIToOklQ7+a2b0X/lPC
-	 Wmp2aJIZxtvUQXU6vru6ZkdCcNPbYWsL6TlgrEiS33VpKXCucgPHBiE43R9Mj2b9laelk
-	 IXOWaeqrVwEZCoiQBVkwz/L2jnjxFJa07B4vOAccO0lSHDi9q90/NyAkzQxoGBALzTg==
+	t=1794858506;
+	b=mJpuDCdaXMPgi8wVjZshL4z9wRMe6rIU+zkgrVC1r0t0vSD9wmeelTc+NOhfV2nwqxpa
+	 P7K5ntVM7U4zL1G+Y4KnwqzcwOZufRUp+mjyC2tXRKteLYrpnWQvshdvdMrl3yJmGIMnb
+	 kLa0WPsMqmLuibzKpDGn3MPjFiSvsMEeAkvL7ed7z/QaD3hf9mq5nDgJY5XWCeV+dhxSw
+	 o7wEm6GPdlxs6EuPckCeMwVch4aTrUJ4fQoG6/TXQ6N+tqzsg3a9XgcOQU9ejx/BTL4EE
+	 IIjA2Wce0xyKN5te4fg3p762sc1kVj4Lz+ecPlUMJZpyxT9IZJvPzgmf05FoULEJnpg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794858273;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794858506;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Received:X-Forwarded-Encrypted:X-Received:MIME-Version:References:
 	 In-Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
 	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=nh4pWMvkRsPEst/kCwIp1wxFa2k7tAfx6b5lfGN0krQ=;
-	b=lGRFndjI+bN6yJBhxiYdf03YBxKCxFPZvs/WQ2aOgzX/xpJScWoXSCK9spUPQkHA1Wb1
-	 YYDYNpKXg0T05AHIAdwoJC1YlLHgaNPastcvX+n6dU49z9BgVjrL5N9OBCJC/+TGBJDhy
-	 7fIJdOquSx5HMumCfHO/cIdh4KIeFMY4Na5AYvwY88osxImgyNYQn3D5xkNAN1blaVueR
-	 42Xytu2KJVIyXcc0lYEoFX8dEzzP47TkHA0+tZtO8Q3iYFKFxsvz2gkZBiYpIUa3fuaMF
-	 oi9NmRXJm2/dTt51oIx02BK8N/PqFiWuPMGP5nmae3+Z4TeUg+HI+EH0TY1ex1IuryA==
+	bh=SoqAqmuXv97PmZGFBFFCczoznG+kfpt1kIToyl4KM94=;
+	b=NeGNPSORihXGkGFSpJ5CyYhpFYnX0SLQ3yPmk7aoyI19sT5qwQ94ynZ8BEcLjDz+vPyr
+	 tZG+1+JPNJ3wd4SrUbGa4Xaf6vWqRK7QlVvtBmAs8qY/B5eLOH6L4J628eGcXnNJ7+HSK
+	 suI4DYb/4BraJ6EB+7y+1K1JKOPG0NqWkfSpdhxWk1CmlMmrZCfevcgMKRVrYBQJnCNSq
+	 MgUAfMBUL5X9l6E6LZJK7OWdMEzp5hC2U7sJdvmxMDPuJLvarGlR2IeIzejHCF7u+g0xN
+	 OLThm2wswl8LU+howTj7RAYgk8UJzqycdRwoEP07sucidx5HSf6bHEtzBFwwUOWAeKQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=linux-foundation.org;
 	spf=pass smtp.mailfrom=linuxfoundation.org;
-	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=Ulk8nx6K;
-	arc=none smtp.remote-ip=209.85.208.45
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b="ZShS/AX2";
+	arc=none smtp.remote-ip=209.85.208.43
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45C49606A881
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 19:44:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 45C49606A881
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F043606A31C
+	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 19:48:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1F043606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=Ulk8nx6K
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-6b587538a37so5674717a12.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 11:44:31 -0800 (PST)
+	dkim=pass (1024-bit key, unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=ZShS/AX2
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-6b587591414so4785785a12.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 11:48:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1794858271; x=1795463071; darn=vger.kernel.org;
+        d=linux-foundation.org; s=google; t=1794858503; x=1795463303; darn=vger.kernel.org;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=nh4pWMvkRsPEst/kCwIp1wxFa2k7tAfx6b5lfGN0krQ=;
-        b=Ulk8nx6K3Msg9F0HdjIyNx1ke+ZFzb7CVCaQeOiZviaxOoe+SrWXjTxrIZIRuttKqy
-         E5wCHtwl3n1YL0ASjEZKGdg9QFe/qX77kpQU6w9WHbW2KZ/4ytdD+WShFz72SGSx63z+
-         k9LJ9R3CjMy/6BK+F4Kvz8ruQN6x+i31ouipc=
+        bh=SoqAqmuXv97PmZGFBFFCczoznG+kfpt1kIToyl4KM94=;
+        b=ZShS/AX24sV60YKocMCZ3s+1wGEMaUqvtaghxfux2Bgb/DYa2SRgvHLR82/mawvHLQ
+         ztWkSjwjyVDLcSUDXCa6t8pGa0qGIyQjzm36Zb0+nuMpQuZZZN2AtIfAnN+7guqUxnMn
+         rwD+Jvtar/4M2e8rJescaVBQKR3ZiRMmrZGNA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794858271; x=1795463071;
+        d=1e100.net; s=20260707; t=1794858503; x=1795463303;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=nh4pWMvkRsPEst/kCwIp1wxFa2k7tAfx6b5lfGN0krQ=;
-        b=sXOwqY7X+gmhxE5xqp48nvuR8Gqjt4YcElckCG6ZgxET1QNMdWdojmb8fAlANJzUYc
-         Ol192X5mNiTyahMSgWtN6Ei9vt/V08q1RYaGkeWGMaUqcZEWQ2WDLkCH4XEU97jUBgQb
-         1ZEUBBWCI+4REmyxzxDl7T60OFvJq4/gMZPMk2zJcsIRGmKB5+jZUhpPcAwg6EQ9ns4m
-         4Y2D1jkmDVSLA2BUdb0T8yxWSxDx8x3NSSaBcaLIUmizqphrc/C4LLaqPFMYv3itclQ6
-         cAPj4WD8f12YAGx8cX68mhC3y78OYUF4N51mYz52o76E/dNaWeAfmClTUYB/DYrUWnEA
-         SKCQ==
-X-Forwarded-Encrypted: i=1; AL+hErFwNlK2hfaEIl214ghHzq8gquWwSEMMUueWw0Qhmbij0U395Fdl+ZZMrsmWZAGcwySREYXKz995ycvF5E1K@vger.kernel.org
-X-Gm-Message-State: APuU4Z+9Ai/CXve4Hv34fr3/21XBwtmecYJTOMKHNx8nfLL+1b82Q/rG
-	6icBou0C/Vipd7269JjRs8i2K44bT2IKZVX4SrW2xxmfc7ED5+PKIHxRpqGQ0JOK+v+yJ98WPWP
-	CRAJ0ptWLBg==
-X-Gm-Gg: AYBFou1LRMNMq7HKvGELxAarf7j2DukNMTDue+XLy6z+JQsLv+Fwc0uBfSyz1ovcg01
-	dmVuHOd53WIpmg3YxhjxSozHnMLTG2YJwrms12h1NcCfL9uSUG6ndIJ6rEtoiVJdmvFLXUhr7xe
-	ON3U72G9iE/MPIRqpR6LBUp7FMZHL3dYuvdHzlG54vA7Zm3B8jAo9GRhJdRgniF+s7sXgA8THNL
-	2s2577AsisddSuNwRAxa2gOY/0+4FURxnams7yXEDRpR6OrUI29nRua0C6nEzWH4NHeBqsxkLGI
-	URjSe6QnNTMSuguLyB8vtRbRFjyi8AxGMjisIG0x1ajWOG25xcKBP1KSoUlZ9UFQBV5vI8JQem9
-	W2Ost1rTcAu/Y18Y3wIMziQ9iTVSe8SYXWmKECMSVyZG15+uBi5CM4uue1tRzvdea0hSmxjO912
-	P1QQduH6O0SCPHAxo4CIMFMkRVPaUPJW6yy96HEZtgfQd3ak6uTh8+j+vrtD5mo2lXBXALu80u7
-	iDafJE43RiP9c7LH5iHhnEJv+ANnFAO0tt2NBcFQXIavUQW8EV+UkOO7LpWNpNCsFO3T+hXZaN0
-	41xxlJbZbSCcczoRgzqDNu4SFVz/1tAsfPf8NsukUYiH2E5oQRO8j2tK8v4YqTSos5t1qMKD1Jh
-	Q5qw=
-X-Received: by 2002:a05:6402:5d86:b0:6b6:e905:b045 with SMTP id 4fb4d7f45d1cf-6b7c08c1bc0mr6308484a12.3.1794858270497;
-        Mon, 16 Nov 2026 11:44:30 -0800 (PST)
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com. [209.85.218.48])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b7c21b5eaesm4959221a12.1.2026.11.16.11.44.30
+        bh=SoqAqmuXv97PmZGFBFFCczoznG+kfpt1kIToyl4KM94=;
+        b=vNt3p/RgvdabqwKZdVvIktR/yaAQ9DV/ORBsll/HbX/WRg2oLKdrMjhXi3hRTMVdvm
+         oYatOTqSSqBN8FfEKna7PkOs23YY7b4ZzwR13b6izGyDhswOaOg9BXEBGcbNthqaBNO4
+         G5qx1Jl87mUKn8aJeteI/AFFx3zy3e2ELpYfzQx6i+oxeLEt5Zos1WCcSkQD4A2YrEcY
+         piOE8Y/jbLgtKdS0XAGp/72PKu8dPL4YbD7l2Tv93pY3UQzi/D5H7XIWIsmsKJ6YYylC
+         wdt7unvD0hbz1XGUdO9inVBgpZL+nIdbt0YgRZ7wpVmyniw1zQXp95P+SoudS9H9WKmQ
+         dc5w==
+X-Forwarded-Encrypted: i=1; AL+hErEfgl35rwcOaStJMeH8Y5dzHeynJs4Q4Pu1nZsYsft8eJJkeSolK8topjAXeat78ji7rv0IXymoeU/ueTf6@vger.kernel.org
+X-Gm-Message-State: APuU4Z/9qwOpJ9q7XdyiexDPfQluBZt32KnFyDAVDE2q2MCk5KlbDZyr
+	x3BLhPOVuYz3cv005MavAzHTJQA5BYQP0GA6+TuZH+CPIR5xO3Bh2apPVI5n648dQi2dy00/B1o
+	DBMb7/cmExA==
+X-Gm-Gg: AYBFou12kKpxn8i5p7JDdi7d5tjISgkH8+urbOs5rKkHwp9OGa6D/RsrM/ITGUdmYKp
+	Ystk59Lwcex8Q187foxfc9vbXyRm3zk+CVf36+lxMWDLDMuUBW+fHDjtOkrzCIDEEv4KLXFKUv8
+	0/mBnT+iMD2wGevf1Ih9iZwmgExzbogC4+eFXybC1ceMimT0apd6pj1Ir+unGd/mXLntPuOQmyh
+	FU+ChzWFhfsbI/3qUfOb4I9uVNxdqGT3oSuOg7VyIDjFXZq4sHwdWUG+kxeoyObywZxdDrqMAf+
+	qFL8pTcOBWCzUAgQpZfGnriXcp6J6sXlNnDeklqV7trjo5FcIo/PmU/FSqp9blx7cHDf1Layv5h
+	bWAu6xiTUvOrQrRU4SwscU/q1yzp+Vi9IfO52fJkvfDM2XfGTVM0k6gA4E4FMo+izim5qa/ICxZ
+	zj4cK6AfFgliLZDZliQvSaj4D9upVW4JuHqu/hCD4g5sR+gHQpwI2WQBLgLo94UUYe4zbTqoPie
+	qjkFpNUhA7a362wQQ2x2/Qr66hBP5xfr8In9AkDLByuoAIjR1C8Ha0sNnuO3EXIJGA/FlrlLg2j
+	BxPLUsgYPC6rA1qgAOIpGFEu+hQCBr2GdVP52CDAAFe+UPdaZScw1xu8YTkFUO970k1LL5vIEn0
+	nRVo=
+X-Received: by 2002:a17:907:d12:b0:c4c:b4fe:c9e8 with SMTP id a640c23a62f3a-c50963dbee5mr964081666b.38.1794858503406;
+        Mon, 16 Nov 2026 11:48:23 -0800 (PST)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com. [209.85.128.45])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c5095b4289csm462549766b.37.2026.11.16.11.48.23
         for <linux-fsdevel@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Nov 2026 11:44:30 -0800 (PST)
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-c50604721c8so623517366b.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 11:44:30 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErHzhkCkY3TqSC+4bnOIVZhCfmER+2PvEFv770vVYs4cQxpO0FDm1+KXFbaW7EYZiWgfHI1gdAlflHNclnQr@vger.kernel.org
-X-Received: by 2002:a17:907:d86:b0:c50:4b6e:329 with SMTP id
- a640c23a62f3a-c5096372173mr926077766b.15.1794857808907; Mon, 16 Nov 2026
- 11:36:48 -0800 (PST)
+        Mon, 16 Nov 2026 11:48:23 -0800 (PST)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4a3517554f7so42662645e9.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 11:48:23 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErGPc+a+vVLxx9fQ/0JfEtbmHLZZccg4+fX3sccJSDC3A1ZHW+0g0vGLbZ9MeRV1Jn0E4WcU+lr5PAz6vpw8@vger.kernel.org
+X-Received: by 2002:a17:907:60cb:b0:c4c:d6a3:f4bb with SMTP id
+ a640c23a62f3a-c509634503cmr1008394466b.10.1794858120895; Mon, 16 Nov 2026
+ 11:42:00 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -95,12 +95,13 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 References: <20261025164719.1831477-1-sashal@kernel.org> <CA+1xoqcxAsRij1j10TyhNX9JXNXNkdWO3sMaVRXCqYdEXi45fg@mail.gmail.com>
-In-Reply-To: <CA+1xoqcxAsRij1j10TyhNX9JXNXNkdWO3sMaVRXCqYdEXi45fg@mail.gmail.com>
+ <CAHk-=wgCX4=ZSPALxR7VHKKAKipU1nD_Am-Q-0z1SRKxr-VRRQ@mail.gmail.com>
+In-Reply-To: <CAHk-=wgCX4=ZSPALxR7VHKKAKipU1nD_Am-Q-0z1SRKxr-VRRQ@mail.gmail.com>
 From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Mon, 16 Nov 2026 11:36:32 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wgCX4=ZSPALxR7VHKKAKipU1nD_Am-Q-0z1SRKxr-VRRQ@mail.gmail.com>
-X-Gm-Features: AclHuK9wFvPLbk2hT2Jt-YCf9KvKeXcURMdq1CAih03odFDrPYf2QaCfvYcr5qU
-Message-ID: <CAHk-=wgCX4=ZSPALxR7VHKKAKipU1nD_Am-Q-0z1SRKxr-VRRQ@mail.gmail.com>
+Date: Mon, 16 Nov 2026 11:41:44 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wg-5cWvYgmnE2WH4yys8tB5AwwRQU6kW0r5VoRYBLT7TA@mail.gmail.com>
+X-Gm-Features: AclHuK-GW-sq_aqp10QbcNSLO7AtIlmoHSb6NWDtJ770GEzenoCICUrGbvxqol4
+Message-ID: <CAHk-=wg-5cWvYgmnE2WH4yys8tB5AwwRQU6kW0r5VoRYBLT7TA@mail.gmail.com>
 Subject: Re: [GIT PULL] Kernel API specification framework for v7.4
 To: Sasha Levin <levinsasha928@gmail.com>
 Cc: Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org, 
@@ -112,42 +113,29 @@ Cc: Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org,
 	Mark Brown <broonie@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 16 Nov 2026 at 10:14, Sasha Levin <levinsasha928@gmail.com> wrote:
+On Mon, 16 Nov 2026 at 11:36, Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
 >
-> Ping?
+> And I see *no* upside to any /sys/kernel/debug/kapi interface
 
-So honestly, I really don't like it. I don't think *any* of this
-should be inside the kernel. I don't think the in-kernel side helps at
-all: the comments are too big, nobody will read them, and the whole -
-and only - real use of them would be outside validation, not at
-run-time.
+And yes, the documentation calls this part "human-readable". Nobody
+cares. No sane human ever reads and compares specs. We shouldn't
+expect humans to do that, and we should not design *any* of this
+around "humans will check it". Completely pointless.
 
-IOW, I see only downsides to polluting the kernel source code with
-comments that aren't useful to humans.
+I think the specs should be purely for automated checking, and I
+suspect any initial spec should probably even be *generated* by tools.
+Because the kernel API is not something that has ever been designed
+"by spec".
 
-If this was a spec that is maintained in some automated format - not
-in C comments in source files that aren't useful as comments anyway
-purely inside something like tools/kernel-api/ (or Documentation, or
-even an outside repository entirely), together with the scripts to
-then validate it, that would be one thing.
+The kernel API has grown over time, and pretending anything else would
+make the whole project be just a fever dream. We are *NEVER* going to
+change the API _to_ some spec. The spec needs to match reality, we're
+not changing reality to match a spec.
 
-But polluting source code with huge comments that aren't for humans is
-right out. Particularly when it clearly is a "first step" and the
-intent is to make those comments bigger and more extended in the
-future.
+Then, once such a "spec matches reality" has been generated, that spec
+can then be used to check changes. But neither of those phases are
+ever going to involve any humans, because competent humans have better
+things to do.
 
-And I see *no* upside to any /sys/kernel/debug/kapi interface. Nobody
-cares, and any excuse to make it dynamic ("We might update the API in
-the future") is actually the complete opposite of the whole point of a
-stable API and not something I want to make easier or support in any
-way what-so-ever.
-
-So all of the in-kernel side to me looks like actively detrimental to
-the whole idea.
-
-What I think *can* work is an external spec that is written so that
-tools (read: AI) can actually then verify it against kernel sources,
-and that can be used to also drive automated testing. But putting any
-of it inside the kernel is bad.
-
-                  Linus
+           Linus
