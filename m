@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794860485;
-	b=4REYaNnKnBG6c1H5KzTNvET2rR0jdz5l87Xr9vvfMSbE2ymBH1Ga7QlqK+f/MaMt/85o
-	 /mEZmZSxrpWP+0Wn6v7LGKFGOW05nb5ftKekKJEVR2sAk1Rb1F+/a7qqNJogOx7JdpiEx
-	 m1YSFQs4haCgadpvpe6N8nGH955vbJD68dclpEjOZkl3Vs0A2wjWgXbFkXaoA9X0BROhZ
-	 NVi8IjLbngUUx6aQY97IcvnqS8IFKLbVGdOaeZqZ4vo72yVr1k5v/9/qL8LiOH2UhbJRH
-	 kBFVs6iy2uXlE+GYZqyRUnk1gCQFnQXV1qYUtJxbfg7ckFzgE+wPAuVaEVr97LeUd3g==
+	t=1794860598;
+	b=BSCwj42Btt3FRgIakpvii0YK1fztsbspcs5Z4Jho5ZcTEuj72BKoff49+dgjsKgviuSy
+	 cZNECEKHF22L2JkzmMUupaBh+3MzsN47TizqPe883ki7HBj09LJlF4Slo5Hr6K03UvWP+
+	 X9FoRTstKtmEn1rChhxOp4+krToBJqvJQKXNxYD4FSzZKDml/33kvkghtp6VXKVzsfqTi
+	 xENbR1DOj1qhWk8LmHr87eJG6xG9itDfS0YY+CfYZ1S9tvijZwMoV4yqZGqtvPcZQBcjZ
+	 rsVxIvtAlsbIadZWp7V2yO8feVHDO4WLx5EcF1vfRG9Jic/kqeL7ruU71FYhySGlAJg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794860485;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794860598;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=udvGyc8qs7eDmCkZPOwNgWencCurPc2vHfow8Weymbs=;
-	b=xqTfuOVlcJsde4aAuH35ajPl9qj8n4kpd5a4LyakuRGKlNRlT9Ynj/e9yrQMzBZs3PH0
-	 879HK+7dKEU7oBCRwOeN3JQDN7QiBXnRnK6AnYDEaMgXrQlLYrhQ4hEnqYWbVWudXSaOy
-	 tGVlg/3CbC2hlA3pY45lIQSRej5OY96AuvYL45EYnE23SgNIIFhzsGyJEaCtPcSDwCAsS
-	 ogvh7eKp6AAPwgx6CFb4zZo9wMXpfghzRUNzZ4/iXm9zbEBsc4rhjFpTmlZkDnFIItY/O
-	 lT4UyymhxE12MesZSiAHe4lNg0owTkD7dKO1yj95meQ2gymxCEzFuypSfJl3xwyoCWw==
+	bh=a+ZtZSiHDF77l41X0e+HR8wDioILQAoPoJMETPkmRjg=;
+	b=huYFbqzZcRFk+LT2sFSzip2B7JWFRGxiPR+GRiOAA+k2jTYRyp9ZSuyFu70xuoUy+n55
+	 RsjR9Z1mzOhX0Cpb4O0R+9ZOYguGx1WuaQM/7yP1xp12ySjp3qSntenasJQGnRvjK7vl7
+	 T660FTfHQYFSzCZAmnrnN/ueJfdxysZcxZpjiM/Ga4T5agVKDETxj++7JzNvWwOz1ov96
+	 EKsJH6T+Ge6fXc7dYH8qI8Sf0BnPwqQ+ZIUKqnnC5LkUfEDpoG0F6orLVIIxJEioNs/uE
+	 KUocsOSIfktmRSNfaL1mqtu0FNK0LKs1a7Pc2DwW6XuoJ/NEOePsQ3rOuANfoXj/IUw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="NdHnt/Zr";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="ntN5Yo/t";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8898606A322;
-	Mon, 16 Nov 2026 20:21:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DB1B606A88E;
+	Mon, 16 Nov 2026 20:23:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NdHnt/Zr
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 756921F000C5;
-	Mon, 16 Nov 2026 20:21:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ntN5Yo/t
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 088431F000C4;
+	Mon, 16 Nov 2026 20:23:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794860485;
-	bh=udvGyc8qs7eDmCkZPOwNgWencCurPc2vHfow8Weymbs=;
+	s=k20260515; t=1794860598;
+	bh=a+ZtZSiHDF77l41X0e+HR8wDioILQAoPoJMETPkmRjg=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=NdHnt/ZrGkTJKLGT6boQkYmr5hZWrnkKFG39XbeyqlnIrlOXoyMTn/RU+HxI6sO7I
-	 KYpzLNpBliBkZHAeMhOkHxHEyfpqzuUGSciggMRkstONQK0cMmHSS91h9KkbH78WZ4
-	 hW6VEK2xuDFgphM9vROT0Ntv4/4ddSfFupNPsoq/8W1uU+QMTME9mJXDRsaU3MP7mv
-	 Tc+GCyr6oOBSAmbLK4jdujNTR7h0K+Ve4nyjk+KqzcnPUvFvyR+uTMx/wASGQrrIau
-	 V/yM1p2OJaYdaUprgh6SiL35fAJEKB1aYl1m9J0ZnBUoLYXIwO0yowCQbEB8C2JECS
-	 ToeVnPg6Ij4TA==
-Message-ID: <2dfe9686-f138-41dd-bca5-89d65adc31e1@kernel.org>
-Date: Mon, 16 Nov 2026 21:21:11 +0100
+	b=ntN5Yo/tIZDHX++d6JWnRglcPUBv4x/co6KCQgnvePDMNmHOeL0SzdB1GjttAeCQc
+	 okYFWmtV9Zf7eguqKwLOh8f53Du96c9oIYEzpudqyocUGmUhuFJmZJXY2NMNZmFGOQ
+	 3DMsKtIl8BwtSDqD1+B0597CiE+oGZltnfIDER1VJNWSp0gfS7JLAnOWTWi8INMPMD
+	 jtkHhZVoGV2HJ7UbVzwZEMvPCvRgj6uH/XRt8cOeaRSFU0itn/CsZF2yoV92QN+I3L
+	 AYi96ywEvt3jFtbeQjcxikGrHG1YUiQ4/Az1T89nUWYzvEgb1Yw/CBON1lZLD0GKbn
+	 wU52v4Sge7wXg==
+Message-ID: <2d9ec2ee-8867-4ac2-b2b5-654bf2441513@kernel.org>
+Date: Mon, 16 Nov 2026 21:23:05 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -52,8 +52,8 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/9] fs/proc/task_mmu: downgrade writable migration
- entries in PAGEMAP_SCAN write-protect
+Subject: Re: [PATCH v2 4/9] mm/migrate: keep the uffd bit when restoring a
+ writable migration entry
 To: Tal Zussman <tz2294@columbia.edu>,
  Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
  Peter Xu <peterx@redhat.com>, James Houghton <jthoughton@google.com>,
@@ -77,10 +77,9 @@ To: Tal Zussman <tz2294@columbia.edu>,
  Oscar Salvador <osalvador@suse.de>,
  =?UTF-8?Q?Miko=C5=82aj_Lenczewski?= <miko.lenczewski@arm.com>
 Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, Breno Leitao <leitao@debian.org>,
- stable@vger.kernel.org
+ linux-fsdevel@vger.kernel.org
 References: <20261116-uffd-state-fixes-v2-0-4397a0196479@columbia.edu>
- <20261116-uffd-state-fixes-v2-3-4397a0196479@columbia.edu>
+ <20261116-uffd-state-fixes-v2-4-4397a0196479@columbia.edu>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -127,17 +126,36 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20261116-uffd-state-fixes-v2-3-4397a0196479@columbia.edu>
+In-Reply-To: <20261116-uffd-state-fixes-v2-4-4397a0196479@columbia.edu>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 11/16/26 21:02, Tal Zussman wrote:
-> PAGEMAP_SCAN with PM_SCAN_WP_MATCHING write-protects pages in a VMA
+> remove_migration_pte() makes the restored PTE writable for a writable
+> migration entry, and only looks at the uffd bit of the entry otherwise.
+> A writable migration entry that has the uffd bit set is therefore
+> restored as a writable PTE without the uffd bit, and the page is no
+> longer write-protected.
+> 
+> An entry with the uffd bit set must be restored write-protected, whether
+> the entry is writable or not. remove_migration_pmd() gets this right: it
+> makes the PMD writable and sets the uffd bit as two independent steps,
+> and pmd_mkuffd() write-protects the result. To fix it, do the same at
+> the PTE level, where pte_mkuffd() write-protects the PTE as well.
+> 
+> The only known path that created such entries is PAGEMAP_SCAN. With
+> PM_SCAN_WP_MATCHING, it write-protects the pages it scans, and it set
+> the uffd bit on a writable migration entry without downgrading it. Now
+> that PAGEMAP_SCAN downgrades them like change_protection() does, we
+> should no longer see them, so this change alone should not be visible to
+> userspace. If another path ever creates a writable migration entry with
+> the uffd bit set, the page now stays write-protected instead of losing
+> the uffd bit.
 
-Today on "things that should have never been merged": PAGEMAP_SCAN and
-PM_SCAN_WP_MATCHING
+I am severely confused. If it was properly fixed, why should we do the below?
 
-Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+You should WARN if we get the uffd-wp bit set on something that is writable, not
+silently swallow it.
 
 -- 
 Cheers,
