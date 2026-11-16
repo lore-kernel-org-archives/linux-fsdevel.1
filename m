@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794860319;
-	b=TocSYxBwePWEy1R1esicjyddtSp3uml7SABciNV1ceBnave2cO/PJSQFUwozouXNf2fH
-	 yVrZr0Tm31zz2X41CFnJq5FAI7wrPCPUMneabxAPUckQBsJweiKatwPfU2tuZ20ihEYjo
-	 H3OjgxcYNjL5wForfWMDkk3bEsdcO0oDBJaUYrPb2W8CzUyMDFjm9sySyY7b9+aq8yHJh
-	 GTch7UosKJa6T9JU4CDSsrP+7e/F0zYC1WmhfEb1L0g3jxonDmcGBu9Q8AiQhHo3u1/dU
-	 pEc3WVbLbBnY2zBBKdDc+52GFZBptbvugHM3j6gu7p5hgLkQmN+Qjbc+pCPQMBxtLsA==
+	t=1794860485;
+	b=4REYaNnKnBG6c1H5KzTNvET2rR0jdz5l87Xr9vvfMSbE2ymBH1Ga7QlqK+f/MaMt/85o
+	 /mEZmZSxrpWP+0Wn6v7LGKFGOW05nb5ftKekKJEVR2sAk1Rb1F+/a7qqNJogOx7JdpiEx
+	 m1YSFQs4haCgadpvpe6N8nGH955vbJD68dclpEjOZkl3Vs0A2wjWgXbFkXaoA9X0BROhZ
+	 NVi8IjLbngUUx6aQY97IcvnqS8IFKLbVGdOaeZqZ4vo72yVr1k5v/9/qL8LiOH2UhbJRH
+	 kBFVs6iy2uXlE+GYZqyRUnk1gCQFnQXV1qYUtJxbfg7ckFzgE+wPAuVaEVr97LeUd3g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794860319;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794860485;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=e+F00mSOHoN5Y69YJ4eI5U2asF3iwsD+sP6+Uxjzv+w=;
-	b=S+IFhUS4WwNPaS1zvdyYxBAQuF9PTLLpAOdnl7IeT10QWzpKvRC81q/cL4EjitRT8j3G
-	 JE+8EqBex6UBM+M6Hct+kN7s3wBt0IM54UUjGztGrbYvoKFZGnNFe9IcB4Zw2Y0DUBYM4
-	 U9+bbfZVC8zHytv4d8SjNjr/YplGTudPkw2as8AVMeWYTewTcgfD06z6kVDLNDoiNuKI9
-	 l+boqR6O3PAWG/MbVH6rECYG6ni6+d5zK/0J4wNQipvaBBV6bo2/uHMowfBvOlaqVg7Vv
-	 zpd18SNTynRjc5WSj5A2E+GtDmp0b4NWHBgvzeDrI0RzCFALjemPxAec8N1jn9pHEcA==
+	bh=udvGyc8qs7eDmCkZPOwNgWencCurPc2vHfow8Weymbs=;
+	b=xqTfuOVlcJsde4aAuH35ajPl9qj8n4kpd5a4LyakuRGKlNRlT9Ynj/e9yrQMzBZs3PH0
+	 879HK+7dKEU7oBCRwOeN3JQDN7QiBXnRnK6AnYDEaMgXrQlLYrhQ4hEnqYWbVWudXSaOy
+	 tGVlg/3CbC2hlA3pY45lIQSRej5OY96AuvYL45EYnE23SgNIIFhzsGyJEaCtPcSDwCAsS
+	 ogvh7eKp6AAPwgx6CFb4zZo9wMXpfghzRUNzZ4/iXm9zbEBsc4rhjFpTmlZkDnFIItY/O
+	 lT4UyymhxE12MesZSiAHe4lNg0owTkD7dKO1yj95meQ2gymxCEzFuypSfJl3xwyoCWw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fK50WbwQ;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="NdHnt/Zr";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81358606A33E;
-	Mon, 16 Nov 2026 20:18:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8898606A322;
+	Mon, 16 Nov 2026 20:21:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fK50WbwQ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15E151F000C8;
-	Mon, 16 Nov 2026 20:18:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NdHnt/Zr
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 756921F000C5;
+	Mon, 16 Nov 2026 20:21:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794860319;
-	bh=e+F00mSOHoN5Y69YJ4eI5U2asF3iwsD+sP6+Uxjzv+w=;
+	s=k20260515; t=1794860485;
+	bh=udvGyc8qs7eDmCkZPOwNgWencCurPc2vHfow8Weymbs=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=fK50WbwQZf1UckiVFuoJyhG3L6gG5PUkQqa+LYTxJcv21cV+DLK8s0i3FYnoxx+6C
-	 ToQuoG4KYN61wvCzqaocY4176QIWc8krihZm/MWCpg8jG0DUrC0R3xQMRTsouqW/Yx
-	 CBqdMq3l4HbNuXCPuvlbsQy+vnIF/lZS/DSqnJyVoounP0T0WIgOhxqnpZz8e/aOBv
-	 eQEYYDVHpspI3aC1UIdxtIuNOqZcNAbSDBWxjeCE8b4Vx0JFJO1I+P4oyDfDiDQcDH
-	 u5yGgLcnJZLhmS7hJwSwaHwHkU5pMR/Oea6MfeipvbNWAnHySLKN7VoGFW/igkRF1h
-	 dzD2/+i/WgkAQ==
-Message-ID: <17b98593-5f56-45a3-922f-99dee2b917c1@kernel.org>
-Date: Mon, 16 Nov 2026 21:18:26 +0100
+	b=NdHnt/ZrGkTJKLGT6boQkYmr5hZWrnkKFG39XbeyqlnIrlOXoyMTn/RU+HxI6sO7I
+	 KYpzLNpBliBkZHAeMhOkHxHEyfpqzuUGSciggMRkstONQK0cMmHSS91h9KkbH78WZ4
+	 hW6VEK2xuDFgphM9vROT0Ntv4/4ddSfFupNPsoq/8W1uU+QMTME9mJXDRsaU3MP7mv
+	 Tc+GCyr6oOBSAmbLK4jdujNTR7h0K+Ve4nyjk+KqzcnPUvFvyR+uTMx/wASGQrrIau
+	 V/yM1p2OJaYdaUprgh6SiL35fAJEKB1aYl1m9J0ZnBUoLYXIwO0yowCQbEB8C2JECS
+	 ToeVnPg6Ij4TA==
+Message-ID: <2dfe9686-f138-41dd-bca5-89d65adc31e1@kernel.org>
+Date: Mon, 16 Nov 2026 21:21:11 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -52,8 +52,8 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/9] userfaultfd: refuse UFFDIO_MOVE into a non-present
- huge destination PMD
+Subject: Re: [PATCH v2 3/9] fs/proc/task_mmu: downgrade writable migration
+ entries in PAGEMAP_SCAN write-protect
 To: Tal Zussman <tz2294@columbia.edu>,
  Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
  Peter Xu <peterx@redhat.com>, James Houghton <jthoughton@google.com>,
@@ -77,9 +77,10 @@ To: Tal Zussman <tz2294@columbia.edu>,
  Oscar Salvador <osalvador@suse.de>,
  =?UTF-8?Q?Miko=C5=82aj_Lenczewski?= <miko.lenczewski@arm.com>
 Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, stable@vger.kernel.org
+ linux-fsdevel@vger.kernel.org, Breno Leitao <leitao@debian.org>,
+ stable@vger.kernel.org
 References: <20261116-uffd-state-fixes-v2-0-4397a0196479@columbia.edu>
- <20261116-uffd-state-fixes-v2-2-4397a0196479@columbia.edu>
+ <20261116-uffd-state-fixes-v2-3-4397a0196479@columbia.edu>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -126,65 +127,15 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20261116-uffd-state-fixes-v2-2-4397a0196479@columbia.edu>
+In-Reply-To: <20261116-uffd-state-fixes-v2-3-4397a0196479@columbia.edu>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 11/16/26 21:02, Tal Zussman wrote:
-> move_pages() refuses to move into a destination PMD that already maps a
-> THP, but checks for that with pmd_trans_huge(), which is only true for a
-> present THP. A device-private THP or a THP under migration is a PMD
-> softleaf entry and is not refused.
-> 
-> The destination PMD is then treated as if it pointed to a PTE table. It
-> is not empty, so pte_alloc() leaves it alone, and move_pages_ptes()
-> fails to map a PTE table from it and returns -EAGAIN. move_pages()
-> retries on -EAGAIN, with both VMA read locks held. If the source is a
-> THP, it is split first for nothing.
-> 
-> For a THP under migration, the loop ends once the migration finishes.
-> A device-private THP can remain in device memory indefinitely, so the
-> caller of UFFDIO_MOVE hangs until it receives a fatal signal, and
-> anything in the mm that needs to write-lock one of the VMAs blocks along
-> with it. This requires a driver that migrates THPs to device memory.
-> 
-> To fix it, check the destination with pmd_is_huge(), which is true for
-> a present THP and for a PMD softleaf entry. UFFDIO_MOVE now fails with
-> -EEXIST in these cases, as it already does for a present THP.
-> 
-> Fixes: adef440691ba ("userfaultfd: UFFDIO_MOVE uABI")
-> Fixes: a30b48bf1b24 ("mm/migrate_device: implement THP migration of zone device pages")
-> Cc: stable@vger.kernel.org
-> Acked-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> Tested-by: Gregory Price (Meta) <gourry@gourry.net>
-> Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
-> Signed-off-by: Tal Zussman <tz2294@columbia.edu>
-> ---
->  mm/userfaultfd.c | 11 ++++++-----
->  1 file changed, 6 insertions(+), 5 deletions(-)
-> 
-> diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
-> index 61a712e1f9f5..ad9d243dc64b 100644
-> --- a/mm/userfaultfd.c
-> +++ b/mm/userfaultfd.c
-> @@ -2021,12 +2021,13 @@ static ssize_t move_pages(struct userfaultfd_ctx *ctx, unsigned long dst_start,
->  
->  		dst_pmdval = pmdp_get_lockless(dst_pmd);
->  		/*
-> -		 * If the dst_pmd is mapped as THP don't override it and just
-> -		 * be strict. If dst_pmd changes into TPH after this check, the
-> -		 * move_pages_huge_pmd() will detect the change and retry
-> -		 * while move_pages_pte() will detect the change and fail.
-> +		 * If the dst_pmd is a huge leaf, present or not, don't
-> +		 * override it and just be strict. If dst_pmd changes into a
-> +		 * leaf after this check, move_pages_huge_pmd() will detect the
-> +		 * change and retry while move_pages_ptes() will fail to map
-> +		 * the PTE table and the next iteration will see the leaf.
->  		 */
-> -		if (unlikely(pmd_trans_huge(dst_pmdval))) {
-> +		if (unlikely(pmd_is_huge(dst_pmdval))) {
+> PAGEMAP_SCAN with PM_SCAN_WP_MATCHING write-protects pages in a VMA
 
-Insert the usual ranting about stupid thp helpers
+Today on "things that should have never been merged": PAGEMAP_SCAN and
+PM_SCAN_WP_MATCHING
 
 Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
