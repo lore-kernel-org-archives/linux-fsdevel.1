@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794860168;
-	b=RblzGvZlP9UMtL494RgWzrO3vt4r7fTirVb0lMD9v91KGSQR5UXtS/gaRz6ObFkvP1V/
-	 DKDELtyOrr+ZoeEVKsnsb8vgj1IoDlP432jYjwnkoe/8VxiE0KxgkzvHUxw51oU1wciqT
-	 xJiircGo7qFhJV7hO0f4zgtcggknT9mBbhzkrD0iO+2cAr6uHg15ta359EwC3BtpoJOeD
-	 bjR7+yiiEGAIGHdG/fMbRNUQ471gw+55KZuuLboOO8JVH/+tY1P9VP3AH9G+cSKfJFoAq
-	 DIp3HZrY0UcGv2hGmSOt3f/d4+8lL4M7ysFU+0VFQFMYTKHsaHrx2Fck2BEJ1HKDOnQ==
+	t=1794860223;
+	b=nbnHkf8vpA8JH0broo7TlLhR+xOkwx2GEdibcQ89GiRN92Vmreonm2xY+6udeHRdpRr2
+	 aHc/fVU1Vbn1FwVQSSL4XcHQW2Dn7F48AOlFdFC58XpuOwphQkiDAViDZ+TJHV52/FHeb
+	 GeDpWMmQkcjpPzw4BYz/G/52ZJpX10VX1dLEfyj24aet6Pu7OGWFyot/qQlDq4CLZfOxi
+	 G2LRTnPufeVSvU5WHp83bGVir/9F47FrolcQJI/4VK9ti8uKlR73hri++1sp9CgLevXjn
+	 TRVCp8nUYMZCBczjMa0eCRzJgFSkZTW4+eXR7cid1zCC4ENk8NSnweuiLzYlnp24zOA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794860168;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794860223;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=nP2/A4kreMDxcG0ChilH5zyKMiflQw713CJUf+u0xOo=;
-	b=gjfV+5CkhPuyw/2Cp3kFSWNfxrBEuNSlukE3u3TNwKevjvhSn0Qb8Pf52LBKQs+F4PKM
-	 CEk/OR0P9mOX8nDyxrwD8J3yRYwS2ovl8cQMmDNqNKcqMBwo24t0S18hvBOBWDYBTT0am
-	 IV9QOXtIK0VwCMfP3Gr6QNP0O+J6ezfC5TvKspXiaV6og1LsjAlrLYhbND7hC7/8maoR9
-	 ulRMTGql9r5Dco2yCWDAOvh3RL8MGfo00sGJPIZi1oM8IukguI+I4DdXnn8TjU5pYQ7JH
-	 m690N7vPIsSz1jAv08Y1lK6yPM3KfoSggZRA+DswAMqYvvPvOP5qt6iJXlsr8pupT0g==
+	bh=bKzzzSpBOaonU826sARfDAiFw4R3omUJQM2ebnYyTcA=;
+	b=2w2Q7ucH5N7NrmYL2xiFuuAvoKeWdgmj+YtVvWv0u2+zW6jiKHrI4ue0uxbSd/+w0zTn
+	 OytTxfFPBsqKXudzOBvHGMiSI4551Ue03Sw0+wr2t2ctar38IRC+u2vnWG8MCDMCKYSk0
+	 IpOm/NWlwsw4GCSkMMdUwK0g6G0NejoROg126azWmw7uu3sc0LTNrGDO9S3dHJaWmIiV6
+	 zuDSxfrfjYls05yWIzxs6xAks9sdkkzabFV38rbCZqrwy88BhlUNNnUN7Ko9CQhjy8vf/
+	 8ix4VaR9C8hWrBuQzR1SkjNdkdRj30XrCy7bo6ATHx/OCvj4dJOBNHiHrYHcrdBiSpw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="e91q/zjO";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ItU7TeQa;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3B99606A323;
-	Mon, 16 Nov 2026 20:16:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87187606A31C;
+	Mon, 16 Nov 2026 20:17:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=e91q/zjO
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D8901F000C4;
-	Mon, 16 Nov 2026 20:15:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ItU7TeQa
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89F631F000C5;
+	Mon, 16 Nov 2026 20:16:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794860168;
-	bh=nP2/A4kreMDxcG0ChilH5zyKMiflQw713CJUf+u0xOo=;
+	s=k20260515; t=1794860223;
+	bh=bKzzzSpBOaonU826sARfDAiFw4R3omUJQM2ebnYyTcA=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=e91q/zjOKL9q/uw7SxD7P7ZTugdBB+UjVeXZwDBA8rP/BBz54+FhWFY2qnooMzVWg
-	 oX84IokEF/q+TxpkmbU7qiM8zh6hxBTGVrRnh87SH/qv2wv73t0THwTWBdRowX9+AW
-	 RsgMhZw0A+ywGRj0DJFvpaHq6RCtWbqAcmzibI9A5TOIQWQadHYiu3HFc4ldrL80oc
-	 QVTzetfhI4ylCxsQROZuZt6AFLOVYngULhFF4XkkvJWtMCM7UKrYOC9vo4XfaKbqwF
-	 qfWjUYCzprpyX+YfuMV5cvu2RO7YeSZKHw0+Qs9kodUTW39ZT8Qjf3Cdi+TeTSWEsc
-	 el6L+IFlE/R9A==
-Message-ID: <d4ceead7-4b55-4525-8d09-121a75c30ac4@kernel.org>
-Date: Mon, 16 Nov 2026 21:15:56 +0100
+	b=ItU7TeQai/+BclW1EU5PAUfzqEk6kWfCZ7ASDuNsu2JYjtmngJxaHrhyvN8sM7Et+
+	 j5moSLArwbw6kg8SHUQd2XgGhkfhaugo+URtLWL4KRZs1ekwG4oSZgnaO+lQXKcrXz
+	 cBui06n56DU1FOwISRi0be2gp8TQiBxJCNALY3VmaNhxOmIg5C7ZJlmCNj/T2fX0JP
+	 GqbLTDxJP5qoqUlbrDewG3W4XgLWIc8posALz4Qwrni4AXv+rFL/LvijdI7xVFBVjZ
+	 SBFR4Srme2YbACrF1idrOzrbm8NhExSVlzMUG8lyRZoYUFLntPc6cwBaVXX3CXB29n
+	 1tdHE12H9/lEA==
+Message-ID: <cc865bc8-b96f-4385-97b1-976de4465ca1@kernel.org>
+Date: Mon, 16 Nov 2026 21:16:50 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -169,8 +169,45 @@ On 11/16/26 21:02, Tal Zussman wrote:
 > Acked-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 > Signed-off-by: Tal Zussman <tz2294@columbia.edu>
 > ---
+>  mm/userfaultfd.c | 46 ++++++++++++++++------------------------------
+>  1 file changed, 16 insertions(+), 30 deletions(-)
+> 
+> diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
+> index d65184d9a480..61a712e1f9f5 100644
+> --- a/mm/userfaultfd.c
+> +++ b/mm/userfaultfd.c
+> @@ -531,15 +531,27 @@ static int mfill_copy_folio_retry(struct mfill_state *mfill_state,
+>  	return 0;
+>  }
+>  
+> -static int __mfill_atomic_pte(struct mfill_state *state,
+> -			      const struct vm_uffd_ops *ops)
+> +static int mfill_atomic_pte_folio(struct mfill_state *state)
+>  {
+> +	const struct vm_uffd_ops *ops = vma_uffd_ops(state->vma);
+>  	unsigned long dst_addr = state->dst_addr;
+>  	unsigned long src_addr = state->src_addr;
+>  	uffd_flags_t flags = state->flags;
+>  	struct folio *folio;
+>  	int ret;
+>  
+> +	/*
+> +	 * The normal page fault path for a MAP_PRIVATE mapping in a
+> +	 * file-backed VMA will invoke the fault, fill the hole in the file and
+> +	 * COW it right away. The result generates plain anonymous memory.
+> +	 * So when we are asked to fill a hole in a MAP_PRIVATE mapping, we'll
+> +	 * generate anonymous memory directly without actually filling the
+> +	 * hole. For the MAP_PRIVATE case the robustness check only happens in
+> +	 * the pagetable (to verify it's still none) and not in the page cache.
+> +	 */
+> +	if (!(state->vma->vm_flags & VM_SHARED))
+> +		ops = &anon_uffd_ops;
 
-Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+Oh, but one comment: why not check for actual cow mappings?
+
+	vma_is_cow_mapping()
+
+is your friend :)
 
 -- 
 Cheers,
