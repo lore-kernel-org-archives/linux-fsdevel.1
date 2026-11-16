@@ -1,56 +1,67 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794839851;
-	b=h0IBAL8Jm4e9P318kMP7bJaQOTz84NSipDnL0Mm83dyuwqHrpIwPZaP2Rcg9ykDnY6GY
-	 BpsiOFwgEapqhImlymGL6rRnlSCqZsDasIFUj8cWJWBObNzBWLYaXeKkdLbZ04KM5ZMvK
-	 F9wSRhLWEWdpg7Di+V82ujBXq4vG6ygImaz2fcthDHwd7BQ2N3+D/5/wYf0pJBxbxHSQk
-	 nkUBg0idptNlnEnGzR3sUi+9WkUcCt4255M2oDkyegDNz1oavLaQsrE1xLHMxJ9vV3dKJ
-	 ScqZ38oDiGnNiUxIWQ1UtN8xHepI+sdyEXMqh3t1lfW6M+h8OGojV5DkiA301lQPiCA==
+	t=1794839957;
+	b=bB6PZVcmSYCTCZ7ErwOwn4sgsi9FyqKtnL+Og9PSXxKxioFoldp0IZIm5NMygL4ey4Iv
+	 eV5U1rRqO+Jqu+s2f8q6QUDNNGEy1YTLzBqtO95blbIqkMPooYEyPFl4t1E85m/+AFGcX
+	 JK/Eujqk7Zp6VQLUrFCuYwcXDijNVABKubTZA0yEoKNpcwU4JigoxlgGK/VmKryFcQxVD
+	 JNg/l//4cB6N2sJuzgMXWvtSBp66r8ZNvwbE1/eyenBX7SXkzZVZO9zpqQ/mCbd+q1ScD
+	 +m4DnLnMqtmP46FoTkuNh4Ctj3f94IBe3ytgLG00HglnP328fh1dspLxycvLpqSf7Kg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794839851;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794839957;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=cnLyN3SDo42Ts0cPpeRwTJ3OQjij9Avhcc7a74dY1sU=;
-	b=Uz6JLzyiKWb2MLeBU/CUli5uC8nE14CZrpeoZl4apCjkT6XRCeyDAY1HSBUQ5ooC66d7
-	 p9iR6KKhEfYmPOMQF8f3m+Q7Cfo4Afw1oL4BscHguKBxOrzfxOFAMiiMqKJYtj8qvOc69
-	 5ko3lCdoK0IcDkWITvXuxmSMjl+YTn4mP9nqOxPdD4apY0ntXOtwVbYDdaQciZ7PSroeA
-	 WmwwPPmBIwSMjysokqTPjDN0SWhUGvL9mWSOI41mneEz/rAc2jLHsVIzjpbgPDYkdeR17
-	 m8XzXV/3+WPyXPnBAU0vLL5OiYMyhtUpaeMAJq2tcgf5mbIjjCjfp39S7ErMuPTUH+A==
+	bh=zaV0Mc91b6CKg4KWF+urKTxUfs1lgeRdWbePAyfuXo0=;
+	b=LppS89trjOfodwzfesnUmX7RB5CvC0knPJpzPmcz6D9QnNrZt1heYlaYBUJkIGfGnSSL
+	 7yirqFly8URy7vQHWjXPrCwJKWuhLyeZ7NTCUHT9fzhj9BCELjTZVEqDCKs+H9KuWVefj
+	 ZcKu8HUvmSwFXpf1wG4mgF+VvdOyMO8g/kwFjeBaP3mm2U/bhlBmSvDT1YOhKkZqzeBOn
+	 JtMW39Ckvgve/95nk049SE1u3IVgnx2L495v61DF+obwGnb7qEsjf9I0sJww3d1SgYN+w
+	 iMbOql7LTisKZs5w+PJ0LmHpgLn4WbjFGalC8nY57AY7rQE/MB4t53gXYRz30DI4yyw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Nsk7ivH4;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EaRMq2m2;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1580D606A33A;
-	Mon, 16 Nov 2026 14:37:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9017F606A323;
+	Mon, 16 Nov 2026 14:39:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Nsk7ivH4
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17AD51F000C8;
-	Mon, 16 Nov 2026 14:37:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EaRMq2m2
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B5801F000C4;
+	Mon, 16 Nov 2026 14:39:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794839850;
-	bh=cnLyN3SDo42Ts0cPpeRwTJ3OQjij9Avhcc7a74dY1sU=;
+	s=k20260515; t=1794839957;
+	bh=zaV0Mc91b6CKg4KWF+urKTxUfs1lgeRdWbePAyfuXo0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Nsk7ivH4zkm3sL2aLEVd/NzHmTQ+e8khI0RzK2WdOavqoW3b/h9TAN2I9ALOjFQ/O
-	 ZqA9jAR3LTdYwOI8tLdKz8BZMMTvDGXOxJGpDa8jFGgrLVgzWpZNdc9U9J7Tj46MW9
-	 xEXFO38a7FUvY4lVKOneFogrww7QliuaboAQ5Iut1kxQQQPkdIjFMqeWt6kHeyEbpz
-	 Em/Ka2DBF+heM1tTcfE3WWBDO9AltOwNOGfKgqCVu1SnCicLeJnrmym4/RoZ6d5eyn
-	 UYxN1N17hzF9Hu8qd+ZraIi0Rz8rXtFAaGFp/3qF8AystJhelYUbykvkXI/Vn/lAmU
-	 eumRjTEyOTfWw==
-Date: Mon, 16 Nov 2026 14:37:25 +0000
+	b=EaRMq2m2x8jWy+QEyQwyoS2VonziEIMIjWzpXQWDwpLWOJn/6DOF5tMKcwGpB0Noa
+	 cKc4RmY6MsAZk6g0G6xWmKeYYu9ZA6RsEvHqXJqUyy8jKT5WpjCn5oeN2i6DS8vOep
+	 muS1n3gDgb24Jja8D0CiDdJ2RO9rLtoNho73cQAfnTYaDcYnHjRY/J6jRPrRbutbZN
+	 dC0GpBwgWC0Erd+9bfYNTNQmIS4CrcDZzbMh2tgBZerpm7IxNBI077/33U3a/R02Nn
+	 eD3cCvMsJM7eXAUgC+LCTBg/bIu1wDOyOhz/kyqtqfANErgbwxe/2W65Nuy4ZauM63
+	 HcuuRoxdJuRIw==
+Date: Mon, 16 Nov 2026 14:39:07 +0000
 From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: "Adrian Huang (Lenovo)" <adrianhuang0701@gmail.com>
-Cc: Suren Baghdasaryan <surenb@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, "Liam R . Howlett" <liam@infradead.org>, 
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
 	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	ahuang12@lenovo.com
-Subject: Re: [PATCH mm-unstable 1/1] fs/proc/task_mmu: advance seq_file
- position on interrupted VMA lookup
-Message-ID: <avsQKLgi9bqD51W8@gremlin>
-References: <20261112140101.647-1-adrianhuang0701@gmail.com>
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Peter Xu <peterx@redhat.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] mm/userfaultfd: prevent poison marker loss
+Message-ID: <avsVP96p3EeK4TBZ@gremlin>
+References: <20261107-b4-uffd_marker_loss-v1-0-82926b22704c@kernel.org>
+ <20261107-b4-uffd_marker_loss-v1-1-82926b22704c@kernel.org>
+ <avij463DZ_tSwgKy@gremlin>
+ <02e6240c-78ac-48a2-8bf8-36a2327e9de8@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -62,142 +73,147 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261112140101.647-1-adrianhuang0701@gmail.com>
+In-Reply-To: <02e6240c-78ac-48a2-8bf8-36a2327e9de8@kernel.org>
 
-On Thu, Nov 12, 2026 at 10:01:01PM +0800, Adrian Huang (Lenovo) wrote:
-> Commit 5631da56c9a8 ("fs/proc/task_mmu: read proc/pid/maps under
-> per-vma lock") introduced the possibility of returning -EINTR
-> from proc_get_vma() when the VMA lookup is interrupted.
+On Mon, Nov 16, 2026 at 03:26:33PM +0100, David Hildenbrand (Arm) wrote:
+> On 11/14/26 19:40, Lorenzo Stoakes (ARM) wrote:
+> > On Sat, Nov 07, 2026 at 12:51:05AM +0100, David Hildenbrand (Arm) wrote:
+> >> Unregistering userfaultfd leaves poison markers in the page tables.
+> >> However, once unregistered, hugetlb PMD tables can be shared again.
+> >>
+> >> Further, shmem page-table retraction can discard poison markers even
+> >> while registered in missing mode, and fork() can skip copying page
+> >> tables containing poison markers.
+> >>
+> >> To fix it, add VM_MAYBE_UFFD_POISON and set it before installing poison
+> >> markers. Preserve it across unregistration, splits, merges and fork(),
+> >> just like we do with guard markers.
+> >>
+> >> Use the new atomic VMA flag to disable PMD sharing and page-table
+> >> retraction, and to force page-table copying during fork().
+> >>
+> >> Move VM_UFFD_WP to bit 44 and make HAVE_ARCH_USERFAULTFD_WP depend on
+> >> 64BIT, freeing bit 12 for the new flag on both 32-bit and 64-bit systems.
+> >> Expose the flag as "up" in smaps.
+> >>
+> >> Losing poison markers, while unpleasant, is not really fatal, and the
+> >> use case is rather a niche thing. In addition, we rely on the atomic
+> >> VMA flags infrastructure ... so let's not CC stable.
+> >>
+> >> Fixes: fc71884a5f59 ("mm: userfaultfd: add new UFFDIO_POISON ioctl")
+> >> Fixes: 8a13897fb0da ("mm: userfaultfd: support UFFDIO_POISON for hugetlbfs")
+> >
+> > Are we looking to cc: stable or this something for newer kernels only?
 >
-> When this happens in m_next(), proc_get_vma() returns an error
-> pointer without updating the position index. Consequently,
-> seq_read_iter() reports:
+> Per above:
 >
->   seq_file: buggy .next function m_next did not update position index
-
-What does seq_read_iter() 'reporting' something mean? It feels like you're
-trying to make this into something bigger than it is.
-
-What you mean to say is a rate-limited pr_info() output occurs, and when a
-process that _has received a fatal signal_ (!!) somehow continues long
-enough to try to output more data, you get an pr_info().
-
-The relevant code from seq_read_iter():
-
-		if (pos == m->index) {
-			pr_info_ratelimited("buggy .next function %ps did not update position index\n",
-					    m->op->next);
-			m->index++;
-		}
-
-Anyway you should mention the fatal signal requirement clearly.
-
+> "Losing poison markers, while unpleasant, is not really fatal, and the
+> use case is rather a niche thing. In addition, we rely on the atomic
+> VMA flags infrastructure ... so let's not CC stable."
 >
-> The above buggy message is reproduced by the following command:
->
->   # stress-ng --vma 0 -t 60
+> We cannot really backport to the pre MADV_GUARD fixes that handle the atomic flag correctly.
 
-OK I could reproduce the output locally. It seems that this run results in
-fatal signals being sent to the processes triggering this output.
-
-> Update the position index when VMA lookup fails, as required by
-> the seq_file interface. Also save the original position in
-> priv->last_pos so that subsequent iteration can restart from
-> the correct address without skipping or repeating a VMA.
-
-We don't really care about skipping or repeating a VMA for a process that's
-about to die :)
-
-We may as well do this but better to just hoist that to share code.
+True!
 
 >
-> Fixes: 5631da56c9a8 ("fs/proc/task_mmu: read proc/pid/maps under per-vma lock")
-
-This isn't really a bug, it's really cosmetic to be honest. So not sure if
-we need a cc: stable hmm.
-
-> Signed-off-by: Adrian Huang (Lenovo) <adrianhuang0701@gmail.com>
-
-See attached suggested patch that makes the comment sane + hoists the shared
-bit (dropping a silly existing comment).
-
-With that and an updated commit message should be ok.
-
-> ---
->  fs/proc/task_mmu.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
+> We could easily backport to stable kernels that have it.
 >
-> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-> index 22361607020d..164b4efc5e09 100644
-> --- a/fs/proc/task_mmu.c
-> +++ b/fs/proc/task_mmu.c
-> @@ -221,6 +221,16 @@ static struct vm_area_struct *proc_get_vma(struct seq_file *m, loff_t *ppos)
->  		if (PTR_ERR(vma) == -EAGAIN && fallback_to_mmap_lock(priv, *ppos))
->  			goto retry;
+> Thoughts?
+
+Yeah, I think it's fine not to cc: stable on the basis of the above, but if we
+do we can limit to ones that have that fix.
+
+OTOH this is adding an entirely new thing (new atomic VMA flag etc.) that
+probably isn't best suited to a stable backport anyway.
+
+So I am fine with it not being cc-stable at all, thanks!
+
 >
-> +		/*
-> +		 * seq_file checks that the position advanced before it looks at
-> +		 * the returned pointer, so an error return that leaves *ppos
-> +		 * alone is reported as a buggy ->next. Advance it, and keep
-> +		 * last_pos at the pending position so m_start() would resume
-> +		 * the lookup from there.
-> +		 */
+>
+> [...]
+>
+> >>  #define VM_LOCKED	INIT_VM_FLAG(LOCKED)
+> >>  #define VM_IO		INIT_VM_FLAG(IO)
+> >>  #define VM_SEQ_READ	INIT_VM_FLAG(SEQ_READ)
+> >> @@ -502,13 +508,17 @@ enum {
+> >>  #endif
+> >>
+> >>  /*
+> >> - * vma_flags_t masks for the userfaultfd VMA flags. The two high-bit modes are
+> >> - * gated on the same configs as their VM_* flags above -- both of which imply
+> >> + * vma_flags_t masks for the userfaultfd VMA flags. The three high-bit modes are
+> >> + * gated on the same configs as their VM_* flags above -- all of which imply
+> >>   * 64BIT -- so an out-of-range bit is never fed to mk_vma_flags() on a build
+> >>   * whose bitmap cannot hold it.
+> >>   */
+> >>  #define VMA_UFFD_MISSING	mk_vma_flags(VMA_UFFD_MISSING_BIT)
+> >> +#ifdef CONFIG_HAVE_ARCH_USERFAULTFD_WP
+> >>  #define VMA_UFFD_WP		mk_vma_flags(VMA_UFFD_WP_BIT)
+> >> +#else
+> >> +#define VMA_UFFD_WP		EMPTY_VMA_FLAGS
+> >> +#endif
+> >
+> > Could you just move these up to the block above to match the convention here?
+> >
+>
+> Did you have the following change on top of my changes in mind?
 
-We don't want (schloppy?) comments that go into painful detail about super
-specific elements of the code.
+Yes LGTM thanks!
 
-This is asking for bit rot and is too complicated to be in any way useful.
-
-> +		priv->last_pos = *ppos;
-
-This is duplicative with code below and strictly not necessary for the fix,
-better to hoist I think.
-
-> +		(*ppos)++;
-> +
->  		return vma;
->  	}
+>
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index 6cd9d86f7adac..fa56d9e9f3ebd 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -410,8 +410,10 @@ enum {
+>  #define VM_MAYBE_UFFD_POISON   INIT_VM_FLAG(MAYBE_UFFD_POISON)
+>  #ifdef CONFIG_HAVE_ARCH_USERFAULTFD_WP
+>  #define VM_UFFD_WP     INIT_VM_FLAG(UFFD_WP)
+> +#define VMA_UFFD_WP    mk_vma_flags(VMA_UFFD_WP_BIT)
+>  #else
+>  #define VM_UFFD_WP     VM_NONE
+> +#define VMA_UFFD_WP    EMPTY_VMA_FLAGS
+>  #endif
+>  #define VM_LOCKED      INIT_VM_FLAG(LOCKED)
+>  #define VM_IO          INIT_VM_FLAG(IO)
+> @@ -508,17 +510,12 @@ enum {
+>  #endif
+>
+>  /*
+> - * vma_flags_t masks for the userfaultfd VMA flags. The three high-bit modes are
+> - * gated on the same configs as their VM_* flags above -- all of which imply
+> + * vma_flags_t masks for the userfaultfd VMA flags. The two high-bit modes are
+> + * gated on the same configs as their VM_* flags above -- both of which imply
+>   * 64BIT -- so an out-of-range bit is never fed to mk_vma_flags() on a build
+>   * whose bitmap cannot hold it.
+>   */
+>  #define VMA_UFFD_MISSING       mk_vma_flags(VMA_UFFD_MISSING_BIT)
+> -#ifdef CONFIG_HAVE_ARCH_USERFAULTFD_WP
+> -#define VMA_UFFD_WP            mk_vma_flags(VMA_UFFD_WP_BIT)
+> -#else
+> -#define VMA_UFFD_WP            EMPTY_VMA_FLAGS
+> -#endif
+>  #ifdef CONFIG_HAVE_ARCH_USERFAULTFD_MINOR
+>  #define VMA_UFFD_MINOR         mk_vma_flags(VMA_UFFD_MINOR_BIT)
+>  #else
+> diff --git a/include/linux/userfaultfd_k.h b/include/linux/userfaultfd_k.h
+> index b8b7cc2f00388..75c3e9270b62a 100644
+> --- a/include/linux/userfaultfd_k.h
+> +++ b/include/linux/userfaultfd_k.h
+> @@ -201,7 +201,7 @@ static inline bool userfaultfd_missing(struct vm_area_struct *vma)
+>
+>  static inline bool userfaultfd_wp(struct vm_area_struct *vma)
+>  {
+> -       return vma_test_any_mask(vma, VMA_UFFD_WP);
+> +       return vma_test_single_mask(vma, VMA_UFFD_WP);
+>  }
+>
+>  static inline bool userfaultfd_minor(struct vm_area_struct *vma)
 >
 > --
-> 2.43.0
+> Cheers,
 >
+> David
 
-Suggested:
-
-----8<----
-From 860d936c61bb641b72135e95c291aa6dfbf5fb0f Mon Sep 17 00:00:00 2001
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Date: Mon, 16 Nov 2026 14:33:12 +0000
-Subject: [PATCH] tmp
-
----
- fs/proc/task_mmu.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
-
-diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-index 22361607020d..564e52f7ddc6 100644
---- a/fs/proc/task_mmu.c
-+++ b/fs/proc/task_mmu.c
-@@ -216,16 +216,17 @@ static struct vm_area_struct *proc_get_vma(struct seq_file *m, loff_t *ppos)
-
- retry:
- 	vma = get_next_vma(priv, *ppos);
--	/* EINTR of EAGAIN is possible */
-+	/* Store previous position to be able to restart if needed */
-+	priv->last_pos = *ppos;
- 	if (IS_ERR(vma)) {
- 		if (PTR_ERR(vma) == -EAGAIN && fallback_to_mmap_lock(priv, *ppos))
- 			goto retry;
-
-+		/* Advance to avoid spurious buggy seq warning in dmesg */
-+		(*ppos)++;
- 		return vma;
- 	}
-
--	/* Store previous position to be able to restart if needed */
--	priv->last_pos = *ppos;
- 	if (vma) {
- 		/*
- 		 * Track the end of the reported vma to ensure position changes
 --
-2.56.0
+Cheers, Lorenzo
