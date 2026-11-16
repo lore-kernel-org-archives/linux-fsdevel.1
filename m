@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794860598;
-	b=BSCwj42Btt3FRgIakpvii0YK1fztsbspcs5Z4Jho5ZcTEuj72BKoff49+dgjsKgviuSy
-	 cZNECEKHF22L2JkzmMUupaBh+3MzsN47TizqPe883ki7HBj09LJlF4Slo5Hr6K03UvWP+
-	 X9FoRTstKtmEn1rChhxOp4+krToBJqvJQKXNxYD4FSzZKDml/33kvkghtp6VXKVzsfqTi
-	 xENbR1DOj1qhWk8LmHr87eJG6xG9itDfS0YY+CfYZ1S9tvijZwMoV4yqZGqtvPcZQBcjZ
-	 rsVxIvtAlsbIadZWp7V2yO8feVHDO4WLx5EcF1vfRG9Jic/kqeL7ruU71FYhySGlAJg==
+	t=1794860815;
+	b=1UK5EbI9C4ZWdSafbwOeDlENsKX6EfFoQPEUoJUaGPJhAk2UnRgXRzxbS0Ph36vRKhsI
+	 YB07UI9So55hfMsHLDxS/OGktkfwlN88kk6RD/xOl/dw69ty9Roc8heoWiuM7rQOPikSN
+	 UA+/GUFIXDWSAb4aguLAuDxaGGuYFB+Jh3rQy/0NQ7t6QNeg2B82yG5aT+u4o5VV84Yd9
+	 TLs0Z2TsQvGgr9mnfmHAfyZWBclr2eCmLebGmFOBfzJ3fho52PfAWW5RNucKjjIt0lE/5
+	 No/MATBzp3wpKCWeNVAUrAKRbJ8evz7Oj1HaNtjIXgBAyFqWzonbejVj9ZxCGEKg6Yw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794860598;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794860815;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=a+ZtZSiHDF77l41X0e+HR8wDioILQAoPoJMETPkmRjg=;
-	b=huYFbqzZcRFk+LT2sFSzip2B7JWFRGxiPR+GRiOAA+k2jTYRyp9ZSuyFu70xuoUy+n55
-	 RsjR9Z1mzOhX0Cpb4O0R+9ZOYguGx1WuaQM/7yP1xp12ySjp3qSntenasJQGnRvjK7vl7
-	 T660FTfHQYFSzCZAmnrnN/ueJfdxysZcxZpjiM/Ga4T5agVKDETxj++7JzNvWwOz1ov96
-	 EKsJH6T+Ge6fXc7dYH8qI8Sf0BnPwqQ+ZIUKqnnC5LkUfEDpoG0F6orLVIIxJEioNs/uE
-	 KUocsOSIfktmRSNfaL1mqtu0FNK0LKs1a7Pc2DwW6XuoJ/NEOePsQ3rOuANfoXj/IUw==
+	bh=YaaaDQoV729o0ScmVfuhaqpe8ALtcszXY40XnBdAgAE=;
+	b=mDDnVwaKPScIUYqTym+y2Q/TiwRqpD410C3+0JyUVjqh1KQzyCX/5qR2jowMQ4CUqwHt
+	 BNU3+l3AthpAWJxA2VQalhXDBxEqo6sZ+edGQC7/OSG27vg3fIwY8JdRAVwI2LT9OdUEJ
+	 rDKzhymK+mhjk9zfYNFtWEcRGBIdoNhzuU9judT5UXDC+fRqC3K8AIuMvgxjLxh+dMg0r
+	 lI5fA3LoyiXyZduQQnnNAc3hh+bmrWTXrWXFFXQZdgkx8feCROXuZphoo8nSY1/Wno92e
+	 3bdN5fe48k2TrAhgE+MSnNl7BbMojR+I1guN4wwbn1PxjRrbhmLI4Lzdnlxl0D+6xUg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="ntN5Yo/t";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jRBPdCnL;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DB1B606A88E;
-	Mon, 16 Nov 2026 20:23:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEB80606A329;
+	Mon, 16 Nov 2026 20:26:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ntN5Yo/t
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 088431F000C4;
-	Mon, 16 Nov 2026 20:23:07 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jRBPdCnL
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDFA81F000C4;
+	Mon, 16 Nov 2026 20:26:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794860598;
-	bh=a+ZtZSiHDF77l41X0e+HR8wDioILQAoPoJMETPkmRjg=;
+	s=k20260515; t=1794860815;
+	bh=YaaaDQoV729o0ScmVfuhaqpe8ALtcszXY40XnBdAgAE=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=ntN5Yo/tIZDHX++d6JWnRglcPUBv4x/co6KCQgnvePDMNmHOeL0SzdB1GjttAeCQc
-	 okYFWmtV9Zf7eguqKwLOh8f53Du96c9oIYEzpudqyocUGmUhuFJmZJXY2NMNZmFGOQ
-	 3DMsKtIl8BwtSDqD1+B0597CiE+oGZltnfIDER1VJNWSp0gfS7JLAnOWTWi8INMPMD
-	 jtkHhZVoGV2HJ7UbVzwZEMvPCvRgj6uH/XRt8cOeaRSFU0itn/CsZF2yoV92QN+I3L
-	 AYi96ywEvt3jFtbeQjcxikGrHG1YUiQ4/Az1T89nUWYzvEgb1Yw/CBON1lZLD0GKbn
-	 wU52v4Sge7wXg==
-Message-ID: <2d9ec2ee-8867-4ac2-b2b5-654bf2441513@kernel.org>
-Date: Mon, 16 Nov 2026 21:23:05 +0100
+	b=jRBPdCnLB9B4oaQmNToTM9trKEppy0Ykfstc+ndfbgJE2FE8fx5W94InNfmEu5m4w
+	 6KJDMR1c/mJJBhGjPGvwoPZUn2FOlyI+m4WCZO5pFRChioiE+bfQvyGNY/c/sMk2IX
+	 Ty+YuY+KbDmAbv5bA787phrN9bix9+gw6HnDKh4icOIs+G719mbSyCaGwMRcPzE8jP
+	 LEyo/bmkWLOnATNxjGyibKcZlj4tYfiC7ZMlBNRIVF+yMZ2/ImCNRZD9fZ9PsHnwLj
+	 eS25I4spV4kbxofFIMBqG/ZYKR51HCQd8apSGoapmDnF4gyI2Z4t67XtOgiuz9lrhR
+	 vQVe1Z4uy+Y7g==
+Message-ID: <38750bd8-6bb3-40f9-901c-44cef40a9de7@kernel.org>
+Date: Mon, 16 Nov 2026 21:26:41 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -52,8 +52,8 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/9] mm/migrate: keep the uffd bit when restoring a
- writable migration entry
+Subject: Re: [PATCH v2 5/9] fs/proc/task_mmu: write-protect device-private
+ THPs in PAGEMAP_SCAN
 To: Tal Zussman <tz2294@columbia.edu>,
  Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
  Peter Xu <peterx@redhat.com>, James Houghton <jthoughton@google.com>,
@@ -79,7 +79,7 @@ To: Tal Zussman <tz2294@columbia.edu>,
 Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  linux-fsdevel@vger.kernel.org
 References: <20261116-uffd-state-fixes-v2-0-4397a0196479@columbia.edu>
- <20261116-uffd-state-fixes-v2-4-4397a0196479@columbia.edu>
+ <20261116-uffd-state-fixes-v2-5-4397a0196479@columbia.edu>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -126,36 +126,53 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20261116-uffd-state-fixes-v2-4-4397a0196479@columbia.edu>
+In-Reply-To: <20261116-uffd-state-fixes-v2-5-4397a0196479@columbia.edu>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 11/16/26 21:02, Tal Zussman wrote:
-> remove_migration_pte() makes the restored PTE writable for a writable
-> migration entry, and only looks at the uffd bit of the entry otherwise.
-> A writable migration entry that has the uffd bit set is therefore
-> restored as a writable PTE without the uffd bit, and the page is no
-> longer write-protected.
+> PAGEMAP_SCAN with PM_SCAN_WP_MATCHING write-protects a huge PMD through
+> make_uffd_wp_pmd(), which handles a present THP and a migration entry
+> but does nothing for a device-private THP. The PMD never gets the uffd
+> bit.
 > 
-> An entry with the uffd bit set must be restored write-protected, whether
-> the entry is writable or not. remove_migration_pmd() gets this right: it
-> makes the PMD writable and sets the uffd bit as two independent steps,
-> and pmd_mkuffd() write-protects the result. To fix it, do the same at
-> the PTE level, where pte_mkuffd() write-protects the PTE as well.
+> pagemap_thp_category() reports a non-present PMD without the uffd bit as
+> written. A user tracking writes with async uffd-wp therefore sees every
+> page of a device-private THP as written on every scan, whether it was
+> written to or not. This requires a driver that migrates THPs to device
+> memory.
 > 
-> The only known path that created such entries is PAGEMAP_SCAN. With
-> PM_SCAN_WP_MATCHING, it write-protects the pages it scans, and it set
-> the uffd bit on a writable migration entry without downgrading it. Now
-> that PAGEMAP_SCAN downgrades them like change_protection() does, we
-> should no longer see them, so this change alone should not be visible to
-> userspace. If another path ever creates a writable migration entry with
-> the uffd bit set, the page now stays write-protected instead of losing
-> the uffd bit.
+> A device-private PMD must be write-protected like any other huge PMD. To
+> fix it, pass any valid PMD softleaf entry to set_uffd_wp_softleaf_pmd(),
+> not only a migration entry. It downgrades a writable entry and sets the
+> uffd bit. When the THP migrates back, set_pmd_migration_entry() carries
+> the uffd bit over to the migration entry, so the write protection is
+> kept.
+> 
+> Fixes: a30b48bf1b24 ("mm/migrate_device: implement THP migration of zone device pages")
+> Tested-by: Gregory Price (Meta) <gourry@gourry.net>
+> Signed-off-by: Tal Zussman <tz2294@columbia.edu>
+> ---
+>  fs/proc/task_mmu.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+> index ee7f509d376e..013eeea7d1a3 100644
+> --- a/fs/proc/task_mmu.c
+> +++ b/fs/proc/task_mmu.c
+> @@ -2520,7 +2520,7 @@ static void make_uffd_wp_pmd(struct vm_area_struct *vma,
+>  		old = pmdp_invalidate_ad(vma, addr, pmdp);
+>  		pmd = pmd_mkuffd(old);
+>  		set_pmd_at(vma->vm_mm, addr, pmdp, pmd);
+> -	} else if (pmd_is_migration_entry(pmd)) {
+> +	} else if (pmd_is_valid_softleaf(pmd)) {
+>  		pmd = set_uffd_wp_softleaf_pmd(pmd);
+>  		set_pmd_at(vma->vm_mm, addr, pmdp, pmd);
+>  	}
+> 
 
-I am severely confused. If it was properly fixed, why should we do the below?
-
-You should WARN if we get the uffd-wp bit set on something that is writable, not
-silently swallow it.
+This really should be squashed int #3 I think. Or what's the reason for keeping
+this separate?
 
 -- 
 Cheers,
