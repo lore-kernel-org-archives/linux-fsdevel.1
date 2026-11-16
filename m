@@ -1,112 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.139.74
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794858160;
-	b=MAyFQ6ywK+15b195ytVPxBDpKYU4zEj1IG3ncKAjXHjJ9Ig0OedaMaEFlwNk31mPJb4K
-	 Jeh52z2zMqQ90VtnafepRmU4KbhEWD7m4uHUIkCC3Uj+ibFkDkwgQFM7LQfmF4dlms0yN
-	 OKh0OhGqsHURX8EVSx/0KR95U+BfIIvmMSKOxWFBC5j5A8YtexV2fwT+U5VOkWLBF4bre
-	 7VDWMrFjRZ+ZCdMn1uD9EqznVbOes388ZiPO2AUndYH6mi74W6AHg9V0Kz2lqZ0BJt2dj
-	 My7HMB3qpXegC5YjIYcadz05oTP5nz0FGl2z+Xndlf9KSgDo2jc+sZrOqHfXzEXDSFA==
+	t=1794858273;
+	b=P8DWUUB0ihlBidpJpd224xMLF2j/WvvIBUaaGo4BCCl8Y/4kOXwWr1/R7A/c25qQxPEI
+	 iz0MI6f2ZI31MRDte00zRoPK1b5AHIKktZ+NPfkpVTt/y3GNwC5fFmRthtvv3k0vRDnJ5
+	 3MP1mv9KtiPGcaUDhotBv72hWELIVz0CZy9fV/N54XyILp7XNgSIToOklQ7+a2b0X/lPC
+	 Wmp2aJIZxtvUQXU6vru6ZkdCcNPbYWsL6TlgrEiS33VpKXCucgPHBiE43R9Mj2b9laelk
+	 IXOWaeqrVwEZCoiQBVkwz/L2jnjxFJa07B4vOAccO0lSHDi9q90/NyAkzQxoGBALzTg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794858160;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Spam-Info:X-Authority-Analysis:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=rsV5fz/GetvcK4qfUxJCgNAEtXbvKRxmLJMOtlw7few=;
-	b=l+3RleuN7rDW4H28rAVSQclIfe/GAev1Z0kJYVg8GBTHKQqgAFPP5bRkNKYV5uugpD7z
-	 jri7dqVx99h5kmJMDRdLBaGoz+BRguEkBpLszJC4O5JD5fh3aTfeL4dqdmVGu+AIqhNZN
-	 UEcQ6simbJNm3ObbcVxc4dEeKqM9QDj74Rr/ZdZC1x1CA8MFLdLKZgXKdVxlenkfM2i7y
-	 MlEOmCMX5eiPNXiNRonGOUZXPsYDbASRGhlTajdxqzsgB5HgA0KNuZyvu8OW8QZUozRVa
-	 qN1R1HQiRmg9NbiA7bbLErd09NEk9ZVKueFiMzwfkScrDPTkKAs2pXTC0MQa8NUuF3w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794858273;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Received:X-Forwarded-Encrypted:X-Received:MIME-Version:References:
+	 In-Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=nh4pWMvkRsPEst/kCwIp1wxFa2k7tAfx6b5lfGN0krQ=;
+	b=lGRFndjI+bN6yJBhxiYdf03YBxKCxFPZvs/WQ2aOgzX/xpJScWoXSCK9spUPQkHA1Wb1
+	 YYDYNpKXg0T05AHIAdwoJC1YlLHgaNPastcvX+n6dU49z9BgVjrL5N9OBCJC/+TGBJDhy
+	 7fIJdOquSx5HMumCfHO/cIdh4KIeFMY4Na5AYvwY88osxImgyNYQn3D5xkNAN1blaVueR
+	 42Xytu2KJVIyXcc0lYEoFX8dEzzP47TkHA0+tZtO8Q3iYFKFxsvz2gkZBiYpIUa3fuaMF
+	 oi9NmRXJm2/dTt51oIx02BK8N/PqFiWuPMGP5nmae3+Z4TeUg+HI+EH0TY1ex1IuryA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=columbia.edu;
-	spf=pass smtp.mailfrom=columbia.edu;
-	dkim=pass header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=pps01 header.b=eQYdpnhS;
-	dkim=pass header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=lionmail header.b=skdAqn6+;
-	arc=none smtp.remote-ip=148.163.139.74
-Received: from mx0b-00364e01.pphosted.com (mx0b-00364e01.pphosted.com [148.163.139.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=none header.from=linux-foundation.org;
+	spf=pass smtp.mailfrom=linuxfoundation.org;
+	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=Ulk8nx6K;
+	arc=none smtp.remote-ip=209.85.208.45
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0916606A335
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 19:42:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B0916606A335
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45C49606A881
+	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 19:44:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 45C49606A881
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=pps01 header.b=eQYdpnhS;
-	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=lionmail header.b=skdAqn6+
-Received: from pps.filterd (m0167073.ppops.net [127.0.0.1])
-	by mx0b-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AGJXJ8X3631365
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 14:42:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pps01; bh=rsV5
-	fz/GetvcK4qfUxJCgNAEtXbvKRxmLJMOtlw7few=; b=eQYdpnhStgsz1ZARwYMw
-	SZWyfH21wyxWchOhNuaMT/qOqp8F0Sq7t8jp/0r9X7F3mRHMF+0MVkFz746vxSXx
-	PQmB/g95c/MwKXZVcERW2Ybproa6R2b4vCyPIIXNVljQvMytOl6A8DqWTrqe/+c/
-	n8Ff5v9HqrDSXmN3eaRr3Tx6UqpMRKu66pJrFj6GiHOZb5PYMux9dkYdkprCQvbR
-	4Nj15DuO+H5ZTUschfW84UQCrh7xYhDlZxqic+Opf/dS+q4kNZrn7Pgyn3nwQUBt
-	pgg6Xke2UK/hPbEDGSNDCgzH+w6q0PGkq6ji/1Z809wtugK+T5lsOiURv6bB/Nyh
-	Zw==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
-	by mx0b-00364e01.pphosted.com (PPS) with ESMTPS id 4j059aswbt-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 14:42:32 -0500 (EST)
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-94975041698so48542785a.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 11:42:32 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=Ulk8nx6K
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-6b587538a37so5674717a12.2
+        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 11:44:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=columbia.edu; s=lionmail; t=1794858152; x=1795462952; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+        d=linux-foundation.org; s=google; t=1794858271; x=1795463071; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=rsV5fz/GetvcK4qfUxJCgNAEtXbvKRxmLJMOtlw7few=;
-        b=skdAqn6+lVdny994UpQiVpqzjf46sIrloRidKaSfY86WwJraoAuq3yCE9DNIFbHzzL
-         8qqJAjwFxerZQ06F8pLh1zG8K3RJ8RFmYaS0YLq5YLYW2Y9Uz22PpXUGYJzc8e9r69U+
-         r45m7NvnTXv1j5C8yZWfW+1+Mb6IALpJdSuhjvRXRoTw7y7jHxm1p7V+J4p4ICoTvWtC
-         En+F4kdSzz1LSQJz1VHTacgjJ4a8eGLy343Pfs06YMXatu0eoSrMUJH2PXXyOwZivlMa
-         dhMJIxXKzYDJwLtW8EBFl0kdPmHCMecFwrQVrfkKRqM/sz6ECh5Y/h/xTrmTnMi++5d+
-         t+bg==
+        bh=nh4pWMvkRsPEst/kCwIp1wxFa2k7tAfx6b5lfGN0krQ=;
+        b=Ulk8nx6K3Msg9F0HdjIyNx1ke+ZFzb7CVCaQeOiZviaxOoe+SrWXjTxrIZIRuttKqy
+         E5wCHtwl3n1YL0ASjEZKGdg9QFe/qX77kpQU6w9WHbW2KZ/4ytdD+WShFz72SGSx63z+
+         k9LJ9R3CjMy/6BK+F4Kvz8ruQN6x+i31ouipc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794858152; x=1795462952;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=rsV5fz/GetvcK4qfUxJCgNAEtXbvKRxmLJMOtlw7few=;
-        b=ruhjWVaESxuPobjTx9UdOZBRlaA7ayiDveEcsI/2i35gu1CABbY8+Xj7/FqEbQhwXq
-         dTihsnL7Xtgw1H+HxBbvFZZM2JPaOmuc3Q5fxfiAaPne1K7DxGCIqvcDOTV1D014g8Ok
-         /24ohbmqtxl2LNHJV05XOWflBu3/8vIYfIKmPhMWM4Wa+LFeZjLs3915wxLpNhHBLI5I
-         fe5oM9Yt/rvXq+bzJX/PhUro2hsd/Xrc6tsGx4ic2zpirGPx2l99b4gippdosEXk8ztL
-         Qn+sblnvc65GithTuWKiPEwGete9C1M5zXfp9wFunZ3tm20hjXQoXVGiqRfN9A7XCDUj
-         g/Dg==
-X-Forwarded-Encrypted: i=1; AL+hErFpD/zcUA+aGb7AWwBYdX+FWAe8sxjdwHdwkP0BshoLAvZtFdIMUxvIcLQCTymBKIvGNcuJ9X35NhO+Jfmo@vger.kernel.org
-X-Gm-Message-State: APuU4Z8hStr0798CIwNu1QvOHzpwKiiD7I0xPojqMvS0gZBDY2pIDrZm
-	xQX7k4MlvVVzn0zyHbDGjy7Mm/6CwhPoVlXEHm73uOMnDR5sxLXRzh2/CpfzDoc+gi1+KTqYjH0
-	OAFNmE00WlPvg8OCQ6dhL0Xl1qqnOsGfB6SuotGI+kfUK2nazh4rnAO4Q2J3aBZU=
-X-Gm-Gg: AYBFou0x+oZdIvN4gpzTaphG9g+fpmeNTRKZTc1XH4Fd9jExh/gFM9jr1g+5sSFNbBQ
-	5zuG9rQ6MIHX78YRVCxaq5muQFMF0JZK+M7EEMFEB/GvLQU9pRBByqJdxel0/KK61LyitMHpMh1
-	q9iqMenOD4qvAhtSqehpUHGJfs0eTImHP2UrOEzOxBL0plwXBjLPsPe/rFhyAMW/uwVrELHZMPm
-	ac6v1zUXRbu4wupW7vy11WNNjNU2JY6bm+QwWF2UwF3a/95OxRCON3DybulKdnT4e+7j8vIclmt
-	p2DoVwpC9E4hkAO9gwIy+c6nz0w06PYkkntRk9G1RvrY8OSnJFLcdIBC4LeLefgrKrwdBTCon5X
-	0bnRY5VyIK+to6BAviTze1rlU1ZffAPF9sxsMA87xXgWLKE/sKuXVNl4gDjsm0Iqr8fBTnN6Xz2
-	Bf1h81QiOLU6/oYi+56p4/YgNV
-X-Received: by 2002:a05:620a:8018:b0:93e:5677:317b with SMTP id af79cd13be357-9498b91adc0mr77552585a.25.1794858152271;
-        Mon, 16 Nov 2026 11:42:32 -0800 (PST)
-X-Received: by 2002:a05:620a:8018:b0:93e:5677:317b with SMTP id af79cd13be357-9498b91adc0mr77547785a.25.1794858151779;
-        Mon, 16 Nov 2026 11:42:31 -0800 (PST)
-Received: from [10.207.2.125] (nat-128-59-176-174.net.columbia.edu. [128.59.176.174])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c608c5debsm23147293f8f.42.2026.11.16.11.42.26
+        d=1e100.net; s=20260707; t=1794858271; x=1795463071;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=nh4pWMvkRsPEst/kCwIp1wxFa2k7tAfx6b5lfGN0krQ=;
+        b=sXOwqY7X+gmhxE5xqp48nvuR8Gqjt4YcElckCG6ZgxET1QNMdWdojmb8fAlANJzUYc
+         Ol192X5mNiTyahMSgWtN6Ei9vt/V08q1RYaGkeWGMaUqcZEWQ2WDLkCH4XEU97jUBgQb
+         1ZEUBBWCI+4REmyxzxDl7T60OFvJq4/gMZPMk2zJcsIRGmKB5+jZUhpPcAwg6EQ9ns4m
+         4Y2D1jkmDVSLA2BUdb0T8yxWSxDx8x3NSSaBcaLIUmizqphrc/C4LLaqPFMYv3itclQ6
+         cAPj4WD8f12YAGx8cX68mhC3y78OYUF4N51mYz52o76E/dNaWeAfmClTUYB/DYrUWnEA
+         SKCQ==
+X-Forwarded-Encrypted: i=1; AL+hErFwNlK2hfaEIl214ghHzq8gquWwSEMMUueWw0Qhmbij0U395Fdl+ZZMrsmWZAGcwySREYXKz995ycvF5E1K@vger.kernel.org
+X-Gm-Message-State: APuU4Z+9Ai/CXve4Hv34fr3/21XBwtmecYJTOMKHNx8nfLL+1b82Q/rG
+	6icBou0C/Vipd7269JjRs8i2K44bT2IKZVX4SrW2xxmfc7ED5+PKIHxRpqGQ0JOK+v+yJ98WPWP
+	CRAJ0ptWLBg==
+X-Gm-Gg: AYBFou1LRMNMq7HKvGELxAarf7j2DukNMTDue+XLy6z+JQsLv+Fwc0uBfSyz1ovcg01
+	dmVuHOd53WIpmg3YxhjxSozHnMLTG2YJwrms12h1NcCfL9uSUG6ndIJ6rEtoiVJdmvFLXUhr7xe
+	ON3U72G9iE/MPIRqpR6LBUp7FMZHL3dYuvdHzlG54vA7Zm3B8jAo9GRhJdRgniF+s7sXgA8THNL
+	2s2577AsisddSuNwRAxa2gOY/0+4FURxnams7yXEDRpR6OrUI29nRua0C6nEzWH4NHeBqsxkLGI
+	URjSe6QnNTMSuguLyB8vtRbRFjyi8AxGMjisIG0x1ajWOG25xcKBP1KSoUlZ9UFQBV5vI8JQem9
+	W2Ost1rTcAu/Y18Y3wIMziQ9iTVSe8SYXWmKECMSVyZG15+uBi5CM4uue1tRzvdea0hSmxjO912
+	P1QQduH6O0SCPHAxo4CIMFMkRVPaUPJW6yy96HEZtgfQd3ak6uTh8+j+vrtD5mo2lXBXALu80u7
+	iDafJE43RiP9c7LH5iHhnEJv+ANnFAO0tt2NBcFQXIavUQW8EV+UkOO7LpWNpNCsFO3T+hXZaN0
+	41xxlJbZbSCcczoRgzqDNu4SFVz/1tAsfPf8NsukUYiH2E5oQRO8j2tK8v4YqTSos5t1qMKD1Jh
+	Q5qw=
+X-Received: by 2002:a05:6402:5d86:b0:6b6:e905:b045 with SMTP id 4fb4d7f45d1cf-6b7c08c1bc0mr6308484a12.3.1794858270497;
+        Mon, 16 Nov 2026 11:44:30 -0800 (PST)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com. [209.85.218.48])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b7c21b5eaesm4959221a12.1.2026.11.16.11.44.30
+        for <linux-fsdevel@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Nov 2026 11:42:30 -0800 (PST)
-Message-ID: <c2f81bbb-ea3e-46d9-9c07-6786bd186797@columbia.edu>
-Date: Mon, 16 Nov 2026 14:42:25 -0500
+        Mon, 16 Nov 2026 11:44:30 -0800 (PST)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-c50604721c8so623517366b.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 11:44:30 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErHzhkCkY3TqSC+4bnOIVZhCfmER+2PvEFv770vVYs4cQxpO0FDm1+KXFbaW7EYZiWgfHI1gdAlflHNclnQr@vger.kernel.org
+X-Received: by 2002:a17:907:d86:b0:c50:4b6e:329 with SMTP id
+ a640c23a62f3a-c5096372173mr926077766b.15.1794857808907; Mon, 16 Nov 2026
+ 11:36:48 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -116,194 +94,60 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 04/12] mm/migrate: keep the uffd bit when restoring a
- writable migration entry
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, leitao@debian.org
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-        Mike Rapoport
- <rppt@kernel.org>, Peter Xu <peterx@redhat.com>,
-        James Houghton <jthoughton@google.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Balbir Singh <balbirs@nvidia.com>,
-        "Liam R. Howlett" <liam@infradead.org>,
-        Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>,
-        Pedro Falcato <pfalcato@suse.de>,
-        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-        Andrei Vagin <avagin@gmail.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>, Arnd Bergmann <arnd@arndb.de>,
-        Muhammad Usama Anjum <usama.anjum@arm.com>,
-        David Hildenbrand <david@kernel.org>, Zi Yan <ziy@nvidia.com>,
-        Matthew Brost <matthew.brost@intel.com>,
-        Joshua Hahn <joshua.hahnjy@gmail.com>,
-        Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
-        Ying Huang
- <ying.huang@linux.alibaba.com>,
-        Alistair Popple <apopple@nvidia.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
-        Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
-        Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
-        Kiryl Shutsemau <kas@kernel.org>, Chris Down <chris@chrisdown.name>,
-        Muchun Song <muchun.song@linux.dev>,
-        Oscar Salvador <osalvador@suse.de>,
-        =?UTF-8?Q?Miko=C5=82aj_Lenczewski?= <miko.lenczewski@arm.com>,
-        Michal Hocko <mhocko@suse.com>, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-References: <20261111-uffd-state-fixes-v1-0-00713d368976@columbia.edu>
- <20261111-uffd-state-fixes-v1-4-00713d368976@columbia.edu>
- <avYG7CtQ52v3I8tF@gremlin>
- <f28dc841-f664-4f97-9dd7-bffd2825115e@columbia.edu>
- <avsV68cP0rp5mWSf@gremlin>
-Content-Language: en-US
-From: Tal Zussman <tz2294@columbia.edu>
-In-Reply-To: <avsV68cP0rp5mWSf@gremlin>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: RNzrPXhqMyfrVNiDETSMov_ucxCKnQLL
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE2MDA3NyBTYWx0ZWRfX2G/09B9Y3Dko
- pHVOCdljLSJG3i4tXUJtn91TK2TlsT5EppLlBT008hqcnDLGf3QpJdUCy4pSIHA6VocRZid2oyx
- o//jochftj8w5yLmJ2RVQ8ARonyT2k2TVI5ldzXbXCbQdMsFPfiR
-X-Authority-Analysis: v=2.4 cv=Ta0DJhQh c=1 sm=1 tr=0 ts=6afb5ca8 cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=KPY1cyGZ6h6m4ASiENTC8Q==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=x7bEGLp0ZPQA:10 a=A0y_DWxS2BwA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=jHxIr1HyPKZ_Q5_91PL3:22
- a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=eaRlbwK1kuk26zd7Q68A:9 a=QEXdDO2ut3YA:10
- a=NFOGd7dJGGMPyQGDc5-O:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE2MDA3NyBTYWx0ZWRfX2NR3O5AMLFmm
- ubTweOrT/nRMH4wwA+jqUHQgOaeLPM+yVO7G//J4j6OuXvsL2QHZrwNjpiEasAFW6OCbBaorXXS
- JT9/kLd82TF/2EA/8aZ9bZkgc/zCIT7Vu/fC32kaazLGrftUfLe8aHbuVWozfC3EcuU2U1J5sl7
- /82npYW2qlTBLEIaw1BhTbDFQaFf114LKayilJYDA9p1e07pn03qfYxNnrrjY/7Pu3zzG/PgZwx
- ALiAtoC6RcktpCOAsdFSR4MUg6Dzg5Pv47rBAWQ9sMv2ObXIt0WQqx7r6+15VZzUT8hKEeQeK31
- KSs8ijFWrwQv6cteexu9U6tF24gxGPO2QMyG71m7VQSeOyJswHDIBcF4bc8FsR8Ip9bvdgOK+Uu
- AAPHUfLO9JWiMjVPunreAYAtcvkR4KNch3in6pNixbiKe04DlxOGoXRtbFuhnpUlQLIrScTvDDJ
- zxQor49C5KEcRhWlzVQ==
-X-Proofpoint-GUID: RNzrPXhqMyfrVNiDETSMov_ucxCKnQLL
-X-Proofpoint-Virus-Version: vendor=nai engine=6900 definitions=11968
- signatures=596817
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0 malwarescore=0 clxscore=1015 impostorscore=10
- phishscore=0 priorityscore=1501 bulkscore=10 lowpriorityscore=10 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611160077
+References: <20261025164719.1831477-1-sashal@kernel.org> <CA+1xoqcxAsRij1j10TyhNX9JXNXNkdWO3sMaVRXCqYdEXi45fg@mail.gmail.com>
+In-Reply-To: <CA+1xoqcxAsRij1j10TyhNX9JXNXNkdWO3sMaVRXCqYdEXi45fg@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Mon, 16 Nov 2026 11:36:32 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wgCX4=ZSPALxR7VHKKAKipU1nD_Am-Q-0z1SRKxr-VRRQ@mail.gmail.com>
+X-Gm-Features: AclHuK9wFvPLbk2hT2Jt-YCf9KvKeXcURMdq1CAih03odFDrPYf2QaCfvYcr5qU
+Message-ID: <CAHk-=wgCX4=ZSPALxR7VHKKAKipU1nD_Am-Q-0z1SRKxr-VRRQ@mail.gmail.com>
+Subject: Re: [GIT PULL] Kernel API specification framework for v7.4
+To: Sasha Levin <levinsasha928@gmail.com>
+Cc: Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org, 
+	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Mark Brown <broonie@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On 11/16/26 9:41 AM, Lorenzo Stoakes (ARM) wrote:
-> On Fri, Nov 13, 2026 at 04:59:39PM -0500, Tal Zussman wrote:
->> On 11/12/26 1:44 PM, Lorenzo Stoakes (ARM) wrote:
->> > On Wed, Nov 11, 2026 at 12:55:12PM -0500, Tal Zussman wrote:
->> >> remove_migration_pte() makes the restored PTE writable for a writable
->> >> migration entry, and only looks at the uffd bit of the entry otherwise.
->> >> A writable migration entry that has the uffd bit set is therefore
->> >> restored as a writable PTE without the uffd bit, and the page is no
->> >> longer write-protected.
->> >
->> > The UFFD WP bit is such a terrible, invasive, broken piece
->> > of... engineering :)
->> >
->> > Notice, again, the hallmark of an utterly broken abstraction - every user
->> > just has to happen to know to handle each of your weird edge cases every
->> > single time they happen to interact with anything that touches it.
->> >
->> > I do hope we never merge something as bad as this again.
->> >
->> >>
->> >> An entry with the uffd bit set must be restored write-protected, whether
->> >> the entry is writable or not. remove_migration_pmd() gets this right: it
->> >
->> > Sigh :)
->> >
->> >> makes the PMD writable and sets the uffd bit as two independent steps,
->> >> and pmd_mkuffd() write-protects the result. To fix it, do the same at
->> >> the PTE level, where pte_mkuffd() write-protects the PTE as well.
->> >>
->> >> The only known path that created such entries is PAGEMAP_SCAN. Now that
->> >
->> > Wait what? :)
->> >
->> > How does a read-only scan of entries create softleaf entries?
->> >
->> > I think this should be explained in the commit message :)
->> >
->>
->> Will add a sentence... unfortunately not a read-only scan...
-> 
-> Thanks! Yeah I realised later the true horrors of what PAGEMAP_SCAN can do
-> with uffd flags (ugh).
-> 
->>
->> >> PAGEMAP_SCAN downgrades them like change_protection() does, we should no
->> >> longer see them, so this change alone should not be visible to
->> >> userspace. If another path ever creates a writable migration entry with
->> >> the uffd bit set, the page now stays write-protected instead of losing
->> >> the uffd bit.
->> >>
->> >> Fixes: 52526ca7fdb9 ("fs/proc/task_mmu: implement IOCTL to get and optionally clear info about PTEs")
->> >
->> > This seems like a super-weird fixes target.
->> >
->>
->> So this piece of code was added in f45ec5ff16a7, but the issue derives
->> from PAGEMAP_SCAN, which is the commit above. I think 52526ca7fdb9 is
->> the right target, but can change it.
->>
->> > BTW I've noticed you've not been cc'ing stable, is that on purpose? No
->> > autosel in mm so we do need to do that on stuff intended to get backported.
->> > :)
->> >
->>
->> I added stable for patches 1 and 2, but for this one and the previous patch
->> the impact is PAGEMAP_SCAN reporting a page as written when it wasn't, which
->> over-reports but doesn't lose anything, so I left it off. Maybe I'm being
->> too conservative though.
-> 
-> No that's fine, if it's sensible not to then let's not.
-> 
-> Was just checking to make sure it was intentional ;)
-> 
+On Mon, 16 Nov 2026 at 10:14, Sasha Levin <levinsasha928@gmail.com> wrote:
+>
+> Ping?
 
-Looks like Breno hit the warning fixed by patch 3:
+So honestly, I really don't like it. I don't think *any* of this
+should be inside the kernel. I don't think the in-kernel side helps at
+all: the comments are too big, nobody will read them, and the whole -
+and only - real use of them would be outside validation, not at
+run-time.
 
-https://lore.kernel.org/linux-mm/avNEgmvYdoukt6MS@gmail.com/
+IOW, I see only downsides to polluting the kernel source code with
+comments that aren't useful to humans.
 
-So I think Cc stable it is.
+If this was a spec that is maintained in some automated format - not
+in C comments in source files that aren't useful as comments anyway
+purely inside something like tools/kernel-api/ (or Documentation, or
+even an outside repository entirely), together with the scripts to
+then validate it, that would be one thing.
 
->>
->> >> Signed-off-by: Tal Zussman <tz2294@columbia.edu>
->> >
->> > The change itself seems reasonable, as cursed as the reason for it is, so
->> > with the fixes target confirmed + commit message updated:
->> >
->> > Acked-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
->> >
->> >> ---
->> >>  mm/migrate.c | 2 +-
->> >>  1 file changed, 1 insertion(+), 1 deletion(-)
->> >>
->> >> diff --git a/mm/migrate.c b/mm/migrate.c
->> >> index 28a8d7734735..d200f64b5f98 100644
->> >> --- a/mm/migrate.c
->> >> +++ b/mm/migrate.c
->> >> @@ -399,7 +399,7 @@ static bool remove_migration_pte(struct folio *folio,
->> >>
->> >>  		if (softleaf_is_migration_write(entry))
->> >>  			pte = pte_mkwrite(pte, vma);
->> >> -		else if (pte_swp_uffd(old_pte))
->> >> +		if (pte_swp_uffd(old_pte))
->> >>  			pte = pte_mkuffd(pte);
->> >>
->> >>  		/* See do_swap_page(): restore PAGE_NONE for RWP */
->> >>
->> >> --
->> >> 2.39.5
->> >>
->> >
->> > --
->> > Cheers, Lorenzo
->> >
->>
-> 
-> --
-> Cheers, Lorenzo
-> 
+But polluting source code with huge comments that aren't for humans is
+right out. Particularly when it clearly is a "first step" and the
+intent is to make those comments bigger and more extended in the
+future.
 
+And I see *no* upside to any /sys/kernel/debug/kapi interface. Nobody
+cares, and any excuse to make it dynamic ("We might update the API in
+the future") is actually the complete opposite of the whole point of a
+stable API and not something I want to make easier or support in any
+way what-so-ever.
+
+So all of the in-kernel side to me looks like actively detrimental to
+the whole idea.
+
+What I think *can* work is an external spec that is written so that
+tools (read: AI) can actually then verify it against kernel sources,
+and that can be used to also drive automated testing. But putting any
+of it inside the kernel is bad.
+
+                  Linus
