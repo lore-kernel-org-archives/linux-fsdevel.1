@@ -1,134 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.45
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794868233;
-	b=jW9NpMEoQZV0LtdqfnhIZ3KggPNgWdccNV8nV0+fLHMlPToF5SkVmz/Oq9kG5L4W/MgB
-	 FYr4wdLPGVdNkMu++1tvnMvMoAazyZETHalVuKe556/EwfFU7MTw9Xf7Q4sjNnp+neH5i
-	 qu49BpKw4yw/iPJvs6G0sA4fjbAm6R8C00eaHs0KZXvl+T2OT2eatgxh+4l0hqfWtGKxk
-	 AqFxObjWx7Ccwchl5nua6tp1PuIUJSsI6DR0m2umL6LSjpnFg8suUlKMUzbq6J4v6L8e6
-	 ndnp7yN47P4jsOFeTyooresQ3iifEowS2bU1Mi+eUv4w5QuaiyY7hR1fT89XLKWPYfA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794868233;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.179
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794868885;
+	b=Lm6eLDqPii09FmzP0cvOmBizN2IJuIuITooK74KM3deA6QznuBTtvGzwCywgPXvfzAA3
+	 tgmwdlyJyhonMV+u9hn35waR+kGRN0QuM9rSzQK7ZcjfYsw48qzmVZ7+AuXgQsEF0yEQU
+	 NBhCDmw+R4rwI4Uris7zQN5OYw8QYJt6FCBIQstxINsG9hIRXM3W5EDGTJIdMPWW/eNXh
+	 O2RElFLPp6o+gwiC7mgbYi3kneZ685fhH5+chY6Uvv+vrzT3OLOPfsTG9lgH1uBZDu6ql
+	 ehKT7faNMoDe8Gm+5bzKZyL4OLzYcHNifPd6MqOw44hzrxWDHJ4jk9eE7tndVil7rkA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794868885;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:Autocrypt:
-	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
-	bh=rW3ESA/Pw6NBRNjjr1CoW7LIwEGVqJDSBwtIbvXI1MI=;
-	b=kcgEn71y64BcXTbM5EvJmhj1KQTEedjrlXRug4e5qdaxNStq7ZXTU+KMSHpTK/1NA0X6
-	 gWrJ0vGVUJgKenLVS6+Y04m5n273dSy1mWwPzxoCY0d2AR3ICpUzoYRpEMIfZgo4g6uif
-	 5O/YtnL+poyMw4xz+FXTuAydxeNZzEl4jIAKvfsZhiaSTzUDSKy/KWL4ca10LtVMkcXBf
-	 2lY5fnaRRLTRlweyIAI1GoNSJRYGaoN9Mn37KRG0kKCiWUHHpFHVbDBBHDswgwQj9Fbqf
-	 YVMvazuSG9CPVXnM1tHMoY+1PXgaBBCMBOStxQD6zO/TUHignnLVKs7JBPFzSZ+XWAQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=dubeyko.com;
-	spf=pass smtp.mailfrom=dubeyko.com;
-	dkim=pass header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=ePEMFT1J;
-	arc=none smtp.remote-ip=74.125.224.45
-Received: from mail-yx1-f45.google.com (mail-yx1-f45.google.com [74.125.224.45])
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=gpp9LcCSgKl2cI7lJtnwvTOl6rqLL+9p0xxnoRcf0oE=;
+	b=P0RcT1BSQe58dko9tcRp+NmbkE7eWCMJA0I4oTKOsGXBNJXsy8QjolCBlRPgHTlNLuId
+	 mYyv4338LxPDSzGBScAIUotf0WbX+Bxs+cnR+gBRclPUDTKikL62c5lnGlFbE/BMBdGdS
+	 4qEC9OqRH35vNZ54sPodYyzQf+c3MsuYnGOV0wc/Oea9zI6+yStK1EbcNcMcQlD8KxtMe
+	 41eqk+R9qhxCU8GvTpOYZCQKPy6skWF7HbErFgs7GD944wL6VOcAEbAGPE8uNew/GzM7m
+	 OCAx8ECzqqD/+UYQ2f8so5rRRxpgxJnmKxSW7LxZgCCOCR1hbRyOq6Ya/OsCY4hT1gw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Jc5k7Grm;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.179
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8853606A31C
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 22:30:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E8853606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3ACD606A323
+	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 22:41:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E3ACD606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=ePEMFT1J
-Received: by mail-yx1-f45.google.com with SMTP id 956f58d0204a3-67c246c0c60so373056d50.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 14:30:32 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Jc5k7Grm
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-8b335ef6441so30216177b3.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 14:41:24 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794868884; cv=none;
+        d=google.com; s=arc-20260327;
+        b=d6jDpPvdIKDjcVRq2yVbX0Zkcw5Pwz9flo+5Hsu4zyx7Wr/ujM4Gp9hFW8IVTHy4Dj
+         I0wcSWHJiXqCp7Kr9pFuPQELkYMDmZP3zko9fbi7cByR+gbxltpRafzVQ/LRvJLmaxwf
+         zh2zSJ3j5pAwJyW2WzaKu/GIAFf/CH+7N9Y0kLJotaTwbPpSRyFy4aS9NlsaA5J9ZBNi
+         IsMeUoXodDB/c8XtAF8QymcXiHfTHEtmGZv002Ab7DGs7vXsak8x3ZS8T4J/Xfo8Q487
+         Pl4Jpo5kUhwAGOBzoTwHSJeR084UCw6pti7u5myXxqw/iDRTRjPaDYbqmQrX7fATXX4m
+         sH8g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=gpp9LcCSgKl2cI7lJtnwvTOl6rqLL+9p0xxnoRcf0oE=;
+        fh=Zduv5dCtnUYaPtrZzEYOci5rwqhEObP9eJALRyYaCeY=;
+        b=U6YgX1QswMcTxXmgvKj5o6cDu530W8BvJJ5HngSpUwEF5RgViUqEJMtaQHjggO2gEA
+         5sDHUei4BjZWQ+Q/qL6SXGmJnIs/R5V2PRcKiplBX8u1HXfdbgo3cEwa6WksbwV1k9qM
+         tYt3GpdWzaRWk5kjm7eO8BO/byo7628ZDyX8pc/XSH0lnoJOAQ8wEquI/DXuaPTFiAMR
+         lti/Z+2iGX5RpIaX81OcuL6eDewuuQgglg/QAo1TJ/XrASUVFTQFe0PeF1wMsmS/wy4o
+         Ja+K+pAoS/59mLU3bN6xZat86vGN16WGe0ByKsMm2mth0y1LIik08xNKwGOctP7nzeQt
+         xCiA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20260707.gappssmtp.com; s=20260707; t=1794868232; x=1795473032; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=rW3ESA/Pw6NBRNjjr1CoW7LIwEGVqJDSBwtIbvXI1MI=;
-        b=ePEMFT1JbNVEwg8trrBH6LbistNfZoq4UZzQY1bT0hce648cBczz0Ti/xGHKUvrQVG
-         EuaTGBAsBmuOKGx1w+BHeX+9o9ToDDHUPjbHmHsUTHgW1RXlRcrnO1S8oVOFbDyKVj1Y
-         cSq+u476iZJ7MipyrMKpSznWqpSuiZkJ7AvSsMebnb2RBgtS5ey/skjjvoak+jmRvI+X
-         JTLm1uZiOoigpTgjmteSC54C6MdFnQX2dlTyBpUC71bg2tQl/x3ge3ec+MlILkYZkmvb
-         0wDVV1H7i6ir8o9Z1ze52/ejit7OuyHp9kvcpQI+ZiHMcZzCZwi4DoWuWOl9vak03PCb
-         4ncg==
+        d=gmail.com; s=20260707; t=1794868884; x=1795473684; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=gpp9LcCSgKl2cI7lJtnwvTOl6rqLL+9p0xxnoRcf0oE=;
+        b=Jc5k7GrmHEAmt0UUyFczLhxRSOuPWwl9lkXkjJO+coclp8jShxdCh0xiK40mf4cbI3
+         Lm6UzEYuK+CdmbE/GoMPm5HecHiE3W2LnDpQz1Jg2pXwCDQ6shRhgnna/3QVI01ZrgMQ
+         tdmUfTuugImvJHhXtOenDPHT7Dw0nkMM/7nsWp5HgtqJ3Weybze7/rW2HT1Ung5GdW/F
+         49yT89/xGe7x2mKOQxwzcL/2WXKpr59fYtbAYYg34WdvMFr0D73/sX9IhaPA4CGEUSch
+         ZExOKzyQGBB1/WNxnNWuCJGcF4H/+t/dEj8pLEuEInKLFiW1yGVrFLBrROLgP4UO6t1x
+         hU6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794868232; x=1795473032;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=rW3ESA/Pw6NBRNjjr1CoW7LIwEGVqJDSBwtIbvXI1MI=;
-        b=PWP8oMDZ9mXOTOIdUiCxuxBYNn1sd7tyGUCzLoUMTLoJJ4fK6tduF8EUyEP3rnPzhj
-         OTPtDson0uF2fjfrvyB+0YUt5qnvST6VIepmGOmJA/LkSgJwUZ9rLFSUvwfL+u4iegxw
-         CyKqIe/QcRt3bq+WGWD132YAKkzFk7LjFoEfAOhl3P7zn2vrar+8staQnE8jZuSVuje1
-         FgowC9Xoydc4jaxzprzJLvSfbJsXBdaajsDChXevpSHGfEwTEMTIzHXxunHOubqJ0wCx
-         KX883/tktT4M8VpdzbTZf2PsLV64BQUa50dM96XkbxFe6vvxGeL2LceGmUi5Byp8SwAl
-         FWtg==
-X-Forwarded-Encrypted: i=1; AL+hErFszgLofgc2feQ/JCX86KCYTLkFe+AFJGpc/gzDLpXWBZyGpJiwf4tky+b+9I5zVzTjaAf7U1uO6nZtFUMP@vger.kernel.org
-X-Gm-Message-State: APuU4Z+9ditLqnRK7Jg5v8nmsoHzpwKX6duujBHLlGh+mRuoNPgbIanD
-	NttM4x0+NGW+Vj2rhzEh3WdKQn5Ft3UmqI7WqGvhe0AdmIETTqkG5E8HWjAgdJ9feTCJA4/DtPm
-	oX/4+eOI=
-X-Gm-Gg: AZFdTZcyVv7cgGKe8tR4QTtb1r7kp9DUT7+CC8IYRomR9tdwGRXgfpf5ZZBeT9duu1L
-	JIbTlxXNwFjmGlYoE7M5jWrPjxL8nYwP5nRf2CQCWyDcNF0MTZeD+2DYF0LipYfBEjeXxBc5Hww
-	pPMS9AiACou5erY4L6iXNWNAQn+qK9qujdtdZIjipM4cu+V0NIVZvtSOi7dDNiLPEDvyZET5pCX
-	oJiORKlHZ8je1nRXhsCFcIVCBzkb2BTVWte2OqZGOWOwrdVscz9OyWoxeqNISHB3Iu1gAtBB/si
-	YiCg2ypQ0fJI5fbzSxX0OsWAMLNBBMreNhF9uXykbQ/YBhXUHuvmPYU2EdvQxj6hbfflbklzIux
-	tn+pSZvBaSh/3JhsewEQsFp8iGE7NIi0+hmrGT1CllyJVOHwKYPTpYlqmn9GBCuibnzwxDavhj/
-	VbWUpgZ1GM7MtMYapEwme3S1JP/H62SThJImD90EFL1xFCgc4IEXuD+ugR0zEnLq8OB0UcsIvJz
-	DMOEsT/w0VCtHKOLHzN69tuMKru6frKefH0N3OeYRtnDAg+7/gVs/W0WFdIsoGzesXLaYVpMc/b
-	F1r905NwTmCTOJgnA9RAroC3zjI/LX7/gZbfWYf/GaywxaGFvaGayf0F07BOGV5rXildcvqaCv2
-	eUNK1+lUN37WDO9BL7UFXnylwmLGr5gHVBj1YZSdsSiEmnzcQJTPEdCBQSSf0uofOrtjOT/w=
-X-Received: by 2002:a05:690e:e8f:b0:677:c281:d685 with SMTP id 956f58d0204a3-67dc79787a7mr469334d50.34.1794868231774;
-        Mon, 16 Nov 2026 14:30:31 -0800 (PST)
-Received: from system76-laptop.attlocal.net ([2600:1700:6476:1430:48ee:a3ac:5a4b:3831])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67d8a55b08fsm11136160d50.7.2026.11.16.14.30.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Nov 2026 14:30:31 -0800 (PST)
-Message-ID: <446748647839fd554246a78d72be728069b44b7a.camel@dubeyko.com>
-Subject: Re: [PATCH 2/2] hfsplus: do not end readdir at i_size after an
- unlink
-From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: Hengyu Liang <hengyul@cs.unc.edu>
-Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Yangtao Li
-	 <frank.li@vivo.com>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Date: Mon, 16 Nov 2026 14:30:29 -0800
-In-Reply-To: <20261114125045.466604-1-hengyul@cs.unc.edu>
-References: <0205ef88738917a6d307b4e334e2dd1b0851317b.camel@dubeyko.com>
-	 <20261114125045.466604-1-hengyul@cs.unc.edu>
-Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
- keydata=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
- NFdvziOa4FgUBC4X71upsZIoZJeii2V/Jtc3B4g==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+        d=1e100.net; s=20260707; t=1794868884; x=1795473684;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=gpp9LcCSgKl2cI7lJtnwvTOl6rqLL+9p0xxnoRcf0oE=;
+        b=jqS2rpg6nftA74zcAfOkdjsNMvbwO6wW4qL6FImXdK3f3NEPg+d7zvaetJrJukD/cT
+         MQPxsdfyIhv0XBVkB9nP4w5ROyXgC3zqDcciRq4fRUyMQo8PxyoL2S7oX6Jppsk3EbMb
+         a3bS5OjfMp7GRf871js0KWZC7saYJSSFtDVOhUF2ASkV63KpDAXcLjH5TG98O0fwJgNo
+         8axlycf4KMw/xGZIMpLLUzx5lTQHuXhNNAouMFNo9T4kYdEajsEcwg4yYZdgQIR2KLMh
+         1HQQLrRU016fXKs5kNUGy6K8lvTwRB4A4jcxn9C8GklZ5K8efovXsLOdlEBX5TXVkxOP
+         yfaQ==
+X-Forwarded-Encrypted: i=1; AL+hErEVsa926lsnm2IHi1cWJP2NZmbrwqFqwL5NF3ZZ3UqSd22udEGM6tJUaFAnvZ9A8sw7ezmrfDrx6KYQcP8l@vger.kernel.org
+X-Gm-Message-State: APuU4Z8LmhEjidmEi6VENE7xzfDeSEzOCrnwKZrz6ibxMjSLEyN7+ynb
+	EWAey0JxgTHV6pAtXUU+ON9Dur+3WL6yq47cDcjubCbuZN6TtOo72dibJRPsooF74t9UG4j08fX
+	kCV9AKET35IRVDJV75MeAeftFedY4Fm0ZJTuc
+X-Gm-Gg: AZFdTZd2k0QhPQNqblooJVlIKjHBNoS5RwLY5XhCTXs1q2F+SDrpF5ImjIMBO8BITUj
+	T8MvgzvQxxtH3SiB4IKgzTpvCFpoKL4iEX6BC9eV9/O8GQDH8OIEzGu6nXEXQ7ritv7tN3oskSH
+	N6+RHanzH5568loFC5LYZ5wLPvXVCPmSgGIucscem/SkQwuM61/VjkKNMYiehfK86vJkfbaeIAV
+	9ySTZtCJ9fxvK6tnITglnHziktUYkx2eoquTln9zy28Ctzki7baBUTwLsv5Q7hkZtJ/WQ8HwoOT
+	b5giXwUHzdjwU7SHrcChYiQaIgxCBeGCKIsW1ss7Md7a22jTe1eVqq1il6LE+CyCbSiuzoMUl9o
+	JFxtlalQ7AVIEHtolDpNFhx562eSuuYiO1WVGC+6hI/W9qFQF9y4hAIAi/7/XCyu0OA6YJwsnTY
+	OnpiRZs8M4Nf/u55yo9PRkiKAnxbhoa4hKs4546MRcG+Eq
+X-Received: by 2002:a05:690c:19:b0:8b3:7621:f691 with SMTP id
+ 00721157ae682-8b4aa39510dmr61981927b3.58.1794868883895; Mon, 16 Nov 2026
+ 14:41:23 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -138,115 +105,165 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+References: <20261114043522.48764-1-ozgunkultekin@gmail.com> <342f864c01c694acc0ec59b4d79f18e627a1ea24.camel@dubeyko.com>
+In-Reply-To: <342f864c01c694acc0ec59b4d79f18e627a1ea24.camel@dubeyko.com>
+From: =?UTF-8?B?w5Z6Z8O8biBLw7xsdGVraW4=?= <ozgunkultekin@gmail.com>
+Date: Mon, 16 Nov 2026 14:41:12 -0800
+X-Gm-Features: Aa3M54pYTt9GjzCqNOUVY3T7b3LZBifqVTCc5WOUnoDmeg9LkLB7qIWfc1SBSbc
+Message-ID: <CAP2AQ-AnKOvRguMAdxi6KhTw_XYME+8EqdeSpnbxWVRHwcC-=A@mail.gmail.com>
+Subject: Re: [PATCH 1/2] hfsplus: bound btree keys by the tree's max_key_len
+ in hfs_bnode_read_key()
+To: Viacheslav Dubeyko <slava@dubeyko.com>
+Cc: glaubitz@physik.fu-berlin.de, frank.li@vivo.com, 
+	linux-fsdevel@vger.kernel.org, Guikun Yang <yangguikun19@qq.com>, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, 2026-11-14 at 07:50 -0500, Hengyu Liang wrote:
-> On Thu, 2026-11-12 at 12:44 -0800, Viacheslav Dubeyko wrote:
-> > Frankly speaking, I don't quite follow what is the issue of the
-> > fix. Do
-> > you mean that we create and delete folder in one thread and execute
-> > the
-> > readdir in another one? Or do you mean that application has several
-> > threads and one thread do readdir but another one delete file by
-> > file?
-> > How this deletion is executed? I mean which files are deleted?
->=20
-> Sorry, the commit message was too short. There is only one thread. It
-> reads a part of the directory with getdents64(), deletes the files
-> that
-> this call returned, and then calls getdents64() again on the same fd.
-> This is what "rm -r" of BusyBox does.
->=20
-> > Even if we delete files in folder then i_size is dropping
-> > gradually. If
-> > we traversing the folder's content and ctx->pos >=3D inode->i_size,
-> > then
-> > it sounds that we already showed the existing content. Do you mean
-> > that
-> > if we deleted the range that we already processed, then we miss the
-> > rest of undeleted items?
->=20
-> Yes, exactly. ctx->pos counts the entries returned since the start,
-> and
-> i_size is the number of entries that exist now (valence + 2). When
-> the
-> entries that were already returned are deleted, ctx->pos stays and
-> i_size drops, so ctx->pos can reach i_size while entries are still
-> unread.
->=20
-> A small example is a directory with 4 files and a buffer that takes 4
-> entries:
->=20
-> =C2=A0 getdents64() returns ".", "..", f1, f2=C2=A0=C2=A0 ctx->pos =3D 4,=
- i_size =3D 6
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rd->pos =3D 4, rd->key =3D f3
-> =C2=A0 unlink(f1)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 i_size =3D 5
-> =C2=A0 unlink(f2)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 i_size =3D 4
-> =C2=A0 getdents64() returns 0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 f_pos (4=
-) >=3D i_size (4)
->=20
-> f3 and f4 were never returned. Before commit 4b0496432844,
-> hfsplus_delete_cat() moved f_pos back for every deleted entry before
-> the saved key, so the second call started with f_pos =3D 2 and returned
-> f3 and f4.
->=20
-> With 1500 files and a 32768 byte buffer, the first call returns 1022
-> files. After they are deleted, i_size is 480 and f_pos is 1024, so
-> the
-> second call returns 0 and 478 files are left.
->=20
-> > > +	bool resume =3D rd && rd->pos =3D=3D file->f_pos;
-> >=20
-> > Is it possible that rd is NULL here?
->=20
-> Yes. file->private_data is allocated at the end of the first
-> hfsplus_readdir() call that stops in the middle of the directory, so
-> it
-> is NULL before that. The current code has the same check
-> ("if (rd && rd->pos =3D=3D ctx->pos)").
->=20
-> > I don't really follow how the resume variable can help at all.
-> > Probably, I am missing the case. Could you please explain the issue
-> > at
-> > first?
->=20
-> resume tells apart the two ways the function finds the next record:
-> from the key that the previous call saved (rd->key), or by counting
-> records from the start of the directory with ctx->pos. It is the
-> condition the current code already uses to choose between them, only
-> computed at the start of the function.
->=20
-> When the call continues from the saved key, ctx->pos no longer says
-> where the walk is in the directory, because entries returned by
-> earlier calls may have been deleted. So comparing it with i_size
-> cannot tell if the directory has ended. The patch skips the three
-> i_size checks for such a call, and ends the walk when the next record
-> belongs to another parent or the catalog has no more records.
->=20
-> A call that finds its position with ctx->pos (the first call, or a
-> call after lseek()) keeps the i_size checks and the "walked past end
-> of dir" error as they are.
->=20
->=20
+Hi Slava,
 
-Frankly speaking, I dislike the resume variable way. It looks really
-confusing. And, as far as I can see, you used it in two/three different
-contexts. If I understood correctly, we are checking three conditions:
-(1) Is current position correct? -> rd->pos =3D=3D file->f_pos;
-(2) Has directory content processed? -> ctx->pos >=3D inode->i_size;
-(3) Is it last directory's item? -> err =3D=3D -ENOENT.
-Could we introduce dedicated inline functions for these checks? The
-code will be more clear and easy to understand then. What do you think?
+Sorry, the commit message was too dense. Here is the issue step by step.
 
-And, please, explain the problem with more details in the commit
-message.
+hfs_find_init() allocates one buffer for the search key and the found key:
+
+ ptr =3D kzalloc(tree->max_key_len * 2 + 4, GFP_KERNEL);
+ fd->search_key =3D ptr;
+ fd->key =3D ptr + tree->max_key_len + 2;
+
+For the extents tree max_key_len is 10, so the allocation is 24 bytes
+and each key buffer is 12 bytes.
+
+hfs_bnode_read_key() takes the key length from disk (for leaf records
+of the extents tree) and only checks it against
+sizeof(hfsplus_btree_key), which is 518:
+
+ if (key_len > sizeof(hfsplus_btree_key) || key_len < 1)
+
+So an extents leaf record with key length 514 passes the check, and
+hfs_bnode_read() copies 516 bytes into the 24-byte allocation. The
+check from bb5e07cb9277 protects the catalog tree, where the buffers
+are big enough, but not the extents tree.
+
+It is reached from hfs_brec_insert(), which calls hfs_bnode_read_key()
+on a key that was never validated (record 0 of the leaf when the tree
+has no root yet, or the first key of a new node after a split).
+Mounting the crafted image read-write is enough: hfsplus_fill_super()
+creates the private data directory, which extends the catalog file and
+inserts an extents record.
+
+KASAN on Fedora 7.3.3-300.fc45.x86_64+debug, mount only:
+
+BUG: KASAN: slab-out-of-bounds in hfsplus_bnode_read+0x39/0x360 [hfsplus]
+Write of size 516 at addr ff11000003a0e740 by task pool-1/1720
+Call Trace:
+ __asan_memset+0x27/0x50
+ hfsplus_bnode_read+0x39/0x360 [hfsplus]
+ hfsplus_bnode_read_key+0x12b/0x230 [hfsplus]
+ hfsplus_brec_insert+0x554/0xcc0 [hfsplus]
+ __hfsplus_ext_write_extent+0x4fd/0x750 [hfsplus]
+ hfsplus_ext_read_extent+0x7a7/0xaa0 [hfsplus]
+ hfsplus_file_extend+0x862/0x12a0 [hfsplus]
+ hfsplus_bmap_reserve+0x2e1/0x4c0 [hfsplus]
+ hfsplus_fill_super+0x135a/0x1910 [hfsplus]
+Allocated by task 1720:
+ __kmalloc_noprof+0x353/0x9d0
+ hfsplus_find_init+0x18c/0x400 [hfsplus]
+ hfsplus_fill_super+0x135a/0x1910 [hfsplus]
+The buggy address is located 0 bytes inside of allocated 24-byte
+region [ff11000003a0e740, ff11000003a0e758)
+
+The error path has the same problem: memset(key, 0,
+sizeof(hfsplus_btree_key)) clears 518 bytes of the same buffer.
+
+The fix checks key_len against tree->max_key_len + 2, the real size of
+each key buffer, and clears only that much on error. max_key_len is
+already validated per tree in hfs_btree_open(), so valid keys still
+pass, including the 518-byte catalog keys. With the patch the image is
+refused with "hfsplus: Invalid key length: 516" and there is no KASAN
+report. Normal HFS+ volumes still work (create, append into the
+extents tree, rename, delete, xattrs) and fsck.hfsplus reports them
+clean.
+
+Patch 2/2 is the same bug in classic hfs: there the extents key
+buffers are 18 bytes in total, and the check is against
+sizeof(hfs_btree_key).
+
+I can send the image generator, or a v2 with this text in the commit
+message if that helps.
 
 Thanks,
-Slava.
+ozgun
+
+
+On Mon, Nov 16, 2026 at 2:02=E2=80=AFPM Viacheslav Dubeyko <slava@dubeyko.c=
+om> wrote:
+>
+> On Fri, 2026-11-13 at 20:35 -0800, ozgun kultekin wrote:
+> > hfs_bnode_read_key() reads the key length of leaf records (and of all
+> > records of variable-key and attributes trees) from disk and only
+> > checks
+> > it against sizeof(hfsplus_btree_key), 518 bytes. The destination is
+> > always one of the two key buffers hfs_find_init() allocates, each
+> > tree->max_key_len + 2 bytes long. For the extents tree max_key_len is
+> > fixed at 10, so the whole allocation is 24 bytes and a crafted leaf
+> > key
+> > writes up to 516 attacker-controlled bytes into kmalloc-32. The error
+> > path has the same problem: it clears 518 bytes of the 24-byte buffer.
+> >
+> > hfs_brec_insert() reaches this with an unvalidated key: when the tree
+> > root is 0 it reads the key of record 0 of the leaf it inserts into,
+> > and
+> > after a split it reads the first key of the new node. A read-write
+> > mount
+> > that extends the catalog (creating the private data directory), or an
+> > append to a file whose extents spill into the extents tree, is
+> > enough;
+> > no other file operation is needed.
+> >
+> > The 518-byte bound was added by commit bb5e07cb9277 ("hfs/hfsplus:
+> > fix
+> > slab-out-of-bounds in hfs_bnode_read_key"); it covers the catalog and
+> > attributes buffers but not the extents buffer. Bound the key length
+> > by
+> > the tree's own maximum, which btree.c already validates per tree, and
+> > only clear the bytes the buffer actually has.
+> >
+> > Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> > Fixes: bb5e07cb9277 ("hfs/hfsplus: fix slab-out-of-bounds in
+> > hfs_bnode_read_key")
+> > Reported-by: Guikun Yang <yangguikun19@qq.com>
+> > Closes:
+> > https://lore.kernel.org/all/tencent_F85118A9AFDF9B230D4E8FA672510A3E2F0=
+8@qq.com/
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: ozgun kultekin <ozgunkultekin@gmail.com>
+> > ---
+> > diff --git a/fs/hfsplus/bnode.c b/fs/hfsplus/bnode.c
+> > index 3a1a1fa..f414020 100644
+> > --- a/fs/hfsplus/bnode.c
+> > +++ b/fs/hfsplus/bnode.c
+> > @@ -84,8 +84,13 @@ void hfs_bnode_read_key(struct hfs_bnode *node,
+> > void *key, u32 off)
+> >       else
+> >               key_len =3D tree->max_key_len + 2;
+> >
+> > -     if (key_len > sizeof(hfsplus_btree_key) || key_len < 1) {
+> > -             memset(key, 0, sizeof(hfsplus_btree_key));
+> > +     /*
+> > +      * The key buffers come from hfs_find_init() and hold
+> > +      * tree->max_key_len + 2 bytes each, which is far less than
+> > +      * sizeof(hfsplus_btree_key) for the extents tree.
+> > +      */
+> > +     if (key_len > tree->max_key_len + 2 || key_len < 1) {
+> > +             memset(key, 0, tree->max_key_len + 2);
+> >               pr_err("hfsplus: Invalid key length: %u\n",
+> > key_len);
+> >               return;
+> >       }
+> > --
+> > 2.47.0
+>
+> I don't quite follow to the fix. What issue are you trying to fix?
+> Could you please explain it more clearly?
+>
+> Thanks,
+> Slava.
