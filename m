@@ -1,92 +1,112 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.139.74
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794858155;
-	b=sKBszcJqb8kDyaLIYnIa+40qRTttoZKxDQfq15HVlJ50aV8YEKy+wyRUSla/tVF3YPo0
-	 mpN749l9nen6vTaA4whAXdxrqdgpF/PjixvPnCv4V8a1koylONZbP37wh9GDi3uZwSaWK
-	 R4eF/ZnRAdd2BUOe7fLqmKZjYKHtT4IZns1qXvONwRMZx5WA+git7HC1gWcst2h/3xIcE
-	 qUYfYjgViFqM/2lW9LrqI5+xLDNSQf6Kapq+wdf2RnqUWX614j+r0KqMcHPn6fwAlQ2zw
-	 COpQCddWGsZuzs12+yEpkv0OWHpKxq7ErTahiH5U2u1A7KyJ+0R8AhgiB36iXRLx68w==
+	t=1794858160;
+	b=MAyFQ6ywK+15b195ytVPxBDpKYU4zEj1IG3ncKAjXHjJ9Ig0OedaMaEFlwNk31mPJb4K
+	 Jeh52z2zMqQ90VtnafepRmU4KbhEWD7m4uHUIkCC3Uj+ibFkDkwgQFM7LQfmF4dlms0yN
+	 OKh0OhGqsHURX8EVSx/0KR95U+BfIIvmMSKOxWFBC5j5A8YtexV2fwT+U5VOkWLBF4bre
+	 7VDWMrFjRZ+ZCdMn1uD9EqznVbOes388ZiPO2AUndYH6mi74W6AHg9V0Kz2lqZ0BJt2dj
+	 My7HMB3qpXegC5YjIYcadz05oTP5nz0FGl2z+Xndlf9KSgDo2jc+sZrOqHfXzEXDSFA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794858155;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=3I26m1ZKPLTjPvcX7e66pLAPs7pMaHA7M5eZgrT0FBw=;
-	b=35ndjbU32vZPmaC5JVSw6puk3/K7lH29py6pNTogqjtj2trRyW7NOt9ASbfe5lAjVcmi
-	 ZeFusqiXKnHZttv3s9EAj6NCwV6RLPc3R1I1fsuyEpKyOXIw1Cq6TgmzcHtmdTSsx6DMo
-	 rSyxskiRE26gbsV1llzM3oQHdjudMspYf4naABp/m75WY4DEzWJZYLiz42tMrGHchBO0u
-	 QVLyDawDx+V3wgjiVp7HuNOAsZgxyeP9NxCbJ99Byp+IbZ88oA/aHEmvukiTAtbc0XSnI
-	 K4XKwhFE3mA/ZPoTrj3rVHIvq0etfBGdhI4zzHmYH7M9daVz+LfGfnaO+0PU4aa7vDw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794858160;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Info:X-Authority-Analysis:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=rsV5fz/GetvcK4qfUxJCgNAEtXbvKRxmLJMOtlw7few=;
+	b=l+3RleuN7rDW4H28rAVSQclIfe/GAev1Z0kJYVg8GBTHKQqgAFPP5bRkNKYV5uugpD7z
+	 jri7dqVx99h5kmJMDRdLBaGoz+BRguEkBpLszJC4O5JD5fh3aTfeL4dqdmVGu+AIqhNZN
+	 UEcQ6simbJNm3ObbcVxc4dEeKqM9QDj74Rr/ZdZC1x1CA8MFLdLKZgXKdVxlenkfM2i7y
+	 MlEOmCMX5eiPNXiNRonGOUZXPsYDbASRGhlTajdxqzsgB5HgA0KNuZyvu8OW8QZUozRVa
+	 qN1R1HQiRmg9NbiA7bbLErd09NEk9ZVKueFiMzwfkScrDPTkKAs2pXTC0MQa8NUuF3w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qXpk2RTu;
-	arc=none smtp.remote-ip=209.85.221.42
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=columbia.edu;
+	spf=pass smtp.mailfrom=columbia.edu;
+	dkim=pass header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=pps01 header.b=eQYdpnhS;
+	dkim=pass header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=lionmail header.b=skdAqn6+;
+	arc=none smtp.remote-ip=148.163.139.74
+Received: from mx0b-00364e01.pphosted.com (mx0b-00364e01.pphosted.com [148.163.139.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69EA0606A32C
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 19:42:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 69EA0606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0916606A335
+	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 19:42:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B0916606A335
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qXpk2RTu
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-4910b863b84so123122f8f.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 11:42:35 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=pps01 header.b=eQYdpnhS;
+	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=lionmail header.b=skdAqn6+
+Received: from pps.filterd (m0167073.ppops.net [127.0.0.1])
+	by mx0b-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AGJXJ8X3631365
+	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 14:42:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pps01; bh=rsV5
+	fz/GetvcK4qfUxJCgNAEtXbvKRxmLJMOtlw7few=; b=eQYdpnhStgsz1ZARwYMw
+	SZWyfH21wyxWchOhNuaMT/qOqp8F0Sq7t8jp/0r9X7F3mRHMF+0MVkFz746vxSXx
+	PQmB/g95c/MwKXZVcERW2Ybproa6R2b4vCyPIIXNVljQvMytOl6A8DqWTrqe/+c/
+	n8Ff5v9HqrDSXmN3eaRr3Tx6UqpMRKu66pJrFj6GiHOZb5PYMux9dkYdkprCQvbR
+	4Nj15DuO+H5ZTUschfW84UQCrh7xYhDlZxqic+Opf/dS+q4kNZrn7Pgyn3nwQUBt
+	pgg6Xke2UK/hPbEDGSNDCgzH+w6q0PGkq6ji/1Z809wtugK+T5lsOiURv6bB/Nyh
+	Zw==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0b-00364e01.pphosted.com (PPS) with ESMTPS id 4j059aswbt-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 14:42:32 -0500 (EST)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-94975041698so48542785a.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 11:42:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794858154; x=1795462954; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=3I26m1ZKPLTjPvcX7e66pLAPs7pMaHA7M5eZgrT0FBw=;
-        b=qXpk2RTuQatVkqGl/4ukj2niDuP7xReXALWCWwisqQwQqzo4Vf2AcQXNYTHeo/e3as
-         Xp8ogURkEfgco/CkyKmA58PQZI2A+r7IJ04lEpDBGn7QP+nQzbomQo+WJUx0Z2XAbJGJ
-         LBUua0zBhiNyUVi9o0GWXYtiBus06ONFSLFvsWE3Sh3pKEjDQZvR6kDnwO88SFjoGJZU
-         FuMjhm+sZO0n9tIPDwVE36U+qgCxwhkzzHCMk69DbdI3cCGJzlngeKdLCT7mfX3Pkhet
-         DJoqe7PnoBKXdzdT53U4uadDGtRM5zNR+5juOhEcBi442KbFe3Kuj1LBO4zUldL90WiX
-         wKlw==
+        d=columbia.edu; s=lionmail; t=1794858152; x=1795462952; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=rsV5fz/GetvcK4qfUxJCgNAEtXbvKRxmLJMOtlw7few=;
+        b=skdAqn6+lVdny994UpQiVpqzjf46sIrloRidKaSfY86WwJraoAuq3yCE9DNIFbHzzL
+         8qqJAjwFxerZQ06F8pLh1zG8K3RJ8RFmYaS0YLq5YLYW2Y9Uz22PpXUGYJzc8e9r69U+
+         r45m7NvnTXv1j5C8yZWfW+1+Mb6IALpJdSuhjvRXRoTw7y7jHxm1p7V+J4p4ICoTvWtC
+         En+F4kdSzz1LSQJz1VHTacgjJ4a8eGLy343Pfs06YMXatu0eoSrMUJH2PXXyOwZivlMa
+         dhMJIxXKzYDJwLtW8EBFl0kdPmHCMecFwrQVrfkKRqM/sz6ECh5Y/h/xTrmTnMi++5d+
+         t+bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794858154; x=1795462954;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20260707; t=1794858152; x=1795462952;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=3I26m1ZKPLTjPvcX7e66pLAPs7pMaHA7M5eZgrT0FBw=;
-        b=bZEQ3vT146HLmkBaLLBkNVXsGkV/Y4nTJrgc1xaW+0aZBS6hQ82G79yG4MFsgBcD94
-         zn54h5WM9UD1TnqYW+d8KxN2Y1vJea2aj5BQ3xruZvSPrD4/Ai6lxiQQB68iKOT/Y5jl
-         ss6J+DzmL1JSvHvzahkkZrYUSyAtdwO/PdeT9KTQWCgZkigLOQDuo5TVLNliEXWB+Gto
-         S1QTeNtcdb95aG4sYmtvJx7Wtm/qQQsXt1EWUGWBTkv+CMBupTcb5Wjrf263LJr6IKD+
-         o1nucnvcxuuk4YHIVJ2wwponzPYXdLaiSi6QEDS1hflPGyy9G/4MaD19GSP2170+6rBr
-         TE/w==
-X-Forwarded-Encrypted: i=1; AL+hErE6UCNNkU7HMXjQeTUjAFvUFyU5aIxL/TCfV9u+1Kf+yw6fpkK+qzE16xxSXW/izDn37moyGVl/GgG5Ug5d@vger.kernel.org
-X-Gm-Message-State: APuU4Z+bEo8q1AyPhifaEBW639LnturIbaKvZO1m0+cn2g1JDtZQmBTX
-	oS9u2Ityws3l+ZKo2bGBJgjZ0uNlsmoy9t/qqAw0Tt56mTO2ZPhZH1yLrvD00U0bimA=
-X-Gm-Gg: AZFdTZeVxgWDTDXCHECI7COVmTc/DjedYJknOL9avGMY5irVr3wjmjTyR+m9xW1Jll/
-	p2lUI0SRPuJ+8aM5FaD53W5h6FNelepcTJ2dSrCF6kkhDb6fVwRlsXPf/AYglHOOn8gS52fiaqE
-	sq8LiV4K5yaUd0+GQZSwPoW/251EKDV8moHsyaxel1yPxmuZefdypFnJ/fYqsKO10q/e4v6sWV+
-	2njWpIWFKrGGOmlOm9Q0J+mOi4M8sfWEKhs70dmHU8l/Ms3N3zwHW0es0foruac8DCs3c40Wu+/
-	QepDEeidLyyX7Wwr0xIdlv19H3vthnkRp9LdHUHHbvZPpAGDCyCq5tFLOvgLVF0cByJEwg2i5c0
-	CLe4hXi/fkRvCR94RCZ28hltLzpV6x5QX9vfHv+ofY6x9VLxBeb03F0ddrCdqrIVAFf9lOaWn0t
-	7aSLupP3o45qG4Gr3ygwNaBL7eBjOOW+Mw20xGj7QdQ+6HeadDyhuo/o74VPy6vlKI+P0v6FPUs
-	fvUHS23JxfpXgb6A2LUcpY8lfChLxKKrkPc0zR1P/7eRbL7MISeTZNBKC3wDZOfnrqDFd8TFNk3
-	iD7uxFprCYk0flX/t8+vs4cK45baMUJyr/pJmvTxNysbAEqgyURCod4Y6GOqiXcimZVo05MvckE
-	zT188HP1xFkSES2jov2Jdx4RbvWbjy1zZcGc=
-X-Received: by 2002:a05:6000:460d:b0:492:9c9:65de with SMTP id ffacd0b85a97d-4a36bd51e25mr1195437f8f.5.1794858153672;
-        Mon, 16 Nov 2026 11:42:33 -0800 (PST)
-Received: from localhost (178-84-201-199.dynamic.upc.nl. [178.84.201.199])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c60d9fff8sm25294154f8f.52.2026.11.16.11.42.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Nov 2026 11:42:33 -0800 (PST)
-From: Amir Goldstein <amir73il@gmail.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Miklos Szeredi <miklos@szeredi.hu>,
-	linux-unionfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH] selftests/ovl: test pseudo filesystem upper and lower with data-only layers
-Date: Mon, 16 Nov 2026 20:42:32 +0100
-Message-ID: <20261116194232.940309-1-amir73il@gmail.com>
-X-Mailer: git-send-email 2.56.1
+        bh=rsV5fz/GetvcK4qfUxJCgNAEtXbvKRxmLJMOtlw7few=;
+        b=ruhjWVaESxuPobjTx9UdOZBRlaA7ayiDveEcsI/2i35gu1CABbY8+Xj7/FqEbQhwXq
+         dTihsnL7Xtgw1H+HxBbvFZZM2JPaOmuc3Q5fxfiAaPne1K7DxGCIqvcDOTV1D014g8Ok
+         /24ohbmqtxl2LNHJV05XOWflBu3/8vIYfIKmPhMWM4Wa+LFeZjLs3915wxLpNhHBLI5I
+         fe5oM9Yt/rvXq+bzJX/PhUro2hsd/Xrc6tsGx4ic2zpirGPx2l99b4gippdosEXk8ztL
+         Qn+sblnvc65GithTuWKiPEwGete9C1M5zXfp9wFunZ3tm20hjXQoXVGiqRfN9A7XCDUj
+         g/Dg==
+X-Forwarded-Encrypted: i=1; AL+hErFpD/zcUA+aGb7AWwBYdX+FWAe8sxjdwHdwkP0BshoLAvZtFdIMUxvIcLQCTymBKIvGNcuJ9X35NhO+Jfmo@vger.kernel.org
+X-Gm-Message-State: APuU4Z8hStr0798CIwNu1QvOHzpwKiiD7I0xPojqMvS0gZBDY2pIDrZm
+	xQX7k4MlvVVzn0zyHbDGjy7Mm/6CwhPoVlXEHm73uOMnDR5sxLXRzh2/CpfzDoc+gi1+KTqYjH0
+	OAFNmE00WlPvg8OCQ6dhL0Xl1qqnOsGfB6SuotGI+kfUK2nazh4rnAO4Q2J3aBZU=
+X-Gm-Gg: AYBFou0x+oZdIvN4gpzTaphG9g+fpmeNTRKZTc1XH4Fd9jExh/gFM9jr1g+5sSFNbBQ
+	5zuG9rQ6MIHX78YRVCxaq5muQFMF0JZK+M7EEMFEB/GvLQU9pRBByqJdxel0/KK61LyitMHpMh1
+	q9iqMenOD4qvAhtSqehpUHGJfs0eTImHP2UrOEzOxBL0plwXBjLPsPe/rFhyAMW/uwVrELHZMPm
+	ac6v1zUXRbu4wupW7vy11WNNjNU2JY6bm+QwWF2UwF3a/95OxRCON3DybulKdnT4e+7j8vIclmt
+	p2DoVwpC9E4hkAO9gwIy+c6nz0w06PYkkntRk9G1RvrY8OSnJFLcdIBC4LeLefgrKrwdBTCon5X
+	0bnRY5VyIK+to6BAviTze1rlU1ZffAPF9sxsMA87xXgWLKE/sKuXVNl4gDjsm0Iqr8fBTnN6Xz2
+	Bf1h81QiOLU6/oYi+56p4/YgNV
+X-Received: by 2002:a05:620a:8018:b0:93e:5677:317b with SMTP id af79cd13be357-9498b91adc0mr77552585a.25.1794858152271;
+        Mon, 16 Nov 2026 11:42:32 -0800 (PST)
+X-Received: by 2002:a05:620a:8018:b0:93e:5677:317b with SMTP id af79cd13be357-9498b91adc0mr77547785a.25.1794858151779;
+        Mon, 16 Nov 2026 11:42:31 -0800 (PST)
+Received: from [10.207.2.125] (nat-128-59-176-174.net.columbia.edu. [128.59.176.174])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c608c5debsm23147293f8f.42.2026.11.16.11.42.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 Nov 2026 11:42:30 -0800 (PST)
+Message-ID: <c2f81bbb-ea3e-46d9-9c07-6786bd186797@columbia.edu>
+Date: Mon, 16 Nov 2026 14:42:25 -0500
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -96,148 +116,194 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 04/12] mm/migrate: keep the uffd bit when restoring a
+ writable migration entry
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, leitao@debian.org
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport
+ <rppt@kernel.org>, Peter Xu <peterx@redhat.com>,
+        James Houghton <jthoughton@google.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Balbir Singh <balbirs@nvidia.com>,
+        "Liam R. Howlett" <liam@infradead.org>,
+        Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>,
+        Pedro Falcato <pfalcato@suse.de>,
+        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+        Andrei Vagin <avagin@gmail.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>, Arnd Bergmann <arnd@arndb.de>,
+        Muhammad Usama Anjum <usama.anjum@arm.com>,
+        David Hildenbrand <david@kernel.org>, Zi Yan <ziy@nvidia.com>,
+        Matthew Brost <matthew.brost@intel.com>,
+        Joshua Hahn <joshua.hahnjy@gmail.com>,
+        Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
+        Ying Huang
+ <ying.huang@linux.alibaba.com>,
+        Alistair Popple <apopple@nvidia.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
+        Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+        Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
+        Kiryl Shutsemau <kas@kernel.org>, Chris Down <chris@chrisdown.name>,
+        Muchun Song <muchun.song@linux.dev>,
+        Oscar Salvador <osalvador@suse.de>,
+        =?UTF-8?Q?Miko=C5=82aj_Lenczewski?= <miko.lenczewski@arm.com>,
+        Michal Hocko <mhocko@suse.com>, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+References: <20261111-uffd-state-fixes-v1-0-00713d368976@columbia.edu>
+ <20261111-uffd-state-fixes-v1-4-00713d368976@columbia.edu>
+ <avYG7CtQ52v3I8tF@gremlin>
+ <f28dc841-f664-4f97-9dd7-bffd2825115e@columbia.edu>
+ <avsV68cP0rp5mWSf@gremlin>
+Content-Language: en-US
+From: Tal Zussman <tz2294@columbia.edu>
+In-Reply-To: <avsV68cP0rp5mWSf@gremlin>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: RNzrPXhqMyfrVNiDETSMov_ucxCKnQLL
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE2MDA3NyBTYWx0ZWRfX2G/09B9Y3Dko
+ pHVOCdljLSJG3i4tXUJtn91TK2TlsT5EppLlBT008hqcnDLGf3QpJdUCy4pSIHA6VocRZid2oyx
+ o//jochftj8w5yLmJ2RVQ8ARonyT2k2TVI5ldzXbXCbQdMsFPfiR
+X-Authority-Analysis: v=2.4 cv=Ta0DJhQh c=1 sm=1 tr=0 ts=6afb5ca8 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=KPY1cyGZ6h6m4ASiENTC8Q==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=x7bEGLp0ZPQA:10 a=A0y_DWxS2BwA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=jHxIr1HyPKZ_Q5_91PL3:22
+ a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=eaRlbwK1kuk26zd7Q68A:9 a=QEXdDO2ut3YA:10
+ a=NFOGd7dJGGMPyQGDc5-O:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE2MDA3NyBTYWx0ZWRfX2NR3O5AMLFmm
+ ubTweOrT/nRMH4wwA+jqUHQgOaeLPM+yVO7G//J4j6OuXvsL2QHZrwNjpiEasAFW6OCbBaorXXS
+ JT9/kLd82TF/2EA/8aZ9bZkgc/zCIT7Vu/fC32kaazLGrftUfLe8aHbuVWozfC3EcuU2U1J5sl7
+ /82npYW2qlTBLEIaw1BhTbDFQaFf114LKayilJYDA9p1e07pn03qfYxNnrrjY/7Pu3zzG/PgZwx
+ ALiAtoC6RcktpCOAsdFSR4MUg6Dzg5Pv47rBAWQ9sMv2ObXIt0WQqx7r6+15VZzUT8hKEeQeK31
+ KSs8ijFWrwQv6cteexu9U6tF24gxGPO2QMyG71m7VQSeOyJswHDIBcF4bc8FsR8Ip9bvdgOK+Uu
+ AAPHUfLO9JWiMjVPunreAYAtcvkR4KNch3in6pNixbiKe04DlxOGoXRtbFuhnpUlQLIrScTvDDJ
+ zxQor49C5KEcRhWlzVQ==
+X-Proofpoint-GUID: RNzrPXhqMyfrVNiDETSMov_ucxCKnQLL
+X-Proofpoint-Virus-Version: vendor=nai engine=6900 definitions=11968
+ signatures=596817
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 spamscore=0 malwarescore=0 clxscore=1015 impostorscore=10
+ phishscore=0 priorityscore=1501 bulkscore=10 lowpriorityscore=10 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611160077
 
-A pseudo filesystem lower layer is now refused along with data-only
-layers and a pseudo filesystem is refused as upper layer.
+On 11/16/26 9:41 AM, Lorenzo Stoakes (ARM) wrote:
+> On Fri, Nov 13, 2026 at 04:59:39PM -0500, Tal Zussman wrote:
+>> On 11/12/26 1:44 PM, Lorenzo Stoakes (ARM) wrote:
+>> > On Wed, Nov 11, 2026 at 12:55:12PM -0500, Tal Zussman wrote:
+>> >> remove_migration_pte() makes the restored PTE writable for a writable
+>> >> migration entry, and only looks at the uffd bit of the entry otherwise.
+>> >> A writable migration entry that has the uffd bit set is therefore
+>> >> restored as a writable PTE without the uffd bit, and the page is no
+>> >> longer write-protected.
+>> >
+>> > The UFFD WP bit is such a terrible, invasive, broken piece
+>> > of... engineering :)
+>> >
+>> > Notice, again, the hallmark of an utterly broken abstraction - every user
+>> > just has to happen to know to handle each of your weird edge cases every
+>> > single time they happen to interact with anything that touches it.
+>> >
+>> > I do hope we never merge something as bad as this again.
+>> >
+>> >>
+>> >> An entry with the uffd bit set must be restored write-protected, whether
+>> >> the entry is writable or not. remove_migration_pmd() gets this right: it
+>> >
+>> > Sigh :)
+>> >
+>> >> makes the PMD writable and sets the uffd bit as two independent steps,
+>> >> and pmd_mkuffd() write-protects the result. To fix it, do the same at
+>> >> the PTE level, where pte_mkuffd() write-protects the PTE as well.
+>> >>
+>> >> The only known path that created such entries is PAGEMAP_SCAN. Now that
+>> >
+>> > Wait what? :)
+>> >
+>> > How does a read-only scan of entries create softleaf entries?
+>> >
+>> > I think this should be explained in the commit message :)
+>> >
+>>
+>> Will add a sentence... unfortunately not a read-only scan...
+> 
+> Thanks! Yeah I realised later the true horrors of what PAGEMAP_SCAN can do
+> with uffd flags (ugh).
+> 
+>>
+>> >> PAGEMAP_SCAN downgrades them like change_protection() does, we should no
+>> >> longer see them, so this change alone should not be visible to
+>> >> userspace. If another path ever creates a writable migration entry with
+>> >> the uffd bit set, the page now stays write-protected instead of losing
+>> >> the uffd bit.
+>> >>
+>> >> Fixes: 52526ca7fdb9 ("fs/proc/task_mmu: implement IOCTL to get and optionally clear info about PTEs")
+>> >
+>> > This seems like a super-weird fixes target.
+>> >
+>>
+>> So this piece of code was added in f45ec5ff16a7, but the issue derives
+>> from PAGEMAP_SCAN, which is the commit above. I think 52526ca7fdb9 is
+>> the right target, but can change it.
+>>
+>> > BTW I've noticed you've not been cc'ing stable, is that on purpose? No
+>> > autosel in mm so we do need to do that on stuff intended to get backported.
+>> > :)
+>> >
+>>
+>> I added stable for patches 1 and 2, but for this one and the previous patch
+>> the impact is PAGEMAP_SCAN reporting a page as written when it wasn't, which
+>> over-reports but doesn't lose anything, so I left it off. Maybe I'm being
+>> too conservative though.
+> 
+> No that's fine, if it's sensible not to then let's not.
+> 
+> Was just checking to make sure it was intentional ;)
+> 
 
-Split the lowerdir_sysfs test, so that sysfs as a regular lower layer
-is still expected to mount, but sysfs as a lower layer along with a
-data-only layer is expected to fail.
+Looks like Breno hit the warning fixed by patch 3:
 
-Add tests that sysfs as upperdir is refused via legacy mount options
-and via fsconfig by path and by file descriptor, and a tmpfs upperdir
-control test.
+https://lore.kernel.org/linux-mm/avNEgmvYdoukt6MS@gmail.com/
 
-Signed-off-by: Amir Goldstein <amir73il@gmail.com>
----
+So I think Cc stable it is.
 
-Christian,
-
-This applies on top of your selftest patch [1] and adapts it to the
-expanded ban in "ovl: refuse pseudo filesystem layers in some setups".
-
-On a kernel without the pseudo series, datadir_sysfs,
-lowerdir_sysfs_with_datadir and upperdir_sysfs fail as expected
-(sysfs upper falls back to a read-only mount) and the rest pass.
-I did not test it with the full series.
-
-Thanks,
-Amir.
-
-[1] https://lore.kernel.org/linux-fsdevel/20261116-work-loop-pseudo-v3-34-8cbbea1cf34f@kernel.org/
-
- .../filesystems/overlayfs/pseudo_datadir.c    | 83 ++++++++++++++++++-
- 1 file changed, 80 insertions(+), 3 deletions(-)
-
-diff --git a/tools/testing/selftests/filesystems/overlayfs/pseudo_datadir.c b/tools/testing/selftests/filesystems/overlayfs/pseudo_datadir.c
-index 3b59fd3e9f5c2..903c893d7b4c8 100644
---- a/tools/testing/selftests/filesystems/overlayfs/pseudo_datadir.c
-+++ b/tools/testing/selftests/filesystems/overlayfs/pseudo_datadir.c
-@@ -22,6 +22,7 @@ static int setup_tmp(void)
- 	if (sys_mount("tmpfs", "/tmp", "tmpfs", 0, NULL))
- 		return -errno;
- 	if (mkdir("/tmp/lower", 0755) || mkdir("/tmp/data", 0755) ||
-+	    mkdir("/tmp/upper", 0755) || mkdir("/tmp/work", 0755) ||
- 	    mkdir("/tmp/merged", 0755))
- 		return -errno;
- 	return 0;
-@@ -60,6 +61,54 @@ static int set_layer(int fd_context, const char *key, const char *path,
- 	return ret;
- }
- 
-+/* Mount an overlayfs with the legacy "upperdir=" and "workdir=" options. */
-+static int mount_upperdir(const char *upper, const char *work)
-+{
-+	char opts[256];
-+
-+	snprintf(opts, sizeof(opts), "lowerdir=/tmp/lower,upperdir=%s,workdir=%s",
-+		 upper, work);
-+	if (sys_mount("overlay", "/tmp/merged", "overlay", 0, opts))
-+		return -errno;
-+	if (umount2("/tmp/merged", 0))
-+		return -errno;
-+	return 0;
-+}
-+
-+/* Create an overlayfs with "upperdir" and "workdir" through fsconfig. */
-+static int fsmount_upper(const char *upper, const char *work, bool by_fd)
-+{
-+	int fd_context, fd_mnt, ret;
-+
-+	fd_context = sys_fsopen("overlay", FSOPEN_CLOEXEC);
-+	if (fd_context < 0)
-+		return -errno;
-+
-+	ret = set_layer(fd_context, "lowerdir+", "/tmp/lower", by_fd);
-+	if (ret)
-+		goto out;
-+	ret = set_layer(fd_context, "upperdir", upper, by_fd);
-+	if (ret)
-+		goto out;
-+	ret = set_layer(fd_context, "workdir", work, by_fd);
-+	if (ret)
-+		goto out;
-+
-+	if (sys_fsconfig(fd_context, FSCONFIG_CMD_CREATE, NULL, NULL, 0)) {
-+		ret = -errno;
-+		goto out;
-+	}
-+
-+	fd_mnt = sys_fsmount(fd_context, FSMOUNT_CLOEXEC, 0);
-+	if (fd_mnt < 0)
-+		ret = -errno;
-+	else
-+		close(fd_mnt);
-+out:
-+	close(fd_context);
-+	return ret;
-+}
-+
- /* Create an overlayfs with "lowerdir+" and "datadir+" through fsconfig. */
- static int fsmount_layers(const char *lower, const char *data, bool by_fd)
- {
-@@ -123,9 +172,37 @@ TEST(lowerdir_sysfs)
- 	ASSERT_EQ(setup_tmp(), 0);
- 
- 	EXPECT_EQ(mount_lowerdir("/sys/kernel:/tmp/lower"), 0);
--	EXPECT_EQ(mount_lowerdir("/sys/kernel::/tmp/data"), 0);
--	EXPECT_EQ(fsmount_layers("/sys/kernel", "/tmp/data", false), 0);
--	EXPECT_EQ(fsmount_layers("/sys/kernel", "/tmp/data", true), 0);
-+}
-+
-+TEST(lowerdir_sysfs_with_datadir)
-+{
-+	ASSERT_EQ(setup_tmp(), 0);
-+
-+	EXPECT_EQ(mount_lowerdir("/sys/kernel::/tmp/data"), -EINVAL);
-+	EXPECT_EQ(fsmount_layers("/sys/kernel", "/tmp/data", false), -EINVAL);
-+	EXPECT_EQ(fsmount_layers("/sys/kernel", "/tmp/data", true), -EINVAL);
-+}
-+
-+/*
-+ * Without the check, sysfs as upperdir falls back to a read-only mount
-+ * because the work dir cannot be created.
-+ */
-+TEST(upperdir_sysfs)
-+{
-+	ASSERT_EQ(setup_tmp(), 0);
-+
-+	EXPECT_EQ(mount_upperdir("/sys/block", "/sys/bus"), -EINVAL);
-+	EXPECT_EQ(fsmount_upper("/sys/block", "/sys/bus", false), -EINVAL);
-+	EXPECT_EQ(fsmount_upper("/sys/block", "/sys/bus", true), -EINVAL);
-+}
-+
-+TEST(upperdir_tmpfs)
-+{
-+	ASSERT_EQ(setup_tmp(), 0);
-+
-+	EXPECT_EQ(mount_upperdir("/tmp/upper", "/tmp/work"), 0);
-+	EXPECT_EQ(fsmount_upper("/tmp/upper", "/tmp/work", false), 0);
-+	EXPECT_EQ(fsmount_upper("/tmp/upper", "/tmp/work", true), 0);
- }
- 
- TEST_HARNESS_MAIN
--- 
-2.56.1
+>>
+>> >> Signed-off-by: Tal Zussman <tz2294@columbia.edu>
+>> >
+>> > The change itself seems reasonable, as cursed as the reason for it is, so
+>> > with the fixes target confirmed + commit message updated:
+>> >
+>> > Acked-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+>> >
+>> >> ---
+>> >>  mm/migrate.c | 2 +-
+>> >>  1 file changed, 1 insertion(+), 1 deletion(-)
+>> >>
+>> >> diff --git a/mm/migrate.c b/mm/migrate.c
+>> >> index 28a8d7734735..d200f64b5f98 100644
+>> >> --- a/mm/migrate.c
+>> >> +++ b/mm/migrate.c
+>> >> @@ -399,7 +399,7 @@ static bool remove_migration_pte(struct folio *folio,
+>> >>
+>> >>  		if (softleaf_is_migration_write(entry))
+>> >>  			pte = pte_mkwrite(pte, vma);
+>> >> -		else if (pte_swp_uffd(old_pte))
+>> >> +		if (pte_swp_uffd(old_pte))
+>> >>  			pte = pte_mkuffd(pte);
+>> >>
+>> >>  		/* See do_swap_page(): restore PAGE_NONE for RWP */
+>> >>
+>> >> --
+>> >> 2.39.5
+>> >>
+>> >
+>> > --
+>> > Cheers, Lorenzo
+>> >
+>>
+> 
+> --
+> Cheers, Lorenzo
+> 
 
