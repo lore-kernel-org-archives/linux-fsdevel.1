@@ -1,97 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.181
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794801474;
-	b=iTBI3efXNcv/DkZ5cauGwLcZ9Y6UkTckq1/dE5qMkbvz0DFt4932cAa6ehgVtSQ4tbRf
-	 m2922VphTanWBEk0UNQ9BdUePO2n+mnBtjeYxxlbJtQMCX9Kzg8cXjSSy7W9p++fl/iN/
-	 pGlg82x53ZuuREj0+HS0bK/cUYmck73D/3hg9KKOZ5aPeSPOuhlmtvc+FuTtyQoE7LFp7
-	 WbIsWe7Oa0fm1xqMY8y/Qg288CCTVjHTCmUqvaAgZnDViZyZZAY9eIwwev8F6G2oSuOeV
-	 4SLKFwU+Jk1qArfDFyduzKbKtFuscWC07QJtN+xLA7RXw06hfAPWF1GCO/iZYzjMq5A==
+	t=1794803610;
+	b=oiWqBUGDyfkWcwraOEJQpW14rFLd78vrTT+fh4caUwY8HLY4EN71VGYWBk2Wj552vtvC
+	 Tjy1qBGkr2ZlagN+ZFu2IF1LmFBxiT9LXsfMcMGF4T0a5ZNqzdvGUZVZKB3c1d0bwpmJV
+	 U6ipnj0sNB4aj/U1zY2tK9ATeBlLmoWk9iwrKrxBdAHSVfq4KEXiSwPPDnKkpvXQAmNdF
+	 CaPgGGUC7DJ7qMXCChWGZTOfKuJMTGJ/rp1unXoUfPHF9jDX9XedSRYBp+YhzEwnfhR9w
+	 M3O4yZ4v/uCu/x55V54eW4rlBoZ6ps2aVUavDdbPq9+MtymiFfLMoc/Gj87VJCcuqkg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794801474;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:Message-ID:From:Subject:To:Cc:MIME-Version:Content-Type:
-	 Content-Disposition:User-Agent;
-	bh=iwVZGsgKAQDdbtbiaa6vbIgpmM6oKh5tzoDRi/Aw59E=;
-	b=wzl1lKJyECiqwiueKHj9F01JuldAHWK4pWk5k94sQsDl41Xnp3HJ8tIh2lUkqWGbTe25
-	 SRT7ne33ULxhsO0ph/vdVwCnCZ6D6iBhv/ZBPwraPJc2HMky70gPEB9qjqOUjugf8l822
-	 aoNkWf9oLzjeDFDAFjKRSbEwXwsQoCbZhZMbCXvy2FaOtDA6bbZna2iXQm3FFTkXA+Ebj
-	 qKAKxnU11lYxFgZR8w+u5NuYz1upN1dDr215CDhrPqq3YKoYuw2CYET/uAUoP6zSCsVTq
-	 n1m5SDpgEKArzeTuhdY3fjrCcQyD+wnQVjXIPT94g3dFzunMWfJWooegVv3Hj+q1Qag==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794803610;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-Id:
+	 In-Reply-To:References:X-Mailer:Mime-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=Z3LalrofPDIIeLTWNYB/CEjeg90a8F55VBmkKs/2tdA=;
+	b=hMTBGOn7RRNCOEhn+cjXfVW5vTxCruEXVosBKNh4yZj9H6H49RkP5jaGcNNBWZHzW/DO
+	 5zQriUy8zV98peCPEehFdcCN0MnxszFEm/ZvZxTToFhf4T3bVPaky/WJ0DU0wr0zdIGC1
+	 TfqhwhHH8SpySL6D+ITLxUaiz4BbqojDeQb3+fdZwIAIoC+Hmtmbtaij2PEr726RUmhuT
+	 T64ieZMSWBO0V711zlT9Z7SkkwCm71cIeNUhvzOxis9y2LRnvycBltlCkPbJbA00fkAP+
+	 eTVfEp/OslO/7Oq1x2OoSVcNdUxYCdiuO1CocyxD0TeN1yL+18igVZGCEnf5E0QSplA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=chrisdown.name;
-	spf=pass smtp.mailfrom=chrisdown.name;
-	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=pXUuGH1T;
-	arc=none smtp.remote-ip=74.125.82.181
-Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=sqBi3acz;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77696606A323
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 03:57:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 77696606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chrisdown.name
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chrisdown.name
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D4EA606A31F;
+	Mon, 16 Nov 2026 04:33:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=pXUuGH1T
-Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-37628596783so5007382eec.1
-        for <linux-fsdevel@vger.kernel.org>; Sun, 15 Nov 2026 19:57:53 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=sqBi3acz
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B2781F000C4;
+	Mon, 16 Nov 2026 04:33:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chrisdown.name; s=google; t=1794801472; x=1795406272; darn=vger.kernel.org;
-        h=user-agent:content-disposition:content-type:mime-version:cc:to
-         :subject:from:message-id:date:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=iwVZGsgKAQDdbtbiaa6vbIgpmM6oKh5tzoDRi/Aw59E=;
-        b=pXUuGH1T9exwQcrwhbSZrLclSn0IWrK+PCRBc/KdKoTlWFPxdjgreeQ1+APKhspKwS
-         HmqF1BZdKZR9OP7azT5beKtMmat/vhp6olqwbUZeGf5u/1b39oKZbvVK9EqEv5J8rQID
-         24wNYBs8s+ihpD/hp4t8V0NvT5OMsgDTX4FQw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794801472; x=1795406272;
-        h=user-agent:content-disposition:content-type:mime-version:cc:to
-         :subject:from:message-id:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=iwVZGsgKAQDdbtbiaa6vbIgpmM6oKh5tzoDRi/Aw59E=;
-        b=sPSyM6czsTjMx/AXwbLeKbVSBIe7iXypusyPvv7bnDu0MYReBwq/ZJcbezxTd2TI6H
-         0eE9ATZKNxHedL0qmpCDKD6ynwVWmQ3Ppe7pe3pMGVPwDUjGmBsVdfHFArzuXKUlKizI
-         xyAlrRaR2ujU0MTroMUcVUOe68V3qtaHUguKW7CCOF86WfVgjzxrfotD+clNhhMs2GKS
-         jIuRhD66zoVnGM9tnWQtXn12VweQjaNHmlnu1qmyPWRlMIeD5g1S1p5mxjU9pmFk2Jgk
-         mDPVtQuO+GQjf7GsCNpHMkvUUOGqD3t0zkAEk/1eUUzw2BJOUDgOao9wRt1RBz9VcTsK
-         lnGA==
-X-Forwarded-Encrypted: i=1; AL+hErHLMcEFBxywH1+CfWak4JtPKYWAti0M2Zjx5RQ1jUkIdxtwInDeQhIkkirxC7xsV2zqUtoGva55lfozHYtS@vger.kernel.org
-X-Gm-Message-State: APuU4Z/CckcF0BvX+w8Vj2G8jPhq0di7g3oc6Rookss1I4WqR0dIhBNQ
-	0skwpHuk3f/prlEC8L8tbHS6OlaScYw29WIfSAxEybkEbzb5Xq0C8ffGyoNQtFkpqROBFlcCsvV
-	JtM2WGb4Z7eTe
-X-Gm-Gg: AYBFou08LDH9+rq/TIqVi8u6eBdzFm/T7rzI/xupceAqAXae+EqMxT3dQFBSApRZRTj
-	cWLcsFMEajb4LnVCVtPfnYCWM24+yv9QxZAjRiE79qvkf0v4ILWES0H4GGPPY+XClCyIgDI6tiO
-	KYQCnfxZpvSJKpoiNLbFINN82TtuKX1o3WC267kcqPC4hHP8qxUWQwqB4VmYSMRJacsc92fyCx/
-	dYAG8g1xJY4Kve/N+Wn7yLLFTpde85OLL0fDnlFJvuvAYKZdD49Ns+vrwN0HsXZIWrRM8aH3sZS
-	4GIdsPPWU0iE7fDit/D8tVRUQjaM1BWladNIrwgWgYl74qrZT0C8hLMvysZGBw39AUpoUDV04u5
-	qrX2RZlCbwhNLp+rZ+HaO4DPuh0kRrvvAHej4WO0HlcopF7DBl7h3twDTrXz4MktvLC3pPqI7Kv
-	bOsc4uMH3CovRPKjVij0o52IVnlukNS8uSh+7M8xXCl2tk42HQnbXZEsLHd2GOuVILmrEXzedee
-	jouimHIll96K/ClIYfGd1JPpGoyJGM8m0CzXqRxBO0PNmxh+28C0EgsAVIMipcoON/eYXNP7XKv
-	nwZpLvIOU42c3PaiF2lkKvmW8eKp71QJ77id+lKosWRx0pZxQmw9wxPpT6JZxFXgBO5KtAcr8Q8
-	QqL/t9WqaYhv7fxbkuiMjIjnRf/MA8QRxGCUQ2RVAy6q2oNvb62xbEzrNBseEUgfwe9WEGgZemb
-	+QNItNkpgl4W/tsZZOGXD+THtj6EKguzDksrJUhv+kzzO4cgJNVuVpRAFSqCEd9s5R
-X-Received: by 2002:a05:7301:b06:b0:36a:1089:9836 with SMTP id 5a478bee46e88-3796628ce32mr8377652eec.15.1794801472427;
-        Sun, 15 Nov 2026 19:57:52 -0800 (PST)
-Received: from [172.18.0.2] ([172.56.232.151])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-37956bb0919sm29451214eec.29.2026.11.15.19.57.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Nov 2026 19:57:51 -0800 (PST)
-Date: Sun, 15 Nov 2026 19:57:48 -0800
-Message-ID: <a8474f0e2d0ef5ea9d53aa6649c7e9c9ea6f15c2.1794800574.git.chris@chrisdown.name>
-From: Chris Down <chris@chrisdown.name>
-Subject: [PATCH v2] proc/kcore: allow disabling /proc/kcore at boot
-To: Omar Sandoval <osandov@osandov.com>,
-    Andrew Morton <akpm@linux-foundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-    Shuah Khan <skhan@linuxfoundation.org>,
-    Randy Dunlap <rdunlap@infradead.org>,
-    linux-debuggers@vger.kernel.org,
-    linux-fsdevel@vger.kernel.org,
-    linux-doc@vger.kernel.org,
-    linux-kernel@vger.kernel.org,
-    kernel-team@meta.com
+	d=linux-foundation.org; s=korg; t=1794803609;
+	bh=Z3LalrofPDIIeLTWNYB/CEjeg90a8F55VBmkKs/2tdA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=sqBi3aczOohYNZ2MSlWIKayDu5xpw0W3F7wwOlDpL2OK0VT5465nvxRWt3IMBF9Pw
+	 7j+GMTaBKKub8rE8LhwYRwuwrJ8BlH7UbNjNgkzn8D1MNRpGAjV93+RHJ69Na3BK+1
+	 89PJisfvxODwTNxETHKr/w/nSp/ksk9oTaVyf6EQ=
+Date: Sun, 15 Nov 2026 20:33:28 -0800
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Qiliang Yuan <odys.yuan@gmail.com>
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara
+ <jack@suse.cz>, Joanne Koong <joannelkoong@gmail.com>,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] mm/readahead: look two windows ahead for the hole on a
+ marker hit
+Message-Id: <20261115203328.f98ce9a068849c2f2fb32a41@linux-foundation.org>
+In-Reply-To: <20261022-bug-mm-readahead-async-overtaken-v1-1-c05b8d8bd2da@gmail.com>
+References: <20261022-bug-mm-readahead-async-overtaken-v1-1-c05b8d8bd2da@gmail.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -100,97 +58,106 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/2.4.3 (cc9e3943) (2026-10-09)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-/proc/kcore lets any process with CAP_SYS_RAWIO read all of kernel
-memory. That's a pretty large read primitive for anyone who obtains
-CAP_SYS_RAWIO (and it also gives away the KASLR layout).
+On Thu, 22 Oct 2026 23:24:33 +0800 Qiliang Yuan <odys.yuan@gmail.com> wrote:
 
-For this reason on some hosts we want to turn /proc/kcore off. In terms
-of what it can read, /proc/kcore isn't any more concerning than other
-ways to read kernel memory, like BPF with CAP_BPF and CAP_PERFMON. The
-distinction is that a process with CAP_SYS_RAWIO doesn't necessarily
-have CAP_BPF and CAP_PERFMON, because CAP_SYS_RAWIO may be needed for
-hardware access without necessarily wanting to grant general RAM access.
-CONFIG_STRICT_DEVMEM already makes that possible for /dev/mem, but
-/proc/kcore gives the same capability to do general purpose RAM reading
-anyway.
+> When a reader hits a folio marked for readahead that the readahead
+> state does not expect, page_cache_async_ra() starts the next readahead
+> at the first hole within one window after the folio. If that window is
+> fully cached, it reads nothing.
+> 
+> memcpy() in glibc loads the end of a large source before copying it
+> forward, so a loader that copies a file mapping out in pieces of a few
+> megabytes faults at the end of each piece first. mmap read-around then
+> reads a window centered on that fault, which reaches more than one
+> window past the readahead marker the copy has yet to hit. When the copy
+> reaches the marker, there is no hole within a window, no readahead is
+> issued, and the next piece faults on its end again. Every piece then
+> gets a synchronous read-around of order-0 folios, and threads copying
+> parts of one file also contend on the i_pages lock to insert them. A
+> copy from offset 0 avoids this as its first read-around is clamped to
+> the start of the file.
+> 
+> Look up to two windows ahead for the hole, which reaches past such a
+> read-around, so the reader keeps an asynchronous window and its folio
+> order keeps ramping up.
+> 
+> Copying a 16 GiB file out of a private mapping with memcpy() in 8 MiB
+> pieces, read_ahead_kb 8192, cold page cache, 32 vCPU VM, mean of two
+> runs:
+> 
+>                                   before    after
+>   1 thread from offset 2 GiB     7.62 s    2.00 s
+>   8 threads, one range each      3.26 s    1.08 s
+>   32 threads, one range each     4.05 s    1.34 s
+> 
+> Random touches read the same amount, and pread() copies and copies that
+> interleave 7 MiB chunks across threads take the same time within
+> run-to-run noise.
 
-However, on a kernel built with CONFIG_PROC_KCORE=y the only ways to
-block it today are lockdown=confidentiality (which also disables many
-other things we perhaps don't want to disable, like kprobes and
-bpf_probe_read_kernel()), or an LSM. That's annoying, because on the
-majority of hosts we do want it on for things like drgn/crash, so today
-we build two separate kernels.
+OK, thanks, nice numbers but there are complications.
 
-Let's add a "kcore=" boot parameter so that this can be disabled at
-boot, which lets us preserve those choices while using the same kernel
-image.
+Readahead is all about contiguously batching physical IO.  So it
+matters whether the device is SSD, NVME, spinning FeO2, SATA, IDE, etc.
 
-Signed-off-by: Chris Down <chris@chrisdown.name>
----
-v1 at https://lore.kernel.org/r/auAmuqZyUodq3iqk@chrisdown.name
+And you have QEMU in the way, so reads can get served from host
+pagecache (depends on QEMU setup), which also matters.
 
-v2: Give more justification in changelog (Omar)
+So I just don't know what to conclude from your numbers.  I *suspect*
+the gains are from reduced CPU & memory-access times which is of course
+good.  But was there any actual physical device access involved?  This
+would probably make the before-and-after numbers even more impressive!
 
- Documentation/admin-guide/kernel-parameters.txt |  6 ++++++
- fs/proc/kcore.c                                 | 12 ++++++++++++
- 2 files changed, 18 insertions(+)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 0b3c140babd9..b4c43d2cae03 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2902,6 +2902,12 @@ Kernel parameters
- 			parameter KASAN will print report only for the first
- 			invalid access.
- 
-+	kcore=		[KNL,EARLY]
-+			Enable or disable /proc/kcore on kernels built with
-+			CONFIG_PROC_KCORE=y.
-+			Format: <bool>
-+			Default: on
-+
- 	keep_bootcon	[KNL,EARLY]
- 			Do not unregister boot console at start. This is only
- 			useful for debugging when something happens in the window
-diff --git a/fs/proc/kcore.c b/fs/proc/kcore.c
-index 3264c99bd68a..4251a9ef868b 100644
---- a/fs/proc/kcore.c
-+++ b/fs/proc/kcore.c
-@@ -69,6 +69,7 @@ static size_t kcore_notes_len;
- static size_t kcore_data_offset;
- DEFINE_STATIC_PERCPU_RWSEM(kclist_lock);
- static int kcore_need_update = 1;
-+static bool kcore_enabled __initdata = true;
- 
- /*
-  * Returns > 0 for RAM pages, 0 for non-RAM pages, < 0 on error
-@@ -722,8 +723,19 @@ static void __init add_modules_range(void)
- }
- #endif
- 
-+static int __init parse_kcore(char *str)
-+{
-+	return kstrtobool(str, &kcore_enabled);
-+}
-+early_param("kcore", parse_kcore);
-+
- static int __init proc_kcore_init(void)
- {
-+	if (!kcore_enabled) {
-+		pr_info("/proc/kcore disabled on command line\n");
-+		return 0;
-+	}
-+
- 	proc_root_kcore = proc_create("kcore", S_IRUSR, NULL, &kcore_proc_ops);
- 	if (!proc_root_kcore) {
- 		pr_err("couldn't create /proc/kcore\n");
+I tested the patch on my LLM-driven test setup, which is similar to
+yours.  The results are...  ambivalent.  The things which you want
+faster are indeed faster, but other things slowed down (wall of words
+appended).
 
-base-commit: 7e1392a42ea288d70a266f6553fe06f57f8647ea
--- 
-2.56.1
+The slowdowns happened because the present code misses the gap beyond
+mmap read-around, so each 8 MiB memcpy hunk can need another
+synchronous read.  The post-patch code finds that gap and keeps
+readahead going.  I measured both costs: a full second window added
+about 8 us to the access, while a gap there caused 512 MiB of unused
+reads across 64 accesses.
+
+
+: I tested the patch against the unpatched kernel with matching
+: configurations. Both booted a 32-vCPU, two-node, 24 GiB VM. The test
+: used a fully written 16 GiB ext4 file on the same raw scratch disk,
+: with guest read_ahead_kb set to 8192.
+: 
+: I ran the author's private-mmap test, copying the file with memcpy()
+: in 8 MiB pieces. Before each timed run, the previous process had
+: exited, I dropped the guest file cache, and mincore() confirmed that
+: none of the tested file pages were resident. Medians of three runs:
+: 
+:                          unpatched    patched
+:   1 reader, from 2 GiB      6.87 s      2.12 s
+:   8 readers                 2.18 s      0.70 s
+:   32 readers                1.98 s      0.76 s
+: 
+: Every paired run improved. Buffered pread() and 7 MiB interleaved
+: copies changed little. A shuffled mmap copy was about 1.3 times
+: faster with the patch in two paired runs.
+: 
+: I also tested the cost of looking farther ahead. The kernel marks a
+: cached page so that accessing it can start the next readahead. I
+: timed the test process accessing that page at 64 separate locations.
+: When both upcoming 8 MiB windows were already cached, the median
+: access time rose from 20 to 28 microseconds. When the first window
+: was cached and the second was empty, the patch read about 512 MiB
+: across those locations that the test deliberately never used. The
+: median access time rose from 17 to 470 microseconds.
+: 
+: A memory-limited run had more memory-limit events with the patch,
+: but did not establish a repeatable slowdown for a competing reader.
+: 
+: The guest file cache was cold, but QEMU's host cache was warm; host
+: NVMe read sectors did not increase during the main runs. These
+: measurements show the effect on guest readahead, not cold-drive
+: throughput.
 
