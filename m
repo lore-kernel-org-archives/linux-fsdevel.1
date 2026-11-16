@@ -1,97 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.50
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794824664;
-	b=boR8sefAUr30yRHzeo9cqIPTBWfw7NMHrh4UmzOObnn3iIGkr3kTfU/yahsqFO+VlgF2
-	 pnGlSXHxRm6Itc6Hgg318IhdriZ99Mdu4XDPvVlyA//hWS+99ILi8FQ9Pl5auZ87aHVMz
-	 hK2Bb9zVfWzXjCaojmnb0sdz6JVyznO8g9+2vr9TwV7krlDcgbEAstkguoi5OVSk5t1Ii
-	 cg00CWsizk2ua5YlY7+bGuexs6eJQkwGgkn3GvX2LBYHegKRHMotyvWHFU+GiF/23uAGl
-	 naXKA63FSoSnydJUvQyO1B+nAt8GFiiGoKWp3GG77K7CC5kBitb6van873bpZJPd3/w==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794824664;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.47
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794824742;
+	b=V9YD+3RFzUw+HUQNG63aRRKcUN7uEkk9ECxnwza2kal3ibP4anvPH18Frj0jplBNjxcz
+	 eqkJwMHQJPqU2TbXMw01qpeSpx7Lf9wsQXTRWuu3orwWqxisF3gOVn32Y1sF8Lbr5ppvD
+	 hHAjMlLPnZtQAP6h0X1LAJPrjHkXsAsWvFwasGZ/fkk8VhM5yU3pHHJLq7dk/mC+JzsUb
+	 mPuQ+f05fDD1r9CmZe4RsNC6iEo7jiarzTXVeqOwjXGXGLG7k/rh8TB1xTUmHkl7M8wrX
+	 OVtjQHAccytu5TyUJHKXUuhzgx/Er70ifuxHKroG983UqA55JgoUmcviyeOSHDmAGxQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794824742;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=9w5+uglXN8MeYO7cbfvDu6Yr/i7whWOWfDCFVUzQ/lI=;
-	b=TUvyg8qeoDgRJvX7d4r431fYca/izyiNr2WtpgIDbI9A7epLHnutbTpcgT4H1YJ3dCdN
-	 Xp05LvaDyallTQ4TrwY+CNs/h5or7f69RMkgap9coK+9vLKWT5QKtPLC8vQwDxo8yhwKh
-	 A+jm27YPpSVOOWnPLlN8ofQufm9K2Q7YEpc3BlLti6U3sr5qUfXVymVW8YjbkYX+i7n6B
-	 FNn7jX5qviVvbSue9jE77Vhgic83itmBUYOmN9naGEcJr5vin2vXIJMEzEtiQ3R4b8jv4
-	 uRo4nDCtnqoXv+4E+ivrEjs/5Tq2Ijl9nO4/CWnaDZjgKkWwP5luudr/q8yp1fYA9KA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=3GcZLw9WZbtrok71apo+O/eYnzOL1rHeQ56wrw50NMY=;
+	b=5N4TMBbDrk2MDtdLgLngEIcPuNrypZLS3jPdyM/+YNGvMMYj9QKP6+tqqo/liPVYpJKo
+	 p7y2CJ+HGAqZHGEENVvvW++Bqw1/PMvKsW2GOX89TwmzryvZYr3SU2SvPHuQCDEqboAlJ
+	 x4c+3RTXX9KyVGOVJqsuu5XQxi+MlmP5QAOwbbtq4MUCwsimqhdiNVwTG05URzEDsp6zK
+	 P6GO/a6vgXyzdrrdNEaaw4CT3rSCG60wIVNUx4NkLZqQD5+Le71KIjfjOxnDexLF8M5GL
+	 5qMQV/1iyVAgadlXCkr5uH9+0+dm7nVvj6SKo4BkUnxD5UhIS61Q2P94JYfJ/AHQFOA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=e7jQ3tuy;
-	arc=none smtp.remote-ip=209.85.128.50
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=FoxpA8a5;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.47
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CE94606A335
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 10:24:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4CE94606A335
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A18F606A332
+	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 10:25:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6A18F606A332
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=e7jQ3tuy
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4bb666304fdso10400815e9.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 02:24:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=FoxpA8a5
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-6b6f42095bcso4556632a12.3
+        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 02:25:42 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794824741; cv=none;
+        d=google.com; s=arc-20260327;
+        b=ofuOOXC1wCRRqNjooSjwf4acXcoqx4Q5M34e9ac287V6gKjs5g2QkUkHB8zoFobdIO
+         Jmm4nC+X4NjjmXLDbo/DWp418OigtiARWKHDWNgB6oPcWapxl13QXzIe/ilOZrI+3Ptz
+         caF42vWGt6mlzNvDutj4gXu+zBFYHP3UpmwMuhjEDaxRbktOMkOvKAu3x52XxQgFeyON
+         XG4WxvqJWW1iB6G29nKUHNPMzCzSncOH3y/LQx8JuQWUVI/+vxxpNwfu3bgOxGzd3a3W
+         vMUd7alq+L7DKmFUKpwwns32oF7XNpBF1HJmzRrc8ViSXVpXADkM1hk4SscwxvbqxQiQ
+         8nuQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=3GcZLw9WZbtrok71apo+O/eYnzOL1rHeQ56wrw50NMY=;
+        fh=17Ms7h6zGtQD+xjt61WTZcRfnsf1d9CCep0EIYFEXpg=;
+        b=g5zOqLQ26OAelfOLxqijKbM1froZDL8Isx3ELeQcqqHD7SpyCnPsuCOowRcxUB9q4g
+         OgAnVrWZ88b0EYMi7vKeZNkaiDl401eyE6rr7s+C6NyHM4JQomMo5+SqcrqWorsYcmpR
+         ZHyFAWo93gO8CR6FLyUoq8GOAFJIHkemj4yEEiurYR/r00QqoNaSidjwKsZmJ+wWfHH9
+         mt1VPHAMtXJO6O5OAQdLt9vGkle47YZxSyNLawkCL8IELzhuZb51pI4/Mw+O0eqWYk9s
+         of/ZkEOXgY2YfUBHCeU+L4lWSG2Nf8vBrdZmtP4ka6WZ4Xzs5KwNPQacXvEnQhD0iCnI
+         mZAw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794824663; x=1795429463; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=9w5+uglXN8MeYO7cbfvDu6Yr/i7whWOWfDCFVUzQ/lI=;
-        b=e7jQ3tuyVlS2RTuK8llltk8GsHFeKcYBPGKIbGVzrTawX4qSYVi1Nncil1+SOrLmCh
-         7YBlmuYE/tfh0Vo10s0nnBX1APjph2Iml6CdjQVt5tpuhRDQFzH1UdZ2k+oiIHWhsOTZ
-         BEbcKxR83hhr7gsSa/dU4sN2VCyJXxAKcy0tlyjjDO4S/kbLO/Mf0Fcu553gc8Ylhhbi
-         8GdtX0AutLEKuFvJIQ8DAq0zgF/uvWjCKiHKu/oXO4uq2xiFigFECwqKKl+72+ICZFxl
-         lDaJVWgF79Uan9sMtpB54vo13yh4xxt+iKWfAGpFo3kGl7Qv3FXFMpqdLe+y9rK3j4Lv
-         UWPw==
+        d=gmail.com; s=20260707; t=1794824741; x=1795429541; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=3GcZLw9WZbtrok71apo+O/eYnzOL1rHeQ56wrw50NMY=;
+        b=FoxpA8a5gWZOiOu4kERAMuUcjyr54gqPoKqiCFVaESBeI/u9TZiW1xZ/8iGXSeL3Ru
+         wggr7cd49XGc3Nzx9fjFQIzsVPlWqwNb/33jZlPsYOLZl9dBJczNhPUF9HTIZ3+Sq2DL
+         HgpJEHIaYVeehKTXuwao+M7tue+uYok+bSoKtMvnZ5q2JhxF1YJGNEIyjjhAMWVM/k2r
+         A7liHN/ZMi28w7H+f9Am4XfgAPAwWkrkdyk0qm/IIwAEOLKwHVBWyQ0GoCjPXrJsVgVn
+         jcUnTibHbnEUKqt0uWhMgZLL/kfLxFZVkPj5NQhU8tT0FPGJSUD4UjZqKzOqU/uj6cub
+         Zl6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794824663; x=1795429463;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=9w5+uglXN8MeYO7cbfvDu6Yr/i7whWOWfDCFVUzQ/lI=;
-        b=mjkhgrzoh5EsbyLy3NV5Z/IBYVwmUyWnIItaUQ59fUwasZay+NKwCx18XHm5t9haMR
-         /N2E3yMWSSHTC6lh4/kCXbXNZX9fl642XDDQc/WcafU2pYgYuZ4N4JJdxgKlE6K+zVbU
-         L4rfEAVi72PgvPB/LRVWeoV5xILtzaRkk00WK984j/7d5alZZhaMGq4P7EOJZWj6Kgj2
-         QKRpXqACg3LlrVd/rIKkYUz/aS+hzRgSqHgCGngFzG1mYncSrdi2WGX5uiTR7n5Td+5E
-         SmhPiXS+K55LuWS7D57OuJFgnonz1NtE6sVGJojQHDUMo3NU4ZBMEcvwN0NB9yQVa9sB
-         04jA==
-X-Forwarded-Encrypted: i=1; AL+hErF+MLkthHzTMKxQc5tcMcOrXuE01JLd/ZEJJZI3oN25+kaRoy4g6x80KFqOUXpLLhCVRNYa0O2udn0mBs9X@vger.kernel.org
-X-Gm-Message-State: APuU4Z+kuJ7XiUg0Y36/Wn0aghq/2562GmiI9Pj4MthdWAzOgJPBBwu1
-	xOiu1AEGmg+77jPAyj7Ffni2p2HC62UiH27ACEj6OQi2CZ0HyB51tqa0
-X-Gm-Gg: AYBFou0L0T6/wM75l4XwrVqx/aC6fqmCMBwYB9ybmKJHF7153/+a/oMFDaBd2d0h+J9
-	SVZVd5aAFcqBPYKi1wmS9irgaZueHMwlzUS1HhSVmz6s0lO1wghefORPhuf+zWJah/YAnOBFjUp
-	9e92M9GwazCiS8vkI/lM8Ul6X642Nlc8EXGk0563CrQ48KkxzFmGAHmQGK/wHksG1So2b+xO5KK
-	uaW5ynPx4phvhHpUVqrLYf5DfO5PYjL/2wNBPi936KKYIVBOs0HQ5/idcIliQQzS4gHCipWsfnV
-	nkhn5J0ALw4DZcompXWU1Z+IRMQcVItsFpbTWgRBpd5xsfqQaKLSxdmH7BSzcLVb6oMOTknOkAP
-	Iz0PqiqviceVm4F6XbgyFuyAg6TsPKH/0mkAyExXH9KsyPOC3FMpJFv9ZeUA8B0O12JszGnlmzS
-	pQR8GqXH5Eqv70Xb1fw8dkJwdYdixNUAPaeWb39govzpjdApMMGzLYElzf6VbZB7JBnelrmk/SD
-	Lu2HX3NiVG4mE+LtMTtS+zzaRFv3r6jG13tDTdLtVj9O6hzAP1RQGqVbH4TUyxVcUwS/QjU8xcx
-	7OQkLrashedHXaTIlWTn
-X-Received: by 2002:a05:600c:1989:b0:4bb:66fd:ad68 with SMTP id 5b1f17b1804b1-4bb66fdaeefmr125267505e9.14.1794824662652;
-        Mon, 16 Nov 2026 02:24:22 -0800 (PST)
-Received: from fedora ([5.131.7.59])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb571d7e87sm191536225e9.3.2026.11.16.02.24.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Nov 2026 02:24:22 -0800 (PST)
-From: Petr Vaganov <petrvaganoff@gmail.com>
-To: stable@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Petr Vaganov <petrvaganoff@gmail.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Su Hui <suhui@nfschina.com>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org
-Subject: [PATCH 5.10] fs/stat.c: avoid harmless garbage value problem in vfs_statx()
-Date: Mon, 16 Nov 2026 17:24:06 +0700
-Message-ID: <20261116102407.81232-1-petrvaganoff@gmail.com>
-X-Mailer: git-send-email 2.55.0
+        d=1e100.net; s=20260707; t=1794824741; x=1795429541;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=3GcZLw9WZbtrok71apo+O/eYnzOL1rHeQ56wrw50NMY=;
+        b=cY9/RMaX8ZkpXtUP11q3VyPxhksfbfeV/X8ge7j39NeHOiuMPzLiXnxq9AzXxzA3E2
+         1A+WvjcVxts0EyKFJu6GNoqeAw5HaHmcyKpyHwg5HJnqONQVEkpb7TCI9G22AaOMJH7c
+         epvr5VuPdfEURfD+CWWL/YimsU86kx11wCF5F91wHy4Ry1uqY7kdBCxqZGxCI+j7bjUs
+         7Oxe0xRe+di+j+rjDRBIDXS5krZXImlMxuCSL6KXR8SqkskyoZQLI/wYRllk4UiqIhft
+         DOSY5LCxGQ2J1jhyCHPw1eDvRc7683nsS0rqt5secvQufKBjfmeNZX01gaIq/X111VdZ
+         u7LA==
+X-Forwarded-Encrypted: i=1; AL+hErHeoLatEXzhJf3ABvVoWLCjs30qstf+R/Q9P0KUnVrotFnnuFO02DU6xa69x7ILlSj+mtZ94OLo7CeAAfkP@vger.kernel.org
+X-Gm-Message-State: APuU4Z97VPYum/pFTKTvxJo49qxu/y8N7AHcdSyBqnV8zGPMoDn4RU12
+	NOlJ5HhCqRL9YXMT5+XXIBGt4HyIX1tAoyusEsqx3abosG0cWAFkJhLQ2vvQXGWLbUWu5mSyUvq
+	wsLY27F9ikA73L2VKRGxYowA2JKIo5PE=
+X-Gm-Gg: AYBFou03+SCE1tvb7l2gu3MXWM6nLWEXraIFyU0VQ1qRTs9QjrbAJ1UsiLcQhbsii1h
+	wkG0ebboBwi4WK9vzrSFNxOLUHQNWPge2KzREwGGgimep1xIQYJrjZMgs9Fk2K398+bCCdDnPIk
+	OtsC7r1y02ZauB/9zrXzTlkOqBGze1/3NVTYoCPLi3Ivp5v7uAKOSFrpbuWPFH9G3w0NGlN4iCd
+	aQdBInlqPddHP3ho4U/xaxUFUrRBHdc6VzoxlExqDomPcF7rCtRtF2Lrcos9AaLTHf6Qc+cInvo
+	2mhxNgOiQPgks+HkqkHV/P+MLjWhIJ7iEosS5f8vQkXCXmp5BMs/KOsqiSCklq1Yljb3xFkeV4x
+	KrWxWRBQznUPA+o+Nny2edaAKSzz+3C2/AaGgegeXimiHHVr2R4cDrc3oRhgdTs30jZyBxdQ=
+X-Received: by 2002:a05:6402:44d4:b0:6b5:79f4:8d52 with SMTP id
+ 4fb4d7f45d1cf-6b7c0bdfec5mr5191329a12.20.1794824740409; Mon, 16 Nov 2026
+ 02:25:40 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -101,57 +104,111 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261115210952.2140036-1-graypanda.inzag@gmail.com> <20261115210952.2140036-2-graypanda.inzag@gmail.com>
+In-Reply-To: <20261115210952.2140036-2-graypanda.inzag@gmail.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Mon, 16 Nov 2026 11:25:28 +0100
+X-Gm-Features: AclHuK_tvQFpSUcAQinoG9gfJrRW-rTLlA06tTqM7lEBJqVuldEYzXKf_TrLdL0
+Message-ID: <CAOQ4uxhZS1w24GXWphu-PNPbGxVJUDwOfqHdRZcb05+_HVv=aA@mail.gmail.com>
+Subject: Re: [PATCH 1/3] fuse: reject embedded NULs in readdir entry names
+To: Junyoung Jang <graypanda.inzag@gmail.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Jan Kara <jack@suse.cz>, Matt Bobrowski <matt@bobrowski.net>, 
+	Gwanhyun Lee <gwanhyunlee@gmail.com>, fuse-devel@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Su Hui <suhui@nfschina.com>
+On Sun, Nov 15, 2026 at 10:10=E2=80=AFPM Junyoung Jang
+<graypanda.inzag@gmail.com> wrote:
+>
+> parse_dirfile() and parse_dirplusfile() reject '/' in dirent->name, but
+> do not check for embedded NUL bytes.
+>
+> Unlike plain getdents() buffers covered by verify_dirent_name() in
+> fs/readdir.c, FUSE READDIRPLUS passes dirent->namelen directly to
+> QSTR_INIT() in fuse_direntplus_link() and instantiates or aliases live
+> dentries via d_splice_alias(). A dirent name containing an embedded NUL
+> produces a dentry whose d_name.len extends past the NUL terminator,
+> which allows callers such as inotify to copy uninitialized kernel slab
+> memory past the NUL byte to userspace.
+>
+> Reject dirent names containing NUL alongside '/' in the FUSE readdir
+> parsers.
 
-commit 0fac3ed473dd2955053be6671cdd747807f5e488 upstream.
+My concern is that there are innocent buggy servers that pass NUL
+maybe even because of length including the terminating NUL.
 
-Clang static checker(scan-build) warning:
-fs/stat.c:287:21: warning: The left expression of the compound assignment is
-an uninitialized value. The computed value will also be garbage.
-  287 |                 stat->result_mask |= STATX_MNT_ID_UNIQUE;
-      |                 ~~~~~~~~~~~~~~~~~ ^
-fs/stat.c:290:21: warning: The left expression of the compound assignment is
-an uninitialized value. The computed value will also be garbage.
-  290 |                 stat->result_mask |= STATX_MNT_ID;
+It would be more considerate to make this check in fuse_direntplus_link()
+rather than to fail the readdir.
 
-When vfs_getattr() failed because of security_inode_getattr(), 'stat' is
-uninitialized. In this case, there is a harmless garbage problem in
-vfs_statx_path(). It's better to return error directly when
-vfs_getattr() failed, avoiding garbage value and more clearly.
+See precedent in:
+78d04af4995a1 NFS: nfs_prime_dcache must validate the filename
 
-Signed-off-by: Su Hui <suhui@nfschina.com>
-Link: https://lore.kernel.org/r/20250119025946.1168957-1-suhui@nfschina.com
-Signed-off-by: Christian Brauner <brauner@kernel.org>
-[ Petr: There is no vfs_statx_path() in this tree. The fix is applied
-  directly in vfs_statx() by jumping to path_put() via a new out_path
-  label, preserving the reference drop and the ESTALE retry. ]
-Fixes: fa2fcf4f1df1 ("statx: add mount ID")
-Signed-off-by: Petr Vaganov <petrvaganoff@gmail.com>
----
- fs/stat.c | 3 +++
- 1 file changed, 3 insertions(+)
+Also, verify_dirent_name() never checks for embedded NUL, so all the
+other filesystems can get away with this without failing readdir.
 
-diff --git a/fs/stat.c b/fs/stat.c
-index 04550c0ba540..74a774dc4eb4 100644
---- a/fs/stat.c
-+++ b/fs/stat.c
-@@ -195,11 +195,14 @@ static int vfs_statx(int dfd, const char __user *filename, int flags,
- 		goto out;
- 
- 	error = vfs_getattr(&path, stat, request_mask, flags);
-+	if (error)
-+		goto out_path;
- 	stat->mnt_id = real_mount(path.mnt)->mnt_id;
- 	stat->result_mask |= STATX_MNT_ID;
- 	if (path.mnt->mnt_root == path.dentry)
- 		stat->attributes |= STATX_ATTR_MOUNT_ROOT;
- 	stat->attributes_mask |= STATX_ATTR_MOUNT_ROOT;
-+out_path:
- 	path_put(&path);
- 	if (retry_estale(error, lookup_flags)) {
- 		lookup_flags |= LOOKUP_REVAL;
--- 
-2.55.0
+Thanks,
+Amir.
 
+>
+> Fixes: 0b05b18381ee ("fuse: implement NFS-like readdirplus support")
+> Cc: stable@vger.kernel.org
+> Co-developed-by: Gwanhyun Lee <gwanhyunlee@gmail.com>
+> Signed-off-by: Gwanhyun Lee <gwanhyunlee@gmail.com>
+> Signed-off-by: Junyoung Jang <graypanda.inzag@gmail.com>
+> ---
+>  fs/fuse/readdir.c | 12 +++++++++---
+>  1 file changed, 9 insertions(+), 3 deletions(-)
+>
+> diff --git a/fs/fuse/readdir.c b/fs/fuse/readdir.c
+> index 1f6cf565477f..e8b47c2a9103 100644
+> --- a/fs/fuse/readdir.c
+> +++ b/fs/fuse/readdir.c
+> @@ -126,6 +126,12 @@ static bool fuse_emit(struct file *file, struct dir_=
+context *ctx,
+>                         dirent->type | FILLDIR_FLAG_NOINTR);
+>  }
+>
+> +static bool fuse_invalid_dirent_name(const struct fuse_dirent *dirent)
+> +{
+> +       return memchr(dirent->name, '/', dirent->namelen) ||
+> +              memchr(dirent->name, '\0', dirent->namelen);
+> +}
+> +
+>  static int parse_dirfile(char *buf, size_t nbytes, struct file *file,
+>                          struct dir_context *ctx)
+>  {
+> @@ -136,7 +142,7 @@ static int parse_dirfile(char *buf, size_t nbytes, st=
+ruct file *file,
+>                         return -EIO;
+>                 if (reclen > nbytes)
+>                         break;
+> -               if (memchr(dirent->name, '/', dirent->namelen) !=3D NULL)
+> +               if (fuse_invalid_dirent_name(dirent))
+>                         return -EIO;
+>
+>                 if (!fuse_emit(file, ctx, dirent))
+> @@ -307,7 +313,7 @@ static int parse_dirplusfile(char *buf, size_t nbytes=
+, struct file *file,
+>                         return -EIO;
+>                 if (reclen > nbytes)
+>                         break;
+> -               if (memchr(dirent->name, '/', dirent->namelen) !=3D NULL)
+> +               if (fuse_invalid_dirent_name(dirent))
+>                         return -EIO;
+>
+>                 if (!over) {
+> @@ -461,7 +467,7 @@ static enum fuse_parse_result fuse_parse_cache(struct=
+ fuse_file *ff,
+>                         return FOUND_ERR;
+>                 if (WARN_ON(reclen > nbytes))
+>                         return FOUND_ERR;
+> -               if (WARN_ON(memchr(dirent->name, '/', dirent->namelen) !=
+=3D NULL))
+> +               if (WARN_ON(fuse_invalid_dirent_name(dirent)))
+>                         return FOUND_ERR;
+>
+>                 if (ff->readdir.pos =3D=3D ctx->pos) {
+> --
+> 2.43.0
