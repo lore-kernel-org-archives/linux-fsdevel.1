@@ -1,133 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.175
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794866601;
-	b=li7V6aWv5REYfQdfNs2LZm0KhHWiDG0rYBSUsGFFa5CHjuiCwxulYa1i7bs8nz7Vc33h
-	 fbZ+RbUpjXE6aPDy8boZXbIxWwK6DWTqxOqPfqJXGuDctssdSTkXJ/rt5qhbRRWqWcaod
-	 FgQmUZ6KvO/cFmMZ1d92e7ecejm/qzP/jbuQ904R4emmNMmHv/dBLY9HnUkwXYEJk+ake
-	 yFIt5MYwyvv2l44cAJRoPw10H6pbkfyUq1d3XW3m28602lhoEt8RnbpPNl3QiddS52W+p
-	 VLVgtDI9AnAAgAyjemLyEPm3+++ndWcmhUGeRuuCXNgwI4yNqDTaeVkyxrpQgV+XlLQ==
+	t=1794867681;
+	b=t61v6YeTAto91/DzmC09uzF4ylkH15T6ktH4UXpROQzgtCtrm/WDuxgv+lj9XRqJRSRg
+	 aekHFrXxD1tRNBNYHPutZcztQL8TaUz7iAJI/XMW9MMxbbVViedUrNAnkZur+Y5FZ+/AT
+	 c9Uo6lpBD11Tqx3k8e0I3IUXmdKGkWO7rI9KMr/gSbHzg4Cj9szNMUgRMAGLTvX4xAmeG
+	 cygqQ76vLbAaD/AHIAQ+nIiDBiJHUFMETDyq4CclfpPzMFNyC1xwWmqYgR7DJk0ygqFrb
+	 V24PnzdMKDnMgMzBUBZwxaiDZwuwJv1vj5KENDJURyKLyD5gS6mHy2K/VC9ZPXbELgQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794866601;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Message-ID:Subject:
-	 From:To:Cc:Date:In-Reply-To:References:Autocrypt:Content-Type:
-	 Content-Transfer-Encoding:User-Agent:MIME-Version;
-	bh=NBD/5iw4xT3/0a74hPu534D88yzVhd7jhnkrzXOn+no=;
-	b=0Z6AWOSJQ5sQkMuVYAO/+61AMNF9vX1XSKl5TEm6NnyGKuow9MJ9QEzolOFukMWft/3J
-	 8mGCQgHGkVvZHEnkVFFH/dRpY9iNxW5XlOlOXYQGLdjRFil+jS1V1CbmkvR+6UAHtVd68
-	 HEpWgKnoHQ28+IlMDMwQdrkLk98Ek6PFy4ZOdOQY6jxZnIVr6+969WG+lCBOfA4bAPsjj
-	 nIbOET8WGcM1wgQk2pIk0Up4JLoaa2/n7KUEXP9N4JzLI5LqvEd3YXorPa4l1opRyj5FR
-	 y9fPVpJqIZN8cSBCJRvapx7lX01tLhbN9rRNPutlek5kV957sxqEtOXcBFgbSgZN/9g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794867681;
+	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=BXL/fDhspKdov1Fv9R2cAMXBgedf/LG6cvi6/7Jo65c=;
+	b=NVwdxoYAW8UUkS37HCnUpIxatbGHdyqcbWW/sL7FwdzOdOyeyuatp8K2zKIkrjLHh+Bq
+	 DgcRfG6RQL3diGvGPv/xdSPALyhxspZvHGOlH8hY+Fm5+AobJbpOvvh0kT4UB8b4VdG2o
+	 KPnZ5M0jKw5/gDvkuOkF627k24G/JYBmlakHRqxhV5846mH9Jszb+1mfMYjmp97LENOM8
+	 84L3rH5mIVbMImEvjFrSd3CMtemKNR91YrXGNzm4d5oDaTmFAfQPT4ORu5zMYRCUWxCRL
+	 SKMpAwnaDcNtjs1pzfl/euwhyDgcdKBOkxtKyIlEd18KYfHOJdWj22LXYKO5QwAe70Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=dubeyko.com;
-	spf=pass smtp.mailfrom=dubeyko.com;
-	dkim=pass header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b="aROjm/Hh";
-	arc=none smtp.remote-ip=209.85.128.175
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=infradead.org;
+	spf=pass smtp.mailfrom=infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=VThYQCTK;
+	arc=none smtp.remote-ip=198.137.202.133
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9097C606A323
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 22:03:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9097C606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1411E606A31C;
+	Mon, 16 Nov 2026 22:21:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1411E606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=aROjm/Hh
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-8b4d07494b0so4182697b3.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 14:03:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20260707.gappssmtp.com; s=20260707; t=1794866600; x=1795471400; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=NBD/5iw4xT3/0a74hPu534D88yzVhd7jhnkrzXOn+no=;
-        b=aROjm/HhVSdxa77z/apfieQCL3AURQPrWQdpvysWpeC6eN25wvW9UnYcZAsNhpJZ+V
-         2F4jIvRZs9it19TTztgDsg3vC6TmaDKd2wWtZ4q/ZOInLrQ3e/Ig1tUYJOm9Yl4Cobbu
-         wgmmIvUneTC0Lad6bFV1x3f0kuutudaRVpAKZAKHEO7s0llYYx+0uiJmQviZwNwCeXki
-         VZTEVQJGHrEf0EX5fLWGVtKGQv2+VK8vihxXXDfzrYkK0kFodEuMA2KBBgryysc+wXoD
-         vX3RE9xvTIuaSkxEpwxgp6XvMGZ3zoG4g10q4hcx8EBNaq1HyxOQ8VnyJdAr5tnu4cQT
-         fMjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794866600; x=1795471400;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=NBD/5iw4xT3/0a74hPu534D88yzVhd7jhnkrzXOn+no=;
-        b=U9g8f5ElKq5NslDQgCBD9VE1fsN0e+3tNVy5X5Nfpnn3r7VpKN4ByWCTIpKE7kmEb/
-         I3TbuyVphq6OjE1iaS8tLzS8f370/b0pc8wA4UAV8HnxRi5++cU/f0L9FBNvZm84UPlJ
-         habo94zJNevLXhFUh3viw17A5irijnEm4405AZbwlqKtFd6d192xILXLEPy851EyO/k3
-         O1b0J3jl0BK6ZEFQ+/21jM4oEy3C/NBaU7c9qo+hhhlxKnri9zDFQiszP2JJQbQxo5Mv
-         aMmmHwoKoyKAHYws4lF1hB9lDdtu1AVflAWiZF2/a0DvoFva4Q7wxrikqkgypgzxwdoN
-         hofQ==
-X-Gm-Message-State: APuU4Z81HlRFXRoUBs4qGKMRx4wtSc45QibNB4cCN0KV62VQUpZPUhkt
-	6fgnTwIah5UupF28gzZVbJJLAZiVQ982i0i4I3ghrBXmmWQU2IroeF3l1S4e2340C5w=
-X-Gm-Gg: AZFdTZcVrUHyJRGC8AzUqDRXDwKjJiZ8qfthcenzY2/DX0FllvTn0G/Uug0h80sM9Bv
-	uTq9EBZ1Oy/uQAJH5ngH+Dtaig5jWSzv7vFTJut18szMMhEMXvJzi7fvVBPdzHj3KhPm/QEyF1l
-	VkeRR6FoYVt4ywEOq9M4FW5u2b4QAGagmzqRad4jQiNjmK6PW2g7239IV6K2wiuiFo5dZCUcgSh
-	HATzopILnAJXHhwy+HqX6LvinUCd/3908tZPIFGLuWwnvyHv+gZQBu1y7C4Y/XMZ8SfUWpXrjlN
-	z4/aEXHglo+ZvMxhuFpWEB1hHtbDGhK2mospeWjCy/adC9qTzyQ+io0LRViWr07cVnXHXAoymnv
-	+O3SzavwgXnD/fBolRS5yAmBZmdxCfrMFIlcGoDR2ACYWi2FcV7HQytPTwcjuxD6j60+eW7mLjL
-	D7BF2H2dJvQPAYw2YxIyJz26DFR9r7pjjUV8QXcTDHtjRcHZaVczThXAi/T2P4dl8q8c+1GeVPo
-	sFXX3AB5VDr/5MW9QCPdNBcTqFhIs5u3kX03ft4dmRK74nXAm7aW1L4XA4rx4wEvK5ksdxngXYR
-	wiPwYQKuv+emWLqWc7efLvVbTorQ9tWLNEp+gK9oux1o4oySlrLDH32lbmYsn3ftO2vnS92/UBH
-	bFmckbW+BqSCsdhlgV8lw5d9N3XCOX+oiT4SPRCMICIgaRJbM0GXq4m8kX03OOHTA3AK2BJoIJX
-	gaq0rHNC3IgFSGShqdWJg=
-X-Received: by 2002:a05:690c:4f08:b0:8b0:dfd0:5679 with SMTP id 00721157ae682-8b4ee288ae7mr3857707b3.31.1794866600644;
-        Mon, 16 Nov 2026 14:03:20 -0800 (PST)
-Received: from ?IPv6:2600:1700:6476:1430:48ee:a3ac:5a4b:3831? ([2600:1700:6476:1430:48ee:a3ac:5a4b:3831])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b4eb7f0530sm9981017b3.1.2026.11.16.14.03.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Nov 2026 14:03:20 -0800 (PST)
-Message-ID: <8b572986326b875b0bacbbc88e44e2ef448191d3.camel@dubeyko.com>
-Subject: Re: [PATCH 2/2] hfs: bound btree keys by the tree's max_key_len in
- hfs_bnode_read_key()
-From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: ozgun kultekin <ozgunkultekin@gmail.com>, glaubitz@physik.fu-berlin.de, 
-	frank.li@vivo.com
-Cc: linux-fsdevel@vger.kernel.org, Guikun Yang <yangguikun19@qq.com>, 
-	stable@vger.kernel.org
-Date: Mon, 16 Nov 2026 14:03:19 -0800
-In-Reply-To: <20261114043522.48764-2-ozgunkultekin@gmail.com>
-References: <20261114043522.48764-1-ozgunkultekin@gmail.com>
-	 <20261114043522.48764-2-ozgunkultekin@gmail.com>
-Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
- keydata=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
- NFdvziOa4FgUBC4X71upsZIoZJeii2V/Jtc3B4g==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=VThYQCTK
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=BXL/fDhspKdov1Fv9R2cAMXBgedf/LG6cvi6/7Jo65c=; b=VThYQCTK0+YExl2+ZO7Tuknnrf
+	6kyowduHpBQVpfb7n1tSXedtpFNkU4jMk3jIu9Hkgh6YTzADUmrCxgKLrv9IjmY8LwM/wyAWTvTDD
+	e/sSQp4UOb5tjuY3MxqRJvsxNsiNknNcq0RGaoSG8yJ8wUiQCVmAZBGlVLxfcZjyr94azpjr9IOnd
+	AWdz3ni0uhKjLd3gREkk+4rC3s26NSvhlfY2UUaXgX8uIh0R2U5pwjQCQjGVYJS1A2bXWMI8l49wW
+	l2fyCL1r+D2yYRXbpcd1pUH4Eqp+JWnGEwFXHp6SFfFUzbYmxjvOpOGIgf4yt8A3Gek5Rph3JughC
+	ysCNVjJg==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xT54Y-000000042c2-2GpG;
+	Mon, 16 Nov 2026 22:21:10 +0000
+Message-ID: <65bab646-fbf6-4da0-b833-2314d568a845@infradead.org>
+Date: Mon, 16 Nov 2026 14:21:07 -0800
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -137,49 +58,146 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 09/12] docs: ioctl-number: update virtualization entries
+To: Sean Christopherson <seanjc@google.com>
+Cc: linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
+ David Hildenbrand <david@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Jason Gunthorpe <jgg@nvidia.com>,
+ Leon Romanovsky <leonro@nvidia.com>, linux-mm@kvack.org,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ linux-sound@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+ linux-block@vger.kernel.org, Marcel Holtmann <marcel@holtmann.org>,
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+ linux-bluetooth@vger.kernel.org,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Jason Wang <jasowangio@gmail.com>, David Heidelberg <david@ixit.cz>,
+ oe-linux-nfc@lists.linux.dev, Chas Williams <3chas3@gmail.com>,
+ linux-atm-general@lists.sourceforge.net,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ netdev@vger.kernel.org, Helge Deller <deller@gmx.de>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ MPT-FusionLinux.pdl@broadcom.com,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ "Martin K. Petersen" <mkp@kernel.org>, linux-scsi@vger.kernel.org,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Zhihao Cheng <chengzhihao1@huawei.com>, linux-mtd@lists.infradead.org,
+ Neill Kapron <nkapron@google.com>, Andrey Konovalov <andreyknvl@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ Juergen Gross <jgross@suse.com>, Stefano Stabellini
+ <sstabellini@kernel.org>, xen-devel@lists.xenproject.org,
+ Hans de Goede <hansg@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ "Michael S. Tsirkin" <mst@redhat.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
+ <eperezma@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ kvm@vger.kernel.org, virtualization@lists.linux.dev, Jan Kara
+ <jack@suse.cz>, linux-fsdevel@vger.kernel.org, Theodore Ts'o
+ <tytso@mit.edu>, linux-ext4@vger.kernel.org,
+ Mike Marshall <hubcap@omnibond.com>, devel@lists.orangefs.org,
+ Paulo Alcantara <pc@manguebit.org>, Namjae Jeon <linkinjeon@kernel.org>,
+ linux-cifs@vger.kernel.org, Jaegeuk Kim <jaegeuk@kernel.org>,
+ Chao Yu <chao@kernel.org>, linux-f2fs-devel@lists.sourceforge.net,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ Tzung-Bi Shih <tzungbi@kernel.org>, Benson Leung <bleung@chromium.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ amd-gfx@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, intel-gfx@lists.freedesktop.org,
+ Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-xe@lists.freedesktop.org
+References: <20261114202653.3113381-1-rdunlap@infradead.org>
+ <20261114202653.3113381-10-rdunlap@infradead.org>
+ <avsSjioXqbCOn834@seanjc-mac.roam.internal>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <avsSjioXqbCOn834@seanjc-mac.roam.internal>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, 2026-11-13 at 20:35 -0800, ozgun kultekin wrote:
-> The classic HFS variant of the same bug: hfs_bnode_read_key() accepts
-> an on-disk key length up to sizeof(hfs_btree_key), while the key
-> buffers
-> from hfs_find_init() hold tree->max_key_len + 2 bytes (18 bytes in
-> total
-> for the extents tree). Bound the length by the tree's maximum and
-> clear
-> only the buffer's own size on error.
->=20
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Fixes: bb5e07cb9277 ("hfs/hfsplus: fix slab-out-of-bounds in
-> hfs_bnode_read_key")
-> Reported-by: Guikun Yang <yangguikun19@qq.com>
-> Closes:
-> https://lore.kernel.org/all/tencent_F85118A9AFDF9B230D4E8FA672510A3E2F08@=
-qq.com/
-> Cc: stable@vger.kernel.org
-> Signed-off-by: ozgun kultekin <ozgunkultekin@gmail.com>
-> ---
-> diff --git a/fs/hfs/bnode.c b/fs/hfs/bnode.c
-> index fcb5b9c..f678eed 100644
-> --- a/fs/hfs/bnode.c
-> +++ b/fs/hfs/bnode.c
-> @@ -83,8 +83,9 @@ void hfs_bnode_read_key(struct hfs_bnode *node,
-> void *key, u32 off)
-> =C2=A0	else
-> =C2=A0		key_len =3D tree->max_key_len + 1;
-> =C2=A0
-> -	if (key_len > sizeof(hfs_btree_key) || key_len < 1) {
-> -		memset(key, 0, sizeof(hfs_btree_key));
-> +	/* hfs_find_init() sizes each key buffer as tree-
-> >max_key_len + 2 */
-> +	if (key_len > tree->max_key_len + 1 || key_len < 1) {
-> +		memset(key, 0, tree->max_key_len + 2);
-> =C2=A0		pr_err("hfs: Invalid key length: %u\n", key_len);
-> =C2=A0		return;
-> =C2=A0	}
-> --
-> 2.47.0
 
-Please, explain the issue more clearly.
 
-Thanks,
-Slava.
+On 11/16/26 6:26 AM, Sean Christopherson wrote:
+> On Sat, Nov 14, 2026, Randy Dunlap wrote:
+>> Update the list of files where virtualization ioctls are defined.
+>>
+>> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+>> ---
+>> [Since having multiple maintainers trying to merge these would
+>> cause some conflicts, it would be more manageable for Jon to
+>> take all of these through the docs-next tree.]
+>>
+>> Cc: Jonathan Corbet <corbet@lwn.net>
+>> Cc: Shuah Khan <skhan@linuxfoundation.org>
+>> Cc: linux-doc@vger.kernel.org
+>> Cc: Juergen Gross <jgross@suse.com>
+>> Cc: Stefano Stabellini <sstabellini@kernel.org>
+>> Cc: xen-devel@lists.xenproject.org
+>> Cc: Hans de Goede <hansg@kernel.org>
+>> Cc: Arnd Bergmann <arnd@arndb.de>
+>> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+>> Cc: Jason Wang <jasowangio@gmail.com>
+>> Cc: Eugenio Pérez <eperezma@redhat.com>
+>> Cc: Sean Christopherson <seanjc@google.com>
+>> Cc: Paolo Bonzini <pbonzini@redhat.com>
+>> Cc: kvm@vger.kernel.org
+>> Cc: virtualization@lists.linux.dev
+>>
+>>  Documentation/userspace-api/ioctl/ioctl-number.rst |    6 ++++++
+>>  1 file changed, 6 insertions(+)
+>>
+>> --- linux-next-20261113.orig/Documentation/userspace-api/ioctl/ioctl-number.rst
+>> +++ linux-next-20261113/Documentation/userspace-api/ioctl/ioctl-number.rst
+>> @@ -200,6 +200,7 @@ Code  Seq#    Include File
+>>  'M'   01-03  drivers/scsi/megaraid/megaraid_sas.h
+>>  'M'   00-03  drivers/video/fbdev/mb862xx/mb862xxfb.h
+>>  'M'   00-0F  drivers/video/fsl-diu-fb.h                                conflict!
+>> +'M'   01-03  xen/interface/xen-mca.h                                   conflict!
+>>  'N'   00-1F  drivers/usb/scanner.h
+>>  'N'   40-7F  uapi/linux/nvme_ioctl.h
+>>  'N'   80-83  uapi/linux/ntsync.h and uapi/linux/nvme_ioctl.h           conflict!
+>> @@ -239,6 +240,7 @@ Code  Seq#    Include File
+>>  'U'   64     drivers/usb/misc/usbtest.c                                conflict!
+>>  'V'   all    linux/vt.h                                                conflict!
+>>  'V'   all    linux/videodev2.h                                         conflict!
+>> +'V'   00-1F  linux/vboxguest.h                                         conflict!
+>>  'V'   C0     linux/ivtvfb.h                                            conflict!
+>>  'V'   C0     linux/ivtv.h                                              conflict!
+>>  'V'   C0     media/si4713.h                                            conflict!
+>> @@ -357,6 +359,7 @@ Code  Seq#    Include File
+>>  '|'   80-9F  samples/                                                  Any sample and example drivers
+>>  0x80  00-1F  linux/fb.h
+>>  0x81  00-1F  linux/vduse.h
+>> +             drivers/vdpa/vdpa_user/vduse_dev.c
+>>  0x89  00-07  asm-generic/sockios.h
+>>  0x89  06-07  linux/sockios.h
+>>  0x89  0B-DF  linux/sockios.h
+>> @@ -398,8 +401,11 @@ Code  Seq#    Include File
+>>                                                                         <mailto:kvm@vger.kernel.org>
+>>  0xAE  40-FF  linux/kvm.h                                               Kernel-based Virtual Machine
+>>                                                                         <mailto:kvm@vger.kernel.org>
+>> +0xAE  C6     arch/x86/kvm/x86.c                                        X86 KVM
+> 
+> I'd rather omit this entry.  0xAE C6 is covered by the entry above, and the horror
+> in arch/x86/kvm/x86.c is purely a 32-bit compatibility alias for an ioctl that is
+> defined in kvm.h (the structure payload defines an pointer instead of a __u64).
+
+OK.
+
+> If it's a sticking point, e.g. this will trip automated tooling over and over, then
+> I vote to move the relevant definitions to uapi headers, e.g.
+
+I don't know of anything like that.
+
+-- 
+~Randy
+
