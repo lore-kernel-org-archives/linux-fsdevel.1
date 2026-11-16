@@ -1,112 +1,134 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.139.74
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794870890;
-	b=xI+wxwrZ2KS7WrPDn6t6JIuns5wM+r4AqlUsMEs8ZLkAajOUOK5jDNPRX0puQHPIxpK+
-	 NLA74rDZeXzEbjtqh03OEPPigkKUtfFrGPbhNfB0RqjWjZqUjPP3WwueagJqYTXqicRRU
-	 zOt3zUe0v9hAEiPYrbOkcMK4x6qnrClxb4iwUxEys+dW98o0Dp5zKjefrAgpcXrbmd0tE
-	 ceaxKrc5hJe8tfQhI829c0KBGVNNnmtctDsosklVY3lInznI/TaDe8SplolPgLOW1+uA0
-	 8B/dNa+MfMFbnk68Gd7rn2Y4CnhYnSw65VibXw65r4IGovC7nNlb6vlCh9WioNmIugg==
+	t=1794871274;
+	b=gJAbEO3W6OxKuGn4qUYoTxs9ER6jtHSpp0hMv8dkxTdpCfanY6D1fbsLlBXw5iHf1KoA
+	 2V5TIEdFp4zavW9Fpx/Okw9tYJxFvWf2eVUoHR6XGmvhnNY88cFNRy50oEgZ2mxy6yUFS
+	 BKhUbFDf0yAj5/9AxDG6RGF/sGXohBdslY1nicVnzdvVFgV9saGwHyKjq0L21IKIdTjrk
+	 IeCo8klX7wo38O3zEwucMxmXSMc9X1dGoy3XoKQXq8bUNPEvNA609ITAtf7pXA79SQ/57
+	 W2VnJ9YRhik/XthjfDIOQ2u7PUSQe1v4GAZS07uke8a7p/BlWvVgkA4EVk7Kql4NfLQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794870890;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-Proofpoint-GUID:X-Authority-Analysis:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=IBaXENMZ5iJzgPOhruOKYZkY/jWJHWgOsTH8WaEBqtw=;
-	b=rhqUWu+NMwIY35sZme4FPOAXKkun9r3DctuS50Bk8yH6+7T7rWGG2MQQNE65YfCwQZyI
-	 Cho5vafTg+eqHSpHfC7P5scQjgOCmIJMJjEvvnfANXtlFHm/SdLfzhTnl75Yk3BcwXNJ2
-	 81S05RuUcEskz17CB15RTYXb8Tt1/nqJxpjvfsd5+2uePTXwbYLzXfLHxUxE3HOqu4kcu
-	 caOhVZr6b3qGHchDVqTgEC8SKhGFCljjjfzFZieMvkeUkwr8fLTwY/C/4YYRXiR5LH7wR
-	 dP+o01gw/kF7ZwOfgjTGl4vPgnRzAFIcAnNf5aoN+NHzNbGJf3HDO2NGZ3S9AFVM6oA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794871274;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:Autocrypt:
+	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
+	bh=pwKOjke0ttq0aDvyUT4xTSYANM1tBHGR++OGa1KtOdQ=;
+	b=qdMem9Q8RFek2d4C5yPXjdTi1DcaWf8MZK8xqBGl7Vznzl3SyAkbVVhXJ1DDtnE5ToA3
+	 ee0AfxP2qX28Rf3bgXqygb1P0Olie217pT9LbXsLeOYYpMB/pJC23rzSNl7fPMq7ydwru
+	 GxwtDjNhNaEaPIs3r6Yl4Xd6bOKQisCEa9IMojTi2qUxtzw6b5E1975sBMVhi3nVbeRIQ
+	 5XU6tL4+YpC3lpNQwtbv2QbK7SXMovH2RzcpGI1JMA8YZgM8r9cqCZArc9ieTyz5owvib
+	 gE+aO54k91cizV6zQ+zhvcI3AHL1K/8NjMiikKXby4UBFIWRRZVOcx4Dnhbk1x1pS9Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=columbia.edu;
-	spf=pass smtp.mailfrom=columbia.edu;
-	dkim=pass header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=pps01 header.b="Qvu/LNvz";
-	dkim=pass header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=lionmail header.b=pCDz93to;
-	arc=none smtp.remote-ip=148.163.139.74
-Received: from mx0b-00364e01.pphosted.com (mx0b-00364e01.pphosted.com [148.163.139.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=none header.from=dubeyko.com;
+	spf=pass smtp.mailfrom=dubeyko.com;
+	dkim=pass header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b="V/46cNYB";
+	arc=none smtp.remote-ip=209.85.128.172
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26D57606A31C
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 23:14:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 26D57606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9735C606A31C
+	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 23:21:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9735C606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=pps01 header.b=Qvu/LNvz;
-	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=lionmail header.b=pCDz93to
-Received: from pps.filterd (m0499198.ppops.net [127.0.0.1])
-	by mx0b-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AGLYkBS237730
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 18:14:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pps01; bh=IBaX
-	ENMZ5iJzgPOhruOKYZkY/jWJHWgOsTH8WaEBqtw=; b=Qvu/LNvzQdlVIXStaq4d
-	19eskLdatEfmi5pLGxcKnYo8l5kOsaQaX2JUwjTB0BZ8OpyfjV28Aue1w7kUDboz
-	zI4ShmiWepAsmKYnQOrkRRYqoxkMwgLRQO/aZX2MJXGT3XkbowQcPPjYt9Dm6tUZ
-	cbApTydUQZt6ExO1EPrsezc6g40V0InjycEB2XsxZP6V3LNBKQZ5zihIRsW1U0MM
-	XKrAuVyIP/HnnuhfBpwPIZc5kWgDYbYCa/J0LjtKmbcJVHTdEMpwzFcNGF/yPVmB
-	xD0K4Zs8sQEjDMSW91uOLpo5S7ih9FjJJECeBAlwp9zuK7JdKlyexuPqqCdkNOEX
-	wQ==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
-	by mx0b-00364e01.pphosted.com (PPS) with ESMTPS id 4j059dktuc-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 18:14:48 -0500 (EST)
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-5364f562140so6958461cf.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 15:14:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=V/46cNYB
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-8b4d26094beso15566167b3.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 15:21:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=columbia.edu; s=lionmail; t=1794870888; x=1795475688; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=IBaXENMZ5iJzgPOhruOKYZkY/jWJHWgOsTH8WaEBqtw=;
-        b=pCDz93to1q/C40mfWRjKHhQ/GO+oSEPp77VsZqxR1p+ozVJwR+eHIUIMiAo+ybDqte
-         raOljD/8fQcb6SgkuSoE/kCB+jkI3Pt0noM5IOVFx8UKyEZ7tcdK66qd6I6kiKNUiOPr
-         Ec9aMjjskXCDR5vFSgNhHFwpGfv/YxgUuN0DWFRtkei3ec7m8yj0ApCzKN3MlSpDnhwO
-         1h+15WTgvNNnshmwQduNAqGoZnMPuAMtFnN2Xx/yTkVMjsigojWnBHXQZdvS4L+KMspY
-         wlwTBVXM4QVTIJzWRTIKedRhrEPI1CRf94VnT/XoKvVPL/vxmqSgFdma9+Ck+t6efXtH
-         v3Ig==
+        d=dubeyko-com.20260707.gappssmtp.com; s=20260707; t=1794871273; x=1795476073; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=pwKOjke0ttq0aDvyUT4xTSYANM1tBHGR++OGa1KtOdQ=;
+        b=V/46cNYBjsn7NEmy5AUN9mzCDG/x3pX0OYeQB6clEBr2lVnO7wcu0UxaOQiwpli+yg
+         YlWenpRfL2K4cNSHO5vChvoQnj4+YFwDv/nZoqcBMInDDB/zOOdj2n9VtwhSIppa5kdO
+         mwc1ZE2k4OfJAFz8m9f1Tp0wvCxpC5z37wL8ianIZpflXQ6pQzSvt0/RSKebPBebR1cc
+         dXoXcvMgHwGWm+cnszrwq2O7Mky2tMEyUFl1Up01bX/Oo1CyWTPXBP86/GX/4aPQctBa
+         8FyIc/jpCkxK0uwZlzezlCS9cQPAqzan5jdNm6dSdnRGqvD9fC4dNjd0L4siajYbna0Y
+         sLjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794870888; x=1795475688;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=IBaXENMZ5iJzgPOhruOKYZkY/jWJHWgOsTH8WaEBqtw=;
-        b=L33xVS0b+57E9FhHw9fomWxO8CpsiD2SUHZ9dydO/7QnACxRiLZRuekovYQVF96Chs
-         +7svUcOepdakNfKb0B+3xeD9j1EFw4HJC5CCbW+fQ/l5M1+OPjqlKCg4duyIe1D/sdkm
-         FYeq5VcIKpr689KJSFShRUOykl3720zgPg8X391UbbsfSvkMStuC4YU6UoXHsPKtXhWP
-         4aga+TupqGAGC0AA7duQQMBRf3D5QwYn3RSkmDeJ3dyHOaHZ34y3mPCsZ/lvtK+vuhNz
-         5HUL08iFIDERhqpWJ59W+QzUOEjmfz7udxdWtbqpNwyCy+vvPIYd89z+vxPROysXBZZS
-         X1xA==
-X-Forwarded-Encrypted: i=1; AL+hErFMKt9qz2/2B0XJ161VbTXopTbiLRqoxmhTggKPE5xAPJuDOEXK9SIfOAa9OEE7hpmv9RfLxOxX6l8ZKVqq@vger.kernel.org
-X-Gm-Message-State: APuU4Z/7f9XXQdHEXw0jHt77tUYlmFsV2RXvQrUSxlCEBE6bkRy5I0Nr
-	vtJgDtrNt2UoRK76vaDqFj76hSuo7zfr/6Jd/nMlzgpl36CO+nD4uJWOgqHLlqt9hZKqujswJ2E
-	rwe9J6MoL55F4E7ux0TTvLUbeFozAjaHkwrsxuWp8RyvduycVuXB/tLlA6HbGKzE=
-X-Gm-Gg: AYBFou1lOKoz+4JTgY0tGNuED2Xc0lQELhJsOM7tLFlLxxsDgONE1+7p6xPrvPj73KX
-	T/9EgF9kWLH3W76daKltc1j4PburHX4LksFIZfG0YHqPolC1sYzhqMWsrk/eA6fTAg5yfsJM3/j
-	C2j79Poz+ZY5njbI1MSf4af1Scs5AvN1HrOTULmQT+EgtTibMI7NmoRU2BFx5Kqzjliy/r0vYa7
-	sfy91YfiMPP+HtEqBlJy/oEKM3FCsvkZ6ARV3t7jZAacJa9HwUfV3Xsrc1ZYs80Au30wyB8qm4k
-	pA1aymARuueiVDONBfmadtRGXuwnlDNzzOdEgQCGkOWY1onuteq1B3YDV5AvaZRoXHy4Z3qMeQx
-	hVSHcdYvn6PlPUMuL/wyMBjqoaRgr2sXlaw9h+YASilMoWAYrCGpjOrGEW0hodTvb1tstVA5n3m
-	cLg7neFUP4lQuq9zZKi1zquYzq
-X-Received: by 2002:a05:622a:1aa8:b0:55c:216f:38b7 with SMTP id d75a77b69052e-55d494730b4mr16217821cf.35.1794870888187;
-        Mon, 16 Nov 2026 15:14:48 -0800 (PST)
-X-Received: by 2002:a05:622a:1aa8:b0:55c:216f:38b7 with SMTP id d75a77b69052e-55d494730b4mr16217361cf.35.1794870887543;
-        Mon, 16 Nov 2026 15:14:47 -0800 (PST)
-Received: from [10.207.2.125] (nat-128-59-176-174.net.columbia.edu. [128.59.176.174])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-55ad043f2f7sm91128191cf.5.2026.11.16.15.14.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Nov 2026 15:14:47 -0800 (PST)
-Message-ID: <6d884706-1e5d-45ba-ae02-60c8067c910e@columbia.edu>
-Date: Mon, 16 Nov 2026 18:14:46 -0500
+        d=1e100.net; s=20260707; t=1794871273; x=1795476073;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=pwKOjke0ttq0aDvyUT4xTSYANM1tBHGR++OGa1KtOdQ=;
+        b=UutbJ4DJwtNJwfsudqOmZgHA5mYpcmkhp2Q9lI6Fq8NzMANXHfEQDLzjWykFWSOxQ8
+         iLyNd0fVC/VT1auZabWH6TyqV7oev2XB29R0xBHmsEdRbW2BteMDcMUVJPZTEPIFNxgk
+         KduNhSfb6F2LDUrB8yW3O9zraZp3wWdCVCyGsvB2TT+0Yn1jSeNt0zLOylua7tN5PGX5
+         efjMF8NPAvPEE5+oZjmPHzyVBCwhaNoJRJwsrrgdEp63/5aJIzYyZDUGHGe5UVDlkF/T
+         fyHu6JyftomtYdfaPfBwMqnqyOwW29j+/U+y3iZ5XT6Vw1XAWgpHxjppTpARh8Kq3fT/
+         AKRA==
+X-Forwarded-Encrypted: i=1; AL+hErHka/fyh1PxCFjBEqir6X8c9HsBWLTBSo3m5fV+DTC64XlhtfMlajL/yuA1zOhA43L0TK7z+AykUqSIJ9bI@vger.kernel.org
+X-Gm-Message-State: APuU4Z8bv+No10OjI8ktiZloYdHeKOjCmrDqq5VXvCEjaej7Rd0v1hXy
+	NW8almLLa1RUUrZW/wYOy4tfNhtIJFg08HihVy9ByTnREDpdDBkVJl3vxKTyHh6eHWI=
+X-Gm-Gg: AZFdTZcJ4tRBWpoYKBSt9qiP/b8LrCLJZoJyxyNHRA8+iHXVzOygNttytko/xA6a5kh
+	Do01dZG9MuDdwBffzSXmS6vZGhEKxZASkqCvrY+M9o9CaNAcoJ6sJfWJW/a/DqpjQIG1EO7yoC0
+	lvZv1wpLMysKJn8oJ6/ssaTBB5tw5v5cZclgeW8VRsqK+mBxzdB8PgYvdaF1zMmpt2ndhVnGaS5
+	Y8SqSwr4rFDQina+xweT4/iQHlEOCGKwMT4JpROOU8n+UAiYU/68wK7tTVO3KBhdm6bTh1qKMk+
+	T6eIVlFw2TfwF1iYIUFb5WZmKhUnhD7p9oeZwl9t/Mw/qtb3QlwyWZqyzfVVDEBe9nvVzgAPJKd
+	/bs4dMz1HsSFyja2RLRNqTuYIWYVn0P4yiFieFG3f9+LvAl4Mu5UX3OZeysZ12n7waOe2MGjLsX
+	uPF4uV7QqO36um8b/A6hFrmCh3rTzqNhIhN3FUzL4q7S0W6M/GAkfg8w0iDkKmnjWN5so8PuOdg
+	XpW+LNFRoXLdBYLo/avEKulPgq/vdp0M3LapqhX0mbXfyLzeua2f45yGGbTe46qgk0g0i0I5/Wt
+	XpZVE8pG0DohE/pNyWQgzOVCiwZYGNk/ofGtuPPj/YPywxzJabUQ1keLlq1UdAx0sC9DrOb3d0+
+	RiV1cYsMumJa49ab0RNFI+X56lttFwL42O7lmeEAl2n1fECQkEMMDzjEQ/+xiUwe1lGchnExQYd
+	KBRKjiHFTgkWmS5qscjNOfCVbVlvuQ4TIwxyjEmwjo
+X-Received: by 2002:a05:690c:6b12:b0:8b4:ef5f:7832 with SMTP id 00721157ae682-8b4ef5f802fmr3309157b3.65.1794871272475;
+        Mon, 16 Nov 2026 15:21:12 -0800 (PST)
+Received: from ?IPv6:2600:1700:6476:1430:48ee:a3ac:5a4b:3831? ([2600:1700:6476:1430:48ee:a3ac:5a4b:3831])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b4ec3079fbsm10948967b3.41.2026.11.16.15.21.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Nov 2026 15:21:11 -0800 (PST)
+Message-ID: <f59ea6b2a8c60594361ab596d92bdf98a217dd83.camel@dubeyko.com>
+Subject: Re: [PATCH v2] hfs: avoid reusing occupied CNIDs after deletion
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: Hengyu Liang <hengyul@cs.unc.edu>
+Cc: glaubitz@physik.fu-berlin.de, frank.li@vivo.com, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
+Date: Mon, 16 Nov 2026 15:21:10 -0800
+In-Reply-To: <20261113194103.3825961-1-hengyul@cs.unc.edu>
+References: <20261112110128.4082071-1-hengyul@cs.unc.edu>
+	 <2bbc10eb1dd5ee69329a9307f14fd15b1815b898.camel@dubeyko.com>
+	 <20261113194103.3825961-1-hengyul@cs.unc.edu>
+Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
+ keydata=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
+ NFdvziOa4FgUBC4X71upsZIoZJeii2V/Jtc3B4g==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-9 
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -116,253 +138,114 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 9/9] mm/userfaultfd: check hugetlb end alignment in
- UFFDIO_UNREGISTER pre-scan
-To: "David Hildenbrand (Arm)" <david@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mike Rapoport <rppt@kernel.org>, Peter Xu <peterx@redhat.com>,
-        James Houghton <jthoughton@google.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Balbir Singh <balbirs@nvidia.com>,
-        "Liam R. Howlett" <liam@infradead.org>,
-        Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>,
-        Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
-        Michal Hocko <mhocko@suse.com>,
-        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-        Andrei Vagin <avagin@gmail.com>,
-        Muhammad Usama Anjum <usama.anjum@arm.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>, Arnd Bergmann <arnd@arndb.de>,
-        Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>,
-        Joshua Hahn <joshua.hahnjy@gmail.com>,
-        Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
-        Ying Huang
- <ying.huang@linux.alibaba.com>,
-        Alistair Popple <apopple@nvidia.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
-        Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
-        Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
-        Kiryl Shutsemau <kas@kernel.org>, Muchun Song <muchun.song@linux.dev>,
-        Oscar Salvador <osalvador@suse.de>,
-        =?UTF-8?Q?Miko=C5=82aj_Lenczewski?= <miko.lenczewski@arm.com>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-References: <20261116-uffd-state-fixes-v2-0-4397a0196479@columbia.edu>
- <20261116-uffd-state-fixes-v2-9-4397a0196479@columbia.edu>
- <2837958f-5a9d-46ad-b6ff-5a922b09e81a@kernel.org>
-Content-Language: en-US
-From: Tal Zussman <tz2294@columbia.edu>
-In-Reply-To: <2837958f-5a9d-46ad-b6ff-5a922b09e81a@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: OumxdKgGYAr5zwU10SZbB1yYmh1QvQTM
-X-Authority-Analysis: v=2.4 cv=Utf2pOwB c=1 sm=1 tr=0 ts=6afb8e68 cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=KPY1cyGZ6h6m4ASiENTC8Q==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=x7bEGLp0ZPQA:10 a=A0y_DWxS2BwA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=BpGzv1V74M3SfeTrGa8v:22
- a=DH_EvkwUbuc_xQPnRhkA:9 a=QEXdDO2ut3YA:10 a=kacYvNCVWA4VmyqE58fU:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE2MDA5MiBTYWx0ZWRfX0F1zmMaSCsSA
- k2VXwgx10c4IHEIiIEbZCoboYIKea5Fb+pUTdSNlJ0n0JJRNgjHDyi1fGq45jikw72G6Lq67ZAl
- REh4B7PEKD1una3GSpzV7ALYbnWZi7Y0rVMY1nNjoATB/AncJYklSDK5h42pVAPOAZ8xuNczAUJ
- dVz+4yViyZbaq4o8BlfiK2aMzp52ig790Ur3yC71ROXISWJqC4ArBvuH0prXY4bF0w4tshf5v3a
- s3FdS1xNUpU3qeCShPkEhyQ5E/LfFk/hpkVfxVk4ljDe8NhmGAIlq1cF0jzTeZEZnXAXNAyIQgh
- XlQRsO+jvpQ7x5lvyvJI9psKbKpAeV7rA5dfgJV8JHzA5WzuxU3DsCyhG/yd/UJOLs9dqK+drvx
- 4CZFAr7nZwRGQxmRq0sOz3jZrjrgGARgLY9HLurSQ9vj7o5jpRZ35KTjG5p0ahpC1GPc0u7CS1c
- Z//65e3lMk/QERPLh2Q==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE2MDA5MiBTYWx0ZWRfX6FHSOLbho660
- +xnc06OzN6iRyHwRMCu+3rgozIurJJDmP0XJ4aoFQnUNuf8sx4QAmJIOlgxN8RzsVbN0icbIKlU
- eS3lcTiH/o+Hr8VNKod9PqXe6FzWzrboVwqgzfaoaZt3XXa3fYMt
-X-Proofpoint-ORIG-GUID: OumxdKgGYAr5zwU10SZbB1yYmh1QvQTM
-X-Proofpoint-Virus-Version: vendor=nai engine=6900 definitions=11968
- signatures=596817
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 priorityscore=1501 bulkscore=10 spamscore=0 adultscore=0
- clxscore=1015 impostorscore=10 suspectscore=0 lowpriorityscore=10
- phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
- definitions=main-2611160092
 
-On 11/16/26 3:56 PM, David Hildenbrand (Arm) wrote:
-> On 11/16/26 21:02, Tal Zussman wrote:
->> UFFDIO_REGISTER and UFFDIO_UNREGISTER both scan the VMAs of the range
->> before changing anything. For a hugetlb VMA, userfaultfd_register()
->> rejects a range whose start or end is not huge page aligned there.
->> However, userfaultfd_unregister() only checks the start.
->> 
->> An unaligned end only fails later, when vma_modify_flags_uffd() cannot
->> split the VMA there. At that point, userfaultfd_clear_vma() already
->> cleared the WP or RWP protection. The ioctl returns -EINVAL and the VMA
->> stays registered, but accesses to its pages are no longer reported. This
->> requires a caller passing a misaligned range.
->> 
->> To fix it, check the end of a registered VMA in the pre-scan as well.
->> The ioctl still returns -EINVAL, but no longer unregisters the VMAs
->> before the misaligned one first.
->> 
->> Fixes: cab350afcbc9 ("userfaultfd: hugetlbfs: allow registration of ranges containing huge pages")
->> Fixes: f369b07c8614 ("mm/uffd: reset write protection when unregister with wp-mode")
->> Signed-off-by: Tal Zussman <tz2294@columbia.edu>
-> 
-> Okay, I assume it's not a stable kernel, so we can fix this in a cleaner way.
-> 
+On Fri, 2026-11-13 at 14:41 -0500, Hengyu Liang wrote:
+> Hi Slava,
+>=20
+> On Thu, 2026-11-12 at 14:34 -0800, Viacheslav Dubeyko wrote:
+> > I am still not sure that this approach could work. If we haven't
+> > the
+> > thread records in the b-tree, then we sort records by parent CNID.
+> > But
+> > folder can contain child with any CNID. So, if we keep the largest
+> > CNID
+> > in use, then, technically speaking largest CNID - 1 can be located
+> > at
+> > any node (it doesn't matter if it is used or not). Even if we found
+> > node #1 with largest CNID, then it doesn't mean that largest CNID -
+> > 1
+> > is located at the same node #1. And even if we cannot find the
+> > largest
+> > CNID - 1 value, then it doesn't mean that this value hasn't been
+> > allocated already as child CNID of some parent CNID (because
+> > records
+> > are ordered by parent CNID). Are you sure that this approach will
+> > finally work?
+>=20
+> Yes. The patch never searches for a CNID, neither the largest one nor
+> largest - 1. It only needs the maximum of the CNIDs of all file and
+> directory records, and a maximum does not depend on the order of the
+> records:
+>=20
+> - max_cnid of a leaf node is the largest DirID / FlNum of its file
+> and
+> =C2=A0 directory records. The CNID is read from the record data, not from
+> =C2=A0 the key, so the parent ID and the thread records do not matter.
+> - max_cnid of an index node is the largest max_cnid of its children.
+>=20
+> So the root holds the largest CNID in use, wherever the records are.
+> When the record with the largest CNID is removed, only the nodes on
+> the
+> path from its leaf to the root are computed again; every other node
+> keeps its value. For example:
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 root: 20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+/=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 \
+> =C2=A0=C2=A0=C2=A0=C2=A0 leaf A: 19=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 leaf B:=
+ 20
+> =C2=A0=C2=A0=C2=A0=C2=A0 (16, 19, 17)=C2=A0=C2=A0=C2=A0 (20, 18)
+>=20
+> =C2=A0 rm 20: leaf B -> 18, root =3D max(19, 18) =3D 19, next_id =3D 20
+> =C2=A0 rm 19: leaf A -> 17, root =3D max(17, 18) =3D 18, next_id =3D 19
 
-I wasn't sure about mixing fixes and cleanups, but absolutely.
+You explained a simple case. :) My worry was about the case when we
+could delete some number of items between [16, 20]. For example, we
+delete 17, 18, and 19 at first. And now we delete item with #20. So,
+leaf A should have 16 as a maximum CNID. And we can use 17 as a
+next_id. Correct?
 
->> ---
->>  mm/userfaultfd.c | 11 +++++++++++
->>  1 file changed, 11 insertions(+)
->> 
->> diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
->> index bf42fabb5afd..d8abc24353e1 100644
->> --- a/mm/userfaultfd.c
->> +++ b/mm/userfaultfd.c
->> @@ -3960,6 +3960,8 @@ static int userfaultfd_unregister(struct userfaultfd_ctx *ctx,
->>  	found = false;
->>  	cur = vma;
->>  	do {
->> +		const struct userfaultfd_ctx *vma_ctx = cur->vm_userfaultfd_ctx.ctx;
->> +
->>  		cond_resched();
->>  
->>  		VM_WARN_ON_ONCE(!!cur->vm_userfaultfd_ctx.ctx ^
->> @@ -3983,6 +3985,15 @@ static int userfaultfd_unregister(struct userfaultfd_ctx *ctx,
->>  		if (!vma_can_userfault(cur, cur->vm_flags, wp_async))
->>  			goto out_unlock;
->>  
->> +		/* See the check in userfaultfd_register(). */
->> +		if (vma_ctx && vma_is_hugetlb(cur) &&
-> 
-> I'm not sure if we really need the vma_ctx. I'd just fail this consistently if
-> someone passes hugetlb VMAs, independent of if they are registered or not.
-> 
->> +		    end <= cur->vm_end && end > cur->vm_start) {
->> +			const unsigned long vma_hpagesize = vma_kernel_pagesize(cur);
-> 
-> vma_kernel_pagesize(), yuk. :)
-> 
->> +
->> +			if (!IS_ALIGNED(end, vma_hpagesize))
->> +				goto out_unlock;
->> +		}
->> +
->>  		found = true;
->>  	} for_each_vma_range(vmi, cur, end);
->>  	VM_WARN_ON_ONCE(!found);
-> 
-> 
-> Can we clean all this up into something simple like:
-> 
+Let me double check it and I need to take another look to the patch.
 
-Yep, this is much better. I'll mention that this changes the ABI to reject
-all hugetlb VMAs in the commit message.
+Thanks,
+Slava.
 
-Thanks for all the reviews!
-
-> --- a/mm/userfaultfd.c
-> +++ b/mm/userfaultfd.c
-> @@ -3669,6 +3669,19 @@ static __always_inline int validate_range(struct
-> mm_struct *mm,
->   	return validate_unaligned_range(mm, start, len);
->   }
-> 
-> +static bool vma_uffd_range_aligned(struct vm_area_struct *vma,
-> +	unsigned long start, unsigned long end)
-> +{
-> +	unsigned long size;
-> +
-> +	if (!vma_is_hugetlb(vma))
-> +		return true;
-> +
-> +	size = huge_page_size(hstate_vma(vma));
-> +	return IS_ALIGNED(max(start, vma->vm_start), size) &&
-> +	       IS_ALIGNED(min(end, vma->vm_end), size);
-> +}
-> +
->   static int userfaultfd_register(struct userfaultfd_ctx *ctx,
->   				unsigned long arg)
->   {
-> @@ -3747,17 +3760,6 @@ static int userfaultfd_register(struct userfaultfd_ctx *ctx,
->   	if (!vma)
->   		goto out_unlock;
-> 
-> -	/*
-> -	 * If the first vma contains huge pages, make sure start address
-> -	 * is aligned to huge page size.
-> -	 */
-> -	if (vma_is_hugetlb(vma)) {
-> -		unsigned long vma_hpagesize = vma_kernel_pagesize(vma);
-> -
-> -		if (start & (vma_hpagesize - 1))
-> -			goto out_unlock;
-> -	}
-> -
->   	/*
->   	 * Search for not compatible vmas.
->   	 */
-> @@ -3774,6 +3776,8 @@ static int userfaultfd_register(struct userfaultfd_ctx *ctx,
->   		ret = -EINVAL;
->   		if (!vma_can_userfault(cur, vm_flags, wp_async))
->   			goto out_unlock;
-> +		if (!vma_uffd_range_aligned(cur, start, end))
-> +			goto out_unlock;
-> 
->   		/*
->   		 * RWP uses protnone as an access-tracking marker. PROT_NONE
-> @@ -3797,20 +3801,6 @@ static int userfaultfd_register(struct userfaultfd_ctx *ctx,
->   		ret = -EPERM;
->   		if (unlikely(!(cur->vm_flags & VM_MAYWRITE)))
->   			goto out_unlock;
-> -
-> -		/*
-> -		 * If this vma contains ending address, and huge pages
-> -		 * check alignment.
-> -		 */
-> -		if (vma_is_hugetlb(cur) && end <= cur->vm_end &&
-> -		    end > cur->vm_start) {
-> -			unsigned long vma_hpagesize = vma_kernel_pagesize(cur);
-> -
-> -			ret = -EINVAL;
-> -
-> -			if (end & (vma_hpagesize - 1))
-> -				goto out_unlock;
-> -		}
->   		if ((vm_flags & VM_UFFD_WP) && !(cur->vm_flags & VM_MAYWRITE))
->   			goto out_unlock;
-> 
-> @@ -3920,17 +3910,6 @@ static int userfaultfd_unregister(struct userfaultfd_ctx
-> *ctx,
->   	if (!vma)
->   		goto out_unlock;
-> 
-> -	/*
-> -	 * If the first vma contains huge pages, make sure start address
-> -	 * is aligned to huge page size.
-> -	 */
-> -	if (vma_is_hugetlb(vma)) {
-> -		unsigned long vma_hpagesize = vma_kernel_pagesize(vma);
-> -
-> -		if (start & (vma_hpagesize - 1))
-> -			goto out_unlock;
-> -	}
-> -
->   	/*
->   	 * Search for not compatible vmas.
->   	 */
-> @@ -3959,6 +3938,8 @@ static int userfaultfd_unregister(struct userfaultfd_ctx *ctx,
->   		 */
->   		if (!vma_can_userfault(cur, cur->vm_flags, wp_async))
->   			goto out_unlock;
-> +		if (!vma_uffd_range_aligned(cur, start, end))
-> +			goto out_unlock;
-> 
->   		found = true;
->   	} for_each_vma_range(vmi, cur, end);
-> 
-> -- 
-> Cheers,
-> 
-> David
-> 
-
+>=20
+> Both times largest - 1 was in the other leaf, and it was counted
+> because
+> that leaf keeps its own maximum.
+>=20
+> next_id is then set to max + 1. Every CNID in use is <=3D max, so max +
+> 1
+> is free. Deleted CNIDs below max are never reused, so we never need
+> to
+> know which CNIDs are free. A red-black tree of deleted CNIDs would
+> only
+> be needed to reuse those holes.
+>=20
+> To check it, a debug build compared every cached max_cnid with the
+> value computed from the records after each catalog insert and remove:
+> about 88,000 full-tree checks on 2,000 files with random operations
+> and
+> 4 writers, plus a run under memory pressure that freed 55,630 nodes
+> and
+> read them again. There was no mismatch.
+>=20
+> > Why do we need this flag? If node is created, then it should have
+> > valid
+> > max_cnid.
+>=20
+> max_cnid is not on disk, so a node that hfs_bnode_find() has just
+> read
+> does not have it. For a leaf node it could be computed from that node
+> alone, but for an index node it needs every node below it. Computing
+> it
+> at read time would read the whole catalog at mount, and again for an
+> index node that hfs_release_folio() freed and that is read again
+> later.
+>=20
+> The flag means "max_cnid of this node has been computed".
+> hfs_btree_max_cnid() computes only the nodes without it, and only
+> when
+> the newest file or directory is deleted. The first such delete after
+> mount still reads the whole catalog once; later ones only recompute
+> the
+> nodes on the path of the removed record. The flag is also cleared
+> when
+> the largest CNID of a node is removed, and on a split, because
+> records
+> move to the new node.
+>=20
+> Thanks,
+> Hengyu
