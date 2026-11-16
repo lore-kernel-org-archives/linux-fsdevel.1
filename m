@@ -1,100 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.52
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794824742;
-	b=V9YD+3RFzUw+HUQNG63aRRKcUN7uEkk9ECxnwza2kal3ibP4anvPH18Frj0jplBNjxcz
-	 eqkJwMHQJPqU2TbXMw01qpeSpx7Lf9wsQXTRWuu3orwWqxisF3gOVn32Y1sF8Lbr5ppvD
-	 hHAjMlLPnZtQAP6h0X1LAJPrjHkXsAsWvFwasGZ/fkk8VhM5yU3pHHJLq7dk/mC+JzsUb
-	 mPuQ+f05fDD1r9CmZe4RsNC6iEo7jiarzTXVeqOwjXGXGLG7k/rh8TB1xTUmHkl7M8wrX
-	 OVtjQHAccytu5TyUJHKXUuhzgx/Er70ifuxHKroG983UqA55JgoUmcviyeOSHDmAGxQ==
+	t=1794825152;
+	b=iUze/QNs/Wbj8x5s3iIY7X1WQYqLpYPSzjgYvDEWijYry7OFtCC3Ep4RKBI/pv1j/+eC
+	 1JLzxlcax/ThrGEc745zicMFQYS9woTF7CReqVG05BCxAbWFd3rcn6aUxsz5Xw8SIVmxm
+	 tacgfI7ThdmrJ10Gvf0H9OsiA3ga1njdEfp6JdKdMYtwm3TODlUZZLYzDel3/vQRV3McQ
+	 nR+qx05IiNMpmSN2yRFUk/smyiqpUjQpVDwFEu5PqKx8UIJGIxWNvKnji0qS3Dp218udp
+	 epJTyOCXTLcgcDobYF2wdQ0ztXjUIbBL+p/hu9IUSt+q6w08JmsNPNuWs1zBUddLfZg==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794824742;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794825152;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
 	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
 	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=3GcZLw9WZbtrok71apo+O/eYnzOL1rHeQ56wrw50NMY=;
-	b=5N4TMBbDrk2MDtdLgLngEIcPuNrypZLS3jPdyM/+YNGvMMYj9QKP6+tqqo/liPVYpJKo
-	 p7y2CJ+HGAqZHGEENVvvW++Bqw1/PMvKsW2GOX89TwmzryvZYr3SU2SvPHuQCDEqboAlJ
-	 x4c+3RTXX9KyVGOVJqsuu5XQxi+MlmP5QAOwbbtq4MUCwsimqhdiNVwTG05URzEDsp6zK
-	 P6GO/a6vgXyzdrrdNEaaw4CT3rSCG60wIVNUx4NkLZqQD5+Le71KIjfjOxnDexLF8M5GL
-	 5qMQV/1iyVAgadlXCkr5uH9+0+dm7nVvj6SKo4BkUnxD5UhIS61Q2P94JYfJ/AHQFOA==
+	bh=0YW8PA+wzviZIV7gLvSi7w98vAeEHHR/1zk731Y72iw=;
+	b=V8boDCpHj/wgK4TxpU3TSATIwy0HMKgkZ6TIk5U2J6jVgyC8waV6WxS21jv4ejKRRVqv
+	 mB86HiX4Ewm+H+lbWNZ41FZpD4kngz1q47Qe9GgvWBqs0UAWSJg2jHbDqqBlYPBD26mPo
+	 JF1gRbrJAc+rGaau/H6RE2w0SB/gXIYKCvatSWkbEh+CboeB0hK5HG9+QAHpj6FNor35Y
+	 rlzmnsaXKZcP1a8gthMTFgW+XDO6ztuZLPCPvdII/iVdkf0++U50vbuBONrrrJpr/JkdO
+	 uSZGaSMS/ETPzd7I6Pm3LpgCnqOeYC03RCB7W+gHSZ2GIKtPbijrEnhZBvDv65ehF+g==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=FoxpA8a5;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.47
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vx02WRbu;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.52
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A18F606A332
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 10:25:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6A18F606A332
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E281606A329
+	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 10:32:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5E281606A329
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=FoxpA8a5
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-6b6f42095bcso4556632a12.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 02:25:42 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794824741; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vx02WRbu
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-6b167ffd132so5463385a12.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 02:32:31 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794825150; cv=none;
         d=google.com; s=arc-20260327;
-        b=ofuOOXC1wCRRqNjooSjwf4acXcoqx4Q5M34e9ac287V6gKjs5g2QkUkHB8zoFobdIO
-         Jmm4nC+X4NjjmXLDbo/DWp418OigtiARWKHDWNgB6oPcWapxl13QXzIe/ilOZrI+3Ptz
-         caF42vWGt6mlzNvDutj4gXu+zBFYHP3UpmwMuhjEDaxRbktOMkOvKAu3x52XxQgFeyON
-         XG4WxvqJWW1iB6G29nKUHNPMzCzSncOH3y/LQx8JuQWUVI/+vxxpNwfu3bgOxGzd3a3W
-         vMUd7alq+L7DKmFUKpwwns32oF7XNpBF1HJmzRrc8ViSXVpXADkM1hk4SscwxvbqxQiQ
-         8nuQ==
+        b=XIE2of0vMsXDr3QsNRLt2b4qY/kU1gIGI0UiqkKmKH1iSaCQVt4+M2Lqt69SHQ/qM+
+         fz6kmqEN+rEs+pV6cjoTAo0tykF+afMjHzCvLbgaKbzirUxosBu7ISSYZUkyRaRGcv/0
+         Oi5CCZrTj0v9180nczLwG1S1bUlXEyy7UbksLgPWy3SXLSP7eUHuNvRAm85RmClgjTYh
+         su1Yv8EMPhAZdnuE6clmOVffuVhKy8yonq1TmKWTefzCltNw1XdH4hmjsRIHGqEXBQgv
+         p3I21aYCdmvTqiT5wxbx0i7lAz6WooR5JZlsANTc/Rk6UI6VcqNl+Hm90Z3jncXdplPm
+         QyUw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=3GcZLw9WZbtrok71apo+O/eYnzOL1rHeQ56wrw50NMY=;
-        fh=17Ms7h6zGtQD+xjt61WTZcRfnsf1d9CCep0EIYFEXpg=;
-        b=g5zOqLQ26OAelfOLxqijKbM1froZDL8Isx3ELeQcqqHD7SpyCnPsuCOowRcxUB9q4g
-         OgAnVrWZ88b0EYMi7vKeZNkaiDl401eyE6rr7s+C6NyHM4JQomMo5+SqcrqWorsYcmpR
-         ZHyFAWo93gO8CR6FLyUoq8GOAFJIHkemj4yEEiurYR/r00QqoNaSidjwKsZmJ+wWfHH9
-         mt1VPHAMtXJO6O5OAQdLt9vGkle47YZxSyNLawkCL8IELzhuZb51pI4/Mw+O0eqWYk9s
-         of/ZkEOXgY2YfUBHCeU+L4lWSG2Nf8vBrdZmtP4ka6WZ4Xzs5KwNPQacXvEnQhD0iCnI
-         mZAw==;
+        bh=0YW8PA+wzviZIV7gLvSi7w98vAeEHHR/1zk731Y72iw=;
+        fh=NV4yUpBF7bDCCsgppxM0HuHnVRvhVk/cSmx1vSg/JSI=;
+        b=RtRUzWbbHSp098tQOcJNpQHhJDfGaS6pFqvfd/syTHKaBCz7RxwXxN7rGpfvg2HqvM
+         zCOMGFTD5UQUxLKRKM280AfqC0Iyj2YYNcQmUacpIGP1GXf906GVg8imayMxWJs/hsQw
+         +AXIQFe3pQp7L4tdFtOLgI8C0WSv841y5lTBEfbLamQAN0UBx7F9olCsZjZA09MhdGuC
+         QAnHhgOPqFXTMD0GRgFk/wm0fYK888008/5sMHnFaC9SCC0/0iKbiXhrD5p0iYwI72cX
+         R06+rVO0e19F2bnyEKFCwKoETj1esUn3wNvKeRAoAARAfXyXxni1Z/SuwPeIczhXDrSV
+         DCxw==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794824741; x=1795429541; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1794825150; x=1795429950; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=3GcZLw9WZbtrok71apo+O/eYnzOL1rHeQ56wrw50NMY=;
-        b=FoxpA8a5gWZOiOu4kERAMuUcjyr54gqPoKqiCFVaESBeI/u9TZiW1xZ/8iGXSeL3Ru
-         wggr7cd49XGc3Nzx9fjFQIzsVPlWqwNb/33jZlPsYOLZl9dBJczNhPUF9HTIZ3+Sq2DL
-         HgpJEHIaYVeehKTXuwao+M7tue+uYok+bSoKtMvnZ5q2JhxF1YJGNEIyjjhAMWVM/k2r
-         A7liHN/ZMi28w7H+f9Am4XfgAPAwWkrkdyk0qm/IIwAEOLKwHVBWyQ0GoCjPXrJsVgVn
-         jcUnTibHbnEUKqt0uWhMgZLL/kfLxFZVkPj5NQhU8tT0FPGJSUD4UjZqKzOqU/uj6cub
-         Zl6w==
+        bh=0YW8PA+wzviZIV7gLvSi7w98vAeEHHR/1zk731Y72iw=;
+        b=vx02WRbuy3m6IuoTmZLjbXEH1SVf/+s2e5NYMP8zLIkFB7TDuM6FN77vlgdxymLlm7
+         7GxcqalTg78KplnStO5kUr72C32hXL+t09BYxJ8ovOh5oqhyNx4iSVbeNwcBqRTR9yS5
+         cBqGMAsFjR3s+grQoLxemWsbgtL2IkczGUUizL9DjmxiUAGGEWoZgF4vC4xcKDDWry10
+         Em0NZ93TUoj4HGlvAS+ffvhR4v9we+WvcUTf9usRaSJNiE2Qk+VB4XlDBb5gX62pUHEj
+         vtUOTc/E1vyTbCYb2PH0vA6MlhPqaCmjuVELDgD5prTge3q2muHag2AnKU0420jXFrPG
+         MniA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794824741; x=1795429541;
+        d=1e100.net; s=20260707; t=1794825150; x=1795429950;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=3GcZLw9WZbtrok71apo+O/eYnzOL1rHeQ56wrw50NMY=;
-        b=cY9/RMaX8ZkpXtUP11q3VyPxhksfbfeV/X8ge7j39NeHOiuMPzLiXnxq9AzXxzA3E2
-         1A+WvjcVxts0EyKFJu6GNoqeAw5HaHmcyKpyHwg5HJnqONQVEkpb7TCI9G22AaOMJH7c
-         epvr5VuPdfEURfD+CWWL/YimsU86kx11wCF5F91wHy4Ry1uqY7kdBCxqZGxCI+j7bjUs
-         7Oxe0xRe+di+j+rjDRBIDXS5krZXImlMxuCSL6KXR8SqkskyoZQLI/wYRllk4UiqIhft
-         DOSY5LCxGQ2J1jhyCHPw1eDvRc7683nsS0rqt5secvQufKBjfmeNZX01gaIq/X111VdZ
-         u7LA==
-X-Forwarded-Encrypted: i=1; AL+hErHeoLatEXzhJf3ABvVoWLCjs30qstf+R/Q9P0KUnVrotFnnuFO02DU6xa69x7ILlSj+mtZ94OLo7CeAAfkP@vger.kernel.org
-X-Gm-Message-State: APuU4Z97VPYum/pFTKTvxJo49qxu/y8N7AHcdSyBqnV8zGPMoDn4RU12
-	NOlJ5HhCqRL9YXMT5+XXIBGt4HyIX1tAoyusEsqx3abosG0cWAFkJhLQ2vvQXGWLbUWu5mSyUvq
-	wsLY27F9ikA73L2VKRGxYowA2JKIo5PE=
-X-Gm-Gg: AYBFou03+SCE1tvb7l2gu3MXWM6nLWEXraIFyU0VQ1qRTs9QjrbAJ1UsiLcQhbsii1h
-	wkG0ebboBwi4WK9vzrSFNxOLUHQNWPge2KzREwGGgimep1xIQYJrjZMgs9Fk2K398+bCCdDnPIk
-	OtsC7r1y02ZauB/9zrXzTlkOqBGze1/3NVTYoCPLi3Ivp5v7uAKOSFrpbuWPFH9G3w0NGlN4iCd
-	aQdBInlqPddHP3ho4U/xaxUFUrRBHdc6VzoxlExqDomPcF7rCtRtF2Lrcos9AaLTHf6Qc+cInvo
-	2mhxNgOiQPgks+HkqkHV/P+MLjWhIJ7iEosS5f8vQkXCXmp5BMs/KOsqiSCklq1Yljb3xFkeV4x
-	KrWxWRBQznUPA+o+Nny2edaAKSzz+3C2/AaGgegeXimiHHVr2R4cDrc3oRhgdTs30jZyBxdQ=
-X-Received: by 2002:a05:6402:44d4:b0:6b5:79f4:8d52 with SMTP id
- 4fb4d7f45d1cf-6b7c0bdfec5mr5191329a12.20.1794824740409; Mon, 16 Nov 2026
- 02:25:40 -0800 (PST)
+        bh=0YW8PA+wzviZIV7gLvSi7w98vAeEHHR/1zk731Y72iw=;
+        b=jJQ9zOgwAjgP/OMtU6N59qhVhyE5KdF+xl0EQXsn8mcpuJ6jLPfmEWGqIU6UDth69p
+         HPEMeM1wbKZRXjvxvwnDnicoFdMhxb4vZOBhl0eTKCmALRWAQKuLvSoXV+6ZtBFYlIQQ
+         2+OLNEPvJNjO6jtoWPGe4sFPyO6Kd6vOKPW+EhNHcjf6fd7geRUyLUWQmISoFekXKjcU
+         uQBb4k6kZN9oO8Fag1ny1TB+MEWkSC0SEi8YkZx5sz5WJmqdryClb2rH6sRkbhkJKVPa
+         A/7gnYxUkDlfoRKO9sxpR2htoQOlfvFUBTjU7Te5U4FDdlptz6MeOLhCUzc33pCZB3F7
+         sIDw==
+X-Forwarded-Encrypted: i=1; AL+hErFsdWi+8hVETz/NzqySGgF2t2Pjr/2d9aO983v42C3LUCeuc7AXhqw5LCqR+/BVaCrLTx4/sr8W4PtIQoMO@vger.kernel.org
+X-Gm-Message-State: APuU4Z/oXiD9OOFQsZoSd4YjeDOelLPfBtGzbUfAPBpxMmAiPVsSptk9
+	C8D+RpbJJ0oq6ywgR3fEQFixCwMkaYBTIEm+nQzVuXolKImHDbg4K0F2dCvc2jk/DOI0utrzM4J
+	2tPR/vTUpj03/LTQy6Yn8J5dJWxKuVbhrayICjAM=
+X-Gm-Gg: AYBFou16cWPCAUbOe+25y5ie9RFXqNV+eBytumOTIhP6f+l+okepNDa9gxcNREzj9ud
+	Cpirf3OCy/z2v0f6QjgWpWdIkTpbFx3FkBtRDLJJ9SeMmiDcr3aVWQaK2/YMtT5IRK4Zag7txQE
+	/JrTR4Ntl4mluXc7j6/nO0i9gfRL4FM24NEeaO/lqsTQZEaGRNBS1wRYcpfnt+qMZYgHmXy7YCo
+	68rFMTZCor3xC20xKlcL//AlvkqHv/uYj+FqUYlnbVi9OyouF3LFzuErR/xtp73QVmRSrvpVlL9
+	yKlGHZe/jJK5QekPyg9J6halckfucpRhIm/iM5WUTAsnX5WcIkp1rYb1fk7VOh/CoVJUGUTg7eI
+	SbF7ksyv3kmlzajmFw7hJ1RwtiE+G2qwK2Hst5KtJ0z1yZCf9FFcT4zIJmwiMVXtyULEzIg==
+X-Received: by 2002:a05:6402:a514:10b0:6ac:9a44:d3ed with SMTP id
+ 4fb4d7f45d1cf-6b7c08954bbmr4966094a12.5.1794825149341; Mon, 16 Nov 2026
+ 02:32:29 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,111 +104,81 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261115210952.2140036-1-graypanda.inzag@gmail.com> <20261115210952.2140036-2-graypanda.inzag@gmail.com>
-In-Reply-To: <20261115210952.2140036-2-graypanda.inzag@gmail.com>
+References: <20261115210952.2140036-1-graypanda.inzag@gmail.com> <20261115210952.2140036-3-graypanda.inzag@gmail.com>
+In-Reply-To: <20261115210952.2140036-3-graypanda.inzag@gmail.com>
 From: Amir Goldstein <amir73il@gmail.com>
-Date: Mon, 16 Nov 2026 11:25:28 +0100
-X-Gm-Features: AclHuK_tvQFpSUcAQinoG9gfJrRW-rTLlA06tTqM7lEBJqVuldEYzXKf_TrLdL0
-Message-ID: <CAOQ4uxhZS1w24GXWphu-PNPbGxVJUDwOfqHdRZcb05+_HVv=aA@mail.gmail.com>
-Subject: Re: [PATCH 1/3] fuse: reject embedded NULs in readdir entry names
+Date: Mon, 16 Nov 2026 11:32:17 +0100
+X-Gm-Features: AclHuK8XXyhaCAgxTbITMp8zV3Fd6NqncgeiQCT2joxj7Z8uLLH7t09QB68vJSg
+Message-ID: <CAOQ4uxhR=ERNBYsxQ06-sKGrTXvePpzv-xi+62oceNff6Mzzbw@mail.gmail.com>
+Subject: Re: [PATCH 2/3] inotify: zero-pad event names after an embedded NUL
 To: Junyoung Jang <graypanda.inzag@gmail.com>
 Cc: Miklos Szeredi <miklos@szeredi.hu>, Jan Kara <jack@suse.cz>, Matt Bobrowski <matt@bobrowski.net>, 
 	Gwanhyun Lee <gwanhyunlee@gmail.com>, fuse-devel@lists.linux.dev, 
 	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org
+	stable@vger.kernel.org, Christian Brauner <brauner@kernel.org>, 
+	Al Viro <viro@zeniv.linux.org.uk>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 On Sun, Nov 15, 2026 at 10:10=E2=80=AFPM Junyoung Jang
 <graypanda.inzag@gmail.com> wrote:
 >
-> parse_dirfile() and parse_dirplusfile() reject '/' in dirent->name, but
-> do not check for embedded NUL bytes.
+> inotify_handle_inode_event() allocates the variable-length event with
+> kmalloc() without zeroing the name buffer, sets event->name_len to
+> name->len, and copies name->name with strscpy().
 >
-> Unlike plain getdents() buffers covered by verify_dirent_name() in
-> fs/readdir.c, FUSE READDIRPLUS passes dirent->namelen directly to
-> QSTR_INIT() in fuse_direntplus_link() and instantiates or aliases live
-> dentries via d_splice_alias(). A dirent name containing an embedded NUL
-> produces a dentry whose d_name.len extends past the NUL terminator,
-> which allows callers such as inotify to copy uninitialized kernel slab
-> memory past the NUL byte to userspace.
+> If a dentry qstr contains an embedded NUL byte (for example, via a
+> crafted FUSE READDIRPLUS entry aliasing an open directory), strscpy()
+> stops at the first NUL while event->name_len still covers the trailing
+> bytes. copy_event_to_user() then copies event->name_len bytes to
+> userspace, leaking uninitialized slab memory from the tail of the
+> event allocation.
 >
-> Reject dirent names containing NUL alongside '/' in the FUSE readdir
-> parsers.
-
-My concern is that there are innocent buggy servers that pass NUL
-maybe even because of length including the terminating NUL.
-
-It would be more considerate to make this check in fuse_direntplus_link()
-rather than to fail the readdir.
-
-See precedent in:
-78d04af4995a1 NFS: nfs_prime_dcache must validate the filename
-
-Also, verify_dirent_name() never checks for embedded NUL, so all the
-other filesystems can get away with this without failing readdir.
-
-Thanks,
-Amir.
-
+> This mismatch dates back to
+> commit ce163918cd33 ("inotify_handle_event(): don't bother with strlen()"=
+),
+> which replaced strlen(file_name->name) with file_name->len, and remained
+> in commit b8f2688258f8 ("inotify: Use strscpy() for event->name copies").
 >
-> Fixes: 0b05b18381ee ("fuse: implement NFS-like readdirplus support")
+> Switch to strscpy_pad() so any trailing bytes up to event->name_len + 1
+> are zeroed.
+>
+> Fixes: ce163918cd33 ("inotify_handle_event(): don't bother with strlen()"=
+)
 > Cc: stable@vger.kernel.org
 > Co-developed-by: Gwanhyun Lee <gwanhyunlee@gmail.com>
 > Signed-off-by: Gwanhyun Lee <gwanhyunlee@gmail.com>
 > Signed-off-by: Junyoung Jang <graypanda.inzag@gmail.com>
 > ---
->  fs/fuse/readdir.c | 12 +++++++++---
->  1 file changed, 9 insertions(+), 3 deletions(-)
+>  fs/notify/inotify/inotify_fsnotify.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/fs/fuse/readdir.c b/fs/fuse/readdir.c
-> index 1f6cf565477f..e8b47c2a9103 100644
-> --- a/fs/fuse/readdir.c
-> +++ b/fs/fuse/readdir.c
-> @@ -126,6 +126,12 @@ static bool fuse_emit(struct file *file, struct dir_=
-context *ctx,
->                         dirent->type | FILLDIR_FLAG_NOINTR);
->  }
+> diff --git a/fs/notify/inotify/inotify_fsnotify.c b/fs/notify/inotify/ino=
+tify_fsnotify.c
+> index 6e3af6452dcc..78eb1e92a14c 100644
+> --- a/fs/notify/inotify/inotify_fsnotify.c
+> +++ b/fs/notify/inotify/inotify_fsnotify.c
+> @@ -121,7 +121,7 @@ int inotify_handle_inode_event(struct fsnotify_mark *=
+inode_mark, u32 mask,
+>         event->sync_cookie =3D cookie;
+>         event->name_len =3D len;
+>         if (len)
+> -               strscpy(event->name, name->name, event->name_len + 1);
+> +               strscpy_pad(event->name, name->name, event->name_len + 1)=
+;
 >
-> +static bool fuse_invalid_dirent_name(const struct fuse_dirent *dirent)
-> +{
-> +       return memchr(dirent->name, '/', dirent->namelen) ||
-> +              memchr(dirent->name, '\0', dirent->namelen);
-> +}
-> +
->  static int parse_dirfile(char *buf, size_t nbytes, struct file *file,
->                          struct dir_context *ctx)
->  {
-> @@ -136,7 +142,7 @@ static int parse_dirfile(char *buf, size_t nbytes, st=
-ruct file *file,
->                         return -EIO;
->                 if (reclen > nbytes)
->                         break;
-> -               if (memchr(dirent->name, '/', dirent->namelen) !=3D NULL)
-> +               if (fuse_invalid_dirent_name(dirent))
->                         return -EIO;
->
->                 if (!fuse_emit(file, ctx, dirent))
-> @@ -307,7 +313,7 @@ static int parse_dirplusfile(char *buf, size_t nbytes=
-, struct file *file,
->                         return -EIO;
->                 if (reclen > nbytes)
->                         break;
-> -               if (memchr(dirent->name, '/', dirent->namelen) !=3D NULL)
-> +               if (fuse_invalid_dirent_name(dirent))
->                         return -EIO;
->
->                 if (!over) {
-> @@ -461,7 +467,7 @@ static enum fuse_parse_result fuse_parse_cache(struct=
- fuse_file *ff,
->                         return FOUND_ERR;
->                 if (WARN_ON(reclen > nbytes))
->                         return FOUND_ERR;
-> -               if (WARN_ON(memchr(dirent->name, '/', dirent->namelen) !=
-=3D NULL))
-> +               if (WARN_ON(fuse_invalid_dirent_name(dirent)))
->                         return FOUND_ERR;
->
->                 if (ff->readdir.pos =3D=3D ctx->pos) {
-> --
-> 2.43.0
+
+I am not sure it is inotify/fanotify responsibility to hide awkward names
+which filesystem emits.
+
+First of all, I think the solution should be consistent with d_path(), so m=
+emcpy
+instead of strcpy here may be enough to avoid leaking uninit memory.
+
+If we want to be nicer to userspace, then we could for example pad the
+garbage bytes with "???" for here and for d_path(), but I don't think
+this is worth the effort and also don't think that hiding the fs flaky name
+with strscpy_pad() is the best way to go.
+
+Thanks,
+Amir.
