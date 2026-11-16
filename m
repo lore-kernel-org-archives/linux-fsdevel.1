@@ -1,102 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.62.57.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794891038;
-	b=A3tXgQiF87W3GP8r/k24fHQbyJlxNPSzLcxv6pC4/itdoasmsvHzE3NUGdOXG/Dy8yL0
-	 ak3LuLATaitTPrJFCNK1NW17h5FmoltdycVo9E7K3AU1OMVesl5hpxns7yVXW5J0siVDQ
-	 A1Z7e0YWaGuGlVjFg/5fuKngtJgrdegJdxGNcs6aWI+9hwTzfOF0ncBesu8yA0T8D7qpv
-	 iVKne8MpwuBiVsqfXhpXfOuwR9eq3nGeRDO7LtDBCirzo95eTrOzR84r52u2aW0spkTVE
-	 7us7bYmGspPzrV9oKIoha6IDknDbY2emQbwmGnmVCKFO/vYYXbXZ+9OT1EWpJSdcHIw==
+	t=1794891913;
+	b=acGrUoxTVGgxX2QHUMLh5CCLdKCFp09hYLyrB6aHgBO7NXLmFTpYVvNYUlSynRfQb3SZ
+	 AaNboOUmuOJm4ir1vrAnrQPSAm5Wbw8FTCiXNsH0qUMrdlW4II865fJI/vYd4wjiMMMgE
+	 5Bvqx0FTP2WN9SQ4OuECsM6svXOAtJbrUSlQqC476MaCvrtomrFiPoi4E5poLkcnRbkxy
+	 LNCrVTkpMl+Ue7DH/v2ePKF+uD/ALxqTkKg9cUo09jPuj71fxviTbEb+2RKeRMep1RAn+
+	 9vflKisLHl2UwdJIzz5LrXQfN2eg+BWumXJn9lTP6kC0F7XxzoXvscYNRFxTWyYNYCg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794891038;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:In-Reply-To:References:MIME-Version:
-	 Content-Type:Content-Disposition:Message-ID:User-Agent;
-	bh=9bqqmMB4+kyoRGHHPejEHuADL6UxgHY0xArC5J1XYUg=;
-	b=Kiy14Vd5n5ZipWm462Vaf7O1tUdYQy1urrMAXVcHdCf8uFmhXmTewmuuy7OS2FFzQuFb
-	 J2SmTb7oq5NktQjC5tNxYM0SUePfv9mDTdZo22OSOHQAvjF1WcAc7UYtnjvEvazBuhE/2
-	 jXWJpo+SzsqhtRLdRuHpBLlHSu8MlKwZPWcXDrcc7obAJ2bpuEYdRABtQDlWPHbFNAapV
-	 ZsUgrNy+0uPeqT2Q67aeHpdl/Eg/GtRHMyXIoojEOgdH8Qklkg6jlI0mzbt44nY57jBpE
-	 67KEJUdKNLu3jkOo6J2JsV/JKXfKjSKlqieh+epj1XQuKhed9ex3Ys95u2Ff/Cp5WOA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794891913;
+	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
+	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:Date:X-OQ-MSGID:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=mHVL9pD+BwW+ZAX8GM4hT5ju5yFgARR6ETM4eazQQF8=;
+	b=wXR7yIk0G0FP61pR40SS882m4YoGCc/eSg9C3vu5icwfC7UhN0NW1UcL8+HXxDNsOl8u
+	 2BRcjzQrUd9uIpIhsvMbHZfnAAD1a53cXAUZDZ6+8/aEWVR1YzpWJxgTQidxePXJZUZG8
+	 SNw1lIiRlllFACUTVEagH90o5ycxWibYkim9D7bNh9ZJGn9e/L/AfSZvzCE4aF1CHkqmW
+	 VFmxRWM7KTfmG1XUVw73GQllZh1z6Q06xk1UsP8V1zZjyZL8Oov0L6OVnIR7WhNJQgWKf
+	 ju9JI/JUMvnNXeSjlRK3UYMwM0p2WYxvlM+bSZbtQ6zD21G4WzvOJmb1HBjrJAPTE8Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=chrisdown.name;
-	spf=pass smtp.mailfrom=chrisdown.name;
-	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=JVoEkBuR;
-	arc=none smtp.remote-ip=74.125.82.50
-Received: from mail-dl1-f50.google.com (mail-dl1-f50.google.com [74.125.82.50])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=qq.com;
+	spf=pass smtp.mailfrom=qq.com;
+	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=NnUmxsND;
+	arc=none smtp.remote-ip=162.62.57.49
+Received: from out162-62-57-49.mail.qq.com (out162-62-57-49.mail.qq.com [162.62.57.49])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D362606A331
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 04:50:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4D362606A331
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chrisdown.name
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chrisdown.name
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFB93606A32C;
+	Tue, 17 Nov 2026 05:05:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DFB93606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=JVoEkBuR
-Received: by mail-dl1-f50.google.com with SMTP id a92af1059eb24-14394530ec6so5373839c88.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 20:50:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chrisdown.name; s=google; t=1794891037; x=1795495837; darn=vger.kernel.org;
-        h=user-agent:message-id:content-disposition:content-type:mime-version
-         :references:in-reply-to:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=9bqqmMB4+kyoRGHHPejEHuADL6UxgHY0xArC5J1XYUg=;
-        b=JVoEkBuRB7FQiKYHvBCxvAxh9Oaxf01xN5UIrTjfVi6OU10CeKbp241d27RcBRcSsk
-         /Xi/x0gE95b4H/4imd4d7XC7TvMqKuqGtZq30FdKfitiezpDW1A26JSOriDXlFFBwZBZ
-         HwMfdVtpba397eVPFTvqZp/IbohPL8IT2620Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794891037; x=1795495837;
-        h=user-agent:message-id:content-disposition:content-type:mime-version
-         :references:in-reply-to:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=9bqqmMB4+kyoRGHHPejEHuADL6UxgHY0xArC5J1XYUg=;
-        b=af6rHmeFRwYv2pSFIZhZlSX9wvbU2iptcq7GflUMUIiFDJPWMGTYDxCWxlthJ28IbP
-         g6jhcAnBfQEuG8CNEeKZO9EVM7thWgsfv2pYEGV/JqMdtd6rHzRNvDdspxmsavpRtWtJ
-         p/60/iGDWpDYTM1henMUobiYmmN2u4vRqN0Wi/JpQum6D8Ovmp9gizfZOv+MnZn4u98n
-         xWkXIG+8sdH7qjDaIiWvAcE8O9ZXdVfOm3IZd3RQZySo+6rHvOs18uOFO78Qj8I6tHPR
-         LEhViDSdgYhJQXLDy9dR4C7/Uwn0q9wC8Nl/M/JjS5smKMCZxr72IHM2uhCZ+b10rtHq
-         rF4A==
-X-Forwarded-Encrypted: i=1; AL+hErGLwIHbOd7Dhr3uf0wfD6GJVGaro+mQ0g/hPlo4dF3DCYQZ+JDU6tHjUvzhearpwMjxuy5VaPftiyYD6A3e@vger.kernel.org
-X-Gm-Message-State: APuU4Z9Hc4raawYw4G9GrrOJq7zpyJZQOgBTIBiHuqChPmdF7bCP0OEN
-	+aAWkt0ovN+VzKy0lVPfnjSJKnOaHyKTMwkL/PvJr0p/cN6gx/ZJRp6q3NEL31mqL8U=
-X-Gm-Gg: AYBFou3Ry6qB79e00crLstPDx9CNGthYLKhAJ41de49QZwbrN/TvjFaFfV6B0sxipjM
-	j4J303FjaMUz3H5VHO6j2lL3R2Xngx3i/9PikFQOfjhHbEgjINJoRiRlhxuDea+O5L8DeNQxLw2
-	djEuq177rF8000JY+r6BRgo/Tlnju58QkBi+J3euIYw27ALnYsVS9n1iICcVjTFDbBLfyD91O12
-	Ow/KAjHcOq0RTsk6odZu5D4DiqbAd86DViGAF+hHc2Q4ZYr+ORmA0g5ohS636RaDyH4niC2qj66
-	oyW1AomMHxWmcowyo9jRUDPFPzrAF9SYBZQn3aGDvxBeUZ34S4qW9gZJY9blBUwVKnRnKP+HxD8
-	vHHmOVh8yu4gEYiGmMeJi4bT7zrQi2x2cyIhwl8XJ9+BT8q/uMl7PFhUrnLZ4i1/zmHU6NW77XQ
-	06jel4rkza6cCEAL1E11D7d2bQcL5b4TmpMEKqB9p/8kWuF57+5/PybwIZm1dwhOoO7d8qQnigr
-	oKOIeurqPHb9/fN9XxD9p9SVnrJ0MrwnB+X+stD2/dFML05hsHz6z91XVnP1Ajc+g5p4XKVgCam
-	HaMnUQ9PPnhfUbmK7WBrDJ9kH4zCujQjfCOSx+As8JUw5OLKIRo0iPdVSRhnKYHDOcM95EhRrSs
-	baEhpjTnrPd9OlUVHRj+atuhNRBCRFySdR+tvrH1WHYrWvw/wtUA+jmdCaWZO+1uVet9ARCYjdn
-	oAVqlTnPPdJSMYlEy9d+XF8rY/aJ3cd+zE1yogtTr5mWItBROUpl5mCA0xb5GgETXL
-X-Received: by 2002:a05:7022:96:b0:1a8:4997:65f6 with SMTP id a92af1059eb24-1b503105175mr11734678c88.20.1794891037361;
-        Mon, 16 Nov 2026 20:50:37 -0800 (PST)
-Received: from [172.20.0.3] ([172.56.235.113])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b5031918c7sm53517692c88.9.2026.11.16.20.50.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Nov 2026 20:50:36 -0800 (PST)
-Date: Mon, 16 Nov 2026 20:50:33 -0800
-From: Chris Down <chris@chrisdown.name>
-To: Jiaqi Yan <jiaqiyan@google.com>
-Cc: linmiaohe@huawei.com, muchun.song@linux.dev, nao.horiguchi@gmail.com,
-	william.roche@oracle.com, ljs@kernel.org, vbabka@kernel.org,
-	tony.luck@intel.com, wangkefeng.wang@huawei.com, willy@infradead.org,
-	akpm@linux-foundation.org, osalvador@suse.de, rientjes@google.com,
-	duenwen@google.com, jthoughton@google.com, jgg@nvidia.com, ankita@nvidia.com,
-	peterx@redhat.com, sidhartha.kumar@oracle.com, ziy@nvidia.com,
-	skhan@linuxfoundation.org, corbet@lwn.net, david@kernel.org,
-	dave.hansen@linux.intel.com, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-api@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 2/3] selftests/mm: test userspace MFR for HugeTLB
-	hugepage
-In-Reply-To: <20261115160105.2507650-3-jiaqiyan@google.com>
-References: <20261115160105.2507650-1-jiaqiyan@google.com>
-	<20261115160105.2507650-3-jiaqiyan@google.com>
+	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=NnUmxsND
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1794891906; bh=mHVL9pD+BwW+ZAX8GM4hT5ju5yFgARR6ETM4eazQQF8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=NnUmxsNDc9HZSyqjwGLhTLrcM93Jbt9DQvqZTmC0Ya9Qp4EZPMpKgkS3LCUEEguPN
+	 TD2f9or+Tt/yADMPYKmtdYIYTy9BTV/melkvYpVTGVdD+qqUvLQWbvMvVXVlaMCBlj
+	 /564AiNo2PEp8zJH1HfwuNOrXm37uM659HVcbX+k=
+Received: from [172.18.4.77] ([202.113.185.209])
+	by newxmesmtplogicsvrszc43-0.qq.com (NewEsmtp) with SMTP
+	id 1443EE6E; Tue, 17 Nov 2026 13:05:04 +0800
+X-QQ-mid: xmsmtpt1794891904t7q1yvrrx
+Message-ID: <tencent_1CEFA39140271AD3A828251FDD28B254CE07@qq.com>
+X-QQ-XMAILINFO: MJf32pulH481GwBHD0OnIjPWSAijnCN/IeaEjUN4rO/T7RbMoB3n3fmbAWt9j9
+	 RhruHpfv+z7dEJxx3xqHKx+zaHf6hp+Nt/tyiz/rT464bt3ClpLqrN12ex3epxa2tBdEOZiQHN7q
+	 LxZloLOF5SoJ/pxBXFVbyjNShu3PnVMsZb3zp2QCVZJMVG9uGnYTGd588wOG1cJYHT0lEvZLNCX7
+	 OskdHIIc38YPm0VWtHv9hCAxmb3QA6lwwdBqs/o+uejW+FWyNX4Hk4+Jzig2Y9ag3Dy15G1vVD66
+	 X4cRGKkkjQj+rIWvvjAsTVNU/ouS3BCcdqhn2JmF9FfU0LEyFsJ/q+3SpEc0GG6XKWQR+YAKsRFf
+	 A2mHlIEXSQ5NCfPgae2VIFTvRZ06lBbS+aKkQbE8LiPhXsRNHUTfYLQ5QzUEpfYDCa1ZZP+3RfJf
+	 TATTLhyJBGChYwi+aUKUlh7r5j26czGoMKl3CKoIDZe4hB/gEtDCWOaW68LwBByEBJ2PI1SSYD4W
+	 dMqTHwvvkL9TKsy5EzMc8TeWHkNpCqbiGWP07JMK4L+clIXTk6VlXE3r5Hs62vjPM4LO/76m7NUq
+	 UMwmySa3C0dykiR0tplaHaywToTbfr078JgDbyYW7VI5IVrZgVG4g4cucDz6ylmPj7CMbtVvp6nn
+	 9Yy283uR5QmqPN0eCMDNNjjdeV9P+ibZW9g5ACx+T9Y8tvK1lhYfV1cTCNdBP9Zb8kKgJi44P1Yy
+	 E5fVETu1Ie3KhKNbRTBN/5o6pMTJ0/uwSs/ggrQKIKBaDCykHVjGpUfKGzQkXqQlY3gIryG7h8pW
+	 qKgUGJNK6/N5DNxEz2HgcnvN4WYojxAi/vAPk6V4a1t/SeSGjM1W/QxxWRsBc3rsItDIn+BX11ij
+	 F3lreEzjCiKWl8x+VKbE9clM8EaarzZrwPawGaLUr9pCT7k4vEtqxPWcy981PwifxcXONtIi8a0u
+	 X/ljBkOo1QK4tWFVqsvDbDqJIm+vm2G76LCGEVlYhSEf1G5v4kRvfpU+xPLRLZA2eiyg/CiCyB6c
+	 osrNw81HbCQ/ubjbIGmkjK7cflaCXjwoOFkUdS0krDV559XsgrxwtzBl13ZwQ=
+X-QQ-XMRINFO: NS+P29fieYNwqS3WCnRCOn9D1NpZuCnCRA==
+From: Guikun Yang <yangguikun19@qq.com>
+To: Viacheslav Dubeyko <slava@dubeyko.com>
+Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Yangtao Li <frank.li@vivo.com>,
+ =?utf-8?b?w5Z6Z8O8biBLw7xsdGVraW4=?= <ozgunkultekin@gmail.com>,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] hfsplus: bound hfs_bnode_read_key() against the per-tree
+ key buffer size
+Date: Mon, 16 Nov 2026 22:30:00 +0800
+X-OQ-MSGID: <re-c44-explain-search-key-alloc-20261116@qq.com>
+In-Reply-To: <2e910d5d5ab8dc719b4e540410a9e1024eafdfd5.camel@dubeyko.com>
+References: <c44-hfsplus-extkey-oob-20261112@qq.com>
+ <tencent_F85118A9AFDF9B230D4E8FA672510A3E2F08@qq.com>
+ <patch-hfsplus-readkey-bound-20261114@qq.com>
+ <2e910d5d5ab8dc719b4e540410a9e1024eafdfd5.camel@dubeyko.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -106,27 +84,94 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Message-ID: <avvdGec7NCt5oAFr@chrisdown.name>
-User-Agent: Mutt/2.4.3 (cc9e3943) (2026-10-09)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Hi Jiaqi,
+Hi Slava,
 
-Jiaqi Yan writes:
->+	map = mmap(NULL, len, PROT_READ, MAP_PRIVATE, fd, 0);
+The mismatch is between the declared type of fd->search_key and the
+size it is actually allocated with.
 
-This isn't right -- a private mapping reserves hugepages of its own, but the
-4 hugepages that setup_hugetlb_pages() asked for are all in the page cache
-by now, so the seal mode fails with ENOMEM when the test sets up the pool by
-itself. I think we either need MAP_NORESERVE here, or to ask for twice
-NR_HUGEPAGES in seal mode.
+hfs_find_init() allocates the key buffers from the per-tree key
+length, not from the union size (fs/hfsplus/bfind.c:22):
 
->+CATEGORY="memory-failure" run_test ./hugetlb-mfr
+	ptr = kzalloc(tree->max_key_len * 2 + 4, GFP_KERNEL);
+	fd->search_key = ptr;
+	fd->key = ptr + tree->max_key_len + 2;
 
-Probably worth adding a 2M line or two as well, since this only runs the 1G
-case, which is skipped when 4 free 1G hugepages can't be allocated.
+So search_key holds max_key_len + 2 bytes. For the extents tree,
+max_key_len is forced to HFSPLUS_EXT_KEYLEN - sizeof(u16) = 10 at
+mount time (btree.c:318), which gives search_key a 12-byte buffer.
+The declared pointer type hfsplus_btree_key * suggests 518 bytes,
+but only 12 bytes are actually there.
 
-Thanks!
+Now in hfs_bnode_read_key(), the existing bound is the union size
+(bnode.c:87):
 
-Chris
+	if (key_len > sizeof(hfsplus_btree_key) || key_len < 1) {
+		memset(key, 0, sizeof(hfsplus_btree_key));
+		...
+	}
+	hfs_bnode_read(node, key, off, key_len);
+
+key_len is attacker-controlled in the leaf/VARIDXKEYS/attr branch
+(u16 read from the node plus 2). Anything up to 518 passes this
+check, and hfs_bnode_read() writes it into the search_key of an
+extents-tree hfs_find_data (a 24-byte kzalloc total, of which
+search_key is the first 12). That is the slab-out-of-bounds write
+from my report:
+
+	BUG: KASAN: slab-out-of-bounds in hfsplus_bnode_read+0x30/0x5f0
+	Write of size 502 at addr ... by task init/1
+	 hfsplus_bnode_read -> hfs_bnode_read_key
+	 hfs_brec_insert -> __hfsplus_ext_write_extent
+	 ...
+	Allocated by task 1:
+	 hfs_find_init (kzalloc 24)
+
+reached via hfs_brec_insert() -> hfs_bnode_read_key(new_node,
+fd->search_key, 14) on an extents tree (brec.c:169); the parent-key
+update path at brec.c:151 reads into the same buffer the same way.
+
+So memset(key, 0, sizeof(hfsplus_btree_key)) is unsafe in this
+function too: the 518-byte clear runs off the same 12-byte
+search_key, which is why the patch bounds both the read and the
+clear with the same expression.
+
+About "what if max_key_len is corrupted": it cannot reach the tree
+at all. hfs_btree_open() validates it against fixed constants per
+tree id (btree.c:318/331/350):
+
+	case HFSPLUS_EXT_CNID:
+		if (tree->max_key_len != HFSPLUS_EXT_KEYLEN - sizeof(u16))
+			goto fail_page;
+	case HFSPLUS_CAT_CNID:
+		if (tree->max_key_len != HFSPLUS_CAT_KEYLEN - sizeof(u16))
+			goto fail_page;
+	case HFSPLUS_ATTR_CNID:
+		if (tree->max_key_len != HFSPLUS_ATTR_KEYLEN - sizeof(u16))
+			goto fail_page;
+
+A corrupted max_key_len fails the mount. At runtime it is always
+10, 516 or 266. And the bound stays consistent even in the
+hypothetical case: search_key is allocated from max_key_len itself,
+so a bound derived from max_key_len can never exceed the buffer,
+whatever the value is.
+
+That is also why I would argue max_key_len + 2 is the opposite of a
+hardcoded value: sizeof(hfsplus_btree_key) = 518 is the constant
+that has no relation to the allocation - it matches the catalog
+tree only by coincidence (516 + 2) and overshoots extents by 506
+bytes and attributes by 250 bytes. max_key_len + 2 is the only
+expression that tracks the kzalloc() in hfs_find_init() one to one.
+
+Both sizes in the patch come from the same source: the check
+(key_len > max_key_len + 2) and the memset use the same expression
+as the allocation. If you prefer to avoid recomputing it, storing
+key_buf_len = max_key_len + 2 in struct hfs_btree at mount time
+would make the correspondence explicit - happy to rework in that
+shape if you prefer.
+
+Thanks,
+Guikun Yang
+
