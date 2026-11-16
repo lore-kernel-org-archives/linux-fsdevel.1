@@ -1,49 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794822289;
-	b=KSIsmxDlBSRc7H8hi2XVeZmGCDyC15Lh/bFGBntCeB1+JjYg1uyt3bVBCpNUQzqcaPSw
-	 FKlObat+BbzEuhHskKY9oa0SoZb8fw6uZPu2OixEXIFy049/3PCLfMbb7/j7HvaypTfFI
-	 /92k7yZCMGPE6mgGPXN2Nw2d5SzCXGd118zK8Qi2zNoolDEWbBJInjIMVBKZriObplxQk
-	 o03s3n2O59tsImHcusFrfDKStBwWNexs+JVjk+W41/MSP7fj71QgJwG1IXL3rnRShhwbz
-	 e4c7JoxjY9pEGUEH7KqD8txeMVvHlYTw8X+UFaS6k/BfKzLvg24GUIJ5d8uC+MH3s5A==
+	t=1794822300;
+	b=nYKVpSp1ZWbMHoJbE78FuRLDlf7m1u70AFqHbGSEvY63C1aDsA/wYOMkr1cz+/zMkV6A
+	 BgbWW31BtVzdWCBXAdvW2XFs24TY6y7KBOWQl0NLFN8OS6AMiuA3iszLhUZTwnjkxmeiu
+	 H13/wCuqXxBGhcRJ6fICpnQpnqyQQ98DiBsfSaGUWMYVv0Our21uoxp1ktaKd2EmF5TZH
+	 yzvOE69UZY5/3Db66lqOU9QRP6Uq8l+hK3riUso5xNqkbGY16fpLwhpUQFzETPL+88WJh
+	 i+wgNHZOxiGaJTT/1QZ2K+8Hf4biN1AyZfE4D8h6+s79ZZwxZwK81oWdTSsH1inX27Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794822289;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794822300;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=AskB65cJoQPi1ReB9/fhm9DblVUbyR84Mt3cKfNU18o=;
-	b=P36Vw4Jax4HI4oTAORkRjwv6gBxpeOa4heGUiBqThbfXsZG9cabJIVj0PqHDILS3RaHD
-	 pchwr9Syw0NbHMwkyo5NxjN9YegWswIMGzFRUrZtVg7SUTYEzWfaYGQdZNfQ5/givPqhJ
-	 1pqaeHbEwi6+Ir3Gu4i0xfbGjjW3GWgWFNHp/aVqadS7Tgax1kI4d4FiWOZc8Ym2XZw28
-	 6jakAlki5tjd+5w7ZhVWjFu/C1HXBbKy1+dJ1i2H9jnEv/Aqu3N6l+sCxU3CK/219LDIa
-	 MZDmf/8rFHshoGR5QAp7FkC5t3QjG1etdGVYb5rNEKVnE++y0CX91k15S9UxkpLME/g==
+	bh=eRdg9HeWYxK8nNNdp54EXfNgXm8ZdA21oo0OWAWt0Yc=;
+	b=GA4RK32nqUNHxRtNbFpYLnOoEFBujq2mE5LoDDl90pwSA/DnBQUJbDn5ByDZPbYyzcug
+	 evjNmfzI8RSmoTj2QlrvNRq3QyNXce0osXRQkQqDB6TjjHb8244+6pRR9wSS2xJooOZkt
+	 STF4/0w6OWLe3q39yB+J2Bqf454Ctd6Sfy9EXxJ8vvA9GkLHFwAT/8AT5GqB8WANgkMKV
+	 6BV9YbMa1jl2CuA4NqOoYBjYpbf2DC649uh4+0zumx7x//LbNP0gHL/vOmNIWTyr7pw6d
+	 zRVVgHlI4kd8hAalOymk9f6K5yztKS257VYZAbNqFu4mgJJ+DHOcQN78vRQHZPGQhig==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="iI/0Z97T";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hV6+oygS;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D157D606A31C;
-	Mon, 16 Nov 2026 09:44:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14094606A338;
+	Mon, 16 Nov 2026 09:44:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iI/0Z97T
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9776A1F000CA;
-	Mon, 16 Nov 2026 09:44:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hV6+oygS
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F27011F000C7;
+	Mon, 16 Nov 2026 09:44:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794822289;
-	bh=AskB65cJoQPi1ReB9/fhm9DblVUbyR84Mt3cKfNU18o=;
+	s=k20260515; t=1794822299;
+	bh=eRdg9HeWYxK8nNNdp54EXfNgXm8ZdA21oo0OWAWt0Yc=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=iI/0Z97TWHJleWpplJITR8BJD2TN+kysLffD/3YQi1CrI0V4jhZQmJIVpvC7bmZHV
-	 TM2A1F92pLjx8FyZxIVb025qs6dEIrLMkpEOhwpXqWalNqgCObsQS92c7qgKsOhAtS
-	 NjzAGLscXobqFbaRNu5MHELODgktDkuvis9XMQ+M65lh5FPzLvWIv3ZXvc1HvF/Cmx
-	 Ibsmwpp9zUNOG2yB7hHJ1BFvimgoJ8PUEQD1B1RhStmVOS0tM3vkrptvJWm7f45yVN
-	 RLdzaPkT7LyB7rnec8t/XwNNe8pV+QnH3WAshQ5cVBT4guI0jRCHPvkkku/CTj8PYj
-	 OuiIKWVpkm1EQ==
+	b=hV6+oygSuLM7mo2IAC2neqmAEwNr2wmgk3IsHnHwJYmLo9/4Evwf0XZ+KeDO3NAZi
+	 wfQ1nENiCbl5daVGHl6kw6gL8mEuI5TGlN8Lkd6Sw+fmbSIHnqT7/K8xHsMZG1Er3k
+	 U3ytQvFZRiwT24bmSDaz4fOld7poaqGCANDF9YkmvuO63A55t51KgZ3Pa9XR8lKyBP
+	 e17AHIskq7aB6QoBN59yIf3oTZdEZpfgD5S79QIWSoee/dW2CQKAKj6Wg43w6qIdC0
+	 dKVLLLWiZjzIi/7lMyeL8Kw9KKLuScV/7NUJvDs+rdqxA7HdpFGRXr1vRFHOh8lMcY
+	 uTY4LaLu3cd/Q==
 From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 16 Nov 2026 10:44:01 +0100
-Subject: [PATCH v2 04/13] bpf: handle errors from resolving the real inode
- in uprobe_multi
+Date: Mon, 16 Nov 2026 10:44:04 +0100
+Subject: [PATCH v2 07/13] ima,evm: use d_real_metadata_inode()
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -55,7 +54,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261116-work-ovl-d_real-v2-4-90564c4ae347@kernel.org>
+Message-Id: <20261116-work-ovl-d_real-v2-7-90564c4ae347@kernel.org>
 References: <20261116-work-ovl-d_real-v2-0-90564c4ae347@kernel.org>
 In-Reply-To: <20261116-work-ovl-d_real-v2-0-90564c4ae347@kernel.org>
 To: Amir Goldstein <amir73il@gmail.com>, linux-fsdevel@vger.kernel.org
@@ -63,70 +62,110 @@ Cc: Chris Down <chris@chrisdown.name>, Miklos Szeredi <mszeredi@redhat.com>,
  linux-unionfs@vger.kernel.org, linux-kernel@vger.kernel.org, 
  bpf@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
  linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org, 
- linux-mm@kvack.org, "Christian Brauner (Amutable)" <brauner@kernel.org>, 
- Alexei Starovoitov <ast@kernel.org>
+ linux-mm@kvack.org, "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2035; i=brauner@kernel.org;
- h=from:subject:message-id; bh=w0jMvi6Aqw5YdOXmHKxBMEO2g+Q12/7kbngiQF5xj0Q=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9ulC0Ydnb74y8sqK8fcc3z3rrHDNDYoZzSrDLvWz/h
- LXSG3yYOkpZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACaScISR4fSDtNDa6Mf/Q/j5
- V9zjnL53d1CB1bMmcyPXupyX1XpHMxn+Cr1fp/5s5tyHt+9GmlpF/7wd+oNj6b/6P63Wu49opv2
- cyg4A
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4060; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=cGRzxBqY++Wn5nl5/qGAoLXdWcB+rZ3GJOCpw8/hvZI=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9ulBmqd1lwebvqHsuxPPzqit9hzczca1b5PhNmn2Pq
+ VcAYxhLRwkLgxgXg6yYIotDu0m43HKeis1GmRowc1iZQIYwcHEKwESyjBgZFqv39t1aPcXpe0TR
+ ROH56nzbW+U1pRUTRb33RTCpFuxgZvhxYFLG1oOXd7Caq/BOqJF13XI7O/xu0WmlIwskb1+N2cA
+ AAA==
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-d_real() is about to be able to fail for D_REAL_DATA. So switch
-bpf_uprobe_multi_link_attach() from d_real_inode() to
-d_real_data_inode() and deal with the error.
+d_real() is about to be able to fail. D_REAL_METADATA never has to look
+anything up but we don't want to promise that it never fails. So switch
+the open-coded d_inode(d_real(..., D_REAL_METADATA)) in
+process_measurement() and evm_calc_hmac_or_hash() over to
+d_real_metadata_inode() and deal with errors.
 
-Currently, the real inode is resolved again for every single uprobe of
-the link. There's no point in doing that. Resolve it once right after
-the d_is_reg() check and fail BPF_LINK_CREATE with the error if the data
-of the file can't be resolved. Then all uprobes of the link are
-registered on the same inode.
+evm_calc_hmac_or_hash() returns the error so EVM fails to verify the
+metadata. process_measurement() passes the error on to
+evm_metadata_changed() which treats it like changed metadata and resets
+the EVM status. That is needed as evm_verify_hmac() would otherwise hand
+out a cached INTEGRITY_PASS without looking at the metadata again.
 
-This is a no-op until d_real() can actually fail.
+This is a no-op as long as overlayfs can't fail D_REAL_METADATA.
 
-Acked-by: Alexei Starovoitov <ast@kernel.org>
+Suggested-by: Amir Goldstein <amir73il@gmail.com>
+Link: https://lore.kernel.org/all/CAOQ4uxjoHbevvu8auB4m8AVcY9H6uHdDAP6mfi9OOMh+3775xA@mail.gmail.com
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- kernel/trace/bpf_trace.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ security/integrity/evm/evm_crypto.c | 5 ++++-
+ security/integrity/evm/evm_main.c   | 9 +++++----
+ security/integrity/ima/ima_main.c   | 6 +++---
+ 3 files changed, 12 insertions(+), 8 deletions(-)
 
-diff --git a/kernel/trace/bpf_trace.c b/kernel/trace/bpf_trace.c
-index 2aec56d7f3d3e..15f32b971326e 100644
---- a/kernel/trace/bpf_trace.c
-+++ b/kernel/trace/bpf_trace.c
-@@ -3280,6 +3280,7 @@ int bpf_uprobe_multi_link_attach(const union bpf_attr *attr, struct bpf_prog *pr
- 	struct bpf_uprobe *uprobes = NULL;
- 	struct task_struct *task = NULL;
- 	unsigned long __user *uoffsets;
-+	struct inode *inode;
- 	u64 __user *ucookies;
- 	unsigned long size;
- 	u32 flags, cnt, i;
-@@ -3336,6 +3337,12 @@ int bpf_uprobe_multi_link_attach(const union bpf_attr *attr, struct bpf_prog *pr
- 		goto error_path_put;
- 	}
+diff --git a/security/integrity/evm/evm_crypto.c b/security/integrity/evm/evm_crypto.c
+index 1c41af2f91a60..17d528771d8fe 100644
+--- a/security/integrity/evm/evm_crypto.c
++++ b/security/integrity/evm/evm_crypto.c
+@@ -231,7 +231,7 @@ static int evm_calc_hmac_or_hash(struct dentry *dentry,
+ 				 uint8_t type, struct evm_digest *data,
+ 				 struct evm_iint_cache *iint)
+ {
+-	struct inode *inode = d_inode(d_real(dentry, D_REAL_METADATA));
++	struct inode *inode = d_real_metadata_inode(dentry);
+ 	struct xattr_list *xattr;
+ 	struct shash_desc *desc;
+ 	size_t xattr_size = 0;
+@@ -241,6 +241,9 @@ static int evm_calc_hmac_or_hash(struct dentry *dentry,
+ 	bool ima_present = false;
+ 	u64 i_version = 0;
  
-+	inode = d_real_data_inode(path.dentry);
-+	if (IS_ERR(inode)) {
-+		err = PTR_ERR(inode);
-+		goto error_path_put;
-+	}
++	if (IS_ERR(inode))
++		return PTR_ERR(inode);
 +
- 	if (pid) {
- 		rcu_read_lock();
- 		task = get_pid_task(find_vpid(pid), PIDTYPE_TGID);
-@@ -3394,7 +3401,7 @@ int bpf_uprobe_multi_link_attach(const union bpf_attr *attr, struct bpf_prog *pr
- 		      &bpf_uprobe_multi_link_lops, prog, attr->link_create.attach_type);
+ 	if (!(inode->i_opflags & IOP_XATTR) ||
+ 	    inode->i_sb->s_user_ns != &init_user_ns)
+ 		return -EOPNOTSUPP;
+diff --git a/security/integrity/evm/evm_main.c b/security/integrity/evm/evm_main.c
+index ac8328812e6ef..71faf156f9d6b 100644
+--- a/security/integrity/evm/evm_main.c
++++ b/security/integrity/evm/evm_main.c
+@@ -763,11 +763,11 @@ static void evm_reset_status(struct inode *inode)
+ /**
+  * evm_metadata_changed: Detect changes to the metadata
+  * @inode: a file's inode
+- * @metadata_inode: metadata inode
++ * @metadata_inode: metadata inode, or an ERR_PTR() if it can't be resolved
+  *
+  * On a stacked filesystem detect whether the metadata has changed. If this is
+- * the case reset the evm_status associated with the inode that represents the
+- * file.
++ * the case, or if the metadata inode can't be resolved, reset the evm_status
++ * associated with the inode that represents the file.
+  */
+ bool evm_metadata_changed(struct inode *inode, struct inode *metadata_inode)
+ {
+@@ -775,7 +775,8 @@ bool evm_metadata_changed(struct inode *inode, struct inode *metadata_inode)
+ 	bool ret = false;
  
- 	for (i = 0; i < cnt; i++) {
--		uprobes[i].uprobe = uprobe_register(d_real_inode(link->path.dentry),
-+		uprobes[i].uprobe = uprobe_register(inode,
- 						    uprobes[i].offset,
- 						    uprobes[i].ref_ctr_offset,
- 						    &uprobes[i].consumer);
+ 	if (iint) {
+-		ret = (!IS_I_VERSION(metadata_inode) ||
++		ret = (IS_ERR(metadata_inode) ||
++		       !IS_I_VERSION(metadata_inode) ||
+ 		       integrity_inode_attrs_changed(&iint->metadata_inode,
+ 						     metadata_inode));
+ 		if (ret)
+diff --git a/security/integrity/ima/ima_main.c b/security/integrity/ima/ima_main.c
+index e463cfc1e3f43..016de5a66eced 100644
+--- a/security/integrity/ima/ima_main.c
++++ b/security/integrity/ima/ima_main.c
+@@ -357,10 +357,10 @@ static int process_measurement(struct file *file, const struct cred *cred,
+ 		}
+ 
+ 		/*
+-		 * Reset the EVM status when metadata changed.
++		 * Reset the EVM status when metadata changed or the inode
++		 * hosting it can't be resolved.
+ 		 */
+-		metadata_inode = d_inode(d_real(file_dentry(file),
+-					 D_REAL_METADATA));
++		metadata_inode = d_real_metadata_inode(file_dentry(file));
+ 		if (evm_metadata_changed(inode, metadata_inode))
+ 			iint->flags &= ~(IMA_APPRAISED |
+ 					 IMA_APPRAISED_SUBMASK);
 
 -- 
 2.53.0
