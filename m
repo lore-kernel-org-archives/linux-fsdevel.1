@@ -1,100 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.41
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794825230;
-	b=rgar5GO9YZElrkNqJWphzp+c+CTMAj+y5RB7NLb8KeulIJjQRe/9dASpPNTqkv+wRd31
-	 lTyg1XboSikKrXzycRuzF9YIXgtM9YF9IpQ+FJtOlylaBez4BZJoC3lmGbpdv05nbr2rV
-	 4y1PIxjp5rhGU96P0PP44bpgoMQxg7H56RJJ6J/S+9pGnr3G7azjTlmpqIO+2aJ6DOUnb
-	 xnrLJ7xEXWPxEAvIwcQC0wvehPPEDSJXyBTe9Hswt4PxtYBofJT4YvfjM2wojQKq6JW/D
-	 Aivmj6vF8/zTtY1I+WJKUznDmvdIJLzThaU26b9AW3ruu6W2a3uzIQGNwKyvjf5WzOQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794825230;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=BcX26cyIolLDGV7RzmSSpE6fHAk7h/NEUs+iaS9LpDg=;
-	b=dm9hcqwhFeL5v/pGAcnqp2etXVuOtTnfwsTse8aou//uviwSAePYJ0xW1XYGDRRWoavl
-	 WayZTo17UKJMEoCQrBX24blTAqeKusPoM6OLDove6tKUQWwH1l0Jgqk/GXSkuBZy3uk06
-	 N27r5Wmkixw4jcxV25XejitEt9PWFd3zlX5G0FLfKyVy06/dUnPTMBUihvzskMEi1FOhw
-	 bfM3SJoCPhO7s5Lq+0xr8hGZoos/DX7sadkRuet1YEJ60BFMcV9FbI1/ggigzEU7iKToB
-	 jwxM7fyHzgKsewO/s/88k6mutVbPfo3t/I+f87311yImW47+I/mdYkMxM/kv4ux70rw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cMA7Ex2A;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.41
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794826062;
+	b=U9fJ0NKNrqKYrZM09UiMAOoMp5kMERqb5vEjOa4+wqHL0rowFTnieblhVdyy1/vmlqF0
+	 YIjUSEZp+JFNrDgf2UGJ1rMCRzGVEFuqOu3RenfY13ib9XEHSrKmVKwsfg6rNvK+DUfI6
+	 WN8i6bJVvt7x/JpmIPQ/pVfP1qoCiSOIRIdGBUnyVKlx15YwXwyyN03qnPnv5E3K6uZYa
+	 KCnh+h07FUhKHNkn2OhTp8EpnvtI3nZXoqO/LIUkLs2AY0LioPklPgvXuhqz99KESQxF8
+	 CRSN+MwVygd+XWf+Dx77gxlpIwEMSuemLBOzsuU29OcxJPRCuVTTclx3jHTZDXFAlPw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794826062;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:
+	 X-Rspamd-Action:X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
+	bh=XTTKVSXYOeC94N9rF1eBh/d2Q5pkxmY2099mbwBlcHc=;
+	b=jMz29guEXIL8LOK4/MimKDwVqPv9fdQKFrGHTPj5VFNfcz8pcP3pUiY4GQtPfItDxqNI
+	 luOeUfIMe9i6ygcBN5TFy0/kGsU9FyHBW9R53mh3+CWN6q0W5xNd9dEKKkZGANTHJ9TkC
+	 wsFIuQq0cdoyJTENsevE+0UlXG8TF2/3F/IPaGh/Xf6pKsU+yr8fSlEjNSKOfviZhTXq+
+	 0dgJFsjnvJ4IJz9paihI+cyXSf5cKTqu/jhyEW5qjOeaPdzRNwXyMarR/GtQn/ObAj/WM
+	 xE9pRKIm9/EwQEQdR3Cj9jfqbNgJZMKQx1WFHvmWjfSrA9qYtnyfXiMqv12p0PMKwFw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=none header.from=suse.cz;
+	spf=pass smtp.mailfrom=suse.cz;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b="GQ8MT/a3";
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=tSvqMv6N;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=OHoLwwQ0;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=cFtLglZc;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F1FD606A32A
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 10:33:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9F1FD606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32762606A31C;
+	Mon, 16 Nov 2026 10:47:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 32762606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cMA7Ex2A
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-6b56bbf8330so4211495a12.3
-        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 02:33:49 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794825228; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Ma1rzCkQtfh1uT747M8mb9kmTyWeN/h7Y4e7dOVsVQNHeBhlmIqfDcZVTTRRYDygRO
-         PlTKwuXZXsl1jLjlk7wA1h/CNaw43payflruPetCbO4sBEQpjjbhV5kmfi7/iOykTabn
-         vkuanpRgpxnyj+qFhP/vGYAw/r/HUyIJj5WlpBMCLQwrUWEZdKKC0HUemBNmkM0IVeco
-         T8lI/QlG5OjlDM0KZaK2k/gpmXGEGpRBtRR2apyFjD/+wHRPzey/VC8DMcDm9rmzlxgl
-         0YKPEUzX9qYUALPnLl1qd/IDuopjPClMGOHr6cuFhDZW1fbPitNdvFEofVBbSDpwbuYO
-         DW4g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=BcX26cyIolLDGV7RzmSSpE6fHAk7h/NEUs+iaS9LpDg=;
-        fh=Oy8c1Y65/oIVsA268tG+fvSVq/3sbL2OX235xzS1xUM=;
-        b=Gr2+Za7oBEXiacIScQLxKd2nHVY126cvrDOp2TtqGrAISZhRfBCqrGlxDnhh6VS58D
-         2zUUBsr1O9S+a83XhKqoy8Q9zD04d5Bx6uDqrKkoFkDhoUFV/pKu9AYB6xHtq5ucRcE7
-         PjhL1QJ6x+OvjqNqG8GdFWg3cVO9t33uKne1+EU+KPGVwg24rSWMbC61qNH+r99pkWt/
-         kRbuh297p6xRWids+hvs54IF9bXOFaSvDvxMnPSJnpg1z67ieESp9uI9EvQSdwDxa1mc
-         wN4+fxM+pEK1uHyWYXboXXyWHOqpI6Mox2biUGn8TNR3kGcuqEsFa+BVftH0LXC1UxMS
-         TPtQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794825228; x=1795430028; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=BcX26cyIolLDGV7RzmSSpE6fHAk7h/NEUs+iaS9LpDg=;
-        b=cMA7Ex2A6a8giwsic57JQmQVBX4z19O1dwTosopkucFyXilbY7y4KQvBgOiVlUfQHV
-         HhAjKnQP4IMUT/2RcGEYQBbPdsrbJdKU7BxmvDzSFaQwhUskc5hS0PDmx1g/X6+As05o
-         vBd0pxF0KsB6gB8C+ujKBTAPYJQPLmSf+FNlku+Fk+liGCRRjB6FtAr8GiqsV8qilknA
-         4otgmDh0sj2x+FLoPTxCPf09e+9/mAFOVzJuMeIZKZyVKGLFzy7WnmxFpwsKwACWKYjq
-         u/mzVKhZpQMIjHbuhHuLVWetNaA9FSK4x0zkK1a2lA64X50eyJSpw2S+gM4Z3AshUNqu
-         TiOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794825228; x=1795430028;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=BcX26cyIolLDGV7RzmSSpE6fHAk7h/NEUs+iaS9LpDg=;
-        b=dUs3Z3bX9i5z4J9ZU4ogzuHbJpRuPx37FZRgIYY3fHPoT0YbD17e5PXXaTKM8KmJuj
-         7l/9IEnI4V8rZYCQTm1JoR+JAXSh6v+Um3NLsCfV8YS+m+jM1aRlCF9j5EpqfVZkGPz6
-         bgkkL6FftVsq9xnKGptUzmwQXDWF7q1Bpvb20a9zMAwVwhKFcd2hZjQaBjSrugNec1wC
-         O2Hw9cKgLfoc4Ov7IchI07+5TfPkEUtFvuMMORrudXacDgRjbMJQq1Bwlf+v2NhhzXcW
-         1/LXhyoM/EquyNR6J4igamqP3tzEhryipS9cuLUZGXZJf7mTa0I8Y6ApslHBAkJ02jvG
-         /SXg==
-X-Forwarded-Encrypted: i=1; AL+hErFMhLO4cjVW2SWyDJ97XQ70BnYeakxTw0lZMWrUl1dswnu6rrsrxjViUGICcsrUe0og8ify8H8f9x/5JASe@vger.kernel.org
-X-Gm-Message-State: APuU4Z8eHeQhzgY3i/kMm6gDDmDrM9eFUSejGBJ5KZPk3LEJ1Tji9BfG
-	Qroac8KnJ4n1K1Pi+oDLAPF02/iFbDbkQ6BvGqc+a2LGYtlDROqT7qFur6rxCUiifRzI0/vrftj
-	Wryf+T487M9Kji/++sL3mWTgmPPELBzidBOiI
-X-Gm-Gg: AYBFou2QfXf5AhjGZNk7iego/eD/QYhn54DV/rGkxJrq2EKFssOgDGtMCKudYqfJYXm
-	lKmYC0PkBUJkbNxLWhirszl5aoFvvp0sjp+o6lpowSBAOSbLL2e1xeXSCiMQ7OpWf3Xuo4Cx4C3
-	jZ1XFUdAI/X7XMJRZ7y/ZgQ+i2NgHOnorpcSVgnqhcX7Z6tiwSU0YfhRTGG5fxIShdjeov+1/1l
-	F77uDu0LAWIiXhkFlQlLOQZbIhRsNHOhsa4bWdqcvdnF7W7+DeUr1drT8mPGD8f5zbHavqbJefQ
-	z/aN+pJZFd4AoPFzNqeT6v/LgNh12MTk3ZnWId82uHkqIx5IcIfQtTr4QtOwjY70LibBiYA4hRC
-	ifCkz7m4WEIWtYbbHHcfKjvUX3BWk57vSV2M3FPe4HZ1J323FVeAkQrY7ksvXqvffB5x0ow==
-X-Received: by 2002:a05:6402:44d2:b0:6b4:59d0:7294 with SMTP id
- 4fb4d7f45d1cf-6b7c0c7fc57mr6737947a12.31.1794825227756; Mon, 16 Nov 2026
- 02:33:47 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=GQ8MT/a3;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=tSvqMv6N;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=OHoLwwQ0;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=cFtLglZc
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id EED2222290;
+	Mon, 16 Nov 2026 10:47:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1794826060; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XTTKVSXYOeC94N9rF1eBh/d2Q5pkxmY2099mbwBlcHc=;
+	b=GQ8MT/a3HQjVMr4dqMSlvqNqSJW41G+GZ5j/3EGKRKzyxebiOCeVZMDjWeFrZ8G+XCZD1r
+	L2qx01GWsmVBzJF1h6EHSCXt9pXZTiMeyl3pi+bz86Bx35NQpQb8Ivz4nACPp2qx8rWlaA
+	yQDtYpW4HmjrU+LLF3hHx5i9TPGb7GA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1794826060;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XTTKVSXYOeC94N9rF1eBh/d2Q5pkxmY2099mbwBlcHc=;
+	b=tSvqMv6Nqy8Zkuk+n90WOu9Ru6DolzbE1N8Yir4OL89YR6Gv+DMh6pQr96+MzNx2/ngjt6
+	1lV/HvRFTgcxP0Ag==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=OHoLwwQ0;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=cFtLglZc
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1794826058; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XTTKVSXYOeC94N9rF1eBh/d2Q5pkxmY2099mbwBlcHc=;
+	b=OHoLwwQ0OTXXk+IuVBwvtezKOCIe3+R8Zb6YmRs0CFCFMWIGSj+xAMC78ZZvuiFJe+icj9
+	6s0ERiZCsBbMy4pPuEj+EY5kJv9fmWpsN1eUrELL/sV4aZzxzUQVVuWp2MQSMlYTZQV+Z5
+	skLcu9BtCKFjlvxrF46KGo0JMfTGst8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1794826058;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XTTKVSXYOeC94N9rF1eBh/d2Q5pkxmY2099mbwBlcHc=;
+	b=cFtLglZcWyzJKbynjhd0va5QG5ivPkZI+KtyYInk6FzPqsbplQMpbdaZxe3wJIl7xVCAB6
+	/Y55bcydBuRG7VDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C796E1334C;
+	Mon, 16 Nov 2026 10:47:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id eAZJKErf+moaegAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 16 Nov 2026 10:47:38 +0000
+Received: by quack.suse.cz (Postfix, from userid 1000)
+	id 59B4724DA2; Mon, 16 Nov 2026 11:47:38 +0100 (CET)
+Date: Mon, 16 Nov 2026 11:47:38 +0100
+From: Jan Kara <jack@suse.cz>
+To: Mike Snitzer <snitzer@kernel.org>
+Cc: Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	linux-mm@kvack.org, Christian Brauner <brauner@kernel.org>, 
+	linux-fsdevel@vger.kernel.org, Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
+	linux-nfs@vger.kernel.org, Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH v12 1/7] mm: move clearing the dropbehind flag of a found
+ folio into a helper
+Message-ID: <t7kkd2xt36h74bc5zihmbmaofkxi74nuca6ku7kyora6mq3jqi@qgwmzgc6tnav>
+References: <20261112190911.84702-1-snitzer@kernel.org>
+ <20261112190911.84702-2-snitzer@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,84 +115,117 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261115210952.2140036-1-graypanda.inzag@gmail.com> <20261115210952.2140036-4-graypanda.inzag@gmail.com>
-In-Reply-To: <20261115210952.2140036-4-graypanda.inzag@gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Mon, 16 Nov 2026 11:33:36 +0100
-X-Gm-Features: AclHuK-NMHGmo8BvWWPeGRhVs7Os08I_QBobJYDFHOlrsGgrh13rxr7aQnEhSTs
-Message-ID: <CAOQ4uxibz=iM4Xg6qmRmqKB25w=Z9AaaqnMqc-L2d27G632hyw@mail.gmail.com>
-Subject: Re: [PATCH 3/3] fanotify: zero-pad copied event names after an
- embedded NUL
-To: Junyoung Jang <graypanda.inzag@gmail.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Jan Kara <jack@suse.cz>, Matt Bobrowski <matt@bobrowski.net>, 
-	Gwanhyun Lee <gwanhyunlee@gmail.com>, fuse-devel@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261112190911.84702-2-snitzer@kernel.org>
+X-Rspamd-Queue-Id: EED2222290
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-13.01 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.cz:dkim,suse.cz:email,lst.de:email];
+	TO_DN_SOME(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_COUNT_THREE(0.00)[3];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lst.de:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.cz:dkim,suse.cz:email]
+X-Spam-Score: -13.01
 
-On Sun, Nov 15, 2026 at 10:10=E2=80=AFPM Junyoung Jang
-<graypanda.inzag@gmail.com> wrote:
->
-> fanotify_alloc_name_event() sizes the variable-length event buffer from
-> the qstr lengths and allocates it via kvmalloc() without zeroing.
-> fanotify_info_copy_name() and fanotify_info_copy_name2() record
-> name->len in info->name_len and info->name2_len, but copy the strings
-> with strscpy().
->
-> If a qstr contains an embedded NUL byte, strscpy() stops at the first
-> NUL and leaves the trailing bytes of the allocated name buffer
-> uninitialized. copy_fid_info_to_user() then copies name_len + 1 bytes
-> to userspace, leaking uninitialized kernel heap memory.
->
-> This mismatch dates back to
-> commit 929943b38daf ("fanotify: add support for FAN_REPORT_NAME") and
-> remained after commit 0fdbe845534f
-> ("fanotify: replace deprecated strcpy in fanotify_info_copy_{name,name2}"=
-).
->
-> Switch both helpers to strscpy_pad() so any trailing bytes up to the
-> recorded length are zeroed.
->
-> Fixes: 929943b38daf ("fanotify: add support for FAN_REPORT_NAME")
-> Cc: stable@vger.kernel.org
-> Co-developed-by: Gwanhyun Lee <gwanhyunlee@gmail.com>
-> Signed-off-by: Gwanhyun Lee <gwanhyunlee@gmail.com>
-> Signed-off-by: Junyoung Jang <graypanda.inzag@gmail.com>
+On Thu 12-11-26 14:09:04, Mike Snitzer wrote:
+> Move the code in __filemap_get_folio_mpol() that clears PG_dropbehind
+> on a folio found by a cached lookup, and takes the folio off
+> WB_DONTCACHE_DIRTY, into filemap_clear_dropbehind().  No functional
+> change.  The next patch changes the helper.
+> 
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> Signed-off-by: Mike Snitzer <snitzer@kernel.org>
+
+Looks good. Feel free to add:
+
+Reviewed-by: Jan Kara <jack@suse.cz>
+
+								Honza
+
 > ---
-> Note: default FUSE mounts report a zero fsid (-ENODEV on fanotify_mark()
-> with FAN_REPORT_DFID_NAME), so this patch was runtime-tested on tmpfs
-> with FAN_REPORT_DFID_NAME create and FAN_RENAME events.
->
->  fs/notify/fanotify/fanotify.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/fs/notify/fanotify/fanotify.h b/fs/notify/fanotify/fanotify.=
-h
-> index c25cf5c1fc70..4a1f14aa4974 100644
-> --- a/fs/notify/fanotify/fanotify.h
-> +++ b/fs/notify/fanotify/fanotify.h
-> @@ -225,14 +225,14 @@ static inline void fanotify_info_copy_name(struct f=
-anotify_info *info,
->                 return;
->
->         info->name_len =3D name->len;
-> -       strscpy(fanotify_info_name(info), name->name, name->len + 1);
-> +       strscpy_pad(fanotify_info_name(info), name->name, name->len + 1);
+>  mm/filemap.c | 33 ++++++++++++++++++++-------------
+>  1 file changed, 20 insertions(+), 13 deletions(-)
+> 
+> diff --git a/mm/filemap.c b/mm/filemap.c
+> index b04be64a5069f..437113addbddf 100644
+> --- a/mm/filemap.c
+> +++ b/mm/filemap.c
+> @@ -1956,6 +1956,24 @@ void *filemap_get_entry(struct address_space *mapping, pgoff_t index)
+>  	return folio;
 >  }
->
->  static inline void fanotify_info_copy_name2(struct fanotify_info *info,
->                                             const struct qstr *name)
->  {
->         info->name2_len =3D name->len;
-> -       strscpy(fanotify_info_name2(info), name->name, name->len + 1);
-> +       strscpy_pad(fanotify_info_name2(info), name->name, name->len + 1)=
-;
+>  
+> +/* Clear the dropbehind flag of a folio that a cached lookup found. */
+> +static void filemap_clear_dropbehind(struct address_space *mapping,
+> +				     struct folio *folio)
+> +{
+> +	if (!folio_test_clear_dropbehind(folio))
+> +		return;
+> +	if (folio_test_dirty(folio) && mapping_can_writeback(mapping)) {
+> +		struct inode *inode = mapping->host;
+> +		struct bdi_writeback *wb;
+> +		struct wb_lock_cookie cookie = {};
+> +		long nr = folio_nr_pages(folio);
+> +
+> +		wb = unlocked_inode_to_wb_begin(inode, &cookie);
+> +		wb_stat_mod(wb, WB_DONTCACHE_DIRTY, -nr);
+> +		unlocked_inode_to_wb_end(inode, &cookie);
+> +	}
+> +}
+> +
+>  /**
+>   * __filemap_get_folio_mpol - Find and get a reference to a folio.
+>   * @mapping: The address_space to search.
+> @@ -2087,19 +2105,8 @@ struct folio *__filemap_get_folio_mpol(struct address_space *mapping,
+>  	if (!folio)
+>  		return ERR_PTR(-ENOENT);
+>  	/* not an uncached lookup, clear uncached if set */
+> -	if (!(fgp_flags & FGP_DONTCACHE) && folio_test_clear_dropbehind(folio)) {
+> -		if (folio_test_dirty(folio) &&
+> -		    mapping_can_writeback(mapping)) {
+> -			struct inode *inode = mapping->host;
+> -			struct bdi_writeback *wb;
+> -			struct wb_lock_cookie cookie = {};
+> -			long nr = folio_nr_pages(folio);
+> -
+> -			wb = unlocked_inode_to_wb_begin(inode, &cookie);
+> -			wb_stat_mod(wb, WB_DONTCACHE_DIRTY, -nr);
+> -			unlocked_inode_to_wb_end(inode, &cookie);
+> -		}
+> -	}
+> +	if (!(fgp_flags & FGP_DONTCACHE))
+> +		filemap_clear_dropbehind(mapping, folio);
+>  	return folio;
 >  }
-
-Same as for inotify patch I prefer that we are consistent with d_path(), fo=
-r
-example by using memcpy().
-
-Thanks,
-Amir.
+>  EXPORT_SYMBOL(__filemap_get_folio_mpol);
+> -- 
+> 2.52.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
