@@ -1,90 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.43
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794858506;
-	b=mJpuDCdaXMPgi8wVjZshL4z9wRMe6rIU+zkgrVC1r0t0vSD9wmeelTc+NOhfV2nwqxpa
-	 P7K5ntVM7U4zL1G+Y4KnwqzcwOZufRUp+mjyC2tXRKteLYrpnWQvshdvdMrl3yJmGIMnb
-	 kLa0WPsMqmLuibzKpDGn3MPjFiSvsMEeAkvL7ed7z/QaD3hf9mq5nDgJY5XWCeV+dhxSw
-	 o7wEm6GPdlxs6EuPckCeMwVch4aTrUJ4fQoG6/TXQ6N+tqzsg3a9XgcOQU9ejx/BTL4EE
-	 IIjA2Wce0xyKN5te4fg3p762sc1kVj4Lz+ecPlUMJZpyxT9IZJvPzgmf05FoULEJnpg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794858506;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.221.41
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794859450;
+	b=eCTrA8DN43t2MBTB+TiqatLEdDLGtT1pjkd6uwgpcORAIcSTW6ai8hK/mHs+F4o4Vt+k
+	 nQ+sEQ4iu/15xfzQc2doFWCbze1h0FNeMBUapnH/j7Z2VlrsYd2Dx4o8zjLrY0DAjnWRZ
+	 fbtFRvpR7XO6V2z2JIdNwzrxlNx1jkGdqKniFUYkJ0OvUHUyVH852um3c1AJ/sE0RGZC3
+	 cUdxsGhWMKpF3LxWR37oGvcd61ppOxxpJM6ALZ44pobo0NmMqR7jLH5GoB9M1n4yFogte
+	 hwwgM1Y+4MUeG7LWTwUkFpaONT99tgWXLTmRAuY3XXFphtHlQgh4iGaRAuQfBfCB3iA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794859450;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Received:X-Forwarded-Encrypted:X-Received:MIME-Version:References:
-	 In-Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=SoqAqmuXv97PmZGFBFFCczoznG+kfpt1kIToyl4KM94=;
-	b=NeGNPSORihXGkGFSpJ5CyYhpFYnX0SLQ3yPmk7aoyI19sT5qwQ94ynZ8BEcLjDz+vPyr
-	 tZG+1+JPNJ3wd4SrUbGa4Xaf6vWqRK7QlVvtBmAs8qY/B5eLOH6L4J628eGcXnNJ7+HSK
-	 suI4DYb/4BraJ6EB+7y+1K1JKOPG0NqWkfSpdhxWk1CmlMmrZCfevcgMKRVrYBQJnCNSq
-	 MgUAfMBUL5X9l6E6LZJK7OWdMEzp5hC2U7sJdvmxMDPuJLvarGlR2IeIzejHCF7u+g0xN
-	 OLThm2wswl8LU+howTj7RAYgk8UJzqycdRwoEP07sucidx5HSf6bHEtzBFwwUOWAeKQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=linux-foundation.org;
-	spf=pass smtp.mailfrom=linuxfoundation.org;
-	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b="ZShS/AX2";
-	arc=none smtp.remote-ip=209.85.208.43
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
+	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=FEtpE65JhLGyAYaL/FOW2ebUIws2WwBZ/4Zy8VNXUuw=;
+	b=c6UDhOfBnocf/ahSt2scvnku0pckpy6K/jHRwep7+ztZJ9kfIFB6YEXiHlaaqipJVVd+
+	 eyBuHYkGgWkYncggyH2xgtSiDuNFkTjZ8BPMwaOhvCVzf+1GySvyYQXIMeQsUXpFuvbK4
+	 8yhNBPcqqMAPGiAMp7r4SRixtpVAuhPolZ9PS0sCzI2tiQK94rrGcOF3EuSLMbq/CeHHN
+	 RZ2BvCxtE+rGnQ/fIBqUaK6IwIAlXxzqSydsgqIV9mCQnX/RlUiCpA7mErR/V7NBFkSIf
+	 uWgfTS6tWpFOyIVdKkYsXYuAvKCZod7T+jN1yCeawm4MkI5amszInRtP56/C7mtcRCw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=hnqDx80H;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.221.41
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F043606A31C
-	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 19:48:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1F043606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32E42606A330
+	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 20:04:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 32E42606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=ZShS/AX2
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-6b587591414so4785785a12.0
-        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 11:48:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=hnqDx80H
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-49a92144733so1559078f8f.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 12:04:09 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794859448; cv=none;
+        d=google.com; s=arc-20260327;
+        b=s6dyQfLa8uFv291obU3VmhlANGkKcZ20pbncJEy8PyogrLa8qQt0VjzowKC+dmeeIj
+         YZBKZnMQLbOh7DKta1rMibnL0DZcaNp3wuSgskiMIzyG9+SNE4kItyy96zc4ZoU2P/Ce
+         STSpBnqbD+tDoBG6HuT1a08zAIol4ld98qHykhkHZ6HuLgJu9zrY0KP350hmLlyIokei
+         q/IpUjCnyNnL8MfyJIuSBiKb9a1pbJZwP/3xJM/+MVygG/XIraN7MpHRow7FWRy2s335
+         xsoV0/KK2hhdgn0BxxgyuJ7E3IaI9Tv8SK8gF9WiZtqalB8YSJtIKKNi9voyJdgq2VYI
+         uPNA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=FEtpE65JhLGyAYaL/FOW2ebUIws2WwBZ/4Zy8VNXUuw=;
+        fh=qdyr67nSZ1QdBrxiqi7+eoRpseLxzIz2qc3OzEF4hkw=;
+        b=DAImTDutj7BBy0uBTC1awBhxjrTUX/wVgvcZuwI44ORYpiYIpmEoHXJkwiqttI1CKc
+         tLvQZkg7qwtuDSzQfHmuFH7r9jT8Hno22dLcKx1Db3QJDdCFONF7N+uthvzzxZ8ESYCM
+         qYW5IJ0wC4Py+KQ1dmWg94P7iBBTdJQZ8IN/j1tHzaUVngn+nh90mQSgCA+eow0cmtm7
+         dprspTk1GqAUgrdJn5RVsqSIMNxu9gp6Roq4qYhFPMEmPlvNFwr4xqjRxTMi/YETgdi4
+         pnVlTalhbwkfvrVIrK2hO8jlyRHQmCcaGy8IAhiriohCkK/FqwZY4lGOfJMf/y1ZIrcr
+         Wi7w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1794858503; x=1795463303; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=SoqAqmuXv97PmZGFBFFCczoznG+kfpt1kIToyl4KM94=;
-        b=ZShS/AX24sV60YKocMCZ3s+1wGEMaUqvtaghxfux2Bgb/DYa2SRgvHLR82/mawvHLQ
-         ztWkSjwjyVDLcSUDXCa6t8pGa0qGIyQjzm36Zb0+nuMpQuZZZN2AtIfAnN+7guqUxnMn
-         rwD+Jvtar/4M2e8rJescaVBQKR3ZiRMmrZGNA=
+        d=gmail.com; s=20260707; t=1794859448; x=1795464248; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=FEtpE65JhLGyAYaL/FOW2ebUIws2WwBZ/4Zy8VNXUuw=;
+        b=hnqDx80H1BHGMZ+jCw863LQE2wm4hG6wTw//ziQNWkZpZIjdyNNCtFJNcbykSvuJWZ
+         RrqgQGru9l+9Rlw9NCoAO7RXSeH6CHzRwb+h6TsbT77V+vTLtC7o5AslWzWJ8+7yhciq
+         sbJxN7Yoz6y6VYO91QUyEDVlXVHt5e/uzOZriYhKEljZIduQH6pNfhdOY5sHlJFueOxf
+         bN/uTLfuNBjnHaTZ+WukZQS/Wa30tWyiKsfqEPmOKtkcPCgN1gGIeLsa9pfco/3ZvP3P
+         koo3Bb9/+esUnHdHS2hTd5qtXE/k/xctadMJUuU/zchcL0VDKvTRNofZgdIQ6mLOou9W
+         X5rA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794858503; x=1795463303;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=SoqAqmuXv97PmZGFBFFCczoznG+kfpt1kIToyl4KM94=;
-        b=vNt3p/RgvdabqwKZdVvIktR/yaAQ9DV/ORBsll/HbX/WRg2oLKdrMjhXi3hRTMVdvm
-         oYatOTqSSqBN8FfEKna7PkOs23YY7b4ZzwR13b6izGyDhswOaOg9BXEBGcbNthqaBNO4
-         G5qx1Jl87mUKn8aJeteI/AFFx3zy3e2ELpYfzQx6i+oxeLEt5Zos1WCcSkQD4A2YrEcY
-         piOE8Y/jbLgtKdS0XAGp/72PKu8dPL4YbD7l2Tv93pY3UQzi/D5H7XIWIsmsKJ6YYylC
-         wdt7unvD0hbz1XGUdO9inVBgpZL+nIdbt0YgRZ7wpVmyniw1zQXp95P+SoudS9H9WKmQ
-         dc5w==
-X-Forwarded-Encrypted: i=1; AL+hErEfgl35rwcOaStJMeH8Y5dzHeynJs4Q4Pu1nZsYsft8eJJkeSolK8topjAXeat78ji7rv0IXymoeU/ueTf6@vger.kernel.org
-X-Gm-Message-State: APuU4Z/9qwOpJ9q7XdyiexDPfQluBZt32KnFyDAVDE2q2MCk5KlbDZyr
-	x3BLhPOVuYz3cv005MavAzHTJQA5BYQP0GA6+TuZH+CPIR5xO3Bh2apPVI5n648dQi2dy00/B1o
-	DBMb7/cmExA==
-X-Gm-Gg: AYBFou12kKpxn8i5p7JDdi7d5tjISgkH8+urbOs5rKkHwp9OGa6D/RsrM/ITGUdmYKp
-	Ystk59Lwcex8Q187foxfc9vbXyRm3zk+CVf36+lxMWDLDMuUBW+fHDjtOkrzCIDEEv4KLXFKUv8
-	0/mBnT+iMD2wGevf1Ih9iZwmgExzbogC4+eFXybC1ceMimT0apd6pj1Ir+unGd/mXLntPuOQmyh
-	FU+ChzWFhfsbI/3qUfOb4I9uVNxdqGT3oSuOg7VyIDjFXZq4sHwdWUG+kxeoyObywZxdDrqMAf+
-	qFL8pTcOBWCzUAgQpZfGnriXcp6J6sXlNnDeklqV7trjo5FcIo/PmU/FSqp9blx7cHDf1Layv5h
-	bWAu6xiTUvOrQrRU4SwscU/q1yzp+Vi9IfO52fJkvfDM2XfGTVM0k6gA4E4FMo+izim5qa/ICxZ
-	zj4cK6AfFgliLZDZliQvSaj4D9upVW4JuHqu/hCD4g5sR+gHQpwI2WQBLgLo94UUYe4zbTqoPie
-	qjkFpNUhA7a362wQQ2x2/Qr66hBP5xfr8In9AkDLByuoAIjR1C8Ha0sNnuO3EXIJGA/FlrlLg2j
-	BxPLUsgYPC6rA1qgAOIpGFEu+hQCBr2GdVP52CDAAFe+UPdaZScw1xu8YTkFUO970k1LL5vIEn0
-	nRVo=
-X-Received: by 2002:a17:907:d12:b0:c4c:b4fe:c9e8 with SMTP id a640c23a62f3a-c50963dbee5mr964081666b.38.1794858503406;
-        Mon, 16 Nov 2026 11:48:23 -0800 (PST)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com. [209.85.128.45])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c5095b4289csm462549766b.37.2026.11.16.11.48.23
-        for <linux-fsdevel@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Nov 2026 11:48:23 -0800 (PST)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4a3517554f7so42662645e9.2
-        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 11:48:23 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErGPc+a+vVLxx9fQ/0JfEtbmHLZZccg4+fX3sccJSDC3A1ZHW+0g0vGLbZ9MeRV1Jn0E4WcU+lr5PAz6vpw8@vger.kernel.org
-X-Received: by 2002:a17:907:60cb:b0:c4c:d6a3:f4bb with SMTP id
- a640c23a62f3a-c509634503cmr1008394466b.10.1794858120895; Mon, 16 Nov 2026
- 11:42:00 -0800 (PST)
+        d=1e100.net; s=20260707; t=1794859448; x=1795464248;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=FEtpE65JhLGyAYaL/FOW2ebUIws2WwBZ/4Zy8VNXUuw=;
+        b=XwSZBRqHQ4qSBEEmVKrrkTS/gERVVvKxM3deEHDINi+Pqr3aQ4/6c2UNj2ILHQuGQX
+         /98z4R/2dd0wGzV4ytCxKbi2ztiHf8CIzQllgKeaSQTuGaDhIdHhVoFzYtSHirW8f43m
+         +CnI5TGxt4GbBAhxkl6zBjLLC4leLOlwkpcpBDXyv6EcaouVos5vIKYwe/jI5PDxIFSL
+         dgFmBegXVm2VSxNuDKQBjcCLNiL3emNRWyGLhlqRn5kQQFZCt4191m4fIWvqRQ5opWFv
+         WfxIM0XPOaV1VHq6Ez+vIMYyaJHxdSaZ/HdKtTt5bvrKor1TIRFEH/YG8Ps5KbCN0Gzc
+         QJvg==
+X-Gm-Message-State: APuU4Z9Z7WH36U/q2TCR3AmAXo+MoBtdxH6kRANW0h/lNHzG8ForPnJO
+	XJ1sUJbVU0OmfzXCz+4ioTSPDRmOEcYh4bVd2Cd9xBXvCVWzYjXX81cHlBLbRpzKglgoicb9jSz
+	tcONhBtv29f1LwWeAOletwdlhx0xmkLI=
+X-Gm-Gg: AZFdTZcshhND2MXEcNXr5ASL+Kbr0AS7miLa0Zbt+AWaWwtCob8sqFAwu5MAjifMWTo
+	2vkmeHH/PBPcVG9cRHMCuc7j2Y15Pblujhuzh4WX0foHhK+2a4vtaEPrYMYSLwSpYdoS53IVtGB
+	xXn+/0292y5z1EkK+3+7iPzaKB84rF6TV5EIqJkPeXZPM+SYL3H2eZwyaQMzBq4VeM3n9nPVfZR
+	tpjwqEfcr5woiObbBIjOSPKrFY3GYV5hDjkBRY40mVt6uwiXKMxFqUU6JEFwT+cn8WOX4aN+qUf
+	orCk6zvjfhFgCjHSOmMh+2+qqF8HE0SrH/hVkN90enFHAb/PFOtGCftb9yatAI2akvl3J1iQId2
+	E/Ao3z3f9B3mv277MWe27ihUexUpuhHtlndjq7WBhhxq+wbE0rNPJD6cS0WsF55S06jIJ520x3v
+	HOnR0l98ZKh+Bm4Sdc0jU=
+X-Received: by 2002:a05:6000:4692:b0:491:3fdd:af34 with SMTP id
+ ffacd0b85a97d-49d61c80db3mr13343868f8f.36.1794859448335; Mon, 16 Nov 2026
+ 12:04:08 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -94,48 +104,81 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261025164719.1831477-1-sashal@kernel.org> <CA+1xoqcxAsRij1j10TyhNX9JXNXNkdWO3sMaVRXCqYdEXi45fg@mail.gmail.com>
- <CAHk-=wgCX4=ZSPALxR7VHKKAKipU1nD_Am-Q-0z1SRKxr-VRRQ@mail.gmail.com>
-In-Reply-To: <CAHk-=wgCX4=ZSPALxR7VHKKAKipU1nD_Am-Q-0z1SRKxr-VRRQ@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Mon, 16 Nov 2026 11:41:44 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wg-5cWvYgmnE2WH4yys8tB5AwwRQU6kW0r5VoRYBLT7TA@mail.gmail.com>
-X-Gm-Features: AclHuK-GW-sq_aqp10QbcNSLO7AtIlmoHSb6NWDtJ770GEzenoCICUrGbvxqol4
-Message-ID: <CAHk-=wg-5cWvYgmnE2WH4yys8tB5AwwRQU6kW0r5VoRYBLT7TA@mail.gmail.com>
-Subject: Re: [GIT PULL] Kernel API specification framework for v7.4
-To: Sasha Levin <levinsasha928@gmail.com>
-Cc: Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org, 
-	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Mark Brown <broonie@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+References: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org> <20261116-work-loop-pseudo-v3-9-8cbbea1cf34f@kernel.org>
+In-Reply-To: <20261116-work-loop-pseudo-v3-9-8cbbea1cf34f@kernel.org>
+From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date: Mon, 16 Nov 2026 12:03:57 -0800
+X-Gm-Features: Aa3M54q6P4M0RFDCKQ8HHGNCWJafItTSPdWR1qNwVGtToDAv2VOv8vDfWHzYR6A
+Message-ID: <CAEf4BzbLFVawibuX0wk=8uzy0WZSYHbkgK55d7rqLab2qAM1Fg@mail.gmail.com>
+Subject: Re: [PATCH RFC v3 09/44] bpf: use fc_init_pseudo() for bpffs
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>, 
+	Chris Mason <mason@kernel.org>, Josef Bacik <josef@toxicpanda.com>, Christoph Hellwig <hch@lst.de>, 
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Jan Kara <jack@suse.cz>, linux-scsi@vger.kernel.org, target-devel@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-mm@kvack.org, bpf@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
+	apparmor@lists.ubuntu.com, linux-nfs@vger.kernel.org, netdev@vger.kernel.org, 
+	fuse-devel@lists.linux.dev, linux-efi@vger.kernel.org, 
+	xen-devel@lists.xenproject.org, ocfs2-devel@lists.linux.dev, 
+	linux-s390@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	linux-usb@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>, 
+	linux-erofs@lists.ozlabs.org, linux-kselftest@vger.kernel.org, 
+	Alexander Mikhalitsyn <alex@amutable.com>, Chris Down <chris@chrisdown.name>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 16 Nov 2026 at 11:36, Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
+On Mon, Nov 16, 2026 at 3:21=E2=80=AFAM Christian Brauner <brauner@kernel.o=
+rg> wrote:
 >
-> And I see *no* upside to any /sys/kernel/debug/kapi interface
+> Initialize bpffs as a pseudo filesystem instead of raising
+> SB_I_NOEXEC and SB_I_NODEV by hand. This adds SB_I_PSEUDO.
+>
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> Reviewed-by: Alexander Mikhalitsyn <alex@amutable.com>
+> Reviewed-by: Chris Down <chris@chrisdown.name>
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> ---
+>  kernel/bpf/inode.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
 
-And yes, the documentation calls this part "human-readable". Nobody
-cares. No sane human ever reads and compares specs. We shouldn't
-expect humans to do that, and we should not design *any* of this
-around "humans will check it". Completely pointless.
+Acked-by: Andrii Nakryiko <andrii@kernel.org>
 
-I think the specs should be purely for automated checking, and I
-suspect any initial spec should probably even be *generated* by tools.
-Because the kernel API is not something that has ever been designed
-"by spec".
-
-The kernel API has grown over time, and pretending anything else would
-make the whole project be just a fever dream. We are *NEVER* going to
-change the API _to_ some spec. The spec needs to match reality, we're
-not changing reality to match a spec.
-
-Then, once such a "spec matches reality" has been generated, that spec
-can then be used to check changes. But neither of those phases are
-ever going to involve any humans, because competent humans have better
-things to do.
-
-           Linus
+> diff --git a/kernel/bpf/inode.c b/kernel/bpf/inode.c
+> index c6f328e4752e1..57cf3775c0766 100644
+> --- a/kernel/bpf/inode.c
+> +++ b/kernel/bpf/inode.c
+> @@ -15,6 +15,7 @@
+>  #include <linux/namei.h>
+>  #include <linux/fs.h>
+>  #include <linux/fs_context.h>
+> +#include <linux/pseudo_fs.h>
+>  #include <linux/fs_parser.h>
+>  #include <linux/kdev_t.h>
+>  #include <linux/filter.h>
+> @@ -1197,8 +1198,6 @@ static int bpf_fill_super(struct super_block *sb, s=
+truct fs_context *fc)
+>         sb->s_magic =3D BPF_FS_MAGIC;
+>         sb->s_op =3D &bpf_super_ops;
+>         sb->s_xattr =3D bpf_fs_xattr_handlers;
+> -       sb->s_iflags |=3D SB_I_NOEXEC;
+> -       sb->s_iflags |=3D SB_I_NODEV;
+>         sb->s_time_gran =3D 1;
+>
+>         inode =3D bpf_get_inode(sb, NULL, S_IFDIR | 0777);
+> @@ -1261,6 +1260,7 @@ static int bpf_init_fs_context(struct fs_context *f=
+c)
+>         opts->delegate_attachs =3D 0;
+>
+>         fc->s_fs_info =3D opts;
+> +       fc_init_pseudo(fc);
+>         fc->ops =3D &bpf_context_ops;
+>         return 0;
+>  }
+>
+> --
+> 2.53.0
+>
+>
