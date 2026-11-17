@@ -1,103 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.222.180
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794956928;
-	b=SqWJYGowMS4PvGTKpFAVNIzASPs4/WFrQI6mOxAx+yu3oZDzljDo59xXqFpvkShHFHo2
-	 M4jr7UbqFz6+6quDtxlI9DSXI+xybeTcZoVhhiXvmLqrK5wna4fFhfetYXohT+f24QV82
-	 RI524h7mqLvVkbuUVYZOynpd5p6bLu+a6FWEFAMmHs94HeIr0mxM2PU5OelcEyrnklyH9
-	 eBY1OqtFRNDV1Zvb86I3lEr78ugZhDtqM5gKfXh0TMuq/Kk39+JNZ1yDzoINEllu1S6SH
-	 oXYDiJx+C9URVL7vca4ZYcXfOZt+Th9SLKwbOkKYORc6tBw80xDz2ZKrFRayFUR7xHQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794956928;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=c5oD0tLMxNN+L1nREdH0vs+Q+g0/BB/zfqPp5PmXkHo=;
-	b=rCb+XYAAJ22ofsrYx3cjFW8QhR8+nCrc0BQk8qP94AiK7Lzg1JQEO5GNJot3P71yEhDC
-	 N1qQAx1YFtSJLXT1a7RCqFi2PYHwGjpQgjuS/6YgUYWhDhOuzf9Y45ZgfmmLKw2zog0q6
-	 CRnEEQBoDnADgE3L1bI1FCnyCREBoncRawZjUotJMJvGRiCYmwO1PQQvH3u/YUYLnHFbi
-	 wul5LMsZI9OCjku48C6+agY4IG7WkvScEIHxb+6sFQoN1XRMCz2e0+5Lr7/lXwcQ60Nip
-	 gKq2kJYpFhu9NuQg5NZW1HvC4tImldwxWjApd+HxAwQuvqvQ/VgY/Gy01+L6uznWjgg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Tv5L2OH1;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.222.180
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794957250;
+	b=qX6msZnlFXVaykS8LeC/2onM33AA9fTSvihB7B4/hED16qBclTuZUV61osF5yWJ7NxWg
+	 y9YyLrwU5M67WHtB3ZeUrxK/PDqiN02eRLNXChWy63emVtmLgExoXx5hoNPYwWf5u7vEw
+	 EarofQ6FvvlpIALaAXN4WcD/LuD40zxGgJ234w4ka8944wpOiwQM/weuEBxyV8fSvi++T
+	 Rr87oY3i0IIxIt5nupOWpLcK6n87quRNjJxKgRJZZDpnnpcAPlor9N+tu3ZdysiKZj4Nm
+	 lY3UpADj1LuMwJavx0aYPqe4bbweHRcO/7MqjDtoCWMy81sP+CnhK2THfU2x7vDD8KQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794957250;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=yp6+Hwad/NBoam++rgWwhCOLZpBfJyHe1i278jtj9/A=;
+	b=DJKXaSQgPkenXcjOF3/NvB0L9OKWXlUVRjKYs2cZVoXxnpZGEs+iP1xwSWwJq3Cuuz5l
+	 NDHt7x+U4q4Fypzm7HPhQkvXWhjx30gyLIDJ0IVrMu9H8G4ej880AjIER2wmn7HXv8yl2
+	 8HzmCJNzGBnqB7d4TWAFkfu2ZmJTUCoXyDTyVUHhXvercPpCMmy5kMqzaZmzbAeGsOpDM
+	 WUSQDhPBC8s78Q/Bvr7LL32pVKkbGS0WVAPRa/Hr/VOlhrD9k6n67lunMxQLorrXSqPIm
+	 /HWWu/p+ZaQz+UKQIjUh+lnBY2LOh5G2kVtnHRn/8CdaUBOqfSLjTegoqsxspVBQaSw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gxf3CeZg;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F718606A32A
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 23:08:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4F718606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id D7B39606A31C;
+	Tue, 17 Nov 2026 23:14:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Tv5L2OH1
-Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-9495e8ae239so44598685a.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 15:08:48 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794956927; cv=none;
-        d=google.com; s=arc-20260327;
-        b=lY0niVKg1It4dYrngpd5wJPOFIGNLGLYFox1LgnHPOEHdsmNVsqk/da6kqlv8UuvAi
-         q1Ow+BEYqi8/8ZHJupN7RSiWljJkVfyoer06C45FIJmDYC0Ho+3Hcoo16nQ+0ewP+HaT
-         9yZwQgiVUWdxTijYzT/Y4hfu0YoRe9svM83/eiYOo2tLAT58/7QSkbGxW1HNOwQnp/u4
-         R+ttUOKVNvA8QVK9n/vo26FQgb9gfxmCRXk0Gkr1lZ23huXHHYf0ZThHcuquTbndnKXG
-         fXQTtkjosSZXhcq6FjZQfi2nBlMC0pHtVLYgS+go4tdTQwbnjOzkTvA60vIWLoMa6LUg
-         ykyg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=c5oD0tLMxNN+L1nREdH0vs+Q+g0/BB/zfqPp5PmXkHo=;
-        fh=WI+RHyvahshLiDWII/rEVYrODH9xMYtTE3PEFgnE8ww=;
-        b=qBtRiLhPg6FwfCCo4O6HGMXZl5n58lqHoMcNLIkHxwSLi0tcDuYMXeRdZbsqxvbgEq
-         dsGgDELS/nUiLPq2wlRQnekoh/WNXAE/Y6+mEJrLReHh+QdGuTHJMr7IzxRi8KUPnhKs
-         YfjEc2yoK1I9qoKxegStrmxTDCo+3tMsDgf8X3/b+AhSqdTZ+M5XRhObrZ6vYE+ABKue
-         coqlYBabY33qYA6kAjbCOLQKGSW09wjCQjPIqp/AipB6SGrBBu48hNb0kwKGd6sfh5DQ
-         TJFUXBSxIJWAmJxqOcXxxjp8unUkq6Dsyu9coz1SMCpPOSRxiaahXE7uO/+fSSdzvBkL
-         Z79A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794956927; x=1795561727; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=c5oD0tLMxNN+L1nREdH0vs+Q+g0/BB/zfqPp5PmXkHo=;
-        b=Tv5L2OH1FQpdOSFR3ZvqD+zPqDpGvd4wbf71Cu/yrag1dW1t0h4FG6jYLxaoyMi72d
-         UwvNOB78cpsZPgBd21kka2hA0sSG/6nRwSdZnGPJu7QZoBDat/c1Ve0prfridK6Knyn4
-         ckFi9dB5sEtfUGFlv2fOkkkwrUAxGd5WaO7nSfQLS/PuYhK3RWeojpHpS/W4vHq9A+1D
-         zj72iiFpbWFlt3MPfrkQvFLnONhyzEwbzKq3zINBl0ZGArn8PdZye51aw3rCON/ObgX2
-         +x98YmkqReMGOg2bNRqKPOkKuFUsi3jI2K4M3QnpRK29kcfBr6Rryi6zUUwUsP2BbCFi
-         ebZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794956927; x=1795561727;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=c5oD0tLMxNN+L1nREdH0vs+Q+g0/BB/zfqPp5PmXkHo=;
-        b=hSNQ8HwYFAuZke/is8YBUOhN385xgDHLmyKOxnKtNAqTLVU+kUuOyT458Ij+d13lsy
-         PwMjKX6DAomv8r2hQvM/xd6HIE9KuWOFP4meKyrGqO8RVnHCXK9879lyZKOxrVKjDCX1
-         Aeh3nLxTDMjC2FozpcUhPbbxbUeMbWH7HF7nMkZpWiBCYiepTAqhAnaFXsEQilk4c/3W
-         prgr7ZNxHuwVAufbRJtdGYNqIt/ovaGwu7Y9spLqlQCtj+NYmnZlWXDnwEThrKqFySMt
-         ZF/yMOKCOsAwKw+wUa9+D9jQdJ5TPCaue5Cj8/iyIHhI3jx9GySKrhk7JI6aGZUiNdZ1
-         P1yQ==
-X-Forwarded-Encrypted: i=1; AL+hErEODDAUmVXSE3n5pJ5+3WARjVPfYkNV1icBbXjoQViWRnPtQrX2dRYDR4B4QHj8es61nFtQ6OQlekPpZLaR@vger.kernel.org
-X-Gm-Message-State: APuU4Z8p43AKmZgg3dkm6n9Q1c5ipIziQjIzfPKF91RromK3s2bH8a9T
-	zYLz0PzACEKxyoEvtLQVHvhF4W3s9aH8wAIZr6M2Fi5DHx220bcW2nqtJAqesbKYR2z7790vGrB
-	b94GLFOIV2zw02B9CFbAb/NenqhsP5T0=
-X-Gm-Gg: AYBFou0tRmCFdNEJDjWdS4gJj8JK/cOW2jkhu/1JzDHPhoriXp6vVR7JrnToQfSxc//
-	5s7xx4Is4hWtbKIZOJNFekvA30bhjdHh6sJEOU/GsCwkjP9uK8GYwHmPj4RBsarCeDhxSsABi/f
-	nBfcd4I4lhBCCtHEtqj7BIcaicHPu1xk5eP7xYUTSJScZ+92PR5jNV7PVT+75H5WE3NHbOEQWHl
-	MmFJIt6usz34uxsm08kwQrd1o5gPooBvs9aiBoDmwBYXjmu4oE71A2YjTiff9PZoyn/z4BuQFiq
-	njWCKo6KuTJw5NByoUTn3KH9Dn9d/Hh+MoIuLmlZxFut7dySoS6ZRwcIGIj1NojVklZI5/qSdkw
-	olr7rScyQ1Oi0IHgKr9YD1C4kXDwQdKYlui+X0A24fxjU1qi6WqpKUdUG4E4B4Bn2+8ztglhzDP
-	o4Dh+7T0MaREPJlhwRtVBBEYFkl5A8S+UatFju8SKfvAJ/5eFWMhzgV5JwpDbYuzRdcIsh003f+
-	cJ/RpTCzgNIFC2MzGlbZd2I03rDZJN0cZHt07aKcoTxibj772aHioJTcQxKjYmWT8I8y3W2ur6F
-	I87gIEmJfpYa
-X-Received: by 2002:a05:620a:46a6:b0:949:64c2:1630 with SMTP id
- af79cd13be357-949995d909emr225332085a.47.1794956927022; Tue, 17 Nov 2026
- 15:08:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gxf3CeZg
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 00C0C1F000C4;
+	Tue, 17 Nov 2026 23:14:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794957250;
+	bh=yp6+Hwad/NBoam++rgWwhCOLZpBfJyHe1i278jtj9/A=;
+	h=From:To:Cc:Subject:Date;
+	b=gxf3CeZgQiYInmwTCsJEpC9Q9rV3XfEnkpMfqYKKQLHrsz2tF88DlZadPUvGDmLHY
+	 JhDrjDv6JsOFbRcfejD3ARsnyggY8gv6rSAqj9Q/EE5lOo0/KtkapgPsJVCDvxTDjZ
+	 Anec1m6erHqQ5vTQWyAgScKHqeo8H0BnCCaOL8NwC2wWLw+8F11lo4zoqyA0J3IaRc
+	 eUB4bdzBxQwPCE0m7ywlRNS0Xaej4i0kGTBNg2IdenE0LzY51zebpn9mmrsrWLuBWF
+	 paBGkkIYjNP9b5XMebOD4pW6qK1i/Q/FyCDqA7vser6WO1NxHFV+ecP7etOYBgybdw
+	 4E2nhRf97F6Eg==
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: linux-fsdevel@vger.kernel.org
+Cc: Jarkko Sakkinen <jarkko@kernel.org>,
+	linux-api@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-security-module@vger.kernel.org,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Andy Lutomirski <luto@amacapital.net>,
+	Ben Segall <bsegall@google.com>,
+	Christian Brauner <brauner@kernel.org>,
+	David Hildenbrand <david@kernel.org>,
+	David Howells <dhowells@redhat.com>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Ingo Molnar <mingo@redhat.com>,
+	Jan Kara <jack@suse.cz>,
+	Jonathan Corbet <corbet@lwn.net>,
+	John Johansen <john.johansen@canonical.com>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Kees Cook <kees@kernel.org>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Manfred Spraul <manfred@colorfullife.com>,
+	Mel Gorman <mgorman@suse.de>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Neal Gompa <neal@gompa.dev>,
+	Paul Moore <paul@paul-moore.com>,
+	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Serge Hallyn <sergeh@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
+Subject: [RFC PATCH v2 00/13] Namespace for namespace roots
+Date: Wed, 18 Nov 2026 01:13:39 +0200
+Message-ID: <20261117231352.3816603-1-jarkko@kernel.org>
+X-Mailer: git-send-email 2.47.3
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -107,108 +96,201 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261117164756.97065-1-jain.sm@gmail.com>
-In-Reply-To: <20261117164756.97065-1-jain.sm@gmail.com>
-From: shashank Jain <jain.sm@gmail.com>
-Date: Wed, 18 Nov 2026 04:38:35 +0530
-X-Gm-Features: AclHuK_stX8rGF7FB55S1t8qyAd5lXqjdL2y4CcMcGEKh7vJZTeOKIecSE-swS4
-Message-ID: <CA+FWx=nHkuDf_+Wq4Zk6BuxKcC=EwcmZsVVviyQj3WyXF5EbHA@mail.gmail.com>
-Subject: Re: [PATCH] iomap: fix offset truncation in iomap_fill_dirty_folios()
- on 32-bit
-To: Christian Brauner <brauner@kernel.org>
-Cc: "Darrick J. Wong" <djwong@kernel.org>, Matthew Wilcox <willy@infradead.org>, 
-	Brian Foster <bfoster@redhat.com>, Christoph Hellwig <hch@lst.de>, Carlos Maiolino <cem@kernel.org>, 
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-One correction to the note under the ---: it was Willy Tarreau on
-security@kernel.org who asked me to post this publicly, not Matthew
-Wilcox. Sorry for the noise, Matthew.
+OVERVIEW
+========
 
-Shashank
+A root namespace (rootns) is a kernel object backed by a file descriptor
+that binds together:
 
-On Tue, Nov 17, 2026 at 10:18=E2=80=AFPM Shashank Mohan Jain <jain.sm@gmail=
-.com> wrote:
->
-> iomap_fill_dirty_folios() turns the page index at which the dirty
-> folio lookup ended into the file offset it returns to the caller:
->
->         *start =3D (pstart << PAGE_SHIFT);
->
-> pstart is a pgoff_t. On a 32-bit kernel the shift is done in 32 bits
-> and the upper bits are lost for every offset at or above 4 GiB.
->
-> XFS uses the returned offset in xfs_buffered_write_iomap_begin() to
-> trim an unwritten mapping to the range covered by the lookup. With the
-> truncated offset the end of that range is below its start and
-> xfs_trim_extent() leaves a mapping of zero length. iomap_iter_done()
-> warns about it,
->
->   WARNING: fs/iomap/iter.c:38 at iomap_iter+0x33c/0x36c
->   WARNING: fs/iomap/iter.c:39 at iomap_iter+0x34c/0x36c
->
-> and iomap_zero_range() does not terminate: a mapping of zero length is
-> what the iterator takes for the start of an iteration, so it asks for
-> the next mapping again and again without checking how much of the
-> range is left.
->
-> On i386 with XFS (4k blocks) this is enough to trigger it:
->
->         fd =3D open("f", O_RDWR | O_CREAT, 0644);
->         fallocate(fd, 0, 5ULL << 30, 1 << 20);
->         ftruncate(fd, (5ULL << 30) + 1000);
->
-> ftruncate() never returns. The task spins in iomap_zero_range() with
-> the inode locked and does not react to SIGKILL. A write behind an
-> unaligned EOF which is in an unwritten block above 4 GiB fails with
-> EFSCORRUPTED instead, after "XFS (vda): Access to block zero in inode
-> 132 start_block: 0 start_off: 140002 blkcnt: 0 extent-state: 0":
->
->         fallocate(fd, 0, 5ULL << 30, 1000);
->         pwrite(fd, buf, 100, (5ULL << 30) + 8192);
->
-> The same calls work below 4 GiB, and v6.19 behaves like v7.3-rc6.
->
-> Cast the page index to loff_t before the shift.
->
-> Tested with an i386 kernel in qemu and XFS on a virtio disk: the two
-> sequences above hang and fail without this change and succeed with
-> it.
->
-> Fixes: 395ed1ef0012 ("iomap: optional zero range dirty folio processing")
-> Cc: stable@vger.kernel.org
-> Assisted-by: LLM
-> Signed-off-by: Shashank Mohan Jain <jain.sm@gmail.com>
-> ---
-> Prepared with Claude Code (Anthropic), model Claude Opus 5.5
-> (claude-opus-5-5).
->
-> First sent privately to security@kernel.org on 11 October; Matthew
-> Wilcox asked for it to be posted as a normal patch. Sorry for the delay.
-> The code is unchanged in mainline, so this is the same fix, rebased on
-> 666539eecdf4.
->
->  fs/iomap/buffered-io.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-> index 6d843b1..846f87a 100644
-> --- a/fs/iomap/buffered-io.c
-> +++ b/fs/iomap/buffered-io.c
-> @@ -1735,7 +1735,7 @@ iomap_fill_dirty_folios(
->         }
->
->         count =3D filemap_get_folios_dirty(mapping, &pstart, pend, iter->=
-fbatch);
-> -       *start =3D (pstart << PAGE_SHIFT);
-> +       *start =3D (loff_t)pstart << PAGE_SHIFT;
->         *iomap_flags |=3D IOMAP_F_FOLIO_BATCH;
->         return count;
->  }
->
-> base-commit: 666539eecdf4db623f5e3c3e55cf9f2dfad24aa4
-> --
-> 2.43.0
->
+1. A full or partial set of detached namespaces.
+2. A dedicated PID namespace for spawning processes into, signaling
+   members, and polling or waiting on PID 1 exit.
+3. An initially empty mount namespace (CLONE_EMPTY_MNTNS) that must be
+   populated before going live, without inheriting host mount-tree
+   ancestors.
+
+Work on this feature started in 2025 from David Howells' container object
+patch set [1], which I turned into a namespace for namespace roots and
+rebuilt around that premise.
+
+While the patch set is manually written, the original motivation came
+from isolating LLM agents. Running untrusted agent workloads made it
+clear that OCI runtimes need to minimize their live configuration
+surface.
+
+Assembling mounts, credentials, and namespaces inside helper processes
+with a half-configured container is what I see as the main challenge,
+and the existential debate around namespaces and container objects is an
+unfocused discussion topic.
+
+[1] https://lore.kernel.org/all/155059610368.17079.2220554006494174417.stgit@warthog.procyon.org.uk/
+
+IMPLEMENTATION
+==============
+
+rootns_create() allocates a rootns instance backed by a pollable
+anonymous inode fd, pinning dedicated empty mount (CLONE_EMPTY_MNTNS) and
+PID namespaces along with any optional namespaces selected in flags.
+
+Before entry, userspace populates the mount tree through the control fd:
+FSCONFIG_SET_ROOTNS binds a newly opened fs_context to the target rootns,
+and move_mount(..., MOVE_MOUNT_T_ROOTNS_ROOT) installs "/" onto the
+nullfs root once (transitioning the rootns to ROOTNS_READY) and attaches
+relative submounts beneath it.
+
+Processes are spawned into a ready rootns via clone3() with
+CLONE_INTO_ROOTNS and struct clone_args.rootns, without mutating the
+caller in place. Pairing CLONE_INTO_ROOTNS with CLONE_VM | CLONE_VFORK
+and opening the target binary via openat2(..., RESOLVE_IN_ROOT) on the
+retained "/" mount fd allows spawning with execveat() without copying
+page tables.
+
+The first entrant becomes PID 1; once it exits and
+zap_pid_ns_processes() reaps all members, poll() reports EPOLLHUP and
+rootns_wait() returns init's exit status and rusage. rootns_kill() walks
+pid_ns->idr under RCU to signal member thread groups.
+
+CHANGES
+=======
+
+v2:
+- Drop rootns provenance tracking (rootns_id and rootns_may_setns()) and
+  rely on user_namespace ownership for setns() isolation (Andy
+  Lutomirski).
+- Replace the rootns_enter() system call with clone3(CLONE_INTO_ROOTNS)
+  and struct clone_args.rootns (CLONE_ARGS_SIZE_VER3), allowing
+  CLONE_VM | CLONE_VFORK and compatible per-child clone3() flags (Andy
+  Lutomirski).
+- Drop the spurious task_no_new_privs() check in may_enter_rootns_creds()
+  (Andy Lutomirski).
+- Update documentation, Kconfig, syscall tables, and kselftests for
+  CLONE_INTO_ROOTNS.
+
+VERSIONS
+========
+
+v1: https://lore.kernel.org/linux-fsdevel/20261117050841.3289652-1-jarkko@kernel.org/
+
+Cc: linux-api@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-kselftest@vger.kernel.org
+Cc: linux-mm@kvack.org
+Cc: linux-security-module@vger.kernel.org
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Andy Lutomirski <luto@amacapital.net>
+Cc: Ben Segall <bsegall@google.com>
+Cc: Christian Brauner <brauner@kernel.org>
+Cc: David Hildenbrand <david@kernel.org>
+Cc: David Howells <dhowells@redhat.com>
+Cc: Davidlohr Bueso <dave@stgolabs.net>
+Cc: Dietmar Eggemann <dietmar.eggemann@arm.com>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Jan Kara <jack@suse.cz>
+Cc: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: John Johansen <john.johansen@canonical.com>
+Cc: Juri Lelli <juri.lelli@redhat.com>
+Cc: Kees Cook <kees@kernel.org>
+Cc: K Prateek Nayak <kprateek.nayak@amd.com>
+Cc: "Liam R. Howlett" <liam@infradead.org>
+Cc: Lorenzo Stoakes <ljs@kernel.org>
+Cc: Manfred Spraul <manfred@colorfullife.com>
+Cc: Mel Gorman <mgorman@suse.de>
+Cc: Michal Hocko <mhocko@suse.com>
+Cc: Mike Rapoport <rppt@kernel.org>
+Cc: Neal Gompa <neal@gompa.dev>
+Cc: Paul Moore <paul@paul-moore.com>
+Cc: Pavel Tikhomirov <ptikhomirov@virtuozzo.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Randy Dunlap <rdunlap@infradead.org>
+Cc: Serge Hallyn <sergeh@kernel.org>
+Cc: Shuah Khan <skhan@linuxfoundation.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: Suren Baghdasaryan <surenb@google.com>
+Cc: Valentin Schneider <vschneid@redhat.com>
+Cc: Vincent Guittot <vincent.guittot@linaro.org>
+Cc: Vlastimil Babka <vbabka@kernel.org>
+Cc: Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
+
+Jarkko Sakkinen (13):
+  nsproxy: Pass nsproxy to create_new_namespaces()
+  rootns: Add core infrastructure for root namespaces
+  rootns: Track init lifecycle via copy_process() and pid_namespace
+  rootns: Add rootns_create() system call
+  rootns: Add rootns_wait() system call
+  rootns: Add rootns_kill() system call
+  fork: Support CLONE_INTO_ROOTNS in clone3()
+  fs: Support FSCONFIG_SET_ROOTNS in fsconfig()
+  fs: Support installing rootns mount trees via move_mount()
+  arch: Wire up rootns system calls
+  docs: Document root namespace uAPI
+  selftests/rootns: Add root namespace test suite
+  MAINTAINERS: Add entry for ROOT NAMESPACE
+
+ Documentation/userspace-api/index.rst       |    1 +
+ Documentation/userspace-api/rootns.rst      |   40 +
+ MAINTAINERS                                 |   11 +
+ arch/alpha/kernel/syscalls/syscall.tbl      |    3 +
+ arch/arm/tools/syscall.tbl                  |    3 +
+ arch/arm64/tools/syscall_32.tbl             |    3 +
+ arch/m68k/kernel/syscalls/syscall.tbl       |    3 +
+ arch/microblaze/kernel/syscalls/syscall.tbl |    3 +
+ arch/mips/kernel/syscalls/syscall_n32.tbl   |    3 +
+ arch/mips/kernel/syscalls/syscall_n64.tbl   |    3 +
+ arch/mips/kernel/syscalls/syscall_o32.tbl   |    3 +
+ arch/parisc/kernel/syscalls/syscall.tbl     |    3 +
+ arch/powerpc/kernel/syscalls/syscall.tbl    |    3 +
+ arch/s390/kernel/syscalls/syscall.tbl       |    3 +
+ arch/sh/kernel/syscalls/syscall.tbl         |    3 +
+ arch/sparc/kernel/syscalls/syscall.tbl      |    3 +
+ arch/x86/entry/syscalls/syscall_32.tbl      |    3 +
+ arch/x86/entry/syscalls/syscall_64.tbl      |    3 +
+ arch/xtensa/kernel/syscalls/syscall.tbl     |    3 +
+ fs/fsopen.c                                 |   76 +-
+ fs/namespace.c                              |  178 ++-
+ fs/proc/root.c                              |   13 +
+ include/linux/compat.h                      |    4 +
+ include/linux/cred.h                        |    4 +-
+ include/linux/fs_context.h                  |    3 +
+ include/linux/nsproxy.h                     |    9 +-
+ include/linux/pid_namespace.h               |    4 +
+ include/linux/rootns.h                      |   92 ++
+ include/linux/sched/task.h                  |    8 +
+ include/linux/syscalls.h                    |    4 +
+ include/uapi/asm-generic/unistd.h           |   10 +-
+ include/uapi/linux/mount.h                  |    4 +-
+ include/uapi/linux/rootns.h                 |   38 +
+ include/uapi/linux/sched.h                  |    5 +
+ init/Kconfig                                |    9 +
+ ipc/mqueue.c                                |   12 +
+ kernel/Makefile                             |    2 +
+ kernel/cred.c                               |   70 +-
+ kernel/fork.c                               |   67 +-
+ kernel/nsproxy.c                            |   41 +-
+ kernel/pid_namespace.c                      |    2 +
+ kernel/rootns.c                             |  593 ++++++++
+ kernel/sys_ni.c                             |    6 +
+ scripts/syscall.tbl                         |    3 +
+ tools/testing/selftests/Makefile            |    1 +
+ tools/testing/selftests/rootns/.gitignore   |    2 +
+ tools/testing/selftests/rootns/Makefile     |    5 +
+ tools/testing/selftests/rootns/config       |    9 +
+ tools/testing/selftests/rootns/smoke.c      | 1381 +++++++++++++++++++
+ 49 files changed, 2680 insertions(+), 75 deletions(-)
+ create mode 100644 Documentation/userspace-api/rootns.rst
+ create mode 100644 include/linux/rootns.h
+ create mode 100644 include/uapi/linux/rootns.h
+ create mode 100644 kernel/rootns.c
+ create mode 100644 tools/testing/selftests/rootns/.gitignore
+ create mode 100644 tools/testing/selftests/rootns/Makefile
+ create mode 100644 tools/testing/selftests/rootns/config
+ create mode 100644 tools/testing/selftests/rootns/smoke.c
+
+--
+2.47.3
+
