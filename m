@@ -1,56 +1,126 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.159
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794875036;
-	b=ftaDtT6+Tw+98txgcIyiZ7hjf8ZnDZK2LlZw7CncTVTm1LgF7fO5KExZzpqj0BKBl5Te
-	 oQ6BeMF4J/39vAV1bpuw7eZ6Ye0yxRizRn31+Zal/cTZgMAAV5qARXMoWr60z42xql+9e
-	 h4/1SUXclXTrdgokFkB49RE2qciqNMNO5Dnh7vM8QTYPyrMYE2Q9aEJYMeWDUagp8iuAP
-	 eEatSMoIONieSgtYFUc7XvQkd5dw5DS+oNylOxiMwGFsDMHAk5E7JlsUIMbcSy7D47LSy
-	 u8K6DUVgSmvGTW5yf9czGep15DrstJAdpPZ1kHQMXSsSRDV+muaFzf8CBKDHXfeVPPg==
+	t=1794876341;
+	b=a8RfQT0KvJpwaUcP4O6tocRHeGRjyy+PTMwDZCxtpDNLUvx7uoWbSHPDRCJd9xlKw150
+	 d7Ulu3SqCa62H5xfy/8uvyi01mu8yDGOMG8e9iz8QWV1AiHzqh/68B1SueINAL0ss+7Rq
+	 rrVX9ExAYj4fBHh2BAP7tnevj8S3lQmsOJKx33aVvlQuLUYHc9H4+LiC+8WXiDcGkNFDJ
+	 xR+5ElcvJ+Rm40haieK/N967r/dMm4Xit4QodHpEkgM2oLyUvJTjoXEETkTLBsL5ne5ES
+	 xfCDckuf0fGPvf/rZolPGmjTznWnMUeKWWizrhJyZvr19hzVHI766XIip/WoDPa9IGw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794875036;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=fQ9eXzHiHeQvVjPE19jWdMNTEPumx4cvvdhCAOpg6rw=;
-	b=kXk252XBG6N0GUSuFWb9WsJYgVtYnSjb75Rwy5ht29iOGFbLiX0DFAkbLU0f3MqKCnkq
-	 s43CiqQ3aXJXF8SzMGNskw5AjAGPnf1LAsjh5AcKHY9Lvh1ojhIo/LuBNqFxJOAIWGww4
-	 1iVGsLpFM/2Va44LZUlmVpmkNT0GFaidDiHKmf7qKETWXJ1sTFn6zVJeuRKv4Jjc3cn+O
-	 wrvU8WCVNKJO4mknkjAjF0kZbG3rfdSiwFtFTnx262SDr0uKDPoFfjD59nfeXU2M3qiQ8
-	 byD6yz/V7v14n+jvytLXvikM7PAd+5iYliYu8KhGEsyW8gjiufr4U87AKBw5r3V+6Gg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794876341;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:Date:Message-Id:To:Cc:Subject:From:In-Reply-To:References:
+	 Mime-Version:Content-Type:Content-Transfer-Encoding;
+	bh=yoVmjNYaGAKUStl7neztOQN0Ep2lVscTrhxPcUuhlfU=;
+	b=GJVNhc3d+0BK4ByXpdU09XBtloVi53jN0ElezJpKc0N0zDVTfPB/gR5vbn84Rvq7don0
+	 JS0or2ZPb+YRWIN8YDGqL7jTYYLecn3lZT/dKYw8Zbkllp4TQEYqbLQjfZJ/2V0o8T+VP
+	 JstdBbM7Vu7kZAqu8kieXHMrsHI6gRq8OaZRulVSUnt40Ay8mx2DvozOk7m1MujNsd13E
+	 e6Q8JCL9ksRHbxS15LEz0wh+xN+Bn/vu1VK+yREGSDObAjWvACp3wx+3KpmdOS+XZPKXo
+	 XO0A08M3dwDUu/qOQDJLVqzJYZTIacRv/nXfLHHwbHFn6dE4oKEWXvVom1wrK2WLNEQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=M9RT5rHR;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=flapping.org;
+	spf=pass smtp.mailfrom=flapping.org;
+	dkim=pass header.d=flapping.org header.i=@flapping.org header.a=rsa-sha256 header.s=fm2 header.b=TsLNq0Lo;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=Phvz6Dnl;
+	arc=none smtp.remote-ip=103.168.172.159
+Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08326606A31C;
-	Tue, 17 Nov 2026 00:23:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23E9C606A31C
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 00:45:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 23E9C606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=flapping.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flapping.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=M9RT5rHR
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C28B01F000C4;
-	Tue, 17 Nov 2026 00:23:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794875035;
-	bh=fQ9eXzHiHeQvVjPE19jWdMNTEPumx4cvvdhCAOpg6rw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=M9RT5rHRkjvdbtERfl41ONUt+npXwbDS5xCSBC5gEDjcdHO/IQKQD0aWZGNdMqOLx
-	 TLikKT4NqIqcrfPuQgRPhm1jA/OqKS7dqy3WSbbDGUtj4vAJIRdqVGUETbMj4mGOAd
-	 LS3MBooxdO0l8m7L6fiz3aivGGYi9N5/QTdV4u15GFqj4zwlXwleHnBZ93GnhP/SPY
-	 dgTDO2TCve30yY3e2A+V9Vb6GTnBnQthzIcDmJmFJRJcA2hVPR/6fwD/q198uSaOJH
-	 PwvIAWN8RW8D+gDstlWKqoj+bUJa6fA4n9pdQ29ZdVqNqzhZm7V5tqiywthpHfPGvC
-	 aOdYryYivnOMw==
-Date: Tue, 17 Nov 2026 01:23:51 +0100
-From: Alejandro Colomar <alx+linux-man@kernel.org>
-To: Daniel Tang <danielzgtg.opensource@gmail.com>
-Cc: linux-man@vger.kernel.org, 
-	Christian Brauner <christian.brauner@ubuntu.com>, Michael Kerrisk <mtk.manpages@gmail.com>, 
-	Aleksa Sarai <cyphar@cyphar.com>, Christoph Hellwig <hch@infradead.org>, 
-	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>
-Subject: Re: [PATCH v2] mount_setattr.2: Fix nonexistent perf_setattr
-Message-ID: <avuehaeUB2hV031l@devuan>
-References: <6099049.DvuYhMxLoT@daniel-desktop3>
- <avuYP6-OQJMhLqCn@devuan>
- <6091006.DvuYhMxLoT@daniel-desktop3>
+	dkim=pass (2048-bit key, unprotected) header.d=flapping.org header.i=@flapping.org header.a=rsa-sha256 header.s=fm2 header.b=TsLNq0Lo;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=Phvz6Dnl
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id CB1FF14000BA
+	for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 19:45:39 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-03.internal (MEProxy); Mon, 16 Nov 2026 19:45:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flapping.org; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1794876339;
+	 x=1794962739; bh=yoVmjNYaGAKUStl7neztOQN0Ep2lVscTrhxPcUuhlfU=; b=
+	TsLNq0LoX4UQg0NpUArkzXQlNSsxL/n/DjBBqbMG2SfKAT8b8zWkxMGgdhMxeBZ9
+	wxMgn/Imme0HJvNDpF2j0vjz+ZIbNdjuppwjLOZ7nXY+o6X6dtvCz/yt07Rs4/5C
+	Ywk1Lu5Qhw7voiy1XapfUuPw9lVZ5fXmigr7GYMZx+XGx5I+l6pFur2IB1h7ynND
+	Z0p5FCO0pBoaV/Jk5RxGyi2SssHi9yT3pLzr5VtPHVoz0E8audOC4G+ThsjFzgyE
+	6nFmR7YHzQ2xJOON79v0ch3Pl7sGkUWXuJNoMHEeIvtCjakACLCWGA605P8w0lXq
+	kBejgaTWKUZpm3ODgXNGFA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1794876339; x=
+	1794962739; bh=yoVmjNYaGAKUStl7neztOQN0Ep2lVscTrhxPcUuhlfU=; b=P
+	hvz6DnlTNT4xwlj556S6/OXVAtFwvb4B+hwD9IRBv3ClqKlj9bkP3oFRjayD+2mZ
+	HpHTGJSVSXHw1mtUbmUZDTtnQoKICaKJD8HDDM5nSuhDLbMT0Wrvfecgjt8lN+YM
+	qLMtUxuSD9YxdZJRzO+eBnrmzxlm48iIknFvWYXlI1GP+nZc8Sln4hT2tOIote2a
+	7B+yYdeGDAX8DQwy6TGQsZxuxc73JwheEY4PBTDRB+UJlGjWujPMAfXtAH3n42FG
+	g+fp4Mg7QDa+acXIo+PCyTc0Hvc7m7V4MpV47r+F8uQVON/uk7HWnsZRXFMvcnmb
+	C1wkv6gDTzfWESmlPcTrQ==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=flapping.org a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1794876339; d=flapping.org;
+	mf=PHRvbW9AZmxhcHBpbmcub3JnPg==;
+	rt=PGxpbnV4LWZzZGV2ZWxAdmdlci5rZXJuZWwub3JnPg==;
+	s=fm2:rsa-sha256:Vm/20P57gdYfS/07jdm7qkIyi3KToRXFzRFbITy0WhcZwFD
+	j6Cre8UCEkKBrkFRafX88soUdV2lzjI9Skm4/sFjflEZZzBvmCQiIkncNImng6wu
+	L0iu8+lSVwSLE0j6dILFg9OebvVqPr3Yn6EGsxcQ6MNjB90PMFXxF1fSAWi9kWIi
+	8M1KYwOMpK9TR6ag2sfgox+fVWuNf4wedjficDqPtZ+aO9H9qb7VChBrGl9aUIb9
+	BMQkl3msxdTuMP3G8b06Sk0z03J6ZMkA45H6A+IGUZsc7+IfGvB37bKnyCi18MWe
+	3YkOrN2QVmWDbfpJHfE6cXit56fS8uzatGBuZ2w==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:7za6rRETpovpKoK81OR4LXJBJIIOFqxRjHIFDeKgWuo=:l49fCnoDEnr1DQepJzhk82iFjB6bWpZ6iLNAqwE+8Ss=;
+X-ME-Sender: <xms:sqP7akNoF_ROp--fKRzAPJNaEsUb0FVRkJFtncQEVmV4eE_u_ANqqw>
+    <xme:sqP7apWA2oCYAhUTkV5Xy3u_BiFLKYsFiM9pnWOtcvA5buGODqZb4inZ__1_Pk05V
+    1jjDxe-vPiVeDLRVHJVAbAh-wMfj_kBQJQt-dKvSrQxrJQBXoUG4Q>
+X-ME-Received: <xmr:sqP7anRWVmctN-8o2J9bDTCJ4cwsOfeVqlFIz1173KLpKNgkRdBoo8uRfnA0wLB3jzG10fer6s7NKsDW6olpoOyW>
+X-ME-Proxy-Cause: dmFkZTGpddrMU7DTWO1z0Z0br/CEgkbIJ+wswoDJLOHKcDXXjyf4X69Pe40ttRK9xz69Ui
+    OtVoNeVbHBsW5Yof96cJKL5HFmafp8G5qN0putY9Wr1rxmdKLaPrxZM4rPYhOFHVTlnkpV
+    kPiDuJrSDvom+0/HD20kP6B48wuykA5LSL+38rh7KjEOSYqi8bYb/bOzVSjnvMcdxtHAFW
+    vsPKzmW0VBTiVHz7ytsRmcdEetrAXcMssxPwpZ23TLLMyQnWCe/RX088SSb7nrXWDAic6v
+    FVlObIIAUIEP8fYsgUxcWcQP48XilhmsEOYmaZsl7c/Rsl69KcUDe7f2Cd08nxWZnZ0LGn
+    03UchNTJFowDd8HX8eCCSknjoYaA2LUZ9O+/QDfMadzwcDkYE5e8+Mhhkk26qG/p5Zz0rX
+    DlII/+75TbRKnsmy6WeU5nl/nIg4oZdcX2d3dUJaenCBpBDWSy/q6mEhc6W1K/zapFC0Px
+    xnrM5mF4j/SpHRyowHG+6t6kQhltllqsuiTXlH8u5XipV/cpRF/hThkS0wfQtIEXRWkyVj
+    MtXueI+EYrq/o6M9eWF920hniWht5QwgNyp8vOyJZvB9r8YdVy4T/E3OKEzP06J259VoQW
+    DZolk+Qd2Cz2kDgJwR97dyGSBpnbU2GhodrGhsQ2lVLG3Tuw8jPELg+pqSmQ
+X-ME-Proxy: <xmx:sqP7av2dupyxDfBRGPQy35A5Fms-2OMF5uNxUsDGXNH_UPcS7I0Njw>
+    <xmx:s6P7aki0bHq8YVBeCLIieZ8NKYVG5z3j2QV72Kb2uv9Fygeyqum69A>
+    <xmx:s6P7atYmsDbapO0YsZmo9kgnc9QJbWs4qoxVrV2K1q_xLuGPqekk6w>
+    <xmx:s6P7atPa5mu5reVur2exjN0kDZjYYZEtRnvVZ6AvEKzazJYHbH7Eyg>
+    <xmx:s6P7akEDAMElziy0fUfALS_u_vNLfmL95VOFvm4OL6hIsV_WredPDX3D>
+Feedback-ID: i51fe4b43:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 16 Nov 2026 19:45:34 -0500 (EST)
+Date: Tue, 17 Nov 2026 09:45:31 +0900 (JST)
+Message-Id: <20261117.094531.2139684707820199268.tomo@flapping.org>
+To: dakr@kernel.org
+Cc: boqun@kernel.org, gary@garyguo.net, aliceryhl@google.com,
+ lyude@redhat.com, daniel.almeida@collabora.com, work@onurozkan.dev,
+ ojeda@kernel.org, bjorn3_gh@protonmail.com, lossin@kernel.org,
+ a.hindborg@kernel.org, tmgross@umich.edu, tamird@kernel.org,
+ acourbot@nvidia.com, viro@zeniv.linux.org.uk, brauner@kernel.org,
+ jack@suse.cz, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v3 1/5] rust: task: add safe schedule_timeout() wrapper
+From: FUJITA Tomonori <tomo@flapping.org>
+In-Reply-To: <20261117001507.1611984-2-dakr@kernel.org>
+References: <20261117001507.1611984-1-dakr@kernel.org>
+	<20261117001507.1611984-2-dakr@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -59,101 +129,20 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="x46a76etezmfigcd"
-Content-Disposition: inline
-In-Reply-To: <6091006.DvuYhMxLoT@daniel-desktop3>
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
+On Tue, 17 Nov 2026 01:14:42 +0100
+Danilo Krummrich <dakr@kernel.org> wrote:
 
---x46a76etezmfigcd
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx+linux-man@kernel.org>
-To: Daniel Tang <danielzgtg.opensource@gmail.com>
-Cc: linux-man@vger.kernel.org, 
-	Christian Brauner <christian.brauner@ubuntu.com>, Michael Kerrisk <mtk.manpages@gmail.com>, 
-	Aleksa Sarai <cyphar@cyphar.com>, Christoph Hellwig <hch@infradead.org>, 
-	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>
-Subject: Re: [PATCH v2] mount_setattr.2: Fix nonexistent perf_setattr
-Message-ID: <avuehaeUB2hV031l@devuan>
-References: <6099049.DvuYhMxLoT@daniel-desktop3>
- <avuYP6-OQJMhLqCn@devuan>
- <6091006.DvuYhMxLoT@daniel-desktop3>
-MIME-Version: 1.0
-In-Reply-To: <6091006.DvuYhMxLoT@daniel-desktop3>
+> +pub fn schedule_timeout(timeout: Delta<Jiffy>) -> Delta<Jiffy> {
+> +    let timeout = timeout.as_jiffies().max(0);
 
-Hi Daniel
+In earlier reviews of my patches, Gary asked me to use the function
+syntax or clamp() for this instead of the method syntax [1][2]:
 
-> Date: 2026-11-16 19:17:48-0500
-> From: Daniel Tang <danielzgtg.opensource@gmail.com>
->
-> The problematic reference had been copied from openat2.2, where it was
-> fixed in bbed82c0693a ("openat2.2: tfix: fix minor reference typo"). I
-> performed the same fix for mount_setattr.2.
->=20
-> Fixes: f3a5ba3f0151 ("mount_setattr.2: New manual page documenting the mo=
-unt_setattr() system call")
-> Link: https://lore.kernel.org/linux-man/20200929223509.11783-2-cyphar@cyp=
-har.com/
-> Link: https://lore.kernel.org/linux-man/20191003145542.17490-1-cyphar@cyp=
-har.com/
-> Link: https://lore.kernel.org/linux-man/20210730094121.3252024-1-brauner@=
-kernel.org/
-> Signed-off-by: Daniel Tang <danielzgtg.opensource@gmail.com>
-> ---
+    let timeout = isize::max(timeout.as_jiffies(), 0);
 
-Thanks!  I've applied the patch.
-
-
-Have a lovely night!
-Alex
-
->  man/man2/mount_setattr.2 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/man/man2/mount_setattr.2 b/man/man2/mount_setattr.2
-> index 0f4b619d8..bb8da7ca4 100644
-> --- a/man/man2/mount_setattr.2
-> +++ b/man/man2/mount_setattr.2
-> @@ -846,7 +846,7 @@ acting as an implicit version number.
->  (Because new extension fields will always
->  be appended, the structure size will always increase.)
->  This extensibility design is very similar to other system calls such as
-> -.BR perf_setattr (2),
-> +.BR sched_setattr (2),
->  .BR perf_event_open (2),
->  .BR clone3 (2)
->  and
-> --=20
-> 2.53.0
->=20
->=20
->=20
->=20
-
---=20
-<https://www.alejandro-colomar.es>
-
---x46a76etezmfigcd
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmr7npcACgkQ64mZXMKQ
-wqmV7w//XSsZU4i+D/mOQW8FebmPKMUiBb1YHBwA7NbA5EOLddo3U+t8FdqZsdSD
-/8Dy5ZtrVQoh2o9x8DpQkbN+ziJGsQtguVS6LuNkCfFFyptvr67T1meMxDOv/vIw
-GDvUuNap52Pl+MmJUlNQet+M2LknSP55nkPxmd6N65mJcQ0IU3qUG1TTO0JQ3qKg
-d7twweLBOajiuGZk3AJsCo4YSCUenS7+gNMCZrMqo15mzWiceOg0c9qzOUq9qkOz
-YN+Y9izDXJyJjIO+yYyI+/KsO8QOFjtcFYWNic2pfpfc8ru3kBEFnMs//hSKhAPJ
-1haAjNEQydimdeJ599DHFC7Gv5dEk9mXAT7Jij79y9rzBNgb4fRW3SGBPJXWqz4E
-ns+Hbw6NUNMeHw17N1qNUb20G1qB3g7OG509fC/WMyQ83ch1spHAmzlICkLGeb1o
-r0LMd0z+nGfvLuo66HFY7eBY2zZFK45b8Xi8zXRBtZke9xiq/UoynslOhQHrNh8w
-3pnY6w6zpbIy7b9cFPP4xnQXxLNnNk2li5VNzGLuih+Vj253IEc2XhmUU6jkjGly
-7s34ScMG3+dCxM7z596iEuwDQvbZ5TUv9FK4tA1R7eLtTpgQKKAMXw9oWRRjq2ws
-wIiwyGDdyY/4+pebbNzHX2KhuGZNpniRUlFyDx9yhI6X6LfAS4M=
-=U1Hg
------END PGP SIGNATURE-----
-
---x46a76etezmfigcd--
+[1] https://lore.kernel.org/rust-for-linux/DLMME4OBH3P8.3Q6UK95T2WGI@garyguo.net/
+[2] https://lore.kernel.org/rust-for-linux/DLUDG2TH77RI.ZQ0T5MH7Q573@garyguo.net/
