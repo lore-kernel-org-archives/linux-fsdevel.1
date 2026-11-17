@@ -1,101 +1,106 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=74.125.231.203
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
-	t=1794943778;
-	b=0/2Cd0gsL3x6aJx8k8tOTwTQ4PzeSG6J+IblatslWNTbdihSNsb6gIERes59f64fWa78
-	 1NkrJABytdVPxCjuLo/TmV1pM724Fm8l3v+oYRbdPNoCmessenguF6oYzA4nVHbRSjt/Z
-	 /ySnY93n4LyiVQHmZLXNAEYHvY0oz885Hgte/w0yM5Ke44pN6kiXkwxvXxckorZgluEdC
-	 Q1EjdELpZzqO4KjWbELJ67r7R+Eev8Le0RhxT+3EvBLMvZjjeeCMKVlkoXkVezyq7nLRq
-	 sPHRJt0mVQx1H0yLSAWlTPd2hzHKJojF08f+MdRYb9eay3pQVoDocxhRN0ywX7cYfAw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794943778;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.46
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794944367;
+	b=BHoIcpLkrjwj33yXhBom9q5gaHjzR/Cu+l1534tc3CI5rqxhKpWeC003by3p9ldZ/HoQ
+	 M4FyTGS5yEJnxfLDc87iiRriShFg57alpm4rn1NRZV/Q6iAepU7iG4i+V+E/bHebJTMFm
+	 wiO8c2wfTbJQ2aBjW+O+jg4dRGmjkAO9swfpgFsLkOumCkuQX0A8A8rDy5S6rCUEwQblL
+	 X2lH8X5FqOQn0mtFPTnCYvKz05AYpf2jPsuKbTOAKJCRw83ywMKRLea/zyfienl9JTOFU
+	 fYMz2Libr23WqRjZjlktJ/ybSKcxN3gsq6EeI/QN2yVhQgG+jgWcL/lepWFmAb5IiRg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794944367;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=PGjBYsfF8c+MCFmt2RtqM8D82MXv6pCt/UIwi1wWB78=;
-	b=46a2Pk2h0M2eSiXOAQVIrmZCVzVaO43ANTlXsNmi+0apmCa5+jwWpSfmBhPhh3y9ePZX
-	 pIZs9P4Kds6KsIyWZzyI7Yeb0yuOJJhVEmtRv40MvAcwl3dA1I7+/SUVYoJy3JSaek6xh
-	 W6h2Sljev5d6e/RMa5Tw0UNCKuDBJPKBY+rxKETH/nsOL2iSWK4bBVUb0uMKCAkmqqOPU
-	 nF5Rhg8LnIDZid8lFmZKFISbBGIEziy2Ph+wyTKvKDCby5Ham1FdxdxGnxL5xeymnZb2B
-	 /YAP7kug81PNH7NetlDzqIYqRJWKHOlMN0bOaXl67fjg0ZIxN4/ruvR/bJzG27bnoyQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=X24LLs2RrK+lA3rnWmeXdxswGXkvA2QXv3w3PC5997A=;
+	b=tjazlTTHORyKd93Ad4f0muVv6MIo3YDdXE0LDQuJDz3JElUM9rf3jZpgSgwLeW8VJKfY
+	 Q7sofniiuX94kIkER3radLLorPutINzOglWWhJSX7PkF9nLRfqlPEAV/97vbbH14Peyxy
+	 yWq+3wuhVNZiO1DUASU8vGbzKZTGxIXg9TsqzTTeP6p7UYiYz8hzlQG9hKSbAN8gLvJcB
+	 JgbXYAiUEB8lm9ZyRtW+fF9utnCD5PKGzVMEy9V6DPchWAXxmJkUDRqGVsdgvvLOK4WY3
+	 p40wjZYGJXIxqA+upSHCN12bMboDvVyU0uHhfZX4nqbQPJeXCPfjNcrt9HjW/VntcJQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=J9UrYEXx;
-	arc=fail smtp.remote-ip=74.125.231.203
-Received: from mail-oi2-f11.google.com (mail-oi2-f11.google.com [74.125.231.203])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="buqZ4+/B";
+	arc=none smtp.remote-ip=209.85.221.46
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ECA5606A32C
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 19:29:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3ECA5606A32C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F7E6606A32A
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 19:39:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3F7E6606A32A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=J9UrYEXx
-Received: by mail-oi2-f11.google.com with SMTP id 5614622812f47-56d3169ad31so4615b6e.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 11:29:38 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794943777; cv=none;
-        d=google.com; s=arc-20260327;
-        b=lgfQFtCkHEIj3Oa3+bksmC0eC+p9W7w3dBT7ZLPNs0F4UKJzuO0dR568Hc2B4fv6Kk
-         FpmPufnemVPghsHvSUtZG2T66KsbYSOnrLkQYk8XkM3otwQvSOJoYz/id9kHRC29RStV
-         mWqP3TddNSp5hp0xqlfX7ujR8IR7yVThteyGIG8PSTMSY5A/FrMc7kpbHiqXEMPpPv41
-         SmXfHqr3I7PqgHWoGmLrQ4szPG1KE/9eqAFaWFhCuISW6yOkOaXQPy0vxydcv7zL/8DR
-         wnxjyzJCpduIotTMNDiYZWVy9N0c1g+q6NjNABglGrhKQItK0HCMKLvTw7g2nNDY8M1x
-         kWiA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=PGjBYsfF8c+MCFmt2RtqM8D82MXv6pCt/UIwi1wWB78=;
-        fh=0IixZoppqvXgyOhYmESADBd+Dj5RInMEdvDV1u7zDnQ=;
-        b=SWWKw0i3b+/M0I4mMakEkxjxwx0j0zBj5h8HAg4xzq86SoYQoVddw7SAZa+p8GXOS3
-         Z2KbMgwfzNYqYp3GMqXsuZtMxrKekhs0ULQ7YwxBFjipN4GL9evMYG1I5oDu23KEu8z3
-         nkKCFk8eRjXp5HtjVRvB49/itrSA79arfI8lDo8b6dpQJGxaG28aIYqUgEZYHd3ocv58
-         Qp9nkjX6DqvfK3YNUiEANM06OU3SZmSp+Xp7f7N7m+N350gjdjkKuai+95SSPsMS/iL1
-         WiyMZERlkpm3JUb1PjTmUmeoRFu2vvX7f/QCQiO/Xj1+8tBMil7wo6n/L2E7cZAYbF0B
-         HZgg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=buqZ4+/B
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-490d59c3f0aso62763f8f.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 11:39:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794943777; x=1795548577; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+        d=gmail.com; s=20260707; t=1794944365; x=1795549165; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=PGjBYsfF8c+MCFmt2RtqM8D82MXv6pCt/UIwi1wWB78=;
-        b=J9UrYEXxFInTGXGxlAMUyzzW3JA4/NndbMPgVU8XEM/hPPaZ79SYjeBdxVnRKYpwgI
-         PpPmtP7P4G2Vufq4mTh9OmOEMshV2ygyKC6o7GFt3AVazvUkyEl4BKjrgfR6Q6R5oRu0
-         vv8ooxp06WmF5OO5x4alju7OwYJjG/bIeuQAtgbUsd3Mh50VtWjpzbX+pooVhdWrVmY9
-         jDggGPFyTIy17xI4m0YXO+AaRPjf2J8XPNEpjsgnw3tFmswdcZu5aHBLtydsMz0gwx7s
-         MrjX10vB4bjX4m16M3/S3rFf91KljWLV/XQ3EMVYFQsUQTX6DUz/+XHea74ZpM7M4z4h
-         Hkcw==
+        bh=X24LLs2RrK+lA3rnWmeXdxswGXkvA2QXv3w3PC5997A=;
+        b=buqZ4+/Bo9e+N24UUPYC17NFKAdU3HfgJsD6u3noM8uJiz3iiLUQLrQBL+vSAdZ/Ra
+         WfwGpt1XKwdl5lYtJsKqbbK5BmFxy75q3DltcusAgIVFGfLOkyDgk8d74cha8JP30ISD
+         BMGD7+qjDyXsPM1hS6JILeVssoE1Ff5GR46SCwdyMIPpXR1uES33HO64Dm4vnBC2ECVp
+         up4jkuUIywG2HoR3dVY+Gmq2TINJ7632YJ7jQ2EijqYnIQihOG9GQhXHiIjk6wcwnuIF
+         ny691NFOEJ0w072ZWJjLPFA176HpyPJp0C9HxKvn0htH4bFJ/G9P/PXHNYb621/z98dj
+         f7Jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794943777; x=1795548577;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20260707; t=1794944366; x=1795549166;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=PGjBYsfF8c+MCFmt2RtqM8D82MXv6pCt/UIwi1wWB78=;
-        b=ebTftTLrWAypKrRt/F3gaxFJMf1WoPel8A5sXzBZXuKzrCk9J3H5cQdBPlDFWhE632
-         kKOH+CIbfi7ew6BHM4tYDLTiQ5qLssVDItGmAYgbVXEoekB0wUP7McEaN0S03t7ONAIA
-         iPS9YEW84fNsncy8OBKDGS0oYJSQSDT7dHehzn2X+f01W0IxB7eb9MFw499I/lvVJBip
-         wTRIj8cLaagB2nIK/6s1G89qdMT1kJFAfrASNYrLYZnVqpg8RqqdJJP8I1f1m9+gb4TU
-         ttEHwu89MME3bMVuw4oPC/rciUBVJNZcFeLEGvfUmgSzb5dy+ygQvq1ft9qa+39UyNa3
-         gUfA==
-X-Forwarded-Encrypted: i=1; AL+hErGpG1KXslO0dNr1U9qsaIMbnenlfXRQSWkvWktirogo7c7Tab4my45ZQqglWHifrgcWkZ98mz5y6ErGeEkF@vger.kernel.org
-X-Gm-Message-State: APuU4Z+TSXLvK0HkrD9up3n+my2kjs7QGONZBXKIg4Zly31SviZRysso
-	QMrn9gABNbD76lnfUx/fFKTmbyyMa/oFLqKMAunLOjyXuNgrMY5k/YULXrVhET29YpkJ0HMtI/F
-	qhbSIPLoOjToVAsFfJddHrTaw00d01AA=
-X-Gm-Gg: AYBFou1gMflFKRcfJ/3+dbdSw8EqSkhT0DXtRMpXOPfvlybQYPc8qGCB6a6aZyWpfHl
-	rl6vIsryMyNXeKN3sP2xDssQ3ZZjKuVS+9cW3nzBdA0XYpKl70EXYgYpi9C/LrXG77w1YefXSwN
-	es3yniKmUeaISNPwhTut8jFVA8OTLdrjvhr5XANSSJgzHTm2vu9eTgA5uSitLo31vvUAR3cH1a/
-	gqZXN3K8FooqU3z65mhd2a25Mu2nqZvosgKUPDr7TKVIlIqclPOiLGyQXFoWsIJwz2MCFMHkWbB
-	cUYKtYF3NvYoAnZTeIAH1pCysmwoeRtyxYLJQ627jL3Dff3OGO1E2zTStU2kEY2z4o7HcrXRYFO
-	zlQq+iq6vW/sdgqR9a2xsI7TS+H65/7o1cQQV54NakBVw9AUl2J2QKIFqjKyF1h6PhX85BdkRdn
-	oH5ZCjrK1Ue3dQKTPlgs7TMIMSJPmACw9RQZchaIbvfl+7uNwdjUVJ
-X-Received: by 2002:a05:6808:30a9:b0:53a:e153:e8e7 with SMTP id
- 5614622812f47-57741d17630mr920531b6e.44.1794943777052; Tue, 17 Nov 2026
- 11:29:37 -0800 (PST)
+        bh=X24LLs2RrK+lA3rnWmeXdxswGXkvA2QXv3w3PC5997A=;
+        b=bgMaF7bRdNSnaeBzYF9ZNWyn9HWHR+8B+y7XY85QE5MNfYrM1autWXWjF1lD3x5HdF
+         sOxGEG5R+kOeRpIVZR7E5fSu197MPjWSEuzbzsCIEgep2Yb3NmSsw2LaBHW93HLC5w4I
+         QhOZGz6j0bRMsmof9CmkkKgxWy13nsbq0WhQdfm6lTUfbpsLqnAeiqqxgAS4/4ASMG39
+         uFowpj49OC2XpcPvAO5OxxJ/o95geO+pJIz7Td4lKnXzYNhhckLSfuN1BCfloKxW1Qwv
+         Wyr/CT/fhc6t5Wk4kfycGNB7sjC6EAkpD9xIcTxVnzLeOhSd2U1Zdz5KS7Y0ExGtqkuK
+         KpgQ==
+X-Forwarded-Encrypted: i=1; AL+hErHi2GqBIq+myjgpTzeao0PK5GmlnQWorQK7Rp0o6fu0zeVWgBLVXK4F6u4u7wAOTkTiS5qBkukZBCpjQ4Zj@vger.kernel.org
+X-Gm-Message-State: APuU4Z8pYWEnjRWV0zn/rmP8Q7MfIOchpcBlzKUEtDcgGUUaMoUOTIHn
+	VKWVcrOznUpeJHWgJVGSzo1I1Rkosv1xz1+XDdct8/Phi3t2/MEO7rh+
+X-Gm-Gg: AZFdTZchSSrHXnXRHWYe9mxXoiW2SEmNMGmC7V433fdP+zrNy5ljJ4FakIfQ8jG1Y0D
+	C05ZZ0vlEOMdb9FxjpKg0JUB4GMxXME2Mjd4Sb0cfQIwPLKpRSilT+Gsntv7TjIe6A2es3mvcxK
+	Iu8T9OxM0wRil7lMcLHhtbB5/iOtcjhiUHPuwCyagK9GdeYhkf01k3gNmHPg/oR+nyd3v1M9cZw
+	Rzd5/hJ10ZVSFCAI6P2nLeOc9NBxdPhqCy/Ew5/VnGPOTABfArb1mpazhxcJ8c15113BIUADjkh
+	NlAdz/XFqz2dL5vCkJmUv3Vy+8yFzKBKMLOjv6pofxzpsr7pqJDszOktTRP6Jr/XXX+d0ooXIVL
+	g1jTk0lkzhYjfEKloXtko4X0j8wXbNUsrmXc0rFP9249y9p/cJOJH6gE0Yi6zjoxTASm/PLm3yL
+	2rAkvW9NJ6F9fuOhJ05FE3vwjd6KT0xtVu7toOGli6SLtH0eQqosl4D5uiHXqvCe0n7uFuwvl2P
+	MZXmhEam5e1Lk884C7YylGQmpAggV3KVG8bolFPpf4+rgOcsXca5wIvPMFy7tBou3stvUQJ41S2
+	+CKxaRgbg6UOceI+DC7e4XMqULt3hUXD/AZssqW60GYX+YXkUe/IW5+xEQYF4wO5aA==
+X-Received: by 2002:a05:6000:200c:b0:48e:bf0:352 with SMTP id ffacd0b85a97d-4a6346da7e2mr1023911f8f.5.1794944365440;
+        Tue, 17 Nov 2026 11:39:25 -0800 (PST)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a656c1145esm424374f8f.52.2026.11.17.11.39.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Nov 2026 11:39:25 -0800 (PST)
+Date: Tue, 17 Nov 2026 19:39:23 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: Theodore Tso <tytso@mit.edu>, Gabriel Krisman Bertazi <krisman@suse.de>,
+ Sarthak Kukreti <sarthakkukreti@google.com>, Jaegeuk Kim
+ <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>, Christian Brauner
+ <brauner@kernel.org>, Gabriel Krisman Bertazi <krisman@collabora.co.uk>,
+ Eric Biggers <ebiggers@google.com>, Dmitry Torokhov <dtor@google.com>,
+ linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
+ linux-f2fs-devel@lists.sourceforge.net, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] libfs: reject casefolded names that fold to ".",
+ "..", or empty
+Message-ID: <20261117193923.795e6129@pumpkin>
+In-Reply-To: <20261117175917.GO989762@ZenIV>
+References: <20261113065332.929085-1-sarthakkukreti@google.com>
+	<20261113065332.929085-2-sarthakkukreti@google.com>
+	<878q2swoxp.fsf@cartola>
+	<avu0X5E298dHRBHY@mit.edu>
+	<20261117084727.0cfa196a@pumpkin>
+	<avxe5v6r1C7ZG7E2@mit.edu>
+	<20261117175917.GO989762@ZenIV>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -105,34 +110,57 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <CAJ6F8CFSfgdZqaKMndGZtbaww32Xr_KVL3gA_2Jemgv9i9vskg@mail.gmail.com>
- <CAJ6F8CFgkgksyk6YM3NdMkQNhSFWV4depC4c-mHvpDHpnjhM-Q@mail.gmail.com>
- <6ab4a114-57b2-40c7-99d4-55a4ac4c9a9c@leemhuis.info> <CAJ6F8CHzm4=ryY+j3ao6doR=-67Lq=3-w-kbhk1wdvtYDhyNeA@mail.gmail.com>
-In-Reply-To: <CAJ6F8CHzm4=ryY+j3ao6doR=-67Lq=3-w-kbhk1wdvtYDhyNeA@mail.gmail.com>
-From: Hungyu Lin <dennylin0707@gmail.com>
-Date: Tue, 17 Nov 2026 11:29:25 -0800
-X-Gm-Features: AclHuK-EvuFT3sTbDUuzVCeVohToLo20JL-jPaY9zCV6KfEdKeWy3NzN4uK5qVs
-Message-ID: <CAGEkeHdxaC2BBg5wWOCL0pj0r4Ks6mD_a3KpE7h+en9Aupb4zA@mail.gmail.com>
-Subject: Re: [REGRESSION] ntfs3: existing files/dirs with ':' in their name
- became inaccessible in 7.3 (ads on by default)
-To: =?UTF-8?Q?Cl=C3=A9ment_Smagghe?= <cle.smagghe@gmail.com>
-Cc: Thorsten Leemhuis <regressions@leemhuis.info>, almaz.alexandrovich@paragon-software.com, 
-	ntfs3@lists.linux.dev, regressions@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sat, Nov 14, 2026 at 7:43 AM Cl=C3=A9ment Smagghe <cle.smagghe@gmail.com=
-> wrote:
->
-> I'm happy to test patches.
+On Tue, 17 Nov 2026 17:59:17 +0000
+Al Viro <viro@zeniv.linux.org.uk> wrote:
 
-Hi Cl=C3=A9ment,
+> On Tue, Nov 17, 2026 at 09:54:32AM -0500, Theodore Tso wrote:
+> > On Tue, Nov 17, 2026 at 08:47:27AM -0500, David Laight wrote:  
+> > > > Sigh... I really think these characters are *evil*.  I wonder if we
+> > > > should simply drop those code points unconditionally when they are fed
+> > > > to the kernel --- not only folding to themselves, but *not* preserving
+> > > > them when a misguided application tries to create a file with one of
+> > > > these misbegotten Unicode charactesr.  
+> > > 
+> > > Doesn't that assume that filenames are UTF8 rather than just sequences
+> > > of bytes with everything except '\0' and '/' being valid.
+> > > Casefolding is itself so evil/impossible it shouldn't have been allowed.  
+> > 
+> > We would only do this if casefolding is enabled.  
+> 
+> Which is to say, on any distro kernel.  Besides, it's not just a matter of
+> filtering that dreck out on getname() and friends (syscall boundary won't
+> do at all due to the things like binfmt_misc opening files, etc.) - you'd
+> need to scan what you get upon ->get_link() as well.
 
-I sent a fix that makes 'ads' opt-in again:
-https://lore.kernel.org/all/20261115103845.56074-1-dennylin0707@gmail.com/
+I also hope it is a mount option?
+So you could cross mountpoints several times (in both directions) to and from
+fs with utf8 casefold un/supported while processing a single pathname.
 
-Could you reply with your Tested-by if it works for you?
+> > For better or for
+> > worse, it's better than what it replaced which was this terrible
+> > wrapfs hack that was a trivial to trigger deadlocks using fsstress ---
+> > which was even more evil.
+> > 
+> > The other way we can deal with this is that if case folding is
+> > enabled, we change the VFS to call the case-folding for incoming
+> > filename *before* it does its special case checking for '.' and '..'
+> > if casefolding is enabled.  
+> 
+> That would penalize every pathname resolution, whether that misfeature is
+> stepped into or not; hash_name() is fairly hot.
+> 
+> '.' and '..' should be recognized only as literal octet sequences 0x2e
+> and 0x2e 0x2e; if some misguided filesystem decides to treat something
+> else as equivalent to those, it bloody well ought to recognize and reject
+> that something else in its ->lookup() (or ->d_hash(), for that matter).
 
-Thanks,
-Hungyu
+I remember when "." and ".." weren't actually special.
+You could have great 'fun' using the 'link' system call to make them
+refer to unexpected places.
+
+David
+
+
