@@ -1,99 +1,70 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794934084;
-	b=xJTi4QXVSm09LnUGmkMgWDM8TY1Rb5CZO73/npKbPqm1ghAOMf2m/rxO3uW7H5Hp0kSm
-	 nwzPU6g66slcwe2BpPqBUjH+JgLjI6g8ODD+pXDL/jAKlGBtnDNht8txiyWa+928KgDk9
-	 QNhjA819z36WY9NK/EqIGVyD6A1gHdBytmy1F6C4h71H/ZsDqkD2+hyxUhbqzsOcdcmoL
-	 4p/NrZbt0qOcqNA7hb4lXI1uUT2nGs08Pw5AzcqdpGMaUwfGdoBiBfXGepo/4H5x2wQd3
-	 +PjtNdts4JTIqMTSBeCc+YiaMkwtd/4vg/aNRH7twMwwsERmzstVvysqw5cEZd6v95Q==
+	t=1794934160;
+	b=w23blO+/ZUdfvjrzy74VAYXj281IvrJpN3RCiDDb3PXtZbDLRh2hxmQ9vZsddbwbCHsM
+	 PH2vHqntXBfwYLxEfj3AOnIVtgK+eWLsu6dhsHdK8XA3ndj7xdmHOtGIpwIpOXZoAtvzq
+	 OaBT/ci31k6IKVkxQtTfbAJaYk9/YnxgRx3eemDRcOlIlxkp3rT4HYbCXF9VQwlU3JA8/
+	 UU63OBLQPqRjb0n+8rsSSxhaOkd8CWQCJnx4XaGzYdUEX8psQ24r8oErkvpYwyP4cQwuU
+	 BPYEOrHAkIaN7AMez4RcQDRXFUSsSkwAUYPer2Qs/eb2m9S8OskkQBTvFrQCmotNfeg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794934084;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=ypdQxqNZeuAR8d72dGF4LGjrdC+bZ7mm7BusGxjOzZg=;
-	b=BieqNtFvWQ6YF1dPbg5gaGHCT1fgbIbM06W2LG2zz3oeC5AUqNuK0SkHWGUcJV1fqw8c
-	 6/YCsdaRbNxN/CpasXvVdNp2NZnCaHq1w70IUp2Xi9QsFZTYF/viZt6q76p/CwolQLqFQ
-	 sFnKHd1tlx8e92ypM1dRaVZubdctos9KDydpvWyETN1/uYyfvSkY68d2txunwVZvkXU6Y
-	 FLbntdaAxpxvM0wMNd4hSGRP2TQFyweWAyGKZEFAeVpz0gJ3qYlsIkN6QIX28lz1It7BM
-	 RpQjGdpjBijaVP+ZNpdEYsPgV5idDDSgc8bu8i4KIsjaIiWz6bAJdmLzfcHe2WI9MPg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794934160;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=Scl/VifAjlxPDoAR0t/AhiRabE59EDiCI7/IkrSw3+M=;
+	b=hlvW8hUtOdCcFHxnnG/efV0iZyMTx/1kV/YPNzhjf4Q2kohU643zuDzeNXH5geZY32n1
+	 fttrzGFsxZcsYMyyUQ02pl4dTFHuu6M8NFZ0sjWpSRJ8BuRrHMKffBdpFmowxLv7IrW43
+	 ZMjg2ZLOEKep4suMhlPnDYPMIUeePuNrI2f7V9nlEaPkqQpl+7TBfZtKUqHEphQPEk3EP
+	 JiMvnfDUMPMqWblTHq9SHmR2T6bo38IcHidYjju8UF46Hg4igqngZ7xPkkZEjFsRIsXFY
+	 zrLbqQa9vcnAC5YsGavNVXdJstCc4Ghu+nUrIZnNh211wV/BMX6G8bTUxVis91h9oVw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Xu3A1GJl;
-	arc=none smtp.remote-ip=74.125.82.43
-Received: from mail-dl1-f43.google.com (mail-dl1-f43.google.com [74.125.82.43])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aIeRJ75E;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45A2B606A32F
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 16:48:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 45A2B606A32F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03A17606A31C;
+	Tue, 17 Nov 2026 16:49:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Xu3A1GJl
-Received: by mail-dl1-f43.google.com with SMTP id a92af1059eb24-1a2af4c8d00so56729c88.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 08:48:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794934083; x=1795538883; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ypdQxqNZeuAR8d72dGF4LGjrdC+bZ7mm7BusGxjOzZg=;
-        b=Xu3A1GJl8kozVTJFThjjXwIfrGDfI1536lRTU4RwWvLVpDAwzWzTumzfly5npajYci
-         Yefv42bXR7jAWZ8Yedn3w12tlImAMsxHOhg+Y1ExRWhF8efD3WpSSKaKFaJqOYc6EMYC
-         oYrUTGoHAQFVVO5qOiywoaNvC/yzO5GTjgV+RprLh9QNhShftBK5DowVp5eFI5yn5iL7
-         +5qFmff3+LmBHbCqo56u8KWmQNd2RnsrZIFjW1YAdFBKRBEvIwFOUUKKPM8K6Y3FKUD3
-         pb9Ya1yn1swzGGnl7hbAntMxpaeGYrrqKbcfFhzAfkGcnUeDJAOMxFFjGyQ3XXpgsrdg
-         Vmhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794934083; x=1795538883;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ypdQxqNZeuAR8d72dGF4LGjrdC+bZ7mm7BusGxjOzZg=;
-        b=sV/F6pyK4BOH7N0UUoph1eatJHklcSZ4zMciIDagpXb0z2l1KJla5rTE2CWEnkO6i0
-         uHpeNxkT5oJ4XPO4mT+N/5d6sZWCPTv4ux22xBNIEjB5MaxnbxqvctaNDGLhYkV5YIcI
-         69yIIxLpEUojOArCMB7rwL+FCMD0FxuvgigZlJ4CuC8TCvehp+Q34rkuqakcqeu7yQen
-         4RPAoXpu4M9AuOAc+l4G+1z54ac1HsnPQYFSs302p1MiqUG/wWT1X1w4WNFeuTDqf/Uq
-         m5rTViJY/cLOjN0OjVUkKaAkZgZzwHu8cMzZ9MHgraopvTTjJL5S2Fn14OG3NdIygr4W
-         GhpQ==
-X-Forwarded-Encrypted: i=1; AL+hErFVsG4E9KXPMHyG9WN4j5XII2tyxa47IJ2WgDo1+FoxBnpbx2EKRwWJQ6+SAcyLQaaURWTMrJ4c+rKsJLm5@vger.kernel.org
-X-Gm-Message-State: APuU4Z9W3YCG1tncuMMIPS4w9FLdjhO/lS8ypETGFWb7Tp/8yIJi0i2c
-	YhjEAcy8c/X/JYoYwlPOtHXbNTHgf5ATa/dMfcfoSktggDJ6GC9LQBke
-X-Gm-Gg: AYBFou064R0n31dButLSfsZPDnU46PojgkqT2SId98iWP/n9of2AicFFt9F24fc1MAk
-	QzmqxShR4R6ryz5ZNJVyZUJRBO59cAahHC1ALENJgkVs8oVky5pINj9p2/i3ZMUt/auklUklIcH
-	DaATC0qO2CJzvm4cTWYfTHeXolxE+7mLJyNKIoJ/39FZ5Qwlr3YSEc2ANY8aYZXrz1/5rAaTXb1
-	b0WhfwLUxZccq2CYgFp57XuNoVAcsqmjDLla+X15RtdUa/jU29wlLvNt6x1SmFP/plHnVNGsgCb
-	t/RQ/PhapQszIY8L+bfEZnQrO7Dz/O5RsfXCAWGJBe9zZvyo39eFPtOVLXMFRzg64WtpfV5UtEr
-	jxOxmLHMTL+WDwT7cfcsH0okFFWjlRi4f3IEgTsJW52xp6JphqwhVHG5o6JFJWmUiMJFU/4doEU
-	2qwtIZ6kpkNLNg7K5CWCmTMKXEKrhq6E7j6UyYAPMxzLhWsxpbT8yJj5m+efjgpnCjNi4onWErO
-	/V5W4b920ryYtCQGB6bURxdLb0vV/jyZNJZ9kgZH21SbOMba7vAABQZzFkcZHrGh6X2e3o52mTX
-	254YLiPHJmqFevOmH3XrrQeVgxj5qIaMDEGrAtBf8wAwZuya/T1GxpSVqoQBDDFxtlcwVDYixyX
-	KHtxXubeBnmr0/Vj1/e6L3fDeTy9aEcJiXpMvLchK6zzKYCOp9OGbgfqxxWA93gnYbOtWgOGIgj
-	ZX9vkM2Bw2lEjVcZr3jCygU4jeHSudddfgvsmmRI1jejlMBh03TANcPbmyaUIvOkMfrKZYxbx+p
-	uD79CQitr4wjNM=
-X-Received: by 2002:a05:7022:294:20b0:1b5:2dce:1b6d with SMTP id a92af1059eb24-1b543cffc70mr134285c88.17.1794934083141;
-        Tue, 17 Nov 2026 08:48:03 -0800 (PST)
-Received: from FT6N242TWK ([223.181.112.111])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b5031918c7sm60883753c88.9.2026.11.17.08.47.59
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 17 Nov 2026 08:48:02 -0800 (PST)
-From: Shashank Mohan Jain <jain.sm@gmail.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: "Darrick J. Wong" <djwong@kernel.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Brian Foster <bfoster@redhat.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Carlos Maiolino <cem@kernel.org>,
-	linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] iomap: fix offset truncation in iomap_fill_dirty_folios() on 32-bit
-Date: Tue, 17 Nov 2026 22:17:56 +0530
-Message-ID: <20261117164756.97065-1-jain.sm@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aIeRJ75E
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3F431F000CB;
+	Tue, 17 Nov 2026 16:49:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794934159;
+	bh=Scl/VifAjlxPDoAR0t/AhiRabE59EDiCI7/IkrSw3+M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=aIeRJ75E+9ST4vOLKED9LJSC1b+MQ6CDTXIHOyZ4D9fc7EvV6clSf1nXJKIyXN3HO
+	 zk8sfd0ETNlAz+2/ewTdVDDUImFZFd2CrtllN00E5B/eFnhnRNeKJ8N6SXaiOosc2N
+	 wKZof/4+J3uj2rfto011U4mCJJCpxP8RWdfOITsuOsMLA3crXqexX1mSsQ0/w2M6Bp
+	 LyiKPPVX+uZrrbpvaWWe92vRfBL6lf39Syd7GWv8j2iCeWBZXvkOG9hKsSuq7OiI5p
+	 8MT3yswJXkDCu1RdrKuyvFEucdhYmxccv7CIOyCD9L+QizogYZbQwMcw/DCPeHAst/
+	 ocY+AxXGYimnQ==
+Date: Tue, 17 Nov 2026 17:49:11 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: "Hallgrimur H. Gunnarsson" <halg@google.com>
+Cc: Andy Lutomirski <luto@amacapital.net>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Paul Moore <paul@paul-moore.com>, 
+	Serge Hallyn <sergeh@kernel.org>, Kees Cook <kees@kernel.org>, 
+	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jan Kara <jack@suse.cz>, 
+	James Morris <jmorris@namei.org>, Simon Horman <horms@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jann Horn <jannh@google.com>, 
+	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, KP Singh <kpsingh@kernel.org>, 
+	Jonathan Calmels <jcalmels@3xx0.net>, Casey Schaufler <casey@schaufler-ca.com>, 
+	linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, linux-api@vger.kernel.org, 
+	containers@lists.linux.dev, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/8] userns: per-namespace capability bounding set and
+ opt-in netns loopback
+Message-ID: <20261117-grabung-sowie-symmetrie-41925e0f1b84@brauner>
+References: <20261028221705.3915340-1-halg@google.com>
+ <CALCETrW9ygriu54gxiHFLEd5+hJminQo0r8Jwd63wR69Dj4W7w@mail.gmail.com>
+ <20261106-befreien-addieren-eislauf-e09212803534@brauner>
+ <CALCETrWa1SBLcb5oWjqjgzZvKvCoHjmYFk=Lf5ytEM9uqm5jYA@mail.gmail.com>
+ <avM41a80aig2de-R@google.com>
+ <20261111-behagen-faktisch-entgegen-e2e714373895@brauner>
+ <avsymRBSulVZfouF@google.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -103,84 +74,22 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <avsymRBSulVZfouF@google.com>
 
-iomap_fill_dirty_folios() turns the page index at which the dirty
-folio lookup ended into the file offset it returns to the caller:
+On Mon, Nov 16, 2026 at 04:43:05PM +0000, Hallgrimur H. Gunnarsson wrote:
+> Quick question on AUDIT_CAPSET: today it's only emitted on capset() and
+> only logs capability sets that capset() can modify (explicitly or
+> implicitly like cap_ambient). It does not include cap_bset which is
+> modified via prctl(). Since capset() never modifies cap_userns either,
+> does it make sense to treat it like cap_bset and leave it out of
+> AUDIT_CAPSET, relying on prctl auditing instead?
 
-	*start = (pstart << PAGE_SHIFT);
+Fine by me as well.
 
-pstart is a pgoff_t. On a 32-bit kernel the shift is done in 32 bits
-and the upper bits are lost for every offset at or above 4 GiB.
+> Thanks for the feedback and the detailed proposal. It looks good to me
+> and nicely ties everything together. I'll prepare a V2 for review based
+> on this hybrid design.
 
-XFS uses the returned offset in xfs_buffered_write_iomap_begin() to
-trim an unwritten mapping to the range covered by the lookup. With the
-truncated offset the end of that range is below its start and
-xfs_trim_extent() leaves a mapping of zero length. iomap_iter_done()
-warns about it,
-
-  WARNING: fs/iomap/iter.c:38 at iomap_iter+0x33c/0x36c
-  WARNING: fs/iomap/iter.c:39 at iomap_iter+0x34c/0x36c
-
-and iomap_zero_range() does not terminate: a mapping of zero length is
-what the iterator takes for the start of an iteration, so it asks for
-the next mapping again and again without checking how much of the
-range is left.
-
-On i386 with XFS (4k blocks) this is enough to trigger it:
-
-	fd = open("f", O_RDWR | O_CREAT, 0644);
-	fallocate(fd, 0, 5ULL << 30, 1 << 20);
-	ftruncate(fd, (5ULL << 30) + 1000);
-
-ftruncate() never returns. The task spins in iomap_zero_range() with
-the inode locked and does not react to SIGKILL. A write behind an
-unaligned EOF which is in an unwritten block above 4 GiB fails with
-EFSCORRUPTED instead, after "XFS (vda): Access to block zero in inode
-132 start_block: 0 start_off: 140002 blkcnt: 0 extent-state: 0":
-
-	fallocate(fd, 0, 5ULL << 30, 1000);
-	pwrite(fd, buf, 100, (5ULL << 30) + 8192);
-
-The same calls work below 4 GiB, and v6.19 behaves like v7.3-rc6.
-
-Cast the page index to loff_t before the shift.
-
-Tested with an i386 kernel in qemu and XFS on a virtio disk: the two
-sequences above hang and fail without this change and succeed with
-it.
-
-Fixes: 395ed1ef0012 ("iomap: optional zero range dirty folio processing")
-Cc: stable@vger.kernel.org
-Assisted-by: LLM
-Signed-off-by: Shashank Mohan Jain <jain.sm@gmail.com>
----
-Prepared with Claude Code (Anthropic), model Claude Opus 5.5
-(claude-opus-5-5).
-
-First sent privately to security@kernel.org on 11 October; Matthew
-Wilcox asked for it to be posted as a normal patch. Sorry for the delay.
-The code is unchanged in mainline, so this is the same fix, rebased on
-666539eecdf4.
-
- fs/iomap/buffered-io.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-index 6d843b1..846f87a 100644
---- a/fs/iomap/buffered-io.c
-+++ b/fs/iomap/buffered-io.c
-@@ -1735,7 +1735,7 @@ iomap_fill_dirty_folios(
- 	}
- 
- 	count = filemap_get_folios_dirty(mapping, &pstart, pend, iter->fbatch);
--	*start = (pstart << PAGE_SHIFT);
-+	*start = (loff_t)pstart << PAGE_SHIFT;
- 	*iomap_flags |= IOMAP_F_FOLIO_BATCH;
- 	return count;
- }
-
-base-commit: 666539eecdf4db623f5e3c3e55cf9f2dfad24aa4
--- 
-2.43.0
-
+Sounds good.
