@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794909318;
-	b=c/lT4Zgj4VVtIlrc8K7teLVbVvfqe3u1oHSLfHyknzaYtG8qi/GC0811RTKROClr9Uaa
-	 jKJqo17usF/r44JYQe9TNVE/uVA3hBhHKA/hdNBJsM7egRZ5t/aBPv8ZKQvtvLVrIPD3i
-	 3o6Z3oGtlbnrA8rCr5RhxJFcap0HOAoMLMwtUr0CLK3EaOFn4zjV/M+S37Lv9Vf7tizxP
-	 6hxdGQOo09VpibSQpuPchPiLohVpZh0LG4njqZQnxfSSABDzsLqlqNNOBVqmFUtQvqrdk
-	 aw1GYygCkuQ7aerlgY/HQ+RNqdFeS0X5B740YMXecegVYDYwn7mcQcl1uBMkzNnOH8Q==
+	t=1794909361;
+	b=NoTqkc97aLJU9+FysRHF2+fNWJYD2pbutoMHKzN3cnnmtKc/2qifnq73wnANMeckNtCk
+	 zJ22abB+MFjmTzSBqRuODbHZDJhhwYmEmoMDiaPuiIld7PU3sxyINHNuwkAnKnIa7a68V
+	 MElqxsK5LyQelpW3yTawUkq0Och6V5LPvnLEouEnDtXXgjvOh6aSYD91ke/gRlcbB9UAg
+	 qelOCGxsySp1LkeTj0rxhJ6kXH3MSAkgR3Y1qQvblrXY/ceoomyI6Ju43FmJnwUILbk3/
+	 dsz6R3iphjClrVJZz+pSM52tVVStBwiY4Df5+9UjpfUYq0vuYzzkKNOsZVkOM1jbM6w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794909318;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794909361;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=DMyC1okRsySQAgoBesJDfyI8sBJ6WUZdUoOx84UiPvI=;
-	b=zt64L42RdF0KTLYCCH7g5RxGSgovAjoLpuiSb8aNhek786huf50gUKk6kNtgvW8WaWT9
-	 HWWd72ZwIX9I2S5KKmRYWCnH434TxCOWwlnZZY11m6jFiEscR18GZv9IaLPT1r+leWiez
-	 3tjblyaV9dpIP+9QOeHjwRh46uBu8rZKfSlrG46VGXCaqkHi+s2zStOsgkESEsToSg50q
-	 D755+xwQDwCPhGEuP8bie5FiPZ8stdVjVIRl/woeg2BE5w7ydN2N4tWzsGicxNNv3vQQz
-	 k/8IAF1y5P6CYt2N8qpgPiUhuDx/LPOZ+HpZk6jtVCWJtTZiO9UpLAZArG1ctKRW7KQ==
+	bh=RXpkAmDQM3YL/W8+BChLDkEu3hDU+qLuCPRwmd9apzM=;
+	b=r3ni8/1QFP39PzSrtSvGO9/RjKZ7QhbV7U28GhwIOHjI706x8jclf9uIl/w83Ab2NAn9
+	 mTfDsuJf+UqHMWH9FaM8EYGbm4RDYy/vuaR07X/z/UtGmUMcOty37NVfu7RcmgkUrObhf
+	 aWNsVTfjkmGZl7vQe/jtGyT1Zp+ovhmJje9oYjcweBCachvYPyLvH4/KOR9q2eCMDNIgM
+	 zyrBaTnlZKJPb5neqcnla9JPEYcSrlERF+Cn9U6FUarxo8W0umP4AI7fkbSzpOdhLZHLS
+	 f9pjN1P8vYaG+XEov/ONGqs0USYxNqQUev1AEmcbkcN+0FRFL/jr6e/jRc4LCukxjWg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kSS+QgSD;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ieF745AD;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A966B606A329;
-	Tue, 17 Nov 2026 09:55:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2B85606A31C;
+	Tue, 17 Nov 2026 09:56:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kSS+QgSD
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 363781F000C4;
-	Tue, 17 Nov 2026 09:55:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ieF745AD
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3D6E1F000C4;
+	Tue, 17 Nov 2026 09:55:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794909318;
-	bh=DMyC1okRsySQAgoBesJDfyI8sBJ6WUZdUoOx84UiPvI=;
+	s=k20260515; t=1794909361;
+	bh=RXpkAmDQM3YL/W8+BChLDkEu3hDU+qLuCPRwmd9apzM=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=kSS+QgSDcTUl16LXaAccAGAtSJWS8GLOIOkgE2Y0+d6R9641Soo6Xl21m9f/jCW1k
-	 3LYpbiG0JVOPzz4VL3kFi12qz0OwAzqZSmiycveqnqcJaMVafYVzaTeaC/B6nIIenm
-	 yE9lS9dgTHpwbWMBXNQHYFBh/c9LLc9DOU+dzjHqZb8pN9wFJkTQg6/AMNFzfqZ8k1
-	 k2M+f93TRRuhjI1IeVSqi0f6Sd3sGHcWUhCkK06wXQ2J5/vFLDlNihYvvcEedrKyJC
-	 3ZK1uBspRA1nP76uzjEdkH0gZbch/6zJkQC6PaqtirJqnWjiMQ9pyZtJ4l9DKLJuvl
-	 ygHXpMG83BV3Q==
-Message-ID: <91aadb5b-53a7-41eb-a0fa-4fce804a35e6@kernel.org>
-Date: Tue, 17 Nov 2026 10:55:05 +0100
+	b=ieF745ADkvptZ7RZ9MjF5EOCbX1p4MyKcv7xpQefcFxuUQt4dykq1m4vjzcAiDDK4
+	 Y5SI04smpkSm9CXwMyK82O+uRop1RRfBovG+iN9uWzD7G8ohkUPJp/E2ijYCMFcQ6U
+	 50PL0zzXZZ3oFqWsrgDqFYTrOqkTe9vIs0BeoGXCSRagFOmXXGSyxMvYAkrX1s2EmM
+	 Pu3I/B4hv2Unp0MBR5GHePMi+ixtbZg6D7ESw0X0vVlii6XHu2mHaxxVOYObCtWd1H
+	 mScv5Gfy4GJlJSHNQdt1yjFNUN9ziEauxef79xcUzo0heuKIX22fHyKigjUnSQCss7
+	 t7jsB4B7pe/pw==
+Message-ID: <4851f0db-9305-444e-8037-34bed9ecb6b3@kernel.org>
+Date: Tue, 17 Nov 2026 10:55:48 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -52,8 +52,8 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/9] userfaultfd: use anonymous memory for
- UFFDIO_ZEROPAGE on private file mappings
+Subject: Re: [PATCH v2 4/9] mm/migrate: keep the uffd bit when restoring a
+ writable migration entry
 To: Tal Zussman <tz2294@columbia.edu>,
  Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
  Peter Xu <peterx@redhat.com>, James Houghton <jthoughton@google.com>,
@@ -77,11 +77,11 @@ To: Tal Zussman <tz2294@columbia.edu>,
  Oscar Salvador <osalvador@suse.de>,
  =?UTF-8?Q?Miko=C5=82aj_Lenczewski?= <miko.lenczewski@arm.com>
 Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, stable@vger.kernel.org
+ linux-fsdevel@vger.kernel.org
 References: <20261116-uffd-state-fixes-v2-0-4397a0196479@columbia.edu>
- <20261116-uffd-state-fixes-v2-1-4397a0196479@columbia.edu>
- <cc865bc8-b96f-4385-97b1-976de4465ca1@kernel.org>
- <eba4fb71-6baa-455f-8899-87567af898aa@columbia.edu>
+ <20261116-uffd-state-fixes-v2-4-4397a0196479@columbia.edu>
+ <2d9ec2ee-8867-4ac2-b2b5-654bf2441513@kernel.org>
+ <20e72944-108e-461a-b75f-d8c4f8edbc9d@columbia.edu>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -128,100 +128,49 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <eba4fb71-6baa-455f-8899-87567af898aa@columbia.edu>
+In-Reply-To: <20e72944-108e-461a-b75f-d8c4f8edbc9d@columbia.edu>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 11/16/26 23:27, Tal Zussman wrote:
-> On 11/16/26 3:16 PM, David Hildenbrand (Arm) wrote:
+On 11/16/26 23:42, Tal Zussman wrote:
+> On 11/16/26 3:23 PM, David Hildenbrand (Arm) wrote:
 >> On 11/16/26 21:02, Tal Zussman wrote:
->>> If the mm cannot map the shared zero page, UFFDIO_ZEROPAGE falls back to
->>> mfill_atomic_pte_zeroed_folio(), which allocates a zeroed folio and
->>> installs it through vma_uffd_ops(), no matter what kind of mapping it
->>> is. An s390 KVM guest with storage keys or protected virtualization is
->>> such an mm.
+>>> remove_migration_pte() makes the restored PTE writable for a writable
+>>> migration entry, and only looks at the uffd bit of the entry otherwise.
+>>> A writable migration entry that has the uffd bit set is therefore
+>>> restored as a writable PTE without the uffd bit, and the page is no
+>>> longer write-protected.
 >>>
->>> For a MAP_PRIVATE shmem mapping, that adds the zeroed folio to the page
->>> cache of the file. That is wrong: a private mapping must never modify
->>> the file it maps, and the file might even be mapped from a read-only fd.
+>>> An entry with the uffd bit set must be restored write-protected, whether
+>>> the entry is writable or not. remove_migration_pmd() gets this right: it
+>>> makes the PMD writable and sets the uffd bit as two independent steps,
+>>> and pmd_mkuffd() write-protects the result. To fix it, do the same at
+>>> the PTE level, where pte_mkuffd() write-protects the PTE as well.
 >>>
->>> The ioctl can also fail where it should succeed. A missing fault is only
->>> delivered for a hole in the file, but UFFDIO_ZEROPAGE can be called on
->>> an address that did not fault, or can race with a write to the file. If
->>> the file has a page at that offset by then, inserting the zeroed folio
->>> fails and the ioctl returns -EEXIST although nothing is mapped at the
->>> destination address.
->>>
->>> What we want is what UFFDIO_ZEROPAGE does on a private mapping when the
->>> shared zero page can be used, and what UFFDIO_COPY does: only check that
->>> nothing is mapped at the destination address, map zeroed memory there,
->>> and leave the page cache alone. The zeroed folio path did that before it
->>> was moved to vm_uffd_ops.
->>>
->>> To fix it, pick the ops in the common folio path, as
->>> mfill_atomic_pte_copy() did for UFFDIO_COPY: anon_uffd_ops for a private
->>> mapping, the ops of the VMA otherwise. That makes
->>> mfill_atomic_pte_copy() and mfill_atomic_pte_zeroed_folio() redundant,
->>> so remove them and rename __mfill_atomic_pte() to
->>> mfill_atomic_pte_folio().
->>>
->>> UFFDIO_ZEROPAGE no longer modifies the file, and only fails with -EEXIST
->>> if something is already mapped at the destination address.
->>>
->>> Fixes: f74991b4e383 ("shmem, userfaultfd: implement shmem uffd operations using vm_uffd_ops")
->>> Cc: stable@vger.kernel.org
->>> Acked-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
->>> Signed-off-by: Tal Zussman <tz2294@columbia.edu>
->>> ---
->>>  mm/userfaultfd.c | 46 ++++++++++++++++------------------------------
->>>  1 file changed, 16 insertions(+), 30 deletions(-)
->>>
->>> diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
->>> index d65184d9a480..61a712e1f9f5 100644
->>> --- a/mm/userfaultfd.c
->>> +++ b/mm/userfaultfd.c
->>> @@ -531,15 +531,27 @@ static int mfill_copy_folio_retry(struct mfill_state *mfill_state,
->>>  	return 0;
->>>  }
->>>  
->>> -static int __mfill_atomic_pte(struct mfill_state *state,
->>> -			      const struct vm_uffd_ops *ops)
->>> +static int mfill_atomic_pte_folio(struct mfill_state *state)
->>>  {
->>> +	const struct vm_uffd_ops *ops = vma_uffd_ops(state->vma);
->>>  	unsigned long dst_addr = state->dst_addr;
->>>  	unsigned long src_addr = state->src_addr;
->>>  	uffd_flags_t flags = state->flags;
->>>  	struct folio *folio;
->>>  	int ret;
->>>  
->>> +	/*
->>> +	 * The normal page fault path for a MAP_PRIVATE mapping in a
->>> +	 * file-backed VMA will invoke the fault, fill the hole in the file and
->>> +	 * COW it right away. The result generates plain anonymous memory.
->>> +	 * So when we are asked to fill a hole in a MAP_PRIVATE mapping, we'll
->>> +	 * generate anonymous memory directly without actually filling the
->>> +	 * hole. For the MAP_PRIVATE case the robustness check only happens in
->>> +	 * the pagetable (to verify it's still none) and not in the page cache.
->>> +	 */
->>> +	if (!(state->vma->vm_flags & VM_SHARED))
->>> +		ops = &anon_uffd_ops;
+>>> The only known path that created such entries is PAGEMAP_SCAN. With
+>>> PM_SCAN_WP_MATCHING, it write-protects the pages it scans, and it set
+>>> the uffd bit on a writable migration entry without downgrading it. Now
+>>> that PAGEMAP_SCAN downgrades them like change_protection() does, we
+>>> should no longer see them, so this change alone should not be visible to
+>>> userspace. If another path ever creates a writable migration entry with
+>>> the uffd bit set, the page now stays write-protected instead of losing
+>>> the uffd bit.
 >>
->> Oh, but one comment: why not check for actual cow mappings?
+>> I am severely confused. If it was properly fixed, why should we do the below?
 >>
->> 	vma_is_cow_mapping()
+>> You should WARN if we get the uffd-wp bit set on something that is writable, not
+>> silently swallow it.
 >>
->> is your friend :)
->>
+> Yeah, so this is more of a hardening change than a pure fix. I think adding a
+> VM_WARN_ON_ONCE here makes sense, but the uffd bit should still be set so
+> writes don't go unreported (which is what remove_migration_pmd() does too).
 > 
-> Probably because I didn't know about it :)
-> 
-> This is already equivalent since uffd registration rejects VMAs without
-> VM_MAYWRITE, but I can switch it over for consistency.
+> remove_migration_pmd() should probably grow a warning for this case too then.
 
-Yes please. We need to convert all of that code to not check fiddly VMA flags.
+I don't like this hardening fix with recovery for something that should never
+happen.
 
-Cow mapping in uffd -> anon folios only.
+Throw in a VM_WARN_ON_ONCE() and call it a day.
 
 -- 
 Cheers,
