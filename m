@@ -1,86 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.60
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794932245;
-	b=ZTycRNKpq2iuV7u5hhv1CqYxVC42BK6Rp+14tH4iovINLNZs3WpRY71KkNtfzpBTsU75
-	 5n9VPlzJi2F6A12/8uiUMJVP9HzPoUZsuUwGoZKqFiqKJGQxHThRmrMAubZfP9xsDKqv6
-	 l1t0rsSX4Zyelj2m+o2revcpTQrOoBOElqzpYYiY5q0sadwAKyu/yqjv2XfoVwWGFNkTT
-	 iTFCU2FHtFXyI7YEgezfQBnpeXeHMp0IJVl15SaICaZwZ06zLmAih6E+fhjjlTPvERlLD
-	 kTfnLGqop8p4jeynME36QXNho+/kVhabe0dRKaffusRLioYYAf6r5TkLTcGxHqYBOVA==
+	t=1794932445;
+	b=DUB1FO8WCeTEB/R2YYyUxc2KqoTj/vYOMIu10empBMyuNisRxlTorTLH5o4aetwymlur
+	 8uLQde6JeghAvOMgJsIdAuNJx+xcb7vq0kKqB7CILP/4G8V4XfGmVomXFPWzRgPB3o2pP
+	 OuhZHZc2/xjTwI+SdrOvPk+L5N5oREd8ZsYXqjCl791tP7gXgYDQjTXHCCymgxKZ4KnhX
+	 HzGf+B7YEsw2CO6BuhQZaj5F/3bzsmgABrpEPYV5iY7UFVz4WzrrGizFLPK39jsWF4xaP
+	 5Z2pL7r9vBtEF/DM+Fzu+Jq8rTlpX/u37nrIDrS+lT5hjNoKeZj5qzv6iH4neKLcrTQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794932245;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=zFMHS3iTvPTL4lMx2nmha2rZYOE4qD7+sjyLqjHBK9M=;
-	b=nPhLxKkrmFAarw+CGhem+HpAa3006hf9Qmg+ENL54lUxPF0b3hCB8ey56M2IPPnnWlwr
-	 PJlx27ZHAMGKlsmOZQTBZGUPfeaWcSMB18xiXw+gjeJnny+hwM9TchuCTRMlwrYU9wqLc
-	 nX2yabCo1gQELgLE0MkJxvUyzcwMVjr/ddRjYr1WmrR3XW5mINDgeDD15mzxMVIC28vxz
-	 HEc5yWlJBalwK+5N0nflZk975lM4Sd/RKQfys2Zi/puPVmJmigEnKWcyw7rgexw8mJc0K
-	 CpgpC7Ib6X0XO87ZEi7jJ1FSs5VIODfU41DDqESDWquG8a8xnWmOWGR/AfE7cpJ2KmA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794932445;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:CC:Subject:In-Reply-To:
+	 Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=e7yvOvrcKV6zsO6MVOOOAw2Kf7nioa9EAcHZEBlrXag=;
+	b=u1Vbyt8lbbMFPACOqjo2vLfAfYvvLXq91Ee7RMkkC277uxRR5U8oqbIW1bCI/jwuYyx/
+	 s4U8WEpowvnGp8loy1r0iEWGO1E8iNF77uUjACCnKafwJEO//RRa3bgXAHZFXeR9iYnbL
+	 vz2qRnAZjyYIgBXz/sq/gI7OBz14A1Z1VxoouyHuvCe2eCAxuRn0anmou/yxD5Rlln3FE
+	 7dvyOdFp3hWVATftTJpApO4FE2qzMJw70Xoenvvjn2IQcBXKVC+BRXVqhhl6zjatNidSZ
+	 DZDGnEKtDdrME86z9fnIG1yrMccztgMSt+sRa9ZUJ1FhIxhLNeLZxoFIkSI1D6zHzdA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=efficios.com;
-	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=cBfVwpF8;
-	arc=none smtp.remote-ip=158.69.130.18
-Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=D6AwrMZ2;
+	arc=none smtp.remote-ip=95.215.58.60
+Received: from mta1.migadu.com (out-60.mta1.migadu.com [95.215.58.60])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3309606A8A4;
-	Tue, 17 Nov 2026 16:17:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E3309606A8A4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8263606A32A
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 16:20:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E8263606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=cBfVwpF8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=smtpout1; t=1794932242;
-	bh=zFMHS3iTvPTL4lMx2nmha2rZYOE4qD7+sjyLqjHBK9M=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=cBfVwpF8LlRC3OTMgX6+oDFqBNpDY8KWRQ6HBfMaygd0svmS1ia7iA6eVvdLQU9ii
-	 pCs/Hgyas869jQa4aA6jCkyTzVpRL3Cn54vlo5giTk0VlLxkf2rHqmC9L+SoOUEF8W
-	 yt1V6N3MYEamoPkacy07uGkb24mooxD5PuLm4oPrM8yBkt3xQTtnVC/61u2hrJW5TZ
-	 3+BzMdkL3zk3FKmbdaUGCerP9xkMg6wToKsdHrJjQpqMF8l03JU3ay0osVecUWjLvS
-	 WMZcPbcVWj0S9JJEHVQa9ZGvPPvDuBtUsRLzDXr4lx4MX8VJ4Jbs1zXaIJ3snvhX5q
-	 oGrXNuUxNoGdA==
-Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jTVHk1ppWzRcG;
-	Tue, 17 Nov 2026 11:17:22 -0500 (EST)
-From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To: tglx@kernel.org,
-	peterz@infradead.org
-Cc: linux-kernel@vger.kernel.org,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	mingo@redhat.com,
-	juri.lelli@redhat.com,
-	vincent.guittot@linaro.org,
-	dietmar.eggemann@arm.com,
-	rostedt@goodmis.org,
-	bsegall@google.com,
-	mgorman@suse.de,
-	vschneid@redhat.com,
-	kprateek.nayak@amd.com,
-	paulmck@kernel.org,
-	boqun@kernel.org,
-	shuah@kernel.org,
-	kees@kernel.org,
-	viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	jack@suse.cz,
-	oleg@redhat.com,
-	bestswngs@gmail.com,
-	xmei5@asu.edu,
-	xujiakai24@mails.ucas.ac.cn,
-	linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH 05/17] sched/mmcid: Take the allowed CPUs of the first user when it joins
-Date: Tue, 17 Nov 2026 11:17:05 -0500
-Message-Id: <df251e85248861597f9e35ec0e3edbe188993c6a.1794932121.git.mathieu.desnoyers@efficios.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <cover.1794932121.git.mathieu.desnoyers@efficios.com>
-References: <cover.1794932121.git.mathieu.desnoyers@efficios.com>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=D6AwrMZ2
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=j9Wfd2hCEYTWQjklDDg72pDAFBZcfpbYfUPC64t440Y=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1794932443; v=1; x=1795537243;
+ b=D6AwrMZ2073bS7jPnjnr66v/FmuhytbidjAlO0Ppn1HwyTNqqR4+ukVg84k3CtR2s8ioWX/D
+ W3Q0a8Rc2v1BH9cxc06OHBjv6BftRLKA8JuTyDOgUPLHOL9phindh/+wkxtibzbmPkHnKbo60Vm
+ rQ1TsyldbFKbLI07QQgpJ2iI=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id c7028649ea460a85;
+	Tue, 17 Nov 2026 16:20:42 +0000
+X-Mizu-Trace-ID: c7028649ea460a85
+X-Migadu-Flow: FLOW_OUT
+Date: Tue, 17 Nov 2026 16:20:39 +0000
+From: Bradley Morgan <bradley.morgan@linux.dev>
+To: arpe1618@gmail.com
+CC: arnd@arndb.de, brauner@kernel.org, jannh@google.com,
+ linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, me@black-desk.cn, sargun@sargun.me
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH=5D_pidfd=3A_restrict_pidfd=5Fg?=
+ =?US-ASCII?Q?etfd=28=29_to_the_caller=27s_pid_namespace?=
+In-Reply-To: <20261117152332.1221-1-arpe1618@gmail.com>
+Message-ID: <6F63BB54-2F8E-439E-AB7C-AA424842D89A@linux.dev>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -90,160 +65,95 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: 8bit
 
-The CIDs of an mm are sized from the CPUs its threads are allowed on.
-mm_init_cid() copies the allowed CPUs of the task into a new mm. Later
-changes reach the mm through mm_update_cpus_allowed(). It uses the mm
-the task points to, and ignores an mm with no user.
+On 17 November 2026 15:23:32 GMT, Jiwoo Kim <arpe1618@gmail.com> wrote:
+>pidfds can cross pid namespace boundaries: a task can obtain one for a
+>process outside of its own pid namespace hierarchy through SO_PASSPIDFD
+>or SO_PEERPIDFD, via SCM_RIGHTS, or through file descriptor
+>inheritance.
+>
+>Commit ee8323fdc827 ("pidfd: restrict task access ioctls to the caller's
+>pid namespace") made the pidfs namespace ioctls fail with -EREMOTE
+>unless the target is visible in the caller's active pid namespace, as
+>PIDFD_GET_INFO already does, following the rule that operations which
+>grant access to additional resources of the target require this [1].
+>
+>pidfd_getfd() grants access to the target's open files, but it only
+>performs the ptrace access check, which does not take the pid namespace
+>relationship between the caller and the target into account. With the
+>caller in a child pid namespace and in the same user namespace as the
+>target, PIDFD_GET_INFO and PIDFD_GET_UTS_NAMESPACE fail with -EREMOTE
+>for such a pidfd, while pidfd_getfd() on the same pidfd returns a
+>duplicate of the target's file descriptor.
+>
+>Apply the same rule to pidfd_getfd() and fail with -EREMOTE unless the
+>target is visible in the caller's active pid namespace. Callers in
+>ancestor pid namespaces are unaffected.
+>
+>This was found with an AI coding assistant, which also drafted this
+>patch and its changelog. The problem was reproduced in a QEMU guest,
+>and the fix was tested there.
+>
+>Link: https://lore.kernel.org/all/20260925-gewischt-auftrag-tierzucht-c153cb3f9f74@brauner/ [1]
+>Fixes: 8649c322f75c ("pid: Implement pidfd_getfd syscall")
+>Cc: stable@vger.kernel.org
 
-An affinity change between mm_init_cid() and the join of the first user
-is lost. In this example, P is a task allowed on one CPU, and H is
-another task:
+Reviewed-by: Bradley Morgan <bradley.morgan@linux.dev>
 
-  P                                     H
+>Signed-off-by: Jiwoo Kim <arpe1618@gmail.com>
+>---
+>-EREMOTE is a new error for pidfd_getfd(). The check is done before the
+>task lookup, so, as with PIDFD_GET_INFO, a reaped target outside of the
+>caller's pid namespace hierarchy gives -EREMOTE rather than -ESRCH, and
+>the check comes before the ptrace access check.
+>
+>setns() also accepts such pidfds without this check, but it requires
+>CAP_SYS_ADMIN over the namespaces being joined, so it is left alone
+>here.
+>
+>A reproducer is available on request.
+>
+> kernel/pid.c | 14 +++++++++++---
+> 1 file changed, 11 insertions(+), 3 deletions(-)
+>
+>diff --git a/kernel/pid.c b/kernel/pid.c
+>index adf721606768..4f9a29eb29de 100644
+>--- a/kernel/pid.c
+>+++ b/kernel/pid.c
+>@@ -893,6 +893,13 @@ static int pidfd_getfd(struct pid *pid, int fd)
+> 	struct file *file;
+> 	int ret;
+> 
+>+	/*
+>+	 * Require the target to be visible in the caller's pid namespace,
+>+	 * like the pidfs ioctls that grant access to its resources.
+>+	 */
+>+	if (!pid_vnr(pid))
+>+		return -EREMOTE;
+>+
+> 	task = get_pid_task(pid, PIDTYPE_PID);
+> 	if (!task)
+> 		return -ESRCH;
+>@@ -917,9 +924,10 @@ static int pidfd_getfd(struct pid *pid, int fd)
+>  *
+>  * This syscall gets a copy of a file descriptor from another process
+>  * based on the pidfd, and file descriptor number. It requires that
+>- * the calling process has the ability to ptrace the process represented
+>- * by the pidfd. The process which is having its file descriptor copied
+>- * is otherwise unaffected.
+>+ * the process represented by the pidfd is visible in the caller's pid
+>+ * namespace and that the calling process has the ability to ptrace it.
+>+ * The process which is having its file descriptor copied is otherwise
+>+ * unaffected.
+>  *
+>  * Return: On success, a cloexec file descriptor is returned.
+>  *         On error, a negative errno number will be returned.
+>
+>base-commit: 44cc27050381e92de64cc3d7836376eda4d92a5f
+>
 
-  execve()
-    exec_mmap()
-      mm_init_cid()
-        copies the allowed CPUs of P
-                                        sched_setaffinity(P, all CPUs)
-                                          mm_update_cpus_allowed()
-                                            the new mm has no user:
-                                            ignored
-    sched_mm_cid_after_execve()
-      P joins the new mm, which
-      counts one allowed CPU
 
-From reading the code, a fork() child has the same window between
-dup_mm() and sched_mm_cid_fork().
-
-The new mm then stays sized for the CPUs allowed at that time. A
-process that starts on one CPU and is widened to 64 CPUs during its
-execve() switches to per CPU mode with its second thread. In testing,
-two threads of such a process read mm_cid 0 and 63. The IDs stay below
-the number of possible CPUs. They are no longer compact.
-
-Fix this by adding the allowed CPUs of the first user to the mm when it
-joins. Hold t->pi_lock for that, as an affinity change holds it. A
-concurrent change is then in t->cpus_mask already, or it finds the user
-and updates the mm itself.
-
-Fixes: b0c3d51b54f8 ("sched/mmcid: Provide precomputed maximal value")
-Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: stable@vger.kernel.org
----
- kernel/sched/core.c | 65 +++++++++++++++++++++++++++++++--------------
- 1 file changed, 45 insertions(+), 20 deletions(-)
-
-diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 510cd775723b..456b76e823b3 100644
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -10833,24 +10833,17 @@ static bool mm_update_max_cids(struct mm_struct *mm)
- 	return true;
- }
- 
--static inline void mm_update_cpus_allowed(struct mm_struct *mm, const struct cpumask *affmsk)
-+static void __mm_update_cpus_allowed(struct mm_struct *mm, const struct cpumask *affmsk)
- {
-+	struct mm_mm_cid *mc = &mm->mm_cid;
- 	struct cpumask *mm_allowed;
--	struct mm_mm_cid *mc;
- 	unsigned int weight;
- 
--	if (!mm || !READ_ONCE(mm->mm_cid.users))
--		return;
-+	lockdep_assert_held(&mc->lock);
- 	/*
- 	 * mm::mm_cid::mm_cpus_allowed is the superset of each threads
- 	 * allowed CPUs mask which means it can only grow.
- 	 */
--	mc = &mm->mm_cid;
--	guard(raw_spinlock)(&mc->lock);
--	/* Might have raced with exit() */
--	if (!mm->mm_cid.users)
--		return;
--
- 	mm_allowed = mm_cpus_allowed(mm);
- 	weight = cpumask_weighted_or(mm_allowed, mm_allowed, affmsk);
- 	if (weight == mc->nr_cpus_allowed)
-@@ -10876,6 +10869,20 @@ static inline void mm_update_cpus_allowed(struct mm_struct *mm, const struct cpu
- 	irq_work_queue(&mc->irq_work);
- }
- 
-+static inline void mm_update_cpus_allowed(struct mm_struct *mm, const struct cpumask *affmsk)
-+{
-+	/* The first user takes the allowed CPUs of its task when it joins */
-+	if (!mm || !READ_ONCE(mm->mm_cid.users))
-+		return;
-+
-+	guard(raw_spinlock)(&mm->mm_cid.lock);
-+	/* Might have raced with exit() */
-+	if (!mm->mm_cid.users)
-+		return;
-+
-+	__mm_update_cpus_allowed(mm, affmsk);
-+}
-+
- static inline void mm_cid_complete_transit(struct mm_struct *mm, unsigned int mode)
- {
- 	/*
-@@ -11017,6 +11024,28 @@ static void sched_mm_cid_cleanup_execve(struct task_struct *t, struct mm_struct
- 	cpumask_copy(mm_cpus_allowed(mm), &t->cpus_mask);
- }
- 
-+/*
-+ * Make @t the first user of the CIDs of its mm.
-+ *
-+ * mm_init_cid() copied the allowed CPUs of @t before @t was a user. An
-+ * affinity change since then did not reach the mm. Add the allowed CPUs
-+ * of @t again. Hold t->pi_lock, which every affinity change takes. A
-+ * concurrent change is then in t->cpus_mask already, or it finds the
-+ * user.
-+ */
-+static void sched_mm_cid_add_first_user(struct task_struct *t, struct mm_struct *mm)
-+{
-+	guard(raw_spinlock_irq)(&t->pi_lock);
-+	guard(raw_spinlock)(&mm->mm_cid.lock);
-+
-+	sched_mm_cid_cleanup_execve(t, mm);
-+	sched_mm_cid_add_user(t, mm);
-+	__mm_update_cpus_allowed(mm, &t->cpus_mask);
-+	t->mm_cid.cid = mm_get_cid(mm);
-+	/* Required for execve() */
-+	__this_cpu_write(mm->mm_cid.pcpu->cid, t->mm_cid.cid);
-+}
-+
- /*
-  * Make @t a user of the CIDs of its mm. Called on fork(2) and on
-  * execve(2). A failed execve(2) rejoins the mm it left.
-@@ -11041,19 +11070,15 @@ static void sched_mm_cid_fork(struct task_struct *t)
- 	WARN_ON_ONCE(t->mm_cid.cid != MM_CID_UNSET);
- 
- 	guard(mutex)(&mm->mm_cid.mutex);
-+	/* The mutex keeps other users from joining or leaving */
-+	if (!mm->mm_cid.users) {
-+		sched_mm_cid_add_first_user(t, mm);
-+		return;
-+	}
-+
- 	scoped_guard(raw_spinlock_irq, &mm->mm_cid.lock) {
- 		struct mm_cid_pcpu *pcp = this_cpu_ptr(mm->mm_cid.pcpu);
- 
--		/* First user ? */
--		if (!mm->mm_cid.users) {
--			sched_mm_cid_cleanup_execve(t, mm);
--			sched_mm_cid_add_user(t, mm);
--			t->mm_cid.cid = mm_get_cid(mm);
--			/* Required for execve() */
--			pcp->cid = t->mm_cid.cid;
--			return;
--		}
--
- 		flip = sched_mm_cid_add_user(t, mm);
- 		/*
- 		 * A running joiner takes no CID at a schedule in before the
--- 
-2.47.3
-
+--- Thanks!
