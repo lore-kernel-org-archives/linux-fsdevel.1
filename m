@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794909361;
-	b=NoTqkc97aLJU9+FysRHF2+fNWJYD2pbutoMHKzN3cnnmtKc/2qifnq73wnANMeckNtCk
-	 zJ22abB+MFjmTzSBqRuODbHZDJhhwYmEmoMDiaPuiIld7PU3sxyINHNuwkAnKnIa7a68V
-	 MElqxsK5LyQelpW3yTawUkq0Och6V5LPvnLEouEnDtXXgjvOh6aSYD91ke/gRlcbB9UAg
-	 qelOCGxsySp1LkeTj0rxhJ6kXH3MSAkgR3Y1qQvblrXY/ceoomyI6Ju43FmJnwUILbk3/
-	 dsz6R3iphjClrVJZz+pSM52tVVStBwiY4Df5+9UjpfUYq0vuYzzkKNOsZVkOM1jbM6w==
+	t=1794909427;
+	b=UrIlVjYer/GjTEan3BTd3pYdyY87gZp952SznOhxZbck1+WjHEAcEc7ZXd9qI8oVEotc
+	 Ml5RixySzETN/+BXno95UR1xef/DCL2g3VatyocanzaLWM3kiPuJbHxRRlN0UnxO1KJ6G
+	 1+NwCKuzDO0WXcvtCehlE5UmINETqH38PIlryTBbDUcEDv97MAK3Q9EK1l3L2sWn3iIhO
+	 TK0xL1TKq6a3G2sk+NyPHLroQH39EQ4ZbR4xmPxVo2n6sm4ckRsTnkJKVodAe/v7iofr3
+	 37nmbqWQjXlzN2XCN0CBM5Odu0MvwU41DJCQtuQWKGCft1Cy1QUWCxSzDvDoTQTArIw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794909361;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794909427;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=RXpkAmDQM3YL/W8+BChLDkEu3hDU+qLuCPRwmd9apzM=;
-	b=r3ni8/1QFP39PzSrtSvGO9/RjKZ7QhbV7U28GhwIOHjI706x8jclf9uIl/w83Ab2NAn9
-	 mTfDsuJf+UqHMWH9FaM8EYGbm4RDYy/vuaR07X/z/UtGmUMcOty37NVfu7RcmgkUrObhf
-	 aWNsVTfjkmGZl7vQe/jtGyT1Zp+ovhmJje9oYjcweBCachvYPyLvH4/KOR9q2eCMDNIgM
-	 zyrBaTnlZKJPb5neqcnla9JPEYcSrlERF+Cn9U6FUarxo8W0umP4AI7fkbSzpOdhLZHLS
-	 f9pjN1P8vYaG+XEov/ONGqs0USYxNqQUev1AEmcbkcN+0FRFL/jr6e/jRc4LCukxjWg==
+	bh=2fY+2HOSK8rfddtZoh+t1ZJeqxl8EMfCbjk7Wm0pBYA=;
+	b=Azu9oZJloR1lhTu9I+Jke4lCLRzjOoyUzeNovEnc51BfqqdeeT+lSMFavCKVePkM6nuh
+	 Ubyo3Q1P+vbB+uFhj5hj52XqfJybi+JYaM0RLGxPa4cGJCHseDDWilDHCd0V9cOSCuZb+
+	 XulGcB1lXLs5mjam/0jGpKV+OGySsh84k5jNznn3NkuqVWCMZzv6GGti5OoVh6ZkhDLqS
+	 /JZf54CFy/ZDZPVIAO+ZR9dYqqYe0yGbRMafIMyYrtUOkI2CraBFLm2jTEMu4NtDDyn02
+	 Da+bIHY6Bjf2b2aUyTb2CjY3cDXmguBhjEb7pQ+mQNA/kWXlQOjXfdbTjcfH2d0Eq2g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ieF745AD;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=egySUPph;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2B85606A31C;
-	Tue, 17 Nov 2026 09:56:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82915606A31C;
+	Tue, 17 Nov 2026 09:57:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ieF745AD
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3D6E1F000C4;
-	Tue, 17 Nov 2026 09:55:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=egySUPph
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC9231F000C4;
+	Tue, 17 Nov 2026 09:56:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794909361;
-	bh=RXpkAmDQM3YL/W8+BChLDkEu3hDU+qLuCPRwmd9apzM=;
+	s=k20260515; t=1794909427;
+	bh=2fY+2HOSK8rfddtZoh+t1ZJeqxl8EMfCbjk7Wm0pBYA=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=ieF745ADkvptZ7RZ9MjF5EOCbX1p4MyKcv7xpQefcFxuUQt4dykq1m4vjzcAiDDK4
-	 Y5SI04smpkSm9CXwMyK82O+uRop1RRfBovG+iN9uWzD7G8ohkUPJp/E2ijYCMFcQ6U
-	 50PL0zzXZZ3oFqWsrgDqFYTrOqkTe9vIs0BeoGXCSRagFOmXXGSyxMvYAkrX1s2EmM
-	 Pu3I/B4hv2Unp0MBR5GHePMi+ixtbZg6D7ESw0X0vVlii6XHu2mHaxxVOYObCtWd1H
-	 mScv5Gfy4GJlJSHNQdt1yjFNUN9ziEauxef79xcUzo0heuKIX22fHyKigjUnSQCss7
-	 t7jsB4B7pe/pw==
-Message-ID: <4851f0db-9305-444e-8037-34bed9ecb6b3@kernel.org>
-Date: Tue, 17 Nov 2026 10:55:48 +0100
+	b=egySUPphbrhnVdGPvwfDbJ0S9W2WlsyAyzyHcQEZ+HXIW8r+ekqkM6CL2VZpQH8UN
+	 YSpMF40egtUW100ztPnYDttbETFhQ55M1qsALTyEuKO3NV4aXhBhoIQtSO6sggkllq
+	 iPnA+RjkzdRg4U/mneZ/ts1UD6ZEu4JRi/MqH2sKIHLdVbd/zsByzjSoWuaEyiiUMA
+	 pXJUiDFYIEQeqQCAyPvGOTtOVKZQt84hXjYD0/6uCo6UxA1wOMcEFXMfdS03gWwugj
+	 C0GqvbLW3wOVuuPjvVreuZ2vQN9wEkoQf7Tz2jWTntU+pKTm0NXu5PfQL+4fxo0jLQ
+	 KEFiqUkb/ZgvQ==
+Message-ID: <767ba6ff-f153-4fc3-9b56-f2421c793bcf@kernel.org>
+Date: Tue, 17 Nov 2026 10:56:53 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -52,8 +52,8 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/9] mm/migrate: keep the uffd bit when restoring a
- writable migration entry
+Subject: Re: [PATCH v2 5/9] fs/proc/task_mmu: write-protect device-private
+ THPs in PAGEMAP_SCAN
 To: Tal Zussman <tz2294@columbia.edu>,
  Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
  Peter Xu <peterx@redhat.com>, James Houghton <jthoughton@google.com>,
@@ -79,9 +79,9 @@ To: Tal Zussman <tz2294@columbia.edu>,
 Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  linux-fsdevel@vger.kernel.org
 References: <20261116-uffd-state-fixes-v2-0-4397a0196479@columbia.edu>
- <20261116-uffd-state-fixes-v2-4-4397a0196479@columbia.edu>
- <2d9ec2ee-8867-4ac2-b2b5-654bf2441513@kernel.org>
- <20e72944-108e-461a-b75f-d8c4f8edbc9d@columbia.edu>
+ <20261116-uffd-state-fixes-v2-5-4397a0196479@columbia.edu>
+ <38750bd8-6bb3-40f9-901c-44cef40a9de7@kernel.org>
+ <cc8daec0-c3e5-45be-9af0-d58719a43953@columbia.edu>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -128,49 +128,66 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20e72944-108e-461a-b75f-d8c4f8edbc9d@columbia.edu>
+In-Reply-To: <cc8daec0-c3e5-45be-9af0-d58719a43953@columbia.edu>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 11/16/26 23:42, Tal Zussman wrote:
-> On 11/16/26 3:23 PM, David Hildenbrand (Arm) wrote:
+On 11/16/26 23:48, Tal Zussman wrote:
+> On 11/16/26 3:26 PM, David Hildenbrand (Arm) wrote:
 >> On 11/16/26 21:02, Tal Zussman wrote:
->>> remove_migration_pte() makes the restored PTE writable for a writable
->>> migration entry, and only looks at the uffd bit of the entry otherwise.
->>> A writable migration entry that has the uffd bit set is therefore
->>> restored as a writable PTE without the uffd bit, and the page is no
->>> longer write-protected.
+>>> PAGEMAP_SCAN with PM_SCAN_WP_MATCHING write-protects a huge PMD through
+>>> make_uffd_wp_pmd(), which handles a present THP and a migration entry
+>>> but does nothing for a device-private THP. The PMD never gets the uffd
+>>> bit.
 >>>
->>> An entry with the uffd bit set must be restored write-protected, whether
->>> the entry is writable or not. remove_migration_pmd() gets this right: it
->>> makes the PMD writable and sets the uffd bit as two independent steps,
->>> and pmd_mkuffd() write-protects the result. To fix it, do the same at
->>> the PTE level, where pte_mkuffd() write-protects the PTE as well.
+>>> pagemap_thp_category() reports a non-present PMD without the uffd bit as
+>>> written. A user tracking writes with async uffd-wp therefore sees every
+>>> page of a device-private THP as written on every scan, whether it was
+>>> written to or not. This requires a driver that migrates THPs to device
+>>> memory.
 >>>
->>> The only known path that created such entries is PAGEMAP_SCAN. With
->>> PM_SCAN_WP_MATCHING, it write-protects the pages it scans, and it set
->>> the uffd bit on a writable migration entry without downgrading it. Now
->>> that PAGEMAP_SCAN downgrades them like change_protection() does, we
->>> should no longer see them, so this change alone should not be visible to
->>> userspace. If another path ever creates a writable migration entry with
->>> the uffd bit set, the page now stays write-protected instead of losing
->>> the uffd bit.
+>>> A device-private PMD must be write-protected like any other huge PMD. To
+>>> fix it, pass any valid PMD softleaf entry to set_uffd_wp_softleaf_pmd(),
+>>> not only a migration entry. It downgrades a writable entry and sets the
+>>> uffd bit. When the THP migrates back, set_pmd_migration_entry() carries
+>>> the uffd bit over to the migration entry, so the write protection is
+>>> kept.
+>>>
+>>> Fixes: a30b48bf1b24 ("mm/migrate_device: implement THP migration of zone device pages")
+>>> Tested-by: Gregory Price (Meta) <gourry@gourry.net>
+>>> Signed-off-by: Tal Zussman <tz2294@columbia.edu>
+>>> ---
+>>>  fs/proc/task_mmu.c | 2 +-
+>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+>>> index ee7f509d376e..013eeea7d1a3 100644
+>>> --- a/fs/proc/task_mmu.c
+>>> +++ b/fs/proc/task_mmu.c
+>>> @@ -2520,7 +2520,7 @@ static void make_uffd_wp_pmd(struct vm_area_struct *vma,
+>>>  		old = pmdp_invalidate_ad(vma, addr, pmdp);
+>>>  		pmd = pmd_mkuffd(old);
+>>>  		set_pmd_at(vma->vm_mm, addr, pmdp, pmd);
+>>> -	} else if (pmd_is_migration_entry(pmd)) {
+>>> +	} else if (pmd_is_valid_softleaf(pmd)) {
+>>>  		pmd = set_uffd_wp_softleaf_pmd(pmd);
+>>>  		set_pmd_at(vma->vm_mm, addr, pmdp, pmd);
+>>>  	}
+>>>
 >>
->> I am severely confused. If it was properly fixed, why should we do the below?
+>> This really should be squashed int #3 I think. Or what's the reason for keeping
+>> this separate?
 >>
->> You should WARN if we get the uffd-wp bit set on something that is writable, not
->> silently swallow it.
->>
-> Yeah, so this is more of a hardening change than a pure fix. I think adding a
-> VM_WARN_ON_ONCE here makes sense, but the uffd bit should still be set so
-> writes don't go unreported (which is what remove_migration_pmd() does too).
 > 
-> remove_migration_pmd() should probably grow a warning for this case too then.
+> I viewed them as separate bugs with different Fixes: targets, one from v6.7 and
+> one from v6.19, so it seemed reasonable to keep them separate. But patch 3 handles
+> device private entries already anyways, so I can squash this in.
 
-I don't like this hardening fix with recovery for something that should never
-happen.
+Oh, indeed, different fixes tags.
 
-Throw in a VM_WARN_ON_ONCE() and call it a day.
+Okay then!
+
+Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
 -- 
 Cheers,
