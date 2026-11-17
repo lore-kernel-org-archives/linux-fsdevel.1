@@ -1,84 +1,70 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=62.89.141.173
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794938320;
-	b=LcUQms4KJhwadJYkoRLAfpGL8IJQ1lwuoynpULmh6H6MCAQtYv1UObC3pRQLrFkSLBWD
-	 TIJY8tOYG71HzauGi9KCgbQ5lNi8zrT1AKR8nkHHS1B4xaaAgWAzCNEKKvU+MG36erczd
-	 GTu/eTg2UIvRLX/S8oRMxBdK3q0uiflmWXlbquN1iGz3WNS9R7FLZwCbaGuzRxiUuXyW4
-	 w76FzSAh68MXbbVbHoHcVyvAGc0dXYimVI8IgdGe3/Gg8jC4wLBVwqgSEyPT1kizYPKuD
-	 /X40aveub/IKmJ1ydkW/cAsc0Xrf0aQDOhAh40lkWwdYayuZPxnSDXDZT2aLT5wN7wA==
+	t=1794938363;
+	b=mH6jvG2OI6u1mKKURunN8AWBiB5Hda7CvsOgzEOzcnjYC7rgOiO8h33g8UILDQLFiZ+8
+	 aG7TBO+tl3FBQio42gKLWVNvuGJldUpTlOa9TL0eqoezCXX8PpAwOsR1DC5HdyTXLfl6P
+	 ersGv1mIcNR20O4+/cl4YCcWx1kA0GTLBgFN4u7zKgT2kCzbO+KizNf0lKGm2/2kxj2Cs
+	 VgRcPERUQ+9DAgTfcK0kbhSth8j0uoIQXor20mDMfnESgFGOqAfdzK2WDJR0JIF0yngfh
+	 Z9zCx9TecRsMwHBR51zsNzbs3rc0oFxkk5VHeR/eMc4XM8HnX8rijj/Aij3uMrlsMyw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794938320;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:X-Scanned-By;
-	bh=fDNSNdtJiNjajmSbnTodRJEXL2NvDP17/w+5CLNocfY=;
-	b=jaaEm0uxSzYWpdpTcnPEHemlNyH9YFQjGkX1IiLOhc5QGGdAyuf2nCgm84nYBAejMgqp
-	 QxQK6/0cMah1KHcBN0zT4EhlnXgAUSK6NURva+X5rx+mIAdHelBGGcrwMBtrOkrTb35dK
-	 IY5JanJE3eEtE3YCaQz4tFqjE4N49ItzCzJ8J6iOCj55VA5DJHN0svPBxt3eC7JU8JwKb
-	 c1NitWqlbErq9gC6bHu3VFPO7MJXILJOpPx/ud4GJ37knowjRSLQdB1RWG+dpPHl7hI14
-	 7Hck7irMbj/bufqtO4iwlzoeFnihS0NmqNSHc8rmn0gIXfM54dWTMkVlr9ujA+EweWQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794938363;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:Sender;
+	bh=k/LpWY5KUfJWDsk5FQz9MJ7AFM3pBZFBjow0OZbAt5g=;
+	b=dY4rBlQKPlvCFZhBkziq8dPcF9ONQRTQKWzWF5VFFoFZk45QNviVsbpINsQsorDNAcZ8
+	 uL/YO9ajfhknZaeZtQ9QszoqOl/o875hwPJc0Q/BrkLVFrwu/O3qXrUMjbYk/A7JnLplx
+	 mBBHf7L6Sb1v+UBuKhKYE4svlAMj+BOT3igKshliWaFMdamWvNOWNYyU9znkphfkRg7CR
+	 qAXljVcsyEXHWo4rRKWjLH9mmqpvpMeLq3KE1I0KgrPwpRxwr7O1MFZod5VsK4aReQyUp
+	 3gV7WD4u24p27Hk9Yj2/+jFfU5OhpSRvnLt/Owmai5H0qDtIZtWAm2oOikxyQH5ae1g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=KWhNkUG+;
-	arc=none smtp.remote-ip=170.10.129.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	dmarc=fail header.from=zeniv.linux.org.uk;
+	spf=none smtp.mailfrom=ftp.linux.org.uk;
+	arc=none smtp.remote-ip=62.89.141.173
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91BE3606A338
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 17:58:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 91BE3606A338
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=KWhNkUG+
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1794938318;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fDNSNdtJiNjajmSbnTodRJEXL2NvDP17/w+5CLNocfY=;
-	b=KWhNkUG+FnhnS3ppDPzD5++f4xbdTp0VfLHwEunm2iMTX+6UtbYBc78e2wGq+Q7EnsRu8C
-	o3C3YrH0dI58DyUUV5eeqdCmpP0KF7YnPjtLVr1+8mIPRFfSmvrGlPl1MEHJnOTAxtPZbI
-	rgKT3jq2EPWBcPgT1RQ5/GpIvgQDHMA=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-207-NzwzltnfOmmdHu5W3N7H9A-1; Tue,
- 17 Nov 2026 12:58:34 -0500
-X-MC-Unique: NzwzltnfOmmdHu5W3N7H9A-1
-X-Mimecast-MFC-AGG-ID: NzwzltnfOmmdHu5W3N7H9A_1794938312
-Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id EAD5E195608F;
-	Tue, 17 Nov 2026 17:58:31 +0000 (UTC)
-Received: from onestero-thinkpadp1gen7.tpbc.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 2D765588;
-	Tue, 17 Nov 2026 17:58:27 +0000 (UTC)
-Received: by onestero-thinkpadp1gen7.tpbc.csb (nbSMTP-1.00) for uid 13628
-	oleg@redhat.com; Tue, 17 Nov 2026 18:58:31 +0100 (CET)
-Date: Tue, 17 Nov 2026 18:58:26 +0100
-From: Oleg Nesterov <oleg@redhat.com>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Mani Tofigh via B4 Relay <devnull+mt4022.columbia.edu@kernel.org>,
-	Breno Leitao <leitao@debian.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E676E606A31C;
+	Tue, 17 Nov 2026 17:59:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E676E606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=k/LpWY5KUfJWDsk5FQz9MJ7AFM3pBZFBjow0OZbAt5g=; b=uPUfOMorYVWSloBmur3+jTWfN0
+	/cucEqJPX9ROXNS2Nts4ejxMitj7HKce5BP223k/EVYDvr6meZVWcSR2bDaawotGyswtu3/9RgBdQ
+	AM+ACyr1j9xK/5VZyXDH8KM7kA/6anBcqZxRuPjG8zfAFPMgFMBD9KrOE+CaSf37vOfUO0TLsaRTd
+	im/RcrikIEZHnc6zmCFGfzF1R7mCFc/8qx6j80lHa9otWtWhRUbjLGB6XfPsB8Z6/f0PdlSnLHkBP
+	TuKeIF9ztx35seJ03QlLJqpfLfZMGX4HSJFLM/njHPzgrPvXQcY3cyUbMGy5W0eQGY4CX+x1AZ+LT
+	8AuxY6ww==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xTNSf-00000001zpb-0Jnf;
+	Tue, 17 Nov 2026 17:59:17 +0000
+Date: Tue, 17 Nov 2026 17:59:17 +0000
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Theodore Tso <tytso@mit.edu>
+Cc: David Laight <david.laight.linux@gmail.com>,
+	Gabriel Krisman Bertazi <krisman@suse.de>,
+	Sarthak Kukreti <sarthakkukreti@google.com>,
+	Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
 	Christian Brauner <brauner@kernel.org>,
-	Mateusz Guzik <mjguzik@gmail.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	tz2294@columbia.edu, stable@vger.kernel.org,
-	Mani Tofigh <mt4022@columbia.edu>
-Subject: Re: [PATCH] pipe: keep per-write wakeups for EPOLLEXCLUSIVE consumers
-Message-ID: <avyVwg-5ef-pXZkG@redhat.com>
-References: <20261111-pipe-epollexclusive-wakeup-v1-1-0af6283e9fda@columbia.edu>
- <avxWKI795DthE8Sb@redhat.com>
- <CAHk-=wjOq+G=6gte4vX_YxOD_VfE1uZh7=+KHs8N0wU75xyHEg@mail.gmail.com>
- <avyODoFhZ_M7YDU5@redhat.com>
- <CAHk-=wgcBSBtHE+3ceKGjq1jyF64OyoEqf5JPpixowAa80GqNQ@mail.gmail.com>
+	Gabriel Krisman Bertazi <krisman@collabora.co.uk>,
+	Eric Biggers <ebiggers@google.com>,
+	Dmitry Torokhov <dtor@google.com>, linux-fsdevel@vger.kernel.org,
+	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] libfs: reject casefolded names that fold to ".",
+ "..", or empty
+Message-ID: <20261117175917.GO989762@ZenIV>
+References: <20261113065332.929085-1-sarthakkukreti@google.com>
+ <20261113065332.929085-2-sarthakkukreti@google.com>
+ <878q2swoxp.fsf@cartola>
+ <avu0X5E298dHRBHY@mit.edu>
+ <20261117084727.0cfa196a@pumpkin>
+ <avxe5v6r1C7ZG7E2@mit.edu>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -90,24 +76,42 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAHk-=wgcBSBtHE+3ceKGjq1jyF64OyoEqf5JPpixowAa80GqNQ@mail.gmail.com>
-X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
+In-Reply-To: <avxe5v6r1C7ZG7E2@mit.edu>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-On 11/17, Linus Torvalds wrote:
->
-> On Tue, 17 Nov 2026 at 09:25, Oleg Nesterov <oleg@redhat.com> wrote:
-> >
-> > So. Do you agree that we can "ignore" this report from Mani for now?
->
-> I think we can ignore it, but I also have a cunning plan.
+On Tue, Nov 17, 2026 at 09:54:32AM -0500, Theodore Tso wrote:
+> On Tue, Nov 17, 2026 at 08:47:27AM -0500, David Laight wrote:
+> > > Sigh... I really think these characters are *evil*.  I wonder if we
+> > > should simply drop those code points unconditionally when they are fed
+> > > to the kernel --- not only folding to themselves, but *not* preserving
+> > > them when a misguided application tries to create a file with one of
+> > > these misbegotten Unicode charactesr.
+> > 
+> > Doesn't that assume that filenames are UTF8 rather than just sequences
+> > of bytes with everything except '\0' and '/' being valid.
+> > Casefolding is itself so evil/impossible it shouldn't have been allowed.
+> 
+> We would only do this if casefolding is enabled.
 
-Good. this was my main (the only) question.
+Which is to say, on any distro kernel.  Besides, it's not just a matter of
+filtering that dreck out on getname() and friends (syscall boundary won't
+do at all due to the things like binfmt_misc opening files, etc.) - you'd
+need to scan what you get upon ->get_link() as well.
 
-> So what we could do is to just make the pipe code open-code its own
-> wait event logic, and add its waiters at the head.
+> For better or for
+> worse, it's better than what it replaced which was this terrible
+> wrapfs hack that was a trivial to trigger deadlocks using fsstress ---
+> which was even more evil.
+> 
+> The other way we can deal with this is that if case folding is
+> enabled, we change the VFS to call the case-folding for incoming
+> filename *before* it does its special case checking for '.' and '..'
+> if casefolding is enabled.
 
-perhaps... and we already have WQ_FLAG_PRIORITY, but we can't re-use it
-without more changes...
+That would penalize every pathname resolution, whether that misfeature is
+stepped into or not; hash_name() is fairly hot.
 
-Oleg.
-
+'.' and '..' should be recognized only as literal octet sequences 0x2e
+and 0x2e 0x2e; if some misguided filesystem decides to treat something
+else as equivalent to those, it bloody well ought to recognize and reject
+that something else in its ->lookup() (or ->d_hash(), for that matter).
