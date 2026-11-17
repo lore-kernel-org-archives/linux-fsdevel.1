@@ -1,101 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794906276;
-	b=UJsQdsTfYzUSte1eJPzHpBF04Cu4BLpuYVsGp+SnoqQ2ZSiyv/UkwGbuucYf10Y1EYBI
-	 ue3Ns/qwBAX0+JQXb4t8i3IUCDIsQuo2+byX5qLZOHMr8Iq9amcBnzdsJoJr4QGYhubY8
-	 3IG3D7z7SZma2r6O11oQ2VrbOjKpSN6DkCVTjXmJ2Ol2p+H+ASBFbE8nfHlZ9BrYE8kPB
-	 waRuT4i99PzBa65rdqzV1Yk4804shwbI4JFCepySLlRvyOuN45nvcdChbxXS+NhlSLm7P
-	 riLBNDin4qDWm25QPPSDelLdiAm5nR7zANQY7T/XMXIKFyHJ4GI5eeZ7lNpM9CYgxOg==
+	t=1794909318;
+	b=c/lT4Zgj4VVtIlrc8K7teLVbVvfqe3u1oHSLfHyknzaYtG8qi/GC0811RTKROClr9Uaa
+	 jKJqo17usF/r44JYQe9TNVE/uVA3hBhHKA/hdNBJsM7egRZ5t/aBPv8ZKQvtvLVrIPD3i
+	 3o6Z3oGtlbnrA8rCr5RhxJFcap0HOAoMLMwtUr0CLK3EaOFn4zjV/M+S37Lv9Vf7tizxP
+	 6hxdGQOo09VpibSQpuPchPiLohVpZh0LG4njqZQnxfSSABDzsLqlqNNOBVqmFUtQvqrdk
+	 aw1GYygCkuQ7aerlgY/HQ+RNqdFeS0X5B740YMXecegVYDYwn7mcQcl1uBMkzNnOH8Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794906276;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:In-Reply-To:References:MIME-Version:
-	 Content-Type:Content-Disposition:Message-ID:User-Agent;
-	bh=Yafz3sEgHSbB0dihgrPP4811kZo9wiNYZxbrPM44ojs=;
-	b=yJeDObXY/WVMFGdINTHcLp/JSTbzvkC1jftaUEivM16mt7C5Z5kkAqFjGXqchZdgmsYk
-	 mh6Sg1HR06Z6zbP985jlrr+mQj8CpP3JIyqACURu3rjv9CR2wQ8PLuPwJlg4yVtvmuTsB
-	 P/ni0sqc8QdZ315nMmp7w1NMYQi1cSMcPoC26iEe8+H+UH4B4tMzQqjP/h/T/CMMDB9fV
-	 tWtRl7cDWXYVa6gHxAlzj58KIFxKUaJ6YFEOoNKZvrsfGxQbnrGpz5xNOeIXWkGkKNTyu
-	 BHbkMRBrybXLSZw8XeDLHB0qHPpF0Xd1y45F64op6qZ0EKtfo26Rb0kQ88l8iZoud7A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794909318;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=DMyC1okRsySQAgoBesJDfyI8sBJ6WUZdUoOx84UiPvI=;
+	b=zt64L42RdF0KTLYCCH7g5RxGSgovAjoLpuiSb8aNhek786huf50gUKk6kNtgvW8WaWT9
+	 HWWd72ZwIX9I2S5KKmRYWCnH434TxCOWwlnZZY11m6jFiEscR18GZv9IaLPT1r+leWiez
+	 3tjblyaV9dpIP+9QOeHjwRh46uBu8rZKfSlrG46VGXCaqkHi+s2zStOsgkESEsToSg50q
+	 D755+xwQDwCPhGEuP8bie5FiPZ8stdVjVIRl/woeg2BE5w7ydN2N4tWzsGicxNNv3vQQz
+	 k/8IAF1y5P6CYt2N8qpgPiUhuDx/LPOZ+HpZk6jtVCWJtTZiO9UpLAZArG1ctKRW7KQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=chrisdown.name;
-	spf=pass smtp.mailfrom=chrisdown.name;
-	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=Df6fFrOr;
-	arc=none smtp.remote-ip=209.85.216.49
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kSS+QgSD;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A840606A31C
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 09:04:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5A840606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chrisdown.name
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chrisdown.name
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A966B606A329;
+	Tue, 17 Nov 2026 09:55:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=Df6fFrOr
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-3ace1f3897cso2442411a91.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 01:04:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chrisdown.name; s=google; t=1794906276; x=1795511076; darn=vger.kernel.org;
-        h=user-agent:message-id:content-disposition:content-type:mime-version
-         :references:in-reply-to:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Yafz3sEgHSbB0dihgrPP4811kZo9wiNYZxbrPM44ojs=;
-        b=Df6fFrOrS33woqipjuxMbtgP7Mb38cga8ynzt4dnwXgr3NWyVSrac4XRUinfbr3fLw
-         ZVQFQHOVaZhwzqO9wK3QHesW8cBGX1Yir2qudEdLZW+BOY852fUftVTZY4lKH1Gctl09
-         OJTywxiLvJaQfloOQmtSK384TfG4wao7WnxHI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794906276; x=1795511076;
-        h=user-agent:message-id:content-disposition:content-type:mime-version
-         :references:in-reply-to:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Yafz3sEgHSbB0dihgrPP4811kZo9wiNYZxbrPM44ojs=;
-        b=fLbdjf3JL4b889t7lrnYAwc6CtJT/WlOYHemK1RsBLNkKgYQuPXJkz6CDanTJtIiKN
-         Jujqq7pQF7WQ2QWu39MAzItV/kP/RJmFwrurY4h2QTw3ORGrZhj9VETsh8+d1s1jWxfL
-         6k1s0asPq8vg/+1aCWGdaH94UiYEeL0se00sFVOiFqDe508WIVfSPzu45wWC3uSo9TTQ
-         TSgoeOAFSp9+BGieB1s89NHp7mK1hUhoqT2gjywAUpN23NRXUsTdNBNVN35vw8pGls1B
-         6SDhCeHHAMLGfd9X1Utu1w2GbcWrzlI6nBMro5mW2nWFuGmv75yzUsBkvYGl+85p0vxp
-         69tQ==
-X-Forwarded-Encrypted: i=1; AL+hErHmP/iVxknSEqs0TXiEgdo9Tr0QlNgXWIkaX0S5uLreyag1TLPwiFaKPOASayNRhM9UJjEF1cdKOxNIP/6F@vger.kernel.org
-X-Gm-Message-State: APuU4Z8lWWPOwj2EEyRSK8dYw47ZYpmiEuQDhbZf8r90rSF5Q2CBPiOP
-	DXkQDE+6+vDq7b9HqZIpiY04S2f55mr4FwIMCuQkg0isXAckhJ/uiWVOmJhqr9f7bOgrIRzRVJ5
-	L3ZbJny8=
-X-Gm-Gg: AZFdTZedHonhhokZVKaNa7bVQgk5BhhIOc5OpKJDI5nkA5HodxUqiLWnrPurr1PTTwn
-	pmTHQCUY9z6Hmuyla1ZE35zjQ/HOaLQVkNU9gExc0gRpVpDpdoc4e0OSYkmcScjuNWcKLwUQUQo
-	La5OyQRzjjkW9ADBVws+4KtMC6biSWYPUmf7Nu7GxjAF7KPl0VgkZPg2sYQXPfowM9ScifBRpMB
-	ocYtShuujmomyf9AMvG1gtjqz9qRcQqRs+zQhx5MefH9KH5oP/v6ZaTxSMDtA92yjGaCmYrIRqP
-	fxEmiTrUv682328YlYUhslMDwtYxhXL5fZFmnMwIpZuN/8EdyT8+E8i1tnrJ0pfbogcpSNmRw90
-	qS8dif4XxnT2QZIx3lMdTp0OPnT7P39COAr5CX/XHqIYoB9ywaJE028fZwD2aehqot0NCE51QQs
-	+RdFUWYkbKCelRvq3BNd4b0COKiEO8VR2660HlGLFpuhaJvac3pnkp9SqpOPBa6KanQAT/kUaQC
-	WCp4b9+VAk7JcQC4uYbBNrmn2l1x9EzdBYDfmwB9vk9d3wEosqxoqYIEyxu8OKIzRHrPBCiUKw9
-	XfVm9jcVH8NaWsxekgdg+2+HCUaZEuFTpnN7YsFct0Fn45M2uejFTPg4oi8mToVffxalzxcFEbr
-	4ANRXZQXQJxb3ot3+AhmB43ehwG+U8chvM9OcQrvRFjIygaOAnbOTum81ex4H6Vd2H2R5N3AJVj
-	3ntzzaWLAUsMmDuuSoXRWqgvT5KvsMwo8GcRqW3s+RxhCxmcbOMgI8MDWYUZIVOwM8w/RCUXKrW
-	vo4k9+/92dWoxI=
-X-Received: by 2002:a17:90b:17c7:b0:3ab:884b:65ab with SMTP id 98e67ed59e1d1-3b1b0ba4fd8mr13948715a91.55.1794906275627;
-        Tue, 17 Nov 2026 01:04:35 -0800 (PST)
-Received: from [172.20.0.3] ([172.56.235.113])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b3abd068e2sm3204091a91.6.2026.11.17.01.04.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 01:04:34 -0800 (PST)
-Date: Tue, 17 Nov 2026 01:04:31 -0800
-From: Chris Down <chris@chrisdown.name>
-To: Breno Leitao <leitao@debian.org>
-Cc: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
-	kernel-team@meta.com, Mateusz Guzik <mjguzik@gmail.com>
-Subject: Re: [PATCH RFC 3/3] fs/pipe: copy a run of anonymous buffers in one
-	user access section
-In-Reply-To: <20261113-pipe-pool-regression-smap-v1-3-b0dc69558ab3@debian.org>
-References: <20261113-pipe-pool-regression-smap-v1-0-b0dc69558ab3@debian.org>
-	<20261113-pipe-pool-regression-smap-v1-3-b0dc69558ab3@debian.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kSS+QgSD
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 363781F000C4;
+	Tue, 17 Nov 2026 09:55:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794909318;
+	bh=DMyC1okRsySQAgoBesJDfyI8sBJ6WUZdUoOx84UiPvI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=kSS+QgSDcTUl16LXaAccAGAtSJWS8GLOIOkgE2Y0+d6R9641Soo6Xl21m9f/jCW1k
+	 3LYpbiG0JVOPzz4VL3kFi12qz0OwAzqZSmiycveqnqcJaMVafYVzaTeaC/B6nIIenm
+	 yE9lS9dgTHpwbWMBXNQHYFBh/c9LLc9DOU+dzjHqZb8pN9wFJkTQg6/AMNFzfqZ8k1
+	 k2M+f93TRRuhjI1IeVSqi0f6Sd3sGHcWUhCkK06wXQ2J5/vFLDlNihYvvcEedrKyJC
+	 3ZK1uBspRA1nP76uzjEdkH0gZbch/6zJkQC6PaqtirJqnWjiMQ9pyZtJ4l9DKLJuvl
+	 ygHXpMG83BV3Q==
+Message-ID: <91aadb5b-53a7-41eb-a0fa-4fce804a35e6@kernel.org>
+Date: Tue, 17 Nov 2026 10:55:05 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -105,42 +51,179 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Message-ID: <avwYn2KugKhjYxNh@chrisdown.name>
-User-Agent: Mutt/2.4.3 (cc9e3943) (2026-10-09)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/9] userfaultfd: use anonymous memory for
+ UFFDIO_ZEROPAGE on private file mappings
+To: Tal Zussman <tz2294@columbia.edu>,
+ Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
+ Peter Xu <peterx@redhat.com>, James Houghton <jthoughton@google.com>,
+ Andrea Arcangeli <aarcange@redhat.com>,
+ Suren Baghdasaryan <surenb@google.com>, Balbir Singh <balbirs@nvidia.com>,
+ "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>, Michal Hocko <mhocko@suse.com>,
+ =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+ Andrei Vagin <avagin@gmail.com>, Muhammad Usama Anjum <usama.anjum@arm.com>,
+ Stephen Rothwell <sfr@canb.auug.org.au>, Arnd Bergmann <arnd@arndb.de>,
+ Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>,
+ Gregory Price <gourry@gourry.net>, Ying Huang
+ <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
+ Kiryl Shutsemau <kas@kernel.org>, Muchun Song <muchun.song@linux.dev>,
+ Oscar Salvador <osalvador@suse.de>,
+ =?UTF-8?Q?Miko=C5=82aj_Lenczewski?= <miko.lenczewski@arm.com>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, stable@vger.kernel.org
+References: <20261116-uffd-state-fixes-v2-0-4397a0196479@columbia.edu>
+ <20261116-uffd-state-fixes-v2-1-4397a0196479@columbia.edu>
+ <cc865bc8-b96f-4385-97b1-976de4465ca1@kernel.org>
+ <eba4fb71-6baa-455f-8899-87567af898aa@columbia.edu>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <eba4fb71-6baa-455f-8899-87567af898aa@columbia.edu>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Breno,
+On 11/16/26 23:27, Tal Zussman wrote:
+> On 11/16/26 3:16 PM, David Hildenbrand (Arm) wrote:
+>> On 11/16/26 21:02, Tal Zussman wrote:
+>>> If the mm cannot map the shared zero page, UFFDIO_ZEROPAGE falls back to
+>>> mfill_atomic_pte_zeroed_folio(), which allocates a zeroed folio and
+>>> installs it through vma_uffd_ops(), no matter what kind of mapping it
+>>> is. An s390 KVM guest with storage keys or protected virtualization is
+>>> such an mm.
+>>>
+>>> For a MAP_PRIVATE shmem mapping, that adds the zeroed folio to the page
+>>> cache of the file. That is wrong: a private mapping must never modify
+>>> the file it maps, and the file might even be mapped from a read-only fd.
+>>>
+>>> The ioctl can also fail where it should succeed. A missing fault is only
+>>> delivered for a hole in the file, but UFFDIO_ZEROPAGE can be called on
+>>> an address that did not fault, or can race with a write to the file. If
+>>> the file has a page at that offset by then, inserting the zeroed folio
+>>> fails and the ioctl returns -EEXIST although nothing is mapped at the
+>>> destination address.
+>>>
+>>> What we want is what UFFDIO_ZEROPAGE does on a private mapping when the
+>>> shared zero page can be used, and what UFFDIO_COPY does: only check that
+>>> nothing is mapped at the destination address, map zeroed memory there,
+>>> and leave the page cache alone. The zeroed folio path did that before it
+>>> was moved to vm_uffd_ops.
+>>>
+>>> To fix it, pick the ops in the common folio path, as
+>>> mfill_atomic_pte_copy() did for UFFDIO_COPY: anon_uffd_ops for a private
+>>> mapping, the ops of the VMA otherwise. That makes
+>>> mfill_atomic_pte_copy() and mfill_atomic_pte_zeroed_folio() redundant,
+>>> so remove them and rename __mfill_atomic_pte() to
+>>> mfill_atomic_pte_folio().
+>>>
+>>> UFFDIO_ZEROPAGE no longer modifies the file, and only fails with -EEXIST
+>>> if something is already mapped at the destination address.
+>>>
+>>> Fixes: f74991b4e383 ("shmem, userfaultfd: implement shmem uffd operations using vm_uffd_ops")
+>>> Cc: stable@vger.kernel.org
+>>> Acked-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+>>> Signed-off-by: Tal Zussman <tz2294@columbia.edu>
+>>> ---
+>>>  mm/userfaultfd.c | 46 ++++++++++++++++------------------------------
+>>>  1 file changed, 16 insertions(+), 30 deletions(-)
+>>>
+>>> diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
+>>> index d65184d9a480..61a712e1f9f5 100644
+>>> --- a/mm/userfaultfd.c
+>>> +++ b/mm/userfaultfd.c
+>>> @@ -531,15 +531,27 @@ static int mfill_copy_folio_retry(struct mfill_state *mfill_state,
+>>>  	return 0;
+>>>  }
+>>>  
+>>> -static int __mfill_atomic_pte(struct mfill_state *state,
+>>> -			      const struct vm_uffd_ops *ops)
+>>> +static int mfill_atomic_pte_folio(struct mfill_state *state)
+>>>  {
+>>> +	const struct vm_uffd_ops *ops = vma_uffd_ops(state->vma);
+>>>  	unsigned long dst_addr = state->dst_addr;
+>>>  	unsigned long src_addr = state->src_addr;
+>>>  	uffd_flags_t flags = state->flags;
+>>>  	struct folio *folio;
+>>>  	int ret;
+>>>  
+>>> +	/*
+>>> +	 * The normal page fault path for a MAP_PRIVATE mapping in a
+>>> +	 * file-backed VMA will invoke the fault, fill the hole in the file and
+>>> +	 * COW it right away. The result generates plain anonymous memory.
+>>> +	 * So when we are asked to fill a hole in a MAP_PRIVATE mapping, we'll
+>>> +	 * generate anonymous memory directly without actually filling the
+>>> +	 * hole. For the MAP_PRIVATE case the robustness check only happens in
+>>> +	 * the pagetable (to verify it's still none) and not in the page cache.
+>>> +	 */
+>>> +	if (!(state->vma->vm_flags & VM_SHARED))
+>>> +		ops = &anon_uffd_ops;
+>>
+>> Oh, but one comment: why not check for actual cow mappings?
+>>
+>> 	vma_is_cow_mapping()
+>>
+>> is your friend :)
+>>
+> 
+> Probably because I didn't know about it :)
+> 
+> This is already equivalent since uffd registration rejects VMAs without
+> VM_MAYWRITE, but I can switch it over for consistency.
 
-Breno Leitao writes:
->The numbers below come from an earlier version of this patch, which did
->the copies in fs/pipe.c and left runs of a single buffer to the old
->loop. Throughput change, median of 2 boots x 5 runs, SMAP on:
+Yes please. We need to convert all of that code to not check fiddly VMA flags.
 
-I timed a single read() from a pipe that was already full of anonymous
-buffers, on an i9-14900HX in a 2 CPU KVM guest:
+Cow mapping in uffd -> anon folios only.
 
-     read size  base     this     base, nosmap  this, nosmap
-     4 KiB      175ns    181ns    152ns         155ns
-     64 KiB     2123ns   2061ns   1971ns        2070ns
-     1 MiB      49.6us   49.0us   46.4us        48.3us
+-- 
+Cheers,
 
-(nosmap here being clearcpuid=smap.)
-
-So on this CPU the 16 STAC/CLAC pairs in a 64 KiB read cost about 150ns,
-and this patch gets back about 60ns of that. But with SMAP off this patch
-is about 100ns slower for the same read. So the batched path seems to
-cost more than the old loop, and only comes out ahead where STAC/CLAC
-are expensive. I haven't looked into where that comes from.
-On CPUs where they're cheap, like the later Zen parts Linus mentioned in
-[1], this may well be a loss.
-
-It would be good for the changelog to have numbers with some
-clearcpuid=smap runs to compare with, and preferably on a few machine
-types.
-
-[1] https://lore.kernel.org/all/CAHk-=wiTN=1Sm5DVnXDtQ-tSiPuz-7QVpgP2vt6LgaEnhbubfw@mail.gmail.com/
-
-Thanks!
-
-Chris
+David
