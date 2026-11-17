@@ -1,58 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794917959;
-	b=Hu/SeP61Spd3ODos2/XuJLxYAH3ddb6FU1mqLcX8h88XA+h61/MFh7Zl6S7I+OGDBpsx
-	 MibyF4heBTR9SJHDsHLc+b/sIGdqdbuc5Jnzf3DEJYeI2OZv+tPH4l+kQhTEHaPPG989h
-	 gvAJDaDC5Aik0/1JFvbwyKphNKS3xlEWu5zKlm6qB2RdHdx6re7SH4im4dB9eug7A3u7Y
-	 NHyh837LBVA6W/e0/gHeukmgBqq3G6xGC5If0BwDcpMWme12VV+0i28J80C5p2sq9nJUo
-	 TT3dvxTqcd0ioeiEUKfyeoeQ97ogvZ1w/r5eYCD9A9HMsFSB7rWPr+FBDtZkA5spmCQ==
+	t=1794918106;
+	b=ceV0KWrS+OMmFoD3soPAYdltwRw25o7BFUiuzFDnsGPfkIFr6ZPIyyiNxmrLya9XPPhq
+	 5MNJyfV33REJlFI61Pood7hu9uuxECugp7lbz9LJH0SVZgScXRNg651iXNcEhpggmEG6r
+	 Njr8ARiESibZmM4JpxK/7ZMwwrLlN5dcf7yPmrrvSiHdGIcixboNozQZgqbrU9SgIL8xS
+	 KYgwOh8unVedIe6YATktYjHDstZfWk1hEdVWxwhQqDb4WrRMsLEPQEexB94Xg2humXdnE
+	 nQBG6NWEvblRvln57YOOXGLbjX3TL/BT6ijY6Bpkl3wwY4qU5nU5KL+FdI2FAEiT8JA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794917959;
-	h=DMARC-Filter:X-UUID:X-CID-P-RULE:X-CID-O-INFO:X-CID-META:X-CID-BVR:
-	 X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=9Qo5HED32HMIac07kWLfa/dQnNfHE6QDn+AhMsssE8w=;
-	b=bSLTC6E85jpcbBperftALjgWJIZjG3QcGakTsLhyckavI6ijzf89g0LJhvq+FBXx222a
-	 JpUld8UEVSWvtuCeBrAKC+7ifYytJV/DM1lA58BdrbMk1+DBHDUy2rVpWTSJN+dGidpmX
-	 6kcJ0DRhQ3y7XJmKVBu+wyLnYAkyo7qRfNjV4JDrCT7qTvn7IkrC8t64Na2z8QOIc08lZ
-	 j4jKcivNQBpHMPwyUJKkkgVoUtKi50YIKedL6gsm1TSSsx3mQBZtJJroj+N183u7G9wEU
-	 cMySryPKZCfa8QQn7oaidoBTUy9iBow3jgoUpl2vKaUfYKiOStDgZKIHLzHbvDzQX9w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794918106;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=GttENf4AQLKGgaT2xtnMonfh7k3XNqVVFPtXzQMChjU=;
+	b=zBE8wifi8n5zIWcipjjvGOZtocXnOCb2Bi1g99ZyjMJl1YQRLviSTlIvY8cvBKMoHvJo
+	 bCxmWDLVYv5+Ht2+E7FNde/0hQRnFSCS6sA39rVjFSgXn/t1FXfuZcXijeKL97CAhjLh8
+	 JoSUelX5XJSpkQ6Wa53tLsojrCsF5PqqaFrVoPtr48ljTgpoqR7XccI9FZ2YDJxuBwg37
+	 dKZ/JMUBb28itFCVAn55TPR/CAzh6nexI3vfF7jq5vVrfFnS9PmLLCX+VHoRwCz50U2nh
+	 VrYqp0gXgTr3PD9uUDvcuLEiB6UZoHdP8zHaSZIV5aHFq5iI3vCpoV5tTw6UlA4Jr6Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=kylinos.cn;
-	spf=pass smtp.mailfrom=kylinos.cn;
-	arc=none smtp.remote-ip=124.126.103.232
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=C8lhV+Z6;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90C76606A323;
-	Tue, 17 Nov 2026 12:19:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 90C76606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 17d328e0e28111f19a56ed5b684f684d-20261117
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:c2d38929-4bc9-4092-a310-5fe27e8b968a,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:7db8b62,CLOUDID:c748a0bded8e2b883384503dc73395a3,BulkI
-	D:nil,BulkQuantity:0,SF:80|81|82|83|102|136|865|898,TC:nil,Content:0|15|50
-	|99,EDM:-3|-100,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,CO
-	L:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 17d328e0e28111f19a56ed5b684f684d-20261117
-X-User: liwang@kylinos.cn
-Received: from [10.42.16.85] [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <liwang@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
-	with ESMTP id 811876433; Tue, 17 Nov 2026 20:19:10 +0800
-Message-ID: <6c6cea56-1af2-4a37-b081-83244d5e09cd@kylinos.cn>
-Date: Tue, 17 Nov 2026 20:19:07 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 455F8606A31C;
+	Tue, 17 Nov 2026 12:21:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=C8lhV+Z6
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 023021F000C9;
+	Tue, 17 Nov 2026 12:21:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794918105;
+	bh=GttENf4AQLKGgaT2xtnMonfh7k3XNqVVFPtXzQMChjU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=C8lhV+Z6SJ8XgHd/J2EKI1U6pcb4wnoZF8dID2gB43wsYDa8pyqcBqXoFMBN0xEPN
+	 iDxWYqie8JE0pWF2f1kyXnCQ6L5jOHuyZy6Tob4n2/xEewU+wXTHgFe8AXq06KvIs5
+	 DaKLlL4gqZ6+qRwK1mKZ/oot5DCjLn7s3MFzjm1k/2LnjoEDqxFy9MeMqgtd9sG1U4
+	 fQ+kCnZ+V0Jbj9XU6dxdgPvt0chSQtjPt0YC28YBiFO312AJ3WmUWkDdu9jidpWQkp
+	 kL1OZE7zrbXx1g+ZVCa5SBXHy/BmdjHWUII37KVWw/6mK+HD8vNfHhCkVxfVbbv1A4
+	 ZC6mh0URIBSIg==
+Date: Tue, 17 Nov 2026 12:21:28 +0000
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Jeff Xu <jeffxu@chromium.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
+	"Liam R . Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Brendan Jackman <brendan.jackman@linux.dev>, Zi Yan <ziy@nvidia.com>, Alexander Potapenko <glider@google.com>, 
+	Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Vincenzo Frascino <vincenzo.frascino@arm.com>, Marco Elver <elver@google.com>, 
+	Boris Brezillon <boris.brezillon@collabora.com>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Chia-I Wu <olvaffe@gmail.com>, Dev Jain <dev.jain@arm.com>, 
+	Evgenii Stepanov <eugenis@google.com>, Ian Rickards <ian.rickards@arm.com>, 
+	Jann Horn <jannh@google.com>, Jeff Vander Stoep <jeffv@google.com>, 
+	Jeff Xu <jeffxu@google.com>, Kees Cook <kees@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Peter Collingbourne <peter@pcc.me.uk>, =?utf-8?Q?Pierre-Cl=C3=A9ment?= Tosi <ptosi@google.com>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Tomasz Figa <tfiga@chromium.org>, Will Deacon <will@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Baoquan He <baoquan.he@linux.dev>, 
+	Pasha Tatashin <pasha.tatashin@soleen.com>, Pratyush Yadav <pratyush@kernel.org>, 
+	Allison Henderson <achender@kernel.org>, "David S . Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, linux-mm@kvack.org, 
+	kasan-dev@googlegroups.com, linux-arm-kernel@lists.infradead.org, 
+	linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev, kexec@lists.infradead.org, 
+	netdev@vger.kernel.org, linux-rdma@vger.kernel.org, rds-devel@oss.oracle.com, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 5/7] mm: kasan: skip KASAN for GFP_HIGHUSER
+Message-ID: <avxFYRBid_VUp6vo@gremlin>
+References: <20261116230627.3537051-1-jeffxu@chromium.org>
+ <20261116230627.3537051-6-jeffxu@chromium.org>
+ <avwp1ZpVudiT1Gux@gremlin>
+ <85ce1f24-8b49-4cd3-a9f7-02d1be69708e@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -62,196 +82,19 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] fuse: virtio-fs: fix lost wakeup on a full virtqueue
-To: Qihang <q.h.hack.winter@gmail.com>, German Maglione
- <gmaglione@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>
-Cc: Eugenio Perez <eperezma@redhat.com>, virtualization@lists.linux.dev,
- linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20261113091758.77678-1-q.h.hack.winter@gmail.com>
-Content-Language: en-GB
-From: Li Wang <liwang@kylinos.cn>
-In-Reply-To: <20261113091758.77678-1-q.h.hack.winter@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <85ce1f24-8b49-4cd3-a9f7-02d1be69708e@kernel.org>
 
-Hi Hang,
+On Tue, Nov 17, 2026 at 01:06:54PM +0100, David Hildenbrand (Arm) wrote:
+> On 11/17/26 11:21, Lorenzo Stoakes (ARM) wrote:
+> > This commit message is just inscrutable. It's like reading Finnegan's Wake :)
+> > LLMs are obscenely terrible at this stuff unfortunately.
+>
+> I truly wonder how some can decide to submit something like that with their name
+> under it :)
 
-On 13/11/2026 17:17, Qihang wrote:
-> When virtio_fs_enqueue_req() returns -ENOSPC, completion processing
-> can run before the caller adds the request to queued_reqs. If no
-> further completions arrive, dispatch is never scheduled and the
-> request remains counted in in_flight, hanging queue draining.
-> 
-> Track completion progress under fsvq->lock and sample it when
-> submission fails with -ENOSPC. After queueing, schedule dispatch if
-> the sequence changed; otherwise completion processing will see the
-> queued request and schedule it. Each failed submission keeps its own
-> snapshot, so concurrent submitters cannot consume each other's wakeup.
-> 
-> Fixes: 106e4df1206b ("virtio-fs: improved request latencies when Virtio queue is full")
-> Cc: stable@vger.kernel.org # 6.11+
-> Link: https://lore.kernel.org/all/sashiko-outbox-204365@kernel.org/
-> Signed-off-by: Qihang <q.h.hack.winter@gmail.com>
-> ---
-> Changes since v3:
-> 
-> - Only the lost-wakeup fix is included here.  v3 also carried teardown
->   admission control; that is a separate change, not part of this patch,
->   and nothing here depends on it.
-> - Add a completion sequence sampled per failed submission to close the
->   window between -ENOSPC and queue insertion.
-> 
-> Runtime tests used an arm64 kernel with the separate teardown
-> admission change also applied.  The request scenarios ran before
-> admission was stopped, with fsvq->aborting remaining false.  The
-> standalone patch was not run on its own.
-> 
-> - Filled the request virtqueue and held the submitter between -ENOSPC and
->   queue insertion while real device completions ran.  The unpatched
->   kernel hung in virtio_fs_drain_queue(); this change finished the drain.
-> - Held the dispatch worker in the same place.  The unpatched kernel
->   stranded the request; this change rescheduled dispatch once more and
->   every request finished.
-> - Kept the queue full without completions: dispatch did not reschedule
->   itself in a loop.
-> 
->  fs/fuse/virtio_fs.c | 29 ++++++++++++++++++++++++-----
->  1 file changed, 24 insertions(+), 5 deletions(-)
-> 
-> diff --git a/fs/fuse/virtio_fs.c b/fs/fuse/virtio_fs.c
-> index e445398..68aeaa6 100644
-> --- a/fs/fuse/virtio_fs.c
-> +++ b/fs/fuse/virtio_fs.c
-> @@ -55,6 +55,7 @@ struct virtio_fs_vq {
->  	struct work_struct dispatch_work;
->  	struct fuse_dev *fud;
->  	bool connected;
-> +	u64 completion_seq; /* completion progress under lock */
->  	long in_flight;
->  	struct completion in_flight_zero; /* No inflight requests */
->  	struct kobject *kobj;
-> @@ -99,7 +100,7 @@ struct virtio_fs_req_work {
->  
->  static int virtio_fs_enqueue_req(struct virtio_fs_vq *fsvq,
->  				 struct fuse_req *req, bool in_flight,
-> -				 gfp_t gfp);
-> +				 gfp_t gfp, u64 *completion_seq);
->  
->  static const struct constant_table dax_param_enums[] = {
->  	{"always",	FUSE_VDAX_ALWAYS },
-> @@ -348,6 +349,7 @@ static void virtio_fs_start_all_queues(struct virtio_fs *fs)
->  		fsvq = &fs->vqs[i];
->  		spin_lock(&fsvq->lock);
->  		fsvq->connected = true;
-> +		fsvq->completion_seq = 0;
->  		spin_unlock(&fsvq->lock);
->  	}
->  }
-> @@ -576,6 +578,7 @@ static void virtio_fs_request_dispatch_work(struct work_struct *work)
->  	/* Dispatch pending requests */
->  	while (1) {
->  		unsigned int flags;
-> +		u64 completion_seq;
->  
->  		spin_lock(&fsvq->lock);
->  		req = list_first_entry_or_null(&fsvq->queued_reqs,
-> @@ -588,12 +591,15 @@ static void virtio_fs_request_dispatch_work(struct work_struct *work)
->  		spin_unlock(&fsvq->lock);
->  
->  		flags = memalloc_nofs_save();
-> -		ret = virtio_fs_enqueue_req(fsvq, req, true, GFP_KERNEL);
-> +		ret = virtio_fs_enqueue_req(fsvq, req, true, GFP_KERNEL,
-> +					    &completion_seq);
->  		memalloc_nofs_restore(flags);
->  		if (ret < 0) {
->  			if (ret == -ENOSPC) {
->  				spin_lock(&fsvq->lock);
->  				list_add_tail(&req->list, &fsvq->queued_reqs);
-> +				if (completion_seq != fsvq->completion_seq)
-> +					schedule_work(&fsvq->dispatch_work);
->  				spin_unlock(&fsvq->lock);
->  				return;
->  			}
-> @@ -902,6 +908,8 @@ static void virtio_fs_requests_done_work(struct work_struct *work)
->  
->  	/* Try to push previously queued requests, as the queue might no longer be full */
->  	spin_lock(&fsvq->lock);
-> +	/* Record progress for submitters not yet on queued_reqs. */
-> +	fsvq->completion_seq++;
->  	if (!list_empty(&fsvq->queued_reqs))
->  		schedule_work(&fsvq->dispatch_work);
->  	spin_unlock(&fsvq->lock);
-> @@ -1418,10 +1426,15 @@ static unsigned int sg_init_fuse_args(struct scatterlist *sg,
->  	return total_sgs;
->  }
->  
-> -/* Add a request to a virtqueue and kick the device */
-> +/*
-> + * Add a request to a virtqueue and kick the device.  On -ENOSPC, return the
-> + * completion sequence under the same lock as the failed submission.  If it
-> + * changes before the caller queues the request, the caller must schedule
-> + * dispatch itself: done_work may have run before the request was queued.
-> + */
->  static int virtio_fs_enqueue_req(struct virtio_fs_vq *fsvq,
->  				 struct fuse_req *req, bool in_flight,
-> -				 gfp_t gfp)
-> +				 gfp_t gfp, u64 *completion_seq)
->  {
->  	/* requests need at least 4 elements */
->  	struct scatterlist *stack_sgs[6];
-> @@ -1488,6 +1501,8 @@ static int virtio_fs_enqueue_req(struct virtio_fs_vq *fsvq,
->  	vq = fsvq->vq;
->  	ret = virtqueue_add_sgs(vq, sgs, out_sgs, in_sgs, req, GFP_ATOMIC);
->  	if (ret < 0) {
-> +		if (ret == -ENOSPC)
-> +			*completion_seq = fsvq->completion_seq;
->  		spin_unlock(&fsvq->lock);
->  		goto out;
->  	}
-> @@ -1529,6 +1544,7 @@ static void virtio_fs_send_req(struct fuse_iqueue *fiq, struct fuse_req *req)
->  	unsigned int queue_id;
->  	struct virtio_fs *fs;
->  	struct virtio_fs_vq *fsvq;
-> +	u64 completion_seq;
->  	int ret;
->  
->  	fuse_request_assign_unique(fiq, req);
-> @@ -1545,7 +1561,8 @@ static void virtio_fs_send_req(struct fuse_iqueue *fiq, struct fuse_req *req)
->  		 queue_id);
->  
->  	fsvq = &fs->vqs[queue_id];
-> -	ret = virtio_fs_enqueue_req(fsvq, req, false, GFP_ATOMIC);
-> +	ret = virtio_fs_enqueue_req(fsvq, req, false, GFP_ATOMIC,
-> +				    &completion_seq);
->  	if (ret < 0) {
->  		if (ret == -ENOSPC) {
->  			/*
-> @@ -1555,6 +1572,8 @@ static void virtio_fs_send_req(struct fuse_iqueue *fiq, struct fuse_req *req)
->  			spin_lock(&fsvq->lock);
->  			list_add_tail(&req->list, &fsvq->queued_reqs);
->  			inc_in_flight_req(fsvq);
-> +			if (completion_seq != fsvq->completion_seq)
-> +				schedule_work(&fsvq->dispatch_work);
->  			spin_unlock(&fsvq->lock);
->  			return;
->  		}
+Have you seen mseal? ;)
 
-Regarding handling -ENOSPC, it looks like we can simplify things similar to 
-how send_forget_request() does it:
-
-If -ENOSPC is encountered while holding fsvq->lock, we can simply use 
-list_add_tail() to queue it into queued_reqs. For newly submitted requests, 
-we increment via inc_in_flight_req().
-
-virtio_fs_send_req() and virtio_fs_request_dispatch_work() can just return 
-immediately upon seeing -ENOSPC, avoiding a second lock acquisition and re-queuing.
-
-With this approach, we won't need completion_seq, per-call sequence snapshots, 
-or an extra scheduling step from the submitter side.
-
-Thanks,
-Li Wang
-
+--
+Cheers, Lorenzo
