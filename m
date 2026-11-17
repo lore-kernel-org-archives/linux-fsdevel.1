@@ -1,47 +1,73 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794951442;
-	b=xQhwroRWNLERx5tr7IcxcKlr2fepAurDefMs7/6uR+6frpEtoAqLVnNXkuSPAluVI/uq
-	 dNGKVnIVHYMIr77KFYzGiKxI/fLClaTgno+QgG6Eh/4MOdYC5rZCYa+ujkXiafjb84Nuh
-	 A2IaGkilCdJiYg6Z33uHMWnFnMSpYWFn9l5JvcX8iDKVyvwiJo9Bj66vEeaH5xJIU/KGj
-	 kSqDI7s1+4x/Fmuhvuc1muVMUA4rP66geU3MyGvT+Xm38Xhx2nfd0D5DmcHVBooVlOFPR
-	 LiRN/LrKvhGF9dENbNVvP5v+0UWdPNnDxBaDpPntrfiWD1RP5O1sckeDa6TFFVEMSiA==
+	t=1794952926;
+	b=V2UUi8zUcwixyyfm2u9NIsi34U9FKpdpC640Bz4uEUZa2NX8hZzH5u0JzjNnQtqEnY/M
+	 VbBhOtAx2itb2H+mQQ1x1R07uK9wrYRTezCyuI5oXiuyWtHuk6o5kYQLVn9mopmsrhF0a
+	 emzVuztX6OhVkUCgKiz56rCWCnD7HIzxMj8ZeotQbgsR9grrCybOpPScbfGZjFZelUYOC
+	 9+tAqE+Huw2PIeNpl5jnuu2vQ3UUcz59DvGBIr3t9/vbaf3SOWtrsoHESI8hdIBwV/2L8
+	 0cE1ANW+0YG+rjkat2jcJVnEjn/X18N1Jze092yTEX4oDv3/F3Szgik70BCNE7mv/PA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794951442;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=u97xZXfl9UmG2YPsneqUJYX7Gb/4wM5PkwFNw/mpsHw=;
-	b=1+7QKJFERAXe09bctOM5oJ+N+1Zpv1fcAIP6eXc7U2Jvxq/DEvdc35QdPmECkepWdJzq
-	 Vyq+vjNuJ7q73Wn/f6L+gbD0Sof/bipiqd5xRISyh/WH8hj95jO+iP9tL3qYtVm0RU9m+
-	 yzi/mhcpFBUW6qYQiicFvaA9KaIMcXYN6Y4tGdhEpwbPajG0Rq9zPvJYV3rn9ivcJjCpZ
-	 baWB1w+JxGOXS2w9/miI1iGDTyqDAmbTazdxBCVOuEokRtbqIFegoqhlwjUiNA/sYayd7
-	 lxZnfdF7iZUUdjixwoo7wr3heAIOiroyNJAgrQKTVtIy1H7dMfPZM61JEdSY1TKoQ2A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794952926;
+	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:
+	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
+	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
+	 References:Subject:Content-Type:Content-Transfer-Encoding;
+	bh=EsQiVnWdklcglRbIqoscQFF5X7p4jGIU+Y0OOx+78ps=;
+	b=wYmoywYVa9edac6lpGIXzxI9a0XVx3jBSVXQ/VkkY4Ar5jZbBFakWctb0TkLb7etLkBD
+	 dbQC27m2p/mcWM0A5DxJmu0zod6eaFO3PcqLiAd/X4CzprAj6dA8yb1vfRIjoF6vpNjXB
+	 dShxsGbyvz5HKV3f00YLnZFw9+YgCQ8AXvrYHxsazFUYqo9HKbFY51Mt14nTCOr+NTWhg
+	 iuGLIKp9jXxdwBuvJRZJbG01UaRq63gson3/KfCBixQCFf9cPMeyrwuQP2aPH3L21KVBm
+	 AMrD5G5D2o7MnAKjfQGZSM2FJK4duj1qKmQnACfNsyQpBzXuwgZIiqAF6BvnkWMqWaQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="jH9Lu/TL";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eRKKuDOC;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C5B5606A31C;
-	Tue, 17 Nov 2026 21:37:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 742A1606A31C;
+	Tue, 17 Nov 2026 22:02:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jH9Lu/TL
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4172A1F000C4;
-	Tue, 17 Nov 2026 21:37:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eRKKuDOC
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 184F41F000CB;
+	Tue, 17 Nov 2026 22:02:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794951442;
-	bh=u97xZXfl9UmG2YPsneqUJYX7Gb/4wM5PkwFNw/mpsHw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=jH9Lu/TLPfmDezgyPU8ezC3zehjSfy5TNxfaFlj1tRg9bo40bQJHLjV3yRnmCZMJK
-	 yEm3fMXSf9VCFpD0wJ+1dAdIYGWT+OqSF1PNphrAqGxSnokeC78RVeHT0ZbAgBHhsc
-	 vhvQGgVaDqoxZc3dlzXUBtmpeZzgsdLVbBzdGw19xI1ZCsYMOJSnUOa9OhEFqxncNn
-	 777FU9hupsscXuD6Gn7cw//A/nMiS+PN1pDViqfLpNnrHvJJfdsRNPe1r2+bwgKKcG
-	 hriJAHVzFNaez2P1yYomDBm3O08goFxcYcCaYRm88uXpT1iIx5gV7fpzRUK9CcQHHq
-	 6CbLqAIoF7UAQ==
-Message-ID: <817f3ce2-8b49-4cee-810c-9cebe742ccf2@kernel.org>
-Date: Tue, 17 Nov 2026 22:37:12 +0100
+	s=k20260515; t=1794952926;
+	bh=EsQiVnWdklcglRbIqoscQFF5X7p4jGIU+Y0OOx+78ps=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=eRKKuDOCG4lZI0ZtmAAIpexh5saMlRjXYGgquqnGJHw5xx0hKiSTtEpRMTU0UnEZx
+	 IcVAie3qbTbLtwat8lgNDCP6zhB7QCTVdVvmIBlqP9fuJUX+csyhPtr5Pct2KMF+dr
+	 sKEIWoHciSIaSRbPXtRwsvShsS664//k6GK3BjshzeV1onoC5SB/aS7wLmCyLKJ9K8
+	 m5LAARW1i0RM6erGJTXwnJLIbMj19kpQzxaJV5KdnARcC1GmD4YHak/fh/wBY2ukPa
+	 yhfRyDN1zjqulKDzMqoKKSTFXathlkGd8lIzu3DnyeBMJBeCEbjKT0GFxDySnJK8UV
+	 YAtD4XE3Ry5Ag==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 50504F40066;
+	Tue, 17 Nov 2026 17:02:04 -0500 (EST)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Tue, 17 Nov 2026 17:02:04 -0500
+X-ME-Sender: <xms:3M78aq1jfwU6kkpHJYfkamLb7k26diePkGr8HYaND-ZrMBjnohMrzQ>
+    <xme:3M78an6y1Y_GR0u1TwtOXDhTJSDOYemr1m9Hmyh5XEDGdsDAx71bEoAOEShnFinjM
+    69EF-AeO1bjSPJvAvqEXXhgqHUGSfFOCO013H2g38lm6F7OfmUkmU4v>
+X-ME-Proxy-Cause: dmFkZTEFWk4jFRq2Ypvh/OGGpN3RYf9yAIcrjwoio2l5SxvidVJI3djILaxgpL7LyuOL7E
+    lli1okH5QEaMWzCUMyMt49RTjdtkb7p5j8SnJ7vko/DXCHPESNoXMFqc8eAYVU7BGtrfNE
+    O8Wkt/X+eQscT/cb/kG8LbWg6SuLpK+A11UAMB+QAdy5UWJZaV2trmsj/oQjP/6lPcVVP0
+    p+nLQemqrSyF8f9utiFf/d15PjZvnAYnKe5plmCnfbGuYaAIvR4RuHbeaDv3ZwgaqwEoTc
+    O56V45wyKdQUyvAqx58jhwnrJqlfVvWKvX0EJKReKmJux7PwleYyLgjD7P44v937Li49Qw
+    3PfPZt4Tz5Ch4ICbtemCoWAFkhd9LpRHHoQMM6xH+uQv2Cf4FlSCV6BNrPskaFpbE2Gt1a
+    ss+P7AhsTRHraYWbE5wed0xL9iCm70tSnIKB//n/ZBAuWR+D7Nfc9NMkA+fe4C2g5UFBLM
+    HmApoPfgE08+h48RscbkJ1zXPfd8wMImQd71BRZR8wJOu7FYt+A09ttWsoXwQ9M7voSEdh
+    iRB9mHPKZYTCf5j5tYY9XJfVHu4mQQzGd7r79LEO7RpJ1QmejEfUCnIUQqmekcp8PP/D1n
+    CB+FZEcYdo/YsJxNiNswgtVIPlyCf6Ab0g19TFApN5j+o5xqL9Y5EgaGlC7g
+X-ME-Proxy: <xmx:3M78anU0MJ35zJ3NF5t0f4ScxkcsT3P7nBy3grYqehD-Bs0aT3fDkg>
+    <xmx:3M78ai64XGO4B10f_mx5toxFs_hI5crqdE1ZqJkyW4lQCVpizqa6Sw>
+    <xmx:3M78avOt7UDMa5ZXcad-yrMZ1xx7rDvSS6ajIf1O1pvu-h3fvDtK-Q>
+    <xmx:3M78algMt1NSKEj31TOL76bmFCAw6QHR4dwEMMeuS0i8PnqzpbVH4Q>
+    <xmx:3M78alib9v_mERwNSmE9KLKWOVL58rpYH24tW96EQor0v_frdN4CGY3f>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 219C2780077; Tue, 17 Nov 2026 17:02:04 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -51,113 +77,91 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] mm/userfaultfd: prevent poison marker loss
-To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Peter Xu <peterx@redhat.com>, Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Zi Yan <ziy@nvidia.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Kiryl Shutsemau <kas@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-mm@kvack.org,
- linux-trace-kernel@vger.kernel.org
-References: <20261116-b4-uffd_marker_loss-v2-1-0fe9c5d1b43a@kernel.org>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20261116-b4-uffd_marker_loss-v2-1-0fe9c5d1b43a@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+X-ThreadId: AgKvhXN-CN1w
+Date: Tue, 17 Nov 2026 17:01:43 -0500
+From: "Chuck Lever" <cel@kernel.org>
+To: koraynilay <koray.fra@gmail.com>, "David Sterba" <dsterba@suse.com>,
+ "Namjae Jeon" <linkinjeon@kernel.org>,
+ "Sungjong Seo" <sj1557.seo@samsung.com>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>,
+ "Trond Myklebust" <trondmy@kernel.org>, "Anna Schumaker" <anna@kernel.org>,
+ "Jeff Layton" <jlayton@kernel.org>,
+ "Konstantin Komarov" <almaz.alexandrovich@paragon-software.com>,
+ "Paulo Alcantara" <pc@manguebit.org>
+Cc: "Chris Mason" <mason@kernel.org>, "Yuezhang Mo" <yuezhang.mo@sony.com>,
+ "Jan Kara" <jack@suse.cz>, NeilBrown <neil@brown.name>,
+ "Olga Kornievskaia" <okorniev@redhat.com>, "Dai Ngo" <Dai.Ngo@oracle.com>,
+ "Tom Talpey" <tom@talpey.com>, "Ronnie Sahlberg" <ronniesahlberg@gmail.com>,
+ "Shyam Prasad N" <sprasad@microsoft.com>,
+ "Bharath SM" <bharathsm@microsoft.com>,
+ "Sergey Senozhatsky" <senozhatsky@chromium.org>,
+ ChenXiaoSong <chenxiaosong@chenxiaosong.com>,
+ "Darrick J. Wong" <djwong@kernel.org>,
+ "Sean Smith" <defendthedisabled@gmail.com>,
+ "Andrey Albershteyn" <aalbersh@kernel.org>,
+ "Pedro Falcato" <pfalcato@suse.de>, "Amir Goldstein" <amir73il@gmail.com>,
+ =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>, linux-btrfs@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ exfat@lists.linux.dev, ntfs3@lists.linux.dev, linux-cifs@vger.kernel.org,
+ linux-nfs@vger.kernel.org, linux-api@vger.kernel.org
+Message-Id: <f297d9ea-ebd7-47f4-ab7b-de5c45980000@app.fastmail.com>
+In-Reply-To: <20261115180343.576773-8-koray.fra@gmail.com>
+References: <20261115180343.576773-1-koray.fra@gmail.com>
+ <20261115180343.576773-8-koray.fra@gmail.com>
+Subject: Re: [RFC PATCH v4 07/10] nfsd: add provenance time (ptime) via
+ FATTR4_TIME_CREATE
+Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
 
-On 11/16/26 16:17, David Hildenbrand (Arm) wrote:
-> Unregistering userfaultfd leaves poison markers in the page tables.
-> However, once unregistered, hugetlb PMD tables can be shared again.
-> 
-> Further, shmem page-table retraction can discard poison markers even
-> while registered in missing mode, and fork() can skip copying page
-> tables containing poison markers.
-> 
-> To fix it, add VM_MAYBE_UFFD_POISON and set it before installing poison
-> markers. Preserve it across unregistration, splits, merges and fork(),
-> just like we do with guard markers.
-> 
-> Use the new atomic VMA flag to disable PMD sharing and page-table
-> retraction, and to force page-table copying during fork().
-> 
-> Move VM_UFFD_WP to bit 44 and make HAVE_ARCH_USERFAULTFD_WP depend on
-> 64BIT, freeing bit 12 for the new flag on both 32-bit and 64-bit systems.
-> Expose the flag as "up" in smaps.
-> 
-> Losing poison markers, while unpleasant, is not really fatal, and the
-> use case is rather a niche thing. In addition, we rely on the atomic
-> VMA flags infrastructure ... so let's not CC stable.
-> 
-> Fixes: fc71884a5f59 ("mm: userfaultfd: add new UFFDIO_POISON ioctl")
-> Fixes: 8a13897fb0da ("mm: userfaultfd: support UFFDIO_POISON for hugetlbfs")
-> Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> Acked-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
-> ---
 
-Andrew, I think this is ready to be picked up.
 
-(unless you did that already ;) )
+On Sun, Nov 15, 2026, at 1:03 PM, koraynilay wrote:
+> Implement provenance time (ptime) in NFSD, as introduced in a
+> previous commit ("vfs: add provenance time (ptime)").
+>
+> Map ptime to FATTR4_TIME_CREATE, allowing clients to set it across
+> CREATE, OPEN and SETATTR compounds.
+>
+> If the underlying filesystem supports it, use __vfs_fileattr_set_locked()
+> to set it, returning -EOPNOTSUPP in case it's not supported (i.e. when
+> __vfs_fileattr_set_locked() returns -ENOIOCTLCMD).
+>
+> When querying FATTR4_TIME_CREATE, request both STATX_PTIME and
+> STATX_BTIME, preferring ptime over btime if available, and advertise
+> FATTR4_TIME_CREATE support if either ptime or btime is available.
+>
+> Assisted-by: Gemini:3.8-flash-high antigravity-cli-1.5.7
+> Signed-off-by: koraynilay <koray.fra@gmail.com>
+
+> @@ -3646,7 +3649,14 @@ static __be32 
+> nfsd4_encode_fattr4_time_access(struct xdr_stream *xdr,
+>  static __be32 nfsd4_encode_fattr4_time_create(struct xdr_stream *xdr,
+>  					      const struct nfsd4_fattr_args *args)
+>  {
+> -	return nfsd4_encode_nfstime4(xdr, &args->stat.btime);
+> +	const struct timespec64 *ts;
+> +
+> +	if (args->stat.result_mask & STATX_PTIME)
+> +		ts = &args->stat.ptime;
+> +	else
+> +		ts = &args->stat.btime;
+> +
+> +	return nfsd4_encode_nfstime4(xdr, ts);
+>  }
+
+I have trouble with this approach.
+
+We've already established that, for the Linux in-kernel NFS server
+implementation, FATTR4_TIME_CREATE reports a file's birth time and
+does not permit NFS clients to modify that.
+
+After this patch is applied, the server reports the ptime instead
+of the btime on some filesystems but not others.
+
+Essentially this changes the semantics of existing files that have
+a btime set -- technically that's a regression.
+
 
 -- 
-Cheers,
-
-David
+Chuck Lever (Come to NFS bake-a-thon! https://nfsv4bat.org)
