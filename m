@@ -1,47 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794910057;
-	b=oj08S4NHZOP1kNAivxOhiw70KAyUngXldK3P6LIMbnSTTDRcBJZiomba9V6UHVyYKuHW
-	 d0h6+20+RdB+EfTLHb+xiv5fiabPDfbjnpqBjxsStXuIo/phbVWhTbTXe/1+KHGFu2ONv
-	 ps9jrp6hRf0Y6K19yqg80TlZcqyiQ9QvP9+hGyHX41DF7i45grsM3Lk7v/JeLHJH+bU9L
-	 yjkI8vGGUj/gt47A83cBrMrK2G7XHlQxTRNGvPmXiVL+hyP+8owr4F7Y+ISoWR+cbhPSP
-	 3BY5dNBg3SmysWdHY5iFm8wN1MZ9cC2Z9HcXzzeae0tHfLqGza+Z0Aj8hqBVAWRlcTA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794910057;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=85.215.255.24
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794910111;
+	b=C9BlLO1lG2Y2ZwmS5sN/nuiuBw+BmoFafl2nWkyrpL/cB98Ly8QwwaHZxJ9rA+pljQui
+	 +OV9rElheyIpFhvoP1B5SPh7GzZYtQywKYjzxWDFckaYaQHI7iqG8joCS4ryM9TwC/3ZP
+	 Gn3VYqaVc4MYLD3VJuLJGB6JRPOHPZ4aeZI6xdqiHj1y/u86sQYEgnPSMX1X8qX4rJYHZ
+	 cHY9nV3GmC74lyJ1UFzaGHJzZYy70J8eQLkgKCRoRc4crScGwuVLD0h1YTOTmydlI7esx
+	 ZIeEeOLSLVC1nA3XCLGe1Pt06OVSt8VvFT3HhIdaHz/9xCcueN6LJycQAAHQ9y8lvWg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794910111;
+	h=DMARC-Filter:X-RZG-CLASS-ID:DKIM-Signature:DKIM-Signature:X-RZG-AUTH:
+	 Received:Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:
+	 Cc:References:Content-Language:From:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=bxF8qOjp6vNnHdNjUJYc2p7+hCu25MaSOgalSgx9SVs=;
-	b=pv7uYovb1D+5II8ZqI2tf+uVqe+1+1E8wy+ERHmC0MzTTQoJmfIrdLcOTxvZActyofvY
-	 BfBd16NMZsf8tZw4Of9rUtFrmA3XWB0cqd5L2UfIq5tYhrE8tJAt3MgEOi45xOzLEMJPV
-	 0DtMRDy49f7nDq/sLJLAaJEtYbmYELB3IOfoo66aBdL0fGbpOeiu6zHn5r8aMxuqbEX17
-	 Bd1EG4tFA3bS7TDULUTxb+FTTFVnoGuljhsAnr6VYbb+6IKw9R5wjOITn8efVt8dMjSLt
-	 aHsEp6JsZrBs+85ruZXYO55lHRNgbiN21ZGx+HErEPsXn0OzTZEDV3hFQNtZGL+SUeA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="l/ijzxwQ";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	bh=tdtIlvmTijcNb9Hhe9XU/v6/BDW7yZKn/hQ83QaO6qU=;
+	b=cfCsLkYVTvp0tYehHIf7QgczEZ+ivXL1ZpyaVCZ8G6Je4kKnDUQglPmcMSPa8ij6NGqA
+	 cTJWucuzr2+cN+Q9Fae6vbKqlGdFeORMlLC/rTkqQEp27pNeglxRpzkJ52Eit2ATHD4sr
+	 IqPlVx1q9QXI644oOhavY32HI26pw7PZHdoOlGSmRH4f5vEAFPWhPbSEbLmJgeH1Cv+EX
+	 VcTXG0C1wYZon35O/FxxEiMNDa/zAQGxxeJHPM/aKmX+UfiFVlIEuADDSH2l6lxgj00aZ
+	 yq6NfdYQcuzC0zQWz5cQPLLO0545P4+gpOnlt4SuFGvJfeHCOZPYcJC1mUpAP8BUpBw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=garloff.de;
+	spf=none smtp.mailfrom=garloff.de;
+	dkim=pass header.d=garloff.de header.i=@garloff.de header.a=rsa-sha256 header.s=strato-dkim-0002 header.b=IDZhoKmC;
+	dkim=pass header.d=garloff.de header.i=@garloff.de header.a=ed25519-sha256 header.s=strato-dkim-0003 header.b=BKdbzz7q;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=85.215.255.24
+Received: from mo4-p00-ob.smtp.rzone.de (mo4-p00-ob.smtp.rzone.de [85.215.255.24])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F4F5606A31C
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 10:07:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0568B606A32A;
+	Tue, 17 Nov 2026 10:08:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0568B606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=garloff.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=garloff.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=l/ijzxwQ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 638F41F000C5;
-	Tue, 17 Nov 2026 10:07:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794910057;
-	bh=bxF8qOjp6vNnHdNjUJYc2p7+hCu25MaSOgalSgx9SVs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=l/ijzxwQfcB+E2ocstph6eagwrpNqABEfE7SvWSCOkDKaUalJtZdDmiAgLI2bJoaE
-	 CtC6S1E5swy7wP86FmjYf1ioj8udPqnMn25Iqjhp9sfCMmBsUF7l686s06ksbXhONk
-	 j5SrmpfasYM7nlnNPG6KxnGdoWyyI3ZUQ0U66uLEK232hFRTEhm0UELjKeYCoNf0qg
-	 CJJX4Y6+9vkc6r15BapCVJyj5xukbfCRqte5s1XC4rkuaCV3Tn1PI/15a9jSTtvU8y
-	 QDKg3RAO1MSO7fHT96seDCFonUjcAzGnArvi3F1j4T54NmNJoKmbCyFa0DnrnEdXUq
-	 pGXMHHxTAPzRw==
-Message-ID: <badc4186-b60b-46a9-ab75-ea85ee6965b8@kernel.org>
-Date: Tue, 17 Nov 2026 11:07:27 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=garloff.de header.i=@garloff.de header.a=rsa-sha256 header.s=strato-dkim-0002 header.b=IDZhoKmC;
+	dkim=pass header.d=garloff.de header.i=@garloff.de header.a=ed25519-sha256 header.s=strato-dkim-0003 header.b=BKdbzz7q
+ARC-Seal: i=1; a=rsa-sha256; t=1794910102; cv=none;
+    d=strato.com; s=strato-dkim-0002;
+    b=bPuGpt1MzOC61muO0r1t+Z9//xyGIPsdzqtd6YBNLpqiNDXWIVI8njvb6UMAig/vVv
+    VXeiYpvhJT9seNIbf9W51a2d4GBo5bHuHJAgqLWYC+3nHOwXMlAOJRQWUFPlPlvxNPeV
+    6FxNpzWGfLwgsCW61NatJINRnbImfP9FDs9rboR8+C06oqwwn4iJ/OCt5fKhmQrIAMcz
+    E6PjKuKe9KPT5XnAZP3z8lqbSZ+DN6T0ku3SvBqkA+OFLz4NNIvfWcs6ceka+/Eihbat
+    G7RmIr0UtAK4hWjw0IhRUiRIp8cbZTRBK97qP5cCOklEaBkCGg0mzNMEJdFCNaQyb7TP
+    XcFw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1794910102;
+    s=strato-dkim-0002; d=strato.com;
+    h=In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:Cc:Date:
+    From:Subject:Sender;
+    bh=tdtIlvmTijcNb9Hhe9XU/v6/BDW7yZKn/hQ83QaO6qU=;
+    b=TXGlybsHHUupk+PkSyGFjhyBh8MIP5EKiTxUiwg1qaj2viqVUf28T6qm8PzDZwGNSL
+    oSCzV6gvQfq745hyCnD79/5LzK/2mpO0ZE3558xWXbsc0CXh9qBWzLFZA2HdemHyl1mU
+    /Geu2i6Ufj1QXT+gvgdf6CaPZWXpMphg7NHCdX0A8okwm8rJ+FsDKcDmC3d86YUAHjQ4
+    6wyab2UmkZTWzMQWWqheONzhxTKpJHa4+q+/sbitYFrHM//h71UdsjUgka4cVUsLR3A1
+    0ULPIQJ390WNjkhTqXhfCiHogGzN5YEy5EovcEhSv4JCpWaxKQ+DLQe7fJ5AaTtIn3zf
+    rGAQ==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo00
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1794910102;
+    s=strato-dkim-0002; d=garloff.de;
+    h=In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:Cc:Date:
+    From:Subject:Sender;
+    bh=tdtIlvmTijcNb9Hhe9XU/v6/BDW7yZKn/hQ83QaO6qU=;
+    b=IDZhoKmCgqCqAovxb1eYdaK2mzm4H9odurkIg1XGhXD9D4FFczyFdAxIR6eLxzUjEa
+    4XaVk06fMkYlQojf3UrB9wqSAKUluCoTPIRrubHUD2CFuqNxkLVZ9VmnvO+vnVQ5K8Vp
+    xnYzXS70udGGn8UGJRLkxlgYcOlLHvNWzKwEpmZizH5NbERUpnY+w+q6BPB3suhfHr8R
+    4L6MpsRfHjXCnacXa3EteH/RWSlkNOzUtMwuTPz3I+aXNPXo+2UDZLsqqlt7WYiRvRu+
+    LPP44LULikEaVsHTyTMhWdbeym3z2Uas2Qi/jR1tfkwNJw6qYhDcTLCk35aHCfWHiTCw
+    JsRg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1794910102;
+    s=strato-dkim-0003; d=garloff.de;
+    h=In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:Cc:Date:
+    From:Subject:Sender;
+    bh=tdtIlvmTijcNb9Hhe9XU/v6/BDW7yZKn/hQ83QaO6qU=;
+    b=BKdbzz7qqTwoeTVJgmc65iwTx2csUjQnqXoFhshCumHXZXeq4/tWtSBf8S/Ifrvpxt
+    CmTOmqCzdUL9/t6lEGDQ==
+X-RZG-AUTH: ":J3kWYWCveu3U88BfwGxYwcN+YZ41GOdzUdLW+J8VEEt5iZSjU3o6iSISOg8L"
+Received: from mail.garloff.de
+    by smtp.strato.de (RZmta 55.6.3 DYNA|AUTH)
+    with ESMTPSA id L82ab22AHA8MHZe
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+	(Client did not present a certificate);
+    Tue, 17 Nov 2026 11:08:22 +0100 (CET)
+Received: from [192.168.155.137] (ap5.garloff.de [192.168.155.10])
+	by mail.garloff.de (Postfix) with ESMTPSA id B460960AAB;
+	Tue, 17 Nov 2026 11:08:21 +0100 (CET)
+Message-ID: <9b9501a2-025c-4348-b16e-6ebbc9ae9147@garloff.de>
+Date: Tue, 17 Nov 2026 11:08:19 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -52,209 +99,94 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 00/10] mm: highmem cleanups
-To: Arnd Bergmann <arnd@kernel.org>, linux-mm@kvack.org
-Cc: Arnd Bergmann <arnd@arndb.de>, Andreas Larsson <andreas@gaisler.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
- Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>,
- Ingo Molnar <mingo@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Linus Walleij <linusw@kernel.org>, "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
- Lucas Stach <l.stach@pengutronix.de>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Malin Jonsson <malin.jonsson@est.tech>, Matthew Wilcox
- <willy@infradead.org>, Michael Ellerman <mpe@ellerman.id.au>,
- Michal Simek <monstr@monstr.eu>, Mike Rapoport <rppt@kernel.org>,
- Nicholas Piggin <npiggin@gmail.com>, Nishanth Menon <nm@ti.com>,
- Richard Weinberger <richard@nod.at>, Russell King <linux@armlinux.org.uk>,
- Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, x86@kernel.org
-References: <20261116124832.662455-1-arnd@kernel.org>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
+Subject: Re: [PATCH v3 0/3] fs/nfsd: accept a backdated timestamp from a
+ delegation holder
+To: Jeff Layton <jlayton@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, Chuck Lever <cel@kernel.org>,
+ Neil Brown <neil@brown.name>, Jan Kara <jack@suse.cz>,
+ linux-nfs@vger.kernel.org
+References: <35138d17-c7ed-4705-b66c-8c84f44525ac@garloff.de>
+ <fac9f04e446b425573b957b67ffa399a9e10c9cd.camel@kernel.org>
 Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20261116124832.662455-1-arnd@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+From: Kurt Garloff <kurt@garloff.de>
+Autocrypt: addr=kurt@garloff.de; keydata=
+ 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
+In-Reply-To: <fac9f04e446b425573b957b67ffa399a9e10c9cd.camel@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 11/16/26 13:48, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> This is an updated series from what I posted last year [1] and
-> last week[2].
-> 
-> At LPC 2025 [3], we got rough consensus on the plan to keep the
-> funcationality present for the time being but instead reduce the scope
-> of highmem in the kernel as much as we can without hurting users.
-> 
-> The short summary is a three stage process:
-> 
->  1. Nudge users towards using a larger lowmem zone with the
->     CONFIG_VMSPLIT_* options if at all possible.
-> 
->  2. Drop most __GFP_HIGHMEM allocations and corresponding kmap()
->     calls from the kernel, leaving only the subset that is likely
->     to contain the majority of the actual allocations.
->     Specifically we will keep anonymous and regular file backed
->     user mappings, zsmalloc, and huge pages.
-> 
->  3. In a few years, also drop the page cache allocations and leave
->     perhaps only zsmalloc using a much simpler interface.  I suggested
->     five years as the time until we do this, but the timing depends a
->     lot on how the first two stages work out in practice, and how long
->     the remaining highmem users plan to keep updating their kernels.
-> 
-> This series implements stage 1, mostly using Kconfig changes to the
-> default settings but leaving the traditional behavior as a CONFIG_EXPERT
-> choice in Kconfig. With the new defaults, most installations that use
-> highmem today with 1 GiB or 2 GiB of system RAM will see all of their
-> RAM in the lowmem zone after upgrading their kernels. My estimate is
-> that instead of 80% to 90% of maintained embedded 32-bit systems, this
-> should cover over 98%.
-> 
-> As I don't actually have hardware in the category that still needs
-> highmem, I tested this using a qemu-system for Armv7 and PPC6xx running a
-> Debian userland with all combinations of VMSPLIT and HIGHMEM options. I
-> ran some kernel builds on the Arm guest to ensure that the new options
-> don't cause functional or performance regressions for regular workloads
-> that don't exceed the virtual address space. I also ran some tests
-> with Firefox and was positively surprised to see that this still works
-> on the VMSPLIT_2G_OPT configuration without highmem, though it gets
-> close to both the address space and lowmem size limits.
-> 
-> The change to use VMSPLIT_3G_OPT by default on Armv5 means that I could
-> include a patch to no longer support highmem at all on VIVT caches,
-> as suggested by Jason Gunthorpe. I also included the patch to drop
-> HIGHPTE support now, as suggested by David Hildenbrand.
-> 
-> The patches from this series are available in [4] for testing.
-> 
-> Once there are no further concerns about the contents, I would
-> suggest merging this through the asm-generic tree, as it touches
-> mostly architecture specific code and that is not easily split
-> from the core mm/* code. Merging everything through the mm
-> tree would of course also work.
-> 
->      Arnd
-> 
-> [1] https://lore.kernel.org/all/20251219161559.556737-1-arnd@kernel.org/  # v1
-> [2] https://lore.kernel.org/all/20261112112528.1116405-1-arnd@kernel.org/ # v2
-> [3] https://lwn.net/Articles/1051010/
-> [4] https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git/log/?h=highmem-7.4
-> 
-> Changes since v2:
-> 
->  - Add preparation patch for Arm PXA [sashiko-bot] 
->  - Add preparation patch for powerpc32/kvm [sashiko-bot]
->  - Fix Arm ARCH_MMAP_RND_BITS_MAX calculation [sashiko-bot]
->  - Simplification for pte_alloc_one() [Mike Rapoport]
->  - Drop stale references to highpte [David Hildenbrand]
->  - improve __print_bad_page_map_pgtable()
->  - Split out Arm changes for CONFIG_VMSPLIT_2G_OPT
-> 
-> Changes since v1:
->  - rebase to v7.4-rc
->  - add patch to drop highpte
-> 
-> Arnd Bergmann (10):
->   ARM: remove support for highmem on VIVT
->   ARM: drop CONFIG_HIGHPTE support
->   ARM: pxa: support arbitrary PAGE_OFFSET
->   powerpc: kvm: allow flexible PAGE_OFFSET
->   arch/*: increase lowmem size to avoid highmem use
->   ARM: add CONFIG_VMSPLIT_2G_OPT option
->   ARM: defconfig: turn off highmem in favor of CONFIG_VMSPLIT_2G_OPT
->   mm: remove ARCH_NEEDS_KMAP_HIGH_GET
->   mm: drop HIGHPTE support altogether
->   mm: print pte in __print_bad_page_map_pgtable()
-> 
->  arch/arm/Kconfig                            |  27 +++---
->  arch/arm/configs/aspeed_g5_defconfig        |   3 +-
->  arch/arm/configs/gemini_defconfig           |   1 -
->  arch/arm/configs/lpae.config                |   1 +
->  arch/arm/configs/multi_v5_defconfig         |   1 -
->  arch/arm/configs/multi_v7_defconfig         |   1 +
->  arch/arm/configs/mvebu_v5_defconfig         |   1 -
->  arch/arm/configs/omap2plus_defconfig        |   1 +
->  arch/arm/configs/u8500_defconfig            |   1 -
->  arch/arm/configs/vt8500_v6_v7_defconfig     |   2 -
->  arch/arm/include/asm/highmem.h              |  56 +----------
->  arch/arm/include/asm/pgalloc.h              |  13 +--
->  arch/arm/mach-omap2/Kconfig                 |   1 -
->  arch/arm/mach-pxa/pxa3xx.c                  |   2 +-
->  arch/arm/mm/cache-feroceon-l2.c             |  31 +-----
->  arch/arm/mm/cache-xsc3l2.c                  |  47 +--------
->  arch/arm/mm/dma-mapping.c                   |  12 +--
->  arch/arm/mm/flush.c                         |  19 +---
->  arch/microblaze/Kconfig                     |   9 +-
->  arch/microblaze/configs/mmu_defconfig       |   1 -
->  arch/powerpc/Kconfig                        |  24 +++--
->  arch/powerpc/configs/44x/akebono_defconfig  |   1 -
->  arch/powerpc/configs/85xx/ksi8560_defconfig |   1 -
->  arch/powerpc/configs/85xx/stx_gp3_defconfig |   1 -
->  arch/powerpc/kvm/book3s_32_sr.S             |   4 +-
->  arch/powerpc/kvm/booke_interrupts.S         |   4 +-
->  arch/powerpc/kvm/e500_mmu_host.c            |   3 +-
->  arch/x86/Kconfig                            |   4 +-
->  include/linux/hugetlb.h                     |   5 +-
->  include/linux/mm.h                          |   1 -
->  include/linux/pgtable.h                     |  13 ---
->  mm/highmem.c                                | 100 ++------------------
->  mm/memory.c                                 |  21 ++--
->  mm/pgtable-generic.c                        |  25 +++--
->  mm/userfaultfd.c                            |   6 +-
+Hi Jeff,
 
-I can pick up the MM patches after the ARM stuff upstream, or the MM patches can
-go upstream in the same go as the ARM stuff.
+On 17/11/2026 00.51, Jeff Layton wrote:
 
-I don't expect conflicts in that area.
+> On Mon, 2026-11-16 at 13:43 +0100, Kurt Garloff wrote:
+>> Hi Jeff,
+>>
+>> thanks for your nfsd patches to accept backdated stamps from a
+>> delegation holder!
+>> Without them, I can't even extract a tarball with correct timestamps,
+>> which is pretty ridiculous.
+>> This breaks compilation of some source trees hosted on a Linux knfsd,
+>> e.g. openwrt.
+>>
+>> I applied your patches against 7.3.4 and they fix the issue.
+>>
+>> Tested-by: Kurt Garloff <kurt@garloff.de>
+> Thanks for the testing, but agentic review has found a pile of problems
+> with this approach, so I decided to take a different one. I'll
+> hopefully be sending v4 sometime this week, so if you can test that
+> too, that would be helpful.
 
-Just let me know what you+people prefer.
+Thanks for the update!
+Fortunately, the agent-found problems have not resulted in real-world
+trouble on my knfsd yet. If I should expect some, please let me know.
+
+Please copy me on the v4 submission, I am not subscribed to the
+linux-*@vger lists these days. I'll do some testing in return.
+
+Best,
 
 -- 
-Cheers,
+Kurt Garloff <kurt@garloff.de>, Cologne
 
-David
