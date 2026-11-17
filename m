@@ -1,51 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1794932244;
-	b=Ge+owszyrpoiYd6UstwWcYEicZgQAKOPFlQDmcL5vlarYsSfmnRBHpYRvqQ2bWMVby9y
-	 FhHmmZB/GyUepCPsTY9wKsPf+pSreOD1Y3Q34PPra5mSfnyAiQp98jqkULzUUDll3JQV9
-	 CDAEItJkv3IaCWZ49A8VsEBYxv4WLujoLGzw4j1B4sNZTJfCTpcrmL4ETDzo6MQ978Zwo
-	 uQ4/q4uPNKhuYj0LsJoWL80BxdzYjw0L9o2QdtmnpwcBDVM/LzM06IHiFHjSlQf1tplZE
-	 QbTLbsRFv3UZd8hMd68Tn9GCvfiNKwqp4fafhcemldFmO4fcHHYinLQ6zoeiOMSFwEQ==
+	b=fS3jWLbfWJ4NTYQ+LQEM0ULN2PIPp+kLJEpL2tIqtUuJY16Grg9wWEfHLdeQ/2rqNc76
+	 0w19/ZLQyATkYToYiBHyOMrWPKKBmdCEjzldfOvYhrgwI3fG6rnDTREpcx5qOfuOdetpc
+	 SXS5y6ix5qQz8wBR0xVoqgvOzoC4H1J454KN/3CB9Pn+YE63jm0SA98M5fZd28LzxWKcb
+	 ZaGuL3CSGnNHazjOq1Y5v/x44KH9bJGownJ5Y67ObQzeOvFk1iMDP25myABB6g+d8MNEH
+	 3VLGJoV//HR7PzyRz4T7cF+SR1aKF47hRMMiZwYGU9KzN2BnRSuzM9ZG1Hbm9xl+1Ag==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794932244;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=RJ76wTh0nV/KNDIqsdDhRhZTY6RdEm7WDdLDbxCKA1Q=;
-	b=R9ktMqpLWdh7LIkR68S9mutqG42mMr2blxS5c318+a5mgb1UkMKAkznwKJkPR9EcEIfK
-	 ZmlpXnmZptUMYsm+H0dKFpw/1K4YVNNyShDdz1I9yJJEt6rUy1bj5XC27V1rrJ5aA1nGO
-	 hT2GnqjbPupNLOSGIYA89Ya7SRsn3MOxKBJcMjymv6z9fWw4AfKey8zwH0vpTw4XdpswD
-	 Kmesz5P1GBPVFZD/9UPLleyvpbSfkTdvLUm6vKKeurSzVlPdjatWSCR0O4pNNNPcTjvmu
-	 3apbHKLW9mXL3Zn+pp2sTg+qrezJ2oaTLgp2lffg8EynkHE6EEJ826xtO6oz9DCVc4g==
+	bh=GJ2xcjdkYXWnSKRSnvXZ4inHX8fzRA3So6dM2SQggqE=;
+	b=RRg20S53aPNwiSBovT4twN8M2ak2kbu0CdxCbvb+hqq+zV7VxOFyw5o5VYdPgg7DjVLL
+	 EbepK6ucnls8OgmXWVCuCgcVcMB0YBPfHwzQizSkGQxmKH9Xiy/oJgaVxoX/+f9q5TRIT
+	 E7hV47ir0BTde0ChEIlPAmbu0wRa9NbpysmF6tuBUFAemHZqRfYmE7Qc+avIG2nN0JPcb
+	 iEoKTl8W+DoVQqQ+ErZHizY6+NkwNt8eHa7qomAiMXvZYXIZc34PuFeHTc81Sqm40ttvv
+	 +EXw38ZE8FknPYaBH1OBDf3QHT3FvzJ9pJobUfUfL/qEeMmzKLjJNOpGPoBsE7EtLEA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=efficios.com;
 	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=EuwAcriO;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b="ipxbn/9D";
 	arc=none smtp.remote-ip=158.69.130.18
 Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 563F160A2602;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1436E606A8B2;
 	Tue, 17 Nov 2026 16:17:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 563F160A2602
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1436E606A8B2
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=EuwAcriO
+	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=ipxbn/9D
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
 	s=smtpout1; t=1794932243;
-	bh=RJ76wTh0nV/KNDIqsdDhRhZTY6RdEm7WDdLDbxCKA1Q=;
+	bh=GJ2xcjdkYXWnSKRSnvXZ4inHX8fzRA3So6dM2SQggqE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=EuwAcriO1rqDQcG9xsHqdsGXc2nmiOZyqsiHdXZI4N7kJLZXp8czY0rz+lElXiQAO
-	 rSoNgxC3m2Mr3iXRSsNVVrIzo28cxH40DP4Xqctd1KknC7dAaie7HdIRqGLgYI/F2Z
-	 OaGkG7s0LbesOi7BKWFbBC9bgQX6EDBgYHeHMpE9wUJuqko6BxpD3yEudh8Gdw7llB
-	 fAYAKxK51P6vdFi2f3YuI0y3SkefSYZWREwBpWTMDFok5AlkXCo0EtzFsvLiu/Q92W
-	 4zn7EbZNMene/Nj6tbupmx6xpzLTWMWHlyRMEBAhK+sbt1B+wyVnL/c2PPaY4Gu0W4
-	 KBVvy5A+DpHog==
+	b=ipxbn/9DQjg4v5fQp5pJ3/JZNuVBjTT0h5c0A8Kqd9dd+lkKmgEX3JcLBU0Uik3dl
+	 U4ZPxkxZwQ/zyBU3o/nbafyn/Cu+Q0WuGsDCA4yBbn63k+B3ntJqVQ77xxt/YQEPMT
+	 yoOphaVdFYZ3jM6u2m8SKFQBnGP2ayRt9SkTSRZnov63KBJKxwlAo24DBeXw7R5+oQ
+	 +lnceExbdO+xoNlaNqTtO79D3Cdvtzki165NSw5zOG0EdcOcHTzpHbnKDNYCO9L4i4
+	 YhhbFcwNsQxzexdRw804pr8iIppe9NLKs14gzvjqpY/B744IyT8JHiD/6oSs+bP6TM
+	 KRr//zMtK8YtQ==
 Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jTVHl1nqhzRZX;
-	Tue, 17 Nov 2026 11:17:23 -0500 (EST)
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jTVHk6fYxzRmv;
+	Tue, 17 Nov 2026 11:17:22 -0500 (EST)
 From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To: tglx@kernel.org,
 	peterz@infradead.org
@@ -74,9 +74,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-mm@kvack.org,
 	linux-fsdevel@vger.kernel.org,
 	linux-kselftest@vger.kernel.org
-Subject: [PATCH 11/17] selftests/rseq: Test affinity changes made by another process
-Date: Tue, 17 Nov 2026 11:17:11 -0500
-Message-Id: <926187ef9c1ed8c1b197cb7fa854339c01ee5e6b.1794932121.git.mathieu.desnoyers@efficios.com>
+Subject: [PATCH 09/17] selftests/rseq: Test the concurrency IDs across ownership mode switches
+Date: Tue, 17 Nov 2026 11:17:09 -0500
+Message-Id: <ec371dca311a8d1b059f2ee99c7b41dc049bfac6.1794932121.git.mathieu.desnoyers@efficios.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <cover.1794932121.git.mathieu.desnoyers@efficios.com>
 References: <cover.1794932121.git.mathieu.desnoyers@efficios.com>
@@ -91,142 +91,449 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The mm_cid tests change the affinity of a thread from inside its own
-process. Another process can change it too, with sched_setaffinity() on
-a thread ID. The kernel then updates the allowed CPUs of an mm that is
-not the mm of the caller. The threads of that mm can exit or call
-vfork() at the same time, and the whole process can exit. No test
-covers this.
+Either the tasks or the CPUs own the concurrency IDs of an mm. The
+kernel switches between both when the thread count crosses a threshold.
+It also does when an affinity change widens the allowed CPUs. No test
+changes the thread count while the IDs are in use.
 
-Add a case to mm_cid_transition_test. A process starts on two CPUs with
-three counting threads. Another process narrows and widens the affinity
-of each of these threads in a loop. It goes on while the process under
-test exits. The case runs 100 times, and the changes start after a
-different delay each time.
+Add mm_cid_transition_test. Each round creates 1 to 16 threads and
+joins them, so the thread count crosses both thresholds. A round has
+three kinds of threads:
+- Most threads count in an array indexed by their mm_cid, in an rseq
+  critical section with no lock. Two threads that run with the same
+  mm_cid at the same time lose counts.
+- One thread fails execve() in a loop, so it leaves the mm and rejoins
+  it.
+- One thread calls vfork() in a loop. Its child is a user of the mm,
+  and can join while the thread above is out.
 
-The case passes on guests with 2 to 64 CPUs. It adds coverage: it
-found no bug.
+A last case starts on two CPUs and widens the affinity of a thread
+while three others count.
+
+The test fails when counts are lost, or when an mm_cid is not below the
+number of possible CPUs.
+
+It passes with this series on guests with 2 to 64 CPUs. On a v7.1.8
+kernel with 384 CPUs, it reports the ID a failed execve() gets in per
+CPU mode:
+
+  thread count changes: mm_cid 2147483648 (0x80000000), 384 possible CPUs
+  not ok 1 thread count changes on at most 4 CPUs
 
 Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 ---
- .../selftests/rseq/mm_cid_transition_test.c   | 69 ++++++++++++++++++-
- 1 file changed, 68 insertions(+), 1 deletion(-)
+ tools/testing/selftests/rseq/.gitignore       |   1 +
+ tools/testing/selftests/rseq/Makefile         |   2 +-
+ .../selftests/rseq/mm_cid_transition_test.c   | 375 ++++++++++++++++++
+ 3 files changed, 377 insertions(+), 1 deletion(-)
+ create mode 100644 tools/testing/selftests/rseq/mm_cid_transition_test.c
 
+diff --git a/tools/testing/selftests/rseq/.gitignore b/tools/testing/selftests/rseq/.gitignore
+index 1d94aaf15f4e..e8afb37121d7 100644
+--- a/tools/testing/selftests/rseq/.gitignore
++++ b/tools/testing/selftests/rseq/.gitignore
+@@ -10,6 +10,7 @@ param_test_mm_cid
+ param_test_mm_cid_benchmark
+ param_test_mm_cid_compare_twice
+ mm_cid_execve_test
++mm_cid_transition_test
+ syscall_errors_test
+ slice_test
+ legacy_check
+diff --git a/tools/testing/selftests/rseq/Makefile b/tools/testing/selftests/rseq/Makefile
+index ee40f80c079c..ac32d6af3b99 100644
+--- a/tools/testing/selftests/rseq/Makefile
++++ b/tools/testing/selftests/rseq/Makefile
+@@ -20,7 +20,7 @@ OVERRIDE_TARGETS = 1
+ 
+ TEST_GEN_PROGS = basic_test basic_percpu_ops_test basic_percpu_ops_mm_cid_test \
+ 		 param_test_benchmark param_test_mm_cid_benchmark \
+-		 mm_cid_execve_test
++		 mm_cid_execve_test mm_cid_transition_test
+ 
+ TEST_GEN_PROGS_EXTENDED = librseq.so \
+ 	param_test \
 diff --git a/tools/testing/selftests/rseq/mm_cid_transition_test.c b/tools/testing/selftests/rseq/mm_cid_transition_test.c
-index 7c80c222bd96..fa26be14950c 100644
---- a/tools/testing/selftests/rseq/mm_cid_transition_test.c
+new file mode 100644
+index 000000000000..7c80c222bd96
+--- /dev/null
 +++ b/tools/testing/selftests/rseq/mm_cid_transition_test.c
-@@ -20,21 +20,28 @@
-  * A second case starts on two CPUs and widens the affinity of a thread
-  * while the others count.
-  *
-+ * A third case leaves the affinity changes to another process. It narrows
-+ * and widens every thread in a loop, while the threads count, call
-+ * vfork(2) and then exit with their process.
-+ *
-  * The test fails when counts are lost, or when an mm_cid is not below the
-  * number of possible CPUs. A kernel that loops looking for a free ID
-  * shows as a timeout.
-  */
- 
- #define _GNU_SOURCE
-+#include <dirent.h>
- #include <errno.h>
- #include <limits.h>
- #include <pthread.h>
- #include <sched.h>
-+#include <signal.h>
- #include <stdbool.h>
- #include <stdint.h>
- #include <stdio.h>
- #include <stdlib.h>
- #include <string.h>
-+#include <sys/prctl.h>
- #include <sys/stat.h>
- #include <sys/wait.h>
- #include <unistd.h>
-@@ -266,6 +273,59 @@ static int run_child_widen(int delay_us)
- 	return check_counts("affinity change");
- }
- 
+@@ -0,0 +1,375 @@
++// SPDX-License-Identifier: LGPL-2.1
 +/*
-+ * Narrow and widen the affinity of every thread of @pid in a loop, from
-+ * another process. Start after @delay_us and run until @pid exits.
++ * The concurrency IDs while the kernel switches their ownership mode.
++ *
++ * The kernel lets the tasks own the IDs of an mm while there are few
++ * threads. The CPUs own them once there are more threads than IDs. The
++ * kernel switches mode when the thread count crosses a threshold. It also
++ * does when an affinity change widens the allowed CPUs.
++ *
++ * Each round creates a few threads and joins them, so the thread count
++ * crosses both thresholds. A round has three kinds of threads:
++ * - Most threads count in an array indexed by their mm_cid, with an rseq
++ *   critical section and no lock. Two threads that run with the same
++ *   mm_cid at the same time lose counts.
++ * - One thread fails execve(2) in a loop. It leaves the mm and rejoins
++ *   it.
++ * - One thread calls vfork(2) in a loop. The child is a user of the mm
++ *   until it exits. It can join while the thread above is out.
++ *
++ * A second case starts on two CPUs and widens the affinity of a thread
++ * while the others count.
++ *
++ * The test fails when counts are lost, or when an mm_cid is not below the
++ * number of possible CPUs. A kernel that loops looking for a free ID
++ * shows as a timeout.
 + */
-+static void remote_setter(pid_t pid, int delay_us, const cpu_set_t *narrow)
++
++#define _GNU_SOURCE
++#include <errno.h>
++#include <limits.h>
++#include <pthread.h>
++#include <sched.h>
++#include <stdbool.h>
++#include <stdint.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <sys/stat.h>
++#include <sys/wait.h>
++#include <unistd.h>
++
++#include "rseq.h"
++#include "kselftest.h"
++
++#define MAX_CIDS	CPU_SETSIZE
++#define MAX_WORKERS	16
++#define ROUNDS		200
++#define WIDEN_RUNS	100
++#define ROUND_US	500
++#define MAX_TRIES	1000000
++
++#define CHILD_PASS	0
++#define CHILD_FAIL	1
++#define CHILD_ERROR	2
++
++struct worker {
++	pthread_t	thread;
++	intptr_t	counted;
++	unsigned int	bad_cid;
++	bool		execs;
++	bool		vforks;
++};
++
++static intptr_t counts[MAX_CIDS];
++static struct worker workers[MAX_WORKERS];
++static int stop;
++static int nr_possible;
++static cpu_set_t all_cpus;
++static char exec_path[PATH_MAX];
++
++/* Add one to the count of the current mm_cid. */
++static void count_one(struct worker *w)
 +{
-+	bool widen = true;
-+	char path[64];
++	for (;;) {
++		unsigned int cid = rseq_current_mm_cid();
 +
-+	/* Die with the process under test, not before its exit. */
-+	prctl(PR_SET_PDEATHSIG, SIGKILL);
-+	snprintf(path, sizeof(path), "/proc/%d/task", pid);
-+	usleep(delay_us);
-+	while (getppid() == pid) {
-+		DIR *dir = opendir(path);
-+		struct dirent *de;
-+
-+		if (!dir)
-+			break;
-+		while ((de = readdir(dir))) {
-+			pid_t tid = atoi(de->d_name);
-+
-+			/* A thread can exit first: ESRCH is expected. */
-+			if (tid > 0)
-+				sched_setaffinity(tid, sizeof(all_cpus),
-+						  widen ? &all_cpus : narrow);
++		if (cid >= (unsigned int)nr_possible || cid >= MAX_CIDS) {
++			w->bad_cid = cid;
++			return;
 +		}
-+		closedir(dir);
-+		widen = !widen;
++		if (!rseq_addv(RSEQ_MO_RELAXED, RSEQ_PERCPU_MM_CID, &counts[cid], 1, cid)) {
++			w->counted++;
++			return;
++		}
 +	}
-+	_exit(0);
 +}
 +
-+/* Run one round while another process changes the affinity of the threads. */
-+static int run_child_remote(int delay_us)
++static int join_failed;
++
++/* Join @t. Report an error and set join_failed if that fails. */
++static void join_thread(pthread_t t)
 +{
-+	pid_t self = getpid(), setter;
-+	cpu_set_t narrow;
++	int err = pthread_join(t, NULL);
 +
-+	if (sched_getaffinity(0, sizeof(narrow), &narrow))
-+		return CHILD_ERROR;
-+	init_workers();
-+	setter = fork();
-+	if (setter < 0)
-+		return CHILD_ERROR;
-+	if (!setter)
-+		remote_setter(self, delay_us, &narrow);
-+	if (run_round(3, -1))
-+		return CHILD_ERROR;
-+	/* The setter keeps running while this process exits. */
-+	return check_counts("affinity change by another process");
++	if (err) {
++		fprintf(stderr, "pthread_join: %s\n", strerror(err));
++		RSEQ_WRITE_ONCE(join_failed, 1);
++	}
 +}
 +
- static int read_nr_possible(void)
- {
- 	int first, last, total = 0;
-@@ -343,7 +403,7 @@ int main(void)
- 	int status, i;
- 
- 	ksft_print_header();
--	ksft_set_plan(3);
-+	ksft_set_plan(4);
- 
- 	if (!rseq_available())
- 		ksft_exit_skip("rseq is unavailable\n");
-@@ -371,5 +431,12 @@ int main(void)
- 			break;
- 	}
- 	ksft_test_result(status == CHILD_PASS, "affinity change widens the allowed CPUs\n");
++/* Remove @path. Return 0, or -1 after reporting the error. */
++static int remove_file(const char *path)
++{
++	if (unlink(path)) {
++		fprintf(stderr, "unlink %s: %s\n", path, strerror(errno));
++		return -1;
++	}
++	return 0;
++}
 +
++static void *worker_fn(void *arg)
++{
++	struct worker *w = arg;
++	char *const av[] = { exec_path, NULL };
++	int i;
++
++	if (rseq_register_current_thread())
++		abort();
++	while (!RSEQ_READ_ONCE(stop) && w->bad_cid == UINT_MAX) {
++		for (i = 0; i < 100; i++)
++			count_one(w);
++		if (w->execs && execve(exec_path, av, NULL) == -1 && errno != ENOEXEC) {
++			fprintf(stderr, "execve: %s, expected ENOEXEC\n", strerror(errno));
++			abort();
++		}
++		if (w->vforks) {
++			pid_t pid = vfork();
++
++			if (!pid)
++				_exit(0);
++			if (pid < 0 || waitpid(pid, NULL, 0) != pid) {
++				fprintf(stderr, "vfork: %s\n", strerror(errno));
++				abort();
++			}
++		}
++	}
++	rseq_unregister_current_thread();
++	return NULL;
++}
++
++/* Run @nr workers for a while, one of them failing execve(2). */
++static int run_round(int nr, int widen_us)
++{
++	int i, started = 0, widened = 1;
++
++	RSEQ_WRITE_ONCE(stop, 0);
++	for (i = 0; i < nr; i++) {
++		int err, tries = 0;
++
++		workers[i].execs = i == 0 && exec_path[0];
++		workers[i].vforks = i == 1;
++		/* clone(CLONE_FS) fails with EAGAIN while a thread is in execve. */
++		do {
++			err = pthread_create(&workers[i].thread, NULL, worker_fn, &workers[i]);
++			if (err == EAGAIN)
++				sched_yield();
++		} while (err == EAGAIN && ++tries < MAX_TRIES);
++		if (err)
++			break;
++		started++;
++	}
++	if (widen_us >= 0) {
++		usleep(widen_us);
++		/* The union of allowed CPUs of the mm grows. */
++		if (sched_setaffinity(0, sizeof(all_cpus), &all_cpus)) {
++			fprintf(stderr, "sched_setaffinity: %s\n", strerror(errno));
++			widened = 0;
++		}
++	}
++	usleep(ROUND_US);
++	RSEQ_WRITE_ONCE(stop, 1);
++	for (i = 0; i < started; i++)
++		join_thread(workers[i].thread);
++	return started == nr && widened && !RSEQ_READ_ONCE(join_failed) ? 0 : -1;
++}
++
++/* Compare the counts of the array with the counts of the workers. */
++static int check_counts(const char *what)
++{
++	intptr_t counted = 0, total = 0;
++	int i, ret = CHILD_PASS;
++
++	for (i = 0; i < MAX_WORKERS; i++) {
++		counted += workers[i].counted;
++		if (workers[i].bad_cid != UINT_MAX) {
++			fprintf(stderr, "%s: mm_cid %u (0x%x), %d possible CPUs\n",
++				what, workers[i].bad_cid, workers[i].bad_cid, nr_possible);
++			ret = CHILD_FAIL;
++		}
++	}
++	for (i = 0; i < MAX_CIDS; i++)
++		total += counts[i];
++	if (total != counted) {
++		fprintf(stderr, "%s: %ld counts lost out of %ld: two threads ran with one mm_cid\n",
++			what, (long)(counted - total), (long)counted);
++		ret = CHILD_FAIL;
++	}
++	return ret;
++}
++
++static void init_workers(void)
++{
++	int i;
++
++	for (i = 0; i < MAX_WORKERS; i++)
++		workers[i].bad_cid = UINT_MAX;
++}
++
++/*
++ * A file no binfmt handler recognises, in @dir. execve(2) on it fails with
++ * ENOEXEC after sched_mm_cid_before_execve() and before the other threads
++ * are killed.
++ */
++static int make_unknown_format_file(const char *dir)
++{
++	static const char junk[] = "not a binary of any known format\n";
++	char *const av[] = { exec_path, NULL };
++	bool written;
++	int fd;
++
++	snprintf(exec_path, sizeof(exec_path), "%s/mm_cid_transition_test.XXXXXX", dir);
++	fd = mkstemp(exec_path);
++	if (fd < 0)
++		goto fail;
++	written = write(fd, junk, sizeof(junk) - 1) == (ssize_t)sizeof(junk) - 1 &&
++		  !fchmod(fd, 0755);
++	if (close(fd) || !written)
++		goto unlink;
++	if (execve(exec_path, av, NULL) == -1 && errno == ENOEXEC)
++		return 0;
++unlink:
++	remove_file(exec_path);
++fail:
++	exec_path[0] = '\0';
++	return -1;
++}
++
++/* Rounds of 1 to MAX_WORKERS threads: the count crosses both thresholds. */
++static int run_child_rounds(int unused)
++{
++	int round, ret;
++
++	init_workers();
++	/* Without the file the rounds run with no execve. */
++	if (make_unknown_format_file("/tmp") && make_unknown_format_file("."))
++		fprintf(stderr, "no unknown format file: the rounds run without execve\n");
++	for (round = 0; round < ROUNDS; round++) {
++		if (run_round(1 + (round * 7) % MAX_WORKERS, -1)) {
++			ret = CHILD_ERROR;
++			goto out;
++		}
++	}
++	ret = check_counts("thread count changes");
++out:
++	if (exec_path[0] && remove_file(exec_path) && ret == CHILD_PASS)
++		ret = CHILD_ERROR;
++	return ret;
++}
++
++/* Run one round that widens the allowed CPUs @delay_us after its start. */
++static int run_child_widen(int delay_us)
++{
++	init_workers();
++	if (run_round(3, delay_us))
++		return CHILD_ERROR;
++	return check_counts("affinity change");
++}
++
++static int read_nr_possible(void)
++{
++	int first, last, total = 0;
++	char sep;
++	FILE *f;
++
++	f = fopen("/sys/devices/system/cpu/possible", "r");
++	if (!f)
++		return -1;
++	/* A list of ranges: "0-63" or "0,2-5". */
++	while (fscanf(f, "%d", &first) == 1) {
++		last = first;
++		sep = '\n';
++		if (fscanf(f, "%c", &sep) == 1 && sep == '-') {
++			if (fscanf(f, "%d", &last) != 1)
++				break;
++			if (fscanf(f, "%c", &sep) != 1)
++				sep = '\n';
++		}
++		total += last - first + 1;
++		if (sep != ',')
++			break;
++	}
++	fclose(f);
++	return total;
++}
++
++/* Keep the first @nr CPUs of @src in @dst. */
++static int narrow_cpus(cpu_set_t *dst, const cpu_set_t *src, int nr)
++{
++	int cpu, taken = 0;
++
++	CPU_ZERO(dst);
++	for (cpu = 0; cpu < CPU_SETSIZE && taken < nr; cpu++) {
++		if (!CPU_ISSET(cpu, src))
++			continue;
++		CPU_SET(cpu, dst);
++		taken++;
++	}
++	return taken;
++}
++
++/*
++ * Run @fn(@arg) in a new process and return its exit status. The affinity
++ * is @narrow when its mm is created. The union of allowed CPUs of an mm
++ * starts there and only grows.
++ */
++static int run_under_test(int (*fn)(int), int arg, const cpu_set_t *narrow)
++{
++	int status = 0;
++	pid_t child;
++
++	if (sched_setaffinity(0, sizeof(*narrow), narrow))
++		ksft_exit_skip("sched_setaffinity: %s\n", strerror(errno));
++	child = fork();
++	if (!child)
++		_exit(fn(arg));
++	if (child < 0)
++		ksft_exit_fail_msg("fork: %s\n", strerror(errno));
++	if (sched_setaffinity(0, sizeof(all_cpus), &all_cpus))
++		ksft_exit_fail_msg("sched_setaffinity: %s\n", strerror(errno));
++	if (waitpid(child, &status, 0) != child)
++		ksft_exit_fail_msg("waitpid: %s\n", strerror(errno));
++	if (!WIFEXITED(status))
++		ksft_exit_fail_msg("the process under test was killed by signal %d\n",
++				   WTERMSIG(status));
++	if (WEXITSTATUS(status) > CHILD_FAIL)
++		ksft_exit_fail_msg("the process under test failed to run\n");
++	return WEXITSTATUS(status);
++}
++
++int main(void)
++{
++	cpu_set_t narrow;
++	int status, i;
++
++	ksft_print_header();
++	ksft_set_plan(3);
++
++	if (!rseq_available())
++		ksft_exit_skip("rseq is unavailable\n");
++	if (rseq_register_current_thread())
++		ksft_exit_fail_msg("rseq_register_current_thread: %s\n", strerror(errno));
++	if (!rseq_mm_cid_available())
++		ksft_exit_skip("the rseq mm_cid field is unavailable\n");
++	if (sched_getaffinity(0, sizeof(all_cpus), &all_cpus))
++		ksft_exit_fail_msg("sched_getaffinity: %s\n", strerror(errno));
++	nr_possible = read_nr_possible();
++	if (nr_possible <= 0)
++		ksft_exit_skip("cannot read the possible CPUs\n");
++
++	narrow_cpus(&narrow, &all_cpus, 4);
++	status = run_under_test(run_child_rounds, 0, &narrow);
++	ksft_test_result(status == CHILD_PASS, "thread count changes on at most 4 CPUs\n");
++
++	status = run_under_test(run_child_rounds, 0, &all_cpus);
++	ksft_test_result(status == CHILD_PASS, "thread count changes on all CPUs\n");
++
++	narrow_cpus(&narrow, &all_cpus, 2);
 +	for (i = 0; i < WIDEN_RUNS; i++) {
-+		status = run_under_test(run_child_remote, (i * 13) % ROUND_US, &narrow);
++		status = run_under_test(run_child_widen, (i * 13) % ROUND_US, &narrow);
 +		if (status != CHILD_PASS)
 +			break;
 +	}
-+	ksft_test_result(status == CHILD_PASS, "affinity changed by another process\n");
- 	ksft_finished();
- }
++	ksft_test_result(status == CHILD_PASS, "affinity change widens the allowed CPUs\n");
++	ksft_finished();
++}
 -- 
 2.47.3
 
