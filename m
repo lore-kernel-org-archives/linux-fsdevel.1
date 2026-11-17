@@ -1,55 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.243.164.118
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794912689;
-	b=qxahgyiKjKlqBPJa4MvURyTDYgAFluNVpsFTnIsvwzjfqElabbQI2mnfcj/eR7+uAiEN
-	 knAe6ht2P5YDYB6N3WzW5zvldM+TK8Sk2qEk0mbcW4ktOF0hAHhj/sfpbxNFJhVtI7M5E
-	 T77nKP5iuHpmDP82QT0RRWE+wcIrnoPA0S4IDZDHAjTelG9lheioDAmppuRz+XlJYs/Jr
-	 yUHizilU3N9O84so0LFVPsjtVo5QINkmwdja5JLJD+xUfzoFToHbelNY1ByzBVIUKRmn+
-	 q0Kt49d8avlSOdWQCQv+pzZh+XGbXfoeR3Jb+tZYMEIJdZdWONqB+uBb13FYcegS+fg==
+	t=1794913373;
+	b=HHr82lUSaX09Ps+hUkdHKkMLCfPmFM3D7MFpyzZKmlgYdNTwjnjC1+rz/XLD+o/hEVr7
+	 TZlSS1LLVKh4i6jEtD7O0SErHrfOcoe1yaUxG/wXyxy8i/h+qzUHQJP+Fu0z9cxUyrenn
+	 vOdlYnlI9aEuncAwLSc0mO5onTGQjqe6VDhVQ5Ud+tQ4+0qkE0XzHKCH6b0oAInCkUMb/
+	 EiATE04CqjT8G/Kuw4wsAqltWBU0JaXFTZUjz4Lv9nRBpHYCJGVZbHiXywRmnJaJHnojQ
+	 fZKn127EqZ3vR4b84E00OWwP65X3L3YQvoC6ODevzVscDpNpxayzZmQ3M5EhEMvy40w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794912689;
-	h=DMARC-Filter:Received:Received:From:To:Cc:Subject:Date:Message-Id:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-CM-TRANSID:X-CM-SenderInfo:
-	 X-Coremail-Antispam;
-	bh=Le1aTwSmJJVjoIZHS1zuonXE4iOS881VhWU6iH/FA2w=;
-	b=Tr0+nBat1zuFsoWBW1Pdwc3p4gPZX4JpxN/U/LwA34ZeWXL0LCFUcx/Upk5+Q0+Ovq0C
-	 62x4vGSz9jbmNueteXhLSkhKpGhJ4uQTzXcmzc+j7q4Np8c6wrMVjwE9Ua5xtjepQmbSP
-	 icjj28LW71L5Vz93C5lXOC9/Wv1BUmqF2sEPzEnD5Olvt5L0Neoa3FVi5xin2ykzKuaXO
-	 NDDG9Mw+ZwHXLLNTLqWbezYEAorJpDM/MSVL2wOROFiA7TictkjeE2I7jA7cns/ftypS9
-	 abSgk2XpDMT0xcPRYmaKO3f7SuWGwLTrxOcT+9mzBWMa/Gwq26OOs0ZPtRHT32MHhTQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794913373;
+	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:X-ME-Received:
+	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=crEmioOjMzsnzH6L7JboWvkyCFcBX6fDyVf9lGMy6eg=;
+	b=lC0CC8ihbBYNfsjWegm8nC4ddg010FAGzl3YRlmOAGOPrQLDZ8zVD/lGM+qSZP26kaoy
+	 om9ln42rpxn5IX/iGhyoX0epjQ1kQmrU7rXB11jVUqk7wwPHfJ2BAtZNvCV8B/UGlgpWa
+	 6E66iB0kbBcojoKesJsdCUnQEag4G6j5tw74Xckr0b8US9HRqwm8B8VjaKhUidYW/CsiJ
+	 eQCziEp7nBB9gzYaPNHPvLBr7+mbm4vAMh/B70vAOTOKnVRMb6d7BgrW3Z3wxKdCdvpSM
+	 fvmRI0PJxKcSHGcIXtUZNCQSmLMent7kmenPVvjFiS5wFsVgzpVWKZQTUNrb9ZByE5Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=phytium.com.cn;
-	spf=pass smtp.mailfrom=phytium.com.cn;
-	arc=none smtp.remote-ip=162.243.164.118
-Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F7EC606A32A;
-	Tue, 17 Nov 2026 10:51:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3F7EC606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=phytium.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=phytium.com.cn
-Received: from prodtpl.icoremail.net (unknown [10.12.1.20])
-	by hzbj-icmmx-7 (Coremail) with UTF8SMTP id AQAAfwCXnMCtMfxqKZNWBg--.51193S2;
-	Tue, 17 Nov 2026 18:51:25 +0800 (CST)
-Received: from phytium.. (unknown [218.76.62.144])
-	by mail (Coremail) with SMTP id AQAAf8DwSnOdMfxqF977AA--.36666S4;
-	Tue, 17 Nov 2026 18:51:13 +0800 (CST)
-From: Ethan <yangyizhen3198@phytium.com.cn>
-To: Jens Axboe <axboe@kernel.dk>,
-	Christian Brauner <brauner@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>,
-	linux-block@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	yangyizhen3198@phytium.com.cn
-Subject: [RFC PATCH 1/1] block: reclaim cache before block file close notification
-Date: Tue, 17 Nov 2026 18:51:07 +0800
-Message-Id: <20261117105107.14236-2-yangyizhen3198@phytium.com.cn>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20261117105107.14236-1-yangyizhen3198@phytium.com.cn>
-References: <20261117105107.14236-1-yangyizhen3198@phytium.com.cn>
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jD9TEQPU;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E55F3606A33B;
+	Tue, 17 Nov 2026 11:02:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jD9TEQPU
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 862FA1F000C9;
+	Tue, 17 Nov 2026 11:02:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794913372;
+	bh=crEmioOjMzsnzH6L7JboWvkyCFcBX6fDyVf9lGMy6eg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=jD9TEQPUGxO+mI/+inKff7uoSP7g0a0erFOtxFVtDkPnPMTbL0D081VhE33DJxbG8
+	 5dVj5e9HYeiDdT8hAL5IpDQbEHbuCC69/sE82COwPzr+ih+zjcYgUBHZT8A1r02nBI
+	 je2u94IG20Y4QpFov792FdB8+HkE3G8nSGn/QCZFfy+Mcm0IRMyqEDOk0Cp1XsOY56
+	 dEtCmev7DxnVFDk0RBErzUsr70H3zpp8qfYD3s2eFGhB8qrSfj6YeG1ESbpaS5zMYQ
+	 fdYqYoUIreWD8guOCclZ13kkzJn+IAD5y2yxDBES7ERoEjpEkNFJ98Gruwt+OvGW9c
+	 nP/F+RKLvJHAg==
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfauth.ams.internal (Postfix) with ESMTP id 0A46D198004A;
+	Tue, 17 Nov 2026 06:02:43 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-02.internal (MEProxy); Tue, 17 Nov 2026 06:02:49 -0500
+X-ME-Sender: <xms:UzT8ajzhIRDuZQmR1yXTDLuGA3b1U0tuSaourJSyrLDTrQ_Um2nlVA>
+    <xme:UzT8ah-gVHw4IntEVOfc5Z14VjjzN7T7Q8B2FvFR5VBoen7b-HPD3m7hBY_KVQkTE
+    lA5xwY_Wo0lHo-IJ34H8B5KdKsLoJFuxG9Et2vFBrnNw5WdWVHCbak>
+X-ME-Received: <xmr:UzT8ahxcJlhvBNfVqovWJPHAn97L8-HJYkti8PJU_65bhna8ykiR1lDXN20>
+X-ME-Proxy-Cause: dmFkZTEdL3a0Ww8UBR3R2vq6MmLMcrG/RZX5swqKljzNR9iQbYhJjAbY7PI1ciZ9LK7lxN
+    G/X6ntG0iaY30AQsAjEuf57i6CZYjfm+meUK3SNiYXmeCWWUJ6eJZs3up8jphiYl4q8gjl
+    jx/Ahq1GKe6I/bXKrTuw70GcxIwNT2jp4gfkCI76UMri6prm91X5ZHCpQ0CSw70eKatw9o
+    W897R67TYQMC9tdclNiHUmVbeQonLxDDsNNr0tVhsGpDu129aHDLPo6xC+ZTyK9ZM6Qnnt
+    MYuzQ4L/hdyqL+ol7coGPamA67VuEepBf0wI/8gPf+rreyi3dAUVv7YzP/OCpkMvoNRZhV
+    YgsKbRCIilSfSP7pZVhBNK5pp+l4zUFWKPr0XsF4c/Rmq0cqJXBoQeoSNFwc2DiFDWZFSg
+    NfO+shv886RE5kd2tAFT+FTIarUIaRL9KRbOP0qtmfBkRi5y8jE6SPjvymtIKQCEHqK1h3
+    RYgAGGj/RxAuRRjdSRPlvRnDYhwbkOoHHLBugCLRdy6igxtIkdJ8SsiOfdaC9wZow2EeCV
+    Ejy4XNZF76vFloczn0M2QIsslwD2xaCsTZRX1OSP+ZOi7OtUBkmhno/iE/fXq03rTXkSbw
+    do3CK6UiTx4ST1p3Q59hLB+vj8psXH2OMMFeeHtUpnx+YFCTloQa9ChJJNoA
+X-ME-Proxy: <xmx:UzT8aruuJmQ7dDiwarHdYjVtP70RG52TxChOPLKFH7afF7h6-akdFg>
+    <xmx:UzT8aryVAcVUMmv2aTlcVJcYor6UcfL9P1w1L0anMWhtGRDIctF4jg>
+    <xmx:UzT8altjzJNLBNiYpIhGi_vWWH7VmxarJzm-N-JcvvJ1fgUMEfeHjQ>
+    <xmx:UzT8aljV0jDctEZAsJHbv0Ypfdw61mWX4M9wO2EfhtqHNe0Af12BHw>
+    <xmx:UzT8atCXyMGt2Yq-MlBZYadsi_cXIiTQmqxJmcETVf2oWtX0YRICrq70>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 17 Nov 2026 06:02:42 -0500 (EST)
+Date: Tue, 17 Nov 2026 11:02:41 +0000
+From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
+To: Usama Arif <usama.arif@linux.dev>
+Cc: Andrew Morton <akpm@linux-foundation.org>, apopple@nvidia.com, 
+	byungchul@sk.com, david@kernel.org, gourry@gourry.net, jannh@google.com, 
+	joshua.hahnjy@gmail.com, liam@infradead.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, ljs@kernel.org, matthew.brost@intel.com, 
+	mhocko@suse.com, pfalcato@suse.de, rppt@kernel.org, surenb@google.com, 
+	vbabka@kernel.org, ying.huang@linux.alibaba.com, ziy@nvidia.com, hannes@cmpxchg.org, 
+	riel@surriel.com, shakeel.butt@linux.dev, kernel-team@meta.com, 
+	baolin.wang@linux.alibaba.com, Nico Pache <nico.pache@linux.dev>, ryan.roberts@arm.com, 
+	dev.jain@arm.com, baohua@kernel.org, lance.yang@linux.dev, stable@vger.kernel.org
+Subject: Re: [PATCH v2 2/4] mm: don't PTE-batch a swap-in of a folio with a
+ hardware-poisoned page
+Message-ID: <avwwMyk462raQFy2@shutemov.name>
+References: <20261116063624.1382944-1-usama.arif@linux.dev>
+ <20261116063624.1382944-3-usama.arif@linux.dev>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -59,179 +94,69 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:AQAAf8DwSnOdMfxqF977AA--.36666S4
-X-CM-SenderInfo: 51dqw5pl2kv0atrzmqxsk13x1xpou0fpof0/1tbiAQACDWr7WcwEQQANsC
-Authentication-Results: hzbj-icmmx-7; spf=neutral smtp.mail=yangyizhen
-	3198@phytium.com.cn;
-X-Coremail-Antispam: 1Uk129KBjvJXoW3AryxKF13Cw1UWw1rZrWkJFb_yoWxuw1kpF
-	Z8GFW5Jw48WryxGan7Za17WryFgayvgFWUXryfW34FyrnrtryvyrZ2vr1jyr47Crs7ArW5
-	Xw47KrZ8CryUCaDanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
-	DUYxn0WfASr-VFAU7a7-sFnT9fnUUIcSsGvfJ3UbIYCTnIWIevJa73UjIFyTuYvj4RJUUU
-	UUUUU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261116063624.1382944-3-usama.arif@linux.dev>
 
-A full mkfs.ntfs run on a raw NVMe device can finish writing but leave
-hundreds of GiB of device mapping cache for final close cleanup. On an
-ARM64 system with about 1 TiB of RAM and a 1.92 TB NVMe device, a vendor
-6.6 diagnostic kernel without reclaim optimizations reproduced long
-udev open blocking in three consecutive runs. All three mkfs runs and
-the subsequent NTFS information checks completed successfully.
+On Sun, Nov 15, 2026 at 10:34:56PM -0800, Usama Arif wrote:
+> do_swap_page() checks PageHWPoison() on the faulting page, but the
+> large-folio batching path then maps the rest of the folio without
+> looking at its other pages. A poisoned page that is not the one being
+> faulted gets mapped anyway, and the fault that would have reported it
+> never happens.
+> 
+> Skip batching for such an anon folio and let each page take its own
+> fault, where the existing check catches it. do_set_pmd() already backs
+> off the same way.
+> 
+> Leave a freshly read folio alone: it is not anon yet and can only be
+> mapped as a whole, and falling back would free it with the poisoned
+> page still in it, which the retried fault can then get back from the
+> page allocator.
+> 
+> Fixes: 508758960b8d ("mm: swap: entirely map large folios found in swapcache")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Usama Arif <usama.arif@linux.dev>
 
-The final truncate_inode_pages() calls took 423.282, 447.064 and 420.785
-seconds with about 805 GiB of mapping pages at close. The corresponding
-udev opens took 423.282, 447.061 and 420.785 seconds. The blocked udev
-stacks went through mutex_lock(), blkdev_get_by_dev() and blkdev_open();
-the diagnostic open_mutex wait values agreed at millisecond resolution.
-Each run produced hung-task warnings and one udev watchdog restart.
+With the check moved up as David and Zi suggested:
 
-The examined close path holds disk->open_mutex while the last-opener
-blkdev_put_whole() calls blkdev_flush_mapping(), kill_bdev() and
-truncate_inode_pages(). A concurrent opener needs the same mutex. In the
-recorded runs, the long interval was concentrated in cache teardown,
-not the separately recorded final sync. A successful sync can leave
-clean cache pages and associated metadata for this later teardown.
+Reviewed-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
 
-The problem is therefore prolonged exclusion of other device openers
-during final cache cleanup, even when formatting itself succeeds. The
-120-second hung-task reporting threshold is not an open_mutex timeout.
-The objective is to reduce time spent in that critical section, not to
-make the complete mkfs or close finish within 120 seconds. The evidence
-is from a vendor diagnostic kernel, not current upstream reproduction.
+Do we have the same problem on the file side?
 
-Explore best-effort reclaim before notification and original release:
-at final __fput of a block-device file, call vfs_fsync(), then
-vfs_fadvise(POSIX_FADV_DONTNEED), before fsnotify_close(). Keep the
-original release responsible for any remaining pages and concurrent
-activity. Skip O_PATH and missing fsync operations before interpreting
-the block-device mapping. Log sync errors and skip advice; log advice
-errors and continue release. No new close error return is introduced.
+If memory_failure() cannot split a large file folio, it stays in the
+page cache with the poisoned page in it.
 
-The hook applies to block-device files with a fsync operation, excluding
-O_PATH handles. It runs at the last reference to each such struct file,
-including files opened read-only or with O_DIRECT. It does not wait for
-the last device opener. A read-only close can therefore initiate shared
-mapping writeback and a device flush. Reclaim can evict useful cache.
-Sync/reclaim can block in __fput and delayed fput, and placing it before
-fsnotify_close changes when observers run. DONTNEED does not guarantee
-an empty mapping or a bound on later lock hold time.
+Consider a write fault through MAP_SHARED on a good page of that folio:
 
-This is a design RFC based on the recorded vendor 6.6 tree. It is not
-rebased or validated on current mainline, nor proposed as a stable
-backport. Please advise whether this should remain a userspace action,
-be placed elsewhere in the block lifecycle, or be addressed through a
-more fundamental close-locking change before pursuing a mergeable fix.
+  do_shared_fault()
+    __do_fault()
+      PageHWPoison(vmf->page)
+        // checks the faulting page only
+    finish_fault()
+      do_set_pmd()
+        folio_test_has_hwpoisoned(folio)
+          // backs off with VM_FAULT_FALLBACK
+      set_pte_range(vmf, folio, &folio->page, folio_nr_pages(folio), addr)
+        // maps the poisoned page as well
 
-Signed-off-by: Ethan <yangyizhen3198@phytium.com.cn>
----
-Baseline: recorded vendor Linux 6.6 source snapshot, not current mainline.
-The baseline measurements describe the problem, not results of this
-proposed patch. No additional build or runtime test was run while
-preparing this posting.
+Possible fix is below. I can post a proper patch if the analysis looks
+correct.
 
-Questions for reviewers:
-- Is __fput an appropriate context for this blocking work?
-- Should implicit sync and cache eviction remain a userspace choice?
-- If a kernel policy is appropriate, what eligibility rules avoid
-  repeated work and interference with other mapping users?
-- How should delayed fput and close notification ordering be handled?
-- Would a different block close locking design be preferable?
-
- block/Makefile                |  2 ++
- block/bdev-preclose.c         | 29 +++++++++++++++++++++++++++++
- fs/file_table.c               |  4 ++++
- include/linux/bdev-preclose.h | 14 ++++++++++++++
- 4 files changed, 49 insertions(+)
- create mode 100644 block/bdev-preclose.c
- create mode 100644 include/linux/bdev-preclose.h
-
-diff --git a/block/Makefile b/block/Makefile
-index 46ada9d..df775b4 100644
---- a/block/Makefile
-+++ b/block/Makefile
-@@ -11,6 +11,8 @@ obj-y		:= bdev.o fops.o bio.o elevator.o blk-core.o blk-sysfs.o \
- 			genhd.o ioprio.o badblocks.o partitions/ blk-rq-qos.o \
- 			disk-events.o blk-ia-ranges.o early-lookup.o
+diff --git a/mm/memory.c b/mm/memory.c
+index fb76d8922e37..25b53847943f 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -5893,6 +5893,10 @@ vm_fault_t finish_fault(struct vm_fault *vmf)
+ 			return ret;
+ 	}
  
-+obj-y += bdev-preclose.o
++	/* A poisoned page must take its own fault */
++	if (folio_contain_hwpoisoned_page(folio))
++		needs_fallback = true;
 +
- obj-$(CONFIG_BOUNCE)		+= bounce.o
- obj-$(CONFIG_BLK_DEV_BSG_COMMON) += bsg.o
- obj-$(CONFIG_BLK_DEV_BSGLIB)	+= bsg-lib.o
-diff --git a/block/bdev-preclose.c b/block/bdev-preclose.c
-new file mode 100644
-index 0000000..ba3849e
---- /dev/null
-+++ b/block/bdev-preclose.c
-@@ -0,0 +1,29 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/* Best-effort cache reclaim before final release of a block-device file. */
-+#include <linux/bdev-preclose.h>
-+#include <linux/blkdev.h>
-+#include <linux/fadvise.h>
-+#include <linux/fs.h>
-+#include <linux/printk.h>
-+#include "blk.h"
-+
-+/* The caller is __fput, before fsnotify_close and the original release. */
-+void bdev_preclose_reclaim(struct file *file)
-+{
-+	int ret;
-+
-+	/* A block-special inode can also be opened as a path-only handle. */
-+	if ((file->f_mode & FMODE_PATH) || !file->f_op || !file->f_op->fsync)
-+		return;
-+
-+	lockdep_assert_not_held(&I_BDEV(file->f_mapping->host)->bd_disk->open_mutex);
-+	ret = vfs_fsync(file, 0);
-+	if (ret) {
-+		pr_err_ratelimited("bdev preclose: fsync failed (%d); skipping DONTNEED\n",
-+				   ret);
-+		return;
-+	}
-+	ret = vfs_fadvise(file, 0, 0, POSIX_FADV_DONTNEED);
-+	if (ret)
-+		pr_err_ratelimited("bdev preclose: DONTNEED failed (%d)\n", ret);
-+}
-diff --git a/fs/file_table.c b/fs/file_table.c
-index ee21b3d..0b9d7a8 100644
---- a/fs/file_table.c
-+++ b/fs/file_table.c
-@@ -9,6 +9,7 @@
- #include <linux/string.h>
- #include <linux/slab.h>
- #include <linux/file.h>
-+#include <linux/bdev-preclose.h>
- #include <linux/fdtable.h>
- #include <linux/init.h>
- #include <linux/module.h>
-@@ -367,6 +368,9 @@ static void __fput(struct file *file)
- 
- 	might_sleep();
- 
-+	/* Reclaim before notifying observers; original release remains below. */
-+	if (S_ISBLK(inode->i_mode))
-+		bdev_preclose_reclaim(file);
- 	fsnotify_close(file);
- 	/*
- 	 * The function eventpoll_release() should be the first called
-diff --git a/include/linux/bdev-preclose.h b/include/linux/bdev-preclose.h
-new file mode 100644
-index 0000000..5e75ac3
---- /dev/null
-+++ b/include/linux/bdev-preclose.h
-@@ -0,0 +1,14 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+#ifndef _LINUX_BDEV_PRECLOSE_H
-+#define _LINUX_BDEV_PRECLOSE_H
-+
-+struct file;
-+
-+#ifdef CONFIG_BLOCK
-+void bdev_preclose_reclaim(struct file *file);
-+#else
-+static inline void bdev_preclose_reclaim(struct file *file)
-+{
-+}
-+#endif
-+#endif
-
+ 	if (!needs_fallback && vma->vm_file) {
+ 		struct address_space *mapping = vma->vm_file->f_mapping;
+ 		pgoff_t file_end;
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
