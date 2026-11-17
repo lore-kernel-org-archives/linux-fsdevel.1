@@ -1,75 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.205.221.205
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794937149;
-	b=fy1VeGtWcqgZ1KDE9a8pAlsxsLJCYrRtbyHa4CYlpnuQpLGjJD5H+xYKi0HOZwHY/+HE
-	 e9oQNCCdg99iaA9yAsKupmdGIDUl/sHdRZ6EzrvO4rOY/zL+y1ETP5fEP2/dvItpaaziy
-	 u3bMe8qwYEjyEPMds/9ZVh8RuxqdrcdtlZj4vFajIDdTi4q3Mw95gI2+CRLjjOItETm0N
-	 pl4OC3kA1/9hQ3KamAzoqkpNksz15F8egCzNqqeVWJ0LcVElxcK+AlXrdcVMfE8zuigf8
-	 rcQCVzdKZ4DI4j5kpSIm6yYy3TyNYPRSu2HeLS6haH1Zb0g1jRExMlDihq5jKQWESKw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794937149;
-	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
-	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:Date:X-OQ-MSGID:
-	 In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=GXALsXMc+vuhe8fASc4wg4+RAc2sW67vDWwNl5cZHZE=;
-	b=gb2me2+R7Jix/AodlxTf5SmYqlm6Z9IMZWbI1DSKPtO1FK5xg0guCis/AhuvPOMcxOzq
-	 lgazM3TaLbKnk/Ov/UVdC5QZ13GsHuMTfNEgcLdW1BlX0VUEWOl76zBkf3iM7RVQzI1Ew
-	 QzSNwlpck0Y0TD0Hh7C+i0HnsaThSVZpKzycxWepeR4F6u8THluintTGyho7VAG6IT8z7
-	 mVnaVAwtY7MA8CGnT2JyjSSu1bvl51TRkdpysjCWUM2oTn5LRqiclN1GGd+VMmp5ebCmX
-	 3558oZdjsM0uxpShAz0MrDUnv4X6oA6a+f9XlX8zV94TiZlGtrabpr+ZFrnDP7vQXAg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=qq.com;
-	spf=pass smtp.mailfrom=qq.com;
-	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=Xwxkzez7;
-	arc=none smtp.remote-ip=203.205.221.205
-Received: from out203-205-221-205.mail.qq.com (out203-205-221-205.mail.qq.com [203.205.221.205])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.179
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794937360;
+	b=ZuMfDlZ7n7IjaYNnx6wz56y+2fgMpc7rxW1qgIzwAySL9UuPiCg2TuMQpeJWlqI2+h1Q
+	 VqnwjGV6jY8AeeuzwJdi6oBHo/pXbADH7CELDEH73lQ3FmO59GtkDyjpJDyMEqO/SwDLa
+	 J3XRC7Ub0zGfvaT4O+p81pBleX1yjraD1vEIVvxPLQkPcMaJpIyZbJ1KQiLoeb0360+tu
+	 8a6wTLoskLQYYni5mKVyaVEVqtFGI2x//PstS4kQXiwQXQLHAhu50ZG2HCzExrI9TJqRx
+	 4J5a0qZyxfgeezQdgL03vkJAPGm1Pp84rlEDNsNnmHEKrZGLj9rdFQf08nKBdnNei1Q==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794937360;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
+	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=C0Br6uNbCeSZG/D0SaMC7uBQz4y4PQvjObMC5HHmvxw=;
+	b=1dRcbR8Em1aBaMxIB5MLW5AAhGDduK/AjMVM7p1H3B2SOmAemMjZ1zE/wZlzSKeRM+Wf
+	 Pmep7U6Y6e2HQ9jw2ZqliGT1Bjok1JPGe/QAssAnJX9WK/ZArBasPNxKJp1cCvbTOjSnq
+	 LjDbQow3cJKdqpzgU9EWfx2sk+rOqI3dbjIG4G+KZq7l/Fj+EWqCrCnl2Jw5TTzY9r9UE
+	 a99l1X0C7jWUJMGDSYx8o7qv6TgcDQqLVgZEAREK+jXM+yvvHyygHVXdB8YjU4iPCqFft
+	 zNiNbG26oyRAbI7kLoCWvNQStmnWz/aeDyjiPbyMUwEzsIwP+p5yG0HZk/MvX26WYZQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=none header.from=amacapital.net;
+	spf=pass smtp.mailfrom=amacapital.net;
+	dkim=pass header.d=amacapital-net.20260707.gappssmtp.com header.i=@amacapital-net.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=EEvWGAFb;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.179
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D575606A336;
-	Tue, 17 Nov 2026 17:39:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9D575606A336
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87930606A31C
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 17:42:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 87930606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=Xwxkzez7
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1794937132; bh=GXALsXMc+vuhe8fASc4wg4+RAc2sW67vDWwNl5cZHZE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Xwxkzez7m3Y5gcqPdmVl+62sMI+PuAkAqwwR8QkfDzQDOfwjI+mHQ3A0JyrmoNYc2
-	 QQtYKmD6ejFiiO53J0qwVt6qk2AWvMaomLlcjTlTNaKd0UTGIV5ZAewfqPmEHPErhm
-	 ta+jQT+dvM15OI9ZS18eDprYSiSim3q4UnPPx2RU=
-Received: from [172.18.4.77] ([202.113.185.209])
-	by newxmesmtplogicsvrszc43-0.qq.com (NewEsmtp) with SMTP
-	id 9B32564A; Wed, 18 Nov 2026 01:38:51 +0800
-X-QQ-mid: xmsmtpt1794937131t8pvh843q
-Message-ID: <tencent_510BD3ADA8229FEA28E3D4C9EF8491482707@qq.com>
-X-QQ-XMAILINFO: MQAOa38Yz/8//22ZTbxLw1sKnEnSGXMXE8B5TgOUEdkFUor1xHTCyCsvMUvFKE
-	 CBn4EVi05dKFwY8iP9ORwlNJGyT5t2tfpWgVsFJO/w1QHcMmlNEZ/TIqCDuIFDpYIgPY19alnLHs
-	 JzvSRqxOEKD95PfyhM770jLehpq+ex92xPHlz9Mj7kZo96vOxj73WM1KXLDrvBWOeFHgLUOBkSlQ
-	 EfN9UOHqt36nOwBosGV76pL6F9VLCEThHzAKPiQ+TJy/a3JtPM8ZprpIivrqog0cLBL58Fxm9PqB
-	 K1ptIRz+Tb+1LTBao5gxfVWzOdQpLQZ6oGIJ8W5DqiUJqyu0eKG4kV3I2W6C/IkVJFy0CHxbiaqW
-	 8zks+9qLuxqZk3PYigqi63IHCy689lwW05sSAIjbFFVDk8R6e8HJb9CkjGmpYebsd29GQrtrLAFu
-	 tUQWOSWszKeyLQsD1Zpv0R6XfUPkNYvmZynyHghyVx82DopI9yTQCSBMfoYEnWlwi9ffNPvmb71i
-	 I49X9WWej5Kn2bhBhMhqFMeqQ/Fj3zmsE+MHFEZvu/Znh9EbToL3Zehys7TxM51ibUwZKvPR+qwO
-	 YGrUyzttUqsKWeOqCPfjOY1ogbaT9XsGnskeTjuGPSg/62gWNqFUi2jiauagnDn1+NfvtQzQpAMm
-	 6Ye6KHaYw9q31pYPfROMa7yYdJqFiFrWXZyqoYrphWP+z9Lpktx26745HXce0c6FAPKM+x8vPp4M
-	 jfySSofjqHLmmt+TptWD5C19iFvzEVL3OfDu+4kVVi8dXOkMHxHppm42uFhLvSOsFFXvjH27czRC
-	 q5DkOt7zKg4Wl2zo0izHruul9ENwtHvuLJVEnqNu/1CAUyiXzJ/wDcdOPpYkN0u8a5DU+i6gyR0+
-	 CP3E6M34YQC/xaIerxojz7WSmFjc6GmdbjoCMFkC3moDUhZIPiDQkEOfPfQ/zbKBOn3LZGfJRQgy
-	 akGsEyoZ+20XYKgcQa3FjSrTKiZDit2UVWqmAngnhxIH68RzllfcNgi+TZajEi663oQ4ziDSdbf9
-	 Crt1n7KnakDYfba/8eDukV8YWjIMi6t6LFUGAMdZbz05CrS67HTMJxvx1w6I7c7oFdISw9GOrnnn
-	 5N3rbY
-X-QQ-XMRINFO: NS+P29fieYNwqS3WCnRCOn9D1NpZuCnCRA==
-From: Guikun Yang <yangguikun19@qq.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] ufs: validate fs_cgsize when reading the superblock
-Date: Wed, 18 Nov 2026 02:05:00 +0800
-X-OQ-MSGID: <patch-ufs-cgsize-v2-20261118@qq.com>
-In-Reply-To: <20261117-absorbieren-geduscht-holzlatten-0552aac29cc8@brauner>
-References: <c5-ufs-cgsize-ubsan-20261031@qq.com>
- <20261117-absorbieren-geduscht-holzlatten-0552aac29cc8@brauner>
+	dkim=pass (2048-bit key) header.d=amacapital-net.20260707.gappssmtp.com header.i=@amacapital-net.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=EEvWGAFb
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-3acd239776cso1622771fa.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 09:42:40 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794937359; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Zzpy0bQgXI5uT2ELy+DCNHkzHU79lbKLPHw1QWCIbp5r79JJeqxh9KrlE0ikfoNjby
+         t99W5KJu0t2FoIiNfBg3jRMBl8CllWSKiSzdvtwy9+tiDleINwJdiavAcBF6UrZBuX09
+         3I96yNzJcoVlCKqUHCs5MdRHX64rSEdY9blMHBAPVU3kz6kPDrFtVJ6SUQl4CigjxVqf
+         hczbeSzztcMZH4YVfVvVcADvS1sK4aTPAQ02lp/7wUdwhrLN35wZqAU+HcuQzOx8p1bz
+         5wIYCfe9f2GuUDZfNtQBzhJmcG1RQ4KDETQLlftdI8Sco68yjXYGhSPsHYV3boI04Mqs
+         K2yQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=C0Br6uNbCeSZG/D0SaMC7uBQz4y4PQvjObMC5HHmvxw=;
+        fh=FppMR6JMyF1YXQa25y6IQk8nx7nob/FsJ1gbH6Zr6KI=;
+        b=fGP7Zi5WJtjjVadPHnQv8LyWcc2d4PKVd2erOh3EOgLjLK2trIdcJiUiBjUXdv7ZtT
+         ui+sJyTBzrFkLt8KM40SfdyM14PAwxSFmnD4aLqokoW5brOj5sRN8uaRZztxczL/43GV
+         DvwQ8cVCs3mrgbUgWY7ijOGqiO1cZE9XihXCoC7Sp8J2dZt+WtG63Xlr2ZhRzt5BIhWP
+         ZEU3WrjsIg7P8z9XiU5ytXGF/7JzauSsXmKW5FoR7MbEPSZEudPk2qOHfUAvEq3ZwV/O
+         GLDJRO5GK3NnhCJXQ0ulUmbVR4ot1KNuLGlifIjfXP58DT2Gg5Ni/UelFAybhAMU73Hn
+         xTlw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amacapital-net.20260707.gappssmtp.com; s=20260707; t=1794937359; x=1795542159; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=C0Br6uNbCeSZG/D0SaMC7uBQz4y4PQvjObMC5HHmvxw=;
+        b=EEvWGAFbOmPz0e1bruaOl0rjybH0s4KDHt1ZdsIprIDdOYSYYFkdgv0P5ZbqLm9wOt
+         QUKZ38KmXI7yBp+GV0/eyJrlR0x9jaOEr3Ii55nnjpnVrQIiwkaoActJokk0nmQSZd7G
+         61WKKrB70e3ufmKjp4oHO9TAABVl1efKkOpBvtOYK6RF6gVHy0E+rjZz0xIx57DanHDh
+         1TInlFBGPv/IJYMg1cTj312Sc7q2gHY8Ugtu6+Jpk/LKIOoiULHPpgJvsVB0ghEN1g8q
+         2dPQMdyQdgbZ8hjQrp+yJxxt3I0107KE+viwJ2hHYYVk4FGOG+dWGVAy9wgHIHfa0LWA
+         TeLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794937359; x=1795542159;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=C0Br6uNbCeSZG/D0SaMC7uBQz4y4PQvjObMC5HHmvxw=;
+        b=eYAIfr5w3YgBnECkVR4YAUnsTDFMabFPV/27uP/W7vcHzI1xNvJOfKnD8jleJpHNpQ
+         ZVDmqbgjumlAO14IwzxizEy6YaGCvFprW0+VvpIkMOAkBmshz3PyOwFPkW73z+37F9TS
+         zL1HDKjPjzQWqY7n3NGY7LmbaTXAuHZ4TRO0QrvG+CmXZ4vgUTmDSZn+GBEnFZmhluh6
+         lzVEUtOfYEBbid3Slp8N9ycUrIgv/kFqLT/IO/0YRSt8wKXDIdlpA03jPIS09ORJP2IQ
+         CTNt5xQxfqaypKLSbzfOJ/tLlXgvxazvDr0f6sCK2Tyfl5DXlpwe5yowZDFPyPqOgtJI
+         DCYw==
+X-Gm-Message-State: APuU4Z8scA6OV9GiN7qqaZBKTrBCrC0c2Wf+a5xg+Vf63itGRPX4PMhn
+	pqgBvARhMbu4ivh1z7GPwBU19pL3c0lMWPoEXa/5/836m3Q16uPdOvrKTEC3cm9SAo89R1CiAcY
+	vFaJPWbw7/M3f38Z20GwLRr91wjSDLoHYkx2H8mNK
+X-Gm-Gg: AYBFou0+RmfCRLh4zzJ9MTv9e9/5F+89HAv59Tetnl1xRj8dJSESuD/ucSU5OzrWlBJ
+	FtPIjWuzAxbJYzQognssCJQB1ZxoEjCyvOzwfLRTjjA0F4qiEQb6u2CrGd7tCCRZKaoqPLTto4p
+	Xwx9whs6XdpkuDIePq+Az8mXSlnSzdMRLIKSuSo0sO8pBMJdNY8xlWw3OPB4RadOdlJK/Rvo3hY
+	gHSZMDUcBvO/qRq3/rsgvbXPBY7gDqaaYrBa4VpGAmUCHJlvfVcjQ41Ruy8zjHuIrvCrHI0spiI
+	AZFZ1jdrYnjAb3kVe6tcYuO6iq5HxBtH2N28ZsMUEtSKrvi3im9H7RmhD++KQIeQYlzU4Gqz/Il
+	IuouNdz8tpkYhGR8fH3pPYLS0CjPHrLi6aw==
+X-Received: by 2002:ac2:4bc9:0:b0:5c1:4ccf:f0b8 with SMTP id
+ 2adb3069b0e04-5c170a0bb3cmr7252657e87.16.1794937358574; Tue, 17 Nov 2026
+ 09:42:38 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -79,59 +103,59 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20261117050841.3289652-1-jarkko@kernel.org> <20261117050841.3289652-8-jarkko@kernel.org>
+In-Reply-To: <20261117050841.3289652-8-jarkko@kernel.org>
+From: Andy Lutomirski <luto@amacapital.net>
+Date: Tue, 17 Nov 2026 09:42:26 -0800
+X-Gm-Features: Aa3M54o6AJsup2EB_D5C3UIkkriS8wK22wW9apyv8KKATx5_DoWBh2HrH9mfDyU
+Message-ID: <CALCETrWtbUFQGDOCHkxAN9O4i29ixfL5KKF1Cqw2-CjxKwC6gQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 07/13] rootns: Add rootns_enter() system call
+To: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	linux-security-module@vger.kernel.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Andrew Morton <akpm@linux-foundation.org>, 
+	Ben Segall <bsegall@google.com>, Christian Brauner <brauner@kernel.org>, 
+	David Hildenbrand <david@kernel.org>, David Howells <dhowells@redhat.com>, 
+	Davidlohr Bueso <dave@stgolabs.net>, Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+	Ingo Molnar <mingo@redhat.com>, Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>, 
+	Juri Lelli <juri.lelli@redhat.com>, Kees Cook <kees@kernel.org>, 
+	K Prateek Nayak <kprateek.nayak@amd.com>, "Liam R. Howlett" <liam@infradead.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Manfred Spraul <manfred@colorfullife.com>, Mel Gorman <mgorman@suse.de>, 
+	Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>, Neal Gompa <neal@gompa.dev>, 
+	Paul Moore <paul@paul-moore.com>, Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Serge Hallyn <sergeh@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Valentin Schneider <vschneid@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
+	Vlastimil Babka <vbabka@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Christian,
+On Mon, Nov 16, 2026 at 9:09=E2=80=AFPM Jarkko Sakkinen <jarkko@kernel.org>=
+ wrote:
+>
+> Multithreaded userspace daemons cannot call setns(CLONE_NEWUSER) or
+> safely mutate process-wide filesystem state in place before spawning a
+> child into a target namespace set.
+>
+> Add the rootns_enter() system call to fork a child process directly into
+> a rootns whose root mount has been installed. Transition the rootns from
+> ROOTNS_READY through ROOTNS_FORKING to ROOTNS_RUNNING for the first
+> process so it becomes PID 1, serialize concurrent entrants on waitq
+> until bootstrap resolves, and admit subsequent callers into the running
+> PID namespace until teardown begins.
+>
+> Require CAP_SYS_ADMIN in the target user namespace, forbid credential or
+> PR_SET_NO_NEW_PRIVS privilege escalation
 
-You were right -- the v1 diff was hand-written and did not apply. This
-v2 was generated with git format-patch from a tree I actually built the
-change in; both fs/qnx6/inode.c and fs/ufs/super.c compile cleanly and
-the patch applies with `git apply --check`.
+Why are you disallowing this if no_new_privs?
 
-Changes from v1:
-- real index lines, hunk headers and context from git diff
-- Fixes:/Signed-off-by: placed in the commit message above the diff
-- function signatures match the current tree (new mount API)
+This isn't necessarily a showstopper, but fork() is really quite slow
+in many cases.  It would be nice to have a more spawn-like API
+available.  I assume it's possible to open a file in the target's
+mountns by some sane API even without entering that mountns, as a side
+effect of how the fsopen / move_mount mechanism works.
 
-
-
----
-fs_cgsize is read from disk into uspi->s_cgsize without any check.
-Its only consumer derives a buffer count from it:
-
-	UCPI_UBH(ucpi)->count = uspi->s_cgsize >> sb->s_blocksize_bits;
-	...
-	for (i = 1; i < UCPI_UBH(ucpi)->count; i++)
-		UCPI_UBH(ucpi)->bh[i] = sb_bread(...);
-
-struct ufs_buffer_head.bh[] has UFS_MAXFRAG entries, so a crafted
-fs_cgsize whose block shift exceeds UFS_MAXFRAG writes past bh[]
-while loading a cylinder group.  Reject a cylinder group size that
-is zero, smaller than the fragment size, or whose block-shifted
-value would overflow bh[].
----
- fs/ufs/super.c | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/fs/ufs/super.c b/fs/ufs/super.c
-index 3569ac92b..6ae7f9cee 100644
---- a/fs/ufs/super.c
-+++ b/fs/ufs/super.c
-@@ -1140,6 +1140,13 @@ static int ufs_fill_super(struct super_block *sb, struct fs_context *fc)
- 
- 	uspi->s_cssize = fs32_to_cpu(sb, usb1->fs_cssize);
- 	uspi->s_cgsize = fs32_to_cpu(sb, usb1->fs_cgsize);
-+	if (!uspi->s_cgsize ||
-+	    uspi->s_cgsize < uspi->s_fsize ||
-+	    (uspi->s_cgsize >> sb->s_blocksize_bits) > UFS_MAXFRAG) {
-+		pr_err("UFS: invalid cylinder group size (%u)\n",
-+		       uspi->s_cgsize);
-+		goto failed;
-+	}
- 	uspi->s_ntrak = fs32_to_cpu(sb, usb1->fs_ntrak);
- 	uspi->s_nsect = fs32_to_cpu(sb, usb1->fs_nsect);
- 	uspi->s_spc = fs32_to_cpu(sb, usb1->fs_spc);
--- 
-2.53.0.windows.1
-
+--Andy
