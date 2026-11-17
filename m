@@ -1,55 +1,69 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794873808;
-	b=zQB/anRn4kk9E6bEhnnwjdDq25tftvijAaF8/RdNy039BHzegz+ovskQjtsA7Oa9ZXtS
-	 guups+NqEF632mY0/vPk/rRcKsCh7/AuTRXvkalPAPWVmpJlgLJ9jEXKnG6nOzd1K2etx
-	 84XX6JYCUQsD0Jv01F7qe8oKtJNbbu2L6LFMVaTrCH0h5BEXjlEmdj7ASGATZfyrKfPlq
-	 A07pO4s+k7HOeogx10OuBVF/dpLc59U50qd1fJnJct3G06KZ4Cv/WKR2s7w8IzlD4cK9D
-	 W8D8qHAYCcs4OLUOpAAJqr77o1yMmdETBO/8GQaHz2wQ5wCUQgz587GRmlSHbR6APbQ==
+	t=1794874514;
+	b=Lfubvcu+vbluRX7pEehev8Q+sglaDO48Bl09K7DGeHeXi3elz8AxpN0n78LPSqQ1xhkG
+	 +RlVnfmR4uho1g205X0IhtDueXiz63Xqq3jx7aNfdNQKaW1J+eg4oyrU1ewmtvhhbSSsk
+	 9rsVYWTcNiiNZjEKfflQIij+KFTxfImtBmkDa/CHfndUeYFrTGsQLj15yRaaU/04QmnXX
+	 UavcUA/lmmo2PIYq7DP4Q0rP9SP+gw8kJ7vVtkLtGRRDj6C+HPTHFI+OVnb0Fqkwg918Z
+	 wg2wLWbICtSkBtijrAwUeyNz4wDsO9fHv6IS/VyP5IZ/nDahYQp+08MBLuZtGkQ4V3Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794873808;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=3egGb1yTaR5T+abPV32Q7s/CnDfUohQ8vNkrtdSvGHo=;
-	b=2aq7ZSuI9+z3MYOYZ8IPeGWKZNjeIVkDEQbT8g1h11GIuJ8ir2YTLceTJXXCUqhRFjH6
-	 egiPCZtxGqNmlRGSdLmge3P7f0EZ6lNsWdcwkgwIljzD1Qy9nFZMa4N5dPtYqAZbrsPiQ
-	 6SLIlnk2W8eKZ5I+hji4Z3Auz+L+3rwSEql/GM5GGeI099fOdR5puQt8xU5zINvxCletY
-	 w8imrVwgY+VahXI3JqOJIueOCphvdTowlRzuZNNkUu4cukb9galnVr44LMSJx7fI6O+gB
-	 6Cpzhxl9Rl84qLNm/+X9zXuRBMhm8eHjVHlyncneVvMb9JMrOnNkCiIkeesQOTf7Gng==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794874514;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=0D2MCe7zbqRn24q/Va+D8USPT9eZ3KVgUg8Y5omzbWg=;
+	b=NiIODLwwLXqx+yLKDMragEki5/oeykFmkxSDUNaOAmeKXcukTwGE8WO6hvRDEqe6aoP2
+	 gULJt3vMbJrUnRsKYITeONJooJqJPGb9b0O1VeTqZEUq45Bl3UDO9rwlTL8HKaMJ8OpXt
+	 kLNEMDL24/a9PxeeSt8j2eg5IY3LKzW8kHyJfP4KoeJYCriQCJccqK+giOzp8joFaFBRC
+	 wMN16aBqBofYyAGU3As4dX40NlqjbEAwt6Hm0SxuAlw9tI9yJDNnmDDvfTljhsjDHqvS6
+	 qa3T7ouhOByhhc9wRUOxXSyjYkJMjPD+qjF4yVJoKIONqylK4u1vwXxv2NNNXb5Q5cQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nTKCwgOr;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cK3LxXUs;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED1C2606A31C;
-	Tue, 17 Nov 2026 00:03:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC680606A323;
+	Tue, 17 Nov 2026 00:15:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nTKCwgOr
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 868A51F000C4;
-	Tue, 17 Nov 2026 00:03:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cK3LxXUs
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA1141F000C4;
+	Tue, 17 Nov 2026 00:15:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794873807;
-	bh=3egGb1yTaR5T+abPV32Q7s/CnDfUohQ8vNkrtdSvGHo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=nTKCwgOri5yr35gUkLZJOeYS0lDuEz47J9rdQffNOcKKD9U0uX5msK39KmJ6qR4f0
-	 uRB5nrlHpVACol+go4U9wXOPJ3eqr4cJ2QJSbw8pRqMDAjcBaSkBCq1Hs07k/bGqKg
-	 6sZegWVv87dieb74Gld+5AxMurth1ozJ9+AxnyQP4W1+0gKTVb/Y7VjFhCf/TsJ1nu
-	 /pMMmZQNLLokKS8Ko29FyFTBAa/sqjHtzRtGW2wWOyvqfya7Brz58YI1Nj33gC9BM9
-	 k2hsKi1dZwqs6NDrur6O2To92/UyxKw8ttMr+2RPAGf/yM5J9oCP2lcHI9K3hJxTiT
-	 OImOM2fLybbqA==
-Date: Tue, 17 Nov 2026 01:03:21 +0100
-From: Alejandro Colomar <alx+linux-man@kernel.org>
-To: Daniel Tang <danielzgtg.opensource@gmail.com>
-Cc: linux-man@vger.kernel.org, 
-	Christian Brauner <christian.brauner@ubuntu.com>, Alejandro Colomar <alx.manpages@gmail.com>, 
-	Michael Kerrisk <mtk.manpages@gmail.com>, Aleksa Sarai <cyphar@cyphar.com>, 
-	Christoph Hellwig <hch@infradead.org>, linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
-	Al Viro <viro@zeniv.linux.org.uk>
-Subject: Re: [PATCH] mount_setattr.2: Fix nonexistent perf_setattr
-Message-ID: <avuYP6-OQJMhLqCn@devuan>
-References: <6099049.DvuYhMxLoT@daniel-desktop3>
+	s=k20260515; t=1794874514;
+	bh=0D2MCe7zbqRn24q/Va+D8USPT9eZ3KVgUg8Y5omzbWg=;
+	h=From:To:Cc:Subject:Date;
+	b=cK3LxXUsleJD7UBp2N4WCjKhXGxU1c8KtyZTGyxyZjYwGbrzGs/t5pdNg5zoWCeOs
+	 q6ebHIddVmF479r4EWhiCJ9iEH6RBh6QslJslrci7lqvpAOQiC/r9VORnOuTuXNLeq
+	 rIudgd7WjXOmwNj3L9Z6ViAEUPuiGVqNueYguE4iT5LYOLsox8tgUSz/6uu5lUplru
+	 Hp24ughTcE199IUBXEDjrTjq9GOU9Q2lvIMQG+MCTOnjVdBH4Dc8UAYjqOKkaaSvge
+	 HVDldEOFIPfvoVvV0oZutL0L0GCXZl2oVuSqzErbIdnNITL7wZYDoKNZ47r6FBYlJr
+	 2Up/orXJdvLWA==
+From: Danilo Krummrich <dakr@kernel.org>
+To: boqun@kernel.org,
+	gary@garyguo.net,
+	aliceryhl@google.com,
+	lyude@redhat.com,
+	daniel.almeida@collabora.com,
+	work@onurozkan.dev,
+	ojeda@kernel.org,
+	bjorn3_gh@protonmail.com,
+	lossin@kernel.org,
+	a.hindborg@kernel.org,
+	tmgross@umich.edu,
+	dakr@kernel.org,
+	tamird@kernel.org,
+	acourbot@nvidia.com,
+	viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	jack@suse.cz
+Cc: linux-kernel@vger.kernel.org,
+	rust-for-linux@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: [PATCH v3 0/5] rust: sync: add WaitQueue infrastructure
+Date: Tue, 17 Nov 2026 01:14:41 +0100
+Message-ID: <20261117001507.1611984-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.56.1
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -59,101 +73,57 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="dnzxl4algc3lluj6"
-Content-Disposition: inline
-In-Reply-To: <6099049.DvuYhMxLoT@daniel-desktop3>
+Content-Transfer-Encoding: 8bit
+
+Add a WaitQueue abstraction wrapping struct wait_queue_head, providing
+wait_event()-style methods that take a condition closure directly.
+
+This is needed for a (subsequent) DRM patch series to wait for in-flight file
+close operations during driver unbind. The Tyr driver also needs it for "CSF
+firmware responses and other GPU-driven events" [1].
+
+Convert CondVar (and PollCondVar) to use WaitQueue internally, removing
+duplicate code using WaitQueue as the base primitive and add
+wait_interruptible_freezable_nonexclusive() for subsequent binder usage.
+
+This series is based on FUJITA Tomonori's CondVar timeout conversion [2].
+
+Changes in v3:
+- Use Delta<Jiffy> for timeouts and treat negative durations as zero.
+- Add might_sleep() and caller tracking to the wait_event() methods.
+- Gate the WaitQueue KUnit tests behind a dedicated Kconfig option.
+
+Changes in v2:
+- Drop the already merged workqueue patch.
+- Make as_raw() public.
+- Split error types and use bindings constants for direct C calls.
+- Avoid condition rechecks after success.
+- Check the condition before preparing a waiter.
+- Add non-exclusive wait support, including a CondVar method for subsequent
+  Binder conversion.
+- Handle zero and expired timeouts before interruption; extend KUnit coverage.
+
+[1] https://lore.kernel.org/dri-devel/20260721151423.444175-2-laura.nao@collabora.com/
+[2] https://lore.kernel.org/rust-for-linux/20261104235929.1282640-1-tomo@flapping.org/
+
+Danilo Krummrich (5):
+  rust: task: add safe schedule_timeout() wrapper
+  rust: sync: add WaitQueue infrastructure
+  rust: sync: convert CondVar and PollCondVar to use WaitQueue
+  rust: sync: condvar: use task::schedule_timeout()
+  rust: sync: condvar: add non-exclusive freezable waiting
+
+ rust/kernel/Kconfig.test    |  10 +
+ rust/kernel/sync.rs         |   8 +
+ rust/kernel/sync/condvar.rs | 154 +++++-----
+ rust/kernel/sync/poll.rs    |  19 +-
+ rust/kernel/sync/wait.rs    | 546 ++++++++++++++++++++++++++++++++++++
+ rust/kernel/task.rs         |  23 ++
+ 6 files changed, 664 insertions(+), 96 deletions(-)
+ create mode 100644 rust/kernel/sync/wait.rs
 
 
---dnzxl4algc3lluj6
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx+linux-man@kernel.org>
-To: Daniel Tang <danielzgtg.opensource@gmail.com>
-Cc: linux-man@vger.kernel.org, 
-	Christian Brauner <christian.brauner@ubuntu.com>, Alejandro Colomar <alx.manpages@gmail.com>, 
-	Michael Kerrisk <mtk.manpages@gmail.com>, Aleksa Sarai <cyphar@cyphar.com>, 
-	Christoph Hellwig <hch@infradead.org>, linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
-	Al Viro <viro@zeniv.linux.org.uk>
-Subject: Re: [PATCH] mount_setattr.2: Fix nonexistent perf_setattr
-Message-ID: <avuYP6-OQJMhLqCn@devuan>
-References: <6099049.DvuYhMxLoT@daniel-desktop3>
-MIME-Version: 1.0
-In-Reply-To: <6099049.DvuYhMxLoT@daniel-desktop3>
+base-commit: 60fff02883397e17439c16f0e72b2f8c5f6eb791
+-- 
+2.56.1
 
-Hi Daniel,
-
-> Date: 2026-11-15 22:33:16-0500
-> From: Daniel Tang <danielzgtg.opensource@gmail.com>
->
-> The problematic reference had been copied from openat2.2, where it was
-> fixed in bbed82c0693a ("openat2.2: tfix: fix minor reference typo"). I
-> performed the same fix for mount_setattr.2.
->=20
-> Fixes: f3a5ba3f0151 ("mount_setattr.2: New manual page documenting the mo=
-unt_setattr() system call")
-> Link: https://lore.kernel.org/linux-man/20200929223509.11783-2-cyphar@cyp=
-har.com/
-> Link: https://lore.kernel.org/linux-man/20191003145542.17490-1-cyphar@cyp=
-har.com/
-> Link: https://lore.kernel.org/linux-man/20210730094121.3252024-1-brauner@=
-kernel.org/
-> Signed-off-by: Daniel Tang <danielzgtg.opensource@gmail.com>
-> ---
->  man2/mount_setattr.2 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-
-You seem to have a very old copy of the git repository.
-See dcde2f70372b (2024-05-02; "man/, share/mk/: Move man*/ to man/").
-Would you mind rebasing the patch?
-
-
-Have a lovely night!
-Alex
-
->=20
-> diff --git a/man2/mount_setattr.2 b/man2/mount_setattr.2
-> index 77233f589..5f26119cc 100644
-> --- a/man2/mount_setattr.2
-> +++ b/man2/mount_setattr.2
-> @@ -786,7 +786,7 @@ acting as an implicit version number.
->  (Because new extension fields will always
->  be appended, the structure size will always increase.)
->  This extensibility design is very similar to other system calls such as
-> -.BR perf_setattr (2),
-> +.BR sched_setattr (2),
->  .BR perf_event_open (2),
->  .BR clone3 (2)
->  and
-> --=20
-> 2.53.0
->=20
->=20
->=20
->=20
-
---=20
-<https://www.alejandro-colomar.es>
-
---dnzxl4algc3lluj6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmr7mckACgkQ64mZXMKQ
-wql7Pw/+NkxZ7e2iZ0zwBns03B9wjAQTuzX9lVqVTjhT1JdpvxQf5nToT4TjTtMQ
-vxLcSj6nX7uBrlJplAWKEkEaJ5YbtkRtuyt6ZgOdLuNuugn6wxCo+HhhyVN5wCBl
-QgssIWMvDLRgNTtC7PJJN0amyEC5RQOqQvdJtKDnezpW3AcDFCtnp+4is+aqdWX9
-rQDpJbOqv+kYlJ1j4gEf+eWfKHsAyyS36wVHlMecdkXBBJIo013RATt9efDpAJE+
-h4VZcNu/8dSRrtoVQsMczUV1W7rkPnGPWv2xAJE0QgdF/vxHe2pRWWNw7/W5c8A+
-MejT7SAub95XhCYdLBJgPawGgtKkwJzBsCwXE3Qd/Dq0Myn3NCC3HSQGmAyCMc2P
-wHfotSwJunYx+ZA5gVW0zmVLQKyWL0VBNO1xPROh1s7ZT97LVlKI6mjAP9QHknG7
-vXzpFWA95v1aXprcVBES2trHIiAmm95QGmPpVqa5cElcvDXRV/QC8jVaIFbEAtP6
-uKGvYtI9aFDVe2eTXl09e1wuOZqUa4Nf0jVmK7EzU/r5c50zBa7HltGgnFZW+R/2
-oyXUDnpEReYctXqvXu7czCwmKkwEYWbjthYiWk2RzWa3j9TzwOxyH03DVQJLV0c8
-ClcFWY/WNAE/ysS4w/8u0eAOkhXWPZ240uoztRU9q1uCIAPK6Fw=
-=3p8L
------END PGP SIGNATURE-----
-
---dnzxl4algc3lluj6--
