@@ -1,60 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=109.224.244.119
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794927855;
-	b=TXlFYuqL3V/8fDSmoAKBHuyBalWOIPHxyIAAEzV1KVRgiZz6Xlimzi8L/rz2jiJrEB3h
-	 IdXN1237dj4c2dvsqaNk5REx36ifKVtEWfMtNMrsb8xX8IQEgEcpEZr9pKZsHbx7JNei4
-	 TxAN8kLoEWu/VcJ435SZVpumACEo7rn8MHnex7wNprV47vOE4vnlLISTXeryUCk9zndsx
-	 jTs5FBOVWhneFvIN4NBSWh2/O1dREImItHFiqVneOx+fgVrMWWE7QhhI1nInxpRPliNvM
-	 DzJyilek27i3b6U9Dad7DMFzQBEiVF5RO5xOSTbifU+WilYcEl0B3YAwWMkZ8+V2W6w==
+	t=1794928270;
+	b=oSaVUfYbYxs1tLaPwBccYa7mUprZVzTSrCjQVfX27UVy6a2ss+Mo/ZYmVbEolDwq490F
+	 Q11/gwBau69NeLf0VRhcI8DK0DPS+TOEsyGF/p2A/415FjbnEZZaKIbZNKIy3jjQaCa/f
+	 2KK8xNqTw9m2Z8NG7iSWvdIB7WW87apHDhU3sE0JvoepVxMIvSUwjRI0U/vtx7/dI849R
+	 qTn6xMFpiVXQaqNzOAvrTQ8VcEsT7k4MqPCMzNg5OK+NLDgACIdxCiP6czk1FTiWFPSCo
+	 5GxZD1SglpRsqqdHHYpxl6lF6VbaMMkfojP9B8unvOCVQ8QDcN1MLNzP7/DtUAsQtyQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794927855;
-	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
-	 In-Reply-To:References:Feedback-ID:X-Pm-Message-ID:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=pzx1xyaW4sUUsdz2pDb9Y+wGAMP4JHlewv5IqeGTNg8=;
-	b=qHUwtPnS4DpuJpNTxad9MIUoqq/07zXduLmPtlW3fWkAe8VHoWs8Senmsej9/ps6EsI2
-	 ynjy/RCGa7za3g6Pu9bLQ7OEKHufVpUD9BAsFyJt/gXt0et6pkwO4JNOeao7tNzmIvdgE
-	 l5PMwrh+wWxSQ2O7ImrleGjIIEJGDPqEOLCOhctnd3op+3zRU8OZL4UPgg/bVg4xQtdbh
-	 oLRq5J3URoeABRC/0xsl20OlBGCmE2KFvm8W7rIJymFbxkW6xD6PTtRTk2jjnBuREwb0X
-	 c4lI2ymyk8A6YcSJoC4HUdgBY0TK094gD4lHkig9hEB304oTmnL6L57Cb4k00L5tYYw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794928270;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:From:
+	 Subject:To:Cc:References:Content-Language:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=HArLExOPkNyBYfmrLg8Y0BuhPejqIaFeng7leCdluOU=;
+	b=kPGRmNgHr3JQdZwOyvByu4inBhu7tEJ5GwOu5Ji5pyR98q3HWXbSOwpArH61u2GHtwTk
+	 G2zRYs6zYV++LoNvmQmE+lx3RME+nU/GSsk7E4/aCYlx+UjgwmqK9xTyBGbZJ3jZXFovH
+	 MgQMC8HF+HQNqrj+eBS85NMmkPqhRgPvuaQZYUioG1YXAtAYgzNX5HoBlqni/tSFpFKvo
+	 bYzQHxG4t5qZkJ/5u4S36XV+fXfAvfowcnkCV634t3FgK8yzEcwP2Vdgp45KxLuTCCNon
+	 zrG0Dn9HVt/KbX54hesMK1ADXJuIcL0mUEFdJDkSzV02QMRxpNo+NDYv5riQtcXYwSA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=logarcheon.com;
-	spf=pass smtp.mailfrom=logarcheon.com;
-	dkim=pass header.d=logarcheon.com header.i=@logarcheon.com header.a=rsa-sha256 header.s=protonmail3 header.b=aPCppup2;
-	arc=none smtp.remote-ip=109.224.244.119
-Received: from mail-244119.protonmail.ch (mail-244119.protonmail.ch [109.224.244.119])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=P0VaXLgh;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EEB1606A32A
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 15:04:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6EEB1606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=logarcheon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=logarcheon.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 549E8606A31C
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 15:11:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=logarcheon.com header.i=@logarcheon.com header.a=rsa-sha256 header.s=protonmail3 header.b=aPCppup2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=logarcheon.com;
-	s=protonmail3; t=1794927852; x=1795187052;
-	bh=pzx1xyaW4sUUsdz2pDb9Y+wGAMP4JHlewv5IqeGTNg8=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=aPCppup2m+QXQC1pRIA5uYyoA9PaPgEM2u/Bljce4E2ZYSeBeHCgq8m6Y+kFY18mG
-	 sUfxGxJrXdy0p2cIg3RZy5cwWFzxxJLIXpkeM13BW3m1KFRDxsI9hSMtYLa4XGSf9d
-	 //uXe2xrNoswYBV/yz6eRw9ny0+l9ZpMBGkjcBPwCp5/oXCYuyZ3g+8THXJfGyYz/j
-	 FDHu+nAesaXvctQMMc4jgTiZxE3DUDPUDTp5SWCOGwOXywaxX6Z5IBsnnBEfsEc7Ig
-	 UwVHAOGkJuWKDZMII5+DX+3GmNpC11JsLDlb9JYkfstu2PtQRz26fHLR3RbdNC4jg7
-	 J5R/SBbh4ndRA==
-Date: Tue, 17 Nov 2026 15:04:06 +0000
-To: Breno Leitao <leitao@debian.org>
-From: William Chuang <founder@logarcheon.com>
-Cc: Andreas Hindborg <a.hindborg@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, syzbot+c75a7db5ca6ae96ed2d4@syzkaller.appspotmail.com, syzkaller-bugs@googlegroups.com
-Subject: Re: [PATCH] configfs: give the root directory inode its own lockdep class
-Message-ID: <20261117150358.8149-1-founder@logarcheon.com>
-In-Reply-To: <20261117065314.4309-1-founder@logarcheon.com>
-References: <20261117065314.4309-1-founder@logarcheon.com>
-Feedback-ID: 145408520:user:proton
-X-Pm-Message-ID: 4a35432a783bbfda2261fff32445b853f8b7451a
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=P0VaXLgh
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 176271F000C7;
+	Tue, 17 Nov 2026 15:11:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794928270;
+	bh=HArLExOPkNyBYfmrLg8Y0BuhPejqIaFeng7leCdluOU=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To;
+	b=P0VaXLghcsMkwQaIOkwnz/GtT6w9pB0/ADDe33yVXJthJhDmoDsT/W7FdlRHHa71s
+	 t4g8eOpbVtynxk6GPeqicBefe5+x5HMU4peush2zh3L4GMw+l+F/6+raC2xW4IL/7C
+	 g8Mf1fhSDH9l+bhvlcwpSWvIy5rXb3rlJpIfdnflcjCVlj0z7Y+IhLW6+wI5dnu6V2
+	 d7IbH9m5uMIDtKJ8uzoLNHAqjvHmSopGMyRWYp/UFvVov0gStSu47vl5ny3bAE3eO8
+	 z0ZZcZMzkaLk9yCSb772Pw6AEKGktSa8plrQpVB1MqTJJXWzIrXDu57y2Kbr9jRMa7
+	 UVpzn06A10tiA==
+Message-ID: <14e28b99-12dc-4000-a704-8b46cfeb3c0f@kernel.org>
+Date: Tue, 17 Nov 2026 16:11:00 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -64,53 +51,165 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+From: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
+Subject: Re: [PATCH v3 04/10] powerpc: kvm: allow flexible PAGE_OFFSET
+To: Arnd Bergmann <arnd@arndb.de>, Arnd Bergmann <arnd@kernel.org>,
+ linux-mm@kvack.org, Crystal Wood <oss@buserror.net>
+Cc: Andreas Larsson <andreas@gaisler.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ "David Hildenbrand (Red Hat)" <david@kernel.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+ Jason Gunthorpe <jgg@nvidia.com>, Linus Walleij <linusw@kernel.org>,
+ Lorenzo Stoakes <ljs@kernel.org>, Lucas Stach <l.stach@pengutronix.de>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Malin Jonsson <malin.jonsson@est.tech>, Matthew Wilcox
+ <willy@infradead.org>, Michael Ellerman <mpe@ellerman.id.au>,
+ Michal Simek <monstr@monstr.eu>, Mike Rapoport <rppt@kernel.org>,
+ Nicholas Piggin <npiggin@gmail.com>, Nishanth Menon <nm@ti.com>,
+ Richard Weinberger <richard@nod.at>, Russell King <linux@armlinux.org.uk>,
+ Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, x86@kernel.org
+References: <20261116124832.662455-1-arnd@kernel.org>
+ <20261116124832.662455-5-arnd@kernel.org>
+ <afebfaf5-f3ee-4234-875d-e5ebf1ee64fd@kernel.org>
+ <83495d02-4e09-40f0-94fe-e57a1e73d1a3@app.fastmail.com>
+Content-Language: fr-FR
+In-Reply-To: <83495d02-4e09-40f0-94fe-e57a1e73d1a3@app.fastmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, Nov 17, 2026, Sashiko AI review wrote:
-> Does assigning a separate lockdep class to the configfs root inode's
-> i_rwsem hide a real ABBA deadlock between renameat2() and mkdir()?
 
-Yes, and the deadlock is real.  Please drop this patch.
 
-My analysis missed rename(): lock_rename() locks both parent
-directories before vfs_rename() finds that configfs has no ->rename(),
-and when one parent is the configfs root, the root is locked first.
-mkdir() of target/usb_gadget/naa.<wwn>/tpgt_1 runs with the naa.<wwn>
-directory locked by the VFS, and usbg_make_tpg() then locks the root in
-configfs_depend_item_unlocked().  The two orders are opposite.
+Le 16/11/2026 à 23:54, Arnd Bergmann a écrit :
+> On Mon, Nov 16, 2026, at 14:38, Christophe Leroy (CS GROUP) wrote:
+>> Le 16/11/2026 à 13:48, Arnd Bergmann a écrit :
+>>> diff --git a/arch/powerpc/kvm/book3s_32_sr.S b/arch/powerpc/kvm/book3s_32_sr.S
+>>> index 6cfcd20d4668..0d8a7857f2bd 100644
+>>> --- a/arch/powerpc/kvm/book3s_32_sr.S
+>>> +++ b/arch/powerpc/kvm/book3s_32_sr.S
+>>> @@ -113,8 +113,8 @@
+>>>    
+>>>            li      r0, 4
+>>>            mtctr   r0
+>>> -	LOAD_REG_IMMEDIATE(r3, 0x20000000 | (0x111 * 0xc))
+>>> -        lis     r4, 0xc000
+>>> +	LOAD_REG_IMMEDIATE(r3, 0x20000000 | (0x111 * (PAGE_OFFSET >> 28)))
+>>> +        lis     r4, (PAGE_OFFSET >> 16)
+>>
+>> This is not enough I think. You need to load ctr with the number of
+>> segments you want to populate. Here above it is hardcoded to 4.
+> 
+> Ok, trying this one now
+> 
+> --- a/arch/powerpc/kvm/book3s_32_sr.S
+> +++ b/arch/powerpc/kvm/book3s_32_sr.S
+> @@ -107,14 +107,12 @@
+>          KVM_LOAD_BAT(2, r9, r10, r11)
+>          KVM_LOAD_BAT(3, r9, r10, r11)
+>   
+> -       /* Restore Segment Registers */
+> -
+> -       /* 0xc - 0xf */
+> -
+> -        li      r0, 4
+> +       /* Restore Segment Registers, assumes PAGE_OFFSET is segment aligned */
+> +        li      r0, (0x100000000 - PAGE_OFFSET) >> 28
 
-Reproduced on mainline 666539eec without this patch, in QEMU (x86_64,
-2 CPUs): one process loops mkdir/rmdir of tpgt_1, another loops
+Fine, thank should work allthough I would have used 0x10 - (PAGE_OFFSET 
+ >> 28)
 
-  rename("/sys/kernel/config/nonexistent",
-         "/sys/kernel/config/target/usb_gadget/naa.<wwn>/nonexistent")
+>           mtctr   r0
+> -       LOAD_REG_IMMEDIATE(r3, 0x20000000 | (0x111 * 0xc))
+> -        lis     r4, 0xc000
+> +       LOAD_REG_IMMEDIATE(r3, 0x20000000 | (0x111 * (PAGE_OFFSET >> 28)))
 
-Both hang within about a second.  sysrq-w shows:
+Maybe an opportunity to replace 0x20000000 by SR_KP
 
-  mkdir:  down_write
-          configfs_depend_item_unlocked
-          usbg_make_tpg
-          target_fabric_make_tpg
-          configfs_mkdir
-          vfs_mkdir
+> +
+> +        lis     r4, PAGE_OFFSET@h
+>   3:      mtsrin  r3, r4
+>           addi    r3, r3, 0x111     /* increment VSID */
+>           addis   r4, r4, 0x1000    /* address of next segment */
+> 
+>>>    	/* Restore host IVPR before re-enabling interrupts. We cheat and know
+>>> -	 * that Linux IVPR is always 0xc0000000. */
+>>> -	lis	r3, 0xc000
+>>> +	 * that Linux IVPR is always PAGE_OFFSET. */
+>>> +	lis	r3, PAGE_OFFSET >> 16
+>>
+>> Maybe use PAGE_OFFSET@h instead of PAGE_OFFSET >> 16.
+>>
+>>>    	mtspr	SPRN_IVPR, r3
+>>
+>> That's probably valid but wouldn't it be more correct to use
+>> interrupt_base@h as in head_44x.S and head_85xx.S :
+>>
+>> 	lis	r4,interrupt_base@h	/* IVPR only uses the high 16-bits */
+>> 	mtspr	SPRN_IVPR,r4
+> 
+> Ok, copying that version now:
+> 
+> --- a/arch/powerpc/kvm/booke_interrupts.S
+> +++ b/arch/powerpc/kvm/booke_interrupts.S
+> @@ -229,9 +229,8 @@ _GLOBAL(kvmppc_resume_host)
+>          mtspr   SPRN_PID1, r3
+>   #endif
+>   
+> -       /* Restore host IVPR before re-enabling interrupts. We cheat and know
+> -        * that Linux IVPR is always PAGE_OFFSET. */
+> -       lis     r3, PAGE_OFFSET >> 16
+> +       /* Restore host IVPR before re-enabling interrupts. */
+> +       lis     r3, interrupt_base@h    /* IVPR only uses the high 16-bits */
+>          mtspr   SPRN_IVPR, r3
+>   
+>          /* Switch to kernel stack and jump to handler. */
+> 
+>>> @@ -115,7 +115,8 @@ static u32 get_host_mas0(unsigned long eaddr)
+>>>    	mtspr(SPRN_MAS6, 0);
+>>>    	mas4 = mfspr(SPRN_MAS4);
+>>>    	mtspr(SPRN_MAS4, mas4 & ~MAS4_TLBSEL_MASK);
+>>> -	asm volatile("tlbsx 0, %0" : : "b" (eaddr & ~CONFIG_PAGE_OFFSET));
+>>> +	asm volatile("tlbsx 0, %0" :
+>>> +		: "b" (eaddr & (rounddown_pow_of_two(PAGE_OFFSET)-1)));
+>>
+>> I think this is not valid.
+>>
+>> With PAGE_OFFSET equal to 0xc0000000,
+>>
+>> Before:
+>>
+>> eaddr & 0x3fffffff
+>>
+>> Now:
+>>
+>> eaddr & (0x80000000 - 1) = eaddr & 0x7fffffff
+> 
+> I'm probably still misunderstanding the intention of this code then,
+> my reading of the comment was that both 0x3fffffff and 0x7fffffff
+> would be valid choices here as both are below PAGE_OFFSET and
+> large enough to alias the correct set.
+> 
+> What are the actual requirements for the mask?
 
-  rename: down_write_nested
-          lock_two_directories
-          __start_renaming
-          filename_renameat2
+I'm also struggling to understand this so I might be wrong. My 
+understanding at the moment is that here we are looking for the physical 
+address matching that effective addr in order to find the 1:1 MMU 
+mapping. The particularity of booke is that you cannot turn off the MMU, 
+so to simulate MMU off you have to have a MMU translation to translate 
+logical address 0 to physical address 0.
 
-A third process doing readdir() of the configfs root then blocks in
-configfs_dir_open().  I ran the test as root; I have not checked how
-much privilege the rename() side needs.
+Therefore IIUC the correct calculation should be (eaddr - PAGE_OFFSET)
 
-So the root lock that configfs_depend_item_unlocked() takes for a
-target in another subsystem, when called from a ->make_group()
-callback, can deadlock against rename() whatever the su_mutex chain in
-the syzbot report.  I don't have a fix to propose yet.  Is the root
-lock there only to keep the target subsystem from being unregistered
-during the dependency, or does it protect more than that?
+I guess we need some feedback from Scott Cristal Wood, but I have not 
+seen this person recently on the lists.
 
-Thanks,
-William
+> 
+> Thanks for looking at these bits in detail, I'm quite out of my
+> comfort zone here, especially with the book-e stuff.
+> 
+>          Arnd
 
+
+Christophe
