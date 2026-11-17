@@ -1,100 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=209.85.167.47
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
-	t=1794937054;
-	b=lX8h7DIcpxp7zZAedu6dZJSUWwFZQyaQxpws+fOyTxP6bI2YTgRjNgerPRW5vu4LSQ3Y
-	 BD0MqgaSh/bLzY3BeBJBnTR23NO/VqEd4QC3nEAvahEAbH12fW9pcnY1VLP9dYqvUNEci
-	 OvW1bWZiId6dMmZCp91v/CH3VvHWGa3J36XcYR/G68NBzQYlrcm4aHGAqZa9cBW9Xct/5
-	 Dxd8gVLey2sYBQxe3NHOVhRcRydbk0HWQACu+D4NsVqcoatGCfqd+NtLAXnTrATFzXdbn
-	 R1pHnqSVXzV5xnK9BnBzu89UNaP5i18FLRynuMx6dpPpsioUfCDoU0enJHVFrr7NH8A==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794937054;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=uIwpU1G0S/NqSFaGi3+jp2QeKv8+tYQDPWGubJQpaow=;
-	b=WzIsSZr0zMN/vVcv117EtrssPbUFLDHygpOY00JjtptqGRRjITLf8oJe1LFqpvEdowvA
-	 snBhg7RwG8HXE2jQFRgs+6SnTr1IkhyHTXz4yZXiXkz7ptiuQrYFCTEGx+LYaxgldVqsY
-	 oRq2cP3Kly9Gtn18kvChecqPyPy9mGyDsFQufac6I0e42YhaRBPDAGoejBBZt+MpTcQ0j
-	 WcRFugBitqFlQgiNGBfoSek0g+26jvZt7jTqDnq2wdswBy7U27VfQQxp6j49ZBN4V3en8
-	 pn8HoxQ+uqQpFs4mHoACJCS0vi67y68U0ue9FxxKhYUocrXZCYEWmeJA1248nK87Wnw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=none header.from=amacapital.net;
-	spf=pass smtp.mailfrom=amacapital.net;
-	dkim=pass header.d=amacapital-net.20260707.gappssmtp.com header.i=@amacapital-net.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=Q65pbW00;
-	arc=fail smtp.remote-ip=209.85.167.47
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.205.221.205
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794937142;
+	b=gfgMYldFsg0bcElLFAz4QM7wszAfK6VFFAi8JoC9lt+P+B69n60AhjgfCiw4RS8lbwmv
+	 blG19Yl+/F8AxpECQxig1M/V1pjMQt8wRqidNgQKILJxqruBTgN2Hhik0kTV7AAyHzLDm
+	 A50MvrmiSo3wxTBDeIoYtuLpMuuI5HKLzEA0tD+oYDGOXxuy+f7KHl6+kbPIEXy68sx8j
+	 nlJFshgVEpomOyCYXIJhrvrAM1X1FpNxFr/sU9Q5JoNOfJmgkDM39N7ZkntYtjuZD5MDs
+	 mMx8KjjnMz+pCWCm8t6c/i0H9M2lM5PdTHE1/FilvMbz6jppZczKqE6POiqOzz19kUQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794937142;
+	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
+	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:Date:X-OQ-MSGID:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=r4Gwx2fPtf078oRE/xnMSrJHc96t9lMNVuFVBI5quw8=;
+	b=tKMvavkq5Tp7Eayv2XzcY+dfVUdEkmpcqqCMp2bvmUxY5Z7PeW2Pu0ZxQDPW77oZuT0M
+	 ROyofS6axMf2pSd4MwgUbab2atpSTKhbtocd412za0IvUQvQHK88cWxze5i3qjaEuLXHl
+	 Wq+DjuGKW7W65XcOI2gBQWwhk/ovMjVTO9YjPtxYZNx1+yfWMtOPPaJvPVYmjoDB/9x2J
+	 Icxt079RAYeSopAJth7HBrbkhP9snufVeTIz5KVKXbKhMCsbMIN5I+b8D0cBO8diztYQw
+	 GPwrxj3Ee+oa4NEcudgUHJP7cfgYs4/TdouxYNthaT2jaey05br9fekU0OEOMqVAxeA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=qq.com;
+	spf=pass smtp.mailfrom=qq.com;
+	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=poFOFwvQ;
+	arc=none smtp.remote-ip=203.205.221.205
+Received: from out203-205-221-205.mail.qq.com (out203-205-221-205.mail.qq.com [203.205.221.205])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0737B606A33D
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 17:37:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0737B606A33D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1089606A31C;
+	Tue, 17 Nov 2026 17:38:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D1089606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amacapital-net.20260707.gappssmtp.com header.i=@amacapital-net.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=Q65pbW00
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5c1a947b4adso21408e87.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 09:37:33 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794937052; cv=none;
-        d=google.com; s=arc-20260327;
-        b=riCBd7169RanX5c7bdgmCNlR5/HfQNHt92lHxzwBJ64nONjnl4vTpJnkCeg5ozQv+C
-         2YK+o3BbCSLIxpa9MA2LFajqrCG5w8P84V2DL0qJc1N9GwTlHaVbWUPPIQ7NB5n7Ctd8
-         Ut3LpYy2+UrYQdn3kXEg0FBLvA5thv2jTNTdtBZ+p9rJCfCrypqs5HL6bfZ87uw357Io
-         Asz7jcXk34xZokEApGdDrkjwSclGX9n3nqyLal4pdJ2F1w0tQ0ET1VYesYCBC3P0+H/2
-         eXDWRKTtTHwPzomoKfdAkhYEJfNCFVdvaTA6RpRngHcgIvYpkgAQ3gI5C46sDvYlktz4
-         M7Gg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=uIwpU1G0S/NqSFaGi3+jp2QeKv8+tYQDPWGubJQpaow=;
-        fh=OFSpaNxpXHbHymTVaM7yac09NV6gqT1tEMf1K6iEPnw=;
-        b=BwVRWh3Dz+sBwYnq2YIb9viSspxhCxHvrSzwBUHeYxLop476Ry2J3v6vABLsqH/FyR
-         Lld2qdJSWwdacf0Li44cRBBe1ISjJBxsVWvDteg4bB0Y/yNPizVE+S19wyPq9dYLEAeP
-         mf59L+yIyT7RA28WJm3lKguJFweDNa1F337DLRwiAfXry4Ds0D6iB66QhvaSV6vCIT6+
-         z0hE3nRgcdU3XRpczYMa40QnflBLaCbT1GQjQ7lYkz44VSDJzBr4Lr4BMJqBDRXKt/Q1
-         87vLfBW0Lu2+De6tOuO+CfQR3oro7NVwlqWFp+j56B1aIMC/bmnYs6J7/dMwOmopXt1Y
-         aQ6w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20260707.gappssmtp.com; s=20260707; t=1794937052; x=1795541852; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=uIwpU1G0S/NqSFaGi3+jp2QeKv8+tYQDPWGubJQpaow=;
-        b=Q65pbW00pHc4gs6KcBvnyKXSyUuTE4JfrmIT6BLnsFPSBfFMXAqtD61+KCEATl4Uhe
-         n1QoXCH9dZOtNmk7yDN7n+6kAjyfy8retEs+PZ6tfSfdQGIq9FUnZOktOKjwHqdFA0U/
-         pU31o5bmeIj0QOEtlAvK+w2pCq3zPPO59ZQ8IX/g2NKs8AnP1pj6ieY5w4Z5OpyXvMt0
-         qmrbgQus2dFV9Uy9SklULFVeaEYqFINed7N4faw6lHIE7N3emkZr72FzTVpCWSyv0FUJ
-         lk7F07Ec5pi4GTUqmENNvo3BxxqG9rVt0mPu9/XYetGXV9iu0+sfFhdOAtGmR6e0rmBn
-         mviQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794937052; x=1795541852;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=uIwpU1G0S/NqSFaGi3+jp2QeKv8+tYQDPWGubJQpaow=;
-        b=lC1yulUH0XyR+UZx1lkv0qhdgd7wkSwY8iHEgAIH8xP6yxRCh0WpzSYjoXmU3LTa5b
-         zawD+b4sCZLoUrJWI/DxJIFctS/V4sh1ykwON1N5iqB3Pt1NEwE14d41kw0aE+Ub6CnU
-         WfSHe9dgr2IEb2S36pE1uBgtTFBF4LlXu38b/O8cT58J19rv60X7AOCGOCOZzQYgBqOK
-         fFeLEYWFWFiMF9MqMhdfoRyNNhCZI+agRcOc0ze7zya/Ru9oPPSEBvq/AZgVQDVJDi1V
-         8Je2+qAAY1C6qwNHpbn5+BaLyhf7eFwk/SDoFNXOwJacjvv0wLsmQQTfAKSQSd/WyCk1
-         iEyQ==
-X-Forwarded-Encrypted: i=1; AL+hErGJYd59/C+G463HtnaB8H0FvhZQtjH6gLCVsSw464jNpBF5m67rnqWdV1KDglYXSuWJO7DYxGCNOuteznNT@vger.kernel.org
-X-Gm-Message-State: APuU4Z84UgxFLRY0II9OsRv51ce+SUeThNwPKPfiPqAbMr01N3djX0LC
-	uhC41O2DVph91hbpuQE+C79Gr28bYJKTYJni6qj+23sKr6sV5dgW/iOmxHQWGQkUHVtx3M4tURB
-	tgjKQMACqOhI0XqN3ZlY1gRUBr4XUP8CpJ3x06M/O
-X-Gm-Gg: AYBFou0AL11Lhhtww/IDIB6tL7/nWYyS0fmxUZgC8HC4cegcOuFXmw3XfMNfhd6IP6b
-	l1R134aZyisGcgWjTnpQxgIZeaXDyS4JezCsPqwiedsV+pOz+IQAFQrb5gDpQlMLC8CQmsurTDm
-	fDpdYFy8vxUG0o/cP4n778kMtJ/XlTMZDJpwKk0u+4TGLOBzPXWD858E4VcC+mH/Ctt0/4jqX/d
-	xqXf+Dez/pCDv2/z5jPQo6/FZVlrIIhZbkNChOe+UMcopsOIFDeLGo8tD3tAsIX1qm0AU71u+kz
-	wtYKrQbzrXUd5vzN/LVkhdBbaTOBoznhPPZCii8t0kMHiGq1DlOJXOf/I/D8urt0bZyv9Nyclow
-	OfeE9RSCppfbK7wWzHegQHxEjjvP7K4tbJg==
-X-Received: by 2002:a05:6512:33d5:b0:5bf:a4e4:c329 with SMTP id
- 2adb3069b0e04-5c170a15b84mr5575263e87.64.1794937052080; Tue, 17 Nov 2026
- 09:37:32 -0800 (PST)
+	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=poFOFwvQ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1794937131; bh=r4Gwx2fPtf078oRE/xnMSrJHc96t9lMNVuFVBI5quw8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=poFOFwvQH6CvHK6WNoPFcswXNMR32QRI4gmao4+JWmlawmGIbQfpnTYzjDz2NmEPR
+	 UtTzgoxV+051xzpBeBy2GrWvjoEKYDu3YZnZYaTL6pnKncgKAhUThrJMRnCm/NAQRV
+	 /DmwGJlcEpZLsU5QQjZutDPAzn3h97Sr1tRQt9RY=
+Received: from [172.18.4.77] ([202.113.185.209])
+	by newxmesmtplogicsvrsza73-0.qq.com (NewEsmtp) with SMTP
+	id 9B1B66A4; Wed, 18 Nov 2026 01:38:49 +0800
+X-QQ-mid: xmsmtpt1794937129t478vdfid
+Message-ID: <tencent_8D37DE888453A72965D4A60F43144E2AE206@qq.com>
+X-QQ-XMAILINFO: OATpkVjS499uHhPXDSMy8nIfORQN18OSkXQgzu93+2Uv7nIgXk1JchmgZxjgw/
+	 5aFxdOq/EYW8TLWLVL4JGrKNNTesuaEuVqXo2wbQjkMhN6VHs0dRCRA83gibjA5bwwkQ83KBhTgs
+	 ul0F8t09AbHRo7waJgtq2itR+cJDCFmKWe/Nr4TrjeKo5VALb9guXajq1Nw9N6nD2BoxLEwBGZK5
+	 Cfy2vRO96Z1DxKUIHETzp1mrySO0gcLmV7MnDre7MiZXb7SMFaptla8P4W+NSyVwEqaLUQhyP6Fq
+	 FqkG3H0f4iNIadFzroh/35L9z7nlitDr3IH0xMIeB11Pl2i34lYOCvs6s/FOL6Ge3y3A1/D2ayM2
+	 pO0kb9guCgMznnbFoRop+6eF01RsbWmq+otWHBAhW/i1o891tCldioVG0Lmx26OGlre/lxLSjeNR
+	 xny057Ebf12unuDF2C5Ty7XnbZ8xx5Uq9JnXeqpKVFQMiboLbytXt3BGBf8S9B/fi3Ek5hsjljRT
+	 1gn8BnTTE3sdf8r0sOvhwf31ggHY8kzjy8dfpx5E9tSyb+QN/4q3gLufAwLwkWQHWq3Bu9QKQ+ek
+	 i0eb0nIMFEv3YqpBtKm+TLkv7MJYWCi2+7C+uY0kHgBuLGTUE9CFuLTOeDbB/CdHaNh7JvQ9BTuo
+	 AdYM62/ENL8xfN3C5G6dAPSaO6nTgmLz/WCmBZ5w/h3SPxIFAV+4/PPUUvzM9Vv0pdUa8EpOjTrq
+	 B67oP0LLh0aCiZg53CF+mKTFTFhIyZAlAtVz5w+k708bdvS1t3n0mjA6kjwjZfxcacZUzylHN8Sp
+	 Wy+6xQ8ji12Aas7RcomvSFkvGu6LxF4+fJQgqePNY1Ba2wregY5wKds0wfk5FDJ2uvQEGJwXq8pd
+	 PycCJfY53hCi6NvN59yyqjkaFMkiMImeIhU1XiltdTeqIuNkyrg1zbUg+ywqqbbhjeOdJC4hTDyW
+	 g1UIxpy6YXB7GIX66OZtH5iaXfwZ/Bwez06oC3uVGoSWxmv6h8UfDjWGEyZDcyHl29bT/EPwb3+y
+	 y5k8bSSrbkgxapOM4zNmE9jnyK6Pu1uFFd5HsDl4+nMBb08erR
+X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
+From: Guikun Yang <yangguikun19@qq.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] fs/qnx6: validate di_filelevels against the pointer width
+Date: Wed, 18 Nov 2026 02:00:00 +0800
+X-OQ-MSGID: <patch-qnx6-filelevels-v2-20261118@qq.com>
+In-Reply-To: <20261117-anheben-kauen-botschaft-efbcb6e18d72@brauner>
+References: <c4-qnx6-filelevels-ubsan-20261031@qq.com>
+ <20261117-anheben-kauen-botschaft-efbcb6e18d72@brauner>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,180 +78,111 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261028221705.3915340-1-halg@google.com> <CALCETrW9ygriu54gxiHFLEd5+hJminQo0r8Jwd63wR69Dj4W7w@mail.gmail.com>
- <20261106-befreien-addieren-eislauf-e09212803534@brauner> <CALCETrWa1SBLcb5oWjqjgzZvKvCoHjmYFk=Lf5ytEM9uqm5jYA@mail.gmail.com>
- <avM41a80aig2de-R@google.com> <20261111-behagen-faktisch-entgegen-e2e714373895@brauner>
- <CALCETrUjW=kXxyggDUvEN+Pxc-pE98eVbdW8XBU8JzfqXj_voA@mail.gmail.com> <20261117-rational-ohnehin-unbeugsam-e5c04759a156@brauner>
-In-Reply-To: <20261117-rational-ohnehin-unbeugsam-e5c04759a156@brauner>
-From: Andy Lutomirski <luto@amacapital.net>
-Date: Tue, 17 Nov 2026 09:37:19 -0800
-X-Gm-Features: Aa3M54pEPEuG6xXoA_VcNPLpRvUBxQYv2Rvc07pMupzDgfrZ2jXEXOCCMAfHfMk
-Message-ID: <CALCETrWhuOnBy0N0KznmczD4S2XEK0fbr0C=1KFQqTnoTJbQbg@mail.gmail.com>
-Subject: Re: [PATCH 0/8] userns: per-namespace capability bounding set and
- opt-in netns loopback
-To: Christian Brauner <brauner@kernel.org>
-Cc: "Hallgrimur H. Gunnarsson" <halg@google.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, Kees Cook <kees@kernel.org>, 
-	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jan Kara <jack@suse.cz>, 
-	James Morris <jmorris@namei.org>, Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jann Horn <jannh@google.com>, =?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
-	KP Singh <kpsingh@kernel.org>, Jonathan Calmels <jcalmels@3xx0.net>, 
-	Casey Schaufler <casey@schaufler-ca.com>, linux-fsdevel@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, linux-api@vger.kernel.org, 
-	containers@lists.linux.dev, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, Nov 17, 2026 at 9:10=E2=80=AFAM Christian Brauner <brauner@kernel.o=
-rg> wrote:
->
-> On Mon, Nov 16, 2026 at 09:15:18AM -0800, Andy Lutomirski wrote:
-> > On Wed, Nov 11, 2026 at 7:20 AM Christian Brauner <brauner@kernel.org> =
-wrote:
-> > > * a task that setns()es in later gets
-> > >   ns->cap_bset & (cred->cap_userns | cred->cap_permitted)
-> >
-> > I'm not sure this is ideal.  If a task has cap_userns & CAP_NET_ADMIN,
-> > then there is no attack surface issue with allowing it to enter a
-> > namespace and be NET_ADMIN there even if the namespace itself has
-> > CAP_NET_ADMIN cleared from cap_bset.  But any exemption here would
-> > need to be a new API so that it isn't used by accident.
-> >
-> > I'm mostly saying this because container managers might want to
-> > restrict cap_userns within their containers but still have it
-> > themselves for management.  But maybe there isn't any need to enter
-> > the userns for this purpose.
->
-> I don't think there is. A manager that holds the capabilities itself can
-> just do most things from the outside. I think it's nice that once you're
-> inside a namespace you're bound by its capabiltiy set. Otherwise the set
-> isn't a property of the namespace anymore. If someone comes up with a
-> real need to enter we can add an explicit opt-in later?
+Hi Christian,
 
-Fair enough.  Also you've written infinitely more nontrivial container
-managers than I have (I've written container managers, too, but
-they're all special-purpose things that don't do much in the way of
-actual managing).
+You were right -- the v1 diff was hand-written and did not apply. This
+v2 was generated with git format-patch from a tree I actually built the
+change in; both fs/qnx6/inode.c and fs/ufs/super.c compile cleanly and
+the patch applies with `git apply --check`.
 
->
-> > > * Root in a container has caps as well so for containers the exemptio=
-n
-> > >   would be wrong.
-> > >
-> > >   So here we need a a lockable SECURE_NO_USERNS_CAP_RAISE bit thingy.
-> > >   This turns off the exemption and prevents raising the mask.
-> > >
-> > >   Docker lowers the mask, sets and locks the bit, and
-> > >   unshare(CLONE_NEWUSER) in the container doesn't hand out CAP_NET_AD=
-MIN
-> > >   anymore.
-> >
-> > Can you clarify this part a bit?  I'm not seeing why Docker should be
-> > special.  Shouldn't the inside of a Docker container work as much like
-> > a normal non-container system as possible?  What's the use case?
->
-> I picked Docker because you brought it up, and your goal of allowing
-> user namespaces even in Docker is kinda the use case. Docker can only
-> drop the CLONE_NEWUSER block from its seccomp profile if nested user
-> namespaces can't get more caps than root/Docker wants to give them.
->
-> But the bit isn't at all Docker specific. Any privileged task that wants =
-the
-> mask to apply to itself would benefit. With just the exemption this would=
-n't be
-> possible:
->
-> (1) A runtime that holds full capabilities gives a
->     user namespace it creates all bits.
->     It can just set the bit before creating it.
->
-> (2) In a container without a user namespace container root has host-level
->     capabilities. Any user namespace it creates gets them through this
->     exemption thing. So it can also add them back to its mask. And the ma=
-sk is
->     inherited. So every process it starts can then create user namespaces=
- with
->     them.
->
->     by raising the bit we stop both. The locked bit keeps container root =
-which
->     also has CAP_SETPCAP from clearing it.
->
-
-I'm still not 100% sure I'm following this.  By "exemption" are you
-talking about the cred->cap_premitted term here?
-
-ns->cap_bset =3D parent->cap_bset &
-                       (cred->cap_userns | cred->cap_permitted);
-
-(As as aside, as formulated, the parent->cap_bset term should be
-irrelevant, no?  cred always refers to a task in parent, and this
-whole thing is defined so that cap_userns and cap_permitted are always
-subsets of parent's cap_bset, right?)
-
-I think I agree that there needs to be a way to turn the cap_permitted
-thing on and off (and I'm also not sure whether cap_permitted is
-better than cap_effective), but I'm not convinced that an inheritable
-and lockable bit is necessary or wise.
-
-How about changing the rule to:
-
-child->cap_bset =3D parent->cap_bset & soft_cap_userns &
-(cred->cap_userns | cred->cap_permitted)
-
-a) (ugly but easier) A non-inheritable prctl-controlled mask
-soft_cap_userns, changing the rule to parent->cap_bset &
-soft_cap_userns & (cred->cap_userns | cred->cap_permitted).
-soft_cap_userns would be reset to all ones on on fork and exec to
-avoid creating new inheritable security-relevant state.
-
-b) A whole new create-a-namespace API where the caller chooses
-soft_cap_userns at the time they create the namespace.
-
-> On the host none of that matters as the mask is root's own policy there.
-
-I'm still not seeing how there's a difference between host vs
-init-userns-container vs separate-userns-container.  After all, in
-*any* of these contexts, the configuration *of the host or inside the
-container* might want to restrict cap_userns for unprivileged users or
-for everyone, which it can do with whatever API we add to do this.
-And some container manager might run with CAP_NET_ADMIN in such a
-context, and it might want to create its own container that has
-CAP_NET_ADMIN removed from cap_bset.   But I might just be being dense
-here or I might be misunderstanding you.
+Changes from v1:
+- real index lines, hunk headers and context from git diff
+- Fixes:/Signed-off-by: placed in the commit message above the diff
+- function signatures match the current tree (new mount API)
 
 
 
-There is one thing that continues to bother me about all of this.  In
-a sane world where privilege elevation on exec was simply not a thing
-(no_new_privs =3D true always, nosuid always, no file caps, etc), then
-cap_bset is kind of irrelevant, right?  A task either does or does not
-have NET_ADMIN, and it either does or does not have the ability to
-create *a task in a new userns, including itself, with NET_ADMIN*.
-Since our API is based on creating/entering a userns as opposed to
-spawning tasks into a userns, the rule should be, upon entering a
-userns:
+---
+di_filelevels comes straight from the on-disk inode and is used as
+the depth of the block tree walk in qnx6_get_block():
 
-    cap_permitted =3D cap_userns
+	bitdelta = ptrbits * depth;
+	levelptr = no >> bitdelta;
 
-or something to that effect.  Or maybe:
+With a crafted di_filelevels the multiplication overflows the int
+and the shift becomes negative, which UBSAN flags as
+shift-out-of-bounds.  The superblock path already limits
+Inode.levels/Longfile.levels to QNX6_PTR_MAX_LEVELS, but that
+constant is too generous when the block size is small: the product
+ptrbits * levels can still exceed 31.
 
-    cap_permitted =3D ns_enter_requested_caps & cap_userns
+Compute maxlevels = min(QNX6_PTR_MAX_LEVELS, 31 / s_ptrbits) with
+s_ptrbits initialized before the checks, and reject superblocks
+whose levels exceed it.  Apply the same bound to per-inode
+di_filelevels in qnx6_iget() and fail with -EIO.
+---
+ fs/qnx6/inode.c | 28 ++++++++++++++++++++--------
+ 1 file changed, 20 insertions(+), 8 deletions(-)
 
-and cap_effective and ambient get clamped to cap_permitted.
+diff --git a/fs/qnx6/inode.c b/fs/qnx6/inode.c
+index 6de49333a..558a2c2a3 100644
+--- a/fs/qnx6/inode.c
++++ b/fs/qnx6/inode.c
+@@ -298,6 +298,7 @@ static int qnx6_fill_super(struct super_block *s, struct fs_context *fc)
+ 	const char *errmsg;
+ 	struct qnx6_sb_info *qs;
+ 	int ret = -EINVAL;
++	int maxlevels;
+ 	u64 offset;
+ 	int bootblock_offset = QNX6_BOOTBLOCK_SIZE;
+ 	int silent = fc->sb_flags & SB_SILENT;
+@@ -405,27 +406,31 @@ static int qnx6_fill_super(struct super_block *s, struct fs_context *fc)
+ 		brelse(bh1);
+ 		pr_info("superblock #2 active\n");
+ 	}
++	/* ease the later tree level calculations */
++	sbi = QNX6_SB(s);
++	sbi->s_ptrbits = ilog2(s->s_blocksize / 4);
++
++	/* limit levels so that ptrbits * levels stays below int width */
++	maxlevels = min_t(int, QNX6_PTR_MAX_LEVELS, 31 / sbi->s_ptrbits);
++
+ mmi_success:
+ 	/* sanity check - limit maximum indirect pointer levels */
+-	if (sb1->Inode.levels > QNX6_PTR_MAX_LEVELS) {
++	if (sb1->Inode.levels > maxlevels) {
+ 		pr_err("too many inode levels (max %i, sb %i)\n",
+-		       QNX6_PTR_MAX_LEVELS, sb1->Inode.levels);
++		       maxlevels, sb1->Inode.levels);
+ 		goto out;
+ 	}
+-	if (sb1->Longfile.levels > QNX6_PTR_MAX_LEVELS) {
++	if (sb1->Longfile.levels > maxlevels) {
+ 		pr_err("too many longfilename levels (max %i, sb %i)\n",
+-		       QNX6_PTR_MAX_LEVELS, sb1->Longfile.levels);
++		       maxlevels, sb1->Longfile.levels);
+ 		goto out;
+ 	}
+ 	s->s_op = &qnx6_sops;
+ 	s->s_magic = QNX6_SUPER_MAGIC;
+-	s->s_flags |= SB_RDONLY;        /* Yup, read-only yet */
++	s->s_flags |= SB_RDONLY;	/* Yup, read-only yet */
+ 	s->s_time_min = 0;
+ 	s->s_time_max = U32_MAX;
+ 
+-	/* ease the later tree level calculations */
+-	sbi = QNX6_SB(s);
+-	sbi->s_ptrbits = ilog2(s->s_blocksize / 4);
+ 	sbi->inodes = qnx6_private_inode(s, &sb1->Inode);
+ 	if (!sbi->inodes)
+ 		goto out;
+@@ -560,6 +565,13 @@ struct inode *qnx6_iget(struct super_block *sb, unsigned ino)
+ 	memcpy(&ei->di_block_ptr, &raw_inode->di_block_ptr,
+ 				sizeof(raw_inode->di_block_ptr));
+ 	ei->di_filelevels = raw_inode->di_filelevels;
++	if (ei->di_filelevels > 31 / sbi->s_ptrbits) {
++		pr_err("inode %u on dev %s: too many file levels (%u > %d)\n",
++		       ino, sb->s_id, ei->di_filelevels, 31 / sbi->s_ptrbits);
++		folio_release_kmap(folio, raw_inode);
++		iget_failed(inode);
++		return ERR_PTR(-EIO);
++	}
+ 
+ 	if (S_ISREG(inode->i_mode)) {
+ 		inode->i_fop = &generic_ro_fops;
+-- 
+2.53.0.windows.1
 
-Unfortunately we don't live in this world, and I'm not convinced that
-can credibly even approximate it, because people really like their
-setuid programs working inside a userns.  It still bugs me that we're
-designing permission systems designed to work in the POSIX model that
-I think we all kind of agree is fundamentally rather messed up.
-
->
-> > In any event, the ptrace access checks also need to be updated.  If
-> > we're adding cap_userns, then one should not be able to
-> > PTRACE_MODE_ATTACH a task with higher cap_userns.
->
-> Yeah, I mentioned that in my reply earlier.
