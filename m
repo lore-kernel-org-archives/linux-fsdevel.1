@@ -1,61 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=216.40.44.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794954480;
-	b=ZaWynfajcEA28TDuFPxEwszEQ9pnFFKIQG1TNFZT/kUpbq0uRoVz5SONseqwFYJs9ytj
-	 K+XVzqgQADCx2k5GhqFf48rPNXTNWimrF4I+xC0txIL9UBM8EAge3SdhahUEXdq7b4PBT
-	 WmGAXXIptb3hgprWlip52a0U3S4U2ZouH+dtCkJemoCPG0Bx8hfwHUab0a6TuczVzv08E
-	 x7KQY3SKYOKb5X1I0JWTZPyMVNFkuRM2HNFuXHGf0HkJ8lshhAe23qoThrmMNQ0K8nM1y
-	 jUHkwtSpcqse8TN4QpxlrU1OUWkaTXeTVnw2xTk55cBAmQPHrXeNuuqxF0iZB0vv+hQ==
+	t=1794954596;
+	b=3d0ZFfYtnbUK3sC8KpHkHEgYki5Tr4+lIET3c+P3ZxYVTbQ6UnOqio18+KgH8J35PvuV
+	 sX6q9CiL/sz9qyWoaYwyFGDgr8xVeJshgfKR4IZ9ys9FyZgCOPz2Ac633CLPKq8UslYgQ
+	 uc7cOwLFfmptbtivrhr9/UH5Eg4PoykaUePUs4V5qSvjB01gFNTkwebNF1TVKQ2dO6OFk
+	 UGJUC74bzApa0KGmhunlrjwhgAPVEssU5f1ET5fjXI02Tjnvv9fGQiK+uzsiqAYromSeL
+	 Jsq0onndOf+OnzmtGTDVacg8hRmpdDEaYswDxfgmMd3TY8FMIb2/ZFRdG2O0AiGQFXQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794954480;
-	h=DMARC-Filter:Received:Received:Date:From:To:Cc:Subject:Message-ID:
-	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-Rspamd-Queue-Id:X-Rspamd-Server:
-	 X-Stat-Signature:X-Spam-Status:X-Session-Marker:X-Session-ID:
-	 DKIM-Signature:X-HE-Tag:X-HE-Meta;
-	bh=ko/0t8Uo3cYIjjNrJtn/Btsh4RwXHj5exYfcCPg49hM=;
-	b=Wpw97X5m1Cm2Fvwxx2OcVjtslYuAzh1cSPW9+LnG9L1MBhenUiuFJFjtGzl86Xfxlj9T
-	 hIgrwqS/DHgjifdzcMwByjbMUXaS4hCDBWXkBbhxwpCkvtfNEb2ltACM0J2hUQQ28THxd
-	 1dV4QOxYdf8vv5zwPlCFawHuO+IgeNDg1Da3HPbnnIMJwa89gyCRqbpUVViCb742aFD/0
-	 FzyUy07qSuyk+UelXLLeH33LO3cJsphWrR8XV50VryyCd4hazbnbplxcm5zWlrukeXQhO
-	 DsUV0B7bNhE36xF7xdhOEMmsECICEk61VCunxqfz90wAxi0SopAG6VQce7b+7fNaaFQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794954596;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=QgCr0DpcBXV214M0n10zOgwhTeGtnk5rboT1ob7NYxc=;
+	b=NPlk5F2Mn42beMA6QQxn5llURxwHV7AAxoWTPzu3np41iUp5hgNWoJWnojXK/B7dEnoV
+	 ToD4cz8MgJZVe1tehOjFmwLEnxHDGL9j2mzqVHMn3MCbs6SiwfYVhL0CGVZG8OTyUb5Gp
+	 Oevk8VUyh1X5EaGHWlmkeaC40+Ze94Y/EhkOo4KB32F9W/g/YRe+veJV8PwJ7O6PgJPPC
+	 vbglAFd+6vJ98MFZhtVH4bxVGU8urg+0dQ7phqSiYyAyhkYt6pYOhpf901dGWltN39IJG
+	 j5LEZJ1UfDM7u/2uM9+rP7sFdAPnNg6HxYOhUyLEqdUnNDPdFAETRhhR3YGxpEBXh0w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=goodmis.org;
-	spf=pass smtp.mailfrom=goodmis.org;
-	dkim=pass header.d=goodmis.org header.i=@goodmis.org header.a=rsa-sha256 header.s=dkim1 header.b=EHdbSKZv;
-	arc=none smtp.remote-ip=216.40.44.11
-Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com [216.40.44.11])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ue+7J1Jd;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 164C4606A32A;
-	Tue, 17 Nov 2026 22:27:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 164C4606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 957A7606A8A4
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 22:29:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.a=rsa-sha256 header.s=dkim1 header.b=EHdbSKZv
-Received: from omf06.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay07.hostedemail.com (Postfix) with ESMTP id 1C7691605D3;
-	Tue, 17 Nov 2026 22:27:51 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf06.hostedemail.com (Postfix) with ESMTPA id D729F20010;
-	Tue, 17 Nov 2026 22:27:48 +0000 (UTC)
-Date: Tue, 17 Nov 2026 17:27:46 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Chaosheng Qu <quchaosheng000406@163.com>
-Cc: Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, "Matthew Wilcox (Oracle)"
- <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- linux-trace-kernel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v2] tracing: record jiffies in writeback events instead
- of computing age
-Message-ID: <20261117172746.42d075bd@gandalf.local.home>
-In-Reply-To: <1793157924.328974.4869096@163.com>
-References: <179299543891.294518.18224691820856958686@163.com>
-	<20261026084709.26f7737f@fedora>
-	<1793157924.328974.4869096@163.com>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ue+7J1Jd
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45CCB1F000CA
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 22:29:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794954596;
+	bh=QgCr0DpcBXV214M0n10zOgwhTeGtnk5rboT1ob7NYxc=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=Ue+7J1JdQLy6J5AfwVs6ZStS30tAZoxfS3fq9QmWBk6ZL/wr0FebCEbbgS1hEKE/1
+	 yq5BaUSyMi9UiVTIurr+vjBx5XUZGmQpaDW6Hh2vLA29IDJkiMxmWjPld2XnJRhvKm
+	 QyVPIiXb13QwQ5HWZ42wce+1pDMcmiQ6F62JRGsTu9noV9WJU/0AprrPvHFkOz5ezz
+	 emsZIlutt+2VL7IfUShrCQvwAKdCSAfi5yAggijFFcr1i+C5sPtktGzIVa+dTW/v4c
+	 YJSaJEzlvIcFGZouhep9sVaSPn9ryOHUURRMlqdoQiCiJStLPJ3x1Co8xROPM59jsd
+	 p8lRM/vHt8A7Q==
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-c50a4a2132cso30757766b.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 14:29:56 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErHgZlfZMnphbfSikMQfKIn6QAPOi1PQwhHKPF9hWY0dsjWOF3La8WDZrsWotXbKeiOb0/vWFsjgf5v+5CAr@vger.kernel.org
+X-Gm-Message-State: APuU4Z/b6SPCXlH99ivVXWRIF3+7OjFOOWJPSDdgtPj/tKbDjd0vuOaZ
+	DesAJJ/tzz8u9j+kEyl/wrGIwwbuzEoWgV3q5QhS7YOlpjun5mVL2YcEYZ+tD4QbHfprceL32td
+	m5428frnEAw0UzlbVn1dG2K/THnv+a3A=
+X-Received: by 2002:a17:907:9607:b0:c49:a235:8e0c with SMTP id
+ a640c23a62f3a-c510e1f18bfmr51977566b.22.1794954594914; Tue, 17 Nov 2026
+ 14:29:54 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -65,68 +59,72 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: D729F20010
-X-Rspamd-Server: rspamout08
-X-Stat-Signature: s4cdizhjhscjqygk7q3m9hwq93831cn9
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX198/NLHb3rmfOYPbcxeL4+SJl56B6U+SzQ=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=goodmis.org; h=date:from:to:cc:subject:message-id:in-reply-to:references:mime-version:content-type:content-transfer-encoding; s=dkim1; bh=ko/0t8Uo3cYIjjNrJtn/Btsh4RwXHj5exYfcCPg49hM=; b=EHdbSKZvsn4//OVY5FY9Ahc2Tr8C4l4YN0lT74uTZqOOPhLacf/5lPpne0rS3RvEfZ9Dz6hWOaY62RNhdEFR28cKvlVDus+WOszi56LR5mxRHeMY0/efedKKf8hZ2BVH6nl82a8iGgpjZ1JOrX/PpVzRZKvfWLyKVdkBMGXG5ZE=
-X-HE-Tag: 1794954468-512238
-X-HE-Meta: U2FsdGVkX190m8CaKzES5kkLjFQxipcm1qgoflPGiCdFdHoV/FJOi7oPWmrW/1uY5DfHuFUsYYtdOUrf/ZK9RxJzapxWclGLxgXg8MEjes2VO9bI+ZVkW9zULcpftBVXpjpzJ5c8oN5jNpC6NyyvI8On5ZS9EWXaoE5tZjHAVYtfSMhC1kjbXuSroDAB8o7oHlSqwwbdpSbPA3ApcT9R49GjPH/6IC69a94Cwb1AlRJzo1Bu2B+60/hZ61I1WTDhjHevSD0Vxyi0Hqseuwm+z0N4+0wvVg90mZX7TKi87U3wk5yplLLOqFVSHrsELlSJWvql6CScXnA5SczNE0BbcN5t730IAdBBHrPJaIKIcGRanX1kpbl3Yb7z/fLVweo/aIv07eiOBJYU5rm0630Jk+led1HWzJNow0UzQMUFkjA=
+References: <20261116085752.3908082-1-chizhiling@163.com>
+In-Reply-To: <20261116085752.3908082-1-chizhiling@163.com>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Wed, 18 Nov 2026 07:29:42 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd-R319UyMqTw5LJiuhWMYgbqe9HP_pKyH9LQXPxYaE_6Q@mail.gmail.com>
+X-Gm-Features: AclHuK8CBeUwkMopgpP3h-E5Ufv0KRH7jQ07bswOO_DvGn0S7YxPUnFSsbqmUKo
+Message-ID: <CAKYAXd-R319UyMqTw5LJiuhWMYgbqe9HP_pKyH9LQXPxYaE_6Q@mail.gmail.com>
+Subject: Re: [PATCH v4 0/5] exfat: fix valid_size update races
+To: Chi Zhiling <chizhiling@163.com>
+Cc: linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	exfat@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Sungjong Seo <sj1557.seo@samsung.com>, Yuezhang Mo <yuezhang.mo@sony.com>, 
+	Christian Brauner <brauner@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>, 
+	Chi Zhiling <chizhiling@kylinos.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 28 Oct 2026 11:25:24 +0800
-Chaosheng Qu <quchaosheng000406@163.com> wrote:
-
-> >From 677560a14dae0d9581effc5cdb9375052902bb21 Mon Sep 17 00:00:00 2001  
-> From: Chaosheng Qu <quchaosheng000406@163.com>
-> Date: Tue, 27 Oct 2026 14:28:09 +0800
-> Subject: [PATCH] tracing: record jiffies in writeback events instead of
->  computing age
-> 
-> writeback_sb_inodes_requeue and writeback_single_inode_start/() compute
-> the inode age with:
-> 
-> 	(jiffies - __entry->dirtied_when) / HZ
-> 
-> inside TP_printk().  TP_printk() is not part of the recorded event: it
-> runs when the trace is read back, so the expression is evaluated at
-> formatter time, not at the time the event was recorded.
-> 
-> It is also evaluated outside of the kernel: tracefs renders the format
-> string once and userspace re-evaluates it.  A tool that has to resolve
-> every symbol in the expression (trace-cmd and the parser in LISA both
-> do) resolves the bare "jiffies" to its address, so the printed age
-> becomes ((unsigned long)&jiffies - dirtied_when) / HZ, which is
-> nonsense.  This was reported as a wrong "age" value in trace-cmd
-> output:
-> 
->   https://bugzilla.kernel.org/show_bug.cgi?id=219839
-> 
-> Nothing in TP_printk() may depend on the state of the machine at read
-> time, which is the same rule that keeps ktime_get() and friends out of
-> it.
-> 
-> v1 stored the age itself in TP_fast_assign().  Steve pointed out that
-> the division then runs on the trace path, which is where the side
-> effects have to stay small, and that recording the jiffies snapshot
-> instead lets userspace compute whatever it wants from the raw value.
-> Do that: save jiffies in TP_fast_assign() and keep the subtraction and
-> the division in TP_printk(), where they run on the slow path.  This
-> follows the same shape as xprtrdma_req's connect/reconnect fields.
-> 
-> The new __entry->jiffies field is appended after the existing fields,
-> so no existing field changes offset and trace consumers that index the
-> event by offset keep working.  The "age=%lu" placeholder keeps its
-> position in the output text, and the value it prints is unchanged.
-> 
-> Suggested-by: Steven Rostedt <rostedt@goodmis.org>
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=219839
-> Reviewed-by: Jan Kara <jack@suse.cz>
-> Signed-off-by: Chaosheng Qu <quchaosheng000406@163.com>
-> ---
-
-This should likely go through the fs or mm tree.
-
--- Steve
+On Mon, Nov 16, 2026 at 5:59=E2=80=AFPM Chi Zhiling <chizhiling@163.com> wr=
+ote:
+>
+> From: Chi Zhiling <chizhiling@kylinos.cn>
+>
+> exFAT uses valid_size (ValidDataLength) as the on-disk boundary of
+> initialised data, but the current code advances it too late and without
+> proper serialisation.  Buffered writes can silently lose data reclaimed
+> before valid_size covers it, file expansion and page faults can
+> initialise the same range concurrently, and a failed or short direct
+> write can still grow the file on disk.
+>
+> This series advances valid_size under the folio lock, keeps zeroed_size
+> in sync with the block tails that were actually initialised, and
+> revalidates cached iomaps for buffered writes.  File expansion holds
+> invalidate_lock across allocation, EOF cleanup and the i_size update.
+> Direct writes are prepared and written back through their destination
+> boundary folio before submission, publish i_size and valid_size only
+> from ->end_io(), and hold invalidate_lock across completion, post-write
+> invalidation, gap initialisation and rollback so that mmap faults
+> cannot interfere.
+>
+> V4:
+> - Fold the series into five patches and rebase onto current exfat/dev.
+> - Add a patch that serialises file expansion with mmap write faults.
+> - Rework direct writes: prepare and write back the invalid range through
+>   the destination boundary folio, initialise the gap after the post-write
+>   invalidation, and keep pure overwrites asynchronous.
+> - Track initialised block tails in zeroed_size instead of
+>   IOMAP_F_ZERO_TAIL, record the on-disk length in i_size, and finish
+>   short direct reads with filemap_read().
+> - Pick up the Reviewed-by on the iomap patch.
+>
+> V3: https://lore.kernel.org/exfat/20261016033349.3104509-1-chizhiling@163=
+.com/
+> V2: https://lore.kernel.org/exfat/20261013033837.2748258-1-chizhiling@163=
+.com/
+> V1: https://lore.kernel.org/exfat/59056131-e3bd-4003-8c30-0a356cf0bd82@16=
+3.com/
+> Link: https://lore.kernel.org/exfat/10029d6f-13cc-4d17-a2f9-b093a8339dde/=
+T/#t
+>
+> Chi Zhiling (3):
+>   iomap: export iomap_bio_read_folio_range_sync()
+>   exfat: increase VDL before unlocking initialized folios
+>   exfat: zero invalid VDL tails in buffered and direct reads
+>
+> Namjae Jeon (2):
+>   exfat: serialize file expansion with mmap write faults
+>   exfat: coordinate direct writes with mmap faults
+Applied 2/5 ~ 5/5 patches to #dev.
+Thanks!
