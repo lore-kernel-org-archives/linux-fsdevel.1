@@ -1,91 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.253
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794892180;
-	b=Fs//nxSDMQoMoMnm/FZTPtZhJ66eSWywbeuMZ3tih9FhvBkg5JRmUV/8OOUCmtrKuM9z
-	 ecq33sl9NTjauMue9VBHXCDGqQFDSNMRztH0lqFMhD5qT4hgTeuB+MtK3+JQD8QGh0QZf
-	 /Nlv81/S5RTLg1inU/uM3KE3w8kEsgyfp8jX2xJga73mJ84zW8+yvS/tygesBLo2PCTYX
-	 SYt90OK8QhCv985FZTFylJF3noCzAU5JVPO6AX/NDucr/QJK8CwadWToMIBWGRIb2aioc
-	 rvYCGGspnQydDUiZ1fTDwLDW52DpvsLeCrheBTQdIj3h1Ll8fZjctLisitd/na9Q7rg==
+	t=1794894133;
+	b=FYlT8KLiCsOeFmvqN5DFlX0eBICKJ8sdV5/U3y4Hc6/pEwXzMGlHEhDmEsz978TSdkUS
+	 N7vhT/NMjgNr7CoJbVs5W+tgs01SJ3gZJTuJg4jWJiWaq+BxJtBBZjshtc2tvwBuGrx4q
+	 A5aUe53Ip0Q5ivMnzQ/c6dRNf9DYfqCm8L0Ay/HHghm+Fjp/lfwGead/owFWg74SMOk6o
+	 o7vvxKq6qsg2GUPKVKaWIG6LVXedB5RslolLp7MkDgPti5RAMzMiJ4GxqB+RZZTMvdAb9
+	 nZVax5iKwswUi6gtzEp87e5zBNqc5NT4OuGmSa2wig1WbTJ2sSUHy2UZlqOhEHCMFhw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794892180;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=sBuq7agc2LJ6hWE7imheP/OC6f3LlJfwcnXlMy2Xfu8=;
-	b=RLj4Vfd79JsQ3wjCutqDPRqBfNCZIkncBgNpBGejaLGFhhluhMATF5EOhaWzgvh6m4HF
-	 +Emeiuyg4GMgjOA6JO7HeUpwUHTt26NL3LzWjsFUmKEsp9YfTzbMNFkvNFWahT6UmkFSU
-	 a2QJEKS0rSTSSS5Yy9c2TSRSbWVU+HIErU1iNZokF+OYT2BmUCgAxFqQF7/mHopA+2Ocf
-	 WEtNSl9GrxjXfg/5hAt9Ogk0XPQAOSgPEMrPbxytWVpRn/p9fkF07yV89KintIQd0ZC+b
-	 HNb6msPJdD1ZozZQHL5gTDnuhJbvBMJ97kt+pXMOKznqR4sO0ZYlZddBYnUiXGpMbZg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794894133;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=dXX+yyLfhvLwx/H4++TlJSCsQc1ztTB0esKx/piWuYU=;
+	b=gwkthZvyiBjH4tmy6fp/KQeikhUzlpEchG0Ba6oWKSNwlkhuHlQag0dEd3CXUZqWGWnm
+	 +oLgax3oWLsxeNR8gxX1t6Krr+pH2w9g5NoBr08DhHG2DPsOQtCDLV0O2Jt9iQHV9nHLl
+	 wbMs9DXxvtHFswo9W/FfBY0s6cm5iPMFtXgEuZdUZxfhzNMD2YpwXmwcgGrKXpLAZH1Xk
+	 1jPuyeYdjBvV5R8VHEQ14ls5B2HNZ3B45BL+UgLSmkkjYivhgnqHqaoDvtPYH+vsPUkkC
+	 SR+MVRibHoGsLNXzlkmW2fdDNpqddg9DRLqxWTeDUiYP729TgFqbq6il9mjKrS1Friw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=m2Y1P68o;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=lbG59ViW;
+	arc=none smtp.remote-ip=91.218.175.253
+Received: from mta0.migadu.com (out-253.mta0.migadu.com [91.218.175.253])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 763FC606A329;
-	Tue, 17 Nov 2026 05:09:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC206606A31C
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 05:42:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DC206606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=m2Y1P68o
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 6AEF51F000C9;
-	Tue, 17 Nov 2026 05:09:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794892180;
-	bh=sBuq7agc2LJ6hWE7imheP/OC6f3LlJfwcnXlMy2Xfu8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=m2Y1P68oF3q8KRZXuY1dLQyCw7Xuffv8OmSRl/XRANK/TJRucEcvKZ7ML40C9WIT0
-	 2QSfuZcJpGeTlHq+kA/FndpXIuAZ4/3IXJ8L4y/OEa7LznWrwu48E9xD0mykdM9fFO
-	 tDPfqB26b7brXwbYtUkwUSptl5IZRMT3T2K5LcWWhbIiGUgWlt80bOOqg+3i4AaMHT
-	 UD9v8ntxI8rcuw6SzeqpkMe2yhb3NtfpAVtK73/KsvfyLGBqCC5hZBuk5nU7J23Ca0
-	 ZTLJ06fyDF7PqeD6U5CQnM7LbniWVBmO6Pr5VN367BVf723Hm2KNrL10kIac9yrhZA
-	 1QYYVTl3wgyRA==
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: Jarkko Sakkinen <jarkko@kernel.org>,
-	linux-api@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-security-module@vger.kernel.org,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Ben Segall <bsegall@google.com>,
-	Christian Brauner <brauner@kernel.org>,
-	David Hildenbrand <david@kernel.org>,
-	David Howells <dhowells@redhat.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Ingo Molnar <mingo@redhat.com>,
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=lbG59ViW
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=IwpDjeYOrVcNF5/TGijmvXdAi7xLWiQJD951NWDFYP4=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1794894129; v=1; x=1795498929;
+ b=lbG59ViWxgiu6VL8dzuK/XrarL58XgCuLO49gfHO1zPt7XYO4757KPl7qKseVw/OLHHzK1rf
+ HISlbAFKB0a5EVghdVy0qXzoQ3SBuIVweJjs3VubqBqFPWoevyI8eaqUEqhyETbbdxZ9NpMAn90
+ gDyEeDkTaSduhkCf+imli2Rc=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 6eef51c466824a1f;
+	Tue, 17 Nov 2026 05:42:09 +0000
+X-Mizu-Trace-ID: 6eef51c466824a1f
+X-Migadu-Flow: FLOW_OUT
+From: Qiliang Yuan <qiliang.yuan@linux.dev>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Qiliang Yuan <qiliang.yuan@linux.dev>,
+	Qiliang Yuan <odys.yuan@gmail.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
 	Jan Kara <jack@suse.cz>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Kees Cook <kees@kernel.org>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Manfred Spraul <manfred@colorfullife.com>,
-	Mel Gorman <mgorman@suse.de>,
-	Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Neal Gompa <neal@gompa.dev>,
-	Paul Moore <paul@paul-moore.com>,
-	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Serge Hallyn <sergeh@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Vlastimil Babka <vbabka@kernel.org>
-Subject: [RFC PATCH 13/13] MAINTAINERS: Add entry for ROOT NAMESPACE
-Date: Tue, 17 Nov 2026 07:08:41 +0200
-Message-ID: <20261117050841.3289652-14-jarkko@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261117050841.3289652-1-jarkko@kernel.org>
-References: <20261117050841.3289652-1-jarkko@kernel.org>
+	Joanne Koong <joannelkoong@gmail.com>,
+	linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] mm/readahead: look two windows ahead for the hole on a marker hit
+Date: Tue, 17 Nov 2026 00:42:02 -0500
+Message-ID: <20261117054202.50460-1-qiliang.yuan@linux.dev>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261115203328.f98ce9a068849c2f2fb32a41@linux-foundation.org>
+References: <20261022-bug-mm-readahead-async-overtaken-v1-1-c05b8d8bd2da@gmail.com> <20261115203328.f98ce9a068849c2f2fb32a41@linux-foundation.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -97,37 +74,61 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Record maintainership and mailing list routing for the root namespace
-subsystem across its uAPI headers, core implementation, documentation,
-and selftests.
+On Sun, Nov 15, 2026 at 08:33:28PM -0800, Andrew Morton wrote:
+> And you have QEMU in the way, so reads can get served from host
+> pagecache (depends on QEMU setup), which also matters.
+>
+> So I just don't know what to conclude from your numbers.  I *suspect*
+> the gains are from reduced CPU & memory-access times which is of course
+> good.  But was there any actual physical device access involved?
 
-Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
----
- MAINTAINERS | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+No, the host page cache was warm in those runs too.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7e7753a54125..1019266bc077 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -24534,6 +24534,17 @@ F:	include/linux/mfd/rohm-bd96802.h
- F:	include/linux/mfd/rohm-generic.h
- F:	include/linux/mfd/rohm-shared.h
- 
-+ROOT NAMESPACE
-+M:	David Howells <dhowells@redhat.com>
-+M:	Jarkko Sakkinen <jarkko@kernel.org>
-+L:	linux-fsdevel@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/userspace-api/rootns.rst
-+F:	include/linux/rootns.h
-+F:	include/uapi/linux/rootns.h
-+F:	kernel/rootns.c
-+F:	tools/testing/selftests/rootns/
-+
- ROTATION DRIVER FOR ALLWINNER A83T
- M:	Jernej Skrabec <jernej.skrabec@gmail.com>
- L:	linux-media@vger.kernel.org
--- 
-2.47.3
+I have now repeated them with the file on a raw disk attached with
+cache=none, which sits on a hardware RAID of spinning disks in the
+host, so every read in the guest goes to the disks. dd with O_DIRECT
+reads the 16 GiB file at 440-490 MB/s. Same 8 MiB memcpy() pieces,
+read_ahead_kb 8192, guest cache dropped before each run, v7.4-rc3
+(666539eecdf4) with and without the patch, three alternating boots,
+median, with the amount read from the disk:
 
+                                 time (s)            read (MB)
+  workload                    before  after change  before  after
+  1 thread from offset 2 GiB   60.69  28.68   -53%   14340  14340
+  8 threads, one range each    36.80  31.22   -15%   16384  16384
+  32 threads, one range each   34.67  30.38   -12%   16384  16384
+  8 threads, 7 MiB interleaved 27.54  27.20    -1%   16384  16384
+  8 threads, pread()           32.06  32.27    +1%   16384  16384
+
+The single reader goes from half the disk's bandwidth to all of it, and
+its major faults drop from 1793 to 2. With 8 and 32 threads the disk is
+already the limit, so the gain shrinks to 12-15%. None of these reads
+more than the copy needs.
+
+> I tested the patch on my LLM-driven test setup, which is similar to
+> yours.  The results are...  ambivalent.  The things which you want
+> faster are indeed faster, but other things slowed down (wall of words
+> appended).
+
+I reproduced both costs on the same disk in the same runs: fault in the
+middle of a window at 64 places in the file, so read-around marks a
+folio 6 MiB in, cache the next 8 MiB (or 16 MiB) with
+POSIX_FADV_WILLNEED, then touch each marker once (median of the
+per-run median access times):
+
+  beyond the window      before (us)  after (us)  read before  read after
+  8 MiB cached, then gap        16.1        43.1         0 MB      512 MB
+  16 MiB cached                  9.3        17.5         0 MB        0 MB
+
+The first row is a real cost of the patch: mainline reads nothing
+there, the patch reads one more window (read_ahead_kb) per marker hit.
+It is wasted only if the reader stops before that window. A reader that
+goes on, like the copies above, would otherwise fault on the hole and
+read it synchronously. The second row is the longer lookup when nothing
+is read, about 8 us per such marker hit.
+
+v2 is the same change rebased onto v7.4-rc2:
+https://lore.kernel.org/r/20261109-bug-mm-readahead-async-overtaken-v2-1-06ead50562a2@linux.dev
+
+Thanks,
+Qiliang
