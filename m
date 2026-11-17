@@ -1,112 +1,104 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794905084;
-	b=Zx32DAsfF3KQ4URY+oLbNlh8JT8Hl/S2kDP0k11ROf4UvJNuGjsiO24Fk5g21d7ezAfv
-	 fAx89LiaUfik6FFTm3Evx5CPRkeW9Ah1HCpt8nc4mtsIwRH7Wb/TirakWBak55s61ivlE
-	 V+ukUj+TRq0hZmghhGAFIYfjz6oTvL8QRsZbZ+wMJmGhsGBOeGGMoR1wAdxYqkeV1L28C
-	 GoD0UBvGQf7Knoz+qw+5ujzkgWW/SflJX0K4ELnd+Px0nbXw/tIluJAAIpqHPsLNLbwDg
-	 FHPhhbR6HcDs7BPIkhW127bj/XJ2Eof9GCqaNTpvrsbINIMzz3OJ7qT04nwFQTYAtig==
+	t=1794905254;
+	b=zNWohxKIVp6/N9ZpuvAfabR+MDQnZ97l+El5fWbxrzCAzhiG9k26bMshceQJ6Kv831K+
+	 jaZ+giz0b8FFInO5skq7akoHB4zJS+xNYoIA8jke40FhRZl+dbEPvPocnEupbAn/VjUVb
+	 mF+3UNNGhVDdn/3KLbMhQ8/voLG0HCGKR3E7D5HrAiui1C4xjbn36h03vVra1o7+ad0q+
+	 tbnC/Vf7i92WtVLZD6R6uFWcEVarIiBrzlyzjpet34NzmSkQOpBhhoMmTBa/qdAanwPOb
+	 v4rjwBSXH6ePLsKg9FpEALPbQ3Yw8EOIYDOKhFOBbyCQhX4Vb1er8r8SptRZsKu2+lg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794905084;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794905254;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
-	bh=YtgOPMlBsDbDRTTami0iaeC2PfdAlPMUJ3BhZBWqnDY=;
-	b=UvA5915oqI8PcUQ6BjdT8z89HKHlDf8BLPO4U1fATm3vftV4K46jKylps1r0FG/cn5fC
-	 mHhxnJQ5po1FD1TCZQ79ERwaNER4dLRkMmzZuNsrtq6vXDr7rVW7ym9wFYmY+5Il0HPPX
-	 0OwDpzAhOO+CZ5URKdawcb0SNVNQSMD9BL2eU8PmK4VaFycnYHPgHx/M8EozC+GYP9roQ
-	 xGYFHWAzEbDdF/sq3kqFflkMd1SEVtS0qkrAiZJ3J15BEVPb9whBZVf6HGjoQDH0j5eT3
-	 uMD/YJFvT4xoj1QaU7LxIWBWWz6/QElum+5xU/BF3NMIVpt3wEw3kVFMPdJ97QXiOfg==
+	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=s3M1bSOBYt5gL2unmdOFOAn92UpRxf2onmyD1mml+iQ=;
+	b=4rZBPZqso4Rd/mV+9VejUUKlzCJdEbx1wScKBtC4sbTyhuG1iRtNJSkjvDqIAsE0WYAn
+	 y/8NuaXAR+9F6MnwkxbDvTnVkHUO48SVvioDmDEL9g8RiA1NW4M4pK0Nep24Di01M5G/a
+	 sLai5gevSwh+VmZVOXwzwTBZDgHsADmwElwDfZZx7EC0j2duhpppINcCTwtMTdYLjW/0e
+	 gQbOBLoJbsWoenT4YhOY57X9BX8iGwON1s7Bcaav3G3j6Ew8Gy3u4AQfsUmadGYmisCaS
+	 Qh8eKY3T1SbTFSLH537Xw4n2PJnZCRtdGUpTbMd0VQBv9zODd9+SXD/PilQnC59PJKA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=amutable.com;
-	spf=pass smtp.mailfrom=amutable.com;
-	dkim=pass header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=qPWJSshs;
-	arc=none smtp.remote-ip=209.85.221.41
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=paG2evd6;
+	arc=none smtp.remote-ip=209.85.221.42
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF547606A329
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 08:44:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CF547606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amutable.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54ACD606A891
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 08:47:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 54ACD606A891
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=qPWJSshs
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-48e46e449e8so3217593f8f.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 00:44:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=paG2evd6
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-491971ac844so3743113f8f.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 00:47:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amutable-com.20260707.gappssmtp.com; s=20260707; t=1794905081; x=1795509881; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=YtgOPMlBsDbDRTTami0iaeC2PfdAlPMUJ3BhZBWqnDY=;
-        b=qPWJSshsn8vVlxONBkwnt0Rrdn9d5F3Qc4ul63isG/q9SzfN/YeX6Opt0gSo3Jew6G
-         TPoHc3exB3o1TVJHb31ucJURrMLm+X5ZLvKQdkLiUwsGhwj3/4jXaF9QxR3XbUAvZwOE
-         a/cd4y1UcgXoBr9kVgdvuhJuBveUAauSYuunqpBOO8ny5BuS4lSdHT4xtCJFDNjS8url
-         r/ZKVJBRzaToW1BBIq0cKvkP0/i/p+OipahpXpiSl0PGBR9WYmSpn39e8LKnYXYjrWjD
-         bzQp5gYJPTRPzgdIgnmtc42HrrCv5BgaqLA/tsUHs3tWdIoSQrhFLq1gvYrghbRPmmpF
-         EcZA==
+        d=gmail.com; s=20260707; t=1794905253; x=1795510053; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=s3M1bSOBYt5gL2unmdOFOAn92UpRxf2onmyD1mml+iQ=;
+        b=paG2evd6MD9xh5NrI3KFfHIvZHv4F2/vrRCU9ssrPWN5wCLSTZBF23eoz4I8dCC+/c
+         2ugnJY5Wxct2xzBsFpiEAthtgG0dlSHV91NMwhNci0H6Mzz+l8+LsJnw2bh89kHjn4Jt
+         50/dLxzD5nqtaxJXY6wlIkg+FT0Ibf7E2dBQJdcgLlc9mykk8YCLZrbJePv45Cu+t340
+         klDoQtgwpY1C81Wm1chUo9HmWscyCgQ4aOMSr3RQXcrRlou+8WjbuKgAItgYH7F819dN
+         6BhWO11IagfyEvdROrCQHJv3QvWsqAuNjHVu68TEumbWmFXtNmbSKzmEeaBfWM+/+zeJ
+         ooWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794905081; x=1795509881;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+        d=1e100.net; s=20260707; t=1794905253; x=1795510053;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=YtgOPMlBsDbDRTTami0iaeC2PfdAlPMUJ3BhZBWqnDY=;
-        b=CB7q3qNq3ZPUHMqvcKq5A0ZG/j8AgxsC/CEJHdpLG5LgTN52/U7JHAWVbYCLfk4Re1
-         zR2kLHz1ZaQPW7KFfkLUKNamAFdxcD18oy+4tolBJtGyzMevG9ZJqV8glMMtVUE2n0BC
-         Z8W51iTZsSqmk+RAYShojioktpkFjn5RgtIyNkZWcSajOCK4G4qn5EyxlHgAJgABuuHr
-         uCws1ADo1Vzfw7+20elbrPWR/dYUcQOHV5bJZQAm5lOngudMxvV+sHGK1l5QiStGTx3y
-         gWhHI/I43g+jpS1kQmJvICYXGQeGDGM/yV6MFu/uA1WCs9jHFgeBs6J2Kc7pDCflmie4
-         AabQ==
-X-Forwarded-Encrypted: i=1; AL+hErHxsjmXVz5vViaEuAzwNF+1GyGkzIVWEVyiFRhG6eou7bTWWd8eSngTBzdJrY62AKZQIhPULbur78BeLXLy@vger.kernel.org
-X-Gm-Message-State: APuU4Z/o9daYBE+vzV9mLMGwefy+rSO30ikKTorA+Y4+9XQKGTSwoWRN
-	zTnwlDfjEdvJZmZfG99B3N12gwMydV9J2FPIxVvFbn1KZpgzbZLsQUamjZHLC6Ng682Q
-X-Gm-Gg: AZFdTZdrcGAl+nm2TvTFtGr3DhEcuERBN7vNzEiawblmQhRnOJ4AQPsO8NuS0da1f5a
-	Q1A9iGUveLRdTIKWI3HRfXzrvfmCsOS8l/QFQKVCyiuLx3Jl8FuyMUxJkkCwSU5kj0+odD8INEL
-	6yCuOScNn5u23SeUVE1th0PhUEuG8j8c6zBW7LzoKb+QhXcCy7gPP3w9lU03oKLEyGg7Yb6gZ63
-	r0R0rjRzHGH8sx0bi9laFnCuc2jsOUJgGQWkf2y8hfEPDjyCVC7BJE3K6WELUkSAHo5RVZVJymS
-	tYMQn/a/mgdS0eE23SSH/7gcB72ZKmi5rrfI0UbnbIePhUFrmzmP8klbPdH0hLYRyWOF4RoQ1a7
-	hoLuE50raHkwSkzE/vtVDnf1BIsvZUm7ncTmQHC/lj4NqW43uclM3+wLDC4z9gtS+fWUq9ekC1m
-	gYpXXfAtrTF+gGtVGxfSDb/yaLHf9w8NwG2YgKY4SuZaUfAMmVenSLHLBR8geWhi1GKrcCxCFum
-	1qGxuWLOigKEtplyqq3kr5wCPcByENITqx7NIGzgtv8TUM64MusgBe7BfFlYKye4CizMw18Zrks
-	2OY4y5+eek76KgIZ35hDPEyGTcerm81sOeMCgxBtVlAjhqNp/XTlRfaYHSUBtyVcz+T8NvgVXsJ
-	/M8T+qQpxjmxtgFAwrPO4TbCQMerYtgxzf0xCYZ5IuGF6tuFKqrZoCF8wv4qcB7EPVr9yX3uzZN
-	WZ/g==
-X-Received: by 2002:a05:6000:2411:b0:48f:f26d:c5c with SMTP id ffacd0b85a97d-49c70b051d1mr27471178f8f.9.1794905081269;
-        Tue, 17 Nov 2026 00:44:41 -0800 (PST)
-Received: from ?IPv6:2003:cf:572c:2800:de4c:6789:33ce:97c2? (p200300cf572c2800de4c678933ce97c2.dip0.t-ipconnect.de. [2003:cf:572c:2800:de4c:6789:33ce:97c2])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49d673ce75fsm19982260f8f.55.2026.11.17.00.44.39
+        bh=s3M1bSOBYt5gL2unmdOFOAn92UpRxf2onmyD1mml+iQ=;
+        b=hSH2Ted1w08uAsScveEnaOE1HCQ+tslia5IOtxeMZmePmkEknw4lnS6DD3cmg0es08
+         JR6zX2nGKJ/H/OScmwolPVe6Tc92hFLOsiapAtpvjgts+y0o+hSc4Uq7q8juooNy4clW
+         sibQryKMnnRfzsKKBWNPj2eJo0DIr+MYa1u1BakL9tkZZxZZc8TPVjkmY1EU9PHaGMuj
+         7qz+9nwa1i6Lv6fh1lfiEVJVcKV0ZQ4LNgGxDmE5deePIVFwyy1lWvFo38VD2ExhBP2K
+         QQfIvoB5Fhl3FqEO9+rLaQ8dpiT4lM7y8A7SKVSCWyd22lMFou+YO9zvER22lbIo12MR
+         wQWw==
+X-Forwarded-Encrypted: i=1; AL+hErEvSxO4pT6Usbt4nGb69fcvc4aPJmQa6s/959uSDjYPFdNtVf6+wt0EuIT7yy6e8J2cu7I3spm+S2aOanXC@vger.kernel.org
+X-Gm-Message-State: APuU4Z/+hJ48p7mHFGQHaL5EVy0/QPNc0lmQN4dFB7h2RgCOQr+VuXnv
+	qwRw+SHB7Ej2yymQQoNuac2VPGSsGE2L7YFMmbbpGIYaJVwRwEn/7eh9
+X-Gm-Gg: AZFdTZe7uYliu3drzEmDifS17OgvcMl2swAqqZbq2hqBmXSA86e1BOakjqvRYUTKyrL
+	BfejUZL7RRb3kgPjgHOgZkHi4C5RyrTeZkV4LDjnA+EVXYjUWG2wdpkvU4XU/6Z9/5KIByGKeE3
+	DQDad3J5KeebiKrp0BtrMUIguqWaoJ8+DGIie/0SIg0ZFQWh/4u5rSq0dKxeaNPXEAVcnKvOJjv
+	Puj8PySHiR/DXkHOqLSUckxEGBsYXRg13ooWI9XBIQkCl8LIcZLNWRo+wWetyFR8g+GA5QYmEf+
+	CxuzESH3GZWm8GvBjUoqFGnWuHL53PvVjg+LcG0XV+lIAlDhFl06XQFpDDxLjkcxDhlb+dhniSH
+	LtbQth6toWqBnthml8NZIGjll/1Php/iOzCCRnXCaUPT0Xy5a86a6IOcxg9GFuZ5TKOa6iwzkRs
+	2TXBlo/acrM89YPfiRsLygGywJxsKE4/gtsbEKrhMxcM8D5zsOrkAXif+fcoXPMQieyl9lHTgvC
+	s9nYj0ZQ92hXa3oQj8+L+P8jQ1Gni8KCxMwyjIZGDMImLljBJzWv5Zr9f8pUhzO2Z43j2lq2L6/
+	pg/ToATOormuGNJ9EDFYtXR/MyLWavcrf8hR7M6HC+8jkkxvRV/XPz6AJzizZ/nbhQ==
+X-Received: by 2002:a05:6000:46c2:b0:48f:db47:6ebf with SMTP id ffacd0b85a97d-49c729bb31fmr19089884f8f.38.1794905252525;
+        Tue, 17 Nov 2026 00:47:32 -0800 (PST)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a43775f9b9sm2739633f8f.26.2026.11.17.00.47.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 00:44:40 -0800 (PST)
-Message-ID: <d18a972cfc6a7d6da39ab9674903d7ae6e4c1826.camel@amutable.com>
-Subject: Re: [PATCH RFC v3 35/44] fs: add file_check_backing()
-From: Alexander Mikhalitsyn <alex@amutable.com>
-To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
-Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>, Josef
- Bacik	 <josef@toxicpanda.com>, Christoph Hellwig <hch@lst.de>, 
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, Alexander Viro <viro@zeniv.linux.org.uk>,
- Jan Kara <jack@suse.cz>, linux-scsi@vger.kernel.org,
- target-devel@vger.kernel.org, 	driver-core@lists.linux.dev,
- linux-mm@kvack.org, bpf@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
-	apparmor@lists.ubuntu.com, linux-nfs@vger.kernel.org,
- netdev@vger.kernel.org, 	fuse-devel@lists.linux.dev,
- linux-efi@vger.kernel.org, 	xen-devel@lists.xenproject.org,
- ocfs2-devel@lists.linux.dev, 	linux-s390@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, 	linux-usb@vger.kernel.org, Amir Goldstein
- <amir73il@gmail.com>, 	linux-erofs@lists.ozlabs.org,
- linux-kselftest@vger.kernel.org
-Date: Tue, 17 Nov 2026 09:44:39 +0100
-In-Reply-To: <20261116-work-loop-pseudo-v3-35-8cbbea1cf34f@kernel.org>
-References: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org>
-	 <20261116-work-loop-pseudo-v3-35-8cbbea1cf34f@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-0+deb13u1 
+        Tue, 17 Nov 2026 00:47:32 -0800 (PST)
+Date: Tue, 17 Nov 2026 08:47:27 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: "Theodore Tso" <tytso@mit.edu>
+Cc: Gabriel Krisman Bertazi <krisman@suse.de>, Sarthak Kukreti
+ <sarthakkukreti@google.com>, Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu
+ <chao@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian
+ Brauner <brauner@kernel.org>, Gabriel Krisman Bertazi
+ <krisman@collabora.co.uk>, Eric Biggers <ebiggers@google.com>, Dmitry
+ Torokhov <dtor@google.com>, linux-fsdevel@vger.kernel.org,
+ linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] libfs: reject casefolded names that fold to ".",
+ "..", or empty
+Message-ID: <20261117084727.0cfa196a@pumpkin>
+In-Reply-To: <avu0X5E298dHRBHY@mit.edu>
+References: <20261113065332.929085-1-sarthakkukreti@google.com>
+	<20261113065332.929085-2-sarthakkukreti@google.com>
+	<878q2swoxp.fsf@cartola>
+	<avu0X5E298dHRBHY@mit.edu>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -116,172 +108,43 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, 2026-11-16 at 12:05 +0100, Christian Brauner wrote:
-> Loop, zloop, the nvme target, the scsi target, fuse passthrough, the
-> usb
-> mass storage gadget, erofs and acct all take a file from userspace
-> and
-> use it as storage. Currently, each of them has its own idea of what
-> to
-> check before using a file like that:
->=20
-> - loop and the gadget check for a regular file or a block device, the
-> =C2=A0 nvme target, the scsi target and zloop take any file type
-> - loop checks the open mode, the gadget checks FMODE_CAN_READ, the
-> nvme
-> =C2=A0 target, the scsi target and zloop only check for ->read_iter() and
-> =C2=A0 ->write_iter()
-> - apart from acct which refuses procfs and sysfs files none of them
-> =C2=A0 cares whether the file is a kernel interface
->=20
-> Add a helper that does all of it in one place. It only accepts
-> regular
-> files and, if the caller passes S_IFBLK, block devices. It refuses
-> files
-> on pseudo filesystems. And it checks that the file is open for what
-> the
-> caller is going to do with it and implements ->read_iter() for
-> reading
-> and ->write_iter() for writing.
->=20
-> O_PATH files are refused unless the caller passes FMODE_PATH. That is
-> for callers that only need the path of the file. fuse passthrough is
-> one of them and has accepted O_PATH file descriptors since commit
-> efad7153bf93 ("fuse: allow O_PATH fd for FUSE_DEV_IOC_BACKING_OPEN").
->=20
-> Block devices are fine even though bdevfs is a pseudo filesystem. A
-> block device that userspace hands in is a device node on devtmpfs or
-> some other filesystem. Files on bdevfs only come from
-> bdev_file_open_by_*() and never end up here.
->=20
-> The pseudo filesystem check looks at the inode that actually provides
-> the data via d_real_data_inode(). overlayfs accepts sysfs, cgroup2,
-> debugfs, tracefs, configfs and securityfs as lower layers and reads
-> of
-> such an overlayfs file are served by the file on the pseudo
-> filesystem.
-> Checking the overlayfs inode would miss that.
->=20
-> For an O_PATH file nothing might have looked up the data yet.
-> overlayfs
-> only looks up the data of a metacopy file in a data-only layer when
-> the
-> file is opened. d_real_data_inode() does the lookup then and if that
-> fails we return the error.
->=20
-> Note that the file type is taken from the inode of the file and not
-> from
-> the host of ->f_mapping like loop and the gadget do it. A driver can
-> point ->f_mapping somewhere else in ->open(). It makes no difference
-> for
-> block devices as both inodes are block devices.
->=20
-> No functional changes. Nothing calls the helper yet.
->=20
+On Mon, 16 Nov 2026 21:00:06 -0500
+"Theodore Tso" <tytso@mit.edu> wrote:
 
-Reviewed-by: Alexander Mikhalitsyn <alex@amutable.com>
+> On Mon, Nov 16, 2026 at 02:34:26PM -0500, Gabriel Krisman Bertazi wrote:
+> > Either way, this issue is another example of why treating ignorable code
+> > points as 0-length strings was a bad idea.  I'd very much rather
+> > utf8_casefold would treat all ignorable code points as foldable to
+> > themselves, (i.e. commit 5c26d2f1d3f5 ("unicode: Don't special case
+> > ignorable code points")), but that was tried and broke applications
+> > that relied on variant selectors code-points being ignored.  
+> 
+> Sigh... I really think these characters are *evil*.  I wonder if we
+> should simply drop those code points unconditionally when they are fed
+> to the kernel --- not only folding to themselves, but *not* preserving
+> them when a misguided application tries to create a file with one of
+> these misbegotten Unicode charactesr.
 
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-> ---
-> =C2=A0fs/read_write.c=C2=A0=C2=A0=C2=A0 | 53
-> +++++++++++++++++++++++++++++++++++++++++++++++++++++
-> =C2=A0include/linux/fs.h |=C2=A0 2 ++
-> =C2=A02 files changed, 55 insertions(+)
->=20
-> diff --git a/fs/read_write.c b/fs/read_write.c
-> index 6767283108991..9f1e7bfcbd4f1 100644
-> --- a/fs/read_write.c
-> +++ b/fs/read_write.c
-> @@ -866,6 +866,59 @@ static ssize_t do_loop_readv_writev(struct file
-> *filp, struct iov_iter *iter,
-> =C2=A0	return ret;
-> =C2=A0}
-> =C2=A0
-> +/**
-> + * file_check_backing - check that the kernel can use a file as
-> storage
-> + * @file: file that userspace handed in
-> + * @mode: FMODE_READ and/or FMODE_WRITE the kernel will do I/O with,
-> or
-> + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 FMODE_PATH if only the path=
- of @file is used
-> + * @type: S_IFBLK if a block device is fine as well, 0 otherwise
-> + *
-> + * Call this where a file from userspace is taken as a backing file.
-> Only
-> + * regular files and, if @type is S_IFBLK, block devices are
-> storage. Files
-> + * on pseudo filesystems are kernel interfaces and are refused. The
-> file
-> + * must be open for @mode and implement ->read_iter() for reading
-> and
-> + * ->write_iter() for writing. O_PATH files are only fine with
-> FMODE_PATH.
-> + *
-> + * Return: 0 on success, -EBADF if @file isn't open for @mode, -
-> EINVAL if it
-> + * can't be used as storage, or the error from looking up the data
-> of @file
-> + * on a stacking filesystem.
-> + */
-> +int file_check_backing(const struct file *file, fmode_t mode,
-> umode_t type)
-> +{
-> +	fmode_t io =3D mode & (FMODE_READ | FMODE_WRITE);
-> +	/* Drivers may point ->f_mapping at something else. */
-> +	umode_t fmt =3D file_inode(file)->i_mode & S_IFMT;
-> +	struct inode *real_inode;
-> +
-> +	/* O_PATH files are only fine for callers that just use the
-> path. */
-> +	if ((file->f_mode & FMODE_PATH) && !(mode & FMODE_PATH))
-> +		return -EBADF;
-> +
-> +	if ((file->f_mode & io) !=3D io)
-> +		return -EBADF;
-> +
-> +	if (fmt !=3D S_IFREG && !(type =3D=3D S_IFBLK && fmt =3D=3D S_IFBLK))
-> +		return -EINVAL;
-> +
-> +	/* Look through stacking filesystems at the inode with the
-> data. */
-> +	real_inode =3D d_real_data_inode(file->f_path.dentry);
-> +	if (IS_ERR(real_inode))
-> +		return PTR_ERR(real_inode);
-> +	if (real_inode->i_sb->s_iflags & SB_I_PSEUDO)
-> +		return -EINVAL;
-> +
-> +	if ((mode & FMODE_READ) &&
-> +	=C2=A0=C2=A0=C2=A0 (!(file->f_mode & FMODE_CAN_READ) || !file->f_op-
-> >read_iter))
-> +		return -EINVAL;
-> +
-> +	if ((mode & FMODE_WRITE) &&
-> +	=C2=A0=C2=A0=C2=A0 (!(file->f_mode & FMODE_CAN_WRITE) || !file->f_op-
-> >write_iter))
-> +		return -EINVAL;
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(file_check_backing);
-> +
-> =C2=A0ssize_t vfs_iocb_iter_read(struct file *file, struct kiocb *iocb,
-> =C2=A0			=C2=A0=C2=A0 struct iov_iter *iter)
-> =C2=A0{
-> diff --git a/include/linux/fs.h b/include/linux/fs.h
-> index 99caef43ff3c4..b1c7ebafbadbe 100644
-> --- a/include/linux/fs.h
-> +++ b/include/linux/fs.h
-> @@ -2553,6 +2553,8 @@ static inline const struct inode
-> *file_user_inode(const struct file *f)
-> =C2=A0	return file_inode(f);
-> =C2=A0}
-> =C2=A0
-> +int file_check_backing(const struct file *file, fmode_t mode,
-> umode_t type);
-> +
-> =C2=A0static inline struct file *file_clone_open(struct file *file)
-> =C2=A0{
-> =C2=A0	return dentry_open(&file->f_path, file->f_flags, file-
-> >f_cred);
+Doesn't that assume that filenames are UTF8 rather than just sequences
+of bytes with everything except '\0' and '/' being valid.
+Casefolding is itself so evil/impossible it shouldn't have been allowed.
+
+David
+
+> 
+> I'd prefer to simply reject creating them with an EINVAL, but it's
+> likely that will break those stupid applications....
+> 
+> Eventually we can have e2fsck offer to fix directories with those
+> characters, and eventually we can make these characters become a bad
+> memory.
+> 
+> The other question is what *other* evil misdesigns are in the unicode
+> spec that we should be preactively trying to addressw hile we're at it?
+> 
+>      	     	       		   	     - Ted
+> 
+
