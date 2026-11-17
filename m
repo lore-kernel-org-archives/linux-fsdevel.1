@@ -1,44 +1,44 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794957278;
-	b=ZUSvC8Th/g1/ZcLKtHPio+GCzY0DAwQbLy3uHh7qivJFymRPakZSNdMhZXfRGKUua5gW
-	 NfFd9JmqjCXuMS34TyIwby+kOCGZQHmF2JatgBncennX2fhyoj1rBO5k+UNHdFqU2osHy
-	 AKYc2w0bAv2/vUfS190ASr+SNEez+bq4B236GtBXczrfdPGTN24OQ+H9Sim4PyEml1gxu
-	 CsbwWmXG/Z+IS1+1PaF7DIsJbGcLeMjKU3Ny0P8BrItQCGOCGvNPafWsk2sVGUPMgAwCa
-	 8XFrfmd7gyL5i3J5AkU4oV5+pe1+oRYNqqE5fUPZBulxiE6N3RSm9736q9d987i6zww==
+	t=1794957286;
+	b=RzkYbPFuEVoWHSOFdBUehfntz82Wkksw6352QxbypodhXH0IKryS/9pxC/hO97Bw3eyl
+	 BqHXon6IK2xWkpvz4sPneYrVcnnRaySTRndN/so0piqxv9cXplvk8YfjAStQnt5IeTWvP
+	 gmGoktqZpSByQuI6T9vavpJb94YWdzaz7qRUMA2THJomIhNS+UFBv9ow2QCaPT+OLPsqL
+	 mZPGtaTW4slygZYM06tly3RkSA85bgPAxmXKWy6dV0+KnBdXECOWzU4Q1b4xl8VqMVJdx
+	 oBlkTIZ8Sqbj9Ts+3Y06d/utQT0L+ZHFLBf0UXQ92rTWL2pP91QNsUPI4Ac27XlmEDA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794957278;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794957286;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=W90JlSi/rRvRu4a1rujnuubFz7IsSDtPR8hLiIDF+8k=;
-	b=jRQJUboGWjcJy6hwixq8979EPnBCoK5tbDHtZhU6c2M6PvJwoD8dolFA1qjzHK9+9IBB
-	 CgxadAkwLhGhI0u605EYOpQXlZZTVM1E2zSfuPCy0GKO1k8Ho49RK6aYbBuyCEOJFTe/w
-	 gDoXJiwP2s5RwSSvXWzWiFNz4SWtx7ts6v4f1Vn1+cfV51BkdXzKXmzpy1IFqFUpUysdl
-	 O+JHkkOiox9NtuEt3G+nZtHX1sJxH5NYQjgRUCyJqmO72b/CpDi4qHsbG8ZbEiRMUs/t3
-	 wl2S9ralc7eZyyfjWJcAK1cYSV9hsykPlFL7h8pvOOXMfxV9kgUkw5agbL6W7aupPew==
+	bh=6n34UB4IGYmqbxIeyu3C92WUyY/otUHn2KouidPimtk=;
+	b=PBgac1QWaHbrMatvEYWH5zSSqEjSqtFVK2foPEPBIC9kEJ4cr9tTXnwHYH5xP9SiXBZU
+	 5wc4bmJBZKyZuy79pVaAVBOakOm1y7zDV7JZv9rOeXKBy3SfUNWv435RjA8YfquSUTOwy
+	 bKFIs+Q5mP/4ZaIpeHQlPV4oEz3fAk5gYS6R9u9+ILPQ5nF55wCzKtCtbCkCliXhpczT5
+	 NPNC/G61HtnEJGv8bHK0F8HimuMeH5JW3xEyWZmhAWq453s+XG7DSArB45HdklsCCKGJC
+	 xpnRERp0j/AuS9GYAV+GCDXB//8hYCz8OBAKQs82FjxricfQOh/0NzTA7MsV/fCcFdQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QIwmfUVY;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Nv82ikRn;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 35BB1606A32A;
-	Tue, 17 Nov 2026 23:14:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 05EA3606A88A;
+	Tue, 17 Nov 2026 23:14:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QIwmfUVY
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 20D7E1F000C7;
-	Tue, 17 Nov 2026 23:14:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Nv82ikRn
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id DE2621F00923;
+	Tue, 17 Nov 2026 23:14:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794957277;
-	bh=W90JlSi/rRvRu4a1rujnuubFz7IsSDtPR8hLiIDF+8k=;
+	s=k20260515; t=1794957285;
+	bh=6n34UB4IGYmqbxIeyu3C92WUyY/otUHn2KouidPimtk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=QIwmfUVYU5IQTDO5BzjDyxoXLrI/H3GCBN+1+Shdo7WL1bhnLxRRVat1j97HFR/Xj
-	 5KS2p98rfK6tWv8rny72rSF3jlLWK3LJ9gssXWfv+sgBzAmV6ym2xTU1dVkpYQeI3b
-	 SH59yr2jv7xaS7j6FreSbxUdcd9ySHTVhKW68btZts/NmvVM2VqRsqzzgxHOv/ZwGD
-	 P0y7J9exQVFd6h+w4CxCS2KU90VEV+QdFhFkne/Rt9uJJ2AohZ0+MtheL/O70lLq31
-	 8I1mrEJYyHOr/Ym8hX9wqSGfh6JLOAcsJU0iEEPVlYy0ANRJhFWXeQ9iYJUf2112k/
-	 lpKYOBv/JbIlg==
+	b=Nv82ikRni3pWvdz/v3Vdo+m1Anuew84FJcPoalRIkbDhe6E5zey3rFphBih5HmEi1
+	 Jdj85W4jMNmUEEYeQvn10vCL9w84rrIIQWOvHio86WhASVJSe7JhRk/BhZoA2caOMn
+	 BcQCQ1kOtz3EfRvr5RBUjeT8YZUorLG1SwZ24dQylM7CUrkAohYxDY1kC6mLaVAIpE
+	 njZnDZ9/qWUlt4Ax/p64lqw9yFXGnqjVuiOMmxjXfoqa8EuMKYBfUAzEHntS7aYcqC
+	 3KEhBzC1vPDiFvp4mnnuTvw6gT7uuc39cnywJh8Ozpp8k+cLCTOr5c8ebROGPJKW67
+	 NkI6qRuasf7jA==
 From: Jarkko Sakkinen <jarkko@kernel.org>
 To: linux-fsdevel@vger.kernel.org
 Cc: Jarkko Sakkinen <jarkko@kernel.org>,
@@ -83,9 +83,9 @@ Cc: Jarkko Sakkinen <jarkko@kernel.org>,
 	Vincent Guittot <vincent.guittot@linaro.org>,
 	Vlastimil Babka <vbabka@kernel.org>,
 	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
-Subject: [RFC PATCH v2 07/13] fork: Support CLONE_INTO_ROOTNS in clone3()
-Date: Wed, 18 Nov 2026 01:13:46 +0200
-Message-ID: <20261117231352.3816603-8-jarkko@kernel.org>
+Subject: [RFC PATCH v2 09/13] fs: Support installing rootns mount trees via move_mount()
+Date: Wed, 18 Nov 2026 01:13:48 +0200
+Message-ID: <20261117231352.3816603-10-jarkko@kernel.org>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20261117231352.3816603-1-jarkko@kernel.org>
 References: <20261117231352.3816603-1-jarkko@kernel.org>
@@ -100,694 +100,298 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Multithreaded userspace daemons cannot call setns(CLONE_NEWUSER) or
-safely mutate process-wide filesystem state in place before spawning a
-child into a target namespace set.
+A newly created rootns starts with an empty nullfs-rooted mount
+namespace, and move_mount() only resolves target paths against the
+caller's own filesystem view.
 
-Add CLONE_INTO_ROOTNS and struct clone_args.rootns (CLONE_ARGS_SIZE_VER3)
-to spawn a child process directly into a rootns whose root mount has
-been installed. Transition the rootns from ROOTNS_READY through
-ROOTNS_FORKING to ROOTNS_RUNNING for the first process so it becomes
-PID 1, serialize concurrent entrants on waitq until bootstrap resolves,
-and admit subsequent callers into the running PID namespace until
-teardown begins.
+Add MOVE_MOUNT_T_ROOTNS_ROOT to populate a rootns mount tree through its
+file descriptor before or after entry. Installing "/" attaches a
+detached anonymous mount tree onto the nullfs root of the rootns mount
+namespace once and transitions the rootns to ROOTNS_READY; relative
+target paths attach anonymous mounts underneath the installed rootns
+root while verifying the destination mount namespace.
 
-Require CAP_SYS_ADMIN in the target user namespace, forbid credential
-privilege escalation, and require an ancestor active PID namespace so
-the caller receives a valid child PID. Restrict companion flags to
-CLONE_VFORK, CLONE_VM (with CLONE_VFORK), CLONE_PIDFD,
-CLONE_PIDFD_AUTOKILL, CLONE_AUTOREAP, CLONE_CLEAR_SIGHAND,
-CLONE_INTO_CGROUP, and CLONE_NNP.
+Allocate fsmount() anonymous namespaces in fc->user_ns, check target
+user namespace CAP_SYS_ADMIN for MOVE_MOUNT_T_ROOTNS_ROOT instead of
+caller may_mount(), and lock moved mount trees when crossing user
+namespace boundaries.
 
 Co-developed-by: David Howells <dhowells@redhat.com>
 Signed-off-by: David Howells <dhowells@redhat.com>
 Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
 ---
- include/linux/cred.h       |   4 +-
- include/linux/nsproxy.h    |   4 +-
- include/linux/rootns.h     |  14 ++++
- include/linux/sched/task.h |   8 +++
- include/uapi/linux/sched.h |   5 ++
- kernel/cred.c              |  70 +++++++++++++------
- kernel/fork.c              |  67 +++++++++++++++---
- kernel/nsproxy.c           |  11 ++-
- kernel/rootns.c            | 137 +++++++++++++++++++++++++++++++++++++
- 9 files changed, 288 insertions(+), 32 deletions(-)
+ fs/namespace.c             | 178 ++++++++++++++++++++++++++++++++-----
+ include/uapi/linux/mount.h |   3 +-
+ 2 files changed, 157 insertions(+), 24 deletions(-)
 
-diff --git a/include/linux/cred.h b/include/linux/cred.h
-index 49c26af37349..9849366fd44b 100644
---- a/include/linux/cred.h
-+++ b/include/linux/cred.h
-@@ -19,6 +19,7 @@
- 
- struct cred;
- struct inode;
-+struct rootns;
- 
- extern struct task_struct init_task;
- 
-@@ -152,7 +153,8 @@ struct cred {
- 
- extern void __put_cred(struct cred *);
- extern void exit_creds(struct task_struct *);
--extern int copy_creds(struct task_struct *, u64);
-+int copy_creds(struct task_struct *tsk, u64 clone_flags,
-+	       struct rootns *rootns);
- extern const struct cred *get_task_cred(struct task_struct *);
- extern struct cred *cred_alloc_blank(void);
- extern struct cred *prepare_creds(void);
-diff --git a/include/linux/nsproxy.h b/include/linux/nsproxy.h
-index cacbbbe3f1ce..26b3b788cc90 100644
---- a/include/linux/nsproxy.h
-+++ b/include/linux/nsproxy.h
-@@ -12,6 +12,7 @@ struct ipc_namespace;
- struct pid_namespace;
- struct cgroup_namespace;
- struct fs_struct;
-+struct rootns;
- struct user_namespace;
- 
- /*
-@@ -97,7 +98,8 @@ struct nsproxy *create_new_namespaces(u64 flags,
- 				      struct nsproxy *ns,
- 				      struct user_namespace *user_ns,
- 				      struct fs_struct *new_fs);
--int copy_namespaces(u64 flags, struct task_struct *tsk);
-+int copy_namespaces(u64 flags, struct task_struct *tsk,
-+		    struct rootns *rootns);
- void switch_cred_namespaces(const struct cred *old, const struct cred *new);
- void exit_nsproxy_namespaces(struct task_struct *tsk);
- void get_cred_namespaces(struct task_struct *tsk);
-diff --git a/include/linux/rootns.h b/include/linux/rootns.h
-index b8437bf21830..2077b28e39c7 100644
---- a/include/linux/rootns.h
-+++ b/include/linux/rootns.h
-@@ -14,6 +14,7 @@
- 
- struct cred;
- struct file;
-+struct kernel_clone_args;
- struct nsproxy;
- struct pid;
- struct pid_namespace;
-@@ -50,6 +51,8 @@ void put_rootns(struct rootns *c);
- bool is_rootns_file(struct file *file);
- void copy_rootns(struct task_struct *tsk, struct rootns *rootns);
- void exit_rootns(struct pid_namespace *pid_ns, struct task_struct *tsk);
-+int rootns_prepare_fork(struct kernel_clone_args *args);
-+int rootns_finish_fork(struct kernel_clone_args *args, struct task_struct *p);
- #else
- static inline struct rootns *get_rootns(struct rootns *c)
- {
-@@ -73,6 +76,17 @@ static inline void exit_rootns(struct pid_namespace *pid_ns,
- 			       struct task_struct *tsk)
- {
- }
-+
-+static inline int rootns_prepare_fork(struct kernel_clone_args *args)
-+{
-+	return -EINVAL;
-+}
-+
-+static inline int rootns_finish_fork(struct kernel_clone_args *args,
-+				     struct task_struct *p)
-+{
-+	return 0;
-+}
- #endif /* CONFIG_ROOTNS */
- 
- #endif /* _LINUX_ROOTNS_H */
-diff --git a/include/linux/sched/task.h b/include/linux/sched/task.h
-index 90ed5bc3c7af..e0c4e8ab02f1 100644
---- a/include/linux/sched/task.h
-+++ b/include/linux/sched/task.h
-@@ -16,6 +16,8 @@ struct task_struct;
- struct rusage;
- union thread_union;
- struct css_set;
-+struct file;
-+struct rootns;
- 
- /* All the bits taken by the old clone syscall. */
- #define CLONE_LEGACY_FLAGS 0xffffffffULL
-@@ -39,11 +41,17 @@ struct kernel_clone_args {
- 	/* Number of elements in *set_tid */
- 	size_t set_tid_size;
- 	int cgroup;
-+	int rootns_fd;
- 	int idle;
- 	int (*fn)(void *);
- 	void *fn_arg;
- 	struct cgroup *cgrp;
- 	struct css_set *cset;
-+#ifdef CONFIG_ROOTNS
-+	struct file *rootns_file;
-+	struct rootns *rootns;
-+	bool rootns_bootstrapping;
-+#endif
- 	unsigned int kill_seq;
- };
- 
-diff --git a/include/uapi/linux/sched.h b/include/uapi/linux/sched.h
-index 19ffeba89428..405cfc954ae1 100644
---- a/include/uapi/linux/sched.h
-+++ b/include/uapi/linux/sched.h
-@@ -40,6 +40,7 @@
- #define CLONE_NNP		(1ULL << 35) /* Set no_new_privs on child. */
- #define CLONE_PIDFD_AUTOKILL	(1ULL << 36) /* Kill child when clone pidfd closes. */
- #define CLONE_EMPTY_MNTNS	(1ULL << 37) /* Create an empty mount namespace. */
-+#define CLONE_INTO_ROOTNS	(1ULL << 38) /* Clone into a specific root namespace. */
- 
- /*
-  * cloning flags intersect with CSIGNAL so can be used with unshare and clone3
-@@ -94,6 +95,8 @@
-  *                kernel's limit of nested PID namespaces.
-  * @cgroup:       If CLONE_INTO_CGROUP is specified set this to
-  *                a file descriptor for the cgroup.
-+ * @rootns:       If CLONE_INTO_ROOTNS is specified set this to
-+ *                a file descriptor for the root namespace.
-  *
-  * The structure is versioned by size and thus extensible.
-  * New struct members must go at the end of the struct and
-@@ -111,12 +114,14 @@ struct clone_args {
- 	__aligned_u64 set_tid;
- 	__aligned_u64 set_tid_size;
- 	__aligned_u64 cgroup;
-+	__aligned_u64 rootns;
- };
- #endif
- 
- #define CLONE_ARGS_SIZE_VER0 64 /* sizeof first published struct */
- #define CLONE_ARGS_SIZE_VER1 80 /* sizeof second published struct */
- #define CLONE_ARGS_SIZE_VER2 88 /* sizeof third published struct */
-+#define CLONE_ARGS_SIZE_VER3 96 /* sizeof fourth published struct */
- 
- /*
-  * Scheduling policies
-diff --git a/kernel/cred.c b/kernel/cred.c
-index d01df40a9a38..afc91eed2656 100644
---- a/kernel/cred.c
-+++ b/kernel/cred.c
-@@ -15,10 +15,12 @@
- #include <linux/key.h>
- #include <linux/keyctl.h>
- #include <linux/init_task.h>
+diff --git a/fs/namespace.c b/fs/namespace.c
+index aecd05ac0170..f8c96e4d13ee 100644
+--- a/fs/namespace.c
++++ b/fs/namespace.c
+@@ -34,6 +34,7 @@
+ #include <linux/mnt_idmapping.h>
+ #include <linux/pidfs.h>
+ #include <linux/nstree.h>
 +#include <linux/rootns.h>
- #include <linux/security.h>
- #include <linux/binfmts.h>
- #include <linux/cn_proc.h>
- #include <linux/uidgid.h>
-+#include <linux/user_namespace.h>
  
- #if 0
- #define kdebug(FMT, ...)						\
-@@ -162,24 +164,8 @@ struct cred *cred_alloc_blank(void)
- 	return NULL;
- }
- 
--/**
-- * prepare_creds - Prepare a new set of credentials for modification
-- *
-- * Prepare a new set of task credentials for modification.  A task's creds
-- * shouldn't generally be modified directly, therefore this function is used to
-- * prepare a new copy, which the caller then modifies and then commits by
-- * calling commit_creds().
-- *
-- * Preparation involves making a copy of the objective creds for modification.
-- *
-- * Returns a pointer to the new creds-to-be if successful, NULL otherwise.
-- *
-- * Call commit_creds() or abort_creds() to clean up.
-- */
--struct cred *prepare_creds(void)
-+static struct cred *dup_creds(const struct cred *old)
- {
--	struct task_struct *task = current;
--	const struct cred *old;
- 	struct cred *new;
- 
- 	new = kmem_cache_alloc(cred_jar, GFP_KERNEL);
-@@ -188,7 +174,6 @@ struct cred *prepare_creds(void)
- 
- 	kdebug("prepare_creds() alloc %p", new);
- 
--	old = task->cred;
- 	memcpy(new, old, sizeof(struct cred));
- 
- 	new->non_rcu = 0;
-@@ -221,6 +206,25 @@ struct cred *prepare_creds(void)
- 	abort_creds(new);
- 	return NULL;
- }
-+
-+/**
-+ * prepare_creds - Prepare a new set of credentials for modification
-+ *
-+ * Prepare a new set of task credentials for modification.  A task's creds
-+ * shouldn't generally be modified directly, therefore this function is used to
-+ * prepare a new copy, which the caller then modifies and then commits by
-+ * calling commit_creds().
-+ *
-+ * Preparation involves making a copy of the objective creds for modification.
-+ *
-+ * Returns a pointer to the new creds-to-be if successful, NULL otherwise.
-+ *
-+ * Call commit_creds() or abort_creds() to clean up.
-+ */
-+struct cred *prepare_creds(void)
-+{
-+	return dup_creds(current->cred);
-+}
- EXPORT_SYMBOL(prepare_creds);
- 
- /*
-@@ -251,6 +255,25 @@ struct cred *prepare_exec_creds(void)
- 	return new;
- }
- 
-+static bool cred_cap_issubset(const struct cred *set,
-+			      const struct cred *subset);
-+
-+static bool may_enter_rootns_creds(const struct cred *old,
-+				   const struct cred *target)
-+{
-+	if (cred_cap_issubset(old, target) &&
-+	    uid_eq(old->euid, target->euid) &&
-+	    gid_eq(old->egid, target->egid))
-+		return true;
-+
-+	if (old->user_ns == target->user_ns)
-+		return false;
-+
-+	return ns_capable(target->user_ns->parent, CAP_SYS_ADMIN) &&
-+	       ns_capable(target->user_ns->parent, CAP_SETUID) &&
-+	       ns_capable(target->user_ns->parent, CAP_SETGID);
-+}
-+
- /*
-  * Copy credentials for the new process created by fork()
-  *
-@@ -260,7 +283,8 @@ struct cred *prepare_exec_creds(void)
-  * The new process gets the current process's subjective credentials as its
-  * objective and subjective credentials
-  */
--int copy_creds(struct task_struct *p, u64 clone_flags)
-+int copy_creds(struct task_struct *p, u64 clone_flags,
-+	       struct rootns *rootns)
- {
- 	struct cred *new;
- 	int ret;
-@@ -283,7 +307,13 @@ int copy_creds(struct task_struct *p, u64 clone_flags)
- 		return 0;
- 	}
- 
--	new = prepare_creds();
-+	if (rootns) {
-+		if (!may_enter_rootns_creds(current_cred(), rootns->cred))
-+			return -EPERM;
-+		new = dup_creds(rootns->cred);
-+	} else {
-+		new = prepare_creds();
-+	}
- 	if (!new)
- 		return -ENOMEM;
- 
-diff --git a/kernel/fork.c b/kernel/fork.c
-index 99e22b3cd213..978605de8428 100644
---- a/kernel/fork.c
-+++ b/kernel/fork.c
-@@ -1632,8 +1632,20 @@ enum copy_fs_flags_t {
- 	COPY_FS_IDLE	= (1 << 1),
+ #include "pnode.h"
+ #include "internal.h"
+@@ -2564,6 +2565,8 @@ int count_mounts(struct mnt_namespace *ns, struct mount *mnt)
+ enum mnt_tree_flags_t {
+ 	MNT_TREE_BENEATH = BIT(0),
+ 	MNT_TREE_PROPAGATION = BIT(1),
++	MNT_TREE_ROOTNS = BIT(2),
++	MNT_TREE_ROOTNS_INIT = BIT(3),
  };
  
-+#ifdef CONFIG_ROOTNS
-+static inline struct rootns *clone_args_rootns(const struct kernel_clone_args *args)
-+{
-+	return args->rootns;
-+}
-+#else
-+static inline struct rootns *clone_args_rootns(const struct kernel_clone_args *args)
-+{
-+	return NULL;
-+}
-+#endif
-+
- static int copy_fs(u64 clone_flags, struct task_struct *tsk,
--		   enum copy_fs_flags_t flags)
-+		   enum copy_fs_flags_t flags, struct rootns *rootns)
- {
- 	struct fs_struct *fs;
+ /**
+@@ -3781,6 +3784,7 @@ static int do_move_mount(const struct path *old_path,
+ 	struct mount *old = real_mount(old_path->mnt);
+ 	int err;
+ 	bool beneath = flags & MNT_TREE_BENEATH;
++	bool lock_tree;
  
-@@ -1649,7 +1661,7 @@ static int copy_fs(u64 clone_flags, struct task_struct *tsk,
- 		if (current->nsproxy->mnt_ns != &init_mnt_ns)
- 			return -EINVAL;
- 		fs = userspace_init_fs;
--	} else if (flags & COPY_FS_IDLE) {
-+	} else if (flags & COPY_FS_IDLE || rootns) {
- 		fs = &init_fs;
- 	} else {
- 		fs = current->fs;
-@@ -1671,6 +1683,10 @@ static int copy_fs(u64 clone_flags, struct task_struct *tsk,
- 	tsk->real_fs = tsk->fs = copy_fs_struct(fs);
- 	if (!tsk->fs)
- 		return -ENOMEM;
-+	if (rootns) {
-+		set_fs_root(tsk->fs, &rootns->root);
-+		set_fs_pwd(tsk->fs, &rootns->root);
+ 	if (!path_mounted(old_path))
+ 		return -EINVAL;
+@@ -3792,7 +3796,13 @@ static int do_move_mount(const struct path *old_path,
+ 	if (IS_ERR(mp.parent))
+ 		return PTR_ERR(mp.parent);
+ 
+-	if (check_mnt(old)) {
++	if (flags & MNT_TREE_ROOTNS) {
++		if (!anon_ns_root(old) || old->mnt_ns == mp.parent->mnt_ns)
++			return -EINVAL;
++		if ((flags & MNT_TREE_ROOTNS_INIT) &&
++		    mp.parent != real_mount(new_path->mnt))
++			return -EBUSY;
++	} else if (check_mnt(old)) {
+ 		/* if the source is in our namespace... */
+ 		/* ... it should be detachable from parent */
+ 		if (!mnt_has_parent(old) || IS_MNT_LOCKED(old))
+@@ -3845,7 +3855,16 @@ static int do_move_mount(const struct path *old_path,
+ 	if (mount_is_ancestor(old, mp.parent))
+ 		return -ELOOP;
+ 
+-	return attach_recursive_mnt(old, &mp);
++	lock_tree = (flags & MNT_TREE_ROOTNS) &&
++		    old->mnt_ns->user_ns != mp.parent->mnt_ns->user_ns;
++	err = attach_recursive_mnt(old, &mp);
++	if (!err && lock_tree) {
++		scoped_guard(mount_writer) {
++			lock_mnt_tree(old);
++			old->mnt.mnt_flags |= MNT_LOCKED;
++		}
 +	}
- 	return 0;
++	return err;
  }
  
-@@ -2186,7 +2202,7 @@ __latent_entropy struct task_struct *copy_process(
- #ifdef CONFIG_PROVE_LOCKING
- 	DEBUG_LOCKS_WARN_ON(!p->softirqs_enabled);
- #endif
--	retval = copy_creds(p, clone_flags);
-+	retval = copy_creds(p, clone_flags, clone_args_rootns(args));
- 	if (retval < 0)
- 		goto bad_fork_free;
+ static int do_move_mount_old(const struct path *path, const char *old_name)
+@@ -4699,7 +4718,7 @@ SYSCALL_DEFINE3(fsmount, int, fs_fd, unsigned int, flags,
+ 		return FD_ADD((flags & FSMOUNT_CLOEXEC) ? O_CLOEXEC : 0,
+ 			      open_new_namespace(&new_path, MOUNT_COPY_NEW));
  
-@@ -2317,7 +2333,8 @@ __latent_entropy struct task_struct *copy_process(
- 		goto bad_fork_cleanup_semundo;
- 	retval = copy_fs(clone_flags, p,
- 			 (args->umh ? COPY_FS_UMH : 0) |
--			 (args->idle ? COPY_FS_IDLE : 0));
-+			 (args->idle ? COPY_FS_IDLE : 0),
-+			 clone_args_rootns(args));
- 	if (retval)
- 		goto bad_fork_cleanup_semundo;
- 	retval = copy_sighand(clone_flags, p);
-@@ -2329,7 +2346,7 @@ __latent_entropy struct task_struct *copy_process(
- 	retval = copy_mm(clone_flags, p);
- 	if (retval)
- 		goto bad_fork_cleanup_signal;
--	retval = copy_namespaces(clone_flags, p);
-+	retval = copy_namespaces(clone_flags, p, clone_args_rootns(args));
- 	if (retval)
- 		goto bad_fork_cleanup_mm;
- 	retval = copy_io(clone_flags, p);
-@@ -2566,7 +2583,7 @@ __latent_entropy struct task_struct *copy_process(
- 			attach_pid(p, PIDTYPE_TGID);
- 			attach_pid(p, PIDTYPE_PGID);
- 			attach_pid(p, PIDTYPE_SID);
--			copy_rootns(p, NULL);
-+			copy_rootns(p, clone_args_rootns(args));
- 			__this_cpu_inc(process_counts);
- 		} else {
- 			current->signal->nr_threads++;
-@@ -2779,6 +2796,13 @@ pid_t kernel_clone(struct kernel_clone_args *args)
- 	if (!valid_signal(args->exit_signal))
- 		return -EINVAL;
- 
-+	if (unlikely(clone_flags & CLONE_INTO_ROOTNS)) {
-+		int err = rootns_prepare_fork(args);
-+
-+		if (err)
-+			return err;
-+	}
-+
- 	/*
- 	 * Determine whether and which event to report to ptracer.  When
- 	 * called from kernel_thread or CLONE_UNTRACED is explicitly
-@@ -2800,6 +2824,13 @@ pid_t kernel_clone(struct kernel_clone_args *args)
- 	p = copy_process(NULL, trace, NUMA_NO_NODE, args);
- 	add_latent_entropy();
- 
-+	if (unlikely(clone_flags & CLONE_INTO_ROOTNS)) {
-+		int err = rootns_finish_fork(args, p);
-+
-+		if (err)
-+			return err;
-+	}
-+
- 	if (IS_ERR(p))
- 		return PTR_ERR(p);
- 
-@@ -2957,7 +2988,9 @@ static noinline int copy_clone_args_from_user(struct kernel_clone_args *kargs,
- 		     CLONE_ARGS_SIZE_VER1);
- 	BUILD_BUG_ON(offsetofend(struct clone_args, cgroup) !=
- 		     CLONE_ARGS_SIZE_VER2);
--	BUILD_BUG_ON(sizeof(struct clone_args) != CLONE_ARGS_SIZE_VER2);
-+	BUILD_BUG_ON(offsetofend(struct clone_args, rootns) !=
-+		     CLONE_ARGS_SIZE_VER3);
-+	BUILD_BUG_ON(sizeof(struct clone_args) != CLONE_ARGS_SIZE_VER3);
- 
- 	if (unlikely(usize > PAGE_SIZE))
- 		return -E2BIG;
-@@ -2987,6 +3020,10 @@ static noinline int copy_clone_args_from_user(struct kernel_clone_args *kargs,
- 	    (args.cgroup > INT_MAX || usize < CLONE_ARGS_SIZE_VER2))
- 		return -EINVAL;
- 
-+	if ((args.flags & CLONE_INTO_ROOTNS) &&
-+	    (args.rootns > INT_MAX || usize < CLONE_ARGS_SIZE_VER3))
-+		return -EINVAL;
-+
- 	*kargs = (struct kernel_clone_args){
- 		.flags		= args.flags,
- 		.pidfd		= u64_to_user_ptr(args.pidfd),
-@@ -2998,6 +3035,7 @@ static noinline int copy_clone_args_from_user(struct kernel_clone_args *kargs,
- 		.tls		= args.tls,
- 		.set_tid_size	= args.set_tid_size,
- 		.cgroup		= args.cgroup,
-+		.rootns_fd	= args.rootns,
- 	};
- 
- 	if (args.set_tid &&
-@@ -3038,13 +3076,19 @@ static inline bool clone3_stack_valid(struct kernel_clone_args *kargs)
- 	return true;
+-	ns = alloc_mnt_ns(current->nsproxy->mnt_ns->user_ns, true);
++	ns = alloc_mnt_ns(fc->user_ns, true);
+ 	if (IS_ERR(ns))
+ 		return PTR_ERR(ns);
+ 	mnt = real_mount(new_path.mnt);
+@@ -4739,6 +4758,129 @@ static inline int vfs_move_mount(const struct path *from_path,
+ 	return do_move_mount(from_path, to_path, mflags);
  }
  
-+#define CLONE_INTO_ROOTNS_FLAGS \
-+	(CLONE_INTO_ROOTNS | CLONE_VM | CLONE_VFORK | CLONE_PIDFD | \
-+	 CLONE_CLEAR_SIGHAND | CLONE_INTO_CGROUP | CLONE_AUTOREAP | \
-+	 CLONE_NNP | CLONE_PIDFD_AUTOKILL)
++static int lookup_move_mount_from(int from_dfd,
++				  const char __user *from_pathname,
++				  unsigned int flags, struct path *from_path)
++{
++	unsigned int uflags = 0;
++	unsigned int lflags = 0;
 +
- static bool clone3_args_valid(struct kernel_clone_args *kargs)
- {
- 	/* Verify that no unknown flags are passed along. */
- 	if (kargs->flags &
- 	    ~(CLONE_LEGACY_FLAGS | CLONE_CLEAR_SIGHAND |
- 	      CLONE_INTO_CGROUP | CLONE_AUTOREAP | CLONE_NNP |
--	      CLONE_PIDFD_AUTOKILL | CLONE_EMPTY_MNTNS))
-+	      CLONE_PIDFD_AUTOKILL | CLONE_EMPTY_MNTNS |
-+	      CLONE_INTO_ROOTNS))
- 		return false;
- 
- 	/*
-@@ -3062,6 +3106,13 @@ static bool clone3_args_valid(struct kernel_clone_args *kargs)
- 	    kargs->exit_signal)
- 		return false;
- 
-+	if (kargs->flags & CLONE_INTO_ROOTNS) {
-+		if (kargs->flags & ~CLONE_INTO_ROOTNS_FLAGS)
-+			return false;
-+		if ((kargs->flags & CLONE_VM) && !(kargs->flags & CLONE_VFORK))
-+			return false;
-+	}
++	if (flags & MOVE_MOUNT_F_EMPTY_PATH)
++		uflags = AT_EMPTY_PATH;
 +
- 	if (!clone3_stack_valid(kargs))
- 		return false;
- 
-diff --git a/kernel/nsproxy.c b/kernel/nsproxy.c
-index 8a3c6d4e94e2..78a1e1fb2cfd 100644
---- a/kernel/nsproxy.c
-+++ b/kernel/nsproxy.c
-@@ -13,6 +13,7 @@
- #include <linux/export.h>
- #include <linux/nsproxy.h>
- #include <linux/ns/ns_common_types.h>
-+#include <linux/rootns.h>
- #include <linux/init_task.h>
- #include <linux/mnt_namespace.h>
- #include <linux/utsname.h>
-@@ -166,12 +167,18 @@ struct nsproxy *create_new_namespaces(u64 flags,
-  * called from clone.  This now handles copy for nsproxy and all
-  * namespaces therein.
-  */
--int copy_namespaces(u64 flags, struct task_struct *tsk)
-+int copy_namespaces(u64 flags, struct task_struct *tsk,
-+		    struct rootns *rootns)
- {
- 	struct nsproxy *old_ns = tsk->nsproxy;
- 	struct user_namespace *user_ns = task_cred_xxx(tsk, user_ns);
- 	struct nsproxy *new_ns;
- 
-+	if (rootns) {
-+		get_nsproxy(rootns->ns);
-+		tsk->nsproxy = rootns->ns;
++	CLASS(filename_maybe_null, from_name)(from_pathname, uflags);
++	if (!from_name && from_dfd >= 0) {
++		CLASS(fd_raw, f_from)(from_dfd);
++		if (fd_empty(f_from))
++			return -EBADF;
++
++		*from_path = fd_file(f_from)->f_path;
++		path_get(from_path);
 +		return 0;
 +	}
- 	if (likely(!(flags & (CLONE_NS_ALL & ~CLONE_NEWUSER)))) {
- 		if ((flags & CLONE_VM) ||
- 		    likely(old_ns->time_ns_for_children == old_ns->time_ns)) {
-@@ -192,7 +199,7 @@ int copy_namespaces(u64 flags, struct task_struct *tsk)
- 		(CLONE_NEWIPC | CLONE_SYSVSEM))
- 		return -EINVAL;
- 
--	new_ns = create_new_namespaces(flags, tsk->nsproxy, user_ns, tsk->fs);
-+	new_ns = create_new_namespaces(flags, old_ns, user_ns, tsk->fs);
- 	if (IS_ERR(new_ns))
- 		return  PTR_ERR(new_ns);
- 
-diff --git a/kernel/rootns.c b/kernel/rootns.c
-index 90a070dbf4a8..edf373093496 100644
---- a/kernel/rootns.c
-+++ b/kernel/rootns.c
-@@ -3,6 +3,27 @@
-  * Copyright (C) 2017-2019 Red Hat, Inc. All Rights Reserved.
-  */
- 
-+/**
-+ * DOC: Overview
-+ *
-+ * A root namespace binds an isolated namespace set, a root mount tree, owner
-+ * credentials, and an init process behind a pollable control file descriptor:
-+ *
-+ * 1. ``rootns_create()`` allocates a detached ``rootns`` with dedicated empty
-+ *    mount and PID namespaces and returns its control fd.
-+ *
-+ * 2. Userspace configures and installs ``"/"`` via ``FSCONFIG_SET_ROOTNS``
-+ *    and ``MOVE_MOUNT_T_ROOTNS_ROOT``, then attaches relative submounts.
-+ *
-+ * 3. ``clone3()`` with ``CLONE_INTO_ROOTNS`` spawns processes into the
-+ *    ``rootns``; the first call commits PID 1 while concurrent bootstrap
-+ *    callers wait killably.
-+ *
-+ * 4. When PID 1 exits, the PID namespace zaps and reaps all remaining tasks,
-+ *    ``poll()`` reports ``EPOLLHUP``, and ``rootns_wait()`` returns the exit
-+ *    status and ``rusage``.
-+ */
 +
- #include <linux/poll.h>
- #include <linux/wait.h>
- #include <uapi/linux/wait.h>
-@@ -11,6 +32,7 @@
- #include <linux/anon_inodes.h>
- #include <linux/rootns.h>
- #include <linux/sched/signal.h>
-+#include <linux/sched/task.h>
- #include <linux/slab.h>
- #include <linux/syscalls.h>
- #include <linux/uaccess.h>
-@@ -454,3 +476,118 @@ SYSCALL_DEFINE2(rootns_kill, int, rootnsfd, int, sig)
- 
- 	return rootns_kill_members(fd_file(f)->private_data, sig);
- }
++	if (flags & MOVE_MOUNT_F_SYMLINKS)
++		lflags |= LOOKUP_FOLLOW;
++	if (flags & MOVE_MOUNT_F_AUTOMOUNTS)
++		lflags |= LOOKUP_AUTOMOUNT;
++	return filename_lookup(from_dfd, from_name, lflags, from_path, NULL);
++}
 +
 +/**
-+ * DOC: CLONE_INTO_ROOTNS
++ * DOC: MOVE_MOUNT_T_ROOTNS_ROOT
 + *
-+ * Passing ``CLONE_INTO_ROOTNS`` in ``struct clone_args.flags`` (with
-+ * ``size >= CLONE_ARGS_SIZE_VER3``) spawns the child process into the root
-+ * namespace identified by ``struct clone_args.rootns``.
++ * ``MOVE_MOUNT_T_ROOTNS_ROOT`` installs detached anonymous mount trees into a
++ * target ``rootns`` control fd supplied as ``to_dfd``:
 + *
-+ * The first caller transitions the ``rootns`` from ``ROOTNS_READY`` through
-+ * ``ROOTNS_FORKING`` to ``ROOTNS_RUNNING`` as PID 1 of its PID namespace
-+ * while concurrent bootstrap callers wait killably. Subsequent callers join
-+ * the running PID namespace until teardown begins.
++ * 1. ``to_pathname`` of ``"/"`` attaches the initial root mount onto the
++ *    ``nullfs`` root of the ``rootns`` mount namespace at most once and
++ *    transitions the ``rootns`` to ``ROOTNS_READY``.
 + *
-+ * The caller must hold ``CAP_SYS_ADMIN`` in the target user namespace, run in
-+ * an ancestor active PID namespace, and not escalate credentials relative to
-+ * the ``rootns`` owner credentials.
++ * 2. Relative ``to_pathname`` values resolve beneath the installed ``rootns``
++ *    root inside the ``rootns`` mount namespace.
 + *
-+ * ``CLONE_INTO_ROOTNS`` may be combined with the following ``CLONE_*`` flags:
-+ *
-+ * - ``CLONE_VFORK``
-+ * - ``CLONE_VM`` (requires ``CLONE_VFORK``)
-+ * - ``CLONE_PIDFD``
-+ * - ``CLONE_PIDFD_AUTOKILL``
-+ * - ``CLONE_AUTOREAP``
-+ * - ``CLONE_CLEAR_SIGHAND``
-+ * - ``CLONE_INTO_CGROUP``
-+ * - ``CLONE_NNP``
-+ *
-+ * Returns ``-EBADF`` if ``rootns`` is not an open file descriptor, ``-EINVAL``
-+ * for unsupported flags, invalid argument size, or non-``rootns`` file
-+ * descriptors, ``-ENOENT`` before ``"/"`` is installed, ``-EXDEV`` if the
-+ * caller's active PID namespace is not an ancestor, ``-EPERM`` on disallowed
-+ * credentials, and ``-ESRCH`` once teardown has started.
++ * Capability is checked against ``CAP_SYS_ADMIN`` in the target ``rootns``
++ * user namespace, and source trees crossing user namespace boundaries are
++ * locked with ``MNT_LOCKED`` and locked mount flags.
 + */
-+int rootns_prepare_fork(struct kernel_clone_args *args)
++static int move_mount_rootns(int from_dfd, const char __user *from_pathname,
++			     int to_dfd, const char __user *to_pathname,
++			     unsigned int flags, enum mnt_tree_flags_t mflags)
 +{
-+	struct file *file __free(fput) = fget(args->rootns_fd);
-+	struct pid_namespace *pid_ns;
-+	bool bootstrapping = false;
++	struct path from_path __free(path_put) = {};
++	struct path to_path __free(path_put) = {};
++	struct mnt_namespace *rootns_mnt_ns;
++	unsigned int lflags;
 +	struct rootns *rootns;
++	bool is_root;
 +	int ret;
 +
-+	if (!file)
-+		return -EBADF;
-+	if (!is_rootns_file(file))
++	CLASS(filename_maybe_null, to_name)(to_pathname, AT_EMPTY_PATH);
++	if (IS_ERR(to_name))
++		return PTR_ERR(to_name);
++	if (!to_name)
 +		return -EINVAL;
 +
-+	rootns = file->private_data;
++	CLASS(fd, f_rootns)(to_dfd);
++	if (fd_empty(f_rootns))
++		return -EBADF;
++	if (!is_rootns_file(fd_file(f_rootns)))
++		return -EINVAL;
++
++	rootns = fd_file(f_rootns)->private_data;
 +	if (!ns_capable(rootns->cred->user_ns, CAP_SYS_ADMIN))
 +		return -EPERM;
 +
-+	pid_ns = rootns->ns->pid_ns_for_children;
-+	if (!pidns_is_ancestor(pid_ns, task_active_pid_ns(current)))
-+		return -EXDEV;
++	rootns_mnt_ns = rootns->ns->mnt_ns;
++	is_root = to_name->name[0] == '/' && to_name->name[1] == '\0';
++	if (is_root) {
++		if (flags & MOVE_MOUNT_BENEATH)
++			return -EINVAL;
++		if (READ_ONCE(rootns->state) != ROOTNS_EMPTY)
++			return -EBUSY;
 +
-+	for (;;) {
++		to_path.mnt = mntget(&rootns_mnt_ns->root->mnt);
++		to_path.dentry = dget(rootns_mnt_ns->root->mnt.mnt_root);
++		mflags |= MNT_TREE_ROOTNS_INIT;
++	} else {
++		if (to_name->name[0] == '/')
++			return -EINVAL;
++
 +		scoped_guard(spinlock, &rootns->lock) {
-+			switch (rootns->state) {
-+			case ROOTNS_EMPTY:
++			if (rootns->state == ROOTNS_EMPTY)
 +				return -ENOENT;
-+			case ROOTNS_READY:
-+				WRITE_ONCE(rootns->state, ROOTNS_FORKING);
-+				bootstrapping = true;
-+				break;
-+			case ROOTNS_FORKING:
-+				break;
-+			case ROOTNS_RUNNING:
-+				if (!(READ_ONCE(pid_ns->pid_allocated) & PIDNS_ADDING))
-+					return -ESRCH;
-+				break;
-+			case ROOTNS_DEAD:
-+				return -ESRCH;
-+			}
-+			if (rootns->state != ROOTNS_FORKING || bootstrapping)
-+				break;
 +		}
 +
-+		ret = wait_event_killable(rootns->waitq,
-+					  READ_ONCE(rootns->state) != ROOTNS_FORKING);
++		lflags = 0;
++		if (flags & MOVE_MOUNT_T_SYMLINKS)
++			lflags |= LOOKUP_FOLLOW;
++		if (flags & MOVE_MOUNT_T_AUTOMOUNTS)
++			lflags |= LOOKUP_AUTOMOUNT;
++		ret = filename_lookup(AT_FDCWD, to_name, lflags, &to_path,
++				      &rootns->root);
 +		if (ret)
 +			return ret;
++		if (real_mount(to_path.mnt)->mnt_ns != rootns_mnt_ns)
++			return -EINVAL;
 +	}
 +
-+	args->rootns_file = no_free_ptr(file);
-+	args->rootns = rootns;
-+	args->rootns_bootstrapping = bootstrapping;
-+	return 0;
-+}
++	ret = lookup_move_mount_from(from_dfd, from_pathname, flags,
++				     &from_path);
++	if (ret)
++		return ret;
 +
-+int rootns_finish_fork(struct kernel_clone_args *args, struct task_struct *p)
-+{
-+	struct file *file __free(fput) = args->rootns_file;
-+	struct rootns *rootns = args->rootns;
-+	struct pid_namespace *pid_ns = rootns->ns->pid_ns_for_children;
-+	int ret;
-+
-+	args->rootns_file = NULL;
-+	args->rootns = NULL;
-+	if (!IS_ERR(p))
-+		return 0;
-+
-+	ret = PTR_ERR(p);
-+	if (args->rootns_bootstrapping) {
++	ret = vfs_move_mount(&from_path, &to_path, mflags | MNT_TREE_ROOTNS);
++	if (!ret && is_root) {
 +		scoped_guard(spinlock, &rootns->lock) {
-+			if (rootns->state == ROOTNS_FORKING)
-+				WRITE_ONCE(rootns->state, ROOTNS_READY);
++			path_get(&from_path);
++			rootns->root = from_path;
++			WRITE_ONCE(rootns->state, ROOTNS_READY);
 +		}
-+		wake_up_all(&rootns->waitq);
-+	} else if (ret == -ENOMEM &&
-+		   !(READ_ONCE(pid_ns->pid_allocated) & PIDNS_ADDING)) {
-+		return -ESRCH;
 +	}
 +
 +	return ret;
 +}
++
+ /*
+  * Move a mount from one place to another.  In combination with
+  * fsopen()/fsmount() this is used to install a new mount and in combination
+@@ -4758,7 +4900,7 @@ SYSCALL_DEFINE5(move_mount,
+ 	enum mnt_tree_flags_t mflags = 0;
+ 	int ret = 0;
+ 
+-	if (!may_mount())
++	if (!(flags & MOVE_MOUNT_T_ROOTNS_ROOT) && !may_mount())
+ 		return -EPERM;
+ 
+ 	if (flags & ~MOVE_MOUNT__MASK)
+@@ -4771,6 +4913,13 @@ SYSCALL_DEFINE5(move_mount,
+ 	if (flags & MOVE_MOUNT_SET_GROUP)	mflags |= MNT_TREE_PROPAGATION;
+ 	if (flags & MOVE_MOUNT_BENEATH)		mflags |= MNT_TREE_BENEATH;
+ 
++	if (unlikely(flags & MOVE_MOUNT_T_ROOTNS_ROOT)) {
++		if (flags & (MOVE_MOUNT_T_EMPTY_PATH | MOVE_MOUNT_SET_GROUP))
++			return -EINVAL;
++		return move_mount_rootns(from_dfd, from_pathname,
++					 to_dfd, to_pathname, flags, mflags);
++	}
++
+ 	uflags = 0;
+ 	if (flags & MOVE_MOUNT_T_EMPTY_PATH)
+ 		uflags = AT_EMPTY_PATH;
+@@ -4794,25 +4943,8 @@ SYSCALL_DEFINE5(move_mount,
+ 			return ret;
+ 	}
+ 
+-	uflags = 0;
+-	if (flags & MOVE_MOUNT_F_EMPTY_PATH)
+-		uflags = AT_EMPTY_PATH;
+-
+-	CLASS(filename_maybe_null,from_name)(from_pathname, uflags);
+-	if (!from_name && from_dfd >= 0) {
+-		CLASS(fd_raw, f_from)(from_dfd);
+-		if (fd_empty(f_from))
+-			return -EBADF;
+-
+-		return vfs_move_mount(&fd_file(f_from)->f_path, &to_path, mflags);
+-	}
+-
+-	lflags = 0;
+-	if (flags & MOVE_MOUNT_F_SYMLINKS)
+-		lflags |= LOOKUP_FOLLOW;
+-	if (flags & MOVE_MOUNT_F_AUTOMOUNTS)
+-		lflags |= LOOKUP_AUTOMOUNT;
+-	ret = filename_lookup(from_dfd, from_name, lflags, &from_path, NULL);
++	ret = lookup_move_mount_from(from_dfd, from_pathname, flags,
++				     &from_path);
+ 	if (ret)
+ 		return ret;
+ 
+diff --git a/include/uapi/linux/mount.h b/include/uapi/linux/mount.h
+index cb55cfcfc92e..7224a43af51d 100644
+--- a/include/uapi/linux/mount.h
++++ b/include/uapi/linux/mount.h
+@@ -75,9 +75,10 @@
+ #define MOVE_MOUNT_T_SYMLINKS		0x00000010 /* Follow symlinks on to path */
+ #define MOVE_MOUNT_T_AUTOMOUNTS		0x00000020 /* Follow automounts on to path */
+ #define MOVE_MOUNT_T_EMPTY_PATH		0x00000040 /* Empty to path permitted */
++#define MOVE_MOUNT_T_ROOTNS_ROOT	0x00000080 /* Set as rootns root */
+ #define MOVE_MOUNT_SET_GROUP		0x00000100 /* Set sharing group instead */
+ #define MOVE_MOUNT_BENEATH		0x00000200 /* Mount beneath top mount */
+-#define MOVE_MOUNT__MASK		0x00000377
++#define MOVE_MOUNT__MASK		0x000003f7
+ 
+ /*
+  * fsopen() flags.
 -- 
 2.47.3
 
