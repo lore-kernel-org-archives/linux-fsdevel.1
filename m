@@ -1,71 +1,70 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.62.57.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794880839;
-	b=2BCnUxCTL13kbGqt1esU5OREkQnzo0BG4sNeWLQ5yh8uWqDt80d+nP7k0a8bhCjleWTO
-	 jvVdgE+9XQyGRIz/3MhLNjez7QEeEEaCkrrNF+ICsQp9aXp9DEBpCVRUK4b6mV3fEUuy1
-	 RLz81AcmVbZrRHLpX0VB7i+QH2OzmpOTrHYnZbVgKCee4o23jFDJkov+Jgya1mdyCnT+4
-	 /YB7VuIM3PxOn0mtTst2nQXT6M/7bChm6AN3ybd1pWXO9DFuZervRpg2NVGQM4C/KyhHt
-	 NV/zZkoG6n4oXbTfMMPrxXVLCTBVhFWNsbHwNg9BueH7aGmPlOZW3BBH1vwyqNBsWow==
+	t=1794883481;
+	b=B6NxFysnqU49q0fcxok95iqmTZgPzXJKoYd82RrpMgyXn1glYyXmx9UkREW9h0sy5Ck6
+	 r480mYys68MIle7CAnrmdAIV1hkTmtQGEfZQh33x2P7/QUR8zIsQ/XH7JvA+6M4xY7KhV
+	 hnoihKOjf1Ffc4av5fkx7OF72oUfoxmFILpjDrBW0t6HzpiSkd7hw1Sxb9DrE4Hb1XaiW
+	 3pz0ObpwA47c7xsIYETDrOdOnGaJYWzq76UGYYMnvTOi7SKIIQcuwSDYUKm3nCMqzMdX5
+	 Moxiu2QEOk1X9uRTeVhJtGuGNJtUdUhozQb2fZ5wm/D65uX3xWabhDPnMhAxfoI0kPA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794880839;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=VkLy1I0kQBdGGFa3JjJKMLWd5KGqUrPpkyuEnh2673M=;
-	b=Qxpe1IuZKoHUj9H61yGnbtQOHati6sZo09D9MEiAoFS2M6bPyA/gQiXXIMwcCTiKwxZL
-	 8rubDYQFy0PBVT4SBwIILKHN9RSaLbdS6uw54qoMuuN4uUs1SefZSE+7MAtwx8jwFOZbG
-	 ZHnmFP7Pmvkt24oG9AEHQZTi00ByvwQNYNaDNO9zghVXaz5seOndfT08bbwCT83kfD55t
-	 EqaljrzqwHWgdESgoZy9lJUXqFVKyxAoZt8OCqFXQuZ99SkVqdsr4qrGNWMg8xmnpHvf8
-	 1hDo+MpQRFAJ/gF4kd9dicL/PYBAATLhrydvyWoJqp6r/u9HtMcz2r+65iYiyhr1pWg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794883481;
+	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
+	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:Date:X-OQ-MSGID:
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=OsgGTvr772vYOa31xQAPV2HCrq/fmpKBdM5EQit4rQw=;
+	b=ZyB0j6bwVXGRSgtoIyryGMmyPOsFWS8LsT1OTpdYsNaA7xg4+F139QLZQFrhgkKUG05U
+	 15qBs/9c3KxQAuza8iTk8oFCFmMZEliiT5UAZ6y3KojOcl6vRfhjm6TjsqkbYQgSURs31
+	 nNTEiKzNRz84XLKfOcC/7n3zmRRb18PixeDaIhUCg6QQNbLYLouybFKOqKhATVY+S+DB2
+	 MKAYNtublRUuCLwkzazgZinouwG+bWutr1rC+q31oMH6GRmT/Dwh8Pmv8gcMgERpsVukf
+	 SjLIEP3ko6U/p2XIcpt7UJwQw8tRHNGPoEMzFvMGSfZh66nr+aJWrFTdZFvdrhVgGQw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mit.edu;
-	spf=pass smtp.mailfrom=mit.edu;
-	dkim=pass header.d=mit.edu header.i=@mit.edu header.a=rsa-sha256 header.s=outgoing header.b=WcdmYwdK;
-	arc=none smtp.remote-ip=18.9.28.11
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+	dmarc=pass header.from=qq.com;
+	spf=pass smtp.mailfrom=qq.com;
+	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=dSDR5Jrp;
+	arc=none smtp.remote-ip=162.62.57.49
+Received: from out162-62-57-49.mail.qq.com (out162-62-57-49.mail.qq.com [162.62.57.49])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6122A606A32A
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 02:00:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6122A606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E60F1606A31C
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 02:44:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E60F1606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.a=rsa-sha256 header.s=outgoing header.b=WcdmYwdK
-Received: from macsyma.thunk.org (c-73-9-28-129.hsd1.il.comcast.net [73.9.28.129])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 6AH206Us030545
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 16 Nov 2026 21:00:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1794880810; bh=VkLy1I0kQBdGGFa3JjJKMLWd5KGqUrPpkyuEnh2673M=;
-	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
-	b=WcdmYwdK/b8BiflVThD+QvJau9tSH5SE0/LeO3ZvbLeNGt+w+JTi/Sr5h1QYXdwCh
-	 vhh9bZBTJSX81ajwsFfm/ZzCNVwpLM7Ygihz39Mp+HA7wL8H08KTMUTikdKbdbw4S6
-	 dzV1+AsWE6sRU7DAAHFtAJMpCI05dgkmvBsM2wbQW3z+VveeYwsd3iNai6Ra12arfc
-	 /t5e+iRwK4fGFR8U55PGXmcJ/qCDk9aClAg/19fUSu+QZ8EVn7/0vQ41Uo20BYoI3F
-	 xLegQQAOPNKf4IxmHDG7ZoqFdE5Z42UnsoUpXFg7XPHQdS8xTuOhoFKvg31cIwn6ou
-	 6J19UUH4mLIIg==
-Received: by macsyma.thunk.org (Postfix, from userid 15806)
-	id 8394627BABE9; Mon, 16 Nov 2026 21:00:06 -0500 (EST)
-Date: Mon, 16 Nov 2026 21:00:06 -0500
-From: "Theodore Tso" <tytso@mit.edu>
-To: Gabriel Krisman Bertazi <krisman@suse.de>
-Cc: Sarthak Kukreti <sarthakkukreti@google.com>,
-        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <brauner@kernel.org>,
-        Gabriel Krisman Bertazi <krisman@collabora.co.uk>,
-        Eric Biggers <ebiggers@google.com>, Dmitry Torokhov <dtor@google.com>,
-        linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] libfs: reject casefolded names that fold to ".",
- "..", or empty
-Message-ID: <avu0X5E298dHRBHY@mit.edu>
-References: <20261113065332.929085-1-sarthakkukreti@google.com>
- <20261113065332.929085-2-sarthakkukreti@google.com>
- <878q2swoxp.fsf@cartola>
+	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=dSDR5Jrp
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1794883474; bh=OsgGTvr772vYOa31xQAPV2HCrq/fmpKBdM5EQit4rQw=;
+	h=From:To:Cc:Subject:Date;
+	b=dSDR5JrpBkexo2Gn8VaIW+mWRh+569X9yjbMO+mwWPh3OJ2WHsTxWXQ1RNE8qbYXf
+	 2ebL727JYQXz6irZ5JHbPAVIzr0+STr1rTzEYwHyb1KrhGg8h6Em/6vVuz8FgwJiL1
+	 4qK2d6hyNEdgCdhVIiHBJyQ8pglEuJFQszZwyrOo=
+Received: from localhost.localdomain ([59.46.81.208])
+	by newxmesmtplogicsvrsza63-0.qq.com (NewEsmtp) with SMTP
+	id B202D6C0; Tue, 17 Nov 2026 10:44:32 +0800
+X-QQ-mid: xmsmtpt1794883472tfhnw5zkc
+Message-ID: <tencent_5587BC2AAF0B8A78412EA72E01CD9C424D05@qq.com>
+X-QQ-XMAILINFO: NwU6Bou9okj/H7p+VHB7d7D/4bIWR6khgBChWde8SWfGNNpNcP4D/+2mIVqYMq
+	 jpu9n2IFX5b/u1gTlfeqWviJHQYXdAbWiA88NwJEzKbl8qP/1zNqcjTeZKbMfDWEPYk4OrE+rKVN
+	 EP3w/12l5QU23bcVaZts89uJ4O0u4PCT5AdlNRkzb7bic937EbC/V/VRNqTgdQabqpk1/N0u0S/E
+	 YYoeZFgZooczaGepZNX+0XYuTuU2iJ2zVy06IKLsPKxKmVoccs9Lt6XvYkN1rl2/x/s1lDiyVafU
+	 tWn6HRc+iFyWDPJuvitcUcIzFj+DJ57ptLVBFpgQhGFfmK3vO9Us5GNbwKWn+twaxnNSntkkN74O
+	 V/FUagiCTU9/ZpH3cZz3r3LGZwqIEugkaNRX1unyXseUh6ZZwOg3X5Sh7YILqg45Tw6SlAn2QvIl
+	 tq0soKUuGheUSbnm5MI0wsMrS8i1no3Phm/vgov8Kt+Gt9QzdntubR/LIZDiG9LV/wHNOcV1376r
+	 4iRcW9xMn9GSVcfckjBvaxQdoNt+0XGTbrEJO6yvaCerQlAN9PSE3u/P93Pl0VjUckE5wLfhlPKo
+	 5TmjuYzqEoNLjncH5hLbdPKGRXwP9bORAfJaina5Df6z0YUNszwrqm8mxMixT6SjUigIu5tMV7A5
+	 ZcK4Up8+/uqSSez0HfCdhNAP6jR/q6qg4kFMilcBcoCEM8VozACKa9D5hxUShi7Ph6L+Kf5KgnOo
+	 Tno43ObIt+EGqf0yYow7yAJ+iAHaHpfX9ZVg/BO8TWJxCzo5npwXPT6qowQIy1Z8aLGahN633sJa
+	 IVGa+JnyWzICiYHGvxt++V2KgUoydj4cyfxXzyP+lvjJjSCTLot3bsEtc+Y4rfClvqoxuPP8KTnT
+	 5+bn/Sjwb1ssIIzAYU994cxvD4cdHung/x1LPzVoEMD/RBPLzMQ7i84OFoxV0GwlaUfnm7thMIij
+	 2EOlBybh/iQi4e6q5p5AVG66iTzbUrAtQyTNghZuY=
+X-QQ-XMRINFO: M/715EihBoGS47X28/vv4NpnfpeBLnr4Qg==
+From: Lei Qiu <750592120@qq.com>
+To: slava@dubeyko.com
+Cc: linux-fsdevel@vger.kernel.org
+Subject: [PATCH] hfs/hfsplus: validate uid and gid mount options
+Date: Tue, 17 Nov 2026 10:44:31 +0800
+X-OQ-MSGID: <20261117024431.21914-1-750592120@qq.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -75,32 +74,65 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <878q2swoxp.fsf@cartola>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 16, 2026 at 02:34:26PM -0500, Gabriel Krisman Bertazi wrote:
-> Either way, this issue is another example of why treating ignorable code
-> points as 0-length strings was a bad idea.  I'd very much rather
-> utf8_casefold would treat all ignorable code points as foldable to
-> themselves, (i.e. commit 5c26d2f1d3f5 ("unicode: Don't special case
-> ignorable code points")), but that was tried and broke applications
-> that relied on variant selectors code-points being ignored.
+The conversions to the new mount API declare uid and gid as fsparam_u32
+but consume result.uid and result.gid. This bypasses make_kuid() and
+make_kgid() as well as the validity checks in the old parsers. As a
+result, both filesystems accept the invalid ID 4294967295, and IDs
+supplied through fsconfig() in a non-initial user namespace are treated
+as raw kernel IDs instead of being translated through that namespace.
 
-Sigh... I really think these characters are *evil*.  I wonder if we
-should simply drop those code points unconditionally when they are fed
-to the kernel --- not only folding to themselves, but *not* preserving
-them when a misguided application tries to create a file with one of
-these misbegotten Unicode charactesr.
+Use fsparam_uid and fsparam_gid so the shared parser translates the IDs
+and rejects invalid or unmapped values before storing the typed result.
 
-I'd prefer to simply reject creating them with an EINVAL, but it's
-likely that will break those stupid applications....
+Verify both modules with W=1 builds and a before/after QEMU test covering
+fsconfig(), legacy mounts, and a filesystem context configured from a
+user namespace mapping ID 0 to ID 1000. The fix rejects invalid IDs with
+EINVAL and preserves the mapped ownership and valid mount options.
 
-Eventually we can have e2fsck offer to fix directories with those
-characters, and eventually we can make these characters become a bad
-memory.
+OpenAI Codex assisted with identifying the issue, implementing the fix
+and reproducer, and running the validation.
 
-The other question is what *other* evil misdesigns are in the unicode
-spec that we should be preactively trying to addressw hile we're at it?
+Fixes: ffcd06b6d13b ("hfs: convert hfs to use the new mount api")
+Fixes: 432f7c78cb00 ("hfsplus: convert hfsplus to use the new mount api")
+Cc: stable@vger.kernel.org
+Signed-off-by: Lei Qiu <750592120@qq.com>
+---
+ fs/hfs/super.c       | 4 ++--
+ fs/hfsplus/options.c | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-     	     	       		   	     - Ted
+diff --git a/fs/hfs/super.c b/fs/hfs/super.c
+index 5e6d66ff4..4309cc23d 100644
+--- a/fs/hfs/super.c
++++ b/fs/hfs/super.c
+@@ -203,8 +203,8 @@ enum {
+ };
+ 
+ static const struct fs_parameter_spec hfs_param_spec[] = {
+-	fsparam_u32	("uid",		opt_uid),
+-	fsparam_u32	("gid",		opt_gid),
++	fsparam_uid("uid", opt_uid),
++	fsparam_gid("gid", opt_gid),
+ 	fsparam_u32oct	("umask",	opt_umask),
+ 	fsparam_u32oct	("file_umask",	opt_file_umask),
+ 	fsparam_u32oct	("dir_umask",	opt_dir_umask),
+diff --git a/fs/hfsplus/options.c b/fs/hfsplus/options.c
+index 9b377481f..3ec428142 100644
+--- a/fs/hfsplus/options.c
++++ b/fs/hfsplus/options.c
+@@ -33,8 +33,8 @@ static const struct fs_parameter_spec hfs_param_spec[] = {
+ 	fsparam_string	("creator",	opt_creator),
+ 	fsparam_string	("type",	opt_type),
+ 	fsparam_u32oct	("umask",	opt_umask),
+-	fsparam_u32	("uid",		opt_uid),
+-	fsparam_u32	("gid",		opt_gid),
++	fsparam_uid("uid", opt_uid),
++	fsparam_gid("gid", opt_gid),
+ 	fsparam_u32	("part",	opt_part),
+ 	fsparam_u32	("session",	opt_session),
+ 	fsparam_string	("nls",		opt_nls),
+
+base-commit: a804c5742bff224d4cb4d25dd383554d598be32b
+
