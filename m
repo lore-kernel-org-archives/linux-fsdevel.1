@@ -1,74 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=109.224.244.119
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794927303;
-	b=k5z+bpVXdh1wtCu9uOXIsJbDe1FlwBLCoyn99NTeIJuOu4lh/9jB7KNuPZSXxRxxF/RJ
-	 cB2Ch+l/iLHSISIO3l6QphiMrHW2hFrNUPFrGzGVtVeP8da/JC8tp6f0K13Wb9HhTxUe8
-	 71yl+/+AH0SzBSnFgVFw70cHd93WZDhM05fpnmmvl7IcpIlmVuC51x2FbUTNEX7/lJR1/
-	 ogUsad6H0BZ2i91MjbYfnWFTZhPv//jPxvocwbWfJSryN7RCa8LRSz2tnagNrS429Za72
-	 fYO9lTh9hXn/3MI5GUzQvqh74lIx6jtnFM/IHhumOryQyFAgj/UY1KzmU08ZPYsNueA==
+	t=1794927855;
+	b=TXlFYuqL3V/8fDSmoAKBHuyBalWOIPHxyIAAEzV1KVRgiZz6Xlimzi8L/rz2jiJrEB3h
+	 IdXN1237dj4c2dvsqaNk5REx36ifKVtEWfMtNMrsb8xX8IQEgEcpEZr9pKZsHbx7JNei4
+	 TxAN8kLoEWu/VcJ435SZVpumACEo7rn8MHnex7wNprV47vOE4vnlLISTXeryUCk9zndsx
+	 jTs5FBOVWhneFvIN4NBSWh2/O1dREImItHFiqVneOx+fgVrMWWE7QhhI1nInxpRPliNvM
+	 DzJyilek27i3b6U9Dad7DMFzQBEiVF5RO5xOSTbifU+WilYcEl0B3YAwWMkZ8+V2W6w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794927303;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=JZ67Ln6ziaBPsKaIzdqErWNCSGgvnSYlqc/yhQf9HX0=;
-	b=o1uHFeWOVTKBj9BT3kdL47LdGPqh+vkr/svCkuRAA+/2D5HRDQBaTdVJuwsWLzmCoXdf
-	 7/9DxA/Z54E1Ssl+Emb1BzkZmJMGdonxmVkzrD4edfX//G4gBIFRFWN/20H9rDlhj/p5c
-	 sQK0Q6v022IzkGYTqejHbQ4CxNCKeF1lSWGnsYgs/9oQSl8tqVA8a/2QLT+61cZp+EkHn
-	 UmC88dD7ovdM3Dkc9CEbtMFq8t4UCAsuE7F274aaTacZI0s0NK8NMY5/c6FLhIYjbeMX8
-	 CDT2OsrAYR3U4Ir7yu/WnIbCXQEwqIKo4/O1jFce2TfY7naIqBWGmbnPibQLnH5hwhQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794927855;
+	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
+	 In-Reply-To:References:Feedback-ID:X-Pm-Message-ID:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=pzx1xyaW4sUUsdz2pDb9Y+wGAMP4JHlewv5IqeGTNg8=;
+	b=qHUwtPnS4DpuJpNTxad9MIUoqq/07zXduLmPtlW3fWkAe8VHoWs8Senmsej9/ps6EsI2
+	 ynjy/RCGa7za3g6Pu9bLQ7OEKHufVpUD9BAsFyJt/gXt0et6pkwO4JNOeao7tNzmIvdgE
+	 l5PMwrh+wWxSQ2O7ImrleGjIIEJGDPqEOLCOhctnd3op+3zRU8OZL4UPgg/bVg4xQtdbh
+	 oLRq5J3URoeABRC/0xsl20OlBGCmE2KFvm8W7rIJymFbxkW6xD6PTtRTk2jjnBuREwb0X
+	 c4lI2ymyk8A6YcSJoC4HUdgBY0TK094gD4lHkig9hEB304oTmnL6L57Cb4k00L5tYYw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mit.edu;
-	spf=pass smtp.mailfrom=mit.edu;
-	dkim=pass header.d=mit.edu header.i=@mit.edu header.a=rsa-sha256 header.s=outgoing header.b=cxPrl4Mm;
-	arc=none smtp.remote-ip=18.9.28.11
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=logarcheon.com;
+	spf=pass smtp.mailfrom=logarcheon.com;
+	dkim=pass header.d=logarcheon.com header.i=@logarcheon.com header.a=rsa-sha256 header.s=protonmail3 header.b=aPCppup2;
+	arc=none smtp.remote-ip=109.224.244.119
+Received: from mail-244119.protonmail.ch (mail-244119.protonmail.ch [109.224.244.119])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DE85606A330
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 14:55:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0DE85606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EEB1606A32A
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 15:04:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6EEB1606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=logarcheon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=logarcheon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.a=rsa-sha256 header.s=outgoing header.b=cxPrl4Mm
-Received: from macsyma.thunk.org (c-73-9-28-129.hsd1.il.comcast.net [73.9.28.129])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 6AHEsWAV025356
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 17 Nov 2026 09:54:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1794927277; bh=JZ67Ln6ziaBPsKaIzdqErWNCSGgvnSYlqc/yhQf9HX0=;
-	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
-	b=cxPrl4Mm1T30CBSddcZy5wnEp6gC/wd8ru0R7LA87M2l8dJaIPqQsiEnyxIe2ZUCU
-	 eygzAr76BDUzp/18d24nDpDp54kiP9TiW4gx5pRs2JjFcjPA2j8s0FhAxU1sBKC/Ns
-	 2wYcU39Se3OKsn0M4KHgbKq8MaZ9WrdqgSJ8RVv/BGGfvXOLpNvakevm0PinCI5Lqq
-	 160eXk9lwAXj4dwMpeqCKzXwGRdgDLChvNGzx5Zs/A3xWNx0h5c43cHAOednZoLbE4
-	 mItAna7bt2OFZ55xE4AomDkNmIffUWVZKGnCZE56UOJ0rloMcwNFABBHIPxd8yFtoN
-	 95wDlCS2Zo9hQ==
-Received: by macsyma.thunk.org (Postfix, from userid 15806)
-	id A03EE27D8EC8; Tue, 17 Nov 2026 09:54:32 -0500 (EST)
-Date: Tue, 17 Nov 2026 09:54:32 -0500
-From: "Theodore Tso" <tytso@mit.edu>
-To: David Laight <david.laight.linux@gmail.com>
-Cc: Gabriel Krisman Bertazi <krisman@suse.de>,
-        Sarthak Kukreti <sarthakkukreti@google.com>,
-        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <brauner@kernel.org>,
-        Gabriel Krisman Bertazi <krisman@collabora.co.uk>,
-        Eric Biggers <ebiggers@google.com>, Dmitry Torokhov <dtor@google.com>,
-        linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] libfs: reject casefolded names that fold to ".",
- "..", or empty
-Message-ID: <avxe5v6r1C7ZG7E2@mit.edu>
-References: <20261113065332.929085-1-sarthakkukreti@google.com>
- <20261113065332.929085-2-sarthakkukreti@google.com>
- <878q2swoxp.fsf@cartola>
- <avu0X5E298dHRBHY@mit.edu>
- <20261117084727.0cfa196a@pumpkin>
+	dkim=pass (2048-bit key, unprotected) header.d=logarcheon.com header.i=@logarcheon.com header.a=rsa-sha256 header.s=protonmail3 header.b=aPCppup2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=logarcheon.com;
+	s=protonmail3; t=1794927852; x=1795187052;
+	bh=pzx1xyaW4sUUsdz2pDb9Y+wGAMP4JHlewv5IqeGTNg8=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=aPCppup2m+QXQC1pRIA5uYyoA9PaPgEM2u/Bljce4E2ZYSeBeHCgq8m6Y+kFY18mG
+	 sUfxGxJrXdy0p2cIg3RZy5cwWFzxxJLIXpkeM13BW3m1KFRDxsI9hSMtYLa4XGSf9d
+	 //uXe2xrNoswYBV/yz6eRw9ny0+l9ZpMBGkjcBPwCp5/oXCYuyZ3g+8THXJfGyYz/j
+	 FDHu+nAesaXvctQMMc4jgTiZxE3DUDPUDTp5SWCOGwOXywaxX6Z5IBsnnBEfsEc7Ig
+	 UwVHAOGkJuWKDZMII5+DX+3GmNpC11JsLDlb9JYkfstu2PtQRz26fHLR3RbdNC4jg7
+	 J5R/SBbh4ndRA==
+Date: Tue, 17 Nov 2026 15:04:06 +0000
+To: Breno Leitao <leitao@debian.org>
+From: William Chuang <founder@logarcheon.com>
+Cc: Andreas Hindborg <a.hindborg@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, syzbot+c75a7db5ca6ae96ed2d4@syzkaller.appspotmail.com, syzkaller-bugs@googlegroups.com
+Subject: Re: [PATCH] configfs: give the root directory inode its own lockdep class
+Message-ID: <20261117150358.8149-1-founder@logarcheon.com>
+In-Reply-To: <20261117065314.4309-1-founder@logarcheon.com>
+References: <20261117065314.4309-1-founder@logarcheon.com>
+Feedback-ID: 145408520:user:proton
+X-Pm-Message-ID: 4a35432a783bbfda2261fff32445b853f8b7451a
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -78,29 +64,53 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261117084727.0cfa196a@pumpkin>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 17, 2026 at 08:47:27AM -0500, David Laight wrote:
-> > Sigh... I really think these characters are *evil*.  I wonder if we
-> > should simply drop those code points unconditionally when they are fed
-> > to the kernel --- not only folding to themselves, but *not* preserving
-> > them when a misguided application tries to create a file with one of
-> > these misbegotten Unicode charactesr.
-> 
-> Doesn't that assume that filenames are UTF8 rather than just sequences
-> of bytes with everything except '\0' and '/' being valid.
-> Casefolding is itself so evil/impossible it shouldn't have been allowed.
+On Tue, Nov 17, 2026, Sashiko AI review wrote:
+> Does assigning a separate lockdep class to the configfs root inode's
+> i_rwsem hide a real ABBA deadlock between renameat2() and mkdir()?
 
-We would only do this if casefolding is enabled.  For better or for
-worse, it's better than what it replaced which was this terrible
-wrapfs hack that was a trivial to trigger deadlocks using fsstress ---
-which was even more evil.
+Yes, and the deadlock is real.  Please drop this patch.
 
-The other way we can deal with this is that if case folding is
-enabled, we change the VFS to call the case-folding for incoming
-filename *before* it does its special case checking for '.' and '..'
-if casefolding is enabled.
+My analysis missed rename(): lock_rename() locks both parent
+directories before vfs_rename() finds that configfs has no ->rename(),
+and when one parent is the configfs root, the root is locked first.
+mkdir() of target/usb_gadget/naa.<wwn>/tpgt_1 runs with the naa.<wwn>
+directory locked by the VFS, and usbg_make_tpg() then locks the root in
+configfs_depend_item_unlocked().  The two orders are opposite.
 
-					- Ted
+Reproduced on mainline 666539eec without this patch, in QEMU (x86_64,
+2 CPUs): one process loops mkdir/rmdir of tpgt_1, another loops
+
+  rename("/sys/kernel/config/nonexistent",
+         "/sys/kernel/config/target/usb_gadget/naa.<wwn>/nonexistent")
+
+Both hang within about a second.  sysrq-w shows:
+
+  mkdir:  down_write
+          configfs_depend_item_unlocked
+          usbg_make_tpg
+          target_fabric_make_tpg
+          configfs_mkdir
+          vfs_mkdir
+
+  rename: down_write_nested
+          lock_two_directories
+          __start_renaming
+          filename_renameat2
+
+A third process doing readdir() of the configfs root then blocks in
+configfs_dir_open().  I ran the test as root; I have not checked how
+much privilege the rename() side needs.
+
+So the root lock that configfs_depend_item_unlocked() takes for a
+target in another subsystem, when called from a ->make_group()
+callback, can deadlock against rename() whatever the su_mutex chain in
+the syzbot report.  I don't have a fix to propose yet.  Is the root
+lock there only to keep the target subsystem from being unregistered
+during the dependency, or does it protect more than that?
+
+Thanks,
+William
+
