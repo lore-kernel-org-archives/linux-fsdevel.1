@@ -1,44 +1,44 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794892153;
-	b=Nsew4ajiYhLDxibgDIAsMfbzOIAgGQuw8r2Nhn0u0jghct/fqOHo8vQ5lWRB9oowP+ZD
-	 3BTlEkSp9dgELw8dzEU1dXeajHHe7N3EpQ2viMvLXhpRmN6dzKhYtrgCPNF3X0ZB0T8GJ
-	 Dz0PeeY5kq4XEuoefB1ODlBvlJwERTjNEXiJLeFE3K6i+akhzi7HbXi9mX7u3Fq95JY+q
-	 GZmhjZ4RVuylq1pXCekG0f+hwwB1GbimK6QHlqKT7/Mx/MimFvh+dUOYAMLf3N/6CWuED
-	 bv0rEfpo8nuKdxzemSitrv2+smIT4iZc9ZPVUqOHibUBbUgLJloddr6482sT/MMwkFQ==
+	t=1794892161;
+	b=Q1RO9NNgDoseEwB6QC0JlZzJtiwM5ZzgWgnwJkvO7VgUcpGHVJ244i5ipZjGyQvujCsg
+	 fon7MMJ7L7P6GUsK6P/kl5B+GyObPtPWijfwUFGiOkGGSOW5bRG5IuryExm38yGqiLDnS
+	 uyMsH2PwLs8jSCdl1ZJ3XIakZzwV83qwav8mi85rO1jn+uKH0MqqW2hH4/NFvysmgYTj9
+	 lNY0qhiL38kHbiG/9DEMWYFyFGiBbelLApB5ZLnRiAvZvV8+Xefmc6waZQYiOEPQN5bIw
+	 P0sd25nEwhEez5lqyB0THTWEH59Rwa7Dge2+ihBTyfPeGyentaEa30ydDwgpiKhCIYQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794892153;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794892161;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=8Kp2fiMZBMHreKa6yBm1C7kAqEfoSCeSULw1o1rg90g=;
-	b=jf38jI13oIMXX8RKy0+YGZQyfLAfB1PPrqgeCx/Ri4DMSOyASCIhaAyp5h0jIS18Ui06
-	 up9roKTPaC7+OqwmA16CGMyI9V5kyh8UquPu6kC0AlHlvf78K/A0VXEYAG4bet9Dyqv4P
-	 ru74Zl0Vx2+iHG9M1Y8i8QL1F3EO7E0GlteuRuw3fX1V7YYJ5Yvg/uHNt1//Z5MngO1ON
-	 DJ2BNK2d/qKxEh+iuaY6QXXeF2vThdy2HmPZTd0u4DTEiZ1vaqdGeNbyojahLeQABU+wl
-	 x8aqSZtwvwq3Nih62pt3MqOH5NFIlxELDV3qQyGUUw+xXv6J+T2Wdh+ZEmW+7VsU/bw==
+	bh=iu+uxrfotj0rxH3AuEVj7wlPdAFspDk2RjLn23cBba4=;
+	b=YJePFxYHWjtljkLXKFT9s4ysCKLNQ/Zh8RDkLODA9FZ5gp2yF1lKSgH26LyXx6K6EPDB
+	 3Z8F1XLYD2CPAut2OrijlxFQdw+uCbqE+Wl43pci1u/O9G3TcmqDDq+ORkaXzkbkRvVrY
+	 pOX8gLJNmj7ZeEHUXLzG9He8zW0731kDxOWo+7ekhay3ydcBLMNl4zfa6/Pyniq/g8WGV
+	 xtye8/x0J1u//OVdCWzD790vdly4qJPyGfiqmfd08DY9pcfIl2XnuQYyRv4NmIkWVa4NW
+	 pt5KrdVo7NYEgkc1qKw27ymJo/AwxsydQHXCCo/6GmLtIkt+sTZv6JpQ9lUe2fLAZQg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SUrP14Sr;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BWmdOeBx;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 402A2606A32A;
-	Tue, 17 Nov 2026 05:09:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id F2AE7606A330;
+	Tue, 17 Nov 2026 05:09:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SUrP14Sr
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 246491F000C8;
-	Tue, 17 Nov 2026 05:09:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BWmdOeBx
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id DED041F00926;
+	Tue, 17 Nov 2026 05:09:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794892152;
-	bh=8Kp2fiMZBMHreKa6yBm1C7kAqEfoSCeSULw1o1rg90g=;
+	s=k20260515; t=1794892160;
+	bh=iu+uxrfotj0rxH3AuEVj7wlPdAFspDk2RjLn23cBba4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=SUrP14SrTNoPVLYZKQ0CMdB5XademuzFki46MqB89BxmypSZtR9xR4zst1ho7zzKq
-	 g3Z+xSOYSk5q3+fjMJOmfqvnbE2sdTuAEAbuGxGigYai9tDuMwTBfimmRgWsgOjVzu
-	 s/q7SJBmPzfXdGo6aZVjbMD7yMEFzxAK9PbqOu/NxQ++GxzNYgwxCuPaTne5cL/OD/
-	 DstCwgqPWyQ/DBWJHWVNbPkR3RW4knP/6GAS6RxlkfgDMJ8YaDhtTWzEdm6aL39oAV
-	 sgpg27SV2djHLcKluQH9HlSfcShvKawPb7crhwdJ09wwjpvsq/5PDm1zDei56K2bCr
-	 WFTo7qI+SKjbQ==
+	b=BWmdOeBxRHtsQTn3yh/Lk+S1imLxjjdPJA6A+zflyXOlhZGRWTHvdWXaQ/tmvvI8E
+	 v9umuSX4tyamF7WhrA9t4x6SP6xViDLF/9xNVyzf0g8TrQCXwiThrPsREEuULgVTeS
+	 pO5HQYcjCuZeAtmdWUeCEg3mMs5Q/ngWCdr8YRVs3gayyH8dofvw2z5gL9dN5N5tWX
+	 JQ6zpEcD4X+sQ/dH/Cyi/FlQ4d20BVwuVNZRB0h/ASoEaABqsC7GhJOCri9eM8a9A1
+	 NkO5MijmF7iHhNGHYVmBuqY81NYnNy1M5g/udkANaaHpbHAiB2fxRAWefIHrz+VrA1
+	 jU1tzVfs2hTxA==
 From: Jarkko Sakkinen <jarkko@kernel.org>
 To: linux-fsdevel@vger.kernel.org
 Cc: Jarkko Sakkinen <jarkko@kernel.org>,
@@ -80,9 +80,9 @@ Cc: Jarkko Sakkinen <jarkko@kernel.org>,
 	Valentin Schneider <vschneid@redhat.com>,
 	Vincent Guittot <vincent.guittot@linaro.org>,
 	Vlastimil Babka <vbabka@kernel.org>
-Subject: [RFC PATCH 06/13] rootns: Add rootns_kill() system call
-Date: Tue, 17 Nov 2026 07:08:34 +0200
-Message-ID: <20261117050841.3289652-7-jarkko@kernel.org>
+Subject: [RFC PATCH 08/13] fs: Support FSCONFIG_SET_ROOTNS in fsconfig()
+Date: Tue, 17 Nov 2026 07:08:36 +0200
+Message-ID: <20261117050841.3289652-9-jarkko@kernel.org>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20261117050841.3289652-1-jarkko@kernel.org>
 References: <20261117050841.3289652-1-jarkko@kernel.org>
@@ -97,121 +97,282 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Signaling every process inside a container from userspace via /proc is
-racy against concurrent fork() calls.
+fsopen() initializes a filesystem context from current's user, network,
+PID, and IPC namespaces, preventing an external manager from creating
+proc, mqueue, or userns-owned superblocks bound to an unentered root
+namespace.
 
-Add the rootns_kill() system call to walk the root namespace's PID
-namespace IDR under RCU and deliver a validated signal once to each
-thread group, aggregating per-process delivery results.
+Add FSCONFIG_SET_ROOTNS so callers holding CAP_SYS_ADMIN in the target
+rootns user namespace can bind a newly opened fs_context to that rootns
+once before offering parameters. Update fc->net_ns, switch fc->user_ns
+for non-global FS_USERNS_MOUNT or FS_USERNS_DELEGATABLE filesystems
+whose mounter fsuid/fsgid map into the rootns user namespace, and pass
+the rootns to ->set_rootns() for proc and mqueue.
 
+Co-developed-by: David Howells <dhowells@redhat.com>
+Signed-off-by: David Howells <dhowells@redhat.com>
 Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
 ---
- include/linux/syscalls.h |  1 +
- kernel/rootns.c          | 65 ++++++++++++++++++++++++++++++++++++++++
- kernel/sys_ni.c          |  1 +
- 3 files changed, 67 insertions(+)
+ fs/fsopen.c                | 74 +++++++++++++++++++++++++++++++++++---
+ fs/proc/root.c             | 13 +++++++
+ include/linux/fs_context.h |  3 ++
+ include/uapi/linux/mount.h |  1 +
+ ipc/mqueue.c               | 12 +++++++
+ 5 files changed, 99 insertions(+), 4 deletions(-)
 
-diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
-index 60e9c4ff71e7..a854d248c8a3 100644
---- a/include/linux/syscalls.h
-+++ b/include/linux/syscalls.h
-@@ -1009,6 +1009,7 @@ asmlinkage long sys_lsm_list_modules(u64 __user *ids, u32 __user *size, u32 flag
- asmlinkage long sys_rootns_create(unsigned int flags);
- asmlinkage long sys_rootns_wait(int rootnsfd, int __user *status,
- 				unsigned int options, struct rusage __user *ru);
-+asmlinkage long sys_rootns_kill(int rootnsfd, int sig);
+diff --git a/fs/fsopen.c b/fs/fsopen.c
+index 70024870fefa..98d407fd249b 100644
+--- a/fs/fsopen.c
++++ b/fs/fsopen.c
+@@ -13,9 +13,14 @@
+ #include <linux/security.h>
+ #include <linux/anon_inodes.h>
+ #include <linux/namei.h>
++#include <linux/capability.h>
++#include <linux/nsproxy.h>
++#include <linux/rootns.h>
++#include <linux/user_namespace.h>
+ #include <linux/file.h>
+ #include <uapi/linux/mount.h>
+ #include <linux/audit.h>
++#include <net/net_namespace.h>
+ #include "internal.h"
+ #include "mount.h"
  
- /*
-  * Architecture-specific system calls
-diff --git a/kernel/rootns.c b/kernel/rootns.c
-index 8a1254db69df..f59b2fe9910d 100644
---- a/kernel/rootns.c
-+++ b/kernel/rootns.c
-@@ -21,6 +21,7 @@
- #include <linux/pid_namespace.h>
- #include <linux/user_namespace.h>
- #include <linux/compat.h>
-+#include <linux/idr.h>
- #include <uapi/linux/rootns.h>
- 
- /*
-@@ -390,3 +391,67 @@ COMPAT_SYSCALL_DEFINE4(rootns_wait, int, rootnsfd,
- 	return ret;
+@@ -41,6 +46,48 @@ static inline const char *fetch_message_locked(struct fc_log *log, size_t len,
+ 	return p;
  }
- #endif
-+
-+static int rootns_kill_members(struct rootns *rootns, int sig)
-+{
-+	struct pid_namespace *pid_ns = rootns->ns->pid_ns_for_children;
-+	bool any_success = false;
-+	bool any_other = false;
-+	bool any_perm = false;
-+	int other_err = 0;
-+	struct pid *pid;
-+	int nr;
-+
-+	if (READ_ONCE(rootns->state) != ROOTNS_RUNNING)
-+		return -ESRCH;
-+
-+	scoped_guard(rcu) {
-+		idr_for_each_entry(&pid_ns->idr, pid, nr) {
-+			int err;
-+
-+			if (!pid_task(pid, PIDTYPE_TGID))
-+				continue;
-+
-+			err = kill_pid(pid, sig, 0);
-+			if (!err) {
-+				any_success = true;
-+			} else if (err == -EPERM) {
-+				any_perm = true;
-+			} else if (err != -ESRCH && !any_other) {
-+				any_other = true;
-+				other_err = err;
-+			}
-+		}
-+	}
-+
-+	if (any_success)
-+		return 0;
-+	if (any_other)
-+		return other_err;
-+	if (any_perm)
-+		return -EPERM;
-+	return -ESRCH;
-+}
-+
+ 
 +/**
-+ * sys_rootns_kill - Send a signal to all thread groups in a root namespace
-+ * @rootnsfd: Root namespace control file descriptor
-+ * @sig: Signal number to deliver (or 0 for permission check)
++ * DOC: FSCONFIG_SET_ROOTNS
 + *
-+ * Walk the target root namespace's PID namespace IDR under RCU and deliver
-+ * @sig once to each member thread group.
++ * ``fsconfig(fsfd, FSCONFIG_SET_ROOTNS, NULL, NULL, rootnsfd)`` binds a newly
++ * opened filesystem context to @rootnsfd once before any parameters are
++ * supplied (subsequent calls fail with ``-EBUSY``).
 + *
-+ * Return: 0 if at least one thread group was signaled, %-ESRCH if the rootns
-+ * is not running or has no members, or negative error code on failure.
++ * The caller must hold ``CAP_SYS_ADMIN`` in the target ``rootns`` user
++ * namespace. ``fc->net_ns`` is switched to the ``rootns`` network namespace,
++ * ``fc->user_ns`` is delegated for non-global ``FS_USERNS_MOUNT`` or
++ * ``FS_USERNS_DELEGATABLE`` filesystems when the mounter ``fsuid``/``fsgid``
++ * map into the target user namespace, and ``proc`` and ``mqueue`` contexts
++ * bind to the target ``rootns`` PID and IPC namespaces.
 + */
-+SYSCALL_DEFINE2(rootns_kill, int, rootnsfd, int, sig)
++static int fsconfig_set_rootns(struct fs_context *fc, struct fs_parameter *param)
 +{
-+	CLASS(fd, f)(rootnsfd);
++	struct user_namespace *user_ns;
++	struct rootns *c;
 +
-+	if (fd_empty(f))
-+		return -EBADF;
-+	if (!is_rootns_file(fd_file(f)) || !valid_signal(sig))
++	if (!is_rootns_file(param->file))
 +		return -EINVAL;
 +
-+	return rootns_kill_members(fd_file(f)->private_data, sig);
++	c = param->file->private_data;
++	user_ns = c->cred->user_ns;
++	if (!ns_capable(user_ns, CAP_SYS_ADMIN))
++		return -EPERM;
++
++	put_net(fc->net_ns);
++	fc->net_ns = get_net(c->ns->net_ns);
++	if (!fc->global &&
++	    (fc->fs_type->fs_flags & (FS_USERNS_MOUNT | FS_USERNS_DELEGATABLE)) &&
++	    kuid_has_mapping(user_ns, fc->cred->fsuid) &&
++	    kgid_has_mapping(user_ns, fc->cred->fsgid)) {
++		put_user_ns(fc->user_ns);
++		fc->user_ns = get_user_ns(user_ns);
++	}
++	if (fc->ops->set_rootns)
++		fc->ops->set_rootns(fc, c);
++	fc->phase = FS_CONTEXT_CREATE_PARAMS;
++	return 0;
 +}
-diff --git a/kernel/sys_ni.c b/kernel/sys_ni.c
-index f9918d38107b..fba44c49ddbb 100644
---- a/kernel/sys_ni.c
-+++ b/kernel/sys_ni.c
-@@ -403,3 +403,4 @@ COND_SYSCALL(uprobe);
- COND_SYSCALL(rootns_create);
- COND_SYSCALL(rootns_wait);
- COND_SYSCALL_COMPAT(rootns_wait);
-+COND_SYSCALL(rootns_kill);
++
+ /*
+  * Allow the user to read back any error, warning or informational messages.
+  * Only one message is returned for each read(2) call.
+@@ -147,7 +194,7 @@ SYSCALL_DEFINE2(fsopen, const char __user *, _fs_name, unsigned int, flags)
+ 	if (IS_ERR(fc))
+ 		return PTR_ERR(fc);
+ 
+-	fc->phase = FS_CONTEXT_CREATE_PARAMS;
++	fc->phase = FS_CONTEXT_CREATE_NS;
+ 
+ 	ret = fscontext_alloc_log(fc);
+ 	if (ret < 0)
+@@ -222,7 +269,8 @@ static int vfs_cmd_create(struct fs_context *fc, bool exclusive)
+ 	struct super_block *sb;
+ 	int ret;
+ 
+-	if (fc->phase != FS_CONTEXT_CREATE_PARAMS)
++	if (fc->phase != FS_CONTEXT_CREATE_NS &&
++	    fc->phase != FS_CONTEXT_CREATE_PARAMS)
+ 		return -EBUSY;
+ 
+ 	if (!mount_capable(fc))
+@@ -298,9 +346,16 @@ static int vfs_fsconfig_locked(struct fs_context *fc, int cmd,
+ 		return vfs_cmd_create(fc, true);
+ 	case FSCONFIG_CMD_RECONFIGURE:
+ 		return vfs_cmd_reconfigure(fc);
++	case FSCONFIG_SET_ROOTNS:
++		if (fc->phase != FS_CONTEXT_CREATE_NS)
++			return -EBUSY;
++		return fsconfig_set_rootns(fc, param);
++
+ 	default:
+-		if (fc->phase != FS_CONTEXT_CREATE_PARAMS &&
+-		    fc->phase != FS_CONTEXT_RECONF_PARAMS)
++		if (fc->phase == FS_CONTEXT_CREATE_NS)
++			fc->phase = FS_CONTEXT_CREATE_PARAMS;
++		else if (fc->phase != FS_CONTEXT_CREATE_PARAMS &&
++			 fc->phase != FS_CONTEXT_RECONF_PARAMS)
+ 			return -EBUSY;
+ 
+ 		return vfs_parse_fs_param(fc, param);
+@@ -390,6 +445,10 @@ SYSCALL_DEFINE5(fsconfig,
+ 		if (!_key || _value || aux < 0)
+ 			return -EINVAL;
+ 		break;
++	case FSCONFIG_SET_ROOTNS:
++		if (_key || _value || aux < 0)
++			return -EINVAL;
++		break;
+ 	case FSCONFIG_CMD_CREATE:
+ 	case FSCONFIG_CMD_CREATE_EXCL:
+ 	case FSCONFIG_CMD_RECONFIGURE:
+@@ -457,6 +516,12 @@ SYSCALL_DEFINE5(fsconfig,
+ 			goto out_key;
+ 		param.dirfd = aux;
+ 		break;
++	case FSCONFIG_SET_ROOTNS:
++		ret = -EBADF;
++		param.file = fget(aux);
++		if (!param.file)
++			goto out_key;
++		break;
+ 	default:
+ 		break;
+ 	}
+@@ -482,6 +547,7 @@ SYSCALL_DEFINE5(fsconfig,
+ 			putname(param.name);
+ 		break;
+ 	case FSCONFIG_SET_FD:
++	case FSCONFIG_SET_ROOTNS:
+ 		if (param.file)
+ 			fput(param.file);
+ 		break;
+diff --git a/fs/proc/root.c b/fs/proc/root.c
+index 7fbbe92bf73a..5976029ad3f8 100644
+--- a/fs/proc/root.c
++++ b/fs/proc/root.c
+@@ -15,6 +15,8 @@
+ #include <linux/sched/stat.h>
+ #include <linux/module.h>
+ #include <linux/bitops.h>
++#include <linux/nsproxy.h>
++#include <linux/rootns.h>
+ #include <linux/user_namespace.h>
+ #include <linux/fs_context.h>
+ #include <linux/mount.h>
+@@ -323,6 +325,16 @@ static int proc_get_tree(struct fs_context *fc)
+ 	return get_tree_nodev(fc, proc_fill_super);
+ }
+ 
++static void proc_set_rootns(struct fs_context *fc, struct rootns *rootns)
++{
++	struct proc_fs_context *ctx = fc->fs_private;
++
++	put_pid_ns(ctx->pid_ns);
++	ctx->pid_ns = get_pid_ns(rootns->ns->pid_ns_for_children);
++	put_user_ns(fc->user_ns);
++	fc->user_ns = get_user_ns(ctx->pid_ns->user_ns);
++}
++
+ static void proc_fs_context_free(struct fs_context *fc)
+ {
+ 	struct proc_fs_context *ctx = fc->fs_private;
+@@ -334,6 +346,7 @@ static void proc_fs_context_free(struct fs_context *fc)
+ static const struct fs_context_operations proc_fs_context_ops = {
+ 	.free		= proc_fs_context_free,
+ 	.parse_param	= proc_parse_param,
++	.set_rootns	= proc_set_rootns,
+ 	.get_tree	= proc_get_tree,
+ 	.reconfigure	= proc_reconfigure,
+ };
+diff --git a/include/linux/fs_context.h b/include/linux/fs_context.h
+index d1727dffecc5..cb978273c8bc 100644
+--- a/include/linux/fs_context.h
++++ b/include/linux/fs_context.h
+@@ -21,6 +21,7 @@ struct file_system_type;
+ struct mnt_namespace;
+ struct net;
+ struct pid_namespace;
++struct rootns;
+ struct super_block;
+ struct user_namespace;
+ struct vfsmount;
+@@ -36,6 +37,7 @@ enum fs_context_purpose {
+  * Userspace usage phase for fsopen/fspick.
+  */
+ enum fs_context_phase {
++	FS_CONTEXT_CREATE_NS,		/* Set namespaces for sb creation */
+ 	FS_CONTEXT_CREATE_PARAMS,	/* Loading params for sb creation */
+ 	FS_CONTEXT_CREATING,		/* A superblock is being created */
+ 	FS_CONTEXT_AWAITING_MOUNT,	/* Superblock created, awaiting fsmount() */
+@@ -117,6 +119,7 @@ struct fs_context_operations {
+ 	int (*dup)(struct fs_context *fc, struct fs_context *src_fc);
+ 	int (*parse_param)(struct fs_context *fc, struct fs_parameter *param);
+ 	int (*parse_monolithic)(struct fs_context *fc, void *data);
++	void (*set_rootns)(struct fs_context *fc, struct rootns *rootns);
+ 	int (*get_tree)(struct fs_context *fc);
+ 	int (*reconfigure)(struct fs_context *fc);
+ };
+diff --git a/include/uapi/linux/mount.h b/include/uapi/linux/mount.h
+index ac865edac517..cb55cfcfc92e 100644
+--- a/include/uapi/linux/mount.h
++++ b/include/uapi/linux/mount.h
+@@ -105,6 +105,7 @@ enum fsconfig_command {
+ 	FSCONFIG_CMD_CREATE	= 6,	/* Create new or reuse existing superblock */
+ 	FSCONFIG_CMD_RECONFIGURE = 7,	/* Invoke superblock reconfiguration */
+ 	FSCONFIG_CMD_CREATE_EXCL = 8,	/* Create new superblock, fail if reusing existing superblock */
++	FSCONFIG_SET_ROOTNS	= 9,	/* Set a rootns, supplied by fd */
+ };
+ 
+ /*
+diff --git a/ipc/mqueue.c b/ipc/mqueue.c
+index 322c3dd98c44..a85ca188d370 100644
+--- a/ipc/mqueue.c
++++ b/ipc/mqueue.c
+@@ -32,6 +32,7 @@
+ #include <linux/mutex.h>
+ #include <linux/nsproxy.h>
+ #include <linux/pid.h>
++#include <linux/rootns.h>
+ #include <linux/ipc_namespace.h>
+ #include <linux/user_namespace.h>
+ #include <linux/slab.h>
+@@ -400,6 +401,16 @@ static struct inode *mqueue_get_inode(struct super_block *sb,
+ 	return ERR_PTR(ret);
+ }
+ 
++static void mqueue_set_rootns(struct fs_context *fc, struct rootns *rootns)
++{
++	struct mqueue_fs_context *ctx = fc->fs_private;
++
++	put_ipc_ns(ctx->ipc_ns);
++	ctx->ipc_ns = get_ipc_ns(rootns->ns->ipc_ns);
++	put_user_ns(fc->user_ns);
++	fc->user_ns = get_user_ns(ctx->ipc_ns->user_ns);
++}
++
+ static int mqueue_fill_super(struct super_block *sb, struct fs_context *fc)
+ {
+ 	struct inode *inode;
+@@ -1613,6 +1624,7 @@ static const struct super_operations mqueue_super_ops = {
+ 
+ static const struct fs_context_operations mqueue_fs_context_ops = {
+ 	.free		= mqueue_fs_context_free,
++	.set_rootns	= mqueue_set_rootns,
+ 	.get_tree	= mqueue_get_tree,
+ };
+ 
 -- 
 2.47.3
 
