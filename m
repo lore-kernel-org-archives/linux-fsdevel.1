@@ -1,115 +1,45 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794920417;
-	b=1YMu5ruGAI1VEck5yQPa19b5Rma8m2RhZOQBj8RYRm48clXzqPrDlFjkGDMEqLPL4KD3
-	 MD6lMNKX6YfmrEgD/iKqUOjGJjV5nYR6zI/Cg8bsuxHSdkGbTe8PkCdnIBwlWL2qv0roo
-	 aa4FlYofiOP7h+5T3dr7IqheXlDW5qUltT8fLUrXqDsVNTWtm5l5FmxDXap9ZoRshaITt
-	 atsK3DcGXsSWDJyrhcy8BlEtq5j+4M2JM3HEl45PmdWbLMnG4mxDchh/moaghc4ZdL4jJ
-	 jPnheNRC1jAcLUpXpzhnvDgL5A5ZLKYEDFc3HY58D7NxcTG8gWmA17vqXLsg60CpOvw==
+	t=1794921256;
+	b=bzHRAUMhN7f6vTFAo6wMeILszjYlc+9ZnaK5hLp50/sSma7jz646HUSmhxDBhND0cTBY
+	 jPeKTUTkfSQN9qfsOQt4cp45gF3pQRpgZTWCBDoxtAeQzfaKnFxWqUwrIiVcfk7vV/oC7
+	 LaMPSfDe3vIrO7ZfaMeg2c3DCkm/YttRhak7pX0DZZcjoQDhMZHrG91yq6r/qZHLyfQVJ
+	 T6YlIgigS4JyJWlRLVno9CiIxVZ6RQGVw+FsSVyAQkk32XLP+ekgqLwChYebgmI9KXAIM
+	 1ePqhNQsYmih5evFh4DcY9/i3axpZphJ+1EOH+SlwTF5CbajLSkXNyjdp78MPmSt5cw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794920417;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:X-Mailer:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=ckAIzUV5oWihOIEXseRYjbrEU/6METgnwVW7WGDvtlo=;
-	b=ozOXNVfY1OKdmKSqOn5biv4WgoVQtCoAd7P0BD3l00Q7vDOGga+dd4wMxEZx7rtpys4q
-	 Z9LF/6j1DZumrJlnoCh35+sSK3Xk4O9GgkLEblKtvDXkqudq5VW6q8KO/fg2VjVybRSuJ
-	 GViiXB9YaSxHTlDdFSbRc2D0t55Ep+zc1E+R+BeRlnHkZ+WZ9AAOa3g//sK2NZv7ZCL94
-	 H9R3jMV9WEdyADZN8/JXyS+YK1OBqj7tPyNOqyzGB72VpD6eUJUejzCJKClOnyE4D6DbK
-	 6S9Ue8iJ/PWXdK4Je4n9sVdNwmnLM/J62C0IA/ycA+dwsF2/wkp8bFlIhcieNb7GSsg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794921256;
+	h=Received:DKIM-Signature:Mime-Version:Content-Transfer-Encoding:
+	 Content-Type:Date:Message-Id:To:From:Subject:Cc:References:
+	 In-Reply-To;
+	bh=esDAPkgPyi097rGtu2NlFyj83v6KBu1QCQkoO5elA4A=;
+	b=04uMG550xZ5e0pp/SNlWiUvibuuZqCqu0GP+TJmborfnxm+3CkXBoMIgNrH9fiZJDKzk
+	 9at135f/r21KHpsxNTEdgW0ncKN9U+WYx/++4ABK/HG0QBSclQqwesGD8QiuZ5uHRzhHE
+	 D4ZttM8uM5pMlKDWN3X9IRZpkiEGoFU23rpBQNexFTp1mw6jxkU9hutv4qwUw2muGARfS
+	 kmpP93L7g/bxi0FrdB9Yd3u4OvnENiIvrehlRAd99J0Fp75b6g2Bid0ItfR/jlr+UDjrt
+	 RmFcINKR+yW+PpP3C2CVb82bA39SKbq6CHudP7Z3AmfLxOkM+0t27i/zGXD3OKtqmkA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ux9dP6cx;
-	arc=none smtp.remote-ip=209.85.221.48
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=o0qy6k+C;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E76E606A333
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 13:00:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9E76E606A333
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32459606A31C;
+	Tue, 17 Nov 2026 13:14:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ux9dP6cx
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-4a358881793so543526f8f.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 05:00:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794920415; x=1795525215; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ckAIzUV5oWihOIEXseRYjbrEU/6METgnwVW7WGDvtlo=;
-        b=ux9dP6cxGHchfy+unLDQ6NmKaVT3R8pW2Zfa/bLFviUfqW7T1JZLWOGkLeMvqz7iUB
-         zLW7dje3QrA7HvFJ9Z2e/BsWN7PkFukCWLlCC2sfZfe4C42kw1BD7+xJ9+K8ykHcfJhN
-         xuB6p0p675+Q+8Ab4VBm/lPttSQUOT9MfXiQdtBTxIq64JfVXTUc/LJnriMOJrmqWlqr
-         pVJv7iS/suULfBRGTO/rXud1wwmWfwrXIjLdPTrqTKyk72/ZF/FYEeTqn8YrQOIG851+
-         XstWyYcmlUsM5ZYhKgaD6JN4csYJsgqj8fKhGxAJTKSZDhJpxLk/Ya/RZa7YSEnQfkFN
-         FNJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794920415; x=1795525215;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ckAIzUV5oWihOIEXseRYjbrEU/6METgnwVW7WGDvtlo=;
-        b=H5h5Z4twUFT1TFOGblNm+By+enI2PK/1PIUCoL/YEe3zFXaPGoaePLltMBdG8D7xZN
-         kT+4/hlqB+17SNnkj0Hj0qEbfgut2WoiamJxsy7aoHFBnrHWpZkwqsgadDK6Mj5Cgdjw
-         77P5FYY18DhQS9nlP3F2TprAj04s7Cfy8T2xMNT/c7QwBv4uHBjzpBSIjeO593/vke/7
-         NzNVNHkoDLCXtsjdSARqgyRW4naCUuzmT93+zEmJxQ2UDdnQ+j5AUUAm2oiMetD24bGn
-         8yP7ccC2p4gFA1LAgCaI2gxQQNs3Pl2dEbeBAqdIfDv9sb9iucQqQ2yigP8KbE/Ueq7A
-         mnmQ==
-X-Forwarded-Encrypted: i=1; AL+hErEU3eo3NQ1OUz10unO89egM4/a3xA56n98fGja1O+0Q5phqjpFhcJyufmLxAa2ZMYn/zMk2qf7PNrChQFYl@vger.kernel.org
-X-Gm-Message-State: APuU4Z+BSMAqe+A0HqWVIsXyXWLot7OEfLPT8DXG301dGuUuh8eO/wro
-	W19UxxjCDgYpav18iiZqN+8DV2d9fCWDvcQ2F5S1RqUyupCsLm6Ybf57
-X-Gm-Gg: AZFdTZemgoueI/GUgU9Ie7DZbOoGCc/I0jB0s1SPYk0PFTQzAiaE3y9aa0EJQp/VYUi
-	cz2YaR9fSa8HKXJVlB90Qc0w6EWQn5T4V1erwm+DX9ZzTjsny1XHg+78Ali/+iqdzu1xWs1rNGl
-	XBsJHrnVyuVYF7gq9P9iT2biQM+XDK74qrEwybzr1l6lWjfqT5IAatvVHqqY9vxaeFB0qhgJs8R
-	G8bqk2kuJCa2qCXLNJ0C+xBrj/lhVHNnW+Mo3hMWswS1Ez0+8DewlzHqiZu54tkjyxJaDCDhNGC
-	Sg/Y7FekLHqZLgbwU04tqldh3E8WlhlhOZhn6+FbmZtM/CK72s+3WNo2LXwzRLz5HffqDhLu5JR
-	cAZUxl7hfLpLcRr5N+D2aecVrBm5sURj6kOwpl4fpnBilnzORrxGTiFv+qlCrzfTgQfUSN80SXS
-	qupxNsm0ia1oM676TbSx5is8gJW6w/WHb355deI8VJBeIn7kzrmHCl9dy9UfDey75SNDwSxqcOq
-	Au5ulmOrm6oQtDeE9yxCj88m0DuSOr8T7WIfpm/4T8U9nQw+9l+ArWk2e4GD33/3+XGBhqxtWCt
-	DMolxOdhqYdK9jsGVWKQmC/qkYy5lLYnxlY+URibyiCe9PJqt/VsyqYxf5QCMAzpMDSmyHrvC11
-	+b2S9yCucnIg=
-X-Received: by 2002:a05:6000:46d0:b0:498:2754:6a80 with SMTP id ffacd0b85a97d-49c725e538bmr20536616f8f.28.1794920414596;
-        Tue, 17 Nov 2026 05:00:14 -0800 (PST)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c5ff2be55sm28207005f8f.28.2026.11.17.05.00.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 05:00:13 -0800 (PST)
-Date: Tue, 17 Nov 2026 13:00:11 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: Samuel Wu <wusamuel@google.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Luis
- Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, Daniel
- Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, Aaron
- Tomlin <atomlin@atomlin.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Alexei
- Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>,
- Kumar Kartikeya Dwivedi <memxor@gmail.com>, Martin KaFai Lau
- <martin.lau@linux.dev>, Song Liu <song@kernel.org>, Yonghong Song
- <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, Emil Tsalapatis
- <emil@etsalapatis.com>, Ihor Solodrai <ihor.solodrai@linux.dev>, Nathan
- Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>,
- kernel-team@android.com, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-modules@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH bpf-next v3 0/9] kallsyms: Add KALLSYMS_QUERY_BY_NAME
- and KALLSYMS_QUERY_BY_ADDR ioctls
-Message-ID: <20261117130011.05eee0a9@pumpkin>
-In-Reply-To: <CAG2KctpP7QH=tdSB=op703rA=CtjQKAXqOen8JEHg1ygy9sgyg@mail.gmail.com>
-References: <20261113221248.3535369-11-wusamuel@google.com>
-	<20261115142431.1587690a@pumpkin>
-	<CAG2KctpP7QH=tdSB=op703rA=CtjQKAXqOen8JEHg1ygy9sgyg@mail.gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=o0qy6k+C
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CED801F000C4;
+	Tue, 17 Nov 2026 13:14:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794921255;
+	bh=esDAPkgPyi097rGtu2NlFyj83v6KBu1QCQkoO5elA4A=;
+	h=Date:To:From:Subject:Cc:References:In-Reply-To;
+	b=o0qy6k+ClRxsVrNeII8VK2DxW0z7RF1lJUs96JG4m4PgPtHClFXc3F14FySKl15DS
+	 6sqJ32GlxjNcbngtKtvZi7YWV98XOGBefybmoePtQ8jwZQprIlWJxVTC1dmFXMFQTe
+	 /yc7UaVvcuOJ9hvc1pj3WkUpuyFGwJ8TJpjPS1kr1uy1dZlNt4ojWzH4haflBOg9Lw
+	 OZNQrhCf3UfCn30J6QPwOdfB6e/T5bGIcKoOfmGGVt6tW2Q9AAo3xR8XYvy4Gre24U
+	 X+nRoH1C3xx5TnpdVYuGTqc6WNrmGiY4Vl+Brp8QepsiIVZyJfyFeBOVcCXndaTPLD
+	 WnaH0/zkegZsw==
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -118,67 +48,83 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 17 Nov 2026 14:14:10 +0100
+Message-Id: <DMXIHAWC8YGT.33OH5RY5OPPBE@kernel.org>
+To: "Gary Guo" <gary@garyguo.net>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH v3 1/5] rust: task: add safe schedule_timeout() wrapper
+Cc: "FUJITA Tomonori" <tomo@flapping.org>, <boqun@kernel.org>,
+ <aliceryhl@google.com>, <lyude@redhat.com>, <daniel.almeida@collabora.com>,
+ <work@onurozkan.dev>, <ojeda@kernel.org>, <bjorn3_gh@protonmail.com>,
+ <lossin@kernel.org>, <a.hindborg@kernel.org>, <tmgross@umich.edu>,
+ <tamird@kernel.org>, <acourbot@nvidia.com>, <viro@zeniv.linux.org.uk>,
+ <brauner@kernel.org>, <jack@suse.cz>, <linux-kernel@vger.kernel.org>,
+ <rust-for-linux@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>
+References: <20261117001507.1611984-1-dakr@kernel.org>
+ <20261117001507.1611984-2-dakr@kernel.org>
+ <20261117.094531.2139684707820199268.tomo@flapping.org>
+ <DMXGHLYADENS.14LHK34JTZTRX@garyguo.net>
+ <DMXGTVTETSCB.2AG2E0Z05QT03@kernel.org>
+ <DMXGYAQZB33R.4BWEI96XQXL6@garyguo.net>
+In-Reply-To: <DMXGYAQZB33R.4BWEI96XQXL6@garyguo.net>
 
-On Mon, 16 Nov 2026 19:15:11 -0800
-Samuel Wu <wusamuel@google.com> wrote:
+On Tue Nov 17, 2026 at 1:02 PM CET, Gary Guo wrote:
+> On Tue Nov 17, 2026 at 11:56 AM GMT, Danilo Krummrich wrote:
+>> On Tue Nov 17, 2026 at 12:40 PM CET, Gary Guo wrote:
+>>> On Tue Nov 17, 2026 at 12:45 AM GMT, FUJITA Tomonori wrote:
+>>>> On Tue, 17 Nov 2026 01:14:42 +0100
+>>>> Danilo Krummrich <dakr@kernel.org> wrote:
+>>>>
+>>>>> +pub fn schedule_timeout(timeout: Delta<Jiffy>) -> Delta<Jiffy> {
+>>>>> +    let timeout =3D timeout.as_jiffies().max(0);
+>>>>
+>>>> In earlier reviews of my patches, Gary asked me to use the function
+>>>> syntax or clamp() for this instead of the method syntax [1][2]:
+>>>>
+>>>>     let timeout =3D isize::max(timeout.as_jiffies(), 0);
+>>>
+>>> Yes, please do. I'm okay with either `isize::max` or `cmp::max`.
+>>
+>> The examples in [1][2] both seemed to be able to avoid a cast with this,=
+ which
+>> isn't the case for this patch. There also doesn't seem to be any ambigui=
+ty in
+>> the extression used in this patch. So I don't see why changing it would =
+be
+>> better.
+>
+> The ambiguity is "the maximum value returned will be 0" and "the minimum =
+value
+> returned will be 0". The answer is always the latter but I'd avoid the me=
+ntal
+> gymnastics.
 
-> On Sun, Nov 15, 2026 at 6:24=E2=80=AFAM David Laight
-> <david.laight.linux@gmail.com> wrote:
-> >
-> > On Fri, 13 Nov 2026 14:12:45 -0800
-> > Samuel Wu <wusamuel@google.com> wrote:
-> > =20
-> > > /proc/kallsyms is the primary interface for userspace to query the ke=
-rnel
-> > > symbol table. However, resolving even a handful of symbols or address=
-es
-> > > requires reading and parsing the entire text file, which is often sev=
-eral
-> > > megabytes and takes thousands of read() syscalls. =20
-> >
-> > Separate from this, I've wondered about separating out the /proc/kallsy=
-ms
-> > code from the code that actually handles the symbol table itself.
-> > The two parts are pretty much separate.
-> > IIRC it uses a static function to get the symbol type (which does most
-> > of the work of getting the name - which it also wants) so it isn't
-> > completely trivial.
-> >
-> > I'm pretty sure all (well almost all) the changes will be lower down
-> > the file than my changes and won't cause (hard) conflicts.
-> >
-> > I've been compiling kernel/kallsyms.c and kernel_kallsyms_selftests.c
-> > in userspace for testing both, but had to cut the bottom off kallsyms.c
-> > to get it to compile with a sane number of definitions.
-> >
-> > David =20
->=20
-> You mean separating the core symbol code (top of file) from the procfs
-> interface (bottom of file) into two separate files, right? If so,
-> seems reasonable to me, especially since the file is approaching 1000
-> lines even before our changes.
->=20
-> And agree, even with both our patches, most functions can remain
-> static in their new homes.
+To me clearly both
 
-I just tried it (on 7.4-rc1).
-Only had to make kallsymbols_get_symbol_type(), kallsymbols_expand_symbol()
-and get_symbol_offset() non-static (added to kallsyms_internal.h) and
-split the file before the definition of kallysms_iter.
-Then tidied up a few #includes.
+	a.max(b)	(1)
 
-I've found a much bigger problem though.
-All the sprint_symbol() functions do unchecked writes into the caller
-supplied buffer (no length is passed).
-While the buffer is (usually) long enough for the name, there isn't
-guaranteed to be enough space for the "+0xoffset [modulename buildid]"
-that might easily be another 60 characters.
+	max(a, b)	(2)
 
-Some of the people who have modified that code recently really ought
-to have fixed it.
+read as the maximum of a and b.
 
-David
+IIUC, what you are saying is that people may read (1) as
 
+	a.at_max(b)
+
+which would indeed be equivalent to min(a, b).
+
+If this is indeed commonly the case I'd suggest to raise this to become a c=
+ommon
+rule (ideally with a lint), such that we avoid this to be discussed in revi=
+ews.
+
+Personally, I prefer (1) for the expression above, but I don't care too muc=
+h, so
+I'm fine to change it. (In case I don't need to respin I'll change it on ap=
+ply.)
+
+Thanks,
+Danilo
