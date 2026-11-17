@@ -1,81 +1,113 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794901337;
-	b=37z9EDpxDwb1LvTNgNngyyO129ONuIdMVy1ciRqmjc50Yv2KaqgL09a7e+HukknsMDRh
-	 oDQuL+2YqWU3kBFjNHToSENDqJ+94PfVB/WFkXMFFwTvNtU8XMDYGinSB+bIZKHUTIBlu
-	 Y6YxnV4EqU8IwuxabQ7IgeQaLC66XruvvwOarzjesm0prrtJl/ceoeD1hkc/8tw2/1eCv
-	 PqCVD6lgGyh2F/xBDAPe4sucjT58Pu2IrWI8sKJHGAFKaXexO4cdOdPW6Ob+e80JH4IvK
-	 Nle7OjCq/4no84eFOI4l7Uw70GqRoyNgesWpyZtYsuWv/T4Du2tKGdsc5dIAQcKZJzg==
+	t=1794903941;
+	b=PlpDpoq2lzWDFpIet9ZOhTW99wlSvld2xG7TJouHEiq1NgKrMapEnXir5mNLPed7iZyo
+	 qBsemIqdtUJeRGHn1wJtYL94KueN874ar1obz7c79O8d1GyOk6d8ZDOQ2hFJOAj0mN2n8
+	 KNiBRRRvHf7VTWdTIzXGOSr2Bk1OQnRdiWh0BItdfU2bTvR9tm+K5gEvYfB1CSe403gYn
+	 UA+cQS93ZjrjKQnST61sPwwfV4TqOAktTDUt9qn2uyb3z3Lx5HiPuDCSKwxxxaLuwfjAu
+	 H3EuHl/j5Ql9oYzG7NjEt2m7ZFaQaLDbe3quPjNtxiT2HE5AsxMgOkkAzHjzMu/BqEg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794901337;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=BNc0jc+y8gmBof9uvBRCGTTtAoU3LO+7YLj5ywN7oqI=;
-	b=KI1zS83HDy3IpnJYCPOoF8y/4RW0xtpLwZ0d/QbXkbIVfeHXihKjUOYt5rjuYWEiE6UG
-	 ZwvLwxDKY3Q7kHtoL0cS47o//pM5p5HYcpEy1qXyyUm9hX3aE0d9pXzlPXZUG80fLndKS
-	 GEIoyudgQ9o8osaUKlrE3ZXeirgN1mbM+l8NP7aj5nHVf7KWwPZ9pUAhpoLRuJHY5gy3Y
-	 viiXkSQx49J4LdWadOsccisXrPbYEVxZMAHAQ+i/g+KT80unWvigeGPQKdb/5yDn6R3HB
-	 a9TyaMCuL5PPsjaQ3sWMF71UPTGV/aDeuVEg9YEBCpcyuJqnLY/0QN0pjMzIHcfbMkQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794903941;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
+	bh=UGlayfD5Z/El6cdpm6ie0HDMH84kD107OWGXScU9uXE=;
+	b=hZem5nTvv60q8J+zNyQxc1Zc5nGlg9PbEco1947h4LLpiN9W9sADbzR0prqBiGg7PLVY
+	 HL/fkBO8qX5DeCCYCCeBRpXXUgbfqRcuOsmHktZgzLzaw5L3dvDGNU9bMtGGdoWA3PFE/
+	 twYkh0HHJsv99vFHOPOx/sv46RZ10tmkAEjHGO2NCw8UeYSKem/asPjD8x2oPfwKccflm
+	 Z3IRHtUeQekv11XWItFqg4vWmiAO56jeLLSkvmj8usG97AbNM+EsijAIXzzpISZRqlCAh
+	 Rz6my7i1KV2eO3KG54Weu4Nn1KE8P1vxKL9oKCGJl9r2r7cHkG8piwTOdH2JZx7Bv5A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kUlOkBc3;
-	arc=none smtp.remote-ip=198.175.65.13
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=none header.from=amutable.com;
+	spf=pass smtp.mailfrom=amutable.com;
+	dkim=pass header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b="QoCmkI1/";
+	arc=none smtp.remote-ip=209.85.221.41
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25092606A31C;
-	Tue, 17 Nov 2026 07:42:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 25092606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDA3C606A32F
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 08:25:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BDA3C606A32F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amutable.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kUlOkBc3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794901336; x=1826437336;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=EgA9YxNZ9BP8hN2g1J7ClShew7PSM78W1qj6c6PmgZc=;
-  b=kUlOkBc3XtwPKKPo0RMgf++8L5oYss/5+b9nGc0IrccpOIXvnNWUdkKR
-   bTxrWO7YCyWxubAGnMsUN9cRHbkEWjbsVRgfOoWJu7ICNrgdYSV+aieua
-   PegOO1ep2RF5gHzIE9kCKGglBF/7v4sZSEfMNQGPfa2OZCHKg6a+0AJV3
-   1Jz2LI3Y2m8FEJIga68c4EINtIAaHoyLjHvOET3igHVrpcBMrc0TlZMBS
-   KVhp5Y5Ke/FTtlUsqFj5e5X0eQ4rmEf3xKCYROiAEAkTdCHqCiWABjFDe
-   AiHz5oCjDQyPZO6vdPiIBerVSECzOg1J2fL8QCZskdDwUsbrmJQ8k3GXl
-   A==;
-X-CSE-ConnectionGUID: WPGHS5B/QsWTrctt2oWfeA==
-X-CSE-MsgGUID: MOQ9mdnwTLiE3NameB+7JA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3531449"
-X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="3531449"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2026 23:42:16 -0800
-X-CSE-ConnectionGUID: y3u73FwOR3yNO6kgsuDVGw==
-X-CSE-MsgGUID: TZYphSKdT9iKw7wvdnxtIA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="9842138"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 16 Nov 2026 23:42:14 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xTDpT-00000001ADo-0bXf;
-	Tue, 17 Nov 2026 07:42:11 +0000
-Date: Tue, 17 Nov 2026 15:41:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ismael Luceno <ismael@iodev.co.uk>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Ismael Luceno <ismael@iodev.co.uk>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	"open list:FILESYSTEMS (VFS and infrastructure)" <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH 3/8] init: let filesystems ask whether they are mounting
- the root device
-Message-ID: <202611171523.oW7KTbJo-lkp@intel.com>
-References: <20261116224316.11237-13-ismael@iodev.co.uk>
+	dkim=pass (2048-bit key) header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=QoCmkI1/
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-492690dd5daso4102904f8f.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 00:25:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amutable-com.20260707.gappssmtp.com; s=20260707; t=1794903939; x=1795508739; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=UGlayfD5Z/El6cdpm6ie0HDMH84kD107OWGXScU9uXE=;
+        b=QoCmkI1/XbLLMuB5pWQjj6w7lhYbbqiM96jQW+pj9RZ000aRRl9S7H2qSmbtORMNOo
+         ePt1TXAWzVIR/TrMeI58Zu3n81XgIdPHavzyhyljr/3uEJYZwsW6Sg14gd450d308jE0
+         RrvE2vSlthe4MhW9V05IsJzW8g0CM3u+nfQ1hkfntpYQW6a4z4zmXmxD0w/TiuzDbd7U
+         U8xZ2FexNWbZhSQ3d3pA0tlH/f0MOfn4O69UeuIyRM8vQ/YXTKpGPDyGoQczoxEfoynP
+         BDcwZppUf46pJGXZ+RH52kug0iZSl25eld2NGIqCa+XVs4XFwFr0CZI1pzljVyhbNHw0
+         NmQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794903939; x=1795508739;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=UGlayfD5Z/El6cdpm6ie0HDMH84kD107OWGXScU9uXE=;
+        b=QI1a7W8tQF6uzEfrBHC+YDw9Wll/ap1SrqAlh8D6Qqyf5S4jPQsF4Fs/myVv0Jtcph
+         b6wozz+EIF8gKTzHZlz3q880VxWdKKT5i58P7p/iTwL6CyJ8cYafD7Bc6Aq4gDSmrxKH
+         ELjgcmT/gPsej2Cr0co5NID87oUh5UG8EM062/EeB//W/YgAkL1fI2avtJFs//X8HvMS
+         MJF6Uw3wo4V11KNPP9VMOYz5v0pbx8787eTFPGPouRsBQ+q8prt9LEsN65BsO00A+sZA
+         CUhKYm42cj5EdF9IXYn6ySM0TStu0mZH1cfeFxznlHmZerPjLEZG7o7DeR4PC3frQG91
+         CV7Q==
+X-Forwarded-Encrypted: i=1; AL+hErH4Q7HWQj8PyDDDZ6LfHAMda/UWyGQcq4BU2MpgbK92jb7LTwPNTsPRC8w6plqJmHh94DTRFxkJYtNDmR9+@vger.kernel.org
+X-Gm-Message-State: APuU4Z+GHDFlcqYcId6H253gqlKg+DutrCKq/GbvzVW2MUFPDpZnF90l
+	NmRJJMphpfeA/wzUqJJFDy01dVFIaa92VK15Lfj7ClcQTfdtUJldZN7RNurFSbRAm3EC
+X-Gm-Gg: AZFdTZcl/HFRvxAMbT34BFsO6eYT6psYMrpB1nAaptjuQgViqxlNki8M9DZooEOF4D6
+	hSGSj0+O4useSdM/HYhSVFpJvY+V/i9Y0N0yDgZBVjV7Byts397Y8hXZ3iTCfFagA0gJ+SdEdUK
+	0Iv0TZZjzJUltBID8jUHDYWU5bVB/VBuUfVsA8CJU7hxBpTm2hKuKB3a7WVXkvTOn/5CTgCZ7rb
+	jm5beIwqAl7cpYkNYzWPfi/GuJWNoq6KPv4Xa2wm5JOkPlJoiskf5HtsIGT7UMZAlRZrWUVU5CB
+	spTZM1beFWZmC4S4bR0V8bmR8cycu3P4Epg+KhmqnpRacB6z/aCMY8JReWz83Ytpe523kggmKNG
+	cDcN9ra4dwsq5+ERRG3MXIsj0B//0LMQ4yB6xnmCsn4wzeMPwsx4Vr5Fz/8MD1Go4WJu2Y9w8K6
+	nx7Wt5q9wG7OBtnGX/9/Bi112py/F69/wws0/eDD1/oGfkXCmlmfIGS48s97VKwEtSc9AR0ANnS
+	OanPvLFcS/0E9aMpHbSryrQgPLy9mtl7gE0vm7DvG62zptjSIZ7QDQ6WLFlm23TI5RYn7S6j4BF
+	YOzsi87JgF8qk1/o7p77+ECD8VMxqLVAfY54WurqmgB/KS/73R+5iRKZwInvc2nxdV3Uk26UePR
+	O41zY1U0GUSKWYkyQ//5WsAaRHlMY00vzey+NH4FusHqtRNiJE0unylhjcLaCjkQ3o5rUGgA6Lz
+	extA==
+X-Received: by 2002:a05:6000:2084:b0:492:46e:d4ce with SMTP id ffacd0b85a97d-49c6fd932c8mr25238543f8f.13.1794903938925;
+        Tue, 17 Nov 2026 00:25:38 -0800 (PST)
+Received: from ?IPv6:2003:cf:572c:2800:de4c:6789:33ce:97c2? (p200300cf572c2800de4c678933ce97c2.dip0.t-ipconnect.de. [2003:cf:572c:2800:de4c:6789:33ce:97c2])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c5ff2be55sm26907832f8f.28.2026.11.17.00.25.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Nov 2026 00:25:38 -0800 (PST)
+Message-ID: <a9124bf1c858cef3e8ac06b1b2396dcb0e19e2a5.camel@amutable.com>
+Subject: Re: [PATCH RFC v3 02/44] nvmet: check that the file backend
+ supports ->{read,write}_iter
+From: Alexander Mikhalitsyn <alex@amutable.com>
+To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
+Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>, Josef
+ Bacik	 <josef@toxicpanda.com>, Christoph Hellwig <hch@lst.de>, 
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Jan Kara <jack@suse.cz>, linux-scsi@vger.kernel.org,
+ target-devel@vger.kernel.org, 	driver-core@lists.linux.dev,
+ linux-mm@kvack.org, bpf@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
+	apparmor@lists.ubuntu.com, linux-nfs@vger.kernel.org,
+ netdev@vger.kernel.org, 	fuse-devel@lists.linux.dev,
+ linux-efi@vger.kernel.org, 	xen-devel@lists.xenproject.org,
+ ocfs2-devel@lists.linux.dev, 	linux-s390@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, 	linux-usb@vger.kernel.org, Amir Goldstein
+ <amir73il@gmail.com>, 	linux-erofs@lists.ozlabs.org,
+ linux-kselftest@vger.kernel.org, Chris Down	 <chris@chrisdown.name>
+Date: Tue, 17 Nov 2026 09:25:36 +0100
+In-Reply-To: <20261116-work-loop-pseudo-v3-2-8cbbea1cf34f@kernel.org>
+References: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org>
+	 <20261116-work-loop-pseudo-v3-2-8cbbea1cf34f@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-0+deb13u1 
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -85,54 +117,50 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261116224316.11237-13-ismael@iodev.co.uk>
 
-Hi Ismael,
+On Mon, 2026-11-16 at 12:04 +0100, Christian Brauner wrote:
+> The file backend calls ->read_iter() and ->write_iter() of the
+> backing
+> file directly but never checks that they exist. Everything that isn't
+> a
+> block device ends up in the file backend. So a namespace pointing to
+> a
+> file without them calls a NULL pointer on its first I/O. Only
+> buffered_io=3D1 gets that far as the O_DIRECT open fails for such
+> files.
+>=20
+> Refuse them when the namespace is enabled the same way zloop does
+> since
+> commit 0c10f8a1a7ae ("zloop: check that the zone backing file support
+> ->{read,write}_iter").
+>=20
+> Fixes: d5eff33ee6f8 ("nvmet: add simple file backed ns support")
+> Reviewed-by: Jan Kara <jack@suse.cz>
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> Reviewed-by: Chris Down <chris@chrisdown.name>
 
-kernel test robot noticed the following build errors:
+Reviewed-by: Alexander Mikhalitsyn <alex@amutable.com>
 
-[auto build test ERROR on kdave/for-next]
-[also build test ERROR on btrfs/for-next brauner-vfs/vfs.all linus/master v7.4-rc3 next-20261116]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ismael-Luceno/btrfs-add-config-options-for-the-root-device-scan/20261116-234317
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
-patch link:    https://lore.kernel.org/r/20261116224316.11237-13-ismael%40iodev.co.uk
-patch subject: [PATCH 3/8] init: let filesystems ask whether they are mounting the root device
-config: parisc-randconfig-1001-20261117 (https://download.01.org/0day-ci/archive/20261117/202611171523.oW7KTbJo-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261117/202611171523.oW7KTbJo-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611171523.oW7KTbJo-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> init/do_mounts.c:391:20: error: static declaration of 'is_root_dev' follows non-static declaration
-    static inline bool is_root_dev(dev_t dev)
-                       ^~~~~~~~~~~
-   In file included from init/do_mounts.c:8:
-   include/linux/root_dev.h:30:6: note: previous declaration of 'is_root_dev' was here
-    bool is_root_dev(dev_t dev);
-         ^~~~~~~~~~~
-
-
-vim +/is_root_dev +391 init/do_mounts.c
-
-   390	
- > 391	static inline bool is_root_dev(dev_t dev)
-   392	{
-   393		return false;
-   394	}
-   395	#endif /* CONFIG_BLOCK */
-   396	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> ---
+> =C2=A0drivers/nvme/target/io-cmd-file.c | 5 +++++
+> =C2=A01 file changed, 5 insertions(+)
+>=20
+> diff --git a/drivers/nvme/target/io-cmd-file.c
+> b/drivers/nvme/target/io-cmd-file.c
+> index 695963dd932ee..dfa8aa46188c8 100644
+> --- a/drivers/nvme/target/io-cmd-file.c
+> +++ b/drivers/nvme/target/io-cmd-file.c
+> @@ -47,6 +47,11 @@ int nvmet_file_ns_enable(struct nvmet_ns *ns)
+> =C2=A0		return ret;
+> =C2=A0	}
+> =C2=A0
+> +	if (!ns->file->f_op->read_iter || !ns->file->f_op-
+> >write_iter) {
+> +		ret =3D -EINVAL;
+> +		goto err;
+> +	}
+> +
+> =C2=A0	nvmet_file_ns_revalidate(ns);
+> =C2=A0
+> =C2=A0	/*
