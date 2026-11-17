@@ -1,90 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.175
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794925162;
-	b=xNObbN1l9nNSWU6iqngWAK3t/unGxxq3jj/Jvr6XHmiTcxIWAO8VWB5eHX72CWFBuVH5
-	 ibVBisbH0cQUjUQ6sxps5mU12C8V4SMYszE732QwiWinZ3gdPIE9adjfx4MLv2PJSvs22
-	 WbRp4JPyz5oSgNLBkd5VfJZy+2vG9+RnOuNJ6wFTpiemjDY5B6DGLPGK/XWBIb4RNga2I
-	 +ZTUBTTjbTdxTG3HX7/5PqcrfI6D8ClOK15SgjV5tvfWAAkgZ5TVGeelehIhjPiy/5QCm
-	 0daC41g2/UtRSTktW0kyRfJlVk9QjU1RzAwoUJSV5ORoHx8EnnntBdh/FaKHsuKC+PQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794925162;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.177
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794925910;
+	b=LF4mdfBtSKb/P9jmM9V+ecyerk6gI9nEvW4ZV9yU39+Gv3nLaMpi1o2xKbDT15abbdXX
+	 Hc1n9OZublKWGaSo6wXX5WdxqWRG1PFPvryHyPg1qXlzJ2bAq0252jtJ2YS8FQAYLtMeO
+	 obK+Z+IT4jUctaU/cxBAmkPLW4edDKVRwzJ3ggO2YZqImprJklNYSljXXyeRrxN7MKBrI
+	 yPpte4yqKcyJNWO0X3dLzVKygPVnC5ztsyCR5tCdFb7s/kgD+Bs5vzn6A3uz3WJCH+iPE
+	 65mTG63Bkav0Q7QLzX25pdCMvTlXJrKXUJLrIn3yY3edzEjM2eXBRLKMQyw3Z77kZZg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794925910;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Received:X-Forwarded-Encrypted:X-Received:MIME-Version:References:
-	 In-Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=4FXZ9QjPMWSPXHYn/FS5PKL+JaPOXiDC39K9maTGAmk=;
-	b=Od9iHvtu6aiUnFDjRFnAg8kUabllplZkQBtFi14aG7QgNE1WR+riXk226UJpIgDGNPvK
-	 vAK84kjJ/xgs7Pv1Y2VRtM+PPmdojG+yEsgmQ0giMT011nhNl7L0lrLbcugrKRCpNBrZy
-	 K0kjKG2pgH131hQVe60EJHtFPjrM8Ey0FiQ3T9O5G1caL4uHBNuQJEUqKbVn2BZMTIuaG
-	 lMTADEIjVY3gl7SWdXm37YxYDN56Bhv60DLmQLNoKxOJhqyCtJR8zn5VlyuKbe5gYevpz
-	 XoC8FpEYuLbRxlloOEG/mudxaoWn8Me6dExoJacfVwVgkTZc9FXR9vX1DgPuwgbq+YA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=chromium.org;
-	spf=pass smtp.mailfrom=chromium.org;
-	dkim=pass header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=R7sopLzq;
-	arc=none smtp.remote-ip=209.85.208.175
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+	 MIME-Version:From:In-Reply-To:References:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=TszkTcdWcLDyL+0JxTi5b09ZBrAAFon+oeNujwIlDTg=;
+	b=N07USs0pD6JM09LtQhwtEbkWqWPXmyVBxjkbzKSIo5RYI613uVJK7nI30wSYixoffR8C
+	 r0OmvmKVo9LD6Rc/b9KPSGUCrdWMyeH598O7g3tn3Evv1zqoiU4mbxA95WLnrH/wbSGHP
+	 aFl0AZsSpkwF/j7SpSadUjH8v5jtVUuE5PYGyijKtNVPbLSUjKZSU27hzy+lUlvJEaHnp
+	 VjWZniM4ag5v8VqESWvmi9m/vUWdglm6BC/DUupDy8OwFvH0HQ7hCHjs80jtCtU77Fwcf
+	 qzCskgZNynUh1Q6eJKLfmP2Oxb/j68KEM+3nZ7oIk1ysDFP/ty5z2vWVBpeWvb7vyRQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pWWIrnJD;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.177
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F8A3606A32A
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 14:19:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0F8A3606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C43FD606A31C
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 14:31:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C43FD606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=R7sopLzq
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-3ae2fb3fe2fso40550431fa.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 06:19:21 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pWWIrnJD
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-5365d26ccbdso34117171cf.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 06:31:49 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794925909; cv=none;
+        d=google.com; s=arc-20260327;
+        b=r6JgcW1kR/eWf6LMA/GWcYiafAWgG3iBOqQ1dugmuOi0CEhmGkRdZ7AsePQhvcperJ
+         45wlUepAS+6R3WRmpv66o9xD6Q5LZI0ZUUTPPN383hGIQZlfkVkfqX5qQoBKJ8ytlErp
+         31BkUG90J3nij+Y4so462YKZm67zXpngtdl7B5wvWN7EQPK8BQOBvhsnAhUVDI1bqziU
+         t2CqCwH+IvmsRNDFe2Y0HHThR0MmKVaKwlCooAMU9kwHAQoS/l8V7c0l1SEmNQkuE5xw
+         /E/tLv9VNVsYTamprsbMexzNiVeL/jcXuxC44XXoYD3bISa2RyWL7IeMouUl107HPdqs
+         EIfg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:references:in-reply-to:from
+         :mime-version:dkim-signature;
+        bh=TszkTcdWcLDyL+0JxTi5b09ZBrAAFon+oeNujwIlDTg=;
+        fh=lfiIjzi5I0HnuBCXsxRUQ+gDGUJhnmDeRvZZEYoRUWk=;
+        b=TFAPGVXc2xtMHtlNLAKHpJa6juwmUg0JfePq+OrpI3c0f3nUYopvML9qwC7sEUDRhB
+         yRJCvM6pH1/2bWqeNfhSI7/3SL4BnX+ucI3VdA+Lh6xhWB2MqvbVHFmDWJJS3QAoP2cs
+         l6/KUbxIXnm3YQW9XiBPC7kRrf5kogfJc0HT2qnul6NEzEDXwXpjlg6MmMkKvXc4etOt
+         Zd0V1Th46/16ecNpvfUEUQijVbmpO8Bx41dFdgI4604DFTyiFwLFeDQ9nizLy+vqqFWv
+         32KHiP3ag8Gtj69eNoIc5Jdd+Yny7eU2jKBLRnmlRu69B28289UaLmzN/FqZIwc9P9EY
+         5BLw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1794925160; x=1795529960; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=4FXZ9QjPMWSPXHYn/FS5PKL+JaPOXiDC39K9maTGAmk=;
-        b=R7sopLzqJ5XzQYAzHTd5xZwp6Sg5OlWt1FdPTd032lNm89iLSH4T2ZQHV0crGNIyme
-         jU0LrAeToo2yG4tSe30EQjoI+2Zf9hGo77A71OgNnn7itLAoeNL5kZoOdVTCiiFW4pU1
-         OK/ShgkzuP+xDjXDMEBoGgYa6hz4ElnQKk0uM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794925160; x=1795529960;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20260707; t=1794925909; x=1795530709; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:references:in-reply-to
+         :from:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=4FXZ9QjPMWSPXHYn/FS5PKL+JaPOXiDC39K9maTGAmk=;
-        b=ipM/548bCWj0E5jlm6PGg+yjgdxD4ERNCkow0+6ehxq/K8jsx4FT2GaOLdIaABrsxs
-         ddKr2fkvwxlc6XzmVkf7ObBlt+i6ueWUnfnMi20OOnSLfoy+Yokk9omLTjbTIvyb4/3F
-         HzTfraaf2K6Pv4ehAhleK+M7lj6U/nK6rvRBGiyDcqw91RgdpEoR8EfKqNpLhb3lEu0N
-         baYLx9MO/xEz6OaGauD/tcDJoAQEHOiIoExC0HyBbyZv6yNQ0Afq3iVAIYV8z6G21hTC
-         Qcp26xlFxnVn1cuEoJNsnxTWaHBjGwpDHsQXAfp0hGBjryY1w3NoGYmCRv3xN9u9rvG4
-         LDCA==
-X-Forwarded-Encrypted: i=1; AL+hErEtWdR38xnCMXZp+zlx4kqUHX98betHhm2ldFs7wWbmsdyZ2C9vDggKlm1/GZeMaXKZq/do4G8Bxxx1lNvr@vger.kernel.org
-X-Gm-Message-State: APuU4Z91Muw0ZJtbuuQAabF51Va+XIStLfY9XXuKXiKlDiTUk701OhSU
-	TJUu3msgMDvfEQtYyTUEAMsusVkTbjkzDxgnzs4TDsO2hkLHpepVi7RaGFy9DmohMYBVPNEnSwn
-	yxx39E2IEoFRzBw==
-X-Gm-Gg: AYBFou1Re3jtHmgcpvPAf3Qcn1yGpbIfZMFY9HGN72kOd7xCooK4TUgWv8IFnbDUqNx
-	JuqjF1EnsBpVsJbVm404JKOlmclwVmbLt3gMZaPe+IPM3C1U9A0YCUqls3tvKGRPBw8DW5X3/cb
-	rJ8LwFbQs3Gd5r8HMUAV6PmPjHBWbiXuiKTbF5d5m/VoWPds8TaKPiurX9N/fjEGQgxL2z09qe/
-	K8exwr1sfTJLc7BcxTIYjhlx1EOXFnK77VXtEOoD6mbowaqmyDANhCUNAhRGl8wApfXWD5UL875
-	VRLahFgMidhpQmJdwGzVszPt6KvXrDnxHAgB8ULb67LSrgTDoA65cBc5sFWyAQSK1vuCHxoKyha
-	+ZjngEjc9BtB29hWZtvtKbD9Cfe9Gm6K6/HY8WkNYRiuga/2mAMdO9sI/En41HxfGzPeWS/vImy
-	VkWq1NcK8fN26UnfPzqDRt8LJkcHIRcnLl/O8QVhfPuQ4g+PJ06bLOsYWM4TFL/RPrlMIBtOtfr
-	y9YjBgvWP2vjPJ70P8T5Xsrj/UuBLgYIK4FQX6ModmzwoxERiJZu/hjLoFh1aszuJ+76mkhvLVY
-	O1SWafWcdVXY22Fl8y9mXxYsz+lwAE8BfYo4WapZMaM9V8bRSznq/70yNweUcec+
-X-Received: by 2002:a05:651c:a182:b0:3a6:6831:6e28 with SMTP id 38308e7fff4ca-3ae2b49f232mr42991821fa.6.1794925160276;
-        Tue, 17 Nov 2026 06:19:20 -0800 (PST)
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com. [209.85.167.41])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3ae2b7d2ab5sm38352751fa.37.2026.11.17.06.19.19
-        for <linux-fsdevel@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Nov 2026 06:19:19 -0800 (PST)
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5c144eb2f43so6248e87.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 06:19:19 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErFBgD6RznC+L9xQ7TBywNq18kCdlvqcuFcykAVU8vjXBjzIS5dxD9DDwEopLNubgMmzUdpqaDjTIukz5RUA@vger.kernel.org
-X-Received: by 2002:a05:6402:a511:10b0:6b5:5d24:5d90 with SMTP id
- 4fb4d7f45d1cf-6b85b4c22d8mr72630a12.3.1794924698252; Tue, 17 Nov 2026
- 06:11:38 -0800 (PST)
+        bh=TszkTcdWcLDyL+0JxTi5b09ZBrAAFon+oeNujwIlDTg=;
+        b=pWWIrnJDW411z9/rs0j202liUMWzpzOVNpieNqTzF5py+LAXYrrYy6r8xPR6Z0IzO/
+         nsjWj0JN5pDO+DRqQU385B+96mB8Drv9kzOvfRvNaj1fNO0ILTwxNOVshwPjfk8iIFWK
+         b7XdCHidoaooUJkxkwhcZCvXWl6Jny44Ey7SuxB8cBtFjITfr8J+XIc0SjGs3jgz2UV6
+         cpSd9K1MCO6FXmE3Th7o5CobUxvHfBoesm2PrO9Cw1wMBAGEFVqBbzDqmYJhqQDcCcoN
+         3/Av+tsaVohBSevOwK02nnH04cUwtBEIFx7RZrvhduZSbya607hrr7ds4UMSjc7aHREu
+         yopA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794925909; x=1795530709;
+        h=content-type:cc:to:subject:message-id:date:references:in-reply-to
+         :from:mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=TszkTcdWcLDyL+0JxTi5b09ZBrAAFon+oeNujwIlDTg=;
+        b=HHVmy3vFY24csrrHdpVfd5Tuue+X5CIQiSGq3DbDMXVVuTJUUbZ9REq2Kt8DPRiCOe
+         TYVMeADR61ADWvV06L2uXKyx39tZsWCMPccXhWWvh/r7A4pF/5LgrTt7EadOuOpkeV9E
+         /+xZ0TuAWBxz1ngD6wxq4nHkL0HefJe2qBQ9oSisjYLFz/9tCPyatdVjV9P6rIh3Hk/f
+         xJ/9KjGBAJ5xMKGbnzcxXNCcjx448HX+zAipF71HPWTA3wJvr2QKdbvxeyxMCmUSVr3b
+         4GRLtT5eSGKsAoma3O3uQu1Gkxhc4g7RvBWU0pdUtMgjUwARZKid7uvOsBAP8ros5ptx
+         oqMA==
+X-Forwarded-Encrypted: i=1; AL+hErFJCGgxrK5X1xpeV/OSvBG7vgr6AWOwABTiPAiWxDJcLyb49mT4CShoOwDU+A1zzd7M4zqmaehLpjBaT9uE@vger.kernel.org
+X-Gm-Message-State: APuU4Z+XNxQ9nDH8s8upbPmKEgmyU+S7ZWSMGUCNPOtSy/0XuShMHSCE
+	bqEOelrAbwQHkFpzVtLjx9ki+v6ql65dCR2am4ZIuhyBSDmCBD2O+C54r4xJdk4I01GTeNxHaVY
+	j7JD2AqbrOg/fS+Z84IqGx0KOIDJVp18=
+X-Gm-Gg: AYBFou0kSH2JzAabXjeCK4Jqi4igbzTLoSD4q6e/ZklYgK6daqD+9N2jSJN857mfTLY
+	JN4abbOgMtd12bah/PDVh9jqi2sOlxfYdFrmBcKOWXEenWZSQsp6Znv4cpzI6jSGi6/VF4OPl80
+	+oBx6qcRwmDN+Nlq+4jCKpY4IHQEPv8NRSPaR3UbiFq+lhlTPmVt8bFlpDnFCPAI5MdIdu/BmLx
+	hDF5+jH9dsi6LjgjM1eMTd/bk6KwSai3uMGTcyIGDdhQfgDwanIRBuUmJ3mzNp7pPAvvTlezAov
+	Y7q75fs3nVAlBqUpVhU3HHDryDTtEiCkrqLK8G9nKfm4Eb+0G0e4R3MKgsP5wCXb63cYEdh4xaO
+	xa+YFopCoqMuLeglovDvblvwNdgWjGTM976I=
+X-Received: by 2002:a05:622a:304:b0:533:2717:6221 with SMTP id
+ d75a77b69052e-55ac765f6bfmr222851271cf.31.1794925908476; Tue, 17 Nov 2026
+ 06:31:48 -0800 (PST)
+Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
+ Tue, 17 Nov 2026 08:31:47 -0600
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -94,140 +105,223 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261116230627.3537051-1-jeffxu@chromium.org> <2066d131-f999-4747-beb8-520d5e0ce1db@kernel.org>
-In-Reply-To: <2066d131-f999-4747-beb8-520d5e0ce1db@kernel.org>
-From: Tomasz Figa <tfiga@chromium.org>
-Date: Tue, 17 Nov 2026 23:11:19 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5DzTmyeVQxNdhdy8pPi+ts1cCgbztVJiMoNBeJWBzjdQQ@mail.gmail.com>
-X-Gm-Features: AclHuK8ZMC6yRFY7VxkKfsQMYV8BNfasB49bEPdk_bBjeXaAi9-9aO4mXcafXvg
-Message-ID: <CAAFQd5DzTmyeVQxNdhdy8pPi+ts1cCgbztVJiMoNBeJWBzjdQQ@mail.gmail.com>
-Subject: Re: [PATCH v1 0/7] mm: kasan: skip KASAN for GFP_HIGHUSER
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Jeff Xu <jeffxu@chromium.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Lorenzo Stoakes <ljs@kernel.org>, 
-	"Liam R . Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Brendan Jackman <brendan.jackman@linux.dev>, Zi Yan <ziy@nvidia.com>, 
-	Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
-	Marco Elver <elver@google.com>, Boris Brezillon <boris.brezillon@collabora.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Chia-I Wu <olvaffe@gmail.com>, Dev Jain <dev.jain@arm.com>, 
-	Evgenii Stepanov <eugenis@google.com>, Ian Rickards <ian.rickards@arm.com>, Jann Horn <jannh@google.com>, 
-	Jeff Vander Stoep <jeffv@google.com>, Jeff Xu <jeffxu@google.com>, Kees Cook <kees@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Peter Collingbourne <peter@pcc.me.uk>, 
-	=?UTF-8?Q?Pierre=2DCl=C3=A9ment_Tosi?= <ptosi@google.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Will Deacon <will@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Baoquan He <baoquan.he@linux.dev>, 
-	Pasha Tatashin <pasha.tatashin@soleen.com>, Pratyush Yadav <pratyush@kernel.org>, 
-	Allison Henderson <achender@kernel.org>, "David S . Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Simon Horman <horms@kernel.org>, linux-mm@kvack.org, kasan-dev@googlegroups.com, 
-	linux-arm-kernel@lists.infradead.org, linux-fsdevel@vger.kernel.org, 
-	fuse-devel@lists.linux.dev, kexec@lists.infradead.org, netdev@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, rds-devel@oss.oracle.com, 
-	linux-kernel@vger.kernel.org
+From: Hristos Nenkov <nenkov2004@gmail.com>
+In-Reply-To: <20261117-tanzpaar-dreihundert-attentat-6f03576b56c9@brauner>
+References: <CAO7_G+ypR12OwOiwnrqXDAC9zoboTMn_qLoASfJqYP3H83Vk5A@mail.gmail.com>
+ <20261117-tanzpaar-dreihundert-attentat-6f03576b56c9@brauner>
+Date: Tue, 17 Nov 2026 08:31:47 -0600
+X-Gm-Features: AclHuK_WIFhNkCr5GXrVFJRrFg2_b-Bo8eosWpjZkIoWkPjU6KqPeknhrXUxKYs
+Message-ID: <CAO7_G+xaooz=gYyO5kw3Qbz+1MF=TUD-XQpAy33ETSX2xBVQ-w@mail.gmail.com>
+Subject: [PATCH v2] fuse: preserve daemon-owned ACL permission decisions
+To: Christian Brauner <brauner@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+	Seth Forshee <sforshee@kernel.org>, Lakshita Jain <lakshita.jain@databricks.com>, 
+	linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev, 
+	regressions@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 17, 2026 at 7:10=E2=80=AFPM David Hildenbrand (Arm)
-<david@kernel.org> wrote:
->
-> On 11/17/26 00:06, Jeff Xu wrote:
-> > Hi all,
-> >
-> > Currently, GFP_HIGHUSER_MOVABLE includes __GFP_SKIP_KASAN (commits
-> > c275c5c6d50a, 70c248aca9e7, and 0a54864f8dfb), allowing movable
-> > userspace page allocations to skip KASAN page unpoisoning on allocation
-> > and poisoning on free under CONFIG_KASAN_HW_TAGS (ARM64 MTE). However,
-> > GFP_HIGHUSER does not include __GFP_SKIP_KASAN, even though it shares
-> > the same kernel-accessibility contract in include/linux/gfp_types.h
-> > ("for userspace allocations that may be mapped to userspace, do not nee=
-d
-> > to be directly accessible by the kernel but that cannot move once in
-> > use") and differs only by !__GFP_MOVABLE.
-> >
-> > Moving __GFP_SKIP_KASAN to GFP_HIGHUSER addresses the performance issue
-> > below (following up on the earlier drm/panthor discussion [1, 2]). The
-> > swap issue from that discussion is not addressed by this series:
-> >
-> > 1. Performance: For every 4 KB page without __GFP_SKIP_KASAN,
-> >    mte_set_mem_tag_range() tags all 256 16-byte MTE granules (via
-> >    STG/STZG and DC GVA/GZVA) on allocation and again on free. In
-> >    graphics and UI workloads, DMA-BUF (system_heap) and DRM/GPU
-> >    (shmem/TTM) buffers use GFP_HIGHUSER; while steady-state rendering
-> >    reuses buffers, window resizes, surface transitions, and app launche=
-s
-> >    synchronously allocate and free tens to hundreds of megabytes (~32 M=
-B
-> >    per 4K RGBA frame) on UI/compositor/render threads. That takes a
-> >    significant share of the 8.3 ms (120 Hz) / 16.7 ms (60 Hz) frame
-> >    budget and thrashes CPU data/MTE tag caches (especially on
-> >    cold-cache free). On Armv9.2-A, skipping KASAN cuts ~32 MB DMA-BUF
-> >    alloc+free latency by ~80% (~98% faster close()) and improves the
-> >    OpenGL score of an app-loading benchmark by 15-23%.
-> >
-> > 2. False-positive KASAN report after shmem swap-in readahead [1] (not
-> >    addressed here): when a shmem page is swapped in,
-> >    swap_cluster_readahead() also reads the neighboring swap slots and
-> >    allocates their swap-cache folios with the gfp mask of that shmem
-> >    mapping. A neighboring slot can hold an unrelated page that
-> >    userspace maps with PROT_MTE. If the mask lacks __GFP_SKIP_KASAN,
-> >    that page's folio gets a KASAN tag in page->flags. When its owner
-> >    faults it in, arch_swap_restore() writes the saved userspace tags to
-> >    the memory, but page->flags keeps the KASAN tag. Later kernel
-> >    accesses through page_address() then use a tag that does not match
-> >    the memory and are reported by KASAN.
-> >
-> >    This series does not fix the readahead path. It only removes one
-> >    way to hit it: shmem mappings that use GFP_HIGHUSER (e.g.
-> >    drm_gem_shmem_helper / panthor) now pass __GFP_SKIP_KASAN to
-> >    readahead, so the neighboring folios no longer get a KASAN tag.
-> >    Shmem mappings with other gfp masks that lack __GFP_SKIP_KASAN
-> >    (e.g. GFP_KERNEL) can still trigger the report. That issue should
-> >    be followed up separately, for example in [1].
-> >
-> > What changes for users of GFP_HIGHUSER pages under CONFIG_KASAN_HW_TAGS
-> > (other KASAN modes are not affected):
-> >
-> > - Access through vmap(): nothing changes. Those pointers already carry
-> >   the match-all tag and are not checked today.
-> > - Access through kmap_local_page() or page_address() (for example
-> >   ramfs): accesses are no longer checked by KASAN, as is already the
-> >   case for GFP_HIGHUSER_MOVABLE pages.
-> > - Buffers that the kernel itself fills (pipe, FUSE, kexec, RDS) keep
-> >   KASAN checking by using the new GFP_HIGHUSER_KASAN (patches 1-4).
-> >
-> > GFP_KERNEL, GFP_USER, slab and vmalloc() allocations are not affected.
-> >
-> > Patch 1 adds GFP_HIGHUSER_KASAN
->
-> I really don't want us to spread KASAN-related GFP flags in the kernel.
->
-> There must be a proper way to abstract this.
->
-> Why is GFP_HIGHUSER not sufficient? We were already told that this is mem=
-ory to
-> be mapped into user space. Placing data structure on it and handing out p=
-ointers
-> to that would already be a bit questionable.
->
-> So what are the ways to avoid GFP_HIGHUSER_KASAN?
+FUSE daemons without default_permissions historically handled POSIX ACL
+ownership decisions themselves. The generic ACL owner check prevents
+non-owner ACL changes from reaching these daemons.
 
-I think the idea behind GFP_HIGHUSER_KASAN is to make it possible to
-skip KASAN for GFP_HIGHUSER by default (for most of its users), but
-keep it for some of the users which today use GFP_HIGHUSER for their
-memory allocations, but could benefit from the added security. As per
-the other patches in the series:
+Add IOP_SET_ACL_OWNER_CHECK so a filesystem can perform the owner check
+in ->set_acl(). Set it on FUSE inodes and check ownership in fuse_set_acl()
+when default_permissions is enabled. FUSE_POSIX_ACL also enables
+default_permissions, so it needs no separate check.
 
-  pipe, fuse: use GFP_HIGHUSER_KASAN for pipe buffer pages
-  kexec: use GFP_HIGHUSER_KASAN for segment pages
-  net/rds: use GFP_HIGHUSER_KASAN for message pages
+Other filesystems retain the generic ownership check.
 
-That said, I'm not familiar with any of the code mentioned by those
-patches, so I can't really tell how much they would benefit from KASAN
-or if their choice of GFP_HIGHUSER to begin with is correct.
+Reported-by: Lakshita Jain <lakshita.jain@databricks.com>
+Link: https://lore.kernel.org/all/CALE1rk6tGt_Pe7CpFL1NSTgugVpXLH_iguO2D9VsAVHn1p-02w@mail.gmail.com/
+Suggested-by: Christian Brauner <brauner@kernel.org>
+Signed-off-by: Hristos Nenkov <nenkov2004@gmail.com>
+---
+Changes since the RFC:
+- Use IOP_SET_ACL_OWNER_CHECK and only test default_permissions.
+- Drop the caller restriction and channel-readiness changes.
+- Follow Christian's proposed four-file diff.
 
-Best,
-Tomasz
+Hi Christian,
+
+Thanks for the review. This follows your proposed diff, with the owner
+check in fuse_set_acl() and no caller or channel-readiness additions.
+
+I built this revision on f66469d9905b39d2c260a15d7d6db450f4db67c1
+with a minimal x86_64 configuration. QEMU TCG runs completed 88
+assertions on the baseline and 88 on v2, with no mismatches against
+the respective expected behavior. The legacy non-owner ACL operations
+are blocked on the baseline and reach the daemon with v2.
+
+The tests cover ACL set/removal, owner/non-owner callers, all three
+permission modes, daemon denial, malformed ACLs, read-only mounts,
+and tmpfs owner/non-owner controls. Checkpatch --strict is clean.
+These are targeted in-memory daemon tests; I have not rerun Lakshita's
+exact passthrough application reproducer or the full kernel suite.
+
+This revision was prepared with AI assistance; no Tested-by or
+Reviewed-by trailer is claimed.
+
+Thanks,
+Hristos
+
+diff --git a/fs/fuse/acl.c b/fs/fuse/acl.c
+--- a/fs/fuse/acl.c
++++ b/fs/fuse/acl.c
+@@ -98,6 +98,15 @@
+ 	const char *name;
+ 	int ret;
+
++	/*
++	 * Without default_permissions the server does all permission
++	 * checking, including who may change POSIX ACLs. That's the same
++	 * thing fuse_do_setattr() does for chmod() and chown() by passing
++	 * ATTR_FORCE.
++	 */
++	if (fc->default_permissions && !inode_owner_or_capable(idmap, inode))
++		return -EPERM;
++
+ 	if (fuse_is_bad(inode))
+ 		return -EIO;
+
+diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+--- a/fs/fuse/inode.c
++++ b/fs/fuse/inode.c
+@@ -439,6 +439,12 @@
+ 	 */
+ 	if (!fc->posix_acl)
+ 		inode->i_acl = inode->i_default_acl = ACL_DONT_CACHE;
++	/*
++	 * Whether the kernel or the server decides who may change POSIX ACLs
++	 * depends on default_permissions which FUSE_POSIX_ACL turns on during
++	 * FUSE_INIT. So fuse_set_acl() does the owner check, not the vfs.
++	 */
++	inode->i_opflags |= IOP_SET_ACL_OWNER_CHECK;
+ }
+
+ static int fuse_inode_eq(struct inode *inode, void *_nodeidp)
+diff --git a/fs/posix_acl.c b/fs/posix_acl.c
+--- a/fs/posix_acl.c
++++ b/fs/posix_acl.c
+@@ -949,7 +949,8 @@
+
+ 	if (type == ACL_TYPE_DEFAULT && !S_ISDIR(inode->i_mode))
+ 		return acl ? -EACCES : 0;
+-	if (!inode_owner_or_capable(idmap, inode))
++	if (!(inode->i_opflags & IOP_SET_ACL_OWNER_CHECK) &&
++	    !inode_owner_or_capable(idmap, inode))
+ 		return -EPERM;
+
+ 	if (acl) {
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -627,6 +627,8 @@
+ #define IOP_CACHED_LINK		0x0040
+ #define IOP_FASTPERM_MAY_EXEC	0x0080
+ #define IOP_FLCTX		0x0100
++/* ->set_acl() does the owner check itself */
++#define IOP_SET_ACL_OWNER_CHECK	0x0200
+
+ /*
+  * Inode state bits.  Protected by inode->i_lock
+
+
+On Tue, 17 Nov 2026 15:00:51 +0100, Christian Brauner
+<brauner@kernel.org> wrote:
+> On Fri, Nov 13, 2026 at 11:03:15AM +0100, Hristos Nenkov wrote:
+> > Introduce an opt-in inode-operation flag so FUSE can make the ownership
+> > decision in its ACL callback. Retain owner/capability checking for
+> > default_permissions and negotiated POSIX ACL mode, and leave the generic
+> > ownership check in place for filesystems that do not opt in.
+>
+> The flag is fine. The rest isn't needed.
+>
+> > Enforce the FUSE mount caller restriction and wait for channel readiness
+> > before reading negotiated policy, including requests on the mount root.
+>
+> Neither of these. Before v6.2 posix acls on a fuse server without
+> FUSE_POSIX_ACL were plain system.* xattrs. xattr_permission() let them
+> through without an owner check and fuse_allow_current_process() was
+> never called for them.
+>
+> The handlers were only switched to the acl handlers in
+> process_init_reply() so a write before FUSE_INIT took the unchecked
+> path. That's exactly what happens with the change below and
+> fuse_do_setattr() reads fc->default_permissions before FUSE_INIT the
+> same way. If that window is a problem it's a problem for all of fuse and
+> not something to paper over in the acl path.
+>
+> And fc->posix_acl is only ever set together with
+> fc->default_permissions so checking default_permissions is enough.
+>
+> I kinda hate that we have to use an iop flag.
+>
+> Please send a v2 that does just this. It survives Lakshita's
+> reproducer:
+>
+> diff --git a/fs/fuse/acl.c b/fs/fuse/acl.c
+> index 738abed9a8166..56cdafabfb399 100644
+> --- a/fs/fuse/acl.c
+> +++ b/fs/fuse/acl.c
+> @@ -98,6 +98,15 @@ int fuse_set_acl(const struct mnt_idmap *idmap, struct dentry *dentry,
+>  	const char *name;
+>  	int ret;
+>
+> +	/*
+> +	 * Without default_permissions the server does all permission
+> +	 * checking, including who may change POSIX ACLs. That's the same
+> +	 * thing fuse_do_setattr() does for chmod() and chown() by passing
+> +	 * ATTR_FORCE.
+> +	 */
+> +	if (fc->default_permissions && !inode_owner_or_capable(idmap, inode))
+> +		return -EPERM;
+> +
+>  	if (fuse_is_bad(inode))
+>  		return -EIO;
+>
+> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+> index 1341b681d0ed3..d7070f58d7ec7 100644
+> --- a/fs/fuse/inode.c
+> +++ b/fs/fuse/inode.c
+> @@ -439,6 +439,12 @@ static void fuse_init_inode(struct inode *inode, struct fuse_attr *attr,
+>  	 */
+>  	if (!fc->posix_acl)
+>  		inode->i_acl = inode->i_default_acl = ACL_DONT_CACHE;
+> +	/*
+> +	 * Whether the kernel or the server decides who may change POSIX ACLs
+> +	 * depends on default_permissions which FUSE_POSIX_ACL turns on during
+> +	 * FUSE_INIT. So fuse_set_acl() does the owner check, not the vfs.
+> +	 */
+> +	inode->i_opflags |= IOP_SET_ACL_OWNER_CHECK;
+>  }
+>
+>  static int fuse_inode_eq(struct inode *inode, void *_nodeidp)
+> diff --git a/fs/posix_acl.c b/fs/posix_acl.c
+> index fe77934ea8f20..9256607e897da 100644
+> --- a/fs/posix_acl.c
+> +++ b/fs/posix_acl.c
+> @@ -949,7 +949,8 @@ set_posix_acl(const struct mnt_idmap *idmap, struct dentry *dentry,
+>
+>  	if (type == ACL_TYPE_DEFAULT && !S_ISDIR(inode->i_mode))
+>  		return acl ? -EACCES : 0;
+> -	if (!inode_owner_or_capable(idmap, inode))
+> +	if (!(inode->i_opflags & IOP_SET_ACL_OWNER_CHECK) &&
+> +	    !inode_owner_or_capable(idmap, inode))
+>  		return -EPERM;
+>
+>  	if (acl) {
+> diff --git a/include/linux/fs.h b/include/linux/fs.h
+> index 5b3a100aba77b..016eeea5da5bf 100644
+> --- a/include/linux/fs.h
+> +++ b/include/linux/fs.h
+> @@ -628,6 +628,8 @@ is_uncached_acl(struct posix_acl *acl)
+>  #define IOP_CACHED_LINK		0x0040
+>  #define IOP_FASTPERM_MAY_EXEC	0x0080
+>  #define IOP_FLCTX		0x0100
+> +/* ->set_acl() does the owner check itself */
+> +#define IOP_SET_ACL_OWNER_CHECK	0x0200
+>
+>  /*
+>   * Inode state bits.  Protected by inode->i_lock
+>
+> --
