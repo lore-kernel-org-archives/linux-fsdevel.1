@@ -1,75 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.71
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794883500;
-	b=bWyFcpwZViKIlSrBotYsUJgkNxX21IJBi+9h+CbSbPCRBAgB2IlGRVASJuw5f2orGR9a
-	 tmMxRD+wXc5NGzszoad6IBPK67mH2XIj54Eik59aoQKqX4twEqcI//JNVP9o3aQxtZvgT
-	 r3+LE+NGaOxNHxip8cuKtP+ImS1MwtBe+3OpP/UawFGFyoArDnW5qlE0ZCondOzp/ElFq
-	 L41lkG9UookN2huFwwdc+WKi3J9GikGW+zDfxN2hgne/AzA/a9bjDEhVdNAwIfl4KWEbi
-	 y/pFrZeHKzN4A/rXQlaF+I8eDPyNvOWXvl8rLjJoHODJc+p0VmKRqPr8I3FYPyYL3cg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794883500;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.230.72
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794884479;
+	b=b750x1lBXbYEE2FJhtxaM29y3dZhQtF/rlBpj/uEFTkahb+xhIAX8+TuK6LoLYKXmkBP
+	 0IQmvhN2Mcz54kqKvu4BbdPIC+G2he8EZCReB6YyfNoCdOvWGYeJZ+Ar3p12td5rxa7D4
+	 sR+TiVXc6wYPBkWUxjCdY5zuGr6RprWuvGQOFlL5hD4Fl7gpzqzOALwrkyDgjuxHWQ7n0
+	 573mSqkzmEjITueeTp8CnJ6JJG0VC5oBo6l+HRflvMdoTi/eimrVoS7eg6gqbSOuxCNM2
+	 5iRN6iMeXLj4iy9HNnDvWqmhLkrkPMlI3C//4z92NAU/pphaxyLfk49zTRnUsHpT01w==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794884479;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
-	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
 	 Content-Type;
-	bh=yJ0z/cTDVgrB07z6XnWmnCa5Nm3W6f3XldUZrdDkL14=;
-	b=vlT57SItsPYYlvssn01aGg1g3p0ISnOqbjMPz0lHIhRgnNeIecFr55WjDxg18/5kV8J8
-	 TuMHVPTKpYnSWZwtKmKYsIHpsYlXpcCX0GHt9bX9T6EmDFoiIL8Hk+ulObBIuM3idK1IY
-	 XivZa3H7P9pYQQwGZCru5k096ThwmvUM0CJtOa/Q7/xxTbTnsSAe01SYRar9O6MZzYPgT
-	 rnd5mqkiUUQ/lbkhYhA3RqXgxPUailYJt4E449rU7uexyZVurEMvjM/wOkI6rJjXDdUe6
-	 UA5pvM0Go9VoCRrVEC2mJjtvCJt6myEYCn5wpnIS5dlzrixTxzVNYO+MbBDJErHo52A==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--sarthakkukreti.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b="kxl5d7/C";
-	arc=none smtp.remote-ip=74.125.82.71
-Received: from mail-dl1-f71.google.com (mail-dl1-f71.google.com [74.125.82.71])
+	bh=rxu4C+D4IFtlQQXxGEHNwNvtWVbx7dC0E7mSZshpwlE=;
+	b=e2Rq81cXQ1cGj2qoSv5lI6H1U2PqLS4TxQmZtnmZvpDb1A34I8RHaYX/k+ZVubzXa966
+	 xjQ+zT+1ZWTlmuEJbSxeN8TfGa4A+cOqjn4ILNXaGijCW71jYcv+OL6g0NC4qOLlp1mey
+	 ywUJrH1gO3lJx5/4/Z65FXN7XSVDaTE116+LSRtFeSazpN8klhGgrBJ1k0kkd8twXvXt2
+	 nNEv72rrIuZ4jjRfykD8EEh1ZMVv32TRlz8CZKJVWPstLdFarQVdeY7BjYYp7CNwcVdVA
+	 hBFk4PsU59GLT7oKwtm1crPV7zl8eqsWHtjcTX22h82lfQeK76otICzlYbyW9LR7+5g==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=N1QhM67D;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.230.72
+Received: from mail-lr2-f8.google.com (mail-lr2-f8.google.com [74.125.230.72])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2961606A329
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 02:44:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E2961606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--sarthakkukreti.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DA61606A31C
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 03:01:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1DA61606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=kxl5d7/C
-Received: by mail-dl1-f71.google.com with SMTP id a92af1059eb24-1b25d977b91so618298c88.1
-        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 18:44:59 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=N1QhM67D
+Received: by mail-lr2-f8.google.com with SMTP id 38308e7fff4ca-3ad8a138a11so22521141fa.1
+        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 19:01:18 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794884477; cv=none;
+        d=google.com; s=arc-20260327;
+        b=FDijwHLZBjzeisAWFwm02RHPZXRDq/JMWCp09XjmLbb+5M8njhbmhIrHfCvPvi+K9H
+         879gKcaOSyhzCVB5BN2xvvg7WDfbky5ayZ9v4dGhvlLrRIjH7BAJR4Is66wFM448sOaR
+         6wbakTHGAxaMfasEokrsNFPRacrShPxDiANN74hYMX9GF8way0OsRJl3XpeNopwZ7qDE
+         OYvmH//orhWqenI+4oR4sNC7hUPOWOyIbUE6Nhd9nEWV1d6RQHbWL0KWP5QXTX+EnI1C
+         hGEZC87qe2ic5aVWoD5dKWhv6QzXZDdGpXZ2A0VOrAi4sGgyM9Wdxrbmi0n/DxC1j0uD
+         rdNA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=rxu4C+D4IFtlQQXxGEHNwNvtWVbx7dC0E7mSZshpwlE=;
+        fh=wIZBulq57N4S2pn3Ey8afBxZhUxIrTeXsuTAQn327ow=;
+        b=P6VqONAGWFPsP0A5GuV3BftFG7Vg+oYx32ZZcUJ6S0N+9eaE3Eyv24ghpm4BzqP60N
+         d8T2QSUfwfNzSqD9iDoScWst+5KtQ58wo/8froi7R//IMBVzzZE4zMMX25oSNdm3EvZZ
+         Hmc2iSkOlMRkHdL4md8ax/rFoiwoOvnHt/6tc0Vcxch/UBXbCiLoYKBJ9vO+9XZZT+RJ
+         llDS4AsPfgdUWOZeXl9mXq4Mp2HRkU41T4bwMpHtiOatuJyinz3bZvKvW0RQDvZiwmuZ
+         /cZl7671xHjWfGWAyOYz7BcVzm8Suhe5j4tI3hZ6d6oTB9XZ/rNT0H2pV8hFYSzlXvsF
+         sbsw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1794883499; x=1795488299; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=yJ0z/cTDVgrB07z6XnWmnCa5Nm3W6f3XldUZrdDkL14=;
-        b=kxl5d7/C/t+g3pOSPDJC2Ldh7jajtnNKESNMgwNtdbWgSneqge+98L8TnRdRaqFofr
-         cDgtlOG8hyb7TWxS1+Bmk2VvXnPhX15/5XVuyCFN6h5Agt8DNOUjWkinKxJr41UQJ4sn
-         f36eZdsv+5BVnwA/Bc0X9AnTI+O9yfKFqk45hr2tMM9bH6Ao+yhB3XUoc2XmkK/SsWQ0
-         f+bEbsfajqp4ogCCoZv/KS6JwmGpSsWI7BqnEZRpW5594DBrtSQXyEirJzLeySb+/zLA
-         gtJZi3PtyivfLk3JnIYcLaurFsoZr8TubtSA1tHNA0VxBHcCXNN8yAnUO+anzhBvHART
-         9IFw==
+        d=gmail.com; s=20260707; t=1794884477; x=1795489277; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=rxu4C+D4IFtlQQXxGEHNwNvtWVbx7dC0E7mSZshpwlE=;
+        b=N1QhM67DV+KItdZzSHIydtjJrH9Bc/bfjj1i4+zIcjMjcm5tftNElc+p1Tq0xEqLwE
+         Ljou7jWP2BagD5W1rQQsr2fFgdZ+ZF+yc/lqemCB38x+yKdAhuaQ8woia8IJA7oXCGsV
+         mLjgT+e3x3rBF4Wmpo4C3GTh+Q5ffavHeNDL3/F3yyKJcuU++9aymFLYE0kKhrXlsj+E
+         zIdQLz75EIqEEphsoB48/hkipZW3/7U8ieO5VUHck2jRs7D4Bg171EW3EPNMgallfe7b
+         GCJcsI4OwTv8tj04iPAPEkbBGp3xyZkFUjt1gXCE9Jq4MdWoiK0+8Bg9+1juXMYh+YBo
+         2l+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794883499; x=1795488299;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=yJ0z/cTDVgrB07z6XnWmnCa5Nm3W6f3XldUZrdDkL14=;
-        b=hFheIs/rxEnO1ZSB0R0E239JSKOcihAPfSbKlyZJVD2973MhIJL63OGwbbR0vY4m8r
-         LV70xOY3sTz+YsFw+kI8qUBZr+vLFRuZvns1XiOgQbt2Vh40WkOVrIa+sTvVEbCdmUW8
-         S7L4P3ZbVoLB4qonsfHIOvSB/CofiVCCahBvFanPHiA0k5DF1TNrOHuoEHEM8j+Akshq
-         cLZwW3YQw9OP3Bmfi2p+MVdxeyoXIABi9nIM6MuPCA890XQfbuadAX43r6STVZhzcs2A
-         bin0YK4oezqxFKUgaQg4eobC5gC7i0tKokw6dQkY0sABQ1tQalRKwlDqXKpEid38Rs9l
-         jwpQ==
-X-Forwarded-Encrypted: i=1; AL+hErG+hYJsaGIH5mCw0E6JsGJ75pr2hVAAyqjNop8R7Q62WxpNnhjkjlARTa/kiNivP7EZY6Kzl4/bGxy+WSMP@vger.kernel.org
-X-Gm-Message-State: APuU4Z+F+exZnoLqj6SjVTgFQU+WA7QSNXf2lk9seXvKdMCdJKWMF59Q
-	IK6VntXHl2QZODIiSB2oGfxfow/PnvO3OZ6BfwsFz53KcNp1mCtto5lmeNet+G4eqHiOJ6oRPZH
-	kW9kuZvMRPD8ndyErV6DgXN4//BNQzfT4EDgOAA==
-X-Received: from dlbqq13.prod.google.com ([2002:a05:7022:ed0d:b0:1a7:44f:3bc7])
- (user=sarthakkukreti job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:701b:4594:20b0:1b2:4871:b1f7 with SMTP id a92af1059eb24-1b50313a743mr10766037c88.39.1794883498730;
- Mon, 16 Nov 2026 18:44:58 -0800 (PST)
-Date: Mon, 16 Nov 2026 18:44:44 -0800
-In-Reply-To: <878q2swoxp.fsf@cartola>
+        d=1e100.net; s=20260707; t=1794884477; x=1795489277;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=rxu4C+D4IFtlQQXxGEHNwNvtWVbx7dC0E7mSZshpwlE=;
+        b=VAFco70Yg9n3bOuMnvLv6lYpHTZvfDlVPGNEN9P0c2rnhO9xvA5pJGVptva8kxORud
+         OxUtvUS32GzaUiwpotOzFSITKgbG+1viPV/+IFi7fu7DL8Lg8vY+urTZmp4kdlFHUnrx
+         kwdmf4J/6MRYjepf5eDNsHArozAL9ObZyU9uePo9+rpf6xUaITFkS8dOjcs/FlQetEom
+         qCtSBaumm1JJ2vAjKNextspFzEMP9tpWUkXFU8NDIdgYiARBTl1Gk47vuyHT3GABdJMZ
+         5qbMekHBwlUf893CWENgprvOc6f42EMMm7oQEirovemf7dPyzj0Kr/S4JF5sch08ApnJ
+         rc/w==
+X-Forwarded-Encrypted: i=1; AL+hErHbLtggIR9UQNJDyGpyemWFTc9NPLomxnozLds7yWAxQ7ixUJXQxsayfxCHXb+X1eLx4NHoLBgsCVSTvmNR@vger.kernel.org
+X-Gm-Message-State: APuU4Z8+oPkowxvJrwnFSgl/JYxejVsKbWQYagsPJMRMNG/tc2uz14wD
+	RK/cWIY6aI2QtSxbFRbEE2G+HWop4fJ62/inLmf8yMpomhb2jFBUgz4gwqk0woFks8u4j8TwC/c
+	QQ1aaPG201y16fUAo9BQbWeO7PdzPGCDjXVZ1hM+31DjN
+X-Gm-Gg: AYBFou3LToa5Xdw02o2LczJs5xJeH4pgzR1aFCw9hhIjqXdfoR09bgz10Aubb8I6IA9
+	FjHze4RZJ34i1qElax86i9ptUPTBY2l2ZCGdr6DnBnyj0s0lYIeZKJouZVAKRQ4CuPT+xrTr2Wk
+	3CTQQKoPlA3AC7bECZN3IS+WNNdw1/vX9hwWoVtmjpQSPML4wlE5R5gjozPanu1TYkrkV4+3dgj
+	k1pX0SxiJHoM3i3RlIzaYrHWhoRD40CVHhWcnUCHvrrKcQebRVTdYjeqS2UbgVPpvgjxaunOwOZ
+	K7F0ckCwQX1fOFCuFPEZnXPIu8msysyUjUXhBgbVEUkLzh3QgaAca58kYdSwCNEX+9OwwKiz8HQ
+	S1xRD8nQwM0vyHbg5P85PQqgok4pNxSRv19pVtCmRbd8vzIq1bTkPGJGBmy38kI6DUUa4Sw==
+X-Received: by 2002:a2e:bea4:0:b0:3a6:6d05:7375 with SMTP id
+ 38308e7fff4ca-3ae2b53711emr40965391fa.8.1794884476943; Mon, 16 Nov 2026
+ 19:01:16 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -78,96 +100,206 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-References: <20261113065332.929085-1-sarthakkukreti@google.com>
- <20261113065332.929085-2-sarthakkukreti@google.com> <878q2swoxp.fsf@cartola>
-X-Mailer: git-send-email 2.56.0.679.gc527c65306-goog
-Message-ID: <20261117024444.2653745-1-sarthakkukreti@google.com>
-Subject: Re: [PATCH 1/3] libfs: reject casefolded names that fold to ".",
- "..", or empty
-From: Sarthak Kukreti <sarthakkukreti@google.com>
-To: Gabriel Krisman Bertazi <krisman@suse.de>, "Theodore Ts'o" <tytso@mit.edu>, Eric Biggers <ebiggers@kernel.org>
-Cc: Sarthak Kukreti <sarthakkukreti@google.com>, Jaegeuk Kim <jaegeuk@kernel.org>, 
-	Chao Yu <chao@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Dmitry Torokhov <dtor@google.com>, linux-fsdevel@vger.kernel.org, 
-	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
-	linux-kernel@vger.kernel.org
+MIME-Version: 1.0
+From: Zheng Zheng <fengaojigui88@gmail.com>
+Date: Tue, 17 Nov 2026 11:01:03 +0800
+X-Gm-Features: AclHuK8TdYMEcKuub8UUYCj7RSAfjmeEyg8A9aR21g-EKu6aFiCgkApYO0WXhsU
+Message-ID: <CAO-4RZ1a46EoJY7x6euiS+7aTOb-T9X62E9nGyToRcyvKU+eHg@mail.gmail.com>
+Subject: [BUG] WARNING: possible recursive locking in hfsplus_get_block
+ (fs/hfsplus/extents.c:264, v7.4-rc3)
+To: slava@dubeyko.com
+Cc: glaubitz@physik.fu-berlin.de, frank.li@vivo.com, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Nov 16, 2026 at 02:34:26PM -0500, Gabriel Krisman Bertazi wrote:
-> Ugh. I agree this is a problem, but I'm also trying to understand first
-> the real impact beyond filesystem complaints during lookup, if any:
->
->   1. Looking up ".\u202e" folds to "." and matches the on-disk "." entry
->      (de->inode == dir->i_ino) in generic_ci_match(), triggering
->      EXT4_ERROR_INODE ("linked to parent dir") in ext4_lookup().
->   2. Looking up "..\u202e" folds to ".." and matches the on-disk ".."
->      entry, returning -ELOOP via d_splice_alias() (or triggering
->      EXT4_ERROR_INODE on the root directory).
->
-> These two look like a "do stupid things, get stupid prizes" with no
-> further repercussions beyond the error message.  Sure, we can fix them
-> to throw EINVAL, but are there bigger repercussions I'm missing?
+Hi Viacheslav,
 
-In addition to what Eric mentioned re: side-effects due to
-errors=remount-ro and errors=panic, encountering EXT4_ERROR_INODE marks
-the superblock with an error flag which can trigger a full fsck pass on
-the next boot.
+We found a reproducible lockdep recursive-locking warning in hfsplus on
+v7.4-rc3 with syzkaller. The same signature is present on v7.4-rc2.
 
->   3. Filenames consisting solely of ignorable characters fold to "" (0
->      bytes), causing distinct ignorable-only filenames to hash and compare
->      equal and creating entries that e2fsck flags as corruption.
->
-> This seems concerning. Do we actually writes multiple files to the disk?
-> shouldn't they all be folded into the same empty string and rejected or
-> at least written as a single file?  I'm not sure how it'd be writing
-> multiple files to the disk, that seems like a bigger problem.
+The following is the key excerpt from the rc3 external verification log
+(`rc3/logs/external-verification/run1-singleproc-serial.log`, hit at 114.00 s):
 
-Sorry, that should have been specifically for f2fs: ext4 will only write
-the first ignorable-only file to disk and subsequent files fail with
--EEXIST. On f2fs, f2fs_init_casefolded_name() treats `len <= 0` as a
-fallback to raw bytewise hashing/matching, which allows multiple
-ignorable-only files to be written to disk (which fsck.f2fs then flags
-with hash mismatches).
+  [  114.001303][T10445] WARNING: possible recursive locking detected
+  [  114.003629][T10445] 7.4.0-rc3-kernsight-kasan #1 Tainted: G            E
+  [  114.005869][T10445] --------------------------------------------
+  [  114.008132][T10445] syz-executor/10445 is trying to acquire lock:
+  [  114.010406][T10445] ff1100017d7545c0
+(&HFSPLUS_I(inode)->extents_lock){+.+.}-{4:4},
+                          at: hfsplus_get_block+0x282/0xab0
+  [  114.021835][T10445] but task is already holding lock:
+  [  114.024125][T10445] ff1100017d753300
+(&HFSPLUS_I(inode)->extents_lock){+.+.}-{4:4},
+                          at: hfsplus_file_truncate+0x20d/0xd70
+  [  114.044862][T10445]   lock(&HFSPLUS_I(inode)->extents_lock);
+  [  114.058492][T10445]   lock(&HFSPLUS_I(inode)->extents_lock);
+  [  114.058944][T10445]  *** DEADLOCK ***
+  [  114.058944][T10445]  May be due to missing lock nesting notation
+  [  114.060170][T10445] locks held by syz-executor/10445: 6, on CPU#3:
+  [  114.063858][T10445]  #4: ff1100017d753300
+(&HFSPLUS_I(inode)->extents_lock){+.+.}-{4:4},
+                          at: hfsplus_file_truncate+0x20d/0xd70
+  [  114.064748][T10445]  #5: ff1100017d26e8f0 (&sbi->alloc_mutex){+.+.}-{4:4},
+                          at: hfsplus_block_free+0xf3/0x690
+  [  114.068038][T10445] Call Trace:
+  [  114.068542][T10445]  dump_stack_lvl+0x116/0x1b0
+  [  114.068921][T10445]  print_deadlock_bug+0x293/0x3d0
+  [  114.069329][T10445]  __lock_acquire+0x153c/0x2110
+  [  114.070151][T10445]  lock_acquire+0x1bf/0x370
+  [  114.071749][T10445]  __mutex_lock+0x178/0x1dd0
+  [  114.075318][T10445]  hfsplus_get_block+0x282/0xab0
+  [  114.075713][T10445]  block_read_full_folio+0x305/0x850
+  [  114.076997][T10445]  filemap_read_folio+0xc4/0x2a0
+  [  114.077824][T10445]  do_read_cache_folio+0x255/0x5a0
+  [  114.078746][T10445]  read_cache_page+0x62/0x150
+  [  114.079124][T10445]  hfsplus_block_free+0x156/0x690
+  [  114.079520][T10445]  hfsplus_free_extents+0x345/0x4a0
+  [  114.079928][T10445]  hfsplus_file_truncate+0x59b/0xd70
+  [  114.159730][T10445]  hfsplus_delete_inode+0x196/0x230
+  [  114.160139][T10445]  hfsplus_unlink+0x7b5/0x980
+  [  114.162948][T10445]  vfs_unlink+0x30d/0xc90
+  [  114.169449][T10445]  filename_unlinkat+0x3ee/0x680
+  [  114.171418][T10445]  __x64_sys_unlink+0x4c/0xa0
+  [  114.171796][T10445]  do_syscall_64+0x132/0x7c0
+  [  114.172170][T10445]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
-> > Fixes: c843843e714c ("fs: Add standard casefolding support")
->
-> This bug was just made generic by c843843e714c, but the issue was
-> introduced by b886ee3e778e in ext4 and the equivalent f2fs support.
+What seems to happen:
 
-Ack, I will update the Fixes tags in v2.
+1. hfsplus_file_truncate() on the unlinked file holds that file inode's
+   extents_lock (extents.c:579).
+2. hfsplus_free_extents() -> hfsplus_block_free() reads the allocation
+   bitmap through sbi->alloc_file->i_mapping while the file inode's
+   extents_lock is still held (bitmap.c:183-185).
+3. The bitmap read enters hfsplus_get_block() for the allocation-file inode
+   and takes its own extents_lock (extents.c:264).
 
-> > +	if (name_is_dot_dotdot(str, len) ||
-> > +	    name_is_dot_dotdot(name->name, name->len))
-> > +		return 1;
->
-> This is checking for strictly encoded '.' and '..'.  But I'm not sure
-> that happens? Do we really reach the dcache for '.' and '..' instead of
-> the name of the parent or cwd?
->
-> > +	um = dentry->d_sb->s_encoding;
-> > +	cf_len = utf8_casefold(um, name, buf, sizeof(buf));
-> > +	if (cf_len == 0 || (cf_len > 0 && name_is_dot_dotdot(buf, cf_len)))
-> > +		return 1;
->
-> I think this is a bit too late in the lookup to detect these
-> code-points.  I'd much rather we fail the lookup outright instead of
-> attempting to treat them as different spellings of . and .. . But isn't
-> this dead code because we are rejecting those strings in d_hash through
-> your hunk below?  Is there a way we get here without the -EINVAL in
-> d_hash first?
+The two mutexes are different instances (the external-log addresses differ:
+ff1100017d7545c0 vs ff1100017d753300) but share the same lockdep class,
+because extents_lock is initialized in a common inode-initialization path.
+lockdep therefore reports recursive locking.
 
-Ah right - let me get rid of this for v2.
+Is this a lockdep false positive caused by the shared class, or is there a
+real lock-ordering issue? If it is a false positive, should the
+allocation-file inode use a separate lockdep class (or a nested annotation)
+for extents_lock? Alternatively, should hfsplus_block_free() run outside the
+file inode's extents_lock?
 
-> But the way I'd suggest be handled is by rejecting the ignorable code
-> points lookup (all, but variant selectors for the reasons above), early
-> in the lookup path for case-insensitive directories so they never even
-> get to the filesystem.  Wdyt?
+Reproduction:
 
-As Eric pointed out, since variation selectors are also
-Default_Ignorable_Code_Point and stripped to 0 bytes by utf8_casefold(),
-allowing variation selectors means names like ".\ufe00", "..\ufe00", and
-"\ufe00" still fold to ".", "..", and "" and hit the exact same bug.
+  kernel: v7.4-rc3, CONFIG_KASAN=y, CONFIG_PROVE_LOCKING=y,
+          CONFIG_HFSPLUS_FS=y, booted with oops=panic panic_on_warn=1
+  guest:  Debian trixie x86_64, 6 GiB RAM, 4 vCPU, KVM
+  syzkaller: 853b104bb454141a5b0fc0e4218ec78e9f34ffb1
 
-Thanks,
-Sarthak
+  in the guest, as root:
+  syz-execprog -procs=1 -threaded -repeat=1 \
+      -executor ./syz-executor repro.kernsight.prog
+
+The reproducer is a 56-entry state-reconstruction recipe. The main fuzzing
+pipeline verified it 2/2 on freshly replayed VMs; the crash was reproduced
+during crash-log replay at entry 55/55. An external fresh-VM run also
+reproduced it 2/2 with -procs=1 -repeat=1 (114.00 s and 110.75 s). Note that
+the recipe needs strict single-process ordering; 8 parallel workers did not
+reproduce it.
+
+How to reproduce reliably on mainline (v7.4-rc3)
+------------------------------------------------
+We reproduced this on mainline v7.4-rc3 with the following recipe. No
+local HFS+ patches are applied; the source tree is vanilla v7.4-rc3.
+
+1. Build the mainline v7.4-rc3 kernel with the configuration in
+   rc3/kernel.config. The essential options are CONFIG_KASAN=y,
+   CONFIG_PROVE_LOCKING=y, CONFIG_HFSPLUS_FS=y and CONFIG_DEBUG_INFO=y.
+   The bzImage used here has sha256
+   0c16409f8aec508ac44a63e631c2bd352536401f3fd0856df1d839fb953a1882.
+
+2. Boot a Debian trixie x86_64 guest (6 GiB RAM, 4 vCPU, KVM) with the QEMU
+   command line in rc3/environment.txt. Keep the serial console; the lockdep
+   report appears there (and in dmesg). panic_on_warn=1 is not required to
+   observe this lockdep report.
+
+3. Copy syz-execprog and syz-executor built from syzkaller commit
+   853b104bb454141a5b0fc0e4218ec78e9f34ffb1, plus
+   rc3/reproducer/repro.kernsight.prog, into the guest.
+
+4. In the guest, as root, run:
+
+     syz-execprog -procs=1 -threaded -repeat=1 \
+         -executor ./syz-executor repro.kernsight.prog
+
+5. Expect "WARNING: possible recursive locking detected" after roughly
+   110-115 seconds, with:
+
+     hfsplus_get_block+0x282/0xab0
+      hfsplus_file_truncate+0x20d/0xd70
+
+   We observed this 2/2 on fresh VMs at 114.00 s and 110.75 s.
+
+Important details for stable reproduction:
+
+- Use -procs=1. With -procs=8 (or -repeat=0) the 56-program state recipe is
+  interleaved and did not reproduce in a 20-minute run.
+- Use the full repro.kernsight.prog recipe. The minimal repro.prog alone is
+  state-dependent and does not reproduce by itself.
+- The report is a lockdep recursive-locking warning, so serial/dmesg is the
+  reliable success signal; it is not a KASAN panic.
+
+A repository with the syzkaller programs, kernel configs and full logs is
+available at:
+
+  https://github.com/Zheng-zheng-codes/hfsplus-extents-lock-deadlock
+
+The repository keeps the v7.4-rc2 and v7.4-rc3 results in separate `rc2/`
+and `rc3/` directories so the two kernels are not mixed.
+
+Repository layout:
+
+- `README.md` at the repository root
+  Overview of the report and an explicit rc2/rc3 split.
+
+- `rc2/` -- original v7.4-rc2 results
+  - `README.md`: v7.4-rc2 report and reproduction notes.
+  - `environment.txt`: rc2 kernel image/hash, QEMU command line and
+    syzkaller revision.
+  - `kernel.config`: v7.4-rc2 kernel configuration.
+  - `reproducer/repro.kernsight.prog`: rc2 pipeline-verified state recipe.
+  - `reproducer/repro.priming.prog`: rc2 priming portion.
+  - `reproducer/repro.prog`: rc2 triggering testcase.
+  - `logs/log0..log3`, `logs/report0..report3`: original rc2 syzkaller
+    execution logs and crash reports.
+  - `logs/machineInfo0..machineInfo3`, `logs/title-stat.json`: guest
+    environment and title statistics.
+  - `logs/crash-excerpt.txt`: rc2 crash excerpt.
+
+- `rc3/` -- new v7.4-rc3 results (the results in this report)
+  - `README.md`: v7.4-rc3 report, locking analysis and reproduction notes.
+  - `environment.txt`: rc3 kernel image/hash, guest image/hash, QEMU command
+    line and syzkaller revision.
+  - `kernel.config`: v7.4-rc3 kernel configuration.
+  - `reproducer/repro.kernsight.prog`: rc3 56-entry state recipe.
+  - `reproducer/repro.priming.prog`: rc3 priming portion.
+  - `reproducer/repro.prog`: rc3 triggering testcase.
+  - `reproducer/repro.report`, `repro.stats`, `repro.outcomes.jsonl`,
+    `repro.context.json`: pipeline verification evidence, including the
+    2/2 fresh-VM result.
+  - `logs/log-0.txt`, `logs/report-0.txt`: original rc3 syzkaller log and
+    crash report.
+  - `logs/machineInfo-0.txt`, `logs/title-stat.json`: rc3 guest environment
+    and title statistics.
+  - `logs/external-verification/run1-singleproc-serial.log` and
+    `run2-singleproc-serial.log`: full serial consoles of the two
+    independent rc3 fresh-VM reproductions (114.00 s and 110.75 s).
+  - `logs/external-verification/*-run.log` and `*-execprog-out.log`: the
+    corresponding run records and syz-execprog output.
+  - `SHA256SUMS`: checksums for the rc3 inputs and logs.
+
+When reproducing, note the difference:
+- rc2 reproduces from its own recipe in `rc2/reproducer/` (see
+  `rc2/README.md` for the exact command used in that testing round).
+- rc3 must be run with strict single-process ordering:
+    syz-execprog -procs=1 -threaded -repeat=1 \
+        -executor ./syz-executor repro.kernsight.prog
+
+Best regards,
+Zheng Zheng
