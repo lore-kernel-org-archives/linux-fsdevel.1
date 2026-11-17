@@ -1,99 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.50
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794948842;
-	b=eWQ2AhMJEGAOiQnO+TGORcoZkXQFcVoM8q1PxjooFerz2CGPIo1Mm/TUmRMI128k9PE8
-	 RriB1EcAQxHVOvkkgzKUQnUu3vrGw4n0m+zqCxEqa7fE/3Pw0ki73j20JEn883qSpO53X
-	 AeYFOac9yP2IdKRcq/j3D4YvqYVWvFt4yQKafr41VicgEcd5GTEjlJBVeanHXEepwhx9R
-	 96PnPe0mKlmvDw8JfO1mFnh3HqykpxOXTyEUH4OYS0OCrUIQ1sLIYUJFIvVUXxdcN9Ygk
-	 6GzwH0L6BcsaNjCX67Iz5cIVvdHuv7ziwy2O+q32nHdT5XTxhMPYo0qsZjhQW162iCg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794948842;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
-	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=lxMCjoGZWG4QAWp+HpCFavF1sxg7OOCbkVFjQuSNzhA=;
-	b=OveVL71gAUG1ljZb9FpBAoCqqPOVDd0SqZs+CWt9ia4DdZVwR3890+zXUDabMed8KWHl
-	 j3dkOjkQ6ncEiSa87OIHwDABC0/o0gs736Ad8ccqA+n6qVw477vY9KvfuXyW97PVfkr1U
-	 05L2WmW6Jm36po+LW6Vs6626OkM115YOrvgroU/L/ghGM6E8ACJ7rH1ZF7otBt4JYEUNR
-	 /zLja1qcfBpToFivUptiOxVPMqA9jln7zvkzvLNA/GsxOC2GMUH5hh4OeW4JFVcw+60/F
-	 HxKNazGOVIAkxtSIx+NRFlUzu1khWgII8FS07X3WG73723hqHgqT4o9VnQ5vCliHieA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=none header.from=amacapital.net;
-	spf=pass smtp.mailfrom=amacapital.net;
-	dkim=pass header.d=amacapital-net.20260707.gappssmtp.com header.i=@amacapital-net.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=LslQjUmg;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.50
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794949842;
+	b=zUwn2tEvQVzAz1zRz6vf7Kvho4bUQO8Tc7d0QqvuxArj2AFKpbHBmxcZKAXDM0PP8WsJ
+	 tpFqo5NDyT3D7uFCSYMKorgmGKpdpnglPSuk1jQjJrVbCLnLulU6+/zJkIvEdmzzRl8LQ
+	 82eu0SdgjdA6xQPVi61L464dicISbh+V59OI0jWT8dhNF6gQANBqojrkDHFIEpE2Kz+Qn
+	 hzhuwOPizuhTuLDu1w26mcz0Ff2ER+wDXOJRyVFt29aBmlTOrVL3AmJSQuLlXaZYW5jX/
+	 vNhtSrgT7BfG9iMntecopulcsYlej/hBTeXNmorFxRJcMjK3V5rk9YwiMgz4JoYGVeA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794949842;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Scanned-By;
+	bh=qdKdEl0zxLLbjG6lERQLivg57KN6iKjjOdwmcujeJ9o=;
+	b=Etts/GntJqHruakHaM+FUWE5BkxLiN1oQ9tZCilPUUNmkpxh6njDcghRIjuhPo59t15q
+	 aQqkrvhcDcuuD7GM6ImDl2N+haojzcY8H3/4wiE68ELMdXd5hQnokvolExpvB9s9li0Fu
+	 7GvAOqHt3vyfNpwTXVvQX8XJ2XUKpdIuFTody9zG2iNqflsB60sc8XoR9MAjDeunpYQgU
+	 RAl31n5l2h66AkKmHmaLGLOebaTkl61Unef7lGs1a64ZFN/VTKsR7ftWqK70msZvTlyCa
+	 9vRohmDMusiG/LyX8gI6OleeRg+TrYuUEg87iijCy6QEI3dhjo3jGPh7auVLskB/JDw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Na384WxW;
+	arc=none smtp.remote-ip=170.10.129.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A38D606A32F
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 20:54:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5A38D606A32F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76210606A32F
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 21:10:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 76210606A32F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=amacapital-net.20260707.gappssmtp.com header.i=@amacapital-net.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=LslQjUmg
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5c14f3dab66so148877e87.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 12:54:02 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794948840; cv=none;
-        d=google.com; s=arc-20260327;
-        b=X+sV0/Y+LmiT8Cbc4YQOyrDZx23ZLP8LCtiTD/FNUHuAveWoDtOtWRlfwFj4jdphRd
-         Vouln/U/0uYUdF8X6hgJvUQmnuFwnOnqxkWsx+ykEt7dQKa8/c5uIuu2foe2lvN+iB+u
-         p1Y+KIoMkypDizNN7YS75Nua5J45G47S2jRWsIzY9zuNFHT9OQGMPAzphF2NrNFWgbo7
-         ycuRC9q8W4AvIEjgndD0sSY3l0qG8NgKci2TWhy9wZg/QZIslmeVAij8HA7pJE4aIf5w
-         eGkTliTWioelISekpvv2cbAcGB1TZg3mWhrswbrwJEQ4L8Un5kmd7/9SvqmPAZj+CtME
-         yxiw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=lxMCjoGZWG4QAWp+HpCFavF1sxg7OOCbkVFjQuSNzhA=;
-        fh=FppMR6JMyF1YXQa25y6IQk8nx7nob/FsJ1gbH6Zr6KI=;
-        b=UZYQRvELUFT02ESvNjLno2PWGK7k2tebbgNwaIt0H4br4MrFW0Llb1o+JkTZCRNBI9
-         upGXV6JvgmEb9TO722BKyobeQ4LKJ4K8BO1wd8VFn+u5jF0/nW98UDvZMaxa+Ew1ccqO
-         Ovr0YN7W2LML8Vq2GLbbOhA7epbH8vOkIhzpeid57EtsZj4UvR3/tBeeSed101uVf/hv
-         q/RvEAXOGXnoATSE/eb72RPmDS1MWzsDXenVDlJQr9X7NGP09v9Ly9WGfk0YMvlKJVOi
-         mdVdy0xjeNGwEvi09HW7S5Hx79rVYmdQrGUfGoj/iutb8OvZMSRr0u+Zkpjfbp4lFQuL
-         A++A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20260707.gappssmtp.com; s=20260707; t=1794948840; x=1795553640; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=lxMCjoGZWG4QAWp+HpCFavF1sxg7OOCbkVFjQuSNzhA=;
-        b=LslQjUmgXp7ppoB5z9C6lIh34ojfvcQ8nzfZ/Bus0FFDGG0DUi+QbKakM0fZFVIykq
-         5mE0e/s/CpUqdx5hmSPPf4ZqfdbbG/4eR1cdypM9sQ7xLq3NiWuooniPj3c+oOnP/Gs/
-         9eulqTIqNDLgU092uHWrXSQFQOUQ0Ybq8I+KARDSFo99l3A76mmdMOP5EIWjKF4SsU8k
-         CLRnBvH95KDC8joQwrmPsfza+TxJts5K4ekF1BkXcERhq9o5i5YAd+8YKoGtExZnN7ex
-         +BuNP6j+NU8hBGd6crUPCUF5Rx+iT4Q8fvcxMfppbSleGXT6F0Sca+oO5jRTOaHafzSk
-         UZPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794948840; x=1795553640;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=lxMCjoGZWG4QAWp+HpCFavF1sxg7OOCbkVFjQuSNzhA=;
-        b=AkUWmA4dRDmlY6sBt00QqPsNh5J71VqFaJMwJZQtXPGC3LLZYf04qFLdrZfFRKxNUD
-         ARmw6EX8BLyofv1a4iomrT/R1RCt9sKZU0btDw9qWaZM2jpHBHVHDk3B/eaeQZp5iSTf
-         ifimGqJ00MHtZOBceiWrMMlT6BerdOxT9QVdf3z6NVANht8DgT0ZoiRk3iKwNkEvCuxR
-         laPzS2xF7Sd93Yv7hGmYMJcBq4V9/Gbtn1xR1yNSGfTTO2iooASI8Jml3Xd2pD9gTMzM
-         xKyZjSwjkSmnjOiMRiFPWmuEyZ5boJ4xS1nkK11VCy6cSJbFPecOJJLxzVHYsBWOSrN6
-         AyXw==
-X-Gm-Message-State: APuU4Z8BewvcImAHdRfsLV/AQ3qKIMmEvlfPur1pNct1hhPlP6xl7oYO
-	3XrDxof9XhZWi3LfCiXmZZzJCgvjxJgTvJ2OZ3dT1PjFFGHVASbkSlCQYe3++txAzBcq4iGtEWK
-	q2+WljUSA/ahSeOn1PvuoMwGNWXJOJ1mGo1x7np4f
-X-Gm-Gg: AYBFou1eCLiURbo6sKts4N1FVQw9LMXjpPGDlnMa4BPlY/fbH7ppez8GT9Zi97E7Q56
-	8fMfx0KeNB+cbB+JgSAiP2wbUdHFR81rUZf5OoG6u+bPTMkt9knhxZUb0N9MWu+G50eBPBP2PIn
-	LBv4h9zgPSMyMvknaXpRL5dBJQIbMe/4aZzgzGAIpoyIiNdQnIVhSPFRQiTjz6juU6+aADJh6yu
-	JNiNNZRMD51yg1fixnB5bw1V/FUKnRnG41IxDBRYur15s99N0FCkoo1b3Um5asuDn3JV2sqhwJ4
-	WKmKD9wscR53XLmn6m13i3U+nZXldkGV4A3NY2wAJSzMAEJGSZpBhN19IobAlSITlGpCpNSL8w8
-	+ypG49nu5hrZNRPR3FLxdgoA3uvqwyWNH7w==
-X-Received: by 2002:a05:6512:224e:b0:5bf:b96b:89f4 with SMTP id
- 2adb3069b0e04-5c1a0f1b8e2mr1319677e87.19.1794948840370; Tue, 17 Nov 2026
- 12:54:00 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Na384WxW
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1794949840;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qdKdEl0zxLLbjG6lERQLivg57KN6iKjjOdwmcujeJ9o=;
+	b=Na384WxWjEnFxv6INQ7/xaJruc0WsCZjrcQfkhs0lItub+cqhFjS1aBt3PfLI8T9/Oe9/a
+	W7uE/EJuU9DuJ4Bz4q2MV8CAuBk5zqhG8LVudb8R2E7XXgQGYOusqbLSTwLkvrV3P7qpIQ
+	lwlaoRFLJ3SlYQgfN4lsTc61xkR4o+8=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-651-l5Lup1M-NmSW3rGiqJPyIQ-1; Tue,
+ 17 Nov 2026 16:10:36 -0500
+X-MC-Unique: l5Lup1M-NmSW3rGiqJPyIQ-1
+X-Mimecast-MFC-AGG-ID: l5Lup1M-NmSW3rGiqJPyIQ_1794949835
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id DDC98195606D;
+	Tue, 17 Nov 2026 21:10:34 +0000 (UTC)
+Received: from bfoster (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 43C071801977;
+	Tue, 17 Nov 2026 21:10:33 +0000 (UTC)
+Date: Tue, 17 Nov 2026 16:10:31 -0500
+From: Brian Foster <bfoster@redhat.com>
+To: Shashank Mohan Jain <jain.sm@gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Christoph Hellwig <hch@lst.de>, Carlos Maiolino <cem@kernel.org>,
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] iomap: fix offset truncation in
+ iomap_fill_dirty_folios() on 32-bit
+Message-ID: <avzCx52Sl5g3tuZu@bfoster>
+References: <20261117164756.97065-1-jain.sm@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -103,96 +81,92 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261117050841.3289652-1-jarkko@kernel.org> <20261117050841.3289652-8-jarkko@kernel.org>
- <CALCETrWtbUFQGDOCHkxAN9O4i29ixfL5KKF1Cqw2-CjxKwC6gQ@mail.gmail.com> <avyzFnKQrNOid25y@kernel.org>
-In-Reply-To: <avyzFnKQrNOid25y@kernel.org>
-From: Andy Lutomirski <luto@amacapital.net>
-Date: Tue, 17 Nov 2026 12:53:48 -0800
-X-Gm-Features: Aa3M54qx88-je4c1jdCxPXUBmX_p3qTxglmaltFgKplV78kiTxOHsj4XFF6xQaI
-Message-ID: <CALCETrWHxjrQvRC66d1fvkZw1e8_+38BdzmjSYHmqRjXZnD8nw@mail.gmail.com>
-Subject: Re: [RFC PATCH 07/13] rootns: Add rootns_enter() system call
-To: Jarkko Sakkinen <jarkko@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-security-module@vger.kernel.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Andrew Morton <akpm@linux-foundation.org>, 
-	Ben Segall <bsegall@google.com>, Christian Brauner <brauner@kernel.org>, 
-	David Hildenbrand <david@kernel.org>, David Howells <dhowells@redhat.com>, 
-	Davidlohr Bueso <dave@stgolabs.net>, Dietmar Eggemann <dietmar.eggemann@arm.com>, 
-	Ingo Molnar <mingo@redhat.com>, Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>, 
-	Juri Lelli <juri.lelli@redhat.com>, Kees Cook <kees@kernel.org>, 
-	K Prateek Nayak <kprateek.nayak@amd.com>, "Liam R. Howlett" <liam@infradead.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Manfred Spraul <manfred@colorfullife.com>, Mel Gorman <mgorman@suse.de>, 
-	Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>, Neal Gompa <neal@gompa.dev>, 
-	Paul Moore <paul@paul-moore.com>, Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Serge Hallyn <sergeh@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Valentin Schneider <vschneid@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
-	Vlastimil Babka <vbabka@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261117164756.97065-1-jain.sm@gmail.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-On Tue, Nov 17, 2026 at 12:03=E2=80=AFPM Jarkko Sakkinen <jarkko@kernel.org=
-> wrote:
->
-> On Tue, Nov 17, 2026 at 09:42:26AM -0800, Andy Lutomirski wrote:
-> > On Mon, Nov 16, 2026 at 9:09=E2=80=AFPM Jarkko Sakkinen <jarkko@kernel.=
-org> wrote:
-> > >
-> > > Multithreaded userspace daemons cannot call setns(CLONE_NEWUSER) or
-> > > safely mutate process-wide filesystem state in place before spawning =
-a
-> > > child into a target namespace set.
-> > >
-> > > Add the rootns_enter() system call to fork a child process directly i=
-nto
-> > > a rootns whose root mount has been installed. Transition the rootns f=
-rom
-> > > ROOTNS_READY through ROOTNS_FORKING to ROOTNS_RUNNING for the first
-> > > process so it becomes PID 1, serialize concurrent entrants on waitq
-> > > until bootstrap resolves, and admit subsequent callers into the runni=
-ng
-> > > PID namespace until teardown begins.
-> > >
-> > > Require CAP_SYS_ADMIN in the target user namespace, forbid credential=
- or
-> > > PR_SET_NO_NEW_PRIVS privilege escalation
-> >
-> > Why are you disallowing this if no_new_privs?
->
-> For no any good reason at all apparently: no_new_privs is inherited by
-> the child and only restricts privilege gain across execve(), whereas
-> user_namespace transitions are allowed under it.
->
-> So yeah, it's a spurious check, and thus I'll drop it.
->
-> > This isn't necessarily a showstopper, but fork() is really quite slow
-> > in many cases.  It would be nice to have a more spawn-like API
-> > available.  I assume it's possible to open a file in the target's
-> > mountns by some sane API even without entering that mountns, as a side
-> > effect of how the fsopen / move_mount mechanism works.
->
->
-> If the caller retains the O_PATH fd returned by fsmount() for "/", it is
-> able to open files inside the target mount tree via openat2(...,
-> RESOLVE_IN_ROOT) w/o entering the mount namespace, and pass the
-> resulting fd to execveat().
->
-> For avoiding full fork(), there are (at least) two options:
->
-> 1. A rootns flag in clone3() (e.g., CLONE_INTO_ROOTNS) and a rootns fd
->    in struct clone_args (disallowing incompatible CLONE_NEW*, CLONE_FS,
->    CLONE_THREAD, ...), and callers can pair it with CLONE_VM | CLONE_VFOR=
-K.
-> 2. A flags parameter in rootns_enter() (e.g., ROOTNS_ENTER_VFORK), which
->    would map directly to CLONE_VM | CLONE_VFORK.
+On Tue, Nov 17, 2026 at 10:17:56PM +0530, Shashank Mohan Jain wrote:
+> iomap_fill_dirty_folios() turns the page index at which the dirty
+> folio lookup ended into the file offset it returns to the caller:
+> 
+> 	*start = (pstart << PAGE_SHIFT);
+> 
+> pstart is a pgoff_t. On a 32-bit kernel the shift is done in 32 bits
+> and the upper bits are lost for every offset at or above 4 GiB.
+> 
+> XFS uses the returned offset in xfs_buffered_write_iomap_begin() to
+> trim an unwritten mapping to the range covered by the lookup. With the
+> truncated offset the end of that range is below its start and
+> xfs_trim_extent() leaves a mapping of zero length. iomap_iter_done()
+> warns about it,
+> 
+>   WARNING: fs/iomap/iter.c:38 at iomap_iter+0x33c/0x36c
+>   WARNING: fs/iomap/iter.c:39 at iomap_iter+0x34c/0x36c
+> 
+> and iomap_zero_range() does not terminate: a mapping of zero length is
+> what the iterator takes for the start of an iteration, so it asks for
+> the next mapping again and again without checking how much of the
+> range is left.
+> 
+> On i386 with XFS (4k blocks) this is enough to trigger it:
+> 
+> 	fd = open("f", O_RDWR | O_CREAT, 0644);
+> 	fallocate(fd, 0, 5ULL << 30, 1 << 20);
+> 	ftruncate(fd, (5ULL << 30) + 1000);
+> 
+> ftruncate() never returns. The task spins in iomap_zero_range() with
+> the inode locked and does not react to SIGKILL. A write behind an
+> unaligned EOF which is in an unwritten block above 4 GiB fails with
+> EFSCORRUPTED instead, after "XFS (vda): Access to block zero in inode
+> 132 start_block: 0 start_off: 140002 blkcnt: 0 extent-state: 0":
+> 
+> 	fallocate(fd, 0, 5ULL << 30, 1000);
+> 	pwrite(fd, buf, 100, (5ULL << 30) + 8192);
+> 
+> The same calls work below 4 GiB, and v6.19 behaves like v7.3-rc6.
+> 
+> Cast the page index to loff_t before the shift.
+> 
+> Tested with an i386 kernel in qemu and XFS on a virtio disk: the two
+> sequences above hang and fail without this change and succeed with
+> it.
+> 
+> Fixes: 395ed1ef0012 ("iomap: optional zero range dirty folio processing")
+> Cc: stable@vger.kernel.org
+> Assisted-by: LLM
+> Signed-off-by: Shashank Mohan Jain <jain.sm@gmail.com>
+> ---
 
-There's also been some work on using a pidfd-like object to build and
-spawn a subprocess.  Supporting that would make sense, but I don't
-know to what extent these projects should block each other.
+Reviewed-by: Brian Foster <bfoster@redhat.com>
 
---=20
-Andy Lutomirski
-AMA Capital Management, LLC
+> Prepared with Claude Code (Anthropic), model Claude Opus 5.5
+> (claude-opus-5-5).
+> 
+> First sent privately to security@kernel.org on 11 October; Matthew
+> Wilcox asked for it to be posted as a normal patch. Sorry for the delay.
+> The code is unchanged in mainline, so this is the same fix, rebased on
+> 666539eecdf4.
+> 
+>  fs/iomap/buffered-io.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
+> index 6d843b1..846f87a 100644
+> --- a/fs/iomap/buffered-io.c
+> +++ b/fs/iomap/buffered-io.c
+> @@ -1735,7 +1735,7 @@ iomap_fill_dirty_folios(
+>  	}
+>  
+>  	count = filemap_get_folios_dirty(mapping, &pstart, pend, iter->fbatch);
+> -	*start = (pstart << PAGE_SHIFT);
+> +	*start = (loff_t)pstart << PAGE_SHIFT;
+>  	*iomap_flags |= IOMAP_F_FOLIO_BATCH;
+>  	return count;
+>  }
+> 
+> base-commit: 666539eecdf4db623f5e3c3e55cf9f2dfad24aa4
+> -- 
+> 2.43.0
+> 
+
