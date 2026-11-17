@@ -1,57 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794931105;
-	b=C058qGyckZJbz/vOsEhlTJS6oX+yWFqwmrd1Ps75RHrWPZTkKFpn7UIRTuNgiAngT8rg
-	 rJqE+SVth6xbEHrHcVVkMFaFFiFLbq4ry1bp3YfKf9C1DofA5Dcxu6PyYFmAtfKb+lApr
-	 DiFZB2G3LT6cPJiRsjdtQTy6JNWOTzawPfAXPXDyPZMn3z5qHd/0DP93AW1J7OyffHylI
-	 E0Ld03QpNK2Eh3eZLuHvbFacl53cxOGBxvhtAcezmo3GeJ9WFYF+r0P1p2KJhaHwHM/6N
-	 iRqff9Dl/05WwUlHO/KSVS23xAogbEbKD6bKhJAN62okHc9VFXVeDcJAg4e0iCwI0RA==
+	t=1794932243;
+	b=27Z6RM13Fj5OaBKQstxQA/TgVL9YgDRxmU0MA6MCQzeKQpYR4AYxrsA6/2xG8+Nbelir
+	 SWP3Fan8I7zdfzcGLOYzVfWNLtNcfC+So4lOYJgVTB/JC5KYusiqvBhvf8WkxbFQ6FGLJ
+	 XEMOiqBVd0paL+3A44C30hHZj3bDNjxFgmjxyvjbJ7j1IOf38L8adfZtPvkXvDVnj2iUE
+	 iMXjMykboFjL88lENjJDD9Q9FC+ADe8gr9AuFB9w/IuBh5X+OeI0TWcEfdziwq5PqGKis
+	 hfzpiAzStSbdp3NiBxnWtPRXdNU1lpghvH4Z/jam3M7rx3ei2BMBF5gwb+Et45noCHQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794931105;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer;
-	bh=aCpl/gwZ9pA2lFvW6F4A3IwkXPu9MrJE3LgToB0jW/M=;
-	b=ykdn8JQRAr2PfWQBi1zUxkoPUB00PYNQpellyU7fEg/FDuSAIc9VcBis2RM0ht0waYJ5
-	 7p7GFiovr/z/sWiUt6doh2z188I1me5u4rXAdcsjhE6T9FkkbxCIr/16HJNohnx2AVX7g
-	 Gymw1OBxQ1dZF1n8GRKLi5BODDE3L+rQAgodV2yjZI3IiulW2yhZp7449TRKMrA+uxhJj
-	 s8vVN0PpXbDZUqq2CLugR5z3ZDH1yYfZT4yBZHu8Qexd6W61+K97VtEb3K2RoY1Ywxo+9
-	 zxdrBbOYIxSoHJ0xRNx7wdvaxV2qXed7S2pljzSKQqN4u77NlfOG5c4XIhyNfqoOGNA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794932243;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=BNeXdPblFT6nrj2baxWLtBPVceCtM0s58uH/6Q+lFQs=;
+	b=cXgiy1lwT/iruxUA1sXgXdFE/oisDcVSlBBOOp9qkViOP99mvnDE2b2XJxccwvVrYV/B
+	 K6ZfquBpqAb8+Za8UftC/3/Yq2LkusAHe8XsOU3mLm+fxq1UvO950SOXEYH84zQcp8Hyw
+	 pHw26wOaHXemvcYA56S9l+g5dL0ZmlCcrTznFU5SQTYT/lv7SPz7dkeZ0KlaGRWz/Jn2U
+	 YOHtkeS0wBFaR4F7C+GLDISEmKo6dfXQXcQsZK85xb7AIjPG+nV+q38EXecmsXLkOUnMu
+	 i0kTTwr3MBodJmJMTfeV+lylzT1CyMGJLrk70LufAVwblK+1/Qb2K7sfJDcNnZABUXQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aEmn4Eo+;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=efficios.com;
+	spf=pass smtp.mailfrom=efficios.com;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=YosMGajV;
+	arc=none smtp.remote-ip=158.69.130.18
+Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0505E606A32C;
-	Tue, 17 Nov 2026 15:58:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CC94606A31C;
+	Tue, 17 Nov 2026 16:17:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9CC94606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aEmn4Eo+
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C9171F000C4;
-	Tue, 17 Nov 2026 15:58:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794931104;
-	bh=aCpl/gwZ9pA2lFvW6F4A3IwkXPu9MrJE3LgToB0jW/M=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=aEmn4Eo+bkZxGaV+lsSCVHtdjJdho+25ibHcvAR5KacETiRdjmmBlZcyPh5SVEmso
-	 iAAojLwE018WQTC6zWnXNnm3BjUP+Qj16PVzEEgqJ2OGXteeOW3/Fbft6sEvcWaOO+
-	 J0A3kjT2y7dgyru/OBf4QfDCU6FiKMZ6MNESL0ZAF0ykDnUcac/ZIHRyxDx7/aFyfD
-	 rIAges5AafkwvzPrJbsqnwpbKsyG5BzCjVLXndDhNmA4OVGvlgm/453GnenVXk0DbO
-	 Go4nxAi/GSiKP5NBHo6kxd381znY35h+HOl/cscqEILWflsS6iFDa5LnJDqU/VbLn3
-	 0kyJes6IlY0vQ==
-From: Christian Brauner <brauner@kernel.org>
-To: Shakeel Butt <shakeel.butt@linux.dev>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Tejun Heo <tj@kernel.org>, Jori Koolstra <jkoolstra@xs4all.nl>, 
- Meta kernel team <kernel-team@meta.com>, linux-fsdevel@vger.kernel.org, 
- driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-In-Reply-To: <20261111215058.1837351-1-shakeel.butt@linux.dev>
-References: <20261111215058.1837351-1-shakeel.butt@linux.dev>
-Subject: Re: [PATCH v4] kernfs: allocate inodes and dentry outside
- kernfs_rwsem
-Message-Id: <20261117-osten-renitent-gasheizung-276fafa42fab@brauner>
-Date: Tue, 17 Nov 2026 16:58:20 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=YosMGajV
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+	s=smtpout1; t=1794932241;
+	bh=BNeXdPblFT6nrj2baxWLtBPVceCtM0s58uH/6Q+lFQs=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=YosMGajVdr8bTyARSt14kbBXxvqSLwIkBzVVm2iFc2dB8LzONr4+DOO6kMyHMraZM
+	 HLKsDFwyYbKp1xFvRvE1bkMBPGBH+BLhOmAtqk/XLaenm0e5siruQORsZ3FVHPgQX8
+	 o0zmCt1KnhHrXRuGIQJHjydUj7lpQdmvQ+IMBt9XhF3Fl2sYHs/eXvC1fdtq36jUqM
+	 fertguGTxjKDGkk8w+3AgKjWiK51C4xlXqCXHrI5Y2Bvyl6PShOM2rwQX6gPcNECAX
+	 iHvJ3bdS7vc3BXbU9V6OjzmbnWsX7xUeRlEzgk0D/CYqsV7Z4J1GC0TUgkD9ONx8JG
+	 vO1OFuFnKMkTg==
+Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jTVHj55RDzRKW;
+	Tue, 17 Nov 2026 11:17:21 -0500 (EST)
+From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To: tglx@kernel.org,
+	peterz@infradead.org
+Cc: linux-kernel@vger.kernel.org,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	mingo@redhat.com,
+	juri.lelli@redhat.com,
+	vincent.guittot@linaro.org,
+	dietmar.eggemann@arm.com,
+	rostedt@goodmis.org,
+	bsegall@google.com,
+	mgorman@suse.de,
+	vschneid@redhat.com,
+	kprateek.nayak@amd.com,
+	paulmck@kernel.org,
+	boqun@kernel.org,
+	shuah@kernel.org,
+	kees@kernel.org,
+	viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	jack@suse.cz,
+	oleg@redhat.com,
+	bestswngs@gmail.com,
+	xmei5@asu.edu,
+	xujiakai24@mails.ucas.ac.cn,
+	linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH 02/17] sched/mmcid: Give no concurrency ID to user workers
+Date: Tue, 17 Nov 2026 11:17:02 -0500
+Message-Id: <11039c504295ef6ee0eef55981993d8f5d1f40ce.1794932121.git.mathieu.desnoyers@efficios.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <cover.1794932121.git.mathieu.desnoyers@efficios.com>
+References: <cover.1794932121.git.mathieu.desnoyers@efficios.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -61,35 +90,50 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev-04696
+Content-Transfer-Encoding: 8bit
 
-On Wed, 11 Nov 2026 13:50:57 -0800, Shakeel Butt wrote:
-> In the Meta fleet, on 6.16 with the kernfs changes from 7.4 backported,
-> we still see long cgroupfs stalls:
-> 
-> - oomd and below waited 72 seconds in kernfs_fop_readdir() while an out
->   of memory container created cgroups.  They resumed when the kernel OOM
->   killer killed the container's workload.
-> 
-> [...]
+The workers of io_uring and vhost are PF_USER_WORKER tasks. They are
+threads of the process they work for, created with CLONE_VM. They only
+run kernel code: copy_process() gives them a kernel function that ends
+in do_exit(). They never return to user space and have no rseq area.
 
-Applied to the vfs-7.5.directory branch of the vfs/vfs.git tree.
-Patches in the vfs-7.5.directory branch should appear in linux-next soon.
+sched_mm_cid_fork() still makes them users of the CIDs of the mm, like
+every task with an mm. A worker takes a CID whenever it runs. It also
+counts as a user for max_cids and for the switch to per CPU mode.
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+Nothing reports the CID of a worker. But it is one CID fewer for the
+threads of the process, which then get larger ones. The added users can
+also switch the mm to per CPU mode. A process with io_uring workers
+would then read mm_cid values at or above its number of threads. This
+was found by reading the code, and has no test.
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
+Fix this by not making a user worker a user of the CIDs. Kernel threads
+are already left out, as they have no mm.
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
+Fixes: af7f588d8f73 ("sched: Introduce per-memory-map concurrency ID")
+Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: stable@vger.kernel.org
+---
+ kernel/sched/core.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.5.directory
-
-[1/1] kernfs: allocate inodes and dentry outside kernfs_rwsem
-      https://git.kernel.org/vfs/vfs/c/5c1ca763748b
+diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+index f2a981d418eb..7e213e88ac28 100644
+--- a/kernel/sched/core.c
++++ b/kernel/sched/core.c
+@@ -11000,7 +11000,11 @@ static void sched_mm_cid_fork(struct task_struct *t)
+ 	struct mm_struct *mm = t->mm;
+ 	bool percpu = false, flip = false;
+ 
+-	if (!mm)
++	/*
++	 * A user worker (io_uring, vhost) never returns to user space and
++	 * has no rseq area. It needs no CID.
++	 */
++	if (!mm || (t->flags & PF_USER_WORKER))
+ 		return;
+ 
+ 	WARN_ON_ONCE(t->mm_cid.cid != MM_CID_UNSET);
+-- 
+2.47.3
 
