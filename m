@@ -1,106 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794944367;
-	b=BHoIcpLkrjwj33yXhBom9q5gaHjzR/Cu+l1534tc3CI5rqxhKpWeC003by3p9ldZ/HoQ
-	 M4FyTGS5yEJnxfLDc87iiRriShFg57alpm4rn1NRZV/Q6iAepU7iG4i+V+E/bHebJTMFm
-	 wiO8c2wfTbJQ2aBjW+O+jg4dRGmjkAO9swfpgFsLkOumCkuQX0A8A8rDy5S6rCUEwQblL
-	 X2lH8X5FqOQn0mtFPTnCYvKz05AYpf2jPsuKbTOAKJCRw83ywMKRLea/zyfienl9JTOFU
-	 fYMz2Libr23WqRjZjlktJ/ybSKcxN3gsq6EeI/QN2yVhQgG+jgWcL/lepWFmAb5IiRg==
+	t=1794944911;
+	b=U0mNVFU5mrwxUR++QVFmtFQFy0TJ08p25ApofshZXA9R7Ulkv6YQp7sEiUo6jq5OIkDb
+	 MGZR5zUzkPtjMCDxOXRwJEnwK42/OAQR2H9v82RzjKYVnwf587RhAy6xO0vMAJxtuYLED
+	 Zf/u/S8o9FzQ8Bg7Tv24vr7438EjxVnBwhXroWpSj02LxzsrXXZRmt6fFuvopPpYQyO59
+	 fAjfclYQ4CbxVAj4Ct4Aa+WbL+j3IiWBZkOKWW+ugw/zJe8AlV/SU1RORPXi1+2E34Sdl
+	 cuiKid29UPdO3p67eGBcfZ304NTP6s0BZHDKYGYLOto9PSQg3VLdbsec5ie3p3i3EcQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794944367;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794944911;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:X-Mailer:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=X24LLs2RrK+lA3rnWmeXdxswGXkvA2QXv3w3PC5997A=;
-	b=tjazlTTHORyKd93Ad4f0muVv6MIo3YDdXE0LDQuJDz3JElUM9rf3jZpgSgwLeW8VJKfY
-	 Q7sofniiuX94kIkER3radLLorPutINzOglWWhJSX7PkF9nLRfqlPEAV/97vbbH14Peyxy
-	 yWq+3wuhVNZiO1DUASU8vGbzKZTGxIXg9TsqzTTeP6p7UYiYz8hzlQG9hKSbAN8gLvJcB
-	 JgbXYAiUEB8lm9ZyRtW+fF9utnCD5PKGzVMEy9V6DPchWAXxmJkUDRqGVsdgvvLOK4WY3
-	 p40wjZYGJXIxqA+upSHCN12bMboDvVyU0uHhfZX4nqbQPJeXCPfjNcrt9HjW/VntcJQ==
+	 Received:X-Forwarded-Encrypted:X-Received:MIME-Version:References:
+	 In-Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=pz8l3qiBqUBWhr0HS/plvY5iqW0Uso2hEdf4B7cUURE=;
+	b=Ziq0u77DYAbVpPq8t/eVRH+Jzm0vbyXNqXzf94i5MUUB8nv4L6Zo4lQW+VOcbnRXPEyK
+	 GQ2EB7utRfbZvjuQtnp2jP+iKdPc8jiPnHS2pGeYabNDvNSVexMzOOJwX1oLW1Z7MoBJm
+	 LrShFQR4ZX2N1YucwJ3l2wLQDsSdSyL8DhmUhpC4jcnjnWgFFSO8ZlwmhVF6URZ7doiMf
+	 KDEtqrmJ4DQuVFbTJnEv9rglho4Nay8/McypVWja7KkhMV66RxNWbBN17G5wPFz0qY0PA
+	 BGetJWCqIc6EBsInR3ibFIARwVWp+lHtYyq1hL3D7yimRH4Cw4kB4/rixUzqmzHMwyQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="buqZ4+/B";
-	arc=none smtp.remote-ip=209.85.221.46
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	dmarc=none header.from=linux-foundation.org;
+	spf=pass smtp.mailfrom=linuxfoundation.org;
+	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b="Lx9N/G/c";
+	arc=none smtp.remote-ip=209.85.218.54
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F7E6606A32A
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 19:39:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3F7E6606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAA43606A32F
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 19:48:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CAA43606A32F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=buqZ4+/B
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-490d59c3f0aso62763f8f.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 11:39:27 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=Lx9N/G/c
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c4d28f75d62so19004666b.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 11:48:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794944365; x=1795549165; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=X24LLs2RrK+lA3rnWmeXdxswGXkvA2QXv3w3PC5997A=;
-        b=buqZ4+/Bo9e+N24UUPYC17NFKAdU3HfgJsD6u3noM8uJiz3iiLUQLrQBL+vSAdZ/Ra
-         WfwGpt1XKwdl5lYtJsKqbbK5BmFxy75q3DltcusAgIVFGfLOkyDgk8d74cha8JP30ISD
-         BMGD7+qjDyXsPM1hS6JILeVssoE1Ff5GR46SCwdyMIPpXR1uES33HO64Dm4vnBC2ECVp
-         up4jkuUIywG2HoR3dVY+Gmq2TINJ7632YJ7jQ2EijqYnIQihOG9GQhXHiIjk6wcwnuIF
-         ny691NFOEJ0w072ZWJjLPFA176HpyPJp0C9HxKvn0htH4bFJ/G9P/PXHNYb621/z98dj
-         f7Jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794944366; x=1795549166;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=linux-foundation.org; s=google; t=1794944909; x=1795549709; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=X24LLs2RrK+lA3rnWmeXdxswGXkvA2QXv3w3PC5997A=;
-        b=bgMaF7bRdNSnaeBzYF9ZNWyn9HWHR+8B+y7XY85QE5MNfYrM1autWXWjF1lD3x5HdF
-         sOxGEG5R+kOeRpIVZR7E5fSu197MPjWSEuzbzsCIEgep2Yb3NmSsw2LaBHW93HLC5w4I
-         QhOZGz6j0bRMsmof9CmkkKgxWy13nsbq0WhQdfm6lTUfbpsLqnAeiqqxgAS4/4ASMG39
-         uFowpj49OC2XpcPvAO5OxxJ/o95geO+pJIz7Td4lKnXzYNhhckLSfuN1BCfloKxW1Qwv
-         Wyr/CT/fhc6t5Wk4kfycGNB7sjC6EAkpD9xIcTxVnzLeOhSd2U1Zdz5KS7Y0ExGtqkuK
-         KpgQ==
-X-Forwarded-Encrypted: i=1; AL+hErHi2GqBIq+myjgpTzeao0PK5GmlnQWorQK7Rp0o6fu0zeVWgBLVXK4F6u4u7wAOTkTiS5qBkukZBCpjQ4Zj@vger.kernel.org
-X-Gm-Message-State: APuU4Z8pYWEnjRWV0zn/rmP8Q7MfIOchpcBlzKUEtDcgGUUaMoUOTIHn
-	VKWVcrOznUpeJHWgJVGSzo1I1Rkosv1xz1+XDdct8/Phi3t2/MEO7rh+
-X-Gm-Gg: AZFdTZchSSrHXnXRHWYe9mxXoiW2SEmNMGmC7V433fdP+zrNy5ljJ4FakIfQ8jG1Y0D
-	C05ZZ0vlEOMdb9FxjpKg0JUB4GMxXME2Mjd4Sb0cfQIwPLKpRSilT+Gsntv7TjIe6A2es3mvcxK
-	Iu8T9OxM0wRil7lMcLHhtbB5/iOtcjhiUHPuwCyagK9GdeYhkf01k3gNmHPg/oR+nyd3v1M9cZw
-	Rzd5/hJ10ZVSFCAI6P2nLeOc9NBxdPhqCy/Ew5/VnGPOTABfArb1mpazhxcJ8c15113BIUADjkh
-	NlAdz/XFqz2dL5vCkJmUv3Vy+8yFzKBKMLOjv6pofxzpsr7pqJDszOktTRP6Jr/XXX+d0ooXIVL
-	g1jTk0lkzhYjfEKloXtko4X0j8wXbNUsrmXc0rFP9249y9p/cJOJH6gE0Yi6zjoxTASm/PLm3yL
-	2rAkvW9NJ6F9fuOhJ05FE3vwjd6KT0xtVu7toOGli6SLtH0eQqosl4D5uiHXqvCe0n7uFuwvl2P
-	MZXmhEam5e1Lk884C7YylGQmpAggV3KVG8bolFPpf4+rgOcsXca5wIvPMFy7tBou3stvUQJ41S2
-	+CKxaRgbg6UOceI+DC7e4XMqULt3hUXD/AZssqW60GYX+YXkUe/IW5+xEQYF4wO5aA==
-X-Received: by 2002:a05:6000:200c:b0:48e:bf0:352 with SMTP id ffacd0b85a97d-4a6346da7e2mr1023911f8f.5.1794944365440;
-        Tue, 17 Nov 2026 11:39:25 -0800 (PST)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a656c1145esm424374f8f.52.2026.11.17.11.39.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 11:39:25 -0800 (PST)
-Date: Tue, 17 Nov 2026 19:39:23 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Theodore Tso <tytso@mit.edu>, Gabriel Krisman Bertazi <krisman@suse.de>,
- Sarthak Kukreti <sarthakkukreti@google.com>, Jaegeuk Kim
- <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>, Christian Brauner
- <brauner@kernel.org>, Gabriel Krisman Bertazi <krisman@collabora.co.uk>,
- Eric Biggers <ebiggers@google.com>, Dmitry Torokhov <dtor@google.com>,
- linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
- linux-f2fs-devel@lists.sourceforge.net, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] libfs: reject casefolded names that fold to ".",
- "..", or empty
-Message-ID: <20261117193923.795e6129@pumpkin>
-In-Reply-To: <20261117175917.GO989762@ZenIV>
-References: <20261113065332.929085-1-sarthakkukreti@google.com>
-	<20261113065332.929085-2-sarthakkukreti@google.com>
-	<878q2swoxp.fsf@cartola>
-	<avu0X5E298dHRBHY@mit.edu>
-	<20261117084727.0cfa196a@pumpkin>
-	<avxe5v6r1C7ZG7E2@mit.edu>
-	<20261117175917.GO989762@ZenIV>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+        bh=pz8l3qiBqUBWhr0HS/plvY5iqW0Uso2hEdf4B7cUURE=;
+        b=Lx9N/G/cjpCsv3nfo52ONLRLV6o0nidLkD4rsv38LzSQfN/KWog0h0lTPTmvxqYtCN
+         2Ju1+mKQJC5HafTG/M1XvRFEMD5Z5e9O7MOkEDH2L5HxhmCQIHFKqW+Wo1qu8sFSgZay
+         m6zxLO3st2Rx88L4FNSyC/1qAvbaRtnvlg9kU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794944909; x=1795549709;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=pz8l3qiBqUBWhr0HS/plvY5iqW0Uso2hEdf4B7cUURE=;
+        b=eCR8Xur/Dl+YmSzgI5CJvdoKpzzN3w8OXqaT+0gReaTQWQLeJvh4l0X/eIXMBtdqQF
+         QCkqaGWFR78V4JlzLlBGHhw/qXFRqQ3qcdu05XWrLBeB+RJvT9huwfuexY5NdcyXFcxO
+         OaHEEc4SBBGgRqFMDqr4XHUVT1sP+abKTAW0xrQYfZ8+WyA/EGxCVvPT/+F+0hWc2I3r
+         ghNXrsACdDk9Ol073YJtsbgZQdi8c2haKYbpMol8jIVjgZiUNFQc3aAwrt4oMK0kcJ0g
+         hI3ChJ3wVp11xAO1be1E6KGwMTeU1PR/23kq2lMBqUFXw3+3VyHE+oXseaSvzIfn3gc8
+         L9rA==
+X-Forwarded-Encrypted: i=1; AL+hErH+WQpcF0F96PXgHKYvjav3SgthWz5sE43UWKs6OijLKpFwotLavzCnCNlwd4K7m3wqFdAp41WaXs9ol8hq@vger.kernel.org
+X-Gm-Message-State: APuU4Z87Gxg3yz/dr+ql/on3PGc4P0dTfZ65HR/Ghr0rLJ/C2yiMVl/p
+	JQ8YK2WqPjkTzAQCoXpJud4iy/jao2Ec1JEHWze2IJ92AIlMyEA6Tp86OIUjmLrsnZezfqIk2D3
+	jiP7UhQvRng==
+X-Gm-Gg: AYBFou1ecGBXNJ4qR7IBKg3Wpwin+tp3WrNHaT8WruP6jBcPHW9UfKaaKtiAWh/Sp0M
+	XFb2Sv+AeemNujx1DQ0pKnrWouiUCRJX+ZCGR0yKIDc9FANnXPX+iVV2IkRMBBSXIxpHkhWMiwL
+	zKvCECO63va3GJoJgVwb4PHCny1wflCFPvuh6enDW9nqA2IUdH8n1oQNs3M8Yz5Nr5pei75j6OE
+	BydlnTzyLMrRnw82L/Cx88o4s9zyitnXitYYuTE5oJuWNLj9hvUdTdyZyzOyF2Gj5FjvJXHb9kl
+	5kxRHlXHxMlNwc6LsQmM8jTJo6LSPxyJ/9LmhK1TZx6nxtHRu2bDWxWor6cF7ZLMMsbru2YLu+A
+	TeTkpIZPub1ONw2OJ0twjrR9mxUM4ZT1mdVogiqq0fp+7UfJR3rVZSwqUeyhX+5Dk1umTnaI1ui
+	DNxFteoRXqNVneWk9XvD3EzPvQodUaW4wVq7t82nVIHIp1pMo/NtwdBc1u/I0XPpwzhKLSK9qRp
+	KGxIfIYrLqgQf8xTtuhUYWoZnzioaxYnYPGM7yB+2kV2wGdtxrEqEwW2K2oWc/+edzHkgHIlt2r
+	dmGiwgdc0rYXgY0W2ojm10wOVcb7rp9q9WGe+f0N2aHg9v/CBlTLJLUSPGLS5TXRRewvkaWeCq8
+	kqB4=
+X-Received: by 2002:a17:907:3d10:b0:c41:9228:baef with SMTP id a640c23a62f3a-c510e22adb7mr26877766b.8.1794944909354;
+        Tue, 17 Nov 2026 11:48:29 -0800 (PST)
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com. [209.85.218.47])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c510cb32535sm15868866b.69.2026.11.17.11.48.26
+        for <linux-fsdevel@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 17 Nov 2026 11:48:26 -0800 (PST)
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-c4d28f75d62so18995066b.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 11:48:26 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErHdkNpssgFFfvgFLMLhSFURz5eIhRf1utXwr6tmvgH4osTFVbdz0ndmPeQcs8CWYuFfgcJrHlZ0GJofxfTi@vger.kernel.org
+X-Received: by 2002:a17:906:c141:b0:c3f:55e6:83e6 with SMTP id
+ a640c23a62f3a-c510e22a312mr23480066b.15.1794944905938; Tue, 17 Nov 2026
+ 11:48:25 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -110,57 +94,165 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20261111-pipe-epollexclusive-wakeup-v1-1-0af6283e9fda@columbia.edu>
+ <avxWKI795DthE8Sb@redhat.com> <CAHk-=wjOq+G=6gte4vX_YxOD_VfE1uZh7=+KHs8N0wU75xyHEg@mail.gmail.com>
+ <avyODoFhZ_M7YDU5@redhat.com> <CAHk-=wgcBSBtHE+3ceKGjq1jyF64OyoEqf5JPpixowAa80GqNQ@mail.gmail.com>
+ <avyVwg-5ef-pXZkG@redhat.com> <CAHk-=wjJF8uZLfVbbqei9-fhs9K70i2OnVreCV-rQF9EGKAxJg@mail.gmail.com>
+In-Reply-To: <CAHk-=wjJF8uZLfVbbqei9-fhs9K70i2OnVreCV-rQF9EGKAxJg@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Tue, 17 Nov 2026 11:48:09 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wjqParwoB8wb9KfGVpbwUwvKvObpLOo=XPM0GGfkn3ibw@mail.gmail.com>
+X-Gm-Features: AclHuK_utMadaL_dZX_sEFGqmttVnRSlgsZcdf_Rq4dgHcJ507Z8LlKBWadx-x0
+Message-ID: <CAHk-=wjqParwoB8wb9KfGVpbwUwvKvObpLOo=XPM0GGfkn3ibw@mail.gmail.com>
+Subject: Re: [PATCH] pipe: keep per-write wakeups for EPOLLEXCLUSIVE consumers
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: Mani Tofigh via B4 Relay <devnull+mt4022.columbia.edu@kernel.org>, 
+	Breno Leitao <leitao@debian.org>, Christian Brauner <brauner@kernel.org>, 
+	Mateusz Guzik <mjguzik@gmail.com>, Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	tz2294@columbia.edu, stable@vger.kernel.org, 
+	Mani Tofigh <mt4022@columbia.edu>
+Content-Type: multipart/mixed; boundary="00000000000082d9da06607e2d62"
 
-On Tue, 17 Nov 2026 17:59:17 +0000
-Al Viro <viro@zeniv.linux.org.uk> wrote:
+--00000000000082d9da06607e2d62
+Content-Type: text/plain; charset="UTF-8"
 
-> On Tue, Nov 17, 2026 at 09:54:32AM -0500, Theodore Tso wrote:
-> > On Tue, Nov 17, 2026 at 08:47:27AM -0500, David Laight wrote:  
-> > > > Sigh... I really think these characters are *evil*.  I wonder if we
-> > > > should simply drop those code points unconditionally when they are fed
-> > > > to the kernel --- not only folding to themselves, but *not* preserving
-> > > > them when a misguided application tries to create a file with one of
-> > > > these misbegotten Unicode charactesr.  
-> > > 
-> > > Doesn't that assume that filenames are UTF8 rather than just sequences
-> > > of bytes with everything except '\0' and '/' being valid.
-> > > Casefolding is itself so evil/impossible it shouldn't have been allowed.  
-> > 
-> > We would only do this if casefolding is enabled.  
-> 
-> Which is to say, on any distro kernel.  Besides, it's not just a matter of
-> filtering that dreck out on getname() and friends (syscall boundary won't
-> do at all due to the things like binfmt_misc opening files, etc.) - you'd
-> need to scan what you get upon ->get_link() as well.
+On Tue, 17 Nov 2026 at 11:12, Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+>
+> Ok, I looked at this, and it gets ugly
 
-I also hope it is a mount option?
-So you could cross mountpoints several times (in both directions) to and from
-fs with utf8 casefold un/supported while processing a single pathname.
+Side note: as part of looking at it, I did look at what it would
+involve in our wait.h infrastructure.
 
-> > For better or for
-> > worse, it's better than what it replaced which was this terrible
-> > wrapfs hack that was a trivial to trigger deadlocks using fsstress ---
-> > which was even more evil.
-> > 
-> > The other way we can deal with this is that if case folding is
-> > enabled, we change the VFS to call the case-folding for incoming
-> > filename *before* it does its special case checking for '.' and '..'
-> > if casefolding is enabled.  
-> 
-> That would penalize every pathname resolution, whether that misfeature is
-> stepped into or not; hash_name() is fairly hot.
-> 
-> '.' and '..' should be recognized only as literal octet sequences 0x2e
-> and 0x2e 0x2e; if some misguided filesystem decides to treat something
-> else as equivalent to those, it bloody well ought to recognize and reject
-> that something else in its ->lookup() (or ->d_hash(), for that matter).
+That header isn't _horrible_, but some of it was uglier than needed,
+and adding WQ_FLAG_PRIORITY would have been a huge pain because the
+code unnecessarily special-cases WQ_FLAG_EXCLUSIVE.
 
-I remember when "." and ".." weren't actually special.
-You could have great 'fun' using the 'link' system call to make them
-refer to unexpected places.
+So while I threw the rest of my trial patch away, this patch remained
+as a cleanup. It *looks* sane to me, and I think the end result looks
+better and would be more flexible.
 
-David
+For example, it would have allowed just adding a new user of
+___wait_event() that used WQ_FLAG_PRIORITY to put itself at the head
+of the queue.
 
+NOTE! Entirely untested. Comments?
 
+              Linus
+
+--00000000000082d9da06607e2d62
+Content-Type: text/x-patch; charset="US-ASCII"; 
+	name="0001-wait-event-clean-up-the-internal-helper-arguments.patch"
+Content-Disposition: attachment; 
+	filename="0001-wait-event-clean-up-the-internal-helper-arguments.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_mwl3u5430>
+X-Attachment-Id: f_mwl3u5430
+
+RnJvbSBjOGY2MGQ2NzBmYTEyMTVjZTVjZDM4ZjljN2U3Y2IyNzU4YmM1YTU4IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBMaW51cyBUb3J2YWxkcyA8dG9ydmFsZHNAbGludXgtZm91bmRh
+dGlvbi5vcmc+CkRhdGU6IFR1ZSwgMTcgTm92IDIwMjYgMTE6NDI6MDMgLTA4MDAKU3ViamVjdDog
+W1BBVENIXSB3YWl0LWV2ZW50OiBjbGVhbiB1cCB0aGUgaW50ZXJuYWwgaGVscGVyIGFyZ3VtZW50
+cwoKVGhlIF9fX3dhaXRfZXZlbnQoKSBoZWxwZXIgZm9yIGhpc3RvcmljYWwgcmVhc29ucyB0b29r
+IGEgIjAvMSIgYXJndW1lbnQKZm9yIHdoZXRoZXIgdGhlIHdhaXQtcXVldWUgZW50cnkgc2hvdWxk
+IGJlIG1hcmtlZCBXUV9GTEFHX0VYQ0xVU0lWRSBvcgpub3QuICBUaGF0IGRpZG4ndCByZWFsbHkg
+aGVscCByZWFkYWJpbGl0eSwgYnV0IGl0IGFsc28gbGltaXRlZCB0aGUKd3FfZmxhZ3MgZm9yIHRo
+YXQgaGVscGVyIHRvIG9ubHkgdGhhdCBvbmUgZmxhZy4KCkp1c3QgbWFrZSB0aGF0IG1hY3JvIGFy
+Z3VtZW50IGJlIHRoZSBhY3R1YWwgJ3dxX2ZsYWdzJyB2YWx1ZSwgd2hpY2gKc2ltcGxpZmllcyB0
+aGUgaGVscGVyLCBhbmQgbWFrZXMgaXQgbW9yZSBnZW5lcmljLiAgSXQgYWxzbyBoYXBwZW5zIHRv
+Cm1ha2UgdGhlIHVzZXJzIG9mIHRoaXMgbWFjcm8gbW9yZSBvYnZpb3VzIHdoZW4gYW4gdW5leHBs
+YWluZWQgJzEnCmFyZ3VtZW50IGJlY29tZXMgYSBtb3JlIHNlbGYtZXhwbGFuYXRvcnkgJ1dRX0ZM
+QUdfRVhDTFVTSVZFJy4KCkFsc28gY2hhbmdlIHRoZSBleGlzdGluZyB1c2VycyB0aGF0IHVzZSB0
+aGF0IHJhdyBfX193YWl0X2V2ZW50KCkKaW50ZXJmYWNlIHdpdGgganVzdCBhIHBsYWluIHNjaGVk
+dWxlKCkgdG8gdXNlIHRoZSBwcmUtZXhpc3RpbmcgaGVscGVycwptYWNyb3M6IF9fd2FpdF9ldmVu
+dF9zdGF0ZSgpIGFuZCBfX3dhaXRfZXZlbnRfc3RhdGVfZXhjbHVzaXZlKCkuCgpTaWduZWQtb2Zm
+LWJ5OiBMaW51cyBUb3J2YWxkcyA8dG9ydmFsZHNAbGludXgtZm91bmRhdGlvbi5vcmc+Ci0tLQog
+aW5jbHVkZS9saW51eC93YWl0LmggfCAzNiArKysrKysrKysrKysrKystLS0tLS0tLS0tLS0tLS0t
+LS0tLS0KIDEgZmlsZSBjaGFuZ2VkLCAxNSBpbnNlcnRpb25zKCspLCAyMSBkZWxldGlvbnMoLSkK
+CmRpZmYgLS1naXQgYS9pbmNsdWRlL2xpbnV4L3dhaXQuaCBiL2luY2x1ZGUvbGludXgvd2FpdC5o
+CmluZGV4IGMyYWY5OGIwMDc0ZC4uYjNlOTRjNzFjZDNlIDEwMDY0NAotLS0gYS9pbmNsdWRlL2xp
+bnV4L3dhaXQuaAorKysgYi9pbmNsdWRlL2xpbnV4L3dhaXQuaApAQCAtMjk5LDEzICsyOTksMTMg
+QEAgZXh0ZXJuIHZvaWQgaW5pdF93YWl0X2VudHJ5KHN0cnVjdCB3YWl0X3F1ZXVlX2VudHJ5ICp3
+cV9lbnRyeSwgaW50IGZsYWdzKTsKICAqIG90aGVyd2lzZS4KICAqLwogCi0jZGVmaW5lIF9fX3dh
+aXRfZXZlbnQod3FfaGVhZCwgY29uZGl0aW9uLCBzdGF0ZSwgZXhjbHVzaXZlLCByZXQsIGNtZCkJ
+CVwKKyNkZWZpbmUgX19fd2FpdF9ldmVudCh3cV9oZWFkLCBjb25kaXRpb24sIHN0YXRlLCB3cV9m
+bGFnLCByZXQsIGNtZCkJCVwKICh7CQkJCQkJCQkJCVwKIAlfX2xhYmVsX18gX19vdXQ7CQkJCQkJ
+CVwKIAlzdHJ1Y3Qgd2FpdF9xdWV1ZV9lbnRyeSBfX3dxX2VudHJ5OwkJCQkJXAogCWxvbmcgX19y
+ZXQgPSByZXQ7CS8qIGV4cGxpY2l0IHNoYWRvdyAqLwkJCQlcCiAJCQkJCQkJCQkJXAotCWluaXRf
+d2FpdF9lbnRyeSgmX193cV9lbnRyeSwgZXhjbHVzaXZlID8gV1FfRkxBR19FWENMVVNJVkUgOiAw
+KTsJXAorCWluaXRfd2FpdF9lbnRyeSgmX193cV9lbnRyeSwgd3FfZmxhZyk7CQkJCQlcCiAJZm9y
+ICg7OykgewkJCQkJCQkJXAogCQlsb25nIF9faW50ID0gcHJlcGFyZV90b193YWl0X2V2ZW50KCZ3
+cV9oZWFkLCAmX193cV9lbnRyeSwgc3RhdGUpO1wKIAkJCQkJCQkJCQlcCkBAIC0zMjcsOCArMzI3
+LDcgQEAgX19vdXQ6CV9fcmV0OwkJCQkJCQkJCVwKIH0pCiAKICNkZWZpbmUgX193YWl0X2V2ZW50
+KHdxX2hlYWQsIGNvbmRpdGlvbikJCQkJCVwKLQkodm9pZClfX193YWl0X2V2ZW50KHdxX2hlYWQs
+IGNvbmRpdGlvbiwgVEFTS19VTklOVEVSUlVQVElCTEUsIDAsIDAsCVwKLQkJCSAgICBzY2hlZHVs
+ZSgpKQorCSh2b2lkKV9fd2FpdF9ldmVudF9zdGF0ZSh3cV9oZWFkLCBjb25kaXRpb24sIFRBU0tf
+VU5JTlRFUlJVUFRJQkxFKQogCiAvKioKICAqIHdhaXRfZXZlbnQgLSBzbGVlcCB1bnRpbCBhIGNv
+bmRpdGlvbiBnZXRzIHRydWUKQEAgLTM2Niw4ICszNjUsNyBAQCBkbyB7CQkJCQkJCQkJCVwKIH0g
+d2hpbGUgKDApCiAKICNkZWZpbmUgX193YWl0X2V2ZW50X2ZyZWV6YWJsZSh3cV9oZWFkLCBjb25k
+aXRpb24pCQkJCVwKLQlfX193YWl0X2V2ZW50KHdxX2hlYWQsIGNvbmRpdGlvbiwgKFRBU0tfSU5U
+RVJSVVBUSUJMRXxUQVNLX0ZSRUVaQUJMRSksCVwKLQkJCTAsIDAsIHNjaGVkdWxlKCkpCisJX193
+YWl0X2V2ZW50X3N0YXRlKHdxX2hlYWQsIGNvbmRpdGlvbiwgKFRBU0tfSU5URVJSVVBUSUJMRXxU
+QVNLX0ZSRUVaQUJMRSkpCiAKIC8qKgogICogd2FpdF9ldmVudF9mcmVlemFibGUgLSBzbGVlcCAo
+b3IgZnJlZXplKSB1bnRpbCBhIGNvbmRpdGlvbiBnZXRzIHRydWUKQEAgLTQ0Miw4ICs0NDAsOCBA
+QCBkbyB7CQkJCQkJCQkJCVwKIH0pCiAKICNkZWZpbmUgX193YWl0X2V2ZW50X2V4Y2x1c2l2ZV9j
+bWQod3FfaGVhZCwgY29uZGl0aW9uLCBjbWQxLCBjbWQyKQkJXAotCSh2b2lkKV9fX3dhaXRfZXZl
+bnQod3FfaGVhZCwgY29uZGl0aW9uLCBUQVNLX1VOSU5URVJSVVBUSUJMRSwgMSwgMCwJXAotCQkJ
+ICAgIGNtZDE7IHNjaGVkdWxlKCk7IGNtZDIpCisJKHZvaWQpX19fd2FpdF9ldmVudCh3cV9oZWFk
+LCBjb25kaXRpb24sIFRBU0tfVU5JTlRFUlJVUFRJQkxFLAkJXAorCQkJICAgIFdRX0ZMQUdfRVhD
+TFVTSVZFLCAwLCBjbWQxOyBzY2hlZHVsZSgpOyBjbWQyKQogLyoKICAqIEp1c3QgbGlrZSB3YWl0
+X2V2ZW50X2NtZCgpLCBleGNlcHQgaXQgc2V0cyBleGNsdXNpdmUgZmxhZwogICovCkBAIC00ODAs
+OCArNDc4LDcgQEAgZG8gewkJCQkJCQkJCQlcCiB9IHdoaWxlICgwKQogCiAjZGVmaW5lIF9fd2Fp
+dF9ldmVudF9pbnRlcnJ1cHRpYmxlKHdxX2hlYWQsIGNvbmRpdGlvbikJCQkJXAotCV9fX3dhaXRf
+ZXZlbnQod3FfaGVhZCwgY29uZGl0aW9uLCBUQVNLX0lOVEVSUlVQVElCTEUsIDAsIDAsCQlcCi0J
+CSAgICAgIHNjaGVkdWxlKCkpCisJX193YWl0X2V2ZW50X3N0YXRlKHdxX2hlYWQsIGNvbmRpdGlv
+biwgVEFTS19JTlRFUlJVUFRJQkxFKQogCiAvKioKICAqIHdhaXRfZXZlbnRfaW50ZXJydXB0aWJs
+ZSAtIHNsZWVwIHVudGlsIGEgY29uZGl0aW9uIGdldHMgdHJ1ZQpAQCAtNjIwLDggKzYxNyw3IEBA
+IGRvIHsJCQkJCQkJCQkJXAogfSkKIAogI2RlZmluZSBfX3dhaXRfZXZlbnRfaW50ZXJydXB0aWJs
+ZV9leGNsdXNpdmUod3EsIGNvbmRpdGlvbikJCQlcCi0JX19fd2FpdF9ldmVudCh3cSwgY29uZGl0
+aW9uLCBUQVNLX0lOVEVSUlVQVElCTEUsIDEsIDAsCQkJXAotCQkgICAgICBzY2hlZHVsZSgpKQor
+CV9fd2FpdF9ldmVudF9zdGF0ZV9leGNsdXNpdmUod3EsIGNvbmRpdGlvbiwgVEFTS19JTlRFUlJV
+UFRJQkxFKQogCiAjZGVmaW5lIHdhaXRfZXZlbnRfaW50ZXJydXB0aWJsZV9leGNsdXNpdmUod3Es
+IGNvbmRpdGlvbikJCQlcCiAoewkJCQkJCQkJCQlcCkBAIC02MzMsOCArNjI5LDcgQEAgZG8gewkJ
+CQkJCQkJCQlcCiB9KQogCiAjZGVmaW5lIF9fd2FpdF9ldmVudF9raWxsYWJsZV9leGNsdXNpdmUo
+d3EsIGNvbmRpdGlvbikJCQkJXAotCV9fX3dhaXRfZXZlbnQod3EsIGNvbmRpdGlvbiwgVEFTS19L
+SUxMQUJMRSwgMSwgMCwJCQlcCi0JCSAgICAgIHNjaGVkdWxlKCkpCisJX193YWl0X2V2ZW50X3N0
+YXRlX2V4Y2x1c2l2ZSh3cSwgY29uZGl0aW9uLCBUQVNLX0tJTExBQkxFKQogCiAjZGVmaW5lIHdh
+aXRfZXZlbnRfa2lsbGFibGVfZXhjbHVzaXZlKHdxLCBjb25kaXRpb24pCQkJCVwKICh7CQkJCQkJ
+CQkJCVwKQEAgLTY0Nyw4ICs2NDIsNyBAQCBkbyB7CQkJCQkJCQkJCVwKIAogCiAjZGVmaW5lIF9f
+d2FpdF9ldmVudF9mcmVlemFibGVfZXhjbHVzaXZlKHdxLCBjb25kaXRpb24pCQkJCVwKLQlfX193
+YWl0X2V2ZW50KHdxLCBjb25kaXRpb24sIChUQVNLX0lOVEVSUlVQVElCTEV8VEFTS19GUkVFWkFC
+TEUpLCAxLCAwLFwKLQkJCXNjaGVkdWxlKCkpCisJX193YWl0X2V2ZW50X3N0YXRlX2V4Y2x1c2l2
+ZSh3cSwgY29uZGl0aW9uLCAoVEFTS19JTlRFUlJVUFRJQkxFfFRBU0tfRlJFRVpBQkxFKSkKIAog
+I2RlZmluZSB3YWl0X2V2ZW50X2ZyZWV6YWJsZV9leGNsdXNpdmUod3EsIGNvbmRpdGlvbikJCQkJ
+XAogKHsJCQkJCQkJCQkJXApAQCAtNjc2LDcgKzY3MCw3IEBAIGRvIHsJCQkJCQkJCQkJXAogZG8g
+ewkJCQkJCQkJCQlcCiAJbWlnaHRfc2xlZXAoKTsJCQkJCQkJCVwKIAlpZiAoIShjb25kaXRpb24p
+KQkJCQkJCQlcCi0JCV9fX3dhaXRfZXZlbnQod3FfaGVhZCwgY29uZGl0aW9uLCBUQVNLX0lETEUs
+IDAsIDAsIHNjaGVkdWxlKCkpOwlcCisJCV9fd2FpdF9ldmVudF9zdGF0ZSh3cV9oZWFkLCBjb25k
+aXRpb24sIFRBU0tfSURMRSk7CQlcCiB9IHdoaWxlICgwKQogCiAvKioKQEAgLTcwMCw3ICs2OTQs
+NyBAQCBkbyB7CQkJCQkJCQkJCVwKIGRvIHsJCQkJCQkJCQkJXAogCW1pZ2h0X3NsZWVwKCk7CQkJ
+CQkJCQlcCiAJaWYgKCEoY29uZGl0aW9uKSkJCQkJCQkJXAotCQlfX193YWl0X2V2ZW50KHdxX2hl
+YWQsIGNvbmRpdGlvbiwgVEFTS19JRExFLCAxLCAwLCBzY2hlZHVsZSgpKTsJXAorCQlfX3dhaXRf
+ZXZlbnRfc3RhdGVfZXhjbHVzaXZlKHdxX2hlYWQsIGNvbmRpdGlvbiwgVEFTS19JRExFKTsJXAog
+fSB3aGlsZSAoMCkKIAogI2RlZmluZSBfX3dhaXRfZXZlbnRfaWRsZV90aW1lb3V0KHdxX2hlYWQs
+IGNvbmRpdGlvbiwgdGltZW91dCkJCQlcCkBAIC03MzgsNyArNzMyLDcgQEAgZG8gewkJCQkJCQkJ
+CQlcCiAKICNkZWZpbmUgX193YWl0X2V2ZW50X2lkbGVfZXhjbHVzaXZlX3RpbWVvdXQod3FfaGVh
+ZCwgY29uZGl0aW9uLCB0aW1lb3V0KQlcCiAJX19fd2FpdF9ldmVudCh3cV9oZWFkLCBfX193YWl0
+X2NvbmRfdGltZW91dChjb25kaXRpb24pLAkJCVwKLQkJICAgICAgVEFTS19JRExFLCAxLCB0aW1l
+b3V0LAkJCQkJXAorCQkgICAgICBUQVNLX0lETEUsIFdRX0ZMQUdfRVhDTFVTSVZFLCB0aW1lb3V0
+LAkJCVwKIAkJICAgICAgX19yZXQgPSBzY2hlZHVsZV90aW1lb3V0KF9fcmV0KSkKIAogLyoqCkBA
+IC05MTEsNyArOTA1LDcgQEAgZXh0ZXJuIGludCBkb193YWl0X2ludHJfaXJxKHdhaXRfcXVldWVf
+aGVhZF90ICosIHdhaXRfcXVldWVfZW50cnlfdCAqKTsKIAogCiAjZGVmaW5lIF9fd2FpdF9ldmVu
+dF9raWxsYWJsZSh3cSwgY29uZGl0aW9uKQkJCQkJXAotCV9fX3dhaXRfZXZlbnQod3EsIGNvbmRp
+dGlvbiwgVEFTS19LSUxMQUJMRSwgMCwgMCwgc2NoZWR1bGUoKSkKKwlfX3dhaXRfZXZlbnRfc3Rh
+dGUod3EsIGNvbmRpdGlvbiwgVEFTS19LSUxMQUJMRSkKIAogLyoqCiAgKiB3YWl0X2V2ZW50X2tp
+bGxhYmxlIC0gc2xlZXAgdW50aWwgYSBjb25kaXRpb24gZ2V0cyB0cnVlCkBAIC05ODEsNyArOTc1
+LDcgQEAgZXh0ZXJuIGludCBkb193YWl0X2ludHJfaXJxKHdhaXRfcXVldWVfaGVhZF90ICosIHdh
+aXRfcXVldWVfZW50cnlfdCAqKTsKIH0pCiAKICNkZWZpbmUgX193YWl0X2V2ZW50X3N0YXRlX2V4
+Y2x1c2l2ZSh3cSwgY29uZGl0aW9uLCBzdGF0ZSkJCQlcCi0JX19fd2FpdF9ldmVudCh3cSwgY29u
+ZGl0aW9uLCBzdGF0ZSwgMSwgMCwgc2NoZWR1bGUoKSkKKwlfX193YWl0X2V2ZW50KHdxLCBjb25k
+aXRpb24sIHN0YXRlLCBXUV9GTEFHX0VYQ0xVU0lWRSwgMCwgc2NoZWR1bGUoKSkKIAogI2RlZmlu
+ZSB3YWl0X2V2ZW50X3N0YXRlX2V4Y2x1c2l2ZSh3cSwgY29uZGl0aW9uLCBzdGF0ZSkJCQlcCiAo
+ewkJCQkJCQkJCQlcCi0tIAoyLjU2LjAuMzEzLmc5NzVhNzVjYTkwCgo=
+--00000000000082d9da06607e2d62--
