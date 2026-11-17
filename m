@@ -1,51 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794932243;
-	b=Krd+sV6RCEsMCMKsUVrJXWzbBmbuntbyYhPKFtEE2Qrn+j2DdPd3RL1hZMw7symW8NmH
-	 0hrOBs/cXFqYkkbgToM4VoHmYAyFS5XCaXIcbFXNyRY6UdRI4XOxI6b1g2cshOyFeSMuV
-	 bhRA1q+yz0wXuWKvG5//BqEuL3QghYRyVUKHDFI1MtqTqHu3XlppKrprfs8bHBBdw9skG
-	 +S5gGckhF/fPWNNv29eCwLrE35jVdP+XrUPtFf+zFiTiwepa9EZEYLnAYH2CrRl62alw0
-	 iVPcnjhTNy67u1izRKUid2Kq0pzDNf7DiousLt3UuVFYeRCWFLDCOgAta8sn6HapjyQ==
+	t=1794932246;
+	b=pImw+iksMynhjd/FCdnMsn/SX2UCVr/m1NzrzDCO7qI0GT3eCR7Gl3h/decgoR2YTs4Z
+	 hmhsaLVY8A8DjGkiwGeZwKAcoErDRTiqY/tS3SsWpV6ud6rMwGDj9eikXZfIFyppNyaGN
+	 jLPSEFtket9nf7D2/X7zd3bUilhuG5bZi2Tsa3QfwZsh8Q3AVnW4Xo/wVj4MT2XqZcCV2
+	 g2W8YkRvV50uRdIb8PUUpyY/2BqL5iv8/QnhJtVyYcPeZt+pnee3RUhbw4fegQkoYhK6N
+	 1NHp/9BwNdCBL0TOroYsWtJUa9iqsO/+jl+bwd+aD7uDRmqxKn/aTRJVE0IrGysJ7vw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794932243;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794932246;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=J5ObJtDP34I/BMfHer6YxrOqpSiQsGpA7S8X4Rx45Ro=;
-	b=UlKP2rh4dVRccEGxrfILTb/52BsnmILSYENKcYkSGMiZk/IX1L9SHSoN14BrzG8SyERd
-	 n3GEHYozLYxRMHtc+oEaZ1lMJiWYpkH3ZyL7D6dlOFCSvnnwdAXpxW5qkIBUD6lDWIP5W
-	 UCbE+3KORw81J0LENnl6KGDYaFZpQ+UPYInP+m55ZzEs1UHNwmEwk1p1lH7pWsqnjT6f5
-	 jelfgw79LxBaAAEyC8pbsp7WyO6PwT3RDsYG+1d3OLMiT0gT2VJR9kn2HAs0T+3XvmgfI
-	 Pw65zZ49w87h3aOmoCg7D9rdPG+b5066ybxfihj9meYBP307qqWXrIJQFN7X6e2K9ew==
+	bh=bC0UW9RXqE2Do0R71IXSsbINxfcS+ry3qm6yhfg8vx4=;
+	b=CT6fMAP41SfVSkA0Ur2iwRGBEtMRZF8lMkjc0OS1sTnpPCPAQUmMkQ776lqOVGsaj1U8
+	 eNSZqGT3RTQVd6BAUHsu2oUSOYKvNmAMbcXjC05RsgqDJssLb2WEh7SwY6yxqkIvhz6Om
+	 Y0wTxuJIvb7Zd1Tp5YK8q8bZRd/2oWLV/+4qrWmkxOTO0JuAPXVOWLETOPgiegQkpj0EO
+	 K01o/M/ruDiYuNDU/Z0Xsx3cD60SSEXViI7tW5ChW6wfuEsY9cox0t2OSjeGmXdy4eHvh
+	 M16QPIA8CbAsNSi3Ynva+2hzfrVtibnR676dVfqNZHJ5vmy76TqWoEyHxb2BUNqT9eQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=efficios.com;
 	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=dAHGJJBy;
+	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=eLmxZxGm;
 	arc=none smtp.remote-ip=158.69.130.18
 Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CCC6606A32A;
-	Tue, 17 Nov 2026 16:17:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9CCC6606A32A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E32860A3822;
+	Tue, 17 Nov 2026 16:17:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1E32860A3822
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=dAHGJJBy
+	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=eLmxZxGm
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=smtpout1; t=1794932241;
-	bh=J5ObJtDP34I/BMfHer6YxrOqpSiQsGpA7S8X4Rx45Ro=;
+	s=smtpout1; t=1794932243;
+	bh=bC0UW9RXqE2Do0R71IXSsbINxfcS+ry3qm6yhfg8vx4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=dAHGJJByTy4EHpW5ej+bdYloHhOBu2GBE4ssFO3r+UHxSeQ4MY4O7+YwycJk/tEps
-	 OrX88u+pLS4veb+ki3/QKoXO4/bR2rsV6lppLyZ/xB281s2DfSuTv1e+2BMWh7X2Mi
-	 61QAnCNi9mENrqE42GFxcjILKfrEUy3NfLv0ftdbqmnYsn3htVIaIIaOqH6PHOXFxh
-	 DpzsXi3FN1R0vgqDDw7s68uwUNlqZq51AJceX6vUmHy4LP9w6nYBPTT1mevY58eCKS
-	 3V1i53pVcZ14nG6DI+4ziIomLJT6dRAG8PjWo6b4RE+JVTSyewWk4XU+0Rk9ELWVJ1
-	 3pG4Z3U5neg8Q==
+	b=eLmxZxGmd+Tr0KBxipbWeBL9DdWdjLRBFufpDwE6lHsP1f6el5mmmyWbRDry4pWtl
+	 zbUCsy9Q62puQfee8XMeDn8q88r/r+SI2s5Etsw765ubPbka6tpTh7jj5pWlR2L9i8
+	 77K9CA9u9IIdK7XfcAaOtW5drf06r3WF1Ej9G7nPOICBt7NogMFSsg8YHJJNHjnpoz
+	 n+Q4wdBAqgaB51WuTbkbi8IzMDPSDQmusyz7Op/TfRAk5CcpuUsWKLJpi+fOHUjQ+W
+	 iMxrwatLS3+WsjKZfaOhKnK1OHLjs+PM0acxpCL6MIcZviZPqQ1UfQHuGwW2FcR7iE
+	 yETaj+qQmGjBw==
 Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jTVHj3vvxzRWZ;
-	Tue, 17 Nov 2026 11:17:21 -0500 (EST)
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jTVHl6NQgzRZb;
+	Tue, 17 Nov 2026 11:17:23 -0500 (EST)
 From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 To: tglx@kernel.org,
 	peterz@infradead.org
@@ -73,11 +73,10 @@ Cc: linux-kernel@vger.kernel.org,
 	xujiakai24@mails.ucas.ac.cn,
 	linux-mm@kvack.org,
 	linux-fsdevel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH 01/17] sched/mmcid: Give a CID to a task that joins its mm while running
-Date: Tue, 17 Nov 2026 11:17:01 -0500
-Message-Id: <87f01a2eacf8aeea751d8f48b3aab752d825a4bf.1794932121.git.mathieu.desnoyers@efficios.com>
+	linux-kselftest@vger.kernel.org
+Subject: [PATCH 15/17] selftests/rseq: Test two race windows of the concurrency ID mode switches
+Date: Tue, 17 Nov 2026 11:17:15 -0500
+Message-Id: <53817cdac6cc520ec66232071a5153f5f2bb50c6.1794932121.git.mathieu.desnoyers@efficios.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <cover.1794932121.git.mathieu.desnoyers@efficios.com>
 References: <cover.1794932121.git.mathieu.desnoyers@efficios.com>
@@ -92,128 +91,578 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-sched_mm_cid_fork() makes a task a user of the CIDs of its mm. In per
-CPU mode the new user gets no CID there. It takes the CID of its CPU
-when it is scheduled in.
+Two bugs of the concurrency ID mode switches needed a task to schedule
+inside a window that is a few instructions wide:
 
-This relies on the new user not running yet. That holds for a fork()
-child. A successful execve() joins a new mm as its first user, and the
-first user gets a CID directly.
+  - A failed execve() makes the mm switch to per CPU mode. It then
+    schedules before it has handed the IDs over. Fixed earlier in this
+    series by "sched/mmcid: Let a running joiner take its CID after the
+    fixups".
+  - A thread migrates after the mm switched to per CPU mode and before
+    its ID is handed over. Fixed by commit 4327fb13fa47 ("sched/mmcid:
+    Prevent live lock on task to CPU mode transition").
 
-A failed execve() is missed. bprm_execve() leaves the mm in
-sched_mm_cid_before_execve(). Its error path rejoins the same mm in
-sched_mm_cid_after_execve(). If the execve() fails before
-begin_new_exec() kills the other threads, they are still users of the
-mm. The mm can then be in per CPU mode. The task is running, so it
-returns to user space with no schedule in. Its CID is still
-MM_CID_UNSET, and rseq_force_update() makes the kernel write it to the
-rseq area. User space reads an mm_cid of 0x80000000 until its next
-context switch. A program that indexes per-CID data with it would read
-out of bounds.
+The other tests only reach these windows by chance.
 
-An execve() of a file that no binfmt handler recognises fails in that
-window. In testing, with 20 threads on a machine with 8 CPUs:
+Add mm_cid_window_test, with one case for each sequence, in that
+order. Each case runs 40 attempts with a different timing. On an
+unmodified kernel the sequences miss the windows: both cases pass with
+either fix removed.
 
-  mm_cid 2147483648 (0x80000000) after a failed execve, round 0
+To hit a window every time, the kernel has to make one chosen thread
+sleep in it. The test marks with "Delay injection" comments where that
+thread would ask for the sleep. No kernel code is added for it. The
+matching places in kernel/sched/core.c are:
 
-Fix this by giving a running joiner its CID in sched_mm_cid_fork(). It
-takes the CID a schedule in would give it, under the runqueue lock.
+  - in sched_mm_cid_fork(), after the block that changes the mode and
+    before mm_cid_fixup_tasks_to_cpus() (both cases);
+  - in sched_mm_cid_after_execve(), before sched_mm_cid_fork() (first
+    case).
 
-The switch back to per task mode has the same problem. Since
-commit 7dbc307b6c72 ("sched/mmcid: Fix affinity-triggered switch back to
-per-task mode"), a join can do the switch that an affinity change
-queued. For a running joiner:
+The results below were measured with a 3ms sleep, fsleep(3000), at
+these places. Only a task that asked for it took the sleep, through a
+debug prctl():
 
- 1. sched_mm_cid_fork() runs mm_cid_fixup_cpus_to_tasks().
- 2. The joiner is preempted. It takes a CID at its schedule in.
- 3. sched_mm_cid_fork() allocates a CID for the new user. That
-    overwrites the CID of step 2.
+  - Without "sched/mmcid: Let a running joiner take its CID after the
+    fixups", the first case fails on every guest. A guest with 2 CPUs
+    hangs. Guests with 3, 4 and 8 CPUs report "mm_cid 2 after a failed
+    execve, 2 CPUs allowed".
+  - Commit 4327fb13fa47 ("sched/mmcid: Prevent live lock on task to CPU
+    mode transition") added the transit mode. With it removed, the
+    second case hangs guests with 3, 4 and 8 CPUs. That case needs 3
+    CPUs.
+  - With both fixes, both cases pass on guests with 2 to 8 CPUs.
 
-The bit of the first CID stays set in the bitmap, with no owner. In
-testing, three threads on two CPUs then read an mm_cid of 3 or more.
-Leave that allocation to a joiner that is not running. A running joiner
-takes its CID as above if it has none.
+The process under test dies with the test (PR_SET_PDEATHSIG). A
+thread which cannot pin itself sets a flag. The case then ends with an
+error. It does not wait for that thread, and it does not report a pass
+for a sequence which did not run.
 
-Fixes: 653fda7ae73d ("sched/mmcid: Switch over to the new mechanism")
 Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: stable@vger.kernel.org
 ---
- kernel/sched/core.c | 43 +++++++++++++++++++++++++++++++++++--------
- 1 file changed, 35 insertions(+), 8 deletions(-)
+ tools/testing/selftests/rseq/.gitignore       |   1 +
+ tools/testing/selftests/rseq/Makefile         |   3 +-
+ .../selftests/rseq/mm_cid_window_test.c       | 485 ++++++++++++++++++
+ 3 files changed, 488 insertions(+), 1 deletion(-)
+ create mode 100644 tools/testing/selftests/rseq/mm_cid_window_test.c
 
-diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 1a088d4576f5..f2a981d418eb 100644
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -10986,10 +10986,19 @@ static bool sched_mm_cid_add_user(struct task_struct *t, struct mm_struct *mm)
- 	return mm_update_max_cids(mm);
- }
+diff --git a/tools/testing/selftests/rseq/.gitignore b/tools/testing/selftests/rseq/.gitignore
+index 4c02ff8dccca..0065f51f53ab 100644
+--- a/tools/testing/selftests/rseq/.gitignore
++++ b/tools/testing/selftests/rseq/.gitignore
+@@ -13,6 +13,7 @@ mm_cid_bound_test
+ mm_cid_execve_test
+ mm_cid_transition_test
+ mm_cid_exec_affinity_test
++mm_cid_window_test
+ syscall_errors_test
+ slice_test
+ legacy_check
+diff --git a/tools/testing/selftests/rseq/Makefile b/tools/testing/selftests/rseq/Makefile
+index 006e2e281ca8..d72502fc7652 100644
+--- a/tools/testing/selftests/rseq/Makefile
++++ b/tools/testing/selftests/rseq/Makefile
+@@ -21,7 +21,8 @@ OVERRIDE_TARGETS = 1
+ TEST_GEN_PROGS = basic_test basic_percpu_ops_test basic_percpu_ops_mm_cid_test \
+ 		 param_test_benchmark param_test_mm_cid_benchmark \
+ 		 mm_cid_execve_test mm_cid_transition_test \
+-		 mm_cid_bound_test mm_cid_exec_affinity_test
++		 mm_cid_bound_test mm_cid_exec_affinity_test \
++		 mm_cid_window_test
  
+ TEST_GEN_PROGS_EXTENDED = librseq.so \
+ 	param_test \
+diff --git a/tools/testing/selftests/rseq/mm_cid_window_test.c b/tools/testing/selftests/rseq/mm_cid_window_test.c
+new file mode 100644
+index 000000000000..9e1770236628
+--- /dev/null
++++ b/tools/testing/selftests/rseq/mm_cid_window_test.c
+@@ -0,0 +1,485 @@
++// SPDX-License-Identifier: LGPL-2.1
 +/*
-+ * Make @t a user of the CIDs of its mm. Called on fork(2) and on
-+ * execve(2). A failed execve(2) rejoins the mm it left.
++ * Two race windows of the concurrency ID mode switches.
 + *
-+ * In per CPU mode a new user gets no CID here. It takes the CID of its
-+ * CPU when it is scheduled in. A task that joins while it is running
-+ * returns to user space before that, so it takes its CID here. This is
-+ * the case of a failed execve(2) when the mm has other users.
++ * Each case drives its threads through one sequence that a fix closed.
++ * The window is a few instructions wide in the kernel, so the sequence
++ * rarely lands in it. The cases vary their timing on each attempt, and
++ * pass when the sequence misses the window.
++ *
++ * A kernel that can make a chosen task sleep inside the window hits it on
++ * every attempt. The comments that start with "Delay injection" mark where
++ * a thread would ask for that. The commit that adds this test names the
++ * matching places in the kernel.
++ *
++ * Case 1: a failed execve(2) makes the mm switch to per CPU mode. A and B
++ * are the two threads of a process on two CPUs. C is the vfork(2) child
++ * of B.
++ *
++ *   CPU 0                                CPU 1
++ *
++ *   A: execve(2)
++ *      leaves the mm
++ *                                        B: vfork(2), and waits for C
++ *                                        C: joins the mm, takes the last ID
++ *                                        C: spins, and never schedules
++ *   A: execve(2) fails
++ *      rejoins the mm as its third user
++ *      the mm switches to per CPU mode
++ *   A: is scheduled out, and in again
++ *   A: hands the IDs over
++ *
++ * A must not need an ID when it is scheduled in. B and C hold both, and
++ * only A can free one.
++ *
++ * Case 2: a thread migrates while the mm switches to per CPU mode. M is
++ * the main thread. One thread spins on each other CPU, so every ID is
++ * taken. T1 and T2 are two of these threads.
++ *
++ *   CPU 0                         CPU 1                    CPU 2
++ *
++ *                                 T1: spins                T2: spins, and never
++ *                                                              schedules
++ *   M: creates one more thread
++ *      the mm switches to per
++ *      CPU mode
++ *                                 T1: sleeps, and is
++ *                                     scheduled in again
++ *                                 T1: moves to CPU 2
++ *                                                          T1: is scheduled in,
++ *                                                              beside T2
++ *   M: hands the IDs over
++ *
++ * T1 needs an ID on CPU 2 before M has handed them over. CPU 2 owns none
++ * yet, since T2 still holds its own. T1 must find a free one.
++ *
++ * A kernel that loops looking for a free ID shows as a timeout.
 + */
- static void sched_mm_cid_fork(struct task_struct *t)
- {
- 	struct mm_struct *mm = t->mm;
--	bool percpu;
-+	bool percpu = false, flip = false;
- 
- 	if (!mm)
- 		return;
-@@ -11012,10 +11021,14 @@ static void sched_mm_cid_fork(struct task_struct *t)
- 		if (!sched_mm_cid_add_user(t, mm)) {
- 			if (!cid_on_cpu(mm->mm_cid.mode))
- 				t->mm_cid.cid = mm_get_cid(mm);
--			return;
-+			break;
- 		}
- 
--		/* Handle the mode change and transfer current's CID */
-+		/*
-+		 * Handle the mode change and transfer current's CID. A
-+		 * running joiner has no CID yet. It takes one below.
-+		 */
-+		flip = true;
- 		percpu = cid_on_cpu(mm->mm_cid.mode);
- 		if (!percpu)
- 			mm_cid_transit_to_task(current, pcp);
-@@ -11023,11 +11036,25 @@ static void sched_mm_cid_fork(struct task_struct *t)
- 			mm_cid_transit_to_cpu(current, pcp);
- 	}
- 
--	if (percpu) {
--		mm_cid_fixup_tasks_to_cpus();
--	} else {
--		mm_cid_fixup_cpus_to_tasks(mm);
--		t->mm_cid.cid = mm_get_cid(mm);
-+	if (flip) {
-+		if (percpu) {
-+			mm_cid_fixup_tasks_to_cpus();
-+		} else {
-+			mm_cid_fixup_cpus_to_tasks(mm);
-+			/*
-+			 * A running joiner may have taken a CID at a
-+			 * schedule in. If not, it takes one below.
-+			 */
-+			if (t != current)
-+				t->mm_cid.cid = mm_get_cid(mm);
-+		}
++
++#define _GNU_SOURCE
++#include <errno.h>
++#include <limits.h>
++#include <pthread.h>
++#include <sched.h>
++#include <signal.h>
++#include <stdbool.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <sys/prctl.h>
++#include <sys/stat.h>
++#include <sys/wait.h>
++#include <time.h>
++#include <unistd.h>
++
++#include "rseq.h"
++#include "kselftest.h"
++
++#define ATTEMPTS	40
++#define MAX_DELAY_US	400
++#define SPIN_MS		300
++#define SLOW_MS		100
++#define MAX_SPINNERS	256
++#define MOVE_WAIT_MS	2000
++
++#define CHILD_PASS	0
++#define CHILD_FAIL	1
++#define CHILD_SKIP	2
++#define CHILD_ERROR	3
++
++static int go, done, moved, ready, stop;
++static int pin_failed;
++static int delay_us;
++static int cpus[MAX_SPINNERS], nr_cpus;
++static char exec_path[PATH_MAX];
++
++static long long now_us(void)
++{
++	struct timespec ts;
++
++	clock_gettime(CLOCK_MONOTONIC, &ts);
++	return ts.tv_sec * 1000000LL + ts.tv_nsec / 1000;
++}
++
++static void busy_wait_us(int us)
++{
++	long long end = now_us() + us;
++
++	while (now_us() < end)
++		;
++}
++
++/* Join @t. Return 0, or the error number after reporting it. */
++static int join_thread(pthread_t t)
++{
++	int err = pthread_join(t, NULL);
++
++	if (err)
++		fprintf(stderr, "pthread_join: %s\n", strerror(err));
++	return err;
++}
++
++/* Remove @path. Return 0, or -1 after reporting the error. */
++static int remove_file(const char *path)
++{
++	if (unlink(path)) {
++		fprintf(stderr, "unlink %s: %s\n", path, strerror(errno));
++		return -1;
++	}
++	return 0;
++}
++
++static int pin(int cpu)
++{
++	cpu_set_t set;
++
++	CPU_ZERO(&set);
++	CPU_SET(cpu, &set);
++	return sched_setaffinity(0, sizeof(set), &set);
++}
++
++/* Fill @cpus with the allowed CPUs. Return their number. */
++static int read_allowed_cpus(void)
++{
++	cpu_set_t set;
++	int cpu;
++
++	if (sched_getaffinity(0, sizeof(set), &set))
++		return -1;
++	nr_cpus = 0;
++	for (cpu = 0; cpu < CPU_SETSIZE && nr_cpus < MAX_SPINNERS; cpu++) {
++		if (CPU_ISSET(cpu, &set))
++			cpus[nr_cpus++] = cpu;
++	}
++	return CPU_COUNT(&set);
++}
++
++/*
++ * Create a script that names itself as its interpreter. execve(2) on it
++ * leaves the mm, follows the interpreter a few times and fails with ELOOP.
++ * That keeps the task out of its mm longer than a file of unknown format.
++ */
++static int make_loop_script(void)
++{
++	char *const av[] = { exec_path, NULL };
++	FILE *f;
++
++	snprintf(exec_path, sizeof(exec_path), "/tmp/mm_cid_window_test.%d", getpid());
++	f = fopen(exec_path, "w");
++	if (!f)
++		return -1;
++	fprintf(f, "#!%s\n", exec_path);
++	if (fclose(f) || chmod(exec_path, 0755))
++		goto unlink;
++	if (execve(exec_path, av, NULL) == -1 && errno == ELOOP)
++		return 0;
++unlink:
++	remove_file(exec_path);
++	return -1;
++}
++
++/* Run thread B of case 1: call vfork(2) after a delay and wait for C. */
++static void *vfork_thread(void *arg)
++{
++	pid_t pid;
++
++	if (pin(cpus[1])) {
++		RSEQ_WRITE_ONCE(pin_failed, 1);
++		return NULL;
++	}
++	while (!RSEQ_READ_ONCE(go))
++		;
++	busy_wait_us(delay_us);
++	pid = vfork();
++	if (!pid) {
++		long long end = now_us() + SPIN_MS * 1000;
++
++		/* Hold an ID on this CPU without scheduling. */
++		while (!RSEQ_READ_ONCE(done) && now_us() < end)
++			;
++		_exit(0);
++	}
++	if (pid < 0 || waitpid(pid, NULL, 0) != pid) {
++		fprintf(stderr, "vfork: %s\n", strerror(errno));
++		abort();
++	}
++	return NULL;
++}
++
++/*
++ * Run one attempt of case 1 in a new mm on two CPUs. Return a CHILD_*
++ * status.
++ */
++static int run_child_join(int us)
++{
++	char *const av[] = { exec_path, NULL };
++	long long start, end;
++	unsigned int cid;
++	pthread_t b;
++	int err, exec_errno;
++
++	delay_us = us;
++	if (read_allowed_cpus() != 2 || pin(cpus[0]))
++		return CHILD_ERROR;
++	if (make_loop_script()) {
++		fprintf(stderr, "cannot run a script from /tmp\n");
++		return CHILD_SKIP;
++	}
++	if (pthread_create(&b, NULL, vfork_thread, NULL)) {
++		remove_file(exec_path);
++		return CHILD_ERROR;
++	}
++	/*
++	 * Delay injection: this thread would ask here for two sleeps. One
++	 * in execve(2), between leaving the mm and rejoining it. One when
++	 * it has changed the mode, before it hands the IDs over. B is
++	 * created above, so that it does not inherit the request.
++	 */
++	usleep(200);
++	start = now_us();
++	RSEQ_WRITE_ONCE(go, 1);
++	execve(exec_path, av, NULL);
++	exec_errno = errno;
++	end = now_us();
++	cid = rseq_current_mm_cid();
++	RSEQ_WRITE_ONCE(done, 1);
++	err = join_thread(b);
++	if (remove_file(exec_path) || err)
++		return CHILD_ERROR;
++	if (exec_errno != ELOOP) {
++		fprintf(stderr, "execve(%s): %s, expected ELOOP\n",
++			exec_path, strerror(exec_errno));
++		return CHILD_ERROR;
 +	}
 +
-+	/* A running joiner with no CID takes one now, see above. */
-+	if (t == current) {
-+		guard(task_rq_lock)(t);
-+		if (t->mm_cid.cid == MM_CID_UNSET)
-+			mm_cid_schedin(t);
- 	}
- }
- 
++	/* B did not run its part if it could not pin itself. */
++	if (pin_failed) {
++		fprintf(stderr, "a thread could not pin itself\n");
++		return CHILD_ERROR;
++	}
++	if (cid >= 2) {
++		fprintf(stderr, "mm_cid %u after a failed execve, 2 CPUs allowed\n", cid);
++		return CHILD_FAIL;
++	}
++	if (end - start > SLOW_MS * 1000) {
++		fprintf(stderr, "the failed execve took %lld ms\n", (end - start) / 1000);
++		return CHILD_FAIL;
++	}
++	return CHILD_PASS;
++}
++
++/* Spin on the CPU cpus[@arg], as a thread of case 2. Thread 1 also moves. */
++static void *spinner(void *arg)
++{
++	int nr = (long)arg;
++
++	if (pin(cpus[nr])) {
++		RSEQ_WRITE_ONCE(pin_failed, 1);
++		return NULL;
++	}
++	__atomic_add_fetch(&ready, 1, __ATOMIC_RELAXED);
++	while (!RSEQ_READ_ONCE(stop)) {
++		if (nr != 1 || !RSEQ_READ_ONCE(go) || RSEQ_READ_ONCE(moved))
++			continue;
++		busy_wait_us(delay_us);
++		/* Schedule out and in on this CPU, with the new mode set. */
++		usleep(1000);
++		/* Move to the CPU of thread 2. It has not scheduled since. */
++		if (pin(cpus[2]))
++			RSEQ_WRITE_ONCE(pin_failed, 1);
++		RSEQ_WRITE_ONCE(moved, 1);
++	}
++	return NULL;
++}
++
++static void *idler(void *arg)
++{
++	while (!RSEQ_READ_ONCE(stop))
++		usleep(1000);
++	return NULL;
++}
++
++/*
++ * Run one attempt of case 2 in a new mm on all CPUs. Return a CHILD_*
++ * status.
++ */
++static int run_child_migrate(int us)
++{
++	static pthread_t threads[MAX_SPINNERS];
++	int i, started = 0, waited = 0, ret = CHILD_PASS;
++	pthread_t extra;
++
++	delay_us = us;
++	if (read_allowed_cpus() < 3 || pin(cpus[0]))
++		return CHILD_ERROR;
++	for (i = 1; i < nr_cpus; i++) {
++		if (pthread_create(&threads[i], NULL, spinner, (void *)(long)i))
++			break;
++		started++;
++	}
++	if (started < nr_cpus - 1) {
++		ret = CHILD_ERROR;
++		goto out;
++	}
++	/*
++	 * Wait until every thread runs on its CPU and holds an ID. A thread
++	 * whose pin failed sets pin_failed and never gets ready.
++	 */
++	while (RSEQ_READ_ONCE(ready) < started && !RSEQ_READ_ONCE(pin_failed))
++		usleep(100);
++	if (RSEQ_READ_ONCE(pin_failed))
++		goto out;
++	usleep(1000);
++	/*
++	 * Delay injection: this thread would ask here for a sleep when it
++	 * has changed the mode to per CPU, before it hands the IDs over.
++	 */
++	RSEQ_WRITE_ONCE(go, 1);
++	if (pthread_create(&extra, NULL, idler, NULL)) {
++		ret = CHILD_ERROR;
++		goto out;
++	}
++	while (!RSEQ_READ_ONCE(moved) && waited++ < MOVE_WAIT_MS)
++		usleep(1000);
++	if (!RSEQ_READ_ONCE(moved)) {
++		fprintf(stderr, "the moving thread did not move\n");
++		ret = CHILD_FAIL;
++	}
++	RSEQ_WRITE_ONCE(stop, 1);
++	if (join_thread(extra) && ret == CHILD_PASS)
++		ret = CHILD_ERROR;
++out:
++	RSEQ_WRITE_ONCE(stop, 1);
++	for (i = 1; i <= started; i++) {
++		if (join_thread(threads[i]) && ret == CHILD_PASS)
++			ret = CHILD_ERROR;
++	}
++	/* The sequence did not run as written if a thread could not pin itself. */
++	if (pin_failed) {
++		fprintf(stderr, "a thread could not pin itself\n");
++		ret = CHILD_ERROR;
++	}
++	return ret;
++}
++
++static int read_nr_possible(void)
++{
++	int first, last, total = 0;
++	char sep;
++	FILE *f;
++
++	f = fopen("/sys/devices/system/cpu/possible", "r");
++	if (!f)
++		return -1;
++	/* A list of ranges: "0-63" or "0,2-5". */
++	while (fscanf(f, "%d", &first) == 1) {
++		last = first;
++		sep = '\n';
++		if (fscanf(f, "%c", &sep) == 1 && sep == '-') {
++			if (fscanf(f, "%d", &last) != 1)
++				break;
++			if (fscanf(f, "%c", &sep) != 1)
++				sep = '\n';
++		}
++		total += last - first + 1;
++		if (sep != ',')
++			break;
++	}
++	fclose(f);
++	return total;
++}
++
++/*
++ * Run @fn(@arg) in a new process that starts on the CPUs in @start, and
++ * return its exit status. The new process dies with this one.
++ */
++static int run_under_test(int (*fn)(int), int arg, const cpu_set_t *start,
++			  const cpu_set_t *all)
++{
++	int status = 0;
++	pid_t child;
++
++	if (sched_setaffinity(0, sizeof(*start), start))
++		ksft_exit_fail_msg("sched_setaffinity: %s\n", strerror(errno));
++	child = fork();
++	if (!child) {
++		if (prctl(PR_SET_PDEATHSIG, SIGKILL, 0, 0, 0)) {
++			fprintf(stderr, "prctl(PR_SET_PDEATHSIG): %s\n", strerror(errno));
++			_exit(CHILD_ERROR);
++		}
++		_exit(fn(arg));
++	}
++	if (child < 0)
++		ksft_exit_fail_msg("fork: %s\n", strerror(errno));
++	if (sched_setaffinity(0, sizeof(*all), all))
++		ksft_exit_fail_msg("sched_setaffinity: %s\n", strerror(errno));
++	if (waitpid(child, &status, 0) != child)
++		ksft_exit_fail_msg("waitpid: %s\n", strerror(errno));
++	if (!WIFEXITED(status))
++		ksft_exit_fail_msg("the process under test was killed by signal %d\n",
++				   WTERMSIG(status));
++	if (WEXITSTATUS(status) == CHILD_ERROR)
++		ksft_exit_fail_msg("the process under test failed to run\n");
++	return WEXITSTATUS(status);
++}
++
++static void report(int status, const char *name)
++{
++	if (status == CHILD_SKIP)
++		ksft_test_result_skip("%s\n", name);
++	else
++		ksft_test_result(status == CHILD_PASS, "%s\n", name);
++}
++
++int main(void)
++{
++	const char *join = "failed execve switches to per CPU mode";
++	const char *migrate = "thread migrates during the switch to per CPU mode";
++	cpu_set_t all, two;
++	int status, i, cpu, nr_all;
++
++	ksft_print_header();
++	ksft_set_plan(2);
++
++	if (!rseq_available())
++		ksft_exit_skip("rseq is unavailable\n");
++	if (rseq_register_current_thread())
++		ksft_exit_fail_msg("rseq_register_current_thread: %s\n", strerror(errno));
++	if (!rseq_mm_cid_available())
++		ksft_exit_skip("the rseq mm_cid field is unavailable\n");
++	if (sched_getaffinity(0, sizeof(all), &all))
++		ksft_exit_fail_msg("sched_getaffinity: %s\n", strerror(errno));
++	nr_all = CPU_COUNT(&all);
++
++	if (nr_all < 2) {
++		ksft_test_result_skip("%s: fewer than 2 CPUs\n", join);
++	} else {
++		CPU_ZERO(&two);
++		for (cpu = 0; cpu < CPU_SETSIZE && CPU_COUNT(&two) < 2; cpu++) {
++			if (CPU_ISSET(cpu, &all))
++				CPU_SET(cpu, &two);
++		}
++		for (i = 0; i < ATTEMPTS; i++) {
++			status = run_under_test(run_child_join, (i * 37) % MAX_DELAY_US,
++						&two, &all);
++			if (status != CHILD_PASS)
++				break;
++		}
++		report(status, join);
++	}
++
++	/* Every ID is taken only when one thread spins on each possible CPU. */
++	if (nr_all < 3 || nr_all > MAX_SPINNERS || nr_all != read_nr_possible()) {
++		ksft_test_result_skip("%s: needs 3 to %d CPUs, all of them allowed\n",
++				      migrate, MAX_SPINNERS);
++	} else {
++		for (i = 0; i < ATTEMPTS; i++) {
++			status = run_under_test(run_child_migrate, (i * 37) % MAX_DELAY_US,
++						&all, &all);
++			if (status != CHILD_PASS)
++				break;
++		}
++		report(status, migrate);
++	}
++	ksft_finished();
++}
 -- 
 2.47.3
 
