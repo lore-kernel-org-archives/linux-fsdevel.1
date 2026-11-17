@@ -1,70 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794934160;
-	b=w23blO+/ZUdfvjrzy74VAYXj281IvrJpN3RCiDDb3PXtZbDLRh2hxmQ9vZsddbwbCHsM
-	 PH2vHqntXBfwYLxEfj3AOnIVtgK+eWLsu6dhsHdK8XA3ndj7xdmHOtGIpwIpOXZoAtvzq
-	 OaBT/ci31k6IKVkxQtTfbAJaYk9/YnxgRx3eemDRcOlIlxkp3rT4HYbCXF9VQwlU3JA8/
-	 UU63OBLQPqRjb0n+8rsSSxhaOkd8CWQCJnx4XaGzYdUEX8psQ24r8oErkvpYwyP4cQwuU
-	 BPYEOrHAkIaN7AMez4RcQDRXFUSsSkwAUYPer2Qs/eb2m9S8OskkQBTvFrQCmotNfeg==
+	t=1794934915;
+	b=ZGyIK6JZCxc4zw0BoPArU/5s7u9VDNGbIqyeUn6VjIZeUiwpLBSfulnegisRp7JquhVK
+	 n/4ovcYHtt3fckKiqXFCWjl0Js7BFeQcsPismnFBec25VRfAl5toNym317lXzxhUyjEK7
+	 l+hi7EN42+NAxg4SWhcrACBn+IFxVXD1EcgHbahqyh7jkGZSyQ6K623ShiYsqB2nXD5hT
+	 FBVVN72dSkXzk/Wqw+QNE6TbcsCeSjSOrS30X7fhnGif2KTCgOiDSHp7s7UH+PgAz63cu
+	 SNKK7rYMJ4M4BwIglWJaVm5TcssGhdkSvwzRwuUTbpFzKZanLoMOZxwZ0Y5bYKvg1+A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794934160;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=Scl/VifAjlxPDoAR0t/AhiRabE59EDiCI7/IkrSw3+M=;
-	b=hlvW8hUtOdCcFHxnnG/efV0iZyMTx/1kV/YPNzhjf4Q2kohU643zuDzeNXH5geZY32n1
-	 fttrzGFsxZcsYMyyUQ02pl4dTFHuu6M8NFZ0sjWpSRJ8BuRrHMKffBdpFmowxLv7IrW43
-	 ZMjg2ZLOEKep4suMhlPnDYPMIUeePuNrI2f7V9nlEaPkqQpl+7TBfZtKUqHEphQPEk3EP
-	 JiMvnfDUMPMqWblTHq9SHmR2T6bo38IcHidYjju8UF46Hg4igqngZ7xPkkZEjFsRIsXFY
-	 zrLbqQa9vcnAC5YsGavNVXdJstCc4Ghu+nUrIZnNh211wV/BMX6G8bTUxVis91h9oVw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794934915;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=CkHa2sFv9CmQESaVn3NPFW88v6+W45HqsS/ucIanDx8=;
+	b=5fe4g3f6adxuAeK46xl66W34e0GiIKQVZ4keRGbQUIy68Ztv47FiVIU2H0l/Aqf++BWj
+	 e2w6/3JM/f6utRNS/iQ7W/L2KJlHFf4rjG0isAumpQbqUa8Bw4malRSjMnROmpjpkJn1P
+	 YRUowCohV4VpteKUrTyV/iIN3xHlOrn8I6CBbkXya6dV4H5HPKhPt7tiVh4yGRDXZK9Cy
+	 Slj+8ZFc074PoXnUuQs9Tevv9WZf+U3nwGxMA428T5yJYHGCmbOj8ojyZUSClSopYIfxY
+	 lNwr/6qkz8F4WpAVDwQDC8ipTqp2ZS9E5pzHQ0oSCqZY9Ca5ZfsL7aDqDTPCTIlcOUg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aIeRJ75E;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=YUZwXye8;
+	arc=none smtp.remote-ip=91.218.175.172
+Received: from mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03A17606A31C;
-	Tue, 17 Nov 2026 16:49:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF554606A31C
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 17:01:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DF554606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aIeRJ75E
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3F431F000CB;
-	Tue, 17 Nov 2026 16:49:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794934159;
-	bh=Scl/VifAjlxPDoAR0t/AhiRabE59EDiCI7/IkrSw3+M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=aIeRJ75E+9ST4vOLKED9LJSC1b+MQ6CDTXIHOyZ4D9fc7EvV6clSf1nXJKIyXN3HO
-	 zk8sfd0ETNlAz+2/ewTdVDDUImFZFd2CrtllN00E5B/eFnhnRNeKJ8N6SXaiOosc2N
-	 wKZof/4+J3uj2rfto011U4mCJJCpxP8RWdfOITsuOsMLA3crXqexX1mSsQ0/w2M6Bp
-	 LyiKPPVX+uZrrbpvaWWe92vRfBL6lf39Syd7GWv8j2iCeWBZXvkOG9hKsSuq7OiI5p
-	 8MT3yswJXkDCu1RdrKuyvFEucdhYmxccv7CIOyCD9L+QizogYZbQwMcw/DCPeHAst/
-	 ocY+AxXGYimnQ==
-Date: Tue, 17 Nov 2026 17:49:11 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: "Hallgrimur H. Gunnarsson" <halg@google.com>
-Cc: Andy Lutomirski <luto@amacapital.net>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Paul Moore <paul@paul-moore.com>, 
-	Serge Hallyn <sergeh@kernel.org>, Kees Cook <kees@kernel.org>, 
-	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jan Kara <jack@suse.cz>, 
-	James Morris <jmorris@namei.org>, Simon Horman <horms@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jann Horn <jannh@google.com>, 
-	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, KP Singh <kpsingh@kernel.org>, 
-	Jonathan Calmels <jcalmels@3xx0.net>, Casey Schaufler <casey@schaufler-ca.com>, 
-	linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, linux-api@vger.kernel.org, 
-	containers@lists.linux.dev, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/8] userns: per-namespace capability bounding set and
- opt-in netns loopback
-Message-ID: <20261117-grabung-sowie-symmetrie-41925e0f1b84@brauner>
-References: <20261028221705.3915340-1-halg@google.com>
- <CALCETrW9ygriu54gxiHFLEd5+hJminQo0r8Jwd63wR69Dj4W7w@mail.gmail.com>
- <20261106-befreien-addieren-eislauf-e09212803534@brauner>
- <CALCETrWa1SBLcb5oWjqjgzZvKvCoHjmYFk=Lf5ytEM9uqm5jYA@mail.gmail.com>
- <avM41a80aig2de-R@google.com>
- <20261111-behagen-faktisch-entgegen-e2e714373895@brauner>
- <avsymRBSulVZfouF@google.com>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=YUZwXye8
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=Gn/OQQirr7fE8T3D1Iz1+Zh6kVmd5Ou8RsWt2FanJao=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1794934910; v=1; x=1795539710;
+ b=YUZwXye8jsajGNx6LtDcCC2bV5cwvznLc10tDGC/M3MaMLFmNbXMF+gcfUKvwkfR2XTm0ea1
+ 8gOqsQnJ+dusdv+E9WGjtRnlVaiAuumM3ByTTiaruPLVmajIf41tDob2K+wMlcuA0TkBnROsM1r
+ 2dWh1RAuFzups4rUDgolr/Qk=
+X-Envelope-To: linux-fsdevel@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id e7457a07eb241923;
+	Tue, 17 Nov 2026 17:01:50 +0000
+X-Mizu-Trace-ID: e7457a07eb241923
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <a66d0c11-f13b-42ec-8ddb-2cbddf50682b@linux.dev>
+Date: Wed, 18 Nov 2026 01:01:46 +0800
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -74,22 +58,149 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <avsymRBSulVZfouF@google.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v2 0/6] sysctl: replace overloaded extra pointers with
+ typed bounds and core stride
+To: David Laight <david.laight.linux@gmail.com>
+Cc: Joel Granados <joel.granados@kernel.org>, Kees Cook <kees@kernel.org>,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <cover.1794844686.git.wen.yang@linux.dev>
+ <20261116214023.1a1b4205@pumpkin>
+Content-Language: en-US
+From: Wen Yang <wen.yang@linux.dev>
+In-Reply-To: <20261116214023.1a1b4205@pumpkin>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Nov 16, 2026 at 04:43:05PM +0000, Hallgrimur H. Gunnarsson wrote:
-> Quick question on AUDIT_CAPSET: today it's only emitted on capset() and
-> only logs capability sets that capset() can modify (explicitly or
-> implicitly like cap_ambient). It does not include cap_bset which is
-> modified via prctl(). Since capset() never modifies cap_userns either,
-> does it make sense to treat it like cap_bset and leave it out of
-> AUDIT_CAPSET, relying on prctl auditing instead?
 
-Fine by me as well.
 
-> Thanks for the feedback and the detailed proposal. It looks good to me
-> and nicely ties everything together. I'll prepare a V2 for review based
-> on this hybrid design.
+On 11/17/26 05:40, David Laight wrote:
+> On Tue, 17 Nov 2026 00:07:32 +0800
+> wen.yang@linux.dev wrote:
+> 
+>> From: Wen Yang <wen.yang@linux.dev>
+>>
+>> struct ctl_table has long relied on extra1 and extra2 pointers to serve
+>> multiple unrelated duties, including range limits and caller-specific
+>> context.  This series addresses both:
+>>
+>> 1. Replace bound pointers with plain unsigned long min and max fields
+>>     directly in struct ctl_table.
+>>
+>> 2. Replace per-entry context pointers with a core stride mechanism,
+>>     allowing callers to register arrays of structures embedding struct
+>>     ctl_table and recover enclosing context via standard container_of().
+>>
+>> This RFC focuses on the core stride infrastructure and two representative
+>> complex users (netfilter nf_log and IPv4 devinet), as suggested by Joel
+>> Granados.  The remaining treewide callers are converted in a single
+>> squashed commit to ensure the tree builds and tests pass cleanly.
+> 
+> I think I would have tried to avoid the indentation changes - just to
+> make the actual changes easier to see.
+> 
 
-Sounds good.
+Good point.  Looking closer at Patch 4, keeping the original
+'static struct devinet_sysctl_table { ... } devinet_sysctl' layout not
+only avoids re-indenting the 33 DEVINET_SYSCTL_* entries (cutting the
+diff from +104/-86 down to +41/-23), it also fixes a bug where
+kmemdup(&devinet_sysctl, ...) was copying a bare array into a
+struct devinet_sysctl_table that starts with sysctl_header.
+
+With the original layout preserved, the table definition change is just:
+
+     static struct devinet_sysctl_table {
+             struct ctl_table_header *sysctl_header;
+    -        struct ctl_table devinet_vars[IPV4_DEVCONF_MAX];
+    +        struct devinet_sysctl_entry devinet_vars[IPV4_DEVCONF_MAX];
+     } devinet_sysctl = {
+             .devinet_vars = {
+                     DEVINET_SYSCTL_COMPLEX_ENTRY(FORWARDING,
+...
+
+> ...
+>> 4. Baseline rebase & conflict resolution:
+>>     - Rebased onto next-20261111 (aaa2f954c21b).
+>>     - Added proc_dointvec_jiffies_minmax and proc_dointvec_ms_jiffies_minmax
+>>       to sysctl_check_table().
+> 
+> I didn't spot those in here, but are they even needed?
+> Without the bounds don't the minmax variants behave like the original functions?
+> So it was only necessary to add support for bounds to the existing functions.
+> (The only think that half makes sense is if a caller uses extra1/2 for
+> something else.)
+> 
+
+Sorry for the confusion: I omitted the squashed treewide patch (6/6) 
+from the v2 posting to keep the mailing list traffic small, and that 
+bullet in the cover letter referred to a change in that patch.
+I have moved the sysctl_check_table() addition into Patch 1 for v3.
+
+proc_dointvec_ms_jiffies_minmax() was already in the tree, and
+proc_dointvec_jiffies_minmax() was recently added in linux-next by 
+commit 75f5722df2b4 ("net: restrict message_cost and message_burst to
+non-negative values").  You are right about the historical reason: the
+separate *_minmax handlers only existed because callers of 
+proc_dointvec() and friends could stash unrelated context in 
+extra1/extra2.  Once extra1/extra2 are gone and bounds live in dedicated 
+min/max fields, merging the *_minmax variants into the base handlers 
+will be a clean follow-up.
+
+> Related, I think you can reduce the size of the final patch and the likely hood
+> of some silly errors by making the 'dointvec' functions treat min == 0, max == 0
+> (ie no initialisers) as 'no limit' rather than 'only zero allowed'.
+> 
+
+There are two reasons why treating (min == 0 && max == 0) as "no limit"
+in the *_minmax handlers turns out to be problematic:
+
+1. It conflicts with dropping redundant '.min = 0' on signed handlers,
+    and does not help non-zero lower bounds:
+
+   - Most proc_dointvec_minmax() callers in the tree only set
+     '.extra1 = SYSCTL_ZERO' (with .extra2 = NULL) to reject negative
+     inputs, i.e. [0, INT_MAX].  Once we drop the redundant '.min = 0'
+     initialiser, omitting '.max = INT_MAX' as well leaves the entry at
+     (min == 0, max == 0).  If proc_dointvec_minmax() treats (0, 0) as
+     "no limit" ([INT_MIN, INT_MAX]), all of those non-negative entries
+     silently accept negative values again.
+
+   - For entries with a positive lower bound and no upper bound (e.g.
+     '.extra1 = SYSCTL_ONE, .extra2 = NULL' -> '.min = 1'), min is non-zero,
+     so a (min == 0 && max == 0) check does not trigger anyway; omitting
+     .max leaves max == 0 < min and rejects all writes.
+
+2. Implicitly defaulting an omitted .max to the type limit is fail-open
+    on handlers whose whole purpose is range checking:
+    Under the old "extra2 == NULL means no upper bound" rule, several
+    *_minmax entries in net-next had bugs fixed just in the past two weeks
+    because .extra2 was left unset:
+
+   - 850a7225bc61 ("tcp: limit tcp_tso_rtt_log to a valid shift count"):
+     tcp_tso_rtt_log used proc_dou8vec_minmax with neither .extra1 nor
+     .extra2 set (so both defaulted to NULL -> [0, 255]), allowing shift
+     counts >= 32 and triggering UBSAN shift-out-of-bounds in
+     tcp_tso_autosize().
+
+   - 0bc7b5b2985f ("ipv4: restrict igmp_qrv to 255") and
+     6d6bdc1b943c ("ipv6: restrict mld_qrv to 255"):
+     both entries used proc_dointvec_minmax with '.extra1 = SYSCTL_ONE'
+     and left .extra2 unset (NULL -> INT_MAX); writing 256 silently
+     wrapped the backing u8 field to 0 and triggered
+     WARN_ON(idev->mc_qrv == 0) in mld_query_work().
+
+   With an explicit [min, max] closed interval, .min defaults to 0
+   (matching non-negative inputs), while forgetting .max on a *_minmax
+   entry leaves .max = 0 (fail-closed, immediately rejecting non-zero
+   writes during testing) rather than silently allowing up to INT_MAX.
+
+To eliminate the risk of hand-written mistakes when converting existing
+one-sided entries, I will updat the coccinelle script (Patch 5) in v3 so 
+that whenever an entry uses a *_minmax handler with only a lower bound 
+(.extra2 absent), the script automatically supplies the matching type 
+maximum (INT_MAX/UINT_MAX/ULONG_MAX/U8_MAX) according to .proc_handler.
+
+
+Thanks,
+Wen
+
