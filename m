@@ -1,47 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.174
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794928270;
-	b=oSaVUfYbYxs1tLaPwBccYa7mUprZVzTSrCjQVfX27UVy6a2ss+Mo/ZYmVbEolDwq490F
-	 Q11/gwBau69NeLf0VRhcI8DK0DPS+TOEsyGF/p2A/415FjbnEZZaKIbZNKIy3jjQaCa/f
-	 2KK8xNqTw9m2Z8NG7iSWvdIB7WW87apHDhU3sE0JvoepVxMIvSUwjRI0U/vtx7/dI849R
-	 qTn6xMFpiVXQaqNzOAvrTQ8VcEsT7k4MqPCMzNg5OK+NLDgACIdxCiP6czk1FTiWFPSCo
-	 5GxZD1SglpRsqqdHHYpxl6lF6VbaMMkfojP9B8unvOCVQ8QDcN1MLNzP7/DtUAsQtyQ==
+	t=1794929023;
+	b=2OKG7TppmYgz8MYd2dM9JXvS0L5qG+65gix0/dM18fS1DFmDQo6osOjlQkzYk/Hn2w0X
+	 TgN3NNH6O1S4DGH3sHPWRHdisPHdYBh+L+jyACWpCH4NZinGdNkaYSDud19/4QiXRYHpu
+	 rwhT7+dB8aij0wZu38RHARMDAmNRBVvI/Hhj4ehXYtqOPnJ7Moc7FFlLaXpb3RlZ+ZbLw
+	 9wgQ6iZNEjOQuXquL08XEVxOL2LVsj7N3BtxBe285eGSYuJtfQXwyXA8RX8CtgIrX3fGS
+	 M67/PSMRTjB8AYpah9+7a34DDQe8/z8uAntOpSOySOYVsz79XmX/SfCJ8GPjNUr3IGg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794928270;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:From:
-	 Subject:To:Cc:References:Content-Language:In-Reply-To:Content-Type:
+	a=rsa-sha256; c=relaxed/relaxed; t=1794929023;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=HArLExOPkNyBYfmrLg8Y0BuhPejqIaFeng7leCdluOU=;
-	b=kPGRmNgHr3JQdZwOyvByu4inBhu7tEJ5GwOu5Ji5pyR98q3HWXbSOwpArH61u2GHtwTk
-	 G2zRYs6zYV++LoNvmQmE+lx3RME+nU/GSsk7E4/aCYlx+UjgwmqK9xTyBGbZJ3jZXFovH
-	 MgQMC8HF+HQNqrj+eBS85NMmkPqhRgPvuaQZYUioG1YXAtAYgzNX5HoBlqni/tSFpFKvo
-	 bYzQHxG4t5qZkJ/5u4S36XV+fXfAvfowcnkCV634t3FgK8yzEcwP2Vdgp45KxLuTCCNon
-	 zrG0Dn9HVt/KbX54hesMK1ADXJuIcL0mUEFdJDkSzV02QMRxpNo+NDYv5riQtcXYwSA==
+	bh=Ofm5M00KSieqbiSYXgLgnUfya5lLhDxnmUYEkWnouA8=;
+	b=H+2xSpoBNgo1WXkvLqxBvdX+23OaLBrOJtAzp2/H/aEitBtpu+iKY/At9Wa/PRB87/bi
+	 B+v7vyi3DIjCPLmZDD5iW0u87Gb6ngYlLxkKkLGvxVWJrjC7Inc1pZHfTCFdOL2i3sXub
+	 7Jb95RnvFvp+9ZKTMD5FWR5svTSZ9BQQXftS3ZvrwZiDrfnnROsls6E8QV2jjvMlTxah+
+	 6MiHJC5nI2alaX0qWucKDTEp9BiDCPB8unuvW5PZTIpi1sc9B8ZrKUoRBpyg6VCrjM7JT
+	 k/citVAeSy1wgYEF5Rgu/NHJ8E8PkFqzJbzAwgahXf7pzuPRfO3ioVhcCDudw+uSQ2A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=P0VaXLgh;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XV3bc96W;
+	arc=none smtp.remote-ip=209.85.214.174
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 549E8606A31C
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 15:11:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D303606A32C
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 15:23:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6D303606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=P0VaXLgh
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 176271F000C7;
-	Tue, 17 Nov 2026 15:11:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794928270;
-	bh=HArLExOPkNyBYfmrLg8Y0BuhPejqIaFeng7leCdluOU=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To;
-	b=P0VaXLghcsMkwQaIOkwnz/GtT6w9pB0/ADDe33yVXJthJhDmoDsT/W7FdlRHHa71s
-	 t4g8eOpbVtynxk6GPeqicBefe5+x5HMU4peush2zh3L4GMw+l+F/6+raC2xW4IL/7C
-	 g8Mf1fhSDH9l+bhvlcwpSWvIy5rXb3rlJpIfdnflcjCVlj0z7Y+IhLW6+wI5dnu6V2
-	 d7IbH9m5uMIDtKJ8uzoLNHAqjvHmSopGMyRWYp/UFvVov0gStSu47vl5ny3bAE3eO8
-	 z0ZZcZMzkaLk9yCSb772Pw6AEKGktSa8plrQpVB1MqTJJXWzIrXDu57y2Kbr9jRMa7
-	 UVpzn06A10tiA==
-Message-ID: <14e28b99-12dc-4000-a704-8b46cfeb3c0f@kernel.org>
-Date: Tue, 17 Nov 2026 16:11:00 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XV3bc96W
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2eac75d4143so2483135ad.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 07:23:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794929023; x=1795533823; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Ofm5M00KSieqbiSYXgLgnUfya5lLhDxnmUYEkWnouA8=;
+        b=XV3bc96Wca2hr4zPcYBq+6ILfG4SItRkT9ixosvgf8aLWT7sp4FRkWmuU5PygrAEGV
+         Qcf0/PL4h/BapNu+C0n2NNeojaM6oeFadF7xNy303yiNtETTiWoLLuFlgELIniFSgdJK
+         EmeUAMDRzabdoJbDza9DfpcqRaaTxdt5ftTzc0SQ471H38RStbjozBTtkuV5VXuVuj1L
+         sUSku5rS+DdSqCPy4nwYQ5bciIETSOsxlJpzlZb9oqVjx0YFvgtFvlcUutP+2imTHHi5
+         02aa1GWK+DapP4yFjaDL4i19YYOeDix1ZfFMG/aU2qsCLPxsvPLFIEjI6NTDcPXlw4FO
+         +wow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794929023; x=1795533823;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Ofm5M00KSieqbiSYXgLgnUfya5lLhDxnmUYEkWnouA8=;
+        b=SiLUHNe0YhS5EPk1JVUhfwLJdG0faWabkt80mAFe0GgACXWxGn2XkiLztdVarRY3oe
+         CLfe9nbOmDen+lJkvWZmyoXHqXUnBX9hG1w/n1GB5ViCt8b5vb9dY8rYyAaVZZolwZ8s
+         yi8FT3hn9jmwuWUj0whWEgIFPitnPRVdaMSYFQrOY18YysCbTvUaTJ8WhSsqKAxwzl6I
+         +Htkmt/buhjeK4VPTQDzCZ1CXTWkELOAMTaWB8E7n1Eoi+I6ZcH2dQhZXRXt+KkZtwYc
+         r1HV+zz8fmbvFBq7aY5yZaai2gqQAIuDjqIzeuoPt2yXObStBHUQr/VkvMJKxZA7Vzwq
+         N/gw==
+X-Forwarded-Encrypted: i=1; AL+hErHXIfvwA0i7vh/puRkNouUgpDzZJk1N5gAxZ2Z1A5IQ6cXWNX3FJY0kfaoOtQTGiKhQ0XP87QJUqstBvyRJ@vger.kernel.org
+X-Gm-Message-State: APuU4Z+JhAXDEniTJHAQ/iBKlwfFk7uAl7dbDIKBGbvYJKDJRGDlSSfA
+	NmuS9m0lM5yCQkGyyV1cjYG5BoB0+y9NakboX5jtsIf4A9TXYicPluV7
+X-Gm-Gg: AZFdTZeGN7PaoJm2tpk5DAPd4gCdV3twviRA3nZ60DqCqzLthW7BxOiRplVg+JnuNbM
+	QzymV7/k9yLhfd3U3VdVzXpU4CL8sf5zZzmOTeAzQ0WvzkGjhtIqxoPXD3821apkkQdCuyzheAa
+	LyJo/vD4D4wEQwey9+Zinjzlh0AHpKTkhT9gWQ+BfvI32QToXSVGmJHD7Uz7FakUhrfB0InNKy/
+	j8Yla4U1R1oCdW0tueeGVKuK9pTE9hNKFulz0ETzTVLtLKnJKJUmoqDzKGDlPlcUeNBDqdx4Ok5
+	mBTuYkbzkHaolFkVllkn54VQayqiqs/qmSc0Ljytj5QGgmbx+W+q28VJqMyAMlVixH4yH8NJ75D
+	mvYGdDPlmhVpRcMElBAgbKIaa7o4uFyaokjjYmf3k9aB7cVdCMAHqJxmXUB6xD3YMcytO18O6wM
+	/Ty0f/vH2qBN0q3uJqyQipsIiIapSEhOytMIA0GLt8s1cZY+txPykSkHwPXaSkOw+h88nI9bvWy
+	NhUAMVIfM/M09cAtj7N1mdKJoUoe/x/6BjV1JwsBIFaWFeP67ck3PP6qGdXhCJotFHEjVBZ912Q
+	Q7bYDw+2ACn7GffnQp58ISwbB83VKbx5gxN8xe8X7Ix00oeVSd4vkvapWAwBpnsL48sjLNoU855
+	2rAI=
+X-Received: by 2002:a17:902:e852:b0:2ed:29a5:782d with SMTP id d9443c01a7336-2ee0dd0f21amr218160435ad.2.1794929022438;
+        Tue, 17 Nov 2026 07:23:42 -0800 (PST)
+Received: from DESKTOP-CJ1L666.localdomain ([211.198.99.62])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2efd7a11da1sm17810695ad.16.2026.11.17.07.23.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Nov 2026 07:23:42 -0800 (PST)
+From: Jiwoo Kim <arpe1618@gmail.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Sargun Dhillon <sargun@sargun.me>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Jann Horn <jannh@google.com>,
+	Chen Linxuan <me@black-desk.cn>,
+	linux-fsdevel@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] pidfd: restrict pidfd_getfd() to the caller's pid namespace
+Date: Wed, 18 Nov 2026 00:23:32 +0900
+Message-ID: <20261117152332.1221-1-arpe1618@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -51,165 +100,88 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
-Subject: Re: [PATCH v3 04/10] powerpc: kvm: allow flexible PAGE_OFFSET
-To: Arnd Bergmann <arnd@arndb.de>, Arnd Bergmann <arnd@kernel.org>,
- linux-mm@kvack.org, Crystal Wood <oss@buserror.net>
-Cc: Andreas Larsson <andreas@gaisler.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- "David Hildenbrand (Red Hat)" <david@kernel.org>,
- "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
- Jason Gunthorpe <jgg@nvidia.com>, Linus Walleij <linusw@kernel.org>,
- Lorenzo Stoakes <ljs@kernel.org>, Lucas Stach <l.stach@pengutronix.de>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Malin Jonsson <malin.jonsson@est.tech>, Matthew Wilcox
- <willy@infradead.org>, Michael Ellerman <mpe@ellerman.id.au>,
- Michal Simek <monstr@monstr.eu>, Mike Rapoport <rppt@kernel.org>,
- Nicholas Piggin <npiggin@gmail.com>, Nishanth Menon <nm@ti.com>,
- Richard Weinberger <richard@nod.at>, Russell King <linux@armlinux.org.uk>,
- Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, x86@kernel.org
-References: <20261116124832.662455-1-arnd@kernel.org>
- <20261116124832.662455-5-arnd@kernel.org>
- <afebfaf5-f3ee-4234-875d-e5ebf1ee64fd@kernel.org>
- <83495d02-4e09-40f0-94fe-e57a1e73d1a3@app.fastmail.com>
-Content-Language: fr-FR
-In-Reply-To: <83495d02-4e09-40f0-94fe-e57a1e73d1a3@app.fastmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
+pidfds can cross pid namespace boundaries: a task can obtain one for a
+process outside of its own pid namespace hierarchy through SO_PASSPIDFD
+or SO_PEERPIDFD, via SCM_RIGHTS, or through file descriptor
+inheritance.
 
+Commit ee8323fdc827 ("pidfd: restrict task access ioctls to the caller's
+pid namespace") made the pidfs namespace ioctls fail with -EREMOTE
+unless the target is visible in the caller's active pid namespace, as
+PIDFD_GET_INFO already does, following the rule that operations which
+grant access to additional resources of the target require this [1].
 
-Le 16/11/2026 à 23:54, Arnd Bergmann a écrit :
-> On Mon, Nov 16, 2026, at 14:38, Christophe Leroy (CS GROUP) wrote:
->> Le 16/11/2026 à 13:48, Arnd Bergmann a écrit :
->>> diff --git a/arch/powerpc/kvm/book3s_32_sr.S b/arch/powerpc/kvm/book3s_32_sr.S
->>> index 6cfcd20d4668..0d8a7857f2bd 100644
->>> --- a/arch/powerpc/kvm/book3s_32_sr.S
->>> +++ b/arch/powerpc/kvm/book3s_32_sr.S
->>> @@ -113,8 +113,8 @@
->>>    
->>>            li      r0, 4
->>>            mtctr   r0
->>> -	LOAD_REG_IMMEDIATE(r3, 0x20000000 | (0x111 * 0xc))
->>> -        lis     r4, 0xc000
->>> +	LOAD_REG_IMMEDIATE(r3, 0x20000000 | (0x111 * (PAGE_OFFSET >> 28)))
->>> +        lis     r4, (PAGE_OFFSET >> 16)
->>
->> This is not enough I think. You need to load ctr with the number of
->> segments you want to populate. Here above it is hardcoded to 4.
-> 
-> Ok, trying this one now
-> 
-> --- a/arch/powerpc/kvm/book3s_32_sr.S
-> +++ b/arch/powerpc/kvm/book3s_32_sr.S
-> @@ -107,14 +107,12 @@
->          KVM_LOAD_BAT(2, r9, r10, r11)
->          KVM_LOAD_BAT(3, r9, r10, r11)
->   
-> -       /* Restore Segment Registers */
-> -
-> -       /* 0xc - 0xf */
-> -
-> -        li      r0, 4
-> +       /* Restore Segment Registers, assumes PAGE_OFFSET is segment aligned */
-> +        li      r0, (0x100000000 - PAGE_OFFSET) >> 28
+pidfd_getfd() grants access to the target's open files, but it only
+performs the ptrace access check, which does not take the pid namespace
+relationship between the caller and the target into account. With the
+caller in a child pid namespace and in the same user namespace as the
+target, PIDFD_GET_INFO and PIDFD_GET_UTS_NAMESPACE fail with -EREMOTE
+for such a pidfd, while pidfd_getfd() on the same pidfd returns a
+duplicate of the target's file descriptor.
 
-Fine, thank should work allthough I would have used 0x10 - (PAGE_OFFSET 
- >> 28)
+Apply the same rule to pidfd_getfd() and fail with -EREMOTE unless the
+target is visible in the caller's active pid namespace. Callers in
+ancestor pid namespaces are unaffected.
 
->           mtctr   r0
-> -       LOAD_REG_IMMEDIATE(r3, 0x20000000 | (0x111 * 0xc))
-> -        lis     r4, 0xc000
-> +       LOAD_REG_IMMEDIATE(r3, 0x20000000 | (0x111 * (PAGE_OFFSET >> 28)))
+This was found with an AI coding assistant, which also drafted this
+patch and its changelog. The problem was reproduced in a QEMU guest,
+and the fix was tested there.
 
-Maybe an opportunity to replace 0x20000000 by SR_KP
+Link: https://lore.kernel.org/all/20260925-gewischt-auftrag-tierzucht-c153cb3f9f74@brauner/ [1]
+Fixes: 8649c322f75c ("pid: Implement pidfd_getfd syscall")
+Cc: stable@vger.kernel.org
+Signed-off-by: Jiwoo Kim <arpe1618@gmail.com>
+---
+-EREMOTE is a new error for pidfd_getfd(). The check is done before the
+task lookup, so, as with PIDFD_GET_INFO, a reaped target outside of the
+caller's pid namespace hierarchy gives -EREMOTE rather than -ESRCH, and
+the check comes before the ptrace access check.
 
-> +
-> +        lis     r4, PAGE_OFFSET@h
->   3:      mtsrin  r3, r4
->           addi    r3, r3, 0x111     /* increment VSID */
->           addis   r4, r4, 0x1000    /* address of next segment */
-> 
->>>    	/* Restore host IVPR before re-enabling interrupts. We cheat and know
->>> -	 * that Linux IVPR is always 0xc0000000. */
->>> -	lis	r3, 0xc000
->>> +	 * that Linux IVPR is always PAGE_OFFSET. */
->>> +	lis	r3, PAGE_OFFSET >> 16
->>
->> Maybe use PAGE_OFFSET@h instead of PAGE_OFFSET >> 16.
->>
->>>    	mtspr	SPRN_IVPR, r3
->>
->> That's probably valid but wouldn't it be more correct to use
->> interrupt_base@h as in head_44x.S and head_85xx.S :
->>
->> 	lis	r4,interrupt_base@h	/* IVPR only uses the high 16-bits */
->> 	mtspr	SPRN_IVPR,r4
-> 
-> Ok, copying that version now:
-> 
-> --- a/arch/powerpc/kvm/booke_interrupts.S
-> +++ b/arch/powerpc/kvm/booke_interrupts.S
-> @@ -229,9 +229,8 @@ _GLOBAL(kvmppc_resume_host)
->          mtspr   SPRN_PID1, r3
->   #endif
->   
-> -       /* Restore host IVPR before re-enabling interrupts. We cheat and know
-> -        * that Linux IVPR is always PAGE_OFFSET. */
-> -       lis     r3, PAGE_OFFSET >> 16
-> +       /* Restore host IVPR before re-enabling interrupts. */
-> +       lis     r3, interrupt_base@h    /* IVPR only uses the high 16-bits */
->          mtspr   SPRN_IVPR, r3
->   
->          /* Switch to kernel stack and jump to handler. */
-> 
->>> @@ -115,7 +115,8 @@ static u32 get_host_mas0(unsigned long eaddr)
->>>    	mtspr(SPRN_MAS6, 0);
->>>    	mas4 = mfspr(SPRN_MAS4);
->>>    	mtspr(SPRN_MAS4, mas4 & ~MAS4_TLBSEL_MASK);
->>> -	asm volatile("tlbsx 0, %0" : : "b" (eaddr & ~CONFIG_PAGE_OFFSET));
->>> +	asm volatile("tlbsx 0, %0" :
->>> +		: "b" (eaddr & (rounddown_pow_of_two(PAGE_OFFSET)-1)));
->>
->> I think this is not valid.
->>
->> With PAGE_OFFSET equal to 0xc0000000,
->>
->> Before:
->>
->> eaddr & 0x3fffffff
->>
->> Now:
->>
->> eaddr & (0x80000000 - 1) = eaddr & 0x7fffffff
-> 
-> I'm probably still misunderstanding the intention of this code then,
-> my reading of the comment was that both 0x3fffffff and 0x7fffffff
-> would be valid choices here as both are below PAGE_OFFSET and
-> large enough to alias the correct set.
-> 
-> What are the actual requirements for the mask?
+setns() also accepts such pidfds without this check, but it requires
+CAP_SYS_ADMIN over the namespaces being joined, so it is left alone
+here.
 
-I'm also struggling to understand this so I might be wrong. My 
-understanding at the moment is that here we are looking for the physical 
-address matching that effective addr in order to find the 1:1 MMU 
-mapping. The particularity of booke is that you cannot turn off the MMU, 
-so to simulate MMU off you have to have a MMU translation to translate 
-logical address 0 to physical address 0.
+A reproducer is available on request.
 
-Therefore IIUC the correct calculation should be (eaddr - PAGE_OFFSET)
+ kernel/pid.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
-I guess we need some feedback from Scott Cristal Wood, but I have not 
-seen this person recently on the lists.
+diff --git a/kernel/pid.c b/kernel/pid.c
+index adf721606768..4f9a29eb29de 100644
+--- a/kernel/pid.c
++++ b/kernel/pid.c
+@@ -893,6 +893,13 @@ static int pidfd_getfd(struct pid *pid, int fd)
+ 	struct file *file;
+ 	int ret;
+ 
++	/*
++	 * Require the target to be visible in the caller's pid namespace,
++	 * like the pidfs ioctls that grant access to its resources.
++	 */
++	if (!pid_vnr(pid))
++		return -EREMOTE;
++
+ 	task = get_pid_task(pid, PIDTYPE_PID);
+ 	if (!task)
+ 		return -ESRCH;
+@@ -917,9 +924,10 @@ static int pidfd_getfd(struct pid *pid, int fd)
+  *
+  * This syscall gets a copy of a file descriptor from another process
+  * based on the pidfd, and file descriptor number. It requires that
+- * the calling process has the ability to ptrace the process represented
+- * by the pidfd. The process which is having its file descriptor copied
+- * is otherwise unaffected.
++ * the process represented by the pidfd is visible in the caller's pid
++ * namespace and that the calling process has the ability to ptrace it.
++ * The process which is having its file descriptor copied is otherwise
++ * unaffected.
+  *
+  * Return: On success, a cloexec file descriptor is returned.
+  *         On error, a negative errno number will be returned.
 
-> 
-> Thanks for looking at these bits in detail, I'm quite out of my
-> comfort zone here, especially with the book-e stuff.
-> 
->          Arnd
+base-commit: 44cc27050381e92de64cc3d7836376eda4d92a5f
+-- 
+2.43.0
 
-
-Christophe
