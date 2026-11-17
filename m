@@ -1,90 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794914041;
-	b=oksKaYgQ+4UYUfrVFq5o9XQatYSlahkNx9P6IGLWdKGSGYEKfkspHmx39lIlT1liIF/M
-	 s2CyyZcgVkMC3bsvfHzFbe1C82j7IpVt8jBGf1HosvBOshY697mT1FvLVOK0tyO7DalpW
-	 aO66v+Gfly4mgI3ZOx07WzrxoXUCldqWlIQToFfl7oKyvhAIKs7cmtlU3/pMKpPZETXY/
-	 f/94EveGmE0p9fLm4dHf0ac+GRXcy8QgctFtCJoNM4muVPSf9sry+T2CoeCvLFQ5eO/Ff
-	 8BYiOc1egKoXJq7zNGKi/gKNQz4SsX+FZwRtnm7EqeywChRIQyWXGrJ/drDnJGtXr3A==
+	t=1794914162;
+	b=uPhuTLDQ1SWBYDLnFG0tH69rzBOoKOFmf9BmSNw6dm9O5u8kdGh3mVxvqMju0Ehvam5O
+	 avinWiOsy4efvJuollSSN2MJm5nR5xHXUhNsOk88wdvY0GVPbQTFt2/yuN8mx16UA0fct
+	 gI0oJgfvMoLXNdN7pj8XK02aIUlK7H0apMCiO3m7NUcObqrqEjbWVUppaMKhZbA5Jim2K
+	 O2xaE+uD+IPb0NTJ7DZMsnMRBuj3I66bY0LKdqRdp/LE7vvd7EXM8NEMz8Nmi2CgmP3eC
+	 OLozRVOJrPYKflSZ71ioS4z1VZ5Zh0SgXsqApfSv+xZN4E+VzsUPC94f0Ow++P+i2zA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794914041;
-	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:X-ME-Received:
-	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=9H04yuSe4iuUyFfUm6ir/Pk1kCN7uCCpIfbwJZv1Sk4=;
-	b=OWTqPA7Oi5qPqa7kwSY6efpqBkNGHEryPHRKF6p2sUk2FojafSkSB5/tCDSS9u7Fxjy4
-	 //ZkRgSMfNVuciKGfkeM77mLa1S3ko7K5qTqK1Y56leK+IGFwkbSmnX5MqoOfyn/ozikA
-	 bYRjq1564aB39u2ZNNX80rtjxdi7Q4VeNeFbkV+yTHRHlbk6SvLlVM5IOAr5/wubarENh
-	 0FxNVRoJOVWojudRm29IGe9pTpI+WelugbQdzEoS/MZfgGD9IMBSpDAtXwUwsKsjVPxNE
-	 QMrneNR0e+46y3bBq+rKQMsAqR8KqQuC42rQ9Pf70GKlyclcdrop4JuOMy0ZHnhbMXw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794914162;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=bfBKw5Dqe7/QCgl28CEIM4EiUR1wvD/Rw1mMg1W1wSQ=;
+	b=OT80uJifXfS7kKB4dTYOPvi//g3z0bnD1bKLjngb5LFGXhvFMWfVAnBS8EBYzkflhERl
+	 Bvq5YJjeQasnmm1Ca7zGj5wsWavP18UdckIWw3qLAjmiVFuklIhCozATpSz1UYj3eOHh2
+	 ysVwMclyerlcukrbEIEHhJ0YaCa3///L1ySvpTdriQt1ugTmTUsjHeB5+nBtoL6h0Ezp3
+	 PMWYpme3cSfXGBTndfmvmV46EPPlX6RrQmMrbFnMFcFDLSxpnr/dUXwzohEyLjSo1bUjz
+	 ReGhqBwWM4wF7PqQxJynUQp+QVU5ZfFD4w0G8kGscDq7/6b/P8reoVYgwUg2SST2aog==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BXNF7jBC;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YlkbXgUU;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF3CC606A31C;
-	Tue, 17 Nov 2026 11:14:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31D9A606A323
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 11:16:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BXNF7jBC
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD5AD1F000C4;
-	Tue, 17 Nov 2026 11:13:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YlkbXgUU
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDC8A1F000D4
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 11:16:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794914041;
-	bh=9H04yuSe4iuUyFfUm6ir/Pk1kCN7uCCpIfbwJZv1Sk4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=BXNF7jBCq6IBVRs8bcHuIiy4SYdEAvQD/1BqOxedgS0k4U9/MY0woGeDk7tyVGRsb
-	 FMbI970Ye+uivMM5rFr1bwBtQO+xoRBStGQUVguX6XRveP7A7ATuvrrtj0ECW4pecf
-	 waO/ybGcfsxuMq4WZ5Lj6G4Z+j2MMn0YlWxGxc0hjXe9NX3++Jslu1B2CQbvas8KVE
-	 HbAXjVHCSWCxr6EkbfYcE7vVuQOqZ5olMfFjKaBJ5XTc8KzjOVablmlbZwcDVPjLVA
-	 J1kscR14K0bMYVpcn3Ws/IHtY0XLhQ3RxJH3Y4k7GJwjCPGgdSy9phLftR/LBrQffJ
-	 BE6z7J0XKMftQ==
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfauth.ams.internal (Postfix) with ESMTP id 6D2AC198004A;
-	Tue, 17 Nov 2026 06:13:53 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Tue, 17 Nov 2026 06:13:58 -0500
-X-ME-Sender: <xms:8Db8av7h_UOsysMwvcP86csyLI0_L-Y0fG1zP_Y696MEVpVoGSo6pA>
-    <xme:8Db8ag_C-YcksC8UEt5JqwVrNrFqw7N4ayelai8n5bDdR44rqlcW-oj-dq30kswsm
-    TurKg_DLy8QPcQC18_IVy7cAgSuPNo0ucUTMY8f6Nf3JrRhjkCyWZux>
-X-ME-Received: <xmr:8Db8ajJpxWRgU6AnCZfhG1HOiM4eiQeGdPrQuQmTXehknwhbVc9wyuTJqDc>
-X-ME-Proxy-Cause: dmFkZTF+JKJTFhO7l5xRceP24AuGfujUQYiZxnoeyK5tA83zfmMRcw5/8FhiWDYeqCSpC6
-    T6IC9ySjUHbOB+fpES9ocjUyQ76AHREBXteYhc/tTYbmY+NhXgoz5EC9qWmtA/bgfx1HcQ
-    G3d0KvtgMZf8Ub9RJZlly0ltGkym3kClsfEB1T7YifuIlnuXXZdlnKkViCO3FwoDnOOoNU
-    fnC07yqnaRgq+GBlBbKihyppy/cbRRiQR+t3z+FOPNU+/WP4gEOzuHSdR4pA8vgm07oi2g
-    D3/E4LFSDXcLeLK/W8zOGBJMyubGd8PdT3AVGSvP39vq5QvTlAf9/kSmgnbhnuaJbtvetr
-    QZIlkZrx7vANum40gg4v0gwpBxHKHqEL+fAh/bqzhJNG0FBXdi9gYVPQv7BV+zxuXkiHFx
-    P9td+ZlRXFYdDU4DOehwuQZzkfrT5O4hw9eNghGseaPrMxtOOlyqszK/SsGikF0QYZdFuI
-    ULcq/QuFEs6cf00KI/A6/Bvr+f1CfBwzCXierY4ahyW6eSdqVyCzpz6dFMaQV/LqCuPMtd
-    k5OGuumM1Gv1yTxagC6J7H7NVrKyRWfZxMOGd5YwkFsimiV5aStmtxkyBAyFahfVVFV+Uv
-    VHwuJSGk7buXeLxgT9ESlFGJXKATIALexZo+JJBnJbrq7qBblldkdK45j4MQ
-X-ME-Proxy: <xmx:8Db8amfk0bunvDgiA6VEpYeOjqUloHypf2omjhvAtlcxCPmRt6ku3w>
-    <xmx:8Db8aiqEz6AHO-G1dIo6Cxt0yxpSiwmh59qHZ_AOWG-Fbk10sRnv5Q>
-    <xmx:8Db8anvHdUtnZwFV0GXcOVB8a_cROsYdtUX45OOlP2nTmQ2wKh4j-A>
-    <xmx:8Db8arci-RC-UdiaB5yKwSiLiY2Db1UCTL5QN-r_ic6fok36Lv83IA>
-    <xmx:8Db8akoOfVKWmLDdEFAHbFQrDXgCaRW25TF24W6hN7Ryn2vZzkFQ0TXE>
-Feedback-ID: i10464835:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 17 Nov 2026 06:13:52 -0500 (EST)
-Date: Tue, 17 Nov 2026 11:13:51 +0000
-From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
-To: Usama Arif <usama.arif@linux.dev>
-Cc: Andrew Morton <akpm@linux-foundation.org>, apopple@nvidia.com, 
-	byungchul@sk.com, david@kernel.org, gourry@gourry.net, jannh@google.com, 
-	joshua.hahnjy@gmail.com, liam@infradead.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, ljs@kernel.org, matthew.brost@intel.com, 
-	mhocko@suse.com, pfalcato@suse.de, rppt@kernel.org, surenb@google.com, 
-	vbabka@kernel.org, ying.huang@linux.alibaba.com, ziy@nvidia.com, hannes@cmpxchg.org, 
-	riel@surriel.com, shakeel.butt@linux.dev, kernel-team@meta.com, 
-	baolin.wang@linux.alibaba.com, Nico Pache <nico.pache@linux.dev>, ryan.roberts@arm.com, 
-	dev.jain@arm.com, baohua@kernel.org, lance.yang@linux.dev, stable@vger.kernel.org
-Subject: Re: [PATCH v2 4/4] fs/proc/task_mmu: account device-private PMDs as
- present in smaps
-Message-ID: <avw25cL2uCsbuPpC@shutemov.name>
-References: <20261116063624.1382944-1-usama.arif@linux.dev>
- <20261116063624.1382944-5-usama.arif@linux.dev>
+	s=k20260515; t=1794914161;
+	bh=bfBKw5Dqe7/QCgl28CEIM4EiUR1wvD/Rw1mMg1W1wSQ=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=YlkbXgUUQRhyrxgpsJ7Qvml07CSWbgUu8B9MBcv6Rb7T7SWdq8Aq1SQrmZk4EnAhp
+	 TcmeQ1ddK4h+Pu6rPK+bVxj9nTENOoMDtpxr/d7pzn6PP0stPZXXTCeTk/x9BdxWok
+	 By92sXJDNTF9T+YZxDMLuMMgthIA0MZbqwOtlsHUtiyjq7qF12Dwctp5QuSSU1oZ62
+	 3mIGTmaU9HYjlOR/Mw83mXoVkeR8viHwpqjJvVoFTQ+3NlPR3N4Vfq12juTxVu4Kvy
+	 pNy7xoR8tcMopGP9TY5NVo+AKp8eALuZYTDKFnCrTCR9bJzmyt4brkpbKPdrhEUdpo
+	 BZpOOnX6mFrCA==
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-c40f29667e6so793284166b.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 03:16:01 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErEiR07gFjRnPvKOXWZlyFVI4sxQpFMfd0+1NqJhjobXQzIFBSlJyNs9RvuZ944Rl4fqxZUJwIk0o34i6KCa@vger.kernel.org
+X-Gm-Message-State: APuU4Z8UZ5fbRIwvvKmq2axcsVx5H1xXztmq+cOsAAkZBbGuf+8+dZr+
+	ty5cWjWs3JL01d/Deao50t8GBxXAakV9ZBkDKO1++orM5PlTKWwW+GnfhG/HLhJq2MaQLhL3H9z
+	E+JAn0iQOXK4A7VGdVoM4urSUJPW7t/c=
+X-Received: by 2002:a17:907:3e9e:b0:c40:4848:f7fa with SMTP id
+ a640c23a62f3a-c50965421ebmr1168834366b.44.1794914160376; Tue, 17 Nov 2026
+ 03:16:00 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -94,27 +59,42 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261116063624.1382944-5-usama.arif@linux.dev>
+References: <20261116085752.3908082-1-chizhiling@163.com> <20261116085752.3908082-2-chizhiling@163.com>
+In-Reply-To: <20261116085752.3908082-2-chizhiling@163.com>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Tue, 17 Nov 2026 20:15:47 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd_wMVWSp1OZox-dF+G9x3seF1pTe436Y5dhR8LAqjtPdA@mail.gmail.com>
+X-Gm-Features: AclHuK_g651WVLWBvZ3JkfDxJ0juXOGnsif_vLCZ2PuPoqhZPKjOh8aIm_6kPfQ
+Message-ID: <CAKYAXd_wMVWSp1OZox-dF+G9x3seF1pTe436Y5dhR8LAqjtPdA@mail.gmail.com>
+Subject: Re: [PATCH v4 1/5] iomap: export iomap_bio_read_folio_range_sync()
+To: Chi Zhiling <chizhiling@163.com>, Christian Brauner <brauner@kernel.org>
+Cc: linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	exfat@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Sungjong Seo <sj1557.seo@samsung.com>, Yuezhang Mo <yuezhang.mo@sony.com>, 
+	"Darrick J. Wong" <djwong@kernel.org>, Chi Zhiling <chizhiling@kylinos.cn>, 
+	Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Nov 15, 2026 at 10:34:58PM -0800, Usama Arif wrote:
-> Device-private PMDs represent mapped pages, but smaps_pmd_entry()
-> passes present=false to smaps_account(). That treats them like migration
-> entries: mapcounts are ignored, PSS is charged in full, and exclusive
-> mappings are accounted as shared.
-> 
-> Match smaps_pte_entry() and mark device-private PMDs as present so
-> smaps_account() uses mapcounts for PSS and private/shared accounting.
-> 
-> Fixes: a30b48bf1b24 ("mm/migrate_device: implement THP migration of zone device pages")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Usama Arif <usama.arif@linux.dev>
-> Acked-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
-> Reviewed-by: Zi Yan <ziy@nvidia.com>
+On Mon, Nov 16, 2026 at 5:59=E2=80=AFPM Chi Zhiling <chizhiling@163.com> wr=
+ote:
+>
+> From: Chi Zhiling <chizhiling@kylinos.cn>
+>
+> Filesystems that provide a buffered write ->read_folio_range handler
+> need to perform the same synchronous bio read as the default handler.
+> Move the declaration of iomap_bio_read_folio_range_sync() from the
+> internal header to <linux/iomap.h>, together with the !CONFIG_BLOCK
+> fallback, and export it so that modular filesystems can call it.
+>
+> exfat will call it from its own ->read_folio_range handler to zero
+> the stale bytes between valid_size and the end of the block under
+> the folio lock during buffered writes.
+>
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> Signed-off-by: Chi Zhiling <chizhiling@kylinos.cn>
+Reviewed-by: Namjae Jeon <linkinjeon@kernel.org>
 
-Reviewed-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
-
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+Christian, if you apply this patch(1/5) to the iomap tree, I will
+apply the remaining patches (2-5) into the exFAT tree.
+Thanks!
