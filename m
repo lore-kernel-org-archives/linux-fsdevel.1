@@ -1,50 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794929163;
-	b=ILgfzOtwIsL3BiaQggdl5gXbPaxBIdNK/JlcTfMCYr2ogxQSDCHOsCn+lU6slxLTXEXB
-	 F1W0s6sOoCVCGIH9Ca2ZW5dGsAPNiNWuDBDcbubhDHPeM0aCbpkpz4d9hWCr+kItcT1Xd
-	 k9izPlhjFrj0698Jxt5wxiQA4stkiG8nwN+0Oj1fCNIT9gjMz6iwh2mzJtpfY5zLX0K59
-	 u4juvjv5kisUT0ri39BflixkP3cPAS0vDr26LiiqB9Hg+PwZSroz7oqPNfhixS2zppqHf
-	 PSsyB5Ta7w9ymPy3xTEaTLW96QjRqTw+5RpB1InMfmBeX4/lB84jczYnFotrP1bHnyA==
+	t=1794929168;
+	b=B2JqM+nsVJvqu9cw5Waqsu4RwH0muhT2F0keheTN/tZgjYygM98XHxHF+jllnYrOczxC
+	 R3gdaDwp7/IBwVfj4uylJgXRAjZG3LfJo5UoKvrqghbXT/6Da9hpm60HB2YE7Wh7IZbcd
+	 PWbOhRma9zl48NY6Xm3nphhkNfwmbqS/x3LOZmIPQIEnmGBe3KsWxbtiIdUBN/ieRnJre
+	 663UNm5CPclk+mUNqBcGNBGAmWy64F+9GWgWurbAHQTIQZKLC/zRX/WcOQZurR+mSysC3
+	 n0OQXyJuWh0I3O+PcG4mQo/kH1g7PkbTV2GZGpGwfSPi3ZqTCpluQL+M2zDYBZsyoSA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794929163;
-	h=Received:DKIM-Signature:From:Subject:Date:Message-Id:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
-	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=JtbH7+auCaVrsMrOZRI5NFONvBjla6W950PrbUlYR88=;
-	b=AOPD0oWs9XOgF6nuCYxsqKqsqdJw04XdOMlaEVvg85LpUBZkFb4EInz5C8SHCaRwlvCW
-	 H35GTHG6FT8mDJ59jgfaXjc3MKWOtqqDMTRIkwaNRlcecCYj8zK408YSQaO3lzj8vxvLK
-	 cX/edvlDWwKThBcMV3WDqcqiNpVl6AgxP17Ukdwb9LYm5rIh+X+fNKc8J8SeB7SJVqikg
-	 rlZpfFljbc8sgm6o3JJlt+t73pY1Xp5Y3ANHTTDpLfhxmVK9u4FB2s9v7Rvy8T5QP2U/e
-	 ACohN6S1pqpbqO2QdBscWggj1RzRGsSrqFWmGTEAoSi7wWaQqkVQCtMWxfWfVBydcVQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794929168;
+	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=HjNUQY5wJGY+yQbPK/40OwNZCuiDHKKrj8gStUJAzZ4=;
+	b=xe9HauzyWNMJIU5mig/bfjXB0fv7fJUIMiFtVNRl6Vtqdf3YLYI6Bp7sig/lt6Dmj+un
+	 3Gmv4LhKzIKxDXCXu+cugsAddLgaFarZ8g/ZHrsq+K4RkWzo0LOzWFkNggjggSwfuWJRX
+	 f1CjrwgCAlDNC+kqwiFd272Uzuxn7O5akTZWC2JQPOwWnqIxFfRKonYCjdD3YUyfqoytK
+	 f/o1Nuvj0ZHg7N10j58uCbYtCWZ6UEmC671OQ1argseeRDTw0eEPzJk+jNwm3cESldeof
+	 CflbZUUP8kxheLOOAjeF0zm1XHN3Jqr4FvWO38I8eoXSwn4K1EdoxeJY3vlDVklxpzQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="m/OvtLl8";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Iv0daWHi;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0846606A32C;
-	Tue, 17 Nov 2026 15:26:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78B7A606A32A;
+	Tue, 17 Nov 2026 15:26:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=m/OvtLl8
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32B261F000D0;
-	Tue, 17 Nov 2026 15:25:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Iv0daWHi
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 354E21F000C5;
+	Tue, 17 Nov 2026 15:26:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794929162;
-	bh=JtbH7+auCaVrsMrOZRI5NFONvBjla6W950PrbUlYR88=;
-	h=From:Subject:Date:To:Cc;
-	b=m/OvtLl83JygaZFNY4rbc114qH4Tos2nIqIJ/aSUVT++x2AJngIBe7Bv28c6FEp5b
-	 kHptqx7lYeaUgaGxYhQTF1LrPye/50GpPjnXQbBbZR6VkrmItEm0FgIOjLK45H+/51
-	 etJg2r4UXluEdpuKGd9JpONmhaZpOZMRcHYIhI7388TQtBhnfP6ruyhqiy+Q5Tjw+U
-	 7CYszaFqxfiI0hnd53VVJN2uiH+qctmkE1EpcvhIj2kQjvnJh60CMfqKXLn8hc9rke
-	 OgDCbWHjOcJxC5QD0ubYWPWkZ9elawDX0aPDDLODIH6IludQmM83mO5KAZAs4gz6Nr
-	 pi3gMYwUixdnw==
+	s=k20260515; t=1794929168;
+	bh=HjNUQY5wJGY+yQbPK/40OwNZCuiDHKKrj8gStUJAzZ4=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=Iv0daWHitVDEEurx0HisuhoiO01uIPBP4qjg2sNNQmV2SB89emeIkM1A+C7QLf0OS
+	 7pOwe5i310pVj1pLfRe0S8wwjnYXuP30WK21yUUu7GmZcD1Ll0pWFfQpqG/ZF6T2IQ
+	 UFEmijzSVV61VY8cR0YPcYT1ghsGIj60zC+YhfcCMrNpfE+EbqkhV2Ot9a9qE2Lhb2
+	 gdtWMnKrUBOLcfxjM1IdTtEdfm+FppGn+yP3JDUcvGMOjfzYq4zAypUSHe0YkGsHfi
+	 DG7+reUa3GKS5WZFE0seZyRGZhDcfTBiqIfC/q37fP7WsKJdFpcHMhAHofBHr8NplW
+	 yjd095qBnXU8w==
 From: Christian Brauner <brauner@kernel.org>
-Subject: [PATCH net 0/2] net: fix a pidfd leak with a short SO_PEERPIDFD
- optlen
-Date: Tue, 17 Nov 2026 16:25:29 +0100
-Message-Id: <20261117-work-net-peerpidfd_short_optlen-v1-0-a93f56288501@kernel.org>
+Date: Tue, 17 Nov 2026 16:25:31 +0100
+Subject: [PATCH net 2/2] selftests/net: check that a short SO_PEERPIDFD
+ optlen fails
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -56,57 +55,100 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/22Nyw7CIBREf6W5ayHQBT5+xZiGx62gBsiFqknTf
- xd063ImZ+asUJACFjgNKxA+QwkptiB3A1iv4xVZcC3DKEYlpdyzV6I7i1hZRqQc3Oym4hPVKeX
- 6wMiOUsuDUFY45aC9ZMI5vL+GM7QdXH5lWcwNbe3fHTO6IDOko/W96hbeaP7fwjsO2/YBfMMPk
- b8AAAA=
-X-Change-ID: 20261117-work-net-peerpidfd_short_optlen-91a1806c0d6d
+Message-Id: <20261117-work-net-peerpidfd_short_optlen-v1-2-a93f56288501@kernel.org>
+References: <20261117-work-net-peerpidfd_short_optlen-v1-0-a93f56288501@kernel.org>
+In-Reply-To: <20261117-work-net-peerpidfd_short_optlen-v1-0-a93f56288501@kernel.org>
 To: "David S. Miller" <davem@davemloft.net>, 
  Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
  Paolo Abeni <pabeni@redhat.com>
 Cc: Simon Horman <horms@kernel.org>, Kuniyuki Iwashima <kuniyu@google.com>, 
  Alexander Mikhalitsyn <alexander@mihalicyn.com>, netdev@vger.kernel.org, 
  linux-fsdevel@vger.kernel.org, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>, stable@vger.kernel.org, 
- Sashiko <sashiko-bot@kernel.org>
+ "Christian Brauner (Amutable)" <brauner@kernel.org>
 X-Mailer: b4 0.17-dev-04696
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1380; i=brauner@kernel.org;
- h=from:subject:message-id; bh=gUcViYGl+LX6lB1gmntdmHvvYliXKXEdZtb9qX2eE0M=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9KWKyipC4fJ7r95PTEhxChRKhKyIDjhoKdmsnbTXx3
- yDdwDOno5SFQYyLQVZMkcWh3SRcbjlPxWajTA2YOaxMIEMYuDgFYCIqjAz/IxafXa6z+tb6wrbX
- cT/C62YGO6vKH3+ec9R+B1fbgq+HvRj+6aaqZDcWeqpY3TPvVl0Uq//t+u7UuV9b5ui9lbfdUmX
- OAwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2137; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=TYh8HFgL2PecpXrVoV14t0VinycFc9TIzdqgeJ3yKOQ=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9KWLt2rK/ZitPn7vZhW9Vb5ZPbpSYrPFE0l+oIaG1g
+ PvV5/KcjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgImUrGRk2JbItdnz29vorrTt
+ mk0NTjeW1956wLo054BYl57Gyi1feBj+pyqZt03euT13o/vrJ3M+Wn75+Pn17brFe1QPJU18luK
+ iwQsA
 X-Developer-Key: i=brauner@kernel.org; a=openpgp;
  fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-SO_PEERPIDFD caps optlen at sizeof(int) but never rejects a shorter one.
-With an optlen of 0 to 3 getsockopt() still installs a pidfd and copies
-only part of the fd number to userspace, or none of it. The caller can't
-close an fd it doesn't know about, so the pidfd sticks around until the
-process exits.
+Cover SO_PEERPIDFD and SO_PEERPIDFD_THREAD with an optlen of 0 to 3:
 
-That's been the case since SO_PEERPIDFD went in for v6.5. When I moved
-the code into a helper for SO_PEERPIDFD_THREAD in v7.4-rc1 I kept the
-bug, so the new option has it too.
+- getsockopt() fails with EINVAL
+- optlen and the buffer stay untouched
+- no pidfd is installed in the file descriptor table
 
-So just fail with EINVAL before we prepare the pidfd. SCM_PIDFD already
-does the equivalent and sets MSG_CTRUNC before it allocates anything.
-The second patch adds a selftest.
-
-Note that before v7.4 the code still lives inline in sk_getsockopt(). So
-the fix won't apply to the stable trees as is but the change there is
-the same.
+Check that a full-sized buffer still gets a pidfd.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
-Christian Brauner (2):
-      net: don't leak pidfds through a short SO_PEERPIDFD optlen
-      selftests/net: check that a short SO_PEERPIDFD optlen fails
-
- net/core/sock.c                                 |  6 ++-
  tools/testing/selftests/net/af_unix/scm_pidfd.c | 51 +++++++++++++++++++++++++
- 2 files changed, 55 insertions(+), 2 deletions(-)
----
-base-commit: 666539eecdf4db623f5e3c3e55cf9f2dfad24aa4
-change-id: 20261117-work-net-peerpidfd_short_optlen-91a1806c0d6d
+ 1 file changed, 51 insertions(+)
+
+diff --git a/tools/testing/selftests/net/af_unix/scm_pidfd.c b/tools/testing/selftests/net/af_unix/scm_pidfd.c
+index cbe53fab44fc5..c26f055a19032 100644
+--- a/tools/testing/selftests/net/af_unix/scm_pidfd.c
++++ b/tools/testing/selftests/net/af_unix/scm_pidfd.c
+@@ -1155,4 +1155,55 @@ TEST(so_peerpidfd_thread)
+ 	close(server);
+ }
+ 
++/* The lowest free file descriptor, where the next pidfd would land. */
++static int lowest_free_fd(int fd)
++{
++	int nfd;
++
++	nfd = dup(fd);
++	if (nfd >= 0)
++		close(nfd);
++	return nfd;
++}
++
++/* A short optlen must fail without installing a pidfd. */
++TEST(so_peerpidfd_short_optlen)
++{
++	const int optnames[] = { SO_PEERPIDFD, SO_PEERPIDFD_THREAD };
++	int sv[2], i, free_fd, pidfd;
++	socklen_t len, optlen;
++
++	ASSERT_EQ(0, socketpair(AF_UNIX, SOCK_STREAM, 0, sv));
++
++	for (i = 0; i < ARRAY_SIZE(optnames); i++) {
++		for (len = 0; len < sizeof(pidfd); len++) {
++			free_fd = lowest_free_fd(sv[0]);
++			ASSERT_LE(0, free_fd);
++
++			pidfd = -1;
++			optlen = len;
++			ASSERT_EQ(-1, getsockopt(sv[0], SOL_SOCKET, optnames[i],
++						 &pidfd, &optlen));
++			ASSERT_EQ(EINVAL, errno);
++			EXPECT_EQ(len, optlen);
++			EXPECT_EQ(-1, pidfd);
++
++			/* No pidfd was installed behind our back. */
++			ASSERT_EQ(free_fd, lowest_free_fd(sv[0]));
++		}
++
++		/* A full-sized buffer still gets the pidfd. */
++		free_fd = lowest_free_fd(sv[0]);
++		optlen = sizeof(pidfd);
++		ASSERT_EQ(0, getsockopt(sv[0], SOL_SOCKET, optnames[i],
++					&pidfd, &optlen));
++		EXPECT_EQ(sizeof(pidfd), optlen);
++		EXPECT_EQ(free_fd, pidfd);
++		close(pidfd);
++	}
++
++	close(sv[0]);
++	close(sv[1]);
++}
++
+ TEST_HARNESS_MAIN
+
+-- 
+2.53.0
 
