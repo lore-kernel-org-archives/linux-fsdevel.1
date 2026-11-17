@@ -1,104 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.179
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794905254;
-	b=zNWohxKIVp6/N9ZpuvAfabR+MDQnZ97l+El5fWbxrzCAzhiG9k26bMshceQJ6Kv831K+
-	 jaZ+giz0b8FFInO5skq7akoHB4zJS+xNYoIA8jke40FhRZl+dbEPvPocnEupbAn/VjUVb
-	 mF+3UNNGhVDdn/3KLbMhQ8/voLG0HCGKR3E7D5HrAiui1C4xjbn36h03vVra1o7+ad0q+
-	 tbnC/Vf7i92WtVLZD6R6uFWcEVarIiBrzlyzjpet34NzmSkQOpBhhoMmTBa/qdAanwPOb
-	 v4rjwBSXH6ePLsKg9FpEALPbQ3Yw8EOIYDOKhFOBbyCQhX4Vb1er8r8SptRZsKu2+lg==
+	t=1794906273;
+	b=BbUS6HqBd176NntKyWOYbJ8FKOk6X3rp5J2IHZOXxHg7fpVeilJI1Xxe43SAu9pyMlWL
+	 bfCL/8sT3PkmTyUCJd4si3Fcj0em8MmiMk+iusfFoD7L+CLWOwSeYxoSDUfwwy+VXJFMq
+	 OGqxsKo3DhHQP5z524zsMLbrlBFpPPZ/e9QiSOsicqLgJIwsa8ez0wCKr0m8BlKmnVP8Z
+	 bRH6OTgDzPJ/idJtOfYRJ1wFO6Zq9BcNNDml7PxKLykvBfq1igWFMNenw4EykisIrVlsf
+	 sT0d1pMu2W5I28+jFQzp4KQg7klC9nfvTLkUX812YUwBBTLKef5STYsTUxWM5G5Ce7Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794905254;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794906273;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:X-Mailer:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=s3M1bSOBYt5gL2unmdOFOAn92UpRxf2onmyD1mml+iQ=;
-	b=4rZBPZqso4Rd/mV+9VejUUKlzCJdEbx1wScKBtC4sbTyhuG1iRtNJSkjvDqIAsE0WYAn
-	 y/8NuaXAR+9F6MnwkxbDvTnVkHUO48SVvioDmDEL9g8RiA1NW4M4pK0Nep24Di01M5G/a
-	 sLai5gevSwh+VmZVOXwzwTBZDgHsADmwElwDfZZx7EC0j2duhpppINcCTwtMTdYLjW/0e
-	 gQbOBLoJbsWoenT4YhOY57X9BX8iGwON1s7Bcaav3G3j6Ew8Gy3u4AQfsUmadGYmisCaS
-	 Qh8eKY3T1SbTFSLH537Xw4n2PJnZCRtdGUpTbMd0VQBv9zODd9+SXD/PilQnC59PJKA==
+	 Date:From:To:Cc:Subject:In-Reply-To:References:MIME-Version:
+	 Content-Type:Content-Disposition:Message-ID:User-Agent;
+	bh=NFfn01r/I2+FlzODQuMnSDaVkhXc6007Ui5uRs6gM1U=;
+	b=e9Vp98abyROemk9diFh6sHIr3LMsEU35BbVtaPDqNWYpj5IDyUEIZ/A1dvJJx5k/l4FO
+	 SEq9u6f+bUYHx1IWS+wqYsUUAUCyOmxEqKchSoYXkpbaUn0NdN1+mq0ZNroRT3Up4oGeS
+	 DvJ2qqZrQOSscMrXvqbfII5ceLiKNX/aCHpKtRxoRTxJwvkZp8MUXnNw19feOtxh4qPgg
+	 QM98HwCg9F/Tzd5sXWo/0lJFCpjYiVAIrx/evHnz2vD6EQ3jZd6UKhENRk2mTl3vq7UNr
+	 wCI3+mJao75bUb2sK0yIXK1Z9iQZm5nXqxUgBJEv4DjwzlDBL7m9ECWBopjJayCTZqQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=paG2evd6;
-	arc=none smtp.remote-ip=209.85.221.42
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	dmarc=pass header.from=chrisdown.name;
+	spf=pass smtp.mailfrom=chrisdown.name;
+	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=QR2IjSll;
+	arc=none smtp.remote-ip=209.85.210.179
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54ACD606A891
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 08:47:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 54ACD606A891
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A99D606A31C
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 09:04:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4A99D606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chrisdown.name
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chrisdown.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=paG2evd6
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-491971ac844so3743113f8f.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 00:47:34 -0800 (PST)
+	dkim=pass (1024-bit key, unprotected) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=QR2IjSll
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-8b4c8b51b58so3570810b3a.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 01:04:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794905253; x=1795510053; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+        d=chrisdown.name; s=google; t=1794906273; x=1795511073; darn=vger.kernel.org;
+        h=user-agent:message-id:content-disposition:content-type:mime-version
+         :references:in-reply-to:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=s3M1bSOBYt5gL2unmdOFOAn92UpRxf2onmyD1mml+iQ=;
-        b=paG2evd6MD9xh5NrI3KFfHIvZHv4F2/vrRCU9ssrPWN5wCLSTZBF23eoz4I8dCC+/c
-         2ugnJY5Wxct2xzBsFpiEAthtgG0dlSHV91NMwhNci0H6Mzz+l8+LsJnw2bh89kHjn4Jt
-         50/dLxzD5nqtaxJXY6wlIkg+FT0Ibf7E2dBQJdcgLlc9mykk8YCLZrbJePv45Cu+t340
-         klDoQtgwpY1C81Wm1chUo9HmWscyCgQ4aOMSr3RQXcrRlou+8WjbuKgAItgYH7F819dN
-         6BhWO11IagfyEvdROrCQHJv3QvWsqAuNjHVu68TEumbWmFXtNmbSKzmEeaBfWM+/+zeJ
-         ooWg==
+        bh=NFfn01r/I2+FlzODQuMnSDaVkhXc6007Ui5uRs6gM1U=;
+        b=QR2IjSllwZCap7dIGsWvdGybMobHzhdf0K6ybXEmYE5E44+iEXK7q1GYERnNlXkhKY
+         GC2wvGo73nc1+dmssWwyPDR4NH+7UtaHFaDiGWU2HvBNZCH0755DyexnRvKOm5LXrV3E
+         Lf3PKTlI8WrlDJQEfJrk4qRjoMmsKTYJFbpbg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794905253; x=1795510053;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20260707; t=1794906273; x=1795511073;
+        h=user-agent:message-id:content-disposition:content-type:mime-version
+         :references:in-reply-to:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=s3M1bSOBYt5gL2unmdOFOAn92UpRxf2onmyD1mml+iQ=;
-        b=hSH2Ted1w08uAsScveEnaOE1HCQ+tslia5IOtxeMZmePmkEknw4lnS6DD3cmg0es08
-         JR6zX2nGKJ/H/OScmwolPVe6Tc92hFLOsiapAtpvjgts+y0o+hSc4Uq7q8juooNy4clW
-         sibQryKMnnRfzsKKBWNPj2eJo0DIr+MYa1u1BakL9tkZZxZZc8TPVjkmY1EU9PHaGMuj
-         7qz+9nwa1i6Lv6fh1lfiEVJVcKV0ZQ4LNgGxDmE5deePIVFwyy1lWvFo38VD2ExhBP2K
-         QQfIvoB5Fhl3FqEO9+rLaQ8dpiT4lM7y8A7SKVSCWyd22lMFou+YO9zvER22lbIo12MR
-         wQWw==
-X-Forwarded-Encrypted: i=1; AL+hErEvSxO4pT6Usbt4nGb69fcvc4aPJmQa6s/959uSDjYPFdNtVf6+wt0EuIT7yy6e8J2cu7I3spm+S2aOanXC@vger.kernel.org
-X-Gm-Message-State: APuU4Z/+hJ48p7mHFGQHaL5EVy0/QPNc0lmQN4dFB7h2RgCOQr+VuXnv
-	qwRw+SHB7Ej2yymQQoNuac2VPGSsGE2L7YFMmbbpGIYaJVwRwEn/7eh9
-X-Gm-Gg: AZFdTZe7uYliu3drzEmDifS17OgvcMl2swAqqZbq2hqBmXSA86e1BOakjqvRYUTKyrL
-	BfejUZL7RRb3kgPjgHOgZkHi4C5RyrTeZkV4LDjnA+EVXYjUWG2wdpkvU4XU/6Z9/5KIByGKeE3
-	DQDad3J5KeebiKrp0BtrMUIguqWaoJ8+DGIie/0SIg0ZFQWh/4u5rSq0dKxeaNPXEAVcnKvOJjv
-	Puj8PySHiR/DXkHOqLSUckxEGBsYXRg13ooWI9XBIQkCl8LIcZLNWRo+wWetyFR8g+GA5QYmEf+
-	CxuzESH3GZWm8GvBjUoqFGnWuHL53PvVjg+LcG0XV+lIAlDhFl06XQFpDDxLjkcxDhlb+dhniSH
-	LtbQth6toWqBnthml8NZIGjll/1Php/iOzCCRnXCaUPT0Xy5a86a6IOcxg9GFuZ5TKOa6iwzkRs
-	2TXBlo/acrM89YPfiRsLygGywJxsKE4/gtsbEKrhMxcM8D5zsOrkAXif+fcoXPMQieyl9lHTgvC
-	s9nYj0ZQ92hXa3oQj8+L+P8jQ1Gni8KCxMwyjIZGDMImLljBJzWv5Zr9f8pUhzO2Z43j2lq2L6/
-	pg/ToATOormuGNJ9EDFYtXR/MyLWavcrf8hR7M6HC+8jkkxvRV/XPz6AJzizZ/nbhQ==
-X-Received: by 2002:a05:6000:46c2:b0:48f:db47:6ebf with SMTP id ffacd0b85a97d-49c729bb31fmr19089884f8f.38.1794905252525;
-        Tue, 17 Nov 2026 00:47:32 -0800 (PST)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a43775f9b9sm2739633f8f.26.2026.11.17.00.47.32
+        bh=NFfn01r/I2+FlzODQuMnSDaVkhXc6007Ui5uRs6gM1U=;
+        b=Kj4Koct8pTwjQBq/YD5KDzohqHnnKk0VVIZAETl2c7+pun1kIAHVviR8SDt+j9u1o+
+         D0PpSewXlqomOGEXnjdFArazQRqnBLlVwUsuBxKMUwmg74tGQpmQJKzj+AXWVkLJuocB
+         jRWKjrkt8gXYSHBxc1qCJw1FJrcWsKUDoGmtyvwot7hMGQsV7wjdGhYqsog2BW8lOw8d
+         vRhsBr3Tv9HHlozBSSsJtW/aheoHVHV9DLj2eu5ED1ZsT1Kfkoj4lISgfxfTB2T5GnEi
+         GF3cl7wn7lvVfiaVZjgeUg6d24+97dEwnipf5z9DjKpKG6A53vY1J7YR/sENtSBoyiKn
+         pw/A==
+X-Forwarded-Encrypted: i=1; AL+hErFR+gYyHIaWMx1bAHSvZAxWEC+HXcN8K5bjqqQBRjVC2VQY3fxsRoG9lUeTdqpp3y8WnPndIATMmeAUqrkE@vger.kernel.org
+X-Gm-Message-State: APuU4Z+JkKUFY5wUqaPOch7HOgHnsKt8K6USteYpgE+Kz8iFCjwZD0xp
+	JE8aNTM93WTJwtORs2ccpLWf9SEZQ7KEvayvuO9F+bv7JNXWYUgwSGZFMT6bMmks8Z0=
+X-Gm-Gg: AYBFou1qJqVv5WTHqr2d0lpTrEVXc+m5AGqVYyLyn0naxLp1YrL0/bCA32BxF0/nnO2
+	4bolRjxc9bANvX4je02dgIrbrBJO88RyOGDiJbC1DkH9A3XI1Ul5/pBHY7625LJk9hUfn9UToT5
+	yuu9GHqX9RpoK78qQ7QECy3NNIyRWxOxqogRl8lTvCSbcKCqB9SyaIcgVEfp85GgbUjF8Yj+R7j
+	I1LeSrpEJW5+nDgDBXQRhn0BocKHzYXThFw1HqI0h2O8XLOTWlZv2Ek6w+pKhWYMjPZoemaUtWE
+	0ac/TcK9QOVikKBE4TeJBDLfnc4j99IALf8tfZ6GgVrksJQX3nyyRr7/3cXW5NvZqsPEH61hzq0
+	DORFV/ndFynMU7RnSU2v2fH+HKe1b6lG3mfrTy225DziWSYSqQqjRNxdmwcY9iNut//LJfhYQyF
+	KYwnMNuZYXXf6OV+tBdVlCCGWz3vybyiWju9oFdFHX9Wv9xVn4xp35Pb8ayVbWfzdGZJuAsI7p2
+	358vnoiQgkwGfX2A3aT3zFe/7HuxsJKu0ZzxcEX6fZexeJDpWA0LKkLKRdNLbcU0RqVDfdthdna
+	adX185lzKNu2PlVZjt+rltgSmq6cWGiQ3iFui9ozIM45g9vuQ8+MFw22XBmmpv9zSQEWCr9tGGG
+	XllkJEVd9PbH5TQSC5JeBkNgMRJsUta4e5acF98GTX6jkhUQtKb5+9ntzc/Szz7U6vdUeYrRCOf
+	Eo1aYKizNTOvF0yI5IxFZKSNUwXYQfteiIIs46C++nNqSh857xceUQGmht71TiPf35
+X-Received: by 2002:a05:6a00:4518:b0:8b4:b88a:c2d6 with SMTP id d2e1a72fcca58-8beb6d604a3mr11459421b3a.39.1794906272633;
+        Tue, 17 Nov 2026 01:04:32 -0800 (PST)
+Received: from [172.20.0.3] ([172.56.235.113])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8bed20548fbsm5091791b3a.37.2026.11.17.01.04.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 00:47:32 -0800 (PST)
-Date: Tue, 17 Nov 2026 08:47:27 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: "Theodore Tso" <tytso@mit.edu>
-Cc: Gabriel Krisman Bertazi <krisman@suse.de>, Sarthak Kukreti
- <sarthakkukreti@google.com>, Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu
- <chao@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian
- Brauner <brauner@kernel.org>, Gabriel Krisman Bertazi
- <krisman@collabora.co.uk>, Eric Biggers <ebiggers@google.com>, Dmitry
- Torokhov <dtor@google.com>, linux-fsdevel@vger.kernel.org,
- linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] libfs: reject casefolded names that fold to ".",
- "..", or empty
-Message-ID: <20261117084727.0cfa196a@pumpkin>
-In-Reply-To: <avu0X5E298dHRBHY@mit.edu>
-References: <20261113065332.929085-1-sarthakkukreti@google.com>
-	<20261113065332.929085-2-sarthakkukreti@google.com>
-	<878q2swoxp.fsf@cartola>
-	<avu0X5E298dHRBHY@mit.edu>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+        Tue, 17 Nov 2026 01:04:31 -0800 (PST)
+Date: Tue, 17 Nov 2026 01:04:28 -0800
+From: Chris Down <chris@chrisdown.name>
+To: Breno Leitao <leitao@debian.org>
+Cc: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
+	kernel-team@meta.com, Mateusz Guzik <mjguzik@gmail.com>
+Subject: Re: [PATCH RFC 0/3] fs/pipe: copy a run of pipe buffers in one user
+	access section
+In-Reply-To: <20261113-pipe-pool-regression-smap-v1-0-b0dc69558ab3@debian.org>
+References: <20261113-pipe-pool-regression-smap-v1-0-b0dc69558ab3@debian.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -108,43 +102,37 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Message-ID: <avwYnDc2Au4mnHTd@chrisdown.name>
+User-Agent: Mutt/2.4.3 (cc9e3943) (2026-10-09)
 
-On Mon, 16 Nov 2026 21:00:06 -0500
-"Theodore Tso" <tytso@mit.edu> wrote:
+Hi Breno,
 
-> On Mon, Nov 16, 2026 at 02:34:26PM -0500, Gabriel Krisman Bertazi wrote:
-> > Either way, this issue is another example of why treating ignorable code
-> > points as 0-length strings was a bad idea.  I'd very much rather
-> > utf8_casefold would treat all ignorable code points as foldable to
-> > themselves, (i.e. commit 5c26d2f1d3f5 ("unicode: Don't special case
-> > ignorable code points")), but that was tried and broke applications
-> > that relied on variant selectors code-points being ignored.  
-> 
-> Sigh... I really think these characters are *evil*.  I wonder if we
-> should simply drop those code points unconditionally when they are fed
-> to the kernel --- not only folding to themselves, but *not* preserving
-> them when a misguided application tries to create a file with one of
-> these misbegotten Unicode charactesr.
+Breno Leitao writes:
+>fs/pipe.c into lib/iov_iter.c. The main question is whether that helper
+>is welcome there, or, make the party a bit uglier.
 
-Doesn't that assume that filenames are UTF8 rather than just sequences
-of bytes with everything except '\0' and '/' being valid.
-Casefolding is itself so evil/impossible it shouldn't have been allowed.
+Hmm, I think the part more likely to get pushback is patch 1, rather
+than where the helper lives. :-) It adds an x86-only user copy primitive,
+and then lib/iov_iter.c has to look for it with an #ifdef on its name,
+which the patch (rightly) acknowledges as a bit of a Macgyver.
 
-David
+When Christophe proposed another user copy variant in April, Linus asked
+for the existing unsafe_copy_*() helpers to be extended instead of
+growing a new interface [1]. And in a related thread he called x86's
+unsafe_copy_to_user() "almost entirely unoptimized" [2], which is the
+same reason patch 1 gives for not using it.
 
-> 
-> I'd prefer to simply reject creating them with an EINVAL, but it's
-> likely that will break those stupid applications....
-> 
-> Eventually we can have e2fsck offer to fix directories with those
-> characters, and eventually we can make these characters become a bad
-> memory.
-> 
-> The other question is what *other* evil misdesigns are in the unicode
-> spec that we should be preactively trying to addressw hile we're at it?
-> 
->      	     	       		   	     - Ted
-> 
+Based on that discussion, I'd think that the better way would be to make
+x86's unsafe_copy_to_user() use the rep movs body from patch 1 for
+larger copies. Then copy_bvecs_to_iter_full() can be written with
+scoped_user_write_access_size() and unsafe_copy_to_user() for every
+architecture, without the #ifdef.
 
+[1] https://lore.kernel.org/all/CAHk-=whC1DZojwdMB1=sJWG2=dsCdfyU8N6tDE1qx50HRZ-WJQ@mail.gmail.com/
+[2] https://lore.kernel.org/all/CAHk-=wi1rrcijcD0i7V7JD6bLL-yKHUX-hcxtLx=BUd34phdug@mail.gmail.com/
+
+Thanks!
+
+Chris
