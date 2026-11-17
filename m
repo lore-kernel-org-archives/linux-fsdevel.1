@@ -1,102 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.170
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.173
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794954151;
-	b=Qw9p4MpVmL29+qleB0gCqzxxbSLTu9LRtTDG5zV+8bdVi9HzcJLSbcIKQKIqEmIp5dLJ
-	 8bIiXZ5j0Bve/K4QKIaAFJOJTb8xr4MCAzM3ZHIpRdQfEuVJG7IRnCzqg/VJN54ziAcGf
-	 Vn07TZE6mgFGTF2R9SGI0AIGQEAdNnOeuyuh/OFn39WE5oUDH75WO7BTkVzQ1lf6eHfQT
-	 2mAkTPo2K+NfJzNCZ5QzQld4A2IyZyVFQk2lUgbBT8WpvJjLbppLH8Dbe6CFFmZ3Vi1PC
-	 9+Jfw6684qFOsD6UaSlzSGfL1vHnFLJadw2aqxlEUbveKyRtdSBD27Um2GR0tgI4UhA==
+	t=1794954243;
+	b=TazJh4pnkwEYGW3tw4A4n1ijKAkFhWpk7ZqKJFBraPYCRk0OibaE1Zwgy8beeAmjTj1E
+	 dVQyNCkDcAHWW8eiXiBhvwHP0mZEiD89+gatgDKkr4K8IIfgfOrOx8q8I++OeIOQzrefu
+	 OlYEM8L7xJxmNULfMmP7w3kb1a5LSfCmKgGaj3FHMrrhn+ofokLgg7mWVuGqs0pvwmuOZ
+	 dS7A9jlKAFtA5WzAMZDpwGDqih1uY/F+0hhCFImjxwuVOvBTareqvkHtED+Awqnh+Abor
+	 ZIEcqZ9FpVhG20iJCpvJGpQ0djG5SKRktdkGb0QKv/1zJcKrJodmsY8jznMNgn68Urg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794954151;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794954243;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:Autocrypt:
 	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
-	bh=BPOoxnp68VvHIfQPbQ8/kLgA/UU51CReEkh25KzMnk0=;
-	b=4POB2wj69Yddp6g5yez6OwN97/9mGcNNI8klJA9mCrgylP1XOyYqnRUubi7212egXC7H
-	 QLlXSKGvT4PTfNvv5coQ/3e5piLgH6tE+ueOPz97CpG42SzfaZBfWBgHQxHSacRUIYf0G
-	 yIiZi/NB3Kl2TFU7w+ItW1Odzz5Rdpw+Sxazvm4uZK2RH2KpWo0e92gFN/KdbkI1AW2O7
-	 PuUvqO8P75srQoDkOJ11W0TCqXlyVgs69J0sPf4+55DyrYHArQRJ02JTb9zxDjJDh+wKU
-	 yzAeGozXjCggr3k6vSPvZVZ/KxixOJKJcNEJl++eedc3IGGlbujTJXYCZWGnJGg6XpQ==
+	bh=LwIqolplvFPQ8pLuOMIrUwJFLJoIjzlGmOqkccHeiSs=;
+	b=C48gFWxmWjVh9u+osYpk1uc5JMwpbiR1PXp8D4ie0/HRIz8CctSsXlMocr253N4ZrQhf
+	 L1qKMKu+Eq0mJ95rOyQkYzTRTy5uluycQ5sgOiiWqc4R+ZBypOGMFfB3vdldnx2QEnxb0
+	 kahOEKdM/Tjm9RfycCfw3RfaFtG5FZUKyT0UGZ/tzgCibieo3omdkyi62iTqViUg4/EcZ
+	 4KxzffROgiS14VqEsqzXOswUrb2bJzdAW52BMogUr4wXL6YamVbxyy3fOJBIxpwHpYeRV
+	 4jF5LLaopz8qkeV3Brl29fKSs9z/8wLFhcZGoT/BSP2NxoL5S0Sh/poE6cNiZrLFdAw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=dubeyko.com;
 	spf=pass smtp.mailfrom=dubeyko.com;
-	dkim=pass header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=Y6+PvRpn;
-	arc=none smtp.remote-ip=209.85.128.170
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+	dkim=pass header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=JAfkUKxM;
+	arc=none smtp.remote-ip=209.85.128.173
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2A11606A31C
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 22:22:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A2A11606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 980D8606A330
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 22:24:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 980D8606A330
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=Y6+PvRpn
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-8b315dd057bso2037987b3.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 14:22:30 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=JAfkUKxM
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-8b4fb5d96b3so3288277b3.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 14:24:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20260707.gappssmtp.com; s=20260707; t=1794954149; x=1795558949; darn=vger.kernel.org;
+        d=dubeyko-com.20260707.gappssmtp.com; s=20260707; t=1794954242; x=1795559042; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
          :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=BPOoxnp68VvHIfQPbQ8/kLgA/UU51CReEkh25KzMnk0=;
-        b=Y6+PvRpnRsFmOY3aoCmR2ePK2d60JIWwDBoZVSJWnsvZq3JWDcSCxMNMMpjPpkHSG9
-         AGENckrswucqKmhx00PH92MZRLPBANkYAWKc69EuPerft9FRc5WwehKUVvyNb66kouPx
-         CDv/D6BqHQSgLZEJZkRbyYilFWGGd10K4UXMPn4DYV5UDDH9La9tGxzPQ+JCCVQC4n6v
-         4zwQSS6j9EN8ndbEuWeoBsDagFRQhVGtbKVUNM38O83X4av8O8eLnZjTvOI8TW8sEqay
-         UGEgleVgmieoYz+KFBCBed8uZA4K0dbq5ViKP0C6EpJnSq/zdkWwFRbvZ1yP87zY/UEQ
-         yZZA==
+        bh=LwIqolplvFPQ8pLuOMIrUwJFLJoIjzlGmOqkccHeiSs=;
+        b=JAfkUKxMIsZ9O/19B1RDiMZsWMjGMjj2HySow2eJJaOuEHZmxAVo1pEZ9GdUwC3Mf8
+         wJjvXZOqxcswIa+NPUx+Drmq0C+6JwlEac4+q+X5HvdQrQ0KDNDfD5ciOlpQx3XvCk7x
+         o73JycHTsjJGGZXnpRM1EQFUxfWbNoVNFFa6wAq3BhZSodNnQIAmaCmEv9FHT6QaQ6zs
+         sT5J4yuTf5m64vuv/SPu0MVDX0Fice4rl1umUYadAegsk+1xqJVMB17W9iIap0CTehHz
+         yBUV9AztexpUsvx1Q+AehZ9iitI76Wm54z8kCG3zRxlpWE39ytqe5z6vzgynPA4eXyOW
+         PJOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794954149; x=1795558949;
+        d=1e100.net; s=20260707; t=1794954242; x=1795559042;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=BPOoxnp68VvHIfQPbQ8/kLgA/UU51CReEkh25KzMnk0=;
-        b=zRgutbVZp0CxXsb2B1y2x5cPh54/BTkEzSCEhLn1qVsajldbgzn+U8cKPpgUsH+c+O
-         RfZN44SWrwbqApjr0TPHQLFeV9KGXIzpt3HdmEbZD58vJBkM29JjdZQ1nKx1pc0chCrM
-         oHPRgJeTQKbOjYOi9YL0hyK/9iK5X8y93qbTTp7SYSHqckmWAJA5ytYDobTyVFYED/sy
-         pTG1GY/C9Z33f3EE+mZPOckRiyLMsMQRwyykjy2XK/y1XfUdt3jKo676Dm78vynOwFLD
-         xEFn+AaIXCYCci4OZGcB08LwhqJTX24/g5gWY+n4yDsiLesAYIrrhaAgb2RVurac4+49
-         Qo7w==
-X-Forwarded-Encrypted: i=1; AL+hErEIOqPsGTzrh+d2KbU9qydPkaPhMVBVJ4ce11GsltEUNrzxWsOT+OSao+plhsKjCdZ1n42ByMbLlyGiNgSS@vger.kernel.org
-X-Gm-Message-State: APuU4Z8HfBmpcy2JgMueAgTy7LBXR8Icuxo1CZSlQDt4NXShwJpBi0tD
-	KYr6m3am5wprFw+B4OCMQVpr+MfkxkvV+Dc7Suz4vCWYhKk2aCMaGrAcD72bnXz5hPE=
-X-Gm-Gg: AZFdTZc0rdPYC0T3o7+CEnNLq35uUuzBN8w1Lcgsh1EcV16oGTn1O++Peq6frkaHBuS
-	pLrOzjjJ02iPMC7ojOsWk4TjkKVvvPqMWBNXEy6YvWWS71wqNjzyy77eolEwEo0eBYCg8HCS9BY
-	bEaUVXmVjO0wmkvehMgVSv59EcWAi87DmJSIQVUHDs1+MSqfMG4u5CQsMncMu7qKUyM60DzINo5
-	UoWzXJmpnSVignghIWWN74CyFFhzpDRb/d93DslB1Z/TpUvjydstggahWKfC25nmakS1cv/JhqL
-	C2yRv3prWnGjmYKH+So5sEm7BvQbB9Vix66hVbfGwYwCKJPBhKAPm89qV+maDbXEBaRJqLCqn0v
-	sz6ib5Qf495EGfMBfdJMTaxzpMkSe43HoKxSn2FeKyMnKm5GNoCdsbfKu+yFTtg5JDDEy7djgZm
-	8p0YTeXpdHxibT0tdJ02O2hiVthaC1/Ah+MIg6YlZvtqN5E7u1mQRwDPV4WnUJqF7HIQ6jeam+0
-	lFcC1sITUlDLZUMNyieX2k5DbxfcSgoFXLa90Rhgvkqi4kxPNVr0pKiYAFlSdSos61sGFK8uEk1
-	UoB5AFLuS9qO5KzrsBMCwT7lSY9R6VvquZP7JQPBKkFN466VezQKtCWPS6NKgILTVKtJoLwGvf7
-	dxYXSlw7fY7P1SKUNid9vkXhT1iqzeMcaDKfStybvYKcZ0TdHU+vzIb8G70/hbUHzg3IdNJQdwj
-	Z4uhXSPBk/HcIgVJq/gHc=
-X-Received: by 2002:a05:690c:3083:b0:8b0:dc04:b378 with SMTP id 00721157ae682-8b4febda21emr3191597b3.9.1794954149355;
-        Tue, 17 Nov 2026 14:22:29 -0800 (PST)
+        bh=LwIqolplvFPQ8pLuOMIrUwJFLJoIjzlGmOqkccHeiSs=;
+        b=Du9rKJ1PUIkycKrl9EqyOQuDd8d8uv8iaCtBsLidyitCbXYoBfRWuewtq0f0mCoK72
+         VNOCP9R/IHoaimJISVDAdg7nMiy9msYvNX5QfQkAMd/zSgIsqMN0gL1E5xqBBHBXUBeC
+         dqEvTXLU3vJOf1lEC866MUF/18G388u8RA7itZ520ojm3+ANJclH11xC0aUXnI2MIdeS
+         PlIJ3Bc9dk7gh7GoerXhoi6nC7A3H9XBoFniLAONSfSFIGMm3qzw/QuaHXD52IiEFczW
+         Un84rRDmygM3e2Hq9cAyJu3xm29ljUGskVHr14Q+8K5OG67siuK/a6I2e0AZmYbTiiGF
+         qPQA==
+X-Forwarded-Encrypted: i=1; AL+hErGTVt/dxL1juZuLy9VJHY2HULWixFsxRk6Y3EwvPPVNh5kyGIWkEKjp6jzgQy8rieeBD/044UTf90OTRbw3@vger.kernel.org
+X-Gm-Message-State: APuU4Z+kQaPjjAHyRvndy9kunXc2FCV8vB+kmGPG1NYakaQUCl8wVFqB
+	y3XAjCjt/aUt+jxPNWRTzjFoUpFembnUf3Zpaka0Un4gaTCFniIY+dcQ1c2pWfWoPdE=
+X-Gm-Gg: AZFdTZfjwGrA3Rh8w1kcZ/hNxnZZ/6sspOxqSehufbv1PNF1ZOZVtSz83Nx9OQBSPgH
+	FRSWw+SGjOY7p2qoHK5dVE4fC0q6ldOi8Yj6y5cc9NqKhE2LWHE1uADgBWpCbqHDDIZFMxpu2Ee
+	e25n6/GQOF9t7lFpnVvvDLWdyw/3nBAfEOVQmKkRGrF/97e1iiCeoKudONwV1IyvkztJhLd0uvS
+	QQsMYa6knMPI7Q3tlaLeeDVbRqnsWA8Z08bifYykxcfy6QZvk/sVWdHnLb2Qb4hBSMEtGUg9YQh
+	dVhWmMOiYc0vD99Fz0Vjzv0XeO8O1wpklV2HbZggoFWatx1EOpswaCZBE4IHV7ujnOlCHn6R7x4
+	dxZ9rsUadFJjFEYiycpss2Fyzg+mYwqXkfDP5QdN38hahizhqs6B/HamnAmbsfkXzY3FVzOV5eo
+	UrwyO4GDkUnW9/SEyjF4eDFbn7xrm7YnXSTmC7EZ0YBfOuuHOpJ4mSOHKutXyM+zGULFEw1mTeQ
+	gfnBwzT3nnpW8XsoCb3ccHiKlOU8gbF9zNZfn26LdzCX1QLj1WCkeWT1eazMKuITOGWAqBlIvWX
+	1quwjG2UuCoPJEzNoQwQ0F1vXxjGEiA84AwDlfXWttbQBR32EcWUw9InkvuW4o7a5nYoj5GNY0b
+	DeM3ne7XGJtTwXwnpul9aveLTZqvpDoXnghavyb9vsiOnfNjq0kbJmpbIxyuV0emFYfIowNBS83
+	k0dishSb5yMcHBIycIsAc=
+X-Received: by 2002:a05:690c:6388:b0:8b1:46a1:28c7 with SMTP id 00721157ae682-8b4fed12108mr3549097b3.12.1794954242140;
+        Tue, 17 Nov 2026 14:24:02 -0800 (PST)
 Received: from ?IPv6:2600:1700:6476:1430:d1c7:8722:e551:bec4? ([2600:1700:6476:1430:d1c7:8722:e551:bec4])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b4fe0f80f1sm7625897b3.33.2026.11.17.14.22.27
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b4fe10d935sm7635637b3.41.2026.11.17.14.24.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 14:22:28 -0800 (PST)
-Message-ID: <ea8b2f81c542c98f6bec6025e140a915accdd53c.camel@dubeyko.com>
-Subject: Re: [PATCH] hfsplus: bound hfs_bnode_read_key() against the
- per-tree key buffer size
+        Tue, 17 Nov 2026 14:24:01 -0800 (PST)
+Message-ID: <8fd3897b906abf373264aa852c84ed0c72ff211e.camel@dubeyko.com>
+Subject: Re: [PATCH 1/2] hfsplus: bound btree keys by the tree's max_key_len
+ in hfs_bnode_read_key()
 From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: Guikun Yang <yangguikun19@qq.com>
-Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Yangtao Li
-	 <frank.li@vivo.com>, =?ISO-8859-1?Q?=D6zg=FCn_K=FCltekin?=
-	 <ozgunkultekin@gmail.com>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Date: Tue, 17 Nov 2026 14:22:26 -0800
-In-Reply-To: <tencent_1CEFA39140271AD3A828251FDD28B254CE07@qq.com>
-References: <c44-hfsplus-extkey-oob-20261112@qq.com>
-	 <tencent_F85118A9AFDF9B230D4E8FA672510A3E2F08@qq.com>
-	 <patch-hfsplus-readkey-bound-20261114@qq.com>
-	 <2e910d5d5ab8dc719b4e540410a9e1024eafdfd5.camel@dubeyko.com>
-	 <tencent_1CEFA39140271AD3A828251FDD28B254CE07@qq.com>
+To: =?ISO-8859-1?Q?=D6zg=FCn_K=FCltekin?= <ozgunkultekin@gmail.com>
+Cc: glaubitz@physik.fu-berlin.de, frank.li@vivo.com, 
+	linux-fsdevel@vger.kernel.org, Guikun Yang <yangguikun19@qq.com>, 
+	stable@vger.kernel.org
+Date: Tue, 17 Nov 2026 14:24:00 -0800
+In-Reply-To: <CAP2AQ-AnKOvRguMAdxi6KhTw_XYME+8EqdeSpnbxWVRHwcC-=A@mail.gmail.com>
+References: <20261114043522.48764-1-ozgunkultekin@gmail.com>
+	 <342f864c01c694acc0ec59b4d79f18e627a1ea24.camel@dubeyko.com>
+	 <CAP2AQ-AnKOvRguMAdxi6KhTw_XYME+8EqdeSpnbxWVRHwcC-=A@mail.gmail.com>
 Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
  keydata=mQINBGgaTLYBEADaJc/WqWTeunGetXyyGJ5Za7b23M/ozuDCWCp+yWUa2GqQKH40dxRIR
  zshgOmAue7t9RQJU9lxZ4ZHWbi1Hzz85+0omefEdAKFmxTO6+CYV0g/sapU0wPJws3sC2Pbda9/eJ
@@ -143,129 +140,87 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 
-On Mon, 2026-11-16 at 22:30 +0800, Guikun Yang wrote:
+On Mon, 2026-11-16 at 14:41 -0800, =C3=96zg=C3=BCn K=C3=BCltekin wrote:
 > Hi Slava,
 >=20
-> The mismatch is between the declared type of fd->search_key and the
-> size it is actually allocated with.
+> Sorry, the commit message was too dense. Here is the issue step by
+> step.
 >=20
-> hfs_find_init() allocates the key buffers from the per-tree key
-> length, not from the union size (fs/hfsplus/bfind.c:22):
+> hfs_find_init() allocates one buffer for the search key and the found
+> key:
 >=20
-> 	ptr =3D kzalloc(tree->max_key_len * 2 + 4, GFP_KERNEL);
-> 	fd->search_key =3D ptr;
-> 	fd->key =3D ptr + tree->max_key_len + 2;
+> =C2=A0ptr =3D kzalloc(tree->max_key_len * 2 + 4, GFP_KERNEL);
+> =C2=A0fd->search_key =3D ptr;
+> =C2=A0fd->key =3D ptr + tree->max_key_len + 2;
 >=20
-> So search_key holds max_key_len + 2 bytes. For the extents tree,
-> max_key_len is forced to HFSPLUS_EXT_KEYLEN - sizeof(u16) =3D 10 at
-> mount time (btree.c:318), which gives search_key a 12-byte buffer.
-> The declared pointer type hfsplus_btree_key * suggests 518 bytes,
-> but only 12 bytes are actually there.
+> For the extents tree max_key_len is 10, so the allocation is 24 bytes
+> and each key buffer is 12 bytes.
 >=20
-> Now in hfs_bnode_read_key(), the existing bound is the union size
-> (bnode.c:87):
+> hfs_bnode_read_key() takes the key length from disk (for leaf records
+> of the extents tree) and only checks it against
+> sizeof(hfsplus_btree_key), which is 518:
 >=20
-> 	if (key_len > sizeof(hfsplus_btree_key) || key_len < 1) {
-> 		memset(key, 0, sizeof(hfsplus_btree_key));
-> 		...
-> 	}
-> 	hfs_bnode_read(node, key, off, key_len);
+> =C2=A0if (key_len > sizeof(hfsplus_btree_key) || key_len < 1)
 >=20
-> key_len is attacker-controlled in the leaf/VARIDXKEYS/attr branch
-> (u16 read from the node plus 2). Anything up to 518 passes this
-> check, and hfs_bnode_read() writes it into the search_key of an
-> extents-tree hfs_find_data (a 24-byte kzalloc total, of which
-> search_key is the first 12). That is the slab-out-of-bounds write
-> from my report:
+> So an extents leaf record with key length 514 passes the check, and
+> hfs_bnode_read() copies 516 bytes into the 24-byte allocation. The
+> check from bb5e07cb9277 protects the catalog tree, where the buffers
+> are big enough, but not the extents tree.
 >=20
-> 	BUG: KASAN: slab-out-of-bounds in
-> hfsplus_bnode_read+0x30/0x5f0
-> 	Write of size 502 at addr ... by task init/1
-> 	 hfsplus_bnode_read -> hfs_bnode_read_key
-> 	 hfs_brec_insert -> __hfsplus_ext_write_extent
-> 	 ...
-> 	Allocated by task 1:
-> 	 hfs_find_init (kzalloc 24)
+> It is reached from hfs_brec_insert(), which calls
+> hfs_bnode_read_key()
+> on a key that was never validated (record 0 of the leaf when the tree
+> has no root yet, or the first key of a new node after a split).
+> Mounting the crafted image read-write is enough: hfsplus_fill_super()
+> creates the private data directory, which extends the catalog file
+> and
+> inserts an extents record.
 >=20
-> reached via hfs_brec_insert() -> hfs_bnode_read_key(new_node,
-> fd->search_key, 14) on an extents tree (brec.c:169); the parent-key
-> update path at brec.c:151 reads into the same buffer the same way.
+> KASAN on Fedora 7.3.3-300.fc45.x86_64+debug, mount only:
 >=20
-> So memset(key, 0, sizeof(hfsplus_btree_key)) is unsafe in this
-> function too: the 518-byte clear runs off the same 12-byte
-> search_key, which is why the patch bounds both the read and the
-> clear with the same expression.
+> BUG: KASAN: slab-out-of-bounds in hfsplus_bnode_read+0x39/0x360
+> [hfsplus]
+> Write of size 516 at addr ff11000003a0e740 by task pool-1/1720
+> Call Trace:
+> =C2=A0__asan_memset+0x27/0x50
+> =C2=A0hfsplus_bnode_read+0x39/0x360 [hfsplus]
+> =C2=A0hfsplus_bnode_read_key+0x12b/0x230 [hfsplus]
+> =C2=A0hfsplus_brec_insert+0x554/0xcc0 [hfsplus]
+> =C2=A0__hfsplus_ext_write_extent+0x4fd/0x750 [hfsplus]
+> =C2=A0hfsplus_ext_read_extent+0x7a7/0xaa0 [hfsplus]
+> =C2=A0hfsplus_file_extend+0x862/0x12a0 [hfsplus]
+> =C2=A0hfsplus_bmap_reserve+0x2e1/0x4c0 [hfsplus]
+> =C2=A0hfsplus_fill_super+0x135a/0x1910 [hfsplus]
+> Allocated by task 1720:
+> =C2=A0__kmalloc_noprof+0x353/0x9d0
+> =C2=A0hfsplus_find_init+0x18c/0x400 [hfsplus]
+> =C2=A0hfsplus_fill_super+0x135a/0x1910 [hfsplus]
+> The buggy address is located 0 bytes inside of allocated 24-byte
+> region [ff11000003a0e740, ff11000003a0e758)
 >=20
-> About "what if max_key_len is corrupted": it cannot reach the tree
-> at all. hfs_btree_open() validates it against fixed constants per
-> tree id (btree.c:318/331/350):
+> The error path has the same problem: memset(key, 0,
+> sizeof(hfsplus_btree_key)) clears 518 bytes of the same buffer.
 >=20
-> 	case HFSPLUS_EXT_CNID:
-> 		if (tree->max_key_len !=3D HFSPLUS_EXT_KEYLEN -
-> sizeof(u16))
-> 			goto fail_page;
-> 	case HFSPLUS_CAT_CNID:
-> 		if (tree->max_key_len !=3D HFSPLUS_CAT_KEYLEN -
-> sizeof(u16))
-> 			goto fail_page;
-> 	case HFSPLUS_ATTR_CNID:
-> 		if (tree->max_key_len !=3D HFSPLUS_ATTR_KEYLEN -
-> sizeof(u16))
-> 			goto fail_page;
+> The fix checks key_len against tree->max_key_len + 2, the real size
+> of
+> each key buffer, and clears only that much on error. max_key_len is
+> already validated per tree in hfs_btree_open(), so valid keys still
+> pass, including the 518-byte catalog keys. With the patch the image
+> is
+> refused with "hfsplus: Invalid key length: 516" and there is no KASAN
+> report. Normal HFS+ volumes still work (create, append into the
+> extents tree, rename, delete, xattrs) and fsck.hfsplus reports them
+> clean.
 >=20
-> A corrupted max_key_len fails the mount. At runtime it is always
-> 10, 516 or 266. And the bound stays consistent even in the
-> hypothetical case: search_key is allocated from max_key_len itself,
-> so a bound derived from max_key_len can never exceed the buffer,
-> whatever the value is.
+> Patch 2/2 is the same bug in classic hfs: there the extents key
+> buffers are 18 bytes in total, and the check is against
+> sizeof(hfs_btree_key).
 >=20
-> That is also why I would argue max_key_len + 2 is the opposite of a
-> hardcoded value: sizeof(hfsplus_btree_key) =3D 518 is the constant
-> that has no relation to the allocation - it matches the catalog
-> tree only by coincidence (516 + 2) and overshoots extents by 506
-> bytes and attributes by 250 bytes. max_key_len + 2 is the only
-> expression that tracks the kzalloc() in hfs_find_init() one to one.
->=20
-> Both sizes in the patch come from the same source: the check
-> (key_len > max_key_len + 2) and the memset use the same expression
-> as the allocation. If you prefer to avoid recomputing it, storing
-> key_buf_len =3D max_key_len + 2 in struct hfs_btree at mount time
-> would make the correspondence explicit - happy to rework in that
-> shape if you prefer.
+> I can send the image generator, or a v2 with this text in the commit
+> message if that helps.
 >=20
 
-The real problem is in function declaration:
-
-void hfs_bnode_read_key(struct hfs_bnode *node, void *key, u32 off)
-
-We should not assume the capacity of buffer but we should be informed
-about it. Probably, we need to have such declaration:
-
-void hfs_bnode_read_key(struct hfs_bnode *node, void *key, u32 off, u32
-key_size)
-
-For any operations with b-tree, we need to prepare the struct
-hfs_find_data:
-
-struct hfs_find_data {
-	/* filled by caller */
-	hfsplus_btree_key *search_key;
-	hfsplus_btree_key *key;
-	/* filled by find */
-	struct hfs_btree *tree;
-	struct hfs_bnode *bnode;
-	/* filled by findrec */
-	int record;
-	int keyoffset, keylength;
-	int entryoffset, entrylength;
-};
-
-So, we need to store the key capacity size in this structure during
-hfs_find_init() call. And, then we need to provide this value for every
-hfs_bnode_read_key() call. And if we can rework likewise constructions
-tree->max_key_len * 2 + 4, it will be really great too.
-
-Does it makes sense for you?
+I think my answer for another your patch is applicable here too.
 
 Thanks,
 Slava.
