@@ -1,47 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794910254;
-	b=Dga18pZ7irVXnr86ZtHrVhbyMhrDhTcjtT2A3qViXXsUKgbJKz+QPvl1sgG9xs9//O0g
-	 0XEb9tjDuwUijp2VkANQSeGDBPg7Em2C0qIQ2sjysznkO2VTL4ibdINPLxixRCR5PMfx0
-	 LKjmEb3+yoYUtpcNq97AE3iacfFroYMnvPDLOl10xbYuE5t/mgNmhiEGC9f8lXeZ3ugTD
-	 uj8TYWoFICCITFSv7Sc4x6COINGQNZ7d7Y3YB2Rm8PJ4RvZR+73oSL9jfVFyFLoeE9wum
-	 jjPkjiFWXS46FSCzcYq3fdfNHoDyjOQt8IbZEFY+ZfHg25y0dunj7zSA8hcn1xp+SBg==
+	t=1794910843;
+	b=UgOeOTrte87OKoJhHZzuRMBDnqIznHx2lY+qtcgq9d9wEFdKTR1m5peE84J7ImyNkE1A
+	 mnlFiFyHMf0k8EAmlZNpnsjUypKva5LQ3XDSdw+WfOhzhBq+fqlMs7hXx35Nw3r3bbAAr
+	 sj1XCe7xmEALny3obUEMUbgKhmVpaH9D3XoeeaTzbVW0xbmhEbAaKUcuD+g7k+4k/NTSW
+	 Zcp8e/pGDBIAtNN8W5FolLEazVTm1LXxaAuu7WhzjV55Og4wDNat2Ko/bzHrI3q/zi9LK
+	 DZgYtEmTNfH9+hxxC62enw4veOQP26MKr4MDwJoh5uDxHiNUudEfGW6nZKROHO5Ir9w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794910254;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=+GkmMaOI4w0aqQVtKDo6X7pwmr1pb5SKm4lboaaoDN0=;
-	b=KdhW0PNAfIQRDICsjH0h34FImXMF/hHa4DgUQ6TAlq9CMNKcpORxyj0XqItvqEes8K+e
-	 XMtmUVwjjYkOBJM+nKtZpL5QN1/sAXDgnLtqfZnmAEYNJlxao5jZCXu6ni9oK6jwNHekd
-	 SR0N2QggDtP5UuQF9ZPSWUEt0BLZUoosAtnr9tDJnKDhT2ILd6Ccqd1BkILs7IR5iSspe
-	 gcZVLqNhE5UHN6xvCQBR7EO+4jN2sqcJIoZBq35nmClhw9sXs3iWqmvOMkrkGom3p1V4K
-	 U07Lp4FHrpjMMTr2/llM2CPPjQHPC0jObUCqlMsXStILTOTqQgvLs+OQz6RREIAIs8g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794910843;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:Message-ID:From:Subject:To:Cc:MIME-Version:Content-Type:
+	 Content-Disposition:User-Agent;
+	bh=wUKnxB9Hkf5UlddOBau8h4TCwsj7ZxWVW5uuyUNe2fU=;
+	b=Q+PkiiIDSnTgv3FywSj4VKtGSPu0ceMETIpwZ0tkk5Lf1S8c89IdNcFkFTUwx7Zz1n7A
+	 vhygO7bRkWwE3lzgJL0NFX3xSqpbg1M2WFob+fmIxQwE19EKTMxX4YkfXi/zegkI4gfkf
+	 na9mRFGG9npASQqR4SLJKeyVqSbmDymWuhu9WPC68MlBkPBL5tDitT2baKYRWxrl9kk8Y
+	 g/2o5WO0vxYQ7Srk0wBoEi6pTnHmu6z0OAsUgy83aBe4Zc9RpfuhOx9d4Mz5aZDCD6Z3V
+	 5CgOsaxqXN5Ii4sHtTDZrN7JCfOY5Hh7Q4IQzOEP6+fufOzkEs9YIAqrkPz+RZYaDKA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TUw8jcou;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=chrisdown.name;
+	spf=pass smtp.mailfrom=chrisdown.name;
+	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=E7RLDg11;
+	arc=none smtp.remote-ip=209.85.216.45
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C390606A31C;
-	Tue, 17 Nov 2026 10:10:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08E63606A32C
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 10:20:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 08E63606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chrisdown.name
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chrisdown.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TUw8jcou
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFDE01F000C5;
-	Tue, 17 Nov 2026 10:10:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794910254;
-	bh=+GkmMaOI4w0aqQVtKDo6X7pwmr1pb5SKm4lboaaoDN0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=TUw8jcou2ovDdPtEhkJuWnsat3KXtYoPaGeopJdgMREGL9aYBGnJbVL1z6osDjWrp
-	 Epx4UWIGGOjRLZ/mZiUkM0zkzZhhmQYE+p7SXejlTFbWKUWQ/AHWUVrMLEVc2dBQNy
-	 zfilop6KPGIys8xQfyR55lQJlGf45jy2i5SYIQD2bBwSg5IA5pEtddZGm38eD9w9sL
-	 5xAuVwiRAfFqyTENPOnPRwuzCvL/cB+BbHq04cHEffnWVxEw0U7k8UbFVcUzzbXqX4
-	 xGsVuysvjJg1aYhO0jb/SO4KkFZESBjYvWAmvrEhC7wvnwsam8Pvqt6EQCyZTz1Awy
-	 tDjmfe9iLYOrA==
-Message-ID: <2066d131-f999-4747-beb8-520d5e0ce1db@kernel.org>
-Date: Tue, 17 Nov 2026 11:10:37 +0100
+	dkim=pass (1024-bit key) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=E7RLDg11
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-3b09a83d12aso4185135a91.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 02:20:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chrisdown.name; s=google; t=1794910842; x=1795515642; darn=vger.kernel.org;
+        h=user-agent:content-disposition:content-type:mime-version:cc:to
+         :subject:from:message-id:date:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=wUKnxB9Hkf5UlddOBau8h4TCwsj7ZxWVW5uuyUNe2fU=;
+        b=E7RLDg11WOEqbE8nOBbR9Wi21WCPxa6PZYpNS33bFEgcNRLlGLk8GZJ+wMBUE8RniO
+         YuDug5jx+4b4Sd6W1bevIMgmHpvzco0R8u3w/EF89vuX/C8uQK7pbooAuV7TKqc5ncp7
+         e7D3mQFs3aygUuhaHL/JYlQASpdLPnu6wCzh0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794910842; x=1795515642;
+        h=user-agent:content-disposition:content-type:mime-version:cc:to
+         :subject:from:message-id:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=wUKnxB9Hkf5UlddOBau8h4TCwsj7ZxWVW5uuyUNe2fU=;
+        b=uV/cvOlJ0DguiddsmdweC5xn6DmdJmbtgYoShi30F/3v81DW/tWzjAMPI9hTTG6gus
+         EAp2WmtKokZAQe+ttaMBjDvrUYCqBWEjQDgHwt3OKUcr+mj5bpgPJN1EUHFiIQxOzvPO
+         Z1jESFdl+oUp+2OHo2MKBTDMZWQy4vezfUq+2XMjFMc3iEmKtr4tqspOH1GVyl7voN6d
+         eyltAtYxvduPrmpN62/1Mf49nvtFJGSTdSZToXPaPyJIb4s+59Zfx4NoBuK/oxjCgJaj
+         8KUMN9hkXCFpT3tXIX65lMwGurESlpgx9+MenXXD+j8/fcQQIVM+jx8bjcwSLhiS/gp8
+         aHJw==
+X-Forwarded-Encrypted: i=1; AL+hErFSZxyQLCi0H/xs+6pc1u4tB0tgTfHmDnKSExsG6f7iq1Knik3cMfLzgAwADWFY/rEB1l766fxuzLBkmdoy@vger.kernel.org
+X-Gm-Message-State: APuU4Z9uQpOxD90T88G+zXhtJ3F8LfibD/WjwsXGPg+h99NMS6OyLsGO
+	m0uSc98yTDTlZ4pkI3ENCHuw2Q9/JfpA7K5I/GvJYR8/i+c4TqO+AZBMzb1h0Bkgtxc=
+X-Gm-Gg: AZFdTZfrcSQfcYNepOZXKH7TkHRODoMrKvdEzLDmBxevZhJLBeBeDMlbGmn9Yf1gEgm
+	ukCl2DxP8TzQI9KpCAkgaBJ6KPx6evh5we7+UHIKdPG9Nf69whmb7m0DXtmpj2xk3iVdHBRECF6
+	dgFutmhB3zC/WXJtcYTRerOAtKM4cFm1NwNlVpoG9Ep79FJCABwidFhALxvw+EOwEN+PKRcL4PL
+	QoDWGRN8Gwx+DRPv9YcWp4bTuyJD96AlKfhjIrlsZqH/I3OEb63lVndyvTR6VDHe0g7jiTkMLrG
+	GlEjKkY0iRt6IAyoODnTDz5iYf7cT/eYS+wXmCUhcwiBCxSmGGSWgzCDOkUk1tiNYouc39iT70J
+	S34RTcDQ+AbOnO8aL5NK+huAEwgH8HAOn+G4afEoTEp/lD4/YcflX76ZP7fySOfADuFPu3ByTpz
+	LUH4cSvT4OngC5NlTof49i52olwjoEgVj0FfOw8Afe6q0ccqROX7MkHl/A1nGTtYpAcTt5IeWkB
+	yz1a45ejnHbLhzMYJtQ0JckCyQyGd/7sPVciniw/YX+mZpuvSSW3xVJkH2qqvmSB+xPJdHw6ILA
+	G+TG0EVZavsIw9lWBWKUMz48lX03NwGnil/F8DSMug0tW6lXNd2+l7dGRxCSoEdC+k5+D4bhgWA
+	oZ/ji9Gg1bBKmGjL8e6fpsETp4TwaF+Yw8aFsnCB5rNEO1zfk+idLv9bvq4976TKQYAJrxeAExF
+	SBAvtLDoTikc5wDSds/a/aSwxce3ko9/QsuRiGUqNWOlrsnpwPTfK9SF7H6FCa5xyo
+X-Received: by 2002:a17:90b:5112:b0:3a8:10e2:ad08 with SMTP id 98e67ed59e1d1-3b1b0cf4395mr13922231a91.48.1794910842256;
+        Tue, 17 Nov 2026 02:20:42 -0800 (PST)
+Received: from [172.20.0.2] ([172.56.235.113])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b3a7657585sm1927180a91.2.2026.11.17.02.20.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Nov 2026 02:20:41 -0800 (PST)
+Date: Tue, 17 Nov 2026 02:20:38 -0800
+Message-ID: <7c10f2e01b6f19229c83e81d887a87f5d1151841.1794904698.git.chris@chrisdown.name>
+From: Chris Down <chris@chrisdown.name>
+Subject: [PATCH v3] proc/kcore: allow disabling /proc/kcore at boot
+To: Omar Sandoval <osandov@osandov.com>,
+    Andrew Morton <akpm@linux-foundation.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+    Shuah Khan <skhan@linuxfoundation.org>,
+    Randy Dunlap <rdunlap@infradead.org>,
+    linux-debuggers@vger.kernel.org,
+    linux-fsdevel@vger.kernel.org,
+    linux-doc@vger.kernel.org,
+    linux-kernel@vger.kernel.org,
+    kernel-team@meta.com
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -51,168 +100,97 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 0/7] mm: kasan: skip KASAN for GFP_HIGHUSER
-To: Jeff Xu <jeffxu@chromium.org>, Andrew Morton <akpm@linux-foundation.org>,
- Vlastimil Babka <vbabka@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
- Andrey Ryabinin <ryabinin.a.a@gmail.com>
-Cc: Lorenzo Stoakes <ljs@kernel.org>, "Liam R . Howlett"
- <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Brendan Jackman <brendan.jackman@linux.dev>, Zi Yan <ziy@nvidia.com>,
- Alexander Potapenko <glider@google.com>,
- Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
- Vincenzo Frascino <vincenzo.frascino@arm.com>, Marco Elver
- <elver@google.com>, Boris Brezillon <boris.brezillon@collabora.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Chia-I Wu <olvaffe@gmail.com>,
- Dev Jain <dev.jain@arm.com>, Evgenii Stepanov <eugenis@google.com>,
- Ian Rickards <ian.rickards@arm.com>, Jann Horn <jannh@google.com>,
- Jeff Vander Stoep <jeffv@google.com>, Jeff Xu <jeffxu@google.com>,
- Kees Cook <kees@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Peter Collingbourne <peter@pcc.me.uk>, =?UTF-8?Q?Pierre-Cl=C3=A9ment_Tosi?=
- <ptosi@google.com>, Ryan Roberts <ryan.roberts@arm.com>,
- Tomasz Figa <tfiga@chromium.org>, Will Deacon <will@kernel.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Miklos Szeredi <miklos@szeredi.hu>, Baoquan He <baoquan.he@linux.dev>,
- Pasha Tatashin <pasha.tatashin@soleen.com>,
- Pratyush Yadav <pratyush@kernel.org>, Allison Henderson
- <achender@kernel.org>, "David S . Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- linux-mm@kvack.org, kasan-dev@googlegroups.com,
- linux-arm-kernel@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- fuse-devel@lists.linux.dev, kexec@lists.infradead.org,
- netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
- rds-devel@oss.oracle.com, linux-kernel@vger.kernel.org
-References: <20261116230627.3537051-1-jeffxu@chromium.org>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20261116230627.3537051-1-jeffxu@chromium.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/2.4.3 (cc9e3943) (2026-10-09)
 
-On 11/17/26 00:06, Jeff Xu wrote:
-> Hi all,
-> 
-> Currently, GFP_HIGHUSER_MOVABLE includes __GFP_SKIP_KASAN (commits
-> c275c5c6d50a, 70c248aca9e7, and 0a54864f8dfb), allowing movable
-> userspace page allocations to skip KASAN page unpoisoning on allocation
-> and poisoning on free under CONFIG_KASAN_HW_TAGS (ARM64 MTE). However,
-> GFP_HIGHUSER does not include __GFP_SKIP_KASAN, even though it shares
-> the same kernel-accessibility contract in include/linux/gfp_types.h
-> ("for userspace allocations that may be mapped to userspace, do not need
-> to be directly accessible by the kernel but that cannot move once in
-> use") and differs only by !__GFP_MOVABLE.
-> 
-> Moving __GFP_SKIP_KASAN to GFP_HIGHUSER addresses the performance issue
-> below (following up on the earlier drm/panthor discussion [1, 2]). The
-> swap issue from that discussion is not addressed by this series:
-> 
-> 1. Performance: For every 4 KB page without __GFP_SKIP_KASAN,
->    mte_set_mem_tag_range() tags all 256 16-byte MTE granules (via
->    STG/STZG and DC GVA/GZVA) on allocation and again on free. In
->    graphics and UI workloads, DMA-BUF (system_heap) and DRM/GPU
->    (shmem/TTM) buffers use GFP_HIGHUSER; while steady-state rendering
->    reuses buffers, window resizes, surface transitions, and app launches
->    synchronously allocate and free tens to hundreds of megabytes (~32 MB
->    per 4K RGBA frame) on UI/compositor/render threads. That takes a
->    significant share of the 8.3 ms (120 Hz) / 16.7 ms (60 Hz) frame
->    budget and thrashes CPU data/MTE tag caches (especially on
->    cold-cache free). On Armv9.2-A, skipping KASAN cuts ~32 MB DMA-BUF
->    alloc+free latency by ~80% (~98% faster close()) and improves the
->    OpenGL score of an app-loading benchmark by 15-23%.
-> 
-> 2. False-positive KASAN report after shmem swap-in readahead [1] (not
->    addressed here): when a shmem page is swapped in,
->    swap_cluster_readahead() also reads the neighboring swap slots and
->    allocates their swap-cache folios with the gfp mask of that shmem
->    mapping. A neighboring slot can hold an unrelated page that
->    userspace maps with PROT_MTE. If the mask lacks __GFP_SKIP_KASAN,
->    that page's folio gets a KASAN tag in page->flags. When its owner
->    faults it in, arch_swap_restore() writes the saved userspace tags to
->    the memory, but page->flags keeps the KASAN tag. Later kernel
->    accesses through page_address() then use a tag that does not match
->    the memory and are reported by KASAN.
-> 
->    This series does not fix the readahead path. It only removes one
->    way to hit it: shmem mappings that use GFP_HIGHUSER (e.g.
->    drm_gem_shmem_helper / panthor) now pass __GFP_SKIP_KASAN to
->    readahead, so the neighboring folios no longer get a KASAN tag.
->    Shmem mappings with other gfp masks that lack __GFP_SKIP_KASAN
->    (e.g. GFP_KERNEL) can still trigger the report. That issue should
->    be followed up separately, for example in [1].
-> 
-> What changes for users of GFP_HIGHUSER pages under CONFIG_KASAN_HW_TAGS
-> (other KASAN modes are not affected):
-> 
-> - Access through vmap(): nothing changes. Those pointers already carry
->   the match-all tag and are not checked today.
-> - Access through kmap_local_page() or page_address() (for example
->   ramfs): accesses are no longer checked by KASAN, as is already the
->   case for GFP_HIGHUSER_MOVABLE pages.
-> - Buffers that the kernel itself fills (pipe, FUSE, kexec, RDS) keep
->   KASAN checking by using the new GFP_HIGHUSER_KASAN (patches 1-4).
-> 
-> GFP_KERNEL, GFP_USER, slab and vmalloc() allocations are not affected.
-> 
-> Patch 1 adds GFP_HIGHUSER_KASAN
+/proc/kcore lets any process with CAP_SYS_RAWIO read all of kernel
+memory. That's a pretty large read primitive for anyone who obtains
+CAP_SYS_RAWIO (and it also gives away the KASLR layout).
 
-I really don't want us to spread KASAN-related GFP flags in the kernel.
+For this reason on some hosts we want to turn /proc/kcore off. In terms
+of what it can read, /proc/kcore isn't any more concerning than other
+ways to read kernel memory, like BPF with CAP_BPF and CAP_PERFMON. The
+distinction is that a process with CAP_SYS_RAWIO doesn't necessarily
+have CAP_BPF and CAP_PERFMON, because CAP_SYS_RAWIO may be needed for
+hardware access without necessarily wanting to grant general RAM access.
+CONFIG_STRICT_DEVMEM already makes that possible for /dev/mem, but
+/proc/kcore gives the same capability to do general purpose RAM reading
+anyway.
 
-There must be a proper way to abstract this.
+However, on a kernel built with CONFIG_PROC_KCORE=y the only ways to
+block it today are lockdown=confidentiality (which also disables many
+other things we perhaps don't want to disable, like kprobes and
+bpf_probe_read_kernel()), or an LSM. That's annoying, because on the
+majority of hosts we do want it on for things like drgn/crash, so today
+we build two separate kernels.
 
-Why is GFP_HIGHUSER not sufficient? We were already told that this is memory to
-be mapped into user space. Placing data structure on it and handing out pointers
-to that would already be a bit questionable.
+Let's add a "kcore=" boot parameter so that this can be disabled at
+boot, which lets us preserve those choices while using the same kernel
+image.
 
-So what are the ways to avoid GFP_HIGHUSER_KASAN?
+Signed-off-by: Chris Down <chris@chrisdown.name>
+---
+v2 at https://lore.kernel.org/r/a8474f0e2d0ef5ea9d53aa6649c7e9c9ea6f15c2.1794800574.git.chris@chrisdown.name
 
+v3: Make kcore_enabled __ro_after_init (Kees)
+v2: Give more justification in changelog (Omar)
+
+ Documentation/admin-guide/kernel-parameters.txt |  6 ++++++
+ fs/proc/kcore.c                                 | 12 ++++++++++++
+ 2 files changed, 18 insertions(+)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 176648941aec..205228294fc2 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2902,6 +2902,12 @@ Kernel parameters
+ 			parameter KASAN will print report only for the first
+ 			invalid access.
+ 
++	kcore=		[KNL,EARLY]
++			Enable or disable /proc/kcore on kernels built with
++			CONFIG_PROC_KCORE=y.
++			Format: <bool>
++			Default: on
++
+ 	keep_bootcon	[KNL,EARLY]
+ 			Do not unregister boot console at start. This is only
+ 			useful for debugging when something happens in the window
+diff --git a/fs/proc/kcore.c b/fs/proc/kcore.c
+index 3264c99bd68a..786c1209e224 100644
+--- a/fs/proc/kcore.c
++++ b/fs/proc/kcore.c
+@@ -69,6 +69,7 @@ static size_t kcore_notes_len;
+ static size_t kcore_data_offset;
+ DEFINE_STATIC_PERCPU_RWSEM(kclist_lock);
+ static int kcore_need_update = 1;
++static bool kcore_enabled __ro_after_init = true;
+ 
+ /*
+  * Returns > 0 for RAM pages, 0 for non-RAM pages, < 0 on error
+@@ -722,8 +723,19 @@ static void __init add_modules_range(void)
+ }
+ #endif
+ 
++static int __init parse_kcore(char *str)
++{
++	return kstrtobool(str, &kcore_enabled);
++}
++early_param("kcore", parse_kcore);
++
+ static int __init proc_kcore_init(void)
+ {
++	if (!kcore_enabled) {
++		pr_info("/proc/kcore disabled on command line\n");
++		return 0;
++	}
++
+ 	proc_root_kcore = proc_create("kcore", S_IRUSR, NULL, &kcore_proc_ops);
+ 	if (!proc_root_kcore) {
+ 		pr_err("couldn't create /proc/kcore\n");
+
+base-commit: 666539eecdf4db623f5e3c3e55cf9f2dfad24aa4
 -- 
-Cheers,
+2.56.1
 
-David
