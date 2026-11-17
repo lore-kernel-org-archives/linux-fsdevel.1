@@ -1,71 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794874537;
-	b=ixn4t1Ffng5CeHuWbHrlb2NWaCWG7Bpx6edekEH+PKbSJgNgQP2NbhoGmqYIJrlseYIV
-	 4nkP22uQH3O4dZRD4Mh8GUiclHfHZDblQFDNqlRH13D2RsTVopMlG776lHgtpzSGG08Kl
-	 dr4QgC/7xkvrnkTQy4LS6vK418awVqk+1lgBtkb1MTNWrnH5viBXybmNYlzBtDHHDcOj+
-	 hn08gHHFu+FxFHNqetOqkyLqp9Uy22ok2cUwaXhmf67YlUs0p8jM7ICZS66k0fo6GkQ/8
-	 8EWp+lEzD7ULX7E6D3o2xTBxLkUrufqDSEU1SW8I2rDnpcgoBW0rlGbRPl6W7wKJyRQ==
+	t=1794874672;
+	b=WjqKSsQn+bQlVNNwiZEjqhIwXCR3kfCUIRCCEu4UuynpTC4xSc//rTO2TF7Uo8i8Buw1
+	 yeoJcm4DJuWG1v2VpQEE/RhExCQHVj8LYXhRs2x+oYwiU3njrcvP/8xy4Z/VHbM/geFVA
+	 2tdIIQBp6NpdOgQociByE/b1+HGwwY3WnLVhj7gZ1idR32Nfc8i5osT4TrHB6WmezhZaz
+	 u77DCOfblVCJt8XapbeL2bEFOBlHjce9L8YjGwgoHZZWZkVSpkUBaX1/nCAwxircxB/cL
+	 R/ePlH8rkDxTcrCu1XqS/x5hbndnqqWnAay9cDahvRQH3SlGtqq0Q/ArHEVXanw1bVw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794874537;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=j9xUHwF2AggMFvcnTZZ+sJUO/Ib8IkqDN6jGp1qclP0=;
-	b=oDI10Kf47F+okicTzL/PrxjNBJhJL48kkAcUzTcI4fPNNfiShuGLxpA3/N2ocxTvwZsS
-	 J7l3d6+8Hmrzd5DURUZZ1s3vlPmt3sBiR08KrLbNpT0sUdoss0p+mE8lUIpSM4ZvcYLok
-	 rO51CpsLhF9RxC67+11Z+Q+eW3OQzyz2kRAd2CocOMBYp8oSIzVbsAS1qcf0/+0uq6MkY
-	 cCWQ+W0bLwI1DFWHWF2Vg+LZOZMHNYUkENvu5t6KEI7EjqzqkX5JOWIGujkMyGNWyMKnV
-	 Zu86y51NIhze3GHQPz+r6UQUt1S1Oqazg6ln5NJwwY53e8d42BwveWPU3OBVEykLiJg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794874672;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding:Content-Type;
+	bh=g1CqHinjbY2OgjrRQj70R8H/Be4OoPMLQb2dQpJZInM=;
+	b=MeEkL/mgTw4V07LCwMXVpkqWn+0VMtKLnXIltVlymeNWPCfVFCmmmuHpIfuNUxtwhfRx
+	 e+eJTevSddtw7iM+RQwTZDhXr/oDaxjf3vhOjvb5KIxh6/lCZTtYEYGQ/Y3tgVBqGB6jb
+	 Dxm8HQMB81FKfBy06dklgih/+YXHYYOs562edlJzL4eHlDShgjYfqei8Swzj5yZAzwHVE
+	 ssHAFHaQGHkEydx3kPJSeCWNT19u2oWDbVXqeSuFuUsHqjIgBkFoF0FIDqYzp2kaUlUQr
+	 1StqEKPSsnJwkaTvaE6IM6pGs0CUO8xSFGXpaBFbjwltu7XjpKZgvnhyQ7azL/p7ovQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="f/gZab3W";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=wiup1+eY;
+	arc=none smtp.remote-ip=209.85.222.46
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF3C0606A31C;
-	Tue, 17 Nov 2026 00:15:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 034F7606A889
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 00:17:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 034F7606A889
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f/gZab3W
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DC881F000C4;
-	Tue, 17 Nov 2026 00:15:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794874536;
-	bh=j9xUHwF2AggMFvcnTZZ+sJUO/Ib8IkqDN6jGp1qclP0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=f/gZab3Wp5USI2n16Plk7ix9hfff0E+tIEYXCwzzEc4B1FrLaQWb85t2R80gBswhm
-	 DUS/mU1+GpeLdWaveuUPknKaOTZlz9ra6g4VZF6Qxbkn62WvXyN0dIKpLbhuK7Fgmn
-	 IktAEGBAR7qG2hfpmRuEmaWWy9jHxGioUVLrahcn2BzTdA+rIZG4/sRd+FqDzE8/43
-	 VSE3YEvN1ra0FKaUfUi3kij2JmrEI23XPpbSF4aMXJS1pLrPaO6aUpn8Hvg7igrRUt
-	 0XFLhmDJG0TPKt/P5LKh8lDA7qbcgO53g9jNRXIb8IpNLKcdVvy9+MchqY1J7dCCn7
-	 BT1F2VeH7h4vA==
-From: Danilo Krummrich <dakr@kernel.org>
-To: boqun@kernel.org,
-	gary@garyguo.net,
-	aliceryhl@google.com,
-	lyude@redhat.com,
-	daniel.almeida@collabora.com,
-	work@onurozkan.dev,
-	ojeda@kernel.org,
-	bjorn3_gh@protonmail.com,
-	lossin@kernel.org,
-	a.hindborg@kernel.org,
-	tmgross@umich.edu,
-	dakr@kernel.org,
-	tamird@kernel.org,
-	acourbot@nvidia.com,
-	viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	jack@suse.cz
-Cc: linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH v3 5/5] rust: sync: condvar: add non-exclusive freezable waiting
-Date: Tue, 17 Nov 2026 01:14:46 +0100
-Message-ID: <20261117001507.1611984-6-dakr@kernel.org>
-X-Mailer: git-send-email 2.56.1
-In-Reply-To: <20261117001507.1611984-1-dakr@kernel.org>
-References: <20261117001507.1611984-1-dakr@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=wiup1+eY
+Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-9906a5410f5so317829241.0
+        for <linux-fsdevel@vger.kernel.org>; Mon, 16 Nov 2026 16:17:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794874671; x=1795479471; darn=vger.kernel.org;
+        h=content-type:content-transfer-encoding:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=g1CqHinjbY2OgjrRQj70R8H/Be4OoPMLQb2dQpJZInM=;
+        b=wiup1+eYOz2l3MPJFqbC2wWZVp7n9BZT7aJO+IKN0DSmQLsuWzJH2RJVc5Kblj+Pkx
+         I2Wtall3JpLxHg1fEoXnXo1+85nJ5O7mP435yfASIJsWSaoQjNwEGb6AyT2vAAytemJJ
+         WZI1cwFuTlBRTWuCY4ED/Rt6jbEhvGhNszXnx6gz/ymNQFEZ880Bby6NrcCNeU+xcT9B
+         NyNFratNa0H1yQs3em3My5L1e4/tGZKaeSUX7GghX6EfoA7qqGpPf8iTFTxOy3XeyaeV
+         62v30fIoCiRJXjYUo0kxV6GHs4Eb8l7C8ofZ1YUXJ0aFPf/mKXMdzICjdJ3l91+42QY2
+         2xug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794874671; x=1795479471;
+        h=content-type:content-transfer-encoding:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=g1CqHinjbY2OgjrRQj70R8H/Be4OoPMLQb2dQpJZInM=;
+        b=Jl3w33dMtylFuTnPSSuLooZ1KtZkUJLXAsp+AP2PF/kFWLsWg/PLnVERTFijFTpwur
+         k7+kvIIC8VZh03aBYVC9+R4QyK5w9nSzCQN6xwXrM0QSYduh2SWbtYZPzeSSIvRuK47h
+         B7T7+LgtaFGxzPwdK348jeJFM0p5D8680TDAWdebLIPfMIEkmgInN1WRwxtVaKtVXyoU
+         aXFTolJbJ+XeelAHUSgYEW/ivQv6i0SzYaKU+i8u4TU/2Cj/JHwAw1fgoWfvRKplxb7g
+         /VH50QmEsth/hoXC0VhzKtphpRI3Tu+DpdPFuo7Z5e2FITeR6NbqFoe0mYe3t0bpA0GE
+         wnwQ==
+X-Forwarded-Encrypted: i=1; AL+hErED03FcX9PaHWd65L/Pv8lCN1XD5czxGoAjhDdE1XfdkvZCoZjYIJdnVvyLOGfoi71lJ8gh3CUKFkw95Re9@vger.kernel.org
+X-Gm-Message-State: APuU4Z8JJuDETqrQOSurwufnu/dhjr6rvSZgtcuW/7GNvEDNxlZ8rQs/
+	Pum92jRkz5lIrjuymCBvxNvM6UFJZSdZg4MIiT9L7y0KCwoh1yVlHMLU
+X-Gm-Gg: AYBFou3ViJY5p4LBkKvukB9EXgAKXHbxxGCKc0ti6fYG77XcK96mOLVvGFlh1z9BHUZ
+	SCnY/K79QvNhYfGHlC7P2mT6CcbN3OefTFxeqXNOXqYlIDQ2mmEysbtqdixI4DcRNhjDcaqAg8Y
+	nxE/KQ+ntw11TftRW1YDVR2IQ4jS6w3eNUv0WweocyhDvV9kiuihYJx+y3csvTQAbCN4jhh5qnm
+	uwhtzKepIxCEego4ISXa2fHYGms9cGp4s53C7Aa4Wu82tIDLOJ8zP+IwJj/XsF7mTbAnI/xKvrq
+	X6aTzyKaVLm77DHNXTQtzIasdO4t+fZ3ZMXNq+ejaPIX5Hpa0js9kzts0D+HvYmWm0M7j7M3cmf
+	YNolUyzJjHODy7FlK+Xa7A6oPcSrPVaM9IpyOOLs9Oty0Ub3h7PYHVDhLZ45ENIUKqpktfAqBxr
+	Gq7oeCk5Ckefmv7hk81QmBOM5cklgT67uVZRT4CMwazN3YnQ2Jx6f+tBQCp2TfxyrZxrLrmTpYy
+	Ti3E6WuvpnnR0PsFxX/2mWT/U0AFgUSjxxca1nvVFcLiVe/IyScB/Z9CJEEC1gvA7Y7A0E4Y+nX
+	ObY+755WeOSQOTgm8L0LEWbSUEHRjwhDmKhMcHwIufojtGbNtF6HeLCeuIo=
+X-Received: by 2002:a05:6102:54a8:b0:7cc:905a:331a with SMTP id ada2fe7eead31-7d69f73327amr262988137.14.1794874670820;
+        Mon, 16 Nov 2026 16:17:50 -0800 (PST)
+Received: from daniel-desktop3.localnet ([204.48.79.161])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7d69e0859ebsm1155725137.10.2026.11.16.16.17.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Nov 2026 16:17:50 -0800 (PST)
+From: Daniel Tang <danielzgtg.opensource@gmail.com>
+To: Alejandro Colomar <alx+linux-man@kernel.org>, linux-man@vger.kernel.org,
+ Christian Brauner <christian.brauner@ubuntu.com>,
+ Michael Kerrisk <mtk.manpages@gmail.com>
+Cc: Aleksa Sarai <cyphar@cyphar.com>, Christoph Hellwig <hch@infradead.org>,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH v2] mount_setattr.2: Fix nonexistent perf_setattr
+Date: Mon, 16 Nov 2026 19:17:48 -0500
+Message-ID: <6091006.DvuYhMxLoT@daniel-desktop3>
+In-Reply-To: <avuYP6-OQJMhLqCn@devuan>
+References: <6099049.DvuYhMxLoT@daniel-desktop3> <avuYP6-OQJMhLqCn@devuan>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -75,90 +100,37 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-CondVar currently registers all sleeping tasks as exclusive waiters.
-Add wait_interruptible_freezable_nonexclusive() for callers that need
-non-exclusive waits, using WaitQueue::wait_once().
+The problematic reference had been copied from openat2.2, where it was
+fixed in bbed82c0693a ("openat2.2: tfix: fix minor reference typo"). I
+performed the same fix for mount_setattr.2.
 
-Document that notify_one() and notify_sync() also wake all non-exclusive
-waiters.
-
-This provides non-exclusive waiting support for a subsequent Binder
-conversion.
-
-Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+Fixes: f3a5ba3f0151 ("mount_setattr.2: New manual page documenting the mount_setattr() system call")
+Link: https://lore.kernel.org/linux-man/20200929223509.11783-2-cyphar@cyphar.com/
+Link: https://lore.kernel.org/linux-man/20191003145542.17490-1-cyphar@cyphar.com/
+Link: https://lore.kernel.org/linux-man/20210730094121.3252024-1-brauner@kernel.org/
+Signed-off-by: Daniel Tang <danielzgtg.opensource@gmail.com>
 ---
- rust/kernel/sync/condvar.rs | 29 +++++++++++++++++++++++++++--
- rust/kernel/sync/wait.rs    |  1 -
- 2 files changed, 27 insertions(+), 3 deletions(-)
+ man/man2/mount_setattr.2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/rust/kernel/sync/condvar.rs b/rust/kernel/sync/condvar.rs
-index dae07dc140c5..89f1a31afb89 100644
---- a/rust/kernel/sync/condvar.rs
-+++ b/rust/kernel/sync/condvar.rs
-@@ -163,6 +163,31 @@ pub fn wait_interruptible_freezable<T: ?Sized, B: Backend>(
-         crate::current!().signal_pending()
-     }
- 
-+    /// Releases the lock and waits non-exclusively in interruptible and freezable mode.
-+    ///
-+    /// Like [`CondVar::wait_interruptible_freezable`], but registers the current task as a
-+    /// non-exclusive waiter.
-+    ///
-+    /// The lock is reacquired before returning. The wait may also end due to a signal or a
-+    /// spurious wakeup.
-+    ///
-+    /// No lock other than the one released through `guard` should be held, since the task may
-+    /// be frozen while sleeping.
-+    ///
-+    /// Returns whether there is a signal pending.
-+    #[must_use = "the caller must check whether a signal is pending"]
-+    pub fn wait_interruptible_freezable_nonexclusive<T: ?Sized, B: Backend>(
-+        &self,
-+        guard: &mut Guard<'_, T, B>,
-+    ) -> bool {
-+        self.wq.wait_once(TASK_INTERRUPTIBLE | TASK_FREEZABLE, || {
-+            guard.do_unlocked(|| {
-+                task::schedule_timeout(Delta::from_jiffies(task::MAX_SCHEDULE_TIMEOUT))
-+            })
-+        });
-+        crate::current!().signal_pending()
-+    }
-+
-     /// Releases the lock and waits for a notification in interruptible mode.
-     ///
-     /// Atomically releases the given lock (whose ownership is proven by the guard) and puts the
-@@ -185,7 +210,7 @@ pub fn wait_interruptible_timeout<T: ?Sized, B: Backend>(
-         }
-     }
- 
--    /// Calls the kernel function to notify one thread synchronously.
-+    /// Wakes all non-exclusive waiters and one exclusive waiter synchronously.
-     ///
-     /// This method behaves like `notify_one`, except that it hints to the scheduler that the
-     /// current thread expects to sleep soon.
-@@ -194,7 +219,7 @@ pub fn notify_sync(&self) {
-         self.wq.wake_up_sync();
-     }
- 
--    /// Wakes a single waiter up, if any.
-+    /// Wakes all non-exclusive waiters and one exclusive waiter, if any.
-     ///
-     /// This is not 'sticky' in the sense that if no thread is waiting, the notification is lost
-     /// completely (as opposed to automatically waking up the next waiter).
-diff --git a/rust/kernel/sync/wait.rs b/rust/kernel/sync/wait.rs
-index 819dbd0eb3a0..8de7aed89e0c 100644
---- a/rust/kernel/sync/wait.rs
-+++ b/rust/kernel/sync/wait.rs
-@@ -227,7 +227,6 @@ fn wait_event_timeout_internal<F: FnMut() -> bool>(
-     /// Performs a single non-exclusive prepare-to-wait / finish-wait cycle, calling `schedule_fn`
-     /// in between. Non-exclusive waiters are all woken by [`wake_up()`](Self::wake_up).
-     #[inline]
--    #[expect(unused)]
-     pub(super) fn wait_once<F, R>(&self, wait_state: c_int, schedule_fn: F) -> R
-     where
-         F: FnOnce() -> R,
+diff --git a/man/man2/mount_setattr.2 b/man/man2/mount_setattr.2
+index 0f4b619d8..bb8da7ca4 100644
+--- a/man/man2/mount_setattr.2
++++ b/man/man2/mount_setattr.2
+@@ -846,7 +846,7 @@ acting as an implicit version number.
+ (Because new extension fields will always
+ be appended, the structure size will always increase.)
+ This extensibility design is very similar to other system calls such as
+-.BR perf_setattr (2),
++.BR sched_setattr (2),
+ .BR perf_event_open (2),
+ .BR clone3 (2)
+ and
 -- 
-2.56.1
+2.53.0
+
+
 
