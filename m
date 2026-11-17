@@ -1,82 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794936348;
-	b=DWAoMcIYWc/VJtc+TNqPa6DQMoBndA+uVVREavC31yhdi4bx2+OvlmJZZUJ4/YeKaqSr
-	 9MigjX+QG/2FdjDjkUftopNTW2AW2cLUq4rUkFNFEi6N+bG35dn5O0OBAT/DTCqO3rky3
-	 MWqyDj2W5Yofsd7yQ7Q3lqykCOsCrrxFSmodVvjo7ugBdfzxRe2mRBwf1rIXgyqVfNBoW
-	 IsesiPipXE7HCzkzHpT0DEZ3m5FOOOObCLCLyxFo6agAP76OmsncxUh4bCcPvFTq8gBB+
-	 IX+VZJ9f3LwRZJhBGXuu96cWz9veL24DszWd4eizuSV/D2ztOngRZtPlPXo0sVlANdQ==
+	t=1794936706;
+	b=rRvIeKfHPQONtey9oZV0NpGx+97qL8iSjhOikwZC0e75vAk97gSn6+owK5xyaMpqicDp
+	 FgfUND2qqWDvPx3gCtJwOy+kjRxJVTEJZ+gM8M87Hey0jPLTdVotGdCS5FWH9LqiQyUxE
+	 bytxGchwYQHH74JOzc4ZpTB4vBbUPqUu9+nociIbmuNFF8HRNO1U8q/NOFROJU/jYJS5W
+	 pyX2CVY7Ot1RsZ9NdKWoIpBAF4B7MhHUeZ8OEoYaZWwCoyXenj8tJYOXEnL2ZYDnbpEZ/
+	 6XLB0rAQF0JCdiFW8aA1lsle74DRpXctTb4YH5clDRWCvUSSpNLbXdmesthrpG2Lg2w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794936348;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:X-Scanned-By;
-	bh=5HpZNf1p6vQ+Z15EuGtPfQXOlxM7vON26KjcgJWrLvY=;
-	b=wCBQDSVUOvDe20EjLEBv0JV1WSjHQZyDQlqjw975O8W0RIuZcqaFiHrareMtAYF9EidH
-	 MvisZ72FlmqjbeQKgYCjYi4KlLWfQVLL5q1kUOqhFu2yuX5UCKMWQOywpKLdhbIqVHkrC
-	 MbEjTjCB4kcmoa260BMttLsnvveZZJXLq09hfsi92y76Wfu4aonVXy2TXH4keou/cIjNJ
-	 WWySq/Gj6+r779QXYuHeTjMpo3smcZG3bhGbVNXy05jkHoJDTVqoRmX1vTYe+eH4F/3cw
-	 t2XRvqK+7U58Q8OkLllEVOdysd8Vasxitr6szv0jxXPOW8Sm3sSRIQDJz1efEmlZwDQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794936706;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=gWwNhbtcLalE2PqcCUTg1GPM/R8CUWdz4KeRs9qScNU=;
+	b=PKFMEpKUwR48RFbNy5vQc5ARXVCPXaFck0+YeWb6jKcTN6DEBoQkGDNO2B9AS/s37VTF
+	 sTaScIl9IMFi1z68qNij8Hfr5zANaMmIJq5RsbhYPSfOj4TdqYvwe8xqizxPaAoewLGcO
+	 zw/7RCqI/BSXuhkliDLTf5SxIegT3CKpl6eUCAzzwS/sDevl4HeoK7hq9r2TBV3VbHy4l
+	 zKdw4dGuRAgvfbzjNwEvAqoJjNrxpKLDfD+Ngmp3oy1AGZPL0t7y4VWmG4WC4BQiIcAB4
+	 QSfHinGImkQnFXBT5lyeLcbRxB3YQ0XBr8L1wVI8Ze5UKstbFo9dtczGsVvkHj6aDDQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Y0cAOkcf;
-	arc=none smtp.remote-ip=170.10.129.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pzvOX1Zj;
+	arc=none smtp.remote-ip=74.125.82.53
+Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FDE6606A330
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 17:25:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0FDE6606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67879606A31C
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 17:31:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 67879606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Y0cAOkcf
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1794936347;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5HpZNf1p6vQ+Z15EuGtPfQXOlxM7vON26KjcgJWrLvY=;
-	b=Y0cAOkcfxmvbVcUy2Mymrlgs35i1jUf7NE83emRI/hA1hsWrUYxY8HlAV7xOA5QNog+QBl
-	+M0hp8O/CBYsmeoJvD66wKoKuWcZ33NPsFEij9YbtR3FgG8zVIvqcrq6yEvy4a75TrsWTu
-	ftoHUqsFTxzRimLV//JwDTiEVK0u/HY=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-467-OB_fdnBjM0yJlldqNbt59Q-1; Tue,
- 17 Nov 2026 12:25:41 -0500
-X-MC-Unique: OB_fdnBjM0yJlldqNbt59Q-1
-X-Mimecast-MFC-AGG-ID: OB_fdnBjM0yJlldqNbt59Q_1794936339
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6CB201956051;
-	Tue, 17 Nov 2026 17:25:39 +0000 (UTC)
-Received: from onestero-thinkpadp1gen7.tpbc.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id F27F53001DAD;
-	Tue, 17 Nov 2026 17:25:35 +0000 (UTC)
-Received: by onestero-thinkpadp1gen7.tpbc.csb (nbSMTP-1.00) for uid 13628
-	oleg@redhat.com; Tue, 17 Nov 2026 18:25:39 +0100 (CET)
-Date: Tue, 17 Nov 2026 18:25:34 +0100
-From: Oleg Nesterov <oleg@redhat.com>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Mani Tofigh via B4 Relay <devnull+mt4022.columbia.edu@kernel.org>,
-	Breno Leitao <leitao@debian.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Mateusz Guzik <mjguzik@gmail.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	tz2294@columbia.edu, stable@vger.kernel.org,
-	Mani Tofigh <mt4022@columbia.edu>
-Subject: Re: [PATCH] pipe: keep per-write wakeups for EPOLLEXCLUSIVE consumers
-Message-ID: <avyODoFhZ_M7YDU5@redhat.com>
-References: <20261111-pipe-epollexclusive-wakeup-v1-1-0af6283e9fda@columbia.edu>
- <avxWKI795DthE8Sb@redhat.com>
- <CAHk-=wjOq+G=6gte4vX_YxOD_VfE1uZh7=+KHs8N0wU75xyHEg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pzvOX1Zj
+Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-1a3c08d6928so106495c88.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 09:31:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794936705; x=1795541505; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=gWwNhbtcLalE2PqcCUTg1GPM/R8CUWdz4KeRs9qScNU=;
+        b=pzvOX1ZjRuGztXjiyCxRHW/9od/kBClMxI2oWyJNSDuL34tQ2PGsDHPNQabR5Z/SSy
+         gTuXfvhyqsnBSsNrKDf+JJqN819CfkKZEcvJpfuu2+YMKN/OYg4eb6UyxQip5JPn9vtZ
+         BOwSBm0q2ZSSoukT2PVp2y/gwq/WLcoP8Xey1QuA7E+lLt+kJlsl2HiB8Rv16d1AbPNi
+         d4YmQnhVHOajoex6vFj4DJgJo2zleVdLWtG3wrD/CdxgHHj1H8Ys/sVyD8+U1xNS8iLg
+         COe2G5ZVcsEiA7zY5BeGeRE9nJwHmjAKkQMnMkvFVRlR43pQ+ckHKWU90mCUHyoaWBoN
+         Fxnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794936705; x=1795541505;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=gWwNhbtcLalE2PqcCUTg1GPM/R8CUWdz4KeRs9qScNU=;
+        b=liWWIE+YwJFDSFmwAtfU0aVO0TH/MxI+R8dZNI+xjUn2ZCQcuv5Zdh4dvHdd3kcW44
+         X47cbxwcsJNwV+h3x6J5/q83sovVtSY5ngNEAGoFF4z6wNS6XwrAb4lFyCTDni6CCwDi
+         bFpXqidUu+qvvlGDSGP7B1986DzQ2gcCQpRnGcmKMXv8j7RkRxwLe+ZgMVzu7kC4YOGK
+         3Q5mpC7XTJXHt3ekK6XthAVYDnxAZAw2JI/4J5WO7DNGaQGlAaIIksdX33FYU3E+elwP
+         tr020jhezG03DPtAsNbN67LjFwrwX6KFGnPQ9+b8ibkzKRvCoRxiT7AOZcJ0AWjK9BNF
+         0cLQ==
+X-Forwarded-Encrypted: i=1; AL+hErH//loxaDVZGI8F8SgpEqTG1uSdtNNn0RIFCHw8WuEr5AxpsWoRpezq70zl08vwanTo18rhCA3opLv0AKJm@vger.kernel.org
+X-Gm-Message-State: APuU4Z/VoRN7vvu895M3usg0RHj3GyzlUjKMUkVX0LWuA9CvxTuF0dAj
+	3PLASidBbMSfIHWNF4KItkL5PvZ/pH4gJrMjIa3fThaAzKSBOjKTBPBL
+X-Gm-Gg: AYBFou0QY1myY+FXzfgBfLK0T+e3lhJ1MSBxzbaH6j2kAZo9/cwekhotbf55syx4p+F
+	RNE3FX19deuNtZykoUa4p3wYK0IkBlJjHlfhXYfnk+zVt1sIUqWZr5T8l+R+CkLem5elsRs+iWl
+	i0grhIQAlcDtuRuBL4LMsCBz7onPBiS92uXTgAQpYHsQ6bEGMrXCEIcoDfUmEl6C0zb7Ee6gR9q
+	Qv3vXOXPjWdTIiBPjJkTsviO0CW3Vb3bmO6dAw18p6bC0OEXZtbt8GbCMaFU4x2GYMH9JLBebi2
+	QmgdAafa726aLDCocfxiFkkhFPQSCAqtraucf1OW6MFskj8ZksKOMmP1O4VIZgsbkNTMrsBqvFX
+	ZbDHXChJGmA1IWCgtmhwabBnX7WjLSw0SkJssoeict4sgpVogbnqvRGJJr9CXpOjhX4Aw45UQV6
+	UYMbpFgja9RaGbkvv+A/VHToEbJwH178Kh3OyklWYIVwo8jhNJyQhBDJPaHLtNPXa74LjhEJQvJ
+	8VDs3zSHrcrA1xaY7772h8Xcj/ZkHFaYu1XtQCcFPg6vS5orkkvDk/5Y8PK8hugXwKO4ZoTjsJP
+	e1U4N/BK897OKTepNDIO7Ne4GfCU43MzgCO7nkDmyhzmIgEz2cahfWaDk1wORdvuZA==
+X-Received: by 2002:a05:701b:4509:20b0:1b2:4e29:92f4 with SMTP id a92af1059eb24-1b543d0e211mr209408c88.39.1794936705172;
+        Tue, 17 Nov 2026 09:31:45 -0800 (PST)
+Received: from MacBook-Pro-8.lan ([27.125.146.195])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b50319d40asm43450247c88.11.2026.11.17.09.31.42
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Tue, 17 Nov 2026 09:31:44 -0800 (PST)
+From: Ding Feng <dingf3ng@gmail.com>
+To: viro@zeniv.linux.org.uk,
+	brauner@kernel.org
+Cc: jack@suse.cz,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	dlemoal@kernel.org,
+	naohiro.aota@wdc.com,
+	jth@kernel.org,
+	Ding Feng <dingf3ng@gmail.com>
+Subject: [PATCH 0/2] fs, zonefs: ignore RLIMIT_FSIZE values above LLONG_MAX
+Date: Wed, 18 Nov 2026 01:31:27 +0800
+Message-ID: <20261117173129.61028-1-dingf3ng@gmail.com>
+X-Mailer: git-send-email 2.55.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -86,45 +100,48 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wjOq+G=6gte4vX_YxOD_VfE1uZh7=+KHs8N0wU75xyHEg@mail.gmail.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+Content-Transfer-Encoding: 8bit
 
-On 11/17, Linus Torvalds wrote:
->
-> On Tue, 17 Nov 2026 at 05:27, Oleg Nesterov <oleg@redhat.com> wrote:
-> >
-> > However, EPOLLEXCLUSIVE breaks this logic. ep_ptable_queue_proc() does
-> > add_wait_queue_exclusive() if EPOLLEXCLUSIVE is set.
->
-> Christ, how I hate epoll. It's a pile of stinking shit.
->
-> This literally violates THE WHOLE AND ONLY POINT of exclusive waits.
->
-> The rule for an exclusive wait is that it *will* act on the wakeup -
-> either by consuming the data, or - if it can't consume it all - by
-> waking up the next waiter itself.
->
-> So it's not that "EPOLLEXCLUSIVE breaks this logic".
->
-> The logic is fine. EPOLLEXCLUSIVE is broken beyond words.
+generic_write_check_limits() and its zonefs copy store
+rlimit(RLIMIT_FSIZE), an unsigned long, in a loff_t. A soft limit
+between 2^63 and RLIM_INFINITY turns negative, and every write then
+fails with -EFBIG and SIGXFSZ:
 
-Well, I thought so too. That is why initially I replied "we don't care"
-to Mani. But then I decided to summarize and add CC's.
+  $ bash -c 'ulimit -f 9007199254740992; echo hi > /tmp/f'
+  File size limit exceeded
 
-So. Do you agree that we can "ignore" this report from Mani for now?
-Until we find a user application that already depends on the behaviour
-before f1cebdec9739 (the next write() wakes up a reader which sleeps on
-->rd_wait for no reason).
+Patch 1 fixes the VFS helper (write, pwrite, writev and copy_file_range
+paths). Patch 2 applies the same fix to zonefs.
 
-Just in case... io_uring/poll.c:__io_queue_proc does the same:
+Jun-ichi Takimoto reported this in 2020 [1]; no fix followed. It came up
+again while proving pwrite(2) against POSIX with Frama-C/WP.
 
-	if (poll->events & EPOLLEXCLUSIVE) {
-		add_wait_queue_exclusive(head, &poll->wait);
-	} else {
-		add_wait_queue(head, &poll->wait);
-	}
+Tested on v6.12 (arm64 tinyconfig, QEMU virt, initramfs on ramfs) with
+a static test program that sets the soft RLIMIT_FSIZE, writes 2 bytes
+and copies 10 bytes with copy_file_range():
 
-Oleg.
+  soft limit            unpatched           patched
+  1024, 2^63-1          ok                  ok
+  2^63, 2^63+4096,
+  2^64-2                EFBIG (both)        ok (both)
+  1                     short write, then EFBIG (both kernels)
+
+Also reproduced on 6.10.14 (arm64) with write(), pwrite() and
+copy_file_range() on tmpfs and overlayfs. Compile-tested for x86_64
+defconfig with clang; not run on x86_64.
+
+[1] https://lore.kernel.org/linux-fsdevel/8F9EB913-3AC3-4D89-9DA3-427029F6D211@kba.biglobe.ne.jp/
+
+Ding Feng (2):
+  fs: ignore RLIMIT_FSIZE above LLONG_MAX in
+    generic_write_check_limits()
+  zonefs: ignore RLIMIT_FSIZE above LLONG_MAX in
+    zonefs_write_check_limits()
+
+ fs/read_write.c  | 9 +++++----
+ fs/zonefs/file.c | 9 +++++----
+ 2 files changed, 10 insertions(+), 8 deletions(-)
+
+-- 
+2.55.0
 
