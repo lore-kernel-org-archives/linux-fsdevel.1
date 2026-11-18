@@ -1,75 +1,143 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795037878;
-	b=KSCZmru9Br4SUmn/zMeczmZqQxZL8c7nlNVXxdTmXK6iI4g3Nb5+EV857KS3qPV9wuVg
-	 KTjYJn/YQdXE1I5LDded71P2j7ov0xMDSEAlDUArEP6nct3W8KQWQW69Yj0arrofaCb59
-	 hR0cMCssNHpIqvqCaGHarj8AOmvSm8Ahh6J6SSwCR8WAjgjXTIOn3h4G3sf55PgQ0I39m
-	 RhHn766xnbO2eDWoxrpFtBoA/FB2gY6V7q/R7zj2kfLb7vvblQ7GPToMpD0bDKmgN5ujs
-	 KaxNukCHWXxqitLmNLCBQUOEja20Eq1q3oemiTcLt8ZQ04XQL+hdr5g1JpjGVrFA+8w==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795037878;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=eda4ISHn5njc0IevbUeQv7QSiOeoFwowNLfqeedWwx0=;
-	b=1djInVBB8GMxDbFzpAAcKXmmArFf9C7RHCtx1BZSDEvv36kdX1uqU4wMliFQ4vMFdcQe
-	 nZYzAs6/X4AKyYveJwOOpTz06P6fuRTjj6WwRKEt+t9Z0Cm8dAwAsTttAyw7CUiDTG6yn
-	 IEp2GOIzHLHpOJ+6a/xnQY0gFNnhXXcWlN+jSeZb24LRAcSazxAZU03J15StPwXNx2H+2
-	 5HZww26zE70Kt06bAT7oT73BeaJIBvJ19XL39UrzyS3qw6OPZd9jKa7MdDhNyXdRkwZbU
-	 0gWGmPi5X5H6G8nfA96akhwhVoe1eQCL9Bq/3Ass+rq9NWQ7SLEBHcTRncutXJVw+TA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QP74cqrM;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.62.33
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795038021;
+	b=Lm/kOx5IuCsfAu0qtpzZeLVYm+1gCViJxjr6lv8ss01XnCF65S9DHSUG7OO4rX5KSGtn
+	 JecmoOoATqVFLn1NzEVsbY6KngclImUbGHFtm8gG9bQZEdIOfVibGeF1bGRCz4vYtqHOK
+	 /wKUAEzpfx9vxDGBpy8WITrDWxAx71M5BFxUSaeB90fe1p3j190poY69yzfZ/o8Rew/l0
+	 dR7x9u2G2Vh2JsTwqexpCZ6SurUKJNQ++m9fe0RccVa7SdsrCOrK4tJjTe3VwboMUNWil
+	 dEAr4HFBDBgM3x5+OQSjN1Ic8HNjRkXoK0ovebq5bJnZnRNB4FSKE5IX9Z9lXnTIfkw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795038021;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:Content-Type:Content-Disposition:
+	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=ztrc0Yp2eDQ6TZtAfPMQ1bmjQn8htzBnLl23LuCPLh4=;
+	b=vGr2qMHoYAzrhNmDKqbFZqFxQHdQesyjBmn5C05wEYKErgPSNpPryX+FXZOd+QwFJR8u
+	 PVtvo/5/2HgqYJp0Ka7TFG4Z+IQzQXITj5kysQs5ynPpxdxND1o0761gzUCXvnwIaeC68
+	 bflIlN6VEdt5IFaOmYfkZXN1QCY66aObtPIwgnIk7KINSiAIs85nagLadIE7md2hA09b3
+	 ZvxDDO9TC2OXxVOKC3Vg5Fzq8x+3kJI13jHLqmqkF1eC1oL+h0aPf4fJfw96QhDiAVWKR
+	 L8SLRwvlZsbAKS8jCek7Qpxmj8nEQAPrF8azqRXhaTlOZWu6gwnshCkVTfL4Q4H1ETA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=nvidia.com;
+	spf=fail smtp.mailfrom=nvidia.com;
+	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=Gt+On+x7;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.62.33
+Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011033.outbound.protection.outlook.com [52.101.62.33])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE6A8606A31C;
-	Wed, 18 Nov 2026 21:37:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ABCE606A325;
+	Wed, 18 Nov 2026 21:40:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3ABCE606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QP74cqrM
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC47C1F000C6;
-	Wed, 18 Nov 2026 21:37:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795037878;
-	bh=eda4ISHn5njc0IevbUeQv7QSiOeoFwowNLfqeedWwx0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=QP74cqrMg0ssgYPhlNLoVnUlyqLBPz6kMLxr/sw5q2NaYR+sCsU54vyW7wHThRcVS
-	 raNEPpiCIuSXRAiQbacG1+liaCR23nyvaHGk9TFbWQkARNw66swW9gHtQcmFqfD0Ii
-	 7FZ5pImPnVTEtKn3zhcb3jbYp/YJnoZtfg1MAq+zWXGrEA0+HOdW89pWMbgL3NLRKL
-	 NIAtzZ1UWNbb40X6PFi1xfR3mibxsMx695uW0E0hxpekgNiu+Jn9qifkC7KkrZqgai
-	 DY//3k4nI7FN0LjTaNX/HOq+alHp5ja8vWBWe4lMDQ2uvF7NA+Q8/NIv6yoaFdS5c7
-	 nkj3DuVlfw9Yw==
-Date: Wed, 18 Nov 2026 22:37:49 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Andy Lutomirski <luto@amacapital.net>, lennart@poettering.net, 
-	Jann Horn <jannh@google.com>
-Cc: "Hallgrimur H. Gunnarsson" <halg@google.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Paul Moore <paul@paul-moore.com>, 
-	Serge Hallyn <sergeh@kernel.org>, Kees Cook <kees@kernel.org>, 
-	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jan Kara <jack@suse.cz>, 
-	James Morris <jmorris@namei.org>, Simon Horman <horms@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jann Horn <jannh@google.com>, 
-	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, KP Singh <kpsingh@kernel.org>, 
-	Jonathan Calmels <jcalmels@3xx0.net>, Casey Schaufler <casey@schaufler-ca.com>, 
-	linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, linux-api@vger.kernel.org, 
-	containers@lists.linux.dev, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/8] userns: per-namespace capability bounding set and
- opt-in netns loopback
-Message-ID: <20261118-professionell-kondition-kerzen-5dd23c1ee490@brauner>
-References: <20261106-befreien-addieren-eislauf-e09212803534@brauner>
- <CALCETrWa1SBLcb5oWjqjgzZvKvCoHjmYFk=Lf5ytEM9uqm5jYA@mail.gmail.com>
- <avM41a80aig2de-R@google.com>
- <20261111-behagen-faktisch-entgegen-e2e714373895@brauner>
- <CALCETrUjW=kXxyggDUvEN+Pxc-pE98eVbdW8XBU8JzfqXj_voA@mail.gmail.com>
- <20261117-rational-ohnehin-unbeugsam-e5c04759a156@brauner>
- <CALCETrWhuOnBy0N0KznmczD4S2XEK0fbr0C=1KFQqTnoTJbQbg@mail.gmail.com>
- <20261118-stapeln-eckpunkte-lesbar-ee73537f474d@brauner>
- <20261118-zufahrt-baubeginn-gutsbetrieb-c09004227e8f@brauner>
- <CALCETrUMNr=32ENT6VBKPzoyJDfaX6nzZsjMVxuz9O3z+6LRhw@mail.gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=Gt+On+x7
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=sU/qXtJl9eMvdeVta6xtgiUqhc110KbAjiZf4J8ejEbLy0EtAip3BumfqrWchuwSlMSvVMonhKHAjS92ZDd6+z1sRA40xaIkZR+I3h7oDgATF+bEQXg2S59YqQT4Fe7DCtDCdQvY7uxoK6uihgPUnU3uFWgu3JyEXcJyKq8bouvfqqb3gpEzD02NozdLzQsZ6M2sRnFc3pUB2vh6pK0Gc4RhF/oYVJzd7enulwQxCBVs7TIoPDv3IuzigenbOxQfC1rUuMkuZTk4pJvhB7J72SKh1+IJpskqKwMAPIVCCNpVkgyD+QLXc/t9yIxPTaiAXAIY+8bXFaXI661iJ7vTog==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ztrc0Yp2eDQ6TZtAfPMQ1bmjQn8htzBnLl23LuCPLh4=;
+ b=ZT5/zo+Wp50hopyDBCJ6mdPHAZ7u1bhav0if0+PN4dDcusYCRiW3DcUQ2zJekuZqZ0jWckzsW+gc9d+GPPBNLYO70haRTxUsHskWso4UXJUyNviRxbd3QBOvBSkM/hsmbEQm/oRMnZF8OB2IclcNyTFBbJzAnYS/1/p+LdaT4SebcroeQTklXRL2dtK/5efa3j5HYOEVAq5/Ye1W6CEuTjQgu7ThdTeCzH1n3PMKrROnI2nRHXV7HW1mbgDBHoKUvIRegymiyBAXaEH0EZ1TcVHnPdrkCUVfklHmS6u2dh+ZwibNlnQ1yT8CsabZjELqGFKSEGdrwT8z++vjtk4YLQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ztrc0Yp2eDQ6TZtAfPMQ1bmjQn8htzBnLl23LuCPLh4=;
+ b=Gt+On+x7LN274xI0eFQJmxK97SaDZlc6dJgFqhxUAprJ++e9RSfhXZ0162Y+BC78sNPGDajNR6l400NKp/CtU5W36Ariq8GR6l8gU0BtUcgsEjNlaTGofwZo3bXCp0WY/pIEWTbEu2e48bSdbVh+56QkXY06zkR6RaImKKYTVTXw5SlHtjHBxgJ+gZBx+k9kYnvEVcLJz/cETPKO2PYmsvj5WCe17vJy2+Mluxzrgo65Hi6u/v2h0TqCWkp3MCo5iP7q4cLh+KFGQacXOZKeN0Wg/b2OUNqAB4bAdAPYF2H7IePOxWwp9C8pHoHBGW27ZvSDV+w0gEX/w6eqMUzDGQ==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV3PR12MB9356.namprd12.prod.outlook.com (2603:10b6:408:20c::21)
+ by MN2PR12MB4287.namprd12.prod.outlook.com (2603:10b6:208:1dd::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.19; Wed, 18 Nov
+ 2026 21:39:47 +0000
+Received: from LV3PR12MB9356.namprd12.prod.outlook.com
+ ([fe80::1c36:31b4:c420:6286]) by LV3PR12MB9356.namprd12.prod.outlook.com
+ ([fe80::1c36:31b4:c420:6286%4]) with mapi id 15.21.0615.012; Wed, 18 Nov 2026
+ 21:39:46 +0000
+Date: Wed, 18 Nov 2026 16:39:45 -0500
+From: Yury Norov <ynorov@nvidia.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Boqun Feng <boqun@kernel.org>, Waiman Long <longman@redhat.com>,
+	Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
+	Christoph Lameter <cl@gentwo.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Zqiang <qiang.zhang@linux.dev>,
+	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
+	Kees Cook <kees@kernel.org>,
+	Joel Granados <joel.granados@kernel.org>,
+	Anna-Maria Behnsen <anna-maria@linutronix.de>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>,
+	Pedro Falcato <pfalcato@suse.de>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowangio@gmail.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+	wireguard@lists.zx2c4.com, netdev@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	rcu@vger.kernel.org, virtualization@lists.linux.dev,
+	linux-rt-devel@lists.linux.dev, llvm@lists.linux.dev,
+	Yury Norov <yury.norov@gmail.com>
+Subject: Re: [PATCH 00/17] Treewide: enforce static storage for object
+ initializers
+Message-ID: <av4bISGVaQNwRUmG@yury>
+References: <20260915030336.1192299-1-ynorov@nvidia.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260915030336.1192299-1-ynorov@nvidia.com>
+X-ClientProxiedBy: BL1P222CA0010.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:208:2c7::15) To LV3PR12MB9356.namprd12.prod.outlook.com
+ (2603:10b6:408:20c::21)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -79,243 +147,148 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CALCETrUMNr=32ENT6VBKPzoyJDfaX6nzZsjMVxuz9O3z+6LRhw@mail.gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV3PR12MB9356:EE_|MN2PR12MB4287:EE_
+X-MS-Office365-Filtering-Correlation-Id: eb494a5b-8334-4ab8-733c-08df45bc7728
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|7416014|23010399003|1800799024|10070799003|376014|261022075727099003|261021121427099003|56012099006|10067099003|261028144727099003|261022105027099003|261021123027099003|261009223027099003|261102123227099003|18002099003|6133799003|11063799006|261026140227099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	KsTh2qJIbrnqyR5HtwOmanaUdt5Qxxb0Im9OtFhIeiEe+fAV5dx14R9WUXxDwAeD1gYw7tt4duL5Lb3HqKq0bCpWsAGxE0N2WlsjxCTd5sTMWI2CV+vNp3VuHbOv8xzSrzDsgRhf3WfRg1m6sZZM9CFdWz/SORtddSzqHiVzb3lTIi276b1kjKeMTTokQnlDo/9jZsy6bMSHKjrphvp575wwP1wWDIbIiZfs7iDW+sGzD8gLfuj8ccFaD1akAHU/4FMgR67SH32yB0iyp5ltWf4afz+buam2aadgcYYP6BOkcqi/CP19OL1q7xUPJSFqJ87EFveWV26f4Sk55bjAXIRla8wJ6rPfSZNiH+88dz+GMMhUwErb8C+xxLpQjHhvUrUbtMMYqhg50943kuk03OdxP61zIwrbJ0h9tcEWbxEz9TOwZDbCg31y7/TqeZEl50p+yM4CjueVpwHnGYuCYUroH/c09s9ZVt5zcbHl6dlaJ9ZfNizAv+KfTgPVwDhqpZ8Fz0A96UsCyeonNx3jFXaC7U/5qrQz+VnsYGLJLPDsSYGVSmrqu3CiZyrcQMVwFS2vLZKC6cRW5iz67kHxv4AC224VhXIMTDuM/HBEHKl8jNSUUoLR+Cl8vtDSgcPDnhxSgB7mWnqMXtbz1RFdW/7jEmPbzenlvvl1h49kgHk=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(23010399003)(1800799024)(10070799003)(376014)(261022075727099003)(261021121427099003)(56012099006)(10067099003)(261028144727099003)(261022105027099003)(261021123027099003)(261009223027099003)(261102123227099003)(18002099003)(6133799003)(11063799006)(261026140227099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?+HZXWlztPnrA5ZFzmksOZgMH5WgHrJnQHSH7tRwGXb0ozDMYBnJf5U/1EwFg?=
+ =?us-ascii?Q?qS+wmI/og7Dafmf9Sk5wgckkmX3GkCIwpIg9KS1L5znF8mQz747hSjCrpXgq?=
+ =?us-ascii?Q?vjNEosmbbvUruz8McHeUW1yDnhyFGuW+Z2d5U96WPKBeb9L6+ZwmP7TIWF4Y?=
+ =?us-ascii?Q?QcNuWMahBfJXbGU0Ry/CUIybNWxbSEe/cGAQju67gU2WSZ+52V+/17WqMO/y?=
+ =?us-ascii?Q?j2UBmd/KiQermdrZ8gf/DUkZ88xrF9fC+NAlH05dUPrfiHFDQO6E1/wJW5C8?=
+ =?us-ascii?Q?2RIgCU/fd3IKrKOUvd1pGtae2wOgIy0NqxAqsqk7dB66hDct8cXpYQlgb4VU?=
+ =?us-ascii?Q?dXRwSspuqu6KY3Z/yp4kgDj/EsKsn1u5nv4aJNEo6xaqSMjeqpQLqvW4hwdQ?=
+ =?us-ascii?Q?lzxw7MM2FFutMP1IYMlKHseHzD9C5IjSRWF0xy9YZZwotE/uYy1gvfjHrREP?=
+ =?us-ascii?Q?IF65bS+QPxzLXjzwFU72P773cesKRKykaxTD96etoa14C2/XyN7IwSmGxw5j?=
+ =?us-ascii?Q?tll2PTRlEXAC10z6h9l1u/8lrtGNv9NTNo0sV4weyHlVfs5ly+CCT3RmJLEO?=
+ =?us-ascii?Q?nP/kpk8+X6nSPoI5hVDEonxvV/ZY8pz8tWNTmvXCiv/HU9Dfi0iA4CLTOwHI?=
+ =?us-ascii?Q?0jw/0zdDpFdklt2BgLUHzuDOhY+RP9jkXXlPgu1v5q04xlO+GyCVfOGsB49j?=
+ =?us-ascii?Q?vZUe1o0Pi3eJ0LlLnlJIfAo1g00uEQor8J3w896qarzG1A+K0Rp4wMfM6wuo?=
+ =?us-ascii?Q?fJUGLOe0Bf0U1zosf8uf3uXWb/WtGCJp4PgkJXeHaKIJup+R0N8AbdAo38Zo?=
+ =?us-ascii?Q?fs8gQ6jcwPIH56slC4KO6jhY3wIiS2kQNOf6bPtewdF8FchrTJRbrxT/90oi?=
+ =?us-ascii?Q?Eithaw2D8et910vIUBFlUSpUQg6G8BBtKGDGGxtJPbB3dkAAdt6Iu6um0PP0?=
+ =?us-ascii?Q?u0hhAPLYaQ8P7m+G1hJugl3uhC+dUYquFQ10IRoaPn0N7mZ7LSHNHtDvuHKj?=
+ =?us-ascii?Q?JupTeqcreoSsSvq/Qhz6CPzdDFZKObzUaaje2Ok+O7K7xT1jUWD0Fg/KsRZX?=
+ =?us-ascii?Q?5oRw+Kog2p0q1Q98i87eOit3D89hB0atSxmWFt5vTFSAlwLQEVUhsJA6DEDS?=
+ =?us-ascii?Q?+GKU8xdx0yj9grgfRN8Aw6vHsk+CB0cC+8er9YEFW5HvJ86a6i8fYW4WxQgB?=
+ =?us-ascii?Q?zuttoOrGunjzgcDyTx+ki2UdGX0Spie22ZkldM44n2QpcrfB2eGE1ryZ/8JT?=
+ =?us-ascii?Q?KQdvzAmM9VGshgUqqQSlB0h2I3RQP38WZzup/UfuUz0ZOMtw50UV3ZiOqe9S?=
+ =?us-ascii?Q?b3ubPqL0Qq2WxgtnZJpibdnW4Ogp/3Fd0NoyZ/ibn6qHlqwz8wpXsuhBKe9j?=
+ =?us-ascii?Q?0VMjcGJuyu92kqQwqHL4DeuSYwBLN47n+ZDrbn0aoi2VhSlyjzH5l0obumhL?=
+ =?us-ascii?Q?QB8NvLaJ4/98rw6rdqjmDeJXka2I69poxAzUFwzPOX78tu59gu2eIIUmDTZ2?=
+ =?us-ascii?Q?Emfg4EMS18l+TMRrDTiTdce5+cGkKX59mjrFNZIw3Th+eifVvJ/fi/LICXvV?=
+ =?us-ascii?Q?wFkOICJknVoTe0SY16SSqrTwpNkbhalN4IAQk1//t3YP3k1iNCZQjMng9evN?=
+ =?us-ascii?Q?yj5nUuUMdaaBXB81NUGBagQ54Eu/tToNc8NkqdqNJJI9jPk37kqebLpaOYC5?=
+ =?us-ascii?Q?Ss9bRUIQT5k6NDr1aChYpRP0dvgaDrRftnUZhpq9oZXxoQXiMIy6DaKo3ze5?=
+ =?us-ascii?Q?ZfVxfY6cf4W3L2SJdnUgxl9skE2wQAj+OmRvFqZjGAoa/cGjF1y7?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: eb494a5b-8334-4ab8-733c-08df45bc7728
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9356.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2026 21:39:46.8409
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: VuIOe8u6/T8hb9ONElnQ3MlOXvUx5QSohWUO+1liFdy0CLRjlqwlOMsPzcNRnRUreEXQwc120y+3217IuxxY7Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4287
 
-On Wed, Nov 18, 2026 at 01:12:45PM -0800, Andy Lutomirski wrote:
-> On Wed, Nov 18, 2026 at 1:06 PM Christian Brauner <brauner@kernel.org> wrote:
-> >
-> > On Wed, Nov 18, 2026 at 11:21:57AM +0100, Christian Brauner wrote:
-> > > On Tue, Nov 17, 2026 at 09:37:19AM -0800, Andy Lutomirski wrote:
-> > > > On Tue, Nov 17, 2026 at 9:10 AM Christian Brauner <brauner@kernel.org> wrote:
-> > > > >
-> > > > > On Mon, Nov 16, 2026 at 09:15:18AM -0800, Andy Lutomirski wrote:
-> > > > > > On Wed, Nov 11, 2026 at 7:20 AM Christian Brauner <brauner@kernel.org> wrote:
-> > > > > > > * a task that setns()es in later gets
-> > > > > > >   ns->cap_bset & (cred->cap_userns | cred->cap_permitted)
-> > > > > >
-> > > > > > I'm not sure this is ideal.  If a task has cap_userns & CAP_NET_ADMIN,
-> > > > > > then there is no attack surface issue with allowing it to enter a
-> > > > > > namespace and be NET_ADMIN there even if the namespace itself has
-> > > > > > CAP_NET_ADMIN cleared from cap_bset.  But any exemption here would
-> > > > > > need to be a new API so that it isn't used by accident.
-> > > > > >
-> > > > > > I'm mostly saying this because container managers might want to
-> > > > > > restrict cap_userns within their containers but still have it
-> > > > > > themselves for management.  But maybe there isn't any need to enter
-> > > > > > the userns for this purpose.
-> > > > >
-> > > > > I don't think there is. A manager that holds the capabilities itself can
-> > > > > just do most things from the outside. I think it's nice that once you're
-> > > > > inside a namespace you're bound by its capabiltiy set. Otherwise the set
-> > > > > isn't a property of the namespace anymore. If someone comes up with a
-> > > > > real need to enter we can add an explicit opt-in later?
-> > > >
-> > > > Fair enough.  Also you've written infinitely more nontrivial container
-> > > > managers than I have (I've written container managers, too, but
-> > > > they're all special-purpose things that don't do much in the way of
-> > > > actual managing).
-> > >
-> > > So I think this is another instance where we're bitten by the complexity
-> > > of the whole namespace api. In a perfect world our answer would be "Yes,
-> > > the owner of the userns is definitely capable of performing all relevant
-> > > actions from outside the userns.". But we're actually not able to say
-> > > that because there's so many different ways how some <object> is set up
-> > > or configured for a container and nobody ever sat down and defined the
-> > > model how a container and it's various resoures are set up.
-> > >
-> > > So once again, here we are guessing our way to a decent decision...
-> > > Thanks for helping with thinking this through.
-> > >
-> > > > > > > * Root in a container has caps as well so for containers the exemption
-> > > > > > >   would be wrong.
-> > > > > > >
-> > > > > > >   So here we need a a lockable SECURE_NO_USERNS_CAP_RAISE bit thingy.
-> > > > > > >   This turns off the exemption and prevents raising the mask.
-> > > > > > >
-> > > > > > >   Docker lowers the mask, sets and locks the bit, and
-> > > > > > >   unshare(CLONE_NEWUSER) in the container doesn't hand out CAP_NET_ADMIN
-> > > > > > >   anymore.
-> > > > > >
-> > > > > > Can you clarify this part a bit?  I'm not seeing why Docker should be
-> > > > > > special.  Shouldn't the inside of a Docker container work as much like
-> > > > > > a normal non-container system as possible?  What's the use case?
-> > > > >
-> > > > > I picked Docker because you brought it up, and your goal of allowing
-> > > > > user namespaces even in Docker is kinda the use case. Docker can only
-> > > > > drop the CLONE_NEWUSER block from its seccomp profile if nested user
-> > > > > namespaces can't get more caps than root/Docker wants to give them.
-> > > > >
-> > > > > But the bit isn't at all Docker specific. Any privileged task that wants the
-> > > > > mask to apply to itself would benefit. With just the exemption this wouldn't be
-> > > > > possible:
-> > > > >
-> > > > > (1) A runtime that holds full capabilities gives a
-> > > > >     user namespace it creates all bits.
-> > > > >     It can just set the bit before creating it.
-> > > > >
-> > > > > (2) In a container without a user namespace container root has host-level
-> > > > >     capabilities. Any user namespace it creates gets them through this
-> > > > >     exemption thing. So it can also add them back to its mask. And the mask is
-> > > > >     inherited. So every process it starts can then create user namespaces with
-> > > > >     them.
-> > > > >
-> > > > >     by raising the bit we stop both. The locked bit keeps container root which
-> > > > >     also has CAP_SETPCAP from clearing it.
-> > > > >
-> > > >
-> > > > I'm still not 100% sure I'm following this.  By "exemption" are you
-> > > > talking about the cred->cap_premitted term here?
-> > >
-> > > Yes.
-> > >
-> > > > ns->cap_bset = parent->cap_bset &
-> > > >                        (cred->cap_userns | cred->cap_permitted);
-> > > >
-> > > > (As as aside, as formulated, the parent->cap_bset term should be
-> > > > irrelevant, no?  cred always refers to a task in parent, and this
-> > >
-> > > (
-> > > I don't think it i.s
-> > > cap_userns is full by default. Entering a namespace doesn't change it.
-> > > A task inside a namespace with a reduced cap_bset still has the full
-> > > mask. Without the term a child namespace gets more caps than its parent
-> > > had.
-> > >
-> > > cap_permitted can grow through a setuid-root exec in the parent
-> > > namespace. And that exec is bounded by the tasks bounding set and not
-> > > by the namespace bounding set.
-> > >
-> > > So that term ensures that the namespace bounding set shrinks
-> > > monotonically by construction.
-> > >
-> > > I think it would only be redundant if exec would be clamped by cap_bset.
-> > > I'm not sure if the patchset does this.
-> > >
-> > > /me looks...
-> > >
-> > > Ah, ok... this patch series already clamps exec to the namespace
-> > > bounding set. So yes, you're right.
-> > > )
-> > >
-> > > > whole thing is defined so that cap_userns and cap_permitted are always
-> > > > subsets of parent's cap_bset, right?)
-> > > >
-> > > > I think I agree that there needs to be a way to turn the cap_permitted
-> > > > thing on and off (and I'm also not sure whether cap_permitted is
-> > > > better than cap_effective), but I'm not convinced that an inheritable
-> > >
-> > > The effective set can be raised from the permitted set at will. So I
-> > > think permitted is just more correct.
-> > >
-> > > > and lockable bit is necessary or wise.
-> > > >
-> > > > How about changing the rule to:
-> > > >
-> > > > child->cap_bset = parent->cap_bset & soft_cap_userns &
-> > > > (cred->cap_userns | cred->cap_permitted)
-> > > >
-> > > > a) (ugly but easier) A non-inheritable prctl-controlled mask
-> > > > soft_cap_userns, changing the rule to parent->cap_bset &
-> > > > soft_cap_userns & (cred->cap_userns | cred->cap_permitted).
-> > > > soft_cap_userns would be reset to all ones on on fork and exec to
-> > > > avoid creating new inheritable security-relevant state.
-> > >
-> > > So both let the creator pick. But the bit is for the creator when it
-> > > wants to self-restrict: container-root without a user namespace.
-> > >
-> > > It's the same reason that securebits and no_new_privs are inheritable
-> > > and lockable. Afaict, a) is reset on exec so it doesn't control the next
-> > > exec. b) covers namespace creation but not unsharing a user namespace.
-> > >
-> > > > b) A whole new create-a-namespace API where the caller chooses
-> > > > soft_cap_userns at the time they create the namespace.
-> > > >
-> > > > > On the host none of that matters as the mask is root's own policy there.
-> > > >
-> > > > I'm still not seeing how there's a difference between host vs
-> > > > init-userns-container vs separate-userns-container.  After all, in
-> > >
-> > > I think the difference is simply whether the restricting task holds the
-> > > capabilities itself. Unprivileged users on the host don't and so they're
-> > > not subject to the exemption. The bit is for that case where the task
-> > > holds the caps.
-> > >
-> > > But ok, if we really don't want to bother with container without user
-> > > namespaces the bit vs a) thing can also go into a follow-up series.
-> > >
-> > > > Unfortunately we don't live in this world, and I'm not convinced that
-> > > > can credibly even approximate it, because people really like their
-> > > > setuid programs working inside a userns.  It still bugs me that we're
-> > > > designing permission systems designed to work in the POSIX model that
-> > > > I think we all kind of agree is fundamentally rather messed up.
-> > >
-> > > I don't think all hope is lost. We have slowly been pushing in this
-> > > direction. systemd allows to set NoNewPrivileges= in it's global config
-> > > so it's possible to enable it for the whole system easily.
-> > >
-> > > There's been a ton of work to get rid of classic setuid-exec stuff:
-> > >
-> > > * run0 instead of sudo (with sudo compat), and systemd-ptybrokerd for
-> > >   interactive shells
-> > > * nsresourced for user namespaces with delegated ranges, mountfsd for
-> > >   unprivileged image mounts
-> > > * outside of systemd: pwaccessd/pwupdd/newidmapd replacing unix_chkpwd,
-> > >   passwd and newuidmap/newgidmap, polkit without a setuid helper, and
-> > >   su/sudo/pkexec wrappers on top of ptybrokerd
-> > >
-> > > But yes, containers are the sore spot. no_new_privs inherited from PID
-> > > 1 breaks setuid inside of containers.
-> > >
-> > > My idea has been to make this dynamic:
-> > >
-> > > * deny privilege gain on exec in the initial user namespace and allow it
-> > >   in nested ones. I mused about this in
-> > >   https://github.com/uapi-group/kernel-features/pull/38
-> > >
-> > > Also, since v7.1 there's CLONE_NNP to spawn a child without no_new_privs
-> > > set.
-> >
-> > Forgot:
-> >
-> > https://www.thkukuk.de/blog/no_new_privs/
-> >
-> > has an overview of where we're currently at.
-> 
-> Nice!
-> 
-> I commented in the uapi-group issue:
-> 
-> I think there may be a rather more direct solution to this problem. I
-> seem to recall advocating for clearing no_new_privs when entering a
-> userns way back when, and IIRC I dropped this as part of the extensive
-> negotiation to get NNP into the kernel in the first place. (I think
-> dropping it was probably the right decision to keep the final patch
-> simple.)
-> 
-> But I think I would still advocate for an option to let clone, unshare
-> and setns callers turn no_new_privs off. The logic is that, if you own
-> a userns, you already have all capabilities in it. If you enter it,
-> you get to keep those by having them raised in cap_permitted. Being
-> able to clear NNP and thus drop and subsequently regain them does not
-> let you do anything you couldn’t already do.
-> 
-> An LSM hook for this would be needed because this argument does not
-> apply to non-namespace-scoped LSM-based privileges. But the LSM hook
-> would just be a "may this caller enter this userns and clear
-> no_new_privs while doing so" query. In the absence of LSMs, the
-> operation would be allowed.
-> 
-> This would allow a fully no_new_privs host to run an ordinary
-> container that runs, in the ordinary way, without no_new_privs, and
-> without hitting any new LSM calls after it's started.
-> 
-> The API could be as simple as a CLONE_CLEAR_NNP bit.
+So, any progress on this? Should I rebase and resend, or we can merge
+it as is? Andrew?
 
-I think that sounds ok. I worry a little it since it would somewhat
-alter the promise that NNP gives. What model do you envision?
-It seems that CLONE_CLEAR_NNP would only be allowed with CLONE_NEWUSER.
-I _think_ this safe even for privileged users that create a user
-namespace and map uid 0 to uid 0. So I think this could work.
+Thanks,
+Yury
+
+On Mon, Sep 14, 2026 at 11:03:18PM -0400, Yury Norov wrote:
+> On top of [1].
+> 
+> Declaration macros that statically initialize embedded locks require static
+> storage when lockdep is enabled. Automatic objects must use runtime
+> initialization so lockdep receives a persistent class key.
+> 
+> For automatic local objects, lockdep cannot use the lock address as a persistent
+> class key and reports "INFO: trying to register non-static key" before disabling
+> itself.
+> 
+> Series [1] introduces an ASSERT_STATIC_STORAGE() macro to enforce static
+> duration of an object, and applies it for DEFINE_IDA() and DEFINE_MTREE().
+> 
+> This series applies the same mechanism for the other structures of that
+> sort found by Codex.
+> 
+> Link: https://lore.kernel.org/all/20260911221444.1523311-1-ynorov@nvidia.com/ [1]
+> 
+> --
+> 
+> [1] also describes the preferred route(s) for the material. According to
+> Andrew's (and mine) preferences, sending everything together in the hope
+> that the relevant maintainers would ack the corresponding patches or
+> simply take them in their trees.
+> 
+> Yury Norov (17):
+>   locking/mutex: assert static storage for DEFINE_MUTEX()
+>   locking/rtmutex: assert static storage for DEFINE_RT_MUTEX()
+>   locking/rwsem: assert static storage for semaphore definitions
+>   locking/semaphore: assert static storage for DEFINE_SEMAPHORE()
+>   locking/seqlock: assert static storage for DEFINE_SEQLOCK()
+>   sched: assert static storage for wait queue and completion
+>     declarations
+>   xarray: assert static storage for DEFINE_XARRAY_FLAGS()
+>   idr: enforce the static-storage contract of DEFINE_IDR()
+>   radix-tree: require static storage for RADIX_TREE()
+>   klist: assert static storage for DEFINE_KLIST()
+>   workqueue: assert static storage for work declarations
+>   timers: assert static storage for DEFINE_TIMER()
+>   kthread: assert static storage for delayed work declarations
+>   ratelimit: assert static storage for DEFINE_RATELIMIT_STATE()
+>   notifier: assert static storage for locking notifier heads
+>   rcu: assert static storage for RCU sync and SRCU definitions
+>   sysctl: assert static storage for DEFINE_CTL_TABLE_POLL()
+> 
+>  drivers/macintosh/ams/ams-pmu.c              |  4 +--
+>  drivers/net/wireguard/selftest/allowedips.c  |  4 +--
+>  include/linux/completion.h                   | 10 +++++--
+>  include/linux/idr.h                          |  4 ++-
+>  include/linux/klist.h                        |  4 ++-
+>  include/linux/kthread.h                      |  4 ++-
+>  include/linux/mutex.h                        |  7 +++--
+>  include/linux/notifier.h                     | 13 ++++++---
+>  include/linux/percpu-rwsem.h                 |  4 ++-
+>  include/linux/radix-tree.h                   |  4 ++-
+>  include/linux/ratelimit_types.h              |  4 ++-
+>  include/linux/rcu_sync.h                     |  4 ++-
+>  include/linux/rtmutex.h                      |  3 +-
+>  include/linux/rwsem.h                        |  7 +++--
+>  include/linux/semaphore.h                    |  4 ++-
+>  include/linux/seqlock.h                      |  3 +-
+>  include/linux/srcutiny.h                     |  4 ++-
+>  include/linux/srcutree.h                     |  7 +++--
+>  include/linux/swait.h                        |  6 ++--
+>  include/linux/sysctl.h                       |  4 ++-
+>  include/linux/timer.h                        |  4 ++-
+>  include/linux/wait.h                         |  7 +++--
+>  include/linux/workqueue.h                    | 10 +++++--
+>  include/linux/xarray.h                       |  3 +-
+>  tools/testing/memblock/linux/mutex.h         |  8 ++++--
+>  tools/testing/radix-tree/benchmark.c         |  4 ++-
+>  tools/testing/radix-tree/idr-test.c          | 29 ++++++++++++++------
+>  tools/testing/radix-tree/iteration_check_2.c |  4 ++-
+>  tools/testing/radix-tree/main.c              | 16 ++++++++---
+>  tools/testing/radix-tree/regression3.c       |  4 ++-
+>  tools/testing/radix-tree/tag_check.c         | 28 ++++++++++++++-----
+>  tools/testing/vma/include/dup.h              |  5 +++-
+>  tools/virtio/linux/compiler.h                |  9 ++++++
+>  tools/virtio/linux/ratelimit.h               |  6 +++-
+>  34 files changed, 176 insertions(+), 65 deletions(-)
+> 
+> -- 
+> 2.53.0
