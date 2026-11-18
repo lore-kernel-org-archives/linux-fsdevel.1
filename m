@@ -1,140 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.134.164.83
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795010894;
-	b=KWbMdUxZStBczeeoNgIZb9SScHt4ybvJ/FYtaFQ19RPVG2XuuKKOe0HsPpvgoYaFhvgT
-	 E/rnp0dc6NfRB8aeUIgQtKnrjO5/MzghY40eobaZHhAY4pGilaTxRZbuuVHgxhBhue0VI
-	 H16K9UXrFY46KOOu1YTuZD6pAlET6UhKqQu4XEqMJHlvovqc9xHHTkuy15SMSGBmum8T6
-	 0vUFbi5ChCnwDrEHspR3yOKZWoNPISefxodaHiPLt8AZBf4ApBW7x+TpDP+NDuZTFrRnL
-	 CvNnr+c7ThoCzUMfcSRqJWpVkdEYfk5BUUIM4EjPmVeylgg/KDmmTvcacHSrYDTyC9Q==
+	t=1795011300;
+	b=cB8H4CPRrf9BXmN2y+wMsTAjeZQhyOHUCu0UaYfIN0MglD1Wt81UdfApQxITtO2kPOum
+	 p8F1lskbGiTD/zAzSVle959pivMRAc08yxplm1Kt2CbY6sitA/5NszlgerPzWoc3jrBtX
+	 l6jkT0wlM4Nu/FDAvl6j2m8O4G9HcnZweQWv2HupFfEIMMtGwfNUVH+hfZPeT0iZnOcft
+	 /1vYEU9RJiI5NdgnliYdc/A4iiJD0KhwHC6GA72J5/g8+pxzz6Q0JZfceB0FlTFA3Qgui
+	 APjP8AnRmG60vMoUh2yb9sbwRHN5qXEGTkgHY/g5AVC8hM+UWW+sk7RSE/QYeSKlfIA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795010894;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:Received:Date:From:To:cc:Subject:In-Reply-To:Message-ID:
-	 References:MIME-Version:Content-Type;
-	bh=kSUE/o5CqDYurph69R6wpud9Np7SIjoEFQ7s0L3TdZE=;
-	b=4EMIilZ8cQtQTU/9VXo4mmb8fbzLhKV+0okgLf0eKcOJXybmFA9VHsYRhNlbxqjq4+r9
-	 LWB2NKL62TBtc5gSUJVelUH9mxw3kwCj0gq+I1ejZItlHBAxodJUo+tzzaxLGQqnv6y2R
-	 OTOubtdXh1IT87QU24bIMWOfVggy+ObAODJZ4Ro71J4bTd0UZxjIckWs3GLj8vt/UhcF3
-	 kwfgkw+8Jx1wpv4BeCUD3WQGWsS1k4KUbOCsjoXtHiTnV02MgNTPmXWZ3/jAKSiKIPhOf
-	 YWcmltS3oip51jspxf3tqTjJnvMihuC6xyliU2UP8NmTvu6kwtuEfpbNzdj+kTsNeKw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795011300;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 In-Reply-To:Date:Message-ID:Content-Type:Content-Transfer-Encoding:
+	 MIME-Version;
+	bh=Lr6L+cYeRUIJDJyNctOopXpHFnq46QKdQrQ9Ke1StVE=;
+	b=jSVr3rLr7kHYoZOjudFJicRk6O4wcqwgJdG1esi18841yL1MzRdi/1VO8L7q3Qnh3ADg
+	 Lz8C5JbHF+qX9kQA38oH2nIGX655CPCjAuimNGsbymF+dHsNp2qINK6VJdqsoMKB0l/0R
+	 ts/w7Y/D5HRrnaouyS7qwQ+V6qXUhuRE5IzrDTw/txsbBAdh+85XnL8VKVQfgjKalnDhh
+	 5m2PHvS6s4RYvYenNojAvJWI/sZ7pZMtdgu0WaQpeR93JX2rcYIo34hBgAI1kgjpIGzdU
+	 DalTlHSdSdU+TzadWUXq80Qm8T29lJ7aNtuZxHr9Q5dA6H1F2aYLxuPNbCMjUbE6q0A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=inria.fr;
-	spf=pass smtp.mailfrom=inria.fr;
-	dkim=pass header.d=inria.fr header.i=@inria.fr header.a=rsa-sha256 header.s=dc header.b=lO8vUGAB;
-	arc=none smtp.remote-ip=192.134.164.83
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="Owut/OfF";
+	arc=none smtp.remote-ip=209.85.221.53
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3878B606A31C;
-	Wed, 18 Nov 2026 14:08:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3878B606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05EEA606A335
+	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 14:14:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 05EEA606A335
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.a=rsa-sha256 header.s=dc header.b=lO8vUGAB
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Owut/OfF
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-490c3ae81d3so673953f8f.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 06:14:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=kSUE/o5CqDYurph69R6wpud9Np7SIjoEFQ7s0L3TdZE=;
-  b=lO8vUGABN3SRz8stmFI6GOw5EdtNndRF+CQvv0/fdjATmxkGTAFZQyyX
-   q3S3Iji9niTjJuaRWhbudJSEAZZKtnIYWDJnU5+hLPXuIFXtC4McFue5K
-   zJmH9mSahEE3uuCKvqXtwc7RUVjEQny86msZaIn/W22PRg53MToih5RN6
-   4=;
-X-CSE-ConnectionGUID: NpDResvMRHWEoFCgk5A11w==
-X-CSE-MsgGUID: tkj3zeBCTZKFS5tJsQM2+w==
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.27,219,1787004000"; 
-   d="scan'208";a="306121450"
-Received: from 72-255-236-003.static.imsbiz.com (HELO hadrien) ([72.255.236.3])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 15:07:35 +0100
-Date: Wed, 18 Nov 2026 22:07:31 +0800 (+08)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Bence Csokas <bence.csokas@arm.com>
-cc: Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
-    Marcel Holtmann <marcel@holtmann.org>, 
-    Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
-    Sumit Semwal <sumit.semwal@linaro.org>, 
-    =?ISO-8859-15?Q?Christian_K=F6nig?= <christian.koenig@amd.com>, 
-    Philipp Stanner <phasta@kernel.org>, 
-    Sudeep Holla <sudeep.holla@kernel.org>, 
-    Cristian Marussi <cristian.marussi@arm.com>, 
-    Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-    Maxime Ripard <mripard@kernel.org>, 
-    Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-    Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>, 
-    Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
-    Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-    Tvrtko Ursulin <tursulin@ursulin.net>, Lyude Paul <lyude@redhat.com>, 
-    Danilo Krummrich <dakr@kernel.org>, Zack Rusin <zack.rusin@broadcom.com>, 
-    Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
-    Selvin Xavier <selvin.xavier@broadcom.com>, 
-    Kalesh AP <kalesh-anakkur.purayil@broadcom.com>, 
-    Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
-    Chengchang Tang <tangchengchang@huawei.com>, 
-    Junxian Huang <huangjunxian6@hisilicon.com>, 
-    Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-    Hans de Goede <hansg@kernel.org>, 
-    Mauro Carvalho Chehab <mchehab@kernel.org>, 
-    Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
-    Dexuan Cui <decui@microsoft.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-    "David S. Miller" <davem@davemloft.net>, 
-    Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
-    Paolo Abeni <pabeni@redhat.com>, 
-    Miri Korenblit <miriam.rachel.korenblit@intel.com>, 
-    Jes Sorensen <Jes.Sorensen@gmail.com>, Ping-Ke Shih <pkshih@realtek.com>, 
-    Johannes Berg <johannes@sipsolutions.net>, 
-    Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-    Guenter Roeck <groeck@chromium.org>, Nilesh Javali <njavali@marvell.com>, 
-    GR-QLogic-Storage-Upstream@marvell.com, 
-    "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
-    "Martin K. Petersen" <mkp@kernel.org>, 
-    Julia Lawall <Julia.Lawall@inria.fr>, 
-    Nicolas Palix <nicolas.palix@imag.fr>, 
-    Alexander Viro <viro@zeniv.linux.org.uk>, 
-    Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-    Paulo Alcantara <pc@manguebit.org>, Namjae Jeon <linkinjeon@kernel.org>, 
-    Ronnie Sahlberg <ronniesahlberg@gmail.com>, 
-    Shyam Prasad N <sprasad@microsoft.com>, Tom Talpey <tom@talpey.com>, 
-    Bharath SM <bharathsm@microsoft.com>, Carlos Maiolino <cem@kernel.org>, 
-    Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-    Peter Zijlstra <peterz@infradead.org>, Darren Hart <dvhart@infradead.org>, 
-    Davidlohr Bueso <dave@stgolabs.net>, 
-    =?ISO-8859-15?Q?Andr=E9_Almeida?= <andrealmeid@igalia.com>, 
-    Alexei Starovoitov <ast@kernel.org>, 
-    Daniel Borkmann <daniel@iogearbox.net>, 
-    Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-    Kumar Kartikeya Dwivedi <memxor@gmail.com>, 
-    Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
-    Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
-    Emil Tsalapatis <emil@etsalapatis.com>, 
-    Ihor Solodrai <ihor.solodrai@linux.dev>, Simon Horman <horms@kernel.org>, 
-    David Ahern <dsahern@kernel.org>, Ido Schimmel <idosch@nvidia.com>, 
-    Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
-    Steffen Klassert <steffen.klassert@secunet.com>, 
-    Herbert Xu <herbert@gondor.apana.org.au>, 
-    =?ISO-8859-15?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>, 
-    =?ISO-8859-15?Q?G=FCnther_Noack?= <gnoack@google.com>, 
-    Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
-    "Serge E. Hallyn" <serge@hallyn.com>, "Geoffrey D. Bennett" <g@b4.vu>, 
-    Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-    linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org, 
-    linux-bluetooth@vger.kernel.org, linux-media@vger.kernel.org, 
-    dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-    arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-    intel-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
-    linux-rdma@vger.kernel.org, linux-hyperv@vger.kernel.org, 
-    netdev@vger.kernel.org, linux-wireless@vger.kernel.org, 
-    chrome-platform@lists.linux.dev, linux-scsi@vger.kernel.org, 
-    cocci@inria.fr, linux-fsdevel@vger.kernel.org, linux-cifs@vger.kernel.org, 
-    samba-technical@lists.samba.org, linux-xfs@vger.kernel.org, 
-    bpf@vger.kernel.org, ipsec@lists.linux.dev, 
-    linux-security-module@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH v4 1/2] overflow: Add offsetofend() variant of
- struct_offset()
-In-Reply-To: <20261118-offsetof-v4-1-95b385c10b22@arm.com>
-Message-ID: <c6fbb025-8de-b716-5d32-877c3d3fa2a6@inria.fr>
-References: <20261118-offsetof-v4-0-95b385c10b22@arm.com> <20261118-offsetof-v4-1-95b385c10b22@arm.com>
+        d=gmail.com; s=20260707; t=1795011298; x=1795616098; darn=vger.kernel.org;
+        h=mime-version:content-transfer-encoding:content-type:message-id:date
+         :in-reply-to:subject:cc:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=Lr6L+cYeRUIJDJyNctOopXpHFnq46QKdQrQ9Ke1StVE=;
+        b=Owut/OfFa6E71kOopud76C/B5gBb9b7Sz2N38c23akPgcj6Qm1z+UL6sXme/0Pao3y
+         qS4qK3drbWZRzdMIOMD3Ih+B/ksIu5sHIXGXJ3awEe+oVHABGh7Pl1junppwjc9V6JUU
+         XUC2c2iM4q5RsoR3otxYFcLvEf44ROR5UrM3oMCdh47tpI75gQWnR1BEmTYncyFTWMAR
+         /DTZowrkx1xO/gJOZeatRIGTjkmlIcXXfK2FyPbu+JL/gUBrweFoMclDqUH9W+l6Gcsr
+         uFAxy7rxyNCXq1t7r60B+8GEkFzzNLAGvUqiqkXIftfcWbHwZJHYoMFf3FOQe80lmX3V
+         zuEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795011298; x=1795616098;
+        h=mime-version:content-transfer-encoding:content-type:message-id:date
+         :in-reply-to:subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=Lr6L+cYeRUIJDJyNctOopXpHFnq46QKdQrQ9Ke1StVE=;
+        b=i1vy6fDLNjtB1YNe2R2EzYiGerbZ4A7qRR3lotAzho+EVpan0HfPS6JQFyGZgX5b8t
+         5i5jLRTdWT86k0OByz6TlWDzuLbJxQVYiXfTvhd++ym4IVa8LCN0hr1KaKi7YsQdcVgZ
+         LMnLp3UaroqgzTZrFWjDN7nP8+ozrp8NPThEf65SFOZfT5nh4nLpbzR9SbgmR5X6Gbtu
+         Db2wlp1PpqC3+r2cW3fL4tsnTM5dgBdUD+Rg5UxmAKaIhO+YtR8a4yOdz+QhHJux7Tpq
+         +SZAofY71SW8dYSA7RsNKeKmKyTiqRFovK6OTXeRkeki9QSlTEFC8NENwdFJgtq+xpVz
+         M7EA==
+X-Gm-Message-State: APuU4Z98aW7bsEVhdjLsU7fhnRczVQBJ5m00nCMm9NfAmXPVCGIlVdvf
+	blTigLAaqXjbpUR5x8JhtIhH7bWDD6wDVnULdH1dKhvtt0IHD8Yr5zvozpcGyFn0Zac=
+X-Gm-Gg: AZFdTZdvbRgHRqFtOnm3znF3xx2LmbII5s0o2cr3y2gYJcM7jsjuvpy4X/POtE+LzbL
+	GoUGkKkrF3wABsTLRG1h62OGgjxA+nChUcQvjedKNXraTolHwMSc1zUVREcKeCzwn9TxNh+dTCH
+	EEIVY7QTgNJWAJGG50naMg8Ypb4sFQOg78BKXC0iUedBLuaXNzknbFzziN+J6MVL8OUdppXgzSS
+	0Bt7ejPaPrC5qHyY+IrGbDX9PC4R0uEYBOnQ0y3iWf1gQH3k5Un8gjAaBWnE0wiBS3fu63T2ZA9
+	KVml42d0YSzt7hy2KSE4CFKggEFd1FkUgxMrq5XssoPgg6dpd/x3GUerdk2go0gNp4ghy9HfxOB
+	DTlK7uMDZOtoVMtIpT8YNWWkaggicPXVARtFnpyDfRm7AQuU+9maj8iLFY/ajGghJYVHxYREgcz
+	1YEK+IBeuK3S9THREc7/OSkeUa0Wz7Zm5MjeyqDj7yKdqljYBU9O0/RykT7S7n7TbAIKIe0OYLh
+	DItXZOBynFRd5AW+XGHe0LEETNS8UCryhIwbUn2GTpJ7PoB4N9H2LaIbYCaxB6Jltk2KMPTpKPT
+	V5VQS/bRl+YKELR5lsrDwsaaE4tckTryRfGgXopdgLmTR9C68FCJ1l8VWVbBRCfwSHpNiSmIH7X
+	URIk7
+X-Received: by 2002:a05:6000:4812:b0:48f:bc05:76fc with SMTP id ffacd0b85a97d-4a63c657f66mr5381340f8f.11.1795011298295;
+        Wed, 18 Nov 2026 06:14:58 -0800 (PST)
+Received: from SurHub.localdomain ([196.188.113.38])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a6569338acsm5108876f8f.45.2026.11.18.06.14.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Nov 2026 06:14:57 -0800 (PST)
+From: Abdifatah Suruur <suruurism@gmail.com>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: linux-fsdevel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] fuse: stop stealing pipe pages into the page cache
+In-Reply-To: <20261118135359.6256-1-suruurism@gmail.com>
+Date: Wed, 18 Nov 2026 17:14:54 +0300
+Message-ID: <179501129496.10449.5445396291756842907@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -144,78 +96,16 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 
+Hello,
 
+Please ignore/drop my patch "fuse: stop stealing pipe pages into the page
+cache" (message-id <20261118135359.6256-1-suruurism@gmail.com>). After
+further checking I found that this issue has already been reported and
+fixed upstream by commit 80beb226de50b859913a55be0d6bff9046662294, which
+predates my submission. I should have checked the post-snapshot history
+more carefully; my patch is redundant. Sorry for the noise.
 
-On Wed, 18 Nov 2026, Bence Csokas wrote:
-
-> Many call sites of offsetofend() use it for the purpose of pointer
-> artihmetic. Thus, a common usage pattern is:
->
->   offsetofend(typeof(*ptr), member)
->
-> Capturing this in one macro helps keep lines short and terse, while
-> still making the purpose clear. It also helps discourage spelling out
-> the type name on every callsite, leading to more maintainable code.
->
-> A similar struct_offset() macro already exists, so add an offsetofend()
-> variant in the same spirit.
->
-> Signed-off-by: Bence Csokas <bence.csokas@arm.com>
-> ---
->  include/linux/overflow.h                     | 12 ++++++++++++
->  scripts/coccinelle/api/struct_offsetof.cocci | 18 ++++++++++++++++++
->  2 files changed, 30 insertions(+)
->
-> diff --git a/include/linux/overflow.h b/include/linux/overflow.h
-> index d0f04436343e..c029d68daeca 100644
-> --- a/include/linux/overflow.h
-> +++ b/include/linux/overflow.h
-> @@ -464,6 +464,18 @@ static __always_inline size_t __must_check size_sub(size_t minuend, size_t subtr
->   */
->  #define struct_offset(p, member) (offsetof(typeof(*(p)), member))
->
-> +/**
-> + * struct_offsetofend() - Calculate the end of a member within a struct
-> + * @p: Pointer to the struct
-> + * @member: Name of the member to get the end offset of
-> + *
-> + * Calculates the offset of the end of a particular @member of the structure
-> + * pointed to by @p.
-> + *
-> + * Return: number of bytes to the end of @member.
-> + */
-> +#define struct_offsetofend(p, member) (offsetofend(typeof(*(p)), member))
-> +
->  /**
->   * __DEFINE_FLEX() - helper macro for DEFINE_FLEX() family.
->   * Enables caller macro to pass arbitrary trailing expressions
-> diff --git a/scripts/coccinelle/api/struct_offsetof.cocci b/scripts/coccinelle/api/struct_offsetof.cocci
-> new file mode 100644
-> index 000000000000..5a30647d3787
-> --- /dev/null
-> +++ b/scripts/coccinelle/api/struct_offsetof.cocci
-> @@ -0,0 +1,18 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/// Use struct_offset() family of macros
-> +///
-> +// Confidence: High
-> +// Options: --no-includes --ignore ./tools/
-> +
-> +virtual patch
-> +
-> +@offsetof depends on patch@
-> +expression ptr, member;
-> +@@
-> +- offsetof(typeof(*(ptr)), member)
-> ++ struct_offset(ptr, member)
-> +@offsetofend depends on patch@
-> +expression ptr, member;
-> +@@
-> +- offsetofend(typeof(*(ptr)), member)
-> ++ struct_offsetofend(ptr, member)
-
-Coccinelle script
-
-Reviewed-by: Julia Lawall <julia.lawall@inria.fr>
+Thanks,
+Abdifatah Suruur
+suruurism@gmail.com
