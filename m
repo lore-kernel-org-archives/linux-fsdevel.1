@@ -1,100 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794962942;
-	b=J4OPXMrewPvVdogFnW7z1ZWBro4xTRthPwQjtcLy9hXEp3sbQ0vJki2ltxlf95xTdEgh
-	 kUwmBpczdG38SU6o6TaYeVPBRpIgApxDbCT1KHzAIYD+UBWjuEqdibCHAHhZWxQ8vDgQ6
-	 erk8rjbjE4IbMewxlvFSMAcAuyg0HouisYxYgqEiPO8mXUaGtE8soFHvJKex6J0+7sbjM
-	 y6MJTm4rcds6VF6ZbWJggoHPus1jRu6udZxIoMmhkYqCzTiHEoL2ke+36729gIRcDPhsY
-	 WCevZVhDZtziQHIPauqnsULon5mX/5XwyChxR230beVcqiB3IGsNmx/iOWb8/SlC7Pg==
+	t=1794964155;
+	b=1IMP6KK4hC7FR5pXNSmJWQUWbDZjpyEQIx1YnXZ14j9c9TyP3FbzxeCC1a/Lk5af4hbu
+	 Kbf9l6X4bVuYdTdlaFVtF8WG2lDU2H20n6joye/4yY21/RWMiDCLV/uPrA+ISAcanQJgD
+	 1d9h8ZZjZS5LQ/EnHYbrBa1qjrKP85asU6VuZYDYLwIXSBuNi6c1v+7r6Sqrxw1NbKM09
+	 i0yzOQ02PMxdJIAvZ2+okE9jmEpO6Q3P65MKIsugLPNz/APQx3GUUemhYZZajNtu/S4Ig
+	 f5rqw5BAXdI1NryvLSsUfJz8lenFrz/pg8cHU4iN+ykWoGIxpR1y//LiUynYVG3veaA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794962942;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794964155;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=treAuPWg+nKRf97mTBv/ahVAZRlgUNZED9ulS1pYeAk=;
-	b=SSyM02UWk6X77/eSumL2qyEyiaJITkOYQzqoZezATZaEJtOTygHGettdSTdxX77rn2VX
-	 Lf/R9H101H1WvrZae0m3QnZ0H6La7UXSvyG6d8ypzVEe2qTEdYmJCbZ4BpAfg/Uk3Z4Mh
-	 svUFL9H0VOfGdfaMHRBsC4iJu0Oyj0MlkVgeGArtyBqDuMP7hriTC6uZWx5rGpz7bqzKD
-	 JXQreqBUAvFK1WuBCc8uUxln+j+oZ9JwL/bFtN56GkVfRVu5kZDLwnPZmsZtYmLu0NJxy
-	 ZOU3oTCSlPYgAmTdIEZuc/yf0KAtkeHH5YwlnJekvRuYRk+Btd27PGcvx51oUSUeHag==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:X-Mailer:
+	 References:In-Reply-To;
+	bh=PZ+3qJZoMU255+lkasu7qmvLXDM4HNJXEBMWPQ3TNF4=;
+	b=su2+ha1xU5aqbDjy1Pm5Ec9z7D/eFtTt9aConnGJd4+11FDfTFpX0xqIoSJi7AGFM2h+
+	 p5EjbOpp5FS0zD+TW4Q1xtY85LDTQDFHe7mkd6VE7qWRMgTVvIj3/ysazGPWAbkYNRUpS
+	 g+BBXwt9rJ6V73J4LRcvdd2OaBOaJ1C/S81lWmyH+tua+KpQB/KJydRKwf0ZMnU/j3EtF
+	 olHtgk9F2bYjCrYBtWYM7oTOzSxtlMXuCfTyR+JNnwGBIKoxJtzTZpgVUg8nI2yw6V36y
+	 2mOWKG8oUUA5Ujpe19rcTONZzzCGqKTHosXt0+UzCjqmq+A2dkoo2QbKGVihT2cN23w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=dubeyko.com;
-	spf=pass smtp.mailfrom=dubeyko.com;
-	dkim=pass header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b="dV/D+1lA";
-	arc=none smtp.remote-ip=74.125.224.47
-Received: from mail-yx1-f47.google.com (mail-yx1-f47.google.com [74.125.224.47])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=VHAwCAgm;
+	arc=none smtp.remote-ip=209.85.128.46
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C73C8606A881
-	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 00:49:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C73C8606A881
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DFB3606A32A
+	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 01:09:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8DFB3606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=dV/D+1lA
-Received: by mail-yx1-f47.google.com with SMTP id 956f58d0204a3-67da564d9f2so501198d50.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 16:49:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=VHAwCAgm
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4bb6057b333so2111665e9.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 17:09:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20260707.gappssmtp.com; s=20260707; t=1794962941; x=1795567741; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=treAuPWg+nKRf97mTBv/ahVAZRlgUNZED9ulS1pYeAk=;
-        b=dV/D+1lAEUxsNm/7Hy+JJ7VRKVMTS9E5RhXEsZjMyjom58OBUctpJbmNZeCNwbaLRo
-         g0ellPOR5L18dXUyzydNNly63wJtRHp8W+aiUQi1awyIWZS9i4kal8juKRlQJQtBi26W
-         odzI5h+Ium1feLGkUR/21+WitQtUDqGJsBz5NHPepleXKaKhHbymsoy817nAOtGvcuN1
-         st/o3Z+70oW/eaZI2M1PJpnz+o7gfmbQL1JYn9qmUGY/fxzlkkQrsG5wQauu3NqTNKov
-         SaTs856jddoIVZXrUwSmbQG0ivjbrrwsC+c0H7BUywJD+sPPF0o9+sLUtMGoSwZ2ZYH6
-         1Rnw==
+        d=gmail.com; s=20260707; t=1794964153; x=1795568953; darn=vger.kernel.org;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-type:mime-version:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=PZ+3qJZoMU255+lkasu7qmvLXDM4HNJXEBMWPQ3TNF4=;
+        b=VHAwCAgmRb/DGKYR9+ms8Cf5qCi3Gd0oKLrclEBf59rwhhv6AicK3WbCXcEYRh1w/j
+         TMeOENMtGAPul3mf5lYMHgFjNJZXDbiiHTTL2mbrYoQsOmyXjsOFJLM21gOrSmUQVi6V
+         xWuvUmFk6jZ5GwhXghxHEC33NVY6qFgeJY6mLRkJuSH1XofE2oM6y5qhOper74Z6DOfg
+         1YDGnIxC27pkz7PmkdpPTqtR7hQhw3QW7YJ2pcCKk0F1kc6Io4WAl3z+02G3DFU0NE5i
+         T1o+OR6jx8pAltoBpMCMU5pl9RosEDcMzv5mBY0yfqWhe+MQQ1d83BTZNl2aAy8fyDRk
+         I1Zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794962941; x=1795567741;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=treAuPWg+nKRf97mTBv/ahVAZRlgUNZED9ulS1pYeAk=;
-        b=h1mi8ppVStykY25BpKQkuurbNAAMFiyUb+ITPY6bv0YMRCS8XGYZ8LirPqkMuaKunq
-         sI3vBzoNysgxzApJkwhiWL8m6ASyw+VD15ZuXLa2nj//Ykp9jFR5gSsOV8CkBZU2SenG
-         WwmQeP+Ne/PRPMRKXshJSGvHZ8Luvx4Sx/6t8cxhBIqxkLiNi7/BkTO/UxhgS4rwULLg
-         JC8FKAA0mETMujDhE9WCI+PSFSLq6PRDZXgHtSwYtRSI4Lq/p6t2ffZc+HNJUnRifwGW
-         AyiLkZVgrpMlSX5dFN0wUu3GofmhRTuv0v8Qj6aEKmKuWlkyCDQxHfMWoUgGVMFPN0K5
-         IoVQ==
-X-Gm-Message-State: APuU4Z90pqd5fcW1ZEGa3yPZgP7SDnNrDb/b64hpgL5AuX4bAaqUDX4c
-	uy8yGX5gob4hYuDb8sCrtHt7rqfJbZsZAKze5P0W4Fzs3l/TfuSOet1vWhTQsw6HR0k=
-X-Gm-Gg: AZFdTZfuHzSBq+uTfghmpB/vMOqoEZLZTNdNdpzBwoN2/WWkCazL0BHQHiVvdoljvY2
-	VLos/ifxA7sSK1LUTkfG+SBn6Hkvh3XaSk7qYngFmU5Uu6HsR76fEUT+eaUBLUvCHET+zwrG7B1
-	OyiKfQBa4RmH8GNAE/1JlynzDsJdZWsojVmPE3WMCfY8kjouImteHLZAld8ASumA/VsOYtTC7A8
-	Laf6/OFmoF9kDY1UqxfIJcYmi28Rmj0CCm0x46J+n6a4yTNfNpt/VSd9WBl0lSvaAsLgShS4V8e
-	+l53UDwmpFEzvDmxRJUY+Viwq/nLf8MVFypXCRcmSYnWwqOMsYC6M5nJ6F1oiPcEwXjpf3gVU5S
-	onL7tqT1S/Q/BGkGciClQKrW/3DYjoT8ax1mVUQRNz4H40rJ55uyCdIsR5Zh9/jkyo/Gm5dw4zC
-	8l8HXLizecDCdzwVsQOFv3cJgvgsKOHRi+ocs0uQXoYMpJH0JqJJ/9i6crlXXwCtg95HvD6XWDI
-	NPS4VKEEo1hgx2ObYMtqw7/vQwFWDHm71hXUfoNTpsKSA5wRSnW6ewzYLc8gjQB1CAyCF0l6Zzy
-	sJpig/h60gYtYrnfzWhVJUmA0PvD1iHTEGkfKCAX/aabmy3N+vtz4t9/7SyhPXwcZMexaq61KNG
-	UqimnedFxROk8BNmpgp//ohx0K3M3S3uC0KTW+oPTLKCMoABz9D8UJCc+MKo5nibHGVNnw1Y=
-X-Received: by 2002:a05:690e:169b:b0:67d:b449:8572 with SMTP id 956f58d0204a3-67dd3cf9a91mr688414d50.13.1794962940767;
-        Tue, 17 Nov 2026 16:49:00 -0800 (PST)
-Received: from system76-laptop.attlocal.net ([2600:1700:6476:1430:5fae:4d02:7055:94ad])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67dd56ead87sm729575d50.1.2026.11.17.16.48.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 16:49:00 -0800 (PST)
-From: Viacheslav Dubeyko <slava@dubeyko.com>
-To: glaubitz@physik.fu-berlin.de,
-	frank.li@vivo.com,
-	hch@lst.de
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	vdubeyko@coreweave.com,
-	brauner@kernel.org,
-	linux-xfs@vger.kernel.org,
-	Viacheslav Dubeyko <slava@dubeyko.com>,
-	"Darrick J. Wong" <djwong@kernel.org>
-Subject: [PATCH v5 3/5] hfsplus: rework hfsplus_get_block() logic
-Date: Tue, 17 Nov 2026 16:48:42 -0800
-Message-ID: <20261118004844.3849979-4-slava@dubeyko.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261118004844.3849979-1-slava@dubeyko.com>
-References: <20261118004844.3849979-1-slava@dubeyko.com>
+        d=1e100.net; s=20260707; t=1794964153; x=1795568953;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-type:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=PZ+3qJZoMU255+lkasu7qmvLXDM4HNJXEBMWPQ3TNF4=;
+        b=CUIWQtfm4EiqnwUOODVEYwBpkgfl9dlfUWQ6riSwdPCMQarmtOG6RVtQh7stkYxyHa
+         Ogj6RTr16RFYHWkDYU8OpHRKOb4f3dmE3q4Y1Cdrre0kNUizh7tIpQaEsJRqnuBNusSk
+         yf1cLrhazTNnnx+4arvnq+q5OKFq5nH/MHL3RqSakW3xVCRrOpQZM+lGz2yzGk92ZFhW
+         zEzjXl3eGmkNPg02WyRe4eJfJesBwsN8K01mPBsQCphew5CN229IfH/rgGXtNLvgN5A1
+         4Auf8gt5t21G6DGw9uWefM+nGsL8wEEqH5SnZesyes9FpIJhSKEi+expfUaWRruDKX7O
+         xhSw==
+X-Forwarded-Encrypted: i=1; AL+hErFuCzVTXS+xwy2Q1yhplV8wc4CWsFcy78xKXlyVmA5qiAVw68lS6U/x7lDUClgLn/LxvpkRCLqWGshjdr+z@vger.kernel.org
+X-Gm-Message-State: APuU4Z/x5HJgV8XARHdjs9t9SdkWUArGmUq8n4iEMyH/ahNSkFE8sO/m
+	RyendBzTKDs9yCYvkIOb0v9BSvgWW6rOKe/cBNgkrORgWKd/0I1AZxyf
+X-Gm-Gg: AYBFou3v7Be+sSY9yNPRO5LK66dMDIhFyHDnY2PHs9ZfeCzrhWJrpy1u0C5Ey/dMkd/
+	gSdudafR2SPpog8SxolHrWKhzFZm0qzYYAbr9rjFyy9B7R1N1eH57Bk3ByLM4od/55Mou2NyIVt
+	DOfwcbUOWm3GeOYzvslxyLkiv6Pjmr/NPhZowD39Nnng00vl+oMFAWsqd09dNRs/KCh/D355HOm
+	UCIQqTAfa6mL7m996NOXi4jSEodkTeDSZr9e59bQnapd3HAqSYDq5JDvIdCsT5Aoxrx+Y1G3DjY
+	wN0Jv30HoE8ljSN6q+OmxLPea+3fopjaez0wrdI2jB1sBsNrASAOWSJv7S97ttW/j4wAzv9r2kk
+	+13lWT1UtYMYvmvCWyKBX0fBHybFnF5G3VsvjMsQKgp9ucj47z71tdDiV5o+D5QFK+qLRyHF3VH
+	tHyhUUsq7xjgfAIE+Co4TPzMxqhkQLZ1VsDwGN0jqpio6+zHVlCFRnyz8rfzz8gAeoY5+m7UrMS
+	XfuDAyAe5KRmAjZAB5H2agUdWvJG82KwnWJXoKuO992l9DIaRVHo+nenJ8iLbIDZEymp0rO+qFC
+	xp9iYCK1CLnY/EFmrGhNpE5r/Q==
+X-Received: by 2002:a05:600c:474c:b0:4bb:6a2d:b426 with SMTP id 5b1f17b1804b1-4bb7d5d40fdmr17867305e9.1.1794964152741;
+        Tue, 17 Nov 2026 17:09:12 -0800 (PST)
+Received: from localhost ([2001:b07:5d26:7a6a:365a:60ff:fe0d:cfc6])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb7d256f64sm23087625e9.1.2026.11.17.17.09.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 17 Nov 2026 17:09:11 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -103,218 +86,296 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Type: multipart/signed;
+ boundary=b1a8dff5fd09ce748c6816739f5ee431ea78e5cf3134c99d90e2f9bc2bde;
+ micalg=pgp-sha512; protocol="application/pgp-signature"
+Date: Wed, 18 Nov 2026 02:09:06 +0100
+Message-Id: <DMXXOPD9UDNP.2YP9ROMHFLM9E@gmail.com>
+Subject: Re: [RFC PATCH v4 00/10] add provenance time (ptime)
+From: "koraynilay" <koray.fra@gmail.com>
+To: "Jeff Layton" <jlayton@kernel.org>, "koraynilay" <koray.fra@gmail.com>,
+ "David Sterba" <dsterba@suse.com>, "Namjae Jeon" <linkinjeon@kernel.org>,
+ "Sungjong Seo" <sj1557.seo@samsung.com>, "Alexander Viro"
+ <viro@zeniv.linux.org.uk>, "Christian Brauner" <brauner@kernel.org>, "Trond
+ Myklebust" <trondmy@kernel.org>, "Anna Schumaker" <anna@kernel.org>, "Chuck
+ Lever" <cel@kernel.org>, "Konstantin Komarov"
+ <almaz.alexandrovich@paragon-software.com>, "Paulo Alcantara"
+ <pc@manguebit.org>
+Cc: "Chris Mason" <mason@kernel.org>, "Yuezhang Mo" <yuezhang.mo@sony.com>,
+ "Jan Kara" <jack@suse.cz>, "NeilBrown" <neil@brown.name>, "Olga
+ Kornievskaia" <okorniev@redhat.com>, "Dai Ngo" <Dai.Ngo@oracle.com>, "Tom
+ Talpey" <tom@talpey.com>, "Ronnie Sahlberg" <ronniesahlberg@gmail.com>,
+ "Shyam Prasad N" <sprasad@microsoft.com>, "Bharath SM"
+ <bharathsm@microsoft.com>, "Sergey Senozhatsky" <senozhatsky@chromium.org>,
+ "ChenXiaoSong" <chenxiaosong@chenxiaosong.com>, "Darrick J . Wong"
+ <djwong@kernel.org>, "Sean Smith" <defendthedisabled@gmail.com>, "Andrey
+ Albershteyn" <aalbersh@kernel.org>, "Pedro Falcato" <pfalcato@suse.de>,
+ "Amir Goldstein" <amir73il@gmail.com>, =?utf-8?q?Pali_Roh=C3=A1r?=
+ <pali@kernel.org>, <linux-btrfs@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+ <exfat@lists.linux.dev>, <ntfs3@lists.linux.dev>,
+ <linux-cifs@vger.kernel.org>, <linux-nfs@vger.kernel.org>,
+ <linux-api@vger.kernel.org>
+X-Mailer: aerc 0.22.0-0-gc2f86b7abde3
+References: <20261115180343.576773-1-koray.fra@gmail.com>
+ <fc53ec55d315a4b96ec1e6f250ad3763f2189755.camel@kernel.org>
+In-Reply-To: <fc53ec55d315a4b96ec1e6f250ad3763f2189755.camel@kernel.org>
 
-Split the extent-lookup/allocate logic out of hfsplus_get_block() into
-a new hfsplus_map_extent(), which reports the mapping as
-(dblock, max_blocks, balloc) instead of filling in a buffer_head.
-hfsplus_get_block() becomes a thin wrapper around it for the
-buffer_head-based callers (B-tree metadata, symlinks).
+--b1a8dff5fd09ce748c6816739f5ee431ea78e5cf3134c99d90e2f9bc2bde
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-No functional change to the existing buffer_head path. This is
-preparation for the iomap-based regular file I/O path added in a
-later patch, which will call hfsplus_map_extent() directly.
+Hello and thanks for replying,
 
-cc: Christoph Hellwig <hch@lst.de>
-cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-cc: Yangtao Li <frank.li@vivo.com>
-cc: linux-fsdevel@vger.kernel.org
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Acked-by: Darrick J. Wong <djwong@kernel.org>
-Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
----
- fs/hfsplus/extents.c    | 116 ++++++++++++++++++++++++++++------------
- fs/hfsplus/hfsplus_fs.h |   2 +
- 2 files changed, 85 insertions(+), 33 deletions(-)
+On Wed Nov 18, 2026 at 12:53 AM CET, Jeff Layton wrote:
+> On Sun, 2026-11-15 at 19:03 +0100, koraynilay wrote:
+>> This is an initial implementation of a new timestamp to indicate the
+>> time when a file/directory was initially created.
+>>=20
+>> This patch series takes inspiration from the one by Sean Smith
+>> <defendthedisabled@gmail.com> [1], but using
+>> file_setattr()/file_getattr() as suggested by Darrick J. Wong
+>> <djwong@kernel.org> in [2].
+>>=20
+>> The semantics of this new timestamp should be at least these:
+>> - it should be the same as btime on a newly created file
+>> - it's user-settable, so it can be preserved for backups, filesystem
+>>   conversions, archives and any similar operation
+>> - it should be preserved every time mtime gets preserved
+>>=20
+>> and the correspondence with the other timestamps is as follows:
+>>=20
+>> ctime <-> btime
+>> mtime <-> ptime
+>>=20
+>
+> I'm not sure how to interpret the correspondence above.
 
-diff --git a/fs/hfsplus/extents.c b/fs/hfsplus/extents.c
-index 924941440066..cdb337ba3924 100644
---- a/fs/hfsplus/extents.c
-+++ b/fs/hfsplus/extents.c
-@@ -48,18 +48,27 @@ static void hfsplus_ext_build_key(hfsplus_btree_key *key, u32 cnid,
- 	key->ext.pad = 0;
- }
- 
--static u32 hfsplus_ext_find_block(struct hfsplus_extent *ext, u32 off)
-+/*
-+ * Find the disk allocation block for 'off' within an 8-entry
-+ * extent record, and the number of further allocation blocks
-+ * that are contiguous with it in the same extent entry.
-+ */
-+static u32 hfsplus_ext_find_block(struct hfsplus_extent *ext, u32 off,
-+				  u32 *dblock)
- {
- 	int i;
- 	u32 count;
- 
--	for (i = 0; i < 8; ext++, i++) {
-+	for (i = 0; i < HFSPLUS_FORK_EXTENT_COUNT; ext++, i++) {
- 		count = be32_to_cpu(ext->block_count);
--		if (off < count)
--			return be32_to_cpu(ext->start_block) + off;
-+		if (off < count) {
-+			*dblock = be32_to_cpu(ext->start_block) + off;
-+			return count - off;
-+		}
- 		off -= count;
- 	}
- 	/* panic? */
-+	*dblock = 0;
- 	return 0;
- }
- 
-@@ -68,7 +77,7 @@ static int hfsplus_ext_block_count(struct hfsplus_extent *ext)
- 	int i;
- 	u32 count = 0;
- 
--	for (i = 0; i < 8; ext++, i++)
-+	for (i = 0; i < HFSPLUS_FORK_EXTENT_COUNT; ext++, i++)
- 		count += be32_to_cpu(ext->block_count);
- 	return count;
- }
-@@ -225,37 +234,46 @@ static int hfsplus_ext_read_extent(struct inode *inode, u32 block)
- 	return res;
- }
- 
--/* Get a block at iblock for inode, possibly allocating if create */
--int hfsplus_get_block(struct inode *inode, sector_t iblock,
--		      struct buffer_head *bh_result, int create)
-+/*
-+ * Find or allocate a sequence of allocation blocks.
-+ *
-+ * Looks up the allocation block at 'ablock' for inode, extending the
-+ * file (via hfsplus_file_extend(), in clump_blocks-sized chunks) when
-+ * 'create' is set and 'ablock' lies beyond the current allocation.
-+ *
-+ * On success, *dblock is the disk allocation block backing 'ablock',
-+ * and *max_blocks is the number of further allocation blocks that are
-+ * contiguous with it (i.e. the remaining length of the extent entry
-+ * that contains 'ablock'), which may be smaller than the whole file's
-+ * remaining allocation when the fork is fragmented across several
-+ * extent entries. If a new extent had to be allocated to satisfy the
-+ * request, *balloc (when non-NULL) is set to true.
-+ */
-+int hfsplus_map_extent(struct inode *inode, u32 ablock, int create,
-+			u32 *dblock, u32 *max_blocks, bool *balloc)
- {
--	struct super_block *sb = inode->i_sb;
--	struct hfsplus_sb_info *sbi = HFSPLUS_SB(sb);
- 	struct hfsplus_inode_info *hip = HFSPLUS_I(inode);
--	int res = -EIO;
--	u32 ablock, dblock, mask;
--	sector_t sector;
--	int was_dirty = 0;
-+	int was_dirty;
-+	int res;
- 
--	/* Convert inode block to disk allocation block */
--	ablock = iblock >> sbi->fs_shift;
-+	if (balloc)
-+		*balloc = false;
- 
--	if (iblock >= hip->fs_blocks) {
-+	if (ablock >= hip->alloc_blocks) {
- 		if (!create)
--			return 0;
--		if (iblock > hip->fs_blocks)
- 			return -EIO;
--		if (ablock >= hip->alloc_blocks) {
--			res = hfsplus_file_extend(inode, false);
--			if (res)
--				return res;
--		}
--	} else
--		create = 0;
-+		res = hfsplus_file_extend(inode, false);
-+		if (res)
-+			return res;
-+		if (balloc)
-+			*balloc = true;
-+	}
- 
- 	if (ablock < hip->first_blocks) {
--		dblock = hfsplus_ext_find_block(hip->first_extents, ablock);
--		goto done;
-+		*max_blocks = hfsplus_ext_find_block(hip->first_extents,
-+						     ablock,
-+						     dblock);
-+		return 0;
- 	}
- 
- 	if (inode->i_ino == HFSPLUS_EXT_CNID)
-@@ -274,11 +292,44 @@ int hfsplus_get_block(struct inode *inode, sector_t iblock,
- 		mutex_unlock(&hip->extents_lock);
- 		return -EIO;
- 	}
--	dblock = hfsplus_ext_find_block(hip->cached_extents,
--					ablock - hip->cached_start);
-+	*max_blocks = hfsplus_ext_find_block(hip->cached_extents,
-+					     ablock - hip->cached_start,
-+					     dblock);
- 	mutex_unlock(&hip->extents_lock);
- 
--done:
-+	if (was_dirty)
-+		mark_inode_dirty(inode);
-+
-+	return 0;
-+}
-+
-+/* Get a block at iblock for inode, possibly allocating if create */
-+int hfsplus_get_block(struct inode *inode, sector_t iblock,
-+		      struct buffer_head *bh_result, int create)
-+{
-+	struct super_block *sb = inode->i_sb;
-+	struct hfsplus_sb_info *sbi = HFSPLUS_SB(sb);
-+	struct hfsplus_inode_info *hip = HFSPLUS_I(inode);
-+	u32 ablock, dblock, mask, max_blocks;
-+	sector_t sector;
-+	int res;
-+
-+	/* Convert inode block to disk allocation block */
-+	ablock = iblock >> sbi->fs_shift;
-+
-+	if (iblock >= hip->fs_blocks) {
-+		if (!create)
-+			return 0;
-+		if (iblock > hip->fs_blocks)
-+			return -EIO;
-+	} else
-+		create = 0;
-+
-+	res = hfsplus_map_extent(inode, ablock, create, &dblock, &max_blocks,
-+				  NULL);
-+	if (res)
-+		return res;
-+
- 	hfs_dbg("ino %llu, iblock %llu - dblock %u\n",
- 		inode->i_ino, (long long)iblock, dblock);
- 
-@@ -292,9 +343,8 @@ int hfsplus_get_block(struct inode *inode, sector_t iblock,
- 		hip->phys_size += sb->s_blocksize;
- 		hip->fs_blocks++;
- 		inode_add_bytes(inode, sb->s_blocksize);
--	}
--	if (create || was_dirty)
- 		mark_inode_dirty(inode);
-+	}
- 	return 0;
- }
- 
-diff --git a/fs/hfsplus/hfsplus_fs.h b/fs/hfsplus/hfsplus_fs.h
-index 554733128fed..0b07259041f9 100644
---- a/fs/hfsplus/hfsplus_fs.h
-+++ b/fs/hfsplus/hfsplus_fs.h
-@@ -447,6 +447,8 @@ int hfsplus_ext_cmp_key(const hfsplus_btree_key *k1,
- int hfsplus_ext_write_extent(struct inode *inode);
- int hfsplus_get_block(struct inode *inode, sector_t iblock,
- 		      struct buffer_head *bh_result, int create);
-+int hfsplus_map_extent(struct inode *inode, u32 ablock, int create,
-+			u32 *dblock, u32 *max_blocks, bool *balloc);
- int hfsplus_free_fork(struct super_block *sb, u32 cnid,
- 		      struct hfsplus_fork_raw *fork, int type);
- int hfsplus_file_extend(struct inode *inode, bool zeroout);
--- 
-2.53.0
+  |-----\_-----------------|-----------|
+  |       \_      change/  |   birth/  |
+  |         \_ modification|  creation |
+  |           \------------|-----------|
+  | inode time |   ctime   |   btime   |
+  |------------|-----------|-----------|
+  | file time  |   mtime   |   ptime   |
+  |------------|-----------|-----------|
+ =20
+("file" as in "the concept of this file", I'd say "file content" but
+that would be incorrect for symlinks)
 
+so ctime is "inode change time", btime is "inode birth/creation time",
+while mtime is "file content change/modification time" and ptime would
+be "file content creation time" (same as Window's or MacOS's creation
+time).
+
+Does this make more sense?
+
+>
+>> Examples:
+>> 1) a .zsh_history file created in 2019, then after a few years the user
+>>    decides to switch to another filesystem, copying the .zsh_history to
+>>    the new home, in that case btime would have the timestamp of the copy
+>>    and ptime would have the 2019 timestamp (just like mtime would have
+>>    been preserved)
+>> 2) a symlink created in 2020 from the home directory to a /path going
+>>    through the same process as the .zsh_history, in this case it would
+>>    also make sense to sync the ptime to the 2020 timestamp instead of
+>>    keeping only the btime (so the inode creation time).
+>>=20
+>> The proof-of-concept code (for testing) for stat(1) and cp(1) is
+>> available at https://github.com/koraynilay/coreutils (master branch)
+>> (Note: these coreutils code changes are a prototype and won't be
+>> submitted upstream as-is, but they work as expected in simple stat and
+>> cp -a/--preserve=3Dptime tests)
+>>=20
+>> Lastly, the name "provenance" and "ptime" are not final, I personally
+>> don't have a strong opinion on any name, but while testing with stat(1)
+>> I noticed that "Provenance" is definitely too long for the normal
+>> output, so another option which would fit well is "Origin time",
+>> abbreviated as "ntime" (OrigiN time) and not as "otime", as that would
+>> conflict with btrfs' internal naming and create confusion.
+>>=20
+>> v2 changes:
+>> - fix permission bypass leading to ptime update on immutable and
+>>   append-only files (found by sashiko[3])
+>> - normalize ptime timestamp as done in fs/attr.c:notify_change() (found
+>>   by sashiko[3])
+>> - fix wording in vfs patch to be like the cover-letter
+>>=20
+>> v3 changes:
+>> - vfs: reject setting ptime with -EOPNOTSUPP on filesystems that do not
+>>   support it instead of silently ignoring it (found by sashiko[4])
+>> - vfs: fix not being able to clear immutable and append-only on files
+>>   with ptime, and allow updating immutable/append-only atomically along
+>>   with ptime (found by sashiko[4])
+>> - btrfs: validate on-disk ptime nanoseconds and reset to otime if
+>>   invalid (found by sashiko[4])
+>> - btrfs: avoid re-assigning ptime on unrelated chattr calls (found by
+>>   sashiko[4])
+>> - add ntfs3 and exfat support as suggested by Amir Goldstein[5], but no
+>>   vfat, smb, or nfs4 yet as they are a bit more complex
+>> - move the introduction of fileattr_has_fsx_mask() from the btrfs patch
+>>   to a standalone patch in the series
+>> - btrfs: add fileattr_[gs]et to symlink and special file operations
+>>=20
+>> v4 changes:
+>> - vfs: implement fsx_xflags_mask as suggested by Amir Goldstein[6];
+>> - add SMB (ksmbd/cifs) and nfs (nfsd/nfs) support as requested in
+>>   previous threads;
+>>=20
+>> Note:
+>> to apply this patch 2 previous patches[7][8] from the ksmbd/cifs
+>> subsystem are needed.
+>>=20
+>> New Question:
+>> should I rename fileattr_has_fsx_mask() to something like
+>> fileattr_has_unsupported_fsx() and keep its code as-is, or should I add
+>> the fsx_xflags_mask & ~allowed check in it and keep the name as-is? (or
+>> both?)
+>>=20
+>> Thanks.
+>>=20
+>> [1]: https://lore.kernel.org/20260405195007.1306-2-DefendTheDisabled@gma=
+il.com
+>> [2]: https://lore.kernel.org/20260407014129.GC6192@frogsfrogsfrogs
+>> [3]: https://sashiko.dev/#/patchset/20261027220532.736352-1-koray.fra%40=
+gmail.com
+>> [4]: https://sashiko.dev/#/patchset/20261028134728.294127-1-koray.fra%40=
+gmail.com
+>> [5]: https://lore.kernel.org/CAOQ4uxiuy0VwZj+3M-zRqQ49WTpHZpiaQ+6MZ8z8Wd=
+LjyQM_zA@mail.gmail.com/
+>> [6]: https://lore.kernel.org/CAOQ4uxjtuTDT63vJdYaq+RHQEQFLTksp66e46OMN99=
+WhJz3SbA@mail.gmail.com/
+>> [7]: https://lore.kernel.org/linux-cifs/20261112111637.184045-2-koray.fr=
+a@gmail.com/
+>> [8]: https://lore.kernel.org/linux-cifs/20261115155308.415734-1-koray.fr=
+a@gmail.com/
+>>=20
+>>=20
+>> koraynilay (10):
+>>   vfs: add provenance time (ptime)
+>>   vfs: add fileattr_has_fsx_mask()
+>>   ntfs3: make crtime user-settable using ptime
+>>   exfat: make crtime user-settable using ptime
+>>   btrfs: add provenance time (ptime)
+>>   vfs: add __vfs_fileattr_set_locked() for inode_lock()'d callers
+>>   nfsd: add provenance time (ptime) via FATTR4_TIME_CREATE
+>>   nfs: add provenance time (ptime) via FATTR4_TIME_CREATE
+>>   ksmbd: add provenance time (ptime) and map it to CreationTime
+>>   cifs: add provenance time (ptime) and map it to SMB's CreationTime
+>>=20
+>>  fs/btrfs/btrfs_inode.h          |   4 +
+>>  fs/btrfs/delayed-inode.c        |   6 ++
+>>  fs/btrfs/inode.c                |  29 +++++-
+>>  fs/btrfs/ioctl.c                |  24 ++++-
+>>  fs/btrfs/print-tree.c           |   1 +
+>>  fs/btrfs/tree-log.c             |   3 +
+>>  fs/exfat/exfat_fs.h             |   2 +
+>>  fs/exfat/file.c                 |  42 ++++++++-
+>>  fs/exfat/namei.c                |   1 +
+>>  fs/file_attr.c                  | 156 ++++++++++++++++++++++++++------
+>>  fs/nfs/inode.c                  |  27 +++++-
+>>  fs/nfs/internal.h               |   2 +
+>>  fs/nfs/nfs4proc.c               |  56 +++++++++++-
+>>  fs/nfs/nfs4xdr.c                |  19 ++--
+>>  fs/nfs/symlink.c                |   1 +
+>>  fs/nfsd/nfs4proc.c              |   9 ++
+>>  fs/nfsd/nfs4xdr.c               |  40 +++++---
+>>  fs/nfsd/vfs.c                   |  17 ++++
+>>  fs/nfsd/vfs.h                   |   4 +-
+>>  fs/nfsd/xdr4.h                  |   3 +
+>>  fs/ntfs3/file.c                 |  20 +++-
+>>  fs/ntfs3/frecord.c              |   8 +-
+>>  fs/smb/client/cifsfs.c          |   8 ++
+>>  fs/smb/client/inode.c           |   7 +-
+>>  fs/smb/client/ioctl.c           | 109 ++++++++++++++++------
+>>  fs/smb/server/smb2pdu.c         |  37 +++++---
+>>  fs/smb/server/vfs.c             |  43 ++++++++-
+>>  fs/smb/server/vfs.h             |   1 +
+>>  fs/stat.c                       |   2 +
+>>  include/linux/fileattr.h        |  29 +++++-
+>>  include/linux/nfs_xdr.h         |   3 +
+>>  include/linux/stat.h            |   1 +
+>>  include/uapi/linux/btrfs_tree.h |   3 +-
+>>  include/uapi/linux/fs.h         |   9 +-
+>>  include/uapi/linux/stat.h       |   7 +-
+>>  35 files changed, 614 insertions(+), 119 deletions(-)
+>>=20
+>>=20
+>> base-commit: 3bc1fb9c3b20cd478c83496ab16addecb401770d
+>> prerequisite-patch-id: 049ae0eba275b5be35a238833107e0b251a55aa2
+>> prerequisite-patch-id: 614f0bc9411391403d4e9702bafeb31b0ec04ec1
+>> prerequisite-patch-id: ddf636b9d33d82ea206ce265d817371350bf8858
+>
+> I think this is going to be very hard to do properly, because the
+> kernel can't really manage this on its own. Something in userland is
+> going to have to set this value if you want to update it to something
+> other than the original inode instantiation time (aka btime).
+>
+> It really sounds like what you want is the ability to make the btime
+> settable. Personally I think the decision to forbid that was wrong-
+> headed and that it should have been settable from userland from the
+> beginning. Maybe we should just revisit that decision.
+
+Originally I just wanted to have btime settable, yes, and if btime was
+settable I wouldn't have made this RFC PATCH either, but after reading
+the already existing discussions about it, I can understand having an
+"immutable inode creation time", like ctime exists, so even after making
+btime settable, a new timestamp would be necessary anyway (e.g. for the
+people who want btime to exist as a forensics timestamp).
+
+> Failing that, why not just track this in an xattr of some sort, since
+> this is really just an opaque blob once you allow it to be settable. If
+> the xattr isn't present, then you can just use the value of the btime
+> as-is. FWIW, I think samba does this today, so you could try to sync
+> with its behavior here.
+
+(This is copied and adapted from [2])
+
+I actually have been using fully userspace xattrs[1] for a few months,
+mostly for backups, and it "works"; but last month I wanted to merge 2
+FSs (and have another merge I have to do), so I ran [1] on all files and
+then compared all metadata/data between source and destination and
+noticed there were quite a lot of files that didn't have the xattr set.
+So I looked online and learned that xattrs only work on regular
+files/directories, not on symlinks or anything else (and the missing
+ones were of symlinks).
+This is what prompted me to search more if anyone had already proposed a
+new timestamp (instead of making btime settable) and found the email
+thread from april linked in the cover letter, which gave me the excuse
+to finally work on a proper patch.
+
+> That seems a lot simpler than adding an entirely new inode timestamp
+> that is always going to be a copy of the btime, except in rare cases.
+> Having to patch all of the on-disk filesystems with a new per-inode
+> field is a lot more work.
+
+> This patch is quite simple, but changing btrfs, then ext4, xfs, etc is a
+> mess, and inevitably you can't get these timestamps until you upgrade you=
+r
+> filesystems.
+
+So yeah while I do agree it touches a lot of code that could create
+problems, IMO this is the best solution and it would complete files'
+timestamps like other OSs have (and this, I think, is necessary for
+both backup/archival and migrations).
+
+Thanks,
+koraynilay
+
+[1]: https://github.com/koraynilay/btime-to-xattr
+[2]: https://lore.kernel.org/DMGS4KQLY24Q.14MUTR6U93GIC@gmail.com/
+
+--b1a8dff5fd09ce748c6816739f5ee431ea78e5cf3134c99d90e2f9bc2bde
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSgVimKafU5DQMcjcDmj22qf5IGXAUCavz6sgAKCRDmj22qf5IG
+XJc2AQDEw3DLWknN6hhurcFZrcIQwXM4vVkKq7ZARVMraoydvAEAstnUK3kjAUAY
+kVmRWWr3a9czwpWam0GcL2q7iV+QsgE=
+=OJC6
+-----END PGP SIGNATURE-----
+
+--b1a8dff5fd09ce748c6816739f5ee431ea78e5cf3134c99d90e2f9bc2bde--
