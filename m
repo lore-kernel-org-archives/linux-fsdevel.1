@@ -1,80 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.62.57.137
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795011977;
-	b=bwxFM1x1CuAfPTWzWFT1C5cLVgner/CdNAezvlOpx2yH/wAvtOuRhXmkLuo3eAhGtoaJ
-	 wiXDSHpizXUEqAO97rDQKeP4CWFpxpTw3uvjg4ztUX9YN1sSrhc7n1mfeJ55ISEVC/D+q
-	 g9bCDULQ1LXk+F40sx7ZTbnSTFesrh10TWMLzSo5MJWhnt1VOrHhe4eRF96pencDAeNNy
-	 Dly5XjEzL4p93pM73G6GuJtclr3lxHsK8oAJhfzpKSvO0lC4iA4FJOXc9xj3rOhbr5lnJ
-	 fcZ/avfq7He73A8In/5alSv+OOPQ0ZoWoEFzK2uIKzSmis2AuwLnQoVFpkU5QpNUkRA==
+	t=1795012091;
+	b=4tEhF7WYSUXWLER/rAAAZpStaCRB4CvDTlgkKPaFHcAkXMx6u17ROsirLmPjjK+Ua/O7
+	 gt07d6AmQMwtzsbBJWaob7hQDLu9tqeOk+UP2yd0VZ8gk/Kys3GHzs5kUZhwFMhJ4NxBQ
+	 cSS+7c8cHR/6YZXGHFS0o3ANpb3qHENy2Ioo5JWziXWCzCPELzWxYPMZYlEE0gkIFR2cO
+	 dJ5CFi0/4Kh5qOdfOV7EC9XHVOIJBZqIMddWak9M2w5jb7OZnW2x9kXZ9AFNzU5Nrl2SN
+	 5AqL07wUTGRN1qx9NEbLN+DxSRewqSjO9hB0+6F7LqX6JgDSSLvJW+kd9wrG9Twp6cg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795011977;
-	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 User-Agent;
-	bh=+HQPOu2vVrOracN1upWEQlhyegdam6XoIVCNFPCqT8g=;
-	b=yrKDgQasZW6X7lQofEIF1SqM7XBqCrWPBXiGVh98+7ah484k2n+jN6L/VLbmlc7v+2PQ
-	 W1dsltsSEhExXmOmYirI5rc7916At1aCZNJ1XEKyCfh7CCaBR4wxvcnlNHOJNwn+/Gc2t
-	 prYYxU+BtJQEIdpSoyw6iFv1cDjjPbZBrSAwT4SlcUfYeHCAtmFPOLVsGupZceZ1ihE//
-	 x1Dcr8fgOzWCmrnMqV0Cui7FUzq6aIWdenLwQZu5BUVSdIo3c0iTcfU7Wme4Ebcw8/jEQ
-	 Ixv9Fl5+J9GriIrIsyFs8P+b4VJ7cksoOjKLxhJGrbNQp+sNvCsFiYEDaKQhSikLoSA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795012091;
+	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
+	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:Date:X-OQ-MSGID:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=z0NfzSuMNJzMm6fJy91Mlbzb6nrsdQGraeKpktuDd20=;
+	b=t946TOM66vD4MreCuo/hqCHROVARmc6NxlzjQ00L6kGQApSFDU9gfM/PuV/DI3DAJf5k
+	 5q5jF5JcOibGjjnlIiZe2iCuDJEhBGPFmb/xdisLDnsJD8tOOSnE7qTa+l0A3K+5G31j8
+	 5CX1/tH9dnUiLtrOqDa3mRcBupWT/sbSGuyu2KmOUT7WQy7XqafLeQ87S1fzgaEZG5xlK
+	 vzVW6isPj9del52i2KSM7BrjhDuwEO5keulK4QzJv9x26jQA/A2BirQMmnD75MAl04RPJ
+	 h/zA5gkW31v++UXJQzAnLWNfMAO90OGa4Ia4AqivHKNESdQB5+Gzb+ACf4QM/fMvVrA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b1YAsdmC;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=qq.com;
+	spf=pass smtp.mailfrom=qq.com;
+	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=zvpMq2so;
+	arc=none smtp.remote-ip=162.62.57.137
+Received: from out162-62-57-137.mail.qq.com (out162-62-57-137.mail.qq.com [162.62.57.137])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D990460A2617;
-	Wed, 18 Nov 2026 14:26:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62E7E606A33D;
+	Wed, 18 Nov 2026 14:28:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 62E7E606A33D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b1YAsdmC
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FDA81F000C5;
-	Wed, 18 Nov 2026 14:26:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795011977;
-	bh=+HQPOu2vVrOracN1upWEQlhyegdam6XoIVCNFPCqT8g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=b1YAsdmC7his1/Eu4Z6hbYoA6zyoZmPZFr5zP19iQ+Qklq+pmJ+V3geLGfrvYWBND
-	 92J5R9k1/53CBIk2/n3w0gSEu1PXrQeYlTE2b8x43kkQt6x5BdeGlTBHwCQg4qdelJ
-	 rqwF53kW9bkQqbOLeQQ+KThU2o3F5NPIIJvp2GA5vYYUn/wn9X6YRyy9SusGvu+MxJ
-	 ggNx2X/Z2afeJZZ7rPbJ1ulx8lIy8gOS0oKXOwXS+v7ekcnxA6kl2OKIPVtbs1YmxU
-	 nUbJWhCUQkC833PQr2/g8xv+xfdUNSfcNuguKGgUs+FNnvHaHAsNvHkuLELWIOspR+
-	 V41lNv7tgef/A==
-Received: by pali.im (Postfix)
-	id DB216846; Wed, 18 Nov 2026 15:26:13 +0100 (CET)
-Date: Wed, 18 Nov 2026 15:26:13 +0100
-From: Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
-To: koraynilay <koray.fra@gmail.com>
-Cc: David Sterba <dsterba@suse.com>, Namjae Jeon <linkinjeon@kernel.org>,
-	Sungjong Seo <sj1557.seo@samsung.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>, Chuck Lever <cel@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	Paulo Alcantara <pc@manguebit.org>, Chris Mason <mason@kernel.org>,
-	Yuezhang Mo <yuezhang.mo@sony.com>, Jan Kara <jack@suse.cz>,
-	NeilBrown <neil@brown.name>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
-	Ronnie Sahlberg <ronniesahlberg@gmail.com>,
-	Shyam Prasad N <sprasad@microsoft.com>,
-	Bharath SM <bharathsm@microsoft.com>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	ChenXiaoSong <chenxiaosong@chenxiaosong.com>,
-	"Darrick J . Wong" <djwong@kernel.org>,
-	Sean Smith <defendthedisabled@gmail.com>,
-	Andrey Albershteyn <aalbersh@kernel.org>,
-	Pedro Falcato <pfalcato@suse.de>,
-	Amir Goldstein <amir73il@gmail.com>, linux-btrfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	exfat@lists.linux.dev, ntfs3@lists.linux.dev,
-	linux-cifs@vger.kernel.org, linux-nfs@vger.kernel.org,
-	linux-api@vger.kernel.org
-Subject: Re: [RFC PATCH v4 00/10] add provenance time (ptime)
-Message-ID: <20261118142613.be3r3s6kobkkxnz4@pali>
-References: <20261115180343.576773-1-koray.fra@gmail.com>
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=zvpMq2so
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1795012075; bh=z0NfzSuMNJzMm6fJy91Mlbzb6nrsdQGraeKpktuDd20=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=zvpMq2solct51FVeXtCFHrRDV7Jo6JVx/XLacR4DiPbYPev79Vs6p4lslTa50Uc4Y
+	 QrQIWYtYxV6iEnZ6f7jK6aMnrSJF0Rofh+FjxfQFjjjXbrPm0VhT49N9cuFecwp/Em
+	 mLq+onLKLBGp7ke+T99aejk+T6SMcoeBx0UOi5dc=
+Received: from [172.18.4.77] ([202.113.185.209])
+	by newxmesmtplogicsvrszc56-0.qq.com (NewEsmtp) with SMTP
+	id 6F50AE93; Wed, 18 Nov 2026 22:27:53 +0800
+X-QQ-mid: xmsmtpt1795012073txy70oh01
+Message-ID: <tencent_C7873BAA3F35E59B7F44D209D13426EADE05@qq.com>
+X-QQ-XMAILINFO: M1rD3f8svNznSnpmPMr/e898YafaFf89GlSLFFqeBJIEIPjY0LJM8VdvZy0P8+
+	 9pyMgPSb4tXGdUjUbraqUWU9Ocqm5kEXGbWvQB3Yythtm4GBEXMEypMS4QqHtcaCJWlewcR6s1/H
+	 i114qSgPdk4pm/+chnauC3EzNlYBgoybU1gJHsVCJX5voq5yRcvVYbnAxuS70sTPfI1m7aigKJSz
+	 sTOF5bPYlF9b/0YEnX94Zl0Sh2D3eDhEyGTBUyTHI1lT5l8ycXBa2Nb7hlMIWYRZWp/jfCxUhl+e
+	 teev0Yquptgvx2t+iy2AJleuWnhsLkaTFTHI0yt8QTYqVZtq5Y2l4AiQOaHCaTTNya7t9FNikbPC
+	 iqSmRsxiEKQiW/5X1eMfisAylVVulzy/sCoROqjyX5PUwZIcqB4+CkFqOfTkj6ECmRbuDZskcwXe
+	 BVuycL102oq+fcz6RbrPiOyrw8n1XnwBeCqq+M/uYXnG8FMGaWF1xUQC3SVhi6QK7zzV5am4LZms
+	 1Nwz+xzED4END7CjeHqHJmcb0fwgQQaI7OJLHCjey4nT8iynSVSVxf1vh7RUSytp1ZrgPY9iAJp3
+	 qr3vK6eBtto8EIlW5B53MjWND5ZOye8yuQt0um7cZtP4h+Wi4yzZT8fMet+ZF/qzqZfiQGVoYNmn
+	 xA+ZZcrAmeLIPw+tLcbrjPVQTVvSB1qgrbcvOpNSVw6Wkw4KkECxgla0SMLCgyvEbpVhLkzDnp6L
+	 D4Ix3gGFHKibQwYonHKkAkR0+cmnT10/XJeRs0Ovb3B93CJm2vlEb7u2PvgtOTrZfMM9E9/SG+0P
+	 M2qt1RsXc1NyrxBUFKZnyDEsqL1Nz//O2JcISbc6c4c4ALboN3OoFQDDs1YQJE81PFyCgDEludnm
+	 scMCTAY/z8+0BVIwGkFXp9d9bqVjg0aLo7JmymVbiSgrKLXhINpuTf3khh1KasrNEfoItVjEPAX9
+	 bmyOqQkvJKbYOKyf/8o0kCU95KWDsfjF0FCtIAar0wHJCe9C9wLdIC3n6fdQYs6px6H6DPyyre3c
+	 vlwx9c8U5Z1yJmvRpBaperT6snzPRqTXcwL7eIF9EvAyvFlTDJWOzENZuFnCqO9UgiGLDiK5kiiI
+	 eR/B+hN/7sX/a3gXM=
+X-QQ-XMRINFO: M/715EihBoGS47X28/vv4NpnfpeBLnr4Qg==
+From: Guikun Yang <yangguikun19@qq.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v3] ufs: validate cluster accounting layout when reading
+ cylinder groups
+Date: Wed, 18 Nov 2026 17:00:00 +0800
+X-OQ-MSGID: <patch-ufs-contigsumsize-v3-20261118@qq.com>
+In-Reply-To: <20261118-besungen-fingiert-festnageln-9233af206caa@brauner>
+References: <patch-ufs-contigsumsize-20261118@qq.com>
+ <20261118-besungen-fingiert-festnageln-9233af206caa@brauner>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -84,35 +80,103 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261115180343.576773-1-koray.fra@gmail.com>
-User-Agent: NeoMutt/20180716
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Hello,
+Thanks for the review, and for pointing out both bypasses.
 
-I have just one issue with the userspace API. It does not allow me to
-figure out what is the source of statx btime field. If it is fs ptime or
-fs btime because this RFC implementation is mixing both fs ptime and
-fs btime into the statx btime field.
+You are right that a point-of-use check is insufficient: c_clusteroff
+is itself on-disk, bailing after ubh_setbit() desynchronizes the bitmap
+and the summary, and a negative back with c_nclusterblks < start writes
+at c_clustersumoff - 4.  This v3 drops the balloc.c guard entirely and
+validates the whole cluster layout in ufs_read_cylinder() where the
+fields are read, against s_cgsize (a trusted, mount-time-bounded value).
 
-I have feeling that this is quite a mess in API and I would like to see
-a clear distinguish between btime and ptime in the API, like there is a
-difference in the fs storage.
+ groups
+ufs_clusteracct() derives bh[] indices from three on-disk fields:
 
-If the btime is used for forensic analysis then somehow I would expect
-that the statx would not report / not fill changeable ptime value into
-the statx btime.
+	c_clustersumoff + (i << 2)     with i <= s_contigsumsize
+	c_clustersumoff + (back << 2)  with back possibly negative
+	c_clusteroff + (block >> 3)
 
-It would be really helpful if the statx API on inode can differ between:
+and ubh_get_addr() expands the result to ubh->bh[index >> s_fshift].
+None of these fields is validated when read, so a crafted cylinder
+group header can index past the 8-entry bh[] array in the 136-byte
+ufs_cg_private_info:
 
-1. btime is present and its value is ..., ptime is not supported
-2. btime is not supported, ptime is set to value ...
-3. btime is present and its value is ..., ptime is set to value ...
-4. both btime and ptime are not supported
+	UBSAN: array-index-out-of-bounds in fs/ufs/balloc.c:892
+	KASAN: slab-out-of-bounds Read of size 8
 
-This should cover all cases of different filesystems and also allows
-userspace to do proper backup of both ptime and btime fields (if it want
-to do forensic analysis or anything else).
+A fix at the point of use is insufficient: bounding the index by
+c_clusteroff merely plugs one hole, since c_clusteroff is itself
+on-disk, and returning from ufs_clusteracct() after ubh_setbit()
+leaves the bitmap and summary out of sync.  A negative back with
+c_nclusterblks < start also writes at c_clustersumoff - 4, which a
+one-sided bound misses.
 
-Pali
+Validate the layout where the fields are read in ufs_read_cylinder()
+instead: the summary array (including the negative-back slot), the
+cluster bitmap and the block count must all fit within s_cgsize, the
+summary must end before the bitmap, and the offsets must have a sane
+lower bound.  Reject the whole cylinder group on failure.  s_cgsize
+is a trusted superblock value already bounded at mount time, unlike
+any of the on-disk offsets being checked.
+
+Reported-by: Guikun Yang <yangguikun19@qq.com>
+Signed-off-by: Guikun Yang <yangguikun19@qq.com>
+---
+ fs/ufs/cylinder.c | 38 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
+
+diff --git a/fs/ufs/cylinder.c b/fs/ufs/cylinder.c
+index b930ee1cf..b6b3a7547 100644
+--- a/fs/ufs/cylinder.c
++++ b/fs/ufs/cylinder.c
+@@ -69,6 +69,44 @@ static bool ufs_read_cylinder(struct super_block *sb,
+ 	ucpi->c_clusteroff = fs32_to_cpu(sb, ucg->cg_u.cg_44.cg_clusteroff);
+ 	ucpi->c_nclusterblks = fs32_to_cpu(sb, ucg->cg_u.cg_44.cg_nclusterblks);
+ 
++	/*
++	 * cluster accounting derives indices from on-disk fields:
++	 *
++	 *   c_clustersumoff + (i << 2)   with i <= s_contigsumsize
++	 *   c_clustersumoff + (back << 2) with back possibly negative
++	 *   c_clusteroff + (block >> 3)
++	 *
++	 * and ubh_get_addr() turns the result into ubh->bh[index >>
++	 * s_fshift].  Bound every one of these against the CG block size
++	 * here, where the fields are read, so no later consumer can index
++	 * past ucpi->c_ubh.bh[].  Using a trusted bound (s_cgsize) rather
++	 * than another on-disk offset is essential.
++	 */
++	if ((sbi->s_flags & UFS_CG_MASK) == UFS_CG_44BSD) {
++		u64 cgsize = uspi->s_cgsize;
++		u64 cssz = uspi->s_contigsumsize > 0 ?
++			   (u64)uspi->s_contigsumsize : 0;
++		u64 sum_end = (u64)ucpi->c_clustersumoff +
++			      (cssz + 1) * sizeof(__fs32);
++
++		/* summary array (incl. the negative-back slot) and the
++		 * cluster bitmap must both fit inside the CG block, and
++		 * the summary must end before the bitmap starts */
++		u64 bitmap_end = (u64)ucpi->c_clusteroff +
++				 DIV_ROUND_UP(ucpi->c_nclusterblks, 8);
++
++		if (sum_end > cgsize || bitmap_end > cgsize ||
++		    sum_end > ucpi->c_clusteroff ||
++		    ucpi->c_clusteroff < 1 ||
++		    ucpi->c_clustersumoff < sizeof(__fs32) ||
++		    ucpi->c_nclusterblks > uspi->s_fpg) {
++			ufs_error(sb, __func__,
++				  "invalid cluster layout in cylinder group %u\n",
++				  cgno);
++			goto failed;
++		}
++	}
++
+ 	/* these on-disk values become array and bitmap indices */
+ 	if (ucpi->c_cgx != cgno ||
+ 	    ucpi->c_rotor >= uspi->s_fpg ||
+-- 
+2.53.0.windows.1
+
