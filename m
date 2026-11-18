@@ -1,90 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795010068;
-	b=Nyjz5pL+skZHV3nN44ZUdCbbXh3JliP4lPFs2SIJp/q6+oZkWD0RzjYaxy5Se0J+N4nZ
-	 71A/zpzRGnEv5sEHKrQZpG+SYndtjfyq5LrxrwU8SQKM8xvNqRZGh46E7M9X9POQtYFPw
-	 m9t9ZXvhXXPSGEAmJNHiF0Y7K83KnVc/GVvi1VQGIkzTTKlWjTdgCfRF5ynkW1NePKd/X
-	 uLTMVKcuMSwtnjzdG6cnicAfmgjHnsmlzahfDworUEDn/6EUSlfgJngpqPL86uXqi+h/V
-	 8WwT43O3yuhTErTpIov9dLI9aBCKSDk5cB4WBBvDpObsEshcl/CmqntochIsl7bY5cw==
+	t=1795010321;
+	b=vAxJaT2Gmoc63yw/jQLOEMvb1GLv3Yqn7vOIejjCEnhUmNpOuKY0qc+P2n+/pbD5cA7g
+	 zch2iRUAHkBzLr7m0HiMaogDqKHO6s7sRyromGleAKCbd2dEZyV4jSTtROEmNc7nXuSv6
+	 Lboo2KZhmfZJm1j3F5BHc9OG4lQHyz7xSNCZJr6MVqNwa5qM3yBTHcbqCSFeQZj4pP5y0
+	 UqusDtG1cI0LbnpVKlxSPVf+1l+hmQKYf1In5C1IsknRyRa6dJl71yYmjukb0A4RdNuGK
+	 0dFresGz0z0SH6oeOQWSYyHfbuikc8Zye+/Tka2gLZLGYwwcV3xThF+EkC5uhbEcUiA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795010068;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795010321;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=aH6msihzS4+D+b6XyXRPlbUTTs0aOKCq5Tr3aXC1BvU=;
-	b=Wo9CTVqiNfNKr3kphMIkJRcdELHYro9Otx8PjggxJ2NBLbXRRuz5ou49gLx9XBffOr+W
-	 Nn3ljKREUYM46ZlULDAduiEfZtovCEsX/w7tAozGnkt29f1cy69DeELyTeKNwJMh0K3vV
-	 jfp1XUw+4ZtWIgiTwSjq4AO2zAaDdsPF5DoHT0GgwH+tNtexQ33ZKidNDEJzf/zH2or/W
-	 CaacamGYJrMs5oOl6yr0o+TCEip4pbQ/qUViWNXBIWSB0kTmZUa/zjtuVC5KNYlJQoslY
-	 3jLJXT1w2HE33JbWxeLc8c0/H5CKto76ply4H/+6EwdrdpOoEXaHGchpM0PIdW4X6hA==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:X-Mailer:
+	 References:In-Reply-To;
+	bh=B2jYOWmzwjsgVi7kT5RL3gJi2lgucpYf3eGU3pQCN3Q=;
+	b=SdY+FblVsvzzyBKMR5qhhdpYM+Sb3MakAIUwTMwumQvv58d9E5gklckrd0oYcehzLPPQ
+	 8tILZY5aSwixZm55n214kH0rw2idRp6Ld9FSD4OmEP997nf2dTd/gbSaW7cnfsDQ6l0Ta
+	 hiL2dMp7zjH8HLV9yOOF9bq+OyEb1rlVylpLzgBC0zEREras3T056t8mOPAGfJGSVytAx
+	 xRPGFiCc/eQV30rpqPQMCEAxbEGID410E7g8PT/T/8U3efX5pP7yfNlcQipslBGulG2S4
+	 zEShKnTvVMbB/ItTfp/6uYS7T+5kWqi5+pClPu6pjQVgpIpH2EHH3bv0Bhvmu+ethig==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MtcPgidh;
-	arc=none smtp.remote-ip=209.85.128.54
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Gkr4Uqge;
+	arc=none smtp.remote-ip=209.85.128.43
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7156606A320
-	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 13:54:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C7156606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51AD8606A32F
+	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 13:58:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 51AD8606A32F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MtcPgidh
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4bb70074ab2so10515135e9.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 05:54:27 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Gkr4Uqge
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4bb68c197c7so13946265e9.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 05:58:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795010066; x=1795614866; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=aH6msihzS4+D+b6XyXRPlbUTTs0aOKCq5Tr3aXC1BvU=;
-        b=MtcPgidhBljncvF99yopIprwzxnse1fQCgyXl5WWgfCBF6+aRRyk8crE0PLeuJN7xV
-         +kPq8tM0YWYinYjUCVafXYEowe8F2BaCSISU+cYm6GWwVN1/skKfumK7tzfWDXZAFbHI
-         GtHjx7lNC/YDfVVEfJ7dUurlbZDhhtEsGSNDaiMVytouHgdvHgLXKL0XhzhUdcEgGsWP
-         UmXiZlWn/F1vv/KTOB8t/O5ocM8NQ8hoY1xLOIcCCeo9tdKwjkqCV4eM8xkkG3Awpo8S
-         eB0LjR4/WgbUbVIMrFDFL7SpLzl3TTzdraO8K/H40mkXFHiJMmOibQTJrbkZyzAB2QMS
-         otAw==
+        d=gmail.com; s=20260707; t=1795010319; x=1795615119; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:mime-version:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=B2jYOWmzwjsgVi7kT5RL3gJi2lgucpYf3eGU3pQCN3Q=;
+        b=Gkr4UqgeDUZJccs9PoN9B2IqHxzkTr96dFWGM19Grq1rT50GSfd/6rZ2Xrb/NJU+RB
+         owr6ST46bQWUahoVg57xg/4ml0VE5A2n4QYaqhIWVoYLuEp+u9ufM4xveFuUDgsbLH9D
+         knLYSEkV7HJqj8FyXQNclG6vXRVcXc1Rq0aK2l/ztUIYfpfCcFS/aCmLCgv1Qu6ZKC2s
+         /POk2E5KS/kr6HjhuPU64J7DnGyVz9/uUZCMtoYvuKuAcrKX4ipaqOpOz5mSz4t53Fbv
+         JihkClH9t9rKC9FfGwIj3ptsaOUyePbRVPsrHYx73YSTaRU9eH0l6hDYGhycqxs7yr0/
+         axgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795010066; x=1795614866;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=aH6msihzS4+D+b6XyXRPlbUTTs0aOKCq5Tr3aXC1BvU=;
-        b=oQUtzTYUFVttVe7GtoiCti6pBQ63sOFxArJVzBqWgWzimDdIP7IYKp9nan8Z0d7AJD
-         1wB0qbfMdexZ+V+92ZHZLqlnHS/mChPmz8tU35MLyjj8lmayprfPNEBLWgq4f8gyEPoN
-         snvfNMXdHpbieNGDamsKBgultA2gy3RK/JhioaO1YMgBLYm37SQvrdXopGwKqX62ii0a
-         ntDhFa3NOg+zA0XwQDcL8goKA/JFcs7Y2vtD3AlfsVOKVWUoOO4XIOhOskPShqY/1fYr
-         Ln1JArAmTjWZjAKiRh454yXcm27KEGLue2udpWwhIMk4wrvj9gPUkDLTv6l2OrLLuLAq
-         nFJA==
-X-Gm-Message-State: APuU4Z+MvC1jNx+02GaU6mWbipuXyTJ3uPy4UR5fw6MK6QaA6pSbnpY8
-	cXhW4citSEQ8swy29uU930Wk6T2nObQ/YNVEKuKH5fiE2+r6aS6Ilmw4
-X-Gm-Gg: AYBFou28L/91YJldbmC0d9v1kfeNFzDbTgP/Z9Wb8P0Waxc2SwwsiquZba7wVthIX0L
-	28tTkXPCLR/2TxAsVfij0HttyCsp0r8zRVMFMvXr8+4as8pMiuS/md5Vb6wDCovc5wWQ86o6Kdl
-	6RS3r5meo1Sidyl0JbqPK0/V8jZgfpg7ha0O6/ELWhBMQTtTmNC2xdIhM4dC9yovXwwAD/5Jlee
-	qKWvyJrPUcOaROSBahEavPuFoKnZccAnomNepfkLas3f+3eH1bxLBiQB4dqGQGXhtDCFEdXLDvI
-	sBE+VLaqquLUEoKGCiQUpXJKxlakpE0hXZ1SXO68gIvmwBs4sHooOarnkmeHF+AiHNDhH7fjkh1
-	rJOPF6aI8z5crQxFiXgZTxvyR7JrgKCGy8F2Ow5C9hCowhE/UmFyj4hYv5VfqvzdgBBi5hDtvOh
-	gk4+9PRTCqm1GgNh7gZgIJSN0+HbwW8o4GAN5hRIkhnJrnp5gKphHT4V5KIlEetI8DbBz975FJJ
-	oL/6oNyLI5pyXQ4OCy6jlHVQ7FSVwGSAkxeoBO2w0L/3C9OCb3eWDdaKyFhjrCG8Jadr1wv/LnV
-	rSclMLcttPKxatimZMB4Q+ZWql/49o8T3LL2p/SHNHDpCXM31y8maXkKQT+A6RIqFX1IICkHGU8
-	1VNmZtt0Gnvezq1dVv6zmXmB+Hg==
-X-Received: by 2002:a05:600c:e556:20b0:4bb:7347:d5df with SMTP id 5b1f17b1804b1-4bb7dca65aamr30532225e9.13.1795010066068;
-        Wed, 18 Nov 2026 05:54:26 -0800 (PST)
-Received: from SurHub.localdomain ([196.188.113.38])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb7d28ec3asm74615325e9.0.2026.11.18.05.54.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Nov 2026 05:54:25 -0800 (PST)
-From: Abdifatah Suruur <suruurism@gmail.com>
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: linux-fsdevel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Abdifatah Suruur <suruurism@gmail.com>
-Subject: [PATCH] fuse: stop stealing pipe pages into the page cache
-Date: Wed, 18 Nov 2026 16:53:58 +0300
-Message-ID: <20261118135359.6256-1-suruurism@gmail.com>
-X-Mailer: git-send-email 2.53.0
+        d=1e100.net; s=20260707; t=1795010319; x=1795615119;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=B2jYOWmzwjsgVi7kT5RL3gJi2lgucpYf3eGU3pQCN3Q=;
+        b=Jz1h3QK8fJyIMslvkGLIb1+azirjqEJhnNqTRVUqxfNckE5PARI2tLtOGjXWwmITkQ
+         KJPTDVyEkNvxP0cqKBS8IpT9j9UUqTAcrGG39uAZRjm4hJu7k6QmyyVuTNKpoN1qBsdc
+         ASkcydajfM9WoL0BkrBntZzRWrEqhTjy18rEAQaFS/AjYO6vzTKktQvnshx7Cem7IvQt
+         bR3Cn3MB/apFnbI7EADkqvhDioA7faw+9srrU8traLxVZEKUuMLE103DxzUwxLk3BjE3
+         6dbOy8j7bGpEHJKN/YMaoGFlPGPaVTr41wpmfnPdxOwUwaoJPGvJauQQWijekpH532vc
+         rH0Q==
+X-Forwarded-Encrypted: i=1; AL+hErHxf6b9FU8I+S8x66e1ttxhf/Fkz1q7NN2luiyKCNDNBr6ecko90VCvlTTf0w7KnObu9jRzDSJSP66N06Ma@vger.kernel.org
+X-Gm-Message-State: APuU4Z/rh0dn7/pVlrY4wh7gEHEuSMgJ9g+tW9u7222I7xzPniozQTl4
+	edIbAlFQB6U6Kik6HtQKprGTdbaDfKZzg/l7lbOb7ePJrvLwP0lxTTMw
+X-Gm-Gg: AYBFou2UKFTLcAxfkqNdG4JgLYHapu+5KsQ6KCHkQjUVw2aXnXVJnUPly13T//JicxF
+	R1Aa55Oxwj7aTNFJEJRt188hi0kfbYm1godQQgHQtEBXqaTBc6RyUKJtduklbSdM2ydtOvBrejv
+	QXM8Kspq0yXqPXTSozQdmvF6R52lRN3LUlENitT2H5QMfhrMnnN+NwL+xLRNJ4+QDthq+b1Q8Kh
+	Gn5ZVVBjGpqMIaf//ATaGIu2AhTbqoq+ROG18FTuyBvWOqi8RkWg8gu/XQu0pNv/XHVctG5x4Nk
+	O24qJWd1k1Z3NA6dh3xAqHSROVHUx5SP2yELywUbtegmu4N/fgeaLhqpDWrMt2Jd0eUNv5tmqew
+	SqAIAyOk7o910Sv74eeNQtQVjtDw1TNSG/0wqhX7MloiKOxeobo9h/KzgdqlHpbxI9FctCYCjeG
+	PKfcVw/9WMN3m3C5FfctLJDsOPuS0LurmDaYoDTFFn4axKqWP+5IY80SviYRO5CTOzqRt2tRHrd
+	FTUmENtJMPA8GJ78r6ZWEEaGifxm0L8s9z7gzbNnOZPNHnpvKr+9+2ATfZepWtE/6IBhCEM7zSb
+	oHWh5jX6vg8WuONAi6gSNXB2LWMI5Zz+JZoeCmr4WTtoMnDRHGaMs00yBpUd32sBU4g=
+X-Received: by 2002:a05:600c:34d6:b0:4ba:6d8:df8f with SMTP id 5b1f17b1804b1-4bb7da15196mr50793675e9.15.1795010318319;
+        Wed, 18 Nov 2026 05:58:38 -0800 (PST)
+Received: from localhost (mob-176-246-251-118.net.vodafone.it. [176.246.251.118])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb7d2abfc4sm69860375e9.7.2026.11.18.05.58.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 Nov 2026 05:58:36 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -93,249 +86,390 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Type: multipart/signed;
+ boundary=0a24e72f90483e267e41af1f0c3186edfa555d565805a074438203cf0c8d;
+ micalg=pgp-sha512; protocol="application/pgp-signature"
+Date: Wed, 18 Nov 2026 14:58:28 +0100
+Message-Id: <DMYE1RQIZMXD.2TCNYLFYQ45UY@gmail.com>
+Cc: "Jeff Layton" <jlayton@kernel.org>, "David Sterba" <dsterba@suse.com>,
+ "Namjae Jeon" <linkinjeon@kernel.org>, "Sungjong Seo"
+ <sj1557.seo@samsung.com>, "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>, "Trond Myklebust"
+ <trondmy@kernel.org>, "Anna Schumaker" <anna@kernel.org>, "Chuck Lever"
+ <cel@kernel.org>, "Konstantin Komarov"
+ <almaz.alexandrovich@paragon-software.com>, "Paulo Alcantara"
+ <pc@manguebit.org>, "Chris Mason" <mason@kernel.org>, "Yuezhang Mo"
+ <yuezhang.mo@sony.com>, "Jan Kara" <jack@suse.cz>, "NeilBrown"
+ <neil@brown.name>, "Olga Kornievskaia" <okorniev@redhat.com>, "Dai Ngo"
+ <Dai.Ngo@oracle.com>, "Tom Talpey" <tom@talpey.com>, "Ronnie Sahlberg"
+ <ronniesahlberg@gmail.com>, "Shyam Prasad N" <sprasad@microsoft.com>,
+ "Bharath SM" <bharathsm@microsoft.com>, "Sergey Senozhatsky"
+ <senozhatsky@chromium.org>, "ChenXiaoSong" <chenxiaosong@chenxiaosong.com>,
+ "Darrick J . Wong" <djwong@kernel.org>, "Sean Smith"
+ <defendthedisabled@gmail.com>, "Andrey Albershteyn" <aalbersh@kernel.org>,
+ "Pedro Falcato" <pfalcato@suse.de>, =?utf-8?q?Pali_Roh=C3=A1r?=
+ <pali@kernel.org>, <linux-btrfs@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+ <exfat@lists.linux.dev>, <ntfs3@lists.linux.dev>,
+ <linux-cifs@vger.kernel.org>, <linux-nfs@vger.kernel.org>,
+ <linux-api@vger.kernel.org>
+Subject: Re: [RFC PATCH v4 00/10] add provenance time (ptime)
+From: "koraynilay" <koray.fra@gmail.com>
+To: "Amir Goldstein" <amir73il@gmail.com>, "koraynilay"
+ <koray.fra@gmail.com>
+X-Mailer: aerc 0.22.0-0-gc2f86b7abde3
+References: <20261115180343.576773-1-koray.fra@gmail.com>
+ <fc53ec55d315a4b96ec1e6f250ad3763f2189755.camel@kernel.org>
+ <DMXXOPD9UDNP.2YP9ROMHFLM9E@gmail.com>
+ <CAOQ4uxjcvAKTaGXO0=BpbtgoEPmN7GKieVbX1ZpZR38H1Z3j9g@mail.gmail.com>
+ <DMY8FEXBRS0L.2X0W5NIFG56C7@gmail.com>
+ <CAOQ4uxhTBm5bQ9eYdeRCr0MJjugLdBU7X_Y26ADWhG6HSEgKMg@mail.gmail.com>
+In-Reply-To: <CAOQ4uxhTBm5bQ9eYdeRCr0MJjugLdBU7X_Y26ADWhG6HSEgKMg@mail.gmail.com>
 
-The SPLICE_F_MOVE path in fuse_dev_splice_write() allows a FUSE server to
-move arbitrary pages from a splice pipe into the FUSE file's page cache.
-Those pipe pages can be page-cache folios of a different file, pages
-written by userspace, or gifted anonymous pages. Replacing a FUSE cache
-folio with such a page breaks page-cache aliasing, refcounting, dirty
-tracking and writeback, and can be used to corrupt or disclose data from
-other files.
+--0a24e72f90483e267e41af1f0c3186edfa555d565805a074438203cf0c8d
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-The checks in fuse_check_folio() are racy and cannot make this safe.
-Remove page stealing entirely: always copy the data into the FUSE page
-cache folio, and drop the move_folios/page_replace plumbing.
-FUSE_SPLICE_MOVE remains advertised for compatibility.
+On Wed Nov 18, 2026 at 2:39 PM CET, Amir Goldstein wrote:
+> On Wed, Nov 18, 2026 at 10:34=E2=80=AFAM koraynilay <koray.fra@gmail.com>=
+ wrote:
+>>
+>> On Wed Nov 18, 2026 at 9:14 AM CET, Amir Goldstein wrote:
+>> > On Wed, Nov 18, 2026 at 2:09=E2=80=AFAM koraynilay <koray.fra@gmail.co=
+m> wrote:
+>> >>
+>> >> Hello and thanks for replying,
+>> >>
+>> >> On Wed Nov 18, 2026 at 12:53 AM CET, Jeff Layton wrote:
+>> >> > On Sun, 2026-11-15 at 19:03 +0100, koraynilay wrote:
+>> >> >> This is an initial implementation of a new timestamp to indicate t=
+he
+>> >> >> time when a file/directory was initially created.
+>> >> >>
+>> >> >> This patch series takes inspiration from the one by Sean Smith
+>> >> >> <defendthedisabled@gmail.com> [1], but using
+>> >> >> file_setattr()/file_getattr() as suggested by Darrick J. Wong
+>> >> >> <djwong@kernel.org> in [2].
+>> >> >>
+>> >> >> The semantics of this new timestamp should be at least these:
+>> >> >> - it should be the same as btime on a newly created file
+>> >> >> - it's user-settable, so it can be preserved for backups, filesyst=
+em
+>> >> >>   conversions, archives and any similar operation
+>> >> >> - it should be preserved every time mtime gets preserved
+>> >> >>
+>> >> >> and the correspondence with the other timestamps is as follows:
+>> >> >>
+>> >> >> ctime <-> btime
+>> >> >> mtime <-> ptime
+>> >> >>
+>> >> >
+>> >> > I'm not sure how to interpret the correspondence above.
+>> >>
+>> >>   |-----\_-----------------|-----------|
+>> >>   |       \_      change/  |   birth/  |
+>> >>   |         \_ modification|  creation |
+>> >>   |           \------------|-----------|
+>> >>   | inode time |   ctime   |   btime   |
+>> >>   |------------|-----------|-----------|
+>> >>   | file time  |   mtime   |   ptime   |
+>> >>   |------------|-----------|-----------|
+>> >>
+>> >> ("file" as in "the concept of this file", I'd say "file content" but
+>> >> that would be incorrect for symlinks)
+>> >>
+>> >> so ctime is "inode change time", btime is "inode birth/creation time"=
+,
+>> >> while mtime is "file content change/modification time" and ptime woul=
+d
+>> >> be "file content creation time" (same as Window's or MacOS's creation
+>> >> time).
+>> >>
+>> >> Does this make more sense?
+>> >>
+>> >> >
+>> >> >> Examples:
+>> >> >> 1) a .zsh_history file created in 2019, then after a few years the=
+ user
+>> >> >>    decides to switch to another filesystem, copying the .zsh_histo=
+ry to
+>> >> >>    the new home, in that case btime would have the timestamp of th=
+e copy
+>> >> >>    and ptime would have the 2019 timestamp (just like mtime would =
+have
+>> >> >>    been preserved)
+>> >> >> 2) a symlink created in 2020 from the home directory to a /path go=
+ing
+>> >> >>    through the same process as the .zsh_history, in this case it w=
+ould
+>> >> >>    also make sense to sync the ptime to the 2020 timestamp instead=
+ of
+>> >> >>    keeping only the btime (so the inode creation time).
+>> >> >>
+>> >> >> The proof-of-concept code (for testing) for stat(1) and cp(1) is
+>> >> >> available at https://github.com/koraynilay/coreutils (master branc=
+h)
+>> >> >> (Note: these coreutils code changes are a prototype and won't be
+>> >> >> submitted upstream as-is, but they work as expected in simple stat=
+ and
+>> >> >> cp -a/--preserve=3Dptime tests)
+>> >> >>
+>> >> >> Lastly, the name "provenance" and "ptime" are not final, I persona=
+lly
+>> >> >> don't have a strong opinion on any name, but while testing with st=
+at(1)
+>> >> >> I noticed that "Provenance" is definitely too long for the normal
+>> >> >> output, so another option which would fit well is "Origin time",
+>> >> >> abbreviated as "ntime" (OrigiN time) and not as "otime", as that w=
+ould
+>> >> >> conflict with btrfs' internal naming and create confusion.
+>> >> >>
+>> >> >> v2 changes:
+>> >> >> - fix permission bypass leading to ptime update on immutable and
+>> >> >>   append-only files (found by sashiko[3])
+>> >> >> - normalize ptime timestamp as done in fs/attr.c:notify_change() (=
+found
+>> >> >>   by sashiko[3])
+>> >> >> - fix wording in vfs patch to be like the cover-letter
+>> >> >>
+>> >> >> v3 changes:
+>> >> >> - vfs: reject setting ptime with -EOPNOTSUPP on filesystems that d=
+o not
+>> >> >>   support it instead of silently ignoring it (found by sashiko[4])
+>> >> >> - vfs: fix not being able to clear immutable and append-only on fi=
+les
+>> >> >>   with ptime, and allow updating immutable/append-only atomically =
+along
+>> >> >>   with ptime (found by sashiko[4])
+>> >> >> - btrfs: validate on-disk ptime nanoseconds and reset to otime if
+>> >> >>   invalid (found by sashiko[4])
+>> >> >> - btrfs: avoid re-assigning ptime on unrelated chattr calls (found=
+ by
+>> >> >>   sashiko[4])
+>> >> >> - add ntfs3 and exfat support as suggested by Amir Goldstein[5], b=
+ut no
+>> >> >>   vfat, smb, or nfs4 yet as they are a bit more complex
+>> >> >> - move the introduction of fileattr_has_fsx_mask() from the btrfs =
+patch
+>> >> >>   to a standalone patch in the series
+>> >> >> - btrfs: add fileattr_[gs]et to symlink and special file operation=
+s
+>> >> >>
+>> >> >> v4 changes:
+>> >> >> - vfs: implement fsx_xflags_mask as suggested by Amir Goldstein[6]=
+;
+>> >> >> - add SMB (ksmbd/cifs) and nfs (nfsd/nfs) support as requested in
+>> >> >>   previous threads;
+>> >> >>
+>> >> >> Note:
+>> >> >> to apply this patch 2 previous patches[7][8] from the ksmbd/cifs
+>> >> >> subsystem are needed.
+>> >> >>
+>> >> >> New Question:
+>> >> >> should I rename fileattr_has_fsx_mask() to something like
+>> >> >> fileattr_has_unsupported_fsx() and keep its code as-is, or should =
+I add
+>> >> >> the fsx_xflags_mask & ~allowed check in it and keep the name as-is=
+? (or
+>> >> >> both?)
+>> >> >>
+>> >> >> Thanks.
+>> >> >>
+>> >> >> [1]: https://lore.kernel.org/20260405195007.1306-2-DefendTheDisabl=
+ed@gmail.com
+>> >> >> [2]: https://lore.kernel.org/20260407014129.GC6192@frogsfrogsfrogs
+>> >> >> [3]: https://sashiko.dev/#/patchset/20261027220532.736352-1-koray.=
+fra%40gmail.com
+>> >> >> [4]: https://sashiko.dev/#/patchset/20261028134728.294127-1-koray.=
+fra%40gmail.com
+>> >> >> [5]: https://lore.kernel.org/CAOQ4uxiuy0VwZj+3M-zRqQ49WTpHZpiaQ+6M=
+Z8z8WdLjyQM_zA@mail.gmail.com/
+>> >> >> [6]: https://lore.kernel.org/CAOQ4uxjtuTDT63vJdYaq+RHQEQFLTksp66e4=
+6OMN99WhJz3SbA@mail.gmail.com/
+>> >> >> [7]: https://lore.kernel.org/linux-cifs/20261112111637.184045-2-ko=
+ray.fra@gmail.com/
+>> >> >> [8]: https://lore.kernel.org/linux-cifs/20261115155308.415734-1-ko=
+ray.fra@gmail.com/
+>> >> >>
+>> >> >>
+>> >> >> koraynilay (10):
+>> >> >>   vfs: add provenance time (ptime)
+>> >> >>   vfs: add fileattr_has_fsx_mask()
+>> >> >>   ntfs3: make crtime user-settable using ptime
+>> >> >>   exfat: make crtime user-settable using ptime
+>> >> >>   btrfs: add provenance time (ptime)
+>> >> >>   vfs: add __vfs_fileattr_set_locked() for inode_lock()'d callers
+>> >> >>   nfsd: add provenance time (ptime) via FATTR4_TIME_CREATE
+>> >> >>   nfs: add provenance time (ptime) via FATTR4_TIME_CREATE
+>> >> >>   ksmbd: add provenance time (ptime) and map it to CreationTime
+>> >> >>   cifs: add provenance time (ptime) and map it to SMB's CreationTi=
+me
+>> >> >>
+>> >> >>  fs/btrfs/btrfs_inode.h          |   4 +
+>> >> >>  fs/btrfs/delayed-inode.c        |   6 ++
+>> >> >>  fs/btrfs/inode.c                |  29 +++++-
+>> >> >>  fs/btrfs/ioctl.c                |  24 ++++-
+>> >> >>  fs/btrfs/print-tree.c           |   1 +
+>> >> >>  fs/btrfs/tree-log.c             |   3 +
+>> >> >>  fs/exfat/exfat_fs.h             |   2 +
+>> >> >>  fs/exfat/file.c                 |  42 ++++++++-
+>> >> >>  fs/exfat/namei.c                |   1 +
+>> >> >>  fs/file_attr.c                  | 156 ++++++++++++++++++++++++++-=
+-----
+>> >> >>  fs/nfs/inode.c                  |  27 +++++-
+>> >> >>  fs/nfs/internal.h               |   2 +
+>> >> >>  fs/nfs/nfs4proc.c               |  56 +++++++++++-
+>> >> >>  fs/nfs/nfs4xdr.c                |  19 ++--
+>> >> >>  fs/nfs/symlink.c                |   1 +
+>> >> >>  fs/nfsd/nfs4proc.c              |   9 ++
+>> >> >>  fs/nfsd/nfs4xdr.c               |  40 +++++---
+>> >> >>  fs/nfsd/vfs.c                   |  17 ++++
+>> >> >>  fs/nfsd/vfs.h                   |   4 +-
+>> >> >>  fs/nfsd/xdr4.h                  |   3 +
+>> >> >>  fs/ntfs3/file.c                 |  20 +++-
+>> >> >>  fs/ntfs3/frecord.c              |   8 +-
+>> >> >>  fs/smb/client/cifsfs.c          |   8 ++
+>> >> >>  fs/smb/client/inode.c           |   7 +-
+>> >> >>  fs/smb/client/ioctl.c           | 109 ++++++++++++++++------
+>> >> >>  fs/smb/server/smb2pdu.c         |  37 +++++---
+>> >> >>  fs/smb/server/vfs.c             |  43 ++++++++-
+>> >> >>  fs/smb/server/vfs.h             |   1 +
+>> >> >>  fs/stat.c                       |   2 +
+>> >> >>  include/linux/fileattr.h        |  29 +++++-
+>> >> >>  include/linux/nfs_xdr.h         |   3 +
+>> >> >>  include/linux/stat.h            |   1 +
+>> >> >>  include/uapi/linux/btrfs_tree.h |   3 +-
+>> >> >>  include/uapi/linux/fs.h         |   9 +-
+>> >> >>  include/uapi/linux/stat.h       |   7 +-
+>> >> >>  35 files changed, 614 insertions(+), 119 deletions(-)
+>> >> >>
+>> >> >>
+>> >> >> base-commit: 3bc1fb9c3b20cd478c83496ab16addecb401770d
+>> >> >> prerequisite-patch-id: 049ae0eba275b5be35a238833107e0b251a55aa2
+>> >> >> prerequisite-patch-id: 614f0bc9411391403d4e9702bafeb31b0ec04ec1
+>> >> >> prerequisite-patch-id: ddf636b9d33d82ea206ce265d817371350bf8858
+>> >> >
+>> >> > I think this is going to be very hard to do properly, because the
+>> >> > kernel can't really manage this on its own. Something in userland i=
+s
+>> >> > going to have to set this value if you want to update it to somethi=
+ng
+>> >> > other than the original inode instantiation time (aka btime).
+>> >> >
+>> >> > It really sounds like what you want is the ability to make the btim=
+e
+>> >> > settable. Personally I think the decision to forbid that was wrong-
+>> >> > headed and that it should have been settable from userland from the
+>> >> > beginning. Maybe we should just revisit that decision.
+>> >>
+>> >
+>> > Frankly, I don't think this decision was made at all.
+>> >
+>> > There are only 2 types of filesystems in Linux today:
+>> > 1. btime is constant (xfs, etx4, btrfs,...)
+>> > 2. crtime is settable in principle but not via a standardized Linux
+>> > API (ntfs, cifs, ...)
+>> >
+>> > AFAIK, btrfs in this series is the only filesystem which is going to
+>> > have two deviated copies of btime and ptime.
+>> > For all the rest, the deviation is artificial in statx.
+>>
+>> Well, my objective with this series would be having ptime just as
+>> supported as a/c/m/btime, especially from userspace in the 90% of
+>> setups,
+>>
+>
+> This is not a realistic objective for the mid term IMO.
 
-Cc: stable@vger.kernel.org
-Signed-off-by: Abdifatah Suruur <suruurism@gmail.com>
+Yes, that would indeed be a long-term objective.
+But thinking about it, it does make more sense to have a patch series
+for an intial implementation and then future patches for the single
+filesystems.
 
----
-diff --git a/fs/fuse/args.h b/fs/fuse/args.h
-index 5173264a1261b..36ef0c6d59998 100644
---- a/fs/fuse/args.h
-+++ b/fs/fuse/args.h
-@@ -36,7 +36,6 @@ struct fuse_args {
- 	bool user_pages:1;
- 	bool out_argvar:1;
- 	bool page_zeroing:1;
--	bool page_replace:1;
- 	bool may_block:1;
- 	bool is_ext:1;
- 	bool is_pinned:1;
-diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-index 3641abb90d6bb..e7238eed21fb8 100644
---- a/fs/fuse/dev.c
-+++ b/fs/fuse/dev.c
-@@ -1099,128 +1099,6 @@ static int fuse_copy_do(struct fuse_copy_state *cs, void **val, unsigned *size)
- 	return ncpy;
- }
- 
--static int fuse_check_folio(struct folio *folio)
--{
--	if (folio_mapped(folio) ||
--	    folio->mapping != NULL ||
--	    (folio->flags.f & PAGE_FLAGS_CHECK_AT_PREP &
--	     ~(1 << PG_locked |
--	       1 << PG_referenced |
--	       1 << PG_lru |
--	       1 << PG_active |
--	       1 << PG_workingset |
--	       1 << PG_reclaim |
--	       1 << PG_waiters |
--	       LRU_GEN_MASK | LRU_REFS_MASK))) {
--		dump_page(&folio->page, "fuse: trying to steal weird page");
--		return 1;
--	}
--	return 0;
--}
--
--/*
-- * Attempt to steal a page from the splice() pipe and move it into the
-- * pagecache. If successful, the pointer in @pagep will be updated. The
-- * folio that was originally in @pagep will lose a reference and the new
-- * folio returned in @pagep will carry a reference.
-- */
--static int fuse_try_move_folio(struct fuse_copy_state *cs, struct folio **foliop)
--{
--	int err;
--	struct folio *oldfolio = *foliop;
--	struct folio *newfolio;
--	struct pipe_buffer *buf = cs->pipebufs;
--
--	folio_get(oldfolio);
--	err = unlock_request(cs->req);
--	if (err)
--		goto out_put_old;
--
--	fuse_copy_finish(cs);
--
--	err = pipe_buf_confirm(cs->pipe, buf);
--	if (err)
--		goto out_put_old;
--
--	BUG_ON(!cs->nr_segs);
--	cs->currbuf = buf;
--	cs->len = buf->len;
--	cs->pipebufs++;
--	cs->nr_segs--;
--
--	if (cs->len != folio_size(oldfolio))
--		goto out_fallback;
--
--	newfolio = page_folio(buf->page);
--
--	if (folio_test_large(newfolio))
--		goto out_fallback;
--
--	/*
--	 * This is a new and locked page, it shouldn't be mapped or
--	 * have any special flags on it
--	 */
--	if (WARN_ON(folio_mapped(oldfolio)))
--		goto out_fallback;
--	if (WARN_ON(folio_has_private(oldfolio)))
--		goto out_fallback;
--	if (WARN_ON(folio_test_dirty(oldfolio) ||
--				folio_test_writeback(oldfolio)))
--		goto out_fallback;
--	if (WARN_ON(folio_test_mlocked(oldfolio)))
--		goto out_fallback;
--
--	if (!pipe_buf_try_steal(cs->pipe, buf))
--		goto out_fallback;
--
--	folio_clear_uptodate(newfolio);
--	folio_clear_mappedtodisk(newfolio);
--
--	if (fuse_check_folio(newfolio) != 0)
--		goto out_fallback_unlock;
--
--	err = lock_request(cs->req);
--	if (err)
--		goto out_fallback_unlock;
--
--	replace_page_cache_folio(oldfolio, newfolio);
--
--	folio_get(newfolio);
--
--	if (!(buf->flags & PIPE_BUF_FLAG_LRU))
--		folio_add_lru(newfolio);
--
--	/*
--	 * Release while we have extra ref on stolen page.  Otherwise
--	 * anon_pipe_buf_release() might think the page can be reused.
--	 */
--	pipe_buf_release(cs->pipe, buf);
--
--	*foliop = newfolio;
--	folio_unlock(oldfolio);
--	/* Drop ref for ap->pages[] array */
--	folio_put(oldfolio);
--	cs->len = 0;
--
--	err = 0;
--out_put_old:
--	/* Drop ref obtained in this function */
--	folio_put(oldfolio);
--	return err;
--
--out_fallback_unlock:
--	folio_unlock(newfolio);
--out_fallback:
--	cs->pg = buf->page;
--	cs->offset = buf->offset;
--
--	err = lock_request(cs->req);
--	if (!err)
--		err = 1;
--
--	goto out_put_old;
--}
--
- static int fuse_ref_folio(struct fuse_copy_state *cs, struct folio *folio,
- 			  unsigned offset, unsigned count)
- {
-@@ -1275,16 +1153,9 @@ int fuse_copy_folio(struct fuse_copy_state *cs, struct folio **foliop,
- 				return fuse_ref_folio(cs, folio, offset, count);
- 			}
- 		} else if (!cs->len) {
--			if (cs->move_folios && folio &&
--			    offset == 0 && count == folio_size(folio)) {
--				err = fuse_try_move_folio(cs, foliop);
--				if (err <= 0)
--					return err;
--			} else {
--				err = fuse_copy_fill(cs);
--				if (err)
--					return err;
--			}
-+			err = fuse_copy_fill(cs);
-+			if (err)
-+				return err;
- 		}
- 		if (folio) {
- 			void *mapaddr = kmap_local_folio(folio, offset);
-@@ -1920,9 +1791,6 @@ static ssize_t fuse_dev_do_write(struct fuse_dev *fud,
- 		if (!smp_load_acquire(&fch->initialized) || !fch->connected)
- 			goto copy_finish;
- 
--		/* Don't try to move folios (yet) */
--		cs->move_folios = false;
--
- 		err = fuse_notify(fch->conn, oh.error, nbytes - sizeof(oh), cs);
- 		goto copy_finish;
- 	}
-@@ -1966,8 +1834,6 @@ static ssize_t fuse_dev_do_write(struct fuse_dev *fud,
- 	set_bit(FR_LOCKED, &req->flags);
- 	spin_unlock(&fpq->lock);
- 	cs->req = req;
--	if (!req->args->page_replace)
--		cs->move_folios = false;
- 
- 	if (oh.error)
- 		err = nbytes != sizeof(oh) ? -EINVAL : 0;
-@@ -2068,7 +1934,6 @@ static ssize_t fuse_dev_splice_write(struct pipe_inode_info *pipe,
- 				goto out_free;
- 
- 			*obuf = *ibuf;
--			obuf->flags &= ~PIPE_BUF_FLAG_GIFT;
- 			obuf->len = rem;
- 			ibuf->offset += obuf->len;
- 			ibuf->len -= obuf->len;
-@@ -2083,9 +1948,6 @@ static ssize_t fuse_dev_splice_write(struct pipe_inode_info *pipe,
- 	cs.nr_segs = nbuf;
- 	cs.pipe = pipe;
- 
--	if (flags & SPLICE_F_MOVE)
--		cs.move_folios = true;
--
- 	ret = fuse_dev_do_write(fud, &cs, len);
- 
- 	pipe_lock(pipe);
-diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-index d5e1cb53d86a6..ab955e4c3e5d7 100644
---- a/fs/fuse/file.c
-+++ b/fs/fuse/file.c
-@@ -1096,7 +1096,6 @@ static void fuse_send_readpages(struct fuse_io_args *ia, struct file *file,
- 
- 	ap->args.out_pages = true;
- 	ap->args.page_zeroing = true;
--	ap->args.page_replace = true;
- 
- 	/*
- 	 * Don't overflow end offset.
-diff --git a/fs/fuse/fuse_dev_i.h b/fs/fuse/fuse_dev_i.h
-index 4b412a76225f8..a90ce26ded319 100644
---- a/fs/fuse/fuse_dev_i.h
-+++ b/fs/fuse/fuse_dev_i.h
-@@ -326,7 +326,6 @@ struct fuse_copy_state {
- 	unsigned int len;
- 	unsigned int offset;
- 	bool write:1;
--	bool move_folios:1;
- 	bool is_uring:1;
- 	/* set when the payload is zero-copied. folios are filled in place */
- 	bool skip_folio_copy:1;
+> Even if you did go through all the cruciating steps on adding on-disk
+> ptime support for ext4/xfs/... old formatted filesystems may or may
+> not be allowed to set the new inode field (per maintainer's decision)
+> and the stable kernels will take a long time to get those changes,
+> so userspace tools will not be able to assume support for ptime exists
+> for a long while.
+>
+> Maybe 90% support is a realistic objective, depending on the
+> time windows you set for this objective to manifest...
+
+For 90+% support (like btime has) I have like 1/2 years in mind, but I
+haven't thought about it too much.
+
+> IMO the more realistic goal is to allow rsync/etc between the
+> fs that already support ptime, for example between two smb mounts
+> or within the same smb mount.
+
+Fair.
+
+>> > So the questions to ask are:
+>> > 1. Do btrfs developers prefer to store a new settable ptime or
+>> >     making otime/btime settable with this new API?
+>> > 2. Will any other fs in the future want to store settable ptime along
+>> >     side the legacy immutable btime?
+>> >
+>> > My take on these question is:
+>> > - Personally I would love to see ptime support in xfs in the future an=
+d would
+>> >   willing to contribute to this work, because I have hard evidence fro=
+m the
+>> >   performance benefits that it brings to smb server workloads
+>> > - Judging by past experience with i_version bump interpretation on xfs=
+,
+>> >   I find it hard to believe that xfs developer would agree to making t=
+he
+>> >   legacy btime settable
+>>
+>> so I guess for v5 or v6 I'll also draft a patch for at least ext4 and
+>> xfs.
+>
+> I strongly advise you against this.
+>
+> That's a great way to block your own patch set indefinitely.
+>
+> Implementing ptime for ext4/xfs requires working with each of the
+> maintainers not only on kernel but also on the userspace progs
+> and has backward compat implications, which makes testing
+> ever so much harder.
+>
+> You start with defining an API and implement it for the
+> filesystems that already have storage for ptime.
+
+Fair, that makes sense.
+
+> You could include a new fs that didn't have storage for
+> ptime (btrfs) if you are on the same page with the btrfs maintainers
+> and have the userspace tools patches lined up for review as well.
+
+Btrfs is where I would like it the most as that's the one I need it on,
+so hopefully I can get it merged there.
+
+> Otherwise, you will just be blocking your own patch set
+> creating dependencies with other user space tools.
+
+I do plan on personally adding support for ptime on at least the most
+used userspace tools (+ the ones I use), and I was thinking 1/2 years
+also considering this.
+
+Thanks,
+koraynilay
+
+> Thanks,
+> Amir.
+
+--0a24e72f90483e267e41af1f0c3186edfa555d565805a074438203cf0c8d
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRJ2XvJtXGwULYEerQ0bnTtJTDoOAUCav2vBAAKCRA0bnTtJTDo
+OJMDAQDy4H/yOrMiNcWLu0cY8UiFnFC2yTCrRUx9CDjGAex/XwD/UtBGCMYtQdTT
+gfVthJJlnCLhdT6McRQ6WQjXw8xHiQA=
+=6eAZ
+-----END PGP SIGNATURE-----
+
+--0a24e72f90483e267e41af1f0c3186edfa555d565805a074438203cf0c8d--
