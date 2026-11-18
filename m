@@ -1,100 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.53
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795019652;
-	b=RywjAfKQzgXmQQKguSLip3KfQz3voIPB1BFoTBXrYOfMYSGBzMhNzjI+6VrtPHR9J61D
-	 oax8CXxf0uSSKRiDUcBf3I9CVG8F+OrpbjQXSrLQtnKpSOuJ8MNAnyL5Ujq/8XtwLOgHr
-	 ZyZaQ0UrKUCBqEgkujpT8kWL/bNaTnY7Q66IuCDnyEWLD9Zoaoj/IwXxjNeKkgB9NjymN
-	 bG5Q2k4FC5RZ3uuPw/l/HcWgrTgDf8asofV4jsgksQT1ma1KHT40qiA4pt+Py2i5kA50D
-	 9oLQpDScmD3ISdralI8rZ1rXN1x+hdF3KutBP+RxEetucQT1gmuzlRCT40Ga0pxv2AA==
+	t=1795019816;
+	b=UDAjyqDRaw0VEwvDyVC47McCkGXiBF5avq2xhLVFwA2qgITgkynem+JEkGQgED041Rk1
+	 tXxHvGntgphxFIheC6mYtzZo3tnjWyfeQVqGA6mHsQPQB1l5vEBwJd9BSKEnFnkbchhzj
+	 1zWpzhzHvmg9aT+mlWx4C7aXLgG89vTvOTaqhG5B89JpsluyDj8qmmIroZAGJDvCrXGYP
+	 sI16EEb3F7LO2IVYuA13zSTAhzkPBUf59mybBixOqk4OR9860eMwh3IMq8n6zabQMSU+J
+	 PiwUzNzEHlpoL3rxlylf7cdEWiX90l1LAzs2CAjYlYuAXWOjuVocOaoI2+mu36iDX5Q==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795019652;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795019816;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
 	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
 	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=N6HX3LXsa4mhOdLfCTbxFIXTc5FHr4ZNGQBe4lysFkI=;
-	b=N0w9ZNx8DglXq10zODVdNt00l2IBD5arYk6gril9LSvxyZYdkshvGRHdQTf+ScuEpE8M
-	 FrCMXuZ0oHdbrNdo8uR2MYe6mQJSFPdOyAdpGM7ako5Bg5gWAGiHsVIhqMfRIhGmKF+BD
-	 8kIbbV+lDwp0uj72KTq0Ij3AQgR3w7Aot6PqaqB4yKpqNXPVD7yoTd1SWW+WJbH7vyGI5
-	 qJjrJEk38r6m9VCkdbmsgkrClnQXr0WgKX/bDbzd3inf1AiR5e1R10CzVd9TsJ8b8FCLZ
-	 mG9bEkBRe8PE/icoOHNcz58tZJWtb1WsNqF6f2FZPbD65h4KsEklMm8yTAGPQ5c90uA==
+	bh=ThJWWn15R7JIY3hayjLwOhu3LzqQd50Rds3OyAm+UpI=;
+	b=JC7/cieQIUkG35uTg5mDHTbWH1mlpgUiqmuu5YmQe4SUN71TtuR91mP7V8KPhryhUCDq
+	 9oNYJTW6qwp+N7Lmk0KbVsnC5gUfja9C+jS8E3xLOoXDaRAsgtobqr+E7GeByvzbTSalp
+	 zKQVwpewI/Y1Dt1ZYhD/MS7laaXHVC5FdDtksLYu8jejoKpIk1LKHa3ZLlS549bVZcx/t
+	 OSMmJ9cjo8vRn3zWqy8OcUG56KAOxS6yuE3pbe4hnVbdn+sSDrBZnbrf+HY+BmAnQANP9
+	 ME86guFNwkmNwrj/9qr+hKIvLxnIlr9s/SoKCX0qO5N5h6nM0R32G7GHUvHUiWlu6sA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=edDD+3HN;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.44
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Q928FUfp;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.53
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34491606A31C
-	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 16:34:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 34491606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35EBE606A32F
+	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 16:36:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 35EBE606A32F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=edDD+3HN
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-6b8786bb305so1851370a12.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 08:34:08 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795019647; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Q928FUfp
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-6b408f2d936so2097455a12.1
+        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 08:36:55 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795019814; cv=none;
         d=google.com; s=arc-20260327;
-        b=kz7lKn9OXaYkKTJQUxRriY3l2HRfcoN7I2uh4McxfaM9dLuaS5YqCc3TCNPGG+YDx8
-         9EXH9Z5JVSPF60T4XOUb8+vh7YlEIQ92zpTdwUKS9PAUSFBlQtIkvJE4Wa20EOGyS5qY
-         Jlik1LBX9BHLHGuyWxj2diCyttCcTUQEeDK4MRQcpgYqAvfbW4xWsG/GuYlYcekwTC87
-         9J5ltuQvIPSZu9p0iJtGSXePrZ52K7G5tJI8BqclUxy4QYvEUBZm5J91GwQBjHoXklnB
-         SWXxweq4lGUp4hAHiDLiqdt33uXf4sBFKsCtxDIStnWe9wpsrs01G2HNuciD1MYgyAPl
-         1vYA==
+        b=OknnDO0Ed7ccil8F8R5ZLkHF16OUa/rdoKYegr2bDDznUOFg8rRaZiSliAON1+lmeb
+         5/1cIUQw07mz+Go4CQynrBvVD/uFsUTyy2iSjdPm2ft59/lJUmgky2pk34ad9DzYh4mf
+         NEP+eLwZVXb1/EwnEfMtSVXj4nRQ9rUWhJs3QuQwgp+fXMLYQMKjiG7/QsbcKlm1GdN5
+         4Y02CJw70eGpsGxUsGUoLT1BYgXz7P/+Drte++S4UzA+0EINw+jDkHeItZV+s1NkgmjH
+         iiFq211Qnm3/LIMoYKE0ygbS8YXos/wVQ0M0s0PGJppZlVYKHV2kk00GEgKRPsPlFD3f
+         0HtQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=N6HX3LXsa4mhOdLfCTbxFIXTc5FHr4ZNGQBe4lysFkI=;
-        fh=swbEoOtOq9d+XfXVVr3Kx7pt0fJkY8UHj6QbA3pQY1U=;
-        b=jv9X8sh6FTOP6sZg//S7iFIKUb/uQ5x71HS/2W7mpS0sQ9E/S0VOnUweaU1TfRZ/Jk
-         GHsUz6ixH/+Us+cfi6m9AepmgLcfKfsIhf2UhEeYmHULzLAK6PEbe8rko/ZEzGGqhSWk
-         5m2D+aZ5u3KL0UrJb8od8q2DEpgY5X4kluUyCK0+Z2coCCjuQUAqbxDGfWfNAJ1IJUO4
-         aFCzCTevYRYXhw9fAdO2/XlmO5a8gwJ7HWrROTCzVz53qTh8nPYlSlX74e33ZPcuitH8
-         YFvZw7EoveBCeeqK6q5x3jLKYqVrFfSo0SxLC745z4YcR8cIj/piIP8F6QWLNgd8KOYl
-         iPkA==;
+        bh=ThJWWn15R7JIY3hayjLwOhu3LzqQd50Rds3OyAm+UpI=;
+        fh=2drCHBhFQ+N3YJwrPkXeauW47sIPunS6e7ZIG5kJH18=;
+        b=BsoOdeOOLe1jQ2H27zV4vTPNkVNm1/up2ZzrgaTDww4gDfDilK8zJoBAOjE8W2UE7P
+         /LXSgK0zU3KgyZvAYCaMe7XnRgxTGc7mBi64KqUkdtkOFPheYo4sTN/kPUvM0trESdlo
+         Or8cbKZO831jM7rLoR6Xyk+Len+h2cqPKud7mNtLDGZMUH7fPtS7/XHgjky3hgD4U+PL
+         /m+yasPyNqkCneB3RZCy0vlAlOvZv6cS+KaNYaEZsl8/pK4dVjoEphcg/MWz0XD57a7t
+         dyqdtS3sGUCa7X6F+MDzJG1Muod98gXPrcC38OwQboepsdRyHRLsknrQ44HH60sjm2ca
+         +LIA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795019647; x=1795624447; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1795019814; x=1795624614; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=N6HX3LXsa4mhOdLfCTbxFIXTc5FHr4ZNGQBe4lysFkI=;
-        b=edDD+3HN3eSgxPe1vLYMsZA9DrM5whP4dDb6n+MqzrRN7ZqOif36k7v2vBh/SURUzl
-         h45+n5470/Z1jV0YhRHqQGF8vCKxYixCoW96DLDba2renWvH3vOO+WEsdwtqHwRM2bly
-         rGjZ500zdbUecLbTi7KBVdGOT58lTeKB0SbBCg2Gdmp0szBqM7jDK7Qc4QUQ+SW/KHyS
-         pYbjN2WhdxX24l9f2g61LHIlBuowbE2fzG2sUPimi1+EANR3GhB9jK35eA9Dkb3JL+D+
-         g3ufmoSo9e5O/Zu/uPruXbqCKquDzeHhTWiwpTLCOWYzi5kI5gkCjFHqRHJUjE+314hb
-         q1EQ==
+        bh=ThJWWn15R7JIY3hayjLwOhu3LzqQd50Rds3OyAm+UpI=;
+        b=Q928FUfp2LnQkjGEnKMIMu+nIXWPV8Mw0HjVjFDQa7MZUVLuYPLFwnsc7iiHqC360u
+         Kp8IRabh9aATlCbBIrXYC8LB4ujsA2WowQnPl0onFZOSJ5rVYhQ50HD2q0pTUJXyKimM
+         OUL77cTMfVDMrYjz/NQW0TKyEQpYRFMt7Ju+HVxVGfRQjrSAY87Mpzq+C/2x9bC6NTow
+         OtYFWyMzdvLEcoERGP5aXpJZMZOJljjkWPd07rML7zS6cDn/RnBxJCXaYM/7fpaXHvui
+         3d3div9gMzI9ed77/rJrBt7B9+fw7rgFDQ4NESvylFpmE6QFtWC5GnB6Lj4Ro4sGb6Nt
+         AJ7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795019647; x=1795624447;
+        d=1e100.net; s=20260707; t=1795019814; x=1795624614;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=N6HX3LXsa4mhOdLfCTbxFIXTc5FHr4ZNGQBe4lysFkI=;
-        b=Zq+1LTqWj1fOW2yPEP21yv3hDJxn6zVgyGsqLeCe1mfZ5fBTRUbDYAYf5dUs4mq2MW
-         rBsyfEBC1HL9aLmIaLRwlcXSxUzSMXH83IQ4aKB+9ANOncaem21EJMkRcfALwXMS01LB
-         Uc22Ypkio9Iy/T2heBl6MyuMe6FEgf9jRvuk8IhsraVPbnoTcKVN+ViRGn9oHflVyub3
-         wB9yO6RXXVRZ7jW5HDmsxCv5lWZdf8fGmzq6trYFyjXVaRBbcfthyFFnhroTah//UR/R
-         kazTlgF4isOtmJVpHwBc7LafYwwo82HhHmlVnz5I4yAoom98BsYhPGwha5Qmf44TWot1
-         J48w==
-X-Forwarded-Encrypted: i=1; AL+hErE/+y/0OP9STzanWAtwnJj81Xzm+mOTnp1e6XWV0qRUBwdAbb45k6vMhR09/K6XwL9BsGoyN5o7HIVTO7Bx@vger.kernel.org
-X-Gm-Message-State: APuU4Z9CpvmKOBMni3SAz5cfNyzwSgDk1Us2zvDBfH/kFREHQLy97Jxl
-	Bwo3NezFe6x2lHkoM4ix/dfGgMRXwUdgHveRZrHNSE2Yc1MaBMEd3FBnfAEPkvQ1S9fkv7nUrZW
-	sTJ+Ztlmvv52tupRY1xBzUQCnTdQrfmM=
-X-Gm-Gg: AYBFou2F7PmTQfCOufWM8fRZKBHp0Yz+Epa3+2pSyodPXuYFrHB4rEfCFnXz7kCl+uJ
-	51Z+LemXSWdISABz38/d9yrhL3Nlr1hE+CDbygmiKolzBG74kqkgplorZaRD1zSOEH+5tKIp0no
-	Fnfurv+6leKs+hN5nkcjum2ZaKP1AZfMKHh4ynZaLafuvxbXUxOlu/AeNgOZFjwX/kl9WQfRtr8
-	I0leN5xr8zNA/UYQoM6H4Qv3sXhQCmMojAsCl7LsTrMDvKyn4CSOOqdS1Sq6cjSexvEgl3Lodf1
-	lEqpZPBIXe+lU5v/Wwm8lwMuQA3ra90znDe5inZwS6yF9lfond0+G+K66lOngTg/BnL5ViNOXk6
-	qM/OzZ8zJNwTk3fQsmCuHoDxXheWY+5FVZr6Whrty2W96X4Pt/dlcRMatJ4SxJs1URjrDPlE=
-X-Received: by 2002:a05:6402:450e:b0:6b4:73e6:dc9d with SMTP id
- 4fb4d7f45d1cf-6b887f1fff8mr2542347a12.41.1795019647204; Wed, 18 Nov 2026
- 08:34:07 -0800 (PST)
+        bh=ThJWWn15R7JIY3hayjLwOhu3LzqQd50Rds3OyAm+UpI=;
+        b=wuzK/fyMZRgVNqOUja1b0JTakLR2SQTL0FDOdDU4+WHY75ilUI03HRPLegS2GPf/uK
+         XAcRm9HBahLW1NQpBR5/+7SmCldzj0t7OzzRmtmEARKQLvZor/8H+kPf5/dvRnqSLIyY
+         7dAuG1qRqjv47JS/QJJqbO6ERt8dCMOgEcBrHQb1E2vjEDuCrffDgx+I2bf5lB7OHQjl
+         13eb6OErAkvYHZ7Vudbr8+VRtG7j25Y4ysu+H0KIsIWWKEtfJJzfQQ5Yha2lJwycI1rS
+         z9TdsTs80dETq64JoOkxD9BZKe27pcZuE0+QGy9qBFxy15SxkjbSPddFmlRjTtgJOvRC
+         qeeg==
+X-Forwarded-Encrypted: i=1; AL+hErEg6YB8BR+rkcy4pjZBrxuAjAqz5+PVxBOJ3LemcIZOh1PcvdeUswZh5Mn+sSlcQ8ppfQNGeRmjOoiafmPr@vger.kernel.org
+X-Gm-Message-State: APuU4Z9a9IWkiGtvV+wZE8kSAN1JOWR3WdQiiE4b8ZiRzbs6CjDXUA04
+	y+m99FH02uYS7qpQOSdCvTtmx4ofDG8hbLRD9ZFoJ56cxDaVM6FBMI16bwBO3Z5SySfuvXVpZ51
+	cwHJOGqOlUX+NABNcVe/gKA3jbP17EUg=
+X-Gm-Gg: AYBFou1IFbPoQrbUY7E/dpCsqNwjwTF4Y9xzJauBQt1c81QbHrTxyo1pkrrbY4Ih+MI
+	cWTiXwWDyb7ONqodSELTqm7M6dizdTO9m7NKNij4s9gpOSzrn3vBTdC09jI+qRGnt5TU9Wba2WP
+	BcGjVemCkJMOgD1RswsZyRmuP+Jgt5hlZ4xn+iRRT0lnobuhcC9gQdkR7BSRz4Tc1AvvV/S2L8W
+	rSpy+rwaeizfsDWbR2n1dd7QiLAPUhXXZiHb0VNDhvOPdQjvqh0gEyN+SOmdTzkAvtQK5AJ65Np
+	3acRCURQWoNkJTUY5HSMky0hXq6GHCYW47AKvK4RyuHPwyiapSKkcfZcp+O7hcenclXg1DxYddJ
+	IDS96n58Yb0oSD5rIAVRFcKPx+5iXNaYtMrHYNK6GVsvDATysvtVQbUPf4sIrFLbf+AbdeQ==
+X-Received: by 2002:a05:6402:c711:20b0:6b7:b12e:1638 with SMTP id
+ 4fb4d7f45d1cf-6b887effc26mr1999145a12.37.1795019814317; Wed, 18 Nov 2026
+ 08:36:54 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,167 +104,118 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261118123105.1247627-1-amir73il@gmail.com> <179500653692.684213.4730864102080566101.b4-review@b4>
-In-Reply-To: <179500653692.684213.4730864102080566101.b4-review@b4>
+References: <20261115180343.576773-1-koray.fra@gmail.com> <20261115180343.576773-8-koray.fra@gmail.com>
+ <f297d9ea-ebd7-47f4-ab7b-de5c45980000@app.fastmail.com> <CAOQ4uxhpMARO_ZMJDeoa044BwufLVnS0o4Fv0abBF=tjaZmtWQ@mail.gmail.com>
+ <cd49ce48-58d7-4341-b4fc-34e63daf3c52@app.fastmail.com>
+In-Reply-To: <cd49ce48-58d7-4341-b4fc-34e63daf3c52@app.fastmail.com>
 From: Amir Goldstein <amir73il@gmail.com>
-Date: Wed, 18 Nov 2026 17:33:55 +0100
-X-Gm-Features: AclHuK-POwvPU_DJejkPcXzGEWdSEeV7ICPQ8L3Z6niqB3lgCgZbU0XeQWMehQA
-Message-ID: <CAOQ4uxjHwtZEHu9xMM6zg9niSgNdLXhAu65jA8Ai_SKVg-W2nw@mail.gmail.com>
-Subject: Re: [PATCH v1] fs: add ->f_real() file operation
-To: Pavel Tikhomirov <ptikhomirov@virtuozzo.com>
-Cc: Christian Brauner <brauner@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel@vger.kernel.org, 
-	linux-unionfs@vger.kernel.org, Ding Feng <dingf3ng@gmail.com>
+Date: Wed, 18 Nov 2026 17:36:41 +0100
+X-Gm-Features: AclHuK_Wot5qcfi8_9CAebWCtd31KyKZ5gW_T2w6JAANm_7TsCfaaSyfxQBsTLM
+Message-ID: <CAOQ4uxjme9sJ5LGNDnP6rEKZLTJzX_ZdcMohgu2iLULK96GPOA@mail.gmail.com>
+Subject: Re: [RFC PATCH v4 07/10] nfsd: add provenance time (ptime) via FATTR4_TIME_CREATE
+To: Chuck Lever <cel@kernel.org>
+Cc: koraynilay <koray.fra@gmail.com>, David Sterba <dsterba@suse.com>, 
+	Namjae Jeon <linkinjeon@kernel.org>, Sungjong Seo <sj1557.seo@samsung.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
+	Paulo Alcantara <pc@manguebit.org>, Chris Mason <mason@kernel.org>, Yuezhang Mo <yuezhang.mo@sony.com>, 
+	Jan Kara <jack@suse.cz>, NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, 
+	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
+	Ronnie Sahlberg <ronniesahlberg@gmail.com>, Shyam Prasad N <sprasad@microsoft.com>, 
+	Bharath SM <bharathsm@microsoft.com>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
+	ChenXiaoSong <chenxiaosong@chenxiaosong.com>, "Darrick J. Wong" <djwong@kernel.org>, 
+	Sean Smith <defendthedisabled@gmail.com>, Andrey Albershteyn <aalbersh@kernel.org>, 
+	Pedro Falcato <pfalcato@suse.de>, =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>, 
+	linux-btrfs@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, exfat@lists.linux.dev, ntfs3@lists.linux.dev, 
+	linux-cifs@vger.kernel.org, linux-nfs@vger.kernel.org, 
+	linux-api@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 18, 2026 at 1:55=E2=80=AFPM Pavel Tikhomirov
-<ptikhomirov@virtuozzo.com> wrote:
+On Wed, Nov 18, 2026 at 5:09=E2=80=AFPM Chuck Lever <cel@kernel.org> wrote:
 >
-> > sync_file_range(2) and cachestat(2) operate on file->f_mapping.  For a
-> > file on a stacking filesystem, such as overlayfs, the data and its page
-> > cache are in the real (backing) file, so on a stacked file
-> > sync_file_range() writes back nothing and cachestat() reports nothing.
+>
+>
+> On Wed, Nov 18, 2026, at 2:44 AM, Amir Goldstein wrote:
+> > On Tue, Nov 17, 2026 at 11:02=E2=80=AFPM Chuck Lever <cel@kernel.org> w=
+rote:
+> >>
+> >>
+> >>
+> >> On Sun, Nov 15, 2026, at 1:03 PM, koraynilay wrote:
+> >> > Implement provenance time (ptime) in NFSD, as introduced in a
+> >> > previous commit ("vfs: add provenance time (ptime)").
+> >> >
+> >> > Map ptime to FATTR4_TIME_CREATE, allowing clients to set it across
+> >> > CREATE, OPEN and SETATTR compounds.
+> >> >
+> >> > If the underlying filesystem supports it, use __vfs_fileattr_set_loc=
+ked()
+> >> > to set it, returning -EOPNOTSUPP in case it's not supported (i.e. wh=
+en
+> >> > __vfs_fileattr_set_locked() returns -ENOIOCTLCMD).
+> >> >
+> >> > When querying FATTR4_TIME_CREATE, request both STATX_PTIME and
+> >> > STATX_BTIME, preferring ptime over btime if available, and advertise
+> >> > FATTR4_TIME_CREATE support if either ptime or btime is available.
+> >> >
+> >> > Assisted-by: Gemini:3.8-flash-high antigravity-cli-1.5.7
+> >> > Signed-off-by: koraynilay <koray.fra@gmail.com>
+> >>
+> >> > @@ -3646,7 +3649,14 @@ static __be32
+> >> > nfsd4_encode_fattr4_time_access(struct xdr_stream *xdr,
+> >> >  static __be32 nfsd4_encode_fattr4_time_create(struct xdr_stream *xd=
+r,
+> >> >                                             const struct nfsd4_fattr=
+_args *args)
+> >> >  {
+> >> > -     return nfsd4_encode_nfstime4(xdr, &args->stat.btime);
+> >> > +     const struct timespec64 *ts;
+> >> > +
+> >> > +     if (args->stat.result_mask & STATX_PTIME)
+> >> > +             ts =3D &args->stat.ptime;
+> >> > +     else
+> >> > +             ts =3D &args->stat.btime;
+> >> > +
+> >> > +     return nfsd4_encode_nfstime4(xdr, ts);
+> >> >  }
+> >>
+> >> I have trouble with this approach.
+> >>
+> >> We've already established that, for the Linux in-kernel NFS server
+> >> implementation, FATTR4_TIME_CREATE reports a file's birth time and
+> >> does not permit NFS clients to modify that.
+> >>
+> >> After this patch is applied, the server reports the ptime instead
+> >> of the btime on some filesystems but not others.
 > >
-> > Add a ->f_real() file operation, modelled after ->d_real(), and a
-> > file_real() helper in backing-file.h that returns the backing file
-> > holding the data of a stacked file, or the file itself.  file_real() is
-> > a no-op without CONFIG_FS_STACK; otherwise its slow path in
-> > fs/backing-file.c calls ->f_real() and verifies that it returned a
-> > backing file.  The real file is owned by the stacked file, so it is
-> > valid for as long as the caller holds the stacked file.
+> > In other words, for some server filesystems FATTR4_TIME_CREATE is
+> > settable and for others it is not.
 > >
-> > file_real() is only meant for inspecting and writing back the page cach=
-e
-> > of the data.  Operations that need the credentials or permission checks
-> > of the stacking filesystem need a dedicated file operation, like
-> > ->fadvise().
+> > Isn't the NFSv4 protocol equipt to deal with this complexity?
+>
+> Not a question of whether NFSv4 _can_ do it. It's whether it _should_
+> and whether opaquely choosing a settable vs. an immutable timestamp
+> on the server is the right design.
+>
+>
+> >> Essentially this changes the semantics of existing files that have
+> >> a btime set -- technically that's a regression.
 > >
-> > Use file_real() in sync_file_range() (also used by io_uring) and in
-> > cachestat(), and implement ->f_real() for overlayfs.
+> > I fail to see in what situation this is a regression. Please explain.
 >
-> Approach looks good.
->
-> Would you mind taking the cachestat selftest patch together with it:
-> https://lore.kernel.org/linux-fsdevel/20260623111533.2285005-4-ptikhomiro=
-v@virtuozzo.com/
->
-> I will test it on your patch and update with results.
+> Any consumer that depends on btime being read-only is now screwed.
 >
 
-Since you found a bug, do you mind adding the nested ovl test case
-as well as lower file test case and re-post your test?
+Who is the consumer in this context?
+An NFS client?
 
-Merging your test is independent of merging my fix, but Christian
-can take them together when you have approved both work.
+Can't an NFS client be connected to another NFS server
+implementation which does allow this?
 
-> >
-> > Tested-by: Ding Feng <dingf3ng@gmail.com>
-> > Cc: Pavel Tikhomirov <ptikhomirov@virtuozzo.com>
-> > Link: https://lore.kernel.org/r/20261118040056.6543-1-dingf3ng@gmail.co=
-m/
-> > Link: https://lore.kernel.org/r/20260623111533.2285005-1-ptikhomirov@vi=
-rtuozzo.com/
-> > Signed-off-by: Amir Goldstein <amir73il@gmail.com>
-> >
-> > diff --git a/Documentation/filesystems/locking.rst b/Documentation/file=
-systems/locking.rst
-> > index f7363ad770c76..db9ba2a8c13e7 100644
-> > --- a/Documentation/filesystems/locking.rst
-> > +++ b/Documentation/filesystems/locking.rst
-> > @@ -485,6 +485,7 @@ file_operations
-> >                       struct file *file_out, loff_t pos_out,
-> >                       loff_t len, unsigned int remap_flags);
-> >       int (*fadvise)(struct file *, loff_t, loff_t, int);
-> > +     struct file *(*f_real)(const struct file *);
-> >
-> >  locking rules:
-> >       All may block.
-> > diff --git a/Documentation/filesystems/vfs.rst b/Documentation/filesyst=
-ems/vfs.rst
-> > index 1824462a43711..e4ce15545244b 100644
-> > --- a/Documentation/filesystems/vfs.rst
-> > +++ b/Documentation/filesystems/vfs.rst
-> > @@ -1038,6 +1038,7 @@ This describes how the VFS can manipulate an open=
- file.  As of kernel
-> >                                          struct file *file_out, loff_t =
-pos_out,
-> >                                          loff_t len, unsigned int remap=
-_flags);
-> >               int (*fadvise)(struct file *, loff_t, loff_t, int);
-> > +             struct file *(*f_real)(const struct file *);
-> >               int (*uring_cmd)(struct io_uring_cmd *ioucmd, unsigned in=
-t issue_flags);
-> >               int (*uring_cmd_iopoll)(struct io_uring_cmd *, struct io_=
-comp_batch *,
-> >                                       unsigned int poll_flags);
-> > @@ -1162,6 +1163,22 @@ otherwise noted.
-> >  ``fadvise``
-> >       possibly called by the fadvise64() system call.
-> >
-> > +``f_real``
-> > +     stacking filesystems (e.g. overlayfs) whose file data is accessed
-> > +     through a backing file implement this method to return that backi=
-ng
-> > +     file.  It is called through file_real() by system calls that oper=
-ate
-> > +     on the page cache of the data, such as sync_file_range(2) and
-> > +     cachestat(2).
-> > +
-> > +     The returned file must be a backing file (FMODE_BACKING) or the f=
-ile
-> > +     itself.  It is owned by the file and must remain valid for as lon=
-g
-> > +     as the caller holds a reference to the file.
-> > +
-> > +     The returned file is only used to inspect and write back the page
-> > +     cache of the data.  Operations that need the credentials or the
-> > +     permission checks of the stacking filesystem need a dedicated fil=
-e
-> > +     operation (e.g. ``fadvise``).
-> > +
-> >  ``mmap_prepare``
-> >       Called by the mmap(2) system call. Allows a VFS to set up a
-> >       file-backed memory mapping, most notably establishing relevant
-> > diff --git a/fs/backing-file.c b/fs/backing-file.c
-> > index c601b27f0fd35..1e0e85515b4c7 100644
-> > --- a/fs/backing-file.c
-> > +++ b/fs/backing-file.c
-> > @@ -102,6 +102,18 @@ struct file *backing_tmpfile_open(const struct fil=
-e *user_file, int flags,
-> >  }
-> >  EXPORT_SYMBOL(backing_tmpfile_open);
-> >
-> > +/* Slow path of file_real() for a file with ->f_real() */
-> > +struct file *__file_real(struct file *file)
-> > +{
-> > +     struct file *real_file =3D file->f_op->f_real(file);
-> > +
-> > +     if (!IS_ERR(real_file) && real_file !=3D file &&
-> > +         WARN_ON_ONCE(!(real_file->f_mode & FMODE_BACKING)))
-> > +             return ERR_PTR(-EIO);
-> > +
-> > +     return real_file;
->
-> This will go one level only AFAICS and in case of nested overlay we would=
- not get to
-> the real file.
-
-Good catch! but the bug is not here it is in ovl_f_real()
-Please test with
-
- static struct file *ovl_f_real(const struct file *file)
- {
--       return ovl_real_file(file);
-+       struct file *real_file =3D ovl_real_file(file);
-+
-+       if (IS_ERR(real_file))
-+               return real_file;
-+
-+       /* Handle recursion into stacked lower fs */
-+       return file_real(real_file);
- }
-
-When you have tested this please report back and I will post v2.
+I can't wrap my head around the problem.
 
 Thanks,
 Amir.
