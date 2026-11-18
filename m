@@ -1,48 +1,75 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795007807;
-	b=gZd0tSF/g7XJqulfe9aTW0GCbGairf1GJ/OT+sTg5ybZU82Mr5D6QRRd8VteTka9xba7
-	 o95FfE7/69VLmUe/YH8pC9pZLbPAVuhxSqiSfygCJj8xx9rKq6lHyeYaKXGenAMxa5D4Q
-	 GGJN5mknJPMCrJbCusTyAXPWnX14av31W/mhMCgkIbD1UcR7bYHSXtHq9fgBSOY/Btr6b
-	 dZ/6KgPovCOKRvS5emY2hCZ8eDJL00JyYfO0B/QCI694b/Mn8E5/37VPDsSRL/w7kMGG8
-	 Zcc+gr4OGN7pWzRPKL1SoWxnwjf5UJ+EtK53yZn3vRrriVzY7x4bztNGwrfHRJA6PHA==
+	t=1795008155;
+	b=e1kuxA86ghoP78sb10chrVjtw86DOeESutQfHGZOZ6LQ8NjFsUsQKKoT6CU+1SpPABwj
+	 LZjVaJEbeTTHRBeHMlTgL7l9rmErlVfnk+MIXf0WrW1xqgs+BFGROPOOs06L+qxtQPcjG
+	 739XI5rSn84R80BuGxfbUCmk4ilfu20jqWLRNOfDAtp0FF1FtGuz4kbozS+oArAH2IjG9
+	 u+Rw2KUN1TzPpOXaWcbUREaBK6soaymlW1O+LrZDdHHpFLDU9kyu3S4igi47Nytc8OBk0
+	 mdApOhd440z9ovLrKmI9iW5tdXslnDTs2Q+Qr954VZdivkUMuIvagrMQXa71Ok0LknQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795007807;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=CR+E1bRGy+jkpAi4tD+qyGoEqwHX5pXB8QpxemAdSZo=;
-	b=tmsVtlXr+p9fgejFH3Dr987d91O7jTu3je9P2deNaQ6k2ROLBftxPdLn67Jim0W/uu6h
-	 owpMP/M2/Ggsxk3L+eDSNwbbN0n730goPg1U5ibnGq1qPFStR708qC0EmkOipCzpCzZys
-	 NwrrQAyplpDJIKkgb2S7njhsQei4RhNCdKRnt+tHJoDGlgJu0WcnCqK8a2t6vaVP643Tv
-	 6k+Za5e69UZgiHKl5Kki/uDGzouPvNiyjTz80KiLAcHwa2pn3NlhQDYKW2xB2qqnnizzF
-	 gKySJHNiw5OBAupdtJByxQROvmgrbFXigueLyqPsKCWkkFeff8VskOTfGjFai0SaqBQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795008155;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 X-Developer-Signature:X-Developer-Key:Content-Transfer-Encoding;
+	bh=8TF6UKCst8lzq0LV30okvmZ/jdB3sqBqVgF0ME6NPUU=;
+	b=lQQ5ml1wE101xGbBAufHLkm6A+apH4Z2RwQcJ3SpTSfnkAqjZaN8CAkSQAbQUJ++jUbq
+	 Nu31fUKHdnJfr0U2Hd24Vglh+RBBgLWzIyuOkcw8Jls1WgwboV1z9EIDvaVHPL8B/krFd
+	 tGOR2thwA1jNfGiHfvEsTP7pTtjwBWb0my1kWEDabXs94hPs7wQIoWJHraXM2RHqAoN1T
+	 btP31Ep/IQ4cVUzzGnQu4dKNySF/Iv6OsxSQz3k5jn7DGPKGZ5sToxWurqxYc2MZOcmp/
+	 N2d2zMfPGG/LomquTV++e1WPbYzJkgr0fq4f4DJKALgy/ybFfFLpjz5o6wp8Rjv9ZlQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=R05bb917;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PnAvX89B;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9B01606A331;
-	Wed, 18 Nov 2026 13:16:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56B0C606A320;
+	Wed, 18 Nov 2026 13:22:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=R05bb917
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 592A71F000C4;
-	Wed, 18 Nov 2026 13:16:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PnAvX89B
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 142691F000C4;
+	Wed, 18 Nov 2026 13:22:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795007807;
-	bh=CR+E1bRGy+jkpAi4tD+qyGoEqwHX5pXB8QpxemAdSZo=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=R05bb917AdmhBwWHZVe6VaYbHwPrMNPSXjjry2qEiHt+C1OyqFQ06OiZE2auKry4m
-	 GR0NR4BGdSP0gLnK4sUQbYxtxx323yCVehWSLcX6llKhEbyH5rJ5IEBNuWAWgG7iPl
-	 rhlj7WxqGKYH7M1JL/E0ZrcWOn9r2gCJl1nPhVDVVlpaepHL5HTtewhkH1miCh+ume
-	 9qmmxrII/WfZXnSXVfA4np7FkD+4+jt9ccX3wRHw7GbKkkO94BhMYTH0RUJChQAI+1
-	 3eU6OXnVY5iP/ojQxFjDRdNMOUUYN92ETrIHMWBgo3FBcznJVWyGJinYhW3kSJ9orT
-	 92558h14t/CpA==
+	s=k20260515; t=1795008155;
+	bh=8TF6UKCst8lzq0LV30okvmZ/jdB3sqBqVgF0ME6NPUU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=PnAvX89BLlompbeCCkZjl3vr9MCqKZciuydSOpL0eogzTLskwf3xZTohivEs0roUy
+	 SGHE3ptZwvcw56AzvAQmWHU2AKWfZBJ1Q+aHQiUujgs16dQbeouPrsRjUXjxqwCmzL
+	 Ic0BLwqP6KqS0jGWCMS2T/Ixdqkpxh4ygAhpATxyMBjSiigYgk4GNjPL5CPg7RuAHm
+	 2wFGRm0miTBwzMDFzEuxnDS2tc8VOXV/OZSGQmr95YsoKwOuCDUI0e75scvGjYgnhZ
+	 3DWuuj7B7Ts5+S7mf+y4R+8vNESPWSyJ/M9EWivAgicYCJ5uI0mObnGGnufPMbHttt
+	 d5ZeN50+Ga+jQ==
 From: Christian Brauner <brauner@kernel.org>
-Date: Wed, 18 Nov 2026 14:16:18 +0100
-Subject: [PATCH 2/2] fhandle: don't warn about multi-root filesystems
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>,
+	Julian Sun <sunjunchao@bytedance.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Muchun Song <muchun.song@linux.dev>,
+	Breno Leitao <leitao@debian.org>
+Cc: Christian Brauner <brauner@kernel.org>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	cgroups@vger.kernel.org,
+	kernel-team@meta.com,
+	stable@vger.kernel.org
+Subject: Re: (subset) [PATCH v2 0/4] writeback: make slow writeback report more actionable
+Date: Wed, 18 Nov 2026 14:21:46 +0100
+Message-ID: <20261118-abhaken-flocken-popmusik-322cfc4cfb7b@brauner>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261110-writeback_stall_report-v2-0-9e0ed75074ca@debian.org>
+References: <20261110-writeback_stall_report-v2-0-9e0ed75074ca@debian.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -53,83 +80,45 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261118-work-nfs-multiroot-v1-2-66e4458b7d32@kernel.org>
-References: <20261118-work-nfs-multiroot-v1-0-66e4458b7d32@kernel.org>
-In-Reply-To: <20261118-work-nfs-multiroot-v1-0-66e4458b7d32@kernel.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: linux-nfs@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
- Jan Kara <jack@suse.cz>, Chuck Lever <cel@kernel.org>, 
- Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>, stable@vger.kernel.org
-X-Mailer: b4 0.17-dev-04696
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2405; i=brauner@kernel.org;
- h=from:subject:message-id; bh=NoD43R4Ikusm+jKrw678i5OjqLPNWC4Kyx7Fj2FDdIU=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9XWry3Cru0vQtz0+0d4stfRe45eFZrb82SgKpU9/rf
- FfObGC62lHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRBYcYGbof9itw9bevY0+b
- ZVGXMaGtLVenIEir9dXmnxNLVWJ63zIyXLokydaeXm/51sGq2uzSjUuhLZG3W7fMeV6feputsU2
- OHwA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1641; i=brauner@kernel.org; h=from:subject:message-id; bh=17BmXY+svo1KKAU3k/ez0FW6KIlSlOJjiwLKTuSYAHE=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9XdZ/5kOhJceeRM/vHyZofy/xnxT4zdrUsSbiyamTA sbRT85N6ChlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZjI74UM/z3e+ShL79f9uLr3 jg/fksyjM6fc89T1ub/9mXZq3aXuc4GMDA1OrMk/izVsRdd9amKoZV95hK0/V3jVt8rFS0XKtr+ 6yQ8A
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-When I relaxed the permission checks for open_by_handle_at() in
-commit 620c266f3949 ("fhandle: relax open_by_handle_at() permission
-checks") I added a warning for when walking up from a decoded directory
-ends neither at the root of the mount fd nor at the root of the
-superblock. But a superblock can have more than one root. nfs shares a
-superblock between mounts of disjoint subtrees of the same server
-filesystem and each of them has its own root dentry. If the decoded
-directory lives below one of the other roots the walk ends there and we
-warn.
+On Tue, 10 Nov 2026 03:39:26 -0800, Breno Leitao wrote:
+> Since v6.19, writeback waiters are woken while their writeback makes
+> progress, so a slow sync no longer trips the hung task detector.
+> Instead, a waiter past hung_task_timeout_secs logs:
+> 
+>   INFO: The task sync:180 has been waiting for writeback completion for more than 28 seconds.
+> 
+> Across the Meta fleet, this line is logged about 19,000 times a day
+> (the median over 40 days), and up to 82,000 times on a busy day.
+> 
+> [...]
 
-Mount two subdirectories of the same export with vers=3, encode a
-directory below the second mount with name_to_handle_at() and decode it
-from a new user and mount namespace with open_by_handle_at() and the
-first mount as the mount fd:
+I took 1-3 as they're fairly separate fixes. Please rework 4 as agreed on the
+thread and send it.
 
-  WARNING: fs/fhandle.c:260 at vfs_dentry_acceptable+0x2e3/0x4b0
-  Call Trace:
-   <TASK>
-   exportfs_decode_fh_raw+0x1de/0x840
-   do_handle_open+0x46e/0xb20
-   do_syscall_64+0x110/0x600
-   entry_SYSCALL_64_after_hwframe+0x77/0x7f
-   </TASK>
-
-The handle is still refused because the directory isn't reachable from
-the mount fd. But an unprivileged user can trigger the warning if the
-directories involved belong to them, e.g. if their home directory is
-one of the mounts.
-
-Don't warn for superblocks with multiple roots. This depends on the
-previous patch reintroducing SB_I_MULTIROOT.
-
-Fixes: 620c266f3949 ("fhandle: relax open_by_handle_at() permission checks")
-Cc: stable@vger.kernel.org
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/fhandle.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/fs/fhandle.c b/fs/fhandle.c
-index 32fcff14f88fd..8e6110215469d 100644
---- a/fs/fhandle.c
-+++ b/fs/fhandle.c
-@@ -254,9 +254,11 @@ static int vfs_dentry_acceptable(void *context, struct dentry *dentry)
- 	/*
- 	 * exportfs_decode_fh_raw() does not call acceptable() callback with
- 	 * a disconnected directory dentry, so we should have reached either
--	 * mount fd directory or sb root.
-+	 * mount fd directory or sb root. Multi-root filesystems have more
-+	 * than one root.
- 	 */
--	if (ctx->fh_flags & EXPORT_FH_DIR_ONLY)
-+	if ((ctx->fh_flags & EXPORT_FH_DIR_ONLY) &&
-+	    !(root->d_sb->s_iflags & SB_I_MULTIROOT))
- 		WARN_ON_ONCE(d != root && d != root->d_sb->s_root);
- 	dput(d);
- 	return retval;
+Applied to the vfs-7.5.writeback branch of the vfs/vfs.git tree.
+Patches in the vfs-7.5.writeback branch should appear in linux-next soon.
 
--- 
-2.53.0
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-7.5.writeback
+
+[1/4] writeback: add the missing newline to the slow writeback report
+      https://git.kernel.org/vfs/vfs/c/82da6ca38c26
+[2/4] writeback: name the bdi in the slow writeback report
+      https://git.kernel.org/vfs/vfs/c/8dd5775aab52
+[3/4] writeback: log the end of a slow writeback wait
+      https://git.kernel.org/vfs/vfs/c/26286f60c266
