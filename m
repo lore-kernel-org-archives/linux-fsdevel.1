@@ -1,69 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.135
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795039335;
-	b=RlzeT32tqsdveqvxjF5JkR0Ai/AG3xcZHlykoN36TURNhqe6yfi6si2rph/Pa560DeUn
-	 ApVCoiDph5NS6nKMHPh9rm9EeWtfJL9ZLH/q7JsGpnQnisM4G98g9X8fE9HdzKZITnaID
-	 UjbACCC29pTaSON7bRdF9Yy3CaCxhelpJWU+cY1Om2laEhII1tWHjgENWGEX7fdrCR7Ad
-	 jsrGaDEN2BEZmKwS7IC5YF6zclMjHTzGiHyWBUjMcSnTYmHGsjYRnWRbMlTGCmBCI5TYl
-	 efoVso8qUwuyC7pbCcTXZ2mNq+a4scfNSJdFreFNg2KZbFwKDiWcrOco/CH68uZGiJQ==
+	t=1795041391;
+	b=LgToh0lRSq4qdmsLP8ADHuiyVP9RIUw8l8wpqH99j8OspOL5Oh/iBe/2ifDyiDhTjqfB
+	 RjsG3EgUl4DH7NbmsjjAO4PAglscXEevPO5zrDNOM2HUB1GpUZsJdcEm3wxZ2q8Z4QdKs
+	 dVHJMM6lR3hPjnQnxwlqx5vDMpGXoFFndh+IT0hTkOzra99Fn7gbsZPLYizN2c4NYOZsV
+	 vzBd5Mm0tFwP39tnmoRZJekxeDHsVPLevzfEh/1McCqxDv/q6eoV3wy+4/GW9tBdhR3mS
+	 X9eSWqvOubeBIEGUVcAYdd+CHLIlb4Mw2u9verDd/WHzrxRbakxYRd3cO+lETxw9P5w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795039335;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=0XpQgPfzz91bC+Ytjlo7UbbBYusCW9hUg8wtpu39DmY=;
-	b=HRdG+Ypmp8QWHONLs4wXpzNDCTkWfxlS0oa5Ta3MMO7U6wdRjZY7xPm0r6LG8s0HKtF8
-	 /7fPJiw5FRRBNButxHK70rlEGeGX7D0+a3DJDkDv0AgRj1ARhTEQmheNlRHMATmLla+Be
-	 dAIp0yQymVmV7Px6+v1ShYynZnNoUhpjlCEgtM2o8EkdF209RkxzYRcckMzqD4zWpVYv0
-	 ovJ0fLKydaG8U2H9RZ7OYavvfaIXB2mNrbxVE6jSDGa4NJO0OnTUkTP74mC9K2ef3hSRx
-	 rEbo+9wMx6DvammTxyf04kn6L8zJciY2+2dHeOVLx9t6d/yB6RMOv2WW3oVrDfNPzzQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795041391;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:Content-Language:To:Cc:References:From:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=giz9sJbi7AOf6PAf+EITaeI2qW09MerlLLpsHbUYRWE=;
+	b=KcZ5y92ctMiukzpw4maZH7aeVhcXH3fnHGWoOoudXdMOHnAUBRYZHPLiWFvedMT2n9zE
+	 lU1KWbpENt/OY396E+zlWgmVAMQZfsPJy8UoJ5CE/069vwdPZnM8vsJxo/x9E2jvRGUSk
+	 OajoATdiPPRvzuJzSipCXIKmSveM/wxWb7qsish1CCPsQS4eZRSmsScp2WKgWHXGdeyD2
+	 OtfZUCfmBwPXQWk5FqWuOFUCiEbHeBgPRP8wl9Plbd5i6GQxMAii2BU74PwycAo9V5HqV
+	 wSmW4opKmL7LUA+U0Z9cohYaK/90IMWp6QbQEp+lJq2IZykjhSqs/zSRBh0k9yLxb3w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b="b+y/HyLK";
-	arc=none smtp.remote-ip=91.218.175.135
-Received: from mta0.migadu.com (out-135.mta0.migadu.com [91.218.175.135])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=he7jUpP7;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FBBE606A320
-	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 22:02:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0FBBE606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45E59606A325;
+	Wed, 18 Nov 2026 22:36:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=b+y/HyLK
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=wPJFqCh3ssVP9dOgl/9TbS9is4kwh2hoieF8pl8/yRs=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1795039332; v=1; x=1795644132;
- b=b+y/HyLKKhUGIdGGqYKrv1mzn/Cx+4N4SK93IZYmVjnmXkbGe9cQ6RCo4vYtCfWoehLoXS4f
- tn/yZTT73kPlsd6g9n3wbkghlYSR7uNGwxznmTXceh+NoK5GfjPPbe4uMPmKYECcS+cVLrO6T+H
- Qlc1fbPFrrK+a2bKioklXTPA=
-X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 9290b7ae36d3fbbe;
-	Wed, 18 Nov 2026 22:02:12 +0000
-X-Mizu-Trace-ID: 9290b7ae36d3fbbe
-X-Migadu-Flow: FLOW_OUT
-From: Shakeel Butt <shakeel.butt@linux.dev>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Tejun Heo <tj@kernel.org>,
-	Jori Koolstra <jkoolstra@xs4all.nl>,
-	Ian Kent <raven@themaw.net>,
-	"T . J . Mercier" <tjmercier@google.com>,
-	Meta kernel team <kernel-team@meta.com>,
-	linux-fsdevel@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 5/6] kernfs: update a directory's times without kernfs_iattr_rwsem
-Date: Wed, 18 Nov 2026 14:01:52 -0800
-Message-ID: <20261118220154.2965621-6-shakeel.butt@linux.dev>
-X-Mailer: git-send-email 2.53.1
-In-Reply-To: <20261118220154.2965621-1-shakeel.butt@linux.dev>
-References: <20261118220154.2965621-1-shakeel.butt@linux.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=he7jUpP7
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 702831F000C5;
+	Wed, 18 Nov 2026 22:36:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795041391;
+	bh=giz9sJbi7AOf6PAf+EITaeI2qW09MerlLLpsHbUYRWE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=he7jUpP7W8wDKQl/Ac9/kNQcvc3DMO1YkGS7w+fX+gzQALPIfhbbsoZRzonAL29hz
+	 XV2HJ4mGcFOxPoxIyvK2iqLjsLfC80ujakgr3GD3gBIexhQZbwv1Ra29Nv6i0urF93
+	 mFVUHruiJeluzhgNRXnqLSsr9Wx9o3USwccENA1lM4ilNwGvubCTIWITLl6XcGO0fS
+	 RI44swSjupHrKUIAq31VGqsT4SEO7dYtfDCAzwOIPxgIj9xsJNpjbB91y/6otnFA5T
+	 NH9Sr0EiJ/BBY4/r0MRuie9RbCf5YhUSLt8DUfj+85e1AqQRk2cYYKFqlKIf8QkfNX
+	 rTYiX1mfpLPxA==
+Message-ID: <9bc43f9b-d721-408c-bf78-0f08f6ec4bb2@kernel.org>
+Date: Wed, 18 Nov 2026 23:36:20 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -73,245 +51,90 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v3 00/13] Namespace for namespace roots
+Content-Language: en-US
+To: Jarkko Sakkinen <jarkko@kernel.org>, David Howells <dhowells@redhat.com>
+Cc: linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+ linux-security-module@vger.kernel.org,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Andy Lutomirski <luto@amacapital.net>,
+ Anna-Maria Behnsen <anna-maria@linutronix.de>,
+ Ben Segall <bsegall@google.com>, Christian Brauner <brauner@kernel.org>,
+ David Hildenbrand <david@kernel.org>, Davidlohr Bueso <dave@stgolabs.net>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Frederic Weisbecker <frederic@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Jan Kara <jack@suse.cz>, John Johansen <john.johansen@canonical.com>,
+ Jonathan Corbet <corbet@lwn.net>, Juri Lelli <juri.lelli@redhat.com>,
+ Kees Cook <kees@kernel.org>, K Prateek Nayak <kprateek.nayak@amd.com>,
+ "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Manfred Spraul <manfred@colorfullife.com>, Mel Gorman <mgorman@suse.de>,
+ Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>,
+ Neal Gompa <neal@gompa.dev>, Paul Moore <paul@paul-moore.com>,
+ Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
+ Peter Zijlstra <peterz@infradead.org>, Randy Dunlap <rdunlap@infradead.org>,
+ Serge Hallyn <sergeh@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Suren Baghdasaryan
+ <surenb@google.com>, Thomas Gleixner <tglx@kernel.org>,
+ Valentin Schneider <vschneid@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Vincenzo Frascino <vincenzo.frascino@arm.com>,
+ Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
+References: <20261118193539.240065-1-jarkko@kernel.org>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Autocrypt: addr=vbabka@kernel.org; keydata=
+ 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
+In-Reply-To: <20261118193539.240065-1-jarkko@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-kernfs_add_one() and __kernfs_remove() update the parent's ctime and
-mtime under kernfs_iattr_rwsem for writing, inside kernfs_rwsem.  This
-is where cgroup mkdirs block on Meta fleet: the writer waits for every
-path walk's permission check while it holds kernfs_rwsem and
-cgroup_mutex.
+On 11/18/26 20:35, Jarkko Sakkinen wrote:
+> VERSIONS
+> ========
+> 
+> v2: https://lore.kernel.org/linux-fsdevel/20261117231352.3816603-1-jarkko@kernel.org/
+> v1: https://lore.kernel.org/linux-fsdevel/20261117050841.3289652-1-jarkko@kernel.org/
 
-The lock keeps the times stable for getattr, now their only reader, and
-a timespec64 is too wide for a single store.  Give the three times a
-seqlock instead.  setattr takes it in addition to kernfs_iattr_rwsem,
-adding or removing an entry takes only the seqlock, and getattr retries
-if a write was in progress.  Adding or removing an entry reads the clock
-with the seqlock held, so updates store their times in the order they
-happen.  A racing stat() can see the new link count with the old times,
-or the reverse.
-
-A directory without iattrs still skips the update.  So that an update
-racing with setting up the iattrs is not lost, take the seqlock of new
-iattrs before publishing them and set their times after.  An update
-that found no iattrs ran before the times were set, and a writer that
-finds the new iattrs waits for them. mkdir no longer takes
-kernfs_iattr_rwsem for writing.
-
-kernfs_iattr_rwsem write acquisitions (lock_stat), before -> after:
-
-  5 dummy netdevs created and removed      740 ->  370
-  100 cgroup mkdirs and 100 rmdirs        3000 -> 1500
-
-Signed-off-by: Shakeel Butt <shakeel.butt@linux.dev>
----
- fs/kernfs/dir.c             | 26 ++----------
- fs/kernfs/inode.c           | 85 ++++++++++++++++++++++++++++++-------
- fs/kernfs/kernfs-internal.h |  2 +
- 3 files changed, 75 insertions(+), 38 deletions(-)
-
-diff --git a/fs/kernfs/dir.c b/fs/kernfs/dir.c
-index 890aca5d8d70..8686219b826f 100644
---- a/fs/kernfs/dir.c
-+++ b/fs/kernfs/dir.c
-@@ -825,7 +825,6 @@ struct kernfs_node *kernfs_find_and_get_node_by_id(struct kernfs_root *root,
- int kernfs_add_one(struct kernfs_node *kn)
- {
- 	struct kernfs_root *root = kernfs_root(kn);
--	struct kernfs_iattrs *ps_iattr;
- 	struct kernfs_node *parent;
- 	bool has_ns;
- 	int ret;
-@@ -853,16 +852,7 @@ int kernfs_add_one(struct kernfs_node *kn)
- 	if (ret)
- 		goto out_unlock;
- 
--	/* Update timestamps on the parent */
--	down_write(&root->kernfs_iattr_rwsem);
--
--	ps_iattr = parent->iattr;
--	if (ps_iattr) {
--		ktime_get_real_ts64(&ps_iattr->ia_ctime);
--		ps_iattr->ia_mtime = ps_iattr->ia_ctime;
--	}
--
--	up_write(&root->kernfs_iattr_rwsem);
-+	kernfs_dir_update_times(parent);
- 
- 	/*
- 	 * Activate the new node unless CREATE_DEACTIVATED is requested.
-@@ -1635,20 +1625,12 @@ static void __kernfs_remove(struct kernfs_node *kn)
- 		 * to decide who's responsible for cleanups.
- 		 */
- 		if (!parent || kernfs_unlink_sibling(pos)) {
--			struct kernfs_iattrs *ps_iattr =
--				parent ? parent->iattr : NULL;
--
- 			down_write(&kernfs_root(kn)->kernfs_iattr_rwsem);
--
- 			kernfs_clear_inode_nlink(pos);
--
--			/* update timestamps on the parent */
--			if (ps_iattr) {
--				ktime_get_real_ts64(&ps_iattr->ia_ctime);
--				ps_iattr->ia_mtime = ps_iattr->ia_ctime;
--			}
--
- 			up_write(&kernfs_root(kn)->kernfs_iattr_rwsem);
-+
-+			if (parent)
-+				kernfs_dir_update_times(parent);
- 			kernfs_put(pos);
- 		}
- 
-diff --git a/fs/kernfs/inode.c b/fs/kernfs/inode.c
-index ca234f69882b..580095e0fad9 100644
---- a/fs/kernfs/inode.c
-+++ b/fs/kernfs/inode.c
-@@ -24,6 +24,22 @@ static const struct inode_operations kernfs_iops = {
- 	.listxattr	= kernfs_iop_listxattr,
- };
- 
-+/* Copy the times of @attrs.  Writers hold ia_time_lock. */
-+static void kernfs_iattrs_get_times(struct kernfs_iattrs *attrs,
-+				    struct timespec64 *atime,
-+				    struct timespec64 *mtime,
-+				    struct timespec64 *ctime)
-+{
-+	unsigned int seq;
-+
-+	do {
-+		seq = read_seqbegin(&attrs->ia_time_lock);
-+		*atime = attrs->ia_atime;
-+		*mtime = attrs->ia_mtime;
-+		*ctime = attrs->ia_ctime;
-+	} while (read_seqretry(&attrs->ia_time_lock, seq));
-+}
-+
- static struct kernfs_iattrs *__kernfs_iattrs(struct kernfs_node *kn, bool alloc)
- {
- 	struct kernfs_iattrs *ret __free(kfree) = NULL;
-@@ -41,16 +57,28 @@ static struct kernfs_iattrs *__kernfs_iattrs(struct kernfs_node *kn, bool alloc)
- 	/* assign default attributes */
- 	ret->ia_uid = GLOBAL_ROOT_UID;
- 	ret->ia_gid = GLOBAL_ROOT_GID;
--
--	ktime_get_real_ts64(&ret->ia_atime);
--	ret->ia_mtime = ret->ia_atime;
--	ret->ia_ctime = ret->ia_atime;
-+	seqlock_init(&ret->ia_time_lock);
- 
- 	simple_xattr_limits_init(&ret->xattr_limits);
- 
-+	/*
-+	 * Publish with ia_time_lock held and set the times after.  An entry
-+	 * added or removed while @kn had no iattrs is then covered, and a
-+	 * writer that finds the new iattrs waits instead of being
-+	 * overwritten.
-+	 */
-+	write_seqlock(&ret->ia_time_lock);
-+
- 	/* If someone raced us, recognize it. */
--	if (!try_cmpxchg(&kn->iattr, &attr, ret))
-+	if (!try_cmpxchg(&kn->iattr, &attr, ret)) {
-+		write_sequnlock(&ret->ia_time_lock);
- 		return READ_ONCE(kn->iattr);
-+	}
-+
-+	ktime_get_real_ts64(&ret->ia_atime);
-+	ret->ia_mtime = ret->ia_atime;
-+	ret->ia_ctime = ret->ia_atime;
-+	write_sequnlock(&ret->ia_time_lock);
- 
- 	return no_free_ptr(ret);
- }
-@@ -78,12 +106,16 @@ int __kernfs_setattr(struct kernfs_node *kn, const struct iattr *iattr)
- 		attrs->ia_uid = iattr->ia_uid;
- 	if (ia_valid & ATTR_GID)
- 		attrs->ia_gid = iattr->ia_gid;
--	if (ia_valid & ATTR_ATIME)
--		attrs->ia_atime = iattr->ia_atime;
--	if (ia_valid & ATTR_MTIME)
--		attrs->ia_mtime = iattr->ia_mtime;
--	if (ia_valid & ATTR_CTIME)
--		attrs->ia_ctime = iattr->ia_ctime;
-+	if (ia_valid & (ATTR_ATIME | ATTR_MTIME | ATTR_CTIME)) {
-+		write_seqlock(&attrs->ia_time_lock);
-+		if (ia_valid & ATTR_ATIME)
-+			attrs->ia_atime = iattr->ia_atime;
-+		if (ia_valid & ATTR_MTIME)
-+			attrs->ia_mtime = iattr->ia_mtime;
-+		if (ia_valid & ATTR_CTIME)
-+			attrs->ia_ctime = iattr->ia_ctime;
-+		write_sequnlock(&attrs->ia_time_lock);
-+	}
- 	if (ia_valid & ATTR_MODE)
- 		kn->mode = iattr->ia_mode;
- 	return 0;
-@@ -159,6 +191,29 @@ static inline void set_inode_attr(struct inode *inode,
- 	inode->i_gid = attrs->ia_gid;
- }
- 
-+/**
-+ * kernfs_dir_update_times - set a directory's ctime and mtime to now
-+ * @kn: the directory, kept alive by the caller
-+ *
-+ * Call after adding or removing an entry, with kernfs_rwsem held for
-+ * writing.  Does nothing if @kn has no iattrs yet.
-+ */
-+void kernfs_dir_update_times(struct kernfs_node *kn)
-+{
-+	struct kernfs_iattrs *attrs = kernfs_iattrs_noalloc(kn);
-+
-+	lockdep_assert_held_write(&kernfs_root(kn)->kernfs_rwsem);
-+
-+	if (!attrs)
-+		return;
-+
-+	/* Read the clock under the lock, so updates store times in order. */
-+	write_seqlock(&attrs->ia_time_lock);
-+	ktime_get_real_ts64(&attrs->ia_ctime);
-+	attrs->ia_mtime = attrs->ia_ctime;
-+	write_sequnlock(&attrs->ia_time_lock);
-+}
-+
- /*
-  * Get a directory's link count: its subdirectories plus two, or 0 once
-  * its removal has started.  Return false for other nodes.
-@@ -208,11 +263,9 @@ int kernfs_iop_getattr(const struct mnt_idmap *idmap,
- 	 * Report them from the node.
- 	 */
- 	attrs = kernfs_iattrs_noalloc(kn);
--	if (attrs) {
--		stat->atime = attrs->ia_atime;
--		stat->mtime = attrs->ia_mtime;
--		stat->ctime = attrs->ia_ctime;
--	}
-+	if (attrs)
-+		kernfs_iattrs_get_times(attrs, &stat->atime, &stat->mtime,
-+					&stat->ctime);
- 	if (kernfs_dir_nlink(kn, &nlink))
- 		stat->nlink = nlink;
- 	up_read(&root->kernfs_iattr_rwsem);
-diff --git a/fs/kernfs/kernfs-internal.h b/fs/kernfs/kernfs-internal.h
-index 2e364b626c1e..9bba1fc8acfd 100644
---- a/fs/kernfs/kernfs-internal.h
-+++ b/fs/kernfs/kernfs-internal.h
-@@ -25,6 +25,7 @@ struct kernfs_iattrs {
- 	struct timespec64	ia_atime;
- 	struct timespec64	ia_mtime;
- 	struct timespec64	ia_ctime;
-+	seqlock_t		ia_time_lock;	/* protects the times above */
- 
- 	struct list_head	xattrs;
- 	struct simple_xattr_limits xattr_limits;
-@@ -188,6 +189,7 @@ int kernfs_iop_getattr(const struct mnt_idmap *idmap,
- 		       u32 request_mask, unsigned int query_flags);
- ssize_t kernfs_iop_listxattr(struct dentry *dentry, char *buf, size_t size);
- int __kernfs_setattr(struct kernfs_node *kn, const struct iattr *iattr);
-+void kernfs_dir_update_times(struct kernfs_node *kn);
- 
- /*
-  * dir.c
--- 
-2.53.1-Meta
+3 versions in 2 days, with 13 patches and such a vast CC list? Maybe slow
+down a bit, please?
 
