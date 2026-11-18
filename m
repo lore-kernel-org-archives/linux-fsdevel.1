@@ -1,98 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.170
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795028776;
-	b=YGJfRJPjEFHOSvN2giq3nDcaAO5a1Yg9d0Nfn5zOIN2M0xGlNw8HZRK7lz03bC7cjug+
-	 4YJWTIechG6ME3Q0d3A9GURCY5P47rprBEHicajyrg2supyRkQqVoZek9f0B5cItx+1XP
-	 dAmGO3/MkO+ZxBMewlJhGUlceTrD5+qPS2By63z3XclR5ilakMjHyDjNBXo51ah6TKMLg
-	 iQrJ6+fMLVjbhxr8GsPyktHt26/yH9x6BoksCDAvxM0dUZVFFTCGw1uaKUw0Haim2b3XA
-	 qa7IiuiV8WXsKFBTUqThFrG6nqfyv2/qDR//+xDoWxrptqn/1lcpN3cpCkcLzEaXkWg==
+	t=1795028841;
+	b=BLE7YxsekYaXE4d3VTWhyxPohOfVoVyB2kZLJtwEC/70l55P6nUntS8oODXHoCsA8ubq
+	 /mpw2FaR88GTzMGdFNeD+TF+MlEFKM/Tmnxgada6megIt9ifUh6I4I2+ivZm2+w6AUnov
+	 r2jPwI64wnIqSTkUEfWEMfbiq7RHD6BRJypvAvCbgIyKNfX7Ie6I8tw62aMH7YArmnVLN
+	 g9Evt0Z3J2cQrlARMwYV+Vdn1Goon4aBUgsxnLBwba+Y2nzvw5GDgbYtT0lBQJmcwkMpT
+	 a62Mlh6TJMPXlYI4ZMIZm2aDURm7fDhIkyo3XUvfgB0ThRGbypiEyGnXUdbAZ8G3uTA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795028776;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795028841;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Message-ID:Subject:
 	 From:To:Cc:Date:In-Reply-To:References:Autocrypt:Content-Type:
 	 Content-Transfer-Encoding:User-Agent:MIME-Version;
-	bh=K3ymRzhdwjzx+FHWbWjH8FmcD60wOZPkk81WKbPdQck=;
-	b=NItFbKlHLQGR9aLUTHIf3TGLHWOjyLetkn7cT2vm92iIswJEUazudD346OOoFaeA62b6
-	 JjPjtHqGyGdi5Vp2uMErBTci4WWO2TNZRFZPavDbNiD+2nhhnZdlGNz8V8sLKaR0AuSsQ
-	 2qdlwga6DnaUbMCs6djyV+qVD083Cv9KP2iKZS/dIAPOueR7tPO0tKjm1UTWzzKAaLn0I
-	 PTmxrLVWWlVg6L8KZXMDwJt9OuEU5Ek8BgaGI7AIJSWjANkOHYywCLcwMQAcc7oPZqmlL
-	 YAkqXcF/5IvpXDMWCPBiCPItcrt6PEjlyamz9Kl0EBy8qBBDROB+GY6IQVhuWEb/unQ==
+	bh=5Is/0gtB/npS3a6DA/01BZS0zta18kJe8PFrYizj9bM=;
+	b=ZUtaJghTtm69/IDVx1Afixf/t3qmQc/uQw4OIhdLI2OTmv/om4eF9yxvy2UUyFF1Xq9u
+	 r/G7N/hiJa6NsBa+enBTCxr7hsM248ZG9GdAltXecjnvE1OEcglHdUhSYjBetimmIWRf8
+	 PSnZjF0foXia11ylLmA014d2ZFFmzVbd+xk+dHzVIE80Fn03fmjj68PLXP724TlN2Dg9L
+	 YLeGBq2BMIrNi+J6yW2nTTu1UGKc41W9wlAPLPxLPkj7Xxo0GpARREZl3J92xYpaI/LVz
+	 Mkvo3SU0k9j5WFP/XGWscV9qtuIhQ1io++NJWSprBvAJ9VBvdNbCzDKZWKEJtRL8q6Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=dubeyko.com;
 	spf=pass smtp.mailfrom=dubeyko.com;
-	dkim=pass header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=VqcbGsbm;
-	arc=none smtp.remote-ip=209.85.128.170
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+	dkim=pass header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=C6NPlSfh;
+	arc=none smtp.remote-ip=209.85.128.172
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96B43606A338
-	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 19:06:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 96B43606A338
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 949BE606A32A
+	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 19:07:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 949BE606A32A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=VqcbGsbm
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-8b4b9ba815bso9364047b3.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 11:06:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=C6NPlSfh
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-8b4b9ba815bso9372547b3.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 11:07:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20260707.gappssmtp.com; s=20260707; t=1795028773; x=1795633573; darn=vger.kernel.org;
+        d=dubeyko-com.20260707.gappssmtp.com; s=20260707; t=1795028839; x=1795633639; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
          :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=K3ymRzhdwjzx+FHWbWjH8FmcD60wOZPkk81WKbPdQck=;
-        b=VqcbGsbmDaeaML4RSnH8xjyVvH/4tJRsVJ52dyy0Tmf6pKzrGWlfvkvtzm26IeECQ/
-         iaMahTPY+rJcp8O4xYwQIzzQsDobGjsQviEXlQqYoSFl5rILQjtBmU/uL+HSZo2sf6yw
-         9ttvZlqHJzOYU572Hiz8F6iNHkS9QDt8rBcxRO15uNNr+G34/MoIfA3it+67pVHrNy7g
-         Krn79JfetVz15s8KVUaubz8xwTfss9fkDdFzhOJIo8V1/ivrWlmsySMfizJUOgez0OCQ
-         62fWog+dUG954OE+tWqOpQjhWcGmcMFilbermyIkAFs2Sz+qmAaISGb48OGPo6Hn9qIy
-         aBVw==
+        bh=5Is/0gtB/npS3a6DA/01BZS0zta18kJe8PFrYizj9bM=;
+        b=C6NPlSfhAtP8uGvfR2RMGIU/3LEOP2n6n8hwWtj+BmuxBdP8HKau9UB9vzPjSaxWhc
+         thUFEBydTXtkjZisV6zxWXFPZ6VbogfrBnu1WZ+mzakgVvXKqvf5xrtE+gMVlpOf943P
+         er5shC7Pm8FGK7dK0NJk2jnjrubsV5pGeinXTekNHynWUWNdoy5rYTC1Q/Kdw5yh26FO
+         tLPLNgaym/IGksEK7tseAhKsBYm9KNL9DLVZ6+4wp9qSHf1pP3GNib2vElYWdqEXLtku
+         opvfdNHKHMXIDbNMSyeXZPWMQ7bycpGqZubSYPGauBFqmRqdYdF/Q/0NIL85t2KC1/DS
+         XGgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795028773; x=1795633573;
+        d=1e100.net; s=20260707; t=1795028839; x=1795633639;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=K3ymRzhdwjzx+FHWbWjH8FmcD60wOZPkk81WKbPdQck=;
-        b=A9mxWs2xwr56relgjKeYFskiGKbMBSiF47IKx54+Ym8ifg7wR+9GTQWgjiJRSgBCm5
-         ZV34LrBKNLDq81UQtlL4s/BvV+eOJbeVCzACTmSNl9MwZFsgETo58dNaCy1PnFYqOmZ/
-         DVkUKjz2m5MCcWcz2xdoFvWW0rmf5HVEe8P7l5OR+/Eq9PVGYHD6yz9LWZpCi6Kjjh6n
-         9MPLSMtfuyHTdl/R+ZBUgjV8MiJbhdvJCdxrM5Z0Ydr+aLecsgFuTBjdrNzf3UQxti5f
-         hN61m1ikLa4wAk1xH+AeHLSo+fpESvkk7SQEGGtBobaDWZisJ7yB1ozL9waC8wn7CCoD
-         r4oQ==
-X-Gm-Message-State: APuU4Z/VlvfeuL3EJVE7OAQ6mIlycZSfpAEtngZYHYpui1pCZ0hGA2SA
-	Jc1TvWsGS4PyhWjh9SVjeeSVD2YmBCq5cLKI3m9PvoPHXHGQ0wgeLMTrI8lpMnl67+E=
-X-Gm-Gg: AZFdTZeuXL1631Bq5aXXeg7NKnYvkVA6m8BWqfUq/6yp6s/JD/YYl35LVx/GirAaV+/
-	ikBJrOSTUbwbDpdGWWDOx+8DM4vGHUdlo4l35kEmjt8aqL5pJLBUTxQtaI6wKUHD6eVc4Na00Ni
-	Nz/SIt57/G+HQm4Cr7lyOrj8Jm1L4dKg6Jv+NJ/UL9D6H6ZUGVNSO5ylwHqDkF3cu37J9mx+PH1
-	Z69HmMzU63JKkHFj0sIxzlAlQAASMUlLYMHVdaKThqHHK8cmcQ8UMWvEFJolXLeHqvmg54kGht3
-	huB+YG5GtwdRtQy2I7yCl3z2kwuxGuOupgR0O7FgNWAhIbdI1otOjfOihBm31aBEI2s7qkpomjS
-	IW91VY71/a9qlZ61dCJQ1mYQT9d7uPbuKV/NvpA+6nQFHuqyAnJMlPkcuQsV6DsosnglRxsjOkf
-	RcdEo7Twy+EG7T/1eJNbvYPXuQga0rjfK2fDKx3nv2A/ZOpSjtMeYmzyLtp5k8O5HzyY0Mns39J
-	BnCGlDmUfRLb3fg2OQnRdZqCsIMiEg7mdC7cNhrWZ8IS1DwXxedH6Eq4oS0pj3xmmu8cz3eDlHg
-	V6kRITMkqj1G0e0QVSK8P9ahwRSf9n6YjQzXhSanwSV1cWurtMaWI5NG9GuX5TuVZGSIGs8q0zG
-	G15riP/G3UwoCA0/TMrDpUIwRJdLP87klvsuRO5TGLJMdXpVvAymOP/oL1cDZesWJ9xgmHR0PqU
-	O9/Kvf+JQOCzlcxv/m0kY=
-X-Received: by 2002:a05:690c:6087:b0:8b4:b5e4:e7a4 with SMTP id 00721157ae682-8b4fed37af3mr17906877b3.21.1795028773351;
-        Wed, 18 Nov 2026 11:06:13 -0800 (PST)
-Received: from ?IPv6:2600:1700:6476:1430:5fae:4d02:7055:94ad? ([2600:1700:6476:1430:5fae:4d02:7055:94ad])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b4fe0e8d9csm22451747b3.35.2026.11.18.11.06.12
+        bh=5Is/0gtB/npS3a6DA/01BZS0zta18kJe8PFrYizj9bM=;
+        b=ohBFEmAR4cXsCJ2dp9mMcy12SUaTMgAPsNxAN/H0st7etVJ8l55Lomzy+sJzHb52So
+         xYE06SmQgCqp1YoDb42BhA47wD0dwviiXQxGki/JNfFqtFY4fBG24B2uN3lCJil3NtKA
+         E7AX4MMdwXxu564QgfACfgzCqg2+WZipCJf2UBXYdE2oV0fjuJKnIMTSL6O6J8EXbadz
+         1MDN9Fye2iwdz+L/lXPe+IcKMDCmax/6NvIIgsbUftIUUEXcdSm4OMKlrKM9LXyAxHeY
+         MdK2hWC9w6QUQ2/SrezMyOKm/YVX+W1fIIy32TEKVTc4KsfynuAtmNqmsAuxSq/P+6Oi
+         Z7bg==
+X-Gm-Message-State: APuU4Z/O32BLIl0FpoMA/OeFLUelPASUIv1BJ65AQy/U1tosyE/VKnHH
+	yCkilO4f4Qcco7pzlN4j1ukpIyiArJvCYWxLUjEzqC20ZRPdwpr5lTjioDb7NIvLj3c=
+X-Gm-Gg: AZFdTZdnNz+TJHblEGId+AvK+74+dNub57S2mYaV8MG4vNXFS6hpGiyUSoFWsRsKyLO
+	fK5jIEORNK7oj6zzgWWeHXdCeq4rpN2X8d8/kel/PO0mSTBrXJk08HUfumL4LY7Yvefe6uZQm/s
+	bJ8jEZeVcpNlaeoLmaXqtShAcQtL8snVcTGFLgTgCqhm4m6tn7Q70XKT8BVwbdIgLMxq4gPICpA
+	A9pdhUJxscTu5n1KuYm022kKJevereUSOGhvi4FJsAxWnp1qDRfM/ctCzf+R27vnbxNLoGmEi3y
+	JTqkpzesm+l2YeG7497nkz/wpZDX1OXUmKu6YVvReEy18nKAVFmnPdr22HWaT2dcc1HVSFGosmA
+	O1gczSBIP979LQ32qiiK4AuXMMD18ljoR7v1lK4GvP+YdYdfJeJ3xYM+v75B7JKhyApXpNMXGdO
+	CFM1GtXxSH5y8X6ZROkoESE2xgHWhIemyhPPDzpsXfX7KmutbbMtzW0VCAZ/Nyd8X7dT3EI92bA
+	UJi8pLqdiuE3FHRwxZyPofnm6FpNaCB4H/ag53kL/Bd+9Dqav2GycV7R3WgGKiw88yWUQyTuDMn
+	U1W2d+Vp77bVc2wE5bCWfk3cegy32v2nHz3jmMzyeL/D97GfMHV5IJdhPdOAFaBTYCnJy0Vxuuf
+	TB90LnaDs9wOrWPzuwrsudw7Qsy804jWFCx0MX4o1Jtlxu2PqRQQreKu2TuGFI7ldbzQ16Rg=
+X-Received: by 2002:a05:690c:302:b0:8b4:d9cf:4582 with SMTP id 00721157ae682-8b4fec0e799mr18348367b3.5.1795028839621;
+        Wed, 18 Nov 2026 11:07:19 -0800 (PST)
+Received: from system76-laptop.attlocal.net ([2600:1700:6476:1430:5fae:4d02:7055:94ad])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b4fdf1e147sm22737017b3.5.2026.11.18.11.07.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Nov 2026 11:06:12 -0800 (PST)
-Message-ID: <906a3c99edd0b9216fecf4994c96a5fed9ca5253.camel@dubeyko.com>
-Subject: Re: [PATCH v2 1/2] hfsplus: pass the key buffer size to
+        Wed, 18 Nov 2026 11:07:18 -0800 (PST)
+Message-ID: <ca0aee0d8c6b51a70e0440bb53d84cbe652962c1.camel@dubeyko.com>
+Subject: Re: [PATCH v2 2/2] hfs: pass the key buffer size to
  hfs_bnode_read_key()
 From: Viacheslav Dubeyko <slava@dubeyko.com>
 To: ozgun kultekin <ozgunkultekin@gmail.com>, glaubitz@physik.fu-berlin.de, 
 	frank.li@vivo.com
 Cc: linux-fsdevel@vger.kernel.org, yangguikun19@qq.com,
  stable@vger.kernel.org
-Date: Wed, 18 Nov 2026 11:06:11 -0800
-In-Reply-To: <20261118013725.90985-2-ozgunkultekin@gmail.com>
+Date: Wed, 18 Nov 2026 11:07:17 -0800
+In-Reply-To: <20261118013725.90985-3-ozgunkultekin@gmail.com>
 References: <20261114043522.48764-1-ozgunkultekin@gmail.com>
 	 <20261118013725.90985-1-ozgunkultekin@gmail.com>
-	 <20261118013725.90985-2-ozgunkultekin@gmail.com>
+	 <20261118013725.90985-3-ozgunkultekin@gmail.com>
 Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
  keydata=mQINBGgaTLYBEADaJc/WqWTeunGetXyyGJ5Za7b23M/ozuDCWCp+yWUa2GqQKH40dxRIR
  zshgOmAue7t9RQJU9lxZ4ZHWbi1Hzz85+0omefEdAKFmxTO6+CYV0g/sapU0wPJws3sC2Pbda9/eJ
@@ -141,27 +140,22 @@ MIME-Version: 1.0
 
 On Tue, 2026-11-17 at 17:37 -0800, ozgun kultekin wrote:
 > hfs_bnode_read_key() reads the key length of leaf records (and of all
-> records of variable-key and attributes trees) from disk and only
-> checks
-> it against sizeof(hfsplus_btree_key), 518 bytes. The destination is
-> always one of the two key buffers hfs_find_init() allocates, each
-> tree->max_key_len + 2 bytes long. For the extents tree max_key_len is
-> fixed at 10, so the whole allocation is 24 bytes and a crafted leaf
-> key
-> writes up to 516 bytes from the image into kmalloc-32. The error path
-> clears 518 bytes of the same buffer.
+> records of variable-key trees) from disk and only checks it against
+> sizeof(hfs_btree_key). The destination is always one of the two key
+> buffers hfs_find_init() allocates, each tree->max_key_len + 2 bytes
+> long. For the extents tree max_key_len is 7, so the whole allocation
+> is
+> 18 bytes and a crafted leaf key writes up to 256 bytes from the image
+> past it. The error path clears sizeof(hfs_btree_key) bytes of the
+> same
+> buffer.
 >=20
-> hfs_brec_insert() reaches this with a key that was never validated:
-> when the tree root is 0 it reads the key of record 0 of the leaf it
-> inserts into, and after a split it reads the first key of the new
-> node.
-> A read-write mount that extends the catalog, or an append to a file
-> whose extents spill into the extents tree, is enough.
+> hfs_brec_insert() and hfs_brec_update_parent() reach this with keys
+> that were never validated, the same way as in hfsplus.
 >=20
-> Do not let hfs_bnode_read_key() assume the size of the buffer. Record
-> the size of each key buffer in struct hfs_find_data in
-> hfs_find_init(),
-> allocate the two buffers from it, and pass it to every
+> Record the size of each key buffer in struct hfs_find_data in
+> hfs_find_init(), allocate the two buffers from it, and pass it to
+> every
 > hfs_bnode_read_key() call. Keys longer than the buffer are rejected
 > as
 > before, and the error path clears only the buffer.
@@ -183,34 +177,26 @@ qq.com/
 > https://lore.kernel.org/all/20261114043522.48764-1-ozgunkultekin@gmail.co=
 m/
 >=20
-> =C2=A0fs/hfsplus/bfind.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 6 ++++--
-> =C2=A0fs/hfsplus/bnode.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 7 ++++---
-> =C2=A0fs/hfsplus/brec.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 9 +++++----
-> =C2=A0fs/hfsplus/hfsplus_fs.h | 5 ++++-
+> =C2=A0fs/hfs/bfind.c | 6 ++++--
+> =C2=A0fs/hfs/bnode.c | 7 ++++---
+> =C2=A0fs/hfs/brec.c=C2=A0 | 9 +++++----
+> =C2=A0fs/hfs/btree.h | 5 ++++-
 > =C2=A04 files changed, 17 insertions(+), 10 deletions(-)
 >=20
-> diff --git a/fs/hfsplus/bfind.c b/fs/hfsplus/bfind.c
-> index ca9813f58..5ec72fc98 100644
-> --- a/fs/hfsplus/bfind.c
-> +++ b/fs/hfsplus/bfind.c
-> @@ -19,11 +19,13 @@ int hfs_find_init(struct hfs_btree *tree, struct
+> diff --git a/fs/hfs/bfind.c b/fs/hfs/bfind.c
+> index d56e47bdc..15b0763ba 100644
+> --- a/fs/hfs/bfind.c
+> +++ b/fs/hfs/bfind.c
+> @@ -21,11 +21,13 @@ int hfs_find_init(struct hfs_btree *tree, struct
 > hfs_find_data *fd)
+> =C2=A0
 > =C2=A0	fd->tree =3D tree;
 > =C2=A0	fd->bnode =3D NULL;
-> =C2=A0	hfs_find_result_init(fd);
 > -	ptr =3D kzalloc(tree->max_key_len * 2 + 4, GFP_KERNEL);
 > +	/* search_key and key, each holding one key of the largest
 > size */
 > +	fd->key_size =3D tree->max_key_len + 2;
-
-Do you mean + 4?
-
 > +	ptr =3D kzalloc(2 * fd->key_size, GFP_KERNEL);
-
-This is why I would like to exchange this tree->max_key_len * 2 + 4 on
-the statement that includes named constants instead of hardcoded 2 and
-4. Please, rework it.
-
 > =C2=A0	if (!ptr)
 > =C2=A0		return -ENOMEM;
 > =C2=A0	fd->search_key =3D ptr;
@@ -218,11 +204,11 @@ the statement that includes named constants instead of hardcoded 2 and
 > +	fd->key =3D ptr + fd->key_size;
 > =C2=A0	hfs_dbg("cnid %d, caller %ps\n",
 > =C2=A0		tree->cnid, __builtin_return_address(0));
-> =C2=A0	mutex_lock_nested(&tree->tree_lock,
-> diff --git a/fs/hfsplus/bnode.c b/fs/hfsplus/bnode.c
-> index 3a1a1fa6f..e2335c6d7 100644
-> --- a/fs/hfsplus/bnode.c
-> +++ b/fs/hfsplus/bnode.c
+> =C2=A0	switch (tree->cnid) {
+> diff --git a/fs/hfs/bnode.c b/fs/hfs/bnode.c
+> index fcb5b9cd1..11d3bfc9d 100644
+> --- a/fs/hfs/bnode.c
+> +++ b/fs/hfs/bnode.c
 > @@ -71,7 +71,8 @@ u8 hfs_bnode_read_u8(struct hfs_bnode *node, u32
 > off)
 > =C2=A0	return data;
@@ -234,24 +220,23 @@ the statement that includes named constants instead of hardcoded 2 and
 > =C2=A0{
 > =C2=A0	struct hfs_btree *tree;
 > =C2=A0	u32 key_len;
-> @@ -84,8 +85,8 @@ void hfs_bnode_read_key(struct hfs_bnode *node,
+> @@ -83,8 +84,8 @@ void hfs_bnode_read_key(struct hfs_bnode *node,
 > void *key, u32 off)
 > =C2=A0	else
-> =C2=A0		key_len =3D tree->max_key_len + 2;
+> =C2=A0		key_len =3D tree->max_key_len + 1;
 > =C2=A0
-> -	if (key_len > sizeof(hfsplus_btree_key) || key_len < 1) {
-> -		memset(key, 0, sizeof(hfsplus_btree_key));
+> -	if (key_len > sizeof(hfs_btree_key) || key_len < 1) {
+> -		memset(key, 0, sizeof(hfs_btree_key));
 > +	if (key_len > key_size || key_len < 1) {
 > +		memset(key, 0, key_size);
-> =C2=A0		pr_err("hfsplus: Invalid key length: %u\n",
-> key_len);
+> =C2=A0		pr_err("hfs: Invalid key length: %u\n", key_len);
 > =C2=A0		return;
 > =C2=A0	}
-> diff --git a/fs/hfsplus/brec.c b/fs/hfsplus/brec.c
-> index f416e562d..779d7df0b 100644
-> --- a/fs/hfsplus/brec.c
-> +++ b/fs/hfsplus/brec.c
-> @@ -148,7 +148,8 @@ int hfs_brec_insert(struct hfs_find_data *fd,
+> diff --git a/fs/hfs/brec.c b/fs/hfs/brec.c
+> index 5a2f740dd..d64cc2e53 100644
+> --- a/fs/hfs/brec.c
+> +++ b/fs/hfs/brec.c
+> @@ -138,7 +138,8 @@ int hfs_brec_insert(struct hfs_find_data *fd,
 > void *entry, u32 entry_len)
 > =C2=A0	 * at the start of the node and it is not the new node
 > =C2=A0	 */
@@ -264,7 +249,7 @@ the statement that includes named constants instead of hardcoded 2 and
 > =C2=A0		hfs_brec_update_parent(fd);
 > =C2=A0	}
 > =C2=A0
-> @@ -166,7 +167,7 @@ int hfs_brec_insert(struct hfs_find_data *fd,
+> @@ -156,7 +157,7 @@ int hfs_brec_insert(struct hfs_find_data *fd,
 > void *entry, u32 entry_len)
 > =C2=A0		entry_len =3D sizeof(cnid);
 > =C2=A0
@@ -272,13 +257,10 @@ the statement that includes named constants instead of hardcoded 2 and
 > -		hfs_bnode_read_key(new_node, fd->search_key, 14);
 > +		hfs_bnode_read_key(new_node, fd->search_key, 14, fd-
 > >key_size);
-
-We need finally rework this 14 on named constant.
-
-> =C2=A0		__hfs_brec_find(fd->bnode, fd, hfs_find_rec_by_key);
+> =C2=A0		__hfs_brec_find(fd->bnode, fd);
 > =C2=A0
 > =C2=A0		hfs_bnode_put(new_node);
-> @@ -464,7 +465,7 @@ static int hfs_brec_update_parent(struct
+> @@ -450,7 +451,7 @@ static int hfs_brec_update_parent(struct
 > hfs_find_data *fd)
 > =C2=A0		}
 > =C2=A0		fd->bnode =3D hfs_bnode_find(tree, new_node->parent);
@@ -286,13 +268,10 @@ We need finally rework this 14 on named constant.
 > -		hfs_bnode_read_key(new_node, fd->search_key, 14);
 > +		hfs_bnode_read_key(new_node, fd->search_key, 14, fd-
 > >key_size);
-
-Ditto.
-
 > =C2=A0		cnid =3D cpu_to_be32(new_node->this);
 > =C2=A0
-> =C2=A0		__hfs_brec_find(fd->bnode, fd, hfs_find_rec_by_key);
-> @@ -476,7 +477,7 @@ static int hfs_brec_update_parent(struct
+> =C2=A0		__hfs_brec_find(fd->bnode, fd);
+> @@ -462,7 +463,7 @@ static int hfs_brec_update_parent(struct
 > hfs_find_data *fd)
 > =C2=A0			if (new_node =3D=3D node)
 > =C2=A0				goto out;
@@ -301,65 +280,42 @@ Ditto.
 > 14);
 > +			hfs_bnode_read_key(node, fd->search_key, 14,
 > fd->key_size);
-
-Ditto.
-
 > =C2=A0		}
 > =C2=A0		new_node =3D NULL;
 > =C2=A0	}
-> diff --git a/fs/hfsplus/hfsplus_fs.h b/fs/hfsplus/hfsplus_fs.h
-> index 6f240f87f..d0d4fea94 100644
-> --- a/fs/hfsplus/hfsplus_fs.h
-> +++ b/fs/hfsplus/hfsplus_fs.h
-> @@ -268,6 +268,8 @@ struct hfs_find_data {
+> diff --git a/fs/hfs/btree.h b/fs/hfs/btree.h
+> index 1f703f2c5..a24a3c966 100644
+> --- a/fs/hfs/btree.h
+> +++ b/fs/hfs/btree.h
+> @@ -82,6 +82,8 @@ struct hfs_find_data {
 > =C2=A0	int record;
 > =C2=A0	int keyoffset, keylength;
 > =C2=A0	int entryoffset, entrylength;
 > +	/* size of each of the search_key and key buffers */
-
-We need to have a comment before structure declaration. Ideally, it
-will be good to comment every field.
-
 > +	u32 key_size;
+> =C2=A0};
+> =C2=A0
+> =C2=A0static inline bool is_hfs_bnode_range_valid(struct hfs_find_data
+> *fd,
+> @@ -117,7 +119,8 @@ extern void hfs_bmap_free(struct hfs_bnode
+> *node);
+> =C2=A0extern void hfs_bnode_read(struct hfs_bnode *node, void *buf, u32
+> off, u32 len);
+> =C2=A0extern u16 hfs_bnode_read_u16(struct hfs_bnode *node, u32 off);
+> =C2=A0extern u8 hfs_bnode_read_u8(struct hfs_bnode *node, u32 off);
+> -extern void hfs_bnode_read_key(struct hfs_bnode *node, void *key,
+> u32 off);
+> +void hfs_bnode_read_key(struct hfs_bnode *node, void *key, u32 off,
+> +			u32 key_size);
+> =C2=A0extern void hfs_bnode_write(struct hfs_bnode *node, void *buf, u32
+> off, u32 len);
+> =C2=A0extern void hfs_bnode_write_u16(struct hfs_bnode *node, u32 off, u1=
+6
+> data);
+> =C2=A0extern void hfs_bnode_write_u8(struct hfs_bnode *node, u32 off, u8
+> data);
 
-This is not proper place for this declaration.
-
-struct hfs_find_data {
-	/* filled by caller */
-	hfsplus_btree_key *search_key;
-	hfsplus_btree_key *key;
-	/* filled by find */
-	struct hfs_btree *tree;
-	struct hfs_bnode *bnode;
-	/* filled by findrec */
-	int record;
-	int keyoffset, keylength;
-	int entryoffset, entrylength;
-};
-
-This is the field is prepared by caller. So, it should be group in the
-first section.
-
-From my point of view, keylength and key_size are not semantically
-different. Could we suggest some better word here?
+Please, see my remarks for HFS+ patch. I have the same comments here.
 
 Thanks,
 Slava.
-
-> =C2=A0};
-> =C2=A0
-> =C2=A0struct hfsplus_readdir_data {
-> @@ -372,7 +374,8 @@ void hfs_bmap_free(struct hfs_bnode *node);
-> =C2=A0void hfs_bnode_read(struct hfs_bnode *node, void *buf, u32 off, u32
-> len);
-> =C2=A0u16 hfs_bnode_read_u16(struct hfs_bnode *node, u32 off);
-> =C2=A0u8 hfs_bnode_read_u8(struct hfs_bnode *node, u32 off);
-> -void hfs_bnode_read_key(struct hfs_bnode *node, void *key, u32 off);
-> +void hfs_bnode_read_key(struct hfs_bnode *node, void *key, u32 off,
-> +			u32 key_size);
-> =C2=A0void hfs_bnode_write(struct hfs_bnode *node, void *buf, u32 off, u3=
-2
-> len);
-> =C2=A0void hfs_bnode_write_u16(struct hfs_bnode *node, u32 off, u16 data)=
-;
-> =C2=A0void hfs_bnode_clear(struct hfs_bnode *node, u32 off, u32 len);
