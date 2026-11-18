@@ -1,75 +1,71 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795008155;
-	b=e1kuxA86ghoP78sb10chrVjtw86DOeESutQfHGZOZ6LQ8NjFsUsQKKoT6CU+1SpPABwj
-	 LZjVaJEbeTTHRBeHMlTgL7l9rmErlVfnk+MIXf0WrW1xqgs+BFGROPOOs06L+qxtQPcjG
-	 739XI5rSn84R80BuGxfbUCmk4ilfu20jqWLRNOfDAtp0FF1FtGuz4kbozS+oArAH2IjG9
-	 u+Rw2KUN1TzPpOXaWcbUREaBK6soaymlW1O+LrZDdHHpFLDU9kyu3S4igi47Nytc8OBk0
-	 mdApOhd440z9ovLrKmI9iW5tdXslnDTs2Q+Qr954VZdivkUMuIvagrMQXa71Ok0LknQ==
+	t=1795008601;
+	b=RpfTWRVHGc8ucaLG5dKIG5E3hvohyVIV+n5XR3bnGyUeZ22RyiXP4KAD23sAlBP6SQ7/
+	 2Jima9s7PGzCDJq5LkU4xJ8s2FegH0GnpumRNYdpGZBHxu8lAJUA/j4pch1Ywyz3n2qw6
+	 1ZBydK+I0XxjWgFRpixRxm2lFJVMW7YBax6R1pPIDxItshCVrw8JS0845E/NLER4dZC8g
+	 bz7JfpFv1Ta/e3LcmmVSTq2o3cL4TYaN7BCsByi2JP1dHfVtjcR145y+85VcCMg+1Y4U1
+	 /lxsBunWUBvhgK24XVSI/nFtgE3YpcJP0bku9EHpREtcvHvI4LV4qdiwJvgLXmb5LYA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795008155;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795008601;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Type:
 	 X-Developer-Signature:X-Developer-Key:Content-Transfer-Encoding;
-	bh=8TF6UKCst8lzq0LV30okvmZ/jdB3sqBqVgF0ME6NPUU=;
-	b=lQQ5ml1wE101xGbBAufHLkm6A+apH4Z2RwQcJ3SpTSfnkAqjZaN8CAkSQAbQUJ++jUbq
-	 Nu31fUKHdnJfr0U2Hd24Vglh+RBBgLWzIyuOkcw8Jls1WgwboV1z9EIDvaVHPL8B/krFd
-	 tGOR2thwA1jNfGiHfvEsTP7pTtjwBWb0my1kWEDabXs94hPs7wQIoWJHraXM2RHqAoN1T
-	 btP31Ep/IQ4cVUzzGnQu4dKNySF/Iv6OsxSQz3k5jn7DGPKGZ5sToxWurqxYc2MZOcmp/
-	 N2d2zMfPGG/LomquTV++e1WPbYzJkgr0fq4f4DJKALgy/ybFfFLpjz5o6wp8Rjv9ZlQ==
+	bh=DoOBTy4Tk4KM1tk2NwfW3r2DE81cjIG/a8hAQ7rYZRU=;
+	b=kVhl/nEXWTqp+takqGe9wPN0HTKXGFqN2jrzkHpTrBz2x+sNkO+S/wuVUZ5h5aFN7WiT
+	 pg60kbKQfy999MZDihGYTgk1H3CFrzMMyemV7HMFE6GISCELMC9jgahmz+JMUoiV1WqMY
+	 AfgXSzFTqTfDza1W6alDnhv3ESVbDc2+1AjGcb+XpTaaJs8Jf69wW8XZbeQxhWye8e3CB
+	 n7AJ3bGGha9Hu6wFvuG+JISSDrza/Q06DMfpiq/VSoS8Iu5zAQY+eS4laUU+3JgjhTQ7I
+	 RyHNu0VslalCgoXhvXMKujRPFJ0AUgi0/ulGrD5CIomt9YIOmHofDQ3ZSTYdQsG+0BA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PnAvX89B;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=epv2KiF2;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56B0C606A320;
-	Wed, 18 Nov 2026 13:22:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1C03606A320;
+	Wed, 18 Nov 2026 13:30:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PnAvX89B
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 142691F000C4;
-	Wed, 18 Nov 2026 13:22:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=epv2KiF2
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F45E1F000C4;
+	Wed, 18 Nov 2026 13:29:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795008155;
-	bh=8TF6UKCst8lzq0LV30okvmZ/jdB3sqBqVgF0ME6NPUU=;
+	s=k20260515; t=1795008600;
+	bh=DoOBTy4Tk4KM1tk2NwfW3r2DE81cjIG/a8hAQ7rYZRU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=PnAvX89BLlompbeCCkZjl3vr9MCqKZciuydSOpL0eogzTLskwf3xZTohivEs0roUy
-	 SGHE3ptZwvcw56AzvAQmWHU2AKWfZBJ1Q+aHQiUujgs16dQbeouPrsRjUXjxqwCmzL
-	 Ic0BLwqP6KqS0jGWCMS2T/Ixdqkpxh4ygAhpATxyMBjSiigYgk4GNjPL5CPg7RuAHm
-	 2wFGRm0miTBwzMDFzEuxnDS2tc8VOXV/OZSGQmr95YsoKwOuCDUI0e75scvGjYgnhZ
-	 3DWuuj7B7Ts5+S7mf+y4R+8vNESPWSyJ/M9EWivAgicYCJ5uI0mObnGGnufPMbHttt
-	 d5ZeN50+Ga+jQ==
+	b=epv2KiF2Rq5l53Ltl8HexVQ5cyr3TPjxn18/fKXQfq4N1tK6JOwxWOVBQtzdHI2IM
+	 V6WBYmhX63bYjVcLwyQ6druZZ4WzlkRV7G/BRPDvM8xQLtRV7FYG0S0fIsVZhnZCNI
+	 UOPUbGhtU1x3a3d+WOBOIDjLluVYV6VecfLMUGwKojwtTvEyuXzGCOQFJjktoqdhkG
+	 5vDL37pvBhp+wnymdzHQHbBYWemqiBohmPc8XSasJy6UFR8bKWsyEbFJ7/AMCsPyUs
+	 sqmxksd+SKAWPXgDr9JnWl0u9d5azGFNCzNG6TXPHOFu6/pjvrHjhHtyS7xwIRHIOI
+	 PQuuBNXdOdTcA==
 From: Christian Brauner <brauner@kernel.org>
-To: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>,
-	Julian Sun <sunjunchao@bytedance.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Muchun Song <muchun.song@linux.dev>,
-	Breno Leitao <leitao@debian.org>
+To: Tejun Heo <tj@kernel.org>,
+	Krystian Kaniewski <krystianmkaniewski@gmail.com>
 Cc: Christian Brauner <brauner@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Ian Kent <raven@themaw.net>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Johan Hovold <johan@kernel.org>,
+	Len Brown <lenb@kernel.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>,
+	driver-core@lists.linux.dev,
+	linux-pm@vger.kernel.org,
+	autofs@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	cgroups@vger.kernel.org,
-	kernel-team@meta.com,
-	stable@vger.kernel.org
-Subject: Re: (subset) [PATCH v2 0/4] writeback: make slow writeback report more actionable
-Date: Wed, 18 Nov 2026 14:21:46 +0100
-Message-ID: <20261118-abhaken-flocken-popmusik-322cfc4cfb7b@brauner>
+	syzbot+002fb7b2d0bc53bf7e75@syzkaller.appspotmail.com
+Subject: Re: [PATCH v4 0/2] kernfs, sysfs: refuse splice on /sys/power/resume
+Date: Wed, 18 Nov 2026 14:27:20 +0100
+Message-ID: <20261118-verknallen-ungnade-kurven-9f83ec75cb88@brauner>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261110-writeback_stall_report-v2-0-9e0ed75074ca@debian.org>
-References: <20261110-writeback_stall_report-v2-0-9e0ed75074ca@debian.org>
+In-Reply-To: <20261116133903.400202-1-krystianmkaniewski@gmail.com>
+References: <20261116133903.400202-1-krystianmkaniewski@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -80,29 +76,24 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1641; i=brauner@kernel.org; h=from:subject:message-id; bh=17BmXY+svo1KKAU3k/ez0FW6KIlSlOJjiwLKTuSYAHE=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9XdZ/5kOhJceeRM/vHyZofy/xnxT4zdrUsSbiyamTA sbRT85N6ChlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZjI74UM/z3e+ShL79f9uLr3 jg/fksyjM6fc89T1ub/9mXZq3aXuc4GMDA1OrMk/izVsRdd9amKoZV95hK0/V3jVt8rFS0XKtr+ 6yQ8A
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1410; i=brauner@kernel.org; h=from:subject:message-id; bh=7YVp2rjs4Iw1cumttAP8imErlAFVjA2olxiCGh9aAJk=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9XWHhk30rSdaKNarpQf2xb0e0V3W6fTHnPj5xrvANN s9+dsljHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABNJ7GP4n/Cs6GLPLZecfK2F rf2uKxxbyzZz1uy7cXFS9L/kY3ZaPxkZFmhNCrWNE37bejFJ/4Zg1yWJXxkc/zeZpciumjO5x3c FFwA=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
 
-On Tue, 10 Nov 2026 03:39:26 -0800, Breno Leitao wrote:
-> Since v6.19, writeback waiters are woken while their writeback makes
-> progress, so a slow sync no longer trips the hung task detector.
-> Instead, a waiter past hung_task_timeout_secs logs:
+On Mon, 16 Nov 2026 14:39:01 +0100, Krystian Kaniewski wrote:
+> This series refuses splice on /sys/power/resume and gives writable
+> opens of that file separate lockdep classes, as Tejun suggested in the
+> v1 discussion.
 > 
->   INFO: The task sync:180 has been waiting for writeback completion for more than 28 seconds.
-> 
-> Across the Meta fleet, this line is logged about 19,000 times a day
-> (the median over 40 days), and up to 82,000 times on a busy day.
+> The reported cycle is assembled from two operations. Splice into an
+> ordinary writable kernfs file records pipe->mutex before of->mutex. A
+> normal write to /sys/power/resume records of->mutex before the autofs
+> pipe locks when resume_store() resolves a relative path.
 > 
 > [...]
 
-I took 1-3 as they're fairly separate fixes. Please rework 4 as agreed on the
-thread and send it.
-
----
-
-Applied to the vfs-7.5.writeback branch of the vfs/vfs.git tree.
-Patches in the vfs-7.5.writeback branch should appear in linux-next soon.
+Applied to the vfs-7.5.kernfs branch of the vfs/vfs.git tree.
+Patches in the vfs-7.5.kernfs branch should appear in linux-next soon.
 
 Please report any outstanding bugs that were missed during review in a
 new review to the original patch series allowing us to drop it.
@@ -114,11 +105,9 @@ Note that commit hashes shown below are subject to change due to rebase,
 trailer updates or similar. If in doubt, please check the listed branch.
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.5.writeback
+branch: vfs-7.5.kernfs
 
-[1/4] writeback: add the missing newline to the slow writeback report
-      https://git.kernel.org/vfs/vfs/c/82da6ca38c26
-[2/4] writeback: name the bdi in the slow writeback report
-      https://git.kernel.org/vfs/vfs/c/8dd5775aab52
-[3/4] writeback: log the end of a slow writeback wait
-      https://git.kernel.org/vfs/vfs/c/26286f60c266
+[1/2] kernfs, sysfs: add SYSFS_NO_SPLICE to refuse splice
+      https://git.kernel.org/vfs/vfs/c/0df09178ae40
+[2/2] PM: hibernate: refuse splice on /sys/power/resume
+      https://git.kernel.org/vfs/vfs/c/af5f879f9d4e
