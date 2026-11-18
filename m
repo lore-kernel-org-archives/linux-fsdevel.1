@@ -1,161 +1,134 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.62.21
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795028114;
-	b=Rcxsj17M2vdQ11G18b5DQHT6giQ0LKrfOvLs+P4OlAUq5vHvJrtapmdQS668+eZjZnGk
-	 mwE/pdopw1iC2WOJmws/V7SS8auQwrM+PO5meXsysIIU6sO60Q7PSWgdgmPHydkb5ipOO
-	 Ldhq/En+b+gQR6orQCvdnAJ8Rqei7I3WY3uPsOYZcOU+VPKwfrJITcR+nPHmqlrU9r69z
-	 0aj9Za3OaUkORhsM21pMwain8gPEw9MjYF6ezcDLjjVkMO0thOkvfxk6YaTQG0g+e4228
-	 rPMSvpjKCb+5X/b8HG65qmPuSTECoXR5kxF8VEicsfOIzQtJ6cwrcAG7/ag0DuanB0g==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795028114;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:CC:Subject:
-	 Thread-Topic:Thread-Index:Date:Message-ID:References:In-Reply-To:
-	 Accept-Language:Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
-	 x-ms-publictraffictype:x-ms-traffictypediagnostic:
-	 x-ms-office365-filtering-correlation-id:x-ms-exchange-senderadcheck:
-	 x-ms-exchange-antispam-relay:x-microsoft-antispam:
-	 x-microsoft-antispam-message-info:x-forefront-antispam-report:
-	 x-ms-exchange-antispam-messagedata-chunkcount:
-	 x-ms-exchange-antispam-messagedata-0:Content-Type:Content-ID:
-	 Content-Transfer-Encoding:MIME-Version:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-originalarrivaltime:
-	 X-MS-Exchange-CrossTenant-fromentityheader:
-	 X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
-	 X-MS-Exchange-CrossTenant-userprincipalname:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=u/OlO/U0TrOxh6q4fgko3AV6OX+52kEBE1dkovbVVFg=;
-	b=pNPgXCTh6pT018awLEj/M9eecBK30QZig19GwdCwmu2LVFZw9qLNzHferha7VTvrrWyV
-	 SVDuypEne9lJOsq9pO2N/dqzBJDIZTE3U7/lJIjpShcgq7F6y546rPtyDzrYf8OND/io3
-	 qxwbGUojo11fN5K9NmxPQP3qcE5SwdNX0u6CUdqA5j1uHqdrXk7uM9UpRmZ0dN48++e4o
-	 c5ytda2Y1UceBCqNeV2YEYbq0MTmQ6VA9Q1VltrWqZerp1b+InkP+s0FkxeaFmToa8d5U
-	 IOAZKmfkhKfH4K0hQ7Y0ZwFBU0lg776SJ4WWHQ7TW0ZSh62/w9gBzFypZiBXLGCtB2Q==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=amd.com;
-	spf=fail smtp.mailfrom=amd.com;
-	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=wrfqOtDr;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.62.21
-Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011021.outbound.protection.outlook.com [52.101.62.21])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.170
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795028776;
+	b=YGJfRJPjEFHOSvN2giq3nDcaAO5a1Yg9d0Nfn5zOIN2M0xGlNw8HZRK7lz03bC7cjug+
+	 4YJWTIechG6ME3Q0d3A9GURCY5P47rprBEHicajyrg2supyRkQqVoZek9f0B5cItx+1XP
+	 dAmGO3/MkO+ZxBMewlJhGUlceTrD5+qPS2By63z3XclR5ilakMjHyDjNBXo51ah6TKMLg
+	 iQrJ6+fMLVjbhxr8GsPyktHt26/yH9x6BoksCDAvxM0dUZVFFTCGw1uaKUw0Haim2b3XA
+	 qa7IiuiV8WXsKFBTUqThFrG6nqfyv2/qDR//+xDoWxrptqn/1lcpN3cpCkcLzEaXkWg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795028776;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Message-ID:Subject:
+	 From:To:Cc:Date:In-Reply-To:References:Autocrypt:Content-Type:
+	 Content-Transfer-Encoding:User-Agent:MIME-Version;
+	bh=K3ymRzhdwjzx+FHWbWjH8FmcD60wOZPkk81WKbPdQck=;
+	b=NItFbKlHLQGR9aLUTHIf3TGLHWOjyLetkn7cT2vm92iIswJEUazudD346OOoFaeA62b6
+	 JjPjtHqGyGdi5Vp2uMErBTci4WWO2TNZRFZPavDbNiD+2nhhnZdlGNz8V8sLKaR0AuSsQ
+	 2qdlwga6DnaUbMCs6djyV+qVD083Cv9KP2iKZS/dIAPOueR7tPO0tKjm1UTWzzKAaLn0I
+	 PTmxrLVWWlVg6L8KZXMDwJt9OuEU5Ek8BgaGI7AIJSWjANkOHYywCLcwMQAcc7oPZqmlL
+	 YAkqXcF/5IvpXDMWCPBiCPItcrt6PEjlyamz9Kl0EBy8qBBDROB+GY6IQVhuWEb/unQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=none header.from=dubeyko.com;
+	spf=pass smtp.mailfrom=dubeyko.com;
+	dkim=pass header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=VqcbGsbm;
+	arc=none smtp.remote-ip=209.85.128.170
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9592A606A32C;
-	Wed, 18 Nov 2026 18:55:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9592A606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96B43606A338
+	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 19:06:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 96B43606A338
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=wrfqOtDr
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SPo4hyRwKMMxvO1dB5vNyoVV9PPBLhPMFKyDxlwN1KFoe4yJGp2LVvTG8Hh2pjUxWzl5s5Z3SnpMj6aTJDD3aMOPosZrMJonv1pvKJcduLLlVHJFC44Gn4mlM/lZHaGm+RjCaaA2DDOqwFQ1/UMKrszXYqh4PHy8wATu49ut6ZxKzAeoP7au3Qi9fdqs9u35JH00hBJ9lTexARysT0BO5kUcMwlt5nWhr/IPt+z5wWCuiLhhoCIYL9Jv/O9P/ew1dZUWoMNsqmqjJy/StCA1YEjkarWu3tcrg11s/+IoKPn6edeiA9GF8igfXq2hGk3tzTv5Uy44NQq4wH2pKsX22A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=u/OlO/U0TrOxh6q4fgko3AV6OX+52kEBE1dkovbVVFg=;
- b=QiyWFWBMAeD/NkGRBTynG0sZupMkIyxDb7w2H4KYEAnC7JrJOESHUMbPPpKf9ytlNNWojhawP+FfVh4RmGGXzuvUz73WOJURCyoTiOXxkK60kEV87nEeKdWTMYg6OUFk40NAZphnkIYqgRb/v3IaHZY1eV+DzpMIQF2MkWSLF4gHur+kawmd/nBu498OLxv+oF66P18P3dTTENvFCzI4F0k4EAs2qepvtmDRsFPlkuEhzq2qn9zeVOmQ2Qik+X8j+Wu5MwO7wPrKiNDxNVT7tuqRLx1FWoZ4d/m1l6y8Gjl0X3dm8HDXK1W45zPwsQCs3+6cYUKRtYbOa7I3aWcd6A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=u/OlO/U0TrOxh6q4fgko3AV6OX+52kEBE1dkovbVVFg=;
- b=wrfqOtDrPposjRxXbzCEjJgmEDe83f78SDLC8qPNtElY3tnFIIzxfCPOR4+crKRRHnH7Bf1KoYk97rcM5E6bQTdAyibMcdPf7MwsVxxjzJxG+9B6Xxz9TLCcCvDc9CLFQ4AN2SUVFpjUxA5R+Bb+5O/WcPhuJt5/sHpgVW5usIE=
-Received: from BN9PR12MB5259.namprd12.prod.outlook.com (2603:10b6:408:100::17)
- by SA3PR12MB8801.namprd12.prod.outlook.com (2603:10b6:806:312::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Wed, 18 Nov
- 2026 18:55:02 +0000
-Received: from BN9PR12MB5259.namprd12.prod.outlook.com
- ([fe80::122c:cca7:c2b3:90ed]) by BN9PR12MB5259.namprd12.prod.outlook.com
- ([fe80::122c:cca7:c2b3:90ed%6]) with mapi id 15.21.0615.013; Wed, 18 Nov 2026
- 18:55:02 +0000
-From: "Garg, Shivank" <shivankg@amd.com>
-To: "pfalcato@suse.de" <pfalcato@suse.de>, "nphamcs@gmail.com"
-	<nphamcs@gmail.com>, "chrisl@kernel.org" <chrisl@kernel.org>,
-	"shikemeng@huaweicloud.com" <shikemeng@huaweicloud.com>, "vbabka@kernel.org"
-	<vbabka@kernel.org>, "willy@infradead.org" <willy@infradead.org>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "dev.jain@arm.com"
-	<dev.jain@arm.com>, "youngjun.park@lge.com" <youngjun.park@lge.com>,
-	"jack@suse.cz" <jack@suse.cz>, "minchan@kernel.org" <minchan@kernel.org>,
-	"liam@infradead.org" <liam@infradead.org>, "baohua@kernel.org"
-	<baohua@kernel.org>, "kasong@tencent.com" <kasong@tencent.com>,
-	"jannh@google.com" <jannh@google.com>, "ljs@kernel.org" <ljs@kernel.org>,
-	"baoquan.he@linux.dev" <baoquan.he@linux.dev>, "senozhatsky@chromium.org"
-	<senozhatsky@chromium.org>
-CC: "linux-mm@kvack.org" <linux-mm@kvack.org>, "linux-fsdevel@vger.kernel.org"
-	<linux-fsdevel@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH mm-new v2 0/5] mm: remove unused functions
-Thread-Topic: [PATCH mm-new v2 0/5] mm: remove unused functions
-Thread-Index: AQHddmOplX4Ual33c0WC3Ng11Rrv27c0EUIAgAAClwCAABv+gA==
-Date: Wed, 18 Nov 2026 18:55:02 +0000
-Message-ID: <c28c2ab82afa2cb3f331f1f3b3b20159bc7767b1.camel@amd.com>
-References: <20261117-unused-sym-mm-v2-0-2f845e94dd50@amd.com>
-	 <f3219880-c944-473e-82cc-bd6b4196badf@arm.com>
-	 <27ef4d8f-f4fa-49aa-b166-8335ca6f5898@arm.com>
-In-Reply-To: <27ef4d8f-f4fa-49aa-b166-8335ca6f5898@arm.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BN9PR12MB5259:EE_|SA3PR12MB8801:EE_
-x-ms-office365-filtering-correlation-id: 1ef21bad-80d8-4b62-fb87-08df45a573da
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|23010399003|366016|376014|7416014|261102123227099003|261028144727099003|261022105027099003|261022075727099003|261021121427099003|261026140227099003|261026121527099003|921020|38070700021|11063799006|4143699003|56012099006|10067099003|18002099003|22082099003|6133799003|261009223027099003;
-x-microsoft-antispam-message-info:
- obugRtRmiy5WySdB3xbX9CAzGuA7uI1l1jueIB2TUSD3yHo7flihmmWwf4u5JtMUAtmvVMbY30Yf8Fczayu5Sy41LlPa1yFp1taSmHh2XEQDhTjQ//zrEo0Zevh9YUI8WsuYuSQ71ZGojM6kApQalOGlYlkJHTWRkDoqiVJqwtGOTeG2NB53QE5dqy6VGwRw5PwHoctS0hjY7AAILAdJetHCLxDPVU/v9NAHRZGgdIjh76Bn/yQsL1+G+b9/QIzHeCaE+/ncXlv75NqKgbD17lLyWXjsOw4tafvPohg1dG1YSOt27oLRq4ROgSC7If3zuMOFbQWx+yXkzzT2sWMTACJ60KZXQT3+UGAhrfzyv+mWgaMQHG2cf1LHN2GP/yAOfm8+ZqnHjLI7oIqIQL3tIxDsMXFS8xuQJax1kCJhSpamRGwlyrnvxllnG+og8Gdmu97b6Q2RQtFCUl8a3Uy5pZuk2jfRtZvJe7z78faKG7rsfJlSSBqgIMhlTYtAkC2Y4e7AjYBspB258/FQaScfyxUuKFoYfdr+R0PatN94GKWZdsjgoS47WNAGs3iZ6oTL2zQugYwxqIAU3d/T2lbyt9Txr2zzDuMtjn1R0eExdm5zWilCcWqaWMO+RrfYsrclpMuyCFY3DhttinJ2sDVxUqFXaZaxZ242xXJJpWOhgkuLSS8WRk7rDLCFlNkuPmau
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR12MB5259.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(366016)(376014)(7416014)(261102123227099003)(261028144727099003)(261022105027099003)(261022075727099003)(261021121427099003)(261026140227099003)(261026121527099003)(921020)(38070700021)(11063799006)(4143699003)(56012099006)(10067099003)(18002099003)(22082099003)(6133799003)(261009223027099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?RU1oZk9xVGhiR0hPKzhLcXJrU0Z1OUs1WmFCb3VCWS92MGltR0lqbzVnTWJJ?=
- =?utf-8?B?cWdrSkF4d2dTamxMbnYzcEFHRHVLd2ZHcGkyRHdqNjFwaEFOc21LOUlSeENF?=
- =?utf-8?B?OXRiaURjUlA1bEVNek5DbVpLQVQ2dVRmdExub0IrRFZKUTJ1dG96ZDV0NHNL?=
- =?utf-8?B?WDNiLzhjbU9SQmhVbmtPZC9pbitDRUdla0g1M280MW5FNVRsWUJPVFloUzBh?=
- =?utf-8?B?eURBeStqZU5nV0V4eCtMSUMxMlE4a2I0emE2ZWdCUmdlVU1qaEJocVFqeUVZ?=
- =?utf-8?B?WGNEVUtqUCtsenZBSHdIdVZ2aFpkdGZkU09yYUgwb2FLR1ZPdUZZTUJzMHBR?=
- =?utf-8?B?VkxheGxXRVdLRnMyU3NBUmNXanc5cHJMWnZVbjk0cFdRV0tIOU1aSWNMdnJ1?=
- =?utf-8?B?T1dqYTFQcXJxVmFWR2lyLy8xd0lvNENxQUs5T05MdjgxTHlNREF1WkRESk1K?=
- =?utf-8?B?dkFuTVNpd1c5a2tyckwzZERNdnQ5OFpNeFU0UTZMN0dCR3RBOU1hT3lRajk5?=
- =?utf-8?B?dEc0dUlTbnBBSS9wR2pSc0pwU2ZYUWxlYk5yTXpXaHQ3RnVZQVNpOTA0ZGVF?=
- =?utf-8?B?alM1QWpBdkJmWUNocERscnJxVW41cWNFMkRVemhWaGtrUk51SjUvWGcrdzFS?=
- =?utf-8?B?bnhGREZLRmhVL2R2bXpBQXpleVBOTCt6emtsU3oyYyt3UU9PbzdJbnJYZmh0?=
- =?utf-8?B?WHdWak9vVjJva2pJaVM5bDVXKzdtOFdxR1FtZ25ZZW9vNDVvMnNEZDdyNkU3?=
- =?utf-8?B?ajdBU3VLSWxLTS9saFBMR3lQbnIzN1dia0N6YnRVbGlRbC9oeDhDdGsrT0c5?=
- =?utf-8?B?QkxCNGY1dnJZSXZ5R1NGVEdQRUNmZ29uS0gvWVc4M05VRHNZY0pyVGdMSEU4?=
- =?utf-8?B?bzdKbS9CLzZsS2ZRd0lkUU9yM3orbWRhemlFQk5IWXdBelltOGQxR29qNklh?=
- =?utf-8?B?cC9vKzlFRGk4WkxuUEhDWktnVTN1TWdaK3NsdkVKNWhDOGtHTkhKSEt3SWN6?=
- =?utf-8?B?cFA2NFY1c3NaWDNsZzh3d0w0MlVSc2RPZ2Z6SE9kSFB0aXhFWFNvaFgrQTQ5?=
- =?utf-8?B?Wk1lRG9pWHdkMWkzaTQ5N29XbXRhQ3FhbUVZTXhaUnZnSU5uTDJFejVMbkZ5?=
- =?utf-8?B?NG5wVjQwK3V6eTlNK1RBVTZiWnhnWlppS0dTYnpXdlhMOFdzZDhZZlNEMEk3?=
- =?utf-8?B?cGZEYW13cnlTVEgvVHBXTlk3YjdsYU8rNjN0RGNRZmJFblNXOFRtd2JjZThq?=
- =?utf-8?B?WlRUcXU1TDB0TDZJTDFhYWhkTGRDeFR2SmtyZEhTQklEbzZRZUxFTGhwaGdJ?=
- =?utf-8?B?SHQ4VkIyVnlLOU9heWFPZmNDUHEvOGZHeUtieWQ2aFpEZG5jUm9TQjk0c1B2?=
- =?utf-8?B?SHZnMkxWdmpmUS9lMU01dnpzMkU2WGxveDQ5MlZlN294VUNoRDJtSFlYYndB?=
- =?utf-8?B?Z0JaTmhGdlhCbnJoakZXeXl4OVp0d05pZVNEbC8rMmNSTnVaR3FmT2l1N1Z5?=
- =?utf-8?B?NVllaXI4amtnN3ZTb3FnTUlkOHlXRXd5Nk0xK3VNdHY0MnI4NXN3a0JwQTdM?=
- =?utf-8?B?SzhSbHk4UEhDNzZtY0FiOW5jRDg5L2x4YnZoYlJiYnYvNU5SNmRmY1ViSjZN?=
- =?utf-8?B?Vm44dVZtdEM1YWptL2drOS9GTjNCUFYvck44MzgwelhadzY1cEVoMXlGeGNw?=
- =?utf-8?B?SEJtOHo4SThpalFoRGlVd0QzZXhSZmdQRlVieFNKVHdrOHFvZi9rdHc4OTIx?=
- =?utf-8?B?N0hHa2JwTXgwVFFDMTkvdndBZzNrY3BWN2hBTStLNENwNlRZaU1TSU5nT3NF?=
- =?utf-8?B?dnd3T0NFU3JHbUltYmVSa2cwb2tHSVYvZGVTY0duVDRTdlUvTkY3UHFZTHFE?=
- =?utf-8?B?eEIrMlVmUlZiNXlublUyQjlJaVduYnF6NmI5TVFyR1RKcm40ZHgvSEJtdFQy?=
- =?utf-8?B?UWJudTQ3dlA2cjAyRFE3dDU0ZHlzWlhUbmJ5TnAyaG90dEFibWpJNnh5Mlh4?=
- =?utf-8?B?eUdTYjRsclVvK1lxU1JxVHM1NHYwYWdNOTBua21Ram9xdy9xejRYOVBpUCsx?=
- =?utf-8?B?MFdmSTFqSDhwdTJjNy9xVGlsYmtqYXdTYzNLdmJhYTRRaC93L3F5K2w1WHVT?=
- =?utf-8?B?blRFMHgyZVFpenNhVjUrUWExQ0JsOFBJV0FSeXJ4THdzbXhKR2xLU2V0UzZs?=
- =?utf-8?B?clNKTTJxaUpiWS8xT0NnM1FFV0NUWmpHbkJJWHQzaE50dWdqVUE3bkNBTDRX?=
- =?utf-8?B?akZPdm03cVdpWkREbVlSejFMZWdldm1iM2xCNU1yRElyTXFpYU5mWE91YjZO?=
- =?utf-8?B?TnZQcXI4MFJSdlV1V2ZlYWxMZmozMXBJZFlmbFFwRVdLdnJNa3Ywdz09?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <973D5EFE67BB1E46B6C23D38688F8E66@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=VqcbGsbm
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-8b4b9ba815bso9364047b3.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 11:06:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dubeyko-com.20260707.gappssmtp.com; s=20260707; t=1795028773; x=1795633573; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=K3ymRzhdwjzx+FHWbWjH8FmcD60wOZPkk81WKbPdQck=;
+        b=VqcbGsbmDaeaML4RSnH8xjyVvH/4tJRsVJ52dyy0Tmf6pKzrGWlfvkvtzm26IeECQ/
+         iaMahTPY+rJcp8O4xYwQIzzQsDobGjsQviEXlQqYoSFl5rILQjtBmU/uL+HSZo2sf6yw
+         9ttvZlqHJzOYU572Hiz8F6iNHkS9QDt8rBcxRO15uNNr+G34/MoIfA3it+67pVHrNy7g
+         Krn79JfetVz15s8KVUaubz8xwTfss9fkDdFzhOJIo8V1/ivrWlmsySMfizJUOgez0OCQ
+         62fWog+dUG954OE+tWqOpQjhWcGmcMFilbermyIkAFs2Sz+qmAaISGb48OGPo6Hn9qIy
+         aBVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795028773; x=1795633573;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=K3ymRzhdwjzx+FHWbWjH8FmcD60wOZPkk81WKbPdQck=;
+        b=A9mxWs2xwr56relgjKeYFskiGKbMBSiF47IKx54+Ym8ifg7wR+9GTQWgjiJRSgBCm5
+         ZV34LrBKNLDq81UQtlL4s/BvV+eOJbeVCzACTmSNl9MwZFsgETo58dNaCy1PnFYqOmZ/
+         DVkUKjz2m5MCcWcz2xdoFvWW0rmf5HVEe8P7l5OR+/Eq9PVGYHD6yz9LWZpCi6Kjjh6n
+         9MPLSMtfuyHTdl/R+ZBUgjV8MiJbhdvJCdxrM5Z0Ydr+aLecsgFuTBjdrNzf3UQxti5f
+         hN61m1ikLa4wAk1xH+AeHLSo+fpESvkk7SQEGGtBobaDWZisJ7yB1ozL9waC8wn7CCoD
+         r4oQ==
+X-Gm-Message-State: APuU4Z/VlvfeuL3EJVE7OAQ6mIlycZSfpAEtngZYHYpui1pCZ0hGA2SA
+	Jc1TvWsGS4PyhWjh9SVjeeSVD2YmBCq5cLKI3m9PvoPHXHGQ0wgeLMTrI8lpMnl67+E=
+X-Gm-Gg: AZFdTZeuXL1631Bq5aXXeg7NKnYvkVA6m8BWqfUq/6yp6s/JD/YYl35LVx/GirAaV+/
+	ikBJrOSTUbwbDpdGWWDOx+8DM4vGHUdlo4l35kEmjt8aqL5pJLBUTxQtaI6wKUHD6eVc4Na00Ni
+	Nz/SIt57/G+HQm4Cr7lyOrj8Jm1L4dKg6Jv+NJ/UL9D6H6ZUGVNSO5ylwHqDkF3cu37J9mx+PH1
+	Z69HmMzU63JKkHFj0sIxzlAlQAASMUlLYMHVdaKThqHHK8cmcQ8UMWvEFJolXLeHqvmg54kGht3
+	huB+YG5GtwdRtQy2I7yCl3z2kwuxGuOupgR0O7FgNWAhIbdI1otOjfOihBm31aBEI2s7qkpomjS
+	IW91VY71/a9qlZ61dCJQ1mYQT9d7uPbuKV/NvpA+6nQFHuqyAnJMlPkcuQsV6DsosnglRxsjOkf
+	RcdEo7Twy+EG7T/1eJNbvYPXuQga0rjfK2fDKx3nv2A/ZOpSjtMeYmzyLtp5k8O5HzyY0Mns39J
+	BnCGlDmUfRLb3fg2OQnRdZqCsIMiEg7mdC7cNhrWZ8IS1DwXxedH6Eq4oS0pj3xmmu8cz3eDlHg
+	V6kRITMkqj1G0e0QVSK8P9ahwRSf9n6YjQzXhSanwSV1cWurtMaWI5NG9GuX5TuVZGSIGs8q0zG
+	G15riP/G3UwoCA0/TMrDpUIwRJdLP87klvsuRO5TGLJMdXpVvAymOP/oL1cDZesWJ9xgmHR0PqU
+	O9/Kvf+JQOCzlcxv/m0kY=
+X-Received: by 2002:a05:690c:6087:b0:8b4:b5e4:e7a4 with SMTP id 00721157ae682-8b4fed37af3mr17906877b3.21.1795028773351;
+        Wed, 18 Nov 2026 11:06:13 -0800 (PST)
+Received: from ?IPv6:2600:1700:6476:1430:5fae:4d02:7055:94ad? ([2600:1700:6476:1430:5fae:4d02:7055:94ad])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b4fe0e8d9csm22451747b3.35.2026.11.18.11.06.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Nov 2026 11:06:12 -0800 (PST)
+Message-ID: <906a3c99edd0b9216fecf4994c96a5fed9ca5253.camel@dubeyko.com>
+Subject: Re: [PATCH v2 1/2] hfsplus: pass the key buffer size to
+ hfs_bnode_read_key()
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: ozgun kultekin <ozgunkultekin@gmail.com>, glaubitz@physik.fu-berlin.de, 
+	frank.li@vivo.com
+Cc: linux-fsdevel@vger.kernel.org, yangguikun19@qq.com,
+ stable@vger.kernel.org
+Date: Wed, 18 Nov 2026 11:06:11 -0800
+In-Reply-To: <20261118013725.90985-2-ozgunkultekin@gmail.com>
+References: <20261114043522.48764-1-ozgunkultekin@gmail.com>
+	 <20261118013725.90985-1-ozgunkultekin@gmail.com>
+	 <20261118013725.90985-2-ozgunkultekin@gmail.com>
+Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
+ keydata=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
+ NFdvziOa4FgUBC4X71upsZIoZJeii2V/Jtc3B4g==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-9 
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -165,72 +138,228 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5259.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1ef21bad-80d8-4b62-fb87-08df45a573da
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Nov 2026 18:55:02.5165
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: afn0DrAKfuYrAN1JRd0RzHzXySCcGgWd8zvuGdatec78OvY2mBGdeW1mb+JogY2w4zNNYV58O7CsTNLXKZZlRg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB8801
 
-T24gV2VkLCAyMDI2LTExLTE4IGF0IDIyOjQ0ICswNTMwLCBEZXYgSmFpbiB3cm90ZToNCj4gDQo+
-IE9uIDE4LzExLzI2IDEwOjM1IHBtLCBEZXYgSmFpbiB3cm90ZToNCj4gPiANCj4gPiANCj4gPiBP
-biAxNy8xMS8yNiAxMjo0NiBwbSwgU2hpdmFuayBHYXJnIHdyb3RlOg0KPiA+ID4gVGhpcyBzZXJp
-ZXMgcmVtb3ZlcyBmaXZlIGZ1bmN0aW9ucyBhbmQgb25lIHZhcmlhYmxlIGluIG1tIHRoYXQgaGF2
-ZSBubw0KPiA+ID4gdXNlcnMgbGVmdCBhbnl3aGVyZSBpbiB0aGUgdHJlZS4gSSBmb3VuZCB0aGVt
-IHdpdGggdGhlIGt1bnVzZWQgc2NyaXB0cw0KPiA+ID4gWzFdLCB3aGljaCBJIHdyb3RlIHdpdGgg
-TExNJ3MgaGVscC4gVGhlIHYxIGNvdmVyIGxldHRlciBbMl0gaGFzIG1vcmUNCj4gPiA+IGRldGFp
-bHMgb24gdGhlIHNjcmlwdHMgYW5kIGhvdyBMTE0gd2FzIHVzZWQuDQo+ID4gPiANCj4gPiA+IENo
-YW5nZXMgaW4gdjI6DQo+ID4gPiAtIFNwbGl0IHYxIFsyXSB1cCBieSBNTSB0cmVlLCBhcyBEYXZp
-ZCBzdWdnZXN0ZWQuIFRoZXNlIGZpdmUgcGF0Y2hlcw0KPiA+ID4gICBhcmUgYmFzZWQgb24gbW0t
-bmV3LiANCj4gPiA+IC0gTm8gY2hhbmdlcyB0byB0aGUgcGF0Y2hlcyB0aGVtc2VsdmVzLg0KPiA+
-ID4gDQo+ID4gPiBbMV0gaHR0cHM6Ly9naXRodWIuY29tL0FNREVTRS9saW51eC1tbS90cmVlL3No
-aXZhbmsva3VudXNlZA0KPiA+ID4gWzJdIGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL3IvMjAyNjEw
-MjYtdW51c2VkLXN5bS12MS0wLTgyY2EyZGNlYWJlMUBhbWQuY29tDQo+ID4gPiANCj4gPiA+IFNp
-Z25lZC1vZmYtYnk6IFNoaXZhbmsgR2FyZyA8c2hpdmFua2dAYW1kLmNvbT4NCj4gPiA+IC0tLQ0K
-PiA+IA0KPiA+IE9rYXkgSSBqdXN0IHJlY2FsbGVkIHRoYXQgdGhlcmUgaGF2ZSBiZWVuIG51bWVy
-b3VzIGNhc2VzIHdoZXJlIHBlb3BsZSByYW4NCj4gPiBzY3JpcHRzIC8gY29tcGlsZXIgd2l0aCBm
-bGFncyBldGMgYW5kIHNlbnQgcGF0Y2hlcyB0byByZW1vdmUgdW51c2VkIGZ1bmN0aW9ucywNCj4g
-PiBidXQgbWFpbnRhaW5lcnMgcmVqZWN0ZWQgdGhlbSBjaXRpbmcgdGhleSBhcmUgdGhlcmUgZm9y
-IGEgZnV0dXJlIHVzZS4gSGVyZQ0KPiA+IGFyZSBzb21lIG9mIHRob3NlIGluc3RhbmNlczoNCj4g
-PiANCj4gPiBodHRwczovL2xvcmUua2VybmVsLm9yZy9hbGwvMjAyNDA5MDcwMjE1MDYuNDAxODY3
-Ni0xLUxpYW0uSG93bGV0dEBvcmFjbGUuY29tLw0KPiA+IGh0dHBzOi8vbG9yZS5rZXJuZWwub3Jn
-L2xpbnV4LW1tLzIwMTAwMjExMDUyMjQ3LkdBMTUzOTJAbG9jYWxob3N0Lw0KPiA+IA0KPiA+IFNv
-IEkgdGhpbmsgdGhlIGNvbW1pdCBtZXNzYWdlcyBuZWVkIHRvIGRvIG1vcmUsIHRoZXkgbmVlZCB0
-byBwcm92ZSB0aGF0IHRoZQ0KPiA+IHVudXNlZCBmdW5jdGlvbiB3YXMgYSBnZW51aW5lIG92ZXJz
-aWdodC4NCj4gPiANCj4gDQo+IE9uZSB3YXkgdG8gZG8gdGhhdCB3b3VsZCBiZSB0byBtZW50aW9u
-IHRoZSBjb21taXQgYW5kIGl0cyBkYXRlLCBpZiBpdHMgdG9vIG9sZCwNCj4gb3IsIGlmIGl0IHdh
-cyBwYXJ0IG9mIGEgcGF0Y2ggc2VyaWVzIGJ1dCB0aGVuIHRoZSBhdXRob3IgY2hhbmdlZCB0aGVp
-cg0KPiBzdHJhdGVneSBpbiB0aGUgbGF0ZXIgcGF0Y2hlcyBtYWtpbmcgdGhlIGZ1bmN0aW9uIHJl
-ZHVuZGFudCwgZXRjIGV0Yy4NCj4gDQo+IEluIHBhdGNoIDEsIHlvdSByZW1vdmUgbWFwcGluZ19j
-bGVhcl9yZWxlYXNlX2Fsd2F5cygpIGJ1dCBkNzMwNjVlNjBkY2MgJ3MgZGVzY3JpcHRpb24NCj4g
-aW1wbGllcyBpdCBpcyBnb2luZyB0byBnZXQgdXNlZCwgd2hpY2ggaXMgY29uZnVzaW5nLiBNYXli
-ZSB3ZSBhcmUgbWlzc2luZw0KPiBhIGdlbnVpbmUgYnVnLCBvciB0aGUgYXV0aG9yIGZvcmdvdCB0
-byBkcm9wIHRoZSBzdGFsZSBkZXNjcmlwdGlvbiBhY3Jvc3MNCj4gcmV2aXNpb25zLg0KPiANCg0K
-SGkgRGV2LA0KDQpUaGFua3MgZm9yIHRoZSByZXZpZXcuIEkgYWdyZWUgdGhhdCBzb21lIHVudXNl
-ZCBzeW1ib2xzIG1heSBiZSBrZXB0DQppbnRlbnRpb25hbGx5IGZvciBhIHBsYW5uZWQgZnV0dXJl
-IHVzZXIsIHdoaWNoIEkgY2hlY2tlZCBmb3IgYmVmb3JlDQpzZW5kaW5nLg0KDQpGb3IgbW9zdCBw
-YXRjaGVzIEkgaGFkIGluY2x1ZGVkIHNvbWUgaGlzdG9yeSwgbGlrZSB0aGUgY29tbWl0IHRoYXQN
-CnJlbW92ZWQgdGhlIGxhc3QgY2FsbGVyIG9yIHRoZSBjb21taXQgdGhhdCBhZGRlZCB0aGVtIHdp
-dGhvdXQgb25lLiBJDQptaXNzZWQgdGhhdCBmb3IgbWFwcGluZ19jbGVhcl9yZWxlYXNlX2Fsd2F5
-cygpIGluIHRoaXMgcGF0Y2ggYW5kIGZvcg0KbWFrZV9ndWFyZF9zd3BfZW50cnkoKSBpbiBwYXRj
-aCAyLCBzbyBoZXJlIGlzIHRoZSBoaXN0b3J5IGZvciBib3RoOg0KDQotIG1hcHBpbmdfY2xlYXJf
-cmVsZWFzZV9hbHdheXMoKSB3YXMgYWRkZWQgaW4gYjRmYTk2NmYwM2I3ICgibW0sIG5ldGZzLA0K
-ICBmc2NhY2hlOiBzdG9wIHJlYWQgb3B0aW1pc2F0aW9uIHdoZW4gZm9saW8gcmVtb3ZlZCBmcm9t
-IHBhZ2VjYWNoZSIpIGFuZA0KICBuZXZlciBoYWQgYSBjYWxsZXIuIEVhcmxpZXIgdmVyc2lvbiBv
-ZiBoYWQgY2FsbGVkIGl0IGZyb20gLT5ldmljdF9pbm9kZSgpDQogIGJ1dCBWNCBkcm9wcGVkIHRo
-b3NlIGNhbGxzIGFzIHVubmVjZXNzYXJ5IFsxXSBsZWF2aW5nIHRoZSBoZWxwZXIuDQoNCi0gbWFr
-ZV9ndWFyZF9zd3BfZW50cnkoKSB3YXMgYWRkZWQgaW4gN2M1M2RmYmRiMDI0ICgibW06IGFkZCBQ
-VEVfTUFSS0VSX0dVQVJEDQogIFBURSBtYXJrZXIiKSwgaGFzIG5ldmVyIGhhZCBhIGNhbGxlciwg
-YW5kIG5vbmUgaGFzIGJlZW4gcG9zdGVkIGluIDIgeWVhcnMuDQoNCkkgbGVmdCBzb21lIHN5bWJv
-bHMgb3V0IGJlY2F1c2UgYSBwb3N0ZWQgc2VyaWVzIGFkZHMgY2FsbGVycywgZm9yDQpleGFtcGxl
-IGZvbGlvX2R1cF9maWxlX3JtYXBfcG1kKCkgYW5kIGZvbGlvX2lzX3BmbWVtYWxsb2MoKSwgb3Ig
-YmVjYXVzZQ0KdGhleSBhcmUgb25lIGhhbGYgb2YgYSBwYWlyIHdob3NlIG90aGVyIGhhbGYgaXMg
-c3RpbGwgdXNlZCwgbGlrZQ0Ka21zYW5fcG9pc29uX21lbW9yeSgpLg0KDQpbMV0gaHR0cHM6Ly9s
-b3JlLmtlcm5lbC5vcmcvYWxsLzE2NjkyNDM3MDUzOS4xNzcyNzkzLjEzNzMwNjk4MzYwNzcxODIx
-MzE3LnN0Z2l0QHdhcnRob2cucHJvY3lvbi5vcmcudWsNCg0KVGhhbmtzLA0KU2hpdmFuaw0KDQoN
-Cg==
+On Tue, 2026-11-17 at 17:37 -0800, ozgun kultekin wrote:
+> hfs_bnode_read_key() reads the key length of leaf records (and of all
+> records of variable-key and attributes trees) from disk and only
+> checks
+> it against sizeof(hfsplus_btree_key), 518 bytes. The destination is
+> always one of the two key buffers hfs_find_init() allocates, each
+> tree->max_key_len + 2 bytes long. For the extents tree max_key_len is
+> fixed at 10, so the whole allocation is 24 bytes and a crafted leaf
+> key
+> writes up to 516 bytes from the image into kmalloc-32. The error path
+> clears 518 bytes of the same buffer.
+>=20
+> hfs_brec_insert() reaches this with a key that was never validated:
+> when the tree root is 0 it reads the key of record 0 of the leaf it
+> inserts into, and after a split it reads the first key of the new
+> node.
+> A read-write mount that extends the catalog, or an append to a file
+> whose extents spill into the extents tree, is enough.
+>=20
+> Do not let hfs_bnode_read_key() assume the size of the buffer. Record
+> the size of each key buffer in struct hfs_find_data in
+> hfs_find_init(),
+> allocate the two buffers from it, and pass it to every
+> hfs_bnode_read_key() call. Keys longer than the buffer are rejected
+> as
+> before, and the error path clears only the buffer.
+>=20
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Fixes: bb5e07cb9277 ("hfs/hfsplus: fix slab-out-of-bounds in
+> hfs_bnode_read_key")
+> Reported-by: Guikun Yang <yangguikun19@qq.com>
+> Closes:
+> https://lore.kernel.org/all/tencent_F85118A9AFDF9B230D4E8FA672510A3E2F08@=
+qq.com/
+> Suggested-by: Viacheslav Dubeyko <slava@dubeyko.com>
+> Cc: stable@vger.kernel.org
+> Signed-off-by: ozgun kultekin <ozgunkultekin@gmail.com>
+> ---
+> v2: pass the key buffer size to hfs_bnode_read_key() and keep it in
+> =C2=A0=C2=A0=C2=A0 hfs_find_data, as suggested by Viacheslav
+> v1:
+> https://lore.kernel.org/all/20261114043522.48764-1-ozgunkultekin@gmail.co=
+m/
+>=20
+> =C2=A0fs/hfsplus/bfind.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 6 ++++--
+> =C2=A0fs/hfsplus/bnode.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 7 ++++---
+> =C2=A0fs/hfsplus/brec.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 9 +++++----
+> =C2=A0fs/hfsplus/hfsplus_fs.h | 5 ++++-
+> =C2=A04 files changed, 17 insertions(+), 10 deletions(-)
+>=20
+> diff --git a/fs/hfsplus/bfind.c b/fs/hfsplus/bfind.c
+> index ca9813f58..5ec72fc98 100644
+> --- a/fs/hfsplus/bfind.c
+> +++ b/fs/hfsplus/bfind.c
+> @@ -19,11 +19,13 @@ int hfs_find_init(struct hfs_btree *tree, struct
+> hfs_find_data *fd)
+> =C2=A0	fd->tree =3D tree;
+> =C2=A0	fd->bnode =3D NULL;
+> =C2=A0	hfs_find_result_init(fd);
+> -	ptr =3D kzalloc(tree->max_key_len * 2 + 4, GFP_KERNEL);
+> +	/* search_key and key, each holding one key of the largest
+> size */
+> +	fd->key_size =3D tree->max_key_len + 2;
+
+Do you mean + 4?
+
+> +	ptr =3D kzalloc(2 * fd->key_size, GFP_KERNEL);
+
+This is why I would like to exchange this tree->max_key_len * 2 + 4 on
+the statement that includes named constants instead of hardcoded 2 and
+4. Please, rework it.
+
+> =C2=A0	if (!ptr)
+> =C2=A0		return -ENOMEM;
+> =C2=A0	fd->search_key =3D ptr;
+> -	fd->key =3D ptr + tree->max_key_len + 2;
+> +	fd->key =3D ptr + fd->key_size;
+> =C2=A0	hfs_dbg("cnid %d, caller %ps\n",
+> =C2=A0		tree->cnid, __builtin_return_address(0));
+> =C2=A0	mutex_lock_nested(&tree->tree_lock,
+> diff --git a/fs/hfsplus/bnode.c b/fs/hfsplus/bnode.c
+> index 3a1a1fa6f..e2335c6d7 100644
+> --- a/fs/hfsplus/bnode.c
+> +++ b/fs/hfsplus/bnode.c
+> @@ -71,7 +71,8 @@ u8 hfs_bnode_read_u8(struct hfs_bnode *node, u32
+> off)
+> =C2=A0	return data;
+> =C2=A0}
+> =C2=A0
+> -void hfs_bnode_read_key(struct hfs_bnode *node, void *key, u32 off)
+> +void hfs_bnode_read_key(struct hfs_bnode *node, void *key, u32 off,
+> +			u32 key_size)
+> =C2=A0{
+> =C2=A0	struct hfs_btree *tree;
+> =C2=A0	u32 key_len;
+> @@ -84,8 +85,8 @@ void hfs_bnode_read_key(struct hfs_bnode *node,
+> void *key, u32 off)
+> =C2=A0	else
+> =C2=A0		key_len =3D tree->max_key_len + 2;
+> =C2=A0
+> -	if (key_len > sizeof(hfsplus_btree_key) || key_len < 1) {
+> -		memset(key, 0, sizeof(hfsplus_btree_key));
+> +	if (key_len > key_size || key_len < 1) {
+> +		memset(key, 0, key_size);
+> =C2=A0		pr_err("hfsplus: Invalid key length: %u\n",
+> key_len);
+> =C2=A0		return;
+> =C2=A0	}
+> diff --git a/fs/hfsplus/brec.c b/fs/hfsplus/brec.c
+> index f416e562d..779d7df0b 100644
+> --- a/fs/hfsplus/brec.c
+> +++ b/fs/hfsplus/brec.c
+> @@ -148,7 +148,8 @@ int hfs_brec_insert(struct hfs_find_data *fd,
+> void *entry, u32 entry_len)
+> =C2=A0	 * at the start of the node and it is not the new node
+> =C2=A0	 */
+> =C2=A0	if (!rec && new_node !=3D node) {
+> -		hfs_bnode_read_key(node, fd->search_key, data_off +
+> size);
+> +		hfs_bnode_read_key(node, fd->search_key, data_off +
+> size,
+> +				=C2=A0=C2=A0 fd->key_size);
+> =C2=A0		hfs_brec_update_parent(fd);
+> =C2=A0	}
+> =C2=A0
+> @@ -166,7 +167,7 @@ int hfs_brec_insert(struct hfs_find_data *fd,
+> void *entry, u32 entry_len)
+> =C2=A0		entry_len =3D sizeof(cnid);
+> =C2=A0
+> =C2=A0		/* get index key */
+> -		hfs_bnode_read_key(new_node, fd->search_key, 14);
+> +		hfs_bnode_read_key(new_node, fd->search_key, 14, fd-
+> >key_size);
+
+We need finally rework this 14 on named constant.
+
+> =C2=A0		__hfs_brec_find(fd->bnode, fd, hfs_find_rec_by_key);
+> =C2=A0
+> =C2=A0		hfs_bnode_put(new_node);
+> @@ -464,7 +465,7 @@ static int hfs_brec_update_parent(struct
+> hfs_find_data *fd)
+> =C2=A0		}
+> =C2=A0		fd->bnode =3D hfs_bnode_find(tree, new_node->parent);
+> =C2=A0		/* create index key and entry */
+> -		hfs_bnode_read_key(new_node, fd->search_key, 14);
+> +		hfs_bnode_read_key(new_node, fd->search_key, 14, fd-
+> >key_size);
+
+Ditto.
+
+> =C2=A0		cnid =3D cpu_to_be32(new_node->this);
+> =C2=A0
+> =C2=A0		__hfs_brec_find(fd->bnode, fd, hfs_find_rec_by_key);
+> @@ -476,7 +477,7 @@ static int hfs_brec_update_parent(struct
+> hfs_find_data *fd)
+> =C2=A0			if (new_node =3D=3D node)
+> =C2=A0				goto out;
+> =C2=A0			/* restore search_key */
+> -			hfs_bnode_read_key(node, fd->search_key,
+> 14);
+> +			hfs_bnode_read_key(node, fd->search_key, 14,
+> fd->key_size);
+
+Ditto.
+
+> =C2=A0		}
+> =C2=A0		new_node =3D NULL;
+> =C2=A0	}
+> diff --git a/fs/hfsplus/hfsplus_fs.h b/fs/hfsplus/hfsplus_fs.h
+> index 6f240f87f..d0d4fea94 100644
+> --- a/fs/hfsplus/hfsplus_fs.h
+> +++ b/fs/hfsplus/hfsplus_fs.h
+> @@ -268,6 +268,8 @@ struct hfs_find_data {
+> =C2=A0	int record;
+> =C2=A0	int keyoffset, keylength;
+> =C2=A0	int entryoffset, entrylength;
+> +	/* size of each of the search_key and key buffers */
+
+We need to have a comment before structure declaration. Ideally, it
+will be good to comment every field.
+
+> +	u32 key_size;
+
+This is not proper place for this declaration.
+
+struct hfs_find_data {
+	/* filled by caller */
+	hfsplus_btree_key *search_key;
+	hfsplus_btree_key *key;
+	/* filled by find */
+	struct hfs_btree *tree;
+	struct hfs_bnode *bnode;
+	/* filled by findrec */
+	int record;
+	int keyoffset, keylength;
+	int entryoffset, entrylength;
+};
+
+This is the field is prepared by caller. So, it should be group in the
+first section.
+
+From my point of view, keylength and key_size are not semantically
+different. Could we suggest some better word here?
+
+Thanks,
+Slava.
+
+> =C2=A0};
+> =C2=A0
+> =C2=A0struct hfsplus_readdir_data {
+> @@ -372,7 +374,8 @@ void hfs_bmap_free(struct hfs_bnode *node);
+> =C2=A0void hfs_bnode_read(struct hfs_bnode *node, void *buf, u32 off, u32
+> len);
+> =C2=A0u16 hfs_bnode_read_u16(struct hfs_bnode *node, u32 off);
+> =C2=A0u8 hfs_bnode_read_u8(struct hfs_bnode *node, u32 off);
+> -void hfs_bnode_read_key(struct hfs_bnode *node, void *key, u32 off);
+> +void hfs_bnode_read_key(struct hfs_bnode *node, void *key, u32 off,
+> +			u32 key_size);
+> =C2=A0void hfs_bnode_write(struct hfs_bnode *node, void *buf, u32 off, u3=
+2
+> len);
+> =C2=A0void hfs_bnode_write_u16(struct hfs_bnode *node, u32 off, u16 data)=
+;
+> =C2=A0void hfs_bnode_clear(struct hfs_bnode *node, u32 off, u32 len);
