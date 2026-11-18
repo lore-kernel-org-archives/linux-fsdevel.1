@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794994741;
-	b=AkyB0d6qI0synk4yvDwQUZhbVnzk6TWpK9kVzFHgmQNQ9cSDXUf3Dx2joyYEcsaJhPcO
-	 cfgZ58hKXb8SNN+q73GxwD0ge0dpT7gciYzw01ldECDb78gerswOywadVmMcQmvZa86K+
-	 B5cAXtti4ekVy5MOpcja4HfGTwJC8VYRSdWULpPgfTFlBqH3MvVq+HYSU3ssjcaMUvkZ6
-	 YPXeaBmPjyW/dyxXoDxgmkF7PU1lb8FTRAzmrlotxqkE/yBdHbYxiQeEif+WNLfBmmaD+
-	 JpaMxAInmqhs7ni8qN0JK2Agdazwn59lJzmHqDBbyShSkltL+FW6Sz9Y52BWCaBRs8w==
+	t=1794994797;
+	b=g3097eKLp5VMfsjIn5BeK7ZTxKHpj1ATNERukZiyKg8QlDCeYNVykcnI//tDzxhBcfae
+	 /d7LeoFZKfwmNuAknk+RjlyjLsDGrkaXdNXvmsYkFWZ7xnti3ddBuwoaV5s+CSM9VcBK1
+	 aqTt5FaNZjChrjy4/YMq1UDed8Cw1ZSsr0dgTGILwnD73N7W66O6Y4TCvzX/KXlF6MFTf
+	 2tpm93dcaNy/8gaDBUCJZaMSX5rUdrthgNbZSGaXeRt9arw9fOX4I/J+g++oPu5wDOYh4
+	 Pn8GxfhLL2O5Rk+cC5BEK4j1gTACfdrAFtrbxkshdB7R8IoQpAe35NrZfEyDlxgYaDA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794994741;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794994797;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=pFcykN8FbTzlkQb2QKEzQvmDwgjWoZpHj6xZz+E6k4M=;
-	b=FpmPpYsVK8JT8a9Amj7g19kHj07PC77GWqzKJTkPlb65sBCPSWHBn2Cnzo12owHIwIgb
-	 x5ylD5g8eyzxt+hI13FjsP0aFu7QuJMZXu2ugjRJUTsLIolWsvBPNxSphyGwKZ9feot4N
-	 p89KVKW4DJX6v7bzmUylfxCTh5lqpqPQtTJjtlIyXzDe5rc8Sl7fBGARh10nJ330ZFbHb
-	 P0Dz2O4CWoqvnVihP60qW4mqJtRssbnrH+7kulcAkziXvffliCNZWIW75D1yZAYKfXNOM
-	 lbEo49Xs1IKUP/a9iCy4nMTVo9cOUzIZJr23vZ8BFftoCgcfhWq1mcHyy+mCnrLyIDA==
+	bh=kQg3KGb7GYq22ZHkNPQqW4NEqCB8YAgXiGER+D6cdok=;
+	b=jrQhBW3wM9KcZwIs5abrHIxTuo3WarK/Od6UdZl6CUzdNFfxJDVXdVzYaeNvBantL8+E
+	 1Okqg3yNXwfiEw6f6APV2AX2Yi0SRBO2vmomXtJiRZtO7Yqq0esNJf45+8YX8LYxLxLNo
+	 RS79Qtpwf0cNCZmdIiAS6VY08HMueRS+9l1SdaznjuL29eyZTvrV4zndZS6kTyKV9tOM8
+	 /wBpVocau+rDop3aV/C2igV1YsoT6Z47VRoNjPptkwaEd0Wph0iKV7MdIoiYYRLFw6ZVJ
+	 vZqCLTYSDMX6Sw2uuzzBznUwK4gib/XupKQNx3TNibEHXtix2C2odHI7O3DABOm3iRQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=n82NdDEF;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GpcaUxFb;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ACC6606A337;
-	Wed, 18 Nov 2026 09:39:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BE4E606A31C;
+	Wed, 18 Nov 2026 09:39:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=n82NdDEF
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BF601F000C5;
-	Wed, 18 Nov 2026 09:38:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GpcaUxFb
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 905DC1F000C4;
+	Wed, 18 Nov 2026 09:39:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794994740;
-	bh=pFcykN8FbTzlkQb2QKEzQvmDwgjWoZpHj6xZz+E6k4M=;
+	s=k20260515; t=1794994797;
+	bh=kQg3KGb7GYq22ZHkNPQqW4NEqCB8YAgXiGER+D6cdok=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=n82NdDEF2Y36movBI2landvuiWeoHOsmHhM0axpee/x9FcrkaT0e7kHegUZLC0CvF
-	 qSvYrAS1IbaeJgTOvIYTCMd6GgQYjC/tfTiJ8h00Q3mKJ7YS6pb9Q7i1/8jl3xVCyW
-	 QaL07DWQ/xNeUW9xMBJ2DHZOe2ctnISw2rNuK9eOpzWD4Nzm+/RHaXBoSiBEOaoo51
-	 plyeS3IfMN9yjUGHkaR8vM6lc6WeDANPUDcmhkd+abr6XWQALHYCyIl0x3BanWBsr8
-	 5ZnW5vVA6nyfhNIOmPbF1b9264K0HKSqoU67uP/QLdAuzAQ251KopKwjWu+lfYE/B1
-	 Mn+2t1rW1PM5w==
-Message-ID: <5b195d44-66f5-4d9b-bb79-259fa938cc59@kernel.org>
-Date: Wed, 18 Nov 2026 10:38:46 +0100
+	b=GpcaUxFbHR9dMI5Bvkr3hUHr3/rN1SQXygpuxyMfV/mzR4t+3Zj5WZ3bmdmS9jxH3
+	 QUZ/LG78QFpmxhtVN1td0C+3zH50ucLvT7f9SOrIU+Y7SR/teEKcIxEfU8Hkq3MV4T
+	 oAkowGalKjtwqxDV9lm3aQDQwKH3OpgElmV4CNbcSfVDeNWiCKbAyb4AirlB/EWuJT
+	 ZD4MxMEnRBgL6K/oJpbiy266LNRcpLyfLMUyh3GNAj00rHpgauWG+aiKlCbvROKrje
+	 WmS4UBO6YpEIsx94/P7QkA7YpGjUc7m0TLyH9+Nv8xTHKr+942fOdRXQnyN2b8chxb
+	 jiRWHQnNPS/JA==
+Message-ID: <de532d85-c6f6-425b-86c5-08094cd28a29@kernel.org>
+Date: Wed, 18 Nov 2026 10:39:42 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -52,8 +52,8 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 9/9] mm/userfaultfd: check the hugetlb alignment of
- every VMA in the pre-scan
+Subject: Re: [PATCH v3 4/9] mm/migrate: warn on a writable migration entry
+ with the uffd bit set
 To: Tal Zussman <tz2294@columbia.edu>,
  Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
  Peter Xu <peterx@redhat.com>, James Houghton <jthoughton@google.com>,
@@ -79,7 +79,7 @@ To: Tal Zussman <tz2294@columbia.edu>,
 Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  linux-fsdevel@vger.kernel.org
 References: <20261117-uffd-state-fixes-v3-0-b617009d1a4a@columbia.edu>
- <20261117-uffd-state-fixes-v3-9-b617009d1a4a@columbia.edu>
+ <20261117-uffd-state-fixes-v3-4-b617009d1a4a@columbia.edu>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -126,48 +126,25 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20261117-uffd-state-fixes-v3-9-b617009d1a4a@columbia.edu>
+In-Reply-To: <20261117-uffd-state-fixes-v3-4-b617009d1a4a@columbia.edu>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 11/18/26 05:28, Tal Zussman wrote:
-> UFFDIO_REGISTER and UFFDIO_UNREGISTER both scan the VMAs of the range
-> before changing anything. For a hugetlb VMA, userfaultfd_register()
-> rejects a range whose start or end is not huge page aligned there.
-> However, userfaultfd_unregister() only checks the start.
+> A writable migration entry must not have the uffd bit set. Every path
+> that sets the bit on a migration entry makes the entry read-only first.
+> PAGEMAP_SCAN was the one path that did not, and it now does as well.
 > 
-> An unaligned end only fails later, when vma_modify_flags_uffd() cannot
-> split the VMA there. At that point, userfaultfd_clear_vma() already
-> cleared the WP or RWP protection. The ioctl returns -EINVAL and the VMA
-> stays registered, but accesses to its pages are no longer reported. This
-> requires a caller passing a misaligned range.
+> remove_migration_pte() restores such an entry writable and drops the
+> uffd bit, while remove_migration_pmd() sets the bit and write-protects
+> the PMD.
 > 
-> To fix it, move the alignment checks into vma_uffd_range_aligned() and
-> call it for every VMA in the pre-scan of both ioctls. UFFDIO_UNREGISTER
-> still returns -EINVAL for such a range, but no longer unregisters the
-> VMAs before the misaligned one first.
+> Warn in both paths on a writable entry with the uffd bit set. Also make
+> the PMD path only set the uffd bit for a read-only entry, like the PTE
+> path, so that the two behave the same, as this should never happen.
 > 
-> Checking every VMA the same way also changes the following:
-> 
-> - UFFDIO_UNREGISTER now returns -EINVAL if the end is not huge page
->   aligned in a hugetlb VMA that is not registered. It used to skip that
->   VMA and succeed.
-> 
-> - Both ioctls now accept a start that is not huge page aligned if it is
->   not inside any VMA and the first VMA of the range is a hugetlb one.
->   They used to return -EINVAL, although such a range covers that VMA
->   from its start, which is always huge page aligned.
-> 
-> - UFFDIO_REGISTER now returns -EINVAL rather than -EPERM if the end is
->   not huge page aligned in a hugetlb VMA without VM_MAYWRITE.
-> 
-> Fixes: cab350afcbc9 ("userfaultfd: hugetlbfs: allow registration of ranges containing huge pages")
-> Fixes: f369b07c8614 ("mm/uffd: reset write protection when unregister with wp-mode")
-> Suggested-by: David Hildenbrand (Arm) <david@kernel.org>
 > Signed-off-by: Tal Zussman <tz2294@columbia.edu>
 > ---
-
-Thanks!
 
 Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
