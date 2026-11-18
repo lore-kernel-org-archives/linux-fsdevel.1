@@ -1,56 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795005478;
-	b=paTqgXJx5YrTd3MVgfrfR8Mg1mK5H4ahMswQua1dr43oD22ygtQRu2zurcQJexzTPm/7
-	 bjQi+lWFscLhkrj/qVJZoJ50sBKu5HzMde2VeZbI23u03KgelJ39XOm0HopUTUwPx70LK
-	 jRycL+JEeeVfj39rgWh9PO96cBKc94O+3PMPOGy1iOb/6k/LTzhIYitKsL/yjZ5Vu9mQn
-	 18iwJxB2NH6RlDvhIZdW+FQMMn4FZzp4w0XH8JoeBsv7qkPMLan0XQZFT7kO74Ajok5e8
-	 R9sXP5M2XzLx+B9dzWs0+2XB2csNAY3fTfneGQ4TFSctvTACZXfIPjtbaS9uwdmvynQ==
+	t=1795005508;
+	b=WHTHSQamc0WYQUmf3vonGONiJRQNHc3esc6z4OELyI54wrN+R89Jllrq3d3NOfmM3/1g
+	 5b6WjaF3PCrGJoh5xw6jKrdpsm6FJevU3fsYw5pna5rj2MAL82ZAYeg+9dpFLJBXNcaOV
+	 cJCrKJFXbMy7k9HfKznODR8b6iK37mSLsRIEOy7v2NrACSfp3N86HgdptPY7nPskOh+oX
+	 Q7icAdsh50KrEYLAkhuJZO8k2ZKNwQ8VV5GrqlHM286T50xOlQI/cuOoLbQS0lcQ+1zlF
+	 yacpX/TQJhRSCsiQ6W0k0K+nLi7M7HoHvLq5Rv+xEnS5A2a7ATo+T5XlR6tMhjmiz6g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795005478;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=7QOeBdmv6Xwg/EN2J9zY875mkqRWcXEr4cDGZS3VmpQ=;
-	b=27kouMByoL6uImaKZOWpGZeWd7UO5JXLb3L6Ey9sqiFvUeClIVXDdNP12lvrcGlTMOrG
-	 zrP+iQUcAWb+SVXsvzoK9ryL6cKdF5N9p++59WAZPqPlkjbW1i4FcwT53oHdKBnlgyItP
-	 zeaLNtWHRKkszI9uHq3zOFUeBwALZkOa0PMScUIef0J+3IbydgiYqA69zb7PUieYMnGx6
-	 Q/FRJZ/PTT1a1siH3R7ZO5dD1G/2RHhYkL/QL5AbR3IH89i6MXvVBFgk6szc+k7eaZjqI
-	 eEzCKA77FCXDflxkxStKu9brEU9uJFqXxXRXhESa+/EQcJeSv/SILsdsM2Vwud04SjA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795005508;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer;
+	bh=Ho58HpP74KkSdDCOgNJUu23o5pb48Elc8GwOWNOyHd8=;
+	b=XsJw24bN4vZH0bqpF6PlexXP4N82GQS5X47BlhOw4SXg7LwioxBa3wNYQ9Ep6pL8HhCd
+	 o2DaktntEUIpswrZzKQmpQICVGWSLDIKr2wexm0u3JdnZqLK0euZ7zHwXu45vzmk+mEQ9
+	 DzoiwKK6mjNSjW3cKokL8/soAEB/r41c5zTMFvklcfxn1UgmElxJwhzYsd1JekS81Tlyq
+	 fJEs392NOt1DOPbzhU/tHglr956XyPokD7c3DFag6Nxtqb2l0T+4zCsykmLZA0YsNLnAJ
+	 5EBNyxLOiuEXUZCAfrySJpixGBPN1buZjYFRRBMe6zBcRKzV5c8DgPKOc4SlSuepjUw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OkyuPRrr;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DJwcMEIZ;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 079F7606A320;
-	Wed, 18 Nov 2026 12:37:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 475EE606A31C;
+	Wed, 18 Nov 2026 12:38:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OkyuPRrr
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1EE31F000C5;
-	Wed, 18 Nov 2026 12:37:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DJwcMEIZ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FEBC1F000C4;
+	Wed, 18 Nov 2026 12:38:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795005477;
-	bh=7QOeBdmv6Xwg/EN2J9zY875mkqRWcXEr4cDGZS3VmpQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=OkyuPRrr3DwYPID2w/OkQQrFT7KO/BR7E7voWzmkQbGeroV2JNxaZpdcEoRdylf6w
-	 xfuDIA4H5bTO4jHIs+FqzuGbC7wjWTHoOoTZBISz2BF8oh8IqhSfWJ+aZLkb8HyQHd
-	 nYv8+1rXmqEOr3RghWQA7MMOjay+tHRTnwVVC4Fme7YZ7hXIg3kwipVqOpf7JY8tcp
-	 U6VSQpuDrtH8VSeqleC8nA+3kPXimy/XSHRHnplnkrrjMVMgSpzTwGN75u/PS4aUS/
-	 U3iYNsjIjHOz/BMVqhCHK4SEP/99EbM7GenZwGOmFM48xTLDkG9GQ6JB7EZLfDyXkT
-	 CMAc3aj8whV1A==
-Date: Wed, 18 Nov 2026 13:37:52 +0100
+	s=k20260515; t=1795005507;
+	bh=Ho58HpP74KkSdDCOgNJUu23o5pb48Elc8GwOWNOyHd8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=DJwcMEIZi5PRrYcC28h2f1l5Gx3Ui4dojk3/EfALG1iTKRgWJz0SIknEqF4mnL7v8
+	 6Q44/kJr+AnJoC6/Ai9Sn+EgRvAP09cmWmkilTb89di0Ncm35lSr9ASxygQ7CPO2r+
+	 SQLhQYvKSYciciJYUAfwQeyHcBUxsEDxaAObObCULkSnJv+Fs/kOZt424lphMFo/lj
+	 N3v0Ub9AK99XeOny2LykqCd4nIghvo1LljQcjK2p7JQG5UXNTSD0X0Iq+oSwRjZ2SN
+	 C6sG2ZBV5ixmg8UOW2d/Sq8bxL4Q69zwLwCtFcfzHVlxIJbCbjHTnD3zVFxwgosRXM
+	 Q/X/Hl5jW/BAA==
 From: Christian Brauner <brauner@kernel.org>
-To: "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>
-Cc: Simon Horman <horms@kernel.org>, Kuniyuki Iwashima <kuniyu@google.com>, 
-	Alexander Mikhalitsyn <alexander@mihalicyn.com>, netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	stable@vger.kernel.org, Sashiko <sashiko-bot@kernel.org>
-Subject: Re: [PATCH net 0/2] net: fix a pidfd leak with a short SO_PEERPIDFD
- optlen
-Message-ID: <20261118-sessel-wegziehen-randalieren-6567fbf10f82@brauner>
-References: <20261117-work-net-peerpidfd_short_optlen-v1-0-a93f56288501@kernel.org>
+To: jack@suse.cz, Zhu Jun <zhujun2@cmss.chinamobile.com>
+Cc: viro@zeniv.linux.org.uk, linux-fsdevel@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20261112015047.114119-1-zhujun2@cmss.chinamobile.com>
+References: <20261112015047.114119-1-zhujun2@cmss.chinamobile.com>
+Subject: Re: [PATCH v2] buffer: Annotate the remote buffer LRU occupancy
+ check
+Message-Id: <20261118-hoffen-fenchel-helikopter-61c9226b83c0@brauner>
+Date: Wed, 18 Nov 2026 13:38:24 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -60,30 +59,36 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261117-work-net-peerpidfd_short_optlen-v1-0-a93f56288501@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev-04696
 
-On Tue, Nov 17, 2026 at 04:25:29PM +0100, Christian Brauner wrote:
-> SO_PEERPIDFD caps optlen at sizeof(int) but never rejects a shorter one.
-> With an optlen of 0 to 3 getsockopt() still installs a pidfd and copies
-> only part of the fd number to userspace, or none of it. The caller can't
-> close an fd it doesn't know about, so the pidfd sticks around until the
-> process exits.
+On Thu, 12 Nov 2026 09:50:47 +0800, Zhu Jun wrote:
+> has_bh_in_lru() reads another CPU's buffer LRU while that CPU may install
+> or invalidate entries. The local BH LRU lock does not serialize this
+> remote occupancy check, which KCSAN reports as a data race.
 > 
-> That's been the case since SO_PEERPIDFD went in for v6.5. When I moved
-> the code into a helper for SO_PEERPIDFD_THREAD in v7.4-rc1 I kept the
-> bug, so the new option has it too.
+> The check only decides whether to send a drain IPI and never dereferences
+> the sampled pointer. Mark the occupancy check as an intentional data
+> race with data_race().
 > 
-> So just fail with EINVAL before we prepare the pidfd. SCM_PIDFD already
-> does the equivalent and sets MSG_CTRUNC before it allocates anything.
-> The second patch adds a selftest.
-> 
-> Note that before v7.4 the code still lives inline in sk_getsockopt(). So
-> the fix won't apply to the stable trees as is but the change there is
-> the same.
-> 
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-> ---
+> [...]
 
-Are you taking this, Jakub, or should I throw this into the vfs.fixes pile?
+Applied to the vfs-7.5.misc branch of the vfs/vfs.git tree.
+Patches in the vfs-7.5.misc branch should appear in linux-next soon.
+
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
+
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-7.5.misc
+
+[1/1] buffer: Annotate the remote buffer LRU occupancy check
+      https://git.kernel.org/vfs/vfs/c/d72eb13a6fee
+
