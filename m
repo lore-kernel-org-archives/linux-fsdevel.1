@@ -1,45 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795015189;
-	b=kRBRY88PtwC2J7z2jnNLz+T3KQtPUhrEV9LiK3uRTszeibv41F+brXlhO7qlkEEL7ThW
-	 +vUJRVFssjv1kJF+PlG4XGzMwsk0Uz4rIUMmXGLWlLcoUKHE4LsFsYSYFmoofaTIVEZLG
-	 WBKcqk1qw+cbA7U7vI3ehfdIoZgcpAXUyaVR3BiY8MNhCcZL+NqDlibCS+TK0v9lHXvGn
-	 Upgw6pDX6KbsnaCHlPoBNVQXOE8YUnw/3UdQvkdZjhbleLPiLOYNs3eUfgYOq7icsdRAY
-	 8VIA+pFV/AGVtnKAjEB+Kjsp8lthCbk9Wc3LJn/bPomwhK3PUXz3QVM77J3+dVcMfKQ==
+	t=1795015270;
+	b=3wIvtEEpNknWpnC30KPDmcLBQptkSe3AYnj1zyKq3aYBvQQzpfn7Ks0I+xqpEa8nKsHE
+	 7B8Ufr4pxWcF9m+c1svCzhlbnGYNyUTjejZpW1KoxN6urZvmwn+q3erXkdD+HSTiZI/9x
+	 5Si1jKQLr/pxp/X406w4IXVniX9HwEjDmQ7QYlejA466sL8d45y2o9weHweYTI42/XKYd
+	 4X1L2Bujcu9YHXFuvQvHDf5uC4ctyZiJ7EnARgNEXAXF+qfolqrOPZx2r26l7gl0WNXWU
+	 vWnxRMYzMEyH+SM7MQkPfdGZcOzh/4siVOWEESPRxirmbr/dQLJJgvy8qwAlaKgysiw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795015189;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795015270;
 	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
 	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 X-Mailer;
-	bh=LeU/DxXcV0ry5yYe0LgqD+dUS+pwnrp+dk5INqwKWBw=;
-	b=HtrjRMf0yy56NpX3Xb2MsiDrzD9ErFuXupFo7FuqSI53FTuTOdg+rKDNbjAhC3EI/gGJ
-	 qi40Q9pZ75sPYzBwsMXP7OSg/weaJRYz3bi0LsB3h469L+chwZfXpIi7N0+5CU/Nx11hO
-	 918p9bs4jrMmgZxFNDKi+v0IkHC48ZhAm2h8Tb8sHc+Y9YxSdMhWog2W4QLR+FvBHji4o
-	 cHL+X/YfqV8cUTbU0yb+lyl7BiNrfVZSXCdpkTTcko2AOy0jY9JdANmGSfQoLwM62K5Q7
-	 OkGy5CE5qQeGin25wev8ZmfGPR+qY9pUVa7fZswOIeLKg09jw9by4enj7nNBcwFpOnw==
+	bh=1shZqnP71Ukitlfj99kedJcZBJQFJWYHeZCXEuiVk/I=;
+	b=RRZcwjiBpF+M8tZqu1mq57PWUZmv40JX1q36AINgk6SDp4fQ1j5HiBNWyzYny3yL7/ac
+	 Bqgu8URAVutD9aFVJsx03RQfCHC6VfBBGAOyrGuB3YWdxMjQ6vHsdegWpRNDp+tlgpHG/
+	 HTiz2owEvC68+hCuU9nhWF9lsaPK5MdBawDtqNWVq1mGA5AlOAQJlGtrmU2Jx4Iy4IRfC
+	 w03Mgf4OiOtkHkt0GRm5sKcHo7utXERfTJ2/Tvjv+pPNGHTc6MmaSWBsIjYIcRnEQQOuM
+	 A9y6Xxon30alu8xuDaHw8ZzrmMjcanF0xs6jlSVM3lXSL3kNTG3DdrcAU5nM6+KBIqA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WhY5kEms;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AhFelVEj;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B3B360A2622;
-	Wed, 18 Nov 2026 15:19:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E415F606A32A;
+	Wed, 18 Nov 2026 15:21:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WhY5kEms
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2AF61F000C4;
-	Wed, 18 Nov 2026 15:19:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AhFelVEj
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE1F51F000C5;
+	Wed, 18 Nov 2026 15:20:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795015188;
-	bh=LeU/DxXcV0ry5yYe0LgqD+dUS+pwnrp+dk5INqwKWBw=;
+	s=k20260515; t=1795015269;
+	bh=1shZqnP71Ukitlfj99kedJcZBJQFJWYHeZCXEuiVk/I=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=WhY5kEmsWtbqCPSBFQ2nQaxXboUG96EQPOcrbrxf3sO4BB8Tm19kr7KE+iG4TB6T7
-	 PIfvCftf6yhI0z/gSSuVSWelQ+KcojCemjhXmawQHN4M8lm9G59rJWiePg41ZCfjrN
-	 PTiXDg0szsr0RvvEzTrfcZRDRdJB+saYvIzHKu+1KiMaphpaZRxL/B8C17nK4lXIND
-	 5W5iL5YyG94DwOrXeT6A6n1Sje0lSSyR5xqPs+kpFEYkwTWmDT12f9kXD3kAkufpQI
-	 6gnmw6UhyvmYKom5DY7ECNpupaFbP0vtsHy/hz2LwtgAFS8e/x4LMVKaqoN8FbGJ3G
-	 dYN3/OHJyRueA==
+	b=AhFelVEjfmme1YPI9SS+ALRaQvFt+2IMeiCSN+WgOjeEnv+/SuTNf01cZy6ptDUYR
+	 qv/tiHy46NDQyvohLFArJuLSsfy6vAVfAjVqoLBPTlszEbf04FN8CMxzRsJ9d1yi7R
+	 brtXqyu94yBnimenwmhETIFopB0rebgPYtlPWVNdluMDvPyVu17HWeotXEe7kmazyQ
+	 HNRJ/F03FfU1PSeSYm1vlKEpMz6j4DKS/RCdxpK0FURFwbqKlYl3v8M1e9YzI023ra
+	 ifwZgVYhoaeH5afzbCuCVdd7EprCvOeqhwy3A/kfibbP3cMGU1Y7oDipu3gRnSFzLC
+	 3i7iv0Q6NGlsg==
 From: David Hildenbrand <david@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>, 
  Mike Rapoport <rppt@kernel.org>, Peter Xu <peterx@redhat.com>, 
@@ -78,8 +78,8 @@ Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
 In-Reply-To: <20261117-uffd-state-fixes-v3-0-b617009d1a4a@columbia.edu>
 References: <20261117-uffd-state-fixes-v3-0-b617009d1a4a@columbia.edu>
 Subject: Re: (subset) [PATCH v3 0/9] userfaultfd: assorted fixes (part 1)
-Message-Id: <179501517242.13206.4721668826806594112.b4-ty@b4>
-Date: Wed, 18 Nov 2026 16:19:32 +0100
+Message-Id: <179501525761.13527.5348420494097607881.b4-ty@b4>
+Date: Wed, 18 Nov 2026 16:20:57 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -111,7 +111,7 @@ On Tue, 17 Nov 2026 23:28:40 -0500, Tal Zussman wrote:
 Applied, thanks!
 
 tree: mm/core.git
-branch: migrate-7.5.misc
+branch: thp-7.5.misc
 
 Applied patches will appear soon in mm-next, followed by linux-next.
 
@@ -126,8 +126,8 @@ Note that commit hashes shown below are subject to change due to rebase,
 trailer updates or similar. Further, this is not a guarantee that the
 patches will go upstream. If in doubt, please check the listed branch.
 
-[4/9] mm/migrate: warn on a writable migration entry with the uffd bit set
-      https://git.kernel.org/mm/core/c/ec53fccd
+[6/9] mm/huge_memory: build the moved huge zero PMD from the destination VMA
+      https://git.kernel.org/mm/core/c/ec36bf72
 
 -- 
 Cheers,
