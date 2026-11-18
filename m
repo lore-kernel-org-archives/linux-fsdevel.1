@@ -1,101 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.41
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795019018;
-	b=abvkbEdoLaXH/xgSGMmOmB300wnJUFb8FC33axDCwDr+T4Q49cF9Bds1rgJsFrJvdDJh
-	 EG4Ca9oK7sB1bjkWLHi0d8O0fr4TjRqXXH7mxOhNMXkUxMVI0NTKRtB6Ex39ichhackH2
-	 RcgH3783doJ4xxq9Enzj7liderBfCPdoXWyd0vWrDfya0Tm3I8n8cTJ2IyAdaI0//+CUj
-	 FWQgKvfP+O7miY24sBVqiFCqjCBVbelQfAwwUaUc2nREKdFMgfJlfV3JbMhXzXPodNePn
-	 W6Hg3PWM0UluoWJkNH8sdD2kQ+5A+4n+UhU5mPHlTH+PnhIQgwKbyGJQ+RiKfdub+4w==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795019018;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=ZZL6VyLlbXFZof6UXR0IX4gvKyFon/J77+MT2G4Z9M0=;
-	b=EVjl54A5hjQOkaRNkBslZ0lV3/2IamFoA0aAsS6XuTR+CqtJ2VSA3NbBz+rj/tkVLT/p
-	 xiO6RNyZ9HF6vcDF1jOhbiSfIjBTwh7x3qW1OCkABWbUbdY53YkmKZIp7oEDKi7LQ0nCu
-	 AKXkwUBMZ3Z8jUyXuvmOfbn2D8HFS1iCkfaFN7UB0nu3RulfBXOljz5+v5A3hnOA1twPf
-	 3/klACsFnstyG+lItd4jx6/L2BqyE4IALg3/VyIDO8vPjbTVxX1srQLWES57NckMtyUO0
-	 j4H0Px1Lsn+fQyZNDNTsAS67w49g2Xf3FWFU9/LX7I3rHSkboHZCdlR0bbxmGsS0xig==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=WHOIrJqz;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.41
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795019197;
+	b=e/FVShMdepm1qmiqS/e/dj9XSVnLKZFmYBqG5bDnEaMh/J1vlfvKzpc3BAZINLs0R5+C
+	 yboZx7pfrzn5NUspRKlLnn+8bB37kbT24YF4VhZNh8nHNjzAtle9i7Z8QBG/U3KQZ064F
+	 Nca0ZbIRwSoBbqF56NJZJy37p9KbluyPpHTYK0uUvmvU31QXM9Sgi1pO79A5IU2Q9fAKC
+	 yWLHJtcFJHi9EMdmce8/8HNPmXxApKuj3iBPCVk436WXzGfed0hnidxNNwQaJnK9CjFSM
+	 iPQuMdeUp9mF03uViegvove0mJME0SN0pbNDVERTA9VQSq/XjxWf6wSorNLwoVmJHMA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795019197;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=8R8LZ+i0FaLTDkigpffcBCAnwgB/uoixBqukycJfWRk=;
+	b=SMtblM2t1nL+qcSNLtctC485LJNF9h6hYuaSvEIx2/FgsHvzDlbbb4X3GlppuPFDD5Dj
+	 z1AAH50u0qAoteawNuJN7wKRoFaKUSVUPRw68qZatFZqidZstr84QBB9zK+th2+HqTYBv
+	 hGr50GBfk5GvHPKKNPjJGskf9KIygrBjiBBXfIIVSTsRvuhRFmTzeNrLPZKJTIZbT1YZ2
+	 iGt1+lVHtK66svyS0/53FU/zHKzmk9Y8KJ+Kax399RkF8t8jd8vVf+tNxKBZVV+56VU1q
+	 Dm5um/muypoOjAgL4sNWQq+fbNERnGojmODcF7tjtZ9ff8ek5cGRxW2NZQs7ekWqXJg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BoT1vU4V;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A8D8606A330
-	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 16:23:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4A8D8606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50D26606A331;
+	Wed, 18 Nov 2026 16:26:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=WHOIrJqz
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4b467581b98so14498715e9.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 08:23:38 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795019016; cv=none;
-        d=google.com; s=arc-20260327;
-        b=r0L25dTNwkwtwqK2/gqjVieGcfNIjTNMIo/rv8EbGT7Z8HVco6MNV2hxu38azrwbhi
-         0m7XeLgPIu39ctuNvNyOvBry2I6Dud0BClV9bXDSMmEihfoQsq0ofZxeEFm8axGqInS9
-         hsSO1TEOqFv/4HErdzufkDskEiByiHZXl1WY2fUIaYzM5BC8PhX2ChmnTFdrS/SugfQ3
-         nfkQWT6psRWHNAeuq5/L+GTTOoV5xIbYPCbCRi9nnbGqj+RZWlyx1tIsjPbXU1rCcWq5
-         6H4JMeP5RER+iW2mrQwDO3nutWmFGWfkXBzUTT9hz4b6RS7j+s1DVjwVULsb3w5KsDdk
-         T3NA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ZZL6VyLlbXFZof6UXR0IX4gvKyFon/J77+MT2G4Z9M0=;
-        fh=kxdb8Z9JUlGmTVH6nfcKjG80XStNujnm/7Ya5M+O4EI=;
-        b=qqWVWuPce0Kd1V6bhjBgTCc9CSfHa8QlCxB/exdJW7UJQWdqUm19dLVKLxn5u/bhRC
-         V8rlp8edcKe2VFlqzaiB60NcVD8PzTiZtAGYi+bIWOY2WfB16qurEU+9pFfighbVdg7d
-         wjLrn+otQs3M9tITNk+Oz5zrqWyod1p0ju38AuqrkJ9TvlSwhB2BDN0HUeWahcCax9hU
-         spd/r/B4/b0bLzL0tLU/6NbYBY4lfDe8e092PhXrHwcFBhYxYDXItl3dJr2OT6PkO0aP
-         UPsR2r9DNGdd3p0CjiO4NBcXw5wKHsS3BziUlFZKk2n/+YVc6HCHI9NGT5guWhbPcl4k
-         OWpg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795019016; x=1795623816; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ZZL6VyLlbXFZof6UXR0IX4gvKyFon/J77+MT2G4Z9M0=;
-        b=WHOIrJqzbZ4onJn/wtW840vKnvsFlAgrptZhoxnYa/uYUYNd7ueyBmyorKWFor2yXU
-         4SQ4mgoh+xuXa2ZF8yBrIBC2voVxUIhx9BM+S+/ru8EWeam3FVzyJ2hczPI156otlCVJ
-         A8dAlNeiyJzJkY5whssv1EPDrrgAPEasfuknaQXKwHHA0Gc+TMbp2A2TgdHGrw4g6MaO
-         H/M5WtbkNh9PR29qlKiTTW/xS2hqv4tFXbzPyU/60j7H1Au6T2SGr4RJkH1kYdKlgrLe
-         BMs4Q23nohX26XfAPc0xPhh/65615tQpHFh4keZYTQjm4uy9sf4Lt1q5UExR1+kbmwoN
-         lu8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795019016; x=1795623816;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ZZL6VyLlbXFZof6UXR0IX4gvKyFon/J77+MT2G4Z9M0=;
-        b=GWhhuIowk0WMw924NRryqy+Z/pSD8fuYHj0CgJks7StqkoxVen1lD3zL5JUZcLGFNB
-         w2dHRw8RcjyTrVboWuq2u6DDFrR7CB4RzjJ6FRXWhpMHPTd8UFl1ff8kFEBwg7kMB4iW
-         2WMSQgjqA7vr9hriE4PdolULlI2tLieBmuk5xgNb4WGbZBUyUbI5KC7PJzYJJUx1oq2t
-         isSK+72NaTUZwFl3lpwN1q1FLODsLhFQ40p95VND67LPOaFvx8+xvhsRGFNZxjAIeuti
-         sF3J3ufH4NSHvsF+rqQvygAF7Px50OP2V7l7pyEf1awpMCGRrCHhThfhcfqdgyPlP0NW
-         7Mjg==
-X-Forwarded-Encrypted: i=1; AL+hErHg5PGCAOcvw2XEE3fCDSgUy6lqUyVuKIa2oYXholEGk/VDKQ8CBZY3YaGGlSz8B91QGf5W4YnhWl/KweR5@vger.kernel.org
-X-Gm-Message-State: APuU4Z8h8paGYCaXH0sXNnKuJsyiUenmmc5Ym6MR7RVVIpkINwc1tTqw
-	RnJWenjpTQSCWi+XMKnDjvhDucZ2gFcdWvpixyFaGg6Pkn8gp7+hrRE7+VAnujXhDBEACG9/ORZ
-	j+CqB7iDaVYsIngKXznnA8PWOZjofwig=
-X-Gm-Gg: AYBFou1bvZJ46/HaHagMvI/mNo0ILPBJDYCoGaLhCQcjwkpkbGWWjEblpxi9Qzj+Gfw
-	VIDSdcIOIpfdhrYCe/ol6QNHXlPo4ScwlDMErs0cONDkZoavdra3WGFoTdRCB2woZB2AuE4tqNI
-	gtYLulyWGFRD08zGApHrWGY3pzZwPXL9D6+oAAx2o3PrXW+X1EkacDMLTAGVBoOyctQf7e/Ld/M
-	f1++WuTkc3E/rpmWv1QDw9WzxaCYmLFYgOl+gxfvpSSx2D3FLmSugzrQxhGc1kObMN9qGW3hJE9
-	9BDrJj4pYLOjSL/5+sUEwjhWG8l0K5/LfRmq+55jVBTk+8/QTSUGlne+C8LtVlj1wrEtleLPuSH
-	wDYE2bm0yxxXbkxQZegtkye03pRELQQgp2W1ckonSdjWnLvyD6RZkOCN7yaaQpMPMFenLprqSn3
-	/tpfvITumnrRVcCUQAkNeo6akyi26jBdP9qC8g3qhssP5U+mlLVyqWGvw=
-X-Received: by 2002:a05:600c:524a:b0:4a1:cd83:b23e with SMTP id
- 5b1f17b1804b1-4bb7d57f5ccmr65127875e9.0.1795019016429; Wed, 18 Nov 2026
- 08:23:36 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BoT1vU4V
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E62181F000C4;
+	Wed, 18 Nov 2026 16:26:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795019197;
+	bh=8R8LZ+i0FaLTDkigpffcBCAnwgB/uoixBqukycJfWRk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=BoT1vU4Vcp+f02HUwQGgB3aSXaAj5nanI7aZF7JaVb7+/JGVGvNznNcMh9J4VLwFs
+	 siTG+ebR2rum+4SW3xq8Ztm8jAwb/hFWY06zulTlbq4nUcYWiqtH2qUrMl7nmuNlab
+	 UWehwP0yI04CD4roAqKoAd4B2CxJla5VbirLKxcdhlL8GBsgBplUOd+TPkm3AItBHt
+	 GmBgOK5zD8CPQ3QTZo89VtjEWhsZTLOsXHBmM+iKlL01iRo5ihGcyWX0+whSFFXVMz
+	 x6P5ND51CQc8xBrBcIwR10Ux5QiumG6RB9KPC4nrsa0kl2EtPOowjJDzz5QXXCW+Cu
+	 gY83Y7XioatgQ==
+Date: Wed, 18 Nov 2026 17:26:33 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel@vger.kernel.org, 
+	linux-unionfs@vger.kernel.org
+Subject: Re: [PATCH 4/6] ovl: refuse pseudo lower layers unless offline lower
+ changes are allowed
+Message-ID: <20261118-wildwasser-raketen-hierbei-10c9d844ca6f@brauner>
+References: <20261118073102.1216568-1-amir73il@gmail.com>
+ <20261118073102.1216568-5-amir73il@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -105,32 +58,109 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261117-unused-sym-mm-v2-0-2f845e94dd50@amd.com> <20261117-unused-sym-mm-v2-3-2f845e94dd50@amd.com>
-In-Reply-To: <20261117-unused-sym-mm-v2-3-2f845e94dd50@amd.com>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Wed, 18 Nov 2026 08:23:24 -0800
-X-Gm-Features: Aa3M54o1d3r4VOyC2nXueP0BXfHMpFVW1L51WNF9Ut6r4bdATy19jLSCJyr3yhE
-Message-ID: <CAKEwX=N5v3Kyarttmxfe9TRh-mf44hx2kqam0eFzg1KYQcaEgQ@mail.gmail.com>
-Subject: Re: [PATCH mm-new v2 3/5] mm/swap: remove unused folio_to_swp_tb()
-To: Shivank Garg <shivankg@amd.com>
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Baoquan He <baoquan.he@linux.dev>, Barry Song <baohua@kernel.org>, 
-	Youngjun Park <youngjun.park@lge.com>, Minchan Kim <minchan@kernel.org>, 
-	Sergey Senozhatsky <senozhatsky@chromium.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, 
-	Pedro Falcato <pfalcato@suse.de>, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261118073102.1216568-5-amir73il@gmail.com>
 
-On Mon, Nov 16, 2026 at 11:17=E2=80=AFPM Shivank Garg <shivankg@amd.com> wr=
-ote:
->
-> Its last users were removed in commit 0d6af9bcf383 ("mm, swap: use the
-> swap table to track the swap count").
->
-> Signed-off-by: Shivank Garg <shivankg@amd.com>
+On Wed, Nov 18, 2026 at 08:31:00AM +0100, Amir Goldstein wrote:
+> -		/* Pseudo filesystems don't hold data for metacopy files. */
+> -		if (i >= ctx->nr - ctx->nr_data &&
+> +		/* Pseudo filesystems don't mix with new overlayfs features */
+> +		if (!ovl_allow_offline_changes(ofs) &&
+>  		    (l->path.dentry->d_sb->s_iflags & SB_I_PSEUDO)) {
 
-Reviewed-by: Nhat Pham <nphamcs@gmail.com>
+sashiko.dev <sashiko@sashiko.dev>:
+
+[Severity: Medium]
+Does checking ovl_allow_offline_changes(ofs) here run before
+ofs->config.index has been finalized?
+
+[...]
+
+Because most pseudo filesystems do not implement export operations,
+evaluating ovl_allow_offline_changes(ofs) before those fallbacks run
+causes a regression where mounting with an upperdir over a pseudo lower
+layer fails with -EINVAL instead of falling back to index=off, and makes
+multi-layer mounts depend on whether a non-exportfs lower layer appears
+before or after the pseudo layer in lowerdir.
+
+via: https://sashiko.dev/#/message/20261118073102.1216568-5-amir73il@gmail.com
+
+I think that's right. ovl_lower_dir(), ovl_get_fsid() and the !workdir
+case in ovl_fill_super_creds() all turn the index off.
+
+So with index=on sysfs is refused when it comes first and accepted
+behind a lower layer without file handles.
+
+Same for sashiko's 6/6 report.
+
+So I would fold the following diff so we check the layers once they're
+set up but before ovl_init_uuid_xattr() and ovl_get_indexdir() write to
+upper. I can fold this into 4/6, plus tests into 6/6, if you agree:
+
+diff --git a/fs/overlayfs/super.c b/fs/overlayfs/super.c
+index 2c08dc07bd149..4d803b16f3298 100644
+--- a/fs/overlayfs/super.c
++++ b/fs/overlayfs/super.c
+@@ -1260,14 +1260,6 @@ static struct ovl_entry *ovl_get_lowerstack(struct super_block *sb,
+ 	for (i = 0; i < ctx->nr; i++) {
+ 		l = &ctx->lower[i];
+ 
+-		/* Pseudo filesystems don't mix with new overlayfs features */
+-		if (!ovl_allow_offline_changes(ofs) &&
+-		    (l->path.dentry->d_sb->s_iflags & SB_I_PSEUDO)) {
+-			pr_err("pseudo filesystem on %s not supported with metacopy, index, redirect_dir=on, xino=on or data-only layers\n",
+-			       l->name);
+-			return ERR_PTR(-EINVAL);
+-		}
+-
+ 		err = ovl_lower_dir(l->name, &l->path, ofs, &sb->s_stack_depth);
+ 		if (err)
+ 			return ERR_PTR(err);
+@@ -1374,6 +1366,28 @@ static int ovl_check_overlapping_layers(struct super_block *sb,
+ 	return 0;
+ }
+ 
++/*
++ * Pseudo filesystems don't mix with new overlayfs features.  Check the layers
++ * only after setting them up, as that may have turned off the index.
++ */
++static int ovl_check_pseudo_layers(struct ovl_fs *ofs)
++{
++	unsigned int i;
++
++	if (ovl_allow_offline_changes(ofs))
++		return 0;
++
++	for (i = 1; i < ofs->numlayer; i++) {
++		if (ofs->layers[i].mnt->mnt_sb->s_iflags & SB_I_PSEUDO) {
++			pr_err("pseudo filesystem on %s not supported with metacopy, index, redirect_dir=on, xino=on or data-only layers\n",
++			       ofs->config.lowerdirs[i]);
++			return -EINVAL;
++		}
++	}
++
++	return 0;
++}
++
+ static struct dentry *ovl_get_root(struct super_block *sb,
+ 				   struct dentry *upperdentry,
+ 				   struct ovl_entry *oe)
+@@ -1538,6 +1552,15 @@ static int ovl_fill_super_creds(struct fs_context *fc, struct super_block *sb)
+ 	if (!ovl_upper_mnt(ofs))
+ 		sb->s_flags |= SB_RDONLY;
+ 
++	/* A mount without a workdir doesn't use the index */
++	if (!ofs->workdir)
++		ofs->config.index = false;
++
++	/* Before the uuid and the index dir are set up on the upper layer */
++	err = ovl_check_pseudo_layers(ofs);
++	if (err)
++		goto out_free_oe;
++
+ 	if (ovl_has_fsid(ofs) && ovl_upper_mnt(ofs)) {
+ 		/* Use per instance persistent uuid/fsid */
+ 		ovl_init_uuid_xattr(sb, ofs, &ctx->upper);
+
+-- 
