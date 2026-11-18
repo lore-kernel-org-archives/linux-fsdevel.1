@@ -1,98 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795007163;
-	b=TwHba8gnB+b/8wrAQOXl1I93LS2/8+cBqInHwgoq7AEP+oyBE1vV7RLZ4ZlzCHA9CBkh
-	 ayaghpyiDRjy4DSD6nRG/F6sfGrCOVni1VJ686dEiNecTrNxF87OFlp/hA0yfCgcaZzXw
-	 mqaAPJhcpedctjW1f504zjYHytWm3AXdLUJs2gXE0J+s6zkUio5guCYM1+gDGz47ddZiv
-	 79f4Uf4LZb3DuU0bUo9LmbrcyDZ5LLYEda2y3pLVkB2ST6lMJ420U3VRr8fpeuZg4wap0
-	 /qbQykiSkb/1RZCC85Fh/laJEn4pW01tC6trsJD9fqs93QThXdrauUHPS0YuuJ3Gw+Q==
+	t=1795007327;
+	b=oJS/rPMaz1KVDMbpNgWk+TDErSPQOxk39nPN5R7aF+V7YbFLsDpOEVfXQYFum15kOuTC
+	 CdEX4Xhh7hJxgLFiCrJ827q+1vc0hUj79jlLd6grxwYz1PGwHlp+VeBWQlDvyC1xwEQAu
+	 gNfYr4egx39i+CdoeTmYajemLCrhQlz5MqQ68bXlQzLBoD7SdXl1qyTJWoRQFu1AsSfH2
+	 0UvQA3XKiUxcNkLzOlSCgFS875UoXqBplNHX8I+dbkQoCgi4bLY/PIQD1YQ61/2pP5Lv4
+	 3yAYslbiUYs4mkSGjCz0UVbfdH2EXLIT8O4uFd8AJrULEL+VhXCzh4MF173R//QM17g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795007163;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=tP8QKRJpZigGHJKGRqvFEzv+St6vv1COCqEtNwoaz7I=;
-	b=x0zmGyofWkGEoBJNp8Wis1GFN0+WJdHEs8opvmIEbCDW8Le8vQgeJ7+P6jFnbOeDb7P1
-	 BlUUvx83+8z4v0vGOB4s3Xg+GPZadm1IkAkS6PH+gdn5vBJiAMk/1m98bdO1KAZ3zRfbn
-	 60WovuXAu8PZpgb4q0LfB4oWB2oIUO9C+f+ORPvMkygN3RYUltoMe6C8raO825EhZs67O
-	 4Srkp/Q5+1W+lu9XpD00/NeFCAhL3MOuTbKcXJ41iS+j2aTSDAZL6zaPHGktiIuuYsKLy
-	 w1bo2cf3tuNwoznU15bkPp7Xg1zPaJ0Y+lpfbubtFdZEp9gluB6NKA+lHbrIPKTs4vA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795007327;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=tKDarfxiWOcLoTCSjE7AeoaPEMMkfbEBqcBYvqId7kA=;
+	b=w8OArgC++1SpiBsFHVJ5MaPizkMqauLiA6uF3ZZj7NK356S6YpordadshrwUpvBNeSFv
+	 GSTF/eJ2Y+YgrRGjghdxNYLnu5SRwpIzUz3jaXgdbszwduRzt9VwB4KvNqE5iw6KND7jH
+	 e8IGJ0QMkgUTENWVZXr3gXn7zoBIXSdApi8e+hv+kMxs9c7tt4yBpb8Lext8TUtwhdZfe
+	 /KMwqZFuTxSfBMwj60oAQj8t38NCCGNNHS+cFGQ+vrRqP7snNXvCRgmi8hKE3BZZ0vH/R
+	 irDTpHqIGRRQfTqusM7+JXifGnH5eviPZ5psE68rFoY4fvEHetxnGPU5S310m8kdQVw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BWR73Gp8;
-	arc=none smtp.remote-ip=209.85.128.50
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bbKcnKh8;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 572B8606A331
-	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 13:06:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 572B8606A331
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CDE2606A320
+	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 13:08:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BWR73Gp8
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4bb6057b333so4616295e9.3
-        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 05:06:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795007162; x=1795611962; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=tP8QKRJpZigGHJKGRqvFEzv+St6vv1COCqEtNwoaz7I=;
-        b=BWR73Gp8ur1TqAXGpsO4UaQ9kojgP0l25Y9EsOwJN9jJ29SmPg+0OkAG4NDidExD/4
-         Hr1v5u5i25ZD9WY0qFfn7FzJe/uDztuJnPpwRtc/Q+nsXf9pcfOEdDXZSne+QoQJJMfN
-         q+E0URIEcdy/rBlRwVSWZ7R6IOx7WYyULuZYfHBxrolLmPPPrlNF8fZ3GP5q3amWfH+s
-         DIOD/Cb8vK70lK3NnN+qEVPVJ+NsCd8cFWRYolIdGwP/CyqXmLO99a7S+zjjJqLVtl1N
-         v0HxxanTuFQx0iElx2nuj1YSc/O7m7zBy1cKYmElYBwKWIh0OgiSiuPjowps6/nW6c9Q
-         32PA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795007162; x=1795611962;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=tP8QKRJpZigGHJKGRqvFEzv+St6vv1COCqEtNwoaz7I=;
-        b=HaNVsSzqB6eVK6MaPH9OsPK7/IBeOUgIo0KpyzSQDak/jA0nVoceu7gXtrG7PNrJbj
-         8hDquKMNiurCmnq4Jh58U/15tNDCLRI4PFrCta6RzDKvLeJuJb5WTou2w5UM3wa8HDCV
-         2SMGF5m5oSkRxWMyH878LCKgx7jqQ/PHyjD7kHwaNiuEkMcJWE+n2OiqRFAU/6JI6Ki9
-         j0kKc1feHJ9wLQXth0er9KKDeaM5agLI710NGpW44UwobnvUbwHSQzFSf4o/eUwIHN2R
-         K2Th2x9yv+uDelN3Hngo9qa5gmOQkAF19IgPz0LXX+GRJj01zUst8bO71onZBVC3GI6R
-         pxzw==
-X-Forwarded-Encrypted: i=1; AL+hErGF1s2rt1h/y/C3bWOHAgSPYSMziXNuBzkPAEn63SbcK4IX4j2txyggtkG7RYwo6GUaeay1H91s5zi8BEHK@vger.kernel.org
-X-Gm-Message-State: APuU4Z/DOTiJJl7DQ03Y6Eo4TJQlTxEvQRRoXr3C5/xW4xNs8lqmoKmJ
-	TtpsWHjhbIu+LX4BiAix9ReerzrzijMfPcSENgyRtb/8Z/B3bfHYCdgC
-X-Gm-Gg: AYBFou1EVVsKbKA9lxzuIswia5jnXb7769eXhJ+utM2ZADcmTqVlBkyBXppmXTCdDnS
-	/WRmm+tXrjgaXkT0cKWSY8caWcsA1y0g79xEQr6oNP5rkphgidt+N9xuSnK1iAlKCUaimX+YySl
-	Fdfjp55X8YKmkjMYxgReoGz7bfzplDmjRa9sPbW9ffohgK/mQF+nw9arli7kIYeLg+XQvXlmShW
-	d+Oz/cumdBZAyvZTc4vW9OvEJlS5uJw1/YfnMdztDYOJsRvK7w4IKd7P5MqCc7AgHt/D7dBjZTF
-	tPaykrt8Dmki+tkapnyLzJd0qOx0f9Y0Jv+7A7v9ZQ+XTeHAIs5ER71qH+ICqbl85jteQIpnguJ
-	F97tm5/HO/F1QAZNkxrlzDNBXqVm89vaqvJ/iyz0+wcjtht8ZJkkhjJXbwDJ3n4DE7S9Oh7q2cS
-	3gG9pTVu7TItWbHqBwmhSDbb0MiuSaLjqbsthKhKzPVyRU+eW833UOsjESBNC0+URxZXP97L/Kv
-	vau8z9ZT2Q8ZaSiy276bA2HaQ6A1nHZ0xkKKAAILShQAG2izWH/fWi4/CmGYIAhKGV9C63ym8iW
-	Oz7ABg4Q7pDeMIErW4YgNiUEtuFWmKqTpGfludmKxIrJHCxk82Lq2MKiKsGIKN79ErDvbVrrAxk
-	Ow1g1OfkLwtrPGa01ixA2Zngy2TioTXrj928Melv1wccuO0MwpcKr
-X-Received: by 2002:a05:600c:3556:b0:4a1:dda8:eb73 with SMTP id 5b1f17b1804b1-4bb7da26d70mr47037875e9.27.1795007161548;
-        Wed, 18 Nov 2026 05:06:01 -0800 (PST)
-Received: from DESKTOP-IR7J1S9.localdomain ([41.111.247.111])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb7d2c3c93sm95218535e9.13.2026.11.18.05.06.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Nov 2026 05:06:01 -0800 (PST)
-From: Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>
-To: Christian Brauner <brauner@kernel.org>,
-	Tyler Hicks <code@tyhicks.com>
-Cc: Jan Kara <jack@suse.cz>,
-	ecryptfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: ecryptfs: the lower filesystem gets modified while it is frozen
-Date: Wed, 18 Nov 2026 14:05:56 +0100
-Message-ID: <20261118130557.374-1-drifabdelmalekmohamedsaid@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261114-kranich-banknoten-anheuern-5d0a2354a51d@brauner>
-References: <20261114-kranich-banknoten-anheuern-5d0a2354a51d@brauner>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bbKcnKh8
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D27F11F000CD
+	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 13:08:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795007326;
+	bh=tKDarfxiWOcLoTCSjE7AeoaPEMMkfbEBqcBYvqId7kA=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=bbKcnKh85P28vFyNGpKeAdp1qViEiDSgoqPdjYPR299BJgFPfL94OkecOTx6woA/9
+	 L+oosXTLjnKzdNTy+6PlD9YCL0ZTvby/CoJ4TuOt3+iI8hmjM1Pv5bCglCBG5PuZu7
+	 7qokjmhy/uT2UWKAu8Tng42SxTVS1nBRXm9heMStVq2ODZH6MJ6Z+WpQ6kwIu9HlZX
+	 7oLchHaGmy89HszFBZVRgbAXOKcPUWkOFoT9xAMbngtlXPnKj8bHjeHWIFnqYXHthn
+	 AGJkSgPHvtnMU3n84GXHnTb+8SmOHdWNaBpZU0fhhllz/4ZtipbvClGWnL+YEqQJN5
+	 SVV7UvR8WUavw==
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5be3d5927ceso1101080e87.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 05:08:46 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErEVtFB3F6EXAhdvrrcvU3fEl/SnRTpsiM0D5qY+5HoiJqDVX73eahTRsWh2IVjuZ8eycGaaiUHVUFvXr8u6@vger.kernel.org
+X-Gm-Message-State: APuU4Z9bdv0/SxiENy3+Ui7cqPcHHZ1oXg5LEjquEa5qafO/o+1L3x3N
+	Og0tpEnlvOhjtRDbnj6Q9YyfuHMI0LAJ+XBssd0YUQ15e4faFAVGP04kNNjTPQ1kQfDaLgFtQ6C
+	Ll88iELGgJcQ9iV8YDAaSR8Id02JED/U=
+X-Received: by 2002:a05:6512:3192:b0:5c1:5a83:4285 with SMTP id
+ 2adb3069b0e04-5c1aa2b16ddmr1030883e87.60.1795007325480; Wed, 18 Nov 2026
+ 05:08:45 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -102,9 +59,69 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20261116124832.662455-1-arnd@kernel.org> <20261116124832.662455-2-arnd@kernel.org>
+In-Reply-To: <20261116124832.662455-2-arnd@kernel.org>
+From: Linus Walleij <linusw@kernel.org>
+Date: Wed, 18 Nov 2026 14:08:31 +0100
+X-Gmail-Original-Message-ID: <CAD++jL=Ugp2MH1nvBr=+_o6a9UZ4VCU04KY7Z22pzEnGwHAWTg@mail.gmail.com>
+X-Gm-Features: Aa3M54rGSDqneypUHMmdmL7dJMYPaYSAWAq3AteQhJuMu5nbQzZhIjBnrf8_3UI
+Message-ID: <CAD++jL=Ugp2MH1nvBr=+_o6a9UZ4VCU04KY7Z22pzEnGwHAWTg@mail.gmail.com>
+Subject: Re: [PATCH v3 01/10] ARM: remove support for highmem on VIVT
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: linux-mm@kvack.org, Arnd Bergmann <arnd@arndb.de>, 
+	Andreas Larsson <andreas@gaisler.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	"David Hildenbrand (Arm)" <david@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>, 
+	Jason Gunthorpe <jgg@nvidia.com>, "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, Lucas Stach <l.stach@pengutronix.de>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Malin Jonsson <malin.jonsson@est.tech>, 
+	Matthew Wilcox <willy@infradead.org>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Michal Simek <monstr@monstr.eu>, Mike Rapoport <rppt@kernel.org>, Nicholas Piggin <npiggin@gmail.com>, 
+	Nishanth Menon <nm@ti.com>, Richard Weinberger <richard@nod.at>, Russell King <linux@armlinux.org.uk>, 
+	Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org, 
+	linux-fsdevel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, x86@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello everyone, I’d like to take this one unless one of you is already working
-on it.
-Cordially,
+On Mon, Nov 16, 2026 at 1:48=E2=80=AFPM Arnd Bergmann <arnd@kernel.org> wro=
+te:
+
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> As Jason Gunthorpe noticed, supporting VIVT caches adds some complication=
+s
+> to highmem that can be avoided these days:
+>
+> While all ARMv4 and ARMv5 CPUs use virtually indexed caches, they no
+> longer really need highmem because we have practically discontinued
+> support for large-memory configurations already.  The only machines I
+> could find anywhere for memory on ARMv5 are:
+>
+>  - The Intel IOP platform was used on relatively large memory
+>    configurations but we dropped kernel support in 2019 and 2022,
+>    respectively.
+>
+>  - The Marvell mv78xx0 platform was the initial user of Arm highmem,
+>    with the DB-78x00-BP supporting 2GB of memory. The only remaining
+>    board file is for Buffalo WLX (Terastation Duo), which has only
+>    512MB and is going to be removed soon.
+>
+>  - The Kirkwood platform supports 2GB, and there are actually boards
+>    with that configuration that can still work. However, there are
+>    no known users of the OpenBlocks A7, and the Freebox V6 is already
+>    using CONFIG_VMSPLIT_2G to avoid enabling highmem.
+>
+> Remove the Arm specific portions here, making CONFIG_HIGHMEM conditional
+> on modern caches. Since the cache type is enforced by Kconfig, no
+> boot time check is needed here.
+>
+> Link: https://lore.kernel.org/all/20251219171412.GG254720@nvidia.com/
+> Suggested-by: Jason Gunthorpe <jgg@nvidia.com>
+> Acked-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+
+Good riddance I'd say. I'd choose VMSPLIT_2G over highmem
+any day.
+Reviewed-by: Linus Walleij <linusw@kernel.org>
+
+Yours,
+Linus Walleij
