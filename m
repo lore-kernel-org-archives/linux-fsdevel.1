@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795015978;
-	b=r4cKsw6TqMxvlBV72ZR93rDRjllU7Ic+lAN1pvXa51F1xggpJ/GYT2kT7Jhz68LyFxO9
-	 dEjcLhfO8plM3tNZub1HZ19AKt/6jnSZdUIPWTusI6v235X5om6pcrWnkCsNmQ6Gdz+1H
-	 iXD+n0a5fQGp1KkvZJsfjaXK1ZAAXQcol+Qt7m3CX9rm2bbuyT7/EtN1xHsTpVgNILDjE
-	 9i/LIu0vRdi8TsUC6vY/XoKXri/ZjypR1DpNY1j3E4YO4u/BShYJlm+bk26z05cR67aBJ
-	 2PaVeUevnf870Zssbo04zd6vXN54ywft8xWaXXNBCxs7dhps3Jw7sJVl6wEZQtXEGlg==
+	t=1795016031;
+	b=Zj3b7DVt/1XQXbGUVgU/wORFqjmz04y0wmyBm0cuYVHTZ68cN7mSC+XBhcE7zb8neDQv
+	 VT1MMJ9VYVdZTK0+7MJZPC2RSIvhWhoZiUeQzE05i256y7kcjAV8m/HeJHeN/dYvWWLcT
+	 tz8dHwC7hxeNRm5Cyp/lg+vS/IIlNPT3LYtwiIBQ6clOva6+xz8YsNmqiQ1fXu3oNqnkN
+	 BGJySeXFBvPVoqNV5OY4oPnV+SAdPYRw55bjbHTGbgYnGP1jXOqmS0Vg+itVUZo3CV1W3
+	 2DSlCoHF+JeunvnHPHU9h6j7Q9dQPUmYdGqc5EByB7bksVtIGjsR0z9IkFdqpVVEgRw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795015978;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795016031;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=+MpmiAPVSNOMODlIUH/rRrCpeyRccmS8EYDCXlOBkiQ=;
-	b=4lMNwardxYztHnFPM4D7SkFo/jvy8DFIYXg1V48YBwmYnK/3eqGp3/tNwDALLbnqo9rM
-	 oRlnZCAcnsjP7HbtV5P6i3A1PTlYTudBX0F8gROqhkxSflsC/eiY79W/XYX41aQJRWuXt
-	 D06t08fOCybKa4lsWkrXhCe2U6esP/r00MPdGWCX6BH/H3lcShEsipl49bTyoLIl2v6eL
-	 xii0vMQv54X92LJK7sA3/RIQm77H/Kh31vFPXpHna0BCN0LTAKC5VF1Wxmctpbl/r0h4z
-	 nk2UmPymqLmNs4nVj5aquQx5ioEXtlVxIJkuqTxS5cEMn5vNkT1GpS/CgZOPyB46Jdw==
+	bh=d4NAL/Ml+6iNHCtzdazoN6cjIew8lYcoEk44FgyAVTw=;
+	b=nuZVhUTaslQMdvaDmzlzq5odvi8tcbwlZxNxXT3VmihuQbGY3VkD+/MoEGJwtspQDLl7
+	 AMeDwp4jSybRmhE0bEbbNYV0ZYkSa9hRQX2U4vtrIGWa1NwUiFWhTGAD6yLt4l0B33hFu
+	 NosfvsRXoc/ZTX/KEO4bgH0rBc3v/g7AHntnBRgW66RDCdnHGTzMAJfJgwVoNacTUXUzE
+	 aq3OxKIQtb3Mr6qH+HVcCKVAVX7DHRIPXB1nzJXQhc1p24ssYkDEW9SkyK0AjXWPQE4XO
+	 njUtvU4Air6sqWqvadBOvIAmS6COP6xFG5eNSzrV4+m71WP3RYdNCedb06G6AflZ+Cg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Rb/GMiZm";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HqAEKjQc;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0892760A2603;
-	Wed, 18 Nov 2026 15:32:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD05E606A31C;
+	Wed, 18 Nov 2026 15:33:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Rb/GMiZm
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CF561F000C6;
-	Wed, 18 Nov 2026 15:32:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HqAEKjQc
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E17D1F000C9;
+	Wed, 18 Nov 2026 15:33:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795015977;
-	bh=+MpmiAPVSNOMODlIUH/rRrCpeyRccmS8EYDCXlOBkiQ=;
+	s=k20260515; t=1795016031;
+	bh=d4NAL/Ml+6iNHCtzdazoN6cjIew8lYcoEk44FgyAVTw=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Rb/GMiZmoH/oEZ/prkmXhUbm3LTPbJjPeQ8WwHnjUdihoSviBg5H6PKTc/6g4K0qg
-	 lNQC6QsgvBDvMU6XeKzROa7Rcgqqi/tM5ZkvSz/FDMs67gpXpiTC4Ic81U6NuPoOzp
-	 RXKLdMAp8OaF+1LBKf89eruO9Am/L8+OMNH8ehMggTnskwjuoObp26Ge4FsyyIJHav
-	 siAOOZr4tVg1njfZTl0HhyzUb1o4d1S7/McqJiYVokydNtiiuaAhWIaW0h0VbiccJu
-	 VUv8D1b+GgV9WX2VVYw0C7VbmW1pIaSiFjvjhW+wetXes3LhDKHalzMulVk3femeDE
-	 LttntKJaUpTVw==
-Message-ID: <d1fe5a36-e6e0-4109-bf70-5582278ad653@kernel.org>
-Date: Wed, 18 Nov 2026 16:32:41 +0100
+	b=HqAEKjQcCiF0I1EdTnOdnKnaOiuGTp44AgaFH0YVU/olYlRRwSPUwYkR6yr921pKc
+	 J58Or1xiYCiXdBvuS3nuO227Xcvf4CjJa/+YccmTU/tG4BO4ZMOusrXJSmBWR5l0yH
+	 4O+qLiyPy1xgkLebRM4xBsBpfEp/4UabXtmKQfb/08XHbH7EMaxIg8YVOGbgD1N533
+	 WOf+SvvxxOwUnOFclW94aaoZlbX5g21C3zA1nbiZT4/Fm8LjtKcrVvCxoHML5p5lKA
+	 dzIHoVBCu0Nl+dgeNG7MV/Y4CZgoNjD2ABNCRFB8lrLGhq5Cyt3f5KDi6Ml1sTDq5v
+	 kfU2uZvdkjbvA==
+Message-ID: <84d548ad-9623-4db9-9637-634f45bdffb3@kernel.org>
+Date: Wed, 18 Nov 2026 16:33:35 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -52,8 +52,8 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 08/13] mm/migrate_device: fix ksmd oops on a migrated
- KSM page
+Subject: Re: [PATCH v2 09/13] mm/migrate_device: fix use-after-free of the
+ anon rmap
 To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
  "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
  Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
@@ -81,7 +81,7 @@ Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  "Dennis Zhou (Facebook)" <dennisszhou@gmail.com>,
  Rick Edgecombe <rick.p.edgecombe@intel.com>, stable@vger.kernel.org
 References: <20261113-mason-migrate-et-al-fixes-v2-0-50a2ed382b61@kernel.org>
- <20261113-mason-migrate-et-al-fixes-v2-8-50a2ed382b61@kernel.org>
+ <20261113-mason-migrate-et-al-fixes-v2-9-50a2ed382b61@kernel.org>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -128,36 +128,53 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20261113-mason-migrate-et-al-fixes-v2-8-50a2ed382b61@kernel.org>
+In-Reply-To: <20261113-mason-migrate-et-al-fixes-v2-9-50a2ed382b61@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 11/13/26 22:45, Lorenzo Stoakes (ARM) wrote:
-> From: Chris Mason <mason@kernel.org>
+> A munmap() of anonymous memory can result in a use-after-free of the
+> anonymous rmap if a concurrent device memory migration occurs and the
+> migration runs without the mmap_lock held.
 > 
-> After a KSM page is migrated to device private memory, ksmd can oops,
-> and KSM then stops until reboot. A process that maps the page can also
-> loop in page faults when it next accesses the page.
+> This can occur for a long-term pin of device-coherent memory, or a driver
+> evicting its device memory by PFN.
 > 
-> The problem arises because KSM doesn't know not to try to look at device
-> private memory that does not exist in the direct map.
+> Consider:
 > 
-> In addition, ksmd skips all device pages when it scans, so it drops its
-> rmap of a KSM page which was migrated to device private or device
-> coherent memory.
+>     eviction                        munmap()
+>     ========                        ========
+>     migrate_device_range()
+>       migrate_device_unmap()
+>         try_to_migrate()
+>                                     zap the migration entry
+>                                     unlink_anon_vmas()
+>                                       last VMA: free the anon_vma
+>     migrate_device_finalize()
+>       remove_migration_ptes()
+>         /* locks and walks the freed anon_vma */
 > 
-> Disallow migrating a KSM page to either by explicitly testing for this
-> in __migrate_device_pages().
+> If munmap() runs before try_to_migrate() instead, the folio is no longer
+> mapped and gets no migration entry. The walk still runs, and follows the
+> stale folio->mapping to the freed anon_vma.
 > 
-> Fixes: a5430dda8a3a ("mm/migrate: support un-addressable ZONE_DEVICE page in migration")
+> Resolve this by pinning the anon rmap of each folio which possesses one in
+> migrate_device_range(), migrate_device_pfns() and
+> migrate_device_coherent_folio() before its PTEs are replaced, and
+> unpinning it once the walk is done.
+> 
+> A folio which is no longer mapped cannot be pinned and has no migration
+> entries to remove, so skip it rather than migrating it.
+> 
+> Reported-by: Chris Mason <mason@kernel.org>
+> Fixes: e778406b40db ("mm/migrate_device.c: add migrate_device_range()")
 > Cc: stable@vger.kernel.org
-> Signed-off-by: Chris Mason <mason@kernel.org>
-> [ ljs: tweak commit message, comment, also refuse device coherent ]
+> Reviewed-by: Zi Yan <ziy@nvidia.com>
 > Tested-by: Gregory Price (Meta) <gourry@gourry.net>
-> Acked-by: Balbir Singh <balbirs@nvidia.com>
-> Reviewed-by: Alistair Popple <apopple@nvidia.com>
 > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 > ---
+
+Great, I have to wash my eyes now. :)
 
 Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
