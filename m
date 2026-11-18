@@ -1,59 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795006882;
-	b=cutoVI+GcgRe3Wfe7pmWbxcvi/2BtymwNlwjHhSRmc1KzXlr17I0L9vL6Isqpa5ypJjB
-	 Pfcko30eR/ylicCkf4wLFRwnPuawBMY3Iu3WELnI0znVbRqhfaBo4HvHWlQlEJgjyillJ
-	 cu8J4368d2EJGAdm0WK+S8ihcSEfi71q+UMx+uNqIeJFkow5j6YpDZokkEY16ulYeXkAa
-	 DnNLTHqu69TyeY0u35Nc6EpQjiO2Qed6nn3a2lTAuTeQhOdJxt4+DhAPQg31p0rjWERvr
-	 HplZDMVbrFXh8IQcj1vQaMsg9be/CDNuJKzVAw1bHWqsSft4sLjhGasBWGD9yYkp2bQ==
+	t=1795007163;
+	b=TwHba8gnB+b/8wrAQOXl1I93LS2/8+cBqInHwgoq7AEP+oyBE1vV7RLZ4ZlzCHA9CBkh
+	 ayaghpyiDRjy4DSD6nRG/F6sfGrCOVni1VJ686dEiNecTrNxF87OFlp/hA0yfCgcaZzXw
+	 mqaAPJhcpedctjW1f504zjYHytWm3AXdLUJs2gXE0J+s6zkUio5guCYM1+gDGz47ddZiv
+	 79f4Uf4LZb3DuU0bUo9LmbrcyDZ5LLYEda2y3pLVkB2ST6lMJ420U3VRr8fpeuZg4wap0
+	 /qbQykiSkb/1RZCC85Fh/laJEn4pW01tC6trsJD9fqs93QThXdrauUHPS0YuuJ3Gw+Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795006882;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer;
-	bh=GEpliVII4aS/WvWnXApv5elU2gIs/d0QIGsfAPWqOTw=;
-	b=ZyyyNr114l9pTZ7vjKss7QKKXzyhTiSDVGNyjjdgezPjjMS7/21vMuARLp0hM+O+rRlo
-	 yoTUiNcJ8Fu13Ep76GMTdY6keC22477qABnAw9SiwgO8RloSF1aKQqo6UGdvUfhXwFJ6a
-	 c6xRdu/4xubyhaMP5ZJha6Kbw9R9LPqyI6pJVXoVqk+B+Ix32wC5CZMbaqfEVBWYuvto9
-	 Nr+wqJEnGbzDN+zl5QY6BvylFeZ/Fs4yuOdh5b8c3qZbrvwltX1mZP8OMi1a4qPBZVIHR
-	 oU8fhPDza+DPoMkTpuLh1My6wSQm7LO8vk6F1jJ0x16TtEvtI8SCavd1RYWa6egpDJQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795007163;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=tP8QKRJpZigGHJKGRqvFEzv+St6vv1COCqEtNwoaz7I=;
+	b=x0zmGyofWkGEoBJNp8Wis1GFN0+WJdHEs8opvmIEbCDW8Le8vQgeJ7+P6jFnbOeDb7P1
+	 BlUUvx83+8z4v0vGOB4s3Xg+GPZadm1IkAkS6PH+gdn5vBJiAMk/1m98bdO1KAZ3zRfbn
+	 60WovuXAu8PZpgb4q0LfB4oWB2oIUO9C+f+ORPvMkygN3RYUltoMe6C8raO825EhZs67O
+	 4Srkp/Q5+1W+lu9XpD00/NeFCAhL3MOuTbKcXJ41iS+j2aTSDAZL6zaPHGktiIuuYsKLy
+	 w1bo2cf3tuNwoznU15bkPp7Xg1zPaJ0Y+lpfbubtFdZEp9gluB6NKA+lHbrIPKTs4vA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=h1rXnv3a;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BWR73Gp8;
+	arc=none smtp.remote-ip=209.85.128.50
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1E36606A31C;
-	Wed, 18 Nov 2026 13:01:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 572B8606A331
+	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 13:06:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 572B8606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=h1rXnv3a
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60C231F000C4;
-	Wed, 18 Nov 2026 13:01:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795006881;
-	bh=GEpliVII4aS/WvWnXApv5elU2gIs/d0QIGsfAPWqOTw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=h1rXnv3aQy3A9JCYxFnQDBpfPZx2ptbKd/E7DSS9E7nPIoCNFyPFRmy2e9qqrVjrK
-	 ahOVgk2StRsJL3J/YWQ5I4z34vNGkCaGoI3QJG6kKr2o7NozPAIsG7FU1TAD+y64Kp
-	 8eQ31nCgpradkHA7UBErdf7msnfKJC4pYynu8WWYHLIm0VRm+QTHg93DCXeK2nyez/
-	 tLjjkMO95dVQ8xpzoFyMEzUR+KH0luDWjGeDQfggMb5Cwq81boIJSCSgYiJF8dVVcs
-	 0Pb5K+tW0Ptb6u0/Aw9NZTH0geM26bftRs1wf4r+J/d+W18hLL9pCiNwXwmy4ejfxp
-	 FUeByXC/KJS9w==
-From: Christian Brauner <brauner@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>, 
- Shuah Khan <shuah@kernel.org>, Kurt Lin <lylin1023@gmail.com>
-Cc: Kevin Brodsky <kevin.brodsky@arm.com>, 
- Alexey Dobriyan <adobriyan@gmail.com>, 
- Swarup Laxman Kotiaklapudi <swarupkotikalapudi@gmail.com>, 
- linux-kselftest@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20261113154411.568272-1-lylin1023@gmail.com>
-References: <20261113154411.568272-1-lylin1023@gmail.com>
-Subject: Re: [PATCH v2] selftests/proc: proc-empty-vm: handle CPUs without
- protection keys
-Message-Id: <20261118-ganzseitig-vorkam-unteilbar-1f0ad26e3468@brauner>
-Date: Wed, 18 Nov 2026 14:01:17 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BWR73Gp8
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4bb6057b333so4616295e9.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 05:06:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795007162; x=1795611962; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=tP8QKRJpZigGHJKGRqvFEzv+St6vv1COCqEtNwoaz7I=;
+        b=BWR73Gp8ur1TqAXGpsO4UaQ9kojgP0l25Y9EsOwJN9jJ29SmPg+0OkAG4NDidExD/4
+         Hr1v5u5i25ZD9WY0qFfn7FzJe/uDztuJnPpwRtc/Q+nsXf9pcfOEdDXZSne+QoQJJMfN
+         q+E0URIEcdy/rBlRwVSWZ7R6IOx7WYyULuZYfHBxrolLmPPPrlNF8fZ3GP5q3amWfH+s
+         DIOD/Cb8vK70lK3NnN+qEVPVJ+NsCd8cFWRYolIdGwP/CyqXmLO99a7S+zjjJqLVtl1N
+         v0HxxanTuFQx0iElx2nuj1YSc/O7m7zBy1cKYmElYBwKWIh0OgiSiuPjowps6/nW6c9Q
+         32PA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795007162; x=1795611962;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=tP8QKRJpZigGHJKGRqvFEzv+St6vv1COCqEtNwoaz7I=;
+        b=HaNVsSzqB6eVK6MaPH9OsPK7/IBeOUgIo0KpyzSQDak/jA0nVoceu7gXtrG7PNrJbj
+         8hDquKMNiurCmnq4Jh58U/15tNDCLRI4PFrCta6RzDKvLeJuJb5WTou2w5UM3wa8HDCV
+         2SMGF5m5oSkRxWMyH878LCKgx7jqQ/PHyjD7kHwaNiuEkMcJWE+n2OiqRFAU/6JI6Ki9
+         j0kKc1feHJ9wLQXth0er9KKDeaM5agLI710NGpW44UwobnvUbwHSQzFSf4o/eUwIHN2R
+         K2Th2x9yv+uDelN3Hngo9qa5gmOQkAF19IgPz0LXX+GRJj01zUst8bO71onZBVC3GI6R
+         pxzw==
+X-Forwarded-Encrypted: i=1; AL+hErGF1s2rt1h/y/C3bWOHAgSPYSMziXNuBzkPAEn63SbcK4IX4j2txyggtkG7RYwo6GUaeay1H91s5zi8BEHK@vger.kernel.org
+X-Gm-Message-State: APuU4Z/DOTiJJl7DQ03Y6Eo4TJQlTxEvQRRoXr3C5/xW4xNs8lqmoKmJ
+	TtpsWHjhbIu+LX4BiAix9ReerzrzijMfPcSENgyRtb/8Z/B3bfHYCdgC
+X-Gm-Gg: AYBFou1EVVsKbKA9lxzuIswia5jnXb7769eXhJ+utM2ZADcmTqVlBkyBXppmXTCdDnS
+	/WRmm+tXrjgaXkT0cKWSY8caWcsA1y0g79xEQr6oNP5rkphgidt+N9xuSnK1iAlKCUaimX+YySl
+	Fdfjp55X8YKmkjMYxgReoGz7bfzplDmjRa9sPbW9ffohgK/mQF+nw9arli7kIYeLg+XQvXlmShW
+	d+Oz/cumdBZAyvZTc4vW9OvEJlS5uJw1/YfnMdztDYOJsRvK7w4IKd7P5MqCc7AgHt/D7dBjZTF
+	tPaykrt8Dmki+tkapnyLzJd0qOx0f9Y0Jv+7A7v9ZQ+XTeHAIs5ER71qH+ICqbl85jteQIpnguJ
+	F97tm5/HO/F1QAZNkxrlzDNBXqVm89vaqvJ/iyz0+wcjtht8ZJkkhjJXbwDJ3n4DE7S9Oh7q2cS
+	3gG9pTVu7TItWbHqBwmhSDbb0MiuSaLjqbsthKhKzPVyRU+eW833UOsjESBNC0+URxZXP97L/Kv
+	vau8z9ZT2Q8ZaSiy276bA2HaQ6A1nHZ0xkKKAAILShQAG2izWH/fWi4/CmGYIAhKGV9C63ym8iW
+	Oz7ABg4Q7pDeMIErW4YgNiUEtuFWmKqTpGfludmKxIrJHCxk82Lq2MKiKsGIKN79ErDvbVrrAxk
+	Ow1g1OfkLwtrPGa01ixA2Zngy2TioTXrj928Melv1wccuO0MwpcKr
+X-Received: by 2002:a05:600c:3556:b0:4a1:dda8:eb73 with SMTP id 5b1f17b1804b1-4bb7da26d70mr47037875e9.27.1795007161548;
+        Wed, 18 Nov 2026 05:06:01 -0800 (PST)
+Received: from DESKTOP-IR7J1S9.localdomain ([41.111.247.111])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb7d2c3c93sm95218535e9.13.2026.11.18.05.06.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Nov 2026 05:06:01 -0800 (PST)
+From: Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>
+To: Christian Brauner <brauner@kernel.org>,
+	Tyler Hicks <code@tyhicks.com>
+Cc: Jan Kara <jack@suse.cz>,
+	ecryptfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: ecryptfs: the lower filesystem gets modified while it is frozen
+Date: Wed, 18 Nov 2026 14:05:56 +0100
+Message-ID: <20261118130557.374-1-drifabdelmalekmohamedsaid@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20261114-kranich-banknoten-anheuern-5d0a2354a51d@brauner>
+References: <20261114-kranich-banknoten-anheuern-5d0a2354a51d@brauner>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -63,35 +102,9 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev-04696
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, 13 Nov 2026 23:44:11 +0800, Kurt Lin wrote:
-> On x86 CPUs without protection keys, pkey_alloc() fails with ENOSPC,
-> as documented in pkey_alloc(2). protection_key_support() only expects
-> ENOSYS or EINVAL, so the test fails on such machines, e.g. an Intel
-> Core i5-7200U:
-> 
->   protection_key_support: error: rv -1, errno 28
-> 
-> [...]
-
-Applied to the vfs-7.5.misc branch of the vfs/vfs.git tree.
-Patches in the vfs-7.5.misc branch should appear in linux-next soon.
-
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
-
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.5.misc
-
-[1/1] selftests/proc: proc-empty-vm: handle CPUs without protection keys
-      https://git.kernel.org/vfs/vfs/c/21cd133d5875
-
+Hello everyone, I’d like to take this one unless one of you is already working
+on it.
+Cordially,
