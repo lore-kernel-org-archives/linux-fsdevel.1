@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795015930;
-	b=1XSCvXwhXNGuoT61nJsT8pNvF76lthXbq/CNPY1F9IyBNzTBoRtGgymgW1Nk0pXxBdH6
-	 RPOL1I9Nb8f/UzluOMkjH41+NaIc4RuWn0gwHlXbMQE3Q6qmWML6nDIgLANIKn+D6++v4
-	 kznmWY8M9IscfQtaYQVy7+kEy291R9vtQff1VsItsLgbvrFOoJ7bnXxcokt7h/qkpmFxj
-	 5BrOam3QYajYZyxhc3nHRAaSKe3knt48PQ8sIDzId2uADKk/CtXkXhf0ECsmnuZnWROT/
-	 nB4+5VQyF8rqqFetZCIxYUM8DwFjoJ4jEQysqHJHjrS0ND9IZP118P0H3wBvFW/Tgfw==
+	t=1795015978;
+	b=r4cKsw6TqMxvlBV72ZR93rDRjllU7Ic+lAN1pvXa51F1xggpJ/GYT2kT7Jhz68LyFxO9
+	 dEjcLhfO8plM3tNZub1HZ19AKt/6jnSZdUIPWTusI6v235X5om6pcrWnkCsNmQ6Gdz+1H
+	 iXD+n0a5fQGp1KkvZJsfjaXK1ZAAXQcol+Qt7m3CX9rm2bbuyT7/EtN1xHsTpVgNILDjE
+	 9i/LIu0vRdi8TsUC6vY/XoKXri/ZjypR1DpNY1j3E4YO4u/BShYJlm+bk26z05cR67aBJ
+	 2PaVeUevnf870Zssbo04zd6vXN54ywft8xWaXXNBCxs7dhps3Jw7sJVl6wEZQtXEGlg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795015930;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795015978;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=AzhI44GUXY0kG5+XemeJo+l/ioZCGN//mKUp3IL0c+M=;
-	b=gKcmPsw6s2DjqVzPHHBRgcRtRU1/6u7NPKSeXLVgtMgkQDxtUZyH0NP4tmdzk0raUmP8
-	 8gTOwMqYP1j9phT+VhaAv04N5fM+Mm6JZV5zw0op2htuvPtXzLjwLi1jijcEdYUZC3L2s
-	 uWswOvWwf0nTx9bhwJanX5rXlmp8crBqM8qoHsyrNaLyvocGQmplhIAwGmKcp1Dc0ykn1
-	 RLFe2LIGHtLScLAijo4IHm6hSU1rlUlWcHeICTWAMeuMY9u3ZhIZNFjqzxEFiJ+Gt+5Br
-	 aTANNIKbe16oUKOB19Q2qf4bugQDh7PsOyzG0JKxws6OSQT4qatzU1idVkiVCM85SMg==
+	bh=+MpmiAPVSNOMODlIUH/rRrCpeyRccmS8EYDCXlOBkiQ=;
+	b=4lMNwardxYztHnFPM4D7SkFo/jvy8DFIYXg1V48YBwmYnK/3eqGp3/tNwDALLbnqo9rM
+	 oRlnZCAcnsjP7HbtV5P6i3A1PTlYTudBX0F8gROqhkxSflsC/eiY79W/XYX41aQJRWuXt
+	 D06t08fOCybKa4lsWkrXhCe2U6esP/r00MPdGWCX6BH/H3lcShEsipl49bTyoLIl2v6eL
+	 xii0vMQv54X92LJK7sA3/RIQm77H/Kh31vFPXpHna0BCN0LTAKC5VF1Wxmctpbl/r0h4z
+	 nk2UmPymqLmNs4nVj5aquQx5ioEXtlVxIJkuqTxS5cEMn5vNkT1GpS/CgZOPyB46Jdw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PEVXg1NA;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Rb/GMiZm";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F750606A331;
-	Wed, 18 Nov 2026 15:32:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0892760A2603;
+	Wed, 18 Nov 2026 15:32:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PEVXg1NA
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F56C1F000C5;
-	Wed, 18 Nov 2026 15:31:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Rb/GMiZm
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CF561F000C6;
+	Wed, 18 Nov 2026 15:32:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795015930;
-	bh=AzhI44GUXY0kG5+XemeJo+l/ioZCGN//mKUp3IL0c+M=;
+	s=k20260515; t=1795015977;
+	bh=+MpmiAPVSNOMODlIUH/rRrCpeyRccmS8EYDCXlOBkiQ=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=PEVXg1NAl8AaS4XRZvjTZEyQR99R6RzFKI+94RBwwdZuSzRxiVBl7OYuOoU5oDE9P
-	 lnw7yHbCisMbC65Bg+9HaVme93wOy6D9s0V6PBwZ/fTvzTqi9cRjy/QQKrF92vOENa
-	 WtePMA/g07fIOBOD4QQkL3pSxK5bnQuoM171u/cuwG4Y/1i7LVoWUNNKpPMFpZA/hT
-	 LFERVHuEDLjqalMUr5cN+Q7C3SCzuy8mjlRX2WQBBGJHtvn1EKJkxDtge7T2hGGYyb
-	 Be7EvRH6dkgU90LiFEtkKvBqQDBamU3JNJYq8iuZNlRpoO7YiLISrUP/Z2ZmT7SP6c
-	 FMxrqfGQM+SBw==
-Message-ID: <5650b972-700d-44d0-87b4-029f0327eacb@kernel.org>
-Date: Wed, 18 Nov 2026 16:31:55 +0100
+	b=Rb/GMiZmoH/oEZ/prkmXhUbm3LTPbJjPeQ8WwHnjUdihoSviBg5H6PKTc/6g4K0qg
+	 lNQC6QsgvBDvMU6XeKzROa7Rcgqqi/tM5ZkvSz/FDMs67gpXpiTC4Ic81U6NuPoOzp
+	 RXKLdMAp8OaF+1LBKf89eruO9Am/L8+OMNH8ehMggTnskwjuoObp26Ge4FsyyIJHav
+	 siAOOZr4tVg1njfZTl0HhyzUb1o4d1S7/McqJiYVokydNtiiuaAhWIaW0h0VbiccJu
+	 VUv8D1b+GgV9WX2VVYw0C7VbmW1pIaSiFjvjhW+wetXes3LhDKHalzMulVk3femeDE
+	 LttntKJaUpTVw==
+Message-ID: <d1fe5a36-e6e0-4109-bf70-5582278ad653@kernel.org>
+Date: Wed, 18 Nov 2026 16:32:41 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -52,8 +52,8 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 07/13] mm/migrate_device: look up fault folio after a
- split
+Subject: Re: [PATCH v2 08/13] mm/migrate_device: fix ksmd oops on a migrated
+ KSM page
 To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
  "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
  Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
@@ -79,10 +79,9 @@ Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  linux-fsdevel@vger.kernel.org, "Borislav Petkov (AMD)" <bp@alien8.de>,
  Mark Brown <broonie@kernel.org>,
  "Dennis Zhou (Facebook)" <dennisszhou@gmail.com>,
- Rick Edgecombe <rick.p.edgecombe@intel.com>,
- Josef Bacik <josef@toxicpanda.com>, stable@vger.kernel.org
+ Rick Edgecombe <rick.p.edgecombe@intel.com>, stable@vger.kernel.org
 References: <20261113-mason-migrate-et-al-fixes-v2-0-50a2ed382b61@kernel.org>
- <20261113-mason-migrate-et-al-fixes-v2-7-50a2ed382b61@kernel.org>
+ <20261113-mason-migrate-et-al-fixes-v2-8-50a2ed382b61@kernel.org>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -129,28 +128,34 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20261113-mason-migrate-et-al-fixes-v2-7-50a2ed382b61@kernel.org>
+In-Reply-To: <20261113-mason-migrate-et-al-fixes-v2-8-50a2ed382b61@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 11/13/26 22:45, Lorenzo Stoakes (ARM) wrote:
-> From: Josef Bacik <josef@toxicpanda.com>
+> From: Chris Mason <mason@kernel.org>
 > 
-> migrate_vma_collect_pmd() looks up the folio of migrate->fault_page once,
-> when it is entered, at which point the folio is locked.
+> After a KSM page is migrated to device private memory, ksmd can oops,
+> and KSM then stops until reboot. A process that maps the page can also
+> loop in page faults when it next accesses the page.
 > 
-> The fault folio is assumed not to change after this, however if
-> migrate_vma_split_folio() splits a PTE-mapped large folio which contains
-> the fault page, the fault page ends up in a different folio.
+> The problem arises because KSM doesn't know not to try to look at device
+> private memory that does not exist in the direct map.
 > 
-> Resolve the issue by looking up fault_folio again after each restart of the
-> walk.
+> In addition, ksmd skips all device pages when it scans, so it drops its
+> rmap of a KSM page which was migrated to device private or device
+> coherent memory.
 > 
-> Fixes: 022a12deda53 ("mm/migrate_device: handle partially mapped folios during collection")
+> Disallow migrating a KSM page to either by explicitly testing for this
+> in __migrate_device_pages().
+> 
+> Fixes: a5430dda8a3a ("mm/migrate: support un-addressable ZONE_DEVICE page in migration")
 > Cc: stable@vger.kernel.org
-> Signed-off-by: Josef Bacik <josef@toxicpanda.com>
-> [ ljs: pared down commit message ]
+> Signed-off-by: Chris Mason <mason@kernel.org>
+> [ ljs: tweak commit message, comment, also refuse device coherent ]
 > Tested-by: Gregory Price (Meta) <gourry@gourry.net>
+> Acked-by: Balbir Singh <balbirs@nvidia.com>
+> Reviewed-by: Alistair Popple <apopple@nvidia.com>
 > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 > ---
 
