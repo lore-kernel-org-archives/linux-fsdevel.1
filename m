@@ -1,70 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.62.57.252
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.62.57.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794987126;
-	b=47jCbIA9lOs87AnFbR93sJh9zY18UBcVXAPq6DJNK1vVZENFyxV6gf4C4Ty767zm4uYd
-	 /EWArFmPpiVcFD+62mwhSZayvJVMmv79g8oS8bL7Y4KNBJ1ASctJ/T4+FCjWO4CyR3oWA
-	 NqRFTNtGwUnKtaLYIv1R5sydXkMkng5U9YpEGfPsqul28LoRaj3/KtolFHTiNxnjRGuZX
-	 ZrUf6Q9wIqBsP4aktq5CjCSoXyCgxwS77KyZaxsQeTXpW78uxhM9hMVqAxBMz/sfOFeZo
-	 YqI28aaC04WQKPZVEbH3G5JR/PxD3BCsTL+7QmpdME6/H/ocVONXCrzM8ifG35Hh92A==
+	t=1794987847;
+	b=Ic7ncPLIc9i7+aWTr6PGNVia9Y4MuC4474WPdnoAAB0na9iZlvaYa1WUqkVz5RGFZd7H
+	 qNa5zWqWCVVOFGhAAfAJxWnQlzYGMQtAmz4ZumezmdxnOq9oiCx9hsbR8hjXdvDS507le
+	 qvQ2nDjUM1pu5UkoYw22TfPL7Jjseec1lwvFjbgh05FsQV2KVryaSrQE9sLwKqIT0yJ56
+	 hIw7IqySv0njQmeF58NbB/vqd/o71EKY5eVnTFc+ixTAHR8nqFq0BkLng8zB4fhtNcYQ/
+	 UaSpORm3PXHKFnMLbmB7UPnZRHRIG+pRWPngPwIx3q4MFGJCRsmXwg6FIvBjJI/Dvhg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794987126;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794987847;
 	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
 	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:Date:X-OQ-MSGID:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=ZJ+tzoNeQbwJaxzE6IqF470/57tlUDZlSxrmF/lpad4=;
-	b=TO3jDefjKNQLiNrsz606dPAyxKnMsRDRrsDSYC85FssKRKTNmy/++1WJ/6poon2w6Ukq
-	 sdEOhdoxtOMrnyCXPKW84BqUouCJai308bpt8v95N9VA5kzZtblBNFa20gCwh9RqkVJQK
-	 376S8CaCy6oVtxlETtdgzdMKYxvN3Bz+blyb0sB1UlpwsyHppIU5Aqkj7jJhnXThHKgcE
-	 rAj7TvlXrknNnifcNYYEjpj1q9QWBVqYi3yIyIYJDMMGIdok9BGso5PRyIlHuDmIXf+vO
-	 2s6oKQczaAToky3qLZtqGF5RhHUFZUFBTDdkdvqdGbbzgJvBSnvm+mPdJitmfuwTO1w==
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=hlXfyfcS9yj7Pl4pcoW52aPOtSssL8itfRvf+2bE8RU=;
+	b=Vu3tqPV2rWywCuKWHDEKXtaLyMkUDQa5HCMRtKtAVA32cfnrHHN6aehtwBtZ7goFX6aM
+	 +jU2WMcSr2wkQgm6OfXlYZIQ4Xif32+o3i6z541D9r4f6pKx6mxCy98kkjF7Zk2OKlIl8
+	 +8iVBZO7ubfzpMKMrPmj9pxVi93/v/5Un5Wv0dNO/gkwkXPA1MbBQqVCyQOUK51owbErA
+	 BtUn+BnWQ8BAUfldi7JMVLfoeBbgN20KKCIcKJ9vR/eWwCTCAR2VYdmPTGwXZhUOR+JuI
+	 gtfNIaEy6jJUBi3FH+3Q+1XlJTXuXt+bV27yrTcWK+FwmqhD9aahlbMiRA37ZfKYrlg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=qq.com;
 	spf=pass smtp.mailfrom=qq.com;
-	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b="N6Tn3xa/";
-	arc=none smtp.remote-ip=162.62.57.252
-Received: from out162-62-57-252.mail.qq.com (out162-62-57-252.mail.qq.com [162.62.57.252])
+	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b="XvQG4/M2";
+	arc=none smtp.remote-ip=162.62.57.49
+Received: from out162-62-57-49.mail.qq.com (out162-62-57-49.mail.qq.com [162.62.57.49])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1A4B606A31C;
-	Wed, 18 Nov 2026 07:32:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C1A4B606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C57A5606A31C;
+	Wed, 18 Nov 2026 07:44:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C57A5606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=N6Tn3xa/
+	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=XvQG4/M2
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1794987114; bh=ZJ+tzoNeQbwJaxzE6IqF470/57tlUDZlSxrmF/lpad4=;
-	h=From:To:Cc:Subject:Date;
-	b=N6Tn3xa/pKKDXQopCVZck6Ty4OGB3ZK40DuopE+6uYu8L9CcCAYIN1jFLXI3BsPIb
-	 jVL6F7nEyXK0L6JP55kYSnELw6mJwLZT2YPlMybYhGVM/ANkXCXrjCL+gXLdBWzwAf
-	 EsyKptnlRrPc0/BbN/JGDJTKqKQ7KtIRkTspq+lc=
+	t=1794987841; bh=hlXfyfcS9yj7Pl4pcoW52aPOtSssL8itfRvf+2bE8RU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=XvQG4/M2N6397e/AHn8EOHoKBLKEcLNfzKZlZFA9rH62cpIK2c6xs2jwj1cxyoMcT
+	 9gWfROR7yb5UfOUNpq5c87TG7bJJlTbk+2YYf6QHdzyjkrafpcZ20EMA+tWR5WwLZo
+	 QzvRoyAzu8rqMh6TVfY2/f3SDHsj9ZVSXK3p94SA=
 Received: from [172.18.4.77] ([202.113.185.209])
-	by newxmesmtplogicsvrszb43-0.qq.com (NewEsmtp) with SMTP
-	id 7F49606C; Wed, 18 Nov 2026 15:31:52 +0800
-X-QQ-mid: xmsmtpt1794987112tm8p4f34k
-Message-ID: <tencent_0CFF1B64C4CB09D8F436EAC6272D8A215505@qq.com>
-X-QQ-XMAILINFO: NGZp1yYNf7Y+QME67ve7kj+sazgtgCHtjTXsVFdyqeQ1UIk1VCVnNFaw2EUQDJ
-	 mzAlGGoAxo0aCt/MtxlKnGp8h0dUF87iXZX/XpFRwBBc79TEJesANwzw+lfZbaqTgPG2DrFRVt1V
-	 tKlIpA6jTH6pLlCFgstvLuG4fTagc4mX6Pqb8OVoQFOwMZ9AEdTqIegiJe+8zx6Z99nPW9iy1k29
-	 kTQDRrnAHy68pKSPIma918amSFTo/+9XjbMe3MHM5FdRdZhwHNGwQZDUP4rbRqavdiAv37s4rzzl
-	 QxuXPm1A0kO2rPwDua9ExSApMrlfogqmDTBlqzLJY2gJevC6/LTiwLoBYLMSEv6+fFMgK4NUd4SM
-	 te2sbcaca/3QamFaVdNrRHuEGe16XrPu0Dm/7ILfmttu1K/zxAZ2NL1TAMQwlCRHx0FVnwreW3OC
-	 xNSMFV38qsj0+esGha8KOEfhiJ0mAOWI26DeiSZ+mczHyVx2FUa/9STt0PkHeefiDnQUtfWslvOs
-	 mQH1iPf2+GMPrwvzf3Nkg3t7tNNzR+52MQdwSWwZcygxna3+8G6NxQFmxsOVk0mAQ4bSpuFfS+YR
-	 3ffC0ivUBqHRSCyF8zDhFytzezhz59MTzD5DUzKhROgSZK5g/yHfeaKMyB5ROoLGDbhKHjSLm5Ll
-	 WF0yH4uMnhtxsuCcuR248iGIdo8hws05GOuB2FypKL7WZ/QTO0kYAkVcnX7sm4CUI9rzE4W44ARn
-	 r52+oP8Fm008RWW9a+BrbN9BAMfI00V8BxacujQy+vxMRMw00HtdT3f8VshCxFR81BfEKAsjtyP/
-	 /B93HYoPYOxdfU/Saw5pvY5YYRtT4Ep8bP9FCF/xgjYXcbC1XlIkGhbjt4wdIFm45RKm45Mb3Cs0
-	 vW65OQEKEjG4CQUsjuAiPtVVsS86D/KLoK2k1RF4FcQPxLz+URR/B/2GwFD6FizX/GA8KNSGhZuE
-	 QBXV8udqy+sRUoyIQUcgK+qdaUDx+neb6h0mPP5ZLhw1pMEXI0AEu1PJsHTWIdSxaz0VSxZEb92I
-	 84ziEtsa9coaJQBIP/up++lxi4xBJYel5jH8jyJRruby95PASfbV06mbmvXu0=
-X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
+	by newxmesmtplogicsvrszc56-0.qq.com (NewEsmtp) with SMTP
+	id AFB9C899; Wed, 18 Nov 2026 15:43:59 +0800
+X-QQ-mid: xmsmtpt1794987839t15qu3y9k
+Message-ID: <tencent_ABAAD2B7E6C8BB138AE97AD4BF0F49145F06@qq.com>
+X-QQ-XMAILINFO: MllZffuBkEb5OcRVunGWqDjZwf5Nq2E9B0MttTVyEjqvoGxe7D2IlJ+qXJWs6l
+	 b/SxTKSfSgYY3c/ecDDXLaeyw7TVnom10b/bZFbzm7bmQ+CkqlM98AqHb408JycHuHQzqKkH22VF
+	 +D9BGIPVoueIZNITEeTkulyH70fABDp5YvM6pUuQilBf1A/wKXERJUHsYtm0SAVfnSqrReqLUQgk
+	 u5gq2WVRAPgidxKd9MI8tG3PCPcFUPukeoQYQ6co0ufDsi32c8SrK7oA9B5BNIKQwNbUrNexIEoS
+	 NMhnp7+yVdM6aJuknyjtGcFEUrPFxwv4lcVb8RLPJxFi6VCJrrEFxFQ/xRtvLHFjmkOh/3GvjSqD
+	 XqXkAy7eZMoLH079U0pL++COUt+WOwqzk2WT7h61lUUjIqTTtUMBDe5IRzrvKIiyc/QgWd0j9I7v
+	 D9rCAm4Knucl+1vp9nlQIGhizWK2BHt+P+UljrRNCg3wk3jO5y51g+8zA9BgfR2PVN4WGIJIOZZD
+	 zmAakA6otz1BfkgGVBy8gC2qqTz3Wo6C+ajCTUbloIIGLOZ/3SwEMlbg+7lBaIAM/bAQmwA8CH5p
+	 G78Yy82SJrzpq06wtaPYl85GOaSG7Y77fMWN8T7WSQuYhqEkA+n4sN/iY9/PlYj8qXg+WchO+h4h
+	 K8y5heQfroblKjF4wICvMibZOUnEHjCV0vEeL/a4/7vukUaNrCpkQyf/JVDq+wWpBkSfUmeYs/AJ
+	 66ksyPuAQEm94nr61jepI1fPH03s3USEI97k+YafxNdvEraJP7SwNN1PtqJlys9GYehiYyLfIkFm
+	 B8ZPHWONSoajssJLek8ex2OCQzL8POgHEeawWGjlVByGvZnyCZrEXobK8R+AAg1hk6NltRkZvz/f
+	 Qhx+a6DedQJQJqV3nD9n4lIM755anExcrwvrbJmZvuLcPUqW8+u0PxJncnh856m30ITTA3qmWgf8
+	 0w9tGmVF0M+tht5boUaYcy6axYSTG7tusNVRqbunonRe4w00+dE1MhDIIgVAheJ8CQGtb6BPegOv
+	 sPGES7VQbGY73FQ+cfSDDnnesIQJUelr2WNTLylcL+/sx0FyMMNxpcw+CRtSB2Ff5SxjY3jrwL1S
+	 6zhQKn+W/oPKXA+z4=
+X-QQ-XMRINFO: NS+P29fieYNwqS3WCnRCOn9D1NpZuCnCRA==
 From: Guikun Yang <yangguikun19@qq.com>
 To: Christian Brauner <brauner@kernel.org>
 Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] ufs: bound the cluster summary index in ufs_clusteracct()
-Date: Wed, 18 Nov 2026 15:35:00 +0800
-X-OQ-MSGID: <patch-ufs-contigsumsize-20261118@qq.com>
+Subject: [PATCH v2] ufs: bound the cluster summary index in ufs_clusteracct()
+Date: Wed, 18 Nov 2026 16:00:00 +0800
+X-OQ-MSGID: <patch-ufs-contigsumsize-v2-20261118@qq.com>
+In-Reply-To: <patch-ufs-contigsumsize-20261118@qq.com>
+References: <patch-ufs-contigsumsize-20261118@qq.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -76,6 +80,8 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+
+Resending with the Signed-off-by line added; the diff is unchanged.
 
 fs_contigsumsize is read from the on-disk superblock into
 uspi->s_contigsumsize with no validation, and c_clustersumoff is read
@@ -96,8 +102,7 @@ ufs_cg_private_info allocation:
 	UBSAN: array-index-out-of-bounds in fs/ufs/balloc.c:892
 	 index 15 is out of range for type 'buffer_head *[8]'
 	KASAN: slab-out-of-bounds Read of size 8
-	 0 bytes to the right of 136-byte region [ffff...,ffff...)
-	 allocated by ufs_load_cylinder
+	 0 bytes to the right of 136-byte region
 	Kernel panic - not syncing
 
 Reproduced 3/3 with a crafted 44bsd image (clustersumoff = 440,
@@ -119,6 +124,7 @@ c_clusteroff.  Check that invariant before the update and skip the
 accounting otherwise.
 
 Reported-by: Guikun Yang <yangguikun19@qq.com>
+Signed-off-by: Guikun Yang <yangguikun19@qq.com>
 ---
  fs/ufs/balloc.c | 3 +++
  1 file changed, 3 insertions(+)
