@@ -1,71 +1,73 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795022475;
-	b=BKuWQ91UJ+ETuhqih05Wp8P7cF0D51+UrD64CRJEXXpIy8K4JtVDprc22KD21QrHRm2H
-	 SyLBp1PoMG/awQJwAv0J45hrfQapmlOdB8UYFK1IhBZqXgBVzZQJhxwB0e/oaCF+IOLrF
-	 k3cso60iBYQ9wykO+HGNkD/UiGdeWVlGn1QXK9MbgclnyVyPXrUUoaxgjg+q7mofWvpc7
-	 rw571adRBgNR9A6ZjCblMPyHamKZ01wCOPeoA8hTdE1ikBokF7SNRmqKf5bcZtvU2lEEm
-	 kb7AM2q9W8FSyGgIY8XYGwlY+xd5/9IQsgd9YAvQhjHjORM3wq36JNC+TtspeJj9Y/w==
+	t=1795022498;
+	b=lvt1ptAKG27xKsp68eVn+TauyE1KJ/iRB0pcBnxwECVmqlCb+NdUPc0YCG6c6Sd0djT0
+	 IfuEmmykJzRtFnLVIe7PalRNAOrbBBh1cLf3A1J2h+PDEujtyRIcrl06ENRPJjnyEUopq
+	 8ntCz6nFU/1kE5thlfaoWoOCm/esBOtDmzFLBTHQ3qOVlx2E5G6aSBQ6tNnVAo9B+xmAO
+	 O+QOWvq+QygZGpjJQDavSWfS8wrfwpEwiCY/HxJqUyxrf6s9+2lULOVitK6wg+C5YDZJT
+	 LMxR2rjZvqjfNDgsz9okoEwh8IYz1F1KhLbGQ8bMUihTQgnCvIUx9WRJckeJvdpWVsA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795022475;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=hesU+4ldnvOaAaxjWfy9d3z/Vr2tFTg+8pWVNqtk5cU=;
-	b=x7FegXDdsDEe9nBAcgxwbewQJbnz1l6PTTQbS4qh0GuVe1XmEDr+OmUSvShRMoZZlqtl
-	 hXVKk9qUO4mFGjCmU5II/TLzwsnQQl6Aj9zvq3qvCPLe97fy4jhz0XIcxQcxkRyqAfr3T
-	 3x2Z2R7S6P36yACuIm/uwIqSdP5RP0ipxZt5uzGqPkwW8V92ncDmRCiEqPlbm+BzzjcLy
-	 QJ9hchrKMtokNz3AGms/ZAKLRs3f9BQDiAHP2t1LIdbErMUwNqhv/gaaJA8E9IqHCKW59
-	 NzoLabX0EUfZ+JSrJPdj+Ly5/Z0rq4KbgmLD4hcuKlhL5M0RTACHNifzq+4HL44JKoA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795022498;
+	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:
+	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
+	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
+	 References:Subject:Content-Type:Content-Transfer-Encoding;
+	bh=VLI20SqQTUV+izL6bGiN91Pkgn48s3smOlPhk2XgdVY=;
+	b=Chgw/kADPjA5PsIxwVNMQoNiFAz9BlbUOTIR0tutdDjN6Agb7F2IG3YBDd3fzcXY8IwN
+	 IIq7F2NUpEci3+8eBLXnGhbPgupwBXQ3x+2Dl+tdCjBr6RSzglapZ4m7t+K2d8zaXVHp/
+	 GY91hRPEYpPw+C1YNBbdO63R3p3d7HY4ORLpbnKb12uUdocC29E581ekpVvkL14Quj1Jr
+	 +syToYhK8DcylbzyPPjlBRliNCR64Cbi32ZsiTHM4EcupmdJ2gBn9iVRnQupJ74tl13k2
+	 vh9WFHFYKMwzolf9kDc3M68sr44dWuySK5MAvS/YCiH0ZdKkKS8OlCxN8+mO0es69KA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EEWUUcqa;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EKSCcSKJ;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D49D606A336;
-	Wed, 18 Nov 2026 17:21:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AFFE606A331
+	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 17:21:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EEWUUcqa
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 719561F000C4;
-	Wed, 18 Nov 2026 17:21:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EKSCcSKJ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EE161F000C6;
+	Wed, 18 Nov 2026 17:21:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795022475;
-	bh=hesU+4ldnvOaAaxjWfy9d3z/Vr2tFTg+8pWVNqtk5cU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=EEWUUcqa6leUkgcsEpfc2x29HRzw+OIdEg676QIVErDCbR3H3Ezwu5rlrejP0jH7X
-	 lw5CugG/Qbkwi/sl1A86PLQvpSjvi3qJql1cqAUQM+6pZZncpY6crwzk5llTn7WyWt
-	 o+KAI1Vgxt9x9SR0FeOA++Scoxwvce/u7eaULOIgwAQf+MrwWLrEoVvng6VziVq8wA
-	 Mt4963yUj3GZGBy7po/Xd/pFd2gQ8a41eqmZeeb+BMGoMvSljEeJsVlm9aE0HR91pg
-	 vZrYMozjVeF8Yt2c1vKQ7LB18IhCdxIo9XHL+QCmDNF6gdXh/hGfwi4BLpc2LG6d2W
-	 lpqqKfEt3Ohkg==
-Date: Wed, 18 Nov 2026 17:21:02 +0000
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: "Liam R. Howlett" <liam@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	David Rientjes <rientjes@google.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Andrew Morton <akpm@linux-foundation.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Nhat Pham <nphamcs@gmail.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>, 
-	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
-	Alistair Popple <apopple@nvidia.com>, Usama Arif <usama.arif@linux.dev>, 
-	Kairui Song <kasong@tencent.com>, Balbir Singh <balbirs@nvidia.com>, 
-	=?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>, Kiryl Shutsemau <kas@kernel.org>, 
-	Yu-cheng Yu <yu-cheng.yu@intel.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
-	Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>, 
-	Peng Fan <peng.fan@nxp.com>, Josef Bacik <jbacik@fb.com>, Chris Mason <mason@kernel.org>, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	"Borislav Petkov (AMD)" <bp@alien8.de>, Mark Brown <broonie@kernel.org>, 
-	"Dennis Zhou (Facebook)" <dennisszhou@gmail.com>, Rick Edgecombe <rick.p.edgecombe@intel.com>, 
-	stable@vger.kernel.org, Josef Bacik <josef@toxicpanda.com>
-Subject: Re: [PATCH v2 00/13] mm: batch of (urgentish?) fixes in oomk,
- cachestat, dev-migrate, percpu
-Message-ID: <av3dRm-Gkx9kcYWj@gremlin>
-References: <20261113-mason-migrate-et-al-fixes-v2-0-50a2ed382b61@kernel.org>
- <90a961f5-e488-46de-8872-0e1540eaad4c@kernel.org>
+	s=k20260515; t=1795022497;
+	bh=VLI20SqQTUV+izL6bGiN91Pkgn48s3smOlPhk2XgdVY=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=EKSCcSKJw+i3veS6BZaZlbKZXP8cfAQvyZcTH/nspB7BUIuml5uPCEYDh5dmtwssV
+	 k3SFQiGpUyowB7pxfQbDrA31khEoeHkKWsa5PgPdG/jhFTgAxnMtu7ULzqg+rjnaMj
+	 gF0uk2V+0rhF70CjizvyVgXW1mut7zxgn6vnZLRhAy8iHos8UOGZAUfUwXa2cASZV3
+	 rvPA4K0UuDiTkS1Ie1to1cAdEXwNOSzcJvVrglrMAS0p1LzFn5Shc/lbW4wRfqb/FR
+	 cGIn5bdU4aP4KXFBu0qMtyEaPdyQkAj5PnC/F1rXqft3Zetwxf5Qlt2yRBwIrR2Lex
+	 w79ViKYHNlQwA==
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfauth.phl.internal (Postfix) with ESMTP id BCB48F40067;
+	Wed, 18 Nov 2026 12:21:36 -0500 (EST)
+Received: from phl-imap-04 ([10.202.2.82])
+  by phl-compute-02.internal (MEProxy); Wed, 18 Nov 2026 12:21:36 -0500
+X-ME-Sender: <xms:oN79ajaxcT9gL8dHMZ7XKuduoKxTnDPc1VrJK6EnxqGk3isY7n-hfg>
+    <xme:oN79atPL9TWxgtqtIEDAssidCDYubRDUxOagDLRrKtRVuag9FFMkut7sQwD4xbte8
+    Vn0gwHFbsxTaKRbtffS4YxBsuOa57SMD5lEtMsewps0z1YsMVU_O87A>
+X-ME-Proxy-Cause: dmFkZTF4QZQ6CJCsz8TFY2okhta0umwviVF56T4+tgBrrdn+GTmNMl6dA1ROfTkbwYrOem
+    UW8iEBWr2T0zXHaeRypSgE6+lK5+G3rPNAvQt7y+yU8X+6CHGUMV7BT4rldWo8GtRAPKWH
+    rZ5DBPW70xu5TVqNkAFEtXRu5dHdCx2BB9EP40RlAKv10Ro25e5PU18QmcTuccOR3CKD9r
+    RjH+R2AiRA5f+R8z3EZ2J955yBI/DTlLZemDL/73vhPxgL21q/BijvmVKiYSvuMkogxHGo
+    CmBmonRy4Q2p3EQqUKC4QwkxTyb/vuQ3d7ctcXt+46MDBYI0l9TUL2IOWyZUGx08i0qbB3
+    hczlE7rSDGQJvsgGKL9W1FICP3bgi/3wzeKMcFYVX5rux8zwGoeg2nQqg/m9PJbFRyI1fk
+    344W67bHmc58JhXbNJI7tQrLkCEb5cIcJcdnfCqdeQr1QKz/K79I9TzVhVi5FZt9LJXv0o
+    XEgxux5bOxVSSrLbBFz/lJ+yKStr2hdL9Ghyyk6tzbR6hXyZScWC8loM9cd2zWZt0iyynZ
+    8svUcBMEAyTqdaaeITQG6Mvkgf134mkT/5X2sCqxSqBrtR8bvDOtCTPd3mmMwLQE2v/1Kh
+    cGAqB/MCH1gwP5ninqUv2r+4aXRGnh9xfMzliuh3UbZvxrnujvPyoSZYZJOA
+X-ME-Proxy: <xmx:oN79aoGYT7KWAwkc3Q1_BRxtcx473oidrmt5Y8kVZeWKbzoUGDlgJA>
+    <xmx:oN79anVM1rw8K7TAcT1iqYk1vNGnDu6lWn3rFHBHkXFwygenxULrog>
+    <xmx:oN79as8UjHVmJb0MX451DbyrDE3e8gz4E1wm6WthXuAc9WvXN7dpUA>
+    <xmx:oN79as7mnFoXsRpAEQLlNNoODmO6o1QNU83lOOIG4n2G3tWjnkG9Ag>
+    <xmx:oN79atkbjn_c7lOlb4NuSdTkHxB_U8pNsGefinDInrgmBjsx-qmjyclu>
+Feedback-ID: i20964851:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 9A879B6006E; Wed, 18 Nov 2026 12:21:36 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -75,45 +77,157 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <90a961f5-e488-46de-8872-0e1540eaad4c@kernel.org>
+X-ThreadId: AvFucsYTRhyJ
+Date: Wed, 18 Nov 2026 12:20:03 -0500
+From: "Anna Schumaker" <anna@kernel.org>
+To: "Christian Brauner" <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
+Cc: linux-nfs@vger.kernel.org, "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Jan Kara" <jack@suse.cz>, "Chuck Lever" <cel@kernel.org>,
+ "Jeff Layton" <jlayton@kernel.org>, "Amir Goldstein" <amir73il@gmail.com>,
+ stable@vger.kernel.org
+Message-Id: <82b7c5ed-5736-48f7-8f65-e7984ea140bb@app.fastmail.com>
+In-Reply-To: <20261118-work-nfs-multiroot-v1-1-66e4458b7d32@kernel.org>
+References: <20261118-work-nfs-multiroot-v1-0-66e4458b7d32@kernel.org>
+ <20261118-work-nfs-multiroot-v1-1-66e4458b7d32@kernel.org>
+Subject: Re: [PATCH 1/2] fs: reintroduce SB_I_MULTIROOT
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 18, 2026 at 04:35:32PM +0100, David Hildenbrand (Arm) wrote:
-> On 11/13/26 22:45, Lorenzo Stoakes (ARM) wrote:
-> > A bunch of fixes for oomk, cachestat, device migration and the per-CPU
-> > allocator.
-> >
-> > These patches were originally AI-generated, tamed into upstreamable state.
-> >
-> > Some are more reworked than others. Those which needed a significant
-> > rethink are submitted as mine and marked as Reported-by the relevant
-> > original author, others are smaller edits which are annotated as such in
-> > the usual fashion.
-> >
-> > Please check for correctness, sanity, and whether the cc: stable is
-> > warranted (I have not included it for 3 where it seemed unwarranted.)
-> >
-> > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> > ---
->
-> Lorenzo, I would pick up the migrate_device patches now.
->
-> Which one should be fast-tracked upstream and which can wait for the next cycle?
->
-> Use-after-free, shadow stack and out-of-bounds write ... look rather bad.
+Hi Christian,
 
-I think given Gregory was able to repro nearly all of them, I'd say most. They
-are mostly small. So patches 4-9 I think should be.
-
-Actually the shadow stack one (10) is unrepro'd and super borderine and requires
-a broken driver and etc. etc. so I'd say that one is less important.
-
+On Wed, Nov 18, 2026, at 8:16 AM, Christian Brauner wrote:
+> On NFSv2 and NFSv3 ".." can walk out of a mount and out of a chroot as
+> well (again).
 >
-> --
-> Cheers,
+> path_connected() makes ".." fail with ENOENT when the parent isn't
+> reachable from the root of the mount anymore. It was added in
+> commit 397d425dc26d ("vfs: Test for and handle paths that are
+> unreachable from their mnt_root") for directories that get renamed out
+> from under a bind mount. To avoid calling is_subdir() for every ".." it
+> takes a shortcut. If the root of the mount is the root of the superblock
+> every dentry is assumed to be reachable and the check is skipped.
 >
-> David
+> That doesn't hold for nfs. By default the client shares a single
+> superblock between mounts of the same server filesystem, i.e. mounts
+> that report the same filesystem identifier and use the same mount
+> options. Those mounts can be of disjoint subtrees, e.g. two
+> subdirectories of one export. NFSv2 and NFSv3 provide no way to find
+> the common root of these trees so s_root is simply the root of whatever
+> subtree got mounted first. For that mount mnt_root == s_root and
+> path_connected() never calls is_subdir().
+>
+> This was fixed in commit 95dd77580ccd ("fs: Teach path_connected to
+> handle nfs filesystems with multiple roots."). That added SB_I_MULTIROOT
+> which nfs raised on every superblock it might share, and
+> path_connected() stopped taking the shortcut for such superblocks.
+>
+> When nfs was converted to the new mount api in commit f2aedb713c28
+> ("NFS: Add fs_context support.") nfs_fs_mount_common() was rewritten
+> into nfs_get_tree_common() and the two lines raising SB_I_MULTIROOT got
+> lost on the way. The changelog doesn't mention it. Nothing else raised
+> the flag so from v5.6 onwards path_connected() took the shortcut for nfs
+> again.
+>
+> Then commit 402dd2cf46b1 ("fs: remove the unused SB_I_MULTIROOT flag")
+> noticed that the flag was dead, named the fs_context conversion as the
+> commit that removed its last user, and removed the flag together with
+> the check in path_connected().
+>
+> But the flag was only unused because the conversion had dropped it by
+> accident. Et voila, we're back in 2018. Mount two disjoint
+> subdirectories of the same export with vers=3 and without nosharecache:
+>
+>     mount -t nfs -o vers=3 srv:/export/a /mnt/a
+>     mount -t nfs -o vers=3 srv:/export/b/sub /mnt/b
+>
+> Both mounts share a superblock and s_root is the root of /mnt/a. A
+> process sits in /mnt/a/D1/D. Someone with write access to both trees
+> renames D into b/sub, either on the server, through another client or
+> through a mount of a common parent on the same client. For a rename on
+> the server it's enough that anyone looks up /mnt/b/D afterwards.
+> nfs_lookup() finds the cached directory inode and d_splice_alias()
+> moves the existing dentry under the root of /mnt/b.
+>
+> Now ".." from the old working directory lands in /mnt/b which isn't
+> reachable from /mnt/a at all. That works from inside a chroot to /mnt/a
+> as well. And if the root of the export is mounted too and someone walks
+> down to b/sub through it then the root of /mnt/b gets spliced in below
+> it and ".." climbs all the way up to the root of the exported
+> filesystem.
+>
+> This reproduces on v7.4-rc3 with a single ext4 filesystem exported by
+> knfsd and both subdirectories mounted over loopback. With this patch
+> applied ".." fails with ENOENT instead.
+>
+> Only mounts whose root is s_root are affected, i.e. the subtree that got
+> mounted first and bind mounts of its root. Mounts with nosharecache get
+> their own superblock.
+>
+> Reintroduce SB_I_MULTIROOT and raise it again in nfs_get_tree_common()
+> where nfs_fs_mount_common() used to raise it. Like before nfs raises it
+> on every superblock it may share, independent of the protocol version.
+> That means ".." on such superblocks always goes through is_subdir()
+> again.
+>
+> Fixes: f2aedb713c28 ("NFS: Add fs_context support.")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> ---
+>  fs/namei.c                     | 4 ++--
+>  fs/nfs/super.c                 | 2 ++
+>  include/linux/fs/super_types.h | 1 +
+>  3 files changed, 5 insertions(+), 2 deletions(-)
+>
+> diff --git a/fs/namei.c b/fs/namei.c
+> index 925aeb63bfa1d..a08c93369f4f1 100644
+> --- a/fs/namei.c
+> +++ b/fs/namei.c
+> @@ -822,8 +822,8 @@ static bool path_connected(struct vfsmount *mnt, 
+> struct dentry *dentry)
+>  {
+>  	struct super_block *sb = mnt->mnt_sb;
+> 
+> -	/* Bind mounts can have disconnected paths */
+> -	if (mnt->mnt_root == sb->s_root)
+> +	/* Bind mounts and multi-root filesystems can have disconnected paths */
+> +	if (!(sb->s_iflags & SB_I_MULTIROOT) && (mnt->mnt_root == sb->s_root))
+>  		return true;
+> 
+>  	return is_subdir(dentry, mnt->mnt_root);
+> diff --git a/fs/nfs/super.c b/fs/nfs/super.c
+> index 23292680adbd5..99e883e7a4890 100644
+> --- a/fs/nfs/super.c
+> +++ b/fs/nfs/super.c
+> @@ -1315,6 +1315,8 @@ int nfs_get_tree_common(struct fs_context *fc)
+>  		error = nfs_get_cache_cookie(s, ctx);
+>  		if (error < 0)
+>  			goto error_splat_super;
+> +		if (!(server->flags & NFS_MOUNT_UNSHARED))
+> +			s->s_iflags |= SB_I_MULTIROOT;
 
---
-Cheers, Lorenzo
+I assume this is going through the VFS tree?
+
+Acked-by: Anna Schumaker <anna.schumaker@hammerspace.com>
+
+>  	}
+> 
+>  	error = nfs_get_root(s, fc);
+> diff --git a/include/linux/fs/super_types.h 
+> b/include/linux/fs/super_types.h
+> index 6ce105fe8359c..b09e8b2087252 100644
+> --- a/include/linux/fs/super_types.h
+> +++ b/include/linux/fs/super_types.h
+> @@ -359,5 +359,6 @@ struct super_block {
+>  #define SB_I_NOIDMAP	0x00002000	/* No idmapped mounts on this 
+> superblock */
+>  #define SB_I_ALLOW_HSM	0x00004000	/* Allow HSM events on this 
+> superblock */
+>  #define SB_I_NO_DATA_INTEGRITY	0x00008000 /* fs cannot guarantee data 
+> persistence on sync */
+> +#define SB_I_MULTIROOT	0x00010000	/* Multiple roots to the dentry tree 
+> */
+> 
+>  #endif /* _LINUX_FS_SUPER_TYPES_H */
+>
+> -- 
+> 2.53.0
