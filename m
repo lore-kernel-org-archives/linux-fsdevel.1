@@ -1,58 +1,72 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795020092;
-	b=0mzdvtV8NxT9y4m7PS4y5eGAkJLNiboYhdtbU8Nznb+Rlzn+6Wxw0o1F+KUHxW3s5ioh
-	 rFbYV7i276vzh6Vjltkom+BtqVNQc1/NMdz/G1sviAqQ1ppSKLCbXJkixXyuFjPMIIk1W
-	 vZLTKDt02nxO4l6BtknX3U68N7Bj544aSCvjghE+8S7zZKljxt4pO2muW6gXORx27KAnl
-	 kUuJGQ/5793rwa2BfKbde8rP1QvN7t3aeBVQQAcNSJIS/0eiSP2s/Qjg1euL159e3q/s6
-	 7JWzIAR9A077aXND//L7YQ36vdUxqIEyKn21uKwk0yH5ZIP+eOyNXkv7mMMi2tQQpIQ==
+	t=1795020121;
+	b=H+GHg45ZM8drhgR3CuguUVyEqobZKh1apo48vPchsp7QRXWl/ASS8TcshSqkpj8RF4zi
+	 VNFbGSL6R4YtmLU4YDjgN/Y4sUORK2LYXKDkFaLvMGiwgjrMnp2F53G36TrFjIxH1MYHW
+	 KBnIWCWusEZhR751RgKDDvX3Tl8H6zwqNk/9ifxwPMc+52LI0lpd6AYrvtTczc8owhgPF
+	 eU/ZpBcFkWEdzIzVTiJAxwhm95m7srjWEi1IG+btHSdhjU7DZV/0w5Z9u1yCZUnZUKizP
+	 8HSz47CLSUNP3BZ+6zrMfWvc4aRgiFl9JJoM5+YC7DNOvJlo3bLxb4CbByBLitL7xAw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795020092;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795020121;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=KpCOWgYItNRFdCHLthVjrjZj9hh3G9ExdOPVMRYpXJw=;
-	b=eExjBAljpbvf3g/N8hhVAkzy1DLHXIT8uGVz+B8nOeAGwHJEEOEOURJNRRIaS9x5CJQK
-	 NgXKkaQl9UVZFibuIqIW44AgKmO8M2qfYTpCEDZx2Z/ssWvwWHPKkvS1XcQQ3M/SfVVtC
-	 JQU9T7NSMde589/RCLKCMS7bE6X3BWYaI4hD0KPINxTpLYBJ9//mrx+qGtkBFVHpEzp+2
-	 rhiDcqt2c/CyvKYm/oNtWiT7JoKMh3u5Orx7XCIZmNQ3YXl/ALCn9dPkGzpV48nqJlPqd
-	 cU/6dskUBSgjUTORUSURE+XOWyNn7uCwTYpMuCpU+TA8d9VzIEULS/h2Je2cSOoiUZg==
+	bh=NCJizk8bzcFH2AbvcH+Cs7sTkFlxW/3L98puwCtipF8=;
+	b=nDL0RIoIzEf3W5aj58lgzrPaygqEpWH5lnM2I7NOxN/8ECK7bF885eLBQO3/35576VYG
+	 L3OyoG0aay3gd8werK+G+ecSWtbCG0ZeMgwh6LgW2PLWgoPcfh16E6AL8vPrcdB8ts6ot
+	 kkIde1GLkwaZsU57tcvhlab/7F/KhOEEF7wv9t5pBPdH55tS3bAfgiiKrLYpHpLk/vLFc
+	 SGOR9LaqmC5YWciO45+hkx6gWpZ3fyv1FLe7w2GgnE1LMzPgM5JHiL2aurCf7f7E/A3lZ
+	 6PEjNy2qH6DJzqe51F+/YWG7YupuAybrN9BEMHfXcY8IyuBNWAS/PBD1ivx5mBlUT5A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=etms+rmi;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QFMkljvJ;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFEF8606A320;
-	Wed, 18 Nov 2026 16:41:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFC69606A338;
+	Wed, 18 Nov 2026 16:42:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=etms+rmi
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34E0B1F000C4;
-	Wed, 18 Nov 2026 16:41:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QFMkljvJ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D99B41F000C6;
+	Wed, 18 Nov 2026 16:41:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795020092;
-	bh=KpCOWgYItNRFdCHLthVjrjZj9hh3G9ExdOPVMRYpXJw=;
+	s=k20260515; t=1795020120;
+	bh=NCJizk8bzcFH2AbvcH+Cs7sTkFlxW/3L98puwCtipF8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=etms+rmi+8L/OLERxU+EOMiH1yzh7QvrCedbLLFvfyOXftr1190X213cLfSMIdQhc
-	 xktDkWAsGluc5sjs6Q+0xPnu0cRRv8WL1LtgbH7hhvypFoq0KCjcNGSmDaySPjxe57
-	 KSVCR2Ief3MVz6qMcEC3A89jIrfeeEJz4Oisdraf0VRAKp9ACtii9Nc+6p0hWsiOHC
-	 cOA3QRG4XS4ZJ0/KN+/71smKz//P77MiR2wPC2xQXa/VFXn7cC4W+hKsihDTtUOf3q
-	 FbeaJe4k0/kwhoD/wk2H7C/C6O6Lmm8fqXI0k6UkmMQ6tQVBRU1FPwwdFAJCOA/i5u
-	 /z3SJ8YKVa3QA==
-Date: Wed, 18 Nov 2026 17:41:26 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-Cc: Amir Goldstein <amir73il@gmail.com>, linux-fsdevel@vger.kernel.org, 
-	Chris Down <chris@chrisdown.name>, Miklos Szeredi <mszeredi@redhat.com>, 
-	linux-unionfs@vger.kernel.org, linux-kernel@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-integrity@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v2 03/13] tracing/uprobes: handle errors from resolving
- the real inode
-Message-ID: <20261118-beenden-wirken-halsschlagader-00aa2083c904@brauner>
-References: <20261116-work-ovl-d_real-v2-0-90564c4ae347@kernel.org>
- <20261116-work-ovl-d_real-v2-3-90564c4ae347@kernel.org>
- <undine-1794965448776121119-595ee1289c37e7d3@undined.local>
+	b=QFMkljvJawec5NmrO3WRFAgrg16D5amWq/3qOZJySjcI3zkdLFyHx7qt/VJlC9Lrm
+	 rSHrnHsr0If7GeXaKoUgThoNSnbxJgzA69q6FDjUD+2mVMdOKq+wmTQ6MZMmKotJgE
+	 66PhJDfZH9qhEu7eBErOQRP50O2w7i/CA1T0JD4324mFPMAOPAtUcAKsyDk61PYvzw
+	 hlPic5EBWUu1uBSW3I1B3ik2XxIF8i8Ieqc0aaOP2wgzYy7SItackWUGeHDYhxDu4U
+	 S9KDdlpsuTmsA232DK65bIXrfRmH3XiJEVKdKDJsb1aoT9T2chlBroNfWVnZEHpoX1
+	 bYGA1hpCeJcjA==
+Date: Wed, 18 Nov 2026 16:41:48 +0000
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: "Liam R. Howlett" <liam@infradead.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	David Rientjes <rientjes@google.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Andrew Morton <akpm@linux-foundation.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Nhat Pham <nphamcs@gmail.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Usama Arif <usama.arif@linux.dev>, 
+	Kairui Song <kasong@tencent.com>, Balbir Singh <balbirs@nvidia.com>, 
+	=?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>, Kiryl Shutsemau <kas@kernel.org>, 
+	Yu-cheng Yu <yu-cheng.yu@intel.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>, 
+	Peng Fan <peng.fan@nxp.com>, Josef Bacik <jbacik@fb.com>, Chris Mason <mason@kernel.org>, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	"Borislav Petkov (AMD)" <bp@alien8.de>, Mark Brown <broonie@kernel.org>, 
+	"Dennis Zhou (Facebook)" <dennisszhou@gmail.com>, Rick Edgecombe <rick.p.edgecombe@intel.com>, 
+	Josef Bacik <josef@toxicpanda.com>, stable@vger.kernel.org
+Subject: Re: [PATCH v2 06/13] mm/migrate_device: don't let go of the fault
+ page
+Message-ID: <av3VJFuimrc9g9EY@gremlin>
+References: <20261113-mason-migrate-et-al-fixes-v2-0-50a2ed382b61@kernel.org>
+ <20261113-mason-migrate-et-al-fixes-v2-6-50a2ed382b61@kernel.org>
+ <0dc23953-328a-46b5-9432-4b1a1a16fac0@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -62,56 +76,62 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <undine-1794965448776121119-595ee1289c37e7d3@undined.local>
+In-Reply-To: <0dc23953-328a-46b5-9432-4b1a1a16fac0@kernel.org>
 
-On Wed, Nov 18, 2026 at 10:30:48AM +0900, Masami Hiramatsu (Google) wrote:
-> On Mon, 16 Nov 2026 10:44:00 +0100, Christian Brauner <brauner@kernel.org> wrote:
-> > d_real() is about to be able to fail for D_REAL_DATA. So switch
-> > trace_uprobe from d_real_inode() to d_real_data_inode() and deal with
-> > the error.
+On Wed, Nov 18, 2026 at 04:31:25PM +0100, David Hildenbrand (Arm) wrote:
+> On 11/13/26 22:45, Lorenzo Stoakes (ARM) wrote:
+> > From: Josef Bacik <josef@toxicpanda.com>
 > >
-> > Currently, nothing checks whether the data can be resolved when a uprobe
-> > is created. The first resolution happens in validate_ref_ctr_offset()
-> > under event_mutex and the last one when the event is enabled. If the
-> > data of a metacopy file in an overlayfs data-only layer can't be found
-> > the event is created just fine and enabling it fails later with an -EIO
-> > from uprobe_register() because the overlayfs inode has no
-> > ->read_folio().
+> > When migrate_vma_split_folio() has split the folio of the fault page,
+> > the lock and the reference which the fault handler has taken are at the
+> > former head page.
 > >
-> > Instead, resolve the inode hosting the data once in
-> > __trace_uprobe_create() right after kern_path(). That happens outside
-> > of event_mutex and if it fails the write to uprobe_events or
-> > dynamic_events fails with the actual error and a new NO_FILE_DATA entry
-> > in the error log. The resolved inode is passed down to
-> > validate_ref_ctr_offset() and trace_uprobe_has_same_uprobe() so we don't
-> > resolve it again under event_mutex.
+> > It then moves them to the folio which now holds the fault page, by
+> > taking a reference on and locking that folio, then unlocking and putting
+> > the former head.
 > >
-> > Both functions still resolve the existing probes they compare against.
-> > If that fails the existing probe can't be on the same inode so we just
-> > skip it. For validate_ref_ctr_offset() that's fine because
-> > uprobe_register() refuses a mismatching reference counter offset for the
-> > same uprobe anyway.
+> > split_folio() has unlocked the new folio and has dropped its own
+> > reference on it, so until folio_get() nothing but the page table entry
+> > holds it.
 > >
-> > trace_uprobe_enable() returns the error and probe_event_enable()
-> > already unwinds the probes that were enabled before.
+> > Only the mmap lock is held for read, which does not prevent another thread
+> > from zapping the entry with MADV_DONTNEED.
 > >
-> > While at it, resolve the data in create_local_trace_uprobe() as well.
-> > perf_event_open() of a uprobe PMU event registers the probe right away
-> > so it would fail in trace_uprobe_enable() anyway. But this way the first
-> > resolution happens before perf_uprobe_init() takes event_mutex just like
-> > for uprobes created through tracefs.
+> > If this happens the folio is freed which results in folio_get() taking a
+> > reference on a free device page, which the driver can hand out again at any
+> > time.
 > >
-> > This is a no-op until d_real() can actually fail.
+> > In addition, folio_lock() can sleep here with the lock of the head page
+> > held.
 > >
-> 
-> Looks good to me.
-> 
-> Acked-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-> 
-> However, since this conflict with commit 72d3a5cb0cd7 ("tracing/probes:
-> Enable newly appended probe when target event is enabled"), please
-> rebase it on v7.4-rc3.
+> > Utilise split_huge_page() which will leave the lock and reference at the
+> > fault page correctly.
+> >
+> > Fixes: 022a12deda53 ("mm/migrate_device: handle partially mapped folios during collection")
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Josef Bacik <josef@toxicpanda.com>
+> > [ ljs: tweaked commit message ]
+> > Tested-by: Gregory Price (Meta) <gourry@gourry.net>
+> > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> > ---
+>
+> This code is so bad we should remove all of that from the tree, seriously.
 
-Yeah, I had already done that.
+Yes stuff like this really does remind me of many scenes from the all-time
+classic movie Event Horizon... :)
+
+>
+> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+
+Thanks! :)
+
+>
+> --
+> Cheers,
+>
+> David
+
+--
+Cheers, Lorenzo
