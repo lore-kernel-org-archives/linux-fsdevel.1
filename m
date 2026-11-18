@@ -1,143 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.62.33
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795038021;
-	b=Lm/kOx5IuCsfAu0qtpzZeLVYm+1gCViJxjr6lv8ss01XnCF65S9DHSUG7OO4rX5KSGtn
-	 JecmoOoATqVFLn1NzEVsbY6KngclImUbGHFtm8gG9bQZEdIOfVibGeF1bGRCz4vYtqHOK
-	 /wKUAEzpfx9vxDGBpy8WITrDWxAx71M5BFxUSaeB90fe1p3j190poY69yzfZ/o8Rew/l0
-	 dR7x9u2G2Vh2JsTwqexpCZ6SurUKJNQ++m9fe0RccVa7SdsrCOrK4tJjTe3VwboMUNWil
-	 dEAr4HFBDBgM3x5+OQSjN1Ic8HNjRkXoK0ovebq5bJnZnRNB4FSKE5IX9Z9lXnTIfkw==
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=209.85.167.54
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
+	t=1795038587;
+	b=eP8zYfsQ6Cfo7VcEeqrp4nK1Y5/b1+KlfjDgf9aRmg1Zc32GgowFwkKSCHuYlLN2aOKW
+	 VgWVoxVRIlj1tPqVfmkoR4/7nwAs/WgcUtKDbt2SvWjYhJfGfqHfDz7kxbrm9Vmqf+/F0
+	 evXJdXNJVOwqi/CXAVRvGtmyGmvcadev+nl7iOvbBbruNfPUNXNb1nZxqsXeWIMrPuQ5G
+	 pteeE5YqYOG25cp7Rag+7B1ytMaVBsU1kfb/kFCokRLHgkf/fELpjjUL2+O98IcqtQ0r3
+	 4rDVPhg/Vcc22xEXP0F2/C+XOpncQ4xl3CSDtWWjzIL8pIdPO7CyrRuyQkpW7WWW5zg==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795038021;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:Content-Type:Content-Disposition:
-	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=ztrc0Yp2eDQ6TZtAfPMQ1bmjQn8htzBnLl23LuCPLh4=;
-	b=vGr2qMHoYAzrhNmDKqbFZqFxQHdQesyjBmn5C05wEYKErgPSNpPryX+FXZOd+QwFJR8u
-	 PVtvo/5/2HgqYJp0Ka7TFG4Z+IQzQXITj5kysQs5ynPpxdxND1o0761gzUCXvnwIaeC68
-	 bflIlN6VEdt5IFaOmYfkZXN1QCY66aObtPIwgnIk7KINSiAIs85nagLadIE7md2hA09b3
-	 ZvxDDO9TC2OXxVOKC3Vg5Fzq8x+3kJI13jHLqmqkF1eC1oL+h0aPf4fJfw96QhDiAVWKR
-	 L8SLRwvlZsbAKS8jCek7Qpxmj8nEQAPrF8azqRXhaTlOZWu6gwnshCkVTfL4Q4H1ETA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795038587;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=CZPHqjEKi2vg5bpASOGDI+kJVhoG5JNXko8FEV4Oxfg=;
+	b=IUPMqkWJFF5jjGHbNS5SztWcGhClPA3rf6GqHAt9ne45r4gffSb5EPhY5SvkNr2PE4YM
+	 7RDVQy5jA41AyV6BeBE1VTrdRnjXA12vSX3GP2x/h+7Ii/RrDFzTfqLF9761Ps5XawUnf
+	 3b2MXoWvOfm4fJ0M6LqQGso0Ax3i0RavxHvxQsRov8t1hDwWps+6eQ22yNsACfymi3jbI
+	 XG9c3jXCBRgYha0bDzG6nmyPVPj6WobabzPIKdE/1dGcZ6tQfm+oAmVES1+WAK8n5ULeB
+	 6umzrZ38KFpVJdehUv/TpT2aoGLNWGvulvqnfXljIJIf+abAYl9KLI3YFoWhLPlus4A==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=nvidia.com;
-	spf=fail smtp.mailfrom=nvidia.com;
-	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=Gt+On+x7;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.62.33
-Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011033.outbound.protection.outlook.com [52.101.62.33])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=none header.from=amacapital.net;
+	spf=pass smtp.mailfrom=amacapital.net;
+	dkim=pass header.d=amacapital-net.20260707.gappssmtp.com header.i=@amacapital-net.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=KaciEEIF;
+	arc=fail smtp.remote-ip=209.85.167.54
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ABCE606A325;
-	Wed, 18 Nov 2026 21:40:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3ABCE606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A267606A331
+	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 21:49:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9A267606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=Gt+On+x7
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=sU/qXtJl9eMvdeVta6xtgiUqhc110KbAjiZf4J8ejEbLy0EtAip3BumfqrWchuwSlMSvVMonhKHAjS92ZDd6+z1sRA40xaIkZR+I3h7oDgATF+bEQXg2S59YqQT4Fe7DCtDCdQvY7uxoK6uihgPUnU3uFWgu3JyEXcJyKq8bouvfqqb3gpEzD02NozdLzQsZ6M2sRnFc3pUB2vh6pK0Gc4RhF/oYVJzd7enulwQxCBVs7TIoPDv3IuzigenbOxQfC1rUuMkuZTk4pJvhB7J72SKh1+IJpskqKwMAPIVCCNpVkgyD+QLXc/t9yIxPTaiAXAIY+8bXFaXI661iJ7vTog==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ztrc0Yp2eDQ6TZtAfPMQ1bmjQn8htzBnLl23LuCPLh4=;
- b=ZT5/zo+Wp50hopyDBCJ6mdPHAZ7u1bhav0if0+PN4dDcusYCRiW3DcUQ2zJekuZqZ0jWckzsW+gc9d+GPPBNLYO70haRTxUsHskWso4UXJUyNviRxbd3QBOvBSkM/hsmbEQm/oRMnZF8OB2IclcNyTFBbJzAnYS/1/p+LdaT4SebcroeQTklXRL2dtK/5efa3j5HYOEVAq5/Ye1W6CEuTjQgu7ThdTeCzH1n3PMKrROnI2nRHXV7HW1mbgDBHoKUvIRegymiyBAXaEH0EZ1TcVHnPdrkCUVfklHmS6u2dh+ZwibNlnQ1yT8CsabZjELqGFKSEGdrwT8z++vjtk4YLQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ztrc0Yp2eDQ6TZtAfPMQ1bmjQn8htzBnLl23LuCPLh4=;
- b=Gt+On+x7LN274xI0eFQJmxK97SaDZlc6dJgFqhxUAprJ++e9RSfhXZ0162Y+BC78sNPGDajNR6l400NKp/CtU5W36Ariq8GR6l8gU0BtUcgsEjNlaTGofwZo3bXCp0WY/pIEWTbEu2e48bSdbVh+56QkXY06zkR6RaImKKYTVTXw5SlHtjHBxgJ+gZBx+k9kYnvEVcLJz/cETPKO2PYmsvj5WCe17vJy2+Mluxzrgo65Hi6u/v2h0TqCWkp3MCo5iP7q4cLh+KFGQacXOZKeN0Wg/b2OUNqAB4bAdAPYF2H7IePOxWwp9C8pHoHBGW27ZvSDV+w0gEX/w6eqMUzDGQ==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV3PR12MB9356.namprd12.prod.outlook.com (2603:10b6:408:20c::21)
- by MN2PR12MB4287.namprd12.prod.outlook.com (2603:10b6:208:1dd::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.19; Wed, 18 Nov
- 2026 21:39:47 +0000
-Received: from LV3PR12MB9356.namprd12.prod.outlook.com
- ([fe80::1c36:31b4:c420:6286]) by LV3PR12MB9356.namprd12.prod.outlook.com
- ([fe80::1c36:31b4:c420:6286%4]) with mapi id 15.21.0615.012; Wed, 18 Nov 2026
- 21:39:46 +0000
-Date: Wed, 18 Nov 2026 16:39:45 -0500
-From: Yury Norov <ynorov@nvidia.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-	Boqun Feng <boqun@kernel.org>, Waiman Long <longman@redhat.com>,
-	Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
-	Christoph Lameter <cl@gentwo.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Zqiang <qiang.zhang@linux.dev>,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	Kees Cook <kees@kernel.org>,
-	Joel Granados <joel.granados@kernel.org>,
-	Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>,
-	Pedro Falcato <pfalcato@suse.de>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowangio@gmail.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-	wireguard@lists.zx2c4.com, netdev@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	rcu@vger.kernel.org, virtualization@lists.linux.dev,
-	linux-rt-devel@lists.linux.dev, llvm@lists.linux.dev,
-	Yury Norov <yury.norov@gmail.com>
-Subject: Re: [PATCH 00/17] Treewide: enforce static storage for object
- initializers
-Message-ID: <av4bISGVaQNwRUmG@yury>
-References: <20260915030336.1192299-1-ynorov@nvidia.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260915030336.1192299-1-ynorov@nvidia.com>
-X-ClientProxiedBy: BL1P222CA0010.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:208:2c7::15) To LV3PR12MB9356.namprd12.prod.outlook.com
- (2603:10b6:408:20c::21)
+	dkim=pass (2048-bit key) header.d=amacapital-net.20260707.gappssmtp.com header.i=@amacapital-net.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=KaciEEIF
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5c15956ce07so284198e87.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 13:49:46 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795038585; cv=none;
+        d=google.com; s=arc-20260327;
+        b=pkvDiXetcNjg4SKnnvVuPIdF41BrPOhf7yH0ZnTIzDL8xRBZpgFgqSfTspX5vn8Li8
+         apsgUVhp/7YjykI1P1/HybY0+TQFTJJ/qtCKlpe3DRT5UR5HiBFqoRZQQnqxQ+z0crBY
+         9PSJOcY2i8fkvuP6R6q8vyR0UzI43D7WidbaCM496TkCsOHdaYTV5NYWnp0TKRtU4rcL
+         SszvegUn+r8XWKWzVzPV5/IqYzWsOqTf43SJaLkosJZT+28N/fiaWBUQwBIgOde9VKXF
+         Uj4cw9YztHwEM9H02IOawqHUoTl6zyjJwPpsIJCYqW27mIpErOQu4eFbwoi5LO+3Xl3z
+         kpng==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=CZPHqjEKi2vg5bpASOGDI+kJVhoG5JNXko8FEV4Oxfg=;
+        fh=JpWd7XKC0nfnYklsMotgjgEUUw2ZA3UR8lR6yvgNd98=;
+        b=V1IEWNdewEBLLJ5taX1cPKrel1j4RTk0stEiwhLhCT0hqJIE+n4aCz47ocXeQ9yZJ2
+         wdRkhZ/KdmXuyu3tTRhc0Fpacq7tbgRh2vHKz8Xn75qyg8aExXzTjjGbLON4fhSx614v
+         +JcD11sqzUxK5Xs8+jlrCwde8oAM4pM8QtwOQCQJzNrMFkYHOWO4oNwNr2TZFYPVFODe
+         wHDNWCqBC/gORnrIEjSOSt8XS6kMNdc3HIeMJRNmt0EhQmPhuJS78Aoh0p5VBnaazx9L
+         EHIsqedle43B+rvgiGcHseuJ5jHevKUTHKxDmzAJC2OPMwRMKgodtGi7rnEL+6aK3Vti
+         U6Pw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amacapital-net.20260707.gappssmtp.com; s=20260707; t=1795038585; x=1795643385; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=CZPHqjEKi2vg5bpASOGDI+kJVhoG5JNXko8FEV4Oxfg=;
+        b=KaciEEIFbL/YwiIDScNJOJE/ZISkK9Hm5quErzyii+lNT1WfC7kXZg/3FpRZhArF36
+         Ad6xuGX4OWHMMcj6Uv+Z0P3xjYKr4xdoCcBZYBSZ40V+hyh+sFba/6f/Byhy6/IHBYV0
+         /krtJ2/zrzEeNc29BPoEzTEoutLnweqJEraHWGz4Xdqq1myp231uUNQJfdNikDffJxU0
+         OhrtcSpB956rNGC7WaELPyoRadGtF0ROnUwsxD71d4jKhm42p47rbfwAaCyy31Ekzp8c
+         eLl8tZDuFmJ51rjZGikkRD11SztUd+7xg3bdsx6y/sDvmlwM86hcs70DaEGgQFzFJe8W
+         wh1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795038585; x=1795643385;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=CZPHqjEKi2vg5bpASOGDI+kJVhoG5JNXko8FEV4Oxfg=;
+        b=vr1HBGwf96zEH4QwwE3ZqmL/WswrG+bGM4Y0zcvJNlkhup/Rck4CZ1u1mQeIi4qhXz
+         8lQUe+r66w2tEdIUduTkAZYIT5DWtXAj1rjrLxope8pgg7Jfy4VEyG1fgAnKpD2FIOgf
+         7rKgCKKwmvhh5a/i44pGbUfqI0L0HGsmkLYiOcZ4S6BGXv2S84D0pbL8WyHn6Wmkl2VJ
+         Wu5XI+2sRYfw7OhZEeCeYpM9nhLp9zX/X6DhtB9n1ZIBkRHeit9LjMkkwhG5FqegH+g5
+         ZdEz7O0JFSfikx954Sf/IQ/FOEtMs+73cZrHMqBktkX65G1vlzA9hbb3uuIcg5nobnlp
+         Sh/w==
+X-Forwarded-Encrypted: i=1; AL+hErHH6GIsDNt0tsbpTZjL/R5ZtXgKe/v91+OFfiOo4k66uZROLepYW734izMRpbh4AUSlTtGHag6TY61DLlWb@vger.kernel.org
+X-Gm-Message-State: APuU4Z/mw1kBUBKgPz+d2ixK2naaMKNrLsVWWXjXLCyrYQH4mPBjAQ3U
+	0AE5z5yX6XMl83hPjj5pUZ7QnHdXcodv/R9ocP0XQu+EbUOg7g83z4Qvz0TDEeLGUidg/kmxrFs
+	W5Y1ULfpLEcEiPjl5Y1rFkKCXmrvqs03ay5xh9d9x
+X-Gm-Gg: AYBFou1R6mFXv+GGbDnkbAaKpZHJBpdc1DDzt43K16NUyS6ZmJA1X1NLACN0PFnrv4l
+	vkhZr8z9cVrcYi4stwoMJRv0DwDUNiDM+24qpvyEpwDTL/+iLn8T+n/Y4T1FmpaZYQQXy/7wIM7
+	q/vMmYxcZuAS+ciGCpLhilINwGYvgv9plf+s1FdH0Q15KXfq+iupnFbmCJ/u88DuU3koyyM9LSi
+	JVJ9YAbMMtODKUiJ8h9y3g+bck1vDmmNKwmc47mvrXMc0W95YP9Ufzn3t2DLHzutmjLjD/qFyY3
+	y/8lf1vWkgGbBx1HZEeKOX/3WLHAVP1oJ1ADq53XB6kzSQ7O8rOPZQeru2gUM/Gl3gtaCejS+lN
+	clQe8cDZgxppQanuHPGCpT2bZRkszuRZdsA==
+X-Received: by 2002:a05:6512:3c8e:b0:5c1:ac5f:e596 with SMTP id
+ 2adb3069b0e04-5c1b40e9b72mr9362e87.23.1795038584801; Wed, 18 Nov 2026
+ 13:49:44 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -147,148 +104,97 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV3PR12MB9356:EE_|MN2PR12MB4287:EE_
-X-MS-Office365-Filtering-Correlation-Id: eb494a5b-8334-4ab8-733c-08df45bc7728
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|7416014|23010399003|1800799024|10070799003|376014|261022075727099003|261021121427099003|56012099006|10067099003|261028144727099003|261022105027099003|261021123027099003|261009223027099003|261102123227099003|18002099003|6133799003|11063799006|261026140227099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	KsTh2qJIbrnqyR5HtwOmanaUdt5Qxxb0Im9OtFhIeiEe+fAV5dx14R9WUXxDwAeD1gYw7tt4duL5Lb3HqKq0bCpWsAGxE0N2WlsjxCTd5sTMWI2CV+vNp3VuHbOv8xzSrzDsgRhf3WfRg1m6sZZM9CFdWz/SORtddSzqHiVzb3lTIi276b1kjKeMTTokQnlDo/9jZsy6bMSHKjrphvp575wwP1wWDIbIiZfs7iDW+sGzD8gLfuj8ccFaD1akAHU/4FMgR67SH32yB0iyp5ltWf4afz+buam2aadgcYYP6BOkcqi/CP19OL1q7xUPJSFqJ87EFveWV26f4Sk55bjAXIRla8wJ6rPfSZNiH+88dz+GMMhUwErb8C+xxLpQjHhvUrUbtMMYqhg50943kuk03OdxP61zIwrbJ0h9tcEWbxEz9TOwZDbCg31y7/TqeZEl50p+yM4CjueVpwHnGYuCYUroH/c09s9ZVt5zcbHl6dlaJ9ZfNizAv+KfTgPVwDhqpZ8Fz0A96UsCyeonNx3jFXaC7U/5qrQz+VnsYGLJLPDsSYGVSmrqu3CiZyrcQMVwFS2vLZKC6cRW5iz67kHxv4AC224VhXIMTDuM/HBEHKl8jNSUUoLR+Cl8vtDSgcPDnhxSgB7mWnqMXtbz1RFdW/7jEmPbzenlvvl1h49kgHk=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(23010399003)(1800799024)(10070799003)(376014)(261022075727099003)(261021121427099003)(56012099006)(10067099003)(261028144727099003)(261022105027099003)(261021123027099003)(261009223027099003)(261102123227099003)(18002099003)(6133799003)(11063799006)(261026140227099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?+HZXWlztPnrA5ZFzmksOZgMH5WgHrJnQHSH7tRwGXb0ozDMYBnJf5U/1EwFg?=
- =?us-ascii?Q?qS+wmI/og7Dafmf9Sk5wgckkmX3GkCIwpIg9KS1L5znF8mQz747hSjCrpXgq?=
- =?us-ascii?Q?vjNEosmbbvUruz8McHeUW1yDnhyFGuW+Z2d5U96WPKBeb9L6+ZwmP7TIWF4Y?=
- =?us-ascii?Q?QcNuWMahBfJXbGU0Ry/CUIybNWxbSEe/cGAQju67gU2WSZ+52V+/17WqMO/y?=
- =?us-ascii?Q?j2UBmd/KiQermdrZ8gf/DUkZ88xrF9fC+NAlH05dUPrfiHFDQO6E1/wJW5C8?=
- =?us-ascii?Q?2RIgCU/fd3IKrKOUvd1pGtae2wOgIy0NqxAqsqk7dB66hDct8cXpYQlgb4VU?=
- =?us-ascii?Q?dXRwSspuqu6KY3Z/yp4kgDj/EsKsn1u5nv4aJNEo6xaqSMjeqpQLqvW4hwdQ?=
- =?us-ascii?Q?lzxw7MM2FFutMP1IYMlKHseHzD9C5IjSRWF0xy9YZZwotE/uYy1gvfjHrREP?=
- =?us-ascii?Q?IF65bS+QPxzLXjzwFU72P773cesKRKykaxTD96etoa14C2/XyN7IwSmGxw5j?=
- =?us-ascii?Q?tll2PTRlEXAC10z6h9l1u/8lrtGNv9NTNo0sV4weyHlVfs5ly+CCT3RmJLEO?=
- =?us-ascii?Q?nP/kpk8+X6nSPoI5hVDEonxvV/ZY8pz8tWNTmvXCiv/HU9Dfi0iA4CLTOwHI?=
- =?us-ascii?Q?0jw/0zdDpFdklt2BgLUHzuDOhY+RP9jkXXlPgu1v5q04xlO+GyCVfOGsB49j?=
- =?us-ascii?Q?vZUe1o0Pi3eJ0LlLnlJIfAo1g00uEQor8J3w896qarzG1A+K0Rp4wMfM6wuo?=
- =?us-ascii?Q?fJUGLOe0Bf0U1zosf8uf3uXWb/WtGCJp4PgkJXeHaKIJup+R0N8AbdAo38Zo?=
- =?us-ascii?Q?fs8gQ6jcwPIH56slC4KO6jhY3wIiS2kQNOf6bPtewdF8FchrTJRbrxT/90oi?=
- =?us-ascii?Q?Eithaw2D8et910vIUBFlUSpUQg6G8BBtKGDGGxtJPbB3dkAAdt6Iu6um0PP0?=
- =?us-ascii?Q?u0hhAPLYaQ8P7m+G1hJugl3uhC+dUYquFQ10IRoaPn0N7mZ7LSHNHtDvuHKj?=
- =?us-ascii?Q?JupTeqcreoSsSvq/Qhz6CPzdDFZKObzUaaje2Ok+O7K7xT1jUWD0Fg/KsRZX?=
- =?us-ascii?Q?5oRw+Kog2p0q1Q98i87eOit3D89hB0atSxmWFt5vTFSAlwLQEVUhsJA6DEDS?=
- =?us-ascii?Q?+GKU8xdx0yj9grgfRN8Aw6vHsk+CB0cC+8er9YEFW5HvJ86a6i8fYW4WxQgB?=
- =?us-ascii?Q?zuttoOrGunjzgcDyTx+ki2UdGX0Spie22ZkldM44n2QpcrfB2eGE1ryZ/8JT?=
- =?us-ascii?Q?KQdvzAmM9VGshgUqqQSlB0h2I3RQP38WZzup/UfuUz0ZOMtw50UV3ZiOqe9S?=
- =?us-ascii?Q?b3ubPqL0Qq2WxgtnZJpibdnW4Ogp/3Fd0NoyZ/ibn6qHlqwz8wpXsuhBKe9j?=
- =?us-ascii?Q?0VMjcGJuyu92kqQwqHL4DeuSYwBLN47n+ZDrbn0aoi2VhSlyjzH5l0obumhL?=
- =?us-ascii?Q?QB8NvLaJ4/98rw6rdqjmDeJXka2I69poxAzUFwzPOX78tu59gu2eIIUmDTZ2?=
- =?us-ascii?Q?Emfg4EMS18l+TMRrDTiTdce5+cGkKX59mjrFNZIw3Th+eifVvJ/fi/LICXvV?=
- =?us-ascii?Q?wFkOICJknVoTe0SY16SSqrTwpNkbhalN4IAQk1//t3YP3k1iNCZQjMng9evN?=
- =?us-ascii?Q?yj5nUuUMdaaBXB81NUGBagQ54Eu/tToNc8NkqdqNJJI9jPk37kqebLpaOYC5?=
- =?us-ascii?Q?Ss9bRUIQT5k6NDr1aChYpRP0dvgaDrRftnUZhpq9oZXxoQXiMIy6DaKo3ze5?=
- =?us-ascii?Q?ZfVxfY6cf4W3L2SJdnUgxl9skE2wQAj+OmRvFqZjGAoa/cGjF1y7?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eb494a5b-8334-4ab8-733c-08df45bc7728
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9356.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2026 21:39:46.8409
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VuIOe8u6/T8hb9ONElnQ3MlOXvUx5QSohWUO+1liFdy0CLRjlqwlOMsPzcNRnRUreEXQwc120y+3217IuxxY7Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4287
+References: <20261106-befreien-addieren-eislauf-e09212803534@brauner>
+ <CALCETrWa1SBLcb5oWjqjgzZvKvCoHjmYFk=Lf5ytEM9uqm5jYA@mail.gmail.com>
+ <avM41a80aig2de-R@google.com> <20261111-behagen-faktisch-entgegen-e2e714373895@brauner>
+ <CALCETrUjW=kXxyggDUvEN+Pxc-pE98eVbdW8XBU8JzfqXj_voA@mail.gmail.com>
+ <20261117-rational-ohnehin-unbeugsam-e5c04759a156@brauner>
+ <CALCETrWhuOnBy0N0KznmczD4S2XEK0fbr0C=1KFQqTnoTJbQbg@mail.gmail.com>
+ <20261118-stapeln-eckpunkte-lesbar-ee73537f474d@brauner> <20261118-zufahrt-baubeginn-gutsbetrieb-c09004227e8f@brauner>
+ <CALCETrUMNr=32ENT6VBKPzoyJDfaX6nzZsjMVxuz9O3z+6LRhw@mail.gmail.com> <20261118-professionell-kondition-kerzen-5dd23c1ee490@brauner>
+In-Reply-To: <20261118-professionell-kondition-kerzen-5dd23c1ee490@brauner>
+From: Andy Lutomirski <luto@amacapital.net>
+Date: Wed, 18 Nov 2026 13:49:32 -0800
+X-Gm-Features: Aa3M54rEY9J5hVHcO1DPxjhsi7Vv-UveBjN-XrYjaJlUs9gt6QOZEnzJ-89YhLo
+Message-ID: <CALCETrXAGpb=OZyGQ2=VfKmA6xeizAsusGZ_HmRtp_s99RpRJA@mail.gmail.com>
+Subject: Re: [PATCH 0/8] userns: per-namespace capability bounding set and
+ opt-in netns loopback
+To: Christian Brauner <brauner@kernel.org>
+Cc: lennart@poettering.net, Jann Horn <jannh@google.com>, 
+	"Hallgrimur H. Gunnarsson" <halg@google.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, Kees Cook <kees@kernel.org>, 
+	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jan Kara <jack@suse.cz>, 
+	James Morris <jmorris@namei.org>, Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	=?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
+	KP Singh <kpsingh@kernel.org>, Jonathan Calmels <jcalmels@3xx0.net>, 
+	Casey Schaufler <casey@schaufler-ca.com>, linux-fsdevel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, linux-api@vger.kernel.org, 
+	containers@lists.linux.dev, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-So, any progress on this? Should I rebase and resend, or we can merge
-it as is? Andrew?
+On Wed, Nov 18, 2026 at 1:37=E2=80=AFPM Christian Brauner <brauner@kernel.o=
+rg> wrote:
+>
+> On Wed, Nov 18, 2026 at 01:12:45PM -0800, Andy Lutomirski wrote:
 
-Thanks,
-Yury
+> > > > * deny privilege gain on exec in the initial user namespace and all=
+ow it
+> > > >   in nested ones. I mused about this in
+> > > >   https://github.com/uapi-group/kernel-features/pull/38
+> > > >
+> > > > Also, since v7.1 there's CLONE_NNP to spawn a child without no_new_=
+privs
+> > > > set.
+> > >
+> > > Forgot:
+> > >
+> > > https://www.thkukuk.de/blog/no_new_privs/
+> > >
+> > > has an overview of where we're currently at.
+> >
+> > Nice!
+> >
+> > I commented in the uapi-group issue:
+> >
+> > I think there may be a rather more direct solution to this problem. I
+> > seem to recall advocating for clearing no_new_privs when entering a
+> > userns way back when, and IIRC I dropped this as part of the extensive
+> > negotiation to get NNP into the kernel in the first place. (I think
+> > dropping it was probably the right decision to keep the final patch
+> > simple.)
+> >
+> > But I think I would still advocate for an option to let clone, unshare
+> > and setns callers turn no_new_privs off. The logic is that, if you own
+> > a userns, you already have all capabilities in it. If you enter it,
+> > you get to keep those by having them raised in cap_permitted. Being
+> > able to clear NNP and thus drop and subsequently regain them does not
+> > let you do anything you couldn=E2=80=99t already do.
+> >
+> > An LSM hook for this would be needed because this argument does not
+> > apply to non-namespace-scoped LSM-based privileges. But the LSM hook
+> > would just be a "may this caller enter this userns and clear
+> > no_new_privs while doing so" query. In the absence of LSMs, the
+> > operation would be allowed.
+> >
+> > This would allow a fully no_new_privs host to run an ordinary
+> > container that runs, in the ordinary way, without no_new_privs, and
+> > without hitting any new LSM calls after it's started.
+> >
+> > The API could be as simple as a CLONE_CLEAR_NNP bit.
+>
+> I think that sounds ok. I worry a little it since it would somewhat
+> alter the promise that NNP gives. What model do you envision?
+> It seems that CLONE_CLEAR_NNP would only be allowed with CLONE_NEWUSER.
+> I _think_ this safe even for privileged users that create a user
+> namespace and map uid 0 to uid 0. So I think this could work.
 
-On Mon, Sep 14, 2026 at 11:03:18PM -0400, Yury Norov wrote:
-> On top of [1].
-> 
-> Declaration macros that statically initialize embedded locks require static
-> storage when lockdep is enabled. Automatic objects must use runtime
-> initialization so lockdep receives a persistent class key.
-> 
-> For automatic local objects, lockdep cannot use the lock address as a persistent
-> class key and reports "INFO: trying to register non-static key" before disabling
-> itself.
-> 
-> Series [1] introduces an ASSERT_STATIC_STORAGE() macro to enforce static
-> duration of an object, and applies it for DEFINE_IDA() and DEFINE_MTREE().
-> 
-> This series applies the same mechanism for the other structures of that
-> sort found by Codex.
-> 
-> Link: https://lore.kernel.org/all/20260911221444.1523311-1-ynorov@nvidia.com/ [1]
-> 
-> --
-> 
-> [1] also describes the preferred route(s) for the material. According to
-> Andrew's (and mine) preferences, sending everything together in the hope
-> that the relevant maintainers would ack the corresponding patches or
-> simply take them in their trees.
-> 
-> Yury Norov (17):
->   locking/mutex: assert static storage for DEFINE_MUTEX()
->   locking/rtmutex: assert static storage for DEFINE_RT_MUTEX()
->   locking/rwsem: assert static storage for semaphore definitions
->   locking/semaphore: assert static storage for DEFINE_SEMAPHORE()
->   locking/seqlock: assert static storage for DEFINE_SEQLOCK()
->   sched: assert static storage for wait queue and completion
->     declarations
->   xarray: assert static storage for DEFINE_XARRAY_FLAGS()
->   idr: enforce the static-storage contract of DEFINE_IDR()
->   radix-tree: require static storage for RADIX_TREE()
->   klist: assert static storage for DEFINE_KLIST()
->   workqueue: assert static storage for work declarations
->   timers: assert static storage for DEFINE_TIMER()
->   kthread: assert static storage for delayed work declarations
->   ratelimit: assert static storage for DEFINE_RATELIMIT_STATE()
->   notifier: assert static storage for locking notifier heads
->   rcu: assert static storage for RCU sync and SRCU definitions
->   sysctl: assert static storage for DEFINE_CTL_TABLE_POLL()
-> 
->  drivers/macintosh/ams/ams-pmu.c              |  4 +--
->  drivers/net/wireguard/selftest/allowedips.c  |  4 +--
->  include/linux/completion.h                   | 10 +++++--
->  include/linux/idr.h                          |  4 ++-
->  include/linux/klist.h                        |  4 ++-
->  include/linux/kthread.h                      |  4 ++-
->  include/linux/mutex.h                        |  7 +++--
->  include/linux/notifier.h                     | 13 ++++++---
->  include/linux/percpu-rwsem.h                 |  4 ++-
->  include/linux/radix-tree.h                   |  4 ++-
->  include/linux/ratelimit_types.h              |  4 ++-
->  include/linux/rcu_sync.h                     |  4 ++-
->  include/linux/rtmutex.h                      |  3 +-
->  include/linux/rwsem.h                        |  7 +++--
->  include/linux/semaphore.h                    |  4 ++-
->  include/linux/seqlock.h                      |  3 +-
->  include/linux/srcutiny.h                     |  4 ++-
->  include/linux/srcutree.h                     |  7 +++--
->  include/linux/swait.h                        |  6 ++--
->  include/linux/sysctl.h                       |  4 ++-
->  include/linux/timer.h                        |  4 ++-
->  include/linux/wait.h                         |  7 +++--
->  include/linux/workqueue.h                    | 10 +++++--
->  include/linux/xarray.h                       |  3 +-
->  tools/testing/memblock/linux/mutex.h         |  8 ++++--
->  tools/testing/radix-tree/benchmark.c         |  4 ++-
->  tools/testing/radix-tree/idr-test.c          | 29 ++++++++++++++------
->  tools/testing/radix-tree/iteration_check_2.c |  4 ++-
->  tools/testing/radix-tree/main.c              | 16 ++++++++---
->  tools/testing/radix-tree/regression3.c       |  4 ++-
->  tools/testing/radix-tree/tag_check.c         | 28 ++++++++++++++-----
->  tools/testing/vma/include/dup.h              |  5 +++-
->  tools/virtio/linux/compiler.h                |  9 ++++++
->  tools/virtio/linux/ratelimit.h               |  6 +++-
->  34 files changed, 176 insertions(+), 65 deletions(-)
-> 
-> -- 
-> 2.53.0
+Whoops.  I thought that and didn't type that.  Yes, I think you should
+only be able to clear NNP with CLONE_NEWUSER.
+
+(And if something like cells ever lands, presumably a task with NNP
+set should be allowed to create a cell without NNP in the init task as
+long as the same LSM hook says it's okay.)
