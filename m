@@ -1,66 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=143.54.11.23
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.199
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794967376;
-	b=n5zs7bul8ZyPPfgDy3KgAtjhr1izMYNFlg7fQLIhEVoJ3hwRNFRRF4zUHQDhGuwsj2Kf
-	 Dx6ZVdio4iXRkOY+zAccOCz7AsDPxhne/xcymmsQBFy1XNeTZLXKzhnqmT9zTjIXHiijl
-	 SmSVIwfjIshONRm9TkCK3zRRaEkp6eE8DWpREwgYA9IeBSPctqZ8Y4JIC3q9DxCVPdoDV
-	 3sQTecnQn45SG+CzKlUDHjCk5kk+P4pIYeBryUwlJASxEeid7UgxUK9O81VpVFhX1yexO
-	 syGtTXe8Va/btF3/8XeL6rBHv787uToSzo6Hce1WvQ+32dmlY4MpLBiMeKn1ZUhgBGw==
+	t=1794968106;
+	b=0kg1AHrsAq5FNVh7vIdQnt/KuXTBxt6awfXJK3zxD4/DmrLEdCcM0MoN9zpO0t9VB8YJ
+	 QDHZc1xYR0WMmhaZggx0xa/2Vw9HKK0/ZhmlYAT4QVk6Tm9Mia+q2Ir2llSjqVK15a2Kx
+	 uuK5PJSaFoz8iFI1NHs96IL1m77XUmnfgBQpB25UsNoLNJ5D35Og+RzTPfILt0CUgLO7d
+	 YwOaypZER7g6NmBhNks/eaTre0bIsA3g5cAoEdNtTpP+mc+wx/+Jh0sWj8fHRZCKzG1HT
+	 j1zCHZnidEY8SV0rtrNzEOuDpseAFs3cODDkOSdnWqAPbSka1+OPN+Xwvi1Vrb7l85g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794967376;
-	h=DMARC-Filter:Received:DKIM-Signature:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=r2ZwkzBF1RbyvA4zB0tEixqDOdcD7qR8h94bWgj2HyA=;
-	b=zgFJIt5DrClpDMkXp7IKD5iNZ0yVdMoIoqT73vefsK1+Xf3bR8Ggt8qPwCpp7S8zlJCe
-	 I1xI3uftVnR21KeK6v0KTZ1StfDFi/QI0J2IlphagyzdEIKBkbHGIEmR43VgPcVFcs+R0
-	 am8u+SfDxOQvXlYtgXniCn7cR/0Io1OL4purQp1DtLxZQcuNcMczD/svQHvqu94lWY/Fe
-	 Zo3Bbk4OgLvkwVB2agzRpIs2bEE+hxilq155S6cyOyNEQvlsm6/4Vn/fYfo0owi6/Sr/M
-	 /ce28KaAt+9dO607/8/85MOCqiTzFZrBuq5krb/8TFSLDFadajk2wXJi3SNDT00G2UQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794968106;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
+	 Mime-Version:References:Message-ID:Subject:From:To:Cc:Content-Type;
+	bh=Hek+ZE9sdaq9Ge80vFXi/7LSVSangUgBYjZCzNy2wbw=;
+	b=FB/p+4liIEqCG3Qt3rUgg42TsD9zgNKOCHIprVkl5y0dqi9iCN7Bpu864wtjFnmZfQco
+	 tysuYKD1bKIUDUfJMmcOdfu8F/RtarPOM4n6vYlCyrY30YBIEIV2ycmHKzu994cwlscT7
+	 4Vl5twIcMZKDg75Unho7jGeYJ3GCPRno+RUVt+pMG1/g0B6Oq7A3e7Gcs6YsWwSBRFjk6
+	 T0kWKaSYZoSamTbX8UU4nQeoKBxGupLjhy2sKfeR1NJd5uJlfLOHWqeaHHyzMF8+unxSN
+	 tG4OGBE2K8kkLFCdgUaJEltnguym0BRsTCn5fim9cDRJ7pTUkHypQDhIYCQ6+mj596g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=inf.ufrgs.br;
-	spf=pass smtp.mailfrom=inf.ufrgs.br;
-	dkim=pass header.d=inf.ufrgs.br header.i=@inf.ufrgs.br header.a=rsa-sha256 header.s=dkim2026 header.b=OrT7ewHs;
-	arc=none smtp.remote-ip=143.54.11.23
-Received: from smtp.inf.ufrgs.br (smtp.inf.ufrgs.br [143.54.11.23])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--kuniyu.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=hcNs234f;
+	arc=none smtp.remote-ip=209.85.214.199
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69855606A31C;
-	Wed, 18 Nov 2026 02:02:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 69855606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inf.ufrgs.br
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inf.ufrgs.br
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 957A5606A331
+	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 02:15:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 957A5606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--kuniyu.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=inf.ufrgs.br header.i=@inf.ufrgs.br header.a=rsa-sha256 header.s=dkim2026 header.b=OrT7ewHs
-Received: from LAPTOP-R01LEAQM.localdomain (unknown [189.6.233.4])
-	by smtp.inf.ufrgs.br (Postfix) with ESMTPSA id 900BA1210F5;
-	Tue, 17 Nov 2026 23:02:06 -0300 (-03)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inf.ufrgs.br;
-	s=dkim2026; t=1794967326;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r2ZwkzBF1RbyvA4zB0tEixqDOdcD7qR8h94bWgj2HyA=;
-	b=OrT7ewHse0EmNQmNvOLoKSx7dBA605ExGZp1lq9LKG0WRouoK3nM2pm7BxJ09h0IEOVp6/
-	QCNrqLVonexdsU4nvHa6hp0QUSJAzyFZlortLeF8pQE2mneR2Qhnbh1diFIB6cbz6QIdON
-	btpWENNr5Ux8eI8Ak65Fr3sCYdPQ0QYKWRXZfQRSyHTkTBUD41Up70HFc/IVx1E8+Bvfxt
-	rMo4KJVIK+rNQF+b3Q2mtIebeX6FBDx3pU/MxkaZVQY1IqIhJaCnK+tf3bR7KMpeJU0Iya
-	B4RT8DwxvBd/C2qJXYflBVREqzwEjZGkgmytTySsgje7FSpsyfgpjl4JG5MKQQ==
-From: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
-To: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-Cc: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>,
-	linux-fsdevel@vger.kernel.org,
-	brauner@kernel.org,
-	djwong@kernel.org,
-	hch@lst.de,
-	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH v2 8/8] fat: add multi-cluster allocation for write
-Date: Tue, 17 Nov 2026 23:01:48 -0300
-Message-ID: <20261118020150.1023865-9-matheus.aalmeida@inf.ufrgs.br>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261118020150.1023865-1-matheus.aalmeida@inf.ufrgs.br>
-References: <20261118020150.1023865-1-matheus.aalmeida@inf.ufrgs.br>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=hcNs234f
+Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2ed08904845so5684605ad.3
+        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 18:15:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1794968105; x=1795572905; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Hek+ZE9sdaq9Ge80vFXi/7LSVSangUgBYjZCzNy2wbw=;
+        b=hcNs234fv2gBaZqCmj9VF5K0kL1XLIKNqqfa9Ib7n00vrxU4xjZB89GqYUPwRoKKPR
+         HQZiz/q+uS/wdr9I4W56QJaECk5u/vHYslwah52MEuCs+Feoq/mLB8AknBzRQQxDKsvj
+         LdTEIlPJ+YCz6rvXc+WGq3Bqt/lgn0RFe7LNZl9RecSftLv/8AtzOPEMo1JPSB1vzdw/
+         y0iabgq2OoPSmtNqEOqU8n0XEcAykRFq7aEmPU0YVgKvYOIXKKfOj4PEJ7/TivNFqVdF
+         L54ZIBHKMZHi9Y6jlofa+en7kQzLsCNXgGfDGyW3raz0HrVuhhEvsEACUu4JNU60TyzA
+         COGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794968105; x=1795572905;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Hek+ZE9sdaq9Ge80vFXi/7LSVSangUgBYjZCzNy2wbw=;
+        b=J+NI1d8jZXP2mMiBN6wwmaYlvnORe6DJuQqz2r0x7Z0X09/xu3+/O29b/HM/0b1Cmm
+         +A33lcQeF4e+WjTsCofp4FtsNNROxWNUkj0zcY0TKiLMsYgyR7MRNbKJihSXGj2IjzcZ
+         HB7AUQFP+6Cv64ffKphHnepdXWnNYy+4VDHNXks93iKJQC6ksAn5E1vR5PuEqZALS+nD
+         qCY5ramHWBhDryzSRiFtRpzeUfrmrB3fQFxtjbqt1bfRaNBOVg7Zvbp700rLuaKqmQlK
+         MkcdDn5HVXFW/yzKBRaR8AwfLMWD9fbidqwczZQOdGF8JAGyG2COH1iKZkdVQDZ398M3
+         CGLQ==
+X-Forwarded-Encrypted: i=1; AL+hErE/KzX7Z9fbXKBS7ulr42ISI7amFnkFCuXndCYPjOAOmUqn7eJsWK2Owlx+0/WQtDnfazObrhRupwc592Iu@vger.kernel.org
+X-Gm-Message-State: APuU4Z+ZGVX0nEnbS6GcPMrBCwhctCjDjC6pk1H4A4r2X+n3hvM7EM90
+	1Lc+h/Rwx1J5dzRM0oXKxrAo41wap4c71ECnWUHjotvBdlGjAG6sQ5G67ou1J9wPYD690KnlGv8
+	r+GyeTw==
+X-Received: from plhq17.prod.google.com ([2002:a17:903:11d1:b0:2eb:4a7:306e])
+ (user=kuniyu job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:90f:b0:2e9:8202:509c
+ with SMTP id d9443c01a7336-2eff70fd303mr11865625ad.7.1794968104719; Tue, 17
+ Nov 2026 18:15:04 -0800 (PST)
+Date: Wed, 18 Nov 2026 02:15:04 +0000
+In-Reply-To: <20261117-work-net-peerpidfd_short_optlen-v1-1-a93f56288501@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -69,192 +77,49 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+References: <20261117-work-net-peerpidfd_short_optlen-v1-0-a93f56288501@kernel.org>
+ <20261117-work-net-peerpidfd_short_optlen-v1-1-a93f56288501@kernel.org>
+Message-ID: <av0KF1liMktF5Hg-@google.com>
+Subject: Re: [PATCH net 1/2] net: don't leak pidfds through a short
+ SO_PEERPIDFD optlen
+From: Kuniyuki Iwashima <kuniyu@google.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Alexander Mikhalitsyn <alexander@mihalicyn.com>, netdev@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, stable@vger.kernel.org, 
+	Sashiko <sashiko-bot@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
 
-The iomap code expands the file cluster-by-cluster, requiring many calls
-into the allocator.
+On Tue, 17 Nov 2026 16:25:30 +0100, Christian Brauner wrote:
+> sk_getsockopt_peerpidfd() caps the caller's optlen at sizeof(int) but
+> never checks that it is at least that large. sk_getsockopt() only
+> rejects a negative optlen. So with an optlen of 0 to 3 we still
+> allocate a pidfd via pidfd_prepare(), copy zero to three bytes of the
+> fd number to userspace, write the short optlen back and then
+> fd_install() the pidfd anyway.
+> 
+> getsockopt() reports success but the caller only got part of the fd
+> number or none of it at all. It has no sane way to find out which fd it
+> has to close and the pidfd stays in its file descriptor table until the
+> process exits. Calling it in a loop fills up the table.
+> 
+> scm_pidfd_recv() deals with the same problem for SCM_PIDFD. Since
+> put_cmsg() doesn't fail on truncation it checks the size of the control
+> buffer itself and sets MSG_CTRUNC before it allocates a pidfd.
+> 
+> There's no point in handing out part of a file descriptor number. So
+> fail with EINVAL if optlen is smaller than sizeof(int) before we
+> prepare a pidfd. Since commit e10899b2a098 ("net: add
+> SO_PEERPIDFD_THREAD to get a thread-specific pidfd") SO_PEERPIDFD and
+> SO_PEERPIDFD_THREAD share the helper and the latter inherited the bug,
+> so this fixes both.
+> 
+> Fixes: 7b26952a91cf ("net: core: add getsockopt SO_PEERPIDFD")
+> Cc: stable@vger.kernel.org
+> Reported-by: Sashiko <sashiko-bot@kernel.org>
+> Closes: https://lore.kernel.org/all/sashiko-outbox-205984@kernel.org
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-Implement multi-cluster allocation on write. To preserve short write
-semantics, allow allocations of chains smaller than the requested size
-in fat_alloc_chain().
-
-Signed-off-by: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
----
- fs/fat/fat.h    |  6 ++++--
- fs/fat/fatent.c | 33 ++++++++++++++++++++++-----------
- fs/fat/file.c   |  2 +-
- fs/fat/inode.c  |  4 ++--
- fs/fat/iomap.c  | 12 ++++++------
- 5 files changed, 35 insertions(+), 22 deletions(-)
-
-diff --git a/fs/fat/fat.h b/fs/fat/fat.h
-index 00041fa11..b527693de 100644
---- a/fs/fat/fat.h
-+++ b/fs/fat/fat.h
-@@ -394,7 +394,8 @@ extern int fat_ent_write(struct inode *inode, struct fat_entry *fatent,
- 			 int new, int old, int wait);
- extern int fat_alloc_clusters(struct inode *inode, int *cluster,
- 			      int nr_cluster);
--int fat_alloc_chain(struct inode *inode, int *cluster, int nr_cluster);
-+int fat_alloc_chain(struct inode *inode, int *cluster, int *nr_cluster,
-+		    bool allow_partial);
- extern int fat_free_clusters(struct inode *inode, int cluster);
- extern int fat_count_free_clusters(struct super_block *sb);
- extern int fat_trim_fs(struct inode *inode, struct fstrim_range *range);
-@@ -440,7 +441,8 @@ static inline unsigned long fat_dir_hash(int logstart)
- {
- 	return hash_32(logstart, FAT_HASH_BITS);
- }
--extern int fat_add_clusters(struct inode *inode, int nr_cluster);
-+
-+int fat_add_clusters(struct inode *inode, int nr_cluster, bool allow_partial);
- 
- /* fat/misc.c */
- extern __printf(3, 4) __cold
-diff --git a/fs/fat/fatent.c b/fs/fat/fatent.c
-index cdbc15465..9578b1ae9 100644
---- a/fs/fat/fatent.c
-+++ b/fs/fat/fatent.c
-@@ -552,8 +552,8 @@ static void fat_clean_bdev_aliases(struct super_block *sb,
- 			   (sector_t)count * sbi->sec_per_clus);
- }
- 
--static int __fat_alloc_clusters(struct inode *inode, int *cluster, int nr_cluster,
--				bool return_all)
-+static int __fat_alloc_clusters(struct inode *inode, int *cluster, int *nr_cluster,
-+				bool return_all, bool allow_partial)
- {
- 	struct super_block *sb = inode->i_sb;
- 	struct msdos_sb_info *sbi = MSDOS_SB(sb);
-@@ -561,12 +561,18 @@ static int __fat_alloc_clusters(struct inode *inode, int *cluster, int nr_cluste
- 	struct fat_entry fatent, prev_ent;
- 	struct buffer_head *bhs[MAX_BUF_PER_PAGE];
- 	int i, count, err, nr_bhs, idx_clus, cont_start, cont_len;
-+	int nr_alloc = *nr_cluster;
- 
- 	lock_fat(sbi);
--	if (sbi->free_clusters != -1 && sbi->free_clus_valid &&
--	    sbi->free_clusters < nr_cluster) {
--		unlock_fat(sbi);
--		return -ENOSPC;
-+	if (sbi->free_clusters != -1 && sbi->free_clus_valid) {
-+		if (sbi->free_clusters == 0 ||
-+		    (!allow_partial && sbi->free_clusters < nr_alloc)) {
-+			unlock_fat(sbi);
-+			return -ENOSPC;
-+		}
-+		if (allow_partial)
-+			nr_alloc = min_t(unsigned int, nr_alloc,
-+					 sbi->free_clusters);
- 	}
- 
- 	cont_len = 0;
-@@ -620,7 +626,7 @@ static int __fat_alloc_clusters(struct inode *inode, int *cluster, int nr_cluste
- 				}
- 				fat_collect_bhs(bhs, &nr_bhs, &fatent);
- 
--				if (idx_clus == nr_cluster)
-+				if (idx_clus == nr_alloc)
- 					goto out;
- 
- 				/*
-@@ -641,7 +647,8 @@ static int __fat_alloc_clusters(struct inode *inode, int *cluster, int nr_cluste
- 	/* Couldn't allocate the free entries */
- 	sbi->free_clusters = 0;
- 	sbi->free_clus_valid = 1;
--	err = -ENOSPC;
-+	if (!allow_partial || !idx_clus)
-+		err = -ENOSPC;
- 
- out:
- 	unlock_fat(sbi);
-@@ -661,17 +668,21 @@ static int __fat_alloc_clusters(struct inode *inode, int *cluster, int nr_cluste
- 	if (err && idx_clus)
- 		fat_free_clusters(inode, cluster[0]);
- 
-+	if (!err)
-+		*nr_cluster = idx_clus;
- 	return err;
- }
- 
- int fat_alloc_clusters(struct inode *inode, int *cluster, int nr_cluster)
- {
--	return __fat_alloc_clusters(inode, cluster, nr_cluster, true);
-+	return __fat_alloc_clusters(inode, cluster, &nr_cluster, true, false);
- }
- 
--int fat_alloc_chain(struct inode *inode, int *cluster, int nr_cluster)
-+int fat_alloc_chain(struct inode *inode, int *cluster, int *nr_cluster,
-+		    bool allow_partial)
- {
--	return __fat_alloc_clusters(inode, cluster, nr_cluster, false);
-+	return __fat_alloc_clusters(inode, cluster, nr_cluster, false,
-+				    allow_partial);
- }
- 
- int fat_free_clusters(struct inode *inode, int cluster)
-diff --git a/fs/fat/file.c b/fs/fat/file.c
-index 90be24bfa..3ba734cae 100644
---- a/fs/fat/file.c
-+++ b/fs/fat/file.c
-@@ -366,7 +366,7 @@ int fat_preallocate(struct inode *inode, loff_t new_size)
- 		     sbi->cluster_bits;
- 
- 	/* Allocate the clusters. We are not zeroing them out */
--	return fat_add_clusters(inode, nr_cluster);
-+	return fat_add_clusters(inode, nr_cluster, false);
- }
- 
- static int fat_zero_and_extend(struct inode *inode, loff_t new_size)
-diff --git a/fs/fat/inode.c b/fs/fat/inode.c
-index 76755c2b4..49de04fa1 100644
---- a/fs/fat/inode.c
-+++ b/fs/fat/inode.c
-@@ -102,11 +102,11 @@ static struct fat_floppy_defaults {
- },
- };
- 
--int fat_add_clusters(struct inode *inode, int nr_cluster)
-+int fat_add_clusters(struct inode *inode, int nr_cluster, bool allow_partial)
- {
- 	int err, cluster;
- 
--	err = fat_alloc_chain(inode, &cluster, nr_cluster);
-+	err = fat_alloc_chain(inode, &cluster, &nr_cluster, allow_partial);
- 	if (err)
- 		return err;
- 	/* FIXME: this cluster should be added after data of this
-diff --git a/fs/fat/iomap.c b/fs/fat/iomap.c
-index f73076230..dc34b33dc 100644
---- a/fs/fat/iomap.c
-+++ b/fs/fat/iomap.c
-@@ -100,6 +100,7 @@ static int fat_iomap_begin_write(struct inode *inode, loff_t offset,
- 				 loff_t length, unsigned int flags,
- 				 struct iomap *iomap, struct iomap *srcmap)
- {
-+	struct msdos_sb_info *sbi = MSDOS_SB(inode->i_sb);
- 	loff_t curr_size = i_size_read(inode);
- 	loff_t old_alloc = inode_get_bytes(inode);
- 	int err;
-@@ -108,12 +109,11 @@ static int fat_iomap_begin_write(struct inode *inode, loff_t offset,
- 	if (WARN_ONCE(offset > curr_size, "Write starting past EOF"))
- 		return -EOPNOTSUPP;
- 
--	if (offset == curr_size) {
--		/*
--		 * TODO: allocate multiple blocks while allowing
--		 * short writes
--		 */
--		err = fat_preallocate(inode, offset + 1);
-+	if (offset == curr_size && offset >= old_alloc) {
-+		int nr_cluster = (offset + length - old_alloc +
-+				  sbi->cluster_size - 1) >> sbi->cluster_bits;
-+
-+		err = fat_add_clusters(inode, nr_cluster, true);
- 		if (err)
- 			goto err_truncate;
- 	}
--- 
-2.43.0
-
+Reviewed-by: Kuniyuki Iwashima <kuniyu@google.com>
