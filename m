@@ -1,73 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795018176;
-	b=c7PMVp/+1VQ1TUrHD6Bf/5YCfb+/lTNKqvRsQHoUrqIoPfND4ADgu7n5BZiZiyR/wmYJ
-	 Z2ALr3Be8pzmi1y1X9EKReXKZEUiGXKfqiXqRPFzst3yNpZbQD7/0HMdTraS1ah42fc2a
-	 3IgLKnV8MHKy7voAiSIZQntS/fTsOMmpM8VufQgtZiC1oxySI8w/c9wkPeeU+8TF8STIW
-	 HfxWxUeeIqCz2cTl/mKppaYwlTy3tmEg20IfjrzNVjCmkvUdZgJvigDC5mmfpGMnUy9hM
-	 lwScjQg22Mo2FJfj+HR7MsW08vFGDOE1DQ/Xt3M+m5dryvEr4Jjnah2ESsGMlup51pw==
+	t=1795018324;
+	b=VYGdM4iHmdqtu92KRcCuv7MozU9QdaCiHDo3MuPBO0rP5ATeYICnMk+1W2xT4VrGoCv1
+	 7v1lnWti6wB/tySVGQSw5wv2ytrQO8V21bQXM1f4/qJ/+osFRxMF/H3K9S0RIpQIvlbgM
+	 9NRw94LjVyC0AHfxnqnRVG8XFKKta9S/2l3HEwdohlZ0Lx+FgxFE5bjKhAIKdU2ZbsTyU
+	 iCqKWHGqm2CyENmGLuZ6aTDOb8bnV9cZXQ6Hhrsfw3YBoejeHEZt+hdmICBLdrcOwDvpW
+	 oeMNtVgWXvt6GnGNr9yEnpogAH/yj1v4K82IGh+rapGLiNTeYrOdowKM3fkUUKJ9Ihg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795018176;
-	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:
-	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
-	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
-	 References:Subject:Content-Type:Content-Transfer-Encoding;
-	bh=riDyBArp9/R4k4xMR6VvRZbF1SaPkOMeMV0JssuNRRY=;
-	b=hoh0hyq5r52x2jQgJGNEHzEsMDwGcoByxRQXNH39iu/ZwLdmvaLWueS0Y7zR3pn/Z85X
-	 DaJECiU51wUlLvI3Jv6pO9GYpgqC/Q67L28dwIuMzHQINEa1YVTw+Nhu7RmhkgjokD/MS
-	 4ezYimzFwuNu1/3mcUHcBV0fjQxisiJ+WGu+v8P+PblpaiIuaAAHNwrFalDCrFjf3SdOh
-	 R6GgSiZBWWJ664cSz9KIrrNqbOZ7xq9jCmr/Odavzl+KvUz2Z6/yz8r0cXzK24AbxAgUe
-	 umbyYZxzUmSRSq4JT3u2b5rlooz+QVy83uMU4SYRI5SmI0oKOx2tC+T542XMtw62lOw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795018324;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=LtOK71mgWL1hJ57ziMdV5/lpR6OIlsIMpvQ29Ztn9ic=;
+	b=c/xkB9Zg0HJsHpj9FCvHfuH60BzxKzIf6vfKy43/o/yHaON5wXLJNbNg7Yv2OSpIMj+K
+	 bEeP+uwLpZPt5+47D8BDss5MiHuGwYweZoLUZv+JZ2uY0+HSnJlWFYOrTaHsS7sAlsRUD
+	 x9AKzADxcpE3QIDNQHz/YmZUtrql30yY5U9g9dJIWj9Qg5sOL/y+BucwYNlhME//hWwmi
+	 74FzOGcZeDUGiKQ97tqvlBsxqKXimeqCVnMPT2AJ/jvY7wfVYZQVc/T8/Z2SF3Wh7YHTr
+	 RBZ/47hrWUMvf1m8hu2/9ZoTfEaootgcwYhfB4L0c9AoMKiTJ/bCXwH7M7yyJuXo18A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WQVxeFt0;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 879AD60A2603;
-	Wed, 18 Nov 2026 16:09:36 +0000 (UTC)
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=YbCqZfuq;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF251606A31C;
+	Wed, 18 Nov 2026 16:12:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DF251606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WQVxeFt0
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44EAD1F000C7;
-	Wed, 18 Nov 2026 16:09:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795018176;
-	bh=riDyBArp9/R4k4xMR6VvRZbF1SaPkOMeMV0JssuNRRY=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=WQVxeFt0TuWWJ9rDqOBsEyHmT4klUDdkp1++L1TljGKUvp7Mr7chURu3wq5DWbTX3
-	 0OM34AhLvrmw3qqd/nUxxFb2uF30FQQ2aFNlZVLgekk5RKxNyIpgVMQ40vfSG8yFCt
-	 f7vZBEyoGzi3CLzjFGz9BaGiYIxxjsKatx1dCeqcS5fj+u11nd29n/2HAFxi2ruUQk
-	 yWLcE74YYblOC91Jgx3lx5GPbMC3e1AdJG0dflKPAOXcj9wnW0jd0F6ZoGfNh0R5o1
-	 F4OA9YZ7Chzrv/L26XVu37jk0I5h4MprHyr1KZI0M3XXwa0PEgG7Nei18SZX+m5sE5
-	 Wy9P0omD4oiIw==
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 73AB8F40068;
-	Wed, 18 Nov 2026 11:09:34 -0500 (EST)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Wed, 18 Nov 2026 11:09:34 -0500
-X-ME-Sender: <xms:vs39aqitLc6ckqgYZwXr4Lwqcr4Vx8ZaY7-YBes86xXVIjD8A2UWTQ>
-    <xme:vs39al205nX5FAAqgXdjrEs05ZwOlH8bCwq5I4vNMQ2_8dPZNXCgS_WzUtfcf8AQt
-    2BzfTlfc25b5ZYpgXkrCi18B9eclEpog9jTLB6rTcBpq84V2ypF_olR>
-X-ME-Proxy-Cause: dmFkZTESUkvVxGxEelyPcREnb7FTBl+UYPIp7kZlTs72pQocBlCkEEimyKkotd47ihAmoh
-    uecK+1S/fABU3BrzfC8q5W1uCGdb4LxtQoMuMXIaPkFqGd1XcHXo6pEeilExT6pmOTt/3E
-    1GVoI3rbDFlwK3sYGrEvea8o84sGaquV0aFEAiCAlN62NbofXs8wlGPAtYVe0YgEOAVsxV
-    Ngus07KK4lFsjvesmRVvXA+wR6ECHlKvWO5ILiNo3JdflMMErbbFjAVGsaj0pmRuVrvitH
-    FPDpEQ4DEi9oMm0O2lBSlKI3njxEl8QvtcHDP4ymsT5M05agaSVdqZxx6cnn42B6G6bnN9
-    7TM5Pkdw2kmVEBOvWp1Sh2zIj0ahJZXfXzJyGcwj+XTWMgvwqGlZB70C7g51BJzO5yQGdL
-    4fntT1oJ4vyhDyFif+DHIXFxPDUEO35PUkg8hFsSUn6d01HQ38vyncE0cZAC2/iRQrBOgk
-    rZww8+XoNJr41UQoz6gHgSu/qpkiC3eWtw0yelptYC9roOgJF4EPWzCE9iQ2gIZhbhEGes
-    s/T+jcY+Of9RNHsFuJ+lltD8iKko7YFVNliqcEGD0TaPRQWdaNL6jH3jbR6holEPvIZo88
-    pM01Es80WOsZj037bg+Nz8Y9JYgNACUwMr2yVAWroWu9uMEjaUNKtUABUYsw
-X-ME-Proxy: <xmx:vs39amB-U1tskQG2wHlCReZacLqb-wiExlxaTcSsCvBNxLhv0gV17w>
-    <xmx:vs39aj1TcPsDF_L9gh8TRQmS0Yd083OZ_Xyc_0oF_rPmRduTU7FwPg>
-    <xmx:vs39alYtapLFlkZ7C1oSkn2XlL6OgZunlDpQrKCxLUAgfrLt7o2tKg>
-    <xmx:vs39an87cCm_UOcBfyI-8OiDZuikMstn8hTADRMUflsvlT4Ha-mcYw>
-    <xmx:vs39avO4IKoor5lhcIMOAbl4zt_ITGJraIIsJ1sKAu7VYukRKaleKAWz>
-Feedback-ID: ifa6e4810:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 43C78780070; Wed, 18 Nov 2026 11:09:34 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=YbCqZfuq
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C574C339;
+	Wed, 18 Nov 2026 08:11:59 -0800 (PST)
+Received: from [10.163.128.4] (unknown [10.163.128.4])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 35E633F673;
+	Wed, 18 Nov 2026 08:11:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1795018322; bh=aYQ0HCEYlkn9BeS1THLapsztaFWJtc0g6BUkMATS0GA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=YbCqZfuq9vsdroMTMmDXNL46nZtVMm9VNmLHTjEGcy2irM8ufBsCnBnRV/fVYl15N
+	 4A8TlkUJeyswfIKtt74NSDt5rlzv/pIYVVWT98EMm8puIWg5sekv6yzmy/+A0dD3h+
+	 1UzoLtCEDx4y9eRTDQ8enHNrj8UvtuZ9G8ANdCuc=
+Message-ID: <15d75748-9baa-43d9-96e0-0e49c8e27be3@arm.com>
+Date: Wed, 18 Nov 2026 21:41:52 +0530
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -77,119 +53,76 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-ThreadId: AgKvhXN-CN1w
-Date: Wed, 18 Nov 2026 11:09:14 -0500
-From: "Chuck Lever" <cel@kernel.org>
-To: "Amir Goldstein" <amir73il@gmail.com>
-Cc: koraynilay <koray.fra@gmail.com>, "David Sterba" <dsterba@suse.com>,
- "Namjae Jeon" <linkinjeon@kernel.org>,
- "Sungjong Seo" <sj1557.seo@samsung.com>,
- "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Christian Brauner" <brauner@kernel.org>,
- "Trond Myklebust" <trondmy@kernel.org>, "Anna Schumaker" <anna@kernel.org>,
- "Jeff Layton" <jlayton@kernel.org>,
- "Konstantin Komarov" <almaz.alexandrovich@paragon-software.com>,
- "Paulo Alcantara" <pc@manguebit.org>, "Chris Mason" <mason@kernel.org>,
- "Yuezhang Mo" <yuezhang.mo@sony.com>, "Jan Kara" <jack@suse.cz>,
- NeilBrown <neil@brown.name>, "Olga Kornievskaia" <okorniev@redhat.com>,
- "Dai Ngo" <Dai.Ngo@oracle.com>, "Tom Talpey" <tom@talpey.com>,
- "Ronnie Sahlberg" <ronniesahlberg@gmail.com>,
- "Shyam Prasad N" <sprasad@microsoft.com>,
- "Bharath SM" <bharathsm@microsoft.com>,
- "Sergey Senozhatsky" <senozhatsky@chromium.org>,
- ChenXiaoSong <chenxiaosong@chenxiaosong.com>,
- "Darrick J. Wong" <djwong@kernel.org>,
- "Sean Smith" <defendthedisabled@gmail.com>,
- "Andrey Albershteyn" <aalbersh@kernel.org>,
- "Pedro Falcato" <pfalcato@suse.de>,
- =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>, linux-btrfs@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- exfat@lists.linux.dev, ntfs3@lists.linux.dev, linux-cifs@vger.kernel.org,
- linux-nfs@vger.kernel.org, linux-api@vger.kernel.org
-Message-Id: <cd49ce48-58d7-4341-b4fc-34e63daf3c52@app.fastmail.com>
-In-Reply-To: 
- <CAOQ4uxhpMARO_ZMJDeoa044BwufLVnS0o4Fv0abBF=tjaZmtWQ@mail.gmail.com>
-References: <20261115180343.576773-1-koray.fra@gmail.com>
- <20261115180343.576773-8-koray.fra@gmail.com>
- <f297d9ea-ebd7-47f4-ab7b-de5c45980000@app.fastmail.com>
- <CAOQ4uxhpMARO_ZMJDeoa044BwufLVnS0o4Fv0abBF=tjaZmtWQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v4 07/10] nfsd: add provenance time (ptime) via
- FATTR4_TIME_CREATE
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH mm-new v2 1/5] mm: remove unused helpers from pagemap.h
+To: Shivank Garg <shivankg@amd.com>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
+ Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
+ Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>,
+ Barry Song <baohua@kernel.org>, Youngjun Park <youngjun.park@lge.com>,
+ Minchan Kim <minchan@kernel.org>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>
+Cc: linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org
+References: <20261117-unused-sym-mm-v2-0-2f845e94dd50@amd.com>
+ <20261117-unused-sym-mm-v2-1-2f845e94dd50@amd.com>
+Content-Language: en-US
+From: Dev Jain <dev.jain@arm.com>
+In-Reply-To: <20261117-unused-sym-mm-v2-1-2f845e94dd50@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
 
-On Wed, Nov 18, 2026, at 2:44 AM, Amir Goldstein wrote:
-> On Tue, Nov 17, 2026 at 11:02=E2=80=AFPM Chuck Lever <cel@kernel.org> =
-wrote:
->>
->>
->>
->> On Sun, Nov 15, 2026, at 1:03 PM, koraynilay wrote:
->> > Implement provenance time (ptime) in NFSD, as introduced in a
->> > previous commit ("vfs: add provenance time (ptime)").
->> >
->> > Map ptime to FATTR4_TIME_CREATE, allowing clients to set it across
->> > CREATE, OPEN and SETATTR compounds.
->> >
->> > If the underlying filesystem supports it, use __vfs_fileattr_set_lo=
-cked()
->> > to set it, returning -EOPNOTSUPP in case it's not supported (i.e. w=
-hen
->> > __vfs_fileattr_set_locked() returns -ENOIOCTLCMD).
->> >
->> > When querying FATTR4_TIME_CREATE, request both STATX_PTIME and
->> > STATX_BTIME, preferring ptime over btime if available, and advertise
->> > FATTR4_TIME_CREATE support if either ptime or btime is available.
->> >
->> > Assisted-by: Gemini:3.8-flash-high antigravity-cli-1.5.7
->> > Signed-off-by: koraynilay <koray.fra@gmail.com>
->>
->> > @@ -3646,7 +3649,14 @@ static __be32
->> > nfsd4_encode_fattr4_time_access(struct xdr_stream *xdr,
->> >  static __be32 nfsd4_encode_fattr4_time_create(struct xdr_stream *x=
-dr,
->> >                                             const struct nfsd4_fatt=
-r_args *args)
->> >  {
->> > -     return nfsd4_encode_nfstime4(xdr, &args->stat.btime);
->> > +     const struct timespec64 *ts;
->> > +
->> > +     if (args->stat.result_mask & STATX_PTIME)
->> > +             ts =3D &args->stat.ptime;
->> > +     else
->> > +             ts =3D &args->stat.btime;
->> > +
->> > +     return nfsd4_encode_nfstime4(xdr, ts);
->> >  }
->>
->> I have trouble with this approach.
->>
->> We've already established that, for the Linux in-kernel NFS server
->> implementation, FATTR4_TIME_CREATE reports a file's birth time and
->> does not permit NFS clients to modify that.
->>
->> After this patch is applied, the server reports the ptime instead
->> of the btime on some filesystems but not others.
->
-> In other words, for some server filesystems FATTR4_TIME_CREATE is
-> settable and for others it is not.
->
-> Isn't the NFSv4 protocol equipt to deal with this complexity?
+On 17/11/26 12:46 pm, Shivank Garg wrote:
+> invalidate_remote_inode() lost its last user in commit d73065e60dcc
+> ("afs: Use alternative invalidation to using launder_folio").
+> mapping_clear_release_always() has no callers.
 
-Not a question of whether NFSv4 _can_ do it. It's whether it _should_
-and whether opaquely choosing a settable vs. an immutable timestamp
-on the server is the right design.
+That was added in b4fa966f03b7401ceacd4ffd7227197afb2b8376.
+
+> 
+> Signed-off-by: Shivank Garg <shivankg@amd.com>
+> ---
+
+Reviewed-by: Dev Jain <dev.jain@arm.com>
 
 
->> Essentially this changes the semantics of existing files that have
->> a btime set -- technically that's a regression.
->
-> I fail to see in what situation this is a regression. Please explain.
+>  include/linux/pagemap.h | 11 -----------
+>  1 file changed, 11 deletions(-)
+> 
+> diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
+> index 73af18a37367..e681a7ba6642 100644
+> --- a/include/linux/pagemap.h
+> +++ b/include/linux/pagemap.h
+> @@ -20,12 +20,6 @@ struct folio_batch;
+>  unsigned long invalidate_mapping_pages(struct address_space *mapping,
+>  					pgoff_t start, pgoff_t end);
+>  
+> -static inline void invalidate_remote_inode(struct inode *inode)
+> -{
+> -	if (S_ISREG(inode->i_mode) || S_ISDIR(inode->i_mode) ||
+> -	    S_ISLNK(inode->i_mode))
+> -		invalidate_mapping_pages(inode->i_mapping, 0, -1);
+> -}
+>  int invalidate_inode_pages2(struct address_space *mapping);
+>  int invalidate_inode_pages2_range(struct address_space *mapping,
+>  		pgoff_t start, pgoff_t end);
+> @@ -298,11 +292,6 @@ static inline void mapping_set_release_always(struct address_space *mapping)
+>  	set_bit(AS_RELEASE_ALWAYS, &mapping->flags);
+>  }
+>  
+> -static inline void mapping_clear_release_always(struct address_space *mapping)
+> -{
+> -	clear_bit(AS_RELEASE_ALWAYS, &mapping->flags);
+> -}
+> -
+>  static inline bool mapping_stable_writes(const struct address_space *mapping)
+>  {
+>  	return test_bit(AS_STABLE_WRITES, &mapping->flags);
+> 
 
-Any consumer that depends on btime being read-only is now screwed.
-
-
---=20
-Chuck Lever (Come to NFS bake-a-thon! https://nfsv4bat.org)
