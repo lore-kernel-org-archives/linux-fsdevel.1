@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795015901;
-	b=JqOjqz95ZpvxVEgHqi0KbD2XA4Lez9K/Su3vzN6bss4guJQNEamfaPsUoz4+GpxQzDDM
-	 Njj3k+jb1mhc4A26jRHUsggGvIVUcz5Xjmz32vOgPLMMsVwimjpx0J5yNOBIDUPlR/k5Y
-	 G0add8vC7+P6gjbBv9pWHZYt/l5VJwL5faVZUjQcMcrkFfeYABJ1z6KGnYJWhM+PRawCh
-	 t8erJRBxoLeS0ZA5VdLt+tfsi1P3nAhsuziNVg8TsNsDbUyRkML8dCiQ//RTqGSj1S0LE
-	 I8l2UXGSkeAQ/ZOSsVZXkzF2qHJvXhQ2iyLI5kurICc/OMF/Z5jyjUkfT+r9rML9hpg==
+	t=1795015930;
+	b=1XSCvXwhXNGuoT61nJsT8pNvF76lthXbq/CNPY1F9IyBNzTBoRtGgymgW1Nk0pXxBdH6
+	 RPOL1I9Nb8f/UzluOMkjH41+NaIc4RuWn0gwHlXbMQE3Q6qmWML6nDIgLANIKn+D6++v4
+	 kznmWY8M9IscfQtaYQVy7+kEy291R9vtQff1VsItsLgbvrFOoJ7bnXxcokt7h/qkpmFxj
+	 5BrOam3QYajYZyxhc3nHRAaSKe3knt48PQ8sIDzId2uADKk/CtXkXhf0ECsmnuZnWROT/
+	 nB4+5VQyF8rqqFetZCIxYUM8DwFjoJ4jEQysqHJHjrS0ND9IZP118P0H3wBvFW/Tgfw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795015901;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795015930;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=/hYM8bpbp+9xhfsHxXLNF3JDHZuqj8rY+dL36Itkgvo=;
-	b=FLqzMGVVCB4Z2OJ02ti6TlndpWDVpKZfiesJMkicKxOKZzYbL1SwnQppdcc6X6JTOGXt
-	 /iarOQuuMV8adns9+NLGHMd7lYw6LHCygFw3QCEFSghQJaV2N7kjGHAnOnhK5+V3gENi+
-	 kwlJEpumbunbS5nG/0Z4Ihx5tyug18CChtv60VXFOgYiBKhKj2lqdfdDFcVZIhA/mUMca
-	 h56YKma8Hyy5iVBI38qVSbScclSeDfoSV3yQMzva2nbdsSUkikyFLlP5oOn9hmtaw8pVt
-	 4QGMGzJku1eONoQAbkt5frk3QeG88Ybu5LLfjGzYeWZbxWUGfsRYOZJNeYpoyZfid1w==
+	bh=AzhI44GUXY0kG5+XemeJo+l/ioZCGN//mKUp3IL0c+M=;
+	b=gKcmPsw6s2DjqVzPHHBRgcRtRU1/6u7NPKSeXLVgtMgkQDxtUZyH0NP4tmdzk0raUmP8
+	 8gTOwMqYP1j9phT+VhaAv04N5fM+Mm6JZV5zw0op2htuvPtXzLjwLi1jijcEdYUZC3L2s
+	 uWswOvWwf0nTx9bhwJanX5rXlmp8crBqM8qoHsyrNaLyvocGQmplhIAwGmKcp1Dc0ykn1
+	 RLFe2LIGHtLScLAijo4IHm6hSU1rlUlWcHeICTWAMeuMY9u3ZhIZNFjqzxEFiJ+Gt+5Br
+	 aTANNIKbe16oUKOB19Q2qf4bugQDh7PsOyzG0JKxws6OSQT4qatzU1idVkiVCM85SMg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gwiAMXoB;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PEVXg1NA;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23D0C606A339;
-	Wed, 18 Nov 2026 15:31:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F750606A331;
+	Wed, 18 Nov 2026 15:32:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gwiAMXoB
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F24F1F000C4;
-	Wed, 18 Nov 2026 15:31:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PEVXg1NA
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F56C1F000C5;
+	Wed, 18 Nov 2026 15:31:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795015900;
-	bh=/hYM8bpbp+9xhfsHxXLNF3JDHZuqj8rY+dL36Itkgvo=;
+	s=k20260515; t=1795015930;
+	bh=AzhI44GUXY0kG5+XemeJo+l/ioZCGN//mKUp3IL0c+M=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=gwiAMXoBTo2CvMn9DRTyNeLMPW2GucVsI20FkFOP9b8mC67q0VeBWkMoqHMXogm5E
-	 QXDiPWNucsuwYRQGs/InLLIvP9UPu1VzlYYjMUXoIcToAwG/3INezcalmn3mEd8j2r
-	 rn3kRKHdWdI3YXmm0XG3rS8TeLV3kJwEBNwDhJ88QlCkKB3LZH3d9H+I3+GvIBzzPQ
-	 zTxH5Mp6DAypeE2CXjQNNxoVqe0JgB3UQZc+NDfXa21MfD3WK+383bSa9HKrkVr+c2
-	 1Q/4Az2gdRimU3M1UuJ0W579N3grZCWU99UEnC6znm6lu9VkNGyZQ3mVN4lPL9MvxY
-	 B1dwb93lZBgsQ==
-Message-ID: <0dc23953-328a-46b5-9432-4b1a1a16fac0@kernel.org>
-Date: Wed, 18 Nov 2026 16:31:25 +0100
+	b=PEVXg1NAl8AaS4XRZvjTZEyQR99R6RzFKI+94RBwwdZuSzRxiVBl7OYuOoU5oDE9P
+	 lnw7yHbCisMbC65Bg+9HaVme93wOy6D9s0V6PBwZ/fTvzTqi9cRjy/QQKrF92vOENa
+	 WtePMA/g07fIOBOD4QQkL3pSxK5bnQuoM171u/cuwG4Y/1i7LVoWUNNKpPMFpZA/hT
+	 LFERVHuEDLjqalMUr5cN+Q7C3SCzuy8mjlRX2WQBBGJHtvn1EKJkxDtge7T2hGGYyb
+	 Be7EvRH6dkgU90LiFEtkKvBqQDBamU3JNJYq8iuZNlRpoO7YiLISrUP/Z2ZmT7SP6c
+	 FMxrqfGQM+SBw==
+Message-ID: <5650b972-700d-44d0-87b4-029f0327eacb@kernel.org>
+Date: Wed, 18 Nov 2026 16:31:55 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -52,8 +52,8 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 06/13] mm/migrate_device: don't let go of the fault
- page
+Subject: Re: [PATCH v2 07/13] mm/migrate_device: look up fault folio after a
+ split
 To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
  "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
  Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
@@ -82,7 +82,7 @@ Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  Rick Edgecombe <rick.p.edgecombe@intel.com>,
  Josef Bacik <josef@toxicpanda.com>, stable@vger.kernel.org
 References: <20261113-mason-migrate-et-al-fixes-v2-0-50a2ed382b61@kernel.org>
- <20261113-mason-migrate-et-al-fixes-v2-6-50a2ed382b61@kernel.org>
+ <20261113-mason-migrate-et-al-fixes-v2-7-50a2ed382b61@kernel.org>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -129,47 +129,30 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20261113-mason-migrate-et-al-fixes-v2-6-50a2ed382b61@kernel.org>
+In-Reply-To: <20261113-mason-migrate-et-al-fixes-v2-7-50a2ed382b61@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 11/13/26 22:45, Lorenzo Stoakes (ARM) wrote:
 > From: Josef Bacik <josef@toxicpanda.com>
 > 
-> When migrate_vma_split_folio() has split the folio of the fault page,
-> the lock and the reference which the fault handler has taken are at the
-> former head page.
+> migrate_vma_collect_pmd() looks up the folio of migrate->fault_page once,
+> when it is entered, at which point the folio is locked.
 > 
-> It then moves them to the folio which now holds the fault page, by
-> taking a reference on and locking that folio, then unlocking and putting
-> the former head.
+> The fault folio is assumed not to change after this, however if
+> migrate_vma_split_folio() splits a PTE-mapped large folio which contains
+> the fault page, the fault page ends up in a different folio.
 > 
-> split_folio() has unlocked the new folio and has dropped its own
-> reference on it, so until folio_get() nothing but the page table entry
-> holds it.
-> 
-> Only the mmap lock is held for read, which does not prevent another thread
-> from zapping the entry with MADV_DONTNEED.
-> 
-> If this happens the folio is freed which results in folio_get() taking a
-> reference on a free device page, which the driver can hand out again at any
-> time.
-> 
-> In addition, folio_lock() can sleep here with the lock of the head page
-> held.
-> 
-> Utilise split_huge_page() which will leave the lock and reference at the
-> fault page correctly.
+> Resolve the issue by looking up fault_folio again after each restart of the
+> walk.
 > 
 > Fixes: 022a12deda53 ("mm/migrate_device: handle partially mapped folios during collection")
 > Cc: stable@vger.kernel.org
 > Signed-off-by: Josef Bacik <josef@toxicpanda.com>
-> [ ljs: tweaked commit message ]
+> [ ljs: pared down commit message ]
 > Tested-by: Gregory Price (Meta) <gourry@gourry.net>
 > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 > ---
-
-This code is so bad we should remove all of that from the tree, seriously.
 
 Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
