@@ -1,100 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.174
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795023780;
-	b=BqvjhetFx9zt+pgV5dH4tiCoOgT2lBiRgd0s9eEmsMfRm5cFCsN/LPXyAqUUQ068/k+Z
-	 4H1CKrYMWIW3vQPZgeChZnTn4fmxnEftxHK39ogAOpXaWN+y1IWuA5kQGwBtrRBMon9t0
-	 RQkT+nB0LbGd+C00lMIDpgtPQ3ZRsbQueWWg2ed8AkM45bpU6vBz87mwWWrS6+H1zjyMX
-	 lqzALBa9GGDHtqfOifMXdmpImtGSX6QGTraSH3Pr72VkFAXfiJD/FI6lfrDtdyAZ921Fi
-	 NznAFhVz0/UPnYtruQthF6y82xRomRVtKe6BmMOcp/fEtwQ3wR2gq+oflCdTqtaqM/Q==
+	t=1795023977;
+	b=f34ULL7D8l8sc8/XvH+MK/fGZScht7KFrRkN9TK/S4tEFa07ysq6YvIXsxgBZ4ieF8qq
+	 hlYHsnZtTdyouidNhUvo9+0zdZB4ImWJ3sYNCMCX5P4M73Nxnnb4185YZ0c7r+G0KN0m2
+	 iYALRwdylCo/dNp/p//L3iB2n8dnbeEhrdJb6AOhqCKD4Y9++y6zw58dEesrWuiSveAQ7
+	 GZX2owL54swvuYSprxwLDOLIIP2XBO+hTpRPEvLm/Dop9MX3KyZf7jx5S3F1XC/dgf6Wm
+	 VOxH2nwZ+52Jj0khfYzsPrHYfz3CFy44jLSBbXgV36iFr4ashYuIWotx3LmTuxbiM9w==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795023780;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795023977;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
 	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
 	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=ciuN1q7GJk6psMO8HqaJ4EweNO3dgrafMeDSntT6n7I=;
-	b=h8fYJa5H+4yCw5NPls0FP/+Gorlkf4kztrLlzv5/qfgXn+ymH0+h/lP3dNekq0pUj80i
-	 iv5Jd1Z0am+Vtfc7scy0N78ee1xiM+dsGGfRHo7e3bBagHsBrBA9n0iBoXfNd2R5atgtX
-	 csCavcMt3DCs5saiaHiwheNsh4Ng2oAIShdqSijaLV0dtrclHZYMBa4afJqoZaWEsXOvF
-	 PPmdU2WJN9sMJTY+QeBhpx023yqIFJO0k7ubOc1Bsl7mZ9hXj0Vl1Q4ztxwHRpkV1tGZ/
-	 d/hZNRehi77KBWb8+ZfMIguYEy/mEiq9MoJYBkWqFxqcG/tZ2GjGR50BBilXPpsw42g==
+	bh=SIiWqHkbikiw9/PSo57TK7nq7ydcL7CNJ2g4TYGph1w=;
+	b=0ETg3D33/LqIMKudSvRFduS1qzYaCpa1JuvIpfz+nZKDI8A6YOq9zRT9fR9ZHjPXKLOO
+	 OY7j572hXHtwrgiNsWlIk02IuG/XonOr1cHBpi2++ZQC/K7nA8zNyu2jyuasH0V0Aojux
+	 K/aMdq4Z8meWw8LfQxnSMXHYMGdBkQ6LwOLEUgd7Coo+dLtfxyyb67t6BG1TLulK0npJ3
+	 yVe7zjLGwHSoabhrsxgrBSilDFzs4aYOkcu4hQi8v86ZXO6y79OEITshyjbk/dPAzXol0
+	 d5FV30MIdVpxpQneBBBHDUd5tqGFobogO2dOf/iOkLYjKxHyQKsdFhwHQfTwGfhiDKQ==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ntRkyPbH;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.43
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	dmarc=none header.from=amacapital.net;
+	spf=pass smtp.mailfrom=amacapital.net;
+	dkim=pass header.d=amacapital-net.20260707.gappssmtp.com header.i=@amacapital-net.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b="KSkreA/l";
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.174
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 878EB606A333
-	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 17:43:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 878EB606A333
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04EE3606A31C
+	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 17:46:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 04EE3606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ntRkyPbH
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-6b87a1a2babso145489a12.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 09:43:00 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795023779; cv=none;
+	dkim=pass (2048-bit key) header.d=amacapital-net.20260707.gappssmtp.com header.i=@amacapital-net.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=KSkreA/l
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-3ae25c846edso10555251fa.2
+        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 09:46:16 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795023975; cv=none;
         d=google.com; s=arc-20260327;
-        b=atcIKOGtkRfmlyqu/2UkzuI/WyOfPs22Fx2SP6SmhujQR3dKISOnfMpuZD8xU0Trni
-         xNJf8+EBFTHmcVBVhBIjxEN1oicVKUIpx2MuhlzvCzkM74t4324Rgqu7fUlaX3IHtlYn
-         fatXWDfXdP5/rZioI4OAFgayIiZNLNsXtAJm5lcAPjoVT6whQX128sVkyW9rPyqotLcJ
-         VJkD3KUQhpuys3Bn1ked+N8vgITI71kO21DcMMDGJQuohiDChRKTqd3qGSPO8K/w/6ZH
-         IrCWVOHs8ENOOEIHeTFayarIOROxpmbN2tSfX6Sn8JQ/XmrM7H6a8w9KjLx+eQ088DrG
-         nYNw==
+        b=gDhbhIJSwbBJ7kpxND8t5yDuKjDliyNn2lw8s8USAKGaFYh4jDgqXhnWaPrduiUyPe
+         wDYe9HQpAbs2ghtRZS6xL9h6JUnJcFf1gQU+J+4BLrGD1swG2IjRhed3X9szHiCebGQP
+         9DCCzXxvVJ7iHfIqrJjtLi53vrCO8h4EnXf0kl8p+uFh8vXruxYHVq9YRTn6hsg3rhVb
+         AoLOVjFwlb71TisNRVk21y5kuOJWiUp/4Trc9o+1lLhYB8qicHYpBw0HF683B/5Ys4dA
+         P7MkJFpsu4XWOCjyrRvSyV3yM/XxKTO+s9Izfuf1yOJmuAXiyKKfd+pZf2fCmjYWBhBo
+         iGyA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=ciuN1q7GJk6psMO8HqaJ4EweNO3dgrafMeDSntT6n7I=;
-        fh=N06iE+wlKjT+3yupWp9FraT4LPBfVmz/VdZNdYxYpJk=;
-        b=HTltdjx1oqR1XnAhRteFkfhszxHoT5tvc68bQPa8F94P5kbbb0XBk9aYjH3RWU98O7
-         UaHqlnZBsyoxFJPY3NY74XeYHlbW/xvYrvxdvoc5wgz6JA9a+i8IjMhBYm1GROXlK+JY
-         wuRDY5kxNtEXhLlcX0nAAVG7b6VRwTNs25mqBUL4fXmFuJC/v92EvQ0WZAXKaMk1rD4Q
-         ZCxW3ktg/msktwammlzqPZXm5aK1WWslW9VPnVLu0tcNiCiWNSf5iPzlLSa/vAHZIA1r
-         1t9R5m2MyUGeBZMpZeyH2AgSDfvXSLcKENYtuC1OV12CBvR5+rux5GTjxbDx4PkDKF82
-         aJ2A==;
+        bh=SIiWqHkbikiw9/PSo57TK7nq7ydcL7CNJ2g4TYGph1w=;
+        fh=7Q36dGwRab5Fo0awgNqRDL3vWbqkxLTndy3KSK4ZNKY=;
+        b=XWg/M5oGWypSdEumORTIQub6FxsyY/dp5ecvDEDMDsbOuwddcyrBr1lIpHdt9FZfM5
+         tRjiVI0Y3YeNts4LdfRd+ska6aKAAEV2Iv3nGmd6IP0QgXHG/14EBrwJNhPySPvBUeR5
+         euXWsaL2fTIEu6hkOsgBU9ueu7u9QS4IrAiTykwOEGEPd0uCINUCpvuzlykWXdT8iDvJ
+         HJq9j+f31uksjfJp1OuI1Wq+l8oQbIHh7tI5hnRsj9VCUFyGoegV7pRIM/uCo+4GEG6T
+         XiUZR8GSqkC7ml2yH6gM3hsE3OiqgDSezCHYntWTOBX+gqI/12yrG5QSHPzCYlBLWJpK
+         s0WA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795023779; x=1795628579; darn=vger.kernel.org;
+        d=amacapital-net.20260707.gappssmtp.com; s=20260707; t=1795023975; x=1795628775; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=ciuN1q7GJk6psMO8HqaJ4EweNO3dgrafMeDSntT6n7I=;
-        b=ntRkyPbH0sYjrGxbsOGUMGapMwa1Ew8BC3KxQf/iyM1aDPSlhjn0B7wO7Eg0MQnCiJ
-         D0hyH5hpSWTxAh3O5zAp8o6klUYs95/pv3XYR3HonGc7ZODF5h7znk0vF5koQA9eJjcv
-         A/wwsh144v6Aic9y2lIUf23EIeDNRzV8Y8oHNhFKBeOSPRHtD7qplu37vone59H+oKF4
-         3jyhqe487oQtXgrud96W2cRO68ugz7TuvNBmwciDPUNM52RpTaAyUc/w3O7d8UOWWzQK
-         XV5u7Ub2PM0CzqPeRSqAAHIxtSwFvo+5bIH8XaTuJLebB7/eeHz/r3H8P7s2hjLFBe8q
-         o+OQ==
+        bh=SIiWqHkbikiw9/PSo57TK7nq7ydcL7CNJ2g4TYGph1w=;
+        b=KSkreA/lv4ezsG6FIG+0z6ugqaPZfz/K227G/b9zqB4WbfNBD3XL8nHiuC3RHSDVop
+         r5WQO1yWZkBKMg+zBj6fpTWLOgpJt9bMFVDdhzBzxpnWtkhvlsv4/E5kXo+obO4szmr+
+         nFnhBGrEd0bPzAozYpmaEhgJtA45FnEzG5/HZEZEyKNuYbIbPoPWq9RPDZYH3gY4NHNi
+         I3IElP7vq/+9MvKb/InmOXdTWMpefUYfbAAhC3j8k1680QGt9U/5fB8JA17w2EOZ287i
+         CuVr1tTToajDP4e2jNTAGYhUjIUDF7CvDim1WkQKv5tAZUDy/kdf5WduxQLtE+TgPH5v
+         7k/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795023779; x=1795628579;
+        d=1e100.net; s=20260707; t=1795023975; x=1795628775;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ciuN1q7GJk6psMO8HqaJ4EweNO3dgrafMeDSntT6n7I=;
-        b=UvUWaxq0e922uVpr8JbkAVmfoii9DZE4AsJ3P5HggUjL0D78QBuuNBKU1gmN98BINU
-         npcXvMmTlu/xEj8y7R07f4XTuDKz9EAkQk8C1Tc0opzWDsQHxelnR/0mS+FQolgyvSKt
-         3YldZI/ciieR2RWU2OsmK0NQF3Ez6TljqjGhKHJFNd/VioDa22elRC6bIaY+8yq1vbY7
-         Clofr8XfQiqMhbe0g4F351XsjeyMijpmArqPlFRoVp6Ey1iDhMHKt3ISrfcIltg6tLkE
-         p6StHr4qgDgO0dROpzWjIrhS7+0pM6lneVOjAXxHer98HEF2m+APdLieq9SVEpjT5R0n
-         6v+A==
-X-Forwarded-Encrypted: i=1; AL+hErErGlwN8ozN/ZzJQFYnWzuFeyoYJIJuYTttVr3wzLWqXFKSE0tr22iWHRo7VQFSB5LRhT3bmnARjPlb6K/R@vger.kernel.org
-X-Gm-Message-State: APuU4Z8vjdY81+rayAdIrqd4XyPcF0pPaALGetG61vfGq48dIKDD+vws
-	w0GsmDY7LSSv6gDS8PiTqmEAYHW9TALHuH5R7ywz0ljFsXf/yfIgN9KR19jaQKvWJhXBUIiSbs+
-	o/OX9cOdaJfPeueY32L/0ObM+nySe3Vc=
-X-Gm-Gg: AYBFou1nxhas4ZVUtj9CTk4VQhz13h8XAb2dLwZeF1FXq86J2kcXe6AqfnGK5vqcU4q
-	fqfdTDJHEp8hxHnnXFtHgi0989LCPW4k0Byjg94XLkJrxTbGjgeLwLiRD69N3PRlZiN7BeQZ0y6
-	4JBViTRJup3KWSs1mpi4EnXZxGH/Z7X7MwlcK22d40CbUEXQ9kfMmbGSQ3q1ZS65/nDfz0KeLc7
-	Z0HB5nbEEJKEne46oFEzg5s9wGXN3N5bW24TxK0k7X4foNepjpFGdPMZqUSs7+EuUvkV3i8BnrN
-	LkZFUH0zA1ZhwBNvN8hV0iJh7SrjuWmtZhR2sNRm0nLapcNgFmeBk3qQOveSJ49B3Ol6Iz9Vejg
-	DaXr4EACrHrpPKXC6o9+KjdMZJno763DFbCaposalN0bvn7Q0W9WZTKeYo6I/uB5sLoGIJQ==
-X-Received: by 2002:aa7:c259:0:b0:6b3:e4e8:74ba with SMTP id
- 4fb4d7f45d1cf-6b9b29685d7mr115387a12.13.1795023778657; Wed, 18 Nov 2026
- 09:42:58 -0800 (PST)
+        bh=SIiWqHkbikiw9/PSo57TK7nq7ydcL7CNJ2g4TYGph1w=;
+        b=MnCDA7K19bMIfSo0Ncbc+WWcjGLR/ZPIkwCZt0xwwGhXHXNpmSNcdXxer2qbCj+Ix3
+         Kd2bXP+mf6T4lVZ36LCmhNWvGSsKyDxdc3gPIGUWyH8LJwQ0IYUTbc3jOBe2ekgdCDDM
+         1aAg8XQPoAzpftMr0otGIC7sq8rPE3e9Szueu2idq/sqlVGZfwZ6hVUVDaMQQAFLdF7b
+         TPe4MX4vaaBQfSf4Lkfia1MrvmNhiehHVZRbF6x1CaugZzgzBjr/sp4diGiHEhbhkQNG
+         YgVgKIPQapQv5qZdw9+48S8+/4EFw1o4GZ/Wnvjr3P9Mr2hWDZd2tbAzDy2z09tEJIqM
+         +OfQ==
+X-Forwarded-Encrypted: i=1; AL+hErE0vL74RmVw6XNbQM0yWmwtq1dvdttdCtFfC5P8kGbnsm3pTVTNbVBGui4Nbves5FHJsgplgc4TLytCzJID@vger.kernel.org
+X-Gm-Message-State: APuU4Z+QWYAQvWm66XaxJ1Pd/ffgFGrNCk9kXa62Zo8THWjmIPY9BjLM
+	lwxF3lND6y2J6IQK2LTpeh3+Vm9VKhh/sXn1gcml2vz1HC4pUEldSyP1VP2Nxss797L+3gMpDEE
+	QBnwbRJBLMjbjcl4sTpVQXrQjB421+1jKPn+lL41T
+X-Gm-Gg: AYBFou11nltLuh8fevCPR27wAQaC1q0PSNLOkwqh7ZIex4Hn73kDDNUEs9EMqDOww/G
+	18awsvIyWkkUlCO8CJpvKUh/AFpGtN6WZ1XVfw4WOMnR56+ps1372bLuHsAFqyeypEFuKWKXxIR
+	pmnjNAGVus3L8iYuD9cpC1jRcDQH5Ps95Zuhq7zfFqUeDWJkTr0SLcJKWBn/5hXK8O/uEhc91Ji
+	D5Cfpk4WIA+eb3acKX9uYCXQq9xo81elev1eSumLGQmSCUT7NSS5DyN9VgZUXvRrds68B2h+570
+	IwWq3hC0K+MU432RF0jsllnAHULXdvuGFJs0jD+NJ45txvNnBpPlc+IKMeBTufKXb5bnq/C9Exe
+	+4fuMNaeEPauaZ53vMKusboi+B+wuKZGhPA==
+X-Received: by 2002:a05:6512:8346:b0:5c1:ac84:c105 with SMTP id
+ 2adb3069b0e04-5c1ac84c2a0mr745576e87.57.1795023975125; Wed, 18 Nov 2026
+ 09:46:15 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,251 +104,182 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261115180343.576773-1-koray.fra@gmail.com> <20261118142613.be3r3s6kobkkxnz4@pali>
- <DMYFBDIV4Y08.35ZKR5G86U1H7@gmail.com> <20261118151605.lqtn5fz423kuswk5@pali>
- <DMYHPLWKPSH3.MUM1IIZZIWNR@gmail.com> <CAOQ4uxiwpdC-fKkqS5kiZ515q9MenC0jX4USV1idN7h2njx45Q@mail.gmail.com>
- <20261118173708.ax4t7zzklr5jvf2t@pali>
-In-Reply-To: <20261118173708.ax4t7zzklr5jvf2t@pali>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Wed, 18 Nov 2026 18:42:47 +0100
-X-Gm-Features: AclHuK8TtEMT4ky5dtrBYdddz3l6RdahxalryFAKqWHd6v7Nf1ie2l606ulnXFE
-Message-ID: <CAOQ4uxi+GvBRD8T4kFSqqZ-bxYfN3L8A61jtS2SeoGM6rN-3=A@mail.gmail.com>
-Subject: Re: [RFC PATCH v4 00/10] add provenance time (ptime)
-To: =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>
-Cc: koraynilay <koray.fra@gmail.com>, David Sterba <dsterba@suse.com>, 
-	Namjae Jeon <linkinjeon@kernel.org>, Sungjong Seo <sj1557.seo@samsung.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, Chuck Lever <cel@kernel.org>, 
-	Jeff Layton <jlayton@kernel.org>, 
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
-	Paulo Alcantara <pc@manguebit.org>, Chris Mason <mason@kernel.org>, Yuezhang Mo <yuezhang.mo@sony.com>, 
-	Jan Kara <jack@suse.cz>, NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, 
-	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
-	Ronnie Sahlberg <ronniesahlberg@gmail.com>, Shyam Prasad N <sprasad@microsoft.com>, 
-	Bharath SM <bharathsm@microsoft.com>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	ChenXiaoSong <chenxiaosong@chenxiaosong.com>, "Darrick J . Wong" <djwong@kernel.org>, 
-	Sean Smith <defendthedisabled@gmail.com>, Andrey Albershteyn <aalbersh@kernel.org>, 
-	Pedro Falcato <pfalcato@suse.de>, linux-btrfs@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	exfat@lists.linux.dev, ntfs3@lists.linux.dev, linux-cifs@vger.kernel.org, 
-	linux-nfs@vger.kernel.org, linux-api@vger.kernel.org, 
-	Theodore Tso <tytso@mit.edu>
+References: <20261117231352.3816603-1-jarkko@kernel.org> <CALCETrVUkbpoFjwSAejyA4b_9qEauAP_36i=O8Op1ifp8aUkqA@mail.gmail.com>
+ <av3akYFOYaeQZauZ@kernel.org> <av3bkDnwmjunTleX@kernel.org>
+In-Reply-To: <av3bkDnwmjunTleX@kernel.org>
+From: Andy Lutomirski <luto@amacapital.net>
+Date: Wed, 18 Nov 2026 09:46:02 -0800
+X-Gm-Features: Aa3M54rqJXQt69c6byOctTWRaXx3nXcFQskBrnHvxsTyM3qw4EOZDCkVbvK6iJk
+Message-ID: <CALCETrXPLeUgxyhjP4XuWS46FKB0TUHF5PcMkdMf+qeEXbyXRA@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 00/13] Namespace for namespace roots
+To: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: josef@toxicpanda.com, linux-fsdevel@vger.kernel.org, 
+	linux-api@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-mm@kvack.org, linux-security-module@vger.kernel.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Andrew Morton <akpm@linux-foundation.org>, 
+	Ben Segall <bsegall@google.com>, Christian Brauner <brauner@kernel.org>, 
+	David Hildenbrand <david@kernel.org>, David Howells <dhowells@redhat.com>, 
+	Davidlohr Bueso <dave@stgolabs.net>, Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+	Ingo Molnar <mingo@redhat.com>, Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>, 
+	John Johansen <john.johansen@canonical.com>, Juri Lelli <juri.lelli@redhat.com>, 
+	Kees Cook <kees@kernel.org>, K Prateek Nayak <kprateek.nayak@amd.com>, 
+	"Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	Manfred Spraul <manfred@colorfullife.com>, Mel Gorman <mgorman@suse.de>, 
+	Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>, Neal Gompa <neal@gompa.dev>, 
+	Paul Moore <paul@paul-moore.com>, Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Serge Hallyn <sergeh@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Valentin Schneider <vschneid@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 18, 2026 at 6:37=E2=80=AFPM Pali Roh=C3=A1r <pali@kernel.org> w=
-rote:
+On Wed, Nov 18, 2026 at 9:08=E2=80=AFAM Jarkko Sakkinen <jarkko@kernel.org>=
+ wrote:
 >
-> On Wednesday 18 November 2026 18:28:04 Amir Goldstein wrote:
-> > On Wed, Nov 18, 2026 at 5:50=E2=80=AFPM koraynilay <koray.fra@gmail.com=
-> wrote:
-> > >
-> > > On Wed Nov 18, 2026 at 4:16 PM CET, Pali Roh=C3=A1r wrote:
-> > > > On Wednesday 18 November 2026 15:58:02 koraynilay wrote:
-> > > >> On Wed Nov 18, 2026 at 3:26 PM CET, Pali Roh=C3=A1r wrote:
-> > > >> > Hello,
-> > > >> >
-> > > >> > I have just one issue with the userspace API. It does not allow =
-me to
-> > > >> > figure out what is the source of statx btime field. If it is fs =
-ptime or
-> > > >> > fs btime because this RFC implementation is mixing both fs ptime=
- and
-> > > >> > fs btime into the statx btime field.
-> > > >> >
-> > > >> > I have feeling that this is quite a mess in API and I would like=
- to see
-> > > >> > a clear distinguish between btime and ptime in the API, like the=
-re is a
-> > > >> > difference in the fs storage.
-> > > >> >
-> > > >> > If the btime is used for forensic analysis then somehow I would =
-expect
-> > > >> > that the statx would not report / not fill changeable ptime valu=
-e into
-> > > >> > the statx btime.
-> > > >>
-> > > >> Hi, for native linux filesystems it will report ptime as PTIME and=
- btime
-> > > >> as BTIME (also semnatically).
+> On Wed, Nov 18, 2026 at 07:04:21PM +0200, Jarkko Sakkinen wrote:
+> > On Wed, Nov 18, 2026 at 08:59:39AM -0800, Andy Lutomirski wrote:
+> > > On Tue, Nov 17, 2026 at 3:14=E2=80=AFPM Jarkko Sakkinen <jarkko@kerne=
+l.org> wrote:
 > > > >
-> > > > That is fine.
+> > > > OVERVIEW
+> > > > =3D=3D=3D=3D=3D=3D=3D=3D
 > > > >
-> > > >> for the windows-like ones that only have
-> > > >> ptime (semantically) I think it's reasonable to not expect btime t=
-o be
-> > > >> immutable, since they are meant to be used with other OSs who lack=
- btime
-> > > >> semantics.
+> > > > A root namespace (rootns) is a kernel object backed by a file descr=
+iptor
+> > > > that binds together:
 > > > >
-> > > > The problem is here that the RFC statx API does not provide this
-> > > > information that the fs lacks btime semantics and instead it fills
-> > > > non-immutable ptime value there.
+> > > > 1. A full or partial set of detached namespaces.
+> > > > 2. A dedicated PID namespace for spawning processes into, signaling
+> > > >    members, and polling or waiting on PID 1 exit.
+> > > > 3. An initially empty mount namespace (CLONE_EMPTY_MNTNS) that must=
+ be
+> > > >    populated before going live, without inheriting host mount-tree
+> > > >    ancestors.
 > > > >
-> > > > I'm pointing only about this inconsistency.
+> > > > Work on this feature started in 2025 from David Howells' container =
+object
+> > > > patch set [1], which I turned into a namespace for namespace roots =
+and
+> > > > rebuilt around that premise.
 > > > >
-> > > >> > It would be really helpful if the statx API on inode can differ =
-between:
-> > > >> >
-> > > >> > 1. btime is present and its value is ..., ptime is not supported
-> > > >> > 2. btime is not supported, ptime is set to value ...
-> > > >> > 3. btime is present and its value is ..., ptime is set to value =
-...
-> > > >> > 4. both btime and ptime are not supported
-> > > >> >
-> > > >> > This should cover all cases of different filesystems and also al=
-lows
-> > > >> > userspace to do proper backup of both ptime and btime fields (if=
- it want
-> > > >> > to do forensic analysis or anything else).
-> > > >>
-> > > >> These should already all be covered by STATX_BTIME/PTIME and their
-> > > >> fields in struct statx, the only problems are windows-like filesys=
-tems,
-> > > >> which IMO shuold be handled as mentioned above.
-> > > >
-> > > > Exactly, I pointed out about these problems. I somehow expect that =
-the
-> > > > new API would be generic and uniform across filesystem. IMHO it doe=
-s not
-> > > > matter if the filesystem is windows-like or not (there are also Fre=
-eBSD
-> > > > fs and also others which allows to modify that time). So better
-> > > > description is fs belongs to category 2. from my above description.
-> > >
-> > > Ah yes, I used windows-like to mean "only have ptime semantics", so s=
-ame
-> > > as your category 2.
-> > >
-> > > >> Of course, as in the other discussion, I'm open to changing ptime
-> > > >> NTFS/exFAT/... support to remove btime altogether and only use pti=
-me for
-> > > >> their own crtime if that's what wanted (I'm fairly impartial on th=
-is
-> > > >> specific issue).
-> > > >
-> > > > I'm giving some ideas how to possible handle this situation:
-> > > >
-> > > > 1. do not fill btime it at all when it is not available (remove bti=
+> > > > While the patch set is manually written, the original motivation ca=
 me
-> > > >    altogether - the case like you wrote above)
-> > >
-> > > This would be the most semantically correct option, but would break a=
+> > > > from isolating LLM agents. Running untrusted agent workloads made i=
 t
-> > > least 1 script/program/use case.
+> > > > clear that OCI runtimes need to minimize their live configuration
+> > > > surface.
+> > > >
+> > > > Assembling mounts, credentials, and namespaces inside helper proces=
+ses
+> > > > with a half-configured container is what I see as the main challeng=
+e,
+> > > > and the existential debate around namespaces and container objects =
+is an
+> > > > unfocused discussion topic.
 > > >
-> > > > 2. when userspace ask both ptime and btime, then do not fill btime
-> > > >    (remove btime altogether - but only for that new case)
 > > >
-> > > This probably is the best compromise.
+> > > I've skimmed some of the series, and I see a bunch of good ideas that
+> > > involve using an fd to manage a thing.  But I'm wondering how much of
+> > > the value is added by that and how much is added by having a new
+> > > *type* of thing: the "rootns".
 > > >
-> > > > 3. fill btime with ptime value, but add a new output flag indicatin=
-g that
-> > > >    the btime is not present at all and instead kernel filled ptime =
-value
-> > > >    into the statx btime field
+> > > How much of the value comes from the rootns vs the new APIs to
+> > > configure namespaces without entering them first?
 > > >
-> > > I don't really like this, it adds complexity and uses memory/1 flag b=
-ig
-> > > for a single specific field, IMO it's not worth it.
+> > > For that matter, the cells series also seems to contain a (possibly
+> > > very similar) variant of the same thing.
 > > >
-> > > > 4. let statx btime as currently is, and add two new statx fields:
-> > > >    immutable_btime and ptime. immutable_btime would be filled only =
-if the
-> > > >    fs supports real btime (so not for ntfs/extfat crtime) and ptime=
- would
-> > > >    be what is currently in RFC
-> > >
-> > > I think this is also too complex.
-> > >
-> > > > Ideas 2. 3. and 4. should be fully backward compatible as it would
-> > > > affect statx output only when called with new flags.
-> > >
-> > > Then 2. is probably the best way to go forward (maybe I'll include it=
- in
-> > > some way in v5), but I think we should let each filesystem maintainer
-> > > decide if they think their users want to have statx report their own
-> > > crtime as btime, ptime or both (native linux ones would of course
-> > > report btime as btime and ptime as ptime).
-> > >
+> > > Would it make sense to come up with a patchset that does *just* the
+> > > configure-a-namespace-by-fd part?  It seems to me that this should be
+> > > an easier thing to agree on, and it's a big part of the complexity of
+> > > all of this, and it solves a real problem even without
+> > > cells/rootnses/jails/whatever.
 > >
-> > Guys,
+> > Is it  more accurately scope the part that is "just the fd-part" and
+> > what you consider as "extra cruft"?
+
+I'm not actually trying to say that anything is "extra cruft".  What I
+mean is: there seems to be somewhat of a core that is pretty similar
+between the two patchsets, and that core seems independently useful.
+
 > >
-> > Let's take a step back.
-> >
-> > If this discussion is proving anything is that the btime/ptime
-> > duality is a big headache and it's going to be a source of confusion to=
- users
-> > even if we come up with some smart pants consistent semantics.
-> >
-> > As Jeff writes, I think we should consider making btime mutable
-> > be a per-fs choice and not an API limitation.
-> >
-> > A filesystem can even decide to store both the forensics btime
-> > alongside the user settable crtime.
-> >
-> > There are some precedents in xfs with settable UUID which is
-> > a different field then the origin UUID from mkfs.
-> >
-> > Fs that have immutable btime have a few choices:
-> > 1. Keep it immutable
-> > 2. Start making it muttbale (like the Win fs)
-> > 3. Start making the user visible btime (STATX_BTIME) mutable
-> >     but keep the forensics btime on-disk for, well, forensics
-> >
-> > If btime becomes settable via options 2 or 3, this could require
-> > admin opt-in (e.g. tune2fs -O crtime).
-> >
-> > With option 3 the crtime feature would be ROCOMPAT
-> > With option 2, it could probably be COMPAT. Maybe.
-> >
-> > If we accept this story and the major fs maintainers are
-> > in agreement with this plan, then I think the missing piece
-> > is making the "settable mask" visible to users via the new API.
-> >
-> > IOW, we need to somehow export FS_XFLAG_RDONLY_MASK
-> > to userspace instead of only exporting the supported mask.
-> > And then with the addition of xflags_mask, we could also
-> > -EINVAL on users trying to set readonly flags/values.
-> >
-> > Perhaps a single xflags_settable_mask is enough.
-> >
-> > For file_setattr(), xflags_mask is anyway a set-those mask.
-> > For file_getattr(), does it matter if we get an answer
-> > Filesystem does not support casefold on this file
-> > OR
-> > Filesystem does not have casefold on this file and
-> > you cannot set casefold on this file
-> >
-> > It's kind of the same, isn't it?
-> >
-> > What do you say?
-> >
-> > Shall we drop PTIME in favor of "is BTIME settable?" API?
-> > Leaving STATX_BTIME exactly as is.
-> >
-> > Thanks,
-> > Amir.
+> > I.e., where do you draw the border?
 >
-> From the beginning I had a feeling that this is not an option at all and
-> that is why all that ptime-way was chosen.
->
-> So thanks for brining this up. I like this your idea. It address the
-> original problem with backup/restore of "create time".
->
-> But I would like to point out about another thing in this your idea. It
-> would be nice to have an API to retrieve that "forensics on-diks btime"
-> in case there would be filesystems which choose option 3.
+> I'm asking this because I had similar thoughts when I started this back
+> in 2025. David had some good ideas but it did more than having a fd
+> that does not go live before everything is set up properly.
 
-Anticipated this question ;)
+I don't know that I have a very clear border, but here's an example:
 
-As I said there is already a precedent with xfs settable uuid
-(I think other fs have it as well?). All the metadata is available
-to admin via xfs specific ioctls, but not via the generic vfs APIs
-not even to vfs via vfs APIs.
+rootns has MOVE_MOUNT_T_ROOTNS_ROOT.
 
-I don't know if this is good enough, that's why I urged to get an
-ACK on the API design from major fs maintainers.
+cells has:
 
-Thanks,
-Amir.
++What else goes into the tree is mounted on it before it becomes a
+mount namespace.  A
++filesystem for the cell to write to is mapped in the same way:
++
++.. code-block:: c
++
++   fs =3D fsopen("tmpfs", 0);
++   fsconfig(fs, FSCONFIG_SET_STRING, "mode", "1777", 0);
++   fsconfig(fs, FSCONFIG_CMD_CREATE, NULL, NULL, 0);
++   mnt =3D fsmount(fs, 0, MOUNT_ATTR_NOSUID | MOUNT_ATTR_NODEV);
++   mount_setattr(mnt, "", AT_EMPTY_PATH, &attr, sizeof(attr));
++   move_mount(mnt, "", tree, "tmp", MOVE_MOUNT_F_EMPTY_PATH);
+
+(Source: https://lore.kernel.org/all/20261105-b4-cells-v3-2-bc9095937a84@to=
+xicpanda.com/)
+
+I feel like you are both *so close* to something that would stand
+alone and make perfect sense.  I also feel like, if that's a goal,
+then both series are slightly off from the bulls-eye.  (Keep in mind
+that I've spend a total of about ten minutes looking at the relevant
+parts of the series.)
+
+If I've understood the two series correctly, and if I'm thinking of
+these abilities as something that can stand alone, then I see the
+following things that I'd improve.
+
+rootns: Why can't I use a *mountns* fd to so the configuration?  Maybe
+I'm misunderstanding something.
+
+cells: The dance where I create an anonymous mountns, mount stuff into
+it, and then attach it to the cell is cute.  But I think the userns
+interaction is wrong: you are making me assemble all the mounts in
+*my* userns and then clone the entire tree into a fresh, non-anonymous
+mountns bound to the current userns.  And that clone operation is not
+free and serves no actual practical purpose.
+
+Why can't there be some variant of these where I can either create an
+anonymous mount tree that is genuinely unbound from a userns or that
+lives in *the target userns* or that *is already the final mountns*,
+using just mount-related APIs?  In pseudocode:
+
+int mountns_control_fd =3D create_mountns(either userns-free or with a
+userns_control_fd);
+fsopen, move_mount, , open_tree, etc;
+
+Finally:
+
+cells: I find it *incredibly annoying* that one generally cannot put
+new mounts into an existing container using most existing container
+managers.  I hit this on a surprisingly regular basis.  You seem to be
+baking this into the whole cells design.  Why?
+
+both of you: Can we please make it possible to do the parts of this
+that oughtn't require privilege without privilege?  If the cap_userns
+thing ever lands, cap_userns & CAP_SYS_ADMIN ought to be more than
+sufficient to permit creating fresh mounts even without creating a
+userns as long as we don't do anything that affects privileges within
+our own userns.  Or let us create a userns, *not enter it*, and do all
+the mounting without actually having CAP_SYS_ADMIN in the permitted
+set.
+
+
+--=20
+Andy Lutomirski
+AMA Capital Management, LLC
