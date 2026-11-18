@@ -1,87 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795007428;
-	b=CJAqPN828C4n4Um2Rhzf3vxTR9BWKGQM6ykiXtGLH1L2ONiOS2LRIVfurRfc06vAO9by
-	 UEF4iSB2l9VOCJ0/U1Ag8L2MXOtHm9b2ji5VjjokqOo9HAMWyehKINpwRAnFmwFkAxvGr
-	 vc9Ei8VBZ1yjCmpCQzAppNh57U1hE2jYhlhDGrWGp20jv2yltT9voRbvrp4SckPLwRMUf
-	 NKbeUrsEq2pIeSAZMP7b6mI333rkm/RT13fm+/90kSlmzBNM+JlGvgxbJsJhKWgnKFIB2
-	 tXSAQIe2tBGRwEokfBiYwbc2pvgmB2lP0HAdZWJEMTDF9F3PzTrwjQuVxH3itJZyNag==
+	t=1795007481;
+	b=wTt+nYeRKmNkfo14YIBa4wWQeDQ0r7hR9AIW9THFUG0UrZTlv9TlFr6OQw2Z3VhLU0T4
+	 1p5IK4anVeqYui237nCHlGZLd40Sj0JUBWR2zuyfTfQnK4kFTcMZ7NDKG9oFyiv8JuZ2L
+	 gPlPlO4Bnr48FWBy44n1MHssKAxtTyiLUnLfwHJ5OoLfNIcdomd+YVWMyL/GzeNeX5JX4
+	 cNMu6n4kBplow6LgmPLjQVm6/Vcl/pZDFKuX9KkEJqaHzKA1K2b8JrKZSMrp9sB62eOJY
+	 3ebYvv9s/OQO99jy7HJZgD056iurmqYMqlaicZVfHQcBuZaAlSx7qCJr0zEwAYuDiOA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795007428;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:X-Scanned-By;
-	bh=SW1SgyAqJZMhz2Qvs3jWCWx5VKPPmPyNUr3G/FpCRlc=;
-	b=XY/VoMOIxCjElRVvfCl4Hi9rAvxtY6sGEkVPBysE65W374fIhxwAPr3uuFZCSdBBh8OJ
-	 I3YeRZdF0ynbOnSyp+V6CKffszLQG48W3zPGw4+lw51ZTVVRefrZnpYixeJRI/VWrqrAm
-	 m+lpoF1sSSQkYlsZO59klrhXDeXjdYAwicX8wvtGiqLRHuNLrAUkNFlqplKrAN3SiwkpM
-	 gUTOZgaMrxA+RgOycwsPdnS/Gj7e95bFyzuY8VSwuBNCQ3yWJU9cD0xYvYGBOjMeKWVXh
-	 7123CA3ST9rrzimKIgm2GHNXMkH5qvJDaY+3VaoKQUj7t+8mofI3OklNnEnmfpD0fkA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795007481;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=r+7quN+GXBrQXljQFdduQ9uCmIQYnXKvh0n7Ko5kSMI=;
+	b=eW9ChXXUgp8AF6JiHLP+AhNYLHp2HNCY6JxptnwdlFBfQ77Rngv+0BzfddEBoWdxZtsj
+	 liOh54GmFugSIhKlka7E08hPwosuzvavUwG2Bt1jT3YHUbtvpLSiwg3jeTyotKxWvquuN
+	 7h3gE6SS3GJoDlpODbLrzlt/hM5d78ZDfz8+0bOuSsEbUXejdg5vAhfRz87z4kIHTl6bo
+	 wBDYJvjaKsURt+aPzn+vgJRK91cMietOjFw9FzbXYWrbsSIaEMxyl7r3uEzZ5q6tnB4jP
+	 DOb9ajacpvNwxCygC063r/pcHhKIt3rTYmMX4ZTAPQXXaNzegIFvBDjktXx1iGuvLCg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=YduyURg5;
-	arc=none smtp.remote-ip=170.10.133.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AEaCO8Ou;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 363B8606A320
-	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 13:10:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 363B8606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3438606A31C;
+	Wed, 18 Nov 2026 13:11:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=YduyURg5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1795007427;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SW1SgyAqJZMhz2Qvs3jWCWx5VKPPmPyNUr3G/FpCRlc=;
-	b=YduyURg5hVTIPnCeh5e3XQHUkQs8szl2sdUVFc/Dwkmwg3Z+fNfJm4WoENvc+V+h9Z+8FC
-	HGjhDMs7KkE8v1LqziZRNsXGYYTu+KhL9TK04MItaa8UJyW+4UrkNy/plsHw4IG5z1NS/F
-	Fl1FOaxpoW96nrw85XSSiQUZX28HjWE=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-520-PSY9HXz-MPSmoDPTNZ-_8Q-1; Wed,
- 18 Nov 2026 08:10:25 -0500
-X-MC-Unique: PSY9HXz-MPSmoDPTNZ-_8Q-1
-X-Mimecast-MFC-AGG-ID: PSY9HXz-MPSmoDPTNZ-_8Q_1795007423
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1105919560B1;
-	Wed, 18 Nov 2026 13:10:23 +0000 (UTC)
-Received: from onestero-thinkpadp1gen7.tpbc.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 4D8A23000223;
-	Wed, 18 Nov 2026 13:10:18 +0000 (UTC)
-Received: by onestero-thinkpadp1gen7.tpbc.csb (nbSMTP-1.00) for uid 13628
-	oleg@redhat.com; Wed, 18 Nov 2026 14:10:22 +0100 (CET)
-Date: Wed, 18 Nov 2026 14:10:17 +0100
-From: Oleg Nesterov <oleg@redhat.com>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Mani Tofigh via B4 Relay <devnull+mt4022.columbia.edu@kernel.org>,
-	Breno Leitao <leitao@debian.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Mateusz Guzik <mjguzik@gmail.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	tz2294@columbia.edu, stable@vger.kernel.org,
-	Mani Tofigh <mt4022@columbia.edu>
-Subject: Re: [PATCH] pipe: keep per-write wakeups for EPOLLEXCLUSIVE consumers
-Message-ID: <av2juQijIISJAgyf@redhat.com>
-References: <20261111-pipe-epollexclusive-wakeup-v1-1-0af6283e9fda@columbia.edu>
- <avxWKI795DthE8Sb@redhat.com>
- <CAHk-=wjOq+G=6gte4vX_YxOD_VfE1uZh7=+KHs8N0wU75xyHEg@mail.gmail.com>
- <avyODoFhZ_M7YDU5@redhat.com>
- <CAHk-=wgcBSBtHE+3ceKGjq1jyF64OyoEqf5JPpixowAa80GqNQ@mail.gmail.com>
- <avyVwg-5ef-pXZkG@redhat.com>
- <CAHk-=wjJF8uZLfVbbqei9-fhs9K70i2OnVreCV-rQF9EGKAxJg@mail.gmail.com>
- <CAHk-=wjqParwoB8wb9KfGVpbwUwvKvObpLOo=XPM0GGfkn3ibw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AEaCO8Ou
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74B4F1F000C4;
+	Wed, 18 Nov 2026 13:11:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795007481;
+	bh=r+7quN+GXBrQXljQFdduQ9uCmIQYnXKvh0n7Ko5kSMI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=AEaCO8Ou258CYi6ozrLsOHwP/CgC7usWd3ZqOZf3yedz8J6gJFJEyyuP36bxVG6/Z
+	 YP1v46USV9pgpN2JqXqOTvDUkZOcAJn38wQ3tY8hOUSONfTT9ZyV1dRa0U7O5azT7R
+	 tsJijB62Syce1VryS6Ca7wMGdL1Vi0XMnP5Hh/qRaDmJn2ZMg5NYGcvPuVPobaRmjU
+	 4t0jQQNOxynKkvxqRIY9NouaKbrn+tyFNz+039bKiLQcx97wg5MpHfvUrAkQxc4lBa
+	 bJyxV0JrTTMpW02xxp3/dEptu4+lkQNbOf6AsJlCEEvFEy4rTZYYH2AD1QPDRFuHJg
+	 ++D3Gu9z3XA3A==
+Date: Wed, 18 Nov 2026 14:11:15 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Chris Down <chris@chrisdown.name>
+Cc: Omar Sandoval <osandov@osandov.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	linux-debuggers@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH v3] proc/kcore: allow disabling /proc/kcore at boot
+Message-ID: <20261118-masken-disput-miesmacher-27d6baaae6a8@brauner>
+References: <7c10f2e01b6f19229c83e81d887a87f5d1151841.1794904698.git.chris@chrisdown.name>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -91,78 +59,83 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAHk-=wjqParwoB8wb9KfGVpbwUwvKvObpLOo=XPM0GGfkn3ibw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+In-Reply-To: <7c10f2e01b6f19229c83e81d887a87f5d1151841.1794904698.git.chris@chrisdown.name>
 
-On 11/17, Linus Torvalds wrote:
->
-> That header isn't _horrible_, but some of it was uglier than needed,
-> and adding WQ_FLAG_PRIORITY would have been a huge pain because the
-> code unnecessarily special-cases WQ_FLAG_EXCLUSIVE.
+On Tue, Nov 17, 2026 at 02:20:38AM -0800, Chris Down wrote:
+> /proc/kcore lets any process with CAP_SYS_RAWIO read all of kernel
+> memory. That's a pretty large read primitive for anyone who obtains
+> CAP_SYS_RAWIO (and it also gives away the KASLR layout).
+> 
+> For this reason on some hosts we want to turn /proc/kcore off. In terms
+> of what it can read, /proc/kcore isn't any more concerning than other
+> ways to read kernel memory, like BPF with CAP_BPF and CAP_PERFMON. The
+> distinction is that a process with CAP_SYS_RAWIO doesn't necessarily
+> have CAP_BPF and CAP_PERFMON, because CAP_SYS_RAWIO may be needed for
+> hardware access without necessarily wanting to grant general RAM access.
+> CONFIG_STRICT_DEVMEM already makes that possible for /dev/mem, but
+> /proc/kcore gives the same capability to do general purpose RAM reading
+> anyway.
+> 
+> However, on a kernel built with CONFIG_PROC_KCORE=y the only ways to
+> block it today are lockdown=confidentiality (which also disables many
+> other things we perhaps don't want to disable, like kprobes and
+> bpf_probe_read_kernel()), or an LSM. That's annoying, because on the
+> majority of hosts we do want it on for things like drgn/crash, so today
+> we build two separate kernels.
+> 
+> Let's add a "kcore=" boot parameter so that this can be disabled at
+> boot, which lets us preserve those choices while using the same kernel
+> image.
+> 
+> Signed-off-by: Chris Down <chris@chrisdown.name>
+> ---
+> v2 at https://lore.kernel.org/r/a8474f0e2d0ef5ea9d53aa6649c7e9c9ea6f15c2.1794800574.git.chris@chrisdown.name
+> 
+> v3: Make kcore_enabled __ro_after_init (Kees)
+> v2: Give more justification in changelog (Omar)
+> 
+>  Documentation/admin-guide/kernel-parameters.txt |  6 ++++++
+>  fs/proc/kcore.c                                 | 12 ++++++++++++
+>  2 files changed, 18 insertions(+)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 176648941aec..205228294fc2 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -2902,6 +2902,12 @@ Kernel parameters
+>  			parameter KASAN will print report only for the first
+>  			invalid access.
+>  
+> +	kcore=		[KNL,EARLY]
+> +			Enable or disable /proc/kcore on kernels built with
+> +			CONFIG_PROC_KCORE=y.
+> +			Format: <bool>
+> +			Default: on
 
-Yes. See also below.
+So I'm happy to take this on top of vfs-7.5.procfs but I'm really
+unhappy about this proliferation of various hyper-specific opt-outs.
 
-> NOTE! Entirely untested. Comments?
+For example, we already have:
 
-I tried to check it line-by-line, see nothing wrong. FWIW,
+enum proc_mem_force {
+        PROC_MEM_FORCE_ALWAYS,
+        PROC_MEM_FORCE_PTRACE,
+        PROC_MEM_FORCE_NEVER
+};
 
-Reviewed-by: Oleg Nesterov <oleg@redhat.com>
+static enum proc_mem_force proc_mem_force_override __ro_after_init =
+        IS_ENABLED(CONFIG_PROC_MEM_NO_FORCE) ? PROC_MEM_FORCE_NEVER :
+        IS_ENABLED(CONFIG_PROC_MEM_FORCE_PTRACE) ? PROC_MEM_FORCE_PTRACE :
+        PROC_MEM_FORCE_ALWAYS;
 
----------------------------------------------------------------------------
-And this reminds me. Please look at __wait_event_interruptible_locked(),
-it is buggy.
+to block FOLL_FORCE access on kernels which is another huge proc-based
+attack surface. My thesis is that if one is worried about /proc/kcore
+readout attacks they should be equally worried about these types of
+attacks.
 
-do_wait_intr() and do_wait_intr_irq() use __add_wait_queue_entry_tail()
-regardless of WQ_FLAG_EXCLUSIVE (reported by Mani in another thread).
-
-Plus another problem: exclusive waiter must not fail if it was selected
-by wakeup, see the comment in prepare_to_wait_event().
-
-What if we add, say, WQ_FLAG_LOCKED and change prepare_to_wait_event()
-
-	--- x/kernel/sched/wait.c
-	+++ x/kernel/sched/wait.c
-	@@ -274,7 +274,8 @@ long prepare_to_wait_event(struct wait_q
-		unsigned long flags;
-		long ret = 0;
-	 
-	-	spin_lock_irqsave(&wq_head->lock, flags);
-	+	if (!(wq_entry->flags & WQ_FLAG_LOCKED))
-	+		spin_lock_irqsave(&wq_head->lock, flags);
-		if (signal_pending_state(state, current)) {
-			/*
-			 * Exclusive waiter must not fail if it was selected by wakeup,
-	@@ -299,7 +300,8 @@ long prepare_to_wait_event(struct wait_q
-			}
-			set_current_state(state);
-		}
-	-	spin_unlock_irqrestore(&wq_head->lock, flags);
-	+	if (!(wq_entry->flags & WQ_FLAG_LOCKED))
-	+		spin_unlock_irqrestore(&wq_head->lock, flags);
-	 
-		return ret;
-	 }
-
-?
-
-Yes, finish_wait() needs to check WQ_FLAG_LOCKED too... perhaps just
-
-	if (WQ_FLAG_LOCKED) list_del_init(...);
-
-at the start.
-
-Then we can trivially redefine all users of __wait_event_interruptible_locked()
-on top of ___wait_event/etc.
-
-Say, wait_event_interruptible_exclusive_locked(wq, condition) can use
-___wait_event(wq, condition, TASK_INTERRUPTIBLE,
-	WQ_FLAG_EXCLUSIVE | WQ_FLAG_LOCKED,
-	spin_unlock(&wq->lock); schedule(); spin_lock(&wq->lock))
-
-Will you agree with this hack? If yes, I'll try to make the patch on top of
-your cleanup.
-
-Oleg.
-
+Iow, it would be nicer if someone took the time and came up with some
+boot setting that is a list of memory protection settings instead of
+spraying ever more kernel command line switches that nobody can
+reasonably remember or use.
