@@ -1,54 +1,54 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795019197;
-	b=e/FVShMdepm1qmiqS/e/dj9XSVnLKZFmYBqG5bDnEaMh/J1vlfvKzpc3BAZINLs0R5+C
-	 yboZx7pfrzn5NUspRKlLnn+8bB37kbT24YF4VhZNh8nHNjzAtle9i7Z8QBG/U3KQZ064F
-	 Nca0ZbIRwSoBbqF56NJZJy37p9KbluyPpHTYK0uUvmvU31QXM9Sgi1pO79A5IU2Q9fAKC
-	 yWLHJtcFJHi9EMdmce8/8HNPmXxApKuj3iBPCVk436WXzGfed0hnidxNNwQaJnK9CjFSM
-	 iPQuMdeUp9mF03uViegvove0mJME0SN0pbNDVERTA9VQSq/XjxWf6wSorNLwoVmJHMA==
+	t=1795019425;
+	b=QQ8BAnJ5wG+rqVRAWRzkKvdisszHauNkP6Fljr4cw4SG7Ol2Y8+N1wi7Qp2ZjI/h2Mv7
+	 uyVzy4SM3IRBs3bGAeRT1ezxjZnO/R4m2agKswEisrGUPon7llFCkjtrjLU1sm78WgNx5
+	 7bHsUGLVcwhELD7idZICRiCcfp6CEApeTtwUYyFFPW9hXFdW4EuOYVFhF+pcLdOOmp4y2
+	 OadQnFpZk8OVX5KeNtlvYQJsSzcm4fJREBi8UqdClK2UfpTi9gpEu41HVte00wR2eo2kk
+	 DsavCMpyLAlDu6ibNT4K7kFmjVfjJ8zRcl8K3iqWbRppXaee7YNtmprf4KYwB7pHCLA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795019197;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795019425;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=8R8LZ+i0FaLTDkigpffcBCAnwgB/uoixBqukycJfWRk=;
-	b=SMtblM2t1nL+qcSNLtctC485LJNF9h6hYuaSvEIx2/FgsHvzDlbbb4X3GlppuPFDD5Dj
-	 z1AAH50u0qAoteawNuJN7wKRoFaKUSVUPRw68qZatFZqidZstr84QBB9zK+th2+HqTYBv
-	 hGr50GBfk5GvHPKKNPjJGskf9KIygrBjiBBXfIIVSTsRvuhRFmTzeNrLPZKJTIZbT1YZ2
-	 iGt1+lVHtK66svyS0/53FU/zHKzmk9Y8KJ+Kax399RkF8t8jd8vVf+tNxKBZVV+56VU1q
-	 Dm5um/muypoOjAgL4sNWQq+fbNERnGojmODcF7tjtZ9ff8ek5cGRxW2NZQs7ekWqXJg==
+	bh=L30cNThaCOfH1h/tg7mX5YLfxnIR3Ercf6Vj06Bp04E=;
+	b=wOa3aNaGtqi9xD1uYfbJ2LMSWu9vzrE/bHvIBT4itmPw57wLlMBzv/SbtZz0rnR7C5qQ
+	 L2+HBpR9j2HtQtaasLCkGV5nJUnMr0XFOVA4rUP8sGhhMTqtgBYKUoWeHsLjOUJdyC6oM
+	 Dsh1FsFLVMbaaoq6LmRsPlfg6v3/RtBTWD4Sjoa5KfzZpk+f6QI2xLmBm4+bmKG2AB9ZW
+	 A0N5hLoAEGHVKXUOqU9FDrvG5Db2QLR2JdL/mz/KmxOis3X5aq5Z6gCVt+UUINx9qF6La
+	 MkoKYf29v/pAWgUy4WGqA7DsY1oQsqpRPwZvrMPgEzWIDrD8H5vxZVgB8A4Da0aEXwQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BoT1vU4V;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EtK7hvX6;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50D26606A331;
-	Wed, 18 Nov 2026 16:26:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E027260A262F;
+	Wed, 18 Nov 2026 16:30:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BoT1vU4V
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E62181F000C4;
-	Wed, 18 Nov 2026 16:26:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EtK7hvX6
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B70251F01575;
+	Wed, 18 Nov 2026 16:30:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795019197;
-	bh=8R8LZ+i0FaLTDkigpffcBCAnwgB/uoixBqukycJfWRk=;
+	s=k20260515; t=1795019425;
+	bh=L30cNThaCOfH1h/tg7mX5YLfxnIR3Ercf6Vj06Bp04E=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=BoT1vU4Vcp+f02HUwQGgB3aSXaAj5nanI7aZF7JaVb7+/JGVGvNznNcMh9J4VLwFs
-	 siTG+ebR2rum+4SW3xq8Ztm8jAwb/hFWY06zulTlbq4nUcYWiqtH2qUrMl7nmuNlab
-	 UWehwP0yI04CD4roAqKoAd4B2CxJla5VbirLKxcdhlL8GBsgBplUOd+TPkm3AItBHt
-	 GmBgOK5zD8CPQ3QTZo89VtjEWhsZTLOsXHBmM+iKlL01iRo5ihGcyWX0+whSFFXVMz
-	 x6P5ND51CQc8xBrBcIwR10Ux5QiumG6RB9KPC4nrsa0kl2EtPOowjJDzz5QXXCW+Cu
-	 gY83Y7XioatgQ==
-Date: Wed, 18 Nov 2026 17:26:33 +0100
+	b=EtK7hvX6Nq9ijdDvqy8+5uCAwPbPD8SHkgNx9MQnGIZL4At59ecHiqlBxunAq/wuj
+	 QMThfzie8f4ekpL07Kiy50dg6QzPi5U993y4Ts9nGLwOoqyZSIZ2T3Alxs4MDk6iEg
+	 WB9AGtcCr8+FfYAb/aKuXoYmOjYfNdXvPCDP+U+momDYJqy50R5rOyJN364Ujt95u3
+	 7j29ndzZ7fuTS3WuH1ixuu88nXGuTTeiKga/zhzljz+vuThIvR9tj1IRqoqMUj8dA0
+	 WoNoCeEMc4UbJLseHAhJYJ/MZWtT6tbBdyPXF3atbfdo3J18l7pbXOKvf0hZR3VQa2
+	 Q4/sA/ZOzcHRQ==
+Date: Wed, 18 Nov 2026 17:30:20 +0100
 From: Christian Brauner <brauner@kernel.org>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel@vger.kernel.org, 
-	linux-unionfs@vger.kernel.org
-Subject: Re: [PATCH 4/6] ovl: refuse pseudo lower layers unless offline lower
- changes are allowed
-Message-ID: <20261118-wildwasser-raketen-hierbei-10c9d844ca6f@brauner>
-References: <20261118073102.1216568-1-amir73il@gmail.com>
- <20261118073102.1216568-5-amir73il@gmail.com>
+To: Jori Koolstra <jkoolstra@xs4all.nl>
+Cc: viro@zeniv.linux.org.uk, jack@suse.cz, neil@brown.name, 
+	cyphar@cyphar.com, jlayton@kernel.org, amir73il@gmail.com, shakeel.butt@linux.dev, 
+	gregkh@linuxfoundation.org, tj@kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8 00/12] vfs: add O_CREAT|O_DIRECTORY to open*(2)
+Message-ID: <20261118-moment-gehhilfe-gefangen-ce4618af6b54@brauner>
+References: <20261024213539.1307600-1-jkoolstra@xs4all.nl>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -60,107 +60,33 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261118073102.1216568-5-amir73il@gmail.com>
+In-Reply-To: <20261024213539.1307600-1-jkoolstra@xs4all.nl>
 
-On Wed, Nov 18, 2026 at 08:31:00AM +0100, Amir Goldstein wrote:
-> -		/* Pseudo filesystems don't hold data for metacopy files. */
-> -		if (i >= ctx->nr - ctx->nr_data &&
-> +		/* Pseudo filesystems don't mix with new overlayfs features */
-> +		if (!ovl_allow_offline_changes(ofs) &&
->  		    (l->path.dentry->d_sb->s_iflags & SB_I_PSEUDO)) {
+On Sat, Oct 24, 2026 at 11:35:27PM +0200, Jori Koolstra wrote:
+> This series implements new semantics for the O_CREAT|O_DIRECTORY flag
+> combination for open*(2): perform a mkdir and open the resulting
+> directory; return a pinning fd (which mkdir does not).
 
-sashiko.dev <sashiko@sashiko.dev>:
+I've applied this to vfs-7.5.directory and folded a bunch of fixes into
+it. Each fixup is attached as a git note to the commit I folded it into
+so you can see what I massaged:
 
-[Severity: Medium]
-Does checking ovl_allow_offline_changes(ofs) here run before
-ofs->config.index has been finalized?
+git fetch https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git \
+    +vfs-7.5.directory:refs/remotes/vfs/vfs-7.5.directory \
+    +refs/notes/vfs-7.5.directory:refs/notes/vfs-7.5.directory
+git log --notes=vfs-7.5.directory v7.4-rc1..vfs/vfs-7.5.directory
 
-[...]
+The biggest change is kernfs. kernfs_iop_mkdir() now just looks up the
+new node by name so the kernfs_syscall_ops change is gone and cgroup and
+resctrl aren't touched at all anymore.
 
-Because most pseudo filesystems do not implement export operations,
-evaluating ovl_allow_offline_changes(ofs) before those fallbacks run
-causes a regression where mounting with an upperdir over a pseudo lower
-layer fails with -EINVAL instead of falling back to index=off, and makes
-multi-layer mounts depend on whether a non-exportfs lower layer appears
-before or after the pseudo layer in lowerdir.
+The kernfs patches are in vfs-7.5.kernfs as "kernfs: instantiate the
+dentry in kernfs_iop_mkdir()". I'll sent that out soon.
 
-via: https://sashiko.dev/#/message/20261118073102.1216568-5-amir73il@gmail.com
+I split out of 09/12, your kernfs_iattr_rwsem fix and the kernfs part of
+11/12. vfs-7.5.directory is based on the first one.
 
-I think that's right. ovl_lower_dir(), ovl_get_fsid() and the !workdir
-case in ovl_fill_super_creds() all turn the index off.
+I dropped "vfs: move ->create check in lookup_open() to before
+try_break_deleg()". vfs_create_no_perm() does that check itself now.
 
-So with index=on sysfs is refused when it comes first and accepted
-behind a lower layer without file handles.
-
-Same for sashiko's 6/6 report.
-
-So I would fold the following diff so we check the layers once they're
-set up but before ovl_init_uuid_xattr() and ovl_get_indexdir() write to
-upper. I can fold this into 4/6, plus tests into 6/6, if you agree:
-
-diff --git a/fs/overlayfs/super.c b/fs/overlayfs/super.c
-index 2c08dc07bd149..4d803b16f3298 100644
---- a/fs/overlayfs/super.c
-+++ b/fs/overlayfs/super.c
-@@ -1260,14 +1260,6 @@ static struct ovl_entry *ovl_get_lowerstack(struct super_block *sb,
- 	for (i = 0; i < ctx->nr; i++) {
- 		l = &ctx->lower[i];
- 
--		/* Pseudo filesystems don't mix with new overlayfs features */
--		if (!ovl_allow_offline_changes(ofs) &&
--		    (l->path.dentry->d_sb->s_iflags & SB_I_PSEUDO)) {
--			pr_err("pseudo filesystem on %s not supported with metacopy, index, redirect_dir=on, xino=on or data-only layers\n",
--			       l->name);
--			return ERR_PTR(-EINVAL);
--		}
--
- 		err = ovl_lower_dir(l->name, &l->path, ofs, &sb->s_stack_depth);
- 		if (err)
- 			return ERR_PTR(err);
-@@ -1374,6 +1366,28 @@ static int ovl_check_overlapping_layers(struct super_block *sb,
- 	return 0;
- }
- 
-+/*
-+ * Pseudo filesystems don't mix with new overlayfs features.  Check the layers
-+ * only after setting them up, as that may have turned off the index.
-+ */
-+static int ovl_check_pseudo_layers(struct ovl_fs *ofs)
-+{
-+	unsigned int i;
-+
-+	if (ovl_allow_offline_changes(ofs))
-+		return 0;
-+
-+	for (i = 1; i < ofs->numlayer; i++) {
-+		if (ofs->layers[i].mnt->mnt_sb->s_iflags & SB_I_PSEUDO) {
-+			pr_err("pseudo filesystem on %s not supported with metacopy, index, redirect_dir=on, xino=on or data-only layers\n",
-+			       ofs->config.lowerdirs[i]);
-+			return -EINVAL;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
- static struct dentry *ovl_get_root(struct super_block *sb,
- 				   struct dentry *upperdentry,
- 				   struct ovl_entry *oe)
-@@ -1538,6 +1552,15 @@ static int ovl_fill_super_creds(struct fs_context *fc, struct super_block *sb)
- 	if (!ovl_upper_mnt(ofs))
- 		sb->s_flags |= SB_RDONLY;
- 
-+	/* A mount without a workdir doesn't use the index */
-+	if (!ofs->workdir)
-+		ofs->config.index = false;
-+
-+	/* Before the uuid and the index dir are set up on the upper layer */
-+	err = ovl_check_pseudo_layers(ofs);
-+	if (err)
-+		goto out_free_oe;
-+
- 	if (ovl_has_fsid(ofs) && ovl_upper_mnt(ofs)) {
- 		/* Use per instance persistent uuid/fsid */
- 		ovl_init_uuid_xattr(sb, ofs, &ctx->upper);
-
--- 
+Let me know if I messed something up.
