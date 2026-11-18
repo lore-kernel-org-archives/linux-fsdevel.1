@@ -1,94 +1,70 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.62.57.252
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794987071;
-	b=qXJ1gIeGJfIcoLFX09rLdVoUw27iagG7q9M2CYFyPqkmsglNB0PYwC9oRCZdjGuefv/i
-	 vT707OR+C5/sdrdJ/iuTs9Qc58FA5c1dxXWykMynJ3Db+mQRTjuaUc8YO/eKZ/gayYICS
-	 dYxmTIBjue7H01ef1+yKFd0b5XHz9i59NzJdEwEDE5DGgXhmEv/RbWH/+NLOU2BL2LFlS
-	 gICdbwESzAeHB51DndGc+7VdMzE9kA+9jViyFQ8UOxFOkEheIX7ZPeCgNAE9KqeGUQ77N
-	 vd7emI+/sqbnpKQpnuyNO5gAihWx5CNq1uI4xq8frSjlDVXqz1dS4kTO13lFP+GYMtQ==
+	t=1794987126;
+	b=47jCbIA9lOs87AnFbR93sJh9zY18UBcVXAPq6DJNK1vVZENFyxV6gf4C4Ty767zm4uYd
+	 /EWArFmPpiVcFD+62mwhSZayvJVMmv79g8oS8bL7Y4KNBJ1ASctJ/T4+FCjWO4CyR3oWA
+	 NqRFTNtGwUnKtaLYIv1R5sydXkMkng5U9YpEGfPsqul28LoRaj3/KtolFHTiNxnjRGuZX
+	 ZrUf6Q9wIqBsP4aktq5CjCSoXyCgxwS77KyZaxsQeTXpW78uxhM9hMVqAxBMz/sfOFeZo
+	 YqI28aaC04WQKPZVEbH3G5JR/PxD3BCsTL+7QmpdME6/H/ocVONXCrzM8ifG35Hh92A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794987071;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=6lKW0ujd9UDNY4TAMk4udtdbjVtWDIVBiqP1Qlq7+s8=;
-	b=wGxfFIvPzpZc0eoU2biVTzmoN9Y9bT7v/rpEQWB72fyRJKKeztrHGc0N05m445nybP46
-	 sXCqaYgbUJuVRgr8osKwzQsgjRYaHtHjAfIZBMSdRlvkg2C/3jV3zagrBifqva27n5pBz
-	 QBygbfG+22Wpvb2LT5DBzW4cIcQ/NNckQpk6JylQexQ+QgNV6uj90G3fLEW+vCeQ+PU6K
-	 Z8sPdg9cyLtil5ngAe2zMylaoayTv+SpuIe0D7DpixikKTPi845y4mOCnARQv6TNT+rve
-	 HSTqGi2gGDzsr7+2zIBnfuVE+865f78aS2lwWaWqSs+Bbcq/lzWp4s74/mARGavhFfg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794987126;
+	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
+	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:Date:X-OQ-MSGID:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=ZJ+tzoNeQbwJaxzE6IqF470/57tlUDZlSxrmF/lpad4=;
+	b=TO3jDefjKNQLiNrsz606dPAyxKnMsRDRrsDSYC85FssKRKTNmy/++1WJ/6poon2w6Ukq
+	 sdEOhdoxtOMrnyCXPKW84BqUouCJai308bpt8v95N9VA5kzZtblBNFa20gCwh9RqkVJQK
+	 376S8CaCy6oVtxlETtdgzdMKYxvN3Bz+blyb0sB1UlpwsyHppIU5Aqkj7jJhnXThHKgcE
+	 rAj7TvlXrknNnifcNYYEjpj1q9QWBVqYi3yIyIYJDMMGIdok9BGso5PRyIlHuDmIXf+vO
+	 2s6oKQczaAToky3qLZtqGF5RhHUFZUFBTDdkdvqdGbbzgJvBSnvm+mPdJitmfuwTO1w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=h6xHoLeX;
-	arc=none smtp.remote-ip=209.85.208.54
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=qq.com;
+	spf=pass smtp.mailfrom=qq.com;
+	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b="N6Tn3xa/";
+	arc=none smtp.remote-ip=162.62.57.252
+Received: from out162-62-57-252.mail.qq.com (out162-62-57-252.mail.qq.com [162.62.57.252])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CAA8606A32A
-	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 07:31:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3CAA8606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1A4B606A31C;
+	Wed, 18 Nov 2026 07:32:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C1A4B606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=h6xHoLeX
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-6b596afb4c5so717419a12.1
-        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 23:31:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794987069; x=1795591869; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=6lKW0ujd9UDNY4TAMk4udtdbjVtWDIVBiqP1Qlq7+s8=;
-        b=h6xHoLeXt9A8vEZbPQ5YuZL5To3B9EpkJ8W1rInMtmUeDY0Skxf/A9EvEULifDTBEN
-         k0brlUFnuN5puX1eiFIttTE5rvlvvs8ZrretRqBSAoaojIvRydefArfImBo3WRSxckjH
-         bdP7Wp0TxMQLRv29NJmh1/7vAiEF3aFeZPOpsykGS4ggP0aGhJYpFOsQP6tyFiamnhE1
-         tnbvbgdmKP/zMcLyU9HbxGul6jqC85KANfBsaY2pZhV2dt0aUHLloQ/lX0cajlILVjnd
-         v0QUoRDlo2J33Jm8Ve4CbLysbM6GV3rptU6DBoyl8KtigVykWBA4PLvw5TTAOBvv8cBN
-         N7mQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794987069; x=1795591869;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=6lKW0ujd9UDNY4TAMk4udtdbjVtWDIVBiqP1Qlq7+s8=;
-        b=HPozBecFflspdydXJb4SKKXVH3YHOtW55lWM1bJbSCpk1uO1nF/flO5yyMRze40her
-         OuRp/eDKrMatGX6YuvNmd8btc4sJpS7PeWf8IXNQiEHY4prevtqdu6gbOs0Y/3/ez+Xq
-         /pWBPgeJaIzBs/IHK2yGQWKbWvH4yYleKXc6wTyiNzPrlumbFfebMJBpDkikRtiz5bU8
-         cmtfBXqDEKDR0SmEDlK8LgkOegWNaUSH34XaVvvFv2GQ0LufjTq4jhjGn+jTaAfOsCUZ
-         JO7JYqWmMVa6wcxrov0H7Kt/A3qAPpuG/Fe8nQmiAX+85MZS5lfcdIvi4sxh9Zvj0vp7
-         Ld8A==
-X-Gm-Message-State: APuU4Z9u/s/z61KfNJnW/SjLm8HUQFkRxf8y1KqXRUdcVQs2AHo1O4E8
-	GQZVLygChQA+Hi2CFxcCEQEGfkf6xeQz0At2/OJWeKRMurb48mXtQCih
-X-Gm-Gg: AYBFou09rO6fUYFwch4qKfyH/ehTK8SFpzHJLfcvUyDfhxbfR3F7zGmr80CoEDUx9f+
-	ZEMnyCGHJMgGNUHuYWLkrIjkK2ejOkD7sGd+oW5gUZLFLnPi1fRQdA7ia1O9YX++i3UOcFrfktr
-	WQehkDO8cIsR/IXmJ0XihfnYO0g/9hBBK0hY3vh1KI9DlXlJcBBS3+6kJiGX4evapdY5Rf4/CUq
-	JXpbvfmLJzi/pf4miySqJiUv36sV01ULfCKp69sNCN8SU4g3w2JIqJHkxjuXzMl8Jncf9rRhEv0
-	WSu76Ys6xeXPOZMKqIn9RiTKHfn6OiuZFSh9C9/BVrsAFoFUd/Y9bHmstWOgkdJzx4kwP0RdjgD
-	xjdc+mgVJkMGIs6x/VoZBJYzX2ItZ2bkukTiHIulbzBiZnTfhO8+40MHKMaRMKwwdW/sAZcILCz
-	7vShYU+MppiVq1HD022mJzK9j2rKtTi0ytsDqhdTC4kNWch50zivMGtUWmIx15p+8Q1I+obvPc3
-	JzWZV6zfu4J5kYJH6eQJ6g+8iGpYMa7lKlXwWS1U2qieDKPYchcnbo91FPVbep41tHkW/KF4ge7
-	Ikj8GniZYh4yudlQO/uzEzrc9hv77fLHomSRwgIqN/VkMxccewNIPq1JQMipLc3BvHFUdzk76Xm
-	qJu6FAAGksBw=
-X-Received: by 2002:a05:6402:693:b0:6b5:6ba3:5860 with SMTP id 4fb4d7f45d1cf-6b887e9a474mr896151a12.17.1794987069209;
-        Tue, 17 Nov 2026 23:31:09 -0800 (PST)
-Received: from localhost (178-84-201-199.dynamic.upc.nl. [178.84.201.199])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b88993e76bsm691684a12.12.2026.11.17.23.31.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 23:31:08 -0800 (PST)
-From: Amir Goldstein <amir73il@gmail.com>
-To: Christian Brauner <brauner@kernel.org>,
-	Miklos Szeredi <miklos@szeredi.hu>
-Cc: linux-fsdevel@vger.kernel.org,
-	linux-unionfs@vger.kernel.org
-Subject: [PATCH 6/6] selftests/ovl: use legacy setups for pseudo lower layer tests
-Date: Wed, 18 Nov 2026 08:31:02 +0100
-Message-ID: <20261118073102.1216568-7-amir73il@gmail.com>
-X-Mailer: git-send-email 2.56.1
-In-Reply-To: <20261118073102.1216568-1-amir73il@gmail.com>
-References: <20261118073102.1216568-1-amir73il@gmail.com>
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=N6Tn3xa/
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1794987114; bh=ZJ+tzoNeQbwJaxzE6IqF470/57tlUDZlSxrmF/lpad4=;
+	h=From:To:Cc:Subject:Date;
+	b=N6Tn3xa/pKKDXQopCVZck6Ty4OGB3ZK40DuopE+6uYu8L9CcCAYIN1jFLXI3BsPIb
+	 jVL6F7nEyXK0L6JP55kYSnELw6mJwLZT2YPlMybYhGVM/ANkXCXrjCL+gXLdBWzwAf
+	 EsyKptnlRrPc0/BbN/JGDJTKqKQ7KtIRkTspq+lc=
+Received: from [172.18.4.77] ([202.113.185.209])
+	by newxmesmtplogicsvrszb43-0.qq.com (NewEsmtp) with SMTP
+	id 7F49606C; Wed, 18 Nov 2026 15:31:52 +0800
+X-QQ-mid: xmsmtpt1794987112tm8p4f34k
+Message-ID: <tencent_0CFF1B64C4CB09D8F436EAC6272D8A215505@qq.com>
+X-QQ-XMAILINFO: NGZp1yYNf7Y+QME67ve7kj+sazgtgCHtjTXsVFdyqeQ1UIk1VCVnNFaw2EUQDJ
+	 mzAlGGoAxo0aCt/MtxlKnGp8h0dUF87iXZX/XpFRwBBc79TEJesANwzw+lfZbaqTgPG2DrFRVt1V
+	 tKlIpA6jTH6pLlCFgstvLuG4fTagc4mX6Pqb8OVoQFOwMZ9AEdTqIegiJe+8zx6Z99nPW9iy1k29
+	 kTQDRrnAHy68pKSPIma918amSFTo/+9XjbMe3MHM5FdRdZhwHNGwQZDUP4rbRqavdiAv37s4rzzl
+	 QxuXPm1A0kO2rPwDua9ExSApMrlfogqmDTBlqzLJY2gJevC6/LTiwLoBYLMSEv6+fFMgK4NUd4SM
+	 te2sbcaca/3QamFaVdNrRHuEGe16XrPu0Dm/7ILfmttu1K/zxAZ2NL1TAMQwlCRHx0FVnwreW3OC
+	 xNSMFV38qsj0+esGha8KOEfhiJ0mAOWI26DeiSZ+mczHyVx2FUa/9STt0PkHeefiDnQUtfWslvOs
+	 mQH1iPf2+GMPrwvzf3Nkg3t7tNNzR+52MQdwSWwZcygxna3+8G6NxQFmxsOVk0mAQ4bSpuFfS+YR
+	 3ffC0ivUBqHRSCyF8zDhFytzezhz59MTzD5DUzKhROgSZK5g/yHfeaKMyB5ROoLGDbhKHjSLm5Ll
+	 WF0yH4uMnhtxsuCcuR248iGIdo8hws05GOuB2FypKL7WZ/QTO0kYAkVcnX7sm4CUI9rzE4W44ARn
+	 r52+oP8Fm008RWW9a+BrbN9BAMfI00V8BxacujQy+vxMRMw00HtdT3f8VshCxFR81BfEKAsjtyP/
+	 /B93HYoPYOxdfU/Saw5pvY5YYRtT4Ep8bP9FCF/xgjYXcbC1XlIkGhbjt4wdIFm45RKm45Mb3Cs0
+	 vW65OQEKEjG4CQUsjuAiPtVVsS86D/KLoK2k1RF4FcQPxLz+URR/B/2GwFD6FizX/GA8KNSGhZuE
+	 QBXV8udqy+sRUoyIQUcgK+qdaUDx+neb6h0mPP5ZLhw1pMEXI0AEu1PJsHTWIdSxaz0VSxZEb92I
+	 84ziEtsa9coaJQBIP/up++lxi4xBJYel5jH8jyJRruby95PASfbV06mbmvXu0=
+X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
+From: Guikun Yang <yangguikun19@qq.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] ufs: bound the cluster summary index in ufs_clusteracct()
+Date: Wed, 18 Nov 2026 15:35:00 +0800
+X-OQ-MSGID: <patch-ufs-contigsumsize-20261118@qq.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -98,73 +74,69 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-Pseudo filesystems are only allowed as overlayfs lower layers in legacy
-setups, where offline changes to the lower layers are allowed.
+fs_contigsumsize is read from the on-disk superblock into
+uspi->s_contigsumsize with no validation, and c_clustersumoff is read
+from each cylinder-group header with no validation.  In
+ufs_clusteracct() the two combine into a derived array index:
 
-Kernel config defaults such as CONFIG_OVERLAY_FS_REDIRECT_DIR=y or
-CONFIG_OVERLAY_FS_METACOPY=y turn a lower-only mount into a non-legacy
-setup, so mounts of sysfs or debugfs lower layers that are expected to
-succeed would fail on such kernels.
+	i = back + forw + 1;
+	if (i > uspi->s_contigsumsize)
+		i = uspi->s_contigsumsize;
+	fs32_add(sb, ubh_get_addr(UCPI_UBH(ucpi),
+			ucpi->c_clustersumoff + (i << 2)), cnt);
 
-Explicitly set redirect_dir=off,metacopy=off in the lowerdir_sysfs test
-and in the automount_in_layer fixture, to make them independent of the
-kernel config.
+The clamp itself uses the attacker-controlled value as its bound.
+ubh_get_addr() expands to ubh->bh[begin >> s_fshift], so a crafted
+pair indexes bh[UFS_MAXFRAG] past the end of the 136-byte
+ufs_cg_private_info allocation:
 
-Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+	UBSAN: array-index-out-of-bounds in fs/ufs/balloc.c:892
+	 index 15 is out of range for type 'buffer_head *[8]'
+	KASAN: slab-out-of-bounds Read of size 8
+	 0 bytes to the right of 136-byte region [ffff...,ffff...)
+	 allocated by ufs_load_cylinder
+	Kernel panic - not syncing
+
+Reproduced 3/3 with a crafted 44bsd image (clustersumoff = 440,
+fs_contigsumsize = 0x20000, giving i = 1880 and begin = 7960, so
+begin >> s_fshift = 15).  A negative image differing only in the
+fs_contigsumsize byte (0x20000 -> 0) writes 4096 bytes cleanly.
+Both 7.3 and mainline are affected; syzbot has no report for this.
+
+This is distinct from the earlier "five unvalidated cylinder-group
+offsets" report: that fix bounds the offsets against s_cgsize and the
+reproducer set fs_contigsumsize to 0, disabling cluster accounting.
+Here all five offsets are in range, cgsize passes the bound added by
+the fs_cgsize fix, and the overflow comes from the (i << 2) derived
+index with a large s_contigsumsize.
+
+In a valid FFS layout the cluster summary array sits immediately
+before the cluster bitmap, so c_clustersumoff + 4*(i+1) must fit below
+c_clusteroff.  Check that invariant before the update and skip the
+accounting otherwise.
+
+Reported-by: Guikun Yang <yangguikun19@qq.com>
 ---
- .../selftests/filesystems/overlayfs/automount_in_layer.c  | 6 ++++--
- .../selftests/filesystems/overlayfs/pseudo_datadir.c      | 8 +++++++-
- 2 files changed, 11 insertions(+), 3 deletions(-)
+ fs/ufs/balloc.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/tools/testing/selftests/filesystems/overlayfs/automount_in_layer.c b/tools/testing/selftests/filesystems/overlayfs/automount_in_layer.c
-index 0476c4582bdfc..c5bb12d524e5a 100644
---- a/tools/testing/selftests/filesystems/overlayfs/automount_in_layer.c
-+++ b/tools/testing/selftests/filesystems/overlayfs/automount_in_layer.c
-@@ -82,7 +82,7 @@ FIXTURE(layer) {
- 
- FIXTURE_SETUP(layer)
- {
--	char lower[PATH_LEN], other[PATH_LEN], ovl[PATH_LEN], opts[2 * PATH_LEN + 16];
-+	char lower[PATH_LEN], other[PATH_LEN], ovl[PATH_LEN], opts[2 * PATH_LEN + 64];
- 	struct fanotify_event_metadata *ev;
- 	struct pollfd pfd;
- 	char buf[4096];
-@@ -111,7 +111,9 @@ FIXTURE_SETUP(layer)
- 	ASSERT_EQ(mkdir(other, 0755), 0);
- 	ASSERT_EQ(mkdir(ovl, 0755), 0);
- 	ASSERT_EQ(mount("debugfs", lower, "debugfs", 0, NULL), 0);
--	snprintf(opts, sizeof(opts), "lowerdir=%s:%s", lower, other);
-+	/* Pseudo lower layers are only allowed in legacy setups */
-+	snprintf(opts, sizeof(opts),
-+		 "lowerdir=%s:%s,redirect_dir=off,metacopy=off", lower, other);
- 	ASSERT_EQ(mount("overlay", ovl, "overlay", MS_RDONLY, opts), 0);
- 
- 	self->fan = fanotify_init(FAN_CLASS_NOTIF | FAN_NONBLOCK | FAN_CLOEXEC,
-diff --git a/tools/testing/selftests/filesystems/overlayfs/pseudo_datadir.c b/tools/testing/selftests/filesystems/overlayfs/pseudo_datadir.c
-index 954a9f25cd1c5..fbf32c3ea88c1 100644
---- a/tools/testing/selftests/filesystems/overlayfs/pseudo_datadir.c
-+++ b/tools/testing/selftests/filesystems/overlayfs/pseudo_datadir.c
-@@ -173,11 +173,17 @@ TEST(datadir_tmpfs)
- 	EXPECT_EQ(fsmount_layers("/tmp/lower", "/tmp/data", true), 0);
- }
- 
-+/*
-+ * Pseudo lower layers are only allowed in legacy setups.  Explicitly turn off
-+ * the features that may be enabled by kernel config defaults.
-+ */
-+#define LEGACY_OPTS "redirect_dir=off,metacopy=off"
-+
- TEST(lowerdir_sysfs)
- {
- 	ASSERT_EQ(setup_tmp(), 0);
- 
--	EXPECT_EQ(mount_lowerdir("/sys/kernel:/tmp/lower"), 0);
-+	EXPECT_EQ(mount_lowerdir_opts("/sys/kernel:/tmp/lower", LEGACY_OPTS), 0);
- }
- 
- TEST(lowerdir_sysfs_redirect_dir_on)
+diff --git a/fs/ufs/balloc.c b/fs/ufs/balloc.c
+index 628edfde3..3858699db 100644
+--- a/fs/ufs/balloc.c
++++ b/fs/ufs/balloc.c
+@@ -889,6 +889,9 @@ static void ufs_clusteracct(struct super_block * sb,
+ 	i = back + forw + 1;
+ 	if (i > uspi->s_contigsumsize)
+ 		i = uspi->s_contigsumsize;
++	if (ucpi->c_clusteroff < (i + 1) * sizeof(__fs32) ||
++	    ucpi->c_clusteroff - (i + 1) * sizeof(__fs32) < ucpi->c_clustersumoff)
++		return;
+ 	fs32_add(sb, (__fs32*)ubh_get_addr(UCPI_UBH(ucpi), ucpi->c_clustersumoff + (i << 2)), cnt);
+ 	if (back > 0)
+ 		fs32_sub(sb, (__fs32*)ubh_get_addr(UCPI_UBH(ucpi), ucpi->c_clustersumoff + (back << 2)), cnt);
 -- 
-2.56.1
+2.53.0.windows.1
 
