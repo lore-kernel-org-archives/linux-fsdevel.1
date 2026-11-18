@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.181
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.170
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794965857;
-	b=ooDu9f5tWMzEYVMNYiTzRuDMDf6omginN66orG03NaIH74OgpKSk8a61rCFoUuHPfr19
-	 7uWjNXQC6uE91LgstJRwC65D5EvW04DDpAmdYCXZnqC4bqW+vEW906Lln+aOPwzhEJmPN
-	 cmMMrR0Z50jbzLYtuWYADUC4xwDyq3XIgp74gxRDKFMflTrxDC4+3DxlZsY1rbwzuyICQ
-	 fJeaEcA+YuN2tzbBbAnE3IQlLq7eueoJl1rBq9zOIclFY5NaoiC/x3yJvCkNAWOTKBPfe
-	 mUDPuGlZ4ciBA5srz9h7u47g2xqF3wvKnh+m/7VYAFCSz81Zy/ZADk6Z5foyDw4dbqg==
+	t=1794965859;
+	b=GXzIQ47v+vjAoIHld/RNlRhWqCqMGr6vjIdJiI68NxdA0rW4UPDF81bNwyKyc087TV0V
+	 ceHoVEV+2DK+bhp+ZUNfjWo2QhNxgGAwAmB0TU9iInex0muwg8h4my9DXlMmI7jgiZQyp
+	 EgZleqZl8UYxCeMKBG3EoNNKOfCirwisCKXb+N+J3PBWu1cbsprYgPeUMXtajdMBHgRXw
+	 UqDOV3HWWr8v2/IxpvKOFHzXHeA86uGkdAv/zqjYEPq6oPa8OrPA+NbZWoKBpIomY8qH4
+	 2AG9/VOuim8EpIEPJOL75J09km2GdqbVTIN0Da7UCdN4huN6iMQNJD7Fsuk6648wX4Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794965857;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794965859;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=2ak/G9aO4KExnQrxARHHHXj8I0CSRMgCJgoJ5vAOUe4=;
-	b=Eb+sUNHDEqmCVkxVs0QupeKjI/o/C6QlLFBg4hhkUqJn4nGAxvjFWBJtvyvI8AfiVU7S
-	 HipNRGHOsnQtLs95jnioB8hNSdcHTP6zipU+Nf8u86/i1199jvfHND5wiV0Di2wzXobEL
-	 bC3MIuI0ZSRsmO+HgNizdeB5CAPVgRm4OfQpe142ty9/Zh6qe+exxAIE73yZHd2U6AuKu
-	 fBlYXVkyP4S/iB33JkLkFjYAwcYo2nTwtfeV6/YnAg+nkiU6KMfXwt4ga27vnq8AFnJyX
-	 A5e35Ojp3YVCWmMjibpyT2Szw0CmDtaIQO3SkZ03d2k73XkB1JyZuNuf06ofZxi39Ow==
+	bh=VXRAGyWQErkwhL34UDeo0VXkUIHLTD8i2arSe3YYZSI=;
+	b=lXE99I1J/BUK0fzmGztwLfovnPWfrOXgLRP3D9obifPHuYhiaU2WZN5X1kOUsw3D1Xhh
+	 Bg+2jU+AL6dcZyPwLpUaNVs5KcL3z4F5Tc6BM32fc3kVfMfzJ3FUh0e4i+c/IeUMXIuU/
+	 BV1w6iffX89/A/CRi7QDBU/blPYp+Pj8XOkWRL1rhV7xBvelh41jQwwPyNH8+iSAGFDP7
+	 8l28d54gTo4B7+nkB7zpb1X/9VhjaUu6R8vukhwTp7hIUUwhps4fJAoh7bDCk1buTRyvH
+	 yOxHrVlD8Q+7jB2Cwpw5na2qtXlTrO0StggEXWMhEyUtz8jCKIOuI/Xwgymkgk0491Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Uf9DcJae;
-	arc=none smtp.remote-ip=74.125.82.181
-Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BQiULdF1;
+	arc=none smtp.remote-ip=74.125.82.170
+Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6894606A338
-	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 01:37:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D6894606A338
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E53A1606A32C
+	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 01:37:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E53A1606A32C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Uf9DcJae
-Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-382f4710a17so101405eec.0
-        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 17:37:36 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BQiULdF1
+Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-36dbde64409so950895eec.0
+        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 17:37:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794965856; x=1795570656; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1794965858; x=1795570658; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=2ak/G9aO4KExnQrxARHHHXj8I0CSRMgCJgoJ5vAOUe4=;
-        b=Uf9DcJaefNR1xiv11XxOni8gPvQVR60YvB8zaM0ngMMbDZN9VRlB99d4I37/3Pz58G
-         ue2lZ7MsvjupoSEDcl2+aiB2a+CUmawTFpBIwkdXO9RV73bCTTCq0qU/HUhtQClbpqcR
-         l742uT5q6gsheFpq+0OMNFIacSYo/LZ/sJNSEz/qDdBnsR6c9zFUM3UMHMb2N6UuL7i6
-         sMSINTXA5S6I/LyqOC8s8F9WEducv/Zy54Wu4NXZLwJPczrPCGv0BjRgJUWRAbyyUh8D
-         cCP3aJ9bOKQFcMYSDzl2vzZ9L/1Dd32idUadqvyWBs5sNxb+Z32TktuIT2yNRD1KBajC
-         ztWQ==
+        bh=VXRAGyWQErkwhL34UDeo0VXkUIHLTD8i2arSe3YYZSI=;
+        b=BQiULdF1CUDzmbx1OT/9MSFFfozsLtqYjpk7Wb5M3q2MHqlc5LbCFOKmZVb32c/gQ+
+         m81cqbDw/unB6Tx4q9qn1h0ruczLj2ebxq/wjOeOay2tBLJy1K4JBiMMU3gocWJNHONT
+         4Xv/G053hZOcrgt+y9HjAStYvoouHsGhK5+5W2Y+7mkgHjURDP2AlAd+MkRZkF2+ZgwH
+         mgEzT7YwXApV6UDD4eMKEQNK2VIcq88ZYfhpQuuC1QAPNX46z0fm00nxJaS8ncBVbbvw
+         BiPY4q6HwkjvDzrZeZI0SZsMEMaHl1mLOUdxthKVJU5GAQID4f4StwknlK4sz80o6v1x
+         Csng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794965856; x=1795570656;
+        d=1e100.net; s=20260707; t=1794965858; x=1795570658;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=2ak/G9aO4KExnQrxARHHHXj8I0CSRMgCJgoJ5vAOUe4=;
-        b=rkhYrUFn6ewY3FufwJUSBSxrbmOrHBqa+8GliD+L3BAtearsoUDxXAcTebER3x9zm7
-         KdeXeCDbgiwJLtmjAAJGjuglCfL/qp/zu/V1tnuMgxg1FdJ7zX0GwhWMEn+IxB6uSVHe
-         wyB1oo4vhImstDgNhvnOeZjRdyM62bmpc+9ezkEbjKcCTN9ZP9da9yIr9gLjDmh/EjRM
-         RP5aIwv2UZKi2ErBQKwhho0tGJq4dDYn2NAN27BpgssKUNoTkGTdkd3ssVpm8Ruws+Nq
-         CswANhTdvKA7RZbzurBfsawrPpaxl56JpBhR0ayRcwCtgDwTnZ0cO/8Iyx8hYpvfDnPB
-         6qfQ==
-X-Gm-Message-State: APuU4Z+/gtOouQyizMxsACJ8q+rxFKrOnO9U7eZ3ItoubTy4vVMHeEdy
-	4z5xsBaBOB66vPc78Gv5XpROE7oNiVz9vJ5Lb9YNH99cyheucDla+JPD
-X-Gm-Gg: AZFdTZeTi5mb19O+PTXPq8bpCUXY0fy/YJ6huWvbuqniN+fV7wMidq48cUUBiN97dmo
-	7/oPwsCoyrXxeM7nImBrRKe5Q600Ok8T46n5A9P8VHBG3mjD7Rvg7WlqW31b/5tFMkxu+T1pXEC
-	hmsQbveg6+HwrDkdHqXjKyB/y333yjIklmhJIizxJ+LbrM16EhfFvEjMTOMM2kMdOsUYGaxSPNF
-	9m+NsjfIXw3k5DFu207aBKUvzw2SQCP6/97TX2jcs+d9qPEViZnN3t64C9+WYf3CabFdiQHPVLM
-	z6ghK3pmdKwbBlobuUOi+gmuqKWIoVUq61QRkJZ0urnm27rKTsYSsQGNX2qDcM717sfg5KUTcB2
-	+sb1uOOH4GjJLC7V09kDkFp5pLRDqpz+1oNqBfVlq8wKhvyl2TNF9jEksAh9mGHjxFP27wUwrDS
-	Pb95KYGWoyIEW1/jMTwZkWQ20cXorgoO/Q9cR/R9scKfY+pEJZj32gqEYVyJdX/RUonHmrAlCkj
-	JHN80gvFkwtrFND2208nBvEPGpP/ukaMEFwXp23eUaxZdfF1LVUP9HFhlKAY8mhvZUEttly+TCn
-	5pkrbmtfW153SSuPtocWr9lASZHVSfLL6QUSonKUxd29OI0hBAuK/2hQlh7TJN9BILrlcFuSSY7
-	54FoRhRGBqyS3+zAHIXcz6eOQSpnI/0FGsch2edn1c0WNIT8Pbg==
-X-Received: by 2002:a05:7300:d117:b0:372:32a1:b384 with SMTP id 5a478bee46e88-38281a0669amr1111204eec.33.1794965855691;
-        Tue, 17 Nov 2026 17:37:35 -0800 (PST)
+        bh=VXRAGyWQErkwhL34UDeo0VXkUIHLTD8i2arSe3YYZSI=;
+        b=PyqJCHgeUzCaS19liVwdlxdiEaOV+rjtfCyFc3nTC/Gh/KSNRJTdGCte21sJowZ+9j
+         vMeWeJ6olBZ/1s4ZO1q+BsNoVJPq0W1IH6TNKB7DgEmnHtKVKIZx4UcLF5iiyRWqHvqF
+         L/7qwk4gkCLyqBQ+EybcKBH7ZrEhVlxlN6wzoPrmJaZVufNE5rDWBb4cQTEicFWjx+Qg
+         6KRNawcmONPXbNQG83vAczpfZ32daTto+MhcnJZGuz7EGFcBFysUR37rR9T5tl3bbezY
+         d04v30TuqltjAYaRP7JF3qjpomoYxC/UQgkXklYCQodPugqpt5IzG414K97L34PcXVpN
+         oCZg==
+X-Gm-Message-State: APuU4Z95Zbi3e2c4kISc2PJl1tB2A2vIs1/y+ErFo88JVPaVwomeFNi6
+	CY+YSl+hXxvudIRbQd7uzjlS785gv7UhpCkBy9ze15lrnJQyxICCiz4o
+X-Gm-Gg: AZFdTZeofx+Wwhxg4+b4exyqYSj9clHZSAIszYpxfTl+AjzIzPld5nJqn7yaO2ciCkR
+	LPm6CinF2VBaSDiQmW0cdaIaYa/ltIfYyoqxiaWS64l+BkUI4hwXbWZ9ArTOYbR3zPtrsSL2ZwT
+	Bxcmblpt2DtUdFCAmfhOv+NSg4CEWDdvvY8v2any984uUQMjeNPBURlGtnuuWBSw7tG6QycumX9
+	lFU5Fhdf5l8YbVK2petES5y301tqGaZFPN5E4xvz82z/78MNaGxDmbqzsfz7xsvYsdJHnQaQGNz
+	P4JpUBiTLl6tnMWtmooOjkYpUWJ/4Htyi9zP9hhDKshPEkzEQryiWwRdh4bd+FseE6dwleZIksb
+	COgEHKqaYcYbUzkEQ4brd8uW7EmCNWm89oQxeqagiU4k4wJQomqLv8kOnBK9jQfylBjiC7XEdSm
+	LtKILjz8OVzERiPXhJY1VwJeWckaPNWxaysoZi/5FilY+uEL+tkpfEmYxzGea3n4hXzhDLr+eTt
+	RYddZXmIc/FOeCa9g1DhnOiwxXCQIC1+SHlUFT3cLcbhy45cpkz0bzqDTddZL3GMVdqkhXZJNdQ
+	m3UaDJzXCnGl4XpsFtvVqkKJxy+tg0LtyzMc2K0v9ynkWLSL4lHoisxA/9tHNsKZ+TlA3q8n9fY
+	Bun6UYyota5sohvWg1wvKPzmQA2UR
+X-Received: by 2002:a05:7300:50c4:b0:382:be3b:b236 with SMTP id 5a478bee46e88-382be3bb7d1mr631083eec.40.1794965857917;
+        Tue, 17 Nov 2026 17:37:37 -0800 (PST)
 Received: from localhost.localdomain ([2601:646:4300:d042:b1a7:bebf:2fc7:37b1])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-382a6def9e2sm2094527eec.13.2026.11.17.17.37.33
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-382a6def9e2sm2094527eec.13.2026.11.17.17.37.36
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 17 Nov 2026 17:37:35 -0800 (PST)
+        Tue, 17 Nov 2026 17:37:37 -0800 (PST)
 From: ozgun kultekin <ozgunkultekin@gmail.com>
 To: slava@dubeyko.com,
 	glaubitz@physik.fu-berlin.de,
@@ -86,9 +86,9 @@ Cc: linux-fsdevel@vger.kernel.org,
 	yangguikun19@qq.com,
 	stable@vger.kernel.org,
 	ozgun kultekin <ozgunkultekin@gmail.com>
-Subject: [PATCH v2 1/2] hfsplus: pass the key buffer size to hfs_bnode_read_key()
-Date: Tue, 17 Nov 2026 17:37:24 -0800
-Message-ID: <20261118013725.90985-2-ozgunkultekin@gmail.com>
+Subject: [PATCH v2 2/2] hfs: pass the key buffer size to hfs_bnode_read_key()
+Date: Tue, 17 Nov 2026 17:37:25 -0800
+Message-ID: <20261118013725.90985-3-ozgunkultekin@gmail.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261118013725.90985-1-ozgunkultekin@gmail.com>
 References: <20261114043522.48764-1-ozgunkultekin@gmail.com>
@@ -105,23 +105,19 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 hfs_bnode_read_key() reads the key length of leaf records (and of all
-records of variable-key and attributes trees) from disk and only checks
-it against sizeof(hfsplus_btree_key), 518 bytes. The destination is
-always one of the two key buffers hfs_find_init() allocates, each
-tree->max_key_len + 2 bytes long. For the extents tree max_key_len is
-fixed at 10, so the whole allocation is 24 bytes and a crafted leaf key
-writes up to 516 bytes from the image into kmalloc-32. The error path
-clears 518 bytes of the same buffer.
+records of variable-key trees) from disk and only checks it against
+sizeof(hfs_btree_key). The destination is always one of the two key
+buffers hfs_find_init() allocates, each tree->max_key_len + 2 bytes
+long. For the extents tree max_key_len is 7, so the whole allocation is
+18 bytes and a crafted leaf key writes up to 256 bytes from the image
+past it. The error path clears sizeof(hfs_btree_key) bytes of the same
+buffer.
 
-hfs_brec_insert() reaches this with a key that was never validated:
-when the tree root is 0 it reads the key of record 0 of the leaf it
-inserts into, and after a split it reads the first key of the new node.
-A read-write mount that extends the catalog, or an append to a file
-whose extents spill into the extents tree, is enough.
+hfs_brec_insert() and hfs_brec_update_parent() reach this with keys
+that were never validated, the same way as in hfsplus.
 
-Do not let hfs_bnode_read_key() assume the size of the buffer. Record
-the size of each key buffer in struct hfs_find_data in hfs_find_init(),
-allocate the two buffers from it, and pass it to every
+Record the size of each key buffer in struct hfs_find_data in
+hfs_find_init(), allocate the two buffers from it, and pass it to every
 hfs_bnode_read_key() call. Keys longer than the buffer are rejected as
 before, and the error path clears only the buffer.
 
@@ -137,20 +133,20 @@ v2: pass the key buffer size to hfs_bnode_read_key() and keep it in
     hfs_find_data, as suggested by Viacheslav
 v1: https://lore.kernel.org/all/20261114043522.48764-1-ozgunkultekin@gmail.com/
 
- fs/hfsplus/bfind.c      | 6 ++++--
- fs/hfsplus/bnode.c      | 7 ++++---
- fs/hfsplus/brec.c       | 9 +++++----
- fs/hfsplus/hfsplus_fs.h | 5 ++++-
+ fs/hfs/bfind.c | 6 ++++--
+ fs/hfs/bnode.c | 7 ++++---
+ fs/hfs/brec.c  | 9 +++++----
+ fs/hfs/btree.h | 5 ++++-
  4 files changed, 17 insertions(+), 10 deletions(-)
 
-diff --git a/fs/hfsplus/bfind.c b/fs/hfsplus/bfind.c
-index ca9813f58..5ec72fc98 100644
---- a/fs/hfsplus/bfind.c
-+++ b/fs/hfsplus/bfind.c
-@@ -19,11 +19,13 @@ int hfs_find_init(struct hfs_btree *tree, struct hfs_find_data *fd)
+diff --git a/fs/hfs/bfind.c b/fs/hfs/bfind.c
+index d56e47bdc..15b0763ba 100644
+--- a/fs/hfs/bfind.c
++++ b/fs/hfs/bfind.c
+@@ -21,11 +21,13 @@ int hfs_find_init(struct hfs_btree *tree, struct hfs_find_data *fd)
+ 
  	fd->tree = tree;
  	fd->bnode = NULL;
- 	hfs_find_result_init(fd);
 -	ptr = kzalloc(tree->max_key_len * 2 + 4, GFP_KERNEL);
 +	/* search_key and key, each holding one key of the largest size */
 +	fd->key_size = tree->max_key_len + 2;
@@ -162,11 +158,11 @@ index ca9813f58..5ec72fc98 100644
 +	fd->key = ptr + fd->key_size;
  	hfs_dbg("cnid %d, caller %ps\n",
  		tree->cnid, __builtin_return_address(0));
- 	mutex_lock_nested(&tree->tree_lock,
-diff --git a/fs/hfsplus/bnode.c b/fs/hfsplus/bnode.c
-index 3a1a1fa6f..e2335c6d7 100644
---- a/fs/hfsplus/bnode.c
-+++ b/fs/hfsplus/bnode.c
+ 	switch (tree->cnid) {
+diff --git a/fs/hfs/bnode.c b/fs/hfs/bnode.c
+index fcb5b9cd1..11d3bfc9d 100644
+--- a/fs/hfs/bnode.c
++++ b/fs/hfs/bnode.c
 @@ -71,7 +71,8 @@ u8 hfs_bnode_read_u8(struct hfs_bnode *node, u32 off)
  	return data;
  }
@@ -177,22 +173,22 @@ index 3a1a1fa6f..e2335c6d7 100644
  {
  	struct hfs_btree *tree;
  	u32 key_len;
-@@ -84,8 +85,8 @@ void hfs_bnode_read_key(struct hfs_bnode *node, void *key, u32 off)
+@@ -83,8 +84,8 @@ void hfs_bnode_read_key(struct hfs_bnode *node, void *key, u32 off)
  	else
- 		key_len = tree->max_key_len + 2;
+ 		key_len = tree->max_key_len + 1;
  
--	if (key_len > sizeof(hfsplus_btree_key) || key_len < 1) {
--		memset(key, 0, sizeof(hfsplus_btree_key));
+-	if (key_len > sizeof(hfs_btree_key) || key_len < 1) {
+-		memset(key, 0, sizeof(hfs_btree_key));
 +	if (key_len > key_size || key_len < 1) {
 +		memset(key, 0, key_size);
- 		pr_err("hfsplus: Invalid key length: %u\n", key_len);
+ 		pr_err("hfs: Invalid key length: %u\n", key_len);
  		return;
  	}
-diff --git a/fs/hfsplus/brec.c b/fs/hfsplus/brec.c
-index f416e562d..779d7df0b 100644
---- a/fs/hfsplus/brec.c
-+++ b/fs/hfsplus/brec.c
-@@ -148,7 +148,8 @@ int hfs_brec_insert(struct hfs_find_data *fd, void *entry, u32 entry_len)
+diff --git a/fs/hfs/brec.c b/fs/hfs/brec.c
+index 5a2f740dd..d64cc2e53 100644
+--- a/fs/hfs/brec.c
++++ b/fs/hfs/brec.c
+@@ -138,7 +138,8 @@ int hfs_brec_insert(struct hfs_find_data *fd, void *entry, u32 entry_len)
  	 * at the start of the node and it is not the new node
  	 */
  	if (!rec && new_node != node) {
@@ -202,16 +198,16 @@ index f416e562d..779d7df0b 100644
  		hfs_brec_update_parent(fd);
  	}
  
-@@ -166,7 +167,7 @@ int hfs_brec_insert(struct hfs_find_data *fd, void *entry, u32 entry_len)
+@@ -156,7 +157,7 @@ int hfs_brec_insert(struct hfs_find_data *fd, void *entry, u32 entry_len)
  		entry_len = sizeof(cnid);
  
  		/* get index key */
 -		hfs_bnode_read_key(new_node, fd->search_key, 14);
 +		hfs_bnode_read_key(new_node, fd->search_key, 14, fd->key_size);
- 		__hfs_brec_find(fd->bnode, fd, hfs_find_rec_by_key);
+ 		__hfs_brec_find(fd->bnode, fd);
  
  		hfs_bnode_put(new_node);
-@@ -464,7 +465,7 @@ static int hfs_brec_update_parent(struct hfs_find_data *fd)
+@@ -450,7 +451,7 @@ static int hfs_brec_update_parent(struct hfs_find_data *fd)
  		}
  		fd->bnode = hfs_bnode_find(tree, new_node->parent);
  		/* create index key and entry */
@@ -219,8 +215,8 @@ index f416e562d..779d7df0b 100644
 +		hfs_bnode_read_key(new_node, fd->search_key, 14, fd->key_size);
  		cnid = cpu_to_be32(new_node->this);
  
- 		__hfs_brec_find(fd->bnode, fd, hfs_find_rec_by_key);
-@@ -476,7 +477,7 @@ static int hfs_brec_update_parent(struct hfs_find_data *fd)
+ 		__hfs_brec_find(fd->bnode, fd);
+@@ -462,7 +463,7 @@ static int hfs_brec_update_parent(struct hfs_find_data *fd)
  			if (new_node == node)
  				goto out;
  			/* restore search_key */
@@ -229,11 +225,11 @@ index f416e562d..779d7df0b 100644
  		}
  		new_node = NULL;
  	}
-diff --git a/fs/hfsplus/hfsplus_fs.h b/fs/hfsplus/hfsplus_fs.h
-index 6f240f87f..d0d4fea94 100644
---- a/fs/hfsplus/hfsplus_fs.h
-+++ b/fs/hfsplus/hfsplus_fs.h
-@@ -268,6 +268,8 @@ struct hfs_find_data {
+diff --git a/fs/hfs/btree.h b/fs/hfs/btree.h
+index 1f703f2c5..a24a3c966 100644
+--- a/fs/hfs/btree.h
++++ b/fs/hfs/btree.h
+@@ -82,6 +82,8 @@ struct hfs_find_data {
  	int record;
  	int keyoffset, keylength;
  	int entryoffset, entrylength;
@@ -241,17 +237,17 @@ index 6f240f87f..d0d4fea94 100644
 +	u32 key_size;
  };
  
- struct hfsplus_readdir_data {
-@@ -372,7 +374,8 @@ void hfs_bmap_free(struct hfs_bnode *node);
- void hfs_bnode_read(struct hfs_bnode *node, void *buf, u32 off, u32 len);
- u16 hfs_bnode_read_u16(struct hfs_bnode *node, u32 off);
- u8 hfs_bnode_read_u8(struct hfs_bnode *node, u32 off);
--void hfs_bnode_read_key(struct hfs_bnode *node, void *key, u32 off);
+ static inline bool is_hfs_bnode_range_valid(struct hfs_find_data *fd,
+@@ -117,7 +119,8 @@ extern void hfs_bmap_free(struct hfs_bnode *node);
+ extern void hfs_bnode_read(struct hfs_bnode *node, void *buf, u32 off, u32 len);
+ extern u16 hfs_bnode_read_u16(struct hfs_bnode *node, u32 off);
+ extern u8 hfs_bnode_read_u8(struct hfs_bnode *node, u32 off);
+-extern void hfs_bnode_read_key(struct hfs_bnode *node, void *key, u32 off);
 +void hfs_bnode_read_key(struct hfs_bnode *node, void *key, u32 off,
 +			u32 key_size);
- void hfs_bnode_write(struct hfs_bnode *node, void *buf, u32 off, u32 len);
- void hfs_bnode_write_u16(struct hfs_bnode *node, u32 off, u16 data);
- void hfs_bnode_clear(struct hfs_bnode *node, u32 off, u32 len);
+ extern void hfs_bnode_write(struct hfs_bnode *node, void *buf, u32 off, u32 len);
+ extern void hfs_bnode_write_u16(struct hfs_bnode *node, u32 off, u16 data);
+ extern void hfs_bnode_write_u8(struct hfs_bnode *node, u32 off, u8 data);
 -- 
 2.39.5
 
