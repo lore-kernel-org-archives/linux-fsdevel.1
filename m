@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795016054;
-	b=fD4suI4qDCK/m1DWkCFxbRqWxGzzcgYo8ZVuf/7zaExdB3tJZ7bhEr24+leSNDTg2GIw
-	 LzqNZZcalU1HoOW2N7e0Q11OZszlBIh6zn69PhbviUJFQ4MAuzA8LvHhzgoBXGC6U820P
-	 T7pdI7fxHPDID8SKB8dZ7H7IpFhKmrp3d1sq5uPLBUTcHLV5sbDT+IGffWMxovkM7rOx3
-	 56IaSE+leHc+p6b1iRmoQJdYDDJJf1+ph4dFXjVoCsTMpQPcF0NFQJWEggUOkwyd/+qoR
-	 CEg1AtZ38+xNm7J6dVznvtxThai6QiHwRHKDb7x4gzAuKor2d0MJEwWNuMVeTL4BTnQ==
+	t=1795016149;
+	b=4wDkuV8yXFwmJo6Wkz7chKbLhMoigZDdPM281c/ht60YTW173NrdSuEa2y8Qf+nGSZ4J
+	 phm4IBuYp5ohncq/goKD3P/T58klTiWnAzfsNVvXKUl00XRuKHGNaie2FP4EEm+KOBxd+
+	 BQxtgJ08abU/GiLEnYs51MnYXzPJppGH9tgjxP6gyn1NvEti2O7TRnwc4ZEtPQVFK9rWv
+	 YWBPlzGEHqGVHXk2BqKLDCgufoPR+eFK0DQBsycClJsy3DZ78tD6s0EWaYc+heBcPBcaM
+	 xwjTUV6k/BFr8msicvHzU326dsm0REh/YCToYoEgw1r3uWJF+fPzEXzX91I7gmoqIWQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795016054;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795016149;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=lPfd9sT7cIQpS4/P+eH82RaGEnWHTOY6rgpHOsgz4FU=;
-	b=fGbdioLzm0T+sJnw2ZCiPgd2onpTNzdgmUQJVoJkEAU++lkjD0cU5mRQkINbD/MTYWoI
-	 +oZZ42P6zNCCzBU7n+jbf/vxB4sDn7fBTzEo0CMVec5Mf/vFVDh69iT/uiSu9vmL72LJq
-	 apmvlYJ8UGu7xDbAGSUYkKETmpp8OS/Gs6CgdcRVMPk+9gPvWLk8IGcW/qtn1DLUEWBSS
-	 j22MFubXpivbsdR0neiDz3u+3YoqpEYxa0rm75780s10BPEa5iGDi++McLPMIJs7tiPSd
-	 OcqqBe7D2QyKMdo2pQn6vi8fU/zXEq2p6599BzXwnqaAerifLdC9pKO0N3Nu7kYSTbg==
+	bh=t2Y0uksBfonBwzOwNmdjxS0BTSWKi5CUHrmpAZqGpVc=;
+	b=28+HdFueDQ5SJthlzNVqFE76z/NiraB85QTLTuQWIt9DAKgrPL46pGY+KGrEsa51ZOZR
+	 xSMl3DC5J0zABjvMLogNicy2VPHfRwExGqAY4aHFClteOZBRw8lr47sNAX2g4orgUm5jC
+	 mJn+VoHbwZMbcGfuspQpKQ8bAugnaZP6Wxap+yQYpLPPxSt8IGXRdYOM9N243tu/ocOh0
+	 xUb7h2Idq8ybWVmmPbRfTCyKGIPZJZ9TLWgT7cul3ubml2Nd3Peyi/bT/jrnVdSGBzfgF
+	 EbkWCZ/99IGwauYcxz0CDo35MjmhPLcmrBJrqJz7qVdXVLRrhyBasvQhPvGHQuFmhnw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UZ9riCY+;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NZAyN23c;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93640606A31C;
-	Wed, 18 Nov 2026 15:34:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08B16606A336;
+	Wed, 18 Nov 2026 15:35:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UZ9riCY+
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B5201F000C4;
-	Wed, 18 Nov 2026 15:34:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NZAyN23c
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FFC11F000C9;
+	Wed, 18 Nov 2026 15:35:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795016054;
-	bh=lPfd9sT7cIQpS4/P+eH82RaGEnWHTOY6rgpHOsgz4FU=;
+	s=k20260515; t=1795016148;
+	bh=t2Y0uksBfonBwzOwNmdjxS0BTSWKi5CUHrmpAZqGpVc=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=UZ9riCY+VBFYR4EXiZYNFAl+LfxR32qZOEHjoH4BZJ6CttCUQXjevO7SgebXuzVmp
-	 BvOhcSKoIooBkBJkgZeutZZ5rbyNO+VqnNE8XgWVInAlUC1yiO1YnDWvTUn+t3d5t2
-	 Vqp7zWEVtm6mUGel7ZotbctxTEl7AzmbjJX18y3RuH5YGluaA8U3znwldO05aPRqO5
-	 Z++/Tw5Dcy5X724corwUDOQrgNpxvUF3QI/cygw8kBE5HrpclBXG05BHlsfc8OytFy
-	 Ov75P+aYJFR5/JkYSIHIfPDU/ayMOaHonq8L6BB28TOXDmG/FC45Z4732oYgO3LqkH
-	 U22kSdqvcsEYw==
-Message-ID: <6e3de74a-ee6c-4e53-a4f9-e42e1d721cc6@kernel.org>
-Date: Wed, 18 Nov 2026 16:33:56 +0100
+	b=NZAyN23cS3UbJ/9rD5RcMSWPahxbPftycUeQarC22xj/dMgCMTu7gdUdRL+AzWI48
+	 HCddOA12zv+vmSsdyWZpk8mMdvMjbFmBvNJWu9HONh1itqoLdq2yRfvkPBgZW3Sawq
+	 KGsDf1kaN9hWptbz0OxDnSIN++gAZYla6Pm5+uf1yO4sHyQpD1QySJzpN/egZnjfnr
+	 9OsGsr0KEUxxsUNSRQrAzAMYOeTadzDFqgZG60RhJ4WNV98x/+Eu0G1DGTfPFJXG9j
+	 RPci+KnUD8+8dVTBkG0H8TFal/Pg6WlQy9aQkcPTbvtyvW8qSNKx0o6JioXBGHbcRX
+	 gXtJuzQKxIVWg==
+Message-ID: <90a961f5-e488-46de-8872-0e1540eaad4c@kernel.org>
+Date: Wed, 18 Nov 2026 16:35:32 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -52,8 +52,8 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 10/13] mm/migrate_device: refuse to migrate shadow
- stacks
+Subject: Re: [PATCH v2 00/13] mm: batch of (urgentish?) fixes in oomk,
+ cachestat, dev-migrate, percpu
 To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
  "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
  Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
@@ -79,9 +79,9 @@ Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  linux-fsdevel@vger.kernel.org, "Borislav Petkov (AMD)" <bp@alien8.de>,
  Mark Brown <broonie@kernel.org>,
  "Dennis Zhou (Facebook)" <dennisszhou@gmail.com>,
- Rick Edgecombe <rick.p.edgecombe@intel.com>, stable@vger.kernel.org
+ Rick Edgecombe <rick.p.edgecombe@intel.com>, stable@vger.kernel.org,
+ Josef Bacik <josef@toxicpanda.com>
 References: <20261113-mason-migrate-et-al-fixes-v2-0-50a2ed382b61@kernel.org>
- <20261113-mason-migrate-et-al-fixes-v2-10-50a2ed382b61@kernel.org>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -128,34 +128,32 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20261113-mason-migrate-et-al-fixes-v2-10-50a2ed382b61@kernel.org>
+In-Reply-To: <20261113-mason-migrate-et-al-fixes-v2-0-50a2ed382b61@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 11/13/26 22:45, Lorenzo Stoakes (ARM) wrote:
-> From: Chris Mason <mason@kernel.org>
+> A bunch of fixes for oomk, cachestat, device migration and the per-CPU
+> allocator.
 > 
-> The kernel blocks ordinary writes to a shadow stack. But pte_write() is
-> true for a shadow stack entry, and migrate_vma_setup() sets
-> MIGRATE_PFN_WRITE for each page where pte_write() is true.
+> These patches were originally AI-generated, tamed into upstreamable state.
 > 
-> Notably, the nouveau GPU driver takes that flag as permission to map its
-> copy of the page writable for the GPU, meaning that the next CPU access
-> migrates the page back into the shadow stack, and the page then holds what
-> the GPU wrote.
+> Some are more reworked than others. Those which needed a significant
+> rethink are submitted as mine and marked as Reported-by the relevant
+> original author, others are smaller edits which are annotated as such in
+> the usual fashion.
 > 
-> Be consistent and disallow this for migration.
+> Please check for correctness, sanity, and whether the cc: stable is
+> warranted (I have not included it for 3 where it seemed unwarranted.)
 > 
-> Fixes: 54007f818206 ("mm: Introduce VM_SHADOW_STACK for shadow stack memory")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Chris Mason <mason@kernel.org>
-> [ ljs: removed unnecessary comment, refined commit msg ]
-> Reviewed-by: Alistair Popple <apopple@nvidia.com>
-> Reviewed-by: Balbir Singh <balbirs@nvidia.com>
 > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 > ---
 
-Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+Lorenzo, I would pick up the migrate_device patches now.
+
+Which one should be fast-tracked upstream and which can wait for the next cycle?
+
+Use-after-free, shadow stack and out-of-bounds write ... look rather bad.
 
 -- 
 Cheers,
