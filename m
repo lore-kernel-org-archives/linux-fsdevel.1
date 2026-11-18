@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795016149;
-	b=4wDkuV8yXFwmJo6Wkz7chKbLhMoigZDdPM281c/ht60YTW173NrdSuEa2y8Qf+nGSZ4J
-	 phm4IBuYp5ohncq/goKD3P/T58klTiWnAzfsNVvXKUl00XRuKHGNaie2FP4EEm+KOBxd+
-	 BQxtgJ08abU/GiLEnYs51MnYXzPJppGH9tgjxP6gyn1NvEti2O7TRnwc4ZEtPQVFK9rWv
-	 YWBPlzGEHqGVHXk2BqKLDCgufoPR+eFK0DQBsycClJsy3DZ78tD6s0EWaYc+heBcPBcaM
-	 xwjTUV6k/BFr8msicvHzU326dsm0REh/YCToYoEgw1r3uWJF+fPzEXzX91I7gmoqIWQ==
+	t=1795016238;
+	b=kBxKkuFj7/yDyYY71LZC+4/SHMKHNxpmmXi8Z0FaQT4eA/iquIxEui1vnBuqW5TYbg7X
+	 6DVKKvUhYpMD83rQMh64pPFm+2n9W63yZGk4DjPAHeef3W35TVATkl+57bxeYy+3IVgXg
+	 Tmq7YYaBKp5FHvb92sU/cEp9lR25nJ1dD/e6PiiOlX0NuXu783J/Dj2wgWpGxgaaMVDrq
+	 3g0/CePg4x+oyYJRb1hCeoTj4efbHjTFMuHtt/YgP7Za0OpcMU2reqJvGVkI2frmoIrQQ
+	 2xEvRBLBZsebrroSBKOGzhtzl2+UYGKhvX369kF2mR2rxXC21fxm6r7GvJtRrvNlB9g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795016149;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795016238;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=t2Y0uksBfonBwzOwNmdjxS0BTSWKi5CUHrmpAZqGpVc=;
-	b=28+HdFueDQ5SJthlzNVqFE76z/NiraB85QTLTuQWIt9DAKgrPL46pGY+KGrEsa51ZOZR
-	 xSMl3DC5J0zABjvMLogNicy2VPHfRwExGqAY4aHFClteOZBRw8lr47sNAX2g4orgUm5jC
-	 mJn+VoHbwZMbcGfuspQpKQ8bAugnaZP6Wxap+yQYpLPPxSt8IGXRdYOM9N243tu/ocOh0
-	 xUb7h2Idq8ybWVmmPbRfTCyKGIPZJZ9TLWgT7cul3ubml2Nd3Peyi/bT/jrnVdSGBzfgF
-	 EbkWCZ/99IGwauYcxz0CDo35MjmhPLcmrBJrqJz7qVdXVLRrhyBasvQhPvGHQuFmhnw==
+	bh=RGtuOoXmARbodH7Cw+9F0C3TnVxoO+KV9KQKzi8RPLo=;
+	b=QN4grj+rZl32u+Uezrpc1mF95szOhqAiP8l5MlT/160nOGL5FMcgOOduwQT8iYUi++Ci
+	 P/ZSP15Rd3Y+EtTKK3yn81DkfDBsodE/r1IbW7MOgQxTIZBzu8e1mAxV0HFBuq0vtX90r
+	 BwLswUmw9mstFQvdEGZtKvE4d1SWenZrEvmTEO3wVoNqt/XFZMfhHTLOhNSCPVI3+kOp+
+	 qiiiij97Cfe98jpuh2WlKchBDZYo20/G/Hvs2BHyWFbTjR+BGvkXlx8tpuK3388RJlM57
+	 9DPujzCacEvBXpw+/qN6FChPCCyNiT7VF5oYtAXQDmepINFihErAJoxJkc9bqSTBPiA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NZAyN23c;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ouBLsAtQ;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08B16606A336;
-	Wed, 18 Nov 2026 15:35:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 217B0606A31C;
+	Wed, 18 Nov 2026 15:37:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NZAyN23c
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FFC11F000C9;
-	Wed, 18 Nov 2026 15:35:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ouBLsAtQ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC5A11F000C4;
+	Wed, 18 Nov 2026 15:37:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795016148;
-	bh=t2Y0uksBfonBwzOwNmdjxS0BTSWKi5CUHrmpAZqGpVc=;
+	s=k20260515; t=1795016237;
+	bh=RGtuOoXmARbodH7Cw+9F0C3TnVxoO+KV9KQKzi8RPLo=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=NZAyN23cS3UbJ/9rD5RcMSWPahxbPftycUeQarC22xj/dMgCMTu7gdUdRL+AzWI48
-	 HCddOA12zv+vmSsdyWZpk8mMdvMjbFmBvNJWu9HONh1itqoLdq2yRfvkPBgZW3Sawq
-	 KGsDf1kaN9hWptbz0OxDnSIN++gAZYla6Pm5+uf1yO4sHyQpD1QySJzpN/egZnjfnr
-	 9OsGsr0KEUxxsUNSRQrAzAMYOeTadzDFqgZG60RhJ4WNV98x/+Eu0G1DGTfPFJXG9j
-	 RPci+KnUD8+8dVTBkG0H8TFal/Pg6WlQy9aQkcPTbvtyvW8qSNKx0o6JioXBGHbcRX
-	 gXtJuzQKxIVWg==
-Message-ID: <90a961f5-e488-46de-8872-0e1540eaad4c@kernel.org>
-Date: Wed, 18 Nov 2026 16:35:32 +0100
+	b=ouBLsAtQ40oLsAZd1zjg2WJWLNqzwMhUfP/CPv4ev3jpHGU+8ovI1/XzIoAmz8sD/
+	 lALlKPHLFGVk4NjtK7nu7+IC9x+zjveLhbSdUOcABwiWN0XcUaBLkBnCKRhfMiJS6j
+	 6MuhpQLTkoL6xFlR6wr4KQucYsPJLIIfhxqdi8MPcQo6W1TlysTrTpIr1O0w+OSgI0
+	 uWYIlMYVajF4C6MaMZcxEmnBMWa/Cr8RKwpqycTbBpEcLTmMWwnR7X7RQkJRkxLBc9
+	 +9akaPTYA131z09+z3n9TjrBVHq1EHMQPMWrUJwPJPfEHVDvJ0Zsuh8UnZ3Xhomzxq
+	 S2bEBglFbbZkw==
+Message-ID: <bdd849e3-0a0f-4655-9c76-7e40d1e4eb66@kernel.org>
+Date: Wed, 18 Nov 2026 16:37:01 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -52,36 +52,41 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/13] mm: batch of (urgentish?) fixes in oomk,
- cachestat, dev-migrate, percpu
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, David Rientjes <rientjes@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>,
- Andrew Morton <akpm@linux-foundation.org>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Nhat Pham <nphamcs@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>,
+Subject: Re: [PATCH v3 0/9] userfaultfd: assorted fixes (part 1)
+To: Tal Zussman <tz2294@columbia.edu>,
+ Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
+ Peter Xu <peterx@redhat.com>, James Houghton <jthoughton@google.com>,
+ Andrea Arcangeli <aarcange@redhat.com>,
+ Suren Baghdasaryan <surenb@google.com>, Balbir Singh <balbirs@nvidia.com>,
+ "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>, Michal Hocko <mhocko@suse.com>,
+ =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+ Andrei Vagin <avagin@gmail.com>, Muhammad Usama Anjum <usama.anjum@arm.com>,
+ Stephen Rothwell <sfr@canb.auug.org.au>, Arnd Bergmann <arnd@arndb.de>,
  Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>,
  Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>,
  Gregory Price <gourry@gourry.net>, Ying Huang
  <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
- Usama Arif <usama.arif@linux.dev>, Kairui Song <kasong@tencent.com>,
- Balbir Singh <balbirs@nvidia.com>, =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?=
- <jglisse@redhat.com>, Kiryl Shutsemau <kas@kernel.org>,
- Yu-cheng Yu <yu-cheng.yu@intel.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, Dennis Zhou <dennis@kernel.org>,
- Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>,
- Peng Fan <peng.fan@nxp.com>, Josef Bacik <jbacik@fb.com>,
- Chris Mason <mason@kernel.org>
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
+ Kiryl Shutsemau <kas@kernel.org>, Muchun Song <muchun.song@linux.dev>,
+ Oscar Salvador <osalvador@suse.de>,
+ =?UTF-8?Q?Miko=C5=82aj_Lenczewski?= <miko.lenczewski@arm.com>
 Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, "Borislav Petkov (AMD)" <bp@alien8.de>,
- Mark Brown <broonie@kernel.org>,
- "Dennis Zhou (Facebook)" <dennisszhou@gmail.com>,
- Rick Edgecombe <rick.p.edgecombe@intel.com>, stable@vger.kernel.org,
- Josef Bacik <josef@toxicpanda.com>
-References: <20261113-mason-migrate-et-al-fixes-v2-0-50a2ed382b61@kernel.org>
+ linux-fsdevel@vger.kernel.org, stable@vger.kernel.org,
+ Breno Leitao <leitao@debian.org>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
+ Felix Kuehling <Felix.Kuehling@amd.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Leon Romanovsky <leon@kernel.org>, dri-devel@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+References: <20261117-uffd-state-fixes-v3-0-b617009d1a4a@columbia.edu>
+ <4f23b0bc-b89a-46c1-b8cd-853e7815b7ac@kernel.org>
+ <7d31ba34-8b5f-4eb2-9864-145ea80c3412@columbia.edu>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -128,32 +133,42 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20261113-mason-migrate-et-al-fixes-v2-0-50a2ed382b61@kernel.org>
+In-Reply-To: <7d31ba34-8b5f-4eb2-9864-145ea80c3412@columbia.edu>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 11/13/26 22:45, Lorenzo Stoakes (ARM) wrote:
-> A bunch of fixes for oomk, cachestat, device migration and the per-CPU
-> allocator.
+On 11/18/26 16:26, Tal Zussman wrote:
+> On 11/18/26 4:41 AM, David Hildenbrand (Arm) wrote:
+>> On 11/18/26 05:28, Tal Zussman wrote:
+> ...
 > 
-> These patches were originally AI-generated, tamed into upstreamable state.
+>>> Patch 6 has little user impact on its own. It is included because,
+>>> together with patch 7, it allows removing clear_uffd_wp_pmd().
+>>>
 > 
-> Some are more reworked than others. Those which needed a significant
-> rethink are submitted as mine and marked as Reported-by the relevant
-> original author, others are smaller edits which are annotated as such in
-> the usual fashion.
+> ...> 
+>> So, I would be picking up ...
+>>
+>>> Tal Zussman (9):
+>>>       userfaultfd: use anonymous memory for UFFDIO_ZEROPAGE on private file mappings
+>>>       userfaultfd: refuse UFFDIO_MOVE into a non-present huge destination PMD
+>>>       fs/proc/task_mmu: downgrade writable migration entries in PAGEMAP_SCAN write-protect
+>>>       mm/migrate: warn on a writable migration entry with the uffd bit set
+>>
+>> This
+>>
+>>>       fs/proc/task_mmu: write-protect device-private THPs in PAGEMAP_SCAN
+>>>       mm/huge_memory: build the moved huge zero PMD from the destination VMA
+>>
+>> This
+>>
 > 
-> Please check for correctness, sanity, and whether the cc: stable is
-> warranted (I have not included it for 3 where it seemed unwarranted.)
-> 
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> ---
+> So my one concern is that (as per above), the mremap patch removes 
+> clear_uffd_wp_pmd() after the huge_memory patch removes the other user.
+> Splitting them may break compilation. I would've left clear_uffd_wp_pmd()
+> alone but then it throws a nice ugly unused code warning :\
 
-Lorenzo, I would pick up the migrate_device patches now.
-
-Which one should be fast-tracked upstream and which can wait for the next cycle?
-
-Use-after-free, shadow stack and out-of-bounds write ... look rather bad.
+Ah, so it's best Andrew picks that up as well then?
 
 -- 
 Cheers,
