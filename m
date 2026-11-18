@@ -1,39 +1,39 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=143.54.11.23
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794967342;
-	b=TFWZvRiMWvK5jwXVlGBhaNxIsp56KTB+j6f33Xq2fp2ijCBVRYJKwFE5hj5PwWB5Ggv+
-	 pTwZezWii4hvlXnPlcsffxcu1xnv06F4MUTjAHJvlrCnxLXv16fhv8EvEB+cKMKpvrFCY
-	 PUdr5pDK/6k36es5/1H79pqECoHkZ7rVZct8upewKQVLTVtPux7ORSzsiOFul3G4jkhN4
-	 E0owBpbv6SPfwdbxdlPfML9lfGVid1hSesOqT4DN8zToP9GITvPa4U7JPUfnYo2p+vv77
-	 2CZMfauiE2vE8vf3D3s2WmO9H9FP1J+ZjmLMnPv0/7jJcCsyAX6fsFLWVky/5MTdtvg==
+	t=1794967352;
+	b=o2ClQlL9XcqMnDMkVSYWWP/na/mo34KSc/Yx3RAroUWjGO2jBWKk1DAs2JT3QURdqCnY
+	 Nxdnd+y/e8RItnPw8mU5NEcaB4znCIEg4DmZXp8ieCWs+vAJbVTGR01Q0A0+3XjgiK8rz
+	 tET1emLdPSSAn0npgCBx6rQ4YfC85TMygLwytnz8uFkilhNyqOUee0EqEKW+gc0kjyK35
+	 I1wf2YNUIf7PVR7+yRdQsocE0OP11qZnVy85qC601X/6i3AnmlZb3sK7PeqhwkPi/G4Zi
+	 UIx7v8O6Fj0iHFRdLMey5Usyzz+DZy7eaDn1NuGuuQXvzm7W3IQEhW1hXVsxSGzIUjg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794967342;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794967352;
 	h=DMARC-Filter:Received:DKIM-Signature:From:To:Cc:Subject:Date:
 	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=uDrhGKdf9IAjbUgKwbDPsIAWyEYQ2WHcboRXI84KuUg=;
-	b=NqbfX6uaz/oBjIxGTrL3rOP3vCbgkdT8Aun1aHn1kHtN0OfEiwtEqBKw+5jhi+HCdFvM
-	 sTf7BYBUfkv20h5VXbLcAU365klM5sAvCFnJcxRkwebTQ/mE0W+hLnVsInKsmQA04yykg
-	 iRkTmUSsQSNZ1g1S0RVbwYlRpNvjAHOvZYtOOdPmZ2m+yknJYVi/uH8H4IfBPNUFpGtxx
-	 EeYIhOOXWOjDh/DFRS8baewAs4mRU+E2BDuI30n3J1JBB77ZgEu2m2Ovg8bH7RqC0KGgl
-	 M3TLSoD2wfudNVU74MGO6JuDsG/VBRCLvCSg67sgwgBpzynXIJm9dnc1oSgeY1SbNtQ==
+	bh=EBv9/G2gh0fgS596X/B5LROGc00k54iyDs123AgGdag=;
+	b=oGcJxHl+wFGxR0Ct8Y4v8KDLA6PrHgeXAVD4SPNwg6yKQLaMIeh41m8QX8Ze5L+HIkhl
+	 nmtROcfKsrMvVakWL4ralr0bJGsYdiyHwRE8uO1TidQ9MFPAqdxdckyjn8cmcBj+Grtbb
+	 /sACssVSR4nmzwOQEfW5qW6/1d4MjCCvpe5F5Bl8FAfDxSJWPnN1d4winCGGpqtEpDKJN
+	 TUNZDf5wlArUWSJEUADRf5Zepv200U4ubgZAd7lrxAlT9SK74RGjRvupvbyKvyy1PKtXk
+	 Q/XsEFgFVsBGuGbTJ3De2ymCynJdEqPs0ChWcnvnMM9RkoRqqOBktClHM9A2NRHj2rw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=inf.ufrgs.br;
 	spf=pass smtp.mailfrom=inf.ufrgs.br;
-	dkim=pass header.d=inf.ufrgs.br header.i=@inf.ufrgs.br header.a=rsa-sha256 header.s=dkim2026 header.b=SYwgZA6N;
+	dkim=pass header.d=inf.ufrgs.br header.i=@inf.ufrgs.br header.a=rsa-sha256 header.s=dkim2026 header.b=UNasUyIQ;
 	arc=none smtp.remote-ip=143.54.11.23
 Received: from smtp.inf.ufrgs.br (smtp.inf.ufrgs.br [143.54.11.23])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68C80606A334;
-	Wed, 18 Nov 2026 02:02:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 68C80606A334
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D573606A31C;
+	Wed, 18 Nov 2026 02:02:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3D573606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inf.ufrgs.br
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inf.ufrgs.br
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=inf.ufrgs.br header.i=@inf.ufrgs.br header.a=rsa-sha256 header.s=dkim2026 header.b=SYwgZA6N
+	dkim=pass (2048-bit key) header.d=inf.ufrgs.br header.i=@inf.ufrgs.br header.a=rsa-sha256 header.s=dkim2026 header.b=UNasUyIQ
 Received: from LAPTOP-R01LEAQM.localdomain (unknown [189.6.233.4])
-	by smtp.inf.ufrgs.br (Postfix) with ESMTPSA id 0F9211210E5;
+	by smtp.inf.ufrgs.br (Postfix) with ESMTPSA id 351A71210E9;
 	Tue, 17 Nov 2026 23:02:06 -0300 (-03)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inf.ufrgs.br;
 	s=dkim2026; t=1794967326;
@@ -41,12 +41,12 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inf.ufrgs.br;
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=uDrhGKdf9IAjbUgKwbDPsIAWyEYQ2WHcboRXI84KuUg=;
-	b=SYwgZA6Nv+/tdjEo8zmVXo86qQqMfsZg9yUAg7KL+TzDPM1nzUg6dDnZqMSq92j+ZD2uHP
-	rYx5vnFbXNcPBrFKrVGt0pgnivEPmf4NcwLU8FRaPRsmihAxKSZvRWhQy+opVWZ3FPIWCx
-	TM3SF9ipVH0WGW8SRZMQHXspvAmOl8fAMwESvKShiJKFoUet3YHomhEe95ZpdPVC2ZPRw+
-	Q/dObKJIleRE4A2A/kIpZLMv6xBqixcmR8sn5DMw67jRBwq13d8xOqx/tea63WbEEMB0D3
-	fdQv+zlTGfexe2shUetc3kcpjHZRTO5g8xRnKwNPUxTzJZ3w0OWDyga4xr4aRA==
+	bh=EBv9/G2gh0fgS596X/B5LROGc00k54iyDs123AgGdag=;
+	b=UNasUyIQNzbvX1K99y5KklMDQwBtLvPJrvHzH9sMH/GeHh7uYu4KfGmfx5VpVi57Qd+R0I
+	IUAYa4HWbUAaw2/71hJbECpFQlE2qd9hNc8HTeVk8BZBUBGvDELz6vNlX/LTqkn/5aCkkC
+	P+6VHh6YkVaHY00PYBuQTLJD+Fdx6u6nMHz/XXUvHthKCs9sg+RaPAP+SL8CYmz8SNp4ih
+	hmhfZMiCSPI9oiYUGTW+vsnwzKUrjPq85o49w5qf9DjVsRRx6gTCZ4OCJ5CgIhPjwh4tVh
+	IgrLdD2u8gNi2xYWP6OGbp0OCoBewexZpnORSoFgdmQ65vBTWr/h6n+Ffz49rQ==
 From: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
 To: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
 Cc: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>,
@@ -55,9 +55,9 @@ Cc: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>,
 	djwong@kernel.org,
 	hch@lst.de,
 	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH v2 1/8] fat: support FIEMAP
-Date: Tue, 17 Nov 2026 23:01:41 -0300
-Message-ID: <20261118020150.1023865-2-matheus.aalmeida@inf.ufrgs.br>
+Subject: [RFC PATCH v2 3/8] fat: add iomap direct I/O support
+Date: Tue, 17 Nov 2026 23:01:43 -0300
+Message-ID: <20261118020150.1023865-4-matheus.aalmeida@inf.ufrgs.br>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261118020150.1023865-1-matheus.aalmeida@inf.ufrgs.br>
 References: <20261118020150.1023865-1-matheus.aalmeida@inf.ufrgs.br>
@@ -72,320 +72,257 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Implement support for ->fiemap() using iomap_fiemap(). Add a read-only
-fat_iomap_begin() and a fat_get_cont_clusters() helper for finding
-contiguous clusters.
+Replace the deprecated ->direct_IO() path with ->{read,write}_iter() and
+iomap_dio_rw(). Add fat_file_open() to advertise direct I/O support.
 
 Signed-off-by: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
 ---
- fs/fat/Kconfig  |  1 +
- fs/fat/Makefile |  2 +-
- fs/fat/cache.c  | 85 +++++++++++++++++++++++++++++++++++++++++--------
- fs/fat/fat.h    |  5 +++
- fs/fat/file.c   | 12 +++++++
- fs/fat/iomap.c  | 73 ++++++++++++++++++++++++++++++++++++++++++
- 6 files changed, 163 insertions(+), 15 deletions(-)
- create mode 100644 fs/fat/iomap.c
+ fs/fat/Kconfig |   1 -
+ fs/fat/fat.h   |   1 +
+ fs/fat/file.c  | 108 ++++++++++++++++++++++++++++++++++++++++++++++++-
+ fs/fat/inode.c |  36 -----------------
+ fs/fat/iomap.c |  24 +++++++++++
+ 5 files changed, 131 insertions(+), 39 deletions(-)
 
 diff --git a/fs/fat/Kconfig b/fs/fat/Kconfig
-index 25fae1c83..d31d7866c 100644
+index d31d7866c..7989c6bf0 100644
 --- a/fs/fat/Kconfig
 +++ b/fs/fat/Kconfig
-@@ -2,6 +2,7 @@
- config FAT_FS
- 	tristate
+@@ -4,7 +4,6 @@ config FAT_FS
  	select BUFFER_HEAD
-+	select FS_IOMAP
+ 	select FS_IOMAP
  	select NLS
- 	select LEGACY_DIRECT_IO
+-	select LEGACY_DIRECT_IO
  	help
-diff --git a/fs/fat/Makefile b/fs/fat/Makefile
-index 2b0341126..238668f03 100644
---- a/fs/fat/Makefile
-+++ b/fs/fat/Makefile
-@@ -7,7 +7,7 @@ obj-$(CONFIG_FAT_FS) += fat.o
- obj-$(CONFIG_VFAT_FS) += vfat.o
- obj-$(CONFIG_MSDOS_FS) += msdos.o
- 
--fat-y := cache.o dir.o fatent.o file.o inode.o misc.o nfs.o
-+fat-y := cache.o dir.o fatent.o file.o inode.o misc.o nfs.o iomap.o
- vfat-y := namei_vfat.o
- msdos-y := namei_msdos.o
- 
-diff --git a/fs/fat/cache.c b/fs/fat/cache.c
-index 1b87354e2..18a0bb500 100644
---- a/fs/fat/cache.c
-+++ b/fs/fat/cache.c
-@@ -76,7 +76,7 @@ static int fat_cache_lookup(struct inode *inode, int fclus,
- 			    struct fat_cache_id *cid,
- 			    int *cached_fclus, int *cached_dclus)
- {
--	static struct fat_cache nohit = { .fcluster = 0, };
-+	static struct fat_cache nohit = { .fcluster = -1, };
- 
- 	struct fat_cache *hit = &nohit, *p;
- 	int offset = -1;
-@@ -130,9 +130,6 @@ static void fat_cache_add(struct inode *inode, struct fat_cache_id *new)
- {
- 	struct fat_cache *cache, *tmp;
- 
--	if (new->fcluster == -1) /* dummy cache */
--		return;
--
- 	spin_lock(&MSDOS_I(inode)->cache_lru_lock);
- 	if (new->id != FAT_CACHE_VALID &&
- 	    new->id != MSDOS_I(inode)->cache_valid_id)
-@@ -217,14 +214,32 @@ static inline void cache_init(struct fat_cache_id *cid, int fclus, int dclus)
- 	cid->nr_contig = 0;
- }
- 
--int fat_get_cluster(struct inode *inode, int cluster, int *fclus, int *dclus)
-+static int fat_cache_contig_end(struct inode *inode, int fclus, int dclus,
-+				int end)
-+{
-+	struct fat_cache *p;
-+
-+	spin_lock(&MSDOS_I(inode)->cache_lru_lock);
-+	list_for_each_entry(p, &MSDOS_I(inode)->cache_lru, cache_list) {
-+		if (p->fcluster > fclus && p->fcluster <= end &&
-+		    p->dcluster - p->fcluster != dclus - fclus)
-+			end = p->fcluster - 1;
-+	}
-+	spin_unlock(&MSDOS_I(inode)->cache_lru_lock);
-+
-+	return end;
-+}
-+
-+static int __fat_get_cluster(struct inode *inode, int cluster, int *fclus,
-+			     int *dclus, int *nr_cont)
- {
- 	struct super_block *sb = inode->i_sb;
- 	struct msdos_sb_info *sbi = MSDOS_SB(sb);
- 	const int limit = sb->s_maxbytes >> sbi->cluster_bits;
- 	struct fat_entry fatent;
- 	struct fat_cache_id cid;
--	int nr;
-+	int last = nr_cont ? cluster + *nr_cont - 1 : cluster;
-+	int fcluster, dcluster, nr;
- 
- 	BUG_ON(MSDOS_I(inode)->i_start == 0);
- 
-@@ -236,16 +251,11 @@ int fat_get_cluster(struct inode *inode, int cluster, int *fclus, int *dclus)
- 			__func__, MSDOS_I(inode)->i_pos, *dclus);
- 		return -EIO;
- 	}
--	if (cluster == 0)
-+	if (last == 0)
- 		return 0;
- 
--	if (fat_cache_lookup(inode, cluster, &cid, fclus, dclus) < 0) {
--		/*
--		 * dummy, always not contiguous
--		 * This is reinitialized by cache_init(), later.
--		 */
--		cache_init(&cid, -1, -1);
--	}
-+	if (fat_cache_lookup(inode, cluster, &cid, fclus, dclus) < 0)
-+		cache_init(&cid, 0, *dclus);
- 
- 	fatent_init(&fatent);
- 	while (*fclus < cluster) {
-@@ -276,6 +286,29 @@ int fat_get_cluster(struct inode *inode, int cluster, int *fclus, int *dclus)
- 		if (!cache_contiguous(&cid, *dclus))
- 			cache_init(&cid, *fclus, *dclus);
- 	}
-+
-+	if (nr_cont) {
-+		fcluster = min(last, cid.fcluster + cid.nr_contig);
-+		if (fcluster < last)
-+			last = fat_cache_contig_end(inode, cluster, *dclus, last);
-+		dcluster = *dclus + fcluster - cluster;
-+		while (fcluster < last) {
-+			nr = fat_ent_read(inode, &fatent, dcluster);
-+			if (nr < 0)
-+				goto out;
-+			if (nr != dcluster + 1) {
-+				if (nr != FAT_ENT_EOF && nr != FAT_ENT_FREE) {
-+					fat_cache_add(inode, &cid);
-+					cache_init(&cid, fcluster + 1, nr);
-+				}
-+				break;
-+			}
-+			fcluster++;
-+			dcluster++;
-+			cid.nr_contig++;
-+		}
-+		*nr_cont = fcluster - cluster + 1;
-+	}
- 	nr = 0;
- 	fat_cache_add(inode, &cid);
- out:
-@@ -283,6 +316,30 @@ int fat_get_cluster(struct inode *inode, int cluster, int *fclus, int *dclus)
- 	return nr;
- }
- 
-+int fat_get_cluster(struct inode *inode, int cluster, int *fclus, int *dclus)
-+{
-+	return __fat_get_cluster(inode, cluster, fclus, dclus, NULL);
-+}
-+
-+int fat_get_cont_clusters(struct inode *inode, int cluster, int *nr)
-+{
-+	int ret, fclus, dclus;
-+
-+	if (!MSDOS_I(inode)->i_start)
-+		return -EIO;
-+
-+	ret = __fat_get_cluster(inode, cluster, &fclus, &dclus, nr);
-+	if (ret < 0)
-+		return ret;
-+	if (ret == FAT_ENT_EOF) {
-+		fat_fs_error(inode->i_sb,
-+			     "%s: request beyond EOF (i_pos %lld)",
-+			     __func__, MSDOS_I(inode)->i_pos);
-+		return -EIO;
-+	}
-+	return dclus;
-+}
-+
- static int fat_bmap_cluster(struct inode *inode, int cluster)
- {
- 	struct super_block *sb = inode->i_sb;
+ 	  If you want to use one of the FAT-based file systems (the MS-DOS and
+ 	  VFAT (Windows 95) file systems), then you must say Y or M here
 diff --git a/fs/fat/fat.h b/fs/fat/fat.h
-index 07ab49490..a21fbca12 100644
+index e0cc46130..7f0be1423 100644
 --- a/fs/fat/fat.h
 +++ b/fs/fat/fat.h
-@@ -3,6 +3,7 @@
- #define _FAT_H
+@@ -493,6 +493,7 @@ extern const struct export_operations fat_export_ops_nostale;
+ /* fat/iomap.c */
+ DECLARE_IOMAP_ITER_NEXT(fat_iomap_next);
+ DECLARE_IOMAP_ITER_NEXT(fat_iomap_next_bmap);
++extern const struct iomap_dio_ops fat_iomap_write_dio_ops;
  
- #include <linux/buffer_head.h>
-+#include <linux/iomap.h>
- #include <linux/nls.h>
- #include <linux/hash.h>
- #include <linux/ratelimit.h>
-@@ -321,6 +322,7 @@ static inline void fatwchar_to16(__u8 *dst, const wchar_t *src, size_t len)
- extern void fat_cache_inval_inode(struct inode *inode);
- extern int fat_get_cluster(struct inode *inode, int cluster,
- 			   int *fclus, int *dclus);
-+int fat_get_cont_clusters(struct inode *inode, int cluster, int *nr);
- extern int fat_get_mapped_cluster(struct inode *inode, sector_t sector,
- 				  sector_t last_block,
- 				  unsigned long *mapped_blocks, sector_t *bmap);
-@@ -489,6 +491,9 @@ void fat_cache_destroy(void);
- extern const struct export_operations fat_export_ops;
- extern const struct export_operations fat_export_ops_nostale;
- 
-+/* fat/iomap.c */
-+DECLARE_IOMAP_ITER_NEXT(fat_iomap_next);
-+
  /* helper for printk */
  typedef unsigned long long	llu;
- 
 diff --git a/fs/fat/file.c b/fs/fat/file.c
-index 70583e791..7712cfa2b 100644
+index 60bb8b544..17638f283 100644
 --- a/fs/fat/file.c
 +++ b/fs/fat/file.c
-@@ -637,9 +637,21 @@ int fat_setattr(const struct mnt_idmap *idmap, struct dentry *dentry,
+@@ -201,11 +201,115 @@ int fat_file_fsync(struct file *filp, loff_t start, loff_t end, int datasync)
+ 	return blkdev_issue_flush(inode->i_sb->s_bdev);
  }
- EXPORT_SYMBOL_GPL(fat_setattr);
  
-+static int fat_fiemap(struct inode *inode, struct fiemap_extent_info *fieinfo,
-+		      u64 start, u64 len)
++static int fat_file_open(struct inode *inode, struct file *file)
 +{
 +	int err;
 +
-+	inode_lock_shared(inode);
-+	err = iomap_fiemap(inode, fieinfo, start, len, fat_iomap_next);
-+	inode_unlock_shared(inode);
-+	return err;
++	err = generic_file_open(inode, file);
++	if (err)
++		return err;
++
++	file->f_mode |= FMODE_CAN_ODIRECT;
++	return 0;
 +}
 +
- const struct inode_operations fat_file_inode_operations = {
- 	.setattr	= fat_setattr,
- 	.getattr	= fat_getattr,
- 	.fileattr_get	= fat_fileattr_get,
- 	.update_time	= fat_update_time,
-+	.fiemap		= fat_fiemap,
- };
-diff --git a/fs/fat/iomap.c b/fs/fat/iomap.c
-new file mode 100644
-index 000000000..4073dc996
---- /dev/null
-+++ b/fs/fat/iomap.c
-@@ -0,0 +1,73 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * FAT iomap support
-+ *
-+ * Copyright (C) 2026 Matheus Alves de Almeida
-+ */
-+
-+#include "fat.h"
-+
-+static int __fat_iomap_begin(struct inode *inode, loff_t offset, loff_t length,
-+			     unsigned int flags, struct iomap *iomap)
++static ssize_t fat_file_read_iter(struct kiocb *iocb, struct iov_iter *iter)
 +{
-+	struct super_block *sb = inode->i_sb;
-+	struct msdos_sb_info *sbi = MSDOS_SB(sb);
-+	int start_cluster, end_cluster, nr_cluster, ret;
-+	loff_t curr_size = i_size_read(inode);
-+	loff_t aligned_offset;
++	struct inode *inode = file_inode(iocb->ki_filp);
++	ssize_t ret;
 +
-+	iomap->flags = 0;
-+	start_cluster = offset >> sbi->cluster_bits;
-+	aligned_offset = (u64)start_cluster << sbi->cluster_bits;
++	if ((iocb->ki_flags & IOCB_DIRECT) == 0)
++		return generic_file_read_iter(iocb, iter);
 +
-+	/*
-+	 * Return IOMAP_HOLE if we are beyond any kind of disk allocation, or
-+	 * past EOF unless writing or reporting.
-+	 */
-+	if (inode_get_bytes(inode) <= offset ||
-+	    (curr_size <= aligned_offset &&
-+	     !(flags & (IOMAP_WRITE | IOMAP_REPORT)))) {
-+		iomap->addr = IOMAP_NULL_ADDR;
-+		iomap->offset = offset;
-+		iomap->length = length;
-+		iomap->type = IOMAP_HOLE;
-+		return 0;
++	inode_lock_shared(inode);
++	file_accessed(iocb->ki_filp);
++	ret = iomap_dio_rw(iocb, iter, fat_iomap_next, NULL, 0, NULL, 0);
++	inode_unlock_shared(inode);
++	return ret;
++}
++
++static ssize_t fat_file_dio_write_iter(struct kiocb *iocb,
++				       struct iov_iter *iter)
++{
++	struct inode *inode = file_inode(iocb->ki_filp);
++	struct msdos_inode_info *mi = MSDOS_I(inode);
++	unsigned int dio_flags = 0;
++	ssize_t ret;
++
++	inode_lock(inode);
++	ret = generic_write_checks(iocb, iter);
++	if (ret <= 0)
++		goto out;
++
++	/* We do not support DIO writes which would need zeroing */
++	if (iocb->ki_pos + iov_iter_count(iter) > mi->mmu_private) {
++		ret = -ENOTBLK;
++		goto out;
 +	}
 +
-+	/*
-+	 * We need to separate normal data clusters and
-+	 * uninitialized FALLOC_FL_KEEP_SIZE clusters.
-+	 */
-+	if (curr_size <= aligned_offset) {
-+		iomap->type = IOMAP_UNWRITTEN;
-+		length = min(offset - aligned_offset + length,
-+			     inode_get_bytes(inode) - aligned_offset);
-+	} else {
-+		iomap->type = IOMAP_MAPPED;
-+		length = min(offset - aligned_offset + length,
-+			     curr_size - aligned_offset);
-+	}
++	ret = file_modified(iocb->ki_filp);
++	if (ret)
++		goto out;
 +
-+	end_cluster = (aligned_offset + length - 1) >> sbi->cluster_bits;
-+	nr_cluster = end_cluster - start_cluster + 1;
-+	ret = fat_get_cont_clusters(inode, start_cluster, &nr_cluster);
-+	if (ret < 0)
++	/* Wait under the inode lock for size updates and partial-block zeroing. */
++	if (iocb->ki_pos + iov_iter_count(iter) > i_size_read(inode) ||
++	    !IS_ALIGNED(iocb->ki_pos | iov_iter_alignment(iter),
++			i_blocksize(inode)))
++		dio_flags |= IOMAP_DIO_FORCE_WAIT;
++
++	ret = iomap_dio_rw(iocb, iter, fat_iomap_next,
++			   &fat_iomap_write_dio_ops, dio_flags, NULL, 0);
++out:
++	inode_unlock(inode);
++	return ret;
++}
++
++static ssize_t fat_file_write_iter_buffered(struct kiocb *iocb,
++					    struct iov_iter *iter)
++{
++	struct inode *inode = file_inode(iocb->ki_filp);
++	ssize_t ret;
++
++	inode_lock(inode);
++	ret = generic_write_checks(iocb, iter);
++	if (ret <= 0)
++		goto out;
++
++	ret = file_modified(iocb->ki_filp);
++	if (ret)
++		goto out;
++
++	ret = generic_perform_write(iocb, iter);
++out:
++	inode_unlock(inode);
++	return ret;
++}
++
++static ssize_t fat_file_write_iter(struct kiocb *iocb, struct iov_iter *iter)
++{
++	ssize_t ret;
++
++	if ((iocb->ki_flags & IOCB_DIRECT) == 0)
++		return generic_file_write_iter(iocb, iter);
++
++	ret = fat_file_dio_write_iter(iocb, iter);
++	if (ret == -ENOTBLK)
++		ret = 0;
++	else if (ret < 0 || !iov_iter_count(iter))
 +		return ret;
 +
-+	iomap->addr = (u64)fat_clus_to_blknr(sbi, ret) << sb->s_blocksize_bits;
-+	iomap->offset = aligned_offset;
-+	iomap->length = (u64)nr_cluster << sbi->cluster_bits;
-+	iomap->flags |= IOMAP_F_MERGED;
-+	iomap->bdev = sb->s_bdev;
++	ret = direct_write_fallback(iocb, iter, ret,
++				    fat_file_write_iter_buffered(iocb, iter));
++	if (ret > 0)
++		ret = generic_write_sync(iocb, ret);
++	return ret;
++}
+ 
+ const struct file_operations fat_file_operations = {
++	.open		= fat_file_open,
+ 	.llseek		= generic_file_llseek,
+-	.read_iter	= generic_file_read_iter,
+-	.write_iter	= generic_file_write_iter,
++	.read_iter	= fat_file_read_iter,
++	.write_iter	= fat_file_write_iter,
+ 	.mmap_prepare	= generic_file_mmap_prepare,
+ 	.release	= fat_file_release,
+ 	.unlocked_ioctl	= fat_generic_ioctl,
+diff --git a/fs/fat/inode.c b/fs/fat/inode.c
+index fa38dfb90..fd9d9ce0b 100644
+--- a/fs/fat/inode.c
++++ b/fs/fat/inode.c
+@@ -254,41 +254,6 @@ static int fat_write_end(const struct kiocb *iocb,
+ 	return err;
+ }
+ 
+-static ssize_t fat_direct_IO(struct kiocb *iocb, struct iov_iter *iter)
+-{
+-	struct file *file = iocb->ki_filp;
+-	struct address_space *mapping = file->f_mapping;
+-	struct inode *inode = mapping->host;
+-	size_t count = iov_iter_count(iter);
+-	loff_t offset = iocb->ki_pos;
+-	ssize_t ret;
+-
+-	if (iov_iter_rw(iter) == WRITE) {
+-		/*
+-		 * FIXME: blockdev_direct_IO() doesn't use ->write_begin(),
+-		 * so we need to update the ->mmu_private to block boundary.
+-		 *
+-		 * But we must fill the remaining area or hole by nul for
+-		 * updating ->mmu_private.
+-		 *
+-		 * Return 0, and fallback to normal buffered write.
+-		 */
+-		loff_t size = offset + count;
+-		if (MSDOS_I(inode)->mmu_private < size)
+-			return 0;
+-	}
+-
+-	/*
+-	 * FAT need to use the DIO_LOCKING for avoiding the race
+-	 * condition of fat_get_block() and ->truncate().
+-	 */
+-	ret = blockdev_direct_IO(iocb, inode, iter, fat_get_block);
+-	if (ret < 0 && iov_iter_rw(iter) == WRITE)
+-		fat_write_failed(mapping, offset + count);
+-
+-	return ret;
+-}
+-
+ static sector_t _fat_bmap(struct address_space *mapping, sector_t block)
+ {
+ 	sector_t blocknr;
+@@ -329,7 +294,6 @@ static const struct address_space_operations fat_aops = {
+ 	.writepages	= fat_writepages,
+ 	.write_begin	= fat_write_begin,
+ 	.write_end	= fat_write_end,
+-	.direct_IO	= fat_direct_IO,
+ 	.bmap		= _fat_bmap,
+ 	.migrate_folio	= buffer_migrate_folio,
+ 	.swap_activate  = fat_swap_activate,
+diff --git a/fs/fat/iomap.c b/fs/fat/iomap.c
+index c3b48a820..3ab40bb2d 100644
+--- a/fs/fat/iomap.c
++++ b/fs/fat/iomap.c
+@@ -34,6 +34,10 @@ static int __fat_iomap_begin(struct inode *inode, loff_t offset, loff_t length,
+ 		return 0;
+ 	}
+ 
++	/* Keep the same behavior of syncing metadata on direct writes */
++	if (flags & IOMAP_WRITE)
++		iomap->flags |= IOMAP_F_DIRTY;
++
+ 	/*
+ 	 * We need to separate normal data clusters and
+ 	 * uninitialized FALLOC_FL_KEEP_SIZE clusters.
+@@ -91,3 +95,23 @@ static int fat_iomap_begin_bmap(struct inode *inode, loff_t offset,
+ }
+ 
+ DEFINE_IOMAP_ITER_NEXT(fat_iomap_next_bmap, fat_iomap_begin_bmap);
++
++static int fat_dio_write_end_io(struct kiocb *iocb, ssize_t size, int error,
++				unsigned int flags)
++{
++	struct inode *inode = file_inode(iocb->ki_filp);
++
++	if (error)
++		return error;
++
++	if (size && i_size_read(inode) < iocb->ki_pos + size) {
++		i_size_write(inode, iocb->ki_pos + size);
++		mark_inode_dirty(inode);
++	}
 +
 +	return 0;
 +}
 +
-+static int fat_iomap_begin(struct inode *inode, loff_t offset,
-+			   loff_t length, unsigned int flags,
-+			   struct iomap *iomap, struct iomap *srcmap)
-+{
-+	return __fat_iomap_begin(inode, offset, length, flags, iomap);
-+}
-+
-+DEFINE_IOMAP_ITER_NEXT(fat_iomap_next, fat_iomap_begin);
++const struct iomap_dio_ops fat_iomap_write_dio_ops = {
++	.end_io = fat_dio_write_end_io
++};
 -- 
 2.43.0
 
