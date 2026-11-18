@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794994934;
-	b=Ld255b4iOD2MWx4fMZtE6asQ89m5OAXknNhDrFMq2JHQ7+fAj8QsNYs0+R2c6ZKrynCO
-	 1rZhc0l45dzLiyphdzVrhohxU7RGNpy9tbjoe828B2K7BSsmt2LpxQIcBSrYkK+EwkIv4
-	 3fvyfBgnnzq8l4LDPRSqjX/6boZPNGE7M5B1TAwqZ13NHdyphS/b/iJWSEOHR/QZd8X/m
-	 sTPxaH6BmmVapwLLnJ1JzAfFXRruQc1194woedAloK70Fdcjtalr4unijMirCjjwiVcei
-	 Xfi9mIuG3s+3MXQ0DbWWvfgUISFVxbp5q8sVsEYSWXbo6GhITKPKvpDcAX2ToRoELVg==
+	t=1794995204;
+	b=U91er+ucZBcAOwtvuGxk3foI1ZqeN02N2xWOlpOplV1mWEFbRoFaAfXB5YIBymgUUX6W
+	 CV8/Lkuc0uxdhWsYzQXIFZL7G6ayD2V4CXz0NX+A4JR7t3iVKbdwHAWh38HHwiaNKCJo7
+	 iHO5L70p7tyBRuTHMyoQiV7XA53aQgkxRaBebxYZOlLN+G1vf2HTCN3Jqqt9Ff92DDhfx
+	 b3G092TkBx5U+NNsngK7GMBm/Csd/gk5PAkWqSBtNIJCyvqi/LO0HwlG4bzVqg7Y5pf4I
+	 hyOGtfEUgQUTlNsFsjw5tDIQ6CCkvX8Tenww4o1pZx6bFUqKnlLo+jt6+2LyQ3F/EXw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794994934;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794995204;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=9ATyR+9qHOct/xUnPH9mJnbBD7GZTG+HINgSyr3PxaI=;
-	b=ysiJOIgU1aT/p0T3EZs4i6kL55iRL+cOaxDQt1GqhlWM5G2cRYL1+3b63r4i8AJC3gcM
-	 gpcJNC/uoEEW/b8QKub1vT9ajd7/FzYwzvgbDydOswmKrN2tw7UC3X3+NyB/1tgyPuKwh
-	 h5O3yIeoCQByeRon2SEL4VAlE/vqzyT0bsATB12krd4vWNCE3R8BP8TPueme/Tt3Pn/CU
-	 6in1ZPBXZ8VmtSeedAClOarMwUFbTeI73UAXN/B+tVhgDHjT/zxMfNlv9581rngRJ1qqL
-	 glvKzzQMSc4kkhvN0uqaVD4miVJwks11+31zahKylAeRbV5esbcLco6P0Fg0ke2orbw==
+	bh=CtaieybfS6BQtpEqYoffKr95cQJaQPqI7rmHn30lmpg=;
+	b=mg0J7lnPNL6Z51SCOPTACweg0G4aQLWH1RXRU/PRrOFQIBDL85auSM5ENa6rLIGNT8aT
+	 lKclzH7qoNz+4Lm6B8Si32HlLj2R++a2tExzBbByVvSZZHlQNFaZFPR4wpXwZSz4czbSJ
+	 aMfCNSvcKLIm97jz3z5x/6FNoxqGvmCeWScHH0nOBEmv00mbCtpfQvwboiHA9rbX3k2h3
+	 ZjZfC6/eU1+5wKTFsIHByNFmNP/6d1sHn4+Y4fkxVM6oD8JOa94V9vagyEgQHgwxQkKId
+	 7KHmcQ6KFEJ67/Ee0pWgWGNMVzte1FCqQLGc4llT9Cc39v/1IVKCSXNkuZzrTs1hWGw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=B64ocKDl;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RQYGohhW;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DCA5606A330;
-	Wed, 18 Nov 2026 09:42:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E79A606A32F;
+	Wed, 18 Nov 2026 09:46:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=B64ocKDl
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0951F1F000C6;
-	Wed, 18 Nov 2026 09:41:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RQYGohhW
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA1101F000C4;
+	Wed, 18 Nov 2026 09:46:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794994934;
-	bh=9ATyR+9qHOct/xUnPH9mJnbBD7GZTG+HINgSyr3PxaI=;
+	s=k20260515; t=1794995203;
+	bh=CtaieybfS6BQtpEqYoffKr95cQJaQPqI7rmHn30lmpg=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=B64ocKDlyHLo7JKiB71qN7xPUGSas5O496TWP1Vb9kTdaWOBu3xdB4W0dYEjMGJF6
-	 wg63AHZj+PtfQQoLIvdVK5b0Pn24hBYJyxfSpX6Pbdx7+0UD7pxzuycdP5058yMa2/
-	 ETsOGLXBxuNitQ/Kl8b79+0Jb6zJ/9tkNCkDoeOp1+TbzpuDHZ0n4zlZoqpl87gr1W
-	 pPJbvsAYwFFaxlR7b0zjG5AJvUmmyOwORf3q9TMKLI+0tgiC27CXTjuz/JPWS1M1Zv
-	 +10DRh/IigcridN5ngx3Cid6k5sD2VJJyvtymSBjTvvQczytGNBB7uRDQaOstIJFHh
-	 AG2gXV+iJZLJg==
-Message-ID: <4f23b0bc-b89a-46c1-b8cd-853e7815b7ac@kernel.org>
-Date: Wed, 18 Nov 2026 10:41:55 +0100
+	b=RQYGohhWWhAMmEGxIAzOYr6Fx+D3c8etuGKHMFcbyKBYk19gb0PmTU3vg4xr2/6an
+	 SJ/qop6o7easXoypEONyiMJCk8cgR+yJjAnGlWhqyYJ/ziD1aNlj2ESpXtYiDNRwlj
+	 e5B2ZdNugULbszT5sBs7bvHePzJ8bmuqz1BjALmVdtQaVhFWk40mYXG3RtN1ZfLaG8
+	 CO7RPHtrPQW3mS0ouvPJuJjTBrscheUKbE+yzjJIA5+EdbTjFPpS41EOhTYuSfpYXk
+	 m2o215lUT4PGALLB0rFVQlxsiCFea6eOd2CBZHCy/6uKXDd0NHCR7gWa9XW+UGFy9f
+	 mZGW3Ic1lhhTw==
+Message-ID: <332f315d-ea27-488a-9a3c-28cdfdcd5f27@kernel.org>
+Date: Wed, 18 Nov 2026 10:46:24 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -52,39 +52,43 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/9] userfaultfd: assorted fixes (part 1)
-To: Tal Zussman <tz2294@columbia.edu>,
- Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
- Peter Xu <peterx@redhat.com>, James Houghton <jthoughton@google.com>,
- Andrea Arcangeli <aarcange@redhat.com>,
- Suren Baghdasaryan <surenb@google.com>, Balbir Singh <balbirs@nvidia.com>,
- "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>, Michal Hocko <mhocko@suse.com>,
- =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
- Andrei Vagin <avagin@gmail.com>, Muhammad Usama Anjum <usama.anjum@arm.com>,
- Stephen Rothwell <sfr@canb.auug.org.au>, Arnd Bergmann <arnd@arndb.de>,
- Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>,
- Gregory Price <gourry@gourry.net>, Ying Huang
- <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Kiryl Shutsemau <kas@kernel.org>, Muchun Song <muchun.song@linux.dev>,
- Oscar Salvador <osalvador@suse.de>,
- =?UTF-8?Q?Miko=C5=82aj_Lenczewski?= <miko.lenczewski@arm.com>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, stable@vger.kernel.org,
- Breno Leitao <leitao@debian.org>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
- Felix Kuehling <Felix.Kuehling@amd.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Leon Romanovsky <leon@kernel.org>, dri-devel@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-References: <20261117-uffd-state-fixes-v3-0-b617009d1a4a@columbia.edu>
+Subject: Re: [PATCH v1 0/7] mm: kasan: skip KASAN for GFP_HIGHUSER
+To: Jeff Xu <jeffxu@chromium.org>, Tomasz Figa <tfiga@chromium.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
+ Andrey Ryabinin <ryabinin.a.a@gmail.com>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R . Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Brendan Jackman <brendan.jackman@linux.dev>, Zi Yan <ziy@nvidia.com>,
+ Alexander Potapenko <glider@google.com>,
+ Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Vincenzo Frascino <vincenzo.frascino@arm.com>, Marco Elver
+ <elver@google.com>, Boris Brezillon <boris.brezillon@collabora.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Chia-I Wu <olvaffe@gmail.com>,
+ Dev Jain <dev.jain@arm.com>, Evgenii Stepanov <eugenis@google.com>,
+ Ian Rickards <ian.rickards@arm.com>, Jann Horn <jannh@google.com>,
+ Jeff Vander Stoep <jeffv@google.com>, Jeff Xu <jeffxu@google.com>,
+ Kees Cook <kees@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Peter Collingbourne <peter@pcc.me.uk>, =?UTF-8?Q?Pierre-Cl=C3=A9ment_Tosi?=
+ <ptosi@google.com>, Ryan Roberts <ryan.roberts@arm.com>,
+ Will Deacon <will@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Miklos Szeredi <miklos@szeredi.hu>, Baoquan He <baoquan.he@linux.dev>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>,
+ Pratyush Yadav <pratyush@kernel.org>, Allison Henderson
+ <achender@kernel.org>, "David S . Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ linux-mm@kvack.org, kasan-dev@googlegroups.com,
+ linux-arm-kernel@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ fuse-devel@lists.linux.dev, kexec@lists.infradead.org,
+ netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
+ rds-devel@oss.oracle.com, linux-kernel@vger.kernel.org,
+ Ryan Roberts <ryan.roberts@arm.com>
+References: <20261116230627.3537051-1-jeffxu@chromium.org>
+ <2066d131-f999-4747-beb8-520d5e0ce1db@kernel.org>
+ <CAAFQd5DzTmyeVQxNdhdy8pPi+ts1cCgbztVJiMoNBeJWBzjdQQ@mail.gmail.com>
+ <20261118012858.289236-1-jeffxu@chromium.org>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -131,121 +135,78 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20261117-uffd-state-fixes-v3-0-b617009d1a4a@columbia.edu>
+In-Reply-To: <20261118012858.289236-1-jeffxu@chromium.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 11/18/26 05:28, Tal Zussman wrote:
-> This is a first batch of userfaultfd fixes, with more to come.
+On 11/18/26 02:28, Jeff Xu wrote:
+> On Tue, Nov 17, 2026 at 11:11 PM Tomasz Figa <tfiga@chromium.org> wrote:
+>>
+>> On Tue, Nov 17, 2026 at 7:10 PM David Hildenbrand (Arm)
+>> <david@kernel.org> wrote:
+>>>
+>>> I really don't want us to spread KASAN-related GFP flags in the kernel.
+>>>
+>>> There must be a proper way to abstract this.
+>>>
+>>> Why is GFP_HIGHUSER not sufficient? We were already told that this is memory to
+>>> be mapped into user space. Placing data structure on it and handing out pointers
+>>> to that would already be a bit questionable.
+>>>
+>>> So what are the ways to avoid GFP_HIGHUSER_KASAN?
+>>
+>> I think the idea behind GFP_HIGHUSER_KASAN is to make it possible to
+>> skip KASAN for GFP_HIGHUSER by default (for most of its users), but
+>> keep it for some of the users which today use GFP_HIGHUSER for their
+>> memory allocations, but could benefit from the added security. As per
+>> the other patches in the series:
+>>
+>>   pipe, fuse: use GFP_HIGHUSER_KASAN for pipe buffer pages
+>>   kexec: use GFP_HIGHUSER_KASAN for segment pages
+>>   net/rds: use GFP_HIGHUSER_KASAN for message pages
+>>
+>> That said, I'm not familiar with any of the code mentioned by those
+>> patches, so I can't really tell how much they would benefit from KASAN
+>> or if their choice of GFP_HIGHUSER to begin with is correct.
 > 
-> These were found by a mix of regular old LLM review and by having an LLM
-> write a TLA+ model of uffd interactions with PTE bits and other state
-> and seeing what issues fell out.
+> Thanks David and Tomasz for the feedback.
 > 
-> Most of these fix places where mm code loses uffd-wp or RWP protection
-> while moving or migrating an entry. Userspace then either misses writes
-> and accesses, or gets pages reported that nobody touched.
-> There is also a hang in UFFDIO_MOVE, and UFFDIO_ZEROPAGE modifying a
-> file through a private mapping.
+> Tomasz is right about why I added GFP_HIGHUSER_KASAN in v1: out of
+> caution, I audited existing GFP_HIGHUSER callers to find any that never
+> map the pages to userspace and instead fill/drain them in the kernel via
+> kmap_local_page() (pipe, FUSE, kexec, rds). Since this series intends to
+> improve KASAN performance while preserving its security aspects, and the
+> performance impact on pipe/FUSE/kexec/rds was negligible in my testing,
+> v1 was optimized for minimum behavioral change.
 > 
-> Patches 1-2:   UFFDIO_ZEROPAGE and UFFDIO_MOVE fixes, cc stable
-> Patch 3:       PAGEMAP_SCAN write-protect vs. writable migration
->                entries, cc stable
-> Patch 4:       warn on a writable migration entry with the uffd bit set
-> Patch 5:       PAGEMAP_SCAN write-protect vs. device-private THPs
-> Patch 6:       UFFDIO_MOVE of the huge zero page from an RWP source
-> Patch 7:       mremap() losing uffd state when a move fails halfway
-> Patch 8:       migrate_vma losing uffd state of a zero page
-> Patch 9:       hugetlb alignment checks in UFFDIO_REGISTER and
->                UFFDIO_UNREGISTER
-> 
-> A few of the fixes change what userspace sees:
-> 
->  - UFFDIO_ZEROPAGE on a private file mapping no longer fails with
->    -EEXIST where the file already has a page, on an mm that cannot use
->    the zero page (patch 1)
->  - UFFDIO_MOVE returns -EEXIST for any huge destination PMD, not only
->    for a present THP (patch 2)
->  - UFFDIO_UNREGISTER with a misaligned hugetlb end fails before
->    unregistering anything, also if that hugetlb VMA is not registered
->    (patch 9)
->  - UFFDIO_REGISTER and UFFDIO_UNREGISTER accept a misaligned start that
->    lies in a gap before the first hugetlb VMA of the range (patch 9)
->  - UFFDIO_REGISTER returns -EINVAL rather than -EPERM for a misaligned
->    end in a hugetlb VMA without VM_MAYWRITE (patch 9)
-> 
-> Patch 6 has little user impact on its own. It is included because,
-> together with patch 7, it allows removing clear_uffd_wp_pmd().
-> 
-> Patch 7 adds spurious write faults on shmem and hugetlb after mremap():
-> when dropping uffd protection there, change_protection() makes writable
-> pages that were never protected read-only. UFFDIO_UNREGISTER and
-> UFFDIO_WRITEPROTECT already behave this way and lead to the same
-> spurious faults. This will be fixed in change_protection() in a separate
-> series.
-> 
-> Based on mm-new.
-> 
-> ---
-> Changes in v3:
-> - Collect tags (Thanks David!)
-> - Patch 1: use vma_is_cow_mapping(), per David
-> - Patch 4: warn on a writable migration entry with the uffd bit set, and
->   make the PMD path match the PTE path, per David.
-> - Patch 4: Drop the Fixes: tag and the review tags due to changes
-> - Patch 8: add helpers and read the PMD once with pmdp_get(), per
->   David
-> - Patch 9: move the hugetlb alignment checks into a helper and use it in
->   both ioctls, per David
-> - Link to v2: https://patch.msgid.link/20261116-uffd-state-fixes-v2-0-4397a0196479@columbia.edu
-> 
-> Changes in v2:
-> - Collect tags (Thanks Kiryl, Lorenzo, Gregory, Alistair!)
-> - Patch 2: say "softleaf entry" in the commit message, per Lorenzo
-> - Patch 3: add softleaf_is_writable() and softleaf_mkreadable() to
->   leafops.h and rename the helpers to say softleaf, per Lorenzo
-> - Patch 3: add Reported-by and Closes for Breno's report, and cc stable
-> - Patch 4: explain in the commit message how PAGEMAP_SCAN set the uffd
->   bit on writable migration entries, per Lorenzo
-> - Patch 5: use pmd_is_valid_softleaf() rather than open-coding it, per
->   Lorenzo
-> - Patch 7: say "write faults" rather than "minor faults" in the commit
->   message, per Kiryl
-> - Patch 7: trim the commit message, per Lorenzo and Gregory
-> - Patch 8: trim the commit message, per Gregory
-> - Patch 8: Cc the GPU driver maintainers and lists, per Gregory and
->   Alistair
-> - Patch 9: use IS_ALIGNED() and a local variable for the VMA's ctx, and
->   shorten the comment, per Lorenzo
-> - Drop the three guard region patches, per Lorenzo
-> - Link to v1: https://patch.msgid.link/20261111-uffd-state-fixes-v1-0-00713d368976@columbia.edu
-> 
-> ---
+> Looking closer at both of your questions, I agree that the security
+> benefit of keeping those 4 under KASAN is minimal -- e.g., only linear
+> overflows out of the pipe/FUSE/kexec/rds page, since none of them store
+> kernel structures or pointers. That is the exact same trade-off we
+> already make for GFP_HIGHUSER_MOVABLE.
 
-So, I would be picking up ...
+Yes, that's my understanding as well.
 
-> Tal Zussman (9):
->       userfaultfd: use anonymous memory for UFFDIO_ZEROPAGE on private file mappings
->       userfaultfd: refuse UFFDIO_MOVE into a non-present huge destination PMD
->       fs/proc/task_mmu: downgrade writable migration entries in PAGEMAP_SCAN write-protect
->       mm/migrate: warn on a writable migration entry with the uffd bit set
+> 
+> To avoid introducing GFP_HIGHUSER_KASAN, I see two options:
+> 
+> 1) Simply keep those 4 cases under GFP_HIGHUSER (drop patches 1-4 and
+>    7), reducing the series to just the GFP_HIGHUSER change and its KUnit
+>    test.
 
-This
+That's what I would look into first.
 
->       fs/proc/task_mmu: write-protect device-private THPs in PAGEMAP_SCAN
->       mm/huge_memory: build the moved huge zero PMD from the destination VMA
+> 
+> 2) Switch those 4 callers to GFP_USER. Since CONFIG_KASAN_HW_TAGS is
+>    64-bit arm64 only (!CONFIG_HIGHMEM), GFP_USER is identical to today's
+>    GFP_HIGHUSER on arm64 and all other 64-bit builds (and if 32-bit
+>    CONFIG_HIGHMEM=y builds still need ZONE_HIGHMEM, that could be gated
+>    on CONFIG_HIGHMEM, though that feels ugly at call sites).
+> 
+> (1) seems much cleaner to me. David, would (1) work for you?
 
-This
-
->       mm/mremap: resolve uffd state when the context is dropped, not during the move
->       mm/migrate_device: do not migrate a uffd-protected zero page
-
-This
-
->       mm/userfaultfd: check the hugetlb alignment of every VMA in the pre-scan
-
-
-After waiting a bit longer for more review. Andrew can take the rest.
+Agreed, (2) looks more hacky and I don't see the value of doing it like that
+just yet.
 
 
 -- 
