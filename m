@@ -1,51 +1,51 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.147
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.160
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795039333;
-	b=T2VvT3uYncxhNr6whto0H0jCKju7NLE0UbD1y/nj+4J25J8s87Tn93sDeGTqNFqwt3Qp
-	 Zj+03bYh79aCJSOVeuOyX12gI0p29eErnoDSuZlN+50CapQZRH4gCuRu4u2oIVlxwQNMp
-	 oUneceUPhxLYeiDRAivlE3QUJG8dwwKBInoRmOd83Pk5PIcV657XxyEoFhUiD7c0BTfTp
-	 AfEbq3DXWmS6ScYD8fVIf+B5y5ccUO6D2GWIO6CufqCcJLH34+plaXwahiqz2423wyfxe
-	 UQG7echZ7D0xVDabmfq8gPqpvD6hHEuupEEbx+Ykn1+ubGaOXGn4DqSj5ZBlBvwoYTA==
+	t=1795039337;
+	b=mwK6F2CDbPXPb7TRb/+QX7CDOdLcEB389G4m0PtgIFbFNWTODjtP93283rCXpZJTYpNp
+	 X7rL5BHABcpSHg10Ok0Kw2D7l91bN/ek/uYLxsI0mxZZg8kO276+Teb9lfZ6JvlGw958U
+	 z6ZslepGumv+o09PKCCL9lFj71t6e7LNv+MMooPGWyz6o6iZo4ydiioHJ+UC06gUyd5EQ
+	 wBwoPy4rJPEpnrvWtLgi6JENkzrDwOZaLIAVjjnrNbGiVzlnLhMhz/tMMPN+dZd22z6WV
+	 2D26ZilrFxO5vukxHhaAM1DXEvI1GVtKHDE5aauj3TN9E6mpL9Lfumcjphe2eKyu+/g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795039333;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795039337;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
 	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
 	 X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=1qf7uSDTfTPQk21efhm/tBhbA5RvbiTTxPmHSCVNVdY=;
-	b=F0W+rK6d6VnJL2BarhLa7UW73gtK0ceYtb+lwtNH++9Gq9vAW+QUcbOQv6CujR9vnkwg
-	 GcsxstGtxiajj8S+CTQxkJoBf5dnb0mW+5plMyJqHHQRVdePeEM27OZDzdetrmD0EOQYZ
-	 CKD5OPCflYNfO07fmh1fXXLqEJ0c/YEEOI5LlE2NN6xALWsHQ5gTBcmZUGj0JZOeirMuP
-	 4wZDKMD/ds16lmpCAG+LuTcYOUy1F/fwqEdD6WnexM6+3iraNCegtxe5u02M/1muqBBDQ
-	 x3R2QFO0Meo7kSWnfGaxRnpN08bBzP7gJ1OV24cma6tNPLXytFdwkgTVDPHokNWpQiQ==
+	bh=yo1xabyV53whMmg+uxEow2PfMUc1Q6vU1aHwVTSuikI=;
+	b=wEYDaZ17R9BGBIt72jYX4veuTMgKtC2ysBcqqkWby0g2ZWGQiJ8tJeK59Kk1VIVK8C6v
+	 2k0B4Kgh51n/aGpkNtddW983vaV1NQB9hSNRljv2elMaeozhmQFR/miSPOhaX3v7DrhhY
+	 lYu1BjAE8lvFlfrspJAYyE6lN4bNOHSNUSkR18CyKjjv9rFmxhgk38RRstJNd11fSMcCN
+	 usrwQ0PQrkW/aY6/gZsFU674K/XHiKUHpEAguRDLalbIa7+44Ny1hCcBn56j1kc12y2Sr
+	 eA79naF0L4HsUGbpddi/hWZyV2lDOdrEKLBkQZBvG1MOjNipx7Sfc39d9IM/vE9Cofw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=hxHgjYM2;
-	arc=none smtp.remote-ip=95.215.58.147
-Received: from mta1.migadu.com (out-147.mta1.migadu.com [95.215.58.147])
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=DKZQsHKv;
+	arc=none smtp.remote-ip=95.215.58.160
+Received: from mta1.migadu.com (out-160.mta1.migadu.com [95.215.58.160])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27033606A330
-	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 22:02:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 27033606A330
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C18C460A2601
+	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 22:02:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C18C460A2601
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=hxHgjYM2
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=DKZQsHKv
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=eU2UIWc/uDPlgdmNIZspsaWM4Vgx4y9vwFWYm84K9e4=;
+DKIM-Signature: a=rsa-sha256; bh=9J/3TDko6vY0D7TedDlj7aNBGBfEkr+tAX65XefiW4Q=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1795039331; v=1; x=1795644131;
- b=hxHgjYM2anoEq74CI9NwQcPpC6JjbuySHHxCHdrvnKt8whXC+LRgApCTd+8/Vc6L+z2zzkTO
- 1+qJ1dU/T2VRCYSfCn2jQi6m2N2qqUw73L2u1iwLoLWxw5BD4WY1KP6+AWxu8hnhkpq2hbL+Swq
- MOlBdYLYXEiBTWxwXVtliWi8=
+ t=1795039334; v=1; x=1795644134;
+ b=DKZQsHKvJrNcmzNjbFo+q0AGD17JeC4sM4S4eHzyo9d1inA50W/Yb8VDs9JIFUGkfZJ8nAFp
+ I4K3/RYb8jug7b8Rfvphv/pFnXmUSa1qFv+CBpJTMmPMhJ+a01w0LZCltH3BjJMx2EWWQqrDczy
+ QR37j/1/ZiUU5ZHMsLVmM3So=
 X-Envelope-To: linux-fsdevel@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id b8c0479c3466e940;
-	Wed, 18 Nov 2026 22:02:11 +0000
-X-Mizu-Trace-ID: b8c0479c3466e940
+Received: by smtp.migadu.com with ESMTPS id b9bcccd00ec84c2f;
+	Wed, 18 Nov 2026 22:02:14 +0000
+X-Mizu-Trace-ID: b9bcccd00ec84c2f
 X-Migadu-Flow: FLOW_OUT
 From: Shakeel Butt <shakeel.butt@linux.dev>
 To: Christian Brauner <brauner@kernel.org>
@@ -58,9 +58,9 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-fsdevel@vger.kernel.org,
 	driver-core@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 4/6] kernfs: don't take kernfs_iattr_rwsem to publish KERNFS_REMOVING
-Date: Wed, 18 Nov 2026 14:01:51 -0800
-Message-ID: <20261118220154.2965621-5-shakeel.butt@linux.dev>
+Subject: [PATCH 6/6] kernfs: don't take kernfs_iattr_rwsem in __kernfs_remove()
+Date: Wed, 18 Nov 2026 14:01:53 -0800
+Message-ID: <20261118220154.2965621-7-shakeel.butt@linux.dev>
 X-Mailer: git-send-email 2.53.1
 In-Reply-To: <20261118220154.2965621-1-shakeel.butt@linux.dev>
 References: <20261118220154.2965621-1-shakeel.butt@linux.dev>
@@ -75,76 +75,49 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-__kernfs_remove() takes kernfs_iattr_rwsem for writing while it marks
-a subtree KERNFS_REMOVING, inside kernfs_rwsem.  Commit 507d8ce13f5b
-("kernfs: Don't set_nlink for directories being removed") added it so
-that a refresh would not set the i_nlink of a directory whose removal
-has started.  The refresh no longer sets i_nlink, so the lock is not
-needed.
+__kernfs_remove() takes kernfs_iattr_rwsem for writing around
+kernfs_clear_inode_nlink() for every removed node.  A cgroup rmdir
+removes the directory and all its files, so it takes the lock once per
+file, each time behind the readers.  Our lock monitor saw rmdirs wait
+in __kernfs_remove() for several seconds.
 
-The flag is only set here, under kernfs_rwsem.  Inode setup reads it
-under kernfs_rwsem.  getattr reads it without and reports the old link
-count or 0, either of which is right for a stat() racing the removal.
+Commit eea5d2bb34ba ("kernfs: Send IN_DELETE_SELF and IN_IGNORED")
+clears i_nlink inside this section, so a refresh in progress could not
+set a removed directory's i_nlink again, the race described in commit
+507d8ce13f5b ("kernfs: Don't set_nlink for directories being removed").
+The refresh no longer sets i_nlink.  Only inode setup does, under
+kernfs_rwsem, which __kernfs_remove() holds for writing.
 
-Drop the lock, mark the store and the load, and read the flags once in
-kernfs_dir_nlink(), as the type bits share the word.
+A racing fstat() of a file can read its i_nlink while it is cleared,
+and sees 1 or 0, as on other filesystems.  A directory reports its link
+count from the node.
+
+Drop the lock.  rmdir no longer takes kernfs_iattr_rwsem for writing.
 
 kernfs_iattr_rwsem write acquisitions (lock_stat), before -> after:
 
-  5 dummy netdevs created and removed     1110 ->  740
-  100 cgroup mkdirs and 100 rmdirs        4500 -> 3000
+  5 dummy netdevs created and removed      370 ->    0
+  100 cgroup mkdirs and 100 rmdirs        1500 ->    0
 
 Signed-off-by: Shakeel Butt <shakeel.butt@linux.dev>
 ---
- fs/kernfs/dir.c   | 10 ++++++----
- fs/kernfs/inode.c |  7 +++++--
- 2 files changed, 11 insertions(+), 6 deletions(-)
+ fs/kernfs/dir.c | 2 --
+ 1 file changed, 2 deletions(-)
 
 diff --git a/fs/kernfs/dir.c b/fs/kernfs/dir.c
-index ef23eac684c6..890aca5d8d70 100644
+index 8686219b826f..c1402a461405 100644
 --- a/fs/kernfs/dir.c
 +++ b/fs/kernfs/dir.c
-@@ -1604,15 +1604,17 @@ static void __kernfs_remove(struct kernfs_node *kn)
+@@ -1625,9 +1625,7 @@ static void __kernfs_remove(struct kernfs_node *kn)
+ 		 * to decide who's responsible for cleanups.
+ 		 */
+ 		if (!parent || kernfs_unlink_sibling(pos)) {
+-			down_write(&kernfs_root(kn)->kernfs_iattr_rwsem);
+ 			kernfs_clear_inode_nlink(pos);
+-			up_write(&kernfs_root(kn)->kernfs_iattr_rwsem);
  
- 	pr_debug("kernfs %s: removing\n", kernfs_rcu_name(kn));
- 
--	/* prevent new usage by marking all nodes removing and deactivating */
--	down_write(&kernfs_root(kn)->kernfs_iattr_rwsem);
-+	/*
-+	 * Prevent new usage by marking all nodes removing and deactivating.
-+	 * KERNFS_REMOVING is only set here, under kernfs_rwsem.
-+	 * kernfs_dir_nlink() reads it without that lock.
-+	 */
- 	pos = NULL;
- 	while ((pos = kernfs_next_descendant_post(pos, kn))) {
--		pos->flags |= KERNFS_REMOVING;
-+		WRITE_ONCE(pos->flags, pos->flags | KERNFS_REMOVING);
- 		if (kernfs_active(pos))
- 			atomic_add(KN_DEACTIVATED_BIAS, &pos->active);
- 	}
--	up_write(&kernfs_root(kn)->kernfs_iattr_rwsem);
- 
- 	/* deactivate and unlink the subtree node-by-node */
- 	do {
-diff --git a/fs/kernfs/inode.c b/fs/kernfs/inode.c
-index 2f463c0354a5..ca234f69882b 100644
---- a/fs/kernfs/inode.c
-+++ b/fs/kernfs/inode.c
-@@ -165,9 +165,12 @@ static inline void set_inode_attr(struct inode *inode,
-  */
- static bool kernfs_dir_nlink(struct kernfs_node *kn, unsigned int *nlink)
- {
--	if (kernfs_type(kn) != KERNFS_DIR)
-+	/* KERNFS_REMOVING can be set concurrently; read the flags once. */
-+	unsigned short flags = READ_ONCE(kn->flags);
-+
-+	if ((flags & KERNFS_TYPE_MASK) != KERNFS_DIR)
- 		return false;
--	*nlink = (kn->flags & KERNFS_REMOVING) ? 0 :
-+	*nlink = (flags & KERNFS_REMOVING) ? 0 :
- 		 READ_ONCE(kn->dir.subdirs) + 2;
- 	return true;
- }
+ 			if (parent)
+ 				kernfs_dir_update_times(parent);
 -- 
 2.53.1-Meta
 
