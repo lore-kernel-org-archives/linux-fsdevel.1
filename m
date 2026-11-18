@@ -1,58 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795008783;
-	b=GRCtns2W74IPf9ducb0Sc9l3A+v2KdQDw4oxJ0T5/gFfeQkrAd0cwaxm+u/aMDDypHdA
-	 LU9/9dhfDcFPM5xEVNIaQr5cZcfEl+4abyt4gvTxU/TIBwVvRuk+eTk9SwEJTrwGUcAcX
-	 GxGmz/CGNIwVdydLvZHV6w+Br47/axQ5KpcNnOLCOaIJtU19dvuKDqgF4oBeSUff0KSYl
-	 RqJA5Hm/gwysPS+wFfG94hN1tCRoXb70pRmzFjOeig2e/K9tfhy/Of4EW+2jSTQTZRbeV
-	 FVD4bzjzT3KYMtbOOPAK6huen6actTqNdOY2B9KEYUYGEeuD7d8eSaYIiFjbLmeHTcg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795008783;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer;
-	bh=+LzKfkpJBe8FV8Ilo/QVOQitYmQkxIW2qNl9LG+xUfA=;
-	b=jG/iuc6uHhGlRh1D+hIMJIvHs42M7xEXYp/I7RUql9FBS6KJ+Ap5DvfnD8LWvYP3e67/
-	 N06RZ3SLODzXfLRByMeyoqcsmppPA6uIVA9RL+hbd3CiGTRHnke9W6u/62GibSAtBZ85I
-	 wQ9Y1u4vhyp1oL12g4un6UnZWBQ5IUicnjzj7FqWUo085251CiXlxsaqL+FQ8A6mlH4HV
-	 mA7VfO6qQd3kqHtPFrO3mUEp/zSZWLFzs/JyEc+HRVC8f3FRx7/lSauXELTkHYhdqGXCb
-	 6NC6Cw0Lh0D14f3KbQfbOHQSltThVxExCt1q4V0IaehK1V8YUJt4UIUG3ROWNwoQvbg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QKhtM6TW;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=209.85.160.171
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
+	t=1795009103;
+	b=gWTP7L2jgrqHVETepb64qRu9BL4RR4GBgn1+914KpsfIQr2XjoGQtW+VlgYddBI9M++R
+	 Dg2w1QzLuVJGM90xMD92MWsIr2BcxejMqzH9nm0BXZ+5XG/wvRVS1aF4hXA9vHiLUk2Qq
+	 iJ/iAAJbKrqnB8dbPDig6fQL9Q3qI9Ls+/dnvG6ysVQXZKnJba3ZepJ88sgFJaPM7IsCO
+	 zsxSn28F3OHqxTrzxk83QSDupP5mBc9NizbbF/y0VNxghSzYS2V0hW90sA+Er/1pNc/xn
+	 IERVIHbJ8IphMsRAAC3jr1zKXdhzbW58eisGSNHhqP8d/fRvj9M2rzTeuLs9fojl0nA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795009103;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=Gu0OV3kkEAl4D4CjhNeE+xCTUXelNvJBkZGChj72U4U=;
+	b=OcMyYdbbhhRpAlFWio9d8m1qTvP0TtpU61sxR6Mf5W6WdlqLRaAfHwt+ft42sP3kqaNy
+	 CJw8cjazE4AyPPIgi9FIb67fX2r978mYaQOeXvaMWgIdRVl2eVrozqvNRPU/3CEu26uM9
+	 XNocrWdb9mggO/U3t/Tm2HzRwzkU7CKGWAhq0SYU6IHISD4WjTeurq84GNxNDpmG7UZgS
+	 zV13dgumELtxNfT0jNMjYzA7lfu7Gi0L/I+h1qNRIWdwwExWn5FgMEfkDaBjQeWHeedbD
+	 XnXs0GaIY8umuoQ4J7cXxcZOOTwbAhsHvnxfIUzXhSJrq8f55ge3NWNE6U5oE/W6GhA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=szeredi.hu;
+	spf=pass smtp.mailfrom=szeredi.hu;
+	dkim=pass header.d=szeredi.hu header.i=@szeredi.hu header.a=rsa-sha256 header.s=google header.b=Pe34tTsI;
+	arc=fail smtp.remote-ip=209.85.160.171
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7644606A320;
-	Wed, 18 Nov 2026 13:33:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5262460A2603
+	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 13:38:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5262460A2603
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QKhtM6TW
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3A671F000C4;
-	Wed, 18 Nov 2026 13:33:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795008783;
-	bh=+LzKfkpJBe8FV8Ilo/QVOQitYmQkxIW2qNl9LG+xUfA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=QKhtM6TWxMnfqOEzL0JS0sue+b+WN2v4+QMgoGmtl6vIGT/qoOsV4yCDswDkoxzrQ
-	 y1ZoE6cCiHldZ4sDXj+jnvKcwLZzyUZLDpZPYhaEf/WqkX1pR1iBExymjqL0JteINQ
-	 xdoJL+tp4LFE6aA048rmL2orp5XebHSgPYlTmKbayW4NLlEqLFe60p6Jkm6TMZWDxO
-	 xZzrqVXmH/v3AqNURK99igD63LWz896gHeZg4XhUCIX8iTrIm8j9ekQ8vpWFeo+V5+
-	 rzZWqo40/twBl3N4u7PrhohI3CTApt3PAEMr06qi7UZ1TyzJqWPatPyEskTDbqjYtQ
-	 Y56w3LuZUP7Eg==
-From: Christian Brauner <brauner@kernel.org>
-To: Miklos Szeredi <miklos@szeredi.hu>, 
- Hristos Nenkov <nenkov2004@gmail.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
- Seth Forshee <sforshee@kernel.org>, 
- Lakshita Jain <lakshita.jain@databricks.com>, linux-fsdevel@vger.kernel.org, 
- fuse-devel@lists.linux.dev, regressions@lists.linux.dev
-In-Reply-To: <CAO7_G+xaooz=gYyO5kw3Qbz+1MF=TUD-XQpAy33ETSX2xBVQ-w@mail.gmail.com>
-References: <CAO7_G+xaooz=gYyO5kw3Qbz+1MF=TUD-XQpAy33ETSX2xBVQ-w@mail.gmail.com>
-Subject: Re: [PATCH v2] fuse: preserve daemon-owned ACL permission
- decisions
-Message-Id: <20261118-tiefpunkt-revidieren-mitreden-bb6926db02ae@brauner>
-Date: Wed, 18 Nov 2026 14:32:58 +0100
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.a=rsa-sha256 header.s=google header.b=Pe34tTsI
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-55d30c054dfso10536251cf.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 05:38:22 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795009101; cv=none;
+        d=google.com; s=arc-20260327;
+        b=rb5rMGwXqbulFbyW8p7KX626XRDfnaDQhQRLFmSQymqDaRdygc7T0CXf1tv2wzFdfH
+         HgFTN3/rTq1Szc17qthZ6dbUm7c0nn3vPuhbsmhJERc6Pxp+3JIKcZggdAL4D4cZ03X9
+         C19rK3nOa4WSYtR/ZAR2W4Vaw9sDwbSNS2aGajjGROESVtiE7vnXMekZBCySmb70mafe
+         BPQEfopPharmV00Pwu+J7MIrKVlX0ZWFKxXq0WZvtmqtbBVTSaeHplXnb8SsxSHJXWKq
+         H6yaHguF9rC8HYzjO9rb/Is7HZzbcSA7wOsWeY7wS8rpek9CMIysz2S3DyZFo85xM2bp
+         ja8g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=Gu0OV3kkEAl4D4CjhNeE+xCTUXelNvJBkZGChj72U4U=;
+        fh=YweFcjtlXtXnYQOi0eNcPMr3G8s4k39zCe8HJu5bbD0=;
+        b=IONsamMTdFruVP6sUNIOGD3OOvW36HwQ9AWDmfjVOv72cTL1zM/2PRgk7JmgBpT67s
+         czL/0iQu7tfo38g9KhV6x9L+70QusH9uhYXgiPRVOvaGzoqzMwzlfidwXzFQxU+31dPH
+         pqyoEKxXpJ0u44GCiXGvjmnoaXcDk+A9fY80AUxx3mc6+5d0Kcbb+m4ll/m1jXQLmgpa
+         bXdYpyxQxZmlHiUdvEbqeMin0//heJG+wA6Y6jIWh6feKslupiLp1MF3pZOxTK0h2PW3
+         86yro8xisavCuKtCtCSbGmoq/KgZrJelPqPhpZmFBq1k/JkmJ8TQ02db/YsUdHqderUF
+         UpjQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1795009101; x=1795613901; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Gu0OV3kkEAl4D4CjhNeE+xCTUXelNvJBkZGChj72U4U=;
+        b=Pe34tTsIgFeEeOlE8BDyVJuTMubDV7IkG0gfFDkXSbD/+AwMJkcrj2xltdA98E10Jt
+         WN8LQd0JEg98Z/33ga26tURmtWsAi7rYQ9NM9Ch20U1RmHdV/OD+mO+UwpY5EnnjM+HE
+         8NzXR1OZ4amekDKtfzXQMjpyw8un5pJRKJMmg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795009101; x=1795613901;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=Gu0OV3kkEAl4D4CjhNeE+xCTUXelNvJBkZGChj72U4U=;
+        b=2vg9Vd71TxHNSfk79CvVQjZyeQ5Nv1NKvf0vnL+2wGGWQpH02Y1yz0j0xVMQxX3wkQ
+         rR03FpEMGChG3rjPJr/WbBDciEoTTv0Je9DWa061vaNGDGPZuOclgEWqGmYdq/RVCjbe
+         dfATadCZoxyA8AjSI3tf4LSMahhm9Eil4w0yPuZekBGn7IoQuJrjx1ByVSm5aMS+gkdt
+         xmJGilrWgaj37p8g16vp8J5PxivKJ6mXcZefs+/T0gO4nxNB5Fm6H6PkbnGRoeer5CXa
+         SLkcunV8otJ8wDj9NSSmX6raorHmKwENlTyAH9+EZc0zTwV/JCSPZFPxmo4nyl4PeW3i
+         2vrQ==
+X-Forwarded-Encrypted: i=1; AL+hErEOjpjB1aVdf+YGsj0uLfLcfvdLIlBWbv2Co0vEYDkEuyavUErLybSIDnwqkTw+LVYDpseYKu9lNIH56A4z@vger.kernel.org
+X-Gm-Message-State: APuU4Z9IjER5O4uSRlai0x7+IziDAbo+NBfFyez5cuEefnxjtimnAGmV
+	qMLRB4hp64qi7MY3YqDk4OkE53e8vh6HSPF8xjjwUKTe7BA6fZSh0K/vzZT+ErL2sIn3LibkQ6q
+	K+DFxBLLJyuJwmUCVLMyTnL6mAGgxsNq1riEHRp+DIQ==
+X-Gm-Gg: AYBFou0PKDeC2Y+fEPTqy3x7A/IfSAzxCP3OGQ/HpJWSXSYCAByPrVg0bHheF3gZ7I5
+	rHMyhzBjew/vLfKe7/EGxSwKyUb63DgD/YRHhUfQlMI4YnFDi69R8j1Gd2GlFVlXIzBPE8kFPIo
+	FQMPTdXv1fm3/0Gp50ZQ9HJS2Jk+zkq5JJilDs48lIe/XEVXrToaKai/GF1RBYNcg+YOSNQg2Tl
+	YAD2bW/7ikOkTI6G4j8h84Di+8eZaCUBONHc9Y/3yY/hY3l7oTD3lPN+C94XXRgqpmiuXGZLmcq
+	WWd4oEJup1apGK0SHYYUXN+mOM8ti7d2L6lfm55JZ1uQGa4obwvT1bLrQyXGI2br/OoEyQOPAk0
+	sMFWnuik+dOth8rCOviUYQ3rTe97yfySfqUbWI3N/ozloe9RDLOQQjOjoNjAwIYTdq/1/AaLMKc
+	uAveHCHNdaPV8=
+X-Received: by 2002:a05:622a:558e:b0:55c:f47a:8c96 with SMTP id
+ d75a77b69052e-55d5a340368mr39697851cf.3.1795009101249; Wed, 18 Nov 2026
+ 05:38:21 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -62,37 +101,30 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev-04696
+References: <20261117135146.3174252-1-graypanda.inzag@gmail.com> <20261117135146.3174252-2-graypanda.inzag@gmail.com>
+In-Reply-To: <20261117135146.3174252-2-graypanda.inzag@gmail.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Wed, 18 Nov 2026 14:38:09 +0100
+X-Gm-Features: AclHuK95w6kthqK2rcV5FGmp6byHyDgOGBtGbNMoFRdYyxphnOM3Now-gzk5ZLo
+Message-ID: <CAJfpegvfKhZYuMQ914GUPNvdPi-nZBYE9qfwHVg6m+8ABuhqCg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] fuse: skip dcache instantiation for readdirplus
+ names with embedded NUL
+To: Junyoung Jang <graypanda.inzag@gmail.com>
+Cc: Jan Kara <jack@suse.cz>, Amir Goldstein <amir73il@gmail.com>, 
+	Matt Bobrowski <matt@bobrowski.net>, Gwanhyun Lee <gwanhyunlee@gmail.com>, fuse-devel@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 17 Nov 2026 08:31:47 -0600, Hristos Nenkov wrote:
-> FUSE daemons without default_permissions historically handled POSIX ACL
-> ownership decisions themselves. The generic ACL owner check prevents
-> non-owner ACL changes from reaching these daemons.
-> 
-> Add IOP_SET_ACL_OWNER_CHECK so a filesystem can perform the owner check
-> in ->set_acl(). Set it on FUSE inodes and check ownership in fuse_set_acl()
-> when default_permissions is enabled. FUSE_POSIX_ACL also enables
-> default_permissions, so it needs no separate check.
-> 
-> [...]
+On Tue, 17 Nov 2026 at 14:52, Junyoung Jang <graypanda.inzag@gmail.com> wrote:
 
-Applied to the vfs.fixes branch of the vfs/vfs.git tree.
-Patches in the vfs.fixes branch should appear in linux-next soon.
+> Some FUSE servers include a terminating NUL in namelen.  Follow
+> nfs_prime_dcache() in commit 78d04af4995a1 ("NFS: nfs_prime_dcache must
+> validate the filename") by skipping dcache instantiation without
+> failing getdents().  Return -EIO from fuse_direntplus_link() so
+> parse_dirplusfile() sends FUSE_FORGET for the unused lookup reference
+> and continues readdir.
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+Applied, thanks.
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
-
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs.fixes
-
-[1/1] fuse: preserve daemon-owned ACL permission decisions
-      https://git.kernel.org/vfs/vfs/c/830f05167ee7
-
+Miklos
