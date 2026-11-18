@@ -1,92 +1,109 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795011300;
-	b=cB8H4CPRrf9BXmN2y+wMsTAjeZQhyOHUCu0UaYfIN0MglD1Wt81UdfApQxITtO2kPOum
-	 p8F1lskbGiTD/zAzSVle959pivMRAc08yxplm1Kt2CbY6sitA/5NszlgerPzWoc3jrBtX
-	 l6jkT0wlM4Nu/FDAvl6j2m8O4G9HcnZweQWv2HupFfEIMMtGwfNUVH+hfZPeT0iZnOcft
-	 /1vYEU9RJiI5NdgnliYdc/A4iiJD0KhwHC6GA72J5/g8+pxzz6Q0JZfceB0FlTFA3Qgui
-	 APjP8AnRmG60vMoUh2yb9sbwRHN5qXEGTkgHY/g5AVC8hM+UWW+sk7RSE/QYeSKlfIA==
+	t=1795011522;
+	b=ZCoS40IABcv2UtJx+u9rXx6onptp9cqcHAxgGTCsvldDM55I0GVvbJ4jXofAr20L7csG
+	 FAaMbv1n8yQlpfu9A9Dtd6jYoD1besbdtAx3ktQeDutXUh3//D49ggxLBASix/oI0CQFg
+	 jjaVjMjHdMwdNY3XUYrD5RlznD6jpH5XRKIge5psYaV30k/6aLORzNE8SHEX36kUVwAat
+	 gHgBBd5vP4ViUuJhTbeWLX9WuQKvEwTH+Q1IjllyvHz0y6P8ehk596mzhnt3y/dcFJ9YJ
+	 pg4xTcz0hkj5TH10MLJwuLILvLXDzBkIa0bvfC0GCtaZRpTOEtPvMbKcd49wLQ3DC6Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795011300;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 In-Reply-To:Date:Message-ID:Content-Type:Content-Transfer-Encoding:
-	 MIME-Version;
-	bh=Lr6L+cYeRUIJDJyNctOopXpHFnq46QKdQrQ9Ke1StVE=;
-	b=jSVr3rLr7kHYoZOjudFJicRk6O4wcqwgJdG1esi18841yL1MzRdi/1VO8L7q3Qnh3ADg
-	 Lz8C5JbHF+qX9kQA38oH2nIGX655CPCjAuimNGsbymF+dHsNp2qINK6VJdqsoMKB0l/0R
-	 ts/w7Y/D5HRrnaouyS7qwQ+V6qXUhuRE5IzrDTw/txsbBAdh+85XnL8VKVQfgjKalnDhh
-	 5m2PHvS6s4RYvYenNojAvJWI/sZ7pZMtdgu0WaQpeR93JX2rcYIo34hBgAI1kgjpIGzdU
-	 DalTlHSdSdU+TzadWUXq80Qm8T29lJ7aNtuZxHr9Q5dA6H1F2aYLxuPNbCMjUbE6q0A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795011522;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
+	bh=QROhWMzlykaiuQCCkL24rkKkdLiuZjzK5ETs2yxqYKU=;
+	b=3xA5kgaJY+coKIJ4HwWHme5ankGqFRuWLMv+bcLXNUeNQz/YCogvGPhmuPqGnKa990hZ
+	 zW313AoOrNrK7z7ywT2zIq1aE4NgYPsi8sFda1zwJ6rW30aDbpB9/WfWCs0sAKC0AuyEl
+	 AA2Hhr8xQ1zZHeoCnqikzYNNIUAxOfvXe6D9vySyaHKsnRBW/ZQIIvHm3yrLcrpopEvN9
+	 ymgrNB1NqVywiFRGOh8P6qoaFbH+XyeVrT1hgQvlrbjtr4IidvzS/btNuuk7m9hMRZarE
+	 Uo3x2/SDHNvpyhu9bkxXwBzNLIDUzHdpJckDWXTaGTh/ch328iy8cqlR+zQzGOWsZYQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="Owut/OfF";
-	arc=none smtp.remote-ip=209.85.221.53
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=none header.from=suse.cz;
+	spf=pass smtp.mailfrom=suse.cz;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=zg13HXJ7;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="Fpa0wb/f";
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=zg13HXJ7;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="Fpa0wb/f";
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05EEA606A335
-	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 14:14:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 05EEA606A335
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FC3E60A2625;
+	Wed, 18 Nov 2026 14:18:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0FC3E60A2625
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Owut/OfF
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-490c3ae81d3so673953f8f.2
-        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 06:14:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795011298; x=1795616098; darn=vger.kernel.org;
-        h=mime-version:content-transfer-encoding:content-type:message-id:date
-         :in-reply-to:subject:cc:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=Lr6L+cYeRUIJDJyNctOopXpHFnq46QKdQrQ9Ke1StVE=;
-        b=Owut/OfFa6E71kOopud76C/B5gBb9b7Sz2N38c23akPgcj6Qm1z+UL6sXme/0Pao3y
-         qS4qK3drbWZRzdMIOMD3Ih+B/ksIu5sHIXGXJ3awEe+oVHABGh7Pl1junppwjc9V6JUU
-         XUC2c2iM4q5RsoR3otxYFcLvEf44ROR5UrM3oMCdh47tpI75gQWnR1BEmTYncyFTWMAR
-         /DTZowrkx1xO/gJOZeatRIGTjkmlIcXXfK2FyPbu+JL/gUBrweFoMclDqUH9W+l6Gcsr
-         uFAxy7rxyNCXq1t7r60B+8GEkFzzNLAGvUqiqkXIftfcWbHwZJHYoMFf3FOQe80lmX3V
-         zuEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795011298; x=1795616098;
-        h=mime-version:content-transfer-encoding:content-type:message-id:date
-         :in-reply-to:subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=Lr6L+cYeRUIJDJyNctOopXpHFnq46QKdQrQ9Ke1StVE=;
-        b=i1vy6fDLNjtB1YNe2R2EzYiGerbZ4A7qRR3lotAzho+EVpan0HfPS6JQFyGZgX5b8t
-         5i5jLRTdWT86k0OByz6TlWDzuLbJxQVYiXfTvhd++ym4IVa8LCN0hr1KaKi7YsQdcVgZ
-         LMnLp3UaroqgzTZrFWjDN7nP8+ozrp8NPThEf65SFOZfT5nh4nLpbzR9SbgmR5X6Gbtu
-         Db2wlp1PpqC3+r2cW3fL4tsnTM5dgBdUD+Rg5UxmAKaIhO+YtR8a4yOdz+QhHJux7Tpq
-         +SZAofY71SW8dYSA7RsNKeKmKyTiqRFovK6OTXeRkeki9QSlTEFC8NENwdFJgtq+xpVz
-         M7EA==
-X-Gm-Message-State: APuU4Z98aW7bsEVhdjLsU7fhnRczVQBJ5m00nCMm9NfAmXPVCGIlVdvf
-	blTigLAaqXjbpUR5x8JhtIhH7bWDD6wDVnULdH1dKhvtt0IHD8Yr5zvozpcGyFn0Zac=
-X-Gm-Gg: AZFdTZdvbRgHRqFtOnm3znF3xx2LmbII5s0o2cr3y2gYJcM7jsjuvpy4X/POtE+LzbL
-	GoUGkKkrF3wABsTLRG1h62OGgjxA+nChUcQvjedKNXraTolHwMSc1zUVREcKeCzwn9TxNh+dTCH
-	EEIVY7QTgNJWAJGG50naMg8Ypb4sFQOg78BKXC0iUedBLuaXNzknbFzziN+J6MVL8OUdppXgzSS
-	0Bt7ejPaPrC5qHyY+IrGbDX9PC4R0uEYBOnQ0y3iWf1gQH3k5Un8gjAaBWnE0wiBS3fu63T2ZA9
-	KVml42d0YSzt7hy2KSE4CFKggEFd1FkUgxMrq5XssoPgg6dpd/x3GUerdk2go0gNp4ghy9HfxOB
-	DTlK7uMDZOtoVMtIpT8YNWWkaggicPXVARtFnpyDfRm7AQuU+9maj8iLFY/ajGghJYVHxYREgcz
-	1YEK+IBeuK3S9THREc7/OSkeUa0Wz7Zm5MjeyqDj7yKdqljYBU9O0/RykT7S7n7TbAIKIe0OYLh
-	DItXZOBynFRd5AW+XGHe0LEETNS8UCryhIwbUn2GTpJ7PoB4N9H2LaIbYCaxB6Jltk2KMPTpKPT
-	V5VQS/bRl+YKELR5lsrDwsaaE4tckTryRfGgXopdgLmTR9C68FCJ1l8VWVbBRCfwSHpNiSmIH7X
-	URIk7
-X-Received: by 2002:a05:6000:4812:b0:48f:bc05:76fc with SMTP id ffacd0b85a97d-4a63c657f66mr5381340f8f.11.1795011298295;
-        Wed, 18 Nov 2026 06:14:58 -0800 (PST)
-Received: from SurHub.localdomain ([196.188.113.38])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a6569338acsm5108876f8f.45.2026.11.18.06.14.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Nov 2026 06:14:57 -0800 (PST)
-From: Abdifatah Suruur <suruurism@gmail.com>
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: linux-fsdevel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] fuse: stop stealing pipe pages into the page cache
-In-Reply-To: <20261118135359.6256-1-suruurism@gmail.com>
-Date: Wed, 18 Nov 2026 17:14:54 +0300
-Message-ID: <179501129496.10449.5445396291756842907@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=zg13HXJ7;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Fpa0wb/f;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=zg13HXJ7;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Fpa0wb/f
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 205E21F84D;
+	Wed, 18 Nov 2026 14:18:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1795011520; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QROhWMzlykaiuQCCkL24rkKkdLiuZjzK5ETs2yxqYKU=;
+	b=zg13HXJ7jADMk9z96y3DFcZUTy4nGww5LqNwNIiCSt3PTrE0N6Acu3cfLQC8/NzMM9igWG
+	8v5Lduem7Cs/h39vCCC1VIECisZ0C+yvn7GYjxMtJA/Hl+pyZYj8XPsiCQesDaEzw06Bdo
+	CIVE5yjbTHe74Cy6n7w6PfDLTt9WZIk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1795011520;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QROhWMzlykaiuQCCkL24rkKkdLiuZjzK5ETs2yxqYKU=;
+	b=Fpa0wb/fgifXMmUiAWnLIzlXbBJ4JiQt8gNzvUjX8JRk6HzkegUUz9XBVMS2oHDD4iOOSk
+	G2E6P6+1/1ozyBDA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1795011520; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QROhWMzlykaiuQCCkL24rkKkdLiuZjzK5ETs2yxqYKU=;
+	b=zg13HXJ7jADMk9z96y3DFcZUTy4nGww5LqNwNIiCSt3PTrE0N6Acu3cfLQC8/NzMM9igWG
+	8v5Lduem7Cs/h39vCCC1VIECisZ0C+yvn7GYjxMtJA/Hl+pyZYj8XPsiCQesDaEzw06Bdo
+	CIVE5yjbTHe74Cy6n7w6PfDLTt9WZIk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1795011520;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QROhWMzlykaiuQCCkL24rkKkdLiuZjzK5ETs2yxqYKU=;
+	b=Fpa0wb/fgifXMmUiAWnLIzlXbBJ4JiQt8gNzvUjX8JRk6HzkegUUz9XBVMS2oHDD4iOOSk
+	G2E6P6+1/1ozyBDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EB619134E9;
+	Wed, 18 Nov 2026 14:18:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id fsyLMb+z/Wq5MwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 18 Nov 2026 14:18:39 +0000
+Received: by quack.suse.cz (Postfix, from userid 1000)
+	id 6F82F25077; Wed, 18 Nov 2026 15:18:35 +0100 (CET)
+Date: Wed, 18 Nov 2026 15:18:35 +0100
+From: Jan Kara <jack@suse.cz>
+To: Ding Feng <dingf3ng@gmail.com>
+Cc: viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, dlemoal@kernel.org, 
+	naohiro.aota@wdc.com, jth@kernel.org, Jun-ichi Takimoto <takimoto-j@kba.biglobe.ne.jp>, 
+	stable@vger.kernel.org
+Subject: Re: [PATCH 1/2] fs: ignore RLIMIT_FSIZE above LLONG_MAX in
+ generic_write_check_limits()
+Message-ID: <hwwtflqzbga65oxvo7bw44xuhpbqseyfww62kyzko5az4gdnxy@4wxsl465nvp5>
+References: <20261117173129.61028-1-dingf3ng@gmail.com>
+ <20261117173129.61028-2-dingf3ng@gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -96,16 +113,119 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261117173129.61028-2-dingf3ng@gmail.com>
+X-Spamd-Result: default: False [-12.80 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.cz:email]
+X-Spam-Score: -12.80
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-Hello,
+On Wed 18-11-26 01:31:28, Ding Feng wrote:
+> generic_write_check_limits() stores rlimit(RLIMIT_FSIZE), an unsigned
+> long, in a loff_t. A soft limit between 2^63 and RLIM_INFINITY becomes
+> negative there, so "pos >= limit" holds for every position: each write
+> through generic_write_checks() or copy_file_range() fails with -EFBIG
+> and raises SIGXFSZ, although no file position can reach such a limit.
+> 
+> Reproducer (bash counts ulimit -f in 1024-byte blocks, so 2^53 blocks
+> is 2^63 bytes):
+> 
+>   $ bash -c 'ulimit -f 9007199254740991; echo hi > /tmp/f'; echo $?
+>   0
+>   $ bash -c 'ulimit -f 9007199254740992; echo hi > /tmp/f'; echo $?
+>   File size limit exceeded
+>   153
+> 
+> Before commit 9fd91a90cb98 ("vfs: strengthen checking of file range
+> inputs to generic_remap_checks") the limit was an unsigned long in
+> generic_write_checks(), and such limits had no effect.
+> 
+> Keep the limit unsigned and apply it only when it is at most LLONG_MAX.
+> Smaller limits keep the existing loff_t arithmetic, so their behaviour,
+> including for negative positions, is unchanged.
+> 
+> Fixes: 9fd91a90cb98 ("vfs: strengthen checking of file range inputs to generic_remap_checks")
+> Reported-by: Jun-ichi Takimoto <takimoto-j@kba.biglobe.ne.jp>
+> Closes: https://lore.kernel.org/linux-fsdevel/8F9EB913-3AC3-4D89-9DA3-427029F6D211@kba.biglobe.ne.jp/
+> Cc: stable@vger.kernel.org
+> Assisted-by: Claude:claude-opus-5-5 Frama-C
+> Signed-off-by: Ding Feng <dingf3ng@gmail.com>
 
-Please ignore/drop my patch "fuse: stop stealing pipe pages into the page
-cache" (message-id <20261118135359.6256-1-suruurism@gmail.com>). After
-further checking I found that this issue has already been reported and
-fixed upstream by commit 80beb226de50b859913a55be0d6bff9046662294, which
-predates my submission. I should have checked the post-snapshot history
-more carefully; my patch is redundant. Sorry for the noise.
+Looks sane. Feel free to add:
 
-Thanks,
-Abdifatah Suruur
-suruurism@gmail.com
+Reviewed-by: Jan Kara <jack@suse.cz>
+
+								Honza
+
+> ---
+> 
+> Notes:
+>     Tested on v6.12 (arm64 tinyconfig, QEMU virt, initramfs on ramfs) with
+>     a static test program that sets the soft RLIMIT_FSIZE, writes 2 bytes
+>     and copies 10 bytes with copy_file_range():
+>     
+>       soft limit            unpatched           patched
+>       1024, 2^63-1          ok                  ok
+>       2^63, 2^63+4096,
+>       2^64-2                EFBIG (both)        ok (both)
+>       1                     short write, then EFBIG (both kernels)
+>     
+>     Also reproduced on 6.10.14 (arm64) with write(), pwrite() and
+>     copy_file_range() on tmpfs and overlayfs. Compile-tested for x86_64
+>     defconfig with clang; not run on x86_64.
+> 
+>  fs/read_write.c | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
+> 
+> diff --git a/fs/read_write.c b/fs/read_write.c
+> index b15522c..18a217d 100644
+> --- a/fs/read_write.c
+> +++ b/fs/read_write.c
+> @@ -1693,14 +1693,15 @@ int generic_write_check_limits(struct file *file, loff_t pos, loff_t *count)
+>  {
+>  	struct inode *inode = file->f_mapping->host;
+>  	loff_t max_size = inode->i_sb->s_maxbytes;
+> -	loff_t limit = rlimit(RLIMIT_FSIZE);
+> +	unsigned long limit = rlimit(RLIMIT_FSIZE);
+>  
+> -	if (limit != RLIM_INFINITY) {
+> -		if (pos >= limit) {
+> +	/* No file position reaches a limit above LLONG_MAX. */
+> +	if (limit != RLIM_INFINITY && limit <= LLONG_MAX) {
+> +		if (pos >= (loff_t)limit) {
+>  			send_sig(SIGXFSZ, current, 0);
+>  			return -EFBIG;
+>  		}
+> -		*count = min(*count, limit - pos);
+> +		*count = min(*count, (loff_t)limit - pos);
+>  	}
+>  
+>  	if (!(file->f_flags & O_LARGEFILE))
+> -- 
+> 2.55.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
