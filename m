@@ -1,89 +1,131 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795026190;
-	b=ijhw2C9JvKQNQbTH/qbKcCeOmdfZAiULIYL3vz518z3KJBNbE2MgIpCjBspyULZFjxsd
-	 6mKfOrrw0aVYCCCuzJ2oIox3lzHW7xwmW56ufKwZC1vh0LAnJtQo8fDmETJUygX6kSTVc
-	 zk7UHYmqiJKq5q48JZYvqN0OmejFitemse+MNC2i+yfSSlTGNZyGELC8J4gYpL5BG4a0z
-	 7WbloL2kkf35w8LSOMOk85zBC7LqR8lB0Fs0napYRen/hv4mrP80S0SQLp4MTcpd2i8pF
-	 i2rJTHsw/18lw62DkIqXWIBn2sqhCNJfJ6+57hWQGp7d9DZC44pUPA7etqMlDq6SAOA==
+	t=1795027783;
+	b=gHO7Im2zXF+fraVN91ZoArwSqRNhnu7SSXgFJa1Eai0MNgrMPH1lnWV90MwLDvsQeOJ+
+	 Vfa5TUWpqaeUJG0i2RzBYovsNIqeFxXQZ7WRv7au90XTBEn7kPJWsM/FhbBB1RDG1mrQX
+	 8JdLQl+yo+mg589X3yrduXVWVHJnRttt9JF+jJMMDphw7TbMXlFEZLOfHhJb0wcg9ieXm
+	 nTbWbGwI65bNenUppIRqRA0qqRzMho6z3/242SMePSA/eDNIBq73fJ3xniCUFiggx3vHA
+	 DIL32vkvOI0LgFSUoSGmQibFkRW+qMBxtzY8ciBe+aUQ/vPaJ8LJi8E6e/cqNqgxwCA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795026190;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=foArwJppdw7wxwAIXrJloa09SFBAq+aNRAw3uRfRo00=;
-	b=gKJySiLWvCbKmRGb1s3OjUxYuSdEhi8fLUnkrQzC6DQmC73ZH3gZRmNhGPy8vxKhcoiF
-	 QD7+BAAeQGZo5rBUH073kO7BsZeaj4mdDfsZqtXH753/UMFLBFY46WEeZTAsPudce6THr
-	 yTj7Xh39PgW5/G0mXCfHrd4b+i510ECr6ka2PegzbEdTObLd2Q5HdIbkgej1thV3IW9wi
-	 0qjn7/bW1Tq+JbMoFNrgcwG5TRdrCWjpfYjMhhqqQA0vU/4js9aSr80qwtk1Zh11Ie/js
-	 yG8yRN6wiGWpq9CTr5jT41t9XZLoqik1CUfBV/gt6AiIzSdZVBd4sK7tRDnHbZDjNJw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795027783;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Message-ID:Subject:
+	 From:To:Cc:Date:In-Reply-To:References:Autocrypt:Content-Type:
+	 Content-Transfer-Encoding:User-Agent:MIME-Version;
+	bh=B9P7DvURNMbONNuOK0Blr2zjjbRKurtoh2O12l+4jW4=;
+	b=4JtCDqi7pRoxe6JxcB7p0ips5w0rR3OrChuSlaUtiKwOZlsoNH30BAj+u3+h4nxDMH/f
+	 m4NaAX4392kgq+uly7r2Srn9SrlZAmj7PSLN25gGBA5qYnpxZraPFu44oMUVZfh1kNZjG
+	 oJGo8UXGHBg0haODtBBIgzw1vvdOQhn0RCciPccBag0hp6DsMPXTiV74hcjVBoUBPMYGZ
+	 wprdQ80sbsvK+dW+ZZvPAFDyt1ix+ddxn/GehjuZDD5zzQGDNRqM5TQVaOM/KoncRLsgZ
+	 Edk6VQ3nFxCtwU0XBJI6XUJ77TsewC/HnJbXcUEp6pJ8YySi5MjkQHHZE2HVLCcGIYA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SSexoLIK;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=none header.from=dubeyko.com;
+	spf=pass smtp.mailfrom=dubeyko.com;
+	dkim=pass header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=NJsy0raZ;
+	arc=none smtp.remote-ip=74.125.224.44
+Received: from mail-yx1-f44.google.com (mail-yx1-f44.google.com [74.125.224.44])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id E676360A2601;
-	Wed, 18 Nov 2026 18:23:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BD28606A32F
+	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 18:49:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5BD28606A32F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SSexoLIK
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 6DD3E1F000C5;
-	Wed, 18 Nov 2026 18:23:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795026189;
-	bh=foArwJppdw7wxwAIXrJloa09SFBAq+aNRAw3uRfRo00=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=SSexoLIKwBoPiLX/UCNvXMAvv4Xqx3dXaulr2O2mznCKKpg7Gl+XFyR5jDdZdWAUN
-	 Bm2Ym5u52HNVVRFXbz+lZpqqUqdI0QIVX/BnBolTVOjdqbWIRa9ZL/AQfHb7tP0tHy
-	 Bo3R6lGQHJTvQrtUZUBLV22APvmXIw2J9PMILe+xCzHOUZKAi5UWfm9zvRyK2Mg+0I
-	 M+H6ts9MMhrB3C9VnwqV5X6yDzwsL/MkVrIZfX8RVMJAzd9mqBMK3WoZuQhU6CTmSZ
-	 37+m6Xg9yYUbnkS2hE09G723J8T6okkYA03L/UmQUJFycH5/CD9SmRDukHGn7s1/6U
-	 Jq9Ur6XjHy3ig==
-Date: Wed, 18 Nov 2026 20:23:05 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Andy Lutomirski <luto@amacapital.net>
-Cc: josef@toxicpanda.com, linux-fsdevel@vger.kernel.org,
-	linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Ben Segall <bsegall@google.com>,
-	Christian Brauner <brauner@kernel.org>,
-	David Hildenbrand <david@kernel.org>,
-	David Howells <dhowells@redhat.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Ingo Molnar <mingo@redhat.com>, Jan Kara <jack@suse.cz>,
-	Jonathan Corbet <corbet@lwn.net>,
-	John Johansen <john.johansen@canonical.com>,
-	Juri Lelli <juri.lelli@redhat.com>, Kees Cook <kees@kernel.org>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Manfred Spraul <manfred@colorfullife.com>,
-	Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>, Neal Gompa <neal@gompa.dev>,
-	Paul Moore <paul@paul-moore.com>,
-	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Serge Hallyn <sergeh@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
-Subject: Re: [RFC PATCH v2 00/13] Namespace for namespace roots
-Message-ID: <av3tCT5lQTu7qBMz@kernel.org>
-References: <20261117231352.3816603-1-jarkko@kernel.org>
- <CALCETrVUkbpoFjwSAejyA4b_9qEauAP_36i=O8Op1ifp8aUkqA@mail.gmail.com>
- <av3akYFOYaeQZauZ@kernel.org>
- <av3bkDnwmjunTleX@kernel.org>
- <CALCETrXPLeUgxyhjP4XuWS46FKB0TUHF5PcMkdMf+qeEXbyXRA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=NJsy0raZ
+Received: by mail-yx1-f44.google.com with SMTP id 956f58d0204a3-67da62357acso2050333d50.0
+        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 10:49:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dubeyko-com.20260707.gappssmtp.com; s=20260707; t=1795027782; x=1795632582; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=B9P7DvURNMbONNuOK0Blr2zjjbRKurtoh2O12l+4jW4=;
+        b=NJsy0raZSppikWGTAJ9ZVLl2ARZI3u8oRBsOmDIGjPWAZQ2+d2hMHGPRB9/sTNG1oE
+         DxoHmq6LlI1qDdZkXTA/Oe1vEhESE8W7eQOvTuavUQSB+EHbp24J+B41YyVfK49F3pxi
+         CyOrxHUe9EDzynBqUZMjeIKATlPL41OJWRtom79afI4l1i/BMNO4+kMYlC6hK/wbXdop
+         5EfERewsWAjINmUUAHdTdLQ3Cl3TFMMvJK4vje9FJDJZoQ1tjLyWbFOTJFSopeZk8KDt
+         to28wGyVjsfwFuubEyIpFrcPxppQy1g/A7nIngbuEZeNIhoNrZ+nAE8skzpdHWKSDC6+
+         08mw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795027782; x=1795632582;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=B9P7DvURNMbONNuOK0Blr2zjjbRKurtoh2O12l+4jW4=;
+        b=J7dMOUJmRqbEwvt9G6KUS+ZCPx+Ew9vu5C+iQY9FVb5HhZziUOKpkV8097/+TzXuiI
+         JdMr/KjtruDQPYBi1ZMTrSWHrG4BqUU4P/SPF6U//hjgwc8q58j7WtKSFI/OMOy7RIbf
+         3RR5Usw/uS2V6VD8wOiJ4G44WciQpjJPDpLcOMj1lkoKrGRd5Y+f4lDrqqF8Xon95w2x
+         ptvGN0staME/jxCvo7JPeY+HqNPMTtuvaqsLpuqg9+1fm1UXz/oWw2jgKMg47q24ujmf
+         xfPb/cGPiD3oCbJ1IEQwCH5YAvidt3QOXHd628p0aDBHxhiYIPBuG9CgUmvI+VT8Jzuq
+         68og==
+X-Gm-Message-State: APuU4Z8R2+u6jLW8ZTPy50lwmTvHNNgKLKq7cSQgjRUe+oxeQl7BlYwk
+	1uQ60ADHbhIIXyf3uhtV5FC+mtmjy8oq6sONpJNkZexEYtaCocV6ax1mWiVkn54K2O4=
+X-Gm-Gg: AZFdTZc80Y+MGDeCqbbHspYy7AVmoOI8hikaI3FuMM9ONWAXu6VNkMz6fObR3MNjHC6
+	eWWJ/suhJiAXABrBFAzlfJ4Kl43L0KCO4Zioz90ZLUZJ8vvUPfXJnP/J1vy9KSW5Ryy7bonompX
+	yL2gWZfXoUAl0GXdNqf4VXFJDwBGyPclYuyWkOQHyFGc6VBC90PQXqGmdt4GFWmFEwKD25qYpPQ
+	qVvI8Pa86dqq6RaVpa2iAdJjkRietekcjoPjEI/8f5D8JSrxLUCE0TxauCZZ71ZGgTlw9Gc3taT
+	Y4ximL1y9/PPsTcAzSjm6adcu1KKIYYcb44NBIRPJqlJ8tMGLdIHWjmZLOAqwE5gzNWJPD8Lo9k
+	CzGLpknaEtxkU/DRY/7mgMAm//G3llJAFE4XVGJRZYJ/iQm7gbDW2E7HonzvaZNULzzceOohhdJ
+	+zCZktAydByA7pCSHj10znIqCq7nlitII+vRXZBxpvriml3GxGzfMJfy1vnTZ/gob+ggUeRJ72W
+	m31Fh1rzT1fCaMUPfZWCMnmSpOtZz9kEgVdPo/XQWrPz26Zb9QwMGZK8VnNMtepwji+KbYUeods
+	qLh53QKb+RXfRlzKVA6Cn9pumovLSGaOntuMVoQojBWSHVQkCwR9n7AzILB5+uKwPtVks3xk4JM
+	odBqtD5QiY8Ipu3HGDUcrGUoy88RxHH8DEmoiL+kr0kYrjxpm1iUkAWJkFOpEeZdADhWdNag=
+X-Received: by 2002:a05:690e:4501:10b0:67d:b472:88b0 with SMTP id 956f58d0204a3-67dd45b46e4mr1055606d50.86.1795027782440;
+        Wed, 18 Nov 2026 10:49:42 -0800 (PST)
+Received: from system76-laptop.attlocal.net ([2600:1700:6476:1430:5fae:4d02:7055:94ad])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67dd5864a67sm2128473d50.9.2026.11.18.10.49.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Nov 2026 10:49:41 -0800 (PST)
+Message-ID: <85c26064db32f34da57b313a2e5d505f60ad1df4.camel@dubeyko.com>
+Subject: Re: [PATCH v2] hfs/hfsplus: validate uid and gid mount options
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: Lei Qiu <750592120@qq.com>, John Paul Adrian Glaubitz
+	 <glaubitz@physik.fu-berlin.de>, Yangtao Li <frank.li@vivo.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
+Date: Wed, 18 Nov 2026 10:49:40 -0800
+In-Reply-To: <tencent_684DDE3E94F7C2470E5E02BF79AB1A1DB906@qq.com>
+References: <20261117024431.21914-1-750592120@qq.com>
+	 <tencent_684DDE3E94F7C2470E5E02BF79AB1A1DB906@qq.com>
+Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
+ keydata=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
+ NFdvziOa4FgUBC4X71upsZIoZJeii2V/Jtc3B4g==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-9 
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -93,118 +135,66 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CALCETrXPLeUgxyhjP4XuWS46FKB0TUHF5PcMkdMf+qeEXbyXRA@mail.gmail.com>
 
-On Wed, Nov 18, 2026 at 09:46:02AM -0800, Andy Lutomirski wrote:
-> On Wed, Nov 18, 2026 at 9:08 AM Jarkko Sakkinen <jarkko@kernel.org> wrote:
-> >
-> > On Wed, Nov 18, 2026 at 07:04:21PM +0200, Jarkko Sakkinen wrote:
-> > > On Wed, Nov 18, 2026 at 08:59:39AM -0800, Andy Lutomirski wrote:
-> > > > On Tue, Nov 17, 2026 at 3:14 PM Jarkko Sakkinen <jarkko@kernel.org> wrote:
-> > > > >
-> > > > > OVERVIEW
-> > > > > ========
-> > > > >
-> > > > > A root namespace (rootns) is a kernel object backed by a file descriptor
-> > > > > that binds together:
-> > > > >
-> > > > > 1. A full or partial set of detached namespaces.
-> > > > > 2. A dedicated PID namespace for spawning processes into, signaling
-> > > > >    members, and polling or waiting on PID 1 exit.
-> > > > > 3. An initially empty mount namespace (CLONE_EMPTY_MNTNS) that must be
-> > > > >    populated before going live, without inheriting host mount-tree
-> > > > >    ancestors.
-> > > > >
-> > > > > Work on this feature started in 2025 from David Howells' container object
-> > > > > patch set [1], which I turned into a namespace for namespace roots and
-> > > > > rebuilt around that premise.
-> > > > >
-> > > > > While the patch set is manually written, the original motivation came
-> > > > > from isolating LLM agents. Running untrusted agent workloads made it
-> > > > > clear that OCI runtimes need to minimize their live configuration
-> > > > > surface.
-> > > > >
-> > > > > Assembling mounts, credentials, and namespaces inside helper processes
-> > > > > with a half-configured container is what I see as the main challenge,
-> > > > > and the existential debate around namespaces and container objects is an
-> > > > > unfocused discussion topic.
-> > > >
-> > > >
-> > > > I've skimmed some of the series, and I see a bunch of good ideas that
-> > > > involve using an fd to manage a thing.  But I'm wondering how much of
-> > > > the value is added by that and how much is added by having a new
-> > > > *type* of thing: the "rootns".
-> > > >
-> > > > How much of the value comes from the rootns vs the new APIs to
-> > > > configure namespaces without entering them first?
-> > > >
-> > > > For that matter, the cells series also seems to contain a (possibly
-> > > > very similar) variant of the same thing.
-> > > >
-> > > > Would it make sense to come up with a patchset that does *just* the
-> > > > configure-a-namespace-by-fd part?  It seems to me that this should be
-> > > > an easier thing to agree on, and it's a big part of the complexity of
-> > > > all of this, and it solves a real problem even without
-> > > > cells/rootnses/jails/whatever.
-> > >
-> > > Is it  more accurately scope the part that is "just the fd-part" and
-> > > what you consider as "extra cruft"?
-> 
-> I'm not actually trying to say that anything is "extra cruft".  What I
-> mean is: there seems to be somewhat of a core that is pretty similar
-> between the two patchsets, and that core seems independently useful.
-> 
-> > >
-> > > I.e., where do you draw the border?
-> >
-> > I'm asking this because I had similar thoughts when I started this back
-> > in 2025. David had some good ideas but it did more than having a fd
-> > that does not go live before everything is set up properly.
-> 
-> I don't know that I have a very clear border, but here's an example:
-> 
-> rootns has MOVE_MOUNT_T_ROOTNS_ROOT.
-> 
-> cells has:
-> 
-> +What else goes into the tree is mounted on it before it becomes a
-> mount namespace.  A
-> +filesystem for the cell to write to is mapped in the same way:
-> +
-> +.. code-block:: c
-> +
-> +   fs = fsopen("tmpfs", 0);
-> +   fsconfig(fs, FSCONFIG_SET_STRING, "mode", "1777", 0);
-> +   fsconfig(fs, FSCONFIG_CMD_CREATE, NULL, NULL, 0);
-> +   mnt = fsmount(fs, 0, MOUNT_ATTR_NOSUID | MOUNT_ATTR_NODEV);
-> +   mount_setattr(mnt, "", AT_EMPTY_PATH, &attr, sizeof(attr));
-> +   move_mount(mnt, "", tree, "tmp", MOVE_MOUNT_F_EMPTY_PATH);
-> 
-> (Source: https://lore.kernel.org/all/20261105-b4-cells-v3-2-bc9095937a84@toxicpanda.com/)
-> 
-> I feel like you are both *so close* to something that would stand
-> alone and make perfect sense.  I also feel like, if that's a goal,
-> then both series are slightly off from the bulls-eye.  (Keep in mind
-> that I've spend a total of about ten minutes looking at the relevant
-> parts of the series.)
+On Wed, 2026-11-18 at 16:28 +0800, Lei Qiu wrote:
+> The conversions to the new mount API declare uid and gid as
+> fsparam_u32
+> but consume result.uid and result.gid. This bypasses make_kuid() and
+> make_kgid() as well as the validity checks in the old parsers. As a
+> result, both filesystems accept the invalid ID 4294967295, and IDs
+> supplied through fsconfig() in a non-initial user namespace are
+> treated
+> as raw kernel IDs instead of being translated through that namespace.
+>=20
+> Use fsparam_uid and fsparam_gid so the shared parser translates the
+> IDs
+> and rejects invalid or unmapped values before storing the typed
+> result.
+>=20
+> Verify both modules with W=3D1 builds and a before/after QEMU test
+> covering
+> fsconfig(), legacy mounts, and a filesystem context configured from a
+> user namespace mapping ID 0 to ID 1000. The fix rejects invalid IDs
+> with
+> EINVAL and preserves the mapped ownership and valid mount options.
+>=20
+> OpenAI Codex assisted with identifying the issue, implementing the
+> fix
+> and reproducer, and running the validation.
+>=20
+> Fixes: ffcd06b6d13b ("hfs: convert hfs to use the new mount api")
+> Fixes: 432f7c78cb00 ("hfsplus: convert hfsplus to use the new mount
+> api")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Lei Qiu <750592120@qq.com>
+> ---
+> Changes since v1: realigned the new fsparam_uid/gid entries with the
+> existing column style in both option tables (no functional change).
+> ---
+> =C2=A0build.log=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 | 35380
+> +++++++++++++++++++++++++++++++++++++++++
+> =C2=A0fs/hfs/super.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
+=A0=C2=A0 4 +-
+> =C2=A0fs/hfsplus/options.c |=C2=A0=C2=A0=C2=A0=C2=A0 4 +-
+> =C2=A03 files changed, 35384 insertions(+), 4 deletions(-)
+> =C2=A0create mode 100644 build.log
+>=20
+> diff --git a/build.log b/build.log
+> new file mode 100644
+> index 000000000..abd0bdf55
+> --- /dev/null
+> +++ b/build.log
+> @@ -0,0 +1,35380 @@
+> +=C2=A0 UPD=C2=A0=C2=A0=C2=A0=C2=A0 arch/x86/include/generated/asm/cpufea=
+turemasks.h
+> +=C2=A0 DESCEND objtool
+> +=C2=A0 CC=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 arch/x86/kernel/asm-offsets.s
 
-Thanks, there was still a lot of relevant feedback to address.
+<skipped>
 
-And who knows, perhaps there's a sweet spot intersection. I would not
-mind that, as I only pursue for something simple and practical.
+Why build.log has been included in the patch?
 
-For the time being, I'll update this series simply because there's less
-to change, and polish the implementation. That does not hurt even if
-cells were the ultimate solution. Part of this series can still be
-useful.
+Thanks,
+Slava.
 
-> 
-> 
-> -- 
-> Andy Lutomirski
-> AMA Capital Management, LLC
-
-Br, Jarkko
