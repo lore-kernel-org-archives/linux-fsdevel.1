@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794994797;
-	b=g3097eKLp5VMfsjIn5BeK7ZTxKHpj1ATNERukZiyKg8QlDCeYNVykcnI//tDzxhBcfae
-	 /d7LeoFZKfwmNuAknk+RjlyjLsDGrkaXdNXvmsYkFWZ7xnti3ddBuwoaV5s+CSM9VcBK1
-	 aqTt5FaNZjChrjy4/YMq1UDed8Cw1ZSsr0dgTGILwnD73N7W66O6Y4TCvzX/KXlF6MFTf
-	 2tpm93dcaNy/8gaDBUCJZaMSX5rUdrthgNbZSGaXeRt9arw9fOX4I/J+g++oPu5wDOYh4
-	 Pn8GxfhLL2O5Rk+cC5BEK4j1gTACfdrAFtrbxkshdB7R8IoQpAe35NrZfEyDlxgYaDA==
+	t=1794994857;
+	b=Ry9OWxzwsbgcozI4+WhvP+7IY+gWzHGwBCCmwFlmCFondy7v9LZLHnvYcUihWEXESvry
+	 1OqBDsoDnjss6jdnhG584B8UWBDPSIaQWM+qUQ+x+9IUBQdxiLm5EGQbdq/PZup2KSK0x
+	 tbcAb+B3clf2xfLU9ZrT3lO4dtdj/KcEWWCTtQbFSz18OlLWsW6Rs8XwcDvtk6e8iBI8X
+	 i7yEkzTmRkVHStHasfX5iz+wYuicpJXOYatORVqPOnQLWUWFoYMgk4NPWYFZpZxuyPrXf
+	 yKDabDBKx01SgHz23r4OK9Xmz7IT/goKRqm1Zp0TRZdkFK5Zl8KYK6bu3VuTFT3n8AQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794994797;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794994857;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=kQg3KGb7GYq22ZHkNPQqW4NEqCB8YAgXiGER+D6cdok=;
-	b=jrQhBW3wM9KcZwIs5abrHIxTuo3WarK/Od6UdZl6CUzdNFfxJDVXdVzYaeNvBantL8+E
-	 1Okqg3yNXwfiEw6f6APV2AX2Yi0SRBO2vmomXtJiRZtO7Yqq0esNJf45+8YX8LYxLxLNo
-	 RS79Qtpwf0cNCZmdIiAS6VY08HMueRS+9l1SdaznjuL29eyZTvrV4zndZS6kTyKV9tOM8
-	 /wBpVocau+rDop3aV/C2igV1YsoT6Z47VRoNjPptkwaEd0Wph0iKV7MdIoiYYRLFw6ZVJ
-	 vZqCLTYSDMX6Sw2uuzzBznUwK4gib/XupKQNx3TNibEHXtix2C2odHI7O3DABOm3iRQ==
+	bh=Ec0U4HkUVJSX9L9MyZXzeYkA6/IHQ00seYG0+mz4u74=;
+	b=lKgHo02fMPVblAjo9pv0WORdKH0mpS43Y0P7ECmktWfC8SQRHvGj5TcEY60nOA9hkgWf
+	 xpvHno3Jjo0hkMcs7XcUvd4ms0f9XMfqSJpYxQMqKR0QOapjltexezSiLS8D/AFGBDXyw
+	 h1ECDe3BhPt78/GZlGe6JUnMY4KkH0wy3Kbz1YUO+MticieTeWbhF/AQA1WPazkioDSAI
+	 tpZ7z/d9VBsEXCMjvW4A691SJnIBlDNcSrtM0uZOHK3JMokWZm2ltYF3dvjFLEVkQCV0n
+	 jBrXKrZOEOHDCwDiyJqBTzls/Nvx6iJqcx7Zd5kkMXcf3GJFcVAtZOF7kuSVw5r0z1w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GpcaUxFb;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KJ6PUV62;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BE4E606A31C;
-	Wed, 18 Nov 2026 09:39:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46F43606A320;
+	Wed, 18 Nov 2026 09:40:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GpcaUxFb
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 905DC1F000C4;
-	Wed, 18 Nov 2026 09:39:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KJ6PUV62
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1BB11F000C4;
+	Wed, 18 Nov 2026 09:40:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794994797;
-	bh=kQg3KGb7GYq22ZHkNPQqW4NEqCB8YAgXiGER+D6cdok=;
+	s=k20260515; t=1794994856;
+	bh=Ec0U4HkUVJSX9L9MyZXzeYkA6/IHQ00seYG0+mz4u74=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=GpcaUxFbHR9dMI5Bvkr3hUHr3/rN1SQXygpuxyMfV/mzR4t+3Zj5WZ3bmdmS9jxH3
-	 QUZ/LG78QFpmxhtVN1td0C+3zH50ucLvT7f9SOrIU+Y7SR/teEKcIxEfU8Hkq3MV4T
-	 oAkowGalKjtwqxDV9lm3aQDQwKH3OpgElmV4CNbcSfVDeNWiCKbAyb4AirlB/EWuJT
-	 ZD4MxMEnRBgL6K/oJpbiy266LNRcpLyfLMUyh3GNAj00rHpgauWG+aiKlCbvROKrje
-	 WmS4UBO6YpEIsx94/P7QkA7YpGjUc7m0TLyH9+Nv8xTHKr+942fOdRXQnyN2b8chxb
-	 jiRWHQnNPS/JA==
-Message-ID: <de532d85-c6f6-425b-86c5-08094cd28a29@kernel.org>
-Date: Wed, 18 Nov 2026 10:39:42 +0100
+	b=KJ6PUV621t2eK5Gd4c4EeynJ0kIbkgTVZK/76IYhM0+gtvO6/c0znmcSzDjyfNF8h
+	 pSKnG0Q0TbODfyVQnR1FlxNE0Ew1PAO3Awl1Z3CRIUvHYcERq8D1+P1eG6EQlrC8F7
+	 eDo2hb+vilHkKcmeA8D7ikXn1Xz7VOPZx6ta4Mys+YmQ0N+BqwNtxx0YnINJXRo1hu
+	 DCenhMOqjYuGs81iYBmB3Ik63Fc8ycNR9Lh8Mf1A2sirKs3eaVs2W3e+Ylu3MB2jdn
+	 4O+5mRQkH9z3XxseghRTfsYKz566j2CtOfIZCpQJZFGNGHgAWGA82LAcR8mL4MIez5
+	 fEyBMvUGcYYug==
+Message-ID: <d6692c11-df29-4ab6-a578-f86712abbdcf@kernel.org>
+Date: Wed, 18 Nov 2026 10:40:39 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -52,8 +52,8 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/9] mm/migrate: warn on a writable migration entry
- with the uffd bit set
+Subject: Re: [PATCH v3 8/9] mm/migrate_device: do not migrate a uffd-protected
+ zero page
 To: Tal Zussman <tz2294@columbia.edu>,
  Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
  Peter Xu <peterx@redhat.com>, James Houghton <jthoughton@google.com>,
@@ -77,9 +77,15 @@ To: Tal Zussman <tz2294@columbia.edu>,
  Oscar Salvador <osalvador@suse.de>,
  =?UTF-8?Q?Miko=C5=82aj_Lenczewski?= <miko.lenczewski@arm.com>
 Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org
+ linux-fsdevel@vger.kernel.org,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
+ Felix Kuehling <Felix.Kuehling@amd.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Leon Romanovsky <leon@kernel.org>, dri-devel@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
 References: <20261117-uffd-state-fixes-v3-0-b617009d1a4a@columbia.edu>
- <20261117-uffd-state-fixes-v3-4-b617009d1a4a@columbia.edu>
+ <20261117-uffd-state-fixes-v3-8-b617009d1a4a@columbia.edu>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -126,23 +132,40 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20261117-uffd-state-fixes-v3-4-b617009d1a4a@columbia.edu>
+In-Reply-To: <20261117-uffd-state-fixes-v3-8-b617009d1a4a@columbia.edu>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
 On 11/18/26 05:28, Tal Zussman wrote:
-> A writable migration entry must not have the uffd bit set. Every path
-> that sets the bit on a migration entry makes the entry read-only first.
-> PAGEMAP_SCAN was the one path that did not, and it now does as well.
+> Device migration replaces a PTE that maps the zero page with a new PTE
+> that is built only from the VMA flags, so its userfaultfd WP or RWP
+> protection is lost. The same applies to the huge zero PMD. Writes and
+> accesses to the page are then no longer reported to userfaultfd.
 > 
-> remove_migration_pte() restores such an entry writable and drops the
-> uffd bit, while remove_migration_pmd() sets the bit and write-protects
-> the PMD.
+> To fix it, do not migrate a uffd-protected zero page. Skip it during
+> collection, and check again under the page table lock before inserting,
+> as another thread can protect the page after it was collected.
 > 
-> Warn in both paths on a writable entry with the uffd bit set. Also make
-> the PMD path only set the uffd bit for a read-only entry, like the PTE
-> path, so that the two behave the same, as this should never happen.
+> The alternative would be to carry the uffd state over to the new entry,
+> but a uffd-protected zero page in a range that a driver migrates should
+> be rare.
 > 
+> While at it, read the PMD once with pmdp_get() in
+> migrate_vma_collect_huge_pmd().
+> 
+> Fixes: 292924b26024 ("userfaultfd: wp: apply _PAGE_UFFD_WP bit")
+> Fixes: a30b48bf1b24 ("mm/migrate_device: implement THP migration of zone device pages")
+> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Cc: Lyude Paul <lyude@redhat.com>
+> Cc: Danilo Krummrich <dakr@kernel.org>
+> Cc: Felix Kuehling <Felix.Kuehling@amd.com>
+> Cc: Jason Gunthorpe <jgg@ziepe.ca>
+> Cc: Leon Romanovsky <leon@kernel.org>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: intel-xe@lists.freedesktop.org
+> Cc: nouveau@lists.freedesktop.org
+> Cc: amd-gfx@lists.freedesktop.org
+> Reviewed-by: Alistair Popple <apopple@nvidia.com>
 > Signed-off-by: Tal Zussman <tz2294@columbia.edu>
 > ---
 
