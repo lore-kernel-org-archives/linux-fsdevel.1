@@ -1,11 +1,11 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.139.74
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1794976158;
-	b=O7ekKZakHakp9vnN/+UrBHQN5f+PIgMwQH63uOOnnyPhKackoaqcdmgtbcYh+4CUDL6z
-	 rcBNrb/dn4O1g2iYQex6Slc34kwyPNlOwe4F0+pDNk1PDA3fYsiEdu/SXuKwLr1lTBILf
-	 CQnpE25KF+kkHfhIBSvKdIBPRJyBOwTK/Q6OevKdKLt1ipcW1YLJRC2s8skEBbHHvz4Pc
-	 JapSC8hpKosrVp/M/CItFJMzGPOkUEuHe0LVu+NopsIFf0xygMCrIEj+v2Qu+E6TXoErY
-	 OGwGsF9HAB5U/L8Cfow6WkSuM7bqTklVUuCca0bMOVNp/boVHyjPqRlgRuC3guMswDw==
+	b=P746bIxz/NjKzkKnxZ49cKW3z2ElcmyS5Hcnp1QrNc+u9Wg0tEXIlf73NWWkOfmDJ7V5
+	 Kwan1IeN0MmH+7vftfWNMJbf5EXiPmvrrTqh0sd7gMlwFJ/cThl6Ik+FAdGXsNQIQdH/y
+	 n8clqLA75hIqt5buOI4m22WrZs/+0LpUpunmisrR0hc9akF/Yga71uu1c44p3CvKfZfZe
+	 JygoHFS0OJ+ETPuGoaryWE2f4zb89jELezBbxpdSDyC6S+ZyUjNWyXSYF4Q+s5eOE1AMI
+	 BPbsR4sDQAtkhiZOinY/yh+mwPGbuxYqScvRLD0Cl8mQtp25zhh30mGnGB3df6oSA/Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794976158;
 	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
@@ -13,101 +13,101 @@ ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:Date:
 	 Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Authority-Analysis:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=1pZTPbPLpqcipBn+gCe+PHsN8BLdvgf8n1ZHU7b2omk=;
-	b=TPE5jLrKJwpq9goGMg6T/xQCRKlvNig0UvhAPDztziB+NQVJFUbw32dIt7ssOe+1puGu
-	 kQnuBlDt/6U9hI964yZxshqQqQXssBCDs8S5pDGesh/IWRl2lWJTMjml2IzlH0kuNzukq
-	 Hky/TZMO9tTXvqw4P3ZAKf8NOf7BmNR/hUJrVaBCfx+WG7CFbr8zUsoEZ0tv+htEGpr/m
-	 jhRjF6lwqUbnPIkwIz2CMbw39u3fLKCcSrCKaD7puQ2n9RXaRIfZ5a5giHzUMEY6eKPlC
-	 3kEWy+UUBVF3IlPGkN50eJycwPO79/29bMz01Qx020FAVaFalfscd+/nsNtXmvYGBxA==
+	 X-Developer-Signature:X-Developer-Key:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:X-Authority-Analysis:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=XNCJHjpXg7H4M22PhQ2BeTDOHza1Veqicyx+ercmKMo=;
+	b=A0XDCZo7RoZkDiL36L89tBQsnn0yMkExr5pOh40dZ+OHM7rlgLURRnvdW2JPnt133NJI
+	 iRsZfc/m8EfMW7JyodfPehrGFwE+bPti8FY9cXlOhfM/E2L3CZfqld5jk/FfaG/iWB9zZ
+	 67L3NCiHL/EHW+JKEeBp5nbzPAL8C7nv8ws0fU75VmlttjSvPmUxhscfY777csajZI88B
+	 8/LHqWrHFEEWp3C+6CiHjKZwc/Ict/Ds9MDP0D408VXAcXyR9VtmV0Vqglm+I4tQvr7s5
+	 SLt2DkXRL+nVbP8lbxNm0wrVxwxpmeKxaBU308RtNuCjwQTAPgQbLagCUExdjWYrpVA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=columbia.edu;
 	spf=pass smtp.mailfrom=columbia.edu;
-	dkim=pass header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=pps01 header.b="aX/azDTm";
-	dkim=pass header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=lionmail header.b=20VZb8oq;
+	dkim=pass header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=pps01 header.b=kJDoBRsr;
+	dkim=pass header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=lionmail header.b=Oa54y1wt;
 	arc=none smtp.remote-ip=148.163.139.74
 Received: from mx0b-00364e01.pphosted.com (mx0b-00364e01.pphosted.com [148.163.139.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BEA3606A33A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB93D606A33D
 	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 04:29:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9BEA3606A33A
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AB93D606A33D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=pps01 header.b=aX/azDTm;
-	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=lionmail header.b=20VZb8oq
-Received: from pps.filterd (m0167077.ppops.net [127.0.0.1])
-	by mx0b-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AI1XQKW2951557
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 23:29:11 -0500
+	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=pps01 header.b=kJDoBRsr;
+	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=lionmail header.b=Oa54y1wt
+Received: from pps.filterd (m0167075.ppops.net [127.0.0.1])
+	by mx0b-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AI1XSVL3280079
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 23:29:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pps01; bh=1pZT
-	PbPLpqcipBn+gCe+PHsN8BLdvgf8n1ZHU7b2omk=; b=aX/azDTmf2h7yR5Vjear
-	bS0xksh+kHycMdXrf/MUt+2nFXKp0T2HZ+HWyNb74fEMpBg9UsypYlm6i4/5vsGS
-	sNqllSzxTvQidwjQ89pJEkl6MA2N4MUW8BxEaa1GrF9uVWAkHsvze3mE7C46rrJl
-	rhDaXEZxcLTtduVc9J1TlNMb/bQ+5GOuws3gqjwzcTPyCcPmKhQXbSiAAVTz18tm
-	s7kJvLJjB1Zo4G0i7xfR+giX/dC58Y9Jvve2SxJdJY0ofVST9yrVnPQFhGKftuFz
-	dZuj/YLYrjaCZ1AyPps7NOdlPQEQJe7Yc4UB/bTrLZNi6uAvGr1I87pFiorfmgv6
-	mw==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
-	by mx0b-00364e01.pphosted.com (PPS) with ESMTPS id 4j0yu5sfak-1
+	:message-id:mime-version:references:subject:to; s=pps01; bh=XNCJ
+	HjpXg7H4M22PhQ2BeTDOHza1Veqicyx+ercmKMo=; b=kJDoBRsrB/NsQEyhmLQQ
+	PFL9HGbSbHNl5vTvWdwadua3igPUVS/Ewb8z8UJ4bDc38Xz69efN5F2+Me9D2ZDs
+	+zfAJcvLAfU7xizj2s2M7KoI0avhpmTsjPLUKgpv+3HZcPaJADJrnhzHQ/PZ4Wu+
+	VnI0qFH20vL0qCXDe4pqDsAVfHQQUphZXepiyexiIXaW54cUX3AHU04/x+9JKhuQ
+	1FppTPTe6CKRWMK56/+SH0b3RlIJ+gbetTSCAkp7wkEv2cDxSw3J1jcGemVV0eZ9
+	ghEqPF7bMwMaSc+rG12SRkOnbVS3qG7a+t+nNWXp1oglg27yy0mrNqawvVxVMo/e
+	AQ==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0b-00364e01.pphosted.com (PPS) with ESMTPS id 4j0yu6sg9a-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 23:29:11 -0500 (EST)
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-93cb7f9bb86so128620885a.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 20:29:10 -0800 (PST)
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 23:29:16 -0500 (EST)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-9308eafb465so144371485a.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 20:29:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=columbia.edu; s=lionmail; t=1794976150; x=1795580950; darn=vger.kernel.org;
+        d=columbia.edu; s=lionmail; t=1794976156; x=1795580956; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=1pZTPbPLpqcipBn+gCe+PHsN8BLdvgf8n1ZHU7b2omk=;
-        b=20VZb8oqzo0rZ8pxmptxAvVzLz3lr054eutWVAg/b2lW9lzONpsYgI3HfLi82ElL4L
-         OfgoR0IBGcxWVVHZ5tzjYXblGffNWiXd5XbZNUMeF82nT805AlTft7HceIoTNX2sZdJO
-         Z4dKM6l6h6LluDmuLKLC5Hthizz36cKUrsCLuXudsYpWgufmE8Y/J9LiqkmkwOLSmevj
-         uZPhiZDo16ZYnqMWHwje08DNVPDy/fzvaDfDju/o9ECw/GWiNT3ShiJf1lKfe+K21Hj9
-         6GlvbotxlE5JJTtr8bwFefq0NDCxpnXH/JTgfPET0Gk6zFc0vfxcW7uaAhiC0CR7dWvP
-         NBHQ==
+        bh=XNCJHjpXg7H4M22PhQ2BeTDOHza1Veqicyx+ercmKMo=;
+        b=Oa54y1wt5JQntImlXWdeQqrx8MFYW/MkN3a8V3HsC4nyKq1i2ESSRCSkQe2dvZ3Dry
+         cPZHD/EwnT3j8V/VsH0i1NENQyfTUXxqih+fkr4e6D82GxCMjC/3DUTHogNNKlrKeM/f
+         jI0+q51oxYtf1XOGv1/CJ26npcUMYKCQuQKnBenIZ7ly5xD/VqTo5yL5vtNWWG52rLEQ
+         j7wQczzcjL4SVguDOZfMFMaAyv+/I4uUcisHcRFA9L1okqO/BLcKc6Guyim1UyraMAUo
+         HwokZNTYhOQZTJWcmrCYPe8BWyzRI822l4Lfs6bISHWNJXlePaWvOMpgK7vg0otzjFKo
+         5YPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794976150; x=1795580950;
+        d=1e100.net; s=20260707; t=1794976156; x=1795580956;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=1pZTPbPLpqcipBn+gCe+PHsN8BLdvgf8n1ZHU7b2omk=;
-        b=SOTfCFmfbfe37lGm0sk3Np1oZz98hcko9X+gdaLVRXC5jkaoyyIpiOH0qDpNDBI0GC
-         Lkcb8vTi3MdLLagIiP3/Yotko7NTUtwEC12fWy9UkImR38MOv3RkJ1uu/4bIX7ysiM/w
-         nnT07PqThjm1W+z4w7PL01h2IMWLulxYhnXs3FDEVXpwXcuwjmnN7hWSZNiUEANtwjUP
-         U9pX1vJBQcilsZhe7DPgeiaQjh483TI/jutMHByv4hld5qckc7BOCHt9hgeRTgzXh03k
-         3YywshrgIv9eAAn+j24EIvIMtPUMjjBe1oovKmywkEpPcGybjQ1LGkvl6EzLFBTe+56/
-         3BpQ==
-X-Forwarded-Encrypted: i=1; AL+hErEackNOm7GTJ8PxPfodyOZczl+wBDv3A941FlO15Nx/zAtxjyQNNxlMnIbaVPrP8yPNeChIVnQrJTiq12DF@vger.kernel.org
-X-Gm-Message-State: APuU4Z8gd8zkn4aBq+fjKdZf0OTE2X3vahZ+SQrU7V0RLn5v/yGko8td
-	NUivXWvOjaUeLmCTj0nbxfjxmlk9mkU9nAXM9KbhKhBBaMemqSxIscZKj66/JC0vfIeFe60kXqJ
-	zMpaQab20T42QgnMqB1oN1qT3Y+TwMxAdw7ujgyoaGBRYkHdeYs8VjyFUH7QaqlM=
-X-Gm-Gg: AYBFou0OyZR1zGQrAKvzQ9w3YsHfXyhYkMvKlM7ITbrb0iMQzyBrovvo/6JY2G5dviz
-	LkIAaC4z/S9hjy2yOYCAfBKA4nQrqrgbvVkeaG1xSKUyr1pNZCVHDkd+FraW79uTlAjxzZevWBV
-	SRHygKeYxv4Y5FF3CSq00D6ntT2mpBDVDxYPPyhY4fIhvtVLts8S3251uzr0/Wlwx1rZ+f2kZf1
-	4jAMBKybV22aoDicNvgVGax99d7lZ7sAepKgUzluKlsQBNl8TFZWMzaT7wTta6lBWrlZbWzOacw
-	IbTzqD0VV7FHPxJqORy1kJSsyg8PLoMGuBssHjFpIbtE9OyyJ0/rKgKhfdTuSHTR+Ss7Jjnwe4+
-	0835P+Pc01H2zN40shubdseGoTnZaFSOXZ8VjxOKc5QkaK+S6GZNFxs+iq3QmQ/Kf6108+VClIR
-	FNVWEwOLiGrHtDUEsFqA==
-X-Received: by 2002:a05:620a:2b46:b0:949:73f3:843 with SMTP id af79cd13be357-94999631b1dmr290181485a.74.1794976150528;
-        Tue, 17 Nov 2026 20:29:10 -0800 (PST)
-X-Received: by 2002:a05:620a:2b46:b0:949:73f3:843 with SMTP id af79cd13be357-94999631b1dmr290176785a.74.1794976149985;
-        Tue, 17 Nov 2026 20:29:09 -0800 (PST)
+        bh=XNCJHjpXg7H4M22PhQ2BeTDOHza1Veqicyx+ercmKMo=;
+        b=i/pDHg3ppvQQgPKL6LugVG5E9XOAPxjPLyEcmXzkNgfnAjdEVhXKA1eH8jY0f+xxl0
+         1mKOIdgxImwXD5XjDLuOBRaxOt87YlSGM1JLs/4Q7RwTO+295Y3Y9qOc6BVm2vwI+7lf
+         stYt7r+7jKdEwcRs6Kniete035kY2Gw5NDZa7T5Qlk70G8ohXfiRq3C2ugMZG1y8jBhW
+         aGnZBdbz91CkZPhRWOiJrDoYOuXgXuWpv8o5qnuDIcM/J2J05XaA3QlYv255PfiHjlWH
+         au5u0fNzfXc9aUJDAcfKqrUxMrsV4NXyBUNETRwUgJbSPNT+zj2OcCB1o0Xozzirv69I
+         vBpA==
+X-Forwarded-Encrypted: i=1; AL+hErHHfB0eb/2EZLUg9PQp/ECorepWW0wK6ApzX2/CliNyKVTmYav2i3fcEZgnb3CplZOa6zigZZDX8Zvc5LtV@vger.kernel.org
+X-Gm-Message-State: APuU4Z9aSpc4EeUuhifyG3xNEQ40tZhJnBTJJ66pcqbX7P422eIhcIkb
+	JdCrHr5bIKhHC0Pfggf0E1njzNbmyWBlEExfgwjZGjYdh5xJaHwmABCPrDWawWBNSO3vkP75QlH
+	Fy8MkyfnSnsdce4ndd96r8wmB6ze/eQnpET/Va161DXyG9oYBqrBHRrzzruXwqiM=
+X-Gm-Gg: AYBFou0I/kRh1DAwwo9ARZ9CAqey65GcU6gVnh62DS6Q7AdjQuaXYL9CPJMdgaCt6fC
+	GIcK+E1XQRwjxnWOQSJqBg9+IPdNYKp6WJ+mfmVVF4+5d8Ik1yzbuuqrgxMQT40c3TK+sPKCf9m
+	4jyLd6fKhcgfQ2uazB5sLGq1UnieTPVIeWoGvlR49PmEkWncvIEdXKdlbVHffMaq8UFR6Gjstl/
+	JHZ2CQAMfk2o2IHhyIgVmAqRgFamn3jbl5BGld+7XWd+KML5Uvg1v2Gif1gaGNbAMvC3vOc9khW
+	zVbmdvqKSbMK1TqGMpLISN9FG45YaHoJ2pxaX8U0s1tQRlOzMfM4L9T8frW4gHCf8NbH1/Ne8ZR
+	ZooUWPEA/CTR/oKOqwQbo20CgtNvtzAJsaBn0Zq/gQQ3Wh/3Bkv7W+Ncck3c3Za+hWhFv9fYxhR
+	OS1oSig6SZWo+LLwtQwQ==
+X-Received: by 2002:a05:620a:45a8:b0:93c:a468:2db1 with SMTP id af79cd13be357-949995ede97mr298862385a.58.1794976156035;
+        Tue, 17 Nov 2026 20:29:16 -0800 (PST)
+X-Received: by 2002:a05:620a:45a8:b0:93c:a468:2db1 with SMTP id af79cd13be357-949995ede97mr298858585a.58.1794976155607;
+        Tue, 17 Nov 2026 20:29:15 -0800 (PST)
 Received: from [127.0.1.1] (dyn-160-39-33-242.dyn.columbia.edu. [160.39.33.242])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9499b743a8bsm89678085a.17.2026.11.17.20.29.08
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9499b743a8bsm89678085a.17.2026.11.17.20.29.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 20:29:09 -0800 (PST)
+        Tue, 17 Nov 2026 20:29:15 -0800 (PST)
 From: Tal Zussman <tz2294@columbia.edu>
-Date: Tue, 17 Nov 2026 23:28:41 -0500
-Subject: [PATCH v3 1/9] userfaultfd: use anonymous memory for
- UFFDIO_ZEROPAGE on private file mappings
+Date: Tue, 17 Nov 2026 23:28:45 -0500
+Subject: [PATCH v3 5/9] fs/proc/task_mmu: write-protect device-private THPs
+ in PAGEMAP_SCAN
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -119,7 +119,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261117-uffd-state-fixes-v3-1-b617009d1a4a@columbia.edu>
+Message-Id: <20261117-uffd-state-fixes-v3-5-b617009d1a4a@columbia.edu>
 References: <20261117-uffd-state-fixes-v3-0-b617009d1a4a@columbia.edu>
 In-Reply-To: <20261117-uffd-state-fixes-v3-0-b617009d1a4a@columbia.edu>
 To: Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
@@ -148,173 +148,82 @@ To: Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
         Oscar Salvador <osalvador@suse.de>,
         =?utf-8?q?Miko=C5=82aj_Lenczewski?= <miko.lenczewski@arm.com>
 Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, stable@vger.kernel.org,
-        Tal Zussman <tz2294@columbia.edu>
+        linux-fsdevel@vger.kernel.org, Tal Zussman <tz2294@columbia.edu>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794976146; l=5479;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794976146; l=1768;
  i=tz2294@columbia.edu; s=20250528; h=from:subject:message-id;
- bh=D1dw78bimKL+d/luxdZ7meDrQ3j5/UFW8Z8ACLLeFmI=;
- b=RfkD2DVfsR3kFo46MpyYEDOjmciIMWeEGcVQFwYVPUGxT1EM+lXv9ORRuj/jFjXbmxhIYk4TD
- rjKTtksjKS0B4mjB4HplBkLm6jtCZgqq8RPGFYZO9QYNFVL1tJIoIsB
+ bh=EbKRPYoieoskQJpDqKg81gaW0G+NGTy5Bx6z8CnRsZs=;
+ b=JSvYpX+oNnE9o4AKjWB2SyEOkImkawA7l35QLPhKkNybQH+XWVtVGXLK1uHIiS1KH05UxY9AL
+ YTzUS6cnrjrCH+UqKgDA/2iXJ6Q8CFL1GAG8f2ZUA2gqL8yCRvg3lo6
 X-Developer-Key: i=tz2294@columbia.edu; a=ed25519;
  pk=BIj5KdACscEOyAC0oIkeZqLB3L94fzBnDccEooxeM5Y=
-X-Authority-Analysis: v=2.4 cv=Ir6L47/g c=1 sm=1 tr=0 ts=6afd2997 cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=GaPK54s0Se3oFqK5NkZy0g==:17
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE4MDAxNyBTYWx0ZWRfXzzBHiqJt8kWn
+ F0+H3amYBfB21FE/PDutOH7iLQ69jwFSmmWMl4xPeYAotevNTBC8if7Tez5Oype7ll3mXfAVopi
+ vASOuBOR5H4kj6OeXn+amOOQiXxBO/tYnklIS57RcemSH7L50jwf83rqeoRlKvI92/CN4YumGqI
+ chVMJ5pJ3DpYKoGSWlQkC68z0E9v7peBPRM5J+87yQbMnwFeDLPXzNXlAe4bIVEYuLrmqfma9U0
+ S+Vr/96JRBNgnZGJ81qit5ompkaVBXhg0UJxoMkVCSEtCMA7Qe7lrYvn1otJROso06FtIvCZYiV
+ VEcyDzgepaWzZAn2XSXeSA9QEbkB3aGNJqjFsa7dP9Y0CQAQf5wjWDCGbe/MtP9ZuPI9CcCE3dK
+ ct2qD7gzVPAYYfRyzDdIRqVd8ZA+mKJDf7+LEIoDSYKQFmePCLrBEtJv1E8CQiQO+TPzQpl03/Y
+ dmnxTV55VXcglM960bg==
+X-Proofpoint-GUID: 6zdnvWDKfrLxWBKClDcgKKpqFL4IiFx4
+X-Proofpoint-ORIG-GUID: 6zdnvWDKfrLxWBKClDcgKKpqFL4IiFx4
+X-Authority-Analysis: v=2.4 cv=ZIJCCn7b c=1 sm=1 tr=0 ts=6afd299c cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=GaPK54s0Se3oFqK5NkZy0g==:17
  a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=x7bEGLp0ZPQA:10 a=A0y_DWxS2BwA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=QOCMdifcju39GKoXhKua:22
- a=VwQbUJbxAAAA:8 a=a5NvJi0EDLanwwYVvGMA:9 a=QEXdDO2ut3YA:10
- a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-ORIG-GUID: RsofXqdNxJiuT8e3RsccaxRL4bYL8Vx1
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE4MDAxNyBTYWx0ZWRfX+kvYAYkfGi4X
- PKaC/oPLipEI4i6z0d6HCY6nONAcA2mFylXw49RJnJ4OnkuOzDtDsZn1aEhR4FIO+OVYq+nam5l
- SpoqIy6OtBxjfKbQfBkN1QZrEdhBj849WWr9vqsDZOw5M1na+rNd
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE4MDAxNyBTYWx0ZWRfX4CSKZ+6rsxXV
- ndfhKrU8Is238rAze8N/zZFOscC+lN0KctVB5DJVJar/OMO/ruQTifO7KsIo+sUum1TkJ59SdkP
- xwYxbkGabT12EV0lUGk6G9H1NLx3odrD3iNiON2T+sfHghJXkLPKEDKpJvIuey4FmJqyiP+M2cd
- Qi7iElJW1Ky1JIUmARJDLPWwW9oB+OFy5rVOeu4mtgTJiU0UhDfbOsDA2yh3KckAr9s2ATW+yhv
- sM+trRhYOkEy7ZOzmqI0JGOSthojcpLzzpFC12UV9GzLiFoy4xfGhRnEtd5x8G1wLXDZDJbGyUY
- S6xvh2krzxLLVP7HZpVuMfvT/NaQYVAG2Kgb9DIea1oUwA+7hJfo5rJUFZSqsvpgrvwUp9XWNgX
- ZUaDBQCACkDkrE2cIvUAt7l6e80/lfVwc0wJbgDyqym7b+HCauWwaygZ6yEfEyeX3U4552Qkgbw
- NbQkzQq41xQ0iPnWCdg==
-X-Proofpoint-GUID: RsofXqdNxJiuT8e3RsccaxRL4bYL8Vx1
+ a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=HpS3TJQ9O3Ob1ozEcmik:22
+ a=tHa68p0SAAAA:8 a=VwQbUJbxAAAA:8 a=RyLRxA_qM0uo8G8YelwA:9 a=QEXdDO2ut3YA:10
+ a=NFOGd7dJGGMPyQGDc5-O:22 a=ufIsyHvWW7FwcMbVRpPq:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE4MDAxNyBTYWx0ZWRfX3onNHBgyD1zV
+ Rt3hBrpbR2snlDseaSQVFPeIY3h//ZuGv5Ttt9qp0Zt5mBuT/vf4JMO4XtNm2y0KLNbmtZo/Z0v
+ JTrXA3xFIK9Tf9fEyqbqIJitnmJ0Q3aWMmbaCd93lR0M3bLYH3XB
 X-Proofpoint-Virus-Version: vendor=nai engine=6900 definitions=11969
  signatures=596817
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 spamscore=0 phishscore=0 lowpriorityscore=10
- malwarescore=0 clxscore=1015 suspectscore=0 impostorscore=10 bulkscore=10
- adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ adultscore=0 spamscore=0 bulkscore=10 clxscore=1015 lowpriorityscore=10
+ priorityscore=1501 malwarescore=0 impostorscore=10 phishscore=0
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
  definitions=main-2611180017
 
-If the mm cannot map the shared zero page, UFFDIO_ZEROPAGE falls back to
-mfill_atomic_pte_zeroed_folio(), which allocates a zeroed folio and
-installs it through vma_uffd_ops(), no matter what kind of mapping it
-is. An s390 KVM guest with storage keys or protected virtualization is
-such an mm.
+PAGEMAP_SCAN with PM_SCAN_WP_MATCHING write-protects a huge PMD through
+make_uffd_wp_pmd(), which handles a present THP and a migration entry
+but does nothing for a device-private THP. The PMD never gets the uffd
+bit.
 
-For a MAP_PRIVATE shmem mapping, that adds the zeroed folio to the page
-cache of the file. That is wrong: a private mapping must never modify
-the file it maps, and the file might even be mapped from a read-only fd.
+pagemap_thp_category() reports a non-present PMD without the uffd bit as
+written. A user tracking writes with async uffd-wp therefore sees every
+page of a device-private THP as written on every scan, whether it was
+written to or not. This requires a driver that migrates THPs to device
+memory.
 
-The ioctl can also fail where it should succeed. A missing fault is only
-delivered for a hole in the file, but UFFDIO_ZEROPAGE can be called on
-an address that did not fault, or can race with a write to the file. If
-the file has a page at that offset by then, inserting the zeroed folio
-fails and the ioctl returns -EEXIST although nothing is mapped at the
-destination address.
+A device-private PMD must be write-protected like any other huge PMD. To
+fix it, pass any valid PMD softleaf entry to set_uffd_wp_softleaf_pmd(),
+not only a migration entry. It downgrades a writable entry and sets the
+uffd bit. When the THP migrates back, set_pmd_migration_entry() carries
+the uffd bit over to the migration entry, so the write protection is
+kept.
 
-What we want is what UFFDIO_ZEROPAGE does on a private mapping when the
-shared zero page can be used, and what UFFDIO_COPY does: only check that
-nothing is mapped at the destination address, map zeroed memory there,
-and leave the page cache alone. The zeroed folio path did that before it
-was moved to vm_uffd_ops.
-
-To fix it, pick the ops in the common folio path, as
-mfill_atomic_pte_copy() did for UFFDIO_COPY: anon_uffd_ops for a private
-mapping, the ops of the VMA otherwise. That makes
-mfill_atomic_pte_copy() and mfill_atomic_pte_zeroed_folio() redundant,
-so remove them and rename __mfill_atomic_pte() to
-mfill_atomic_pte_folio().
-
-While at it, use vma_is_cow_mapping() to check for a private mapping.
-
-UFFDIO_ZEROPAGE no longer modifies the file, and only fails with -EEXIST
-if something is already mapped at the destination address.
-
-Fixes: f74991b4e383 ("shmem, userfaultfd: implement shmem uffd operations using vm_uffd_ops")
-Cc: stable@vger.kernel.org
-Acked-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+Fixes: a30b48bf1b24 ("mm/migrate_device: implement THP migration of zone device pages")
+Tested-by: Gregory Price (Meta) <gourry@gourry.net>
 Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 Signed-off-by: Tal Zussman <tz2294@columbia.edu>
 ---
- mm/userfaultfd.c | 46 ++++++++++++++++------------------------------
- 1 file changed, 16 insertions(+), 30 deletions(-)
+ fs/proc/task_mmu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
-index d65184d9a480..e787e9a3ea29 100644
---- a/mm/userfaultfd.c
-+++ b/mm/userfaultfd.c
-@@ -531,15 +531,27 @@ static int mfill_copy_folio_retry(struct mfill_state *mfill_state,
- 	return 0;
- }
- 
--static int __mfill_atomic_pte(struct mfill_state *state,
--			      const struct vm_uffd_ops *ops)
-+static int mfill_atomic_pte_folio(struct mfill_state *state)
- {
-+	const struct vm_uffd_ops *ops = vma_uffd_ops(state->vma);
- 	unsigned long dst_addr = state->dst_addr;
- 	unsigned long src_addr = state->src_addr;
- 	uffd_flags_t flags = state->flags;
- 	struct folio *folio;
- 	int ret;
- 
-+	/*
-+	 * The normal page fault path for a MAP_PRIVATE mapping in a
-+	 * file-backed VMA will invoke the fault, fill the hole in the file and
-+	 * COW it right away. The result generates plain anonymous memory.
-+	 * So when we are asked to fill a hole in a MAP_PRIVATE mapping, we'll
-+	 * generate anonymous memory directly without actually filling the
-+	 * hole. For the MAP_PRIVATE case the robustness check only happens in
-+	 * the pagetable (to verify it's still none) and not in the page cache.
-+	 */
-+	if (vma_is_cow_mapping(state->vma))
-+		ops = &anon_uffd_ops;
-+
- 	if (!ops) {
- 		VM_WARN_ONCE(1, "UFFDIO_COPY for unsupported VMA");
- 		return -EOPNOTSUPP;
-@@ -597,32 +609,6 @@ static int __mfill_atomic_pte(struct mfill_state *state,
- 	return ret;
- }
- 
--static int mfill_atomic_pte_copy(struct mfill_state *state)
--{
--	const struct vm_uffd_ops *ops = vma_uffd_ops(state->vma);
--
--	/*
--	 * The normal page fault path for a MAP_PRIVATE mapping in a
--	 * file-backed VMA will invoke the fault, fill the hole in the file and
--	 * COW it right away. The result generates plain anonymous memory.
--	 * So when we are asked to fill a hole in a MAP_PRIVATE mapping, we'll
--	 * generate anonymous memory directly without actually filling the
--	 * hole. For the MAP_PRIVATE case the robustness check only happens in
--	 * the pagetable (to verify it's still none) and not in the page cache.
--	 */
--	if (!(state->vma->vm_flags & VM_SHARED))
--		ops = &anon_uffd_ops;
--
--	return __mfill_atomic_pte(state, ops);
--}
--
--static int mfill_atomic_pte_zeroed_folio(struct mfill_state *state)
--{
--	const struct vm_uffd_ops *ops = vma_uffd_ops(state->vma);
--
--	return __mfill_atomic_pte(state, ops);
--}
--
- static int mfill_atomic_pte_zeropage(struct mfill_state *state)
- {
- 	struct vm_area_struct *dst_vma = state->vma;
-@@ -634,7 +620,7 @@ static int mfill_atomic_pte_zeropage(struct mfill_state *state)
- 
- 	if (mm_forbids_zeropage(dst_vma->vm_mm) ||
- 	    (dst_vma->vm_flags & VM_SHARED))
--		return mfill_atomic_pte_zeroed_folio(state);
-+		return mfill_atomic_pte_folio(state);
- 
- 	_dst_pte = pte_mkspecial(pfn_pte(zero_pfn(dst_addr),
- 					 dst_vma->vm_page_prot));
-@@ -927,7 +913,7 @@ static __always_inline ssize_t mfill_atomic_pte(struct mfill_state *state)
- 	if (uffd_flags_mode_is(flags, MFILL_ATOMIC_POISON))
- 		return mfill_atomic_pte_poison(state);
- 	if (uffd_flags_mode_is(flags, MFILL_ATOMIC_COPY))
--		return mfill_atomic_pte_copy(state);
-+		return mfill_atomic_pte_folio(state);
- 	if (uffd_flags_mode_is(flags, MFILL_ATOMIC_ZEROPAGE))
- 		return mfill_atomic_pte_zeropage(state);
- 
+diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+index 0127bf9c3f77..15cb65c3ab94 100644
+--- a/fs/proc/task_mmu.c
++++ b/fs/proc/task_mmu.c
+@@ -2510,7 +2510,7 @@ static void make_uffd_wp_pmd(struct vm_area_struct *vma,
+ 		old = pmdp_invalidate_ad(vma, addr, pmdp);
+ 		pmd = pmd_mkuffd(old);
+ 		set_pmd_at(vma->vm_mm, addr, pmdp, pmd);
+-	} else if (pmd_is_migration_entry(pmd)) {
++	} else if (pmd_is_valid_softleaf(pmd)) {
+ 		pmd = set_uffd_wp_softleaf_pmd(pmd);
+ 		set_pmd_at(vma->vm_mm, addr, pmdp, pmd);
+ 	}
 
 -- 
 2.39.5
