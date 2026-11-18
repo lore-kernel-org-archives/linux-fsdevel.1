@@ -1,54 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795019425;
-	b=QQ8BAnJ5wG+rqVRAWRzkKvdisszHauNkP6Fljr4cw4SG7Ol2Y8+N1wi7Qp2ZjI/h2Mv7
-	 uyVzy4SM3IRBs3bGAeRT1ezxjZnO/R4m2agKswEisrGUPon7llFCkjtrjLU1sm78WgNx5
-	 7bHsUGLVcwhELD7idZICRiCcfp6CEApeTtwUYyFFPW9hXFdW4EuOYVFhF+pcLdOOmp4y2
-	 OadQnFpZk8OVX5KeNtlvYQJsSzcm4fJREBi8UqdClK2UfpTi9gpEu41HVte00wR2eo2kk
-	 DsavCMpyLAlDu6ibNT4K7kFmjVfjJ8zRcl8K3iqWbRppXaee7YNtmprf4KYwB7pHCLA==
+	t=1795019433;
+	b=azMumD+ImH4VzKowcqDXnaPkKB2OiYNZrdXYzi5X+dzIaRtuVQZ/Ayvnu/SdzN+i2GXQ
+	 vTFZ0RJyd7BVPBqTwnCuifx+vvTfN3eOK1DGU6xnf7zwZVdIoS/8NVIPHZO1R5fLd6DDk
+	 XSmJKMHNS3VRc8CSOJ36URTqcLOwZAZ4Kk/D+AtJaOgzUyxRK3jklX55j9c4azsTwgHh+
+	 jM0cAwFTyYi9M3WfmjTgJdQ8T+yFT12lk2DnRe1wLUI+3gdB3M5Bf1VtAl4PUV2pOhH4Y
+	 6CMTbbBUWRHa7YlLsd8F0Ogy5GydVGiCSpSHspPQHtiWroBTYxIbq5ic9b7RVERtnfQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795019425;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=L30cNThaCOfH1h/tg7mX5YLfxnIR3Ercf6Vj06Bp04E=;
-	b=wOa3aNaGtqi9xD1uYfbJ2LMSWu9vzrE/bHvIBT4itmPw57wLlMBzv/SbtZz0rnR7C5qQ
-	 L2+HBpR9j2HtQtaasLCkGV5nJUnMr0XFOVA4rUP8sGhhMTqtgBYKUoWeHsLjOUJdyC6oM
-	 Dsh1FsFLVMbaaoq6LmRsPlfg6v3/RtBTWD4Sjoa5KfzZpk+f6QI2xLmBm4+bmKG2AB9ZW
-	 A0N5hLoAEGHVKXUOqU9FDrvG5Db2QLR2JdL/mz/KmxOis3X5aq5Z6gCVt+UUINx9qF6La
-	 MkoKYf29v/pAWgUy4WGqA7DsY1oQsqpRPwZvrMPgEzWIDrD8H5vxZVgB8A4Da0aEXwQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795019433;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:X-Scanned-By;
+	bh=r6qnE+rrPP/+WIwyrf6W7iyVRQaaxGpUn+33m8pv7AQ=;
+	b=lBb4t0XGwC0FYUMyMgMkxT6uoTj8Un/4hny7gujShfMnlNzPc7Gnp+MjVaVE4vuZanvk
+	 HXDyoiqLvid8X/Hgbk3zKHWnHRUkWb/JKE9qbHNIo/KUT+jBPtVbQ6zbVfEhgDuy1ntLg
+	 r2nzcjyKKSeCLgmiI9t6O9FxFJSJmoVW58Bb/Q3E4YTFrcl+0z1F/LTFgBXxpsRsdtWiC
+	 JWUB3A8tOcJYbjohXp7bk6rBtZmv1bfQZqtClKoM6p1fgJ519oheUgZI49WIpmW32WG51
+	 SmpfJQRuubrIQrk7v9nOzqZhjU/fJM6aQso/WjZ2k52pXq8qufrGUI58y9qRljIXRsA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EtK7hvX6;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=QPPgpJDZ;
+	arc=none smtp.remote-ip=170.10.133.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E027260A262F;
-	Wed, 18 Nov 2026 16:30:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B16F60A6F54
+	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 16:30:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4B16F60A6F54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EtK7hvX6
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B70251F01575;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=QPPgpJDZ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1795019431;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=r6qnE+rrPP/+WIwyrf6W7iyVRQaaxGpUn+33m8pv7AQ=;
+	b=QPPgpJDZRE3zOshdM3p3v7D8Gsr3aenDis/S8wp00dl9zNOiDphGAbzYbUPIlzk0xzjJmg
+	NuXTiRJQOiWrZ4aoAuDf9gfRSQoSkmsaoK7DxyxPoZsRgCmYW6cnV7Lr5S4FHkXGPeJqF9
+	bDkX9uGQteAi7EOWUtXf+7riYeeDU7o=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-144-ykpJEus6P_-OoU9HyaJLdg-1; Wed,
+ 18 Nov 2026 11:30:25 -0500
+X-MC-Unique: ykpJEus6P_-OoU9HyaJLdg-1
+X-Mimecast-MFC-AGG-ID: ykpJEus6P_-OoU9HyaJLdg_1795019423
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 39B6F1800365;
 	Wed, 18 Nov 2026 16:30:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795019425;
-	bh=L30cNThaCOfH1h/tg7mX5YLfxnIR3Ercf6Vj06Bp04E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=EtK7hvX6Nq9ijdDvqy8+5uCAwPbPD8SHkgNx9MQnGIZL4At59ecHiqlBxunAq/wuj
-	 QMThfzie8f4ekpL07Kiy50dg6QzPi5U993y4Ts9nGLwOoqyZSIZ2T3Alxs4MDk6iEg
-	 WB9AGtcCr8+FfYAb/aKuXoYmOjYfNdXvPCDP+U+momDYJqy50R5rOyJN364Ujt95u3
-	 7j29ndzZ7fuTS3WuH1ixuu88nXGuTTeiKga/zhzljz+vuThIvR9tj1IRqoqMUj8dA0
-	 WoNoCeEMc4UbJLseHAhJYJ/MZWtT6tbBdyPXF3atbfdo3J18l7pbXOKvf0hZR3VQa2
-	 Q4/sA/ZOzcHRQ==
-Date: Wed, 18 Nov 2026 17:30:20 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Jori Koolstra <jkoolstra@xs4all.nl>
-Cc: viro@zeniv.linux.org.uk, jack@suse.cz, neil@brown.name, 
-	cyphar@cyphar.com, jlayton@kernel.org, amir73il@gmail.com, shakeel.butt@linux.dev, 
-	gregkh@linuxfoundation.org, tj@kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 00/12] vfs: add O_CREAT|O_DIRECTORY to open*(2)
-Message-ID: <20261118-moment-gehhilfe-gefangen-ce4618af6b54@brauner>
-References: <20261024213539.1307600-1-jkoolstra@xs4all.nl>
+Received: from onestero-thinkpadp1gen7.tpbc.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id D9A5930000E8;
+	Wed, 18 Nov 2026 16:30:18 +0000 (UTC)
+Received: by onestero-thinkpadp1gen7.tpbc.csb (nbSMTP-1.00) for uid 13628
+	oleg@redhat.com; Wed, 18 Nov 2026 17:30:21 +0100 (CET)
+Date: Wed, 18 Nov 2026 17:30:17 +0100
+From: Oleg Nesterov <oleg@redhat.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Mani Tofigh via B4 Relay <devnull+mt4022.columbia.edu@kernel.org>,
+	Breno Leitao <leitao@debian.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Mateusz Guzik <mjguzik@gmail.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	tz2294@columbia.edu, stable@vger.kernel.org,
+	Mani Tofigh <mt4022@columbia.edu>
+Subject: Re: [PATCH] pipe: keep per-write wakeups for EPOLLEXCLUSIVE consumers
+Message-ID: <av3SmRMGDLVAwMzK@redhat.com>
+References: <20261111-pipe-epollexclusive-wakeup-v1-1-0af6283e9fda@columbia.edu>
+ <avxWKI795DthE8Sb@redhat.com>
+ <CAHk-=wjOq+G=6gte4vX_YxOD_VfE1uZh7=+KHs8N0wU75xyHEg@mail.gmail.com>
+ <avyODoFhZ_M7YDU5@redhat.com>
+ <CAHk-=wgcBSBtHE+3ceKGjq1jyF64OyoEqf5JPpixowAa80GqNQ@mail.gmail.com>
+ <avyVwg-5ef-pXZkG@redhat.com>
+ <CAHk-=wjJF8uZLfVbbqei9-fhs9K70i2OnVreCV-rQF9EGKAxJg@mail.gmail.com>
+ <CAHk-=wjqParwoB8wb9KfGVpbwUwvKvObpLOo=XPM0GGfkn3ibw@mail.gmail.com>
+ <av2juQijIISJAgyf@redhat.com>
+ <CAHk-=wg4RgBYZcUU+c16XxdZ4UbAaazJkUS=R6=tpN4xUBdDRw@mail.gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -58,35 +93,18 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261024213539.1307600-1-jkoolstra@xs4all.nl>
+In-Reply-To: <CAHk-=wg4RgBYZcUU+c16XxdZ4UbAaazJkUS=R6=tpN4xUBdDRw@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-On Sat, Oct 24, 2026 at 11:35:27PM +0200, Jori Koolstra wrote:
-> This series implements new semantics for the O_CREAT|O_DIRECTORY flag
-> combination for open*(2): perform a mkdir and open the resulting
-> directory; return a pinning fd (which mkdir does not).
+On 11/18, Linus Torvalds wrote:
+>
+> Some duplication - with explicit naming of the locking status for the
+> special cases that are called with the lock already held - is much
+> preferable to dynamically doing the locking
 
-I've applied this to vfs-7.5.directory and folded a bunch of fixes into
-it. Each fixup is attached as a git note to the commit I folded it into
-so you can see what I massaged:
+OK, this was my plan B ;) I'll try to make a patch this week.
 
-git fetch https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git \
-    +vfs-7.5.directory:refs/remotes/vfs/vfs-7.5.directory \
-    +refs/notes/vfs-7.5.directory:refs/notes/vfs-7.5.directory
-git log --notes=vfs-7.5.directory v7.4-rc1..vfs/vfs-7.5.directory
+Oleg.
 
-The biggest change is kernfs. kernfs_iop_mkdir() now just looks up the
-new node by name so the kernfs_syscall_ops change is gone and cgroup and
-resctrl aren't touched at all anymore.
-
-The kernfs patches are in vfs-7.5.kernfs as "kernfs: instantiate the
-dentry in kernfs_iop_mkdir()". I'll sent that out soon.
-
-I split out of 09/12, your kernfs_iattr_rwsem fix and the kernfs part of
-11/12. vfs-7.5.directory is based on the first one.
-
-I dropped "vfs: move ->create check in lookup_open() to before
-try_break_deleg()". vfs_create_no_perm() does that check itself now.
-
-Let me know if I messed something up.
