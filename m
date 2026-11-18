@@ -1,11 +1,11 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.139.74
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1794976160;
-	b=i+EssZJPJ0ziRSDxLOIOu/3uOPT8IT+4sNM2Zai5MAjco5+Lt2tmm86AmXE1QqZOo/kd
-	 9fqbabXEPDPGK5C+F7/2SFOYuydGgx236iqO5XJzAk0Ff0NT265Ja3Io05lhOaoWBexLC
-	 p2JXTb2AQvYFfctRNzO5kKdQvohoXNJKu/YFmemmCMuLcmDyPKjHIgB5we604OX9p3gkI
-	 ieujnRZc/xwlRsFYxMtTqjup0h9AwXQRpqYUaBHKj1gE9VtIBrXUXfmT5ztBfakjz5Dqk
-	 C0lydEvwq2Ox5aH49SvBGiAtf8JHuWrSG3itOJa+RekUaxfZGnUehWxt8exte9rJyjA==
+	b=vuYLn1fL9dYvq+JtCsWIPYH+Nzsxl6Pq5jad12TQ+JXNxjm2ftfzcSCBB7nnD8wl/vMY
+	 Zi+o0dsHAEgtOzNx+Buu42ps5wKktz3HU0AI4bReY1/J0+/mE9Ut2RnHh1K+VCD8zZrGN
+	 upDlxDWoAOB8VGdsHT1pEg1UDvc04Hi4QAXMpevUZIAKd7H17gyTFoj/VEbaflgSXfI57
+	 HIOYP6gvyZMtehN11vOdVgXwNGclW9TRppUmNyYkD/M7N4UbDjXrdQt0MQXXfZQONnIMD
+	 eIxxLElnxHOaZJVWJdyLTrsx3l8F4iBebeiwHEQqQRf/uoCt7O6ho47GAOFLQaSpgZw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794976160;
 	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
@@ -13,101 +13,101 @@ ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:Date:
 	 Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-GUID:X-Authority-Analysis:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=rc5CZiGD7tyh48F4lxL78ysIlC6P7Il9CJaGLWhqpm8=;
-	b=ySNAyHEMIsuLhyDn4y6NGfwqOnB+6Noh5fZP1TGb41XLFuAXm7fhl7OsIt7TimoK8c7I
-	 320e7qhPXHyh99gT9VHoFiTQq1L3NiH0UZtNe+JPNMC7fiuYKrUfjHlyM6goE3LcqGEs8
-	 Ba+PjW7h3A1uOsPWj5rDjPRfFAZNsLClxzqfLe/TYykQLi3OnfrYkrozwj75xxu75jz44
-	 fyU4yqIamp73yzZWJL0L1hOpqcYL+QIq/31vkYfGlXp91zvPI6t0p+P5S2kOn8IgVYTtq
-	 +hkZogDPkS5k5gJgMkxxumUIVH4JeQWiHnnaLtxz0f0h5/gRZMc478kMJU8BSMSur9g==
+	 X-Developer-Signature:X-Developer-Key:X-Authority-Analysis:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=PHyaJQrkTMphdYzmc+rshzaiZTp40YbulP0xbtW1OI8=;
+	b=0RvvTn7VsMg22L+MA4oyiHQK7fdodIwcK6mrg5tlnc6kCHx1s21Zz/LLefAhZkVuZ/NZ
+	 jW4b55W7pgK7hNMxZCUY2b+nOWSBk4aGs1oDV1xWWNgpvISEXAvG9EsmBLq/Eu2j0xNzy
+	 /9ParTeiLfDIa3GFlMdtW00M3OFjQ8z8wpJJ6UH9h8nFQ64R67wztJ0MhHSjtZ8sregoy
+	 SMRpnNu1TcSpbwKS9EtO1ZCsWNC0pqp77Z5pqdOQXNBeDVlZbo8IrLko54lrsupq1sYGz
+	 djAyeaRr9Lla5AdNNovtN4cLvGnL4DWW4fdqPXpvzGY1wylzPKGNQzQrGX8cedVfWvQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=columbia.edu;
 	spf=pass smtp.mailfrom=columbia.edu;
-	dkim=pass header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=pps01 header.b=Z2b5fLvD;
-	dkim=pass header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=lionmail header.b=zm+v2xP8;
+	dkim=pass header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=pps01 header.b=e6VbgxFx;
+	dkim=pass header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=lionmail header.b="O7q/mEYv";
 	arc=none smtp.remote-ip=148.163.139.74
 Received: from mx0b-00364e01.pphosted.com (mx0b-00364e01.pphosted.com [148.163.139.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A50A8606A8AD
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92BB3606A8AA
 	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 04:29:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A50A8606A8AD
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 92BB3606A8AA
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=pps01 header.b=Z2b5fLvD;
-	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=lionmail header.b=zm+v2xP8
-Received: from pps.filterd (m0167073.ppops.net [127.0.0.1])
-	by mx0b-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AI1XPTf3394956
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 23:29:18 -0500
+	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=pps01 header.b=e6VbgxFx;
+	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=lionmail header.b=O7q/mEYv
+Received: from pps.filterd (m0167074.ppops.net [127.0.0.1])
+	by mx0b-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AI1XQ013627212
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 23:29:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pps01; bh=rc5C
-	ZiGD7tyh48F4lxL78ysIlC6P7Il9CJaGLWhqpm8=; b=Z2b5fLvDdtaRtLT5sxpo
-	rB8Si0+hsuAxEnDqVRyAuE5KIbZhsldSqcxjM7VWUSDeVwwKZQUQwbxkS1zecQlu
-	7oD7jcKcr3LqzTwFIXBIbSRPoxdXu9BXM4DjQ+uK1YVz+x/QOWe3Mr3sbpavw4A9
-	uL9HQZzybTXLdYLC6BabHENLdt0O/t+tpsZxoHGIlTIK5xtqLe/2v6mz25D099Pw
-	RjuBPlqQOjMLaiesL9biJ/pz+UscxZHNvJZLLgn5nJcPoPd9Z4Ba7pqzMKeflg//
-	yJplaT2/E7DUKCyOkHJUtc1iIme3CggFz+sq7it6xunXRDF8wxjAfceYqn473RxW
-	pg==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
-	by mx0b-00364e01.pphosted.com (PPS) with ESMTPS id 4j0yu5sf36-1
+	:message-id:mime-version:references:subject:to; s=pps01; bh=PHya
+	JQrkTMphdYzmc+rshzaiZTp40YbulP0xbtW1OI8=; b=e6VbgxFxU5xDgnwjTkyK
+	mwCjKCZI4ZsVkmuD7cqvdFDXWAgu4q5AjhaA4EJICcEKHypx6gTHmbMUVg/gLv0D
+	Hg7x50aBkgdQGzBDP2O+KxmDhN2DhFLrcjqYparniyVSi5bZtKD/Grx57h759o3K
+	GdAVvgPrB6+38IDtfj8ErFkeYRn2XRH30u5vhZV5IFmlPT078iKuOuFJ89DcXwNF
+	/C4Gst59vVkKp3UiIhxTCAsVctl651ffqcG7h34RnVHg+32iyW7bZCCM31FjmyBW
+	Gtdaj9h+qqfYMfG8nWwMP8Bv+PS569l7RtMcisTZyz85UMKILg7UVn3K5qKBMrDL
+	lQ==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0b-00364e01.pphosted.com (PPS) with ESMTPS id 4j0yu79gck-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 23:29:18 -0500 (EST)
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-94967c6d4f4so75243585a.2
-        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 20:29:18 -0800 (PST)
+	for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 23:29:12 -0500 (EST)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-94967c6d4f4so75236685a.2
+        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 20:29:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=columbia.edu; s=lionmail; t=1794976158; x=1795580958; darn=vger.kernel.org;
+        d=columbia.edu; s=lionmail; t=1794976152; x=1795580952; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=rc5CZiGD7tyh48F4lxL78ysIlC6P7Il9CJaGLWhqpm8=;
-        b=zm+v2xP8vtK/ZqHV0EwRGP5f+/mHNfqgiau4vaQJQtb3JXFnbcaHV9QB4AQA+/Xnxp
-         LQUbashXFZzJlU3Wbuj3uD2dhWPV3soZGbfwWuJOF9bAyXs23woyWCg4ihf+d+g6VUU9
-         ctlJgzcq9Jh/fG6Z+pszL7+hlZlUIYFL4l0r4rOYoq/+6ixO+AvulFq1FnPbKOTcPLVn
-         vJtbt2p9h783iLweKiq6FBEi1GvggAds8QkGRIZMcHCRa3PVD1iGl6Q6WFFQDiUymbWp
-         yalkYsoj4Becjse4+krnu/iTzBaocm76tw0+3HZn/7O4JNzNuO65ol7bzGBr37qEBNpJ
-         6ekg==
+        bh=PHyaJQrkTMphdYzmc+rshzaiZTp40YbulP0xbtW1OI8=;
+        b=O7q/mEYvxoowFx5QUeosMae8Q4AQg4mpwUgBEaGydRKaMpaNm46IP8puVbzjjWM95K
+         Tjl4zofAbu++ThMKdGwInv3CVqg1q5rGLwCf9FRJU2WHZplijGSGv/Plg1NCz8FycAMi
+         TDGfxUVOcj0PA5QipuYGI6fR8+3W18QEXJkbhYIwhU1umh+gICsQzJAIRuERE2HbrD1T
+         lP5LrYQTJnWBToS/OqkqKzELpT3c4upNIA3Q0at3glu8tmQxROw8TicnRVvy2D9AoTtG
+         uH21r0NTyKg6gEUvBfKp0Ra4SA9Jcg4jeR5gGh3pJ1KkDU+x1G9eK+prpbtRoUz8purz
+         fcvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794976158; x=1795580958;
+        d=1e100.net; s=20260707; t=1794976152; x=1795580952;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=rc5CZiGD7tyh48F4lxL78ysIlC6P7Il9CJaGLWhqpm8=;
-        b=GtysUr+urDnfOKtDUBAGq91wt8wk4hJtFRh+WXqEQ3szosaUebG+reM3+S3jseT7jw
-         fT+R9T3LUwvPQMjtc9fzZJqEuBcNUuWpbp3DRPZX9xPtl3oZkMgHFhi6YFm+pJYS0fRY
-         BGTzQHzrYjoaMoOq8LOxO8n40TY/mI1S30XDSOC7ts3kjG18xnNKYIKQEBmaPp3QhVRU
-         plqyJXNKSf5y1b6PnXC302SUMtuvOPrnBXhYXIvO7BG51x4arnsHf/3iOENIyY5V/s8u
-         BtBXLvomr4nEvu2rpej0okugWl2hiLySRBWM9sxMkzeBEZiP9TT3ovUBFdFk27erIG+H
-         jwmQ==
-X-Forwarded-Encrypted: i=1; AL+hErE8sYjkSyR70BZcTk/GfLv26UAZ+EoUZydNjTCb2IM/rdtCNlhZh1aXlrB6TlWnxicw4X2Xw5aQkUuOQuvA@vger.kernel.org
-X-Gm-Message-State: APuU4Z8OL28wGV8b+YBcuOHUFFl4AreJj7pURoN1XkK33fdX0uzwsrRI
-	OLbxT4A+XUVTnHj/i+0Cg+u9b/Jibua/H1UwhdH0Fb3nACFjXFUvwMOvNiVJzEyBSKeXqaxl26i
-	xW38xKUFBiqv3+yg9bgcRs5f2iyClBDdR9RFIAbxUXRbY4/b379JiazKXVrxPZqc=
-X-Gm-Gg: AYBFou0SiIRiUBDvxOOhB16f0U9i14++NrgEOkOsAbWtFN4kOIM3ye6aWDdDFCkL4D/
-	5zE8886xRnR7SrvNZcD+KoEmQmsBT5TFFbjRDBdio0zIdbwNKDg1MWAaSTVR2USXbU3cOf+acJI
-	9xqhF/GST56mHlxYs2TWs5wagmVvVnCki5qteswaPskgUqgxi3tFJ8XUOXOT6CN7KwPCLK1DR0e
-	O6hrBbjRy41vyHxppQfNJ0snFn8YLGHTcbOnKd6JTxpUQLTfrRN1kdJcC0CYxGC2EfiCKHp0ZZ0
-	cRL2oS0Al98YVqJT0fMyXnXTv6xaRIbPeLiDuJCNDwhX5s364Ikln/LYRbwcbtuu1Pb5MzetOr2
-	yc8BQk4bnn/y+t1SjokfpkAyn/cui3mZecgOli6dz9Sms1YRSse94R0zHLTErKQXdtctnJtwZQQ
-	Xp/JDTeM4zAeSlvceMzw==
-X-Received: by 2002:a05:620a:710b:b0:93e:c12c:fbcd with SMTP id af79cd13be357-949996676d3mr314677685a.73.1794976157574;
-        Tue, 17 Nov 2026 20:29:17 -0800 (PST)
-X-Received: by 2002:a05:620a:710b:b0:93e:c12c:fbcd with SMTP id af79cd13be357-949996676d3mr314671185a.73.1794976156873;
-        Tue, 17 Nov 2026 20:29:16 -0800 (PST)
+        bh=PHyaJQrkTMphdYzmc+rshzaiZTp40YbulP0xbtW1OI8=;
+        b=LA9/xvWvROH4Qp6e0J/2L0xyz+uGE0va4BwZEy1XOwgtloI6KH/msniqkDm7/8CxCK
+         TFNOGoFLv15j668MnhbDurc511wqYrWXh11i3mbAocTnoylNSo+D8QlO9cmHOjvyebqU
+         Y91K2V3ZYSrLcpe7h8V1/Y2SFyavoQvWfg44KWMhGXp+j03HhBNKBa77dx9+j55IYlUo
+         3A0+mt9RJ+CfrxZLjnTfkleQPs6z7txPVdG9udmQzVBzlvpJCk8RBl/bqDKZEp2t4HWD
+         2CGU+RQ/TEfCyRggGh+XYJELHZEeILvPXsFuU5hKN0Rsn5C9LUI4M5l+wMxaKLdoh9/6
+         T16g==
+X-Forwarded-Encrypted: i=1; AL+hErE4Ab1LjIGZM37466sawbVccn4neolPnhxZF6qnw9DMe727iz0GJvrgNFRDYSFvQyPaTyF4E2oUUV8T5F1n@vger.kernel.org
+X-Gm-Message-State: APuU4Z8U5X7Gw+IULSAfJTY+zgVGzA++XyPrqRLMaTm7Jo1CV5L+60eC
+	0dCIr8NeRSpGa8Vm4PTfD0XQ2aGSAlGIS7LEQLcfhLvve0lmcXUduNGU6UKxF3yaYVu9gUr3D2d
+	CS4ayFyWLDpx9arjv7sO6+gncFw4bXFnQJxYdfbCqhmIpeIJdHkK+S2Mf6MmB6qI=
+X-Gm-Gg: AYBFou0qgM4ZfufUY6k/52aKKFL1Pw2nsJo6z2XPW1huuUuioiucSEWW5dH1x6NI6kg
+	NPrl0VkAiduet6RNU8jqJnVDi+nA+70WgAraF0nefAUV5uHSCAJqvuXNNSBm9WIl+gpbMjh5h7f
+	fDyVguet1sIMU91zHukjN3k3kfc9Thvvcrb8QjGEfN2mJmQayGsAmnyMhbH2IiqtjnvmUx2xtQS
+	C+5yGCX1AorcQoiSSxvTcdMiUYyJyFChJLUEvuZLGYkiNbTWRQ5ZYy4alORooH0usBJiuPV5iaE
+	RBaKgevMjBsD7vLjdaSeU8Zfsm4VI98E4sxkZ2k11e4mj/MxMH4gdR9XpKMrE6hCc4N7EbAZ4L9
+	2CE3ScyhZ6gvzPP2dzpNy1dFnKqrhEVZwd/bcqVUkn2qOPmV2LzsW0jwLOtU+PKOPKHsd/RCDSg
+	dBONfDbriroUJlMxMv2A==
+X-Received: by 2002:a05:620a:460b:b0:949:7781:6a2a with SMTP id af79cd13be357-9499963337bmr333455085a.63.1794976152029;
+        Tue, 17 Nov 2026 20:29:12 -0800 (PST)
+X-Received: by 2002:a05:620a:460b:b0:949:7781:6a2a with SMTP id af79cd13be357-9499963337bmr333450685a.63.1794976151524;
+        Tue, 17 Nov 2026 20:29:11 -0800 (PST)
 Received: from [127.0.1.1] (dyn-160-39-33-242.dyn.columbia.edu. [160.39.33.242])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9499b743a8bsm89678085a.17.2026.11.17.20.29.15
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9499b743a8bsm89678085a.17.2026.11.17.20.29.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 20:29:16 -0800 (PST)
+        Tue, 17 Nov 2026 20:29:11 -0800 (PST)
 From: Tal Zussman <tz2294@columbia.edu>
-Date: Tue, 17 Nov 2026 23:28:46 -0500
-Subject: [PATCH v3 6/9] mm/huge_memory: build the moved huge zero PMD from
- the destination VMA
+Date: Tue, 17 Nov 2026 23:28:42 -0500
+Subject: [PATCH v3 2/9] userfaultfd: refuse UFFDIO_MOVE into a non-present
+ huge destination PMD
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -119,7 +119,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261117-uffd-state-fixes-v3-6-b617009d1a4a@columbia.edu>
+Message-Id: <20261117-uffd-state-fixes-v3-2-b617009d1a4a@columbia.edu>
 References: <20261117-uffd-state-fixes-v3-0-b617009d1a4a@columbia.edu>
 In-Reply-To: <20261117-uffd-state-fixes-v3-0-b617009d1a4a@columbia.edu>
 To: Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
@@ -148,88 +148,100 @@ To: Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
         Oscar Salvador <osalvador@suse.de>,
         =?utf-8?q?Miko=C5=82aj_Lenczewski?= <miko.lenczewski@arm.com>
 Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, Tal Zussman <tz2294@columbia.edu>
+        linux-fsdevel@vger.kernel.org, stable@vger.kernel.org,
+        Tal Zussman <tz2294@columbia.edu>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794976146; l=2219;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794976146; l=2698;
  i=tz2294@columbia.edu; s=20250528; h=from:subject:message-id;
- bh=QxwfrdfeAZDvxUgLWWnt4K6ra8Mm3m9n0/IIOemncrc=;
- b=Yg+dHnTso+62HA6AwoBYf3rsd8BxbMnxwO9j1plFZMR96k4L5mkWJL/htZVANnb7stvo5K34B
- Y10CwAlkHPqAoHI2SbhOwt/MyAT3gFejZ1/OcrHBeXzZFS7jBY7ybYA
+ bh=K0o38pzaMy6QRMMEYRQIJRke0A/nk0J4G+lixSN+sNs=;
+ b=340uovLCj4ITRL89ZbsJjjWvkIqBwYm45eDArEoJS/iGZuCtoRxnsfUX1Y97twSamX4VEReXZ
+ wqarjnM1+4PBdX8UCgZ5F+jzKyJeOHcxUfjhSKWfMjTuYQYnGIpzg6A
 X-Developer-Key: i=tz2294@columbia.edu; a=ed25519;
  pk=BIj5KdACscEOyAC0oIkeZqLB3L94fzBnDccEooxeM5Y=
-X-Proofpoint-ORIG-GUID: 0L-qu0BxoXb7h4OblqNSjn_06KP4Cmp2
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE4MDAxNyBTYWx0ZWRfX84m14L//z8Bo
- PIptriRCfh5KAHd+pL9oWeHG9FXqrH5pLyOtDn/lTCVF7VfDiwtiqBps2emkoSHISQmINrLBmqv
- Ym3+MgOyOC231aBwgsf0Sz5JdIuEH1QP7k10bQX7r7E5EiJumCLO
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE4MDAxNyBTYWx0ZWRfX0jOGfFyWlnq0
- BZCCuHdCNlsv5CvjYvFTRytaSnJNuA+P7us065es88ugQ27uTfYN5xvHdaQtZJO02+nthuXErAW
- C1R608lEeE4lmn2bp72iZAbwBGF9DshNkF7dLndIa2H8Re0atiRvb79tIyenzDvp8eEISbAmSAO
- zcUDnn7Du9Pu9YVDH476aTWxdumVnoE+bwR8MFdEIux7jC7AGU/fnOk569Fb7XSMkiZXBNIiSeE
- NjxtV6zs3gex4fukxJe146KU4aA3tBAWxj6y5sOQGhlEgWoj1CJoo00LXxhTskF47JGtdYK8yCe
- FiVEMFwM+hFJB2y1eFxeFDXO7mAcY4oZaWuez+Kw92ZeB2rafcRHYow+euJVEBuGzrl2OOe0Dbl
- jAZQq6IFoDO12tHOeiQ+u6hYc87Axi0TL3NQ3utWjxBZPHssk2B6cQyrGerHah3ieoo8PCYQVlH
- K3ICi8VYiNfACDagW2A==
-X-Proofpoint-GUID: 0L-qu0BxoXb7h4OblqNSjn_06KP4Cmp2
-X-Authority-Analysis: v=2.4 cv=e7ST2qp/ c=1 sm=1 tr=0 ts=6afd299e cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=GaPK54s0Se3oFqK5NkZy0g==:17
+X-Authority-Analysis: v=2.4 cv=LvgHWXdc c=1 sm=1 tr=0 ts=6afd2998 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=GaPK54s0Se3oFqK5NkZy0g==:17
  a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=x7bEGLp0ZPQA:10 a=A0y_DWxS2BwA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=jHxIr1HyPKZ_Q5_91PL3:22
- a=VwQbUJbxAAAA:8 a=tHa68p0SAAAA:8 a=t9wnRcJLD9wLKarOqGUA:9 a=QEXdDO2ut3YA:10
- a=IoWCM6iH3mJn3m4BftBB:22 a=ufIsyHvWW7FwcMbVRpPq:22
+ a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=azVShVRs0zEubeQ0wG0L:22
+ a=VwQbUJbxAAAA:8 a=tHa68p0SAAAA:8 a=n7zxJ9EK30Z5vFJJ7y0A:9 a=QEXdDO2ut3YA:10
+ a=NFOGd7dJGGMPyQGDc5-O:22 a=ufIsyHvWW7FwcMbVRpPq:22
+X-Proofpoint-ORIG-GUID: ddp0vyrijIOcWJA1ub_Y8t_8JLzg_Nt2
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE4MDAxNyBTYWx0ZWRfX44XOs496MrRH
+ AG1bmqm+SWr1z9uElQeRg+83PNyzcjKKhxSD/eZRPAoQ9rVWKjEg3bj8AtEiCUPPqgGTJrJgusE
+ hWeezxbMY3OLirwvJD4Vmw1W7Px+jx9jTgfn0yf1IG0zXBgQJhxC
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE4MDAxNyBTYWx0ZWRfXywx8qvKEeztT
+ e+dpcVfveMOCF6RXqrISQMxmB+lJGrzRVAcaiwZUZCoinI+qHZQAdDLw8ceKxC6X6EzgF/EhkyG
+ xt9jPsApt4xCxofMwfABmTMdxBvIPZV8es8zzWTFrkFHePu9zCx6HavcHysrwGiT65e1GLI0JMU
+ jCoV7U3ycsF2f8FhbvEDE5pEnkiClpFqL1GcAhCNvksaxJLKpyNXbxM5qvBz0u7ynnBWoqn/dhX
+ gHtM2vELkEaX5Qzn3XgZZJa4dFrHg8wtcHA/7taWEW+/jLvtje4ny2JvuD7hLjlM37eQOy4K61S
+ 5xMXSvMP7NATt1mCVWTnAAItbXFeRbgdBW9MOCl8joxAiBse0erFILAuMHZSXkVFN0mrtaDop9A
+ Srl1nTFW1e+bJk4UsHwh44jM0Q3TNyiYQhMd6m1e3y88RMi28uUMVkic5lrXZcY9DpYz3LbV5eu
+ KEGcwDhJgqyhBRz7fVQ==
+X-Proofpoint-GUID: ddp0vyrijIOcWJA1ub_Y8t_8JLzg_Nt2
 X-Proofpoint-Virus-Version: vendor=nai engine=6900 definitions=11969
  signatures=596817
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 lowpriorityscore=10 bulkscore=10 clxscore=1015 priorityscore=1501
- impostorscore=10 phishscore=0 suspectscore=0 adultscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611180017
+ impostorscore=10 malwarescore=0 phishscore=0 lowpriorityscore=10
+ priorityscore=1501 adultscore=0 bulkscore=10 suspectscore=0 clxscore=1015
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
+ definitions=main-2611180017
 
-move_pages_huge_pmd() builds the destination PMD for the huge zero page
-by copying the source PMD and clearing its uffd bit, so the destination
-keeps the protection of the source.
+move_pages() refuses to move into a destination PMD that already maps a
+THP, but checks for that with pmd_trans_huge(), which is only true for a
+present THP. A device-private THP or a THP under migration is a PMD
+softleaf entry and is not refused.
 
-A source VMA registered for RWP can map the huge zero page with a
-PAGE_NONE PMD, and UFFDIO_MOVE does not check how the source is
-registered. The destination then gets a PAGE_NONE PMD without the uffd
-bit, although nothing asked for that in the destination VMA.
+The destination PMD is then treated as if it pointed to a PTE table. It
+is not empty, so pte_alloc() leaves it alone, and move_pages_ptes()
+fails to map a PTE table from it and returns -EAGAIN. move_pages()
+retries on -EAGAIN, with both VMA read locks held. If the source is a
+THP, it is split first for nothing.
 
-The next access fixes it up through the NUMA hinting fault path. Until
-then, the first access to the destination takes a spurious fault and GUP
-has to take the fault path. The impact on userspace is small.
+For a THP under migration, the loop ends once the migration finishes.
+A device-private THP can remain in device memory indefinitely, so the
+caller of UFFDIO_MOVE hangs until it receives a fatal signal, and
+anything in the mm that needs to write-lock one of the VMAs blocks along
+with it. This requires a driver that migrates THPs to device memory.
 
-The moved entry must have the protection of the destination VMA. To fix
-it, build the entry from the vm_page_prot of the destination VMA, as
-move_zeropage_pte() does for the small zero page, and keep marking it
-soft-dirty. A destination VMA registered for RWP still gets its PMD
-re-armed afterwards.
+To fix it, check the destination with pmd_is_huge(), which is true for
+a present THP and for a PMD softleaf entry. UFFDIO_MOVE now fails with
+-EEXIST in these cases, as it already does for a present THP.
 
-Fixes: 763f43865fc4 ("mm: preserve RWP marker across PTE rewrites")
-Reviewed-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
+Fixes: adef440691ba ("userfaultfd: UFFDIO_MOVE uABI")
+Fixes: a30b48bf1b24 ("mm/migrate_device: implement THP migration of zone device pages")
+Cc: stable@vger.kernel.org
+Acked-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 Tested-by: Gregory Price (Meta) <gourry@gourry.net>
 Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
 Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 Signed-off-by: Tal Zussman <tz2294@columbia.edu>
 ---
- mm/huge_memory.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ mm/userfaultfd.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-index 4a4e187ae3b1..bb7fe695a615 100644
---- a/mm/huge_memory.c
-+++ b/mm/huge_memory.c
-@@ -2981,9 +2981,9 @@ int move_pages_huge_pmd(struct mm_struct *mm, pmd_t *dst_pmd, pmd_t *src_pmd, pm
- 		/* Follow mremap() behavior and treat the entry dirty after the move */
- 		_dst_pmd = pmd_mkwrite(pmd_mkdirty(_dst_pmd), dst_vma);
- 	} else {
--		src_pmdval = pmdp_huge_clear_flush(src_vma, src_addr, src_pmd);
--		_dst_pmd = move_soft_dirty_pmd(src_pmdval);
--		_dst_pmd = clear_uffd_wp_pmd(_dst_pmd);
-+		pmdp_huge_clear_flush(src_vma, src_addr, src_pmd);
-+		_dst_pmd = folio_mk_pmd(huge_zero_folio, dst_vma->vm_page_prot);
-+		_dst_pmd = move_soft_dirty_pmd(pmd_mkspecial(_dst_pmd));
- 	}
+diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
+index e787e9a3ea29..0435ceafe750 100644
+--- a/mm/userfaultfd.c
++++ b/mm/userfaultfd.c
+@@ -2021,12 +2021,13 @@ static ssize_t move_pages(struct userfaultfd_ctx *ctx, unsigned long dst_start,
  
- 	/* Re-arm RWP on the moved PMD if dst_vma is RWP-registered. */
+ 		dst_pmdval = pmdp_get_lockless(dst_pmd);
+ 		/*
+-		 * If the dst_pmd is mapped as THP don't override it and just
+-		 * be strict. If dst_pmd changes into TPH after this check, the
+-		 * move_pages_huge_pmd() will detect the change and retry
+-		 * while move_pages_pte() will detect the change and fail.
++		 * If the dst_pmd is a huge leaf, present or not, don't
++		 * override it and just be strict. If dst_pmd changes into a
++		 * leaf after this check, move_pages_huge_pmd() will detect the
++		 * change and retry while move_pages_ptes() will fail to map
++		 * the PTE table and the next iteration will see the leaf.
+ 		 */
+-		if (unlikely(pmd_trans_huge(dst_pmdval))) {
++		if (unlikely(pmd_is_huge(dst_pmdval))) {
+ 			err = -EEXIST;
+ 			break;
+ 		}
 
 -- 
 2.39.5
