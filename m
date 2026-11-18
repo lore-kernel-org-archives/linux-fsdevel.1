@@ -1,60 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.169
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795001505;
-	b=g8a0BaTY+6Qq0YkNrX5JpqRF2Sk9ZSNAkCMidhEzfos6XW/++aNkT7hY+gshCTvlsy4w
-	 oAx6BC3dk2+yAXIY4/qT84dn1sUCG3vNJyBoyqWhM+kWgC9rKR34IHkYJnvqvn3R+GqhE
-	 zf1Kh6q2fLKo+KftE+Q5Jf+9ORLme2/lDq6GvsgKoVBwXCv2LT6eLeNeP1Zq5ArVtgKmx
-	 AXyq/Cohi5rYUo9DoSKtHvYNaZTqF5TlrZPNbFdUTHJ9L9M6bqd7gJRHmil3pA7Ppwi0r
-	 oh8jAez7hBEAPtPcdKrG/4rWjutvMXRjLR/4MqUdElEhi2soiQkMJP6c/GwzGsP6Kjg==
+	t=1795001570;
+	b=GOq+e/BZcHM0ObhxDzEc4lxQWgpWZ3bX6PIU+esWVoBiamfeFSc3FROUgFmJoo5vwSOD
+	 Y+TNLz83G9SrY4JqvCb3CGEE8a22mWmmq1MA6V+pGufpbk2J7g5SD53uRYW+OIR0eq7ns
+	 PF6VU7voZFU5l2y1xLLbAwTvdjTyQGXv8eFddkjM5aUpqceDKWZseABiOtg2lhh4ZOF87
+	 2F+I4ByrMJwYQjbeQNBoccVm+jYQLFljdAIvkbIRzxhGzDkTcVmMoBDW3WoZs2VlrauHh
+	 CWhAv8MQD2+2nlJ1n5MfphuqgywffQF86RwqVoGlcbb65X/AHUxWiopTNgij8cfH5wA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795001505;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=ti2hkmNuDOWadhSGxF1m8Eafguzo4rmwnOEmvRTOKQg=;
-	b=XMjADcqG3qBa4L5Fnih0WEO+0q+EeQU014JuCMzSvkYRLHNqO+ezniVBnDqqC9FBJ4mU
-	 SPvCvwfGRMPs5I+8/vT+apKcDRD3JvZQZRQICqaUbuvr05HeOzSMvlnAext0hrluMA1DW
-	 HkKAQhyjB0pY3H9Y+k5THuhcx3nNO6H2fZSn7+EQCpXOu7aWi5juJ09BiWaLHxcFhF/S3
-	 eX5n5J+aGbLr8bJoSL7Mv7/CNuWOIX76P8mGIxGhzq2qkfiuayRKUYP2gFXT12A7emsDN
-	 UQHdm4O5ERuL7dWCs9koJ/+Pm7D+hjpQUPdqTP34pXmffqbkciU1rLTBl7gtPKn53lQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795001570;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=xJFWv1xrhjfAyje7Ep/W9xVonaRZ/xPzzJA7Dg8c3lE=;
+	b=wQJsShbe0/fvR6wXRDVOGNg05kXQ83Oe92v14NZS9HxxDeLGHyOalNnkA5I3eRtu825g
+	 AWI9beSedf7y7yP19tqqVJaY/Ul2fgftRP9BvDiRgnVch9Hol/2J+gsGOe0MmHac+lMpf
+	 oXS5EYWWqTjsfHrTw7gpwFcormJ7NYN8U46kpUavXMNZqpQOCWhK9nLkuXGenQjktQMlA
+	 BP20PDLpkctqlPPwbdDSYD1G59LU8jRVsI/KH9I1AiHbJWUp1SkSflz2nMqS+2t7ctCjR
+	 u+ONfQagZhz66V22UzzTNgpMHYB8VYyHbPVk79rTSxBg0P1yZwv0lNMI+OLjjBB6eCQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ODIO9pZm;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BVi+u3hB;
+	arc=none smtp.remote-ip=209.85.214.169
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B7F7606A333;
-	Wed, 18 Nov 2026 11:31:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B31F606A31C
+	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 11:32:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2B31F606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ODIO9pZm
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E32C1F000C4;
-	Wed, 18 Nov 2026 11:31:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795001504;
-	bh=ti2hkmNuDOWadhSGxF1m8Eafguzo4rmwnOEmvRTOKQg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ODIO9pZmjYH1kZMTAUIhrLtNRhxyJLwHyVTBNB7l7Qu+neQPbJ9dCl0eBk9KYHa3N
-	 /Vieo866GiWsxthi2PUQXCbWvh7BRQTeI/1R4E+Q2venKkuYsOb1ezgQRhhlce+GFF
-	 QWo0r0zYe9OYi9XGyE5y7akfnlOg1+7ZUsUJv5E2WJKnR3gVsqqXd3KuIV3yez32wx
-	 R7c+/ueTUFxehQp+SxdgmsOXILl326ocUsp2E9Z9CbZ1UP0Vddrb6smC4h6oT+hWKJ
-	 zFv2q/4p84woUI1S5mY8V6fv2FtULFhqAgeueAomZXon5W5llDhHWjxKDEwOOFkehb
-	 lrg5Aisxxszqg==
-Date: Wed, 18 Nov 2026 12:31:35 +0100
-From: Carlos Maiolino <cem@kernel.org>
-To: Jan Kara <jack@suse.cz>
-Cc: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	Andreas Gruenbacher <agruenba@redhat.com>, gfs2@lists.linux.dev, Mike Marshall <hubcap@omnibond.com>, 
-	Martin Brandenburg <martin@omnibond.com>, devel@lists.orangefs.org, Dave Kleikamp <shaggy@kernel.org>, 
-	jfs-discussion@lists.sourceforge.net, linux-xfs@vger.kernel.org, David Howells <dhowells@redhat.com>, 
-	Marc Dionne <marc.dionne@auristor.com>, linux-afs@lists.infradead.org, 
-	Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.linux.dev, linux-block@vger.kernel.org, 
-	Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>, linux-nfs@vger.kernel.org, 
-	Eric Biggers <ebiggers@kernel.org>, Jaegeuk Kim <jaegeuk@kernel.org>, linux-fscrypt@vger.kernel.org
-Subject: Re: [PATCH 02/13] xfs: Drop pointless I_DIRTY_PAGES check in
- xfs_can_free_cowblocks()
-Message-ID: <av2MieP4-v3axqLA@cronus.toxiclabs.cc>
-References: <20261113083336.15152-1-jack@suse.cz>
- <20261113084700.739002-15-jack@suse.cz>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BVi+u3hB
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2e9eb579c0eso5228695ad.3
+        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 03:32:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795001569; x=1795606369; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=xJFWv1xrhjfAyje7Ep/W9xVonaRZ/xPzzJA7Dg8c3lE=;
+        b=BVi+u3hBS8dmV4u9QmaPMl1y+DR9rFtlTWYFFhFMTGJk6YSKkhFcCYaOePrmrwKt8n
+         wsLM9x9UZQeTIyihcuyM3Gu+4AMULhr2PUPcKQH/XAb9T+9AZib/0iKSzwu3aKmTKXh8
+         Y0CrkPMSDwNt+XNX/OxWL/DkS5hBvQYzUkyBnmCxHpTLI9CpzwyKJ4CQuzI54WtyUAE/
+         sj7Ao/DZoG9fU4LdXu42zOtGoocxmgvUjDTks2sX6ZpKvY5in4Ady39WiKx2zOkBDEm1
+         LfT0qoIAeWgk0Dv3bpmofp65fsWHDEwzPZSceX7BlLa5ELRSIrzZy9jg0nFirLGgKRL+
+         HKEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795001569; x=1795606369;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=xJFWv1xrhjfAyje7Ep/W9xVonaRZ/xPzzJA7Dg8c3lE=;
+        b=uqZcMX3/0MwCGC3EByCaQSnKmx7kM0UZSFHP0SR387NnzCjp15MFSXIzuMaFHpE6nj
+         K40cZGzvS5aNg9YEMcrhuxcN+/iFzs10afdywmcd/W6CnPbL/UpoJxHHAVSx5db4C3aa
+         bO2qjQ1DbUEYEi/U4tETgWeV82yIV5uJhYoAjVj7/Ri9fiSGEoDGCXvVrgmeYmy9l02V
+         Cuoyi88uAdI4XbzIHKUqc8B4j68zRAQwVr7fZ3JoxjE9DuXBz2P7+VrlAOxnajkNmELb
+         Q4w4oa+wTezYKAN+eqvBQ12nR3sS48KPxJuvGpT+vquPsFJimlGXRN8qWt+DbZ5Yc2Dx
+         NBOA==
+X-Forwarded-Encrypted: i=1; AL+hErHYCUbcilf6VLVLxo8F6vbt4Csob1dzgY87oyoFS3gc71rhp+Afs2Mhy+KfmTmUEUI+qcv6Owiz+M+yEgjn@vger.kernel.org
+X-Gm-Message-State: APuU4Z/0U36mbvTftkeoL5d7xDC1JT8EsybavHESioRy1msywimwlwt6
+	UphFNr1y15OzqpBd/xDLohdsItvioqJIw3CsKstYrCHtqoWGftuAjB6t
+X-Gm-Gg: AZFdTZfj9m3K+uFrIdh8N+O5c8e2OJKuktHj7g/IVooEMJ+u40cfB1CbuGYpWjruolD
+	hP+hRLwR/WqHoKRxyuX5ktBRt4pJ7v1iGuvgQgvyg4IqanNlkphlZBP5vQZaOapXeVzBXo9ylru
+	a5FzdqbgLNep1VBOdSUhMoWpGpG6o8aBgiiVfz8UWhOPGoS0/6aBbDKpqcy7wDujyp5af6WIZTD
+	LXnVoCf2+vu3p4h2kMjuBkuKy4mgXiQQ4HrP+BW/507FYi77UJSQVyDKigjFhcGwz0xDeQwOY5B
+	mskmwBVwc5SqCS706CNnZwBkRdlpMp9OU+j/qGVZqTwQ2nVPhn0vBEFug6L8et/65dZy8SK8zUa
+	E2HPz0Xm2VQIlhse0cCi5e/GlQ4ia8qL8lAa8coiv457YWiZY4/WVaD59gqgTscOOI/YUIEf7qh
+	Kp65tRJVmFiCMSf5CM5erxhkAmTgdEFaUGLejKuUnqvTKn7CvoLgpBevJR5DeBJquLI32kQB2Ff
+	x0uleJvK7RN+kg28T+Hys/y5fZswT83FhYiPR+pb9tv/FoiWoQZRa4SLau9MCrLQNAgxwj72iTS
+	ROJ8XB/1kDoVljYUwgGbuliz7qERZnOG7ahLk6kBbjCrmNXX6Vx4jqc/a0dFrO1wkWttwWA=
+X-Received: by 2002:a17:902:c94b:b0:2e9:58c5:8c68 with SMTP id d9443c01a7336-2eff753c6b7mr21302625ad.54.1795001569415;
+        Wed, 18 Nov 2026 03:32:49 -0800 (PST)
+Received: from MacBook-Pro-8.lan ([27.125.146.195])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2eff62930a5sm11612305ad.66.2026.11.18.03.32.46
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 18 Nov 2026 03:32:49 -0800 (PST)
+From: Ding Feng <dingf3ng@gmail.com>
+To: amir73il@gmail.com
+Cc: Christian Brauner <brauner@kernel.org>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
+	linux-unionfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	Ding Feng <dingf3ng@gmail.com>
+Subject: Re: ovl: sync_file_range() does nothing on overlayfs files
+Date: Wed, 18 Nov 2026 19:32:41 +0800
+Message-ID: <20261118113241.29101-1-dingf3ng@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <CAOQ4uxg5baphOjo+_A=3nZBmFEmMV7KOiv_W=rjEVYV41eTEaA@mail.gmail.com>
+References: <CAOQ4uxg5baphOjo+_A=3nZBmFEmMV7KOiv_W=rjEVYV41eTEaA@mail.gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -64,41 +102,46 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261113084700.739002-15-jack@suse.cz>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Nov 13, 2026 at 09:47:02AM +0100, Jan Kara wrote:
-> PAGECACHE_TAG_DIRTY is the authoritative source of information about any
-> folio being dirty in the mapping. I_DIRTY_PAGES is just an approximation
-> used by writeback code that can get stale under certain situations. So
-> just rely on the authoritative check.
-> 
-> Signed-off-by: Jan Kara <jack@suse.cz>
-> ---
->  fs/xfs/xfs_reflink.h | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/fs/xfs/xfs_reflink.h b/fs/xfs/xfs_reflink.h
-> index 683c1841e640..1310cc9fe829 100644
-> --- a/fs/xfs/xfs_reflink.h
-> +++ b/fs/xfs/xfs_reflink.h
-> @@ -17,8 +17,7 @@ xfs_can_free_cowblocks(struct xfs_inode *ip)
->  {
->  	struct inode *inode = VFS_I(ip);
->  
-> -	if ((inode_state_read_once(inode) & I_DIRTY_PAGES) ||
-> -	    mapping_tagged(inode->i_mapping, PAGECACHE_TAG_DIRTY) ||
-> +	if (mapping_tagged(inode->i_mapping, PAGECACHE_TAG_DIRTY) ||
->  	    mapping_tagged(inode->i_mapping, PAGECACHE_TAG_WRITEBACK) ||
->  	    atomic_read(&inode->i_dio_count))
->  		return false;
-> -- 
-> 2.53.0
+Amir Goldstein wrote:
+> Like this?
+>
+> Completely untested.
 
-For this patch, feel free to add:
+Thanks, Amir. I tested it on v7.4-rc3 (20eef29b7c84), where it applies
+with an 8-line offset in mm/filemap.c.
 
-Reviewed-by: Carlos Maiolino <cmaiolino@redhat.com>
+Setup: arm64 defconfig in QEMU; overlayfs with lower and upper on one
+ext4 disk; periodic writeback off (dirty_writeback_centisecs=0). Each
+case writes 64 MiB (16384 pages) through the overlay and calls
+sync_file_range(fd, 0, 0, flags). Dirty pages are read with cachestat()
+on the upper file's ext4 path, before and after the call.
 
-> 
-> 
+                                   before patch       with patch
+  ext4 file, flags=7              16384 -> 0         16384 -> 0
+  overlay new file, flags=7       16384 -> 16384     16384 -> 0
+  overlay new file, flags=2       16384 -> 16384     16384 -> 0 (4096 under writeback)
+  read-only fd opened before
+  copy-up, written via another
+  fd, flags=7                     16384 -> 16384     16384 -> 0
+
+cachestat() on the overlay fd reported cache=0 dirty=0 before the patch
+and cache=16384 dirty=16384 with it, in all three overlay cases. All
+calls returned 0, and the kernel log showed no warnings.
+
+Tested-by: Ding Feng <dingf3ng@gmail.com>
+
+Two questions:
+
+1. FUSE passthrough also keeps data in a backing file
+(fs/fuse/passthrough.c) and already forwards ->fadvise(). Does it need
+->f_real() too? I have not tested that.
+
+2. In the copy-up case, sync_file_range() on a read-only fd can now
+open the upper file and return that open's error. The man page lists
+none of those codes. I assume that is acceptable, as a write would see
+the same error, but I wanted to mention it.
+
+Thanks,
+Ding Feng
