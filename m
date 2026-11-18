@@ -1,55 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795007481;
-	b=wTt+nYeRKmNkfo14YIBa4wWQeDQ0r7hR9AIW9THFUG0UrZTlv9TlFr6OQw2Z3VhLU0T4
-	 1p5IK4anVeqYui237nCHlGZLd40Sj0JUBWR2zuyfTfQnK4kFTcMZ7NDKG9oFyiv8JuZ2L
-	 gPlPlO4Bnr48FWBy44n1MHssKAxtTyiLUnLfwHJ5OoLfNIcdomd+YVWMyL/GzeNeX5JX4
-	 cNMu6n4kBplow6LgmPLjQVm6/Vcl/pZDFKuX9KkEJqaHzKA1K2b8JrKZSMrp9sB62eOJY
-	 3ebYvv9s/OQO99jy7HJZgD056iurmqYMqlaicZVfHQcBuZaAlSx7qCJr0zEwAYuDiOA==
+	t=1795007802;
+	b=s+HVcvVlA+URfv2dcK50zoWt7VsPdv5G2rVwJXBuZz14/7X9etVFMbl0iXF/w2D9byKt
+	 JeZiRdc3As3pYTGu7QAiLbwC1Y52om+ux0Sfxej9l+5YN1b2SrSCiNrGeLCsrZnvZHA2n
+	 nUmwkh4vA/lr2HXzqjmBUVFPW1Fd1cwp0ndkTSwXghCM3HKDtFCpe5x+sWmiQCzInU5rq
+	 vBRYMZrjomFZe/jEIPsw2Dcx780ITT7vM3f8Otd2zty95n38L6GeWbYhFa1ydZLQWs7uA
+	 IIRFDGo2NR7DpOtlsFayt9GmZfU1z3rFDrdhJ9YhuIhImWJ9gJUQ9DnOg7/Ie2rrjXw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795007481;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=r+7quN+GXBrQXljQFdduQ9uCmIQYnXKvh0n7Ko5kSMI=;
-	b=eW9ChXXUgp8AF6JiHLP+AhNYLHp2HNCY6JxptnwdlFBfQ77Rngv+0BzfddEBoWdxZtsj
-	 liOh54GmFugSIhKlka7E08hPwosuzvavUwG2Bt1jT3YHUbtvpLSiwg3jeTyotKxWvquuN
-	 7h3gE6SS3GJoDlpODbLrzlt/hM5d78ZDfz8+0bOuSsEbUXejdg5vAhfRz87z4kIHTl6bo
-	 wBDYJvjaKsURt+aPzn+vgJRK91cMietOjFw9FzbXYWrbsSIaEMxyl7r3uEzZ5q6tnB4jP
-	 DOb9ajacpvNwxCygC063r/pcHhKIt3rTYmMX4ZTAPQXXaNzegIFvBDjktXx1iGuvLCg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795007802;
+	h=Received:DKIM-Signature:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=hB9UzleAIkWHJrqq6SqfTW60PW5YtSUer1QfUULJtCg=;
+	b=0IPA9dnc5pUZLv27CV5QA2DUvVXdpUPPZ4Fc+ja+GIVIaIGXw/5SagUQzTuGEZXYUQck
+	 V/d2KXYV8lMngcu7ZPde615cBplJxeSiLfuQa3XW28v/PfrpIcUvph6SYBfTE0XUsyi4d
+	 nvJ/pwDIc+zrhV6hPYwOVGxDKOtU5BwhqQvM8MiHv4PIoTO7cXn5H1JjfDyiXAO8SmObn
+	 L+/+pA9rp4LAwwO9fdhrd+c/PMKFTjOdTo6BNg7uH2BTPaiXwQPcWd/ptT47m5vLV6hFc
+	 r7gzAE3EDQ2S6J2uxJ6ruR1EBq9dy14ka8RaKZNStoFQWYL++mcyao5vTksiroISCPg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AEaCO8Ou;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CKbNLiOt;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3438606A31C;
-	Wed, 18 Nov 2026 13:11:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7595E606A32C;
+	Wed, 18 Nov 2026 13:16:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AEaCO8Ou
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74B4F1F000C4;
-	Wed, 18 Nov 2026 13:11:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CKbNLiOt
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF9191F000C4;
+	Wed, 18 Nov 2026 13:16:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795007481;
-	bh=r+7quN+GXBrQXljQFdduQ9uCmIQYnXKvh0n7Ko5kSMI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=AEaCO8Ou258CYi6ozrLsOHwP/CgC7usWd3ZqOZf3yedz8J6gJFJEyyuP36bxVG6/Z
-	 YP1v46USV9pgpN2JqXqOTvDUkZOcAJn38wQ3tY8hOUSONfTT9ZyV1dRa0U7O5azT7R
-	 tsJijB62Syce1VryS6Ca7wMGdL1Vi0XMnP5Hh/qRaDmJn2ZMg5NYGcvPuVPobaRmjU
-	 4t0jQQNOxynKkvxqRIY9NouaKbrn+tyFNz+039bKiLQcx97wg5MpHfvUrAkQxc4lBa
-	 bJyxV0JrTTMpW02xxp3/dEptu4+lkQNbOf6AsJlCEEvFEy4rTZYYH2AD1QPDRFuHJg
-	 ++D3Gu9z3XA3A==
-Date: Wed, 18 Nov 2026 14:11:15 +0100
+	s=k20260515; t=1795007802;
+	bh=hB9UzleAIkWHJrqq6SqfTW60PW5YtSUer1QfUULJtCg=;
+	h=From:Subject:Date:To:Cc;
+	b=CKbNLiOtnQArVEW7ZPUs5wZ+GoPNnxHHl/IA4Kigx1MdiDJYsF/TfqkvXPOnrf4QS
+	 CLMJekPxNF+BXbpTwHJURn1Mq11paeCU7zbXP4LDsBJjscDxBtI4/V2wjLx/Mag3ZV
+	 xwuOMSzYbIQpR0xnJjPsx5g8QPO38nioygtWcsZpG+T//MY1y13oSF3ims58wsElcy
+	 tP+1JUwKodT9MrGypya7bHV+k6A1JKOcnvoia2U0F0UVKXQsJhQM/5iG89E5+n1qJm
+	 U6BgZy0nRf2q2/dVq3JXp+WuiXBF5U9IJj343bl5reWMHPfrYsbf9PQElZMmuFu2MH
+	 CVr0J62YV7hMg==
 From: Christian Brauner <brauner@kernel.org>
-To: Chris Down <chris@chrisdown.name>
-Cc: Omar Sandoval <osandov@osandov.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	linux-debuggers@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH v3] proc/kcore: allow disabling /proc/kcore at boot
-Message-ID: <20261118-masken-disput-miesmacher-27d6baaae6a8@brauner>
-References: <7c10f2e01b6f19229c83e81d887a87f5d1151841.1794904698.git.chris@chrisdown.name>
+Subject: [PATCH 0/2] fs: reintroduce SB_I_MULTIROOT
+Date: Wed, 18 Nov 2026 14:16:16 +0100
+Message-Id: <20261118-work-nfs-multiroot-v1-0-66e4458b7d32@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -59,83 +53,57 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <7c10f2e01b6f19229c83e81d887a87f5d1151841.1794904698.git.chris@chrisdown.name>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWMyw7CIBBFf6WZtWOEGm38FeMC6GDxAc0MrSZN/
+ 12wy3Nzz1lAiAMJXJoFmOYgIcUCateAG0y8E4a+MOiDPimlOvwkfmL0gu/plQOnlLHvNLXt0Z2
+ 10VDEkcmH7z96vW0sk32Qy7VUH9YIoWUT3VCn2ct+M9b1B1jiur6SAAAA
+X-Change-ID: 20261118-work-nfs-multiroot-d82e334c72a2
+To: linux-fsdevel@vger.kernel.org
+Cc: linux-nfs@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Jan Kara <jack@suse.cz>, Chuck Lever <cel@kernel.org>, 
+ Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
+ "Christian Brauner (Amutable)" <brauner@kernel.org>, stable@vger.kernel.org
+X-Mailer: b4 0.17-dev-04696
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1477; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=XolEZKg0n/Jhtb65dQs63UYEaAuPALwcP0dpFXFAw8w=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT9XWrUqrbmPm/HHZ4/FjXZf84tbVx2+3jSmph9+btuu
+ /ZW8nxQ7ChlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZhIzxKG/0V/E3tevQu4v/1o
+ 0rQw9+DanwKBYvbPz+TuLpQvbXhueZXhn66QaSL/n6UTk/j5NDKkZ+UI1E75H+587nvlmeZL99L
+ E2AE=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Tue, Nov 17, 2026 at 02:20:38AM -0800, Chris Down wrote:
-> /proc/kcore lets any process with CAP_SYS_RAWIO read all of kernel
-> memory. That's a pretty large read primitive for anyone who obtains
-> CAP_SYS_RAWIO (and it also gives away the KASLR layout).
-> 
-> For this reason on some hosts we want to turn /proc/kcore off. In terms
-> of what it can read, /proc/kcore isn't any more concerning than other
-> ways to read kernel memory, like BPF with CAP_BPF and CAP_PERFMON. The
-> distinction is that a process with CAP_SYS_RAWIO doesn't necessarily
-> have CAP_BPF and CAP_PERFMON, because CAP_SYS_RAWIO may be needed for
-> hardware access without necessarily wanting to grant general RAM access.
-> CONFIG_STRICT_DEVMEM already makes that possible for /dev/mem, but
-> /proc/kcore gives the same capability to do general purpose RAM reading
-> anyway.
-> 
-> However, on a kernel built with CONFIG_PROC_KCORE=y the only ways to
-> block it today are lockdown=confidentiality (which also disables many
-> other things we perhaps don't want to disable, like kprobes and
-> bpf_probe_read_kernel()), or an LSM. That's annoying, because on the
-> majority of hosts we do want it on for things like drgn/crash, so today
-> we build two separate kernels.
-> 
-> Let's add a "kcore=" boot parameter so that this can be disabled at
-> boot, which lets us preserve those choices while using the same kernel
-> image.
-> 
-> Signed-off-by: Chris Down <chris@chrisdown.name>
-> ---
-> v2 at https://lore.kernel.org/r/a8474f0e2d0ef5ea9d53aa6649c7e9c9ea6f15c2.1794800574.git.chris@chrisdown.name
-> 
-> v3: Make kcore_enabled __ro_after_init (Kees)
-> v2: Give more justification in changelog (Omar)
-> 
->  Documentation/admin-guide/kernel-parameters.txt |  6 ++++++
->  fs/proc/kcore.c                                 | 12 ++++++++++++
->  2 files changed, 18 insertions(+)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 176648941aec..205228294fc2 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -2902,6 +2902,12 @@ Kernel parameters
->  			parameter KASAN will print report only for the first
->  			invalid access.
->  
-> +	kcore=		[KNL,EARLY]
-> +			Enable or disable /proc/kcore on kernels built with
-> +			CONFIG_PROC_KCORE=y.
-> +			Format: <bool>
-> +			Default: on
+Welcome to 2018: Since the nfs conversion to the new mount api in v5.6
+".." can escape an NFSv2/NFSv3 mount again when the client shares the
+superblock between mounts of different subtrees of the same server
+filesystem.
 
-So I'm happy to take this on top of vfs-7.5.procfs but I'm really
-unhappy about this proliferation of various hyper-specific opt-outs.
+I reproduced it in a VM with knfsd exporting a single ext4 filesystem
+and the client mounting two subdirectories of it over loopback. On
+v7.4-rc3 ".." from a directory that got moved into the other mount's
+subtree lands in that other mount, from inside a chroot as well. With
+the first patch it fails with ENOENT. The first patch just restores what
+we had so it can go to stable easily.
 
-For example, we already have:
+While testing this I noticed that the same setup trips the warning I
+added to vfs_dentry_acceptable() for open_by_handle_at(). The handle is
+correctly refused but an unprivileged user can trigger the warning
+from a user namespace if they own the directories. The second patch
+uses the flag to not warn on multi-root superblocks.
 
-enum proc_mem_force {
-        PROC_MEM_FORCE_ALWAYS,
-        PROC_MEM_FORCE_PTRACE,
-        PROC_MEM_FORCE_NEVER
-};
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+---
+Christian Brauner (2):
+      fs: reintroduce SB_I_MULTIROOT
+      fhandle: don't warn about multi-root filesystems
 
-static enum proc_mem_force proc_mem_force_override __ro_after_init =
-        IS_ENABLED(CONFIG_PROC_MEM_NO_FORCE) ? PROC_MEM_FORCE_NEVER :
-        IS_ENABLED(CONFIG_PROC_MEM_FORCE_PTRACE) ? PROC_MEM_FORCE_PTRACE :
-        PROC_MEM_FORCE_ALWAYS;
+ fs/fhandle.c                   | 6 ++++--
+ fs/namei.c                     | 4 ++--
+ fs/nfs/super.c                 | 2 ++
+ include/linux/fs/super_types.h | 1 +
+ 4 files changed, 9 insertions(+), 4 deletions(-)
+---
+base-commit: 94ca49563acb36a19fb578499b04c84d5b0a5181
+change-id: 20261118-work-nfs-multiroot-d82e334c72a2
 
-to block FOLL_FORCE access on kernels which is another huge proc-based
-attack surface. My thesis is that if one is worried about /proc/kcore
-readout attacks they should be equally worried about these types of
-attacks.
-
-Iow, it would be nicer if someone took the time and came up with some
-boot setting that is a list of memory protection settings instead of
-spraying ever more kernel command line switches that nobody can
-reasonably remember or use.
