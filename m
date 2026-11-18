@@ -1,50 +1,89 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795026186;
-	b=T5Vva6y6WCYpS2GglJifRvQhvi0ISEiO/XqwyZjpwl1g6wX7fyWVEQ6V77Uj6dcqvoC6
-	 m9cdDB1O/QobgVSua03irseqz11tSyX7tICYzTrwis/Hybo/MgZnc8u8QPFfWLxn2MuD/
-	 y2rBoCusjFqB55EM4d7flPXr92fTJ8GIT2vSdp6fi1H8vy2nI8C7zxquW+BNpJnWSFa3p
-	 vo5PO1mtMYwpXjyDALD9ova9pc5hnYIsNinMq28XXlPU2FfQ3/tNDu/AW/h+Y2cIHlF45
-	 11AogPpyVJh0q/aebtGUkE2hktm91MNpk9FpKd/UR7ExV+9X4D8IxHbtHsCZWi9ZWuw==
+	t=1795026190;
+	b=ijhw2C9JvKQNQbTH/qbKcCeOmdfZAiULIYL3vz518z3KJBNbE2MgIpCjBspyULZFjxsd
+	 6mKfOrrw0aVYCCCuzJ2oIox3lzHW7xwmW56ufKwZC1vh0LAnJtQo8fDmETJUygX6kSTVc
+	 zk7UHYmqiJKq5q48JZYvqN0OmejFitemse+MNC2i+yfSSlTGNZyGELC8J4gYpL5BG4a0z
+	 7WbloL2kkf35w8LSOMOk85zBC7LqR8lB0Fs0napYRen/hv4mrP80S0SQLp4MTcpd2i8pF
+	 i2rJTHsw/18lw62DkIqXWIBn2sqhCNJfJ6+57hWQGp7d9DZC44pUPA7etqMlDq6SAOA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795026186;
-	h=Received:DKIM-Signature:Date:To:Cc:From:Message-Id:Subject;
-	bh=EU0w2Pj7eYZo7t7cHwVW7q82EN7P2iEY8kXTkymFoF4=;
-	b=njbHPoAjo6jsbI5TBM84pedx8fwIGLdZ+r/np3GF75biIsWSFvA9geLIUAe/DlpPZIEt
-	 rVSqmwh5UhbZsMcNHibHgOVP5H6z4JHhteupMrXDa2GR7IzMfw/WdmQiq3Phkaj3CdaDy
-	 kkj2dbOLkkPuLRg5dgdogfoVB+eaxniFnbSTWs0AQpmC9V/lNPCkaoVCnTzmWkDxyvkvO
-	 er6mWDovyuNfuWDdGlsQAYa0O3xEytz6y0luqdpVT5A02xH5G6jNsmF1jOzPkykwIbMoo
-	 9pgnDGM1/wb4tJuC7qBcmMHHZH8XhYYbTmXIXyEeUXlRo+XeQpx3eGHUCjy+ytYHuyg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795026190;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=foArwJppdw7wxwAIXrJloa09SFBAq+aNRAw3uRfRo00=;
+	b=gKJySiLWvCbKmRGb1s3OjUxYuSdEhi8fLUnkrQzC6DQmC73ZH3gZRmNhGPy8vxKhcoiF
+	 QD7+BAAeQGZo5rBUH073kO7BsZeaj4mdDfsZqtXH753/UMFLBFY46WEeZTAsPudce6THr
+	 yTj7Xh39PgW5/G0mXCfHrd4b+i510ECr6ka2PegzbEdTObLd2Q5HdIbkgej1thV3IW9wi
+	 0qjn7/bW1Tq+JbMoFNrgcwG5TRdrCWjpfYjMhhqqQA0vU/4js9aSr80qwtk1Zh11Ie/js
+	 yG8yRN6wiGWpq9CTr5jT41t9XZLoqik1CUfBV/gt6AiIzSdZVBd4sK7tRDnHbZDjNJw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b="KWfjA+/O";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SSexoLIK;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3118C60A383D
-	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 18:23:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id E676360A2601;
+	Wed, 18 Nov 2026 18:23:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=KWfjA+/O
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D64531F000D1;
-	Wed, 18 Nov 2026 18:23:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1795026185;
-	bh=EU0w2Pj7eYZo7t7cHwVW7q82EN7P2iEY8kXTkymFoF4=;
-	h=Date:To:Cc:From:Subject;
-	b=KWfjA+/OMvOcJKU7kDKY+pGt1QJ2Z+wc3E2Lk1dFAkFKbiPY0t7/40JEp9Rmukcno
-	 b/DPcqypQEYGvEl/sk6k/mdsxqoW6eItFpo4APZsrQ7qS1Nfz0g6NOLxzIxTPDHqoi
-	 k8Fu1l3Q+e/5iv1IBlaUP+1+iJrtdVydfZ4+g6Ls=
-Date: Wed, 18 Nov 2026 10:23:05 -0800
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>,
- syzbot+4324f771847cecb27c54@syzkaller.appspotmail.com,
- Hugh Dickins <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
- Miklos Szeredi <mszeredi@redhat.com>
-From: Andrew Morton <akpm@linux-foundation.org>
-Message-Id: <00461f0c866d4a4eb9f50792f0e1f3d0.1@linux-foundation.org>
-Subject: [PATCH] shmem: consume the reserved xattr space despite remount
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SSexoLIK
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 6DD3E1F000C5;
+	Wed, 18 Nov 2026 18:23:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795026189;
+	bh=foArwJppdw7wxwAIXrJloa09SFBAq+aNRAw3uRfRo00=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=SSexoLIKwBoPiLX/UCNvXMAvv4Xqx3dXaulr2O2mznCKKpg7Gl+XFyR5jDdZdWAUN
+	 Bm2Ym5u52HNVVRFXbz+lZpqqUqdI0QIVX/BnBolTVOjdqbWIRa9ZL/AQfHb7tP0tHy
+	 Bo3R6lGQHJTvQrtUZUBLV22APvmXIw2J9PMILe+xCzHOUZKAi5UWfm9zvRyK2Mg+0I
+	 M+H6ts9MMhrB3C9VnwqV5X6yDzwsL/MkVrIZfX8RVMJAzd9mqBMK3WoZuQhU6CTmSZ
+	 37+m6Xg9yYUbnkS2hE09G723J8T6okkYA03L/UmQUJFycH5/CD9SmRDukHGn7s1/6U
+	 Jq9Ur6XjHy3ig==
+Date: Wed, 18 Nov 2026 20:23:05 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: Andy Lutomirski <luto@amacapital.net>
+Cc: josef@toxicpanda.com, linux-fsdevel@vger.kernel.org,
+	linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org, linux-security-module@vger.kernel.org,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Ben Segall <bsegall@google.com>,
+	Christian Brauner <brauner@kernel.org>,
+	David Hildenbrand <david@kernel.org>,
+	David Howells <dhowells@redhat.com>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Ingo Molnar <mingo@redhat.com>, Jan Kara <jack@suse.cz>,
+	Jonathan Corbet <corbet@lwn.net>,
+	John Johansen <john.johansen@canonical.com>,
+	Juri Lelli <juri.lelli@redhat.com>, Kees Cook <kees@kernel.org>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Manfred Spraul <manfred@colorfullife.com>,
+	Mel Gorman <mgorman@suse.de>, Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>, Neal Gompa <neal@gompa.dev>,
+	Paul Moore <paul@paul-moore.com>,
+	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Serge Hallyn <sergeh@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
+Subject: Re: [RFC PATCH v2 00/13] Namespace for namespace roots
+Message-ID: <av3tCT5lQTu7qBMz@kernel.org>
+References: <20261117231352.3816603-1-jarkko@kernel.org>
+ <CALCETrVUkbpoFjwSAejyA4b_9qEauAP_36i=O8Op1ifp8aUkqA@mail.gmail.com>
+ <av3akYFOYaeQZauZ@kernel.org>
+ <av3bkDnwmjunTleX@kernel.org>
+ <CALCETrXPLeUgxyhjP4XuWS46FKB0TUHF5PcMkdMf+qeEXbyXRA@mail.gmail.com>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -53,68 +92,119 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CALCETrXPLeUgxyhjP4XuWS46FKB0TUHF5PcMkdMf+qeEXbyXRA@mail.gmail.com>
 
-From: Andrew Morton <akpm@linux-foundation.org>
-Subject: shmem: consume the reserved xattr space despite remount
-Date: Thu, 05 Nov 2026 08:08:06 -0800
+On Wed, Nov 18, 2026 at 09:46:02AM -0800, Andy Lutomirski wrote:
+> On Wed, Nov 18, 2026 at 9:08 AM Jarkko Sakkinen <jarkko@kernel.org> wrote:
+> >
+> > On Wed, Nov 18, 2026 at 07:04:21PM +0200, Jarkko Sakkinen wrote:
+> > > On Wed, Nov 18, 2026 at 08:59:39AM -0800, Andy Lutomirski wrote:
+> > > > On Tue, Nov 17, 2026 at 3:14 PM Jarkko Sakkinen <jarkko@kernel.org> wrote:
+> > > > >
+> > > > > OVERVIEW
+> > > > > ========
+> > > > >
+> > > > > A root namespace (rootns) is a kernel object backed by a file descriptor
+> > > > > that binds together:
+> > > > >
+> > > > > 1. A full or partial set of detached namespaces.
+> > > > > 2. A dedicated PID namespace for spawning processes into, signaling
+> > > > >    members, and polling or waiting on PID 1 exit.
+> > > > > 3. An initially empty mount namespace (CLONE_EMPTY_MNTNS) that must be
+> > > > >    populated before going live, without inheriting host mount-tree
+> > > > >    ancestors.
+> > > > >
+> > > > > Work on this feature started in 2025 from David Howells' container object
+> > > > > patch set [1], which I turned into a namespace for namespace roots and
+> > > > > rebuilt around that premise.
+> > > > >
+> > > > > While the patch set is manually written, the original motivation came
+> > > > > from isolating LLM agents. Running untrusted agent workloads made it
+> > > > > clear that OCI runtimes need to minimize their live configuration
+> > > > > surface.
+> > > > >
+> > > > > Assembling mounts, credentials, and namespaces inside helper processes
+> > > > > with a half-configured container is what I see as the main challenge,
+> > > > > and the existential debate around namespaces and container objects is an
+> > > > > unfocused discussion topic.
+> > > >
+> > > >
+> > > > I've skimmed some of the series, and I see a bunch of good ideas that
+> > > > involve using an fd to manage a thing.  But I'm wondering how much of
+> > > > the value is added by that and how much is added by having a new
+> > > > *type* of thing: the "rootns".
+> > > >
+> > > > How much of the value comes from the rootns vs the new APIs to
+> > > > configure namespaces without entering them first?
+> > > >
+> > > > For that matter, the cells series also seems to contain a (possibly
+> > > > very similar) variant of the same thing.
+> > > >
+> > > > Would it make sense to come up with a patchset that does *just* the
+> > > > configure-a-namespace-by-fd part?  It seems to me that this should be
+> > > > an easier thing to agree on, and it's a big part of the complexity of
+> > > > all of this, and it solves a real problem even without
+> > > > cells/rootnses/jails/whatever.
+> > >
+> > > Is it  more accurately scope the part that is "just the fd-part" and
+> > > what you consider as "extra cruft"?
+> 
+> I'm not actually trying to say that anything is "extra cruft".  What I
+> mean is: there seems to be somewhat of a core that is pretty similar
+> between the two patchsets, and that core seems independently useful.
+> 
+> > >
+> > > I.e., where do you draw the border?
+> >
+> > I'm asking this because I had similar thoughts when I started this back
+> > in 2025. David had some good ideas but it did more than having a fd
+> > that does not go live before everything is set up properly.
+> 
+> I don't know that I have a very clear border, but here's an example:
+> 
+> rootns has MOVE_MOUNT_T_ROOTNS_ROOT.
+> 
+> cells has:
+> 
+> +What else goes into the tree is mounted on it before it becomes a
+> mount namespace.  A
+> +filesystem for the cell to write to is mapped in the same way:
+> +
+> +.. code-block:: c
+> +
+> +   fs = fsopen("tmpfs", 0);
+> +   fsconfig(fs, FSCONFIG_SET_STRING, "mode", "1777", 0);
+> +   fsconfig(fs, FSCONFIG_CMD_CREATE, NULL, NULL, 0);
+> +   mnt = fsmount(fs, 0, MOUNT_ATTR_NOSUID | MOUNT_ATTR_NODEV);
+> +   mount_setattr(mnt, "", AT_EMPTY_PATH, &attr, sizeof(attr));
+> +   move_mount(mnt, "", tree, "tmp", MOVE_MOUNT_F_EMPTY_PATH);
+> 
+> (Source: https://lore.kernel.org/all/20261105-b4-cells-v3-2-bc9095937a84@toxicpanda.com/)
+> 
+> I feel like you are both *so close* to something that would stand
+> alone and make perfect sense.  I also feel like, if that's a goal,
+> then both series are slightly off from the bulls-eye.  (Keep in mind
+> that I've spend a total of about ten minutes looking at the relevant
+> parts of the series.)
 
-Creating a tmpfs inode can trigger WARN_ON(ispace) in shmem_initxattrs()
-when a concurrent remount sets nr_inodes=0.  With panic_on_warn enabled,
-this warning can panic the machine.
+Thanks, there was still a lot of relevant feedback to address.
 
-shmem_initxattrs() reserves space for the security xattrs while inode
-limits are enabled.  It later tests max_inodes again before consuming that
-reservation for each installed xattr.  If remount disables the limit
-between those steps, successfully installed xattrs leave a nonzero
-reservation behind.
+And who knows, perhaps there's a sweet spot intersection. I would not
+mind that, as I only pursue for something simple and practical.
 
-Use the remaining reservation, rather than the current mount policy, to
-decide whether to subtract the installed xattr's space.  This also leaves
-the failure path with only the unconsumed reservation to refund.
+For the time being, I'll update this series simply because there's less
+to change, and polish the implementation. That does not hurt even if
+cells were the ultimate solution. Part of this series can still be
+useful.
 
-An initially unlimited filesystem cannot acquire an inode limit through
-remount: shmem_reconfigure() rejects that transition.
+> 
+> 
+> -- 
+> Andy Lutomirski
+> AMA Capital Management, LLC
 
-Link: https://lore.kernel.org/20261105082717.c459bb33778fcf27e5675082@linux-foundation.org
-Fixes: 076e5cef28e2 ("simple_xattr: change interface to pass struct simple_xattrs")
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-Reported-by: <syzbot+4324f771847cecb27c54@syzkaller.appspotmail.com>
-Closes: https://syzkaller.appspot.com/bug?extid=4324f771847cecb27c54
-Tested-by: syzbot+4324f771847cecb27c54@syzkaller.appspotmail.com
-Cc: Hugh Dickins <hughd@google.com>
-Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
-Cc: Miklos Szeredi <mszeredi@redhat.com>
-Cc: Christian Brauner <brauner@kernel.org>
----
-Reproduced the warning before the fix and verified its absence
-afterward in a Debian 13 guest with SELinux enabled (permissive).
-
-A temporary hook paused file creation after reserving security-xattr
-space. Another process completed a real nr_inodes=0 remount before
-creation resumed. The unpatched kernel left 94 bytes unconsumed and
-triggered WARN_ON(ispace); the patched kernel consumed the reservation
-completely. File contents and the security xattr were verified.
-
-Ordinary creation on limited and unlimited tmpfs mounts also passed
-on both kernels. No additional KASAN or lockdep reports occurred.
-
-Tested Linux 7.4.0-rc1 with GCC 13.3, KASAN and lockdep, using KVM:
-8 GiB RAM, four vCPUs and one virtual NUMA node, backed by a
-Threadripper PRO 3995WX. Both kernels had the same diagnostic hook;
-the ordering was forced rather than left to random stress.
-
- mm/shmem.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
---- a/mm/shmem.c~shmem-consume-the-reserved-xattr-space-despite-remount
-+++ a/mm/shmem.c
-@@ -4491,7 +4491,7 @@ static int shmem_initxattrs(struct inode
- 		if (simple_xattr_add(&sbinfo->xa_cache, &info->xattrs, new_xattr))
- 			break;
- 
--		if (sbinfo->max_inodes)
-+		if (ispace)
- 			ispace -= simple_xattr_space(new_xattr->name, new_xattr->size);
- 		retain_and_null_ptr(new_xattr);
- 	}
-_
+Br, Jarkko
