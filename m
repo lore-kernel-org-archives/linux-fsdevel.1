@@ -1,84 +1,86 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795022559;
-	b=xTGArVEHpKqE3sR36GFt9CQalGu0sDEzf4TBAhnq3L13eykV58Ohw9/Xj/Of00qAKade
-	 8SoC6dHy9oniDwqW96sA/wV1PIDldingAoW4AGH/xS1FqW/Ip3Ht1Kygoqxe0ozVUd2Ax
-	 Cp9+oNGNEev0CDABQ8IKodET17pABGGWUcBXjqoYtfzxhlfasxQKHjwX2v4kKeZ5WDrHy
-	 WOy/vYe0kHLFxTKlg3qA13C6+uMzAl8D9aNMeIXVf5FEawzalSwHnm7snqk+zcQuFOFNY
-	 K9ldZvoQ2EXwsJpEl1r90YYdBNBtm9U7eCgacri9eRXeODIsM59Of01XGfAy+XdXK1A==
+	t=1795022638;
+	b=aHH+5nb1hiiOgDczAaBeGzrY8SZxGts0uNlzA7L/rvSlyMWVSzFJw4FrDhXAMCWY48P9
+	 M2g+BB4JVh4kwGEbGab1UstNhI1XZNayCKU+03VwK0yn2ZkLu8Wnn/zQ+HPgS3ncNFWIY
+	 mROjoknKqkVqG6yAM9VxR4VHMKZ829/HuWKRm9tA0K7ZmFAdD0UJKUE4eJPIHe2FroB+O
+	 wSDyVmH6oyCl61S1jtCzfeWrzkfmmbt8gvH4XQ5NbKQSzlwDaRywL8gt11v0nrplgQ+5y
+	 4R2UWvFvLIv8HBR/9SA+Zf/B3uAPoE7+R1XqyUIV7IsS/Ke89OX6jquKppLjoXUuzaw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795022559;
-	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To:User-Agent;
-	bh=VotAYrBtciufD00EQtINMlP1oNamOH3kYvCTKgTHmis=;
-	b=1DO/hIui2ujgyOAtRd5RJiu/Slm2qX0E64a5DQ79lHAr92WzKxEmKFAW4As4GJqQVJK/
-	 iUzSMaefHzx6pkbwXT1M6F0dLENq5wiY1gcmCYQgmswQZt7u4pEXhZcTUAj9a7ldXZAt5
-	 +VkRGbrwVLeNQFkytNvMbykl9DIfdEpqq18jKyCvLbRV1iTGs8+/T63nEeVV7dWXvTHab
-	 UssMloahLsGr7pv3ndrotUIitEbN1EMV/qkIWmb45gtJPGn3BA6cIrSjJaRKyqNVzcCSa
-	 elMTCcHe5hv1W2/dA2oOdBMGRSVhlNs/nHI/TKublmYOC20d8+0PaKWrwPG8rD2yLVw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795022638;
+	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:X-ME-Received:
+	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=2RksEooRSQy8s2okC3wauXTJ94u3NPIg5qK3nWOQ/to=;
+	b=ybY4FbKtsJ41vWv+oCqEso56JiNbbspJ71+uR/wmiNre4D4sAWvDAL1ixcdopRrqPSCq
+	 nJ3hGhl1QVwMAli8Fj5r4iMbI/jnbGAELu9z1xYmFv110ND0kyxvl+3LYoyaRYKH61ohz
+	 8U/CIO1s1OTKPoIwF9LoSsWpoeA8oMvb/cdvD9KUZofhpCer6V7D5QNiQO6z6Suh0JH6b
+	 AYsBCZBX/AbMhJNIWlgElwdSyT6zsB817NKTZFFWjGb0bUKGH+mkz4VMYJyyaku+jnY8g
+	 ELGYy0WgpXLjMrt1ZmtAYs8ctFGnFY4ERdIhnT+w0500B1RRaiwZzCPJtLMV3gqtwgg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BUA2NnkU;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DzAdLeyM;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB0AB606A331;
-	Wed, 18 Nov 2026 17:22:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFCC0606A335
+	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 17:23:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BUA2NnkU
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30A2E1F000C6;
-	Wed, 18 Nov 2026 17:22:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DzAdLeyM
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 059B21F000C4;
+	Wed, 18 Nov 2026 17:23:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795022559;
-	bh=VotAYrBtciufD00EQtINMlP1oNamOH3kYvCTKgTHmis=;
+	s=k20260515; t=1795022638;
+	bh=2RksEooRSQy8s2okC3wauXTJ94u3NPIg5qK3nWOQ/to=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=BUA2NnkUtEhAhDoFcOydn+vYU6Gy11rI6zu0ZctN8zT5MsWTYcceGQH2zQKxT467B
-	 MqO9i4BJkGrg7RMW7whc4n2wzW5KfvNJUrkFRM2ryxFatYQiVQW2rwr2YNs9ije56d
-	 GdyFNtlZGcLUVxyyZ2/ejye7oP6DshENT/1GdUEt3v57nIoXBt2lLhfO6sxhhph/0n
-	 4MkX2qwnMYHvLwdIZIBM/3Hh3Wyll2hpYgtCzIJsXs39Iz2Lq++vw3pvLzdPSS+/Mq
-	 pXlnxQ2G2+LFYaMUOi2UA5hJAAOiID700DXLNd522hrfS2vcC5IqtJ3z9aQgdF+m8i
-	 SUK7KFtHmsZ7A==
-Received: by pali.im (Postfix)
-	id 3AC89846; Wed, 18 Nov 2026 18:22:36 +0100 (CET)
-Date: Wed, 18 Nov 2026 18:22:36 +0100
-From: Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
-To: koraynilay <koray.fra@gmail.com>
-Cc: David Sterba <dsterba@suse.com>, Namjae Jeon <linkinjeon@kernel.org>,
-	Sungjong Seo <sj1557.seo@samsung.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>, Chuck Lever <cel@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	Paulo Alcantara <pc@manguebit.org>, Chris Mason <mason@kernel.org>,
-	Yuezhang Mo <yuezhang.mo@sony.com>, Jan Kara <jack@suse.cz>,
-	NeilBrown <neil@brown.name>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
-	Ronnie Sahlberg <ronniesahlberg@gmail.com>,
-	Shyam Prasad N <sprasad@microsoft.com>,
-	Bharath SM <bharathsm@microsoft.com>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	ChenXiaoSong <chenxiaosong@chenxiaosong.com>,
-	"Darrick J . Wong" <djwong@kernel.org>,
-	Sean Smith <defendthedisabled@gmail.com>,
-	Andrey Albershteyn <aalbersh@kernel.org>,
-	Pedro Falcato <pfalcato@suse.de>,
-	Amir Goldstein <amir73il@gmail.com>, linux-btrfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	exfat@lists.linux.dev, ntfs3@lists.linux.dev,
-	linux-cifs@vger.kernel.org, linux-nfs@vger.kernel.org,
-	linux-api@vger.kernel.org
-Subject: Re: [RFC PATCH v4 00/10] add provenance time (ptime)
-Message-ID: <20261118172236.t65ytycs7ruxjrhg@pali>
-References: <20261115180343.576773-1-koray.fra@gmail.com>
- <20261118142613.be3r3s6kobkkxnz4@pali>
- <DMYFBDIV4Y08.35ZKR5G86U1H7@gmail.com>
- <20261118151605.lqtn5fz423kuswk5@pali>
- <DMYHPLWKPSH3.MUM1IIZZIWNR@gmail.com>
+	b=DzAdLeyMCA0IjTXMenv5yUHQK9upvBRXD0/ev8C9zXTwKQ6RGLPFwCnjduWmzTfQe
+	 v21/QKXCBz41YNkNxWaVYQAHFRhmoXQA1xnSSvNYhq+5WhuWZ7XNI7zW3+c6VR6lGR
+	 pBVootEX/n50Wtfdo+x+arPW28e0xXin2GYylhv1c5yVdSeWVdjMyDzMfzt+SLDsvn
+	 2pENgB4hbtd9G8L0K/fU1rBQq8eioycTSYdG4OKfvxfBVS1UCkGjKFdldoVR/DcXoi
+	 RSegnFC+91vRi3gAEDW5qE6c9s3xmbo1yA1p5RP2AdqaCDtJJu11dryjnSjdifxf7b
+	 laenvWxknMxcg==
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 5E770F40066;
+	Wed, 18 Nov 2026 12:23:57 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-06.internal (MEProxy); Wed, 18 Nov 2026 12:23:57 -0500
+X-ME-Sender: <xms:Ld_9amQOu9lfEQ1w8TuLhxzrxXO-oNmFGxSm9S6Fbw4877dVQ3syIw>
+    <xme:Ld_9aqLiNROPBSKcP6TqXh5mCEGXcXSAEqV5D5VrcE7C6HEYnDsR3pSQ7_2UnsuYC
+    2OGqFtc6svNbYhQF3dBvutJ4YAfwHwA_mCNq3D_UKXaC_A0s9zgCeY>
+X-ME-Received: <xmr:Ld_9av3DUnyQmbqwEcvzWSlvRcpHU0vHSlmnq6CyudlWXfdf2SvUZ7F7mQZDuIuS7gzPvcM0YDNF7XjuV6jb9f-AFcP-qAyJ>
+X-ME-Proxy-Cause: dmFkZTE+Ncdsmq9B/GZ/+WChSg2xAz+aE3Ph6S7mbrG1mDLu84NH40Ak7PjFmaYnj0T016
+    FRJtDawBaIJ5zps2vaNYfmOc+AjKOloVVfD6S/jYyZePRUnKfY3Q74rsarXJtajD0dYNI8
+    Yv19s5Ga7iCGJ4QB6mx6FaIcZhdsieMALloXLuhaIoHpr2QaCOEnaNCEhMoGhWFDavUhVo
+    h6/ledDzrALW33YNgQEq5ySdRf9vSAZ0RTMSGntUqqJX91G6xkjoAydnSGnu7RyWyYHRya
+    IAZTk7KCvMJ2RZCZxjrNNv6iY3kLG6g46H/XIYs+efKk6I4aVAMGQMrL4BkYIeG5BFaKrR
+    cnT0gh66LPNsDS6Tx+YTUZHvXrqHYITJA4ylzqaUfm3w1E2/FF2ih2A249eHvhO6tWzpac
+    V1Yjuxur/dehwODwMWI0jHV5JkQ+hCxwZLyyTQNKHI0QGtlkGCXAaQMdz4SiACCWLxAzu6
+    0Lbc3w2gBShx+DxuK1SY6QT2U9q932VEQgvo39gUOyOUxy30rytwa0Mnu6OFvAm3yHXrsu
+    XEL/NgWRyfLeCHGINJPdHmlIdMUinEIKtboQ31an8PplshkX/mKK2+I2Q3GxqfCTQQqlgA
+    glZJ7ZgSOdiCP7cxmCZRhTmQffwunyGmp0S993vXr1YKE5LU566xbas3du5w
+X-ME-Proxy: <xmx:Ld_9alJX6h40VeSsorBAJuKbawe0P7q6FL87kaI3ihzIIXG5e9fCUw>
+    <xmx:Ld_9ann7nFn-SIJTP1aaqBbq16acvKpGKi1Uh7jYotguYpvah17fSg>
+    <xmx:Ld_9arN8YL08SKNDokiSHaraFCWJ-jbhhSf4wCzbDg4os66NEYkLxQ>
+    <xmx:Ld_9auz32_97lCeyOqaOMoNffeG5qHwfKEh0jlpkAlCYKrzRjCRr2A>
+    <xmx:Ld_9arlIyGRCiHI7dZ6B8XbaY7UyBaMbgFJdttPJzPfe5feEEx1_VxiC>
+Feedback-ID: i8dbe485b:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 18 Nov 2026 12:23:56 -0500 (EST)
+Date: Wed, 18 Nov 2026 09:23:55 -0800
+From: Boqun Feng <boqun@kernel.org>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: gary@garyguo.net, aliceryhl@google.com, lyude@redhat.com,
+	daniel.almeida@collabora.com, work@onurozkan.dev, ojeda@kernel.org,
+	bjorn3_gh@protonmail.com, lossin@kernel.org, a.hindborg@kernel.org,
+	tmgross@umich.edu, tamird@kernel.org, acourbot@nvidia.com,
+	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz,
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v3 0/5] rust: sync: add WaitQueue infrastructure
+Message-ID: <av3fK2ybemq91riD@tardis.local>
+References: <20261117001507.1611984-1-dakr@kernel.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -88,146 +90,68 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <DMYHPLWKPSH3.MUM1IIZZIWNR@gmail.com>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <20261117001507.1611984-1-dakr@kernel.org>
 
-On Wednesday 18 November 2026 17:50:39 koraynilay wrote:
-> On Wed Nov 18, 2026 at 4:16 PM CET, Pali Rohár wrote:
-> > On Wednesday 18 November 2026 15:58:02 koraynilay wrote:
-> >> On Wed Nov 18, 2026 at 3:26 PM CET, Pali Rohár wrote:
-> >> > Hello,
-> >> >
-> >> > I have just one issue with the userspace API. It does not allow me to
-> >> > figure out what is the source of statx btime field. If it is fs ptime or
-> >> > fs btime because this RFC implementation is mixing both fs ptime and
-> >> > fs btime into the statx btime field.
-> >> >
-> >> > I have feeling that this is quite a mess in API and I would like to see
-> >> > a clear distinguish between btime and ptime in the API, like there is a
-> >> > difference in the fs storage.
-> >> >
-> >> > If the btime is used for forensic analysis then somehow I would expect
-> >> > that the statx would not report / not fill changeable ptime value into
-> >> > the statx btime.
-> >> 
-> >> Hi, for native linux filesystems it will report ptime as PTIME and btime
-> >> as BTIME (also semnatically).
-> >
-> > That is fine.
-> >
-> >> for the windows-like ones that only have
-> >> ptime (semantically) I think it's reasonable to not expect btime to be
-> >> immutable, since they are meant to be used with other OSs who lack btime
-> >> semantics.
-> >
-> > The problem is here that the RFC statx API does not provide this
-> > information that the fs lacks btime semantics and instead it fills
-> > non-immutable ptime value there.
-> >
-> > I'm pointing only about this inconsistency.
-> >
-> >> > It would be really helpful if the statx API on inode can differ between:
-> >> >
-> >> > 1. btime is present and its value is ..., ptime is not supported
-> >> > 2. btime is not supported, ptime is set to value ...
-> >> > 3. btime is present and its value is ..., ptime is set to value ...
-> >> > 4. both btime and ptime are not supported
-> >> >
-> >> > This should cover all cases of different filesystems and also allows
-> >> > userspace to do proper backup of both ptime and btime fields (if it want
-> >> > to do forensic analysis or anything else).
-> >> 
-> >> These should already all be covered by STATX_BTIME/PTIME and their
-> >> fields in struct statx, the only problems are windows-like filesystems,
-> >> which IMO shuold be handled as mentioned above.
-> >
-> > Exactly, I pointed out about these problems. I somehow expect that the
-> > new API would be generic and uniform across filesystem. IMHO it does not
-> > matter if the filesystem is windows-like or not (there are also FreeBSD
-> > fs and also others which allows to modify that time). So better
-> > description is fs belongs to category 2. from my above description.
+On Tue, Nov 17, 2026 at 01:14:41AM +0100, Danilo Krummrich wrote:
+> Add a WaitQueue abstraction wrapping struct wait_queue_head, providing
+> wait_event()-style methods that take a condition closure directly.
 > 
-> Ah yes, I used windows-like to mean "only have ptime semantics", so same
-> as your category 2.
+> This is needed for a (subsequent) DRM patch series to wait for in-flight file
+> close operations during driver unbind. The Tyr driver also needs it for "CSF
+> firmware responses and other GPU-driven events" [1].
 > 
-> >> Of course, as in the other discussion, I'm open to changing ptime
-> >> NTFS/exFAT/... support to remove btime altogether and only use ptime for
-> >> their own crtime if that's what wanted (I'm fairly impartial on this
-> >> specific issue).
-> >
-> > I'm giving some ideas how to possible handle this situation:
-> >
-> > 1. do not fill btime it at all when it is not available (remove btime
-> >    altogether - the case like you wrote above)
+> Convert CondVar (and PollCondVar) to use WaitQueue internally, removing
+> duplicate code using WaitQueue as the base primitive and add
+> wait_interruptible_freezable_nonexclusive() for subsequent binder usage.
 > 
-> This would be the most semantically correct option, but would break at
-> least 1 script/program/use case.
+> This series is based on FUJITA Tomonori's CondVar timeout conversion [2].
 > 
-> > 2. when userspace ask both ptime and btime, then do not fill btime
-> >    (remove btime altogether - but only for that new case)
+> Changes in v3:
+> - Use Delta<Jiffy> for timeouts and treat negative durations as zero.
+> - Add might_sleep() and caller tracking to the wait_event() methods.
+> - Gate the WaitQueue KUnit tests behind a dedicated Kconfig option.
 > 
-> This probably is the best compromise.
+> Changes in v2:
+> - Drop the already merged workqueue patch.
+> - Make as_raw() public.
+> - Split error types and use bindings constants for direct C calls.
+> - Avoid condition rechecks after success.
+> - Check the condition before preparing a waiter.
+> - Add non-exclusive wait support, including a CondVar method for subsequent
+>   Binder conversion.
+> - Handle zero and expired timeouts before interruption; extend KUnit coverage.
 > 
-> > 3. fill btime with ptime value, but add a new output flag indicating that
-> >    the btime is not present at all and instead kernel filled ptime value
-> >    into the statx btime field
+> [1] https://lore.kernel.org/dri-devel/20260721151423.444175-2-laura.nao@collabora.com/
+> [2] https://lore.kernel.org/rust-for-linux/20261104235929.1282640-1-tomo@flapping.org/
 > 
-> I don't really like this, it adds complexity and uses memory/1 flag big
-> for a single specific field, IMO it's not worth it.
-> 
-> > 4. let statx btime as currently is, and add two new statx fields:
-> >    immutable_btime and ptime. immutable_btime would be filled only if the
-> >    fs supports real btime (so not for ntfs/extfat crtime) and ptime would
-> >    be what is currently in RFC
-> 
-> I think this is also too complex.
-> 
-> > Ideas 2. 3. and 4. should be fully backward compatible as it would
-> > affect statx output only when called with new flags.
-> 
-> Then 2. is probably the best way to go forward (maybe I'll include it in
-> some way in v5),
 
-My preference is 1. or 2. Just wanted to give more alternative
-solutions.
+Nice work, thank you!
 
-> but I think we should let each filesystem maintainer
-> decide if they think their users want to have statx report their own
-> crtime as btime, ptime or both (native linux ones would of course
-> report btime as btime and ptime as ptime).
+Acked-by: Boqun Feng <boqun@kernel.org>
 
-statx syscall API is or rather should not be filesystem specific.
-If every filesystem decides to fill members differently then how could
-somebody write reasonable userspasce application? It would contain lot
-of spaghetti code like this:
+Regards,
+Boqun
 
-  statx(...buf...);
-  if (fs == fs_type1) {
-    process_buf_for_type1(buf);
-  } else if (fs == fs_type2) {
-    process_buf_for_type2(buf);
-  } else if ...
-
-And such thing is not API anymore.
-
-If every filesystem decides on its own how it fills, then it would not
-be able to write "rsync"-like backup or forensic tool to copy data to
-some other storage (does not have to be fs) or even to different
-filesystem on linux.
-
-Things for which filesystems could decide how to handle are private fs
-ioctl calls which are specific for individual filesystems.
-
-> Thanks,
-> koraynilay
+> Danilo Krummrich (5):
+>   rust: task: add safe schedule_timeout() wrapper
+>   rust: sync: add WaitQueue infrastructure
+>   rust: sync: convert CondVar and PollCondVar to use WaitQueue
+>   rust: sync: condvar: use task::schedule_timeout()
+>   rust: sync: condvar: add non-exclusive freezable waiting
 > 
-> >> Thanks,
-> >> koraynilay
-> >> 
-> >> >
-> >> > Pali
+>  rust/kernel/Kconfig.test    |  10 +
+>  rust/kernel/sync.rs         |   8 +
+>  rust/kernel/sync/condvar.rs | 154 +++++-----
+>  rust/kernel/sync/poll.rs    |  19 +-
+>  rust/kernel/sync/wait.rs    | 546 ++++++++++++++++++++++++++++++++++++
+>  rust/kernel/task.rs         |  23 ++
+>  6 files changed, 664 insertions(+), 96 deletions(-)
+>  create mode 100644 rust/kernel/sync/wait.rs
 > 
+> 
+> base-commit: 60fff02883397e17439c16f0e72b2f8c5f6eb791
+> -- 
+> 2.56.1
 > 
