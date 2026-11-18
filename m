@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794994857;
-	b=Ry9OWxzwsbgcozI4+WhvP+7IY+gWzHGwBCCmwFlmCFondy7v9LZLHnvYcUihWEXESvry
-	 1OqBDsoDnjss6jdnhG584B8UWBDPSIaQWM+qUQ+x+9IUBQdxiLm5EGQbdq/PZup2KSK0x
-	 tbcAb+B3clf2xfLU9ZrT3lO4dtdj/KcEWWCTtQbFSz18OlLWsW6Rs8XwcDvtk6e8iBI8X
-	 i7yEkzTmRkVHStHasfX5iz+wYuicpJXOYatORVqPOnQLWUWFoYMgk4NPWYFZpZxuyPrXf
-	 yKDabDBKx01SgHz23r4OK9Xmz7IT/goKRqm1Zp0TRZdkFK5Zl8KYK6bu3VuTFT3n8AQ==
+	t=1794994934;
+	b=Ld255b4iOD2MWx4fMZtE6asQ89m5OAXknNhDrFMq2JHQ7+fAj8QsNYs0+R2c6ZKrynCO
+	 1rZhc0l45dzLiyphdzVrhohxU7RGNpy9tbjoe828B2K7BSsmt2LpxQIcBSrYkK+EwkIv4
+	 3fvyfBgnnzq8l4LDPRSqjX/6boZPNGE7M5B1TAwqZ13NHdyphS/b/iJWSEOHR/QZd8X/m
+	 sTPxaH6BmmVapwLLnJ1JzAfFXRruQc1194woedAloK70Fdcjtalr4unijMirCjjwiVcei
+	 Xfi9mIuG3s+3MXQ0DbWWvfgUISFVxbp5q8sVsEYSWXbo6GhITKPKvpDcAX2ToRoELVg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794994857;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794994934;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=Ec0U4HkUVJSX9L9MyZXzeYkA6/IHQ00seYG0+mz4u74=;
-	b=lKgHo02fMPVblAjo9pv0WORdKH0mpS43Y0P7ECmktWfC8SQRHvGj5TcEY60nOA9hkgWf
-	 xpvHno3Jjo0hkMcs7XcUvd4ms0f9XMfqSJpYxQMqKR0QOapjltexezSiLS8D/AFGBDXyw
-	 h1ECDe3BhPt78/GZlGe6JUnMY4KkH0wy3Kbz1YUO+MticieTeWbhF/AQA1WPazkioDSAI
-	 tpZ7z/d9VBsEXCMjvW4A691SJnIBlDNcSrtM0uZOHK3JMokWZm2ltYF3dvjFLEVkQCV0n
-	 jBrXKrZOEOHDCwDiyJqBTzls/Nvx6iJqcx7Zd5kkMXcf3GJFcVAtZOF7kuSVw5r0z1w==
+	bh=9ATyR+9qHOct/xUnPH9mJnbBD7GZTG+HINgSyr3PxaI=;
+	b=ysiJOIgU1aT/p0T3EZs4i6kL55iRL+cOaxDQt1GqhlWM5G2cRYL1+3b63r4i8AJC3gcM
+	 gpcJNC/uoEEW/b8QKub1vT9ajd7/FzYwzvgbDydOswmKrN2tw7UC3X3+NyB/1tgyPuKwh
+	 h5O3yIeoCQByeRon2SEL4VAlE/vqzyT0bsATB12krd4vWNCE3R8BP8TPueme/Tt3Pn/CU
+	 6in1ZPBXZ8VmtSeedAClOarMwUFbTeI73UAXN/B+tVhgDHjT/zxMfNlv9581rngRJ1qqL
+	 glvKzzQMSc4kkhvN0uqaVD4miVJwks11+31zahKylAeRbV5esbcLco6P0Fg0ke2orbw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KJ6PUV62;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=B64ocKDl;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46F43606A320;
-	Wed, 18 Nov 2026 09:40:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DCA5606A330;
+	Wed, 18 Nov 2026 09:42:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KJ6PUV62
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1BB11F000C4;
-	Wed, 18 Nov 2026 09:40:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=B64ocKDl
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0951F1F000C6;
+	Wed, 18 Nov 2026 09:41:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794994856;
-	bh=Ec0U4HkUVJSX9L9MyZXzeYkA6/IHQ00seYG0+mz4u74=;
+	s=k20260515; t=1794994934;
+	bh=9ATyR+9qHOct/xUnPH9mJnbBD7GZTG+HINgSyr3PxaI=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=KJ6PUV621t2eK5Gd4c4EeynJ0kIbkgTVZK/76IYhM0+gtvO6/c0znmcSzDjyfNF8h
-	 pSKnG0Q0TbODfyVQnR1FlxNE0Ew1PAO3Awl1Z3CRIUvHYcERq8D1+P1eG6EQlrC8F7
-	 eDo2hb+vilHkKcmeA8D7ikXn1Xz7VOPZx6ta4Mys+YmQ0N+BqwNtxx0YnINJXRo1hu
-	 DCenhMOqjYuGs81iYBmB3Ik63Fc8ycNR9Lh8Mf1A2sirKs3eaVs2W3e+Ylu3MB2jdn
-	 4O+5mRQkH9z3XxseghRTfsYKz566j2CtOfIZCpQJZFGNGHgAWGA82LAcR8mL4MIez5
-	 fEyBMvUGcYYug==
-Message-ID: <d6692c11-df29-4ab6-a578-f86712abbdcf@kernel.org>
-Date: Wed, 18 Nov 2026 10:40:39 +0100
+	b=B64ocKDlyHLo7JKiB71qN7xPUGSas5O496TWP1Vb9kTdaWOBu3xdB4W0dYEjMGJF6
+	 wg63AHZj+PtfQQoLIvdVK5b0Pn24hBYJyxfSpX6Pbdx7+0UD7pxzuycdP5058yMa2/
+	 ETsOGLXBxuNitQ/Kl8b79+0Jb6zJ/9tkNCkDoeOp1+TbzpuDHZ0n4zlZoqpl87gr1W
+	 pPJbvsAYwFFaxlR7b0zjG5AJvUmmyOwORf3q9TMKLI+0tgiC27CXTjuz/JPWS1M1Zv
+	 +10DRh/IigcridN5ngx3Cid6k5sD2VJJyvtymSBjTvvQczytGNBB7uRDQaOstIJFHh
+	 AG2gXV+iJZLJg==
+Message-ID: <4f23b0bc-b89a-46c1-b8cd-853e7815b7ac@kernel.org>
+Date: Wed, 18 Nov 2026 10:41:55 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -52,8 +52,7 @@ List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 8/9] mm/migrate_device: do not migrate a uffd-protected
- zero page
+Subject: Re: [PATCH v3 0/9] userfaultfd: assorted fixes (part 1)
 To: Tal Zussman <tz2294@columbia.edu>,
  Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
  Peter Xu <peterx@redhat.com>, James Houghton <jthoughton@google.com>,
@@ -77,7 +76,8 @@ To: Tal Zussman <tz2294@columbia.edu>,
  Oscar Salvador <osalvador@suse.de>,
  =?UTF-8?Q?Miko=C5=82aj_Lenczewski?= <miko.lenczewski@arm.com>
 Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, stable@vger.kernel.org,
+ Breno Leitao <leitao@debian.org>,
  =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
  Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
  Felix Kuehling <Felix.Kuehling@amd.com>, Jason Gunthorpe <jgg@ziepe.ca>,
@@ -85,7 +85,6 @@ Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  intel-xe@lists.freedesktop.org, nouveau@lists.freedesktop.org,
  amd-gfx@lists.freedesktop.org
 References: <20261117-uffd-state-fixes-v3-0-b617009d1a4a@columbia.edu>
- <20261117-uffd-state-fixes-v3-8-b617009d1a4a@columbia.edu>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -132,44 +131,122 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20261117-uffd-state-fixes-v3-8-b617009d1a4a@columbia.edu>
+In-Reply-To: <20261117-uffd-state-fixes-v3-0-b617009d1a4a@columbia.edu>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
 On 11/18/26 05:28, Tal Zussman wrote:
-> Device migration replaces a PTE that maps the zero page with a new PTE
-> that is built only from the VMA flags, so its userfaultfd WP or RWP
-> protection is lost. The same applies to the huge zero PMD. Writes and
-> accesses to the page are then no longer reported to userfaultfd.
+> This is a first batch of userfaultfd fixes, with more to come.
 > 
-> To fix it, do not migrate a uffd-protected zero page. Skip it during
-> collection, and check again under the page table lock before inserting,
-> as another thread can protect the page after it was collected.
+> These were found by a mix of regular old LLM review and by having an LLM
+> write a TLA+ model of uffd interactions with PTE bits and other state
+> and seeing what issues fell out.
 > 
-> The alternative would be to carry the uffd state over to the new entry,
-> but a uffd-protected zero page in a range that a driver migrates should
-> be rare.
+> Most of these fix places where mm code loses uffd-wp or RWP protection
+> while moving or migrating an entry. Userspace then either misses writes
+> and accesses, or gets pages reported that nobody touched.
+> There is also a hang in UFFDIO_MOVE, and UFFDIO_ZEROPAGE modifying a
+> file through a private mapping.
 > 
-> While at it, read the PMD once with pmdp_get() in
-> migrate_vma_collect_huge_pmd().
+> Patches 1-2:   UFFDIO_ZEROPAGE and UFFDIO_MOVE fixes, cc stable
+> Patch 3:       PAGEMAP_SCAN write-protect vs. writable migration
+>                entries, cc stable
+> Patch 4:       warn on a writable migration entry with the uffd bit set
+> Patch 5:       PAGEMAP_SCAN write-protect vs. device-private THPs
+> Patch 6:       UFFDIO_MOVE of the huge zero page from an RWP source
+> Patch 7:       mremap() losing uffd state when a move fails halfway
+> Patch 8:       migrate_vma losing uffd state of a zero page
+> Patch 9:       hugetlb alignment checks in UFFDIO_REGISTER and
+>                UFFDIO_UNREGISTER
 > 
-> Fixes: 292924b26024 ("userfaultfd: wp: apply _PAGE_UFFD_WP bit")
-> Fixes: a30b48bf1b24 ("mm/migrate_device: implement THP migration of zone device pages")
-> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> Cc: Lyude Paul <lyude@redhat.com>
-> Cc: Danilo Krummrich <dakr@kernel.org>
-> Cc: Felix Kuehling <Felix.Kuehling@amd.com>
-> Cc: Jason Gunthorpe <jgg@ziepe.ca>
-> Cc: Leon Romanovsky <leon@kernel.org>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: intel-xe@lists.freedesktop.org
-> Cc: nouveau@lists.freedesktop.org
-> Cc: amd-gfx@lists.freedesktop.org
-> Reviewed-by: Alistair Popple <apopple@nvidia.com>
-> Signed-off-by: Tal Zussman <tz2294@columbia.edu>
+> A few of the fixes change what userspace sees:
+> 
+>  - UFFDIO_ZEROPAGE on a private file mapping no longer fails with
+>    -EEXIST where the file already has a page, on an mm that cannot use
+>    the zero page (patch 1)
+>  - UFFDIO_MOVE returns -EEXIST for any huge destination PMD, not only
+>    for a present THP (patch 2)
+>  - UFFDIO_UNREGISTER with a misaligned hugetlb end fails before
+>    unregistering anything, also if that hugetlb VMA is not registered
+>    (patch 9)
+>  - UFFDIO_REGISTER and UFFDIO_UNREGISTER accept a misaligned start that
+>    lies in a gap before the first hugetlb VMA of the range (patch 9)
+>  - UFFDIO_REGISTER returns -EINVAL rather than -EPERM for a misaligned
+>    end in a hugetlb VMA without VM_MAYWRITE (patch 9)
+> 
+> Patch 6 has little user impact on its own. It is included because,
+> together with patch 7, it allows removing clear_uffd_wp_pmd().
+> 
+> Patch 7 adds spurious write faults on shmem and hugetlb after mremap():
+> when dropping uffd protection there, change_protection() makes writable
+> pages that were never protected read-only. UFFDIO_UNREGISTER and
+> UFFDIO_WRITEPROTECT already behave this way and lead to the same
+> spurious faults. This will be fixed in change_protection() in a separate
+> series.
+> 
+> Based on mm-new.
+> 
+> ---
+> Changes in v3:
+> - Collect tags (Thanks David!)
+> - Patch 1: use vma_is_cow_mapping(), per David
+> - Patch 4: warn on a writable migration entry with the uffd bit set, and
+>   make the PMD path match the PTE path, per David.
+> - Patch 4: Drop the Fixes: tag and the review tags due to changes
+> - Patch 8: add helpers and read the PMD once with pmdp_get(), per
+>   David
+> - Patch 9: move the hugetlb alignment checks into a helper and use it in
+>   both ioctls, per David
+> - Link to v2: https://patch.msgid.link/20261116-uffd-state-fixes-v2-0-4397a0196479@columbia.edu
+> 
+> Changes in v2:
+> - Collect tags (Thanks Kiryl, Lorenzo, Gregory, Alistair!)
+> - Patch 2: say "softleaf entry" in the commit message, per Lorenzo
+> - Patch 3: add softleaf_is_writable() and softleaf_mkreadable() to
+>   leafops.h and rename the helpers to say softleaf, per Lorenzo
+> - Patch 3: add Reported-by and Closes for Breno's report, and cc stable
+> - Patch 4: explain in the commit message how PAGEMAP_SCAN set the uffd
+>   bit on writable migration entries, per Lorenzo
+> - Patch 5: use pmd_is_valid_softleaf() rather than open-coding it, per
+>   Lorenzo
+> - Patch 7: say "write faults" rather than "minor faults" in the commit
+>   message, per Kiryl
+> - Patch 7: trim the commit message, per Lorenzo and Gregory
+> - Patch 8: trim the commit message, per Gregory
+> - Patch 8: Cc the GPU driver maintainers and lists, per Gregory and
+>   Alistair
+> - Patch 9: use IS_ALIGNED() and a local variable for the VMA's ctx, and
+>   shorten the comment, per Lorenzo
+> - Drop the three guard region patches, per Lorenzo
+> - Link to v1: https://patch.msgid.link/20261111-uffd-state-fixes-v1-0-00713d368976@columbia.edu
+> 
 > ---
 
-Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+So, I would be picking up ...
+
+> Tal Zussman (9):
+>       userfaultfd: use anonymous memory for UFFDIO_ZEROPAGE on private file mappings
+>       userfaultfd: refuse UFFDIO_MOVE into a non-present huge destination PMD
+>       fs/proc/task_mmu: downgrade writable migration entries in PAGEMAP_SCAN write-protect
+>       mm/migrate: warn on a writable migration entry with the uffd bit set
+
+This
+
+>       fs/proc/task_mmu: write-protect device-private THPs in PAGEMAP_SCAN
+>       mm/huge_memory: build the moved huge zero PMD from the destination VMA
+
+This
+
+>       mm/mremap: resolve uffd state when the context is dropped, not during the move
+>       mm/migrate_device: do not migrate a uffd-protected zero page
+
+This
+
+>       mm/userfaultfd: check the hugetlb alignment of every VMA in the pre-scan
+
+
+After waiting a bit longer for more review. Andrew can take the rest.
+
 
 -- 
 Cheers,
