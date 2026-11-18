@@ -1,100 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.46
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794989681;
-	b=Qc5JKYQCTINkPRuM+xl+aAiXSRDhF3lK3TIx0Kmsz1aZDiY3zOyrpHPO1uthLk7lB3gW
-	 HEXUCuh3GkOf7hhR0bmYMIVuTY/FbOlavTlo70KN/kuRFEYzuofRPRepn4xeqZ87BTvKI
-	 JweXbLJdrxvPOWCo6j++KOBMXR72XNB8XWWrU4kNQ+tEoNGcDVBKBLFL/35ci4uaO/Zlg
-	 Xmtthv6qJSk3JjB95RS3sAiY9T/vah+HCIUtaEKKSfz2e0F0HLvwBR2Z7yq5X8CnH39D9
-	 lmP5h5pnV9QP97z13dp76eYcn443T92FTrzaZxtCeCDeHqdIVgPDJRrVWg8BCNsZxzw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794989681;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=f8SWgY1YH+4bFNiX+nGGrQJeABb8LOo2f5Gpt9qbuno=;
-	b=RR8I8qQbkB51J/riO9Lk9E6rZBvXpYRZii7gh92lD4AAPUpUyKMIpYuIUlEI0JFBnmjz
-	 xmJp0W71Hnu78PT06TypO904cAwCBNM56+2bSjdO1671fP1WqQL+DgcRdIrEaRUesBnzo
-	 v0d6IxUk/sbQWPU+bUlljzB4pp9guez/ua1icNdR2Rw+tqFDU0hGpLq9lxpubZDb6g6Ki
-	 uvlzlG3XUSZI16GI6dCZ2YeCwq7XjcTPHI4IfRmAp9fxl+ppvy5GPh7WjOauYSp+dTxkw
-	 9BO8zYBB34EwxV81evNltwHxTzLAQrL4sJkN4Jtds/T4+kvxvf2WRmuE4AMrwONK5VQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=bVqyZ6iR;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.46
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.156.1
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794989995;
+	b=Uwgyi3sriYE5kF6y+ARpXhYnevOYStS1vGwjZgKmnyunUMsar6S10ns1glloA8wLaT63
+	 YMjbbLO0WML6L8P3rrYF56FBAbE2lJCQzk7RW6qH1GisnuGTisjrjjiulDQ8uJjAjBZ7X
+	 eKznezYLQfwznwXXcn9aWbM/7Mt2MRUEMQYOJkVc4R2hr9BbOq1GVpzJDbkq6Zq/e3wkq
+	 JrDX360RWFZiFCwqlbmITq6JcBMetvkd/8EpH4IKgc3Ww19woSfDGek69WSRoY89jp40m
+	 PMZRPlkmwsR4JwQjHH1HhSS3vKHSEYYHH24KhvKvoufFbeUFUNnA1tr2m5HYcwpN7og==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794989995;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
+	 Received:Received:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-TM-AS-GCONF:
+	 X-Proofpoint-Reinject:X-Proofpoint-Spam-Details-Enc:
+	 X-Authority-Analysis:X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=NZ2DiUYcYA6riJMrquv0S0uzwR3KjlESIdF8oXXvnq4=;
+	b=Xh3Jp8WBtyQUNCce4DgKaBeHDdQJLoa7vvHoBISzTcmYru563qtwkCSyskzMO7SmFSK0
+	 jJ2wm9nsOOlXTqC5rnwfYb566NrjAS2Vn02aAKjBFRGe96OfwXjSC28Hp7TEANUzv7CHt
+	 K/DW1JaccI0/dIOiooDPruqWS3SBGFzYXFk4JwdD4O1rm3ChN5KvYQV9yrvgUYVos5qcg
+	 yhp7vgjTGyX0EkAeHurUcX6DHFR3VeOsorVJj5cvRDFHgpxneOWVyLJ/1msgu6OTBG4Oc
+	 Ik8+eRBcKNl+vTMZo2ZsJhDIWtFRcGvzyHh/Fa8T2nBMtk1/KvA1X6xURmOZO/Wxm9w==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=linux.ibm.com;
+	spf=pass smtp.mailfrom=linux.ibm.com;
+	dkim=pass header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=CHYLikr7;
+	arc=none smtp.remote-ip=148.163.156.1
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65A84606A31C
-	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 08:14:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 65A84606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17718606A31C;
+	Wed, 18 Nov 2026 08:19:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 17718606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=bVqyZ6iR
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6b88b74e54eso568354a12.0
-        for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 00:14:40 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794989679; cv=none;
-        d=google.com; s=arc-20260327;
-        b=eGCGjm/PYN3tSARXfblM2A7GBb1jTEh2F9YdicCuVTJ3JujE81lDprJNPyZjhA51Ns
-         9FUTCFz/RpXdvK+t9mbUj8CLNjdA0hRPJVqhfp8IRkmeTqWeMyQt+xHwxKmtEgIIcLmS
-         +KDmSXC232d34GRgBfCuj/HKMNr0fClo8DT1qkK9PBrdnFVTe1nQWtxrulJQgcZ34qcR
-         hPRaiowEdi8tzDRSYbBGRgnWuE265EZ++PzFERwHeVwcxYSkzx1vY3EAT92POjpfup6q
-         bq6jGiG3ocjhh/UUlTWB1ib+C/TpPmq6/GGAJVkEwE00gIC52pLO7UzzTMiytLM/ymLc
-         AapA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=f8SWgY1YH+4bFNiX+nGGrQJeABb8LOo2f5Gpt9qbuno=;
-        fh=tUWDsuLt7nu7LNu+2WO0EI+g2EXXxIS8G+6lU6ctmNw=;
-        b=E19QokhdGlS/ENz5PYyf/caiX+XC0KPvKPvxtxx4JuEZ9Vf5Wtkt7ru2fqw3ceOtyK
-         SyXMgDy84QaVJO0K6to85ARgOvIOepEdz2yWr0KOoGACP2wMseT1Th+YoYF8GwBkUAR+
-         KVWPOcLGAavmyVtzqQIp3WKPJREwwlbdwMg0zX6GDlQMOh1NqsCuLNQt38lX/HopI/mJ
-         yp7VWrfccrKXsxbm50PpNZaG5ekZ0ok236CZZTb7zwPiNIcjS8m/6rcit6hQgtMfsH8q
-         vWsdA+qGYxAAoggZE3pZ5JajSeKshwV8IC7ZCin2c/Kw2zXvjtXqVq3Zqnfg/mx2/zKG
-         03dw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794989679; x=1795594479; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=f8SWgY1YH+4bFNiX+nGGrQJeABb8LOo2f5Gpt9qbuno=;
-        b=bVqyZ6iR+949xPd6+oRH+pJJbmyMoELIq53xWXMQ451p/fKNNZdKcOpI9/A8alXfA7
-         d8N3OoU3DymfPc8tPe4Salh6oRfnCaSqpwhreg2Vxtvk3MjRBol00gxXtzCQBbF0osfX
-         ECcdWKYfrY9kW8sVyoN7dLMAsPR1PyhXUswWqc86R7EQAWslTF37WjQWecZzLNNh3c/Q
-         n3pEDjXXG50hyBExJ3ffJJu5eCc4FBvbdoSjBOjDRvVaTXZm5ZGTRFzHrzmPHIp6QhhL
-         fk61MtUay1wjEhxV4Xrh2fdZFnn+2YRcRe5unWI0laAHXjmaBURQmXQmwJAooKbgdsBA
-         0qHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794989679; x=1795594479;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=f8SWgY1YH+4bFNiX+nGGrQJeABb8LOo2f5Gpt9qbuno=;
-        b=08B0e8o9TMPPiKfHrYl7vTWE9w14iAc8urywPX1B0FaGVRW98F7Av5xhZre+kly9US
-         R9gWBQdf3bB0T2YI/4ZmIDEY49aCA/MKyu/h7YSvZ9S1jaSitPQZJClBGcSPdwo2tEuV
-         oQCC73+f+gH6AvS1GfG+F9v5PMilvGzKRbw7lUc+eM48BsFC+vCxBEy3UlYTCY0+De2G
-         AHS38lchG+xm5Xo1BEd1AkFjNq2wILw6aBc7lHBnJLEE2Rx5+/eqdNzsToNyh6JaULvm
-         XL+Qo+wf3+h1y9TQ8HPX2JbLIhpdZl3DaPTdXPgwo1ogr+YutzO/slHSUmWk9XVPs/3K
-         WKPQ==
-X-Forwarded-Encrypted: i=1; AL+hErHkqV9XYXxR/ISwbNDB9AZIL5POqszm14vrgdbJ6T9kO3aT5aEmf0RmKM9aQuHHQvprdX+anYZgpKnzY0xg@vger.kernel.org
-X-Gm-Message-State: APuU4Z8Mkt9av2GFHV8/Na9AYjku/v07GpQ9YQcayUHbLLB2VID1xuAJ
-	xDAM1dDA/FEg/ZxEbj5peycoClY8E9LHAi1QZMjZR5wFtkE92ElaNB45+/H82f1SkzaK/xFlOt4
-	hW5aVEuZ5PSth6VkdgqTFyx1tgJprq2U=
-X-Gm-Gg: AYBFou0411/2XSA9C93K2FCnsdNRqtyCgutcPF08sVqORrvup0JBENoMEpEXmpmqyz3
-	WkV04PPp5VUOlB6dhJxY217IyAd1v6kzGqeTknd8HuxVQeXEJE+BFs+6rUAhjfUZeWKvYYb26Gz
-	IrkopHPAvrZevhz9nZfF12+73pbzfQ60Z+t3Uq7D5bkmUddpwDMgxnkhBf4pPPJfRKRh+QfJFNn
-	c3aCOY4GpIb2tf3hkcpraoElSMMfsyy1MZCtSOPsnExkFnn4ZsxAxBuDoNplqmYQPdmpU2MiZ0/
-	JjpXOXBtH+C5KJ9jaXOMqqNbZg0CrmI0JfcRHlD1Y3a8kecggEh+GnOWlDONBo8q5IWioKchpJe
-	XWi8dF2Q38Yrfmvksdkgbm3FVZkOi2oPXuppMnWEy+CAeJ8BsBetvnE6MlR0kYLxA7Lsm8g==
-X-Received: by 2002:a05:6402:5416:b0:6b8:80e3:d595 with SMTP id
- 4fb4d7f45d1cf-6b887e538ecmr1261546a12.7.1794989678541; Wed, 18 Nov 2026
- 00:14:38 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=CHYLikr7
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AI2SM6x032357;
+	Wed, 18 Nov 2026 08:17:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=NZ2DiU
+	YcYA6riJMrquv0S0uzwR3KjlESIdF8oXXvnq4=; b=CHYLikr74UQY3xDY0mK1ln
+	UItMzkTfsxSuJmhUcOAg25lgq/Of3U/OWPyIqfvLwQJ5EO59MWPJqU/lkOiOw00F
+	QiaAQBtE4k4Hc9WrB/lQuSIre+I1HQTnaoDHCIqDtNuktjoUHG6jjFYNEL+AYOWp
+	AkwsM8SEMvfiFPLYfswocUBfLnLW6kY91l7jwFy16irUd2Hyu43GUzzYEquNSQXo
+	UyK4S+t3uNsLdoaGXVScfZ1Y9C4vhqTpxzeoQRyohmRx50QrMikRGXZr1iamvt6U
+	CdORrNAtH07XBbOCxsGRMb7C0/KVmFR39RPr9LZDxeNhQaaVAWzIQkbMBJPj7Smg
+	==
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4j105n9h67-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 18 Nov 2026 08:17:32 +0000 (GMT)
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6AI8GsLG2766497;
+	Wed, 18 Nov 2026 08:17:31 GMT
+Received: from smtprelay05.wdc07v.mail.ibm.com ([172.16.1.72])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4hyxwt7qfs-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 18 Nov 2026 08:17:31 +0000 (GMT)
+Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com [10.241.53.104])
+	by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6AI8HTxD34734796
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 18 Nov 2026 08:17:30 GMT
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id C966458052;
+	Wed, 18 Nov 2026 08:17:29 +0000 (GMT)
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 971BB5805D;
+	Wed, 18 Nov 2026 08:17:14 +0000 (GMT)
+Received: from [9.123.14.23] (unknown [9.123.14.23])
+	by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 18 Nov 2026 08:17:14 +0000 (GMT)
+Message-ID: <f201c30a-6fa9-4d9a-a77b-74d39f89f2d9@linux.ibm.com>
+Date: Wed, 18 Nov 2026 13:47:12 +0530
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,340 +86,122 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261115180343.576773-1-koray.fra@gmail.com> <fc53ec55d315a4b96ec1e6f250ad3763f2189755.camel@kernel.org>
- <DMXXOPD9UDNP.2YP9ROMHFLM9E@gmail.com>
-In-Reply-To: <DMXXOPD9UDNP.2YP9ROMHFLM9E@gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Wed, 18 Nov 2026 09:14:27 +0100
-X-Gm-Features: AclHuK_upvG3jBL3Fku6cqU-UCnIAy6BQnNeYmFbAiOZCbyGrKapHQ1wESeh2WA
-Message-ID: <CAOQ4uxjcvAKTaGXO0=BpbtgoEPmN7GKieVbX1ZpZR38H1Z3j9g@mail.gmail.com>
-Subject: Re: [RFC PATCH v4 00/10] add provenance time (ptime)
-To: koraynilay <koray.fra@gmail.com>, Jeff Layton <jlayton@kernel.org>
-Cc: David Sterba <dsterba@suse.com>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Sungjong Seo <sj1557.seo@samsung.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Trond Myklebust <trondmy@kernel.org>, 
-	Anna Schumaker <anna@kernel.org>, Chuck Lever <cel@kernel.org>, 
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
-	Paulo Alcantara <pc@manguebit.org>, Chris Mason <mason@kernel.org>, Yuezhang Mo <yuezhang.mo@sony.com>, 
-	Jan Kara <jack@suse.cz>, NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, 
-	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
-	Ronnie Sahlberg <ronniesahlberg@gmail.com>, Shyam Prasad N <sprasad@microsoft.com>, 
-	Bharath SM <bharathsm@microsoft.com>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	ChenXiaoSong <chenxiaosong@chenxiaosong.com>, "Darrick J . Wong" <djwong@kernel.org>, 
-	Sean Smith <defendthedisabled@gmail.com>, Andrey Albershteyn <aalbersh@kernel.org>, 
-	Pedro Falcato <pfalcato@suse.de>, =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>, 
-	linux-btrfs@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, exfat@lists.linux.dev, ntfs3@lists.linux.dev, 
-	linux-cifs@vger.kernel.org, linux-nfs@vger.kernel.org, 
-	linux-api@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/9] powerpc/secvar: Add missing kobject release
+ callback to secvar_ktype
+To: Ian Rogers <irogers@google.com>, Danilo Krummrich <dakr@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kees Cook
+ <kees@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>
+Cc: Madhavan Srinivasan <maddy@linux.ibm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <chleroy@kernel.org>,
+        Nayna Jain <nayna@linux.ibm.com>, Mimi Zohar <zohar@linux.ibm.com>,
+        Yoshinori Sato
+ <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+        Juergen Gross <jgross@suse.com>,
+        Stefano Stabellini
+ <sstabellini@kernel.org>,
+        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>,
+        Alexander Aring <aahringo@redhat.com>,
+        Felix Kuehling <felix.kuehling@amd.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Zhihao Cheng <chengzhihao1@huawei.com>,
+        Sumanth Korikkar <sumanthk@linux.ibm.com>,
+        Bill Wendling <morbo@google.com>,
+        Justin Stitt <justinstitt@google.com>, driver-core@lists.linux.dev,
+        llvm@lists.linux.dev, linux-hardening@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-pm@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
+        linux-s390@vger.kernel.org, gfs2@lists.linux.dev,
+        xen-devel@lists.xenproject.org, linux-mtd@lists.infradead.org,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org
+References: <20261108223913.3624571-1-irogers@google.com>
+ <20261108223913.3624571-3-irogers@google.com>
+Content-Language: en-US
+From: Srish Srinivasan <ssrish@linux.ibm.com>
+In-Reply-To: <20261108223913.3624571-3-irogers@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE4MDAzMSBTYWx0ZWRfX6HgVMZTRPl85
+ Jn18W+xXyZCi92S6DV05FbfcOPNGJFHWP78E/tejMVWymJnqf6YRWa3lQfegmn4iFOJICQoFNbC
+ 8fh77AnL+jCvHbyG7D8dqSe73s/x570g9zzXuT6BEhlr8jl3r0noGCIl5NBmBZT3KVNvrFD+dKM
+ jmrjNQeA0euaud80lISJyfYHrs3jCYZTQa4ayAz9gFDK104eYk/TZg18Gqwd/J5Ixj5j5H+Mg2I
+ ON9WlD8PFML3ou1bPmQl5abk01ve2XueAz/SPNj8iUQ/gnppB0P6G6CBLt3MEDM4SwAoGy7KId5
+ yxw54L/3ILMaq2PyBoQpvOYAK35zGDxe3Y12powlrnXTOf7DqHPX9d2RKDcqN2WywfEZZZHqYGK
+ e0tqtovVEX+A89Y42Kz3zAXdwVaBquDU9m+1ZF0j3UqpHYy7om6XFvFQQwEB9vdTA/NhCTJnATW
+ AUOI0KD9i8Rc7/c3tuQ==
+X-Authority-Analysis: v=2.4 cv=HN9WhYtv c=1 sm=1 tr=0 ts=6afd5f1d cx=c_pps
+ a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=iQ6ETzBq9ecOQQE5vZCe:22 a=1XWaLZrsAAAA:8
+ a=VnNF1IyMAAAA:8 a=UWczDWbm3HpFH-zmGUoA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: f4vCixBvRS1iziYkzXDAyNtWHqcSULbu
+X-Proofpoint-ORIG-GUID: OYeOqBGP-BuxJLy49XGYjOXqV8575ClT
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE4MDAzMSBTYWx0ZWRfX6D4JeSBiVpo/
+ 1SUsT7QUnarJqrFd/whI1VbYytmfTPlmOafAXSjzDWGt8A4WgXnRmkoTMU5NO0iqVRltJs6vVFH
+ VSWDbLyBnOCi2lpPYRK0hG7fndYLOWg=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-18_01,2026-11-16_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 priorityscore=1501 impostorscore=0 suspectscore=0 malwarescore=0
+ adultscore=0 phishscore=0 lowpriorityscore=0 clxscore=1011 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611180031
 
-On Wed, Nov 18, 2026 at 2:09=E2=80=AFAM koraynilay <koray.fra@gmail.com> wr=
-ote:
+
+On 11/9/26 4:09 AM, Ian Rogers wrote:
+> In add_var(), a struct kobject is dynamically allocated with
+> kzalloc_obj() and initialized with secvar_ktype. If kobject_add() or
+> sysfs_create_file() fails, kobject_put(kobj) is called to clean up.
+> However, secvar_ktype does not define a .release callback, which results
+> in a memory leak of kobj (and a pr_debug warning in kobject_cleanup()
+> when CONFIG_DEBUG_KOBJECT_RELEASE is enabled).
 >
-> Hello and thanks for replying,
+> Provide a secvar_release() callback that calls kfree(kobj).
 >
-> On Wed Nov 18, 2026 at 12:53 AM CET, Jeff Layton wrote:
-> > On Sun, 2026-11-15 at 19:03 +0100, koraynilay wrote:
-> >> This is an initial implementation of a new timestamp to indicate the
-> >> time when a file/directory was initially created.
-> >>
-> >> This patch series takes inspiration from the one by Sean Smith
-> >> <defendthedisabled@gmail.com> [1], but using
-> >> file_setattr()/file_getattr() as suggested by Darrick J. Wong
-> >> <djwong@kernel.org> in [2].
-> >>
-> >> The semantics of this new timestamp should be at least these:
-> >> - it should be the same as btime on a newly created file
-> >> - it's user-settable, so it can be preserved for backups, filesystem
-> >>   conversions, archives and any similar operation
-> >> - it should be preserved every time mtime gets preserved
-> >>
-> >> and the correspondence with the other timestamps is as follows:
-> >>
-> >> ctime <-> btime
-> >> mtime <-> ptime
-> >>
-> >
-> > I'm not sure how to interpret the correspondence above.
+> Fixes: bd5d9c743d38 ("powerpc: expose secure variables to userspace via sysfs")
+> Signed-off-by: Ian Rogers <irogers@google.com>
+
+
+LGTM,
+thank you!
+
+Reviewed-by: Srish Srinivasan <ssrish@linux.ibm.com>
+
+
+> ---
+>   arch/powerpc/kernel/secvar-sysfs.c | 6 ++++++
+>   1 file changed, 6 insertions(+)
 >
->   |-----\_-----------------|-----------|
->   |       \_      change/  |   birth/  |
->   |         \_ modification|  creation |
->   |           \------------|-----------|
->   | inode time |   ctime   |   btime   |
->   |------------|-----------|-----------|
->   | file time  |   mtime   |   ptime   |
->   |------------|-----------|-----------|
->
-> ("file" as in "the concept of this file", I'd say "file content" but
-> that would be incorrect for symlinks)
->
-> so ctime is "inode change time", btime is "inode birth/creation time",
-> while mtime is "file content change/modification time" and ptime would
-> be "file content creation time" (same as Window's or MacOS's creation
-> time).
->
-> Does this make more sense?
->
-> >
-> >> Examples:
-> >> 1) a .zsh_history file created in 2019, then after a few years the use=
-r
-> >>    decides to switch to another filesystem, copying the .zsh_history t=
-o
-> >>    the new home, in that case btime would have the timestamp of the co=
-py
-> >>    and ptime would have the 2019 timestamp (just like mtime would have
-> >>    been preserved)
-> >> 2) a symlink created in 2020 from the home directory to a /path going
-> >>    through the same process as the .zsh_history, in this case it would
-> >>    also make sense to sync the ptime to the 2020 timestamp instead of
-> >>    keeping only the btime (so the inode creation time).
-> >>
-> >> The proof-of-concept code (for testing) for stat(1) and cp(1) is
-> >> available at https://github.com/koraynilay/coreutils (master branch)
-> >> (Note: these coreutils code changes are a prototype and won't be
-> >> submitted upstream as-is, but they work as expected in simple stat and
-> >> cp -a/--preserve=3Dptime tests)
-> >>
-> >> Lastly, the name "provenance" and "ptime" are not final, I personally
-> >> don't have a strong opinion on any name, but while testing with stat(1=
-)
-> >> I noticed that "Provenance" is definitely too long for the normal
-> >> output, so another option which would fit well is "Origin time",
-> >> abbreviated as "ntime" (OrigiN time) and not as "otime", as that would
-> >> conflict with btrfs' internal naming and create confusion.
-> >>
-> >> v2 changes:
-> >> - fix permission bypass leading to ptime update on immutable and
-> >>   append-only files (found by sashiko[3])
-> >> - normalize ptime timestamp as done in fs/attr.c:notify_change() (foun=
-d
-> >>   by sashiko[3])
-> >> - fix wording in vfs patch to be like the cover-letter
-> >>
-> >> v3 changes:
-> >> - vfs: reject setting ptime with -EOPNOTSUPP on filesystems that do no=
-t
-> >>   support it instead of silently ignoring it (found by sashiko[4])
-> >> - vfs: fix not being able to clear immutable and append-only on files
-> >>   with ptime, and allow updating immutable/append-only atomically alon=
-g
-> >>   with ptime (found by sashiko[4])
-> >> - btrfs: validate on-disk ptime nanoseconds and reset to otime if
-> >>   invalid (found by sashiko[4])
-> >> - btrfs: avoid re-assigning ptime on unrelated chattr calls (found by
-> >>   sashiko[4])
-> >> - add ntfs3 and exfat support as suggested by Amir Goldstein[5], but n=
-o
-> >>   vfat, smb, or nfs4 yet as they are a bit more complex
-> >> - move the introduction of fileattr_has_fsx_mask() from the btrfs patc=
-h
-> >>   to a standalone patch in the series
-> >> - btrfs: add fileattr_[gs]et to symlink and special file operations
-> >>
-> >> v4 changes:
-> >> - vfs: implement fsx_xflags_mask as suggested by Amir Goldstein[6];
-> >> - add SMB (ksmbd/cifs) and nfs (nfsd/nfs) support as requested in
-> >>   previous threads;
-> >>
-> >> Note:
-> >> to apply this patch 2 previous patches[7][8] from the ksmbd/cifs
-> >> subsystem are needed.
-> >>
-> >> New Question:
-> >> should I rename fileattr_has_fsx_mask() to something like
-> >> fileattr_has_unsupported_fsx() and keep its code as-is, or should I ad=
-d
-> >> the fsx_xflags_mask & ~allowed check in it and keep the name as-is? (o=
-r
-> >> both?)
-> >>
-> >> Thanks.
-> >>
-> >> [1]: https://lore.kernel.org/20260405195007.1306-2-DefendTheDisabled@g=
-mail.com
-> >> [2]: https://lore.kernel.org/20260407014129.GC6192@frogsfrogsfrogs
-> >> [3]: https://sashiko.dev/#/patchset/20261027220532.736352-1-koray.fra%=
-40gmail.com
-> >> [4]: https://sashiko.dev/#/patchset/20261028134728.294127-1-koray.fra%=
-40gmail.com
-> >> [5]: https://lore.kernel.org/CAOQ4uxiuy0VwZj+3M-zRqQ49WTpHZpiaQ+6MZ8z8=
-WdLjyQM_zA@mail.gmail.com/
-> >> [6]: https://lore.kernel.org/CAOQ4uxjtuTDT63vJdYaq+RHQEQFLTksp66e46OMN=
-99WhJz3SbA@mail.gmail.com/
-> >> [7]: https://lore.kernel.org/linux-cifs/20261112111637.184045-2-koray.=
-fra@gmail.com/
-> >> [8]: https://lore.kernel.org/linux-cifs/20261115155308.415734-1-koray.=
-fra@gmail.com/
-> >>
-> >>
-> >> koraynilay (10):
-> >>   vfs: add provenance time (ptime)
-> >>   vfs: add fileattr_has_fsx_mask()
-> >>   ntfs3: make crtime user-settable using ptime
-> >>   exfat: make crtime user-settable using ptime
-> >>   btrfs: add provenance time (ptime)
-> >>   vfs: add __vfs_fileattr_set_locked() for inode_lock()'d callers
-> >>   nfsd: add provenance time (ptime) via FATTR4_TIME_CREATE
-> >>   nfs: add provenance time (ptime) via FATTR4_TIME_CREATE
-> >>   ksmbd: add provenance time (ptime) and map it to CreationTime
-> >>   cifs: add provenance time (ptime) and map it to SMB's CreationTime
-> >>
-> >>  fs/btrfs/btrfs_inode.h          |   4 +
-> >>  fs/btrfs/delayed-inode.c        |   6 ++
-> >>  fs/btrfs/inode.c                |  29 +++++-
-> >>  fs/btrfs/ioctl.c                |  24 ++++-
-> >>  fs/btrfs/print-tree.c           |   1 +
-> >>  fs/btrfs/tree-log.c             |   3 +
-> >>  fs/exfat/exfat_fs.h             |   2 +
-> >>  fs/exfat/file.c                 |  42 ++++++++-
-> >>  fs/exfat/namei.c                |   1 +
-> >>  fs/file_attr.c                  | 156 ++++++++++++++++++++++++++-----=
--
-> >>  fs/nfs/inode.c                  |  27 +++++-
-> >>  fs/nfs/internal.h               |   2 +
-> >>  fs/nfs/nfs4proc.c               |  56 +++++++++++-
-> >>  fs/nfs/nfs4xdr.c                |  19 ++--
-> >>  fs/nfs/symlink.c                |   1 +
-> >>  fs/nfsd/nfs4proc.c              |   9 ++
-> >>  fs/nfsd/nfs4xdr.c               |  40 +++++---
-> >>  fs/nfsd/vfs.c                   |  17 ++++
-> >>  fs/nfsd/vfs.h                   |   4 +-
-> >>  fs/nfsd/xdr4.h                  |   3 +
-> >>  fs/ntfs3/file.c                 |  20 +++-
-> >>  fs/ntfs3/frecord.c              |   8 +-
-> >>  fs/smb/client/cifsfs.c          |   8 ++
-> >>  fs/smb/client/inode.c           |   7 +-
-> >>  fs/smb/client/ioctl.c           | 109 ++++++++++++++++------
-> >>  fs/smb/server/smb2pdu.c         |  37 +++++---
-> >>  fs/smb/server/vfs.c             |  43 ++++++++-
-> >>  fs/smb/server/vfs.h             |   1 +
-> >>  fs/stat.c                       |   2 +
-> >>  include/linux/fileattr.h        |  29 +++++-
-> >>  include/linux/nfs_xdr.h         |   3 +
-> >>  include/linux/stat.h            |   1 +
-> >>  include/uapi/linux/btrfs_tree.h |   3 +-
-> >>  include/uapi/linux/fs.h         |   9 +-
-> >>  include/uapi/linux/stat.h       |   7 +-
-> >>  35 files changed, 614 insertions(+), 119 deletions(-)
-> >>
-> >>
-> >> base-commit: 3bc1fb9c3b20cd478c83496ab16addecb401770d
-> >> prerequisite-patch-id: 049ae0eba275b5be35a238833107e0b251a55aa2
-> >> prerequisite-patch-id: 614f0bc9411391403d4e9702bafeb31b0ec04ec1
-> >> prerequisite-patch-id: ddf636b9d33d82ea206ce265d817371350bf8858
-> >
-> > I think this is going to be very hard to do properly, because the
-> > kernel can't really manage this on its own. Something in userland is
-> > going to have to set this value if you want to update it to something
-> > other than the original inode instantiation time (aka btime).
-> >
-> > It really sounds like what you want is the ability to make the btime
-> > settable. Personally I think the decision to forbid that was wrong-
-> > headed and that it should have been settable from userland from the
-> > beginning. Maybe we should just revisit that decision.
->
-
-Frankly, I don't think this decision was made at all.
-
-There are only 2 types of filesystems in Linux today:
-1. btime is constant (xfs, etx4, btrfs,...)
-2. crtime is settable in principle but not via a standardized Linux
-API (ntfs, cifs, ...)
-
-AFAIK, btrfs in this series is the only filesystem which is going to
-have two deviated copies of btime and ptime.
-For all the rest, the deviation is artificial in statx.
-
-So the questions to ask are:
-1. Do btrfs developers prefer to store a new settable ptime or
-    making otime/btime settable with this new API?
-2. Will any other fs in the future want to store settable ptime along
-    side the legacy immutable btime?
-
-My take on these question is:
-- Personally I would love to see ptime support in xfs in the future and wou=
-ld
-  willing to contribute to this work, because I have hard evidence from the
-  performance benefits that it brings to smb server workloads
-- Judging by past experience with i_version bump interpretation on xfs,
-  I find it hard to believe that xfs developer would agree to making the
-  legacy btime settable
-
-Hence the distinction in statx API is needed, but for most filesystems
-it is a pure semantic way of saying "I do/don't have settable birth time".
-
-> Originally I just wanted to have btime settable, yes, and if btime was
-> settable I wouldn't have made this RFC PATCH either, but after reading
-> the already existing discussions about it, I can understand having an
-> "immutable inode creation time", like ctime exists, so even after making
-> btime settable, a new timestamp would be necessary anyway (e.g. for the
-> people who want btime to exist as a forensics timestamp).
->
-
-Right, but every filesystem (e.g. btrfs) can still make an independent
-choice whether storing one or two copies is desired.
-The API does not limit those choices.
-
-> > Failing that, why not just track this in an xattr of some sort, since
-> > this is really just an opaque blob once you allow it to be settable. If
-> > the xattr isn't present, then you can just use the value of the btime
-> > as-is. FWIW, I think samba does this today, so you could try to sync
-> > with its behavior here.
->
-> (This is copied and adapted from [2])
->
-> I actually have been using fully userspace xattrs[1] for a few months,
-> mostly for backups, and it "works"; but last month I wanted to merge 2
-> FSs (and have another merge I have to do), so I ran [1] on all files and
-> then compared all metadata/data between source and destination and
-> noticed there were quite a lot of files that didn't have the xattr set.
-> So I looked online and learned that xattrs only work on regular
-> files/directories, not on symlinks or anything else (and the missing
-> ones were of symlinks).
-> This is what prompted me to search more if anyone had already proposed a
-> new timestamp (instead of making btime settable) and found the email
-> thread from april linked in the cover letter, which gave me the excuse
-> to finally work on a proper patch.
->
-
-I am tired of repeating my arguments (and finding my own quotes)
-about why using xattrs is a poor replacement for in-inode ptime.
-AI agents can easily find those quotes for those who are interested
-so I won't bother, I just say that smbd already uses xattr to store
-the creation time - it's just bad for performance and disk usage in
-metadata intensive workloads.
-
-> > That seems a lot simpler than adding an entirely new inode timestamp
-> > that is always going to be a copy of the btime, except in rare cases.
-> > Having to patch all of the on-disk filesystems with a new per-inode
-> > field is a lot more work.
->
-> > This patch is quite simple, but changing btrfs, then ext4, xfs, etc is =
-a
-> > mess, and inevitably you can't get these timestamps until you upgrade y=
-our
-> > filesystems.
->
-
-Jeff, this is standard "how to make progress".
-I completely don't agree with this argument.
-We cannot use this argument to block progress.
-Is it already a long standing practice for userspace file servers (samba)
-to probe the host filesystem for specific features and fall back to
-alternative implementation if they are not supported.
-
-There will be nothing new in this case, that's the only way to
-make forward progress - define the API, make support queryable,
-implement the feature in some filesystems, implement consumers, repeat.
-
-Also for nfsd, that's the only way to ever implement settable
-FATTR4_TIME_CREATE which is the protocol allows.
-This is never going to be possible with custom xattrs.
-So I must say that I don't understand the objection from you and Chuck
-
-Thanks,
-Amir.
+> diff --git a/arch/powerpc/kernel/secvar-sysfs.c b/arch/powerpc/kernel/secvar-sysfs.c
+> index 395399bbab2c..f3f6ac25ea78 100644
+> --- a/arch/powerpc/kernel/secvar-sysfs.c
+> +++ b/arch/powerpc/kernel/secvar-sysfs.c
+> @@ -126,7 +126,13 @@ static const struct attribute_group secvar_attr_group = {
+>   };
+>   __ATTRIBUTE_GROUPS(secvar_attr);
+>   
+> +static void secvar_release(struct kobject *kobj)
+> +{
+> +	kfree(kobj);
+> +}
+> +
+>   static const struct kobj_type secvar_ktype = {
+> +	.release	= secvar_release,
+>   	.sysfs_ops	= &kobj_sysfs_ops,
+>   	.default_groups = secvar_attr_groups,
+>   };
