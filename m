@@ -1,84 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794962121;
-	b=tfQl2xqh9yexpAiwtiaA1SeZcxH0K/MjccL+PdOx47MUBEu4Pl6b+iO6gGVHgDrG5IRy
-	 E9qgeVxOtaIgR7ZLVaOvhNpmTrvBgfjBQ55XD+QaSFVbUsbiGsTuHBAlZuxpvsfngufZT
-	 2FRbepirLLFUCaHbh9vRH0feAmv2qQBwcaaR9u7IOuOag85G0rwb3Fme2r2LRLkx0VrUi
-	 Ow9F40Z0DnJTzVXdD7hT7ynZY4336TqDgCQQ56EAj6C1ie+pUjstZZB+UbxqtwHZP6NVr
-	 PUuzZsSJSxbAopZz62JE4Z1bIproPUE8c8VaTqc7Bp/F9+RFjS0FBblbHwSuTIqcs/g==
+	t=1794962940;
+	b=I7cfeuKytXXKKRQySSFjZATPhq2AhfcsCG+DuL0jlagQlAwgqK3js2pULeJzzK7OKCh7
+	 VsB8I2qhLcpKrAmBOWlQ/yLv1ydr2W/22m7uworOGRlGt0qtpVcrvVTfsbaVhTpLlxust
+	 4p/upXGMT1+b1sVtH2RzvyYEiYk+uJLpU2sJ3ktrOS4r8P6Yw38HjLuUgbsqcS0zi3+9L
+	 qa/Y/77W/A3xgFyMfbgJufhXqBty/r5U0tQRkxVr8Dnzr4MFjcpFgy5uAK3JrVPVosuLD
+	 zolcC1eDuQZ9l4aHDMPwjXfH3i9je2kJ46wumQH7cnFQIaDGaRQszk10B9Mn1Ch0VmA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794962121;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794962940;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 Content-Transfer-Encoding:X-Mailer:References:In-Reply-To;
-	bh=WbIzd+ctnJR4yFdsTDfSvvEGuowj5ndViMpewtBSJFs=;
-	b=P+hbBCqSTI1vzJpZiv3AIKwejcDMx0FOnLN/Ou7LtFt1xOHwLKit4QlNJ3ChT0aJSU6e
-	 C2mzGvP4frq1YAmPJIPEu6fflLU78SPUWD0Ksdh5u0HHxcEp0o0n1oypJlypiTrbJ399c
-	 rSU3RNP7HU8syw/MFQL4lPpBOCWJ+BXYrrAQErc6DZmmeedRKizuCGL/y069xV2RjVNsJ
-	 E0/FNFT6OdQPlCUgNywvcY+vjZVaVlqqWUN+3W3dS7e/MwZMJk8gzlx/qFhi8Nrt4Xmu6
-	 kbnJRlIKMsv2SnOg57IDWvNGdYh1vag4/TkayPBkk4VnJdrDhwNQx3Ipj/Hv/FnYvIA==
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=8V2XOZmn0Vctd6GGoq9tH0tWyX2ZAclwzJyrOF4lr5s=;
+	b=R/aPkc7rmWffIrEhQ9Vuk+xs8S0T9EfviIL7+YU6KRjF+DwUWKV16uH+h4fUANjH4XLQ
+	 zDPupD9FI5tA994XfUVOjBdbqdpKkYWkz+VWt9Gip6M1MaYktiK+iJEe0VXbvuLuTPvL+
+	 XDy2iEGqQbHhfs9tYsSDgvPobP1ElDZRrZmeEexuXQKFOTEzoSGDfa7C+1yiLATXSo62h
+	 hl+cflVrPVY4GFTi1syyauYS7sVF8n9YHY9YIu/tx2VnIl333TJnz47IV8Dnh3GsGYDrS
+	 LPwIVupdOADMYY8aNGpXw5xcs3j3Cn4FPQGOQdsS2gdaEHxL9Q+Vtra5RLxTZvMA26w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=I7EoaNRr;
-	arc=none smtp.remote-ip=209.85.128.51
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	dmarc=none header.from=dubeyko.com;
+	spf=pass smtp.mailfrom=dubeyko.com;
+	dkim=pass header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=j5niG9jT;
+	arc=none smtp.remote-ip=74.125.224.52
+Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2C7D606A330
-	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 00:35:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D2C7D606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1881B606A881
+	for <linux-fsdevel@vger.kernel.org>; Wed, 18 Nov 2026 00:48:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1881B606A881
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=I7EoaNRr
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a140e7405dso4171195e9.3
-        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 16:35:20 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=j5niG9jT
+Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-67c58f18765so225932d50.1
+        for <linux-fsdevel@vger.kernel.org>; Tue, 17 Nov 2026 16:48:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794962119; x=1795566919; darn=vger.kernel.org;
-        h=in-reply-to:references:content-transfer-encoding:to:from:subject:cc
-         :message-id:date:content-type:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=WbIzd+ctnJR4yFdsTDfSvvEGuowj5ndViMpewtBSJFs=;
-        b=I7EoaNRrjYH4pzshKWe3F3r2aVYu25lUfqy5WzaHWCsQFKNGu2CKyZEl8M77OEW20l
-         ElFzDsY6y02yTK05Ld0CMF9SYfA3AZzm7GlAM8+4GYI7al7Ka+Qq7fK1eMo/foXENPr2
-         u76HGEs1y1xGkF0GRs/MmlqkTIm0rZpSWYFjkEOW/yy49GI1HandgmmL2+P8W9lTwJ4v
-         FbVJjCCpckG0p6epK7f5LESg5tBDdjuPqtcs0BxKjaA2x+BLQJCOpe6Cwhw48vSPUBWx
-         atap5758sdew29z3hrp1l19YFfRLrLEF+dHij5BqeLeXUPNVcfW0rq6WcfiiQgmnzLUl
-         lWHw==
+        d=dubeyko-com.20260707.gappssmtp.com; s=20260707; t=1794962936; x=1795567736; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=8V2XOZmn0Vctd6GGoq9tH0tWyX2ZAclwzJyrOF4lr5s=;
+        b=j5niG9jTnJN1+gZWK21jVz+cw+yHDsYF54ZwSy+ffCeVmvhUtigihjzMA3Mx/izRsI
+         /fZJgCpHIIkkY5Wf1lmBFZ+Xe3paQzu3YFRsTVJyq7eVhJ6kqpBhSocstjZb7M11xhbh
+         3WlkURETSQgnt/vNwX8lpuJcDbb2BuCoCXjQjs9GaHZcER53/T0+PJmZD0EutNvY67P7
+         I2L+M2GDcmp4rGU+5p53p6w9sYjfjw+kkZAfFDv0qc9Eh0iECvt+7tLG+asujOUE5UTg
+         NTb9cCWZGl9BCi2FGlAKXt5SDnOw5zR7Y0jnh7rD3cPAZV0I5b2KoDTK2BcZMcQqoLyw
+         bf4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794962119; x=1795566919;
-        h=in-reply-to:references:content-transfer-encoding:to:from:subject:cc
-         :message-id:date:content-type:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=WbIzd+ctnJR4yFdsTDfSvvEGuowj5ndViMpewtBSJFs=;
-        b=dVkjbjOAfcR7famsrDjefBKlEDDt+9qNjca1vlmHEKtqNFedJ7aa7A8IvTUO1w71uq
-         eFg9WhjorXjNyva2u/nLYZB1CvDdAyS44+4OMKXa0eIiND4nQRj+5zcRr3QukQmLoGjs
-         94GB86KrJmRh87VmxwcuZmrKJhPidXiwnCMl9qxm5INNm95lTbA7BUZfl+NBYeJfExxM
-         2R010Fe6dMiV6cxAVU3dl4mMR0qmkM4mtLjDmpUcJNKVpLU0OYrbDZmkoFrO/hzc1eMB
-         mrepGvYVawZCqf8uzTx8voIrZ6ToKXwi8Llz/7I6kMRV3U44uMj7f3/a5v/8+UINR5r+
-         pWdA==
-X-Forwarded-Encrypted: i=1; AL+hErECxy31bgZZFWlZaL2DfBiUAkzlLY7E9W0kbv4UKQyPJEaRobpa+rM2DBEaOI8ErukpuZd+rtOiA10TpV6P@vger.kernel.org
-X-Gm-Message-State: APuU4Z8AwX5ZQDfSnq76x7mRxshu9eYqDKmq181RqBdu1hkj+BK1CvI0
-	DLY5iTM+uaX2k8lq2PtI+IdaYqoouPwQ+pzlFts4kXb8pPESLCFa6UUD
-X-Gm-Gg: AYBFou3SqMr0OTCS29gFdidovK1tf6zslzOnlI0eve6xNGm7N7poGb1u7YSDw+ktbnY
-	c9xsPxfm+adsaMcBmu87E+oP6L0unBJF5MS6vSG3LO567n9KGIEVazID5Y/BljwmGoK62HqLVON
-	2QzfJRGhEJyLRv/pQhZ/sWCsrli5eEGtTPrycw7S2T5RjFNIYIi1wQbb/ifiNROQZAnFGii7K4C
-	f6Njhc52VFE86KBn1JfP2595webfb4aWNxgxUpd1PNkymlGgXyaF+F0cu+7bHsYUhZQZ8ekg6ct
-	OpJaeP4T4yWxyDb3pfySZEdRoq+pCgOWgKmUJgcooLRHZzXqtqRQkMlFcvG6EuDPvjyz8yfzep6
-	Sy0ilPkT1nMR6FDUCn+whyW/Sbm2HxKzETjITlhOsOkbkqHLhuGUrFK11Ulz14vyJ9sn27jW/CT
-	bDQoQ7iKKie+bx3lvnkSmFQBU9aPMz8qK9ti/eql/GQQyITolExkG39JfoJJ55FdBNtrBIHOtvp
-	G0ZFOsGvWao1ttybQRF9OE5Qd4mpMPJTFbBSIKxPlzJYm7kTBkIs3g65shgNb1czraW1kwJM8Az
-	aBREeTiy7P+GPJjGMJ8g+UuYjA==
-X-Received: by 2002:a05:600c:1906:b0:4b2:2ec5:8a2b with SMTP id 5b1f17b1804b1-4bb7da13900mr16206835e9.10.1794962118973;
-        Tue, 17 Nov 2026 16:35:18 -0800 (PST)
-Received: from localhost ([2001:b07:5d26:7a6a:365a:60ff:fe0d:cfc6])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a65560bd46sm1551151f8f.31.2026.11.17.16.35.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Nov 2026 16:35:17 -0800 (PST)
+        d=1e100.net; s=20260707; t=1794962936; x=1795567736;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=8V2XOZmn0Vctd6GGoq9tH0tWyX2ZAclwzJyrOF4lr5s=;
+        b=JrPDH4OZ0UtRBhwqn5/dPGVK+X7kc3attm+wLTnfIukkaYLT2kQS6hjma/J5lDrolh
+         SHYXcqxflS7Gc9VNGJwDEFPY7a7Ek/m9eSmGgTRfC0YGM/avn+/PjVGDs/uvEGrcul+N
+         kL/LtMOtbz2p612zDDuT2p69BjrMvxKTfr4lESBmgZIIybccFre79+6MNEywCECv5pQN
+         xAEN8UYwcfU2h3C2T6ymlun/K56qyrUatPrVnd+pgb5BfBpSugYCp9sxg8fj5htADImt
+         WlqYNbFuy5u7cl71uD03T5aDU6Rr1c36P9AnozY9NKX/+raBKUF57FocoU/cTThjVUpI
+         3hsw==
+X-Gm-Message-State: APuU4Z/ev+lPJ1J5ZTQMqLVxMIfzVLa+iidaw9EWM1JB5ff2bqdb8+vw
+	e5n/fDl3IrWny/tTjyLrmQo9wB155yWQmno9fKWDGHcqVRlawgrDMfsTGRQSQXQO5trKGja7Z54
+	0hxOWHdo1QA==
+X-Gm-Gg: AZFdTZdu6EvC7rbsvRaZ0X+Ghgs6Y/KcPXZb4pKhlC04adbSFSivCD+krMjs9n6QqnT
+	xqrr2Q9lAAc4hxUaElnB+9N5AMd1juP8KLM2+LfnNWWaI7KZ+wfgFH9eQjUIfXxkJitr3mdyY4e
+	UM2qgCDnG4ycwdk7YZ3GgQ67KJHTOiSEvgt2l2c6XHk1QRIwWW1Tt9tELvrXaXG3QTivg3quEB5
+	eY+CH1bPXj68UkKbIZvuo1AgAevas4xiSovmW/IhpuIip/YIPBhtW5CA0DG/IqvSUnHvlhxF5oS
+	2HNV517qqxv1dAOimo49GuHwm4gBqcGHr/tT32Vy3TKe76K3JPRQMuAFGYQ+1jaEinzVrcCKqWe
+	52iG9hajpcn1WlHUzSna3biphgPWpQzZ9pLb0OTK91GUn6FjtrxX4j8N/7mw9QyYAQE/MEgyfBP
+	AJ4uLbYaA4KUkN/mH10UBAW7QtxNbmCk4vxWFfnuZ2ajiE9GIBC2kOa3C1Hqh0CbJJz17WwOLE8
+	nlGXD72hCYkw4wBfYZdZxSD6A5d+Ww/crJ87zVxIe2Fhk8/Y+KP5u2KrfcmnfIL4zc8Gly4/FtQ
+	WX/G/7et1tZiyBjwPavZ95NyjUNOTsLRCbYW++438MMUUa1zrIM0+Eol7yMgqGIICkyFP0rKOFs
+	xun4ZWrB7PzAgsihPYXHxsc1q7s+9F+IGmGApnNJ/ixujbJXMnzpuGt8OX9jIRBxmoDza9htEVj
+	g/rufu/jy7FDwPhhHI
+X-Received: by 2002:a05:690c:6f84:b0:8b3:4b09:f4ef with SMTP id 00721157ae682-8b4febd981dmr3810477b3.13.1794962935978;
+        Tue, 17 Nov 2026 16:48:55 -0800 (PST)
+Received: from system76-laptop.attlocal.net ([2600:1700:6476:1430:5fae:4d02:7055:94ad])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67dd56ead87sm729575d50.1.2026.11.17.16.48.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Nov 2026 16:48:55 -0800 (PST)
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: glaubitz@physik.fu-berlin.de,
+	frank.li@vivo.com,
+	hch@lst.de
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	vdubeyko@coreweave.com,
+	brauner@kernel.org,
+	linux-xfs@vger.kernel.org,
+	Viacheslav Dubeyko <slava@dubeyko.com>
+Subject: [PATCH v5 0/5] hfsplus: convert regular file I/O to iomap
+Date: Tue, 17 Nov 2026 16:48:39 -0800
+Message-ID: <20261118004844.3849979-1-slava@dubeyko.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -87,130 +100,88 @@ List-Subscribe: <mailto:linux-fsdevel+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Type: multipart/signed;
- boundary=3f37a8250c17ef201a283aa9d15331a4c7b5582752331b03c03104ec5ba6;
- micalg=pgp-sha512; protocol="application/pgp-signature"
-Date: Wed, 18 Nov 2026 01:35:11 +0100
-Message-Id: <DMXWYQ9MORA5.XHWI9GTCCUMN@gmail.com>
-Cc: "Chris Mason" <mason@kernel.org>, "Yuezhang Mo" <yuezhang.mo@sony.com>,
- "Jan Kara" <jack@suse.cz>, "NeilBrown" <neil@brown.name>, "Olga
- Kornievskaia" <okorniev@redhat.com>, "Dai Ngo" <Dai.Ngo@oracle.com>, "Tom
- Talpey" <tom@talpey.com>, "Ronnie Sahlberg" <ronniesahlberg@gmail.com>,
- "Shyam Prasad N" <sprasad@microsoft.com>, "Bharath SM"
- <bharathsm@microsoft.com>, "Sergey Senozhatsky" <senozhatsky@chromium.org>,
- "ChenXiaoSong" <chenxiaosong@chenxiaosong.com>, "Darrick J. Wong"
- <djwong@kernel.org>, "Sean Smith" <defendthedisabled@gmail.com>, "Andrey
- Albershteyn" <aalbersh@kernel.org>, "Pedro Falcato" <pfalcato@suse.de>,
- "Amir Goldstein" <amir73il@gmail.com>, =?utf-8?q?Pali_Roh=C3=A1r?=
- <pali@kernel.org>, <linux-btrfs@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
- <exfat@lists.linux.dev>, <ntfs3@lists.linux.dev>,
- <linux-cifs@vger.kernel.org>, <linux-nfs@vger.kernel.org>,
- <linux-api@vger.kernel.org>
-Subject: Re: [RFC PATCH v4 07/10] nfsd: add provenance time (ptime) via
- FATTR4_TIME_CREATE
-From: "koraynilay" <koray.fra@gmail.com>
-To: "Chuck Lever" <cel@kernel.org>, "koraynilay" <koray.fra@gmail.com>,
- "David Sterba" <dsterba@suse.com>, "Namjae Jeon" <linkinjeon@kernel.org>,
- "Sungjong Seo" <sj1557.seo@samsung.com>, "Alexander Viro"
- <viro@zeniv.linux.org.uk>, "Christian Brauner" <brauner@kernel.org>, "Trond
- Myklebust" <trondmy@kernel.org>, "Anna Schumaker" <anna@kernel.org>, "Jeff
- Layton" <jlayton@kernel.org>, "Konstantin Komarov"
- <almaz.alexandrovich@paragon-software.com>, "Paulo Alcantara"
- <pc@manguebit.org>
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: aerc 0.22.0-0-gc2f86b7abde3
-References: <20261115180343.576773-1-koray.fra@gmail.com>
- <20261115180343.576773-8-koray.fra@gmail.com>
- <f297d9ea-ebd7-47f4-ab7b-de5c45980000@app.fastmail.com>
-In-Reply-To: <f297d9ea-ebd7-47f4-ab7b-de5c45980000@app.fastmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
---3f37a8250c17ef201a283aa9d15331a4c7b5582752331b03c03104ec5ba6
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+Switch the HFS+ regular file data path from buffer heads and
+blockdev_direct_IO() to iomap.
 
-Hello and thanks for replying,
+(1) adds a generic iomap_dio_end_io() helper to
+include/linux/iomap.h: a direct write ->end_io callback that updates
+i_size when the write goes beyond the end-of-file. It can be used by
+file systems that issue all extending direct writes synchronously
+under inode_lock.
 
-On Tue Nov 17, 2026 at 11:01 PM CET, Chuck Lever wrote:
->
->
-> On Sun, Nov 15, 2026, at 1:03 PM, koraynilay wrote:
->> Implement provenance time (ptime) in NFSD, as introduced in a
->> previous commit ("vfs: add provenance time (ptime)").
->>
->> Map ptime to FATTR4_TIME_CREATE, allowing clients to set it across
->> CREATE, OPEN and SETATTR compounds.
->>
->> If the underlying filesystem supports it, use __vfs_fileattr_set_locked(=
-)
->> to set it, returning -EOPNOTSUPP in case it's not supported (i.e. when
->> __vfs_fileattr_set_locked() returns -ENOIOCTLCMD).
->>
->> When querying FATTR4_TIME_CREATE, request both STATX_PTIME and
->> STATX_BTIME, preferring ptime over btime if available, and advertise
->> FATTR4_TIME_CREATE support if either ptime or btime is available.
->>
->> Assisted-by: Gemini:3.8-flash-high antigravity-cli-1.5.7
->> Signed-off-by: koraynilay <koray.fra@gmail.com>
->
->> @@ -3646,7 +3649,14 @@ static __be32=20
->> nfsd4_encode_fattr4_time_access(struct xdr_stream *xdr,
->>  static __be32 nfsd4_encode_fattr4_time_create(struct xdr_stream *xdr,
->>  					      const struct nfsd4_fattr_args *args)
->>  {
->> -	return nfsd4_encode_nfstime4(xdr, &args->stat.btime);
->> +	const struct timespec64 *ts;
->> +
->> +	if (args->stat.result_mask & STATX_PTIME)
->> +		ts =3D &args->stat.ptime;
->> +	else
->> +		ts =3D &args->stat.btime;
->> +
->> +	return nfsd4_encode_nfstime4(xdr, ts);
->>  }
->
-> I have trouble with this approach.
->
-> We've already established that, for the Linux in-kernel NFS server
-> implementation, FATTR4_TIME_CREATE reports a file's birth time and
-> does not permit NFS clients to modify that.
->
-> After this patch is applied, the server reports the ptime instead
-> of the btime on some filesystems but not others.
+(2) moves the file related operations (open, release, fsync and
+file_operations) from inode.c into the new file.c, without functional
+changes, to prepare the place for the iomap-based file operations.
 
-I implemented it in this way to have a proof-of-concept of how ptime
-could be use by filesystems that already support settable btime (as was
-suggested to me in [1]).
+(3) splits the extent lookup/allocation logic out of
+hfsplus_get_block() into hfsplus_map_extent(), which reports the
+mapping without a buffer_head, so that the iomap path can use it
+directly. No functional change for the buffer_head path.
 
-There was also a discussion in v3[2] on NFS's FATTR4_TIME_CREATE as an
-example of such a filesystem
+(4) makes hfsplus_map_extent() return -EIO when no extent covers
+the requested block. On a corrupted volume, hfsplus_get_block() mapped
+such a block to allocation block 0, i.e. the boot blocks and the volume
+header. The iomap path relies on this check, since a zero-length extent
+would otherwise produce a zero-length mapping.
 
-> Essentially this changes the semantics of existing files that have
-> a btime set -- technically that's a regression.
+(5) adds the HFS+ iomap operations, implements iomap-based
+llseek/read_iter/write_iter, switches hfsplus_aops to iomap (removing
+hfsplus_direct_IO() and the LEGACY_DIRECT_IO dependency), and rolls
+back i_size and the allocated blocks when the zero-filling extension
+or the data write fails. HFS+ doesn't support holes, so extending
+writes and truncates zero-fill the gap up to the new end-of-file.
 
-and since the NFS protocol itself states that FATTR4_TIME_CREATE should
-be user-settable, I think adhering more to it would be better.
-This would be fine even for already existing files IMO, since btime =3D=3D
-ptime if the user doesn't manually change it (or with --preserve=3Dptime
-for the various copying tools).
+Changes since v4:
+- iomap_dio_end_io() is extracted into a dedicated patch 1.
+- Rebased on top of "hfsplus: don't take inode_lock in
+  hfsplus_file_fsync()", "hfsplus: set s_maxbytes from the volume
+  capacity" and "hfsplus: release preallocated blocks in
+  hfsplus_file_truncate()", which are already applied.
+- v5 patches 04, 06, 07 and 10 are squashed into patch 5.
+- The -EIO check in hfsplus_map_extent() is moved out of the iomap
+  conversion into the separate, documented patch 4.
+- The phys_size change in hfsplus_get_block() is dropped: it is not
+  related to iomap, since after the conversion hfsplus_get_block() only
+  allocates blocks when phys_size is block-aligned.
+- hfsplus_write_iomap_end() keeps fs_blocks and the inode byte count in
+  whole blocks, as hfsplus_inode_read_fork() and hfsplus_file_truncate()
+  do, while phys_size stays byte-granular for a partially written block.
+- __hfsplus_iomap_begin() ends a mapping of initialized blocks at the
+  block boundary above phys_size instead of at phys_size itself. With
+  an unaligned on-disk size this used to produce a mapping length that
+  is not a multiple of the logical block size, and an aligned O_DIRECT
+  overwrite failed with -EINVAL.
+- The fsync locking change is dropped from this series, since it is
+  handled by the separate prep patch.
+- The volume capacity check in hfsplus_file_write_iter() is dropped,
+  since generic_write_checks() enforces s_maxbytes, which is set from
+  the volume capacity.
 
-Thanks,
-koraynilay
+Viacheslav Dubeyko (5):
+  iomap: add iomap_dio_end_io() helper
+  hfsplus: move file related operations to file.c
+  hfsplus: rework hfsplus_get_block() logic
+  hfsplus: return -EIO from hfsplus_map_extent() if no extent covers the
+    block
+  hfsplus: convert regular file I/O to iomap
 
-[1]: https://lore.kernel.org/CAOQ4uxiuy0VwZj+3M-zRqQ49WTpHZpiaQ+6MZ8z8WdLjy=
-QM_zA@mail.gmail.com/
-[2]: https://lore.kernel.org/20261103094906.n55n5dhrpct5ykmw@pali/
+ fs/hfsplus/Kconfig      |   2 +-
+ fs/hfsplus/Makefile     |   5 +-
+ fs/hfsplus/extents.c    | 163 +++++++++++++++------
+ fs/hfsplus/file.c       | 308 ++++++++++++++++++++++++++++++++++++++++
+ fs/hfsplus/hfsplus_fs.h |  26 +++-
+ fs/hfsplus/inode.c      | 274 +++++++++++------------------------
+ fs/hfsplus/iomap.c      | 254 +++++++++++++++++++++++++++++++++
+ fs/hfsplus/iomap.h      |  17 +++
+ include/linux/iomap.h   |  20 +++
+ 9 files changed, 823 insertions(+), 246 deletions(-)
+ create mode 100644 fs/hfsplus/file.c
+ create mode 100644 fs/hfsplus/iomap.c
+ create mode 100644 fs/hfsplus/iomap.h
 
---3f37a8250c17ef201a283aa9d15331a4c7b5582752331b03c03104ec5ba6
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+2.53.0
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSgVimKafU5DQMcjcDmj22qf5IGXAUCavzyvwAKCRDmj22qf5IG
-XOsRAP4vh5FXH5uGRieLcNxmpyXktFYo5TTK0/smQUKH1S3W4AD+OFSrMDbk0OBL
-bbF4a80MG9QJTSNaQXnZOrSA4Bhhew4=
-=tiHS
------END PGP SIGNATURE-----
-
---3f37a8250c17ef201a283aa9d15331a4c7b5582752331b03c03104ec5ba6--
