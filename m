@@ -1,82 +1,85 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795014969;
-	b=1MztOJome2HG7D4DQVb5U9xp7r82vf3YZkcaO4kdMFuJxDPy+56ki+prBeHSPh8b4vVM
-	 OeppxtiDiTyLfbVMEOQ5wMN02ZM+/Vu8VIA6UDq+RfEB0EvGaLWQKyjpRHLt6DdQuXAkX
-	 musel8sBhchnv4GnR4PgZCDvSU5KgWjIdAEdrbpyi5BysQOGAunybY7ShgDoNCJx4GDGk
-	 u2m1oJmJ6XsIGhTrPwQ1XoAYFlZn2el+M/SkgMuoeAQHtcqGj3CFTdle/zVfwqKfjlp1U
-	 3XVVdyTrQfTfAf8RtpjWEcGzZUhVG9Q8Ztlm0qvi68v6U9JsTxNbm5cLa/E4uw6xEnw==
+	t=1795015189;
+	b=kRBRY88PtwC2J7z2jnNLz+T3KQtPUhrEV9LiK3uRTszeibv41F+brXlhO7qlkEEL7ThW
+	 +vUJRVFssjv1kJF+PlG4XGzMwsk0Uz4rIUMmXGLWlLcoUKHE4LsFsYSYFmoofaTIVEZLG
+	 WBKcqk1qw+cbA7U7vI3ehfdIoZgcpAXUyaVR3BiY8MNhCcZL+NqDlibCS+TK0v9lHXvGn
+	 Upgw6pDX6KbsnaCHlPoBNVQXOE8YUnw/3UdQvkdZjhbleLPiLOYNs3eUfgYOq7icsdRAY
+	 8VIA+pFV/AGVtnKAjEB+Kjsp8lthCbk9Wc3LJn/bPomwhK3PUXz3QVM77J3+dVcMfKQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795014969;
-	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To:User-Agent;
-	bh=VJRW+Ov1+hJWYf0GjjALdvkeKgyKhKIHCpws0o2fknE=;
-	b=JjmTaWPzzZRSkdbhDvyRrNGHMWHvq6Cm9QAAivPz214NS+FrGPckFyVXks961ayY8GB8
-	 w89z+FLjIHnqDqMuVmLkD3sDcd0Q0jh0dhHcqU52NOIOW5Fj/R3Hafq2xj8wxEASNs/KI
-	 PEkI53FB7q/RkS3P255xUurhQJYjvqncsmSXxKO76SLPoM86V5peiB6CwHZ7u3voq2Uw3
-	 muS0cGrDK/fUPfTnba+s4pMBZ3sAhwlbMFwM1hxaaoR0ZXa5bhvM7+jKeXNavauVymCgD
-	 h+u6VMUTMMX03pHpG34A+ACEoIRxmEGZR2xOHbSjvlJ66ZtINbi5R5XzkttrCI/88tw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795015189;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer;
+	bh=LeU/DxXcV0ry5yYe0LgqD+dUS+pwnrp+dk5INqwKWBw=;
+	b=HtrjRMf0yy56NpX3Xb2MsiDrzD9ErFuXupFo7FuqSI53FTuTOdg+rKDNbjAhC3EI/gGJ
+	 qi40Q9pZ75sPYzBwsMXP7OSg/weaJRYz3bi0LsB3h469L+chwZfXpIi7N0+5CU/Nx11hO
+	 918p9bs4jrMmgZxFNDKi+v0IkHC48ZhAm2h8Tb8sHc+Y9YxSdMhWog2W4QLR+FvBHji4o
+	 cHL+X/YfqV8cUTbU0yb+lyl7BiNrfVZSXCdpkTTcko2AOy0jY9JdANmGSfQoLwM62K5Q7
+	 OkGy5CE5qQeGin25wev8ZmfGPR+qY9pUVa7fZswOIeLKg09jw9by4enj7nNBcwFpOnw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TSlE7NJ2;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WhY5kEms;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98318606A31C;
-	Wed, 18 Nov 2026 15:16:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B3B360A2622;
+	Wed, 18 Nov 2026 15:19:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TSlE7NJ2
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1D381F000C5;
-	Wed, 18 Nov 2026 15:16:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WhY5kEms
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2AF61F000C4;
+	Wed, 18 Nov 2026 15:19:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795014969;
-	bh=VJRW+Ov1+hJWYf0GjjALdvkeKgyKhKIHCpws0o2fknE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=TSlE7NJ24ZHrQjqby7BRumprQ+X4+8LqupeU9Ic0A3522Ds17DPzXVFZwe0JBd6ho
-	 GubLLYFIVNsVAPkFJEvH648kigG7kxnWoxItJWVuGvXDtAx4ld9RpbXs2YF/i/pHvg
-	 IoJDOWDprbfsVrCrmYBi1JtGbscpSjFHgPu7D9ywJ1hYx1lAHMMhOR3mSl4KulHKpe
-	 fhpajsplHwzdx8QTl+uVQSdbOq7HlfNFgYkCBr2s9W1RH2pLT9VZRBVaMQu/2EN3Lh
-	 S10sgG+OG9bMfh1RookXtJuizdsgEup+XRBW62lyyeePfaTh9PHAuvEFSXv7+XdBtx
-	 FZ53ZvVrlCnDQ==
-Received: by pali.im (Postfix)
-	id 9787F846; Wed, 18 Nov 2026 16:16:05 +0100 (CET)
-Date: Wed, 18 Nov 2026 16:16:05 +0100
-From: Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
-To: koraynilay <koray.fra@gmail.com>
-Cc: David Sterba <dsterba@suse.com>, Namjae Jeon <linkinjeon@kernel.org>,
-	Sungjong Seo <sj1557.seo@samsung.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>, Chuck Lever <cel@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	Paulo Alcantara <pc@manguebit.org>, Chris Mason <mason@kernel.org>,
-	Yuezhang Mo <yuezhang.mo@sony.com>, Jan Kara <jack@suse.cz>,
-	NeilBrown <neil@brown.name>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
-	Ronnie Sahlberg <ronniesahlberg@gmail.com>,
-	Shyam Prasad N <sprasad@microsoft.com>,
-	Bharath SM <bharathsm@microsoft.com>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	ChenXiaoSong <chenxiaosong@chenxiaosong.com>,
-	"Darrick J . Wong" <djwong@kernel.org>,
-	Sean Smith <defendthedisabled@gmail.com>,
-	Andrey Albershteyn <aalbersh@kernel.org>,
-	Pedro Falcato <pfalcato@suse.de>,
-	Amir Goldstein <amir73il@gmail.com>, linux-btrfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	exfat@lists.linux.dev, ntfs3@lists.linux.dev,
-	linux-cifs@vger.kernel.org, linux-nfs@vger.kernel.org,
-	linux-api@vger.kernel.org
-Subject: Re: [RFC PATCH v4 00/10] add provenance time (ptime)
-Message-ID: <20261118151605.lqtn5fz423kuswk5@pali>
-References: <20261115180343.576773-1-koray.fra@gmail.com>
- <20261118142613.be3r3s6kobkkxnz4@pali>
- <DMYFBDIV4Y08.35ZKR5G86U1H7@gmail.com>
+	s=k20260515; t=1795015188;
+	bh=LeU/DxXcV0ry5yYe0LgqD+dUS+pwnrp+dk5INqwKWBw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=WhY5kEmsWtbqCPSBFQ2nQaxXboUG96EQPOcrbrxf3sO4BB8Tm19kr7KE+iG4TB6T7
+	 PIfvCftf6yhI0z/gSSuVSWelQ+KcojCemjhXmawQHN4M8lm9G59rJWiePg41ZCfjrN
+	 PTiXDg0szsr0RvvEzTrfcZRDRdJB+saYvIzHKu+1KiMaphpaZRxL/B8C17nK4lXIND
+	 5W5iL5YyG94DwOrXeT6A6n1Sje0lSSyR5xqPs+kpFEYkwTWmDT12f9kXD3kAkufpQI
+	 6gnmw6UhyvmYKom5DY7ECNpupaFbP0vtsHy/hz2LwtgAFS8e/x4LMVKaqoN8FbGJ3G
+	 dYN3/OHJyRueA==
+From: David Hildenbrand <david@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>, 
+ Mike Rapoport <rppt@kernel.org>, Peter Xu <peterx@redhat.com>, 
+ James Houghton <jthoughton@google.com>, 
+ Andrea Arcangeli <aarcange@redhat.com>, 
+ Suren Baghdasaryan <surenb@google.com>, Balbir Singh <balbirs@nvidia.com>, 
+ "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+ Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, 
+ Pedro Falcato <pfalcato@suse.de>, David Hildenbrand <david@kernel.org>, 
+ Michal Hocko <mhocko@suse.com>, 
+ =?utf-8?q?Micha=C5=82_Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>, 
+ Andrei Vagin <avagin@gmail.com>, Muhammad Usama Anjum <usama.anjum@arm.com>, 
+ Stephen Rothwell <sfr@canb.auug.org.au>, Arnd Bergmann <arnd@arndb.de>, 
+ Zi Yan <ziy@nvidia.com>, Matthew Brost <matthew.brost@intel.com>, 
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>, 
+ Gregory Price <gourry@gourry.net>, 
+ Ying Huang <ying.huang@linux.alibaba.com>, 
+ Alistair Popple <apopple@nvidia.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, 
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+ Kiryl Shutsemau <kas@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+ Oscar Salvador <osalvador@suse.de>, 
+ =?utf-8?q?Miko=C5=82aj_Lenczewski?= <miko.lenczewski@arm.com>, 
+ Tal Zussman <tz2294@columbia.edu>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, stable@vger.kernel.org, 
+ Breno Leitao <leitao@debian.org>, 
+ =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+ Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, 
+ Felix Kuehling <Felix.Kuehling@amd.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+ Leon Romanovsky <leon@kernel.org>, dri-devel@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
+ amd-gfx@lists.freedesktop.org
+In-Reply-To: <20261117-uffd-state-fixes-v3-0-b617009d1a4a@columbia.edu>
+References: <20261117-uffd-state-fixes-v3-0-b617009d1a4a@columbia.edu>
+Subject: Re: (subset) [PATCH v3 0/9] userfaultfd: assorted fixes (part 1)
+Message-Id: <179501517242.13206.4721668826806594112.b4-ty@b4>
+Date: Wed, 18 Nov 2026 16:19:32 +0100
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -86,93 +89,48 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <DMYFBDIV4Y08.35ZKR5G86U1H7@gmail.com>
-User-Agent: NeoMutt/20180716
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16.0
 
-On Wednesday 18 November 2026 15:58:02 koraynilay wrote:
-> On Wed Nov 18, 2026 at 3:26 PM CET, Pali Rohár wrote:
-> > Hello,
-> >
-> > I have just one issue with the userspace API. It does not allow me to
-> > figure out what is the source of statx btime field. If it is fs ptime or
-> > fs btime because this RFC implementation is mixing both fs ptime and
-> > fs btime into the statx btime field.
-> >
-> > I have feeling that this is quite a mess in API and I would like to see
-> > a clear distinguish between btime and ptime in the API, like there is a
-> > difference in the fs storage.
-> >
-> > If the btime is used for forensic analysis then somehow I would expect
-> > that the statx would not report / not fill changeable ptime value into
-> > the statx btime.
+On Tue, 17 Nov 2026 23:28:40 -0500, Tal Zussman wrote:
+> This is a first batch of userfaultfd fixes, with more to come.
 > 
-> Hi, for native linux filesystems it will report ptime as PTIME and btime
-> as BTIME (also semnatically).
-
-That is fine.
-
-> for the windows-like ones that only have
-> ptime (semantically) I think it's reasonable to not expect btime to be
-> immutable, since they are meant to be used with other OSs who lack btime
-> semantics.
-
-The problem is here that the RFC statx API does not provide this
-information that the fs lacks btime semantics and instead it fills
-non-immutable ptime value there.
-
-I'm pointing only about this inconsistency.
-
-> > It would be really helpful if the statx API on inode can differ between:
-> >
-> > 1. btime is present and its value is ..., ptime is not supported
-> > 2. btime is not supported, ptime is set to value ...
-> > 3. btime is present and its value is ..., ptime is set to value ...
-> > 4. both btime and ptime are not supported
-> >
-> > This should cover all cases of different filesystems and also allows
-> > userspace to do proper backup of both ptime and btime fields (if it want
-> > to do forensic analysis or anything else).
+> These were found by a mix of regular old LLM review and by having an LLM
+> write a TLA+ model of uffd interactions with PTE bits and other state
+> and seeing what issues fell out.
 > 
-> These should already all be covered by STATX_BTIME/PTIME and their
-> fields in struct statx, the only problems are windows-like filesystems,
-> which IMO shuold be handled as mentioned above.
-
-Exactly, I pointed out about these problems. I somehow expect that the
-new API would be generic and uniform across filesystem. IMHO it does not
-matter if the filesystem is windows-like or not (there are also FreeBSD
-fs and also others which allows to modify that time). So better
-description is fs belongs to category 2. from my above description.
-
-> Of course, as in the other discussion, I'm open to changing ptime
-> NTFS/exFAT/... support to remove btime altogether and only use ptime for
-> their own crtime if that's what wanted (I'm fairly impartial on this
-> specific issue).
-
-I'm giving some ideas how to possible handle this situation:
-
-1. do not fill btime it at all when it is not available (remove btime
-   altogether - the case like you wrote above)
-
-2. when userspace ask both ptime and btime, then do not fill btime
-   (remove btime altogether - but only for that new case)
-
-3. fill btime with ptime value, but add a new output flag indicating that
-   the btime is not present at all and instead kernel filled ptime value
-   into the statx btime field
-
-4. let statx btime as currently is, and add two new statx fields:
-   immutable_btime and ptime. immutable_btime would be filled only if the
-   fs supports real btime (so not for ntfs/extfat crtime) and ptime would
-   be what is currently in RFC
-
-Ideas 2. 3. and 4. should be fully backward compatible as it would
-affect statx output only when called with new flags.
-
-> Thanks,
-> koraynilay
+> Most of these fix places where mm code loses uffd-wp or RWP protection
+> while moving or migrating an entry. Userspace then either misses writes
+> and accesses, or gets pages reported that nobody touched.
+> There is also a hang in UFFDIO_MOVE, and UFFDIO_ZEROPAGE modifying a
+> file through a private mapping.
 > 
-> >
-> > Pali
+> [...]
+
+Applied, thanks!
+
+tree: mm/core.git
+branch: migrate-7.5.misc
+
+Applied patches will appear soon in mm-next, followed by linux-next.
+
+Please report any outstanding bugs that were missed during review, so we
+can either drop the patch series or decide how to fix it up.
+
+It is encouraged to provide Acked-bys, Reviewed-bys, and Tested-bys even
+though the patches have already been applied. If possible, patch trailers
+will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. Further, this is not a guarantee that the
+patches will go upstream. If in doubt, please check the listed branch.
+
+[4/9] mm/migrate: warn on a writable migration entry with the uffd bit set
+      https://git.kernel.org/mm/core/c/ec53fccd
+
+-- 
+Cheers,
+
+David
+
