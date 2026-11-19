@@ -1,141 +1,134 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.174
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795128268;
-	b=nr0nAfAiPXaogSXXIphxxZXVEG0seg0k/TkYKzYEi+kqRUU0yd1b+yZKFNr6FN3+RAP8
-	 4e5Ea4ByKKY0kNlqxKRFBXIXE3rNTbwNEJo+h281jy4/PYs3FlHZwSirPvQP1EUuQCFe4
-	 szVjVlovFx2zO1jKfYq+xzabZtI62S9p8x72F7tYcTIU0qPRNwjJuIZWpsJF6uT90q8Gv
-	 8KaVIz/UvZR/z2sWRqden7xZqFMmN0JPYB0pp8zRxPFA9ROoixOz81SP6ba1lHz6vYIie
-	 CTz9yCKDsYCa4yo1WqCxHi5o39xFR39iILPY3oc/xxg0PUdfA8k8knYoIX2iMq2Ahhg==
+	t=1795128394;
+	b=PDSWsO68ANgHdxhdQukFBfmxZMFJO/X0aX8LPasjBtl7/Awq5QY8/SbmVEDX+fIuqzme
+	 JG2gfn8bVMsYDLj0ZtVL1hvhO2B26bC2W3XcVm/ICquYVFXdGUkr8uCHGMFMF5ScOPw52
+	 ehM7cAHpLLy3RzIc4b2fN6FVXHN9H5HlVl1FnZ7re1PVlGtYdBaxf2rJanIB/3ipESTHu
+	 rM/dMaUAdoz/ZSfRIWm55ZIS1SUz8OuRttmiDkmIQxX7XFLLhqP3+3ZqpBFu94t80QQGG
+	 p7BlowfNRz9ZohcFJC8RAfroUjxEYI3mpoiMSZsL5jF+UZJ5YpW2SQ4nZGvhpXMMg8g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795128268;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=nefIhKw4pk3hNRgKls2omID/HmfGP96iHh55NTs5Fc8=;
-	b=aBiA10+PgjoD1G7Qsk0lYx0lAnBPygR/bs7w+rTv7x+B86Vqh25Ow3ZSW9P9IaYnTKWJ
-	 bskEpcDVo2M25YpqKY02x5tM6d3b9rVE/qzpGIH75exPD4GeWZxCmvv/SEZNgxkL4Iv9M
-	 k9B8jYZTjj2sf8sxxob5Y2165qR8qHT9RYydpXcXJm6PcMwAol1CpX3M4nGchmMGb8Tjb
-	 gEuOgHR6t+7npH03X5njLRv6JaiYwPz/GdVvVm1YO76j4wkUXTcd+EhCKht4AiQ5IXPrE
-	 J9/0mpI0J4fA70+1r7nbuf/qZtkAlotq03g8AmV6U3xfUOqc09ju7UAt3duBPmfLVmg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795128394;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Message-ID:Subject:
+	 From:To:Cc:Date:In-Reply-To:References:Autocrypt:Content-Type:
+	 Content-Transfer-Encoding:User-Agent:MIME-Version;
+	bh=qv5gJvtNIAuhRD34Za5jfn9wJJHs/Ut0eswJ0g8a59E=;
+	b=BQPO9cNoDtQhPCtGvrVl5diO7U5bo4TToW4/vo5bqBnbOUNsNxupgG2WqDWg/s8QU/lI
+	 LEKOQAITvT5/CSS1/C4trPO8gnG4fj/CbKF/CZJWA2SOM+G+qh92wrKtn+rfTgS4ukuaf
+	 fZWMzI1fnwBP8UgI0bqaOtay8skvBTduZCBT5r/k5iWGr1/5DqcBgD7mJXQB9kS9N+l9Q
+	 umZlc33X4Gv1oBQ0wd0t+mQb2zKBmn/XOOtGkwiWz7MyAq2ZLkWiR9V30CkmIcFRuSSgh
+	 ahXPzOQbDyaEX/VT8B7BKmFFOC6isQ9zN84W1+bjG7lmHj0C/ib6tCbm8AIraFvofXg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=esdAudvZ;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=none header.from=dubeyko.com;
+	spf=pass smtp.mailfrom=dubeyko.com;
+	dkim=pass header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=LdQ7KKwU;
+	arc=none smtp.remote-ip=209.85.128.174
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 775C2606A330;
-	Thu, 19 Nov 2026 22:44:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A06AC606A320
+	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 22:46:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A06AC606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=esdAudvZ
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 61A181F000CA;
-	Thu, 19 Nov 2026 22:44:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795128268;
-	bh=nefIhKw4pk3hNRgKls2omID/HmfGP96iHh55NTs5Fc8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=esdAudvZa+WKWyffO/lrY+z7QYAZ6No+WEP53swromiY2438FAZcSNn0CJB3YH16X
-	 zpRv0W0Tagm2qyMa2IRE9JZ4dwaENI5Jr512dORRagsTsAAYEpnIzuVY6BsxEGSq3L
-	 7voWpSqv/CsOKdk3E+luW8/3/upHnv1ZDR4/emJbhTr6hEq3QwyLvWqXQBzQWgvbpG
-	 P3Bg0DTBahtB++fEg+4uiF5/UXIvkLDlQSJtQZfxxel1aD44hGtow8FBnBGFCtjloO
-	 2BLScF956dTTJuVxtqyw0Wy7W4qkjXm/aFVwwjtFqf90JnNA4O0IIR2Ur1CPNMAQyw
-	 Jvw9xUkHK33Ng==
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: Jarkko Sakkinen <jarkko@kernel.org>,
-	linux-api@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-security-module@vger.kernel.org,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	Andreas Larsson <andreas@gaisler.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andy Lutomirski <luto@amacapital.net>,
-	Andy Lutomirski <luto@kernel.org>,
-	Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Ben Segall <bsegall@google.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Casey Schaufler <casey@schaufler-ca.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Christian Brauner <brauner@kernel.org>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Chris Zankel <chris@zankel.net>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	David Hildenbrand <david@kernel.org>,
-	David Howells <dhowells@redhat.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	"David S. Miller" <davem@davemloft.net>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	"Hallgrimur H. Gunnarsson" <halg@google.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Helge Deller <deller@gmx.de>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Ingo Molnar <mingo@redhat.com>,
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-	Jan Kara <jack@suse.cz>,
-	John Johansen <john.johansen@canonical.com>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Kees Cook <kees@kernel.org>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Magnus Lindholm <linmag7@gmail.com>,
-	Manfred Spraul <manfred@colorfullife.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Matt Turner <mattst88@gmail.com>,
-	Max Filippov <jcmvbkbc@gmail.com>,
-	Mel Gorman <mgorman@suse.de>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Michal Hocko <mhocko@suse.com>,
-	Michal Simek <monstr@monstr.eu>,
-	Mike Rapoport <rppt@kernel.org>,
-	Neal Gompa <neal@gompa.dev>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Moore <paul@paul-moore.com>,
-	Paul Walmsley <pjw@kernel.org>,
-	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Rich Felker <dalias@libc.org>,
-	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Serge Hallyn <sergeh@kernel.org>,
-	Shrikanth Hegde <sshegde@linux.ibm.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Will Deacon <will@kernel.org>,
-	Yoshinori Sato <ysato@users.sourceforge.jp>,
-	Zygmunt Krynicki <zygmunt.krynicki@canonical.com>
-Subject: [RFC PATCH v4 14/14] MAINTAINERS: Add entry for ROOT NAMESPACE
-Date: Fri, 20 Nov 2026 00:43:12 +0200
-Message-ID: <20261119224312.1037966-15-jarkko@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261119224312.1037966-1-jarkko@kernel.org>
-References: <20261119224312.1037966-1-jarkko@kernel.org>
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=LdQ7KKwU
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-8b335eeb340so2826937b3.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 14:46:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dubeyko-com.20260707.gappssmtp.com; s=20260707; t=1795128392; x=1795733192; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=qv5gJvtNIAuhRD34Za5jfn9wJJHs/Ut0eswJ0g8a59E=;
+        b=LdQ7KKwUNQ8Yi8jtApWu2Grax6XWhpnuCmnWjGgFZkcZXZnPDlQsoourdJGC291+VN
+         H5I8XS61GOmvTfyXFZBaIyEOuew+rsgZdzmWm/iTMX/Rgmz6PX/KrFaFLl6HchGwBPSl
+         cJqt1JMkYo4d8A0uH6MuVs+c/JSHqpEto3vh0Etw2oZkOlfGuPioq++MPqaKe8/VMXWm
+         ZOqLSEJjKaqpNc5knh/l6aOTqU+znfTyA/OAZ7mgdPG40sKXYc/Wcs/oOZvh9PHRXifa
+         PbSgJXx5vlPq2fLG1Rk57IxIjlpmElF1i2rJhMhZ7aXrKnerLxuAmZz8mm4llQBtCHjX
+         gDzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795128392; x=1795733192;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=qv5gJvtNIAuhRD34Za5jfn9wJJHs/Ut0eswJ0g8a59E=;
+        b=xOHB7ebaaXUz1Ph+NtKI6cQop17BYaaeclQROQZL8DWfFzBRldGVayBARl8Nx6jeH/
+         UAPVoX0CH/XsM/s69CYVYdb+wxIiZWkoYTlsrFn0qpM5FBQ0EIWcQUG/jaKwz8TFP6Gm
+         Dd8xM9X06Kj9x+dnduR+y7NIu7tuc9/x+LOHHsQ8V0qGMDwRaAA34ZvG0SKCwnkZRQ7i
+         /+sY7ow0RTYHVEjwbGfyBP56gEGiUlq1GSaeBfU0rdj1+z1bgVBa2UUIv6h6THUZbKDv
+         op+bdf8wfJEKdzfUgHf017x6DlNRQzRPsSd94XLDymvb366JMfhRoUEfgvZlYQI2z0aH
+         Rr5g==
+X-Gm-Message-State: APuU4Z9Bh1NYDokRE5bxVVXoseyJJE5YWGe9zHqOMxfjgDbAHAA/c7hL
+	7hrQV5TDo0CxrOhvuAIt5Ck0pVMYbFUGIuEN7JPTzZoIQXED7X02Up9uj4GZmzKNIsE=
+X-Gm-Gg: AZFdTZfACgM6PLcZXF5TMz5nJRTwmzCV8Mu1REbuwu9zXDdwIKs1wPFYCogCRPjXSt0
+	DIQ1OpmL+G38vv6Tbi2zlRvKUX2uYsldMYFJHHZFdQ16MhhcQqTZoAlQLuK5pL5ShLcKWHHOI8g
+	oAS55FIM50YKSm33fduzeYJaqMEU5Kg1kTJ2uECj3EALN0Jo0Mn07IX+jBwc9Xgy1jvg4tx6E90
+	W0GJmHAmjEjAZknnkEK9OLV9BS3TNby0pw3ymqr5/fnWzez1HUe62cw6lrD3i93BMHwLVAFX0pq
+	CXqaOjwYGldQtRT4B88Jyu9ZCks7Rfoq/6nNtq3MLkC2GCyO5gRPdUhcXB8SlvCVqH0sMERKwlA
+	8fECPd/PSXDdaAEHftOmOKZrA+Oki+uEc/436igxZU9Y0K4W9xBG0TsvpQfOkQ4Czs1PX5k583I
+	0BiFNG1JEMz8bGUqs0HUBzkBSTuqXei8H6yRqaO6SnClVs1XmE7PwDF5+G50KIio24SlYOBGYgQ
+	ZPCfxDRTyQm2NViESAsZ0ATXfLuDR/0oLJNy/zUT8h1gtXiLGYDbaaMqBZaR0/17VouyHHHocTz
+	/UTVycvbp4d4MVdcwF5M5zt53zlwSSa64C1mvY7Pjv56q7GNIsTj6AoS//bNlD3InVLcuGeyV63
+	6SSMAVkAFJv6Onow93kP+45+qRR9dpFQsV49hsY9SR31t1tBNpkntvBj+9H+AkYNcT5xflrDgQA
+	gbh1bBNMWH6GUqiee52w5m
+X-Received: by 2002:a05:690c:22c1:b0:8b5:28c:b962 with SMTP id 00721157ae682-8b5204f714amr5007937b3.89.1795128392554;
+        Thu, 19 Nov 2026 14:46:32 -0800 (PST)
+Received: from ?IPv6:2600:1700:6476:1430:1932:ad09:1827:11fb? ([2600:1700:6476:1430:1932:ad09:1827:11fb])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b52032d09esm6138597b3.35.2026.11.19.14.46.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Nov 2026 14:46:31 -0800 (PST)
+Message-ID: <21fe9f22140ed8225445a9b6d0478bfafa20652f.camel@dubeyko.com>
+Subject: Re: [PATCH v3 3/3] hfs: pass the key buffer size to
+ hfs_bnode_read_key()
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: ozgun kultekin <ozgunkultekin@gmail.com>, glaubitz@physik.fu-berlin.de, 
+	frank.li@vivo.com
+Cc: linux-fsdevel@vger.kernel.org, yangguikun19@qq.com,
+ stable@vger.kernel.org
+Date: Thu, 19 Nov 2026 14:46:30 -0800
+In-Reply-To: <20261119005943.37851-4-ozgunkultekin@gmail.com>
+References: <20261118013337.67813-1-ozgunkultekin@gmail.com>
+	 <20261119005943.37851-1-ozgunkultekin@gmail.com>
+	 <20261119005943.37851-4-ozgunkultekin@gmail.com>
+Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
+ keydata=mQINBGgaTLYBEADaJc/WqWTeunGetXyyGJ5Za7b23M/ozuDCWCp+yWUa2GqQKH40dxRIR
+ zshgOmAue7t9RQJU9lxZ4ZHWbi1Hzz85+0omefEdAKFmxTO6+CYV0g/sapU0wPJws3sC2Pbda9/eJ
+ ZcvScAX2n/PlhpTnzJKf3JkHh3nM1ACO3jzSe2/muSQJvqMLG2D71ccekr1RyUh8V+OZdrPtfkDam
+ V6GOT6IvyE+d+55fzmo20nJKecvbyvdikWwZvjjCENsG9qOf3TcCJ9DDYwjyYe1To8b+mQM9nHcxp
+ jUsUuH074BhISFwt99/htZdSgp4csiGeXr8f9BEotRB6+kjMBHaiJ6B7BIlDmlffyR4f3oR/5hxgy
+ dvIxMocqyc03xVyM6tA4ZrshKkwDgZIFEKkx37ec22ZJczNwGywKQW2TGXUTZVbdooiG4tXbRBLxe
+ ga/NTZ52ZdEkSxAUGw/l0y0InTtdDIWvfUT+WXtQcEPRBE6HHhoeFehLzWL/o7w5Hog+0hXhNjqte
+ fzKpI2fWmYzoIb6ueNmE/8sP9fWXo6Av9m8B5hRvF/hVWfEysr/2LSqN+xjt9NEbg8WNRMLy/Y0MS
+ p5fgf9pmGF78waFiBvgZIQNuQnHrM+0BmYOhR0JKoHjt7r5wLyNiKFc8b7xXndyCDYfniO3ljbr0j
+ tXWRGxx4to6FwARAQABtCpWaWFjaGVzbGF2IER1YmV5a28gPFNsYXZhLkR1YmV5a29AaWJtLmNvbT
+ 6JAlQEEwEKAD4WIQRVwwtrZ87KC0La2wQ5XNnC34RAdQUCaBpd7AIbAQUJA8JnAAULCQgHAgYVCgk
+ ICwIEFgIDAQIeAQIXgAAKCRA5XNnC34RAdYjFEACiWBEybMt1xjRbEgaZ3UP5i2bSwayDwYDvgWW5
+ EbRP7JcqOcZ2vkJwrK3gsqC3FKpjOPh7ecE0I4vrabH1Qobe2N8B2Y396z24mGnkTBbb16Uz3PC93
+ nFN1BA0wuOjlr1/oOTy5gBY563vybhnXPfSEUcXRd28jI7z8tRyzXh2tL8ZLdv1u4vQ8E0O7lVJ55
+ p9yGxbwgb5vXU4T2irqRKLxRvU80rZIXoEM7zLf5r7RaRxgwjTKdu6rYMUOfoyEQQZTD4Xg9YE/X8
+ pZzcbYFs4IlscyK6cXU0pjwr2ssjearOLLDJ7ygvfOiOuCZL+6zHRunLwq2JH/RmwuLVmWWSbgosZ
+ D6c5+wu6DxV15y7zZaR3NFPOR5ErpCFUorKzBO1nA4dwOAbNym9OGkhRgLAyxwpea0V0ZlStfp0kf
+ VaSZYo7PXd8Bbtyjali0niBjPpEVZdgtVUpBlPr97jBYZ+L5GF3hd6WJFbEYgj+5Af7CUjbX9DHwe
+ GQ/tdXWRnJHRzorxzjOS3003ddRnPtQDDN3Z/XzdAZwQAs0RqqXrTeeJrLppFUbAP+HZTyOLVJcAA
+ lVQROoq8PbM3ZKIaOygjj6Yw0emJi1D9OsN2UKjoe4W185vamFWX4Ba41jmCPrYJWAWHfAMjjkInI
+ Pg7RLGs8FiwxfcpkILP0YbVWHiNAabQmVmlhY2hlc2xhdiBEdWJleWtvIDxzbGF2YUBkdWJleWtvL
+ mNvbT6JAlcEEwEKAEECGwEFCQPCZwAFCwkIBwIGFQoJCAsCBBYCAwECHgECF4AWIQRVwwtrZ87KC0
+ La2wQ5XNnC34RAdQUCaBpeTwIZAQAKCRA5XNnC34RAdew7D/48vw8dfTLcVjp4j6qUH9rOuXp5A2b
+ jCEPeI0oOwRdqkyiGzUfUprHM48owvvye5u1mUZnKp8BWDDsjX4ddmhdloY0+6ecRAG73xlWMFKVK
+ 4P5XGnHU9A2JOtRhnOWQfPTgFhy69BSYyOeG3e5J+xPyUUBeHajbMVPKnD10NMCx8Ux1D2bv8OWbv
+ 3DvpUNx9D46UhBmkwIfrQWBkr0OGD2AXFfPqo08c3jcJMOAEc2vBI08Fij9o1gHwP2suFaG0X6jUN
+ sy6KPOKg7TVMXtMzxNsKGyFxC1pG7lv+oaEBT6TJSVs/pm71ZrOezQANRzvBeXNUixWienTdAEG8a
+ x4uOf3EF5WvYUhDiY8XBJyRv2ZnKJmBxZ3jPStadSuh3Bmo4mNgRVpFXrfb7h8oJC1l1WGdJa9aWi
+ xUedku0/nH+nZMTqrtWYkXoLxaMswVM5S4f3pYKd7VlHxtlZiQ95RqQd5uWYcEN6xaSvAO3Cs4Co8
+ D6etTHtKPcx1+d0x6BvkBvqNJ5yCiuzPPnKE6E0ss52KKvQt3injPyfe8ffofbW4s2nlEL1s0DoBv
+ JslCebuQ6+Orb/Sl6zictIsv3XMq3jGFeZcDg2hXzngOC255+b0Z/To7jINTxYQot8jCOJQOLplxc
+ NFdvziOa4FgUBC4X71upsZIoZJeii2V/Jtc3B4g==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-9 
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -145,39 +138,251 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Record maintainership and mailing list routing for the root namespace
-subsystem across its uAPI headers, core implementation, documentation,
-and selftests.
+On Wed, 2026-11-18 at 16:59 -0800, ozgun kultekin wrote:
+> hfs_bnode_read_key() reads the key length of leaf records (and of all
+> records of variable-key trees) from disk and only checks it against
+> sizeof(hfs_btree_key). The destination is always one of the two key
+> buffers hfs_find_init() allocates, each tree->max_key_len + 2 bytes
+> long. For the extents tree max_key_len is 7, so the whole allocation
+> is
+> 18 bytes and a crafted leaf key writes up to 256 bytes from the image
+> past it. The error path clears sizeof(hfs_btree_key) bytes of the
+> same
+> buffer.
+>=20
+> hfs_brec_insert() and hfs_brec_update_parent() reach this with keys
+> that were never validated, the same way as in hfsplus.
+>=20
+> Store the size of each key buffer in struct hfs_find_data as
+> key_buf_size in hfs_find_init(), allocate the two buffers from it,
+> and
+> pass it to every hfs_bnode_read_key() call. Keys longer than the
+> buffer
+> are rejected as before, and the error path clears only the buffer.
+>=20
+> The allocation size does not change: max_key_len * 2 + 4 is now
+> written
+> as HFS_FIND_KEY_BUFS * (max_key_len + HFS_KEY_LEN_MAX_SIZE), where
+> HFS_KEY_LEN_MAX_SIZE is the 16-bit key length of HFS_TREE_BIGKEYS
+> trees. Document struct hfs_find_data while adding the field.
+>=20
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Fixes: bb5e07cb9277 ("hfs/hfsplus: fix slab-out-of-bounds in
+> hfs_bnode_read_key")
+> Reported-by: Guikun Yang <yangguikun19@qq.com>
+> Closes:
+> https://lore.kernel.org/all/tencent_F85118A9AFDF9B230D4E8FA672510A3E2F08@=
+qq.com/
+> Suggested-by: Viacheslav Dubeyko <slava@dubeyko.com>
+> Cc: stable@vger.kernel.org
+> Signed-off-by: ozgun kultekin <ozgunkultekin@gmail.com>
+> ---
+> v3: same changes as in the hfsplus patch
+> v2:
+> https://lore.kernel.org/all/20261118013337.67813-1-ozgunkultekin@gmail.co=
+m/
+> v1:
+> https://lore.kernel.org/all/20261114043522.48764-1-ozgunkultekin@gmail.co=
+m/
+>=20
+> =C2=A0fs/hfs/bfind.c |=C2=A0 5 +++--
+> =C2=A0fs/hfs/bnode.c |=C2=A0 7 ++++---
+> =C2=A0fs/hfs/brec.c=C2=A0 | 10 ++++++----
+> =C2=A0fs/hfs/btree.h | 31 +++++++++++++++++++++++--------
+> =C2=A04 files changed, 36 insertions(+), 17 deletions(-)
+>=20
+> diff --git a/fs/hfs/bfind.c b/fs/hfs/bfind.c
+> index d56e47bdc..d052b613e 100644
+> --- a/fs/hfs/bfind.c
+> +++ b/fs/hfs/bfind.c
+> @@ -21,11 +21,12 @@ int hfs_find_init(struct hfs_btree *tree, struct
+> hfs_find_data *fd)
+> =C2=A0
+> =C2=A0	fd->tree =3D tree;
+> =C2=A0	fd->bnode =3D NULL;
+> -	ptr =3D kzalloc(tree->max_key_len * 2 + 4, GFP_KERNEL);
+> +	fd->key_buf_size =3D tree->max_key_len + HFS_KEY_LEN_MAX_SIZE;
+> +	ptr =3D kzalloc(HFS_FIND_KEY_BUFS * fd->key_buf_size,
+> GFP_KERNEL);
 
-Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
----
- MAINTAINERS | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+I have the same concerns here as for HFS+.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7cbce21ba45a..072be5ec7fd8 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -24533,6 +24533,17 @@ F:	include/linux/mfd/rohm-bd96802.h
- F:	include/linux/mfd/rohm-generic.h
- F:	include/linux/mfd/rohm-shared.h
- 
-+ROOT NAMESPACE
-+M:	David Howells <dhowells@redhat.com>
-+M:	Jarkko Sakkinen <jarkko@kernel.org>
-+L:	linux-fsdevel@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/userspace-api/rootns.rst
-+F:	include/linux/rootns.h
-+F:	include/uapi/linux/rootns.h
-+F:	kernel/rootns.c
-+F:	tools/testing/selftests/rootns/
-+
- ROTATION DRIVER FOR ALLWINNER A83T
- M:	Jernej Skrabec <jernej.skrabec@gmail.com>
- L:	linux-media@vger.kernel.org
--- 
-2.47.3
+> =C2=A0	if (!ptr)
+> =C2=A0		return -ENOMEM;
+> =C2=A0	fd->search_key =3D ptr;
+> -	fd->key =3D ptr + tree->max_key_len + 2;
+> +	fd->key =3D ptr + fd->key_buf_size;
+> =C2=A0	hfs_dbg("cnid %d, caller %ps\n",
+> =C2=A0		tree->cnid, __builtin_return_address(0));
+> =C2=A0	switch (tree->cnid) {
+> diff --git a/fs/hfs/bnode.c b/fs/hfs/bnode.c
+> index ec1b0189a..0cdc2ddf9 100644
+> --- a/fs/hfs/bnode.c
+> +++ b/fs/hfs/bnode.c
+> @@ -71,7 +71,8 @@ u8 hfs_bnode_read_u8(struct hfs_bnode *node, u32
+> off)
+> =C2=A0	return data;
+> =C2=A0}
+> =C2=A0
+> -void hfs_bnode_read_key(struct hfs_bnode *node, void *key, u32 off)
+> +void hfs_bnode_read_key(struct hfs_bnode *node, void *key, u32 off,
+> +			u32 key_buf_size)
 
+key_capacity?
+
+> =C2=A0{
+> =C2=A0	struct hfs_btree *tree;
+> =C2=A0	u32 key_len;
+> @@ -83,8 +84,8 @@ void hfs_bnode_read_key(struct hfs_bnode *node,
+> void *key, u32 off)
+> =C2=A0	else
+> =C2=A0		key_len =3D tree->max_key_len + 1;
+> =C2=A0
+> -	if (key_len > sizeof(hfs_btree_key) || key_len < 1) {
+> -		memset(key, 0, sizeof(hfs_btree_key));
+> +	if (key_len > key_buf_size || key_len < 1) {
+> +		memset(key, 0, key_buf_size);
+> =C2=A0		pr_err("hfs: Invalid key length: %u\n", key_len);
+> =C2=A0		return;
+> =C2=A0	}
+> diff --git a/fs/hfs/brec.c b/fs/hfs/brec.c
+> index 31574e562..3d2c64c57 100644
+> --- a/fs/hfs/brec.c
+> +++ b/fs/hfs/brec.c
+> @@ -138,7 +138,8 @@ int hfs_brec_insert(struct hfs_find_data *fd,
+> void *entry, u32 entry_len)
+> =C2=A0	 * at the start of the node and it is not the new node
+> =C2=A0	 */
+> =C2=A0	if (!rec && new_node !=3D node) {
+> -		hfs_bnode_read_key(node, fd->search_key, data_off +
+> size);
+> +		hfs_bnode_read_key(node, fd->search_key, data_off +
+> size,
+> +				=C2=A0=C2=A0 fd->key_buf_size);
+> =C2=A0		hfs_brec_update_parent(fd);
+> =C2=A0	}
+> =C2=A0
+> @@ -157,7 +158,7 @@ int hfs_brec_insert(struct hfs_find_data *fd,
+> void *entry, u32 entry_len)
+> =C2=A0
+> =C2=A0		/* get index key */
+> =C2=A0		hfs_bnode_read_key(new_node, fd->search_key,
+> -				=C2=A0=C2=A0 HFS_BNODE_DESC_SIZE);
+> +				=C2=A0=C2=A0 HFS_BNODE_DESC_SIZE, fd-
+> >key_buf_size);
+> =C2=A0		__hfs_brec_find(fd->bnode, fd);
+> =C2=A0
+> =C2=A0		hfs_bnode_put(new_node);
+> @@ -462,7 +463,7 @@ static int hfs_brec_update_parent(struct
+> hfs_find_data *fd)
+> =C2=A0		fd->bnode =3D hfs_bnode_find(tree, new_node->parent);
+> =C2=A0		/* create index key and entry */
+> =C2=A0		hfs_bnode_read_key(new_node, fd->search_key,
+> -				=C2=A0=C2=A0 HFS_BNODE_DESC_SIZE);
+> +				=C2=A0=C2=A0 HFS_BNODE_DESC_SIZE, fd-
+> >key_buf_size);
+> =C2=A0		cnid =3D cpu_to_be32(new_node->this);
+> =C2=A0
+> =C2=A0		__hfs_brec_find(fd->bnode, fd);
+> @@ -475,7 +476,8 @@ static int hfs_brec_update_parent(struct
+> hfs_find_data *fd)
+> =C2=A0				goto out;
+> =C2=A0			/* restore search_key */
+> =C2=A0			hfs_bnode_read_key(node, fd->search_key,
+> -					=C2=A0=C2=A0 HFS_BNODE_DESC_SIZE);
+> +					=C2=A0=C2=A0 HFS_BNODE_DESC_SIZE,
+> +					=C2=A0=C2=A0 fd->key_buf_size);
+> =C2=A0		}
+> =C2=A0		new_node =3D NULL;
+> =C2=A0	}
+> diff --git a/fs/hfs/btree.h b/fs/hfs/btree.h
+> index 1f703f2c5..56de6425e 100644
+> --- a/fs/hfs/btree.h
+> +++ b/fs/hfs/btree.h
+> @@ -74,14 +74,28 @@ struct hfs_bnode {
+> =C2=A0#define HFS_BNODE_NEW		1
+> =C2=A0#define HFS_BNODE_DELETED	2
+> =C2=A0
+> +/* hfs_find_init() allocates search_key and key as one buffer */
+> +#define HFS_FIND_KEY_BUFS	2
+> +
+> +/* Largest key length field: u16 in trees with HFS_TREE_BIGKEYS */
+> +#define HFS_KEY_LEN_MAX_SIZE	sizeof(__be16)
+> +
+> +/*
+> + * State of one b-tree search. hfs_find_init() sets up the key
+> buffers
+> + * and the tree, the search functions fill in the rest.
+> + */
+> =C2=A0struct hfs_find_data {
+> -	btree_key *key;
+> -	btree_key *search_key;
+> -	struct hfs_btree *tree;
+> -	struct hfs_bnode *bnode;
+> -	int record;
+> -	int keyoffset, keylength;
+> -	int entryoffset, entrylength;
+> +	/* filled by caller */
+> +	btree_key *key;			/* key of the found
+> record */
+> +	btree_key *search_key;		/* key to search for */
+> +	u32 key_buf_size;		/* size of each of
+> search_key and key */
+> +	/* filled by find */
+> +	struct hfs_btree *tree;		/* tree being
+> searched */
+> +	struct hfs_bnode *bnode;	/* node with the found
+> record */
+> +	/* filled by findrec */
+> +	int record;			/* index of the record in
+> bnode */
+> +	int keyoffset, keylength;	/* offset and length of its
+> key */
+> +	int entryoffset, entrylength;	/* offset and length of its
+> data */
+> =C2=A0};
+
+The same issue here. The pahole shows a 4-byte hole, and struct
+hfs_find_data grows from 56 to 64 bytes.
+
+struct hfs_find_data {
+        btree_key *key;
+        btree_key *search_key;
+        struct hfs_btree *tree;
+        struct hfs_bnode *bnode;
+        u32 key_capacity;
+        int record;
+        int keyoffset, keylength;
+        int entryoffset, entrylength;
+};
+
+> =C2=A0
+> =C2=A0static inline bool is_hfs_bnode_range_valid(struct hfs_find_data
+> *fd,
+> @@ -117,7 +131,8 @@ extern void hfs_bmap_free(struct hfs_bnode
+> *node);
+> =C2=A0extern void hfs_bnode_read(struct hfs_bnode *node, void *buf, u32
+> off, u32 len);
+> =C2=A0extern u16 hfs_bnode_read_u16(struct hfs_bnode *node, u32 off);
+> =C2=A0extern u8 hfs_bnode_read_u8(struct hfs_bnode *node, u32 off);
+> -extern void hfs_bnode_read_key(struct hfs_bnode *node, void *key,
+> u32 off);
+> +void hfs_bnode_read_key(struct hfs_bnode *node, void *key, u32 off,
+> +			u32 key_buf_size);
+
+The new prototype drops extern while every neighbour keeps it.
+checkpatch prefers no extern, but a mixed block looks accidental. Keep
+extern here for consistency, or leave a full cleanup for a separate
+patch.
+
+Thanks,
+Slava.
+
+> =C2=A0extern void hfs_bnode_write(struct hfs_bnode *node, void *buf, u32
+> off, u32 len);
+> =C2=A0extern void hfs_bnode_write_u16(struct hfs_bnode *node, u32 off, u1=
+6
+> data);
+> =C2=A0extern void hfs_bnode_write_u8(struct hfs_bnode *node, u32 off, u8
+> data);
