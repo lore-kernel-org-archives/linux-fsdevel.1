@@ -1,100 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.221.44
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795098085;
-	b=LAaz/0yYAf9I3AHaAV2qJNVd9WIbTnxEWvknSupFFgPf/2Qrk4uD+1rnAnKmLOcD20KZ
-	 zNUKkNR7ns6RMyjljEl/xBrC9AsajP6Pcx2spNuCNvXq3/r0+MDmpjBxlvQNRiOCBEk0k
-	 /g5049Tp29ES7i/iuF/hIUyWbtO3vbCYIcQ8YOQZh+ZiTDNYEDJ8HZ6/U0vbAEUBX6wzQ
-	 MxK5ghh3iE8f5b1oCbOoULuPn5O7yFgb7dSrkaiopEJJSPLXUzRMYs/MKOcKnzKjiQTM2
-	 ozxVl+OcGeZQknO3GIOz8ThoF9eACRm7dJh0L2zA5WtU1PI10VsVfH7ZzmrSPY2JiJQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795098085;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=y04CS3a1J3CXqGFaQTOcHCW2uGdwJOdnkJAq0Pc5CFY=;
-	b=5XgHfIZ3BI2vX08pizBqJAUcC7XQFcoYfeT04usbocYlwqGWpkMDFrKEQRSYAN+0708f
-	 889cEUOkC8Zvr64QoI8TyHOpN6VFXJVBk4MTTrXSQiEjXHS1EFni6TDrs95SCfo74eajH
-	 irtf77L+XrmbThEEtEampe/NlmyNxSA0crEgLwb4Q2LJGrQUPmYsjw7oOr0KtpkVHoWRe
-	 PMAFwl2khFJ0ExESIsQ4Xnsyp7HrnixT+lkoWEpyTaj1xhR8JtIX++e7G3fNp4F4SliVq
-	 vcJ4XAhjtV8cvVK2A/UbFhx3anarYrrPNWH+uDxQUEnDZ4869cwpSlv8/ydOKcd7d7g==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=IG75hVnM;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.221.44
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795098650;
+	b=He1Ugxncn210bsA12PySIi69Y4H0lIfX4avszwOL7iLyya3XJHmhHabBt+V+lwrNQfGd
+	 86SyFlBD+pyUrwXjYP7sHArywYvWQvpRcMt+Z2E23xh4aUKGybvHMfmtJfr6xF281Tb36
+	 RfqO8eau1syNzR30gPa/r8aAWaIauxAmD2wyKFRET2e+9ojuACx9QpDVgaCD3tvrc++Nc
+	 lD/qbSvzagIo61ith/oxorbmqjG/QNWwTIU2uMVYEEbnXISLwM3D9EXgxNpanbX+MsIpM
+	 4nCF0lMDupbPd6tzCC0KcFyzEj4ZQH/ng+ZTUy6c8ffw//FlDKRRcNh8s3A9EV9ySSg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795098650;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 X-Developer-Signature:X-Developer-Key:Content-Transfer-Encoding;
+	bh=l/C1DKA2mG967MO6KAH7vKhZoLEilrqj2aGc1tORCpc=;
+	b=ufvkxzR5ggSKzuRvlfbiNLMrzh1asFkUg0gIenVFniLoeW/7SpHJCXWjb1kd2IOmrTkT
+	 /u90+Lz2xkHj7wF/HF/Ezz8Z1SJL3SWnos16RxuC7b3WI4gqM4fr/a4SmKEBhKgUvz9R5
+	 AxMLnnTDc+0z2N7bM2ejNb2N+D0JejSx+2XZ2sRMSdC5bscejCX7hcywnQyOU8oJjJczJ
+	 xSur6rQRBE5uTt3FbipGH+2DTY85lXrjPrnwmGLco9UdfuKr3jzzGGOb5FrTZudgsomqn
+	 pSVF9bqc1CUZzjK460DGqZCCmnb/DexDJ9Qorx1rlgakOgA4nAPx9IrMjGLmE0dd2wA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RPLWnijZ;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 712E2606A32F
-	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 14:21:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 712E2606A32F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E981606A324
+	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 14:30:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=IG75hVnM
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-4a357b1c649so1483700f8f.3
-        for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 06:21:25 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795098084; cv=none;
-        d=google.com; s=arc-20260327;
-        b=CqD0xEvVT2Z7yWFNSHjC5KbOIehDBGafHCdWcWS/PqLnkVfc9X/2gq95KkYKQ9NHPk
-         57LMgekUjSpn0AKF46jIs0fAybuwbJVeNCA/cBlJwDvz2iuEo1mwqH3wSxKJByCSuDNp
-         qdEj1rgwCgvQuJflljEBBuEgE6Q7tk6MsL10u1WoTXND2GFM+WrwI5fpTqPr7y799sB+
-         V5UJa7f7C7GAKkg02lj892I8ePE/48fwHXByjVf9bIwEx4eQPQ0bM8VBylw5SAU+g1eR
-         dDUbAG59yU/5eYIRqYt8ZZaIcarJRe6IWYTTOsZQcAUPFZgGKcpDO7g59ocR7aE3BDeO
-         MbZw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=y04CS3a1J3CXqGFaQTOcHCW2uGdwJOdnkJAq0Pc5CFY=;
-        fh=0HircycHTD/OiEAToJQJ+vMCVE/IeGS0WyLPuCLjcCE=;
-        b=WAkRKEUHUsmj1NmenzWqF5vkt0OBel2Rm3Mna1wDiYAC5eevbDxPke7WNl4pyOAJu5
-         WTqc6lAqCO2lWOy9yTRLtVQMduiZdLB4r23fb4kMKipi3cJaLNhQBlXwjvHLZJqLtAJG
-         /tlTqBkM4wNf6shCTj8KsWVMww+pMDIdpZh5bwkt5/7vt+9tqQSQaPX0mZMpE2Q7D6kT
-         6DrspnXAV2Rrxdsdy34ZNUs/nY5wrGlNqcfLwOHcN3qvllbnMKxOQQUDc/akpEsLGYaZ
-         Zits7R6Qycr7M6GEfdPnS+Sf3bgR2OdHoAf5vt+ivdV7m8eFSzTAtgvNVsv/+G2D90M0
-         pjUA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795098084; x=1795702884; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=y04CS3a1J3CXqGFaQTOcHCW2uGdwJOdnkJAq0Pc5CFY=;
-        b=IG75hVnM9ivavyaInozy3BqwUaU2lEXquJG5ktgX0AvFJu+BCLDa7gIxjFwvrd59xL
-         GmfphVX7NJLErDWJ6nWKhM96AEf8YwYGs5yRSK0HE0lfAcyUBmZ4UOlxjRVUyN7XF9Qz
-         GXl0OlT5FZJMn3ypCgmhgpLNgpdaNHEIn4QdHoAFO4pbIwb3fGp9A5gfjhe0z393taNS
-         bcIDtWi/zW9vEmOoCzgQdRwIA3w1povoQ82aq5fu/00iiRiusrNeOlgvrhyHbJIGusZT
-         iiRHiZk8wOss0b1TUqk0jvRCMk0qXps8Jw82/hF5iJ2At6JbsBA1WNfZof7/d76WtxCV
-         iyow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795098084; x=1795702884;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=y04CS3a1J3CXqGFaQTOcHCW2uGdwJOdnkJAq0Pc5CFY=;
-        b=ah4v8ATSU/wGbST3ilOEAowOJpVG/JODE0ZyEHMLH+E8QcFDJ5RNduJxLBpafRTXIa
-         e8BTZOuu5sgeVnzetCcX67X2cZYkERh2am5Wbpv0dBa+xqQTTkcQUTxXI0MqVTA61I1v
-         SeYmNalkKQeWfBwePKVKiRksaVIYG/vBg+whXlAzeS0zI81kFWhuaxKTQpm+AOiJcIx4
-         cISm7Pcc5dgCv/u+hD9DfPI2MdxFFAsDiUnlcCBjp2fqPlZEgCXOcmq01DbTQ2VQpYmO
-         MjOc2iP/CJUKUf5oJ6u+dTWKTEK0HUdWMk2MQTWxiGabjqlILh+4AN7hC50J42Zmuup7
-         4ewQ==
-X-Forwarded-Encrypted: i=1; AL+hErG6YgjLAf7afQ7wB4/RO4AsN6V3bBnv236/zQAzc4NTXg/Z6F1n/ogvmnCqw5Knu5X8GGP9oYg0WtdDiaAj@vger.kernel.org
-X-Gm-Message-State: APuU4Z95qun+97vMCsLyaFq/OyDecU1M/CTXWEEJE9TsRok5Bh8OuLHr
-	wxCxj0CSPQU7qD+cW0hj/teCzyyeQOFuh/04+lcXqwUe4pb9Lz+2EITD74TjYgKt/dRc0lgXCQy
-	K0F4QkJ1eKGs74Dielg3TWUGsnmceUuU=
-X-Gm-Gg: AZFdTZdSj9AGa9j0nxi37nhmIdhJ2dfdOwbYEZS9nQqaJc+ws772rTpHr1Eff1QffqV
-	6iWpp+RMAbFSCgBNzgVIqJ4B1YMFh1QCS3RgeiaUJINHbQqhWXmZLrbQZPOivs6ZPFSmVbTVuUV
-	t/qWLrbgRKI1ISFmllNxRCqhuqLNhLCpbNr0IVJO/xsqS2XzZGetWA12tYmXNXZ7qH7B8aYYdZ2
-	VM48zYmhDb9StpBmakQRJuyh72B39FN1uAEJwfBqZxNX2tiSpRhnLPaEk3WBaarw5iK9kRYdg/c
-	ptn5HjjjmsAwEXNLDtqjQL80hxTpNDUGKftb/EbqU8KIkcFW1ziGOP10q+tA2WbsQND/EtVm/WW
-	Z8kMzy/NGh0leNbRDD17XNCIs+LCYQd+JGon0fw==
-X-Received: by 2002:a5d:5d12:0:b0:4a7:14d0:9c4c with SMTP id
- ffacd0b85a97d-4a714d0b8b5mr11508333f8f.6.1795098083499; Thu, 19 Nov 2026
- 06:21:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RPLWnijZ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF2E61F000C5;
+	Thu, 19 Nov 2026 14:30:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795098649;
+	bh=l/C1DKA2mG967MO6KAH7vKhZoLEilrqj2aGc1tORCpc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=RPLWnijZtzCfSDVs+eh1M2sc5vytM2exqsz117e2JIViupzd1Z5kY2cDMmGCrEXLm
+	 K89/a3NI7zfU71LNpzrCAVDBSTrwpPlXhz96JwXu+DoNMmk8pDPTViowIXGYxmqgQr
+	 1YbHUd4LH0+VZ7vI6CXy1JW3OZ2yoEdePQp+Swui9yaEwGPoeIYYSkxN7HPlJu3BYr
+	 2Uo1Mqsv1l5TTZq9F8asii/mTdaW1RJI/3P0/Jr6jgwH2kJckhLOI8AstlPH1bzK6B
+	 sOWym+A9iRtSsDXitybcUNmt/sJspkf4vWTAgg+dLqFgkrS1z6hjsWIqlD0QQ1sEVl
+	 bGy+9pyn3dkug==
+From: Christian Brauner <brauner@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Christian Brauner <brauner@kernel.org>,
+	linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org,
+	syzbot+4324f771847cecb27c54@syzkaller.appspotmail.com,
+	Hugh Dickins <hughd@google.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Miklos Szeredi <mszeredi@redhat.com>
+Subject: Re: [PATCH] shmem: consume the reserved xattr space despite remount
+Date: Thu, 19 Nov 2026 15:30:43 +0100
+Message-ID: <20261119-zahlt-mitmachen-genom-b6bca236b924@brauner>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <00461f0c866d4a4eb9f50792f0e1f3d0.1@linux-foundation.org>
+References: <00461f0c866d4a4eb9f50792f0e1f3d0.1@linux-foundation.org>
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -104,141 +64,38 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <CAO-4RZ1Q-HzRCd+S1uHZJRdN-ZCtv47f=pXTxbq4YaJgn_DALQ@mail.gmail.com>
-In-Reply-To: <CAO-4RZ1Q-HzRCd+S1uHZJRdN-ZCtv47f=pXTxbq4YaJgn_DALQ@mail.gmail.com>
-From: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Date: Thu, 19 Nov 2026 23:21:06 +0900
-X-Gm-Features: Aa3M54pK07kbY1LM2qYIEccGv9secMekg3Dfzg9Ys1fOO7NnwNajglNV0FmzpIw
-Message-ID: <CAKFNMo=LGQMgGK5_dj+wgByYBx8YxkOH13rXcqZ-cwAjff0ZDw@mail.gmail.com>
-Subject: Re: [BUG] INFO: task hung in nilfs_segctor_thread (fs/nilfs2/segment.c:357,
- v7.4-rc3)
-To: Zheng Zheng <fengaojigui88@gmail.com>
-Cc: slava@dubeyko.com, linux-nilfs@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1352; i=brauner@kernel.org; h=from:subject:message-id; bh=sL/wvWYqiVFPhGVN8MzDddQMTa/IduVM8SQcJxF+fQw=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWT95xDeNdGz6uK7yDVLjl7sXlTxaOb96FvGNioqCnzbn jEu6Npb0FHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjAR/d2MDN0GfObnZKq7cxxb V5u8Ttc4nd215t/UKoFrLGzs6s1ZBxj+WeRJ16ZLMLOYvg3M2Pki/9xSLs39929sr2NQ1haevUG MGwA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-On Thu, Nov 19, 2026 at 11:07=E2=80=AFPM Zheng Zheng  wrote:
->
-> Hi Ryusuke, Viacheslav,
->
-> We found a reproducible NILFS2 segment-constructor hang on v7.4-rc3 with
-> syzkaller. The supplied recipe reproduced on three independent fresh VMs;=
- no
-> state snapshot is required.
->
-> Repository and reproducer:
->
->   https://github.com/Zheng-zheng-codes/nilfs2-segctor-thread-hang
->   commit 2d94e07741d28d2dccaba174d06d6a5255ce0134
->
-> Hung-task report
-> ----------------
->
->   INFO: task segctord:35823 blocked for more than 183 seconds.
->   task:segctord state:D stack:29568 pid:35823
->   Call Trace:
->    <TASK>
->    __schedule
->    schedule_preempt_disabled
->    rwsem_down_write_slowpath
->    __down_write
->    down_write
->    nilfs_transaction_lock+0x25d/0x410 fs/nilfs2/segment.c:357
->    nilfs_segctor_thread_construct fs/nilfs2/segment.c:2601 [inline]
->    nilfs_segctor_thread+0x600/0xa60 fs/nilfs2/segment.c:2716
->    kthread
->    ret_from_fork
->    ret_from_fork_asm
->    </TASK>
->
-> The blocked thread is waiting to acquire `nilfs->ns_segctor_sem`
-> for writing in `nilfs_transaction_lock()`:
->
->   for (;;) {
->       down_write(&nilfs->ns_segctor_sem);
->       if (!test_bit(NILFS_SC_PRIOR_FLUSH, &sci->sc_flags))
->           break;
->
->       nilfs_segctor_do_immediate_flush(sci);
->       up_write(&nilfs->ns_segctor_sem);
->       cond_resched();
->   }
->
-> The lock dump also associates `&nilfs->ns_segctor_sem` with a task in
-> `nilfs_ioctl_clean_segments()` holding `sb_writers`, while `segctord` is
-> blocked in `down_write()` on that semaphore. The serial log repeatedly re=
-ports:
->
->   NILFS (loop6): error -28 cleaning segments
->
-> i.e. `-ENOSPC` from the clean-segments path. The reason why the
-> clean-segments ioctl holds the semaphore
-> for an extended period is not yet clear. We have not established
-> a circular lock dependency or identified the root cause.
-> We would appreciate your analysis.
->
-> Reproduction
-> ------------
->
->   git clone https://github.com/Zheng-zheng-codes/nilfs2-segctor-thread-ha=
-ng
->   cd nilfs2-segctor-thread-hang
->
->   # boot v7.4-rc3 with the supplied kernel config
->   # using a Debian trixie x86_64 guest
->
->   # in the guest, as root:
->   syz-execprog -procs=3D8 -threaded -repeat=3D0 \
->       -executor ./syz-executor reproducer/repro.kernsight.prog
->
-> `-repeat=3D0` enables indefinite repetition. The recipe has 227 entries: =
-226
-> replay programs followed by the testcase.
->
-> Verification:
->
-> - Main KernSight pipeline: attempt 2, `confirmed=3Dtrue`,
->   `status=3Dverified`, 226 replay programs, 2026-11-19T11:10:28Z
-> - Pipeline verification scope: `snapshot_restore`
-> - Independent external fresh-VM verification: **3/3**
->   - run 1 hit after 422 s
->   - run 2 hit after 257 s
->   - run 3 hit after 320 s
-> - External serial logs are in `external-verify/serial-{1,2,3}.log`
-> - Runs were counted only when a `nilfs_transaction_lock` frame appeared n=
-ext
->   to `segctord` or `nilfs_segctor_thread`; checker:
->   `external-verify/verify-logs.py`
-> - C reproducer: not generated; the syzkaller recipe is the primary reprod=
-ucer
->
-> Kernel/guest details:
->
->   kernel: v7.4-rc3, bzImage sha256
->     0c16409f8aec508ac44a63e631c2bd352536401f3fd0856df1d839fb953a1882
->   guest: Debian trixie x86_64, 6 GiB RAM, 4 vCPU, QEMU/KVM
->   boot: oops=3Dpanic panic_on_warn=3D1 hung_task_panic=3D0
->   config: CONFIG_KASAN=3Dy, CONFIG_PROVE_LOCKING=3Dy, CONFIG_NILFS2_FS=3D=
-y
->
-> Thanks,
-> Zheng
+On Wed, 18 Nov 2026 10:23:05 -0800, Andrew Morton wrote:
+> Creating a tmpfs inode can trigger WARN_ON(ispace) in shmem_initxattrs()
+> when a concurrent remount sets nr_inodes=0.  With panic_on_warn enabled,
+> this warning can panic the machine.
+> 
+> shmem_initxattrs() reserves space for the security xattrs while inode
+> limits are enabled.  It later tests max_inodes again before consuming that
+> reservation for each installed xattr.  If remount disables the limit
+> between those steps, successfully installed xattrs leave a nonzero
+> reservation behind.
+> 
+> [...]
 
-Hi Zheng Zheng,
+Applied to the vfs.fixes branch of the vfs/vfs.git tree.
+Patches in the vfs.fixes branch should appear in linux-next soon.
 
-Thank you for the feedback.
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
-I have filed this issue at:
-https://github.com/nilfs-dev/nilfs2/issues/182
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
 
-The issue you reported earlier was related to GC error handling, and
-Wang Jianjian has just proposed a patch for it, which I was about to
-look into.
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
 
-Since this one also appears to be a GC error handling issue, I will
-look into both together.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs.fixes
 
-Thanks,
-Ryusuke Konishi
+[1/1] shmem: consume the reserved xattr space despite remount
+      https://git.kernel.org/vfs/vfs/c/274ae8ab278e
