@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.170
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795131679;
-	b=zRNAbyJQeH+vxk4sk1SfEvOzVC2KHFKnmJUiww7MKGlgIeEk6Pp4hZL+V6ekf2Om8ZXE
-	 Tu8QsGOw4sSieEmG8U8UhE2Nzmx0blF4LU3zca2W8gpEHpHxpqN4VwyQD3znv0zdhqOKR
-	 2dmarQC6LP+QadgLdu1/R/H4wUGpKzkFCC8S/ImYFtvSV/CEUpbZRkOgSaQKI5JmFodwy
-	 SFH/OmVfLosijp1hdvXUpfrHR4xWV781ASxSqsS8OpJpgSmcWL856qWh4Uams7wumJ3L7
-	 GnZNL1/vprFwdbv8T3C+8CWbhQMg9b07VkhQpFmovlE1q4f8V7c+DwpkFuV47AGrDaA==
+	t=1795131680;
+	b=DcORrhzlh+B/RcdJblqrAchXCJqKdqgX5+tgenXCLicd3lNZae8izOf2C59QFinruOl8
+	 sHxcf/kCtU0AqFGVfhjC0JsqAbJH9fJ+QaNFTk9ubgsL0ydsxJzc6Ni6CJPVFdLIyXU0t
+	 J3AZKTRdcF2LhLmCmGM9s+1HZP9Dqo0jJ/M2QLdxWypsnNL6RGeKL2Ac9ktvXLvklp0JD
+	 Eb5MBK1DXC4q6NVDQnyl9xhsM1FD49ugz+aQKaJhu/cBxeG1I03vruIYAOz/+h/Kmvgfh
+	 zGcyCtUw3XZ6+dolDThrD8TZLKNx4Ife3POJEngMt2tNQ62pBnbl12bgMXcdT8Sft0w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795131679;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795131680;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=rrqe4OL7rF0jVL1e4A2AH8iDIiTDyxz7nVkoEsGHoek=;
-	b=F/8cQ7MMv+Fkv5KxyY38qocBOh0YwBEo6S3sVzYrgyx2cQpomMMYrgJyvlKuER6hJiqw
-	 XbG3J1iV9GMnLxvtS8kgtlQnI1KJZjD9DX8rvYgTzL+7S3g03oMDWMyjURHsTobRhNsWX
-	 NWBZzvPKmpBDZvCKIOtYciUc+U4obr5FQyo9mAAdq4E1CfwyfoHJ6mBbflATs7NFWA6Bb
-	 8wI+tttX+7Bqz01LJT22T7B5Ek3ND+qkjOXvUa+6wgDjRcX8GZTO/GgzAAgZQVe6E2CRZ
-	 34YdO5/baHY/W6TxVvYELEBqb88nvF0q8+qURPcIwtmBL0VKg8OYwaFxUG7tQoqo+Qw==
+	bh=AoD75E4XjAQHTfFHYDSfA+HbjnEiz4bmLY1RO2qIAxM=;
+	b=Z09Qfjb3FG5ZAkd0QA7kmj0//gn18InXWk1oBPosn+OJxlSpeVQoygS2ZHZ2PRmWlPM1
+	 Jwro53Lo/O2DPFLAt5qyhPDi0LV5xLU9iwVSFwAUv+cMHyZKD3HisFPwW7+BCjXytjri3
+	 P3wHu74Ivo5mxQtz5ptW8g6IswgEcmNKq51s1Sfn7pIkRPWigZ5Gp4Bp981EZLPhdiyAw
+	 Ri2jpCmsEvPE9U3pjI8CvoD3vp5JPGTgvIge+zZJZ/34i6a40bpOubc0CtfvwGqlS2yNQ
+	 MxEXJztZBFoqzLve3us0oU9lrvS/mivJsKm0sCYf1suZmg1GklmxmbNIWIeAP6sxPlA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=dubeyko.com;
 	spf=pass smtp.mailfrom=dubeyko.com;
-	dkim=pass header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=Wbw3MVau;
-	arc=none smtp.remote-ip=209.85.128.170
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+	dkim=pass header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=gHqw6+Q7;
+	arc=none smtp.remote-ip=74.125.224.43
+Received: from mail-yx1-f43.google.com (mail-yx1-f43.google.com [74.125.224.43])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0BEF606A335
-	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 23:41:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B0BEF606A335
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 139F760A2611
+	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 23:41:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 139F760A2611
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=Wbw3MVau
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-8b4e18369c8so2228007b3.2
-        for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 15:41:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=gHqw6+Q7
+Received: by mail-yx1-f43.google.com with SMTP id 956f58d0204a3-67be4f2f4d4so471686d50.2
+        for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 15:41:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dubeyko-com.20260707.gappssmtp.com; s=20260707; t=1795131678; x=1795736478; darn=vger.kernel.org;
+        d=dubeyko-com.20260707.gappssmtp.com; s=20260707; t=1795131679; x=1795736479; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=rrqe4OL7rF0jVL1e4A2AH8iDIiTDyxz7nVkoEsGHoek=;
-        b=Wbw3MVauYF6euxivL0WLepHbMXlTv7BP7mivKx337xquqBERVRSuxX0S9xm/kQqqH3
-         MswqeI+HHsDcb4ZkH5xaAxBVFI2vzmPk1fgl9e899tlflMpxuVJqqaZ4ey9sgzMcbJGD
-         w/VOtxnvM61uiYQ/Lx9vxVbz1QAeu/98IQI9KnScRqdniDmPWi0LA9FHTBC78FXsXihW
-         An7Fgxq65QOO+SH8897pKPRH1RvXvOqDtBHcJC/I6kdnfI6WXuNAywj2AyO2O3qnGvwa
-         1AEx5BVcHl9Qq/JA4NYy/+r/Q6Iik0u6+4M6aZA6UKZc1EF/mx/FzYgUmuYUyq4SImv3
-         qpyQ==
+        bh=AoD75E4XjAQHTfFHYDSfA+HbjnEiz4bmLY1RO2qIAxM=;
+        b=gHqw6+Q7uGEPvjm/SC/4rQO10zqaMXzgtZNuUHNJeY7YdA9vh6Af+tUZfpjLjKFO/g
+         E+5kfFi5MyT+oes0JIKYbL6rEcmfhUybKOHMVLONo+V10fr7MXGZR/SriIsRsyDIPvd7
+         Cu6VBKy4JVqkOcGPiA4HLwmpfYzg8jk8yeGKLtkMT5lJfqI8d8GcogQGX/FZYDMKBM64
+         VRB12GX67nUHv9zyScalfaj7V4hhaU1zQ+HbNQfyGM9Hsii7GgOK4dHSGuzTbu1QDkPU
+         /5uEEqKqqmt+1G6OMZcIFGxRsPsnMq+oYsdFfPd+DAdwjS948GuUy5ZuN4MZtHA1WUxZ
+         rGsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795131678; x=1795736478;
+        d=1e100.net; s=20260707; t=1795131679; x=1795736479;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=rrqe4OL7rF0jVL1e4A2AH8iDIiTDyxz7nVkoEsGHoek=;
-        b=D5Z0+fZyT8R6exls/VNc72cQz9QNvqmjnqDNdvWLGOajc04RHR4hrBQYmRBc+cZpgc
-         MTczxgY+rEid96LTX/cKWG+QBIBvNj7GRph2Ofrrh0Pl0xL4rkmxK9SRG3+qwXA2Erf8
-         KnpHM5SUEW8i1KhG0Agc5R9fiyXStPcFQlNod0QrsBMlJKNCh8k8M5k/8aG7+r5bEXfp
-         7vOF0Augv2nf2Sdr1r7ldOi3q22v2zowlaaN6Ciwnf5rdK2ZaY8DZLNrIODKtaILzn8K
-         RuxzP34Nn7OQH7wYf6HvggtK0LQ24ZNiKQfonCz3/zAwx1AExWUwUttfDMb1e2Qz8tLB
-         2N6Q==
-X-Gm-Message-State: APuU4Z+m2ZbFf7GuZfZ9q284ECfPXbizY7G20z/c+AoO4rz6k3fLorjj
-	JyHn5i/LqM+5WoKEaY9yIXsGW997BusxBBg4LIQClemAuO4dC65sBU6RsdX06wzy5m0=
-X-Gm-Gg: AZFdTZcS8lBXm/X0XRDiLKdMxSIL12ChHFQiWG+5zDyffHzUtnK0P8pMrwFOCTEjgPt
-	V8RVJv6Z21LqjsECW9olsBcr3bqjMLMxFyhQu4Sicos5R/3qNlbE9ZjZnSCUBt8JBzZdJKpP6I6
-	76QqXmDX3KHDpSCLn40b/+NXjETNPqxqVfUjAKRIsEu2v6GMRcDFX++syMsF/cif9Y75EF+sN7y
-	tQRaOoER0ERMiumnqX+piXZ0kQeM7+AdhJVPxUWgy/YD23lYl2mYJLyrnLv5P+I+Oj6/4HRJuTF
-	bYo146CNt4VPvuLQ/DRQbgXHpNWoPqaSDi2u50cEBxHFZkraDiUhDXnKLGbWw48VQtDD0Olwm/a
-	BoCIu0H+pYFcs22cBXk6uJ71HFrpUicYTxn8CJbmTFoud8XbJYnBjBJBN+pH4zbKfVsfqaqgYNT
-	GETNxEfXFB6V54lL4wwxBRc4v8cwUkf3TYwfSt68PDgO7WrhCLt11OtvYyH2UeAxawgHJEJbPPM
-	Gg1f5i7rZQ1dPSEk9KQ1W/OaGCucJPy6QCcXOuWlMfYSrRt3V9O/yaZ7lAoN2JqVQV9MgBOZC+p
-	h0WQJCxtSDQqMd+tkmzXIingIfJNIWCxiA20yAFLcdNPVhTKt5Q/ASbkNVQQa70RfuVl/E5aHAJ
-	rvW45VY2Xm++6g4AWIxPjplvbtEKUIXGdjZnvDpMRPTb301eudN6Aj/cyGUJQTEOv43+YRSU=
-X-Received: by 2002:a05:690e:14c4:b0:67c:608:b372 with SMTP id 956f58d0204a3-67df441e4f7mr413834d50.66.1795131677626;
-        Thu, 19 Nov 2026 15:41:17 -0800 (PST)
+        bh=AoD75E4XjAQHTfFHYDSfA+HbjnEiz4bmLY1RO2qIAxM=;
+        b=CP26m44hoEaIMW5rMneGC8mU1CNTZexnMgLJFmopGcH6KqWo/feBEfzCGYLhS8JFh1
+         r5eUl1XxxSANViq5g/rPP0fYolX/TYXReG9w570Q7sGDOAyLht9MUGg1k08afPBv7ycA
+         2oFSgYUOgl/9RaY/XBP3W4SskSaI3az54JwtjroOsk8hu0fV/78ETVynkzUjjRrnT9Ck
+         hxbd5/zp6kiHeu8jV0yI9i3EN8P6xJif9FMI/ViwQD8VJGcYJzGLcu6zgzYg3U7X8uiG
+         2npBck0qOXvid/A3ztMuGi1evreXIsxNnMwW9R6t9FoIevbR39qYKrXZO1etMd46nHzy
+         5p/A==
+X-Gm-Message-State: APuU4Z/DUmak5p6tqg69t3GdWuSWkRcdz52hzrLIfjCwzmyi85i93PmI
+	aWKbXyR5VjMX52Aes/FbVGeFamYlXYsClXZoWF91nb+HZ1u23eQVZe//+UK7pthAIHI=
+X-Gm-Gg: AZFdTZdbyopTp7j7vlGEBU4kVPQOrbPDt6c3BAVmil5W1NK/oGxBb+5PITWoxk9k4da
+	ssacv/oMN4/VhyylQf+/RrQWEnZFkx4exbjzQLmXCBxa4OQ7xV+3VSiyg3KY+0xN0sXaIfzKKsk
+	8Esvo8I72FnjtCfiGl0Iiw76K/BOApuzHluGRsqpyw8zUQKr5Q7Gw6jG/yPMNQs3pben5pKNnyQ
+	XiYBp/xJCxudDYHRTZycnWx8NcG1385yCL57tVxVKmplN7OzOwjrZp5IDIAeSU4YinKHnPpaVk0
+	A4wvIkGlpElDb3C8c6qyrizz0ekFOvZVvBLDbv9hnp5vwjjoNv+9zYJGXSvB4y+xpv+cOLagRxn
+	w+yu9p9mpFBdMDh/SvtlkIgPDe52h+lTyT6Yl+4qBfxlj1EaPbcdirUQ55d4VGvbr/YCvvorlRU
+	6DBCP27FIp2oTbCVTuWsQbTC6NiZsQ6U/xRy3rpPFBkPEsgtaqjtvlMiUYCY+64gz/g1d5gasKI
+	S3sK2racLt9HCee5ipnxS7ciLQYUMd91POrjTyFbI8uIjlX7eXbSwoGylCm6iapXsnjvs4k0DHc
+	3bcsAyvMo/oVfdWYlTRQzANnCcrJ4hl2Dvpvc9w100WmoHxZQ4h3mWEzcbg2ppu2qhTdcMlY1KA
+	sOgdQnF5qBcL/7ds7P2UjkHdy9SW7qs2MdrhNYzgffnRhtosooTTc+KzfQoR4YdGFlaongGo=
+X-Received: by 2002:a05:690e:4394:b0:679:8db9:517c with SMTP id 956f58d0204a3-67df42c4560mr244599d50.6.1795131678920;
+        Thu, 19 Nov 2026 15:41:18 -0800 (PST)
 Received: from system76-laptop.attlocal.net ([2600:1700:6476:1430:1932:ad09:1827:11fb])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67df338e8fesm796893d50.16.2026.11.19.15.41.16
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67df338e8fesm796893d50.16.2026.11.19.15.41.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Nov 2026 15:41:17 -0800 (PST)
+        Thu, 19 Nov 2026 15:41:18 -0800 (PST)
 From: Viacheslav Dubeyko <slava@dubeyko.com>
 To: glaubitz@physik.fu-berlin.de,
 	frank.li@vivo.com
@@ -87,9 +87,9 @@ Cc: linux-fsdevel@vger.kernel.org,
 	Viacheslav Dubeyko <slava@dubeyko.com>,
 	Zheng Zheng <fengaojigui88@gmail.com>,
 	stable@vger.kernel.org
-Subject: [PATCH 1/5] hfsplus: reject special files larger than their allocation at mount
-Date: Thu, 19 Nov 2026 15:41:08 -0800
-Message-ID: <20261119234112.720963-2-slava@dubeyko.com>
+Subject: [PATCH 2/5] hfsplus: map the allocation file without the extents B-tree
+Date: Thu, 19 Nov 2026 15:41:09 -0800
+Message-ID: <20261119234112.720963-3-slava@dubeyko.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261119234112.720963-1-slava@dubeyko.com>
 References: <20261119234112.720963-1-slava@dubeyko.com>
@@ -104,57 +104,69 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The volume header describes each special file (extents, catalog,
-allocation, startup and attributes file) with a fork that holds its
-logical size, its number of allocated blocks and its first eight
-extents. hfsplus_inode_read_fork() takes the logical size as is, and
-fs_blocks is derived from it, so a corrupted header can make a special
-file look larger than the blocks allocated to it.
+hfsplus_block_allocate() and hfsplus_block_free() read the allocation
+bitmap through the allocation file with sbi->alloc_mutex held. When the
+bitmap page is not cached and lies beyond the allocation file's extents
+in the volume header, hfsplus_get_block() takes the allocation file's
+extents_lock and looks the block up in the extents B-tree under its
+tree_lock.
 
-Syzkaller found an image whose allocation file has a logical size of
-0x800000000800 bytes but only one allocated block. Deleting a file on
-that volume frees its blocks, and hfsplus_block_free() reads the
-bitmap page through the allocation file while it holds the deleted
-file's extents_lock and sbi->alloc_mutex. Page 0 of the bitmap spans
-fs blocks beyond the first allocation block. As they are below the
-inflated fs_blocks, hfsplus_get_block() does not treat them as beyond
-EOF: it takes the allocation file's extents_lock and searches the
-extents B-tree, which has no record for them. Lockdep reports
-recursive locking on extents_lock and the block free fails with -EIO:
+Growing the extents B-tree does the opposite: hfs_bmap_reserve() is
+called with the B-tree's tree_lock held and extends the B-tree file,
+which allocates blocks under alloc_mutex. If the bitmap page needed
+there is not cached and is mapped by an extent record of the
+allocation file, the task tries to take the tree_lock it already holds
+and deadlocks:
 
   WARNING: possible recursive locking detected
-  rm/922 is trying to acquire lock:
-  (&HFSPLUS_I(inode)->extents_lock){+.+.}-{4:4}, at: hfsplus_get_block
+  dd/1404 is trying to acquire lock:
+  (&tree->tree_lock/1){+.+.}-{4:4}, at: hfsplus_find_init
   but task is already holding lock:
-  (&HFSPLUS_I(inode)->extents_lock){+.+.}-{4:4}, at: hfsplus_file_truncate
+  (&tree->tree_lock/1){+.+.}-{4:4}, at: hfsplus_find_init
   ...
+   hfsplus_find_init
+   hfsplus_ext_read_extent
    hfsplus_get_block
    block_read_full_folio
    ...
    read_cache_page
-   hfsplus_block_free
-   hfsplus_free_extents
-   hfsplus_file_truncate
-   hfsplus_delete_inode
-   hfsplus_unlink
-  hfsplus: unable to mark blocks free: error -5
-  hfsplus: can't free extent: start 74, count 1
+   hfsplus_block_allocate
+   hfsplus_file_extend
+   hfsplus_bmap_reserve
+   __hfsplus_ext_write_extent
+   hfsplus_ext_read_extent
+   hfsplus_file_extend
+   hfsplus_get_block
+   ...
+   hfsplus_write_begin
 
-A logical size beyond the allocated blocks is invalid on HFS+, so
-check it when the special file inodes are read from the volume header
-and fail the mount if it is exceeded. The error is reported as:
+The writer, the flusher and the superblock commit work then hang. Two
+tasks can also deadlock on the same pair of locks taken in opposite
+order.
 
-  hfsplus: special file 6: size 140737488357376 exceeds allocated size 2048
-  hfsplus: failed to load allocation file
+The same lookup is behind the lockdep report from syzkaller in which
+truncating an unlinked file takes the allocation file's extents_lock
+inside its own (hfsplus_file_truncate() -> hfsplus_free_extents() ->
+hfsplus_block_free() -> read_cache_page() -> hfsplus_get_block()).
+Syzkaller reached it with a corrupted image, which the previous patch
+rejects at mount.
 
-Tested on a KASAN and lockdep kernel: the syzkaller image and images
-with the logical size of the allocation, extents, catalog or
-attributes file set one byte beyond its allocation are rejected, the
-image with a consistent size mounts and its files can be deleted, and
-generic/001, 002 and 013 pass on freshly created volumes.
+The allocation file cannot grow or shrink while the volume is mounted.
+Read its extent records from the extents B-tree once at mount time and
+map its blocks beyond the volume header's extents from them, so that
+reading the bitmap takes neither the allocation file's extents_lock nor
+the extents B-tree's tree_lock. The extents read are kept in the new
+struct hfsplus_overflow_extents, which sbi->alloc_file now holds
+together with the allocation file's inode as struct hfsplus_alloc_file.
+A missing or inconsistent extent record now fails the mount instead of
+failing the bitmap reads later.
 
-The analysis, the fix and this changelog were drafted with the help of
-an AI coding assistant (Claude Opus 5.5) and reviewed by the author.
+Tested on a KASAN and lockdep kernel: the reproducer completes without
+a lockdep report and fsck.hfsplus reports the volume as OK, also after
+allocating blocks whose bitmap page is mapped by the extent record; a
+volume whose extent record of the allocation file starts at the wrong
+block is rejected at mount; generic/001, 002, 013, 075 and 112 pass,
+generic/091 fails as it does without this change.
 
 Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
 Reported-by: Zheng Zheng <fengaojigui88@gmail.com>
@@ -165,81 +177,377 @@ cc: Yangtao Li <frank.li@vivo.com>
 cc: linux-fsdevel@vger.kernel.org
 Signed-off-by: Viacheslav Dubeyko <slava@dubeyko.com>
 ---
- fs/hfsplus/super.c | 38 +++++++++++++++++++++++++++++++++-----
- 1 file changed, 33 insertions(+), 5 deletions(-)
+ fs/hfsplus/bitmap.c     |   4 +-
+ fs/hfsplus/extents.c    | 136 ++++++++++++++++++++++++++++++++++++----
+ fs/hfsplus/hfsplus_fs.h |  14 ++++-
+ fs/hfsplus/inode.c      |   4 +-
+ fs/hfsplus/super.c      |  18 ++++--
+ 5 files changed, 153 insertions(+), 23 deletions(-)
 
-diff --git a/fs/hfsplus/super.c b/fs/hfsplus/super.c
-index f3283e9b42c8..33594e1f8367 100644
---- a/fs/hfsplus/super.c
-+++ b/fs/hfsplus/super.c
-@@ -26,34 +26,62 @@ static void hfsplus_free_inode(struct inode *inode);
- #include "hfsplus_fs.h"
- #include "xattr.h"
+diff --git a/fs/hfsplus/bitmap.c b/fs/hfsplus/bitmap.c
+index 30178ea47362..62c39849e381 100644
+--- a/fs/hfsplus/bitmap.c
++++ b/fs/hfsplus/bitmap.c
+@@ -33,7 +33,7 @@ int hfsplus_block_allocate(struct super_block *sb, u32 size,
+ 
+ 	hfs_dbg("size %u, offset %u, len %u\n", size, offset, len);
+ 	mutex_lock(&sbi->alloc_mutex);
+-	mapping = sbi->alloc_file->i_mapping;
++	mapping = sbi->alloc_file.inode->i_mapping;
+ 	page = read_mapping_page(mapping, offset / PAGE_CACHE_BITS, NULL);
+ 	if (IS_ERR(page)) {
+ 		start = size;
+@@ -192,7 +192,7 @@ int hfsplus_block_free(struct super_block *sb, u32 offset, u32 count)
+ 		return -ENOENT;
+ 
+ 	mutex_lock(&sbi->alloc_mutex);
+-	mapping = sbi->alloc_file->i_mapping;
++	mapping = sbi->alloc_file.inode->i_mapping;
+ 	pnr = offset / PAGE_CACHE_BITS;
+ 	page = read_mapping_page(mapping, pnr, NULL);
+ 	if (IS_ERR(page))
+diff --git a/fs/hfsplus/extents.c b/fs/hfsplus/extents.c
+index 924941440066..da6ab85a64ae 100644
+--- a/fs/hfsplus/extents.c
++++ b/fs/hfsplus/extents.c
+@@ -53,7 +53,7 @@ static u32 hfsplus_ext_find_block(struct hfsplus_extent *ext, u32 off)
+ 	int i;
+ 	u32 count;
+ 
+-	for (i = 0; i < 8; ext++, i++) {
++	for (i = 0; i < HFSPLUS_FORK_EXTENT_COUNT; ext++, i++) {
+ 		count = be32_to_cpu(ext->block_count);
+ 		if (off < count)
+ 			return be32_to_cpu(ext->start_block) + off;
+@@ -68,17 +68,18 @@ static int hfsplus_ext_block_count(struct hfsplus_extent *ext)
+ 	int i;
+ 	u32 count = 0;
+ 
+-	for (i = 0; i < 8; ext++, i++)
++	for (i = 0; i < HFSPLUS_FORK_EXTENT_COUNT; ext++, i++)
+ 		count += be32_to_cpu(ext->block_count);
+ 	return count;
+ }
+ 
+ static u32 hfsplus_ext_lastblock(struct hfsplus_extent *ext)
+ {
++	int last_index = HFSPLUS_FORK_EXTENT_COUNT - 1;
+ 	int i;
+ 
+-	ext += 7;
+-	for (i = 0; i < 7; ext--, i++)
++	ext += last_index;
++	for (i = 0; i < last_index; ext--, i++)
+ 		if (ext->block_count)
+ 			break;
+ 	return be32_to_cpu(ext->start_block) + be32_to_cpu(ext->block_count);
+@@ -225,6 +226,102 @@ static int hfsplus_ext_read_extent(struct inode *inode, u32 block)
+ 	return res;
+ }
  
 +/*
-+ * The logical size of a special file must fit within its allocated
-+ * blocks. Otherwise its page cache would map blocks past the end of the
-+ * extent records, which the code accessing these files (e.g. the bitmap
-+ * code holding alloc_mutex) does not expect.
++ * The allocation bitmap is read through the allocation file with
++ * sbi->alloc_mutex held, sometimes by a task that holds the extents
++ * B-tree's tree_lock because it is growing the B-tree. So mapping a
++ * block of the allocation file must not search the extents B-tree.
++ *
++ * The allocation file is not resized while the volume is mounted, so
++ * read the extents of it that are not in the volume header once, at
++ * mount time, and map its blocks from them.
 + */
-+static int hfsplus_system_read_fork(struct inode *inode,
-+				    struct hfsplus_fork_raw *fork)
++int hfsplus_ext_load_alloc_file(struct super_block *sb)
 +{
-+	struct hfsplus_sb_info *sbi = HFSPLUS_SB(inode->i_sb);
-+	u64 size = be64_to_cpu(fork->total_size);
-+	u32 total_blocks = be32_to_cpu(fork->total_blocks);
-+	u64 alloc_size = (u64)total_blocks << sbi->alloc_blksz_shift;
++	struct hfsplus_sb_info *sbi = HFSPLUS_SB(sb);
++	struct hfsplus_alloc_file *alloc_file = &sbi->alloc_file;
++	struct inode *inode = alloc_file->inode;
++	struct hfsplus_inode_info *hip = HFSPLUS_I(inode);
++	struct hfsplus_extent *ext = NULL, *new;
++	struct hfs_find_data fd;
++	u32 block = hip->first_blocks;
++	u32 nr = 0;
++	int res;
 +
-+	if (size > alloc_size) {
-+		pr_err("special file %llu: size %llu exceeds allocated size %llu\n",
-+		       inode->i_ino, size, alloc_size);
-+		return -EIO;
++	if (block >= hip->alloc_blocks)
++		return 0;
++
++	res = hfs_find_init(sbi->ext_tree, &fd);
++	if (res)
++		return res;
++
++	while (block < hip->alloc_blocks) {
++		hfsplus_extent_rec rec;
++		u32 start_block, count;
++		u32 rest_blocks;
++
++		res = __hfsplus_ext_read_extent(&fd, rec, inode->i_ino, block,
++						HFSPLUS_TYPE_DATA);
++		if (res)
++			goto fail;
++
++		start_block = be32_to_cpu(fd.key->ext.start_block);
++		count = hfsplus_ext_block_count(rec);
++		rest_blocks = hip->alloc_blocks - block;
++
++		if (start_block != block || count == 0 || count > rest_blocks) {
++			res = -EIO;
++			goto fail;
++		}
++
++		new = krealloc_array(ext, nr + ARRAY_SIZE(rec), sizeof(*ext),
++				     GFP_KERNEL);
++		if (!new) {
++			res = -ENOMEM;
++			goto fail;
++		}
++
++		ext = new;
++		memcpy(ext + nr, rec, sizeof(rec));
++		nr += ARRAY_SIZE(rec);
++		block += count;
 +	}
 +
-+	hfsplus_inode_read_fork(inode, fork);
++	hfs_find_exit(&fd);
++	alloc_file->overflow.extents = ext;
++	alloc_file->overflow.count = nr;
++	return 0;
++
++fail:
++	hfs_find_exit(&fd);
++	kfree(ext);
++	pr_err("can't read the allocation file extents at block %u: %d\n",
++	       block, res);
++	return res == -ENOENT ? -EIO : res;
++}
++
++/*
++ * Map @ablock of the allocation file, which lies beyond its extents in
++ * the volume header. Returns 0 if it is not allocated.
++ */
++static u32 hfsplus_ext_alloc_file_block(struct super_block *sb, u32 ablock)
++{
++	struct hfsplus_alloc_file *alloc_file = &HFSPLUS_SB(sb)->alloc_file;
++	struct hfsplus_overflow_extents *overflow = &alloc_file->overflow;
++	u32 off = ablock - HFSPLUS_I(alloc_file->inode)->first_blocks;
++	u32 start_block, count;
++	u32 i;
++
++	for (i = 0; i < overflow->count; i++) {
++		start_block = be32_to_cpu(overflow->extents[i].start_block);
++		count = be32_to_cpu(overflow->extents[i].block_count);
++		if (off < count)
++			return start_block + off;
++		off -= count;
++	}
 +	return 0;
 +}
 +
- static int hfsplus_system_read_inode(struct inode *inode)
- {
- 	struct hfsplus_vh *vhdr = HFSPLUS_SB(inode->i_sb)->s_vhdr;
-+	int err;
- 
- 	switch (inode->i_ino) {
- 	case HFSPLUS_EXT_CNID:
--		hfsplus_inode_read_fork(inode, &vhdr->ext_file);
-+		err = hfsplus_system_read_fork(inode, &vhdr->ext_file);
- 		inode->i_mapping->a_ops = &hfsplus_btree_aops;
- 		break;
- 	case HFSPLUS_CAT_CNID:
--		hfsplus_inode_read_fork(inode, &vhdr->cat_file);
-+		err = hfsplus_system_read_fork(inode, &vhdr->cat_file);
- 		inode->i_mapping->a_ops = &hfsplus_btree_aops;
- 		break;
- 	case HFSPLUS_ALLOC_CNID:
--		hfsplus_inode_read_fork(inode, &vhdr->alloc_file);
-+		err = hfsplus_system_read_fork(inode, &vhdr->alloc_file);
- 		inode->i_mapping->a_ops = &hfsplus_aops;
- 		break;
- 	case HFSPLUS_START_CNID:
--		hfsplus_inode_read_fork(inode, &vhdr->start_file);
-+		err = hfsplus_system_read_fork(inode, &vhdr->start_file);
- 		break;
- 	case HFSPLUS_ATTR_CNID:
--		hfsplus_inode_read_fork(inode, &vhdr->attr_file);
-+		err = hfsplus_system_read_fork(inode, &vhdr->attr_file);
- 		inode->i_mapping->a_ops = &hfsplus_btree_aops;
- 		break;
- 	default:
- 		return -EIO;
+ /* Get a block at iblock for inode, possibly allocating if create */
+ int hfsplus_get_block(struct inode *inode, sector_t iblock,
+ 		      struct buffer_head *bh_result, int create)
+@@ -258,9 +355,22 @@ int hfsplus_get_block(struct inode *inode, sector_t iblock,
+ 		goto done;
  	}
  
-+	if (err)
-+		return err;
+-	if (inode->i_ino == HFSPLUS_EXT_CNID)
++	switch (inode->i_ino) {
++	case HFSPLUS_EXT_CNID:
+ 		return -EIO;
+ 
++	case HFSPLUS_ALLOC_CNID:
++		dblock = hfsplus_ext_alloc_file_block(sb, ablock);
++		if (!dblock)
++			return -EIO;
++		else
++			goto done;
 +
++	default:
++		/* continue logic */
++		break;
++	}
++
+ 	mutex_lock(&hip->extents_lock);
+ 
  	/*
- 	 * Assign a dummy file type, for may_open() requires that
- 	 * an inode has a valid file type.
+@@ -303,7 +413,7 @@ static void hfsplus_dump_extent(struct hfsplus_extent *extent)
+ 	int i;
+ 
+ 	hfs_dbg("extent   ");
+-	for (i = 0; i < 8; i++)
++	for (i = 0; i < HFSPLUS_FORK_EXTENT_COUNT; i++)
+ 		hfs_dbg(" start_block %u, block_count %u",
+ 			be32_to_cpu(extent[i].start_block),
+ 			be32_to_cpu(extent[i].block_count));
+@@ -317,7 +427,7 @@ static int hfsplus_add_extent(struct hfsplus_extent *extent, u32 offset,
+ 	int i;
+ 
+ 	hfsplus_dump_extent(extent);
+-	for (i = 0; i < 8; extent++, i++) {
++	for (i = 0; i < HFSPLUS_FORK_EXTENT_COUNT; extent++, i++) {
+ 		count = be32_to_cpu(extent->block_count);
+ 		if (offset == count) {
+ 			start = be32_to_cpu(extent->start_block);
+@@ -347,7 +457,7 @@ static int hfsplus_free_extents(struct super_block *sb,
+ 	int err = 0;
+ 
+ 	hfsplus_dump_extent(extent);
+-	for (i = 0; i < 8; extent++, i++) {
++	for (i = 0; i < HFSPLUS_FORK_EXTENT_COUNT; extent++, i++) {
+ 		count = be32_to_cpu(extent->block_count);
+ 		if (offset == count)
+ 			goto found;
+@@ -405,7 +515,7 @@ int hfsplus_free_fork(struct super_block *sb, u32 cnid,
+ 		return 0;
+ 
+ 	blocks = 0;
+-	for (i = 0; i < 8; i++)
++	for (i = 0; i < HFSPLUS_FORK_EXTENT_COUNT; i++)
+ 		blocks += be32_to_cpu(fork->extents[i].block_count);
+ 
+ 	res = hfsplus_free_extents(sb, fork->extents, blocks, blocks);
+@@ -445,11 +555,11 @@ int hfsplus_file_extend(struct inode *inode, bool zeroout)
+ 	u32 start, len, goal;
+ 	int res;
+ 
+-	if (sbi->alloc_file->i_size * 8 <
++	if (sbi->alloc_file.inode->i_size * 8 <
+ 	    sbi->total_blocks - sbi->free_blocks + 8) {
+ 		/* extend alloc file */
+ 		pr_err_ratelimited("extend alloc file! (%llu,%u,%u)\n",
+-				   sbi->alloc_file->i_size * 8,
++				   sbi->alloc_file.inode->i_size * 8,
+ 				   sbi->total_blocks, sbi->free_blocks);
+ 		return -ENOSPC;
+ 	}
+@@ -517,7 +627,7 @@ int hfsplus_file_extend(struct inode *inode, bool zeroout)
+ 	if (!res) {
+ 		hip->alloc_blocks += len;
+ 		mutex_unlock(&hip->extents_lock);
+-		hfsplus_mark_inode_dirty(HFSPLUS_SB(sb)->alloc_file,
++		hfsplus_mark_inode_dirty(HFSPLUS_SB(sb)->alloc_file.inode,
+ 					 HFSPLUS_I_ALLOC_DIRTY);
+ 		hfsplus_mark_inode_dirty(inode, HFSPLUS_I_ALLOC_DIRTY);
+ 		return 0;
+@@ -637,7 +747,7 @@ void hfsplus_file_truncate(struct inode *inode)
+ 	hip->fs_blocks = (inode->i_size + sb->s_blocksize - 1) >>
+ 		sb->s_blocksize_bits;
+ 	inode_set_bytes(inode, hip->fs_blocks << sb->s_blocksize_bits);
+-	hfsplus_mark_inode_dirty(HFSPLUS_SB(sb)->alloc_file,
++	hfsplus_mark_inode_dirty(HFSPLUS_SB(sb)->alloc_file.inode,
+ 				 HFSPLUS_I_ALLOC_DIRTY);
+ 	hfsplus_mark_inode_dirty(inode, HFSPLUS_I_ALLOC_DIRTY);
+ }
+diff --git a/fs/hfsplus/hfsplus_fs.h b/fs/hfsplus/hfsplus_fs.h
+index dd88053cc9b3..9a304d946297 100644
+--- a/fs/hfsplus/hfsplus_fs.h
++++ b/fs/hfsplus/hfsplus_fs.h
+@@ -109,6 +109,17 @@ struct hfs_bnode {
+ struct hfsplus_vh;
+ struct hfs_btree;
+ 
++/* Extents of a special file that are not in the volume header */
++struct hfsplus_overflow_extents {
++	struct hfsplus_extent *extents;
++	u32 count;
++};
++
++struct hfsplus_alloc_file {
++	struct inode *inode;
++	struct hfsplus_overflow_extents overflow;
++};
++
+ struct hfsplus_sb_info {
+ 	void *s_vhdr_buf;
+ 	struct hfsplus_vh *s_vhdr;
+@@ -118,7 +129,7 @@ struct hfsplus_sb_info {
+ 	struct hfs_btree *cat_tree;
+ 	struct hfs_btree *attr_tree;
+ 	atomic_t attr_tree_state;
+-	struct inode *alloc_file;
++	struct hfsplus_alloc_file alloc_file;
+ 	struct inode *hidden_dir;
+ 	struct nls_table *nls;
+ 
+@@ -440,6 +451,7 @@ extern const struct file_operations hfsplus_dir_operations;
+ int hfsplus_ext_cmp_key(const hfsplus_btree_key *k1,
+ 			const hfsplus_btree_key *k2);
+ int hfsplus_ext_write_extent(struct inode *inode);
++int hfsplus_ext_load_alloc_file(struct super_block *sb);
+ int hfsplus_get_block(struct inode *inode, sector_t iblock,
+ 		      struct buffer_head *bh_result, int create);
+ int hfsplus_free_fork(struct super_block *sb, u32 cnid,
+diff --git a/fs/hfsplus/inode.c b/fs/hfsplus/inode.c
+index 8073fb99217d..e231da2d8a2b 100644
+--- a/fs/hfsplus/inode.c
++++ b/fs/hfsplus/inode.c
+@@ -410,9 +410,9 @@ int hfsplus_file_fsync(struct file *file, loff_t start, loff_t end,
+ 	}
+ 
+ 	if (test_and_clear_bit(HFSPLUS_I_ALLOC_DIRTY,
+-				&HFSPLUS_I(sbi->alloc_file)->flags)) {
++				&HFSPLUS_I(sbi->alloc_file.inode)->flags)) {
+ 		clear_bit(HFSPLUS_I_ALLOC_DIRTY, &hip->flags);
+-		error2 = filemap_write_and_wait(sbi->alloc_file->i_mapping);
++		error2 = filemap_write_and_wait(sbi->alloc_file.inode->i_mapping);
+ 		if (!error)
+ 			error = error2;
+ 	}
+diff --git a/fs/hfsplus/super.c b/fs/hfsplus/super.c
+index 33594e1f8367..e568a5508b5e 100644
+--- a/fs/hfsplus/super.c
++++ b/fs/hfsplus/super.c
+@@ -298,7 +298,7 @@ static int hfsplus_sync_fs(struct super_block *sb, int wait)
+ 		if (!error)
+ 			error = error2;
+ 	}
+-	error2 = filemap_write_and_wait(sbi->alloc_file->i_mapping);
++	error2 = filemap_write_and_wait(sbi->alloc_file.inode->i_mapping);
+ 	if (!error)
+ 		error = error2;
+ 
+@@ -325,7 +325,7 @@ static void delayed_sync_fs(struct work_struct *work)
+ 	sbi->work_queued = 0;
+ 	spin_unlock(&sbi->work_lock);
+ 
+-	err = hfsplus_sync_fs(sbi->alloc_file->i_sb, 1);
++	err = hfsplus_sync_fs(sbi->alloc_file.inode->i_sb, 1);
+ 	if (err)
+ 		pr_err("delayed sync fs err %d\n", err);
+ }
+@@ -399,7 +399,8 @@ static void hfsplus_put_super(struct super_block *sb)
+ 	if (!sb_rdonly(sb) && sbi->s_vhdr)
+ 		hfsplus_commit_clean_volume_header(sb);
+ 
+-	iput(sbi->alloc_file);
++	iput(sbi->alloc_file.inode);
++	kfree(sbi->alloc_file.overflow.extents);
+ 	iput(sbi->hidden_dir);
+ 	hfs_btree_close(sbi->attr_tree);
+ 	hfs_btree_close(sbi->cat_tree);
+@@ -754,7 +755,11 @@ static int hfsplus_fill_super(struct super_block *sb, struct fs_context *fc)
+ 		err = PTR_ERR(inode);
+ 		goto out_close_attr_tree;
+ 	}
+-	sbi->alloc_file = inode;
++	sbi->alloc_file.inode = inode;
++
++	err = hfsplus_ext_load_alloc_file(sb);
++	if (err)
++		goto out_put_alloc_file;
+ 
+ 	/* Load the root directory */
+ 	root = hfsplus_iget(sb, HFSPLUS_ROOT_CNID);
+@@ -816,7 +821,10 @@ static int hfsplus_fill_super(struct super_block *sb, struct fs_context *fc)
+ 	dput(sb->s_root);
+ 	sb->s_root = NULL;
+ out_put_alloc_file:
+-	iput(sbi->alloc_file);
++	iput(sbi->alloc_file.inode);
++	kfree(sbi->alloc_file.overflow.extents);
++	sbi->alloc_file.overflow.extents = NULL;
++	sbi->alloc_file.overflow.count = 0;
+ out_close_attr_tree:
+ 	hfs_btree_close(sbi->attr_tree);
+ out_close_cat_tree:
 -- 
 2.53.0
 
