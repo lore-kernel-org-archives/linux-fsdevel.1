@@ -1,55 +1,134 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795121385;
-	b=Vg3pg/t9m0uTEBWze9QDmyTAKL9YxR3qW+oobNjKFG1px+9MJdVE6WKf5qsexPqM22CR
-	 mZJRn8bs6emi0niHtwwS+zhY9A9NuhEau2v2VSbuzVBdXijobNcBEAzGroHC13vOnqYjm
-	 DjmljN5DJ6PM7+irFjVa8P+wOkflkiQEW0bjVDjJQdxsd5Mln6jV+6GhzArKpKyWrYplH
-	 nwtoz/Lqqq6TjgMmtyFisG01QUE4Cu/ivNg1fqWst8TEgWFMlhzKO760Iz3++ptr0/+Xr
-	 dfvlWREDPM2/ITKL8zwMTxUeTxr/bNjYGDYQdNwrijiF1z3N5Di2m4H9riRrIx3mbVA==
+	t=1795121774;
+	b=xzNfyj/5bm9LZ8LrY14uqhkTaqyzpSwt0J+N80lb4G1NFwbS8bZMz4nKTbLqznmAB0Fw
+	 mhs7OoFN/Lw3vM28KmyWhLtn2T5Q135N4x6iuL3VzGOycIxg1MGMxvo2QZ0jCjkUGzd3O
+	 T4OlZMNKlo6akcMnrWWCsWX2EEQqlXmRPRxak5nOvMl6uCIerCJimzJe/n1z8zAfmMJxT
+	 44dkh7tkbJz/r/RW0j/hhk66DrxvWQYbBIUDWOtNFq6S5uzInbuDCTyteKvfRBYQTt5SL
+	 WVB9MMkVmPhGuEvoUiU0D6vTEaLVrNMLBEU6g2gK/ci5Rk0KP3wRBBY0DPU1P7cAhuA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795121385;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=6uUyYlgjM4gUdz5mj1dp5lYq0596fRi9TUMCukh9VpQ=;
-	b=rP2lrXWpmuKpLCwJ6TXESEtwkbHdNAURHNefVse34z4WRtwv+MCikcfQ7z/H+radPO2q
-	 k7rro/UKSasYTlLnQv1ye47upO7OLFM6pQXgIDMy6/s656s/D/kRosoOQSI5LN5IVV6CU
-	 z092tk0RhDy1wMwICdRbWfaXNRhkh+65xxk6bHhsvzLhDHlC2kEhs1gx0tOnmjrW/zIYv
-	 az7R/sRnelxsPm6vsmXbkol/ixpw6VKuP1JUbWya/Fac6QefyYDKiSWG5lDyCTgJKr/JA
-	 1zL0ZC2GEm1m7JjTB1iDrX40QatCHqreaWx+CXUWKJxV/5Qd9IaL8TVYCI+EQXvqlwQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795121774;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Message-ID:Subject:
+	 From:To:Cc:Date:In-Reply-To:References:Autocrypt:Content-Type:
+	 Content-Transfer-Encoding:User-Agent:MIME-Version;
+	bh=vMk589fI0vloaWsV/PEYRmc60/eNdwTMIDfcB72CPGE=;
+	b=sFLQON1UnGN5aoC+ljyK7aM8StLlipinonIai8UySzKgZ8YEAdRd2+tK2jCCfxUuv2y0
+	 06n04NHKnYup5UIJzYddMBd0GOqXG5EjNtmmJQ26Myovi2NzYDj90/sJgVMS+TND3L0RX
+	 mAzTaPL08bzMJdLVNIj5dDmF5Ww9DxSzuVSaVTSd6184Fx/1RSFD3CUOP8fFhzcH+5Bmn
+	 D+28AbK8oCSa+1d6AlGG1I/JRbjPQk+9UXR2KrfDi5ouYrgS9qOuL21T18/nFbvH2cKOY
+	 1FzoqHb5UgMS5dxJgPxqdTF2FlsJSXgKGpIkAf6JXnTggIv0mIQ3Z/N8Ogr3J+Y6heQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XUsuVD2N;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=none header.from=dubeyko.com;
+	spf=pass smtp.mailfrom=dubeyko.com;
+	dkim=pass header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b="m7xrfM/c";
+	arc=none smtp.remote-ip=74.125.224.48
+Received: from mail-yx1-f48.google.com (mail-yx1-f48.google.com [74.125.224.48])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A48B606A905;
-	Thu, 19 Nov 2026 20:49:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A616B606A320
+	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 20:56:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A616B606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dubeyko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XUsuVD2N
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C419A1F000C0;
-	Thu, 19 Nov 2026 20:49:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795121384;
-	bh=6uUyYlgjM4gUdz5mj1dp5lYq0596fRi9TUMCukh9VpQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=XUsuVD2NP90/zfhUq9QbKDAGXZhdmG7O0dpAwPuMLXYuHA+VoVSq3LwTuzGNJ2xoy
-	 pV7h6GlpNWJZdh+tQ7T8BoZICBsaA2neeIJsyeGJPjHbEd8sWe8qD312t0m4XYkqV/
-	 LoSlP2csABz4sBDz1ttLmKZMKk3vQnxk3YuS21AsxlarQsWPozwmZMwptG4NWo0QR9
-	 N1wVktid4Bxzu54Xfs2Jy80X4EjDqQKBN1ZyQpXn7zh7DxjSVlmxETqGvXpTodcoIJ
-	 /PHgRfyNNNvlC/QJrm8d/c88bX+m/rrMjwyCSXG6XjQiLY63pymmDeSx+CM73mL4Pd
-	 /Lts2Y92lgbmg==
-Date: Thu, 19 Nov 2026 21:49:39 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Andrey Albershteyn <aalbersh@kernel.org>
-Cc: ebiggers@kernel.org, hch@lst.de, fsverity@lists.linux.dev, 
-	dsterba@suse.com, linux-xfs@vger.kernel.org, linux-btrfs@vger.kernel.org, 
-	linux-f2fs-devel@lists.sourceforge.net, linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	viro@zeniv.linux.org.uk, jaegeuk@kernel.org, chao@kernel.org, tytso@mit.edu
-Subject: Re: [PATCH v2 2/5] fsverity: add I_VERITY_BUILDING inode state flag
-Message-ID: <20261119-geben-irren-erspielen-4456e4be9246@brauner>
-References: <20261105115532.613467-1-aalbersh@kernel.org>
- <20261105115532.613467-3-aalbersh@kernel.org>
+	dkim=pass (2048-bit key) header.d=dubeyko-com.20260707.gappssmtp.com header.i=@dubeyko-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=m7xrfM/c
+Received: by mail-yx1-f48.google.com with SMTP id 956f58d0204a3-67c0ffaae1dso1298205d50.1
+        for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 12:56:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dubeyko-com.20260707.gappssmtp.com; s=20260707; t=1795121772; x=1795726572; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=vMk589fI0vloaWsV/PEYRmc60/eNdwTMIDfcB72CPGE=;
+        b=m7xrfM/cGpcT3UqJQvE5gqqJW+zBwVrLhE6QgKrMuEKjZkiO7ZfhhNGWB2a/1tc9bH
+         iYEQS6utZfKeWL8g9HbBuXFoms5VI2h85P9Lm74n1BU+d9qn1dw2jJ/v+BBaGPalEDZS
+         oJvxUsh8779UM5YKCdzYFsgCqfVGe2eXz7kGJ28IXz/VSjZCxxLXUglYiWL4KMhP9pKM
+         cAk+/XZfU4kQVIR9r6qF4q0LRLpekJH79ZnzagyYZj2SZ0FVnF66a0fAjxLkgoZ7BGrR
+         dyOEH6q/wpomh9Xq4nnRUQ2kIThYeT0os8ZSvGWqZnj86p1geNIs3UpJYYmoAn5xm3bX
+         GYPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795121772; x=1795726572;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=vMk589fI0vloaWsV/PEYRmc60/eNdwTMIDfcB72CPGE=;
+        b=IEjG18unTipdlYysJgZhD9hC9FZmXE+18yaOChdTqFDQZt/pUaSIHmj4aeIPBmWhBy
+         QTiqHOCd7ZCWL4/6WcaE35Pro5n9I7y0mjBJhgH4KG5DiqqvWdaHDC9TnnoXgQTSRhZ4
+         kJvJw8dK8Lr+MOhkK7Vbcp1tz7L1700WBcdMEblI+OO5Xp9IuAZ2LyDZ11HBZtsPqiGI
+         SWCZo2MqwkyimxJBAchcFuyEelxN27OTHbWZbFMPXqalO7dbnmL7zgqh2GZOyXs99Ahh
+         uZ93MeddKsIKstrkizTNNTUb8cGIO7SSim6jOxeSWomXWSD4xoC70c85P+5KTP/cbpGI
+         VHow==
+X-Gm-Message-State: APuU4Z+eVA3lBO8Vv98eXHEO17H8/xTflzWMTjoXdLijUMVDKpkUsUsc
+	3TjLBt5I+N2Wke2fpt/5tCmG/35kbeFu+pHzSQ35NHKCeY2CxKxi30EyyMXFa8O4B0c=
+X-Gm-Gg: AZFdTZfghdmDD404GISLKLQjgwztxZEEz0HsaeI0kddwRZQM8T9kdHjonL3i+V8+q5t
+	XrgBv09E/mqbNlM+T/y3PL4QLg31SHp7frzAMaPpGT7F/5woILse7PJM1bjC7awY0V1TQr2c4Bs
+	cvACIAa+ovE/pyr/dsuFGX1PV42kRIGTuHe37dS3UEx0g+YmwaiW4MkI3CF0hNyNYlKQ/WHfEyn
+	pG0RFWOSlv7ReB3gp3sI9CQsTj28kP7Ss3B/mVWvB7JtG3UqSeUBKh2yRKjaRHs/0SpqKsSRbeM
+	6j7xm5Dmd/nu3OD2yqlAoMftLQzzhvYyY5U8ZIABQNzqo7uGMs+muoRMWBGQ/z+XpklI5+dFPoC
+	SMSIDvCHNJ7Enz7RmaiXzgsAQ+EmCxM1Fd5s7lzR2Q5MGRb9cNF4zzLdaqS3qDH+syRFv3uzysH
+	KkfPLAak+Ph9HvisozkIKW5S1R+1jHVJ5blXhdK185nMHFDH2yE6PbFALEWbOIf3k7ss4xWn54y
+	WQbjxxcdm0E2X5w0vrPjkmj6zQJjVG4IzMKAKWvP4k6d6AQvly2fTTk0h0o/75jw+mLD51qPwbR
+	QJ7kyl1hatD0f9I2Lk6kL2PAT9tbbKtmzqkEFqffJDFFCcl3BDxaS7JYb/Wd8HYlrj4D8bCquFJ
+	4szngo5OHqcV26iYC3G2yBaSTCKrWEAaS3SLlY9v/27X3+9ECiUP2/dM/FEXWjKgZd/wTPllsWL
+	mZSQ6vo+3nV6xqMHZDFM0=
+X-Received: by 2002:a05:690e:c8e:b0:67d:ab84:3bd6 with SMTP id 956f58d0204a3-67df42c2a16mr292087d50.1.1795121772580;
+        Thu, 19 Nov 2026 12:56:12 -0800 (PST)
+Received: from ?IPv6:2600:1700:6476:1430:1932:ad09:1827:11fb? ([2600:1700:6476:1430:1932:ad09:1827:11fb])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67df31f84e6sm688253d50.3.2026.11.19.12.56.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Nov 2026 12:56:11 -0800 (PST)
+Message-ID: <84f8b4c3cf158516d201d844ae63cf3d673f532d.camel@dubeyko.com>
+Subject: Re: [PATCH v3 1/3] hfs/hfsplus: add HFS_BNODE_DESC_SIZE for the
+ node descriptor size
+From: Viacheslav Dubeyko <slava@dubeyko.com>
+To: ozgun kultekin <ozgunkultekin@gmail.com>, glaubitz@physik.fu-berlin.de, 
+	frank.li@vivo.com
+Cc: linux-fsdevel@vger.kernel.org, yangguikun19@qq.com,
+ stable@vger.kernel.org
+Date: Thu, 19 Nov 2026 12:56:10 -0800
+In-Reply-To: <20261119005943.37851-2-ozgunkultekin@gmail.com>
+References: <20261118013337.67813-1-ozgunkultekin@gmail.com>
+	 <20261119005943.37851-1-ozgunkultekin@gmail.com>
+	 <20261119005943.37851-2-ozgunkultekin@gmail.com>
+Autocrypt: addr=slava@dubeyko.com; prefer-encrypt=mutual;
+ keydata=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
+ NFdvziOa4FgUBC4X71upsZIoZJeii2V/Jtc3B4g==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-9 
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -59,33 +138,370 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261105115532.613467-3-aalbersh@kernel.org>
 
-On Thu, Nov 05, 2026 at 12:55:27PM +0100, Andrey Albershteyn wrote:
-> Every filesystem that supports fs-verity keeps a private runtime inode
-> flag meaning Merkle tree is currently being built *_VERITY_IN_PROGRESS.
-> They all serve the same two purposes: reject a concurrent enable with
-> -EBUSY and let the write paths recognize the special writes done while
-> the tree is under construction.
-> 
-> Hoist this flag into the VFS as a new inode state flag,
-> I_VERITY_BUILDING, and manage its lifetime in the generic fs-verity
-> enable path. The flag is set after ->begin_enable_verity() succeeds and
-> cleared after ->end_enable_verity() returns (both on the success and the
-> rollback paths). Add the concurrent-enable guard.
-> 
-> A new helper, fsverity_is_building(), is provided for filesystems to
-> query the flag. No filesystem uses it yet; the per-fs flags are
-> converted in following patches.
-> 
-> Signed-off-by: Andrey Albershteyn <aalbersh@kernel.org>
+On Wed, 2026-11-18 at 16:59 -0800, ozgun kultekin wrote:
+> brec.c and btree.c in both drivers use the literal 14 for the size of
+> struct hfs_bnode_desc, which is also the offset of record 0 in a
+> node.
+> Add HFS_BNODE_DESC_SIZE next to the structure and use it instead.
+>=20
+> No functional change. The next two patches use the new name in the
+
+Usually, mentioning "next two patches" is not good phrase. Because, it
+means nothing once the series is merged.
+
+> hfs_bnode_read_key() calls they change.
+>=20
+> Suggested-by: Viacheslav Dubeyko <slava@dubeyko.com>
+> Cc: stable@vger.kernel.org=C2=A0# prerequisite for the next two patches
+
+The include/linux/hfs_common.h has been introduced pretty recently
+v6.19-rc1 (ec95cd103c3a). Older stable trees declare it elsewhere, so
+this patch won't apply there.
+
+Probably, we need to reorder the series so the fixes come first with
+Cc: stable, and this cleanup last without it, because the header only
+exists from v6.19.
+
+> Signed-off-by: ozgun kultekin <ozgunkultekin@gmail.com>
 > ---
->  fs/verity/enable.c       | 22 +++++++++++++++++++---
->  include/linux/fs.h       |  6 ++++++
->  include/linux/fsverity.h | 21 +++++++++++++++++++++
+> v3: new patch, as requested by Viacheslav
+>=20
+> =C2=A0fs/hfs/brec.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 | 32 +++++++++++++++++++++-----------
+> =C2=A0fs/hfs/btree.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 4 ++--
+> =C2=A0fs/hfsplus/brec.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 | 31 ++++++++++++++++++++-----------
+> =C2=A0fs/hfsplus/btree.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+|=C2=A0 4 ++--
+> =C2=A0include/linux/hfs_common.h |=C2=A0 3 +++
+> =C2=A05 files changed, 48 insertions(+), 26 deletions(-)
+>=20
+> diff --git a/fs/hfs/brec.c b/fs/hfs/brec.c
+> index 1ca1ee9f7..31574e562 100644
+> --- a/fs/hfs/brec.c
+> +++ b/fs/hfs/brec.c
+> @@ -156,7 +156,8 @@ int hfs_brec_insert(struct hfs_find_data *fd,
+> void *entry, u32 entry_len)
+> =C2=A0		entry_len =3D sizeof(cnid);
+> =C2=A0
+> =C2=A0		/* get index key */
+> -		hfs_bnode_read_key(new_node, fd->search_key, 14);
+> +		hfs_bnode_read_key(new_node, fd->search_key,
+> +				=C2=A0=C2=A0 HFS_BNODE_DESC_SIZE);
+> =C2=A0		__hfs_brec_find(fd->bnode, fd);
+> =C2=A0
+> =C2=A0		hfs_bnode_put(new_node);
+> @@ -402,7 +403,8 @@ static int hfs_brec_update_parent(struct
+> hfs_find_data *fd)
+> =C2=A0
+> =C2=A0	/* size difference between old and new key */
+> =C2=A0	if (tree->attributes & HFS_TREE_VARIDXKEYS)
+> -		newkeylen =3D (hfs_bnode_read_u8(node, 14) | 1) + 1;
+> +		newkeylen =3D (hfs_bnode_read_u8(node,
+> +					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 HFS_BNODE_DESC_SIZE)
+> | 1) + 1;
 
-fs,fsverity:
+This looks slightly weird. Maybe:
 
-as prefix, please.
+newkeylen =3D
+     (hfs_bnode_read_u8(node, HFS_BNODE_DESC_SIZE) | 1) + 1;
+=20
+
+> =C2=A0	else
+> =C2=A0		fd->keylength =3D newkeylen =3D tree->max_key_len + 1;
+> =C2=A0	hfs_dbg("rec %d, keylength %d, newkeylen %d\n",
+> @@ -441,7 +443,8 @@ static int hfs_brec_update_parent(struct
+> hfs_find_data *fd)
+> =C2=A0	hfs_bnode_move(parent, start_off + diff, start_off,
+> =C2=A0		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 end_off - start_off);
+> =C2=A0skip:
+> -	hfs_bnode_copy(parent, fd->keyoffset, node, 14, newkeylen);
+> +	hfs_bnode_copy(parent, fd->keyoffset, node,
+> HFS_BNODE_DESC_SIZE,
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 newkeylen);
+> =C2=A0	if (!(tree->attributes & HFS_TREE_VARIDXKEYS))
+> =C2=A0		hfs_bnode_write_u8(parent, fd->keyoffset, newkeylen
+> - 1);
+> =C2=A0	hfs_bnode_dump(parent);
+> @@ -458,7 +461,8 @@ static int hfs_brec_update_parent(struct
+> hfs_find_data *fd)
+> =C2=A0		}
+> =C2=A0		fd->bnode =3D hfs_bnode_find(tree, new_node->parent);
+> =C2=A0		/* create index key and entry */
+> -		hfs_bnode_read_key(new_node, fd->search_key, 14);
+> +		hfs_bnode_read_key(new_node, fd->search_key,
+> +				=C2=A0=C2=A0 HFS_BNODE_DESC_SIZE);
+> =C2=A0		cnid =3D cpu_to_be32(new_node->this);
+> =C2=A0
+> =C2=A0		__hfs_brec_find(fd->bnode, fd);
+> @@ -470,7 +474,8 @@ static int hfs_brec_update_parent(struct
+> hfs_find_data *fd)
+> =C2=A0			if (new_node =3D=3D node)
+> =C2=A0				goto out;
+> =C2=A0			/* restore search_key */
+> -			hfs_bnode_read_key(node, fd->search_key,
+> 14);
+> +			hfs_bnode_read_key(node, fd->search_key,
+> +					=C2=A0=C2=A0 HFS_BNODE_DESC_SIZE);
+> =C2=A0		}
+> =C2=A0		new_node =3D NULL;
+> =C2=A0	}
+> @@ -524,28 +529,33 @@ static int hfs_btree_inc_height(struct
+> hfs_btree *tree)
+> =C2=A0	hfs_bnode_write(new_node, &node_desc, 0, sizeof(node_desc));
+> =C2=A0
+> =C2=A0	rec =3D tree->node_size - 2;
+> -	hfs_bnode_write_u16(new_node, rec, 14);
+> +	hfs_bnode_write_u16(new_node, rec, HFS_BNODE_DESC_SIZE);
+> =C2=A0
+> =C2=A0	if (node) {
+> =C2=A0		/* insert old root idx into new root */
+> =C2=A0		node->parent =3D tree->root;
+> =C2=A0		if (node->type =3D=3D HFS_NODE_LEAF ||
+> =C2=A0		=C2=A0=C2=A0=C2=A0 tree->attributes & HFS_TREE_VARIDXKEYS)
+> -			key_size =3D hfs_bnode_read_u8(node, 14) + 1;
+> +			key_size =3D hfs_bnode_read_u8(node,
+> +						=C2=A0=C2=A0=C2=A0=C2=A0
+> HFS_BNODE_DESC_SIZE) + 1;
+
+Maybe:
+
+key_size =3D
+     hfs_bnode_read_u8(node, HFS_BNODE_DESC_SIZE) + 1;
+
+> =C2=A0		else
+> =C2=A0			key_size =3D tree->max_key_len + 1;
+> -		hfs_bnode_copy(new_node, 14, node, 14, key_size);
+> +		hfs_bnode_copy(new_node, HFS_BNODE_DESC_SIZE, node,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 HFS_BNODE_DESC_SIZE, key_size);
+> =C2=A0
+> =C2=A0		if (!(tree->attributes & HFS_TREE_VARIDXKEYS)) {
+> =C2=A0			key_size =3D tree->max_key_len + 1;
+> -			hfs_bnode_write_u8(new_node, 14, tree-
+> >max_key_len);
+> +			hfs_bnode_write_u8(new_node,
+> HFS_BNODE_DESC_SIZE,
+> +					=C2=A0=C2=A0 tree->max_key_len);
+> =C2=A0		}
+> =C2=A0		key_size =3D (key_size + 1) & -2;
+> =C2=A0		cnid =3D cpu_to_be32(node->this);
+> -		hfs_bnode_write(new_node, &cnid, 14 + key_size, 4);
+> +		hfs_bnode_write(new_node, &cnid,
+> +				HFS_BNODE_DESC_SIZE + key_size, 4);
+
+Maybe, introduce a local variable for HFS_BNODE_DESC_SIZE + key_size?
+
+> =C2=A0
+> =C2=A0		rec -=3D 2;
+> -		hfs_bnode_write_u16(new_node, rec, 14 + key_size +
+> 4);
+> +		hfs_bnode_write_u16(new_node, rec,
+> +				=C2=A0=C2=A0=C2=A0 HFS_BNODE_DESC_SIZE + key_size +
+> 4);
+
+Ditto. For HFS_BNODE_DESC_SIZE + key_size + 4?
+
+Yeah, we cannot solve all code issues in one patch. But 4 looks not
+good too. Let's fix it step by step.
+
+> =C2=A0
+> =C2=A0		hfs_bnode_put(node);
+> =C2=A0	}
+> diff --git a/fs/hfs/btree.c b/fs/hfs/btree.c
+> index f07038403..4c2f82c1c 100644
+> --- a/fs/hfs/btree.c
+> +++ b/fs/hfs/btree.c
+> @@ -356,8 +356,8 @@ static struct hfs_bnode *hfs_bmap_new_bmap(struct
+> hfs_bnode *prev, u32 idx)
+> =C2=A0	desc.num_recs =3D cpu_to_be16(1);
+> =C2=A0	desc.reserved =3D 0;
+> =C2=A0	hfs_bnode_write(node, &desc, 0, sizeof(desc));
+> -	hfs_bnode_write_u16(node, 14, 0x8000);
+> -	hfs_bnode_write_u16(node, tree->node_size - 2, 14);
+> +	hfs_bnode_write_u16(node, HFS_BNODE_DESC_SIZE, 0x8000);
+> +	hfs_bnode_write_u16(node, tree->node_size - 2,
+> HFS_BNODE_DESC_SIZE);
+
+Do we have normal alignment here?
+
+> =C2=A0	hfs_bnode_write_u16(node, tree->node_size - 4, tree-
+> >node_size - 6);
+> =C2=A0
+> =C2=A0	return node;
+> diff --git a/fs/hfsplus/brec.c b/fs/hfsplus/brec.c
+> index f416e562d..37e058c5d 100644
+> --- a/fs/hfsplus/brec.c
+> +++ b/fs/hfsplus/brec.c
+> @@ -166,7 +166,8 @@ int hfs_brec_insert(struct hfs_find_data *fd,
+> void *entry, u32 entry_len)
+> =C2=A0		entry_len =3D sizeof(cnid);
+> =C2=A0
+> =C2=A0		/* get index key */
+> -		hfs_bnode_read_key(new_node, fd->search_key, 14);
+> +		hfs_bnode_read_key(new_node, fd->search_key,
+> +				=C2=A0=C2=A0 HFS_BNODE_DESC_SIZE);
+> =C2=A0		__hfs_brec_find(fd->bnode, fd, hfs_find_rec_by_key);
+> =C2=A0
+> =C2=A0		hfs_bnode_put(new_node);
+> @@ -409,7 +410,7 @@ static int hfs_brec_update_parent(struct
+> hfs_find_data *fd)
+> =C2=A0	/* size difference between old and new key */
+> =C2=A0	if ((tree->attributes & HFS_TREE_VARIDXKEYS) ||
+> =C2=A0				(tree->cnid =3D=3D HFSPLUS_ATTR_CNID))
+> -		newkeylen =3D hfs_bnode_read_u16(node, 14) + 2;
+> +		newkeylen =3D hfs_bnode_read_u16(node,
+> HFS_BNODE_DESC_SIZE) + 2;
+> =C2=A0	else
+> =C2=A0		fd->keylength =3D newkeylen =3D tree->max_key_len + 2;
+> =C2=A0	hfs_dbg("rec %d, keylength %d, newkeylen %d\n",
+> @@ -449,7 +450,8 @@ static int hfs_brec_update_parent(struct
+> hfs_find_data *fd)
+> =C2=A0	hfs_bnode_move(parent, start_off + diff, start_off,
+> =C2=A0		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 end_off - start_off);
+> =C2=A0skip:
+> -	hfs_bnode_copy(parent, fd->keyoffset, node, 14, newkeylen);
+> +	hfs_bnode_copy(parent, fd->keyoffset, node,
+> HFS_BNODE_DESC_SIZE,
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 newkeylen);
+> =C2=A0	hfs_bnode_dump(parent);
+> =C2=A0
+> =C2=A0	hfs_bnode_put(node);
+> @@ -464,7 +466,8 @@ static int hfs_brec_update_parent(struct
+> hfs_find_data *fd)
+> =C2=A0		}
+> =C2=A0		fd->bnode =3D hfs_bnode_find(tree, new_node->parent);
+> =C2=A0		/* create index key and entry */
+> -		hfs_bnode_read_key(new_node, fd->search_key, 14);
+> +		hfs_bnode_read_key(new_node, fd->search_key,
+> +				=C2=A0=C2=A0 HFS_BNODE_DESC_SIZE);
+> =C2=A0		cnid =3D cpu_to_be32(new_node->this);
+> =C2=A0
+> =C2=A0		__hfs_brec_find(fd->bnode, fd, hfs_find_rec_by_key);
+> @@ -476,7 +479,8 @@ static int hfs_brec_update_parent(struct
+> hfs_find_data *fd)
+> =C2=A0			if (new_node =3D=3D node)
+> =C2=A0				goto out;
+> =C2=A0			/* restore search_key */
+> -			hfs_bnode_read_key(node, fd->search_key,
+> 14);
+> +			hfs_bnode_read_key(node, fd->search_key,
+> +					=C2=A0=C2=A0 HFS_BNODE_DESC_SIZE);
+> =C2=A0		}
+> =C2=A0		new_node =3D NULL;
+> =C2=A0	}
+> @@ -530,7 +534,7 @@ static int hfs_btree_inc_height(struct hfs_btree
+> *tree)
+> =C2=A0	hfs_bnode_write(new_node, &node_desc, 0, sizeof(node_desc));
+> =C2=A0
+> =C2=A0	rec =3D tree->node_size - 2;
+> -	hfs_bnode_write_u16(new_node, rec, 14);
+> +	hfs_bnode_write_u16(new_node, rec, HFS_BNODE_DESC_SIZE);
+> =C2=A0
+> =C2=A0	if (node) {
+> =C2=A0		/* insert old root idx into new root */
+> @@ -538,21 +542,26 @@ static int hfs_btree_inc_height(struct
+> hfs_btree *tree)
+> =C2=A0		if (node->type =3D=3D HFS_NODE_LEAF ||
+> =C2=A0				tree->attributes &
+> HFS_TREE_VARIDXKEYS ||
+> =C2=A0				tree->cnid =3D=3D HFSPLUS_ATTR_CNID)
+> -			key_size =3D hfs_bnode_read_u16(node, 14) + 2;
+> +			key_size =3D hfs_bnode_read_u16(node,
+> +						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
+> HFS_BNODE_DESC_SIZE) + 2;
+
+Maybe,=20
+
+key_size =3D
+    hfs_bnode_read_u16(node, HFS_BNODE_DESC_SIZE) + 2;
+
+
+> =C2=A0		else
+> =C2=A0			key_size =3D tree->max_key_len + 2;
+> -		hfs_bnode_copy(new_node, 14, node, 14, key_size);
+> +		hfs_bnode_copy(new_node, HFS_BNODE_DESC_SIZE, node,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 HFS_BNODE_DESC_SIZE, key_size);
+> =C2=A0
+> =C2=A0		if (!(tree->attributes & HFS_TREE_VARIDXKEYS) &&
+> =C2=A0				(tree->cnid !=3D HFSPLUS_ATTR_CNID)) {
+> =C2=A0			key_size =3D tree->max_key_len + 2;
+> -			hfs_bnode_write_u16(new_node, 14, tree-
+> >max_key_len);
+> +			hfs_bnode_write_u16(new_node,
+> HFS_BNODE_DESC_SIZE,
+> +					=C2=A0=C2=A0=C2=A0 tree->max_key_len);
+> =C2=A0		}
+> =C2=A0		cnid =3D cpu_to_be32(node->this);
+> -		hfs_bnode_write(new_node, &cnid, 14 + key_size, 4);
+> +		hfs_bnode_write(new_node, &cnid,
+> +				HFS_BNODE_DESC_SIZE + key_size, 4);
+
+Local variable?
+
+> =C2=A0
+> =C2=A0		rec -=3D 2;
+> -		hfs_bnode_write_u16(new_node, rec, 14 + key_size +
+> 4);
+> +		hfs_bnode_write_u16(new_node, rec,
+> +				=C2=A0=C2=A0=C2=A0 HFS_BNODE_DESC_SIZE + key_size +
+> 4);
+
+Local variable?
+
+> =C2=A0
+> =C2=A0		hfs_bnode_put(node);
+> =C2=A0	}
+> diff --git a/fs/hfsplus/btree.c b/fs/hfsplus/btree.c
+> index 0a9b32d5c..519f07b81 100644
+> --- a/fs/hfsplus/btree.c
+> +++ b/fs/hfsplus/btree.c
+> @@ -497,8 +497,8 @@ static struct hfs_bnode *hfs_bmap_new_bmap(struct
+> hfs_bnode *prev, u32 idx)
+> =C2=A0	desc.num_recs =3D cpu_to_be16(1);
+> =C2=A0	desc.reserved =3D 0;
+> =C2=A0	hfs_bnode_write(node, &desc, 0, sizeof(desc));
+> -	hfs_bnode_write_u16(node, 14, 0x8000);
+> -	hfs_bnode_write_u16(node, tree->node_size - 2, 14);
+> +	hfs_bnode_write_u16(node, HFS_BNODE_DESC_SIZE, 0x8000);
+> +	hfs_bnode_write_u16(node, tree->node_size - 2,
+> HFS_BNODE_DESC_SIZE);
+
+Normal alignment?
+
+> =C2=A0	hfs_bnode_write_u16(node, tree->node_size - 4, tree-
+> >node_size - 6);
+> =C2=A0
+> =C2=A0	return node;
+> diff --git a/include/linux/hfs_common.h b/include/linux/hfs_common.h
+> index 802d1590e..1b639bbd1 100644
+> --- a/include/linux/hfs_common.h
+> +++ b/include/linux/hfs_common.h
+> @@ -495,6 +495,9 @@ struct hfs_bnode_desc {
+> =C2=A0	u16 reserved;
+> =C2=A0} __packed;
+> =C2=A0
+> +/* Size of the node descriptor, which is also the offset of record 0
+> */
+> +#define HFS_BNODE_DESC_SIZE	sizeof(struct hfs_bnode_desc)
+
+HFS_BNODE_DESC_SIZE describes the size, but most call sites use it as
+"offset of the first record". Two names would read better: a size
+constant plus something like:
+
+#define HFS_BNODE_FIRST_REC_OFF HFS_BNODE_DESC_SIZE.
+
+The same quantity is still spelled other ways in the same files: the
+local size_t node_desc_size =3D sizeof(struct hfs_bnode_desc) in
+hfs_bnode_split(), plus sizeof(struct hfs_bnode_desc) in bnode.c,
+btree.c and hfsplus/xattr.c.
+
+Thanks,
+Slava.
+
+> +
+> =C2=A0/* HFS/HFS+ BTree node types */
+> =C2=A0#define HFS_NODE_INDEX	0x00	/* An internal (index) node */
+> =C2=A0#define HFS_NODE_HEADER	0x01	/* The tree header node
+> (node 0) */
