@@ -1,106 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.169
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.178
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795102357;
-	b=bUeMj+AK9c5F1iEDh6QVPorT4Lq576mPyvoHw2+4WQdFebUsZVIFzzD8OVwCc26Hex5H
-	 lHZ4BgvO3VM17STv3TXYwJN4fhAu+gSlbvvrrewiTFSxe0cBSee4zX4Eu5IXSw4hrIo1m
-	 1tpYD/gyDB+ALAn0bWUgvpUUinQJ+eYWgJQH4+VQUqtgbgLvQbatYuBl9C5V7SIaGYCU6
-	 xYlTWMplVvjZMt/8N8+L2/pREAl2MCRv7dDS0gVOD0A+2aRwzsCeoexisVzPpzTHNENho
-	 skCJ1AeSup6RsIpOwV8krw+8yuzqLVxvf67NSqv+P6GFBAYsJYSjgNUMjvHumNtmeiQ==
+	t=1795103654;
+	b=IHBYA3BhKfDqFQirVdTYY8RaAs3DqCLIDkO9/0Ap+TXa6qxZExNaJZfhrdDGj0DIgjr3
+	 0RM+egH5rcw0EYWWLZTqh+24ykpppjQrZ1Loho7UFZBsqLvsdpKxQb9zywwlUSzCQlqt5
+	 jkwEfkc2yvBRb/ptW8WyBISkgPvUzOu2ZyWg2/2LbDbVrJz3iDBlX4U4hHXKIJqsJmPfA
+	 B0tqQ8PEAvpmTjALMhqiM4GzUsCYYcxojEb8TqnH9AHQRQrtoVXxGtugT6MM/e6HJcScf
+	 PjXIWSgHqRq92LT6JLIMBk75xpnriXYnSBIVksmzt/viPpQbjTyDgH8VTg04mxlH4CA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795102357;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795103654;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=f7T2TmAinoSSVrUkDLWCSHpGLO0VMoU6RTqJIGDHf8c=;
-	b=KDGIn3QkXhlU/V+Tjd6Lm/dXdz2wUDrR1CRN1n5vA6po/FfhIwOT7YfAPU3C5N7SAoU2
-	 XcInvVa3oMoOPsfODzCzT+2859xEaB2r/q0ycGH4VRQbsDMwBahkI/HK1XG9jPdY2/9KB
-	 mlgbwbyvOWInGbd7DMEbcsKPRlXseC8oKCtCgXLFqgohKDogTD1r/TlfM7gte/lSUsK+k
-	 m4IUkq+jE7fw60XbJY4km2ZqNZugYz1nx+Bv6ZximqSeOnX89WidO2jsNaRzcS5E/OnUI
-	 N/arPpows18BG14RTw9EaQ7u1On5MO0yzYE7c/D/fYA9cpewY5ZPSVeUy9jxHp2vqxw==
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
+	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer;
+	bh=ZawY5Vp5pcmWaRt7k/I5GMdXlKlkbCgLu6fGYeE6CNw=;
+	b=3DLDqkj/TrkxK8t3g55bdV+pdqFQoaeDMSgKPtyFbhNbrkeZkyR7/idMSCyIv2MoNnsl
+	 lORxMTWckmstjIURjOqR6Jkv6sfPKKn4ec+A8AN9irYqV34oGiWXcuM2aZn/dDBUpN1KS
+	 iqstQRvtbhJaw62B8SSlDf26LkUgvlXp7DM4SDegojzhK9pAva9deUBIpII1kwdUbvhkI
+	 GSQGzEb0/chhqHgzT4EErGyppzhI2eovGEBwZWYsBmWpe3cCR3CsmYHRWcyPzImXxQ5bq
+	 S+XiIRHF4Vb6UWqiq0szdviMX/1PLOuqlnuvjzPsVi5DMkzxAC5SZKk6LhL/RGfO38A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=EriZpb1V;
-	arc=none smtp.remote-ip=209.85.208.169
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+	dmarc=none header.from=gourry.net;
+	spf=pass smtp.mailfrom=gourry.net;
+	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=df2r26W2;
+	arc=none smtp.remote-ip=209.85.222.178
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D7FD60A2612
-	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 15:32:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5D7FD60A2612
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC5F3606A339
+	for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 15:54:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CC5F3606A339
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=EriZpb1V
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-3ae25c9f857so24095871fa.1
-        for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 07:32:37 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=df2r26W2
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-9495f083657so302408885a.0
+        for <linux-fsdevel@vger.kernel.org>; Thu, 19 Nov 2026 07:54:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795102355; x=1795707155; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=f7T2TmAinoSSVrUkDLWCSHpGLO0VMoU6RTqJIGDHf8c=;
-        b=EriZpb1V/2zno0fmMO54HL34Ty+nBUS/4UO0C6MvrvxZFEYE5Wk3AXr9C+UsTd1EKu
-         e7VRl67WTxEo3VDt+hkZtLmFiEHnR1zJiLfC/Bq9BJKAFBDFohxqHF5Q1gg0wFZRWOaP
-         GGmxEOrPJV8MRv3PkF03h/86SpZPKw+8KkyhjjjSRymeueMiKP4mQ8rtd0qNdqm/fzoE
-         MNeg/d90yqGf1ngIGXcTcG1X2LenLIoGjIMBxdm9LKyp4bnMI848kU3NoOJqH9CbrAin
-         fitPeVcUyIY+ve4q72M8iKNlPUyICj34RV6qW8QMN0CuPmRvl1c9rcr7e4C4EfPjdOm/
-         0D9A==
+        d=gourry.net; s=google; t=1795103652; x=1795708452; darn=vger.kernel.org;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=ZawY5Vp5pcmWaRt7k/I5GMdXlKlkbCgLu6fGYeE6CNw=;
+        b=df2r26W2ZBo+jQUQyWF52GbDIvFugOnWy+kR2dRsPFng01OShuIbxB0wloJ4juyzGU
+         WG3stI3PP15q/oIXtnmIhJKDA/evlwC+qY1vlxC6UBHFOfeEjzjkFomxylsKBSzoOvG7
+         +co0v8aFWUE+WwXzxBIz4xOpLBhCOKVzMB0xHpwk6RWzBKUKKwYhNJ5WHpdLfuXK7xLX
+         pug2vr+bFSLwDyR+FkvSpmDM5cktTo6DH7gbTOKDhvFixWPCvGbCthmAIHUanNhu6V0F
+         xLkRxfwmRKwSfGOxITOpyDXl85julYElwzm0/HnjFVhMoGO8pFcVFhGQ8FOMPfBMC1O+
+         9Ptw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795102355; x=1795707155;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=f7T2TmAinoSSVrUkDLWCSHpGLO0VMoU6RTqJIGDHf8c=;
-        b=xC8hcr1qRl4r1Fhe3w2zRvQ709+gnPruvJhPUwg383O3D5id2gJzwgBDBLBciP1hOd
-         /25B9w5SqEkYpWJviDFIuGITtXfUwDaLe418XcJmuZg1J21xz31GM2pcAjXgUjYYiczq
-         FFJlrg7cyLhI5DuqdQ4vnX4byo+aJH1JdZtrF3T8UkhXV0H70vQZCebvcrqfHvJuAuQC
-         CxPTnZhjwPYsyU6VctSZWm0Zo5DP30P8Y7iUeblZXCmcIpW1fmLAD4N3GHGpWdsKFgM5
-         gjviMF5UnwJfw+IQh5Dp3/Xexl1DOWgs6KreO85g7iNoWKKrDDbwSVxfPpgKZfUJqL+P
-         6+Gg==
-X-Forwarded-Encrypted: i=1; AL+hErF5j8LnTzg8Hl1S0NRDDxQnr/jBirkuCcO7FLXd56I3bWUMkJvUWY8f15LCQ27VmdrSfXxC7a1+ju3mpymY@vger.kernel.org
-X-Gm-Message-State: APuU4Z9L04x9w6xtLV/SS2XJiC7cIksZRZ5W2MIOf8NJeK5LoTpu1r/l
-	ZcblLDtpoxSfCoT1byMhDb9j45ruyKm4JMli0fbs0TzWDpdnkvvPKrGz
-X-Gm-Gg: AZFdTZcf9PJ5LlfVASI+fZ7OSfXr+7tThQM24nT6pS3Cqi5wQagd+kckksip7U/Coo2
-	eCjba6ZYkpvw+SE4LKs+FQT0vrjeFI8/b7C9Yr1lkUnzfgja3Ve97AM81oguC8iiYJddaclBwD7
-	NacAsrm6iuBk3hxdXisQkZkUZ4oFq1etcb5OXOo/oS4py8K+eVdft1ZpMq1fYKg1ExdAMN3ia4Y
-	3DBKbJZYWxF/0yAc3bqS/QTbKdaTEl0wSENR8DmhKHUQX35GCYJOzTbLSv+GqD7T/WOT94lNBQm
-	j1sOVhW24XdnhFgGwx52eoN+rL1etb+GUuDdgahNltpds38vxtw1IPtaDtvbiqp9uKYTlX0/BSF
-	sjHkbO/Vn6IhnSkGj0vGMfwEG/Bv+W9UvlNKZNhQLEOYp2/CkPqS7pUbPWdKRJltx1iFDwqnPc1
-	xtWOrJOe/+HsM43d4H2HpkNBTXMbSOL/uE13/Vag81g4SSksa/zn46sa5+ElhNpdMdYSwRcAZpl
-	FeQjrQhhZQ9amaJUfGoRqecu3BtsHv/rkEBdBayjiDi9qUT+RjnNQddQIYSlYQ2gQndJwOho8lO
-	qXFNTzXBt/V4PYReedH6zh8AFZjsglwqAOs+bvoa94nP4KD3Xd685nZwhz3naeDW241nEOOS0dZ
-	tBfQdV+W+AtPj0Bfd8OFczO0Zs/SQOlOn2OrthzvVBz8Y2Mdtck0DztUCQfQ=
-X-Received: by 2002:a05:651c:a149:b0:3aa:ef31:e51e with SMTP id 38308e7fff4ca-3ae7fa644d5mr1204161fa.19.1795102355312;
-        Thu, 19 Nov 2026 07:32:35 -0800 (PST)
-Received: from Lauri-G-Pro-14-M4.intra.lakuz.com (n2vuxegwnwppvr5uhf9-1.v6.elisa-laajakaista.fi. [2001:99a:2ab:bb00:c16c:a39e:e605:54b5])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3ae6ebe67e2sm11532121fa.33.2026.11.19.07.32.33
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Thu, 19 Nov 2026 07:32:33 -0800 (PST)
-From: Lauri Gates <lauri.gates@gmail.com>
-To: koraynilay <koray.fra@gmail.com>
-Cc: Dave Chinner <dgc@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Christoph Hellwig <hch@infradead.org>,
-	linux-xfs@vger.kernel.org,
-	Carlos Maiolino <cem@kernel.org>,
-	Christian Brauner <christian@brauner.io>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-btrfs@vger.kernel.org,
-	ocfs2-devel@lists.linux.dev,
-	linux-nfs@vger.kernel.org,
-	linux-cifs@vger.kernel.org,
-	Amir Goldstein <amir73il@gmail.com>
-Subject: Re: Concurrent FIEMAP on reflinked files serialises on the AGF buffer lock
-Date: Thu, 19 Nov 2026 17:32:22 +0200
-Message-ID: <20261119153222.65195-1-lauri.gates@gmail.com>
-X-Mailer: git-send-email 2.56.1
-In-Reply-To: <DMZ4VQ7SZ07T.29WMPQ0BQZGSS@gmail.com>
-References: <DMZ4VQ7SZ07T.29WMPQ0BQZGSS@gmail.com>
+        d=1e100.net; s=20260707; t=1795103652; x=1795708452;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ZawY5Vp5pcmWaRt7k/I5GMdXlKlkbCgLu6fGYeE6CNw=;
+        b=seTdixW3JpU1Lt3w2/5FLuelAgGGwZzMTJZxp04iXIaBM8pg6IMw9AdKlNmE//qtwx
+         5kU/6v5JIn6WKSEI93XFO+7veNNYuLcEtscphQG127/h5b15YT4cEQOMSpZ26q3bHzcp
+         OOAc0DaM+/lbtOu635HpMXtSbeRe7vQEp41Xos5O4kHEiRJE6NOLBDMgf1qGWzx795hf
+         bN083E1vDBeNaaEWJhq90Wu7CcyMnKD3+RPwRTf2s31h3PB5WD+MwddW8lTuAjmeOPdZ
+         J+X55PncbHJzwOB2vMrCaYRx4ClmQJnYvtc0R9o825xR9ZeIM/anpSaw81fXbIv+umL/
+         2Usw==
+X-Forwarded-Encrypted: i=1; AL+hErFoFZEoKJ3favLdHeNeWjGv2/X+EJDi3Iiq0yEc/sfAq9ZFjX/pQm3fJ0QhTiDESJ+N+JUB02eX55CuHOxa@vger.kernel.org
+X-Gm-Message-State: APuU4Z8XjEckq+UKN+fUS74BYSfuD7n+RTxs93xmrrX53klidWuV6J2R
+	C+0zJauIHX58HHl5VYfK6l6jeUdxmds6Prbe0ZEXB/hQF9QSfdpcH0FuNa9uuYx18QA=
+X-Gm-Gg: AYBFou2OJ9x/+76TwpxKEXoRqgFYxYjUKxcjgvISGAP9JIh6Hl9HUgykmxS35sr3kIv
+	5DqHMr+tYy5uu0CpP3fUwx/AEsHgDvN4IUPfw2Znv4Syn7Oyvo6m0/ZHQlXILN+df73VytkJI/D
+	cgyZhEvdm0QcD9OcFAJ5NNtO13eKjIk3iLCb06hEF9pv411AC4oPXdAbs8/bHhLwmhfG5vJHRsu
+	klLmBuFzsSRux2/NknFFUNV1Khs5/kKgkRit/eZNNncKj4qQ6VJm1+WygDWaa3BqZl6KVlWhWJD
+	suWDYv8c9TUJ+iJlTcrWoMPpBJxkneNSoPnTK4tqLf6D3zeKKF58CV+ekLbOmqDd4v2d+gyrlkS
+	qxAQOuEn0kXkaEGhDbUKgweeHA/M8Hf3MWRl9dx4d4jIoKHXkDuiZS1tONiDMkAepgl/u0Za0UC
+	TEceb/whyLZUqa/rEbje7y+NB4m3uOqcDVfiqk5np2ujztrR+n1OEacPbrYV1v+Jq4G7OdFIQ+b
+	bzIkIRUffGq/DPi4niSh7aU2QYOPo0M7IO8H6Zwo8WRxsJgCpQQxWjfu+q9tIsVm96iMo3IBMJk
+	JDSNsqEjsAny5LGQjbXr5T+nMvMaG0spJiNn/bMCYlOGgfAnthrC0jWA4pc1dBky19+KwIOvOYb
+	4OFbDsnE=
+X-Received: by 2002:a05:620a:7019:b0:949:6fb1:b422 with SMTP id af79cd13be357-94999722082mr1095088085a.16.1795103652690;
+        Thu, 19 Nov 2026 07:54:12 -0800 (PST)
+Received: from [192.168.50.231] (pool-71-191-145-202.washdc.fios.verizon.net. [71.191.145.202])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-949b9a3fd50sm19992585a.19.2026.11.19.07.54.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Nov 2026 07:54:12 -0800 (PST)
 X-Mailing-List: linux-fsdevel@vger.kernel.org
 List-Id: <linux-fsdevel.vger.kernel.org>
 List-Post: <mailto:linux-fsdevel@vger.kernel.org>
@@ -110,41 +89,54 @@ List-Unsubscribe: <mailto:linux-fsdevel+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-fsdevel+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH] pipe: Prefer mempolicy node for metadata allocations
+From: "Gregory Price (Meta)" <gourry@gourry.net>
+To: Andrea Righi <arighi@nvidia.com>
+Cc: Jan Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Quan Liu <qualiu@nvidia.com>, 
+ Lee Trager <ltrager@nvidia.com>, Seth Forshee <sforshee@nvidia.com>, 
+ Vlastimil Babka <vbabka@kernel.org>, Gregory Price <gourry@gourry.net>, 
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-mm@kvack.org
+In-Reply-To: <avQP1aXhe7nQuzt9@gpd4>
+References: <20261110065219.894219-1-arighi@nvidia.com>
+ <hbkxlhc5y2jkvuov5o2kjgpisx2pavuo3ad4c4ydixeic7vaq6@mpzzfmhjvtof>
+ <avQP1aXhe7nQuzt9@gpd4>
+Date: Thu, 19 Nov 2026 10:54:11 -0500
+Message-Id: <179510365141.412063.5548407366346393690.b4-reply@b4>
+X-Mailer: b4 0.17-dev
 
-On Thu, Nov 19, 2026 at 01:00PM +0200, koraynilay wrote:
-> It doesn't seem like an FS_XFLAG_NOSHARED flag would touch this new
-> change, but I thought it was worth pointing out, especially because this
-> patch would also add FS_XFLAG_PROJID and a new FS_FILE_ATTR_XFLAGS_MASK
-> to have a way to include both legacy and newly added xflags, so
-> FS_XFLAG_NOSHARED would maybe also go there (correct me if I'm wrong).
+On 2026-11-11 07:48 +0100, Andrea Righi wrote:
+> 
+> Vlastimil, Gregory, do you think this SLUB locality and mempolicy
+> aspects makes sense here? In particular, does preferring the policy node
+> for slab-sized pipe metadata, while retaining the policy-aware path for
+> larger arrays, look reasonable?
+> 
 
-Thanks, that is useful. I agree it would go there, whichever meaning
-it ends up with: as a newly added flag its bit would be added to
-FS_FILE_ATTR_XFLAGS_MASK next to FS_XFLAG_PROJID, since your
-fileattr_to_file_attr() masks the value with it as well as the mask
-bit.
+Funny enough I was leaning toward task mempolicy being ignored for
+non-__GFP_ACCOUNT allocations but SLAB_ACCOUNT makes this a bit
+complicated.  This would be another scenario I have to consider.
 
-Your mask also changes the question I asked Christian. With it, a
-plain "may share" flag works the way stx_attributes_mask does: a
-filesystem that sets the bit in fsx_xflags_mask answers, and one that
-does not (btrfs today) reads as "not reported" rather than "not
-shared". The inverted meaning was only there because file_attr had no
-such mask.
+(related but not directly problematic with the change here)
+https://lore.kernel.org/all/20260701222112.2820098-1-gourry@gourry.net/
 
-One constraint for that case: the flag has to stay out of
-FS_XFLAGS_MASK. As I read your fileattr_to_file_attr(), every bit in
-FS_XFLAGS_MASK is reported as supported on every filesystem, so a
-plain flag there would read as "supported, not shared" on btrfs.
-Outside FS_XFLAGS_MASK the flag is also never seen through the legacy
-FS_IOC_FSGETXATTR, which masks with FS_XFLAGS_MASK. That is fine,
-since only file_getattr() needs to report it.
+As a rule I generally think depending on userland mempolicy
+to direct kernel memory placement is fragile and unreliable,
+but your results are interesting.
 
-Christian, with this mask on the way, would you take a plain flag
-(say FS_XFLAG_MAYSHARE, "may have extents shared with another file")
-that filesystems advertise through fsx_xflags_mask? If so, I'll build
-the RFC on top of koraynilay's series instead of using the inverted
-FS_XFLAG_NOSHARED.
+General notes - I dislike direct current->mempolicy access in
+random places in MM, and dislike any MPOL mode checking outside
+mempolicy.c - but sometimes it's necessary.
 
-Thanks,
-Lauri
+I'm not against slab having better numa awareness, it makes sense
+you'd want to prefer the metadata to live close as well.
+
+Give me a bit more time to wrap my head around this, sorry for the
+delayed reply, things have been a bit chaotic this past month.
+
+-- 
+~Gregory
+
